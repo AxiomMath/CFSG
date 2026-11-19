@@ -19,7 +19,7 @@ private lemma hdRo7SmAdaptAux_equivFun_basis {V : Type} [AddCommGroup V] [Module
   rw [Module.Basis.equivFun_self, Pi.single_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg h, if_neg (fun hj => h hj.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun hj => h hj.symm)]
 
 private lemma hdRo7SmAdaptAux_equivFun_ones {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {m : ℕ} (b : Module.Basis (Fin m) (ZMod 3) V) :
@@ -48,10 +48,10 @@ private lemma hdRo7SmAdaptAux_superm_symm {V : Type} [AddCommGroup V] [Module (Z
     rw [hσ (Pi.single i 1) j, Pi.single_apply, Pi.single_apply]
     by_cases h : σ.symm j = i
     · have hj : j = σ i := by rw [← h, Equiv.apply_symm_apply]
-      rw [if_pos h, if_pos hj]
+      rw [ite_eq_left h, ite_eq_left hj]
     · have hj : j ≠ σ i := by
         intro hji; exact h (by rw [hji, Equiv.symm_apply_apply])
-      rw [if_neg h, if_neg hj]
+      rw [ite_eq_right h, ite_eq_right hj]
   rw [hdRo7SmAdaptAux_equivFun_basis b i, hgi, ← hdRo7SmAdaptAux_equivFun_basis b (σ i),
     LinearEquiv.symm_apply_apply]
 
@@ -71,9 +71,9 @@ private lemma hdRo7SmAdaptAux_smisperm_of_superm {V : Type} [AddCommGroup V]
   simp only [Finset.sum_apply, map_smul, Pi.smul_apply, hdRo7SmAdaptAux_equivFun_basis,
     Pi.single_apply, smul_eq_mul]
   rw [Finset.sum_eq_single (σ.symm i)]
-  · rw [Equiv.apply_symm_apply, if_pos rfl, mul_one]
+  · rw [Equiv.apply_symm_apply, ite_eq_left rfl, mul_one]
   · intro j _ hji
-    rw [if_neg (fun hji' => hji (by rw [← Equiv.symm_apply_apply σ j, hji'])), mul_zero]
+    rw [ite_eq_right (fun hji' => hji (by rw [← Equiv.symm_apply_apply σ j, hji'])), mul_zero]
   · intro hnot; exact absurd (Finset.mem_univ (σ.symm i)) hnot
 
 private lemma hdRo7SmAdaptAux_smRefl_of_ggLinRefl {V : Type} [AddCommGroup V]

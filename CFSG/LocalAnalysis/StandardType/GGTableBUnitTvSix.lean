@@ -103,7 +103,7 @@ theorem ggNoTransvectionSCr_unitary63 {K : Type} [Field K] [Finite K] {n : ℕ}
   have hcard : 3 ^ (6 / 3 + 2) ≤ Nat.card A := by simpa using hr
   obtain ⟨φ, hφs, hφker, hdiag⟩ := exists_diagModel' hK hn (by norm_num) Nat.prime_three hpq hcov
     hψ hker hperf hA hAI hcard
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
   have hM : UnitTB.Model φ := ⟨TableBU.unitaryFieldData_of_card hK hn, hφs, hφker⟩
   exact not_transvection_of_model hM hK Nat.prime_three (by norm_num) hpq (by norm_num) hA hsc

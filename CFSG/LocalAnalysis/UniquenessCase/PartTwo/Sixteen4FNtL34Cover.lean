@@ -199,7 +199,7 @@ private theorem w183_l34_dual_fix_iff {Γ Q : Type} [Group Γ] [AddCommGroup Q]
     ext x
     rw [LinearMap.dualMap_apply]
     have hx := DFunLike.congr_fun h (ρ g x)
-    simp only [LinearMap.comp_apply, LinearMap.dualMap_apply] at hx
+    simp only [LinearMap.dualMap_apply] at hx
     have h1 : (ρ g⁻¹) (ρ g x) = x := by
       rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
     rw [h1] at hx
@@ -208,7 +208,7 @@ private theorem w183_l34_dual_fix_iff {Γ Q : Type} [Group Γ] [AddCommGroup Q]
     ext x
     rw [LinearMap.dualMap_apply]
     have hx := DFunLike.congr_fun h (ρ g⁻¹ x)
-    simp only [LinearMap.comp_apply, LinearMap.dualMap_apply] at hx
+    simp only [LinearMap.dualMap_apply] at hx
     have h1 : (ρ g) (ρ g⁻¹ x) = x := by
       rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
     rw [h1] at hx
@@ -310,7 +310,7 @@ theorem w183_l34_fix_dual_transport {K : Type} [Field K] [Finite K] [CharP K 2]
       (∀ g : ↥(StatedSL 3 K), (Representation.dual (w183_l34Rep (K := K)
         (FFModel.twistTensor_isActionModel 1 (StatedSL 3 K) (by rw [hK]; norm_num))) g) q = q) →
       q = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card F4 := by
     rw [← Nat.card_eq_fintype_card, hK, F4.card]
   let φ : K ≃+* F4 := FiniteField.ringEquivOfCardEq hc
@@ -325,15 +325,15 @@ private theorem w183_l34_h1_step {K : Type} [Field K] [Finite K] [CharP K 2]
     (hrankB : Module.finrank (ZMod 2) (LinearMap.range (∑ i ∈ Finset.range 3,
       (w183_l34Rep (K := K) hD B) ^ i)) = 3) :
     Module.finrank (ZMod 2) (H1 (Representation.dual (w183_l34Rep (K := K) hD))) ≤ 3 := by
-  haveI hamb : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Amb :=
+  have hamb : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Amb :=
     inferInstanceAs (Finite (Multiplicative (Matrix (Fin 3) (Fin 3) K)))
-  haveI hsec : Finite (↥(FFModel.twistTensor 1 (StatedSL 3 K)).sec) := Subtype.finite
-  haveI hmod : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Mod := inferInstance
-  haveI hQfin : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := inferInstance
-  haveI : Fintype (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := Fintype.ofFinite _
-  haveI hfun : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod → ZMod 2) :=
+  have hsec : Finite (↥(FFModel.twistTensor 1 (StatedSL 3 K)).sec) := Subtype.finite
+  have hmod : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Mod := inferInstance
+  have hQfin : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := inferInstance
+  have : Fintype (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := Fintype.ofFinite _
+  have hfun : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod → ZMod 2) :=
     inferInstance
-  haveI : Finite (Module.Dual (ZMod 2)
+  have : Finite (Module.Dual (ZMod 2)
       (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod)) :=
     Finite.of_injective
       (fun f : Module.Dual (ZMod 2) (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) =>
@@ -353,7 +353,7 @@ private theorem w183_l34_h1_step {K : Type} [Field K] [Finite K] [CharP K 2]
   rw [hP', hB'] at h
   have hQ : Module.finrank (ZMod 2)
       (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) = 9 := by
-    haveI : Module.Finite (ZMod 2)
+    have : Module.Finite (ZMod 2)
         (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := Module.Finite.of_finite
     have hcard : Nat.card (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) = 2 ^ 9 :=
       s16nt_card_l34Mod (K := K) hK
@@ -436,7 +436,7 @@ theorem w183_l34_h1_bound {K : Type} [Field K] [Finite K] [CharP K 2]
     Module.finrank (ZMod 2)
       (H1 (Representation.dual (w183_l34Rep (K := K)
         (FFModel.twistTensor_isActionModel 1 (StatedSL 3 K) (by rw [hK]; norm_num))))) ≤ 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card F4 := by
     rw [← Nat.card_eq_fintype_card, hK, F4.card]
   let φ : K ≃+* F4 := FiniteField.ringEquivOfCardEq hc
@@ -459,13 +459,13 @@ private theorem w183_l34Rep_equivariant {K : Type} [Field K] [Finite K] [CharP K
 theorem s16nt_cover_l34 {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) :
     S16BoundCover (FFModel.twistTensor 1 (StatedSL 3 K)) 3 := by
   have hD := FFModel.twistTensor_isActionModel 1 (StatedSL 3 K) (by rw [hK]; norm_num)
-  haveI hgam : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Gam :=
+  have hgam : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Gam :=
     inferInstanceAs (Finite ↥(StatedSL 3 K))
-  haveI hamb : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Amb :=
+  have hamb : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Amb :=
     inferInstanceAs (Finite (Multiplicative (Matrix (Fin 3) (Fin 3) K)))
-  haveI hsec : Finite (↥(FFModel.twistTensor 1 (StatedSL 3 K)).sec) := Subtype.finite
-  haveI hmod : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Mod := inferInstance
-  haveI hQ : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := inferInstance
+  have hsec : Finite (↥(FFModel.twistTensor 1 (StatedSL 3 K)).sec) := Subtype.finite
+  have hmod : Finite (FFModel.twistTensor 1 (StatedSL 3 K)).Mod := inferInstance
+  have hQ : Finite (Additive (FFModel.twistTensor 1 (StatedSL 3 K)).Mod) := inferInstance
   exact s16nt_cover_of_h1_model hD (w183_l34ModEquiv (K := K))
     (w183_l34Rep (K := K) hD) (w183_l34Rep_equivariant hK) (w183_l34_h1_bound hK)
 

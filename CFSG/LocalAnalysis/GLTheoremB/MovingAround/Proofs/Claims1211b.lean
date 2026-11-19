@@ -58,7 +58,7 @@ theorem perm_transvection (h : Cfg13 Fh Bh c₀) {Zh : Subgroup (Perm (Fin 13))}
     (hZorb : ∃ i : Fin 13, Set.ncard (MulAction.orbit Zh i) = 9) :
     ∃ σ ∈ alternatingGroup (Fin 13), σ ^ 3 = 1 ∧ (∀ x ∈ Zh, σ * x * σ⁻¹ ∈ Zh) ∧
       ∃ x ∈ Zh, σ * x * σ⁻¹ ≠ x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZ9, -⟩ := h.zh_regular hZle hZcard hZorb
   obtain ⟨w, hwZF, hw1⟩ := h.exists_w hZle hZ9
   have hwZ : w ∈ Zh := hwZF.1
@@ -71,7 +71,7 @@ theorem perm_transvection (h : Cfg13 Fh Bh c₀) {Zh : Subgroup (Perm (Fin 13))}
     have h2 : orderOf w ≤ 3 :=
       Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one (h.three w hwF))
     omega
-  letI : CommGroup ↥Fh :=
+  let : CommGroup ↥Fh :=
     { (inferInstance : Group ↥Fh) with mul_comm := fun x y => Subtype.ext (h.comm x x.2 y y.2) }
   have hF3 : ∀ x : ↥Fh, x ^ 3 = 1 := fun x => Subtype.ext (by simpa using h.three x x.2)
   obtain ⟨α, hαf, hα3, hαg⟩ := exists_transvection (H := ↥Fh) hF3 h.card_Fh
@@ -153,7 +153,7 @@ theorem claim1211_A0bar_holds : Claim1211_A0bar := by
   intro G _ _ m p B M E A N D h K hK
   obtain ⟨hcom, hp3, -, -, hAK, φ, hOrb, F, a, hF⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hAN : A ≤ N := by
     intro x hx
@@ -219,8 +219,8 @@ theorem claim1211_A0bar_holds : Claim1211_A0bar := by
 
 theorem cTilde_isPConstrained (hI : Input24_5) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G}
-      (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G}
+      (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
       CFSG.ABGLocalTools.IsPConstrained 3 (↥(Cg z) ⧸ GLAPPrimeCore 3 ↥(Cg z)) :=
   cTilde_isPConstrained_of_A0bar hI claim1211_A0bar_holds
 
@@ -242,6 +242,7 @@ structure CoverData (p : ℕ) (X : Type) [Group X] [Finite X] (S Mb : Subgroup X
   toSubgroup := S
   maximal_isPGroup := ⟨hS.2.1, fun {Q} hQ hle => (hS.2.2 Q le_top hQ hle).le⟩
 
+omit [Finite X] in
 theorem top_le_normalizer {V : Subgroup X} (hV : V.Normal) :
     (⊤ : Subgroup X) ≤ Subgroup.normalizer (V : Set X) := by
   intro x _
@@ -283,7 +284,7 @@ theorem CoverData.cover_pGroup [Fact p.Prime] (hd : CoverData p X S Mb) {U V : S
     (hVn : V.Normal) (hUM : U ≤ Mb) (hV : IsPGroup p ↥(V.map (QuotientGroup.mk' U))) : V ≤ Mb := by
   intro v hv
   have hπs := QuotientGroup.mk'_surjective U
-  haveI : (V.map (QuotientGroup.mk' U)).Normal := hVn.map _ hπs
+  have : (V.map (QuotientGroup.mk' U)).Normal := hVn.map _ hπs
   have hle := hV.le_sylow_of_normal ((toSylow hd.syl).mapSurjective hπs)
   have h1 := hle (Subgroup.mem_map_of_mem _ hv)
   rw [Sylow.coe_mapSurjective] at h1
@@ -296,7 +297,7 @@ theorem CoverData.cover_pGroup [Fact p.Prime] (hd : CoverData p X S Mb) {U V : S
   exact Mb.mul_mem (hd.le hs) (hUM h2)
 
 theorem CoverData.cover_pPrime [Fact p.Prime] (hd : CoverData p X S Mb) {U V : Subgroup X} [U.Normal]
-    (hVn : V.Normal) (hUV : U ≤ V) (hUM : U ≤ Mb) (hV : ¬ p ∣ Nat.card ↥(V.map (QuotientGroup.mk' U))) :
+    (hVn : V.Normal) (_hUV : U ≤ V) (hUM : U ≤ Mb) (hV : ¬ p ∣ Nat.card ↥(V.map (QuotientGroup.mk' U))) :
     V ≤ Mb := by
   classical
   set π : X →* X ⧸ U := QuotientGroup.mk' U with hπ
@@ -320,11 +321,11 @@ theorem CoverData.cover_pPrime [Fact p.Prime] (hd : CoverData p X S Mb) {U V : S
     have hFr := le_sup_normalizer_inf hd.syl (le_top : U ≤ ⊤) (top_le_normalizer hUn)
     exact fun v _ => sup_le hUM (hd.gamma _ inf_le_left h4) (hFr (Subgroup.mem_top v))
   set Hb : Subgroup (X ⧸ U) := H.map π with hHb
-  haveI : CFSG.IsElementaryAbelian p ↥Hb := (hHe.map π).isElementaryAbelian
+  have : CFSG.IsElementaryAbelian p ↥Hb := (hHe.map π).isElementaryAbelian
   obtain ⟨h₀, hh₀H, hh₀U⟩ := Set.not_subset.1 hHU
-  haveI : Nontrivial ↥Hb := ⟨⟨⟨π h₀, Subgroup.mem_map_of_mem π hh₀H⟩, 1, fun he =>
+  have : Nontrivial ↥Hb := ⟨⟨⟨π h₀, Subgroup.mem_map_of_mem π hh₀H⟩, 1, fun he =>
     hh₀U ((hπker h₀).1 (congrArg Subtype.val he))⟩⟩
-  haveI hVbn : (V.map π).Normal := hVn.map π hπs
+  have hVbn : (V.map π).Normal := hVn.map π hπs
   have hgen := CFSG.RankThree.PartOne.KE8F.le_iSup_hyperplane_centralizers (A := Hb)
     (V := V.map π) (le_top.trans (top_le_normalizer hVbn)) hV
   set f : ↥H →* ↥Hb := (π.comp H.subtype).codRestrict Hb fun h => Subgroup.mem_map_of_mem π h.2
@@ -400,17 +401,17 @@ theorem CoverData.not_isPSolvable [Fact p.Prime] (hd : CoverData p X S Mb) :
     ¬ CFSG.HallHigman.IsPSolvable p X := by
   intro hsolv
   classical
-  haveI : Finite (Subgroup X) :=
+  have : Finite (Subgroup X) :=
     Finite.of_injective (fun H : Subgroup X => (H : Set X)) SetLike.coe_injective
   obtain ⟨U, hU⟩ := (Set.toFinite {U : Subgroup X | U.Normal ∧ U ≤ Mb}).exists_maximal
     ⟨⊥, Subgroup.normal_bot, bot_le⟩
   obtain ⟨hUn, hUM⟩ := hU.prop
-  haveI := hUn
+  have := hUn
   set π : X →* X ⧸ U := QuotientGroup.mk' U with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective U
   have hsep : CFSG.HallHigman.IsPiSeparable {q : Nat.Primes | q.val = p} (X ⧸ U) :=
     (CFSG.HallHigman.isPiSeparable_of_isPSolvable Fact.out hsolv).quotient U
-  haveI : Finite (Subgroup (X ⧸ U)) :=
+  have : Finite (Subgroup (X ⧸ U)) :=
     Finite.of_injective (fun H : Subgroup (X ⧸ U) => (H : Set (X ⧸ U))) SetLike.coe_injective
   have hne : (⊤ : Subgroup (X ⧸ U)) ≠ ⊥ := by
     intro htop
@@ -421,7 +422,7 @@ theorem CoverData.not_isPSolvable [Fact p.Prime] (hd : CoverData p X S Mb) :
   obtain ⟨Nq, hN⟩ := (Set.toFinite {N : Subgroup (X ⧸ U) | N.Normal ∧ N ≠ ⊥}).exists_minimal
     ⟨⊤, Subgroup.normal_top, hne⟩
   obtain ⟨hNn, hNb⟩ := hN.prop
-  haveI := hNn
+  have := hNn
   have hmin : ∀ K : Subgroup (X ⧸ U), K.Normal → K ≤ Nq → K = ⊥ ∨ K = Nq := by
     intro K hK hKN
     by_cases hKb : K = ⊥
@@ -471,8 +472,8 @@ theorem aut_eq_one_of_critical (hp2 : p ≠ 2) {T : Type} [Group T] [Finite T] (
     {C : Subgroup T} (hC : IsThompsonCritical C) (β : MulAut T) (hβ : (orderOf β).Coprime p)
     (hfix : ∀ w ∈ omegaC p C, w⁻¹ * β w ∈ ⁅omegaC p C, omegaC p C⁆) : β = 1 := by
   obtain ⟨hCchar, hCΦ, -, hCcen⟩ := hC
-  haveI := hCchar
-  haveI : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
+  have := hCchar
+  have : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
   set W := omegaC p C with hW
   have hWp : IsPGroup p ↥W := hT.to_subgroup W
   set βW := MulAut.characteristic W β with hβW
@@ -536,15 +537,15 @@ theorem isPElement_of_trivial_mod (hp2 : p ≠ 2) {P : Subgroup X} [P.Normal] (h
       ⁅y, w⁆ ∈ ⁅(omegaC p C).map (P.subtype.comp e.toMonoidHom),
         (omegaC p C).map (P.subtype.comp e.toMonoidHom)⁆) :
     ∃ k : ℕ, y ^ (p ^ k) = 1 := by
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
   have hT : IsPGroup p T := hP.of_equiv e.symm
   set ψ : T →* X := P.subtype.comp e.toMonoidHom with hψ
   have hψinj : Function.Injective ψ := P.subtype_injective.comp e.injective
   set WT := omegaC p C with hWT
-  haveI := hC.1
-  haveI : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
+  have := hC.1
+  have : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
   have hWTc : WT.Characteristic := inferInstance
-  haveI : (⁅WT, WT⁆).Characteristic := inferInstance
+  have : (⁅WT, WT⁆).Characteristic := inferInstance
   set α : MulAut T := (e.trans (MulAut.conjNormal y)).trans e.symm with hα
   have hψα1 : ∀ t : T, ψ (α t) = y * ψ t * y⁻¹ := by
     intro t
@@ -607,11 +608,12 @@ theorem isPElement_of_trivial_mod (hp2 : p ≠ 2) {P : Subgroup X} [P.Normal] (h
   simp only [Subgroup.coe_pow, Subgroup.coe_one] at this
   rw [pow_add, pow_mul, this]
 
+omit [Fact (Nat.Prime p)] in
 theorem normal_omegaC_map {X : Type} [Group X] {P : Subgroup X} [P.Normal] {T : Type} [Group T]
     (e : T ≃* ↥P) {C : Subgroup T} (hC : IsThompsonCritical C) :
     ((omegaC p C).map (P.subtype.comp e.toMonoidHom)).Normal := by
-  haveI := hC.1
-  haveI : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
+  have := hC.1
+  have : (CFSG.omega₁ (G := ↥C) (p := p)).Characteristic := CFSG.omega₁_characteristic _
   refine ⟨fun n hn y => ?_⟩
   obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.1 hn
   set α : MulAut T := (e.trans (MulAut.conjNormal y)).trans e.symm with hα
@@ -638,6 +640,7 @@ theorem pow_eq_one_of_mem_omegaC (hp2 : p ≠ 2) {T : Type} [Group T] [Finite T]
     exact this
   rw [← map_pow, hc', map_one]
 
+omit [Fact (Nat.Prime p)] in
 theorem commutator_omegaC_le_center {T : Type} [Group T] {C : Subgroup T} (hC : IsThompsonCritical C) :
     ⁅omegaC p C, omegaC p C⁆ ≤ centerOf (omegaC p C) := by
   obtain ⟨-, -, hcomm, -⟩ := hC
@@ -669,7 +672,7 @@ open CFSG.SectionRank.Ccomm (IsThompsonCritical)
 variable {X : Type} [Group X] [Finite X] {p : ℕ} {S Mb : Subgroup X}
 
 theorem CoverData.four_le_pRank [Fact p.Prime] (hd : CoverData p X S Mb) {Q : Subgroup X}
-    (hQS : Q ≤ S) (hQi : Q.relIndex S = p) : 4 ≤ CFSG.Open.pRank p Q := by
+    (_hQS : Q ≤ S) (hQi : Q.relIndex S = p) : 4 ≤ CFSG.Open.pRank p Q := by
   obtain ⟨H, hHS, hHe, hHc⟩ := hd.rank5
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have h1 : Q.relIndex H ≤ p := by
@@ -704,8 +707,8 @@ theorem rank4_core (hGL3 : Input_GL3) (hd : CoverData 3 X S Mb)
     (hcen : Subgroup.centralizer (CFSG.pCore 3 X : Set X) ≤ CFSG.pCore 3 X) {T : Type} [Group T]
     (e : T ≃* ↥(CFSG.pCore 3 X)) {C : Subgroup T} (hC : IsThompsonCritical C) :
     3 ^ 4 * Nat.card ↥⁅omegaC 3 C, omegaC 3 C⁆ ≤ Nat.card ↥(omegaC 3 C) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
   have hP3 : IsPGroup 3 ↥(CFSG.pCore 3 X) := CFSG.pCore_isPGroup
   have hT : IsPGroup 3 T := hP3.of_equiv e.symm
   by_contra hlt
@@ -781,8 +784,8 @@ theorem glaPPrimeCoreOf_le_of_hyperplanes' [Fact p.Prime] {X H M' : Subgroup G} 
     (hΓ : ∀ D : Subgroup G, D ≤ H → 2 ≤ CFSG.Open.pRank p D →
       Subgroup.normalizer (D : Set G) ≤ M') :
     GLAPPrimeCoreOf p X ≤ M' := by
-  haveI : CFSG.IsElementaryAbelian p ↥H := hH.isElementaryAbelian
-  haveI : Nontrivial ↥H := by
+  have : CFSG.IsElementaryAbelian p ↥H := hH.isElementaryAbelian
+  have : Nontrivial ↥H := by
     rw [← Finite.one_lt_card_iff_nontrivial, hHc]
     exact Nat.one_lt_pow (by norm_num) (Fact.out : p.Prime).one_lt
   have hHV : H ≤ Subgroup.normalizer ((GLAPPrimeCoreOf p X : Subgroup G) : Set G) :=
@@ -853,6 +856,7 @@ section PullbackP
 
 variable {Y : Type} [Group Y] [Finite Y] {O : Subgroup Y} [O.Normal] {R' : Subgroup Y}
 
+omit [Finite Y] in
 theorem isElemAbelian_pullback' (hRO : R' ⊓ O = ⊥) {Ū : Subgroup (Y ⧸ O)}
     (hŪ : IsElemAbelian p Ū) : IsElemAbelian p (Ū.comap (QuotientGroup.mk' O) ⊓ R') := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun u hu => ?_⟩
@@ -1088,13 +1092,14 @@ theorem card_le_of_le_pCore' [Fact p.Prime] (h : Cex127 G m p B M E A N D)
   exact m3' h hA3 hk hY hz1 hz2 hR hRM _ (Subgroup.map_subtype_le _)
     (((hUe.subgroupOf P).map _).map _)
 
+omit [Finite G] in
 theorem omegaOne_map_eq {R₁ : Subgroup G} (C : Subgroup ↥R₁) :
     omegaOne 3 (C.map R₁.subtype) = (omegaC 3 C).map R₁.subtype := by
   unfold omegaOne omegaC CFSG.omega₁ CFSG.omega
   rw [Subgroup.map_map, MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_image, pow_one, Subgroup.mem_map]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, pow_one, Subgroup.mem_map]
   constructor
   · rintro ⟨⟨r, hr, rfl⟩, hx3⟩
     refine ⟨⟨r, hr⟩, Subtype.ext (Subtype.ext (by simpa using hx3)), rfl⟩
@@ -1103,6 +1108,7 @@ theorem omegaOne_map_eq {R₁ : Subgroup G} (C : Subgroup ↥R₁) :
     have := congrArg (fun t : ↥C => ((t : ↥R₁) : G)) hc
     simpa using this
 
+omit [Finite G] in
 theorem card_omegaOne_map {R₁ : Subgroup G} (C : Subgroup ↥R₁) :
     Nat.card ↥(omegaOne 3 (C.map R₁.subtype)) = Nat.card ↥(omegaC 3 C) ∧
       Nat.card ↥⁅omegaOne 3 (C.map R₁.subtype), omegaOne 3 (C.map R₁.subtype)⁆ =
@@ -1118,7 +1124,7 @@ theorem claim1211_rank4_of_inputs (hI : Input24_5) (hGL3 : Input_GL3) : Claim121
   have hcons := cTilde_isPConstrained hI h hK hz hz1 hz2
   obtain ⟨hcom, hp3, hE5, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd := coverData_of' h hcom.2.1.1 hcom.2.1.2 hE5 hz1 hz2 hR hRM
   obtain ⟨hcen, ⟨e⟩⟩ := pCore_facts' hcons hR
   obtain ⟨h1, h2⟩ := card_omegaOne_map C
@@ -1187,7 +1193,7 @@ theorem l29_core (hGL3 : Input_GL3) (hO : Input30_14_Out) {X : Type} [Group X] [
     (hm3 : ∀ U : Subgroup X, U ≤ CFSG.pCore 3 X → IsElemAbelian 3 U → Nat.card ↥U ≤ 3 ^ 3) :
     IsLpType 2 9 ↥(CFSG.GH74.GLS.oPrimeResidual 3 (X ⧸ CFSG.pCore 3 X)) ∨
       IsSL2Nine ↥(CFSG.GH74.GLS.oPrimeResidual 3 (X ⧸ CFSG.pCore 3 X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := CFSG.pCore 3 X with hPdef
   have hP3 : IsPGroup 3 ↥P := CFSG.pCore_isPGroup
   obtain ⟨⟨C, hC⟩, -⟩ := CFSG.SectionRank.Ccomm.thompson_critical_subgroup hP3
@@ -1231,7 +1237,7 @@ theorem claim1211_L29_of_inputs (hI : Input24_5) (hGL3 : Input_GL3) (hO : Input3
   have hcons := cTilde_isPConstrained hI h hK hz hz1 hz2
   obtain ⟨hcom, hp3, hE5, -⟩ := hK
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR, hRM, -⟩ := sylow_of_pCentral h hcom.2.1.1 hcom.2.1.2 hz1
   have hd := coverData_of' h hcom.2.1.1 hcom.2.1.2 hE5 hz1 hz2 hR hRM
   obtain ⟨hcen, ⟨e⟩⟩ := pCore_facts' hcons hR
@@ -1247,7 +1253,7 @@ end L29
 
 @[expose] def Input1210b_wreathRk : Prop :=
   ∀ (G : Type) [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-    (h : Cex127 G m p B M E A N D) {K : Subgroup G},
+    (_h : Cex127 G m p B M E A N D) {K : Subgroup G},
     Lemma129Common p M E A N K →
     ((∃ Q : ℕ, p ∣ Q - 1 ∧ IsLpType p Q (barOf p K)) ∨ (p = 5 ∧ IsSporType .Fi22 (barOf p K))) →
     Lemma129IvBData p N K E A →
@@ -1276,7 +1282,7 @@ section NoBeta
 
 theorem card_le_nine_of_l29 {Y : Type} [Group Y] (hY : IsLpType 2 9 Y ∨ IsSL2Nine Y)
     {P : Subgroup Y} (hP : IsPGroup 3 ↥P) : Nat.card ↥P ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : Nat.card Y ∣ 720 := by
     rcases hY with ⟨F, _, _, hF9, ⟨e⟩⟩ | ⟨F, _, _, hF9, ⟨e⟩⟩
     · have h1 : Nat.card ↥(StatedSL 2 F) = 720 := by
@@ -1287,7 +1293,7 @@ theorem card_le_nine_of_l29 {Y : Type} [Group Y] (hY : IsLpType 2 9 Y ∨ IsSL2N
     · rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hF9]
       norm_num
   have hY0 : Nat.card Y ≠ 0 := fun h0 => by rw [h0] at hdvd; norm_num at hdvd
-  haveI : Finite Y := Nat.finite_of_card_ne_zero hY0
+  have : Finite Y := Nat.finite_of_card_ne_zero hY0
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hk2 : k ≤ 2 := by
     by_contra hk2
@@ -1304,7 +1310,7 @@ theorem card_le_of_l29 {X : Type} [Group X] [Finite X]
       IsSL2Nine ↥(CFSG.GH74.GLS.oPrimeResidual 3 (X ⧸ CFSG.pCore 3 X)))
     (hm3 : ∀ U : Subgroup X, U ≤ CFSG.pCore 3 X → IsElemAbelian 3 U → Nat.card ↥U ≤ 3 ^ 3)
     {E : Subgroup X} (hE : IsElemAbelian 3 E) : Nat.card ↥E ≤ 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := CFSG.pCore 3 X with hPdef
   set π : X →* X ⧸ P := QuotientGroup.mk' P with hπ
   set Ob := CFSG.GH74.GLS.oPrimeResidual 3 (X ⧸ P) with hOb
@@ -1367,7 +1373,7 @@ theorem zR_of_A0' [Fact p.Prime] (hp2 : p ≠ 2) (h : Cex127 G m p B M E A N D)
   by_contra hnc
   have hZp : IsPGroup p ↥(centerOf (GLBConj g⁻¹ R)) :=
     isPGroup_of_le' hRsG.2.1 (Subgroup.map_subtype_le _)
-  haveI : Fact (IsPGroup p ↥(centerOf (GLBConj g⁻¹ R))) := ⟨hZp⟩
+  have : Fact (IsPGroup p ↥(centerOf (GLBConj g⁻¹ R))) := ⟨hZp⟩
   obtain ⟨S₂, -, hS₂c, hS₂e⟩ := CFSG.lemma_4_5_a hp2 hnc
   set V : Subgroup G := S₂.map (centerOf (GLBConj g⁻¹ R)).subtype with hVdef
   have hVZ : V ≤ centerOf (GLBConj g⁻¹ R) := Subgroup.map_subtype_le _
@@ -1494,7 +1500,7 @@ theorem cTilde_isPConstrained' (hI : Input24_5) [Fact p.Prime] (h : Cex127 G m p
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
     let e₂ : ↥R ≃* ↥(R'.map π) := (Subgroup.subgroupOfEquivOfLe hR.1).symm.trans
       ((MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange))
-    haveI := hZR
+    have := hZR
     let e : ↥(centerOf R) ≃* ↥(centerOf (R'.map π)) :=
       ((Subgroup.center ↥R).equivMapOfInjective R.subtype R.subtype_injective).symm.trans
         ((Subgroup.centerCongr e₂).trans
@@ -1518,7 +1524,7 @@ theorem claim1211_noBeta_of_inputs (hW : Input1210b_wreathRk) (hI : Input24_5) (
     (hO : Input30_14_Out) (hR4 : Input_rankGL4) : Claim1211_noBeta := by
   intro G _ _ m p B M E A N D h K hK htype hdata
   have hpp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := h.standing.ne_two
   have hp3 : 3 ≤ p := by have := hpp.two_le; omega
   have hA3 : CFSG.Open.pRank p A = 3 := hK.2.1.1

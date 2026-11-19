@@ -14,15 +14,17 @@ section Claim1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem chief_le_M {p : ℕ} {M D X W : Subgroup G} (h : Lemma97Chief p M D X W) :
     W ≤ M := h.le_core.trans (GLAPPrimeCoreOf_le p M)
 
+omit [Finite G] in
 theorem piM_comm_of_commutator_mem {M : Subgroup G} {a b : ↥M}
     (h : ⁅(a : G), (b : G)⁆ ∈ pCoreOf 2 M) : piM M a * piM M b = piM M b * piM M a := by
   rw [← commutatorElement_eq_one_iff_mul_comm, ← map_commutatorElement, piM_eq_one_iff]
   simpa [commutatorElement_def] using h
 
-theorem lemma97_Qdata {p : ℕ} {M D X W : Subgroup G} (hD : Prop95Hyp p M D)
+theorem lemma97_Qdata {p : ℕ} {M D X W : Subgroup G} (_hD : Prop95Hyp p M D)
     (h : Lemma97Chief p M D X W) :
     IsPGroup 2 (tl M (gammaD D)) ∧ (tl M W).Normal ∧ (tl M X).Normal ∧ tl M X ≤ tl M W ∧
       ∀ t ∈ tl M (gammaD D), ∀ x ∈ tl M X, t * x = x * t := by
@@ -59,11 +61,12 @@ theorem claim1 {p : ℕ} {M D X W : Subgroup G} (hD : Prop95Hyp p M D)
     rw [this]
     exact piM_mem_tl (by simpa using hk)
 
+omit [Finite G] in
 theorem mul_pow_two_pow_mem_of_commutator_le {W X : Subgroup G} (hXW : X ≤ W)
     (hWN : W ≤ Subgroup.normalizer (X : Set G)) (hab : ⁅W, W⁆ ≤ X) {w w' : G} (hw : w ∈ W)
     (hw' : w' ∈ W) {a b : ℕ} (ha : w ^ (2 ^ a) ∈ X) (hb : w' ^ (2 ^ b) ∈ X) :
     (w * w') ^ (2 ^ (a + b)) ∈ X := by
-  haveI : (X.subgroupOf W).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXW).2 hWN
+  have : (X.subgroupOf W).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXW).2 hWN
   let f := QuotientGroup.mk' (X.subgroupOf W)
   have hker : ∀ x : ↥W, f x = 1 ↔ (x : G) ∈ X := fun x => by
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -96,7 +99,7 @@ theorem lemma97_two_power_mem {p : ℕ} {M D X W : Subgroup G} (hD : Prop95Hyp p
   have hWXN : W ≤ Subgroup.normalizer (X : Set G) := hWM.trans hXN
   let V2 : Subgroup G :=
     { carrier := {w | w ∈ W ∧ ∃ k : ℕ, w ^ (2 ^ k) ∈ X}
-      one_mem' := ⟨W.one_mem, 0, by simpa using X.one_mem⟩
+      one_mem' := ⟨W.one_mem, 0, by simp⟩
       mul_mem' := by
         rintro w w' ⟨hw, a, ha⟩ ⟨hw', b, hb⟩
         exact ⟨W.mul_mem hw hw', a + b,
@@ -154,7 +157,7 @@ theorem lemma97_false_of_commutator_le_normalizer {p : ℕ} {M D X W : Subgroup 
   have hWN : M ≤ Subgroup.normalizer (W : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWM).1 h.normalW
   have hstar := lemma97_two_power_mem hD h hab
-  haveI : (X.subgroupOf M).Normal := h.normalX
+  have : (X.subgroupOf M).Normal := h.normalX
   let πx := QuotientGroup.mk' (X.subgroupOf M)
   have hker : ∀ x : ↥M, πx x = 1 ↔ (x : G) ∈ X := fun x => by
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]

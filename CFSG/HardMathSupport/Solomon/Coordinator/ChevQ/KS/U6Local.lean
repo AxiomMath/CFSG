@@ -23,7 +23,7 @@ namespace U6LocalAux
 section Model
 
 theorem exists_model_of_isLieQuot {Y : Type} [Group Y] (hY : IsLieQuot Y IsU6EightIndex) :
-    ∃ (K0 : Type) (_ : Field K0), ∃ h : UnitaryFieldData 2 3 K0,
+    ∃ (K0 : Type) (_ : Field K0), ∃ _h : UnitaryFieldData 2 3 K0,
       Nonempty ((Y ⧸ Subgroup.center Y) ≃* StatedProj (StatedSU 6 (2 ^ 3) K0)) := by
   obtain ⟨⟨d, hv⟩, hd, ⟨e⟩⟩ := hY
   cases d with
@@ -44,8 +44,8 @@ section FieldCore
 theorem fieldCoreAt_of_fieldAutU6 {S : Type} [Group S] {φ : MulAut S} (hφ3 : φ ^ 3 = 1)
     (hφ1 : φ ≠ 1) (hφ : FieldAutU 6 S φ) : FieldCoreAt 3 φ := by
   obtain ⟨K0, fK0, h, e, σ, γ, hσ1, -, hγ⟩ := U6Bridge.exists_uFieldAut_of_fieldAutU6 hφ
-  haveI := h.finite
-  haveI : IsCyclic (K0 ≃+* K0) :=
+  have := h.finite
+  have : IsCyclic (K0 ≃+* K0) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K0
   set φ' := MulAut.congr e φ with hφ'
   have hφ'3 : φ' ^ 3 = 1 := by rw [hφ', ← map_pow, hφ3, map_one]
@@ -137,7 +137,7 @@ theorem u6Local : FourULocal IsU6EightIndex (FieldAutU 6) := by
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hperf : commutator ↥K = ⊤ := hq.1
   obtain ⟨K0, fK0, h, ⟨e⟩⟩ := exists_model_of_isLieQuot hLie
-  haveI := h.finite
+  have := h.finite
   have h3P : 3 ∣ Nat.card (StatedProj (StatedSU 6 (2 ^ 3) K0)) := by
     have := dvd_card_primeFormP_one h Nat.prime_three (n := 6) (by norm_num)
       (by norm_num : 3 ∣ 2 ^ 3 + 1)

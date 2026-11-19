@@ -41,7 +41,7 @@ private theorem str83G4_part1_core
   let K := GaloisField 2 (2 * a + 1)
   let q : ℕ := 2 ^ (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hQ1S : Q1 L1 L2 S ≤ S := str83G4_q1_le_s hfr
   have hQ1H : Q1 L1 L2 S ≤ H := hQ1S.trans le_sup_right
   have hSH : S ≤ H := le_sup_right
@@ -58,8 +58,8 @@ private theorem str83G4_part1_core
   have hHN : H ≤ Subgroup.normalizer (X : Set G) := str83G4_sup_le_normalizer_x hfr
   obtain ⟨hHL', hHN', hNL', hE, hO, e, he, hnt⟩ :=
     str83G4_exists_sectionSetup hfr hstep hZ1X1 hnc
-  letI : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod X1 X)) :=
     sectionRep hHL' hHN' hNL' hE hO e
   have hCmem : ∀ s : G, s ∈ W ⊔ Q1 L1 L2 S ↔ s ∈ S ∧ s ^ 2 ∈ Q1 L1 L2 S :=
@@ -112,7 +112,7 @@ private theorem str83G4_part1_core
             (AddSubgroup.mem_toSubgroup' R.toAddSubgroup b.1).mp b.2⟩
           invFun := fun r => ⟨Additive.toMul r.1,
             (AddSubgroup.mem_toSubgroup' R.toAddSubgroup (Additive.toMul r.1)).mpr (by
-              simpa using r.2)⟩
+              simp)⟩
           left_inv := fun b => Subtype.ext rfl
           right_inv := fun r => Subtype.ext rfl }
     have hcardC : Nat.card ↥Cbar = q ^ 2 := by
@@ -522,8 +522,9 @@ theorem str83G4_conjugate_conjugate_x_eq
     ((le_sup_right : bigB L1 L2 S ≤ P1 L1 L2 S)
       ((le_sup_right : S ≤ bigB L1 L2 S) (hQ2S hw2)))
 
+omit [Finite G] in
 theorem str83G4_conjugate_z2_eq
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) :
     CFSG.conjugate (Z2 L1 L2 S) d.w = Z2 L1 L2 S := by
   apply CFSG.conjugate_eq_self_of_mem_normalizer

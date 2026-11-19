@@ -63,12 +63,12 @@ private lemma ggKGCFive_coeff {c : Fin 4 → GGKGCF} {i : Fin 4}
     (h : (∑ j : Fin 4, Polynomial.C (c j) * Polynomial.X ^ (j : ℕ)) = 0) :
     c i = 0 := by
   have hc := congrArg (fun p : GGKGCF[X] => p.coeff (i : ℕ)) h
-  rw [Polynomial.finset_sum_coeff] at hc
+  rw [finsetSum_coeff] at hc
   simp only [Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_zero] at hc
   rw [Finset.sum_eq_single i] at hc
   · simpa using hc
   · intro j _ hj
-    rw [if_neg (fun hji => hj (Fin.ext hji).symm)]
+    rw [ite_eq_right (fun hji => hj (Fin.ext hji).symm)]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -147,12 +147,12 @@ private lemma ggKGCFive_Ueq
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
     (y : V ≃ₗ[GGKGCF] V) :
     ggKGCFiveU y = LinearMap.ker (aeval (y : V →ₗ[GGKGCF] V) (cyclotomic 5 GGKGCF)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   rw [ggKGCFiveU, Polynomial.cyclotomic_prime]
   congr 1
   rw [map_sum]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, Polynomial.aeval_X_pow,
-    Polynomial.aeval_X, pow_zero, pow_one, Polynomial.aeval_one]
+    pow_zero, pow_one]
   abel_nf
 
 private lemma ggKGCFive_neg_eq {M : Type} [AddCommGroup M] [Module GGKGCF M] (x : M) :
@@ -245,7 +245,7 @@ private lemma ggKGCFive_span_finrank
     (hv : v ∈ ggKGCFiveU y) (hv0 : v ≠ 0) :
     Module.finrank GGKGCF (Submodule.span GGKGCF
       (Set.range (fun i : Fin 4 => ((y : V →ₗ[GGKGCF] V) ^ (i : ℕ)) v))) = 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have ha : (aeval (y : V →ₗ[GGKGCF] V) (cyclotomic 5 GGKGCF)) v = 0 := by
     rw [ggKGCFive_Ueq y, LinearMap.mem_ker] at hv
     exact hv
@@ -256,7 +256,7 @@ theorem ggKGCFive_isCompl
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
     (y : V ≃ₗ[GGKGCF] V) (hy : y ^ 5 = 1) :
     IsCompl (ggKGCAFix y) (ggKGCFiveU y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   have hcop := ggKGCFive_coprime
   set f : V →ₗ[GGKGCF] V := (y : V →ₗ[GGKGCF] V) with hf
   have hFix : ggKGCAFix y = LinearMap.ker (aeval f (Polynomial.X - 1 : GGKGCF[X])) := by
@@ -288,7 +288,7 @@ theorem ggKGCFive_stable
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
     {y g : V ≃ₗ[GGKGCF] V} (hgy : g * y = y * g) :
     (∀ w ∈ ggKGCAFix y, g w ∈ ggKGCAFix y) ∧ (∀ u ∈ ggKGCFiveU y, g u ∈ ggKGCFiveU y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   set f : V →ₗ[GGKGCF] V := (y : V →ₗ[GGKGCF] V) with hf
   have hcomm : (g : V →ₗ[GGKGCF] V) * f = f * (g : V →ₗ[GGKGCF] V) := by
     have h := congrArg (fun z : V ≃ₗ[GGKGCF] V => (z : V →ₗ[GGKGCF] V)) hgy
@@ -369,7 +369,7 @@ theorem ggKGCFive_finrank_U
     by_contra hne
     have hlt : C < ggKGCFiveU y := lt_of_le_of_ne hCU hne
     have hnotle : ¬ ggKGCFiveU y ≤ C := hlt.not_ge
-    rw [SetLike.le_def] at hnotle
+    rw [_root_.IsConcreteLE.le_iff] at hnotle
     push Not at hnotle
     obtain ⟨u₁, hu₁U, hu₁C⟩ := hnotle
     have hu₁ne : u₁ ≠ 0 := by
@@ -433,11 +433,11 @@ theorem ggKGCFive_finrank_U
 
 theorem ggKGCFive_commutant
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
-    (y : V ≃ₗ[GGKGCF] V) (hy : y ^ 5 = 1)
+    (y : V ≃ₗ[GGKGCF] V) (_hy : y ^ 5 = 1)
     (hU : Module.finrank GGKGCF (ggKGCFiveU y) = 4) {g : V ≃ₗ[GGKGCF] V} (hgy : g * y = y * g) :
     ∃ c : Fin 4 → GGKGCF, ∀ u ∈ ggKGCFiveU y,
       g u = ∑ i : Fin 4, c i • (y ^ (i : ℕ)) u := by
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   set f : V →ₗ[GGKGCF] V := (y : V →ₗ[GGKGCF] V) with hf
   have hUne : ggKGCFiveU y ≠ ⊥ := by
     intro hbot
@@ -503,8 +503,8 @@ theorem ggKGCFive_commutant
   have hmain : ∀ x ∈ Submodule.span GGKGCF (Set.range b), g x = T x := by
     intro x hx
     induction hx using Submodule.span_induction with
-    | mem y hy =>
-        obtain ⟨i, rfl⟩ := hy
+    | mem y _hy =>
+        obtain ⟨i, rfl⟩ := _hy
         have h1 : g (b i) = (f ^ (i : ℕ)) (g u₀) := by
           have h := congrArg (fun h : V →ₗ[GGKGCF] V => h u₀) (hgcomm (i : ℕ))
           change g ((f ^ (i : ℕ)) u₀) = (f ^ (i : ℕ)) (g u₀) at h
@@ -516,8 +516,8 @@ theorem ggKGCFive_commutant
           simpa only [b] using h
         rw [h1, h2]
     | zero => simp
-    | add y z hy hz ihy ihz => rw [map_add, map_add, ihy, ihz]
-    | smul a y hy ihy => rw [map_smul, map_smul, ihy]
+    | add y z _hy hz ihy ihz => rw [map_add, map_add, ihy, ihz]
+    | smul a y _hy ihy => rw [map_smul, map_smul, ihy]
   intro u hu
   rw [hmain u (by rw [hspan]; exact hu)]
   simp only [T, LinearMap.sum_apply, LinearMap.smul_apply]

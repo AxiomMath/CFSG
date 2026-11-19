@@ -27,8 +27,9 @@ private def s16e_d5_fixSub (S : Subgroup W) : Subgroup (MulAut W) where
   inv_mem' := by
     intro g hg z hz
     refine g.injective ?_
-    simpa [hg z hz]
+    simp [hg z hz]
 
+omit [Finite W] in
 private theorem s16e_d5_coord_off {κ : ↥(Subgroup.centralizer (L : Set (MulAut W))) →*
       Multiplicative (Fin 4 → ZMod 3)}
     (hinj : Function.Injective κ)
@@ -82,6 +83,7 @@ theorem s16e_d5_card_cent_dvd (hfr : s16e_d5_Frame L K Z) :
     simp [ZMod.card]
   rwa [h81] at hdvd
 
+omit [Finite W] in
 theorem s16e_d5_L_le_cent (hfr : s16e_d5_Frame L K Z) :
     L ≤ Subgroup.centralizer (L : Set (MulAut W)) := by
   intro x hx
@@ -89,6 +91,7 @@ theorem s16e_d5_L_le_cent (hfr : s16e_d5_Frame L K Z) :
   intro y hy
   exact hfr.comm_L y hy x hx
 
+omit [Finite W] in
 theorem s16e_d5_cent_stable (hfr : s16e_d5_Frame L K Z) {g : MulAut W}
     (hg : g ∈ Subgroup.centralizer (L : Set (MulAut W))) (i : Fin 4) {z : W} (hz : z ∈ Z i) :
     g z ∈ Z i := by
@@ -111,7 +114,7 @@ theorem s16e_d5_cent_fix (hfr : s16e_d5_Frame L K Z) {a : MulAut W}
 
 theorem s16e_d5_orderOf_cent (hfr : s16e_d5_Frame L K Z) {a : MulAut W}
     (ha : a ∈ Subgroup.centralizer (L : Set (MulAut W))) (ha1 : a ≠ 1) : orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (s16e_d5_cent_pow_three hfr ha) ha1
 
 theorem s16e_d5_commSub_zpowers (hfr : s16e_d5_Frame L K Z) {a : MulAut W}
@@ -139,8 +142,8 @@ theorem s16e_d5_commSub_zpowers (hfr : s16e_d5_Frame L K Z) {a : MulAut W}
       · rw [hk] at hz
         exact (Z i).mul_mem (hstab y hy z hz) ((Z i).inv_mem hz)
       · rw [hfix k hk y hy z hz]
-        simpa using (Z i).one_mem
-    · simpa using (Z i).one_mem
+        simp
+    · simp
     · intro x₁ x₂ hx₁ hx₂
       have heq : y (x₁ * x₂) * (x₁ * x₂)⁻¹ = (y x₁ * x₁⁻¹) * (y x₂ * x₂⁻¹) := by
         rw [map_mul, mul_inv_rev]

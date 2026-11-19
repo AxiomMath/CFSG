@@ -282,6 +282,7 @@ private noncomputable def joinHomZero (νX : Submodule.span ℤ X →+ virtualCh
   (joinHom νX νY hdisj).comp
     (Submodule.inclusion (charSpanZero_le (X ∪ Y))).toAddMonoidHom
 
+omit [Fintype L] [Fintype G] in
 private theorem joinHomZero_apply_mk {v : L → ℂ} (hv : v ∈ charSpanZero (X ∪ Y))
     (hv' : v ∈ Submodule.span ℤ (X ∪ Y)) :
     joinHomZero νX νY hdisj ⟨v, hv⟩ = joinHom νX νY hdisj ⟨v, hv'⟩ := rfl

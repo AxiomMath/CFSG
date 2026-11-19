@@ -55,7 +55,7 @@ theorem inj_of_sortC {key s : ℕ → ℕ} {n : ℕ} (hs : ∀ q < n, sortC key 
     split_ifs at h with h1
     · rw [bRec_eq] at h
       refine ⟨blt_of h1, fun hq1 => ?_⟩
-      rw [if_pos (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
+      rw [ite_eq_left (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
       exact blt_of h
   have mono : ∀ q q', q < q' → q' < n → key (s q) < key (s q') := by
     intro q q' hqq hq'
@@ -126,10 +126,10 @@ theorem ncard_orbit_of_checks (hlen : gens.length = rows.length)
     have hC : C i < 3 ^ d := by rw [← Nat.pow_eq]; exact blt_of h1
     by_cases h0 : i = 0
     · subst h0
-      rw [if_pos (Nat.beq_refl 0)] at h
+      rw [ite_eq_left (Nat.beq_refl 0)] at h
       exact ⟨hC, fun _ => beq_of h, fun h => absurd rfl h⟩
     · have hb0 : (Nat.beq i 0 = true) = False := by simp only [Nat.beq_eq, h0]
-      rw [if_neg (by rw [hb0]; exact id), bRec_eq] at h
+      rw [ite_eq_right (by rw [hb0]; exact id), bRec_eq] at h
       split_ifs at h with h2
       rw [bRec_eq] at h
       split_ifs at h with h3
@@ -212,7 +212,7 @@ theorem ncard_orbit_of_checks (hlen : gens.length = rows.length)
   have hncard : S.ncard = N := by
     have e : S = ↑((Finset.range N).image fun i => rowsVec 3 d (V i)) := by
       ext u
-      simp only [S, Set.mem_setOf_eq, Finset.coe_image, Finset.coe_range, Set.mem_image,
+      simp only [S, Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_range, Set.mem_image,
         Set.mem_Iio]
       constructor
       · rintro ⟨i, hiN, rfl⟩; exact ⟨i, hiN, rfl⟩

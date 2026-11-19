@@ -32,37 +32,37 @@ private theorem bd_conj_row0 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6)
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 0 j = bd (Aᵀ * W * A) Jh 0 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj_row1 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6) :
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 1 j = bd (Aᵀ * W * A) Jh 1 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj_row2 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6) :
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 2 j = bd (Aᵀ * W * A) Jh 2 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj_row3 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6) :
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 3 j = bd (Aᵀ * W * A) Jh 3 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj_row4 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6) :
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 4 j = bd (Aᵀ * W * A) Jh 4 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj_row5 (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) (j : Fin 6) :
     ((bd A 1)ᵀ * bd W Jh * bd A 1) 5 j = bd (Aᵀ * W * A) Jh 5 j := by
   fin_cases j <;>
     simp (config := {decide := true}) [bd, Jh, Matrix.mul_apply, Fin.sum_univ_six,
-      Fin.sum_univ_four] <;> ring
+      Fin.sum_univ_four]
 
 private theorem bd_conj (A W : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
     (bd A 1)ᵀ * bd W Jh * bd A 1 = bd (Aᵀ * W * A) Jh := by
@@ -187,7 +187,7 @@ private theorem bd_topIdx (B : Matrix (Fin 4) (Fin 4) (ZMod 2))
     (D : Matrix (Fin 6) (Fin 6) (ZMod 2)) (i j : Fin 4) :
     bd B D (Sp4Cen.topIdx i) (Sp4Cen.topIdx j) = B i j := by
   show (if h : (i : ℕ) < 4 ∧ (j : ℕ) < 4 then B ⟨i, h.1⟩ ⟨j, h.2⟩ else D _ _) = _
-  rw [dif_pos ⟨i.isLt, j.isLt⟩]
+  rw [dite_eq_left ⟨i.isLt, j.isLt⟩]
 
 private theorem lt4_ne_four : ∀ c : Fin 6, c.val < 4 → (4 : Fin 6) ≠ c := by decide
 
@@ -227,9 +227,9 @@ private theorem mem_map_iota_iff (x : G6) :
       ext r c
       by_cases h : r.val < 4 ∧ c.val < 4
       · have := Sp4Cen.coe_tau ⟨x, hxC⟩ ⟨r, h.1⟩ ⟨c, h.2⟩
-        simp only [Sp4Cen.blkDiag, Matrix.of_apply, dif_pos h]
+        simp only [Sp4Cen.blkDiag, Matrix.of_apply, dite_eq_left h]
         exact this.symm
-      · simp only [Sp4Cen.blkDiag, Matrix.of_apply, dif_neg h]
+      · simp only [Sp4Cen.blkDiag, Matrix.of_apply, dite_eq_right h]
         rcases fin6_split r c h with h4 | h5 | ⟨hc, h4 | h5⟩
         · subst h4
           rw [hc4, Matrix.one_apply]
@@ -337,7 +337,7 @@ theorem exists_conj_sig0 (φ : Equiv.Perm (Fin 6) →* G6)
   obtain ⟨φ', hφ'⟩ : ∃ φ' : Equiv.Perm (Fin 6) →* G6,
       φ' = (MulAut.conj pg⁻¹).toMonoidHom.comp φ := ⟨_, rfl⟩
   have hφ'apply : ∀ σ, φ' σ = pg⁻¹ * φ σ * pg := fun σ => by
-    rw [hφ']; simp [MulAut.conj_apply]
+    rw [hφ']; simp
   have hu0R : pg⁻¹ * u0 * pg = Sp4Cen.u0 := by rw [← pg_conj_u0R]; group
   have hφ'C : ∀ σ, φ' σ ∈ Sp4Cen.C0 := by
     intro σ

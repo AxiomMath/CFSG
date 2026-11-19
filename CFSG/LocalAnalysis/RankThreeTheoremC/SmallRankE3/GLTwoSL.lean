@@ -299,9 +299,9 @@ theorem elemAbelian_image_card_le_three {K V : Type*} [Field K] [AddCommGroup V]
   have hδe : ∀ e : Γ, δ e = LinearEquiv.det (ρ e) := fun e => by
     subst hδ
     rfl
-  haveI : Finite δ.range :=
+  have : Finite δ.range :=
     Finite.of_surjective δ.rangeRestrict (MonoidHom.rangeRestrict_surjective δ)
-  haveI : IsCyclic δ.range := inferInstance
+  have : IsCyclic δ.range := inferInstance
   have hnd : ¬ 3 ∣ Nat.card δ.range := not_three_dvd_aux hΓ δ
   have hdet : ∀ e ∈ E, LinearEquiv.det (ρ e) = 1 := by
     intro e he

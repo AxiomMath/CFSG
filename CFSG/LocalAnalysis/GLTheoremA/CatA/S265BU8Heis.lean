@@ -66,7 +66,7 @@ theorem false_of_heisenberg_isotropic {f : ℕ} {K : Type} [Field K] (h : Unitar
     (X := fun b => bif b then (X : GL (Fin n) K) else Z) (R := P⁻¹) (inv_mem hPU)
     (d := fun b => bif b then x else z)
     (fun b => by
-      cases b <;> simp only [cond_false, cond_true, inv_inv]
+      cases b <;> simp only [Bool.cond_false, _root_.Bool.cond_true, inv_inv]
       exacts [hZd.symm, hXd.symm]) hW hiso
     (fun b w hw => by cases b; exacts [hWZ w hw, hWX w hw])
   have hxij : x i = x j := hxz true

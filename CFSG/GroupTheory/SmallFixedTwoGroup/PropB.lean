@@ -79,7 +79,7 @@ theorem exists_sylow_eq_centralizer_of_perfect {E : Type*} [Group E] [Finite E]
       simpa [s] using congrArg Subtype.val (Subgroup.mem_centralizer_singleton_iff.mp hb)
     simpa only [Subgroup.coe_mul] using hab (a : E) haC (b : E) hbC
   obtain ⟨M, hMidx, hMinv⟩ :=
-    exists_index_two_card_centralizer_ge_sixteen S.isPGroup' h16 hs hs1 hsz hab' h8s
+    exists_index_two_card_centralizer_ge_sixteen S.isPGroup h16 hs hs1 hsz hab' h8s
   let U : Subgroup E := M.map (S : Subgroup E).subtype
   have hUle : U ≤ (S : Subgroup E) := Subgroup.map_subtype_le M
   have hUidx : U.relIndex (S : Subgroup E) = 2 := by
@@ -100,8 +100,8 @@ theorem exists_sylow_eq_centralizer_of_perfect {E : Type*} [Group E] [Finite E]
   obtain ⟨x, hxU, -⟩ := CFSG.LargeExtraspecial.GLR.exists_extremal_conj_mem_of_sq_eq
     (fun N => index_ne_two_of_commutator_eq_top hE N)
     (T := (S : Subgroup E)) (U := U) (g := t) (d := 1)
-    S.isPGroup' S.not_dvd_index hUle hUidx
-    (hCS htmem) htU ht2 (by simp) (by intro y hy; simpa using U.one_mem)
+    S.isPGroup S.not_dvd_index hUle hUidx
+    (hCS htmem) htU ht2 (by simp) (by intro y hy; simp)
   set u : E := x⁻¹ * t * x with hu_def
   have hu_sq : u * u = 1 := by
     rw [hu_def]

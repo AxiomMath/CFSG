@@ -26,8 +26,8 @@ theorem eq_one_of_centralizes_section (hK32 : CFSG.LocalAnalysis.UniquenessCase.
     (hfix : ∀ u ∈ U, (∀ x ∈ t.Z, x * u * x⁻¹ * u⁻¹ ∈ W) → u ∈ W) {k : G} (hk : k ∈ t.Ky)
     (hkU : ∀ u ∈ U, k * u * k⁻¹ * u⁻¹ ∈ W) : k = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWU : W ≤ U := le_of_lt hUW.1
   have hUnleW : ¬ U ≤ W := hUW.1.2
   have hUnleM : ¬ U ≤ c.S.M := by
@@ -89,7 +89,7 @@ theorem eq_one_of_centralizes_section (hK32 : CFSG.LocalAnalysis.UniquenessCase.
     exact hxO2
   let N₀ : Subgroup G :=
     { carrier := {n | n ∈ t.Ky ∧ ∀ u ∈ U, n * u * n⁻¹ * u⁻¹ ∈ W}
-      one_mem' := ⟨t.Ky.one_mem, by intro u _; simpa using W.one_mem⟩
+      one_mem' := ⟨t.Ky.one_mem, by intro u _; simp⟩
       mul_mem' := by
         rintro n m ⟨hnK, hnW⟩ ⟨hmK, hmW⟩
         refine ⟨t.Ky.mul_mem hnK hmK, ?_⟩

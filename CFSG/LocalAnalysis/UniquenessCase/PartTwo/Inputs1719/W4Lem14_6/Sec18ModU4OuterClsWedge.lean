@@ -19,38 +19,47 @@ section General
 
 variable {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [CharP F 2]
 
+omit [DecidableEq ι] [CharP F 2] in
 private lemma vecMulVec_mulVec_wedge (v w x : ι → F) :
     (Matrix.vecMulVec v w) *ᵥ x = (w ⬝ᵥ x) • v := by
   rw [← Matrix.vecMul_transpose, Matrix.transpose_vecMulVec, Matrix.vecMul_vecMulVec,
     dotProduct_comm]
 
+omit [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_mulVec (v w x : ι → F) :
     (wedgeM v w) *ᵥ x = (w ⬝ᵥ x) • v + (v ⬝ᵥ x) • w := by
   rw [wedgeM, Matrix.add_mulVec, vecMulVec_mulVec_wedge, vecMulVec_mulVec_wedge]
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_add_right (v w w' : ι → F) :
     wedgeM v (w + w') = wedgeM v w + wedgeM v w' := by
-  simp [wedgeM, Matrix.vecMulVec_add, Matrix.add_vecMulVec, add_assoc, add_comm, add_left_comm]
+  simp [wedgeM, Matrix.vecMulVec_add, Matrix.add_vecMulVec, add_assoc, add_left_comm]
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_add_left (v v' w : ι → F) :
     wedgeM (v + v') w = wedgeM v w + wedgeM v' w := by
-  simp [wedgeM, Matrix.vecMulVec_add, Matrix.add_vecMulVec, add_assoc, add_comm, add_left_comm]
+  simp [wedgeM, Matrix.vecMulVec_add, Matrix.add_vecMulVec, add_assoc, add_left_comm]
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_smul_right (s : F) (v w : ι → F) :
     wedgeM v (s • w) = s • wedgeM v w := by
   simp [wedgeM, Matrix.vecMulVec_smul, Matrix.smul_vecMulVec, smul_add]
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_smul_left (s : F) (v w : ι → F) :
     wedgeM (s • v) w = s • wedgeM v w := by
   simp [wedgeM, Matrix.vecMulVec_smul, Matrix.smul_vecMulVec, smul_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma wedgeM_self (v : ι → F) : wedgeM v v = 0 := by
   ext i j
   simp [wedgeM, Matrix.vecMulVec_apply, CharTwo.add_self_eq_zero]
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_comm (v w : ι → F) : wedgeM v w = wedgeM w v := by
   simp [wedgeM, add_comm]
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma mem_span_of_wedgeM_eq_zero {v w : ι → F} (hv : v ≠ 0)
     (h : wedgeM v w = 0) : w ∈ Submodule.span F {v} := by
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
@@ -61,7 +70,7 @@ private lemma mem_span_of_wedgeM_eq_zero {v w : ι → F} (hv : v ≠ 0)
   refine ⟨w i / v i, ?_⟩
   ext k
   have hki := congrFun (congrFun h k) i
-  simp only [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.zero_apply] at hki
+  simp only [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply] at hki
   rw [Pi.smul_apply, smul_eq_mul]
   field_simp [hi]
   have hk := hki
@@ -69,6 +78,7 @@ private lemma mem_span_of_wedgeM_eq_zero {v w : ι → F} (hv : v ≠ 0)
   have hk' := CharTwo.add_eq_zero.mp hk
   simpa [mul_comm] using hk'.symm
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma wedgeM_ne_zero_of_linearIndependent {v w : ι → F}
     (h : LinearIndependent F ![v, w]) : wedgeM v w ≠ 0 := by
   intro h0
@@ -141,18 +151,22 @@ theorem mem_span_of_wedge_eq {a b c e : ι → F}
   rw [Submodule.mem_span_pair]
   exact ⟨b ⬝ᵥ φ, a ⬝ᵥ φ, by simpa using key.symm⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma vector_add_self (v : ι → F) : v + v = 0 := by
   ext i
   exact CharTwo.add_self_eq_zero (v i)
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma matrix_add_self_wedge (A : Matrix ι ι F) : A + A = 0 := by
   ext i j
   exact CharTwo.add_self_eq_zero (A i j)
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma matrix_eq_of_add_eq_zero_wedge {A B : Matrix ι ι F} (h : A + B = 0) : A = B := by
   rw [← matrix_add_self_wedge B] at h
   exact add_right_cancel h
 
+omit [Fintype ι] [DecidableEq ι] [CharP F 2] in
 private lemma wedgeM_add_add (a b c d : ι → F) :
     wedgeM (a + b) (c + d) =
       (wedgeM a c + wedgeM a d) + (wedgeM b c + wedgeM b d) := by
@@ -173,8 +187,8 @@ theorem mem_span_of_wedge_mulVec_eq {M : Matrix ι ι F} (hM : M * M = 1) {x w :
     rw [hN, Matrix.sub_mul, Matrix.mul_sub, Matrix.mul_sub, hM]
     simp only [Matrix.mul_one, Matrix.one_mul]
     ext i j
-    simp only [Matrix.sub_apply, Matrix.add_apply, Matrix.one_apply, Matrix.zero_apply,
-      CharTwo.sub_eq_add, CharTwo.neg_eq]
+    simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.zero_apply,
+      CharTwo.sub_eq_add]
     rw [show (if i = j then 1 else 0) + M i j + (M i j + (if i = j then 1 else 0)) =
         ((if i = j then 1 else 0) + (if i = j then 1 else 0)) + (M i j + M i j) by abel,
       CharTwo.add_self_eq_zero, CharTwo.add_self_eq_zero, add_zero]
@@ -272,6 +286,7 @@ section Polar
 
 variable {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 private lemma adjPolar_smul_right (b : F) (s : F) (v w : Om6Idx → F) :
     adjPolar b v (s • w) = s * adjPolar b v w := by
   unfold adjPolar
@@ -284,43 +299,43 @@ private lemma adjPolar_smul_right (b : F) (s : F) (v w : Om6Idx → F) :
 private lemma adjPolar_self (b : F) (v : Om6Idx → F) : adjPolar b v v = 0 := by
   simp [adjPolar, CharTwo.add_self_eq_zero]
 
+omit [CharP F 2] in
 private lemma adjBinv_row_inl0 (b : F) (y : Om6Idx) :
     adjBinv b (Sum.inl 0) y = if y = (Sum.inr (Sum.inl 0) : Om6Idx) then 1 else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 private lemma adjBinv_row_inr_inl0 (b : F) (y : Om6Idx) :
     adjBinv b (Sum.inr (Sum.inl 0)) y = if y = (Sum.inl 0 : Om6Idx) then 1 else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 private lemma adjBinv_row_inl1 (b : F) (y : Om6Idx) :
     adjBinv b (Sum.inl 1) y = if y = (Sum.inr (Sum.inl 1) : Om6Idx) then 1 else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 private lemma adjBinv_row_inr_inl1 (b : F) (y : Om6Idx) :
     adjBinv b (Sum.inr (Sum.inl 1)) y = if y = (Sum.inl 1 : Om6Idx) then 1 else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
-private lemma adjBinv_row_inr_inr0 (b : F) (hb : b ≠ 0) (y : Om6Idx) :
+omit [CharP F 2] in
+private lemma adjBinv_row_inr_inr0 (b : F) (_hb : b ≠ 0) (y : Om6Idx) :
     adjBinv b (Sum.inr (Sum.inr 0)) y =
       if y = (Sum.inr (Sum.inr 1) : Om6Idx) then b⁻¹ else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
-private lemma adjBinv_row_inr_inr1 (b : F) (hb : b ≠ 0) (y : Om6Idx) :
+omit [CharP F 2] in
+private lemma adjBinv_row_inr_inr1 (b : F) (_hb : b ≠ 0) (y : Om6Idx) :
     adjBinv b (Sum.inr (Sum.inr 1)) y =
       if y = (Sum.inr (Sum.inr 0) : Om6Idx) then b⁻¹ else 0 := by
   rcases y with (i | i | i) <;> fin_cases i <;>
-    simp [adjBinv, wedgeM, Matrix.sum_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-      Fin.sum_univ_two]
+    simp [adjBinv, wedgeM, Matrix.vecMulVec_apply, Fin.sum_univ_two]
 
 end Polar
 
@@ -343,13 +358,13 @@ private lemma adjWedge_smul_self (b : F) (v : Om6Idx → F) (s : F) :
     have h := congrArg Multiplicative.ofAdd hz'
     simpa using h
 
-private lemma false_of_wedgeM_eq_smul_adjBinv {b c : F} (hb : b ≠ 0)
+private lemma false_of_wedgeM_eq_smul_adjBinv {b c : F} (_hb : b ≠ 0)
     {v u : Om6Idx → F} (h : wedgeM v u = c • adjBinv b) (hc : c ≠ 0)
     {a a' b' b'' : Om6Idx} (hav : v a ≠ 0)
     (hrow_a : ∀ k, k ≠ b' → adjBinv b a k = 0)
     (hrow_b : ∀ k, k ≠ a → adjBinv b b' k = 0)
     (hval_a : adjBinv b a b' ≠ 0)
-    (hval_b : adjBinv b b' a = adjBinv b a b')
+    (_hval_b : adjBinv b b' a = adjBinv b a b')
     (ha'b : a ≠ b') (ha'a : a' ≠ a) (ha'b' : a' ≠ b')
     (hb''a : b'' ≠ a) (hb''b' : b'' ≠ b')
     (hother : adjBinv b a' b'' ≠ 0) : False := by
@@ -591,7 +606,7 @@ theorem adjAct_injective (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     have hβ : β = 0 := by
       have h1 := congrFun hαβ j
       have h2 := congrFun hα'β' j
-      simp [Pi.single_apply, hji, hkj, Ne.symm hji, Ne.symm hkj] at h1 h2
+      simp [hji, Ne.symm hkj] at h1 h2
       rw [← h1] at h2
       exact h2.symm
     refine ⟨α, ?_⟩
@@ -604,8 +619,7 @@ theorem adjAct_injective (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
         wedgeM (Pi.single i 1) (Pi.single j 1) := hW _ _
     rw [hlam i, hlam j, wedgeM_smul_left, wedgeM_smul_right] at h1
     have h2 := congrFun (congrFun h1 i) j
-    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply, Pi.smul_apply,
-      smul_eq_mul, hij, Ne.symm hij] at h2
+    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, smul_eq_mul, hij, Ne.symm hij] at h2
     exact h2
   let i₀ : Om6Idx := Sum.inl 0
   let j₀ : Om6Idx := Sum.inl 1

@@ -73,7 +73,7 @@ private theorem card_ker_torusCoordModGL_le_three {F : Type} [Field F] [Finite F
 
 private theorem card_ker_cubeOneMap_le_three {F : Type} [Field F] [Finite F] :
     Nat.card (cubeOneMap F).ker ≤ 3 := by
-  haveI : Finite ↥(torusCoordModGL F).ker :=
+  have : Finite ↥(torusCoordModGL F).ker :=
     Finite.of_injective (fun x : ↥(torusCoordModGL F).ker => (x.1 : Fin Tag.E6.rank → Fˣ))
       Subtype.val_injective
   have hinj : Function.Injective (fun x : ↥(cubeOneMap F).ker =>
@@ -136,14 +136,14 @@ private theorem cartanKernelTuple_ne_one {F : Type} [Field F] {ζ : Fˣ} (hζ : 
 
 private theorem three_le_card_ker_cubeOneMap {F : Type} [Field F] [Finite F] {ζ : Fˣ}
     (hζ : orderOf ζ = 3) : 3 ≤ Nat.card (cubeOneMap F).ker := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let x : ↥(cubeOnePi F) := ⟨cartanKernelTuple ζ, mem_cubeOnePi.2 fun i => by
     simpa using congrFun (cartanKernelTuple_pow_three hζ) i⟩
   have hx : x ∈ (cubeOneMap F).ker := by
     have h := cartanKernelTuple_mem_ker hζ
     rw [← torusCoordModGL_ker, MonoidHom.mem_ker] at h
     exact h
-  haveI : Finite ↥(cubeOneMap F).ker :=
+  have : Finite ↥(cubeOneMap F).ker :=
     Finite.of_injective (fun y : ↥(cubeOneMap F).ker => (y.1 : ↥(cubeOnePi F)))
       Subtype.val_injective
   have hcard := Subgroup.card_le_of_le (Subgroup.zpowers_le.2 hx)
@@ -225,6 +225,7 @@ private noncomputable def simpleRootImage (i : Fin Tag.E6.rank) :
     Subgroup ↥(adjointGroup Tag.E6 F) :=
   (simpleRootSub (F := F) i).range
 
+omit [Finite F] in
 private theorem simpleRootSub_injective (i : Fin Tag.E6.rank) :
     Function.Injective (simpleRootSub (F := F) i) :=
   fun _ _ hgh =>
@@ -234,6 +235,7 @@ private noncomputable def simpleRootEquiv (i : Fin Tag.E6.rank) :
     SL2 F ≃* ↥(simpleRootImage (F := F) i) :=
   MonoidHom.ofInjective (simpleRootSub_injective (F := F) i)
 
+omit [Finite F] in
 private theorem simpleRootEquiv_coe (i : Fin Tag.E6.rank) (g : SL2 F) :
     ((simpleRootEquiv (F := F) i g : ↥(simpleRootImage (F := F) i)) : ModGL Tag.E6 F) =
       simpleRootSL2 Tag.E6 F i g := rfl
@@ -247,6 +249,7 @@ private noncomputable def rootPreimageHom (i : Fin Tag.E6.rank) :
     ↥(rootPreimage M i) →* ↥(simpleRootImage (F := F) i) :=
   (M.π.comp (rootPreimage M i).subtype).codRestrict _ (fun x => x.2)
 
+omit [Finite Ω] [Finite F] [CharP F 2] in
 private theorem rootPreimageHom_surjective (i : Fin Tag.E6.rank) :
     Function.Surjective (rootPreimageHom M i) := by
   intro y
@@ -260,6 +263,7 @@ private noncomputable def rootPreimageMap (i : Fin Tag.E6.rank) :
     ↥(rootPreimage M i) →* SL2 F :=
   (simpleRootEquiv (F := F) i).symm.toMonoidHom.comp (rootPreimageHom M i)
 
+omit [Finite Ω] [Finite F] in
 private theorem rootPreimageMap_surjective (i : Fin Tag.E6.rank) :
     Function.Surjective (rootPreimageMap M i) := by
   intro g
@@ -268,6 +272,7 @@ private theorem rootPreimageMap_surjective (i : Fin Tag.E6.rank) :
     rw [rootPreimageMap, MonoidHom.comp_apply, hx]
     exact MulEquiv.symm_apply_apply (simpleRootEquiv (F := F) i) g⟩
 
+omit [Finite Ω] [Finite F] in
 private theorem rootPreimageMap_ker_le_center (i : Fin Tag.E6.rank) :
     (rootPreimageMap M i).ker ≤ Subgroup.center ↥(rootPreimage M i) := by
   intro x hx
@@ -282,6 +287,7 @@ private theorem rootPreimageMap_ker_le_center (i : Fin Tag.E6.rank) :
     exact congrArg Subtype.val h2
   exact Subgroup.mem_center_iff.1 hx1 y.1
 
+omit [Finite Ω] [Finite F] in
 private theorem odd_card_center_rootPreimage (i : Fin Tag.E6.rank)
     (hZ : Nat.card (Subgroup.center ↥S) ∣ 3) :
     Odd (Nat.card (Subgroup.center ↥(rootPreimage M i))) := by
@@ -333,8 +339,8 @@ private theorem commutator_inf_ker_rootPreimageMap (hq : 4 ≤ Nat.card F)
   · have h5 : 5 ≤ Nat.card F := by omega
     have h9 : Nat.card F ≠ 9 := by
       intro h
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fintype F := Fintype.ofFinite F
       have hc3 : CharP F 3 := charP_of_card_eq_prime_pow (p := 3) (f := 2) (by
         rw [← Nat.card_eq_fintype_card, h]; norm_num)
       have hc2 : CharP F 2 := ‹CharP F 2›
@@ -343,11 +349,12 @@ private theorem commutator_inf_ker_rootPreimageMap (hq : 4 ≤ Nat.card F)
     exact CFSG.LocalAnalysis.EvenBN.Common.commutator_inf_ker_eq_bot_sl2 h5 h9
       (rootPreimageMap_surjective M i) (rootPreimageMap_ker_le_center M i)
 
+omit [Finite Ω] in
 private theorem exists_psi_of_commutator (i : Fin Tag.E6.rank) (hq : 4 ≤ Nat.card F)
     (hcomm : commutator ↥(rootPreimage M i) ⊓ (rootPreimageMap M i).ker = ⊥) :
     ∃ ψ : SL2 F →* ↥S, ∀ g, (M.π (ψ g) : ↥(adjointGroup Tag.E6 F)) =
       simpleRootEquiv (F := F) i g := by
-  haveI hperf : Group.IsPerfect (SL2 F) :=
+  have hperf : Group.IsPerfect (SL2 F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F hq
   set C : Subgroup ↥(rootPreimage M i) := commutator ↥(rootPreimage M i) with hCdef
   have hCmap : Subgroup.map (rootPreimageMap M i) C = ⊤ := by

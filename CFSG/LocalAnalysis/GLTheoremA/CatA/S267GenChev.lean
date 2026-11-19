@@ -27,7 +27,7 @@ private theorem eq_three_or_five_le_of_prime {p : ℕ} (hp : p.Prime) (hp2 : p �
 theorem genCompChevOn_holds : GenCompChevOn fun _ => True := by
   intro p T _ _ d hT _ x hxp hx1 J hJ
   obtain ⟨hp, hp2, ⟨e⟩, -, hpq⟩ := hT
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
   have hs : IsSimpleGroup T := e.isSimpleGroup
   have hna : ∃ a b : T, a * b ≠ b * a := exists_mul_ne_mul_of_glaPComponent hp hJ
   have hlc : lieIndexChar d.1 = d.1.characteristic :=
@@ -43,8 +43,8 @@ theorem genCompChevOn_holds : GenCompChevOn fun _ => True := by
     have hQ : CFSG.Open.IsQuasisimple (PQuot 3 J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
     have hne : GLAPPrimeCore 3 ↥J ≠ ⊤ := by
       intro htop
-      haveI : Nontrivial (PQuot 3 J) := isQuasisimple_nontrivial hQ
-      haveI : Subsingleton (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
+      have : Nontrivial (PQuot 3 J) := isQuasisimple_nontrivial hQ
+      have : Subsingleton (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
         rw [htop]
         exact QuotientGroup.subsingleton_quotient_top
       exact not_subsingleton (PQuot 3 J) ‹_›

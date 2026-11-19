@@ -25,8 +25,8 @@ private theorem one_le_padicValNat_pow_orderOf_sub_one {p q : ℕ} [hp : Fact p.
 
 private theorem sylowDichotomyAt_statedSp {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (F : Type) [Field F]
     [Finite F] (hpF : ¬ p ∣ Nat.card F) (n : ℕ) : SylowDichotomyAt (StatedSp n F) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite F
   have hpF' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   exact SylowDichotomyAt.of_sylow_sigmaModel hp h5
@@ -47,7 +47,7 @@ private theorem not_dvd_card_ker_statedSp {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p
     ¬ p ∣ Nat.card (QuotientGroup.mk'
       ((StatedScalars (Fin n ⊕ Fin n) F).subgroupOf (StatedSp n F))).ker := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hx2 : x ^ 2 = 1 := by
     apply Subtype.ext

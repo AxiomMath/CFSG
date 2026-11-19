@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 theorem r4a_fixed_of_involutive {α : Type*} [Finite α] {f : α → α} (hf : Function.Involutive f)
     (hodd : Odd (Nat.card α)) : ∃ x, f x = x := by
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   have hsq : Function.Involutive.toPerm f hf * Function.Involutive.toPerm f hf = 1 :=
     Equiv.ext fun x => hf x
   have hσ : (Function.Involutive.toPerm f hf) ^ 2 ^ 1 = 1 := by
@@ -93,7 +93,7 @@ theorem r4_abs_u {M : Type*} [Group M] [Finite M] (R : Subgroup M) [R.Normal] (h
   have hP2 : IsPGroup 2 (A₀.map (QuotientGroup.mk' R)) := hA₀.map (QuotientGroup.mk' R)
   have hJ2 : IsPGroup 2 J := IsPGroup.to_le hP2 hJP
   have hnil : Group.IsNilpotent J := IsPGroup.isNilpotent hJ2
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).2 hJ1
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).2 hJ1
   exact Group.IsPerfect.not_isNilpotent J hnil
 
 end CFSG.RankThree.PartTwo.Sec13.F135Last

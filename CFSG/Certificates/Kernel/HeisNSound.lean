@@ -35,35 +35,44 @@ section
 variable (hK : K.Sound d)
 include hK
 
+omit [NoCubeRoot F] in
 theorem p_pos : 0 < K.p := by have := hK.one_lt; omega
 
+omit [Field F] [NoCubeRoot F] hK in
 theorem pack_mod {r : ℕ} (i : ℕ) (hr : r < K.p) : (r + K.p * i) % K.p = r := by
   rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hr]
 
+omit [NoCubeRoot F] in
 theorem pack_div {r : ℕ} (i : ℕ) (hr : r < K.p) : (r + K.p * i) / K.p = i := by
   rw [Nat.add_mul_div_left _ _ (p_pos hK), Nat.div_eq_of_lt hr, Nat.zero_add]
 
+omit [NoCubeRoot F] in
 theorem dec_pack {r : ℕ} (i : ℕ) (hr : r < K.p) : dec K d (r + K.p * i) = ⟨d r, d i⟩ := by
-  rw [dec, pack_mod hK i hr, pack_div hK i hr]
+  rw [dec, pack_mod i hr, pack_div hK i hr]
 
+omit [Field F] [NoCubeRoot F] hK in
 theorem pack_lt {r i : ℕ} (hr : r < K.p) (hi : i < K.p) : r + K.p * i < K.p * K.p := by
   have : K.p * i + K.p ≤ K.p * K.p := by
     rw [← Nat.mul_succ]
     exact Nat.mul_le_mul_left _ hi
   omega
 
+omit [NoCubeRoot F] in
 theorem dec_zero : dec K d 0 = 0 := by
   rw [dec, Nat.zero_mod, Nat.zero_div, hK.zero]
   rfl
 
+omit [NoCubeRoot F] in
 theorem dec_one : dec K d 1 = 1 := by
   rw [dec, Nat.mod_eq_of_lt hK.one_lt, Nat.div_eq_of_lt hK.one_lt, hK.zero, hK.one]
   rfl
 
+omit [NoCubeRoot F] in
 theorem dec_eAdd (x y : ℕ) : dec K d (K.eAdd x y) = dec K d x + dec K d y := by
   rw [eAdd, dec_pack hK _ (hK.add_lt _ _)]
   ext <;> simp [hK.add, dec]
 
+omit [NoCubeRoot F] in
 theorem dec_eNeg (x : ℕ) : dec K d (K.eNeg x) = -dec K d x := by
   rw [eNeg, dec_pack hK _ (hK.neg_lt _)]
   ext <;> simp [hK.neg, dec]
@@ -71,6 +80,7 @@ theorem dec_eNeg (x : ℕ) : dec K d (K.eNeg x) = -dec K d x := by
 theorem dec_eSub (x y : ℕ) : dec K d (K.eSub x y) = dec K d x - dec K d y := by
   rw [eSub, dec_eAdd hK, dec_eNeg hK, sub_eq_add_neg]
 
+omit [NoCubeRoot F] in
 theorem dec_eMul (x y : ℕ) : dec K d (K.eMul x y) = dec K d x * dec K d y := by
   simp only [eMul]
   rw [dec_pack hK _ (hK.add_lt _ _)]
@@ -81,8 +91,10 @@ theorem dec_ePow (x : ℕ) (n : ℕ) : dec K d (K.ePow x n) = dec K d x ^ n := b
   | zero => rw [ePow, pow_zero, dec_one hK]
   | succ n ih => rw [ePow, dec_eMul hK, ih, pow_succ]
 
-theorem eAdd_lt (x y : ℕ) : K.eAdd x y < K.p * K.p := pack_lt hK (hK.add_lt _ _) (hK.add_lt _ _)
+omit [NoCubeRoot F] in
+theorem eAdd_lt (x y : ℕ) : K.eAdd x y < K.p * K.p := pack_lt (hK.add_lt _ _) (hK.add_lt _ _)
 
+omit [NoCubeRoot F] in
 theorem dec_inj {x y : ℕ} (hx : x < K.p * K.p) (hy : y < K.p * K.p)
     (h : dec K d x = dec K d y) : x = y := by
   have hp := p_pos hK
@@ -90,10 +102,11 @@ theorem dec_inj {x y : ℕ} (hx : x < K.p * K.p) (hy : y < K.p * K.p)
   have h2 := hK.inj _ _ (Nat.div_lt_of_lt_mul hx) (Nat.div_lt_of_lt_mul hy) (congrArg QExt.im h)
   rw [← Nat.mod_add_div x K.p, ← Nat.mod_add_div y K.p, h1, h2]
 
+omit [NoCubeRoot F] in
 theorem dec_surj (z : QExt F) : ∃ x < K.p * K.p, dec K d x = z := by
   obtain ⟨r, hr, hdr⟩ := hK.surj z.re
   obtain ⟨i, hi, hdi⟩ := hK.surj z.im
-  exact ⟨r + K.p * i, pack_lt hK hr hi, by rw [dec_pack hK i hr, hdr, hdi]⟩
+  exact ⟨r + K.p * i, pack_lt hr hi, by rw [dec_pack hK i hr, hdr, hdi]⟩
 
 theorem toL_mOne : toL K d mOne = 1 := by
   simp only [toL, mOne, dec_zero hK, dec_one hK]
@@ -166,6 +179,7 @@ theorem evalsN_toL (Ls : List (M3 ℕ)) (ws : List (List ℕ)) :
   rw [List.map_map]
   exact List.map_congr_left fun w _ => evalN_toL hK Ls w
 
+omit [Field F] [NoCubeRoot F] hK in
 theorem mem_of_testBit (q : ℕ) (vals : List (M3 ℕ)) (k : ℕ) (h : (K.bitsN q vals).testBit k) :
     ∃ V ∈ vals, K.keyN q V = some k := by
   induction vals with
@@ -186,7 +200,7 @@ theorem mem_of_testBit (q : ℕ) (vals : List (M3 ℕ)) (k : ℕ) (h : (K.bitsN 
     · obtain ⟨W, hW, hk⟩ := ih h
       exact ⟨W, List.mem_cons_of_mem _ hW, hk⟩
 
-theorem toL_of_keyN (q : ℕ) {V : M3 ℕ} {a b : ℕ} (ha : a < K.p * K.p) (hb : b < K.p * K.p)
+theorem toL_of_keyN (q : ℕ) {V : M3 ℕ} {a b : ℕ} (ha : a < K.p * K.p) (_hb : b < K.p * K.p)
     (h : K.keyN q V = some (a + K.p * K.p * b)) :
     toL K d V = blockM3 q (dec K d a) (dec K d b) := by
   unfold keyN at h
@@ -225,7 +239,7 @@ theorem coverN_sound (q : ℕ) (vals : List (M3 ℕ)) (h : K.coverN q vals = tru
   dsimp only at h1
   rw [hn] at h1
   rw [show Nat.beq 1 1 = true from rfl, Bool.not_true, Bool.false_or] at h1
-  obtain ⟨V, hV, hk⟩ := mem_of_testBit hK q vals _ h1
+  obtain ⟨V, hV, hk⟩ := mem_of_testBit q vals _ h1
   rw [← toL_of_keyN hK q hx hy hk]
   exact List.mem_map_of_mem hV
 

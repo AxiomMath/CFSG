@@ -27,12 +27,13 @@ private theorem eq_bot_of_perfect_of_solvable {G : Type*} [Group G] {H : Subgrou
   have : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.mpr hperf
   exact Group.IsPerfect.not_isSolvable ↥H hsolv
 
+omit [Finite X] in
 private theorem orderOf_mul_eq_thirtyThree {y t : X} (hy : orderOf y = 3) (ht : orderOf t = 11)
     (hyt : Commute y t) : orderOf (y * t) = 33 := by
   rw [hyt.orderOf_mul_eq_mul_orderOf_of_coprime (by rw [hy, ht]; norm_num), hy, ht]
 
 private theorem mem_of_three_pow_nine_dvd (hX : LocalFacts X) {M N : Subgroup X} {y : X}
-    (hyM : y ∈ M) (hy : orderOf y = 3) (hNM : N ≤ M) (hMN : M ≤ normalizer (N : Set X))
+    (hyM : y ∈ M) (hy : orderOf y = 3) (_hNM : N ≤ M) (hMN : M ≤ normalizer (N : Set X))
     (h39 : 3 ^ 9 ∣ Nat.card N) : y ∈ N := by
   by_contra hyN
   have hdisj : zpowers y ⊓ N = ⊥ := by
@@ -81,9 +82,11 @@ private def conjAut {M N : Subgroup X} (hMN : M ≤ normalizer (N : Set X)) {y :
     ext
     simp [mul_assoc]
 
+omit [Finite X] in
 private theorem coe_conjAut {M N : Subgroup X} (hMN : M ≤ normalizer (N : Set X)) {y : X}
     (hyM : y ∈ M) (n : N) : ((conjAut hMN hyM n : N) : X) = y * n * y⁻¹ := rfl
 
+omit [Finite X] in
 private theorem mem_of_suz (hSp : SporadicFacts) {M N : Subgroup X} {y : X} (hyM : y ∈ M)
     (hy : orderOf y = 3) (hNM : N ≤ M) (hMN : M ≤ normalizer (N : Set X))
     (hcent : ∀ g ∈ M, (∀ n ∈ N, g * n = n * g) → g = 1)
@@ -136,8 +139,8 @@ theorem maxElevenB_of_simple (hSp : SporadicFacts) (hE : ElevenSimpleCases) (hX 
     ∃ N' : Subgroup X, N' ≤ M ∧ Nat.card N' = 9196830720 ∧
       ∀ P : Subgroup X, P ≤ M → ⁅P, P⁆ = P → P ≤ N' := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI := hNs
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have := hNs
   have hN_card_dvd_X : Nat.card N ∣ 2 ^ 36 * 3 ^ 9 * 5 ^ 2 * 7 ^ 2 * 11 * 13 * 17 * 19 := by
     rw [← hX.card]
     exact Subgroup.card_subgroup_dvd_card N
@@ -219,7 +222,7 @@ theorem maxElevenB_of_simple (hSp : SporadicFacts) (hE : ElevenSimpleCases) (hX 
     have hK_le_M : K ≤ M := inf_le_left
     have hK_le_norm : K ≤ normalizer (zpowers t : Set X) := inf_le_right
     have hK_solvable : Group.IsSolvable K := by
-      haveI : Group.IsSolvable (normalizer (zpowers t : Set X)) :=
+      have : Group.IsSolvable (normalizer (zpowers t : Set X)) :=
         isSolvable_normalizer_zpowers_eleven hX ht
       exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hK_le_norm)
     let f : K →* (M ⧸ N.subgroupOf M) :=
@@ -257,13 +260,13 @@ theorem maxElevenB_of_simple (hSp : SporadicFacts) (hE : ElevenSimpleCases) (hX 
       have hpP' : fP (⟨p, hp⟩ : P) ∈ P' :=
         Subgroup.mem_map_of_mem fP (Subgroup.mem_top (⟨p, hp⟩ : P))
       rw [hP'_bot, Subgroup.mem_bot] at hpP'
-      simp only [fP, MonoidHom.comp_apply, Subgroup.coe_inclusion, QuotientGroup.mk'_apply] at hpP'
+      simp only [fP, MonoidHom.comp_apply, QuotientGroup.mk'_apply] at hpP'
       have hpN_M : (⟨p, hpM⟩ : M) ∈ N.subgroupOf M := (QuotientGroup.eq_one_iff _).mp hpP'
       exact Subgroup.mem_subgroupOf.mp hpN_M
     exact hPN
   ·
     exfalso
-    haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
     have h17_dvd_N : 17 ∣ Nat.card N := by
       rw [hO10]
       norm_num

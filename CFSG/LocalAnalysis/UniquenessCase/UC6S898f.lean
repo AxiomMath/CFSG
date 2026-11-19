@@ -37,7 +37,7 @@ theorem eq_seven_of_residual {n s r : ℕ} (hr : r.Prime) (hs : Odd s) (hsn : s 
       simpa using hrs
     · rw [ha3, hbr] at hab
       rw [← hab] at hrs
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       have h1 : ((2 ^ (3 * r) - 1 : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hrs
       have h2 : (2 : ZMod r) ^ (3 * r) = 8 := by
         rw [pow_mul, ZMod.pow_card]
@@ -55,7 +55,7 @@ theorem eq_bot_of_le_inf {Y : Type*} [Group Y] [Finite Y] {A A' E : Subgroup Y} 
     (hZ : ¬ q ∣ Nat.card (center (↥A ⧸ CFSG.pCore 2 ↥A))) (hEA : E ≤ A) (hEA' : E ≤ A')
     (hEel : IsElemAbelian q E) : E = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : Y →* Y ⧸ CFSG.pCore 2 Y := QuotientGroup.mk' (CFSG.pCore 2 Y)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   have hAc := isComponent_image hsn hqs
@@ -147,7 +147,7 @@ theorem exists_lift_fixed {L B : Subgroup G} {ℓ q : ℕ} (hℓ : ℓ.Prime) (h
       (E.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ≤ Eb ∧ Nat.card E = Nat.card Eb ∧
       (IsElemAbelian q Eb → IsElemAbelian q E) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   obtain ⟨Q, hQp, hQmap, hQdisj⟩ :=
@@ -198,7 +198,7 @@ theorem exists_pgroup_containing {L : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 
     ∃ S : Subgroup G, S ≤ L ∧ A ≤ S ∧ Nat.card S = Nat.card Eb ∧
       (IsElemAbelian q Eb → IsElemAbelian q S) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   let H : Subgroup ↥L := Eb.comap π
@@ -218,7 +218,7 @@ theorem exists_pgroup_containing {L : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 
     rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
   let T₂ : Subgroup ↥L := (S₂ : Subgroup ↥H).map H.subtype
   have hT₂H : T₂ ≤ H := Subgroup.map_subtype_le _
-  have hT₂p : IsPGroup q T₂ := S₂.isPGroup'.map _
+  have hT₂p : IsPGroup q T₂ := S₂.isPGroup.map _
   have hT₂disj : Disjoint T₂ π.ker := by
     rw [Subgroup.disjoint_def]
     intro x hxT hxk

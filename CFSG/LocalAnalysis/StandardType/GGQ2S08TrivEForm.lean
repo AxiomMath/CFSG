@@ -11,7 +11,7 @@ open CFSG CFSG.Assembly
 theorem ggQ2s08_eform_of_normalized {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} (hS : GGQTwoSetting p B Bs x L D J) (hp : p = 3)
     {g : G} {φ : MulAut ↥Bs} (hInd : GGQ2Ind Bs g φ) (hR : GGIsReflection p φ)
-    (hM : GGQ2MovesX Bs x φ) {Z : Subgroup G} (hZB : Z ≤ Bs) (hxZ : x ∈ Z)
+    (hM : GGQ2MovesX Bs x φ) {Z : Subgroup G} (_hZB : Z ≤ Bs) (hxZ : x ∈ Z)
     (hZJ : Z ≤ Subgroup.centralizer (J : Set G)) (hgZ : g ∈ Subgroup.normalizer (Z : Set G)) :
     GGQ2EForm Bs J φ := by
   obtain ⟨hcfg, -, -, hNT, -⟩ := hS.1

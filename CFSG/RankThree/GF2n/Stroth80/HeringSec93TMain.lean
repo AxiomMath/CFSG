@@ -35,12 +35,12 @@ theorem step93L2Second_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement
         (inf_le_left : LB M Q B ⊓ conjSubgroup h (LB M Q B) ≤ LB M Q B)
         (HS9.relIndex_Fhat_le hc hq) (by rw [inf_comm]; exact hLF) hH
       exact HS9.conjB_le_Wt_of_inf_CN h34 hs hh hx.1.1 hx.1.2 hx.2 hxQ
-    · obtain ⟨s, hsmem, hsQ⟩ := SetLike.not_le_iff_exists.mp hcase
+    · obtain ⟨s, hsmem, hsQ⟩ := IsConcreteLE.not_le_iff_exists.mp hcase
       have hFB' : ∀ f ∈ HS9.Fhat M Q B h, ∀ b ∈ conjSubgroup h B, ⁅f, b⁆ ∈ Z :=
         HS9.comm_mem_Z_of_pCoreIn h34 hc' hs5.width hs5.n_gt (hc.noA2_conj hs5.noA2 hh)
           (hs5.gen.conj_of_mem hh)
           (hLconj ▸ le_sup_right : LB M Q (conjSubgroup h B) ≤ HS9.Xhat M Q B h) hXH
-      exact HS9.conjB_le_Wt_of_mem_F (hc := hc) (n := n) hc'.le hZ0L hCentre.2.2 hsmem.1 hsQ
+      exact HS9.conjB_le_Wt_of_mem_F (hc := hc) (_n := n) hc'.le hZ0L hCentre.2.2 hsmem.1 hsQ
         hsmem.2 hFB'
   exact HS9.false_of_conjB_le_Wt h34 hs hh hne hW hH
 

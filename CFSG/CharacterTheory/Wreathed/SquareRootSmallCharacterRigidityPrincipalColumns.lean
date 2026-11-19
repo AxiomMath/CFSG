@@ -84,7 +84,7 @@ theorem principal_value_column_off_section {G : Type} [Group G] [Fintype G]
         starRingEnd ℂ ((basis.representation χ).character g) = 0 := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : NeZero (2 ^ r) := ⟨pow_ne_zero _ (by decide)⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot ℂ (2 ^ r)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot ℂ (2 ^ r)
   obtain ⟨hbmem, hbindep, hd⟩ := principal_singleton_integral_basis localBasis ideal
     localPrincipal hlocalPrincipal N hN hquotient
   obtain ⟨U, m, lam, _, _, _, _, hvalues, _, _, hoff⟩ :=

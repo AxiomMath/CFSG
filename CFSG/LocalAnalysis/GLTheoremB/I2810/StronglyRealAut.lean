@@ -79,9 +79,11 @@ variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 @[expose] noncomputable def rhoK (hR : Red28 W K S) : ↥K →* MulAut ↥(vOf W K S) :=
   (vAct hR).comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S))
 
+omit [Finite X] in
 theorem rhoK_apply (hR : Red28 W K S) (k : ↥K) (v : ↥(vOf W K S)) :
     (((rhoK hR k) v : ↥(vOf W K S)) : X) = (k : X) * (v : X) * (k : X)⁻¹ := rfl
 
+omit [Finite X] in
 theorem rhoK_of_mem_W (hR : Red28 W K S) (k : ↥K) (hk : (k : X) ∈ W) : rhoK hR k = 1 := by
   refine MulEquiv.ext fun v => Subtype.ext ?_
   have hc : (v : X) * (k : X) = (k : X) * (v : X) := v.2.2.1 (k : X) (hR.w1_le hk)
@@ -89,6 +91,7 @@ theorem rhoK_of_mem_W (hR : Red28 W K S) (k : ↥K) (hk : (k : X) ∈ W) : rhoK 
   rw [← hc]
   group
 
+omit [Finite X] in
 theorem mem_zPre_of_rhoK_eq_one (hR : Red28 W K S) (k : ↥K) (h1 : rhoK hR k = 1) :
     (k : X) ∈ zPre W K := by
   refine ⟨k.2, fun k' hk' => hR.cent_comm k (Subgroup.mem_sup_left k.2) (fun v hv => ?_) k' hk'⟩
@@ -97,6 +100,7 @@ theorem mem_zPre_of_rhoK_eq_one (hR : Red28 W K S) (k : ↥K) (h1 : rhoK hR k = 
   calc (k : X) * v = ((k : X) * v * (k : X)⁻¹) * (k : X) := by group
     _ = v * k := by rw [this]
 
+omit [Finite X] in
 theorem toBar_eq_one_iff (k : ↥K) : toBar W K k = 1 ↔ (k : X) ∈ W := by
   constructor
   · intro h
@@ -106,10 +110,12 @@ theorem toBar_eq_one_iff (k : ↥K) : toBar W K k = 1 ↔ (k : X) ∈ W := by
     apply Subtype.ext
     exact (QuotientGroup.eq_one_iff _).2 h
 
+omit [Finite X] in
 theorem toBar_surjective (W K : Subgroup X) [W.Normal] : Function.Surjective (toBar W K) := by
   rintro ⟨y, k, hk, rfl⟩
   exact ⟨⟨k, hk⟩, rfl⟩
 
+omit [Finite X] in
 theorem mem_zPre_iff (k : ↥K) :
     (k : X) ∈ zPre W K ↔ toBar W K k ∈ Subgroup.center ↥(bar W K) := by
   have key : ∀ k' : ↥K, (⁅(k : X), (k' : X)⁆ ∈ W ↔
@@ -126,6 +132,7 @@ theorem mem_zPre_iff (k : ↥K) :
   · intro h
     exact ⟨k.2, fun k' hk' => (key ⟨k', hk'⟩).2 (h _)⟩
 
+omit [Finite X] in
 theorem modC_eq_one_iff (k : ↥K) : modC W K k = 1 ↔ (k : X) ∈ zPre W K := by
   rw [mem_zPre_iff]
   exact QuotientGroup.eq_one_iff _
@@ -238,7 +245,7 @@ theorem inverts_five_contra_aux (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (
     have h2 : orderOf y ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hy2)
     have := dvd_trans h5y h2
     omega
-  · letI : CommGroup ↥(vOf W K S) :=
+  · let : CommGroup ↥(vOf W K S) :=
       { (inferInstance : Group ↥(vOf W K S)) with
         mul_comm := fun a b => by
           have := hR.v_elem.1
@@ -262,7 +269,7 @@ theorem finite_mulAut (G : Type*) [Group G] [Finite G] : Finite (MulAut G) :=
 
 theorem relIndex_le_card_indAut (h : Setup28 W K S) {A : Subgroup X} (hAS : A ≤ S) :
     (kerAct W K S).relIndex A ≤ Nat.card ↥(indAut W K A) := by
-  haveI : Finite (MulAut ↥(bar W K)) := finite_mulAut _
+  have : Finite (MulAut ↥(bar W K)) := finite_mulAut _
   have hmem : ∀ a : ↥A, (QuotientGroup.mk (a : X) : X ⧸ W) ∈
       Subgroup.normalizer ((bar W K : Subgroup (X ⧸ W)) : Set (X ⧸ W)) := fun a =>
     K.le_normalizer_map (QuotientGroup.mk' W) (Subgroup.mem_map_of_mem _ (h.hN (hAS a.2)))
@@ -287,7 +294,7 @@ theorem relIndex_le_card_indAut (h : Setup28 W K S) {A : Subgroup X} (hAS : A �
   have hrange : φ.range ≤ indAut W K A := by
     rintro _ ⟨a, rfl⟩
     exact Subgroup.mem_map.2 ⟨g a, Subgroup.mem_subgroupOf.2 ⟨a, a.2, rfl⟩, rfl⟩
-  haveI : Finite ↥(indAut W K A) := inferInstance
+  have : Finite ↥(indAut W K A) := inferInstance
   calc (kerAct W K S).relIndex A = ((kerAct W K S).subgroupOf A).index := rfl
     _ ≤ φ.ker.index := Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite)
           (Subgroup.index_dvd_of_le hker)

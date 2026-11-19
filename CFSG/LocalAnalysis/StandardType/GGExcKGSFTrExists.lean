@@ -54,7 +54,7 @@ private theorem transport_sylow {G A : Type*} [Group G] [Group A] [Finite G] [Fa
       (Bs.subgroupOf Nn).map c ≤ (P' : Subgroup c.range).map c.range.subtype ∧
       ∀ E' : Subgroup A, E' ≤ (P' : Subgroup c.range).map c.range.subtype → IsElemAbelian p E' →
         Nat.card E' = Nat.card ((Bs.subgroupOf Nn).map c) → E' = (Bs.subgroupOf Nn).map c := by
-  haveI : Finite Nn := inferInstance
+  have : Finite Nn := inferInstance
   refine ⟨Sylow.mapSurjective c.rangeRestrict_surjective P, ?_⟩
   have hmap : ((Sylow.mapSurjective c.rangeRestrict_surjective P : Sylow p c.range) :
       Subgroup c.range).map c.range.subtype = (P : Subgroup Nn).map c := by
@@ -113,8 +113,8 @@ theorem exists_ggSFTr (hCI : GGKGInndiagCI) {t : StatedLieTag} {n f : ℕ} (ht :
         (Subgroup.normalizer (ψ.range : Set G)).subtype →
         IsElemAbelian p E → Nat.card E = Nat.card Bs → E = Bs) :
     Nonempty (GGSFTr t n f p M ψ Bs) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ggU t n f).K := ggU_finite_exc ht hset.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ggU t n f).K := ggU_finite_exc ht hset.1
   obtain ⟨c, hcinj, hcpsi, hciff⟩ := ggTransportHom hset
   obtain ⟨P, hBP, huniq⟩ := hP
   obtain ⟨P', hEP, huniq'⟩ := transport_sylow c hcinj hN P hBP huniq

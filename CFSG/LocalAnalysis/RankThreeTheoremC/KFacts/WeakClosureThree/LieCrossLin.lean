@@ -53,7 +53,7 @@ theorem mk_eq_one_of_eq_scalar {n : ℕ} {H : Subgroup (GL (Fin n) L)} {g : GL (
 theorem not_three_dvd_card_ker [Finite L] {n : ℕ} (hn : ¬ 3 ∣ n) (H : Subgroup (GL (Fin n) L))
     (hdet : ∀ g ∈ H, (g : Matrix (Fin n) (Fin n) L).det = 1) :
     ¬ 3 ∣ Nat.card (QuotientGroup.mk' ((StatedScalars (Fin n) L).subgroupOf H)).ker := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hd
   have hmem : ((x : H) : GL (Fin n) L) ∈ StatedScalars (Fin n) L := by
@@ -82,7 +82,7 @@ theorem dichThreeLieAt_three {ζ : Lˣ} (hζ : orderOf ζ = 9) (H : Subgroup (GL
     (hdiag : ∀ u : Fin 3 → Lˣ, (∀ i, u i ∈ Subgroup.zpowers ζ) → ∏ i, u i = 1 →
       diagGL 3 u ∈ H)
     (hperm : permGL 3 (finRotate 3) ∈ H) : DichThreeLieAt (StatedProj H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Multiplicative (ℤ × ℤ) →* (Fin 3 → Lˣ) :=
     MonoidHom.mk' (fun v => ![ζ ^ v.toAdd.1, ζ ^ v.toAdd.2, ζ ^ (-v.toAdd.1 - v.toAdd.2)])
       (fun v w => by
@@ -215,7 +215,7 @@ theorem dichThreeLieAt_three {ζ : Lˣ} (hζ : orderOf ζ = 9) (H : Subgroup (GL
       ((θ (Multiplicative.ofAdd (a, b)))⁻¹ * y⁻¹) =
         θ (Multiplicative.ofAdd (a, b)) * (y * (θ (Multiplicative.ofAdd (a, b)))⁻¹ * y⁻¹) by
       group, hθinv, hrot, hθmul]
-    congr 3 <;> ring
+    congr 3; ring
   set A := θ (Multiplicative.ofAdd (1, -2)) with hAdef
   set B := θ (Multiplicative.ofAdd (1, 1)) with hBdef
   have hA : ⁅θ (Multiplicative.ofAdd (1, -1)), y⁆ = A := by rw [hcomm]; rfl
@@ -361,13 +361,13 @@ variable {F : Type} [Field F] [Finite F]
 
 theorem threeLocal_proj_SL_of_not_dvd (hF : ¬ 3 ∣ Nat.card F) (h1 : ¬ 3 ∣ Nat.card F - 1)
     (n : ℕ) : ThreeLocal (StatedProj (StatedSL n F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hGL : ThreeLocal (GL (Fin n) F) :=
     threeLocal_of_sigma (PSLCross.one_le_padicValNat_card Nat.prime_three hF')
       (fun P => CFSG.GroupTheory.WeirSylow.sylow_GL (by decide) F hF' n P)
-  haveI : (StatedSL n F).Normal := by rw [statedSL_eq_ker_det]; infer_instance
+  have : (StatedSL n F).Normal := by rw [statedSL_eq_ker_det]; infer_instance
   have hSL : ThreeLocal (StatedSL n F) :=
     ThreeLocal.of_normal_coprime_index _
       (fun hd => h1 (hd.trans (PSLCross.index_statedSL_dvd n))) hGL
@@ -379,8 +379,8 @@ theorem threeLocal_proj_SL_of_not_dvd (hF : ¬ 3 ∣ Nat.card F) (h1 : ¬ 3 ∣ 
 theorem sylow_comm_proj_SL_of_le_two (hF : ¬ 3 ∣ Nat.card F) {n : ℕ} (hn : n ≤ 2) :
     ∀ S : Sylow 3 (StatedProj (StatedSL n F)),
       IsMulCommutative (S : Subgroup (StatedProj (StatedSL n F))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hc := sylow_isMulCommutative_of_sigmaModel_of_lt Nat.prime_three
     (lt_of_le_of_lt (Nat.div_le_self _ _) (by omega : n < 3))
@@ -419,7 +419,7 @@ theorem dichLieCross_PSL (hLie : LieOrderFormulasInput) : DichLieCrossAt .PSL :=
       rw [mem_statedSL_iff, det_permGL, sign_finRotate]
       simp
     ·
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hN : Nat.card K * Nat.gcd 3 (ℓ ^ f - 1) =
           CFSG.ComponentClassification.CatLeaf.lieOrderNumerator .PSL 3 (ℓ ^ f) :=
         (hLie K .PSL 3 ℓ f hadm hmodel).2.1

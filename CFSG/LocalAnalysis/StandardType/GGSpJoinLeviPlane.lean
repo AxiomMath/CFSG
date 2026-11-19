@@ -87,7 +87,7 @@ private theorem inr_zero_notMem_range_succ (m : ℕ) :
 private theorem mat_spLeviBlock_apply_of_notMem {m : ℕ} (h : StatedSp m F)
     {a b : Fin (m + 1) ⊕ Fin (m + 1)}
     (ha : a ∉ Set.range (Sum.map Fin.succ Fin.succ : Fin m ⊕ Fin m → Fin (m + 1) ⊕ Fin (m + 1)))
-    (hb : b ∉ Set.range (Sum.map Fin.succ Fin.succ : Fin m ⊕ Fin m → Fin (m + 1) ⊕ Fin (m + 1))) :
+    (_hb : b ∉ Set.range (Sum.map Fin.succ Fin.succ : Fin m ⊕ Fin m → Fin (m + 1) ⊕ Fin (m + 1))) :
     mat (m + 1) F (CFSG.StandardType.spLeviBlock m F h) a b =
       (1 : Matrix (Fin (m + 1) ⊕ Fin (m + 1)) (Fin (m + 1) ⊕ Fin (m + 1)) F) a b := by
   rw [CFSG.StandardType.spLeviBlock, mat_spEmbed]
@@ -219,7 +219,7 @@ theorem spPlaneTorus_succ {m : ℕ} (ζ : Multiplicative (ZMod p) →* SpecialLi
         have htail0 : Fin.tail (Pi.mulSingle
             (M := fun _ : Fin (m + 1) => Multiplicative (ZMod p)) (0 : Fin (m + 1)) a) = 1 := by
           funext l
-          simp [Fin.tail, Pi.mulSingle_apply, Fin.succ_ne_zero]
+          simp [Fin.tail, Fin.succ_ne_zero]
         simp [Pi.mulSingle_eq_same, htail0]
     | succ j =>
         have htail : Fin.tail (Pi.mulSingle
@@ -227,8 +227,7 @@ theorem spPlaneTorus_succ {m : ℕ} (ζ : Multiplicative (ZMod p) →* SpecialLi
             (Pi.mulSingle (M := fun _ : Fin m => Multiplicative (ZMod p)) j a) := by
           funext l
           simp [Fin.tail, Pi.mulSingle_apply, Fin.succ_inj]
-        simp [htail, spPlaneTorus_mulSingle, spLeviBlock_lam, Pi.mulSingle_apply,
-          Fin.succ_ne_zero]
+        simp [htail, spPlaneTorus_mulSingle, spLeviBlock_lam, Fin.succ_ne_zero]
   calc spPlaneTorus (m + 1) ζ f
       = ((spPlaneLevi m F).comp
           ((ζ.comp (Pi.evalMonoidHom (fun _ : Fin (m + 1) => Multiplicative (ZMod p)) 0)).prod

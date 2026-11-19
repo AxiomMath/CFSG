@@ -88,7 +88,7 @@ public theorem lemma113_burnside_prime_power_involution_class_false
     by_contra hnotOdd
     have hEven : Even (Nat.card H) := Nat.not_odd_iff_even.mp hnotOdd
     have htwo : 2 ∣ Nat.card H := even_iff_two_dvd.mp hEven
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, huOrder⟩ :=
       exists_prime_orderOf_dvd_card' (G := H) 2 htwo
     have huData := orderOf_eq_prime_iff.mp huOrder

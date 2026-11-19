@@ -9,6 +9,7 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [CharP K 2] in
 theorem exists_scalar_ne_zero_one (hq : 4 ≤ Nat.card K) : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   by_contra h
   push Not at h

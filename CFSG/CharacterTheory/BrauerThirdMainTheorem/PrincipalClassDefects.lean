@@ -54,7 +54,7 @@ theorem principal_class_nonzero_defect_sylow {G : Type*} [Group G] [Finite G]
     intro hdivides
     rw [centralChar_trivial_classCard] at hnonzero
     exact hnonzero (localMaxIdeal_natCast_of_dvd m hm prime hprimeMem hdivides)
-  obtain ⟨point, hpoint⟩ := pGroup_exists_fixed_of_not_dvd_card prime hprime sylow.isPGroup' points hcard
+  obtain ⟨point, hpoint⟩ := pGroup_exists_fixed_of_not_dvd_card prime hprime sylow.isPGroup points hcard
   have hcentralizes : (sylow : Subgroup G) ≤ Subgroup.centralizer {point.val} := by
     intro member hmember
     apply Subgroup.mem_centralizer_iff.mpr
@@ -64,7 +64,7 @@ theorem principal_class_nonzero_defect_sylow {G : Type*} [Group G] [Finite G]
     change member * point.val * member⁻¹ = point.val at hfixed
     exact ((mul_inv_eq_iff_eq_mul).mp hfixed).symm
   have hsubconjugate := pGroup_centralizes_subconjugate_classDefect prime hprime
-    point.property sylow.isPGroup' hcentralizes hdefect
+    point.property sylow.isPGroup hcentralizes hdefect
   obtain ⟨extension, hextension⟩ := (classDefect_isPGroup prime hdefect).exists_le_sylow
   have hcardSylow := Nat.card_congr (sylow.equiv extension).toEquiv
   have hequal : defect = (extension : Subgroup G) :=
@@ -78,7 +78,7 @@ theorem sylow_classDefect_in_subgroup {G : Type*} [Group G]
     (hcentralizes : (sylow : Subgroup G) ≤ Subgroup.centralizer {element.val}) :
     classDefect prime (ConjClasses.mk element) ((sylow : Subgroup G).subgroupOf overgroup) := by
   have hpLocal : IsPGroup prime ((sylow : Subgroup G).subgroupOf overgroup) :=
-    sylow.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hinclusion).symm
+    sylow.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hinclusion).symm
   have hcentralizesLocal : (sylow : Subgroup G).subgroupOf overgroup ≤ Subgroup.centralizer {element} := by
     intro member hmember
     apply Subgroup.mem_centralizer_iff.mpr

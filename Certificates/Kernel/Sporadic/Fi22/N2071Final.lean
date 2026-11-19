@@ -105,7 +105,7 @@ theorem img_of_nbrInv {n : ℕ} {nbr : Array (List ℕ)} {g : Array ℕ} {G : Eq
   refine (hnbr (G ⟨x, hx⟩)).eq_of_finSet_eq hp ?_
   rw [hs]
   ext q
-  simp only [finSet, Set.mem_setOf_eq, Set.mem_smul_set, Equiv.Perm.smul_def]
+  simp only [finSet, Set.mem_ofPred_eq, Set.mem_smul_set, Equiv.Perm.smul_def]
   constructor
   · intro hq
     refine ⟨G⁻¹ q, (hG ⟨x, hx⟩ (G⁻¹ q)).2 ?_, CFSG.Certificates.perm_apply_inv_self G q⟩

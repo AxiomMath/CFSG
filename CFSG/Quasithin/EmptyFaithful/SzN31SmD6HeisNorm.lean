@@ -75,7 +75,7 @@ theorem exists_semidihedral_normalizer {Pb : Subgroup (GLV V)} {x y z : GLV V} (
     (hz : rho B z = mZ) :
     ∃ S₀ : Subgroup (GLV V), S₀ ≤ Subgroup.normalizer (Pb : Set (GLV V)) ∧ Nat.card S₀ = 16 ∧
       Nonempty (↥S₀ ≃* SemidihedralGroup 4) := by
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) DFunLike.coe_injective
   have hmA7 : mA * mA ^ 7 = 1 := by rw [← pow_succ']; exact mA_pow_eight
   have hmA7' : mA ^ 7 * mA = 1 := by rw [← pow_succ]; exact mA_pow_eight

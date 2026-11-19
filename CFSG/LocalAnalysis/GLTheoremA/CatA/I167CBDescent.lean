@@ -118,7 +118,7 @@ theorem rho_apply_of_mem {Y : Type} [Group Y] {X B : Subgroup Y}
     apply congrArg QuotientGroup.mk
     apply Subtype.ext
     simp only [normalizerConjAutOfMem, Subgroup.normalizerMonoidHom_apply_apply_coe,
-      Subgroup.coe_inclusion, Subtype.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+      Subgroup.coe_inclusion, Subgroup.coe_mul, Subgroup.coe_inv]
 
 theorem scpS_of_sc {Y : Type} [Group Y] {p : ℕ} (hp : p.Prime) {X B : Subgroup Y}
     (hBN : B ≤ Subgroup.normalizer (X : Set Y)) (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥X))
@@ -139,7 +139,7 @@ theorem scpS_of_sc {Y : Type} [Group Y] {p : ℕ} (hp : p.Prime) {X B : Subgroup
   · rw [hy1, QuotientGroup.mk_one, map_one]
     exact one_mem _
   · have hyY : (y : Y) ≠ 1 := fun h => hy1 (Subtype.ext h)
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hord : orderOf (y : Y) = p := orderOf_eq_prime (by rw [← Subgroup.coe_pow, hyp]; rfl) hyY
     have hyB : (y : Y) ∈ B := hSC y (Subgroup.mem_sup_left y.2) hcent hord
     exact ⟨⟨y, hyB⟩, rho_apply_of_mem hBN hyB⟩
@@ -249,7 +249,7 @@ theorem orderOf_rho_eq {Y : Type} [Group Y] {p : ℕ} (hp : p.Prime) {X B : Subg
     (hX : Group.IsPerfect ↥X) (hBN : B ≤ Subgroup.normalizer (X : Set Y)) {x : Y} (hxB : x ∈ B)
     (hxp : x ^ p = 1) (hxX : x ∉ Subgroup.centralizer (X : Set Y)) :
     orderOf (normalizerToCenterQuotientAut X B hBN ⟨x, hxB⟩) = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   apply orderOf_eq_prime
   · rw [← map_pow]
     have : (⟨x, hxB⟩ : ↥B) ^ p = 1 := Subtype.ext hxp
@@ -260,7 +260,7 @@ theorem orderOf_rho_eq {Y : Type} [Group Y] {p : ℕ} (hp : p.Prime) {X B : Subg
 theorem isElemAbelian_rho_range {Y : Type} [Group Y] {p : ℕ} {X B : Subgroup Y}
     (hBN : B ≤ Subgroup.normalizer (X : Set Y)) (hB : IsElemAbelian p B) :
     IsElemAbelian p (normalizerToCenterQuotientAut X B hBN).range := by
-  haveI := hB.1
+  have := hB.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
   · obtain ⟨a, ha⟩ := a
     obtain ⟨b, hb⟩ := b

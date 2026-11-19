@@ -45,7 +45,7 @@ theorem noL34OuterAt_triD4 (hA2 : TriD4A2NoL34) : NoL34OuterAt FamTriD4 := by
     · exact absurd h (by decide)
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := OutTri.exists_graphFixed_of_exceptionalModel hexc
   obtain ⟨hp, hf, -⟩ := hadm
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   refine noL34Layer_congr e ?_
   have hφ3 : (MulAut.congr e ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hφ : MulAut.congr e ψ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
@@ -74,9 +74,9 @@ theorem noL34OuterAt_d4_of_order (hO : LieOrderFormulasInput) (hA2 : TriD4A2NoL3
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := hC
   obtain ⟨e'⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E : P ≃* adjointGroup Tag.D4 K := e.trans e'
-  haveI := D4Aux.finite_adjointD4 K
+  have := D4Aux.finite_adjointD4 K
   refine noL34Layer_congr E ?_
   have hα3 : MulAut.congr E ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hα : MulAut.congr E ψ ∉

@@ -24,7 +24,7 @@ theorem reflectionMatrix_mul_diagonal {i : ℕ} (hi : 1 ≤ i) (hin : i < m) (d 
   rw [mul_diagonal, mul_diagonal, diagonal_mul, mul_diagonal, LinearFlag.permMatrix_apply]
   by_cases h : a = Equiv.swap (⟨i - 1, by omega⟩ : Fin m) ⟨i, hin⟩ b
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     ring
   · simp [h]
 

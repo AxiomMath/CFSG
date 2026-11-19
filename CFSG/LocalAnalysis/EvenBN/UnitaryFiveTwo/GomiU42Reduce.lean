@@ -37,21 +37,25 @@ theorem π₂_injOn_two {P : Subgroup B} (hP : IsPGroup 2 P) : Set.InjOn (π₂q
   have h1 : π₁q e x = π₁q e y := hL.injOn_two _ hPm ⟨x, hx, rfl⟩ ⟨y, hy, rfl⟩ hxy
   exact h.injOn_of_isPGroup hP hx hy h1
 
+omit [Finite B] in
 theorem map_Kt_π₁ : (Kt J₀).map (π₁q e) = Qq e J₀ := by
   rw [Kt, Qq, map_normalClosure _ _ (QuotientGroup.mk'_surjective _)]
   congr 1
 
 include hL in
+omit [Finite B] in
 theorem map_Kt_π₂ : (Kt J₀).map (π₂q e) = Dq e J₀ := by
   rw [π₂q, ← Subgroup.map_map, map_Kt_π₁]
   exact hL.map_Q
 
 include h in
+omit [(zpowers e).Normal] in
 theorem GomiU42Setup.perfect_J₀ : ⁅J₀, J₀⁆ = J₀ := by
-  haveI := h.isSimpleGroup_J₀
+  have := h.isSimpleGroup_J₀
   exact Subgroup.isPerfect_iff.1 (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonabelian_J₀).1.1
 
 include h in
+omit [(zpowers e).Normal] in
 theorem GomiU42Setup.perfect_Kt : ⁅Kt J₀, Kt J₀⁆ = Kt J₀ :=
   isPerfect_normalClosure_of_perfect h.perfect_J₀
 
@@ -61,6 +65,7 @@ section Part2
 
 variable (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
 
+omit [Finite B] in
 theorem mem_Qq_of_mem_Kt {x : B} (hx : x ∈ Kt J₀) : π₁q e x ∈ Qq e J₀ := by
   rw [← map_Kt_π₁]
   exact ⟨x, hx, rfl⟩
@@ -68,6 +73,7 @@ theorem mem_Qq_of_mem_Kt {x : B} (hx : x ∈ Kt J₀) : π₁q e x ∈ Qq e J₀
 @[expose] noncomputable def fKt (e : B) (J₀ : Subgroup B) [(zpowers e).Normal] : ↥(Kt J₀) →* ↥(Qq e J₀) :=
   ((π₁q e).comp (Kt J₀).subtype).codRestrict (Qq e J₀) (fun x => mem_Qq_of_mem_Kt x.2)
 
+omit [Finite B] in
 theorem fKt_surjective : Function.Surjective (fKt e J₀) := by
   intro q
   have hq : (q : B ⧸ zpowers e) ∈ (Kt J₀).map (π₁q e) := by rw [map_Kt_π₁]; exact q.2
@@ -129,6 +135,7 @@ theorem eq_one_of_sq_eq_one_of_odd {H : Type*} [Group H] [Finite H]
 variable (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
 
 include h in
+omit [(zpowers e).Normal] in
 theorem GomiU42Setup.eq_one_of_mem_zpowers_e_of_sq {x : B} (hx : x ∈ zpowers e) (hsq : x * x = 1) : x = 1 := by
   obtain ⟨k, hk⟩ := mem_zpowers_iff.1 hx
   have h3 : x ^ 3 = 1 := by
@@ -140,7 +147,7 @@ theorem GomiU42Setup.eq_one_of_mem_zpowers_e_of_sq {x : B} (hx : x ∈ zpowers e
 
 include h hL in
 theorem odd_card_center_Kt : Odd (Nat.card (center ↥(Kt J₀))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have hev : 2 ∣ Nat.card (center ↥(Kt J₀)) := by
     rcases Nat.even_or_odd (Nat.card (center ↥(Kt J₀))) with h' | h'
@@ -180,6 +187,7 @@ variable (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
     rw [← map_Kt_π₂ hL]
     exact ⟨x, x.2, rfl⟩)
 
+omit [Finite B] in
 theorem gKt_surjective : Function.Surjective (gKt hL) := by
   intro q
   have hq : (q : Xq e) ∈ (Kt J₀).map (π₂q e) := by rw [map_Kt_π₂ hL]; exact q.2
@@ -223,14 +231,14 @@ variable (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
 
 include h in
 theorem isElementaryAbelian_Ex : CFSG.IsElementaryAbelian 2 ↥(E₂.map (π₂q e)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.elementary
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.elementary
   exact IsElementaryAbelian.map (π₂q e)
 
 include h hL in
 theorem card_Ex : Nat.card ↥(E₂.map (π₂q e)) = 2 ^ 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.elementary
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.elementary
   rw [GomiU42Setup.card_map_of_injOn _ E₂ (π₂_injOn_two h hL (IsElementaryAbelian.isPGroup 2 E₂)), h.card_E₂]
 
 include h in
@@ -275,8 +283,8 @@ include h hL in
 theorem card_inf_Ex :
     Nat.card ↥((E₂.map (π₂q e)) ⊓ centralizer ({π₂q e t} : Set (Xq e)) : Subgroup (Xq e)) =
       2 ^ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.elementary
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.elementary
   rw [inf_centralizer_Ex h hL, GomiU42Setup.card_map_of_injOn _ _
     (π₂_injOn_two h hL ((IsElementaryAbelian.isPGroup 2 E₂).to_le (inf_le_left : E₂ ⊓
       centralizer ({t} : Set B) ≤ E₂))), h.card_inf]
@@ -296,7 +304,7 @@ variable (h : GomiU42Setup B e t J₀ E₂) (hL : LayerOut e t J₀)
 
 include h hL in
 theorem orderOf_π₂_t : orderOf (π₂q e t) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : orderOf (π₁q e t) = 2 := h.orderOf_mk_t
   have hpg : IsPGroup 2 ↥(zpowers (π₁q e t)) :=
     IsPGroup.of_card (by rw [Nat.card_zpowers, hF]; exact (pow_one 2).symm)
@@ -324,7 +332,7 @@ theorem GomiU42Setup.data_of_simple
     (hlt : (J₀.map (π₁q e)).map (θq e) < Dq e J₀)
     (hcent : centralizer ((Dq e J₀ : Subgroup (Xq e)) : Set (Xq e)) = ⊥) :
     GomiU42Data (Xq e) ((J₀.map (π₁q e)).map (θq e)) (Dq e J₀) (E₂.map (π₂q e)) (π₂q e t) := by
-  haveI := hsimple
+  have := hsimple
   exact
     { kGroup := hL.kGroup
       oddCore := hL.oddCore
@@ -369,7 +377,7 @@ theorem layer_le_Kt : CFSG.layer B ≤ Kt J₀ := by
       have hq' : q ∈ (Kt J₀).map (π₁q e) := by rw [map_Kt_π₁]; exact hq
       obtain ⟨k, hk, rfl⟩ := hq'
       rw [← map_mul, ← map_mul, mem_centralizer_iff.1 (hCc hc) k hk]
-    haveI := hL.R_abelian
+    have := hL.R_abelian
     have hcomm1 : ∀ g ∈ C, ∀ g' ∈ C, ⁅g, g'⁆ ∈ zpowers e := by
       intro g hg g' hg'
       have h1 : π₁q e g * π₁q e g' = π₁q e g' * π₁q e g :=
@@ -391,6 +399,7 @@ theorem layer_le_Kt : CFSG.layer B ≤ Kt J₀ := by
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hxy]
 
 include hL in
+omit [Finite B] [(zpowers e).Normal] hL in
 theorem Kt_le_layer (hq : CFSG.IsQuasisimple ↥(Kt J₀)) : Kt J₀ ≤ CFSG.layer B := by
   rw [CFSG.layer.eq_sSup B]
   exact le_sSup ⟨hq, (inferInstance : (Kt J₀).Normal).isSubnormal⟩
@@ -446,7 +455,7 @@ theorem GomiU42Setup.simple_branch (hGA : CFSG.Open.GriessAllModelsStatement)
   have hDJ := hdata.inf_centralizer_eq hnot
   have hinf := Kt_inf_centralizer h hL hz hDJ
   let eKD := h.equivKtD' hL hz
-  haveI := hsimple
+  have := hsimple
   have hsimpleK : IsSimpleGroup ↥(Kt J₀) := eKD.isSimpleGroup
   have hnabK : ∃ x y : ↥(Kt J₀), x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnab
@@ -455,7 +464,7 @@ theorem GomiU42Setup.simple_branch (hGA : CFSG.Open.GriessAllModelsStatement)
     simpa only [map_mul, MulEquiv.apply_symm_apply] using h''
   have hq : CFSG.IsQuasisimple ↥(Kt J₀) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnabK).1
-  have hlayer : CFSG.layer B = Kt J₀ := le_antisymm (layer_le_Kt h hL) (Kt_le_layer hL hq)
+  have hlayer : CFSG.layer B = Kt J₀ := le_antisymm (layer_le_Kt h hL) (Kt_le_layer hq)
   refine ⟨by rw [hlayer]; exact hinf, ?_⟩
   rw [hlayer]
   exact lieModel_of_mulEquiv_classical eKD (by decide) hlie

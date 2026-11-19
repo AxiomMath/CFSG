@@ -227,6 +227,7 @@ section Final
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {n : ℕ} {z : G}
   {e : L ≃* alternatingGroup (Fin n)}
 
+omit [Finite G] in
 theorem LiftData.rootDichotomy (P : LiftData e z) (hn : 11 ≤ n) : RootDichotomy e z := by
   intro S S' hS hS' ψ ψ' hψ hψ'
   obtain ⟨c, hc⟩ := rootLift_rel_all_w P hn hS hS' hψ hψ'
@@ -234,6 +235,7 @@ theorem LiftData.rootDichotomy (P : LiftData e z) (hn : 11 ≤ n) : RootDichotom
   · exact Or.inl hc
   · exact Or.inr hc
 
+omit [Finite G] in
 theorem LiftData.exists_wreathPair (P : LiftData e z) (hn : 11 ≤ n) :
     ∃ H : Subgroup G, WreathPair L z n H := by
   have hdich := P.rootDichotomy hn

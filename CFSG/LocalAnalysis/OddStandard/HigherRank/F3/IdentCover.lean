@@ -31,9 +31,9 @@ theorem false_of_central_cover {P Q : Type} [Group P] [Finite P] [Group Q] [Fini
       exact (dvd_pow_self 2 hk0).trans hkb
     exact (not_two_dvd_card_ker_of_full_cover f hf hk hP hQ hO hpc) h2dvd
   ·
-    haveI : Group.IsPerfect P := hP
-    haveI : Group.IsPerfect Q := hQ.1
-    haveI : Group.IsPerfect (Q ⧸ center Q) :=
+    have : Group.IsPerfect P := hP
+    have : Group.IsPerfect Q := hQ.1
+    have : Group.IsPerfect (Q ⧸ center Q) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (center Q))
         (QuotientGroup.mk'_surjective _)
     set φ : P →* Q ⧸ center Q := (QuotientGroup.mk' (center Q)).comp f with hφ

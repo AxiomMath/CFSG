@@ -18,12 +18,12 @@ theorem twoNilp_of_hom_central_two_kernel {D A : Type} [Group D] [Finite D] [Gro
   let ι : ↥f.ker →* ↥(N.comap f) := Subgroup.inclusion hker
   have hι : Function.Injective ι := Subgroup.inclusion_injective hker
   let Q : Subgroup ↥(N.comap f) := (S : Subgroup ↥f.ker).map ι
-  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup'.map ι
+  have hQ2 : IsPGroup 2 ↥Q := S.isPGroup.map ι
   have hQc : Q ≤ Subgroup.center ↥(N.comap f) := by
     rintro _ ⟨s, hs, rfl⟩
     rw [Subgroup.mem_center_iff]
     intro g
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨s, hs⟩
     have hs2 : ((s : ↥f.ker) : D) ^ 2 ^ m = 1 := by
       have h1 := congrArg (fun x : ↥(S : Subgroup ↥f.ker) => (((x : ↥f.ker)) : D)) hm
       simpa using h1

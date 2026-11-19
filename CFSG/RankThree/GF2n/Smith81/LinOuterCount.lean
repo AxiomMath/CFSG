@@ -70,7 +70,7 @@ variable {G : Type} [Group G]
 theorem factorization_card_of_lieModel_psl {Y : Type} [Group Y] {n f : ℕ} (hn : 1 ≤ n)
     (hL : CFSG.Blueprint.LieModel Y .PSL (n + 2) 2 f) :
     (Nat.card Y).factorization 2 = f * ((n + 1) * (n + 2) / 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 0 < f := hL.admissible.2.1
   have hY : Nat.card Y = ordA (n + 1) (2 ^ f) := by
     have h := (CFSG.Timmesfeld.card_statedClassicalModel_two
@@ -192,7 +192,7 @@ theorem outerOnFStar_of_lieModel_psl [Finite G]
   have hcardM := Subgroup.relIndex_mul_card (H := Subgroup.normalizer (W₁ : Set G)) (K := M)
   rw [hW.relIndex_normalizer_eq_two hc hn hcls] at hcardM
   obtain ⟨-, -, -, -, -, -, hLN, -, -, -⟩ := hW.basic
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨k, hk⟩ := Subgroup.card_dvd_of_le (le_inf hLN (Lgen_le_M hc))
   have hdvdG : 2 * Nat.card (Lgen M (LB M Q B)) ∣ Nat.card G :=
     (Dvd.intro k (by rw [← hcardM, hk]; ring)).trans (Subgroup.card_subgroup_dvd_card M)

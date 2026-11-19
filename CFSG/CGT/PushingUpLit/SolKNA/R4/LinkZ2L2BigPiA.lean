@@ -49,7 +49,7 @@ private theorem mk_eq_of_mul_inv_mem_oddCoreOf {Λ : Subgroup G} {a b : G} (ha :
       (Subgroup.inv_mem _ hO) (⟨b, hb⟩ : ↥Λ)⁻¹
   convert h1 using 1
   ext
-  simp only [Subgroup.coe_inv, Subgroup.coe_mul, Subgroup.coe_mk]
+  simp only [Subgroup.coe_inv, Subgroup.coe_mul]
   group
 
 theorem actAut_eq_one_iff [Finite G] {Λ : Subgroup G} {x : G}
@@ -66,7 +66,7 @@ theorem actAut_eq_one_iff [Finite G] {Λ : Subgroup G} {x : G}
         ↥Λ ⧸ classicalInvolutionOddCore ↥Λ) = QuotientGroup.mk (⟨z, hz⟩ : ↥Λ) := by
       have hL : (Λ.normalizerMonoidHom ⟨x, hx⟩ ⟨z, hz⟩ : ↥Λ) = ⟨x * z * x⁻¹, hzx⟩ :=
         Subtype.ext (by
-          simpa using Subgroup.normalizerMonoidHom_apply_apply_coe Λ ⟨x, hx⟩ ⟨z, hz⟩)
+          simp)
       change QuotientGroup.mk (Λ.normalizerMonoidHom ⟨x, hx⟩ ⟨z, hz⟩) =
         QuotientGroup.mk (⟨z, hz⟩ : ↥Λ) at hcongr
       rwa [hL] at hcongr
@@ -79,7 +79,7 @@ theorem actAut_eq_one_iff [Finite G] {Λ : Subgroup G} {x : G}
     have hzx : x * ↑z * x⁻¹ ∈ Λ := (Subgroup.mem_normalizer_iff.mp hx (z : G)).mp z.2
     have hL : (Λ.normalizerMonoidHom ⟨x, hx⟩ z : ↥Λ) = ⟨x * ↑z * x⁻¹, hzx⟩ :=
       Subtype.ext (by
-        simpa using Subgroup.normalizerMonoidHom_apply_apply_coe Λ ⟨x, hx⟩ z)
+        simp)
     rw [hL]
     exact mk_eq_of_mul_inv_mem_oddCoreOf hzx z.2 (h (z : G) z.2)
 
@@ -98,7 +98,7 @@ theorem actAut_eq_conj_iff [Finite G] {Λ : Subgroup G} {x w : G}
       ← QuotientGroup.mk_mul] at hcongr
     have hL : (Λ.normalizerMonoidHom ⟨x, hx⟩ ⟨z, hz⟩ : ↥Λ) = ⟨x * z * x⁻¹, hzx⟩ :=
       Subtype.ext (by
-        simpa using Subgroup.normalizerMonoidHom_apply_apply_coe Λ ⟨x, hx⟩ ⟨z, hz⟩)
+        simp)
     have hR : ((⟨w, hw⟩ : ↥Λ) * ⟨z, hz⟩ * (⟨w, hw⟩ : ↥Λ)⁻¹) = ⟨w * z * w⁻¹, hzw⟩ := rfl
     rw [hL, hR] at hcongr
     exact mul_inv_mem_oddCoreOf_of_mk_eq hzx hzw hcongr
@@ -111,7 +111,7 @@ theorem actAut_eq_conj_iff [Finite G] {Λ : Subgroup G} {x w : G}
     have hzw : w * ↑z * w⁻¹ ∈ Λ := Λ.mul_mem (Λ.mul_mem hw z.2) (Λ.inv_mem hw)
     have hL : (Λ.normalizerMonoidHom ⟨x, hx⟩ z : ↥Λ) = ⟨x * ↑z * x⁻¹, hzx⟩ :=
       Subtype.ext (by
-        simpa using Subgroup.normalizerMonoidHom_apply_apply_coe Λ ⟨x, hx⟩ z)
+        simp)
     have hR : ((⟨w, hw⟩ : ↥Λ) * z * (⟨w, hw⟩ : ↥Λ)⁻¹) = ⟨w * ↑z * w⁻¹, hzw⟩ := rfl
     rw [hL, hR]
     exact mk_eq_of_mul_inv_mem_oddCoreOf hzx hzw (h (z : G) z.2)

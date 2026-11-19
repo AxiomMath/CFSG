@@ -58,7 +58,7 @@ theorem twBase_twistHom_fix (K : Type) [Field K] (σ : K ≃+* K) (q : ℕ)
 theorem exists_pow_ringChar_of_card_sq (K : Type) [Field K] [Finite K] (q : ℕ)
     (hK : Nat.card K = q ^ 2)
     (hq : 2 ≤ q) : Nat.Prime (ringChar K) ∧ ∃ f : ℕ, 1 ≤ f ∧ q = ringChar K ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hK]
@@ -121,9 +121,9 @@ theorem twHighPlaneContained_two_of_pieces (hI : TwHighIsotropic_two) (hN : TwHi
     have h3 : 3 ∣ 3 ^ f := dvd_pow_self 3 (by omega)
     omega
   obtain ⟨K₁, _, _, ι₁, S, hS, hAS⟩ := hI (ringChar K ^ f) K σ hK hσ hq hq3 E₀ hexp hcard hn
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
-  haveI : ExpChar (AlgebraicClosure K) (ringChar K) := ExpChar.prime hp
+  have : ExpChar (AlgebraicClosure K) (ringChar K) := ExpChar.prime hp
   set Fr : AlgebraicClosure K →+* AlgebraicClosure K :=
     iterateFrobenius (AlgebraicClosure K) (ringChar K) f with hFrdef
   have hFr : ∀ c, Fr c = c ^ (ringChar K ^ f) := fun c => by

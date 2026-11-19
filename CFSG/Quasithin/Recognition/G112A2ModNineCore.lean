@@ -45,7 +45,7 @@ theorem nine_dec3 {p q r : Fin 3} (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q ≠ r
     a = nineCoordP q a • (⟨Pi.single p 1 + Pi.single q 1, nine_pair_sum p q hpq⟩ : permCore 3) +
       nineCoordP r a • (⟨Pi.single p 1 + Pi.single r 1, nine_pair_sum p r hpr⟩ : permCore 3) := by
   apply Subtype.ext
-  simp only [Submodule.coe_add, Submodule.coe_smul, Submodule.coe_mk, nineCoordP_apply]
+  simp only [Submodule.coe_add, Submodule.coe_smul, nineCoordP_apply]
   exact nine_swap_coords p q r hpq hpr hqr a.1 a.2
 
 theorem coe_nineAct_nine (σ : Equiv.Perm (Fin 3)) (a : permCore 3) :
@@ -77,8 +77,7 @@ theorem nine_clause_of_model {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fi
     have key : ∀ z : permCore 3 ⊗[ZMod 2] Q,
         ψ (t (ψ.symm z)) = TensorProduct.map (nineAct 3 σ) τ z := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a b => rw [hστ a b, TensorProduct.map_tmul]
       | add x y hx hy => simp only [map_add, hx, hy]
     intro x
@@ -100,8 +99,7 @@ theorem nine_clause_of_model {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fi
     push Not at hcon
     have hz : ∀ z : permCore 3 ⊗[ZMod 2] Q, z = 0 := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => rfl
+      induction z using TensorProduct.inductionOn with
       | tmul a b => rw [hcon b, TensorProduct.tmul_zero]
       | add x y hx hy => rw [hx, hy, add_zero]
     have hVsub : Subsingleton V := ⟨fun x y => ψ.injective ((hz _).trans (hz _).symm)⟩
@@ -125,8 +123,7 @@ theorem nine_clause_of_model {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fi
       have key : ∀ z : permCore 3 ⊗[ZMod 2] Q,
           ψ (γ (ψ.symm z)) = TensorProduct.map (nineAct 3 (finRotate 3)) LinearMap.id z := by
         intro z
-        induction z using TensorProduct.induction_on with
-        | zero => simp
+        induction z using TensorProduct.inductionOn with
         | tmul a b => rw [hγ a b, TensorProduct.map_tmul, LinearMap.id_apply]
         | add x y hx hy => simp only [map_add, hx, hy]
       intro x
@@ -137,8 +134,7 @@ theorem nine_clause_of_model {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fi
         TensorProduct.map LinearMap.id τ
           (TensorProduct.map (nineAct 3 (finRotate 3)) LinearMap.id z) := by
       intro z
-      induction z using TensorProduct.induction_on with
-      | zero => simp
+      induction z using TensorProduct.inductionOn with
       | tmul a b => simp [TensorProduct.map_tmul]
       | add x y hx hy => simp only [map_add, hx, hy]
     have hcomm : ∀ x : V, γ (t x) = t (γ x) := by

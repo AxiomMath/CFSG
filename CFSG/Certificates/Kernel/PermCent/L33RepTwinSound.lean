@@ -37,8 +37,8 @@ theorem ordAux_C (o : CV n) : ∀ (fuel k : Nat) (acc : CV n), acc = o ^ k →
     have ih := ordAux_C o fuel (k + 1) (acc * o) (by rw [h, pow_succ])
     rw [ordAux, ordRunC]
     by_cases ha : acc = 1
-    · rw [if_pos (e.2 ha), if_pos ha]
-    · rw [if_neg (mt e.1 ha), if_neg ha, ih]
+    · rw [ite_eq_left (e.2 ha), ite_eq_left ha]
+    · rw [ite_eq_right (mt e.1 ha), ite_eq_right ha, ih]
 
 theorem ordB_C (B : Nat) (o : CV n) : ordB B (ev o) = ordBC B o :=
   ordAux_C o B 1 o (pow_one o).symm
@@ -63,7 +63,7 @@ theorem pairsN_C (LN : List (CV n)) (t : CV n) (C : List (CV n)) :
     pairsN (LN.map ev) (ev t) (C.map ev) = pairsNC LN t C := by
   unfold pairsN pairsNC
   simp only [List.filter_map, List.all_map, List.any_map, Function.comp_def, q8B_C, pow3_C]
-  simp only [ev_mul', ev_inv', one_eq_ev, memB_C, decide_ev_eq, Bool.decide_and, comm_fast]
+  simp only [ev_mul', ev_inv', memB_C, decide_ev_eq, Bool.decide_and, comm_fast]
 
 theorem goodAt_C (B : Nat) (LN L : List (CV n)) (t : CV n) :
     (noOddB B (centB (L.map ev) (ev t)) && pairsN (LN.map ev) (ev t) (centB (L.map ev) (ev t))) =

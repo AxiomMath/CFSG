@@ -78,7 +78,7 @@ private theorem pow_three_eq_one_of_isBarMap {G : Type*} [Group G] [Finite G] {K
     {ψ : ↥K →* alternatingGroup (Fin 6)} (hψ : IsBarMap K (pCoreOf 2 K) ψ) {x : ↥K}
     {p : alternatingGroup (Fin 6)} (hp3 : p ^ 3 = 1) (hψx : ψ x = p)
     (hodd : Odd (orderOf (x : G))) : (x : G) ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx3 : ψ (x ^ 3) = 1 := by rw [map_pow, hψx, hp3]
   have hmem : ((x ^ 3 : ↥K) : G) ∈ pCoreOf 2 K := (hψ.ker_iff (x ^ 3)).mp hx3
   have hodd3 : Odd (orderOf ((x ^ 3 : ↥K) : G)) := by
@@ -131,11 +131,13 @@ private theorem inverted_pair_aux {p₁ p₂ : alternatingGroup (Fin 6)} (hcomm 
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 private theorem exists_member_element (h : Hyp711 V H E) :
     ∃ d ∈ V, d ∉ pCoreOf 2 H := by
   obtain ⟨-, -, -, hVO⟩ := mem_omegaSet.mp h.mem
   exact Set.not_subset.mp hVO
 
+omit [Finite G] in
 private theorem bar_involution (h : Hyp711 V H E)
     {ψ : ↥(kSub V H E) →* alternatingGroup (Fin 6)}
     (hψ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) ψ) {d : G}
@@ -150,7 +152,7 @@ private theorem bar_involution (h : Hyp711 V H E)
 private theorem isPGroup_ker_of_isBarMap
     {ψ : ↥(kSub V H E) →* alternatingGroup (Fin 6)}
     (hψ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) ψ) : IsPGroup 2 ψ.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (pCoreOf 2 (kSub V H E)) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   have heq : ψ.ker = (pCoreOf 2 (kSub V H E)).subgroupOf (kSub V H E) := by
     ext k
@@ -159,7 +161,8 @@ private theorem isPGroup_ker_of_isBarMap
   rw [heq]
   exact hp.comap_of_injective (kSub V H E).subtype Subtype.coe_injective
 
-private theorem conj_image_facts (h : Hyp711 V H E)
+omit [Finite G] in
+private theorem conj_image_facts (_h : Hyp711 V H E)
     {ψ : ↥(kSub V H E) →* alternatingGroup (Fin 6)} {d : G}
     (hdK : d ∈ kSub V H E) (hdV : d ∈ V) (hd2 : d * d = 1)
     {p : alternatingGroup (Fin 6)} {k : ↥(kSub V H E)} (hk : ψ k = p) (hp3 : p ^ 3 = 1)

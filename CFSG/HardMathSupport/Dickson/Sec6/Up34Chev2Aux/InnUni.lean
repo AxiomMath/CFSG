@@ -74,7 +74,7 @@ theorem up34C2Inn_TwAHigh_holds : Up34Chev2Inn FamTwAHigh := by
     have hp : q.p = 2 := hc
     have hm := blueprintLieModel_twistedA r q hv e
     obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hm.admissible hm
-    haveI : Finite (primeFormP h (idGram K (r + 1))) := Finite.of_equiv S e0.toEquiv
+    have : Finite (primeFormP h (idGram K (r + 1))) := Finite.of_equiv S e0.toEquiv
     have hpump' := hpump.of_congr e0
     rw [CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj] at hpump'
     exact not_up34Pumpup_conj_psu CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput

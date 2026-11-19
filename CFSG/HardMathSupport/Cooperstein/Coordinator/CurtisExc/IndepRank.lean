@@ -63,7 +63,7 @@ theorem linearIndependent_sub_one_translates [Fact p.Prime] [CharP k p] (hρ : I
       · subst hji
         rw [inv_mul_cancel, map_one, Module.End.one_apply, hfy]
         simp
-      · rw [if_neg hji]
+      · rw [ite_eq_right hji]
         obtain ⟨h, hh, e⟩ := nW_inv_mul D (b i) (b j)
         obtain ⟨ω, hω, hωe⟩ := cs.exists_isReduced ((b i)⁻¹ * b j)
         rw [e, hωe]

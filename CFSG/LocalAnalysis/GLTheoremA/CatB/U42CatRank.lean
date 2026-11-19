@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem x_not_mem_of_not_dvd {L : Subgroup G} {x : G} (hxL : x ∈ Subgroup.centralizer (L : Set G))
     (hxo : orderOf x = 3) (hz : ¬ 3 ∣ Nat.card (Subgroup.center (PQuot 3 L))) : x ∉ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hx
   set xL : ↥L := ⟨x, hx⟩ with hxL'
   set z : PQuot 3 L := pQuotHom 3 L xL with hzdef
@@ -54,8 +54,8 @@ theorem exists_rank_five (h3 : U42RankAt) {X L : Subgroup G} (hL : GLAPComponent
     (hxL : x ∈ Subgroup.centralizer (L : Set G)) (hxo : orderOf x = 3)
     (hS : catalogIs (PSimple 3 L) IsU42Host) :
     ∃ W : Subgroup G, W ≤ L ⊔ Subgroup.zpowers x ∧ IsElemAbelian 3 W ∧ Nat.card W = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect (PQuot 3 L) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect (PQuot 3 L) :=
     ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL).1⟩
   obtain ⟨hZ3, hZ4⟩ := h3 (PQuot 3 L) inferInstance hS
   have hker : ¬ 3 ∣ Nat.card (pQuotHom 3 L).ker := by

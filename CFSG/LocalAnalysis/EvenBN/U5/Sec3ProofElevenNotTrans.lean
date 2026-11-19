@@ -85,6 +85,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 def s311bImg (d : Data G h) (Z : Subgroup G) : Subgroup (s313bQ d) :=
   (Z.subgroupOf (s313bH d)).map (QuotientGroup.mk' (s313bO d))
 
+omit [Finite G] in
 theorem s311bmem_img_iff {Z : Subgroup G} (hZ : Z ≤ s313bH d) {x : s313bQ d} :
     x ∈ s311bImg d Z ↔ ∃ z ∈ Z, s313bTh d z = x := by
   constructor
@@ -176,22 +177,27 @@ variable (hp : d.ProductCaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit [Finite G] hp hS hP in
 theorem s311b_L₂_eq : d.L₂ = d.E ⊔ d.M₂ := k.s8.1
 
-theorem s311b_M₂_le_L₂ : d.M₂ ≤ d.L₂ := (s311b_L₂_eq hp k hS hP) ▸ le_sup_right
+omit [Finite G] hp hS hP in
+theorem s311b_M₂_le_L₂ : d.M₂ ≤ d.L₂ := (s311b_L₂_eq k) ▸ le_sup_right
 
+omit hp hS hP in
 theorem s311b_M₂_le_normalizer_E : d.M₂ ≤ normalizer (d.E : Set G) :=
-  (s311b_M₂_le_L₂ hp k hS hP).trans d.L₂_le_normalizer_E
+  (s311b_M₂_le_L₂ k).trans d.L₂_le_normalizer_E
 
+omit [Finite G] hp in
 theorem s311b_E_le_S : d.E ≤ S := (k.s9_1 S hS hP).1.symm ▸ le_sup_left
 
+omit [Finite G] hp in
 theorem s311b_E_inf_M₂ : d.E ⊓ d.M₂ = ⊥ := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, h11, -⟩ := k.s10_1 S hS hP
   have h2 := (k.s10_2 S hS hP).2.1.1
   refine eq_bot_iff.2 fun z hz => ?_
   have hz' : z ∈ d.E ⊓ (S ⊓ d.M₂) :=
     Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hz).1, Subgroup.mem_inf.2
-      ⟨s311b_E_le_S hp k hS hP (Subgroup.mem_inf.1 hz).1, (Subgroup.mem_inf.1 hz).2⟩⟩
+      ⟨s311b_E_le_S k hS hP (Subgroup.mem_inf.1 hz).1, (Subgroup.mem_inf.1 hz).2⟩⟩
   rw [← h2, h11.2] at hz'
   exact hz'
 
@@ -203,25 +209,27 @@ variable (hp : d.ProductCaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit hp hS hP in
 theorem s311b_K_le_normalizer_E : s313bK d ≤ normalizer (d.E : Set G) :=
-  (s313bK_le_M₂).trans (s311b_M₂_le_normalizer_E hp k hS hP)
+  (s313bK_le_M₂).trans (s311b_M₂_le_normalizer_E k)
 
+omit hp in
 theorem s311bOdd_Ohat : S311bOdd d (d.E ⊔ s313bK d) := by
   have hEL : d.E ≤ d.L₂ := d.E_le_L₂
-  have hKL : s313bK d ≤ d.L₂ := s313bK_le_M₂.trans (s311b_M₂_le_L₂ hp k hS hP)
+  have hKL : s313bK d ≤ d.L₂ := s313bK_le_M₂.trans (s311b_M₂_le_L₂ k)
   refine ⟨le_sup_left, sup_le hEL hKL, ?_, ?_⟩
-  · rw [s311b_L₂_eq hp k hS hP]
+  · rw [s311b_L₂_eq k]
     refine sup_le (fun e he => Subgroup.le_normalizer (mem_sup_left he)) fun m hm => ?_
-    exact Common.mem_normalizer_sup (s311b_M₂_le_normalizer_E hp k hS hP hm)
+    exact Common.mem_normalizer_sup (s311b_M₂_le_normalizer_E k hm)
       (s313bM₂_le_normalizer_K hm)
   · have h1 := Subgroup.relIndex_mul_card d.E (d.E ⊔ s313bK d)
     rw [inf_eq_left.2 (le_sup_left : d.E ≤ d.E ⊔ s313bK d)] at h1
-    have h2 := Common.card_sup_mul_card_inf_eq (s311b_K_le_normalizer_E hp k hS hP)
+    have h2 := Common.card_sup_mul_card_inf_eq (s311b_K_le_normalizer_E k)
     have hbot : d.E ⊓ s313bK d = ⊥ := by
       refine eq_bot_iff.2 fun z hz => ?_
       have : z ∈ d.E ⊓ d.M₂ := Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hz).1,
         s313bK_le_M₂ (Subgroup.mem_inf.1 hz).2⟩
-      rwa [s311b_E_inf_M₂ hp k hS hP] at this
+      rwa [s311b_E_inf_M₂ k hS hP] at this
     rw [hbot, Subgroup.card_bot, mul_one] at h2
     have hE : 0 < Nat.card d.E := Nat.card_pos
     have h3 : d.E.relIndex (d.E ⊔ s313bK d) = Nat.card (s313bK d) := by
@@ -236,15 +244,15 @@ theorem s311b_inf_le_K {Y : Subgroup G} (hY : S311bOdd d Y) : Y ⊓ d.M₂ ≤ s
   have hZM : Z ≤ d.M₂ := inf_le_right
   have hZH : Z ≤ s313bH d := hZM.trans (s313bM₂_le_H d)
   have hM₂Y : d.M₂ ≤ normalizer (Y : Set G) :=
-    (s311b_M₂_le_L₂ hp k hS hP).trans hY.2.2.1
+    (s311b_M₂_le_L₂ k).trans hY.2.2.1
   have hZodd : Odd (Nat.card Z) := by
-    have hZE : Z ≤ normalizer (d.E : Set G) := hZM.trans (s311b_M₂_le_normalizer_E hp k hS hP)
+    have hZE : Z ≤ normalizer (d.E : Set G) := hZM.trans (s311b_M₂_le_normalizer_E k)
     have h2 := Common.card_sup_mul_card_inf_eq hZE
     have hbot : d.E ⊓ Z = ⊥ := by
       refine eq_bot_iff.2 fun z hz => ?_
       have : z ∈ d.E ⊓ d.M₂ := Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hz).1,
         hZM (Subgroup.mem_inf.1 hz).2⟩
-      rwa [s311b_E_inf_M₂ hp k hS hP] at this
+      rwa [s311b_E_inf_M₂ k hS hP] at this
     rw [hbot, Subgroup.card_bot, mul_one] at h2
     have hle : d.E ⊔ Z ≤ Y := sup_le hY.1 inf_le_left
     have h3 := Subgroup.card_dvd_of_le hle
@@ -290,7 +298,7 @@ theorem s311bTyp_of_normal {D' : Subgroup (s313bQ d)} (hD'le : D' ≤ CFSG.layer
     S311bTyp d x := by
   have hPre_le : s313bPre d D' ≤ d.M₂ := s313bPre_le_M₂ D'
   have hPreE : s313bPre d D' ≤ normalizer (d.E : Set G) :=
-    hPre_le.trans (s311b_M₂_le_normalizer_E hp k hS hP)
+    hPre_le.trans (s311b_M₂_le_normalizer_E k)
   have hM₂Pre : d.M₂ ≤ normalizer ((s313bPre d D' : Subgroup G) : Set G) := by
     intro m hm
     refine mem_normalizer_fintype fun p hp' => ?_
@@ -300,11 +308,11 @@ theorem s311bTyp_of_normal {D' : Subgroup (s313bQ d)} (hD'le : D' ≤ CFSG.layer
     have hm' : s313bTh d m ∈ normalizer (D' : Set (s313bQ d)) :=
       hD'n (s313b_th_mem_layer hp hm)
     exact (mem_normalizer_iff.1 hm' _).1 hpD
-  refine ⟨d.E ⊔ s313bPre d D', sup_le d.E_le_L₂ (hPre_le.trans (s311b_M₂_le_L₂ hp k hS hP)),
-    ?_, ?_, d.E ⊔ s313bK d, s311bOdd_Ohat hp k hS hP, ?_⟩
-  · rw [s311b_L₂_eq hp k hS hP]
+  refine ⟨d.E ⊔ s313bPre d D', sup_le d.E_le_L₂ (hPre_le.trans (s311b_M₂_le_L₂ k)),
+    ?_, ?_, d.E ⊔ s313bK d, s311bOdd_Ohat k hS hP, ?_⟩
+  · rw [s311b_L₂_eq k]
     refine sup_le (fun e he => Subgroup.le_normalizer (mem_sup_left he)) fun m hm => ?_
-    exact Common.mem_normalizer_sup (s311b_M₂_le_normalizer_E hp k hS hP hm) (hM₂Pre hm)
+    exact Common.mem_normalizer_sup (s311b_M₂_le_normalizer_E k hm) (hM₂Pre hm)
   · intro Y hY hle
     obtain ⟨u₀, hu₀1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hD'1
     obtain ⟨m₀, hm₀, hm₀u⟩ := s313b_exists_th_eq hp (hD'le u₀.2)
@@ -317,7 +325,7 @@ theorem s311bTyp_of_normal {D' : Subgroup (s313bQ d)} (hD'le : D' ≤ CFSG.layer
   · intro n hn
     obtain ⟨e, he, m, hm, rfl⟩ := exists_mul_of_mem_sup_of_le_normalizer hPreE hn
     obtain ⟨hmM, hmD⟩ := s313bmem_Pre_iff.1 hm
-    have hxE : x ∈ normalizer (d.E : Set G) := s311b_M₂_le_normalizer_E hp k hS hP hx
+    have hxE : x ∈ normalizer (d.E : Set G) := s311b_M₂_le_normalizer_E k hx
     have hc : m * x * m⁻¹ * x⁻¹ ∈ s313bK d := by
       refine s313bmem_K_iff.2 ⟨mul_mem (mul_mem (mul_mem hmM hx) (inv_mem hmM)) (inv_mem hx), ?_⟩
       rw [s313bTh_comm (s313bM₂_le_H d hmM) (s313bM₂_le_H d hx)]
@@ -337,11 +345,11 @@ theorem s311b_not_Typ {D₁ D₂ : Subgroup (s313bQ d)} (hs₁ : IsSimpleGroup D
     {a b : s313bQ d} (ha : a ∈ D₁) (hb : b ∈ D₂) (ha1 : a ≠ 1) (hb1 : b ≠ 1)
     (hyab : s313bTh d y = a * b) : ¬ S311bTyp d y := by
   rintro ⟨N, hNL, hNn, hNY, Y₀, hY₀, hcomm⟩
-  have hM₂E := s311b_M₂_le_normalizer_E hp k hS hP
-  have hNÔ : ¬ N ≤ d.E ⊔ s313bK d := hNY _ (s311bOdd_Ohat hp k hS hP)
-  obtain ⟨n₀, hn₀N, hn₀Ô⟩ := SetLike.not_le_iff_exists.1 hNÔ
+  have hM₂E := s311b_M₂_le_normalizer_E k
+  have hNÔ : ¬ N ≤ d.E ⊔ s313bK d := hNY _ (s311bOdd_Ohat k hS hP)
+  obtain ⟨n₀, hn₀N, hn₀Ô⟩ := IsConcreteLE.not_le_iff_exists.1 hNÔ
   have hn₀L : n₀ ∈ d.L₂ := hNL hn₀N
-  rw [s311b_L₂_eq hp k hS hP] at hn₀L
+  rw [s311b_L₂_eq k] at hn₀L
   obtain ⟨e, he, m₀, hm₀, rfl⟩ := exists_mul_of_mem_sup_of_le_normalizer hM₂E hn₀L
   have hNE : N ≤ normalizer (d.E : Set G) := hNL.trans d.L₂_le_normalizer_E
   have hENn : d.L₂ ≤ normalizer ((d.E ⊔ N : Subgroup G) : Set G) :=
@@ -373,7 +381,7 @@ theorem s311b_not_Typ {D₁ D₂ : Subgroup (s313bQ d)} (hs₁ : IsSimpleGroup D
     refine mem_normalizer_fintype fun t ht => ?_
     obtain ⟨z, hz, rfl⟩ := (s311bmem_img_iff hNMH).1 ht
     refine (s311bmem_img_iff hNMH).2 ⟨m * z * m⁻¹, ?_, ?_⟩
-    · exact Subgroup.mem_inf.2 ⟨(mem_normalizer_iff.1 (hENn ((s311b_M₂_le_L₂ hp k hS hP) hm)) z).1
+    · exact Subgroup.mem_inf.2 ⟨(mem_normalizer_iff.1 (hENn ((s311b_M₂_le_L₂ k) hm)) z).1
           (Subgroup.mem_inf.1 hz).1, mul_mem (mul_mem hm (hNMM hz)) (inv_mem hm)⟩
     · exact s313bTh_conj (s313bM₂_le_H d hm) (hNMH hz)
   have hcen : ∀ t ∈ T, t * (a * b) = (a * b) * t := by
@@ -404,11 +412,14 @@ variable (hp : d.ProductCaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit hp k hP in
 theorem s311b_S_le_normalizer_E : S ≤ normalizer (d.E : Set G) :=
   hS.le.trans d.L₂_le_normalizer_E
 
+omit [Finite G] hp in
 theorem s311b_D_le_S : d.D ≤ S := (k.s9_1 S hS hP).1.symm ▸ le_sup_right
 
+omit [Finite G] hp in
 theorem s311b_R₂_le_D : S ⊓ d.M₂ ≤ d.D := by
   have h1 := (k.s9a S hS hP).cD₂
   have h2 := (k.s10_2 S hS hP).2.1.1
@@ -417,63 +428,69 @@ theorem s311b_R₂_le_D : S ⊓ d.M₂ ≤ d.D := by
   rw [← h1] at hx'
   exact (Subgroup.mem_inf.1 hx').1
 
+omit [Finite G] hp in
 theorem s311b_F_central {f' y : G} (hf : f' ∈ d.F) (hy : y ∈ d.D) : f' * y = y * f' := by
   have h := (k.s9_2 S hS hP).2.2.2.1
   rw [← h] at hf
   exact (mem_centralizer_iff.1 (Subgroup.mem_inf.1 hf).2 y hy).symm
 
+omit [Finite G] hp in
 theorem s311b_F_le_D : d.F ≤ d.D := by
   have h := (k.s9_2 S hS hP).2.2.2.1
   rw [← h]
   exact inf_le_left
 
+omit [Finite G] hp k hS hP in
 theorem s311b_I₂_le_I₆ : d.I₂ ≤ d.I₆ := by
   refine d.pull_mono ?_
   intro t ht
   have h := mem_I₂sub.1 ht
   exact mem_I₆sub.2 ⟨h.1, h.2.1.trans h.2.2⟩
 
+omit [Finite G] hp in
 theorem s311b_C₆_le_R₂ : S ⊓ centralizer (d.I₆ : Set G) ≤ S ⊓ d.M₂ := by
   have h2 := (k.s10_2 S hS hP).2.1.1
   rw [← h2]
-  exact inf_le_inf_left _ (Subgroup.centralizer_le (fun x hx => s311b_I₂_le_I₆ hp k hS hP hx))
+  exact inf_le_inf_left _ (Subgroup.centralizer_le (fun x hx => s311b_I₂_le_I₆ hx))
 
+omit hp in
 theorem s311b_F_inf_M₂_le : d.F ⊓ d.M₂ ≤ S ⊓ centralizer (d.I₆ : Set G) := by
   obtain ⟨-, -, ⟨hF6, -⟩, -⟩ := k.s10_1 S hS hP
   intro x hx
   obtain ⟨hxF, hxM⟩ := Subgroup.mem_inf.1 hx
   have hC6F : S ⊓ centralizer (d.I₆ : Set G) ≤ d.F := hF6 ▸ le_sup_right
   have hWF : d.W ≤ d.F := hF6 ▸ le_sup_left
-  have hFD := s311b_F_le_D hp k hS hP
+  have hFD := s311b_F_le_D k hS hP
   have hC6N : S ⊓ centralizer (d.I₆ : Set G) ≤ normalizer (d.W : Set G) := by
     intro c hc
     refine mem_normalizer_fintype fun w hw => ?_
     have : c * w * c⁻¹ = w := by
-      have := s311b_F_central hp k hS hP (hC6F hc) (hFD (hWF hw))
+      have := s311b_F_central k hS hP (hC6F hc) (hFD (hWF hw))
       calc c * w * c⁻¹ = w * c * c⁻¹ := by rw [this]
         _ = w := by group
     rw [this]; exact hw
   rw [hF6] at hxF
   obtain ⟨w, hw, c, hc, rfl⟩ := exists_mul_of_mem_sup_of_le_normalizer hC6N hxF
-  have hcM : c ∈ d.M₂ := (s311b_C₆_le_R₂ hp k hS hP hc).2
+  have hcM : c ∈ d.M₂ := (s311b_C₆_le_R₂ k hS hP hc).2
   have hwM : w ∈ d.M₂ := by
     have : w = (w * c) * c⁻¹ := by group
     rw [this]
     exact mul_mem hxM (inv_mem hcM)
   have hwEM : w ∈ d.E ⊓ d.M₂ := Subgroup.mem_inf.2 ⟨d.W_le_E hw, hwM⟩
-  rw [s311b_E_inf_M₂ hp k hS hP, Subgroup.mem_bot] at hwEM
+  rw [s311b_E_inf_M₂ k hS hP, Subgroup.mem_bot] at hwEM
   rw [hwEM, one_mul]
   exact hc
 
+omit hp in
 theorem s311b_card_F_inf_M₂_le : Nat.card (d.F ⊓ d.M₂ : Subgroup G) ≤ (2 ^ f) ^ 2 := by
   calc Nat.card (d.F ⊓ d.M₂ : Subgroup G)
       ≤ Nat.card (S ⊓ centralizer (d.I₆ : Set G) : Subgroup G) :=
-        Subgroup.card_le_of_le (s311b_F_inf_M₂_le hp k hS hP)
+        Subgroup.card_le_of_le (s311b_F_inf_M₂_le k hS hP)
     _ = (2 ^ f) ^ 2 := (k.s10_o S hS hP).c₆
 
 theorem s311b_R₂_nonab : ∃ x ∈ S ⊓ d.M₂, ∃ y ∈ S ⊓ d.M₂, x * y ≠ y * x := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hZ₀ : d.F ⊓ d.M₂ = CFSG.centerIn (S ⊓ d.M₂) := (k.s10_2 S hS hP).2.2.2.2.1
   have hle : (S ⊓ d.M₂) ≤ d.F ⊓ d.M₂ := by
     intro x hx
@@ -483,19 +500,20 @@ theorem s311b_R₂_nonab : ∃ x ∈ S ⊓ d.M₂, ∃ y ∈ S ⊓ d.M₂, x * y
   have h2 : Nat.card (S ⊓ d.M₂ : Subgroup G) = (2 ^ f) ^ 6 := by
     rw [← (k.s10_2 S hS hP).2.1.1]
     exact (k.s10_o S hS hP).c₂
-  have h3 := s311b_card_F_inf_M₂_le hp k hS hP
+  have h3 := s311b_card_F_inf_M₂_le k hS hP
   have hf2 : 2 ≤ f := hp.hyp.setting.two_le
   have hq : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
   have h4 : (2 ^ f) ^ 2 < (2 ^ f) ^ 6 := Nat.pow_lt_pow_right hq (by norm_num)
   omega
 
+omit hp in
 theorem s311b_central_of_mem_EF {m e f' : G} (hm : m ∈ S ⊓ d.M₂) (he : e ∈ d.E) (hf : f' ∈ d.F)
     (hmef : m = e * f') : ∀ c ∈ S ⊓ d.M₂, c * m = m * c := by
   intro c hc
-  have hcD : c ∈ d.D := s311b_R₂_le_D hp k hS hP hc
-  have hcf : f' * c = c * f' := s311b_F_central hp k hS hP hf hcD
+  have hcD : c ∈ d.D := s311b_R₂_le_D k hS hP hc
+  have hcf : f' * c = c * f' := s311b_F_central k hS hP hf hcD
   have hcN : c ∈ normalizer (d.E : Set G) :=
-    s311b_S_le_normalizer_E hp k hS hP (Subgroup.mem_inf.1 hc).1
+    s311b_S_le_normalizer_E hS (Subgroup.mem_inf.1 hc).1
   have hcf' : c⁻¹ * f' = f' * c⁻¹ := by
     calc c⁻¹ * f' = c⁻¹ * (f' * c) * c⁻¹ := by group
       _ = c⁻¹ * (c * f') * c⁻¹ := by rw [hcf]
@@ -511,7 +529,7 @@ theorem s311b_central_of_mem_EF {m e f' : G} (hm : m ∈ S ⊓ d.M₂) (he : e �
   have h2 : c * m * c⁻¹ * m⁻¹ ∈ d.M₂ :=
     mul_mem (mul_mem (mul_mem hc.2 hm.2) (inv_mem hc.2)) (inv_mem hm.2)
   have h3 : c * m * c⁻¹ * m⁻¹ ∈ d.E ⊓ d.M₂ := Subgroup.mem_inf.2 ⟨h1, h2⟩
-  rw [s311b_E_inf_M₂ hp k hS hP, Subgroup.mem_bot] at h3
+  rw [s311b_E_inf_M₂ k hS hP, Subgroup.mem_bot] at h3
   calc c * m = c * m * c⁻¹ * m⁻¹ * m * c := by group
     _ = m * c := by rw [h3]; group
 
@@ -608,7 +626,7 @@ theorem s311b_key :
   have hone : (∃ u ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₁, ∃ v ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₁, u * v ≠ v * u) ∨
       (∃ u ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₂, ∃ v ∈ s311bImg d (S ⊓ d.M₂) ⊓ D₂, u * v ≠ v * u) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hab1, hab2⟩ := hcon
     have hxT : s313bTh d x₀ ∈ s311bImg d (S ⊓ d.M₂) := (s311bmem_img_iff hRH).2 ⟨x₀, hx₀, rfl⟩
     have hyT : s313bTh d y₀ ∈ s311bImg d (S ⊓ d.M₂) := (s311bmem_img_iff hRH).2 ⟨y₀, hy₀, rfl⟩
@@ -729,13 +747,13 @@ theorem sec311NotTrans_of_hyp (hp : d.ProductCaseHyp) (k : d.Know10) : d.Sec311N
     ((hJle.trans inf_le_left).trans inf_le_right) hj
   have hJL : ∀ j ∈ J, j ∈ normalizer (d.L₂ : Set G) := fun j hj =>
     d.normalizer_E_le_normalizer_L₂ (hJE j hj)
-  have hxD : x ∈ d.D := s311b_R₂_le_D hp k hS hP hx
-  have hyD : y ∈ d.D := s311b_R₂_le_D hp k hS hP hy
+  have hxD : x ∈ d.D := s311b_R₂_le_D k hS hP hx
+  have hyD : y ∈ d.D := s311b_R₂_le_D k hS hP hy
   have hFN : d.F ≤ normalizer ((d.E ⊓ d.D : Subgroup G) : Set G) := by
     intro g hg
-    have hgD : g ∈ d.D := s311b_F_le_D hp k hS hP hg
+    have hgD : g ∈ d.D := s311b_F_le_D k hS hP hg
     have hgE : g ∈ normalizer (d.E : Set G) :=
-      s311b_S_le_normalizer_E hp k hS hP (s311b_D_le_S hp k hS hP hgD)
+      s311b_S_le_normalizer_E hS (s311b_D_le_S k hS hP hgD)
     refine mem_normalizer_fintype fun z hz => ?_
     obtain ⟨hzE, hzD⟩ := Subgroup.mem_inf.1 hz
     exact Subgroup.mem_inf.2 ⟨(mem_normalizer_iff.1 hgE z).1 hzE, d.D.mul_mem (d.D.mul_mem hgD hzD)
@@ -743,7 +761,7 @@ theorem sec311NotTrans_of_hyp (hp : d.ProductCaseHyp) (k : d.Know10) : d.Sec311N
   have hQcen : ∀ z ∈ S ⊓ d.M₂, z ∈ (d.E ⊓ d.D) ⊔ d.F → ∀ c ∈ S ⊓ d.M₂, c * z = z * c := by
     intro z hz hzQ
     obtain ⟨e, he, f', hf', hzef⟩ := exists_mul_of_mem_sup_of_le_normalizer hFN hzQ
-    exact s311b_central_of_mem_EF hp k hS hP hz (Subgroup.mem_inf.1 he).1 hf' hzef
+    exact s311b_central_of_mem_EF k hS hP hz (Subgroup.mem_inf.1 he).1 hf' hzef
   have hxQ : x ∉ (d.E ⊓ d.D) ⊔ d.F := fun hxQ =>
     hxx' ((hQcen x hx hxQ x' hx').symm)
   have hyQ : y ∉ (d.E ⊓ d.D) ⊔ d.F := fun hyQ =>
@@ -765,10 +783,10 @@ theorem sec311NotTrans_of_hyp (hp : d.ProductCaseHyp) (k : d.Know10) : d.Sec311N
       _ = e₀ * (f₀ * y) := by group
   rw [hjx] at hTj
   have hTf := s311bTyp_mul_left (Subgroup.mem_inf.1 he₀).1 hTj
-  have hf₀S : f₀ ∈ S := s311b_D_le_S hp k hS hP (s311b_F_le_D hp k hS hP hf₀)
-  have hf₀L : f₀ ∈ d.E ⊔ d.M₂ := (s311b_L₂_eq hp k hS hP) ▸ hS.le hf₀S
+  have hf₀S : f₀ ∈ S := s311b_D_le_S k hS hP (s311b_F_le_D k hS hP hf₀)
+  have hf₀L : f₀ ∈ d.E ⊔ d.M₂ := (s311b_L₂_eq k) ▸ hS.le hf₀S
   obtain ⟨e₁, he₁, m₁, hm₁, hfm⟩ :=
-    exists_mul_of_mem_sup_of_le_normalizer (s311b_M₂_le_normalizer_E hp k hS hP) hf₀L
+    exists_mul_of_mem_sup_of_le_normalizer (s311b_M₂_le_normalizer_E k) hf₀L
   have hTm : S311bTyp d (m₁ * y) := by
     refine s311bTyp_mul_left he₁ ?_
     rw [← mul_assoc, ← hfm]
@@ -776,10 +794,10 @@ theorem sec311NotTrans_of_hyp (hp : d.ProductCaseHyp) (k : d.Know10) : d.Sec311N
   have hm₁S : m₁ ∈ S := by
     have : m₁ = e₁⁻¹ * f₀ := by rw [hfm]; group
     rw [this]
-    exact mul_mem (inv_mem (s311b_E_le_S hp k hS hP he₁)) hf₀S
+    exact mul_mem (inv_mem (s311b_E_le_S k hS hP he₁)) hf₀S
   have hm₁R : m₁ ∈ S ⊓ d.M₂ := Subgroup.mem_inf.2 ⟨hm₁S, hm₁⟩
   have hm₁cen : ∀ c ∈ S ⊓ d.M₂, c * m₁ = m₁ * c :=
-    s311b_central_of_mem_EF hp k hS hP hm₁R (inv_mem he₁) hf₀ (by rw [hfm]; group)
+    s311b_central_of_mem_EF k hS hP hm₁R (inv_mem he₁) hf₀ (by rw [hfm]; group)
   obtain ⟨a', b', ha', hb', ha1, hb1, hθ⟩ := hycen m₁ hm₁R hm₁cen
   exact s311b_not_Typ hp k hS hP hs₁ hn₁ hs₂ hn₂ hc hsup (mul_mem hm₁ hy.2) ha' hb' ha1 hb1 hθ hTm
 

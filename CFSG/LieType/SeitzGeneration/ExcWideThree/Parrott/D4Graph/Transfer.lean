@@ -124,16 +124,19 @@ theorem coe_fixSubgroupEquivG2 (hK3 : 3 ≤ Nat.card K) (y : ↥(fixSubgroup (d4
       d4FixedToG2 K ⟨y.1.1, mem_fixSubgroup_d4Graph_one_iff.1 y.2⟩ :=
   rfl
 
+omit [Finite K] in
 theorem xUnit_two_eq_g2OrbitXUnit (c : K) :
     xUnit Tag.D4 K ⟨2, by decide⟩ c = g2OrbitXUnit K ⟨0, by decide⟩ c := by
   show _ = [xUnit Tag.D4 K ⟨2, by decide⟩ c].prod
   rw [List.prod_singleton]
 
+omit [Finite K] in
 theorem yUnit_two_eq_g2OrbitYUnit (c : K) :
     yUnit Tag.D4 K ⟨2, by decide⟩ c = g2OrbitYUnit K ⟨0, by decide⟩ c := by
   show _ = [yUnit Tag.D4 K ⟨2, by decide⟩ c].prod
   rw [List.prod_singleton]
 
+omit [Finite K] in
 theorem xUnit_short_eq_g2OrbitXUnit (c : K) :
     xUnit Tag.D4 K ⟨0, by decide⟩ c * xUnit Tag.D4 K ⟨1, by decide⟩ c *
       xUnit Tag.D4 K ⟨3, by decide⟩ c = g2OrbitXUnit K ⟨1, by decide⟩ c := by
@@ -141,6 +144,7 @@ theorem xUnit_short_eq_g2OrbitXUnit (c : K) :
     xUnit Tag.D4 K ⟨3, by decide⟩ c].prod
   simp only [List.prod_cons, List.prod_nil, mul_one, mul_assoc]
 
+omit [Finite K] in
 theorem yUnit_short_eq_g2OrbitYUnit (c : K) :
     yUnit Tag.D4 K ⟨0, by decide⟩ c * yUnit Tag.D4 K ⟨1, by decide⟩ c *
       yUnit Tag.D4 K ⟨3, by decide⟩ c = g2OrbitYUnit K ⟨1, by decide⟩ c := by

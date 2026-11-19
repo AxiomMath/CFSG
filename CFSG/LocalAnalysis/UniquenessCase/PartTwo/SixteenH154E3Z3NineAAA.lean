@@ -77,35 +77,35 @@ theorem s16h_e3_Z3NineAAA_transport
     (hB : s16h_Z3Blocks A L L₂ x) (hLA : L ≤ A) (hL : Nat.card ↥L = 3)
     (hrk : rk ↥(commSub (⊤ : Subgroup W) L) = 6)
     (hfix : commSub (⊤ : Subgroup W) L ⊓ fixV L = ⊥)
-    (hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 P → P = ⊥)
-    (hm : E3.mParam A ≤ 2)
-    {t : MulAut W} (htA : t ∈ A) (ht2 : t ^ 2 = 1)
+    (_hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 P → P = ⊥)
+    (_hm : E3.mParam A ≤ 2)
+    {t : MulAut W} (htA : t ∈ A) (_ht2 : t ^ 2 = 1)
     (htr : rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers t)) ≤ 3)
     (htL : ⁅L, Subgroup.zpowers t⁆ ≠ ⊥) {Q : Subgroup (MulAut W)} (hQA : Q ≤ A)
-    (hQ : IsElemAbelian 3 Q)
-    (hQ9 : 9 * Nat.card ↥(Q ⊓ centSub (commSub (⊤ : Subgroup W) L)) ≤ Nat.card ↥Q)
+    (_hQ : IsElemAbelian 3 Q)
+    (_hQ9 : 9 * Nat.card ↥(Q ⊓ centSub (commSub (⊤ : Subgroup W) L)) ≤ Nat.card ↥Q)
     {j : MulAut W} (hjA : j ∈ A) (hj2 : j ^ 2 = 1) (hj1 : j ≠ 1)
     (hjU₂ : j ∈ centSub (commSub (⊤ : Subgroup W) L₂))
     (hjL : ∀ l ∈ L, j * l = l * j)
     (hcore : ∀ (N K : Subgroup (coordinateSemilinearGroup 3 OmegaField))
-      (hKN : K ≤ N) (hKnorm : (K.subgroupOf N).Normal)
-      (hO2 : ∀ P : Subgroup (coordinateSemilinearGroup 3 OmegaField), P ≤ K →
+      (_hKN : K ≤ N) (_hKnorm : (K.subgroupOf N).Normal)
+      (_hO2 : ∀ P : Subgroup (coordinateSemilinearGroup 3 OmegaField), P ≤ K →
         (P.subgroupOf K).Normal → IsPGroup 2 P → P = ⊥)
-      (hZK : ∀ c : OmegaFieldˣ, (SemidirectProduct.inl
+      (_hZK : ∀ c : OmegaFieldˣ, (SemidirectProduct.inl
         (Matrix.GeneralLinearGroup.scalar (Fin 3) c) : coordinateSemilinearGroup 3 OmegaField) ∈ K)
-      {t : coordinateSemilinearGroup 3 OmegaField} (htK : t ∈ K) (ht2 : t ^ 2 = 1)
-      (htn : SemidirectProduct.rightHom t ≠ 1)
+      {t : coordinateSemilinearGroup 3 OmegaField} (_htK : t ∈ K) (_ht2 : t ^ 2 = 1)
+      (_htn : SemidirectProduct.rightHom t ≠ 1)
       {u : Matrix.GeneralLinearGroup (Fin 3) OmegaField}
-      (huK : (SemidirectProduct.inl u : coordinateSemilinearGroup 3 OmegaField) ∈ K)
-      (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1)
-      {Q : Subgroup (coordinateSemilinearGroup 3 OmegaField)} (hQN : Q ≤ N)
-      (hQ : IsElemAbelian 3 Q) (hQ9 : 9 ≤ Nat.card ↥Q),
+      (_huK : (SemidirectProduct.inl u : coordinateSemilinearGroup 3 OmegaField) ∈ K)
+      (_hu2 : u ^ 2 = 1) (_hu1 : u ≠ 1)
+      {Q : Subgroup (coordinateSemilinearGroup 3 OmegaField)} (_hQN : Q ≤ N)
+      (_hQ : IsElemAbelian 3 Q) (_hQ9 : 9 ≤ Nat.card ↥Q),
       ∃ P : Subgroup (coordinateSemilinearGroup 3 OmegaField),
         P ≤ K ∧ IsElemAbelian 3 P ∧ 9 ≤ Nat.card ↥P) :
     ∃ P : Subgroup (MulAut W), P ≤ A ⊓ centSub (commSub (⊤ : Subgroup W) L₂) ∧
       IsElemAbelian 3 P ∧ 9 ≤ Nat.card ↥P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let U : Subgroup W := commSub (⊤ : Subgroup W) L
   let U₂ : Subgroup W := commSub (⊤ : Subgroup W) L₂
   let N : Subgroup (MulAut W) := A ⊓ Subgroup.normalizer (L : Set (MulAut W))
@@ -219,14 +219,14 @@ theorem s16h_e3_Z3NineAAA_transport
   obtain ⟨ρ, hρinj, hact, hker⟩ :=
     exists_coordinate_semilinear_action_of_normalizes_three
       hWU z' hz'ord e he (autSub N U) hAN
-  have hQN : Q ≤ N := by
+  have _hQN : Q ≤ N := by
     intro q hq
     refine ⟨hQA hq, ?_⟩
     change q ∈ Subgroup.normalizer (L : Set (MulAut W))
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-    exact (s16h_z3_commute_of_pow_three hB hL (hQA hq) (hQ.2 q hq)).1
+    exact (s16h_z3_commute_of_pow_three hB hL (hQA hq) (_hQ.2 q hq)).1
   have htdata := s16h_e3_z3_t_data hW hB hL (by simpa only [U] using hrk)
-    (by simpa only [U] using hfix) htA ht2 htr htL
+    (by simpa only [U] using hfix) htA _ht2 htr htL
   have htU₂ : t ∈ centSub U₂ := htdata.1
   have htinv : ∀ l ∈ L, t * l * t⁻¹ = l⁻¹ := htdata.2
   have htK₁ : t ∈ K₁ := ⟨htA, htU₂⟩
@@ -296,7 +296,7 @@ theorem s16h_e3_Z3NineAAA_transport
   let tmat : coordinateSemilinearGroup 3 OmegaField := F ⟨t, htN⟩
   have htmat : tmat = ρ taut := by simp [F, tmat, taut, tcomm]
   have hQN' : Qmat ≤ Nmat := Subgroup.map_le_range F (Q.subgroupOf N)
-  have hKN : Kmat ≤ Nmat := Subgroup.map_le_range F (K₁.subgroupOf N)
+  have _hKN : Kmat ≤ Nmat := Subgroup.map_le_range F (K₁.subgroupOf N)
   have hKmat_t : tmat ∈ Kmat :=
     Subgroup.mem_map.mpr ⟨⟨t, htN⟩, htK₁, rfl⟩
   have hKmat_j : F ⟨j, hjN⟩ ∈ Kmat :=
@@ -326,7 +326,7 @@ theorem s16h_e3_Z3NineAAA_transport
   have hjF_u : F ⟨j, hjN⟩ = SemidirectProduct.inl u := by
     have h1 : F ⟨j, hjN⟩ = ρ jaut := congrArg ρ (by apply Subtype.ext; rfl)
     rw [h1, hρjaut]
-  have huK : (SemidirectProduct.inl u : coordinateSemilinearGroup 3 OmegaField) ∈ Kmat := by
+  have _huK : (SemidirectProduct.inl u : coordinateSemilinearGroup 3 OmegaField) ∈ Kmat := by
     rw [← hjF_u]
     exact hKmat_j
   have hj_centU_bot : j ∈ centSub U → j = 1 := by
@@ -334,7 +334,7 @@ theorem s16h_e3_Z3NineAAA_transport
     have hmem : j ∈ (A ⊓ centSub U₂) ⊓ centSub U := ⟨⟨hjA, hjU₂⟩, hjU⟩
     rw [s16h_e3_Z3NineAAA_cent_inf_cent_bot hB] at hmem
     exact Subgroup.mem_bot.mp hmem
-  have hu2 : u ^ 2 = 1 := by
+  have _hu2 : u ^ 2 = 1 := by
     have hjaut2 : jaut ^ 2 = 1 := by
       apply Subtype.ext
       show resHom U jcomm ^ 2 = 1
@@ -346,11 +346,11 @@ theorem s16h_e3_Z3NineAAA_transport
         _ = ρ (jaut ^ 2) := (map_pow ρ jaut 2).symm
         _ = 1 := by rw [hjaut2, map_one]
     exact SemidirectProduct.inl_injective (by simpa [map_pow] using h2)
-  have hu1 : u ≠ 1 := by
-    intro hu1
+  have _hu1 : u ≠ 1 := by
+    intro _hu1
     have hjaut1 : jaut = 1 := by
       apply hρinj
-      rw [hρjaut, hu1]
+      rw [hρjaut, _hu1]
       simp
     have hjU : j ∈ centSub U := by
       rw [mem_centSub]
@@ -367,7 +367,7 @@ theorem s16h_e3_Z3NineAAA_transport
           apply Subtype.ext
           show resHom U tcomm ^ 2 = 1
           rw [← map_pow, show tcomm ^ 2 = (1 : ↥(stabSub U)) from by
-            apply Subtype.ext; show t ^ 2 = 1; exact ht2, map_one]
+            apply Subtype.ext; show t ^ 2 = 1; exact _ht2, map_one]
         rw [this, map_one]
   have hK₁normal : (K₁.subgroupOf N).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -388,16 +388,16 @@ theorem s16h_e3_Z3NineAAA_transport
       mem_centSub.mp hnU₂ _ hnv
     change ((g : MulAut W) * (n : MulAut W) * (g : MulAut W)⁻¹) v = v
     rw [MulAut.mul_apply, MulAut.mul_apply, hfix, MulAut.apply_inv_self]
-  have hKnorm : (Kmat.subgroupOf Nmat).Normal := by
+  have _hKnorm : (Kmat.subgroupOf Nmat).Normal := by
     refine ⟨fun x hx y => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     obtain ⟨n, hn, hnF⟩ := Subgroup.mem_map.mp hx
-    obtain ⟨m, hm⟩ := MonoidHom.mem_range.mp y.2
+    obtain ⟨m, _hm⟩ := MonoidHom.mem_range.mp y.2
     refine Subgroup.mem_map.mpr ⟨m * n * m⁻¹, hK₁normal.conj_mem n hn m, ?_⟩
     change F (m * n * m⁻¹) = (y : coordinateSemilinearGroup 3 OmegaField) *
       (x : coordinateSemilinearGroup 3 OmegaField) *
       (y : coordinateSemilinearGroup 3 OmegaField)⁻¹
-    rw [map_mul, map_mul, map_inv, hm, hnF]
+    rw [map_mul, map_mul, map_inv, _hm, hnF]
   let g : ↥(K₁.subgroupOf N) →* coordinateSemilinearGroup 3 OmegaField :=
     F.comp (K₁.subgroupOf N).subtype
   have hg_range : g.range = Kmat := by
@@ -439,9 +439,9 @@ theorem s16h_e3_Z3NineAAA_transport
   have hcoreO2 : ∀ P : Subgroup (coordinateSemilinearGroup 3 OmegaField), P ≤ Kmat →
       (P.subgroupOf Kmat).Normal → IsPGroup 2 P → P = ⊥ := by
     intro P hPK hPN hP2
-    exact s16h_e3_Z3NineAAAA_Kmat_o2_bot hB hLA hL hrk hO2 hK₁N F
+    exact s16h_e3_Z3NineAAAA_Kmat_o2_bot hB hLA hL hrk _hO2 hK₁N F
       (fun a b h => hg_inj (by simpa [g] using h)) P hPK hPN hP2
-  have hZK : ∀ c : OmegaFieldˣ, (SemidirectProduct.inl
+  have _hZK : ∀ c : OmegaFieldˣ, (SemidirectProduct.inl
       (Matrix.GeneralLinearGroup.scalar (Fin 3) c) :
         coordinateSemilinearGroup 3 OmegaField) ∈ Kmat := by
     have homega0 : CFSG.LinearAlgebra.omega ≠ 0 := by
@@ -538,7 +538,7 @@ theorem s16h_e3_Z3NineAAA_transport
           rw [← map_mul, ← map_inv, ← map_mul]
       _ = resHom U (zcomm ^ 2) := by rw [htinv2]
       _ = z' ^ 2 := by rw [map_pow]
-  have htn : SemidirectProduct.rightHom tmat ≠ 1 := by
+  have _htn : SemidirectProduct.rightHom tmat ≠ 1 := by
     intro hright
     have htautker : taut ∈ (SemidirectProduct.rightHom.comp ρ).ker := by
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, ← htmat]
@@ -552,7 +552,7 @@ theorem s16h_e3_Z3NineAAA_transport
       have := congrArg (fun x => z'⁻¹ * x) hz_eq
       simpa [pow_two, eq_comm] using this
     exact hz'ne hz1
-  have hQ'mat : IsElemAbelian 3 Qmat := (hQ.subgroupOf N).map F
+  have hQ'mat : IsElemAbelian 3 Qmat := (_hQ.subgroupOf N).map F
   have hQ9'mat : 9 ≤ Nat.card ↥Qmat := by
     have hFker : F.ker = (centSub U).subgroupOf N := by
       ext n
@@ -584,7 +584,7 @@ theorem s16h_e3_Z3NineAAA_transport
           mem_autSub.mpr ⟨⟨(n : MulAut W), hNstab n.2⟩, n.2, rfl⟩⟩ = 1
         rw [h4, map_one]
     have hcardQ : Nat.card ↥(Q.subgroupOf N) = Nat.card ↥Q :=
-      Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQN).toEquiv
+      Nat.card_congr (Subgroup.subgroupOfEquivOfLe _hQN).toEquiv
     have hcardK : Nat.card ↥((Q.subgroupOf N) ⊓ F.ker) =
         Nat.card ↥(Q ⊓ centSub U) := by
       have h : (Q.subgroupOf N) ⊓ (centSub U).subgroupOf N =
@@ -592,17 +592,17 @@ theorem s16h_e3_Z3NineAAA_transport
         ext x
         simp only [Subgroup.mem_inf, Subgroup.mem_subgroupOf]
       rw [hFker, h]
-      exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hQN)).toEquiv
+      exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans _hQN)).toEquiv
     have hprod := B1More.card_map_mul_card_inf_ker (Q.subgroupOf N) F
     rw [show (Q.subgroupOf N).map F = Qmat from rfl, hcardK, hcardQ] at hprod
     have hp : 0 < Nat.card ↥(Q ⊓ centSub U) := card_subgroup_pos _
     refine Nat.le_of_mul_le_mul_right ?_ hp
     rw [hprod]
-    exact hQ9
+    exact _hQ9
   obtain ⟨Pmat, hPmatK, hPmatE, hPmat9⟩ :=
-    hcore Nmat Kmat hKN hKnorm hcoreO2 hZK
-      (t := tmat) hKmat_t ht2mat htn
-      (u := u) huK hu2 hu1
+    hcore Nmat Kmat _hKN _hKnorm hcoreO2 _hZK
+      (t := tmat) hKmat_t ht2mat _htn
+      (u := u) _huK _hu2 _hu1
       (Q := Qmat) hQN' hQ'mat hQ9'mat
   let embed : ↥(K₁.subgroupOf N) →* MulAut W :=
     N.subtype.comp (K₁.subgroupOf N).subtype

@@ -16,7 +16,7 @@ open scoped commutatorElement
 
 theorem fusionIsSylowIn_of_isSylowOf {Y : Type} [Group Y] [Finite Y] [Fact (Nat.Prime 2)]
     {S K : Subgroup Y} (h : CFSG.ABGLocalTools.IsSylowOf 2 S K) : fusionIsSylowIn 2 S K :=
-  ⟨h.le, h.isPGroup, fun P hPK hP hSP => (h.eq_of_le hSP hPK hP)⟩
+  ⟨h.le, h.isPGroup, fun _P hPK hP hSP => (h.eq_of_le hSP hPK hP)⟩
 
 theorem isSylowOf_subgroupOf_top {Y : Type} [Group Y] [Finite Y] [Fact (Nat.Prime 2)]
     {Xs Vb : Subgroup Y} (hV : CFSG.ABGLocalTools.IsSylowOf 2 Vb Xs) :
@@ -31,7 +31,7 @@ theorem exists_mem_sylow_component {Y : Type} [Group Y] [Finite Y] {Xs Vb : Subg
     (hV : CFSG.ABGLocalTools.IsSylowOf 2 Vb Xs) (hpc : pCore 2 ↥Xs = ⊥)
     (hodd : oddCore ↥Xs = ⊥) {K : Subgroup ↥Xs} (hK : IsComponent K) :
     ∃ x : ↥Xs, x ≠ 1 ∧ (x : Y) ∈ Vb ∧ x ∈ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVs := isSylowOf_subgroupOf_top hV
   have hE : (layer ↥Xs).Normal := layer_normal_of_group ↥Xs
   have hEtop : (⊤ : Subgroup ↥Xs) ≤ normalizer ((layer ↥Xs : Subgroup ↥Xs) : Set ↥Xs) :=
@@ -46,7 +46,7 @@ theorem exists_mem_sylow_component {Y : Type} [Group Y] [Finite Y] {Xs Vb : Subg
   have hWK : CFSG.ABGLocalTools.IsSylowOf 2 ((Vb.subgroupOf Xs ⊓ layer ↥Xs) ⊓ K) K :=
     hWs.inf_of_le_normalizer hKE hEK
   have hKnab := nonabelian_of_component hK
-  haveI := isSimpleGroup_of_component hpc hodd hK
+  have := isSimpleGroup_of_component hpc hodd hK
   have hevenK : Even (Nat.card ↥K) := even_card_of_nonabelian_simple ↥K hKnab
   have hne : (Vb.subgroupOf Xs ⊓ layer ↥Xs) ⊓ K ≠ ⊥ := by
     intro h
@@ -98,8 +98,8 @@ theorem normalizer_inf_le_of_invariant {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     {U : Subgroup Y} (hUX : U ≤ Xs) (hU2 : IsPGroup 2 U) (hU1 : U ≠ ⊥)
     (hzU : zb ∈ Subgroup.normalizer (U : Set Y)) :
     Subgroup.normalizer (U : Set Y) ⊓ Xs ≤ Mb := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAX : Subgroup.zpowers zb ≤ Subgroup.normalizer (Xs : Set Y) := Subgroup.zpowers_le.mpr hzX
   obtain ⟨S, hS, hUS, hAS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing hp
     Nat.prime_two hA hpX hAX hUX hU2 (Subgroup.zpowers_le.mpr hzU)
@@ -150,8 +150,8 @@ theorem abstract_reduction {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Pri
     (hN : ∀ U : Subgroup Y, U ≤ Vb → U ≠ ⊥ → IsPGroup 2 U →
       zb ∈ Subgroup.normalizer (U : Set Y) → Subgroup.normalizer (U : Set Y) ⊓ Xs ≤ Mb)
     (hEven : KFactFieldAutEven) (hOdd : KFactFieldAutOdd) : Xs ≤ Mb := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   have hzp : zb ^ p = 1 := by rw [← hzb]; exact pow_orderOf_eq_one zb
   have hzN : ∀ i : ℕ, zb ^ i ∈ Subgroup.normalizer (Xs : Set Y) := fun i => pow_mem hzX i
@@ -195,14 +195,14 @@ theorem abstract_reduction {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Pri
   by_cases hXbot : Xs = ⊥
   · rw [hXbot]
     exact bot_le
-  haveI : Nontrivial ↥Xs := by
+  have : Nontrivial ↥Xs := by
     obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hXbot
     exact ⟨⟨a, 1, ha⟩⟩
   have hcomp : ∀ K : Subgroup ↥Xs, IsComponent K → K.map Xs.subtype ≤ Mb := by
     intro K hK
     have hKb : K.map Xs.subtype ≤ Xs := Subgroup.map_subtype_le K
     have hKnab : ¬ ∀ a b : ↥K, a * b = b * a := nonabelian_of_component hK
-    haveI hKsimp : IsSimpleGroup ↥K := isSimpleGroup_of_component hQ hodd hK
+    have hKsimp : IsSimpleGroup ↥K := isSimpleGroup_of_component hQ hodd hK
     let e : ↥K ≃* ↥(K.map Xs.subtype) := K.equivMapOfInjective Xs.subtype Xs.subtype_injective
     have hsimpKb : IsSimpleGroup ↥(K.map Xs.subtype) :=
       (MulEquiv.isSimpleGroup_congr e).mp hKsimp

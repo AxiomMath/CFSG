@@ -104,7 +104,7 @@ theorem exists_abelian_index_three {X : Type*} [Group X] [Finite X] {T : Subgrou
   set P' : Subgroup X := (P : Subgroup T).map T.subtype with hP'
   have hP'card : Nat.card P' = 3 ^ (Nat.card T).factorization 3 := by
     rw [hP', card_map_of_injective T.subtype_injective, Sylow.card_eq_multiplicity]
-  have hP'3 : IsPGroup 3 P' := P.isPGroup'.map T.subtype
+  have hP'3 : IsPGroup 3 P' := P.isPGroup.map T.subtype
   obtain ⟨Q, hQ⟩ := hP'3.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q S
   set T'' : Subgroup X := P'.map (MulAut.conj g).toMonoidHom with hT''
@@ -316,7 +316,7 @@ theorem central_of_model {X : Type} [Group X] [Finite X]
   have hcomm : ∀ r ∈ R.subgroupOf (S : Subgroup X), r * ⟨d, hRS hdR⟩ = ⟨d, hRS hdR⟩ * r := by
     rintro ⟨r, hrS⟩ hr
     exact Subtype.ext (hd r (mem_subgroupOf.mp hr))
-  have h := central_of_index_three S.isPGroup' hT' hidx hnab hcomm ⟨s, hs⟩
+  have h := central_of_index_three S.isPGroup hT' hidx hnab hcomm ⟨s, hs⟩
   exact congrArg Subtype.val h
 
 theorem kf2113ExcCentral_holds : KF2113ExcCentral := by
@@ -327,7 +327,7 @@ theorem kf2113ExcCentral_holds : KF2113ExcCentral := by
   set R' : Subgroup L := R.subgroupOf L with hR'
   have hR'3 : IsPGroup 3 R' := hR3.comap_of_injective L.subtype L.subtype_injective
   obtain ⟨Q, hQ⟩ := hR'3.exists_le_sylow
-  have hinj : Set.InjOn π (Q : Set L) := injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup'
+  have hinj : Set.InjOn π (Q : Set L) := injOn_mk_of_isPGroup Nat.prime_three Q.isPGroup
   set Qb := Q.mapSurjective (QuotientGroup.mk'_surjective N) with hQb
   have hQb' : (Qb : Subgroup (lBar L)) = (Q : Subgroup L).map π := Sylow.coe_mapSurjective _ _
   set d' : L := ⟨d, hRL hdR⟩ with hd'

@@ -45,7 +45,7 @@ theorem nineteen_seven_one_le_pRank_centralizer (D : Data G) {V₀ V : Subgroup 
   intro v hv hv1
   by_cases hv0 : v ∈ V₀
   · exact s19_one_le_pRank_of_mem_V0 D h h3 hv0 hv1
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hCT_le : F11.CTilde D.M V₀ V ≤ F11.CElt D.M V₀ v :=
     iInf_le_of_le v (iInf_le_of_le hv le_rfl)
   have h5E : 5 ∣ Nat.card (F11.CElt D.M V₀ v) :=
@@ -117,7 +117,7 @@ theorem nineteen_seven_noncyclic_cent_of_index (D : Data G) {q : ℕ} (hq : q.Pr
     ∃ X : Subgroup G, X ≤ D.M ⊓ centralizer ({x.val} : Set G) ∧ IsPGroup q X ∧
       ¬ IsCyclic X := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hCs : F11.CElt D.M V₀ x.val ≤ stabTil V₀ V := fun c hc =>
     ⟨hP.le_normalizer hc.1, hc.2.1⟩
   let f : ↥(F11.CElt D.M V₀ x.val) →* MulAut (Vtil V₀ V hV) :=
@@ -163,7 +163,7 @@ theorem nineteen_seven_noncyclic_cent_of_index (D : Data G) {q : ℕ} (hq : q.Pr
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCT_le).toEquiv
     rw [hcard]
     exact hqC
-  haveI : Group.IsPerfect ↥P₀ := hperf
+  have : Group.IsPerfect ↥P₀ := hperf
   have hperf' : Group.IsPerfect ↥(P₀.subgroupOf
       (ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV x))) :=
     Group.IsPerfect.ofSurjective

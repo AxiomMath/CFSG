@@ -68,7 +68,7 @@ theorem Heis27.of_card {A Z : Subgroup Y} (hA : Nat.card A = 27) (hZA : Z ≤ A)
     (hZ3 : Nat.card Z = 3) (hZc : ∀ z ∈ Z, ∀ a ∈ A, z * a = a * z)
     (hcube : ∀ a ∈ A, a ^ 3 = 1) (hnab : ∃ a ∈ A, ∃ b ∈ A, a * b ≠ b * a) : Heis27 A Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup ↥A := center ↥A with hC
   set Zs : Subgroup ↥A := Z.subgroupOf A with hZs
   have hZsC : Zs ≤ C := by
@@ -101,9 +101,9 @@ theorem Heis27.of_card {A Z : Subgroup Y} (hA : Nat.card A = 27) (hZA : Z ≤ A)
       have hq3 : Nat.card (↥A ⧸ C) = 3 := by
         rw [hA, h9] at hquot
         omega
-      haveI : IsCyclic (↥A ⧸ C) := isCyclic_of_prime_card hq3
-      exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' C)
-        (by rw [QuotientGroup.ker_mk'])
+      have : IsCyclic (↥A ⧸ C) := isCyclic_of_prime_card hq3
+      exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' C)
+        (by rw [QuotientGroup.ker_mk'])).is_comm.comm
     have : Nat.card C ∈ Nat.divisors 27 := Nat.mem_divisors.mpr ⟨hdvd, by norm_num⟩
     have hd : Nat.divisors 27 = {1, 3, 9, 27} := by decide
     rw [hd] at this
@@ -120,7 +120,7 @@ theorem Heis27.of_card {A Z : Subgroup Y} (hA : Nat.card A = 27) (hZA : Z ≤ A)
     have hq9 : Nat.card (↥A ⧸ C) = 3 ^ 2 := by
       rw [hA, hCcard] at hquot
       omega
-    have hcomm := IsPGroup.commutative_of_card_eq_prime_sq hq9
+    have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hq9).is_comm.comm
     have h1 : QuotientGroup.mk' C (⟨a, ha⟩ * ⟨b, hb⟩ * ⟨a, ha⟩⁻¹ * ⟨b, hb⟩⁻¹) = 1 := by
       rw [map_mul, map_mul, map_mul, map_inv, map_inv,
         hcomm (QuotientGroup.mk' C ⟨a, ha⟩) (QuotientGroup.mk' C ⟨b, hb⟩)]
@@ -165,7 +165,7 @@ theorem exists_data_of_su {T : Subgroup Y}
       (∀ x ∈ T, z * x = x * z) ∧ Heis27 (oUpperTwo T) (zpowers z) ∧
       s ∈ oUpperTwo T ∧ d ∈ oUpperTwo T ∧ s * d ≠ d * s := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, _, _, hK4, ⟨e⟩⟩ := h
   obtain ⟨ω, hω, h2⟩ := exists_omega hK4
   let o : OmegaData K := ⟨ω, hω, h2⟩
@@ -186,7 +186,7 @@ theorem exists_data_of_su {T : Subgroup Y}
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := OmegaData.sF o) (by simpa using hF2)
       (by simpa using hF4)
     simpa using this
-  haveI := heisSubgroup_normal hcard hrel hZ1 (hrel.F_mem_normalizer hFS hFD) hord
+  have := heisSubgroup_normal hcard hrel hZ1 (hrel.F_mem_normalizer hFS hFD) hord
   have hO : oUpperTwo (⊤ : Subgroup (SUg K)) = heisSubgroup hrel := by
     apply le_antisymm
     · exact (closure_le _).mpr fun x hx => odd_mem_heisSubgroup hcard hrel hZ1 hx.2

@@ -24,7 +24,7 @@ theorem normal_of_index_le_two {X : Type*} [Group X] {H : Subgroup X} (h2 : H.in
 theorem mem_of_pow_eq_one_of_index_le_two {X : Type*} [Group X] {H : Subgroup X}
     (h2 : H.index ≤ 2) (h0 : H.index ≠ 0) {x : X} {m : ℕ} (hm : Odd m) (hx : x ^ m = 1) :
     x ∈ H := by
-  haveI := normal_of_index_le_two h2 h0
+  have := normal_of_index_le_two h2 h0
   rcases (by omega : H.index = 1 ∨ H.index = 2) with h | h
   · rw [Subgroup.index_eq_one] at h
     rw [h]
@@ -41,7 +41,7 @@ theorem mem_of_pow_eq_one_of_index_le_two {X : Type*} [Group X] {H : Subgroup X}
 
 theorem card_le_two_mul_inf {X : Type*} [Group X] [Finite X] {H : Subgroup X} (h2 : H.index ≤ 2)
     (K : Subgroup X) : Nat.card K ≤ 2 * Nat.card ↥(H ⊓ K) := by
-  haveI := normal_of_index_le_two h2 Subgroup.index_ne_zero_of_finite
+  have := normal_of_index_le_two h2 Subgroup.index_ne_zero_of_finite
   have h1 : H.relIndex K ∣ H.index := Subgroup.relIndex_dvd_index_of_normal H K
   have h3 : H.relIndex K ≤ 2 :=
     (Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite) h1).trans h2
@@ -53,10 +53,10 @@ theorem exists_injective_hom_pgsp45 {X : Type} [Group X] [Finite X] (T : Subgrou
     (e : T ≃* StatedProj (StatedSp 2 (ZMod 5)))
     (hC : Subgroup.centralizer (T : Set X) = ⊥) :
     ∃ ψ : X →* PGSp45, Function.Injective ψ := by
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 5) 2 (by norm_num)
       (Or.inl (Or.inr (by rw [Nat.card_zmod]; norm_num)))
-  haveI : IsSimpleGroup T := e.isSimpleGroup
+  have : IsSimpleGroup T := e.isSimpleGroup
   let aut : X →* MulAut (StatedProj (StatedSp 2 (ZMod 5))) :=
     (MulAut.congr e).toMonoidHom.comp MulAut.conjNormal
   let aut' : X →* (conjAut 2 (ZMod 5)).range :=
@@ -149,10 +149,12 @@ variable {G : Type} [Group G] [Finite G] {ψ : G →* PGSp45} (h : PGSp45Emb ψ)
 
 include h
 
+omit [Finite G] in
 theorem mem_range_of_pow_eq_one {z : PGSp45} {m : ℕ} (hm : Odd m) (hz : z ^ m = 1) :
     z ∈ ψ.range :=
   mem_of_pow_eq_one_of_index_le_two h.index Subgroup.index_ne_zero_of_finite hm hz
 
+omit [Finite G] in
 theorem exists_cent_of_odd {u : G} {z : PGSp45} {m : ℕ} (hm : Odd m) (hz : z ^ m = 1)
     (hcomm : z * ψ u = ψ u * z) : ∃ w ∈ centralizer ({u} : Set G), ψ w = z := by
   obtain ⟨w, hw⟩ := h.mem_range_of_pow_eq_one hm hz
@@ -161,10 +163,12 @@ theorem exists_cent_of_odd {u : G} {z : PGSp45} {m : ℕ} (hm : Odd m) (hz : z ^
   rw [map_mul, map_mul, hw]
   exact hcomm
 
+omit [Finite G] in
 theorem card_le_two_mul (K : Subgroup PGSp45) :
     Nat.card K ≤ 2 * Nat.card ↥(ψ.range ⊓ K) :=
   card_le_two_mul_inf h.index K
 
+omit [Finite G] in
 theorem card_inf_dvd (u : G) (K : Subgroup PGSp45) (hK : K ≤ centralizer ({ψ u} : Set PGSp45)) :
     Nat.card ↥(ψ.range ⊓ K) ∣ Nat.card ↥(centralizer ({u} : Set G)) := by
   let f : ↥(centralizer ({u} : Set G)) →* PGSp45 := ψ.comp (centralizer ({u} : Set G)).subtype

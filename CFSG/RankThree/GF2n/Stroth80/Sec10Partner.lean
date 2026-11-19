@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Good101.mul_mem_Q (hc : Ctx M Q Z B) {t y : G} (ht : Good101 M Q Z B t) (hyQ : y ∈ Q)
     (hyB : y ∈ QB B) (hroot : ∃ g : G, ∃ z ∈ Z, z ≠ 1 ∧ g * z * g⁻¹ = t * y) :
     Good101 M Q Z B (t * y) := by
@@ -26,7 +27,8 @@ theorem Good101.mul_mem_Q (hc : Ctx M Q Z B) {t y : G} (ht : Good101 M Q Z B t) 
   · rw [Rt_mul_of_mem_Q hc hyQ]
     exact ht.2.2.2.2
 
-theorem Good101.conjG (hc : Ctx M Q Z B) {t : G} (ht : Good101 M Q Z B t) (g : G) :
+omit [Finite G] in
+theorem Good101.conjG (_hc : Ctx M Q Z B) {t : G} (ht : Good101 M Q Z B t) (g : G) :
     Good101 (conjSubgroup g M) (conjSubgroup g Q) (conjSubgroup g Z) (conjSubgroup g B)
       (g * t * g⁻¹) := by
   obtain ⟨g₁, z, hz, hz1, hgt⟩ := ht.1
@@ -65,7 +67,7 @@ theorem noSL2_conjG {hc : Ctx M Q Z B} (h : ∀ s : G, Good101 M Q Z B s → ¬ 
     rw [conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one]
   intro s hs hs2
   apply h (g⁻¹ * s * g)
-  · have h' := Good101.conjG (hc := hc.conjBy g) hs g⁻¹
+  · have h' := Good101.conjG (_hc := hc.conjBy g) hs g⁻¹
     simpa only [hconj M, hconj Q, hconj Z, hconj B, inv_inv] using h'
   · have h' := SLMNat.conjG hs2 g⁻¹
     exact SLMNat.of_eq (by simpa only [inv_inv] using h') hc

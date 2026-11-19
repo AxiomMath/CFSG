@@ -159,7 +159,7 @@ theorem false_of_semilinHom_fixes_index_two (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (h
   have hquat : IsQuatSub (P₀ : Subgroup SL(2, GaloisField p f)) := ⟨k, hk, ⟨e⟩⟩
   have hz := isUniqueInvolution_top_neg_one hodd
   have hzP₀ : (-1 : SL(2, GaloisField p f)) ∈ (P₀ : Subgroup SL(2, GaloisField p f)) :=
-    mem_of_uniqueInvolution_of_pGroup hz le_top P₀.isPGroup' (by have := hquat.eight_le; omega)
+    mem_of_uniqueInvolution_of_pGroup hz le_top P₀.isPGroup (by have := hquat.eight_le; omega)
   have hzP' := isUniqueInvolution_of_le hz le_top hzP₀
   obtain ⟨C₀, hC₀P, hC₀c, hC₀card, hC₀mem⟩ := hquat.exists_cyclic_max
   have hx₀C₀ : x₀ ∈ C₀ := hC₀mem x₀ hx₀P₀ (by rw [hx₀ord]; omega)

@@ -115,8 +115,8 @@ private theorem uniNCComp_isPerfectSL (m : ℕ) (E : Type) [Field E] (hm : 2 ≤
   · exact CFSG.LinearGroups.special_linear_isPerfect (by omega) (Or.inl (by omega))
   · subst m
     have hcard : 4 ≤ Nat.card E := hmE rfl
-    haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-    letI : Fintype E := Fintype.ofFinite E
+    have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+    let : Fintype E := Fintype.ofFinite E
     have h4 : ∃ s : Finset E, s.card = 4 := by
       have h : 4 ≤ (Finset.univ : Finset E).card := by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -226,8 +226,8 @@ theorem uniR_noncube_comp {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ
   rcases hcases with ⟨hm2, F, hF, hFt, hcardF, g, hgsurj, hgker⟩ |
       ⟨hm3, E, hE, hEt, hcardE, g, hgsurj, hgker⟩
   ·
-    letI : Field F := hF
-    letI : Fintype F := hFt
+    let : Field F := hF
+    let : Fintype F := hFt
     have hN6 : N = 6 := by
       have h3 := Nat.mul_div_cancel' hdvd
       omega
@@ -235,7 +235,7 @@ theorem uniR_noncube_comp {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ
       rw [Nat.card_eq_fintype_card, hcardF]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (f * 3) := Nat.pow_le_pow_right (by norm_num) (by omega)
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
       uniNCComp_isPerfectSL 2 F le_rfl (fun _ => h4)
     have eJS : J' ⧸ Subgroup.center J' ≃* T ⧸ Subgroup.center T :=
       (uniNCComp_quotientCenterMapEquiv e J').symm
@@ -246,8 +246,8 @@ theorem uniR_noncube_comp {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ
     · rw [Nat.card_eq_fintype_card, hcardF, pow_mul]
     · exact ⟨(eJS.trans eST.symm).trans eSL⟩
   ·
-    letI : Field E := hE
-    letI : Fintype E := hEt
+    let : Field E := hE
+    let : Fintype E := hEt
     have hcardE' : Nat.card E = ((2 ^ f) ^ 3) ^ 2 := by
       rw [Nat.card_eq_fintype_card, hcardE, pow_mul]
     have hcardE'' : Nat.card E = (2 ^ (f * 3)) ^ 2 := by
@@ -259,7 +259,7 @@ theorem uniR_noncube_comp {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ
       rw [heq] at hle
       norm_num at hle
     have hne : (N / 3, 2 ^ (f * 3)) ≠ (3, 2) := fun hc => h2ne (congrArg Prod.snd hc)
-    haveI : Group.IsPerfect (StatedSU (N / 3) (2 ^ (f * 3)) E) :=
+    have : Group.IsPerfect (StatedSU (N / 3) (2 ^ (f * 3)) E) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (K := E) hcardE'' hm3 hne
     have eJS : J' ⧸ Subgroup.center J' ≃* T ⧸ Subgroup.center T :=
       (uniNCComp_quotientCenterMapEquiv e J').symm

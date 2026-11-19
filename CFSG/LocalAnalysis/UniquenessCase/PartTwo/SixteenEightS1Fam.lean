@@ -68,7 +68,7 @@ theorem s16e_s1_case4_of_elem (D : Data G) (hx : DataExt D) (h4 : 3 < CFSG.Open.
         (s16e_normal_subgroupOf_of_conj hLn) (Or.inl (by rw [hLcard]; exact ⟨4, by norm_num⟩))
     have hO3 : ∀ N : Subgroup ↥(Mbar D.M V₀ V hV), N.Normal → N.index ≠ 3 := by
       intro N hN
-      haveI := hN
+      have := hN
       exact s16e_mbar_index_ne_three D h638 h3 hset.hyp16 hV N
     exact s16e_symSum_two_of_E9 hT hcard hLA hLn hE hwT htr hO3
   have hsig := s16e_mem_sig_of_elem D hx h4 hSg h61 h127 h1110 h63 h126 h1211 h111 h6161ii h77

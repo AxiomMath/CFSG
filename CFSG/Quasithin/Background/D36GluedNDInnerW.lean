@@ -82,6 +82,7 @@ namespace InnerData
 
 variable {g m : MulAut W}
 
+omit [Finite W] in
 theorem g_stab (hd : InnerData T L (orbSup T V) g m) {v : W} (hv : v ∈ orbSup T V) :
     g v ∈ orbSup T V :=
   (le_stabSub_orbSup T V hd.gT v).mpr hv
@@ -98,7 +99,7 @@ theorem minv (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) {v
   rw [h3] at h2
   exact h2.symm
 
-theorem comm (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) {l : MulAut W}
+theorem comm (_n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) {l : MulAut W}
     (hl : l ∈ L) {v : W} (hv : v ∈ orbSup T V) : (m⁻¹ * g) (l v) = l ((m⁻¹ * g) v) := by
   have h := hd.inn l hl (g v) (hd.g_stab hv)
   simp only [MulAut.mul_apply, MulAut.inv_apply_self (M := W)] at h
@@ -126,6 +127,7 @@ theorem c_normalizes (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V)
       (Subgroup.le_normalizer (d36t_L_le_Mp n hd.mL)))
     (d36t_T_le_normalizer n hd.gT)
 
+omit [Finite W] in
 theorem conjAutSub_inj {a : MulAut W} {A B : Subgroup (MulAut W)}
     (h : conjAutSub a A = conjAutSub a B) : A = B := by
   ext y
@@ -195,8 +197,8 @@ theorem commMp (hL38 : D3L38) (n : D36Norm M Mp T L V t) (hd : InnerData T L (or
 
 theorem core (hL38 : D3L38) (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) :
     ∀ v ∈ V, (m⁻¹ * g) v * v⁻¹ ∈ modFix Mp (orbSup T V) :=
-  core_aux n (hd.c_normalizes n) (fun w hw => l_stab n (L.inv_mem hd.mL) (hd.g_stab hw))
-    (fun w hw => hd.csq n hw) (hd.commMp hL38 n)
+  core_aux n (hd.c_normalizes n) (fun _w hw => l_stab n (L.inv_mem hd.mL) (hd.g_stab hw))
+    (fun _w hw => hd.csq n hw) (hd.commMp hL38 n)
 
 theorem gen (hL38 : D3L38) (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m)
     {l : MulAut W} (hl : l ∈ L) {v : W} (hv : v ∈ V) :
@@ -215,7 +217,7 @@ theorem gen (hL38 : D3L38) (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSu
       simp only [ofMul_mul, ofMul_inv]
       abel
 
-theorem conj (n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) {s : MulAut W}
+theorem conj (_n : D36Norm M Mp T L V t) (hd : InnerData T L (orbSup T V) g m) {s : MulAut W}
     (hsT : s ∈ T) (hsN : s ∈ Subgroup.normalizer (L : Set (MulAut W))) :
     InnerData T L (orbSup T V) (s⁻¹ * g * s) (s⁻¹ * m * s) := by
   have hsV : ∀ v ∈ orbSup T V, s v ∈ orbSup T V := fun v hv =>

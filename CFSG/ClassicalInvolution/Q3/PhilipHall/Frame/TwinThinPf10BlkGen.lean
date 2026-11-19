@@ -18,9 +18,9 @@ theorem exists_twin_vec' (hn7 : n ≤ 7 ∨ 9 ≤ n) {α β : Finset (Fin n)} (h
   rcases hn7 with hn7 | hn9
   · obtain ⟨a, c, haα, haβ, hcα, hcβ⟩ := exists_twin_vec hn7 hα hβ hne
     refine ⟨a, c, ?_, ?_⟩
-    · rw [sum_pairVec_emb, if_pos haα, if_pos hcα]
+    · rw [sum_pairVec_emb, ite_eq_left haα, ite_eq_left hcα]
       exact zmod_two_add_self _
-    · rw [sum_pairVec_emb, if_neg haβ, if_pos hcβ]
+    · rw [sum_pairVec_emb, ite_eq_right haβ, ite_eq_left hcβ]
       simp
   · have h1 : ∃ b ∈ β, b ∉ α := by
       by_contra hcon
@@ -38,8 +38,8 @@ theorem exists_twin_vec' (hn7 : n ≤ 7 ∨ 9 ≤ n) {α β : Finset (Fin n)} (h
     obtain ⟨j, hj⟩ := h2
     rw [Finset.mem_union, not_or] at hj
     refine ⟨b, j, ?_, ?_⟩
-    · rw [sum_pairVec_emb, if_neg hbα, if_neg hj.1]; simp
-    · rw [sum_pairVec_emb, if_pos hb, if_neg hj.2]; simp
+    · rw [sum_pairVec_emb, ite_eq_right hbα, ite_eq_right hj.1]; simp
+    · rw [sum_pairVec_emb, ite_eq_left hb, ite_eq_right hj.2]; simp
 
 theorem aeBlocks_of_prim' (hn5 : 5 ≤ n) (hn7 : n ≤ 7 ∨ 9 ≤ n) (hP : FourSetPrim n) :
     AEBlocks' n := by

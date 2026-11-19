@@ -12,7 +12,7 @@ namespace ProofSupport
 
 namespace OddClassTwoBCH
 
-@[expose] def BCH (p : ℕ) (E : Type*) [Group E] : Type _ := E
+@[expose] def BCH (_p : ℕ) (E : Type*) [Group E] : Type _ := E
 
 open scoped commutatorElement
 

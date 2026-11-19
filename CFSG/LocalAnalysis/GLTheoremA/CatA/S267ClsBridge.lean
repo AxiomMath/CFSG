@@ -20,8 +20,7 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type*} [Field K]
     (LinearMap.GeneralLinearGroup.generalLinearEquiv K (ι → K))
 
 theorem glEquiv_apply (g : GL ι K) (v : ι → K) : glEquiv g v = (g : Matrix ι ι K) *ᵥ v := by
-  simp [glEquiv, LinearMap.GeneralLinearGroup.coeFn_generalLinearEquiv,
-    Matrix.GeneralLinearGroup.toLin_apply]
+  simp [glEquiv, LinearMap.GeneralLinearGroup.coeFn_generalLinearEquiv]
 
 @[expose] noncomputable def glRep (A : Subgroup (GL ι K)) : Representation K A (ι → K) :=
   LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (glEquiv.toMonoidHom.comp A.subtype)
@@ -120,7 +119,7 @@ theorem preserves_weightFamily_of_semilinear (ρ : Representation K A V) (τ : K
   have hU : ∀ (U : Subgroup A) (w : V),
       s (ρ.asAlgebraHom (eSub U) w) = ρ.asAlgebraHom (eSub U) (s w) := by
     intro U w
-    haveI : Fintype U := Fintype.ofFinite U
+    have : Fintype U := Fintype.ofFinite U
     rw [asAlgebraHom_eSub, LinearMap.smul_apply, LinearMap.smul_apply, hs, map_inv₀, map_natCast,
       LinearMap.sum_apply, LinearMap.sum_apply, map_sum]
     simp only [hsρ]
@@ -181,6 +180,7 @@ theorem gramCore_le_isomGL (J : Matrix ι ι K) :
     (fun c x y => by simp only [Pi.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum,
       mul_left_comm])
 
+omit [DecidableEq ι] in
 theorem unitForm_apply (σ : K →+* K) (x y : ι → K) :
     unitForm σ x y = x ⬝ᵥ (σ ∘ y) :=
   rfl

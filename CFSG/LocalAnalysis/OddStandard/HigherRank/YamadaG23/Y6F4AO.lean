@@ -43,7 +43,7 @@ private theorem y6f4a_perfect_le_of_outer {X : Type*} [Group X] {K : Subgroup X}
       have h2 := congrArg (fun z => (k : X) * z) hz
       simpa using h2
     exact hx1 ▸ k.2
-  haveI := hout
+  have := hout
   have hperf : ⁅B.map τ, B.map τ⁆ = B.map τ := by
     rw [← Subgroup.map_commutator, hB]
   have hbot : B.map τ = ⊥ := by
@@ -58,7 +58,7 @@ private theorem y6f4a_perfect_le_of_outer {X : Type*} [Group X] {K : Subgroup X}
 theorem y6f4a_outcome_lie (hG : G23Facts) (hY : Y6YData τ J M)
     (hsol : CFSG.solvableRadical Y = ⊥) (h : LayerOutcome Y J 3) :
     Y6TargetLie ↥(CFSG.layer Y) := by
-  haveI : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
   let ρ0 : ↥M →* MulAut ↥(CFSG.layer Y) := MulAut.conjNormal.comp M.subtype
   have hρ0 : Function.Injective ρ0 := by
     change Function.Injective (MulAut.conjNormal.comp M.subtype)
@@ -90,7 +90,7 @@ theorem y6f4a_outcome_lie (hG : G23Facts) (hY : Y6YData τ J M)
   unfold Y6TargetLie
   rcases h with hAA | hLie | hsmall | hg23
   · rcases hAA with ⟨e⟩
-    haveI : IsSimpleGroup ↥J := hY.J_simple
+    have : IsSimpleGroup ↥J := hY.J_simple
     let ρ : ↥M →* MulAut (↥J × ↥J) := (MulAut.congr e).toMonoidHom.comp ρ0
     have hρ : Function.Injective ρ := fun a b hab => hρ0 ((MulAut.congr e).injective hab)
     exact (y6f4a_no_z4cube_aut_prod hY.J_nonab hY.J_aut hY.M_equiv ρ hρ).elim
@@ -109,8 +109,8 @@ theorem y6f4a_layer_facts (hSch : CFSG.LocalAnalysis.ComponentInitial.SchreierFo
       centralizer (CFSG.layer Y : Set Y) = ⊥ ∧
       ∀ B : Subgroup Y, Group.IsPerfect ↥B → B ≤ CFSG.layer Y := by
   obtain ⟨hsimple, hnonab⟩ := y6f4a_target_simple_nonab hO h
-  haveI : IsSimpleGroup ↥(CFSG.layer Y) := hsimple
-  haveI : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : IsSimpleGroup ↥(CFSG.layer Y) := hsimple
+  have : (CFSG.layer Y).Characteristic := CFSG.LocalCores.layer_characteristic
   have hnoncomm : ∃ a b : ↥(CFSG.layer Y), a * b ≠ b * a :=
     y6f4a_exists_noncomm_of_not_comm hnonab
   have hC : Subgroup.centralizer (CFSG.layer Y : Set Y) = ⊥ :=

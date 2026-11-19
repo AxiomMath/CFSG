@@ -122,12 +122,12 @@ theorem exw_walk {F : Fd} {G : List (Nat × Nat)} {X n s m D : Nat} {pk : SPt �
     have hh' := fun Q (hm : Q ∈ Qs) => hh Q (List.mem_cons_of_mem _ hm)
     cases hb : (Nat.beq (dotK F (pk Q).2 X) 0 || !(reflOK F (pk Q))) with
     | true =>
-      rw [hb, cond_true] at h
+      rw [hb, _root_.Bool.cond_true] at h
       rcases List.mem_cons.mp hQ' with rfl | hm
       · exact he _ List.mem_cons_self hb
       · exact exw_walk Qs he' hh' rs h Q' hm
     | false =>
-      rw [hb, cond_false] at h
+      rw [hb, Bool.cond_false] at h
       cases rs with
       | nil => exact absurd h Bool.false_ne_true
       | cons r rs' =>
@@ -255,11 +255,11 @@ theorem satC_cons (p : Nat) (cs : List (Vec × Nat)) (a : Nat) (v : Vec) :
     cases hq : (q.1.headD 0 == 0) with
     | true =>
       have hb : (q.1.headD 0 != 0) = false := by rw [bne, hq]; rfl
-      simp only [List.filter_cons, hq, hb, if_true, Bool.false_eq_true, if_false, List.map_cons,
+      simp only [List.filter_cons, hq, hb, ite_true, Bool.false_eq_true, ite_false, List.map_cons,
         List.all_cons, dotS_cons_free q.1 a v hq, ih, Bool.and_assoc]
     | false =>
       have hb : (q.1.headD 0 != 0) = true := by rw [bne, hq]; rfl
-      simp only [List.filter_cons, hq, hb, if_true, Bool.false_eq_true, if_false, List.all_cons, ih]
+      simp only [List.filter_cons, hq, hb, ite_true, Bool.false_eq_true, ite_false, List.all_cons, ih]
       cases (dotS q.1 (a :: v) % p == q.2) <;> simp
 
 theorem filter_map_cons (p : Nat) (l : List Nat) (cs : List (Vec × Nat)) (v : Vec) :

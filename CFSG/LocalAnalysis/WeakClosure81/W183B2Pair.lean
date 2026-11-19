@@ -34,7 +34,7 @@ private theorem w183b2_pair_conj_eq
 theorem pairTest
     (hL28 : FinPairGenL28) (hSz8 : FinPairGenSz8)
     (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.T))
-    (hK : IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
+    (hK : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
     (h13 : ¬ 13 ∣ Nat.card (M.img H)) :
     PairTest (M.img H) (packFamilyU D V H i M) := by
   intro A hA y hy hviol

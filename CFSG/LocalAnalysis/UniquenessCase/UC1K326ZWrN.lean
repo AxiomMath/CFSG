@@ -8,6 +8,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.UC326
 
 variable {P : Type*} [Group P] [Finite P] {n : ℕ}
 
+omit [Finite P] in
 theorem zwr_n_eq_one_of_normal_exp3 (hn : 1 ≤ n) (e : P ≃* ZWr n) {D : Subgroup P}
     (hD : D.Normal) (hexp : ∀ x ∈ D, x ^ 3 = 1) (hnab : ¬ IsMulCommutative D) : n = 1 := by
   have hD' : (D.map e.toMonoidHom).Normal := hD.map e.toMonoidHom e.surjective

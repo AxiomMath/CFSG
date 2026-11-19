@@ -485,7 +485,7 @@ private theorem k89o2_apply_hMod (hMod : S889Module) {q : ℕ} (hq : q.Prime) (h
     intro hp
     have : Group.IsNilpotent (K ⧸ R) := hp.isNilpotent
     by_cases hnt : Nontrivial (K ⧸ R)
-    · exact (IsSolvable.commutator_lt_top_of_nontrivial (K ⧸ R)).ne hperf'
+    · exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (K ⧸ R)).ne hperf'
     · rw [not_nontrivial_iff_subsingleton] at hnt
       have h1 : (QuotientGroup.mk k0 : K ⧸ R) = 1 := Subsingleton.elim _ _
       exact hk0 ((hR k0).mp ((QuotientGroup.eq_one_iff k0).mp h1))

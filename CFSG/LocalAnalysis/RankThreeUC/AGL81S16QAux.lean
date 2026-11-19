@@ -45,7 +45,7 @@ public section
 namespace CFSG.LocalAnalysis.RankThreeUC
 
 theorem card_ringEquiv_lt (F : Type) [Field F] [Finite F] : Nat.card (F ≃+* F) < Nat.card F := by
-  haveI : Finite Fˣ := Finite.of_injective (Units.val : Fˣ → F) Units.val_injective
+  have : Finite Fˣ := Finite.of_injective (Units.val : Fˣ → F) Units.val_injective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   let κ : (F ≃+* F) → {x : F // x ≠ 0} := fun θ =>
     ⟨θ (g : F), fun h => g.ne_zero (θ.injective (h.trans (map_zero θ).symm))⟩
@@ -65,7 +65,7 @@ theorem card_ringEquiv_lt (F : Type) [Field F] [Finite F] : Nat.card (F ≃+* F)
 theorem exists_ne_zero_fixed {H : Type} [Group H] [Finite H] (hH : IsPGroup 2 H)
     {W : Type} [Zero W] [Finite W] (hW : Even (Nat.card W)) (ρ : H →* Equiv.Perm W)
     (h0 : ∀ h : H, ρ h 0 = 0) : ∃ x : W, x ≠ 0 ∧ ∀ h : H, ρ h x = x := by
-  letI : MulAction H W := MulAction.compHom W ρ
+  let : MulAction H W := MulAction.compHom W ρ
   have hsmul : ∀ (h : H) (x : W), h • x = ρ h x := fun _ _ => rfl
   have hmod : Nat.card W ≡ Nat.card (MulAction.fixedPoints H W) [MOD 2] :=
     hH.card_modEq_card_fixedPoints W

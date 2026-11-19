@@ -16,11 +16,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 @[expose] def PerpB (M Q B : Subgroup G) : Subgroup G :=
   Q ⊓ Subgroup.centralizer (Lgen M B : Set G)
 
+omit [Finite G] in
 theorem Ctx.Lgen_le_Q (hc : Ctx M Q Z B) : Lgen M B ≤ Q := by
   refine iSup₂_le fun m hm => ?_
   exact (Subgroup.map_mono hc.le : conjSubgroup m B ≤ conjSubgroup m Q).trans
     (hc.conj_Q_eq hm).le
 
+omit [Finite G] in
 theorem PerpB_le_Q : PerpB M Q B ≤ Q := inf_le_left
 
 theorem Ctx.PerpB_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) {x : G} (hx : x ∈ PerpB M Q B) :
@@ -34,12 +36,13 @@ theorem Ctx.PerpB_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) {x : G} (hx : x
     _ = m * (x * (m⁻¹ * n * m)) * m⁻¹ := by rw [hc']
     _ = m * x * m⁻¹ * n := by group
 
-theorem Ctx.Z_le_PerpB (hc : Ctx M Q Z B) : Z ≤ PerpB M Q B := fun z hz =>
-  ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun n hn =>
+theorem Ctx.Z_le_PerpB (hc : Ctx M Q Z B) : Z ≤ PerpB M Q B := fun _z hz =>
+  ⟨hc.Z_le_Q hz, Subgroup.mem_centralizer_iff.mpr fun _n hn =>
     (hc.hyp.toHyp79.V_central hz (hc.Lgen_le_Q hn)).symm⟩
 
-theorem Ctx.PerpB_le_centralizer_B (hc : Ctx M Q Z B) :
-    PerpB M Q B ≤ Subgroup.centralizer (B : Set G) := fun x hx =>
+omit [Finite G] in
+theorem Ctx.PerpB_le_centralizer_B (_hc : Ctx M Q Z B) :
+    PerpB M Q B ≤ Subgroup.centralizer (B : Set G) := fun _x hx =>
   Subgroup.mem_centralizer_iff.mpr fun b hb =>
     Subgroup.mem_centralizer_iff.mp hx.2 b (le_Lgen_self M B hb)
 
@@ -61,6 +64,7 @@ theorem Ctx.comm_mem_PerpB (hc : Ctx M Q Z B) {r c : G} (hr : r ∈ M) (hcc : c 
   rw [commutatorElement_def, show r * c * r⁻¹ * c⁻¹ = (r * c * r⁻¹) * c⁻¹ from rfl]
   exact (PerpB M Q B).mul_mem (hc.PerpB_conj hr hcc) ((PerpB M Q B).inv_mem hcc)
 
+omit [Finite G] in
 theorem StrothHyp.exists_ne_one_mem_Z (H : StrothHyp M Q Z) : ∃ z ∈ Z, z ≠ 1 := by
   by_contra h
   push Not at h
@@ -69,6 +73,7 @@ theorem StrothHyp.exists_ne_one_mem_Z (H : StrothHyp M Q Z) : ∃ z ∈ Z, z ≠
   rw [h1, Subgroup.card_bot] at h2
   omega
 
+omit [Finite G] in
 theorem Ctx.exists_ne_one_B (hc : Ctx M Q Z B) : ∃ c ∈ B, c ≠ 1 := by
   obtain ⟨g, hg⟩ := hc.conj
   obtain ⟨z, hz, hz1⟩ := hc.hyp.exists_ne_one_mem_Z

@@ -40,7 +40,7 @@ theorem finite_graphFixedRootGroup_D4 {K : Type} [Field K] [Finite K] (σ : K �
 theorem noL2Layer_fieldActor_odd {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3) (σ : K ≃+* K)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) : NoL2Layer (fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hs := isSimpleGroup_fixSubgroup_fieldActor_D4 ℓ f hℓ hℓ2 K hK σ hσ
   have hnab := nonabelian_fixSubgroup_fieldActor_D4 ℓ f hℓ hℓ2 K hK σ hσ
   refine noL2_of_simple_fixed _ hs hnab fun r hr => ?_
@@ -68,7 +68,7 @@ theorem simple_fixSubgroup_fieldActor_two {f : ℕ} (hf : 2 ≤ f) {K : Type} [F
     (by omega)
   obtain ⟨hs, a, b, hab⟩ := isSimple_of_isQuasisimple_center_bot hq
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
-  haveI := hs
+  have := hs
   refine ⟨e.isSimpleGroup, e.symm a, e.symm b, fun h => hab ?_⟩
   have := congrArg e h
   rw [map_mul, map_mul, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply] at this
@@ -77,7 +77,7 @@ theorem simple_fixSubgroup_fieldActor_two {f : ℕ} (hf : 2 ≤ f) {K : Type} [F
 theorem noL2Layer_fieldActor_two {f : ℕ} (hf : 2 ≤ f) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     NoL2Layer (fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   obtain ⟨hs, hnab⟩ := simple_fixSubgroup_fieldActor_two hf hK σ hσ
   refine noL2_of_simple_fixed _ hs hnab fun r hr => ?_
   have h4 : 4 ≤ 2 ^ f := by
@@ -91,7 +91,7 @@ theorem noL2Layer_fieldActor_two {f : ℕ} (hf : 2 ≤ f) {K : Type} [Field K] [
 theorem noL2Layer_fieldActor_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 1) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ 1)) :
     NoL2Layer (fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   refine noL2Layer_of_card_dvd _ (N := 12096) (by norm_num) ?_ 30 (by norm_num) ?_
   · rw [card_fixSubgroup_fieldActor Nat.prime_two le_rfl hK σ hσ]
     norm_num [lieOrderNumerator]

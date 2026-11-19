@@ -298,7 +298,7 @@ theorem b2_a (h : B2Rel s ms l ml a ma b mb) :
       _ = ([ms, b, ms, b, l] : List H).prod := step_word [] [l] [a, l] [ms, b, ms, b] (fun w => (B2Rel.r11' h w).symm)
   simpa [mul_assoc] using key
 
-@[expose] def b2t (s ms l ml a ma b mb : H) : ℕ → H
+@[expose] def b2t (s _ms l ml _a _ma b mb : H) : ℕ → H
   | 0 => mb
   | 1 => b
   | 2 => s * mb * s

@@ -31,7 +31,7 @@ theorem odd_trivial {z : X} (hz : Odd (orderOf z)) {P Q : Subgroup X} (hP : IsPG
       have h2 : z * (⁅z, x⁆ ^ n * x) * z⁻¹ = (z * ⁅z, x⁆ * z⁻¹) ^ n * (z * x * z⁻¹) := by
         have := (MulAut.conj z).map_mul (⁅z, x⁆ ^ n) x
         have h3 := map_pow (MulAut.conj z) ⁅z, x⁆ n
-        simpa [MulAut.conj_apply, h3] using this
+        simp
       rw [h2, hzc, hzx, pow_succ, mul_assoc]
   have hm : z ^ orderOf z = 1 := pow_orderOf_eq_one z
   have hc1 : ⁅z, x⁆ ^ orderOf z = 1 := by
@@ -218,7 +218,7 @@ theorem exists_hom_of_prod {M : Type*} [Group M] {U Y V' : Subgroup X}
         _ = (ψ u : X) * (((ψ u' : X) * (ψv u : X))) * ψv u' := by rw [this]
         _ = _ := by group
     have := hψ' (u * u') (ψ u * ψ u') (ψv u * ψv u') e1
-    simp only [MonoidHom.coe_mk, OneHom.coe_mk, this, map_mul]
+    simp only [this, map_mul]
   · intro y
     have := hψ' (Subgroup.inclusion hYU y) y 1 (by simp)
     simpa using this

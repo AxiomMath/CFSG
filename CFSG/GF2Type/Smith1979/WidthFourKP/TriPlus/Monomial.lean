@@ -61,7 +61,7 @@ theorem le_normalizer (E : EigenBasis Y L σ l) (hL2 : ∀ s ∈ L, s * s = 1) :
         _ = y := by rw [hsq, one_mul, mul_one]
     rwa [hy'] at hforward
 
-theorem disjoint (E : EigenBasis Y L σ l) (hL : Nat.card L = 8)
+theorem disjoint (E : EigenBasis Y L σ l) (_hL : Nat.card L = 8)
     (hL2 : ∀ s ∈ L, s * s = 1) : Disjoint Y L := by
   rw [disjoint_iff, eq_bot_iff]
   intro y hy
@@ -83,7 +83,7 @@ theorem card_sup (E : EigenBasis Y L σ l) (hL : Nat.card L = 8)
   rw [CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer Y L
     (E.le_normalizer hL2) (E.disjoint hL hL2), E.card_range, hL]
 
-theorem sigma_single_eq_pow (E : EigenBasis Y L σ l) (i : Fin 3) (s : ZMod 3) :
+theorem sigma_single_eq_pow (_E : EigenBasis Y L σ l) (i : Fin 3) (s : ZMod 3) :
     σ (Multiplicative.ofAdd (Pi.single i s)) = eb σ i ^ s.val := by
   have h : (Pi.single i s : Fin 3 → ZMod 3) =
       s.val • (Pi.single i (1 : ZMod 3) : Fin 3 → ZMod 3) :=
@@ -97,7 +97,7 @@ theorem sigma_single_eq_pow (E : EigenBasis Y L σ l) (i : Fin 3) (s : ZMod 3) :
         map_pow σ _ _
     _ = eb σ i ^ s.val := rfl
 
-theorem pow_sigma_single (E : EigenBasis Y L σ l) (i : Fin 3) (s t : ZMod 3) :
+theorem pow_sigma_single (_E : EigenBasis Y L σ l) (i : Fin 3) (s t : ZMod 3) :
     σ (Multiplicative.ofAdd (Pi.single i s)) ^ t.val =
       σ (Multiplicative.ofAdd (Pi.single i (t * s))) := by
   rw [← map_pow, ← ofAdd_nsmul]
@@ -205,7 +205,7 @@ private theorem lineIdx_spec (S : Setup M Y L) (x : M) (i : Fin 3) :
   Classical.choose_spec (line_exists S x i)
 
 private theorem line_unique (S : Setup M Y L) {j j' : Fin 3} {s s' : ZMod 3}
-    (hs : s ≠ 0) (hs' : s' ≠ 0)
+    (hs : s ≠ 0) (_hs' : s' ≠ 0)
     (h : S.σ (Multiplicative.ofAdd (Pi.single j s)) =
       S.σ (Multiplicative.ofAdd (Pi.single j' s'))) :
     j = j' ∧ s = s' := by
@@ -316,7 +316,7 @@ private noncomputable def perm (S : Setup M Y L) : M →* Equiv.Perm (Fin 3) whe
     intro i
     have h1 : ((1 : M) : X) * eb S.σ i * ((1 : M) : X)⁻¹ = eb S.σ i := by simp
     have := (lineIdx_unique S (x := 1) (i := i) (j := i) (s := 1) (by decide)
-      (by simpa [eb] using h1)).1
+      (by simp [eb])).1
     simpa [toPerm] using this
   map_mul' := toPerm_mul S
 
@@ -406,7 +406,7 @@ private theorem mem_sup_of_perm_eq_one (S : Setup M Y L) {x : M}
     have hzi := hz_eq i
     calc (wM : X) * eb S.σ i * (wM : X)⁻¹
         = z⁻¹ * ((x : X) * eb S.σ i * (x : X)⁻¹) * z := by
-            simp only [wM, Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [wM]
             group
       _ = z⁻¹ * (z * eb S.σ i * z⁻¹) * z := by rw [← hzi]
       _ = eb S.σ i := by group
@@ -418,7 +418,7 @@ private theorem mem_sup_of_perm_eq_one (S : Setup M Y L) {x : M}
       _ = eb S.σ i * (wM : X) := by rw [h]
   have hwY : (wM : X) ∈ Y := S.centralizes wM wM.2 (comm_of_eb S hwcomm)
   have hx_eq : (x : X) = z * (wM : X) := by
-    simp only [wM, Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [wM]
     group
   rw [hx_eq]
   exact (Y ⊔ L).mul_mem (Subgroup.mem_sup_right hzL) (Subgroup.mem_sup_left hwY)
@@ -488,7 +488,7 @@ private theorem exists_diag (S : Setup M Y L) (x : M) (i : Fin 3) :
           _ = ((x : X) * ((x : X)⁻¹ * eb S.σ j * ((x : X)⁻¹)⁻¹) *
                 (x : X)⁻¹)⁻¹ := by rw [hzi]
           _ = (eb S.σ j)⁻¹ := by group
-      rw [if_pos hjk]
+      rw [ite_eq_left hjk]
       exact hvj
     · have hi' : i' ≠ i := by
         intro h
@@ -507,7 +507,7 @@ private theorem exists_diag (S : Setup M Y L) (x : M) (i : Fin 3) :
           _ = (x : X) * ((x : X)⁻¹ * eb S.σ j * ((x : X)⁻¹)⁻¹) * (x : X)⁻¹ := by
                 rw [hz]
           _ = eb S.σ j := by group
-      rw [if_neg hjk]
+      rw [ite_eq_right hjk]
       exact hvj
   have hu_conj : ∀ j : Fin 3, u * eb S.σ j * u⁻¹ = eb S.σ j := by
     intro j
@@ -522,7 +522,7 @@ private theorem exists_diag (S : Setup M Y L) (x : M) (i : Fin 3) :
                 simpa [eb] using S.E.conj_l_single j (1 : ZMod 3)
               rw [hl]
               have hvj := hv_action j
-              rw [if_pos hjk] at hvj
+              rw [ite_eq_left hjk] at hvj
               calc v * (eb S.σ j)⁻¹ * v⁻¹ = (v * eb S.σ j * v⁻¹)⁻¹ := by group
                 _ = ((eb S.σ j)⁻¹)⁻¹ := by rw [hvj]
                 _ = eb S.σ j := inv_inv _
@@ -531,7 +531,7 @@ private theorem exists_diag (S : Setup M Y L) (x : M) (i : Fin 3) :
                 simpa [eb] using S.E.conj_l_single_of_ne hjk (1 : ZMod 3)
               rw [hl]
               have hvj := hv_action j
-              rw [if_neg hjk] at hvj
+              rw [ite_eq_right hjk] at hvj
               exact hvj
   have hu_comm_eb : ∀ j : Fin 3, u * eb S.σ j = eb S.σ j * u := by
     intro j

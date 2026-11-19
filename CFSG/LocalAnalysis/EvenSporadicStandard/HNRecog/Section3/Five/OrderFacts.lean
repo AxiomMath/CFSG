@@ -12,7 +12,7 @@ theorem exists_orderOf_eleven (hI : TwoHSInterface) {G : Type} [Group G] [Finite
     (h : IsF5Type a z) : ∃ ω : G, ω ∈ Gx a ∧ orderOf ω = 11 := by
   have hcard := card_centralizer_a_of_isF5Type hI h
   have hdvd : 11 ∣ Nat.card ↥(Gx a) := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Gx a)) 11 hdvd
   exact ⟨(g : G), g.2, (Subgroup.orderOf_coe g).trans hg⟩
 
@@ -21,7 +21,7 @@ theorem isConj_of_orderOf_eleven (hI : TwoHSInterface) (hS : SuborbitFacts) {G :
     (hcard : Nat.card G = 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19) {ω ω' : G} (hω : orderOf ω = 11)
     (hω' : orderOf ω' = 11) : IsConj ω ω' := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hpcard : padicValNat 11 (Nat.card G) = 1 := by
     have hk : 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 19 ≠ 0 := by norm_num
     rw [hcard, show 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19

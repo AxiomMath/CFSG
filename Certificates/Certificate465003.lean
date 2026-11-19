@@ -93,7 +93,7 @@ theorem hPT : ∀ c < 9, PermN 42 6 63 (lane 252 pm252 PT c) ∧
   rw [gP]
   exact ⟨hPgrp.1 c hc, (hPgrp.2.2 _).2 ⟨c, hc, rfl⟩⟩
 
-theorem gM {LM j : ℕ} (hj : j < 6) (hLM : lettersOK 42 6 63 252 (lane 252 pm252 LM) 3 = true)
+theorem gM {LM j : ℕ} (_hj : j < 6) (hLM : lettersOK 42 6 63 252 (lane 252 pm252 LM) 3 = true)
     (he : lane 252 pm252 LM 0 = lane 252 pm252 LP 0 ∧ lane 252 pm252 LM 2 = lane 252 pm252 LP 2 ∧
       lane 252 pm252 LM 4 = lane 252 pm252 TG (j + 1))
     (hb : tabEqB mRs[j]! (lane 252 pm252 TG (j + 1)) = true) :

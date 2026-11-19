@@ -123,7 +123,7 @@ theorem E187C.exists_orderOf_four_mem_W_of {G : Type} [Group G] [Finite G]
   obtain ⟨u, hu, hu4⟩ := exists_orderOf_eq_four_of_isPGroup_of_isCyclic (h2U hU) hcyc h4
   refine ⟨u, hu, hu4, ?_⟩
   have hSp : IsPGroup 2 ↥(J ⊓ (S : Subgroup G)) :=
-    (Sylow.isPGroup' S).to_le (inf_le_right : J ⊓ (S : Subgroup G) ≤ S)
+    (Sylow.isPGroup S).to_le (inf_le_right : J ⊓ (S : Subgroup G) ≤ S)
   have heq : J ⊓ (S : Subgroup G) = T := hT.eq_of_le hSp inf_le_left hle
   rw [← heq]
   exact ⟨hu.1, (hηU _ hmem).2 hu⟩
@@ -251,7 +251,7 @@ theorem E187C.exists_fourGroup_of
   have hKperp : K' ∈ KPerp Ω K := by
     refine Set.mem_insert_of_mem _ ⟨hK'Ω, hK'ne, R', hR', hR'K', fun x hx => ?_⟩
     exact hnormtw hK'Ω hK hK'ne hzK' hzK (hR'K' hx)
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   have hcomm' : Commutes R R' :=
     hcmmtw hK hK'Ω (Ne.symm hK'ne) hzK hzK' hRK hR'K' hRR'2
   exact hcent hzK hKperp hR' hR'K' hcomm' e (hURR he) (hUW he) he1 (hsq e he)

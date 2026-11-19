@@ -24,6 +24,7 @@ private theorem phi_inv_fix (AM : Smith81.Smith23E1.ActionModel M Q Z) {m : ↥(
       rw [← LinearEquiv.mul_apply, ← map_mul, inv_mul_cancel, map_one]
       rfl
 
+omit [Finite G] in
 private theorem phi_mul_inv_apply (AM : Smith81.Smith23E1.ActionModel M Q Z) (m : ↥(H0 M Z))
     (x : AM.M₀.E) : AM.φ m (AM.φ m⁻¹ x) = x := by
   rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
@@ -77,7 +78,7 @@ theorem Sec108Data.comm_mem_CN_of_fix (D : Sec108Data hc t Y) {d : G} (hd : d �
     have hsub : (⟨⁅r, d⁆, hcommH⟩ : ↥(H0 M Z)) =
         ⟨r, hrH⟩ * ⟨d, hd⟩ * ⟨r, hrH⟩⁻¹ * ⟨d, hd⟩⁻¹ := by
       refine Subtype.ext ?_
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [commutatorElement_def]
     rw [hsub]
     simp only [map_mul, LinearEquiv.mul_apply]

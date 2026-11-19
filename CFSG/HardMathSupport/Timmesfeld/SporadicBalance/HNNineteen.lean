@@ -27,7 +27,7 @@ theorem ncard_fix_conj (g y : G) :
     {x : α | (g * y * g⁻¹) • x = x}.ncard = {x : α | y • x = x}.ncard := by
   have e : {x : α | (g * y * g⁻¹) • x = x} = (fun x => g • x) '' {x : α | y • x = x} := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · intro h
       refine ⟨g⁻¹ • x, ?_, smul_inv_smul g x⟩
@@ -181,7 +181,7 @@ theorem ncard_fix_f : {x : X | fJ • x = x}.ncard = 50 := by
   have e : {x : X | fJ • x = x} = Set.range fun t : Fin 50 =>
       (⟨FAData.fFixed.getD t 0, CFSG.Sporadic.HNOddCore.fFixed_lt t t.2⟩ : X) := by
     ext x
-    rw [Set.mem_setOf_eq, Certificates.certificate2085.1 x, Set.mem_range]
+    rw [Set.mem_ofPred_eq, Certificates.certificate2085.1 x, Set.mem_range]
     constructor
     · intro hx
       obtain ⟨t, ht, he⟩ := List.getElem_of_mem hx
@@ -266,7 +266,7 @@ theorem not_commute_nineteenJ
   have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   have hT : {x : X | qv x = 1}.ncard = 166459 := Certificates.certificate13608.1
   obtain ⟨p, -, hp⟩ := exists_fix_of_not_dvd hy {x : X | qv x = 1}
-    (fun x => by rw [Set.mem_setOf_eq, Set.mem_setOf_eq, qv_smul hc]) (by rw [hT]; norm_num)
+    (fun x => by rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, qv_smul hc]) (by rw [hT]; norm_num)
   have := hns_pretransitive
   obtain ⟨t, ht⟩ := MulAction.exists_smul_eq JH x0 p
   have hz : t⁻¹ * y * t⁻¹⁻¹ ∈ HJ := by
@@ -280,7 +280,7 @@ theorem not_commute_nineteenJ
     · rw [he, Certificates.certificate13608.2]
   obtain ⟨x, hxy, hxu⟩ := exists_fix_of_not_dvd orderOf_nineteenJ {x : X | y • x = x}
     (fun x => by
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq, ← mul_smul, hc, mul_smul, smul_left_cancel_iff])
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, ← mul_smul, hc, mul_smul, smul_left_cancel_iff])
     (by rw [hF]; norm_num)
   exact nineteenJ_smul_ne x hxu
 

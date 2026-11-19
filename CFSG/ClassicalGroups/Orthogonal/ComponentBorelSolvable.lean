@@ -16,33 +16,33 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 
 theorem isSolvable_posBorel {K : Type} [Field K] [Finite K] (r : ℕ) :
     Group.IsSolvable ↥(posBorel r K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let p := ringChar K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
-  haveI : CharP K p := ringChar.charP K
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : CharP K p := ringChar.charP K
   have hmain :=
     (orthogonal_geometry_split_positive_unipotent_matrices (r := r) (K := K)).2.2.2.2.2.2.2.2.2.2
       p ‹CharP K p› ‹Finite K›
-  haveI hfin : Finite ↥(posBorel r K) :=
+  have hfin : Finite ↥(posBorel r K) :=
     Finite.of_injective
       (fun g : ↥(posBorel r K) =>
         (fun x : Fin r ⊕ Fin r → K =>
           (g : (Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) x))
       (fun a b h => Subtype.ext (LinearEquiv.ext (congrFun h)))
-  haveI : Group.IsSolvable ↥((posUnip r K).subgroupOf (posBorel r K)) := by
+  have : Group.IsSolvable ↥((posUnip r K).subgroupOf (posBorel r K)) := by
     have hP : IsPGroup p ((posUnip r K).subgroupOf (posBorel r K)) :=
       hmain.2.1.of_equiv
         (Subgroup.subgroupOfEquivOfLe (posUnip_le_posBorel (r := r) (K := K))).symm
-    haveI := IsPGroup.isNilpotent hP
+    have := IsPGroup.isNilpotent hP
     infer_instance
-  haveI : Group.IsSolvable (Fin r → Kˣ) := Group.isSolvable_of_comm fun a b => mul_comm a b
+  have : Group.IsSolvable (Fin r → Kˣ) := Group.isSolvable_of_comm fun a b => mul_comm a b
   refine Group.isSolvable_of_ker_le_range
     ((posUnip r K).subgroupOf (posBorel r K)).subtype (posBorelDiag r K) ?_
   rw [posBorelDiag_ker, Subgroup.range_subtype]
 
 theorem isSolvable_flagStab {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 3 ≤ r) :
     Group.IsSolvable ↥(flagStab r K) := by
-  haveI : Group.IsSolvable ↥(posBorel r K) := isSolvable_posBorel r
+  have : Group.IsSolvable ↥(posBorel r K) := isSolvable_posBorel r
   have hXX : ∀ a ∈ orthElementaryGroup (quadPlus r K),
       (flag r K r).map (a : (Fin r ⊕ Fin r → K) →ₗ[K] (Fin r ⊕ Fin r → K)) ≠
         Xstar r K (by omega) := fun a ha => map_flag_top_ne_Xstar (K := K) hr ha
@@ -50,16 +50,16 @@ theorem isSolvable_flagStab {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 3 �
     (Subgroup.inclusion_injective (flagStab_le_posBorel (by omega) hXX))
 
 theorem isSolvable_statedDerivedFlagStabilizer_plus {K : Type} [Field K] [Finite K] {k : ℕ}
-    (hk : Nat.card K = 2 ^ k) (m : ℕ) (hm : 3 ≤ m) :
+    (_hk : Nat.card K = 2 ^ k) (m : ℕ) (hm : 3 ≤ m) :
     Group.IsSolvable ↥(statedDerivedFlagStabilizer (StatedQuadPlus m K) (stdFlag m K)) := by
-  haveI : Group.IsSolvable ↥(flagStab m K) := isSolvable_flagStab hm
+  have : Group.IsSolvable ↥(flagStab m K) := isSolvable_flagStab hm
   change Group.IsSolvable ↥(plusDerivedBorel m K)
-  haveI hsub : Group.IsSolvable
+  have hsub : Group.IsSolvable
       ↥((flagStab m K).subgroupOf (orthElementaryGroup (quadPlus m K))) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (flagStab_le (r := m) (K := K))).toMonoidHom)
       (MulEquiv.injective _)
-  haveI himg : Group.IsSolvable
+  have himg : Group.IsSolvable
       ↥((plusDerivedBorel m K).map (plusDerivedEquiv m K hm).toMonoidHom) := by
     rw [plusDerivedBorel_map m K hm]
     exact hsub
@@ -71,7 +71,7 @@ theorem isSolvable_statedDerivedFlagStabilizer_plus {K : Type} [Field K] [Finite
 theorem isSolvable_plusProjectiveBorel {K : Type} [Field K] [Finite K] {k : ℕ}
     (hk : Nat.card K = 2 ^ k) (m : ℕ) (hm : 3 ≤ m) :
     Group.IsSolvable ↥(plusProjectiveBorel m K) := by
-  haveI hB : Group.IsSolvable ↥(plusDerivedBorel m K) :=
+  have hB : Group.IsSolvable ↥(plusDerivedBorel m K) :=
     isSolvable_statedDerivedFlagStabilizer_plus hk m hm
   let q : StatedOmega (StatedQuadPlus m K) →*
       StatedProj (StatedOmega (StatedQuadPlus m K)) :=
@@ -102,11 +102,11 @@ theorem isSolvable_normalizer_sylow_of_component_orth
     {U : Subgroup L} (hUmax : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     Group.IsSolvable ↥(Subgroup.normalizer (U : Set L)) := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.D m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   let E := StatedProj (StatedOmega (StatedQuadPlus m F))
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
@@ -121,8 +121,8 @@ theorem isSolvable_normalizer_sylow_of_component_orth
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -130,7 +130,7 @@ theorem isSolvable_normalizer_sylow_of_component_orth
       rw [← hQcardpow]
       omega
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h4
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hm3 : 3 ≤ m := by omega
   have eD : D ≃* E :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid m Q hv
@@ -190,9 +190,9 @@ theorem isSolvable_normalizer_sylow_of_component_orth
       (plusProjectiveBorel m F).map (MulAut.conj g).toMonoidHom := by
     rw [hg, ← Subgroup.map_equiv_normalizer_eq (plusProjectiveUnipotent m F) (MulAut.conj g),
       plusProjectiveUnipotent_normalizer m F (by omega)]
-  haveI hPB : Group.IsSolvable ↥(plusProjectiveBorel m F) :=
+  have hPB : Group.IsSolvable ↥(plusProjectiveBorel m F) :=
     isSolvable_plusProjectiveBorel hFcardpow m (by omega)
-  haveI hNE : Group.IsSolvable
+  have hNE : Group.IsSolvable
       ↥(Subgroup.normalizer ((U.map eL.toMonoidHom : Subgroup E) : Set E)) := by
     rw [hN]
     exact Group.isSolvable_of_surjective
@@ -200,7 +200,7 @@ theorem isSolvable_normalizer_sylow_of_component_orth
         (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).toMonoidHom)
       (MulEquiv.surjective _)
   have hmap := Subgroup.map_equiv_normalizer_eq (U : Subgroup L) eL
-  haveI : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eL.toMonoidHom) :=
+  have : Group.IsSolvable ↥((Subgroup.normalizer (U : Set L)).map eL.toMonoidHom) :=
     hmap.symm ▸ hNE
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.equivMapOfInjective (Subgroup.normalizer (U : Set L))

@@ -124,9 +124,9 @@ open CFSG CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 private theorem kgLangS1ALinTypeDetAux_solvable_projectiveSL_two_small
     (K : Type) [Field K] [Finite K] (hcard : Nat.card K = 2 ∨ Nat.card K = 3) :
     Group.IsSolvable (LinearFlag.projectiveSL 2 K) := by
-  haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Group.isSolvable_of_isSolvable_injective Matrix.SpecialLinearGroup.toGL_injective
   exact Group.isSolvable_of_surjective (LinearFlag.proj_surjective 2 K)
 
@@ -156,18 +156,18 @@ theorem kgLangS1A_psl_typeDet
     (ψ : LinearFlag.projectiveSL d F₀ ≃* LargeEvenProj (LargeEvenSLGroup (Fin d₁) E)) :
     d₁ = d ∧ Nat.card E = Nat.card F₀ := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   let e : LinearFlag.projectiveSL d F₀ ≃* LinearFlag.projectiveSL d₁ E :=
     ψ.trans (TypeA.recipeEquiv d₁ E)
   have hsimple : IsSimpleGroup (LinearFlag.projectiveSL d F₀) :=
     CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL (k := F₀) (n := d) hd
-  haveI := hsimple
+  have := hsimple
   have hperf : Group.IsPerfect (LinearFlag.projectiveSL d F₀) := by
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F₀) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin d) F₀) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_perfect d F₀
         (by omega) (Or.inl (by omega)) (Or.inl (by omega))
     exact Group.IsPerfect.ofSurjective (LinearFlag.proj_surjective d F₀)
-  haveI := hperf
+  have := hperf
   have hsolvX : ¬ Group.IsSolvable (LinearFlag.projectiveSL d F₀) :=
     Group.IsPerfect.not_isSolvable _
   have hdne2 : d ≠ 2 := by omega
@@ -177,17 +177,17 @@ theorem kgLangS1A_psl_typeDet
       (fun h => hdne2 h.1) (fun h => hdne2 h.1) (MulEquiv.refl _)
   have hd1 : 2 ≤ d₁ := by
     by_contra h
-    haveI : Subsingleton (LinearFlag.projectiveSL d₁ E) :=
+    have : Subsingleton (LinearFlag.projectiveSL d₁ E) :=
       CFSG.AGLEmbedding.ToralCensus.subsingleton_projectiveSL (n := d₁) (by omega) E
     exact not_subsingleton (LinearFlag.projectiveSL d F₀) e.toEquiv.subsingleton
   have hE22 : ¬ (d₁ = 2 ∧ Nat.card E = 2) := by
     rintro ⟨rfl, hcardE⟩
-    haveI : Group.IsSolvable (LinearFlag.projectiveSL 2 E) :=
+    have : Group.IsSolvable (LinearFlag.projectiveSL 2 E) :=
       kgLangS1ALinTypeDetAux_solvable_projectiveSL_two_small E (Or.inl hcardE)
     exact hsolvX (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   have hE23 : ¬ (d₁ = 2 ∧ Nat.card E = 3) := by
     rintro ⟨rfl, hcardE⟩
-    haveI : Group.IsSolvable (LinearFlag.projectiveSL 2 E) :=
+    have : Group.IsSolvable (LinearFlag.projectiveSL 2 E) :=
       kgLangS1ALinTypeDetAux_solvable_projectiveSL_two_small E (Or.inr hcardE)
     exact hsolvX (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   obtain ⟨g, hℓprime, hcardE⟩ := FiniteField.card E (ringChar E)

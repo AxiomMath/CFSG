@@ -192,7 +192,7 @@ private theorem rckGL2_centerPPrime_su {F : Type} [Field F] [Finite F] [CharP F 
     simpa only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.GeneralLinearGroup.coe_one, Matrix.one_apply_eq, Matrix.diagonal_apply_eq,
       Units.val_pow_eq_pow_val] using h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc1 : c = 1 := Units.ext (eq_one_of_pow_eq_one_of_charP (p := 2) hc2F)
   exact Subtype.ext (by rw [hc, hc1, map_one, Subgroup.coe_one])
 
@@ -209,12 +209,12 @@ private theorem rckGL2_minus_rank_zero {K : Type} [Field K] {b c : K} {m : ℕ}
 theorem rckGL4_centerPPrime_spinMinus_two {K : Type} [Field K] [Finite K] [CharP K 2]
     {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     CenterPPrime (spinGroup (quadMinus 2 K b c)) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.LieType.Universal.Spin.Twisted.fact_shortField hirr
-  haveI := CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.charP_shortField (b := b) (c := c)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.LieType.Universal.Spin.Twisted.fact_shortField hirr
+  have := CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.charP_shortField (b := b) (c := c)
   have hQ : (polarBilin (quadMinus 2 K b c)).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite 2 K hirr
-  haveI : Algebra.IsCentral K (CliffordAlgebra (quadMinus 2 K b c)) :=
+  have : Algebra.IsCentral K (CliffordAlgebra (quadMinus 2 K b c)) :=
     isCentral_cliffordAlgebra_quadMinus (n := 2) (b := b) (c := c) hirr
   have hinj : Function.Injective (spinAction (quadMinus 2 K b c)) := by
     rw [← MonoidHom.ker_eq_bot_iff]
@@ -230,7 +230,7 @@ theorem rckGL4_centerPPrime_spinMinus_two {K : Type} [Field K] [Finite K] [CharP
   have hcardL : Nat.card ↥L = Nat.card ↥(omegaGroup (quadMinus 2 K b c) hQ) := by
     have hLcard : Nat.card ↥L = Nat.card K ^ 2 * (Nat.card K ^ 4 - 1) := by
       dsimp only [L]
-      haveI := CFSG.LieType.Universal.Spin.Twisted.finite_shortField (b := b) (c := c)
+      have := CFSG.LieType.Universal.Spin.Twisted.finite_shortField (b := b) (c := c)
       let e := CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.shortEquiv
         (n := 2) (hirr := hirr) (i := (0 : Fin (2 - 1))) (by norm_num)
       rw [← Nat.card_congr e.toEquiv,
@@ -325,7 +325,7 @@ theorem rckGL1_centerPPrime_ggU
     by_cases hm : 3 ≤ m
     · have e : ggU .POmegaPlus m g = ⟨spinGroup (Spin.quadPlus m (GaloisField 2 g)),
           Spin.plusDatum m (GaloisField 2 g) hm⟩ := by
-        simp only [ggU, lieUniversal, dif_pos hm]
+        simp only [ggU, lieUniversal, dite_eq_left hm]
       rw [e]
       have hcenter := CFSG.StandardType.RootCentOmega.center_spinGroup_quadPlus_eq_bot_charTwo
         (K := GaloisField 2 g) hm
@@ -333,7 +333,7 @@ theorem rckGL1_centerPPrime_ggU
       rw [hcenter, Subgroup.mem_bot] at hz
       exact hz
     · have e : ggU .POmegaPlus m g = trivialUniversal := by
-        simp only [ggU, lieUniversal, dif_neg hm]
+        simp only [ggU, lieUniversal, dite_eq_right hm]
       rw [e]
       change CenterPPrime (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2)) 2
       exact centerPPrime_specialLinear 0 (ZMod 2)

@@ -9,9 +9,10 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_two_pGroup_orderOf_ne_three {H : Subgroup G} (hH : IsPGroup 2 ↥H)
     {r : G} (hr : r ∈ H) : orderOf r ≠ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hH) ⟨r, hr⟩
   have hk' : orderOf r = 2 ^ k := by simpa using hk
   intro h3

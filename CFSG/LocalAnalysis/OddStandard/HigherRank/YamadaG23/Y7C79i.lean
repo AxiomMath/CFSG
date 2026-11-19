@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conjSub_inv_conjSub (x : G) (A : Subgroup G) :
     conjSub x⁻¹ (conjSub x A) = A := by
   unfold conjSub
@@ -23,12 +24,14 @@ private lemma conjSub_inv_conjSub (x : G) (A : Subgroup G) :
     group
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite G] in
 private lemma conjSub_self_conjSub_of_sq_one {t : G} (ht : t ^ 2 = 1) (A : Subgroup G) :
     conjSub t (conjSub t A) = A := by
   have ht' : t * t = 1 := by rw [← pow_two]; exact ht
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht'
   simpa only [htinv] using conjSub_inv_conjSub t A
 
+omit [Finite G] in
 private lemma conj_self_apply_of_sq_one {t : G} (ht : t ^ 2 = 1) (x : G) :
     t * (t * x * t⁻¹) * t⁻¹ = x := by
   have ht' : t * t = 1 := by rw [← pow_two]; exact ht
@@ -36,11 +39,13 @@ private lemma conj_self_apply_of_sq_one {t : G} (ht : t ^ 2 = 1) (x : G) :
     _ = (t * t) * x * (t * t)⁻¹ := by rw [mul_inv_rev]
     _ = x := by rw [ht', inv_one, one_mul, mul_one]
 
+omit [Finite G] in
 private lemma mem_conjSub_of_mem {c : G} {Y : Subgroup G} {x : G} (hx : x ∈ Y) :
     c * x * c⁻¹ ∈ conjSub c Y := by
   unfold conjSub
   exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 private lemma mem_sup_iff_exists_mul_of_commute {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} :
     x ∈ A ⊔ B ↔ ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -63,6 +68,7 @@ private lemma mem_sup_iff_exists_mul_of_commute {A B : Subgroup G}
       (fun b hb ↦ ⟨1, A.one_mem, b, hb, by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 private lemma eq_of_mul_eq_mul_of_inf_bot {A B : Subgroup G} (hinf : A ⊓ B = ⊥)
     {a1 a2 b1 b2 : G} (ha1 : a1 ∈ A) (hb1 : b1 ∈ B) (ha2 : a2 ∈ A) (hb2 : b2 ∈ B)
     (h : a1 * b1 = a2 * b2) : a1 = a2 ∧ b1 = b2 := by
@@ -81,10 +87,12 @@ private lemma eq_of_mul_eq_mul_of_inf_bot {A B : Subgroup G} (hinf : A ⊓ B = �
     exact mul_left_cancel h
   exact ⟨ha, hb⟩
 
+omit [Finite G] in
 theorem y7c_comm_conjSub (x : G) (A : Subgroup G) :
     conjSub x ⁅A, A⁆ = ⁅conjSub x A, conjSub x A⁆ := by
   simp only [conjSub, Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem y7c_normalizer_comm {A : Subgroup G} {x : G} (hx : x ∈ normalizer (A : Set G)) :
     x ∈ normalizer ((⁅A, A⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hx ⊢
@@ -138,6 +146,7 @@ theorem y7c_direct {M L1 L2 : Subgroup G} (h : Gl3Pair M L1 L2)
     calc u * v = (u * v * u⁻¹ * v⁻¹) * (v * u) := by group
       _ = v * u := by rw [hone, one_mul]
 
+omit [Finite G] in
 theorem y7c_centEl_equiv {K A B : Subgroup G} {t : G} (hd : IsInternalDirect K A B)
     (hAB : conjSub t A = B) (ht : t ^ 2 = 1) : Nonempty (↥A ≃* ↥(centEl K t)) := by
   obtain ⟨hsup, hinf, hc⟩ := hd

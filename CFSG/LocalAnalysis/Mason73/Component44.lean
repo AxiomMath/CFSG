@@ -70,10 +70,12 @@ section Component
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_commutator_comap {Y : Type*} [Group Y] {π : X →* Y} (hπ : Function.Surjective π)
     {L : Subgroup Y} (hL : ⁅L, L⁆ = L) : (⁅L.comap π, L.comap π⁆).map π = L := by
   rw [map_commutator, map_comap_eq_self_of_surjective hπ, hL]
 
+omit [Finite X] in
 theorem commutator_comap_sup_ker {Y : Type*} [Group Y] {π : X →* Y}
     (hπ : Function.Surjective π) {L : Subgroup Y} (hL : ⁅L, L⁆ = L) :
     ⁅L.comap π, L.comap π⁆ ⊔ π.ker = L.comap π := by
@@ -81,6 +83,7 @@ theorem commutator_comap_sup_ker {Y : Type*} [Group Y] {π : X →* Y}
 
 variable {N : Subgroup X} [N.Normal] {z : X}
 
+omit [Finite X] [N.Normal] in
 theorem eq_one_of_mem_zpowers_of_not_mem (hzN : N = zpowers z) (hz2 : orderOf z = 2)
     {K : Subgroup X} (hzK : z ∉ K) {x : X} (hxK : x ∈ K) (hxN : x ∈ N) : x = 1 := by
   rw [hzN, mem_zpowers_iff_of_orderOf_eq_two hz2] at hxN
@@ -88,6 +91,7 @@ theorem eq_one_of_mem_zpowers_of_not_mem (hzN : N = zpowers z) (hz2 : orderOf z 
   · exact h
   · exact absurd (h ▸ hxK) hzK
 
+omit [Finite X] in
 theorem mem_of_commute_of_center_eq_bot {L : Subgroup (X ⧸ N)} {K : Subgroup X}
     (hK : K.map (QuotientGroup.mk' N) = L) (hc : center L = ⊥) {a : X} (ha : a ∈ K)
     (hac : ∀ x ∈ K, a * x = x * a) : a ∈ N := by
@@ -104,6 +108,7 @@ theorem mem_of_commute_of_center_eq_bot {L : Subgroup (X ⧸ N)} {K : Subgroup X
   have : QuotientGroup.mk' N a = 1 := congrArg Subtype.val hπa
   rwa [← MonoidHom.mem_ker, QuotientGroup.ker_mk'] at this
 
+omit [Finite X] in
 theorem mem_or_mem_commutator_comap (hperf : commutator X = ⊤) (hNc : N ≤ center X)
     (hzN : N = zpowers z) (hz2 : orderOf z = 2) {L₁ L₂ : Subgroup (X ⧸ N)} [L₁.Normal]
     [L₂.Normal] (hinf : L₁ ⊓ L₂ = ⊥) (hsup : L₁ ⊔ L₂ = ⊤) (hL₁ : ⁅L₁, L₁⁆ = L₁)
@@ -111,8 +116,8 @@ theorem mem_or_mem_commutator_comap (hperf : commutator X = ⊤) (hNc : N ≤ ce
     z ∈ ⁅L₁.comap (QuotientGroup.mk' N), L₁.comap (QuotientGroup.mk' N)⁆ ∨
       z ∈ ⁅L₂.comap (QuotientGroup.mk' N), L₂.comap (QuotientGroup.mk' N)⁆ := by
   have hπ : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
-  haveI : (L₁.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
-  haveI : (L₂.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (L₁.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (L₂.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
   set K₁ := ⁅L₁.comap (QuotientGroup.mk' N), L₁.comap (QuotientGroup.mk' N)⁆ with hK₁def
   set K₂ := ⁅L₂.comap (QuotientGroup.mk' N), L₂.comap (QuotientGroup.mk' N)⁆ with hK₂def
   have hK₁ : K₁.map (QuotientGroup.mk' N) = L₁ := map_commutator_comap hπ hL₁
@@ -170,17 +175,19 @@ theorem mem_or_mem_commutator_comap (hperf : commutator X = ⊤) (hNc : N ≤ ce
   rw [← hab, orderOf_one] at hz2
   exact absurd hz2 (by norm_num)
 
+omit [Finite X] in
 theorem commutator_commutator_comap (hNc : N ≤ center X) {L : Subgroup (X ⧸ N)} [L.Normal]
     (hL : ⁅L, L⁆ = L) :
     ⁅⁅L.comap (QuotientGroup.mk' N), L.comap (QuotientGroup.mk' N)⁆,
         ⁅L.comap (QuotientGroup.mk' N), L.comap (QuotientGroup.mk' N)⁆⁆ =
       ⁅L.comap (QuotientGroup.mk' N), L.comap (QuotientGroup.mk' N)⁆ := by
-  haveI : (L.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (L.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
   have h := commutator_comap_sup_ker (QuotientGroup.mk'_surjective N) hL
   rw [QuotientGroup.ker_mk'] at h
   conv_rhs => rw [← h]
   rw [commutator_sup_eq_of_le_center hNc]
 
+omit [Finite X] [N.Normal] in
 theorem le_commutator_comap_of_mem (hzN : N = zpowers z) {K : Subgroup X} (hzK : z ∈ K) :
     N ≤ K := by
   intro x hx
@@ -188,6 +195,7 @@ theorem le_commutator_comap_of_mem (hzN : N = zpowers z) {K : Subgroup X} (hzK :
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hx
   exact zpow_mem hzK k
 
+omit [Finite X] in
 theorem center_commutator_comap (hNc : N ≤ center X) {L : Subgroup (X ⧸ N)} [L.Normal]
     (hL : ⁅L, L⁆ = L) (hc : center L = ⊥) :
     center ↥(⁅L.comap (QuotientGroup.mk' N), L.comap (QuotientGroup.mk' N)⁆ : Subgroup X) =
@@ -202,6 +210,7 @@ theorem center_commutator_comap (hNc : N ≤ center X) {L : Subgroup (X ⧸ N)} 
   · intro hxN g
     exact Subtype.ext (mem_center_iff.1 (hNc hxN) g)
 
+omit [Finite X] in
 theorem exists_surjective_commutator_comap {L : Subgroup (X ⧸ N)} [L.Normal]
     (hL : ⁅L, L⁆ = L) :
     ∃ θ : ↥(⁅L.comap (QuotientGroup.mk' N), L.comap (QuotientGroup.mk' N)⁆ : Subgroup X) →* L,
@@ -227,6 +236,7 @@ theorem exists_surjective_commutator_comap {L : Subgroup (X ⧸ N)} [L.Normal]
       change QuotientGroup.mk' N x = 1
       rwa [← MonoidHom.mem_ker, QuotientGroup.ker_mk']
 
+omit [Finite X] [N.Normal] in
 theorem card_subgroupOf_zpowers (hzN : N = zpowers z) (hz2 : orderOf z = 2) {K : Subgroup X}
     (hzK : z ∈ K) : Nat.card (N.subgroupOf K) = 2 := by
   rw [Nat.card_congr (subgroupOfEquivOfLe (le_commutator_comap_of_mem hzN hzK)).toEquiv, hzN,
@@ -254,7 +264,7 @@ theorem exists_classical_component_of_quaternion_central_product
         (CFSG.Open.IsQuasisimple K ∧ Nat.card (center K) = 2 ∧
           Nonempty (K ⧸ center K ≃* alternatingGroup (Fin 7)))) := by
   classical
-  haveI hNn : (zpowers z).Normal := zpowers_normal_of_mem_center hz
+  have hNn : (zpowers z).Normal := zpowers_normal_of_mem_center hz
   have hNc : zpowers z ≤ center X := (zpowers_le (H := center X)).2 hz
   have hπs : Function.Surjective (QuotientGroup.mk' (zpowers z)) :=
     QuotientGroup.mk'_surjective _
@@ -270,13 +280,13 @@ theorem exists_classical_component_of_quaternion_central_product
     intro L hL
     rcases hLtype L hL with he | ⟨p, k', hp, -, h5, ⟨e⟩⟩
     · obtain ⟨e⟩ := he
-      haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
       exact e.isSimpleGroup
     · have hk' : k' ≠ 0 := by
         rintro rfl
         rw [pow_zero] at h5
         omega
-      haveI : IsSimpleGroup PSL(2, GaloisField p k') :=
+      have : IsSimpleGroup PSL(2, GaloisField p k') :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
           rw [GaloisField.card p k' hk']
           omega)
@@ -289,10 +299,10 @@ theorem exists_classical_component_of_quaternion_central_product
   have hL₁ : ⁅L₁, L₁⁆ = L₁ := Subgroup.isPerfect_iff.1 ⟨hperf₁⟩
   have hL₂ : ⁅L₂, L₂⁆ = L₂ := Subgroup.isPerfect_iff.1 ⟨hperf₂⟩
   have hc₁ : center L₁ = ⊥ := by
-    haveI := hsimple L₁ (Set.mem_insert _ _)
+    have := hsimple L₁ (Set.mem_insert _ _)
     exact center_eq_bot_of_commutator_eq_top hperf₁
   have hc₂ : center L₂ = ⊥ := by
-    haveI := hsimple L₂ (Set.mem_insert_of_mem _ rfl)
+    have := hsimple L₂ (Set.mem_insert_of_mem _ rfl)
     exact center_eq_bot_of_commutator_eq_top hperf₂
   have key : ∀ L ∈ ({L₁, L₂} : Set (Subgroup (X ⧸ zpowers z))), L.Normal → ⁅L, L⁆ = L →
       center L = ⊥ →
@@ -303,8 +313,8 @@ theorem exists_classical_component_of_quaternion_central_product
           (CFSG.Open.IsQuasisimple K ∧ Nat.card (center K) = 2 ∧
             Nonempty (K ⧸ center K ≃* alternatingGroup (Fin 7)))) := by
     intro L hL hLn hLp hLc hzK
-    haveI := hLn
-    haveI hLhat : (L.comap (QuotientGroup.mk' (zpowers z))).Normal :=
+    have := hLn
+    have hLhat : (L.comap (QuotientGroup.mk' (zpowers z))).Normal :=
       Subgroup.Normal.comap inferInstance _
     set K := ⁅L.comap (QuotientGroup.mk' (zpowers z)), L.comap (QuotientGroup.mk' (zpowers z))⁆
       with hKdef
@@ -323,10 +333,10 @@ theorem exists_classical_component_of_quaternion_central_product
     rcases hLtype L hL with he | ⟨p, k', hp, hp2, h5, ⟨e⟩⟩
     · right
       obtain ⟨e⟩ := he
-      haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
       exact ⟨⟨hKperf, (eQ.trans e).isSimpleGroup⟩, hcard, ⟨eQ.trans e⟩⟩
     · left
-      haveI : Group.IsPerfect K := ⟨hKperf⟩
+      have : Group.IsPerfect K := ⟨hKperf⟩
       obtain ⟨hpp, -, F, hF, hFin, hFcard, ⟨eK⟩⟩ :=
         CFSG.ComponentClassification.CatFactsSmall.exists_sl2_equiv_of_perfect
           (P := K) (Q := L) inferInstance hθs (hθker'.le) (hθker'.symm ▸ hcard) hp2

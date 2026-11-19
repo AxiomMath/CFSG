@@ -38,7 +38,7 @@ private lemma teComm_commutator_mul_mul {G : Type*} [Group G] {x y z w U V : G}
     ⁅x * y, z * w⁆ = U * V := by
   simp only [commutatorElement_mul_right_eq_mul_conj, commutatorElement_mul_left_eq_conj_mul]
   rw [hxz, hyw, hyz, hxw]
-  simp only [mul_one, one_mul]
+  simp only [mul_one]
   rw [teComm_conj_eq_of_commute hxU]
   rw [show x * x⁻¹ * V = V by group]
   rw [show U * z * V * z⁻¹ = U * (z * V) * z⁻¹ by group]
@@ -162,7 +162,7 @@ theorem twE6_comm_pair
       xPair θ hθ (twE6PairRoot_isRoot i) (twE6PairRoot_ne_rho i) (t * θ s) := by
   apply Subtype.ext
   rw [teComm_coe_commutator]
-  simp only [twE6X, xPair_val, Subgroup.coe_mul, twistSign_cast_eq_one, one_mul]
+  simp only [twE6X, xPair_val, twistSign_cast_eq_one, one_mul]
   exact twE6_xm_comm_pair_core θ hθ i t s
 
 private lemma twE6_memE6_shift_eq (j : Fin 12) (i : Fin 8) :
@@ -230,7 +230,7 @@ theorem twE6_comm_shift_none
     ⁅twE6Y θ j, twE6X θ hθ i c⁆ = 1 := by
   apply Subtype.ext
   rw [teComm_coe_commutator]
-  simp only [twE6Y, twE6X, xFixed_val, xPair_val, Subgroup.coe_mul, twistSign_cast_eq_one, one_mul]
+  simp only [twE6Y, twE6X, xFixed_val, xPair_val, twistSign_cast_eq_one, one_mul]
   exact twE6_xm_shift_none_core θ j i hj c
 
 private lemma teComm_conj_eq_commutator_mul {G : Type*} [Group G] (a b : G) :

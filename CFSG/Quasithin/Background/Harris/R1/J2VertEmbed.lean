@@ -37,7 +37,7 @@ theorem exists_autJ2_embedding
     · exact hPodd h
     · exact absurd h (by norm_num)
   refine ⟨↥R, inferInstance, ⟨mulAutQuasithinJ2EquivR.symm⟩, TY, M₁, e, ⟨le_top, ?_, ?_⟩, hTYM⟩
-  · exact P.isPGroup'.map M₁.subtype
+  · exact P.isPGroup.map M₁.subtype
   · rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
     exact hTYodd
 

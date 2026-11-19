@@ -79,7 +79,7 @@ theorem Q_eq_zero {a : Fin 3 → ZMod (Nat.card Kˣ)} (ha : a ≠ 0) {v : V} (hv
 
 theorem ψ_injective : Function.Injective S.ψ := by
   classical
-  haveI : FiniteDimensional K V := S.finiteDimensional
+  have : FiniteDimensional K V := S.finiteDimensional
   have hcenter : Subgroup.center (StatedSp 3 K) = ⊥ := by
     rw [eq_bot_iff]
     intro g hg
@@ -113,8 +113,8 @@ theorem ψ_injective : Function.Injective S.ψ := by
   obtain ⟨-, hsimple, -⟩ :=
     CFSG.LieType.Universal.Symplectic.isQuasisimple 3 K (by norm_num)
       (Or.inl (Or.inr S.card_le))
-  haveI : IsSimpleGroup (StatedSp 3 K ⧸ Subgroup.center (StatedSp 3 K)) := hsimple
-  haveI : IsSimpleGroup (StatedSp 3 K) :=
+  have : IsSimpleGroup (StatedSp 3 K ⧸ Subgroup.center (StatedSp 3 K)) := hsimple
+  have : IsSimpleGroup (StatedSp 3 K) :=
     ((QuotientGroup.quotientMulEquivOfEq hcenter).trans
       (QuotientGroup.quotientBot (G := StatedSp 3 K))).symm.isSimpleGroup
   rw [← MonoidHom.ker_eq_bot_iff]

@@ -20,8 +20,8 @@ private theorem kd26h_lin_dvd_card_SL {E : Type} [Field E] [Finite E] {p m : ℕ
 private theorem kd26h_lin_natCast_ne_zero {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     (hpF : p ∣ Nat.card F - 1) : (p : F) ≠ 0 := by
   intro h
-  haveI : CharP F p := (CharP.charP_iff_prime_eq_zero hp).2 h
-  letI := Fintype.ofFinite F
+  have : CharP F p := (CharP.charP_iff_prime_eq_zero hp).2 h
+  let := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F p
   rw [Nat.card_eq_fintype_card, hn] at hpF
   have h1 : p ∣ p ^ (n : ℕ) := dvd_pow_self p n.ne_zero

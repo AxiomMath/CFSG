@@ -23,7 +23,7 @@ theorem ggNbrLSideRSExc_u2_e6
     (S : LangSetup τ L p₀) (h2 : (2 : L) = 0) {a : Fin τ.rank → Lˣ}
     {i : KernelComponent (rootCharHom a)} {Q : ℕ}
     (hP : GGNbrLSideRSExcPSL3 S a i Q) (hE : L154E6Class a i) : False := by
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
   have hch : ringChar L = 2 := ringChar.eq L 2
   obtain ⟨hT, hp3, hne, hqs, hQ4, h3Q, F, hFf, hFin, hFc, ⟨e⟩⟩ := hP
   have hF4 : 4 ≤ Nat.card F := hFc ▸ hQ4

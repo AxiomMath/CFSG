@@ -10,10 +10,11 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem split_inf_eq_bot {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
     (hKeven : Even (Nat.card K)) (hRodd : Odd (Nat.card R))
     (hRnorm : ∀ k ∈ K, ∀ r ∈ R, k * r * k⁻¹ ∈ R) : K ⊓ R = ⊥ := by
-  haveI hn : ((K ⊓ R).subgroupOf K).Normal := by
+  have hn : ((K ⊓ R).subgroupOf K).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact ⟨K.mul_mem (K.mul_mem g.2 hn.1) (K.inv_mem g.2), hRnorm _ g.2 _ hn.2⟩
@@ -29,6 +30,7 @@ theorem split_inf_eq_bot {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
     exact (Nat.not_even_iff_odd.mpr hRodd)
       (even_iff_two_dvd.mpr (dvd_trans (even_iff_two_dvd.mp hKeven) hdvd))
 
+omit [Finite G] in
 theorem split_comm {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
     (hKeven : Even (Nat.card K)) (hRodd : Odd (Nat.card R))
     (hRnorm : ∀ k ∈ K, ∀ r ∈ R, k * r * k⁻¹ ∈ R) (hRK : ∀ r ∈ R, r ∈ Nor K)
@@ -45,6 +47,7 @@ theorem split_comm {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
   calc k * r = k * r * k⁻¹ * r⁻¹ * (r * k) := by group
     _ = r * k := by rw [this, one_mul]
 
+omit [Finite G] in
 theorem split_two_elt {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
     (hKeven : Even (Nat.card K)) (hRodd : Odd (Nat.card R))
     (hRnorm : ∀ k ∈ K, ∀ r ∈ R, k * r * k⁻¹ ∈ R) (hRK : ∀ r ∈ R, r ∈ Nor K)
@@ -71,7 +74,7 @@ theorem split_two_elt {K R : Subgroup G} (hKsimp : IsSimpleGroup ↥K)
       exact (Nat.not_even_iff_odd.mpr hRodd) (even_iff_two_dvd.mpr this)
   rw [hr1, mul_one]; exact hk
 
-theorem oupp_two_eq_of_split {X K R : Subgroup G} (hKX : K ≤ X) (hRX : R ≤ X)
+theorem oupp_two_eq_of_split {X K R : Subgroup G} (hKX : K ≤ X) (_hRX : R ≤ X)
     (hKsimp : IsSimpleGroup ↥K) (hKeven : Even (Nat.card K)) (hRodd : Odd (Nat.card R))
     (hRnorm : ∀ k ∈ K, ∀ r ∈ R, k * r * k⁻¹ ∈ R) (hRK : ∀ r ∈ R, r ∈ Nor K)
     (hgen : ∀ x ∈ X, ∃ k ∈ K, ∃ r ∈ R, x = k * r) : OUpp 2 X = K := by
@@ -85,7 +88,7 @@ theorem oupp_two_eq_of_split {X K R : Subgroup G} (hKX : K ≤ X) (hRX : R ≤ X
   rw [hOU]
   apply le_antisymm
   · rw [Subgroup.map_le_iff_le_comap]
-    haveI : (Subgroup.comap X.subtype K).Normal := by
+    have : (Subgroup.comap X.subtype K).Normal := by
       refine ⟨fun n hn g => ?_⟩
       rw [Subgroup.mem_comap] at hn ⊢
       have := (Subgroup.mem_normalizer_iff.mp (hXK g g.2) n).mp hn
@@ -104,7 +107,7 @@ theorem oupp_two_eq_of_split {X K R : Subgroup G} (hKX : K ≤ X) (hRX : R ≤ X
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2
       (even_iff_two_dvd.mp hKeven)
     set N := Subgroup.normalClosure S with hN
-    haveI hNn : ((N.map X.subtype).subgroupOf K).Normal := by
+    have hNn : ((N.map X.subtype).subgroupOf K).Normal := by
       refine ⟨fun n hn g => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       obtain ⟨y, hy, hyn⟩ := Subgroup.mem_map.mp hn

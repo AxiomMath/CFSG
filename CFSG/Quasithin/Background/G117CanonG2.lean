@@ -83,6 +83,7 @@ private theorem exists_modQ_equiv {π : quasithinZorn (ZMod 2) →ₗ[ZMod 2] V}
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective f hf), fun _ _ => rfl⟩
 
+omit [Finite V] in
 private theorem isG2NaturalModule_of_card
     {H Γ : Subgroup (GLV V)}
     (hnat : IsG2NaturalModule H ⁅quasithinG2 (ZMod 2), quasithinG2 (ZMod 2)⁆)

@@ -54,7 +54,7 @@ theorem testBit_imgF (f : Nat → Nat) (s n y : Nat) :
   | succ n ih =>
     rw [imgF_succ]
     by_cases hb : bitP s n = true
-    · rw [if_pos hb, Nat.testBit_or, Bool.or_eq_true, ih, Nat.one_shiftLeft, Nat.testBit_two_pow,
+    · rw [ite_eq_left hb, Nat.testBit_or, Bool.or_eq_true, ih, Nat.one_shiftLeft, Nat.testBit_two_pow,
         decide_eq_true_iff]
       rw [bitP_eq] at hb
       constructor
@@ -65,7 +65,7 @@ theorem testBit_imgF (f : Nat → Nat) (s n y : Nat) :
         rcases Nat.lt_succ_iff_lt_or_eq.1 hz with h | rfl
         · exact Or.inl ⟨z, h, h1, h2⟩
         · exact Or.inr h2
-    · rw [if_neg hb, ih]
+    · rw [ite_eq_right hb, ih]
       rw [bitP_eq] at hb
       constructor
       · rintro ⟨z, hz, h1, h2⟩
@@ -150,7 +150,7 @@ theorem popF_succ (s n : Nat) : popF s (n + 1) = popF s n + if bitP s n then 1 e
 
 theorem card_bits (S n : Nat) : Nat.card {y : Fin n | S.testBit y = true} = popF S n := by
   rw [Nat.card_eq_fintype_card, Fintype.card_ofFinset, Finset.card_filter]
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [Fin.sum_univ_eq_sum_range (fun i => if S.testBit i = true then 1 else 0) n]
   induction n with
   | zero => rfl

@@ -110,6 +110,7 @@ theorem k148f_unique_X {K I' : Subgroup G} {x : G} (hxN : x ∈ Subgroup.normali
   intro J hJ
   exact (hJ₀u J hJ).trans (hJ₀u I' hI').symm
 
+omit [Finite G] in
 theorem k148f_normalizer_inf {K : Subgroup G} {x y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hxy : x * y = y * x) :
     y ∈ Subgroup.normalizer ((K ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) : Set G) := by
@@ -139,6 +140,7 @@ theorem k148f_normalizer_inf {K : Subgroup G} {x y : G} (hyN : y ∈ Subgroup.no
     Subgroup.mem_centralizer_singleton_iff]
   exact and_congr (Subgroup.mem_normalizer_iff.1 hyN h) hC
 
+omit [Finite G] in
 theorem k148f_y_norm {K I' : Subgroup G} {x y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hxy : x * y = y * x) (hI' : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({x} : Set G)) I')
     (huniq : ∀ J : Subgroup G, GLAPComponent 3 (K ⊓ Subgroup.centralizer ({x} : Set G)) J → J = I') :

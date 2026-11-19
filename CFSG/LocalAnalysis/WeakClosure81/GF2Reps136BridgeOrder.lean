@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_mQuot_eq_of_card {U Z : Subgroup W} {k : ℕ}
     (hcard : Nat.card (Sect U Z) = 2 ^ E3.mQuot U Z)
     (hk : Nat.card (Sect U Z) = 2 ^ k) : E3.mQuot U Z = k :=
@@ -44,7 +45,7 @@ private theorem w1369_tripleA6Six_transfer (hw2 : ∀ w : W, w ^ 2 = 1) {U Z : S
 
 theorem bridge_rows_order (hw2 : ∀ w : W, w ^ 2 = 1) {U Z : Subgroup W}
     {L : Subgroup (MulAut W)} {m : ℕ} (hZU : Z ≤ U) (hL : StabPair L U Z)
-    (hf : FaithOn L U Z) (hirr : IsIrrOn L U Z)
+    (hf : FaithOn L U Z) (_hirr : IsIrrOn L U Z)
     (h : (IsHat ↥(secSub U Z L) ↥(alternatingGroup (Fin 6)) ∧ Nat.card (Sect U Z) = 2 ^ 6) ∨
       (∃ (S : Type) (_ : Group S), LieModel S .PSU 4 3 1 ∧ IsHat ↥(secSub U Z L) S ∧
         Nat.card (Sect U Z) = 2 ^ 12) ∨

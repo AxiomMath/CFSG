@@ -22,7 +22,7 @@ public section
 namespace CFSG.GH74.GLS.C3.Prop121.Card7.HC
 
 open Subgroup Equiv Perm CFSG.GH74.GLS.C3.Layer2 CFSG.GH74.GLS.C3.Layer2.Model CFSG.GH74.GLS.Layer3
-@[expose] abbrev P11 : Type := Perm (Fin 11)
+abbrev P11 : Type := Perm (Fin 11)
 
 @[expose] def Y11 : P11 := swap 0 1 * swap 2 3 * (swap 4 5 * swap 6 7)
 

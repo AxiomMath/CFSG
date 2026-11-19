@@ -28,35 +28,35 @@ theorem card_fixedSubgroup_dvd_G2_of_charP_three {f : ℕ} (hf : 1 ≤ f) {K : T
   obtain ⟨w, s, r, r', hs, hr, hr', hw⟩ := exists_twistedConj_longForm hf hK σ hσ hu hu3
   have hcard2 :
       Nat.card (fixedSubgroup (MulAut.conj
-        (longElt hf hK σ hσ (Or.inl rfl) s hs *
-          longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-          longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr') *
+        (longElt σ (Or.inl rfl) s hs *
+          longElt σ (Or.inr (Or.inl rfl)) r hr *
+          longElt σ (Or.inr (Or.inr rfl)) r' hr') *
         fieldActor (t := TwistTag.D4) σ σ)) =
       Nat.card (fixedSubgroup (MulAut.conj u * fieldActor (t := TwistTag.D4) σ σ)) := by
-    rw [← hw, ← conj_mul_twisted hf hK σ hσ (fieldActor (t := TwistTag.D4) σ σ) u w]
+    rw [← hw, ← conj_mul_twisted σ (fieldActor (t := TwistTag.D4) σ σ) u w]
     exact card_fixed_conj (MulAut.conj w⁻¹) _
   rw [← hcard2]
   by_cases hne : s = 0 ∧ r = 0 ∧ r' = 0
   · obtain ⟨rfl, rfl, rfl⟩ := hne
-    rw [longElt_zero hf hK σ hσ (Or.inl rfl) hs,
-      longElt_zero hf hK σ hσ (Or.inr (Or.inl rfl)) hr,
-      longElt_zero hf hK σ hσ (Or.inr (Or.inr rfl)) hr']
+    rw [longElt_zero σ (Or.inl rfl) hs,
+      longElt_zero σ (Or.inr (Or.inl rfl)) hr,
+      longElt_zero σ (Or.inr (Or.inr rfl)) hr']
     simp only [mul_one, map_one, one_mul]
     exact dvd_of_eq (card_fixed_fieldActor_D4_of_frobenius Nat.prime_three hf hK σ hσ)
   · obtain ⟨ε, c, hc, hc0, hε⟩ := exists_conj_to_top_of_longForm hf hK σ hσ hs hr hr' hne
     have hcard3 :
         Nat.card (fixedSubgroup (MulAut.conj
-          (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+          (longElt σ (Or.inr (Or.inr rfl)) c hc) *
           fieldActor (t := TwistTag.D4) σ σ)) =
         Nat.card (fixedSubgroup (MulAut.conj
-          (longElt hf hK σ hσ (Or.inl rfl) s hs *
-            longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-            longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr') *
+          (longElt σ (Or.inl rfl) s hs *
+            longElt σ (Or.inr (Or.inl rfl)) r hr *
+            longElt σ (Or.inr (Or.inr rfl)) r' hr') *
           fieldActor (t := TwistTag.D4) σ σ)) := by
       rw [← hε]
       exact card_fixed_conj ε _
     rw [← hcard3]
-    change Nat.card (fixSubgroup (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    change Nat.card (fixSubgroup (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
       fieldActor (t := TwistTag.D4) σ σ)) ∣ lieOrderNumerator .G2 0 (3 ^ f)
     rw [fixSubgroup_conj_mul_fieldActor_eq hf hK σ hσ hc hc0]
     refine (Subgroup.card_dvd_of_le inf_le_left).trans (dvd_of_eq ?_)

@@ -21,7 +21,7 @@ namespace CertificateChecks.Batch3054
 
 set_option maxRecDepth 100000
 
-@[expose] def INV : Array (Array ℕ) := #[
+def INV : Array (Array ℕ) := #[
   #[3673722, 3202047, 1261813, 1058175, 765968, 1643863, 3201982, 1215000, 159003, 1329304,
     2284554, 2048, 4096, 3786752, 1048576, 16384, 929792, 262144, 1490944, 126976, 32768,
     2977792],
@@ -196,11 +196,13 @@ theorem kClose : closeOK actC 24 recC edgeC 56925 484 64 896 = true := by
 
 theorem kRoot : rootConj = Conj3054.rootK := by decide +kernel
 
+set_option exponentiation.threshold 484 in
 theorem valF_lt (r : ℕ) : valF 484 r < 2 ^ 484 := by
   change r &&& (1 <<< 484 - 1) < _
   rw [Nat.one_shiftLeft, Nat.and_two_pow_sub_one_eq_mod]
   exact Nat.mod_lt _ (by positivity)
 
+set_option exponentiation.threshold 484 in
 theorem validConj_of_lt {x : ℕ} (hx : x < 2 ^ 484) : validConj x = true := by
   have hl : (rowsOf x).toList = (List.range 22).map (rowOf x) := by simp [rowsOf]
   have e : encL (rowsOf x).toList = x := by

@@ -66,7 +66,7 @@ theorem center_eq_bot_of_simple_uc6 {X : Type*} [Group X] [IsSimpleGroup X]
 
 theorem mem_U_of_mem_KerKbar (h629 : m.C629) {c : G} (hcK : c ∈ m.K) (hcM : c ∈ m.M)
     (hc : (⟨c, hcM⟩ : ↥m.M) ∈ m.KerKbar) : c ∈ m.U := by
-  haveI := h629.1
+  have := h629.1
   have hcen := center_eq_bot_of_simple_uc6 h629.2
   rw [m.mem_U_iff hcK]
   have hmem : (QuotientGroup.mk ⟨c, hcK⟩ : m.Kbar) ∈ Subgroup.center m.Kbar := by
@@ -154,8 +154,8 @@ theorem NK_centralizer (h629 : m.C629) :
   simpa [mul_assoc] using h3
 
 theorem NK_pRank (h625 : m.C625) (h629 : m.C629) : CFSG.Open.pRank m.r m.NK = 1 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.K)
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.K)
   have hNK : CFSG.Open.pRank m.r m.NK = CFSG.pRank m.r ↥m.NK := by
     have htop : (⊤ : Subgroup ↥m.NK).map m.NK.subtype = m.NK := by
       rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
@@ -175,7 +175,7 @@ theorem NK_pRank (h625 : m.C625) (h629 : m.C629) : CFSG.Open.pRank m.r m.NK = 1 
   rw [hNK, CFSG.pRank_congr_of_mulEquiv (m.equivNK h629).symm m.r, hKbar, hK]
   exact h625
 
-theorem EL_le_M : m.EL ≤ m.M := fun x hx => m.R_le_M (m.EL_le_R hx)
+theorem EL_le_M : m.EL ≤ m.M := fun _x hx => m.R_le_M (m.EL_le_R hx)
 
 theorem normalizer_A_le_M : normalizer (m.A : Set G) ≤ m.M := by
   have hE1 : m.E ≠ ⊥ := by
@@ -241,7 +241,7 @@ theorem isElemAbelian_range_gE : CFSG.Open.IsElemAbelian m.r m.gE.range := by
 
 theorem c631_of_K631 (hK : UCK.K631) (h620 : m.C620) (h621 : m.C621) (h625 : m.C625)
     (h629 : m.C629) : m.C631 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hNK := m.NK_normal
   have hMg : CFSG.Open.IsKGroup ↥m.M := m.hS.kProper.isKGroup m.M m.M_ne_top
   have hEcard : Nat.card ↥m.EL = m.r ^ 2 := m.card_A_inf_L h620

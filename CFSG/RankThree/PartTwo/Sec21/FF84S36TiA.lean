@@ -9,6 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF84.S3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem S36_closure_bt {b t : G} (htt : t * t = 1) (htb : t * b * t⁻¹ = b⁻¹) {g : G}
     (hg : g ∈ Subgroup.closure ({b, t} : Set G)) :
     ∃ k : ℤ, g = b ^ k ∨ g = t * b ^ k := by
@@ -123,6 +124,7 @@ theorem S36_invol_cen_mem_L {b t b₁ b₂ : G} {L B : Subgroup G} (d : F6Data b
     calc b = b ^ 3 * (b * b)⁻¹ := by group
       _ = 1 := by rw [hcube, hbb, inv_one, mul_one]
 
+omit [Finite G] in
 theorem S36_monomial_conj {b t bk bj n : G} (htt : t * t = 1) (htb : t * b * t⁻¹ = b⁻¹)
     (htk : t * bk = bk * t) (htj : t * bj = bj * t)
     (hnb : n * b * n⁻¹ = bk) (hnk : n * bk * n⁻¹ = b) (hnj : n * bj * n⁻¹ = bj) :

@@ -31,6 +31,7 @@ theorem card_psl : Nat.card PSL(3, GaloisField 2 2) = 20160 := by
 
 variable {X : Type*} [Group X] [Finite X] {N : Subgroup X}
 
+omit [Finite X] in
 theorem card_mulAut_of_equiv (e : ↥N ≃* PSL(3, GaloisField 2 2)) :
     Nat.card (MulAut ↥N) = 241920 := by
   rw [Nat.card_congr (MulAut.congr (e.trans pslEquiv)).toEquiv]
@@ -41,6 +42,7 @@ theorem pRank_of_equiv (e : ↥N ≃* PSL(3, GaloisField 2 2)) : CFSG.Open.pRank
     CFSG.RankThree.Asc83Table.pRank_congr (e.trans pslEquiv)]
   exact CFSG.RankThree.PartTwo.KFacts.L34.pRank_three_projectiveSL card_galoisField_two_two
 
+omit [Finite X] in
 theorem eq_one_of_mem_center_of_equiv (e : ↥N ≃* PSL(3, GaloisField 2 2)) {c : X} (hcN : c ∈ N)
     (hc : ∀ n ∈ N, n * c = c * n) : c = 1 := by
   set e' := e.trans pslEquiv
@@ -59,9 +61,9 @@ theorem exists_lift_commute {A B : Type*} [Group A] [Finite A] [Group B] (f : A 
     {W : Subgroup A} (hW : ¬ 3 ∣ Nat.card ↥(W ⊓ f.ker)) {d : A} (hdW : d ∈ W)
     (hd : orderOf d = 3) {w : A} (hwW : w ∈ W) (hc : f w * f d = f d * f w) :
     ∃ c ∈ W, c * d = d * c ∧ f c = f w := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup ↥W := f.ker.subgroupOf W with hO
-  haveI : O.Normal := (MonoidHom.normal_ker f).subgroupOf W
+  have : O.Normal := (MonoidHom.normal_ker f).subgroupOf W
   have hcard : Nat.card O = Nat.card ↥(W ⊓ f.ker) := by
     rw [hO, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (subgroupOfEquivOfLe inf_le_left).toEquiv

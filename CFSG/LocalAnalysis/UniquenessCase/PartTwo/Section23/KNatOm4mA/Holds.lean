@@ -18,9 +18,9 @@ theorem kNatOm4mA_holds : KNatOm4mA := by
   intro W _ _ H X k _hΩ hN _hHX hXN
   have hk : 1 ≤ k := one_le_of_natOmegaMinus hN
   obtain ⟨F, hField, hFin, hChar, hF⟩ := exists_field_card hk
-  letI : Field F := hField
-  letI : Fintype F := hFin
-  haveI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Fintype F := hFin
+  have : CharP F 2 := hChar
   have hσ : SigInv k F := CFSG.Quasithin.JonesParshall.sig_sig hF
   obtain ⟨E, hE⟩ := exists_equiv_vh hN hk hF hσ
   have hX' : X.map (CFSG.Quasithin.H.congrHom E) ≤ NH hσ := by

@@ -20,19 +20,24 @@ structure F6Data (b : G) (L B : Subgroup G) (b₁ b₂ t : G) : Prop where
   htb : t * b * t⁻¹ = b⁻¹
   hN : Subgroup.closure {b, t} ⊔ L = Nor (Subgroup.zpowers b)
 
+omit [Finite G] in
 theorem S36_comm_of_cen {x c : G} (h : x ∈ Cen c) : c * x = x * c :=
   (Subgroup.mem_centralizer_singleton_iff.1 h).symm
 
+omit [Finite G] in
 theorem S36_mem_cen_of {x c : G} (h : c * x = x * c) : x ∈ Cen c :=
   Subgroup.mem_centralizer_singleton_iff.2 h.symm
 
+omit [Finite G] in
 theorem S36_sq_of_orderOf_two {t : G} (ht : orderOf t = 2) : t ^ 2 = 1 := by
   rw [← ht]
   exact pow_orderOf_eq_one t
 
+omit [Finite G] in
 theorem S36_sq_eq_inv {b₂ : G} (h3 : b₂ ^ 3 = 1) : b₂ ^ 2 = b₂⁻¹ :=
   eq_inv_of_mul_eq_one_right (by rw [← pow_succ']; exact h3)
 
+omit [Finite G] in
 theorem S36_sq_zpowers {t : G} (ht : orderOf t = 2) {z : G} (hz : z ∈ Subgroup.zpowers t) :
     z ^ 2 = 1 := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
@@ -41,12 +46,14 @@ theorem S36_sq_zpowers {t : G} (ht : orderOf t = 2) {z : G} (hz : z ∈ Subgroup
     exact S36_sq_of_orderOf_two ht
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, ht2, one_zpow]
 
+omit [Finite G] in
 theorem S36_isPGroup_zpowers {t : G} (ht : orderOf t = 2) :
     IsPGroup 2 (Subgroup.zpowers t) := by
   intro g
   refine ⟨1, Subtype.ext ?_⟩
   simpa using S36_sq_zpowers ht g.2
 
+omit [Finite G] in
 theorem S36_isPGroup_mono {N P : Subgroup G} (hP : IsPGroup 2 P) (h : N ≤ P) :
     IsPGroup 2 N := by
   intro g
@@ -55,12 +62,14 @@ theorem S36_isPGroup_mono {N P : Subgroup G} (hP : IsPGroup 2 P) (h : N ≤ P) :
   have h1 := congrArg Subtype.val hk
   simpa using h1
 
+omit [Finite G] in
 theorem S36_op2_le (H : Subgroup G) : Op 2 H ≤ H := by
   intro x hx
   have hx' : x ∈ (pCore 2 H).map H.subtype := hx
   obtain ⟨y, _, rfl⟩ := Subgroup.mem_map.1 hx'
   exact y.2
 
+omit [Finite G] in
 theorem S36_op2_isPGroup (H : Subgroup G) : IsPGroup 2 (Op 2 H) := by
   intro g
   have hg2 : (g : G) ∈ (pCore 2 H).map H.subtype := g.2
@@ -74,6 +83,7 @@ theorem S36_op2_isPGroup (H : Subgroup G) : IsPGroup 2 (Op 2 H) := by
   rw [show (g : G) = (y : G) from hyg.symm]
   exact h2
 
+omit [Finite G] in
 theorem S36_op2_of_normal {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal)
     (hp : IsPGroup 2 N) : N ≤ Op 2 H := by
   have hp' : IsPGroup 2 (N.subgroupOf H) := by
@@ -87,6 +97,7 @@ theorem S36_op2_of_normal {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf
   show x ∈ (pCore 2 H).map H.subtype
   exact Subgroup.mem_map.2 ⟨⟨x, hNH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite G] in
 theorem S36_op2_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ Op 2 H) :
     g * x * g⁻¹ ∈ Op 2 H := by
   have hx' : x ∈ (pCore 2 H).map H.subtype := hx
@@ -96,6 +107,7 @@ theorem S36_op2_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ Op 2 
   · exact (pCore_normal (p := 2) (G := H)).conj_mem y hy _
   · simp
 
+omit [Finite G] in
 theorem S36_zpowers_op2 {H : Subgroup G} {t : G} (ht : orderOf t = 2) (htH : t ∈ H)
     (hcomm : ∀ g ∈ H, Commute g t) : Subgroup.zpowers t ≤ Op 2 H := by
   apply S36_op2_of_normal (Subgroup.zpowers_le.2 htH)
@@ -108,12 +120,14 @@ theorem S36_zpowers_op2 {H : Subgroup G} {t : G} (ht : orderOf t = 2) (htH : t �
     exact Subgroup.mem_zpowers_iff.2 ⟨k, rfl⟩
   · exact S36_isPGroup_zpowers ht
 
+omit [Finite G] in
 theorem S36_centre_trivial {K : Subgroup G} (hK : Nat.card K = 60) (hKs : IsSimpleGroup K)
     {z : G} (hz : z ∈ K) (hc : ∀ k ∈ K, z * k = k * z) : z = 1 := by
   have h := CFSG.Walter.Suzuki.eq_one_of_central_of_card_sixty (X := K) hK
     (z := (⟨z, hz⟩ : K)) (fun y => Subtype.ext (hc y y.2))
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem S36_cen_le_nor (c' : G) : Cen c' ≤ Nor (Subgroup.zpowers c') := by
   have fwd : ∀ y ∈ Cen c', ∀ n ∈ Subgroup.zpowers c', y * n * y⁻¹ ∈ Subgroup.zpowers c' := by
     intro y hy n hn
@@ -133,6 +147,7 @@ theorem S36_cen_le_nor (c' : G) : Cen c' ≤ Nor (Subgroup.zpowers c') := by
     have e : x⁻¹ * (x * n * x⁻¹) * x⁻¹⁻¹ = n := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem S36_closure_zpowers {b t x : G} (hb3 : orderOf b = 3) (ht2 : orderOf t = 2)
     (htb : t * b * t⁻¹ = b⁻¹) (hx : x ∈ Subgroup.closure ({b, t} : Set G))
     (hxt : t * x = x * t) : x ∈ Subgroup.zpowers t := by
@@ -197,6 +212,7 @@ theorem S36_closure_zpowers {b t x : G} (hb3 : orderOf b = 3) (ht2 : orderOf t =
   rw [hbi1, one_mul]
   exact Subgroup.mem_zpowers_iff.2 ⟨j, rfl⟩
 
+omit [Finite G] in
 theorem S36_cen_eq {b t c' : G} {L : Subgroup G} (hb3 : orderOf b = 3) (ht2 : orderOf t = 2)
     (htb : t * b * t⁻¹ = b⁻¹) (hbL : ∀ l ∈ L, b * l = l * b) (htL : ∀ l ∈ L, t * l = l * t)
     (hN : Subgroup.closure ({b, t} : Set G) ⊔ L = Nor (Subgroup.zpowers b)) (hcL : c' ∈ L)

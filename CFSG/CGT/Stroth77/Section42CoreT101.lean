@@ -217,12 +217,10 @@ theorem t101_parity (i j l : Bool) (v : Torus (StrothTypeIndex.t101 s).k) :
   refine SigmaFourAction.even_d8Act_zero_iff _ ?_ ?_ ?_ i j l v
   · refine even_matAct_zero_iff hk (Type101.uvM s) (Type101.compat_uv s) ⟨-2, ?_⟩ ⟨1, ?_⟩
       ⟨1, ?_⟩ <;>
-      simp [Type101.uvM, Type101.uvA, Type101.tM, Type101.ρM, ofCols_apply, Matrix.mulVec,
-        dotProduct, Fin.sum_univ_three, -mul_eq_zero, -mul_eq_mul_left_iff,
-        -mul_eq_mul_right_iff] <;> ring
+      simp [Type101.uvM, Type101.uvA, Type101.tM, Type101.ρM, ofCols_apply, -mul_eq_zero, -mul_eq_mul_left_iff,
+        -mul_eq_mul_right_iff]; ring
   · refine even_matAct_zero_iff hk (Type101.tM s) (Type101.compat_t s) ?_ ?_ ?_ <;>
-      simp [Type101.uvA, Type101.tM, Type101.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-        Fin.sum_univ_three, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
+      simp [Type101.uvA, Type101.tM, Type101.ρM, ofCols_apply, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
     exact ⟨-2 * 2 ^ s - 1, by ring⟩
   · refine even_matAct_zero_iff hk (Type101.uM s) (Type101.compat_u s) ?_ ?_ ?_ <;>
       simp [Type101.uM, uMat, ofCols_apply]
@@ -240,13 +238,13 @@ theorem t101_c_pow : (dD.c : G) ^ 2 ^ s = dD.ofTorus (om101 s ![1, 0, 0]) := by
   rw [c_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om101, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om101, gen]; rfl
 
 theorem t101_a_pow : (dD.a : G) ^ 2 ^ (s + 1) = dD.ofTorus (om101 s ![0, 1, 0]) := by
   rw [a_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om101, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om101, gen]; rfl
 
 theorem t101_eq_om_of_mul_self {y : G} (hy : y ∈ D) (h2 : y * y = 1) :
     ∃ ε : Fin 3 → ℤ, (∀ i, ε i = 0 ∨ ε i = 1) ∧ y = dD.ofTorus (om101 s ε) := by
@@ -695,7 +693,7 @@ theorem t101_h7 :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨a, b, hd⟩ := hfix (e * e₀⁻¹) (mul_mem he (inv_mem he₀)) hmem
         refine ⟨(true, a, b), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, h8] at hle
@@ -725,8 +723,8 @@ theorem t101_h9 :
     obtain ⟨v₀, hv₀⟩ := dD.t101_mem_CSz_of_not_mem (hX hx₀) hx₀D
     have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-    haveI : NeZero (2 ^ (s + 1)) := ⟨by positivity⟩
-    haveI : NeZero (2 ^ (s + 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (s + 1)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (s + 2)) := ⟨by positivity⟩
     have hfix : ∀ d ∈ X, d ∈ D → ∃ (p : ZMod (2 ^ (s + 1))) (q : ZMod (2 ^ (s + 2))),
         d = dD.ofTorus (Torus.ofInt _ ![(p.val : ℤ), (q.val : ℤ), (q.val : ℤ)]) := by
       intro d hd hdD
@@ -766,7 +764,7 @@ theorem t101_h9 :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨p, q, hd⟩ := hfix (e * x₀⁻¹) (mul_mem he (inv_mem hx₀)) hmem
         refine ⟨(true, p, q), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, hDcard, Nat.card_prod, Nat.card_prod, Nat.card_zmod, Nat.card_zmod] at hle
@@ -775,7 +773,7 @@ theorem t101_h9 :
     have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hle
     omega
   · simp only [not_exists, not_and, not_not] at hD
-    haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+    have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge (fun x hx => hD x hx) hcard.ge
 
 end StrothWeakTypeData

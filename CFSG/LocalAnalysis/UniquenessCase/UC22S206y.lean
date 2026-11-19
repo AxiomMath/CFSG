@@ -52,7 +52,7 @@ theorem uc22s206y_pRank_aut
       Nat.mem_primeFactors.2 ⟨hp, (dvd_pow_self p two_ne_zero).trans hd, by norm_num⟩
     rw [show Nat.primeFactors 9999360 = {2, 3, 5, 7, 31} by norm_num [Nat.primeFactors]] at hmem
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
-    rcases hmem with rfl | rfl | rfl | rfl | rfl <;> first | omega | norm_num at hd
+    rcases hmem with rfl | rfl | rfl | rfl | rfl <;> first | omega
   · obtain ⟨e⟩ : Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.Carrier .M24) := h
     refine key (out ⟨e⟩ CFSG.AGLEmbedding.sporadicSmallData_M24) ?_
     rw [Nat.card_congr e.toEquiv, show Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .M24) =
@@ -63,7 +63,7 @@ theorem uc22s206y_pRank_aut
     rw [show Nat.primeFactors 244823040 = {2, 3, 5, 7, 11, 23} by
       norm_num [Nat.primeFactors]] at hmem
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
-    rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl <;> first | omega | norm_num at hd
+    rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl <;> first | omega
   · have hp11 := h11 h
     obtain ⟨e⟩ : Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.Carrier .J4) := h
     refine key (out ⟨e⟩ CFSG.AGLEmbedding.sporadicSmallData_J4) ?_
@@ -76,15 +76,15 @@ theorem uc22s206y_pRank_aut
       norm_num [Nat.primeFactors]] at hmem
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
     rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-      first | omega | norm_num at hd
+      first | omega
 
 theorem uc22s206y_kernel {Y B : Type*} [Group Y] [Finite Y] [Group B] [Finite B] (π : Y →* B)
     {C : Subgroup B} (hCn : C.Normal) {p a : ℕ} (hp : p.Prime)
     (hC : CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥C)) ≤ a) {R : Subgroup Y}
     (hR : IsElemAbelian p R) {m : ℕ} (hm : a + 2 ≤ m) (hRc : Nat.card R = p ^ m) :
     ∃ F ≤ R, (∃ j, 2 ≤ j ∧ Nat.card F = p ^ j) ∧ F.map π ≤ centralizer (C : Set B) := by
-  haveI := hCn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hCn
+  have : Fact p.Prime := ⟨hp⟩
   let θ : Y →* MulAut ↥C := MulAut.conjNormal.comp π
   refine ⟨θ.ker ⊓ R, inf_le_right, ?_, ?_⟩
   · obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp (hR.map θ).isPGroup
@@ -117,8 +117,8 @@ theorem uc22s206y_false
     (hout : ∀ J : Subgroup (Bar2 D.M), IsComponentOf J ⊤ →
       Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
         (J ⧸ Subgroup.center J))) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hC, hCn, hZ, hcase, hKC⟩ := uc22s206v_component D hK331 hN h82 hk h3 α hα hker
     hKM D.sylowM hTK hF hNc hout
   obtain ⟨A, hA, ⟨e⟩⟩ := uc22s206r_calC D hC

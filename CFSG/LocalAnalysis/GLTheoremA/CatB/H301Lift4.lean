@@ -55,6 +55,7 @@ end Aut
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barAut_of_mem {p : ℕ} {L : Subgroup G} {l : G} (hl : l ∈ L) :
     barAut p L ⟨l, Subgroup.le_normalizer hl⟩ = MulAut.conj (pQuotHom p L ⟨l, hl⟩) := by
   ext q
@@ -66,6 +67,7 @@ theorem barAut_of_mem {p : ℕ} {L : Subgroup G} {l : G} (hl : l ∈ L) :
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
     congr 1
 
+omit [Finite G] in
 private theorem map_barAut_eq_map_conj {p : ℕ} {L Y : Subgroup G} (hY : Y ≤ L) :
     (Y.subgroupOf (Subgroup.normalizer (L : Set G))).map (barAut p L) =
       (lImg p L Y).map (MulAut.conj : PQuot p L →* MulAut (PQuot p L)) := by
@@ -78,6 +80,7 @@ private theorem map_barAut_eq_map_conj {p : ℕ} {L Y : Subgroup G} (hY : Y ≤ 
   · rintro ⟨_, ⟨⟨y, hyL⟩, hy, rfl⟩, rfl⟩
     exact ⟨⟨y, Subgroup.le_normalizer hyL⟩, hy, barAut_of_mem hyL⟩
 
+omit [Finite G] in
 theorem eq_one_of_two_pow_of_odd {O : Subgroup G} (hO : Odd (Nat.card O)) {g : G} (hg : g ∈ O)
     {k : ℕ} (hk : g ^ (2 ^ k) = 1) : g = 1 := by
   have h1 : orderOf (⟨g, hg⟩ : O) ∣ Nat.card O := orderOf_dvd_natCard _
@@ -101,7 +104,7 @@ theorem eq_of_le_of_map_barAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G} 
       (lImg p L R).map MulAut.conj ≤ R'' → R'' = (lImg p L R).map MulAut.conj)
     {R' : Subgroup G} (hR'X : R' ≤ cx x) (hR'2 : IsPGroup 2 R')
     (hAN : A₀ ≤ Subgroup.normalizer (R' : Set G)) (hRR' : R ≤ R') : R' = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set NL : Subgroup G := Subgroup.normalizer (L : Set G) with hNL
   have hR'N : R' ≤ NL := hR'X.trans hXL
   set Rb : Subgroup (MulAut (PQuot p L)) := (R'.subgroupOf NL).map (barAut p L) with hRb

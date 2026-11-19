@@ -16,7 +16,7 @@ private theorem j9poly_natDegree : j9poly.natDegree = 3 := by
   compute_degree!
 
 private theorem F2_eq_zero_or_one (x : F2) : x = 0 ∨ x = 1 := by
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   have hcard : Fintype.card F2 = 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num)]
     norm_num
@@ -56,7 +56,7 @@ private theorem Om_aeval : Polynomial.aeval Om j9poly = 0 := by
   simp only [map_add, map_pow, Polynomial.aeval_X, map_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Om, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply, pow_succ, pow_zero,
+    simp [Om, pow_succ, pow_zero,
       CharTwo.add_self_eq_zero]
 
 private noncomputable def reg : F8 →+* Matrix (Fin 3) (Fin 3) F2 :=
@@ -148,7 +148,7 @@ private theorem reg_surj (M : Matrix (Fin 3) (Fin 3) F2) (hM : M * Om = Om * M) 
       Matrix.smul_mulVec, Matrix.one_mulVec, pow_two, ← Matrix.mulVec_mulVec,
       Om_mulVec_e0, Om_mulVec_e1]
     ext i
-    fin_cases i <;> simp [e0, e1, e2, w, Matrix.mulVec_single_one, Matrix.col]
+    fin_cases i <;> simp [e0, e1, e2, w, Matrix.col]
   have hMN : M = reg x := cyclic_inj M (reg x) hM hNcomm (by rw [hNe0])
   rw [hMN]
   exact RingHom.mem_range.mpr ⟨x, rfl⟩
@@ -220,18 +220,18 @@ private theorem emb_Ai_apply (i : Fin 3) (a b : Fin 9) :
   · simp [h1, h2, reg_root]
   · have hne : bIdx9 a ≠ bIdx9 b := fun h => h2 (h.symm.trans h1)
     have hab : a ≠ b := fun h => hne (by rw [h])
-    simp [h1, h2, Ne.symm h2, hne, hab, Matrix.one_apply]
+    simp [h1, h2, Ne.symm h2, hab]
   · have hne : bIdx9 a ≠ bIdx9 b := fun h => h1 (h.trans h2)
     have hab : a ≠ b := fun h => hne (by rw [h])
-    simp [h1, h2, Ne.symm h1, hne, hab, Matrix.one_apply]
+    simp [h1, h2, hab]
   · by_cases hb : bIdx9 a = bIdx9 b
     · by_cases hi : iIdx9 a = iIdx9 b
       · have hab : a = b := e9_eq_of_components a b hb hi
-        simp [h1, h2, hb, hi, hab]
+        simp [h2, hab]
       · have hab : a ≠ b := fun h => hi (by rw [h])
-        simp [h1, h2, hb, hi, hab, Matrix.one_apply]
+        simp [h2, hb, hi, hab]
     · have hab : a ≠ b := fun h => hb (by rw [h])
-      simp [h1, h2, hb, hab, Matrix.one_apply]
+      simp [h1, h2, hb, hab]
 
 private theorem emb_Ai (i : Fin 3) : emb (Ai i) = T9mat i := by
   ext a b
@@ -241,7 +241,7 @@ private theorem Ai_prod : Ai 0 * Ai 1 * Ai 2 =
     Matrix.diagonal (fun _ => AdjoinRoot.root j9poly) := by
   ext p q
   fin_cases p <;> fin_cases q <;>
-    simp [Ai, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal]
+    simp [Ai, Matrix.mul_apply, Matrix.diagonal]
 
 private noncomputable def Aroot : Matrix (Fin 3) (Fin 3) F8 :=
   Matrix.diagonal (fun _ : Fin 3 => AdjoinRoot.root j9poly)
@@ -299,7 +299,7 @@ private theorem emb_single_apply (i j : Fin 3) (c : F8) (a b : Fin 9) :
   by_cases h1 : bIdx9 a = i <;> by_cases h2 : bIdx9 b = j <;>
     simp_all [eq_comm, map_zero]
 
-private theorem emb_transvection (i j : Fin 3) (hij : i ≠ j) (c : F8) (a b : Fin 9) :
+private theorem emb_transvection (i j : Fin 3) (_hij : i ≠ j) (c : F8) (a b : Fin 9) :
     emb (1 + Matrix.single i j c) a b =
       (if a = b then 1 else 0) +
         (if bIdx9 a = i ∧ bIdx9 b = j then reg c (iIdx9 a) (iIdx9 b) else 0) := by
@@ -344,13 +344,13 @@ private theorem root_ne_zero : AdjoinRoot.root j9poly ≠ 0 := by
 private theorem Aroot_mul_inv : Aroot * ArootInv = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Aroot, ArootInv, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal,
+    simp [Aroot, ArootInv, Matrix.mul_apply, Matrix.diagonal,
       mul_inv_cancel₀ root_ne_zero]
 
 private theorem Aroot_inv_mul : ArootInv * Aroot = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Aroot, ArootInv, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal,
+    simp [Aroot, ArootInv, Matrix.mul_apply, Matrix.diagonal,
       inv_mul_cancel₀ root_ne_zero]
 
 private noncomputable def ArootUnit : (Matrix (Fin 3) (Fin 3) F8)ˣ where
@@ -374,7 +374,7 @@ private theorem embSL_range_le_centralizer :
   simp only [Units.val_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [ArootUnit, Aroot, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal, mul_comm]
+    simp [ArootUnit, Aroot, Matrix.mul_apply, Matrix.diagonal, mul_comm]
 
 private theorem isUnit_of_emb_isUnit (A : Matrix (Fin 3) (Fin 3) F8) (h : IsUnit (emb A)) :
     IsUnit A := by

@@ -26,7 +26,6 @@ theorem burnsideA315y_u3R_isHyp (hU : UnitaryFieldData p 1 K) (two_ne : (2 : K) 
   rcases a with a | a | a <;> rcases b with b | b | b <;> fin_cases a <;> fin_cases b <;>
     simp [burnsideA315y_u3R, hb2] <;>
     first
-    | ring1
     | linear_combination hi
     | linear_combination (-(2 : K)⁻¹) * hi + h2
     | linear_combination ((2 : K)⁻¹ * (2 : K)⁻¹) * hi
@@ -136,7 +135,7 @@ theorem burnsideA315y_u3_hU [Fact p.Prime] :
     show MulAut.conj (hypProjTransport hU hR (hypProj hU 1 1 X)) = _
     rw [hypProjTransport_hypProj]
   obtain ⟨-, -, -, -, ⟨Pb, hPb⟩, -, -⟩ := unitary_order_and_Sylow hU (r := 1) (ε := 1) le_rfl le_rfl
-  have hPbp : IsPGroup p ↥(hypProjUnitriangular hU 1 1) := hPb ▸ Pb.isPGroup'
+  have hPbp : IsPGroup p ↥(hypProjUnitriangular hU 1 1) := hPb ▸ Pb.isPGroup
   have hPbi : ¬ p ∣ (hypProjUnitriangular hU 1 1).index := hPb ▸ Pb.not_dvd_index
   have hrange : (⊤ : Subgroup (hypPSU hU 1 1)).map f =
       (MulAut.conj : unitaryPSU hU 3 →* MulAut (unitaryPSU hU 3)).range := by

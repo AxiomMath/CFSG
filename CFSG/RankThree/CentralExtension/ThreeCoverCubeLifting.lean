@@ -228,13 +228,13 @@ theorem exists_isElementaryAbelian_lift_of_cubeClassHom_eq_one
     ∃ U : Subgroup L, IsElementaryAbelian 3 U ∧ U.map π = E ∧
       π.ker ≤ U ∧ Nat.card U = Nat.card π.ker * Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite T := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite T := Finite.of_surjective π hπ
   let P : Subgroup L := E.comap π
   have hPcomm : IsMulCommutative P :=
     ⟨⟨fun x y => Subtype.ext (hcomm x y x.2 y.2)⟩⟩
-  letI : IsMulCommutative P := hPcomm
-  letI : CommGroup P := IsMulCommutative.instCommGroup
+  let : IsMulCommutative P := hPcomm
+  let : CommGroup P := IsMulCommutative.instCommGroup
   let K : Subgroup P := (powMonoidHom 3 : P →* P).ker
   have hKexp : ∀ k : K, k ^ 3 = 1 := by
     intro k
@@ -265,7 +265,7 @@ theorem exists_isElementaryAbelian_lift_of_cubeClassHom_eq_one
       exact p.2
     · intro e he
       have hclass_e : cubeClassHom hπ hZ E ⟨e, he⟩ = 1 := by
-        simpa [hclass]
+        simp [hclass]
       have hker_e : (⟨e, he⟩ : E) ∈ (cubeClassHom hπ hZ E).ker := by
         rw [MonoidHom.mem_ker]
         exact hclass_e

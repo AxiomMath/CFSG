@@ -177,9 +177,9 @@ theorem mon_hasRows (c : Fin 6 → ZMod 3) (π : Equiv.Perm (Fin 6)) (ε : ZMod 
       linOfRows (monRowsF c π ε).toArray := linMap_ext fun j => by
     rw [linOfRows_unit, List.getElem!_toArray, LinearEquiv.coe_coe]
     obtain ⟨i, rfl | rfl⟩ := exists_lo_hi j
-    · rw [Fin.coe_castAdd, monRowsF_lo, monCode, vecOf_pairCode, ← pairCode_lo, vecOf_pairCode,
+    · rw [Fin.val_castAdd, monRowsF_lo, monCode, vecOf_pairCode, ← pairCode_lo, vecOf_pairCode,
         mon_pairVec]
-    · rw [Fin.coe_natAdd, monRowsF_hi, monCode, vecOf_pairCode, ← pairCode_hi, vecOf_pairCode,
+    · rw [Fin.val_natAdd, monRowsF_hi, monCode, vecOf_pairCode, ← pairCode_hi, vecOf_pairCode,
         mon_pairVec]
   exact ⟨rfl, fun x => LinearMap.congr_fun hf x⟩
 

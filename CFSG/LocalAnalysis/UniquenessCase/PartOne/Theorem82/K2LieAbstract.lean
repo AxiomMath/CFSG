@@ -174,7 +174,7 @@ private theorem card_map_conj_sup_zpowers {X : Type} [Group X] [Finite X]
   have hdisj : Disjoint (E.map (MulAut.conj : X →* MulAut X)) (Subgroup.zpowers ψ) := by
     rw [Subgroup.disjoint_def]
     intro g hgA hgB
-    haveI : Fact (Nat.card (Subgroup.zpowers ψ)).Prime := ⟨by rw [hcardψ]; norm_num⟩
+    have : Fact (Nat.card (Subgroup.zpowers ψ)).Prime := ⟨by rw [hcardψ]; norm_num⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
         ((E.map (MulAut.conj : X →* MulAut X)).subgroupOf (Subgroup.zpowers ψ)) with h | h
     · have hg : (⟨g, hgB⟩ : Subgroup.zpowers ψ) ∈
@@ -228,8 +228,8 @@ theorem k2Simple_of_parts
     exact mul_mem h1 h2
   have hQm : Q ≤ D ⊔ R :=
     hQle.trans (sup_le (hID.trans le_sup_left) (Subgroup.zpowers_le.mpr hψDR))
-  haveI : D.Normal := hDnorm
-  haveI : (innAut X).Normal :=
+  have : D.Normal := hDnorm
+  have : (innAut X).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal X
   have hSyl' := isSylowOf_sup_of_outPNice (D := D) (I := innAut X) (R := R) hID hD1 hR hSyl
   have hle := le_pRank_of_isSylowOf hSyl' hQm hQelem hQcard

@@ -21,7 +21,7 @@ private theorem inf_isElemAbelian_of_altTen {Y : Type} [Group Y] [Finite Y] {K :
     (hT : (T : Subgroup K).map K.subtype = (R : Subgroup Y) ⊓ K) :
     IsElemAbelian 5 ((R : Subgroup Y) ⊓ K) ∧
       Nat.card ((R : Subgroup Y) ⊓ K : Subgroup Y) = 5 ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ψ, hψ⟩ := Generic41Spor.A10Perm.exists_iso_sylow e T
   have hS : ∀ x ∈ (T : Subgroup K), x ^ 5 = 1 ∧ ∀ y ∈ (T : Subgroup K), x * y = y * x := by
     intro x hx
@@ -47,9 +47,9 @@ private theorem inf_isElemAbelian_of_altTen {Y : Type} [Group Y] [Finite Y] {K :
 
 private theorem threeFourTwoAt_alternatingGroup_ten :
     ThreeFourTwoAt 5 (alternatingGroup (Fin 10)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hX : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI := hX
+  have := hX
   have hcard : Nat.card (alternatingGroup (Fin 10)) = 1814400 := Generic41Spor.A10Perm.card_A10
   have hnab : ∃ a b : alternatingGroup (Fin 10), a * b ≠ b * a :=
     exists_mul_ne_of_sq_dvd_card Nat.prime_five (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)
@@ -60,7 +60,7 @@ private theorem threeFourTwoAt_alternatingGroup_ten :
     (CFSG.ComponentClassification.CatalogueSchreierAlternating.outer_solvable_outside_six
       (Or.inr (by norm_num))) ?_
   intro Y _ _ K Y₀ E R _ _ hKn e _ _ _ hER hE hEc hcore _ hKY J hJ hne hJp _ hQ
-  haveI := hKn
+  have := hKn
   have hZK : K ⊓ centralizer (K : Set Y) = ⊥ := by
     rw [eq_bot_iff]
     rintro x ⟨hxK, hxC⟩

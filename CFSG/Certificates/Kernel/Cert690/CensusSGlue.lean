@@ -560,26 +560,26 @@ theorem exists_over {B : SBase} (hS : SFacts minus D G B) {L : Subgroup (V₀ �
     intro q
     rw [letS_eq]
     by_cases hq : q < (gensS B g).length
-    · simp only [Lx, if_pos hq]
+    · simp only [Lx, ite_eq_left hq]
       exact (cd_eltC hD hR (hgens _ (getD_mem_of_lt hq 0))).1
-    · simp only [Lx, if_neg hq]
+    · simp only [Lx, ite_eq_right hq]
       exact hRc
   have hLxi : ∀ q, Code.HasCode (((Lx q)⁻¹ : V₀ ≃ₗ[ZMod 2] V₀) : V₀ →ₗ[ZMod 2] V₀)
       (letS ginv (gensS B g).length (mulF (fS B.spk t.2) (B.tpI.getD p 0)) q) := by
     intro q
     rw [letS_eq]
     by_cases hq : q < (gensS B g).length
-    · simp only [Lx, if_pos hq]
+    · simp only [Lx, ite_eq_left hq]
       exact cd_inv (cd_eltC hD hR (hgens _ (getD_mem_of_lt hq 0))).1
         (forall₂_getD 0 0 hF.inv q hq)
-    · simp only [Lx, if_neg hq]
+    · simp only [Lx, ite_eq_right hq]
       exact hRi
   have hLxH : ∀ q, Lx q ∈ H' := by
     intro q
     by_cases hq : q < (gensS B g).length
-    · simp only [Lx, if_pos hq]
+    · simp only [Lx, ite_eq_left hq]
       exact hle (eltC_mem_subF hD (getD_mem_of_lt hq 0))
-    · simp only [Lx, if_neg hq]
+    · simp only [Lx, ite_eq_right hq]
       exact hrH
   have hword : ∀ w : List ℕ, (w.map Lx).prod ∈ H' ∧
       Code.HasCode (((w.map Lx).prod : V₀ ≃ₗ[ZMod 2] V₀) : V₀ →ₗ[ZMod 2] V₀)

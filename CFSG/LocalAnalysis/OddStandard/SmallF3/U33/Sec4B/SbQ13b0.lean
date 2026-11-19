@@ -25,7 +25,7 @@ theorem q13b_U_le_M (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     ctxU t tau x₁ x₂ lam ≤ ctxM t tau x₁ x₂ :=
   h.c11.U_sylow.1
 
-theorem q13b_O_le_U (h : Q13Om t L S x₁ x₂ lam rho tau om) :
+theorem q13b_O_le_U (_h : Q13Om t L S x₁ x₂ lam rho tau om) :
     ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam :=
   le_sup_left
 
@@ -43,10 +43,10 @@ theorem q13b_t_mem_O (h : Q13Om t L S x₁ x₂ lam rho tau om) : t ∈ ctxO t t
 theorem q13b_om_mem_O (h : Q13Om t L S x₁ x₂ lam rho tau om) : om ∈ ctxO t tau x₁ x₂ :=
   (Subgroup.mem_inf.mp h.om_mem).1
 
-theorem q13b_tau_mem_N (h : Q13Om t L S x₁ x₂ lam rho tau om) : tau ∈ ctxN tau x₁ x₂ :=
+theorem q13b_tau_mem_N (_h : Q13Om t L S x₁ x₂ lam rho tau om) : tau ∈ ctxN tau x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
-theorem q13b_V_le_N (h : Q13Om t L S x₁ x₂ lam rho tau om) :
+theorem q13b_V_le_N (_h : Q13Om t L S x₁ x₂ lam rho tau om) :
     fourGrp x₁ x₂ ≤ ctxN tau x₁ x₂ :=
   (p0_V_le_N_le_X t tau x₁ x₂).1
 

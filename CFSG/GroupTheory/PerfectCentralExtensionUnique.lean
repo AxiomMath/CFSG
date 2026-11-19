@@ -14,7 +14,7 @@ universe u
 
 theorem eq_top_of_sup_le_center_of_isPerfect {G : Type u} [Group G] [Group.IsPerfect G]
     {L Z : Subgroup G} (hZ : Z ≤ Subgroup.center G) (h : L ⊔ Z = ⊤) : L = ⊤ := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [eq_top_iff, ← Group.IsPerfect.commutator_eq_top (G := G), _root_.commutator_def,
     Subgroup.commutator_le]
   intro x _ y _
@@ -38,7 +38,7 @@ theorem exists_mulEquiv_comp_eq_of_card_ker_eq_two {C C' P : Type u} [Group C] [
     ∃ θ : C ≃* C', ∀ c, π' (θ c) = π c := by
   classical
   have hP : Group.IsPerfect P := by
-    haveI : Group.IsPerfect C := hC
+    have : Group.IsPerfect C := hC
     exact Group.IsPerfect.ofSurjective hπ
   let F : Subgroup (C × C') := CFSG.LieType.Steinberg.pullback π π'
   let H := ↥F
@@ -114,7 +114,7 @@ theorem exists_mulEquiv_comp_eq_of_card_ker_eq_two {C C' P : Type u} [Group C] [
     intro z
     apply Subtype.ext
     exact Subgroup.mem_center_iff.mp (hker_f hy) (z : H)
-  haveI : IsCyclic ↥(fD.ker) := hcyc ↥D hDperf fD hfDsurj hkerD
+  have : IsCyclic ↥(fD.ker) := hcyc ↥D hDperf fD hfDsurj hkerD
   have hsq : ∀ y : ↥(fD.ker), y ^ 2 = 1 := by
     intro y
     have hy : f (y.1 : H) = 1 := y.2

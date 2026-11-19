@@ -71,7 +71,7 @@ theorem catalog_pSimple_u42 {G : Type} [Group G] [Finite G] {K : Subgroup G}
     unfold GLAPPrimeCore CFSG.pPrimeCore
     refine le_bot_iff.1 (sSup_le fun N hN => ?_)
     obtain ⟨hNn, hNc⟩ := hN
-    haveI := hNn
+    have := hNn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · rw [h]
     · exfalso

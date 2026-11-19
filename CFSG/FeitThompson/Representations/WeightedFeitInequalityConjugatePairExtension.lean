@@ -51,8 +51,8 @@ theorem cfInner_sum_sum_of_orthonormal {Rs : Finset (X → ℂ)}
     rw [cfInner_sum_right]
     by_cases h : r ∈ F
     · rw [Finset.sum_eq_single_of_mem r h fun s hs hsr => hzero r (hE hr) s (hF hs) (Ne.symm hsr),
-        hone r (hE hr), if_pos h]
-    · rw [if_neg h]
+        hone r (hE hr), ite_eq_left h]
+    · rw [ite_eq_right h]
       exact Finset.sum_eq_zero fun s hs => hzero r (hE hr) s (hF hs) fun he => h (he ▸ hs)
   rw [Finset.sum_congr rfl key, Finset.sum_ite_mem, Finset.sum_const, nsmul_eq_mul, mul_one]
 
@@ -143,8 +143,8 @@ theorem linearIndependent_of_cfInner {U : Set (La → ℂ)}
     intro i _
     by_cases h : i = j
     · simp [h]
-    · rw [horth _ i.2 _ j.2 fun he => h (Subtype.ext he), mul_zero, if_neg h]
-  rw [Finset.sum_congr rfl hij, Finset.sum_ite_eq' t j, if_pos hj] at key
+    · rw [horth _ i.2 _ j.2 fun he => h (Subtype.ext he), mul_zero, ite_eq_right h]
+  rw [Finset.sum_congr rfl hij, Finset.sum_ite_eq' t j, ite_eq_left hj] at key
   have hjj := h0 _ j.2
   have hg0 : (g j : ℂ) = 0 := (mul_eq_zero.1 key).resolve_right hjj
   exact_mod_cast hg0
@@ -197,6 +197,7 @@ noncomputable def orthSpanExtend {U : Set (La → ℂ)} {p : Submodule ℤ (X �
     Submodule.span ℤ U →+ p :=
   ((orthSpanBasis h0 horth).constr ℤ V).toAddMonoidHom
 
+omit [Fintype X] in
 @[simp] theorem orthSpanExtend_apply {U : Set (La → ℂ)} {p : Submodule ℤ (X → ℂ)}
     (h0 : ∀ f ∈ U, cfInner f f ≠ 0)
     (horth : ∀ f ∈ U, ∀ g ∈ U, f ≠ g → cfInner f g = 0) (V : U → p) (f : U) :
@@ -446,12 +447,12 @@ theorem cfInner_tau_sub_apply (hc : IsSubcoherent S tau R) (hTS : T ⊆ S)
     cfInner_eq_zero_of_ne hc hχS hγS hχγ, cfInner_eq_zero_of_ne hc hχS hψS hχψ]
   by_cases hgp : γ = ψ
   · subst hgp
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hgpp : (gg : ℂ) = (p : ℂ) := by rw [← hg, hp]
     push_cast
     rw [hgpp]
     ring
-  · rw [if_neg hgp, cfInner_eq_zero_of_ne hc hψS hγS (Ne.symm hgp)]
+  · rw [ite_eq_right hgp, cfInner_eq_zero_of_ne hc hψS hγS (Ne.symm hgp)]
     push_cast
     ring
 
@@ -540,7 +541,7 @@ theorem exists_int_coeff_and_proj_sub_eq (hc : IsSubcoherent S tau R) (hTS : T �
   set nuv : (L → ℂ) → (G → ℂ) := fun γ =>
     if h : γ ∈ T then (ν ⟨γ, mem_span_of_mem h⟩ : G → ℂ) else 0 with hnuv
   have hnuv_eq : ∀ γ (h : γ ∈ T), nuv γ = (ν ⟨γ, mem_span_of_mem h⟩ : G → ℂ) := by
-    intro γ h; rw [hnuv]; simp only [dif_pos h]
+    intro γ h; rw [hnuv]; simp only [dite_eq_left h]
   have hYnuv : ∀ γ ∈ T, cfInner Y (nuv γ) = -cfInner α (nuv γ) := by
     intro γ hγ
     rw [hY, cfInner_sub_left, hnuv_eq γ hγ, hXvorth, zero_sub]
@@ -579,10 +580,10 @@ theorem exists_int_coeff_and_proj_sub_eq (hc : IsSubcoherent S tau R) (hTS : T �
     refine mul_left_cancel₀ hpC ?_
     by_cases hgp : γ = ψ
     · subst hgp
-      rw [if_pos rfl, hgψ] at *
+      rw [ite_eq_left rfl, hgψ] at *
       rw [show (lam : ℂ) * (p : ℂ) / (p : ℂ) = (lam : ℂ) from by field_simp]
       linear_combination -hrel
-    · rw [if_neg hgp] at hrel ⊢
+    · rw [ite_eq_right hgp] at hrel ⊢
       rw [show (p : ℂ) * (0 - (lam : ℂ) * (g γ : ℂ) / (p : ℂ)) = -((lam : ℂ) * (g γ : ℂ))
         from by field_simp; ring]
       linear_combination -hrel
@@ -603,19 +604,19 @@ theorem exists_int_coeff_and_proj_sub_eq (hc : IsSubcoherent S tau R) (hTS : T �
       rw [hYγ γ hγ, hnuvnn γ hγ]
       by_cases h : γ = ψ
       · subst h
-        rw [if_pos rfl, if_pos rfl, hgψ,
+        rw [ite_eq_left rfl, ite_eq_left rfl, hgψ,
           show conj ((d : ℂ) * (n γ : ℂ) - (lam : ℂ) * (p : ℂ) / (p : ℂ))
             = (d : ℂ) * (n γ : ℂ) - (lam : ℂ) * (p : ℂ) / (p : ℂ) from by simp]
         field_simp
         ring
-      · rw [if_neg h, if_neg h,
+      · rw [ite_eq_right h, ite_eq_right h,
           show conj ((0 : ℂ) - (lam : ℂ) * (g γ : ℂ) / (p : ℂ))
             = (0 : ℂ) - (lam : ℂ) * (g γ : ℂ) / (p : ℂ) from by simp]
         field_simp
         ring
     rw [Finset.sum_congr rfl step, Finset.sum_add_distrib,
       Finset.sum_ite_eq' T ψ (fun _ => (d : ℂ) ^ 2 * (n ψ : ℂ) - 2 * (d : ℂ) * (lam : ℂ)),
-      if_pos hψT, ← Finset.mul_sum]
+      ite_eq_left hψT, ← Finset.mul_sum]
   set Sig : ℂ := ∑ γ ∈ T, (g γ : ℂ) ^ 2 / (n γ : ℂ) with hSig
   have hFeit2 : 2 * (d : ℂ) * (p : ℂ) ^ 2 < Sig := by
     have hsumeq : ∑ γ ∈ T, γ 1 ^ 2 / cfInner γ γ = Sig := by
@@ -657,17 +658,17 @@ theorem exists_int_coeff_and_proj_sub_eq (hc : IsSubcoherent S tau R) (hTS : T �
         have hnC : ((n γ : ℂ)) ≠ 0 := by exact_mod_cast (hn0 γ (hTS hγ)).ne'
         rw [hYγ γ hγ, hnuvnn γ hγ, hlam0]
         by_cases h : γ = ψ
-        · rw [if_pos h, if_pos h]
+        · rw [ite_eq_left h, ite_eq_left h]
           subst h
           push_cast
           rw [zero_mul, zero_div, sub_zero]
           congr 1
           field_simp
-        · rw [if_neg h, if_neg h]
+        · rw [ite_eq_right h, ite_eq_right h]
           push_cast
           rw [zero_mul, zero_div, sub_zero, zero_div, zero_smul]
       rw [Finset.sum_congr rfl step, Finset.sum_ite_eq' T ψ (fun _ => (d : ℂ) • nuv ψ),
-        if_pos hψT]
+        ite_eq_left hψT]
     rw [hproj, sub_eq_zero] at hZeq
     rw [hZeq, hnuv_eq ψ hψT, ← Int.cast_smul_eq_zsmul ℂ]
     push_cast
@@ -892,7 +893,7 @@ theorem exists_isCoherentWith_of_tau_eq (hc : IsSubcoherent S tau R) (hTS : T �
     hc.map_zsmul _ hamemS, hc.map_zsmul _ hbmemS]
 
 theorem exists_isCoherentWith_insertPair (hc : IsSubcoherent S tau R) (hTS : T ⊆ S)
-    (hTne : T.Nonempty) (hTstar : ∀ γ ∈ T, star γ ∈ T)
+    (_hTne : T.Nonempty) (hTstar : ∀ γ ∈ T, star γ ∈ T)
     {τT : charSpanZero (T : Set (L → ℂ)) →+ virtualChars G}
     {ν : Submodule.span ℤ (T : Set (L → ℂ)) →+ virtualChars G}
     (hν : IsCoherentWith (T : Set (L → ℂ)) τT ν)

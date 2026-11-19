@@ -19,7 +19,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 theorem existsUnique_mem_of_isPlaneBundle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) (hst : s ≠ t) (hii : TalliniCondPrime Γ c)
+    (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) (_hst : s ≠ t) (hii : TalliniCondPrime Γ c)
     {β : Set (Set V)} (hβ : IsPlaneBundle Γ c β) {p : V} (hp : c p = 0)
     (hpβ : ∃ X ∈ β, p ∉ X) : ∃! X, X ∈ β ∧ p ∈ X := by
   classical

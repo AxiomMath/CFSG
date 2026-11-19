@@ -148,7 +148,7 @@ theorem sylow_mulEquiv_map {J : Type*} [Group J] [Finite J] (D : Sylow 2 J) :
     have hdO : (d : J) ∈ CFSG.oddCore J := (QuotientGroup.eq_one_iff _).mp hd
     have hodd : Odd (orderOf (d : J)) :=
       UnbalancedCatalog.EvenCatalog.odd_card_oddCore.of_dvd_nat (Subgroup.orderOf_dvd_natCard _ hdO)
-    obtain ⟨k, hk⟩ := D.isPGroup' d
+    obtain ⟨k, hk⟩ := D.isPGroup d
     have hk' : (d : J) ^ 2 ^ k = 1 := by
       have := congrArg Subtype.val hk
       rwa [Subgroup.coe_pow, OneMemClass.coe_one] at this

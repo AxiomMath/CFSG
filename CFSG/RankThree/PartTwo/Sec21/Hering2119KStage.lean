@@ -53,7 +53,7 @@ theorem ker_decomp {κ : G} (hκ : κ ∈ NQ Q d) (hM : Mg d a₀ a₁ f₀ f₁
   have hκd := h.ker_centralizes_d hκ hM
   have hz : ∀ y ∈ Q, y⁻¹ * (κ * y * κ⁻¹) ∈ Subgroup.zpowers d := by
     intro y hy
-    refine h.Phi_eq hy (h.conj_mem hκ.1 hy) ?_
+    refine h.Phi_eq hy (CFSG.RankThree.PartTwo.Sec21.Hering2119S.SympBasis.conj_mem hκ.1 hy) ?_
     rw [h.Mg_apply hκ.1 (NQ_conj_d hκ) hy, hM, Matrix.one_mulVec]
   obtain ⟨lam, hlam⟩ : ∃ lam : G → F3, ∀ y, lam y = dl d (y⁻¹ * (κ * y * κ⁻¹)) :=
     ⟨fun y => dl d (y⁻¹ * (κ * y * κ⁻¹)), fun y => rfl⟩
@@ -233,7 +233,7 @@ theorem stage_line {A E U : Subgroup G} {c : G} {L : Subgroup G} {d : G} {U₀ :
     by_cases hm1 : m = 1
     · refine ⟨1, by group, ?_⟩
       rw [hm1]
-      simpa using Subgroup.one_mem (Subgroup.zpowers d)
+      simp
     · obtain ⟨w, hwL, hw⟩ := (Item2119End8Proof.facts_H (hF e he hed) hLe h26
         (h28 e he hed)).2 m hm d ⟨hdF, hdL⟩ hm1 hd1
       have hwC := Sec6.le_centralizer_of_mem_thetaComponentsAt hLe.1 hwL.1

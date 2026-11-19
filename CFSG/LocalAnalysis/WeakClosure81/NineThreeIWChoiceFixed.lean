@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 theorem nine3_mem_zpowers_involution {u : G} (hu2 : u * u = 1) {s : G}
     (hs : s ∈ Subgroup.zpowers u) : s = 1 ∨ s = u := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hs
@@ -58,8 +59,8 @@ theorem nine3_exists_inverted_P (hc : Nine3Choice V T A K S X p g x)
       P ≤ Subgroup.closure ({a, x⁻¹ * a * x} : Set G) ∧
       ∀ y ∈ P, a⁻¹ * y * a = y⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime p) := ⟨hc.core.hyp.base.prime⟩
   obtain ⟨a, ha, haR⟩ := nine3_exists_a_not_mem_pCore hc
   have hxX : x ∈ X := hc.x_mem
   have hxK : x ∈ K := hc.core.hyp.base.sylowP.le hxX

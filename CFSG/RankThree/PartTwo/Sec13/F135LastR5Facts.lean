@@ -24,6 +24,7 @@ theorem r5gl_Y_inf_eq_bot {p : ℕ} (hp : p.Prime) {Y Φ : Subgroup G} (hY : Nat
     rw [← hYeq]
     exact inf_le_right
 
+omit [Finite G] in
 theorem r5gl_conj_mem_centralizer {S : Set G} {g x : G} (hg : g ∈ Subgroup.centralizer S)
     (hx : x ∈ Subgroup.centralizer S) : g * x * g⁻¹ ∈ Subgroup.centralizer S := by
   rw [Subgroup.mem_centralizer_iff] at hg hx ⊢
@@ -42,6 +43,7 @@ theorem r5gl_conj_mem_centralizer {S : Set G} {g x : G} (hg : g ∈ Subgroup.cen
     _ = g * x * (g⁻¹ * h) := by rw [h3]
     _ = (g * x * g⁻¹) * h := by group
 
+omit [Finite G] in
 theorem r5gl_mem_centralizer_sup {f u : G} {Y : Subgroup G}
     (hfY : f ∈ Subgroup.centralizer (Y : Set G)) (hfu : f ∈ Subgroup.centralizer ({u} : Set G)) :
     f ∈ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G) := by
@@ -60,6 +62,7 @@ theorem r5gl_mem_centralizer_sup {f u : G} {Y : Subgroup G}
   intro h hh
   exact (Subgroup.mem_centralizer_iff.mp (hle hh) f (Set.mem_singleton f)).symm
 
+omit [Finite G] in
 theorem r5gl_commutator_le {A B : Subgroup G}
     (hBA : ∀ b ∈ B, ∀ x ∈ A, b * x * b⁻¹ ∈ A) : ⁅A, B⁆ ≤ A := by
   rw [Subgroup.commutator_le]
@@ -68,6 +71,7 @@ theorem r5gl_commutator_le {A B : Subgroup G}
   rw [commutatorElement_def, show a * b * a⁻¹ * b⁻¹ = a * (b * a⁻¹ * b⁻¹) by group]
   exact h
 
+omit [Finite G] in
 theorem r5gl_commutator_conj {A B : Subgroup G} {g : G}
     (hA : ∀ x ∈ A, g * x * g⁻¹ ∈ A) (hB : ∀ x ∈ B, g * x * g⁻¹ ∈ B) {n : G}
     (hn : n ∈ ⁅A, B⁆) : g * n * g⁻¹ ∈ ⁅A, B⁆ := by
@@ -82,6 +86,7 @@ theorem r5gl_commutator_conj {A B : Subgroup G} {g : G}
       exact hB x hx
   exact hle (Subgroup.mem_map_of_mem _ hn)
 
+omit [Finite G] in
 theorem r5gl_A_conj {u : G} {Y D : Subgroup G} {b x : G}
     (hb : b ∈ D ⊓ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G))
     (hx : x ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({u} : Set G)) ⊓
@@ -105,6 +110,7 @@ theorem r5gl_A_conj {u : G} {Y D : Subgroup G} {b x : G}
   exact Subgroup.mem_inf.mpr ⟨(CFSG.RankThree.PartTwo.Sec13.F135Last.mem_pCoreOf_conj 2 _ hbu x).mp hxP,
     r5gl_conj_mem_centralizer hbY hxC⟩
 
+omit [Finite G] in
 theorem r5gl_B_conj {u : G} {Y D : Subgroup G} {g x : G}
     (hg : g ∈ D ⊓ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G))
     (hx : x ∈ D ⊓ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G)) :
@@ -114,6 +120,7 @@ theorem r5gl_B_conj {u : G} {Y D : Subgroup G} {g x : G}
   exact Subgroup.mem_inf.mpr ⟨mul_mem (mul_mem hgD hxD) (inv_mem hgD),
     r5gl_conj_mem_centralizer hgC hxC⟩
 
+omit [Finite G] in
 theorem r5gl_S_le_B {u : G} {Y D : Subgroup G} {f : G}
     (hf : f ∈ D ⊓ Subgroup.centralizer (Y : Set G) ⊓ Subgroup.centralizer ({u} : Set G)) :
     f ∈ D ⊓ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G) := by
@@ -157,6 +164,7 @@ theorem r5g_E_facts {p : ℕ} [Fact p.Prime] {D Y : Subgroup G} (hD : IsPGroup p
     rw [commutatorElement_def] at hmemb
     simpa using hmemb
 
+omit [Finite G] in
 theorem r5g_U_facts {u : G} {Y D U : Subgroup G}
     (hU : U = ⁅CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({u} : Set G)) ⊓
         Subgroup.centralizer (Y : Set G),

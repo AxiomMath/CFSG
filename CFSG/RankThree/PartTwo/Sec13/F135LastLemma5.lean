@@ -42,7 +42,7 @@ theorem L10b {V : Type u} [Group V] [Finite V] (hVc : ∀ v w : V, v * w = w * v
 
 theorem frattini_quotient_elementary {Q : Type u} [Group Q] [Finite Q] (hQ : IsPGroup 3 Q) :
     (∀ v w : Q ⧸ frattini Q, v * w = w * v) ∧ (∀ v : Q ⧸ frattini Q, v ^ 3 = 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hcomm, hpow, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hQ
   exact ⟨fun v w => hcomm.is_comm.comm v w, hpow⟩
 
@@ -51,10 +51,10 @@ theorem even_card_quotient {K : Type*} [Group K] [Finite K] (hKperf : commutator
     Even (Nat.card (K ⧸ N)) := by
   by_contra hodd
   rw [Nat.not_even_iff_odd] at hodd
-  haveI : Group.IsSolvable (K ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hKperf
-  haveI : Group.IsPerfect (K ⧸ N) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective N)
-  haveI : Nontrivial (K ⧸ N) := hS.toNontrivial
+  have : Group.IsSolvable (K ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hKperf
+  have : Group.IsPerfect (K ⧸ N) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective N)
+  have : Nontrivial (K ⧸ N) := hS.toNontrivial
   exact Group.IsPerfect.not_isSolvable (K ⧸ N) inferInstance
 
 theorem lemma5_abstract {P : Type u} [Group P] [Finite P] (hP : IsPGroup 3 P)
@@ -65,11 +65,11 @@ theorem lemma5_abstract {P : Type u} [Group P] [Finite P] (hP : IsPGroup 3 P)
     (hstruct : (∃ T : Subgroup K, (∀ t ∈ T, t * t = 1) ∧ Nat.card T = 2 ^ 6) ∨
         ∃ (A : Subgroup K) (x : K), FourCubeSeven A x) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have heven := even_card_quotient hKperf N hS
   have hKgen := closure_twoElements_eq_top hKperf N hNodd hS heven
   have hdich : ∀ N₁ : Subgroup K, N₁.Normal → N₁ = ⊤ ∨ N₁ ≤ N :=
-    fun N₁ h => by haveI := h; exact normal_dichotomy hKperf N hNodd hS N₁
+    fun N₁ h => by have := h; exact normal_dichotomy hKperf N hNodd hS N₁
   obtain ⟨Q, ψ, hQexp, hQcl, hcompat, hfaith⟩ :=
     exists_faithful_action hP φ hφ hKgen N hNodd hdich
   have hQ3 : IsPGroup 3 ↥Q := hP.to_subgroup Q

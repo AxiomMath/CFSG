@@ -114,7 +114,7 @@ theorem uSL_mul_vSL_mul_uSL : (uSL 1 * vSL 1 : SL2 K) * uSL 1 = vSL 1 * (uSL 1 *
   fin_cases i <;> fin_cases j <;>
     simp [coe_uSL, coe_vSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
       Fin.sum_univ_two] <;>
-    first | rfl | exact h2 | exact h2.symm | ring1 | linear_combination h2
+    linear_combination h2
 
 theorem leviY_mul_pinnedX
     (hγ : IsRoot TwistTag.E6.tag γ) :

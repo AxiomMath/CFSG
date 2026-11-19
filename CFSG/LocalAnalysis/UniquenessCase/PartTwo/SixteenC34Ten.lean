@@ -45,9 +45,9 @@ theorem s16c34_ten_part1 (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     pCoreOf p ⁅(⊤ : Subgroup (F11.MBar11 D.M V₀ V)), (⊤ : Subgroup (F11.MBar11 D.M V₀ V))⁆ =
       F11.barImage11 D.M V₀ V (P ⊓ ⁅D.M, D.M⁆) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hn, hO, -⟩ := ElevenNine.hyp11_ctilde D hV
-  haveI hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨φ, hφs, hφk, hφπ⟩ := uc22p22u_exists_phi (M := D.M) (X := F11.CTilde D.M V₀ V) hO
   have hbar := uc22p22u_barImage_inf_commutator hp hp2 hP
   have key := uc22p22u_pCore_commutator_le_image φ hφs (barImage D.M (F11.CTilde D.M V₀ V)) hφk p
@@ -70,10 +70,10 @@ theorem s16c34_ten_part1 (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
       · rintro ⟨y, hy, rfl⟩
         obtain ⟨m, hm, rfl⟩ := uc22p21c_mem_barImage.1 hy
         exact ⟨m, hm, (hφπ m).symm⟩
-    haveI : (CFSG.pCore p (Bar2 D.M) ⊓ ⁅(⊤ : Subgroup (Bar2 D.M)), ⊤⁆).Normal := by
-      haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M) ⊓ ⁅(⊤ : Subgroup (Bar2 D.M)), ⊤⁆).Normal := by
+      have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
       infer_instance
-    haveI hSn : S.Normal := by
+    have hSn : S.Normal := by
       rw [hSφ]
       exact Subgroup.Normal.map inferInstance φ hφs
     have hSle : S ≤ T := by
@@ -91,10 +91,10 @@ theorem s16c34_ten_part2 (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     IsCyclic ↥(P ⊓ F11.CTilde D.M V₀ V) ∧
       ⁅P ⊓ ⁅D.M, D.M⁆, P ⊓ F11.CTilde D.M V₀ V⁆ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPM, hbar, hP2⟩ := uc22p22u_sylow_O2p hp hp2 hP
   obtain ⟨hn, -, -⟩ := ElevenNine.hyp11_ctilde D hV
-  haveI hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M V₀ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨hcyc, hcomm⟩ := h116
   set X₀ : Subgroup G := F11.CTilde D.M V₀ V with hX₀
   set N : Subgroup (Bar2 D.M) := barImage D.M X₀ with hN
@@ -106,9 +106,9 @@ theorem s16c34_ten_part2 (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
     have h1 : uc22p21cPi D.M x ∈ CFSG.pCore p (Bar2 D.M) :=
       hbar ▸ uc22p21c_mem_barImage.2 ⟨x, hx.1, rfl⟩
     have h2 : uc22p21cPi D.M x ∈ N := uc22p21c_mem_barImage.2 ⟨x, hx.2, rfl⟩
-    haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
     set R : Subgroup (Bar2 D.M) := CFSG.pCore p (Bar2 D.M) ⊓ N with hR
-    haveI hRn : R.Normal := inferInstance
+    have hRn : R.Normal := inferInstance
     have hRp : IsPGroup p ↥R := (CFSG.pCore_isPGroup (p := p) (G := Bar2 D.M)).to_inf_left
     have hRN : (R.subgroupOf N).Normal := hRn.subgroupOf N
     have hRp' : IsPGroup p ↥(R.subgroupOf N) := hRp.comap_subtype
@@ -129,7 +129,7 @@ theorem s16c34_ten_part2 (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
   refine ⟨?_, ?_⟩
   · let g : ↥(P ⊓ X₀) →* ↥F := ((uc22p21cPi D.M).comp (Subgroup.inclusion hUM)).codRestrict F
       fun a => hA (Subgroup.inclusion hUM a) a.2
-    haveI := hFcyc
+    have := hFcyc
     exact isCyclic_of_injective g fun a b hab => hker a b (congrArg Subtype.val hab)
   · rw [← le_bot_iff, Subgroup.commutator_le]
     intro q hq u hu
@@ -165,7 +165,7 @@ theorem s16c34_ten_tdata (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
     (hZ : Z = T ⊓ F11.CTilde D.M V₀ V) :
     IsPGroup p ↥T ∧ IsCyclic ↥Z ∧ Z ≤ T ∧ ⁅T, T⁆ ≤ Z ∧ ⁅T, Z⁆ = ⊥ ∧ (∀ t ∈ T, t ^ p ∈ Z) ∧
       T ≤ D.M ∧ F11.barImage11 D.M V₀ V T = Xbar := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPM, -, -⟩ := uc22p22u_sylow_O2p hp hp2 hP
   have hPp : IsPGroup p ↥P := (CFSG.ABGLocalTools.isSylowOf_iff.1 hP).2.1
   have h1 := s16c34_ten_part1 D hV h118 hp hp2 hP
@@ -183,7 +183,7 @@ theorem s16c34_ten_tdata (D : Data G) {V₀ V : Subgroup G} (hV : F11.Hyp11 D V�
     rw [hT] at ht
     exact uc22p22u_mem_barPreimage11.1 ht.2
   refine ⟨hPp.to_le hTP, ?_, hZT, ?_, ?_, ?_, hTM, ?_⟩
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
     obtain ⟨haM, ha'⟩ := hmemT a ha

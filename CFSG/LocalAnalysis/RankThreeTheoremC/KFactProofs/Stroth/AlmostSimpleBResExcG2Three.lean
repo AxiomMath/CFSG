@@ -111,8 +111,8 @@ theorem hasIndepPair_adjointG2_three {m : ℕ} (k : Type) [Field k] [Finite k] [
 theorem fixesPair_adjointG2_three {f : ℕ} (hf : 2 ≤ f) (K : Type) [Field K] [Finite K]
     [CharP K 2] (hK : Nat.card K = 2 ^ f) {α : MulAut (adjointGroup Tag.G2 K)} (hαp : α ^ 3 = 1)
     (hα : α ∉ inner (adjointGroup Tag.G2 K)) : FixesIndepPair 3 α := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hαo : orderOf α = 3 := orderOf_eq_prime hαp (fun h1 => hα (h1 ▸
     (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.G2 K)).one_mem))
   obtain ⟨x, σ, hσ, hασ⟩ :=
@@ -122,9 +122,9 @@ theorem fixesPair_adjointG2_three {f : ℕ} (hf : 2 ≤ f) (K : Type) [Field K] 
   obtain ⟨hdvd, hc⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two
     (by omega) hK σ
   rw [hσ] at hdvd hc
-  haveI : Finite (fixSubfield σ) :=
+  have : Finite (fixSubfield σ) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; exact (pow_pos (by norm_num) _).ne')
-  haveI : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
+  have : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
     (fixSubfield σ).subtype_injective 2
   exact fixesPair_of_entrywise_conj (r := 1) (j := 1) σ (by simp) (by rw [pow_one]; exact hδ)
     (hasIndepPair_adjointG2_three (fixSubfield σ) hc)
@@ -139,7 +139,7 @@ theorem chevTwoOuterFixesPair_G2_three :
     have hq2 : q.p = 2 := hchar
     obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.g2 q hv
-    haveI : CharP K 2 := hq2 ▸ hchK
+    have : CharP K 2 := hq2 ▸ hchK
     let θ : L ≃* adjointGroup Tag.G2 K := e.trans eK
     have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]
     have h3 : 3 ≤ q.card := (LieTypeIndex.inStandardRange_iff _).1

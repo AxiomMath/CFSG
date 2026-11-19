@@ -158,7 +158,7 @@ theorem fr_Qθ (Fr : L →+* L) : ∀ q ∈ Qθ Tag.F4 L,
   · refine ⟨pinnedX_mem_Qθ_of_mem_Deg1 h _, ?_⟩
     rw [(heisCoord_spec Tag.F4 L).pinnedX_deg1 α h, (heisCoord_spec Tag.F4 L).pinnedX_deg1 α h]
     funext ν
-    by_cases hν : ν = α <;> simp [Pi.single_apply, hν]
+    by_cases hν : ν = α <;> simp [hν]
   · subst h
     refine ⟨pinnedX_mem_rootSpan hα _, ?_⟩
     rw [(heisCoord_spec Tag.F4 L).pinnedX_highRoot, (heisCoord_spec Tag.F4 L).pinnedX_highRoot]
@@ -187,13 +187,13 @@ theorem nW_Qθ : ∀ q ∈ Qθ Tag.F4 L, nW L * q * (nW L)⁻¹ ∈ Qθ Tag.F4 L
     · subst hν
       simp
     · have : wF4⁻¹ • ν ≠ α := fun e => hν (by rw [← e, smul_inv_smul])
-      simp [Pi.single_apply, hν, this]
+      simp [hν, this]
   · subst h
     rw [w_smul_theta]
     refine ⟨pinnedX_mem_rootSpan hα _, ?_⟩
     rw [(heisCoord_spec Tag.F4 L).pinnedX_highRoot]
     funext ν
-    simp [(heisCoord_spec Tag.F4 L).pinnedX_highRoot]
+    simp
 
 theorem sig_Qθ (Fr : L →+* L) : ∀ q ∈ Qθ Tag.F4 L, sigHom Fr q ∈ Qθ Tag.F4 L ∧
     heisCoord Tag.F4 L (sigHom Fr q) = fun ν => Fr (heisCoord Tag.F4 L q (wF4⁻¹ • ν)) := by
@@ -356,7 +356,7 @@ variable (AD : ActData L)
 
 theorem act_coord {v : V L} (hv : Supp v) {γ : Fin Tag.F4.rank → ℤ}
     (hγ : γ ∈ rootFinset Tag.F4) (hγ0 : γ 0 = 0) (t : L) {ν : Fin Tag.F4.rank → ℤ}
-    (hν : ν ∈ rootFinset Tag.F4) (hν1 : ν 0 = 1) :
+    (hν : ν ∈ rootFinset Tag.F4) (_hν1 : ν 0 = 1) :
     DetectF4.actFun AD.a1 AD.a2 γ t v ν = v ν +
       t * (if ν - 2 • γ ∈ rootFinset Tag.F4 then 0 else 1) * v (ν - γ) + t ^ 2 * v (ν - 2 • γ) := by
   unfold DetectF4.actFun
@@ -368,10 +368,10 @@ theorem act_coord {v : V L} (hv : Supp v) {γ : Fin Tag.F4.rank → ℤ}
       have e : ν - γ - γ = ν - 2 • γ := by rw [sub_sub, two_smul]
       rw [e] at h1
       by_cases hm : ν - 2 • γ ∈ rootFinset Tag.F4
-      · rw [if_pos hm] at h1
-        rw [if_pos hm, cast_zero_of_abs h1]
-      · rw [if_neg hm] at h1
-        rw [if_neg hm, cast_one_of_abs h1]
+      · rw [ite_eq_left hm] at h1
+        rw [ite_eq_left hm, cast_zero_of_abs h1]
+      · rw [ite_eq_right hm] at h1
+        rw [ite_eq_right hm, cast_one_of_abs h1]
     · rw [hv _ h]
       simp
   have hA2 : (AD.a2 γ (ν - 2 • γ) : L) * v (ν - 2 • γ) = v (ν - 2 • γ) := by
@@ -430,7 +430,7 @@ theorem actc_g5_rS {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rS - g5) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rS - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rS - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rS - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rA1 {v : V L} (hv : Supp v) (t : L) :
@@ -440,7 +440,7 @@ theorem actc_g5_rA1 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA1 - g5) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA1 - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA1 - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA1 - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rA2 {v : V L} (hv : Supp v) (t : L) :
@@ -450,7 +450,7 @@ theorem actc_g5_rA2 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA2 - g5) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA2 - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA2 - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA2 - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rA3 {v : V L} (hv : Supp v) (t : L) :
@@ -460,7 +460,7 @@ theorem actc_g5_rA3 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rA3 - g5 = rB13 := by decide
   rw [e1]
   have e2 : rA3 - 2 • g5 = rA1 := by decide
-  rw [e2, if_pos (by decide +kernel : rA1 ∈ rootFinset Tag.F4)]
+  rw [e2, ite_eq_left (by decide +kernel : rA1 ∈ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rB12 {v : V L} (hv : Supp v) (t : L) :
@@ -470,7 +470,7 @@ theorem actc_g5_rB12 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rB12 - g5) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rB12 - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB12 - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB12 - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rB13 {v : V L} (hv : Supp v) (t : L) :
@@ -480,7 +480,7 @@ theorem actc_g5_rB13 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB13 - g5 = rA1 := by decide
   rw [e1]
   have z2 : v (rB13 - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB13 - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB13 - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5_rB23 {v : V L} (hv : Supp v) (t : L) :
@@ -490,7 +490,7 @@ theorem actc_g5_rB23 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB23 - g5 = rB12 := by decide
   rw [e1]
   have z2 : v (rB23 - 2 • g5) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB23 - 2 • g5 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB23 - 2 • g5 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rS {v : V L} (hv : Supp v) (t : L) :
@@ -500,7 +500,7 @@ theorem actc_g5n_rS {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rS - g5n) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rS - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rS - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rS - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rA1 {v : V L} (hv : Supp v) (t : L) :
@@ -510,7 +510,7 @@ theorem actc_g5n_rA1 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rA1 - g5n = rB13 := by decide
   rw [e1]
   have e2 : rA1 - 2 • g5n = rA3 := by decide
-  rw [e2, if_pos (by decide +kernel : rA3 ∈ rootFinset Tag.F4)]
+  rw [e2, ite_eq_left (by decide +kernel : rA3 ∈ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rA2 {v : V L} (hv : Supp v) (t : L) :
@@ -520,7 +520,7 @@ theorem actc_g5n_rA2 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA2 - g5n) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA2 - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA2 - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA2 - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rA3 {v : V L} (hv : Supp v) (t : L) :
@@ -530,7 +530,7 @@ theorem actc_g5n_rA3 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA3 - g5n) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA3 - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA3 - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA3 - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rB12 {v : V L} (hv : Supp v) (t : L) :
@@ -540,7 +540,7 @@ theorem actc_g5n_rB12 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB12 - g5n = rB23 := by decide
   rw [e1]
   have z2 : v (rB12 - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB12 - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB12 - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rB13 {v : V L} (hv : Supp v) (t : L) :
@@ -550,7 +550,7 @@ theorem actc_g5n_rB13 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB13 - g5n = rA3 := by decide
   rw [e1]
   have z2 : v (rB13 - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB13 - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB13 - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_g5n_rB23 {v : V L} (hv : Supp v) (t : L) :
@@ -560,7 +560,7 @@ theorem actc_g5n_rB23 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rB23 - g5n) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rB23 - 2 • g5n) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB23 - 2 • g5n ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB23 - 2 • g5n ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rS {v : V L} (hv : Supp v) (t : L) :
@@ -570,7 +570,7 @@ theorem actc_a3_rS {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rS - a3) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rS - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rS - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rS - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rA1 {v : V L} (hv : Supp v) (t : L) :
@@ -580,7 +580,7 @@ theorem actc_a3_rA1 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA1 - a3) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA1 - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA1 - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA1 - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rA2 {v : V L} (hv : Supp v) (t : L) :
@@ -590,7 +590,7 @@ theorem actc_a3_rA2 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rA2 - a3 = rB12 := by decide
   rw [e1]
   have e2 : rA2 - 2 • a3 = rA1 := by decide
-  rw [e2, if_pos (by decide +kernel : rA1 ∈ rootFinset Tag.F4)]
+  rw [e2, ite_eq_left (by decide +kernel : rA1 ∈ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rA3 {v : V L} (hv : Supp v) (t : L) :
@@ -600,7 +600,7 @@ theorem actc_a3_rA3 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA3 - a3) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA3 - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA3 - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA3 - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rB12 {v : V L} (hv : Supp v) (t : L) :
@@ -610,7 +610,7 @@ theorem actc_a3_rB12 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB12 - a3 = rA1 := by decide
   rw [e1]
   have z2 : v (rB12 - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB12 - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB12 - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rB13 {v : V L} (hv : Supp v) (t : L) :
@@ -620,7 +620,7 @@ theorem actc_a3_rB13 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rB13 - a3) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rB13 - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB13 - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB13 - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a3_rB23 {v : V L} (hv : Supp v) (t : L) :
@@ -630,7 +630,7 @@ theorem actc_a3_rB23 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB23 - a3 = rB13 := by decide
   rw [e1]
   have z2 : v (rB23 - 2 • a3) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB23 - 2 • a3 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB23 - 2 • a3 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rS {v : V L} (hv : Supp v) (t : L) :
@@ -640,7 +640,7 @@ theorem actc_a4_rS {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rS - a4) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rS - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rS - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rS - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rA1 {v : V L} (hv : Supp v) (t : L) :
@@ -650,7 +650,7 @@ theorem actc_a4_rA1 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA1 - a4) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA1 - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA1 - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA1 - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rA2 {v : V L} (hv : Supp v) (t : L) :
@@ -660,7 +660,7 @@ theorem actc_a4_rA2 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rA2 - a4) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rA2 - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rA2 - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rA2 - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rA3 {v : V L} (hv : Supp v) (t : L) :
@@ -670,7 +670,7 @@ theorem actc_a4_rA3 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rA3 - a4 = rB23 := by decide
   rw [e1]
   have e2 : rA3 - 2 • a4 = rA2 := by decide
-  rw [e2, if_pos (by decide +kernel : rA2 ∈ rootFinset Tag.F4)]
+  rw [e2, ite_eq_left (by decide +kernel : rA2 ∈ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rB12 {v : V L} (hv : Supp v) (t : L) :
@@ -680,7 +680,7 @@ theorem actc_a4_rB12 {v : V L} (hv : Supp v) (t : L) :
   have z1 : v (rB12 - a4) = 0 := supp_zero hv (by decide +kernel)
   rw [z1]
   have z2 : v (rB12 - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB12 - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB12 - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rB13 {v : V L} (hv : Supp v) (t : L) :
@@ -690,7 +690,7 @@ theorem actc_a4_rB13 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB13 - a4 = rB12 := by decide
   rw [e1]
   have z2 : v (rB13 - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB13 - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB13 - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 theorem actc_a4_rB23 {v : V L} (hv : Supp v) (t : L) :
@@ -700,7 +700,7 @@ theorem actc_a4_rB23 {v : V L} (hv : Supp v) (t : L) :
   have e1 : rB23 - a4 = rA2 := by decide
   rw [e1]
   have z2 : v (rB23 - 2 • a4) = 0 := supp_zero hv (by decide +kernel)
-  rw [z2, if_neg (by decide +kernel : rB23 - 2 • a4 ∉ rootFinset Tag.F4)]
+  rw [z2, ite_eq_right (by decide +kernel : rB23 - 2 • a4 ∉ rootFinset Tag.F4)]
   ring
 
 

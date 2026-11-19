@@ -39,8 +39,8 @@ theorem singerConjCoord_spec (x : SixBits) :
 
 private theorem c8_leviSp_mem_commutator (A : GL (Fin 3) (ZMod 2)) :
     leviSp A ∈ ⁅c8P, c8P⁆ := by
-  haveI : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := isPerfect_GL_three_zmod_two
-  haveI : Group.IsPerfect ((leviSp : GL (Fin 3) (ZMod 2) →* StatedSp 3 (ZMod 2)).range) :=
+  have : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := isPerfect_GL_three_zmod_two
+  have : Group.IsPerfect ((leviSp : GL (Fin 3) (ZMod 2) →* StatedSp 3 (ZMod 2)).range) :=
     Group.IsPerfect.range (leviSp : GL (Fin 3) (ZMod 2) →* StatedSp 3 (ZMod 2))
   have hle : (leviSp : GL (Fin 3) (ZMod 2) →* StatedSp 3 (ZMod 2)).range ≤ c8P := by
     rintro x ⟨A', rfl⟩
@@ -64,7 +64,7 @@ private theorem c8_tauSym_mem_commutator (C : Multiplicative (binarySymMatrices 
     apply Multiplicative.ext
     rw [toAdd_mul, toAdd_inv, toAdd_ofAdd]
     apply Subtype.ext
-    simp only [AddSubgroup.coe_add, AddSubgroup.coe_neg, Subtype.coe_mk]
+    simp only [AddSubgroup.coe_add, AddSubgroup.coe_neg]
     rw [hBval, ← hsymx]
     exact singerConjCoord_spec x
   have hcommB : ⁅leviSp singerA, tauSym 3 B⁆ = tauSym 3 C := by
@@ -100,14 +100,14 @@ theorem c8_le_range_tauSym_of_normal {X : Subgroup (StatedSp 3 (ZMod 2))}
     (hXn : ∀ g ∈ stabilizer 3 (ZMod 2) (lagrangianZero 3), ∀ x ∈ X, g * x * g⁻¹ ∈ X)
     (h3 : ¬ 3 ∣ Nat.card X) : X ≤ (tauSym 3).range := by
   classical
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := isSimpleGroup_GL_three_two
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := isSimpleGroup_GL_three_two
   let f : c8P →* GL (Fin 3) (ZMod 2) := lagrangianLevi 3
   let X' : Subgroup c8P := X.subgroupOf c8P
   have hX'n : X'.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hXn (g : StatedSp 3 (ZMod 2)) g.2 x hx⟩
   have hmapn : (X'.map f).Normal := hX'n.map f lagrangianLevi_surjective
-  haveI : (X'.map f).Normal := hmapn
+  have : (X'.map f).Normal := hmapn
   have hker_eq : f.ker = (tauSym 3).range.subgroupOf c8P := ker_lagrangianLevi
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (X'.map f) with hbot | htop
   · intro x hx
@@ -129,8 +129,8 @@ theorem c8_mem_range_tauSym_of_commutator_mem {s : StatedSp 3 (ZMod 2)}
     (h : ∀ p ∈ stabilizer 3 (ZMod 2) (lagrangianZero 3), s * p * s⁻¹ * p⁻¹ ∈ (tauSym 3).range) :
     s ∈ (tauSym 3).range := by
   classical
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := isSimpleGroup_GL_three_two
-  haveI : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := isPerfect_GL_three_zmod_two
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := isSimpleGroup_GL_three_two
+  have : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := isPerfect_GL_three_zmod_two
   have hcenter : center (GL (Fin 3) (ZMod 2)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (GL (Fin 3) (ZMod 2))) with hc | hc
     · exact hc

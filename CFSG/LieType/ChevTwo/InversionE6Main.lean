@@ -78,7 +78,7 @@ theorem e6_klein_inverts {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f
     (hK : Nat.card K = 2 ^ f) {A : Subgroup (MulAut (adjointGroup Tag.E6 K))}
     (hA : OuterKleinFour A) : InvertsOddElt A := by
   obtain ⟨hAe, hcard, hAI⟩ := hA
-  haveI : CharP K 2 := charP_two_of_card_two_pow hf hK
+  have : CharP K 2 := charP_two_of_card_two_pow hf hK
   obtain ⟨Θ, -, hexpr, hker, hsq, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) K
   have hR : ∀ x y : RingAut K, x ^ 2 = 1 → y ^ 2 = 1 → x ≠ 1 → y ≠ 1 → x = y := by

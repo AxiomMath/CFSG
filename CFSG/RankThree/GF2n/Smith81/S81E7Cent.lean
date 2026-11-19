@@ -19,6 +19,7 @@ theorem e7Psi_pinnedElt' {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
     e7Psi K (pinnedElt .E7 β c) = e7Data_valid.xm K β c :=
   (e7Equiv (K := K)).symm_apply_eq.2 (Subtype.ext (CFSG.SeitzReduction.E8Pilot.coe_e7Isogeny_xm hβ c).symm)
 
+omit [Finite K] [CharP K 2] in
 theorem pinnedX_mem_rootSubgroup_E7 (α : Fin (Tag.rank .E7) → ℤ) (c : K) :
     CFSG.Blueprint.Chevalley.pinnedX .E7 K α c ∈ CFSG.Blueprint.Chevalley.rootSubgroup .E7 K α := by
   unfold CFSG.Blueprint.Chevalley.rootSubgroup

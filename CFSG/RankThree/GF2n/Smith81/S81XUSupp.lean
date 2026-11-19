@@ -36,11 +36,12 @@ theorem a5supp_coord_rho_sub {a b : Fin 6} (ha : a.val % 2 = 0) (hb : b.val % 2 
   by_cases hJc : a ∈ J.val ∧ b ∉ J.val
   · have h0 : coord K ξ (replSet J b a hJc.1 hJc.2) = 0 :=
       h (replSet J b a hJc.1 hJc.2) (a5supp_card_set ha hb J hJc.1 hJc.2 hJ)
-    rw [dif_pos hJc, h0]
+    rw [dite_eq_left hJc, h0]
     ring
-  · rw [dif_neg hJc]
+  · rw [dite_eq_right hJc]
     ring
 
+omit [CharP K 2] in
 theorem a5supp_eq_smul_p0 {y : Cube K}
     (hy : ∀ J : Set.powersetCard (Fin 6) 3, J ≠ S024 → coord K y J = 0) :
     y = coord K y S024 • p0 K := by
@@ -50,11 +51,12 @@ theorem a5supp_eq_smul_p0 {y : Cube K}
   rw [coord_sub, coord_smul]
   by_cases hJ : J = S024
   · subst hJ
-    rw [p0, coord_cubeBasis, if_pos rfl]
+    rw [p0, coord_cubeBasis, ite_eq_left rfl]
     ring
-  · rw [hy J hJ, p0, coord_cubeBasis, if_neg (Ne.symm hJ)]
+  · rw [hy J hJ, p0, coord_cubeBasis, ite_eq_right (Ne.symm hJ)]
     ring
 
+omit [CharP K 2] in
 theorem a5supp_mem_span {y : Cube K}
     (hy : ∀ J : Set.powersetCard (Fin 6) 3, J ≠ S024 → coord K y J = 0) :
     y ∈ Submodule.span K {p0 K} := by

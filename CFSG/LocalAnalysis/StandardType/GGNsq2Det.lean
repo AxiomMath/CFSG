@@ -99,6 +99,7 @@ section Count
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {f : ℕ} {ψ : Su K 2 f 6 →* G}
 
+omit [Finite G] in
 theorem ggNSDet_scalar_induces_one {c : Kˣ} (hc : (c : K) ^ (2 ^ f + 1) = 1) :
     GGInducesUnitary (p := 2) (f := f) ψ (1 : G)
       (Matrix.GeneralLinearGroup.scalar (Fin 6) c) := by

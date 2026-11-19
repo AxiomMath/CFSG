@@ -138,11 +138,9 @@ theorem pts_eq : gbarCert.pts = Array.ofFn (n := GB.N) fun i => unpack 256 9 (GB
 theorem pp_X {i : Nat} (hi : i < GB.N) : P9 (X i) := by
   refine runFB_points (P := fun j => PP 256 9 (GB.T j)) ?_ ?_ GB.run.1
     (by rw [gbN']; norm_num) i hi
-  · change PP 256 9 (GB.T 0)
-    rw [gb_T0]
+  · rw [gb_T0]
     exact PP.id hsz
   · intro i c k _ hk hi e
-    change PP 256 9 (GB.T c)
     rw [e]
     exact (PP_of_permOK hsz (allN_spec gbPerm k hk)).mul hi
 
@@ -152,7 +150,7 @@ theorem mem_pts {x : Array Nat} (hx : x ∈ gbarCert.pts) : ∃ i < GB.N, x = un
   exact ⟨i, hi, rfl⟩
 
 theorem get_unpack {P m : Nat} (hm : m < 256) : (unpack 256 9 P)[m]! = ap9 P m :=
-  by rw [unpack_getElem!, if_pos hm]; rfl
+  by rw [unpack_getElem!, ite_eq_left hm]; rfl
 
 theorem ap9_lt {P m : Nat} (hP : P9 P) (hm : m < 256) : ap9 P m < 256 := hP.2.1 m hm
 
@@ -238,7 +236,7 @@ theorem line_mem {k Q : Nat} (hk : k < 624) (hA : P9 (A k)) (hQ : P9 Q) (hl : li
     memLineA 256 (unpack 256 9 (A k)) (unpack 256 9 Q) = true := by
   have hp := allN_spec pows k hk
   unfold powK at hp
-  simp only [Bool.and_eq_true, bq, bqf] at hp
+  simp only [Bool.and_eq_true, bq] at hp
   obtain ⟨⟨⟨-, e2⟩, e3⟩, e4⟩ := hp
   unfold memLineA
   rw [compA_PP hA hA, compA_PP hA (hA.mul hA), compA_PP hA (hA.mul (hA.mul hA)), idA_eq hsz,
@@ -308,7 +306,7 @@ theorem inU_spec {j k : Nat} (h : inU j k = true) :
     ∃ l < GB.UO (j + 1) - GB.UO j, GB.UV (GB.UO j + l) = k := by
   unfold inU at h
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : allBlk (GB.UO j) (fun t => !Nat.beq (GB.UV t) k) (GB.UO (j + 1) - GB.UO j) = true :=
     allBlk_intro fun l hl => by
       have := hc l hl

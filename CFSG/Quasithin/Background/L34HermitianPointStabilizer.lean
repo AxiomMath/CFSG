@@ -209,9 +209,9 @@ private theorem exists_order_three_fix_of_binaryNineTensor_aux
         g ^ 3 = 1 ∧ rho hK g ≠ 1 ∧ rho hK g X = X) :
     ∃ b ∈ G, orderOf b = 3 ∧ (b : MulAut W) w = w := by
   obtain ⟨K, hfield, hfinite, hchar, hcard, π, hπ⟩ := hmodel
-  letI := hfield
-  letI := hfinite
-  letI := hchar
+  let := hfield
+  let := hfinite
+  let := hchar
   obtain ⟨-, -, -, hUinv, -, hsecinv, -, β, hβsurj, hβkermem, hβeq⟩ := hπ
   let u : ↥U := ⟨w, hw⟩
   obtain ⟨m, hm⟩ := QuotientGroup.mk_surjective (β u)

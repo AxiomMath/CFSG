@@ -100,7 +100,7 @@ theorem bfsStep_eq (fa fb fp fl : ℕ → ℕ) (h n : ℕ) : bfsStep fa fb fp fl
   simp only [bfsStep, nIf_eqP, strictN_eqP, Nat.blt_eq]
 
 theorem bfsStep_zero (fa fb fp fl : ℕ → ℕ) (h : ℕ) : bfsStep fa fb fp fl h 0 = 0 := by
-  rw [bfsStep_eq, if_neg (Nat.not_lt_zero h)]
+  rw [bfsStep_eq, ite_eq_right (Nat.not_lt_zero h)]
 
 def KInv (O : COrbit) (n : ℕ) (keys : Array (Array V)) (index : Std.HashMap (Array (ℕ × ℕ)) ℕ)
     (par lab : Table) : Prop :=
@@ -158,7 +158,7 @@ theorem kinv_new {O : COrbit} {n : ℕ} {keys : Array (Array V)}
     · rw [hne i h1]
       exact hi1 i h1
     · have e : i = n := by omega
-      rw [e, beq_self_eq_true, if_pos rfl, hs]
+      rw [e, beq_self_eq_true, ite_eq_left rfl, hs]
   · rw [Std.HashMap.getElem?_insert] at hZ
     split_ifs at hZ with hz
     · rw [beq_iff_eq] at hz
@@ -249,9 +249,9 @@ theorem conjBFS_eq_of {d cap c : ℕ} {A Ai B Bi : Array V} {O : COrbit} {fa fb 
         rw [bfsStep_eq] at hCs
         by_cases hqn : q < cnt fa fb fp fl q
         swap
-        · rw [if_neg hqn] at hCs
+        · rw [ite_eq_right hqn] at hCs
           exact absurd hCs hn0
-        rw [if_pos hqn] at hCs
+        rw [ite_eq_left hqn] at hCs
         have hn1z : bfsHit fp fl q 1 (fa q) (cnt fa fb fp fl q) ≠ 0 := by
           intro e
           rw [e, bfsHit_zero] at hCs

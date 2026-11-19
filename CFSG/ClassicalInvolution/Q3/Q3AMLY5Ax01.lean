@@ -43,14 +43,14 @@ theorem layer_exists_sylow_RT (hs : Std8 Ω K J S R T W z t) :
       (fun r hr => mem_normalizer_iff_conjSub_eq.mpr (hRN r hr))
   have hTY : T ≤ Y := (layerT_le_exactCore hs).trans (exactCore3_le_nbrLayer hs.hJ)
   have hRT : IsPGroup 2 ↥(R ⊔ T) :=
-    S.isPGroup'.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
+    S.isPGroup.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
   have hRTle : R ⊔ T ≤ Y ⊔ R := sup_le le_sup_right (hTY.trans le_sup_left)
   obtain ⟨V, hV, hRTV⟩ := IsSylow2In.exists_ge hRT hRTle
   have hVY : IsSylow2In (V ⊓ Y) Y :=
     AscP1Nine3.isSylow2In_inf_of_le_normalizer' hV le_sup_left hYN
   obtain ⟨S₂, hS₂⟩ := hV.2.1.exists_le_sylow
   have heq : (S₂ : Subgroup G) ⊓ Y = V ⊓ Y :=
-    hVY.2.2 _ inf_le_right S₂.isPGroup'.to_inf_left (inf_le_inf_right Y hS₂)
+    hVY.2.2 _ inf_le_right S₂.isPGroup.to_inf_left (inf_le_inf_right Y hS₂)
   exact ⟨S₂, le_sup_left.trans (hRTV.trans hS₂), le_sup_right.trans (hRTV.trans hS₂),
     heq ▸ hVY⟩
 

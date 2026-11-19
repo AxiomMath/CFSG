@@ -18,7 +18,7 @@ section UGroup
 
 theorem uMat_mul (a b a' b' : ZMod 3) : uMat a b * uMat a' b' = uMat (a + a') (b + b') := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem uMat_zero : uMat 0 0 = 1 := by
   ext i j
@@ -112,10 +112,10 @@ theorem card_sup_mul_card_inf {X : Type*} [Group X] [Finite X] (A B : Subgroup X
     (hA : A ≤ Subgroup.normalizer (B : Set X)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card ↥A * Nat.card ↥B := by
   have hE := QuotientGroup.quotientInfEquivProdNormalizerQuotient A B hA
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hA
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hA
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hA
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hA
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
   have hE' := Nat.card_congr hE.toEquiv
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (B.subgroupOf A)
   have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (B.subgroupOf (A ⊔ B))

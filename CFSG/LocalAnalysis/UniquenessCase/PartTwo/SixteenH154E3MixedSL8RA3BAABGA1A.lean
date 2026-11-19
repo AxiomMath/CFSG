@@ -13,7 +13,7 @@ theorem s16h_sylow_inf_normal_index_two
     (hN : N ≤ M) (hNorm : M ≤ Subgroup.normalizer (N : Set X))
     (hidx : N.relIndex M = 2) :
     (T ⊓ N).relIndex T = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN0 : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN).2 hNorm
   have hTle : T ≤ M := hT.le
@@ -44,8 +44,8 @@ theorem s16h_sylow_inf_normal_index_two
     exact le_antisymm (sup_le hTle hN) (Subgroup.subgroupOf_eq_top.mp hsub)
   have hTnormN : T ≤ Subgroup.normalizer (N : Set X) := hTle.trans hNorm
   have hNsub : (N.subgroupOf T).index = 2 := by
-    haveI h1 : (N.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnormN
-    haveI h2 : (N.subgroupOf (T ⊔ N)).Normal :=
+    have h1 : (N.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnormN
+    have h2 : (N.subgroupOf (T ⊔ N)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hTnormN
     have hiso := QuotientGroup.quotientInfEquivProdNormalizerQuotient T N hTnormN
     have hcard := Nat.card_congr hiso.toEquiv

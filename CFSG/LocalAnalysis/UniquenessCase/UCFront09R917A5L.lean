@@ -87,7 +87,7 @@ theorem le_I9_or_le_of_isSimpleGroup {Y H N : Subgroup G} (hYH : Y ≤ H) (hNL :
     N ≤ I9 H ∨ L9 Y H ≤ N := by
   obtain ⟨φ, hφ, hker⟩ := exists_surjective_Lbar9 hYH
   have hn : (N.subgroupOf (L9 Y H)).Normal := (normal_subgroupOf_iff_le_normalizer hNL).2 hLN
-  haveI hK : ((N.subgroupOf (L9 Y H)).map φ).Normal := hn.map φ hφ
+  have hK : ((N.subgroupOf (L9 Y H)).map φ).Normal := hn.map φ hφ
   rcases hs.eq_bot_or_eq_top_of_normal ((N.subgroupOf (L9 Y H)).map φ) with h | h
   · left
     intro n hnN
@@ -112,8 +112,8 @@ theorem le_I9_or_le_of_isSimpleGroup {Y H N : Subgroup G} (hYH : Y ≤ H) (hNL :
 
 theorem ne_top_of_hyp97 {D : Data G} {Y H D₃ S : Subgroup G} (hY : Hyp97 D Y H D₃ S)
     (hR : pCoreOf 2 Y ≠ ⊥) : H ≠ ⊤ := by
-  haveI := D.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : H ≠ ⊥ := by
     intro h
     apply hR

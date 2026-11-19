@@ -19,30 +19,36 @@ theorem isComponentOf_of_le_of_le {Γ : Type*} [Group Γ] {L K H : Subgroup Γ}
   CFSG.Assembly.isComponentOf_iff_open.1
     ((CFSG.Assembly.isComponentOf_iff_open.2 hL).of_le_of_le hLH hHK)
 
+omit [Finite V] in
 theorem normalClosure_mono_left {Γ₁ Γ₂ L : Subgroup (GLV V)} (h : Γ₁ ≤ Γ₂) :
     normalClosure Γ₁ L ≤ normalClosure Γ₂ L := by
   refine Subgroup.closure_mono ?_
   rintro _ ⟨γ, hγ, l, hl, rfl⟩
   exact ⟨γ, h hγ, l, hl, rfl⟩
 
+omit [Finite V] in
 theorem normalClosure_le_self {Γ L : Subgroup (GLV V)} (hL : L ≤ Γ) : normalClosure Γ L ≤ Γ := by
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨γ, hγ, l, hl, rfl⟩
   exact Γ.mul_mem (Γ.mul_mem hγ (hL hl)) (Γ.inv_mem hγ)
 
+omit [Finite V] in
 theorem layerIn_subgroupOf (G : Subgroup (GLV V)) :
     (layerIn G).subgroupOf G = CFSG.layer ↥G :=
   Subgroup.comap_map_eq_self_of_injective G.subtype_injective _
 
+omit [Finite V] in
 theorem layerIn_le (G : Subgroup (GLV V)) : layerIn G ≤ G :=
   Subgroup.map_subtype_le _
 
+omit [Finite V] in
 theorem isSubnormal_layerIn (G : Subgroup (GLV V)) : IsSubnormal (layerIn G) G := by
   have : (CFSG.layer ↥G).Characteristic := CFSG.LocalCores.layer_characteristic
   refine .step (layerIn_le G) ?_ (.refl G)
   rw [layerIn_subgroupOf]
   infer_instance
 
+omit [Finite V] in
 theorem layerIn_eq_sSup (G : Subgroup (GLV V)) :
     layerIn G = sSup {Q : Subgroup (GLV V) | IsComponentOf Q G} := by
   show (CFSG.layer ↥G).map G.subtype = _
@@ -51,6 +57,7 @@ theorem layerIn_eq_sSup (G : Subgroup (GLV V)) :
   ext Q
   exact CFSG.Assembly.isComponentOf_iff_open
 
+omit [Finite V] in
 theorem le_layerIn_of_isComponentOf {G Q : Subgroup (GLV V)} (hQ : IsComponentOf Q G) :
     Q ≤ layerIn G := by
   rw [layerIn_eq_sSup]
@@ -92,7 +99,7 @@ theorem Setup6Irr.layerIn_eq_of_le {G S L X : Subgroup (GLV V)} (h : Setup6Irr G
   rw [layerIn_eq_sSup X, layerIn_eq_sSup G]
   congr 1
   ext Q
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro hQ
     have hQE : Q ≤ layerIn G :=

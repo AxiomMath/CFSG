@@ -24,24 +24,24 @@ theorem rowP_push {r : Array (Nat × Int)} {x : Nat × Int} (hr : rowP r) (h1 : 
   rw [getElem!_push r x t, getElem!_push r x (t - 1)]
   rcases Nat.lt_or_ge t r.size with h | h
   · have h' : t - 1 < r.size := by omega
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
     exact hr t h
   · have e : t = r.size := by omega
     subst e
-    rw [if_neg (Nat.lt_irrefl _), if_pos rfl]
+    rw [ite_eq_right (Nat.lt_irrefl _), ite_eq_left rfl]
     refine ⟨h1, ?_⟩
     rcases Nat.eq_zero_or_pos r.size with h0 | h0
     · exact Or.inl h0
     · have h' : r.size - 1 < r.size := by omega
-      rw [if_pos h']
+      rw [ite_eq_left h']
       unfold lastP at h2
-      rw [if_neg (Nat.pos_iff_ne_zero.1 h0)] at h2
+      rw [ite_eq_right (Nat.pos_iff_ne_zero.1 h0)] at h2
       exact Or.inr h2
 
 theorem lastP_push (r : Array (Nat × Int)) (x : Nat × Int) : lastP (r.push x) = x.1 + 1 := by
   unfold lastP
-  rw [Array.size_push, if_neg (Nat.succ_ne_zero _), Nat.add_sub_cancel, getElem!_push,
-    if_neg (Nat.lt_irrefl _), if_pos rfl]
+  rw [Array.size_push, ite_eq_right (Nat.succ_ne_zero _), Nat.add_sub_cancel, getElem!_push,
+    ite_eq_right (Nat.lt_irrefl _), ite_eq_left rfl]
 
 theorem rowShape_of {r : Array (Nat × Int)} (hr : rowP r) (hn : r.size ≠ 0) :
     packetRowShapeOK r = true := by
@@ -103,7 +103,7 @@ theorem shInv_step {rr : Array (Array (Nat × Int)) × Array (Nat × Int)} {st :
     have ex : entStep rr v =
         (rr.1.push (rr.2.push (v % 8192, numOfCode (v / 8192 % 8))), #[]) := by
       unfold entStep
-      rw [if_pos hv]
+      rw [ite_eq_left hv]
     rw [ex]
     have hp := rowP_push (x := (v % 8192, numOfCode (v / 8192 % 8))) er h1 (ep ▸ h2)
     refine ⟨by rw [e1, Array.size_push], ?_, rowP_empty, rfl⟩
@@ -118,7 +118,7 @@ theorem shInv_step {rr : Array (Array (Nat × Int)) × Array (Nat × Int)} {st :
     obtain ⟨e1, eR, er, ep⟩ := h h0
     have ex : entStep rr v = (rr.1, rr.2.push (v % 8192, numOfCode (v / 8192 % 8))) := by
       unfold entStep
-      rw [if_neg hv]
+      rw [ite_eq_right hv]
     rw [ex]
     exact ⟨e1, eR, rowP_push er h1 (ep ▸ h2),
       (lastP_push rr.2 (v % 8192, numOfCode (v / 8192 % 8))).symm⟩
@@ -168,11 +168,11 @@ theorem entStep_count : ∀ (vs : List Nat) (rr : Array (Array (Nat × Int)) × 
     rw [List.foldl_cons, entStep_count vs, List.length_cons]
     unfold entStep
     by_cases hv : v / 65536 = 1
-    · rw [if_pos hv]
+    · rw [ite_eq_left hv]
       simp only [Array.toList_push, List.foldl_append, List.foldl_cons, List.foldl_nil,
         Array.size_push, List.size_toArray, List.length_nil]
       omega
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       simp only [Array.size_push]
       omega
 

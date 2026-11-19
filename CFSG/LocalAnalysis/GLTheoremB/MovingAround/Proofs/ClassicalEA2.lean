@@ -88,7 +88,7 @@ theorem core_of_model {p : ℕ} (hp : p.Prime) {M : Type*} [Group M] {J F : Subg
   let eL : ↥L ≃* ↥L' :=
     (Subgroup.equivMapOfInjective _ J.subtype J.subtype_injective).symm.trans
       ((Subgroup.equivMapOfInjective _ ι hι).trans (MulEquiv.subgroupCongr hmapL))
-  haveI : IsSimpleGroup ↥L := eL.isSimpleGroup
+  have : IsSimpleGroup ↥L := eL.isSimpleGroup
   have hncL : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eL.symm a, eL.symm b, fun h => hab (eL.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -148,8 +148,8 @@ theorem two_le_finrank (hBa : ∀ x, B x x = 0) {W : Submodule (ZMod 2) V} (hW :
 theorem nondeg_fixV (hB : B.Nondegenerate) {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hEiso : ∀ g ∈ E, IsIsom B g) (hodd : Odd (Nat.card E)) : Nondeg B (fixV E) := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fintype ↥E := Fintype.ofFinite _
   rw [nondeg_iff]
   intro v hv hperp
   refine hB.2 v fun x => ?_
@@ -165,6 +165,7 @@ theorem nondeg_fixV (hB : B.Nondegenerate) {E : Subgroup (V ≃ₗ[ZMod 2] V)}
   simp only [h2, Finset.sum_const, Finset.card_univ] at h1
   rwa [← Nat.card_eq_fintype_card, nsmul_odd hodd] at h1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem commute_of_isCompl {Y Y' : Submodule (ZMod 2) V} (hc : IsCompl Y Y')
     {f x : V ≃ₗ[ZMod 2] V} (hfY : ∀ y ∈ Y, f y = y) (hfY' : ∀ z ∈ Y', f z ∈ Y')
     (hxY : ∀ y ∈ Y, x y ∈ Y) (hxY' : ∀ z ∈ Y', x z = z) : x * f = f * x := by
@@ -174,8 +175,8 @@ theorem commute_of_isCompl {Y Y' : Submodule (ZMod 2) V} (hc : IsCompl Y Y')
 
 theorem odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian p E) : Odd (Nat.card E) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   rw [hk]
   exact (hp.odd_of_ne_two hp2).pow
@@ -193,7 +194,7 @@ theorem two_steps {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G : Subgroup (V ≃�
       Nat.card E = p ^ 2 * Nat.card E₂ ∧ (∀ g ∈ E₂, ∀ w ∈ W₀, g w = w) ∧
       (∀ g ∈ E₂, ∀ w ∈ W₁, g w = w) := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hp1 := hp.one_lt
   have hsupp : G ⊓ ptw (B.orthogonal ⊤) = G := by
     rw [LinearMap.BilinForm.orthogonal_top_eq_bot hB, inf_eq_left]
@@ -204,7 +205,7 @@ theorem two_steps {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G : Subgroup (V ≃�
     rw [h, Subgroup.card_bot] at h2
     nlinarith
   obtain ⟨b₀, W₀, hb₀E, hbl₀, -, hU₁nd, -, hE₁supp, hE₁max, -, hcard₁⟩ :=
-    exists_block_step hBs hB hp hp2 hG (nondeg_top hBs hB) (hEG.trans hsupp.symm.le) hE
+    exists_block_step hBs hB hp hp2 hG (nondeg_top hB) (hEG.trans hsupp.symm.le) hE
       (fun F hF hFa => hmax F (hF.trans inf_le_left) hFa) hne
   have hne₁ : E ⊓ ptw W₀ ≠ ⊥ := by
     intro h
@@ -233,6 +234,7 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZM
     Subgroup (V ≃ₗ[ZMod 2] V) :=
   TauCeti.BilinForm.isometryGroup B ⊓ ptw (B.orthogonal Y)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_spPtw {Y : Submodule (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V} :
     g ∈ spPtw B Y ↔ IsIsom B g ∧ ∀ x ∈ B.orthogonal Y, g x = x := by
   unfold spPtw
@@ -326,9 +328,9 @@ theorem nonempty_spPtw_mulEquiv {Y : Submodule (ZMod 2) V} (hY : Nondeg B Y) :
     let e := Submodule.prodEquivOfIsCompl Y (B.orthogonal Y) hc
     let g : V ≃ₗ[ZMod 2] V := e.symm.trans ((σ.prodCongr (LinearEquiv.refl _ _)).trans e)
     have hgY : ∀ y : ↥Y, g y = σ y := fun y => by
-      simp [g, e, Submodule.prodEquivOfIsCompl_symm_apply_left]
+      simp [g, e]
     have hgY' : ∀ z : ↥(B.orthogonal Y), g z = z := fun z => by
-      simp [g, e, Submodule.prodEquivOfIsCompl_symm_apply_right]
+      simp [g, e]
     have hgiso : IsIsom B g := by
       intro v v'
       obtain ⟨y, hy, z, hz, rfl⟩ := exists_add_of_isCompl hc v
@@ -373,7 +375,7 @@ theorem sp_comm_facts {m : ℕ} (hm : 2 ≤ m) :
     let f : ↥(commutator ↥(StatedSp 2 (ZMod 2))) ≃* ↥(alternatingGroup (Fin 6)) :=
       (Subgroup.equivMapOfInjective _ e0.toMonoidHom e0.injective).trans
         (MulEquiv.subgroupCongr hmap)
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     have hA : Nat.card ↥(alternatingGroup (Fin 6)) = 360 := by
       have h := CFSG.HardMathSupport.Curtis.Coordinator.PLType.two_mul_card_alt_fin 6 (by norm_num)
       have h6 : Nat.factorial 6 = 720 := by decide
@@ -390,13 +392,13 @@ theorem sp_comm_facts {m : ℕ} (hm : 2 ≤ m) :
           rw [map_mul, map_mul]
           exact hcon _ _
       rw [alternatingGroup.center_eq_bot (by simp)] at hZ
-      haveI : Nontrivial (alternatingGroup (Fin 6)) :=
+      have : Nontrivial (alternatingGroup (Fin 6)) :=
         alternatingGroup.nontrivial_of_three_le_card (by simp)
       exact bot_ne_top hZ
     · rw [Nat.card_congr f.toEquiv, hA]
       rw [hS, show (720 : ℕ) = 2 * 360 by norm_num] at hdvd
       exact Nat.Coprime.dvd_of_dvd_mul_left ((Nat.coprime_primes hq Nat.prime_two).2 hq2) hdvd
-  · haveI : IsSimpleGroup ↥(StatedSp m (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
+  · have : IsSimpleGroup ↥(StatedSp m (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
     have hperf : commutator ↥(StatedSp m (ZMod 2)) = ⊤ :=
       (CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp m (ZMod 2)
         (Or.inr (Or.inr ⟨Nat.card_zmod 2, h3⟩))).commutator_eq_top
@@ -414,13 +416,14 @@ section SpGeom
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {B : LinearMap.BilinForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem ne_one_of_isBlock {b : V ≃ₗ[ZMod 2] V} {W : Submodule (ZMod 2) V} (hW : IsBlock B b W) :
     b ≠ 1 := by
   intro h
   obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW.2.1
   exact hw0 (hW.2.2.2.2.1 w hw (by rw [h]; rfl))
 
-theorem fixV_facts (hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.IsAlt) {p : ℕ}
+theorem fixV_facts (_hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.IsAlt) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {E E₂ : Subgroup (V ≃ₗ[ZMod 2] V)} (hEiso : ∀ g ∈ E, IsIsom B g)
     (hE : IsElemAbelian p E) (hE₂E : E₂ ≤ E) {b₀ b₁ : V ≃ₗ[ZMod 2] V} {W₀ W₁ : Submodule (ZMod 2) V}
     (hbl₀ : IsBlock B b₀ W₀) (hbl₁ : IsBlock B b₁ W₁) (hW₁₀ : W₁ ≤ B.orthogonal W₀)
@@ -453,7 +456,7 @@ theorem sp_geom (hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.I
         ∀ x ∈ L', g * x * g⁻¹ ∈ L') ∧
       IsSimpleGroup ↥L' ∧ (∃ a b : ↥L', a * b ≠ b * a) ∧ p ∣ Nat.card ↥L' := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   set G := TauCeti.BilinForm.isometryGroup B with hG
   have hGiso : ∀ g ∈ G, IsIsom B g := fun g hg => TauCeti.BilinForm.mem_isometryGroup_iff.1 hg
   obtain ⟨b₀, b₁, W₀, W₁, E₂, hb₀E, hb₁E, hbl₀, hbl₁, hW₁₀, hE₂E, hcard, hE₂W₀, hE₂W₁⟩ :=
@@ -486,7 +489,7 @@ theorem sp_geom (hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.I
     fun x hx => hbl₀.2.2.2.1 x (LinearMap.BilinForm.orthogonal_le hW₀Y hx)⟩
   have hb₀1 := ne_one_of_isBlock hbl₀
   have hpH : p ∣ Nat.card ↥H := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hord : orderOf (⟨b₀, hb₀H⟩ : ↥H) = p :=
       orderOf_eq_prime (Subtype.ext (hE.2 b₀ hb₀E)) (fun h => hb₀1 (congrArg Subtype.val h))
     rw [← hord]
@@ -500,9 +503,9 @@ theorem sp_geom (hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.I
     obtain ⟨hxi, hxY⟩ := mem_spPtw.1 hx
     have hfY : ∀ y ∈ Y, f y = y := fun y hy => mem_fixV.1 hy f hf
     exact commute_of_isCompl hc hfY
-      (fun z hz => apply_mem_orth_of_ptw hBs (hGiso f (hEG (hE₂E hf))) hfY hz)
+      (fun z hz => apply_mem_orth_of_ptw (hGiso f (hEG (hE₂E hf))) hfY hz)
       (fun y hy => apply_mem_of_ptw hBs hB hxi hxY hy) hxY
-  haveI := hsS
+  have := hsS
   refine ⟨E₂, L', hE₂E, hcard, hLH.trans inf_le_left, fun x hx f hf => hHE₂ x (hLH hx) f hf,
     ?_, eL.isSimpleGroup, ?_, hpL⟩
   ·
@@ -517,7 +520,7 @@ theorem sp_geom (hBs : ∀ x y, B x y = B y x) (hB : B.Nondegenerate) (hBa : B.I
         refine mem_spPtw.2 ⟨hGiso _ (G.mul_mem (G.mul_mem hg
           (TauCeti.BilinForm.mem_isometryGroup_iff.2 hhi)) (G.inv_mem hg)), fun z hz => ?_⟩
         have hz' : g⁻¹ z ∈ B.orthogonal Y :=
-          apply_mem_orth_of_invariant hBs (hGiso _ (G.inv_mem hg)) hg'Y hz
+          apply_mem_orth_of_invariant (hGiso _ (G.inv_mem hg)) hg'Y hz
         show g (h (g⁻¹ z)) = z
         rw [hhY _ hz', apply_inv_apply]
       · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
@@ -557,7 +560,7 @@ theorem core_sp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {J F : Subgro
     ∃ F₀ : Subgroup X, F₀ ≤ F ∧ Nat.card F = p ^ 2 * Nat.card ↥F₀ ∧
       GLAPLayer p (J ⊓ Subgroup.centralizer (F₀ : Set X)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S := StatedSp n (ZMod 2) with hS
   have hSS' : Nat.card ↥(⁅S, S⁆) ∣ Nat.card ↥S := by
     rw [← Subgroup.map_subtype_commutator S, Subgroup.card_map_of_injective S.subtype_injective]
@@ -571,7 +574,7 @@ theorem core_sp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {J F : Subgro
     refine not_pow_three_dvd_720 hp hp2 (hp3.trans ?_)
     rw [Nat.card_congr e.toEquiv]
     exact hSS'.trans (card_statedSp_dvd_720 (by omega))
-  haveI hSs : IsSimpleGroup ↥S := OmegaFacts.isSimpleGroup_statedSp_zmod_two hn
+  have hSs : IsSimpleGroup ↥S := OmegaFacts.isSimpleGroup_statedSp_zmod_two hn
   have hperf : commutator ↥S = ⊤ :=
     (CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp n (ZMod 2)
       (Or.inr (Or.inr ⟨Nat.card_zmod 2, hn⟩))).commutator_eq_top
@@ -612,6 +615,7 @@ section Prod
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {B : LinearMap.BilinForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_prod_blocks {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ} {b : Fin r → V ≃ₗ[ZMod 2] V}
     {W : Fin r → Submodule (ZMod 2) V} (hbE : ∀ i, b i ∈ E) (hbl : ∀ i, IsBlock B (b i) (W i))
     (horth : ∀ i j, i ≠ j → W i ≤ B.orthogonal (W j)) (S : Finset (Fin r)) :
@@ -644,7 +648,7 @@ theorem mem_fixV_of_prod (hBs : ∀ x y, B x y = B y x) {E : Subgroup (V ≃ₗ[
     have hgW : ∀ u ∈ W i, g u ∈ W i := fun u hu => by
       rw [hg i u hu]
       exact (hbl i).2.2.1 u hu
-    have hgx : g x ∈ B.orthogonal (W i) := apply_mem_orth_of_invariant hBs (hEiso g hgE) hgW hx
+    have hgx : g x ∈ B.orthogonal (W i) := apply_mem_orth_of_invariant (hEiso g hgE) hgW hx
     rw [map_add, hg i w hw] at hv
     have h1 : b i w - w = x - g x := by
       calc b i w - w = (b i w + g x) - (w + g x) := by abel
@@ -678,7 +682,7 @@ theorem exists_fpf_of_fixV_eq_bot (hBs : ∀ x y, B x y = B y x) (hB : B.Nondege
     intro g _ x hx
     rw [(Submodule.mem_bot _).1 hx, map_zero]
   obtain ⟨r, b, W, hbE, hbl, -, horth, hcl, -⟩ :=
-    hasBlocks_of_max hBs hB hp hp2 hG _ ⊤ rfl (nondeg_top hBs hB) E (hEG.trans hsupp.symm.le) hE
+    hasBlocks_of_max hBs hB hp hp2 hG _ ⊤ rfl (nondeg_top hB) E (hEG.trans hsupp.symm.le) hE
       (fun F hF hFa => hmax F (hF.trans inf_le_left) hFa)
   obtain ⟨g, hgE, hg, -⟩ := exists_prod_blocks hbE hbl horth Finset.univ
   refine ⟨g, hgE, fun v hv => ?_⟩
@@ -701,6 +705,7 @@ open CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration (orthJ orthJEquiv orth
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_elementaryGroup_of_pow {ε : Bool} {m : ℕ} (hm : 2 ≤ m) (hε : ε = true → 3 ≤ m)
     (hstd : IsStdSpace ε Q m) {g : V ≃ₗ[ZMod 2] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {N : ℕ} (hN : Odd N) (hgN : g ^ N = 1) :
@@ -711,6 +716,7 @@ theorem mem_elementaryGroup_of_pow {ε : Bool} {m : ℕ} (hm : 2 ≤ m) (hε : �
   · exact CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.mem_elementaryGroup_of_odd_pow_of_isPlusSpace
       (hε rfl) hstd hg hN hgN
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem perpSub_eq_orthogonal (W : Submodule (ZMod 2) V) :
     perpSub Q W = LinearMap.BilinForm.orthogonal (polarBilin Q) W := by
   ext v
@@ -743,8 +749,8 @@ theorem omega_geom (hQ : (polarBilin Q).Nondegenerate) {ε : Bool} {n : ℕ} (hn
       (∀ g ∈ elementaryGroup Q, (∀ f ∈ F₀', g * f = f * g) → ∀ x ∈ L', g * x * g⁻¹ ∈ L') ∧
       IsSimpleGroup ↥L' ∧ (∃ a b : ↥L', a * b ≠ b * a) ∧ p ∣ Nat.card ↥L' := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hpo : Odd p := hp.odd_of_ne_two hp2
   have hε : ε = true → 2 ≤ n := by
     rintro rfl
@@ -857,7 +863,7 @@ theorem omega_geom (hQ : (polarBilin Q).Nondegenerate) {ε : Bool} {n : ℕ} (hn
       (fun y hy => (CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.mem_stabSub.1
         (orthJ_le_stabSub hx) y).1 hy)
       (fun z hz => apply_eq_of_mem_orthJ hx hz)
-  haveI := hsimp
+  have := hsimp
   refine ⟨E₂, L', hE₂E, hcard, orthJ_le_elementaryGroup Q Y, hLC,
     fun g hg hgc x hx => conj_mem_orthJ (elementaryGroup_le_orthogonalGroup Q hg)
       (fun w hw => apply_mem_fixV_of_commute hgc hw) hx,
@@ -958,8 +964,8 @@ theorem exists_invariant_quadForm (hBa : B.IsAlt) (hB : B.Nondegenerate)
     ∃ Q : QuadraticForm (ZMod 2) V, (∀ x y, polar Q x y = B x y) ∧
       ∀ g ∈ E, ∀ v, Q (g v) = Q v := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fintype ↥E := Fintype.ofFinite _
   obtain ⟨Q₀, hQ₀⟩ := exists_quadForm_of_polar hBa hB
   set Q : QuadraticForm (ZMod 2) V := ∑ g : E, Q₀.comp (g : V ≃ₗ[ZMod 2] V).toLinearMap with hQ
   have hQv : ∀ v, Q v = ∑ g : E, Q₀ ((g : V ≃ₗ[ZMod 2] V) v) := fun v => by
@@ -975,6 +981,7 @@ theorem exists_invariant_quadForm (hBa : B.IsAlt) (hB : B.Nondegenerate)
   · rw [hQv, hQv]
     exact Fintype.sum_equiv (Equiv.mulRight (⟨h, hh⟩ : E)) _ _ fun g => rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_one_of_nondeg {Q : QuadraticForm (ZMod 2) V} (hQB : ∀ x y, polar Q x y = B x y)
     {W : Submodule (ZMod 2) V} (hW : Nondeg B W) (hW0 : W ≠ ⊥) : ∃ c ∈ W, Q c = 1 := by
   obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW0
@@ -997,8 +1004,8 @@ theorem exists_flip {Q : QuadraticForm (ZMod 2) V} (hQB : ∀ x y, polar Q x y =
       CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.cs Q' =
         -CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.cs Q := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fintype V := Fintype.ofFinite V
   have hsq : ∀ a : ZMod 2, a * a = a := by decide
   set ℓ : V →ₗ[ZMod 2] ZMod 2 := B.flip c with hℓ
   set Q' : QuadraticForm (ZMod 2) V := Q + QuadraticMap.linMulLin ℓ ℓ with hQ'
@@ -1028,6 +1035,7 @@ theorem exists_flip {Q : QuadraticForm (ZMod 2) V} (hQB : ∀ x y, polar Q x y =
     simp only [h2, pow_one, mul_neg, mul_one, Finset.sum_neg_distrib, neg_inj]
     exact Fintype.sum_equiv (Equiv.addRight c) _ _ fun v => rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_isometry_of_isStdSpace {Q₁ Q₂ : QuadraticForm (ZMod 2) V} {ε : Bool} {m : ℕ}
     (h₁ : IsStdSpace ε Q₁ m) (h₂ : IsStdSpace ε Q₂ m) :
     ∃ ψ : V ≃ₗ[ZMod 2] V, ∀ v, Q₂ (ψ v) = Q₁ v := by
@@ -1057,7 +1065,7 @@ theorem conj_maxEA_isometryGroup (hBs : ∀ x y, B x y = B y x) (hBa : B.IsAlt)
       IsElemAbelian p A → Nat.card A ≤ Nat.card E₂) :
     ∃ g ∈ TauCeti.BilinForm.isometryGroup B, E₂ = E₁.map (MulAut.conj g).toMonoidHom := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   set G := TauCeti.BilinForm.isometryGroup B with hGdef
   have hGiso : ∀ g ∈ G, IsIsom B g := fun g hg => TauCeti.BilinForm.mem_isometryGroup_iff.1 hg
   have hG : IsRestrClosed B G := isRestrClosed_isometryGroup hBs
@@ -1158,7 +1166,7 @@ theorem conjMaxEA_isometryGroup {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     [FiniteDimensional (ZMod 2) W] {C : LinearMap.BilinForm (ZMod 2) W}
     (hCs : ∀ x y, C x y = C y x) (hCa : C.IsAlt) (hC : C.Nondegenerate) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : Claims137.ConjMaxEA p ↥(TauCeti.BilinForm.isometryGroup C) := by
-  haveI : Finite (W ≃ₗ[ZMod 2] W) := finite_linearEquiv
+  have : Finite (W ≃ₗ[ZMod 2] W) := finite_linearEquiv
   set G := TauCeti.BilinForm.isometryGroup C with hG
   intro F₁ F₂ hF₁ hF₂ hm₁ hm₂
   have hcard : ∀ F : Subgroup ↥G, Nat.card ↥(F.map G.subtype) = Nat.card ↥F := fun F =>
@@ -1184,7 +1192,7 @@ theorem conjMaxEA_isometryGroup {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
 theorem conjMaxEA_statedSp (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     Claims137.ConjMaxEA p ↥(StatedSp n (ZMod 2)) := by
-  haveI : Finite ((Fin n ⊕ Fin n → ZMod 2) ≃ₗ[ZMod 2] (Fin n ⊕ Fin n → ZMod 2)) :=
+  have : Finite ((Fin n ⊕ Fin n → ZMod 2) ≃ₗ[ZMod 2] (Fin n ⊕ Fin n → ZMod 2)) :=
     finite_linearEquiv
   obtain ⟨Φ⟩ := nonempty_statedSp_mulEquiv n
   exact Claims137.ConjMaxEA.of_mulEquiv Φ.symm
@@ -1215,6 +1223,7 @@ section Frattini
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_sup_normalizer_of_conj {p : ℕ} {K N P : Subgroup G} (hKN : K ≤ N)
     (hNK : N ≤ Subgroup.normalizer (K : Set G)) (hP : Sec13h.IsMaxEA p K P)
     (hconj : Claims137.ConjMaxEA p ↥K) : N ≤ K ⊔ (N ⊓ Subgroup.normalizer (P : Set G)) := by

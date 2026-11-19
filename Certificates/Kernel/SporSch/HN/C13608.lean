@@ -75,12 +75,12 @@ theorem ncard_X {p : X → Prop} {q : ℕ → Prop} [DecidablePred q] (h : ∀ x
   rw [← Set.ncard_coe_finset]
   refine Set.ncard_congr (fun x _ => x.val) ?_ ?_ ?_
   · intro x hx
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
     exact ⟨x.isLt, (h x).1 hx⟩
   · intro a b _ _ hab
     exact Fin.ext hab
   · intro b hb
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hb
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hb
     exact ⟨⟨b, hb.1⟩, (h ⟨b, hb.1⟩).2 hb.2, rfl⟩
 
 open Certificates in

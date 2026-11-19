@@ -30,6 +30,7 @@ structure GenSetting (H T M V Y : Subgroup G) (hV : IsElemAbelian 2 V) : Prop wh
   S_norm : baum T ≤ Subgroup.normalizer (Y : Set G)
   gen : Y ⊔ T = H
 
+omit [Finite G] in
 theorem charTwo_of_pCore_le {X U : Subgroup G} (hF : CharTwo X) (hQU : pCoreOf 2 X ≤ U)
     (hUX : U ≤ X) : CharTwo U := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hF hUX hQU
 

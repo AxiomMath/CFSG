@@ -61,11 +61,13 @@ theorem Hyp.sec38e1_conj_Zp (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd :
   rw [← hd.V_inf_A₂] at hz ⊢
   exact ⟨hd.sec38e1_conj_V hGMS hx hz.1, hd.sec38e1_conj_A₂ hx hz.2⟩
 
+omit [Finite G] in
 theorem sec38e1_Zp_comm_P (d : Data G h) {z p : G} (hz : z ∈ d.Zp) (hp : p ∈ d.P) :
     p * z = z * p := by
   have h1 : z ∈ CFSG.centerIn d.P := by rw [d.sec2_2_three.2.2.2.2]; exact hz
   exact mem_centralizer_iff.1 h1.2 p hp
 
+omit [Finite G] in
 theorem sec38e1_conj_Zp_P (d : Data G h) {z p : G} (hz : z ∈ d.Zp) (hp : p ∈ d.P) :
     p * z * p⁻¹ = z := by
   rw [sec38e1_Zp_comm_P d hz hp, mul_inv_cancel_right]
@@ -88,6 +90,7 @@ theorem sec38e1_conj_Zp_P (d : Data G h) {z p : G} (hz : z ∈ d.Zp) (hp : p ∈
     rw [e, sec38e1_conj_Zp_P d (inv_mem hax) (d.A₂_le_P (inv_mem ha))]
     exact inv_mem hax
 
+omit [Finite G] in
 theorem sec38e1_C1_le_A₂ (d : Data G h) (x : G) : sec38e1_C1 d x ≤ d.A₂ := fun _ ha => ha.1
 
 theorem Hyp.sec38e1_psi_fixed (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)

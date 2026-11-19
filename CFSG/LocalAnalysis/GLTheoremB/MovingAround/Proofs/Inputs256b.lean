@@ -145,7 +145,7 @@ theorem type_split (hnl : Prop1116Design.InputAltNotLie)
     IsLieChar (· = 2) K ∨ IsLieChar (· = 5) K ∨
       IsSporType .HS (K ⧸ Subgroup.center K) ∨ IsSporType .M23 (K ⧸ Subgroup.center K) := by
   have hq := hK.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hx3 : x ^ 3 = 1 := hx ▸ pow_orderOf_eq_one x
   have hL' : GLAPComponent 3 (fixSubgroup x) L := by rwa [fixedSub_eq] at hL
@@ -200,7 +200,7 @@ theorem good2319_of_pumpup_alt5 (hnl : Prop1116Design.InputAltNotLie)
   obtain ⟨σ, hσ3, J₁, hJ₁, ⟨e⟩⟩ := hP
   obtain ⟨e5⟩ := hJ5
   have hq := hH.1
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian H hq
   have hJ₁' : GLAPComponent 3 (fixSubgroup σ) J₁ := by rwa [fixedSub_eq] at hJ₁
   obtain ⟨hI, ⟨eJ⟩⟩ := Inputs1415.center_transfer Nat.prime_three σ hJ₁'
@@ -324,7 +324,7 @@ theorem good2319_of_pumpup_chev5 (hKD : ∀ r : ℕ, CFSG.LocalAnalysis.GLTheore
     Prop1310a5b.Good2319 H := by
   obtain ⟨σ, hσ3, J₁, hJ₁, ⟨e⟩⟩ := hP
   have hq := hH.1
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian H hq
   have hJ₁' : GLAPComponent 3 (fixSubgroup σ) J₁ := by rwa [fixedSub_eq] at hJ₁
   obtain ⟨hI, ⟨eJ⟩⟩ := Inputs1415.center_transfer Nat.prime_three σ hJ₁'
@@ -473,8 +473,8 @@ theorem inputSporDownChev3_of_rows
     (hB : Claims1116c.SporDownRow .B 3)
     (hM : Claims1116c.SporDownRow .M 3) : InputSporDownChev3 := by
   intro S _ _ hS hnc s hs α hα I hI q hq hq2 hq3 hchev
-  haveI := hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hS
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hα1 : α ≠ 1 := by
     rintro rfl
     rw [Claims1116b.fixSubgroup_one_eq_top] at hI

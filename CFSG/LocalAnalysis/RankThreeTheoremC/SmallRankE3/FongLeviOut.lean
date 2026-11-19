@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.FongLevi
 theorem exists_outer_of_faithful {A : Type} [Group A] [Finite A] {K B : Subgroup A} {p : ℕ}
     (hp : p.Prime) (hKr : CFSG.Open.pRank p K ≤ 1) (hZ : Subgroup.center ↥K = ⊥)
     (hB : CFSG.Open.IsElemAbelian p B) (hBc : Nat.card B = p ^ 2)
-    (hBK : B ≤ Subgroup.normalizer (K : Set A))
+    (_hBK : B ≤ Subgroup.normalizer (K : Set A))
     (hnb : ∀ b ∈ B, b ≠ 1 → ¬ ∀ k ∈ K, b * k = k * b) :
     ∃ b ∈ B, ¬ ∃ k ∈ K, ∀ x ∈ K, b * x * b⁻¹ = k * x * k⁻¹ := by
   by_contra h
@@ -83,7 +83,7 @@ theorem exists_outer_of_faithful {A : Type} [Group A] [Finite A] {K B : Subgroup
     rw [hκb] at h3
     simp only [Subgroup.coe_one, one_mul, inv_one, mul_one] at h3
     exact mul_inv_eq_iff_eq_mul.1 h3
-  haveI := hB.1
+  have := hB.1
   have hcomm : ∀ a b : ↥B, a * b = b * a := fun a b => mul_comm' a b
   have hpow : ∀ a : ↥B, a ^ p = 1 := fun a => Subtype.ext (by simpa using hB.2 (a : A) a.2)
   have hf : Function.Injective (K.subtype.comp κ) := K.subtype_injective.comp hinj

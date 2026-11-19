@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {n : ℕ} {P : Subgroup G}
 
 theorem exists_central_three (h : Hyp326 G n P) :
     ∃ z : ↥P, z ∈ Subgroup.center ↥P ∧ orderOf z = 3 ∧ (z : G) ∈ Subgroup.center G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ew⟩ := h.wr
   obtain ⟨-, -, hc⟩ := zwr_card_center h.one_le ew
   have hdvd : 3 ∣ Nat.card (Subgroup.center ↥P) := by
@@ -75,6 +75,7 @@ theorem rank_four_contradiction (h : Hyp326 G n P) {L₁ L₂ L₃ : Subgroup G}
   have h3 := pRank_top_le_three h
   omega
 
+omit [Finite G] in
 theorem map_conj_map_conj (L : Subgroup G) (a b : G) :
     (L.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       L.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -83,6 +84,7 @@ theorem map_conj_map_conj (L : Subgroup G) (a b : G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 theorem conj_ne_of_odd_order {g : G} (hg : Odd (orderOf g)) {L : Subgroup G}
     (hne : L.map (MulAut.conj g).toMonoidHom ≠ L) :
     L ≠ L.map (MulAut.conj (g ^ 2)).toMonoidHom ∧
@@ -93,7 +95,7 @@ theorem conj_ne_of_odd_order {g : G} (hg : Odd (orderOf g)) {L : Subgroup G}
     induction m with
     | zero =>
       ext x
-      simp [MulAut.conj_apply]
+      simp
     | succ m ih =>
       rw [pow_succ', ← map_conj_map_conj, ih, ha]
   refine ⟨fun h => hne ?_, fun h => hne ?_⟩
@@ -109,7 +111,7 @@ theorem conj_ne_of_odd_order {g : G} (hg : Odd (orderOf g)) {L : Subgroup G}
       show g⁻¹ * g ^ 2 = g by group] at h1
     have h0 : L.map (MulAut.conj (1 : G)).toMonoidHom = L := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [h0] at h1
     exact h1.symm
 
@@ -145,7 +147,7 @@ theorem comp_normalized (h : Hyp326 G n P) {L : Subgroup G} (hL : CFSG.Open.IsCo
 
 theorem comp_center_ne_bot (h : Hyp326 G n P) {L : Subgroup G} (hL : CFSG.Open.IsComponentOf L ⊤) :
     Subgroup.center ↥L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ew⟩ := h.wr
   obtain ⟨z, hzP, hzo, hzG⟩ := exists_central_three h
   have hnorm := comp_normalized h hL

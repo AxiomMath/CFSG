@@ -27,7 +27,7 @@ theorem sec34_cen_quot_solvable (h : FF79Sec34In4 b J B A P D) :
     haveI : (J.subgroupOf (Cen b)).Normal := ⟨fun y hy g => by
       exact sec34_J_conj h g.2 hy⟩
     Group.IsSolvable (↥(Cen b) ⧸ J.subgroupOf (Cen b)) := by
-  haveI : (J.subgroupOf (Cen b)).Normal := ⟨fun y hy g => by
+  have : (J.subgroupOf (Cen b)).Normal := ⟨fun y hy g => by
     exact sec34_J_conj h g.2 hy⟩
   apply CFSG.FeitThompson.isSolvable_of_odd_natCard _
   have h1 : Nat.card ↥(J.subgroupOf (Cen b)) = Nat.card J :=
@@ -43,12 +43,12 @@ theorem sec34_cen_quot_solvable (h : FF79Sec34In4 b J B A P D) :
   rw [h3]
   exact Odd.mul (by decide) h.oddX
 
-theorem sec34_layW (h : FF79Sec34In4 b J B A P D) {a : G} (ha : a ∈ J) :
+theorem sec34_layW (h : FF79Sec34In4 b J B A P D) {a : G} (_ha : a ∈ J) :
     Lay (Cen a ⊓ Cen b) = Lay (J ⊓ Cen a) := by
   have hJb := sec34_J_le h
   have hYX : J ⊓ Cen a ≤ Cen a ⊓ Cen b := fun x hx =>
     ⟨hx.2, hJb hx.1⟩
-  haveI : ((J ⊓ Cen a).subgroupOf (Cen a ⊓ Cen b)).Normal := by
+  have : ((J ⊓ Cen a).subgroupOf (Cen a ⊓ Cen b)).Normal := by
     refine ⟨fun y hy g => ?_⟩
     have hy' : (y : G) ∈ J ⊓ Cen a := hy
     have hg : (g : G) ∈ Cen a ⊓ Cen b := g.2
@@ -56,9 +56,9 @@ theorem sec34_layW (h : FF79Sec34In4 b J B A P D) {a : G} (ha : a ∈ J) :
     refine ⟨sec34_J_conj h hg.2 hy'.1, ?_⟩
     exact (Cen a).mul_mem ((Cen a).mul_mem hg.1 hy'.2) ((Cen a).inv_mem hg.1)
   refine lay_eq_of_normal hYX fun K hK hperf => ?_
-  haveI := hperf
-  haveI := sec34_cen_quot_solvable h
-  haveI : (J.subgroupOf (Cen b)).Normal := ⟨fun y hy g => by
+  have := hperf
+  have := sec34_cen_quot_solvable h
+  have : (J.subgroupOf (Cen b)).Normal := ⟨fun y hy g => by
     exact sec34_J_conj h g.2 hy⟩
   have hKb : K ≤ Cen b := hK.trans inf_le_right
   have := le_of_isPerfect_of_solvable_quot (H := Cen b) (N := J) (K := K) hKb

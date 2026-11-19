@@ -13,7 +13,7 @@ open Subgroup
 
 private theorem ksu3z_card_sylow_three {J : Type} [Group J] [Finite J] (Z : Sylow 3 J)
     (h3 : 3 ∣ Nat.card J) (h9 : ¬ 9 ∣ Nat.card J) : Nat.card (Z : Subgroup J) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJ0 : Nat.card J ≠ 0 := Nat.card_pos.ne'
   have hpos : 0 < Nat.factorization (Nat.card J) 3 :=
     Nat.Prime.factorization_pos_of_dvd Nat.prime_three hJ0 h3
@@ -64,7 +64,7 @@ theorem u3_stepConcl {J : Type} [Group J] [Finite J] (hJ : GoodU3 J)
     (hZ : ∀ w ∈ W, ∀ z ∈ (Z : Subgroup J), w z = z) : StepConcl GoodU3 W (Z : Subgroup J) := by
   obtain ⟨_hfin, h3, h9, h7, p, f, K, hK, h, hq, he⟩ := hJ
   obtain ⟨e⟩ := he
-  letI : Field K := hK
+  let : Field K := hK
   have hcard : Nat.card J = Nat.card (U3 h) := Nat.card_congr e.toEquiv
   have h9U3 : ¬ 9 ∣ Nat.card (U3 h) := by
     rw [← hcard]

@@ -22,6 +22,7 @@ variable {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
 namespace Config
 
+omit [Finite G] in
 theorem conj_mem_K₁_of_commute (hQ : Config D u w v z a K₁ S') {s : G} (hs : Commute s z) :
     ∀ k ∈ K₁, s * k * s⁻¹ ∈ K₁ := by
   obtain ⟨eK⟩ := hQ.K₁_A5
@@ -30,19 +31,23 @@ theorem conj_mem_K₁_of_commute (hQ : Config D u w v z a K₁ S') {s : G} (hs :
   rw [← hQ.K_eq] at ht ⊢
   exact conj_mem_thirdK_of_commute hQ.setup.normal hs ht
 
+omit [Finite G] in
 theorem mem_normalizer_K₁_of_commute (hQ : Config D u w v z a K₁ S') {s : G}
     (hs : Commute s z) : s ∈ Subgroup.normalizer (K₁ : Set G) :=
   mem_normalizer_of_conj (hQ.conj_mem_K₁_of_commute hs)
     (hQ.conj_mem_K₁_of_commute (hs.inv_left))
 
+omit [Finite G] in
 theorem commute_z_of_mem (hQ : Config D u w v z a K₁ S') {s : G} (hs : s ∈ S') :
     Commute s z :=
   Subgroup.mem_centralizer_singleton_iff.mp (hQ.z_central.2 hs)
 
+omit [Finite G] in
 theorem sylow_le_normalizer (hQ : Config D u w v z a K₁ S') :
     S' ≤ Subgroup.normalizer (K₁ : Set G) := fun _ hs =>
   hQ.mem_normalizer_K₁_of_commute (hQ.commute_z_of_mem hs)
 
+omit [Finite G] in
 theorem z_not_mem_K₁ (hQ : Config D u w v z a K₁ S') : z ∉ K₁ := by
   intro hz
   obtain ⟨-, hz1, -⟩ := hQ.z_facts

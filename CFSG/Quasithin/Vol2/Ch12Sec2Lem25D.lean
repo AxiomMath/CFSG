@@ -380,7 +380,7 @@ theorem stmt12_2_25_26_of_config_of
         exact hc
     by_contra hne
     have hT₀2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ Subgroup.centralizer (L : Set G)) :=
-      S.isPGroup'.to_le inf_le_left
+      S.isPGroup.to_le inf_le_left
     obtain ⟨M', hM', hle⟩ := exists_maxTwoLocal_ge (⟨_, hne, hT₀2, rfl⟩ : IsTwoLocal
       (Subgroup.normalizer
         (((S : Subgroup G) ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) : Set G)))

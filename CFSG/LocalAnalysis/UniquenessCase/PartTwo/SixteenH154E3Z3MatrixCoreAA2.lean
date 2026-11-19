@@ -19,7 +19,7 @@ private theorem s16h_e3_Z3MatrixCoreAA2_mem_of_orderOf_dvd_prime
   rcases (Nat.dvd_prime (Fact.out : Nat.Prime p)).mp hx with hx1 | hxp
   · rw [orderOf_eq_one_iff.mp hx1]
     exact P.one_mem
-  · haveI : P.Normal := hPnorm
+  · have : P.Normal := hPnorm
     have hPp : IsPGroup p P :=
       IsPGroup.of_card (G := ↥P) (n := 1) (by rw [hPcard, pow_one])
     have hKp : IsPGroup p (Subgroup.zpowers x) :=
@@ -57,16 +57,16 @@ theorem s16h_e3_z3_normal_five_of_closure
       Subgroup.map (SemidirectProduct.inl :
         Matrix.GeneralLinearGroup (Fin 3) OmegaField →*
           coordinateSemilinearGroup 3 OmegaField) F' ≤ K := by
-  haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
-  haveI : Finite OmegaField := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (OmegaField ≃+* OmegaField) :=
+  have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := Module.finite_of_finite (ZMod 2)
+  have : Finite (OmegaField ≃+* OmegaField) :=
     Finite.of_injective (fun σ : OmegaField ≃+* OmegaField => (σ : OmegaField → OmegaField))
       (fun _ _ h => RingEquiv.ext (congrFun h))
-  haveI : Finite (coordinateSemilinearGroup 3 OmegaField) :=
+  have : Finite (coordinateSemilinearGroup 3 OmegaField) :=
     Finite.of_injective
       (fun g : coordinateSemilinearGroup 3 OmegaField => (g.left, g.right))
       (fun _ _ h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h))
-  haveI : Finite ↥D :=
+  have : Finite ↥D :=
     Finite.of_injective (fun x : ↥D => (x : coordinateSemilinearGroup 3 OmegaField))
       (fun _ _ h => Subtype.ext h)
   let P : Subgroup (coordinateSemilinearGroup 3 OmegaField) :=
@@ -97,7 +97,7 @@ theorem s16h_e3_z3_normal_five_of_closure
     have hN0 : ¬ (5 : ℕ) ^ 2 ∣ 2 ^ 6 * 3 ^ 3 * 5 * 7 := by decide
     intro h
     exact hN0 (h.trans hcard)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hPsubN : (P.subgroupOf N).Normal := by
     refine ⟨fun n hn k => ?_⟩
     have hnP : (n : coordinateSemilinearGroup 3 OmegaField) ∈ P := hn

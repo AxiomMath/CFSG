@@ -85,6 +85,7 @@ theorem hasBitsS_inv_of {g : adjointGroup Tag.E6 K} {T Y : ℕ} (hg : HasBitsS K
             E6Bits.toEnd K (Y / 2 ^ 192)) := by rw [e1, mul_one]
     _ = E6Bits.toEnd K (Y / 2 ^ 192) := by rw [← mul_assoc, hinv, one_mul]
 
+omit [CharP K 2] in
 theorem evalG_codes (w : List ℕ) :
     E6Bits.evalG K (w.map E6Salt.letterOfCode) = E6Bits.evalG K (wordOfCodes6 w) :=
   rfl
@@ -106,6 +107,7 @@ theorem iota_sound {LP IP IPi : ℕ} {iw il : List ℕ} (hL : letOK LP = true)
   have hI := hW.of_eqS (eqS_symm h'.1)
   exact ⟨hI, hasBitsS_inv_of hI h'.2⟩
 
+omit [CharP K 2] in
 theorem iota_wordE (W L : ℕ) :
     embE6F4 K (CFSG.KC.F4Planes.wordE K W L) = ((decW 3 W L).map (iotaL K)).prod := by
   rw [decW_three]

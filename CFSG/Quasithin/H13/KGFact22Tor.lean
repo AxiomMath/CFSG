@@ -118,7 +118,7 @@ theorem exists_sylow_of_isSylowTwoOf {S : Subgroup X} (hS : IsSylowTwoOf S ⊤) 
 
 theorem isSylowTwoOf_of_sylow [Finite X] (P : Sylow 2 X) : IsSylowTwoOf (P : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup X).subgroupOf ⊤).index = (P : Subgroup X).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index

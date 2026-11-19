@@ -89,16 +89,16 @@ theorem exists_large_lift_of_tableBPosition {p : ℕ} (hp : p.Prime) {M : Type} 
     exact ⟨ggBeta L' θ hE b, hI b, fun l => ggBeta_ggQuotHom L' hE θ b l⟩
 
 theorem ggTableBForms_of_noPosition {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)}
-    (key : ∀ {M : Type} [Group M] [Finite M] {L' E : Subgroup M}
-      {θ : L' ⧸ Subgroup.center L' ≃* R} {hE : E ≤ Subgroup.normalizer (L' : Set M)},
-      GGTableBPosition p L' E I θ hE → False) :
+    (key : ∀ {_M : Type} [Group _M] [Finite _M] {_L' _E : Subgroup _M}
+      {_θ : _L' ⧸ Subgroup.center _L' ≃* R} {_hE : _E ≤ Subgroup.normalizer (_L' : Set _M)},
+      GGTableBPosition p _L' _E I _θ _hE → False) :
     GGCoverPTableB p R I ∧ GGIrredTableB p R I ∧ GGTorusGenTableB p R I ∧
       GGIrredModTableB p R I ∧ GGWPlusTableB p R I :=
-  ⟨fun M _ _ L' E θ hE hpos => (key hpos).elim,
-    fun M _ _ L' E θ hE hpos => (key hpos).elim,
-    fun M _ _ L' E E₁ D' J' d θ hE hpos => (key hpos).elim,
-    fun M _ _ L' E θ hE hpos => (key hpos).elim,
-    fun M _ _ L' E θ hE hpos => (key hpos).elim⟩
+  ⟨fun _M _ _ _L' _E _θ _hE hpos => (key hpos).elim,
+    fun _M _ _ _L' _E _θ _hE hpos => (key hpos).elim,
+    fun _M _ _ _L' _E _E₁ _D' _J' _d _θ _hE hpos => (key hpos).elim,
+    fun _M _ _ _L' _E _θ _hE hpos => (key hpos).elim,
+    fun _M _ _ _L' _E _θ _hE hpos => (key hpos).elim⟩
 
 theorem ggTableBForms_of_vac {p : ℕ} (hp : p.Prime) {R : Type} [Group R] {I : Set (MulAut R)}
     (hvac : ∀ X : Subgroup (MulAut R), (X : Set (MulAut R)) ⊆ I → IsElemAbelian p X →

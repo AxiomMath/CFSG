@@ -36,7 +36,7 @@ theorem s15_Six_exists_order_ker (D : Data G) {V₀ V L : Subgroup G} (h : Hyp12
     (hrk : 3 ≤ CFSG.Open.pRank p D.M)
     (hcard : Nat.card (Mbar D.M (v1Sub D.M V₀ V hV L) V hV) ∣ 2 * 168 ^ 2) :
     ∃ y ∈ F11.CTilde D.M (v1Sub D.M V₀ V hV L) V, orderOf y = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set V₁ := v1Sub D.M V₀ V hV L with hV₁
   have hMs : D.M ≤ stabTil V₁ V :=
     le_stabTil h.pairFacts.le_normalizer (s15_Infra_le_normalizer_v1Sub h hV)

@@ -163,12 +163,12 @@ private theorem isSolvable_sup_of_comm {G : Type*} [Group G] [Finite G] {U S : S
   have hUW : U ≤ W := le_sup_left
   have hSW : S ≤ W := le_sup_right
   have hWN : W ≤ Subgroup.normalizer (U : Set G) := sup_le Subgroup.le_normalizer hSU
-  haveI hN : (U.subgroupOf W).Normal :=
+  have hN : (U.subgroupOf W).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUW).mpr hWN
-  haveI : Group.IsSolvable ↥(U.subgroupOf W) :=
-    isSolvable_of_comm fun a b => Subtype.ext (Subtype.ext (hUc _ a.2 _ b.2))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : Group.IsSolvable ↥(U.subgroupOf W) :=
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (Subtype.ext (hUc _ a.2 _ b.2))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' (U.subgroupOf W)).comp (Subgroup.inclusion hSW)) := by
     intro q
@@ -186,8 +186,8 @@ private theorem isSolvable_sup_of_comm {G : Type*} [Group G] [Finite G] {U S : S
       have := (Subgroup.mem_normalizer_iff.mp (hSU (S.inv_mem ht)) u).mp hu
       simpa [mul_assoc] using this
     simpa [mul_assoc] using hconj
-  haveI : Group.IsSolvable (↥W ⧸ U.subgroupOf W) := solvable_of_surjective hsurj
-  exact solvable_of_ker_le_range (U.subgroupOf W).subtype (QuotientGroup.mk' (U.subgroupOf W))
+  have : Group.IsSolvable (↥W ⧸ U.subgroupOf W) := Group.isSolvable_of_surjective hsurj
+  exact Group.isSolvable_of_ker_le_range (U.subgroupOf W).subtype (QuotientGroup.mk' (U.subgroupOf W))
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 private theorem map_perfectCore_le' {G G' : Type*} [Group G] [Group G'] (f : G →* G')
@@ -196,6 +196,7 @@ private theorem map_perfectCore_le' {G G' : Type*} [Group G] [Group G'] (f : G �
     rw [← map_derivedSeriesOf]
     exact Subgroup.map_mono (iInf_le _ n)
 
+omit [Finite X] in
 private theorem vZ_le_gnV (T H : Subgroup X) : VZ T H ≤ gnV T := by
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨h, -, z, hz, rfl⟩

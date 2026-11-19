@@ -548,8 +548,8 @@ instance (u : Bool × Bool) (E : Finset P6B) (L : List ℕ) : Decidable (FixFree
 
 theorem fixCntB_le_of {u : Bool × Bool} {E : Finset P6B} {Q bound : ℕ} {L : List ℕ}
     (hS : SubOK Q L bound) (hF : FixFree u E L) : fixCntB u E ≤ bound :=
-  (card_filter_le_of_mask _ (fun n m hn hm g hg => fix_xor (hn g hg) (hm g hg)) Q
-    (fun m hm h0 hq => hF m (hS.1 m hm h0 hq))).trans hS.2
+  (card_filter_le_of_mask _ (fun _n _m hn hm g hg => fix_xor (hn g hg) (hm g hg)) Q
+    (fun _m hm h0 hq => hF _m (hS.1 _m hm h0 hq))).trans hS.2
 
 @[expose] def qsSingle : List (ℕ × List ℕ) :=
   [(7, [1,2,3,4,5,6,7]),

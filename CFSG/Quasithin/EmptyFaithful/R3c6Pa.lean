@@ -33,7 +33,7 @@ theorem sylow_and_cyclic_of_hom [Finite X] {Q₀ : Subgroup X} (hQ2 : IsPGroup 2
     refine ⟨S, le_antisymm ?_ hS⟩
     by_contra hle
     set S' : Subgroup X := (S : Subgroup X) with hS'
-    have : Group.IsNilpotent ↥S' := S.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥S' := S.isPGroup.isNilpotent
     set Q' : Subgroup ↥S' := Q₀.subgroupOf S' with hQ'
     have hlt : Q' < ⊤ := by
       refine lt_top_iff_ne_top.mpr fun h => hle ?_
@@ -45,7 +45,7 @@ theorem sylow_and_cyclic_of_hom [Finite X] {Q₀ : Subgroup X} (hQ2 : IsPGroup 2
     have hxN' : (x : X) ∈ Subgroup.normalizer (Q₀ : Set X) := by
       rw [hQ0]
       exact mem_normalizer_map_subtype.2 hxN
-    obtain ⟨k, hk⟩ := S.isPGroup' x
+    obtain ⟨k, hk⟩ := S.isPGroup x
     have hk' : ((⟨(x : X), hxN'⟩ : ↥(Subgroup.normalizer (Q₀ : Set X))) ^ 2 ^ k) = 1 := by
       apply Subtype.ext
       have := congrArg Subtype.val hk
@@ -98,7 +98,7 @@ theorem eq_bot_of_stronglyEmbedded [Finite X] {Q U : Subgroup X}
 theorem le_of_normal_odd_index [Finite X] (X₁ : Subgroup X) [X₁.Normal] (hodd : ¬ 2 ∣ X₁.index)
     (S : Sylow 2 X) : (S : Subgroup X) ≤ X₁ := by
   intro x hx
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
   have hk' : x ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
@@ -121,7 +121,7 @@ theorem exists_sylow_subgroupOf [Finite X] (X₁ : Subgroup X) [X₁.Normal] (ho
     ∃ S₁ : Sylow 2 ↥X₁, (S₁ : Subgroup ↥X₁) = (S : Subgroup X).subgroupOf X₁ := by
   have hle := le_of_normal_odd_index X₁ hodd S
   have hp : IsPGroup 2 ((S : Subgroup X).subgroupOf X₁) :=
-    S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
+    S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   have hidx : ¬ 2 ∣ ((S : Subgroup X).subgroupOf X₁).index := by
     have h1 := Subgroup.relIndex_mul_index hle
     intro hd
@@ -173,7 +173,7 @@ theorem normalizer_le_of_normal_odd [Finite X] (X₁ : Subgroup X) [X₁.Normal]
     refine eq_bot_of_stronglyEmbedded (hB S₁).1 (g := g₁⁻¹) ?_ ?_ hU'S₁ ?_
     · intro h
       exact hg₁N (by simpa using h)
-    · exact S₁.isPGroup'.to_le hU'S₁
+    · exact S₁.isPGroup.to_le hU'S₁
     · intro u hu
       have huU : ((u : ↥X₁) : X) ∈ U := hu
       have hu2 : (u : ↥X₁) ∈ (S₂ : Subgroup ↥X₁) := by
@@ -314,7 +314,7 @@ theorem BorelComp.of_mulEquiv {Y : Type} [Group Y] (e : X ≃* Y) {Q : Subgroup 
 theorem exists_sylow_map_equiv {Y : Type} [Group Y] [Finite X] (e : X ≃* Y) (Q : Sylow 2 X) :
     ∃ S : Sylow 2 Y, (S : Subgroup Y) = (Q : Subgroup X).map e.toMonoidHom := by
   have hp : IsPGroup 2 ↥((Q : Subgroup X).map e.toMonoidHom) :=
-    Q.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ e.toMonoidHom e.injective)
+    Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ e.toMonoidHom e.injective)
   have hidx : ¬ 2 ∣ ((Q : Subgroup X).map e.toMonoidHom).index := by
     have h := Subgroup.index_map_equiv (H := (Q : Subgroup X)) e
     rw [show ((Q : Subgroup X).map e.toMonoidHom).index = (Q : Subgroup X).index from h]

@@ -48,7 +48,7 @@ theorem map_le_map_of_two_group_image {K Q : Type*} [Group K] [Finite K] [Group 
     have := Nat.eq_one_of_dvd_coprimes hcop (hk ▸ dvd_rfl) (orderOf_dvd_of_pow_eq_one h1)
     exact orderOf_eq_one_iff.1 this
   set G' : Subgroup Q := 𝒢.map θ with hG'
-  haveI : Finite ↥G' := Finite.of_surjective
+  have : Finite ↥G' := Finite.of_surjective
     (fun x : ↥𝒢 => (⟨θ x, Subgroup.mem_map_of_mem θ x.2⟩ : ↥G'))
     (fun ⟨y, g, hg, hgy⟩ => ⟨⟨g, hg⟩, Subtype.ext hgy⟩)
   have hp : IsPGroup 2 ↥G' := by
@@ -56,7 +56,7 @@ theorem map_le_map_of_two_group_image {K Q : Type*} [Group K] [Finite K] [Group 
     obtain ⟨g, hg, rfl⟩ := hy
     obtain ⟨k, hk⟩ := h2 g hg
     exact ⟨k, by rw [← hk, ← Subgroup.orderOf_coe]⟩
-  haveI : Group.IsNilpotent ↥G' := hp.isNilpotent
+  have : Group.IsNilpotent ↥G' := hp.isNilpotent
   set A₀ : Subgroup ↥G' := (A.map θ).subgroupOf G' with hA₀
   set x : ↥G' := ⟨θ n, Subgroup.mem_map_of_mem θ hn⟩ with hx0
   have hx : ∀ g : ↥G', g ∈ A₀ ∨ ∃ a ∈ A₀, ∃ b ∈ A₀, g = a * x * b := by

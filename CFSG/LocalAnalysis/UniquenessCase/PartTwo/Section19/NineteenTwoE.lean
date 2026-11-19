@@ -323,7 +323,7 @@ theorem pRank_three_inf_centOverO2_le_one {D : Data G} {V₀ V : Subgroup G} {p 
     obtain ⟨n, hn⟩ := hS.isPGroup.exists_card_eq
     rw [hn]
     exact hcop.pow_left n
-  have hSinf : S ⊓ (Y ⊓ C) = ⊥ := Subgroup.inf_eq_bot_of_coprime hScop
+  have hSinf : S ⊓ (Y ⊓ C) = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hScop))
   have hjoin : A ⊔ R = S := (sylow_three_eq_sup_inf_centOverO2 h642 hK hS).symm
   have hcommAR : ⁅A, R⁆ = ⊥ := commutator_sylow_inf_centOverO2 h642 hS
   have hcomm : ∀ a ∈ A, ∀ r ∈ R, a * r = r * a := by

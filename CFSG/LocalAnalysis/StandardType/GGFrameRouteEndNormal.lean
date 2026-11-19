@@ -42,7 +42,7 @@ theorem subgroupOf_centralizer_normal_of_sStar {G : Type} [Group G] [Finite G]
     have hTp : IsPGroup 3 T := hSp.map (MulAut.conj c).toMonoidHom
     have hTle : T ≤ Subgroup.centralizer (L : Set G) :=
       (Subgroup.map_mono hSle).trans hcent
-    haveI : IsCyclic T := hcyc T hTle hTp
+    have : IsCyclic T := hcyc T hTle hTp
     have hinj : Function.Injective (MulAut.conj c).toMonoidHom := (MulAut.conj c).injective
     exact hSnc (isCyclic_of_injective
       (Subgroup.equivMapOfInjective S (MulAut.conj c).toMonoidHom hinj).toMonoidHom

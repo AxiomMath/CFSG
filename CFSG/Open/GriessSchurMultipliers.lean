@@ -6,7 +6,7 @@ public section
 
 universe u v w
 
-namespace CFSG.Open.Open
+namespace CFSG.Open.Thm
 
 open scoped MatrixGroups in
 theorem griess_schur_multipliers_psl
@@ -17,4 +17,4 @@ theorem griess_schur_multipliers_psl
           ZMod (griessPSLExceptional n (p ^ k)).1 × ZMod (griessPSLExceptional n (p ^ k)).2)) :=
   _root_.CFSG.Milestones.cl_lit_griess_schur_multipliers_lie_type p k n hk hn hsmall
 
-end CFSG.Open.Open
+end CFSG.Open.Thm

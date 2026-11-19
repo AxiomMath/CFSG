@@ -18,10 +18,11 @@ namespace Hyp1510
 
 variable {M V₀ V U S H P Q₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem w162_min_mem_of_odd_index {X N : Subgroup G}
     (hN : (N.subgroupOf X).Normal) (hodd : Odd (N.subgroupOf X).index) {g : G} (hg : g ∈ X)
     (hk : ∃ k : ℕ, orderOf g = 2 ^ k) : g ∈ N := by
-  haveI := hN
+  have := hN
   obtain ⟨k, hk⟩ := hk
   set gX : ↥X := ⟨g, hg⟩ with hgX
   have hgo : orderOf gX = 2 ^ k := by
@@ -47,7 +48,7 @@ theorem w162_comm_mem_iHull15 (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S 
     (hQ : OddCore15 V₀ U H Q₀) {Y : Subgroup G} (hIY : iHull15 V₀ U H ≤ Y) (hYQ : Y ≤ Q₀)
     (hne : ¬ Q₀ ≤ Y) (hPY : P ≤ normalizer (Y : Set G)) :
     ∀ y ∈ Y, ∀ v ∈ V₀, ⁅y, v⁆ ∈ iHull15 V₀ U H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ_le_H : Q₀ ≤ H := hQ.le_H hP
   have hYP_le : Y ⊔ P ≤ H := sup_le (hYQ.trans hQ_le_H) hP.P_le
   have hP_le_sup : P ≤ Y ⊔ P := le_sup_right
@@ -110,24 +111,24 @@ theorem w162_exp_class (hI : NamedInputs15 G) (hW : W15Eight1 G)
     (hQ : OddCore15 V₀ U H Q₀) :
     ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ (∀ y ∈ Q₀, y ^ p ∈ iHull15 V₀ U H) ∧
       ∀ x ∈ Q₀, ∀ y ∈ Q₀, ∀ z ∈ Q₀, ⁅⁅x, y⁆, z⁆ ∈ iHull15 V₀ U H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIH : iHull15 V₀ U H ≤ H :=
     (Hyp1510.iHull15_le_kHull15 V₀ U H).trans hP.kHull15_le
   have hQH : Q₀ ≤ H := hQ.le_H hP
   have hV0H : V₀ ≤ H := hP.V₀_le_H
   have hPH : P ≤ H := hP.P_le
   let I' : Subgroup ↥H := (iHull15 V₀ U H).subgroupOf H
-  haveI hI'norm : I'.Normal :=
+  have hI'norm : I'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2
       (Hyp1510.le_normalizer_iHull15 V₀ U H)
   let Γ := ↥H ⧸ I'
   let π : ↥H →* Γ := QuotientGroup.mk' I'
-  haveI hΓfin : Finite Γ := by show Finite (↥H ⧸ I'); infer_instance
+  have hΓfin : Finite Γ := by show Finite (↥H ⧸ I'); infer_instance
   let Q' : Subgroup ↥H := Q₀.subgroupOf H
-  haveI hQ'norm : Q'.Normal :=
+  have hQ'norm : Q'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).2 hQ.normal
   let N : Subgroup Γ := Q'.map π
-  haveI hNnorm : N.Normal := hQ'norm.map π (QuotientGroup.mk'_surjective I')
+  have hNnorm : N.Normal := hQ'norm.map π (QuotientGroup.mk'_surjective I')
   let P' : Subgroup ↥H := P.subgroupOf H
   let Pbar : Subgroup Γ := P'.map π
   have ht_ex : ∃ t : G, t ∈ V₀ ∧ t ∉ iHull15 V₀ U H := by
@@ -206,7 +207,6 @@ theorem w162_exp_class (hI : NamedInputs15 G) (hW : W15Eight1 G)
     have hcomm_eq : ⁅Q₀, V₀⁆.subgroupOf H = ⁅Q', V₀.subgroupOf H⁆ := by
       apply Subgroup.map_injective (f := H.subtype) H.subtype_injective
       rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hD_le_H]
-      change ⁅Q₀, V₀⁆ = ⁅Q'.map H.subtype, (V₀.subgroupOf H).map H.subtype⁆
       rw [show Q'.map H.subtype = Q₀ ⊓ H from Subgroup.subgroupOf_map_subtype Q₀ H,
         show (V₀.subgroupOf H).map H.subtype = V₀ ⊓ H from
           Subgroup.subgroupOf_map_subtype V₀ H,

@@ -41,7 +41,7 @@ theorem qFixedRootDatum_center_eq_bot_of_PSL3 {D : Type} [Group D] [Finite D] {n
 theorem qFixedRootSelector_evenLieType : QFixedRootSelector fun D _ => EvenLieType D := by
   intro D _ _ hDs heven n α J d
   have hnab := d.nonabelian_ambient
-  haveI := hDs
+  have := hDs
   have hout : α ∉ (MulAut.conj : D →* MulAut D).range := fun hin =>
     SeitzReduction.F4Pilot.false_of_isComponent_fixedSubgroup_inner hnab
       (ComponentClassification.CatLeaf.involutionCentralizersComponentFree_of_evenLieType heven)

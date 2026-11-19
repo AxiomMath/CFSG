@@ -131,6 +131,7 @@ private theorem szv_sectionFacts {H U L N : Subgroup G}
     exact L.inv_mem hmem
   exact ⟨hHL, hHN, hNL, hE, hO⟩
 
+omit [Finite G] in
 private theorem szv_sectionRep_ne_one {H L N : Subgroup G} {a : ℕ}
     (hnc : ¬ IsCentralStep H L N)
     (hHL : H ≤ Subgroup.normalizer (L : Set G))
@@ -142,8 +143,8 @@ private theorem szv_sectionRep_ne_one {H L N : Subgroup G} {a : ℕ}
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     ∃ g, sectionRep hHL hHN hNL hE hO e g ≠ 1 := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   unfold IsCentralStep at hnc
   push Not at hnc
   obtain ⟨y, hyH, n, hnN, hn⟩ := hnc
@@ -175,14 +176,14 @@ private theorem szv_sectionRep_isSzNatural
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     IsSzNatural (sectionRep hHL hHN hNL hE hO e) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod L N)) :=
     sectionRep hHL hHN hNL hE hO e
-  haveI : Fact ρ.IsIrreducible :=
+  have : Fact ρ.IsIrreducible :=
     ⟨sectionRep_isIrreducible hstep hUH hHL hHN hNL hE hO e⟩
   have hZ0lift := exists_mem_of_mem_suzukiZ0 hK hCH hC e he
   have hZ0quad : ∀ z' ∈ suzukiZ0 a K, ∀ z ∈ suzukiZ0 a K,
@@ -222,7 +223,7 @@ theorem isSzNaturalSection_of_quadratic_of_sz
   obtain ⟨hHL, hHN, hNL, hE, hO⟩ := szv_sectionFacts hUQ hstep
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, he⟩ := exists_mulEquiv_suzukiGroup_map_eq_suzukiU hK hSz hT
   have hnt := szv_sectionRep_ne_one hnc hHL hHN hNL hE hO e
   have hnat := szv_sectionRep_isSzNatural ha hCH hC (hUQ.trans (pCoreOf_le 2 H)) hquad hstep

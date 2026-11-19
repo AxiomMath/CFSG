@@ -95,8 +95,8 @@ theorem finrank_addV :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     Module.finrank (ZMod 2) (Additive (QuotientV.V z)) = 8 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hcard : Nat.card (Additive (QuotientV.V z)) = 2 ^ 8 := by
     rw [Nat.card_congr Additive.toMul]
     exact QuotientV.card_V h

@@ -13,6 +13,7 @@ open CFSG.LieType.Universal.Symplectic.SpExtras TauCeti.GLSymplecticFin
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {G : Type} [Group G]
 
+omit [Finite F] [CharP F 2] in
 private theorem spLeviBlock_twice_elt_zero {k : ℕ} (c : F) :
     spLeviBlock (k + 2) F (spLeviBlock (k + 1) F
         (elt (RootSubgroupIndex.positiveLong (0 : Fin (k + 1))) c)) =
@@ -20,6 +21,7 @@ private theorem spLeviBlock_twice_elt_zero {k : ℕ} (c : F) :
   rw [spLeviBlock_elt, spLeviBlock_elt]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem single_eq_smul_single {N : Type} [DecidableEq N] (i j : N) (x : F) :
     Matrix.single i j x = x • Matrix.single i j (1 : F) := by
   rw [Matrix.smul_single, smul_eq_mul, mul_one]
@@ -117,7 +119,7 @@ theorem spEnd_exists_conj_lam_lam_of_embeddings {k : ℕ} (hk : 1 ≤ k)
         have h' := congrArg (fun M : Matrix (Fin (k + 2 + 1) ⊕ Fin (k + 2 + 1))
             (Fin (k + 2 + 1) ⊕ Fin (k + 2 + 1)) F =>
           M (Sum.inl (2 : Fin (k + 2 + 1))) (Sum.inr (2 : Fin (k + 2 + 1)))) h
-        simp [Matrix.single_apply] at h'
+        simp at h'
       exact hEne hE0
     exact sub_eq_zero.mp ((smul_eq_zero.mp hzero).resolve_right hMEnz)
   have hαB : ∀ w, α w = B * w * B⁻¹ := by

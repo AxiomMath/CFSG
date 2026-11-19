@@ -326,9 +326,9 @@ theorem coord_mem_inside_of_coordTuple (d : ExcCoordDatum S T₀ m) {c : Finset 
       exact Finset.sum_congr rfl fun x _ => mul_comm _ _
     simp only [hexp]
     rw [Finset.prod_eq_single a
-      (fun b _ hb => by rw [if_neg (fun h => hb h.symm), zpow_zero])
+      (fun b _ hb => by rw [ite_eq_right (fun h => hb h.symm), zpow_zero])
       (fun h => absurd (Finset.mem_univ a) h)]
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hcube : ∀ a, (y a ^ w.D) ^ 3 = 1 := by
     intro a
     have h : (∏ a'', (∏ a', (y a') ^ ExcRaw.pairing m (w.k a'') (w.b a')) ^ w.A a a'')

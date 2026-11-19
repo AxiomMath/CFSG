@@ -17,7 +17,7 @@ namespace Ctx82E3
 
 theorem pRank_lbar (c : Ctx82E3 D) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup c.Lbar) = CFSG.Open.pRank p c.L := by
-  haveI : (CFSG.Open.pCore 2 ↥c.L).Normal := CFSG.pCore_normal
+  have : (CFSG.Open.pCore 2 ↥c.L).Normal := CFSG.pCore_normal
   have h3 : ¬ p ∣ Nat.card (CFSG.Open.pCore 2 ↥c.L) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := p)
       (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)) Fact.out hp2

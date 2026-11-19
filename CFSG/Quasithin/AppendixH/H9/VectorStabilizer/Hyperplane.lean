@@ -32,12 +32,12 @@ theorem mem_perpN_zpowers_iff {n : ℕ} {x v : PairN n} :
       { carrier := {s | polarN n x s = 0}
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [polarN_mul_right, ha, hb, add_zero]
         one_mem' := by simp [polarN]
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           exact (polarN_inv_right x a).trans ha }
     have hle : Subgroup.zpowers v ≤ T := Subgroup.zpowers_le.mpr h
     exact fun s hs => hle hs

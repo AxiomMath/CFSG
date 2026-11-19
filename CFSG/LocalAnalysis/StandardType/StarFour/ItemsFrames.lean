@@ -13,6 +13,7 @@ open CFSG.LinearAlgebra.RootGroupSL CFSG.Open CFSG.StandardType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Module.Finite F V] {X : Type} [Group X]
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 private lemma blockIota_coord {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F] V)}
     (fr : SemiFrame F ρ) (i : Fin fr.r) (a : Fin (fr.m i)) (t : fr.E i) :
     fr.blockIota i a t = fr.Φ.symm (Pi.single i (Pi.single a t)) := by
@@ -20,6 +21,7 @@ private lemma blockIota_coord {P : Type} [CommGroup P] {ρ : P →* (V ≃ₗ[F]
     LinearMap.single_apply, LinearMap.single_apply]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma nesting_index_eq {P P' : Type} [CommGroup P] [CommGroup P']
     {ρ : P →* (V ≃ₗ[F] V)} {ρ' : P' →* (V ≃ₗ[F] V)}
     (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r) (hm : 2 ≤ fr.m i)
@@ -81,10 +83,10 @@ theorem items_of_frames {P P' : Type} [CommGroup P] [CommGroup P']
     exists_nesting η η' hg' hgg fr fr' i hpos
   have hidx : i₁ = i' := nesting_index_eq fr fr' i hm2 i' i₁ h3 hle
   subst i₁
-  letI : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
+  let : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
   obtain ⟨ι, ι₁, π, π₁, h1k, h2k, h3k, h4k, heq1, _heq2⟩ :=
     exists_blockDatum η η' hg' hgg fr fr' i hm2 i' ε h3 h1 h4 h2
-  haveI : CharP (fr'.E i') 2 :=
+  have : CharP (fr'.E i') 2 :=
     charP_of_injective_algebraMap (RingHom.injective (algebraMap F (fr'.E i'))) 2
   let pφ : SpecialLinearGroup (fr'.E i') (Fin (fr'.m i') → fr'.E i') →*
       SpecialLinearGroup F V :=

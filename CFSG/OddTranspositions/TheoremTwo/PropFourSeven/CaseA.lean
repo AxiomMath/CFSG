@@ -46,6 +46,7 @@ theorem image_conj_conj (k y : G) (S : Set G) :
   funext t
   group
 
+omit [Finite G] in
 theorem fixesPerpBlocks_conj (hN : IsNormalSet D) {y : G} {β : Set G}
     (h : FixesPerpBlocks D y β) (k : G) :
     FixesPerpBlocks D (k * y * k⁻¹) ((fun t => k * t * k⁻¹) '' β) := by
@@ -71,6 +72,7 @@ theorem exists_radical_conj_of_label_eq (hC : HypothesisC D) (hQ : Config D u w 
     (d := ⟨⟨p, hpH⟩, hp⟩) (d' := ⟨⟨q, hqH⟩, hq⟩)).mp hmk
   exact ⟨m, hm, by simpa using (congrArg Subtype.val hmq).symm⟩
 
+omit [Finite G] in
 theorem mem_of_radical_conj (hC : HypothesisC D)
     {ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5)}
     (hA : ∀ θ ∈ Dalpha D hC.alpha, ∀ x ∈ θ, ∀ y ∈ DalphaStar D hC.alpha,
@@ -102,6 +104,7 @@ theorem mem_block_iff_radical_conj (hC : HypothesisC D) (hQ : Config D u w v z a
   · rintro ⟨m, hm, rfl⟩
     exact mem_of_radical_conj hC hA hθ hp hm
 
+omit [Finite G] in
 theorem image_conj_radical (hC : HypothesisC D)
     {ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5)}
     (hA : ∀ θ ∈ Dalpha D hC.alpha, ∀ x ∈ θ, ∀ y ∈ DalphaStar D hC.alpha,

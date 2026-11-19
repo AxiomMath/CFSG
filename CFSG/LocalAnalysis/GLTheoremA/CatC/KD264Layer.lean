@@ -42,7 +42,7 @@ theorem kd264RowData_of_layer {T : Type} [Group T] [Finite T]
       3 ∣ Nat.card ↥(inSubgroup CFSG.layer (Subgroup.centralizer ({x} : Set T)))) :
     KD264RowData 3 T := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT0 : Nat.card T ≠ 0 := Nat.card_pos.ne'
   have hno3 : ∀ S : Subgroup T, IsElemAbelian 3 S → Nat.card S < 3 ^ 3 := by
     intro S hS
@@ -57,10 +57,10 @@ theorem kd264RowData_of_layer {T : Type} [Group T] [Finite T]
   set P₀ : Sylow 3 T := default
   have hP₀card : Nat.card (P₀ : Subgroup T) = 3 ^ 3 := by
     rw [Sylow.card_eq_multiplicity, hfac]
-  haveI : Nontrivial ↥(P₀ : Subgroup T) := by
+  have : Nontrivial ↥(P₀ : Subgroup T) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hP₀card]; norm_num
-  haveI : Nontrivial ↥(Subgroup.center ↥(P₀ : Subgroup T)) := P₀.isPGroup'.center_nontrivial
-  obtain ⟨m, hm⟩ := (P₀.isPGroup'.to_subgroup (Subgroup.center _)).exists_card_eq
+  have : Nontrivial ↥(Subgroup.center ↥(P₀ : Subgroup T)) := P₀.isPGroup.center_nontrivial
+  obtain ⟨m, hm⟩ := (P₀.isPGroup.to_subgroup (Subgroup.center _)).exists_card_eq
   have hm0 : m ≠ 0 := by
     rintro rfl
     have := Finite.one_lt_card (α := ↥(Subgroup.center ↥(P₀ : Subgroup T)))
@@ -98,7 +98,7 @@ theorem kd264RowData_of_tripleCover {T : Type} [Group T] [Finite T] {k : ℕ} (h
     KD264RowData 3 T := by
   refine kd264RowData_of_layer hfac hno fun x hx1 hx => ?_
   obtain ⟨-, hc3, ⟨e⟩⟩ := hlay x hx1 hx
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin k)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin k)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hk)
   refine ⟨e.isSimpleGroup, ?_⟩
   rw [← hc3]

@@ -65,7 +65,7 @@ theorem BenderFacts.exists_conj_of_isSylowOf (hB : BenderFacts) {M P₁ P₂ : S
   have hqN : q ∉ normalizer ((S₁ : Subgroup M) : Set M) := by
     intro h
     have hmem : q ∈ (S₂ : Subgroup M) ⊓ normalizer ((S₁ : Subgroup M) : Set M) := ⟨hq, h⟩
-    have h4 := IsPGroup.inf_normalizer_sylow S₂.isPGroup' S₁
+    have h4 := IsPGroup.inf_normalizer_sylow S₂.isPGroup S₁
     have h5 : q ∈ (S₂ : Subgroup M) ⊓ (S₁ : Subgroup M) := h4.le hmem
     rw [hinf, mem_bot] at h5
     exact hq1 h5

@@ -27,11 +27,11 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16c6_comm (D : Data G) {K P X : Subgroup G} (hK : K ∈ calC D.M)
-    (hKN : D.M ≤ normalizer (K : Set G)) {n : ℕ} (hn : 1 < n) (hU : IsU4 (Bar2 K) n)
+    (hKN : D.M ≤ normalizer (K : Set G)) {n : ℕ} (_hn : 1 < n) (hU : IsU4 (Bar2 K) n)
     (hT : ∀ {P' X' R' : Subgroup (Bar2 K)}, IsParabolicTwo (Bar2 K) P' → X' = F07.DerInf P' →
       IsL2 (Bar2 X') (2 * n) → X' ≤ R' → R' = ⊤ ∨ R' ≤ P')
     (hP : ParabolicOf K P) (hX : X = F07.DerInf P) (hL2 : IsL2 (Bar2 X) (2 * n))
-    (hXp : pCoreOf 2 X ≠ ⊥) : ∀ A ∈ F09.Inv9' D.M X 3, ⁅A, X⁆ ≤ pCoreOf 2 A := by
+    (_hXp : pCoreOf 2 X ≠ ⊥) : ∀ A ∈ F09.Inv9' D.M X 3, ⁅A, X⁆ ≤ pCoreOf 2 A := by
   intro A hA
   obtain ⟨hAM, hA3, hXA⟩ := hA
   have hPK : P ≤ K := hP.2.1
@@ -137,8 +137,8 @@ theorem s16c6_comm (D : Data G) {K P X : Subgroup G} (hK : K ∈ calC D.M)
     · have hBn : Bb.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (by
         rw [← htop]
         exact sup_le Subgroup.le_normalizer hXbN))
-      haveI : Bb.Normal := hBn
-      haveI : IsSimpleGroup (Bar2 K) :=
+      have : Bb.Normal := hBn
+      have : IsSimpleGroup (Bar2 K) :=
         CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU
       rcases Subgroup.Normal.eq_bot_or_eq_top Bb with hbot | htp
       · rw [hbot]; simp
@@ -156,7 +156,7 @@ theorem s16c6_comm (D : Data G) {K P X : Subgroup G} (hK : K ∈ calC D.M)
             ((perfectResidual ↥Pb).map Pb.subtype) = perfectResidual ↥Pb
           exact Subgroup.comap_map_eq_self_of_injective Pb.subtype_injective _
         rw [hXb_eq, h1]
-        haveI : (perfectResidual ↥Pb).Characteristic :=
+        have : (perfectResidual ↥Pb).Characteristic :=
           CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := ↥Pb)
         exact inferInstance
       have hBbNormXb : Bb ≤ Subgroup.normalizer (Xb : Set (Bar2 K)) :=
@@ -196,7 +196,7 @@ theorem s16c6_comm (D : Data G) {K P X : Subgroup G} (hK : K ∈ calC D.M)
             have h3 : 3 ∣ Nat.card (B.subgroupOf K) :=
               h2.trans (Subgroup.card_map_dvd (B.subgroupOf K) π)
             rwa [hcardB] at h3)
-        haveI : IsSimpleGroup (Bar2 Xb) :=
+        have : IsSimpleGroup (Bar2 Xb) :=
           CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2b
         rcases Subgroup.Normal.eq_bot_or_eq_top
           (((Bb ⊓ Xb).subgroupOf Xb).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Xb))) with

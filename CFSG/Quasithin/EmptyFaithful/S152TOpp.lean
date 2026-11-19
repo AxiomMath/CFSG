@@ -19,7 +19,7 @@ theorem mem_of_isPGroup_of_mem_normalizer {V : Subgroup Y} (hV : IsSylowTwoOf V 
   have hxN' : Subgroup.zpowers x ≤ Subgroup.normalizer ((Q : Subgroup Y) : Set Y) :=
     (Subgroup.zpowers_le).2 hxN
   have hT : IsPGroup 2 (Subgroup.zpowers x ⊔ (Q : Subgroup Y) : Subgroup Y) :=
-    hx.to_sup_of_normal_right' Q.isPGroup' hxN'
+    hx.to_sup_of_normal_right' Q.isPGroup hxN'
   have hmax := Q.maximal_isPGroup.eq_of_le hT le_sup_right
   exact hmax.symm.le (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
 
@@ -95,7 +95,7 @@ theorem exists_mul_of_mem_normalizer {UC VC : Subgroup Y} (hV : IsSylowTwoOf VC 
     exact ⟨y, hy, by simp [mul_assoc]⟩
 
 omit [Finite Y] in
-theorem mem_normalizer_subgroupOf {G : Type} [Group G] {C P : Subgroup G} (hPC : P ≤ C) {g : C}
+theorem mem_normalizer_subgroupOf {G : Type} [Group G] {C P : Subgroup G} (_hPC : P ≤ C) {g : C}
     (hg : (g : G) ∈ Subgroup.normalizer (P : Set G)) :
     g ∈ Subgroup.normalizer ((P.subgroupOf C : Subgroup C) : Set C) := by
   rw [Subgroup.mem_normalizer_iff]

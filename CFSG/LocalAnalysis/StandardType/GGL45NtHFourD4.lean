@@ -11,8 +11,8 @@ open CFSG CFSG.Assembly
 
 private theorem ggL45NtHFourD4_exists_mul_ne {R : Type*} [Group R] [IsSimpleGroup R]
     (hperf : commutator R = ⊤) : ∃ a b : R, a * b ≠ b * a := by
-  haveI : Group.IsPerfect R := Group.isPerfect_def.mpr hperf
-  haveI : Nontrivial R := IsSimpleGroup.toNontrivial
+  have : Group.IsPerfect R := Group.isPerfect_def.mpr hperf
+  have : Nontrivial R := IsSimpleGroup.toNontrivial
   have hnc : ¬ IsMulCommutative R := Group.IsPerfect.not_isMulCommutative R
   rw [isMulCommutative_iff] at hnc
   push Not at hnc
@@ -20,8 +20,8 @@ private theorem ggL45NtHFourD4_exists_mul_ne {R : Type*} [Group R] [IsSimpleGrou
 
 private theorem ggL45NtHFourD4_commutator_eq_top_of_centerQuot {K R : Type*} [Group K] [Group R]
     (hK : commutator K = ⊤) (θ : K ⧸ Subgroup.center K ≃* R) : commutator R = ⊤ := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hK
-  haveI hQ : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hK
+  have hQ : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective (Subgroup.center K))
   exact (Group.IsPerfect.ofSurjective (f := θ.toMonoidHom) θ.surjective).commutator_eq_top

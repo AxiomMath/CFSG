@@ -62,7 +62,7 @@ private theorem a11cd_seven_dvd_card {G : Type} [Group G] {J : Subgroup G}
       Nat.card J := by
     rw [← hJ]
     exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   rw [← hcard, Matrix.card_SL_field (𝔽 := GaloisField 2 3) 3]
   have hq : Fintype.card (GaloisField 2 3) = 8 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)]
@@ -109,7 +109,6 @@ private theorem a11cd_hV {G : Type} [Group G] {Bs K : Subgroup G} {x y : G} (hxB
   have hkK : (kb : G) ∈ K := (hK0 kb).mp hιk0
   have hkbG : (kb : G) = x * (y ^ m)⁻¹ := by
     rw [hkb]
-    change ((Additive.toMul (Additive.ofMul xb - m • Additive.ofMul yb) : ↥Bs) : G) = _
     rw [toMul_sub, toMul_nsmul]
     simp [div_eq_mul_inv, hxb, hyb]
   have hcomm : w * (kb : G) = (kb : G) * w := by
@@ -158,7 +157,7 @@ theorem a11CoordInput_of_glue
   intro hMp hLB G _ _ B Bs x L D J hR hA
   obtain ⟨hcfg, hOp, hInn, hNT, hd, hnotLevi⟩ := hR
   obtain ⟨-, hmodL, y, K, hnb, hKm, hnotRefl⟩ := hA
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hxBs : x ∈ Bs := hcfg.tableB_facts.2.2.1
   have hyBs : y ∈ Bs := hcfg.2.1.1 hnb.1.2.1
   have hx1 : x ≠ 1 := by

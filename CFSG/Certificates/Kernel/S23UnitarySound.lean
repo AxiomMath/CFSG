@@ -119,7 +119,7 @@ private theorem fget_xor (a b i w : ℕ) : fget (a ^^^ b) i w = fget a i w ^^^ f
   apply Nat.eq_of_testBit_eq
   intro k
   simp only [fget_eq, Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_shiftRight]
-  cases decide (k < w) <;> simp [Nat.testBit_xor]
+  cases decide (k < w) <;> simp
 
 private def Fld (w X : ℕ) (g : ℕ → ℕ) : Prop :=
   ∀ i k, k < w → X.testBit (w * i + k) = (g i).testBit k
@@ -628,7 +628,7 @@ private theorem digit_gen (cn i : ℕ) (Y : Matrix (Fin 6) (Fin 6) F4) (A B : F4
       F ((cn / 4 ^ i) % 4) • Y := by
   have h0 : cn.testBit (2 * i) = ((cn / 4 ^ i) % 4).testBit 0 := by
     rw [testBit_mod4, testBit_div4pow]
-    simp [Nat.add_comm]
+    simp
   have h1 : cn.testBit (2 * i + 1) = ((cn / 4 ^ i) % 4).testBit 1 := by
     rw [testBit_mod4, testBit_div4pow]
     simp [Nat.add_comm]
@@ -702,7 +702,7 @@ private theorem cF4_inj {c d : ℕ} (hc : c < 4) (hd : d < 4) (h : cF4 c = cF4 d
   have h2 : c % 4 = d % 4 := congrArg (fun x : F4 => x.code.val) h
   rwa [Nat.mod_eq_of_lt hc, Nat.mod_eq_of_lt hd] at h2
 
-private theorem testBit_via_fget (X k : ℕ) (hk : k < 72) :
+private theorem testBit_via_fget (X k : ℕ) (_hk : k < 72) :
     X.testBit k = (fget X (k / 2) 2).testBit (k % 2) := by
   rw [testBit_fget2, decide_eq_true (by omega), Bool.true_and]
   congr 1
@@ -759,7 +759,7 @@ private theorem isScalar_of_defect {A : ℕ} (h : defect A = 0) : IsScalarM (dec
     apply Nat.eq_of_testBit_eq
     intro k
     have := congrArg (fun x => x.testBit k) h
-    simp only [Nat.testBit_xor, Nat.zero_testBit] at this
+    simp only [Nat.zero_testBit] at this
     simpa using this
   rw [(congrArg decM e).trans (decM_mulONE ha)]
   intro p

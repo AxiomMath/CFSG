@@ -48,8 +48,8 @@ theorem conjOrbit_inv (kgens gens0 : List Nat) (P : Nat → Prop)
   obtain ⟨g, hg', rfl⟩ := List.mem_map.1 hf
   exact hconj g hg' x hx
 
-theorem greedy_inv (A : List Nat) (P : Nat → Prop) (hone : P (oneN T))
-    (hmul : ∀ x y, P x → P y → P (mulN T x y)) (hA : ∀ a ∈ A, P a) :
+theorem greedy_inv (A : List Nat) (P : Nat → Prop) (_hone : P (oneN T))
+    (_hmul : ∀ x y, P x → P y → P (mulN T x y)) (hA : ∀ a ∈ A, P a) :
     ∀ (st : List Nat × HashSet Nat), (∀ a ∈ st.1, P a) → st.2 = mulCl T st.1 →
       let st' := A.foldl (fun (st : List Nat × HashSet Nat) a =>
         if st.2.contains a then st else (st.1 ++ [a], mulCl T (st.1 ++ [a]))) st
@@ -61,11 +61,11 @@ theorem greedy_inv (A : List Nat) (P : Nat → Prop) (hone : P (oneN T))
     simp only [List.foldl_cons]
     have hA' : ∀ b ∈ A, P b := fun b hb => hA b (List.mem_cons_of_mem _ hb)
     by_cases hc : st.2.contains a = true
-    · simp only [hc, if_true]
+    · simp only [hc, ite_true]
       exact ih hA' st h1 h2
     · simp only [hc]
       have hc' : (st.2.contains a) = false := by simpa using hc
-      simp only [hc', Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       refine ih hA' (st.1 ++ [a], mulCl T (st.1 ++ [a])) ?_ rfl
       intro b hb
       rcases List.mem_append.1 hb with hb | hb
@@ -154,7 +154,7 @@ theorem classification {kgens : List Nat} {PCs nodes : List Node}
     ∃ N ∈ nodes, ∀ x, P x ↔ x ∈ N.elems := by
   classical
   unfold latticeOK at hlat
-  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, decide_eq_true_eq] at hlat
+  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true] at hlat
   obtain ⟨⟨⟨hbot, hvalid⟩, hPCvalid⟩, hjoin⟩ := hlat
   have hpool : ∀ x, P x → x ∈ poolElems T kgens := by
     intro x hx
@@ -197,7 +197,7 @@ theorem classification {kgens : List Nat} {PCs nodes : List Node}
         | none => simp
         | some Nx => intro _; exact ⟨Nx, rfl⟩
       rw [hNx] at hx
-      simp only [Bool.or_eq_true, Bool.not_eq_true', List.any_eq_true, decide_eq_true_eq] at hx
+      simp only [Bool.or_eq_true, Bool.not_eq_true', List.any_eq_true] at hx
       have hNxP := normClosure_spec T kgens [x] Nx hNx P hone hmul hconj
         (fun y hy => by rw [List.mem_singleton.1 hy]; exact hPx)
       have hall : Nx.elems.all (isTwoN T) = true := List.all_eq_true.2 fun y hy => h2 y (hNxP.1 y hy)
@@ -224,7 +224,7 @@ theorem classification {kgens : List Nat} {PCs nodes : List Node}
         | some J =>
           rw [hJ] at hjn
           have hJn := hjn
-          simp only [Bool.or_eq_true, Bool.not_eq_true', List.any_eq_true, decide_eq_true_eq] at hJn
+          simp only [Bool.or_eq_true, Bool.not_eq_true', List.any_eq_true] at hJn
           have hJgens : ∀ y ∈ N.gens ++ Pj.gens, P y := by
             intro y hy
             rcases List.mem_append.1 hy with hy | hy

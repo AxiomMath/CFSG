@@ -15,12 +15,13 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X}
   {Tt : X → Submodule K E} {q : ℕ}
 
+omit [Finite X] in
 theorem natCard_conjSubgroup (g : X) (T : Subgroup X) :
     Nat.card (conjSubgroup g T) = Nat.card T :=
   Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective
 
 theorem MoveFrame.normalizer_move (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) (hs : s ∈ V)
-    (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) (htV : g * s * g⁻¹ ∉ V)
+    (_hs1 : s ≠ 1) (_ht : g * s * g⁻¹ ∈ L) (htV : g * s * g⁻¹ ∉ V)
     (hcomm : ∀ l ∈ L, ∀ v ∈ conjSubgroup g V, l * v = v * l)
     (hLNb : ∀ l ∈ L, l ∈ conjSubgroup g Nb) :
     ∃ n ∈ normalizer (L : Set X), n ∉ normalizer (V : Set X) := by
@@ -102,7 +103,7 @@ theorem MoveFrame.normalizer_move (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) 
   have hnorm := normalizer_of_abelian_bound V L (conjSubgroup g Nb) (conjSubgroup g V) q
     hVVg hV1 F.L_comm F.L_card F.V_le_L hLN hVgN hcomm hVgab hbound hZ hcomm' hp
   obtain ⟨hpart2, hpart3⟩ := hnorm
-  push_neg at hpart3
+  push Not at hpart3
   obtain ⟨n, hnNb, hnV⟩ := hpart3
   exact ⟨n, hpart2 n hnNb, hnV⟩
 

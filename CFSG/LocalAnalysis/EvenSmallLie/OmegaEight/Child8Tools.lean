@@ -67,7 +67,7 @@ theorem exists_sylow_eq_of_normalizer_le {P H : Subgroup G} (hP : IsPGroup p P)
   by_contra hne
   obtain ⟨U, hPU, hU, hUS⟩ :=
     CFSG.DisconnectedInvolutionGraph.Helpers.pgroup_strict_normalizer_extension p P S
-      S.isPGroup' (lt_of_le_of_ne hPS (Ne.symm hne))
+      S.isPGroup (lt_of_le_of_ne hPS (Ne.symm hne))
   exact hPU.ne (hmax U hU hPU.le ((hUS.trans inf_le_right).trans hN)).symm
 
 theorem eq_of_card_of_le {P H Q : Subgroup G} {a m : ℕ} (hP : Nat.card P = p ^ a)

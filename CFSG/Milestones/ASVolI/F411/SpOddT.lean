@@ -109,7 +109,7 @@ theorem burnsideF411_unip_mulVec_inl_one {u : StatedSp 2 K} (hu : u ∈ unipoten
   change (((u : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v)
     (Sum.inl 1) = v (Sum.inl 1)
   rw [hm, blockMat, fromBlocks_mulVec, hr]
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, h10, hA.2 1]
+  simp [h10, hA.2 1]
 
 theorem burnsideF411_mat_dt (t : Kˣ) :
     mat (burnsideF411_dt t) =
@@ -160,8 +160,8 @@ theorem burnsideF411_sp4_inner_of_torus [Finite K] {p f : ℕ} (hp : p.Prime) (h
       projUnipotent 2 K) :
     ∃ g, β = MulAut.conj g := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   have h2K : (2 : K) ≠ 0 := by
     intro h0
     have h1' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h0

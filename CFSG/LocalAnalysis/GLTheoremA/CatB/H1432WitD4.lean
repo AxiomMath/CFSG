@@ -37,12 +37,12 @@ theorem gBlk_mul (x y c d x' y' c' d' : K) :
   unfold gBlk
   rw [Matrix.fromBlocks_multiply]
   congr 1 <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+    simp <;> ring
 
 theorem gBlk_zero : gBlk (0 : K) 0 0 0 = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [gBlk, Matrix.one_apply]
+    simp [gBlk]
 
 theorem gBlk_mul_neg (x y c d : K) : gBlk x y c d * gBlk (-x) (-y) (-c) (-d) = 1 := by
   rw [gBlk_mul]; simp only [add_neg_cancel]; exact gBlk_zero
@@ -53,17 +53,17 @@ theorem gBlk_neg_mul (x y c d : K) : gBlk (-x) (-y) (-c) (-d) * gBlk x y c d = 1
 theorem tBlk_mul_self : tBlk * tBlk = (1 : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [tBlk, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
+    simp [tBlk, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem aBlk_mul_self : aBlk * aBlk = (1 : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [aBlk, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
+    simp [aBlk, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem bBlk_mul_self : bBlk * bBlk = (1 : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [bBlk, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
+    simp [bBlk, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem aBlk_bBlk_comm : aBlk (K := K) * bBlk (K := K) * aBlk (K := K) * bBlk (K := K) =
     tBlk (K := K) := by
@@ -74,7 +74,7 @@ theorem aBlk_bBlk_comm : aBlk (K := K) * bBlk (K := K) * aBlk (K := K) * bBlk (K
 theorem gBlk_mul_tBlk (x y c d : K) : gBlk x y c d * tBlk = tBlk * gBlk x y c d := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [gBlk, tBlk, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+    simp [gBlk, tBlk, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem gBlk_isom (x y c d : K) (v : Fin 4 ⊕ Fin 4 → K) :
     ∑ i, (gBlk x y c d *ᵥ v) (Sum.inl i) * (gBlk x y c d *ᵥ v) (Sum.inr i) =
@@ -162,7 +162,7 @@ theorem tsT_le : tsT (K := K) ≤
   rw [Submodule.span_le]
   rintro _ ⟨i, rfl⟩
   ext j
-  simp [Pi.single_apply]
+  simp
 
 theorem tsT_singular (x : Fin 4 ⊕ Fin 4 → K) (hx : x ∈ tsT (K := K)) : quadPlus 4 K x = 0 := by
   have hy := LinearMap.mem_ker.1 (tsT_le hx)
@@ -214,12 +214,11 @@ theorem tU_not_scalar [CharP K 3] : tU (K := K) ∉ StatedScalars (Fin 4 ⊕ Fin
     (g : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) (Sum.inl 0) (Sum.inl 0)) hc
   have h2 := congrArg (fun g : Matrix.GeneralLinearGroup (Fin 4 ⊕ Fin 4) K =>
     (g : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) (Sum.inl 2) (Sum.inl 2)) hc
-  simp only [scalar_entry, tU, tBlk, Matrix.fromBlocks_apply₁₁, if_true, Matrix.of_apply,
-    Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_fin_const, Units.val_mk,
-    Sum.inl.injEq, Fin.isValue, Matrix.cons_val_two, Matrix.cons_val_three, Matrix.tail_cons,
-    Matrix.head_fin_const, Matrix.vecCons_const, Matrix.cons_val_succ, Fin.reduceEq,
-    Sum.inl_ne_inr, if_false, reduceCtorEq] at h1 h2
+  simp only [scalar_entry, tU, tBlk, Matrix.fromBlocks_apply₁₁, ite_true, Matrix.of_apply,
+    Matrix.cons_val', Matrix.cons_val_zero, Matrix.head_cons,
+    Matrix.empty_val', Matrix.cons_val_fin_one, Units.val_mk,
+    Fin.isValue, Matrix.cons_val_two, Matrix.tail_cons,
+    Matrix.vecCons_const] at h1 h2
   apply two_ne_zero_of_charThree (K := K)
   linear_combination h1 - h2
 
@@ -238,7 +237,7 @@ theorem gU_mem_scalars {x y c d : K}
     intro i j hij
     have := congrFun (congrFun (congrArg (fun g : Matrix.GeneralLinearGroup (Fin 4 ⊕ Fin 4) K =>
       (g : Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K)) hc) i) j
-    rw [scalar_entry, if_neg hij] at this
+    rw [scalar_entry, ite_eq_right hij] at this
     exact this.symm
   refine ⟨?_, ?_, ?_, ?_⟩
   · exact neg_eq_zero.1 (gBlk_entry_01 x y c d ▸ hent (Sum.inl 0) (Sum.inr 1) (by simp))
@@ -267,9 +266,9 @@ theorem pow_three_eq_one_mult [CharP K 3] (p : Multiplicative (K × K × K × K)
 
 theorem hasTwoLocalWitness_statedProj [Finite K] (f : ℕ) (hK : Nat.card K = 3 ^ f) :
     HasTwoLocalWitness (StatedProj (StatedOmega (StatedQuadPlus 4 K))) (4 * f) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   let π : StatedOmega (StatedQuadPlus 4 K) →* StatedProj (StatedOmega (StatedQuadPlus 4 K)) :=
     QuotientGroup.mk' _
   let ψ : Multiplicative (K × K × K × K) →* StatedProj (StatedOmega (StatedQuadPlus 4 K)) :=

@@ -62,7 +62,7 @@ theorem hno_of_localRank {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime
     ∀ A T : Subgroup M, CFSG.Open.IsElemAbelian p A → Nat.card A = p ^ 3 → T ≠ ⊥ →
       IsPGroup 2 T → ¬ A ≤ Subgroup.normalizer (T : Set M) := by
   intro A T hA hA3 hT hT2 hAT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAel : CFSG.IsElementaryAbelian p A := r5b_isElementaryAbelian_of_isElemAbelian hA
   have hAm : CFSG.IsElementaryAbelian p (A.map M.subtype) := CFSG.IsElementaryAbelian.map_subtype
   refine false_of_elemAbelian_cube hp hlr (A := A.map M.subtype) (T := T.map M.subtype)

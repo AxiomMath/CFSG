@@ -12,7 +12,7 @@ open _root_.Timmesfeld.PcFive _root_.Timmesfeld.PcReg _root_.Timmesfeld.PcFus CF
 section Generic
 
 theorem sylowFive_data {G : Type} [Group G] [Finite G] {m : ℕ}
-    (hcard : Nat.card G = 5 ^ 9 * m) (hm : ¬ 5 ∣ m) (g : Fin 9 → G)
+    (_hcard : Nat.card G = 5 ^ 9 * m) (_hm : ¬ 5 ∣ m) (g : Fin 9 → G)
     (hpow : ∀ i : Fin 9, g i ^ 5 = prodAsc g pw[i.val]!)
     (hcomm : ∀ i j : Fin 9, i < j → g i * g j * (g i)⁻¹ = prodAsc g cw[i.val * 9 + j.val]!)
     (hz : g 8 ≠ 1) :

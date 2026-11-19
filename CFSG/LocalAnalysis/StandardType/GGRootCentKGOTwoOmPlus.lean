@@ -94,14 +94,14 @@ theorem isSolvable_range_inf_centralizer_four_two {G : Type} [Group G]
       {ψ ((plusFrame 4 K Triality.three_le_four).longRoot (i := ⟨1, by omega⟩)
         (j := ⟨2, by omega⟩) (by simp) true true (.ofAdd 1))}) := by
   rw [RCSTSp.range_inf_centralizer_of_injective hψ]
-  haveI := isSolvable_centralizer_frame_four_two (nondegenerate_polarBilin_quadPlus 4 K)
+  have := isSolvable_centralizer_frame_four_two (nondegenerate_polarBilin_quadPlus 4 K)
     (plusFrame 4 K Triality.three_le_four)
     (fun x hx => RootCentOmega.eq_zero_of_polar_plusVec hx) (i := ⟨1, by omega⟩)
     (j := ⟨2, by omega⟩) (k := ⟨3, by omega⟩) (l := ⟨0, by omega⟩) (by simp) (by simp)
     (by simp) (by simp) (by simp) (by simp) true true one_ne_zero hK
     RootCentOmega.spinAction_quadPlus_injective (range_spinAction_quadPlus Triality.three_le_four)
     (RootCentOmega.spinAction_longRoot_eq_eichler _ (by simp) true true 1)
-  exact solvable_of_surjective (MonoidHom.subgroupMap_surjective ψ _)
+  exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective ψ _)
 
 end KGOm
 

@@ -47,14 +47,14 @@ private theorem sw_data
     refine fun u hu => Subgroup.mem_inf.mpr ⟨hUwleE hu, ?_⟩
     exact MulAction.mem_stabilizer_iff.mpr
       ((mem_fixingSubgroup_iff H).mp ((mem_rootGroup H).mp hu).2.2 Mw hzwMw.symm)
-  haveI hEfin : Fintype ↥(elationGroup H Γ v) :=
+  have hEfin : Fintype ↥(elationGroup H Γ v) :=
     Fintype.ofInjective (fun e : ↥(elationGroup H Γ v) => fun x : V => (e : H) • x)
       (by
         intro e f hef
         apply Subtype.ext
         exact eq_of_smul_eq_smul (m₁ := (e : H)) (m₂ := (f : H))
           (fun x => congrFun hef x))
-  haveI : Fintype ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H Mw) :=
+  have : Fintype ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H Mw) :=
     Fintype.ofInjective
       (fun θ : ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H Mw) =>
         (⟨(θ : H), (Subgroup.mem_inf.mp θ.2).1⟩ : ↥(elationGroup H Γ v)))
@@ -65,7 +65,7 @@ private theorem sw_data
   have hSwle : Nat.card ↥(elationGroup H Γ v ⊓ MulAction.stabilizer H Mw) ≤ s :=
     (noSpansTwo_stabilizer_line_data (p := p) (hy4 := hy4) (hP := hP) (hT := hT) (c := c)
       (hdeg := hdeg) (hv := hv) (hv0 := hv0) (hfree := hfree) (hyN := hyMw)
-      (hcN := hcMw) (hdistpN := hdistpMw) (hzN := hzwMw) (hzNp := hzwp)).2
+      (hcN := hcMw) (_hdistpN := hdistpMw) (hzN := hzwMw) (hzNp := hzwp)).2
   have hSw_eq_Uw : (elationGroup H Γ v ⊓ MulAction.stabilizer H Mw) =
       rootGroup H Γ p Lw zw :=
     (Subgroup.eq_of_le_of_card_ge hUwleSw (by rw [hUwcard]; exact hSwle)).symm
@@ -73,7 +73,7 @@ private theorem sw_data
     rw [hSw_eq_Uw, hUwcard]
   have hmaps := (noSpansTwo_stabilizer_line_data (p := p) (hy4 := hy4) (hP := hP) (hT := hT)
     (c := c) (hdeg := hdeg) (hv := hv) (hv0 := hv0) (hfree := hfree) (hyN := hyMw)
-    (hcN := hcMw) (hdistpN := hdistpMw) (hzN := hzwMw) (hzNp := hzwp)).1
+    (hcN := hcMw) (_hdistpN := hdistpMw) (hzN := hzwMw) (hzNp := hzwp)).1
   refine ⟨hSw_eq_Uw, hSwcard, ?_⟩
   refine Set.eq_of_subset_of_ncard_le ?_ ?_ (Set.toFinite _)
   · rintro x ⟨θ, -, rfl⟩
@@ -85,20 +85,21 @@ private theorem sw_data
       hSwcard]
 
 
+omit [FaithfulSMul H V] in
 private theorem b_exists
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hM : MoufangCondition H Γ 4) (hT : IsThick Γ) {p : V} (hp : c p = 0)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    (_hM : MoufangCondition H Γ 4) (hT : IsThick Γ) {p : V} (_hp : c p = 0)
     (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) (hv0 : v 0 = p)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
-    (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
+    (_hyz : Γ.dist y z = 2) (_hyM : Γ.Adj y M) (_hzM : Γ.Adj z M)
     {hfree : ∀ (e : ↥(elationGroup H Γ v)) {x : V}, Γ.dist p x = 4 →
       (e : H) • x = x → e = 1}
-    {g : H} (hgE : g ∈ elationGroup H Γ v) (hgz : g • z ≠ z)
+    {g : H} (hgE : g ∈ elationGroup H Γ v) (_hgz : g • z ≠ z)
     {K w Mw : V} (hK : K = g • M) (hwK : Γ.Adj K w) (hw4 : Γ.dist p w = 4)
     (hwMw : Γ.Adj w Mw) (hwne : w ≠ g • z)
-    {zw : V} (hzwMw : Γ.Adj Mw zw) (hzwp : Γ.dist p zw = 2)
+    {zw : V} (_hzwMw : Γ.Adj Mw zw) (hzwp : Γ.dist p zw = 2)
     (S Sw : Subgroup H) (hS : S = elationGroup H Γ v ⊓ MulAction.stabilizer H M)
     (hSw : Sw = elationGroup H Γ v ⊓ MulAction.stabilizer H Mw)
     (hS_eq_U : S = rootGroup H Γ p L z)
@@ -192,9 +193,10 @@ private theorem b_exists
   exact ⟨a, b, hbga, hbM, hbz, hby⟩
 
 
+omit [DecidableRel Γ.Adj] in
 private theorem b_normalizes
-    (hP : IsGeneralizedPolygon Γ 4) {p y M : V} {v : ZMod 8 → V}
-    {g : H} (hgE : g ∈ elationGroup H Γ v)
+    (hP : IsGeneralizedPolygon Γ 4) {_p y M : V} {v : ZMod 8 → V}
+    {g : H} (_hgE : g ∈ elationGroup H Γ v)
     (hnorm : ∀ s : H, s ∈ elationGroup H Γ v → s • M = M →
       g * s * g⁻¹ ∈ elationGroup H Γ v ∧ (g * s * g⁻¹) • M = M)
     (S Sw : Subgroup H) (hS : S = elationGroup H Γ v ⊓ MulAction.stabilizer H M)
@@ -205,14 +207,14 @@ private theorem b_normalizes
       (∀ σ : H, σ ∈ S → Γ.dist K (σ • Mw) ≤ 2) := by
   classical
   have haS : (a : H) ∈ S := a.2
-  haveI hEfin : Fintype ↥(elationGroup H Γ v) :=
+  have hEfin : Fintype ↥(elationGroup H Γ v) :=
     Fintype.ofInjective (fun e : ↥(elationGroup H Γ v) => fun x : V => (e : H) • x)
       (by
         intro e f hef
         apply Subtype.ext
         exact eq_of_smul_eq_smul (m₁ := (e : H)) (m₂ := (f : H))
           (fun x => congrFun hef x))
-  haveI hSfin : Fintype ↥S :=
+  have hSfin : Fintype ↥S :=
     Fintype.ofInjective (fun θ : ↥S =>
         (⟨(θ : H), by
           have hθ : (θ : H) ∈ elationGroup H Γ v ⊓ MulAction.stabilizer H M := by
@@ -299,20 +301,21 @@ private theorem b_normalizes
   exact ⟨hbconj, hK_meets⟩
 
 
+omit [FaithfulSMul H V] in
 private theorem span_mem
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
-    {s t : ℕ} (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hM : MoufangCondition H Γ 4) {p : V} (hp : c p = 0)
+    {s t : ℕ} (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    (_hM : MoufangCondition H Γ 4) {p : V} (hp : c p = 0)
     (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) (hv0 : v 0 = p)
     {y : V} {hy4 : Γ.dist p y = 4}
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
-    (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
-    {g : H} {K w Mw zw Lw : V} (hK : K = g • M)
+    (_hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
+    {g : H} {K _w Mw zw Lw : V} (_hK : K = g • M)
     (hdistpK : Γ.dist p K = 3) (hz'K : Γ.Adj (g • z) K)
     (hz'L : Γ.Adj L (g • z)) (hdistpM : Γ.dist p M = 3)
     (hpLw : Γ.Adj p Lw) (hLw_ne_L : Lw ≠ L) (hzwLw : Γ.Adj zw Lw)
     (hzwMw : Γ.Adj Mw zw) (hzwp : Γ.dist p zw = 2) (hyMw : Γ.Adj y Mw)
-    (hdistpMw : Γ.dist p Mw = 3) (hdistLwM : Γ.dist Lw M = 4)
+    (_hdistpMw : Γ.dist p Mw = 3) (hdistLwM : Γ.dist Lw M = 4)
     (S : Subgroup H) (hS : S = elationGroup H Γ v ⊓ MulAction.stabilizer H M)
     (hS_orbit : (fun θ : ↥S => (θ : H) • y) '' Set.univ =
       Γ.neighborSet M \ {z})
@@ -467,7 +470,7 @@ public theorem normalizer_stabilizer_fixes
     {y : V} (hy4 : Γ.dist p y = 4)
     {L z M : V} (hpL : Γ.Adj p L) (hzL : Γ.Adj L z) (hzp : z ≠ p)
     (hyz : Γ.dist y z = 2) (hyM : Γ.Adj y M) (hzM : Γ.Adj z M)
-    (hEcard : Nat.card ↥(elationGroup H Γ v) = s * t * s)
+    (_hEcard : Nat.card ↥(elationGroup H Γ v) = s * t * s)
     (hfree : ∀ (e : ↥(elationGroup H Γ v)) {x : V}, Γ.dist p x = 4 →
       (e : H) • x = x → e = 1)
     {g : H} (hgE : g ∈ elationGroup H Γ v)
@@ -481,7 +484,7 @@ public theorem normalizer_stabilizer_fixes
   obtain ⟨hS_eq_U, hScard, hS_orbit⟩ :=
     noSpansTwo_base_data (hP := hP) (hT := hT) (c := c) (hdeg := hdeg) (hst := hst)
       (hM := hM) (hp := hp) (h1 := h1) (v := v) (hv := hv) (hv0 := hv0)
-      (hy4 := hy4) (hpL := hpL) (hzL := hzL) (hzp := hzp) (hyz := hyz)
+      (hy4 := hy4) (hpL := hpL) (hzL := hzL) (hzp := hzp) (_hyz := hyz)
       (hyM := hyM) (hzM := hzM) (hfree := hfree) S hSdef
   have hcy : c y = 0 := by
     have heven : Even (Γ.dist p y) := by rw [hy4]; norm_num
@@ -505,23 +508,23 @@ public theorem normalizer_stabilizer_fixes
   let K : V := g • M
   have hK : K = g • M := rfl
   obtain ⟨hdistpK, hcK, hz'K, hz'L, hz'p, hyK, hdistyK⟩ :=
-    noSpansTwo_K_data (hP := hP) (hT := hT) (c := c) (hdeg := hdeg) (hM := hM)
+    noSpansTwo_K_data (hP := hP) (hT := hT) (c := c) (_hdeg := hdeg) (_hM := hM)
       (hp := hp) (v := v) (hv := hv) (hv0 := hv0) (hy4 := hy4) (hpL := hpL)
       (hzL := hzL) (hzp := hzp) (hyz := hyz) (hyM := hyM) (hzM := hzM)
       (hgE := hgE) (hgz := hgz) K hK
   obtain ⟨w, Mw, hwK, hyw, hwne, hyMw, hwMw, hKM_disj, hMw_ne_M⟩ :=
     noSpansTwo_w_data (hP := hP) (c := c) (hp := hp) (hy4 := hy4) (hpL := hpL)
-      (hzL := hzL) (hzp := hzp) (hyz := hyz) (hyM := hyM) (hzM := hzM)
-      (hgz := hgz) (K := K) (hK := hK) (hdistpM := hdistpM) (hdistpK := hdistpK)
-      (hcK := hcK) (hz'K := hz'K) (hz'L := hz'L) (hz'p := hz'p) (hyK := hyK)
+      (hzL := hzL) (hzp := hzp) (hyz := hyz) (_hyM := hyM) (hzM := hzM)
+      (hgz := hgz) (K := K) (_hK := hK) (hdistpM := hdistpM) (hdistpK := hdistpK)
+      (hcK := hcK) (hz'K := hz'K) (hz'L := hz'L) (hz'p := hz'p) (_hyK := hyK)
       (hdistyK := hdistyK)
   have hw4 : Γ.dist p w = 4 :=
     dist_eq_four_of_mem_line_of_ne hP c hp hcK hdistpK hz'K.symm hwK hz'p hwne.symm
   obtain ⟨zw, Lw, hzwMw, hzwp, hpLw, hzwLw, hLw_ne_L, hdistLwM, hdistpMw, hLwMw⟩ :=
     noSpansTwo_Lw_data (hP := hP) (c := c) (hp := hp) (hy4 := hy4) (hpL := hpL)
       (hzL := hzL) (hzp := hzp) (hyz := hyz) (hyM := hyM) (hzM := hzM)
-      (hKM_disj := hKM_disj) (hdistpK := hdistpK) (hz'K := hz'K) (hz'L := hz'L)
-      (hdistpM := hdistpM) (hMw_ne_M := hMw_ne_M) (hyMw := hyMw) (hwMw := hwMw)
+      (_hKM_disj := hKM_disj) (_hdistpK := hdistpK) (_hz'K := hz'K) (_hz'L := hz'L)
+      (hdistpM := hdistpM) (hMw_ne_M := hMw_ne_M) (hyMw := hyMw) (_hwMw := hwMw)
   have hcMw : c Mw = 1 := color_eq_one_of_adj_of_color_eq_zero hcy hyMw
   obtain ⟨hSw_eq_Uw, hSwcard, hSw_orbit⟩ :=
     sw_data (hP := hP) (hT := hT) (c := c) (hdeg := hdeg) (hst := hst)
@@ -532,24 +535,24 @@ public theorem normalizer_stabilizer_fixes
   let Sw : Subgroup H := elationGroup H Γ v ⊓ MulAction.stabilizer H Mw
   have hSwdef : Sw = elationGroup H Γ v ⊓ MulAction.stabilizer H Mw := rfl
   obtain ⟨a, b, hbga, hbM, hbz, hby⟩ :=
-    b_exists (hP := hP) (c := c) (hdeg := hdeg) (hM := hM) (hT := hT) (hp := hp)
+    b_exists (hP := hP) (c := c) (_hdeg := hdeg) (_hM := hM) (hT := hT) (_hp := hp)
       (v := v) (hv := hv) (hv0 := hv0) (hy4 := hy4) (hpL := hpL) (hzL := hzL)
-      (hzp := hzp) (hyz := hyz) (hyM := hyM) (hzM := hzM) (hfree := hfree)
-      (hgE := hgE) (hgz := hgz) (hK := hK) (hwK := hwK) (hw4 := hw4)
-      (hwMw := hwMw) (hwne := hwne) (hzwMw := hzwMw) (hzwp := hzwp)
+      (hzp := hzp) (_hyz := hyz) (_hyM := hyM) (_hzM := hzM) (hfree := hfree)
+      (hgE := hgE) (_hgz := hgz) (hK := hK) (hwK := hwK) (hw4 := hw4)
+      (hwMw := hwMw) (hwne := hwne) (_hzwMw := hzwMw) (hzwp := hzwp)
       (S := S) (Sw := Sw) (hS := hSdef) (hSw := hSwdef)
       (hS_eq_U := hS_eq_U) (hS_orbit := hS_orbit) (hSw_orbit := hSw_orbit)
   obtain ⟨hbconj, hK_meets⟩ :=
-    b_normalizes (hP := hP) (p := p) (v := v) (hgE := hgE) (hnorm := hnorm)
+    b_normalizes (hP := hP) (_p := p) (v := v) (_hgE := hgE) (hnorm := hnorm)
       (S := S) (Sw := Sw) (hS := hSdef) (a := a) (b := b) (hbga := hbga)
       (hbM := hbM) (hby := hby) (hyM := hyM) (hwMw := hwMw)
   have hK_span : K ∈ spanSet Γ Lw M :=
-    span_mem (hP := hP) (hT := hT) (c := c) (hdeg := hdeg) (hM := hM) (hp := hp)
+    span_mem (hP := hP) (hT := hT) (c := c) (_hdeg := hdeg) (_hM := hM) (hp := hp)
       (v := v) (hv := hv) (hv0 := hv0) (hy4 := hy4) (hpL := hpL) (hzL := hzL)
-      (hzp := hzp) (hyz := hyz) (hyM := hyM) (hzM := hzM) (hK := hK) (w := w)
+      (hzp := hzp) (_hyz := hyz) (hyM := hyM) (hzM := hzM) (_hK := hK) (_w := w)
       (hdistpK := hdistpK) (hz'K := hz'K) (hz'L := hz'L) (hdistpM := hdistpM)
       (hpLw := hpLw) (hLw_ne_L := hLw_ne_L) (hzwLw := hzwLw) (hzwMw := hzwMw)
-      (hzwp := hzwp) (hyMw := hyMw) (hdistpMw := hdistpMw)
+      (hzwp := hzwp) (hyMw := hyMw) (_hdistpMw := hdistpMw)
       (hdistLwM := hdistLwM) (S := S) (hS := hSdef) (hS_orbit := hS_orbit)
       (hK_meets := hK_meets)
   have hKLw_ne : K ≠ Lw := by

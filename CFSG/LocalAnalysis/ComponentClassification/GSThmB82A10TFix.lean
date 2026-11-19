@@ -46,11 +46,13 @@ private theorem card_eq_six_of {n : ℕ} {Δ : Finset (Fin n)} (h5 : 5 ≤ Δ.ca
     have h2 : Nat.factorial 7 = 5040 := by decide
     omega
 
+omit [Finite X] in
 private theorem IsRep.mem_of_mem {N M : Subgroup X} {n : ℕ} {φ : ↥N →* Perm (Fin n)}
     {A : Subgroup (Perm (Fin n))} (h : IsRep φ M A) {m : X} (hm : m ∈ M) :
     φ ⟨m, h.1 hm⟩ ∈ A :=
   h.2.1.le ⟨⟨m, h.1 hm⟩, hm, rfl⟩
 
+omit [Finite X] in
 private theorem IsRep.conj_mem {N M : Subgroup X} {n : ℕ} {φ : ↥N →* Perm (Fin n)}
     {A : Subgroup (Perm (Fin n))} (h : IsRep φ M A) {g : X} (hgN : g ∈ N)
     (hgM : g ∈ normalizer (M : Set X)) : ∀ u ∈ A, φ ⟨g, hgN⟩ * u * (φ ⟨g, hgN⟩)⁻¹ ∈ A := by
@@ -159,7 +161,7 @@ theorem exists_Delta {ψ : ↥(normalizer (j.Js : Set X)) →* Perm (Fin j.m)}
   exact ⟨Δ, card_eq_six_of h5 (c.card_altOn_of_isRep hrep), hΔ, hrep⟩
 
 private theorem z_mem_normalizer : c.Z.z ∈ normalizer (j.Js : Set X) :=
-  centralizer_le_normalizer j.Js (mem_centralizer_iff.mpr fun h hh =>
+  centralizer_le_normalizer j.Js (mem_centralizer_iff.mpr fun _h hh =>
     mem_centralizer_singleton_iff.mp (j.le_centralizer hh))
 
 private theorem ψ_z_eq_one {ψ : ↥(normalizer (j.Js : Set X)) →* Perm (Fin j.m)}

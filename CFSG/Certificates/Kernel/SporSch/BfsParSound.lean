@@ -88,7 +88,7 @@ theorem inv_add {n : ℕ} {α β : ℕ → ℕ} {m x v : ℕ} {st : Array ℕ ×
     exact ⟨h1, h2, h3, h4⟩
   · have hs : st.2[x]! = false := by rw [h3 x hxn]; simp
     rw [hs, max_eq_right (by omega)]
-    simp only [Bool.not_false, if_true]
+    simp only [Bool.not_false, ite_true]
     refine ⟨by simp [h1], by simp [h2], fun j hj => ?_, fun j hj0 hj => ?_⟩
     · rcases Nat.lt_trichotomy j x with a | rfl | a
       · rw [get_set_ne _ _ (by omega), h3 j hj]
@@ -145,12 +145,12 @@ theorem inv_range {n : ℕ} {α β : ℕ → ℕ} {a0 a1 : Array ℕ}
     rw [ha0 q (by omega), ha1 q (by omega)]
     have h1 := inv_add (v := 2 * q) hI hαm hαn fun e => by
       refine ⟨by omega, ?_⟩
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
       congr 1
       omega
     exact inv_add (v := 2 * q + 1) h1 hβm hβn fun e => by
       refine ⟨by omega, ?_⟩
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       congr 1
       omega
 
@@ -190,8 +190,8 @@ theorem cRec_spec {n : ℕ} {α β : ℕ → ℕ} {a0 a1 cA cB : Array ℕ}
     obtain ⟨hp, hs⟩ := hG j hj0 hj
     unfold tabOf
     split_ifs at hs with h2
-    · rw [if_pos (by simpa using h2), ← hfa _ (by omega), hs]
-    · rw [if_neg (by simpa using h2), ← hfb _ (by omega), hs]
+    · rw [ite_eq_left (by simpa using h2), ← hfa _ (by omega), hs]
+    · rw [ite_eq_right (by simpa using h2), ← hfb _ (by omega), hs]
   have key : ∀ k, k + 1 ≤ n →
       ((List.range' 1 k).foldl (recStep par cA cB) (Array.replicate n 0)).size = n ∧
       ∀ i < k + 1, ((List.range' 1 k).foldl (recStep par cA cB) (Array.replicate n 0))[i]! =
@@ -245,10 +245,10 @@ theorem cRec_spec {n : ℕ} {α β : ℕ → ℕ} {a0 a1 cA cB : Array ℕ}
     rw [hv' j hj, hv' _ (by omega), hrec j hj0 hj]
     unfold tabOf
     by_cases h2 : par[j]! % 2 = 0
-    · rw [if_pos h2] at hsd
+    · rw [ite_eq_left h2] at hsd
       have hb : (par[j]! % 2 == 0) = true := by simpa using h2
       simp [hb, ha0 _ (show par[j]! / 2 < n by omega), hsd]
-    · rw [if_neg h2] at hsd
+    · rw [ite_eq_right h2] at hsd
       have hb : (par[j]! % 2 == 0) = false := by simpa using h2
       simp [hb, ha1 _ (show par[j]! / 2 < n by omega), hsd]
 

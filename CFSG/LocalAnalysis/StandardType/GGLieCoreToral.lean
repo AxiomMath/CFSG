@@ -53,8 +53,8 @@ theorem isToralSubgroup_of_card_le_sq
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Subgroup (ModGL τ L)} (hA : A ≤ adjointGroup τ L)
     (hfin : Finite A) (hel : IsElemAbelian p A) (hcard : Nat.card A ≤ p ^ 2)
     (hE6 : τ = .E6 → p = 3 → Nat.card A ≤ p) : IsToralSubgroup τ L A := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite A := hfin
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite A := hfin
   have hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
     cases τ <;> simp
   have hmon : MonomialToralAt τ p :=

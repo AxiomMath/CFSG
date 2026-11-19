@@ -53,7 +53,7 @@ theorem rowSEpsOf_seven_SU3_of (hU3 : U3OddInnerEps) :
   have h : UnitaryFieldData 2 n F := ⟨Nat.prime_two, hn, hFcard⟩
   obtain ⟨φ₀⟩ := nonempty_unitaryPSU_mulEquiv_projSU h
   set τ : S ≃* unitaryPSU h 3 := eS.trans φ₀.symm with hτ
-  haveI : Finite (unitaryPSU h 3) := Finite.of_equiv _ τ.toEquiv
+  have : Finite (unitaryPSU h 3) := Finite.of_equiv _ τ.toEquiv
   rcases two_pow_mod_three' n with hmod | hmod
   ·
     have hq2 : 2 < 2 ^ n := by
@@ -79,19 +79,19 @@ theorem rowSEpsOf_seven_SU3_of (hU3 : U3OddInnerEps) :
   ·
     exfalso
     have hsolv : Group.IsSolvable (projSU 3 2 1) := CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable S :=
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_surjective (f := eS.symm.toMonoidHom) eS.symm.surjective
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr ‹_› a b)
   refine NoCfgSEps.of_mulEquiv τ ?_
   intro A α K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hα3 : α ^ 3 = 1 := hc.pow_three
   by_cases hD : α ∈ (psuConj h).range
   · exact hU3 n hodd h A α K hD hc
   ·
     have hnt : K ≠ ⊥ := by
-      haveI := hc.nontrivial
+      have := hc.nontrivial
       exact fun hb => by
         obtain ⟨x, hx1⟩ := exists_ne (1 : K)
         exact hx1 (Subtype.ext (by simpa [hb] using x.2))
@@ -124,12 +124,12 @@ theorem rowSEpsOf_seven_SU3_of (hU3 : U3OddInnerEps) :
     have eK' : K ≃* projSU 3 2 m := (eK.trans
       (CFSG.RankThree.PartTwo.Sec21.Item223CensusResProof.psuEquiv ψ h₁ h₀ hq₀)).trans φ₁
     have hKs : IsSimpleGroup K := by
-      haveI : IsSimpleGroup (projSU 3 2 m) :=
+      have : IsSimpleGroup (projSU 3 2 m) :=
         CFSG.PGLModel.isSimpleGroup_projSU_of_admissible
           ⟨Nat.prime_two, hm, le_rfl, fun h' => by simp only [Prod.mk.injEq] at h'; omega⟩
       exact eK'.isSimpleGroup
     have hO2K : CFSG.pCore 2 K = ⊥ := by
-      haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 K) with h' | h'
       · exact h'
       · exfalso

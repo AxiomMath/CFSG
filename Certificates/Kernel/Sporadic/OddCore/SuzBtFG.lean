@@ -55,10 +55,10 @@ theorem not_allN_not_iff {n : Nat} {f : Nat → Bool} :
       exact absurd this Bool.false_ne_true
 
 theorem bIf_true {c a b : Bool} (hc : c = true) : bIf(c, a, b) = a := by
-  rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos hc]
+  rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left hc]
 
 theorem bIf_false {c a b : Bool} (hc : c ≠ true) : bIf(c, a, b) = b := by
-  rw [CFSG.KS.Raw.Orb.bIf_eq, if_neg hc]
+  rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right hc]
 
 theorem bAnd_iff {a b : Bool} : bAnd(a, b) = true ↔ a = true ∧ b = true := by
   rw [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true]
@@ -90,13 +90,13 @@ noncomputable def el (i : Nat) : Equiv.Perm (Fin 1782) :=
 
 theorem el_mem {i : Nat} (hi : i < 64) : el i ∈ TT := by
   unfold el
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact (Classical.choose_spec (st_ex hi)).1
 
 theorem el_key {i : Nat} (hi : i < 64) (t : Fin 3) :
     pg 11 (mask 11) (btKey 33 (mask 33) SuzBtT0.K i) t = el i (c1Base t) := by
   unfold el
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact (Classical.choose_spec (st_ex hi)).2 t
 
 theorem el_of {i : Nat} (hi : i < 64) {x : Equiv.Perm (Fin 1782)} (hx : x ∈ TT)
@@ -386,7 +386,7 @@ theorem V0_conj {g : Equiv.Perm (Fin 1782)} (hg : g ∈ V0) {h : Equiv.Perm (Fin
     obtain ⟨hxV, c, hc, rfl⟩ := hx
     refine Subgroup.subset_closure ⟨Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hxV)
       (Subgroup.inv_mem _ hg), g * c, Subgroup.mul_mem _ hgM hc, by group⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [e]
@@ -422,8 +422,8 @@ theorem tau_V0 : decPerm tauDec ∈ V0 := by
   rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
   exact h
 
-theorem hfixM21 : ∀ h ∈ genSub 1782 4 m21gp, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hf => invE1_eq_one (m21_le hh) hf
+theorem hfixM21 : ∀ _h ∈ genSub 1782 4 m21gp, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hf => invE1_eq_one (m21_le hh) hf
 
 theorem tau_conj {i : Nat} (hi : i < 4) :
     decPerm tauDec * lgp i * (decPerm tauDec)⁻¹ ∈ genSub 1782 4 m21gp := by

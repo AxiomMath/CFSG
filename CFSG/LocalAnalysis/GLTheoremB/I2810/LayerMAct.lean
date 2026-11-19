@@ -86,7 +86,7 @@ theorem kh_embeds {n : ℕ} {π : ↥Kh →* ↥(alternatingGroup (Fin n))}
     {Vv V₄ : Subgroup ↥(alternatingGroup (Fin n))} (hc : ∀ a b : V, a * b = b * a)
     (h2 : ∀ v : V, v * v = 1) (d : ASData Kh Eh n π Vv V₄) :
     ∃ e : ℕ, (fixV' Kh).index = 2 ^ e ∧ Nat.card ↥Kh ∣ ∏ i : Fin e, (2 ^ e - 2 ^ (i : ℕ)) := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   obtain ⟨ρ, -, hρ⟩ := exists_quotAct h2 Kh (fixV' Kh) fun g hg c hc' => hc' g hg
   have hp : IsPGroup 2 ρ.ker := fun x => ⟨1, by
     rw [pow_one, pow_two]
@@ -102,6 +102,7 @@ theorem kh_embeds {n : ℕ} {π : ↥Kh →* ↥(alternatingGroup (Fin n))}
   · rw [← hGL]
     exact Subgroup.card_dvd_of_injective ρ hinj
 
+omit [Finite V] in
 theorem card_kh_eq {π7 : ↥Kh →* ↥(alternatingGroup (Fin 7))}
     {Vv7 V₇ : Subgroup ↥(alternatingGroup (Fin 7))} (d : ASData Kh Eh 7 π7 Vv7 V₇) :
     Nat.card ↥Kh = Nat.card ↥(Subgroup.center ↥Kh) * 2520 := by
@@ -121,12 +122,12 @@ theorem a9_exclusion_aux (hc : ∀ a b : V, a * b = b * a) (h2 : ∀ v : V, v * 
     {J Y : Subgroup (MulAut V)}
     (hJ : (fixV' J).index ≤ 2 ^ 6) (hYJ : Y ≤ J) (π' : ↥Y →* ↥(alternatingGroup (Fin 9)))
     (hπ : Function.Surjective π') (hker : π'.ker ≤ Subgroup.center ↥Y) : False := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   obtain ⟨ρ, -, hρ⟩ := exists_quotAct h2 Y (fixV' J) fun g hg c hc' => hc' g (hYJ hg)
   have hK : ρ.ker ≤ π'.ker := by
     have : IsSimpleGroup ↥(alternatingGroup (Fin 9)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
-    haveI : (ρ.ker.map π').Normal := Subgroup.Normal.map ρ.normal_ker π' hπ
+    have : (ρ.ker.map π').Normal := Subgroup.Normal.map ρ.normal_ker π' hπ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map π') with h | h
     · intro k hk
       have h1 : π' k ∈ (⊥ : Subgroup ↥(alternatingGroup (Fin 9))) :=

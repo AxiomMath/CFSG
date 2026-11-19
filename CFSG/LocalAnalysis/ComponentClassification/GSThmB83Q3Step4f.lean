@@ -127,7 +127,7 @@ theorem bz_not_conj_tz (hq : h.IsQ3) (hF : Cat8.Q3Facts) (w : X) :
   obtain ⟨T₀, hT₀⟩ := ((d.isPGroup_R0 hCF1 hCF2).comap_subtype (K := C)).exists_le_sylow
   set T := (T₀ : Subgroup C).map C.subtype with hTdef
   have hTC : T ≤ C := map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hR0T : d.R0 ≤ T := fun r hr => ⟨⟨r, d.R0_le_centralizer_bz hr⟩, hT₀ hr, rfl⟩
   have hTc : 512 ≤ Nat.card T := by
     have hP'2 : IsPGroup 2 ↥(conjugate P (w * c⁻¹)⁻¹) := hP2.map _

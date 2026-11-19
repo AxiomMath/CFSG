@@ -59,10 +59,10 @@ theorem exists_normal_index_two_of_not_fused_of_relIndex_eq_two {M Y : Subgroup 
           rw [mem_subgroupOf, mem_subgroupOf]
           exact iff_of_false hbY hxY)
       exact mem_subgroupOf.1 key
-  exact CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup' T.not_dvd_index
+  exact CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup T.not_dvd_index
     inf_le_left hUidx hxT (fun h => hxY h.2)
     (fun y hyT hyU => hmin y (hTM hyT) (fun h => hyU ⟨hyT, h⟩)
-      (T.isPGroup'.to_le (zpowers_le.2 hyT)))
+      (T.isPGroup.to_le (zpowers_le.2 hyT)))
     (fun g hg => hfus g hg.2)
 
 theorem exists_normal_index_two_of_unique_of_relIndex_eq_two {M Y : Subgroup G} (hYM : Y ≤ M)

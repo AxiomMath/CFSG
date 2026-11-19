@@ -26,7 +26,7 @@ theorem langFamRatLabel_outerD_high
     (hout : ¬ twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
     FamLabelAt S (famCharHom a) i := by
   classical
   have hp2 : p ≠ 2 := by

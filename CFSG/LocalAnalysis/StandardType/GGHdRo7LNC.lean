@@ -39,7 +39,7 @@ lemma hdRo7LNCAux_sp_noncyclic {G : Type} [Group G] [Finite G]
     · dsimp only [LargeEvenRawDatum] at hR; exact hR
     · dsimp only [LargeEvenRawDatum] at hR; exact hR
   obtain ⟨K, hField, hFinite, hKcard, ⟨e⟩⟩ := hraw
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := 1) (by simpa using hKcard)
   obtain ⟨E, hE, hEcard⟩ :=
     CFSG.QuasithinUnique.Setup.Family.even_symplectic_three_rank (K := K) l
@@ -47,11 +47,11 @@ lemma hdRo7LNCAux_sp_noncyclic {G : Type} [Group G] [Finite G]
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L)) with hψdef
   have hψ : Function.Surjective ψ := e.surjective.comp (QuotientGroup.mk'_surjective _)
   refine CFSG.StandardType.exists_noncyclic_of_noncyclic_quot (F := E) ψ hψ ?_ ?_
-  · haveI : CFSG.IsElementaryAbelian 3 ↥E := hE
+  · have : CFSG.IsElementaryAbelian 3 ↥E := hE
     exact CFSG.IsElementaryAbelian.isPGroup 3 ↥E
   · have hexp : ∀ x ∈ E, x ^ 3 = 1 := by
       intro x hx
-      haveI : CFSG.IsElementaryAbelian 3 E := hE
+      have : CFSG.IsElementaryAbelian 3 E := hE
       exact CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
     have hcard : 3 < Nat.card ↥E := by
       rw [hEcard]

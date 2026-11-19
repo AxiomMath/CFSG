@@ -60,7 +60,7 @@ theorem step166ThetaDCommK_of_beta
     have h3 : IsPGroup 3 ↥(CFSG.Open.pCoreOf 3 Θ) :=
       (CFSG.pCore_isPGroup (p := 3) (G := ↥Θ)).map Θ.subtype
     have hle : CFSG.Open.pCoreOf 3 Θ ≤ Θ := CFSG.LieType.BorelTits.pCoreOf_le 3 Θ
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases Subgroup.bot_or_exists_ne_one (CFSG.Open.pCoreOf 3 Θ) with hb | ⟨x, hx, hx1⟩
     · exact hb
     · exfalso
@@ -116,7 +116,7 @@ theorem step166ThetaDCommK_of_beta
   refine CFSG.GroupTheory.commutator_eq_bot_of_forall_chief_pCoreOf hΘs hLBperf hJΘ hAΘ hΘ2 hΘ3'
     ?_
   intro r hr hr5 N M hNM hMP hHN hHM hmin
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set P := CFSG.Open.pCoreOf r Θ with hPdef
   have hP : IsPGroup r ↥P := (CFSG.pCore_isPGroup (p := r) (G := ↥Θ)).map Θ.subtype
   have hPΘ : P ≤ Θ := CFSG.LieType.BorelTits.pCoreOf_le r Θ

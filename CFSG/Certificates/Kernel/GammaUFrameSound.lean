@@ -18,7 +18,7 @@ theorem spanOf_map_isP {T : GL} {t : Nat} (hT : IsP T t) (D0 : List Nat) :
   rw [Submodule.map_span]
   congr 1
   ext x
-  simp only [List.mem_map, Set.mem_setOf_eq, Set.mem_image]
+  simp only [List.mem_map, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨_, ⟨v, hv, rfl⟩, rfl⟩
     exact ⟨vecOf v, ⟨v, hv, rfl⟩, by rw [LinearEquiv.coe_coe, hT.apply_code]⟩

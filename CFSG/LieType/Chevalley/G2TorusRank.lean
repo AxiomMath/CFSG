@@ -17,7 +17,7 @@ noncomputable def TorusG2 (F : Type) [Field F] :
 instance finite_adjointGroup_G2 (F : Type) [Field F] [Finite F] :
     Finite (adjointGroup .G2 F) := by
   have : Finite (Module.End F (RootModule .G2 F)) := Module.finite_of_finite F
-  haveI : Finite (ModGL .G2 F) := inferInstance
+  have : Finite (ModGL .G2 F) := inferInstance
   exact Subtype.finite
 
 theorem two_le_pRank_torus_G2
@@ -25,7 +25,7 @@ theorem two_le_pRank_torus_G2
     (hdvd : q ∣ Nat.card F - 1) :
     2 ≤ CFSG.Open.pRank q (TorusG2 F) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd' : q ∣ Nat.card Fˣ := by
     rw [Nat.card_units]
     exact hdvd
@@ -73,7 +73,7 @@ theorem two_le_pRank_torus_G2
       rw [orderOf_one] at hu
       exact hq.ne_one hu.symm
     exact hu1 h1u
-  haveI : Finite (TorusG2 F) := Subtype.finite
+  have : Finite (TorusG2 F) := Subtype.finite
   have h := CFSG.GroupTheory.two_le_pRank_of_commute (G := TorusG2 F) (H := ⊤)
     (x := x) (y := y) (Subgroup.mem_top x) (Subgroup.mem_top y) hxp hyp hcomm hyx
   rwa [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := q) (TorusG2 F)] at h

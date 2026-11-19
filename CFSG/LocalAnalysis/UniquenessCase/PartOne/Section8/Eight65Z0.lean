@@ -49,7 +49,7 @@ theorem exists_elemAbelian_nine_le_of_isExtraspecialExpP
     have hEcard27 : Nat.card E = 27 := le_antisymm hle27 hge27
     have hEtop : E = Q :=
       Subgroup.eq_of_le_of_card_ge hEQ (by rw [hQcard, hEcard27])
-    haveI : IsMulCommutative ↥Q := by
+    have : IsMulCommutative ↥Q := by
       rw [← hEtop]
       exact hEel.1
     have hcenter : Subgroup.center ↥Q = ⊤ := Subgroup.center_eq_top
@@ -69,7 +69,7 @@ theorem mem_uniqueSet_of_fusion_control
       ∃ m ∈ M, Z.map (MulAut.conj g).toMonoidHom = Z.map (MulAut.conj m).toMonoidHom) :
     Z ∈ uniqueSet M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hZP.trans hP.le, ?_⟩
   intro g hZg
   have hYle : Z.map (MulAut.conj g⁻¹).toMonoidHom ≤ M := by
@@ -113,7 +113,7 @@ theorem mem_uniqueSet_of_fusion_control
         (MulAut.conj (m⁻¹ * g⁻¹)).toMonoidHom =
         (MulAut.conj (m'⁻¹ * (m⁻¹ * g⁻¹))).toMonoidHom := by
       ext x
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rw [hcomp2, hcomp1, Subgroup.map_id] at h2
     exact h2
   have hmemN : m'⁻¹ * (m⁻¹ * g⁻¹) ∈ Subgroup.normalizer (Z : Set G) :=

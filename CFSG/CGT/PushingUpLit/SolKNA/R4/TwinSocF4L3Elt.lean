@@ -41,7 +41,7 @@ theorem sigma_pow_four (μ : Kˣ) : (conjAut 3 K (sigMat μ) * dualAut 3 K) ^ 4 
     apply Units.ext
     rw [Units.val_mul, sigMat_mul_invT, Units.val_one, diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   calc (conjAut 3 K (sigMat μ) * dualAut 3 K) ^ 4
       = ((conjAut 3 K (sigMat μ) * dualAut 3 K) ^ 2) ^ 2 := by rw [← pow_mul]
     _ = 1 := by rw [h, sq, ← map_mul, hX, map_one]

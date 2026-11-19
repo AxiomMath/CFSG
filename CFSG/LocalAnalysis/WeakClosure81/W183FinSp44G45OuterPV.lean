@@ -15,8 +15,8 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (Bar2)
 private theorem w183finSp44pv_mOfG_eq {G : Type} [Group G] (A B : Subgroup G)
     [Finite ↥A] [Finite ↥B] (hBA : B ≤ A) {k : Nat}
     (hcard : Nat.card ↥A = Nat.card ↥B * 2 ^ k) : mOfG A B = k := by
-  haveI : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
-  haveI : Finite ↥(B.subgroupOf A) := inferInstance
+  have : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
+  have : Finite ↥(B.subgroupOf A) := inferInstance
   rw [mOfG, Subgroup.index_eq_card_div, w183finSp44pv_card_subgroupOf hBA, hcard]
   rw [Nat.mul_div_cancel_left _ Nat.card_pos]
   exact Nat.log_pow (by norm_num) k

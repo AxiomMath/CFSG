@@ -40,6 +40,7 @@ variable {I Y₀ : Subgroup G} {u : G} [(I.subgroupOf (Y₀ ⊔ Subgroup.zpowers
           (hI.out.1.is_comm.comm (⟨a, ha⟩ : ↥I) (⟨(x : G), hx⟩ : ↥I))
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MonoidHom.mem_ker.mp hx', map_one])
 
+omit [Finite G] in
 theorem conjRepBar_apply [hI : Fact (IsElemAbelian 2 I)]
     (hLN : Y₀ ⊔ Subgroup.zpowers u ≤ Subgroup.normalizer (I : Set G))
     (l : ↥(Y₀ ⊔ Subgroup.zpowers u)) (v : Additive ↥I) :
@@ -47,6 +48,7 @@ theorem conjRepBar_apply [hI : Fact (IsElemAbelian 2 I)]
       (l : G) * (Additive.toMul v : ↥I) * (l : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 theorem traceSpace_conjRepBar_ne_bot [hI : Fact (IsElemAbelian 2 I)]
     (hLN : Y₀ ⊔ Subgroup.zpowers u ≤ Subgroup.normalizer (I : Set G))
     (hcomm : ⁅I, Subgroup.zpowers u⁆ ≠ ⊥) :
@@ -70,6 +72,7 @@ theorem traceSpace_conjRepBar_ne_bot [hI : Fact (IsElemAbelian 2 I)]
   calc w * u = (u * w * u⁻¹) * u := by rw [h4]
     _ = u * w := by group
 
+omit [Finite G] in
 theorem toMul_mem_commutator_of_mem_traceSpace [hI : Fact (IsElemAbelian 2 I)]
     (hLN : Y₀ ⊔ Subgroup.zpowers u ≤ Subgroup.normalizer (I : Set G))
     {t : Additive ↥I} (ht : t ∈ traceSpace (conjRepBar hLN) (quotU I Y₀ u)) :
@@ -140,8 +143,8 @@ theorem seven_six_three_core {I Y₀ U : Subgroup G} {u : G} {p : ℕ} (hp : p.P
     (hUTI : CFSG.CGT.Timmesfeld75.IsTI U) (huU : u ∈ U) (hcommU : ⁅I, Subgroup.zpowers u⁆ ≤ U)
     (hcommne : ⁅I, Subgroup.zpowers u⁆ ≠ ⊥) (hUY : ∀ w ∈ U, w ∈ Y₀ → w ∈ I) :
     I.relIndex Y₀ = p ∨ (I.relIndex Y₀ = p ^ 3 ∧ ∃ x ∈ Y₀, ∃ y ∈ Y₀, ⁅x, y⁆ ∉ I) := by
-  haveI : Fact (IsElemAbelian 2 I) := ⟨hIab⟩
-  haveI := normal_subgroupOf_sup_zpowers hIY hYI huI (u := u)
+  have : Fact (IsElemAbelian 2 I) := ⟨hIab⟩
+  have := normal_subgroupOf_sup_zpowers hIY hYI huI (u := u)
   have hLN : Y₀ ⊔ Subgroup.zpowers u ≤ Subgroup.normalizer (I : Set G) :=
     sup_le hYI (Subgroup.zpowers_le.mpr huI)
   have hQ : quotY I Y₀ u ≠ ⊥ := by

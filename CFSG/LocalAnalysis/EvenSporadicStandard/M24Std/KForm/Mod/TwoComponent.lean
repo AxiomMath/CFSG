@@ -33,7 +33,7 @@ private theorem exists_mul_ne_mul_of_four_dvd' {K : Type*} [Group K] [Finite K] 
 
 private theorem isQuasisimple_alternatingGroup_six :
     CFSG.IsQuasisimple (alternatingGroup (Fin 6)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup ?_).1
   have h4 : 4 ∣ Nat.card (alternatingGroup (Fin 6)) := by
     rw [card_alternatingGroup_six]; norm_num
@@ -129,8 +129,8 @@ private theorem map_perfectResidualOf_comap {F : Type*} [Group F] [Finite F] (Φ
   have hD : D.map Φ = a6Factor := by
     rw [Subgroup.map_comap_eq]
     exact inf_eq_right.2 hA
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) := isQuasisimple_alternatingGroup_six.1
-  haveI : Group.IsPerfect ↥a6Factor :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) := isQuasisimple_alternatingGroup_six.1
+  have : Group.IsPerfect ↥a6Factor :=
     Group.IsPerfect.ofSurjective (G := alternatingGroup (Fin 6)) (G' := ↥a6Factor)
       (f := a6FactorEquiv.symm.toMonoidHom) a6FactorEquiv.symm.surjective
   let f : ↥D →* ↥a6Factor := (Φ.comp D.subtype).codRestrict a6Factor fun x => x.2
@@ -168,7 +168,7 @@ theorem exists_twoComponent {F : Type} [Group F] [Finite F] (Φ : F →* Z2S6)
     intro g _
     exact CFSG.RankThreeCoreUniqueness.Helpers.perfectResidualOf_normalizer_contains D
       (by rw [Subgroup.normalizer_eq_top_iff.2 hDnormal]; trivial)
-  haveI : J.Normal := hJnormal
+  have : J.Normal := hJnormal
   have hJperfect : ⁅J, J⁆ = J :=
     Subgroup.isPerfect_iff.mp
       (CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidualOf_isPerfect D)
@@ -202,10 +202,10 @@ theorem exists_twoComponent {F : Type} [Group F] [Finite F] (Φ : F →* Z2S6)
     apply le_antisymm
     · intro x hx
       have hmapbot : (fusionOddCore ↥J).map φJ = ⊥ := by
-        haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+        have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
           alternatingGroup.isSimpleGroup (by simp)
-        haveI : IsSimpleGroup ↥a6Factor := a6FactorEquiv.isSimpleGroup
-        haveI : ((fusionOddCore ↥J).map φJ).Normal :=
+        have : IsSimpleGroup ↥a6Factor := a6FactorEquiv.isSimpleGroup
+        have : ((fusionOddCore ↥J).map φJ).Normal :=
           (inferInstance : (fusionOddCore ↥J).Normal).map φJ hφJ_surj
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((fusionOddCore ↥J).map φJ) with h | h
         · exact h
@@ -298,7 +298,7 @@ theorem exists_twoComponent {F : Type} [Group F] [Finite F] (Φ : F →* Z2S6)
     apply CFSG.Milestones.odd_order_solvable
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
     exact Odd.of_dvd_nat (odd_natCard_pPrimeCore F) (Subgroup.card_dvd_of_le inf_le_right)
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperfect
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperfect
   have htop := eq_top_of_isSubnormal_of_sup_eq_top' hJ'sub.subgroupOf hMnorm hMsolv hsup
   have hEq : J' = J := by
     have hmap := congrArg (Subgroup.map J.subtype) htop

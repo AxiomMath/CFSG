@@ -43,7 +43,7 @@ theorem chevAmbCase_holds :
         rcases hi with ⟨-, h2⟩ | ⟨hq8, h3⟩
         · exact absurd h2 hH.odd
         · subst h3
-          haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+          have : Fact q.p.Prime := ⟨q.prime_p⟩
           have hF8 : Nat.card (GaloisField q.p q.exponent) = 8 := by
             rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def]
             exact hq8

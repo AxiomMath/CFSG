@@ -60,8 +60,7 @@ orders and hence preserve its canonical generating set. -/
 public instance hallPResidual_characteristic
     (p : ℕ) (G : Type u) [Group G] : (hallPResidual p G).Characteristic := by
   rw [Subgroup.characteristic_iff_map_le]
-  intro φ
-  intro x hx
+  intro φ x hx
   rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
   refine Subgroup.closure_induction (p := fun y _hy => φ y ∈ hallPResidual p G)
     ?_ ?_ ?_ ?_ hy
@@ -69,7 +68,7 @@ public instance hallPResidual_characteristic
     apply Subgroup.subset_closure
     change Nat.Coprime p (orderOf (φ y))
     simpa using hy
-  · simpa using (Subgroup.one_mem (hallPResidual p G))
+  · simp
   · intro a b _ha _hb ha hb
     simpa using (Subgroup.mul_mem (hallPResidual p G) ha hb)
   · intro a _ha ha
@@ -101,7 +100,7 @@ viewed in that normal subgroup. -/
     Sylow p K := by
   classical
   let I : Subgroup K := (S : Subgroup G).comap K.subtype
-  have hIp : IsPGroup p I := S.isPGroup'.comap_subtype
+  have hIp : IsPGroup p I := S.isPGroup.comap_subtype
   apply hIp.toSylow
   let R : Sylow p K := Classical.choice inferInstance
   obtain ⟨Q, hQcomap⟩ := R.exists_comap_subtype_eq
@@ -158,7 +157,7 @@ public theorem hall_residual_inf_sylow
     ∃ P₀ : Sylow p G₀,
       ((P₀ : Subgroup G₀).map G₀.subtype : Subgroup G) =
         G₀ ⊓ (P₁ : Subgroup G) := by
-  letI : G₀.Normal := by
+  let : G₀.Normal := by
     subst G₀
     exact hallPResidual_normal p G
   let P₀ : Sylow p G₀ := hallSylowSubgroupOfNormal P₁ G₀
@@ -174,7 +173,7 @@ public theorem hallPResidual_quotient_isPGroup
     letI : (hallPResidual p G).Normal := hallPResidual_normal p G
     IsPGroup p (G ⧸ hallPResidual p G) := by
   classical
-  letI : (hallPResidual p G).Normal := hallPResidual_normal p G
+  let : (hallPResidual p G).Normal := hallPResidual_normal p G
   refine (IsPGroup.iff_orderOf (p := p) (G := G ⧸ hallPResidual p G)).2 ?_
   intro q
   refine exists_orderOf_eq_prime_pow_iff.mpr ?_
@@ -291,7 +290,7 @@ public theorem hall_sup_hallPResidual_eq_top_of_sylow_le
     H ⊔ hallPResidual p G = ⊤ := by
   classical
   let K : Subgroup G := hallPResidual p G
-  letI : K.Normal := hallPResidual_normal p G
+  let : K.Normal := hallPResidual_normal p G
   let q : G →* G ⧸ K := QuotientGroup.mk' K
   have hquot_p : IsPGroup p (G ⧸ K) := by
     simpa [K] using hallPResidual_quotient_isPGroup (G := G) p
@@ -437,9 +436,9 @@ public theorem hallTransferModulus_subgroupOf_normal
     unfold hallTransferModulus
     rw [Subgroup.subgroupOf_sup (sup_le hA hC) hR,
       Subgroup.subgroupOf_sup hA hC]]
-  letI : ((hallPPowerSubgroup p H).subgroupOf H).Normal := hA_normal
-  letI : (⁅H, H₁⁆.subgroupOf H).Normal := hC_normal
-  letI : (((hallPResidual p H).map H.subtype).subgroupOf H).Normal := hR_normal
+  let : ((hallPPowerSubgroup p H).subgroupOf H).Normal := hA_normal
+  let : (⁅H, H₁⁆.subgroupOf H).Normal := hC_normal
+  let : (((hallPResidual p H).map H.subtype).subgroupOf H).Normal := hR_normal
   infer_instance
 
 /--

@@ -50,7 +50,7 @@ theorem D2AlmostSimple.sylow_le_of_not_dvd_card_outer (h : D2AlmostSimple p X R 
     (hout : ¬ p ∣ Nat.card (Outer K)) : (R : Subgroup X) ≤ K := by
   have : K.Normal := h.normal
   intro r hr
-  obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
   have hrk : r ^ p ^ k = 1 := congrArg Subtype.val hk
   let ψ : X →* Outer K := (QuotientGroup.mk' (inner K)).comp (MulAut.conjNormal (H := K))
   have hcop : (p ^ k).Coprime (Nat.card (Outer K)) :=
@@ -125,7 +125,7 @@ theorem d2IndexCaseAt_lie_char_of (hrank : KFactLieCharRank) (hout : KFactLieCha
         have := hK.two_le_pRank_of_sylow_le hRK
         omega
       · exact hsq d ⟨q, h2, hd⟩ G hglob hD1 p hp P M A H R hesc hmax hβ Rbar K hRbar hK ⟨e⟩
-    · refine hK.not_le (hK.le_of_glbCore_eq_top (Rbar.subtype hRK).isPGroup' ?_
+    · refine hK.not_le (hK.le_of_glbCore_eq_top (Rbar.subtype hRK).isPGroup ?_
         (hL3 K d ⟨e⟩ p hK.prime hK.ne_two ⟨q, hqp, hq1, hd⟩ (Rbar.subtype hRK)))
       rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hRK]
     · exact hU3 d ⟨q, hq1, hd⟩ G hglob hD1 p hp P M A H R hesc hmax hβ Rbar K hRbar hK ⟨e⟩

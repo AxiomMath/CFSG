@@ -23,7 +23,7 @@ theorem kConcl_of_alt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y
     have hpn : p ≤ n := by
       by_contra hlt
       push Not at hlt
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have hcardK : Nat.card K = n.factorial / 2 := by
         rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
           Fintype.card_fin]
@@ -34,7 +34,7 @@ theorem kConcl_of_alt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y
           Nat.div_dvd_of_dvd (Nat.dvd_factorial (by norm_num) (by omega))
         have hpf : p ∣ n.factorial := hd.trans h2
         exact absurd ((Nat.Prime.dvd_factorial hp).1 hpf) (by omega)
-      haveI := isQuasisimple_nontrivial h.qs
+      have := isQuasisimple_nontrivial h.qs
       have htop : (⊤ : Subgroup K) ≤ GLAPPrimeCore p K :=
         le_sSup ⟨inferInstance, by
           rw [Subgroup.card_top]
@@ -47,7 +47,7 @@ theorem kConcl_of_alt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y
     exact ⟨E, hEB, hEel, hEcard, hEl⟩
   ·
     have h3 : p = 3 := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨a, ha⟩ := (KD264Z.isPGroup_center_of_pPrimeCore hp h.core).exists_card_eq
       rw [hZ3] at ha
       have hpdvd : p ∣ 3 := by

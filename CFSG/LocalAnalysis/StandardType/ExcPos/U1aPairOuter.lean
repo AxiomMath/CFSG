@@ -304,7 +304,7 @@ theorem exists_stable_pair_outer {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
       exact ⟨hmem_of_pinned hstepX (hgen_two hθ hstepX),
         hmem_of_pinned hstepXneg (hgen_two (hΨ.neg_mem θ hθ) hstepXneg)⟩
     · have hf2 : 2 ≤ f := by omega
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨hfinK, hcard⟩ := outer_fixSubfield_card (L := GGL) (r := 2) (n := f)
         (by omega) σ hσq
       have hperf : Group.IsPerfect (SL2 (fixSubfield σ)) := by

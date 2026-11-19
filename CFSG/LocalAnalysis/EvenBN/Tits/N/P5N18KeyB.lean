@@ -38,7 +38,7 @@ theorem fusion_of_weakly_closed (S : Sylow 2 X) {A : Subgroup X} (hAS : A ≤ (S
       A.map (MulAut.conj g).toMonoidHom = A)
     (hab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {a b : X} (ha : a ∈ A) (hb : b ∈ A) {g : X}
     (hg : g * a * g⁻¹ = b) : ∃ n ∈ normalizer (A : Set X), n * a * n⁻¹ = b := by
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hAS
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hAS
   have hAC : A ≤ centralizer ({b} : Set X) := fun y hy =>
     mem_centralizer_singleton_iff.2 (hab y hy b hb)
   have hgAC : A.map (MulAut.conj g).toMonoidHom ≤ centralizer ({b} : Set X) := by
@@ -66,7 +66,7 @@ private theorem keyB_sup_le_sylow {K U : Subgroup X} {x t : X} {rk : X → ℕ} 
     (S : Sylow 2 X) (hSK : (S : Subgroup X) ≤ K) : U ⊔ zpowers t ≤ (S : Subgroup X) := by
   have hSN : (S : Subgroup X) ≤ normalizer ((U ⊔ zpowers t : Subgroup X) : Set X) :=
     fun s hs => (h.hNK s).2 (hSK hs)
-  have hsup := h.hU0ab.isPGroup.to_sup_of_normal_left' S.isPGroup' hSN
+  have hsup := h.hU0ab.isPGroup.to_sup_of_normal_left' S.isPGroup hSN
   exact le_sup_left.trans (S.maximal_isPGroup.le_of_ge hsup le_sup_right)
 
 private theorem keyB_weak {K U : Subgroup X} {x t : X} {rk : X → ℕ} (h : KFacts K U x t rk)
@@ -131,7 +131,7 @@ theorem keyB {K U : Subgroup X} {x t : X} {rk : X → ℕ} (h : KFacts K U x t r
     · rw [pow_succ, pow_succ] at hlt
       have := pow_pos (show 0 < 2 by norm_num) m
       omega
-  obtain ⟨y, hyB, hyU₀⟩ := SetLike.not_le_iff_exists.1 hBU₀
+  obtain ⟨y, hyB, hyU₀⟩ := IsConcreteLE.not_le_iff_exists.1 hBU₀
   have hC4 := (h.hcomm y (hBK hyB) (hB.mul_self_eq_one hyB) hyU₀).2
   have hle : (U ⊔ zpowers t) ⊓ B ≤ U ⊓ centralizer ({y} : Set X) := fun b hb =>
     ⟨hinf ⟨hb.2, hb.1⟩, mem_centralizer_singleton_iff.2 (hB.comm hb.2 hyB)⟩

@@ -31,11 +31,11 @@ private theorem torusAct_simple_eq {p : ℕ} [NeZero p] (i : Fin Tag.F4.rank)
   simp only [TableBExc.torusAct, simple_smul, reflect, TableBExc.redMod, TableBExc.liftMod,
     Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   push_cast
-  simp only [ZMod.natCast_zmod_val, ZMod.cast_id', id_eq]
+  simp only [ZMod.natCast_zmod_val]
   congr 2
   by_cases h : k = i
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private theorem torusAct_simple_single {p : ℕ} [NeZero p] (i c : Fin Tag.F4.rank) :
     TableBExc.torusAct .F4 p (simple Tag.F4 i) (Pi.single c 1) =
@@ -46,7 +46,7 @@ private theorem torusAct_simple_single {p : ℕ} [NeZero p] (i c : Fin Tag.F4.ra
     rw [Finset.sum_eq_single c]
     · simp
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · simp
   rw [hsum]
   funext r
@@ -88,7 +88,7 @@ private theorem intCast_ne_of_odd {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m₁
   have hp : p.Prime := Fact.out
   have h1 : (1 : ZMod p) ≠ 0 := by
     intro h1
-    have h' : ((1 : ℕ) : ZMod p) = 0 := by simpa using h1
+    have h' : ((1 : ℕ) : ZMod p) = 0 := by simp at h1
     exact hp.ne_one (Nat.dvd_one.mp ((ZMod.natCast_eq_zero_iff 1 p).mp h'))
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h2
@@ -101,9 +101,9 @@ private theorem intCast_ne_of_odd {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m₁
     exact sub_eq_zero.mpr he
   rcases h with h | h | h | h
   · rw [h] at hzero
-    exact h1 (by simpa using hzero)
+    exact h1 (by simp at hzero)
   · rw [h] at hzero
-    exact h1 (by simpa using hzero)
+    exact h1 (by simp at hzero)
   · rw [h] at hzero
     exact h2 (by simpa using hzero)
   · rw [h] at hzero
@@ -124,7 +124,7 @@ private theorem exists_witness_simple_conj (a b : Fin Tag.F4.rank) :
 theorem torusAct_simple_ne_F4 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {a b : Fin Tag.F4.rank}
     (hab : a ≠ b) :
     TableBExc.torusAct .F4 p (simple Tag.F4 a) ≠ TableBExc.torusAct .F4 p (simple Tag.F4 b) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rcases exists_witness_simple a b with h | ⟨c, d, hd⟩
   · exact absurd h hab
   · intro heq
@@ -136,7 +136,7 @@ theorem torusAct_simple_ne_F4 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {a b : Fi
 theorem torusAct_simple_ne_conj_F4 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (a b : Fin Tag.F4.rank) :
     TableBExc.torusAct .F4 p (simple Tag.F4 a) ≠
       TableBExc.torusAct .F4 p (twE6SplitWbar * simple Tag.F4 b * twE6SplitWbar⁻¹) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨c, d, hd⟩ := exists_witness_simple_conj a b
   intro heq
   refine intCast_ne_of_odd hp2 hd ?_

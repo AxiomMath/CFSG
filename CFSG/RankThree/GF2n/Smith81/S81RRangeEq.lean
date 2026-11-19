@@ -109,7 +109,7 @@ private theorem eqsmul_cfm_ιMulti [CharP K 2] (v : Fin 3 → Fin 6 → K) {l p 
   have hI : cfm K (ιMulti K 3 v) (2 ^ (l : ℕ) + 2 ^ (p : ℕ) + 2 ^ (r : ℕ)) =
       coord K (ιMulti K 3 v) (tripleSet l p r hlp hlr hpr) := by
     unfold cfm cf
-    rw [hmset, dif_pos hcard]
+    rw [hmset, dite_eq_left hcard]
     rfl
   rw [hI]
   rcases coord_ιMulti_triple v (I := tripleSet l p r hlp hlr hpr) rfl hlp hlr hpr with h | h
@@ -125,8 +125,7 @@ private theorem eqsmul_coeff [CharP K 2] {y : GL (Fin 6) K} {a f : Fin 6 → K}
   rw [LinearMap.sub_apply, Module.End.one_apply, rho_sub_one_ιMulti hy, hdot m, hdot p, hdot r,
     cfm_add, cfm_add, cfm_smul, cfm_smul, cfm_smul, eqsmul_cfm_ιMulti _ hlp hlr hpr,
     eqsmul_cfm_ιMulti _ hlp hlr hpr, eqsmul_cfm_ιMulti _ hlp hlr hpr]
-  simp [minor3, Matrix.det_fin_three, e, Pi.single_apply, hlp, hlr, hpr, hlp.symm, hlr.symm,
-    hpr.symm, hml, hmp, hmr, hml.symm, hmp.symm, hmr.symm]
+  simp [minor3, Matrix.det_fin_three, e, Pi.single_apply, hlp, hlr, hpr, hpr.symm, hml.symm, hmp.symm, hmr.symm]
 
 private theorem eqsmul_mask_bad : ∀ l p r : Fin 6, l ≠ p → l ≠ r → p ≠ r →
     ¬ ((l = 0 ∨ p = 0 ∨ r = 0) ∧ l ≠ 1 ∧ p ≠ 1 ∧ r ≠ 1) →
@@ -150,7 +149,7 @@ private theorem eqsmul_tInv1_coe [CharP K 2] :
   rw [tInv1, transvGL_val, Matrix.transvection]
   congr 1
   ext p q
-  fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Matrix.single_apply, Pi.single_apply]
+  fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Pi.single_apply]
 
 private theorem eqsmul_tInv1_sub_one [CharP K 2] :
     ((tInv1 K : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) - 1 =
@@ -173,33 +172,11 @@ theorem eq_smul_tInv1_of_range_le [CharP K 2] {y : GL (Fin 6) K} (hy : IsTransve
         | exact eqsmul_off_diag hyM hIn _ _ 0 1 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 0 2 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 0 3 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 0 4 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 0 5 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 1 0 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 1 2 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 1 3 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 1 4 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 1 5 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 2 0 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 2 1 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 2 3 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 2 4 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 2 5 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 3 0 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 3 1 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 3 2 (by decide)
         | exact eqsmul_off_diag hyM hIn _ _ 3 4 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 3 5 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 4 0 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 4 1 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 4 2 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 4 3 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 4 5 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 5 0 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 5 1 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 5 2 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 5 3 (by decide)
-        | exact eqsmul_off_diag hyM hIn _ _ 5 4 (by decide)
   by_cases hA : ∃ m₀ : Fin 6, m₀ ≠ 1 ∧ f m₀ ≠ 0
   · exfalso
     obtain ⟨m₀, hm₀1, hm₀f⟩ := hA
@@ -260,20 +237,20 @@ theorem eq_smul_tInv1_of_range_le [CharP K 2] {y : GL (Fin 6) K} (hy : IsTransve
       by_cases hj : j = 0
       · subst hj
         simp [hβ, e]
-      · simp [e, Pi.single_apply, hj, hal j hj]
+      · simp [e, hj, hal j hj]
     have hfv : f = γ • e K 1 := by
       funext j
       by_cases hj : j = 1
       · subst hj
         simp [hγ, e]
-      · simp [e, Pi.single_apply, hj, hA j hj]
+      · simp [e, hj, hA j hj]
     refine ⟨β * γ, mul_ne_zero (by rw [hβ]; exact ha00) (by rw [hγ]; exact hf1), ?_⟩
     rw [hyM, add_sub_cancel_left, eqsmul_tInv1_sub_one, hav, hfv]
     ext i j
-    simp [Matrix.vecMulVec, e, Pi.single_apply] <;> ring
+    simp [Matrix.vecMulVec, e, Pi.single_apply]
 
 private theorem eqsmul_conj_sub_one {P Q X Y T : Matrix (Fin 6) (Fin 6) K} {s : K}
-    (hPQ : P * Q = 1) (hQP : Q * P = 1) (hX : P * X * Q = T)
+    (_hPQ : P * Q = 1) (hQP : Q * P = 1) (hX : P * X * Q = T)
     (hY : P * Y * Q - 1 = s • (T - 1)) : Y - 1 = s • (X - 1) := by
   have key : ∀ M : Matrix (Fin 6) (Fin 6) K, Q * (P * M) = M := fun M => by
     rw [← Matrix.mul_assoc, hQP, Matrix.one_mul]
@@ -284,7 +261,7 @@ private theorem eqsmul_conj_sub_one {P Q X Y T : Matrix (Fin 6) (Fin 6) K} {s : 
     simp only [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one, Matrix.mul_assoc, hQP, key]
   rw [hY', hY, hX']
   simp only [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one,
-    Matrix.mul_assoc, hQP, key]
+    Matrix.mul_assoc, hQP]
 
 theorem eq_smul_of_range_eq [Finite K] [CharP K 2] {x y : GL (Fin 6) K} (hx : IsTransvec K x)
     (hy : IsTransvec K y)

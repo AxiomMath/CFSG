@@ -24,7 +24,7 @@ open CFSG.Open
 theorem isElemAbelian_map' {X Y : Type*} [Group X] [Group Y] {p : ℕ} {E : Subgroup X} (f : X →* Y)
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
   refine ⟨?_, ?_⟩
-  · haveI := hE.1
+  · have := hE.1
     infer_instance
   · rintro y hy
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
@@ -57,7 +57,7 @@ theorem threeUniq4_of_range {X G : Type*} [Group X] [Group G] [Finite X] [Finite
     (hord : (Nat.card G).factorization 3 = (Nat.card X).factorization 3)
     (hX : ThreeUniq4 X) : ThreeUniq4 G := by
   intro P hP E F hEP hFP hE hF hEc hFc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHighThree.exists_conj_le_range_of_factorization φ hφ hord P hP
   set c : G →* G := (MulAut.conj g).toMonoidHom with hc
@@ -107,7 +107,7 @@ theorem sylowForm_of_threeUniq4 {S : Type} [Group S]
     rw [Subgroup.map_comap_eq]
     exact inf_eq_right.2 hFi
   have hP : IsPGroup 3 ((P : Subgroup (MulAut S)).comap ι) :=
-    P.isPGroup'.comap_of_injective ι hS
+    P.isPGroup.comap_of_injective ι hS
   have hEc' : Nat.card (E.comap ι) = 3 ^ 4 := by
     rw [← Subgroup.card_map_of_injective hS, hEm, hEc]
   have hFc' : Nat.card (F.comap ι) = 3 ^ 4 := by
@@ -132,7 +132,7 @@ theorem exists_fixed_subfield' (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K
     (hK : Nat.card K = q ^ 2) (hσ : ∀ c : K, σ c = c ^ q) (hq2 : 2 ≤ q) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : Algebra k K), Nat.card k = q ∧
       ringChar k = ringChar K ∧ ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hKcard⟩ := FiniteField.card K (ringChar K)
   have hpr' : Fact (ringChar K).Prime := ⟨hpr⟩
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
@@ -147,14 +147,14 @@ theorem exists_fixed_subfield' (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K
     rw [GaloisField.card (ringChar K) i hi, hqi]
   obtain ⟨ιk⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq (ℓ := ringChar K)
     (f := i) (hkcard.trans hqi) (by rw [hqi] at hK; exact hK)
-  letI : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
+  let : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
   refine ⟨GaloisField (ringChar K) i, inferInstance, inferInstance, inferInstance, hkcard, ?_, ?_⟩
   · exact ringChar.eq _ _
   · intro c
     rw [hσ]
     have hc : c ^ q = c := by
       rw [← hkcard]
-      haveI : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
+      have : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
       exact FiniteField.pow_card c
     rw [← map_pow, hc]
@@ -314,8 +314,8 @@ theorem weylMatrix_sylProd (w : List Bool) :
       rw [sylProd, List.map_cons, List.prod_cons]; rfl
     rw [hp, weylMatrix_mul, ih, hl, toMat_lmul]
     cases b
-    · simp [weylMatrix_gX, matX, mX]
-    · simp [weylMatrix_gY, matY, mY]
+    · simp [weylMatrix_gX, matX]
+    · simp [weylMatrix_gY, matY]
 
 theorem weylMatrix_image_Pw :
     weylMatrix '' (Pw : Set (WeylGroup Tag.F4)) = (sylS.toFinset : Set _) := by
@@ -771,7 +771,7 @@ theorem threeUniq4_adjointF4 (h3 : 3 ∣ Nat.card K - 1)
     (hord : (ordF4 (Nat.card K)).factorization 3 = ((Nat.card K - 1) ^ 4 * 9).factorization 3) :
     ThreeUniq4 ↥(adjointGroup Tag.F4 K) := by
   obtain ⟨ζ, hζ, hζ'⟩ := exists_cube_root h3
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   refine threeUniq4_of_range (Subgroup.inclusion Qsub_le_adjointGroup)
     (Subgroup.inclusion_injective _) ?_ (threeUniq4_Qsub hζ hζ')
   rw [card_adjointGroup_F4, card_Qsub]
@@ -787,13 +787,13 @@ set_option linter.unusedSectionVars false
 
 theorem threeUniq4_adjointF4_four {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ThreeUniq4 ↥(adjointGroup Tag.F4 K) := by
-  refine threeUniq4_adjointF4 (by rw [hK] <;> norm_num) ?_
+  refine threeUniq4_adjointF4 (by rw [hK]) ?_
   rw [hK]
   exact factorization_three_ordF4_four.trans factorization_three_729.symm
 
 theorem threeUniq4_adjointF4_sixtyfour {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64) :
     ThreeUniq4 ↥(adjointGroup Tag.F4 K) := by
-  refine threeUniq4_adjointF4 (by rw [hK] <;> norm_num) ?_
+  refine threeUniq4_adjointF4 (by rw [hK]; norm_num) ?_
   rw [hK]
   exact factorization_three_ordF4_sixtyfour.trans factorization_three_63.symm
 
@@ -803,16 +803,16 @@ theorem threeUniq4_adjointF4_sixtyfour {K : Type} [Field K] [Finite K] (hK : Nat
     CFSG.HardMathSupport.Lang.AnisoE6.baseChangeGL_mem_adjointGroup_of_mem f g.2
 
 theorem baseChangeHom_injective {τ : Tag} {K₁ K₂ : Type} [Field K₁] [Field K₂] (f : K₁ →+* K₂) :
-    Function.Injective (baseChangeHom (τ := τ) f) := fun g g' h =>
+    Function.Injective (baseChangeHom (τ := τ) f) := fun _g _g' h =>
   Subtype.ext (baseChangeGL_injective f (congrArg Subtype.val h))
 
 open CFSG.LieType.SeitzGeneration.ExcHighThree CFSG.HardMathSupport.Lang.AnisoE6
 
 theorem threeUniq4_adjointF4_two {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 2) : ThreeUniq4 ↥(adjointGroup Tag.F4 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
-    rw [GaloisField.card 2 2 (by norm_num)] <;> norm_num
+    rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   obtain ⟨f⟩ := nonempty_ringHom_of_card_sq (ℓ := 2) (f := 1) (k := K) (K := GaloisField 2 2)
     (by rw [hK]; norm_num) (by rw [hK4]; norm_num)
   exact threeUniq4_of_injective (baseChangeHom f) (baseChangeHom_injective f)
@@ -820,7 +820,7 @@ theorem threeUniq4_adjointF4_two {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem threeUniq4_adjointF4_eight {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 8) : ThreeUniq4 ↥(adjointGroup Tag.F4 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK64 : Nat.card (GaloisField 2 6) = 64 := by
     rw [GaloisField.card 2 6 (by norm_num)]
     norm_num
@@ -831,8 +831,8 @@ theorem threeUniq4_adjointF4_eight {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem threeUniq4_adjointE6 {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
     (hF : ThreeUniq4 ↥(adjointGroup Tag.F4 K)) : ThreeUniq4 ↥(adjointGroup Tag.E6 K) := by
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   refine threeUniq4_of_range (e6F4Embed K) (e6F4Embed_injective K) ?_ hF
   have hc : Nat.card ↥(e6FixedF4 K) = Nat.card ↥(adjointGroup Tag.F4 K) :=
     (Nat.card_congr (CFSG.LieType.SeitzGeneration.ExcHighThree.e6FixedF4Equiv K).toEquiv).symm
@@ -843,9 +843,9 @@ theorem threeUniq4_twistedE6 {k K : Type} [Field k] [Finite k] [Field K] [Finite
     (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c)
     (hq : Nat.card k % 3 = 1) (hq2 : 2 ≤ Nat.card k)
     (hF : ThreeUniq4 ↥(adjointGroup Tag.F4 k)) : ThreeUniq4 ↥(twistedE6RootGroup K σ) := by
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (ModGL Tag.F4 k) := finite_modGL
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 k) := finite_modGL
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hn, hkcard⟩ := FiniteField.card k (ringChar k)
   have hℓ : (ringChar k).Prime := hn
   have hf : 1 ≤ (n : ℕ) := n.pos
@@ -887,7 +887,7 @@ theorem gen2318RankFourSylowUniq_holds : Gen2318RankFourSylowUniq := by
     obtain ⟨hq1, hq2⟩ := hd'
     obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q hv
     have hK4 : Nat.card K = 4 := by
-      rw [hK, PrimePower.card_def, hq1, hq2] <;> norm_num
+      rw [hK, PrimePower.card_def, hq1, hq2]; norm_num
     have hU := threeUniq4_adjointF4_four hK4
     have hUS : ThreeUniq4 S :=
       threeUniq4_of_injective (eS.trans eC).toMonoidHom (eS.trans eC).injective hU
@@ -898,7 +898,7 @@ theorem gen2318RankFourSylowUniq_holds : Gen2318RankFourSylowUniq := by
     obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
     have hq2 : q.p = 2 := by
       rcases hd' with h | h <;> exact h.1
-    haveI : CharP K 2 := hq2 ▸ hKc
+    have : CharP K 2 := hq2 ▸ hKc
     have hKc' : Nat.card K = 2 ∨ Nat.card K = 8 := by
       rw [hK, PrimePower.card_def, hq2]
       rcases hd' with h | h
@@ -926,7 +926,7 @@ theorem twE6FourSylowRankUnique_holds : TwE6FourSylowRankUnique := by
     have hd' : IsTwoPow q 2 := hd
     obtain ⟨hq1, hq2⟩ := hd'
     obtain ⟨K, _, σ, hK, hσ, ⟨eC⟩⟩ := exists_catEquiv_twistedE6 q hv
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by
+    have : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hK]
       exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
     have hqc : q.p ^ q.exponent = 4 := by

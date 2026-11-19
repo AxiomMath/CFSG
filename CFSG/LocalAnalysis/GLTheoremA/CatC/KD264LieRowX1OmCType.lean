@@ -112,7 +112,7 @@ theorem isPlusType_Wspan_iff [FiniteDimensional (ZMod 2) V] {l : List (V × V)}
     (hl : IsFrame Q l) : IsPlusType (Q.comp (Wspan l).subtype) ↔ Even l.length := by
   induction l with
   | nil =>
-    haveI : Subsingleton (Wspan ([] : List (V × V))) := by
+    have : Subsingleton (Wspan ([] : List (V × V))) := by
       rw [Wspan_nil]
       infer_instance
     exact iff_of_true (isPlusType_of_subsingleton _) (by simp)

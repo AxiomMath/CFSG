@@ -142,8 +142,8 @@ private lemma tpob_exists_order_p {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
       intro P
       have hPle : (P : Subgroup ↥S).map S.subtype ≤ Subgroup.centralizer (L : Set G) :=
         (Subgroup.map_subtype_le (P : Subgroup ↥S)).trans hScentL
-      haveI : IsCyclic ↥((P : Subgroup ↥S).map S.subtype) :=
-        hcyclicL _ hPle (P.isPGroup'.map S.subtype)
+      have : IsCyclic ↥((P : Subgroup ↥S).map S.subtype) :=
+        hcyclicL _ hPle (P.isPGroup.map S.subtype)
       exact isCyclic_of_surjective
         ((P : Subgroup ↥S).equivMapOfInjective S.subtype S.subtype_injective).symm.toMonoidHom
         ((P : Subgroup ↥S).equivMapOfInjective S.subtype S.subtype_injective).symm.surjective
@@ -175,7 +175,7 @@ private lemma tpob_prime_dvd_card {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
   have hdata := (ggPComponent_iff_data p hSH).1 hSpc
   have hq : CFSG.IsQuasisimple (↥S ⧸ CFSG.pPrimeCore p ↥S) := hdata.2.2
   have hQnt : Nontrivial (↥S ⧸ CFSG.pPrimeCore p ↥S) := by
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         ((↥S ⧸ CFSG.pPrimeCore p ↥S) ⧸ Subgroup.center (↥S ⧸ CFSG.pPrimeCore p ↥S)) :=
       hq.2.1
     exact (QuotientGroup.mk'_surjective
@@ -202,8 +202,8 @@ theorem ggTPNOnlyAmb_not_le
     (hS : LargeEvenPComponent p (Subgroup.centralizer (D : Set G)) S) (hSL : ¬ S ≤ L) : False := by
   classical
   obtain ⟨hI, hBs, hDJ⟩ := hc
-  haveI : IsSimpleGroup G := hI.1
-  haveI : Fact p.Prime := ⟨hI.2.2.2.2.2.1.1⟩
+  have : IsSimpleGroup G := hI.1
+  have : Fact p.Prime := ⟨hI.2.2.2.2.2.1.1⟩
   have hp : p.Prime := Fact.out
   have hSstar : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
   have hst : LargeEvenStandardType p B x L := hI.2.2.2.2.2.2.2

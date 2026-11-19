@@ -44,23 +44,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem sp6Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V)) (n : ℕ)
     (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : Sp6Line V H' n) : Sp6Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -359,11 +359,11 @@ theorem stabilizer_stdIsoSub (d : ℕ) :
     MulAction.stabilizer ↥(CFSG.Open.StatedSp 3 K)
       (stdIsoSub K d : Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) =
       stabilizer 3 K (isoFlag 3 K d) := by
-  letI : MulDistribMulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulDistribMulAction ↥(CFSG.Open.StatedSp 3 K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) := MulDistribMulAction.compHom _ (piSpNat K)
-  letI : MulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulAction ↥(CFSG.Open.StatedSp 3 K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) := MulAction.compHom _ (piSpNat K)
-  letI : MulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulAction ↥(CFSG.Open.StatedSp 3 K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
   ext γ
   rw [MulAction.mem_stabilizer_iff, mem_stabilizer]
@@ -442,19 +442,19 @@ theorem StdQ6_eq_stabilizer_stdIsoSub [Finite K] [CharP K 2] (d : ℕ) (hd : d �
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
       (stdIsoSub K d : Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) = StdQ6 K {d} := by
-  letI : MulDistribMulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
+  let : MulDistribMulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) :=
       MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K)).subtype
-  letI : MulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
+  let : MulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) :=
       MulAction.compHom _ (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K)).subtype
-  letI : MulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
+  let : MulAction ↥(CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K))
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulDistribMulAction ↥(CFSG.Open.StatedSp 3 K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) := MulDistribMulAction.compHom _ (piSpNat K)
-  letI : MulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulAction ↥(CFSG.Open.StatedSp 3 K)
       (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K) := MulAction.compHom _ (piSpNat K)
-  letI : MulAction ↥(CFSG.Open.StatedSp 3 K)
+  let : MulAction ↥(CFSG.Open.StatedSp 3 K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)) := Set.mulActionSet
   have h := CFSG.ProperTwoGeneratedCore.LocalCriterionNumerator.stabilizer_map_of_equivariant
     (eSp K) (Equiv.refl (Set (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K))) ?_
@@ -596,12 +596,13 @@ theorem StdQ6_ne_top_of_mem [Finite K] [CharP K 2] {I : Set ℕ}
 
 section Levi
 
-abbrev idx2 (K : Type) : Fin 2 → Fin 3 ⊕ Fin 3 := fun i => Sum.inl ⟨i.1, by omega⟩
+abbrev idx2 (_K : Type) : Fin 2 → Fin 3 ⊕ Fin 3 := fun i => Sum.inl ⟨i.1, by omega⟩
 
-abbrev idx3 (K : Type) : Fin 3 → Fin 3 ⊕ Fin 3 := fun i => Sum.inl i
+abbrev idx3 (_K : Type) : Fin 3 → Fin 3 ⊕ Fin 3 := fun i => Sum.inl i
 
 variable {K : Type} [Field K]
 
+omit [Field K] in
 theorem idx2_injective : Function.Injective (idx2 K) := by
   intro a b hab
   have h1 : (⟨a.1, by omega⟩ : Fin 3) = ⟨b.1, by omega⟩ := Sum.inl.inj hab
@@ -702,7 +703,7 @@ theorem blk3_row_two_zero (x : ↥(flagStabilizer 3 K {2,3})) {l : Fin 3} (hl : 
     have h1 := mem_flagStabilizer.mp x.2 2 (by norm_num)
     rwa [flag_eq_isoFlag (K := K) (show 2 ≤ 3 by norm_num)] at h1
   have hcol := col_mem_isoFlag_of_mem_stabilizer (K := K) hx2 (j := l) hl
-  have h4 := (mem_isoFlag.mp hcol).2 ⟨2, by norm_num⟩ (by simpa using hl)
+  have h4 := (mem_isoFlag.mp hcol).2 ⟨2, by norm_num⟩ (by simp)
   have h5 : sp6Mat K x.1 (Sum.inl ⟨2, by norm_num⟩) (Sum.inl l) = 0 := by
     simpa [Matrix.col_apply] using h4
   simpa [blkIdx, Matrix.submatrix_apply] using h5
@@ -852,14 +853,14 @@ theorem mem_unipotent_of_blk2 {g : CFSG.Open.StatedSp 3 K}
           exact absurd hxy (lt_irrefl _)
         change (sp6Mat K g).col (Sum.inl (0 : Fin 3)) y = 0
         rw [hcol_e0]
-        simp [Pi.single_apply, hy]
+        simp [hy]
       · have hy : y ≠ Sum.inl (1 : Fin 3) := by
           intro e
           rw [e] at hxy
           exact absurd hxy (lt_irrefl _)
         change (sp6Mat K g).col (Sum.inl (1 : Fin 3)) y = 0
         rw [hcol_e1]
-        simp [Pi.single_apply, hy]
+        simp [hy]
       · rcases y with i' | l'
         · simp only [flagOrder_inl] at hxy
           exfalso
@@ -962,6 +963,7 @@ theorem blk2SL_apply (x : ↥(perfectCore (flagStabilizer 3 K {2,3}))) :
     ((blk2SL (K := K) x : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
       blkIdx (idx2 K) (sp6Mat K x.1) := rfl
 
+omit [Finite K] in
 theorem leviSL_mulVec_mem (A : Matrix.SpecialLinearGroup (Fin 2) K) {d : ℕ}
     (hd2 : 2 ≤ d) (hd3 : d ≤ 3) {v : Fin 3 ⊕ Fin 3 → K} (hv : v ∈ isoFlag 3 K d) :
     sp6Mat K (CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviSL (K := K) A) *ᵥ v ∈
@@ -985,13 +987,14 @@ theorem leviSL_mulVec_mem (A : Matrix.SpecialLinearGroup (Fin 2) K) {d : ℕ}
       omega
     have hu2 : v (Sum.inl (⟨2, by norm_num⟩ : Fin 3)) = 0 := hv.2 _ (by rw [← hl2]; exact hl)
     rw [hl2]
-    simp only [Sum.elim_inl, Pi.add_apply, Matrix.zero_mulVec, add_zero]
+    simp only [Sum.elim_inl, Matrix.zero_mulVec, add_zero]
     have hrow : (CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviMat A *ᵥ (v ∘ Sum.inl))
         (⟨2, by norm_num⟩ : Fin 3) = v (Sum.inl (⟨2, by norm_num⟩ : Fin 3)) := by
       simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three,
         CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviMat]
     rw [hrow, hu2]
 
+omit [Finite K] in
 theorem leviSL_mem_stabilizer_isoFlag (A : Matrix.SpecialLinearGroup (Fin 2) K) {d : ℕ}
     (hd2 : 2 ≤ d) (hd3 : d ≤ 3) :
     CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviSL (K := K) A ∈
@@ -1024,6 +1027,7 @@ theorem leviSL_mem_stabilizer_isoFlag (A : Matrix.SpecialLinearGroup (Fin 2) K) 
         rfl
       rw [Matrix.mulVecLin_apply, hinv, Matrix.mulVec_mulVec, hunit, Matrix.one_mulVec]
 
+omit [Finite K] in
 theorem leviSL_range_perfect (hK4 : ∃ s : Finset K, s.card = 4) :
     ⁅(CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviSL (K := K)).range,
       (CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviSL (K := K)).range⁆ =
@@ -1032,6 +1036,7 @@ theorem leviSL_range_perfect (hK4 : ∃ s : Finset K, s.card = 4) :
     Group.isPerfect_def.mp (CFSG.LinearGroups.special_linear_dimension_two_perfect (K := K) hK4)
   rw [MonoidHom.range_eq_map, ← Subgroup.map_commutator, hSL]
 
+omit [Finite K] in
 theorem leviSL_mem_flagStabilizer (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal.leviSL (K := K) A ∈
       flagStabilizer 3 K {2,3} := by
@@ -1049,6 +1054,7 @@ section Residual
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem blk2SL_surjective (hK4 : ∃ s : Finset K, s.card = 4) :
     Function.Surjective (blk2SL (K := K)) := by
   intro A
@@ -1074,7 +1080,7 @@ theorem blk2SL_surjective (hK4 : ∃ s : Finset K, s.card = 4) :
 theorem blk2SL_ker_isPGroup :
     IsPGroup 2 (blk2SL (K := K)).ker := by
   obtain ⟨PU, hPU⟩ := exists_sylow_unipotent (K := K) 2 3
-  have hUnip : IsPGroup 2 (unipotent 3 K) := hPU ▸ PU.isPGroup'
+  have hUnip : IsPGroup 2 (unipotent 3 K) := hPU ▸ PU.isPGroup
   intro x
   let y : ↥(perfectCore (flagStabilizer 3 K {2,3})) := x.1
   have hb : blkIdx (idx2 K) (sp6Mat K y.1) = 1 := by
@@ -1100,7 +1106,7 @@ theorem isL2_bar2_perfectCore_sp6 {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 �
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab := sl2_nonabelian hK4
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
   have hmodel : CFSG.Blueprint.LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -1113,7 +1119,7 @@ theorem isL2_bar2_perfectCore_sp6 {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 �
 theorem perfectCore_sp6_eq_bot_of_card_two (hK2 : Nat.card K = 2) :
     perfectCore (flagStabilizer 3 K {2,3}) = ⊥ := by
   have hKu : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK2]
-  haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hKu).1
+  have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hKu).1
   have hdet1 : ∀ x : ↥(flagStabilizer 3 K {2,3}),
       (blkIdx (idx2 K) (sp6Mat K x.1)).det = 1 := by
     intro x
@@ -1130,7 +1136,7 @@ theorem perfectCore_sp6_eq_bot_of_card_two (hK2 : Nat.card K = 2) :
       map_mul' := fun x y => Subtype.ext (blkIdx2_mul_of_mem (K := K) x.1 y.1 y.2) }
   have hker : IsPGroup 2 blk2SLQ.ker := by
     obtain ⟨PU, hPU⟩ := exists_sylow_unipotent (K := K) 2 3
-    have hUnip : IsPGroup 2 (unipotent 3 K) := hPU ▸ PU.isPGroup'
+    have hUnip : IsPGroup 2 (unipotent 3 K) := hPU ▸ PU.isPGroup
     intro x
     let y : ↥(flagStabilizer 3 K {2,3}) := x.1
     have hb : blkIdx (idx2 K) (sp6Mat K y.1) = 1 := by
@@ -1217,9 +1223,9 @@ theorem sp6NaturalLine_holds :
       Sp6Line (CFSG.Quasithin.H.StdMod (Fin 3 ⊕ Fin 3) K)
         (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K)) n := by
   intro K hF hFin n hK
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -1235,10 +1241,7 @@ theorem sp6NaturalLine_holds :
   set H : Subgroup (MulAut V) := CFSG.Quasithin.H.natImage (CFSG.Open.StatedSp 3 K) with hH
   change Sp6Line V H n
   unfold Sp6Line
-  intro S
-  intro ℓ Pℓ
-  intro Tstar hTnorm hT2 hST
-  intro Good Pstar hmin
+  intro S ℓ Pℓ Tstar hTnorm hT2 hST Good Pstar hmin
   classical
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥H) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S
@@ -1503,7 +1506,7 @@ end NaturalSetup
 
 theorem kTab23b_Sp6_line_uncond (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsSpn ↥H 6 n ∧ NatSpn H ⊤ ⊥ 6 n) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
     letI : MulAction ↥H W := MulAction.compHom W H.subtype
@@ -1525,8 +1528,8 @@ theorem kTab23b_Sp6_line_uncond (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨-, K, hF, hFin, hK, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 3 ⊕ Fin 3) (Γ := CFSG.Open.StatedSp 3 K) (H := H) hReal

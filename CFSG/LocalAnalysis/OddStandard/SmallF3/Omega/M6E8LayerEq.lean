@@ -58,13 +58,14 @@ private theorem m6e8_comp_unique {t : G} {L : Subgroup G} {y : G} {X Y T : Subgr
   have hKq := hK.isQuasisimple
   exact (m6e8_not_simple_dvd_234 (Q := ↥K ⧸ Subgroup.center ↥K) hKq.2.1 hKq.2.2) hdvd'
 
+omit [Finite G] in
 private theorem m6e8_layerCent_of_unique {J H : Subgroup G} (hJH : IsComponentIn J H)
     (huniq : ∀ K : Subgroup G, IsComponentIn K H → K = J) :
     CFSG.inSubgroup CFSG.layer H = J := by
   have hJ' : CFSG.IsComponent (J.subgroupOf H) := hJH.2
   have hset : {K : Subgroup ↥H | CFSG.IsComponent K} = {J.subgroupOf H} := by
     ext K'
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · intro hK'
       let K : Subgroup G := K'.map H.subtype

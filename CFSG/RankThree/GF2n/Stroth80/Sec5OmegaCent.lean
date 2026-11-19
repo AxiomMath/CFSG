@@ -15,6 +15,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem isElemAbelian_two_of_le {E F : Subgroup G} (h : E ≤ F) (hF : IsElemAbelian 2 F) :
     IsElemAbelian 2 E :=
   ⟨⟨⟨fun a b => by
@@ -79,6 +80,7 @@ theorem card_polar_perp {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Fi
     Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [LinearMap.mem_ker, hf])
   rw [hcard, Module.natCard_eq_pow_finrank (K := K), hker]
 
+omit [Finite G] in
 theorem card_eq_of_secVec {V Z W : Subgroup G} [(Z.subgroupOf V).Normal] {ι : Type} [Fintype ι]
     {K : Type} [Field K]
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (hZW : Z ≤ W) (hWV : W ≤ V)
@@ -138,7 +140,7 @@ theorem Ctx.centLam_omega (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
   classical
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ ψ hψ
   obtain ⟨u, hQu, hu0, -, hW, hL, -⟩ :=
     hc.omega_points_core h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ hker ψ hψ hsing

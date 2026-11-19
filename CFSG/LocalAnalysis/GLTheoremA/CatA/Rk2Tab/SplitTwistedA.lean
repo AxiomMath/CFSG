@@ -70,7 +70,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 theorem exists_crossedInversionBasis_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
     (hK : Rk2IsLabel K lab) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (htag : lab.tag = .twA) (hpq : p ∣ 2 ^ lab.n + 1) :
-    ∃ (R : Type) (_ : Group R) (θ : K ⧸ Subgroup.center K ≃* R)
+    ∃ (R : Type) (_ : Group R) (_θ : K ⧸ Subgroup.center K ≃* R)
       (h w : Fin (lab.rank - 2) → R) (X : Subgroup R),
       (∀ i, h i ^ p = 1) ∧ (∀ i j, Commute (h i) (h j)) ∧
       Nat.card (Subgroup.closure (Set.range h)) = p ^ (lab.rank - 2) ∧
@@ -88,20 +88,20 @@ theorem exists_crossedInversionBasis_twA {K : Type} [Group K] [Finite K] {lab : 
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
       CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg] using hM
-  obtain ⟨-, F, hFld, hFin, hFcard, ⟨θ⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := nlab) hFcard
+  obtain ⟨-, F, hFld, hFin, hFcard, ⟨_θ⟩⟩ := hM'.statedClassicalModel (by decide)
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := nlab) hFcard
   have hFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nlab F :=
     ⟨Nat.prime_two, by omega, by rw [hFcard, ← pow_mul, mul_comm]⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζN, hζ⟩ := exists_norm_one_orderOf_of_dvd hFD (by simpa using hpq)
   let k := ℓ - 2
   have hk : ℓ = k + 2 := by omega
   let N := k + 3
   have hN : ℓ + 1 = N := by omega
-  rw [hN] at θ
+  rw [hN] at _θ
   let pos : Fin k → Fin N := fun i => ⟨i.val + 2, by omega⟩
   let d : Fin N := ⟨k + 2, by omega⟩
   let e : Fin N := ⟨0, by omega⟩
@@ -235,9 +235,9 @@ theorem exists_crossedInversionBasis_twA {K : Type} [Group K] [Finite K] {lab : 
       show (P (Equiv.swap (⟨0, by omega⟩ : Fin N)
         ⟨1, by omega⟩) : GL (Fin N) F) = monPermGL N (Equiv.swap ⟨0, by omega⟩ ⟨1, by omega⟩)
       from rfl, coe_monPermGL, permMatrix_apply_eq_ite] at h3
-    simp only [if_neg hne] at h3
+    simp only [ite_eq_right hne] at h3
     exact c.ne_zero h3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hordS : orderOf s = 2 := orderOf_eq_prime (by rw [pow_two]; exact hs2) hs1
   have hcardX : Nat.card X = 2 := by
     rw [show X = Subgroup.zpowers s from rfl, Nat.card_zpowers, hordS]
@@ -283,7 +283,7 @@ theorem exists_crossedInversionBasis_twA {K : Type} [Group K] [Finite K] {lab : 
       obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
       exact ((hcommS i).zpow_right m).eq.symm
     exact Subgroup.centralizer_le_normalizer (X : Set (StatedProj (StatedSU N (2 ^ nlab) F))) hcen
-  exact ⟨StatedProj (StatedSU N (2 ^ nlab) F), inferInstance, θ, h, fun i => W (pos i) d, X,
+  exact ⟨StatedProj (StatedSU N (2 ^ nlab) F), inferInstance, _θ, h, fun i => W (pos i) d, X,
     hpow, hcomm', hcard, hinv, hcross, hX1, hX2, hNX⟩
 
 theorem rk2_split_low_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
@@ -293,7 +293,7 @@ theorem rk2_split_low_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
       CFSG.Open.twoLocalPrimeRank p K := by
   obtain ⟨R, hR, θ, h, w, X, hpow, hcomm, hind, hinv, hcross, hX1, hX2, hNX⟩ :=
     exists_crossedInversionBasis_twA hK hp hp2 htag hpq
-  letI := hR
+  let := hR
   exact central_lift_le_twoLocalPrimeRank θ hp hp2 hpow hcomm hind hinv hcross hX1 hX2 hNX
 
 end CFSG.LocalAnalysis.GLTheoremA

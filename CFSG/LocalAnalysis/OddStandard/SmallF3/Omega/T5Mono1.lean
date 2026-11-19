@@ -29,6 +29,7 @@ private theorem mul_self_eq_one_prod
         CharP.cast_eq_zero (ZMod 2) 2, zero_smul]
     simpa [two_nsmul] using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.exists_permOrth (fr : NFrame Q ι c) (σ : Equiv.Perm ι) :
     ∃ g : OGroup Q, ∀ i, (g : V ≃ₗ[ZMod 3] V) (fr.b i) = fr.b (σ i) := by
   let e : V ≃ₗ[ZMod 3] V := fr.b.equiv fr.b σ
@@ -67,10 +68,12 @@ theorem NFrame.exists_permOrth (fr : NFrame Q ι c) (σ : Equiv.Perm ι) :
 noncomputable def NFrame.permOrth (fr : NFrame Q ι c) (σ : Equiv.Perm ι) : OGroup Q :=
   Classical.choose (fr.exists_permOrth σ)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_basis (fr : NFrame Q ι c) (σ : Equiv.Perm ι) (i : ι) :
     ((fr.permOrth σ : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b i) = fr.b (σ i) :=
   Classical.choose_spec (fr.exists_permOrth σ) i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_mul (fr : NFrame Q ι c) (σ τ : Equiv.Perm ι) :
     fr.permOrth (σ * τ) = fr.permOrth σ * fr.permOrth τ := by
   apply Subtype.ext
@@ -80,6 +83,7 @@ theorem NFrame.permOrth_mul (fr : NFrame Q ι c) (σ τ : Equiv.Perm ι) :
     fr.permOrth_basis τ i, fr.permOrth_basis σ (τ i)]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_one (fr : NFrame Q ι c) : fr.permOrth 1 = 1 := by
   apply Subtype.ext
   apply fr.b.ext'
@@ -87,6 +91,7 @@ theorem NFrame.permOrth_one (fr : NFrame Q ι c) : fr.permOrth 1 = 1 := by
   rw [fr.permOrth_basis 1 i]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_mul_signChange (fr : NFrame Q ι c) (σ : Equiv.Perm ι) (J : Finset ι) :
     fr.permOrth σ * fr.signChange J = fr.signChange (J.map σ.toEmbedding) * fr.permOrth σ := by
   apply Subtype.ext
@@ -98,14 +103,14 @@ theorem NFrame.permOrth_mul_signChange (fr : NFrame Q ι c) (σ : Equiv.Perm ι)
   · have hmem : σ i ∈ J.map σ.toEmbedding := by
       rw [Finset.mem_map]
       exact ⟨i, hi, rfl⟩
-    rw [if_pos hi, map_neg, fr.permOrth_basis σ i,
-      fr.signChange_basis (J.map σ.toEmbedding) (σ i), if_pos hmem]
+    rw [ite_eq_left hi, map_neg, fr.permOrth_basis σ i,
+      fr.signChange_basis (J.map σ.toEmbedding) (σ i), ite_eq_left hmem]
   · have hmem : σ i ∉ J.map σ.toEmbedding := by
       rw [Finset.mem_map]
       rintro ⟨j, hj, hji⟩
       exact hi (σ.injective hji ▸ hj)
-    rw [if_neg hi, fr.permOrth_basis σ i,
-      fr.signChange_basis (J.map σ.toEmbedding) (σ i), if_neg hmem]
+    rw [ite_eq_right hi, fr.permOrth_basis σ i,
+      fr.signChange_basis (J.map σ.toEmbedding) (σ i), ite_eq_right hmem]
 
 theorem NFrame.permOrth_mem_omegaGroup (hQ : Q.Nondegenerate) (fr : NFrame Q ι c)
     {σ : Equiv.Perm ι} (hσ : σ ∈ alternatingGroup ι) : fr.permOrth σ ∈ omegaGroup hQ := by
@@ -136,6 +141,7 @@ theorem NFrame.permOrth_mem_omegaGroup (hQ : Q.Nondegenerate) (fr : NFrame Q ι 
     rwa [Equiv.Perm.closure_three_cycles_eq_alternating] at hle
   exact halt hσ
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.signChange_injective (fr : NFrame Q ι c) : Function.Injective fr.signChange := by
   intro J K h
   apply Finset.ext

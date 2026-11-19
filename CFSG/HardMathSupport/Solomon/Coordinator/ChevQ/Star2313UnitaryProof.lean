@@ -93,6 +93,7 @@ theorem heis_proj :
   · rw [cp_add_cp, cp_add_cp, cp_one_eq (K := K) Y]; congr 1 <;> grind
 
 include hκ hXY in
+omit hκ in
 theorem heis_X_p1 : X * cp Y (1 : K) 1 1 = cp Y (κ ^ 2) κ 1 * X := by
   rw [mul_cp_of_comm hXY, one_mul, one_mul]
 
@@ -113,7 +114,7 @@ theorem heis_Xi_p2 : Xi * cp Y (κ ^ 2) κ 1 = cp Y (1 : K) 1 1 * Xi := by
 include h2 hκ hY hXY hXXi hXiX in
 theorem heisInv_mul_self : heisInv X Xi Y κ * heisInv X Xi Y κ = 1 := by
   obtain ⟨p11, pcc, p22, p1c, pc1, p12, p21, pc2, p2c, psum⟩ := heis_proj (Y := Y) h2 hκ hY
-  have hA := heis_X_p1 (X := X) hκ hXY
+  have hA := heis_X_p1 (X := X) hXY
   have hB := heis_Xi_p2 hκ hXY hXXi hXiX
   set p1 := cp Y (1 : K) 1 1
   set pc := cp Y κ (κ ^ 2) 1
@@ -135,6 +136,7 @@ theorem heisInv_mul_self : heisInv X Xi Y κ * heisInv X Xi Y κ = 1 := by
         abel
 
 include hY in
+omit hY in
 theorem commute_heisInv {e : R} (heX : e * X = X * e) (heXi : e * Xi = Xi * e)
     (heY : e * Y = Y * e) : e * heisInv X Xi Y κ = heisInv X Xi Y κ * e := by
   have h1 : ∀ (Z : R) (a b c : K), e * Z = Z * e → e * (Z * cp Y a b c) = Z * cp Y a b c * e := by
@@ -147,7 +149,7 @@ include h2 hκ hY hXY hXXi hXiX in
 theorem heisInv_ne_smul [Nontrivial R] (d : K) : heisInv X Xi Y κ ≠ d • 1 := by
   intro hd
   obtain ⟨p11, pcc, p22, p1c, pc1, p12, p21, pc2, p2c, psum⟩ := heis_proj (Y := Y) h2 hκ hY
-  have hA := heis_X_p1 (X := X) hκ hXY
+  have hA := heis_X_p1 (X := X) hXY
   have hC := heis_X_pc (X := X) hκ hXY
   have h1 : heisInv X Xi Y κ * cp Y (1 : K) 1 1 = X * cp Y (1 : K) 1 1 := by
     simp only [heisInv, add_mul, mul_assoc, p11, p21, pc1, mul_zero, add_zero]
@@ -302,7 +304,7 @@ theorem exists_heis_involution [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 1 ≤ n
     ∃ t ∈ gramSU h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K), t ^ 2 = 1 ∧
       (∀ c : Kˣ, t ≠ GeneralLinearGroup.scalar (Fin n) c) ∧
       ∀ e : GL (Fin n) K, e * x = x * e → e * y = y * e → e * t = t * e := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set X : Matrix (Fin n) (Fin n) K := (x : Matrix (Fin n) (Fin n) K) with hXdef
   set Xi : Matrix (Fin n) (Fin n) K := ((x⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hXidef
   set Y : Matrix (Fin n) (Fin n) K := (y : Matrix (Fin n) (Fin n) K) with hYdef
@@ -329,7 +331,7 @@ theorem exists_heis_involution [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 1 ≤ n
     have := ct_eq_inv_of_mem h (inv_mem hx)
     rw [inv_inv] at this
     exact this
-  have hA := heis_X_p1 (X := X) hκ hxy
+  have hA := heis_X_p1 (X := X) hxy
   have hB := heis_Xi_p2 hκ hxy hXXi hXiX
   set τ := heisInv X Xi Y κ with hτdef
   have hττ : τ * τ = 1 := heisInv_mul_self h2 hκ hY hxy hXXi hXiX
@@ -364,7 +366,7 @@ theorem exists_heis_involution [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 1 ≤ n
       rw [hXidef, ← Units.val_mul, this, Units.val_mul]
     have heY : (e : Matrix (Fin n) (Fin n) K) * Y = Y * e := by
       rw [hYdef, ← Units.val_mul, hey, Units.val_mul]
-    exact commute_heisInv hY heX heXi heY
+    exact commute_heisInv heX heXi heY
 
 end Mat
 
@@ -433,7 +435,7 @@ theorem exists_swap_involution [CharP K 2] (hn : 2 ≤ n) (W : GL (Fin n) K)
       rw [e1, hc, (commute_scalar c W⁻¹).eq, mul_assoc, inv_mul_cancel, mul_one]
     have e2 := congrArg (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K) i₁ i₀) hsc
     simp only [hsdef, CFSG.RankThree.Classical.coe_unitaryPermGL,
-      CFSG.RankThree.Classical.permMatrix_apply', Equiv.swap_apply_right, if_true,
+      CFSG.RankThree.Classical.permMatrix_apply', Equiv.swap_apply_right, ite_true,
       GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_ne _ h01.symm] at e2
     exact one_ne_zero e2
   · intro e hD hd
@@ -465,9 +467,9 @@ theorem exists_centralized_involution [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 
         (∀ c : Kˣ, t ≠ GeneralLinearGroup.scalar (Fin n) c) ∧ ∀ e ∈ E, e * t = t * e := by
   classical
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (GL (Fin n) K) := inferInstance
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (GL (Fin n) K) := inferInstance
   have hconj : ∀ g ∈ P, ∀ z ∈ P, ∃ ζ : rootsOfUnity 3 K,
       g * z * g⁻¹ = GeneralLinearGroup.scalar (Fin n) (ζ : Kˣ) * z := by
     intro g hg z hz
@@ -711,8 +713,8 @@ theorem starConcl_of_le_primeFormD [CharP K 2] (hq3 : 3 ∣ p ^ f + 1) (hn : 3 �
     (hDle : D ≤ primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     StarConcl D := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (GL (Fin n) K) := inferInstance
+  have : Finite K := h.finite
+  have : Finite (GL (Fin n) K) := inferInstance
   set U := primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hUdef
   set c := primeFormConjHom h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hcdef
   set PU : Subgroup ↥U := D.comap c with hPUdef
@@ -875,8 +877,8 @@ theorem starConcl_two (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 1) (hn
     (D : Subgroup (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))))
     (hD : IsElemAbelian 3 D) : StarConcl D := by
   subst hp hf
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   have hn3 : 3 ≤ n := by omega
   have hq : ¬(n = 3 ∧ 2 ^ 1 = 2) := by omega
   refine starConcl_of_le_primeFormD h (by norm_num) hn3 D hD ?_
@@ -885,7 +887,7 @@ theorem starConcl_two (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 1) (hn
   set θ := primeFormFieldFactor h isPrimeFormGram_one hn3 hq β
   have hcard : Nat.card (RingAut K) = 2 :=
     (card_ringAut_and_isCyclic Nat.prime_two K (h.card.trans (by norm_num))).1
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h2 : θ ^ 2 = 1 := by
     have := pow_card_eq_one' (G := RingAut K) (x := θ)
     rwa [hcard] at this
@@ -903,13 +905,13 @@ theorem starConcl_eight (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 3) (
     (hD : IsElemAbelian 3 D) : StarConcl D := by
   subst hp hf
   classical
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn3 : 3 ≤ n := by omega
   have hn1 : 1 ≤ n := by omega
   have hq : ¬(n = 3 ∧ 2 ^ 3 = 2) := by omega
-  haveI : Finite (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :=
+  have : Finite (MulAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :=
     MulEquiv.finite_left
   set Θ := primeFormFieldFactor h isPrimeFormGram_one hn3 hq with hΘ
   have hkerΘ := ker_primeFormFieldFactor h isPrimeFormGram_one hn3 hq
@@ -944,7 +946,7 @@ theorem starConcl_eight (h : UnitaryFieldData p f K) (hp : p = 2) (hf : f = 3) (
   have hcard3 : Nat.card D' ≤ 3 * Nat.card D'₀ := by
     have hRcard : Nat.card (RingAut K) = 6 :=
       (card_ringAut_and_isCyclic Nat.prime_two K (h.card.trans (by norm_num))).1
-    haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
+    have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hRcard]; norm_num)
     let fD : ↥D' →* RingAut K := Θ.comp D'.subtype
     have hker : Nat.card fD.ker ≤ Nat.card D'₀ := by
       refine Nat.card_le_card_of_injective (fun x => ⟨((x : ↥D') : MulAut _), ?_⟩) ?_

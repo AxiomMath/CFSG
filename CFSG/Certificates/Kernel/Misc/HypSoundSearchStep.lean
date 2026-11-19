@@ -58,7 +58,7 @@ private def openF (C : HCtx) (I X : Flags) (x : Nat) : Bool :=
   I[x]! && C.pl[x]!.any (fun y => !(I[y]! || X[y]!))
 
 private theorem openB_eq_openF (hC : SearchCtx C PB LB LI GI PL NL) {x I X : Nat}
-    (hx : x < 693) (hI : I < 2 ^ 693) (hX : X < 2 ^ 693) :
+    (hx : x < 693) (_hI : I < 2 ^ 693) (_hX : X < 2 ^ 693) :
     openB PB x I X = openF C (fl I) (fl X) x := by
   have hany : C.pl[x]!.any (fun y => !((fl I)[y]! || (fl X)[y]!)) = true ↔
       Nat.land (PB x) (Nat.xor (Nat.lor I X) (2 ^ 693 - 1)) ≠ 0 := by
@@ -156,7 +156,7 @@ private theorem cands_isEmpty_eq (hC : SearchCtx C PB LB LI GI PL NL) {x I X : N
     exact isEmpty_eq_false.2 hne
 
 private theorem cands_eq_singleton_val (hC : SearchCtx C PB LB LI GI PL NL) {x I X j : Nat}
-    (hx : x < 693) (hIX : I &&& X = 0) (hj : j < 1024) :
+    (hx : x < 693) (hIX : I &&& X = 0) (_hj : j < 1024) :
     cands C x (fl I) (fl X) = [j] ↔ candK LI NL x I X = 2 ^ j := by
   rw [cands_eq_filter hC hx hIX]
   exact range_filter_testBit_eq_singleton (candK_spec hC hx hIX).1
@@ -324,7 +324,7 @@ private theorem passStep_other {I X n S : Nat} (hob : openB PB n I X = true)
   simp only [passStep, letN_eq, hob, h0, h1]
 
 set_option maxRecDepth 4000 in
-private theorem passInv_zero (hC : SearchCtx C PB LB LI GI PL NL) {I X : Nat}
+private theorem passInv_zero (_hC : SearchCtx C PB LB LI GI PL NL) {I X : Nat}
     (hI : I < 2 ^ 693) (hX : X < 2 ^ 693) :
     passInv C I X 0 (I ||| X <<< 693) := by
   have hI1386 : I < 2 ^ 1386 :=
@@ -604,27 +604,27 @@ private theorem pickMin_append (l : List (Nat × List Nat)) (c : Nat × List Nat
     rw [ih]
     cases ht : pickMin t with
     | none =>
-      simp only [ht]
+      simp only
       by_cases hac : a.2.length ≤ c.2.length
       · have hca : ¬ c.2.length < a.2.length := by omega
         simp [hac, hca]
       · have hca : c.2.length < a.2.length := by omega
         simp [hac, hca]
     | some d =>
-      simp only [ht]
+      simp only
       by_cases had : a.2.length ≤ d.2.length
-      · simp only [if_pos had]
+      · simp only [ite_eq_left had]
         by_cases hcd : c.2.length < d.2.length
-        · rw [if_pos hcd]
+        · rw [ite_eq_left hcd]
           by_cases hac : a.2.length ≤ c.2.length
           · have hca : ¬ c.2.length < a.2.length := by omega
             simp [hac, hca]
           · have hca : c.2.length < a.2.length := by omega
             simp [hac, hca]
-        · rw [if_neg hcd]
+        · rw [ite_eq_right hcd]
           have hca : ¬ c.2.length < a.2.length := by omega
           simp [had, hca]
-      · simp only [if_neg had]
+      · simp only [ite_eq_right had]
         by_cases hcd : c.2.length < d.2.length
         · have hac : ¬ a.2.length ≤ c.2.length := by omega
           simp [hcd, hac]
@@ -720,7 +720,7 @@ private theorem minInv_succ (hC : SearchCtx C PB LB LI GI PL NL) {I X S : Nat}
       rw [cands_eq_filter hC hn hIX]
       simpa [List.length_range] using List.length_filter_le
         (fun j => (candK LI NL n I X).testBit j) (List.range 1024)
-    rw [candP_succ, ho, if_pos rfl, pickEnc_append]
+    rw [candP_succ, ho, ite_eq_left rfl, pickEnc_append]
     cases hp : pickMin (candP C (fl I) (fl X) n) with
     | none =>
       have hn0 : candP C (fl I) (fl X) n = [] := (pickMin_eq_none_iff _).1 hp

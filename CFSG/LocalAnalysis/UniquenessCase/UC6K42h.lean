@@ -48,7 +48,7 @@ theorem card_sup_uc6 {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {D Q : Subgroup G}
     rw [← Subgroup.normal_mul K R, hsupK]
     rfl
   have hKR : K.IsComplement' R := Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul
-  rw [← hKR.card_mul, hKcard, hRcard]
+  rw [← hKR.card_mul_card, hKcard, hRcard]
 
 theorem not_dvd_card_sup_uc6 {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr : r.Prime) (hr2 : r ≠ 2)
     (hrp : r ≠ p) {D Q : Subgroup G} (hD : Nat.card D = r) (hQ2 : IsPGroup 2 Q)
@@ -72,11 +72,11 @@ theorem exists_irreducible_uc6 {p r : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hr : 
   classical
   let H : Subgroup G := Q ⊔ D
   let ρH : Representation (ZMod p) ↥H V := ρ.comp H.subtype
-  haveI : NeZero (Nat.card ↥H : ZMod p) := ⟨by
+  have : NeZero (Nat.card ↥H : ZMod p) := ⟨by
     intro h
     exact not_dvd_card_sup_uc6 (Fact.out : p.Prime) hp2 hr hr2 hrp hD hQ2 hDQ
       ((ZMod.natCast_eq_zero_iff (Nat.card ↥H) p).1 h)⟩
-  haveI hss : Representation.IsSemisimpleRepresentation ρH := inferInstance
+  have hss : Representation.IsSemisimpleRepresentation ρH := inferInstance
   let P : Submodule (ZMod p) V → Prop := fun W =>
     (∀ h ∈ H, ∀ w ∈ W, ρ h w ∈ W) ∧ ∃ q ∈ Q, ∃ w ∈ W, ρ q w ≠ w
   have hPtop : P ⊤ := by

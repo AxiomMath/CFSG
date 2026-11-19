@@ -25,7 +25,7 @@ theorem e8Case_of_witness
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := Tag.E8) (K := F))).trans
       QuotientGroup.quotientBot)
   have hv : (Nat.card K).factorization 5 = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have h1 := Sylow.card_eq_multiplicity S
     rw [hS] at h1
     exact (Nat.pow_right_injective (by norm_num : 2 ≤ 5) h1).symm

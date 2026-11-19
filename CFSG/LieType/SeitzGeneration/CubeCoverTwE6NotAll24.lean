@@ -61,8 +61,8 @@ theorem le_hyperGamma_of_plane_of_quasisimple
     (hJE : ∀ g ∈ E, J.map g.toMonoidHom = J) :
     J ≤ CFSG.LieType.Seitz.seitzHyperGamma 3 E := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ : ↥E →* MulAut J := resHom J E hJE with hρ
   have hρker : ∀ g : ↥E, g ∈ ρ.ker → ∀ y ∈ J, g.1 y = y := fun g hg y hy =>
     congrArg (fun φ : MulAut J => ((φ ⟨y, hy⟩ : J) : X)) (MonoidHom.mem_ker.1 hg)
@@ -131,14 +131,14 @@ theorem le_hyperGamma_of_plane_of_quasisimple
     exact hFfix.trans (fixedPoints_le_hyperGamma hFE (relIndex_eq_three hFE hEc hFc))
 
 theorem le_hyperGamma_of_range_top {X : Type} [Group X] [Finite X]
-    (E : Subgroup (MulAut X)) (hE : CFSG.Open.IsElemAbelian 3 E)
-    (hEc : Nat.card E = 3 ^ 3) (J : Subgroup X)
+    (E : Subgroup (MulAut X)) (_hE : CFSG.Open.IsElemAbelian 3 E)
+    (_hEc : Nat.card E = 3 ^ 3) (J : Subgroup X)
     (hJE : ∀ g ∈ E, J.map g.toMonoidHom = J)
     (hgen : CFSG.LieType.Seitz.seitzHyperGamma 3 (resHom J E hJE).range = ⊤) :
     J ≤ CFSG.LieType.Seitz.seitzHyperGamma 3 E := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [_hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ : ↥E →* MulAut J := resHom J E hJE with hρ
   have hT : (⊤ : Subgroup J) ≤
       (CFSG.LieType.Seitz.seitzHyperGamma 3 E).comap J.subtype := by
@@ -185,7 +185,7 @@ theorem coverComponent_le_hyperGamma
     (hT : TwE6CoverComponentType J) :
     J ≤ (CFSG.LieType.Seitz.seitzHyperGamma 3 E).map π := by
   classical
-  haveI : Group.IsPerfect J := ⟨hJ.1⟩
+  have : Group.IsPerfect J := ⟨hJ.1⟩
   set Jt := derivedPreimage π J with hJt
   have hJtQ : CFSG.Open.IsQuasisimple Jt :=
     derivedPreimage_isQuasisimple π hπ hker hJ

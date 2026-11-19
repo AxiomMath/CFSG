@@ -60,7 +60,7 @@ theorem s7_alt_equiv {G : Type} [Group G] {S A : Subgroup G} (hAS : A ≤ S) (ψ
   have hcard_alt : Nat.card ↥(alternatingGroup (Fin 8)) = Nat.card ↥A := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin, hA]
     norm_num
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   have hf : Function.Bijective f :=
     (Nat.bijective_iff_injective_and_card f).mpr ⟨hfinj, hcard_alt⟩
   exact ⟨MulEquiv.ofBijective f hf, fun s => rfl⟩

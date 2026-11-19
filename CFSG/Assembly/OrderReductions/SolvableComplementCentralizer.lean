@@ -20,7 +20,7 @@ theorem nilpotent_normal_le_complementCore {group : Type*} [Group group] [Finite
   have : (sylow : Subgroup normal).Characteristic := sylow.characteristic_of_normal inferInstance
   let image := (sylow : Subgroup normal).map normal.subtype
   have : image.Normal := CFSG.OrderReductions.OddCore.characteristic_subgroup_map_normal normal _
-  have image_le := normal_le_primeCore prime image (sylow.isPGroup'.map normal.subtype)
+  have image_le := normal_le_primeCore prime image (sylow.isPGroup.map normal.subtype)
   rw [core_bot] at image_le
   have image_bot := le_bot_iff.mp image_le
   have concrete_image_bot : (sylow : Subgroup normal).map normal.subtype = ⊥ := image_bot

@@ -32,8 +32,8 @@ private theorem spMat_apply_eq_of_vanish {σ : Equiv.Perm (Fin 7)} {s : Fin 7 �
     exact sub_eq_zero.mp h
   by_cases h : k = σ k
   · refine ⟨h.symm, ?_⟩
-    rwa [spMat_apply, if_pos h] at hkk
-  · rw [spMat_apply, if_neg h] at hkk
+    rwa [spMat_apply, ite_eq_left h] at hkk
+  · rw [spMat_apply, ite_eq_right h] at hkk
     exact absurd hkk (by decide)
 
 private theorem spMat_eq_swap_of_refl {σ : Equiv.Perm (Fin 7)} {s : Fin 7 → ZMod 3}
@@ -68,7 +68,7 @@ private theorem spMat_eq_swap_of_refl {σ : Equiv.Perm (Fin 7)} {s : Fin 7 → Z
     have hleft_j : (spMat σ s *ᵥ e) j - e j = 0 := by
       have hji : ¬ (j = σ i) := by rw [hσii]; exact Ne.symm hij
       have hcolj : (spMat σ s *ᵥ e) j = 0 := by
-        rw [hcol_e, Matrix.col_apply, spMat_apply, if_neg hji]
+        rw [hcol_e, Matrix.col_apply, spMat_apply, ite_eq_right hji]
       rw [hcolj, hej]
       rfl
     have hc0 : c = 0 := by
@@ -77,7 +77,7 @@ private theorem spMat_eq_swap_of_refl {σ : Equiv.Perm (Fin 7)} {s : Fin 7 → Z
       exact (mul_eq_zero.mp h.symm).resolve_right hvj
     have hsi : s i = 1 := by
       have h := congrFun hc i
-      rw [Pi.sub_apply, hcol_e, Matrix.col_apply, spMat_apply, if_pos hσii.symm, hei,
+      rw [Pi.sub_apply, hcol_e, Matrix.col_apply, spMat_apply, ite_eq_left hσii.symm, hei,
         Pi.smul_apply, smul_eq_mul, hc0, zero_mul, sub_eq_zero] at h
       exact h
     have hsymm : σ.symm i = i := by simpa [hσii] using σ.symm_apply_apply i
@@ -113,7 +113,7 @@ private theorem spMat_eq_swap_of_refl {σ : Equiv.Perm (Fin 7)} {s : Fin 7 → Z
   exact ⟨hout, hσij, hσji, hsi, hsj⟩
 
 theorem eq_of_spMat_refl {A A' : Matrix (Fin 7) (Fin 7) (ZMod 3)} (hA : A ∈ evenFix0 6)
-    (hA' : A' ∈ evenFix0 6) {v : Coords 7} (hv0 : v 0 = 0) (hv : wt v = 2)
+    (hA' : A' ∈ evenFix0 6) {v : Coords 7} (_hv0 : v 0 = 0) (hv : wt v = 2)
     (hAv : A *ᵥ v = -v) (hA'v : A' *ᵥ v = -v)
     (himA : ∀ w, ∃ c : ZMod 3, A *ᵥ w - w = c • v)
     (himA' : ∀ w, ∃ c : ZMod 3, A' *ᵥ w - w = c • v) :

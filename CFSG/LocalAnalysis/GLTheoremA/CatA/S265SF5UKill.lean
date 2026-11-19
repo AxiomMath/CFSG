@@ -19,7 +19,7 @@ theorem false_of_labelAll_torusLift_five (h : QSNL 5 S B T x D K)
     (hr : 4 ≤ r) (hT : CFSG.StandardType.LargeEvenLabelAll lab fun R _ _ _ =>
       CFSG.StandardType.GGTorusLift 5 r R) : False := by
   have hc := h.cfg
-  haveI : Fact (Nat.Prime 5) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨hc.prime⟩
   obtain ⟨hcomm, lab', -, hraw⟩ := hlab
   obtain ⟨-, -, -, -, -, -, -, hl⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   subst hl

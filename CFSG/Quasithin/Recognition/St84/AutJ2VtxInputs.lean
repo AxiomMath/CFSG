@@ -65,7 +65,7 @@ open CFSG.Quasithin.F112R.St84.Heis
 
 theorem q1mOfCode_idx (q : Q1M) : q1mOfCode (q1mIdx q).val = q := by
   obtain ⟨⟨a, ha⟩, ⟨b, hb⟩, ⟨c, hc⟩⟩ := q
-  simp only [q1mOfCode, q1mIdx, Nat.reduceMod]
+  simp only [q1mOfCode, q1mIdx]
   ext <;> simp <;> omega
 
 theorem q1mList_length : q1mList.length = 64 := by
@@ -138,7 +138,7 @@ noncomputable def κR (q : Q1M) : Equiv.Perm (Fin 315) :=
 theorem κArr_get (q : Q1M) : (κArr ())[(q1mIdx q).val]! = κRT q := by
   have h : (q1mIdx q).val < 64 := (q1mIdx q).isLt
   simp only [κArr]
-  rw [getElem!_pos _ _ (by simpa using h), Array.getElem_ofFn, q1mOfCode_idx]
+  rw [getElem!_pos _ _ (by simp), Array.getElem_ofFn, q1mOfCode_idx]
 
 @[expose] def autJ2VtxC4Hom (_ : Unit := ()) : Bool :=
   let L := q1mList

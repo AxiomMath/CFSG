@@ -298,7 +298,7 @@ theorem part_ab
       have hx1 : x ≠ 1 := by
         rintro rfl
         exact hxy (by rw [one_mul, mul_one])
-      obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨x, hc.le hx.1⟩
+      obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨x, hc.le hx.1⟩
       have hj' : orderOf x = 2 ^ j := by rw [← hj, Subgroup.orderOf_mk]
       have hj0 : j ≠ 0 := by
         rintro rfl

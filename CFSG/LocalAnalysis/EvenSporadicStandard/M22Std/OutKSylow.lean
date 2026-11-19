@@ -117,7 +117,7 @@ theorem Ksub_sylow (h : OutOne L z F)
   have hK'P : IsPGroup 2 ((Ksub z F).subgroupOf (centralizer (F : Set G))) := hKP.comap_subtype
   obtain ⟨P, hP⟩ := hK'P.exists_le_sylow
   have hPG : IsPGroup 2 ((P : Subgroup (centralizer (F : Set G))).map
-      (centralizer (F : Set G)).subtype) := P.isPGroup'.map _
+      (centralizer (F : Set G)).subtype) := P.isPGroup.map _
   have hKP' : Ksub z F ≤ (P : Subgroup (centralizer (F : Set G))).map
       (centralizer (F : Set G)).subtype := fun k hk =>
     ⟨⟨k, hKC hk⟩, hP (Subgroup.mem_subgroupOf.2 hk), rfl⟩
@@ -342,7 +342,7 @@ theorem L1_sylow (h : OutOne L z F)
   set C := centralizer (L1sub h hgood : Set G) with hC
   have hL1'P : IsPGroup 2 ((L1sub h hgood).subgroupOf C) := hL1P.comap_subtype
   obtain ⟨P, hP⟩ := hL1'P.exists_le_sylow
-  have hPG : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map _
+  have hPG : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map _
   have hLP : L1sub h hgood ≤ (P : Subgroup C).map C.subtype := fun k hk =>
     ⟨⟨k, hL1C hk⟩, hP (Subgroup.mem_subgroupOf.2 hk), rfl⟩
   have hPC : (P : Subgroup C).map C.subtype ≤ C := by
@@ -394,7 +394,7 @@ theorem exists_normal_two_complement (h : OutOne L z F)
   · rw [Subgroup.disjoint_def]
     rintro x ⟨k, hk, rfl⟩ hx
     have hkP : k ∈ (P : Subgroup C) := (hPmem k).2 hx
-    have hdis := MonoidHom.ker_transferSylow_disjoint P hP (P : Subgroup C) P.isPGroup'
+    have hdis := MonoidHom.ker_transferSylow_disjoint P hP (P : Subgroup C) P.isPGroup
     have := Subgroup.disjoint_def.1 hdis hk hkP
     rw [this]
     rfl

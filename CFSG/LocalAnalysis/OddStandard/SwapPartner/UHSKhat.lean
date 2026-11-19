@@ -62,8 +62,8 @@ theorem isQuasisimple (C : HSCtx z ι ιd Kh) : CFSG.IsQuasisimple ↥Kh := by
   refine ⟨?_, C.khat.quasisimple.2, ?_⟩
   · exact Group.isPerfect_def.mpr C.khat.quasisimple.1
   · by_contra h
-    push_neg at h
-    haveI : IsMulCommutative (↥Kh ⧸ center ↥Kh) := isMulCommutative_iff.mpr h
+    push Not at h
+    have : IsMulCommutative (↥Kh ⧸ center ↥Kh) := isMulCommutative_iff.mpr h
     have hp : (Nat.card (↥Kh ⧸ center ↥Kh)).Prime :=
       Group.is_simple_iff_prime_card.mp C.khat.quasisimple.2
     have h2 : 2 ∣ Nat.card (↥Kh ⧸ center ↥Kh) := by
@@ -76,7 +76,7 @@ theorem card_center_le_two (C : HSCtx z ι ιd Kh) [Finite G] : Nat.card ↥(cen
   exact C.facts.2.2.2 (E := ↥Kh) (Subgroup.isPerfect_iff.mpr C.khat.perfect) C.khat.hs
 
 theorem isPGroup_center (C : HSCtx z ι ιd Kh) [Finite G] : IsPGroup 2 ↥(center ↥Kh) := by
-  haveI : Nonempty ↥(center ↥Kh) := ⟨1⟩
+  have : Nonempty ↥(center ↥Kh) := ⟨1⟩
   have hpos : 0 < Nat.card ↥(center ↥Kh) := Nat.card_pos
   have hle := C.card_center_le_two
   obtain h1 | h1 : Nat.card ↥(center ↥Kh) = 1 ∨ Nat.card ↥(center ↥Kh) = 2 := by omega

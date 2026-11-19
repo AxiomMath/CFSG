@@ -18,6 +18,7 @@ variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
 private abbrev z4iD (K : Subgroup H) (t τ l : H) : Subgroup H :=
   ⁅z4iVc K t τ l, z4iVc K t τ l⁆
 
+omit [Finite H] in
 private lemma z4iD_comm_le_self (K : Subgroup H) (t τ l : H) :
     ⁅z4iD K t τ l, z4iD K t τ l⁆ ≤ z4iD K t τ l := by
   rw [Subgroup.commutator_le]
@@ -27,6 +28,7 @@ private lemma z4iD_comm_le_self (K : Subgroup H) (t τ l : H) :
     ((z4iD K t τ l).mul_mem ((z4iD K t τ l).mul_mem hx hy) ((z4iD K t τ l).inv_mem hx))
     ((z4iD K t τ l).inv_mem hy)
 
+omit [Finite H] in
 private lemma commutator_mem_K_of_Vc (h : ZEData Q Y V V' B K ρ t τ l) {x y : H}
     (hx : x ∈ z4iVc K t τ l) (hy : y ∈ z4iVc K t τ l) : ⁅x, y⁆ ∈ K := by
   obtain ⟨k, hk, s, hs, rfl⟩ := (mem_Vc_iff h).mp hx
@@ -48,10 +50,12 @@ private lemma commutator_mem_K_of_Vc (h : ZEData Q Y V V' B K ρ t τ l) {x y : 
   rw [heq, hxy, hyx, htarget]
   exact hmain
 
+omit [Finite H] in
 theorem D_le_K (h : ZEData Q Y V V' B K ρ t τ l) :
     ⁅z4iVc K t τ l, z4iVc K t τ l⁆ ≤ K :=
   Subgroup.commutator_le.mpr fun _ hx _ hy => commutator_mem_K_of_Vc h hx hy
 
+omit [Finite H] in
 theorem F_comm_le_D (h : ZEData Q Y V V' B K ρ t τ l) :
     ⁅z4iF K t τ, z4iF K t τ⁆ ≤ ⁅z4iVc K t τ l, z4iVc K t τ l⁆ :=
   Subgroup.commutator_mono h.F_le_Vc h.F_le_Vc

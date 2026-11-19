@@ -50,7 +50,7 @@ private theorem center_quotient_eq_map_center {F : Type*} [Field F] {p : ℕ} (h
         rw [hDZ, Subgroup.relIndex_self] at hDrel
         exact hp.ne_one hDrel.symm
       have hnotle : ¬ Subgroup.center (Heis F) ≤ D := fun h => hDne (le_antisymm hDle h)
-      rw [SetLike.le_def] at hnotle
+      rw [_root_.IsConcreteLE.le_iff] at hnotle
       push Not at hnotle
       obtain ⟨z, hzZ, hzD⟩ := hnotle
       obtain ⟨w, hw⟩ := exists_commutator_eq_of_notMem_center hx hzZ

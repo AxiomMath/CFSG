@@ -32,7 +32,7 @@ private theorem coord_of_mulEquiv {G M : Type} [Group G] [Group M] {Bs : Subgrou
   have hu : ∀ (b : G) (hb : b ∈ Bs),
       u b = -Multiplicative.toAdd (e.symm ⟨γ ⟨b, hb⟩, hmem b hb⟩) := fun b hb => by
     dsimp only [u]
-    rw [dif_pos hb]
+    rw [dite_eq_left hb]
   refine ⟨u, ?_, ?_, ?_, ?_⟩
   · intro b hb
     have h1 : e (Multiplicative.ofAdd (u b)) = (⟨γ ⟨b, hb⟩, hmem b hb⟩ : ↥S)⁻¹ := by
@@ -136,11 +136,11 @@ theorem exists_twE6Coord
         ∀ v : Fin Tag.E6.rank → ZMod 3, ∃ b ∈ Bs, u b = v := by
   obtain ⟨hn7, hperf, F, instF, instFin, σ, hF, hσ, Fr, hFr, θ, D, g, hDinj, hDγ, hg, hgn,
     hS⟩ := p10real_langCube hBs hcard hn hx hx1 hN hker hBstar hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF]; norm_num)
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF]; norm_num)
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure F) := AlgebraicClosure.isAlgClosed F
+  have : IsAlgClosed (AlgebraicClosure F) := AlgebraicClosure.isAlgClosed F
   have h3 : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have h30 : (3 : AlgebraicClosure F) ≠ 0 :=
     three_ne_zero_of_dvd_card_add_one (ℓ := 2) le_rfl h3

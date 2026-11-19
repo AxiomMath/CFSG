@@ -89,14 +89,14 @@ theorem step_val (i : Fin 256) (k : Fin 4) :
     (step (tr ()) i k).val = stepF 8 4 (nt44TF 0) i.val k.val := by
   have e := tr_get i.2 k.2
   have hl : ((tr ())[i.val]!)[k.val]! < 256 := e ▸ pg8_lt _ _
-  rw [step, dif_pos hl]
+  rw [step, dite_eq_left hl]
   exact e.trans (trf i.2 k.2).symm
 
-theorem walk_append (t : Array (Array ℕ)) : ∀ (i : Fin 256) (w : List (Fin 4 × Bool)) (k : Fin 4),
-    walk t i (w ++ [(k, true)]) = step t (walk t i w) k
-  | i, [], k => rfl
-  | i, (k', true) :: w, k => walk_append t (step t i k') w k
-  | i, (k', false) :: w, k => walk_append t i w k
+theorem walk_append (t : Array (Array ℕ)) : ∀ (_i : Fin 256) (w : List (Fin 4 × Bool)) (_k : Fin 4),
+    walk t _i (w ++ [(_k, true)]) = step t (walk t _i w) _k
+  | _i, [], _k => rfl
+  | _i, (_k', true) :: w, _k => walk_append t (step t _i _k') w _k
+  | _i, (_k', false) :: w, _k => walk_append t _i w _k
 
 theorem pl_facts {j : ℕ} (hj : j < 256) : ((𝒫).getD j []).length < 8 ∧
     (∀ l ∈ (𝒫).getD j [], 1 ≤ l ∧ l ≤ 4) ∧
@@ -123,7 +123,7 @@ theorem toLetters_last {w : List ℤ} {l : ℤ} (h1 : 1 ≤ l) (h4 : l ≤ 4) :
   rw [toLetters, List.filterMap_append, ← toLetters]
   congr 1
   have h : l ≠ 0 ∧ l.natAbs ≤ 4 := ⟨by omega, by omega⟩
-  simp only [List.filterMap_cons, List.filterMap_nil, dif_pos h]
+  simp only [List.filterMap_cons, List.filterMap_nil, dite_eq_left h]
   congr
   · omega
   · simp
@@ -269,7 +269,7 @@ theorem perm_of {P Q : ℕ} (h : permOK 2688 12 (mask 12) (2688 * 12) P Q = true
   obtain ⟨g, hg, hq⟩ := CFSG.KC.EnumSound.permOK_perm h
   have hex : ∃ g, PRep 2688 12 P g := ⟨g, hg⟩
   have e : pOf P = g := by
-    rw [pOf, dif_pos hex]
+    rw [pOf, dite_eq_left hex]
     exact prep_unique hex.choose_spec hg
   rw [e]
   exact ⟨hg, hq⟩

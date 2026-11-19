@@ -29,6 +29,7 @@ section Helpers
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem mem_centModSubgroup_of_commute {p : ℕ} {J : Subgroup Ω} {c : Ω}
     (hN : c ∈ Subgroup.normalizer (J : Set Ω)) (h : ∀ l ∈ J, l * c = c * l) :
     c ∈ centModSubgroup p J := by
@@ -41,9 +42,10 @@ theorem mem_centModSubgroup_of_commute {p : ℕ} {J : Subgroup Ω} {c : Ω}
 theorem card_sup_zpowers_of_comm {p : ℕ} (hp : p.Prime) {E : Subgroup Ω} {x : Ω} (hx : x ^ p = 1)
     (hx1 : x ≠ 1) (hxE : x ∉ E) (hc : ∀ e ∈ E, e * x = x * e) :
     Nat.card (E ⊔ Subgroup.zpowers x : Subgroup Ω) = Nat.card E * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.HardMathSupport.Solomon.Coordinator.i1020_card_sup_zpowers hp (orderOf_eq_prime hx hx1) hxE hc
 
+omit [Finite Ω] in
 theorem isElemAbelian_sup_zpowers {p : ℕ} {E : Subgroup Ω} {x : Ω} (hE : IsElemAbelian p E)
     (hx : x ^ p = 1) (hc : ∀ e ∈ E, e * x = x * e) : IsElemAbelian p (E ⊔ Subgroup.zpowers x) :=
   CFSG.HardMathSupport.Solomon.Coordinator.i1020_isElemAbelian_sup hE
@@ -53,6 +55,7 @@ theorem isElemAbelian_sup_zpowers {p : ℕ} {E : Subgroup Ω} {x : Ω} (hE : IsE
     exact (Commute.zpow_right (show Commute e x from hc e he) k).eq)
 
 
+omit [Finite Ω] in
 theorem exists_mul_of_comm_sup {H K : Subgroup Ω} (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {x : Ω}
     (hx : x ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
   have hN : H ≤ Subgroup.normalizer (K : Set Ω) := by
@@ -77,7 +80,7 @@ theorem exists_mul_of_comm_sup {H K : Subgroup Ω} (hc : ∀ h ∈ H, ∀ k ∈ 
 
 theorem mem_zpowers_of_mem_zpowers {p : ℕ} (hp : p.Prime) {a y : Ω} (ha : a ^ p = 1) (ha1 : a ≠ 1)
     (hy : y ∈ Subgroup.zpowers a) (hy1 : y ≠ 1) : a ∈ Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hya : y ^ p = 1 := by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ha, one_zpow]
@@ -94,6 +97,7 @@ section Z1
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem mem_normalizer_zpowers_of_comm {d u : Ω} (h : d * u = u * d) :
     d ∈ Subgroup.normalizer ((Subgroup.zpowers u : Subgroup Ω) : Set Ω) := by
   apply Subgroup.centralizer_le_normalizer _
@@ -111,7 +115,7 @@ theorem conc268_of_Z1 (hZ1 : S267FactZ1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   obtain ⟨hA0, a, haA, haS, R, hRS, hRel, hRc, hRa, r, hrR, hr1, hJc, hJn, hcm, hlay,
     ⟨T, hTS, hT0, hT2, hTn⟩, ⟨u, huS, hu1, hu2, hur, huJ⟩⟩ :=
     hZ1 p Q hp hp2 hQ2 hQp Ω S A hSn hSq hSc hcat hA hAc hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set CS : Subgroup Ω := Subgroup.centralizer (S : Set Ω) with hCS
   set A0 : Subgroup Ω := A ⊓ CS with hA0def
   set J : Subgroup Ω := GLAPLayer p (S ⊓ Subgroup.centralizer ({r} : Set Ω)) with hJdef
@@ -304,7 +308,7 @@ theorem conc268_of_Z3 (hZ3 : S267FactZ3) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   obtain ⟨hA0, b, hbA, hbC, hJc, hJn, hcm, ⟨a, haA, haD, hlay⟩, ⟨T, hTS, hT0, hT2, hTn⟩,
     ⟨u, huS, hu1, hu2, hub, huJ⟩⟩ :=
     hZ3 p Q hp hp2 hQ2 hQp Ω S A hSn hSq hSp hSc hcat hA hAc hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set CS : Subgroup Ω := Subgroup.centralizer (S : Set Ω) with hCS
   set A0 : Subgroup Ω := A ⊓ CS with hA0def
   set J : Subgroup Ω := GLAPLayer p (S ⊓ Subgroup.centralizer ({b} : Set Ω)) with hJdef

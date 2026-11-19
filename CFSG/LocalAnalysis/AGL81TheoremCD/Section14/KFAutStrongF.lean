@@ -63,7 +63,7 @@ theorem not_dvd_card_center_of_gamma {X : Type} [Group X] [Finite X] {p : ℕ}
     change Subgroup.zpowers zc ≠ ⊥
     exact Subgroup.zpowers_ne_bot.mpr hzcne
   obtain ⟨Q, hQ⟩ := hPsyl
-  haveI : U'.Normal := hU'normal
+  have : U'.Normal := hU'normal
   have hle : U' ≤ Q := IsPGroup.le_sylow_of_normal hU'p Q
   let U : Subgroup X := U'.map F.subtype
   have hUP : U ≤ P := by

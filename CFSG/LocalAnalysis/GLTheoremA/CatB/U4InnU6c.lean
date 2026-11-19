@@ -41,23 +41,23 @@ theorem pPrimeCore_K1_big (ha4 : 4 ≤ Fintype.card (Blk d c)) (ha5 : Fintype.ca
     exact embSU_mem_CenD d c hD A
   have ha : Fintype.card (Blk d c) = 4 ∨ Fintype.card (Blk d c) = 5 := by omega
   let eK := MonoidHom.ofInjective (embSU_injective d c)
-  haveI := isSimple_statedSU _ ha
-  haveI hsK : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
+  have := isSimple_statedSU _ ha
+  have hsK : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
   have h3K : 3 ∣ Nat.card ↥(embSU d c).range :=
     (show 3 ∣ 25920 by norm_num).trans (hLd.trans (Subgroup.card_dvd_of_le hLK))
   have hncK : ¬ ∀ a b : ↥(embSU d c).range, a * b = b * a := by
     intro hcomm
-    haveI : IsMulCommutative ↥L := ⟨⟨fun x y => Subtype.ext (by
+    have : IsMulCommutative ↥L := ⟨⟨fun x y => Subtype.ext (by
       have := congrArg Subtype.val (hcomm ⟨x.1, hLK x.2⟩ ⟨y.1, hLK y.2⟩)
       exact this)⟩⟩
-    haveI : Subsingleton ↥L := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Subsingleton ↥L := Group.IsPerfect.subsingleton_of_isMulCommutative
     have h1 : Nat.card ↥L = 1 := Nat.card_eq_one_iff_unique.2 ⟨inferInstance, inferInstance⟩
     rw [h1] at hLd
     exact absurd (Nat.le_of_dvd one_pos hLd) (by norm_num)
   have hZK : Subgroup.center ↥(embSU d c).range = ⊥ := center_eq_bot_of_simple_of_not_comm hncK
   have hOK : CFSG.pPrimeCore 3 ↥(embSU d c).range = ⊥ := pPrimeCore_eq_bot_of_simple h3K
   have hperfK : ⁅(embSU d c).range, (embSU d c).range⁆ = (embSU d c).range := by
-    haveI : Group.IsPerfect ↥(embSU d c).range := by
+    have : Group.IsPerfect ↥(embSU d c).range := by
       refine ⟨?_⟩
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥(embSU d c).range) with h | h
       · exfalso

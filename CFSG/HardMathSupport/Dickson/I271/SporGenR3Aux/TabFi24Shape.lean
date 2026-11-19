@@ -27,14 +27,14 @@ theorem shapeRkAt_of_simple_pindex {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp
   have eL : ↥E ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLC
   have hEmap : E.map C.subtype = L := Subgroup.map_subgroupOf_eq_of_le hLC
   have eE : ↥(E.map C.subtype) ≃* ↥L := MulEquiv.subgroupCongr hEmap
-  haveI hsE' : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
+  have hsE' : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
   have hcardE : Nat.card ↥E = Nat.card ↥L := Nat.card_congr eL.toEquiv
   have hpos : 0 < Nat.card ↥L := Nat.card_pos
   have hidx : E.index = p ^ k := by
     have h1 : E.index * Nat.card ↥E = Nat.card ↥C := Subgroup.index_mul_card E
     rw [hcardE, hk] at h1
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1, mul_comm])
-  haveI hEn : E.Normal := normal_of_isSimple_of_index E hidx (pow_ne_zero k hp.ne_zero) hfac
+  have hEn : E.Normal := normal_of_isSimple_of_index E hidx (pow_ne_zero k hp.ne_zero) hfac
   have hsE : IsSimpleGroup ↥(E.map C.subtype) := eE.isSimpleGroup_congr.2 hs
   have hnabE : ∃ a b : ↥(E.map C.subtype), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
@@ -43,13 +43,13 @@ theorem shapeRkAt_of_simple_pindex {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp
     rw [Nat.card_congr eE.toEquiv]
     exact hpL
   have hq : IsPGroup p (↥C ⧸ E) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact IsPGroup.of_card (n := k) hidx
   have hZE : Subgroup.center ↥(E.map C.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact center_eq_bot_of_simple_nonab hnabE
   have hcoreE : GLAPPrimeCore p ↥(E.map C.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact glaPPrimeCore_eq_bot_of_simple hp hpE
   refine shapeRkAt_of_normal_pindex hp E hsE hnabE hpE hq ?_ ?_
   · exact hGood ↥L _ ((pSimpleEquivSelf (E.map C.subtype) hcoreE hZE).trans eE).symm hG

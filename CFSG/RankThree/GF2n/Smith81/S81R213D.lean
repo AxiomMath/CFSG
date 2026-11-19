@@ -21,6 +21,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
   {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
 
+omit [Finite K] in
 theorem mem_comm_sup_Z_iff {X : Subgroup G} {x : G} (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     {c : G} (hc : c ∈ Q) : c ∈ ⁅Q, Subgroup.zpowers x⁆ ⊔ Z ↔ M₀.π c ∈ Rs Tx := by
   have H : StrothHyp M Q Z := hs.hyp
@@ -69,6 +70,7 @@ theorem isConj_of_mem_X {X : Subgroup G} (H : StrothHyp M Q Z) (hz : z ∈ Z) (h
   rw [this, h]
   group
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.quot_mem_Q (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {a b : G} {g : GL (Fin 6) K}
     (ha : ActsAs φ a g) (hb : ActsAs φ b g) : a⁻¹ * b ∈ Q := by
   have haL := ha.mem_Lgen

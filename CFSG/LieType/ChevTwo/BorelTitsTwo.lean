@@ -83,8 +83,8 @@ theorem holdsTits_of_psu_three_three {S : Type} [Group S] [Finite S]
     fun V hV hVp => conclusion_of_normal_of_index_eq hidx hΓ V hV hVp
   exact HoldsTits.of_mulEquiv (ψ.symm.trans φ.symm) hY
 
-theorem holdsTits_two_of_isChevTwo {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
-    (hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwo S) : HoldsTits S 2 := by
+theorem holdsTits_two_of_isChevTwo {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
+    (_hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwo S) : HoldsTits S 2 := by
   rcases h with ⟨d, hd, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨⟨i, hv⟩, hi, ⟨e⟩⟩
   · obtain ⟨t, m, f, hL⟩ :=
       CFSG.StandardType.ChevTwo.exists_lieModel_two_of_valid d

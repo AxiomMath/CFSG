@@ -83,14 +83,14 @@ attribute [instance] OrthFrameCore.instField OrthFrameCore.instFinite OrthFrameC
 
 theorem OrthFrameCore.finite_linearEquiv {p : ℕ} {G : Type} [Group G] {Bs X : Subgroup G}
     (Φ : OrthFrameCore p Bs X) : Finite (Φ.V ≃ₗ[Φ.F] Φ.V) := by
-  haveI : Finite Φ.V := Module.finite_of_finite Φ.F
+  have : Finite Φ.V := Module.finite_of_finite Φ.F
   exact Finite.of_injective (fun e : Φ.V ≃ₗ[Φ.F] Φ.V => (e : Φ.V → Φ.V)) DFunLike.coe_injective
 
 theorem OrthFrameCore.exists_swap_refl {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G]
     {Bs X : Subgroup G} (Φ : OrthFrameCore p Bs X) {i j : Fin Φ.r} (hij : i ≠ j) :
     ∃ a ∈ ggAutomizer X Bs, GGIsReflection p a ∧
       ggRankOneIn X Bs a = ((Φ.Δ.rankOne i j).subgroupOf (orthDerived Φ.Q)).map Φ.ψ := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   obtain ⟨w, hw, hn⟩ := Φ.swapReal i j hij
   have hgX : Φ.ψ w ∈ X := by
     have h : Φ.ψ w ∈ Φ.ψ.range := ⟨w, rfl⟩

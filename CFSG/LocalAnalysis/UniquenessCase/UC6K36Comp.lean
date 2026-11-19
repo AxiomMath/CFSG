@@ -128,7 +128,7 @@ theorem exists_mem_centralizer_conj_eq {a : G} {n : ℕ} (hn : 0 < n) (han : a ^
     have h1 : a * ((List.range (m + 1)).map c).prod * a⁻¹
         = ((List.range (m + 1)).map (fun i => c (i + 1))).prod := by
       have := map_list_prod (MulAut.conj a).toMonoidHom ((List.range (m + 1)).map c)
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at this
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at this
       rw [this, List.map_map]
       congr 1
       refine List.map_congr_left fun i _ => ?_

@@ -48,7 +48,7 @@ theorem burnsideF4m_sp4_model_card (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) :
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hinj : Function.Injective marking.transport := by
     refine (injective_iff_map_eq_one marking.transport).2 fun a ha => ?_
@@ -123,8 +123,8 @@ theorem burnsideF4m_xl_mem_ctr_oPPrime {K : Type} [Field K] [Finite K] [CharP K 
     exact Subgroup.mem_centralizer_singleton_iff.1 hs
 
 theorem burnsideF4m_top_Sp4two (hyp : HypF_4_4 .Sp4 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, _, _, _, θ, hK, hθinj, hrange, hM₁, -⟩ := burnsideF4m_sp4_model_card hyp
   rw [pow_one] at hK
   let Ψ : StatedSp 2 K ≃* ↥Gp :=

@@ -10,11 +10,13 @@ open CFSG CFSG.Blueprint CFSG.GF2Type.CenterFour
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_smul_sylow_iff {p : ℕ} (g : G) (S : Sylow p G) (x : G) :
     x ∈ ((g • S : Sylow p G) : Subgroup G) ↔ g⁻¹ * x * g ∈ (S : Subgroup G) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, MulAut.smul_def,
     ← map_inv, MulAut.conj_apply, inv_inv]
 
+omit [Finite G] in
 theorem ET_conj {z : G} (g : G) {T T' : Subgroup G} (h : ∀ x, x ∈ T' ↔ g⁻¹ * x * g ∈ T) :
     ET T' z = (ET T z).map (MulAut.conj g).toMonoidHom := by
   apply le_antisymm
@@ -43,7 +45,7 @@ theorem ET_conj {z : G} (g : G) {T T' : Subgroup G} (h : ∀ x, x ∈ T' ↔ g�
 
 theorem card_ET_eq (z : G) (T T' : Sylow 2 G) :
     Nat.card (ET (T' : Subgroup G) z) = Nat.card (ET (T : Subgroup G) z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G T T'
   rw [ET_conj g (mem_smul_sylow_iff g T)]
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
@@ -79,7 +81,7 @@ theorem le_normalizer_ET (c : BL.Ctx z w Z A T) (hti : HSTI z) :
   intro x
   rw [c.mem_ET_iff hti, c.mem_ET_iff hti, c.mem_VS_iff, c.mem_VS_iff]
   have hW : x ∈ BL.WZ Z (T : Subgroup G) ↔ t * x * t⁻¹ ∈ BL.WZ Z (T : Subgroup G) :=
-    Subgroup.mem_normalizer_iff.mp (c.T_le_normalizer ht) x
+    Subgroup.mem_normalizer_iff.mp (CFSG.GF2Type.Aschbacher1976Full.HS.BL.Ctx.T_le_normalizer ht) x
   have h1 : x = 1 ↔ t * x * t⁻¹ = 1 := by
     constructor
     · rintro rfl

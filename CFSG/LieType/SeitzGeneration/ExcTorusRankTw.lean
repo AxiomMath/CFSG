@@ -96,7 +96,7 @@ theorem rankLE1_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : T
     rw [elemAbelian_card_eq_one_of_degCountTw_zero hℓ hf K hK σ hσ hp hp3 hpq he h0 hF]
     exact hp.one_lt.le
   · have h60 := le_sixty_of_degCountTw_pos (Nat.pos_of_ne_zero h0)
-    interval_cases e <;> first | exact absurd hcnt (by decide) | exact absurd h0 (by decide) | skip
+    interval_cases e <;> try first | exact absurd hcnt (by decide) | exact absurd h0 (by decide)
     · exact (sylowTorus_twistedE6_eight hℓ hf K hK σ hσ hp he).rankLE1 hp
     · exact (sylowTorus_twistedE6_ten hℓ hf K hK σ hσ hp he).rankLE1 hp
     · exact (sylowTorus_twistedE6_twelve hℓ hf K hK σ hσ hp he).rankLE1 hp
@@ -112,7 +112,7 @@ theorem not_rankLE2_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K
   have h60 := le_sixty_of_degCountTw_pos (by omega : 0 < degCountTw e)
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
   have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
-  interval_cases e <;> first | exact absurd hcnt (by decide) | skip
+  interval_cases e <;> try exact absurd hcnt (by decide)
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_twistedE6_one hℓ hf K hK σ hσ hp hp3 he
     exact not_rankLE2_of_elemAbelian hp (by norm_num) hE hc
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_twistedE6_two hℓ hf K hK σ hσ hp hp3 he

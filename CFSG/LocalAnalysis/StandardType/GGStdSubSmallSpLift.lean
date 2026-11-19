@@ -142,7 +142,7 @@ theorem exists_twoSubgroup_lift_le [Finite L'] (hker : ψ.ker ≤ Subgroup.cente
     have hQP : Q = P := Subsingleton.elim (α := Sylow 2 H) Q P
     rw [← hQP]
     exact hQ (Subgroup.mem_zpowers h)
-  refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, P.isPGroup.map _, ?_⟩
   · rintro _ ⟨q, -, rfl⟩
     exact q.2.1
   · intro hbot
@@ -159,7 +159,7 @@ theorem exists_twoSubgroup_lift_le [Finite L'] (hker : ψ.ker ≤ Subgroup.cente
       show ψ (g * (q : L') * g⁻¹) ∈ U
       rw [map_mul, map_mul, map_inv]
       exact hgU _ q.2.2
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨q, hq⟩
     have hqk : (q : L') ^ 2 ^ k = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => ((z : H) : L')) hk
       simpa using this

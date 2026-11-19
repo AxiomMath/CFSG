@@ -253,7 +253,7 @@ private theorem sigma_eq_of_mem_lineSL_of_projPair_eq_zero [CharP F 2]
     have h := huu
     rw [hu_eq] at h
     simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right,
-      haa, hdd, had, hda, mul_zero, mul_one, zero_mul, add_zero, zero_add] at h
+      haa, hdd, had, hda, mul_zero, mul_one, add_zero, zero_add] at h
     simpa [mul_comm, mul_left_comm, mul_assoc] using h
   obtain ⟨hx_eq, hy_eq⟩ := sub_mul_sigma_eq_zero hα hβ hγ hδ hxe hye hxy
   rcases hnot with hx0 | hy0

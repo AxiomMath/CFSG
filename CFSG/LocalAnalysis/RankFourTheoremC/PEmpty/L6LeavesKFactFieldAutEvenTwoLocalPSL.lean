@@ -17,7 +17,7 @@ open CFSG.ComponentClassification.CatLeaf (lieOrderNumerator lieOrderDivisor)
 
 theorem prime_dvd_pow_sub_one {p a : ℕ} (hp : p.Prime) (ha : ¬ p ∣ a) :
     p ∣ a ^ (p - 1) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : (a : ZMod p) ≠ 0 := fun h => ha ((ZMod.natCast_eq_zero_iff a p).1 h)
   have h2 := ZMod.pow_card_sub_one_eq_one h1
   have ha0 : 0 < a := Nat.pos_of_ne_zero (by rintro rfl; exact ha (dvd_zero p))
@@ -42,8 +42,8 @@ theorem twoLocalWhen_PSL : TwoLocalWhen .PSL (fun n f₀ => ¬ IsExcRow .PSL n f
       omega
     · exact h0
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpn : ¬ p ∣ n := by
     intro hpn
     have hpn' : p ≤ n := Nat.le_of_dvd (by omega) hpn
@@ -65,9 +65,9 @@ theorem twoLocalWhen_PSL : TwoLocalWhen .PSL (fun n f₀ => ¬ IsExcRow .PSL n f
   have hppd := fun k => ppd_dvd_iff hrm hm hcorr hp hpn k
   have hr : r.Prime := hrm.1
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ := hcl0
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hFcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   refine ⟨r, hr, fun R hR2 hR1 => ?_⟩
   have hRn : ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set K)) := by
     intro hrN
@@ -83,7 +83,7 @@ theorem twoLocalWhen_PSL : TwoLocalWhen .PSL (fun n f₀ => ¬ IsExcRow .PSL n f
     rw [hcardF, hf]
     intro h
     exact absurd (Nat.le_of_dvd hk ((hppd k).2.1 h)) (not_le.mpr hk')
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hv0 : padicValNat r (Nat.card (Subgroup.normalizer (R : Set K))) = 0 :=
     padicValNat.eq_zero_of_not_dvd hRn
   have hq1 : ¬ r ∣ 2 ^ f₀ - 1 := by

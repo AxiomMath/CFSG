@@ -24,6 +24,7 @@ theorem pow_four_fin_two (x y z w : F) :
          (z * x + w * z) * (x * y + y * w) + (z * y + w * w) * (z * y + w * w)] := by
   simp only [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, sq, Matrix.mul_fin_two]
 
+omit [Field F] in
 theorem fin_two_eq_iff {a b c d a' b' c' d' : F} :
     (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) F) = !![a', b'; c', d'] ↔
       a = a' ∧ b = b' ∧ c = c' ∧ d = d' := by
@@ -52,7 +53,7 @@ theorem unitary_entries (h : UnitaryFieldData 3 1 F) {M : Matrix (Fin 2) (Fin 2)
       congrFun (congrFun hu 1) 1
 
 theorem three_eq_zero_of_unitaryFieldData (h : UnitaryFieldData 3 1 F) : (3 : F) = 0 := by
-  haveI := h.charP
+  have := h.charP
   exact_mod_cast CharP.cast_eq_zero F 3
 
 theorem two_ne_zero_of_unitaryFieldData (h : UnitaryFieldData 3 1 F) : (2 : F) ≠ 0 := by

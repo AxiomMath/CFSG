@@ -36,7 +36,7 @@ theorem decomposition {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (
     iSupIndep (fun D : hyperplanes p K => commSpace ρ Z ⊓ fixedSpace ρ D.1) ∧
       (⨆ D : hyperplanes p K, commSpace ρ Z ⊓ fixedSpace ρ D.1) = commSpace ρ Z := by
   classical
-  haveI : Finite K := inferInstance
+  have : Finite K := inferInstance
   have hpq : p ≠ 2 := by rintro rfl; exact (Nat.not_even_iff_odd.2 hp) even_two
   let σ := restrictedRepresentation ρ K Z hcentral
   have hTop : CFSG.Open.IsElemAbelian p (⊤ : Subgroup K) := by

@@ -25,7 +25,7 @@ theorem omega_finite_orthogonalGroup (Q : QuadraticForm K (Fin d → K)) :
     Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
   Finite.of_injective (fun g : TauCeti.QuadraticMap.orthogonalGroup Q =>
     ((g.val : (Fin d → K) ≃ₗ[K] (Fin d → K)) : (Fin d → K) → (Fin d → K)))
-    (fun a b h => Subtype.ext (LinearEquiv.coe_injective h))
+    (fun _a _b h => Subtype.ext (LinearEquiv.coe_injective h))
 
 theorem omega_linear_fixed_card_ge (hd : 0 < d) (Q : QuadraticForm K (Fin d → K))
     (hQ : Q.polarBilin.Nondegenerate) (g : similarityPairs Q) (hg : g.val.right = 1) :
@@ -33,7 +33,7 @@ theorem omega_linear_fixed_card_ge (hd : 0 < d) (Q : QuadraticForm K (Fin d → 
         Nat.card (orthogonalOperatorCentralizer Q (matrixLinearEquiv g.val.left).toLinearMap) ≤
       Nat.card (fixedSubgroup (matrixProjectiveConjugation Q g)) *
         Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) := by
-  haveI := omega_finite_orthogonalGroup Q
+  have := omega_finite_orthogonalGroup Q
   have hex := exists_ne_zero_of_polarBilin_nondegenerate Q hQ hd
   set A := matrixLinearEquiv g.val.left with hA
   set μ := multiplier Q g with hμ

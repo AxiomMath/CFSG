@@ -13,6 +13,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (smallRankF smallRankR smallRankIsQ8D8
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_centralizer_of_mem {F : Subgroup G} {g : G}
     (hg : g ∈ normalizer (F : Set G)) :
     g ∈ normalizer ((centralizer (F : Set G) : Subgroup G) : Set G) := by
@@ -34,11 +35,11 @@ theorem stepFiveFPF_of (hGAP : KFactAutQ8D8Five) : StepFiveFPF := by
     omega
   subst hp5
   intro g hgN hgp hgC a ha ha1 hfix
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp5' : Nat.Prime 5 := by norm_num
   have hf : f.Prime := hL.prime
   have hf2 : f ≠ 2 := hL.ne_two
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hFc : Nat.card (smallRankF 5 f x) = f ^ 4 := hL.lemma629.2.2.2.2.1
   have hFM : smallRankF 5 f x ⊓ M = ⊥ := smallRankF_inf_eq_bot hf hf2 hL.lemma628.2.2.2
   have hFne : smallRankF 5 f x ≠ ⊥ := by

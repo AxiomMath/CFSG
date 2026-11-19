@@ -102,8 +102,8 @@ theorem mem_statedSU_of_eq_one_add_smul_suRootMatrix {r f : ℕ} (h : UnitaryFie
     linear_combination h0
   refine Subgroup.subset_closure ⟨?_, ?_⟩
   · rw [hg]
-    haveI : Fact r.Prime := ⟨h.prime⟩
-    haveI : CharP K r := h.charP
+    have : Fact r.Prime := ⟨h.prime⟩
+    have : CharP K r := h.charP
     exact det_one_add_smul_suRootMatrix hu j t
   · rw [hg]
     have hbar : ((· ^ (r ^ f)) : K → K) = ⇑h.bar := funext fun c => (h.bar_apply c).symm
@@ -149,9 +149,9 @@ theorem exists_statedSU_rootGroup {r f : ℕ} (h : UnitaryFieldData r f K) (hr2 
       ∀ (a : Multiplicative h.traceZero) (d : Fin 4 → K), d i = d j →
         Matrix.diagonal d * ((φ a : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
           ((φ a : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) * Matrix.diagonal d := by
-  haveI : Finite K := h.finite
-  haveI : Fact r.Prime := ⟨h.prime⟩
-  haveI : CharP K r := h.charP
+  have : Finite K := h.finite
+  have : Fact r.Prime := ⟨h.prime⟩
+  have : CharP K r := h.charP
   have hcard : Nat.card K = (r ^ f) ^ 2 := by
     rw [h.card, ← pow_mul, Nat.mul_comm f 2]
   obtain ⟨u, -, hu, -, -⟩ :=
@@ -170,7 +170,7 @@ theorem le_pRank_centralizer_stdDiagHomH_su {K : Type} [Field K] [Finite K] {r f
     {i j : Fin 4} (hij : (i = 0 ∧ j = 1) ∨ (i = 2 ∧ j = 3))
     (hS : ∀ v ∈ S, Multiplicative.toAdd v i = Multiplicative.toAdd v j) :
     f ≤ CFSG.Open.pRank r (Subgroup.centralizer (stdDiagHomH ζ hD '' S)) := by
-  haveI : CharP K r := h.charP
+  have : CharP K r := h.charP
   obtain ⟨φ, hφ, hcommφ⟩ := exists_statedSU_rootGroup h hr2 hij
   apply le_pRank_centralizer_of_diag_commuting (H := StatedSU 4 (r ^ f) K) (p := r) (k := f)
     (A := Multiplicative h.traceZero) h.prime.one_lt (fun a b => mul_comm a b) _ _ φ hφ
@@ -223,8 +223,8 @@ theorem diagUnit_mem_statedSU {K : Type} [Field K] {q : ℕ} (hq : 0 < q) {x y :
         Matrix.diagonal (fun i => (((![x, x⁻¹, y, y⁻¹] i : Kˣ) : K)) ^ q) := by
       ext i j
       by_cases h : i = j
-      · subst h; simp [Matrix.map_apply, Matrix.diagonal_apply]
-      · simp [Matrix.map_apply, Matrix.diagonal_apply, h, zero_pow hq.ne']
+      · subst h; simp [Matrix.map_apply]
+      · simp [Matrix.map_apply, h, zero_pow hq.ne']
     rw [hmap, Matrix.diagonal_transpose, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     congr 1
     funext i

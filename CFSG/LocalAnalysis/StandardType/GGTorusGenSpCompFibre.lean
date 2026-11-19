@@ -98,7 +98,7 @@ private lemma fibre_one {K : Type} [Field K] [Finite K] [DecidableEq K] {m : ℕ
     rw [hmat, Matrix.smul_one_eq_diagonal, ← Matrix.diagonal_sub]
   rw [hb1, Matrix.diagonal_pow]; ext a b; by_cases hab : a = b
   · subst hab
-    simp only [Matrix.sub_apply, Matrix.diagonal_apply, Matrix.one_apply, if_true]
+    simp only [Matrix.sub_apply, Matrix.diagonal_apply, Matrix.one_apply, ite_true]
     by_cases h : diagSpEntry t a = μ
     · simp [h, hqF.ne']
     · have hne : diagSpEntry t a - μ ≠ 0 := sub_ne_zero.mpr h
@@ -132,7 +132,7 @@ private lemma fibre_pair {K : Type} [Field K] [Finite K] [DecidableEq K] {m : �
     rw [hb1, hb2, Matrix.diagonal_mul_diagonal]
   rw [hbmul, Matrix.diagonal_pow]; ext a b; by_cases hab : a = b
   · subst hab
-    simp only [Matrix.sub_apply, Matrix.diagonal_apply, Matrix.one_apply, if_true]
+    simp only [Matrix.sub_apply, Matrix.diagonal_apply, Matrix.one_apply, ite_true]
     by_cases h : diagSpEntry t a = μ ∨ diagSpEntry t a = μ⁻¹
     · have hzero : (diagSpEntry t a - μ) * (diagSpEntry t a - μ⁻¹) = 0 := by
         rcases h with h | h
@@ -211,14 +211,14 @@ theorem exists_eq_diagonal_of_isPrimAdjIdemIn_diagSp {K : Type} [Field K] [Finit
         rw [hinv]; rcases h with h | h
         · right; rw [h]
         · left; rw [h, inv_inv]
-      rw [if_pos h', if_pos h]
+      rw [ite_eq_left h', ite_eq_left h]
     · have h' : ¬(diagSpEntry t (Equiv.sumComm (Fin m) (Fin m) a) = lam ∨
           diagSpEntry t (Equiv.sumComm (Fin m) (Fin m) a) = lam⁻¹) := by
         rw [hinv]
         rintro (h' | h')
         · exact h (Or.inr (by have := congrArg (fun x : K => x⁻¹) h'; simpa using this))
         · exact h (Or.inl (by have := congrArg (fun x : K => x⁻¹) h'; simpa using this))
-      rw [if_neg h', if_neg h]
+      rw [ite_eq_right h', ite_eq_right h]
   have hπA : Matrix.diagonal p ∈ A := by
     change Matrix.diagonal (fun a => if diagSpEntry t a = lam ∨
       diagSpEntry t a = lam⁻¹ then 1 else 0) ∈ A
@@ -254,9 +254,9 @@ theorem exists_eq_diagonal_of_isPrimAdjIdemIn_diagSp {K : Type} [Field K] [Finit
     rcases hv a with h | h <;> rcases hp a with k | k <;> rw [h, k] <;> ring
   have he_ne : e ≠ 0 := by
     have h1 : e a₀ a₀ = 1 := by
-      rw [he_eq, Matrix.diagonal_apply, if_pos rfl]
+      rw [he_eq, Matrix.diagonal_apply, ite_eq_left rfl]
       have hp1 : p a₀ = 1 := by
-        unfold p; rw [if_pos (Or.inl (by rw [hlamdef]))]
+        unfold p; rw [ite_eq_left (Or.inl (by rw [hlamdef]))]
       simp [ha₀, hp1]
     intro h0; rw [h0, Matrix.zero_apply] at h1; exact zero_ne_one h1
   rcases hε.2.2.2.2 e heA he_idem he_adj he_e with h0 | he
@@ -264,9 +264,9 @@ theorem exists_eq_diagonal_of_isPrimAdjIdemIn_diagSp {K : Type} [Field K] [Finit
   have hsupp : ∀ a, v a = 1 → diagSpEntry t a = lam ∨ diagSpEntry t a = lam⁻¹ := by
     intro a ha; by_contra h
     have h1 : p a = 0 := by
-      unfold p; rw [if_neg h]
+      unfold p; rw [ite_eq_right h]
     have hcc := congrArg (fun M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K => M a a) he
-    rw [he_eq, hεv, Matrix.diagonal_apply, if_pos rfl, Matrix.diagonal_apply, if_pos rfl,
+    rw [he_eq, hεv, Matrix.diagonal_apply, ite_eq_left rfl, Matrix.diagonal_apply, ite_eq_left rfl,
       h1, mul_zero, ha] at hcc
     exact zero_ne_one hcc
   exact ⟨v, hεv, hv, hconst, hpar, lam, hlamne, hsupp⟩
@@ -324,16 +324,16 @@ theorem diagSp_mul_eq_of_isPrimAdjIdemIn {K : Type} [Field K] [Finite K] [CharP 
     rcases hv a with h | h <;> rcases hp a with k | k <;> rw [h, k] <;> ring
   have he_ne : e ≠ 0 := by
     have h1 : e a0 a0 = 1 := by
-      rw [he_eq, Matrix.diagonal_apply, if_pos rfl]
-      have hp1 : p a0 = 1 := by unfold p; rw [if_pos (by rw [hlamdef])]
+      rw [he_eq, Matrix.diagonal_apply, ite_eq_left rfl]
+      have hp1 : p a0 = 1 := by unfold p; rw [ite_eq_left (by rw [hlamdef])]
       simp [ha0, hp1]
     intro h0; rw [h0, Matrix.zero_apply] at h1; exact zero_ne_one h1
   rcases hprim.2.2.2 e heA he_idem he_e with h0 | he
   · exact absurd h0 he_ne
   have hsupp : ∀ a, v a = 1 → diagSpEntry t a = lam := by
-    intro a ha; by_contra h; have h1 : p a = 0 := by unfold p; rw [if_neg h]
+    intro a ha; by_contra h; have h1 : p a = 0 := by unfold p; rw [ite_eq_right h]
     have hcc := congrArg (fun M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K => M a a) he
-    rw [he_eq, hεv, Matrix.diagonal_apply, if_pos rfl, Matrix.diagonal_apply, if_pos rfl,
+    rw [he_eq, hεv, Matrix.diagonal_apply, ite_eq_left rfl, Matrix.diagonal_apply, ite_eq_left rfl,
       h1, mul_zero, ha] at hcc
     exact zero_ne_one hcc
   have hlam_inv : lam = lam⁻¹ := by

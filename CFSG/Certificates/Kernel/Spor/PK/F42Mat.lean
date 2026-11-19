@@ -124,7 +124,7 @@ theorem can52_rowsOf (s : String) : Can52 (rowsOf 52 s) := by
     rw [getElem!_pos _ i (by simpa using hi), Array.getElem_ofFn]
   rw [e]
   refine canon52_of_val (V.wf_ofFn _ _) fun k hk => ?_
-  rw [V.val_ofFn, if_neg (by omega)]
+  rw [V.val_ofFn, ite_eq_right (by omega)]
 
 theorem toMat52_mul {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) :
     toMat 52 (mul 52 X Y) = toMat 52 X * toMat 52 Y :=
@@ -163,6 +163,7 @@ theorem inv_unique52 {X Y Z : Array V} (hX : Can52 X) (hY : Can52 Y) (hZ : Can52
 @[expose] def pk52 (X : Array V) : ℕ :=
   enc 52 (fun i => X[i]!.p) 52 + 2 ^ 2704 * enc 52 (fun i => X[i]!.m) 52
 
+set_option exponentiation.threshold 2704 in
 theorem planeMask_eq : planeMask = 2 ^ 2704 - 1 := by
   show (1 <<< 2704) - 1 = 2 ^ 2704 - 1
   rw [Nat.one_shiftLeft]
@@ -180,10 +181,12 @@ private theorem can52_m_lt {X : Array V} (hX : Can52 X) {i : ℕ} (hi : i < 52) 
 private theorem can52_and {X : Array V} (hX : Can52 X) {i : ℕ} (hi : i < 52) :
     X[i]!.p &&& X[i]!.m = 0 := ((can52_iff.1 hX).2 i hi).2.2
 
+set_option exponentiation.threshold 2704 in
 private theorem enc_p_lt {X : Array V} (hX : Can52 X) :
     enc 52 (fun i => X[i]!.p) 52 < 2 ^ 2704 :=
   enc_lt fun _ hi => can52_p_lt hX hi
 
+set_option exponentiation.threshold 2704 in
 private theorem enc_m_lt {X : Array V} (hX : Can52 X) :
     enc 52 (fun i => X[i]!.m) 52 < 2 ^ 2704 :=
   enc_lt fun _ hi => can52_m_lt hX hi
@@ -214,27 +217,31 @@ theorem pk52_mod {X : Array V} (hX : Can52 X) : pk52 X % 2 ^ 2704 = enc 52 (fun 
   unfold pk52
   rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt (enc_p_lt hX)]
 
+set_option exponentiation.threshold 2704 in
 theorem pk52_div {X : Array V} (hX : Can52 X) : pk52 X / 2 ^ 2704 = enc 52 (fun i => X[i]!.m) 52 := by
   unfold pk52
   rw [Nat.add_mul_div_left _ _ (Nat.two_pow_pos 2704), Nat.div_eq_of_lt (enc_p_lt hX),
     Nat.zero_add]
 
+set_option exponentiation.threshold 5408 in
 theorem pk52_lt {X : Array V} (hX : Can52 X) : pk52 X < 2 ^ 5408 := by
   have h := add_mul_lt (enc_p_lt hX) (enc_m_lt hX)
   exact h
 
+set_option exponentiation.threshold 2704 in
 theorem testBit_pk52_p {X : Array V} (hX : Can52 X) {i j : ℕ} (hi : i < 52) (hj : j < 52) :
     (pk52 X).testBit (52 * i + j) = X[i]!.p.testBit j := by
   have e : pk52 X = 2 ^ 2704 * enc 52 (fun i => X[i]!.m) 52 + enc 52 (fun i => X[i]!.p) 52 :=
     Nat.add_comm _ _
-  rw [e, Nat.testBit_two_pow_mul_add _ (enc_p_lt hX), if_pos (by omega)]
+  rw [e, Nat.testBit_two_pow_mul_add _ (enc_p_lt hX), ite_eq_left (by omega)]
   exact testBit_enc (fun _ hi => can52_p_lt hX hi) hi hj
 
+set_option exponentiation.threshold 2704 in
 theorem testBit_pk52_m {X : Array V} (hX : Can52 X) {i j : ℕ} (hi : i < 52) (hj : j < 52) :
     (pk52 X).testBit (2704 + (52 * i + j)) = X[i]!.m.testBit j := by
   have e : pk52 X = 2 ^ 2704 * enc 52 (fun i => X[i]!.m) 52 + enc 52 (fun i => X[i]!.p) 52 :=
     Nat.add_comm _ _
-  rw [e, Nat.testBit_two_pow_mul_add _ (enc_p_lt hX), if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [e, Nat.testBit_two_pow_mul_add _ (enc_p_lt hX), ite_eq_right (by omega), Nat.add_sub_cancel_left]
   exact testBit_enc (fun _ hi => can52_m_lt hX hi) hi hj
 
 theorem pk52_inj {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) (h : pk52 X = pk52 Y) : X = Y := by
@@ -269,6 +276,7 @@ private theorem land_two_pow_sub_one (x n : ℕ) : Nat.land x (2 ^ n - 1) = x % 
 private theorem land_planeMask (N : ℕ) : Nat.land N planeMask = N % 2 ^ 2704 := by
   rw [planeMask_eq, land_two_pow_sub_one]
 
+set_option exponentiation.threshold 5408 in
 private theorem wfS_iff {N : ℕ} :
     wfS N = true ↔ N < 2 ^ 5408 ∧ (N % 2 ^ 2704) &&& (N / 2 ^ 2704) = 0 := by
   have e1 : Nat.shiftLeft 1 5408 = 2 ^ 5408 := Nat.one_shiftLeft 5408
@@ -277,6 +285,7 @@ private theorem wfS_iff {N : ℕ} :
   rw [letB_eq, andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, e1, land_planeMask, e3]
   exact Iff.rfl
 
+set_option exponentiation.threshold 2704 in
 theorem wfS_pk52 {X : Array V} (hX : Can52 X) : wfS (pk52 X) = true := by
   rw [wfS_iff, pk52_mod hX, pk52_div hX]
   refine ⟨pk52_lt hX, ?_⟩
@@ -292,6 +301,7 @@ theorem wfS_pk52 {X : Array V} (hX : Can52 X) : wfS (pk52 X) = true := by
   · rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le (enc_p_lt hX)
       (Nat.pow_le_pow_right (by norm_num) (by omega))), Bool.false_and]
 
+set_option exponentiation.threshold 5408 in
 theorem exists_pk52 {N : ℕ} (h : wfS N = true) : ∃ X : Array V, Can52 X ∧ pk52 X = N := by
   obtain ⟨hlt, hand⟩ := wfS_iff.1 h
   have ha_lt : N % 2 ^ 2704 < 2 ^ 2704 := Nat.mod_lt _ (Nat.two_pow_pos _)
@@ -346,6 +356,7 @@ private theorem enc_const_zero (w n : ℕ) : enc w (fun _ => 0) n = 0 := by
   | zero => rfl
   | succ n ih => simp only [enc_succ, ih, Nat.zero_mul, Nat.add_zero]
 
+set_option exponentiation.threshold 2704 in
 theorem rowR_eq : rowR = enc 52 (fun _ => 1) 52 := by
   have h := enc_one_mul 52 52
   show planeMask / rowF = _
@@ -354,6 +365,7 @@ theorem rowR_eq : rowR = enc 52 (fun _ => 1) 52 := by
   · norm_num
   · exact Nat.sub_eq_of_eq_add h.symm
 
+set_option exponentiation.threshold 2756 in
 theorem idS_eq : idS = pk52 (idM 52) := by
   have h := enc_one_mul 53 52
   have e1 : idS = (2 ^ 2756 - 1) / (2 ^ 53 - 1) := by
@@ -376,6 +388,7 @@ theorem idS_eq : idS = pk52 (idM 52) := by
       enc_pow_eq, enc_const_zero, Nat.mul_zero, Nat.add_zero]
   rw [e1, e2, e3]
 
+set_option exponentiation.threshold 2704 in
 theorem negS_pk52 {X : Array V} (hX : Can52 X) : negS (pk52 X) = pk52 (CFSG.F3.Native.negM X) := by
   have hs := (can52_iff.1 hX).1
   have e1 : Nat.shiftRight (pk52 X) 2704 = enc 52 (fun i => X[i]!.m) 52 :=

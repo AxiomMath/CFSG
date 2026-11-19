@@ -74,7 +74,7 @@ private theorem l48nA_psl2 {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
       (Nat.card E = p ^ 2 → ∃ φ ∈ E,
         ¬ ∃ y : CFSG.GorensteinWalter.PSL2 K, ∀ r : CFSG.GorensteinWalter.PSL2 K,
           φ r = y * r * y⁻¹) := by
-  haveI : NeZero (p : K) := ⟨fun h => hp2
+  have : NeZero (p : K) := ⟨fun h => hp2
     ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 ((CharP.cast_eq_zero_iff K 2 p).1 h)).symm⟩
   have hEel : IsElementaryAbelian p E := CFSG.Open.IsElemAbelian.isElementaryAbelian hE
   refine ⟨l48nA_card_le_sq hp hp2 E hEel, fun hcard => ?_⟩
@@ -96,9 +96,9 @@ private theorem l48nA_general {R : Type} [Group R] {n : ℕ} (hn : 2 ≤ n)
   unfold GGHasLabel at hR
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hR
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e₀⟩⟩ := hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   let e₁ := TypeA.recipeEquiv 2 K

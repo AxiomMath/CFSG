@@ -62,7 +62,7 @@ private theorem comb_lead {piv : Array ℕ} (h : Lead piv) (b : ℕ → Bool) :
     simp only [comb]
     intro hne
     by_cases hb : b n = true
-    · rw [if_pos hb] at hne ⊢
+    · rw [ite_eq_left hb] at hne ⊢
       by_cases hp : piv[n]! = 0
       · rw [hp, Nat.zero_xor] at hne ⊢
         exact comb_lead h b n hne
@@ -81,7 +81,7 @@ private theorem comb_lead {piv : Array ℕ} (h : Lead piv) (b : ℕ → Bool) :
             (hy.trans (Nat.pow_lt_pow_succ (by omega)))⟩
         rw [hlog]
         exact hp
-    · rw [if_neg hb, Nat.zero_xor] at hne ⊢
+    · rw [ite_eq_right hb, Nat.zero_xor] at hne ⊢
       exact comb_lead h b n hne
 
 private theorem comb_xor (piv : Array ℕ) (b c : ℕ → Bool) :
@@ -105,14 +105,14 @@ private theorem comb_single (piv : Array ℕ) {k : ℕ} {b : ℕ → Bool}
     · have h1 : b n = true := (hb n).2 hnk
       have h2 : ¬ k < n := by omega
       have h3 : k < n + 1 := by omega
-      rw [if_pos h1, if_neg h2, if_pos h3, Nat.xor_zero, hnk]
+      rw [ite_eq_left h1, ite_eq_right h2, ite_eq_left h3, Nat.xor_zero, hnk]
     · have h1 : ¬ b n = true := fun h => hnk ((hb n).1 h)
-      rw [if_neg h1, Nat.zero_xor]
+      rw [ite_eq_right h1, Nat.zero_xor]
       by_cases hkn : k < n
       · have h3 : k < n + 1 := by omega
-        rw [if_pos hkn, if_pos h3]
+        rw [ite_eq_left hkn, ite_eq_left h3]
       · have h3 : ¬ k < n + 1 := by omega
-        rw [if_neg hkn, if_neg h3]
+        rw [ite_eq_right hkn, ite_eq_right h3]
 
 private theorem inSpan_zero (M : ℕ) (piv : Array ℕ) : InSpan M piv 0 :=
   ⟨fun _ => false, comb_false piv M⟩
@@ -128,7 +128,7 @@ private theorem inSpan_entry {M : ℕ} {piv : Array ℕ} (hM : piv.size = M) (k 
   by_cases hk : k < M
   · refine ⟨fun j => decide (j = k), ?_⟩
     have hb : ∀ j, (fun j => decide (j = k)) j = true ↔ j = k := fun j => by simp
-    rw [comb_single piv hb M, if_pos hk]
+    rw [comb_single piv hb M, ite_eq_left hk]
   · rw [getElem!_eq_zero (by omega)]
     exact inSpan_zero M piv
 
@@ -165,15 +165,15 @@ private theorem reduce_spec {M : ℕ} {piv : Array ℕ} (hM : piv.size = M) (h :
     exact ⟨inSpan_zero M piv, Or.inl hx0⟩
   | fuel + 1, x, hx => by
     by_cases h0 : x = 0
-    · have e : reduceF piv (fuel + 1) x = 0 := by rw [reduceF, if_pos h0]
+    · have e : reduceF piv (fuel + 1) x = 0 := by rw [reduceF, ite_eq_left h0]
       rw [e, Nat.zero_xor, h0]
       exact ⟨inSpan_zero M piv, Or.inl rfl⟩
     by_cases hp : piv[Nat.log2 x]! = 0
-    · have e : reduceF piv (fuel + 1) x = x := by rw [reduceF, if_neg h0, if_pos hp]
+    · have e : reduceF piv (fuel + 1) x = x := by rw [reduceF, ite_eq_right h0, ite_eq_left hp]
       rw [e, Nat.xor_self]
       exact ⟨inSpan_zero M piv, Or.inr hp⟩
     have e : reduceF piv (fuel + 1) x = reduceF piv fuel (x ^^^ piv[Nat.log2 x]!) := by
-      rw [reduceF, if_neg h0, if_neg hp]
+      rw [reduceF, ite_eq_right h0, ite_eq_right hp]
     rw [e]
     have hn : Nat.log2 piv[Nat.log2 x]! = Nat.log2 x := h _ hp
     have hxn : x < 2 ^ (Nat.log2 x + 1) := Nat.lt_log2_self
@@ -218,7 +218,7 @@ private theorem insertF_spec {M fuel : ℕ} {piv : Array ℕ} (hM : piv.size = M
   simp only [insertF]
   generalize reduceF piv fuel f = r at hs hr ⊢
   by_cases h0 : r = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     rw [h0, Nat.zero_xor] at hs
     exact ⟨hM, h, fun _ hx => hx, hs⟩
   have hrlt : r < 2 ^ M := by
@@ -228,7 +228,7 @@ private theorem insertF_spec {M fuel : ℕ} {piv : Array ℕ} (hM : piv.size = M
     rw [hM]
     exact (Nat.log2_lt h0).2 hrlt
   have hr0 : piv[Nat.log2 r]! = 0 := hr.resolve_left h0
-  rw [if_neg h0, if_pos hlog]
+  rw [ite_eq_right h0, ite_eq_left hlog]
   have hsize : (piv.set! (Nat.log2 r) r).size = M := by rw [Array.size_set!, hM]
   have hself : (piv.set! (Nat.log2 r) r)[Nat.log2 r]! = r := Array.getElem!_set!_self _ _ _ hlog
   have hne : ∀ k, Nat.log2 r ≠ k → (piv.set! (Nat.log2 r) r)[k]! = piv[k]! :=

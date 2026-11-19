@@ -206,7 +206,7 @@ theorem exists_involution_of_even [Finite G] {A : Subgroup G} (hS : A ∈ partTw
     exact even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hev)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (P.dvd_card_of_dvd_card h2)
   set P' : Subgroup G := (P : Subgroup Γ).map Γ.subtype with hP'
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map Γ.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map Γ.subtype
   have hAP' : A ≤ normalizer (P' : Set G) := by
     intro e he
     refine mem_normalizer_fintype fun p hp => ?_

@@ -41,7 +41,7 @@ theorem symThree_data {T : Subgroup Y} (hT : IsSubnormal T ⊤)
       (∀ d ∈ pCoreOf 3 (⊤ : Subgroup Y), d * t * d⁻¹ * t⁻¹ ∈ zpowers a) ∧
       (∀ x ∈ T, x ∈ zpowers a ∨ x * t⁻¹ ∈ zpowers a) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hS
   obtain ⟨hc3, hc1, hs2, hsc, hcases, hsplit⟩ := perm3_facts
   set a : Y := ((e.symm c3 : ↥T) : Y) with ha
@@ -190,8 +190,8 @@ theorem false_of_symThree_orbit {p k : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (σ :
     (hmove : (oUpperTwo A).map σ.toMonoidHom ≠ oUpperTwo A)
     (hrk : ∀ E : Subgroup Y, IsElemAbelian 3 E → Nat.card E ≤ 27) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, t, haA, htA, ha3, ha1, ht2, hta, hO2, hasn, haD, hcomm, hsplit⟩ :=
     symThree_data hA hS
   set D : Subgroup Y := pCoreOf 3 (⊤ : Subgroup Y) with hDdef
@@ -483,12 +483,12 @@ theorem false_of_symThree_orbit {p k : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (σ :
     rwa [← MonoidHom.range_eq_map] at h3
   have hτT : ∀ i : ℕ, τ i ∈ pCoreOf 2 ρ.range := by
     intro i
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hle := SubnormalCommute.le_pCoreOf_of_isSubnormal (himgsn i) (himg2 i)
     exact hle ⟨⟨(σ ^ i) t, htiN i⟩, mem_subgroupOf.mpr ⟨t, htA, rfl⟩, rfl⟩
   set T : Subgroup (MulAut ↥F) := closure (Set.range τ) with hTdef
   have hT2 : IsPGroup 2 T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 ρ.range).to_le
       ((closure_le _).mpr (by rintro _ ⟨i, rfl⟩; exact hτT i))
   have hσinv : ∀ x : ↥F, ((σF⁻¹ x : ↥F) : Y) = σ⁻¹ x := by

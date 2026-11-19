@@ -86,7 +86,7 @@ theorem k3CatalogQCyc_of_lie (hSpM : SporadicMultipliers)
     rw [map_mul, map_mul]
     exact mul_comm _ _
   | alternating n hn5 =>
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hcard : Nat.card S = Nat.factorial n / 2 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
         Fintype.card_fin]

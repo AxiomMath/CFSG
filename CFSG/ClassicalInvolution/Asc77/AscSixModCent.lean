@@ -133,7 +133,7 @@ theorem padicValNat_natCard_le_one_of_forall_isPGroup {H : Type*} [Group H] [Fin
     have hxL : x ∈ L := by
       obtain ⟨y, -, rfl⟩ := hx
       exact y.2
-    exact h x hxL ((P.isPGroup'.map _).to_le (Subgroup.zpowers_le.mpr hx))
+    exact h x hxL ((P.isPGroup.map _).to_le (Subgroup.zpowers_le.mpr hx))
   have hle2 := natCard_subgroup_le_two_of_subset hA2
   rw [hAcard, hP] at hle2
   have hv : (Nat.card L).factorization 2 ≤ 1 := by

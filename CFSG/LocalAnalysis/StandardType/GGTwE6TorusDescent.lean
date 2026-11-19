@@ -19,10 +19,10 @@ theorem exists_gf4_algClosure {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     (halg : ∀ c : L, ∃ n : ℕ, 0 < n ∧ c ^ (2 ^ n) = c) :
     ∃ (K : Type) (_ : Field K) (_ : Algebra K L) (σ : K ≃+* K),
       Nat.card K = (2 ^ 1) ^ 2 ∧ (∀ c, σ c = c ^ (2 ^ 1)) ∧ IsAlgClosure K L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Algebra (ZMod 2) L := ZMod.algebra L 2
-  haveI : ExpChar L 2 := expChar_prime L 2
-  haveI : Algebra.IsAlgebraic (ZMod 2) L := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Algebra (ZMod 2) L := ZMod.algebra L 2
+  have : ExpChar L 2 := expChar_prime L 2
+  have : Algebra.IsAlgebraic (ZMod 2) L := by
     refine ⟨fun c => ?_⟩
     obtain ⟨n, hn, hc⟩ := halg c
     by_cases h0 : c = 0
@@ -41,14 +41,14 @@ theorem exists_gf4_algClosure {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
       exact IsAlgebraic.of_pow (r := c) (n := 2 ^ n - 1) hpos
         (by rw [hpow]; simpa using isAlgebraic_natCast (R := ZMod 2) (A := L) 1)
   let K : Subfield L := TauCeti.frobeniusFixedSubfield L 2 2
-  haveI : Finite ↥K := by
+  have : Finite ↥K := by
     change Finite ↥(TauCeti.frobeniusFixedSubfield L 2 2)
     exact TauCeti.finite_frobeniusFixedSubfield L 2 2 (by norm_num : (2 : ℕ) ≠ 0)
-  haveI : CharP ↥K 2 := Subfield.charP K 2
-  haveI : ExpChar ↥K 2 := expChar_prime ↥K 2
-  haveI : PerfectField ↥K := PerfectField.ofFinite
-  haveI : PerfectRing ↥K 2 := PerfectField.toPerfectRing 2
-  haveI : Algebra.IsAlgebraic ↥K L := by
+  have : CharP ↥K 2 := Subfield.charP K 2
+  have : ExpChar ↥K 2 := expChar_prime ↥K 2
+  have : PerfectField ↥K := PerfectField.ofFinite
+  have : PerfectRing ↥K 2 := PerfectField.toPerfectRing 2
+  have : Algebra.IsAlgebraic ↥K L := by
     refine ⟨fun y => ?_⟩
     obtain ⟨n, hn, hy⟩ := TauCeti.exists_mem_frobeniusFixedSubfield L 2 y
     refine ⟨X ^ 2 ^ n - X, ?_, ?_⟩

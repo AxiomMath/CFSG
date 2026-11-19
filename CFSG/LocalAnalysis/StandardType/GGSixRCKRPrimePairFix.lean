@@ -193,7 +193,7 @@ theorem rckPair_stable_fixed
     {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀) (σ : GGL ≃+* GGL)
     (z : ModGL τ GGL) {Ψ : Set (Fin τ.rank → ℤ)}
     (hz : ∀ g ∈ rootSpan τ GGL Ψ, S.D.step (z * g * z⁻¹) = z * frobGL σ g * z⁻¹)
-    {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) (hγΨ : γ ∈ Ψ) :
+    {γ : Fin τ.rank → ℤ} (_hγ : IsRoot τ γ) (hγΨ : γ ∈ Ψ) :
     ((rootSubgroup τ GGL γ).map (MulAut.conj z).toMonoidHom).map S.D.step =
         (rootSubgroup τ GGL γ).map (MulAut.conj z).toMonoidHom ∧
       ((rootSubgroup τ ↥(fixSubfield σ) γ).map (baseChangeGL (fixSubfield σ).subtype)).map

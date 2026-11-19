@@ -109,7 +109,7 @@ theorem map_autGL_eq_closure (hp : p ≠ 2) (e : U ≃ₗ[ZMod p] (Fin 3 → ZMo
   rw [MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨t, ⟨htA, htrefl⟩, rfl⟩
     exact ⟨Subgroup.mem_map_of_mem _ htA, (isRefl_iff_autGL hp e t).mp htrefl⟩
@@ -130,7 +130,7 @@ theorem exists_isRefl_mem (hp : p ≠ 2) (e : U ≃ₗ[ZMod p] (Fin 3 → ZMod p
   simp only [not_exists, not_and] at hcon
   have hempty : {t | t ∈ A ∧ IsRefl p t} = ∅ := by
     ext t
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
     intro ht hrefl
     exact hcon (autGL e t) (Subgroup.mem_map_of_mem _ ht) ((isRefl_iff_autGL hp e t).mp hrefl)
   have hbot : A = ⊥ := by rw [hR, hempty, Subgroup.closure_empty]

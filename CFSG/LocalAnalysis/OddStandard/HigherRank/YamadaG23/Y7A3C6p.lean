@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem y7a_comm_conj_mem {C : Subgroup G} {x : G} (hx : ∀ m ∈ C, x * m * x⁻¹ ∈ C) {δ : G}
     (hδ : δ ∈ ⁅C, C⁆) : x * δ * x⁻¹ ∈ ⁅C, C⁆ := by
   rw [Subgroup.commutator_def] at hδ ⊢
@@ -25,7 +26,7 @@ theorem y7a_comm_conj_mem {C : Subgroup G} {x : G} (hx : ∀ m ∈ C, x * m * x�
     refine Subgroup.subset_closure ⟨x * g₁ * x⁻¹, hx g₁ hg₁, x * g₂ * x⁻¹, hx g₂ hg₂, ?_⟩
     simp only [commutatorElement_def]
     group
-  · simpa using Subgroup.one_mem _
+  · simp
   · intro a b _ _ ha hb
     have : x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) := by group
     rw [this]

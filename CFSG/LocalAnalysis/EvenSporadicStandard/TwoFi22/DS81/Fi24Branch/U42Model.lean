@@ -22,8 +22,8 @@ theorem exists_mul_ne_of_statedPSU42 {U : Type} [Group U]
     (h : StatedClassicalModel U .PSU 4 2 1) : ∃ a b : U, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  haveI := isSimpleGroup_of_statedPSU42 h
-  haveI : IsMulCommutative U := ⟨⟨hcomm⟩⟩
+  have := isSimpleGroup_of_statedPSU42 h
+  have : IsMulCommutative U := ⟨⟨hcomm⟩⟩
   have hprime := (Group.is_simple_iff_prime_card (α := U)).1 inferInstance
   rw [card_of_statedPSU42 h] at hprime
   exact absurd hprime (by norm_num)
@@ -31,7 +31,7 @@ theorem exists_mul_ne_of_statedPSU42 {U : Type} [Group U]
 theorem not_isSolvable_of_statedPSU42 {X : Type} [Group X]
     (h : StatedClassicalModel X .PSU 4 2 1) : ¬ Group.IsSolvable X := by
   intro hsolv
-  haveI := isSimpleGroup_of_statedPSU42 h
+  have := isSimpleGroup_of_statedPSU42 h
   obtain ⟨a, b, hab⟩ := exists_mul_ne_of_statedPSU42 h
   exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hsolv a b)
 
@@ -46,7 +46,7 @@ theorem IsU42Two.not_isSolvable {A : Type} [Group A] (h : IsU42Two A) :
     ¬ Group.IsSolvable A := by
   obtain ⟨U, _, hU, hs, hna, ⟨e⟩⟩ := h.exists_simple
   intro hsolv
-  haveI := hs
+  have := hs
   exact MulAutSimple.not_isSolvable hna
     (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 

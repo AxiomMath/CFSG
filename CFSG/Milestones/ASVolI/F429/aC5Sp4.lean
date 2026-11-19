@@ -255,8 +255,8 @@ theorem burnsideF429a_key1_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₁) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, e, R, hFcard, h₁, h₂, hBor, hU, hRj, hform, -⟩ :=
     burnsideF429a_Sp4_setup5 hyp hf
   exact burnsideF429a_Sp4_key_of_setup hyp.centralizer_trivial hf hFcard e R h₁ h₂ hBor hU hform
@@ -267,8 +267,8 @@ theorem burnsideF429a_key2_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₂) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, e, R, hFcard, h₁, h₂, hBor, hU, hRj, hform, -⟩ :=
     burnsideF429a_Sp4_setup5 hyp hf
   exact burnsideF429a_Sp4_key_of_setup hyp.centralizer_trivial hf hFcard e R h₁ h₂ hBor hU hform
@@ -277,8 +277,8 @@ theorem burnsideF429a_key2_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
 theorem burnsideF429a_c5_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C5 .Sp4 Gp M₁ M₂ hyp T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, _, _, _, e, R, -, -, -, -, -, -, -, hSG⟩ := burnsideF429a_Sp4_setup5 hyp hf
   exact Or.inl ⟨burnsideF429a_c5_of_key hSG inf_le_left hT (burnsideF429a_key1_Sp4 hyp hf),
     burnsideF429a_c5_of_key hSG inf_le_right hT (burnsideF429a_key2_Sp4 hyp hf)⟩

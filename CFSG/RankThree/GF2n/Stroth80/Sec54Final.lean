@@ -46,10 +46,10 @@ theorem sec54_proj_Wt (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   set V : Subgroup G := Vt M (LB M Q B) B Z t with hVdef
   set W : Subgroup G := Wt Q V with hWdef
   obtain ⟨K, hK, hKf, hKcard, hrep⟩ := hV
-  letI := hK
-  letI := hKf
+  let := hK
+  let := hKf
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
+  have hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
   have hV' : SpMNat hc t m := ⟨K, hK, hKf, hKcard, hrep⟩
   have hVW : V ≤ W := sec7ctr_Vt_le_Wt h34 hc hs
   have hWQ : W ≤ Q := inf_le_left
@@ -217,10 +217,10 @@ theorem stroth54FC_contra (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
   set N : Subgroup G := hc.CN t with hNdef
   set R : Subgroup G := Rt M (LB M Q B) t with hRdef
   obtain ⟨K, hK, hKf, hKcard, φ, hφ, hker, hact⟩ := hV
-  letI := hK
-  letI := hKf
+  let := hK
+  let := hKf
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
+  have hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
   have hrep' : NaturalRep (ι := Fin m ⊕ Fin m) K (StatedSp m K) (Rt M (LB M Q B) t)
       (Vt M (LB M Q B) B Z t) Z (hc.CN t) := ⟨φ, hφ, hker, hact⟩
   have hV' : SpMNat hc t m := ⟨K, hK, hKf, hKcard, hrep'⟩
@@ -315,8 +315,8 @@ theorem stroth54Statement_of_contra (h34 : Stroth34Statement) (hRoot : Stroth310
     Stroth54Statement := by
   intro G _ _ M Q Z B hc n t hs hsp hN
   obtain ⟨K, hK, hKf, hKcard, m, hm, hrep⟩ := hsp
-  letI := hK
-  letI := hKf
+  let := hK
+  let := hKf
   exact stroth54FC_contra h34 hRoot h51 hc hs hm ⟨K, hK, hKf, hKcard, hrep⟩ hN
     (hcomm G M Q Z B hc n t m hs hm ⟨K, hK, hKf, hKcard, hrep⟩ hN)
     (hNW G M Q Z B hc n t m hs hm ⟨K, hK, hKf, hKcard, hrep⟩ hN)

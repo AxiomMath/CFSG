@@ -23,7 +23,7 @@ theorem mu_3 : muSlW R Z P QA lb0 (fd mt 0 16383) 3 = true := by quickRfl
     strictN (rowSet P QA (fd (M h) (nat_lit 0) (nat_lit 4095))) fun q => strictN (G h) fun a =>
       foldUp (nat_lit 3510) (fun f m => muHit R Z M G mk mq q a h f m) n, nat_lit 0)
 
-@[expose] noncomputable def muTreePre (R Z P QA M G : Nat → Nat) (mk mq nm c : Nat) : Bool :=
+@[expose] noncomputable def muTreePre (_R _Z P QA M G : Nat → Nat) (_mk mq nm c : Nat) : Bool :=
   strictB (fd (M (nat_lit 0)) (nat_lit 0) (nat_lit 4095)) fun f0 =>
   bAnd(Nat.beq (Nat.shiftRight (M (nat_lit 0)) (nat_lit 12)) (nat_lit 0), bAnd(Nat.blt f0 (nat_lit 3510), bAnd(Nat.blt (fd (P f0) (nat_lit 14) (nat_lit 4095)) (nat_lit 3510),
   bAnd(allN f0 (fun f => notB (Nat.blt (fd (P f) (nat_lit 14) (nat_lit 4095)) (nat_lit 3510))),

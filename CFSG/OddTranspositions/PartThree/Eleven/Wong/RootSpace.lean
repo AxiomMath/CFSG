@@ -182,7 +182,7 @@ private theorem closure_t_u_le_normalizer_Q :
     mem_normalizer_Q_of_mem_centralizer_D1 D hg
 
 private theorem Q_inf_closure_t_u [Finite G] : D.Q ⊓ closure {D.t, D.u} = ⊥ := by
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [show Nat.card D.Q = 125 from (odd_complement_of_diagonal_centralizer D).1,
     card_closure_t_u D]
   norm_num
@@ -260,8 +260,8 @@ private theorem isKleinFour_closure_t_u : IsKleinFour (closure {D.t, D.u}) :=
 private theorem map_conj_closure_t_u [Finite G] {f : G}
     (hf : f ∈ closure {D.t, D.u}) :
     (closure {D.t, D.u}).map (MulAut.conj f).toMonoidHom = closure {D.t, D.u} := by
-  haveI hK4 : IsKleinFour (closure {D.t, D.u}) := isKleinFour_closure_t_u D
-  haveI : Finite ↥(closure {D.t, D.u}) := Subtype.finite
+  have hK4 : IsKleinFour (closure {D.t, D.u}) := isKleinFour_closure_t_u D
+  have : Finite ↥(closure {D.t, D.u}) := Subtype.finite
   have hle : (closure {D.t, D.u}).map (MulAut.conj f).toMonoidHom ≤
       closure {D.t, D.u} := by
     rintro _ ⟨y, hy, rfl⟩
@@ -273,7 +273,7 @@ private theorem map_conj_closure_t_u [Finite G] {f : G}
 private theorem isSylowOf_two_centralizer_D1_of_card_four [Finite G] (P : Subgroup G)
     (hPle : P ≤ centralizer (D.D1 : Set G)) (hPcard : Nat.card P = 4) :
     CFSG.ABGLocalTools.IsSylowOf 2 P (centralizer (D.D1 : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card hPle ?_
   rw [hPcard, card_centralizer_D1 D]
   norm_num [Nat.factorization]
@@ -394,10 +394,10 @@ private theorem relIndex_inf_centralizer_dvd_four [Finite G] :
       Subgroup.normal_subgroupOf_iff_le_normalizer (Q_le_centralizer D)]
     intro c hc
     exact mem_normalizer_Q_of_mem_centralizer_D1 D hc
-  haveI : B.Normal := hBnorm
+  have : B.Normal := hBnorm
   have hAB : A ⊓ B = (D.Q ⊓ centralizer (D.R : Set G)).subgroupOf C := by
     ext x
-    simp [A, B, Subgroup.mem_subgroupOf, Subgroup.mem_inf, and_assoc, and_comm, and_left_comm]
+    simp [A, B, Subgroup.mem_subgroupOf, Subgroup.mem_inf, and_comm]
   have hsub : (D.Q ⊓ centralizer (D.R : Set G)).relIndex (centralizer (D.R : Set G)) =
       ((D.Q ⊓ centralizer (D.R : Set G)).subgroupOf C).relIndex A :=
     (Subgroup.relIndex_subgroupOf hleCR).symm
@@ -420,7 +420,7 @@ private theorem t_notMem_inf_centralizer_R [Finite G] :
 
 private theorem relIndex_inf_centralizer_eq_two [Finite G] :
     (D.Q ⊓ centralizer (D.R : Set G)).relIndex (centralizer (D.R : Set G)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd := relIndex_inf_centralizer_dvd_four D
   have hne1 : (D.Q ⊓ centralizer (D.R : Set G)).relIndex
       (centralizer (D.R : Set G)) ≠ 1 := by
@@ -467,7 +467,7 @@ private theorem centralizer_R_eq [Finite G] :
   have hKt : K ⊓ zpowers D.t = ⊥ := by
     have hodd : Odd (Nat.card K) :=
       (odd_card_Q D).of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left)
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [Nat.card_zpowers, D.orderOf_t]
     exact (Nat.coprime_two_left.mpr hodd).symm
   have htN : zpowers D.t ≤ normalizer (K : Set G) := by
@@ -571,7 +571,6 @@ private theorem t_conj_q3_of_mem {x : G} (hx : x ∈ D.P3) : D.t⁻¹ * x * D.t 
   have h := D.t_conj_q3 b.toAdd
   rw [show Multiplicative.ofAdd b.toAdd = b from rfl] at h
   rw [h]
-  congr 1
   rw [← map_inv]
   congr 1
 
@@ -878,7 +877,7 @@ private theorem eq_t_of_mem_sup_R_t [Finite G] {x : G}
       (Nat.eq_one_of_dvd_coprimes (by norm_num : Nat.Coprime 2 5) hdvd2 hdvd5)
   rcases (mem_zpowers_of_orderOf_eq_two D.orderOf_t).mp hs with rfl | rfl
   · exact absurd (by simp [hr_one]) hx1
-  · simpa [hr_one] using rfl
+  · simp [hr_one]
 
 private theorem normalizer_R_le_centralizer_t_of_inf_eq [Finite G]
     (hKR : D.Q ⊓ centralizer (D.R : Set G) = D.R) :
@@ -919,7 +918,7 @@ private theorem normalizer_R_eq_of_inf_eq [Finite G]
 
 private theorem exists_isPGroup_five_gt_R_le_normalizer_R [Finite G] :
     ∃ M : Subgroup G, IsPGroup 5 M ∧ D.R < M ∧ M ≤ normalizer (D.R : Set G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQcard : Nat.card D.Q = 125 := (odd_complement_of_diagonal_centralizer D).1
   have hRltQ : D.R < D.Q := by
     refine lt_of_le_of_ne (R_le_Q D) ?_
@@ -957,8 +956,8 @@ private theorem isPGroup_two_H_sup_zpowers_u [Finite G] :
 
 private theorem R_inf_H_sup_zpowers_u [Finite G] :
     D.R ⊓ (D.H ⊔ zpowers D.u) = ⊥ := by
-  refine Subgroup.inf_eq_bot_of_coprime ?_
-  haveI : Finite ↥(D.H ⊔ zpowers D.u) := Subtype.finite
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
+  have : Finite ↥(D.H ⊔ zpowers D.u) := Subtype.finite
   obtain ⟨m, hm⟩ :=
     (IsPGroup.iff_card (p := 2) (G := ↥(D.H ⊔ zpowers D.u))).mp
       (isPGroup_two_H_sup_zpowers_u D)
@@ -976,13 +975,13 @@ private theorem card_normalizer_R_of_inf_eq [Finite G]
 
 private theorem Q_inf_centralizer_R_ne_R [Finite G] :
     D.Q ⊓ centralizer (D.R : Set G) ≠ D.R := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hKR
   obtain ⟨M, hMp, hRltM, hMleN⟩ := exists_isPGroup_five_gt_R_le_normalizer_R D
   have hcardNR := card_normalizer_R_of_inf_eq D hKR
-  haveI : Finite ↥M := Subtype.finite
-  haveI : Finite ↥(D.H ⊔ zpowers D.u) := Subtype.finite
+  have : Finite ↥M := Subtype.finite
+  have : Finite ↥(D.H ⊔ zpowers D.u) := Subtype.finite
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 5) (G := ↥M)).mp hMp
   obtain ⟨m, hm⟩ :=
     (IsPGroup.iff_card (p := 2) (G := ↥(D.H ⊔ zpowers D.u))).mp

@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centralizer_of_isTwoPow_of_mem_gammaEleven {M V U W : Subgroup G} (hUV : U ≤ V)
     (hW : W ∈ gammaEleven M V) {x : G} (hxM : x ∈ M)
     (hxW : x ∈ Subgroup.centralizer (W : Set G)) (hx : ∃ k : ℕ, orderOf x = 2 ^ k) :

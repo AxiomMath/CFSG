@@ -37,6 +37,7 @@ theorem not_thin8_of_barO2Z_altSix {L : Subgroup G}
     CFSG.GroupTheory.two_le_pRank_of_quotient (O2ZIn17 L) Nat.prime_three (by norm_num) hbar
   rwa [CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) L]
 
+omit [Finite G] in
 theorem three_dvd_card_of_barO2Z_altSix {L : Subgroup G}
     (hshape : Nonempty (BarO2Z17 L ≃* alternatingGroup (Fin 6))) :
     3 ∣ Nat.card L := by

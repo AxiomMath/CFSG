@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem comm_mem_of_mem {Y : Subgroup G} {x y : G} (hx : x ∈ Y) (hy : y ∈ Y) :
     ⁅x, y⁆ ∈ Y := by
   rw [commutatorElement_def]
@@ -33,7 +34,7 @@ theorem seven_six_three_member {V H E J A X : Subgroup G} {p : ℕ}
   have hHnormJ : H ≤ Subgroup.normalizer (J : Set G) :=
     le_normalizer_of_subgroupOf_normal hJleH hJnorm
   have hXnormJ : X ≤ Subgroup.normalizer (J : Set G) := hXH.trans hHnormJ
-  haveI : (J.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXnormJ
+  have : (J.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXnormJ
   have h76 : Hyp76 V H E J A X :=
     hyp76_of_member hV hTI hp hp2 hE hEH hEnorm hOmH hJ hJnorm hIJ hA hJX hXH hAX hfaith hexp
   obtain ⟨Y, hY⟩ := h76.exists_hallCompl
@@ -42,7 +43,7 @@ theorem seven_six_three_member {V H E J A X : Subgroup G} {p : ℕ}
     omega
   obtain ⟨U, hU, hUAJ, hUY, hAUJ⟩ := h76.exists_normalizing_member hY hA (le_sup_left : A ≤ A ⊔ J)
   have hUnJ : ¬ U ≤ J := fun hUJ => hAnJ (hAUJ.trans (sup_le hUJ le_rfl))
-  obtain ⟨u, huU, huJ⟩ := SetLike.not_le_iff_exists.mp hUnJ
+  obtain ⟨u, huU, huJ⟩ := IsConcreteLE.not_le_iff_exists.mp hUnJ
   have hUH : U ≤ H := hOmH U hU
   have huH : u ∈ H := hUH huU
   have huJn : u ∈ Subgroup.normalizer (J : Set G) := hHnormJ huH

@@ -92,7 +92,7 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥E0))
   have hPleK0 : ∀ x : ↥E0, x ∈ P → (x : L) ∈ ψ.ker := by
     intro x hx
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hx⟩
     have hxLpow : (x : L) ^ (2 ^ n) = 1 := by
       have := congrArg (fun y : ↥P => ((y : ↥E0) : L)) hn
       simpa using this
@@ -114,7 +114,7 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
     have hxK : (x : L) ∈ ψ.ker := hPleK0 x hx
     have hxZ : (x : L) ∈ Subgroup.center L := hker hxK
     exact (Subgroup.mem_center_iff.mp hxZ) (y : L)
-  haveI hPnormal : P.Normal := Subgroup.normal_of_le_center hPleCenter
+  have hPnormal : P.Normal := Subgroup.normal_of_le_center hPleCenter
   have hPindexOdd : Odd (P : Subgroup ↥E0).index := by
     rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
     exact P.not_dvd_index
@@ -209,7 +209,7 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
       rw [hK2disjE] at hmem_inf
       have hp_pow_one : (p : L) ^ m = 1 := by simpa using hmem_inf
       have hp_one : (p : L) = 1 := by
-        obtain ⟨n, hn⟩ := P.isPGroup' ⟨p, hpP⟩
+        obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hpP⟩
         have hp_2 : (p : L) ^ (2 ^ n) = 1 := by
           have := congrArg (fun y : ↥P => ((y : ↥E0) : L)) hn
           simpa using this
@@ -316,7 +316,6 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
       exact (by norm_num : ¬ Odd 2) hodd
   have hTOcomp : Subgroup.IsComplement' T (fusionOddCore L) := by
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisjTO ?_
-    change (↑T : Set L) * ((fusionOddCore L : Subgroup L) : Set L) = Set.univ
     rw [← Subgroup.mul_normal T (fusionOddCore L)]
     simpa using congrArg (fun H : Subgroup L => (H : Set L)) hTO
   have hOindex : (fusionOddCore L).index = 2 := by
@@ -350,9 +349,8 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
         exact Subgroup.eq_bot_of_card_eq (H := N ⊓ fusionOddCore L)
           (Nat.eq_one_of_dvd_coprimes hcop hdvdN hdvdO)
       have hNOcomp : Subgroup.IsComplement' N (fusionOddCore L) := by
-        haveI : N.Normal := hNnormal
+        have : N.Normal := hNnormal
         refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisjNO ?_
-        change (↑N : Set L) * ((fusionOddCore L : Subgroup L) : Set L) = Set.univ
         rw [← Subgroup.normal_mul N (fusionOddCore L)]
         simpa using congrArg (fun H : Subgroup L => (H : Set L)) hNOtop
       have hcardN : Nat.card N = 2 := by
@@ -480,9 +478,8 @@ theorem w16l_one_structure {L X : Type} [Group L] [Finite L] [Group X] [Finite X
       rw [hnc] at hnc_le
       exact top_le_iff.mp hnc_le
     have hCcomp : Subgroup.IsComplement' T C := by
-      haveI : C.Normal := hCnormal
+      have : C.Normal := hCnormal
       refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hTdisjC ?_
-      change (↑T : Set L) * (C : Set L) = Set.univ
       rw [← Subgroup.mul_normal T C]
       simpa using congrArg (fun H : Subgroup L => (H : Set L)) hTCtop
     have hcardC : Nat.card C = Nat.card (fusionOddCore L) := by

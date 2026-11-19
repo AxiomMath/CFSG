@@ -25,7 +25,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
 private lemma exists_two_le_of_eight_le (hF : 8 ≤ Nat.card F) :
     ∃ n : ℕ, 2 ≤ n ∧ Nat.card F = 2 ^ n := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hq⟩ := FiniteField.card F 2
   have hcard : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -39,6 +39,7 @@ private lemma exists_two_le_of_eight_le (hF : 8 ≤ Nat.card F) :
     omega
   exact ⟨(n : ℕ), hn, hcard⟩
 
+omit [Finite F] in
 private lemma map_conj_mul_of_normal {K : Subgroup ↥(B0 F)} [K.Normal]
     (σ : MulAut ↥(B0 F)) (g : ↥(B0 F)) (h : K.map σ.toMonoidHom = K) :
     K.map ((MulAut.conj g * σ).toMonoidHom) = K := by
@@ -62,10 +63,10 @@ private lemma exists_conj_frobAut_agree_of_map_A1B (hF : 8 ≤ Nat.card F)
       (e : antiSp F) * ((σ b : ↥(B0 F)) : antiSp F) * (e : antiSp F)⁻¹ := fun _ => rfl
   have hTτ : (T0B F).map τ.toMonoidHom = T0B F := map_T0B_eq τ
   have hA1τ : (A1B F).map τ.toMonoidHom = A1B F := by
-    haveI : (A1B F).Normal := radA1_normal
+    have : (A1B F).Normal := radA1_normal
     exact map_conj_mul_of_normal σ e hA1
   have hA2τ : (A2B F).map τ.toMonoidHom = A2B F := by
-    haveI : (A2B F).Normal := radA2_normal
+    have : (A2B F).Normal := radA2_normal
     exact map_conj_mul_of_normal σ e hA2
   obtain ⟨s, t, k, hag⟩ :=
     exists_eq_conj_frobAut_pow_of_eight_le hF τ hTτ hHe hA1τ hA2τ
@@ -108,7 +109,7 @@ theorem exists_mulAut_extend_B0 (hF : 8 ≤ Nat.card F) (σ : MulAut ↥(B0 F))
   let Φ : MulAut (antiSp F) := MulAut.conj (dSp s t) * frobAut F ^ k
   let Ψ : MulAut (antiSp F) := MulAut.conj ((e : antiSp F)⁻¹) * Φ
   have hΨe : ∀ g : antiSp F, Ψ g = (e : antiSp F)⁻¹ * Φ g * (e : antiSp F) := fun g => by
-    simp [Ψ, MulAut.mul_apply, MulAut.conj_apply]
+    simp [Ψ, MulAut.mul_apply]
   have hΦb : ∀ b : ↥(B0 F), (e : antiSp F) * ((σ b : ↥(B0 F)) : antiSp F) *
       (e : antiSp F)⁻¹ = Φ (b : antiSp F) := fun b => hagree b
   refine ⟨Ψ, ?_, ?_, ?_⟩

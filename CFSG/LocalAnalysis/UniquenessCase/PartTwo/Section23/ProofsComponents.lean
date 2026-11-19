@@ -19,7 +19,7 @@ theorem uc22s23_exists_two_element {D : Data G} {m : G}
     (hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G)) (hmM : m ∈ D.M) :
     ∃ y : G, y ∈ D.M ∧ y ∈ Subgroup.centralizer (D.Z : Set G) ∧
       ∀ b : G, m * b * m⁻¹ = b⁻¹ → y * b * y⁻¹ = b⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, q, hqodd, hord⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos m).ne'
   refine ⟨m ^ q, D.M.pow_mem hmM q, ?_,
     fun b hinv => CFSG.GroupTheory.pow_odd_inverts hinv hqodd⟩
@@ -44,7 +44,7 @@ private theorem uc22s23_mem_uniqueSet_of_strong {D : Data G} {p : ℕ}
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) (hp : p.Prime)
     {X : Subgroup G} (hXne : X ≠ ⊥) (hXp : IsPGroup p ↥X) (hXM : X ≤ D.M) :
     X ∈ uniqueSet D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨hXM, fun g hXg => ?_⟩
   by_contra hne
   have hMs : Subgroup.normalizer (D.M : Set G) = D.M :=

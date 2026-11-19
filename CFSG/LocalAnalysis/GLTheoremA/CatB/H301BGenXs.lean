@@ -32,8 +32,8 @@ theorem comm_mem_center_map {R : Subgroup G} (h : timmesfeldIsExtraspecial ↥R)
 
 theorem sq_mem_center_map [Finite G] {R : Subgroup G} (h : timmesfeldIsExtraspecial ↥R) {g : G}
     (hg : g ∈ R) : g ^ 2 ∈ (Subgroup.center ↥R).map R.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥R) := ⟨h.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥R) := ⟨h.1⟩
   have hf := CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (⟨g, hg⟩ : ↥R)
   rw [h.2.2.1] at hf
   exact ⟨_, hf, rfl⟩
@@ -47,12 +47,12 @@ private theorem mem_center_iff_coe {P : Subgroup G} (x : ↥P) :
     have : y = x := Subtype.ext hyx
     rwa [← this]
 
-theorem isExtraspecial_of_props [Finite G] {P : Subgroup G} (hP2 : IsPGroup 2 P)
+theorem isExtraspecial_of_props [Finite G] {P : Subgroup G} (_hP2 : IsPGroup 2 P)
     (hZ : Nat.card ((Subgroup.center ↥P).map P.subtype) = 2)
     (hcomm : ∀ g ∈ P, ∀ k ∈ P, ⁅g, k⁆ ∈ (Subgroup.center ↥P).map P.subtype)
     (hsq : ∀ g ∈ P, g ^ 2 ∈ (Subgroup.center ↥P).map P.subtype)
     (hna : ¬ P ≤ (Subgroup.center ↥P).map P.subtype) : timmesfeldIsExtraspecial ↥P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcen : Nat.card (Subgroup.center ↥P) = 2 := by
     rw [← hZ]
     exact (Subgroup.card_map_of_injective P.subtype_injective).symm
@@ -62,7 +62,7 @@ theorem isExtraspecial_of_props [Finite G] {P : Subgroup G} (hP2 : IsPGroup 2 P)
     rw [mem_center_iff_coe]
     have := hcomm a a.2 b b.2
     simpa [commutatorElement_def] using this
-  haveI hcomm' : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
+  have hcomm' : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := Subgroup.center ↥P)).2 hcl
   have hexp : Monoid.exponent (↥P ⧸ Subgroup.center ↥P) ∣ 2 := by
     refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun q => ?_
@@ -77,7 +77,7 @@ theorem isExtraspecial_of_props [Finite G] {P : Subgroup G} (hP2 : IsPGroup 2 P)
     intro g hg
     have : (⟨g, hg⟩ : ↥P) ∈ Subgroup.center ↥P := htop ▸ Subgroup.mem_top _
     exact (mem_center_iff_coe _).1 this
-  haveI hE : CFSG.IsExtraspecial 2 ↥P :=
+  have hE : CFSG.IsExtraspecial 2 ↥P :=
     { center_order_p := hcen
       quotient_elementary_abelian := { exponent_dvd_p := hexp }
       quotient_nontrivial := hnt }
@@ -86,6 +86,7 @@ theorem isExtraspecial_of_props [Finite G] {P : Subgroup G} (hP2 : IsPGroup 2 P)
 
 variable [Finite G] {R Z S : Subgroup G}
 
+omit [Finite G] in
 private theorem card_center_map (hR : timmesfeldIsExtraspecial ↥R)
     (hZ : Z = (Subgroup.center ↥R).map R.subtype) : Nat.card Z = 2 := by
   rw [hZ, Subgroup.card_map_of_injective R.subtype_injective]
@@ -155,6 +156,7 @@ theorem isExtraspecial_or_card_two_iff_radical (hR : timmesfeldIsExtraspecial �
     · left
       exact (isExtraspecial_iff_radical hR hZ hZS hSR).2 ⟨hle, hrad⟩
 
+omit [Finite G] in
 theorem normalizer_le_centralizer_of_radical (hZ2 : Nat.card Z = 2) (hZS : Z ≤ S)
     (hZc : ∀ z ∈ Z, ∀ s ∈ S, s * z = z * s)
     (hrad : ∀ s ∈ S, (∀ t ∈ S, s * t = t * s) → s ∈ Z) :

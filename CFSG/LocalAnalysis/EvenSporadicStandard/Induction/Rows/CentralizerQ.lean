@@ -28,7 +28,7 @@ theorem vPairs_nonempty_of_centralizer_of_mem {L K : Subgroup H} {u : H} (hu2 : 
   set S : Subgroup H := (P : Subgroup ↥K).map K.subtype with hS
   have hSK : S ≤ K := Subgroup.map_subtype_le _
   have hSL : S ≤ L ⊓ centralizer ({u} : Set H) := hKeq ▸ hSK
-  have hSp : IsPGroup 2 S := P.isPGroup'.map K.subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map K.subtype
   have hScard : Nat.card S = 2 ^ twoAdic K := by
     rw [hS, Subgroup.card_map_of_injective K.subtype_injective, P.card_eq_multiplicity]
     rfl

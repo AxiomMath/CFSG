@@ -201,7 +201,7 @@ private theorem covers (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (hN : σ.IVN
   have hNM : σ.N ≤ Subgroup.normalizer (M : Set G) := le_normalizer_map_subtype σ.N _
   have hModd : Odd (Nat.card M) := σ.odd_card_ON.of_dvd_nat (Subgroup.card_dvd_of_le hMO)
   have hF₀2 : IsPGroup 2 (σ.D ⊓ Subgroup.centralizer (σ.T : Set G) : Subgroup G) :=
-    σ.S.isPGroup'.to_le (inf_le_left.trans σ.D_le_S)
+    σ.S.isPGroup.to_le (inf_le_left.trans σ.D_le_S)
   have hc' : c ∈ ((oddCoreIn σ.C ⊔ σ.D : Subgroup G) : Set G) := hN.C_le_oddCore_sup_D hcC
   rw [Subgroup.coe_mul_of_right_le_normalizer_left _ _ σ.D_le_normalizer_oddCoreIn_C] at hc'
   obtain ⟨o, ho, f, hfD, hof⟩ := hc'
@@ -251,7 +251,7 @@ private theorem covers (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (hN : σ.IVN
         ((Subgroup.mem_normalizer_iff.mp (σ.N_le_normalizer_ON htN) a).mp ha))
     rw [hMdef, ← hJ.inf_eq]
     exact ⟨hJmem, hOmem⟩
-  obtain ⟨m, hm, hmT⟩ := exists_inv_mul_mem_centralizer (σ.S.isPGroup'.to_le (σ.T_le_S hσ))
+  obtain ⟨m, hm, hmT⟩ := exists_inv_mul_mem_centralizer (σ.S.isPGroup.to_le (σ.T_le_S hσ))
     hModd ((σ.T_le_N hσ).trans hNM) hjT
   have hhC : j * m ∈ σ.C := by
     have : j * m = (m⁻¹ * j⁻¹)⁻¹ := by group

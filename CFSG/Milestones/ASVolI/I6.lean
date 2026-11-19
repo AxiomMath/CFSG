@@ -119,7 +119,7 @@ private theorem burnsideIc_ti_mem_conjugate {G : Type} [Group G] {H : Subgroup G
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 open CFSG.ASVolI.ChIJK in
 private theorem burnsideIc_ti_of_centralizer_fusion {G : Type} [Group G] {X : Subgroup G}
@@ -351,7 +351,7 @@ private theorem burnsideI62_base {V A : Subgroup G} (hVe : IsElemAbelian 2 V) (h
   have h1 := hcross 1
   have : CFSG.conjugate A 1 = A := by
     ext x
-    simp [CFSG.conjugate, Subgroup.mem_map, MulAut.conj_apply]
+    simp [CFSG.conjugate, Subgroup.mem_map]
   rw [this] at h1
   rw [inf_comm]
   exact h1 hne.symm
@@ -536,12 +536,12 @@ private theorem burnsideI62_pRank_image [Finite G] {V A : Subgroup G} (h : Hyp V
     CFSG.pRank 2 ↥((V.subgroupOf (V ⊔ A)).map
       (QuotientGroup.mk' ((pairY V A).subgroupOf (V ⊔ A)))) = k := by
   have S := burnsideI62_prop24 h
-  haveI : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
+  have : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
   have hcard := S.relIndex_eq_card_image
   have hel : IsElemAbelian 2 ((V.subgroupOf (V ⊔ A)).map
       (QuotientGroup.mk' ((pairY V A).subgroupOf (V ⊔ A)))) :=
     isElemAbelian_map' (isElemAbelian_subgroupOf h.hV _) _
-  haveI := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hel
+  have := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hel
   refine CFSG.pRank_eq_of_card_eq_pow one_lt_two ?_
   exact hcard.symm.trans hk
 
@@ -562,7 +562,7 @@ private theorem burnsideI62_part2b [Finite G] {V A : Subgroup G} (h : Hyp V A)
     show CFSG.pRank 2 _ = CFSG.pRank 2 _
     rw [burnsideI62_pRank_image h hrel, hSz _ a ha ⟨e⟩]
   · refine ⟨Or.inl ⟨m, hm, ⟨e⟩⟩, ?_⟩
-    haveI : NeZero m := ⟨hm.pos.ne'⟩
+    have : NeZero m := ⟨hm.pos.ne'⟩
     have := Finite.of_equiv _ e.symm.toEquiv
     show CFSG.pRank 2 _ = CFSG.pRank 2 _
     rw [burnsideI62_pRank_image h (k := 1) (by simpa using hrel),
@@ -647,7 +647,7 @@ private theorem burnsideI62_exists_compl [Finite G] {X Y : Subgroup G}
 
 open scoped MatrixGroups in
 private theorem burnsideI62_card_sl2_two : Nat.card SL(2, GaloisField 2 1) = 6 := by
-  letI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card]
     simpa using GaloisField.card 2 1 (by norm_num)
@@ -661,12 +661,12 @@ private theorem burnsideI62_relIndex_eq_two [Finite G] {V A : Subgroup G} (h : H
     (hcard : Nat.card (↥(V ⊔ A) ⧸ (pairY V A).subgroupOf (V ⊔ A)) = 2 * m) :
     (NIn V A).relIndex V = 2 := by
   have S := burnsideI62_prop24 h
-  haveI : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
+  have : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
   have hrel := S.relIndex_eq_card_image
   have hel : IsElemAbelian 2 ((V.subgroupOf (V ⊔ A)).map
       (QuotientGroup.mk' ((pairY V A).subgroupOf (V ⊔ A)))) :=
     isElemAbelian_map' (isElemAbelian_subgroupOf h.hV _) _
-  haveI := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hel
+  have := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hel
   obtain ⟨k, hk⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 ↥((V.subgroupOf (V ⊔ A)).map
     (QuotientGroup.mk' ((pairY V A).subgroupOf (V ⊔ A))))).exists_card_eq
   have hrel' : (NIn V A).relIndex V = 2 ^ k := hrel.trans hk
@@ -700,7 +700,7 @@ private theorem burnsideI62_part2c2 [Finite G] {V A : Subgroup G} (h : Hyp V A)
       IsCompletelyReducibleUnder (V ⊔ A) (pairY V A) := by
   intro hQ
   have S := burnsideI62_prop24 h
-  haveI : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
+  have : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
   have hYc : ∀ a ∈ pairY V A, ∀ b ∈ pairY V A, a * b = b * a := fun a ha b hb => S.comm_M ha hb
   have hdec : ∃ s : Finset (Subgroup G), s.sup id = pairY V A ∧
       ∀ W ∈ s, W ≤ pairY V A ∧ V ⊔ A ≤ Subgroup.normalizer (W : Set G) ∧ W ≠ ⊥ ∧
@@ -722,7 +722,7 @@ private theorem burnsideI62_part2c2 [Finite G] {V A : Subgroup G} (h : Hyp V A)
             (hW W hW').2.2.2.1⟩⟩
       · exfalso
         apply hrel
-        haveI : NeZero m := ⟨hm.pos.ne'⟩
+        have : NeZero m := ⟨hm.pos.ne'⟩
         refine burnsideI62_relIndex_eq_two h hm ?_
         rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
   obtain ⟨s, hsup, hW⟩ := hdec
@@ -762,7 +762,7 @@ private theorem burnsideI62_norm_section {M : Type*} [AddCommGroup M] (h2 : ∀ 
     simpa [emul] using this
   have hNapp : N c = ∑ i ∈ Finset.range k, (T ^ i) c := by
     rw [hN]
-    exact AddMonoidHom.finset_sum_apply (fun i => (T ^ i : M →+ M)) (Finset.range k) c
+    exact _root_.AddMonoidHom.finsetSum_apply (fun i => (T ^ i : M →+ M)) (Finset.range k) c
   have hsum : N c - k • c ∈ Q := by
     have : N c - k • c = ∑ i ∈ Finset.range k, ((T ^ i) c - c) := by
       rw [Finset.sum_sub_distrib, hNapp]
@@ -948,6 +948,7 @@ theorem burnsideI62_secRep_ker {Y : Subgroup G} (hXP : X ≤ Subgroup.normalizer
     rfl
 
 open CFSG.ASVolI.ChIJK in
+omit [Module (ZMod 2) (Additive (↥P ⧸ Q.subgroupOf P))] in
 private theorem burnsideI62_conjModuleIso (hXP : X ≤ Subgroup.normalizer (P : Set G))
     (hXQ : X ≤ Subgroup.normalizer (Q : Set G)) {M : Type} [AddCommGroup M]
     (act : ↥X → M → M) (θ : M ≃+ Additive (↥P ⧸ Q.subgroupOf P))
@@ -1120,7 +1121,7 @@ private theorem burnsideI62_xy_section [Finite G] {V A : Subgroup G} (h : Hyp V 
     (hxU : x ∉ NIn V A) (hy : y ∈ A) (hyB : y ∉ NIn A V) {c : G} (hcY : c ∈ pairY V A)
     (hc : x * y * c * (x * y)⁻¹ * c⁻¹ ∈ Q) : c ∈ Q := by
   have S := burnsideI62_prop24 h
-  haveI : IsMulCommutative ↥(pairY V A) := S.isCommutative_M
+  have : IsMulCommutative ↥(pairY V A) := S.isCommutative_M
   have hxyX : x * y ∈ V ⊔ A :=
     (V ⊔ A).mul_mem (Subgroup.mem_sup_left hx) (Subgroup.mem_sup_right hy)
   refine burnsideI62_fpf_section_grp (Y := pairY V A) (Q := Q)
@@ -1156,7 +1157,7 @@ private theorem burnsideI62_sec_fpf [Finite G] {V A : Subgroup G} (h : Hyp V A)
       refine burnsideI62_xy_section h hXQ hx hxU hy hyB (hPY p.2) ?_
       have hconj : ((CFSG.RankThree.GF2n.conjHom P (↑(x * y) : G) (hXP (x * y).2) p : ↥P) : G) =
           (↑(x * y) : G) * p * (↑(x * y))⁻¹ := CFSG.RankThree.GF2n.coe_conjHom_apply _ _
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hconj] at hv''
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hv''
       have hv3 : ((p : G))⁻¹ * ((↑(x * y) : G) * p * (↑(x * y))⁻¹) ∈ Q := by
         have := Q.inv_mem hv''
         simpa [mul_assoc] using this
@@ -1186,8 +1187,8 @@ private theorem burnsideI62_natural_sz [Finite G] {V A : Subgroup G} (h : Hyp V 
   obtain ⟨hlt, hPY, hXP0, hXQ0, hchief⟩ := hPQ
   have hXP : V ⊔ A ≤ Subgroup.normalizer (P : Set G) := hXP0
   have hXQ : V ⊔ A ≤ Subgroup.normalizer (Q : Set G) := hXQ0
-  haveI := hPcomm
-  letI : Module (ZMod 2) (Additive (↥P ⧸ Q.subgroupOf P)) := burnsideI62_secModule hP2
+  have := hPcomm
+  let : Module (ZMod 2) (Additive (↥P ⧸ Q.subgroupOf P)) := burnsideI62_secModule hP2
   right
   right
   refine ⟨a, ha, e, ?_⟩
@@ -1198,7 +1199,7 @@ private theorem burnsideI62_natural_sz [Finite G] {V A : Subgroup G} (h : Hyp V 
     rw [hρ, burnsideI62_secRepΓ_apply] at hv
     exact burnsideI62_sec_fpf h hPY hXP hXQ hx hxU hy hyB v hv
   have hnt : Nontrivial (Additive (↥P ⧸ Q.subgroupOf P)) := by
-    obtain ⟨p, hp, hpQ⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨p, hp, hpQ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨⟨Additive.ofMul (QuotientGroup.mk ⟨p, hp⟩), 0, fun h0 => hpQ ?_⟩⟩
     have h1 : (QuotientGroup.mk (⟨p, hp⟩ : ↥P) : ↥P ⧸ Q.subgroupOf P) = 1 := Additive.ofMul.injective h0
     exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h1)
@@ -1222,7 +1223,7 @@ private theorem burnsideI62_sz_pair [Finite G] {V A : Subgroup G}
     ∃ x y : ↥(V ⊔ A), (x : G) ∈ V ∧ (x : G) ∉ NIn V A ∧ (y : G) ∈ A ∧
       (y : G) ∉ NIn A V ∧ orderOf (e (QuotientGroup.mk (x * y))) = 5 := by
   have S := burnsideI62_prop24 h
-  haveI : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
+  have : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
   let e' : ↥(V ⊔ A) ⧸ (tiY V A).subgroupOf (V ⊔ A) ≃* Sz a := e
   have hBT : BenderType (↥(V ⊔ A) ⧸ (tiY V A).subgroupOf (V ⊔ A)) (2 * a + 1) 2 1 :=
     .suzuki a ha (e'.trans (MulEquiv.subgroupCongr (szModel_eq_open_sz a).symm))
@@ -1355,7 +1356,7 @@ private theorem burnsideI62_dih_r_pow {m : ℕ} [NeZero m] (i : ZMod m) :
 private theorem burnsideI62_dih_comm_pow {m : ℕ} (hm : Odd m) (z s : DihedralGroup m) (hs : s *
     s = 1) :
     (z * s * z⁻¹ * s⁻¹) ^ m = 1 := by
-  haveI : NeZero m := ⟨hm.pos.ne'⟩
+  have : NeZero m := ⟨hm.pos.ne'⟩
   rcases s with b | b
   · have hb : b = 0 := by
       have h1 : (DihedralGroup.r b : DihedralGroup m) * DihedralGroup.r b = 1 := hs
@@ -1373,7 +1374,7 @@ private theorem burnsideI62_dih_comm_pow {m : ℕ} (hm : Odd m) (z s : DihedralG
       exact burnsideI62_dih_r_pow _
     · have : (DihedralGroup.sr a : DihedralGroup m) * DihedralGroup.sr b * (DihedralGroup.sr a)⁻¹ *
           (DihedralGroup.sr b)⁻¹ = DihedralGroup.r (2 * b - 2 * a) := by
-        simp [DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_r, DihedralGroup.sr_mul_sr]
+        simp [DihedralGroup.r_mul_sr, DihedralGroup.sr_mul_sr]
         ring_nf
       rw [this]
       exact burnsideI62_dih_r_pow _
@@ -1441,8 +1442,8 @@ private theorem burnsideI62_eq_one_of_triv [Finite G] {V A : Subgroup G} (h : Hy
     (hxt : x * t * x⁻¹ = t⁻¹) : t = 1 := by
   have S := burnsideI62_prop24 h
   have hb := h.toBase
-  haveI : IsMulCommutative ↥(pairY V A) := S.isCommutative_M
-  obtain ⟨p₀, hp₀P, hp₀Q⟩ := SetLike.exists_of_lt hlt
+  have : IsMulCommutative ↥(pairY V A) := S.isCommutative_M
+  obtain ⟨p₀, hp₀P, hp₀Q⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   obtain ⟨p, hpY, htp, hpc⟩ := burnsideI62_fixed_section_grp (Y := pairY V A) (Q := Q)
     (fun y' hy' => S.mem_M_sq hy') (g := t) (S.sup_le_normalizer_M htX) (k := n) hn
     (fun y _ => by rw [htn]; simp)
@@ -1505,7 +1506,7 @@ open CFSG.ASVolI.ChIJK in
         (b⁻¹ * (a⁻¹ * p * a * p⁻¹) * (b⁻¹)⁻¹) * (b⁻¹ * p * b * p⁻¹) := by group
     rw [e]
     exact Q.mul_mem h3 h2
-  one_mem' := ⟨X.one_mem, fun p hp => by simpa using Q.one_mem⟩
+  one_mem' := ⟨X.one_mem, fun p hp => by simp⟩
   inv_mem' := by
     rintro a ⟨haX, ha⟩
     refine ⟨X.inv_mem haX, fun p hp => ?_⟩
@@ -1630,7 +1631,7 @@ private theorem burnsideI62_natural_dihedral [Finite G] {V A : Subgroup G} (h : 
         exact burnsideI62_kernel_conj ((V ⊔ A).pow_mem ((V ⊔ A).mul_mem hxX hyX) j) hxK
       have hgK : x * y ∈ burnsideI62_kernel hXP hXQ :=
         (burnsideI62_kernel hXP hXQ).mul_mem hxK hyK
-      obtain ⟨p₀, hp₀P, hp₀Q⟩ := SetLike.exists_of_lt hlt
+      obtain ⟨p₀, hp₀P, hp₀Q⟩ := _root_.IsConcreteLE.exists_of_lt hlt
       refine hp₀Q (burnsideI62_xy_section h hXQ hx hxU' hy hyB' (hPY hp₀P) ?_)
       have := ((burnsideI62_kernel hXP hXQ).inv_mem hgK).2 p₀ hp₀P
       rwa [inv_inv] at this
@@ -1733,11 +1734,11 @@ private theorem burnsideI62_natural_l2 [Finite G] {V A : Subgroup G} (h : Hyp V 
   obtain ⟨hlt, hPY, hXP0, hXQ0, hchief⟩ := hPQ
   have hXP : V ⊔ A ≤ Subgroup.normalizer (P : Set G) := hXP0
   have hXQ : V ⊔ A ≤ Subgroup.normalizer (Q : Set G) := hXQ0
-  haveI := hPcomm
-  letI : Module (ZMod 2) (Additive (↥P ⧸ Q.subgroupOf P)) := burnsideI62_secModule hP2
+  have := hPcomm
+  let : Module (ZMod 2) (Additive (↥P ⧸ Q.subgroupOf P)) := burnsideI62_secModule hP2
   have S := burnsideI62_prop24 h
   have hb := h.toBase
-  haveI : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
+  have : ((tiY V A).subgroupOf (V ⊔ A)).Normal := hN
   obtain ⟨R, hRdef⟩ : ∃ R : Subgroup (↥(V ⊔ A) ⧸ (pairY V A).subgroupOf (V ⊔ A)),
       R = (V.subgroupOf (V ⊔ A)).map (QuotientGroup.mk' ((pairY V A).subgroupOf (V ⊔ A))) :=
     ⟨_, rfl⟩
@@ -1748,7 +1749,7 @@ private theorem burnsideI62_natural_l2 [Finite G] {V A : Subgroup G} (h : Hyp V 
   obtain ⟨e', he'⟩ := burnsideI62_exists_equiv_upper (by omega : f ≠ 0)
     (e.trans CFSG.Walter.psl2MulEquivSL2OfCharTwo) hRp hRcard
   set ρ := burnsideI62_secRepΓ hXP hXQ hYP e' with hρ
-  letI : DistribMulAction SL(2, GaloisField 2 f) (Additive (↥P ⧸ Q.subgroupOf P)) :=
+  let : DistribMulAction SL(2, GaloisField 2 f) (Additive (↥P ⧸ Q.subgroupOf P)) :=
     { smul := fun g v => ρ g v
       one_smul := fun v => by
         show ρ 1 v = v
@@ -1791,7 +1792,7 @@ private theorem burnsideI62_natural_l2 [Finite G] {V A : Subgroup G} (h : Hyp V 
     rw [hk, hk]
     exact h1
   have hnt : Nontrivial (Additive (↥P ⧸ Q.subgroupOf P)) := by
-    obtain ⟨p, hp, hpQ⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨p, hp, hpQ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨⟨Additive.ofMul (QuotientGroup.mk ⟨p, hp⟩), 0, fun h0 => hpQ ?_⟩⟩
     have h1 : (QuotientGroup.mk (⟨p, hp⟩ : ↥P) : ↥P ⧸ Q.subgroupOf P) = 1 :=
       Additive.ofMul.injective h0

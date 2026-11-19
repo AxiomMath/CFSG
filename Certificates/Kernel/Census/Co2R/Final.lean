@@ -50,7 +50,7 @@ theorem pinvRest_append {n w : ℕ} (xs : List ℕ) : ∀ (l₁ l₂ : List ℕ)
   | [], l₂, m, im => by simp [pinvRest]
   | x :: l₁, l₂, m, im => by
     rw [List.cons_append]
-    simp only [pinvRest, cond_eq_if, List.length_cons]
+    simp only [pinvRest, Bool.cond_eq_ite, List.length_cons]
     split_ifs <;> simp [pinvRest_append xs l₁, Nat.add_assoc, Nat.add_comm 1]
 
 theorem pinvRest_chunks {n w : ℕ} (xs wt : List ℕ) (S K : ℕ) (I : ℕ → List ℕ)
@@ -103,7 +103,7 @@ theorem pinvOK_of_chunks {m S K : ℕ} {r : RootR} (hh : invHead m r = true)
     have := List.all_eq_true.1 h4 x hx
     simp only [Nat.blt_eq] at this
     rw [← hK] at this
-    simp only [Nat.ble_eq, Bool.not_eq_true, decide_eq_true_eq]
+    simp only [Nat.ble_eq]
     omega
   rw [h0, hKe] at hw
   rw [hw]
@@ -237,7 +237,7 @@ theorem co2_census : ∃ (L : ℕ → ℕ) (pxs : List ℕ) (rs : List RootR), c
     have hR := roots_of_chunks Z.kZl Z.kFitC Z.kFitI Z.kRL0 Z.kRL1 Z.kRL2 Z.kRL3
     refine ⟨⟨?_, Z.kLen⟩, root_ok (m := 32) (by norm_num) Z.kCanon Z.kPc hInv Z.kTab Z.kRl hR Z.kN
       Z.kPs Z.kPts Z.kXl Z.kXw Z.kRel Z.kRes Z.kX Z.kCls Z.kLeaf⟩
-    simp only [co2Xs, List.getD_cons_zero, pxs, List.getElem!_cons_zero]
+    simp only [co2Xs, List.getD_cons_zero, pxs]
     rw [← hz]
     exact eqA_self _ _
   · have ht : CFSG.KS.Raw.unpack 2300 12 (Co2M.WE 1) = tArr :=

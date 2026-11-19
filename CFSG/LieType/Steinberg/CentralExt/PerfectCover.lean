@@ -242,7 +242,7 @@ theorem sylow_two_of_isPerfect [Finite K] [Finite P] [Group.IsPerfect P]
     rw [injective_iff_map_eq_one]
     intro s hs
     have hsN : ((s : η.ker) : P) ∈ N := (QuotientGroup.eq_one_iff _).1 hs
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') s
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) s
     have hk' : orderOf ((s : η.ker) : P) = 2 ^ k := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hk]
     exact Subtype.ext (Subtype.ext (eq_one_of_odd_orderOf hsN.2 hk'))

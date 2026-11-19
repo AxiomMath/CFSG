@@ -159,8 +159,8 @@ theorem commutator_centralizer_pinnedElt_highRoot_E6_of_one_le {f : ℕ} (hf : 1
         centralizer ({EPilot.pinnedElt .E6 (highRoot .E6) (1 : K)} :
           Set (adjointGroup .E6 K))⁆ =
       centralizer ({EPilot.pinnedElt .E6 (highRoot .E6) (1 : K)} : Set (adjointGroup .E6 K)) := by
-  haveI := F4Pilot.finite_of_natCard_eq_two_pow hK
-  haveI := F4Pilot.charP_two_of_natCard_eq_two_pow hK
+  have := F4Pilot.finite_of_natCard_eq_two_pow hK
+  have := F4Pilot.charP_two_of_natCard_eq_two_pow hK
   rcases Nat.lt_or_ge f 2 with h | h
   · obtain rfl : f = 1 := by omega
     exact E8Pilot.commutator_centralizer_pinnedElt_highRoot_two (Or.inl rfl) (by simpa using hK)

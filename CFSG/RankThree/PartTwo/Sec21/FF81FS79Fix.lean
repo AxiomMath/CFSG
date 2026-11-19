@@ -44,6 +44,7 @@ variable (S : Std b t b₁ b₂ J)
 
 include S
 
+omit [Finite H] in
 theorem frame_le_M0 (A₁ : Subgroup J6.S6) :
     S.frame A₁ ≤ Subgroup.closure ({b, t} : Set H) ⊔ J := by
   refine sup_le ?_ ?_
@@ -58,7 +59,7 @@ theorem t_fix {A₁ : Subgroup J6.S6} (hsq : ∀ s ∈ A₁, s * s = 1)
     (h38 : R38Stmt b (A₁.map S.ι)) {n : H} (hn : n ∈ Nor (A₁.map S.ι))
     (hu : n * t * n⁻¹ ∈ S.frame A₁) : n * t * n⁻¹ = t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := S.hyp
   set L : Subgroup H := Nor (A₁.map S.ι) with hL
   set O₁ : Subgroup H := Opp 2 L with hO₁

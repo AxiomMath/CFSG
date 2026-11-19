@@ -17,7 +17,7 @@ private theorem det_sub_one_eq_trace [CharP F 2] (M : Matrix (Fin 2) (Fin 2) F) 
   rw [Matrix.det_fin_two, Matrix.trace_fin_two]
   simp only [Matrix.sub_apply, Matrix.one_apply_eq,
     Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-    Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero, CharTwo.sub_eq_add, CharTwo.neg_eq]
+    Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), CharTwo.sub_eq_add]
   have hM' : M 0 0 * M 1 1 + M 0 1 * M 1 0 = 1 := by
     rw [Matrix.det_fin_two] at hM
     rw [CharTwo.sub_eq_add] at hM
@@ -81,15 +81,14 @@ private theorem eq_zero_pair_of_fixed_left [CharP F 2] {g : SpecialLinearGroup (
     rw [funext_iff, Fin.forall_fin_two]
     refine ⟨?_, ?_⟩
     · rw [Pi.zero_apply, Matrix.vecMul_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
-        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
+        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
       rw [CharTwo.sub_eq_add, mul_add, mul_one, add_right_comm, h₀]
       exact CharTwo.add_self_eq_zero _
     · rw [Pi.zero_apply, Matrix.vecMul_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
         Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+        sub_zero]
       rw [CharTwo.sub_eq_add, mul_add, mul_one, ← add_assoc, h₁]
       exact CharTwo.add_self_eq_zero _
   have hzero := eq_zero_of_vecMul_sub_one_eq_zero htr hx
@@ -104,15 +103,14 @@ private theorem eq_zero_pair_of_fixed_right [CharP F 2] {g : SpecialLinearGroup 
     rw [funext_iff, Fin.forall_fin_two]
     refine ⟨?_, ?_⟩
     · rw [Pi.zero_apply, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
         Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+        sub_zero]
       rw [CharTwo.sub_eq_add, add_mul, one_mul, add_right_comm, ← h₀]
       exact CharTwo.add_self_eq_zero _
     · rw [Pi.zero_apply, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.sub_apply,
-        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (0 : Fin 2) ≠ 1),
-        Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.sub_apply,
+        Matrix.one_apply_eq, Matrix.one_apply_ne (by decide : (1 : Fin 2) ≠ 0), sub_zero]
       rw [CharTwo.sub_eq_add, add_mul, one_mul, ← add_assoc, ← h₁]
       exact CharTwo.add_self_eq_zero _
   have hzero := eq_zero_of_mulVec_sub_one_eq_zero htr hy

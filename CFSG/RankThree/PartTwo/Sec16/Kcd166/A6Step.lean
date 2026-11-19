@@ -21,7 +21,7 @@ private lemma conj_mem_of_normal_subgroupOf {G : Type*} [Group G] {N M : Subgrou
   simpa using h
 
 private def fixedPointsSubgroup {G : Type*} [Group G] (M N : Subgroup G) (t : G)
-    (htN : t ∈ Subgroup.normalizer (N : Set G)) (hNM : N ≤ M)
+    (_htN : t ∈ Subgroup.normalizer (N : Set G)) (hNM : N ≤ M)
     (hNn : (N.subgroupOf M).Normal) : Subgroup G where
   carrier := {x : G | x ∈ M ∧ t * x * t⁻¹ * x⁻¹ ∈ N}
   one_mem' := by
@@ -105,7 +105,7 @@ private lemma fixedPointsSubgroup_normalizer {G : Type*} [Group G] [Finite G]
 private lemma exists_twoElement_lift {G : Type*} [Group G] [Finite G] {J : Subgroup G}
     (π : ↥J →* alternatingGroup (Fin 6)) (j₀ : ↥J) {t₀ : alternatingGroup (Fin 6)}
     (hπj₀ : π j₀ = t₀) (ht₀_sq : t₀ * t₀ = 1) (ht₀_ne : t₀ ≠ 1) :
-    ∃ (b : ℕ) (t : G) (htJ : t ∈ J),
+    ∃ (b : ℕ) (t : G) (_htJ : t ∈ J),
       Odd b ∧ t = (j₀ : G) ^ b ∧ π (j₀ ^ b) = t₀ ∧
         IsPGroup 2 (Subgroup.zpowers t) ∧ t ≠ 1 := by
   obtain ⟨k, b, hbodd, hord⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos j₀).ne'
@@ -126,7 +126,7 @@ private lemma exists_twoElement_lift {G : Type*} [Group G] [Finite G] {J : Subgr
     rw [pow_succ, pow_mul, pow_two, ht₀_sq, one_pow, one_mul]
   have hπjb : π (j₀ ^ b) = t₀ := by
     rw [map_pow, hπj₀, ht0pow]
-  have htJ : t ∈ J := by
+  have _htJ : t ∈ J := by
     dsimp only [t]
     exact J.pow_mem j₀.2 b
   have ht1 : t ≠ 1 := by
@@ -137,11 +137,11 @@ private lemma exists_twoElement_lift {G : Type*} [Group G] [Finite G] {J : Subgr
     have hπ1 : π (j₀ ^ b) = 1 := by rw [hsub, map_one]
     rw [hπjb] at hπ1
     exact ht₀_ne hπ1
-  exact ⟨b, t, htJ, hbodd, rfl, hπjb, ht2, ht1⟩
+  exact ⟨b, t, _htJ, hbodd, rfl, hπjb, ht2, ht1⟩
 
 private lemma exists_involution_data {G : Type*} [Group G] [Finite G] {J : Subgroup G}
     (π : ↥J →* alternatingGroup (Fin 6)) (hπ : Function.Surjective π) :
-    ∃ (t₀ : alternatingGroup (Fin 6)) (j₀ : ↥J) (b : ℕ) (t : G) (htJ : t ∈ J),
+    ∃ (t₀ : alternatingGroup (Fin 6)) (j₀ : ↥J) (b : ℕ) (t : G) (_htJ : t ∈ J),
       t₀ * t₀ = 1 ∧ t₀ ≠ 1 ∧ π j₀ = t₀ ∧ Odd b ∧ t = (j₀ : G) ^ b ∧
         π (j₀ ^ b) = t₀ ∧ IsPGroup 2 (Subgroup.zpowers t) ∧ t ≠ 1 := by
   let t₀ : alternatingGroup (Fin 6) :=
@@ -152,9 +152,9 @@ private lemma exists_involution_data {G : Type*} [Group G] [Finite G] {J : Subgr
   have ht₀_sq : t₀ * t₀ = 1 := by decide
   have ht₀_ne : t₀ ≠ 1 := by decide
   obtain ⟨j₀, hπj₀⟩ := hπ t₀
-  obtain ⟨b, t, htJ, hbodd, ht_eq, hπj₀b, ht2, ht1⟩ :=
+  obtain ⟨b, t, _htJ, hbodd, ht_eq, hπj₀b, ht2, ht1⟩ :=
     exists_twoElement_lift π j₀ hπj₀ ht₀_sq ht₀_ne
-  exact ⟨t₀, j₀, b, t, htJ, ht₀_sq, ht₀_ne, hπj₀, hbodd, ht_eq, hπj₀b, ht2, ht1⟩
+  exact ⟨t₀, j₀, b, t, _htJ, ht₀_sq, ht₀_ne, hπj₀, hbodd, ht_eq, hπj₀b, ht2, ht1⟩
 
 private lemma mk_conj_eq_mk_iff {G : Type*} [Group G] {M N : Subgroup G}
     [hNn : (N.subgroupOf M).Normal] {t : G}
@@ -467,15 +467,15 @@ theorem commutator_le_of_surjective_alternatingGroup_six
     (hsc : p % 3 = 1 → ∃ w : ℕ, ∀ m ∈ M, σ * m * σ⁻¹ * (m ^ w)⁻¹ ∈ N) :
     ⁅M, J⁆ ≤ N := by
   classical
-  haveI hNnormal : (N.subgroupOf M).Normal := hNn
+  have hNnormal : (N.subgroupOf M).Normal := hNn
   let Q := ↥M ⧸ N.subgroupOf M
-  haveI hEA : IsElementaryAbelian p Q :=
+  have hEA : IsElementaryAbelian p Q :=
     CFSG.GroupTheory.isElementaryAbelian_quotient_of_commutator_pow (p := p) hab hexp le_rfl
   let V := Additive Q
-  haveI hVfin : Finite V := by
+  have hVfin : Finite V := by
     dsimp only [V, Q]
     infer_instance
-  haveI hVfd : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have hVfd : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   let ρJ : ↥J →* LinearMap.GeneralLinearGroup (ZMod p) V :=
     chiefRep (p := p) hJM hJN
   obtain ⟨ρ, hρ_comp⟩ := exists_representation_lift (p := p) hJM hJN π hπ hker

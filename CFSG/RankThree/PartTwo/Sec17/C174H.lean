@@ -20,7 +20,7 @@ theorem isSolvable_centralizer_image_L
       ((((L.subgroupOf (nH c)).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(nH c)))) :
         Subgroup (↥(nH c) ⧸ CFSG.pPrimeCore 3 ↥(nH c))) :
         Set (↥(nH c) ⧸ CFSG.pPrimeCore 3 ↥(nH c)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLH : L ≤ nH c := le_nH_of_mem_lA h.toSec14Std
   have hHN : nH c ≤ Subgroup.normalizer (L : Set G) :=
     normalizer_zpowers_le_normalizer_L h.toSec14Std (three_dvd_card_L h.toSec14Std)
@@ -84,7 +84,7 @@ theorem isSolvable_centralizer_image_L
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).mpr hHN
   set Lh : Subgroup (↥(nH c) ⧸ CFSG.pPrimeCore 3 ↥(nH c)) :=
     (L.subgroupOf (nH c)).map ψ with hLh
-  haveI hLhN : Lh.Normal :=
+  have hLhN : Lh.Normal :=
     hLnorm.map ψ (QuotientGroup.mk'_surjective (CFSG.pPrimeCore 3 ↥(nH c)))
   have hLhz : Lh ≤ Subgroup.centralizer ({ψ k} : Set (↥(nH c) ⧸ CFSG.pPrimeCore 3 ↥(nH c))) := by
     intro y hy
@@ -171,7 +171,7 @@ theorem isSolvable_centralizer_image_L
     exact (key x).mp (MonoidHom.mem_ker.mp hx)
   have hnd3K : ¬ 3 ∣ Nat.card phi.ker := fun hd => hnd3R (dvd_trans hd hcardK)
   have hLbar := lBar_simple_and_pRank h.toSec14Std
-  haveI hsimpLbar : IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) := hLbar.1
+  have hsimpLbar : IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) := hLbar.1
   have hdvdLbar : 3 ∣ Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L) := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (aschbacherSolvableCore 3 ↥L)
     have h2 : 3 ∣ Nat.card ↥L := three_dvd_card_L h.toSec14Std
@@ -195,7 +195,7 @@ theorem isSolvable_centralizer_image_L
   have e : (↥L ⧸ aschbacherSolvableCore 3 ↥L) ≃* ↥Lh :=
     (QuotientGroup.quotientMulEquivOfEq hker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective phi hphisurj)
-  haveI hsimpLh : IsSimpleGroup ↥Lh := e.symm.isSimpleGroup
+  have hsimpLh : IsSimpleGroup ↥Lh := e.symm.isSimpleGroup
   have hnaLh : ∃ a b : ↥Lh, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := lBar_nonabelian h.toSec14Std
     refine ⟨e a, e b, fun heq => hab (e.injective ?_)⟩
@@ -245,10 +245,11 @@ theorem isSolvable_of_two_pow_mem {Δ : Type} [Group Δ] [Finite Δ] (K : Subgro
     refine ⟨k, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hk
-  haveI : Group.IsNilpotent (Δ ⧸ K) := hp.isNilpotent
-  haveI : Group.IsSolvable (Δ ⧸ K) := inferInstance
+  have : Group.IsNilpotent (Δ ⧸ K) := hp.isNilpotent
+  have : Group.IsSolvable (Δ ⧸ K) := inferInstance
   exact Group.isSolvable_of_subgroup_quotient K
 
+omit [Finite G] in
 theorem exists_pow_two_mem_of_sup {C T : Subgroup G}
     (hC : ∀ g ∈ C ⊔ T, ∀ x ∈ C, g * x * g⁻¹ ∈ C)
     (hT : ∀ t ∈ T, ∃ k : ℕ, t ^ (2 ^ k) = 1) :

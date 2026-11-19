@@ -17,6 +17,7 @@ section L829CS1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem k_eq_two_cocode_829 {T L I : Subgroup G} [IsMulCommutative ↥(fsuV T I)] {h : G} {k : ℕ}
     (hC5 : Concl825 T L I h k) (hcoc : Row711M24Cocode T L I) : k = 2 := by
   obtain ⟨h1, -, -, -, -, -, h7, -, -, -, -, -, -⟩ := hC5
@@ -48,20 +49,20 @@ theorem not_isSolvable_of_isPSL_two_two_two_829 {X : Type} [Group X] (h : IsPSL 
   have hiso : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
   have hsur : Function.Surjective hiso.toMonoidHom := hiso.surjective
-  haveI := hX
+  have := hX
   exact Group.isSolvable_of_surjective hsur
 
 theorem not_isSolvable_H_cocode_829 {T L I H : Subgroup G} {h : G} {k : ℕ}
     (hVH : fsuV T I ≤ H) (hh : h ∈ H) (hC : Concl822 T L I H h k) (hk : k = 2) :
     ¬ Group.IsSolvable ↥H := by
   intro hs
-  haveI := hs
+  have := hs
   have hIH : ch82I (fsuV T I) h ≤ H := ch82I_le_829 hVH hh
   have hsI : Group.IsSolvable ↥(ch82I (fsuV T I) h) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hIH)
   have hsQ : Group.IsSolvable
       (E2.StarQuot (fsuM T L ⊓ ch82I (fsuV T I) h) (ch82I (fsuV T I) h)) := by
-    haveI := hsI
+    have := hsI
     exact Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
   exact not_isSolvable_of_isPSL_two_two_two_829 (concl822_cocode_829 hC hk).1 hsQ
 
@@ -92,6 +93,7 @@ theorem e22_inst_cocode_829 (hE22 : E2.E22StatementC) {H T M : Subgroup G}
       E2.IsDiagramNontrivial (E2.star M H T) (E2.star M H K) (E2.star M H (T ⊓ K)) ∧
       E2.IsBorelIn (E2.star M H K) (E2.star M H (M ⊓ K))
 
+omit [Finite G] in
 theorem surv_cocode_829 {H T M K : Subgroup G} {m : ℕ}
     (hn : E1.nParam H = ((2 * m : ℕ) : ℕ∞)) (hc : E2.E22CasesNoN H T M K)
     (hp : E2.E22NParamCases H T M K) :

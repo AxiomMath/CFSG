@@ -99,7 +99,7 @@ theorem exists_conj_of_closure_eq_top {ι κ : Type*} {M : CoxeterMatrix ι} (t 
     obtain ⟨w, j, hw⟩ := ht k
     rw [hw, map_mul, map_mul, map_inv, mul_comm (χ w), mul_inv_cancel_right, hχ]
     simp only [f]
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro hc
     obtain ⟨c, hc⟩ := isConj_iff.1 hc.symm
     refine H (c * w⁻¹) k ?_
@@ -110,7 +110,7 @@ theorem exists_conj_of_closure_eq_top {ι κ : Type*} {M : CoxeterMatrix ι} (t 
   rw [hgen] at hle
   have := hle (Subgroup.mem_top (M.simple i))
   rw [MonoidHom.mem_ker, hχ] at this
-  simp only [f, if_pos (IsConj.refl _)] at this
+  simp only [f, ite_eq_left (IsConj.refl _)] at this
   exact absurd this (by decide)
 
 end CFSG.StandardType.S2MathFi1451

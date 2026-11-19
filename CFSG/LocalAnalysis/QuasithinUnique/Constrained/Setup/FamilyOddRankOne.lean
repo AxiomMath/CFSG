@@ -42,7 +42,7 @@ theorem oddRankOneOddClassical : OddRankOneOddClassicalProp := by
   ·
     exfalso
     rcases hr with ⟨-, ⟨h3, -⟩ | ⟨-, hfr⟩ | h4⟩ | ⟨h5, -⟩ | ⟨h5, -⟩ | h4 <;>
-      first | omega | (simp at h3) | (simp at h5)
+      first | omega | (simp at h5)
   ·
     exfalso
     rcases hr with ⟨h5, -⟩ | ⟨-, ⟨-, hfr⟩ | h4⟩ | ⟨h5, -⟩ | h4 <;>

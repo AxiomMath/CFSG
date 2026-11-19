@@ -18,6 +18,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec14
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem img148_deltaZero_le_of_forall {A Y : Subgroup G} [(ker148 A Y).Normal]
     {LB : Subgroup G → Subgroup G} {T : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)}
     (h : ∀ R ∈ scriptQZero A LB, R ≤ Y → img148 A Y R ≤ T) :

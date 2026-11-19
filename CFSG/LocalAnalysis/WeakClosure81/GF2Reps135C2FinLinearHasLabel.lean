@@ -49,10 +49,10 @@ theorem exists_hasLabel {K : Type} [Field K] [Fintype K] [CharP K 2] (hK : Finty
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   let k := AlgebraicClosure E
-  letI : Algebra K k :=
+  let : Algebra K k :=
     (CFSG.HardMathSupport.GuralnickMalle.nonempty_ringHom_algebraicClosure
       (K := E) (F₀ := K) (p := 2)).some.toAlgebra
-  letI : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
+  let : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
   obtain ⟨y₀, χ, J, ht, s₀, hs₀⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.top_exists_type (n := m) ρ hne
   have hsimp :=
@@ -78,7 +78,7 @@ private theorem w183_finrank_bModel_single {K : Type} [Field K] [Fintype K] [Cha
     (F := K) (k := k) (m := m) (f := 1) ε h₀ hrest
   rw [β'.finrank_eq, Module.finrank_fintype_fun_eq_card, ← Nat.card_eq_fintype_card,
     Set.powersetCard.card]
-  simp [Nat.card_fin]
+  simp
 
 theorem card_of_hasLabel {K : Type} [Field K] [Fintype K] [CharP K 2] (hK : Fintype.card K = 2)
     {m : ℕ} (hm : 2 ≤ m) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
@@ -90,10 +90,10 @@ theorem card_of_hasLabel {K : Type} [Field K] [Fintype K] [CharP K 2] (hK : Fint
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, ε, y, χ, J, hεS, hε0, ht, hεJ, β, hβ⟩ := hS
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have hE2 : Nat.card E = 2 :=
     card_endField_eq_two_of_card_eq_two hK (by omega : 2 ≤ m + 1) ρ inferInstance
   have hcard : Nat.card W = 2 ^ finrank k (BModel k ε) := by
@@ -140,10 +140,10 @@ theorem movedOrbit_le_of_hasLabel {K : Type} [Field K] [Fintype K] [CharP K 2]
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, ε, y', χ, J, hεS, hε0, ht, hεJ, β, hβ⟩ := hS
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have hE2 : Nat.card E = 2 :=
     card_endField_eq_two_of_card_eq_two hK (by omega : 2 ≤ m + 1) ρ inferInstance
   have hE' : Nat.card E = 2 ^ 1 := by simpa using hE2
@@ -194,15 +194,15 @@ theorem symmetric_of_hasLabel {K : Type} [Field K] [Fintype K] [CharP K 2]
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, ε, y, χ, J, hεS, hε0, ht, hεJ, β, hβ⟩ := hS
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have hE2 : Nat.card E = 2 :=
     card_endField_eq_two_of_card_eq_two hK (by omega : 2 ≤ m + 1) ρ inferInstance
   have htwo : ∀ c : E, c = 0 ∨ c = 1 := by
     obtain ⟨y₀, hy₀, hyuniq⟩ := (Nat.card_eq_two_iff' (0 : E)).1 hE2
-    haveI : Nontrivial E := ⟨⟨y₀, 0, hy₀⟩⟩
+    have : Nontrivial E := ⟨⟨y₀, 0, hy₀⟩⟩
     intro c
     by_cases hc : c = 0
     · exact Or.inl hc

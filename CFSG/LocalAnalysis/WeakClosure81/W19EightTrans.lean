@@ -15,18 +15,22 @@ namespace ModData
 
 variable {H E F : Subgroup G} (M : ModData H E F)
 
+omit [Finite G] in
 theorem img_mono {S S' : Subgroup G} (h : S ≤ S') : M.img S ≤ M.img S' := by
   intro r hr
   obtain ⟨x, hx, rfl⟩ := M.mem_img.1 hr
   exact M.mem_img.2 ⟨x, h hx, rfl⟩
 
+omit [Finite G] in
 theorem img_le_range (S : Subgroup G) : M.img S ≤ M.ρ.range :=
   Subgroup.map_le_range _ _
 
+omit [Finite G] in
 theorem isElemAbelian_img {S : Subgroup G} (hS : IsElemAbelian 2 S) :
     IsElemAbelian 2 (M.img S) :=
   (hS.subgroupOf H).map M.ρ
 
+omit [Finite G] in
 theorem exists_two_orbit_of_comm_ne {A X : Subgroup G} (hAH : A ≤ H) (hXH : X ≤ H)
     (hA : IsElemAbelian 2 A) (hX : Odd (Nat.card X))
     (hXn : H ≤ normalizer ((X ⊔ pCoreOf 2 H : Subgroup G) : Set G))
@@ -44,6 +48,7 @@ theorem exists_two_orbit_of_comm_ne {A X : Subgroup G} (hAH : A ≤ H) (hXH : X 
   obtain ⟨a₁, ha₁A, rfl⟩ := M.mem_img.1 hr₁
   exact ⟨a₁, w, ha₁A, hmv, fun b hb => horb _ (M.mem_img.2 ⟨b, hb, rfl⟩)⟩
 
+omit [Finite G] in
 theorem exists_two_orbit_conf {A X T : Subgroup G} (hFE : F < E) (hAT : A ≤ T) (hTH : T ≤ H)
     (hXH : X ≤ H) (hXT : X ⊔ T = H) (hT : IsPGroup 2 T) (hA : IsElemAbelian 2 A)
     (hX : Odd (Nat.card X)) (hXn : H ≤ normalizer ((X ⊔ pCoreOf 2 H : Subgroup G) : Set G))

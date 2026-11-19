@@ -16,6 +16,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.E3 CFSG.RankThree.PerfectCover
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjNormal_mem_center {L : Subgroup G} [L.Normal] (g : G) {z : ↥L}
     (hz : z ∈ Subgroup.center ↥L) : MulAut.conjNormal g z ∈ Subgroup.center ↥L := by
   rw [Subgroup.mem_center_iff] at hz ⊢
@@ -27,11 +28,11 @@ theorem conjNormal_mem_center {L : Subgroup G} [L.Normal] (g : G) {z : ↥L}
 theorem center_eq_bot_of_M12 (hO2 : pCoreOf 2 (⊤ : Subgroup G) = ⊥) {L : Subgroup G}
     (hLF : L = CFSG.generalizedFitting G) (hLq : CFSG.IsQuasisimple ↥L)
     (h : IsSporadic .M12 (↥L ⧸ Subgroup.center ↥L)) : Subgroup.center ↥L = ⊥ := by
-  haveI hK : L.Normal := normal_of_generalizedFitting hLF
-  haveI : Group.IsPerfect ↥L := hLq.1
+  have hK : L.Normal := normal_of_generalizedFitting hLF
+  have : Group.IsPerfect ↥L := hLq.1
   obtain ⟨e⟩ := h
   have e' : (↥L ⧸ Subgroup.center ↥L) ≃* ↥CFSG.Blueprint.NativeSporadic.M12 := e
-  haveI : Group.IsPerfect (↥L ⧸ Subgroup.center ↥L) :=
+  have : Group.IsPerfect (↥L ⧸ Subgroup.center ↥L) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center ↥L))
   have hker : (QuotientGroup.mk' (Subgroup.center ↥L)).ker ≤ Subgroup.center ↥L :=
     (QuotientGroup.ker_mk' _).le
@@ -46,7 +47,7 @@ theorem center_eq_bot_of_M12 (hO2 : pCoreOf 2 (⊤ : Subgroup G) = ⊥) {L : Sub
   rcases hZle with h1 | h2
   · exact Subgroup.eq_bot_of_card_eq _ h1
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 (show 2 ∣ Nat.card (Subgroup.center ↥L) by
       rw [h2])
     set z₀ : ↥L := (z : ↥L) with hz₀
@@ -91,7 +92,7 @@ theorem e43_M12 (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     (hLF : L = CFSG.generalizedFitting G) (hLq : CFSG.IsQuasisimple ↥L)
     (h : IsSporadic .M12 (↥L ⧸ Subgroup.center ↥L)) : aParam ρ.range ≤ 2 := by
   classical
-  haveI : L.Normal := normal_of_generalizedFitting hLF
+  have : L.Normal := normal_of_generalizedFitting hLF
   have hZ := center_eq_bot_of_M12 hO2 hLF hLq h
   have hLT : L ⊔ T = ⊤ := sup_eq_top_of_index_le_two hT (index_le_two_of_M12 hLF hLq h)
   obtain ⟨e⟩ := h

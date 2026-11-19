@@ -63,7 +63,7 @@ theorem sylow_of_card_map_le (hφ : ¬ 2 ∣ Nat.card φ.ker) {L P : Subgroup G�
   obtain ⟨T, hT⟩ := (hP.comap_subtype (K := L)).exists_le_sylow
   refine ⟨T, le_antisymm ?_ hT⟩
   set T' : Subgroup G₁ := (T : Subgroup L).map L.subtype with hT'
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map L.subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map L.subtype
   have hPT' : P ≤ T' := by
     intro x hx
     exact ⟨⟨x, hPL hx⟩, hT (show (⟨x, hPL hx⟩ : L) ∈ P.subgroupOf L from hx), rfl⟩
@@ -160,7 +160,7 @@ theorem exists_isPGroup_map_eq {Â : Subgroup G₂} (hÂ : IsPGroup 2 Â) (hle :
   have hL : L.map φ = Â := by rw [map_comap_eq, inf_eq_right.mpr hle]
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 L))
   set A : Subgroup G₁ := (T : Subgroup L).map L.subtype
-  have hA : IsPGroup 2 A := T.isPGroup'.map L.subtype
+  have hA : IsPGroup 2 A := T.isPGroup.map L.subtype
   refine ⟨A, hA, le_antisymm (map_le_iff_le_comap.mpr (map_subtype_le _)) ?_⟩
   let f : L →* Â := (φ.comp L.subtype).codRestrict Â (fun x => x.2)
   have hf : Function.Surjective f := by

@@ -27,6 +27,7 @@ private theorem exists_linear_of_semilinear {K F E : Type} [Field K] [Field F] [
   · show θ (β (ι x)) = 0 ↔ β (ι x) = 0
     exact map_eq_zero_iff θ θ.injective
 
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 private theorem act_eq_of_comm_mem {K : Type} [Field K] [Finite K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     {φH0 : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}

@@ -28,7 +28,7 @@ theorem le_of_forall_prime_orderOf_mem [Finite H] {C N : Subgroup H} (hsf : Squa
     by_contra hne
     have hidx : K.index ≠ 1 := fun h1 => hne (Subgroup.index_eq_one.mp h1)
     obtain ⟨q, hq, hqd⟩ := Nat.exists_prime_and_dvd hidx
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hqC : q ∣ Nat.card C := hqd.trans K.index_dvd_card
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' q hqC
     have hcK : c ∈ K := by
@@ -100,7 +100,7 @@ theorem map_conj_eq_map_conj_iff (x y : H) (K : Subgroup H) :
   have hone : ∀ L : Subgroup H, L.map (MulAut.conj (1 : H)).toMonoidHom = L := by
     intro L
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hN : y⁻¹ * x ∈ Subgroup.normalizer (K : Set H) ↔
       K.map (MulAut.conj (y⁻¹ * x)).toMonoidHom = K := Subgroup.mem_normalizer_iff_map_conj_eq
   rw [hN]
@@ -149,6 +149,7 @@ theorem eq_one_of_sigma_fixes (hc : BinaryActionRankCounterexample G p P T B e �
   rw [sigma_apply] at h1
   exact h1
 
+omit [Finite G] in
 theorem mem_Bstar_iff (hP : P.Normal) {β : MulAut ↥P} : β ∈ Bstar P B ↔ ∃ b ∈ B, conjOnP P hP b = β := by
   rw [show Bstar P B = B.map (conjOnP P hP) from (image_eq P hP B).symm, Subgroup.mem_map]
 
@@ -229,7 +230,7 @@ theorem mem_normalizer_of_prime_orderOf (hc : BinaryActionRankCounterexample G p
     {a : MulAut ↥P} (ha : a ∈ Bstar P B) (har : (orderOf a).Prime) :
     a ∈ Subgroup.normalizer (D.1 : Set (MulAut ↥P)) := by
   classical
-  haveI : Fact p.Prime := ⟨CentralBinaryBlocks.prime hc⟩
+  have : Fact p.Prime := ⟨CentralBinaryBlocks.prime hc⟩
   set σ := sigma hc with hσ
   set X : hyperplanes 2 E → Submodule (ZMod p) (Space hc) := fun K => commSpace σ E ⊓ fixedSpace σ K.1
     with hX
@@ -271,7 +272,7 @@ theorem mem_normalizer_of_prime_orderOf (hc : BinaryActionRankCounterexample G p
       exact Subgroup.mem_zpowers a
     exact haD ((Subgroup.zpowers_le.mpr hgD) haz)
   obtain ⟨r', hr', hr'd, hrr'⟩ := exists_prime_ne_dvd_card_Bstar hc r
-  haveI : Fact r'.Prime := ⟨hr'⟩
+  have : Fact r'.Prime := ⟨hr'⟩
   obtain ⟨k₀, hk₀⟩ := exists_prime_orderOf_dvd_card' r' hr'd
   set k : MulAut ↥P := (k₀ : MulAut ↥P) with hkdef
   have hkB : k ∈ Bstar P B := k₀.2
@@ -286,13 +287,13 @@ theorem mem_normalizer_of_prime_orderOf (hc : BinaryActionRankCounterexample G p
     rw [h1] at har
     exact Nat.not_prime_one har
   obtain ⟨w, hwX, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hD
-  haveI : Fintype (Subgroup.zpowers a) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers a) := Fintype.ofFinite _
   set v : Space hc := ∑ g : Subgroup.zpowers a, σ g w with hv
   have hva : σ a v = v := by
     rw [hv, map_sum]
     refine Fintype.sum_equiv (Equiv.mulLeft (⟨a, Subgroup.mem_zpowers a⟩ : Subgroup.zpowers a)) _ _
       (fun g => ?_)
-    simp [rho_mul_apply]
+    simp
   have hvk : σ k v = v := sigma_fixed_transfer hc ha hkB ha1 hk1 hva
   set S1 : Finset (Subgroup.zpowers a) := Finset.univ.erase 1 with hS1
   have hsplit : ∀ f : Subgroup.zpowers a → Space hc, ∑ g, f g = f 1 + ∑ g ∈ S1, f g := fun f =>
@@ -350,7 +351,7 @@ theorem mem_normalizer_of_prime_orderOf (hc : BinaryActionRankCounterexample G p
           ∑ g ∈ S1, σ (k * g) w := by
         have h1 : σ k v = σ k w + ∑ g ∈ S1, σ (k * g) w := by
           rw [hv, map_sum, hsplit]
-          simp [rho_mul_apply]
+          simp
         have h2 : v = w + ∑ g ∈ S1, σ (g : MulAut ↥P) w := by
           rw [hv, hsplit]
           simp
@@ -385,8 +386,8 @@ theorem Bstar_le_centralizer_of_isElemAbelian (hc : BinaryActionRankCounterexamp
     {E : Subgroup (MulAut ↥P)} (hE : CFSG.Open.IsElemAbelian 2 E)
     (hN : Bstar P B ≤ Subgroup.normalizer (E : Set (MulAut ↥P))) :
     Bstar P B ≤ Subgroup.centralizer (E : Set (MulAut ↥P)) := by
-  haveI : Fact p.Prime := ⟨CentralBinaryBlocks.prime hc⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨CentralBinaryBlocks.prime hc⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 := CentralBinaryDecomposition.p_ne_two hc
   intro β hβ
   rw [Subgroup.mem_centralizer_iff]
@@ -427,7 +428,7 @@ theorem Bstar_le_centralizer_of_isMulCommutative (hc : BinaryActionRankCounterex
     {U : Subgroup (MulAut ↥P)} (hU2 : IsPGroup 2 U) (hUab : IsMulCommutative U)
     (hN : Bstar P B ≤ Subgroup.normalizer (U : Set (MulAut ↥P))) :
     Bstar P B ≤ Subgroup.centralizer (U : Set (MulAut ↥P)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcommU : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hUab.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   let E : Subgroup (MulAut ↥P) :=

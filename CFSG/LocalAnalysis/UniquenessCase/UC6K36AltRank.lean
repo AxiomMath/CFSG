@@ -25,7 +25,7 @@ theorem pCoreOf_ne_bot_of_isNilpotent {X : Type*} [Group X] [Finite X] {r : ℕ}
     CFSG.LieType.BorelTits.le_pCoreOf r (Subgroup.map_subtype_le _)
       (by
         change ((((P : Subgroup H)).map H.subtype).comap H.subtype).Normal
-        rwa [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]) (P.isPGroup'.map _)
+        rwa [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]) (P.isPGroup.map _)
   intro hbot
   rw [hbot, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective] at hle
   exact P.ne_bot_of_dvd_card hr hle
@@ -34,7 +34,7 @@ variable {J A : Type*} [Group J] [Finite J] [Group A] [Finite A]
 
 theorem pCoreOf_comap_ne_bot (ψ : J →* A) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center J)
     {V : Subgroup A} (hV : IsPGroup 2 V) (hV1 : V ≠ ⊥) : pCoreOf 2 (V.comap ψ) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set f : V.comap ψ →* V := ψ.subgroupComap V
   have hf : Function.Surjective f := ψ.subgroupComap_surjective V hψ
   have hfker : f.ker ≤ center (V.comap ψ) := by
@@ -45,8 +45,8 @@ theorem pCoreOf_comap_ne_bot (ψ : J →* A) (hψ : Function.Surjective ψ) (hke
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext ((Subgroup.mem_center_iff.1 (hker h1)) g)
-  haveI : Group.IsNilpotent V := hV.isNilpotent
-  haveI : Group.IsNilpotent (V.comap ψ) := Subgroup.isNilpotent_of_ker_le_center f hfker
+  have : Group.IsNilpotent V := hV.isNilpotent
+  have : Group.IsNilpotent (V.comap ψ) := Subgroup.isNilpotent_of_ker_le_center f hfker
   have h2V : 2 ∣ Nat.card V := by
     obtain ⟨k, hk⟩ := hV.exists_card_eq
     rcases k with _ | k
@@ -55,6 +55,7 @@ theorem pCoreOf_comap_ne_bot (ψ : J →* A) (hψ : Function.Surjective ψ) (hke
       exact dvd_mul_left 2 _
   exact pCoreOf_ne_bot_of_isNilpotent (h2V.trans (Subgroup.card_dvd_of_surjective hf))
 
+omit [Finite J] [Finite A] in
 theorem comap_normalizer_le (ψ : J →* A) (V : Subgroup A) :
     (normalizer (V : Set A)).comap ψ ≤ normalizer (pCoreOf 2 (V.comap ψ) : Set J) :=
   (Subgroup.le_normalizer_comap ψ).trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _)
@@ -63,7 +64,7 @@ theorem pRank_comap_le_twoLocalPrimeRank {G : Type} [Group G] [Finite G] {L : Su
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center ↥L) {V : Subgroup A} (hV : IsPGroup 2 V)
     (hV1 : V ≠ ⊥) {B : Subgroup A} (hB : B ≤ normalizer (V : Set A)) {q : ℕ} (hq : q.Prime) :
     CFSG.Open.pRank q (B.comap ψ) ≤ twoLocalPrimeRank q G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup ↥L := pCoreOf 2 (V.comap ψ)
   have hT1 : T ≠ ⊥ := pCoreOf_comap_ne_bot ψ hψ hker hV hV1
   have hT2 : IsPGroup 2 T := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
@@ -113,7 +114,7 @@ theorem klein_ne_bot (hn : 4 ≤ n) : klein n ≠ ⊥ := fun h => by
 theorem mem_normalizer_klein_of_subset (hn : 4 ≤ n) {g : alternatingGroup (Fin n)}
     (hg : (g : Perm (Fin n)).support ⊆ four n) : g ∈ normalizer (klein n : Set (alternatingGroup (Fin n))) := by
   obtain ⟨k, rfl⟩ := (alternatingGroup.mem_range_ofSubtype_iff (four n) g).2 hg
-  haveI := alternatingGroup.normal_kleinFour (card_four hn)
+  have := alternatingGroup.normal_kleinFour (card_four hn)
   refine Subgroup.le_normalizer_map _ (Subgroup.mem_map_of_mem _ ?_)
   rw [Subgroup.normalizer_eq_top_iff.2 inferInstance]
   exact Subgroup.mem_top k
@@ -201,12 +202,12 @@ end Klein
 
 theorem four_le_twoLocalPrimeRank_of_thirteen_le {G : Type} [Group G] [Finite G] (L : Subgroup G) {n : ℕ}
     (φ : ↥L ⧸ center ↥L ≃* alternatingGroup (Fin n)) (hn : 13 ≤ n) : 4 ≤ twoLocalPrimeRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ψ : ↥L →* alternatingGroup (Fin n) := φ.toMonoidHom.comp (QuotientGroup.mk' (center ↥L))
   have hψ : Function.Surjective ψ := φ.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ψ.ker = center ↥L := by
     ext x
-    simp [ψ, MonoidHom.mem_ker]
+    simp [ψ]
   obtain ⟨U⟩ : Nonempty (Sylow 3 ψ.ker) := inferInstance
   have hU : ∀ u : ψ.ker, u ∈ U → (u : ↥L) ∈ center ↥L := fun u _ => hker ▸ u.2
   have h4 := CFSG.AGLEmbeddingD2.four_le_pRank_comap_of_central_sylow_alt ψ hψ U hU (tcyc hn)
@@ -222,6 +223,7 @@ namespace Hyp36
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem centerOf_eq (L : Subgroup G) : Odd.centerOf L = (center ↥L).map L.subtype := by
   ext z
   rw [Odd.mem_centerOf]
@@ -238,8 +240,8 @@ theorem center_eq_bot (h : Hyp36 G M p E) (L : Subgroup G) [L.Normal] (hLp : Gro
   have hψ : Function.Surjective ψ := φ.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ψ.ker = center ↥L := by
     ext x
-    simp [ψ, MonoidHom.mem_ker]
-  haveI := hLp
+    simp [ψ]
+  have := hLp
   have h1 := CFSG.Alternating.Multipliers.card_ker_eq_one_of_odd (by omega : 6 ≤ m) ψ hψ hker.le
     (hker ▸ h.odd_card_center_of_normal L)
   rw [hker] at h1

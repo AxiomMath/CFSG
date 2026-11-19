@@ -19,9 +19,9 @@ open CFSG.SectionRank.OddCover (diagHom)
 private theorem ltrcu2a_not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   obtain ⟨hperf, hsimple, -⟩ := hQ
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
-  haveI : Group.IsPerfect Q := hperf
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := hperf
   exact Group.IsPerfect.not_isSolvable Q
 
 private theorem ltrcu2_n_ge_two
@@ -37,7 +37,7 @@ private theorem ltrcu2_n_ge_two
   by_contra hlt
   have hn1 : n = 1 := by have := h.one_le; omega
   subst hn1
-  haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+  have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
     WitSU.isSolvable_unitarySU_two_one h (k := I.card) (by omega) (by omega)
   have hsolvImg : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) I).map
       (LargeEvenProjMk (unitarySU 2 1 K d))) :=
@@ -150,19 +150,19 @@ private theorem ltrcu2_block_conj_inner
     (h : UnitaryFieldData 2 n K) (hdvd : 3 ∣ 2 ^ n + 1)
     {L' : Type} [Group L'] [Finite L']
     {ψ : L' →* LargeEvenProj (unitarySU 2 n K d)}
-    (hψsurj : Function.Surjective ψ) (hψker : ψ.ker ≤ Subgroup.center L')
+    (_hψsurj : Function.Surjective ψ) (hψker : ψ.ker ≤ Subgroup.center L')
     {J : Subgroup L'} (hJ : CFSG.IsQuasisimple J)
     {a : MulAut L'} (haJ : ∀ j ∈ J, a j ∈ J)
-    {τ : Fin d → Kˣ} (hτ : ∀ i, τ i ^ 3 = 1)
+    {τ : Fin d → Kˣ} (_hτ : ∀ i, τ i ^ 3 = 1)
     {N : GL (Fin d) K}
     (hNnorm : N ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
     (hNgu : N ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
-    {ζ : Kˣ} (hζ : ζ ^ 3 = 1)
-    (hND : N * diagHom d τ * N⁻¹ =
+    {ζ : Kˣ} (_hζ : ζ ^ 3 = 1)
+    (_hND : N * diagHom d τ * N⁻¹ =
       Matrix.GeneralLinearGroup.scalar (Fin d) ζ * diagHom d τ)
     {I : Finset (Fin d)} (hI : I.card = 2)
-    (hclass : ∀ i ∈ I, ∀ j, τ j = τ i → j ∈ I)
-    (hconst : ∀ i ∈ I, ∀ j ∈ I, τ i = τ j)
+    (_hclass : ∀ i ∈ I, ∀ j, τ j = τ i → j ∈ I)
+    (_hconst : ∀ i ∈ I, ∀ j ∈ I, τ i = τ j)
     (hmap : J.map ψ =
       (TableBUE.blockSU (K := K) (n := n) I).map (LargeEvenProjMk (unitarySU 2 n K d)))
     (hact : ∀ l : L', TableB.projConj (unitarySU 2 n K d) ⟨N, hNnorm⟩ (ψ l) = ψ (a l)) :

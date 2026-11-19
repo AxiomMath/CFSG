@@ -23,6 +23,7 @@ open CFSG.LocalAnalysis.RankThreeUC.WeakClosure
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_zpowers {t : MulAut W} {U : Subgroup W} (htt : t * t = 1)
     (hUt : ∀ u ∈ U, t u ∈ U) : StableUnder (Subgroup.zpowers t) U := by
   have ht_stab : t ∈ stabSub U := by
@@ -34,8 +35,9 @@ private theorem w16g_stableUnder_zpowers {t : MulAut W} {U : Subgroup W} (htt : 
   intro s hs u hu
   exact (mem_stabSub.1 (Subgroup.zpowers_le.2 ht_stab hs) u).2 hu
 
+omit [Finite W] in
 private theorem w16g_mem_sup_zpowers_or {X : Subgroup (MulAut W)} {t : MulAut W}
-    (hXcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) (htt : t * t = 1)
+    (_hXcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) (htt : t * t = 1)
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) {g : MulAut W}
     (hg : g ∈ X ⊔ Subgroup.zpowers t) : g ∈ X ∨ ∃ a ∈ X, g = a * t := by
   have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
@@ -76,9 +78,9 @@ theorem inf_fixV_hyperplane_decomposition (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} 
       (⨆ D : CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes p A,
         U ⊓ fixV (D : Subgroup (MulAut W))) = U := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite A := inferInstance
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite A := inferInstance
   set M : Submodule (ZMod 2) (Additive W) := w16g_toSub U with hMdef
   have hStab : ∀ s ∈ A, ∀ u ∈ U, s u ∈ U := hU
   have hM : ∀ s ∈ A, ∀ m ∈ M, CFSG.RankThree.FFModules.autRep W s m ∈ M := by
@@ -146,13 +148,13 @@ theorem inf_fixV_hyperplane_decomposition (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} 
     exact hsup
 
 theorem rk_commSub_eq_two_mul_of_inverted_on (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W}
-    (ht : orderOf t = 2) {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 0 < n)
+    (ht : orderOf t = 2) {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hn : 0 < n)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelianOfRank p n ↥X)
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) {U : Subgroup W} (hUX : StableUnder X U)
     (hUt : ∀ u ∈ U, t u ∈ U) :
     rk ↥(commSub U X) = 2 * rk ↥(commSub (commSub U X) (Subgroup.zpowers t)) := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have htt : t * t = 1 := by
     rw [← pow_two]; exact pow_eq_one_iff_modEq.mpr (by simp [ht])
   have hXcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := fun x hx y hy =>
@@ -193,7 +195,7 @@ theorem rk_commSub_eq_two_mul_of_inverted_on (hW : ∀ w : W, w ^ 2 = 1) {t : Mu
   have hX'pow : ∀ x ∈ X.subgroupOf G, x ^ p = 1 := fun x hx => Subtype.ext (hXpow x.1 hx)
   have hX'comm : ∀ x ∈ X.subgroupOf G, ∀ y ∈ X.subgroupOf G, x * y = y * x := fun x hx y hy =>
     Subtype.ext (hXcomm x.1 hx y.1 hy)
-  haveI : Fintype (X.subgroupOf G) := Fintype.ofFinite _
+  have : Fintype (X.subgroupOf G) := Fintype.ofFinite _
   have hodd : Odd (Fintype.card (X.subgroupOf G)) := by
     rw [Fintype.card_eq_nat_card, w16g_card_of_isElemAbelianOfRank hX'rank]
     exact (hp.odd_of_ne_two hp2).pow
@@ -252,7 +254,7 @@ theorem n_mul_dihedralDeg_le_two_mul_rk_on (hW : ∀ w : W, w ^ 2 = 1) {t : MulA
     (hUt : ∀ u ∈ U, t u ∈ U) (hfaith : ∀ x ∈ X, (∀ u ∈ U, x u = u) → x = 1) :
     n * dihedralDeg p ≤ 2 * rk ↥(commSub U (Subgroup.zpowers t)) := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have htt : t * t = 1 := by
     rw [← pow_two]; exact pow_eq_one_iff_modEq.mpr (by simp [ht])
   have hXcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := fun x hx y hy =>
@@ -386,9 +388,9 @@ theorem fixV_hyperplane_decomposition (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (hp 
       (⨆ D : CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes p A,
         fixV (D : Subgroup (MulAut W))) = ⊤ := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite A := inferInstance
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite A := inferInstance
   have hcomm : CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.commSpace
       (CFSG.RankThree.FFModules.autRep W) A = ⊤ := by
     have h1 : CFSG.LocalAnalysis.WeakClosure81.w16g_toSub (commSub ⊤ A)
@@ -422,9 +424,9 @@ theorem rk_commSub_eq_two_mul_of_inverted (hW : ∀ w : W, w ^ 2 = 1) {t : MulAu
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) :
     rk ↥(commSub ⊤ X) = 2 * rk ↥(commSub (commSub ⊤ X) (Subgroup.zpowers t)) := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut W) := inferInstance
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := inferInstance
   have hXab : CFSG.Assembly.IsElemAbelian p X :=
     w16g_isElemAbelian_of_isElemAbelianOfRank hX
   have hXcard : Nat.card X = p ^ n := w16g_card_of_isElemAbelianOfRank hX
@@ -458,9 +460,9 @@ theorem n_mul_dihedralDeg_le_two_mul_rk (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut 
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) :
     n * dihedralDeg p ≤ 2 * rk ↥(commSub ⊤ (Subgroup.zpowers t)) := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut W) := inferInstance
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := inferInstance
   have hXab : CFSG.Assembly.IsElemAbelian p X :=
     w16g_isElemAbelian_of_isElemAbelianOfRank hX
   have hXcard : Nat.card X = p ^ n := w16g_card_of_isElemAbelianOfRank hX

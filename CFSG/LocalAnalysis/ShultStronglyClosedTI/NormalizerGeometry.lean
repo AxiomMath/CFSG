@@ -66,7 +66,7 @@ theorem inf_conjugate_normalizer_eq_bot (T : Sylow 2 G) (U : Subgroup G)
   by_contra hune
   let V : Subgroup G := U.map (MulAut.conj g).toMonoidHom
   have hUtwo : IsPGroup 2 U :=
-    T.isPGroup'.of_injective (Subgroup.inclusion hUT) (Subgroup.inclusion_injective hUT)
+    T.isPGroup.of_injective (Subgroup.inclusion hUT) (Subgroup.inclusion_injective hUT)
   have huorder : orderOf u = 2 :=
     orderOf_eq_prime_iff.mpr ⟨hUel.2 u huU, hune⟩
   have hutwo : IsPGroup 2 (Subgroup.zpowers u) :=

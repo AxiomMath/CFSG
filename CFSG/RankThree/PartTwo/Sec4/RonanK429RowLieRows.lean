@@ -21,7 +21,7 @@ theorem rowS429_seven_SL3 (n : ℕ) (hn : 1 ≤ n) :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       Nonempty (S ≃* projSL 3 (GaloisField 2 n)) → RowS429 S := by
   intro S _ _ hs hna ⟨eS⟩ A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨hO2, m, hm, rfl, hK, hS, τ, hfield⟩ := rowLie_SL3 hs hna hn eS
     (cfgS429_pow_three hc) hc.ne_one (C := Sec4.autFix σ) (fun x => Sec4.mem_autFix)
     hc.le_autFix hc.isSubnormal hc.isType
@@ -32,7 +32,7 @@ theorem rowS429_seven_SU3 (n : ℕ) (hn : 1 ≤ n) :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       Nonempty (S ≃* projSU 3 2 n) → RowS429 S := by
   intro S _ _ hs hna ⟨eS⟩ A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨hO2, m, hm, rfl, hK, hS, h, τ, hfield⟩ := rowLie_SU3 hs hna hn eS
     (cfgS429_pow_three hc) hc.ne_one (C := Sec4.autFix σ) (fun x => Sec4.mem_autFix)
     hc.le_autFix hc.isSubnormal hc.isType
@@ -57,7 +57,7 @@ theorem rowS429NoL3_seven_D4 (hG2 : G2Excl429) (q : TauCeti.PrimePower)
       CFSG.TauCetiBridge.Even.twistedModel_of_bridgeEven
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.trialityD4 q hq hq2 (by decide) e⟩
   rw [hq2] at hm
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨hO2, hf1, hK, hout⟩ := rowLie_D4 hG2 hs hna hm (cfgS429_pow_three hc) hc.ne_one
     hc.le_autFix hc.isSubnormal hc.isType
   exact ⟨hO2, Or.inr ⟨q.exponent, hf1, hK, hm, hout⟩⟩

@@ -15,6 +15,7 @@ section Witness
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_normalizer_inf_centralizer {p : ℕ} {D T A : Subgroup X} (hD : IsElemAbelian p D)
     (hAD : A ≤ D) (hDT : D ≤ normalizer (T : Set X)) :
     D ≤ normalizer ((T ⊓ centralizer (A : Set X) : Subgroup X) : Set X) := by
@@ -48,7 +49,7 @@ theorem le_centralizer_of_invariantTwo {p : ℕ} {L D : Subgroup X} [L.Normal]
     T ≤ centralizer (D : Set X) := by
   have hp := hF.prime
   have hp2 := hF.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDne : D ≠ ⊥ := by
     intro h
     have hcard := hF.card

@@ -12,10 +12,12 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemAbelian_subgroupOf {U H : Subgroup G} (h : IsElemAbelian 2 U) :
     IsElemAbelian 2 (U.subgroupOf H) :=
   h.comap H.subtype_injective
 
+omit [Finite G] in
 private theorem isTI_subgroupOf {U H : Subgroup G} (hTI : IsTI U) :
     IsTI (U.subgroupOf H) := by
   intro γ
@@ -45,12 +47,14 @@ private theorem isTI_subgroupOf {U H : Subgroup G} (hTI : IsTI U) :
     rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup] at hxC
     exact CFSG.CGT.Timmesfeld75.mem_conjSubgroup.mpr (Subgroup.mem_subgroupOf.mpr hxC)
 
+omit [Finite G] in
 private theorem mem_normalizer_of_mem_normalizer_subgroupOf {U H : Subgroup G} (hUH : U ≤ H)
     {m : ↥H} (hm : m ∈ Subgroup.normalizer ((U.subgroupOf H : Subgroup ↥H) : Set ↥H)) :
     (m : G) ∈ Subgroup.normalizer (U : Set G) := by
   rw [← Subgroup.subgroupOf_normalizer_eq hUH] at hm
   exact Subgroup.mem_subgroupOf.mp hm
 
+omit [Finite G] in
 private theorem mem_normalizer_subgroupOf_of_mem_normalizer {X H : Subgroup G} (hXH : X ≤ H)
     {a : ↥H}
     (ha : (a : G) ∈ Subgroup.normalizer (X : Set G)) :
@@ -58,6 +62,7 @@ private theorem mem_normalizer_subgroupOf_of_mem_normalizer {X H : Subgroup G} (
   rw [← Subgroup.subgroupOf_normalizer_eq hXH]
   exact Subgroup.mem_subgroupOf.mpr ha
 
+omit [Finite G] in
 private theorem subgroupOf_mem_omegaSet_top {U H E W : Subgroup G} {k : G}
     (hUH : U ≤ H) (hWH : W ≤ H) (hW : W = conjSubgroup U k) (hk : k ∈ H)
     (hEH : E ≤ H) (hEW : E ⊓ W ≠ ⊥) (hWO : ¬ W ≤ pCoreOf 2 H) :
@@ -84,6 +89,7 @@ private theorem subgroupOf_mem_omegaSet_top {U H E W : Subgroup G} {k : G}
     have h2 := hle hmem
     rwa [Subgroup.mem_subgroupOf] at h2
 
+omit [Finite G] in
 private theorem map_subtype_mem_omegaIn_of_mem_omegaSet_top {V H E U : Subgroup G}
     {W' : Subgroup ↥H}
     (hU : U ∈ omegaIn V H E)
@@ -115,6 +121,7 @@ private theorem map_subtype_mem_omegaIn_of_mem_omegaSet_top {V H E U : Subgroup 
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hle (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩))
 
+omit [Finite G] in
 private theorem iSub_top_subgroupOf_le {V H E J U : Subgroup G}
     (hU : U ∈ omegaIn V H E)
     (hIJ : ∀ W ∈ omegaIn V H E, W ⊓ pCoreOf 2 H ≤ J) :
@@ -142,7 +149,7 @@ theorem seven_three_three_in {V H E J U U' : Subgroup G}
     isElemAbelian_subgroupOf (isElemAbelian_of_mem_omegaSet hV hU.1)
   have hV'TI : IsTI (U.subgroupOf H) :=
     isTI_subgroupOf (isTI_of_mem_omegaSet hU.1 hTI)
-  haveI : IsMulCommutative E := hE
+  have : IsMulCommutative E := hE
   have hE' : IsMulCommutative (E.subgroupOf H) := inferInstance
   obtain ⟨-, -, hEU, hUO⟩ := mem_omegaSet.mp hU.1
   obtain ⟨-, -, hEU', hU'O⟩ := mem_omegaSet.mp hU'.1
@@ -195,7 +202,7 @@ theorem seven_three_four_normalizer_in {V H E J U : Subgroup G}
     isElemAbelian_subgroupOf (isElemAbelian_of_mem_omegaSet hV hU.1)
   have hV'TI : IsTI (U.subgroupOf H) :=
     isTI_subgroupOf (isTI_of_mem_omegaSet hU.1 hTI)
-  haveI : IsMulCommutative E := hE
+  have : IsMulCommutative E := hE
   have hE' : IsMulCommutative (E.subgroupOf H) := inferInstance
   obtain ⟨-, -, hEU, hUO⟩ := mem_omegaSet.mp hU.1
   have hV'mem : U.subgroupOf H ∈
@@ -243,7 +250,7 @@ theorem seven_six_one_relIndex_eq_two_in {V H E J A X U : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hJ : J ≤ pCoreOf 2 H) (hJnorm : (J.subgroupOf H).Normal)
     (hIJ : ∀ W ∈ omegaIn V H E, W ⊓ pCoreOf 2 H ≤ J)
-    (hJX : J ≤ X) (hXH : X ≤ H) (hAH : A ≤ H) (hAX : A ≤ normalizer (X : Set G))
+    (hJX : J ≤ X) (hXH : X ≤ H) (_hAH : A ≤ H) (hAX : A ≤ normalizer (X : Set G))
     (hXodd : Odd (J.relIndex X))
     (hfaith : ∀ a ∈ A, (∀ x ∈ X, ⁅a, x⁆ ∈ J) → a ∈ J)
     (hU : U ∈ omegaIn V H E) (hUA : U ≤ A) :
@@ -252,7 +259,7 @@ theorem seven_six_one_relIndex_eq_two_in {V H E J A X U : Subgroup G}
     isElemAbelian_subgroupOf (isElemAbelian_of_mem_omegaSet hV hU.1)
   have hV'TI : IsTI (U.subgroupOf H) :=
     isTI_subgroupOf (isTI_of_mem_omegaSet hU.1 hTI)
-  haveI : IsMulCommutative E := hE
+  have : IsMulCommutative E := hE
   have hE' : IsMulCommutative (E.subgroupOf H) := inferInstance
   obtain ⟨-, -, hEU, hUO⟩ := mem_omegaSet.mp hU.1
   have hV'mem : U.subgroupOf H ∈

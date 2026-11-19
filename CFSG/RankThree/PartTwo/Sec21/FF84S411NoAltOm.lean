@@ -171,8 +171,8 @@ theorem prK_smul_mul {g₁ : OmG} (h₁ : g₁ ∈ Eτ) (y : F6) :
 theorem exists_fixed_Kperp :
     ∃ x : F6, x ≠ 0 ∧ polarMinus x sig0 = 0 ∧ polarMinus x tau0 = 0 ∧
       ∀ g ∈ Eτ, prK (g • x) = x := by
-  letI : MulAction ↥Eτ KperpPt := actW
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥Eτ KperpPt := actW
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := isPGroup_Eτ.card_modEq_card_fixedPoints (α := KperpPt)
   rw [card_KperpPt] at hmod
   let z0 : KperpPt := ⟨0, pm_zero_left _, pm_zero_left _⟩
@@ -182,12 +182,12 @@ theorem exists_fixed_Kperp :
     show prK (g.1 • (0 : F6)) = 0
     rw [smul_zero, prK_zero]
   have hpos : 0 < Nat.card (fixedPoints ↥Eτ KperpPt) := by
-    haveI : Nonempty (fixedPoints ↥Eτ KperpPt) := ⟨⟨z0, hz0⟩⟩
+    have : Nonempty (fixedPoints ↥Eτ KperpPt) := ⟨⟨z0, hz0⟩⟩
     exact Nat.card_pos
   have hgt : 1 < Nat.card (fixedPoints ↥Eτ KperpPt) := by
     unfold Nat.ModEq at hmod
     omega
-  haveI : Nontrivial (fixedPoints ↥Eτ KperpPt) := Finite.one_lt_card_iff_nontrivial.mp hgt
+  have : Nontrivial (fixedPoints ↥Eτ KperpPt) := Finite.one_lt_card_iff_nontrivial.mp hgt
   obtain ⟨y, hy⟩ := exists_ne (⟨z0, hz0⟩ : fixedPoints ↥Eτ KperpPt)
   refine ⟨y.1.1, ?_, y.1.2.1, y.1.2.2, fun g hg => ?_⟩
   · intro h0

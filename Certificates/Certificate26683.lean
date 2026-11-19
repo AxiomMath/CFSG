@@ -37,7 +37,6 @@ theorem certificate26683 :     ((d₂C twoBXY.1 : GA) : GL24) * ((d₂C twoBXY.1
           ∃ c ∈ twoBD, c * triHom (liftC Z hZ) * c⁻¹ = x) ∧
     (∃ c : C₁, triHom c ∉ twoBD) ∧
     ∀ y : Equiv.Perm (Fin 1365), (∀ d ∈ twoBD, y * d = d * y) → y = 1 := by
-  intros
   exact ⟨xM_sq, yM_pow, ⟨zM, lM, zM_mem, zM_closure, zM_sq, zM_ne, lM_mem, lM_conj, gen_le,
     zM_not_conj, co1_d_K (prep_zeta (c := liftC zM zM_mem) rep_zM) zeta_mem⟩,
     co1_exists_not_mem_K, fun _ hy => co1_centralizer_trivial_K hy⟩

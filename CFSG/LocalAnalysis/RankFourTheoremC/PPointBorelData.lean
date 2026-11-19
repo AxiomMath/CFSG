@@ -83,7 +83,7 @@ theorem exists_borelData_three {P : Sylow 3 G} (hin : PPointThreeInputs) (hS : D
   have hOcop : (3 : ℕ).Coprime (Nat.card O) := primeComplementCore_coprime 3
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup 3 Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup hOcop hQcp
   have hxQ : xC ∈ Qc := mem_subgroupOf.mpr ⟨h.mem, mem_centralizer_singleton_iff.2 rfl⟩
   have hKn : K.Normal := hf.red.normal

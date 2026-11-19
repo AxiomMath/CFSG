@@ -184,7 +184,7 @@ theorem eq_top_of_normalizer_le_centralizer_omega1 (A : Sylow 2 X)
         rw [hxaz, hz1, mul_one]
     rw [Subgroup.mem_centralizer_iff]
     intro a ha
-    obtain ⟨n, hn⟩ := A.isPGroup' ⟨a, ha⟩
+    obtain ⟨n, hn⟩ := A.isPGroup ⟨a, ha⟩
     have han : a ^ 2 ^ n = 1 := congrArg Subtype.val hn
     have := key n a ha han
     calc a * x = x * (x⁻¹ * a * x) := by group

@@ -14,7 +14,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem exists_pow_eq_of_not_dvd_card_sub_one {p : ℕ} (hp : p.Prime)
     (hK : ¬ p ∣ Nat.card K - 1) (c : Kˣ) : ∃ c₀ : Kˣ, c₀ ^ p = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Nat.card Kˣ = Nat.card K - 1 := by
     simpa [Nat.card_eq_fintype_card] using Fintype.card_units K
   have hcop : (Nat.card Kˣ).Coprime p := by
@@ -105,7 +105,7 @@ theorem commute_of_conjAut_commute_of_not_dvd {N p : ℕ} (hp : p.Prime) (hN : 2
     simpa [Matrix.GeneralLinearGroup.det_scalar, Fintype.card_fin] using h2
   have hζcard : ζ ^ (Nat.card K - 1) = 1 := by
     classical
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Nat.card Kˣ = Nat.card K - 1 := by
       simpa [Nat.card_eq_fintype_card] using Fintype.card_units K
     rw [← hcard]

@@ -345,11 +345,11 @@ theorem ggKGTum_card_sumZero {d p : ℕ} {K : Type} [Field K] [Finite K]
     Nat.card ↥(sumZero d p) = p ^ (d - 1) := by
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
   obtain ⟨ζ, hζroot⟩ := hζ
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let u : Kˣ := Units.mk0 ζ (hζroot.ne_zero hp.ne_zero)
   have hu : u ^ p = 1 := by
     ext
-    simp only [u, Units.val_pow_eq_pow_val, Units.val_one, Units.mk0_val]
+    simp only [u, Units.val_pow_eq_pow_val, Units.val_one]
     exact hζroot.pow_eq_one
   have hζu : IsPrimitiveRoot u p := IsPrimitiveRoot.coe_units_iff.mp hζroot
   have hord : orderOf u = p := hζu.eq_orderOf.symm
@@ -397,7 +397,7 @@ theorem ggKGTum_S_eq_top_or_sumZero {n d p : ℕ} {K : Type} [Field K] [Finite K
     (hSge : p ^ (d - 1) ≤ Nat.card ↥(ggKGTum_S φ A u hu)) :
     ggKGTum_S φ A u hu = ⊤ ∨ ggKGTum_S φ A u hu = sumZero d p := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd0 : 0 < d := by omega
   let S := ggKGTum_S φ A u hu
   by_cases htop : S = ⊤
@@ -571,7 +571,7 @@ theorem exists_diagonal_of_actsDiagU_conj {n d p : ℕ} {K : Type} [Field K]
     (h : LineU.ActsDiagU φ (MulAut.conj (φ g)) w) :
     ∃ c : K, ((g : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (fun k => c * w k) := by
   classical
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   obtain ⟨E, hE, hEw, hEact⟩ := h
   set M : GL (Fin d) K := (g : GL (Fin d) K) * E⁻¹ with hM
   have hEinv : E⁻¹ ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)) :=
@@ -624,8 +624,8 @@ theorem exists_diagonal_of_actsDiagU_conj {n d p : ℕ} {K : Type} [Field K]
       (QuotientGroup.eq_one_iff (τ u * u⁻¹)).mpr hmem
     rw [map_mul, map_inv] at h1
     exact mul_inv_eq_one.mp h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := hK.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := hK.charP
   have hperf : Group.IsPerfect ↥(unitarySU 2 n K d) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := n) hK.card_eq_sq
       (n := d) (by omega) (by intro hcon; have h1 := congrArg Prod.fst hcon; omega)
@@ -688,7 +688,7 @@ theorem ggKGTum_exists_perm_of_conj_mem_normalizer {n d p : ℕ} {K : Type} [Fie
         MulAut.conj (φ (LineU.permSU hK σ)) * a *
           (MulAut.conj (φ (LineU.permSU hK σ)))⁻¹ := by
   classical
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hK.one_le hpq
   obtain ⟨ζ, hζ⟩ := TypeA.exists_isPrimitiveRoot (K := K) hp
     (TableBUE.dvd_card_sub_one hK.card_eq_sq hpq)
@@ -880,8 +880,8 @@ theorem ggKGTAU_permModel
               permAut σ (f : Fin d → Multiplicative (ZMod p)) →
               ggConjAut A hm (Θ f) = Θ g) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd0 : 0 < d := by omega
   have hdn : (d, n) ≠ (6, 1) := by rintro ⟨-, h⟩; omega
   have hUF : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK (by omega)

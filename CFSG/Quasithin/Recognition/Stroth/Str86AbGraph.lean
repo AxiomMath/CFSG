@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_conjSub_eq_smul (g : G) (H : Subgroup G) : conjSub g H = MulAut.conj g • H := by
   ext x
   rw [conjSub, Subgroup.mem_smul_pointwise_iff_exists, Subgroup.mem_map]

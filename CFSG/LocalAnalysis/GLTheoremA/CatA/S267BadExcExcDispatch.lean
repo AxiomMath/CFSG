@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LieType.SeitzGeneration CFSG.B
 
 theorem three_le_orderOf_of_not_dvd {p n : ℕ} (hp : p.Prime) (hpn : ¬ p ∣ n)
     (h : ¬ p ∣ n ^ 2 - 1) : 3 ≤ orderOf ((n : ℕ) : ZMod p) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h0 : ((n : ℕ) : ZMod p) ≠ 0 := fun h0 => hpn ((ZMod.natCast_eq_zero_iff n p).1 h0)
   have hpos : 0 < orderOf ((n : ℕ) : ZMod p) :=
     orderOf_pos_iff.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨p - 1, by have := hp.two_le; omega,
@@ -101,9 +101,9 @@ theorem false_of_badExcCore_E7_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2 : q �
   ·
     have hpf : p ∣ Q.exponent := by
       by_contra hpf
-      rw [if_neg hpf] at h4
+      rw [ite_eq_right hpf] at h4
       omega
-    rw [if_pos hpf] at h4
+    rw [ite_eq_left hpf] at h4
     have ha3 : a = 3 := by omega
     have h7 : 7 ≤ p := by
       rcases CFSG.HardMathSupport.Timmesfeld.CrossChar.eq_of_three_le_degCount_E7
@@ -114,7 +114,7 @@ theorem false_of_badExcCore_E7_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2 : q �
       · exact ExcHigh.seven_le_of_orderOf_six hp h
     have hf7 : 7 ≤ Q.exponent := h7.trans (Nat.le_of_dvd Q.exponent_pos hpf)
     have hBle := card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC
-      (hrk.trans (by rw [if_pos hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
+      (hrk.trans (by rw [ite_eq_left hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
     exact false_of_hq_of_lift (r := 6) ((pRank_le_of_card_le_pow hp hBle).trans_lt (by norm_num))
       hHq e fun X _ _ φ hφ => le_twoLocalRank_cat_E7 Q hv hq2 (by omega) (by omega) (by omega) φ hφ
 
@@ -149,9 +149,9 @@ theorem false_of_badExcCore_E6_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2 : q �
       hHq e fun X _ _ φ hφ => five_le_twoLocalRank_cat_E6 Q hv hq2 φ hφ
   · have hpf : p ∣ Q.exponent := by
       by_contra hpf
-      rw [if_neg hpf] at h4
+      rw [ite_eq_right hpf] at h4
       omega
-    rw [if_pos hpf] at h4
+    rw [ite_eq_left hpf] at h4
     have ha3 : a = 3 := by omega
     have h7 : 7 ≤ p := by
       rcases CFSG.HardMathSupport.Timmesfeld.CrossChar.eq_of_three_le_degCount_E6
@@ -161,7 +161,7 @@ theorem false_of_badExcCore_E6_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2 : q �
       · exact ExcHigh.seven_le_of_orderOf_three hp hp5 h
     have hf7 : 7 ≤ Q.exponent := h7.trans (Nat.le_of_dvd Q.exponent_pos hpf)
     have hBle := card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC
-      (hrk.trans (by rw [if_pos hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
+      (hrk.trans (by rw [ite_eq_left hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
     exact false_of_hq_of_lift (r := 6) ((pRank_le_of_card_le_pow hp hBle).trans_lt (by norm_num))
       hHq e fun X _ _ φ hφ => le_twoLocalRank_cat_E6 Q hv hq2 (by omega) (by omega) (by omega) φ hφ
 
@@ -193,11 +193,11 @@ theorem false_of_badExcCore_F4_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2 : q �
   have h3 := three_le_of_card hp hB4 (card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC hrk)
   have hpf : p ∣ Q.exponent := by
     by_contra hpf
-    rw [if_neg hpf] at h3
+    rw [ite_eq_right hpf] at h3
     omega
   have hf5 : 5 ≤ Q.exponent := hp5.trans (Nat.le_of_dvd Q.exponent_pos hpf)
   have hBle := card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC
-    (hrk.trans (by rw [if_pos hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 3))
+    (hrk.trans (by rw [ite_eq_left hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 3))
   exact false_of_hq_of_lift (r := 5) ((pRank_le_of_card_le_pow hp hBle).trans_lt (by norm_num))
     hHq e fun X _ _ φ hφ => le_twoLocalRank_cat_F4 Q hv hq2 (by omega) (by omega) (by omega) φ hφ
 
@@ -234,7 +234,7 @@ theorem false_of_badExcCore_twistedE6_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2
       by_contra hf
       by_cases hpf : p ∣ Q.exponent
       · exact hf (hp5.trans (Nat.le_of_dvd Q.exponent_pos hpf))
-      · rw [if_neg hpf] at h3
+      · rw [ite_eq_right hpf] at h3
         have ha3 : 3 ≤ a := by omega
         rcases CFSG.HardMathSupport.Timmesfeld.CrossChar.eq_of_three_le_degCountTw
           (ha ▸ (by omega : 3 ≤ a)) with h | h | h
@@ -248,9 +248,9 @@ theorem false_of_badExcCore_twistedE6_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2
   ·
     have hpf : p ∣ Q.exponent := by
       by_contra hpf
-      rw [if_neg hpf] at h4
+      rw [ite_eq_right hpf] at h4
       omega
-    rw [if_pos hpf] at h4
+    rw [ite_eq_left hpf] at h4
     have ha3 : a = 3 := by omega
     have h7 : 7 ≤ p := by
       rcases CFSG.HardMathSupport.Timmesfeld.CrossChar.eq_of_three_le_degCountTw
@@ -260,7 +260,7 @@ theorem false_of_badExcCore_twistedE6_of_not_dvd {p q : ℕ} (hp : p.Prime) (hq2
       · exact ExcHigh.seven_le_of_orderOf_six hp h
     have hf7 : 7 ≤ Q.exponent := h7.trans (Nat.le_of_dvd Q.exponent_pos hpf)
     have hBle := card_le_pow_succ_of_pRank_mulAut_le hp hS hperf hB hBC
-      (hrk.trans (by rw [if_pos hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
+      (hrk.trans (by rw [ite_eq_left hpf]; omega : max 1 a + (if p ∣ Q.exponent then 1 else 0) ≤ 4))
     exact false_of_hq_of_lift (r := 6) ((pRank_le_of_card_le_pow hp hBle).trans_lt (by norm_num))
       hHq e fun X _ _ φ hφ =>
         le_twoLocalRank_cat_twistedE6 Q hv hq2 (by omega) (by omega) (by omega) φ hφ

@@ -721,7 +721,7 @@ theorem injective_pairAutRestrict_reeLocalBlock
     rw [Subgroup.mem_subgroupOf] at hu ⊢
     rw [hmemU] at hu ⊢
     exact conj_mem_of_mem_reeLocalBlock_inf (hstab g g.2) hu
-  letI : MulAction (t.reeLocalBlock K a j) (ModGL t.tag K ⧸ t.reeFixedBorel K a) := inferInstance
+  let : MulAction (t.reeLocalBlock K a j) (ModGL t.tag K ⧸ t.reeFixedBorel K a) := inferInstance
   have hreg : ∀ ω ω' : MulAction.orbit (t.reeLocalBlock K a j) ξ, ω ≠ ξo → ω' ≠ ξo →
       ∃! u : (PX : Subgroup (t.reeLocalBlock K a j)), (u : t.reeLocalBlock K a j) • ω = ω' := by
     intro ω ω' hω hω'

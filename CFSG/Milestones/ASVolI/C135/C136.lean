@@ -129,7 +129,7 @@ theorem burnsideC135_C_1_36_ofW (h134 : burnsideC135_C134W) : C_1_36 := by
   obtain ⟨h1, hQmax, A, hAL, hA, hAll, hcard⟩ := key
   refine ⟨h1, A, hAL, ?_, hcard⟩
   ext B
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · exact hAll B
   · rintro (rfl | rfl)

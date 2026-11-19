@@ -65,7 +65,7 @@ theorem cfInner_self_dadeBetaRemainder (hS2 : (Set.range ξ).Nontrivial) :
   have h1Q : cfInner (1 : G → ℂ) Q = 0 := by rw [← conj_cfInner, hQ1, map_zero]
   have hzz : cfInner z z = 1 := by
     rw [hzdef, NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k₀ k₀,
-      if_pos rfl, cfInner_self_of_mem_Irr hζIrr]
+      ite_eq_left rfl, cfInner_self_of_mem_Irr hζIrr]
   have hQz : cfInner Q z = 1 :=
     NormalInducedWeightedNorm.cfInner_weightedCoherentSum_coherentImage_of_apply_one_eq H hinj hS
       hν hζ1

@@ -16,8 +16,8 @@ theorem psl2FieldPart_eq_autFieldPart : psl2FieldPart K = CFSG.Quasithin.autFiel
 
 private theorem zpowers_psl2FieldPart_eq_top {a : ℕ} (hK : Nat.card K = 2 ^ a)
     {σ₀ : K ≃+* K} (hσ₀ : orderOf σ₀ = a) : Subgroup.zpowers σ₀ = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (RingAut K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun e : RingAut K => (e : K → K))
       (fun _ _ h => RingEquiv.ext (congrFun h))
   obtain ⟨hAut, -⟩ :=
@@ -29,11 +29,11 @@ theorem orderOf_psl2FieldPart_eq_of_pow_not_inner {a e : ℕ} (hK : Nat.card K =
     (ha : a = 2 ^ e) (he : 1 ≤ e) {θ₀ : MulAut (PSL2 K)}
     (hout : ∀ x : PSL2 K, θ₀ ^ (2 ^ (e - 1)) ≠ MulAut.conj x) :
     orderOf (psl2FieldPart K θ₀) = a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun e : RingAut K => (e : K → K))
       (fun _ _ h => RingEquiv.ext (congrFun h))
   obtain ⟨hAut, -⟩ :=
@@ -63,9 +63,9 @@ theorem orderOf_psl2FieldPart_eq_of_pow_not_inner {a e : ℕ} (hK : Nat.card K =
 theorem eq_one_of_ringAut_fixed_of_orderOf_eq_card {a : ℕ}
     (hK : Nat.card K = 2 ^ a) {σ : K ≃+* K} (hσ : orderOf σ = a) {lam : Kˣ}
     (hlam : σ (lam : K) = (lam : K)) : lam = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   let R := FixedPoints.subfield (Subgroup.zpowers σ) K
   have hmem : (lam : K) ∈ R := (mem_fixedSubfield_iff σ (lam : K)).mpr hlam
@@ -76,7 +76,7 @@ theorem eq_one_of_ringAut_fixed_of_orderOf_eq_card {a : ℕ}
       Nat.div_self (by rw [← hσ]; exact orderOf_pos σ)] at h
     simpa using h
   have hunits : Nat.card Rˣ = 1 := by rw [Nat.card_units, hcard]
-  haveI : Subsingleton Rˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+  have : Subsingleton Rˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
   let xR : R := ⟨(lam : K), hmem⟩
   have hx0 : xR ≠ 0 := by
     intro h0
@@ -158,9 +158,9 @@ private theorem fieldAut_diag_eq_of_mul_inv_mem_upper {a : ℕ}
     (hd' : d' ∈ burnsideAut_psl2Diag K)
     (h : psl2FieldAut K σ d' * d'⁻¹ ∈ psl2UpperUnipotentSubgroup K) :
     psl2FieldAut K σ d' = d' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   let U := psl2UpperUnipotentSubgroup K
   let D := burnsideAut_psl2Diag K
@@ -171,7 +171,7 @@ private theorem fieldAut_diag_eq_of_mul_inv_mem_upper {a : ℕ}
     change IsPGroup 2 (psl2UpperUnipotentSubgroup K)
     obtain ⟨Q, hQ⟩ := psl2UpperUnipotent_isSylow K hK
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   have hDodd : Odd (Nat.card D) := burnsideAut_card_psl2Diag_odd ha1 hK
   have hbt : U ⊓ D = ⊥ := inf_eq_bot_of_isPGroup_two_of_odd hU2 hDodd
   have hmem : psl2FieldAut K σ d' * d'⁻¹ ∈ U ⊓ D :=
@@ -184,9 +184,9 @@ private theorem eq_one_of_fieldAut_diag_fixed {a : ℕ} (hK : Nat.card K = 2 ^ a
     (h : psl2FieldAut K σ (psl2QuotientMap K (burnsideAut_sl2DiagHom K lam)) =
       psl2QuotientMap K (burnsideAut_sl2DiagHom K lam)) :
     lam = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   have hfixlam : σ (lam : K) = (lam : K) := by
     rw [burnsideAut_psl2FieldAut_diag σ lam] at h
@@ -205,9 +205,9 @@ private theorem mem_upper_of_normalizes_fieldPart {a : ℕ} (hK : Nat.card K = 2
       ((psl2UpperUnipotentSubgroup K) : Set (PSL2 K)))
     (hcent : θ h * h⁻¹ ∈ psl2UpperUnipotentSubgroup K) :
     h ∈ psl2UpperUnipotentSubgroup K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   let U := psl2UpperUnipotentSubgroup K
   have hhB : h ∈ psl2Borel K := by
@@ -237,11 +237,11 @@ theorem psl2_fieldGen {a : ℕ} (hK : Nat.card K = 2 ^ a)
     (θ₀ : MulAut (PSL2 K)) (hσ₀ : orderOf (psl2FieldPart K θ₀) = a) :
     ∀ θ : MulAut (PSL2 K), ∃ j : ℕ, ∃ x : PSL2 K, θ = θ₀ ^ j * MulAut.conj x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun e : RingAut K => (e : K → K))
       (fun _ _ h => RingEquiv.ext (congrFun h))
   intro θ
@@ -267,6 +267,7 @@ theorem psl2_fieldGen {a : ℕ} (hK : Nat.card K = 2 ^ a)
       change θ₀ ^ j * ψ = θ₀ ^ j * MulAut.conj x
       rw [hx]
 
+omit [Finite K] in
 private theorem conj_mem_normalizer_upper {S : Sylow 2 (PSL2 K)} {h₁ h : PSL2 K}
     (hh₁U : (psl2UpperUnipotentSubgroup K).map (MulAut.conj h₁).toMonoidHom =
       (S : Subgroup (PSL2 K)))
@@ -291,6 +292,7 @@ private theorem conj_mem_normalizer_upper {S : Sylow 2 (PSL2 K)} {h₁ h : PSL2 
   rw [hnormmap, hSmapInv] at hmem
   exact hmem
 
+omit [Finite K] in
 private theorem conj_cent_mem_upper {S : Sylow 2 (PSL2 K)} {θ₀ : MulAut (PSL2 K)}
     {h₁ h : PSL2 K}
     (hh₁U : (psl2UpperUnipotentSubgroup K).map (MulAut.conj h₁).toMonoidHom =
@@ -307,7 +309,6 @@ private theorem conj_cent_mem_upper {S : Sylow 2 (PSL2 K)} {θ₀ : MulAut (PSL2
     simp only [θ₁, MulAut.mul_apply]
   have h1 : MulAut.conj h₁ (θ₁ h') = θ₀ h := by
     rw [hθ₁, hconjh']
-    change MulAut.conj h₁ ((MulAut.conj h₁)⁻¹ (θ₀ h)) = θ₀ h
     rw [MulAut.inv_def, MulEquiv.apply_symm_apply]
   have h2 : MulAut.conj h₁ (h'⁻¹) = h⁻¹ := by
     rw [map_inv, hconjh']
@@ -336,9 +337,9 @@ private theorem mem_sylow_of_conj_mem_upper {a : ℕ} (hK : Nat.card K = 2 ^ a)
     (hhN : h ∈ Subgroup.normalizer ((S : Subgroup (PSL2 K)) : Set (PSL2 K)))
     (hcent : θ₀ h * h⁻¹ ∈ (S : Subgroup (PSL2 K))) :
     h ∈ (S : Subgroup (PSL2 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   let θ₁ : MulAut (PSL2 K) := (MulAut.conj h₁)⁻¹ * θ₀ * MulAut.conj h₁
   let h' : PSL2 K := (MulAut.conj h₁)⁻¹ h

@@ -113,7 +113,7 @@ theorem exists_sl_mulVec_e1 (v : Fin 2 → ZMod 3) (hv : v ≠ 0) :
     decide +kernel
   have ha : v 0 ≠ 0 ∨ v 1 ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv (funext fun i => by fin_cases i <;> simp [h.1, h.2])
   refine ⟨⟨!![v 0, -(v 1 * (1 - v 0 * v 0)); v 1, v 0], ?_⟩, ?_⟩
   · rw [Matrix.det_fin_two_of]
@@ -242,7 +242,7 @@ theorem hessF_of_noRefl (h12 : x₁ * x₂ = x₂ * x₁) (h1 : x₁ ^ 3 = 1) (h
   obtain ⟨-, hab, hcard9, hx₁F, hwF, -, hcomm, hnt, hAut⟩ := hess_abstract (Lh := ⊤)
     (F := Subgroup.zpowers x₁ ⊔ Subgroup.zpowers x₂) (w := t) rfl trivial trivial h12 h1 h2 hcard
     trivial hF1 hF2 ht1 (Or.inl ht2) hdet
-  haveI : Finite (Subgroup.zpowers x₁ ⊔ Subgroup.zpowers x₂ : Subgroup G) :=
+  have : Finite (Subgroup.zpowers x₁ ⊔ Subgroup.zpowers x₂ : Subgroup G) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine ⟨hab, hcard9, hx₁F, mem_normalizer_of_forall_mem' _ hwF, hcomm, hnt, ?_,
     ?_⟩

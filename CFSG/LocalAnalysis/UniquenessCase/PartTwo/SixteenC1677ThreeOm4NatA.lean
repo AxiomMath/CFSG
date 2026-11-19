@@ -33,11 +33,11 @@ theorem s168e3_exists_tensor_of_isOmegaPlus_two {W : Type} [CommGroup W]
         UC22.IsL2 ↥K 2 ∧ NatTensor L (commSub ⊤ L) ⊥ 2 2 := by
   have hcard : Nat.card ↥L = 3600 :=
     (Om8Excl.card_isOmegaPlus_four (by norm_num) hΩ).trans (by norm_num)
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rcases hW.2.2 with h1 | ⟨K, hK, g, hg, hne, hL, hc⟩ | h3 | h4
   ·
     obtain ⟨p, hp, hLp, -⟩ := h1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpG : IsPGroup p ↥(pCoreOf p A) :=
       (CFSG.pCore_isPGroup (p := p) (G := ↥A)).map A.subtype
     have hpL : IsPGroup p ↥L := hpG.to_le hLp
@@ -53,7 +53,7 @@ theorem s168e3_exists_tensor_of_isOmegaPlus_two {W : Type} [CommGroup W]
   · rcases hc with ⟨-, hT⟩ | ⟨hK2, hT⟩ | ⟨-, hT⟩
     ·
       obtain ⟨F, _, _, hF, π, hπ⟩ := hT
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+      have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
       have hF2 : Nat.card F = 2 := by rw [hF]; norm_num
       have hdvd : Nat.card ↥L ∣ Nat.card (↥(StatedSL 3 F) × ↥(StatedSL 3 F)) :=
         Subgroup.card_dvd_of_surjective hπ.1
@@ -64,7 +64,7 @@ theorem s168e3_exists_tensor_of_isOmegaPlus_two {W : Type} [CommGroup W]
     · exact ⟨K, by simpa using hK, g, hg, hne, hL, hK2, hT⟩
     ·
       obtain ⟨F, _, _, hF, π, hπ⟩ := hT
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+      have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
       have hF8 : Nat.card F = 8 := by rw [hF]; norm_num
       have hdvd : Nat.card ↥L ∣ Nat.card (↥(StatedSL 2 F) × ↥(StatedSL 2 F)) :=
         Subgroup.card_dvd_of_surjective hπ.1

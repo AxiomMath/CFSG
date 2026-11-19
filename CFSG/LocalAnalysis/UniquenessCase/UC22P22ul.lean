@@ -26,8 +26,8 @@ theorem uc22p22u_inf_centralizer_fstar_le {Q : Type*} [Group Q] [Finite Q] (N : 
 theorem uc22p22u_isNilpotent_of_isPGroup_map {Q B : Type*} [Group Q] [Finite Q] [Group B] (f : Q →* B)
     (p : ℕ) [Fact p.Prime] (U : Subgroup Q) (hp : IsPGroup p ↥(U.map f))
     (hc : ∀ u ∈ U, f u = 1 → ∀ v ∈ U, v * u = u * v) : Group.IsNilpotent ↥U := by
-  haveI : Finite ↥(U.map f) := Finite.of_surjective (f.subgroupMap U) (f.subgroupMap_surjective U)
-  haveI : Group.IsNilpotent ↥(U.map f) := hp.isNilpotent
+  have : Finite ↥(U.map f) := Finite.of_surjective (f.subgroupMap U) (f.subgroupMap_surjective U)
+  have : Group.IsNilpotent ↥(U.map f) := hp.isNilpotent
   refine Subgroup.isNilpotent_of_ker_le_center (f.subgroupMap U) fun x hx => ?_
   rw [mem_center_iff]
   intro y
@@ -37,7 +37,7 @@ theorem uc22p22u_exists_le_pCore_map_eq {Q B : Type*} [Group Q] [Finite Q] [Grou
     (p : ℕ) [Fact p.Prime] (U : Subgroup Q) [U.Normal] (hU : Group.IsNilpotent ↥U)
     (hp : IsPGroup p ↥(U.map f)) :
     ∃ S : Subgroup Q, S ≤ U ∧ S ≤ CFSG.pCore p Q ∧ S.map f = U.map f := by
-  haveI : Finite ↥(U.map f) := Finite.of_surjective (f.subgroupMap U) (f.subgroupMap_surjective U)
+  have : Finite ↥(U.map f) := Finite.of_surjective (f.subgroupMap U) (f.subgroupMap_surjective U)
   let P : Sylow p ↥U := default
   let P' : Sylow p ↥(U.map f) := P.mapSurjective (f.subgroupMap_surjective U)
   have hPtop : (P' : Subgroup ↥(U.map f)) = ⊤ :=
@@ -59,11 +59,11 @@ theorem uc22p22u_pCore_commutator_le_image {Q B : Type*} [Group Q] [Finite Q] [G
         Subgroup Q) : Set Q) ⊔ (CFSG.layer ↥N).map N.subtype) :
     ∀ b ∈ pCoreOf p ⁅(⊤ : Subgroup B), ⊤⁆,
       ∃ y ∈ CFSG.pCore p Q ⊓ ⁅(⊤ : Subgroup Q), ⊤⁆, φ y = b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite B := Finite.of_surjective φ hφ
-  haveI : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
-  haveI : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite B := Finite.of_surjective φ hφ
+  have : (CFSG.layer ↥N).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : ((CFSG.layer ↥N).map N.subtype).Normal := inferInstance
+  have : ((CFSG.fittingSubgroup ↥N).map N.subtype).Normal := inferInstance
   set F : Subgroup Q := (CFSG.fittingSubgroup ↥N).map N.subtype
   set E : Subgroup Q := (CFSG.layer ↥N).map N.subtype
   set C : Subgroup Q := centralizer ((F ⊔ E : Subgroup Q) : Set Q)
@@ -72,13 +72,13 @@ theorem uc22p22u_pCore_commutator_le_image {Q B : Type*} [Group Q] [Finite Q] [G
   have hEN : E ≤ N := map_subtype_le _
   have hEQ : E ≤ ⁅(⊤ : Subgroup Q), ⊤⁆ :=
     (uc22p22u_map_layer_le_commutator N).trans (commutator_mono le_top le_top)
-  haveI : Op.Normal := by
+  have : Op.Normal := by
     change ((CFSG.pCore p ↥D).map D.subtype).Normal
     infer_instance
   have hOpp : IsPGroup p ↥Op := CFSG.pCore_isPGroup.map D.subtype
   have hOpD : Op ≤ D := map_subtype_le _
   let U : Subgroup Q := C ⊓ ⁅(⊤ : Subgroup Q), ⊤⁆ ⊓ Op.comap φ
-  haveI : U.Normal := inferInstance
+  have : U.Normal := inferInstance
   have hUOp : U.map φ ≤ Op := by
     rintro _ ⟨x, hx, rfl⟩
     exact hx.2

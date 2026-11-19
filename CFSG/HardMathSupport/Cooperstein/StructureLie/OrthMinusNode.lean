@@ -38,7 +38,7 @@ theorem mulVec_evec (G : Matrix (SM n) (SM n) K) (lam : K)
     refine Finset.sum_eq_zero fun y _ => ?_
     rw [show (Sum.inr (Sum.inr u) : SM n) = pl n u from rfl, hG _ _ (Or.inl ⟨u, rfl⟩)]
     by_cases hy : pl n u = y
-    · subst hy; simp [pl, evec]
+    · subst hy; simp [pl]
     · simp [hy]
 
 theorem hQ_restr (k : spinGroup (quadMinus n K b c)) (lam : K)
@@ -51,7 +51,7 @@ theorem hQ_restr (k : spinGroup (quadMinus n K b c)) (lam : K)
   exact quad_mat_mulVec k (evec v)
 
 theorem mem_PT_iff {m : ℕ} {A : Set (Fin m)} {a : Fin m} : kap a true ∈ PT A ↔ a ∈ A :=
-  ⟨fun ⟨a', ha', h⟩ => (kap_inj h).1 ▸ ha', kap_true_mem_PT⟩
+  ⟨fun ⟨_a', ha', h⟩ => (kap_inj h).1 ▸ ha', kap_true_mem_PT⟩
 
 theorem cfg_minus (j : Fin (n - 1)) (hN : 3 ≤ n - 1) (G : Matrix (SM n) (SM n) K)
     (hLong : ∀ (a b' : Fin (n - 1)) (hab : a ≠ b') (t : Bool), a.val ≤ j.val →

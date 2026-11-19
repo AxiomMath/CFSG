@@ -102,8 +102,8 @@ theorem uc22k_exists_p_normalizing_jOf_bar (D : Data G) {p : ℕ} (hp : p.Prime)
     ∃ P : Subgroup G, P ≤ D.M ∧ IsPGroup p P ∧
       CFSG.ABGLocalTools.IsSylowOf p (mbarImage D.M D.U P) ⊤ ∧
       ∀ y ∈ P, ∀ x ∈ jOf D.T, y * x * y⁻¹ ∈ jOf D.T := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNM : proofN D ≤ D.M := uc22p22e_jOf_le_self D.M
   have hMN := uc22p22t_M_le_normalizer_jOf D
   have hTN : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ proofN D) (proofN D) :=
@@ -138,7 +138,7 @@ theorem uc22k_exists_p_normalizing_jOf_bar (D : Data G) {p : ℕ} (hp : p.Prime)
   have hfac := congrArg (fun n => n.factorization p) hcard
   rw [Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne',
     Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne'] at hfac
-  simp only [Finsupp.add_apply, hN0, hI0, add_zero, zero_add] at hfac
+  simp only [Finsupp.add_apply, hN0, hI0, add_zero] at hfac
   set f : ↥Hn →* MBar D.M D.U := π.comp (Subgroup.inclusion hHnM) with hfdef
   have hfr : f.range = Hb := by
     rw [hfdef, MonoidHom.range_comp, Subgroup.inclusion_range, hHbdef, mbarImage]
@@ -154,7 +154,7 @@ theorem uc22k_exists_p_normalizing_jOf_bar (D : Data G) {p : ℕ} (hp : p.Prime)
     rw [hfdef, ← Subgroup.map_map, hQP, mbarImage]
   have hcP := P22k.card_map_sylow f Q
   rw [hPb, hfr] at hcP
-  refine ⟨P, hPHn.trans hHnM, Q.isPGroup'.map Hn.subtype, ?_, ?_⟩
+  refine ⟨P, hPHn.trans hHnM, Q.isPGroup.map Hn.subtype, ?_, ?_⟩
   · refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
     rw [hcP, hfac]
   · intro y hy x hx
@@ -170,8 +170,8 @@ theorem uc22k_s22_5_2Bar_of (D : Data G) (Ch : Choice2011 G) (hx : DataExt D) (h
   intro h1930 c p hp
   by_contra hpN
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hPM, hPp, hPbar, hnJ⟩ := uc22k_exists_p_normalizing_jOf_bar D hpP hpN
   have hPE : ∀ y ∈ P, ∀ z ∈ proofE D, y * z * y⁻¹ ∈ proofE D := fun y hy =>
     uc22p22e_conj_omegaZJ (hnJ y hy) (fun x hx => by simpa using hnJ y⁻¹ (P.inv_mem hy) x hx)

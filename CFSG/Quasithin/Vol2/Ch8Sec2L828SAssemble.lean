@@ -56,14 +56,14 @@ theorem stmt8_2_8Cocode_of (hE214 : ASInputs.AS_E_2_14)
   have hKle := le_of_mem_cComp hK
   have hKn' := (Subgroup.normal_subgroupOf_iff_le_normalizer hKle).mp hKn
   have hhI := hC.2.1
-  obtain ⟨hIN, -, -, hVB⟩ := s828_lemma13 (H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
+  obtain ⟨hIN, -, -, hVB⟩ := s828_lemma13 (_H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
   have hVT : fsuV T I ≤ T := fsuV_le_T hyp.fsu hV hN
   have hTV : T ≤ Subgroup.normalizer (fsuV T I : Set G) := le_sup_right.trans hN
   obtain ⟨hc1, hc2⟩ := s828_cocode_clauses12 hE214 hMB0 hMB3 hSyl hcard hyp h731 h821 hrow hH
     hh hC hC5 hL0 hV hVT hTV hLN hAL hIN hVB
   exact ⟨hc1, hc2, hFive G T L I hyp h731 h821 hc hrow H h k hH hh hC hcoc _ _ _ rfl rfl rfl⟩
 
-theorem step828Three_Bt_of (hE214 : ASInputs.AS_E_2_14)
+theorem step828Three_Bt_of (_hE214 : ASInputs.AS_E_2_14)
     (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK)
     (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal) (hcard : Mathieu.StmtH13Card)
     (hLU : HLU82) (h825 : Stmt8_2_5) (h827 : Step827)
@@ -103,16 +103,16 @@ theorem step828Three_Bt_of (hE214 : ASInputs.AS_E_2_14)
   have hKle := le_of_mem_cComp hK
   have hKn' := (Subgroup.normal_subgroupOf_iff_le_normalizer hKle).mp hKn
   have hhI := hC.2.1
-  obtain ⟨hIN, -, -, hVB⟩ := s828_lemma13 (H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
+  obtain ⟨hIN, -, -, hVB⟩ := s828_lemma13 (_H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
   have hVT : fsuV T I ≤ T := fsuV_le_T hyp.fsu hV hN
   have hTV : T ≤ Subgroup.normalizer (fsuV T I : Set G) := le_sup_right.trans hN
   have hAe : IsElemAbelian 2 (ch82A (fsuV T I) h) :=
     isElemAbelian_of_le_conjSub_82 hV inf_le_left
   have hB := s828_prop21 hyp h731 h821 hrow hH hh hC hC5 hMB0 hSyl hcard hV hL0 hVT hTV hLN hAL
     hVB
-  refine ⟨fun n hn => s828_Bt_L3 (H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB ⟨n, hn⟩,
-    fun hr => s828_Bt_cocode (H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB hr,
-    fun hr => s828_Bt_M22 (H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB hr⟩
+  refine ⟨fun n hn => s828_Bt_L3 (_H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB ⟨n, hn⟩,
+    fun hr => s828_Bt_cocode (_H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB hr,
+    fun hr => s828_Bt_M22 (_H := H) hMB1 hcard hV hL0 hC5 hLN hAN hAL hAe hB hr⟩
 
 end Assemble
 

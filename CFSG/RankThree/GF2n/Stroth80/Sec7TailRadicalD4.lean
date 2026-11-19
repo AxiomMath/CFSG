@@ -32,6 +32,7 @@ section Levi
 
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
+omit [Finite K] in
 theorem graphFixedParabolicLeviUnipotent_empty :
     graphFixedParabolicLeviUnipotent TwistTag.D4 K σ.toRingHom ∅ = ⊥ := by
   rw [eq_bot_iff]
@@ -62,7 +63,7 @@ theorem exists_levi_factor [CharP K 2] {e : ℕ} (h : CFSG.LocalAnalysis.GLTheor
     refine ⟨⊥, bot_le, bot_le, bot_inf_eq _, fun t _ => ?_, fun x hx => ?_, Or.inl rfl⟩
     · rw [Subgroup.mem_normalizer_iff]
       intro n
-      simp only [SetLike.mem_coe, Subgroup.mem_bot]
+      simp only [Subgroup.mem_bot]
       constructor
       · rintro rfl
         group
@@ -227,7 +228,7 @@ theorem exists_pullback_data {m : ℕ} (h : CFSG.LocalAnalysis.GLTheoremA.TD4Le.
     intro t ht
     rw [Subgroup.mem_normalizer_iff]
     intro n
-    simp only [SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv]
+    simp only [Subgroup.mem_comap, map_mul, map_inv]
     exact Subgroup.mem_normalizer_iff.1 (hHN ht) (ψ n)
   ·
     intro a ha b hb
@@ -266,11 +267,11 @@ theorem radicalTwoSubgroup_trialityD4 :
   intro X _ _ hX U hU hU2 hrad S _ hSq
   obtain ⟨m, hm, hmodel⟩ := hX
   obtain ⟨K, _, _, σ, h, ⟨e⟩⟩ := RadD4.exists_mulEquiv_graphFixedRootGroupD4_of_lieModel hm hmodel
-  haveI := h.charP_two
+  have := h.charP_two
   obtain ⟨ψ, hψ, hψr, J, hJ, hNJ⟩ := RadD4.exists_conj_le_graphFixedParabolic σ h e hU hU2
   obtain ⟨P, R, H, L, hNP, hRP, hRn, hR2, hHP, hLP, hfac, hHN, hHc, hLR, hLiso⟩ :=
     RadD4.exists_pullback_data σ h hψ hψr hJ U hNJ
-  haveI := hRn
+  have := hRn
   refine exists_statedProj_of_radical hrad hNP hRP hRn hR2 _
     (commutator_quotient_le_map_of_factor hRP hHP hLP hfac hHN hHc) ?_ S hSq
   rcases hLiso with rfl | ⟨F, _, _, s, hF, ⟨eL⟩⟩

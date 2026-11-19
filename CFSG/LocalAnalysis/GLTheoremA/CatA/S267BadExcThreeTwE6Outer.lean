@@ -40,7 +40,7 @@ end Conj
 
 theorem twE6JCompInput_holds : TwE6JCompInput := by
   intro K _ _ ℓ f _ _ hK hf hℓ2 h3 c hc hct
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ, hσζ⟩ := CFSG.LieType.BorelTits.exists_unitaryInvolution_eq_neg hK
   obtain ⟨P, hP⟩ := CFSG.LieType.Universal.Unitary.exists_wittMatrix hK 6
   exact (TwE6Conc.modelAGen_twistedE6_spec_of_inj hK hf hζ hσζ P hP hℓ2 (by norm_num) hc hct
@@ -62,8 +62,8 @@ private theorem map_leviJ_fieldActor {δ : K ≃+* K} (hδζ : δ ζ = ζ)
     ((TwE6Conc.leviJ K ℓ f).subgroupOf (twistedE6RootGroup K (unitaryInvolution K ℓ f))).map
         (fieldActor (unitaryInvolution K ℓ f) δ).toMonoidHom =
       (TwE6Conc.leviJ K ℓ f).subgroupOf (twistedE6RootGroup K (unitaryInvolution K ℓ f)) := by
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
   refine map_eq_self_of_mapsTo fun x hx => ?_
   obtain ⟨y, rfl⟩ := TwE6Conc.exists_leviSU_eq hK hf hζ hσζ P hP hx
   rw [TwE6Outer.entrywise_leviSU hK hf hζ hσζ P hP hδζ hPδ]
@@ -85,16 +85,16 @@ private theorem pow_eq_one_of_fix_leviJ {ε : K ≃+* K} (hε : orderOf ε = 3) 
   · rw [← pow_mul, mul_comm, pow_mul, ← hε, pow_orderOf_eq_one, one_pow]
   set u' := Units.map (ε ^ n).toRingHom.toMonoidHom u with hu'def
   have hu' : u' ^ (ℓ ^ f + 1) = 1 := TwE6Outer.map_pow_eq_one hu
-  have h1 := hfix (TwE6Conc.leviSU hK hf hζ hσζ P hP (TwE6Outer.yLam hK u hu))
+  have h1 := hfix (TwE6Conc.leviSU hK hf hζ hσζ P hP (TwE6Outer.yLam u hu))
     (TwE6Conc.leviSU_mem_leviJ hK hf hζ hσζ P hP _)
   rw [MulAut.mul_apply, TwE6Outer.fieldActor_pow,
     TwE6Outer.entrywise_leviSU hK hf hζ hσζ P hP (TwE6Outer.ringEquiv_pow_apply_eq hεζ n)
       (fun i j => TwE6Outer.ringEquiv_pow_apply_eq (hεP i j) n),
-    TwE6Outer.suidMap_yLam hK u hu hu',
-    hv (TwE6Outer.yLam hK u' hu') (by rw [TwE6Outer.coe_yLam]; exact Matrix.isDiag_diagonal _)]
+    TwE6Outer.suidMap_yLam u hu hu',
+    hv (TwE6Outer.yLam u' hu') (by rw [TwE6Outer.coe_yLam]; exact Matrix.isDiag_diagonal _)]
     at h1
   have h4 : TwE6Conc.leviSU hK hf hζ hσζ P hP
-      (TwE6Outer.yLam hK u' hu' * (TwE6Outer.yLam hK u hu)⁻¹) = 1 := by
+      (TwE6Outer.yLam u' hu' * (TwE6Outer.yLam u hu)⁻¹) = 1 := by
     rw [map_mul, map_inv, h1, mul_inv_cancel]
   obtain ⟨μ, hμ⟩ := TwE6Conc.exists_smul_of_leviSU_eq_one hK hf hζ hσζ P hP h4
   rw [TwE6Outer.coe_yLam_mul_inv] at hμ
@@ -138,10 +138,10 @@ private theorem exists_conj_eq_of_commute_twInndiag (hK : Nat.card K = (ℓ ^ f)
     ∃ h : MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)), h * ε₀ = ε₀ * h ∧
       Y.map (MulAut.conj h).toMonoidHom = X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
-  haveI : Finite (MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))) :=
     Finite.of_injective (fun φ : MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) =>
       (φ : ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) →
         ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)))) fun a b h => MulEquiv.ext (congrFun h)
@@ -157,7 +157,7 @@ private theorem exists_conj_eq_of_commute_twInndiag (hK : Nat.card K = (ℓ ^ f)
   obtain ⟨P', hYP'⟩ := (IsPGroup.of_card hY'c).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥H P' P
   set Q := (P : Subgroup ↥H).map H.subtype with hQ
-  have hQp : IsPGroup 3 Q := P.isPGroup'.map H.subtype
+  have hQp : IsPGroup 3 Q := P.isPGroup.map H.subtype
   have hXQ : X ≤ Q := fun x hx => ⟨⟨x, hXH hx⟩, hXP hx, rfl⟩
   have hYQ : Y.map (MulAut.conj (g : MulAut _)).toMonoidHom ≤ Q := by
     rintro _ ⟨y, hy, rfl⟩
@@ -192,10 +192,10 @@ theorem concA_of_twE6_vtw_outer (hVtw : TwE6VtwInput) (hJc : TwE6JCompInput)
       twistedE6Diag K (unitaryInvolution K ℓ f)))) :
     S267ConcA 3 S B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hℓ : ℓ.Prime := Fact.out
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, hΘ, -, hker, -, -, -⟩, -, -, hZ0, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK
       (unitaryInvolution K ℓ f) (unitaryInvolution_apply K ℓ f)
@@ -281,9 +281,9 @@ theorem concA_of_twE6_vtw_outer (hVtw : TwE6VtwInput) (hJc : TwE6JCompInput)
     have hεfin : IsOfFinOrder ε :=
       isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, by rw [← hε, pow_orderOf_eq_one]⟩
     have hmem : Θ (Γ' x) ∈ Subgroup.zpowers ε := by
-      haveI : IsCyclic (RingAut K) :=
+      have : IsCyclic (RingAut K) :=
         CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-      haveI : Finite ↥(Subgroup.zpowers (Θ (Γ' x))) :=
+      have : Finite ↥(Subgroup.zpowers (Θ (Γ' x))) :=
         (isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hx3⟩).finite_zpowers
       have hle : Subgroup.zpowers (Θ (Γ' x)) ≤ Subgroup.zpowers ε := by
         rw [IsCyclic.subgroup_le_iff_card_dvd, Nat.card_zpowers, Nat.card_zpowers, hε]

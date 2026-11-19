@@ -99,7 +99,7 @@ theorem eam_odd_eq_bot_ambient (hp : p.Prime) (hp2 : p ≠ 2) (hZc : Z ≤ Subgr
     (hKn : ∀ g ∈ Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({v} : Set G),
       ∀ k ∈ K, g * k * g⁻¹ ∈ K)
     (hodd : Odd (Nat.card K)) (hKp : ¬ p ∣ Nat.card K) : K = ⊥ := by
-  haveI : Finite Y := Finite.of_equiv _ ψ.toEquiv
+  have : Finite Y := Finite.of_equiv _ ψ.toEquiv
   have hKD : K ≤ Subgroup.centralizer ({v} : Set G) := hK.trans inf_le_right
   obtain ⟨K', hK'mem, hK'card⟩ := exists_transport ψ hKD
   obtain ⟨hle, hn⟩ := transport_core ψ hxv hK'mem hK hKn
@@ -122,7 +122,7 @@ theorem eam_le_center_ambient (hp : p.Prime) (hp2 : p ≠ 2) (hZc : Z ≤ Subgro
     (hR : ∀ s : R, orderOf s = p →
       GLAPPrimeCoreOf p (Subgroup.centralizer ({s} : Set R)) = ⊥)
     (hR6 : ∀ s : R, orderOf s = p → ∀ r ∈ Subgroup.centralizer ({s} : Set R), orderOf r ≠ 6)
-    {v : G} (ψ : ↥(Subgroup.centralizer ({v} : Set G)) ≃* Y) (hv2 : v ^ 2 = 1) (hv1 : v ≠ 1)
+    {v : G} (ψ : ↥(Subgroup.centralizer ({v} : Set G)) ≃* Y) (_hv2 : v ^ 2 = 1) (hv1 : v ≠ 1)
     (hψv : ∃ hv : v ∈ Subgroup.centralizer ({v} : Set G), ψ ⟨v, hv⟩ ∈ Z) {x : G}
     (hxv : x ∈ Subgroup.centralizer ({v} : Set G)) (hx : orderOf x = p) {w y : G}
     (hwx : w ∈ Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({v} : Set G))
@@ -135,7 +135,7 @@ theorem eam_le_center_ambient (hp : p.Prime) (hp2 : p ≠ 2) (hZc : Z ≤ Subgro
       ∀ k ∈ K, g * k * g⁻¹ ∈ K)
     (hKp : ¬ p ∣ Nat.card K) : ∀ k ∈ K, k = 1 ∨ k = v := by
   obtain ⟨hv, hψv⟩ := hψv
-  haveI : Finite Y := Finite.of_equiv _ ψ.toEquiv
+  have : Finite Y := Finite.of_equiv _ ψ.toEquiv
   have hKD : K ≤ Subgroup.centralizer ({v} : Set G) := hK.trans inf_le_right
   obtain ⟨K', hK'mem, hK'card⟩ := exists_transport ψ hKD
   obtain ⟨hle, hn⟩ := transport_core ψ hxv hK'mem hK hKn

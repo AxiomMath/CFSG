@@ -277,7 +277,7 @@ theorem b_thm2_PU3_II_proved :
     B_thm2_PU3_II := by
   intro G _ _ hG x y K T S M ρ B h2 hKM hQ L hL hLcomp hLeq hgam _ m hm l hl
   by_cases hcen : ∀ u ∈ pPrimeCoreOf 2 L, ∀ v ∈ L, u * v = v * u
-  · haveI : IsSimpleGroup G := hG.kproper.1
+  · have : IsSimpleGroup G := hG.kproper.1
     exact False.elim (h2.nonterminal
       (Th2.PU3Q.terminal_of_central_core h2.maximal hL hLcomp hLeq hcen hQ hgam
         ⟨h2.std.orderOf_x, h2.std.comp⟩))

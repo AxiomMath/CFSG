@@ -173,7 +173,7 @@ end WordLists
 theorem burnsideF48s_autc_set3 (G : Fin 5 → Ah) (i j k : Fin 5) :
     ({G i, G j, G k} : Set Ah) = {x | ∃ l ∈ [i, j, k], G l = x} := by
   ext x
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq, List.mem_cons,
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro (rfl | rfl | rfl)
@@ -185,7 +185,7 @@ theorem burnsideF48s_autc_set3 (G : Fin 5 → Ah) (i j k : Fin 5) :
 theorem burnsideF48s_autc_set4 (G : Fin 5 → Ah) (i j k m : Fin 5) :
     ({G i, G j, G k, G m} : Set Ah) = {x | ∃ l ∈ [i, j, k, m], G l = x} := by
   ext x
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq, List.mem_cons,
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro (rfl | rfl | rfl | rfl)

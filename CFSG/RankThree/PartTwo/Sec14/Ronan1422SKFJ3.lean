@@ -211,8 +211,8 @@ theorem card_j3tB0 : Nat.card j3tB0 = 9 := by
 theorem j3tB0_comm {a b : Equiv.Perm (Fin 6156)} (ha : a ∈ j3tB0)
     (hb : b ∈ j3tB0) : a * b = b * a := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have h := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := j3tB0)
-    (by rw [card_j3tB0]; norm_num) ⟨a, ha⟩ ⟨b, hb⟩
+  have h := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := j3tB0)
+    (by rw [card_j3tB0]; norm_num)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact congrArg Subtype.val h
 
 theorem j3tB0_map_conj_g :
@@ -267,7 +267,7 @@ theorem false_of_le_centralizer_caseB {k : Equiv.Perm (Fin 6156)} (hk : k ∈ j3
   have hK'le : K.map (MulAut.conj k⁻¹).toMonoidHom ≤ Subgroup.centralizer {j3tXB} ⊓ j3P := by
     rintro _ ⟨y, hy, rfl⟩
     have e1 : (MulAut.conj k⁻¹).toMonoidHom y = k⁻¹ * y * k := by
-      simp [MulAut.conj_apply]
+      simp
     rw [e1]
     refine ⟨?_, j3P.mul_mem (j3P.mul_mem (j3P.inv_mem hk) (hKR hy)) hk⟩
     rw [← hce]
@@ -340,7 +340,7 @@ open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certifi
 
 
 theorem exists_t_at_x0 {E : Subgroup (Equiv.Perm (Fin 6156))}
-    (hE : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27) {e : ℕ}
+    (_hE : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27) {e : ℕ}
     (hcE : j3tXA ^ e ∈ E)
     (hDc : Subgroup.closure (Set.range j3tD) ≤ Subgroup.centralizer {j3tXA})
     (hDp : Group.IsPerfect (Subgroup.closure (Set.range j3tD)))
@@ -511,7 +511,7 @@ theorem j3PermConfig_holds : J3PermConfig := by
     · rw [pow_one]
     · exact centralizer_pow_two_eq_of_pow_three hx3
   set f := (MulAut.conj k⁻¹).toMonoidHom with hf
-  have hfapp : ∀ y, f y = k⁻¹ * y * k := fun y => by simp [hf, MulAut.conj_apply]
+  have hfapp : ∀ y, f y = k⁻¹ * y * k := fun y => by simp [hf]
   have hfinj : Function.Injective f := (MulAut.conj k⁻¹).injective
   have hfR : ∀ y ∈ j3P, f y ∈ j3P := fun y hy => by
     rw [hfapp]

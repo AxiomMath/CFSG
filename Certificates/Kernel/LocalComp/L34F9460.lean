@@ -227,7 +227,6 @@ theorem spec9460 :
     obtain ⟨q, hq, hqi, hJ⟩ := (L34N.normA_iff hi).1 ⟨⟨j, hj, hja⟩, ⟨j', hj', hjb⟩⟩
     have h := (L34N.listed_iff (B := fun v => Nat.beq (v % 2) 1) rfl hi).2
       ⟨q, hq, hqi, by
-        change Nat.beq (L34N.J q % 32 % 2) 1 = true
         rw [Nat.beq_eq]
         omega⟩
     exact Nat.eq_of_beq_eq_true h

@@ -160,7 +160,7 @@ variable {G : Type} [Group G] {A : Subgroup G}
 theorem spQuotEquivProj {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     (hn : 1 ≤ n) (e : A ≃* StatedSp n K) :
     Nonempty (rankTwoQuot A ≃* StatedProj (StatedSp n K)) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   refine ⟨(QuotientGroup.congr (Subgroup.center A) (Subgroup.center (StatedSp n K)) e
       (Subgroup.map_center_eq e)).trans ?_⟩
   exact (QuotientGroup.quotientMulEquivOfEq

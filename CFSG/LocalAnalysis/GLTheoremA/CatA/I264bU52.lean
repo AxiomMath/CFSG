@@ -50,7 +50,7 @@ theorem coe_diagG (d : Fin 5 → F4ˣ) :
     fin_cases i <;> simp
   map_mul' s t := by
     funext i
-    fin_cases i <;> simp [mul_inv, mul_comm, mul_left_comm, mul_assoc]
+    fin_cases i <;> simp [mul_comm, mul_left_comm, mul_assoc]
 
 @[expose] def diag5 : (Fin 4 → F4ˣ) →* GL (Fin 5) F4 := diagG.comp entries
 
@@ -123,7 +123,7 @@ section Prime3
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem false_of_u52 (hR : Rank23At Y) {K B : Subgroup Y} (h : KHyp 3 K B)
-    (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
+    (_hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
     (hcat : catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isU5two) : False := by
   have hlist : catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isList94 := by
     obtain ⟨i, hi, e⟩ := hcat

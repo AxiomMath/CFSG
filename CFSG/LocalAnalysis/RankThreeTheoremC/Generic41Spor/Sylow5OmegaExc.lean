@@ -22,12 +22,12 @@ open CFSG.LocalAnalysis.RankFourTheoremC (isMulCommutative_sylow_of_surjective
 private theorem isMulCommutative_sylow_of_mulEquiv' {K Q : Type} [Group K] [Group Q] [Finite K]
     {p : ℕ} [Fact p.Prime] (e : K ≃* Q) (h : ∀ R : Sylow p Q, IsMulCommutative (R : Subgroup Q))
     (P : Sylow p K) : IsMulCommutative (P : Subgroup K) := by
-  haveI : Finite Q := Finite.of_equiv K e.toEquiv
+  have : Finite Q := Finite.of_equiv K e.toEquiv
   exact isMulCommutative_sylow_of_surjective e.symm.toMonoidHom e.symm.surjective h P
 
 private theorem factorization_card_eq_five {K : Type} [Group K] [Finite K] (S : Sylow 5 K)
     (hS : Nat.card S = 5 ^ 5) : (Nat.card K).factorization 5 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h := Sylow.card_eq_multiplicity S
   rw [hS] at h
   exact (Nat.pow_right_injective (by norm_num : 2 ≤ 5) h).symm
@@ -50,13 +50,13 @@ private theorem certificate43_of_decide :
 
 private theorem isMulCommutative_sylow_of_suzukiModel {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
     (h : SuzukiModel K ℓ f) (S : Sylow 5 K) : IsMulCommutative (S : Subgroup K) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI := certificate43_of_decide
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := certificate43_of_decide
   obtain ⟨-, a, ha, F, _, _, hfa, hcard, ⟨e⟩⟩ := h
   have hF : Nat.card F = 2 ^ (2 * a + 1) := by rw [hcard, hfa]
   let e' : K ≃* GLASzGroup a F :=
     e.trans (MulEquiv.subgroupCongr (CFSG.LieType.BorelTits.suzukiGroup_eq_glaSzGroup a F))
-  haveI := CFSG.ProperTwoGeneratedCore.LocalCriterionDenominator.suzuki_model_oddSylow_cyclic
+  have := CFSG.ProperTwoGeneratedCore.LocalCriterionDenominator.suzuki_model_oddSylow_cyclic
     a ha hF e' 5 (by norm_num) S
   infer_instance
 
@@ -72,7 +72,7 @@ private theorem five_not_dvd_card_weylGroup_G2 : ¬ 5 ∣ Nat.card (WeylGroup Ta
 private theorem isMulCommutative_sylow_of_untwisted {K : Type} [Group K] [Finite K] {τ : Tag}
     {q p : ℕ} (hp : p.Prime) (hW : ¬ p ∣ Nat.card (WeylGroup τ)) (hq : ¬ p ∣ q)
     (h : UntwistedChevalleyModel K τ q) (P : Sylow p K) : IsMulCommutative (P : Subgroup K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
   have hpF : ¬ p ∣ Nat.card F := hF ▸ hq
   exact isMulCommutative_sylow_of_mulEquiv' e
@@ -84,7 +84,7 @@ private theorem isMulCommutative_sylow_of_derivedCentralQuotient {K : Type} [Gro
     (hH : H ≤ adjointGroup τ F) {p : ℕ} (hp : p.Prime) (hW : ¬ p ∣ Nat.card (WeylGroup τ))
     (hpF : ¬ p ∣ Nat.card F) (e : K ≃* DerivedCentralQuotient H) (P : Sylow p K) :
     IsMulCommutative (P : Subgroup K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact isMulCommutative_sylow_of_mulEquiv' e
     (fun R => isMulCommutative_sylow_derivedCentralQuotient hH hp hW hpF R) P
 

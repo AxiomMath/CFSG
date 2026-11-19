@@ -10,6 +10,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.RankThree.GF2n CFSG.RankThree.GF2n.Tim78
 
 variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_le_xOf_of_mem {V H : Subgroup G} {y : G} (hy : y ∈ H) :
     conjSubgroup y V ≤ Tim79a.xOf V H :=
   Tim79a.le_xOf (Tim79a.conjSubgroup_mem_omegaOf (V := V) (H := H) (h := y) hy)
@@ -21,6 +22,7 @@ theorem conjSubgroup_le_kOf_of_mem (h : RootHyp M V) (hPH : Pc M V ≤ H)
     conjSubgroup y V ≤ kOf V H :=
   (conjSubgroup_le_xOf_of_mem (V := V) (H := H) hy).trans (xOf_le_kOf h hPH hVH)
 
+omit [Finite G] in
 theorem kOf_le_centralizer_conjSubgroup_of_mem {V H : Subgroup G} {y : G} (hy : y ∈ H) :
     kOf V H ≤ Subgroup.centralizer (conjSubgroup y V : Set G) := by
   intro k hk

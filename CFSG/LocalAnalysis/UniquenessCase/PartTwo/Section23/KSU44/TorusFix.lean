@@ -55,8 +55,7 @@ private theorem sigma_mem_levHom_S07 (hK : UnitaryFieldData 2 2 K)
     ⟨!![⟨((x 1 : Kˣ) : K), hb⟩, 0; 0, ⟨((x 1 : Kˣ) : K), hb⟩⁻¹], by
       rw [Matrix.det_fin_two_of]
       apply Subtype.ext
-      simp [Subfield.coe_mul, Subfield.coe_inv, Subfield.coe_one, Subfield.coe_zero,
-        mul_inv_cancel₀ (Units.ne_zero (x 1 : Kˣ))]⟩
+      simp [Subfield.coe_mul, Subfield.coe_inv]⟩
   refine ⟨A, ?_⟩
   apply hypSU_ext hK
   rw [coe_levHom, coe_splitTorusHom]

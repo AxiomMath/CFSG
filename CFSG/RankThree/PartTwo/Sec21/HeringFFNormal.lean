@@ -24,7 +24,7 @@ open CFSG.Open (IsElemAbelian)
 theorem ffCentralizerNormalizes_of_kE9 (hK : FFKE9) : FFCentralizerNormalizes := by
   intro G _ _ A a X hpt hX hXq g hg
   by_contra hgX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hst := hpt.standing
   have hQ : CFSG.IsQuasisimple (lBar X) :=
     Sec6.isQuasisimple_of_mem_thetaComponentsAt hpt.mem_theta

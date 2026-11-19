@@ -14,8 +14,8 @@ variable {G : Type} [Group G] [Finite G] {Γ : Type} [Group Γ]
 theorem card_pCoreOf_le_comap (π : G →* Γ) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center G) (hodd : Nat.Coprime (Nat.card π.ker) 2)
     (Y : Subgroup Γ) : Nat.card (pCoreOf 2 Y) ≤ Nat.card (pCoreOf 2 (Y.comap π)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Γ := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Γ := Finite.of_surjective π hπ
   let e : G ⧸ π.ker ≃* Γ := QuotientGroup.quotientKerEquivOfSurjective π hπ
   set M : Subgroup (G ⧸ π.ker) := Y.comap (e : G ⧸ π.ker →* Γ) with hM
   have hcomp : (e : G ⧸ π.ker →* Γ).comp (QuotientGroup.mk' π.ker) = π := by
@@ -32,6 +32,7 @@ theorem card_pCoreOf_le_comap (π : G →* Γ) (hπ : Function.Surjective π)
   rw [← h2]
   exact (Subgroup.card_le_of_le h1).trans (Nat.le_of_dvd Nat.card_pos (Subgroup.card_map_dvd _ _))
 
+omit [Finite G] in
 theorem card_map_eq_of_odd_ker (π : G →* Γ) (hodd : Nat.Coprime (Nat.card π.ker) 2)
     {T : Subgroup G} (hT : IsPGroup 2 T) : Nat.card (T.map π) = Nat.card T := by
   have hinj : Function.Injective (π.comp T.subtype) := by
@@ -56,6 +57,7 @@ theorem card_map_eq_of_odd_ker (π : G →* Γ) (hodd : Nat.Coprime (Nat.card π
   rw [← hrange]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite G] in
 theorem isSylowIn_map (π : G →* Γ) (hπ : Function.Surjective π)
     {T : Subgroup G} (hT : IsSylowIn 2 T ⊤) : ¬ 2 ∣ (T.map π).index := by
   have h1 : (T.map π).index ∣ T.index := Subgroup.index_map_dvd T hπ
@@ -76,7 +78,7 @@ theorem aParam_le_of_central_family (V : Type) [CommGroup V] [Finite V] (ρ : G 
     (h2F : ∀ Y ∈ F, Nat.card S₀ ≤ 2 * Nat.card (pCoreOf 2 Y)) (hgen : (⨆ Y ∈ F, Y) = ⊤) :
     aParam ρ.range ≤ F.card := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 (T.map π) := hT.isPGroup.map π
   let PT : Sylow 2 Γ := hTp.toSylow (isSylowIn_map π hπ hT)
   have hS0idx : ¬ 2 ∣ S₀.index := by
@@ -148,7 +150,7 @@ theorem aParam_le_of_central_family (V : Type) [CommGroup V] [Finite V] (ρ : G 
 
 theorem coprime_card_center_of_pCore_bot (hO2 : pCoreOf 2 (⊤ : Subgroup G) = ⊥)
     {K : Subgroup G} (hK : K ≤ Subgroup.center G) : Nat.Coprime (Nat.card K) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_two]
   intro hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
@@ -157,7 +159,7 @@ theorem coprime_card_center_of_pCore_bot (hO2 : pCoreOf 2 (⊤ : Subgroup G) = �
   have hp : IsPGroup 2 (Subgroup.zpowers (x : G)) := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, hord]; simp
-  haveI hNn : (Subgroup.zpowers (x : G)).Normal := ⟨fun n hn g => by
+  have hNn : (Subgroup.zpowers (x : G)).Normal := ⟨fun n hn g => by
     have hnc : n ∈ Subgroup.center G := Subgroup.zpowers_le.mpr hxc hn
     have h1 : g * n * g⁻¹ = n := by
       have := Subgroup.mem_center_iff.mp hnc g
@@ -171,6 +173,7 @@ theorem coprime_card_center_of_pCore_bot (hO2 : pCoreOf 2 (⊤ : Subgroup G) = �
   rw [hx1, orderOf_one] at hord
   omega
 
+omit [Finite Γ] in
 theorem exists_central_hom {L : Subgroup G} (hLtop : L = ⊤)
     (e : (↥L ⧸ Subgroup.center ↥L) ≃* Γ) (hO2 : pCoreOf 2 (⊤ : Subgroup G) = ⊥) :
     ∃ π : G →* Γ, Function.Surjective π ∧ π.ker ≤ Subgroup.center G ∧

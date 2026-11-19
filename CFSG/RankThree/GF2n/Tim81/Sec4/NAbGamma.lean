@@ -15,14 +15,17 @@ open scoped commutatorElement MatrixGroups Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_xOf_eq_self_of_mem {y : G} (hy : y ∈ H) :
     conjSubgroup y (Tim79a.xOf V H) = Tim79a.xOf V H :=
   conjSubgroup_eq_self_iff.mpr (Tim79a.H_le_normalizer_xOf V H hy)
 
+omit [Finite G] in
 theorem conjSubgroup_kOf_eq_self_of_mem {y : G} (hy : y ∈ H) :
     conjSubgroup y (kOf V H) = kOf V H :=
   conjSubgroup_eq_self_iff.mpr (le_normalizer_kOf V H hy)
 
+omit [Finite G] in
 private theorem commutator_zpowers_le_range_commutatorElementHom
     {P : Subgroup G} (hZA : V ≤ Subgroup.centralizer (P : Set G))
     (hPP : ∀ a ∈ P, ∀ b ∈ P, ⁅a, b⁆ ∈ V)
@@ -74,6 +77,7 @@ private theorem commutator_zpowers_le_range_commutatorElementHom
     simpa [CFSG.LocalAnalysis.EvenBN.Common.commutatorElementHom_apply] using hmemG
   exact (Subgroup.zpowers_le.mpr hcomm) hb'
 
+omit [Finite G] in
 theorem subW_map_repW_sub_le {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [Module (ZMod 2) (Additive (CFSG.Quasithin.IntMod (Tim79a.xOf V H) hW))]
     {X : Type} [Group X] (ψ : HBar V H ≃* X) {A B : Subgroup G}
@@ -304,11 +308,11 @@ private theorem card_inf_kOf_le_card_inf_centralizer
         (Subgroup.mem_centralizer_iff.mp (mem_kOf_iff.mp hkK).2 x hxW).symm
       calc MulAut.conj c k * MulAut.conj c x
             = c * (k * x) * c⁻¹ := by
-              simp only [CFSG.CGT.Timmesfeld75.conjSubgroup, MulAut.conj_apply]
+              simp only [MulAut.conj_apply]
               group
           _ = c * (x * k) * c⁻¹ := by rw [hkx]
           _ = MulAut.conj c x * MulAut.conj c k := by
-              simp only [CFSG.CGT.Timmesfeld75.conjSubgroup, MulAut.conj_apply]
+              simp only [MulAut.conj_apply]
               group
   calc Nat.card ↥(Pc M V ⊓ kOf V H)
       = Nat.card ↥(conjSubgroup c (Pc M V ⊓ kOf V H)) :=
@@ -517,7 +521,7 @@ private theorem suzuki_contradiction
   let T : Subgroup ↥(CFSG.Blueprint.suzukiGroup a F) :=
     (imgK V H (Pc M V)).map ψ.toMonoidHom
   let xbar : ↥(CFSG.Blueprint.suzukiGroup a F) := ψ (piK V H ⟨α, hαH⟩)
-  haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+  have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
   have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
   obtain ⟨-, g, -, hgT, -, -⟩ := imgK_map_sz h hPH hVH hH hnM hcard ψ
   have hxT : xbar ∈ CFSG.CGT.Timmesfeld75.conjSubgroup g (Sec2.szZ a F) := by
@@ -556,7 +560,7 @@ theorem isEmpty_hBar_equiv_suzuki_of_nonabelian
     IsEmpty (HBar V H ≃* CFSG.Blueprint.suzukiGroup a F) := by
   classical
   refine ⟨fun ψ => ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc, x, hx, α, hα, hαP, hαH, hα1, hαK⟩ :=
     exists_alpha_not_mem_kOf h hPH hVH hH hnM hK hnab hL hW₀ hN hW₀ne
   have hPP : ∀ a ∈ Pc M V, ∀ b ∈ Pc M V, ⁅a, b⁆ ∈ V := by
@@ -598,9 +602,9 @@ theorem exists_sl2_of_nonabelian
   rcases hL with ⟨F, hField, hFintype, hCharP, h4, hψ⟩ |
     ⟨a, F, hField, hFintype, hCharP, ha, hcard, hψ⟩
   · exact ⟨F, hField, hFintype, hCharP, h4, hψ⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     obtain ⟨ψ⟩ := hψ
     exact (isEmpty_hBar_equiv_suzuki_of_nonabelian h hPH hVH hH hnM hK hnab hL'
       hW₀ hN hW₀ne hmin a F ha hcard).elim ψ

@@ -14,8 +14,8 @@ theorem fixed_commutator_eq_one {W : Type*} [Group W] [Finite W] (hc : ∀ a b :
     (h2 : ∀ w : W, w * w = 1) (Q : Subgroup (MulAut W)) (hQ : Odd (Nat.card Q)) {c : W}
     (hcf : ∀ q ∈ Q, q c = c)
     (hcc : c ∈ Subgroup.closure {u : W | ∃ q ∈ Q, ∃ w : W, u = q w * w⁻¹}) : c = 1 := by
-  letI : CommGroup W := { ‹Group W› with mul_comm := hc }
-  haveI : Fintype Q := Fintype.ofFinite Q
+  let : CommGroup W := { ‹Group W› with mul_comm := hc }
+  have : Fintype Q := Fintype.ofFinite Q
   let Nm : W →* W :=
     { toFun := fun v => ∏ q : Q, (q : MulAut W) v
       map_one' := by simp

@@ -73,7 +73,7 @@ theorem case_alt7 {J : Type} [Group J] (e : J ≃* alternatingGroup (Fin 7))
 
 theorem inf_eq_bot_or_le {G : Type} [Group G] (N M : Subgroup G) [N.Normal] [IsSimpleGroup M] :
     N ⊓ M = ⊥ ∨ M ≤ N := by
-  haveI hn : (N.subgroupOf M).Normal := inferInstance
+  have hn : (N.subgroupOf M).Normal := inferInstance
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf M) with h | h
   · left
     rw [eq_bot_iff]
@@ -103,11 +103,11 @@ variable {J : Type} [Group J] {k : ℕ} {F : Fin k → Subgroup J}
 
 theorem Fam.exists_map_eq (hF : Fam F) (φ : MulAut J) (i : Fin k) :
     ∃ j, (F i).map φ.toMonoidHom = F j := by
-  haveI := hF.normal
-  haveI := hF.simple
+  have := hF.normal
+  have := hF.simple
   set N := (F i).map φ.toMonoidHom with hN
-  haveI hNn : N.Normal := (hF.normal i).map φ.toMonoidHom φ.surjective
-  haveI hNs : IsSimpleGroup N := (MulEquiv.subgroupMap φ (F i)).symm.isSimpleGroup
+  have hNn : N.Normal := (hF.normal i).map φ.toMonoidHom φ.surjective
+  have hNs : IsSimpleGroup N := (MulEquiv.subgroupMap φ (F i)).symm.isSimpleGroup
   have hFne : ∀ l, F l ≠ ⊥ := fun l => by
     rw [← Subgroup.nontrivial_iff_ne_bot]
     exact (hF.simple l).toNontrivial
@@ -225,8 +225,8 @@ theorem exists_ne_count {E : Type} [Group E] {k : ℕ} (hk : k = 2 ∨ k = 3) (h
     (hbot : ∀ x : E, (∀ i, x ∈ K i) → x = 1) :
     ∃ x y : E, x ≠ 1 ∧ y ≠ 1 ∧ Nat.card {i // x ∈ K i} ≠ Nat.card {i // y ∈ K i} := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hcardE : Fintype.card E = 9 := by rw [← Nat.card_eq_fintype_card]; exact hE
   have hc : ∀ x : E, Nat.card {i // x ∈ K i} =
       (Finset.univ.filter fun i : Fin k => x ∈ K i).card := by
@@ -384,7 +384,7 @@ theorem Fam.main (hF : Fam F) (hk : k = 2 ∨ k = 3) (E : Subgroup (MulAut J))
 
 theorem center_eq_bot_of_simple {S : Type} [Group S] (hS : IsSimpleGroup S)
     (hnab : ∃ a b : S, a * b ≠ b * a) : Subgroup.center S = ⊥ := by
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
@@ -461,7 +461,7 @@ theorem case_prod {J : Type} [Group J] {k : ℕ} (hk : k = 2 ∨ k = 3) {S : Typ
   let Θ : MulAut J ≃* MulAut (Fin k → S) := MulAut.congr e
   let E' : Subgroup (MulAut (Fin k → S)) := E.map Θ.toMonoidHom
   have hE' : CFSG.Open.IsElemAbelian 3 E' := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨inferInstance, ?_⟩
     rintro _ ⟨x, hx, rfl⟩
     rw [← map_pow, hE.2 x hx, map_one]

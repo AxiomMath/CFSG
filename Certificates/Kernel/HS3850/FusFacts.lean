@@ -34,7 +34,7 @@ theorem compT_pc {p q : Nat} (hp : Cn p) (hq : Cn q) :
   compT_unpack hp hq
 
 theorem pows (X : Nat) : Pows 3850 12 X (pw X) :=
-  ⟨rfl, fun e => CFSG.KS.Raw.Orb.strictN_eq _ _⟩
+  ⟨rfl, fun _e => CFSG.KS.Raw.Orb.strictN_eq _ _⟩
 
 theorem cperm {k : Nat} (hk : k < 43) : CFSG.Sporadic.SmallOddCore.permOK 3850 (hsCentTbl k) = true :=
   CFSG.KD.LQT.HN.cent_perm hk (cent_cn hk)

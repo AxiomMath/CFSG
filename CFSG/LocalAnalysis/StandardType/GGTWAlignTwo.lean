@@ -21,18 +21,18 @@ theorem ggTW_align_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] 
     GGTWAligned p N 2 Bs L J K := by
   obtain ⟨ΛL, i1L, i2L, ML0, CL0, VL, i3L, i4L, ιL, φL0, hL0, αL0, eL, hMLeqL, hWML0,
     hIntL0, hlinL0, hreflL0, hpairL0, hfL0ex, hclosL0⟩ := hXL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL0, hfL0⟩ := hfL0ex
   have hXKcard : Nat.card (ggAutomizer K Bs) = (n + 1).factorial := hXK.card_automizer
   obtain ⟨ΛK, i1K, i2K, MK0, CK0, VK, i3K, i4K, ιK, φK0, hK0, αK0, eK0, hMKeqK, hWMK0,
     hIntK0, hlinK0, hreflK0, hpairK0, hfK0ex, hclosK0⟩ := hXK
-  letI := i1K; letI := i2K; letI := i3K; letI := i4K
+  let := i1K; let := i2K; let := i3K; let := i4K
   obtain ⟨fK0, hfK0⟩ := hfK0ex
   obtain ⟨Λ, i1, i2, b₁, b₂, Λa, i1a, i2a, ML, CL, MK, CK, V, i3, i4, ι, φ, h, α,
     hb, hcard, hWML, hIntL, hWMK, hIntK, hlin, hrefl, hpairL, hpairK, hfLex, hfKex,
     hclosL, hclosK, hdel, hclosJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_two ggWeylSimpleSystemsConjInput_holds hp2 hLd hK
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨fK, hfK⟩ := hfKex
   have hN2 : 2 ≤ N - 1 := by omega
@@ -45,9 +45,9 @@ theorem ggTW_align_two {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] 
   have hn2 : 2 ≤ n := by
     classical
     have h3MK : 3 ≤ Nat.card MK.Group := by
-      haveI : Finite ↥(ggAutomizer K Bs) :=
+      have : Finite ↥(ggAutomizer K Bs) :=
         Nat.finite_of_card_ne_zero (by rw [hXKcard]; exact Nat.factorial_ne_zero _)
-      haveI : Finite MK.Group :=
+      have : Finite MK.Group :=
         Finite.of_injective (fK : MK.Group → ↥(ggAutomizer K Bs)) fK.injective
       obtain ⟨a₁, a₂, ha⟩ :=
         (Fintype.one_lt_card_iff (α := Λa)).mp

@@ -143,7 +143,7 @@ theorem perm_of {P Q : ℕ} (h : permOK 2688 12 (mask 12) (2688 * 12) P Q = true
   obtain ⟨g, hg, hq⟩ := CFSG.KC.EnumSound.permOK_perm h
   have hex : ∃ g, PRep 2688 12 P g := ⟨g, hg⟩
   have e : pOf P = g := by
-    rw [pOf, dif_pos hex]
+    rw [pOf, dite_eq_left hex]
     exact prep_unique hex.choose_spec hg
   rw [e]
   exact ⟨hg, hq⟩
@@ -367,7 +367,7 @@ theorem vEv_invRev (u : List (Fin 2 × Bool)) : vEv (FreeGroup.invRev u) = (vEv 
 
 theorem vEv_gen (i : Fin 2) : vEv [(i, true)] = pOf (nt44V i) := by
   change CFSG.KC.Misc.ConjTree.wv _ [((i.val + 1 : ℕ) : ℤ)] = _
-  rw [CFSG.KC.Misc.ConjTree.wv_cons, CFSG.KC.Misc.ConjTree.wv_nil, mul_one, if_pos (by omega)]
+  rw [CFSG.KC.Misc.ConjTree.wv_cons, CFSG.KC.Misc.ConjTree.wv_nil, mul_one, ite_eq_left (by omega)]
   congr 2
 
 theorem strictB_eq (y : ℕ) (k : ℕ → Bool) : CFSG.KC.Enum.strictB y k = k y := by
@@ -511,7 +511,7 @@ theorem chainP : rawChainOK 448 nOP (sp ()) (bp ()) (wp ()) 8 = true := by
       have hsp : (sp ()).size = 10 := rfl
       have h1' : 9 ≤ j := by simp [hsp] at h1; omega
       have h2' : j < 10 := h2
-      interval_cases j <;> rfl)]
+      interval_cases j; rfl)]
   exact CFSG.KS.Raw.Orb.rawChainOK_of_K bindsP CP.head CP.hl CP.hNS CP.hs
 
 theorem orbK : (rawOrbitSizes 448 (sk ()) (bk ())).prod = 322560 := by
@@ -577,7 +577,6 @@ theorem norm_ok : normalizerCheck (inputs ()) nKI nB nBI = true := by
 
 theorem sgR {i j : ℕ} (hi : i < 256) (hj : j < 2) : Rep 2688 ((nSG)[i]!)[j]! (sg i j) := by
   rw [ofFn_get _ hi]
-  beta_reduce
   rw [ofFn_get _ hj]
   exact rep_compA (rep_compA (lF hi).2.2.1 (ksF hj).2.2.1) (lF hi).2.2.2.1
 
@@ -789,7 +788,7 @@ theorem shape : shapeOK (inputs ()) = true := by
 public theorem nt44_bridge : bridgeCheck (CFSG.LieType.Multipliers.L34.coverWs.map
     (List.map CFSG.Certificates.schreierLetterCode))
     (CFSG.LieType.Multipliers.L34.zThree.map CFSG.Certificates.schreierLetterCode) = true := by
-  rw [bridgeCheck_eq, if_pos shape]
+  rw [bridgeCheck_eq, ite_eq_left shape]
   simp only [invs_ks, invs_p0, invs_l, cover_ok, restr_ok, norm_ok, parent_ok, trans_ok, inner_ok,
     Bool.and_self]
 

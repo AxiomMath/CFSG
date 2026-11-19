@@ -27,7 +27,7 @@ theorem exists_normalizer_smul_of_fixed (B : Subgroup G) [Finite B] {y₁ y₂ :
     rw [hmem]
     refine ⟨B.mul_mem (B.mul_mem (B.inv_mem hb) hpB) hb, ?_⟩
     rw [mul_smul, hby, mul_smul, hy1, ← hby, ← mul_smul, inv_mul_cancel, one_smul]
-  haveI : Finite (B ⊓ stabilizer G y₂ : Subgroup G) :=
+  have : Finite (B ⊓ stabilizer G y₂ : Subgroup G) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : B ⊓ stabilizer G y₂ ≤ B))
       (Subgroup.inclusion_injective _)
   let ψ : (B ⊓ stabilizer G y₂ : Subgroup G) → (B ⊓ stabilizer G y₂ : Subgroup G) :=
@@ -58,7 +58,7 @@ theorem exists_normalizer_smul_of_fixed (B : Subgroup G) [Finite B] {y₁ y₂ :
     rw [e] at h2
     exact h2
 
-theorem mem_stabilizer_pair_iff {x y : X} (hxy : x ≠ y) (g : G) :
+theorem mem_stabilizer_pair_iff {x y : X} (_hxy : x ≠ y) (g : G) :
     g ∈ stabilizer G ({x, y} : Set X) ↔ (g • x = x ∧ g • y = y) ∨ (g • x = y ∧ g • y = x) := by
   rw [MulAction.mem_stabilizer_iff, Set.smul_set_insert, Set.smul_set_singleton,
     Set.pair_eq_pair_iff]

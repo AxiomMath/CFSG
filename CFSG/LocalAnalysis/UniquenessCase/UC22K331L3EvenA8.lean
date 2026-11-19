@@ -25,7 +25,7 @@ theorem exists_class_three_of_isAlt_eight {Q : Type} [Group Q] (h : IsAlt Q 8) :
     intro h1
     have := (u4_def_eq_one false false true (by simpa using h1)).2.2
     exact absurd this (by decide)
-  refine ⟨S, S.isPGroup', φ.symm u4a, (φ.symm u4a).2, φ.symm u4b, (φ.symm u4b).2,
+  refine ⟨S, S.isPGroup, φ.symm u4a, (φ.symm u4a).2, φ.symm u4b, (φ.symm u4b).2,
     φ.symm u4c, (φ.symm u4c).2, fun h1 => hf ?_⟩
   have h2 : ⁅⁅φ.symm u4a, φ.symm u4b⁆, φ.symm u4c⁆ = 1 :=
     Subtype.ext (by simpa [commutatorElement_def] using h1)

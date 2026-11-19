@@ -75,7 +75,7 @@ private lemma lift_quaternion {E : Type} [Group E] (ρ : E →* SL23)
   have hitjt : it * jt = kt := by
     rw [hitdef]
     split_ifs with h
-    · have hjt : jt = j0 := by rw [hjtdef, hitdef, if_pos h]
+    · have hjt : jt = j0 := by rw [hjtdef, hitdef, ite_eq_left h]
       have hkt : kt = k0 := by rw [hktdef, hjt]
       rw [hjt, hkt]
       have hij : i0 * j0 = k0 := by
@@ -84,7 +84,7 @@ private lemma lift_quaternion {E : Type} [Group E] (ρ : E →* SL23)
       rw [hij]
     · have hwσ : i0 * j0 * k0⁻¹ = σ := hwcases.resolve_left h
       have hjt : jt = j0 * σ := by
-        rw [hjtdef, hitdef, if_neg h, hj0def, hconjσ]
+        rw [hjtdef, hitdef, ite_eq_right h, hj0def, hconjσ]
       have hkt : kt = k0 * σ := by
         rw [hktdef, hjt, hk0def, hconjσ]
       rw [hjt, hkt, hmulσσ]
@@ -128,7 +128,7 @@ private lemma lift_ct_conj_it_sq {E : Type} [Group E] (ρ : E →* SL23)
   · exfalso
     have h2 : ct ^ 2 * it ^ 2 * (ct ^ 2)⁻¹ = it ^ 2 := by
       calc ct ^ 2 * it ^ 2 * (ct ^ 2)⁻¹ = ct * (ct * it ^ 2 * ct⁻¹) * ct⁻¹ := by
-            simp only [pow_two, inv_pow]; group
+            simp only [pow_two]; group
         _ = ct * (it ^ 2 * σ) * ct⁻¹ := by rw [h]
         _ = (ct * it ^ 2 * ct⁻¹) * σ := hconjσ (it ^ 2)
         _ = (it ^ 2 * σ) * σ := by rw [h]
@@ -145,7 +145,7 @@ private lemma lift_ct_conj_it_sq {E : Type} [Group E] (ρ : E →* SL23)
     exact hσ1 hσeq.symm
 
 private lemma lift_relations {E : Type} [Group E] (ρ : E →* SL23)
-    {σ : E} (hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) (hσc : ∀ e : E, e * σ = σ * e)
+    {σ : E} (_hσ2 : σ * σ = 1) (hσ1 : σ ≠ 1) (hσc : ∀ e : E, e * σ = σ * e)
     (hker : ∀ e : E, ρ e = 1 ↔ e = 1 ∨ e = σ)
     (ct it jt : E) (hρit : ρ it = slI) (hρjt : ρ jt = slJ)
     (hctit : ct * it * ct⁻¹ = jt) (hctjt : ct * jt * ct⁻¹ = it * jt)

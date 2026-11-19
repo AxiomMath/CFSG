@@ -11,6 +11,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem gamma_seg27_Gxy_comm (x y : G) : Gxy x y = Gxy y x := by
   rw [Gxy_eq_inf, Gxy_eq_inf, inf_comm]
 

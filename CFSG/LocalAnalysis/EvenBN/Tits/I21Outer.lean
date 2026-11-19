@@ -87,7 +87,7 @@ theorem card_fixed_diag [Finite K] (hF : L2Field F) (e : K ≃* L2 F) {y : MulAu
   have hy1 : y ≠ 1 := fun h => hyI (h ▸ one_mem _)
   have hy2' : orderOf y = 2 := orderOf_eq_prime hy2 hy1
   obtain ⟨k, hk, hk2, ⟨ψ⟩⟩ := (ivk_1_3b_dihedral hF e ε hε1 hε d hd y hyD hyI hy2').2
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   rw [Nat.card_congr ψ.toEquiv, DihedralGroup.nat_card]
   omega
 
@@ -211,7 +211,7 @@ theorem pglTwoSquareOuter_of_diag [L.Normal] (hC : centralizer (L : Set G) = ⊥
   obtain ⟨B, hB⟩ := hD
   have hBout : B ∉ (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range :=
     fun h => hI (hB ▸ (innDiagHom_mem_innAut_iff e B).2 h)
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   refine ⟨inferInstance, hC, F, inferInstance, inferInstance, 3, by decide, ?_, toPSL e, B,
     hBout, ?_⟩
   · rw [← Nat.card_eq_fintype_card, hF]
@@ -237,7 +237,7 @@ open I21.Outer CFSG.GH74.GLS.IVK
 theorem sec622_outer_L2_five {G : Type} [Group G] [Finite G] {L : Subgroup G} (hLn : L.Normal)
     (hC : centralizer (L : Set G) = ⊥) (hL : IsPSLTwo L 5) {t : G} (ht : t ^ 2 = 1)
     (htL : t ∉ L) : Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 6 := by
-  haveI := hLn
+  have := hLn
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hL
   let e2 : ↥L ≃* L2 F := e.trans (L2.equivPSL F).symm
   have hF' : L2Field F := ⟨by rw [hF]; decide, by rw [hF]; decide⟩
@@ -249,7 +249,7 @@ theorem sec622_outer_L2_seven {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hLn : L.Normal) (hC : centralizer (L : Set G) = ⊥) (hL : IsPSLTwo L 7) {t : G}
     (ht : t ^ 2 = 1) (htL : t ∉ L) :
     Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 6 := by
-  haveI := hLn
+  have := hLn
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hL
   let e2 : ↥L ≃* L2 F := e.trans (L2.equivPSL F).symm
   have hF' : L2Field F := ⟨by rw [hF]; decide, by rw [hF]; decide⟩
@@ -262,7 +262,7 @@ theorem sec622_outer_L2_nine {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (ht : t ^ 2 = 1) (htL : t ∉ L) :
     (Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 10 ∧ PGLTwoSquareOuter L t) ∨
       Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 24 := by
-  haveI := hLn
+  have := hLn
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hL
   let e2 : ↥L ≃* L2 F := e.trans (L2.equivPSL F).symm
   have hF' : L2Field F := ⟨by rw [hF]; decide, by rw [hF]; decide⟩
@@ -284,7 +284,7 @@ theorem sec622_outer_A7 {G : Type} [Group G] [Finite G] {L : Subgroup G} (hLn : 
     {t : G} (ht : t ^ 2 = 1) (htL : t ∉ L) :
     Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 24 ∨
       Nat.card (L ⊓ centralizer ({t} : Set G) : Subgroup G) = 120 := by
-  haveI := hLn
+  have := hLn
   obtain ⟨e⟩ := hL
   have hy1 : MulAut.conjNormal (H := L) t ≠ 1 := fun h =>
     conjNormal_not_inner hC htL (h ▸ one_mem _)

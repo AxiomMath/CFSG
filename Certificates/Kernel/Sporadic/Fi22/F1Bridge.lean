@@ -24,21 +24,21 @@ theorem cand_eq {k : Nat} (hk : k < 13) : indCandidate k = unpack 3510 12 (candP
   unfold indCandidate candP
   by_cases h2 : k < 2
   · have hb : Nat.blt k 2 = true := by simpa using h2
-    rw [if_pos h2, hb]
+    rw [ite_eq_left h2, hb]
     have h := CFSG.KC.Misc.HexFlat.hexTable3_sound IG.all k h2
     rw [← IG.eq] at h
     exact h
   · have hb : Nat.blt k 2 = false := Bool.eq_false_iff.2 fun e => h2 (Eq.mp Nat.blt_eq e)
-    rw [if_neg h2, hb]
+    rw [ite_eq_right h2, hb]
     by_cases h12 : k < 12
     · have hb' : Nat.blt k 12 = true := by simpa using h12
-      rw [if_pos h12, hb']
+      rw [ite_eq_left h12, hb']
       have hk2 : k - 2 < 10 := by omega
       have h := CFSG.KC.Misc.HexFlat.hexTable3_sound ITr.all (k - 2) hk2
       rw [← ITr.eq] at h
       exact h
     · have hb' : Nat.blt k 12 = false := Bool.eq_false_iff.2 fun e => h12 (Eq.mp Nat.blt_eq e)
-      rw [if_neg h12, hb']
+      rw [ite_eq_right h12, hb']
       have h := CFSG.KC.Misc.HexFlat.hexTable3_sound ICe.all 0 (by norm_num)
       rw [← ICe.eq, Nat.mul_zero] at h
       exact h

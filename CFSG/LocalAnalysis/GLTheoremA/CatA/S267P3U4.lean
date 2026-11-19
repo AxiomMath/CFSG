@@ -123,7 +123,7 @@ theorem tPU_ne_one : (QuotientGroup.mk' _ (tSU h) : PU4 h) ≠ 1 := by
   rw [Matrix.GeneralLinearGroup.coe_scalar] at hc'
   have e0 := congrFun (congrFun hc' 0) 0
   have e2 := congrFun (congrFun hc' 2) 2
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply, torusDiag] at e0 e2
+  simp [Matrix.scalar_apply, torusDiag] at e0 e2
   apply h2
   linear_combination e2 - e0
 
@@ -156,7 +156,7 @@ theorem three_le_twoLocalRank_PU [Finite L] : 3 ≤ GLATwoLocalRank 3 (PU4 h) :=
     rw [← hT, hb, Subgroup.mem_bot] at this
     exact this)
   have hT2 : IsPGroup 2 T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := 1) ?_
     rw [hT, Nat.card_zpowers, pow_one]
     exact orderOf_eq_prime ht2 (tPU_ne_one h h2)
@@ -188,8 +188,8 @@ theorem concC_of_twistedA3
     (h3 : 3 ∣ Q.card + 1) : S267ConcBCDE 3 q S B := by
   obtain ⟨⟨hp, hf, -, -⟩, K, _, _, hK, ⟨e₁⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 Q hv e
-  haveI : Fact Q.p.Prime := ⟨hp⟩
-  haveI : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
+  have : Fact Q.p.Prime := ⟨hp⟩
+  have : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
   have h : UnitaryFieldData Q.p Q.exponent K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hp2 : Q.p ≠ 2 := hQq ▸ H.two
   have hp3 : Q.p ≠ 3 := hQq ▸ H.three
@@ -219,7 +219,7 @@ theorem concC_of_twistedA3
       ring
     rw [this, hk]
     exact Dvd.dvd.mul_left (dvd_mul_right 3 k) _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 3 hKu
   have hω3 : (u : K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← hu, pow_orderOf_eq_one, Units.val_one]
@@ -285,7 +285,7 @@ theorem concC_of_twistedA3
     have h2₀ : (2 : CFSG.LieType.Chevalley.fixSubfield σ) ≠ 0 := fun h0 =>
       h2K (by rw [← map_ofNat (CFSG.LieType.Chevalley.fixSubfield σ).subtype 2, h0, map_zero])
     have hq0 : ¬(4 = 3 ∧ Q.p ^ (Q.exponent / 3) = 2) := by omega
-    haveI := h₀.finite
+    have := h₀.finite
     have hsimple := CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one h₀ hn4 hq0
     have hnc := CFSG.RankThree.Classical.not_commute_primeFormP_one h₀ hn4 hq0
     have hZ₀ : Subgroup.center (PU4 h₀) = ⊥ := by

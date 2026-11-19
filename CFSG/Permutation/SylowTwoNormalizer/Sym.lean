@@ -42,14 +42,14 @@ private theorem eq_one_of_mem_normalizer_aux (n : ℕ) :
       exact eq_one_of_restrictHom_eq_one hσs hσsc hres_s hres_sc
     by_cases hn1 : Nat.card Ω ≤ 1
     ·
-      haveI : Subsingleton Ω := Finite.card_le_one_iff_subsingleton.mp hn1
+      have : Subsingleton Ω := Finite.card_le_one_iff_subsingleton.mp hn1
       ext x
       exact Subsingleton.elim _ _
     · push Not at hn1
       have h2 : 2 ≤ Nat.card Ω := by omega
       by_cases htr : MulAction.IsPretransitive R Ω
       ·
-        haveI : Nonempty Ω := (Nat.card_pos_iff.mp (by omega : 0 < Nat.card Ω)).1
+        have : Nonempty Ω := (Nat.card_pos_iff.mp (by omega : 0 < Nat.card Ω)).1
         have hdvd : Nat.card Ω ∣ Nat.card R := TauCeti.natCard_dvd_natCard_of_isPretransitive R
         have hpow : ∃ a, Nat.card Ω = 2 ^ a ∧ 1 ≤ a := by
           have h : Nat.card Ω ∣ 2 ^ padicValNat 2 (Nat.card Ω).factorial := by
@@ -148,7 +148,7 @@ private theorem eq_one_of_mem_normalizer_aux (n : ℕ) :
           obtain ⟨g, hg⟩ := hy
           exact hxy g hg
         have hxmem : x ∈ MulAction.orbit R x := by
-          simpa using MulAction.mem_orbit (R := R) x (1 : R)
+          simp
         have hRs : R ≤ stabilizer (Perm Ω) (MulAction.orbit R x) := le_stabilizer_orbit R x
         have hσs : σ ∈ stabilizer (Perm Ω) (MulAction.orbit R x) :=
           mem_stabilizer_orbit hσR (apply_mem_orbit hR hRi hσR x)

@@ -18,7 +18,7 @@ theorem sporPlaneKill_of_sevenModel (hOut : SporadicOuterLeTwo) {s : TauCeti.Spo
   obtain ⟨Q, z, gens, D⟩ := hD
   intro S _ _ hsimple hnab ⟨e⟩
   have hp : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp⟩
+  have : Fact (Nat.Prime 7) := ⟨hp⟩
   have hcenS : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 := hOut S hsimple hnab s ⟨e⟩
   refine ⟨autRankLe2_of_offPair hp (by norm_num) hnot hOff (e.trans bC.symm) hcenS hout, ?_⟩

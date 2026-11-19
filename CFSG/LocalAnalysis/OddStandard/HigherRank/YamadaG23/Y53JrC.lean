@@ -38,8 +38,7 @@ private theorem y53_S_eq (s : Setting3 G L) :
   rw [SFrame.S, SFrame.A, ← Subgroup.closure_union]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-    or_false, false_or]
+  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
 private theorem y53_h0_normalizes_A {s : Setting3 G L} (hrel : SRel s.fr) :

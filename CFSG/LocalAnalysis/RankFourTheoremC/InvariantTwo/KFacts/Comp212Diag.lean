@@ -10,6 +10,7 @@ open CFSG.Open Subgroup
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem zpow_notMem_normalizer_of_not_dvd {p : ℕ} (hp : p.Prime) {d : X} (hd : d ^ p = 1)
     {K : Subgroup X} (hdK : d ∉ normalizer (K : Set X)) {s : ℤ} (hs : ¬ (p : ℤ) ∣ s) :
     d ^ s ∉ normalizer (K : Set X) := by
@@ -26,6 +27,7 @@ theorem zpow_notMem_normalizer_of_not_dvd {p : ℕ} (hp : p.Prime) {d : X} (hd :
   rw [h1]
   exact zpow_mem hmem b
 
+omit [Finite X] in
 theorem isComponentOf_map_conj (g : X) {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     IsComponentOf (K.map (MulAut.conj g).toMonoidHom) ⊤ :=
   (CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) K).mpr hK
@@ -44,6 +46,7 @@ theorem commute_conj_of_mem {K : Subgroup X} (hK : IsComponentOf K ⊤) {g : X}
     ⟨b, hb, rfl⟩
   exact (mem_centralizer_iff.mp (commutator_eq_bot_iff_le_centralizer.mp hcomm ha) _ hmem).symm
 
+omit [Finite X] in
 theorem list_prod_pow_eq_one {N : ℕ} :
     ∀ l : List X, l.Pairwise Commute → (∀ a ∈ l, a ^ N = 1) → l.prod ^ N = 1
   | [], _, _ => by simp

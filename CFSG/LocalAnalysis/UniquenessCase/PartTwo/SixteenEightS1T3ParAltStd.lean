@@ -58,11 +58,11 @@ private def s16t3_alt_fibreFour (n : ℕ) (b : Fin (n / 4)) :
       simpa [s16t3_alt_f, Fin.val_castSucc] using this
     have h := Nat.div_add_mod ((a : Fin n) : ℕ) 4
     rw [ha] at h
-    simp only [Fin.val_mk]
+    simp only
     omega
   right_inv j := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     rw [show 4 * (b : ℕ) + (j : ℕ) = (j : ℕ) + 4 * (b : ℕ) by omega,
       Nat.add_mul_mod_self_left]
     exact Nat.mod_eq_of_lt j.isLt
@@ -100,11 +100,11 @@ private def s16t3_alt_fibreLast (n : ℕ) :
     have h := Nat.div_add_mod ((a : Fin n) : ℕ) 4
     rw [ha] at h
     have hone : ((a : Fin n) : ℕ) = 4 * (n / 4) + ((a : Fin n) : ℕ) % 4 := h.symm
-    simp only [Fin.val_mk]
+    simp only
     omega
   right_inv j := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private theorem s16t3_alt_fibre_card_four (n : ℕ) (b : Fin (n / 4)) :
@@ -153,23 +153,23 @@ private theorem s16t3_alt_succ_div_four (n : ℕ) :
   rw [hn, Nat.mul_add_div (by norm_num : 0 < 4)]
   congr 1
   have hr : n % 4 < 4 := Nat.mod_lt n (by norm_num)
-  interval_cases h : n % 4 <;> simp [h]
+  interval_cases h : n % 4 <;> simp
 
 private theorem s16t3_alt_ordCompl_factorial (r : ℕ) (hr : r < 4) :
     ordCompl[2] (Nat.factorial r) = 3 ^ (if r = 3 then 1 else 0) := by
   interval_cases r
   · rw [show Nat.factorial 0 = 1 by decide,
       Nat.factorization_eq_zero_of_lt (by norm_num : 1 < 2), pow_zero,
-      Nat.div_one, if_neg (by norm_num)]
+      Nat.div_one, ite_eq_right (by norm_num)]
     norm_num
   · rw [show Nat.factorial 1 = 1 by decide,
       Nat.factorization_eq_zero_of_lt (by norm_num : 1 < 2), pow_zero,
-      Nat.div_one, if_neg (by norm_num)]
+      Nat.div_one, ite_eq_right (by norm_num)]
     norm_num
-  · rw [show Nat.factorial 2 = 2 by decide, if_neg (by norm_num)]
+  · rw [show Nat.factorial 2 = 2 by decide, ite_eq_right (by norm_num)]
     simpa using Nat.ordCompl_self_pow (p := 2) (k := 1) Nat.prime_two
   · rw [show Nat.factorial 3 = 6 by decide, show (6 : ℕ) = 2 ^ 1 * 3 by norm_num,
-      Nat.ordCompl_pow_mul_of_not_dvd 1 Nat.prime_two (by norm_num), if_pos rfl]
+      Nat.ordCompl_pow_mul_of_not_dvd 1 Nat.prime_two (by norm_num), ite_eq_left rfl]
     norm_num
 
 private theorem s16t3_alt_ordCompl_N0 (n : ℕ) :
@@ -206,7 +206,7 @@ private theorem s16t3_alt_card_sup_mul_card_inf (n : ℕ) (Y : Subgroup (Perm (F
     rw [← Subgroup.subgroupOf_sup hN0Q hYQ]
     exact Subgroup.subgroupOf_self Q
   have hrel : Y.relIndex Q = Y.relIndex N0 := by
-    haveI : (N0.subgroupOf Q).Normal := hNnormal
+    have : (N0.subgroupOf Q).Normal := hNnormal
     have h := CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal
       (N0.subgroupOf Q) (Y.subgroupOf Q)
     rw [hsup, Subgroup.relIndex_top_right, Subgroup.relIndex_subgroupOf hN0Q] at h
@@ -241,10 +241,10 @@ private theorem s16t3_alt_inf_N0_Y_card (n : ℕ) (Y : Subgroup (Perm (Fin n)))
 
 private theorem s16t3_alt_two_mul_card_parab (n : ℕ) (hn : 1 < n)
     (Y : Subgroup (Perm (Fin n)))
-    (hYN : Y ≤ Subgroup.normalizer (s16t3AltN0 n : Set (Perm (Fin n)))) :
+    (_hYN : Y ≤ Subgroup.normalizer (s16t3AltN0 n : Set (Perm (Fin n)))) :
     2 * Nat.card ↥((s16t3AltN0 n ⊔ Y) ⊓ alternatingGroup (Fin n))
       = Nat.card ↥(s16t3AltN0 n ⊔ Y) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let N0 := s16t3AltN0 n
   let A := alternatingGroup (Fin n)
   let Q := N0 ⊔ Y
@@ -382,7 +382,7 @@ private theorem s16t3_alt_pow_three_of_mem_sup (n : ℕ) (Y : Subgroup (Perm (Fi
       ⊔ Y.subgroupOf (s16t3AltN0 n ⊔ Y) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hN0Q hYQ]
     exact Subgroup.subgroupOf_self (s16t3AltN0 n ⊔ Y)
-  haveI : ((s16t3AltN0 n).subgroupOf (s16t3AltN0 n ⊔ Y)).Normal := hNnormal
+  have : ((s16t3AltN0 n).subgroupOf (s16t3AltN0 n ⊔ Y)).Normal := hNnormal
   let psi := (QuotientGroup.mk' ((s16t3AltN0 n).subgroupOf (s16t3AltN0 n ⊔ Y))).comp
     (Subgroup.inclusion hYQ)
   have hφsurj : Function.Surjective psi := by
@@ -428,9 +428,9 @@ theorem s16t3_alt_std (n : ℕ) :
         2 ^ (Nat.card ↥(alternatingGroup (Fin n))).factorization 2 ∧
       ∀ p ∈ P, ∀ k : ℕ, p ^ 3 ^ k = 1 → p ^ 3 = 1 := by
   by_cases hn : n ≤ 1
-  · haveI hfin : Subsingleton (Fin n) :=
+  · have hfin : Subsingleton (Fin n) :=
       ⟨fun a b => Fin.ext (by have ha := a.isLt; have hb := b.isLt; omega)⟩
-    haveI huniq : Unique (Perm (Fin n)) := Equiv.permUnique
+    have huniq : Unique (Perm (Fin n)) := Equiv.permUnique
     have hA : Nat.card ↥(alternatingGroup (Fin n)) = 1 := Nat.card_unique
     have hdiv : (n + 1) / 4 = 0 := Nat.div_eq_of_lt (by omega)
     have hPerm : Nat.card ↥(⊤ : Subgroup (Perm (Fin n))) = 1 := by
@@ -452,8 +452,8 @@ theorem s16t3_alt_std (n : ℕ) :
       subst hp
       simp
   · have hn' : 1 < n := not_le.1 hn
-    haveI : NeZero n := ⟨by omega⟩
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : NeZero n := ⟨by omega⟩
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨Y, hY, hYN⟩ := s16t3_alt_sylow_normalizing n
     refine ⟨Y, (s16t3AltN0 n ⊔ Y) ⊓ alternatingGroup (Fin n), hY, inf_le_right, ?_, ?_, ?_, ?_⟩
     · intro y hy p hp

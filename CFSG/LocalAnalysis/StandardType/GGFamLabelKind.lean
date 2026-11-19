@@ -17,7 +17,7 @@ theorem twistKindOf_eq_inner_of_twistInner {τ : Tag}
     (h : twistInner Ψ ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[componentOrbitLength ρ Ψ])) :
     twistKindOf ρ Ψ = .inner := by
   unfold twistKindOf
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem twistKindOf_eq_inner_of_compRank_eq_one
     {τ : Tag} (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
@@ -26,10 +26,10 @@ theorem twistKindOf_eq_inner_of_compRank_eq_one
   by_cases hin : twistInner Ψ
       ((ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength ρ Ψ])
   · unfold twistKindOf
-    rw [if_pos hin]
+    rw [ite_eq_left hin]
   · unfold twistKindOf
-    rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _, _⟩) <;> omega),
-      if_neg (fun h => by omega), if_neg (fun h => by omega)]
+    rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _, _⟩) <;> omega),
+      ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
 
 theorem twistKindOf_eq_suN {τ : Tag}
     (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
@@ -37,7 +37,7 @@ theorem twistKindOf_eq_suN {τ : Tag}
     (h2 : 2 ≤ compRank Ψ) (hn : Ψ.ncard = compRank Ψ * (compRank Ψ + 1)) :
     twistKindOf ρ Ψ = .suN := by
   unfold twistKindOf
-  rw [if_neg hni]
+  rw [ite_eq_right hni]
   have hnexc : ¬ ((compRank Ψ = 6 ∧ Ψ.ncard = 72) ∨ (compRank Ψ = 4 ∧ Ψ.ncard = 24 ∧
       ¬ twistInner Ψ
         ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[2 * componentOrbitLength ρ Ψ]))) := by
@@ -53,7 +53,7 @@ theorem twistKindOf_eq_suN {τ : Tag}
         _ = compRank Ψ * (2 * (compRank Ψ - 1)) := by ring
     have h1' : compRank Ψ + 1 = 2 * (compRank Ψ - 1) := Nat.eq_of_mul_eq_mul_left hcpos h1
     omega
-  rw [if_neg hnexc, if_neg hntwoD, if_pos ⟨h2, hn⟩]
+  rw [ite_eq_right hnexc, ite_eq_right hntwoD, ite_eq_left ⟨h2, hn⟩]
 
 theorem twistKindOf_eq_twoD_of_five {τ : Tag}
     (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
@@ -61,21 +61,21 @@ theorem twistKindOf_eq_twoD_of_five {τ : Tag}
     (h5 : 5 ≤ compRank Ψ) (hn : Ψ.ncard = 2 * compRank Ψ * (compRank Ψ - 1)) :
     twistKindOf ρ Ψ = .twoD := by
   unfold twistKindOf
-  rw [if_neg hni]
+  rw [ite_eq_right hni]
   have hnexc : ¬ ((compRank Ψ = 6 ∧ Ψ.ncard = 72) ∨ (compRank Ψ = 4 ∧ Ψ.ncard = 24 ∧
       ¬ twistInner Ψ
         ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[2 * componentOrbitLength ρ Ψ]))) := by
     rintro (⟨h6, h72⟩ | ⟨h4, -, -⟩)
     · rw [hn, h6] at h72; omega
     · omega
-  rw [if_neg hnexc, if_pos ⟨by omega, hn⟩]
+  rw [ite_eq_right hnexc, ite_eq_left ⟨by omega, hn⟩]
 
 theorem twistKindOf_eq_exc_of_E6 {τ : Tag}
     (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
     (hni : ¬ twistInner Ψ ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[componentOrbitLength ρ Ψ]))
     (h6 : compRank Ψ = 6) (hn : Ψ.ncard = 72) : twistKindOf ρ Ψ = .exc := by
   unfold twistKindOf
-  rw [if_neg hni, if_pos (Or.inl ⟨h6, hn⟩)]
+  rw [ite_eq_right hni, ite_eq_left (Or.inl ⟨h6, hn⟩)]
 
 theorem twistKindOf_eq_exc_of_D4 {τ : Tag}
     (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
@@ -85,7 +85,7 @@ theorem twistKindOf_eq_exc_of_D4 {τ : Tag}
       ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[2 * componentOrbitLength ρ Ψ])) :
     twistKindOf ρ Ψ = .exc := by
   unfold twistKindOf
-  rw [if_neg hni, if_pos (Or.inr ⟨h4, hn, hni2⟩)]
+  rw [ite_eq_right hni, ite_eq_left (Or.inr ⟨h4, hn, hni2⟩)]
 
 theorem twistKindOf_eq_twoD_of_D4 {τ : Tag}
     (ρ : Equiv.Perm (Fin τ.rank → ℤ)) (Ψ : Set (Fin τ.rank → ℤ))
@@ -101,7 +101,7 @@ theorem twistKindOf_eq_twoD_of_D4 {τ : Tag}
     rintro (⟨h6, -⟩ | ⟨-, -, h⟩)
     · omega
     · exact h hin2
-  rw [if_neg hni, if_neg hnexc, if_pos ⟨by omega, by rw [hn, h4]⟩]
+  rw [ite_eq_right hni, ite_eq_right hnexc, ite_eq_left ⟨by omega, by rw [hn, h4]⟩]
 
 end Kind
 

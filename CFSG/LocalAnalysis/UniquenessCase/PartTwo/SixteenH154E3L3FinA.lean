@@ -494,7 +494,7 @@ theorem s16h_C_pow_seven : s16h_C ^ 7 = 1 := by decide
 theorem s16h_C_ne_one : s16h_C ≠ 1 := by decide
 
 theorem s16h_C_orderOf : orderOf s16h_C = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_eq_prime s16h_C_pow_seven s16h_C_ne_one
 
 theorem s16h_C_card_zpowers : Nat.card (Subgroup.zpowers s16h_C) = 7 := by

@@ -379,7 +379,7 @@ private theorem lc_psi_mem {q : ℕ} {K : Type} [Field K] [Finite K] {σ : K ≃
     rw [hm]
     simp only [Finset.mul_sum]
     rw [Finset.sum_comm]
-    simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [e, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   have hpar : e6RootParams (fun l => ζ ^ m l) = a := by
     refine (tw_e6RootParams_zpow ζ m).trans ?_
@@ -491,7 +491,7 @@ private theorem lc_psi_mem {q : ℕ} {K : Type} [Field K] [Finite K] {σ : K ≃
     have hθβ : iform θ (w • (Pi.single j 1 : Fin TwistTag.E6.tag.rank → ℤ)) = 0 := by
       rw [← hw, CFSG.ClassicalInvolution.ModelFacts.LeviE6.iform_smul_smul,
         CFSG.SeitzReduction.EPilot.iform_highRoot_single (τ := TwistTag.E6.tag) (Or.inl rfl),
-        if_neg hj]
+        ite_eq_right hj]
     obtain ⟨mβ, hmA, hmF, hmi', hmc'⟩ := exists_fixed_coroot_inverter Fr hFr hv hθ hβ hθβ
     obtain ⟨c, hc⟩ := h9n j
     have hd : (ζ ^ (7 * n j)) ^ (q + 1) = 1 := by
@@ -518,7 +518,7 @@ private theorem lc_conj_coroot_inv {L : Type} [Field L] (g0 : ModGL TwistTag.E6.
 theorem exists_levi_cube_of_negDatum (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K ≃+* K)
     (hK : Nat.card K = q ^ 2) (hσ : ∀ c : K, σ c = c ^ q) (hq : q % 3 = 2)
     (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀ : CFSG.Open.IsElemAbelian 3 E₀)
-    (hcard : Nat.card E₀ = 3 ^ 3)
+    (_hcard : Nat.card E₀ = 3 ^ 3)
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ q)
     (v : WeylGroup TwistTag.E6.tag) (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
     (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
@@ -534,7 +534,7 @@ theorem exists_levi_cube_of_negDatum (q : ℕ) (K : Type) [Field K] [Finite K] (
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL TwistTag.E6.tag K) =
         g0 * rootDiagUnit TwistTag.E6.tag (fun i => c ^ iform θ (Pi.single i 1)) * g0⁻¹ →
       x = 1)
-    {X Xm : Subgroup (twistedE6RootGroup K σ)} (hpair : IsTwE6LongRootPair K σ X Xm)
+    {X Xm : Subgroup (twistedE6RootGroup K σ)} (_hpair : IsTwE6LongRootPair K σ X Xm)
     (hS : ∀ u : twistedE6RootGroup K σ, u ∈ twE6LongRootSL2 X Xm ↔
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (u : ModGL TwistTag.E6.tag K) ∈
         (rootSpan TwistTag.E6.tag (AlgebraicClosure K) {θ, -θ}).map
@@ -548,7 +548,7 @@ theorem exists_levi_cube_of_negDatum (q : ℕ) (K : Type) [Field K] [Finite K] (
   set ι : K →+* L := algebraMap K L with hι
   have hq2 : 2 ≤ q := by omega
   obtain ⟨hpr, f, hf1, hqf⟩ := twE6_exists_pow_ringChar_of_card_sq K q hK hq2
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [hK, hqf]
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := fun c => by rw [hσ c, hqf]
   have hFrc : ∀ c, Fr c = c ^ (ringChar K ^ f) := fun c => by rw [hFr, hqf]
@@ -561,7 +561,7 @@ theorem exists_levi_cube_of_negDatum (q : ℕ) (K : Type) [Field K] [Finite K] (
       rw [hqf, h]
       exact dvd_pow_self 3 (by omega)
     omega
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
   obtain ⟨ζ, hζ⟩ := ExcWideThree.exists_primitiveRoot_nine (L := L) (ringChar K) hr3
   set ιG := (baseChangeGL ι).comp (twistedE6RootGroup K σ).subtype with hιG
   have hιGinj : Function.Injective ιG :=

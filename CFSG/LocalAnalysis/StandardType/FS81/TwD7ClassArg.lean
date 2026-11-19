@@ -14,26 +14,31 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G] {B : Basis3 G 8}
 
+omit [Finite G] in
 private theorem b_pow_three (i : Fin 8) : B.b i ^ 3 = 1 := by
   rw [← B.ord i]
   exact pow_orderOf_eq_one _
 
+omit [Finite G] in
 private theorem vec_single_mul_beta (i : Fin 8) :
     B.vec (Pi.single i 1 + (Pi.single 0 1 + Pi.single 1 1) : Coords 8) =
       B.b i * (B.b 0 * B.b 1) := by
   simp only [B.vec_add, B.vec_single]
 
+omit [Finite G] in
 private theorem vec_single_mul_beta_sq (i : Fin 8) :
     B.vec (Pi.single i 1 + ((Pi.single 0 1 + Pi.single 1 1) +
         (Pi.single 0 1 + Pi.single 1 1)) : Coords 8) =
       B.b i * (B.b 0 * B.b 1) ^ 2 := by
   simp only [B.vec_add, B.vec_single, pow_two]
 
+omit [Finite G] in
 private theorem vec_b0_mul_b1_sq :
     B.vec (Pi.single 0 1 + (Pi.single 1 1 + Pi.single 1 1) : Coords 8) =
       B.b 0 * B.b 1 ^ 2 := by
   simp only [B.vec_add, B.vec_single, pow_two]
 
+omit [Finite G] in
 private theorem zpow_beta_cases (k : ℤ) :
     (B.b 0 * B.b 1) ^ k = 1 ∨ (B.b 0 * B.b 1) ^ k = B.b 0 * B.b 1 ∨
       (B.b 0 * B.b 1) ^ k = (B.b 0 * B.b 1) ^ 2 := by
@@ -52,6 +57,7 @@ private theorem zpow_beta_cases (k : ℤ) :
   · right; right
     rw [h, show (2 : ℤ) = ((2 : ℕ) : ℤ) by norm_num, zpow_natCast]
 
+omit [Finite G] in
 private theorem beta_sq_conj :
     (B.b 0 * (B.b 0 * B.b 1) ^ 2)⁻¹ * (B.b 0 * B.b 1) = B.b 0 * B.b 1 ^ 2 := by
   have h0 : B.b 0 ^ 3 = 1 := b_pow_three (B := B) 0

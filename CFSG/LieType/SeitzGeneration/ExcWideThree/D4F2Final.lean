@@ -36,9 +36,9 @@ theorem d4F2_subfieldMaximal_of_card_two {K : Type} [Field K] [Finite K] (σ : K
     · exfalso
       have : (1 : K) = 0 := by
         have := congrArg (fun x => x - 1) h
-        simpa using this
+        simp at this
       exact one_ne_zero this
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hK3 : 3 ≤ Nat.card K := by
     rw [hKcard, hk]

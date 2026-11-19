@@ -12,10 +12,12 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s1611e3_nine_isElemAbelian2_of_le {A B : Subgroup (MulAut W)}
     (hA : IsElemAbelian2 A) (hBA : B ≤ A) : IsElemAbelian2 B :=
   ⟨fun a ha b hb => hA.1 a (hBA ha) b (hBA hb), fun a ha => hA.2 a (hBA ha)⟩
 
+omit [Finite W] in
 private theorem s1611e3_nine_abs_map_conj_map_conj (A : Subgroup (MulAut W))
     (x y : MulAut W) :
     (A.map (MulAut.conj x).toMonoidHom).map (MulAut.conj y).toMonoidHom =
@@ -23,33 +25,37 @@ private theorem s1611e3_nine_abs_map_conj_map_conj (A : Subgroup (MulAut W))
   rw [Subgroup.map_map]
   congr 1
 
+omit [Finite W] in
 private theorem s1611e3_nine_abs_map_conj_one (A : Subgroup (MulAut W)) :
     A.map (MulAut.conj (1 : MulAut W)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 private def s1611e3_nine_eqSub {W : Type*} [Group W] (f g : MulAut W) : Subgroup W where
   carrier := {v | f v = g v}
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, map_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [MulEquiv.map_inv, MulEquiv.map_inv, ha]
 
+omit [Finite W] in
 private theorem s1611e3_nine_eq_on_sup {A B : Subgroup W} {f g : MulAut W}
     (hA : ∀ a ∈ A, f a = g a) (hB : ∀ b ∈ B, f b = g b) :
-    ∀ v ∈ A ⊔ B, f v = g v :=
-  fun v hv => (sup_le hA hB : A ⊔ B ≤ s1611e3_nine_eqSub f g) hv
+    ∀ _v ∈ A ⊔ B, f _v = g _v :=
+  fun _v hv => (sup_le hA hB : A ⊔ B ≤ s1611e3_nine_eqSub f g) hv
 
+omit [Finite W] in
 private theorem s1611e3_nine_aut_eq_of_eq_on_sup {A B : Subgroup W} (hsup : A ⊔ B = ⊤)
     {f g : MulAut W} (hA : ∀ a ∈ A, f a = g a) (hB : ∀ b ∈ B, f b = g b) :
     f = g :=
   MulEquiv.ext fun v => s1611e3_nine_eq_on_sup hA hB v (by rw [hsup]; trivial)
 
+omit [Finite W] in
 private theorem s1611e3_nine_map_commSub_eq {L : Subgroup (MulAut W)} {x : MulAut W}
     (hx : x ∈ Subgroup.normalizer (L : Set (MulAut W))) :
     (commSub ⊤ L).map x.toMonoidHom = commSub ⊤ L := by
@@ -57,6 +63,7 @@ private theorem s1611e3_nine_map_commSub_eq {L : Subgroup (MulAut W)} {x : MulAu
     simpa using Subgroup.mem_normalizer_iff_map_conj_eq.mp hx
   rw [← s16c167_commSub_top_conj x L, hx']
 
+omit [Finite W] in
 theorem s1611e3_nine_abs_normalizes_conj {X L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : s16n9b_case9Two X L g) :
     ∀ x ∈ X, x ∈ Subgroup.normalizer (L : Set (MulAut W)) →
@@ -129,6 +136,7 @@ private theorem s1611e3_nine_exists_notMem_union {F : Type*} [Group F] {H K : Su
   · exact hxH (by simpa [mul_assoc] using H.mul_mem hh (H.inv_mem hyH))
   · exact hyK (by simpa [mul_assoc] using K.mul_mem (K.inv_mem hxK) hh)
 
+omit [Finite W] in
 private theorem s1611e3_nine_abs_card_le_mul_four {L : Subgroup (MulAut W)} (hL3 : IsL3 ↥L 1)
     {E₀ : Subgroup (MulAut W)} (hab : IsElemAbelian2 E₀)
     (hE₀N : E₀ ≤ Subgroup.normalizer (L : Set (MulAut W))) :
@@ -179,6 +187,7 @@ private theorem s1611e3_nine_abs_card_le_mul_four {L : Subgroup (MulAut W)} (hL3
     _ ≤ Nat.card ↥(E₀ ⊓ Subgroup.centralizer (L : Set (MulAut W))) * 4 :=
           Nat.mul_le_mul_left _ hrange
 
+omit [Finite W] in
 theorem s1611e3_nine_abs_card_normalizer_le_sixteen {X L : Subgroup (MulAut W)}
     {g : MulAut W} (hg : s16n9b_case9Two X L g) (hL3 : IsL3 ↥L 1)
     (hcard4 : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian2 E →
@@ -221,7 +230,7 @@ theorem s1611e3_nine_abs_card_le_sixteen {X L : Subgroup (MulAut W)} {g : MulAut
   · have hE₀eq : E₀ = E := by rw [hE₀def]; exact inf_eq_left.mpr hEN
     have h16 := s1611e3_nine_abs_card_normalizer_le_sixteen hg hL3 hcard4 hE₀X hab₀ hE₀N
     rwa [hE₀eq] at h16
-  · rw [SetLike.le_def] at hEN
+  · rw [_root_.IsConcreteLE.le_iff] at hEN
     push Not at hEN
     obtain ⟨t, htE, htN⟩ := hEN
     have htL : L.map (MulAut.conj t).toMonoidHom =
@@ -292,7 +301,7 @@ theorem s1611e3_nine_abs_card_le_sixteen {X L : Subgroup (MulAut W)} {g : MulAut
 
 theorem s1611e3_nine_abs_five_le_rkIdx_of_swap {X L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : s16n9b_case9Two X L g) (h9 : rk ↥(commSub ⊤ L) = 9)
-    {E : Subgroup (MulAut W)} (hE : E ≤ X) (hab : IsElemAbelian2 E) {t : MulAut W}
+    {E : Subgroup (MulAut W)} (_hE : E ≤ X) (_hab : IsElemAbelian2 E) {t : MulAut W}
     (htE : t ∈ E)
     (htL : L.map (MulAut.conj t).toMonoidHom = L.map (MulAut.conj g).toMonoidHom) :
     5 ≤ rkIdx (fixV E) := by

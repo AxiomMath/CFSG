@@ -13,11 +13,11 @@ open CFSG.Open Subgroup
 theorem false_of_bender {K : Type} [Group K] [Finite K] (hB : fusionIsBenderGroup K)
     {R : Subgroup K} (hR : IsPGroup 2 R) (hR1 : R ≠ ⊥) (hRi : 2 ∣ R.index)
     (hRc : pCoreOf 2 (normalizer (R : Set K)) = R) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hRT⟩ := hR.exists_le_sylow
   have hsyl : ∀ S : Sylow 2 K, CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup K) ⊤ := fun S =>
     CFSG.ABGLocalTools.isSylowOf_iff.2
-      ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+      ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hNT : normalizer (R : Set K) ≤ normalizer ((T : Subgroup K) : Set K) := by
     intro g hg
     by_contra hgT
@@ -38,7 +38,7 @@ theorem false_of_bender {K : Type} [Group K] [Finite K] (hB : fusionIsBenderGrou
   have hTN : (T : Subgroup K) ⊓ normalizer (R : Set K) ≤ R := by
     refine le_trans ?_ hRc.le
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right ?_
-      (T.isPGroup'.to_le inf_le_left)
+      (T.isPGroup.to_le inf_le_left)
     intro g hg
     have hgT := hNT hg
     rw [mem_normalizer_iff] at hgT ⊢
@@ -51,7 +51,7 @@ theorem false_of_bender {K : Type} [Group K] [Finite K] (hB : fusionIsBenderGrou
       refine ⟨h1, ?_⟩
       have := mul_mem (mul_mem (inv_mem hg) h2) hg
       simpa [mul_assoc] using this
-  have hRTeq : R = T := eq_of_inf_normalizer_le hRT T.isPGroup' hTN
+  have hRTeq : R = T := eq_of_inf_normalizer_le hRT T.isPGroup hTN
   exact T.not_dvd_index (hRTeq ▸ hRi)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614K136

@@ -93,7 +93,7 @@ theorem bender_overgroups {X : Type} [Group X] [Finite X] [hs : IsSimpleGroup X]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, k, hq4, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨hSE, ⟨D, hDcyc, hDodd, hQD, hsup⟩, hZpow, hZcard, hQcard⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hreg := regular_of_borel (isSimpleBenderGroup_of_fusion hB) Q hsolvN
   set N := Subgroup.normalizer ((Q : Subgroup X) : Set X) with hN
   have hQN : (Q : Subgroup X) ≤ N := Subgroup.le_normalizer

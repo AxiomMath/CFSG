@@ -42,7 +42,7 @@ theorem sec7ctr_U4 (h34 : Stroth34Statement) (hA7 : Sec7AExistsStatement)
   rw [hCN''] at hLcard''
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   obtain ⟨K, fK, finK, hK, b, c, hirr, hrep⟩ := hom
-  haveI : CharP K 2 := sec7ctr_charP hc hK
+  have : CharP K 2 := sec7ctr_charP hc hK
   have hrep' := hrep
   obtain ⟨φ, hφr, hφk, -⟩ := hrep
   have hd : d = 4 := by

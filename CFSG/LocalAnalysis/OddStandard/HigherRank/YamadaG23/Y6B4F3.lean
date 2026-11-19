@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y6b_conj_mem_sup_zpowers {F : Subgroup G} {t x : G}
     (hF : ∀ a ∈ F, x * a * x⁻¹ ∈ F) (ht : x * t * x⁻¹ ∈ F ⊔ zpowers t) :
     ∀ c ∈ F ⊔ zpowers t, x * c * x⁻¹ ∈ F ⊔ zpowers t := by

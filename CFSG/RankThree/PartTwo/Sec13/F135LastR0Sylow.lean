@@ -27,7 +27,7 @@ theorem exists_sylow_of_normalizer_le {G : Type*} [Group G] [Finite G] {P H : Su
     exact Subgroup.map_subtype_le _
   have hP3 : IsPGroup 3 P := by
     rw [← hQ]
-    exact Q.isPGroup'.map H.subtype
+    exact Q.isPGroup.map H.subtype
   have hmaxH : ∀ R : Subgroup G, IsPGroup 3 R → P ≤ R → R ≤ H → R = P := by
     intro R hR hPR hRH
     have hR' : IsPGroup 3 (R.subgroupOf H) :=

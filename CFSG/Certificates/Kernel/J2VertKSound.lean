@@ -185,8 +185,8 @@ theorem relVal_eq {gs : Array (Array Nat)} {G GI : Nat → Nat}
     have hl : (if p.2 then gs.getD p.1.val (idA n) else invCand n (gs.getD p.1.val (idA n))) =
         unpack n w (nIf(p.2, G p.1.val, GI p.1.val)) ∧ cK n w (nIf(p.2, G p.1.val, GI p.1.val)) := by
       cases p.2
-      · exact ⟨by rw [if_neg (by decide), hG _ p.1.2, hGI _ p.1.2], cGI _ p.1.2⟩
-      · exact ⟨by rw [if_pos rfl, hG _ p.1.2], cG _ p.1.2⟩
+      · exact ⟨by rw [ite_eq_right (by decide), hG _ p.1.2, hGI _ p.1.2], cGI _ p.1.2⟩
+      · exact ⟨by rw [ite_eq_left rfl, hG _ p.1.2], cG _ p.1.2⟩
     have e2 : relVal n gs (p :: r) = compA n (if p.2 then gs.getD p.1.val (idA n)
         else invCand n (gs.getD p.1.val (idA n))) (relVal n gs r) := rfl
     rw [e2, e, hl.1, relK_cons, compA_unpack hl.2 c]

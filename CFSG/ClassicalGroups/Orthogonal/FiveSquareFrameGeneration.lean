@@ -39,29 +39,29 @@ public theorem polar_apply (K : Type) [Field K] [CharP K 5] (x y : Fin 5 → K) 
   rw [Q, ← QuadraticMap.polarBilin_apply_apply]
   rw [TauCeti.QuadraticForm.polarBilin_weightedSumSquares_one]
   simp [LinearMap.smul_apply, Matrix.toLinearMap₂'_apply', Matrix.one_mulVec, dotProduct,
-    Finset.mul_sum, mul_comm, mul_left_comm, mul_assoc]
+    Finset.mul_sum, mul_comm, mul_assoc]
 
 public theorem Q_single (K : Type) [Field K] [CharP K 5] (i : Fin 5) : Q K (e K i) = 1 := by
   rw [Q, e_apply, QuadraticMap.weightedSumSquares_apply, Fin.sum_univ_five]
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 public theorem polar_single (K : Type) [Field K] [CharP K 5] (i j : Fin 5) :
     polar (Q K) (e K i) (e K j) = if i = j then 2 else 0 := by
   rw [polar_apply, Fin.sum_univ_five]
-  fin_cases i <;> fin_cases j <;> simp [e_apply, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [e_apply]
 
 theorem polar_single_of_ne (K : Type) [Field K] [CharP K 5] {i j : Fin 5} (h : i ≠ j) :
     polar (Q K) (e K i) (e K j) = 0 := by
-  rw [polar_single, if_neg h]
+  rw [polar_single, ite_eq_right h]
 
 public theorem Q_nondegenerate (K : Type) [Field K] [CharP K 5] : (Q K).Nondegenerate := by
-  letI : Invertible (2 : K) := invertibleOfNonzero (two_ne_zero K)
+  let : Invertible (2 : K) := invertibleOfNonzero (two_ne_zero K)
   exact QuadraticMap.nondegenerate_weightedSumSquares (w := (1 : Fin 5 → K))
     (fun _ => isRegular_one)
 
 public theorem polar_nondegenerate (K : Type) [Field K] [CharP K 5] :
     (polarBilin (Q K)).Nondegenerate := by
-  letI : Invertible (2 : K) := invertibleOfNonzero (two_ne_zero K)
+  let : Invertible (2 : K) := invertibleOfNonzero (two_ne_zero K)
   exact QuadraticMap.nondegenerate_polar_iff.mpr (Q_nondegenerate K)
 
 noncomputable def u (K : Type) [Field K] : Fin 5 → K := e K 0 + 2 • e K 1
@@ -70,17 +70,17 @@ noncomputable def v (K : Type) [Field K] : Fin 5 → K := 4 • (e K 0 - 2 • e
 
 theorem v_eq (K : Type) [Field K] [CharP K 5] : v K = 4 • e K 0 + 2 • e K 1 := by
   funext j
-  fin_cases j <;> simp [v, e_apply, Pi.single_apply]
+  fin_cases j <;> simp [v, e_apply]
   linear_combination (-2 : K) * (CharP.cast_eq_zero K 5)
 
 theorem Q_u (K : Type) [Field K] [CharP K 5] : Q K (u K) = 0 := by
-  simp [u, e_apply, Q, QuadraticMap.weightedSumSquares_apply, Pi.one_apply, Fin.sum_univ_five]
+  simp [u, e_apply, Q, QuadraticMap.weightedSumSquares_apply, Fin.sum_univ_five]
   ring_nf
   exact (CharP.cast_eq_zero_iff K 5 5).2 (by norm_num)
 
 theorem Q_v (K : Type) [Field K] [CharP K 5] : Q K (v K) = 0 := by
   rw [v_eq]
-  simp [e_apply, Q, QuadraticMap.weightedSumSquares_apply, Pi.one_apply, Fin.sum_univ_five]
+  simp [e_apply, Q, QuadraticMap.weightedSumSquares_apply, Fin.sum_univ_five]
   ring_nf
   exact (CharP.cast_eq_zero_iff K 5 20).2 (by norm_num)
 
@@ -134,7 +134,7 @@ theorem perp_subset_span (K : Type) [Field K] [CharP K 5] :
     exact (mul_eq_zero.mp this).resolve_left (two_ne_zero K)
   have hwdecomp : w = w 2 • e K 2 + w 3 • e K 3 + w 4 • e K 4 := by
     funext j
-    fin_cases j <;> simp [e_apply, Pi.single_apply, h0, h1']
+    fin_cases j <;> simp [e_apply, h0, h1']
   rw [hwdecomp]
   have h2span : e K 2 ∈ Submodule.span K ({e K 2, e K 3, e K 4} : Set (Fin 5 → K)) :=
     Submodule.subset_span (by
@@ -157,9 +157,9 @@ theorem e_mem_perp (K : Type) [Field K] [CharP K 5] {i : Fin 5}
   rw [HypPair.mem_perp, P_e, P_f]
   constructor
   · rw [polar_apply, sum_u]
-    rcases hi with rfl | rfl | rfl <;> simp [e_apply, Pi.single_apply]
+    rcases hi with rfl | rfl | rfl <;> simp [e_apply]
   · rw [polar_apply, sum_v]
-    rcases hi with rfl | rfl | rfl <;> simp [e_apply, Pi.single_apply]
+    rcases hi with rfl | rfl | rfl <;> simp [e_apply]
 
 theorem hspan (K : Type) [Field K] [CharP K 5] :
     (P K).perp ≤ Submodule.span K {x | x ∈ (P K).perp ∧ Q K x ≠ 0} := by
@@ -180,7 +180,7 @@ noncomputable abbrev D (K : Type) [Field K] [CharP K 5] : Subgroup ((Fin 5 → K
 theorem derived_isSimpleGroup (K : Type) [Field K] [CharP K 5] [Finite K]
     (hodd : Odd (Nat.card K)) (hcard : 3 ≤ Nat.card K) : IsSimpleGroup ↥(D K) := by
   have hdim : Module.finrank K (Fin 5 → K) = 5 := by
-    simpa using Module.finrank_fin_fun (R := K) (n := 5)
+    simp
   obtain ⟨d, psi, eO, hpsi, happ, hsymm⟩ :=
     CFSG.ComponentClassification.CatalogueBOrthogonalFive.finite_odd_five_selfAdjoint_form_similarity
       hodd (Q K) (polar_nondegenerate K) hdim
@@ -201,7 +201,7 @@ theorem derived_isSimpleGroup (K : Type) [Field K] [CharP K 5] [Finite K]
     · have h3 : Nat.card K = 3 := by omega
       exact Or.inr (Or.inl ⟨h3, by norm_num⟩)
     · exact Or.inl (Or.inr h4)
-  haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
+  have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 2 (by norm_num) h
   exact eD.isSimpleGroup
 
@@ -234,12 +234,12 @@ public theorem Q_sub_ne (K : Type) [Field K] [CharP K 5] {i j : Fin 5} (hij : i 
 
 public theorem polar_sub_left_self (K : Type) [Field K] [CharP K 5] {i j : Fin 5}
     (hij : i ≠ j) : polar (Q K) (e K i - e K j) (e K i) = 2 := by
-  rw [QuadraticMap.polar_sub_left, polar_single, if_pos rfl,
+  rw [QuadraticMap.polar_sub_left, polar_single, ite_eq_left rfl,
     polar_single_of_ne K (Ne.symm hij)]
   ring
 
 public theorem polar_sub_left_of_ne (K : Type) [Field K] [CharP K 5] {i j k : Fin 5}
-    (hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
+    (_hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
     polar (Q K) (e K i - e K j) (e K k) = 0 := by
   rw [QuadraticMap.polar_sub_left, polar_single_of_ne K (Ne.symm hki),
     polar_single_of_ne K (Ne.symm hkj)]
@@ -355,7 +355,7 @@ theorem k_u (K : Type) [Field K] [CharP K 5] : k K (u K) = u K := by
 
 @[expose] public noncomputable def stdFrame (K : Type) [Field K] [CharP K 5] : FrameData (Q K) where
   e := e K
-  orth := fun i j hij => by rw [polar_single K, if_neg hij]
+  orth := fun i j hij => by rw [polar_single K, ite_eq_right hij]
   norm := fun i hi => Q_single K i
   last := by
     rw [Q_single]
@@ -585,19 +585,19 @@ theorem eichler_u_smul_e4_mem_J (K : Type) [Field K] [CharP K 5] [Finite K]
 
 theorem polar_u_e2 (K : Type) [Field K] [CharP K 5] : polar (Q K) (u K) (e K 2) = 0 := by
   rw [polar_apply, sum_u]
-  simp [e_apply, Pi.single_apply]
+  simp [e_apply]
 
 theorem polar_u_e3 (K : Type) [Field K] [CharP K 5] : polar (Q K) (u K) (e K 3) = 0 := by
   rw [polar_apply, sum_u]
-  simp [e_apply, Pi.single_apply]
+  simp [e_apply]
 
 theorem polar_u_e4 (K : Type) [Field K] [CharP K 5] : polar (Q K) (u K) (e K 4) = 0 := by
   rw [polar_apply, sum_u]
-  simp [e_apply, Pi.single_apply]
+  simp [e_apply]
 
 theorem polar_v_e2 (K : Type) [Field K] [CharP K 5] : polar (Q K) (v K) (e K 2) = 0 := by
   rw [polar_apply, sum_v]
-  simp [e_apply, Pi.single_apply]
+  simp [e_apply]
 
 theorem span_eichler_mem_J (K : Type) [Field K] [CharP K 5] [Finite K]
     (hodd : Odd (Nat.card K)) (hcard : 3 ≤ Nat.card K) :
@@ -709,9 +709,9 @@ theorem not_mem_frameVectors_of_zero_two (K : Type) [Field K] [CharP K 5]
     {x : Fin 5 → K} (h0 : x 0 ≠ 0) (h2 : x 2 ≠ 0) : x ∉ frameVectors K := by
   rintro ⟨i, h | h⟩
   · rw [h] at h0 h2
-    fin_cases i <;> simp [e_apply, Pi.single_apply] at h0 h2
+    fin_cases i <;> simp [e_apply] at h0 h2
   · rw [h] at h0 h2
-    fin_cases i <;> simp [e_apply, Pi.single_apply] at h0 h2
+    fin_cases i <;> simp [e_apply] at h0 h2
 
 theorem k_not_mem_zCentralizer (K : Type) [Field K] [CharP K 5] :
     (⟨k K, k_mem_D K⟩ : ↥(D K)) ∉ zCentralizer K := by
@@ -737,7 +737,7 @@ theorem zCentralizer_lt_top (K : Type) [Field K] [CharP K 5] :
 
 theorem polar_e0_u (K : Type) [Field K] [CharP K 5] : polar (Q K) (e K 0) (u K) = 2 := by
   rw [polar_apply]
-  simp [u, e_apply, Fin.sum_univ_five, Pi.single_apply]
+  simp [u, e_apply, Pi.single_apply]
 
 theorem eichler_u_e2_e0 (K : Type) [Field K] [CharP K 5] :
     eichler (Q K) (u K) (e K 2) (e K 0) = 4 • e K 0 + e K 1 + 2 • e K 2 := by
@@ -745,10 +745,9 @@ theorem eichler_u_e2_e0 (K : Type) [Field K] [CharP K 5] :
   rw [polar_e0_u, Q_single, polar_single_of_ne K (i := 0) (j := 2) (by decide)]
   rw [u]
   funext j
-  fin_cases j <;> simp [e_apply, Pi.single_apply]
+  fin_cases j <;> simp [e_apply]
   all_goals
     first
-    | rfl
     | (have h5 : (5 : K) = 0 := CharP.cast_eq_zero K 5
        linear_combination (-1 : K) * h5)
 
@@ -765,11 +764,11 @@ theorem a_not_mem_frameNormalizer (K : Type) [Field K] [CharP K 5] [Finite K]
   change eichler (Q K) (u K) (e K 2) (e K 0) ∈ frameVectors K at ha0
   refine not_mem_frameVectors_of_zero_two K ?_ ?_ ha0
   · rw [eichler_u_e2_e0]
-    simp [e_apply, Pi.single_apply]
+    simp [e_apply]
     rw [show (4 : K) = 2 * 2 by norm_num]
     exact mul_ne_zero (two_ne_zero K) (two_ne_zero K)
   · rw [eichler_u_e2_e0]
-    simp [e_apply, Pi.single_apply]
+    simp [e_apply]
     exact two_ne_zero K
 
 theorem frameNormalizer_lt_top (K : Type) [Field K] [CharP K 5] [Finite K]

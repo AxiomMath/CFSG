@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem w16g_le_stabSub_commSub (H : Subgroup (MulAut W)) :
     H ≤ stabSub (commSub ⊤ H) := by
   refine CFSG.RankThree.S4Free.Stell.le_stabSub_of_forall_apply_mem ?_
@@ -38,6 +39,7 @@ theorem w16g_le_stabSub_commSub (H : Subgroup (MulAut W)) :
     rw [map_inv]
     exact (commSub ⊤ H).inv_mem iha
 
+omit [Finite W] in
 theorem w16g_inf_centSub_commSub_eq_bot (hW : ∀ w : W, w * w = 1) {H : Subgroup (MulAut W)}
     (hH : IsPGroup 3 ↥H) : H ⊓ centSub (commSub ⊤ H) = ⊥ := by
   rw [eq_bot_iff]
@@ -58,7 +60,7 @@ theorem w16g_inf_centSub_commSub_eq_bot (hW : ∀ w : W, w * w = 1) {H : Subgrou
           calc (x w * w) * x w = (x w * x w) * w := by ac_rfl
             _ = 1 * w := by rw [hW (x w)]
             _ = w := one_mul w
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 3) (G := ↥H)).mp hH ⟨x, hx.1⟩
   let y : ↥H := ⟨x, hx.1⟩
   have hy2 : y ^ 2 = 1 := by
@@ -86,7 +88,7 @@ theorem w16g_rank_two_commute (hW : ∀ w : W, w * w = 1) {O R S : Subgroup (Mul
   have hcent : H ⊓ centSub (commSub ⊤ H) = ⊥ := w16g_inf_centSub_commSub_eq_bot hW hH3
   let M : Subgroup W := commSub ⊤ H
   have hrkM' : rk ↥M ≤ 4 := hrkM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact hW w
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2)
     (W := ↥M) (fun a b => mul_comm a b)

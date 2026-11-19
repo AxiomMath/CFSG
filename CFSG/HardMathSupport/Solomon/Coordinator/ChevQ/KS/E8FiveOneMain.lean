@@ -21,7 +21,7 @@ section Main
 
 theorem exists_primitiveRoot_five (K : Type) [Field K] [Finite K] (h5 : 5 ∣ Nat.card K - 1) :
     ∃ ζ : K, IsPrimitiveRoot ζ 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : 5 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact h5
@@ -36,7 +36,7 @@ theorem exists_conj_cube_cases (hH : HeisReduction) (K : Type) [Field K] [Finite
       ∃ (a : Fin Tag.E8.rank → Kˣ) (g : adjointGroup Tag.E8 K),
         E₀ = cj g (griessCubeT hζ a) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ : IsPGroup 5 E₀ := IsPGroup.of_card (n := 3) hc
   obtain ⟨c, hcN, hcW⟩ := exists_conj_monomialN_weyl_le K h5 hQ
   set E₁ := cj c E₀ with hE₁

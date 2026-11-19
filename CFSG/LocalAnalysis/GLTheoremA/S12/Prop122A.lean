@@ -38,7 +38,7 @@ theorem y_not_mem (h : NbrCfg G m p B x L D K y J) : y ∉ Subgroup.zpowers x :=
   have hcard := Subgroup.card_le_of_le hD
   rw [h.cfg.card_D, Nat.card_zpowers] at hcard
   have hp := h.cfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime (h.cfg.elem.2 x h.cfg.xD) h.cfg.tri.ne_one
   rw [hord] at hcard
   have := hp.two_le

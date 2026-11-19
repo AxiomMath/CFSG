@@ -12,13 +12,14 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (IsL2)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem omegaOneCenterOf_le_eGrp (H T : Subgroup G) :
     omegaOneCenterOf T ≤ eGrp H T := le_conjClosure _ _
 
 private theorem omegaOneCenterOf_ne_bot' {T : Subgroup G} (hT : IsPGroup 2 T) (hT1 : T ≠ ⊥) :
     omegaOneCenterOf T ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
   have hZ : Nontrivial (Subgroup.center ↥T) := hT.center_nontrivial
   obtain ⟨n, hn, hcard⟩ := ((hT.to_subgroup (Subgroup.center ↥T)).nontrivial_iff_card).1 hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥T) 2
@@ -36,7 +37,8 @@ private theorem omegaOneCenterOf_ne_bot' {T : Subgroup G} (hT : IsPGroup 2 T) (h
   rw [hz1, orderOf_one] at hz
   exact absurd hz (by norm_num)
 
-private theorem eGrp_facts {V H T : Subgroup G} (hV7 : Hyp7 V) (hH0 : IsCalH0 V H)
+omit [Finite G] in
+private theorem eGrp_facts {V H T : Subgroup G} (_hV7 : Hyp7 V) (hH0 : IsCalH0 V H)
     (hT : IsSylowIn 2 T (H ⊓ normalizer (V : Set G))) :
     IsElemAbelian 2 (eGrp H T) ∧ eGrp H T ≤ H ∧ H ≤ normalizer (eGrp H T : Set G) := by
   have hH : IsCalH V H := hH0.1
@@ -66,23 +68,28 @@ private theorem eGrp_facts {V H T : Subgroup G} (hV7 : Hyp7 V) (hH0 : IsCalH0 V 
 private def oTwoSet (N K : Subgroup G) : Set (Subgroup G) :=
   {W | N ≤ W ∧ W ≤ K ∧ (W.subgroupOf K).Normal ∧ ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N}
 
+omit [Finite G] in
 private theorem oTwoMod_eq_iSup (N K : Subgroup G) :
     oTwoMod N K = ⨆ W ∈ oTwoSet N K, W := rfl
 
+omit [Finite G] in
 private theorem le_oTwoMod_of {N K W : Subgroup G} (hNW : N ≤ W) (hWK : W ≤ K)
     (hWnorm : (W.subgroupOf K).Normal)
     (hpow : ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N) : W ≤ oTwoMod N K :=
   le_iSup₂ (f := fun W (_ : W ∈ oTwoSet N K) => W) W ⟨hNW, hWK, hWnorm, hpow⟩
 
+omit [Finite G] in
 private theorem le_oTwoMod {N K : Subgroup G} (hNK : N ≤ K)
     (hN : (N.subgroupOf K).Normal) : N ≤ oTwoMod N K :=
   le_oTwoMod_of le_rfl hNK hN (fun w hw => ⟨0, by simpa using hw⟩)
 
+omit [Finite G] in
 private theorem oTwoMod_le {N K : Subgroup G} : oTwoMod N K ≤ K :=
   iSup₂_le fun _ hW => hW.2.1
 
-private theorem normal_oTwoMod {N K : Subgroup G} (hNK : N ≤ K)
-    (hN : (N.subgroupOf K).Normal) : ((oTwoMod N K).subgroupOf K).Normal := by
+omit [Finite G] in
+private theorem normal_oTwoMod {N K : Subgroup G} (_hNK : N ≤ K)
+    (_hN : (N.subgroupOf K).Normal) : ((oTwoMod N K).subgroupOf K).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer oTwoMod_le]
   have hle : K ≤ ⨅ x : oTwoSet N K, Subgroup.normalizer ((x : Subgroup G) : Set G) := by
     intro k hk
@@ -96,6 +103,7 @@ private theorem normal_oTwoMod {N K : Subgroup G} (hNK : N ≤ K)
     (fun x : oTwoSet N K => (x : Subgroup G)) (hle hk)
   rwa [hsup] at hk'
 
+omit [Finite G] in
 private theorem conj_mem_oTwoSet {N K : Subgroup G} {h : G}
     (hhN : h ∈ Subgroup.normalizer (N : Set G))
     (hhK : h ∈ Subgroup.normalizer (K : Set G))
@@ -133,6 +141,7 @@ private theorem conj_mem_oTwoSet {N K : Subgroup G} {h : G}
     rw [← conjSubgroup_eq_iff_mem_normalizer.mpr hhN, mem_conjSubgroup_iff, ← conj_pow]
     exact hk
 
+omit [Finite G] in
 private theorem normalizer_oTwoMod {N K : Subgroup G} :
     Subgroup.normalizer (N : Set G) ⊓ Subgroup.normalizer (K : Set G) ≤
       Subgroup.normalizer (oTwoMod N K : Set G) := by
@@ -155,7 +164,7 @@ private theorem normalizer_oTwoMod {N K : Subgroup G} :
           have heq : h⁻¹ * (h * a * h⁻¹) * h⁻¹⁻¹ = a := by group
           rwa [heq]
         exact Subgroup.mem_iSup_of_mem ⟨conjSubgroup (W : Subgroup G) h⁻¹, hWmem⟩ hmem
-      · simpa using Subgroup.one_mem (⨆ W : oTwoSet N K, (W : Subgroup G))
+      · simp
       · intro a b ha hb
         rw [show h * (a * b) * h⁻¹ = (h * a * h⁻¹) * (h * b * h⁻¹) by group]
         exact (⨆ W : oTwoSet N K, (W : Subgroup G)).mul_mem ha hb
@@ -171,9 +180,10 @@ private theorem normalizer_oTwoMod {N K : Subgroup G} :
       (g * x * g⁻¹) hx
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 private theorem exists_pow_mem_oTwoMod {N K : Subgroup G} (hN : (N.subgroupOf K).Normal)
     {n : G} (hn : n ∈ oTwoMod N K) : ∃ k : ℕ, n ^ 2 ^ k ∈ N := by
-  haveI : (N.subgroupOf K).Normal := hN
+  have : (N.subgroupOf K).Normal := hN
   have hnK : n ∈ K := oTwoMod_le hn
   let Sset : Set (Subgroup G) := oTwoSet N K
   let Q := ↥K ⧸ (N.subgroupOf K)
@@ -181,8 +191,7 @@ private theorem exists_pow_mem_oTwoMod {N K : Subgroup G} (hN : (N.subgroupOf K)
   let P : Subgroup Q := ⨆ W ∈ Sset, (W.subgroupOf K).map q
   have hP2 : IsPGroup 2 P := by
     refine Sylow.biSup_of_normal Sset (fun W => (W.subgroupOf K).map q) ?_ ?_
-    · intro W hW
-      intro y
+    · intro W hW y
       obtain ⟨w, hw, hwy⟩ := Subgroup.mem_map.mp y.2
       have hk := hW.2.2.2 (w : G) (by simpa [Subgroup.mem_subgroupOf] using hw)
       obtain ⟨k, hk⟩ := hk
@@ -231,11 +240,11 @@ private theorem exists_pow_mem_oTwoMod {N K : Subgroup G} (hN : (N.subgroupOf K)
     (QuotientGroup.eq_one_iff _).mp hk'
   simpa [Subgroup.mem_subgroupOf] using hkN
 
-private theorem relIndex_eq_pow_two_of_pow_mem {C N : Subgroup G} (hCN : C ≤ N)
+private theorem relIndex_eq_pow_two_of_pow_mem {C N : Subgroup G} (_hCN : C ≤ N)
     (hN : (C.subgroupOf N).Normal)
     (hpow : ∀ x ∈ N, ∃ k : ℕ, x ^ 2 ^ k ∈ C) : ∃ k : ℕ, C.relIndex N = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (C.subgroupOf N).Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (C.subgroupOf N).Normal := hN
   let Q := ↥N ⧸ (C.subgroupOf N)
   have hQ : IsPGroup 2 Q := by
     intro x
@@ -337,7 +346,7 @@ private theorem sit813_section_simple {V H T A L K : Subgroup G} {i : ℕ}
       (∀ k : ↥K, φ k = 1 ↔ (k : G) ∈ oTwoMod (cGrp H T) K) ∧
       IsSimpleGroup X ∧ Nat.card X = 60 ∧ ¬ IsMulCommutative X := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hX⟩ := h.concl813.c_shape
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   have hX' : CFSG.Blueprint.LieModel X .PSL 2 2 2 := hX
   have hXs : IsSimpleGroup X :=
     CFSG.ComponentClassification.FooteLit.isSimpleGroup_of_lieModel_psl_two hX'
@@ -346,7 +355,7 @@ private theorem sit813_section_simple {V H T A L K : Subgroup G} {i : ℕ}
       show CFSG.Open.ordA 1 (2 ^ 2) = 60 by decide]
   refine ⟨X, hXgrp, φ, hφ, hker, hXs, hXcard, ?_⟩
   intro hcomm
-  haveI : IsMulCommutative X := hcomm
+  have : IsMulCommutative X := hcomm
   have hp := (Group.is_simple_iff_prime_card (α := X)).mp hXs
   rw [hXcard] at hp
   norm_num at hp
@@ -355,9 +364,9 @@ private theorem sit813_KN1 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H 
     ∀ B : Subgroup G, oTwoMod (cGrp H T) K ≤ B → B ≤ K →
       (B.subgroupOf K).Normal → B = oTwoMod (cGrp H T) K ∨ B = K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hXs, -, -⟩ := sit813_section_simple h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   intro B hNB hBK hBnorm
-  haveI : ((B.subgroupOf K).map φ).Normal := hBnorm.map φ hφ
+  have : ((B.subgroupOf K).map φ).Normal := hBnorm.map φ hφ
   rcases hXs.eq_bot_or_eq_top_of_normal ((B.subgroupOf K).map φ) with hbot | htop
   · left
     apply le_antisymm ?_ hNB
@@ -389,7 +398,7 @@ private theorem sit813_KN1 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H 
 private theorem sit813_KN2 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L K) :
     ∃ k₁ ∈ K, ∃ k₂ ∈ K, k₁ * k₂ * k₁⁻¹ * k₂⁻¹ ∉ oTwoMod (cGrp H T) K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, -, -, hXnab⟩ := sit813_section_simple h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   by_contra hcon
   push Not at hcon
   apply hXnab
@@ -405,7 +414,7 @@ private theorem sit813_KN3 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H 
     ∀ k ∈ K, (∀ x ∈ K, k * x * k⁻¹ * x⁻¹ ∈ oTwoMod (cGrp H T) K) →
       k ∈ oTwoMod (cGrp H T) K := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hXs, -, hXnab⟩ := sit813_section_simple h
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   intro k hkK hcomm
   have hcenter : Subgroup.center X = ⊥ := by
     rcases hXs.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
@@ -430,8 +439,8 @@ private theorem sit813_KN3 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H 
 private theorem sit813_KN4 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L K) :
     (oTwoMod (cGrp H T) K).relIndex K = 60 := by
   obtain ⟨X, hXgrp, φ, hφ, hker, -, hXcard, -⟩ := sit813_section_simple h
-  letI : Group X := hXgrp
-  haveI : ((oTwoMod (cGrp H T) K).subgroupOf K).Normal :=
+  let : Group X := hXgrp
+  have : ((oTwoMod (cGrp H T) K).subgroupOf K).Normal :=
     normal_oTwoMod h.concl813.ge_C (cGrp_normal_subgroupOf_K h)
   have hker_eq : φ.ker = (oTwoMod (cGrp H T) K).subgroupOf K := by
     ext x
@@ -442,10 +451,11 @@ private theorem sit813_KN4 {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H 
   change ((oTwoMod (cGrp H T) K).subgroupOf K).index = 60
   rw [Subgroup.index_eq_card, ← hker_eq, hcard, hXcard]
 
+omit [Finite G] in
 private theorem relIndex_inf_eq_of_sup_eq {B R S : Subgroup G} (hBS : B ≤ S) (hRS : R ≤ S)
     (hsup : B ⊔ R = S) (hRn : (R.subgroupOf S).Normal) :
     (B ⊓ R).relIndex B = R.relIndex S := by
-  haveI : (R.subgroupOf S).Normal := hRn
+  have : (R.subgroupOf S).Normal := hRn
   have hsup' : (B.subgroupOf S) ⊔ (R.subgroupOf S) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hBS hRS, hsup]
     exact Subgroup.subgroupOf_self S
@@ -623,7 +633,7 @@ theorem Sit813.oTwoMod_le_normalizer {V H T A L K : Subgroup G} {i : ℕ}
   have hNnormD : (N.subgroupOf D).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hND).mpr
       (hDK.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mp hNnormK))
-  haveI : (N.subgroupOf D).Normal := hNnormD
+  have : (N.subgroupOf D).Normal := hNnormD
   have hDsup : (K1.subgroupOf D) ⊔ (N.subgroupOf D) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hK1D hND]
     exact Subgroup.subgroupOf_self D
@@ -760,7 +770,7 @@ theorem Sit813.card_inf_sGrp {V H T A L K : Subgroup G} {i : ℕ}
 private theorem isSylowIn_sup_iff_isSylowIn_inf_aux {K S : Subgroup G} (hS : IsPGroup 2 S)
     (hSK : S ≤ normalizer (K : Set G)) :
     IsSylowIn 2 S (K ⊔ S) ↔ IsSylowIn 2 (K ⊓ S) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKD : K ≤ K ⊔ S := le_sup_left
   have hSD : S ≤ K ⊔ S := le_sup_right
   have hDn : (K.subgroupOf (K ⊔ S)).Normal :=
@@ -798,7 +808,7 @@ theorem Sit813.isSylowIn_sup_iff {V H T A L K : Subgroup G} {i : ℕ}
     IsSylowIn 2 (sGrp H T A K) (K ⊔ sGrp H T A K) ↔
       A ⊓ rGrp H T K = ⊥ ∧
         IsSylowIn 2 (T ⊓ oTwoMod (cGrp H T) K) (oTwoMod (cGrp H T) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 T := h.minCex.hyp.sylow.isPGroup
   have hSleT : sGrp H T A K ≤ T := sup_le rGrp_le_T h.mem.1
   have hS2 : IsPGroup 2 (sGrp H T A K) := hT2.to_le hSleT
@@ -891,7 +901,7 @@ private theorem exists_conj_not_mem_normalizer {V H T A L K : Subgroup G} {i : �
         have heq : k * (a * b) * k⁻¹ = (k * a * k⁻¹) * (k * b * k⁻¹) := by group
         rw [heq]
         exact (normalizer (V : Set G)).mul_mem (ha k hk) (hb k hk)
-      one_mem' := ⟨K.one_mem, fun k hk => by simpa using (normalizer (V : Set G)).one_mem⟩
+      one_mem' := ⟨K.one_mem, fun k hk => by simp⟩
       inv_mem' := by
         rintro a ⟨haK, ha⟩
         refine ⟨K.inv_mem haK, fun k hk => ?_⟩
@@ -1328,14 +1338,14 @@ theorem Sit813.inf_rGrp_eq_bot_of_not_le_centralizer {V H T A L K : Subgroup G} 
 
 theorem Sit813.isSylowIn_inf_cGrp {V H T A L K : Subgroup G} {i : ℕ}
     (h : Sit813 V H T i A L K) : IsSylowIn 2 (T ⊓ cGrp H T) (cGrp H T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (isSylowIn_of_isCalH h.calH0.1 h.minCex.hyp.sylow).inf_normal
     (h.concl813.comp.2.1.trans h.concl813.comp.2.2.1) h.concl813.comp.1
 
 theorem Sit813.isSylowIn_oTwoMod_of_isSylowIn_inf {V H T A L K : Subgroup G} {i : ℕ}
     (h : Sit813 V H T i A L K) (hT : IsSylowIn 2 (T ⊓ K) K) :
     IsSylowIn 2 (T ⊓ oTwoMod (cGrp H T) K) (oTwoMod (cGrp H T) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := hT.inf_normal oTwoMod_le
     (normal_oTwoMod h.concl813.ge_C (cGrp_normal_subgroupOf_K h))
   rw [inf_assoc, inf_of_le_right oTwoMod_le] at h1
@@ -1346,7 +1356,7 @@ theorem Sit813.oTwoMod_le_centralizer_omegaOneCenter {V H T A L K : Subgroup G} 
     (hβ : IsSylowIn 2 (T ⊓ oTwoMod (cGrp H T) K) (oTwoMod (cGrp H T) K)) :
     oTwoMod (cGrp H T) K ≤ centralizer (omegaOneCenterOf T : Set G) := by
   intro n hn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCnormK : ((cGrp H T).subgroupOf K).Normal := cGrp_normal_subgroupOf_K h
   have hCD : cGrp H T ≤ oTwoMod (cGrp H T) K := le_oTwoMod h.concl813.ge_C hCnormK
   have hDK : oTwoMod (cGrp H T) K ≤ K := oTwoMod_le

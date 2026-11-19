@@ -33,9 +33,9 @@ theorem isMulCommutative_of_card_lt {H : Subgroup G} (hH : IsPGroup p H)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hH
   have hk3 : k < 3 := (Nat.pow_lt_pow_iff_right hp.out.one_lt).1 (hk ▸ h)
   interval_cases k
-  · haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.1 (by simpa using hk)).1
+  · have : Subsingleton H := (Nat.card_eq_one_iff_unique.1 (by simpa using hk)).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI := isCyclic_of_prime_card (α := H) (by simpa using hk)
+  · have := isCyclic_of_prime_card (α := H) (by simpa using hk)
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hk
 
@@ -74,6 +74,7 @@ private theorem exists_normal_le_card_lt {R : Subgroup G} (hR : IsPGroup p R)
   · rintro g hg _ ⟨k', hk', rfl⟩
     exact ⟨⟨g, hg⟩ * k' * ⟨g, hg⟩⁻¹, hN.conj_mem k' hk' _, rfl⟩
 
+omit [Finite G] hp in
 theorem pow_eq_one_of_mem_closure {s : Set G} (hcomm : s.Pairwise Commute)
     (hs : ∀ a ∈ s, a ^ p = 1) {g : G} (hg : g ∈ closure s) : g ^ p = 1 := by
   have hab := isMulCommutative_closure hcomm
@@ -86,6 +87,7 @@ theorem pow_eq_one_of_mem_closure {s : Set G} (hcomm : s.Pairwise Commute)
     rw [(Commute.mul_pow hc p), iha, ihb, one_mul]
   | inv a _ iha => rw [inv_pow, iha, inv_one]
 
+omit [Finite G] hp in
 private theorem pow_eq_pow_mod {g : G} (hg : g ^ p = 1) (a : ℕ) : g ^ a = g ^ (a % p) := by
   conv_lhs => rw [← Nat.mod_add_div a p, pow_add, pow_mul, hg, one_pow, mul_one]
 
@@ -151,7 +153,7 @@ private theorem heis_of_rel (hp2 : p ≠ 2) {Q : Subgroup G} (hQ : IsPGroup p Q)
     have hf : Function.Surjective f := by
       rintro ⟨g, hg⟩
       obtain ⟨a, b, k, rfl⟩ := hES g hg
-      haveI : NeZero p := ⟨hp.out.ne_zero⟩
+      have : NeZero p := ⟨hp.out.ne_zero⟩
       refine ⟨(⟨a % p, Nat.mod_lt _ hp.out.pos⟩, ⟨b % p, Nat.mod_lt _ hp.out.pos⟩,
         ⟨k % p, Nat.mod_lt _ hp.out.pos⟩), Subtype.ext ?_⟩
       change w ^ (a % p) * c ^ (b % p) * y ^ (k % p) = _
@@ -218,7 +220,7 @@ theorem exists_heis_of_not_commute (hp2 : p ≠ 2) {Q : Subgroup G} (hQ : IsPGro
     have hlt : Nat.card (closure ({x, u i} : Set G)) < n :=
       hn ▸ (Subgroup.card_le_of_le hle).trans_lt hKc
     exact ih _ hlt x (u i) rfl hxQ (hRQ (hKR (huK i))) hxp (hup i) hi
-  push_neg at hcase
+  push Not at hcase
   have hshift : ∀ i d, u (i + d) = y ^ i * u d * (y ^ i)⁻¹ := fun i d => by
     simp only [u, pow_add]; group
   have hcomm2 : ∀ i d, u i * u (i + d) = u (i + d) * u i := by

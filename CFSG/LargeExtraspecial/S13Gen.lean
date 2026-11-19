@@ -147,7 +147,7 @@ theorem exists_Rbar_Lbar_eq {g : G} (H : Hyp4 S g) (C : Cons311 S g) {τ : S.O}
   obtain ⟨m, hm⟩ : ∃ m : S.M, S.ρ m = (r : S.O) := MonoidHom.mem_range.mp (Rbar_le_Mbar r.2)
   refine ⟨m, hm ▸ r.2, ?_⟩
   set T : Subgroup S.O := (P : Subgroup R).map R.subtype with hT
-  have hTp : IsPGroup 2 T := P.isPGroup'.map _
+  have hTp : IsPGroup 2 T := P.isPGroup.map _
   have hLT : S.Lbar g ≤ T := fun x hx => ⟨⟨x, hLR hx⟩, hAP (mem_subgroupOf.mpr hx), rfl⟩
   have hLT' : S.Lbar (((m⁻¹ * h : S.M) : G) * g) ≤ T := by
     intro x hx

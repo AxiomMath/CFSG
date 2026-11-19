@@ -32,8 +32,8 @@ theorem seitzHyperGamma_eq_top_of_linear_field {p : ℕ}
     (hpq : p ≠ q.p) (hci : CoverIndex p (.A m q)) (h64 : ¬ (p = 3 ∧ m = 2 ∧ q.card = 64))
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hLD : ¬ LinearDiag p E) (hP : ¬ InvP'Pair p E) : seitzHyperGamma p E = ⊤ := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
   set θ := standardLinearModel e with hθ
   have hout := not_le_linearAutGroup_of_cubeRest e hp hp2 hpq hci hLD
   have hinj := modelAut_injective hperf θ

@@ -11,10 +11,12 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma c13K_inv_eq_self_of_sq {a : G} (h : a ^ 2 = 1) : a⁻¹ = a := by
   rw [pow_two] at h
   exact inv_eq_of_mul_eq_one_right h
 
+omit [Finite G] in
 private lemma c13K_fourGrp_le_baseGrp (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   change closure ({x₁ ^ 2, (x₁ * x₂) ^ 2} : Set G) ≤ baseGrp x₁ x₂
   refine (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr ?_
@@ -34,7 +36,7 @@ theorem c13K_U_comm_le (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
   change ⁅U, U⁆ ≤ B
   have hBU : B ≤ U := (c13K_Q_B_le_O hc).2.trans le_sup_left
   let B0 : Subgroup ↥U := B.subgroupOf U
-  haveI hB0norm : B0.Normal := by
+  have hB0norm : B0.Normal := by
     refine (Subgroup.normal_subgroupOf_iff (H := B) (K := U) hBU).mpr ?_
     intro h k hh hk
     exact c13K_B_normal_U hc k hk h hh
@@ -44,7 +46,7 @@ theorem c13K_U_comm_le (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
     have h := Subgroup.relIndex_mul_card (H := B) (K := U)
     rw [inf_eq_left.mpr hBU, c13K_card_B hc, c13K_card_U hc] at h
     omega
-  haveI : IsMulCommutative (↥U ⧸ B0) :=
+  have : IsMulCommutative (↥U ⧸ B0) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hcard
   have hcomm : _root_.commutator ↥U ≤ B0 :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := B0)).mp inferInstance

@@ -41,7 +41,7 @@ theorem reeGamma_exists_sylow_two (hk : Nat.card k = 3 ^ (2 * m + 1)) :
   · intro x hx
     have hxE : (x : ModGL G2.tag k) ∈ CFSG.Walter.Ree.Model.smallReeE8 m k w₀ := by
       rw [← hP]; exact ⟨x, hx, rfl⟩
-    haveI := hel
+    have := hel
     have h2 : (x : ModGL G2.tag k) ^ 2 = 1 :=
       elemPow_eq_one_of_isElementaryAbelian (p := 2)
         (A := CFSG.Walter.Ree.Model.smallReeE8 m k w₀) _ hxE
@@ -61,7 +61,7 @@ theorem reeGamma_exists_simple (hk : Nat.card k = 3 ^ (2 * m + 1)) :
     set D := Subgroup.closure {ReeTag.g2U₀ k, canonicalRep (coxeterSystem G2.tag) k w₀} with hD
     let e : (D.subgroupOf (G2.reeGamma k 0)) ≃* D := Subgroup.subgroupOfEquivOfLe hDΓ
     refine ⟨D.subgroupOf (G2.reeGamma k 0), ?_, ?_, ?_⟩
-    · haveI := hDs
+    · have := hDs
       exact e.isSimpleGroup
     · obtain ⟨x, y, hxy⟩ := hDnc
       exact ⟨e.symm x, e.symm y, fun h => hxy (e.symm.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -75,7 +75,7 @@ theorem reeGamma_exists_simple (hk : Nat.card k = 3 ^ (2 * m + 1)) :
     obtain ⟨-, hs, x, y, hxy⟩ :=
       CFSG.ComponentClassification.CatalogueBSmallRee.reeGamma_G2_simple hm k hk
     refine ⟨⊤, ?_, ⟨⟨x, trivial⟩, ⟨y, trivial⟩, fun h => hxy (congrArg Subtype.val h)⟩, ?_⟩
-    · haveI := hs
+    · have := hs
       exact (Subgroup.topEquiv : (⊤ : Subgroup (G2.reeGamma k m)) ≃* _).isSimpleGroup
     · refine ⟨⟨_, CFSG.Walter.Ree.Model.smallReeH_neg_one_mem_reeGamma hk⟩, trivial, ?_⟩
       exact CFSG.Walter.Ree.Model.orderOf_smallReeH_neg_one hk

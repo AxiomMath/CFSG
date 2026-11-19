@@ -89,7 +89,7 @@ theorem isSylowTwoOf_Tw
     hTw2.of_equiv (Subgroup.subgroupOfEquivOfLe hTwH).symm
   obtain ⟨P, hKP⟩ := hK2.exists_le_sylow
   set S : Subgroup G := (P : Subgroup ↥H').map H'.subtype with hS
-  have hS2 : IsPGroup 2 ↥S := P.isPGroup'.map H'.subtype
+  have hS2 : IsPGroup 2 ↥S := P.isPGroup.map H'.subtype
   have hSH : S ≤ H' := by rintro _ ⟨p, -, rfl⟩; exact p.2
   have hTwS : Tw ≤ S := fun u hu => ⟨⟨u, hTwH hu⟩, hKP (Subgroup.mem_subgroupOf.mpr hu), rfl⟩
   have hcard : Nat.card ↥S ≤ Nat.card ↥Tw := by

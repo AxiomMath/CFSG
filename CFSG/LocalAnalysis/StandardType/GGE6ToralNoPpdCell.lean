@@ -182,9 +182,9 @@ theorem finsum_cellSum_of_familyKernel_eq_parabolicRoots
       rw [hker]
       exact (inversionSet_subset_parabolicPosRoots u.2 hα).1
     rw [Set.inter_eq_right.2 hsub, (weyl_inversion_length Tag.E6).1]
-  haveI : Fintype (familyStabilizerSubgroup fun _ : Unit => b) := Fintype.ofFinite _
-  haveI : Fintype (kernelPosStabilizer χ) := Fintype.ofFinite _
-  haveI : Fintype (parabolicWeylGroup Tag.E6 J) := Fintype.ofFinite _
+  have : Fintype (familyStabilizerSubgroup fun _ : Unit => b) := Fintype.ofFinite _
+  have : Fintype (kernelPosStabilizer χ) := Fintype.ofFinite _
+  have : Fintype (parabolicWeylGroup Tag.E6 J) := Fintype.ofFinite _
   let F : parabolicWeylGroup Tag.E6 J × kernelPosStabilizer χ →
       familyStabilizerSubgroup (fun _ : Unit => b) := fun p =>
     ⟨(p.1 : WeylGroup Tag.E6) * p.2,

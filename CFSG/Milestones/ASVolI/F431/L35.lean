@@ -20,7 +20,7 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 theorem burnsideF4m_long_conj_inv (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {x : E}
     (hx : ∃ g ∈ Gp, g * x * g⁻¹ ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))) (e : E) :
     ∃ g ∈ Gp, g * (e * x * e⁻¹) * g⁻¹ ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨g, hg, hgx⟩ := hx
   obtain ⟨n, hn, h, hh, rfl⟩ := hyp.split e
   have hhN : h ∈ Subgroup.normalizer
@@ -36,7 +36,7 @@ theorem burnsideF4m_long_conj_inv (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {x : E}
 theorem burnsideF4m_isConj_Gp_of_two (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hL3 : κ ≠ .L3)
     (hSp : κ ≠ .Sp4) (hG2d : κ ≠ .G2d) {i j : E} (hi : i ∈ Gp) (hj : j ∈ Gp) (hi1 : i ≠ 1)
     (hi2 : i * i = 1) (hij : IsConj i j) : ∃ g ∈ Gp, g * i * g⁻¹ = j := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hyp' := burnsideF4j_restrict ChF.nativeChartCompatibility hyp
   have h27 := as_F_4_27 κ f ↥Gp ⊤ _ _ hyp' rfl
   dsimp only at h27
@@ -162,7 +162,7 @@ theorem burnsideF4m_F_4_35_of_lieK {K' : Type} [Group K'] [Finite K']
     (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hi1 : i ≠ 1) (hi2 : i * i = 1)
     (hj1 : j ≠ 1) (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   refine ⟨burnsideF4j_F_4_35_forward hyp i j hi hj, fun h => ?_⟩
   obtain ⟨hC, -, -, -⟩ := burnsideF4m_comp_data hyp θ h1 h2
   have hiT := burnsideF4m_theta_S_le hyp.amalgam θ h1 h2 L.sylow L.T_le₁ L.T_le₂ hi

@@ -23,8 +23,8 @@ theorem ThreeNat.exists_J_alt6 (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
             ((e n : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)).cycleType = {3} ∨
             ((e n : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)).cycleType = {3, 3}) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hNA, hLleN, hNfix, hNcomm, hNKbot, hNKsup, -⟩ := h.structure_of_seven h7
   let K : Subgroup (MulAut W) := s1t3KBar A L
   have hKA : K ≤ A := inf_le_left
@@ -114,8 +114,8 @@ theorem ThreeNat.exists_J_alt6 (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
       map_mul' := fun a b => Subtype.ext rfl }
   let actN : ↥N →* MulAut U := (s16t3_sectionHom h h7 hI₀).comp inclN
   let actT : ↥(T ⊓ N) →* MulAut U := actN.comp inclNT
-  letI : MulAction ↥N U := MulAction.compHom U actN
-  letI : MulAction ↥(T ⊓ N) U := MulAction.compHom U actT
+  let : MulAction ↥N U := MulAction.compHom U actN
+  let : MulAction ↥(T ⊓ N) U := MulAction.compHom U actT
   have h2dvdU : 2 ∣ Nat.card U := by rw [hcardU]; norm_num
   have h1fix : (1 : U) ∈ MulAction.fixedPoints ↥(T ⊓ N) U := by
     rw [MulAction.mem_fixedPoints]
@@ -135,9 +135,9 @@ theorem ThreeNat.exists_J_alt6 (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
     rw [MulAction.mem_stabilizer_iff]
     change (⟨x, hx⟩ : ↥(T ⊓ N)) • u = u
     exact MulAction.mem_fixedPoints.1 hufix ⟨x, hx⟩
-  haveI : Fintype ↥N := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit ↥N u) := Fintype.ofFinite _
-  haveI : Fintype ↥J₁sub := Fintype.ofFinite _
+  have : Fintype ↥N := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥N u) := Fintype.ofFinite _
+  have : Fintype ↥J₁sub := Fintype.ofFinite _
   have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥N) u
   have hOS' : Nat.card (MulAction.orbit ↥N u) * Nat.card ↥J₁sub = Nat.card ↥N := by
     simpa only [J₁sub, Nat.card_eq_fintype_card] using hOS
@@ -177,9 +177,9 @@ theorem ThreeNat.exists_J_alt6 (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
         Subgroup.mem_inf]
       exact ⟨I₀.mul_mem hlxI (I₀.inv_mem x.2), hfixl⟩
   have hsub : Nat.card {v : U // v ≠ 1} = 15 := by
-    haveI : Fintype U := Fintype.ofFinite _
-    haveI : Fintype {v : U // v = 1} := Fintype.ofFinite _
-    haveI : Fintype {v : U // v ≠ 1} := Fintype.ofFinite _
+    have : Fintype U := Fintype.ofFinite _
+    have : Fintype {v : U // v = 1} := Fintype.ofFinite _
+    have : Fintype {v : U // v ≠ 1} := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl (fun v : U => v = 1),
       Fintype.card_subtype_eq (1 : U), ← Nat.card_eq_fintype_card, hcardU]
   have hcardOrbit : Nat.card (MulAction.orbit ↥N u) = 15 := by

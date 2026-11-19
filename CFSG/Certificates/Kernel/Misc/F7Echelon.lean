@@ -18,7 +18,7 @@ theorem Pivots.apply {V : Matrix (Fin 8) (Fin 45) (ZMod 7)} {p : Fin 8 → Fin 4
   have hs := (mem_rowSpan_iff h _).1 hmem
   have h2 : ∑ d, (rows V c' (p d) - if c' = d then 1 else 0) • rows V d = 0 := by
     simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul, zero_smul,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     rw [← hs, sub_self]
   exact sub_eq_zero.1 ((Fintype.linearIndependent_iff.1 hli) _ h2 c)
 
@@ -54,7 +54,7 @@ theorem pivot_mem {V V' : Matrix (Fin 8) (Fin 45) (ZMod 7)} {p p' : Fin 8 → Fi
     ∃ c, p c = p' d := by
   obtain ⟨hp', -, hz'⟩ := h'
   have hu : rows V' d ∈ rowSpan V := e (Submodule.subset_span (Set.mem_range_self d))
-  have h1 : rows V' d (p' d) = 1 := by rw [hp'.apply d d, if_pos rfl]
+  have h1 : rows V' d (p' d) = 1 := by rw [hp'.apply d d, ite_eq_left rfl]
   have hne : rows V' d ≠ 0 := fun h0 => by
     rw [h0, Pi.zero_apply] at h1
     exact zero_ne_one h1
@@ -85,7 +85,7 @@ theorem echelon_unique {V V' : Matrix (Fin 8) (Fin 45) (ZMod 7)} {p p' : Fin 8 �
   have : rows V' d = rows V d := by
     rw [hsum]
     simp only [hcoef, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ,
-      if_true]
+      ite_true]
   exact (congrFun this j).symm
 
 end CFSG.KC.Misc.F7

@@ -77,7 +77,7 @@ theorem Sit813.exists_section_card_mulAut (h : Sit813 V H T i A L K) :
     ∃ (Q : Type) (_ : Group Q) (φ : ↥K →* Q), Function.Surjective φ ∧
       (∀ k : ↥K, φ k = 1 ↔ (k : G) ∈ oTwoMod (cGrp H T) K) ∧ Nat.card (MulAut Q) = 120 := by
   obtain ⟨X, hXgrp, φ, hφ, hker, hX⟩ := h.concl813.c_shape
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   obtain ⟨e⟩ := CFSG.Quasithin.nonempty_equiv_alt5_of_isPSL_two_two_two (isL2_iff_isPSL.mp hX)
   refine ⟨X, hXgrp, φ, hφ, hker, ?_⟩
   rw [← CFSG.GH74.GLS.LU.Local.Five.nat_card_mulAut_alternatingGroup_five]
@@ -117,7 +117,7 @@ theorem Sit813.eight_seventeen {X Y : Subgroup G} (h : Sit813 V H T i A L K)
     rw [Subgroup.mem_normalizer_iff]
     exact fun n => ⟨key y hy n, fun hn => by simpa [mul_assoc] using key y⁻¹ (Y.inv_mem hy) _ hn⟩
   obtain ⟨Q, hQgrp, φ, hφ, hker, hQ⟩ := h.exists_section_card_mulAut
-  letI : Group Q := hQgrp
+  let : Group Q := hQgrp
   have hXN : ¬ X ≤ oTwoMod (cGrp H T) K := h.not_le_oTwoMod_of_isSylowIn hX
   have hdec := exists_mul_trivial_on_section_of_card_mulAut φ hφ hker hQ h.kn3 hYK hYN hY3 hXY
     hXK hXN

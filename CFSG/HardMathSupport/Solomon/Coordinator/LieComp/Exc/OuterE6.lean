@@ -131,7 +131,7 @@ theorem conj_parabolicWeyl_mem_closure {τ : Tag} (v : WeylGroup τ) {J : Set (F
     · rw [hΨ]
       exact ⟨Pi.single j 1, ⟨isRoot_single τ j, fun k hk => by
         have hjk : k ≠ j := fun h => hk (by rw [h]; exact hj)
-        simp [Pi.single_apply, hjk]⟩, rfl⟩
+        simp [hjk]⟩, rfl⟩
     · rw [rootReflection_smul_root v (isRoot_single τ j)]
       have : rootReflection (Pi.single j 1 : Fin τ.rank → ℤ) = simple τ j := by
         have := rootReflection_eq_conj (w := 1) (j := j)
@@ -139,7 +139,7 @@ theorem conj_parabolicWeyl_mem_closure {τ : Tag} (v : WeylGroup τ) {J : Set (F
             Pi.single j 1)
         simpa using this
       rw [this]
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : v * (x * y) * v⁻¹ = (v * x * v⁻¹) * (v * y * v⁻¹) := by group
     rw [this]
@@ -282,13 +282,13 @@ theorem rationalLieType_of_e6_outer {τ : Tag} [hτ : M27Ok τ] [E6Sub τ] {L : 
             · rw [Finset.sum_eq_single k]
               · simp
               · intro b hb hbk
-                simp [Pi.single_apply, Ne.symm hbk]
+                simp [Ne.symm hbk]
               · intro hk'
                 exact absurd (by simpa using hk) hk'
             · rw [hαJ k hk, Finset.sum_eq_zero]
               intro b hb
               have hbk : k ≠ b := fun h => hk (h ▸ (Finset.mem_filter.1 hb).2)
-              simp [Pi.single_apply, hbk]
+              simp [hbk]
           rw [hα_eq, Finset.smul_sum, Finset.smul_sum]
           refine Finset.sum_congr rfl fun j hj => ?_
           have hjJ : j ∈ e6Set τ := (Finset.mem_filter.1 hj).2
@@ -361,7 +361,7 @@ theorem rationalLieType_of_e6_outer {τ : Tag} [hτ : M27Ok τ] [E6Sub τ] {L : 
   let e4 : ↥(psi2 τ L ℓ f).range ≃* ↥(fixedGroup (K2 L ℓ f) (theta2 L ℓ f)) :=
     (MonoidHom.ofInjective hψ).symm
   let e := e1.trans (e2.trans (e3.trans e4))
-  haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
+  have : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
   have hk : Nat.card (K2 L ℓ f) = (ℓ ^ f) ^ 2 := by rw [card_K2 hf, pow_mul']
   have hk4 : 4 ≤ Nat.card (K2 L ℓ f) := by
     rw [hk]

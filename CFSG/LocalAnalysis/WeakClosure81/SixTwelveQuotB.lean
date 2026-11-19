@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_sup_K_of_mk_mem_normalizer_imgK (M V : Subgroup G) (g : G)
     [((KOf M V g).subgroupOf (LOf V g)).Normal] {A : Subgroup G} (hA : A ≤ LOf V g)
     {b : ↥(LOf V g)}

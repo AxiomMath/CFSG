@@ -13,6 +13,7 @@ section Abstract
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s15_Three_tgroup_fix_S {A : Subgroup (MulAut W)} {t : MulAut W} {S : Subgroup W}
     (hS : StableUnder A S) (htS : S ≤ fixV (Subgroup.zpowers t)) :
     S ≤ fixV (s15TGroup A t) := by
@@ -26,6 +27,7 @@ theorem s15_Three_tgroup_fix_S {A : Subgroup (MulAut W)} {t : MulAut W} {S : Sub
   have := MulAction.mem_stabilizer_iff.1 (hle hj)
   rwa [MulAut.smul_def] at this
 
+omit [Finite W] in
 theorem s15_Three_tgroup_faithful {A : Subgroup (MulAut W)} {t : MulAut W} {R S : Subgroup W}
     (hRS' : R ⊔ S = ⊤) (hfix : S ≤ fixV (s15TGroup A t)) :
     ∀ j ∈ s15TGroup A t, (∀ r ∈ R, j r = r) → j = 1 := by
@@ -38,8 +40,8 @@ theorem s15_Three_tgroup_faithful {A : Subgroup (MulAut W)} {t : MulAut W} {R S 
 
 theorem s15_Three_gen_transvections (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
     {t : MulAut W} (ht : InducesTransvection t ⊤) {R S : Subgroup W} (hR : IsIrrOn A R ⊥)
-    (hRt : StableUnder (Subgroup.zpowers t) R) (hS : StableUnder A S) (hRS' : R ⊔ S = ⊤)
-    (htS : S ≤ fixV (Subgroup.zpowers t)) (htR : commSub R (Subgroup.zpowers t) ≠ ⊥) :
+    (hRt : StableUnder (Subgroup.zpowers t) R) (_hS : StableUnder A S) (_hRS' : R ⊔ S = ⊤)
+    (_htS : S ≤ fixV (Subgroup.zpowers t)) (htR : commSub R (Subgroup.zpowers t) ≠ ⊥) :
     GenByTransvections (s15TGroup A t) R := by
   have hrk1 : rk ↥(commSub R (Subgroup.zpowers t)) = 1 := by
     have h1 : rk ↥(commSub R (Subgroup.zpowers t)) ≤ rk ↥(commSub ⊤ (Subgroup.zpowers t)) :=
@@ -98,6 +100,7 @@ theorem s15_Three_gen_transvections (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (M
 @[expose] def s15Blocks (A : Subgroup (MulAut W)) (R₁ : Subgroup W) : Set (Subgroup W) :=
   {X | ∃ a ∈ A, X = R₁.map a.toMonoidHom}
 
+omit [Finite W] in
 private lemma s15_Three_mem_fixV_zpowers_of {t : MulAut W} {x : W} (h : t x = x) :
     x ∈ fixV (Subgroup.zpowers t) := by
   rw [mem_fixV]
@@ -108,10 +111,12 @@ private lemma s15_Three_mem_fixV_zpowers_of {t : MulAut W} {x : W} (h : t x = x)
   have := hle hs
   rwa [MulAction.mem_stabilizer_iff, MulAut.smul_def] at this
 
+omit [Finite W] in
 private theorem s15_Three_tconj_mem {A : Subgroup (MulAut W)} {t a : MulAut W} (ha : a ∈ A) :
     a⁻¹ * t * a ∈ s15TGroup A t :=
   Subgroup.subset_closure ⟨a, ha, rfl⟩
 
+omit [Finite W] in
 private theorem s15_Three_tgroup_conj {A : Subgroup (MulAut W)} {t a j : MulAut W} (ha : a ∈ A)
     (hj : j ∈ s15TGroup A t) : a⁻¹ * j * a ∈ s15TGroup A t := by
   refine Subgroup.closure_induction (p := fun g _ => a⁻¹ * g * a ∈ s15TGroup A t) ?_ ?_ ?_ ?_ hj
@@ -129,6 +134,7 @@ private theorem s15_Three_tgroup_conj {A : Subgroup (MulAut W)} {t a j : MulAut 
     rw [h]
     exact (s15TGroup A t).inv_mem ihx
 
+omit [Finite W] in
 private theorem s15_Three_tgroup_stable {A : Subgroup (MulAut W)} {t : MulAut W}
     {R : Subgroup W} (hR : StableUnder A R) (hRt : StableUnder (Subgroup.zpowers t) R) :
     StableUnder (s15TGroup A t) R := by
@@ -174,6 +180,7 @@ private theorem s15_Three_J_exists_irr_le {J : Subgroup (MulAut W)} {X : Subgrou
       have hKs : K ∈ s := ⟨hKI.trans hIs.1, hK, hKbot⟩
       exact hImin K hKs (Subgroup.card_lt_of_lt (lt_of_le_of_ne hKI hne))
 
+omit [Finite W] in
 private theorem s15_Three_irr_map_tgroup {A : Subgroup (MulAut W)} {t a : MulAut W}
     {X : Subgroup W} (hX : IsIrrOn (s15TGroup A t) X ⊥) (ha : a ∈ A) :
     IsIrrOn (s15TGroup A t) (X.map a.toMonoidHom) ⊥ := by
@@ -217,6 +224,7 @@ private theorem s15_Three_card_comm_two (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut 
     (ht : InducesTransvection t ⊤) : Nat.card ↥(commSub ⊤ (Subgroup.zpowers t)) = 2 := by
   rw [card_eq_two_pow hW (commSub ⊤ (Subgroup.zpowers t)), ht.2, pow_one]
 
+omit [Finite W] in
 private theorem s15_Three_blocks_map {A : Subgroup (MulAut W)} {R₁ X : Subgroup W}
     {a : MulAut W} (ha : a ∈ A) (hX : X ∈ s15Blocks A R₁) :
     X.map a.toMonoidHom ∈ s15Blocks A R₁ := by
@@ -225,6 +233,7 @@ private theorem s15_Three_blocks_map {A : Subgroup (MulAut W)} {R₁ X : Subgrou
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem s15_Three_blocks_inf {A : Subgroup (MulAut W)} {t : MulAut W}
     {R₁ X : Subgroup W} (hJ : IsIrrOn (s15TGroup A t) R₁ ⊥)
     (hX : X ∈ s15Blocks A R₁) (hne : X ≠ R₁) : X ⊓ R₁ = ⊥ := by
@@ -241,6 +250,7 @@ private theorem s15_Three_blocks_inf {A : Subgroup (MulAut W)} {t : MulAut W}
     · exact (ne_of_gt hJ.1) hbot
     · exact hne heq.symm
 
+omit [Finite W] in
 private theorem s15_Three_sSup_blocks_stable {A : Subgroup (MulAut W)} {R₁ : Subgroup W} :
     StableUnder A (sSup (s15Blocks A R₁)) := by
   intro a ha u hu
@@ -251,6 +261,7 @@ private theorem s15_Three_sSup_blocks_stable {A : Subgroup (MulAut W)} {R₁ : S
         ⟨(X : Subgroup W).map a.toMonoidHom, s15_Three_blocks_map ha X.2⟩
   exact hmap (Subgroup.mem_map_of_mem a.toMonoidHom hu)
 
+omit [Finite W] in
 private theorem s15_Three_blocks_conj_eq {A : Subgroup (MulAut W)} {R₀ : Subgroup W}
     {a₀ : MulAut W} (ha₀ : a₀ ∈ A) :
     s15Blocks A (R₀.map a₀.toMonoidHom) = s15Blocks A R₀ := by
@@ -265,8 +276,9 @@ private theorem s15_Three_blocks_conj_eq {A : Subgroup (MulAut W)} {R₀ : Subgr
     rw [Subgroup.map_map]
     congr 1
     ext x
-    simp [MulAut.mul_apply, MulAut.inv_apply]
+    simp
 
+omit [Finite W] in
 private theorem s15_Three_sSup_blocks_of_stab {A : Subgroup (MulAut W)} {R₁ : Subgroup W}
     (h : ∀ a ∈ A, R₁.map a.toMonoidHom = R₁) : sSup (s15Blocks A R₁) = R₁ := by
   apply le_antisymm
@@ -392,6 +404,7 @@ theorem s15_Three_blocks (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} {
   obtain ⟨R₁, h1, h2, h3, h4⟩ := s15_Three_blocks_exists hR hRt htR
   exact ⟨R₁, h1, h2, h3, h4, s15_Three_blocks_fix hW ht h2 h3⟩
 
+omit [Finite W] in
 theorem s15_Three_one_block_conj {A : Subgroup (MulAut W)} {t : MulAut W} {R R₁ : Subgroup W}
     (hJ : IsIrrOn (s15TGroup A t) R₁ ⊥) (htR₁ : commSub R₁ (Subgroup.zpowers t) ≠ ⊥)
     (hsup : sSup (s15Blocks A R₁) = R)

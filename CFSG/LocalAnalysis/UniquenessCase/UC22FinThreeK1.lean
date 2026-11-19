@@ -66,6 +66,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace P22fin3
 
+omit [Finite G] in
 theorem mem_calC_of_le_normalizer {M X L : Subgroup G} (hL : L ∈ calC M) (hLX : L ≤ X)
     (hXL : X ≤ normalizer (L : Set G)) : L ∈ calC X :=
   ⟨.step hLX ((Subgroup.normal_subgroupOf_iff_le_normalizer hLX).2 hXL) (.refl X), hL.2.1,
@@ -76,7 +77,7 @@ theorem card_le_pRank_of_finset {X : Subgroup G} {S : Finset (Subgroup G)} {q : 
     (hZ : ∀ L ∈ S, ¬ q ∣ Nat.card (center (Bar2 L))) (hd : ∀ L ∈ S, q ∣ Nat.card L) :
     S.card ≤ CFSG.Open.pRank q X := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hg : ∀ L : S, ∃ g : G, g ∈ (L : Subgroup G) ∧ orderOf g = q := fun L => by
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(L : Subgroup G)) q (hd L L.2)
     exact ⟨x, x.2, (Subgroup.orderOf_coe x).trans hx⟩
@@ -163,7 +164,7 @@ theorem exists_isL2_bar2 (D : Data G) {Ch : Choice2011 G} (h17 : S21_17 D Ch)
   · exact ⟨a, ha⟩
   · exact absurd (h3.trans (Subgroup.card_dvd_of_surjective hψs))
       (CFSG.LocalAnalysis.EvenBN.GMSK.not_three_dvd_card_of_lieModel_twistedB2 ha)
-  · haveI : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ).2.1
+  · have : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ).2.1
     obtain ⟨e⟩ := P22w.mulEquiv_of_isSimpleGroup hK.2.2 ψ hψs hψk
     obtain ⟨e₀⟩ := hJ
     exact absurd hL2 (not_isL2_of_isJ1 (X := ↥(mbarImage D.M c.V K)) ⟨e.symm.trans e₀⟩)

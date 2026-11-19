@@ -95,7 +95,7 @@ private lemma mem_membersK_aux (S n p : Nat) :
       p < n + 1 ∧ bitK S p = true
     rw [Bool.rec_eq]
     by_cases hb : bitK S n = true
-    · rw [if_pos hb, List.mem_cons, ih]
+    · rw [ite_eq_left hb, List.mem_cons, ih]
       constructor
       · rintro (rfl | ⟨h1, h2⟩)
         · exact ⟨by omega, hb⟩
@@ -104,7 +104,7 @@ private lemma mem_membersK_aux (S n p : Nat) :
         rcases Nat.lt_succ_iff_lt_or_eq.1 h1 with h1 | rfl
         · exact Or.inr ⟨h1, h2⟩
         · exact Or.inl rfl
-    · rw [if_neg hb, ih]
+    · rw [ite_eq_right hb, ih]
       have hb' : bitK S n = false := by simpa using hb
       constructor
       · intro h
@@ -325,7 +325,7 @@ private lemma startK_fl {UL selL : List Nat} {UP PP : Nat} (H : Pts UL UP PP)
         (by rw [List.size_toArray]; omega), list_toArray_getElem!]
     rw [h1, lineCG_eq H (by norm_num) hy, list_toArray_getElem!]
   have h0 : (p == 0) = decide (p = 0) := by
-    by_cases h : p = 0 <;> simp [h, beq_iff_eq]
+    by_cases h : p = 0 <;> simp [h]
   rw [h0]
   congr 1
   exact any_range_map_eq (fun i =>

@@ -101,7 +101,7 @@ private lemma le_glbCore_of_isComponent {X : Type} [Group X] [Finite X]
       LieModel ↥L .PSU 4 2 1 ∨ LieModel ↥L .PSp 3 2 1))
     (hTG : KFactE27TwoGen) : L ≤ CFSG.Open.GLBCore 3 2 A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAP : A ≤ P := hX.jA ▸ Subgroup.map_subtype_le _
   have hAL : A ≤ L := hAP.trans hPL
   have hZ : ∀ z ∈ L, (∀ l ∈ L, z * l = l * z) → z = 1 := by
@@ -146,8 +146,8 @@ private lemma glbCore_eq_top_of_normalizer {X : Type} [Group X] [Finite X]
     (hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) (hLn : L.Normal) (hPL : P ≤ L)
     (hLG : L ≤ CFSG.Open.GLBCore 3 2 A) : CFSG.Open.GLBCore 3 2 A = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : L.Normal := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : L.Normal := hLn
   have hcardP : Nat.card P = 3 ^ (Nat.card X).factorization 3 := by
     rw [hX.sylow.card_eq, Subgroup.card_top]
   let Psyl : Sylow 3 X := Sylow.ofCard P hcardP
@@ -169,7 +169,7 @@ theorem kFactE27SignalizerAlmostSimpleSylow_of_twoGen
     KFactE27SignalizerAlmostSimpleSylow := by
   intro X _ _ P A hKg hX hPZ h3' hbal L hL hC hPL W hW hcop
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKcat : CFSG.SectionRank.IsKGroupCat X :=
     CFSG.RankThree.PartOne.isKGroupCat_of_isKGroup hbridge
       (CFSG.HardMathSupport.Solomon.Coordinator.isKGroup_of_openIsKGroup hKg)

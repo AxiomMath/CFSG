@@ -43,13 +43,13 @@ theorem exists_langPlaneData_vElt (K : Type) [Field K] [Finite K]
     (hE₀ : IsElemAbelian 5 E₀) (hc : Nat.card E₀ = 5 ^ 3) :
     ∃ D : LangPlaneData .E8 K E₀, D.w = vElt := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   set L := AlgebraicClosure K with hL
   have hq5 := natCast_eq_two_or_three he
@@ -69,7 +69,7 @@ theorem exists_langPlaneData_vElt (K : Type) [Field K] [Finite K]
   obtain ⟨F, hFn⟩ := exists_frame_canonical K f.pos hK L
   obtain ⟨m, hm⟩ := exists_isLift F hFn hK
   have hT0 := card_twistedTorus F hK f.pos
-  haveI : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
+  have : Finite (sylowGrp F m) := Nat.finite_of_card_ne_zero (by
     rw [card_sylowGrp hm, hT0]
     positivity)
   have hE5 : IsPGroup 5 E₀ := IsPGroup.of_card (n := 3) hc

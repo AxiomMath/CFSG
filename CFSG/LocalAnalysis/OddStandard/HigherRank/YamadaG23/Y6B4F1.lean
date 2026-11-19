@@ -99,7 +99,7 @@ theorem y6b_T3_cent_F_le_W (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hF : c.Facts5)
   obtain ⟨τ, hτT, m, hmM3, rfl⟩ := y6b_T3_decomp c hH hF hRT x hx
   have hFM3 : c.s.fr.F ≤ M3 c.s := le_sup_right
   have hm_cent : ∀ f ∈ c.s.fr.F, m * f = f * m := by
-    haveI : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c hF
+    have : IsMulCommutative ↥(M3 c.s) := y6e_M3_comm c hF
     intro f hf
     exact congrArg Subtype.val (mul_comm' (⟨m, hmM3⟩ : ↥(M3 c.s))
       (⟨f, hFM3 hf⟩ : ↥(M3 c.s)))

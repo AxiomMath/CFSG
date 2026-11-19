@@ -144,7 +144,7 @@ theorem nodeCount_of_frameLang [Finite K] (hτ : τ = .E7 ∨ τ = .E8) {F : Ort
     {x : adjointGroup τ K} (hxA : x ∈ A) (hx1 : x ≠ 1) : NodeCount 3 A x := by
   classical
   intro hcomp hcent
-  haveI : Finite (adjointGroup τ K) := inferInstance
+  have : Finite (adjointGroup τ K) := inferInstance
   have hsl : SimplyLacedTag τ := by rcases hτ with rfl | rfl <;> simp [SimplyLacedTag]
   have hτG2 : τ ≠ .G2 := by rcases hτ with rfl | rfl <;> decide
   have hι : Function.Injective (langEmb F hω) := langEmb_injective F hω

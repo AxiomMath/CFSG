@@ -39,6 +39,7 @@ private theorem odd_mul_two_pow_eq {d q m k : ℕ} (hd : Odd d) (hq : Odd (q - 1
     exact dvd_mul_left (q - 1) (2 ^ m)
   exact Nat.dvd_antisymm hdm hqd
 
+omit [Finite G] in
 theorem mem_sup_pCoreOf_of_mk_mem {M A : Subgroup G} {x : ↥M}
     (hx : (QuotientGroup.mk x : OTwoQuot M) ∈ imageOTwoQuot M A) :
     (x : G) ∈ A ⊔ pCoreOf 2 M := by
@@ -55,7 +56,7 @@ theorem mem_sup_pCoreOf_of_mk_mem {M A : Subgroup G} {x : ↥M}
 
 theorem exists_sylow_imageOTwoQuot {L T : Subgroup G} (hT : IsSylowTwoOf T L) :
     ∃ S : Sylow 2 (oTwoQuot ↥L), (S : Subgroup (oTwoQuot ↥L)) = imageOTwoQuot L T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : pCoreOf 2 L ≤ T := hT.pCoreOf_le
   have hTq : IsSylowTwoOf (imageOTwoQuot L T) ⊤ := QA12.isSylowTwoOf_image_top hT hQ
   have hidx : ¬ 2 ∣ (imageOTwoQuot L T).index := by
@@ -72,7 +73,7 @@ private theorem card_normalizer_imageOTwoQuot_l2 {L T : Subgroup G} {f : ℕ} (h
     Nat.card (Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L))) =
       2 ^ f * (2 ^ f - 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hScoe⟩ := exists_sylow_imageOTwoQuot hT
   obtain ⟨e⟩ := hL2
   let U : Sylow 2 (PSL(2, GaloisField 2 f)) :=
@@ -80,7 +81,7 @@ private theorem card_normalizer_imageOTwoQuot_l2 {L T : Subgroup G} {f : ℕ} (h
   have hUcoe : (U : Subgroup (PSL(2, GaloisField 2 f))) =
       (imageOTwoQuot L T).map e.toMonoidHom := by
     have h := Sylow.coe_mapSurjective (f := e.toMonoidHom) e.surjective S
-    simpa [U, hScoe] using h
+    simp [U, hScoe]
   have hmap : (Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L))).map e.toMonoidHom =
       Subgroup.normalizer ((U : Subgroup (PSL(2, GaloisField 2 f))) : Set _) := by
     rw [Subgroup.map_equiv_normalizer_eq, ← hUcoe]
@@ -93,7 +94,7 @@ theorem card_hallTwoPrime_eq_l2 {L T D : Subgroup G} {f : ℕ} (hf : 2 ≤ f)
     (hD : HallTwoPrime D (L ⊓ Subgroup.normalizer (T : Set G))) :
     Nat.card D = 2 ^ f - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   have hQ : pCoreOf 2 L ≤ T := hT.pCoreOf_le
   set Q : Subgroup G := pCoreOf 2 L with hQdef
@@ -131,7 +132,7 @@ private theorem l2_sylow_le_of_torus {f : ℕ} (hf : 2 ≤ f)
     (hY'V : Y' ≤ V) (hY'N : D' ≤ Subgroup.normalizer (Y' : Set (PSL(2, GaloisField 2 f))))
     (hY'ne : Y' ≠ ⊥) : V ≤ Y' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Us : Sylow 2 (PSL(2, GaloisField 2 f)) := hV2.toSylow hVidx
   have hUcoe : (Us : Subgroup (PSL(2, GaloisField 2 f))) = V := IsPGroup.toSylow_coe _ _
   have hVcard : Nat.card V = 2 ^ f := by
@@ -175,7 +176,7 @@ theorem le_sup_pCoreOf_of_torus_of_l2 {D X : Subgroup G} {f : ℕ} (hf : 2 ≤ f
     (hXT : X ≤ T) (hXD : D ≤ Subgroup.normalizer (X : Set G)) (hX : ¬ X ≤ pCoreOf 2 L) :
     T ≤ X ⊔ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   let Tq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L T
   let Xq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L X
@@ -191,7 +192,7 @@ theorem le_sup_pCoreOf_of_torus_of_l2 {D X : Subgroup G} {f : ℕ} (hf : 2 ≤ f
     S.mapSurjective (f := e.toMonoidHom) e.surjective
   have hUcoe : (U : Subgroup (PSL(2, GaloisField 2 f))) = Tq.map e.toMonoidHom := by
     have h := Sylow.coe_mapSurjective (f := e.toMonoidHom) e.surjective S
-    simpa [U, Tq, hScoe] using h
+    simp [U, Tq, hScoe]
   let D' : Subgroup (PSL(2, GaloisField 2 f)) := Dq.map e.toMonoidHom
   have hD'card : Nat.card D' = 2 ^ f - 1 := by
     rw [Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective, hDqcard]
@@ -230,7 +231,7 @@ theorem le_sup_pCoreOf_of_torus_of_l2 {D X : Subgroup G} {f : ℕ} (hf : 2 ≤ f
     exact Subgroup.map_injective e.injective hbot
   have hUX' : (U : Subgroup (PSL(2, GaloisField 2 f))) ≤ Xq.map e.toMonoidHom :=
     l2_sylow_le_of_torus (f := f) hf (V := (U : Subgroup (PSL(2, GaloisField 2 f))))
-      U.isPGroup' U.not_dvd_index hD'card hD'N hX'U hX'N hX'ne
+      U.isPGroup U.not_dvd_index hD'card hD'N hX'U hX'N hX'ne
   have hTq_le_Xq : Tq ≤ Xq := by
     intro y hy
     have hy' : e y ∈ (U : Subgroup (PSL(2, GaloisField 2 f))) := by
@@ -253,7 +254,7 @@ theorem sz_center_card_and_mem {Xq : Type*} [Group Xq]
       ∀ z : Xq, z ∈ ((S : Subgroup Xq) ⊓ Subgroup.centralizer ((S : Subgroup Xq) : Set Xq)) ↔
         z ∈ (S : Subgroup Xq) ∧ z * z = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
   obtain ⟨φ, hSφ, -⟩ := CFSG.RankThree.S4Free.Suzuki.exists_mulEquiv_sylow_eq hK e S
@@ -288,7 +289,7 @@ theorem sz_center_le_of_torus {Xq : Type*} [Group Xq]
     (hX'N : Dq ≤ Subgroup.normalizer (Xq' : Set Xq)) (hX'ne : Xq' ≠ ⊥) :
     (S : Subgroup Xq) ⊓ Subgroup.centralizer ((S : Subgroup Xq) : Set Xq) ≤ Xq' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hZcard, hZmem⟩ := sz_center_card_and_mem ha e S
   let Z : Subgroup Xq := (S : Subgroup Xq) ⊓ Subgroup.centralizer ((S : Subgroup Xq) : Set Xq)
   have hK : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
@@ -315,7 +316,7 @@ theorem sz_center_le_of_torus {Xq : Type*} [Group Xq]
     have hmem : d ∈ Dq ⊓ (S : Subgroup Xq) := ⟨hd, hdS⟩
     rw [hDqS] at hmem
     exact Subgroup.mem_bot.mp hmem
-  have hX'2 : IsPGroup 2 Xq' := S.isPGroup'.to_le hX'S
+  have hX'2 : IsPGroup 2 Xq' := S.isPGroup.to_le hX'S
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX'2
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -372,8 +373,8 @@ theorem sz_center_le_of_torus {Xq : Type*} [Group Xq]
     rw [← Nat.card_coe_set_eq]
     exact congrArg (· - 1) hZcard
   have horbit_surj : Function.Surjective orbit := by
-    haveI : Fintype Dq := Fintype.ofFinite _
-    haveI : Fintype {z : Xq // z ∈ Z ∧ z ≠ 1} := Fintype.ofFinite _
+    have : Fintype Dq := Fintype.ofFinite _
+    have : Fintype {z : Xq // z ∈ Z ∧ z ≠ 1} := Fintype.ofFinite _
     have hcard : Fintype.card Dq = Fintype.card {z : Xq // z ∈ Z ∧ z ≠ 1} := by
       simpa only [Nat.card_eq_fintype_card] using (show
         Nat.card Dq = Nat.card {z : Xq // z ∈ Z ∧ z ≠ 1} by rw [hIcard, hDqcard])
@@ -392,7 +393,7 @@ theorem card_normalizer_imageOTwoQuot_sz {L T : Subgroup G}
     Nat.card (Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L))) =
       (2 ^ (2 * a + 1)) ^ 2 * (2 ^ (2 * a + 1) - 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
   obtain ⟨S, hScoe⟩ := exists_sylow_imageOTwoQuot hT
@@ -406,7 +407,7 @@ theorem card_hallTwoPrime_eq_sz {L T D : Subgroup G} {a : ℕ}
     (hD : HallTwoPrime D (L ⊓ Subgroup.normalizer (T : Set G))) :
     Nat.card D = 2 ^ (2 * a + 1) - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   have hQ : pCoreOf 2 L ≤ T := hT.pCoreOf_le
   set Q : Subgroup G := pCoreOf 2 L with hQdef
@@ -447,7 +448,7 @@ theorem mem_sup_pCoreOf_of_torus_of_sz {D X : Subgroup G} {a : ℕ}
     (hXT : X ≤ T) (hXD : D ≤ Subgroup.normalizer (X : Set G)) (hX : ¬ X ≤ pCoreOf 2 L) :
     ∀ x ∈ T, x * x ∈ pCoreOf 2 L → x ∈ X ⊔ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   let Tq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L T
   let Xq : Subgroup (oTwoQuot ↥L) := imageOTwoQuot L X

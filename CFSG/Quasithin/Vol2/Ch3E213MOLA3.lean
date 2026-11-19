@@ -165,7 +165,7 @@ theorem zOf_eq_zpowers {F : Type} [Field F] [Finite F] (hodd : Odd (Nat.card F))
   have hyb : y * b = b * y := (Subgroup.mem_centralizer_iff.mp hy.2 b hbS).symm
   have hab' : (a : K) * b ≠ b * a := fun h => hab (Subtype.ext (by simpa using h))
   have hyL := hS y (hSz hy.1) a a.2 b b.2 hab' hya hyb
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy.1⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy.1⟩
   exact hC y hyL k (by simpa using congrArg Subtype.val hk)
 
 end CFSG.Quasithin.Ch3E213M.OLA

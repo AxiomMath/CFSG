@@ -19,7 +19,7 @@ theorem unitaryRankAt_of_odd (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Pr
     (hpℓ : ¬ p ∣ ℓ) (hodd : Odd (unitaryOrder ℓ f p)) (n : ℕ) :
     UnitaryRankAt ℓ f K n p (unitaryOrder ℓ f p) := by
   intro h4 Y hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set B : (Fin n → K) →ₛₗ[h.bar] (Fin n → K) →ₗ[K] K := gramForm h (1 : Matrix (Fin n) (Fin n) K)
     with hBdef
   have hB : B.IsSymm := by
@@ -59,7 +59,7 @@ theorem unitaryRankAt_of_odd (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Pr
     omega
   obtain ⟨E, hEle, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt
     (centralizer ({uV} : Set (Module.End K (Fin n → K))ˣ) ⊓ sesqSpecialUnitaryGroup B)
-  haveI := hE.1
+  have := hE.1
   have hmem : ∀ x : E, T.symm (x : (Module.End K (Fin n → K))ˣ) ∈ unitarySU ℓ f K n := by
     intro x
     rw [unitarySU_eq_gramSU h n]

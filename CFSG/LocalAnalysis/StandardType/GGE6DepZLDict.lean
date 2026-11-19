@@ -76,7 +76,7 @@ theorem closure_of_automizer_gen {Bs L : Subgroup G} {ι : Additive ↥Bs ≃+ V
         have hxxinv : x (x⁻¹ b) = b := by
           have h : (x * x⁻¹ : MulAut ↥Bs) = 1 := mul_inv_cancel x
           have h2 := congrArg (fun e : MulAut ↥Bs => e b) h
-          simpa [MulAut.mul_apply, MulAut.one_apply] using h2
+          simp
         symm
         calc mx'.mulVec (ι (Additive.ofMul b))
             = mx'.mulVec (ι (Additive.ofMul (x (x⁻¹ b)))) := by rw [hxxinv]

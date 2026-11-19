@@ -328,7 +328,6 @@ theorem ker_piE_iff (Fd : FibreData S) (e : Fd.E) :
   · rintro (rfl | rfl)
     · exact map_one Fd.piE
     · rw [zeta_eq]
-      change Fd.piE (QuotientGroup.mk (zRep Fd)) = 1
       rw [piE_mk]
       exact map_one Fd.θ
 
@@ -387,7 +386,7 @@ private theorem cycleType_eq_two_two_or_two_two_two_two {σ : alternatingGroup (
 
 theorem map_commutator_piE (Fd : FibreData S) :
     Subgroup.map Fd.piE (commutator Fd.E) = ⊤ := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 9)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 9)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
   rw [commutator_def, Subgroup.map_commutator,
     Subgroup.map_top_of_surjective Fd.piE Fd.piE_surj]
@@ -531,12 +530,12 @@ theorem split_or_twisted (Fd : FibreData S) :
   · right
     have htop : commutator Fd.E = ⊤ := by
       rw [← Fd.commutator_sup_zeta, sup_eq_left.mpr (Subgroup.zpowers_le.mpr hζ)]
-    haveI : Group.IsPerfect Fd.E := ⟨htop⟩
+    have : Group.IsPerfect Fd.E := ⟨htop⟩
     intro h m hm hθ
     let p : Fd.F := ⟨(h, m), hm⟩
     exact Fd.exists_twisted_of_sq p (Fd.sq_eq_zeta_eps p hθ)
   · left
-    haveI hPnormal : (Subgroup.zpowers Fd.zeta).Normal :=
+    have hPnormal : (Subgroup.zpowers Fd.zeta).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr Fd.zeta_mem_center)
     have hindex : (commutator Fd.E).index = 2 := by
       rw [Subgroup.index_eq_two_iff_exists_notMem_and]
@@ -553,9 +552,9 @@ theorem split_or_twisted (Fd : FibreData S) :
         rw [← zpow_mod_orderOf (x := Fd.zeta) (z := k), hord]
         rcases Int.emod_two_eq_zero_or_one k with h | h
         · left
-          simpa [h]
+          simp [h]
         · right
-          simpa [h]
+          simp [h]
       rcases hk2 with hk1 | hk1
       · right
         rw [← hcp, hk1, mul_one]

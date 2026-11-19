@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_mul_mem_normalizer_of_mem_normalizer_sup {p : ℕ} [Fact p.Prime]
     {A Q : Subgroup G} (hA : IsPGroup p A) (hQ : Nat.Coprime (Nat.card Q) p)
     (hAQ : A ≤ Subgroup.normalizer (Q : Set G)) {x : G}
-    (hxQ : x ∈ Subgroup.normalizer (Q : Set G))
+    (_hxQ : x ∈ Subgroup.normalizer (Q : Set G))
     (hx : x ∈ Subgroup.normalizer ((A ⊔ Q : Subgroup G) : Set G)) :
     ∃ q ∈ Q, q * x ∈ Subgroup.normalizer (A : Set G) := by
   classical
@@ -118,7 +118,7 @@ theorem exists_mul_mem_normalizer_of_mem_normalizer_sup {p : ℕ} [Fact p.Prime]
 
 
 private theorem conj_mem_sup_of_a7Rep_mem_normalizer {A K Q : Subgroup G}
-    (hA : CFSG.Assembly.IsElemAbelian 3 A) (hAK : A ≤ Subgroup.normalizer (K : Set G))
+    (_hA : CFSG.Assembly.IsElemAbelian 3 A) (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hOQ : CFSG.Open.pCoreOf 2 K ≤ Q)
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7)) {y d : G}
     (hyK : y ∈ K) (hd : d ∈ A ⊓ K) {π : Equiv.Perm (Fin 7)}
@@ -218,7 +218,7 @@ private theorem y0_mem_normalizer_sup_of_a7Rep {A K S Q : Subgroup G} {k y : G}
         ⟨y, Subgroup.le_normalizer hyK⟩ * ⟨k, hAK hk⟩ *
           ⟨y, Subgroup.le_normalizer hyK⟩⁻¹ * ⟨k, hAK hk⟩⁻¹ := Subtype.ext (by simp)
     rw [e]
-    simp only [map_mul, map_inv, hρy, hkQ]
+    simp only [map_mul, map_inv, hkQ]
     group
   have hcommQ : y * k * y⁻¹ * k⁻¹ ∈ Q :=
     hOQ ((a7Rep_eq_one_iff_mem_pCoreOf φ hcommK).mp hquot)
@@ -250,7 +250,7 @@ private theorem y0_mem_normalizer_sup_of_a7Rep {A K S Q : Subgroup G} {k y : G}
   have hpow_sup : ∀ m : ℤ, y * k ^ m * y⁻¹ ∈ A ⊔ Q := by
     intro m
     have e : y * k ^ m * y⁻¹ = (y * k * y⁻¹) ^ m := by
-      simpa [MulAut.conj_apply] using (map_zpow (MulAut.conj y) k m)
+      simp
     rw [e]
     exact (A ⊔ Q).zpow_mem hkq_sup m
   have hy_A_le : ∀ a ∈ A, y * a * y⁻¹ ∈ A ⊔ Q := by
@@ -325,7 +325,7 @@ private theorem y0_mem_normalizer_sup_of_a7Rep {A K S Q : Subgroup G} {k y : G}
       simp [MulAut.conj_apply]; group] at hmem
 
 private theorem exists_conj_k_eq_mul_of_a7Rep {A K S Q : Subgroup G} {k y : G}
-    (hA : CFSG.Assembly.IsElemAbelian 3 A) (hk : k ∈ A)
+    (_hA : CFSG.Assembly.IsElemAbelian 3 A) (hk : k ∈ A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hAS : A ≤ Subgroup.normalizer (S : Set G))
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
@@ -333,7 +333,7 @@ private theorem exists_conj_k_eq_mul_of_a7Rep {A K S Q : Subgroup G} {k y : G}
     (hck : ∀ x ∈ K ⊔ S, k * x * k⁻¹ * x⁻¹ ∈ Q)
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
     {σ : Equiv.Perm (Fin 7)} (hyK : y ∈ K)
-    (hρy : CFSG.RankThree.PartTwo.KFacts.KP2.a7Rep K φ
+    (_hρy : CFSG.RankThree.PartTwo.KFacts.KP2.a7Rep K φ
       ⟨y, Subgroup.le_normalizer hyK⟩ = σ) :
     ∃ q ∈ Q, y * k * y⁻¹ = k * q := by
   classical
@@ -372,7 +372,7 @@ private theorem exists_conj_k_eq_mul_of_a7Rep {A K S Q : Subgroup G} {k y : G}
         ⟨y, Subgroup.le_normalizer hyK⟩ * ⟨k, hAK hk⟩ *
           ⟨y, Subgroup.le_normalizer hyK⟩⁻¹ * ⟨k, hAK hk⟩⁻¹ := Subtype.ext (by simp)
     rw [e]
-    simp only [map_mul, map_inv, hρy, hkQ]
+    simp only [map_mul, map_inv, hkQ]
     group
   have hcommQ : y * k * y⁻¹ * k⁻¹ ∈ Q :=
     hOQ ((a7Rep_eq_one_iff_mem_pCoreOf φ hcommK).mp hquot)

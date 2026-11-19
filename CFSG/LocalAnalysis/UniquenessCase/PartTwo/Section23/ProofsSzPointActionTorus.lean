@@ -38,7 +38,7 @@ private theorem eq_of_smul_eq_of_ne (m : ℕ) (hm : 0 < m) {U V W : Sylow 2 (G m
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp_all [f]
   have h2 : 2 < Nat.card {P : Sylow 2 (G m) // h • P = P} := by
-    letI : Fintype (Sylow 2 (G m)) := Fintype.ofFinite _
+    let : Fintype (Sylow 2 (G m)) := Fintype.ofFinite _
     have h3 : 3 ≤ Fintype.card {P : Sylow 2 (G m) // h • P = P} := by
       simpa using Fintype.card_le_of_injective f hinj
     rw [Nat.card_eq_fintype_card]
@@ -56,7 +56,7 @@ private theorem inf_normalizer_inf_sylow_eq_bot (m : ℕ) (hm : 0 < m) {U V : Sy
   have hxN : x ∈ Subgroup.normalizer ((V : Subgroup (G m)) : Set (G m)) := hx.1.2
   have hxUV : x ∈ (U : Subgroup (G m)) ⊓ (V : Subgroup (G m)) := by
     rw [← IsPGroup.inf_normalizer_sylow (p := 2) (P := (U : Subgroup (G m)))
-      U.isPGroup' V]
+      U.isPGroup V]
     exact ⟨hx.2, hxN⟩
   rw [inf_sylow_eq_bot m hm hUV] at hxUV
   exact hxUV
@@ -66,7 +66,7 @@ private theorem isCyclic_of_disjoint_root_normalizer (m : ℕ) (hm : 0 < m)
     (hle : D' ≤ Subgroup.normalizer ((suzukiCoverRoot m : Subgroup (G m)) : Set (G m)))
     (hdisj : D' ⊓ suzukiCoverRoot m = ⊥) : IsCyclic ↥D' := by
   let NR := Subgroup.normalizer ((suzukiCoverRoot m : Subgroup (G m)) : Set (G m))
-  haveI : IsCyclic (↥NR ⧸ (suzukiCoverRoot m).subgroupOf NR) :=
+  have : IsCyclic (↥NR ⧸ (suzukiCoverRoot m).subgroupOf NR) :=
     isCyclic_normalizer_root_quotient m hm
   let φ : ↥D' →* (↥NR ⧸ (suzukiCoverRoot m).subgroupOf NR) :=
     (QuotientGroup.mk' ((suzukiCoverRoot m).subgroupOf NR)).comp (Subgroup.inclusion hle)
@@ -195,7 +195,7 @@ private theorem faithful_model (m : ℕ) (hm : 0 < m) :
     obtain ⟨U, rfl⟩ := sylowPoint_surjective m hm p
     rw [← sylowPoint_smul m hm x U, hx U]
   by_contra hx1
-  letI : Fintype (SzOvoid m) := Fintype.ofFinite _
+  let : Fintype (SzOvoid m) := Fintype.ofFinite _
   have h3 : 2 < Fintype.card (SzOvoid m) := by
     have hq : 2 ≤ 2 ^ (2 * m + 1) := by
       calc 2 = 2 ^ 1 := by norm_num
@@ -218,11 +218,11 @@ theorem suzukiTorusData_suzukiMatrixGroup (m : ℕ) (hm : 0 < m) :
   faithful := faithful_model m hm
   card_points := (card_sylow_eq_ovoid m hm).trans (suzuki_ovoid_card m)
   fixes_le_two := fixes_le_two_model m hm
-  card_sylow := fun U => (sylow_card_and_center m hm U).1
+  card_sylow := fun _U => (sylow_card_and_center m hm _U).1
   regular := regular_sylow m hm
-  inf_normalizer_isCyclic := fun U U' hUV => inf_normalizer_isCyclic m hm hUV
-  inf_normalizer_card := fun U U' hUV => card_inf_normalizer m hm hUV
-  inf_normalizer_free := fun U U' hUV h hhN hh1 u hu =>
+  inf_normalizer_isCyclic := fun _U _U' hUV => inf_normalizer_isCyclic m hm hUV
+  inf_normalizer_card := fun _U _U' hUV => card_inf_normalizer m hm hUV
+  inf_normalizer_free := fun _U _U' hUV _h hhN hh1 u hu =>
     inf_normalizer_free m hm hUV hhN hh1 u hu
   card_frattini := card_frattini m hm
 

@@ -46,7 +46,7 @@ private lemma c2slr4_twelve_le_orbitSize {S : Finset (Fin 4)}
   simpa using hN
 
 theorem w135c2_psl_range_four {f s d : ℕ} (hf : 2 ≤ f)
-    (hs : 1 ≤ s) (ε : Fin f → Finset (Fin 4))
+    (_hs : 1 ≤ s) (ε : Fin f → Finset (Fin 4))
     (h0 : ∀ r, (⟨0, by omega⟩ : Fin 4) ∉ ε r) (hact : ∃ r, ε r ≠ ∅)
     (hper : f ≤ s * (univ.filter fun r => ε r ≠ ∅).card)
     (hrot : ∀ r : Fin f, ε ⟨(r + s) % f, Nat.mod_lt _ r.pos⟩ = ε r)

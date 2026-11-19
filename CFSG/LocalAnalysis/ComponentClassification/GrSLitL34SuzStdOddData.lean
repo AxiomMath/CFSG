@@ -154,7 +154,7 @@ private theorem sylow_comap_inf_sq {G : Type} [Group G] [Finite G] {A : Subgroup
           Nat.card ((center ↥A).subgroupOf (S.E.comap (q ↥A))) = 1 := congrArg Subtype.val h1
       exact h1'
     have hone : (⟨x, hxV⟩ : ↥(V₀ : Subgroup (S.E.comap (q ↥A)))) = 1 :=
-      CFSG.GroupTheory.SuzukiTwoGroup.eq_one_of_pow_eq_one_of_odd V₀.isPGroup' hoddZsub hxpow
+      CFSG.GroupTheory.SuzukiTwoGroup.eq_one_of_pow_eq_one_of_odd V₀.isPGroup hoddZsub hxpow
     exact Subtype.ext_iff.mp hone
   refine ⟨hinf, ?_⟩
   intro v hv

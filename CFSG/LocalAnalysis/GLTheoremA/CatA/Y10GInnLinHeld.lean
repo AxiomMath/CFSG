@@ -21,8 +21,8 @@ theorem held_linear_components_gl (hSL : SLComponentsTrivial) {F : Type} [Field 
     exact hord
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, _hNZ, _hΦinj, _hΦrange, hθinj, hθrange, _hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers s) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hcent : Subgroup.centralizer ((Subgroup.zpowers s : Subgroup (GL (Fin n) F)) :
       Set (GL (Fin n) F)) = Subgroup.centralizer ({s} : Set (GL (Fin n) F)) := by
     ext g
@@ -98,7 +98,7 @@ theorem held_linear_components_gl (hSL : SLComponentsTrivial) {F : Type} [Field 
     rw [← hTeq, hJmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ J, a = 1 := by
       intro a ha
       rw [hJeq] at ha

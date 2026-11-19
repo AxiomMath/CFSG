@@ -55,7 +55,7 @@ theorem Ctx23L.exists_mem_B0_not_mem_centralizer_Z {D : Data G} {Ch : Choice2011
   have hr_pi : r ∈ piSet c.B0 := by
     rw [c.hpi]
     exact ⟨hr, hrdvd.trans (Nat.pow_sub_one_dvd_pow_sub_one (x := 2) hmdvd)⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨b, hbo⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hr_pi.2
   have hboG : orderOf (b : G) = r := by rw [Subgroup.orderOf_coe, hbo]
   refine ⟨(b : G), b.2, hboG, ?_⟩
@@ -80,7 +80,7 @@ theorem Ctx23L.exists_mem_B0_not_mem_centralizer_Z {D : Data G} {Ch : Choice2011
 theorem mem_uniqueSet_of_isStronglyPEmbedded {M : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hstrong : CFSG.RankThree.PartOne.IsStronglyPEmbedded q M) {X : Subgroup G}
     (hX : X ≤ M) (hXne : X ≠ ⊥) (hXq : IsPGroup q ↥X) : X ∈ uniqueSet M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine ⟨hX, ?_⟩
   intro g hXg
   by_contra hMg
@@ -107,7 +107,7 @@ theorem mem_uniqueSet_of_isStronglyPEmbedded {M : Subgroup G} {q : ℕ} (hq : q.
 theorem isSylowOf_map_piBarInf {D : Data G} {K : Subgroup G} (hK : K ∈ calC D.M) :
     CFSG.ABGLocalTools.IsSylowOf 2
       (((D.T ⊓ K).subgroupOf K).map (piBarInf K)) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTK : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ K) K :=
     uc22p2214_isSylowOf_inf (Q := G) D.sylowM hK.1
   have hTK' : CFSG.ABGLocalTools.IsSylowOf 2 ((D.T ⊓ K).subgroupOf K) ⊤ := by
@@ -122,6 +122,7 @@ theorem isSylowOf_map_piBarInf {D : Data G} {K : Subgroup G} (hK : K ∈ calC D.
   have hmap := CFSG.Holt.General.NoRelevant.isSylowOf_map hTK' (piBarInf K)
   rwa [Subgroup.map_top_of_surjective _ hsurj] at hmap
 
+omit [Finite G] in
 private theorem pow_conj_mem_of_conj_mem {N : Subgroup G} {x b : G}
     (hbN : b ∈ Subgroup.normalizer (N : Set G))
     (hfix : b * x * b⁻¹ * x⁻¹ ∈ N) :
@@ -138,6 +139,7 @@ private theorem pow_conj_mem_of_conj_mem {N : Subgroup G} {x b : G}
         _ = b * (n' * x) * b⁻¹ := by rw [hconj]
         _ = ((b * n' * b⁻¹) * (b * x * b⁻¹ * x⁻¹)) * x := by group
 
+omit [Finite G] in
 theorem commutator_zpowers_mem_of_conj_mem {N : Subgroup G} {x b : G}
     (hbN : b ∈ Subgroup.normalizer (N : Set G))
     (hfix : b * x * b⁻¹ * x⁻¹ ∈ N) :
@@ -176,7 +178,7 @@ theorem exists_pow_orderOf_eq_of_coprime_map {H Q : Type} [Group H] [Finite H] [
     (φ : H →* Q) {x : H} {r m : ℕ} (hr : r.Prime)
     (hφ : orderOf (φ x) = r) (hm : (x ^ r) ^ m = 1) (hcop : Nat.Coprime m r) :
     ∃ k : ℕ, φ (x ^ k) = φ x ∧ orderOf (x ^ k) = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set o := orderOf x
   set d := orderOf (x ^ r)
   have hdvd : d ∣ m := orderOf_dvd_of_pow_eq_one hm
@@ -219,12 +221,12 @@ private theorem exists_mul_mem_inf_centralizer_of_pCore {K : Subgroup G} {b x : 
       QuotientGroup.mk' (CFSG.pCore 2 ↥K) y =
         QuotientGroup.mk' (CFSG.pCore 2 ↥K) (⟨x, hxK⟩ : ↥K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   let N : Subgroup G := CFSG.Open.pCoreOf 2 K
   let R : Subgroup G := Subgroup.zpowers b
   have hNX : N ≤ K := CFSG.LieType.BorelTits.pCoreOf_le 2 K
-  haveI hchar : (CFSG.pCore 2 ↥K).Characteristic :=
+  have hchar : (CFSG.pCore 2 ↥K).Characteristic :=
     CFSG.LieType.BorelTits.pCore_characteristic 2
   have hNnormal : (N.subgroupOf K).Normal := by
     rw [show N = CFSG.Open.pCoreOf 2 K from rfl, CFSG.openPCoreOf_subgroupOf]
@@ -234,7 +236,7 @@ private theorem exists_mul_mem_inf_centralizer_of_pCore {K : Subgroup G} {b x : 
     exact (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (CFSG.pCore 2 ↥K)) hbN
   have hN2 : IsPGroup 2 N := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K
-  haveI : Group.IsNilpotent ↥N := hN2.isNilpotent
+  have : Group.IsNilpotent ↥N := hN2.isNilpotent
   have hsolv : Group.IsSolvable ↥N := inferInstance
   have hcop : Nat.Coprime (Nat.card N) (Nat.card R) := by
     obtain ⟨k, hk⟩ := hN2.exists_card_eq

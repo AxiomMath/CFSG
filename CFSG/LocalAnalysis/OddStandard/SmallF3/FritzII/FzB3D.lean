@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 theorem fzbs_tau_inv_q (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     tau * q * tau⁻¹ = q⁻¹ := by
   rcases hS.tau_q with hq | hqinv
@@ -55,6 +56,7 @@ theorem fzbs_tau_inv_q (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     exact hS.u_sq_ne hu2
   · exact hqinv
 
+omit [Finite G] in
 theorem fzbs_tau_W (hS : FzbsStr t q tau lam rho u Z E X W R T) {w : G} (hw : w ∈ W) :
     tau * w * tau⁻¹ = w⁻¹ := by
   rcases hS.W_split w hw with hx | hx
@@ -74,6 +76,7 @@ theorem fzbs_tau_W (hS : FzbsStr t q tau lam rho u Z E X W R T) {w : G} (hw : w 
               _ = (w⁻¹ * q) * q⁻¹ := by rw [hS.W_comm q hS.q_mem w⁻¹ (inv_mem hw)]
               _ = w⁻¹ := by group
 
+omit [Finite G] in
 theorem fzbs_tau_sq (hS : FzbsStr t q tau lam rho u Z E X W R T) : tau ^ 2 = 1 := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hS.tau_sq
   have htt : t * t = 1 := by rw [← pow_two]; exact hS.t_sq
@@ -137,6 +140,7 @@ theorem fzbs_tau_sq (hS : FzbsStr t q tau lam rho u Z E X W R T) : tau ^ 2 = 1 :
   · exact h1
   · exact absurd h1 hexcl
 
+omit [Finite G] in
 theorem fzbs_R_sq_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {g : G} (hg : g ∈ R) :
     g ^ 2 ∈ X := by
   by_cases hX : g ^ 2 ∈ X

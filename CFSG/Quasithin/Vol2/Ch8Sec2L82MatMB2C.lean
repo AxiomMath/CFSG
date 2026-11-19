@@ -128,7 +128,7 @@ theorem exists_end (f : ℕ → ℕ) (hf : XorLin f) (hmod : ∀ m, f (m % 2 ^ d
 
 noncomputable def mat (φ : AddMonoid.End Q) (m : ℕ) : ℕ := c.dec (φ (c.vm m))
 
-theorem rep_mat (φ : AddMonoid.End Q) : c.Rep φ (c.mat φ) := fun m => (c.vm_dec _).symm
+theorem rep_mat (φ : AddMonoid.End Q) : c.Rep φ (c.mat φ) := fun _m => (c.vm_dec _).symm
 
 theorem mat_lt (φ : AddMonoid.End Q) (m : ℕ) : c.mat φ m < 2 ^ d := c.dec_lt _
 
@@ -596,8 +596,8 @@ theorem MB2Model.two_eq_zero :
 
 theorem MB2Model.finite_commutant :
     Finite ↥(commutant B U ((genGroup gens : Subgroup (MulAut V)) : Set (MulAut V))) := by
-  haveI := M.c.finite
-  haveI : Finite (AddMonoid.End (QMod B U)) :=
+  have := M.c.finite
+  have : Finite (AddMonoid.End (QMod B U)) :=
     Finite.of_injective (fun φ : AddMonoid.End (QMod B U) => (⇑φ : QMod B U → QMod B U))
       DFunLike.coe_injective
   infer_instance
@@ -608,7 +608,7 @@ theorem MB2Model.nontrivial_commutant (hd : 0 < d) :
     rw [← M.c.vm_zero, Ne, M.c.vm_eq_iff, Nat.zero_mod, Nat.mod_eq_of_lt]
     · exact one_ne_zero
     · exact Nat.one_lt_two_pow hd.ne'
-  haveI : Nontrivial (AddMonoid.End (QMod B U)) :=
+  have : Nontrivial (AddMonoid.End (QMod B U)) :=
     ⟨⟨1, 0, fun h1 => hne (by
       simpa using congrArg (fun φ : AddMonoid.End (QMod B U) => φ (M.c.vm 1)) h1)⟩⟩
   infer_instance
@@ -649,18 +649,18 @@ theorem MB2Model.matrix2Data (E : Fin 2 → Fin 2 → List ℕ) (hlen : ∀ i j,
   refine ⟨fun i j => ⟨φ (i, j), hφ (i, j)⟩, ?_, ?_⟩
   · intro i j k l
     by_cases h : j = k
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       refine Subtype.ext ?_
       show φ (i, j) * φ (k, l) = φ (i, l)
       refine QCoords.Rep.ext ((hrep (i, j)).mul (hrep (k, l))) (hrep (i, l)) fun m hm => ?_
       show actM (E i j) (actM (E k l) m) % 2 ^ d = actM (E i l) m % 2 ^ d
-      rw [hmul i j k l m hm, if_pos h]
-    · rw [if_neg h]
+      rw [hmul i j k l m hm, ite_eq_left h]
+    · rw [ite_eq_right h]
       refine Subtype.ext ?_
       show φ (i, j) * φ (k, l) = 0
       refine QCoords.Rep.ext ((hrep (i, j)).mul (hrep (k, l))) QCoords.Rep.zero fun m hm => ?_
       show actM (E i j) (actM (E k l) m) % 2 ^ d = 0 % 2 ^ d
-      rw [hmul i j k l m hm, if_neg h]
+      rw [hmul i j k l m hm, ite_eq_right h]
   · refine Subtype.ext ?_
     show φ (0, 0) + φ (1, 1) = 1
     refine QCoords.Rep.ext ((hrep (0, 0)).add (hrep (1, 1))) QCoords.Rep.one fun m hm => ?_
@@ -673,8 +673,8 @@ theorem MB2Model.exists_field2 (hd : 0 < d) (bs : List ℕ) (W : List (List (ℕ
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 2 ∧
       Nonempty (↥(commutant B U ((genGroup gens : Subgroup (MulAut V)) : Set (MulAut V))) ≃+*
         K) := by
-  haveI := M.nontrivial_commutant hd
-  haveI := M.finite_commutant
+  have := M.nontrivial_commutant hd
+  have := M.finite_commutant
   exact ring_iso_zmod2 (M.card_le bs W hW hN)
 
 end Data

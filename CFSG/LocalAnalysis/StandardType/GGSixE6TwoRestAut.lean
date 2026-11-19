@@ -446,7 +446,7 @@ private theorem e6au_map_conj_z0E
 
 private theorem e6au_mul_mem_z0E
     {a b A B C : EC} (ha : a ∈ z0E) (hb : b ∈ z0E)
-    (hA : A ∈ qE) (hB : B ∈ qE) (hABC : A * B * C⁻¹ ∈ z0E) :
+    (hA : A ∈ qE) (_hB : B ∈ qE) (hABC : A * B * C⁻¹ ∈ z0E) :
     (a * A) * (b * B) * C⁻¹ ∈ z0E := by
   have heq : (a * A) * (b * B) * C⁻¹ = a * b * (A * B * C⁻¹) := by
     calc (a * A) * (b * B) * C⁻¹
@@ -590,7 +590,7 @@ private theorem e6au_NR_le_NH
   · intro hx
     have h := e6au_H_map_conj_le y hyW1 hymod (Subgroup.inv_mem _ hn)
     refine h ⟨n * x * n⁻¹, hx, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
 
 private theorem e6au_H_inf_W1
     (y : MulAut EC)
@@ -629,7 +629,7 @@ theorem rE_item3 :
   intro y hy2 hyR hymod
   obtain ⟨g, a, σ, ε, hform⟩ :=
     (ordinary_E_exact_automorphism_normal_form (τ := .E6) (Or.inl rfl) F2).2.2 y
-  haveI : Subsingleton F2ˣ := e6au_F2_units_subsingleton
+  have : Subsingleton F2ˣ := e6au_F2_units_subsingleton
   have ha : a = 1 := Subsingleton.elim a 1
   have hσ : σ = RingEquiv.refl F2 := by
     refine RingEquiv.ext fun c => ?_
@@ -749,7 +749,7 @@ theorem rE_item3 :
       rw [hcm] at h
       have h0 : (1 : ZMod 2) = 0 := by
         have h1 := congrFun h 0
-        simpa [Pi.single_apply, hcyvU2 0 (by decide : (0 : Fin 16) < 8)] using h1
+        simp [hcyvU2 0 (by decide : (0 : Fin 16) < 8)] at h1
       exact one_ne_zero h0
     have hmW1 : v * y v ∉ e6au_W1 := by
       intro hm
@@ -765,7 +765,7 @@ theorem rE_item3 :
       have h0 : Multiplicative.toAdd (c ⟨y v, hyvq⟩) j = 0 := by
         have h1 := hmem j hj8
         rw [hcm] at h1
-        simpa [Pi.single_apply, if_neg (by omega : ¬ (j = (0 : Fin 16)))] using h1
+        simpa [Pi.single_apply, ite_eq_right (by omega : ¬ (j = (0 : Fin 16)))] using h1
       exact hj h0
     have hmW2 : v * y v ∉ e6au_W2 := by
       intro hm
@@ -774,7 +774,7 @@ theorem rE_item3 :
       have h0 : (1 : ZMod 2) = 0 := by
         have h1 := hmem 0 (by decide : (0 : Fin 16) < 8)
         rw [hcm] at h1
-        simpa [Pi.single_apply, hcyvU2 0 (by decide : (0 : Fin 16) < 8)] using h1
+        simp [hcyvU2 0 (by decide : (0 : Fin 16) < 8)] at h1
       exact one_ne_zero h0
     have hmH : v * y v ∈ e6au_H y :=
       Subgroup.subset_closure (Set.mem_union_right _ ⟨v, hvW1, rfl⟩)

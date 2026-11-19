@@ -137,9 +137,9 @@ theorem rankK_ok' : j2ERankOK = true := by
     have h1 := allR_spec hr a ha
     simp only [orB_eq, notB_eq, fB_eq, hmask a ha hia, Bool.not_true, Bool.false_or] at h1
     have h2 := allR_spec h1 b hb
-    simp only [orB_eq, notB_eq, fB_eq, hmask b hb hib, hab, Bool.not_true, Bool.false_or] at h2
+    simp only [hmask b hb hib, hab, Bool.not_true, Bool.false_or] at h2
     have h3 := allR_spec h2 c hc
-    simp only [orB_eq, notB_eq, fB_eq, hmask c hc hic, Bool.not_true, Bool.false_or] at h3
+    simp only [hmask c hc hic, Bool.not_true, Bool.false_or] at h3
     exact h3
   unfold j2ERankOK j2EInvs
   rw [J2CentE.e_arr, Array.all_eq_true']

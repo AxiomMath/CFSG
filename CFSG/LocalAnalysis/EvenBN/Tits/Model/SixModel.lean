@@ -94,7 +94,7 @@ theorem parrottV_seven_comm_iff {e : Equiv.Perm (Fin 1755)} (he : e ∈ hatE) :
       have hpos : 0 < Nat.card Cn := Nat.card_pos
       have hle32 : Nat.card Cn ≤ 32 := Nat.le_of_dvd (by norm_num) hdvd
       generalize Nat.card Cn = n at hdvd hne hpos hle32 ⊢
-      interval_cases n <;> first | omega | (exfalso; revert hdvd; decide)
+      interval_cases n <;> first | omega
     have hEq : F0 = Cn := Subgroup.eq_of_le_of_card_ge hF0C (by omega)
     have heC : e ∈ Cn := mem_inf.2 ⟨he, mem_centralizer_singleton_iff.2 hc.symm⟩
     rw [← hEq] at heC

@@ -33,8 +33,8 @@ theorem exists_statedClassicalModel_quotCenter_orthDerived {X : Type} [Group X] 
     (e : X ≃* ↥(orthDerived Q)) :
     ∃ s : ℕ, StatedClassicalModel (X ⧸ Subgroup.center X) .POmegaPlus s 2 f ∨
       StatedClassicalModel (X ⧸ Subgroup.center X) .POmegaMinus s 2 f := by
-  haveI : Finite K := Finite.of_fintype K
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : Finite K := Finite.of_fintype K
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have heven : Even (Module.finrank K V) :=
     CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Q hQ
   obtain ⟨s, hs⟩ := heven

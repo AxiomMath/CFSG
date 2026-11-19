@@ -31,7 +31,7 @@ public theorem commutator_eq_bot_of_coprime_double_commutator_eq_bot
     (hdouble : ⁅⁅W, R⁆, R⁆ = (⊥ : Subgroup Q)) :
     ⁅W, R⁆ = (⊥ : Subgroup Q) := by
   classical
-  haveI : Subgroup.Normalizes R W := ⟨hRnormW⟩
+  have : Subgroup.Normalizes R W := ⟨hRnormW⟩
   have hcommAction2_eq_commAction :
       commutatorAction₂ (A := R) (G := W) =
         commutatorAction (A := R) (G := W) :=

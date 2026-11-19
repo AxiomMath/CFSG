@@ -24,7 +24,7 @@ namespace Item1120V0Bar
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G} {a : G}
   {R Y : Subgroup G} {d x s r g : G}
 
-theorem thetaAut_mem_imgJ (h : Sec11Std G A c L a R Y) {w : G}
+theorem thetaAut_mem_imgJ (_h : Sec11Std G A c L a R Y) {w : G}
     (hwL : w ∈ Subgroup.normalizer (L : Set G)) (hwa : w * a = a * w)
     (hwY : w ∈ Subgroup.normalizer (Y : Set G)) {j : Y ⧸ aschbacherSolvableCore 3 Y}
     (hj : j ∈ imgJ Y L a) : Sec4.Item426.thetaAut Y hwY j ∈ imgJ Y L a := by
@@ -99,7 +99,7 @@ theorem thetaAut_s_mem_theta_imgJ (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a 
     obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.mp hq
     exact ⟨⟨(l : G), Subgroup.mem_subgroupOf.mp hl⟩, rfl⟩
   have hθK := solvable_prime_complement_core_characterization (H := ↥(sec11K L a)) Nat.prime_three
-  haveI : Group.IsSolvable (aschbacherSolvableCore 3 (sec11K L a)) := hθK.1
+  have : Group.IsSolvable (aschbacherSolvableCore 3 (sec11K L a)) := hθK.1
   have hNnorm : ((aschbacherSolvableCore 3 (sec11K L a)).map f).Normal :=
     Subgroup.Normal.map inferInstance f hfsurj
   let φ : aschbacherSolvableCore 3 (sec11K L a) →*
@@ -212,7 +212,7 @@ theorem nine_le_orderOf_x_cube (h : Sec11Data G A c L a R Y d x s r g) (hx : 9 <
 theorem orderOf_conj_le_orderOf_thetaAut (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
     (h : Sec11Data G A c L a R Y d x s r g)
     (hcN : c ∈ Subgroup.normalizer (Y : Set G)) (hsN : s ∈ Subgroup.normalizer (Y : Set G))
-    (hsa : s * a = a * s) {ζ : Y ⧸ aschbacherSolvableCore 3 Y} (hζ3 : ∃ k : ℕ, ζ ^ 3 ^ k = 1)
+    (_hsa : s * a = a * s) {ζ : Y ⧸ aschbacherSolvableCore 3 Y} (hζ3 : ∃ k : ℕ, ζ ^ 3 ^ k = 1)
     (hζα : Sec4.Item426.thetaAut Y hcN ζ = ζ)
     (hζJ : ∀ j ∈ imgJ Y L a, ζ * j * ζ⁻¹ = j) :
     orderOf (MulAut.conj ζ) ≤ orderOf (Sec4.Item426.thetaAut Y hsN) := by
@@ -248,7 +248,7 @@ theorem orderOf_conj_le_orderOf_thetaAut (h45 : Sec4.Item4_5) (h113 : Item113) (
   set f : G → MulAut (Y ⧸ aschbacherSolvableCore 3 Y) := fun n =>
     if hn : n ∈ Subgroup.normalizer (Y : Set G) then Sec4.Item426.thetaAut Y hn else 1 with hfdef
   have hfeq : ∀ (n : G) (hn : n ∈ Subgroup.normalizer (Y : Set G)),
-      f n = Sec4.Item426.thetaAut Y hn := fun n hn => dif_pos hn
+      f n = Sec4.Item426.thetaAut Y hn := fun n hn => dite_eq_left hn
   have hf : ∀ m ∈ Subgroup.normalizer (Y : Set G), ∀ n ∈ Subgroup.normalizer (Y : Set G),
       f (m * n) = f m * f n := by
     intro m hm n hn

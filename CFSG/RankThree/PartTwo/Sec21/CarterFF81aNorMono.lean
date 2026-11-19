@@ -162,7 +162,7 @@ theorem FF81Hyp.nor_X_line_monomial (h : FF81Hyp b L)
 
 theorem FF81Hyp.nor_X_line_le_cen_tau (h : FF81Hyp b L)
     (hTF : KF_Sp6TorusFree) (hOut : KF_Sp62Out)
-    {τ b₁ b₂ b₃ : G} (hτL : τ ∈ L) (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
+    {τ b₁ b₂ b₃ : G} (_hτL : τ ∈ L) (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
     (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
     (hself : L ⊓ CenS (Subgroup.closure ({b₁, b₂, b₃} : Set G)) =
       Subgroup.closure ({b₁, b₂, b₃} : Set G))
@@ -171,7 +171,7 @@ theorem FF81Hyp.nor_X_line_le_cen_tau (h : FF81Hyp b L)
         n * x * n⁻¹ ∈ ({b₁, b₁⁻¹, b₂, b₂⁻¹, b₃, b₃⁻¹} : Set G))
     (hrk : ∀ E : Subgroup G, E ≤ L → (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) →
       (∀ x ∈ E, x ^ 3 = 1) → Nat.card E ≤ 27)
-    (hτ2o : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
+    (_hτ2o : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
     (hinv : τ * b₁ * τ⁻¹ = b₁⁻¹ ∧ τ * b₂ * τ⁻¹ = b₂⁻¹ ∧ τ * b₃ * τ⁻¹ = b₃⁻¹)
     (hbB : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₁B : b₁ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))

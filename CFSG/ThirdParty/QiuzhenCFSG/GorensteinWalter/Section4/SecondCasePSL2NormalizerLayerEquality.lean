@@ -124,7 +124,7 @@ private theorem secondCase_H_solvable
     exact odd_card_oddCoreOf c.H
   have hUsolv : Group.IsSolvable U := odd_order_theorem U hUodd
   have hSleH : S ≤ c.H := centralizerSetup_S_le_H c
-  have hS2 : IsPGroup 2 S := c.S.isPGroup'
+  have hS2 : IsPGroup 2 S := c.S.isPGroup
   let US : Subgroup c.H := U.subgroupOf c.H
   have : US.Normal :=
     (Subgroup.normal_subgroupOf_iff hUleH).2 (fun h k hh hk => hUnormalH.2 k hk h hh)

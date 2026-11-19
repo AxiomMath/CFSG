@@ -245,7 +245,7 @@ theorem exists_sylow_centralizer_eq_zpowers (hn : 2 ≤ n) (y : G) (hy : orderOf
     IsPGroup.of_card (by rw [Nat.card_zpowers, hyC])
   obtain ⟨P, hZP⟩ := hZp.exists_le_sylow
   let Q : Subgroup G := (P : Subgroup C).map C.subtype
-  have hQ : IsPGroup 2 Q := P.isPGroup'.map C.subtype
+  have hQ : IsPGroup 2 Q := P.isPGroup.map C.subtype
   obtain ⟨S', hQS⟩ := hQ.exists_le_sylow
   have hyP : yC ∈ (P : Subgroup C) := hZP (Subgroup.mem_zpowers yC)
   have hyS : y ∈ (S' : Subgroup G) := hQS ⟨yC, hyP, rfl⟩

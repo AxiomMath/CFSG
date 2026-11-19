@@ -56,11 +56,11 @@ theorem line_eq (T p X : Nat) (ws : List Nat) (ex : Nat) :
     co1LineOK ((List.range N).map fun i => unpack 24 24 (M i)) (unpack 24 24 T) p
       (unpack 24 24 X) ws ex = lineK M MI N T p X ws ex := by
   rw [Bool.eq_iff_iff]
-  simp only [co1LineOK, lineK, conjProd_eq hinv, getD_unpack, getD_unpackK, inv_getK hinv,
+  simp only [co1LineOK, lineK, conjProd_eq hinv, getD_unpackK, inv_getK hinv,
     mul_unpackW,
     pow_unpackW, one_unpack, beq_unpackW, bne, validRows_unpackW, List.length_map,
-    List.length_range, Bool.true_and, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq,
-    and_true, true_and]
+    List.length_range, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq,
+    and_true]
 
 include hinv in
 theorem block1_eq (T : Nat) :
@@ -68,10 +68,10 @@ theorem block1_eq (T : Nat) :
       block1K M MI N T := by
   funext b
   rw [Bool.eq_iff_iff]
-  simp only [co1Block1OK, block1K, line_eq hinv, getD_unpack, getD_unpackK, mul_unpackW,
+  simp only [co1Block1OK, block1K, line_eq hinv, getD_unpackK, mul_unpackW,
     pow_unpackW,
     one_unpack, beq_unpackW, bne, validRows_unpackW, List.length_map, List.length_range,
-    Bool.true_and, Bool.and_eq_true, decide_eq_true_eq, and_true, true_and]
+    Bool.and_eq_true, decide_eq_true_eq, and_true]
 
 include hinv in
 theorem block2_eq (T : Nat) :
@@ -79,11 +79,11 @@ theorem block2_eq (T : Nat) :
       block2K M MI N T := by
   funext b
   rw [Bool.eq_iff_iff]
-  simp only [co1Block2OK, block2K, line_eq hinv, getD_unpack, getD_unpackK, mul_unpackW,
+  simp only [co1Block2OK, block2K, line_eq hinv, getD_unpackK, mul_unpackW,
     pow_unpackW,
     one_unpack, beq_unpackW, bne, validRows_unpackW, List.length_map, List.length_range,
     Bool.true_and, Bool.and_true, Bool.and_eq_true, Bool.or_eq_true, List.all_eq_true,
-    decide_eq_true_eq, and_true, true_and]
+    decide_eq_true_eq]
 
 include hinv in
 theorem class_of (c : Co1PlaneClass)
@@ -94,7 +94,7 @@ theorem class_of (c : Co1PlaneClass)
   unfold co1ClassOK
   rw [hD]
   unfold classK at h
-  simp only [getD_unpack, getD_unpackK, block1_eq hinv, block2_eq hinv, hlen, Bool.true_and] at h ⊢
+  simp only [getD_unpack, block1_eq hinv, block2_eq hinv, hlen, Bool.true_and] at h ⊢
   exact h
 
 end Rows

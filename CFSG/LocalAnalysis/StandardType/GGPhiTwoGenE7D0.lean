@@ -48,7 +48,7 @@ private lemma e7_artifactRoots_even_theta :
 private lemma e7A1D6Roots_eq_union :
     e7A1D6Roots = e7D6Roots ∪ {e7Theta, -e7Theta} := by
   ext γ
-  simp only [e7A1D6Roots, e7D6Roots, Set.mem_setOf_eq, Set.mem_union, Set.mem_insert_iff,
+  simp only [e7A1D6Roots, e7D6Roots, Set.mem_ofPred_eq, Set.mem_union, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨hγ, hev⟩
@@ -214,7 +214,7 @@ theorem commute_rootSpan_D6_theta
 
 private lemma exists_sq_of_finite_charTwo {K : Type} [Field K] [Finite K] [CharP K 2] :
     ∀ x : K, ∃ z : K, z ^ 2 = x := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   intro x
   obtain ⟨z, hz⟩ := Finite.surjective_of_injective (frobenius_inj K 2) x
   exact ⟨z, by simpa [frobenius_def] using hz⟩
@@ -293,7 +293,7 @@ private lemma kernelRoots_e7ChiTheta :
     · exact ⟨isRoot_e7Theta, (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_zpowers _)⟩
     · refine ⟨IsRoot.neg isRoot_e7Theta, (QuotientGroup.eq_one_iff _).mpr ?_⟩
       have := Subgroup.inv_mem _ (Subgroup.mem_zpowers (Multiplicative.ofAdd e7Theta))
-      simpa using this
+      simp
 
 theorem mem_e7D6Group_of_baseChangeGL_mem_rootSpan
     {K : Type} [Field K] [Finite K] {n : ℕ} (hn : Nat.Coprime n (Nat.card K - 1))

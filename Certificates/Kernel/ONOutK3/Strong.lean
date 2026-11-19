@@ -23,12 +23,12 @@ theorem prep_pinv {t : Array Nat} {g : Equiv.Perm (Fin n)} (hs : t.size = n) (ht
   have hUT : ∀ y < n, (fun z => if h : z < n then (g⁻¹ ⟨z, h⟩ : Nat) else 0) (t[y]!) = y := by
     intro y hy
     simp only
-    rw [dif_pos (hT y hy)]
+    rw [dite_eq_left (hT y hy)]
     have : (⟨t[y]!, hT y hy⟩ : Fin n) = g ⟨y, hy⟩ := Fin.ext (ht.apply hy)
     rw [this]
     simp
   rw [CFSG.KS.CB.pinvCand_get (T := fun i => t[i]!)
-    (U := fun z => if h : z < n then (g⁻¹ ⟨z, h⟩ : Nat) else 0) hT hUT x.2, dif_pos x.2]
+    (U := fun z => if h : z < n then (g⁻¹ ⟨z, h⟩ : Nat) else 0) hT hUT x.2, dite_eq_left x.2]
 
 theorem pisInv_of_prep {t r : Array Nat} {g : Equiv.Perm (Fin n)} (ht : PRep n t g)
     (hr : PRep n r g⁻¹) : pisInv n t r = true := by
@@ -121,7 +121,6 @@ theorem sig_prep : ∀ j < 7, PRep nPts sigStrong[j]! (permOfArr nPts sigStrong[
       have := prep_pword (gs := fun h => permOfArr nPts sigStrong[h]!) (j := j)
         (fun h hh => ih h hh (by omega))
         (fun h hh => by
-          change PRep nPts (pinvs nPts sigStrong)[h]! _
           rw [sigInv_get (by omega)]
           exact prep_pinv (sig_size' (by omega)) (ih h hh (by omega)))
         _ (W_letters j (by rw [W_size]; exact hj) h)

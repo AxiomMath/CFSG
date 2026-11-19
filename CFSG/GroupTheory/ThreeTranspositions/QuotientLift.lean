@@ -11,7 +11,7 @@ namespace CFSG.GroupTheory.ThreeTranspositions
 theorem hasE9_of_hasE9_quotient {G : Type*} [Group G] [Finite G] (N : Subgroup G) [N.Normal]
     (hN : ¬ 3 ∣ Nat.card N) (h : HasE9 (G ⧸ N)) : HasE9 G := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨xb, yb, hx, hy, hxy, hyx⟩ := h
   set Abar : Subgroup (G ⧸ N) := Subgroup.closure ({xb, yb} : Set (G ⧸ N)) with hAbar
   have hpair : ({xb, yb} : Set (G ⧸ N)).Pairwise Commute := by
@@ -22,7 +22,7 @@ theorem hasE9_of_hasE9_quotient {G : Type*} [Group G] [Finite G] (N : Subgroup G
     · exact hxy
     · exact hxy.symm
     · exact absurd rfl hne
-  haveI hAcomm : IsMulCommutative ↥Abar := Subgroup.isMulCommutative_closure hpair
+  have hAcomm : IsMulCommutative ↥Abar := Subgroup.isMulCommutative_closure hpair
   have hA3 : ∀ z : ↥Abar, z ^ 3 = 1 := by
     intro z
     apply Subtype.ext
@@ -90,7 +90,7 @@ theorem hasE9_of_hasE9_quotient {G : Type*} [Group G] [Finite G] (N : Subgroup G
 theorem two_le_pRank_of_hasE9_subgroup {A : Type*} [Group A] [Finite A] (H : Subgroup A)
     (h : HasE9 ↥H) : 2 ≤ CFSG.Open.pRank 3 H := by
   obtain ⟨x, y, hx, hy, hxy, hyx⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.GroupTheory.two_le_pRank_of_commute (p := 3) (H := H) (x := (x : A))
     (y := (y : A)) x.2 y.2 (by rw [Subgroup.orderOf_coe, hx]) (by rw [Subgroup.orderOf_coe, hy])
     (hxy.map H.subtype) ?_
@@ -101,7 +101,7 @@ theorem two_le_pRank_of_hasE9_subgroup {A : Type*} [Group A] [Finite A] (H : Sub
 theorem not_hasE9_quotient_pPrimeCore {A : Type*} [Group A] [Finite A] (H : Subgroup A)
     (hr : CFSG.Open.pRank 3 H ≤ 1) : ¬ HasE9 (↥H ⧸ CFSG.pPrimeCore 3 ↥H) := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   have h2 := two_le_pRank_of_hasE9_subgroup H

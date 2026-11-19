@@ -39,27 +39,27 @@ theorem shape54_to_seven (hO : LieOrderFormulasInput) (hCF : Tail1812TwoNoSectio
   rcases hShape with h1 | h2 | h3 | h4 | h5 | h6
   ·
     rcases h1 with ⟨X, hXg, φ, hφs, hφk, hX⟩
-    letI : Group X := hXg
+    let : Group X := hXg
     exact Or.inl ⟨X, hXg, φ, hφs, hφk, hX⟩
   ·
     rcases h2 with ⟨X, hXg, φ, hφs, hφk, hX⟩
-    letI : Group X := hXg
+    let : Group X := hXg
     rcases hX with hAlt | hL31
     · exact Or.inr (Or.inl ⟨X, hXg, φ, hφs, hφk, hAlt⟩)
     · obtain ⟨hf, hs, hnc⟩ :=
         isSimple_nonab_of_shape hO (Or.inr (Or.inr (Or.inr (Or.inl hL31))))
-      haveI : Finite X := hf
+      have : Finite X := hf
       have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
       have hS : Socle186Shape X := Or.inr (Or.inr (Or.inl hL31))
       exact (false_of_isL3_one_card_mem hO hL31
         (card_mem_of_tail1812Shape hO (hCF X hS hF))).elim
   ·
     rcases h3 with ⟨⟨X, hXg, φ, hφs, hφk, hX⟩, t, htT, hDyn⟩
-    letI : Group X := hXg
+    let : Group X := hXg
     rcases hX with hL32 | hSp4
     · obtain ⟨hf, hs, hnc⟩ :=
         isSimple_nonab_of_shape hO (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hL32)))))
-      haveI : Finite X := hf
+      have : Finite X := hf
       have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
       have hS : Socle186Shape X := Or.inr (Or.inr (Or.inr (Or.inl hL32)))
       exact (false_of_isL3_two_card_mem hO hL32
@@ -67,11 +67,11 @@ theorem shape54_to_seven (hO : LieOrderFormulasInput) (hCF : Tail1812TwoNoSectio
     · exact Or.inr (Or.inr (Or.inl ⟨⟨X, hXg, φ, hφs, hφk, hSp4⟩, t, htT, hDyn⟩))
   ·
     obtain ⟨p, e, hp, hp2, hq, X, hXg, φ, hφs, hφk, hX⟩ := h4
-    letI : Group X := hXg
+    let : Group X := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO
       (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
         (Or.inl ⟨p, e, hp, hp2, hq, hX⟩)))))))
-    haveI : Finite X := hf
+    have : Finite X := hf
     have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
     have hS : Socle186Shape X :=
       Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
@@ -97,11 +97,11 @@ theorem shape54_to_seven (hO : LieOrderFormulasInput) (hCF : Tail1812TwoNoSectio
     obtain ⟨p, hp, hp2, hrest⟩ := h5
     rcases hrest with ⟨hmod, hQuot⟩ | ⟨hmod, hQuot⟩
     · rcases hQuot with ⟨X, hXg, φ, hφs, hφk, hX⟩
-      letI : Group X := hXg
+      let : Group X := hXg
       obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO
         (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
           ⟨p, hp, hp2, Or.inl hX⟩)))))))
-      haveI : Finite X := hf
+      have : Finite X := hf
       have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
       have hS : Socle186Shape X :=
         Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
@@ -109,11 +109,11 @@ theorem shape54_to_seven (hO : LieOrderFormulasInput) (hCF : Tail1812TwoNoSectio
       exact (false_of_psl_three_card_mem hO hp hp2 hX
         (card_mem_of_tail1812Shape hO (hCF X hS hF))).elim
     · rcases hQuot with ⟨X, hXg, φ, hφs, hφk, hX⟩
-      letI : Group X := hXg
+      let : Group X := hXg
       obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO
         (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
           ⟨p, hp, hp2, Or.inr (Or.inl hX)⟩)))))))
-      haveI : Finite X := hf
+      have : Finite X := hf
       have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
       have hS : Socle186Shape X :=
         Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
@@ -122,11 +122,11 @@ theorem shape54_to_seven (hO : LieOrderFormulasInput) (hCF : Tail1812TwoNoSectio
         (card_mem_of_tail1812Shape hO (hCF X hS hF))).elim
   ·
     obtain ⟨p, hp, hp2, X, hXg, φ, hφs, hφk, hX⟩ := h6
-    letI : Group X := hXg
+    let : Group X := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO
       (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
         ⟨p, hp, hp2, Or.inr (Or.inr hX)⟩)))))))
-    haveI : Finite X := hf
+    have : Finite X := hf
     have hF := hfac X ⟨φ, hφs, hφk⟩ hs hnc
     have hS : Socle186Shape X :=
       Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr

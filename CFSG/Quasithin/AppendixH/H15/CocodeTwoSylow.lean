@@ -33,7 +33,7 @@ private theorem isPGroup_zpowers_of_sq_aux {G : Type*} [Group G] {z : G} (hz : z
 theorem mem_of_centralizes_sylow {G : Type*} [Group G] {Q : Subgroup G} {H : Subgroup G}
     [Finite H] (hQ : IsSylowIn 2 Q H) {z : G} (hzH : z ∈ H) (hz2 : orderOf z = 2)
     (hc : ∀ q ∈ Q, q * z = z * q) : z ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := Subgroup.zpowers z
   let H' : Subgroup G := Q ⊔ N
   have hH'H : H' ≤ H := sup_le hQ.le (Subgroup.zpowers_le.2 hzH)

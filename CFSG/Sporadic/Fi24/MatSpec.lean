@@ -82,7 +82,7 @@ theorem W.val_eq_bits {a : W} (ha : a.wf = true) (j : ℕ) :
     a.val j = bitZ (a.bitP j) - bitZ (a.bitM j) := by
   have h := W.not_both ha j
   unfold W.val bitVal bitZ
-  cases hp : a.bitP j <;> cases hm : a.bitM j <;> simp_all <;> decide
+  cases hp : a.bitP j <;> cases hm : a.bitM j <;> simp_all; decide
 
 theorem frEntry_spec {Y : Array W} (hY : RowsWF Y) (b x c : ℕ) : ∀ n : ℕ,
     (Nat.fold n (fun t _ acc => if x.testBit t then acc.add (Y[8 * b + t]?.getD W.zero) else acc)

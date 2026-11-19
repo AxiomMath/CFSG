@@ -26,7 +26,7 @@ private theorem kRefl_coordPerm_coord {p n : ℕ} {a : Fin (n + 1)}
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hw, hσσ, hσlast]
   have hkroot : kRoot p n (Equiv.swap a (Fin.last n) i) = if i = a then 2 else 1 := by
     by_cases hi : i = a
-    · rw [hi, hσa, if_pos rfl, kRoot, Pi.add_apply, Pi.one_apply, Pi.single_eq_same]
+    · rw [hi, hσa, ite_eq_left rfl, kRoot, Pi.add_apply, Pi.one_apply, Pi.single_eq_same]
       norm_num
     · have hσi : Equiv.swap a (Fin.last n) i ≠ Fin.last n := by
         intro h
@@ -34,7 +34,7 @@ private theorem kRefl_coordPerm_coord {p n : ℕ} {a : Fin (n + 1)}
             Equiv.swap a (Fin.last n) (Fin.last n) := by rw [h]
         rw [hσσ i, hσlast] at h2
         exact hi h2
-      rw [if_neg hi, kRoot, Pi.add_apply, Pi.one_apply, Pi.single_eq_of_ne hσi]
+      rw [ite_eq_right hi, kRoot, Pi.add_apply, Pi.one_apply, Pi.single_eq_of_ne hσi]
       ring
   rw [hkroot]
 
@@ -73,7 +73,7 @@ theorem eq_single_zero_of_fixed {p n : ℕ} (v : Fin (n + 1) → ZMod p)
         omega
       rw [Pi.single_eq_of_ne hne]
       have hb : (⟨n - 1, by omega⟩ : Fin n).succ = Fin.last n :=
-        Fin.ext (by simp only [Fin.val_succ, Fin.val_last, Fin.val_mk]; omega)
+        Fin.ext (by simp only [Fin.val_succ, Fin.val_last]; omega)
       have h := congrFun (hσ k ⟨n - 1, by omega⟩) k.succ
       rw [coordPerm_apply, Equiv.symm_swap, Equiv.swap_apply_left, hb] at h
       exact h.symm.trans hlast
@@ -121,13 +121,13 @@ theorem kThreeRefl_commute_swap_kRefl {p n : ℕ} (hp : p ∣ n + 3) {a : Fin (n
     rw [kThreeRefl_apply]
     by_cases hi : i = Fin.last n
     · subst hi
-      rw [if_pos rfl, Fin.sum_univ_castSucc]
+      rw [ite_eq_left rfl, Fin.sum_univ_castSucc]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, kThreeRoot, Pi.single_eq_same,
         mul_one]
       ring
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       have hk : kThreeRoot p n i = 0 := by
-        rw [kThreeRoot, Pi.single_apply, if_neg hi]
+        rw [kThreeRoot, Pi.single_apply, ite_eq_right hi]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hk, mul_zero, sub_zero]
   have hcastsum : (∑ j : Fin n,
         coordPerm p n (Equiv.swap a (Fin.last n))
@@ -146,11 +146,11 @@ theorem kThreeRefl_commute_swap_kRefl {p n : ℕ} (hp : p ∣ n + 3) {a : Fin (n
       intro j
       rw [kRefl_coordPerm_coord v j.castSucc]
       by_cases hj : j = a'
-      · rw [hj, ha', if_pos rfl, if_pos rfl]
+      · rw [hj, ha', ite_eq_left rfl, ite_eq_left rfl]
         ring
       · have hcond : ¬ (j.castSucc = a) := fun h =>
           hj (Fin.castSucc_injective n (h.trans ha'.symm))
-        rw [if_neg hcond, if_neg hj, mul_one]
+        rw [ite_eq_right hcond, ite_eq_right hj, mul_one]
         ring
     have hcorr : (∑ j : Fin n, (if j = a' then -v a else 0)) = -v a := by
       rw [Finset.sum_ite_eq']
@@ -167,19 +167,19 @@ theorem kThreeRefl_commute_swap_kRefl {p n : ℕ} (hp : p ∣ n + 3) {a : Fin (n
       coordPerm p n (Equiv.swap a (Fin.last n))
         (kRefl p n (coordPerm p n (Equiv.swap a (Fin.last n)) v)) j)
     have h2 := Fin.sum_univ_castSucc (f := v)
-    rw [h1, h2, hcastsum, kRefl_coordPerm_coord v (Fin.last n), if_neg ha.symm, mul_one]
+    rw [h1, h2, hcastsum, kRefl_coordPerm_coord v (Fin.last n), ite_eq_right ha.symm, mul_one]
     ring
   funext i
   by_cases hi : i = Fin.last n
   · subst hi
     rw [hThree (coordPerm p n (Equiv.swap a (Fin.last n))
-          (kRefl p n (coordPerm p n (Equiv.swap a (Fin.last n)) v))) (Fin.last n), if_pos rfl,
-      kRefl_coordPerm_coord (kThreeRefl p n v) (Fin.last n), hThree v (Fin.last n), if_pos rfl,
-      hThree v a, if_neg ha, if_neg ha.symm, hsumM, mul_one, hv]
+          (kRefl p n (coordPerm p n (Equiv.swap a (Fin.last n)) v))) (Fin.last n), ite_eq_left rfl,
+      kRefl_coordPerm_coord (kThreeRefl p n v) (Fin.last n), hThree v (Fin.last n), ite_eq_left rfl,
+      hThree v a, ite_eq_right ha, ite_eq_right ha.symm, hsumM, mul_one, hv]
     ring
   · rw [hThree (coordPerm p n (Equiv.swap a (Fin.last n))
-          (kRefl p n (coordPerm p n (Equiv.swap a (Fin.last n)) v))) i, if_neg hi,
-      kRefl_coordPerm_coord (kThreeRefl p n v) i, hThree v i, if_neg hi, hThree v a, if_neg ha]
+          (kRefl p n (coordPerm p n (Equiv.swap a (Fin.last n)) v))) i, ite_eq_right hi,
+      kRefl_coordPerm_coord (kThreeRefl p n v) i, hThree v i, ite_eq_right hi, hThree v a, ite_eq_right ha]
     exact kRefl_coordPerm_coord v i
 
 end CFSG.StandardType.TypeAReflOver

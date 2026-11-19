@@ -29,6 +29,7 @@ theorem eq_map_conj_of_map_conj_eq {H : Type*} [Group H] {A U : Subgroup H} {g :
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MonoidHom.id_apply]
   group
 
+omit [Finite K] [CharP K 2] in
 theorem lvlU_top_eq_UA : lvlU e7Data_valid K (fWt Tag.E7.rank) (7 ^ 6) = UA K a7 := by
   have h1 := map_lvlU_top_eq_rootRad7 (K := K)
   rw [rootRad7_eq] at h1
@@ -58,10 +59,10 @@ theorem smith24E5Uniform_of_inputs (hG1 : E5G1Statement)
     rw [hf0, pow_zero] at hf
     have := hctx.hyp.q4
     omega
-  haveI : CharP K 2 := Smith81.charP_two_of_card_eq hf1 (hKcard.trans hf)
+  have : CharP K 2 := Smith81.charP_two_of_card_eq hf1 (hKcard.trans hf)
   obtain ⟨K', _, _, _, hK'card, θ₁, hθ₁s, hθ₁k⟩ := hG1 G M Q Z B IH hc h5
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite K'
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite K'
   have hKK' : Fintype.card K' = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK'card, hKcard]
   let τ : K' ≃+* K := FiniteField.ringEquivOfCardEq hKK'

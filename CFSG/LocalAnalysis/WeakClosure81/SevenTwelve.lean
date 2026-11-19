@@ -40,6 +40,7 @@ structure SevenTwelveConfig {X : Type} [Group X] (S : Subgroup X) (g₂ g₃ y :
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 private theorem seven_twelve_mem_normalizer_inf {A B : Subgroup G} {x : G}
     (hA : x ∈ Subgroup.normalizer (A : Set G)) (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -47,6 +48,7 @@ private theorem seven_twelve_mem_normalizer_inf {A B : Subgroup G} {x : G}
   intro y
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA y, hB y]
 
+omit [Finite G] in
 private theorem seven_twelve_normalizer_le_normalizer_centralizer (V₀ : Subgroup G) :
     Subgroup.normalizer (V₀ : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (V₀ : Set G) : Set G) := by
@@ -231,13 +233,13 @@ theorem seven_twelve_core (h : Hyp711 V H E) {X : Type} [Group X] {φ : ↥(kSub
 theorem seven_twelve (hConf : SpURootConfiguration) (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) {m n : ℕ}
     (hn : 1 < n)
-    (hX : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
+    (_hX : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
     (hV2 : Nat.card (barSub (kSub V H E) φ V) = 2)
     (hroot : ∀ k : ↥(kSub V H E), (k : G) ∈ V → (k : G) ∉ pCoreOf 2 (kSub V H E) →
       IsSymplecticTransvection X m n (φ k) ∨ IsUnitaryTransvection X m n (φ k)) :
     iSub V H E ⊓ Subgroup.centralizer (kSub V H E : Set G) ≠ ⊥ := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   obtain ⟨v, hvV, hvJ⟩ := Set.not_subset.mp (not_le_pCoreOf_kSub h)
   have hvK : v ∈ kSub V H E := le_kSub h.mem hvV
   let t : X := φ ⟨v, hvK⟩

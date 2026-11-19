@@ -23,6 +23,7 @@ open CFSG.Open CFSG.LieType.BorelTits CFSG.GH74.GLS.Stage2.OddAut
 
 variable {q : ℕ} [Fact q.Prime]
 
+omit [Fact (Nat.Prime q)] in
 theorem IsRadical.map_mulEquiv {S S' : Type*} [Group S] [Group S'] (e : S ≃* S')
     {R : Subgroup S} (hR : IsRadical q R) : IsRadical q (R.map e.toMonoidHom) := by
   obtain ⟨h0, hp, hc, hn⟩ := hR
@@ -41,6 +42,7 @@ theorem IsRadical.map_mulEquiv {S S' : Type*} [Group S] [Group S'] (e : S ≃* S
     rw [this]
     exact Subgroup.map_top_of_surjective _ e.symm.surjective
 
+omit [Fact q.Prime] in
 theorem RadRigidInner.of_mulEquiv {S S' : Type*} [Group S] [Group S'] (e : S ≃* S')
     (h : RadRigidInner q S) : RadRigidInner q S' := by
   intro R' hR' x hx hxo
@@ -54,6 +56,7 @@ theorem RadRigidInner.of_mulEquiv {S S' : Type*} [Group S] [Group S'] (e : S ≃
     · rwa [MulEquiv.orderOf_eq]
   exact (MulEquiv.map_eq_one_iff e.symm).1 h1
 
+omit [Fact q.Prime] in
 theorem RadRigid.of_mulEquiv {S S' : Type*} [Group S] [Group S'] (e : S ≃* S')
     (h : RadRigid q S) : RadRigid q S' := by
   intro R' hR' α hα hαo
@@ -70,11 +73,13 @@ section Core
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem mem_normalizer_of_normal (S : Subgroup H) [S.Normal] (h : H) :
     h ∈ Subgroup.normalizer (S : Set H) := by
   rw [Subgroup.normalizer_eq_top]
   exact Subgroup.mem_top h
 
+omit [Finite H] in
 theorem map_normalizerMonoidHom_eq (S : Subgroup H) [S.Normal] {Q : Subgroup H} (hQS : Q ≤ S)
     {h : H} (hh : h ∈ Subgroup.normalizer (Q : Set H)) :
     (Q.subgroupOf S).map

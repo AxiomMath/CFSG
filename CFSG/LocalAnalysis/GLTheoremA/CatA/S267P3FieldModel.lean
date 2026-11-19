@@ -51,7 +51,7 @@ abbrev XD : Type := ↥D.Gt ⧸ D.Zt
 
 noncomputable abbrev πD : ↥D.Gt →* D.XD := QuotientGroup.mk' _
 
-theorem Zt_le_center : D.Zt ≤ Subgroup.center ↥D.Gt := fun z hz =>
+theorem Zt_le_center : D.Zt ≤ Subgroup.center ↥D.Gt := fun _z hz =>
   Subgroup.mem_center_iff.2 fun g =>
     Subtype.ext (Subgroup.mem_center_iff.1 (Subgroup.mem_subgroupOf.1 hz) (g : _))
 
@@ -82,7 +82,7 @@ theorem c_mul_w : D.c * D.w ≠ D.w * D.c := by
   have h01 := congrArg (fun g : SpecialLinearGroup (Fin 2) F => (g : Matrix (Fin 2) (Fin 2) F) 0 1) h
   simp only [Matrix.SpecialLinearGroup.coe_mul, D.coe_w, Matrix.mul_apply, Fin.sum_univ_two] at h01
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, mul_zero, zero_mul, zero_add,
+    Matrix.empty_val', Matrix.cons_val_fin_one, mul_zero, zero_mul, zero_add,
     add_zero] at h01
   have h1 : (D.c : Matrix (Fin 2) (Fin 2) F) 0 1 * (D.x⁻¹ - D.x) = 0 := by
     linear_combination h01
@@ -142,7 +142,7 @@ theorem card_Adom (h3 : (3 : F) ≠ 0) : Nat.card D.Adom = 3 ^ 2 := by
   norm_num
 
 theorem card_A1dom (h3 : (3 : F) ≠ 0) : Nat.card D.A1dom = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [A1dom, Nat.card_zpowers]
   refine orderOf_eq_prime ?_ ?_
   · simp [D.cG_pow_three]
@@ -289,7 +289,7 @@ theorem Asub_le_normalizer (h3 : (3 : F) ≠ 0) :
     exact congrArg D.ΦG (congrArg Subtype.val
       (D.isElemAbelian_Adom.1.is_comm.comm ⟨x, hx⟩
         ⟨_, ⟨Subgroup.mem_zpowers _, Subgroup.one_mem _⟩⟩))
-  haveI := D.Jt_normal h3
+  have := D.Jt_normal h3
   exact Subgroup.le_normalizer_map D.πD
     ⟨_, Subgroup.le_normalizer_of_normal_subgroupOf D.Jt_le_centralizer hc, rfl⟩
 
@@ -377,7 +377,7 @@ theorem map_σ_σ_σ {ι : Type} [Fintype ι] [DecidableEq ι] (g : SpecialLinea
       (D.σ : F →+* F) g), D.map_Gt _ (D.map_Gt g g.2)⟩
   left_inv g := Subtype.ext (D.map_σ_σ_σ (g : SpecialLinearGroup (Kap μ) F))
   right_inv g := Subtype.ext (D.map_σ_σ_σ (g : SpecialLinearGroup (Kap μ) F))
-  map_mul' g h := Subtype.ext (map_mul _ _ _)
+  map_mul' _g _h := Subtype.ext (map_mul _ _ _)
 
 theorem coe_σt (g : ↥D.Gt) :
     ((D.σt g : ↥D.Gt) : SpecialLinearGroup (Kap μ) F) =
@@ -493,7 +493,7 @@ theorem false_of_mul_diag {M : Matrix (Fin 2) (Fin 2) F} (h01 : M 0 1 ≠ 0) (ht
   have e11 := congrFun (congrFun h 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, mul_zero, zero_mul, add_zero, zero_add] at e00 e01 e11
+    mul_zero, zero_mul, add_zero, zero_add] at e00 e01 e11
   have hux : u⁻¹ = D.x := by
     have : M 0 1 * (u⁻¹ - D.x) = 0 := by linear_combination e01
     exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_left h01)

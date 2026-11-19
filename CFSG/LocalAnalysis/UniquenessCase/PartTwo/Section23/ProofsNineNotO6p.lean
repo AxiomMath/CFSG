@@ -53,13 +53,13 @@ theorem phiL_ker_eq_pCore_and_map_Hinf_eq {D : Data G} {Ch : Choice2011 G}
         Hinf (MulAction.stabilizer ↥(c.H hV)
           (((fixedPointSubgroup ↥(c.sylowStar hV) (c.W hV) : Subgroup (c.W hV)) :
             Set (c.W hV)))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   have hbotH : CFSG.pCore 2 ↥(c.H hV) = ⊥ := hK.1 hnat
@@ -86,15 +86,15 @@ theorem s23_9_NotO6p_of (D : Data G) (Ch : Choice2011 G)
   let n : ℕ := CFSG.Open.pRank 2 D.Z
   change ¬ (IsOmegaPlus ↥(c.H hV) 6 n ∧ NatOmegaPlus (c.H hV) ⊤ ⊥ 6 n)
   intro hline
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let Pℓ : Subgroup ↥(c.H hV) :=

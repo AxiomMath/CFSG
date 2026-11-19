@@ -38,7 +38,7 @@ theorem crit_of_surj {G : Type} [Group G] [Finite G] {Λ : Type} [Group Λ] [Fin
     (hcentW : ∀ w ∈ W, σ * w * σ⁻¹ * w⁻¹ ∈ K →
       ∃ k ∈ K, ∃ d ∈ Subgroup.centralizer ({σ} : Set G) ⊓ W, w = k * d) :
     Crit ι ((P.subgroupOf L).map π) ((W.subgroupOf L).map π) (π ⟨ρ, hρL⟩) (π ⟨σ, hσL⟩) := by
-  haveI : (P.subgroupOf L).Normal :=
+  have : (P.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff hPL).mpr fun p g hp hg => hPn g hg p hp
   refine crit_of_surj_core (ρ := ⟨ρ, hρL⟩) (σ := ⟨σ, hσL⟩)
     π hπ (P.subgroupOf L) (W.subgroupOf L) ?_ ?_ ι hι hdim

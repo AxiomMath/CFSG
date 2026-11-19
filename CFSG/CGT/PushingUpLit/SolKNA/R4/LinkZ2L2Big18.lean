@@ -98,7 +98,7 @@ section Cit3
 theorem z2BigModelArith_holds (r : ℕ) : Z2BigModelArith r := by
   intro hr X _ _ Φ hΦ hs hidx p f hp hp2 hf hl
   obtain ⟨hR, -, hgen, -⟩ := hΦ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨M₀, hM₀⟩ : Φ.Nonempty := by
     by_contra hne
     rw [Set.not_nonempty_iff_eq_empty] at hne

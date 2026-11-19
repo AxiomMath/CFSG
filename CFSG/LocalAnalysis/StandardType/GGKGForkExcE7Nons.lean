@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley
 
 private theorem ggKGE7n_padicValNat_2903040_le_one {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     padicValNat p 2903040 ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : padicValNat p (2 ^ 10) = 0 := by
     apply padicValNat.eq_zero_of_not_dvd
     intro h
@@ -32,15 +32,15 @@ private theorem ggKGE7n_padicValNat_2903040_le_one {p : ℕ} (hp : p.Prime) (hp5
     by_cases h5 : p = 5
     · subst p
       rw [padicValNat_base (by norm_num : 1 < 5),
-        padicValNat.eq_zero_of_not_dvd (by norm_num : ¬ 5 ∣ 7)] <;> omega
+        padicValNat.eq_zero_of_not_dvd (by norm_num : ¬ 5 ∣ 7)]
     · by_cases h7 : p = 7
       · subst p
         rw [padicValNat_base (by norm_num : 1 < 7),
-          padicValNat.eq_zero_of_not_dvd (by norm_num : ¬ 7 ∣ 5)] <;> omega
-      · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-        haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+          padicValNat.eq_zero_of_not_dvd (by norm_num : ¬ 7 ∣ 5)]
+      · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
         rw [padicValNat_primes (p := p) (q := 5) h5,
-          padicValNat_primes (p := p) (q := 7) h7] <;> omega
+          padicValNat_primes (p := p) (q := 7) h7]; omega
   calc padicValNat p 2903040
       = padicValNat p (2 ^ 10 * 3 ^ 4) + padicValNat p (5 * 7) := by
         rw [show (2903040 : ℕ) = (2 ^ 10 * 3 ^ 4) * (5 * 7) by norm_num,

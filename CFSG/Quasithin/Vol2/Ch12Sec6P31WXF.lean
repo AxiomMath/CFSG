@@ -41,7 +41,7 @@ theorem single_prep' {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData' Y Ts Ms Ls T
       (∀ b ∈ borel X Ts, r * b * r⁻¹ * (b ^ 2 ^ j)⁻¹ ∈ Ts ⊓ X) ∧
       (9 ∣ Nat.card ↥(borel X Ts) → 27 ∣ Nat.card ↥Ms) := by
   obtain ⟨hR, hTs, hP, hnormal, hTsMs, hBM, hKM, hLM, -, -, hTlsTs, r, hrTls, S, hSL, hSe, hS9, hSinv⟩ := h
-  haveI : X.Normal := hnormal
+  have : X.Normal := hnormal
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
     rw [Subgroup.normalizer_eq_top_iff.2 hnormal]
     exact Subgroup.mem_top x
@@ -206,7 +206,7 @@ theorem permData_of_single' {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData' Y Ts 
   obtain ⟨n, hnB, hnp, hnr⟩ := exists_moved_p_element_of_dvd (B := borel X Ts) (U := Ts ⊓ X)
     (r := r) (k := k) (j := j) (p := p) hUB hBN hpN hfr hp (by omega) hpk hj
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
-    haveI := h.normal
+    have := h.normal
     rw [Subgroup.normalizer_eq_top_iff.2 h.normal]
     exact Subgroup.mem_top x
   refine permData_build (n := n) hp (by omega) hUB hBN habel h.borel_le ?_ ?_ inf_le_left hnB hnp

@@ -37,9 +37,9 @@ theorem model3Conj_C_map {Y Y' : Type*} [Group Y] [Group Y'] (e : Y ≃* Y') {V 
 
 theorem model3Conj_sylow_conj [Finite X] (R₀ R : Sylow 2 X) :
     ∃ g : X, (R : Subgroup X) = (R₀ : Subgroup X).map (MulAut.conj g).toMonoidHom := by
-  haveI : Finite (Subgroup X) :=
+  have : Finite (Subgroup X) :=
     Finite.of_injective (fun H : Subgroup X => (H : Set X)) SetLike.coe_injective
-  haveI : Finite (Sylow 2 X) :=
+  have : Finite (Sylow 2 X) :=
     Finite.of_injective (fun P : Sylow 2 X => (P : Subgroup X)) (fun _ _ h => Sylow.ext h)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X R₀ R
   exact ⟨g, by rw [← hg]; rfl⟩

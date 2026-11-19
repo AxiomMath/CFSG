@@ -25,7 +25,7 @@ theorem exists_complement_of_abelian_sylow {p : ℕ} [hp : Fact p.Prime] (S : Sy
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv
   have hS'idx : ¬ p ∣ S'.index := fun h =>
     S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hSN))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hcop : (Nat.card S').Coprime S'.index := by
     rw [hS'card, hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd hp.out).mpr hS'idx)
@@ -45,7 +45,7 @@ theorem exists_complement_of_abelian_sylow {p : ℕ} [hp : Fact p.Prime] (S : Sy
   have hfus : ∀ x ∈ (S : Subgroup G), ∀ g : G, g⁻¹ * x * g ∈ (S : Subgroup G) →
       ∃ h ∈ H, g⁻¹ * x * g = h⁻¹ * x * h := by
     intro x hx g hg
-    haveI : IsMulCommutative (S : Subgroup G) := ⟨⟨hSab⟩⟩
+    have : IsMulCommutative (S : Subgroup G) := ⟨⟨hSab⟩⟩
     obtain ⟨n, hn, hgn⟩ := Sylow.conj_eq_normalizer_conj_of_mem S x g hx hg
     obtain ⟨s, hs, h, hh, rfl⟩ := hdecomp n hn
     refine ⟨h, hh, ?_⟩
@@ -85,6 +85,7 @@ theorem exists_complement_of_abelian_sylow {p : ℕ} [hp : Fact p.Prime] (S : Sy
   · rw [hfocal, sup_comm]
     exact hdsup
 
+omit [Finite G] in
 theorem commutator_le_of_sup_eq_top {S N : Subgroup G} [N.Normal]
     (hSab : ∀ x y : S, x * y = y * x) (hN : N ⊔ S = ⊤) : commutator G ≤ N := by
   rw [commutator_def, Subgroup.commutator_le]

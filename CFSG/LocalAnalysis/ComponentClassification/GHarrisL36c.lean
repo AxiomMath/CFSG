@@ -118,7 +118,7 @@ theorem isSylowOf_S1_M1 : IsSylowOf 2 D.S1 D.M1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSM : IsSylowOf 2 (D.S : Subgroup G) D.M := (isSylowOf_top D.S).of_le D.S_le_M le_top
   rw [isSylowOf_iff] at hSM ⊢
-  refine ⟨D.S1_le_M1, D.S.isPGroup'.to_le inf_le_left, fun hdvd => hSM.2.2 ?_⟩
+  refine ⟨D.S1_le_M1, D.S.isPGroup.to_le inf_le_left, fun hdvd => hSM.2.2 ?_⟩
   have h1 := Subgroup.relIndex_mul_relIndex D.S1 D.M1 D.M D.S1_le_M1 D.M1_le_M
   have h2 := Subgroup.relIndex_mul_relIndex D.S1 (D.S : Subgroup G) D.M inf_le_left D.S_le_M
   have h3 : D.M1.relIndex D.M = 2 := D.M1_index

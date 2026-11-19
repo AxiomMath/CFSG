@@ -76,7 +76,7 @@ theorem exists_twoSubgroup_normalized_of_apply_eq {m : ℕ} (hm : 2 ≤ m) :
       exact (LinearEquiv.symm_apply_eq _).mpr hg.symm
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf]
+    simp only [Subgroup.mem_subgroupOf]
     constructor
     · intro hh
       simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using

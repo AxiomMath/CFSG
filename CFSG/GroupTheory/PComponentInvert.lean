@@ -34,12 +34,12 @@ private theorem mem_pPrimeCore_map_subtype_iff {X : Type} [Group X] {p : ℕ}
 private theorem quotient_pPrimeCore_perfect {X : Type} [Group X] [Finite X] {p : ℕ}
     (hp : p.Prime) {K : Subgroup X} (hK : CFSG.IsPComponent p K) :
     Group.IsPerfect (↥K ⧸ CFSG.pPrimeCore p ↥K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact (CFSG.ComponentClassification.CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple
     p K hK).1
 
 private theorem pRank_quotient_pPrimeCore_eq_one {X : Type} [Group X] [Finite X] {p : ℕ}
-    (hp : p.Prime) {K : Subgroup X} (hr : CFSG.Open.pRank 3 K = 1)
+    (_hp : p.Prime) {K : Subgroup X} (hr : CFSG.Open.pRank 3 K = 1)
     (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K)) :
     CFSG.pRank 3 (↥K ⧸ CFSG.pPrimeCore p ↥K) = 1 := by
   rw [CFSG.GroupTheory.PRankCoprimeQuotient.pRank_quotient_eq_of_not_dvd Nat.prime_three
@@ -50,7 +50,7 @@ private theorem isCyclic_sylow_three_of_pRank_eq_one {Y : Type} [Group Y] [Finit
     (hrank : CFSG.pRank 3 Y = 1) (Q : Sylow 3 Y) :
     IsCyclic ↥(Q : Subgroup Y) := by
   refine CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_of_pRank_le_one
-    Nat.prime_three (by norm_num) Q.isPGroup' ?_
+    Nat.prime_three (by norm_num) Q.isPGroup ?_
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank 3 (Q : Subgroup Y)]
   have h1 : CFSG.Open.pRank 3 (Q : Subgroup Y) ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Y) :=
     CFSG.SectionRank.pRank_mono (by norm_num : 1 < 3) le_top
@@ -71,7 +71,7 @@ private theorem card_map_subgroupOf_quotient_eq_three {X : Type} [Group X] [Fini
     {K A : Subgroup X} (hAK : A ≤ K) (hA3 : Nat.card A = 3)
     (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K)) :
     Nat.card ((A.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥K))) = 3 := by
-  haveI : Nontrivial A := (Finite.one_lt_card_iff_nontrivial).1 (by rw [hA3]; norm_num)
+  have : Nontrivial A := (Finite.one_lt_card_iff_nontrivial).1 (by rw [hA3]; norm_num)
   obtain ⟨a, ha⟩ := exists_ne (1 : A)
   have hinf : A ⊓ (CFSG.pPrimeCore p ↥K).map K.subtype = ⊥ :=
     inf_pPrimeCore_map_eq_bot hA3 hcop
@@ -109,7 +109,7 @@ private theorem card_map_subgroupOf_quotient_eq_three {X : Type} [Group X] [Fini
 private theorem omega_map_subtype_eq_of_card_three {Y : Type} [Group Y] [Finite Y]
     {Q Z : Subgroup Y} [IsCyclic ↥Q] (hZQ : Z ≤ Q) (hZcard : Nat.card Z = 3) :
     (CFSG.omega₁ ↥Q (p := 3)).map Q.subtype = Z := by
-  letI : CommGroup ↥Q := IsCyclic.commGroup
+  let : CommGroup ↥Q := IsCyclic.commGroup
   have h3Q : 3 ∣ Nat.card ↥Q := by
     have h := Subgroup.card_dvd_of_le hZQ
     rwa [hZcard] at h
@@ -136,13 +136,13 @@ private theorem exists_inverting_image_quotient {X : Type} [Group X] [Finite X] 
         n * (QuotientGroup.mk' (CFSG.pPrimeCore p ↥K)) ⟨a, hAK ha⟩ * n⁻¹ =
           ((QuotientGroup.mk' (CFSG.pPrimeCore p ↥K)) ⟨a, hAK ha⟩)⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set PC := CFSG.pPrimeCore p ↥K with hPC
   set Abar : Subgroup (↥K ⧸ PC) := (A.subgroupOf K).map (QuotientGroup.mk' PC) with hAbar
   have hAbarCard : Nat.card Abar = 3 :=
     card_map_subgroupOf_quotient_eq_three hAK hA3 hcop
-  haveI hperf : Group.IsPerfect (↥K ⧸ PC) := quotient_pPrimeCore_perfect hp hK
+  have hperf : Group.IsPerfect (↥K ⧸ PC) := quotient_pPrimeCore_perfect hp hK
   have hAbarP : IsPGroup 3 ↥Abar :=
     IsPGroup.iff_card.2 ⟨1, by rw [hAbarCard]; norm_num⟩
   obtain ⟨Q, hAbarQ⟩ := hAbarP.exists_le_sylow
@@ -156,7 +156,7 @@ private theorem exists_inverting_image_quotient {X : Type} [Group X] [Finite X] 
       simpa using Subgroup.card_dvd_of_le hle
     rw [hAbarCard] at hdvd
     omega
-  haveI : IsCyclic ↥(Q : Subgroup (↥K ⧸ PC)) := hQcyc
+  have : IsCyclic ↥(Q : Subgroup (↥K ⧸ PC)) := hQcyc
   obtain ⟨n, hnNorm, hnInv⟩ :=
     CFSG.GroupTheory.exists_mem_normalizer_conj_eq_inv_of_perfect
       (X := ↥K ⧸ PC) Q hQne
@@ -185,7 +185,7 @@ private theorem exists_mem_inf_centralizer_inverting_mod_core {X : Type} [Group 
     (hcomm₂ : ⁅B₂, K⁆ ≤ (CFSG.pPrimeCore p ↥K).map K.subtype)
     (hAK : A ≤ K) (hA3 : Nat.card A = 3) :
     ∃ c ∈ K ⊓ Subgroup.centralizer ((B₁ ⊔ B₂ : Subgroup X) : Set X),
-      ∀ (a : X) (ha : a ∈ A),
+      ∀ (a : X) (_ha : a ∈ A),
         (c * a * c⁻¹) * a ∈ (CFSG.pPrimeCore p ↥K).map K.subtype := by
   classical
   set PC := CFSG.pPrimeCore p ↥K with hPC
@@ -218,18 +218,18 @@ private theorem exists_mem_inf_centralizer_inverting_mod_core {X : Type} [Group 
     have h2 : (QuotientGroup.mk' PC) ⟨c, hcK⟩ *
         (((QuotientGroup.mk' PC) ⟨c, hcK⟩)⁻¹ * n) = n := by group
     rwa [hmul, mul_one] at h2
-  intro a ha
-  have hca : (QuotientGroup.mk' PC) ⟨c * a * c⁻¹, K.mul_mem (K.mul_mem hcK (hAK ha))
+  intro a _ha
+  have hca : (QuotientGroup.mk' PC) ⟨c * a * c⁻¹, K.mul_mem (K.mul_mem hcK (hAK _ha))
       (K.inv_mem hcK)⟩ =
-      ((QuotientGroup.mk' PC) ⟨a, hAK ha⟩)⁻¹ := by
-    rw [show (⟨c * a * c⁻¹, K.mul_mem (K.mul_mem hcK (hAK ha)) (K.inv_mem hcK)⟩ : ↥K) =
-      (⟨c, hcK⟩ : ↥K) * ⟨a, hAK ha⟩ * (⟨c, hcK⟩ : ↥K)⁻¹ from Subtype.ext rfl]
+      ((QuotientGroup.mk' PC) ⟨a, hAK _ha⟩)⁻¹ := by
+    rw [show (⟨c * a * c⁻¹, K.mul_mem (K.mul_mem hcK (hAK _ha)) (K.inv_mem hcK)⟩ : ↥K) =
+      (⟨c, hcK⟩ : ↥K) * ⟨a, hAK _ha⟩ * (⟨c, hcK⟩ : ↥K)⁻¹ from Subtype.ext rfl]
     rw [map_mul, map_mul, map_inv, hcn]
-    exact hnInv a ha
-  have hK1 : c * a * c⁻¹ ∈ K := K.mul_mem (K.mul_mem hcK (hAK ha)) (K.inv_mem hcK)
-  have hK2 : (c * a * c⁻¹) * a ∈ K := K.mul_mem hK1 (hAK ha)
+    exact hnInv a _ha
+  have hK1 : c * a * c⁻¹ ∈ K := K.mul_mem (K.mul_mem hcK (hAK _ha)) (K.inv_mem hcK)
+  have hK2 : (c * a * c⁻¹) * a ∈ K := K.mul_mem hK1 (hAK _ha)
   have hprod : (QuotientGroup.mk' PC) ⟨(c * a * c⁻¹) * a, hK2⟩ = 1 := by
-    rw [show (⟨(c * a * c⁻¹) * a, hK2⟩ : ↥K) = ⟨c * a * c⁻¹, hK1⟩ * ⟨a, hAK ha⟩
+    rw [show (⟨(c * a * c⁻¹) * a, hK2⟩ : ↥K) = ⟨c * a * c⁻¹, hK1⟩ * ⟨a, hAK _ha⟩
       from Subtype.ext rfl]
     rw [map_mul, hca, inv_mul_cancel]
   exact (mem_pPrimeCore_map_subtype_iff hK2).mpr hprod
@@ -311,15 +311,15 @@ theorem exists_inverting_of_conj_eq {X : Type} [Group X]
     (hKN : K ≤ Subgroup.normalizer (N : Set X))
     (hAK : A ≤ K) (hcC : c ∈ C) (hdN : d ∈ N) (hdC : d ∈ C)
     (hAN : A ⊓ N = ⊥)
-    (hmod : ∀ (a : X) (ha : a ∈ A), (c * a * c⁻¹) * a ∈ N)
+    (hmod : ∀ (a : X) (_ha : a ∈ A), (c * a * c⁻¹) * a ∈ N)
     (hconj : A.map (MulAut.conj c).toMonoidHom = A.map (MulAut.conj d).toMonoidHom) :
-    ∃ t ∈ C, ∀ (a : X) (ha : a ∈ A), t * a * t⁻¹ = a⁻¹ := by
+    ∃ t ∈ C, ∀ (a : X) (_ha : a ∈ A), t * a * t⁻¹ = a⁻¹ := by
   have hNconj : ∀ k ∈ K, ∀ n ∈ N, k * n * k⁻¹ ∈ N :=
     fun k hk n hn => (Subgroup.mem_normalizer_iff.mp (hKN hk) n).mp hn
-  refine ⟨d⁻¹ * c, C.mul_mem (C.inv_mem hdC) hcC, fun a ha => ?_⟩
-  have hwN : (c * a * c⁻¹) * a ∈ N := hmod a ha
+  refine ⟨d⁻¹ * c, C.mul_mem (C.inv_mem hdC) hcC, fun a _ha => ?_⟩
+  have hwN : (c * a * c⁻¹) * a ∈ N := hmod a _ha
   have hmem : c * a * c⁻¹ ∈ A.map (MulAut.conj c).toMonoidHom :=
-    Subgroup.mem_map.mpr ⟨a, ha, by
+    Subgroup.mem_map.mpr ⟨a, _ha, by
       change (MulAut.conj c) a = c * a * c⁻¹
       rw [MulAut.conj_apply]⟩
   rw [hconj] at hmem
@@ -334,10 +334,10 @@ theorem exists_inverting_of_conj_eq {X : Type} [Group X]
     rw [h]
     exact ha'
   have hnN : a * (c * a * c⁻¹) ∈ N := by
-    have h := hNconj a (hAK ha) ((c * a * c⁻¹) * a) hwN
+    have h := hNconj a (hAK _ha) ((c * a * c⁻¹) * a) hwN
     rwa [show a * ((c * a * c⁻¹) * a) * a⁻¹ = a * (c * a * c⁻¹) by group] at h
   have hdaN : a * d⁻¹ * a⁻¹ ∈ N := by
-    have h := hNconj a (hAK ha) d⁻¹ (N.inv_mem hdN)
+    have h := hNconj a (hAK _ha) d⁻¹ (N.inv_mem hdN)
     rwa [show a * d⁻¹ * a⁻¹ = a * d⁻¹ * a⁻¹ by rfl] at h
   have hmN : (a * d⁻¹ * a⁻¹) * (a * (c * a * c⁻¹)) * d ∈ N :=
     N.mul_mem (N.mul_mem hdaN hnN) hdN
@@ -347,7 +347,7 @@ theorem exists_inverting_of_conj_eq {X : Type} [Group X]
     have hma : a * ((d⁻¹ * c) * a * (d⁻¹ * c)⁻¹) =
         (a * d⁻¹ * a⁻¹) * (a * (c * a * c⁻¹)) * d := by group
     rw [← hma]
-    exact A.mul_mem ha htaA
+    exact A.mul_mem _ha htaA
   have hbot : ((a * d⁻¹ * a⁻¹) * (a * (c * a * c⁻¹)) * d) ∈ (⊥ : Subgroup X) := by
     rw [← hAN]
     exact ⟨hmA, hmN⟩

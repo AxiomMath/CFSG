@@ -66,7 +66,7 @@ theorem exists_sylow_inf_of_sylow {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
       (S : Subgroup _).map (M ⊓ Subgroup.centralizer ({z} : Set G)).subtype = R := by
   obtain ⟨Q, hQ⟩ := hB0
   have hRC : R ≤ Subgroup.centralizer ({z} : Set G) := hQ ▸ Subgroup.map_subtype_le _
-  have hRp : IsPGroup p R := by rw [← hQ]; exact Q.isPGroup'.map _
+  have hRp : IsPGroup p R := by rw [← hQ]; exact Q.isPGroup.map _
   obtain ⟨S, hS⟩ :=
     (hRp.comap_subtype (K := M ⊓ Subgroup.centralizer ({z} : Set G))).exists_le_sylow
   refine ⟨S, ?_⟩
@@ -75,7 +75,7 @@ theorem exists_sylow_inf_of_sylow {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
   have hS₁C : (S : Subgroup _).map (M ⊓ Subgroup.centralizer ({z} : Set G)).subtype ≤
       Subgroup.centralizer ({z} : Set G) := (Subgroup.map_subtype_le _).trans inf_le_right
   have hS₁p : IsPGroup p ((S : Subgroup _).map
-      (M ⊓ Subgroup.centralizer ({z} : Set G)).subtype) := S.isPGroup'.map _
+      (M ⊓ Subgroup.centralizer ({z} : Set G)).subtype) := S.isPGroup.map _
   have hQle : (Q : Subgroup (Subgroup.centralizer ({z} : Set G))) ≤
       ((S : Subgroup _).map (M ⊓ Subgroup.centralizer ({z} : Set G)).subtype).subgroupOf
         (Subgroup.centralizer ({z} : Set G)) := by

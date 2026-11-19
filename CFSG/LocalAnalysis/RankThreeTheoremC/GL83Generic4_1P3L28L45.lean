@@ -175,7 +175,7 @@ theorem l28l45_exists_within_not_le (hS : Setting G) (hU0 : FullCoreLocal G)
         (((V.comap (QuotientGroup.mk' O)).map J.subtype : Subgroup G) : Set G) :=
       hUxw.le.trans (sup_le (zpowers_le.mpr hxĈ) (zpowers_le.mpr hwĈ))
     obtain ⟨W, hW2, hUW, hWV⟩ :=
-      l28l45_exists_invariant_two_lift (P.isPGroup'.to_le hUP) O hOcop V hV2 hUĈ
+      l28l45_exists_invariant_two_lift (P.isPGroup.to_le hUP) O hOcop V hV2 hUĈ
     obtain ⟨s, hs, hsW, hsv⟩ := hWV v hv
     have hWM : W ⊓ J ≤ M := hall (W ⊓ J) inf_le_right (hW2.to_le inf_le_left)
       (fun g hg => Subgroup.inf_normalizer_le_normalizer_inf ⟨hUW hg, hUN hg⟩)

@@ -109,7 +109,7 @@ theorem exists_mulEquiv_statedSU_of_cover (hGA : GriessAllModelsStatement) {K : 
     rw [hcard]
     refine (factorization_card_table hp hp2 hadm (Or.inr rfl) ha).trans ?_
     exact (Nat.factorization_le_iff_dvd (genericOrders_fst_pos hadm).ne' Nat.card_pos.ne').2 hdv 3
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hHperf : Group.IsPerfect (StatedSU 3 (r ^ f) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF (by norm_num) hadm.2.2.2
   set D := (StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (r ^ f) F) with hD

@@ -21,7 +21,7 @@ open scoped commutatorElement Pointwise
 
 theorem bParam_le_of_homogeneous {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     {Y X : Subgroup (MulAut W)} (hXY : X ≤ Y) (hXn : (X.subgroupOf Y).Normal)
-    (hsimple : IsSimpleGroup ↥X) (hfix : fixV X = ⊥) (hcomm : commV X = ⊤) {I : Subgroup W}
+    (hsimple : IsSimpleGroup ↥X) (hfix : fixV X = ⊥) (_hcomm : commV X = ⊤) {I : Subgroup W}
     (hI : I ∈ irrSet X) (hhom : ∀ J ∈ irrSet X, SecIsoOn X I ⊥ J ⊥) {B : ℕ}
     (ha : ∀ J ∈ irrSet X, E3.aParam (autSub Y J) ≤ B) :
     bParam X Y ≤ B := by

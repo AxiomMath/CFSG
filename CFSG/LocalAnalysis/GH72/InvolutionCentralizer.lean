@@ -34,13 +34,14 @@ theorem kleinFour_mulAut_eq_one_of_odd {K : Type*} [Group K] [IsKleinFour K] (α
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centralizer_of_odd_of_mem_normalizer {R : Subgroup G} {m : G}
     (hm : m ∈ normalizer (R : Set G)) (hodd : Odd (orderOf m))
     (hR : IsPGroup 2 (MulAut R) ∨
       (IsKleinFour R ∧ ∃ u ∈ R, u ≠ 1 ∧ m * u * m⁻¹ = u)) :
     m ∈ centralizer (R : Set G) := by
   let N := normalizer (R : Set G)
-  haveI : (R.subgroupOf N).Normal := normal_in_normalizer
+  have : (R.subgroupOf N).Normal := normal_in_normalizer
   let n : N := ⟨m, hm⟩
   let σ : MulAut (R.subgroupOf N) := MulAut.conjNormal n
   let eR : R.subgroupOf N ≃* R := subgroupOfEquivOfLe le_normalizer
@@ -59,7 +60,7 @@ theorem mem_centralizer_of_odd_of_mem_normalizer {R : Subgroup G} {m : G}
       · exfalso
         rw [hk, pow_succ] at hσodd
         exact (Nat.not_even_iff_odd.mpr hσodd) (even_two.mul_left _)
-    · haveI : IsKleinFour (R.subgroupOf N) :=
+    · have : IsKleinFour (R.subgroupOf N) :=
         IsKleinFour.mk (by rw [Nat.card_congr eR.toEquiv]; exact IsKleinFour.card_four)
           (by rw [Monoid.exponent_eq_of_mulEquiv eR]; exact IsKleinFour.exponent_two)
       let u' : R.subgroupOf N := ⟨⟨u, le_normalizer huR⟩, by simpa [mem_subgroupOf] using huR⟩
@@ -102,7 +103,7 @@ theorem mem_centralizer_of_odd_of_hasDihedralSylowTwo (hD : HasDihedralSylowTwo 
     rintro _ ⟨j, rfl⟩
     exact (Commute.zpow_left (mem_centralizer_singleton_iff.mp hmt).symm j).eq
   have hmR : m ∈ normalizer ((Q ⊔ zpowers t : Subgroup G) : Set G) :=
-    normalizer_inf_normalizer_le_normalizer_sup Q (zpowers t)
+    inf_normalizer_le_normalizer_sup Q (zpowers t)
       ⟨hmQ, centralizer_le_normalizer _ hmZ⟩
   have hcR : m ∈ centralizer ((Q ⊔ zpowers t : Subgroup G) : Set G) := by
     by_cases hK : IsKleinFour (Q ⊔ zpowers t : Subgroup G)
@@ -117,7 +118,7 @@ theorem mem_centralizer_of_odd_of_hasDihedralSylowTwo (hD : HasDihedralSylowTwo 
 theorem hasNormalPComplement_centralizer_of_hasDihedralSylowTwo (hD : HasDihedralSylowTwo G)
     {t : G} (ht : orderOf t = 2) :
     CFSG.HasNormalPComplement 2 (centralizer ({t} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer ({t} : Set G)
   rw [CFSG.GroupTheory.hasNormalPComplement_iff_isPGroup_automizer]
   intro Q hQ x
@@ -141,7 +142,7 @@ theorem hasNormalPComplement_centralizer_of_hasDihedralSylowTwo (hD : HasDihedra
 
 theorem hasNormalTwoComplement_of_hasNormalPComplement {H : Subgroup G}
     (h : CFSG.HasNormalPComplement 2 H) : HasNormalTwoComplement H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hN, hcop, hP⟩ := h
   have hsub : (N.map H.subtype).subgroupOf H = N := by
     rw [← comap_subtype, comap_map_eq_self_of_injective H.subtype_injective]

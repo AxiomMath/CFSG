@@ -184,7 +184,7 @@ theorem commutator_le_of_isCyclic {C : Type*} [Group C] [IsCyclic C] {M D : Subg
     exact congrArg _ (Subtype.ext (Subgroup.mem_center_iff.mp hdz m'))
   rw [Subgroup.commutator_le]
   intro a ha b hb
-  have hc := commutative_of_cyclic_center_quotient _ hcen
+  have hc := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center _ hcen).is_comm.comm
     (QuotientGroup.mk ⟨a, ha⟩ : ↥M ⧸ D.subgroupOf M) (QuotientGroup.mk ⟨b, hb⟩)
   have h1 : (QuotientGroup.mk ⁅(⟨a, ha⟩ : ↥M), ⟨b, hb⟩⁆ : ↥M ⧸ D.subgroupOf M) = 1 := by
     rw [commutatorElement_def, QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_mul,

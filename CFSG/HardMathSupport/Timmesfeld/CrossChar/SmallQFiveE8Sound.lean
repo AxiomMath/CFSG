@@ -137,7 +137,7 @@ theorem famData_of_famOK5 (fl : List ℤ)
   simp only at h
   by_cases hKe : (kerRootsL (fibRootsG (fib5 fl) rootsN5) (List.replicate 4 0)).isEmpty = true
   · left
-    rw [if_pos hKe] at h
+    rw [ite_eq_left hKe] at h
     have hK : kerRootsL (fibRootsG (fib5 fl) rootsN5) (List.replicate 4 0) = [] :=
       List.isEmpty_iff.1 hKe
     refine ⟨Set.eq_empty_iff_forall_notMem.2 fun γ hγ => ?_, fun u hu => ?_⟩
@@ -149,7 +149,7 @@ theorem famData_of_famOK5 (fl : List ℤ)
       rw [beq_iff_eq] at h1
       exact eq_of_imgTuple_eq (h1.trans imgTuple_one.symm)
   · right
-    rw [if_neg hKe, List.any_eq_true] at h
+    rw [ite_eq_right hKe, List.any_eq_true] at h
     obtain ⟨αl, hαl, hcond⟩ := h
     simp only [Bool.and_eq_true, List.all_eq_true, Bool.or_eq_true, beq_iff_eq,
       List.contains_iff_mem] at hcond

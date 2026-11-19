@@ -47,8 +47,8 @@ theorem eltC_val (hB : Bridge) : ∀ (cs : List ℕ), (∀ c ∈ cs, c ≤ 26) �
     have hc' := hc c List.mem_cons_self
     unfold CF
     by_cases h : c = 26
-    · rw [if_pos h, if_pos h, tR_val hB, ih]
-    · rw [if_neg h, if_neg h, CFSG.Sporadic.Fi24.jR_smul, hB.letter c (by omega), ih]
+    · rw [ite_eq_left h, ite_eq_left h, tR_val hB, ih]
+    · rw [ite_eq_right h, ite_eq_right h, CFSG.Sporadic.Fi24.jR_smul, hB.letter c (by omega), ih]
 
 theorem wc_root (hB : Bridge) (i : Fin 24) :
     wordElt (wc i.val) • CFSG.Sporadic.Fi24.root = bbarPt i := by

@@ -26,8 +26,8 @@ theorem asc82P510TR_of
       sec5p510_E t a b
   · exact hTE G t L S z r ρ B A φ K₁ K₂ a b h hs hTE'
   · obtain ⟨X, hXgrp, π, hhyp⟩ := sec5op_exists_hyp_gen h hs
-    letI : Group X := hXgrp
-    haveI : Finite X := Finite.of_surjective π hhyp.surj
+    let : Group X := hXgrp
+    have : Finite X := Finite.of_surjective π hhyp.surj
     have hout : Sec5G8Outcome (sec5op_Tb z
         (sec5p510_T t z (sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂))) π) :=
       sec5g8_main hB3 hSH8 hy h55 h58d hFB h4 hU hSq h hs hTE' π hhyp.surj hhyp.ker

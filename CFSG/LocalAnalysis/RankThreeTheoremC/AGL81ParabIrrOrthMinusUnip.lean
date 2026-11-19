@@ -18,6 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r s : ℕ} {d : 
 
 local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
 
+omit [Finite K] in
 theorem pow_two_pow_eq_one_of_trivial_sections (hd : OrthCuts r d) {f : 𝕍 ≃ₗ[K] 𝕍}
     (hiso : ∀ v, quadTail r (minusTailForm K b c) (f v) = quadTail r (minusTailForm K b c) v)
     (hsec : ∀ l : Fin s, ∀ v ∈ tailFlag K (Fin 2 → K) r (d l.succ),
@@ -54,6 +55,7 @@ theorem pow_two_pow_eq_one_of_trivial_sections (hd : OrthCuts r d) {f : 𝕍 ≃
       exact (LinearMap.BilinForm.mem_orthogonal_iff.1 hv) w hw)
   exact CFSG.SeitzReduction.OmegaPilot.pow_two_pow_eq_one_of_sub_one_pow_eq_zero hpow
 
+omit [Finite K] in
 theorem trivRes_of_scalarMod (hd : OrthCuts r d) {f : 𝕍 ≃ₗ[K] 𝕍}
     (hiso : ∀ v, quadTail r (minusTailForm K b c) (f v) = quadTail r (minusTailForm K b c) v)
     {a : K} (ha : ScalarMod (perpSub (K := K) (r := r) hd.last)

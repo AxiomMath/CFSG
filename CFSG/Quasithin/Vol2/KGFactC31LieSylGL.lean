@@ -73,8 +73,8 @@ theorem rhoA_diag (g : GL ι K) (hg : ∀ i j, i ≠ j → (g : Matrix ι ι K) 
   ext k
   by_cases hki : k = i
   · subst hki
-    simp [Pi.basisFun_apply]
-  · simp [Pi.basisFun_apply, hg k i hki, hki]
+    simp
+  · simp [hg k i hki, hki]
 
 @[expose] noncomputable def diagHomA (ι K : Type*) [Fintype ι] [DecidableEq ι] [Field K] :
     (ι → Kˣ) →* GL ι K :=
@@ -166,7 +166,7 @@ theorem not_dvd_of_geom (r n ℓ I : ℕ) (hℓ : ℓ.Prime) (hn : n < ℓ) (hr 
     rw [hI, hprod]
     ring
   intro hdvd
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hr0 : (r : ZMod ℓ) = 0 := (ZMod.natCast_eq_zero_iff r ℓ).2 hr
   have hQ : ∀ i : Fin n, (((r + 1) ^ (i : ℕ) : ℕ) : ZMod ℓ) = 1 := by
     intro i
@@ -221,7 +221,7 @@ theorem exists_sylow_le_diagTorusA [Fintype K] {ℓ : ℕ} [Fact ℓ.Prime]
     ∃ P₀ : Sylow ℓ (GL ι K), (P₀ : Subgroup (GL ι K)) ≤ diagTorusA ι K := by
   obtain ⟨S₀⟩ : Nonempty (Sylow ℓ (diagTorusA ι K)) := inferInstance
   have hSp : IsPGroup ℓ ((S₀ : Subgroup (diagTorusA ι K)).map (diagTorusA ι K).subtype) :=
-    S₀.isPGroup'.map (diagTorusA ι K).subtype
+    S₀.isPGroup.map (diagTorusA ι K).subtype
   have hSi : ¬ ℓ ∣ ((S₀ : Subgroup (diagTorusA ι K)).map (diagTorusA ι K).subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h
@@ -254,7 +254,7 @@ variable {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field K]
 theorem autBdA_split [Fintype K] {ℓ : ℕ} (hℓ : ℓ.Prime) (hn : Fintype.card ι < ℓ)
     (hq : ℓ ∣ Fintype.card K - 1) {R : Subgroup (GL ι K)} (hR : IsPGroup ℓ R) :
     AutBdA R (Fintype.card ι).factorial := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨g, hg⟩ := exists_conj_le_diagTorusA hn hq hR
   refine autBdA_of_map_injective (MulAut.conj g).toMonoidHom (conj_hom_injective g) ?_
   refine autBdA_of_le_diagTorusA ?_
@@ -271,12 +271,12 @@ theorem autBdA_general {K ι : Type} [Field K] [Finite K] [Fintype ι] [Decidabl
     {R : Subgroup (GL ι K)} (hR : IsPGroup ℓ R) :
     AutBdA R (Fintype.card ι).factorial := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hp, n, hpp, hcardK⟩ := FiniteField.card' K
-  haveI : CharP K p := hp
-  haveI : Fact p.Prime := ⟨hpp⟩
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
+  have : CharP K p := hp
+  have : Fact p.Prime := ⟨hpp⟩
+  let : Algebra (ZMod p) K := ZMod.algebra K p
   have hKf : p ^ Module.finrank (ZMod p) K = Nat.card K :=
     FiniteField.pow_finrank_eq_natCard p K
   have hf0 : Module.finrank (ZMod p) K ≠ 0 := Module.finrank_pos.ne'
@@ -295,7 +295,7 @@ theorem autBdA_general {K ι : Type} [Field K] [Finite K] [Fintype ι] [Decidabl
     FiniteField.nonempty_algHom_of_finrank_dvd (by
       rw [GaloisField.finrank p hfm]
       exact dvd_mul_right _ _)
-  haveI : Fintype (GaloisField p (Module.finrank (ZMod p) K * (ℓ - 1))) :=
+  have : Fintype (GaloisField p (Module.finrank (ZMod p) K * (ℓ - 1))) :=
     Fintype.ofFinite _
   have hdvd' : ℓ ∣ Fintype.card (GaloisField p (Module.finrank (ZMod p) K * (ℓ - 1))) - 1 := by
     rw [← Nat.card_eq_fintype_card]
@@ -313,7 +313,7 @@ theorem autBdA_general {K ι : Type} [Field K] [Finite K] [Fintype ι] [Decidabl
 theorem sylowAutBoundAll_GL_of_fintype {K ι : Type} [Field K] [Finite K] [Fintype ι]
     [DecidableEq ι] {ℓ : ℕ} (hℓ : ℓ.Prime) (hn : Fintype.card ι < ℓ) (hK : ¬ ℓ ∣ Nat.card K) :
     SylowAutBoundAll ℓ (Fintype.card ι).factorial (GL ι K) := fun P =>
-  autBdA_general hℓ hn hK P.isPGroup'
+  autBdA_general hℓ hn hK P.isPGroup
 
 end General
 

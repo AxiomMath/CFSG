@@ -17,7 +17,7 @@ theorem extra_three (i : Fin 12) : extra i 3 = (letter 's' :: word (repStr i)) +
   unfold extra word
   rw [String.toList_join]
   simp only [List.replicate, List.flatMap_cons, List.flatMap_nil, String.toList_append, hs,
-    List.map_append, List.map_cons, List.map_nil, List.append_nil, List.cons_append,
+    List.map_append, List.map_cons, List.append_nil, List.cons_append,
     List.nil_append, List.append_assoc]
 
 theorem gen_facts : ∀ j : Fin 5, j.val < 3 → upk22 (gL.getD j.val 0) 0 = 0 ∧

@@ -147,8 +147,8 @@ theorem autOn_sup_eq_sup_autOn {H K V : Subgroup G} (hH : H ≤ Subgroup.normali
     (hK : K ≤ Subgroup.normalizer (V : Set G)) : autOn (H ⊔ K) V = autOn H V ⊔ autOn K V :=
   CFSG.Quasithin.AutOn.autOn_sup_eq hH hK
 
-theorem autOn_le_normalizer_autOn {L T V : Subgroup G} (hL : L ≤ Subgroup.normalizer (V : Set G))
-    (hT : T ≤ Subgroup.normalizer (V : Set G)) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
+theorem autOn_le_normalizer_autOn {L T V : Subgroup G} (_hL : L ≤ Subgroup.normalizer (V : Set G))
+    (_hT : T ≤ Subgroup.normalizer (V : Set G)) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     autOn T V ≤ Subgroup.normalizer (autOn L V : Set (MulAut ↥V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hTL
 
@@ -168,7 +168,7 @@ theorem pCoreOf_le_of_le_normalizer {T I : Subgroup G} (hT : quasithinIsSylowTwo
   have hTP : T ≤ Subgroup.normalizer (pCoreOf 2 I : Set G) :=
     hTI.trans (LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 I)
   have hsup : IsPGroup 2 ↥(T ⊔ pCoreOf 2 I) :=
-    IsPGroup.to_sup_of_normal_right' (hS ▸ S.isPGroup') (LieType.BorelTits.pCoreOf_isPGroup 2 I)
+    IsPGroup.to_sup_of_normal_right' (hS ▸ S.isPGroup) (LieType.BorelTits.pCoreOf_isPGroup 2 I)
       hTP
   have hmax : T ⊔ pCoreOf 2 I = T := by
     have := S.maximal_isPGroup.eq_of_ge hsup (by rw [hS]; exact le_sup_left)

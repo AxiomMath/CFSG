@@ -42,10 +42,11 @@ theorem sylowFixedLine_mulVec {Γ : Subgroup (GL ι K)} {e : ι → K}
   rw [hkey]
   exact hx v
 
+omit [DecidableEq ι] in
 private theorem two_dvd_card_D11 [Finite K] [CharP K 2] [Nonempty ι] :
     2 ∣ Nat.card (ι → K) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite ι := Finite.of_fintype ι
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite ι := Finite.of_fintype ι
   rw [Nat.card_fun]
   obtain ⟨n, -, hcard⟩ := FiniteField.card K 2
   have h2K : 2 ∣ Nat.card K := by
@@ -56,7 +57,7 @@ private theorem two_dvd_card_D11 [Finite K] [CharP K 2] [Nonempty ι] :
 theorem ne_zero_of_sylowFixedLine [Finite K] [CharP K 2] [Nonempty ι] {Γ : Subgroup (GL ι K)}
     {e : ι → K} (h : KTabC.SylowFixedLine Γ e) : e ≠ 0 := by
   intro he
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nonempty (Sylow 2 ↥Γ) := Sylow.nonempty
   obtain ⟨S⟩ := hS
   obtain ⟨x, hx⟩ := h S
@@ -65,7 +66,7 @@ theorem ne_zero_of_sylowFixedLine [Finite K] [CharP K 2] [Nonempty ι] {Γ : Sub
     intro s
     exact Matrix.mulVec_zero _
   obtain ⟨b, hb, hbne⟩ := IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point
-    S.isPGroup' (α := ι → K) (two_dvd_card_D11 (ι := ι) (K := K)) h0
+    S.isPGroup (α := ι → K) (two_dvd_card_D11 (ι := ι) (K := K)) h0
   have hbfix : ∀ s ∈ (S : Subgroup ↥Γ),
       (((s : ↥Γ) : GL ι K) : Matrix ι ι K) *ᵥ b = b := by
     intro s hs

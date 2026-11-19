@@ -82,7 +82,7 @@ theorem burnsideF411a_diag_ne_zero (A : GL (Fin 3) K)
     (hA : ∀ i j : Fin 3, j < i → (A : Matrix (Fin 3) (Fin 3) K) i j = 0) (i : Fin 3) :
     (A : Matrix (Fin 3) (Fin 3) K) i i ≠ 0 := by
   have hdet := GeneralLinearGroup.det_ne_zero A
-  rw [Matrix.det_of_upperTriangular (fun i j hij => hA i j hij), Fin.prod_univ_three] at hdet
+  rw [det_of_isUpperTriangular (fun i j hij => hA i j hij), Fin.prod_univ_three] at hdet
   fin_cases i
   · exact left_ne_zero_of_mul (left_ne_zero_of_mul hdet)
   · exact right_ne_zero_of_mul (left_ne_zero_of_mul hdet)
@@ -94,7 +94,7 @@ theorem burnsideF411a_det_upper (A : GL (Fin 3) K)
       (A : Matrix (Fin 3) (Fin 3) K) 0 0 * (A : Matrix (Fin 3) (Fin 3) K) 1 1 *
         (A : Matrix (Fin 3) (Fin 3) K) 2 2 := by
   rw [GeneralLinearGroup.val_det_apply,
-    Matrix.det_of_upperTriangular (fun i j hij => hA i j hij), Fin.prod_univ_three]
+    det_of_isUpperTriangular (fun i j hij => hA i j hij), Fin.prod_univ_three]
 
 theorem burnsideF411a_slConj_u (A : GL (Fin 3) K)
     (hA : ∀ i j : Fin 3, j < i → (A : Matrix (Fin 3) (Fin 3) K) i j = 0) (a b c : K) :

@@ -26,8 +26,8 @@ theorem triD4Line_not_injective_mulAut_SL2 (F : Type) [Field F] [Finite F] (N : 
     ¬ Function.Injective φ := by
   classical
   intro hinj
-  haveI : NeZero r := ⟨hr.pos.ne'⟩
-  haveI : CharP F 2 := char_two_of_card hF
+  have : NeZero r := ⟨hr.pos.ne'⟩
+  have : CharP F 2 := char_two_of_card hF
   let A : Subgroup (MulAut SL(2, F)) := φ.range
   have hdom_pow : ∀ g : Multiplicative (ZMod r) × Multiplicative (ZMod r), g ^ r = 1 := by
     rintro ⟨u, v⟩
@@ -82,7 +82,7 @@ theorem triD4Line_not_injective_mulAut_SL2 (F : Type) [Field F] [Finite F] (N : 
     refine ⟨1, ?_⟩
     rw [pow_one, orderOf_dvd_iff_pow_eq_one]
     exact Subtype.ext (by simpa using hPpow (g : SL(2, F)) g.2)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hPcyc : IsCyclic P := CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hr2 P hP
   have hPmap : P.map f = A := Subgroup.map_comap_eq_self (f := f) hAinner
   let ePA : P ≃* A := hPmap ▸ Subgroup.equivMapOfInjective P f hf

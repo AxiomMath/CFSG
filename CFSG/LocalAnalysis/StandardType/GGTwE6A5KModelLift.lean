@@ -153,7 +153,7 @@ theorem exists_gu_lift {Ω : Type} [Field Ω] [IsAlgClosed Ω] [CharP Ω 2] {n :
       ((⟨μ, hμF⟩ : F) • (1 : Matrix (Fin 6) (Fin 6) F)).map F.subtype
     rw [Matrix.map_mul, Matrix.transpose_map, hpow, hA₀, hcU]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   let aJ : J ≃* J := (J.equivMapOfInjective a.toMonoidHom a.injective).trans
     (MulEquiv.subgroupCongr hJa)
   have haJ : ∀ l, ((aJ l : J) : L') = a l := fun _ => rfl
@@ -275,7 +275,7 @@ theorem frame_matrices_commute_of_commLifts {Ω : Type} [Field Ω] [IsAlgClosed 
   classical
   obtain ⟨F, hFcard, hF, Φ, θ, hΦ, hθ, -, -⟩ := exists_psu_equiv_of_conj_frame Nat.prime_two hn
     hσQ (by norm_num) (fun h => absurd (congrArg Prod.fst h) (by norm_num)) hker z hι hJ
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
   have hJa : ∀ {a : MulAut L'}, J.map a.toMonoidHom = J → ∀ l ∈ J, a l ∈ J := fun h l hl =>
     h ▸ Subgroup.mem_map_of_mem _ hl
   obtain ⟨A₁, hA₁, A₂, hA₂, u₁, u₂, hu₁, hu₂, hφ₁, hφ₂⟩ :=

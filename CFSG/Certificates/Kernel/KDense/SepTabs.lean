@@ -4,7 +4,7 @@ public import Certificates.Data.Kernel.KDense.Keys
 public import CFSG.Certificates.Kernel.BenesSound
 public import Mathlib.Algebra.Order.Ring.Nat
 public import Mathlib.Data.Finset.Attr
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 
 public section
 
@@ -124,13 +124,13 @@ theorem oST_spec (OCT : ℕ) : ∀ a, (oST OCT a).2 = (flt P8 a).length ∧
     have e2 := flt_succ P8 a
     cases hP : P8 a
     · have hP' : popc8T a = false := hP
-      rw [hP', cond_false]
+      rw [hP', Bool.cond_false]
       rw [hP] at e2
       simp only [Bool.false_eq_true, ↓reduceIte, List.append_nil] at e2
       simp only [e2]
       exact ⟨ih1, ih2⟩
     · have hP' : popc8T a = true := hP
-      rw [hP', cond_true]
+      rw [hP', _root_.Bool.cond_true]
       rw [hP] at e2
       simp only [↓reduceIte] at e2
       dsimp only

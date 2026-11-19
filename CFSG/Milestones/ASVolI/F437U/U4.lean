@@ -56,7 +56,7 @@ theorem burnsideF437U_U4_u_mem : burnsideF437U_U4_u h ∈ pCoreOf 2 (parP h ⊓ 
   · rw [burnsideF437U_U4_coe_u]
     rcases ix_cases a with rfl | rfl | rfl | rfl <;>
       rcases ix_cases b with rfl | rfl | rfl | rfl <;> simp_all
-  · rw [burnsideF437U_U4_coe_u, if_pos (Or.inl rfl)]
+  · rw [burnsideF437U_U4_coe_u, ite_eq_left (Or.inl rfl)]
 
 theorem burnsideF437U_U4_reg (g : hypSU h 2 0)
     (hg : g * burnsideF437U_U4_u h * g⁻¹ ∈ pCoreOf 2 (parP h ⊓ parP2 h)) :
@@ -114,7 +114,7 @@ theorem burnsideF437U_sp_isLieParabolics (F : Type) [Field F] [Finite F] [CharP 
     IsLieParabolics 2 (⊤ : Subgroup (StatedSp 2 F))
       (CFSG.QuasithinUnique.Setup.X7a.Q2 F 0 ⊓ CFSG.QuasithinUnique.Setup.X7a.Q2 F 1)
       (CFSG.QuasithinUnique.Setup.X7a.Q2 F 0) (CFSG.QuasithinUnique.Setup.X7a.Q2 F 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective (SymplecticFlag.proj 2 F) := by
     rw [← MonoidHom.ker_eq_bot_iff, SymplecticHigher.ker_proj]
     exact CFSG.LieType.SteinbergBR.EvenSp.statedScalars_subgroupOf_statedSp (by norm_num)
@@ -139,8 +139,8 @@ theorem burnsideF437U_U4_par [Finite K] :
       (burnsideF437U_fix (frob h).toMonoidHom ⊓ (parP h ⊓ parP2 h))
       (burnsideF437U_fix (frob h).toMonoidHom ⊓ parP h)
       (burnsideF437U_fix (frob h).toMonoidHom ⊓ parP2 h) := by
-  haveI := charP_fixedField h
-  haveI : Finite h.fixedField := Subtype.finite
+  have := charP_fixedField h
+  have : Finite h.fixedField := Subtype.finite
   have hmap := burnsideF48_isLieParabolics_map (spIncl h) (spIncl_injective h)
     (burnsideF437U_sp_isLieParabolics h.fixedField)
   rw [Subgroup.map_inf_eq _ _ _ (spIncl_injective h), map_spIncl_Q2,
@@ -156,8 +156,8 @@ theorem burnsideF437U_U4_par [Finite K] :
 theorem burnsideF437U_U4_ctr [Finite K] (z : hypSU h 2 0)
     (hz : z ∈ burnsideF437U_fix (frob h).toMonoidHom)
     (hc : ∀ y ∈ burnsideF437U_fix (frob h).toMonoidHom, z * y = y * z) : z = 1 := by
-  haveI := charP_fixedField h
-  haveI : Finite h.fixedField := Subtype.finite
+  have := charP_fixedField h
+  have : Finite h.fixedField := Subtype.finite
   rw [burnsideF437U_U4_fix_eq, ← range_spIncl] at hz
   obtain ⟨A, rfl⟩ := hz
   have hA : A ∈ Subgroup.center (StatedSp 2 h.fixedField) := by
@@ -176,8 +176,8 @@ section U4Main
 
 theorem burnsideF437U_fixedInputDeg_U4 : burnsideF437_FixedInputDeg .U4 1 := by
   intro E _ Gp M₁ M₂ hyp fb hinv hFG
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hfield : ¬ hyp.toHypF_4_4g.chart.IsFieldInv fb := by
     rintro ⟨-, -, sd, hsd, hdeg, -⟩
     omega
@@ -187,8 +187,8 @@ theorem burnsideF437U_fixedInputDeg_U4 : burnsideF437_FixedInputDeg .U4 1 := by
     · exact absurd (h ▸ Subgroup.mem_top fb) hinv.not_mem
     · exact h.1
   obtain ⟨K, fK, h, Φ, a, h1, h2, hs⟩ := burnsideF4m_u4_exists_frob_conj hyp.toHypF_4_4g hgr
-  haveI : Finite K := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite K := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   set φ : hypSU h 2 0 →* E := Gp.subtype.comp Φ.toMonoidHom with hφdef
   have hφ : Function.Injective φ := Gp.subtype_injective.comp Φ.injective
   have hrange : φ.range = Gp := by

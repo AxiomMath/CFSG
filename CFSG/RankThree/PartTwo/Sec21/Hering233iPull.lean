@@ -152,7 +152,7 @@ theorem ncard_invSet_le [Finite K] (Φ : I ≃* K) {Y : Subgroup G} (hYI : Y ≤
   · intro y hy
     obtain ⟨hyY, hy2, hyb⟩ := hy
     have hyI : y ∈ I := hYI hyY
-    simp only [dif_pos hyI]
+    simp only [dite_eq_left hyI]
     refine ⟨?_, ?_, ?_⟩
     · rw [← hS]
       exact Subgroup.mem_map.mpr ⟨⟨y, hyI⟩, Subgroup.mem_subgroupOf.mpr hyY, rfl⟩
@@ -163,7 +163,7 @@ theorem ncard_invSet_le [Finite K] (Φ : I ≃* K) {Y : Subgroup G} (hYI : Y ≤
   · intro y₁ hy₁ y₂ hy₂ h12
     have hI₁ := hYI hy₁.1
     have hI₂ := hYI hy₂.1
-    simp only [dif_pos hI₁, dif_pos hI₂] at h12
+    simp only [dite_eq_left hI₁, dite_eq_left hI₂] at h12
     exact congrArg Subtype.val (Φ.injective h12)
 
 end CFSG.RankThree.PartTwo.Sec21.Hering233i

@@ -34,8 +34,8 @@ theorem noL2Layer_diag_sixTwo (hO : LieOrderFormulasInput) (i₀ : Fin 6) {ν μ
   let eB : primeFormP h (idGram K 5) ≃* ↥ξ.range := MonoidHom.ofInjective hinj
   have hs₀ := isSimpleGroup_primeFormP_one h hn5 hq5
   have hnc₀ := not_commute_primeFormP_one h hn5 hq5
-  haveI : IsSimpleGroup (primeFormP h (idGram K 5)) := hs₀
-  haveI : IsSimpleGroup ↥ξ.range := eB.symm.isSimpleGroup
+  have : IsSimpleGroup (primeFormP h (idGram K 5)) := hs₀
+  have : IsSimpleGroup ↥ξ.range := eB.symm.isSimpleGroup
   have hnab : ∃ a b : ↥ξ.range, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -52,7 +52,7 @@ theorem noL2Layer_diag_sixTwo (hO : LieOrderFormulasInput) (i₀ : Fin 6) {ν μ
   have hCC := commutator_fix_le_range_xi6 h hq i₀ hνμ hD
   have hJCC : ξ.range ≤ ⁅fixSubgroup (primeFormConjHom h (idGram K 6) D),
       fixSubgroup (primeFormConjHom h (idGram K 6) D)⁆ := by
-    haveI := hperf₀
+    have := hperf₀
     calc ξ.range = ⁅ξ.range, ξ.range⁆ := range_eq_commutator_of_perfect ξ
       _ ≤ _ := Subgroup.commutator_mono hBC hBC
   have hadm : StatedLieAdmissible .PSU 5 2 1 :=

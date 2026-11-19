@@ -14,13 +14,13 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.AGLEmbedding
 variable {G : Type} [Group G] [Finite G]
 
-theorem s16h_e3_sl28_bar2_center_quotient_psl2 (D : Data G) (S : s16h_Std D) {V L : Subgroup G}
+theorem s16h_e3_sl28_bar2_center_quotient_psl2 (D : Data G) (_S : s16h_Std D) {V L : Subgroup G}
     (h : Setting16 D ⊥ V L)
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
+    {x : G} (hxM : x ∈ D.M) (_hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {K : Subgroup G} (hK : K ∈ calC D.M)
     (hKbar : barSub ⊥ V h.hyp151.isElemAbelian K =
         lBar ⊥ V h.hyp151.isElemAbelian L ∨

@@ -49,7 +49,7 @@ private theorem ff_orderOf_eq_two_of_induces_i2 {G : Type} [Group G] [Finite G] 
     apply hxne
     rw [← hproj, h1]
     simp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hvne
 
 theorem ff_prod_i2 (hGA : CFSG.Open.GriessAllModelsStatement) :

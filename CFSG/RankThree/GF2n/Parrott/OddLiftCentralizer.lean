@@ -99,7 +99,7 @@ section Odd
 
 variable (h : Tim79a.ParrottHyp z)
 
-omit hN in
+omit hN [Finite G] in
 theorem zpowers_odd_data {r s : ↥(H z)} (hr : orderOf r = 3) (hrs : s * r = r * s)
     (hrv : ∀ v : QuotientV.V z, conjV h r v = v → v = 1) :
     ∃ hRH : Subgroup.zpowers (r : G) ≤ H z, Odd (Nat.card (Subgroup.zpowers (r : G))) ∧
@@ -118,6 +118,7 @@ theorem zpowers_odd_data {r s : ↥(H z)} (hr : orderOf r = 3) (hrs : s * r = r 
     exact (hc.zpow_left k).eq
 
 omit hN in
+omit [Finite G] in
 theorem sq_mem_centerIn_of_fixed_point_free {r s : ↥(H z)} (hr : orderOf r = 3)
     (hrs : s * r = r * s) (hrv : ∀ v : QuotientV.V z, conjV h r v = v → v = 1)
     (hss : (s : G) * s ∈ J z) : (s : G) * s ∈ centerIn (J z) := by
@@ -165,6 +166,7 @@ theorem conj_eq_of_fixed (hZ : centerIn (J z) = centerIn (H z)) {r s : ↥(H z)}
   exact mul_left_cancel h4
 
 omit hN in
+omit [Finite G] in
 theorem fixed_of_sq_mem_centerIn {r s : ↥(H z)} (hr : orderOf r = 3) (hrs : s * r = r * s)
     (hrv : ∀ v : QuotientV.V z, conjV h r v = v → v = 1) (hss : (s : G) * s ∈ J z) {j : G}
     (hjJ : j ∈ J z) (hjs : (j * (s : G)) * (j * (s : G)) ∈ centerIn (J z)) :
@@ -192,6 +194,7 @@ theorem fixed_of_sq_mem_centerIn {r s : ↥(H z)} (hr : orderOf r = 3) (hrs : s 
   rw [eq_inv_of_mul_eq_one_right h2, hinvV]
 
 omit hN in
+omit [Finite G] in
 theorem mem_centerIn_of_centralizes {r : ↥(H z)}
     (hrv : ∀ v : QuotientV.V z, conjV h r v = v → v = 1) {c : G} (hcJ : c ∈ J z)
     (hc : (r : G) * c * (r : G)⁻¹ = c) : c ∈ centerIn (J z) := by

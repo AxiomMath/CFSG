@@ -13,9 +13,10 @@ section Orth
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem w85g_exists_map_eq_one {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegenerate)
     (hd : 4 ≤ finrank K V) : ∃ a : V, Q a = 1 := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
   obtain ⟨a₀, ha₀⟩ := exists_map_ne_zero hQ
   obtain ⟨s, hs⟩ := isSquare_of_charTwo' (Q a₀)⁻¹
   refine ⟨s • a₀, ?_⟩
@@ -26,9 +27,9 @@ theorem w85g_natCard_level {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegener
     Nat.card {x : V // Q x = 1 ∧ polar Q a x = 0} =
       Nat.card K ^ (finrank K V - 2) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
-  haveI : PerfectRing K 2 := inferInstance
+  have : Finite V := Module.finite_of_finite K
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : PerfectRing K 2 := inferInstance
   have ha0 : a ≠ 0 := by
     rintro rfl
     rw [map_zero] at ha1
@@ -76,9 +77,9 @@ theorem w85g_natCard_level {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegener
       omega
     omega
   have hcardQ : Nat.card (W ⧸ A) = Nat.card K ^ (finrank K V - 2) := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype W := Fintype.ofFinite W
-    haveI : Fintype (W ⧸ A) := Fintype.ofFinite (W ⧸ A)
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype W := Fintype.ofFinite W
+    have : Fintype (W ⧸ A) := Fintype.ofFinite (W ⧸ A)
     rw [Nat.card_eq_fintype_card (α := W ⧸ A), Nat.card_eq_fintype_card (α := K),
       Module.card_eq_pow_finrank (K := K) (V := W ⧸ A), hfinQ]
   let F : {x : V // Q x = 1 ∧ polar Q a x = 0} → W ⧸ A :=
@@ -146,7 +147,7 @@ theorem w85g_even_card_level {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegen
     (hd : 4 ≤ finrank K V) {a : V} (ha1 : Q a = 1) :
     Even (Nat.card {x : V // Q x = 1 ∧ polar Q a x = 0}) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [w85g_natCard_level hQ ha1]
   have hKeven : Even (Nat.card K) := by
     rw [Nat.card_eq_fintype_card, Nat.even_iff]
@@ -156,13 +157,13 @@ theorem w85g_even_card_level {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegen
 theorem w85g_even_card_map_eq_one {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegenerate)
     (hd : 4 ≤ finrank K V) : Even (Nat.card {x : V // Q x = 1}) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   obtain ⟨a, ha1⟩ := w85g_exists_map_eq_one hQ hd
   have ha0 : a ≠ 0 := by
     rintro rfl
     rw [map_zero] at ha1
     exact zero_ne_one ha1
-  haveI : Invertible (Q a) := invertibleOfNonzero (by rw [ha1]; exact one_ne_zero)
+  have : Invertible (Q a) := invertibleOfNonzero (by rw [ha1]; exact one_ne_zero)
   let r : V ≃ₗ[K] V := TauCeti.QuadraticMap.reflection Q a
   have hrO : r ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q a
@@ -193,8 +194,8 @@ theorem w85g_even_card_map_eq_one {Q : QuadraticForm K V} (hQ : Q.polarBilin.Non
     apply Subtype.ext
     show r (r x.1) = x.1
     rw [← LinearEquiv.mul_apply, hrr, LinearEquiv.coe_one, id]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype S := Fintype.ofFinite S
   have hmod := Equiv.Perm.card_fixedPoints_modEq (α := S) (f := f) (p := 2) (n := 1) hf2
   have hfix_card : Nat.card f.fixedPoints = Nat.card {x : V // Q x = 1 ∧ polar Q a x = 0} := by
     apply Nat.card_congr

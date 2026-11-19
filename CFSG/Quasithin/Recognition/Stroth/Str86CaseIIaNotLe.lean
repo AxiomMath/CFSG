@@ -24,8 +24,8 @@ theorem str86_caseIIa_notLe_false
   classical
   obtain ⟨m, hm⟩ := h2
   obtain ⟨k, hk, F, hFld, hFin, hFc, hU3'⟩ := hU3
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hQ1 : Q1 L1 L2 S = Z1 L1 L2 S :=
     str86_caseIIa_notLe_q1_eq_z1 hF hSB hk hFc hU3' hB2 hm hIIa hZ
   obtain ⟨g, hg, -, hW⟩ :=

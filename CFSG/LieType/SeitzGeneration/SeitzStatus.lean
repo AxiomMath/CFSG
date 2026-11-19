@@ -256,7 +256,7 @@ structure SeitzRankTwoOpenInputs : Prop where
 section Regular
 
 
-theorem kFactSeitzRankTwo_of_openInputs (h : SeitzRankTwoOpenInputs) : KFactSeitzRankTwo :=
+theorem kFactSeitzRankTwo_of_openInputs (_h : SeitzRankTwoOpenInputs) : KFactSeitzRankTwo :=
   kFactSeitzRankTwo_of_open_wide
     ⟨CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.seitzExcAnisotropicE6Class_six,
       CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.seitzExcAnisotropicE8Class_five,

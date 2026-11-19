@@ -30,7 +30,7 @@ theorem exists_equiv_of_validClass_ref {d : ℕ} {refs : Array (Array (Array ℕ
     have h0 : ¬((c.kind == 0) = true) := by simp [hk]
     have h1 : ¬((c.kind == 1) = true) := by simp [hk]
     have h2 : (c.kind == 2) = true := by simp [hk]
-    rw [if_neg h0, if_neg h1, if_pos h2] at hc
+    rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2] at hc
     exact hc
   simp only [Bool.and_eq_true, decide_eq_true_eq] at hc2
   obtain ⟨⟨hsz, hr⟩, hrf⟩ := hc2
@@ -102,7 +102,7 @@ theorem exists_equiv_of_validClass_ref {d : ℕ} {refs : Array (Array (Array ℕ
       rw [Basis.equivFun_self, Pi.single_apply]
       by_cases h : j = k
       · subst h; simp
-      · rw [if_neg (fun hkj => h hkj.symm), if_neg h]
+      · rw [ite_eq_right (fun hkj => h hkj.symm), ite_eq_right h]
     have hMcol : M *ᵥ B.equivFun (B k) = fun i : Fin d =>
         if (((refs[c.ref]!)[s.val]!)[k.val]!).testBit i.val then (1 : ZMod 2) else 0 := by
       rw [heBk, Matrix.mulVec_single_one]

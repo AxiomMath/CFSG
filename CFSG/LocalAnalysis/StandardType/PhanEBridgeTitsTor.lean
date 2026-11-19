@@ -26,20 +26,20 @@ section Helpers
 private theorem hmbTor_chiE_mul (i j : Fin n) (x y : normOne (unitaryInvolution K 2 f)) :
     chiE M i j (x * y) = chiE M i j x * chiE M i j y := by
   rcases eq_or_ne i j with rfl | hij
-  · simp only [chiE, if_pos rfl]
+  · simp only [chiE]
     exact mul_mul_mul_comm x y x y
   · by_cases h3 : M i j = 3
-    · simp only [chiE, if_neg hij, if_pos h3, mul_inv_rev]
+    · simp only [chiE, ite_eq_right hij, ite_eq_left h3, mul_inv_rev]
       exact mul_comm _ _
-    · simp only [chiE, if_neg hij, if_neg h3, mul_one]
+    · simp only [chiE, ite_eq_right hij, ite_eq_right h3, mul_one]
 
 private theorem hmbTor_chiE_one (i j : Fin n) :
     chiE M i j (1 : normOne (unitaryInvolution K 2 f)) = 1 := by
   rcases eq_or_ne i j with rfl | hij
   · simp [chiE]
   · by_cases h3 : M i j = 3
-    · simp only [chiE, if_neg hij, if_pos h3, inv_one]
-    · simp only [chiE, if_neg hij, if_neg h3]
+    · simp only [chiE, ite_eq_right hij, ite_eq_left h3, inv_one]
+    · simp only [chiE, ite_eq_right hij, ite_eq_right h3]
 
 private theorem hmbTor_rhoE_mul (j : Fin n) (t u : Fin n → normOne (unitaryInvolution K 2 f)) :
     rhoE M j (t * u) = rhoE M j t * rhoE M j u := by

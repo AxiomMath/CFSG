@@ -130,7 +130,7 @@ variable {G : Type} [Group G] [Finite G]
   H1930 D → ∀ c : Ctx23L D Ch, CFSG.Open.pCoreOf 2 c.L ≤ D.M
 
 @[expose] def S23_9_Semireg (D : Data G) (Ch : Choice2011 G) : Prop :=
-  H1930 D → ∀ c : Ctx23L D Ch, ∀ q : ℕ, q.Prime → q ≠ 2 →
+  H1930 D → ∀ _c : Ctx23L D Ch, ∀ q : ℕ, q.Prime → q ≠ 2 →
     ∀ Q : Subgroup G, Q ≤ D.M → IsPGroup q ↥Q → ¬ IsCyclic ↥Q →
       (∀ x ∈ Q, x ^ q = 1) → ⁅⁅Q, Q⁆, Q⁆ = ⊥ →
       D.M ≤ Subgroup.normalizer ((CFSG.Open.pCoreOf 2 D.M ⊔ Q : Subgroup G) : Set G) →

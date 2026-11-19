@@ -77,7 +77,7 @@ theorem fp_ptSet {L : List ℕ} (hL : ∀ v ∈ L, v < 31671) {v : ℕ} (hv : v 
   exact hv
 
 theorem gens_ok {r c : ℕ} {L : List ℕ} (hL : hList H r 0 c = L) (hlt : ∀ v ∈ L, v < 31671) :
-    ∀ l < c, tb H r l < 31671 ∧ fp (tb H r l) ∈ ptSet L := fun l hl =>
+    ∀ _l < c, tb H r _l < 31671 ∧ fp (tb H r _l) ∈ ptSet L := fun _l hl =>
   ⟨hlt _ (reg_mem hL hl), fp_ptSet hlt (reg_mem hL hl)⟩
 
 theorem root_eq {r j p : ℕ} (h : Nat.beq (tb H r j) p = true) : tb H r j = p := Nat.eq_of_beq_eq_true h
@@ -103,10 +103,10 @@ theorem wP_smul : ∀ w : List ℕ, (∀ p ∈ w, p < 31671) → ∀ V : Finset 
 theorem ltr_of {w : List ℕ} (hw : ∀ p ∈ w, p < 31671) : ∀ p ∈ w, Ltr p := fun p hp => Or.inl (hw p hp)
 
 theorem lP_alpha : lP 31710 = phiX wα := by
-  rw [lP, if_neg (by norm_num), if_pos rfl]
+  rw [lP, ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem lP_beta : lP 31711 = phiX wβ := by
-  rw [lP, if_neg (by norm_num), if_neg (by norm_num)]
+  rw [lP, ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
 
 theorem tt_left {a : Fin 31671} {V W : Finset (Fin 31671)} : tau a • V = W ↔ V = tau a • W := by
   constructor

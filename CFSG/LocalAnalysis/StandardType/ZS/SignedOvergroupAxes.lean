@@ -46,9 +46,9 @@ private theorem diagMap_sign_apply (b : Module.Basis (Fin n) (ZMod p) U) (i : Fi
   rw [hcoord]
   by_cases hji : j = i
   · subst hji
-    rw [coord_basis_self, if_pos rfl, Units.val_neg, Units.val_one]
+    rw [coord_basis_self, ite_eq_left rfl, Units.val_neg, Units.val_one]
     ring
-  · rw [coord_basis_of_ne b i j hji, if_neg hji, Units.val_one]
+  · rw [coord_basis_of_ne b i j hji, ite_eq_right hji, Units.val_one]
     ring
 
 private theorem diagMap_sign_mul_self (b : Module.Basis (Fin n) (ZMod p) U) (i : Fin n) :
@@ -247,7 +247,7 @@ private theorem exists_row_pair (hp : p ≠ 2) (b f : Module.Basis (Fin n) (ZMod
   · intro j hj
     have h := congrArg (fun v => b.repr v j) (hσ k)
     rw [repr_diagMap, map_smul, finsupp_smul_apply] at h
-    simp only [hj, if_false, Units.val_one, one_mul, hσk] at h
+    simp only [hj, ite_false, Units.val_one, one_mul, hσk] at h
     exact h
 
 private theorem axis_perm_invariant (b f : Module.Basis (Fin n) (ZMod p) U)

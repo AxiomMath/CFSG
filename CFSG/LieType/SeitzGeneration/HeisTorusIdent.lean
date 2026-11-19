@@ -45,14 +45,14 @@ theorem zFix_comm_of_fix [NeZero p] {x : Matrix (Fin p) (Fin p) F} (hx : IsUnit 
     rw [zFix, inv_diagonal_of_ne_zero hdn]
     ext a b
     simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.add_apply, Matrix.smul_apply,
-      vecMulVec_apply, Pi.sub_apply, single_vecMul, Pi.smul_apply, one_smul, Matrix.row_apply,
+      vecMulVec_apply, Pi.sub_apply, single_vecMul, one_smul, Matrix.row_apply,
       smul_eq_mul]
     rcases eq_or_ne a 0 with rfl | ha <;> rcases eq_or_ne b 0 with rfl | hb
-    · simp [hx00, hcp, Fin.val_eq_zero_iff]
-    · simp [hb, hcp, Fin.val_eq_zero_iff, Pi.single_apply, hx00]
+    · simp [hx00, hcp]
+    · simp [hb, Fin.val_eq_zero_iff]
       linear_combination (x 0 b) * hρ
-    · simp [ha, Fin.val_eq_zero_iff, Pi.single_apply, hxa0 a ha]
-    · simp [ha, hb, Fin.val_eq_zero_iff, Pi.single_apply]
+    · simp [ha, Fin.val_eq_zero_iff, hxa0 a ha]
+    · simp [ha, hb, Fin.val_eq_zero_iff]
       rw [mul_right_comm, mul_inv_cancel₀ hν, one_mul]
   have hxinv : x * x⁻¹ = 1 := Matrix.mul_nonsing_inv x hx
   rw [hconj, add_mul, Matrix.smul_mul, Matrix.vecMulVec_mul, Matrix.sub_vecMul,
@@ -100,14 +100,14 @@ theorem geom_sum_fin_eq_zero {u : F} (hu : u ^ p = 1) (hu1 : u ≠ 1) :
 
 theorem heis_natCast_ne_zero {ζ : F} (hζ : IsPrimitiveRoot ζ p) (hp : 2 ≤ p) :
     (p : F) ≠ 0 := by
-  haveI : NeZero p := ⟨by omega⟩
-  haveI := hζ.neZero'
+  have : NeZero p := ⟨by omega⟩
+  have := hζ.neZero'
   exact NeZero.ne _
 
 theorem heisFourierMat_mul_inv_entries {ζ : F} (hζ : IsPrimitiveRoot ζ p) (hp : 2 ≤ p) :
     heisFourierMat ζ * Matrix.of (fun i j : Fin p => (p : F)⁻¹ * (ζ ^ ((i : ℕ) * (j : ℕ)))⁻¹) =
       1 := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hp0 : (p : F) ≠ 0 := heis_natCast_ne_zero hζ hp
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (by omega)
   have hζp : ζ ^ p = 1 := hζ.pow_eq_one
@@ -135,16 +135,16 @@ theorem heisFourierMat_mul_inv_entries {ζ : F} (hζ : IsPrimitiveRoot ζ p) (hp
       exact hζ.pow_inj a.isLt b.isLt ((mul_inv_eq_one₀ (pow_ne_zero _ hζ0)).mp h)
     have hup : (ζ ^ (a : ℕ) * (ζ ^ (b : ℕ))⁻¹) ^ p = 1 := by
       rw [mul_pow, inv_pow, hpow, hpow, inv_one, mul_one]
-    rw [geom_sum_fin_eq_zero hup hu1, mul_zero, if_neg hab]
+    rw [geom_sum_fin_eq_zero hup hu1, mul_zero, ite_eq_right hab]
 
 theorem heisFourierMat_inv {ζ : F} (hζ : IsPrimitiveRoot ζ p) (hp : 2 ≤ p) :
     (heisFourierMat ζ)⁻¹ = Matrix.of (fun i j : Fin p => (p : F)⁻¹ * (ζ ^ ((i : ℕ) * (j : ℕ)))⁻¹) :=
   Matrix.inv_eq_right_inv (heisFourierMat_mul_inv_entries hζ hp)
 
-theorem fourierBirefl_apply (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p) {ν : F} (hν : ν ≠ 0)
+theorem fourierBirefl_apply (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p) {ν : F} (_hν : ν ≠ 0)
     (a b : Fin p) : fourierBirefl ζ ν a b = (if a = b then 1 else 0) +
       (p : F)⁻¹ * ((ν - 1) + (ν⁻¹ - 1) * ζ ^ (a : ℕ) * (ζ ^ (b : ℕ))⁻¹) := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   obtain ⟨Ψ, hΨinv, hΨe⟩ : ∃ Ψ : Matrix (Fin p) (Fin p) F, (heisFourierMat ζ)⁻¹ = Ψ ∧
       ∀ i j : Fin p, Ψ i j = (p : F)⁻¹ * (ζ ^ ((i : ℕ) * (j : ℕ)))⁻¹ :=
     ⟨_, heisFourierMat_inv hζ hp, fun i j => by simp⟩
@@ -167,10 +167,10 @@ theorem fourierBirefl_apply (hp : 2 ≤ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p)
     simp only [Fin.val_eq_zero_iff, hk1]
     by_cases h0 : k = 0
     · subst h0
-      simp [h10.symm, hp1] <;> ring
+      simp [h10.symm]
     · by_cases h1 : k = 1
       · subst h1
-        simp [h10, hp1] <;> ring
+        simp [h10]
       · simp [h0, h1]
   have hsplit : ∀ A B : Fin p → F,
       ∑ k : Fin p, A k * (1 + (ν - 1) * (if k = 0 then 1 else 0) +
@@ -219,13 +219,13 @@ theorem sparse_mul_heisFourierMat [NeZero p] {ζ : F} (hζ : ζ ^ p = 1) :
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.one_apply] <;> ring
-    · simp [Matrix.diagonal_apply, Matrix.one_apply, hij]
+      simp; ring
+    · simp [hij]
   rw [add_mul, add_mul, one_mul, hS2, hS, hdiag, mul_add, mul_add, mul_one, mul_assoc]
 
 theorem det_sparse (hp : 5 ≤ p) (hp3 : ¬ 3 ∣ p) {ζ : F} (hζ : IsPrimitiveRoot ζ p) :
     (1 + heisShiftMat F p + heisShiftMat F p ^ 2).det = 3 := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hζp : ζ ^ p = 1 := hζ.pow_eq_one
   have hΦ : (heisFourierMat ζ : Matrix (Fin p) (Fin p) F).det ≠ 0 :=
     det_heisFourierMat_ne_zero hζ

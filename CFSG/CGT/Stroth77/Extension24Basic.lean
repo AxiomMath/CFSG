@@ -22,15 +22,15 @@ theorem n_t300 (n : ℕ) : (StrothTypeIndex.t300 n).n = n := by
 
 theorem zsmul_gens_apply_zero {k : Fin 3 → ℕ} (p q r : ℤ) :
     (p • gen k 0 + q • gen k 1 + r • gen k 2) 0 = (p : ZMod (2 ^ k 0)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem zsmul_gens_apply_one {k : Fin 3 → ℕ} (p q r : ℤ) :
     (p • gen k 0 + q • gen k 1 + r • gen k 2) 1 = (q : ZMod (2 ^ k 1)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem zsmul_gens_apply_two {k : Fin 3 → ℕ} (p q r : ℤ) :
     (p • gen k 0 + q • gen k 1 + r • gen k 2) 2 = (r : ZMod (2 ^ k 2)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem nsmul_zsmul_gens {k : Fin 3 → ℕ} (M : ℕ) (p q r : ℤ) :
     M • (p • gen k 0 + q • gen k 1 + r • gen k 2) =
@@ -150,18 +150,21 @@ section Group
 
 variable {S : Type*} [Group S] [Finite S] {B : Subgroup S} {n : ℕ}
 
+omit [Finite S] in
 theorem ec_conjBy_ρ_mul_inv300 (D : StrothTypeData B (StrothTypeIndex.t300 n)) (y : B) :
     D.ec (conjBy D.ρ_mem y * y⁻¹) = (StrothTypeIndex.t300 n).action.φρ (D.ec y) - D.ec y := by
   rw [D.ec_mul, D.ec_inv, sub_eq_add_neg]
   congr 1
   exact D.ρ_conj y
 
+omit [Finite S] in
 theorem ec_conjBy_t_mul_inv300 (D : StrothTypeData B (StrothTypeIndex.t300 n)) (y : B) :
     D.ec (conjBy D.t_mem y * y⁻¹) = (StrothTypeIndex.t300 n).action.φt (D.ec y) - D.ec y := by
   rw [D.ec_mul, D.ec_inv, sub_eq_add_neg]
   congr 1
   exact D.t_conj y
 
+omit [Finite S] in
 theorem t300_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t300 n)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t300 n).action.φρ (D.ec y) = D.ec y := by
@@ -172,6 +175,7 @@ theorem t300_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t300 n)) 
       D.t_conj y, ht]
   exact D.ec_eq_zero_iff.mp (t300_fixed_rho_t n (D.ec y) hρ' ht')
 
+omit [Finite S] in
 theorem t300_fixed_rho_t_mod_four_of_mem (D : StrothTypeData B (StrothTypeIndex.t300 n))
     {y : B} (hρ : conjBy D.ρ_mem y * y⁻¹ ∈ fourB D) (ht : conjBy D.t_mem y * y⁻¹ ∈ fourB D) :
     y ∈ fourB D := by
@@ -180,6 +184,7 @@ theorem t300_fixed_rho_t_mod_four_of_mem (D : StrothTypeData B (StrothTypeIndex.
   rw [ec_conjBy_t_mul_inv300] at ht
   exact t300_fixed_rho_t_mod n 4 (D.ec y) hρ ht
 
+omit [Finite S] in
 theorem t300_fixed_rho_t_mod_two_of_mem (D : StrothTypeData B (StrothTypeIndex.t300 n))
     {y : B} (hρ : ∃ z : Torus (StrothTypeIndex.t300 n).k, 2 • z = D.ec (conjBy D.ρ_mem y * y⁻¹))
     (ht : ∃ z : Torus (StrothTypeIndex.t300 n).k, 2 • z = D.ec (conjBy D.t_mem y * y⁻¹)) :

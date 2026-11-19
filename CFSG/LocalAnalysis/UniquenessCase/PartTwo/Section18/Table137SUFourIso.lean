@@ -148,7 +148,7 @@ theorem exists_vecStab_SU4_iso_hom {n : ℕ} {F : Type} [Field F] [Finite F]
     ext g
     rw [mem_vecStab_subtype, mem_parH_iff_fix]
   have := h.finite
-  haveI : Fintype h.fixedField := Fintype.ofFinite _
+  have : Fintype h.fixedField := Fintype.ofFinite _
   refine ⟨h.fixedField, inferInstance, inferInstance, ?_, ?_⟩
   · rw [← Nat.card_eq_fintype_card, h.card_fixedField]
   let ι : ↥(KTabC.vecStab (StatedSU 4 (2 ^ n) F).subtype w) ≃* ↥(CFSG.Quasithin.H13.U4Par.parH h) :=

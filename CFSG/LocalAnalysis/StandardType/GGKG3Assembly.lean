@@ -147,7 +147,7 @@ theorem k3_noRefl_lang
 private theorem kg3_units_subsingleton_of_card_two (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = 2) : Subsingleton Kˣ := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [← Fintype.card_le_one_iff_subsingleton, Fintype.card_units]
   rw [Nat.card_eq_fintype_card] at hK
   omega
@@ -164,7 +164,7 @@ theorem kg3_of_field
     ∃ r, GGTorusLift 7 r (TableBExc.RecipeGroup .E6 K) ∧
       GGTorusNoRefl 7 r (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
   obtain ⟨L, i1, i2, S, hS, ⟨eK⟩⟩ := k3a K hK
-  haveI := S.finite_Γ
+  have := S.finite_Γ
   let e : TableBExc.RecipeGroup .E6 K ≃* S.Γ := (TableBExc.recipeEquiv .E6 K).trans eK
   obtain ⟨P, hP⟩ := hS.sylow_E
   have hΓ : 7 ^ (Nat.card S.Γ).factorization 7 = 7 ^ 3 := by
@@ -179,7 +179,7 @@ theorem kg3_of_field
         Nat.prime_two (k := 1) le_rfl (by simpa using hK)
     rw [Nat.card_congr (TableBExc.recipeEquiv .E6 K).toEquiv]
     exact two_dvd_card_adjoint_E6
-  · haveI := kg3_units_subsingleton_of_card_two K hK
+  · have := kg3_units_subsingleton_of_card_two K hK
     refine ggTorusNoRefl_of_sylow _ 0 (TableBExc.center_recipeGroup_eq_bot .E6 K)
       (TableBExc.idImage_subset_inn_of_top .E6 K (Subsingleton.elim _ _)) hR
       ((S.E.subgroupOf S.Γ).map e.symm.toMonoidHom) ?_ ?_

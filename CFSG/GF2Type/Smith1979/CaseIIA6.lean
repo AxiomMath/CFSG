@@ -104,6 +104,7 @@ theorem polar_sigma (u w : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
   rw [hσ u] at this
   exact this.symm
 
+omit D in
 theorem t_sigma (w : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
     (t : S.Qt ≃ₗ[ZMod 2] S.Qt) (σ w) = σ w + (w : S.Qt) := by
   have h := congrArg Subtype.val (hσ w)
@@ -112,6 +113,7 @@ theorem t_sigma (w : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
       σ w + ((t : S.Qt ≃ₗ[ZMod 2] S.Qt) (σ w) - σ w) := by abel
   rw [e, h]
 
+omit D hσ in
 theorem c_resCt_symm (c : ↥(centralizer ({t} : Set S.O)))
     (u : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
     ((c : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) (((resCt t c).symm u : commSpace
@@ -130,9 +132,9 @@ theorem dmap_mem (c : ↥(centralizer ({t} : Set S.O)))
   have hct : ∀ x : S.Qt, (t : S.Qt ≃ₗ[ZMod 2] S.Qt) (((c : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) x) =
       ((c : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) ((t : S.Qt ≃ₗ[ZMod 2] S.Qt) x) := fun x => by
     rw [← coe_mul_apply, ← coe_mul_apply, hc]
-  have h1 := D.t_sigma σ hσ ((resCt t c).symm u)
-  have h2 := D.t_sigma σ hσ u
-  have h3 := D.c_resCt_symm σ hσ c u
+  have h1 := Data.t_sigma σ hσ ((resCt t c).symm u)
+  have h2 := Data.t_sigma σ hσ u
+  have h3 := CFSG.GF2Type.Smith1979.Case2.Data.c_resCt_symm c u
   rw [dmap_apply]
   generalize (resCt t c).symm u = w at h1 h3 ⊢
   generalize ((c : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) = C at hct h3 ⊢
@@ -224,6 +226,7 @@ theorem Bd_mul (c c' : ↥(centralizer ({t} : Set S.O))) :
   exact (congrArg (polar S.q (σ u)) hkey).trans
     ((polar_add_right S.q (σ u) _ _).trans (congrArg₂ (· + ·) rfl hp))
 
+omit D hσ in
 theorem dmap_one : dmap σ (1 : ↥(centralizer ({t} : Set S.O))) = 0 := by
   refine LinearMap.ext fun u => ?_
   rw [dmap_apply]
@@ -234,9 +237,10 @@ theorem dmap_one : dmap σ (1 : ↥(centralizer ({t} : Set S.O))) = 0 := by
   rw [e1, e2]
   exact sub_self _
 
+omit D hσ in
 theorem Bd_one : Bd σ (1 : ↥(centralizer ({t} : Set S.O))) = 0 := by
   refine LinearMap.ext fun u => LinearMap.ext fun u' => ?_
-  rw [Bd_apply, D.dmap_one σ hσ]
+  rw [Bd_apply, CFSG.GF2Type.Smith1979.Case2.Data.dmap_one σ]
   simp
 
 theorem dmap_t (u : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
@@ -273,7 +277,7 @@ theorem exists_chi : ∃ χ : ↥(centralizer ({t} : Set S.O)) →* Multiplicati
             map_one' := ?_
             map_mul' := ?_ }, ?_⟩
   · show Multiplicative.ofAdd (τ (Bd σ 1)) = 1
-    rw [D.Bd_one σ hσ, hτ0]
+    rw [CFSG.GF2Type.Smith1979.Case2.Data.Bd_one σ, hτ0]
     rfl
   · intro c c'
     show Multiplicative.ofAdd (τ (Bd σ (c * c'))) =

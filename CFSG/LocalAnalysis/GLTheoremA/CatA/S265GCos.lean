@@ -13,10 +13,10 @@ theorem eq_of_inf_normalizer_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
     (hN : Q ⊓ Subgroup.normalizer (W : Set G) ≤ W) : W = Q := by
   by_contra hne
   have hnf : W.subgroupOf Q ≠ ⊤ := fun h => hne (le_antisymm hWQ (Subgroup.subgroupOf_eq_top.mp h))
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hlt : W.subgroupOf Q < Subgroup.normalizer ((W.subgroupOf Q : Subgroup Q) : Set Q) :=
     Group.normalizerCondition_of_isNilpotent _ (lt_top_iff_ne_top.mpr hnf)
-  obtain ⟨x, hxN, hxW⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxW⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   apply hxW
   rw [Subgroup.mem_subgroupOf]
   refine hN ⟨x.2, ?_⟩
@@ -31,7 +31,7 @@ theorem exists_stable_overgroup {X : Type*} [Group X] [Finite X] (hX : Holds X 2
     ∃ (P : Subgroup X) (S : Sylow 2 X), P ≠ ⊤ ∧
       Subgroup.normalizer ((S : Subgroup X) : Set X) ≤ P ∧ A ≤ P ∧ P.map φ.toMonoidHom = P := by
   classical
-  haveI : Finite (Subgroup X) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup X) := Finite.of_injective _ SetLike.coe_injective
   set 𝒲 : Set (Subgroup X) := {W | IsPGroup 2 W ∧ W.map φ.toMonoidHom = W ∧
     A ≤ Subgroup.normalizer (W : Set X)} with h𝒲
   have hV𝒲 : V ∈ 𝒲 := ⟨hV2, hVφ, hAV⟩
@@ -73,13 +73,13 @@ theorem exists_stable_overgroup {X : Type*} [Group X] [Finite X] (hX : Holds X 2
   exact hNφ
 
 theorem exists_twisted_fixed_coset {G : Type*} [Group G] [Finite G] {P₁ P₂ A : Subgroup G}
-    (h12 : P₁ ≤ P₂) (φ : G →* G) (hφ3 : ∀ x, φ (φ (φ x)) = x) (hφ1 : ∀ x ∈ P₁, φ x ∈ P₁)
+    (_h12 : P₁ ≤ P₂) (φ : G →* G) (hφ3 : ∀ x, φ (φ (φ x)) = x) (hφ1 : ∀ x ∈ P₁, φ x ∈ P₁)
     (hφ2 : ∀ x ∈ P₂, φ x ∈ P₂) {y : G} (hy : y ∈ P₂) (hyy : y * φ y * φ (φ y) = 1)
     (hA : IsPGroup 3 A) (hA2 : A ≤ P₂) (hAy : ∀ a ∈ A, y * φ a * y⁻¹ = a)
     (hidx : ¬ 3 ∣ (P₁.subgroupOf P₂).index) :
     ∃ x ∈ P₂, x⁻¹ * y * φ x ∈ P₁ ∧ ∀ a ∈ A, x⁻¹ * a * x ∈ P₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L : Subgroup P₂ := P₁.subgroupOf P₂ with hL
   let f : P₂ → P₂ := fun x => ⟨y * φ x, mul_mem hy (hφ2 x x.2)⟩
   have hf : ∀ a b : P₂, a⁻¹ * b ∈ L → (f a)⁻¹ * f b ∈ L := by
@@ -125,8 +125,8 @@ theorem exists_twisted_fixed_coset {G : Type*} [Group G] [Finite G] {P₁ P₂ A
       simp only [f, map_mul, hφ3]
       calc y * (φ y * (φ (φ y) * (x : G))) = (y * φ y * φ (φ y)) * x := by group
         _ = x := by rw [hyy, one_mul]
-  haveI : Fintype (P₂ ⧸ L) := Fintype.ofFinite _
-  haveI : Fintype F₁ := Fintype.ofFinite _
+  have : Fintype (P₂ ⧸ L) := Fintype.ofFinite _
+  have : Fintype F₁ := Fintype.ofFinite _
   let T : Function.End F₁ := fun ω => ⟨τ ω, hτF ω ω.2⟩
   have hT : T ^ 3 ^ 1 = 1 := by
     funext ω

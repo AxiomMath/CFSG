@@ -37,9 +37,9 @@ theorem isDiag_of_mul_diagonal_pairVec_four {s : Matrix (Fin 4) (Fin 4) K} (hs :
   have h1 := congrFun (congrFun hc a) b
   rw [mul_diagonal, diagonal_mul] at h1
   have hva : ggPairVec a b ζ a = ζ := by
-    rw [ggPairVec_apply, if_pos rfl, if_neg hab, mul_one]
+    rw [ggPairVec_apply, ite_eq_left rfl, ite_eq_right hab, mul_one]
   have hvb : ggPairVec a b ζ b = ζ⁻¹ := by
-    rw [ggPairVec_apply, if_neg (Ne.symm hab), if_pos rfl, one_mul]
+    rw [ggPairVec_apply, ite_eq_right (Ne.symm hab), ite_eq_left rfl, one_mul]
   rw [hva, hvb] at h1
   have h2 : s a b * (ζ⁻¹ - ζ) = 0 := by linear_combination h1
   rcases mul_eq_zero.mp h2 with h3 | h3

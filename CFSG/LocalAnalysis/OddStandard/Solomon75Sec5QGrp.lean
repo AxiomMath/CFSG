@@ -104,7 +104,7 @@ theorem factorization_two_eq_one_of_hall {G : Type*} [Group G] [Finite G] {z : G
   obtain ⟨P, hZP⟩ := hZp.exists_le_sylow
   have hPZ : (P : Subgroup G) ≤ zpowers z := by
     intro g hg
-    have hp : IsPGroup 2 ↥(P : Subgroup G) := P.isPGroup'
+    have hp : IsPGroup 2 ↥(P : Subgroup G) := P.isPGroup
     obtain ⟨j, hj⟩ := hp ⟨g, hg⟩
     refine hall g ⟨j, ?_⟩
     have := congrArg (fun w : ↥(P : Subgroup G) => (w : G)) hj

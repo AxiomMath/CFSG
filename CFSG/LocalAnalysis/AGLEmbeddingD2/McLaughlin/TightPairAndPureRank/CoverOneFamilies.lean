@@ -62,6 +62,7 @@ section SL
 variable {W : Type} [Group W] [Finite W] {L S₀ A₁ A₂ : Subgroup W} {m : ℕ} {F : Type} [Field F]
   [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem sl_adj {i j : Fin m} (hij : i ≠ j) (hA : (SpecialLinear.rootDatum m F).cartan i j ≠ 0) :
     i.val + 1 = j.val ∨ j.val + 1 = i.val := by
   have hv : i.val ≠ j.val := fun e => hij (Fin.ext e)
@@ -71,6 +72,7 @@ theorem sl_adj {i j : Fin m} (hij : i ≠ j) (hA : (SpecialLinear.rootDatum m F)
   simp [CartanMatrix.A, Fin.ext_iff, hv]
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem sl_cartan_neg_one {i j : Fin m} (hij : i ≠ j)
     (hA : (SpecialLinear.rootDatum m F).cartan i j ≠ 0) :
     (SpecialLinear.rootDatum m F).cartan i j = -1 ∧ (SpecialLinear.rootDatum m F).cartan j i = -1 := by
@@ -84,6 +86,7 @@ theorem sl_cartan_neg_one {i j : Fin m} (hij : i ≠ j)
     simp [CartanMatrix.A, Fin.ext_iff, Ne.symm hv]
     omega
 
+omit [Finite F] [CharP F 2] in
 theorem sl_triangle_free {i j l : Fin m} (hij : i ≠ j) (hil : i ≠ l) (hjl : j ≠ l)
     (h1 : (SpecialLinear.rootDatum m F).cartan i j ≠ 0)
     (h2 : (SpecialLinear.rootDatum m F).cartan j l ≠ 0)
@@ -142,6 +145,7 @@ theorem sp_tail_not_isPSolvable {K : Type} [Field K] [Finite K] (hK : Nat.card K
 variable {W : Type} [Group W] [Finite W] {L S₀ A₁ A₂ : Subgroup W} {n : ℕ} {F : Type} [Field F]
   [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem sp_adj {i j : Fin n} (hij : i ≠ j) (hA : (rootDatum n F).cartan i j ≠ 0) :
     i.val + 1 = j.val ∨ j.val + 1 = i.val := by
   have hv : i.val ≠ j.val := fun e => hij (Fin.ext e)
@@ -151,6 +155,7 @@ theorem sp_adj {i j : Fin n} (hij : i ≠ j) (hA : (rootDatum n F).cartan i j �
   simp [cartanC, Fin.ext_iff, hv]
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem sp_cartan_neg_one {i j : Fin n} (hij : i ≠ j) (hA : (rootDatum n F).cartan i j ≠ 0)
     (hnt : ¬ spTail n i j) :
     (rootDatum n F).cartan i j = -1 ∧ (rootDatum n F).cartan j i = -1 := by
@@ -162,6 +167,7 @@ theorem sp_cartan_neg_one {i j : Fin n} (hij : i ≠ j) (hA : (rootDatum n F).ca
   · have hi : i.val + 1 < n := by omega
     exact (cartanC_succ h hi).symm
 
+omit [Finite F] [CharP F 2] in
 theorem sp_triangle_free {i j l : Fin n} (hij : i ≠ j) (hil : i ≠ l) (hjl : j ≠ l)
     (h1 : (rootDatum n F).cartan i j ≠ 0) (h2 : (rootDatum n F).cartan j l ≠ 0)
     (h3 : (rootDatum n F).cartan i l ≠ 0) : False := by

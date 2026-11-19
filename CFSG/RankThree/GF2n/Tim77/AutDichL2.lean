@@ -71,7 +71,7 @@ theorem autDichL2_map_ltri {F : Type} [Field F] (σ : F ≃+* F) :
     Matrix.SpecialLinearGroup.map (σ : F →+* F) (ltriElt (1 : F)) = ltriElt 1 := by
   rw [← sl2FieldAut_eq_map, sl2FieldAut_ltriElt, map_one]
 
-theorem autDich_l2 {L : Type} [Group L] {f : ℕ} (hf : 2 ≤ f)
+theorem autDich_l2 {L : Type} [Group L] {f : ℕ} (_hf : 2 ≤ f)
     (e : L ≃* CFSG.Theory.Comparator.PSL2Model f) (σ : MulAut L) (hσ : σ * σ = 1)
     {ā : L} (hā : orderOf ā = 2) (hfix : σ ā = ā) :
     (∃ τ : L, τ * τ = 1 ∧ τ * ā = ā * τ ∧ ∀ z, σ z = τ * z * τ⁻¹) ∨

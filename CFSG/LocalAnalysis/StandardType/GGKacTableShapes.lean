@@ -174,10 +174,10 @@ theorem ggKacSh_mem_rawDatums {T : GGKacType} {tw : Bool} {p n : ℕ} {D : GGKac
     (h : D ∈ ggKacTable T tw p n) (hb : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) :
     D ∈ k0RawDatums (k0DiagOf T) tw p n (if p ∣ 2 ^ n - 1 then 1 else 2) := by
   by_cases h1 : p ∣ 2 ^ n - 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact (k0shape_sortDatums_perm _).mem_iff.mp (by rwa [k0shape_table_branch1 T tw p n h1] at h)
   · have h2 : p ∣ 2 ^ n + 1 := hb.resolve_left h1
-    rw [if_neg h1]
+    rw [ite_eq_right h1]
     exact (k0shape_sortDatums_perm _).mem_iff.mp (by
       rwa [k0shape_table_branch2 T tw p n h1 h2] at h)
 
@@ -290,12 +290,12 @@ theorem ggKacShIndicator_getD (s : List ℕ) (i : ℕ) :
 theorem ggKacShIndicator_zero (s : List ℕ) (i : ℕ) :
     (ggKacShIndicator s).getD i 0 = 0 ↔ s.getD i 0 = 0 := by
   rw [ggKacShIndicator_getD]
-  by_cases h : s.getD i 0 = 0 <;> simp [h]
+  by_cases h : s.getD i 0 = 0 <;> simp
 
 theorem ggKacShIndicator_pos (s : List ℕ) (i : ℕ) :
     0 < (ggKacShIndicator s).getD i 0 ↔ 0 < s.getD i 0 := by
   rw [ggKacShIndicator_getD]
-  by_cases h : s.getD i 0 = 0 <;> simp [h, Nat.pos_iff_ne_zero]
+  by_cases h : s.getD i 0 = 0 <;> simp [Nat.pos_iff_ne_zero]
 
 theorem ggKacShIndicator_supports (s : List ℕ) :
     ggKacShIndicator s ∈ ggKacSupports s.length := by

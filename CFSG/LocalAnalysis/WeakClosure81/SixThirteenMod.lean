@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_quotient_imgTil {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀U : V₀ ≤ U) :
     Nat.card (Vtil V₀ V hV ⧸ imgTil V₀ V hV U) = U.relIndex V := by
   rw [← Subgroup.index_eq_card,
@@ -148,7 +149,7 @@ theorem commutator_le_of_card_quot_lt {W : Type} [CommGroup W] [Finite W]
     ∀ x ∈ X, ∀ w : W, w⁻¹ * x w ∈ U := by
   intro x hx w
   by_contra hw
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hxst : x ∈ stabSub U := by
     rw [mem_stabSub]
     intro u
@@ -176,6 +177,7 @@ theorem commutator_le_of_card_quot_lt {W : Type} [CommGroup W] [Finite W]
       rfl
   exact absurd (two_pow_dParam_le_card_of_ne_one hQ hp hp2 hj hγ1) (not_le.2 hcard)
 
+omit [Finite G] in
 theorem eq_top_of_invariant_of_conjGenerated {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
     (hgen : ConjGenerated M V₀ V) {Y : Subgroup (Vtil V₀ V hV)}
@@ -206,6 +208,7 @@ theorem eq_top_of_invariant_of_conjGenerated {M V₀ V : Subgroup G} (hV : IsEle
   have hx := hP x.val_mem
   rwa [mem_preTil_iff_of_mem V₀ V hV Y x.val_mem] at hx
 
+omit [Finite G] in
 theorem exists_commutator_notMem {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
     (hgen : ConjGenerated M V₀ V) {X : Subgroup (MulAut (Vtil V₀ V hV))} (hX1 : X ≠ ⊥)

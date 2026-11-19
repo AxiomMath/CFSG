@@ -37,14 +37,14 @@ theorem rk_zero : rk 0 = 0 := rfl
 theorem srcR_zero (RG : ℕ) : srcR RG 0 = 0 := rfl
 
 theorem srcR_pos (RG : ℕ) {s : ℕ} (hs : s ≠ 0) : srcR RG s = fget RG (s - 1) 56 := by
-  rw [srcR, if_neg hs]
+  rw [srcR, ite_eq_right hs]
 
 theorem prodM_two_pow_six {G : Type*} [Group G] (h : ℕ → G) : prodM h (2 ^ 6) = 1 :=
   List.prod_eq_one fun b hb => by
     obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hb
     have hj' : j < 6 := List.mem_range.1 hj
     have : ¬ 6 = j := by omega
-    rw [if_neg (by rw [Nat.testBit_two_pow]; simpa using this)]
+    rw [ite_eq_right (by rw [Nat.testBit_two_pow]; simpa using this)]
 
 theorem testBit_lt {μ r j : ℕ} (hμ : μ < 2 ^ r) (hj : μ.testBit j = true) : j < r := by
   by_contra h
@@ -141,15 +141,16 @@ theorem gen_comm {t i j : ℕ} (ht : t ≤ 751)
 
 theorem prodM_mem_E {t μ : ℕ} (ht : t ≤ 751)
     (hμ : μ < 2 ^ rk (srcR RG t)) : prodM (srcGen IV RG t) μ ∈ sylowSub :=
-  prodL_mem _ _ fun j _ hb => gen_mem F ht (testBit_lt hμ hb)
+  prodL_mem _ _ fun _j _ hb => gen_mem F ht (testBit_lt hμ hb)
 
+omit F in
 theorem prodM_mem_src {t μ : ℕ} (hμ : μ < 2 ^ rk (srcR RG t)) :
     prodM (srcGen IV RG t) μ ∈ closure (srcSet IV RG t) :=
   prodL_mem _ _ fun j _ hb => subset_closure ⟨j, testBit_lt hμ hb, rfl⟩
 
 theorem pA_src {t μ : ℕ} (ht : t ≤ 751) (hμ : μ < 2 ^ rk (srcR RG t)) (p : Fin 24) :
     pA IV (srcR RG t) μ p = (prodM (srcGen IV RG t) μ p : ℕ) :=
-  pA_apply (fun j _ hb => gen_perm F ht (testBit_lt hμ hb)) p
+  pA_apply (fun _j _ hb => gen_perm F ht (testBit_lt hμ hb)) p
 
 theorem step :
     ∀ s ∈ {s | s ≤ 751}, ∀ x ∈ sylowSub, x * x = 1 → (∀ y ∈ srcSet IV RG s, x * y = y * x) →
@@ -181,7 +182,7 @@ theorem step :
         rw [cperm_apply hxP, ← pA_src F hs' hμ]
         exact hag k hk
     rw [e]
-    exact prodM_mem_src F hμ
+    exact prodM_mem_src hμ
   · refine Or.inr ⟨it.1, hle, cperm (valF 120 (rec it.2.1)), rec_mem F hj, ?_⟩
     set t := it.1 with htdef
     set r := rk (srcR RG s) with hrdef
@@ -229,8 +230,8 @@ theorem step :
       (fun i hi j hj => gen_comm F hle (hrk' ▸ hi) (hrk' ▸ hj))
       (fun i hi => gen_sq F hle (hrk' ▸ hi))
       (fun i hi => hrk' ▸ (hmp i hi).1)
-      (fun i hi => by have := hconj i (by omega); rwa [if_pos hi] at this)
-      (by have := hconj r (by omega); rwa [if_neg (lt_irrefl r)] at this)
+      (fun i hi => by have := hconj i (by omega); rwa [ite_eq_left hi] at this)
+      (by have := hconj r (by omega); rwa [ite_eq_right (lt_irrefl r)] at this)
       (fun i hi => ⟨fget it.2.2.2.2 i 6, by rw [← xorSel_eq]; exact hsp i hi⟩)
     rw [srcSet, srcSet, hrk']
     exact key

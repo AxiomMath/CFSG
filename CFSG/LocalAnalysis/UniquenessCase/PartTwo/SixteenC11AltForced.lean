@@ -18,7 +18,7 @@ private lemma s16c11_altforced_ncard_orbit_eq_relIndex {G : Type*} [Group G] {V 
     [CommGroup V] [Finite G] {ρ : G →* MulAut V} {T X : Subgroup G} {y : V}
     (hS : X ⊓ (MulAction.stabilizer (MulAut V) y).comap ρ = T) :
     {z : V | ∃ x ∈ X, ρ x y = z}.ncard = T.relIndex X := by
-  letI : MulAction G V := MulAction.compHom V ρ
+  let : MulAction G V := MulAction.compHom V ρ
   have hstab : MulAction.stabilizer G y = (MulAction.stabilizer (MulAut V) y).comap ρ := by
     ext g
     simp only [MulAction.mem_stabilizer_iff, Subgroup.mem_comap, MulAction.compHom_smul_def]
@@ -54,7 +54,7 @@ theorem s16c11_alt_pgroup_of_words {n : ℕ} (gens : List ↥(alternatingGroup (
     have h := Subgroup.card_mul_index (S16C11AltGrp gens)
     rw [hT, hgroup] at h
     exact Nat.eq_of_mul_eq_mul_left (Nat.two_pow_pos e) h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨IsPGroup.of_card hT, by rw [hidx]; exact hc⟩
 
 theorem s16c11_alt_forced_of_checks {n : ℕ} (gens : List ↥(alternatingGroup (Fin n)))
@@ -165,7 +165,7 @@ theorem s16c11_alt_uniq_of_check {n : ℕ} (gens : List ↥(alternatingGroup (Fi
     fun k h1 h2 h3 => Or.inl (h k h1 h2 h3)
 
 theorem s16c11_alt_stab_data_of_checks {n : ℕ} (gens : List ↥(alternatingGroup (Fin n))) (m : ℕ)
-    (hfixw : S16C11AltWords gens (m + 1) = S16C11AltWords gens m)
+    (_hfixw : S16C11AltWords gens (m + 1) = S16C11AltWords gens m)
     {x₀ xa xb : Fin n → ZMod 2} (sa sb : ↥(alternatingGroup (Fin n))) (h₀ : ∑ i, x₀ i = 0)
     (ha : ∑ i, xa i = 0) (hb : ∑ i, xb i = 0) (hxa : ¬ S16C11AltEqv x₀ xa)
     (hxb : ¬ S16C11AltEqv x₀ xb) (hab : ¬ S16C11AltEqv xa xb)
@@ -264,7 +264,7 @@ theorem s16c11_alt_stab_data_of_checks {n : ℕ} (gens : List ↥(alternatingGro
     · intro h
       exact hab ((s16c11_alt_cls_eq_iff ha hb).mp h)
   refine ⟨hTS, ?_, ?_⟩
-  · haveI : Finite (FFModel.altDn n).Gam :=
+  · have : Finite (FFModel.altDn n).Gam :=
       inferInstanceAs (Finite ↥(alternatingGroup (Fin n)))
     have hrel := s16c11_altforced_ncard_orbit_eq_relIndex (ρ := S16C11AltAct n)
       (T := S16C11AltGrp gens) (X := S16C11SetStab (S16C11AltAct n) Y)

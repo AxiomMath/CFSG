@@ -25,8 +25,8 @@ theorem card_sup_mul_card_inf {G : Type*} [Group G] (H N : Subgroup G)
       have := h b⁻¹ (inv_mem hb) _ hn
       simpa [mul_assoc] using this
   have h1 : N.relIndex (H ⊔ N) = N.relIndex H := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
     unfold relIndex index
     exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hLE).toEquiv.symm
   have e1 := relIndex_mul_card (H := N) (K := H ⊔ N)
@@ -410,11 +410,11 @@ end FrobeniusFixedSpaceBounds
 
 
 theorem card_le_mul_card_fixedSpace_of_frobenius_action {F V : Type} [Group F] [Finite F] {L K : Subgroup F} {n : ℕ}
-    (hn : 2 ≤ n) (hLnormal : L.Normal) (hLK : L ⊔ K = ⊤) (hdisj : Disjoint L K)
+    (hn : 2 ≤ n) (hLnormal : L.Normal) (_hLK : L ⊔ K = ⊤) (_hdisj : Disjoint L K)
     (hfrob : ∀ k ∈ K, k ≠ 1 → ∀ l ∈ L, l ≠ 1 → k * l ≠ l * k)
     (hKab : IsMulCommutative K)
     (hL : Nat.card L = 2 ^ n) (hK : Nat.card K = 2 ^ n - 1)
-    [AddCommGroup V] [Finite V] (hV : ∀ v : V, (2 : ℕ) • v = 0) [DistribMulAction F V]
+    [AddCommGroup V] [Finite V] (_hV : ∀ v : V, (2 : ℕ) • v = 0) [DistribMulAction F V]
     {A : Subgroup F} (hAL : A ≤ L) (hA1 : A ≠ ⊥)
     (hA : Nat.card V ≤ Nat.card A * Nat.card {v : V // ∀ a ∈ A, a • v = v}) :
     Nat.card V ≤ Nat.card L * Nat.card {v : V // ∀ a ∈ L, a • v = v} := by
@@ -463,7 +463,7 @@ private lemma card_bound_of_irreducible_action {Q G : Type} [AddCommGroup Q] [Mo
     rcases hirr S with h | h
     · have : x ∈ S := by
         show x ∈ LinearMap.ker (ρ g - 1)
-        simp [sub_eq_zero, hgx]
+        simp [hgx]
       have h' : S.toSubmodule = ⊥ := by rw [h]; rfl
       have this' : x ∈ S.toSubmodule := this
       rw [h'] at this'
@@ -491,13 +491,13 @@ private lemma card_bound_of_irreducible_action {Q G : Type} [AddCommGroup Q] [Mo
     exact (inv_mul_eq_one.mp this).symm
   have hcard : Nat.card {y : Q // y ≠ 0} = Nat.card Q - 1 := by
     classical
-    haveI := Fintype.ofFinite Q
+    have := Fintype.ofFinite Q
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_subtype_compl]
     simp
   obtain ⟨x, hx⟩ := exists_ne (0 : Q)
   have hle : Nat.card G ≤ Nat.card Q - 1 := hcard ▸ Nat.card_le_card_of_injective _ (finj x hx)
   refine ⟨hle, fun heq x' y hx' hy => ?_⟩
-  haveI : Finite {y : Q // y ≠ 0} := inferInstance
+  have : Finite {y : Q // y ≠ 0} := inferInstance
   have hb := (finj x' hx').bijective_of_nat_card_le (by rw [hcard, heq])
   obtain ⟨g, hg⟩ := hb.2 ⟨y, hy⟩
   refine ⟨g, congrArg Subtype.val hg, fun g' hg' => ?_⟩
@@ -521,7 +521,7 @@ private lemma card_bound_of_faithful_abelian_action : ∀ (n : ℕ) (Q : Type) [
   · exact card_bound_of_irreducible_action ρ hρ h
   push Not at h
   obtain ⟨S, hSb, hSt⟩ := h
-  haveI : NeZero (Nat.card G : ZMod p) := ⟨by
+  have : NeZero (Nat.card G : ZMod p) := ⟨by
     intro h0
     rw [ZMod.natCast_eq_zero_iff] at h0
     have := Nat.Coprime.eq_one_of_dvd hcop h0
@@ -549,13 +549,13 @@ private lemma card_bound_of_faithful_abelian_action : ∀ (n : ℕ) (Q : Type) [
     have := hT.disjoint.eq_bot
     rw [h0, inf_top_eq] at this
     exact this
-  haveI : Nontrivial S.toSubmodule := by
+  have : Nontrivial S.toSubmodule := by
     rw [Submodule.nontrivial_iff_ne_bot]
     intro h0; apply hSb; exact Subrepresentation.toSubmodule_injective h0
-  haveI : Nontrivial T.toSubmodule := by
+  have : Nontrivial T.toSubmodule := by
     rw [Submodule.nontrivial_iff_ne_bot]
     intro h0; apply hTb; exact Subrepresentation.toSubmodule_injective h0
-  haveI : Finite S.toSubmodule := inferInstance
+  have : Finite S.toSubmodule := inferInstance
   have hQ : Nat.card Q = Nat.card S.toSubmodule * Nat.card T.toSubmodule := by
     rw [← Nat.card_prod]
     exact (Nat.card_congr (Submodule.prodEquivOfIsCompl _ _ hc).toEquiv).symm
@@ -641,11 +641,11 @@ open Representation
 
 
 private theorem card_bound_or_regular_action {p : ℕ} [Fact p.Prime] {P K : Type} [AddCommGroup P] [Finite P] [Nontrivial P]
-    (hP : ∀ x : P, p • x = 0) [CommGroup K] [Finite K] (hK : Nat.Coprime p (Nat.card K))
+    (_hP : ∀ x : P, p • x = 0) [CommGroup K] [Finite K] (hK : Nat.Coprime p (Nat.card K))
     [Module (ZMod p) P] [DistribMulAction K P] [FaithfulSMul K P] :
     Nat.card K < Nat.card P - 1 ∨
       (Nat.card K = Nat.card P - 1 ∧ ∀ x y : P, x ≠ 0 → y ≠ 0 → ∃! k : K, k • x = y) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let f : K → Module.End (ZMod p) P := fun k =>
     (({ toFun := fun x => k • x, map_zero' := smul_zero k, map_add' := smul_add k } :
       P →+ P)).toZModLinearMap p
@@ -680,8 +680,8 @@ theorem card_lt_or_regular_on_nonzero_of_faithful_coprime_abelian_action {p : �
     [DistribMulAction K P] [FaithfulSMul K P] :
     Nat.card K < Nat.card P - 1 ∨
       (Nat.card K = Nat.card P - 1 ∧ ∀ x y : P, x ≠ 0 → y ≠ 0 → ∃! k : K, k • x = y) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  letI : Module (ZMod p) P := AddCommGroup.zmodModule hP
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  let : Module (ZMod p) P := AddCommGroup.zmodModule hP
   exact card_bound_or_regular_action hP hK
 
 

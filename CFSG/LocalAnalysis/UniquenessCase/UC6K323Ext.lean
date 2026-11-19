@@ -17,7 +17,7 @@ theorem center_scalar {H : Subgroup (GL (Fin 3) (ZMod p))}
         algebraMap (ZMod p) (Matrix (Fin 3) (Fin 3) (ZMod p)) c := by
   intro w hw
   have hω : ∃ ω : ZMod p, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd : 3 ∣ Nat.card (ZMod p)ˣ := by
       rw [Nat.card_eq_fintype_card, ZMod.card_units]
       omega
@@ -168,7 +168,7 @@ theorem false_of_extraspecial27 {G H X : Subgroup (GL (Fin 3) (ZMod p))} (hp5 : 
     intro s hs
     obtain ⟨⟨x, hxX⟩, hx⟩ := hbij.2 ⟨s, hs⟩
     exact ⟨x, hxX, congrArg (fun t : S => ((t : H) : GL (Fin 3) (ZMod 7))) hx⟩
-  haveI : Nontrivial (center H) := Finite.one_lt_card_iff_nontrivial.1 (by rw [hZc]; norm_num)
+  have : Nontrivial (center H) := Finite.one_lt_card_iff_nontrivial.1 (by rw [hZc]; norm_num)
   obtain ⟨c₀, hc₀1⟩ : ∃ c₀ : center H, c₀ ≠ 1 := exists_ne 1
   set cH : H := (c₀ : H) with hcH
   set c : GL (Fin 3) (ZMod 7) := (cH : GL (Fin 3) (ZMod 7)) with hc

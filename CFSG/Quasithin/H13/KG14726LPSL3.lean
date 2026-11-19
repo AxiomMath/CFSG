@@ -271,7 +271,7 @@ theorem kg115L3Input_holds : KG115L3Input := by
     obtain ⟨P₀, hP₀⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
     have hS₀ : IsPGroup 2 (projUnitriangular 3 K) := by
       rw [← hP₀]
-      exact P₀.isPGroup'
+      exact P₀.isPGroup
     have hS₀i : ¬ 2 ∣ (projUnitriangular 3 K).index := by
       rw [← hP₀]
       exact P₀.not_dvd_index

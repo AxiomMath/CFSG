@@ -21,12 +21,14 @@ private def endg_h1_conjEquiv {Y : Subgroup X} (hY : Y.Normal) (g : X) : ↥Y �
   right_inv u := Subtype.ext (by simp [mul_assoc])
   map_mul' u v := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite X] in
 private theorem endg_h1_map_normal {Y : Subgroup X} (hY : Y.Normal) (S : Subgroup ↥Y)
     (hS : ∀ g : X, ∀ u ∈ S, endg_h1_conjEquiv hY g u ∈ S) : (S.map Y.subtype).Normal := by
   refine ⟨fun n hn g => ?_⟩
   obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hn
   exact Subgroup.mem_map.mpr ⟨endg_h1_conjEquiv hY g u, hS g u hu, rfl⟩
 
+omit [Finite X] in
 private theorem endg_h1_eq_bot_of_map {Y : Subgroup X} (S : Subgroup ↥Y)
     (h : S.map Y.subtype = ⊥) : S = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -35,10 +37,12 @@ private theorem endg_h1_eq_bot_of_map {Y : Subgroup X} (S : Subgroup ↥Y)
   rw [h, Subgroup.mem_bot] at h1
   exact Subtype.ext h1
 
+omit [Finite X] in
 private theorem endg_h1_le_pCore {Y : Subgroup X} (hY : Y.Normal) (hp : IsPGroup 2 Y) :
     Y ≤ pCore 2 X :=
   le_sSup ⟨hY, hp⟩
 
+omit [Finite X] in
 theorem endg_pCore_eq_bot_of_normal (ho : pCore 2 X = ⊥) {Y : Subgroup X} (hY : Y.Normal) :
     pCore 2 ↥Y = ⊥ := by
   have hstab : ∀ g : X, ∀ u ∈ pCore 2 ↥Y, endg_h1_conjEquiv hY g u ∈ pCore 2 ↥Y := by
@@ -60,7 +64,7 @@ theorem endg_eq_bot_of_normal_abelian {H : Subgroup X} (ho : pCore 2 X = ⊥)
     (h5 : ∀ Y : Subgroup X, Y.Normal → Y ≤ H → Odd (Nat.card Y) → Y = ⊥)
     {Y : Subgroup X} (hY : Y.Normal) (hYH : Y ≤ H)
     (hab : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a) : Y = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, m, hm, hcard⟩ := Nat.exists_eq_two_pow_mul_odd (Nat.card_pos (α := ↥Y)).ne'
   let f : ↥Y →* ↥Y :=
     { toFun := fun y => y ^ (2 ^ a)
@@ -145,7 +149,7 @@ theorem endg_center_eq_bot_of_normal {H : Subgroup X} (ho : pCore 2 X = ⊥)
 theorem endg_goldschmidtOddCore_eq_bot {H : Subgroup X}
     (h5 : ∀ Y : Subgroup X, Y.Normal → Y ≤ H → Odd (Nat.card Y) → Y = ⊥)
     {Y : Subgroup X} (hY : Y.Normal) (hYH : Y ≤ H) : goldschmidtOddCore ↥Y = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcore : goldschmidtOddCore ↥Y = CFSG.pPrimeCore 2 ↥Y := by
     simp only [goldschmidtOddCore, CFSG.pPrimeCore, Nat.coprime_two_left]
   rw [hcore]
@@ -172,11 +176,11 @@ theorem endg_goldschmidtOddCore_eq_bot {H : Subgroup X}
 theorem endg_exists_sylow_central {A : Subgroup X} (hA : IsPGroup 2 A) (hA1 : A ≠ ⊥)
     (T : Sylow 2 X) (hT : (T : Subgroup X) ≤ Subgroup.normalizer (A : Set X)) :
     ∃ z ∈ A, z ≠ 1 ∧ z ∈ (T : Subgroup X) ∧ ∀ x ∈ (T : Subgroup X), x * z = z * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hT2 : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hT2 : IsPGroup 2 ↥(T : Subgroup X) := T.isPGroup
   have hTA : ∀ t : ↥(T : Subgroup X), ∀ a : ↥A, (t : X) * (a : X) * (t : X)⁻¹ ∈ A :=
     fun t a => (Subgroup.mem_normalizer_iff.mp (hT t.2) (a : X)).mp a.2
-  letI : MulAction ↥(T : Subgroup X) ↥A :=
+  let : MulAction ↥(T : Subgroup X) ↥A :=
     { smul := fun t a => ⟨(t : X) * (a : X) * (t : X)⁻¹, hTA t a⟩
       one_smul := fun a => Subtype.ext (show (1 : X) * (a : X) * (1 : X)⁻¹ = (a : X) by simp)
       mul_smul := fun s t a => Subtype.ext (show
@@ -202,7 +206,7 @@ theorem endg_exists_sylow_central {A : Subgroup X} (hA : IsPGroup 2 A) (hA1 : A 
       exact ha.trans hb.symm
     have hle : Nat.card (MulAction.fixedPoints ↥(T : Subgroup X) ↥A) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr hsub
-    haveI : Nonempty (MulAction.fixedPoints ↥(T : Subgroup X) ↥A) :=
+    have : Nonempty (MulAction.fixedPoints ↥(T : Subgroup X) ↥A) :=
       ⟨⟨1, MulAction.mem_fixedPoints.mpr fun t =>
         Subtype.ext (show (t : X) * (1 : X) * (t : X)⁻¹ = 1 by simp)⟩⟩
     have hpos : 0 < Nat.card (MulAction.fixedPoints ↥(T : Subgroup X) ↥A) := Nat.card_pos
@@ -220,6 +224,7 @@ theorem endg_exists_sylow_central {A : Subgroup X} (hA : IsPGroup 2 A) (hA1 : A 
   calc (x : X) * (z : X) = ((x : X) * (z : X) * (x : X)⁻¹) * (x : X) := by group
     _ = (z : X) * (x : X) := by rw [h]
 
+omit [Finite X] in
 theorem endg_perfect_hom_trivial {K : Subgroup X} (hK : ⁅K, K⁆ = K) {G' : Type} [Group G']
     [Group.IsSolvable G'] (φ : ↥K →* G') (k : ↥K) : φ k = 1 := by
   have htop : (⊤ : Subgroup ↥K).map K.subtype = K := by
@@ -244,7 +249,7 @@ theorem endg_perfect_hom_trivial {K : Subgroup X} (hK : ⁅K, K⁆ = K) {G' : Ty
 
 private theorem endg_h1_stab {Y : Type} [Group Y] [Finite Y] (f : ℕ → Subgroup Y)
     (hf : Antitone f) : ∃ i, f i = f (i + 1) := by
-  haveI : Finite (Subgroup Y) :=
+  have : Finite (Subgroup Y) :=
     Finite.of_injective (fun H : Subgroup Y => (H : Set Y)) SetLike.coe_injective
   obtain ⟨x, y, hxy, hfxy⟩ := Finite.exists_ne_map_eq_of_infinite f
   rcases lt_or_gt_of_ne hxy with h | h

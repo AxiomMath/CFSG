@@ -74,8 +74,8 @@ theorem exists_coords_d4 (h : ℤ) {z : ModGL Tag.D4 K} (hz : z ∈ heightSeries
       have h3 : γ ∈ Set.range α := by rw [hrange]; exact mem_d4RootsFrom.1 hγ
       exact h3
   · have hsum : ∀ j, (∑ k, if α k = α j then c' k else 0) = c' j := fun j => by
-      rw [Finset.sum_eq_single j (fun k _ hk => if_neg (fun h => hk (hα h)))
-        (fun hj => absurd (Finset.mem_univ j) hj), if_pos rfl]
+      rw [Finset.sum_eq_single j (fun k _ hk => ite_eq_right (fun h => hk (hα h)))
+        (fun hj => absurd (Finset.mem_univ j) hj), ite_eq_left rfl]
     rw [← hc']
     simp only [List.map_ofFn]
     congr 2
@@ -93,7 +93,7 @@ open Classical in
 
 theorem pc_of_pos [Finite K] {γ : D4Vec} (hγ : IsRoot Tag.D4 γ ∧ 0 < height γ)
     (g : ModGL Tag.D4 K) : pc γ g = rootCoord hγ g := by
-  rw [pc, dif_pos hγ]
+  rw [pc, dite_eq_left hγ]
 
 theorem list_sum_ite_eq (l : List D4Vec) (hl : l.Nodup) (f : D4Vec → K) {γ : D4Vec} (hγ : γ ∈ l) :
     (l.map fun δ => if δ = γ then f δ else 0).sum = f γ := by
@@ -129,7 +129,7 @@ theorem rootCoord_commutator_pinnedX_d4 [Finite K] {γ δ β : D4Vec}
   · subst hγδ
     have h1 : ⁅pinnedX Tag.D4 K γ c, pinnedX Tag.D4 K γ d⁆ = 1 := by
       rw [commutatorElement_eq_one_iff_mul_comm, ← pinnedX_add, ← pinnedX_add, add_comm]
-    rw [h1, rootCoord_one, if_neg]
+    rw [h1, rootCoord_one, ite_eq_right]
     intro h
     exact d4_not_isRoot_double hγ.1 (h ▸ hβ.1)
   · have hneg : γ ≠ -δ := fun h => by
@@ -143,13 +143,13 @@ theorem rootCoord_commutator_pinnedX_d4 [Finite K] {γ δ β : D4Vec}
       rw [hF K c d]
       have hht : height β ≤ height (γ + δ) := by rw [d4_height_add]; exact hh
       by_cases hb : γ + δ = β
-      · rw [if_pos hb]
+      · rw [ite_eq_left hb]
         subst hb
         exact rootCoord_self hβ _
-      · rw [if_neg hb]
+      · rw [ite_eq_right hb]
         exact rootCoord_pinnedX_of_ne hβ ⟨hr, by rw [d4_height_add]; omega⟩ hht hb _
     · have hcomm := h2 hr K _ (mem_rootSubgroup.2 ⟨c, rfl⟩) _ (mem_rootSubgroup.2 ⟨d, rfl⟩)
-      rw [commutatorElement_eq_one_iff_mul_comm.2 hcomm.eq, rootCoord_one, if_neg]
+      rw [commutatorElement_eq_one_iff_mul_comm.2 hcomm.eq, rootCoord_one, ite_eq_right]
       intro hb
       exact hr (hb ▸ hβ.1)
 
@@ -231,7 +231,7 @@ theorem rootCoord_commutator_pair [Finite K] {h k : ℤ} (hh : 0 < h) (hk : 0 < 
     · refine Finset.sum_congr rfl fun δ hδ => ?_
       rw [pc_prod_d4 hh hn₁ hm₁ c₁ hγ, pc_prod_d4 hk hn₂ hm₂ c₂ hδ]
     · intro δ hδ hδ'
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hb
       obtain ⟨-, hγh⟩ := mem_d4RootsAt.1 hγ
       obtain ⟨-, -, hδ2⟩ := mem_d4RootsFrom.1 hδ
@@ -241,7 +241,7 @@ theorem rootCoord_commutator_pair [Finite K] {h k : ℤ} (hh : 0 < h) (hk : 0 < 
       omega
   · intro γ hγ hγ'
     refine Finset.sum_eq_zero fun δ hδ => ?_
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hb
     obtain ⟨-, -, hγ2⟩ := mem_d4RootsFrom.1 hγ
     obtain ⟨-, -, hδ2⟩ := mem_d4RootsFrom.1 hδ

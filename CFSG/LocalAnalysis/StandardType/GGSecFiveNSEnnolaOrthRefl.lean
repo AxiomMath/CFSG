@@ -52,17 +52,17 @@ theorem card_fix_antiSwapAut (hp : p.Prime) {i j : Fin k} (hij : i ≠ j) :
       funext l
       by_cases hl : l = i
       · subst hl
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact neg_eq_iff_add_eq_zero.mpr (by rwa [add_comm] at h)
       · by_cases hl2 : l = j
         · subst hl2
-          rw [if_neg hl, if_pos rfl]
+          rw [ite_eq_right hl, ite_eq_left rfl]
           exact neg_eq_iff_add_eq_zero.mpr h
-        · rw [if_neg hl, if_neg hl2]
+        · rw [ite_eq_right hl, ite_eq_right hl2]
     · intro h
       have h' := congrArg (fun x : Multiplicative (Fin k → ZMod p) => toAdd x i) h
       rw [← ofAdd_toAdd f, antiSwapAut_apply hij] at h'
-      simp only [toAdd_ofAdd, if_true] at h'
+      simp only [toAdd_ofAdd, ite_true] at h'
       have h'' : toAdd f j + toAdd f i = 0 := neg_eq_iff_add_eq_zero.mp h'
       rwa [add_comm] at h''
   have hrange : δ.range = ⊤ := by
@@ -110,7 +110,7 @@ theorem forkAut_injective (hp : p.Prime) (hp2 : p ≠ 2) {a b c d : Fin k} (hab 
     rw [forkAut_zero, forkAut_three]
     refine p5_ne_of_toAdd_ne (t := Pi.single b 1) (l := b) ?_
     rw [p5_toAdd_swapAut_apply, p5_toAdd_antiSwapAut_apply hcd,
-      Equiv.swap_apply_left, if_neg hbc, if_neg hbd,
+      Equiv.swap_apply_left, ite_eq_right hbc, ite_eq_right hbd,
       Pi.single_eq_of_ne (Ne.symm hbc), Pi.single_eq_same]
     exact zero_ne_one
   have h12 : (forkAut a b c d 1 : MulAut (Multiplicative (Fin k → ZMod p))) ≠
@@ -126,7 +126,7 @@ theorem forkAut_injective (hp : p.Prime) (hp2 : p ≠ 2) {a b c d : Fin k} (hab 
     rw [forkAut_one, forkAut_three]
     refine p5_ne_of_toAdd_ne (t := Pi.single a 1) (l := a) ?_
     rw [p5_toAdd_swapAut_apply, p5_toAdd_antiSwapAut_apply hcd,
-      Equiv.swap_apply_left, if_neg hac, if_neg had,
+      Equiv.swap_apply_left, ite_eq_right hac, ite_eq_right had,
       Pi.single_eq_of_ne (Ne.symm hab), Pi.single_eq_same]
     exact zero_ne_one
   have h23 : (forkAut a b c d 2 : MulAut (Multiplicative (Fin k → ZMod p))) ≠
@@ -134,7 +134,7 @@ theorem forkAut_injective (hp : p.Prime) (hp2 : p ≠ 2) {a b c d : Fin k} (hab 
     rw [forkAut_two, forkAut_three]
     refine p5_ne_of_toAdd_ne (t := Pi.single c 1) (l := d) ?_
     rw [p5_toAdd_swapAut_apply, p5_toAdd_antiSwapAut_apply hcd,
-      Equiv.swap_apply_right, if_neg (Ne.symm hcd), if_pos rfl, Pi.single_eq_same]
+      Equiv.swap_apply_right, ite_eq_right (Ne.symm hcd), ite_eq_left rfl, Pi.single_eq_same]
     intro h
     exact SpCoord.coord_two_ne_zero hp hp2 (by linear_combination h)
   intro x y hxy

@@ -38,7 +38,7 @@ theorem sec84CommUpper_of (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hZ0CN : Z0 ≤ hc.CN t := sec8_Z0_le_CN hc hs hZ0
   obtain ⟨r, hr⟩ := hA G M Q Z B hc n t hs
   obtain ⟨K, fK, finK, φ, u, u', hpts⟩ := sec8_exists_pts hPts hc hs hsp4 hr
-  haveI := hpts.charP
+  have := hpts.charP
   obtain ⟨s, hs0, rfl⟩ : ∃ s ∈ Z0, x = ν * s * ν⁻¹ :=
     ⟨ν⁻¹ * x * ν, mem_conjSubgroup.mp hxX, by group⟩
   have hsQ : s ∉ Q := by

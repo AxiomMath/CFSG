@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_comm_mem_of_relIndex_two {B J : Subgroup G} (h2 : J.relIndex B = 2)
     {a : G} (haJ : a ∈ normalizer (J : Set G)) {b : G} (hb : b ∈ B) (hab : a * b * a⁻¹ ∈ B) :
     a * b * a⁻¹ * b⁻¹ ∈ J := by
@@ -31,6 +32,7 @@ private theorem nineThree_comm_mem_of_relIndex_two {B J : Subgroup G} (h2 : J.re
     rw [e]
     exact J.mul_mem h2' (J.inv_mem h1)
 
+omit [Finite G] in
 private theorem nineThree_eq_of_relIndex_two {B J₁ J₂ : Subgroup G} (h : J₁ ≤ J₂) (h₂B : J₂ ≤ B)
     (h1 : J₁.relIndex B = 2) (h2 : J₂.relIndex B = 2) : J₁ = J₂ := by
   have h3 := Subgroup.relIndex_mul_relIndex J₁ J₂ B h h₂B

@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 theorem sec4_relIndex_centralizer_eq_card [Finite G] (H : Subgroup G) (x : G) :
     (H ⊓ centralizer ({x} : Set G)).relIndex H = Nat.card (conjClassIn H x) := by
   let ρ : ↥H →* ConjAct G := H.subtype.comp ConjAct.toConjAct.toMonoidHom
-  letI : MulAction ↥H G := MulAction.compHom G ρ
+  let : MulAction ↥H G := MulAction.compHom G ρ
   have hstab : MulAction.stabilizer ↥H x = (H ⊓ centralizer ({x} : Set G)).subgroupOf H := by
     ext h
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -73,14 +73,14 @@ theorem sec4_relIndex_centralizer_dvd_gl7 [Finite G] {A : Subgroup G}
   let M : Subgroup G := normalizer (A : Set G)
   change (M ⊓ centralizer (A : Set G)).relIndex M ∣
     Nat.card (Matrix.GeneralLinearGroup (Fin 7) (ZMod 2))
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcomm : ∀ a b : ↥A, a * b = b * a := fun a b => hA.1.is_comm.comm a b
   have hpow : ∀ a : ↥A, a ^ 2 = 1 := fun a => Subtype.ext (hA.2 (a : G) a.2)
   obtain ⟨eA⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (W := ↥A) (p := 2)
     hcomm hpow hcard
   have hGL : Nat.card (MulAut ↥A) = Nat.card (Matrix.GeneralLinearGroup (Fin 7) (ZMod 2)) :=
     CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL eA
-  haveI hN : (A.subgroupOf M).Normal := Subgroup.normal_in_normalizer
+  have hN : (A.subgroupOf M).Normal := Subgroup.normal_in_normalizer
   let φ : ↥M →* MulAut ↥A :=
     (MulAut.congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := A)))).toMonoidHom.comp
       MulAut.conjNormal

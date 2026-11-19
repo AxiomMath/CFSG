@@ -38,7 +38,7 @@ private theorem twi1_three_mul_eq_zero {m : ℕ} (hm : Odd m) (h3m : 3 ∣ m) {x
     (hx : (3 : ZMod m) * x = 0) :
     ∃ t : ℕ, t < 3 ∧ x = (t : ZMod m) * ((m / 3 : ℕ) : ZMod m) := by
   have hm0 : m ≠ 0 := hm.pos.ne'
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   have hmpos : 0 < m / 3 :=
     Nat.div_pos (Nat.le_of_dvd (Nat.pos_of_ne_zero hm0) h3m) (by norm_num)
   have hdiv : m ∣ 3 * x.val := by
@@ -67,7 +67,7 @@ private theorem twi1_three_mul_eq_zero {m : ℕ} (hm : Odd m) (h3m : 3 ∣ m) {x
 private theorem twi1_two_mul_eq_zero {m : ℕ} (hm : Odd m) {y : ZMod m}
     (hy : (2 : ZMod m) * y = 0) : y = 0 := by
   have hm0 : m ≠ 0 := hm.pos.ne'
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   have hdiv : m ∣ 2 * y.val := by
     have h1 : ((2 * y.val : ℕ) : ZMod m) = 0 := by
       rw [Nat.cast_mul, Nat.cast_ofNat, ZMod.natCast_zmod_val]
@@ -313,7 +313,7 @@ theorem ggTorusTorWit_coroot_indep_twA5 {m : ℕ} (hm : Odd m) (h3m : 3 ∣ m)
       rw [← pow_mul, mul_comm, pow_mul, ggZetaP_pow_self h3m, one_pow]
     rw [h3, map_one]
   have hP0o : orderOf P0 = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hP03 hP01
   have hcf : ggTorE h3m w.cor hcomm (fun k => Multiplicative.ofAdd (c k)) = 1 := by
     rw [ggTorE_apply]

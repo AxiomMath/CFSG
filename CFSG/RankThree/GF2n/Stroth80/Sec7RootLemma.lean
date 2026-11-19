@@ -119,12 +119,12 @@ theorem exists_mem_act_eq_eichler {G : Type} [Group G] {ι : Type} [Fintype ι] 
 theorem mem_of_comm_comm_mem_Z_of_rootGroup {G : Type} [Group G] [Finite G]
     {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K]
     {Q' : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)} (E : ElemMatrixIso Q' X)
-    (hQ : (polarBilin Q').Nondegenerate) {R V Z N L : Subgroup G} (hLR : L ≤ R) (hZV : Z ≤ V)
+    (hQ : (polarBilin Q').Nondegenerate) {R V Z N L : Subgroup G} (hLR : L ≤ R) (_hZV : Z ≤ V)
     (φ : ↥R →* GL ι K) (hker : φ.ker = N.subgroupOf R)
     (hsec : SectionAct K R V Z φ (fun g => (g : Matrix ι ι K)))
     {u : ι → K} (hu : Q' u = 0) (hu0 : u ≠ 0) (hL : (L.subgroupOf R).map φ = E.LomGL u)
     {l : G} (hl : l ∈ L) (h : ∀ v ∈ ⁅V, L⁆, ⁅l, v⁆ ∈ Z) : l ∈ N := by
-  clear hZV
+  clear _hZV
   unfold SectionAct at hsec
   obtain ⟨hVR, hN, ψ, hψ⟩ := hsec
   by_contra hlN

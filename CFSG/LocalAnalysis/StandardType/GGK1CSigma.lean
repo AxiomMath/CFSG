@@ -62,11 +62,11 @@ theorem ggK1C_core_sigma {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
   obtain ⟨F⟩ := ggK1CCo_family_of_blocks B hK
   obtain ⟨i, hi, t₀, ht₀, ht₀p, a₀, ha₀, hnc⟩ := F.hsolv o ho hqs
   obtain ⟨hZ, hIinn⟩ := ggK1C_centreless_inner hnf hr hK
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero r := ⟨by omega⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK : Fintype.card K = 2 ^ nf := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := nf) hcardK
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := nf) hcardK
   have hb : Function.Bijective (proj r K) :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
   have hcent := ggK1C_comm_iSup F.A i F.hcomm

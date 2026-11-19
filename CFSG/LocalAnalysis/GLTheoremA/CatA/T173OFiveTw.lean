@@ -195,7 +195,7 @@ private theorem exists_inner_pair_twE6 {F : Type} [Field F] [Finite F] {f : ℕ}
       t ∈ Subgroup.centralizer ((A ⊔ L : Subgroup (Γ₂ F)) : Set (Γ₂ F)) ∧
       s ∈ Subgroup.centralizer ((A ⊔ L : Subgroup (Γ₂ F)) : Set (Γ₂ F)) ∧
       (t * s) ^ 3 = 1 ∧ t * s ∉ A := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   obtain ⟨t, htJ, s, hsJ, ht2, hs2, hts3, htsnot⟩ :=
     exists_involution_pair_thetaRankOneGroup hf hk hF hσ h3
   have hJle : E6GraphLevi.thetaRankOneGroup (algebraMap k F) ≤
@@ -237,8 +237,8 @@ private theorem inner_action_data_su_twE6 {F : Type} [Field F] [Finite F] {σ : 
     (hdL : L = stdLayerD (twistedE6RootGroup F σ) d) :
     ∀ a ∈ A, ∃ y ∈ L, y ^ 3 = 1 ∧ y ∈ Subgroup.centralizer (A : Set (Γ₂ F)) ∧
       a * y⁻¹ ∈ Subgroup.centralizer (L : Set (Γ₂ F)) := by
-  haveI : Finite (Γ₂ F) := finite_modGL
-  haveI : Group.IsPerfect ↥(stdLayerD (twistedE6RootGroup F σ) d) :=
+  have : Finite (Γ₂ F) := finite_modGL
+  have : Group.IsPerfect ↥(stdLayerD (twistedE6RootGroup F σ) d) :=
     Group.isPerfect_def.mpr hcomp.2.2.1
   have hn3 : 3 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   have hcop : Nat.Coprime n 3 := by rcases hn with rfl | rfl <;> norm_num
@@ -331,8 +331,8 @@ theorem concl_of_famFive_twE6_of_subset
       ∀ b ∈ B, ∃ φ ∈ I, GLAInduces θ (fun l l' => (l' : Ω) = b⁻¹ * l * b) φ)) :
     T173Concl 3 S B K N := by
   obtain ⟨F, hFld, hFinF, σ, hF, hσ, h3, ⟨M⟩⟩ := exists_dmodel_twE6 hcfg hlab htag hmark
-  letI : Field F := hFld
-  letI : Finite F := hFinF
+  let : Field F := hFld
+  let : Finite F := hFinF
   obtain ⟨J, M', d', hJ, hA'L, hbar4, hA'el, hd'bar, hd'1, hd'3, hd'K, hcomp', hcent', hK'L⟩ :=
     exists_conj_std_data_twE6 hcfg hF σ hσ h3 M
   have hJsub : J ⊆ twE6MaxA5 :=
@@ -341,9 +341,9 @@ theorem concl_of_famFive_twE6_of_subset
       twistedE6DiagGL F σ :=
     hA'L.trans (sup_le_sup_right (graphFixedParabolicLevi_mono hJsub) _)
   obtain ⟨k, hkFld, hkAlg, hkcard⟩ := exists_subfield_twE6 hlab.1 hF
-  letI : Field k := hkFld
-  letI : Algebra k F := hkAlg
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hkcard]; positivity)
+  let : Field k := hkFld
+  let : Algebra k F := hkAlg
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hkcard]; positivity)
   obtain ⟨hKLevi, hbarC⟩ := su6Levi_and_thetaRankOne_data hF hσ h3 hlab.1 hkcard hA'el
     hA'A5 hJsub hK'L hcomp'
   rcases Nat.lt_or_ge lab.n 2 with hnlt | hnge

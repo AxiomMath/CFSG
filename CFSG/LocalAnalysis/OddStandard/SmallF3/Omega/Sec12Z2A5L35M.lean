@@ -49,8 +49,8 @@ theorem psl35_graph_fixed_order_four {F : Type} [Field F] [Fintype F] (hF : Fint
     have e16' : (2 : F) * (2 * (2 * 2)) = 1 := by linear_combination 3 * h5
     have e81' : (3 : F) * (3 * (3 * 3)) = 1 := by linear_combination 16 * h5
     fin_cases i
-    · simp [pow_succ, Module.End.mul_apply, hL0, smul_smul, e16, e16']
-    · simp [pow_succ, Module.End.mul_apply, hL1, smul_smul, e81, e81']
+    · simp [pow_succ, Module.End.mul_apply, hL0, smul_smul, e16']
+    · simp [pow_succ, Module.End.mul_apply, hL1, smul_smul, e81']
     · simp [pow_succ, Module.End.mul_apply, hL2]
   have hL22 : (L ^ 2) (b 0) = (4 : F) • b 0 := by
     rw [pow_two, Module.End.mul_apply, hL0, map_smul, hL0, smul_smul]
@@ -68,7 +68,7 @@ theorem psl35_graph_fixed_order_four {F : Type} [Field F] [Fintype F] (hF : Fint
     have : LinearMap.toMatrix b b L = Matrix.diagonal ![2, 3, 1] := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [LinearMap.toMatrix_apply, hL0, hL1, hL2, Matrix.diagonal_apply]
+        simp [LinearMap.toMatrix_apply, hL0, hL1, hL2]
     rw [this, Matrix.det_diagonal, Fin.prod_univ_three]
     simpa using h23
   have hYscalar : ∀ c : F, Y ^ 2 ≠ Matrix.scalar (Fin 3) c := by
@@ -124,7 +124,7 @@ theorem psl35_graph_fixed_order_four {F : Type} [Field F] [Fintype F] (hF : Fint
             rw [Matrix.mul_assoc]
         _ = Yᵀ * M := by rw [hNt, Matrix.mul_one]
     rw [Matrix.SpecialLinearGroup.coe_transpose, h1, Matrix.mul_assoc, hAinv, Matrix.mul_one]
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := LinearFlag.proj 3 F g) ?_ ?_
     · simpa using this
     · intro h

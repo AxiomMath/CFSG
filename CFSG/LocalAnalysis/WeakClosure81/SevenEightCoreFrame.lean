@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {Q : Type*} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private lemma seven_eight_core_frame_zpow_involution {a : Q} (ha : a * a = 1) (n : ℤ) :
     a ^ n = 1 ∨ a ^ n = a := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' n
@@ -23,6 +24,7 @@ private lemma seven_eight_core_frame_zpow_involution {a : Q} (ha : a * a = 1) (n
     rw [hk, zpow_add, zpow_mul, show a ^ (2 : ℤ) = 1 by rw [zpow_two, ha],
       one_zpow, zpow_one, one_mul]
 
+omit [Finite Q] in
 private lemma seven_eight_core_frame_inv_commutator_self {a x : Q} (ha : a * a = 1) :
     a * ⁅x, a⁆ * a⁻¹ = ⁅x, a⁆⁻¹ := by
   have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
@@ -51,6 +53,7 @@ private lemma seven_eight_core_frame_eq_one_of_sq_eq_one_of_odd {G : Type*} [Gro
   · rw [h] at h2
     exact absurd (even_iff_two_dvd.mpr h2) (Nat.not_even_iff_odd.mpr hH)
 
+omit [Finite Q] in
 private lemma seven_eight_core_frame_commutator_le_of_mem_normalizer {Xb : Subgroup Q} {a : Q}
     (haX : a ∈ Subgroup.normalizer (Xb : Set Q)) : ⁅Xb, Subgroup.zpowers a⁆ ≤ Xb := by
   rw [Subgroup.commutator_le]
@@ -65,6 +68,7 @@ private lemma seven_eight_core_frame_commutator_le_of_mem_normalizer {Xb : Subgr
   rw [hcommutator]
   exact Xb.mul_mem hg1 hconj
 
+omit [Finite Q] in
 theorem conj_eq_inv_of_mem_commutator_zpowers {Xb : Subgroup Q} {a : Q} (ha : a * a = 1)
     (hab : ∀ m ∈ ⁅Xb, Subgroup.zpowers a⁆, ∀ m' ∈ ⁅Xb, Subgroup.zpowers a⁆, m * m' = m' * m) :
     ∀ m ∈ ⁅Xb, Subgroup.zpowers a⁆, a * m * a⁻¹ = m⁻¹ := by
@@ -85,6 +89,7 @@ theorem conj_eq_inv_of_mem_commutator_zpowers {Xb : Subgroup Q} {a : Q} (ha : a 
   | inv x hx ihx =>
       rw [show a * x⁻¹ * a⁻¹ = (a * x * a⁻¹)⁻¹ by group, ihx]
 
+omit [Finite Q] in
 theorem exists_mul_eq_of_commutator_zpowers {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb)) {a : Q}
     (ha : a * a = 1) (haX : a ∈ Subgroup.normalizer (Xb : Set Q))
     (hab : ∀ m ∈ ⁅Xb, Subgroup.zpowers a⁆, ∀ m' ∈ ⁅Xb, Subgroup.zpowers a⁆, m * m' = m' * m) :
@@ -128,6 +133,7 @@ theorem exists_mul_eq_of_commutator_zpowers {Xb : Subgroup Q} (hodd : Odd (Nat.c
   rw [hc_def]
   group
 
+omit [Finite Q] in
 theorem commute_of_mul_commute {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb)) {a f : Q}
     (ha : a * a = 1) (haX : a ∈ Subgroup.normalizer (Xb : Set Q)) (haf : a * f = f * a)
     (hab : ∀ m ∈ ⁅Xb, Subgroup.zpowers a⁆, ∀ m' ∈ ⁅Xb, Subgroup.zpowers a⁆, m * m' = m' * m)
@@ -199,6 +205,7 @@ theorem commute_of_mul_commute {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb)) {a f
   rw [hx_eq, hm_eq_one, one_mul]
   exact hac
 
+omit [Finite Q] in
 theorem inf_eq_bot_and_sup_eq_of_iSup_eq {Xb : Subgroup Q} (hodd : Odd (Nat.card Xb))
     (hXab : ∀ x ∈ Xb, ∀ y ∈ Xb, x * y = y * x) {ι : Type*} (a : ι → Q)
     (hinv : ∀ i, a i * a i = 1) (hnorm : ∀ i, a i ∈ Subgroup.normalizer (Xb : Set Q))
@@ -224,8 +231,7 @@ theorem inf_eq_bot_and_sup_eq_of_iSup_eq {Xb : Subgroup Q} (hodd : Odd (Nat.card
     apply iSup_le
     intro j
     apply iSup_le
-    intro h
-    intro m hm
+    intro h m hm
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     rw [Set.mem_singleton_iff] at hy

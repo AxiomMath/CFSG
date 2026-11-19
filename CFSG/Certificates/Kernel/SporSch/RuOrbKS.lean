@@ -52,10 +52,10 @@ private theorem set_getR {α : Type} [Inhabited α] {a : Array α} {i j : Nat} {
     by_cases hij : j = i
     · subst hij
       simp
-    · rw [if_neg (Ne.symm hij), if_neg hij]
+    · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij]
   · have hj' : ¬ j < (a.set! i v).size := by rw [size_setR]; exact hj
     have hij : j ≠ i := by omega
-    rw [getElem!_neg _ j hj', getElem!_neg a j hj, if_neg hij]
+    rw [getElem!_neg _ j hj', getElem!_neg a j hj, ite_eq_right hij]
 
 private theorem push_atR {α : Type} [Inhabited α] {a : Array α} {x : α} {i : Nat}
     (h : i = a.size) : (a.push x)[i]! = x := by
@@ -121,7 +121,7 @@ theorem ruLabTab_of_labK {n w K : Nat} {L SZ POS : Nat → Nat} {LAB : Nat}
         r[y]! = if pg w (mask w) LAB y < k then pg w (mask w) LAB y else 0)
       (fun r k => (List.range (Ls.getD k #[]).size).foldl
         (fun r i => r.set! (Ls.getD k #[])[i]! k) r) (Array.replicate n 0)
-      ⟨by simp, fun y hy => by rw [replicate_getR hy, if_neg (Nat.not_lt_zero _)]⟩ K
+      ⟨by simp, fun y hy => by rw [replicate_getR hy, ite_eq_right (Nat.not_lt_zero _)]⟩ K
       (fun k hk r ⟨hr1, hr2⟩ => by
         rw [hget k hk, unpack_sizeR]
         obtain ⟨i1, i2⟩ := foldl_rangeR (fun i (r' : Array Nat) => r'.size = n ∧ ∀ y < n,
@@ -134,12 +134,12 @@ theorem ruLabTab_of_labK {n w K : Nat} {L SZ POS : Nat → Nat} {LAB : Nat}
             rw [unpack_getR hi]
             refine ⟨by rw [size_setR, h1'], fun y hy => ⟨fun hyk => ?_, fun i' hi' hiy => ?_⟩⟩
             · have hyx : y ≠ pg w (mask w) (L k) i := fun e => hyk (by rw [e]; exact hxl)
-              rw [set_getR (by rw [h1']; exact hxn), if_neg hyx]
+              rw [set_getR (by rw [h1']; exact hxn), ite_eq_right hyx]
               exact (h2' y hy).1 hyk
             · rw [set_getR (by rw [h1']; exact hxn)]
               by_cases hyx : y = pg w (mask w) (L k) i
-              · rw [if_pos hyx]
-              · rw [if_neg hyx]
+              · rw [ite_eq_left hyx]
+              · rw [ite_eq_right hyx]
                 rcases Nat.lt_succ_iff_lt_or_eq.1 hi' with h3 | h3
                 · exact (h2' y hy).2 i' h3 hiy
                 · exact absurd (by rw [← hiy, h3]) hyx)
@@ -147,17 +147,17 @@ theorem ruLabTab_of_labK {n w K : Nat} {L SZ POS : Nat → Nat} {LAB : Nat}
         obtain ⟨hc, hp, hq⟩ := H2 y hy
         by_cases hyk : pg w (mask w) LAB y = k
         · rw [(i2 y hy).2 _ (by rw [← hyk]; exact hp) (by rw [← hyk]; exact hq),
-            if_pos (by omega), hyk]
+            ite_eq_left (by omega), hyk]
         · rw [(i2 y hy).1 hyk, hr2 y hy]
           by_cases hlt : pg w (mask w) LAB y < k
-          · rw [if_pos hlt, if_pos (by omega)]
-          · rw [if_neg hlt, if_neg (by omega)])
+          · rw [ite_eq_left hlt, ite_eq_left (by omega)]
+          · rw [ite_eq_right hlt, ite_eq_right (by omega)])
     obtain ⟨k1, k2⟩ := key
     unfold ruLabTab
     rw [hlen]
     refine Array.ext (by rw [k1, unpack_sizeR]) fun y hy1 hy2 => ?_
     have hy : y < n := by rwa [k1] at hy1
-    rw [← getElem!_pos _ y hy1, ← getElem!_pos _ y hy2, k2 y hy, if_pos (H2 y hy).1,
+    rw [← getElem!_pos _ y hy1, ← getElem!_pos _ y hy2, k2 y hy, ite_eq_left (H2 y hy).1,
       unpack_getR hy]
   · unfold labListsOK
     rw [Bool.and_eq_true, allLt_iff, allLt_iff, hlen]
@@ -403,7 +403,7 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
       refine ⟨s, ?_, c, ⟨c1, c2, fun t ht1 ht2 => ⟨fun hlt => ?_, fun htc => ?_⟩⟩, hjc,
         ⟨s1, s2, s3, s4, s5, s6, s7⟩⟩
       · unfold fStep
-        rw [hgy, if_neg]
+        rw [hgy, ite_eq_right]
         rw [(s7 y hyn).1]
         simp [hseen]
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hlt with h | h
@@ -437,12 +437,12 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
       have hyc : y = pg w (mask w) Q c := by rw [← htc, hty]
       have hxc : pg w (mask w) ORD (pg w (mask w) Q j) < c := by rw [hxo]; exact hjc
       have hdx : s.1[pg w (mask w) Q j]! = pg w (mask w) DEP (pg w (mask w) Q j) := by
-        rw [(s7 _ hx).2.1, if_pos hxc]
+        rw [(s7 _ hx).2.1, ite_eq_left hxc]
       refine ⟨(s.1.set! y (s.1[pg w (mask w) Q j]! + 1), s.2.1.set! y (pg w (mask w) Q j),
           s.2.2.1.set! y k, s.2.2.2.1.set! y true, s.2.2.2.2.push y), ?_, c + 1,
           ⟨by omega, by omega, fun t ht1 ht2 => ⟨fun hlt => ?_, fun htc' => ?_⟩⟩, by omega, ?_⟩
       · unfold fStep
-        rw [hgy, if_pos]
+        rw [hgy, ite_eq_left]
         rw [(s7 y hyn).1]
         simp [hyn, hseen]
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hlt with h | h
@@ -471,12 +471,12 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
           rw [set_getR (by rw [s4]; exact hyn), set_getR (by rw [s1]; exact hyn),
             set_getR (by rw [s2]; exact hyn), set_getR (by rw [s3]; exact hyn)]
           by_cases hzy : z = y
-          · rw [if_pos hzy, if_pos hzy, if_pos hzy, if_pos hzy, hzy, htc]
+          · rw [ite_eq_left hzy, ite_eq_left hzy, ite_eq_left hzy, ite_eq_left hzy, hzy, htc]
             refine ⟨by simp, ?_, ?_, ?_⟩
-            · rw [if_pos (Nat.lt_succ_self c), hdx, hyc, g5]
-            · rw [if_pos (Nat.lt_succ_self c), hyc, g3]
-            · rw [if_pos (Nat.lt_succ_self c), hyc, g4]
-          · rw [if_neg hzy, if_neg hzy, if_neg hzy, if_neg hzy]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hdx, hyc, g5]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hyc, g3]
+            · rw [ite_eq_left (Nat.lt_succ_self c), hyc, g4]
+          · rw [ite_eq_right hzy, ite_eq_right hzy, ite_eq_right hzy, ite_eq_right hzy]
             have hne : pg w (mask w) ORD z ≠ c := fun e =>
               hzy (by rw [← (QS z hz).2, e, ← hyc])
             have hiff : pg w (mask w) ORD z < c + 1 ↔ pg w (mask w) ORD z < c := by omega
@@ -509,7 +509,7 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
         fun i' hi' => ?_, fun y hy => ?_⟩
       · rw [Nat.zero_add]
         unfold fRoot
-        rw [if_pos]
+        rw [ite_eq_left]
         rw [h4 _ hrn, hro]
         simp [hrn]
       · dsimp only
@@ -520,9 +520,9 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
       · dsimp only
         rw [set_getR (by rw [h1]; exact hrn), h4 y hy]
         by_cases hyr : y = pg w (mask w) Q i
-        · rw [if_pos hyr, hyr, hro]
+        · rw [ite_eq_left hyr, hyr, hro]
           simp
-        · rw [if_neg hyr]
+        · rw [ite_eq_right hyr]
           have hne : pg w (mask w) ORD y ≠ i := fun e => hyr (by rw [← (QS y hy).2, e])
           have hiff : pg w (mask w) ORD y < i + 1 ↔ pg w (mask w) ORD y < i := by omega
           simp only [hiff]
@@ -564,7 +564,7 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
       refine ⟨(_, _, _, _, _, st.2.2.2.2.2 + 1), ?_, by dsimp only; rw [hh], c',
         by rw [show 2 * (j + 1) = 2 * j + 2 by omega]; exact hc1, hc3⟩
       unfold fRound
-      rw [if_pos hlt, hx, show (#[a, b] : Array (Array Nat)).size = 2 from rfl, forIn_rngR]
+      rw [ite_eq_left hlt, hx, show (#[a, b] : Array (Array Nat)).size = 2 from rfl, forIn_rngR]
       rfl
     have INIT : (Array.replicate n 0, Array.replicate n 0, Array.replicate n 0, s0.1, s0.2,
           (0 : Nat)).2.2.2.2.2 = 0 ∧ ∃ c, FCut n wf R FO (2 * 0) c ∧
@@ -576,11 +576,11 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
         dsimp only
         rw [replicate_getR hy]
         by_cases hp : pg w (mask w) ORD y < R
-        · rw [if_pos hp]
+        · rw [ite_eq_left hp]
           have h0 := (FA _ (QS y hy).1).2.2.1 hp
           rw [(QS y hy).2] at h0
           first | exact h0.1.symm | exact h0.2.1.symm | exact h0.2.2.symm
-        · rw [if_neg hp]
+        · rw [ite_eq_right hp]
     obtain ⟨-, c, hcut, hinv⟩ := BfsReplay.forIn_range'_yield n 0 _ (fRound n #[a, b])
       (fun j (st : GSt) => st.2.2.2.2.2 = j ∧ ∃ c, FCut n wf R FO (2 * j) c ∧
         FInv n w Q ORD DEP PAR GL c (st.1, st.2.1, st.2.2.1, st.2.2.2.1, st.2.2.2.2.1))
@@ -593,7 +593,7 @@ theorem orbitForest_of_checks {n w wf R G0 G1 Q ORD FO DEP PAR GL : Nat}
     refine Array.ext (by rw [hs, unpack_sizeR]) fun y h1 h2 => ?_
     have hy : y < n := by omega
     rw [← getElem!_pos arr y h1, ← getElem!_pos (unpack n w P) y h2, ha' y hy, unpack_getR hy,
-      if_pos (QS y hy).1]
+      ite_eq_left (QS y hy).1]
   have key : ∀ st : GSt, (∃ c, FCut n wf R FO (2 * n) c ∧
         FInv n w Q ORD DEP PAR GL c (st.1, st.2.1, st.2.2.1, st.2.2.2.1, st.2.2.2.2.1)) →
       (st.1, st.2.1, st.2.2.1) = (unpack n w DEP, unpack n w PAR, unpack n w GL) := by

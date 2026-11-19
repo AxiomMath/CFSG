@@ -29,7 +29,7 @@ theorem surjective_transfer_transferFocal
   by_contra hsurj
   have hrange : ρ.transfer.range ≠ ⊤ := fun h => hsurj (MonoidHom.range_eq_top.mp h)
   have hA : IsPGroup p (↥(PN : Subgroup N) ⧸ (PN : Subgroup N).focalSubgroupOf) :=
-    PN.isPGroup'.to_quotient _
+    PN.isPGroup.to_quotient _
   obtain ⟨χ, hχs, hχ⟩ := exists_surjective_zmod_of_ne_top hA hrange
   have hμ : ∃ u : (P : Subgroup G),
       (χ.comp ρ) (Subgroup.inclusion Subgroup.le_normalizer u) ≠ 1 := by
@@ -84,7 +84,7 @@ theorem inf_commutator_eq_inf_map_commutator_normalizer
   set A := ↥(PN : Subgroup N) ⧸ (PN : Subgroup N).focalSubgroupOf
   set V : G →* A := (PN : Subgroup N).transferFocal.transfer with hVdef
   have hV : Function.Surjective V := surjective_transfer_transferFocal P hW
-  have hA : IsPGroup p A := PN.isPGroup'.to_quotient _
+  have hA : IsPGroup p A := PN.isPGroup.to_quotient _
   have hVP : (P : Subgroup G).map V = ⊤ := by
     obtain ⟨k, hk⟩ := hA.index ((P : Subgroup G).map V)
     have hdvd := Subgroup.index_map_dvd (P : Subgroup G) hV
@@ -160,8 +160,8 @@ theorem le_commutator_of_forall_isPGroup_quotient
     (h : ∀ (K : Subgroup G) [K.Normal], IsPGroup p (G ⧸ K) → K = ⊤) :
     (P : Subgroup G) ≤ commutator G := by
   have hker := h (P : Subgroup G).transferFocal.ker
-    ((P.isPGroup'.to_quotient _).of_equiv
-      (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubroupOf P).symm)
+    ((P.isPGroup.to_quotient _).of_equiv
+      (Subgroup.transferFocal.quotientKerMulEquivQuotientFocalSubgroupOf P).symm)
   have htriv : (P : Subgroup G).focalSubgroupOf = ⊤ := by
     rw [eq_top_iff]
     intro x _

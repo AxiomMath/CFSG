@@ -212,12 +212,12 @@ theorem isKleinFrame_of_isCyclicRootTriple (hp : p ≠ 2) [Module.Finite (ZMod p
     refine ⟨c 0, c 1, c 2, ?_⟩
     rw [← hc, Fin.sum_univ_three]
     simp
-  · ext; rw [ht₁]; change r 1 (e 1) = -e 1; rw [hrapp, if_pos rfl]
-  · ext; rw [ht₁]; change r 1 (e 2) = e 2; rw [hrapp, if_neg (by decide)]
+  · ext; rw [ht₁]; change r 1 (e 1) = -e 1; rw [hrapp, ite_eq_left rfl]
+  · ext; rw [ht₁]; change r 1 (e 2) = e 2; rw [hrapp, ite_eq_right (by decide)]
   · ext; rw [ht₁]; change r 1 y = y
     exact mem_centralizerSpace.mp hyH (r 1) (hT.1 1).1
-  · ext; rw [ht₂]; change r 2 (e 1) = e 1; rw [hrapp, if_neg (by decide)]
-  · ext; rw [ht₂]; change r 2 (e 2) = -e 2; rw [hrapp, if_pos rfl]
+  · ext; rw [ht₂]; change r 2 (e 1) = e 1; rw [hrapp, ite_eq_right (by decide)]
+  · ext; rw [ht₂]; change r 2 (e 2) = -e 2; rw [hrapp, ite_eq_left rfl]
   · ext; rw [ht₂]; change r 2 y = y
     exact mem_centralizerSpace.mp hyH (r 2) (hT.1 2).1
 

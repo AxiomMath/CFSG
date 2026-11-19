@@ -13,6 +13,7 @@ section L828SBt
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s828_map_commSub {X V : Subgroup G} [IsMulCommutative ↥V]
     (hXV : X ≤ Subgroup.normalizer (V : Set G)) (W : Subgroup ↥V) :
     (s828CommSub (autOn X V) W).map V.subtype = ⁅X, W.map V.subtype⁆ := by
@@ -41,14 +42,15 @@ theorem s828_map_commSub {X V : Subgroup G} [IsMulCommutative ↥V]
       exact Subgroup.mem_map_of_mem V.subtype hgen
     exact hmem
 
-theorem s828_fixV_map {T L I : Subgroup G} {h : G} [IsMulCommutative ↥(fsuV T I)]
+omit [Finite G] in
+theorem s828_fixV_map {T _L I : Subgroup G} {h : G} [IsMulCommutative ↥(fsuV T I)]
     (hAN : ch82A (fsuV T I) h ≤ Subgroup.normalizer (fsuV T I : Set G)) :
     (fixV (autOn (ch82A (fsuV T I) h) (fsuV T I))).map (fsuV T I).subtype =
       ch82U (fsuV T I) h := by
   rw [fixV_autOn_82 hAN, Subgroup.subgroupOf_map_subtype]
   exact inf_eq_left.mpr inf_le_left
 
-theorem s828_Bt_L3 {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
+theorem s828_Bt_L3 {T L I _H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
     (hMB1 : MB1_828) (hcard : Mathieu.StmtH13Card) (hV : IsElemAbelian 2 (fsuV T I))
     (hL0 : fsuL0 T L = L) (hC5 : Concl825 T L I h k)
     (hLN : L ≤ Subgroup.normalizer (fsuV T I : Set G))
@@ -73,12 +75,12 @@ theorem s828_Bt_L3 {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative �
     (hrows.1 hr)
   rw [s828_perfect_autOn_LU hLN hAN] at hm
   have hm2 := congrArg (Subgroup.map (fsuV T I).subtype) hm
-  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
+  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (_L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
     at hm2
   rw [Subgroup.commutator_comm (ch82B (fsuV T I) h) (ch82LU L (ch82U (fsuV T I) h)), hB]
   exact hm2
 
-theorem s828_Bt_cocode {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
+theorem s828_Bt_cocode {T L I _H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
     (hMB1 : MB1_828) (hcard : Mathieu.StmtH13Card) (hV : IsElemAbelian 2 (fsuV T I))
     (hL0 : fsuL0 T L = L) (hC5 : Concl825 T L I h k)
     (hLN : L ≤ Subgroup.normalizer (fsuV T I : Set G))
@@ -103,12 +105,12 @@ theorem s828_Bt_cocode {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutativ
     (hrows.2.2.2 hr)
   rw [s828_perfect_autOn_LU hLN hAN] at hm
   have hm2 := congrArg (Subgroup.map (fsuV T I).subtype) hm
-  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
+  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (_L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
     at hm2
   rw [Subgroup.commutator_comm (ch82B (fsuV T I) h) (ch82LU L (ch82U (fsuV T I) h)), hB]
   exact hm2
 
-theorem s828_Bt_M22 {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
+theorem s828_Bt_M22 {T L I _H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative ↥(fsuV T I)]
     (hMB1 : MB1_828) (hcard : Mathieu.StmtH13Card) (hV : IsElemAbelian 2 (fsuV T I))
     (hL0 : fsuL0 T L = L) (hC5 : Concl825 T L I h k)
     (hLN : L ≤ Subgroup.normalizer (fsuV T I : Set G))
@@ -139,7 +141,7 @@ theorem s828_Bt_M22 {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative �
     (s828BPrime (autOn L (fsuV T I)) (autOn (ch82A (fsuV T I) h) (fsuV T I)))
     (fsuV T I).subtype_injective
   rw [hm] at hrel
-  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
+  rw [Subgroup.map_sup, s828_map_commSub hLUN, s828_fixV_map (_L := L) hAN, ← s828_B'_eq_map hLN hAN hAL]
     at hrel
   rw [Subgroup.commutator_comm (ch82B (fsuV T I) h) (ch82LU L (ch82U (fsuV T I) h)), hB]
   exact hrel

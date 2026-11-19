@@ -186,9 +186,9 @@ theorem conjSub_ON {g : G} {i : Fin 3} (hgi : g * σ.x * g⁻¹ = σ.xs i) :
   rw [Setting.ON, DataConstruction.conjSub_oddCoreIn, conjSub_N hgi]
 
 omit [Finite G] in
-theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
 
-theorem isPGroup_T (hσ : σ.IsValid) : IsPGroup 2 σ.T := σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+theorem isPGroup_T (hσ : σ.IsValid) : IsPGroup 2 σ.T := σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 theorem eq_x_of_mem_center_D (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) {z : G}
     (hz : z ∈ centerOf σ.D) (hz2 : orderOf z = 2) : z = σ.x := by

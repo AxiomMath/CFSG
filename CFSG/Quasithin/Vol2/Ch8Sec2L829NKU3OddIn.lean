@@ -35,8 +35,7 @@ theorem u3odd_u_mul_torus (a : Kˣ) :
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [d8GLB, d8MatB, coe_torusDiag, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply]
+    simp [d8GLB, d8MatB, coe_torusDiag, Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem u3odd_uc_sq (a : Kˣ) :
     ((d8GLB : GL (Fin 3) K) * torusDiag ![a, a⁻¹, 1]) *
@@ -147,8 +146,8 @@ theorem u3odd_order_pair [Finite K] {q : ℕ} (hq : Odd q) (hq5 : 5 ≤ q)
     have h10 := congrArg (fun A : GL (Fin 3) K => (A : Matrix (Fin 3) (Fin 3) K) 1 0) hs
     have ha0 : (a : K) ≠ 0 := Units.ne_zero a
     simp [Subgroup.coe_mul, huQ, hcQ, d8GLB, d8MatB, coe_torusDiag, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.diagonal_apply, GeneralLinearGroup.coe_scalar,
-      Matrix.scalar_apply, ha0, ha0.symm] at h10
+      Matrix.diagonal_apply, GeneralLinearGroup.coe_scalar,
+      Matrix.scalar_apply, ha0.symm] at h10
   have hz1 : orderOf (QuotientGroup.mk uQ : StatedProj (StatedSU 3 q K)) = 2 :=
     orderOf_eq_prime hz1sq hz1ne
   have hz2 : orderOf (QuotientGroup.mk (uQ * cQ) : StatedProj (StatedSU 3 q K)) = 2 :=

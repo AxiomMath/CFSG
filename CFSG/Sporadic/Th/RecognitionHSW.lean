@@ -43,7 +43,7 @@ theorem isSporadic_th_of_hswTuple {G : Type} [Group G] [Finite G] [IsSimpleGroup
   have hfincard : Finite T ∧ Nat.card T ≤ 90745943887872000 := by
     have h := CFSG.Sporadic.Presentation.Th.finite_card_le
     simpa [TauCeti.SporadicName.Group, hP] using h
-  letI : Finite T := hfincard.1
+  let : Finite T := hfincard.1
   have hle : Nat.card T ≤ Nat.card J := by
     rw [CFSG.Sporadic.Bridge.Th.card_J]
     exact hfincard.2

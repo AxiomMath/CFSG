@@ -127,7 +127,7 @@ theorem card_ker_eq_card_inf (c : L34Cover ↥A) {R : Subgroup G}
       refine ⟨mem_of_mem_centralizer_of_isPGroup hR z.2 ?_ ?_, z.2⟩
       · exact mem_centralizer_iff.mpr fun b hb =>
           congrArg Subtype.val (mem_center_iff.mp hzZ ⟨b, hb⟩)
-      · have h2 : IsPGroup 2 (zpowers z) := T.isPGroup'.to_le (zpowers_le.mpr hzT)
+      · have h2 : IsPGroup 2 (zpowers z) := T.isPGroup.to_le (zpowers_le.mpr hzT)
         have := h2.map A.subtype
         rwa [MonoidHom.map_zpowers] at this
     · intro x hx

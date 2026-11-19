@@ -3,7 +3,7 @@ module
 public import CFSG.HardMathSupport.Dickson.I271.SporGenAux.PrimePowMod
 import Mathlib.Tactic.NormNum.Basic
 public import Mathlib.Data.Nat.Log
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 
 public section
 

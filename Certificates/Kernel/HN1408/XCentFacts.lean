@@ -89,7 +89,7 @@ noncomputable def eP (k : Nat) : Equiv.Perm (Fin 1408) :=
 
 theorem eP_spec {k : Nat} (hk : k < 46) : eP k ∈ nC ∧ RepC (E k) (eP k) := by
   unfold eP
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   exact (e_mem hk).choose_spec
 
 theorem comm_of_commP {X Y : Nat} {g h : Equiv.Perm (Fin 1408)} (hX : RepC X g) (hY : RepC Y h)

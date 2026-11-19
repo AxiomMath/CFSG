@@ -39,7 +39,7 @@ theorem kf138TrialityPGUCent_of_g2Excl (hG : KF138TrialityG2Excl) : KF138Trialit
     (Y.subgroupOf (autFix α)).map e.toMonoidHom with hY₂
   let ι : Y ≃* Y₂ := (Subgroup.subgroupOfEquivOfLe hYE).symm.trans
     ((Y.subgroupOf (autFix α)).equivMapOfInjective e.toMonoidHom e.injective)
-  haveI : Group.IsPerfect Y := hYp
+  have : Group.IsPerfect Y := hYp
   have hY₂p : Group.IsPerfect Y₂ :=
     Group.IsPerfect.ofSurjective (f := ι.toMonoidHom) ι.surjective
   have hK'u : UnitaryFieldData 2 n K' :=

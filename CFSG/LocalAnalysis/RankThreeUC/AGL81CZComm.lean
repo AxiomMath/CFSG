@@ -62,7 +62,7 @@ theorem zpowers_inf_centralizer_eq_bot {p : ℕ} (hp : p.Prime) {C : Subgroup X}
       rw [zpow_natCast, ← hord]
       exact pow_orderOf_eq_one e
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, hep, one_zpow]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hordx : orderOf x = p := orderOf_eq_prime hxpow hx1
   have hxcard : Nat.card (zpowers x) = p := by rw [Nat.card_zpowers, hordx]
   have hecard : Nat.card (zpowers e) = p := by rw [Nat.card_zpowers, hord]

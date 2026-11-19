@@ -136,6 +136,7 @@ section Core
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem omegaOneCenterOf_le_centralizer' (T : Subgroup X) :
     omegaOneCenterOf T ≤ Subgroup.centralizer (T : Set X) := by
   unfold omegaOneCenterOf omegaOneOf
@@ -143,6 +144,7 @@ theorem omegaOneCenterOf_le_centralizer' (T : Subgroup X) :
   have hx1 : x ∈ T ⊓ Subgroup.centralizer (T : Set X) := hx.1
   exact hx1.2
 
+omit [Finite X] in
 theorem pCore_le_gnC {T : Subgroup X} (hQT : CFSG.pCore 2 X ≤ T) :
     CFSG.pCore 2 X ≤ gnC T := by
   have hn : (Subgroup.centralizer (CFSG.pCore 2 X : Set X)).Normal := Subgroup.normal_centralizer
@@ -187,7 +189,7 @@ theorem exists_isMaxElemAbelian_comm_ne_bot {T : Subgroup X} (hQT : CFSG.pCore 2
     ∃ A : Subgroup X, IsMaxElemAbelian T A ∧
       ⁅K, A.map (QuotientGroup.mk' (CFSG.pCore 2 X))⁆ ≠ ⊥ := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   apply hJ
   intro k hk
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective k
@@ -229,7 +231,7 @@ theorem core_ii (hFF : FFChevModuleTheorem) (hXK : CFSG.Open.IsKGroup X)
     exact hQT
   have hVT : gnV T ≤ T := gnV_le_of_le hC hQT
   have hV : IsElemAbelian 2 (gnV T) := isElemAbelian_gnV_of_le hC hQT
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   let π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' _
   let θ : X ⧸ CFSG.pCore 2 X →* X ⧸ gnC T :=
@@ -286,8 +288,8 @@ variable {X : Type} [Group X] [Finite X]
 theorem not_isPGroup_two_of_isQuasisimple {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.IsQuasisimple Y) : ¬ IsPGroup 2 Y := by
   intro h
-  haveI : Nontrivial Y := CFSG.LocalCores.isQuasisimple_nontrivial hY
-  haveI : Group.IsPerfect Y := hY.1
+  have : Nontrivial Y := CFSG.LocalCores.isQuasisimple_nontrivial hY
+  have : Group.IsPerfect Y := hY.1
   exact Group.IsPerfect.not_isNilpotent Y h.isNilpotent
 
 theorem not_covers {T : Subgroup X} {K : Subgroup (X ⧸ CFSG.pCore 2 X)}

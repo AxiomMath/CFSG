@@ -28,8 +28,8 @@ theorem dense_colOf (L : List Entry) (p a : ℕ) : dense (colOf L p) a = colZ L 
     have h2 : dense (colOf (e :: L) p) a =
         (if e.1 = p then (if e.2.1 = a then e.2.2 else 0) else 0) + dense (colOf L p) a := by
       by_cases hep : e.1 = p
-      · simp [colOf, List.filter_cons, dense, hep]
-      · simp [colOf, List.filter_cons, dense, hep]
+      · simp [colOf, dense, hep]
+      · simp [colOf, dense, hep]
     rw [h1, h2, ih]
     by_cases hep : e.1 = p <;> by_cases hea : e.2.1 = a <;> simp [hep, hea]
 
@@ -57,7 +57,7 @@ theorem sum_gram_dense (a : ℕ) (w : List (ℕ × ℤ)) (hw : ∀ y ∈ w, y.1 
         if y.1 = b then gramZ a b * y.2 else 0 := by
       intro b
       split_ifs <;> simp
-    simp only [mul_ite, mul_zero, e]
+    simp only [e]
     rw [Finset.sum_ite_eq]
     simp [hy]
     ring
@@ -108,19 +108,19 @@ theorem colList_rows (i : ℕ) (hi : i < 4) (sgn : Bool) (k : ℕ) (hk : k ≤ 2
   intro x hx
   unfold colList at hx
   by_cases hk0 : k = 0
-  · simp only [hk0, if_true, List.mem_singleton] at hx
+  · simp only [hk0, ite_true, List.mem_singleton] at hx
     subst hx
     exact hp
-  · simp only [hk0, if_false] at hx
+  · simp only [hk0, ite_false] at hx
     have hk12 : k = 1 ∨ k = 2 := by omega
     unfold colOf at hx
     simp only [List.mem_map, List.mem_filter] at hx
     obtain ⟨e, ⟨he, -⟩, rfl⟩ := hx
     by_cases hs : sgn = true
-    · simp only [hs, if_true] at he
+    · simp only [hs, ite_true] at he
       have := valid_rows.1 i hi k (by rcases hk12 with rfl | rfl <;> simp) e he
       exact this
-    · simp only [hs, Bool.false_eq_true, if_false] at he
+    · simp only [hs, Bool.false_eq_true, ite_false] at he
       have := valid_rows.2 i hi k (by rcases hk12 with rfl | rfl <;> simp) e he
       exact this
 
@@ -215,18 +215,18 @@ end KLevel
 theorem dense_colList_zero (i : ℕ) (sgn : Bool) (p : ℕ) :
     dense (colList i sgn 0 p) = fun a => if a = p then 1 else 0 := by
   funext a
-  simp only [dense, colList, if_true, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
+  simp only [dense, colList, ite_true, List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
   split_ifs with h1 h2 h2 <;> first | rfl | (exfalso; omega)
 
 theorem dense_colList_pos (i k p : ℕ) (hk : k ≠ 0) :
     dense (colList i true k p) = colZ (entries Tag.D4 i k) p := by
   funext a
-  simp only [colList, hk, if_false, if_true, dense_colOf]
+  simp only [colList, hk, ite_false, ite_true, dense_colOf]
 
 theorem dense_colList_neg (i k p : ℕ) (hk : k ≠ 0) :
     dense (colList i false k p) = colZ (entries Tag.D4 (negI i) k) p := by
   funext a
-  simp only [colList, hk, if_false, Bool.false_eq_true, dense_colOf]
+  simp only [colList, hk, ite_false, Bool.false_eq_true, dense_colOf]
 
 theorem bilinZ_colList_zero (i : ℕ) (sgn : Bool) (p q : ℕ) :
     bilinZ (colList i sgn 0 p) (colList i sgn 0 q) = gramZ p q := by
@@ -257,7 +257,7 @@ theorem pcoord_endHom_basis_pos {K : Type} [Field K] (i : ℕ) (hi : i < 4) (c :
   rw [h1, hpa]
   have hf : (fun q : ℕ => pcoord K (posVec Tag.D4 K p) q) = fun q => if q = p then (1 : K) else 0 :=
     pcoord_posVec_fun p hdp
-  simp only [Fin.val_mk]
+  simp only
   rw [hf, dense_colList_zero, dense_colList_pos i 1 p (by norm_num),
     dense_colList_pos i 2 p (by norm_num)]
   rw [colZ_cast, colZ_cast]
@@ -340,7 +340,7 @@ theorem pcoord_endHom_basis_neg {K : Type} [Field K] (i : ℕ) (hi : i < 4) (c :
   rw [h1, hpa]
   have hf : (fun q : ℕ => pcoord K (posVec Tag.D4 K p) q) = fun q => if q = p then (1 : K) else 0 :=
     pcoord_posVec_fun p hdp
-  simp only [Fin.val_mk]
+  simp only
   rw [← negI_eq i hi]
   rw [hf, dense_colList_zero, dense_colList_neg i 1 p (by norm_num),
     dense_colList_neg i 2 p (by norm_num)]

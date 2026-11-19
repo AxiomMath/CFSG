@@ -30,7 +30,7 @@ theorem kFCensus46Five_McL :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨e⟩ := hQ
-  haveI : Finite (NativeSporadic.Carrier .McL) := Finite.of_equiv Q e.toEquiv
+  have : Finite (NativeSporadic.Carrier .McL) := Finite.of_equiv Q e.toEquiv
   obtain ⟨g, hg⟩ := (ppair_self hD).map e
   exact hg.false_McL
 
@@ -40,7 +40,7 @@ theorem kFCensus46Five_cover_McL :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨s, J, g, hg⟩ := ppair_of_census_ext hD hQ
-  haveI := finite_of_isExtOf hQ
+  have := finite_of_isExtOf hQ
   exact hg.false_McL
 
 end McL
@@ -65,7 +65,7 @@ theorem kFCensus46Five_J3 :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨e⟩ := hQ
-  haveI : Finite (NativeSporadic.Carrier .J3) := Finite.of_equiv Q e.toEquiv
+  have : Finite (NativeSporadic.Carrier .J3) := Finite.of_equiv Q e.toEquiv
   obtain ⟨g, hg⟩ := (ppair_self hD).map e
   exact hg.false_J3
 
@@ -75,7 +75,7 @@ theorem kFCensus46Five_cover_J3 :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨s, J, g, hg⟩ := ppair_of_census_ext hD hQ
-  haveI := finite_of_isExtOf hQ
+  have := finite_of_isExtOf hQ
   exact hg.false_J3
 
 end J3

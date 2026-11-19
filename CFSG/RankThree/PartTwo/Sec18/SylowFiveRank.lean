@@ -104,6 +104,7 @@ theorem card_eq_three {X : Subgroup G} (hX : X ≤ P) (h3 : 3 ≤ Nat.card X)
   · norm_num at h3
   · norm_num
 
+omit [Finite G] in
 theorem mem_of_mem_dImage {U : Subgroup G} (hAU : A ≤ U) {x : G} (hx : x ∈ qOf P B)
     (hd : ⁅x, c⁆ ∈ hS.dImage U) : x ∈ U := by
   obtain ⟨y, hyU, hyQ, hy⟩ := hS.mem_dImage.mp hd
@@ -115,6 +116,7 @@ theorem mem_of_mem_dImage {U : Subgroup G} (hAU : A ≤ U) {x : G} (hx : x ∈ q
   rw [e]
   exact U.mul_mem (hAU h2) hyU
 
+omit [Finite G] in
 theorem dImage_le {U V : Subgroup G} (hcomm : ∀ x ∈ U, ∀ y ∈ U, ⁅x, y⁆ ∈ V) {a : G}
     (haU : a ∈ U) (haA : a ∈ A) (haB : a ∉ B) : hS.dImage U ≤ V := by
   obtain ⟨i, hi, b, hb, rfl⟩ := Sec13.exists_pow_mul_of_mem hS.isElemAbelian hS.mem hS.eq_sup haA
@@ -185,7 +187,7 @@ theorem false_of_dImage_eq (hF : Flag P B b₀ b₁) {U : Subgroup G} (hU : U �
         _ = q * s * (z * s) * z * (z * s) := by rw [huq, e1, e2]
         _ = q * s ^ 3 * z ^ 3 := mul_eq_pow_three hzs
     have hu3 : u ^ 3 * q * (u ^ 3)⁻¹ = q := by
-      rw [← hS.commute_of_mem_qOf hqQ (hF.zpowers_le (hcube u huU)), mul_inv_cancel_right]
+      rw [← CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hqQ (hF.zpowers_le (hcube u huU)), mul_inv_cancel_right]
     rw [hu3, hS.pow_three_of_mem_plane (hF.zpowers_le hzZ), mul_one] at e3
     have hs3 : s ^ 3 = 1 := mul_left_cancel (e3.symm.trans (mul_one q).symm)
     exact hsA (hS.mem_of_pow_three_eq_one hab hsQ hs3)

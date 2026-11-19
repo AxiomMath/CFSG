@@ -40,7 +40,7 @@ theorem exists_perfect_le_centralizer_G2_three {K : Type} [Field K] [Finite K]
   obtain ⟨g, hgS | hgL⟩ := KS11Lie7Proof.g2ThreeConjSL2_holds K hK3 hK z hz hz1
   · have hperf : ⁅KS11Lie4Proof.g2LongSL2 K, KS11Lie4Proof.g2LongSL2 K⁆ =
         KS11Lie4Proof.g2LongSL2 K := by
-      haveI : Group.IsPerfect ↥(KS11Lie4Proof.g2LongSL2 K) :=
+      have : Group.IsPerfect ↥(KS11Lie4Proof.g2LongSL2 K) :=
         KS11Lie4Proof.isPerfect_g2LongSL2 hK
       exact Subgroup.commutator_eq_self
     have hcent : KS11Lie4Proof.g2LongSL2 K ≤
@@ -58,7 +58,7 @@ theorem exists_perfect_le_centralizer_G2_three {K : Type} [Field K] [Finite K]
     rwa [hz'] at hPc
   · have hperf : ⁅KS11Lie4Proof.g2ShortSL2 K, KS11Lie4Proof.g2ShortSL2 K⁆ =
         KS11Lie4Proof.g2ShortSL2 K := by
-      haveI : Group.IsPerfect ↥(KS11Lie4Proof.g2ShortSL2 K) :=
+      have : Group.IsPerfect ↥(KS11Lie4Proof.g2ShortSL2 K) :=
         (KS11Lie4Proof.isQuasisimple_g2ShortSL2 hK).1
       exact Subgroup.commutator_eq_self
     have hcent : KS11Lie4Proof.g2ShortSL2 K ≤
@@ -89,27 +89,27 @@ theorem perfectCentralizerPlanes_adjointGroup_G2_of_dvd_add_one {p : ℕ} (hp : 
   by_cases hodd : Odd (Nat.card K)
   · obtain ⟨K₂, hF₂, hfin₂, Γ, E, hframe, ⟨e⟩⟩ :=
       exists_langFrame_G2_odd K hodd hp hp5 hpK
-    letI : Field K₂ := hF₂
-    letI : Finite K₂ := hfin₂
+    let : Field K₂ := hF₂
+    let : Finite K₂ := hfin₂
     have hplanes : PerfectCentralizerPlanes p ↥Γ :=
       perfectCentralizerPlanes_of_isLangFrame hp hframe hβ
     exact PerfectCentralizerPlanes.of_mulEquiv e.symm hplanes
   · have heven : Even (Nat.card K) := Nat.not_odd_iff_even.mp hodd
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h2 : ringChar K = 2 := by
       rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card,
         ← Nat.dvd_iff_mod_eq_zero]
       exact even_iff_two_dvd.mp heven
-    haveI : CharP K 2 := h2 ▸ ringChar.charP K
+    have : CharP K 2 := h2 ▸ ringChar.charP K
     obtain ⟨K₂, hF₂, hfin₂, hAlg, σ, hdeg, hσ⟩ := exists_quadratic_ext (K := K)
-    letI : Field K₂ := hF₂
-    letI : Finite K₂ := hfin₂
-    letI : Algebra K K₂ := hAlg
+    let : Field K₂ := hF₂
+    let : Finite K₂ := hfin₂
+    let : Algebra K K₂ := hAlg
     obtain ⟨P, g, -, ⟨S₀, hS₀⟩, -, ⟨E, hEmem, hEle, hEcard⟩, hρ, hcent⟩ :=
       even_lang_setup (X := K) (K₂ := K₂) hp (by omega) hpK hdeg σ hσ
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite (ModGL Tag.G2 K₂) := finite_modGL
-    haveI : Finite ↥(conjEntrywiseImage K g) := Subtype.finite
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite (ModGL Tag.G2 K₂) := finite_modGL
+    have : Finite ↥(conjEntrywiseImage K g) := Subtype.finite
     have hsylow : ∀ F : Subgroup (ModGL Tag.G2 K₂), F ≤ conjEntrywiseImage K g →
         (∀ x ∈ F, x ^ p = 1) → Nat.card F = p ^ 2 →
         ∃ h ∈ conjEntrywiseImage K g, F.map (MulAut.conj h).toMonoidHom ≤ E :=
@@ -147,12 +147,12 @@ theorem perfectCentralizerPlanes_cat_G2 (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, hKchar, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
   have hplanes : PerfectCentralizerPlanes p (adjointGroup Tag.G2 K) := by
     rcases eq_or_ne p 3 with rfl | hp3
     · have hp3K : ringChar K ≠ 3 := by
@@ -173,7 +173,7 @@ theorem perfectCentralizerPlanes_cat_G2 (q : TauCeti.PrimePower)
         omega
       intro E hE hEcard
       have h1 : 1 < Nat.card E := by rw [hEcard]; norm_num
-      haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
+      have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
       obtain ⟨x, hx1⟩ := exists_ne (1 : E)
       have hxne : (x : adjointGroup Tag.G2 K) ≠ 1 := fun h => hx1 (Subtype.ext h)
       obtain ⟨P, hPc, hPp, hPd⟩ :=
@@ -204,7 +204,7 @@ theorem outPNice_cat_G2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 
     ⟨⟨q.prime_p, q.exponent_pos, rfl, hq3⟩,
       CFSG.HardMathSupport.Timmesfeld.Tables.T1b.untwistedChevalleyModel_of_bridge
         CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 (MulEquiv.refl _)⟩
-  haveI : Finite (Cat ⟨.G2 q, hv⟩) :=
+  have : Finite (Cat ⟨.G2 q, hv⟩) :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .G2 q.p q.exponent hm
   exact outPNice_of_isCyclic_outer hp
     (isCyclic_outer_of_untwistedModel_G2 q.prime_p q.exponent_pos hq3 hm.2)
@@ -214,13 +214,13 @@ theorem innGoodAt_G2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 q).
     InnGoodAt p (.G2 q) (Cat ⟨.G2 q, hv⟩) := by
   obtain ⟨K, hF, hFin, -, -, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
-  haveI : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
-  haveI : Finite (Cat ⟨.G2 q, hv⟩) := Finite.of_equiv _ e.symm.toEquiv
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite ↥(adjointGroup Tag.G2 K) := Subtype.finite
+  have : Finite (Cat ⟨.G2 q, hv⟩) := Finite.of_equiv _ e.symm.toEquiv
   have hZ : Subgroup.center (Cat ⟨.G2 q, hv⟩) = ⊥ := by
     rw [← Subgroup.map_center_eq e.symm, center_adjointGroup_eq_bot, Subgroup.map_bot]
   exact innGoodAt_of_outPNice hp hZ (outPNice_cat_G2 q hv hp)

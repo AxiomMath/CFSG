@@ -146,7 +146,6 @@ private theorem enum_aux {n w : Nat} (hw : n ≤ 2 ^ w) (ta tb : List Nat)
   unfold enumR at hR
   simp only [andB_eq, Bool.and_eq_true] at hR
   obtain ⟨hqp, hqi, hQ⟩ := hR
-  beta_reduce at hQ
   rw [recMap] at hQ
   simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hQ
   obtain ⟨hcl, hsz, hfu, -⟩ := hQ

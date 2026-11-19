@@ -42,8 +42,8 @@ theorem enc_inv (a : SE) : (a⁻¹).enc = invK a.enc := by
     exact Nat.eq_of_beq_eq_true h1
   rw [← eq_inv_of_mul_eq_one_left hm, hb]
 
-theorem forall_se {P : SE → Prop} : (∀ s, P s) ↔ ∀ c, c < 512 → P (SE.dec c) :=
-  ⟨fun h c _ => h _, fun h s => SE.dec_enc s ▸ h _ (SE.enc_lt s)⟩
+theorem forall_se {P : SE → Prop} : (∀ s, P s) ↔ ∀ _c, _c < 512 → P (SE.dec _c) :=
+  ⟨fun h _c _ => h _, fun h s => SE.dec_enc s ▸ h _ (SE.enc_lt s)⟩
 
 theorem exists_se {P : SE → Prop} : (∃ s, P s) ↔ ∃ c, c < 512 ∧ P (SE.dec c) :=
   ⟨fun ⟨s, hs⟩ => ⟨s.enc, SE.enc_lt s, (SE.dec_enc s).symm ▸ hs⟩, fun ⟨_, _, h⟩ => ⟨_, h⟩⟩

@@ -36,7 +36,7 @@ theorem uc22s2112e3_inf_eq_bot {D : Data G} {Ch : Choice2011 G} (hSg : UC6S846.S
     Odd.of_dvd_nat (uc22s13xe_odd_card_B c) (Subgroup.card_dvd_of_le inf_le_left)
   have h1 : Nat.card ↥(c.B ⊓ L) ≠ 1 := fun h => hne (Subgroup.eq_bot_of_card_eq _ h)
   obtain ⟨r, hr, hrd⟩ := Nat.exists_prime_and_dvd h1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hrd
   have hr2 : r ≠ 2 := by
     rintro rfl

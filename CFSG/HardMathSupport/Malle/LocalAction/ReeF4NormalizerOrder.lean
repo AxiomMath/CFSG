@@ -203,7 +203,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ]
 lemma exists_plane_of_sylowShape (hsh : SylowShape 5 2 2 Γ) (P : Sylow 5 Γ) :
     ∃ E : Subgroup Γ, E ≤ (P : Subgroup Γ) ∧ IsElemAbelian 5 E ∧ Nat.card E = 5 ^ 2 := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  obtain ⟨e⟩ := hsh (P : Subgroup Γ) P.isPGroup' P.not_dvd_index
+  obtain ⟨e⟩ := hsh (P : Subgroup Γ) P.isPGroup P.not_dvd_index
   have e' : (P : Subgroup Γ) ≃* Hc := e
   let E₀ : Subgroup Hc := (powMonoidHom 5 : Hc →* Hc).ker
   let E : Subgroup Γ := (E₀.map e'.symm.toMonoidHom).map (P : Subgroup Γ).subtype
@@ -242,7 +242,7 @@ lemma normalizer_plane_eq (hsh : SylowShape 5 2 2 Γ)
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   apply le_antisymm (normalizer_le_normalizer_of_centralizer_eq (hC P E hEP hE hEc))
   intro g hg
-  obtain ⟨e⟩ := hsh (P : Subgroup Γ) P.isPGroup' P.not_dvd_index
+  obtain ⟨e⟩ := hsh (P : Subgroup Γ) P.isPGroup P.not_dvd_index
   have e' : (P : Subgroup Γ) ≃* Hc := e
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   have hle : E.map (MulAut.conj g).toMonoidHom ≤ (P : Subgroup Γ) := by
@@ -366,7 +366,7 @@ lemma pow_factorization_eq (hsh : SylowShape 5 2 2 Γ) :
     5 ^ (Nat.card Γ).factorization 5 = 5 ^ 4 := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 5 Γ) := inferInstance
-  obtain ⟨e⟩ := hsh (Q : Subgroup Γ) Q.isPGroup' Q.not_dvd_index
+  obtain ⟨e⟩ := hsh (Q : Subgroup Γ) Q.isPGroup Q.not_dvd_index
   have e' : (Q : Subgroup Γ) ≃* Hc := e
   rw [← Sylow.card_eq_multiplicity Q, Nat.card_congr e'.toEquiv, card_Hc]
 

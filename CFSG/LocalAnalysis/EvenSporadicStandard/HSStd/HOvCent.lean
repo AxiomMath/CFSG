@@ -236,7 +236,7 @@ theorem false_of_mem_of_inf_le (ht : orderOf t = 2) (S : Subgroup D)
       _ ≤ 2 ^ (Nat.card S).factorization 2 := Nat.pow_le_pow_right (by norm_num) this
   have hnt : Nontrivial ↥(P : Subgroup ↥S) :=
     ⟨⟨⟨t', ht'P⟩, 1, fun h => ht1 (congrArg Subtype.val h)⟩⟩
-  have hcenter := (P.isPGroup').center_nontrivial
+  have hcenter := (P.isPGroup).center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center ↥(P : Subgroup ↥S))
   have hzc : ((z : ↥(P : Subgroup ↥S)) : ↥S) ∈ centralizer ({t'} : Set ↥S) := by
     rw [mem_centralizer_iff]

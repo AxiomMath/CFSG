@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {S : Subgroup X}
 
+omit [Finite X] in
 theorem map_conjSubgroup_mk (W : Subgroup X) (g : X) :
     (conjSubgroup W g).map (QuotientGroup.mk' (Subgroup.center X)) =
       conjSubgroup (W.map (QuotientGroup.mk' (Subgroup.center X)))
@@ -47,7 +48,7 @@ private theorem timti_one_lt_of_isL2OrSz {Y : Type} [Group Y] {n : ℕ}
 
 private theorem timti_center_eq_bot_of_isL2OrSz {Y : Type} [Group Y] {n : ℕ}
     (hn : 1 < n) (hY : SevenK.IsL2OrSz Y n) : Subgroup.center Y = ⊥ := by
-  haveI : IsSimpleGroup Y := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hY
+  have : IsSimpleGroup Y := CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz hY
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center Y) with hbot | htop
   · exact hbot
   · exfalso
@@ -65,7 +66,7 @@ theorem isL2OrSz_of_map
   set π : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X) with hπ
   set Kb : Subgroup (X ⧸ Subgroup.center X) := K.map π with hKb
   set φ : ↥K →* ↥Kb := π.subgroupMap K with hφ
-  haveI : Finite ↥K := inferInstance
+  have : Finite ↥K := inferInstance
   have hφsurj : Function.Surjective φ := π.subgroupMap_surjective K
   have hφker : φ.ker = (Subgroup.center X).subgroupOf K := by
     ext x
@@ -139,7 +140,7 @@ theorem isL2OrSz_of_map
       · exact h1
       · exact absurd (even_iff_two_dvd.mpr h2) (Nat.not_even_iff_odd.mpr hoddquot)
     exact QuotientGroup.subsingleton_iff.mp (Nat.card_eq_one_iff_unique.mp hcard1).1
-  haveI : Group.IsPerfect ↥K := ⟨hKperf⟩
+  have : Group.IsPerfect ↥K := ⟨hKperf⟩
   have hDcenter : φ.ker ≤ Subgroup.center ↥K := by
     rw [hφker, ← Subgroup.comap_subtype]
     exact Subgroup.comap_center_le_center K.subtype_injective
@@ -166,8 +167,8 @@ theorem isL2OrSz_of_map
   have hZ2 : IsPGroup 2 (Subgroup.center ↥K) := by
     rcases hKcenterOrSz with hP | hSz
     · obtain ⟨-, F, hFld, hFfin, hFcard, ⟨eF⟩⟩ := hP
-      letI : Field F := hFld
-      letI : Finite F := hFfin
+      let : Field F := hFld
+      let : Finite F := hFfin
       exact CFSG.Quasithin.isPGroup_two_of_mulEquiv_stated_psl_two_even
         (Subgroup.center ↥K) le_rfl h1n hFcard eF
     · exact CFSG.Quasithin.isPGroup_two_of_isSz (Subgroup.center ↥K) le_rfl hSz

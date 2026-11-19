@@ -86,10 +86,10 @@ theorem s16t3_exists_three_parts {A B : Subgroup G} (hAB : A ≤ normalizer (B :
   set S : Subgroup G := A ⊔ B with hS
   have hA_S : A ≤ S := by rw [hS]; exact le_sup_left
   have hB_S : B ≤ S := by rw [hS]; exact le_sup_right
-  haveI hAn : (A.subgroupOf S).Normal :=
+  have hAn : (A.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hA_S).mpr (by
       rw [hS]; exact sup_le Subgroup.le_normalizer hBA)
-  haveI hBn : (B.subgroupOf S).Normal :=
+  have hBn : (B.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hB_S).mpr (by
       rw [hS]; exact sup_le hAB Subgroup.le_normalizer)
   have hR_S : A ⊓ B ≤ S := inf_le_left.trans hA_S
@@ -99,7 +99,7 @@ theorem s16t3_exists_three_parts {A B : Subgroup G} (hAB : A ≤ normalizer (B :
         (Subgroup.inf_normalizer_le_normalizer_inf (H := A) (K := B)))
       ((le_inf hBA Subgroup.le_normalizer).trans
         (Subgroup.inf_normalizer_le_normalizer_inf (H := A) (K := B)))
-  haveI hSnorm : ((A ⊓ B).subgroupOf S).Normal :=
+  have hSnorm : ((A ⊓ B).subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hR_S).mpr hnorm
   have hyS : y ∈ S := by rw [hS]; exact hy
   have hyS' : (⟨y, hyS⟩ : ↥S) ∈ A.subgroupOf S ⊔ B.subgroupOf S := by
@@ -205,7 +205,7 @@ theorem s16t3_cube_mem_inf_of_normalizing {A B : Subgroup G} (hAB : A ≤ normal
         (Subgroup.inf_normalizer_le_normalizer_inf (H := A) (K := B)))
       ((le_inf hBA Subgroup.le_normalizer).trans
         (Subgroup.inf_normalizer_le_normalizer_inf (H := A) (K := B)))
-  haveI hSnorm : ((A ⊓ B).subgroupOf S).Normal :=
+  have hSnorm : ((A ⊓ B).subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hR_S).mpr hnorm
   have hyS : y ∈ S := by
     have huvS : u * v ∈ S := S.mul_mem (hA_S hu) (hB_S hv)
@@ -246,7 +246,7 @@ theorem s16t3_cube_mem_inf_of_normalizing {A B : Subgroup G} (hAB : A ≤ normal
 theorem s16t3_le_of_isPGroup_three {N T Y : Subgroup G} (hTN : T ≤ normalizer (N : Set G))
     (hT : IsPGroup 2 ↥T) (hY : IsPGroup 3 ↥Y) (hYS : Y ≤ N ⊔ T) : Y ≤ N := by
   intro y hyY
-  haveI hNS : (N.subgroupOf (N ⊔ T)).Normal :=
+  have hNS : (N.subgroupOf (N ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (sup_le Subgroup.le_normalizer hTN)
   have hyS : y ∈ N ⊔ T := hYS hyY

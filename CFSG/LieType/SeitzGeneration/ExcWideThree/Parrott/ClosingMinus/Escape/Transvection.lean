@@ -84,6 +84,7 @@ section Frame
 
 variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
 
+omit [Finite K] in
 theorem exists_phiExp_of_frameTorus {q : ℕ} (hq : q % 3 = 2) (Φ : D4PhiFrame K σ q (-1))
     {ζ : (AlgebraicClosure K)ˣ} (hζ : orderOf ζ = 3)
     {e : graphFixedRootGroup TwistTag.D4 K σ.toRingHom} (he3 : e ^ 3 = 1)
@@ -128,6 +129,7 @@ theorem exists_phiExp_of_frameTorus {q : ℕ} (hq : q % 3 = 2) (Φ : D4PhiFrame 
   rw [hγ, ← hae]
   rfl
 
+omit [Finite K] in
 theorem exists_frame_transvection {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
     (hq : (ℓ ^ f) % 3 = 2) (hK : Nat.card K = (ℓ ^ f) ^ 3) (Φ : D4PhiFrame K σ (ℓ ^ f) (-1))
     {x y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}

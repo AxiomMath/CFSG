@@ -95,7 +95,7 @@ theorem x_inv {k : Nat} (hk : k < 10) {x : Nat} (hx : x < 31671) : tb G k (tb G 
 
 theorem xS_acts {k : Nat} (hk : k < 10) : ActsAs (xS k) (tb G k) := by
   unfold xS
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   exact permLI_acts _ _ _
 
 noncomputable abbrev Xc : Subgroup (Equiv.Perm (Fin 31671)) := Subgroup.closure (xS '' {g | g < 10})
@@ -151,7 +151,7 @@ theorem rel_value (v : List (Nat × Bool)) (hv : ∀ l ∈ v, l.2 = true ∧ l.1
   | nil => rfl
   | cons l v ih =>
     rw [List.map_cons, List.prod_cons, List.map_cons, List.map_cons, List.prod_cons,
-      if_pos (hv l List.mem_cons_self).1, ih fun l' h => hv l' (List.mem_cons_of_mem l h)]
+      ite_eq_left (hv l List.mem_cons_self).1, ih fun l' h => hv l' (List.mem_cons_of_mem l h)]
 
 theorem one_of_pt {w : List Nat} (hw : ∀ r ∈ w, r < 10) (h : ∀ x < 31671, wv G w x = x) :
     (w.map xS).prod = 1 :=
@@ -170,7 +170,7 @@ theorem iter_lt {f : Nat → Nat} (hf : ∀ y < 31671, f y < 31671) : ∀ n x, x
     rw [Function.iterate_succ_apply]
     exact iter_lt hf n _ (hf x hx)
 
-theorem iter_pows {p q r s : Nat} (hp : p < 91) (hq : q < 91) (hr : r < 91)
+theorem iter_pows {p q r s : Nat} (_hp : p < 91) (hq : q < 91) (hr : r < 91)
     (h2 : ∀ y < 31671, tb G q y = tb G p (tb G p y))
     (h4 : ∀ y < 31671, tb G r y = tb G q (tb G q y))
     (h8 : ∀ y < 31671, tb G s y = tb G r (tb G r y)) {y : Nat} (hy : y < 31671) :
@@ -254,7 +254,7 @@ theorem rels_one : ∀ v ∈ CFSG.Sporadic.Bridge.Fi23GPL.Native.rels (),
     have ra : ∀ y < 31671, tb G a y < 31671 := rng _ (by omega)
     have rb : ∀ y < 31671, tb G b y < 31671 := rng _ (by omega)
     have h1 := hb (tb G b (tb G a (tb G b x))) (rb _ (ra _ (rb _ hx)))
-    simp only [List.replicate, List.flatten_cons, List.flatten_nil, List.map_append, List.map_cons,
+    simp only [List.replicate, List.flatten_cons, List.flatten_nil, List.map_cons,
       List.map_nil, List.cons_append, List.nil_append, List.append_nil, wv_cons, wv_nil] at h1 ⊢
     rw [h1, sq_pt hab.2 (ra _ (rb _ hx)), sq_pt hab.1 (rb _ hx), sq_pt hab.2 hx]
   · obtain ⟨ha, hb', k, hk, hl, hr⟩ := hne p (by simpa using hp)
@@ -267,7 +267,7 @@ theorem rels_one : ∀ v ∈ CFSG.Sporadic.Bridge.Fi23GPL.Native.rels (),
     have ra : ∀ y < 31671, tb G a y < 31671 := rng _ (by omega)
     have rb : ∀ y < 31671, tb G b y < 31671 := rng _ (by omega)
     have h1 := hc (tb G a (tb G b x)) (ra _ (rb _ hx))
-    simp only [List.replicate, List.flatten_cons, List.flatten_nil, List.map_append, List.map_cons,
+    simp only [List.replicate, List.flatten_cons, List.flatten_nil, List.map_cons,
       List.map_nil, List.cons_append, List.nil_append, List.append_nil, wv_cons, wv_nil] at h1 ⊢
     rw [h1, sq_pt hab.1 (rb _ hx), sq_pt hab.2 hx]
   · exact long_U

@@ -48,12 +48,13 @@ theorem relIndex_eq_two_of_covBy {A B : Subgroup G} (hA : IsPGroup 2 A) (hB : B 
       rcases Subgroup.mem_map.mp hxmem with ⟨y, hy, hyx⟩
       rw [← Subtype.ext hyx]
       exact hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥A := IsPGroup.isNilpotent hA
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥A := IsPGroup.isNilpotent hA
   have hindex : (B.subgroupOf A).index = 2 :=
     (IsPGroup.isCoatom_iff_index_eq_prime hA).mp hcoat
   exact hindex
 
+omit [Finite G] in
 theorem card_le_two_mul_card_inf {A B Q : Subgroup G} (hBA : B ≤ A) (hQA : Q.relIndex A = 2) :
     Nat.card B ≤ 2 * Nat.card ↥(B ⊓ Q) := by
   have h1 := Subgroup.relIndex_mul_card (H := B ⊓ Q) (K := B)

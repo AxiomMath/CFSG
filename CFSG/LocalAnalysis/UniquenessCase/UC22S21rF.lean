@@ -40,8 +40,8 @@ variable [Finite K]
 
 theorem fratSub_eq_fratGen {q : ℕ} (hq : q.Prime) {A : Subgroup K} (hA : IsPGroup q ↥A) :
     fratSub A = fratGen q A := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q ↥A) := ⟨hA⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q ↥A) := ⟨hA⟩
   unfold fratSub fratGen
   rw [CFSG.frattini_eq_closure_commutator_union_powers (R := ↥A) (p := q), MonoidHom.map_closure,
     Set.image_union, Subgroup.closure_union]
@@ -70,6 +70,7 @@ theorem fratSub_lt {R : Subgroup K} (hR : R ≠ ⊥) : fratSub R < R :=
   lt_of_le_of_ne (fratSub_le R) fun h =>
     hR (eq_of_sup_fratSub_eq bot_le (by rw [bot_sup_eq]; exact h)).symm
 
+omit [Finite K] in
 theorem isPGroup_map {q : ℕ} (f : K →* K') {A : Subgroup K} (hA : IsPGroup q ↥A) :
     IsPGroup q ↥(A.map f) :=
   hA.of_surjective (f.subgroupMap A) (f.subgroupMap_surjective A)

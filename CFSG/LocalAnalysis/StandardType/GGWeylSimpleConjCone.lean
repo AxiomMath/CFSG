@@ -64,6 +64,7 @@ variable {κ : Type} [Fintype κ] (π : κ → I → ℤ)
 
 variable {π}
 
+omit [Fintype I] [DecidableEq I] in
 theorem coneNeg_neg_iff {v : I → ℤ} : ConeNeg π (-v) ↔ ConePos π v := by
   constructor
   · rintro ⟨y, hy, hv⟩
@@ -71,6 +72,7 @@ theorem coneNeg_neg_iff {v : I → ℤ} : ConeNeg π (-v) ↔ ConePos π v := by
   · rintro ⟨y, hy, rfl⟩
     exact ⟨-y, neg_nonpos.mpr hy, by rw [map_neg]⟩
 
+omit [Fintype I] [DecidableEq I] in
 theorem not_conePos_and_coneNeg (hind : LinearIndependent ℤ π) {v : I → ℤ} (hv : v ≠ 0)
     (hp : ConePos π v) (hn : ConeNeg π v) : False := by
   obtain ⟨y, hy, rfl⟩ := hp
@@ -129,7 +131,7 @@ theorem ncard_descSet_mul_lt (hind : LinearIndependent ℤ π) {x : (coxeterMatr
   set cs := (coxeterMatrix hA).toCoxeterSystem
   have hmem : (Pi.single i 1 : I → ℤ) ∈ descSet hA π x :=
     ⟨⟨1, i, by rw [map_one, Module.End.one_apply]⟩, by
-      intro k; by_cases hk : k = i <;> simp [hk, Pi.single_apply], hi⟩
+      intro k; by_cases hk : k = i <;> simp [hk], hi⟩
   have hsub : descSet hA π (x * cs.simple i) ⊆
       (weylAction hA (cs.simple i)) '' (descSet hA π x \ {Pi.single i 1}) := by
     rintro γ ⟨⟨w, j, rfl⟩, hγ, hneg⟩
@@ -151,10 +153,10 @@ theorem ncard_descSet_mul_lt (hind : LinearIndependent ℤ π) {x : (coxeterMatr
     · rw [← weylAction_mul_apply, cs.simple_mul_simple_self, map_one, Module.End.one_apply]
   calc (descSet hA π (x * cs.simple i)).ncard
       ≤ ((weylAction hA (cs.simple i)) '' (descSet hA π x \ {Pi.single i 1})).ncard :=
-        Set.ncard_le_ncard hsub (((descSet_finite hA x).diff).image _)
+        Set.ncard_le_ncard hsub (((descSet_finite hA x).sdiff).image _)
     _ ≤ (descSet hA π x \ {Pi.single i 1}).ncard :=
-        Set.ncard_image_le (descSet_finite hA x).diff
-    _ < (descSet hA π x).ncard := Set.ncard_diff_singleton_lt_of_mem hmem (descSet_finite hA x)
+        Set.ncard_image_le (descSet_finite hA x).sdiff
+    _ < (descSet hA π x).ncard := Set.ncard_sdiff_singleton_lt_of_mem hmem (descSet_finite hA x)
 
 theorem exists_forall_not_coneNeg (hind : LinearIndependent ℤ π) :
     ∃ x : (coxeterMatrix hA).Group, ∀ i, ¬ ConeNeg π (weylAction hA x (Pi.single i 1)) := by
@@ -229,7 +231,7 @@ theorem exists_weylAction_eq_of_cone {κ : Type} [Fintype κ] (π : κ → I →
     have hπ0 : π k ≠ 0 := by
       rw [hwi]; exact weylAction_single_ne_zero hA w i
     exact not_conePos_and_coneNeg hind hπ0
-      ⟨Pi.single k 1, fun l => by by_cases hl : l = k <;> simp [hl, Pi.single_apply], (hπk k).symm⟩
+      ⟨Pi.single k 1, fun l => by by_cases hl : l = k <;> simp [hl], (hπk k).symm⟩
       (coneNeg_neg_iff.mpr hP |> fun h => by rwa [neg_neg] at h)
   have hcd : ∀ k, ∑ i, weylAction hA x⁻¹ (π k) i • d i = Pi.single k 1 := by
     intro k
@@ -242,7 +244,7 @@ theorem exists_weylAction_eq_of_cone {κ : Type} [Fintype κ] (π : κ → I →
     have hd0' : ∀ i l, 0 ≤ d i l := fun i l => hd0 i l
     have hsum : ∀ l, ∑ i, c i * d i l = (Pi.single k 1 : κ → ℤ) l := fun l => by
       rw [← hcd k, Finset.sum_apply, hcdef]
-      simp [smul_eq_mul]
+      simp
     have hnn : ∀ l i, 0 ≤ c i * d i l := fun l i => mul_nonneg (hc0' i) (hd0' i l)
     have h1 : ∑ i, c i * d i k ≠ 0 := by rw [hsum k]; simp
     obtain ⟨i, -, hi⟩ := Finset.exists_ne_zero_of_sum_ne_zero h1
@@ -281,7 +283,7 @@ theorem exists_weylAction_eq_of_cone {κ : Type} [Fintype κ] (π : κ → I →
       refine Finset.sum_congr rfl fun l _ => ?_
       rw [map_zsmul, ← hxτ l, weylAction_inv_apply_apply]
     have := congrFun hαi i
-    simp [Finset.sum_apply, Pi.single_apply, Ne.symm (hni _)] at this
+    simp [Finset.sum_apply, Ne.symm (hni _)] at this
   refine ⟨x, (Equiv.ofBijective τ ⟨hτinj, hτsurj⟩).symm, fun i => ?_⟩
   have := hxτ ((Equiv.ofBijective τ ⟨hτinj, hτsurj⟩).symm i)
   rwa [show τ ((Equiv.ofBijective τ ⟨hτinj, hτsurj⟩).symm i) = i from

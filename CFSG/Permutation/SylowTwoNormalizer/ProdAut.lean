@@ -62,12 +62,12 @@ theorem map_alt_prod_bot_eq_or (hr : 3 ≤ r) (hr4 : r ≠ 4) (hm : 3 ≤ m) (hm
       ((alternatingGroup (Fin r)).prod (⊥ : Subgroup (Perm (Fin m)))).map α.toMonoidHom =
         (⊥ : Subgroup (Perm (Fin r))).prod (alternatingGroup (Fin m)) := by
   classical
-  haveI hAr : IsSimpleGroup ↥(alternatingGroup (Fin r)) := isSimpleGroup_alternatingGroup_fin hr hr4
-  haveI hAm : IsSimpleGroup ↥(alternatingGroup (Fin m)) := isSimpleGroup_alternatingGroup_fin hm hm4
-  haveI hnr : Nontrivial (Fin r) := by
+  have hAr : IsSimpleGroup ↥(alternatingGroup (Fin r)) := isSimpleGroup_alternatingGroup_fin hr hr4
+  have hAm : IsSimpleGroup ↥(alternatingGroup (Fin m)) := isSimpleGroup_alternatingGroup_fin hm hm4
+  have hnr : Nontrivial (Fin r) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, Fintype.card_fin]
     omega
-  haveI hnm : Nontrivial (Fin m) := by
+  have hnm : Nontrivial (Fin m) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, Fintype.card_fin]
     omega
   set N1 : Subgroup (Perm (Fin r) × Perm (Fin m)) :=
@@ -172,7 +172,7 @@ theorem map_alt_prod_bot_eq_or (hr : 3 ≤ r) (hr4 : r ≠ 4) (hm : 3 ≤ m) (hm
         ⟨fun p q h => hψinj (Subtype.ext_iff.mp h), MonoidHom.rangeRestrict_surjective ψ⟩
       exact MulEquiv.isSimpleGroup (MulEquiv.ofBijective (MonoidHom.rangeRestrict ψ) hbij).symm
     have hM' : ψ.range = alternatingGroup (Fin m) := by
-      haveI := hM'simple
+      have := hM'simple
       rcases eq_or_lt_of_le hm with hm3 | hm5
       · subst hm3
         have hbij : Function.Bijective (MonoidHom.rangeRestrict ψ) :=
@@ -208,11 +208,11 @@ theorem map_alt_prod_bot_eq_or (hr : 3 ≤ r) (hr4 : r ≠ 4) (hm : 3 ≤ m) (hm
           omega
         exact Equiv.Perm.eq_alternatingGroup_of_index_eq_two hindex
       · have h5 : 5 ≤ m := by omega
-        haveI : ψ.range.Normal := hM'normal
+        have : ψ.range.Normal := hM'normal
         have hle : alternatingGroup (Fin m) ≤ ψ.range :=
           Equiv.Perm.alternatingGroup_le_of_normal (α := Fin m) (by rw [Nat.card_fin]; omega)
             inferInstance
-        haveI hAmsub : ((alternatingGroup (Fin m)).subgroupOf ψ.range).Normal :=
+        have hAmsub : ((alternatingGroup (Fin m)).subgroupOf ψ.range).Normal :=
           (inferInstance : (alternatingGroup (Fin m)).Normal).subgroupOf ψ.range
         rcases Subgroup.Normal.eq_bot_or_eq_top ((alternatingGroup (Fin m)).subgroupOf ψ.range)
           with hsub | hsub
@@ -306,7 +306,7 @@ theorem map_alt_prod_bot_eq (hr : 3 ≤ r) (hr4 : r ≠ 4) (hm : 3 ≤ m) (hm4 :
     (alternatingGroup (Fin r)).prod (⊥ : Subgroup (Perm (Fin m))) with hN1
   set N2 : Subgroup (Perm (Fin r) × Perm (Fin m)) :=
     (⊥ : Subgroup (Perm (Fin r))).prod (alternatingGroup (Fin m)) with hN2
-  haveI hntAr : Nontrivial ↥(alternatingGroup (Fin r)) :=
+  have hntAr : Nontrivial ↥(alternatingGroup (Fin r)) :=
     alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; exact hr)
   have hne : N1 ≠ N2 := by
     intro h
@@ -455,14 +455,14 @@ theorem map_prod_top_bot_eq (hr2 : r ≠ 2) (hr4 : r ≠ 4) (hm2 : m ≠ 2) (hm4
       (⊤ : Subgroup (Perm (Fin r))).prod (⊥ : Subgroup (Perm (Fin m))) := by
   by_cases hr : r ≤ 1
   ·
-    haveI : Subsingleton (Perm (Fin r)) := subsingleton_perm_fin hr
+    have : Subsingleton (Perm (Fin r)) := subsingleton_perm_fin hr
     have hbot : (⊤ : Subgroup (Perm (Fin r))) = ⊥ := Subsingleton.elim _ _
     have hF1 : ((⊤ : Subgroup (Perm (Fin r))).prod (⊥ : Subgroup (Perm (Fin m)))) = ⊥ := by
       rw [hbot, Subgroup.bot_prod_bot]
     rw [hF1, Subgroup.map_bot]
   by_cases hm : m ≤ 1
   ·
-    haveI : Subsingleton (Perm (Fin m)) := subsingleton_perm_fin hm
+    have : Subsingleton (Perm (Fin m)) := subsingleton_perm_fin hm
     have htop : (⊥ : Subgroup (Perm (Fin m))) = ⊤ := Subsingleton.elim _ _
     have hF1 : ((⊤ : Subgroup (Perm (Fin r))).prod (⊥ : Subgroup (Perm (Fin m)))) = ⊤ := by
       rw [htop]
@@ -476,7 +476,7 @@ theorem map_prod_bot_top_eq (hr2 : r ≠ 2) (hr4 : r ≠ 4) (hm2 : m ≠ 2) (hm4
       (⊥ : Subgroup (Perm (Fin r))).prod (⊤ : Subgroup (Perm (Fin m))) := by
   by_cases hr : r ≤ 1
   ·
-    haveI : Subsingleton (Perm (Fin r)) := subsingleton_perm_fin hr
+    have : Subsingleton (Perm (Fin r)) := subsingleton_perm_fin hr
     have htop : (⊥ : Subgroup (Perm (Fin r))) = ⊤ := Subsingleton.elim _ _
     have hF2 : ((⊥ : Subgroup (Perm (Fin r))).prod (⊤ : Subgroup (Perm (Fin m)))) = ⊤ := by
       rw [htop]
@@ -484,7 +484,7 @@ theorem map_prod_bot_top_eq (hr2 : r ≠ 2) (hr4 : r ≠ 4) (hm2 : m ≠ 2) (hm4
     rw [hF2, Subgroup.map_top, MonoidHom.range_eq_top.mpr α.surjective]
   by_cases hm : m ≤ 1
   ·
-    haveI : Subsingleton (Perm (Fin m)) := subsingleton_perm_fin hm
+    have : Subsingleton (Perm (Fin m)) := subsingleton_perm_fin hm
     have hbot : (⊤ : Subgroup (Perm (Fin m))) = ⊥ := Subsingleton.elim _ _
     have hF2 : ((⊥ : Subgroup (Perm (Fin r))).prod (⊤ : Subgroup (Perm (Fin m)))) = ⊥ := by
       rw [hbot, Subgroup.bot_prod_bot]

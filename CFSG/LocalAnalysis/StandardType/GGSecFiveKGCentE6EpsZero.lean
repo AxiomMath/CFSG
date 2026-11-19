@@ -93,7 +93,7 @@ theorem eq_one_of_normalForm_zero_E6
   have hw1 := LayerExc.mem_famReflectionGroup_of_coprime_orderOf hp F
     (fun b hb => ⟨1, funext fun i => by simpa using hF b hb i⟩) hwF hcop
   rw [LayerExc.famReflectionGroup, hF0] at hw1
-  simp only [Set.mem_empty_iff_false, false_and, exists_false, Set.setOf_false,
+  simp only [Set.mem_empty_iff_false, false_and, exists_false, Set.ofPred_false,
     Subgroup.closure_empty, Subgroup.mem_bot] at hw1
   rw [hw1, canonicalRep_one, mul_one, ← rootDiagUnit_mul] at hMdef
   have hMK : M ^ Nat.card Kˣ = 1 := by

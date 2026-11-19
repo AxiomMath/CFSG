@@ -45,7 +45,7 @@ theorem OutData.T_relIndex_odd (D : OutData L z t T₁ F tb) :
   have hTp := D.cfg.T_pgroup
   have hT'p : IsPGroup 2 ((T₁.map (Subgroup.subtype Hc)).subgroupOf Hc) := hTp.comap_subtype
   obtain ⟨P, hP⟩ := hT'p.exists_le_sylow
-  have hPG : IsPGroup 2 ((P : Subgroup ↥Hc).map (Subgroup.subtype Hc)) := P.isPGroup'.map _
+  have hPG : IsPGroup 2 ((P : Subgroup ↥Hc).map (Subgroup.subtype Hc)) := P.isPGroup.map _
   have hTP : T₁.map (Subgroup.subtype Hc) ≤ (P : Subgroup ↥Hc).map (Subgroup.subtype Hc) :=
     fun k hk => ⟨⟨k, hTle hk⟩, hP (Subgroup.mem_subgroupOf.2 hk), rfl⟩
   have hPC : (P : Subgroup ↥Hc).map (Subgroup.subtype Hc) ≤ Hc := by

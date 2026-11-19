@@ -15,6 +15,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_centralizer_of_mem {p : ℕ} {B : Subgroup G} {y : G} (hB : IsElemAbelian p B)
     (hy : y ∈ B) : B ≤ Subgroup.centralizer ({y} : Set G) := fun b hb =>
   Subgroup.mem_centralizer_iff.2 fun h hh => by
@@ -22,11 +23,12 @@ theorem le_centralizer_of_mem {p : ℕ} {B : Subgroup G} {y : G} (hB : IsElemAbe
     subst hh
     exact isElemAbelian_commute hB hy hb
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {B : Subgroup G} (X : Subgroup G)
     (hB : IsElemAbelian p B) : IsElemAbelian p (B.subgroupOf X) :=
-  isElemAbelian_of_forall (fun a ha b hb => Subtype.ext
+  isElemAbelian_of_forall (fun _a ha _b hb => Subtype.ext
     (isElemAbelian_commute hB (Subgroup.mem_subgroupOf.1 ha) (Subgroup.mem_subgroupOf.1 hb)))
-    fun x hx => Subtype.ext (hB.2 _ (Subgroup.mem_subgroupOf.1 hx))
+    fun _x hx => Subtype.ext (hB.2 _ (Subgroup.mem_subgroupOf.1 hx))
 
 theorem glaTwoLocalRank_le_pRank_of_isBmax {p : ℕ} (hp : p.Prime) {B : Subgroup G}
     (hB : GLAIsBmax p B) (X : Subgroup G) : GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B :=
@@ -75,11 +77,13 @@ theorem glaPComponent_top_subgroupOf {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     exact (Subgroup.comap_map_eq_self_of_injective X.subtype_injective K₀).symm
   rwa [← hK₀eq]
 
+omit [Finite G] in
 theorem relIndex_normalizer_subgroupOf {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X) :
     (Subgroup.normalizer ((K.subgroupOf X : Subgroup ↥X) : Set ↥X)).relIndex (B.subgroupOf X) =
       (Subgroup.normalizer (K : Set G)).relIndex B := by
   rw [← Subgroup.subgroupOf_normalizer_eq hKX, Subgroup.relIndex_subgroupOf hBX]
 
+omit [Finite G] in
 theorem le_normalizer_subgroupOf_iff {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X) :
     B.subgroupOf X ≤ Subgroup.normalizer ((K.subgroupOf X : Subgroup ↥X) : Set ↥X) ↔
       B ≤ Subgroup.normalizer (K : Set G) := by

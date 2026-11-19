@@ -153,7 +153,7 @@ theorem w172_minInv_class_two {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgro
     rintro x ⟨z, hz, y, hy, rfl⟩
     exact hcomm z hz y hy
   have hγ₃eq : γ₃ = γ₄ := le_antisymm hγ₃γ₄ hγ₄γ₃
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hnil : Group.IsNilpotent ↥Y := (h.pgroup.to_le h.le).isNilpotent
   have hstep : ∀ n, Y.lowerCentralSeries (n + 2) = γ₃ := by
     intro n
@@ -174,7 +174,7 @@ theorem w172_minInv_class_two {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgro
 
 theorem w172_minInv_exp {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) : ∀ y ∈ Y, y ^ p = 1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hInv : ∀ i ∈ W172Inv d Y, i ^ p = 1 := by
     intro i hi
     have hiY : i ∈ Y := hi.1

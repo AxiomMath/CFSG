@@ -55,7 +55,7 @@ theorem exists_prime_order_of_conj_eq_inv [Finite E] {a : E} {Y : Subgroup E}
     group
   have hw_ord : orderOf w ≠ 1 := fun h => hw1 (orderOf_eq_one_iff.mp h)
   obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd hw_ord
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : p ∣ Nat.card (Subgroup.zpowers w) := by
     rwa [Nat.card_zpowers]
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers w) p hcard
@@ -67,7 +67,7 @@ theorem index_le_two_of_lt_four {A H : Subgroup E} [Finite E] (hA : IsElemAbelia
     (h : (H.subgroupOf A).index < 4) : (H.subgroupOf A).index ≤ 2 := by
   have hA2 : IsPGroup 2 ↥A :=
     CFSG.SignalizerFunctor.Helpers.elementary_abelian_isPGroup 2 A hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hA2.index (H.subgroupOf A)
   rw [hn] at h ⊢
   have hn1 : n ≤ 1 := by
@@ -292,7 +292,7 @@ theorem commute_of_minimal_invariant {A X₀ : Subgroup E} [Finite E] (hA : IsEl
       ((A ⊓ Subgroup.centralizer (W : Set E)).subgroupOf A).index ≤ 2) :
     y₁ * y₂ = y₂ * y₁ := by
   classical
-  haveI hAcomm : IsMulCommutative ↥A := hA.1
+  have hAcomm : IsMulCommutative ↥A := hA.1
   have hcommA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) (⟨b, hb⟩ : A))
   have hy₁X₀ : y₁ ∈ X₀ := by rw [hX₀]; exact Subgroup.mem_sup_left (Subgroup.mem_zpowers y₁)
@@ -312,7 +312,7 @@ theorem commute_of_minimal_invariant {A X₀ : Subgroup E} [Finite E] (hA : IsEl
     rw [commutatorElement_def]
     exact X₀.mul_mem (X₀.mul_mem (X₀.mul_mem hg₁ hg₂) (X₀.inv_mem hg₁)) (X₀.inv_mem hg₂)
   have hKlt : K < X₀ := by
-    haveI : Group.IsSolvable ↥X₀ := CFSG.FeitThompson.isSolvable_of_odd_natCard (G := ↥X₀) hodd
+    have : Group.IsSolvable ↥X₀ := CFSG.FeitThompson.isSolvable_of_odd_natCard (G := ↥X₀) hodd
     have hnt : Nontrivial ↥X₀ :=
       Finite.one_lt_card_iff_nontrivial.mp ((Subgroup.one_lt_card_iff_ne_bot X₀).mpr hne)
     have hne_top : (⊤ : Subgroup ↥X₀) ≠ ⊥ := top_ne_bot
@@ -536,7 +536,7 @@ theorem lemmaD {A X : Subgroup E} [Finite E] (hA : IsElemAbelian 2 A)
     (hindex : 4 ≤ ((A ⊓ Subgroup.centralizer (X : Set E)).subgroupOf A).index) :
     Nonempty (LemmaDData A X) := by
   classical
-  haveI hAcomm : IsMulCommutative ↥A := hA.1
+  have hAcomm : IsMulCommutative ↥A := hA.1
   have hcommA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) (⟨b, hb⟩ : A))
   have hcardA : 4 ≤ Nat.card A := by

@@ -70,7 +70,7 @@ private theorem SecMod.mk_surjective (h : SecData L α) : Function.Surjective (S
 
 private theorem SecMod.mk_eq_mk_iff (h : SecData L α) (a b : ↥(blockU L)) :
     SecMod.mk h a = SecMod.mk h b ↔ (a : G)⁻¹ * b ∈ blockZ L := by
-  letI : (zSub L).Normal := h.normal
+  let : (zSub L).Normal := h.normal
   have e : SecMod.mk h a = SecMod.mk h b ↔
       (QuotientGroup.mk a : ↥(blockU L) ⧸ zSub L) = QuotientGroup.mk b :=
     ⟨fun hab => Additive.ofMul.injective hab, fun hab => congrArg Additive.ofMul hab⟩
@@ -144,12 +144,12 @@ private noncomputable def SecMod.smul' (h : SecData L α) (g : SL(2, F)) (v : Se
 private noncomputable instance (h : SecData L α) : DistribMulAction SL(2, F) (SecMod h) where
   smul := SecMod.smul' h
   one_smul v := by
-    letI : (zSub L).Normal := h.normal
+    let : (zSub L).Normal := h.normal
     show Additive.ofMul (actQ h (Classical.choose (h.surj 1)) (Additive.toMul v)) = v
     rw [actQ_eq h (l' := 1) (by rw [Classical.choose_spec (h.surj 1), map_one]), actQ_one]
     rfl
   mul_smul g₁ g₂ v := by
-    letI : (zSub L).Normal := h.normal
+    let : (zSub L).Normal := h.normal
     show Additive.ofMul (actQ h (Classical.choose (h.surj (g₁ * g₂))) (Additive.toMul v)) =
       Additive.ofMul (actQ h (Classical.choose (h.surj g₁))
         (actQ h (Classical.choose (h.surj g₂)) (Additive.toMul v)))
@@ -157,19 +157,19 @@ private noncomputable instance (h : SecData L α) : DistribMulAction SL(2, F) (S
       rw [map_mul, Classical.choose_spec (h.surj g₁), Classical.choose_spec (h.surj g₂),
         Classical.choose_spec (h.surj (g₁ * g₂))]), actQ_mul]
   smul_zero g := by
-    letI : (zSub L).Normal := h.normal
+    let : (zSub L).Normal := h.normal
     show Additive.ofMul (actQ h _ (Additive.toMul (0 : SecMod h))) = 0
     rw [show Additive.toMul (0 : SecMod h) = 1 from rfl, map_one]
     rfl
   smul_add g v w := by
-    letI : (zSub L).Normal := h.normal
+    let : (zSub L).Normal := h.normal
     show Additive.ofMul (actQ h _ (Additive.toMul (v + w))) = _
     rw [show Additive.toMul (v + w) = Additive.toMul v * Additive.toMul w from rfl, map_mul]
     rfl
 
 private theorem SecMod.smul_mk (h : SecData L α) (l : ↥L) (u : ↥(blockU L)) :
     α l • SecMod.mk h u = SecMod.mk h (conjU h l u) := by
-  letI : (zSub L).Normal := h.normal
+  let : (zSub L).Normal := h.normal
   show Additive.ofMul (actQ h (Classical.choose (h.surj (α l))) (QuotientGroup.mk u)) = _
   rw [actQ_eq h (Classical.choose_spec (h.surj (α l))), actQ_mk]
   rfl
@@ -219,9 +219,9 @@ theorem isTwoNatType_of_quadratic {G : Type} [Group G] {L : Subgroup G} [Finite 
         (inv_mem hq)
     rw [commutatorElement_def, mul_assoc, mul_assoc]
     exact mul_mem hq (by rw [← mul_assoc]; exact h1)
-  haveI : Finite ↥(blockU L) :=
+  have : Finite ↥(blockU L) :=
     Finite.of_injective _ (Subgroup.inclusion_injective (hUQ.trans (C1.blockQ_le L)))
-  haveI : Finite ↥(blockZ L) :=
+  have : Finite ↥(blockZ L) :=
     Finite.of_injective _ (Subgroup.inclusion_injective
       ((inf_le_left : blockZ L ≤ blockU L).trans (hUQ.trans (C1.blockQ_le L))))
   have hd : SecData L α :=
@@ -264,7 +264,7 @@ theorem isTwoNatType_of_quadratic {G : Type} [Group G] {L : Subgroup G} [Finite 
     rw [h3, hK, ← pow_mul, mul_comm f 4]
     exact (Nat.eq_of_mul_eq_mul_right Nat.card_pos h1).symm
   obtain ⟨φ, hφ⟩ := exists_addEquiv_matrix_of_quadratic hfix' hquad' hcard'
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   refine ⟨GaloisField 2 f, inferInstance, inferInstance, ?_, α, hαs, hαker,
     { toFun := fun u => Multiplicative.ofAdd (φ (SecMod.mk hd u))
       map_one' := by rw [SecMod.mk_one, map_zero]; rfl

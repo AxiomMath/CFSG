@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.ComponentClassification.LiteratureLocalOrder504Sylow
 public import Mathlib.Algebra.Group.ConjFinite
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.ENatToNat
 public import Std.Tactic.BVDecide.Normalize.Prop

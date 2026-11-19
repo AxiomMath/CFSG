@@ -17,11 +17,11 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem hdRo7CKCoordAux_zeta_ne_one {G : Type} [Group G] {Bs K : Subgroup G}
     (n : ℕ) (hn : 0 < n) (τ : (Fin (n + 1) → Multiplicative (ZMod 3)) ≃* ↥Bs)
     (hmem : ∀ f : Fin (n + 1) → Multiplicative (ZMod 3), (τ f : G) ∈ K ↔ f 0 = 1)
-    {m : ℕ} (φ : StatedSp m (GaloisField 2 1) →* G) (hinj : Function.Injective φ)
+    {m : ℕ} (φ : StatedSp m (GaloisField 2 1) →* G) (_hinj : Function.Injective φ)
     (hrange : φ.range = K)
     {L : Type} [Field L] [Algebra (GaloisField 2 1) L]
     {ζ : L} {E : Subgroup (StatedSp m (GaloisField 2 1))}
-    (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (c : Fin F.s → ZMod 3)
+    (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (_c : Fin F.s → ZMod 3)
     (hE : E = (Bs ⊓ K).comap φ) :
     ζ ≠ 1 := by
   intro hz1
@@ -29,7 +29,7 @@ theorem hdRo7CKCoordAux_zeta_ne_one {G : Type} [Group G] {Bs K : Subgroup G}
   let f1 : Fin (n + 1) → Multiplicative (ZMod 3) :=
     Pi.mulSingle (Fin.succ i1) (Multiplicative.ofAdd 1)
   have hf1_0 : f1 0 = 1 := by
-    simp [f1, Pi.mulSingle_apply, Fin.succ_ne_zero]
+    simp [f1, Fin.succ_ne_zero]
   have hf1_ne : f1 ≠ 1 := by
     intro h
     have := congrFun h (Fin.succ i1)
@@ -89,7 +89,7 @@ theorem hdRo7CKCoordAux_card_E {G : Type} [Group G] {Bs K : Subgroup G}
         left_inv := fun b => by apply Subtype.ext; simp
         right_inv := fun f => by apply Subtype.ext; simp }
   rw [hcardE, hcardH, ← Nat.card_congr (hdRo7CKCoordAux_hyperEquiv 3 n)]
-  simp [Nat.card_pi, ZMod.card, Finset.prod_const, Fintype.card_fin]
+  simp [ZMod.card, Finset.prod_const, Fintype.card_fin]
 
 theorem hdRo7CKCoordAux_s_eq {G : Type} [Group G] {Bs K : Subgroup G}
     (n : ℕ) (hn : 0 < n) (τ : (Fin (n + 1) → Multiplicative (ZMod 3)) ≃* ↥Bs)
@@ -115,7 +115,7 @@ theorem hdRo7CKCoordAux_s_eq {G : Type} [Group G] {Bs K : Subgroup G}
           obtain ⟨f, hf⟩ := F.mem_tor x.1 x.2
           exact ⟨f, Subtype.ext hf⟩⟩
     rw [← Nat.card_congr (Equiv.ofBijective _ hbij)]
-    simp [Nat.card_pi, ZMod.card, Finset.prod_const, Fintype.card_fin]
+    simp [ZMod.card, Finset.prod_const, Fintype.card_fin]
   have h3n : Nat.card E = 3 ^ n := hdRo7CKCoordAux_card_E n τ hmem φ hinj hrange hE
   have hpow : 3 ^ F.s = 3 ^ n := by rw [← hcardE, h3n]
   exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3)) hpow

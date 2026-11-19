@@ -31,14 +31,14 @@ variable {Y : Type} [Group Y] [Finite Y]
 theorem commute_of_pow_three_of_pRank_le_one {C Q : Subgroup Y} (hQC : Q ≤ C)
     (hrk : CFSG.Open.pRank 3 C ≤ 1) (hQ3 : ∀ x ∈ Q, x ^ 3 = 1) :
     ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hQ : Q = ⊥
   · intro x hx y hy
     rw [hQ, Subgroup.mem_bot] at hx hy
     rw [hx, hy]
   have hQp : IsPGroup 3 Q := fun x => ⟨1, Subtype.ext (by simpa using hQ3 x x.2)⟩
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
-  haveI := hQp.center_nontrivial
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
+  have := hQp.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center Q)
   set z' : Y := ((z : Q) : Y) with hz'
   have hz'Q : z' ∈ Q := (z : Q).2
@@ -79,7 +79,7 @@ theorem commute_of_pow_three_of_pRank_le_one {C Q : Subgroup Y} (hQC : Q ≤ C)
 
 theorem commute_of_le_of_not_dvd {K Q : Subgroup Y} (hQK : Q ≤ K) (hK : ¬ 27 ∣ Nat.card K)
     (hQ3 : ∀ x ∈ Q, x ^ 3 = 1) : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQp : IsPGroup 3 Q := fun x => ⟨1, Subtype.ext (by simpa using hQ3 x x.2)⟩
   obtain ⟨n, hn⟩ := hQp.exists_card_eq
   have hdvd : 3 ^ n ∣ Nat.card K := hn ▸ Subgroup.card_dvd_of_le hQK
@@ -91,10 +91,10 @@ theorem commute_of_le_of_not_dvd {K Q : Subgroup Y} (hQK : Q ≤ K) (hK : ¬ 27 
   · have hbot : Q = ⊥ := Subgroup.eq_bot_of_card_eq Q (by simpa using hn)
     rw [hbot, Subgroup.mem_bot] at hx hy
     rw [hx, hy]
-  · haveI : IsCyclic Q := isCyclic_of_prime_card (p := 3) (by simpa using hn)
+  · have : IsCyclic Q := isCyclic_of_prime_card (p := 3) (by simpa using hn)
     exact congrArg Subtype.val
       ((IsCyclic.isMulCommutative (α := Q)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
-  · exact congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hn ⟨x, hx⟩ ⟨y, hy⟩)
+  · exact congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
 theorem commute_of_le_sup_centralizer {K P : Subgroup Y} [K.Normal]
     (hKC : K ⊓ centralizer (K : Set Y) = ⊥)
@@ -104,7 +104,7 @@ theorem commute_of_le_sup_centralizer {K P : Subgroup Y} [K.Normal]
     (hP3 : ∀ x ∈ P, x ^ 3 = 1) (hPKC : P ≤ K ⊔ centralizer (K : Set Y)) :
     ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hcube : ∀ k ∈ K, ∀ c ∈ C, (k * c) ^ 3 = 1 → k ^ 3 = 1 ∧ c ^ 3 = 1 := by
     intro k hk c hc h
     have hkc : k * c = c * k := Subgroup.mem_centralizer_iff.mp hc k hk
@@ -171,6 +171,7 @@ section Solvable
 
 variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
+omit [Finite Y] in
 theorem exists_oUpperTwo_of_odd (σ : I₀ →* Y) {y : Y} (hy : y ∈ σ.range)
     (hodd : Odd (orderOf y)) :
     ∃ g ∈ CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀), σ g = y := by
@@ -180,9 +181,10 @@ theorem exists_oUpperTwo_of_odd (σ : I₀ →* Y) {y : Y} (hy : y ∈ σ.range)
   obtain ⟨g, hg, rfl⟩ := hyJ
   exact ⟨g, hg, rfl⟩
 
+omit [Finite Y] [Finite I₀] in
 theorem eq_one_of_mem_map_pCore_of_odd (σ : I₀ →* Y) {y : Y}
     (hy : y ∈ (CFSG.pCore 2 I₀).map σ) (hodd : Odd (orderOf y)) : y = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 ((CFSG.pCore 2 I₀).map σ) := CFSG.pCore_isPGroup.map σ
   obtain ⟨n, hn⟩ := h2 ⟨y, hy⟩
   have hn' : y ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
@@ -193,6 +195,7 @@ theorem eq_one_of_mem_map_pCore_of_odd (σ : I₀ →* Y) {y : Y}
     exact Nat.dvd_gcd dvd_rfl (orderOf_dvd_of_pow_eq_one hn')
   rwa [Nat.dvd_one, orderOf_eq_one_iff] at hdvd
 
+omit [Finite Y] in
 theorem mem_of_odd_of_symThree (σ : I₀ →* Y) (f : I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3))
     {C : Subgroup Y} (hσC : (CFSG.pCore 2 I₀).map σ ≤ C) {y₀ : Y} (hy₀ : y₀ ∈ σ.range)
     (hy₀o : Odd (orderOf y₀)) (hy₀C : y₀ ∈ C) (hy₀1 : y₀ ≠ 1) {y : Y} (hy : y ∈ σ.range)
@@ -233,10 +236,10 @@ end Solvable
 theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
     ThreeFourSolvThreeLeAt (TauCeti.CFSGIndex.alternating 6 h).Group := by
   intro Y _ _ K Y₀ E R I₀ _ _ σ hK hKX hZ hrk hrkC hC _ _ _ _ _ hO2 hker hσY hσs hb _ _ hJ
-  haveI := hK
+  have := hK
   obtain ⟨e⟩ := hKX
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hinner := exists_conj_of_pow_three_of_mulEquiv e
     (fun _ hα => CFSG.RankThree.PartTwo.Sec4.Item434Alt.mem_range_conj_of_pow_three hα)
@@ -337,7 +340,7 @@ theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
     exact hk
   ·
     exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨a, b, ha, hb3, hab⟩ :=
       CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNoSU.exists_cube_not_comm hb
         (not_nonempty_iff.mp hs3)
@@ -354,9 +357,9 @@ theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
     set Pbar := P₀.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 I₀)) with hPbar
     have hHP : CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) ≤
         (Pbar : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) := by
-      haveI := (normal_oUpperTwo_top :
+      have := (normal_oUpperTwo_top :
         (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀))).Normal)
-      have hsup := hH.to_sup_of_normal_left Pbar.isPGroup'
+      have hsup := hH.to_sup_of_normal_left Pbar.isPGroup
       have := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_right
       rw [← this]
       exact le_sup_left
@@ -373,11 +376,11 @@ theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
       rintro _ ⟨u, hu, rfl⟩
       exact pow_three_eq_one_of_mem_range_of_odd σ hb ⟨u, rfl⟩
         (hodd_of u (by
-          obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨u, hu⟩
+          obtain ⟨m, hm⟩ := P₀.isPGroup ⟨u, hu⟩
           exact ⟨m, by simpa using congrArg Subtype.val hm⟩))
     have hPKC : (P₀ : Subgroup I₀).map σ ≤ K ⊔ C := by
       rintro _ ⟨u, hu, rfl⟩
-      obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨u, hu⟩
+      obtain ⟨m, hm⟩ := P₀.isPGroup ⟨u, hu⟩
       obtain ⟨k, hk, c, hc, he, -, -⟩ :=
         hdec (σ u) ⟨u, rfl⟩ (hodd_of u ⟨m, by simpa using congrArg Subtype.val hm⟩)
       rw [he]
@@ -398,7 +401,7 @@ theorem threeFourSolvThreeLeAt_altSix (h : 5 ≤ 6) :
       rw [MonoidHom.mem_ker, hz, map_mul, map_mul, map_mul, map_inv, map_inv, hcomm]
       group
     have hz1 : z = 1 := by
-      obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨z, hzP⟩
+      obtain ⟨m, hm⟩ := P₀.isPGroup ⟨z, hzP⟩
       have hm' : z ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
       have h1 : orderOf z ∣ 3 ^ m := orderOf_dvd_of_pow_eq_one hm'
       have h2 : orderOf z ∣ Nat.card σ.ker := by

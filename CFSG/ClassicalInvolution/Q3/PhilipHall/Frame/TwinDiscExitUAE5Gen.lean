@@ -49,7 +49,7 @@ theorem same_of_image (F : ExitO2.Q8Fam G P) (I : AEIdent P 5) {L M : Subgroup G
   rw [← hLM]
   exact I.mem_map hL haL
 
-theorem theta_fix (I : AEIdent P 5) (ψ : MulAut ↥(pSpan P)) {L : Subgroup G} (hL : L ∈ P)
+theorem theta_fix (I : AEIdent P 5) (ψ : MulAut ↥(pSpan P)) {L : Subgroup G} (_hL : L ∈ P)
     (hfix : ∀ y : ↥(pSpan P), (y : G) ∈ L → ψ y = y) {α : Finset (Fin 5)} {h : α.card = 4}
     {c : Bool} (hlab : (L.subgroupOf (pSpan P)).map I.φ = memBar α h c) :
     ∀ y (hy : y ∈ memBar α h c), inducedAutExt I ψ ⟨y, memBar_le_aeModel α h c hy⟩ =

@@ -67,10 +67,10 @@ theorem exists_twoLocal_four_of_range [Finite K] {H : Type} [Group H] [Finite H]
   have hpriv : ∀ j, ∃ i, (∀ j', j' ≠ j → c j' i = 1) ∧ orderOf (c j i) = 3 := by
     intro j
     fin_cases j
-    · exact ⟨0, fun j' hj' => by fin_cases j' <;> simp_all [hc, gen4], by simp [hc, gen4, hζo]⟩
-    · exact ⟨2, fun j' hj' => by fin_cases j' <;> simp_all [hc, gen4], by simp [hc, gen4, hζo]⟩
-    · exact ⟨3, fun j' hj' => by fin_cases j' <;> simp_all [hc, gen4], by simp [hc, gen4, hζo]⟩
-    · exact ⟨4, fun j' hj' => by fin_cases j' <;> simp_all [hc, gen4], by simp [hc, gen4, hζo]⟩
+    · exact ⟨0, fun j' hj' => by fin_cases j' <;> simp_all [gen4], by simp [hc, gen4, hζo]⟩
+    · exact ⟨2, fun j' hj' => by fin_cases j' <;> simp_all [gen4], by simp [hc, gen4, hζo]⟩
+    · exact ⟨3, fun j' hj' => by fin_cases j' <;> simp_all [gen4], by simp [hc, gen4, hζo]⟩
+    · exact ⟨4, fun j' hj' => by fin_cases j' <;> simp_all [gen4], by simp [hc, gen4, hζo]⟩
   have hexpinj := expHom_injective c hcp hpriv
   have hmem : ∀ a, (diagHom 6 (expHom c hcp a) : GL (Fin 6) K) ∈
       Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)) := by
@@ -136,7 +136,7 @@ theorem exists_twoLocal_four_of_range [Finite K] {H : Type} [Group H] [Finite H]
       Nat.prime_three hpq (M := ⟨(w : GL (Fin 6) K), Subgroup.le_normalizer w.2⟩) h1
     rw [largeEvenScalars_def, ← Matrix.GeneralLinearGroup.center_eq_range_scalar] at hsc
     exact permGL_swap_not_mem_center (K := K) (d := 6) (i := 0) (j := 1)
-      (by simp [Fin.ext_iff]) hζ1 hsc
+      (by simp) hζ1 hsc
   set U₀ := Subgroup.zpowers cw with hU₀def
   have hU₀ : IsPGroup 2 U₀ := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_

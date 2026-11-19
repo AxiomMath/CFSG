@@ -78,7 +78,7 @@ theorem eq_top_of_centralizer_le_alt {m : ℕ} (hm : 9 ≤ m) (N : Subgroup (alt
       Subgroup.centralizer ({y} : Set (alternatingGroup (Fin m))) ≤ N)
     (hN3 : 3 ∣ Nat.card N) : N = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y₀, hy₀⟩ := exists_prime_orderOf_dvd_card' (G := N) 3 hN3
   have hy1 : (y₀ : alternatingGroup (Fin m)) ≠ 1 := by
     intro h
@@ -151,7 +151,7 @@ theorem eq_top_of_centralizer_le_alt {m : ℕ} (hm : 9 ≤ m) (N : Subgroup (alt
 theorem not_isStronglyPEmbedded_three_of_alt {X : Type} [Group X] [Finite X] {m : ℕ} (hm : 9 ≤ m)
     (e : X ≃* alternatingGroup (Fin m)) (N : Subgroup X) : ¬ IsStronglyPEmbedded 3 N := by
   intro hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine hN.1 ?_
   have hmap : N.map e.toMonoidHom = ⊤ := by
     refine eq_top_of_centralizer_le_alt hm _ ?_ ?_

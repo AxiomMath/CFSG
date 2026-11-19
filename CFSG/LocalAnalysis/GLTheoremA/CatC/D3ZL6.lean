@@ -20,7 +20,7 @@ theorem conj_closure_mem {G : Type*} [Group G] (S : Set G) (w : G)
   intro v hv
   induction hv using Subgroup.closure_induction with
   | mem x hx => exact hS x hx
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) := by group
     rw [e]; exact mul_mem hx hy
@@ -56,7 +56,7 @@ theorem xUnit_mem_leviUnip {J : Set (Fin Tag.D4.rank)} {j : Fin Tag.D4.rank} (hj
   refine Subgroup.mem_iSup_of_mem (Pi.single j 1) (Subgroup.mem_iSup_of_mem ?_ hx)
   refine ⟨⟨isRoot_single Tag.D4 j, fun i hi => ?_⟩, isRoot_single Tag.D4 j, ?_⟩
   · have : i ≠ j := fun h => hi (h ▸ hj)
-    simp [Pi.single_apply, this]
+    simp [this]
   · rw [height_single]; exact one_pos
 
 theorem mem_borel_of_normalizes {J : Set (Fin Tag.D4.rank)}
@@ -64,7 +64,7 @@ theorem mem_borel_of_normalizes {J : Set (Fin Tag.D4.rank)}
     (hw : w ∈ parabolicSubgroup Tag.D4 K J)
     (hwU : ∀ j ∈ J, w ∈ Subgroup.normalizer (Uk K j : Set (ModGL Tag.D4 K))) :
     w ∈ borelGroup Tag.D4 K := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hwC : w ∈ adjointGroup Tag.D4 K := parabolicSubgroup_le_adjointGroup _ _ _ hw
   have hV : ∀ v ∈ parabolicLeviUnipotent Tag.D4 K J,
       w * v * w⁻¹ ∈ parabolicLeviUnipotent Tag.D4 K J := by
@@ -155,7 +155,7 @@ theorem bar_normalizes (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank))
     (hbx : (semiDirect_levi (K := K) J).bar (phiG g a σ ε) x = x)
     (hxk : x ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K))) :
     x ∈ Subgroup.normalizer (Uk K ((d4Rho ^ ε) k) : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hS := semiDirect_levi (K := K) J
   refine mem_normalizer_of_forall_conj_mem _ fun u hu => ?_
   obtain ⟨x₀, hx₀, rfl⟩ := bar_Uk_surj hJ hg hJρ hφP hφQ hφ3 hk u hu
@@ -196,7 +196,7 @@ theorem levi_key_three (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4 K)
     (hy2 : y * y = 1) (hφy : phiG g a σ ε y = y) :
     ∃ s ∈ parabolicLevi Tag.D4 K ({0, 1, 3} : Set (Fin Tag.D4.rank)),
       s⁻¹ * y * s ∈ borelGroup Tag.D4 K ∧ s⁻¹ * phiG g a σ ε s ∈ borelGroup Tag.D4 K := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {0, 1, 3} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inr rfl
   have hS := semiDirect_levi (K := K) J

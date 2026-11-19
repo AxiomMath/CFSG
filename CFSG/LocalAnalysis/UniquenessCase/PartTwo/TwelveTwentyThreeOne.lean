@@ -55,6 +55,7 @@ theorem autI_mem_aSet_of_mem_gammaSet {V S A : Subgroup G} (hV : IsElemAbelian 2
     rw [hCB] at this
     exact (Subgroup.mem_inf.1 this).2
 
+omit [Finite G] in
 theorem barSub_bot_eq_map_autI (V : Subgroup G) (hV : IsElemAbelian 2 V) (K : Subgroup G) :
     barSub (⊥ : Subgroup G) V hV K =
       (autI hV K).map (MulAut.congr (TwelveShort.mkTilEquiv V hV)).toMonoidHom := by
@@ -71,6 +72,7 @@ theorem barSub_bot_eq_map_autI (V : Subgroup G) (hV : IsElemAbelian 2 V) (K : Su
     let g' : stabTil (⊥ : Subgroup G) V := ⟨(g : G), ⟨g.2, hg0⟩⟩
     exact ⟨g', hgK, TwelveShort.actTil_bot_eq_congr V hV g'⟩
 
+omit [Finite G] in
 theorem actTil_bot_eq_one_iff (V : Subgroup G) (hV : IsElemAbelian 2 V)
     (g : stabTil (⊥ : Subgroup G) V) :
     actTil ⊥ V hV g = 1 ↔ (g : G) ∈ centralizer (V : Set G) := by
@@ -81,7 +83,7 @@ theorem actTil_bot_eq_one_iff (V : Subgroup G) (hV : IsElemAbelian 2 V)
 theorem pCoreOf_le_centralizer_of_twoReduced {M V : Subgroup G}
     (hV : M ≤ normalizer (V : Set G)) (hred : TwoReduced M V) :
     pCoreOf 2 M ≤ centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPM : pCoreOf 2 M ≤ M := CFSG.LieType.BorelTits.pCoreOf_le 2 M
   have hpc := (uc22br4_pCore_bot_iff M V hV).2 hred
   have hnorm := uc22br4_mbarImage_normal M V (pCoreOf 2 M) hPM
@@ -98,8 +100,8 @@ theorem commutator_mem_pCoreOf {M L K A : Subgroup G} (hL : CFSG.Open.IsSubnorma
     (hKn : M ≤ normalizer (K : Set G)) (hPK : pCoreOf 2 M ≤ K) (hLK : ¬ L ≤ K)
     (hAM : A ≤ M) (hXA : ∀ x ∈ UC22.conjClosure M L, ∀ a ∈ A, ⁅x, a⁆ ∈ K) :
     ∀ x ∈ UC22.conjClosure M L, ∀ a ∈ A, ⁅x, a⁆ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   set π : ↥M →* UC22.Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ∀ m : ↥M, π m = 1 ↔ (m : G) ∈ pCoreOf 2 M := by
@@ -167,7 +169,7 @@ theorem commutator_mem_pCoreOf {M L K A : Subgroup G} (hL : CFSG.Open.IsSubnorma
       have hxP : (x : G) ∈ pCoreOf 2 M := A4.pCoreOf_le_of_subnormal 2 hL ⟨x, hx, rfl⟩
       exact (Subgroup.mem_normalizer_iff.1
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hg) _).1 hxP
-    haveI : Nontrivial ↥C := (Subgroup.nontrivial_iff_ne_bot _).2 hCne
+    have : Nontrivial ↥C := (Subgroup.nontrivial_iff_ne_bot _).2 hCne
     let ψ : UC22.Bar2 L →* ↥C := QuotientGroup.lift (CFSG.pCore 2 ↥L) φ hkerφ
     have hψ : Function.Surjective ψ := by
       intro y
@@ -215,6 +217,7 @@ theorem commutator_mem_pCoreOf {M L K A : Subgroup G} (hL : CFSG.Open.IsSubnorma
     exact h1.symm
   exact (hker _).1 h2
 
+omit [Finite G] in
 theorem le_normalizer_wClos {V T X : Subgroup G} {i : ℕ}
     (h : ∀ x ∈ X, ∀ A ∈ E3.gammaSet V i T, ∀ a ∈ A, ⁅x, a⁆ ∈ T) :
     X ≤ normalizer (E3.wClos V i T : Set G) := by
@@ -331,7 +334,7 @@ theorem twelve_twentyThree_one (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     rw [Subgroup.mem_bot, TwelveTwentyThree.actTil_bot_eq_one_iff]
     exact (hle hgL).2
   have hPT : pCoreOf 2 D.M ≤ D.T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact hTS.le_of_normal (CFSG.LieType.BorelTits.pCoreOf_le 2 D.M)
       ((Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.LieType.BorelTits.pCoreOf_le 2 D.M)).2
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 D.M))

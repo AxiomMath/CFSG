@@ -42,6 +42,7 @@ theorem perm_invol_of_mem {x : G} (hx : x ∈ N) (hx2 : x * x = 1) (hx1 : x ∉ 
   have h1 : (⟨x, hx⟩ * ⟨x, hx⟩ : N) = 1 := Subtype.ext (by simpa using hx2)
   rw [← map_mul, h1, map_one]
 
+omit [Finite G] in
 theorem exists_conj_mem_E_of_coset {i v' : G} (hi : i ∈ N) (hv' : v' ∈ N)
     (hi2 : i * i = 1) (hv2 : v' * v' = 1) (hi1 : i ∉ E)
     (hπ : Ψ.π ⟨v', hv'⟩ = Ψ.π ⟨i, hi⟩) : ∃ f ∈ E, f * i * f⁻¹ = v' := by
@@ -91,6 +92,7 @@ theorem exists_conj_mem_E_of_coset {i v' : G} (hi : i ∈ N) (hv' : v' ∈ N)
       _ = i * e := hcomm
   rw [hfuinv, hv'ie, hfin]
 
+omit [Finite G] in
 theorem invol_conj_z {v₀ : G} (hv₀N : v₀ ∈ N) (hv₀E : v₀ ∉ E) (hv₀ : v₀ * v₀ = 1)
     (hv₀z : ∃ g : G, g * z * g⁻¹ = v₀) {i : G} (hiN : i ∈ N) (hi : i * i = 1) (hi1 : i ≠ 1) :
     ∃ g : G, g * z * g⁻¹ = i := by

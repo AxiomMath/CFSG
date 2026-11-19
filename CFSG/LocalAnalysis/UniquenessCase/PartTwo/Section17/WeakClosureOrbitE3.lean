@@ -84,7 +84,7 @@ theorem ncard_conjSetOf_le_three_of_isL2Over17_seven {M L : Subgroup G} (hL : L 
   have h3 := isL3_one_of_isL2Over17_seven h7
   by_contra hlt
   have h4 : 3 ≤ (conjSetOf M L \ {L}).ncard := by
-    rw [Set.ncard_diff_singleton_of_mem (mem_conjSetOf_self M L)]
+    rw [Set.ncard_sdiff_singleton_of_mem (mem_conjSetOf_self M L)]
     omega
   obtain ⟨t, ht_sub, ht_card⟩ :=
     Set.exists_subset_card_eq (s := conjSetOf M L \ {L}) (n := 3) h4

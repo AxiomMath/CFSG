@@ -365,7 +365,7 @@ private theorem ii34_aSeven_exists_kleinFour (e : K ≃* alternatingGroup (Fin 7
   have hPX : (P : Subgroup K) ≤ Subgroup.normalizer (X : Set K) := hDP' ▸ hDX
   have hXP : X ⊓ P = ⊥ := by
     rw [inf_comm]
-    exact ii34_inf_eq_bot_of_two_of_odd P.isPGroup' hX
+    exact ii34_inf_eq_bot_of_two_of_odd P.isPGroup hX
   obtain ⟨-, V, hVP, hV, hXV⟩ :=
     CFSG.ABGDGroups.exists_kleinFour_centralizing_sylow_signalizer e P hPX hXP
   exact ⟨V, hDP' ▸ hVP, hV, hXV⟩
@@ -442,7 +442,7 @@ private theorem ii34_not_hasWreathedSylow {G : Type} [Group G] [Finite G] {n : �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨e⟩ := hW P
-  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
   obtain ⟨S', hS'⟩ := hP'.exists_le_sylow
   obtain ⟨f'⟩ := hG.2 S'
   let ι : Wreath (2 ^ m) →* SemidihedralGroup n :=
@@ -492,7 +492,7 @@ private theorem ii34_eight_le_card_D (hσ : σ.IsValid) {n : ℕ} (hSD : HasSemi
   have h16 : 2 ^ 4 ≤ Nat.card (σ.S : Subgroup G) := by
     rw [hS]
     exact Nat.pow_le_pow_right (by norm_num) hSD.1
-  have hnil : Group.IsNilpotent (σ.S : Subgroup G) := σ.S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (σ.S : Subgroup G) := σ.S.isPGroup.isNilpotent
   have hT'top : σ.T.subgroupOf (σ.S : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     have h1 : Nat.card (σ.T.subgroupOf (σ.S : Subgroup G)) = Nat.card (σ.S : Subgroup G) := by
@@ -506,7 +506,7 @@ private theorem ii34_eight_le_card_D (hσ : σ.IsValid) {n : ℕ} (hSD : HasSemi
   have hcard := Subgroup.card_lt_of_lt hlt
   rw [hD, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTS).toEquiv, hT4,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe σ.D_le_S).toEquiv] at hcard
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (σ.S.isPGroup'.to_le σ.D_le_S)
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (σ.S.isPGroup.to_le σ.D_le_S)
   rw [hk] at hcard ⊢
   have hk3 : 3 ≤ k := by
     by_contra hk3
@@ -632,7 +632,7 @@ private theorem ii34_aSeven_case (hσ : σ.IsValid) {n : ℕ} (hSD : HasSemidihe
       rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTH).toEquiv]
       exact hT.card_four
     set D' := σ.D.subgroupOf H with hD'
-    have hD'2 : IsPGroup 2 D' := (σ.S.isPGroup'.to_le σ.D_le_S).comap_subtype
+    have hD'2 : IsPGroup 2 D' := (σ.S.isPGroup.to_le σ.D_le_S).comap_subtype
     have hD'O : D' ⊓ π.ker = ⊥ := by
       rw [hπ, QuotientGroup.ker_mk']
       exact ii34_inf_eq_bot_of_two_of_odd hD'2 (odd_card_oddCore H)
@@ -701,7 +701,7 @@ theorem dGroup_trichotomy (hσ : σ.IsValid) (_hII : σ.ChapterIIFacts) :
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [hπ, QuotientGroup.ker_mk']
     exact ii34_inf_eq_bot_of_two_of_odd
-      ((σ.S.isPGroup'.to_le (σ.T_le_S hσ)).comap_subtype) (odd_card_oddCore H)
+      ((σ.S.isPGroup.to_le (σ.T_le_S hσ)).comap_subtype) (odd_card_oddCore H)
   have hTbar : IsKleinFour ((σ.T.subgroupOf H).map π) :=
     ii34_isKleinFour_of_mulEquiv (ii34_mulEquivMap π _ hT'O) hT
   have hTbar1 : (σ.T.subgroupOf H).map π ≠ ⊥ := by

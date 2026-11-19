@@ -51,7 +51,7 @@ theorem D1CzReduced.exists_omega (hc : D1CzReduced p M z T Pbar K) (hL2 : KFactC
     have hgA : g * t * g⁻¹ ∈ (Pbar : Subgroup (D1CzQuot p z)) ⊓ K :=
       Subgroup.mem_inf.mpr ⟨hgP, hKn.conj_mem t htA.2 g⟩
     have hgt : g * t * g⁻¹ ∈ Subgroup.zpowers t := conj_mem_zpowers_of_isCyclic rfl htA hgA
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨g, hg⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨g, hg⟩
     have hgn : g ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     exact (commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp htp
       (mem_normalizer_zpowers_of_mem_zpowers hgt) hgn).symm
@@ -126,7 +126,7 @@ theorem D1CzReduced.shape_omega (hc : D1CzReduced p M z T Pbar K) (hL2 : KFactCa
     intro x hx h1
     have hxO : x ∈ primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) p :=
       (QuotientGroup.eq_one_iff x).mp h1
-    have hbot := inf_eq_bot_of_isPGroup hp T.isPGroup' (primeComplementCore_coprime p)
+    have hbot := inf_eq_bot_of_isPGroup hp T.isPGroup (primeComplementCore_coprime p)
     have hmem : x ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))) ⊓
         primeComplementCore p := ⟨hx, hxO⟩
     rw [hbot] at hmem

@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {a : G}
 theorem chevTwo_projSL_two (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (hn : 1 ≤ n)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* projSL 2 (GaloisField 2 n)) :
     InducesStdKind L a .field ∨ InducesStdKind L a .graphField := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := GaloisField 2 n with hF
   let e : L ⧸ aschbacherSolvableCore 3 L ≃* PSL2 F := φ.trans (Sec4.projSLEquivPSLn 2 F)
   have h3 : (3 : F) ≠ 0 :=
@@ -56,7 +56,7 @@ theorem chevTwo_projSL_two (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (hn 
 theorem chevTwo_projSL_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (hn : 1 ≤ n)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* projSL 3 (GaloisField 2 n)) :
     InducesStdKind L a .field ∨ InducesStdKind L a .graphField := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := GaloisField 2 n with hF
   let e : L ⧸ aschbacherSolvableCore 3 L ≃*
       LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 3 F :=
@@ -92,7 +92,7 @@ theorem chevTwo_projSL_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (h
 theorem chevTwo_projSU_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (hn : 1 ≤ n)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* projSU 3 2 n) :
     InducesStdKind L a .field ∨ InducesStdKind L a .graphField := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with hn1 | hn2
   · exfalso
     obtain rfl : n = 1 := by omega
@@ -104,7 +104,7 @@ theorem chevTwo_projSU_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (h
     have h9 : 2 ^ 9 ∣ 72 := (pow_dvd_pow 2 (by have := c.three_le; omega)).trans (h2.trans hdvd)
     norm_num at h9
   · have hU := Sec4.unitaryFieldData_galoisField 2 n hn
-    haveI := hU.finite
+    have := hU.finite
     have hq : 2 < 2 ^ n := by
       calc 2 < 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
@@ -173,7 +173,7 @@ theorem chevTwo_statedSU_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {K : Type}
     [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ n) K) :
     InducesStdKind L a .field ∨ InducesStdKind L a .graphField := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with hn1 | hn2
   · exfalso
     obtain rfl : n = 1 := by omega
@@ -183,7 +183,7 @@ theorem chevTwo_statedSU_three (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {K : Type}
       rw [Nat.card_congr φ.toEquiv]
       exact Subgroup.card_subgroup_dvd_card _
     have hGL : Nat.card (GL (Fin 3) K) = 181440 := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hq4 : Fintype.card K = 4 := by
         rw [← Nat.card_eq_fintype_card, hK]; norm_num
       rw [Matrix.card_GL_field, hq4]

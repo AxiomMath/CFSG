@@ -266,7 +266,7 @@ theorem spinAction_minusVec_zero_of_mem {k : Fin (4 - 1)} (hk : k ≠ 0)
     rintro s _ ⟨a, rfl⟩
     have h0 : ∀ u : Bool, polar (quadMinus 4 K b c) (minusVec 4 0 u) (minusVec 4 2 s) = 0 := by
       intro u
-      rw [polar_minusVec_minusVec, if_neg (fun h => absurd h.1 (by decide))]
+      rw [polar_minusVec_minusVec, ite_eq_right (fun h => absurd h.1 (by decide))]
     refine ⟨?_, ?_⟩
     · exact spinAction_twShortRoot_of_polar 4 hirr 2 s (Multiplicative.toAdd a) (h0 true)
         (polar_minusVec_planeVec 4 b c 0 true _)
@@ -564,7 +564,7 @@ theorem exists_su4Plane_of_tableBPos_POmegaMinus {G : Type} [Group G] [Finite G]
   have hk2 : 2 < (ggU .POmegaMinus 4 f).D.rank := by change 2 < 4 - 1; norm_num
   obtain ⟨F, _, _, θ, -, hθinj, hθ, hFcard⟩ :=
     exists_sl2_ggRankOneIn_node_POmegaMinus hf1 hker hεlevi 1 ⟨2, hk2⟩
-  rw [if_neg (by norm_num)] at hFcard
+  rw [ite_eq_right (by norm_num)] at hFcard
   have hL2 : (ggRootLevi (ggU .POmegaMinus 4 f).D (Pi.single (2 : Fin 3) 1)).map ψ =
       ggRankOneIn X Bs ((ε (1 * (coxeterMatrix (ggU .POmegaMinus 4 f).D.isFiniteType).simple
         ⟨2, hk2⟩ * 1⁻¹) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) := by

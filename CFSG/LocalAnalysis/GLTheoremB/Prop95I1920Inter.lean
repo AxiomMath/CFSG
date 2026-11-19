@@ -20,7 +20,7 @@ theorem eq_bot_of_normal_two_subgroup (hCore : Chev2CoreCent) {S : Type} [Group 
     (hCW : Cb ≤ autCentralizer R) (hCn : autCentralizer R ≤ Subgroup.normalizer (Cb : Set S))
     (hUC : Ub ≤ Cb) (hUn : Cb ≤ Subgroup.normalizer (Ub : Set S)) (hU2 : IsPGroup 2 Ub) :
     Ub = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Ub ≤ pCoreOf 2 Cb :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hUC hUn hU2
   have h2 : pCoreOf 2 Cb ≤ pCoreOf 2 (autCentralizer R) :=
@@ -50,11 +50,13 @@ variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
   ((pCoreOf 2 (Subgroup.centralizer (E : Set ↥(Subgroup.normalizer (K : Set X))))).map
     (rhoK K)).comap (MulAut.conj : Kbar K →* MulAut (Kbar K))
 
+omit [Finite X] in
 theorem mem_Ub {E : Subgroup ↥(Subgroup.normalizer (K : Set X))} {a : Kbar K} :
     a ∈ Ub K E ↔ MulAut.conj a ∈
       (pCoreOf 2 (Subgroup.centralizer (E : Set ↥(Subgroup.normalizer (K : Set X))))).map
         (rhoK K) := Iff.rfl
 
+omit [Finite X] in
 theorem mem_centralizer_of_mem_CKE {E : Subgroup ↥(Subgroup.normalizer (K : Set X))} {y : ↥K}
     (hy : y ∈ CKE K E) :
     (⟨(y : X), Subgroup.le_normalizer y.2⟩ : ↥(Subgroup.normalizer (K : Set X))) ∈
@@ -68,6 +70,7 @@ theorem mem_centralizer_of_mem_CKE {E : Subgroup ↥(Subgroup.normalizer (K : Se
   calc (e : X) * (y : X) = ((e : X) * (y : X) * (e : X)⁻¹) * (e : X) := by group
     _ = (y : X) * (e : X) := by rw [h2]
 
+omit [Finite X] in
 theorem Cb_le_autCentralizer (K : Subgroup X)
     (E : Subgroup ↥(Subgroup.normalizer (K : Set X))) :
     Cb K E ≤ autCentralizer (E.map (rhoK K)) := by
@@ -77,6 +80,7 @@ theorem Cb_le_autCentralizer (K : Subgroup X)
   show rhoK K e (QuotientGroup.mk y) = QuotientGroup.mk y
   rw [rhoK_mk, hy e he]
 
+omit [Finite X] in
 theorem autCentralizer_le_normalizer_Cb (K : Subgroup X)
     (E : Subgroup ↥(Subgroup.normalizer (K : Set X))) :
     autCentralizer (E.map (rhoK K)) ≤ Subgroup.normalizer (Cb K E : Set (Kbar K)) := by
@@ -117,9 +121,10 @@ theorem autCentralizer_le_normalizer_Cb (K : Subgroup X)
     have e : b⁻¹ * (b * c * b⁻¹) * b⁻¹⁻¹ = c := by group
     rwa [e] at h1
 
+omit [Finite X] in
 theorem Cb_le_normalizer_Ub (K : Subgroup X) (E : Subgroup ↥(Subgroup.normalizer (K : Set X))) :
     Cb K E ≤ Subgroup.normalizer (Ub K E : Set (Kbar K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hone : ∀ c ∈ Cb K E, ∀ a ∈ Ub K E, c * a * c⁻¹ ∈ Ub K E := by
     intro c hc a ha
     obtain ⟨y, hy, rfl⟩ := hc
@@ -148,10 +153,11 @@ theorem Cb_le_normalizer_Ub (K : Subgroup X) (E : Subgroup ↥(Subgroup.normaliz
 
 theorem isPGroup_Ub (K : Subgroup X) (hK : IsComponentOf K ⊤)
     (E : Subgroup ↥(Subgroup.normalizer (K : Set X))) : IsPGroup 2 (Ub K E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _).map (rhoK K)).comap_of_injective
     (MulAut.conj : Kbar K →* MulAut (Kbar K)) (conj_injective_of_center_bot (center_Kbar hK))
 
+omit [Finite X] in
 theorem conj_mem_centralizer {n : ↥(Subgroup.normalizer (K : Set X))} {c : X}
     (hc : c ∈ Subgroup.centralizer (K : Set X)) :
     (n : X) * c * (n : X)⁻¹ ∈ Subgroup.centralizer (K : Set X) := by
@@ -170,9 +176,9 @@ theorem Ub_le_Cb (hK : IsComponentOf K ⊤) {p : ℕ} (hp : p.Prime) (hp2 : p �
     (E : Subgroup ↥(Subgroup.normalizer (K : Set X))) (hE : IsPGroup p E) :
     Ub K E ≤ Cb K E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥E := Fintype.ofFinite _
   intro a ha
   obtain ⟨q, hq, hqa⟩ := Subgroup.mem_map.1 (mem_Ub.1 ha)
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective a
@@ -244,7 +250,7 @@ theorem rho_pCore_inner_eq_one (hCore : Chev2CoreCent) (hK : IsComponentOf K ⊤
     (hqI : rhoK K q ∈ Kinn K) : rhoK K q = 1 := by
   obtain ⟨a, ha⟩ := hqI
   have haU : a ∈ Ub K E := mem_Ub.2 ⟨q, hq, ha.symm⟩
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   have hU : Ub K E = ⊥ :=
     eq_bot_of_normal_two_subgroup hCore inferInstance (isQuasisimple_of_comp hK).2.2 hCh hp hp2
       (E.map (rhoK K)) (hE.map _) (Cb K E) (Ub K E) (Cb_le_autCentralizer K E)

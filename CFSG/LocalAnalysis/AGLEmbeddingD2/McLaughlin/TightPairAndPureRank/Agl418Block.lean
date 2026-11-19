@@ -36,7 +36,7 @@ theorem su2_cube_exists (h2 : (2 : K) = 0) (φ : K →+* K) (hφφ : ∀ x, φ (
     · linear_combination (φ s * s) * h2 + (φ s * s) * ha
   have hM0J : M0ᵀ * J * M0 = J := by
     ext i j; fin_cases i <;> fin_cases j <;>
-      simp [M0, J, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination h2
+      simp [M0, J, Matrix.mul_apply, Fin.sum_univ_two]; linear_combination h2
   have hM03 : M0 ^ 3 = 1 := by
     ext i j; fin_cases i <;> fin_cases j <;>
       simp [M0, pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination h2
@@ -97,7 +97,7 @@ theorem su2_cube_exists (h2 : (2 : K) = 0) (φ : K →+* K) (hφφ : ∀ x, φ (
     have hent : M 0 1 = 1 + s + s * (φ s * φ a) := by
       show (Q * M0 * (J * Qd)) 0 1 = _
       rw [hQd_eq]
-      simp [Q, M0, J, Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct]
+      simp [Q, M0, J, Matrix.mul_apply, Fin.sum_univ_two]
       ring
     rw [hent]
     have hφa : φ a = a⁻¹ := eq_inv_of_mul_eq_one_left ha
@@ -229,6 +229,7 @@ theorem pairIncl_map (φ : K →+* K) (b : Fin 3) :
     (pairIncl e b : Matrix ι (Fin 2) K).map φ = pairIncl e b := by
   ext i k; simp only [pairIncl, Matrix.map_apply, Matrix.of_apply]; split_ifs <;> simp
 
+omit [Fintype ι] in
 theorem blk_map_transpose (φ : K →+* K) (b : Fin 3) (M : Matrix (Fin 2) (Fin 2) K) :
     ((blk e b M).map φ)ᵀ = blk e b ((M.map φ)ᵀ) := by
   unfold blk
@@ -246,6 +247,7 @@ theorem blk_map_transpose (φ : K →+* K) (b : Fin 3) (M : Matrix (Fin 2) (Fin 
   simp only [Matrix.mul_assoc]
 
 
+omit [Fintype ι] in
 theorem blk_apply_same (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) (b : Fin 3)
     (M : Matrix (Fin 2) (Fin 2) K) (k l : Fin 2) : blk e b M (e b k) (e b l) = M k l := by
   have h01 : e b 0 ≠ e b 1 := fun h => by simpa using (he _ _ _ _ h).2
@@ -253,6 +255,7 @@ theorem blk_apply_same (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) (b 
   fin_cases k <;> fin_cases l <;>
     simp [blk, Matrix.mul_apply, Fin.sum_univ_two, pairIncl, Matrix.one_apply, h01, h10]
 
+omit [Fintype ι] in
 theorem blk_apply_other (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) {b c : Fin 3} (h : c ≠ b)
     (M : Matrix (Fin 2) (Fin 2) K) (k : Fin 2) (j : ι) :
     blk e b M (e c k) j = (1 : Matrix ι ι K) (e c k) j := by
@@ -287,7 +290,7 @@ theorem blkGL_commute (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) {b c
 
 theorem scalar_apply_ne {u : Kˣ} {i j : ι} (h : i ≠ j) :
     ((Matrix.GeneralLinearGroup.scalar ι u : GL ι K) : Matrix ι ι K) i j = 0 := by
-  simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, h]
+  simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, h]
 
 end Block
 

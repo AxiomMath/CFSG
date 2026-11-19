@@ -86,11 +86,11 @@ private theorem isSolvable_of_twoResidual_eq_map_tenS {J Y : Subgroup G} [Y.Norm
     (hres : twoResidual I = (twoResidual J).map (QuotientGroup.mk' Y)) :
     Group.IsSolvable ↥J := by
   set π := QuotientGroup.mk' Y with hπ
-  haveI := hY
+  have := hY
   have hJY : Group.IsSolvable ↥(twoResidual J ⊓ Y) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion inf_le_right)
       (Subgroup.inclusion_injective _)
-  haveI := hI
+  have := hI
   have hIres : Group.IsSolvable ↥(twoResidual I) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (twoResidual_le I))
       (Subgroup.inclusion_injective _)
@@ -108,15 +108,17 @@ private theorem isSolvable_of_twoResidual_eq_map_tenS {J Y : Subgroup G} [Y.Norm
   have hle : f.ker ≤
       (Subgroup.inclusion (inf_le_left : twoResidual J ⊓ Y ≤ twoResidual J)).range := by
     rw [hker, Subgroup.inclusion_range]
-  haveI := hJY
-  haveI := hIres
+  have := hJY
+  have := hIres
   exact RonanE51.isSolvable_of_twoResidual (Group.isSolvable_of_ker_le_range _ f hle)
 
+omit [Finite G] in
 private theorem isEP_of_isE_tenS {n : ℕ} (hn : 1 ≤ n) {T A K : Subgroup G} (hK : E1.IsE 1 ⊤ T A K)
     (hKs : Group.IsSolvable ↥K) : UniquenessCase.UC22.F12.IsEP n ⊤ T A K := by
   have h := E1.IsE.mono hn hK
   exact ⟨h.1, h.2.1, h.2.2.1, Or.inl (E1.isE_eOne_of_isSolvable h hKs)⟩
 
+omit [Finite G] in
 private theorem ten_eight_bot_centralizer_tenS {A Y₁ : Subgroup G} [Y₁.Normal]
     (hcomm : perfectCore (⊤ : Subgroup G) = ⁅perfectCore (⊤ : Subgroup G), A⁆)
     (hYA0 : ⁅Y₁, A⁆ = ⊥) :
@@ -201,6 +203,7 @@ private theorem ten_eight_bot_finish_tenS {Y₁ J₁ : Subgroup G} [Y₁.Normal]
     hperfU.trans (perfectCore_le_of_sup_solvable le_sup_left hP₁U rfl hY₁solv)
   exact (hY₁P.trans hPP₁).trans (perfectCore_le J₁)
 
+omit [Finite G] in
 private theorem ten_eight_step_ne_bot_tenS {A Y₁ J₁ : Subgroup G} [Y₁.Normal]
     (hY₁ab : ∀ a ∈ Y₁, ∀ b ∈ Y₁, a * b = b * a)
     (hmin : ∀ K : Subgroup G, K.Normal → K ≤ Y₁ → K ≠ ⊥ → K = Y₁)
@@ -282,7 +285,7 @@ private theorem ten_eight_quotient_tenS {A Y J Y₁ : Subgroup G} [Y₁.Normal]
       J.map (QuotientGroup.mk' Y₁) ⊔ Y.map (QuotientGroup.mk' Y₁) = ⊤ := by
   set π := QuotientGroup.mk' Y₁ with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Y₁
-  haveI := hY
+  have := hY
   have hYs : Group.IsSolvable ↥(Y.map π) :=
     Group.isSolvable_of_surjective (π.subgroupMap_surjective Y)
   have hres' : twoResidual (⊤ : Subgroup (G ⧸ Y₁)) = perfectCore (⊤ : Subgroup (G ⧸ Y₁)) := by
@@ -348,7 +351,7 @@ private theorem ten_eight_succ_setup_tenS {n : ℕ} (ih : TenSInduction_tenS n)
     Subgroup.Normal.map hYnorm π (QuotientGroup.mk'_surjective Y₁)
   obtain ⟨hYs, hres', hcomm', hJY'⟩ :=
     ten_eight_quotient_tenS (Y₁ := Y₁) hY hres hcomm hJY
-  haveI := hYn
+  have := hYn
   have hIH := ih (G ⧸ Y₁) hcardlt (T := T.map π) (A := A.map π) (Y := Y.map π)
     (J := J.map π) (E1.isSylowIn_two_map_top (QuotientGroup.mk'_surjective Y₁) hT)
     (Subgroup.map_mono hA) (E1.isElemAbelian_map' π hAab) hres' hcomm' hYs
@@ -453,6 +456,7 @@ theorem ten_sixS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T A X Y : Subgroup G}
   rw [h2]
   exact Subgroup.mul_mem_sup he hy
 
+omit [Finite G] in
 private theorem lift_pgroup_sub_hXp_tenS {p : ℕ} {T₀ N Y : Subgroup G}
     [(Y.subgroupOf (N ⊔ T₀)).Normal] (hpg : ∀ x ∈ N, ∃ k : ℕ, x ^ p ^ k ∈ Y) :
     IsPGroup p ((N.subgroupOf (N ⊔ T₀)).map
@@ -465,6 +469,7 @@ private theorem lift_pgroup_sub_hXp_tenS {p : ℕ} {T₀ N Y : Subgroup G}
   rw [← hxy, ← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact Subgroup.mem_subgroupOf.mpr (by simpa using hk)
 
+omit [Finite G] in
 private theorem lift_pgroup_sub_hXAle_tenS {T₀ N Y A : Subgroup G}
     [(Y.subgroupOf (N ⊔ T₀)).Normal] (hT₀N : T₀ ≤ Subgroup.normalizer (N : Set G)) :
     ⁅(N.subgroupOf (N ⊔ T₀)).map (QuotientGroup.mk' (Y.subgroupOf (N ⊔ T₀))),
@@ -473,7 +478,7 @@ private theorem lift_pgroup_sub_hXAle_tenS {T₀ N Y A : Subgroup G}
   have hNK : N ≤ N ⊔ T₀ := le_sup_left
   have hKN : N ⊔ T₀ ≤ Subgroup.normalizer (N : Set G) :=
     sup_le Subgroup.le_normalizer hT₀N
-  haveI hNn : (N.subgroupOf (N ⊔ T₀)).Normal :=
+  have hNn : (N.subgroupOf (N ⊔ T₀)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
   have hXbn : ((N.subgroupOf (N ⊔ T₀)).map
       (QuotientGroup.mk' (Y.subgroupOf (N ⊔ T₀)))).Normal :=
@@ -484,6 +489,7 @@ private theorem lift_pgroup_sub_hXAle_tenS {T₀ N Y A : Subgroup G}
   rw [commutatorElement_def]
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 private theorem lift_pgroup_sub_hYbot_tenS {T₀ N Y : Subgroup G}
     [(Y.subgroupOf (N ⊔ T₀)).Normal] :
     (Y.subgroupOf (N ⊔ T₀)).map (QuotientGroup.mk' (Y.subgroupOf (N ⊔ T₀))) = ⊥ := by
@@ -492,6 +498,7 @@ private theorem lift_pgroup_sub_hYbot_tenS {T₀ N Y : Subgroup G}
   rw [Subgroup.mem_bot]
   exact (QuotientGroup.eq_one_iff y).mpr hy
 
+omit [Finite G] in
 private theorem lift_pgroup_sub_hXAge_tenS {T₀ N Y A : Subgroup G}
     [(Y.subgroupOf (N ⊔ T₀)).Normal] (hAK : A ≤ N ⊔ T₀) (hYK : Y ≤ N ⊔ T₀) (hgen : N ≤ ⁅N, A⁆ ⊔ Y) :
     (N.subgroupOf (N ⊔ T₀)).map (QuotientGroup.mk' (Y.subgroupOf (N ⊔ T₀))) ≤
@@ -530,6 +537,7 @@ private theorem lift_pgroup_sub_hmem_tenS {T T₀ N A : Subgroup G}
     Subgroup.map_subgroupOf_eq_of_le (hAT₀.trans le_sup_right)] at h1
   exact E1.eight_two hT hAT hAab le_top (hτ.trans (le_inf hT₀T le_sup_right)) hSyl h1
 
+omit [Finite G] in
 private theorem lift_pgroup_sub_transport_tenS {T T₀ N Y A : Subgroup G}
     (hYN : Y ≤ N)
     (hLift : N.subgroupOf (N ⊔ T₀) ≤
@@ -549,7 +557,7 @@ private theorem lift_pgroup_sub_transport_tenS {T T₀ N Y A : Subgroup G}
     rw [Subgroup.map_iSup]
     refine iSup_le fun hK' => ?_
     have hK's : Group.IsSolvable ↥(K'.map (N ⊔ T₀).subtype) := by
-      haveI := hK'.2
+      have := hK'.2
       exact Group.isSolvable_of_surjective
         (f := (Subgroup.equivMapOfInjective K' (N ⊔ T₀).subtype
           (N ⊔ T₀).subtype_injective).toMonoidHom)
@@ -574,9 +582,9 @@ theorem lift_pgroup_subS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T T₀ N Y A 
   have hAT : A ≤ T := hAT₀.trans hT₀T
   have hKN : K ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT₀N
   have hKY : K ≤ Subgroup.normalizer (Y : Set G) := sup_le hNY hT₀Y
-  haveI hNn : (N.subgroupOf K).Normal :=
+  have hNn : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI hYn : (Y.subgroupOf K).Normal :=
+  have hYn : (Y.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKY
   have hSylK : IsSylowIn 2 ((T ⊓ K).subgroupOf K) ⊤ := by
     rw [← E1.isSylowIn_map_of_injective K.subtype_injective,
@@ -587,7 +595,7 @@ theorem lift_pgroup_subS {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T T₀ N Y A 
     Subgroup.subgroupOf_mono K (le_inf hAT hAK)
   have hAab' : IsElemAbelian 2 (A.subgroupOf K) := ronanE111_isElemAbelian_subgroupOf hAab K
   have hYsK : Group.IsSolvable ↥(Y.subgroupOf K) := by
-    haveI := hYs
+    have := hYs
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hYK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYK).injective
@@ -628,7 +636,7 @@ private theorem pgroup_diag_sylow_tenS {X T A J C : Subgroup G} [Fintype ↥C]
   have hYn : ((RonanE111.wrY h.diagComm T A YR).subgroupOf
       (RonanE111.wrN h.diagComm T A R)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYN).mpr hNY
-  haveI := hYn
+  have := hYn
   have hodd := RonanE111.pg_odd_index hp hp2 hpg
   have hSylN : IsSylowIn 2 (T ⊓ RonanE111.wrN h.diagComm T A R)
       (RonanE111.wrN h.diagComm T A R) :=

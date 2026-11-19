@@ -74,7 +74,7 @@ public theorem psl2_no_commuting_distinct_prime_order
       exact hdivT
     have hpdiv : p ∣ r ^ f := by
       have hpdivF : p ∣ Nat.card F :=
-        dvd_trans (by simpa [Nat.mul_comm] using (dvd_mul_right p r)) hdiv
+        dvd_trans (by simp) hdiv
       rw [hFcard] at hpdivF
       exact hpdivF
     have hpr : p ∣ r := (Fact.out : Nat.Prime p).dvd_of_dvd_pow hpdiv

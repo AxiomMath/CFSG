@@ -233,7 +233,7 @@ theorem CrossData.diag_facts (h : FCHyp L K n φ t)
       ∀ y ∈ L, ∃ x ∈ ⨆ k, c.F k, x * (t * x * t⁻¹) = y := by
   have htt : t * t = 1 := h.setup.t_mul_t
   obtain ⟨hsimple, -⟩ := CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := K) h.four_le_card
-  haveI := hsimple
+  have := hsimple
   have hL : IsSimpleGroup L := φ.isSimpleGroup
   have hcross := commutator_cross_eq_bot h hbt c
   have hcomm : ∀ k l, (c.F l).map (MulAut.conj t).toMonoidHom ≤ centralizer (c.F k : Set G) := by
@@ -303,6 +303,7 @@ theorem CrossData.odd_card_center (h : FCHyp L K n φ t)
     rw [← map_mul, ← map_mul, mem_center_iff.mp hz a]
   exact hker.of_dvd_nat (Subgroup.card_dvd_of_le hZ)
 
+omit [Finite G] [Finite K] in
 theorem CrossData.sup_map_conj (h : FCHyp L K n φ t) (c : CrossData h) :
     (⨆ k, c.F k) ⊔ (⨆ k, c.F k).map (MulAut.conj t).toMonoidHom =
       𝐍𝐂[Axis.one] ⊔ 𝐍𝐂[Axis.two] := by
@@ -334,7 +335,7 @@ theorem bothTrivialProductExclusion_of_closures
     (hsel : GMSK.FixedRootSelector fun D _ => Catalog D) (hsmall : SmallSurvivorsNoElementary) :
     BothTrivialCases.BothTrivialProductExclusion := by
   intro G _ _ L K _ _ _ n φ t hsimple hKp _ _ h hbt i α _ hP
-  haveI := hsimple
+  have := hsimple
   obtain ⟨α', -, hex'⟩ := both_trivial_rank_one_closures_exact hsel hsmall hKp h hbt i.swap
   exact false_of_product h hbt i α hP α' hex'
 

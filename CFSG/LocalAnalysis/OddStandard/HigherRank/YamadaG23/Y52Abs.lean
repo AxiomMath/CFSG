@@ -62,7 +62,7 @@ theorem y52_abs {Q : Type} [Group Q] (C : Subgroup Q) (b u v v' a : Q)
     calc x * y = (x * y)⁻¹ := hxy_inv.symm
       _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
       _ = y * x := by rw [hx_inv, hy_inv]
-  haveI hCcommI : IsMulCommutative ↥C :=
+  have hCcommI : IsMulCommutative ↥C :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hCcomm x x.2 y y.2)
   have hab_i : ∀ i : ℕ, a * b ^ i * a⁻¹ = b ^ i := by
     intro i
@@ -75,7 +75,7 @@ theorem y52_abs {Q : Type} [Group Q] (C : Subgroup Q) (b u v v' a : Q)
   have ha_set : ∀ y ∈ ({1, u, v, v'} : Set Q), a * y * a⁻¹ ∈ C := by
     intro y hy
     rcases hy with rfl | rfl | rfl | rfl
-    · simpa using C.one_mem
+    · simp
     · rw [hau]; exact C.mul_mem hbC huC
     · rcases hav with h | h
       · rw [h]; exact hv'C
@@ -187,7 +187,7 @@ theorem y52_mod_abs {Q : Type} [Group Q] (C N : Subgroup Q) (t k : Q)
     (hfix : ∀ x ∈ C, k * x * k⁻¹ = x → x = 1 ∨ x = t)
     (hNC : ∀ n ∈ N, ∀ x ∈ C, n * x * n⁻¹ ∈ C) (hNt : ∀ n ∈ N, n * t * n⁻¹ = t)
     (hNk : ∀ n ∈ N, n * k * n⁻¹ = k ∨ n * k * n⁻¹ = k⁻¹) : t ∉ ⁅C, N⁆ := by
-  haveI hCcommI : IsMulCommutative ↥C :=
+  have hCcommI : IsMulCommutative ↥C :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hC x x.2 y y.2)
   let σ : ↥C →* ↥C :=
     { toFun := fun x => ⟨k * x * k⁻¹, hkC x x.2⟩

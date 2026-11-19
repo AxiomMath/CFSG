@@ -145,7 +145,7 @@ private lemma hdRo7DSmE7Aux_dRefl_congr {ρ : ZMod 3} {r : DGL 6} {h h' : DV 6}
 
 private lemma hdRo7DSmE7Aux_H_mem (i : Fin 7) :
     hdRo7DSmE7Aux_H i ∈ dPhiE7 1 := by
-  fin_cases i <;> simp only [dPhiE7, Set.mem_setOf_eq] <;> decide
+  fin_cases i <;> simp only [dPhiE7, Set.mem_ofPred_eq] <;> decide
 
 private lemma hdRo7DSmE7Aux_H_zero {k : Fin 7} (hk : k ≠ 0) :
     hdRo7DSmE7Aux_H k 0 = 0 := by
@@ -299,7 +299,7 @@ private lemma hdRo7DSmE7Aux_Phi_in_dGroup (i : Fin 7) :
 
 private lemma hdRo7DSmE7Aux_gen_mem (hGen : DSmGenLeaf) (hT : DSmTransLeaf) {r : DGL 6}
     {h : DV 6} (hh : h ∈ dPhiE7 1) (hr : DRefl 2 r h) : r ∈ hdRo7DSmE7Aux_K := by
-  simp only [dPhiE7, Set.mem_setOf_eq] at hh
+  simp only [dPhiE7, Set.mem_ofPred_eq] at hh
   rcases hh with ⟨h0, hD⟩ | ⟨h0, hO⟩ | hS
   · exact hdRo7DSmE7Aux_dsp_mem hGen (dsp_of_dRefl_int hr h0 hD)
   · exact hdRo7DSmE7Aux_gen_mem_isO hGen h0 hO hr
@@ -419,7 +419,7 @@ private lemma hdRo7DSmE7Aux_mem_neg_iff (h : DV 6) :
   have hs := hdRo7DSmE7Aux_dSupp_act h
   have hg := hdRo7DSmE7Aux_dSgn_act h
   have hneg := hdRo7DSmE7Aux_neg_one_iff (dSgn h)
-  simp only [dPhiE7, Set.mem_setOf_eq, h0, hs, hg, dIsD_iff, dIsO_iff, dIsS_iff, hneg]
+  simp only [dPhiE7, Set.mem_ofPred_eq, h0, hs, hg, dIsD_iff, dIsO_iff, dIsS_iff, hneg]
 
 private lemma hdRo7DSmE7Aux_hPsi (h : DV 6) :
     h ∈ dPhiE7 (-1) ↔ ∃ g ∈ dPhiE7 1, dAct (Equiv.refl (Fin 7)) hdRo7DSmE7Aux_c g = h := by

@@ -66,7 +66,7 @@ private lemma ad_injective {R : Type} [Group R] (D : FrameData R) (hD : D.Good) 
 
 private lemma zmod3_pow_three_pow (c : ZMod 3) (k : ℕ) : c ^ (3 ^ k) = c := by
   have h := FiniteField.pow_card_pow (K := ZMod 3) k c
-  simpa [ZMod.card] using h
+  simp
 
 private lemma zmod3_sq_eq_one_of_ne_zero {c : ZMod 3} (hc : c ≠ 0) : c * c = 1 := by
   have h := FiniteField.pow_card_sub_one_eq_one (K := ZMod 3) c hc
@@ -91,7 +91,7 @@ private theorem action_of_pElt
     {K : Type} [Field K] [Finite K] (n : ℕ)
     (D : FrameData (TwE6Delta.RecipeR K n)) (hD : D.Good)
     {S : Set (Fin Tag.E6.rank → ZMod 3)}
-    (hS : S = Set.univ ∨ S = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)))
+    (_hS : S = Set.univ ∨ S = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)))
     {a' : MulAut (TwE6Delta.RecipeR K n)} {k : ℕ} (hk : a' ^ 3 ^ k = 1)
     {c : ZMod 3} (hc : c ≠ 0) {u : WeylGroup .E6}
     (ha : ∀ x ∈ S, a' * D.ad x * a'⁻¹ = D.ad (c • adAct .E6 3 u x))
@@ -160,7 +160,7 @@ private theorem exists_inner_realizing
     {K : Type} [Field K] [Finite K] (n : ℕ)
     (D : FrameData (TwE6Delta.RecipeR K n)) (hD : D.Good)
     {S : Set (Fin Tag.E6.rank → ZMod 3)}
-    (hS : S = Set.univ ∨ S = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)))
+    (_hS : S = Set.univ ∨ S = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)))
     (u' : WeylGroup .E6) :
     ∃ ρ' : TwE6Delta.RecipeR K n,
       ∀ x ∈ S, MulAut.conj ρ' * D.ad x * (MulAut.conj ρ')⁻¹ =
@@ -190,7 +190,7 @@ theorem exists_rho_commute_of_normalizes_twE6
     ∃ ρ : TwE6Delta.RecipeR K n, ∀ x ∈ A, Commute ((MulAut.conj ρ)⁻¹ * a) x := by
   classical
   obtain ⟨D, -, hDgood, hDH, -, -, -, -, -, -, -⟩ := exists_langFrame_recipeR n hn hK h3
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   have hAH : A ≤ D.H := fun x hx => by
     change x ∈ (D.H : Set (MulAut (TwE6Delta.RecipeR K n)))
     rw [hDH]

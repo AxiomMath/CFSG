@@ -139,8 +139,8 @@ theorem false_of_w_eq_three_s6 (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hy
   obtain ⟨ψ, hψ⟩ := exists_mulEquiv_Hbar_prod_s6 S Ψ hΨ
   by_cases hCeven : Even (Nat.card ↥(Subgroup.centralizer (Xsub S a : Set (Hbar z))))
   · obtain ⟨eC⟩ := nonempty_mulEquiv_perm_three_centralizer_Xsub S h h217 hCeven
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-    haveI : Fintype ↥(Xsub S a) := Fintype.ofFinite _
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fintype ↥(Xsub S a) := Fintype.ofFinite _
     have h5 : 5 ∣ Fintype.card ↥(Xsub S a) := by
       rw [← Nat.card_eq_fintype_card, Nat.card_congr Ψ.toEquiv, Nat.card_perm,
         Nat.card_eq_fintype_card (α := Fin 6), Fintype.card_fin]
@@ -297,7 +297,7 @@ theorem false_of_w_eq_three_s6 (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hy
         have hcoe : ((γ' * y * γ'⁻¹ * y⁻¹ : ↥(Xsub S a)) : Hbar z) =
             γ * (y : Hbar z) * γ⁻¹ * (y : Hbar z)⁻¹ := by
           rw [hγdef]
-          simp [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp [Subgroup.coe_mul]
         refine ⟨γ' * y * γ'⁻¹ * y⁻¹,
           Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨?_, ?_⟩), ?_⟩
         · rw [hcoe]

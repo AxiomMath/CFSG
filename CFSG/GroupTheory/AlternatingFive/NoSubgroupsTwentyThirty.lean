@@ -12,7 +12,7 @@ theorem alternating_five_no_subgroup_card_twenty_or_thirty
     (A : Subgroup (alternatingGroup (Fin 5))) :
     Nat.card A ≠ 20 ∧ Nat.card A ≠ 30 := by
   classical
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hGcard : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide

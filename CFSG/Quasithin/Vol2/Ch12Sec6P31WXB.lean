@@ -25,8 +25,8 @@ theorem exists_moved_p_element_of_dvd {Y : Type*} [Group Y] [Finite Y] {B U : Su
     (hfrob : ∀ b ∈ B, r * b * r⁻¹ * (b ^ 2 ^ j)⁻¹ ∈ U)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpk : p ∣ 2 ^ k + 1) (hj : Odd j) :
     ∃ n ∈ B, n ^ p ∈ U ∧ n * r * n⁻¹ * r⁻¹ ∉ U := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
+  have : Fact p.Prime := ⟨hp⟩
+  have hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
   have hdvd : p ∣ Nat.card (↥B ⧸ U.subgroupOf B) := by rw [← Subgroup.index]; exact hpN
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥B ⧸ U.subgroupOf B) p hdvd
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y

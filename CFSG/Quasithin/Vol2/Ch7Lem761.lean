@@ -111,9 +111,9 @@ theorem offender_le_autL_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39For
   have hcardA : Nat.card ↥(autI hV (conjSubgroup (fsuV T I) g ⊓
       Subgroup.normalizer (fsuV T I : Set G))) = 4 :=
     (card_eq_two_pow_of_isPGroup (E3.isPGroup_of_isElemAbelian2 hA2)).trans
-      (by rw [hrkA] <;> norm_num)
+      (by rw [hrkA]; norm_num)
   have h21 : rk ↥(autI hV (conjSubgroup (fsuV T I) g ⊓
-      Subgroup.normalizer (fsuV T I : Set G))) - 1 = 1 := by rw [hrkA] <;> norm_num
+      Subgroup.normalizer (fsuV T I : Set G))) - 1 = 1 := by rw [hrkA]
   refine ⟨hcardA, ?_⟩
   by_contra hAH
   obtain ⟨hfix4, x, hxA, y, hyA, hxH, hx1, hyH, h32⟩ :=
@@ -127,13 +127,12 @@ theorem offender_le_autL_761 (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39For
     have : 1 ≤ rkIdx (gammaCheck 1 (autI hV (conjSubgroup (fsuV T I) g ⊓
         Subgroup.normalizer (fsuV T I : Set G)))) := by exact_mod_cast hW2
     omega
-  obtain ⟨-, hWeq, -, hrkW⟩ := e3_31_two_eq hV hVg hT h24 hg hEq (by rw [h21, hw, hW] <;> simp)
+  obtain ⟨-, hWeq, -, hrkW⟩ := e3_31_two_eq hV hVg hT h24 hg hEq (by rw [h21, hw, hW]; simp)
   rw [h21] at hWeq
   have hcardW : 2 ^ 5 ≤ Nat.card ↥(fsuV T I ⊓
       Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G)) := by
     rw [← hWeq, Subgroup.card_map_of_injective (E3.valHom_injective hV),
       SL3Pair.card_eq_two_pow_sub_rkIdx hcard, hW]
-    all_goals norm_num
   have hBN : fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) ≤
       Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) := inf_le_right
   have hC : Nat.card ↥(fsuV T I ⊓ Subgroup.normalizer (conjSubgroup (fsuV T I) g : Set G) ⊓

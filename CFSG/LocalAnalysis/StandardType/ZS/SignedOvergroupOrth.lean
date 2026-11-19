@@ -122,10 +122,10 @@ private lemma signChange_eq_reflection (b : Module.Basis (Fin n) (ZMod p) U) (k 
   rw [diagMap_apply_basis, Module.reflection_apply]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl, Units.val_neg, Units.val_one, neg_one_smul,
+    rw [ite_eq_left rfl, Units.val_neg, Units.val_one, neg_one_smul,
       show ((2 : ZMod p) • b.coord i) (b i) = 2 from two_smul_coord_apply_self b i, two_smul]
     abel
-  · rw [if_neg hik, Units.val_one, one_smul,
+  · rw [ite_eq_right hik, Units.val_one, one_smul,
       show ((2 : ZMod p) • b.coord k) (b i) = 0 by simp [hik], zero_smul, sub_zero]
 
 
@@ -186,9 +186,9 @@ private lemma flip_polarBilin_basis (hp : p ≠ 2) (b : Module.Basis (Fin n) (ZM
     Module.Basis.coord_apply, Module.Basis.repr_self_apply]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl, smul_eq_mul, mul_one, QuadraticMap.polar_self, nsmul_eq_mul]
+    rw [ite_eq_left rfl, smul_eq_mul, mul_one, QuadraticMap.polar_self, nsmul_eq_mul]
     norm_num
-  · rw [if_neg hik, smul_zero]
+  · rw [ite_eq_right hik, smul_zero]
     exact polar_basis_eq_zero hp b hS hik
 
 private lemma flip_polarBilin_coefRoot {m : ℕ} (hp : p ≠ 2)
@@ -338,13 +338,13 @@ private lemma not_monomial_reflection (hp : p ≠ 2) (b : Module.Basis (Fin n) (
     have h := congrArg (b.coord (a 0)) (hc (a 0))
     rw [hcoord0, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply] at h
     by_contra hne
-    rw [if_neg hne, smul_zero] at h
+    rw [ite_eq_right hne, smul_zero] at h
     exact h2inv h
   have hσ1 : σ (a 0) = a 1 := by
     have h := congrArg (b.coord (a 1)) (hc (a 0))
     rw [hcoord1, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply] at h
     by_contra hne
-    rw [if_neg hne, smul_zero] at h
+    rw [ite_eq_right hne, smul_zero] at h
     exact (neg_ne_zero.mpr h2inv) h
   exact absurd (hinj (hσ0.symm.trans hσ1)) (by decide)
 
@@ -529,13 +529,13 @@ private lemma not_monomial_reflection_three (hp : p ≠ 2) (hp3 : p ≠ 3)
     have h := congrArg (b.coord (a 1)) (hc (a 0))
     rw [hcoord1, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply] at h
     by_contra hne
-    rw [if_neg hne, smul_zero] at h
+    rw [ite_eq_right hne, smul_zero] at h
     exact (neg_ne_zero.mpr h49) h
   have hσ2 : σ (a 0) = a 2 := by
     have h := congrArg (b.coord (a 2)) (hc (a 0))
     rw [hcoord2, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply] at h
     by_contra hne
-    rw [if_neg hne, smul_zero] at h
+    rw [ite_eq_right hne, smul_zero] at h
     exact (neg_ne_zero.mpr h49) h
   exact absurd (hinj (hσ1.symm.trans hσ2)) (by decide)
 

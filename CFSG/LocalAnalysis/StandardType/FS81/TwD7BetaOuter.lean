@@ -25,14 +25,14 @@ theorem acts_sgnOn_iff {G : Type} [Group G] {k : ℕ}
       if j ∈ T then (B.b j)⁻¹ else B.b j := by
     intro j
     by_cases hj : j ∈ T
-    · rw [if_pos hj, show sgnOn T j = -1 by simp [sgnOn, hj]]
+    · rw [ite_eq_left hj, show sgnOn T j = -1 by simp [sgnOn, hj]]
       have hv : (Pi.single j (-1) : Coords k) = -(Pi.single j (1 : ZMod 3) : Coords k) := by
         ext i
         by_cases hij : i = j <;> simp [hij]
       rw [hv]
       exact (B.vec_neg (Pi.single j (1 : ZMod 3))).trans
         (congrArg Inv.inv (B.vec_single j))
-    · rw [if_neg hj, show sgnOn T j = 1 by simp [sgnOn, hj], B.vec_single]
+    · rw [ite_eq_right hj, show sgnOn T j = 1 by simp [sgnOn, hj], B.vec_single]
   constructor
   · intro h j
     rw [h j, hcol, hvec]
@@ -56,9 +56,9 @@ private theorem sgnOn_singleton_one_not_mem_evenFix0 :
       simpa [spMat] using he
     have hj : j = σ j := by
       by_contra hn
-      rw [if_neg hn] at he'
+      rw [ite_eq_right hn] at he'
       exact hsg j he'
-    simpa only [if_pos hj] using he'.symm
+    simpa only [ite_eq_left hj] using he'.symm
   rw [hsEq] at hprod
   have hneg : ∏ i : Fin 7, sgnOn ({1} : Finset (Fin 8)) i.succ = (-1 : ZMod 3) := by
     decide +kernel
@@ -122,7 +122,7 @@ theorem not_inner_on_commutator_centralizer_of_std_twD7
         have hv := congrArg Fin.val h
         simp only [Fin.val_succ, Fin.val_one] at hv
         omega
-      simpa only [if_neg hi1] using hdtail i
+      simpa only [ite_eq_right hi1] using hdtail i
   exact no_single_inverter_of_std_twD7 hstd B hB hrec d hdK hd
 
 theorem exists_beta_line_swap_outer_of_std_twD7

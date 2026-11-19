@@ -61,9 +61,9 @@ theorem rk2E6InnerDiagBound_holds :
   · intro Q hQ
     dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hQK⟩ := hQ
-    letI : Field K := hF
-    letI : Finite K := hFin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+    let : Field K := hF
+    let : Finite K := hFin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
     let H := LargeEvenChevH (LargeEvenCartanE 6) K false
     let R := LargeEvenCenterQuot H
     let Isub : Subgroup (MulAut R) :=
@@ -83,8 +83,8 @@ theorem rk2E6InnerDiagBound_holds :
   · intro Q hQ
     dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hQK⟩ := hQ
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     let H := LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n
     let R := LargeEvenCenterQuot H
     let Isub : Subgroup (MulAut R) :=
@@ -230,7 +230,7 @@ private theorem rk2InnRank_of_not_dvd (h : Rk2KRank)
     rw [hEbot, Subgroup.card_bot]
     exact Nat.one_le_pow _ _ hp.pos
   · have hnab : ∃ a b : R, a * b ≠ b * a := by
-      push_neg at hab
+      push Not at hab
       exact hab
     exact (h.1.1 hfin hs E hE hEel).trans (h.1.2 hfin hs hnab)
 
@@ -242,125 +242,125 @@ theorem rk2_rawDatum_finite {lab : GLALabel} (hlab : GLAInLambda2 lab) :
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     split_ifs at hQ ⊢
     · obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
       exact ⟨K, hF, hFin, hK, hq, by
-        letI : Field K := hF
-        letI : Finite K := hFin
+        let : Field K := hF
+        let : Finite K := hFin
         infer_instance⟩
     · obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
       exact ⟨K, hF, hFin, hK, hq, by
-        letI : Field K := hF
-        letI : Finite K := hFin
+        let : Field K := hF
+        let : Finite K := hFin
         infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     split_ifs at hQ ⊢
     · obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
       exact ⟨K, hF, hFin, hK, hq, by
-        letI : Field K := hF
-        letI : Finite K := hFin
+        let : Field K := hF
+        let : Finite K := hFin
         infer_instance⟩
     · obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
       exact ⟨K, hF, hFin, hK, hq, by
-        letI : Field K := hF
-        letI : Finite K := hFin
+        let : Field K := hF
+        let : Finite K := hFin
         infer_instance⟩
     · obtain ⟨K, hF, hFin, hK, b, c, hbc, hq⟩ := hQ
       exact ⟨K, hF, hFin, hK, b, c, hbc, hq, by
-        letI : Field K := hF
-        letI : Finite K := hFin
+        let : Field K := hF
+        let : Finite K := hFin
         infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TableBExc.finite_recipeGroup .E6 K⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TableBExc.finite_recipeGroup .E7 K⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TableBExc.finite_recipeGroup .E8 K⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TableBF4.finite_recipeGroup (K := K)⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwisted] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TwE6Delta.finite_recipeR hK⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwisted] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact (finite_ggPSections_recipe_triD4 hlab.1 K hK (p := 3)
         Nat.prime_three (by norm_num)).1⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       exact TableBExc.finite_recipeGroup .G2 K⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeSuzuki] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       have : Finite (LargeEvenSzGroup ((n - 1) / 2) K) := Subtype.finite
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeTwF4Inherited] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       have hn3 : 3 ≤ n := by simpa [GLAInLambda2] using hlab.2.2.2
       exact (finite_ggPSections_recipe_twF4 (by omega : 1 ≤ (n - 1) / 2) K hK
         (p := 3) Nat.prime_three (by norm_num)).1⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       infer_instance⟩
   · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeG2Derived] at hQ ⊢
     obtain ⟨K, hF, hFin, hK, hq⟩ := hQ
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       obtain ⟨e⟩ := TableBExcSmallRest.nonempty_g2der_equiv_su3 K hK
       have : Finite (StatedSU 3 3 F9) := Nat.finite_of_card_ne_zero (by
         rw [CFSG.LinearGroups.UnitaryThreeOverNine.card_statedSU card_F9]; norm_num)
@@ -373,8 +373,8 @@ theorem rk2_rawDatum_finite {lab : GLALabel} (hlab : GLAInLambda2 lab) :
       rw [hK]
       norm_num
     exact ⟨K, hF, hFin, hK, hq, by
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       have hm : CFSG.Blueprint.ReeTitsModel
           (LargeEvenCenterQuot (LargeEvenTwF4H 0 K)) .Tits 2 1 :=
         ⟨⟨Nat.prime_two, le_rfl, rfl, rfl, rfl⟩, 0, rfl,

@@ -19,7 +19,7 @@ private theorem fusion_of_isSylowOf {G : Type} [Group G] [Finite G] {p : ℕ} [F
 private theorem sylow_alt {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω ≤ Γ)
     (hT : IsSylowOf 2 T Γ) :
     CFSG.Open.fusionIsSylowIn 2 (T ⊓ alternatingGroup Ω) (alternatingGroup Ω) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : Γ ≤ normalizer (alternatingGroup Ω : Set (Perm Ω)) := by
     rw [normalizer_eq_top_iff.2 (inferInstance : (alternatingGroup Ω).Normal)]
     exact le_top
@@ -134,7 +134,7 @@ theorem exists_labelling {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω �
   have hf0 : ∀ x, f x = 0 ↔ x ∈ β x₀ := by
     intro x
     by_cases h0 : x ∈ β x₀
-    · simp only [hf, h0, ↓reduceIte, iff_true]
+    · simp only [hf, h0, ↓reduceIte]
     · by_cases h1 : x ∈ β y₀
       · simp only [hf, h0, h1, ↓reduceIte]
         decide
@@ -146,7 +146,7 @@ theorem exists_labelling {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω �
     · simp only [hf, h0, hdisj x h0, ↓reduceIte]
       decide
     · by_cases h1 : x ∈ β y₀
-      · simp only [hf, h0, h1, ↓reduceIte, iff_true]
+      · simp only [hf, h0, h1, ↓reduceIte]
       · by_cases h2 : Nat.card (orbit T x) = 2 <;> simp only [hf, h0, h1, h2, ↓reduceIte] <;>
           decide
   have hf2 : ∀ x, f x = 2 ↔ Nat.card (orbit T x) = 2 := by
@@ -157,7 +157,7 @@ theorem exists_labelling {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω �
     · by_cases h1 : x ∈ β y₀
       · simp only [hf, h0, h1, (hinΔ x).1 (hβy₀ h1), ↓reduceIte]
         decide
-      · by_cases h2 : Nat.card (orbit T x) = 2 <;> simp only [hf, h0, h1, h2, ↓reduceIte] <;>
+      · by_cases h2 : Nat.card (orbit T x) = 2 <;> simp only [hf, h0, h1, h2, ↓reduceIte];
           decide
   have hf3 : ∀ x, f x = 3 ↔ Nat.card (orbit T x) = 1 := by
     intro x
@@ -196,7 +196,7 @@ theorem exists_labelling {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω �
     have hrest : ∀ x, x ∉ β x₀ → x ∉ β y₀ → f (q x) = f x := by
       intro x h0 h1
       obtain ⟨hq0', hq1'⟩ := hout x h0 h1
-      simp only [hf, h0, h1, hq0', hq1', hsmul q hq x, if_false]
+      simp only [hf, h0, h1, hq0', hq1', hsmul q hq x, ite_false]
     rcases hcover (q x₀) hq0 with h | h
     · left
       have hB : q '' β x₀ = β x₀ := by

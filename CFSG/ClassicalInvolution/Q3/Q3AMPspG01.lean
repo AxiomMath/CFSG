@@ -104,7 +104,7 @@ theorem BadStd8.omega_orbit_layer [IsSimpleGroup G] (h : BadStd8 Ω K J S R T W 
     have hJ''J : conjSub c J' ≠ J := by
       intro e
       have hT₁cJ : conjSub c T₁ ≤ J := e ▸ hT₁cJ''
-      have hpg : IsPGroup 2 ↥(T₀ ⊔ conjSub c T₁) := S'.isPGroup'.to_le hS'
+      have hpg : IsPGroup 2 ↥(T₀ ⊔ conjSub c T₁) := S'.isPGroup.to_le hS'
       have h1 : T₀ ⊔ conjSub c T₁ = T₀ := hT₀s.2.2 _ (sup_le hT₀J hT₁cJ) hpg le_sup_left
       have hle : conjSub c T₁ ≤ T₀ := h1 ▸ le_sup_right
       have hT₁cs : IsSylow2In (conjSub c T₁) J := by

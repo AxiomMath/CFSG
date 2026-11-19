@@ -21,9 +21,9 @@ theorem not_le_inn_of_card {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite
     (hYc : Nat.card Y = 3 ^ 6) :
     ¬ Y ≤ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c
@@ -34,7 +34,7 @@ end TwE6R5
 
 theorem ggTwE6ThreeNoRankSixInput_holds : GGTwE6ThreeNoRankSixInput := by
   intro K _ _ n hn hK h3 h9 T hT hTc
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ n :=
     ⟨RingEquiv.ofBijective (iterateFrobenius K 2 n) ⟨hinj, Finite.surjective_of_injective hinj⟩,

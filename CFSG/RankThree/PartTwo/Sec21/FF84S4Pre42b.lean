@@ -15,6 +15,7 @@ open Equiv Equiv.Perm CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheorem
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 variable {θ : ↥(Nor L) →* Perm (Fin 8)}
 
+omit [Finite G] in
 theorem Z_sq (hA : A8Model L) : ∀ z ∈ L, z ∈ CenS L → z ^ 2 = 1 := by
   intro z hz hzc
   have hzm : (⟨z, hz⟩ : ↥L) ∈ Subgroup.center ↥L := by
@@ -89,7 +90,7 @@ theorem B_inf_Q' (h : FF84Sec4 b L B K b₁ b₂) (hZ2 : ∀ z ∈ L, z ∈ CenS
 
 theorem Q_decomp' (h : FF84Sec4 b L B K b₁ b₂) (hZ2 : ∀ z ∈ L, z ∈ CenS L → z ^ 2 = 1) :
     ∀ c ∈ Cen b ⊓ CenS L, ∃ i : ℤ, ∃ x ∈ Opp 3 (Cen b), c = b ^ i * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C₀ := Cen b ⊓ CenS L with hC₀
   have hBsyl : IsSylowOf 3 (B ⊓ C₀) C₀ :=
     FF79.L14.isSylowOf_inf_normal h.sylB inf_le_left (Q_norm h)
@@ -145,7 +146,7 @@ theorem cenB_le_X_of_normal (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) {N : Subgroup G}
     (hN : ∀ g ∈ Cen (b * b₁), ∀ x ∈ N, g * x * g⁻¹ ∈ N) (h3 : ¬ 3 ∣ Nat.card ↥N) {m : G}
     (hm : m ∈ N) (hmB : m ∈ CenS B) : m ∈ Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : ∀ z ∈ N, Nat.Coprime 3 (orderOf z) := fun z hz => by
     rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
     intro hd
@@ -247,6 +248,6 @@ theorem cenB_le_X_of_normal (hA : A8Model L)
 theorem theta_cenB_le_X (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) {m : G} (hm : m ∈ Theta (Cen (b * b₁))) (hmB : m ∈ CenS B) :
     m ∈ Opp 3 (Cen b) :=
-  cenB_le_X_of_normal hA h (fun g hg x hx => theta_norm _ hg hx) (theta_three _) hm hmB
+  cenB_le_X_of_normal hA h (fun _g hg _x hx => theta_norm _ hg hx) (theta_three _) hm hmB
 
 end CFSG.RankThree.PartTwo.Sec21.FF84.S4

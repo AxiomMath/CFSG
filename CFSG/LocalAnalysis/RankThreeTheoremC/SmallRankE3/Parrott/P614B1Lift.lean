@@ -52,9 +52,9 @@ theorem isSylowOf_map_hom {X Y : Type*} [Group X] [Group Y] [Finite X] {p : ℕ}
 theorem eq_top_of_isPGroup_quotient {X : Type*} [Group X] [Finite X]
     (hno : ∀ N : Subgroup X, N.Normal → N.index ≠ 3) (N : Subgroup X) [N.Normal]
     (hN : IsPGroup 3 (X ⧸ N)) : N = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
-  haveI : Nontrivial (X ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
+  have : Nontrivial (X ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hN
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -99,7 +99,7 @@ theorem l62_bar_point {X : Type} [Group X] [Finite X] {S : Sylow 3 X} {x z : X}
   have hx1 : barMk X x ≠ 1 := by
     intro h1
     have hk : x ∈ primeComplementCore (G := X) 3 := (QuotientGroup.eq_one_iff x).mp h1
-    exact h.x_ne (K2.qs_eq_one_of_mem S.isPGroup' h.x_mem hk)
+    exact h.x_ne (K2.qs_eq_one_of_mem S.isPGroup h.x_mem hk)
   have hxbar : orderOf (barMk X x) = 3 :=
     orderOf_eq_prime (by rw [← map_pow, h.x_pow, map_one]) hx1
   have hCmap : centralizer ({barMk X x} : Set (Bar X)) =
@@ -121,7 +121,7 @@ theorem l62_hasNormalPComplement_centralizer (hT : T29.GL83I291Three)
     [Finite X] {S : Sylow 3 X} {x z : X} (h : L62Data X S x z)
     (hnc : ¬ HasPrimeConstraint (G := X) 3) :
     CFSG.HasNormalPComplement 3 ↥(centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S', x', z', hB⟩ := l62Data_toBar h
   obtain ⟨L, hL⟩ :=
     Stroth.Bal3.exists_isComponentOf_of_not_hasPrimeConstraint Nat.prime_three hnc
@@ -139,7 +139,7 @@ theorem l62_hasNormalPComplement_centralizer (hT : T29.GL83I291Three)
     obtain ⟨e', -, -⟩ := id hb
     have hZ : center ↥L = ⊥ := T29.k3_center_eq_bot_of_psl227 hL.2.2.1 e'
     have hC : centralizer (L : Set (Bar X)) = ⊥ := hsetup.centralizer_eq_bot hZ
-    haveI : L.Normal := hsetup.normal
+    have : L.Normal := hsetup.normal
     obtain ⟨N, hN, hNi⟩ := K2.exists_index_three_normal hsetup.normal ⟨e'⟩ hC
       (T29.index_eq_of_fieldAut_L227 hC hb)
     exact hB.no_normal_three N hN hNi

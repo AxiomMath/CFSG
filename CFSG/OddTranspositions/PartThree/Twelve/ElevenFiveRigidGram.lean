@@ -71,10 +71,10 @@ theorem orderOf_fiveReflOf_mul_eq_five_iff {k : ℕ} {ε π : Bool}
     (hab : ∀ μ : ZMod 5, b ≠ μ • a) (hne : fiveForm k ε a b ≠ 0) :
     (orderOf (fiveReflOf k ε a * fiveReflOf k ε b) = 5 ↔
       fiveForm k ε a b ^ 2 = fiveForm k ε a a * fiveForm k ε b b) := by
-  rw [orderOf_fiveReflOf_mul k ε π ha haπ hb hbπ hab, if_neg hne]
+  rw [orderOf_fiveReflOf_mul k ε π ha haπ hb hbπ hab, ite_eq_right hne]
   by_cases h : fiveForm k ε a b ^ 2 = fiveForm k ε a a * fiveForm k ε b b
-  · rw [if_pos h]; simp [h]
-  · rw [if_neg h]; simp [h]
+  · rw [ite_eq_left h]; simp [h]
+  · rw [ite_eq_right h]; simp [h]
 
 theorem orderOf_fiveReflOf_mul_eq_two_iff {k : ℕ} {ε π : Bool}
     {a b : Fin (k + 1) → ZMod 5} (ha : fiveForm k ε a a ≠ 0)
@@ -84,11 +84,11 @@ theorem orderOf_fiveReflOf_mul_eq_two_iff {k : ℕ} {ε π : Bool}
     (fiveForm k ε a b = 0 ↔ orderOf (fiveReflOf k ε a * fiveReflOf k ε b) = 2) := by
   rw [orderOf_fiveReflOf_mul k ε π ha haπ hb hbπ hab]
   by_cases h : fiveForm k ε a b = 0
-  · rw [if_pos h]; simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; simp [h]
+  · rw [ite_eq_right h]
     by_cases h2 : fiveForm k ε a b ^ 2 = fiveForm k ε a a * fiveForm k ε b b
-    · rw [if_pos h2]; simp [h]
-    · rw [if_neg h2]; simp [h]
+    · rw [ite_eq_left h2]; simp [h]
+    · rw [ite_eq_right h2]; simp [h]
 
 private theorem sq_eq_one_or_four {x : ZMod 5} (hx : x ≠ 0) : x ^ 2 = 1 ∨ x ^ 2 = 4 :=
   (by decide : ∀ y : ZMod 5, y ≠ 0 → y ^ 2 = 1 ∨ y ^ 2 = 4) x hx
@@ -343,11 +343,11 @@ theorem exists_isometry_of_gram {k : ℕ} {ε : Bool}
       apply LinearMap.BilinForm.ext_basis bW
       intro i j
       simp only [LinearMap.compl₂_apply, LinearMap.comp_apply, hM₀, F, fiveBilin_apply,
-        fiveSignRep, if_true, inv_one, one_mul, Submodule.subtype_apply]
+        fiveSignRep, ite_true, inv_one, one_mul, Submodule.subtype_apply]
       rw [hbW_coe i, hbW_coe j, hG i j]
     intro x y
     simpa only [F, LinearMap.compl₂_apply, LinearMap.comp_apply, fiveBilin_apply,
-      fiveSignRep, if_true, inv_one, one_mul, Submodule.subtype_apply] using
+      fiveSignRep, ite_true, inv_one, one_mul, Submodule.subtype_apply] using
       LinearMap.congr_fun (LinearMap.congr_fun hB₁ x) y
   have hinj : Function.Injective M₀ := by
     intro x y hxy

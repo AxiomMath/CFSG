@@ -14,23 +14,27 @@ section Invariant
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem cc_map_conj_eq_iff (L : Subgroup H) (g : H) :
     L.map (MulAut.conj g).toMonoidHom = L ↔ g ∈ normalizer (L : Set H) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, MulEquiv.toMonoidHom_eq_coe]
 
+omit [Finite H] in
 theorem cc_map_conj_map (L : Subgroup H) (g q : H) :
     (L.map (MulAut.conj g).toMonoidHom).map (MulAut.conj q).toMonoidHom =
       L.map (MulAut.conj (q * g)).toMonoidHom := by
   rw [Subgroup.map_map]
   congr 1
   ext x
-  simp [MulAut.conj_apply, mul_assoc, mul_inv_rev]
+  simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite H] in
 theorem cc_map_conj_one (L : Subgroup H) :
     L.map (MulAut.conj (1 : H)).toMonoidHom = L := by
   ext x
   simp
 
+omit [Finite H] in
 theorem three_group_fixes_of_two {Q : Subgroup H} (hQ : IsPGroup 3 Q) {A B : Subgroup H}
     {q : H} (hq : q ∈ Q)
     (hA : A.map (MulAut.conj q).toMonoidHom = A ∨ A.map (MulAut.conj q).toMonoidHom = B)
@@ -49,7 +53,7 @@ theorem three_group_fixes_of_two {Q : Subgroup H} (hQ : IsPGroup 3 Q) {A B : Sub
   have hcomp : (MulAut.conj q).toMonoidHom.comp (MulAut.conj q).toMonoidHom =
       (MulAut.conj (q ^ 2)).toMonoidHom := by
     ext x
-    simp [MulAut.conj_apply, pow_two, mul_assoc, mul_inv_rev]
+    simp [MulAut.conj_apply, pow_two, mul_assoc]
   have h2 : A.map (MulAut.conj (q ^ 2)).toMonoidHom = A := by
     rw [← hcomp, ← Subgroup.map_map, hAB, hBA]
   have hsq : q ^ 2 ∈ normalizer (A : Set H) := (cc_map_conj_eq_iff A (q ^ 2)).mp h2
@@ -86,11 +90,11 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
     by_contra hne
     exact not_two_invariant hH S hSW hK hL hne (hinv K hK) (hinv L hL)
   · right
-    push_neg at hinv
+    push Not at hinv
     obtain ⟨L₀, hL₀, hnot⟩ := hinv
     obtain ⟨g, hgS, hgN⟩ : ∃ g ∈ (S : Subgroup H), g ∉ normalizer (L₀ : Set H) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hnot
       intro x hx
       exact hcon x hx
@@ -103,7 +107,7 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
         L₀.map (MulAut.conj h).toMonoidHom ≠ L₀ ∧
           L₀.map (MulAut.conj h).toMonoidHom ≠ L₀.map (MulAut.conj g).toMonoidHom := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hcov : ∀ q ∈ (S : Subgroup H), L₀.map (MulAut.conj q).toMonoidHom = L₀ ∨
           L₀.map (MulAut.conj q).toMonoidHom = L₀.map (MulAut.conj g).toMonoidHom := by
         intro q hq
@@ -117,7 +121,7 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
               L₀.map (MulAut.conj g).toMonoidHom := by
           rw [cc_map_conj_map]
           exact hcov (q * g) (Subgroup.mul_mem _ hq hgS)
-        exact three_group_fixes_of_two S.isPGroup' hq (hcov q hq) hB
+        exact three_group_fixes_of_two S.isPGroup hq (hcov q hq) hB
       apply hnot
       intro q hq
       exact (cc_map_conj_eq_iff L₀ q).mp (hfix q hq)
@@ -128,7 +132,7 @@ theorem components_cases (hH : primeComplementCore (G := H) 3 = ⊥) (S : Sylow 
           K = L₀.map (MulAut.conj h).toMonoidHom := by
       intro K hK
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       obtain ⟨k0, k1, k2⟩ := hcon
       exact no_four_components hH hrank hL₀ hL₁ hL₂ hK hne₁.symm hh0.symm k0.symm
         hh1.symm k1.symm k2.symm

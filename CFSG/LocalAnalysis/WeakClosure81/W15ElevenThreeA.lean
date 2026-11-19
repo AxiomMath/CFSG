@@ -60,7 +60,7 @@ theorem sup_le_centralizer_qSub15
 theorem sup_le_zOmega15
     (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) :
     U ⊔ v1Sub15 V₀ U ≤ zOmega15 (qSub15 M V₀ V U H P) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
   have hxQ : x ∈ qSub15 M V₀ V U H P := sup_le c.U_le_qSub15 c.v1Sub15_le_qSub15 hx
   have hxV : x ∈ V :=

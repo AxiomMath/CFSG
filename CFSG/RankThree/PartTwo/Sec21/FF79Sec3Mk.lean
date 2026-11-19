@@ -62,7 +62,7 @@ theorem exists_sec34Pre
       elemB0 := C.D.hB0
       supB := C.D.hsup
       elemA := K.elemA h3
-      B0A := by rw [C.B0]; exact K.R_le_A
+      B0A := by rw [C.B0]; exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A
       bA := K.b_nor
       commbA := by rw [C.B0]; exact K.comm_bA
       hJ := hJ

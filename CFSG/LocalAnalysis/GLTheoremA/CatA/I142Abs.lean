@@ -24,7 +24,7 @@ theorem isQuasisimple_of_surj_central {A B : Type*} [Group A] [Group B]
     (hA : commutator A = ⊤) (hB : CFSG.Open.IsQuasisimple B) :
     CFSG.Open.IsQuasisimple A := by
   obtain ⟨-, hBs⟩ := hB
-  haveI : IsSimpleGroup (B ⧸ Subgroup.center B) := hBs
+  have : IsSimpleGroup (B ⧸ Subgroup.center B) := hBs
   let g : A →* B ⧸ Subgroup.center B := (QuotientGroup.mk' (Subgroup.center B)).comp f
   have hg : Function.Surjective g := (QuotientGroup.mk'_surjective _).comp hf
   have hker : g.ker = Subgroup.center A := by
@@ -71,10 +71,10 @@ theorem isQuasisimple_of_surj_central {A B : Type*} [Group A] [Group B]
 
 theorem isQuasisimple_quot_of_le_center {A : Type*} [Group A] [Finite A]
     (hA : CFSG.Open.IsQuasisimple A) (M : Subgroup A) [M.Normal]
-    (hM : M ≤ Subgroup.center A) (hMt : M ≠ ⊤) :
+    (_hM : M ≤ Subgroup.center A) (hMt : M ≠ ⊤) :
     CFSG.Open.IsQuasisimple (A ⧸ M) := by
   obtain ⟨hAc, hAs⟩ := hA
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := hAs
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := hAs
   have hπ : Function.Surjective (QuotientGroup.mk' M : A →* A ⧸ M) :=
     QuotientGroup.mk'_surjective M
   have hnt : Nontrivial (A ⧸ M) := QuotientGroup.nontrivial_iff.2 hMt
@@ -92,7 +92,7 @@ theorem isQuasisimple_quot_of_le_center {A : Type*} [Group A] [Finite A]
   have hnorm : ((g.ker).map (QuotientGroup.mk' (Subgroup.center A))).Normal :=
     Subgroup.Normal.map (inferInstance : g.ker.Normal) _ (QuotientGroup.mk'_surjective _)
   refine ⟨hcomm_top, ?_⟩
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((g.ker).map (QuotientGroup.mk' (Subgroup.center A))) with hbot | htop
   · have hK : g.ker = Subgroup.center A := by
@@ -174,8 +174,8 @@ theorem dvd_card_center_quot_of_pPrimeCore_eq_bot {A : Type*} [Group A] [Finite 
     p ∣ Nat.card (A ⧸ Subgroup.center A) := by
   classical
   obtain ⟨hAc, hAs⟩ := hA
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := hAs
-  haveI : Nontrivial A := by
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := hAs
+  have : Nontrivial A := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne (A ⧸ Subgroup.center A)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -184,7 +184,7 @@ theorem dvd_card_center_quot_of_pPrimeCore_eq_bot {A : Type*} [Group A] [Finite 
   obtain ⟨R⟩ : Nonempty (Sylow p A) := inferInstance
   have hRc : ∀ r ∈ (R : Subgroup A), r ∈ Subgroup.center A := by
     intro r hr
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
     have hrk : r ^ p ^ k = 1 := congrArg Subtype.val hk
     have h1 : orderOf ((QuotientGroup.mk' (Subgroup.center A) : A →* A ⧸ Subgroup.center A) r)
         ∣ p ^ k :=
@@ -206,7 +206,7 @@ theorem dvd_card_center_quot_of_pPrimeCore_eq_bot {A : Type*} [Group A] [Finite 
     exact (Subgroup.mem_center_iff.1 (hRc r hr) g).symm
   have hcomp := MonoidHom.ker_transferSylow_isComplement' R hP
   set M := (MonoidHom.transferSylow R hP).ker with hMdef
-  have hcard : Nat.card M * Nat.card (R : Subgroup A) = Nat.card A := hcomp.card_mul
+  have hcard : Nat.card M * Nat.card (R : Subgroup A) = Nat.card A := hcomp.card_mul_card
   have hindex := Subgroup.card_mul_index (R : Subgroup A)
   have hMidx : Nat.card M = (R : Subgroup A).index := by
     apply Nat.eq_of_mul_eq_mul_right (Nat.card_pos (α := (R : Subgroup A)))
@@ -227,10 +227,10 @@ theorem dvd_card_center_quot_of_pPrimeCore_eq_bot {A : Type*} [Group A] [Finite 
   have hPG : IsPGroup p A := by
     intro g
     have hg : g ∈ (R : Subgroup A) := by rw [hRtop]; exact Subgroup.mem_top g
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨g, hg⟩
     exact ⟨k, congrArg Subtype.val hk⟩
-  haveI := hPG.isNilpotent
-  have hlt : commutator A < ⊤ := IsSolvable.commutator_lt_top_of_nontrivial A
+  have := hPG.isNilpotent
+  have hlt : commutator A < ⊤ := Group.IsSolvable.commutator_lt_top_of_nontrivial A
   exact hlt.ne hAc
 
 theorem not_dvd_card_sSup_components {S : Type*} [Group S] [Finite S] {p : ℕ} [hp : Fact p.Prime]

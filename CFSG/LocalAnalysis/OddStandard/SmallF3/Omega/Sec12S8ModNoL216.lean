@@ -18,10 +18,10 @@ theorem sec12S8Mod_lin_V {G : Type} [Group G] {V : Subgroup G} (hV : IsElemAb2 V
     (hc3 : c ^ 3 = 1) (hc16 : Nat.card {v : ↥V // c v = v} = 16) (hgc : g * c = c * g)
     (hwg : w * g * w⁻¹ = g⁻¹) (hwc : w * c * w⁻¹ = c⁻¹) : False := by
   classical
-  haveI : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
-  letI : CommGroup ↥V :=
+  have : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := hV.1.1.is_comm.comm }
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) fun x => by
     have h : x.toMul ^ 2 = 1 := by
       apply Subtype.ext
       simpa using hV.1.2 x.toMul x.toMul.2
@@ -40,7 +40,7 @@ theorem sec12S8Mod_lin_V {G : Type} [Group G] {V : Subgroup G} (hV : IsElemAb2 V
         apply LinearEquiv.ext
         intro v
         apply Additive.ext
-        simp [mul_assoc] }
+        simp }
   have hρ : ∀ (a : MulAut ↥V) (v : Additive ↥V), (ρ a v).toMul = a v.toMul := fun a v => rfl
   refine sec12S8Mod_lin (W := Additive ↥V) hV.2 (ρ g) (ρ c) (ρ w) ?_ ?_ ?_ ?_ ?_ ?_ ?_
   · rw [← map_pow, hg5, map_one]
@@ -67,7 +67,7 @@ theorem asc82S8NoL216_of : Asc82S8NoL216 := by
   have hhZ : h ∈ Z := hXZ hhX
   have hg1 : g ≠ 1 := by
     intro h1
-    haveI : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
+    have : Finite ↥V := Nat.finite_of_card_ne_zero (by rw [hV.2]; positivity)
     have hsub : Subsingleton ↥V :=
       ⟨fun a b => by rw [hgfix a (by simp [h1]), hgfix b (by simp [h1])]⟩
     have := Finite.card_le_one_iff_subsingleton.2 hsub

@@ -50,7 +50,7 @@ theorem decide_vec_eq {τ : Tag} (v α β : Fin τ.rank → ℤ) (a b : ℕ) :
       (List.finRange τ.rank).all fun j => v j == (a : ℤ) * α j + (b : ℤ) * β j := by
   rw [Bool.eq_iff_iff, decide_eq_true_iff, List.all_eq_true]
   simp only [List.mem_finRange, true_implies, beq_iff_eq, funext_iff, Pi.add_apply,
-    Pi.smul_apply, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply]
+    nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply]
 
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley in
 theorem pairFree_eq (τ : Tag) (α β : Fin τ.rank → ℤ) : pairFree τ α β = pairFreeL τ α β := by

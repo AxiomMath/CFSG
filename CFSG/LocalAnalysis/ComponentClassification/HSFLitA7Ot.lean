@@ -205,7 +205,7 @@ theorem exists_T₁ (hnot : ¬ SectRank4 X) :
     hw₀p.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hU'.exists_le_sylow
   set T₁ : Subgroup X := (Q : Subgroup N).map N.subtype with hT₁
-  have hT₁p : IsPGroup 2 T₁ := Q.isPGroup'.map _
+  have hT₁p : IsPGroup 2 T₁ := Q.isPGroup.map _
   have hT₁N : T₁ ≤ N := map_subtype_le _
   have hUT₁ : T ⊔ zpowers w₀ ≤ T₁ := fun g hg => ⟨⟨g, hU hg⟩, hQ hg, rfl⟩
   have hTT₁ : T ≤ T₁ := le_sup_left.trans hUT₁

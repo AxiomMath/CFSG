@@ -122,7 +122,7 @@ theorem pPrimeCore_centralizer_eq_bot_of_benderCore
   apply pPrimeCore_two_eq_bot_of_forall
   intro N hNC hNn hodd
   have hQC : (Q : Subgroup K) ≤ centralizer ({z} : Set K) := hcen ▸ le_sup_left
-  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup
   have hQnorm : ∀ c ∈ centralizer ({z} : Set K), ∀ q ∈ (Q : Subgroup K),
       c * q * c⁻¹ ∈ (Q : Subgroup K) := fun c hc' q hq =>
     (Subgroup.mem_normalizer_iff.mp (hle hc') q).mp hq

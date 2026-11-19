@@ -109,7 +109,7 @@ private theorem w85g_mem_sylow_of_mem_normalizer {L : Type} [Group L] [Finite L]
     {x : L} (hxN : x ∈ Subgroup.normalizer (Sy : Set L)) (hx2 : x * x = 1) :
     x ∈ Sy := by
   obtain ⟨P, rfl⟩ := hSyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.RankThree.Transfer.mem_of_pow_eq_one_of_mem_normalizer P hxN (k := 1)
     (by rw [pow_one, pow_two]; exact hx2)
 
@@ -156,10 +156,10 @@ private theorem w85g_mem_sylow_of_conj_eq {L : Type} [Group L] [Finite L]
 
 private theorem w85g_exists_inner_of_two_lt_card {L : Type} [Group L] [Finite L]
     {R Sy X₂ Pα : Subgroup L} {e : ℕ}
-    (hL : RootLieFacts L R Sy e) (hP : RootParabolic R Sy X₂ Pα e)
-    (hSyl : ∃ P : Sylow 2 L, (P : Subgroup L) = Sy) {U : Type} [Group U]
+    (hL : RootLieFacts L R Sy e) (_hP : RootParabolic R Sy X₂ Pα e)
+    (_hSyl : ∃ P : Sylow 2 L, (P : Subgroup L) = Sy) {U : Type} [Group U]
     [Finite U] (α : U →* MulAut L) (hexp : ∀ u : U, u * u = 1)
-    (hSy : ∀ u : U, Subgroup.map (α u).toMonoidHom Sy = Sy)
+    (_hSy : ∀ u : U, Subgroup.map (α u).toMonoidHom Sy = Sy)
     (hR : ∀ u : U, Subgroup.map (α u).toMonoidHom R = R)
     (hU : 2 < Nat.card U) :
     ∃ u₀ : U, u₀ ≠ 1 ∧ α u₀ ∈ (MulAut.conj : L →* MulAut L).range := by
@@ -168,7 +168,7 @@ private theorem w85g_exists_inner_of_two_lt_card {L : Type} [Group L] [Finite L]
   have houter : ∀ w : U, w ≠ 1 → α w ∉ (MulAut.conj : L →* MulAut L).range := by
     intro w hw hmem
     exact h ⟨w, hw, hmem⟩
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [Nat.card_eq_fintype_card] at hU
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.mp hU
   have htwo : ∃ u v : U, u ≠ 1 ∧ v ≠ 1 ∧ u ≠ v := by

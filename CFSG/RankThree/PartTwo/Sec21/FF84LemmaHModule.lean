@@ -42,7 +42,7 @@ theorem triple_eq_one [Finite S] {ρ : K →* MulAut S} (hρ : Fpf ρ) (y c : K)
 theorem pow_six_eq_one [Finite S] (e : K ≃* A5) {ρ : K →* MulAut S} (hρ : Fpf ρ)
     {A : Subgroup S} (hA : InvAb ρ A) : ∀ a ∈ A, a ^ 6 = 1 := by
   intro a ha
-  letI : CommGroup ↥A := commGroupOf hA.comm
+  let : CommGroup ↥A := commGroupOf hA.comm
   let w : A5 → ↥A := fun g => ⟨ρ (e.symm g) a, hA.inv _ a ha⟩
   have hw : ∀ t ∈ cert6, w t.2.2 * w (t.2.1 * t.2.2) * w (t.2.1 * t.2.1 * t.2.2) = 1 := by
     intro t ht
@@ -69,7 +69,7 @@ theorem fixed_five_eq_one [Finite S] (e : K ≃* A5) {ρ : K →* MulAut S} (hρ
     {A : Subgroup S} (hA : InvAb ρ A) (hA2 : ∀ a ∈ A, a * a = 1) :
     ∀ u ∈ A, ρ (e.symm z5) u = u → u = 1 := by
   intro u hu hfix
-  letI : CommGroup ↥A := commGroupOf hA.comm
+  let : CommGroup ↥A := commGroupOf hA.comm
   let w : A5 → ↥A := fun g => ⟨ρ (e.symm g) u, hA.inv _ u hu⟩
   have hw : ∀ t ∈ cert5, w t.2.2 * w (t.2.1 * t.2.2) * w (t.2.1 * t.2.1 * t.2.2) = 1 := by
     intro t ht

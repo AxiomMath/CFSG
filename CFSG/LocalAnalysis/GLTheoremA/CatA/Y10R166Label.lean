@@ -129,7 +129,7 @@ theorem hasLabel_of_statedClassicalModel_POmegaPlus {J : Type} [Group J] {m n : 
     simp only [CFSG.Assembly.LargeEvenInLambda2]
     exact ⟨hf, by omega⟩
   refine hasLabel_of_quasisimple_rawDatum hJ hlab ?_
-  simpa [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, if_neg hm3] using
+  simpa [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, ite_eq_right hm3] using
     recipeOmegaPlus_of_statedClassicalModel h
 
 theorem hasLabel_of_statedClassicalModel_POmegaMinus {J : Type} [Group J] {m n : ℕ}
@@ -143,7 +143,7 @@ theorem hasLabel_of_statedClassicalModel_POmegaMinus {J : Type} [Group J] {m n :
     simp only [CFSG.Assembly.LargeEvenInLambda2]
     exact ⟨hf, by omega⟩
   refine hasLabel_of_quasisimple_rawDatum hJ hlab ?_
-  simpa [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, if_neg hm2, if_neg hm3] using
+  simpa [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, ite_eq_right hm2, ite_eq_right hm3] using
     recipeOmegaMinus_of_statedClassicalModel h
 
 section LabelUniqueness

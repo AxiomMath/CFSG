@@ -95,7 +95,7 @@ theorem outOddAbelian_of_isChevTwoExc_of_tits
 theorem outOddAbelian_of_isChevTwoExc
     {S : Type} [Group S] [Finite S] (h : IsChevTwoExc S) : OutOddAbelian S :=
   outOddAbelian_of_isChevTwoExc_of_tits
-    (fun T _ _ hv e => outOddAbelian_of_tits
+    (fun _T _ _ hv e => outOddAbelian_of_tits
       (CFSG.StandardType.ChevTwo.reeTitsModel_of_tits hv e)) h
 
 end CFSG.LieType.ChevTwo

@@ -22,7 +22,7 @@ abbrev xunK : Type := GaloisField 2 (2 * 1)
 theorem xunK_card : Nat.card xunK = 2 ^ (2 * 1) :=
   GaloisField.card 2 (2 * 1) (by norm_num)
 
-noncomputable def xunH : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 xunK :=
+theorem xunH : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 xunK :=
   ⟨Nat.prime_two, le_rfl, xunK_card⟩
 
 abbrev xunM (N : ℕ) : Type := StatedProj (StatedSU N (2 ^ 1) xunK)
@@ -60,7 +60,7 @@ theorem isGood_iff_map_mulEquiv {S T : Type} [Group S] [Group T] [Finite S] [Fin
   exact (not_congr (Subgroup.map_eq_bot_iff_of_injective _ e.injective)).symm
 
 theorem isElemAbelian_map_of_injective {G H : Type*} [Group G] [Group H] {p : ℕ}
-    {φ : G →* H} (hφ : Function.Injective φ) {E : Subgroup G} (hE : IsElemAbelian p E) :
+    {φ : G →* H} (_hφ : Function.Injective φ) {E : Subgroup G} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map φ) := by
   have hcomm : ∀ x ∈ E, ∀ y ∈ E, φ x * φ y = φ y * φ x := fun x hx y hy => by
     have h1 : (⟨x, hx⟩ : E) * ⟨y, hy⟩ = ⟨y, hy⟩ * ⟨x, hx⟩ := hE.1.is_comm.comm _ _
@@ -97,7 +97,7 @@ theorem nonempty_mulEquiv_xunM (n : ℕ) (q : TauCeti.PrimePower)
     Nonempty (TauCeti.ValidLieTypeIndex.Group ⟨.twistedA n q, hv⟩ ≃* xunM (n + 1)) := by
   obtain ⟨h1, h2⟩ := CFSG.LocalAnalysis.GLTheoremA.primePower_eq_of_card_eq
     (q := q) Nat.prime_two (r := 2) (s := 1) (by norm_num) (by simpa using hq)
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e2⟩ := projSU_mulEquiv_two_one (n + 1) q.p q.exponent h1 h2
   let H : Subgroup (GL (Fin (n + 1)) xunK) := CFSG.Open.StatedSU (n + 1) (2 ^ 1) xunK
   have hPI : CFSG.PGLModel.projImage H = CFSG.PGLModel.projSU (n + 1) 2 1 :=
@@ -129,7 +129,7 @@ theorem mem_range_xunConj_of_pow_three {N : ℕ} (hN : 9 ≤ N) (α : MulAut (xu
     have hb : ∀ a : xunK, φ a = a ^ 2 := fun a => by
       rw [h1 a, CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.bar_apply]
       norm_num
-    haveI : Fintype xunK := Fintype.ofFinite xunK
+    have : Fintype xunK := Fintype.ofFinite xunK
     have hcard : Fintype.card xunK = 4 := by
       rw [← Nat.card_eq_fintype_card, xunK_card]
       norm_num

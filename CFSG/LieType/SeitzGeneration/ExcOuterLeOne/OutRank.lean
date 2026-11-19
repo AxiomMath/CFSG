@@ -12,7 +12,7 @@ public section
 namespace CFSG.LieType.SeitzGeneration.ExcOuterLeOne
 
 
-theorem not_dvd_det_cartan_E {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {p : ℕ} (hp : p.Prime)
+theorem not_dvd_det_cartan_E {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {p : ℕ} (_hp : p.Prime)
     (hp3 : 3 < p) : ¬ p ∣ τ.cartan.det.natAbs := by
   rcases hτ with rfl | rfl | rfl
   · rw [det_cartan_E6]

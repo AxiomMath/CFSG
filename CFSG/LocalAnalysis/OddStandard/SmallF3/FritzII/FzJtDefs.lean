@@ -21,7 +21,7 @@ variable {G : Type} [Group G]
 theorem fzJt_conj_sq (g v : G) : (g⁻¹ * v * g) ^ 2 = g⁻¹ * v ^ 2 * g := by
   rw [pow_two, pow_two]; group
 
-theorem fzJt_conj {t : G} {T : Subgroup G} {u x g : G} (hg : g⁻¹ * u * g = x)
+theorem fzJt_conj {t : G} {T : Subgroup G} {u x g : G} (_hg : g⁻¹ * u * g = x)
     (hC : ∀ c ∈ T ⊓ centralizer ({u} : Set G), g⁻¹ * c * g ∈ T ⊓ centralizer ({x} : Set G))
     (hJ : FzJt t T u) : FzJt t T x := by
   obtain ⟨v, hv, w, hw, hv2, hw2, hvw, hc, htv, htw, htvw⟩ := hJ

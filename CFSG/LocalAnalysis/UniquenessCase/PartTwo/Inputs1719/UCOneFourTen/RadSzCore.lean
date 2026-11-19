@@ -54,7 +54,7 @@ theorem exists_sylow_normalizer_le_of_radical (hBT : CFSG.LieType.BorelTits.Hold
     have hVnil : Group.IsNilpotent ↥V := hVp.isNilpotent
     have hlt : U < V ⊓ normalizer (U : Set S) :=
       @CFSG.GroupTheory.lt_inf_normalizer_of_isNilpotent S _ V U hVnil hltUV
-    obtain ⟨w, hwV, hwU⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨w, hwV, hwU⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hWleP : V ⊓ normalizer (U : Set S) ≤ normalizer (U : Set S) := inf_le_right
     have hWnorm : ∀ x ∈ normalizer (U : Set S), ∀ y ∈ V ⊓ normalizer (U : Set S),
         x * y * x⁻¹ ∈ V ⊓ normalizer (U : Set S) := by

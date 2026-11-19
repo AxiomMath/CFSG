@@ -29,7 +29,7 @@ theorem concl165_map_of_central {H K : Type} [Group H] [Finite H] [Group K] [Fin
     {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (π : H →* K) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center H) (hpk : ¬ p ∣ Nat.card π.ker) {A : Subgroup H}
     (h : Concl165Avoid H p q A π.ker) : Concl165 K p q (A.map π) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, E, F, J, hDE, hEA, hD, hE, hJ, hAJ, hlay, hFD, hF, hFJ, hF3, hFZ⟩ := h
   have hDp : IsPGroup p D := IsPGroup.of_card (n := 1) (by simpa using hD)
   have hEp : IsPGroup p E := IsPGroup.of_card (n := 2) (by simpa using hE)
@@ -176,12 +176,12 @@ theorem i165On_of_cover {P : GLALabel → ℕ → Prop}
   have hm4K : 4 ≤ evenRank K := le_trans hm4 hm1
   obtain ⟨H, hHgrp, hHfin, π, hπ, hker, hpk, hconcl⟩ :=
     hcov K lab p q hK hP hp hp2 hq hq2 hqp hns he hm4K
-  letI := hHgrp
-  letI := hHfin
+  let := hHgrp
+  let := hHfin
   obtain ⟨R, -, hRe, hRmap, -⟩ :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.exists_elemAbelian_lift hp hpk
       (Subgroup.map_comap_eq_self_of_surjective hπ A) hAe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (H ⧸ π.ker)) =
       CFSG.Open.pRank p (⊤ : Subgroup H) :=
     CFSG.SectionRank.pRank_quotient_eq π.ker hpk

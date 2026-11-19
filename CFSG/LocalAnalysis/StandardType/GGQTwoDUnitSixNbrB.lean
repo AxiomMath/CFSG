@@ -16,6 +16,7 @@ open CFSG.Assembly CFSG.ClassicalInvolution.Phan
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_x_not_mem_centralizer_J₂ (hK : Nat.card K = 4) {L Bs : Subgroup G}
     {Q : Type} [Group Q] {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))
@@ -61,9 +62,9 @@ theorem ggQTwoDUnitSix_x_not_mem_centralizer_J₂ (hK : Nat.card K = 4) {L Bs : 
   have hka : k ≠ a := (Finset.mem_erase.mp hk).1
   have hkc : k ≠ c := (Finset.mem_erase.mp (Finset.mem_erase.mp hk).2).1
   have hyk := congrFun hdS k
-  rw [dSign_apply_vec, if_neg (not_or.mpr ⟨hka, hkc⟩)] at hyk
+  rw [dSign_apply_vec, ite_eq_right (not_or.mpr ⟨hka, hkc⟩)] at hyk
   have hya := congrFun hdS a
-  rw [dSign_apply_vec, if_pos (Or.inl rfl),
+  rw [dSign_apply_vec, ite_eq_left (Or.inl rfl),
     hconst a (Finset.mem_erase.mpr ⟨hac, Finset.mem_univ a⟩) k (Finset.mem_erase.mp hk).2,
     hyk] at hya
   exact absurd hya (by decide)

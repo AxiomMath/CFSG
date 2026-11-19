@@ -174,14 +174,14 @@ theorem rep_stepS {R : ℕ → ℕ} (hR : rowsOK R = true) {S : ℕ} {K : ℕ �
   · rintro (h | ⟨j, hj, h1, h2⟩)
     · exact Or.inl h
     · refine Or.inr ⟨⟨j, hj⟩, ?_⟩
-      rw [if_pos ((hB ⟨j, hj⟩).1 h2)]
+      rw [ite_eq_left ((hB ⟨j, hj⟩).1 h2)]
       exact (hI ⟨j, hj⟩ z p hp).1 h1
   · rintro (h | ⟨j, h⟩)
     · exact Or.inl h
     · by_cases hne : ((K p).image (plusQuandleTf j) ∩ K p).Nonempty
-      · rw [if_pos hne] at h
+      · rw [ite_eq_left hne] at h
         exact Or.inr ⟨j, j.isLt, (hI j z p hp).2 h, (hB j).2 hne⟩
-      · rw [if_neg hne] at h
+      · rw [ite_eq_right hne] at h
         simp at h
 
 theorem colS_testBit (q : ℕ) : colS.testBit q = true ↔ q < 3600 ∧ q % 60 = 0 := by
@@ -292,7 +292,7 @@ theorem primitive_of {R : ℕ → ℕ} (hR : rowsOK R = true) (hP : primS R = tr
   by_cases hab : a = b
   · simp [hab]
   · have hne : (a == b) = false := by simpa using hab
-    rw [hne, if_neg (by simp), beq_iff_eq]
+    rw [hne, ite_eq_right (by simp), beq_iff_eq]
     exact key a b ha hb hab
 
 theorem perpA_spec {R D : ℕ → ℕ} (hR : rowsOK R = true) (hD : derivOK D = true) {a : ℕ}
@@ -324,7 +324,7 @@ theorem perpA_spec {R D : ℕ → ℕ} (hR : rowsOK R = true) (hD : derivOK D = 
     rw [hcode t ht] at h2
     have h0 : (dq D a t / 60 == 0) = false := by simp; omega
     have h1 : (dq D a t / 60 == 1) = false := by simp; omega
-    simp only [h0, h1, Bool.false_eq_true, if_false, Bool.and_eq_true, decide_eq_true_eq,
+    simp only [h0, h1, Bool.false_eq_true, ite_false, Bool.and_eq_true, decide_eq_true_eq,
       beq_iff_eq] at h
     obtain ⟨⟨hx, hy⟩, hv⟩ := h
     refine ⟨by rw [hcode t ht]; exact hx, by rw [hcode t ht]; exact hy, ?_⟩
@@ -365,7 +365,7 @@ theorem perpA_spec {R D : ℕ → ℕ} (hR : rowsOK R = true) (hD : derivOK D = 
           · have h2 : 2 ≤ plusQuandleCode a t := by rw [hcode t ht]; omega
             obtain ⟨hx, hy, -⟩ := hsrc t ht h2
             rw [hcode t ht] at hx hy
-            simp only [h0, h1, if_false, beq_iff_eq]
+            simp only [h0, h1, ite_false, beq_iff_eq]
             rw [ih _ hx (by omega), ih _ hy (by omega), hseq _ (by omega), hseq _ (by omega)]
             exact hT _ _ ((hr _ (by omega)).1) ((hr _ (by omega)).1)
     intro p hp
@@ -380,20 +380,19 @@ theorem perpA_spec {R D : ℕ → ℕ} (hR : rowsOK R = true) (hD : derivOK D = 
   · intro t h0
     have h := hder t t.isLt
     rw [hcode t t.isLt] at h0
-    simp only [h0, beq_self_eq_true, if_true, beq_iff_eq] at h
-    simp only [Fin.val_mk]
+    simp only [h0, beq_self_eq_true, ite_true, beq_iff_eq] at h
+    simp only
     rw [hseq t t.isLt, hT _ _ ha (hmod _), h]
   · intro t h1
     have h := hder t t.isLt
     rw [hcode t t.isLt] at h1
-    simp only [h1, Nat.one_ne_zero, beq_iff_eq, if_false, if_true, decide_true,
-      Bool.false_eq_true] at h
+    simp only [h1, Nat.one_ne_zero, beq_iff_eq, ite_false, ite_true] at h
     rw [hseq t t.isLt]
     exact h
   · intro c
     have h := hc c c.isLt
     simp only [Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true] at h
-    simp only [Fin.val_mk]
+    simp only
     rcases h with (h | h) | ⟨hrec, hbad⟩
     · exact Or.inl h
     · refine Or.inr (Or.inl ?_)

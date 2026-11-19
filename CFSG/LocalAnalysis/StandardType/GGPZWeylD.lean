@@ -21,9 +21,9 @@ private theorem pnd_coxeterMatrixD_eq (r : ℕ) :
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simp [cartanD, TauCeti.coxeterOrder_four]
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have hsymm : cartanD r j i = cartanD r i j := by
       rw [cartanD_eq]
       exact (CartanMatrix.D_isSymm r).apply i j
@@ -55,7 +55,7 @@ private theorem pnd_rep_spec (n : ℕ) (hn : 2 ≤ n)
     SpIsSign (pnd_rep n w).2 ∧ (∏ a, (pnd_rep n w).2 a = 1) ∧
       OmRealizes n w (pnd_rep n w).1 (pnd_rep n w).2 := by
   unfold pnd_rep
-  rw [dif_pos hn]
+  rw [dite_eq_left hn]
   exact Classical.choose_spec (pnd_exists n hn w)
 
 private theorem pnd_rep_mul (n : ℕ) (hn : 2 ≤ n)
@@ -241,9 +241,9 @@ private theorem pnd_card_center_cartanD (n : ℕ) (hn : 4 ≤ n) :
     Nat.card ↥(Subgroup.center (coxeterMatrix (isFiniteType_cartanD n)).Group) =
       if Even n then 2 else 1 := by
   by_cases heven : Even n
-  · rw [if_pos heven]
+  · rw [ite_eq_left heven]
     exact pnd_card_center_of_even n hn heven
-  · rw [if_neg heven, pnd_center_eq_bot_of_odd n hn (Nat.not_even_iff_odd.mp heven)]
+  · rw [ite_eq_right heven, pnd_center_eq_bot_of_odd n hn (Nat.not_even_iff_odd.mp heven)]
     exact Subgroup.card_bot
 
 theorem ggCoxeterD_center (n : ℕ) (hn : 4 ≤ n) :

@@ -118,7 +118,7 @@ theorem hr_q8_isPGroup {K : Subgroup G} (ψ : ↥K ≃* SL(2, ZMod 3)) : IsPGrou
 theorem hr_le_of_normal_two {T H N : Subgroup G} (hT : quasithinIsSylowTwo T)
     (hTH : T ≤ H) (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) (hN2 : IsPGroup 2 N) :
     N ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 T ∧ ¬ 2 ∣ T.index := hT
   have hTsub : IsPGroup 2 (T.subgroupOf H) :=
     hT'.1.of_injective (Subgroup.subgroupOfEquivOfLe hTH).toMonoidHom
@@ -135,7 +135,7 @@ theorem hr_le_of_normal_two {T H N : Subgroup G} (hT : quasithinIsSylowTwo T)
   exact Subgroup.mem_subgroupOf.mp (hle hx)
 
 theorem hr_sq_eq {K : Subgroup G} {z : G} (ψ : ↥K ≃* SL(2, ZMod 3)) (hzK : z ∈ K)
-    (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1) (a : ↥K) (ha4 : (a : G) ^ 4 = 1)
+    (_hz2 : z ^ 2 = 1) (_hz1 : z ≠ 1) (a : ↥K) (ha4 : (a : G) ^ 4 = 1)
     (hs : ψ a * ψ a ≠ 1) (hzψ : ψ ⟨z, hzK⟩ = slZ) : (a : G) * a = z := by
   have hy : (a : G) * a ∈ K := K.mul_mem a.2 a.2
   have hy2 : ((a : G) * a) ^ 2 = 1 := by

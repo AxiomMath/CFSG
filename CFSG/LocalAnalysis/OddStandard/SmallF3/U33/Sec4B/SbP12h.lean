@@ -14,6 +14,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem mem_normalizer_of_normalIn {H K : Subgroup G} (hK : NormalIn H K) {g : G}
     (hg : g ∈ K) : g ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]

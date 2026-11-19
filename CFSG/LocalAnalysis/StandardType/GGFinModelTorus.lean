@@ -66,6 +66,7 @@ theorem ggParam_add (hR : R = τ.rank) {ζ : GGLˣ} (hζ : ζ ^ p = 1) (z z' : F
     ← pow_eq_pow_mod (m := (z (Fin.cast hR.symm j)).val + (z' (Fin.cast hR.symm j)).val) hζ,
     ← pow_add]
 
+omit [NeZero p] in
 theorem ggParam_zero (hR : R = τ.rank) (ζ : GGLˣ) : ggParam hR ζ (0 : Fin R → ZMod p) = 1 := by
   funext j
   simp [ggParam]
@@ -258,7 +259,7 @@ theorem ggBfull_index_inner (hp3 : 3 ≤ p) :
     Nat.card hT.ggBfull ≤
       p * Nat.card ↥(hT.ggBfull ⊓ (MulAut.conj : C →* MulAut C).range) := by
   let H : Subgroup ↥D.fix := ι₀.range.subgroupOf D.fix
-  haveI hHnorm : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (by
+  have hHnorm : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (by
     rw [← hT.pkg.desc.derived]
     exact Subgroup.normalizer_commutator_ge_left D.fix D.fix)
   let uFix : Multiplicative (ggFixAdd p π) →* ↥D.fix :=
@@ -289,8 +290,8 @@ theorem ggBfull_index_inner (hp3 : 3 ≤ p) :
         (hT.ggBetaHom_mem_inn_iff (e.symm b)).mpr hu⟩
     · rintro ⟨_, hinn⟩
       exact (hT.ggBetaHom_mem_inn_iff (e.symm b)).mp hinn
-  haveI hfin : Finite (↥D.fix ⧸ H) := by
-    haveI := hT.pkg.desc.finite_fix
+  have hfin : Finite (↥D.fix ⧸ H) := by
+    have := hT.pkg.desc.finite_fix
     exact Quotient.finite (QuotientGroup.leftRel H)
   have hcard_range : Nat.card θbar.range ≤ p := by
     have h1 : Nat.card θbar.range ≤ Nat.card (↥D.fix ⧸ H) :=
@@ -321,7 +322,7 @@ theorem ggBfull_le_inn (hco : Nat.Coprime p (ι₀.range.relIndex D.fix)) :
   obtain ⟨z, hz⟩ := MonoidHom.mem_range.mp hb
   rw [← hz, hT.ggBetaHom_mem_inn_iff]
   let H : Subgroup ↥D.fix := ι₀.range.subgroupOf D.fix
-  haveI hHnorm : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (by
+  have hHnorm : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (by
     rw [← hT.pkg.desc.derived]
     exact Subgroup.normalizer_commutator_ge_left D.fix D.fix)
   let uFix : Multiplicative (ggFixAdd p π) →* ↥D.fix :=

@@ -152,7 +152,7 @@ theorem gen5_normalizer_two_le (hG : Gen5Global G) (hl : Gen5Local G p P M x) {T
   exact le_of_isTwoLocal_of_gamma_one_le hG.setting hG.d2 hG.u0 hl.sigma (gen5_five_le hG hl)
     hl.core ⟨T, hT1, hT2, rfl⟩ hUT
     (inf_le_left.trans (sylow_le_of_isCoreMaxLocal hG.setting hl.sigma hl.core).1)
-    (P.isPGroup'.to_le inf_le_left)
+    (P.isPGroup.to_le inf_le_left)
     (not_isCyclic_of_elemAbelian (gen5_U_elemAbelian hG hl).1 (gen5_U_elemAbelian hG hl).2
       le_rfl) hΓ
 
@@ -165,7 +165,7 @@ theorem gen5_L52 (hG : Gen5Global G) (hl : Gen5Local G p P M x) {X : Subgroup G}
   have hpX : ¬ p ∣ Nat.card X := (Nat.Prime.coprime_iff_not_dvd hp).mp hX
   have hXM : X ≤ M := gen5_coprime_le hG hl hpX (hUL.trans hLX)
   have hodd : Odd (Nat.card X) :=
-    CFSG.AGLEmbedding.odd_card_of_twoLocals_le hp (P.isPGroup'.to_le inf_le_left)
+    CFSG.AGLEmbedding.odd_card_of_twoLocals_le hp (P.isPGroup.to_le inf_le_left)
       (hUL.trans hLX) (fun h => gen5_not_le hG hl (hLX.trans h)) le_normalizer
       ((normal_subgroupOf_iff_le_normalizer le_normalizer).mpr le_rfl) hX hXM
       fun T hT2 hT1 hUT => gen5_normalizer_two_le hG hl hT2 hT1 hUT

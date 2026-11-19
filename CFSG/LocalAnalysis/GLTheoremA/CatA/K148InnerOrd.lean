@@ -11,7 +11,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S10
 theorem natCard_SL3 (F : Type) [Field F] [Finite F] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 3) F) =
       Nat.card F ^ 3 * (Nat.card F ^ 3 - 1) * (Nat.card F ^ 2 - 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hq : 2 ≤ Fintype.card F := Fintype.one_lt_card
   rw [Matrix.card_SL_field, Nat.card_eq_fintype_card, Fin.prod_univ_three]
   simp only [Fin.val_zero, Fin.val_one, Fin.val_two, pow_zero, pow_one]

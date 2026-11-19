@@ -73,9 +73,9 @@ theorem sign_smul_Irr_inj [Finite G] {ε δ : ℂ} (hδ : δ = 1 ∨ δ = -1) {�
   rw [cfInner_smul_smul_of_mem_Irr _ _ hχ hψ] at hcf
   by_cases hχψ : χ = ψ
   · subst hχψ
-    rw [if_pos rfl] at hcf
+    rw [ite_eq_left rfl] at hcf
     exact ⟨eq_of_mul_conj_eq_one' hδ hcf, rfl⟩
-  · rw [if_neg hχψ] at hcf
+  · rw [ite_eq_right hχψ] at hcf
     exact absurd hcf (by norm_num)
 
 theorem existsUnique_sign_smul_Irr_of_cfInner_self_eq_one [Fintype G] {f : G → ℂ}

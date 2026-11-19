@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem w135c2_S_normal (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y).Normal] :
     ((L.subgroupOf Y).map (QuotientGroup.mk' ((Zc L).subgroupOf Y))).Normal :=
   (w135_normal_of_ctx hctx).map (QuotientGroup.mk' ((Zc L).subgroupOf Y))
@@ -52,6 +53,7 @@ theorem w135c2_S_centralizer (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf 
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact Subgroup.mem_subgroupOf.mpr hyZ
 
+omit [Finite W] in
 theorem w135c2_S_equiv (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y).Normal] :
     Nonempty (↥L ⧸ Subgroup.center ↥L ≃*
       ↥((L.subgroupOf Y).map (QuotientGroup.mk' ((Zc L).subgroupOf Y)))) := by
@@ -75,6 +77,7 @@ theorem w135c2_S_equiv (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y).Nor
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hker).trans
     ((QuotientGroup.quotientKerEquivRange φ).trans (MulEquiv.subgroupCongr hrange))⟩
 
+omit [Finite W] in
 theorem w135c2_alphaCase_S (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y).Normal] {A : ℕ}
     (hA : AlphaCase (↥L ⧸ Subgroup.center ↥L) A) :
     AlphaCase ↥((L.subgroupOf Y).map (QuotientGroup.mk' ((Zc L).subgroupOf Y))) A := by
@@ -84,6 +87,7 @@ theorem w135c2_alphaCase_S (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y)
   · exact Or.inl ⟨⟨e.symm.trans e6⟩, hAeq⟩
   · exact Or.inr ⟨LieModel.of_mulEquiv e hLM, hAeq⟩
 
+omit [Finite W] in
 theorem w135c2_lieModel_S (hctx : Is135Context Y L) [hN : ((Zc L).subgroupOf Y).Normal]
     {t : StatedLieTag} {n f : ℕ} (hlie : LieModel (↥L ⧸ Subgroup.center ↥L) t n 2 f) :
     LieModel ↥((L.subgroupOf Y).map (QuotientGroup.mk' ((Zc L).subgroupOf Y))) t n 2 f := by

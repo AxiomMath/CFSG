@@ -14,7 +14,7 @@ theorem s16c1_G47_fix_of_prime_iterate {α : Type*} {f : α → α} {S : Set α}
     (hmaps : ∀ x ∈ S, f x ∈ S) : ∀ x ∈ S, f x = x := by
   intro x hx
   by_contra hne
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hper : Function.IsPeriodicPt f q x := hfq x
   have hmp : Function.minimalPeriod f x = q := Function.minimalPeriod_eq_prime hper hne
   have hmem : ∀ i : ℕ, f^[i] x ∈ S := by
@@ -37,7 +37,7 @@ theorem s16c1_G47_normCl {Hs : Type} [Group Hs] [Finite Hs] (hO2 : CFSG.pCore 2 
     (hu2 : u * u = 1) (hcomm : ∀ g : Hs, g * u * g⁻¹ * u = u * (g * u * g⁻¹)) : u = 1 := by
   classical
   set X : Subgroup Hs := Subgroup.normalClosure {u} with hXdef
-  haveI hXn : X.Normal := Subgroup.normalClosure_normal
+  have hXn : X.Normal := Subgroup.normalClosure_normal
   set T : Set Hs := Group.conjugatesOfSet ({u} : Set Hs) with hT
   have hTX : Subgroup.closure T = X := rfl
   have hTmem : ∀ a ∈ T, ∃ g : Hs, a = g * u * g⁻¹ := by

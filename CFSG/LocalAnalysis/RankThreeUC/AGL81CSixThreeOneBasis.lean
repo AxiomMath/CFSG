@@ -16,7 +16,7 @@ theorem linearListAt_of_matrixListAt {p : ℕ} [Fact p.Prime]
   let b : Module.Basis (Fin n) (ZMod p) W := Module.finBasisOfFinrankEq (ZMod p) W rfl
   let e : LinearMap.GeneralLinearGroup (ZMod p) W ≃* GL (Fin n) (ZMod p) :=
     (Matrix.GeneralLinearGroup.toLin' b).symm
-  haveI : Finite ((Module.End (ZMod p) W)ˣ) :=
+  have : Finite ((Module.End (ZMod p) W)ˣ) :=
     Finite.of_equiv (GL (Fin n) (ZMod p)) e.toEquiv.symm
   let H' : Subgroup (GL (Fin n) (ZMod p)) := H.map e.toMonoidHom
   have hH' : oPPrimeHull p H' = H' := oPPrimeHull_map_eq e.toMonoidHom hH

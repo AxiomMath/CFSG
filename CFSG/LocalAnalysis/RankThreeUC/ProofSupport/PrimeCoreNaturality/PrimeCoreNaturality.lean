@@ -11,6 +11,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_primeCore (p : ℕ) (e : MulAut G) (H : Subgroup G) :
     rankThreePrimeCore p (H.map e.toMonoidHom) = (rankThreePrimeCore p H).map e.toMonoidHom := by
   have map_symm_map (e : MulAut G) (H : Subgroup G) :

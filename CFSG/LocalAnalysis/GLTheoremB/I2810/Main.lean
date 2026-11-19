@@ -58,7 +58,7 @@ variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 theorem card_two_or_four (h : Setup28 W K S) {A : Subgroup X} (hA : Off28 W K S A)
     (hle : Nat.card ↥(indAut W K A) ≤ 4) :
     Nat.card ↥(indAut W K A) = 2 ∨ Nat.card ↥(indAut W K A) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAS : A ≤ S := hA.isMax.1
   have hc := c_card_indAut h hAS
   have hpg : IsPGroup 2 ↥A := hA.isMax.2.1.isPGroup
@@ -82,9 +82,11 @@ end Induced
 section ActionOnV
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem vOf_comm (hR : Red28 W K S) (a b : ↥(vOf W K S)) : a * b = b * a :=
   Subtype.ext (hR.v_elem.comm a.2 b.2)
 
+omit [Finite X] in
 theorem vOf_sq (hR : Red28 W K S) (v : ↥(vOf W K S)) : v * v = 1 :=
   Subtype.ext (by simpa [pow_two] using hR.v_elem.2 v v.2)
 
@@ -217,6 +219,7 @@ end LayerM
 section Shared
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem block_unique (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) :
@@ -242,6 +245,7 @@ end Shared
 section CaseThree
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem n_ne_small (hq : IsQuasisimple ↥(bar W K)) (hnc : ¬ InChevTwo ↥(bar W K)) {n : ℕ}
     (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))) :
     n ≠ 5 ∧ n ≠ 6 ∧ n ≠ 8 := by
@@ -291,6 +295,7 @@ theorem a5_frame (h : Setup28 W K S) (hR : Red28 W K S)
     ⟨hV₄, hsv, a5_NK h hR hsv, hVB, hBq, hBgen, hle, hinto, honto, hker⟩
   exact ⟨Ik ⊔ S, a5_frame_of_data h hR d⟩
 
+omit [Finite X] in
 theorem a5_cent (hR : Red28 W K S) {I : Subgroup X} (hI : A5Frame W K S I) :
     I ⊓ Subgroup.centralizer (vOf W K S : Set X) = kerAct W K S := by
   apply le_antisymm
@@ -319,12 +324,14 @@ theorem a5_cent (hR : Red28 W K S) {I : Subgroup X} (hI : A5Frame W K S I) :
     refine ⟨hI.w1_le hw, Subgroup.mem_centralizer_iff.2 fun v hv => ?_⟩
     exact hv.2.1 w hw
 
+omit [Finite X] in
 theorem a5_pushHyp (hR : Red28 W K S) {I : Subgroup X} (hI : A5Frame W K S I) :
     CFSG.Quasithin.F53Push.PushHyp I S (vOf W K S) := by
   refine ⟨hI.sylow, hI.I_le.trans (N_le_normalizer_V hR), hR.v_elem, ?_, ?_⟩
   · rw [hI.o2]; exact hR.v_le
   · rw [hI.o2]; exact a5_cent hR hI
 
+omit [Finite X] in
 theorem a5_J_not_le {A : Subgroup X} (hA : Off28 W K S A) {I : Subgroup X} (hI : A5Frame W K S I) :
     ¬ Quasithin.thompsonJ S ≤ pCoreOf 2 I := by
   intro hJ
@@ -389,6 +396,7 @@ theorem trans_sectionM (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a �
   obtain ⟨u, U₁, U₂, hl⟩ := trans_lattice h hR haS hna ha2 htr
   exact ⟨U₁, U₂, trans_sectionM_of_lattice h hR haS hna ha2 hl⟩
 
+omit [Finite X] [W.Normal] in
 theorem omega_of_orth {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
     [Finite P] {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
     {φ : ↥U₁ →* Multiplicative P} (hd : SecRepData (Mof K a) U₁ U₂ ρ φ)
@@ -417,6 +425,7 @@ theorem isAlt_transv_swap {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finit
   · subst h6; exact isAlt_transv_swap_six hA hτ hτn
   · exact isAlt_transv_swap_ne6 hm h6 hA hτ hτn
 
+omit [Finite X] [W.Normal] in
 theorem alt_of_sym {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
     [Finite P] {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
     {φ : ↥U₁ →* Multiplicative P} (hd : SecRepData (Mof K a) U₁ U₂ ρ φ)
@@ -498,6 +507,7 @@ theorem case_one
     exact ⟨h1, n, hn2, omega_final h hR hts.toSingleFactor hE hZ hS2 hblock haS hna hΩ⟩
   · exact (alt_not_hyp1 h hR h1 hAlt).elim
 
+omit [Finite X] in
 theorem omega_alt_degree (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hts : TransSection K (vOf W K S) U₁ U₂ a) (hAlt : InAlt ↥(bar W K)) {n : ℕ} (hn : 1 ≤ n)
     (hΩ : OmegaAny W K a U₁ U₂ n) :
@@ -512,6 +522,7 @@ theorem omega_alt_degree (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U�
     subst h1
     exact Or.inl ⟨rfl, hm⟩
 
+omit [Finite X] in
 theorem omega_to_alt (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hts : TransSection K (vOf W K S) U₁ U₂ a) (hAlt : InAlt ↥(bar W K))
     (hm : OmegaModel W K a U₁ U₂) : AltModel W K a U₁ U₂ := by

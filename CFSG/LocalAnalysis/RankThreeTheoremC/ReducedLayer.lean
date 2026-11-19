@@ -184,7 +184,7 @@ theorem two_le_pRank_inf_layer {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Typ
     rw [hR]
     exact isCyclic_of_surjective (subgroupOfEquivOfLe inf_le_right).symm.toMonoidHom
       (subgroupOfEquivOfLe inf_le_right).symm.surjective
-  exact two_le_pRank_of_not_isCyclic hp hp2 (T.isPGroup'.to_inf_left) hnc'
+  exact two_le_pRank_of_not_isCyclic hp hp2 (T.isPGroup.to_inf_left) hnc'
 
 theorem pCore_quotient_eq_map_inf_Op_p'p {p : ℕ} [Fact p.Prime] {H : Type*} [Group H] [Finite H]
     (T : Sylow p H) :

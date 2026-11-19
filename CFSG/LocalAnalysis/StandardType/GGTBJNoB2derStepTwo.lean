@@ -22,7 +22,7 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
     (hBT : B ≤ Subgroup.normalizer (T : Set G)) (hTB : (⁅T, B⁆ : Subgroup G) ≠ ⊥) :
     ∃ U : Subgroup G, U ≤ L ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G) ∧
       ¬ U ≤ Subgroup.centralizer (L : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBx : B ≤ Subgroup.centralizer ({x} : Set G) := by
     intro b hb
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -196,7 +196,7 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
     have hZ0P : Z0 ≤ P := by
       rintro z ⟨w, hw, rfl⟩
       exact (mem_ggProjRight).mpr
-        ⟨hZ0C ⟨w, hw, rfl⟩, (w : G)⁻¹, L.inv_mem w.2, by simpa using B.one_mem⟩
+        ⟨hZ0C ⟨w, hw, rfl⟩, (w : G)⁻¹, L.inv_mem w.2, by simp⟩
     have hxP : x ∈ P :=
       (mem_ggProjRight).mpr ⟨hxC, 1, L.one_mem, by simpa using hxB⟩
     have hpowP : ∀ c ∈ P, c ^ p ∈ Z0 := by
@@ -240,7 +240,7 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
       calc (y : G) * (z : G) = (y : G) * (w : G) := by rw [hwz']
         _ = (w : G) * (y : G) := hyw
         _ = (z : G) * (y : G) := by rw [hwz']
-    haveI : ZP.Normal := by
+    have : ZP.Normal := by
       refine ⟨fun n hn g => ?_⟩
       have h1 : n ∈ Subgroup.center ↥P := hZPcenter hn
       have h2 : g * n * g⁻¹ = n := by
@@ -278,7 +278,7 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
         (Subgroup.map_subtype_le K).trans hPC
       have h1 : IsCyclic (K.map P.subtype) := hcyc (K.map P.subtype) hmap (hKp.map P.subtype)
       let e := Subgroup.equivMapOfInjective K P.subtype Subtype.coe_injective
-      haveI : IsCyclic (K.map P.subtype) := h1
+      have : IsCyclic (K.map P.subtype) := h1
       exact isCyclic_of_surjective e.symm e.symm.surjective
     obtain ⟨w, hw, -⟩ := hK.existsUnique (⟨x, hxP⟩ : ↥P)
     obtain ⟨zx, kx⟩ := w
@@ -293,7 +293,7 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
       rw [← h2]
       exact zx.2
     have hcardK : Nat.card K = p := by
-      haveI : IsCyclic K := hKcyc
+      have : IsCyclic K := hKcyc
       have hexp : Monoid.exponent K ∣ p :=
         Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr hKexp
       have hcard : Nat.card K ∣ p := by
@@ -361,7 +361,6 @@ theorem ggB2der_exists_two_subgroup {G : Type*} [Group G]
           exact Subgroup.mem_centralizer_iff.mp htC.1 (u : G) u.2
         have h2 : Subgroup.zpowers x ≤ Subgroup.centralizer ({t} : Set G) := by
           rw [Subgroup.zpowers_le]
-          change x ∈ Subgroup.centralizer ({t} : Set G)
           rw [Subgroup.mem_centralizer_singleton_iff]
           exact (Subgroup.mem_centralizer_singleton_iff.mp htC.2).symm
         exact Subgroup.mem_centralizer_singleton_iff.mp ((sup_le h1 h2) hcbZ)

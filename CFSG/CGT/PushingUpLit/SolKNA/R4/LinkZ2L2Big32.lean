@@ -41,7 +41,7 @@ theorem doublePhi_central (n : ℕ) :
 
 theorem doublePhi_val (n : ℕ) [NeZero n] (j : ZMod (2 * n)) :
     doublePhi n j = (2 : ZMod (2 * (2 * n))) * (j.val : ZMod (2 * (2 * n))) := by
-  haveI : NeZero (2 * n) := ⟨by have := NeZero.pos n; omega⟩
+  have : NeZero (2 * n) := ⟨by have := NeZero.pos n; omega⟩
   conv_lhs => rw [← ZMod.natCast_zmod_val j]
   rw [doublePhi_natCast]
 
@@ -78,7 +78,7 @@ theorem doubleHom_xa (n : ℕ) (δ : ZMod (2 * (2 * n))) (j : ZMod (2 * n)) :
     doubleHom n δ (xa j) = xa (δ + doublePhi n j) := rfl
 
 theorem doublePhi_ker (n : ℕ) [NeZero n] (x : ZMod (2 * n)) (hx : doublePhi n x = 0) : x = 0 := by
-  haveI : NeZero (2 * n) := ⟨by have := NeZero.pos n; omega⟩
+  have : NeZero (2 * n) := ⟨by have := NeZero.pos n; omega⟩
   have hx' : doublePhi n ((x.val : ℕ) : ZMod (2 * n)) = 0 := by
     rwa [ZMod.natCast_zmod_val x]
   rw [doublePhi_natCast] at hx'
@@ -119,7 +119,7 @@ theorem exists_double_hom {n n' : ℕ} [NeZero n] (hn : n' = 2 * n) (δ : ZMod (
 
 theorem exists_pow_eq_center {m : ℕ} (q : QuaternionGroup (2 ^ m)) (hq : q ≠ 1) :
     ∃ k : ℕ, q ^ k = a ((2 ^ m : ℕ) : ZMod (2 * 2 ^ m)) := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   have hcard : Nat.card (QuaternionGroup (2 ^ m)) = 2 ^ (m + 2) := by
     rw [Nat.card_eq_fintype_card, QuaternionGroup.card]
     ring

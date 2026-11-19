@@ -100,7 +100,7 @@ theorem normalizer_sup_of_le_normalizer {Q : Type} [Group Q] {A S B : Subgroup Q
 theorem not_two_dvd_card_of_odd {Q : Type} [Group Q] [Finite Q] (B : Subgroup Q)
     (hBodd : ∀ x ∈ B, Odd (orderOf x)) : ¬ 2 ∣ Nat.card B := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) 2 h2
   have hodd := hBodd (x : Q) x.2
   rw [Subgroup.orderOf_coe, hx] at hodd
@@ -185,7 +185,7 @@ theorem centralizes_of_outer {Q : Type} [Group Q] [Finite Q] (hFact : FactAutL2p
     obtain ⟨x, hxA, hx⟩ := hsout (a' : Q) a'.2
     apply hx
     have h1 := congrArg (fun g : MulAut ↥A => ((g ⟨x, hxA⟩ : ↥A) : Q)) ha'
-    simp only [MulAut.conj_apply, hψ, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at h1
+    simp only [MulAut.conj_apply, hψ, Subgroup.coe_mul, Subgroup.coe_inv] at h1
     exact h1.symm
   have hFactApp := hFact p hp hp3 h8 ↥A hA ψ.range Saut hInn hne hSyl
   intro d hd a ha
@@ -196,7 +196,7 @@ theorem centralizes_of_outer {Q : Type} [Group Q] [Finite Q] (hFact : FactAutL2p
         Set ↥(A ⊔ S ⊔ B)) := by
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact Subgroup.mem_normalizer_iff.mp hdN (y : Q)
   have hδA : ψ ⟨d, hdX⟩ ∈ ψ.range := MonoidHom.mem_range.mpr ⟨_, rfl⟩
   have hδN : ψ ⟨d, hdX⟩ ∈

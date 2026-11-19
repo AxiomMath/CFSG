@@ -36,14 +36,14 @@ theorem commutator_iSup_iSup_le {G : Type*} [Group G] {ι κ : Type*} (A : ι �
     rw [hid]
     exact N.mul_mem ((Subgroup.mem_normalizer_iff.mp (hA ha) _).mp iha') iha
 
-theorem card_inf_le_two_mul {G : Type*} [Group G] [Finite G] (X H N : Subgroup G) (hNH : N ≤ H)
+theorem card_inf_le_two_mul {G : Type*} [Group G] [Finite G] (X H N : Subgroup G) (_hNH : N ≤ H)
     (c : G) (hc : ∀ h ∈ H, h ∈ N ∨ ∃ n ∈ N, h = c * n) :
     Nat.card ↥(X ⊓ H) ≤ 2 * Nat.card ↥(X ⊓ N) := by
   by_cases hXH : X ⊓ H ≤ N
   · have hle : X ⊓ H ≤ X ⊓ N := le_inf inf_le_left hXH
     have := Subgroup.card_le_of_le hle
     omega
-  · obtain ⟨a, haXH, haN⟩ := SetLike.not_le_iff_exists.1 hXH
+  · obtain ⟨a, haXH, haN⟩ := IsConcreteLE.not_le_iff_exists.1 hXH
     obtain ⟨haX, haH⟩ := Subgroup.mem_inf.1 haXH
     obtain ⟨na, hna, hacn⟩ : ∃ n ∈ N, a = c * n := (hc a haH).resolve_left haN
     have hsub : ((X ⊓ H : Subgroup G) : Set G) ⊆

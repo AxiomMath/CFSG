@@ -67,7 +67,7 @@ theorem isQuasisimple_equiv {A B : Type} [Group A] [Group B] (φ : A ≃* B)
     have h2 : commutator B = (commutator A).map φ.toMonoidHom := by
       rw [commutator, commutator, h1]
     rw [h2, hcomm, Subgroup.map_top_of_surjective _ φ.surjective]
-  · haveI := hsimp
+  · have := hsimp
     exact MulEquiv.isSimpleGroup
       (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) φ (map_center_equiv φ)).symm
 

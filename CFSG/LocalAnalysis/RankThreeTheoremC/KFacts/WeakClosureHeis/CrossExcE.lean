@@ -26,7 +26,7 @@ open CFSG.Assembly.LowTwoRank CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.Open
 
 private theorem seven_le_of_dvd_orderOf {p q d : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hpq : ¬ p ∣ q)
     (hd : 3 ∣ d) (he : orderOf (q : ZMod p) = d) : 7 ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   have h1 : d ∣ p - 1 := he ▸ ZMod.orderOf_dvd_card_sub_one hq0
   have h2 : 3 ∣ p - 1 := hd.trans h1
@@ -86,7 +86,7 @@ private theorem sylow_comm_of_sylowTorus {G : Type} [Group G] {p m : ℕ} (h : S
   intro S
   rw [isMulCommutative_iff]
   intro a b
-  exact Subtype.ext (mul_comm_of_sylowTorus h S.isPGroup' a.2 b.2)
+  exact Subtype.ext (mul_comm_of_sylowTorus h S.isPGroup a.2 b.2)
 
 private theorem rankLE2_E6_of_degCount_eq_two (K : Type) [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hcnt : degCount Tag.E6 (orderOf ((Nat.card K : ℕ) : ZMod p)) = 2) :

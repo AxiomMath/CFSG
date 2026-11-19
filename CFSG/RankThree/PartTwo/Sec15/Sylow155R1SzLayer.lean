@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (SzOrder3Aut)
 private def restrictAut {Q : Type*} [Group Q] (σ : MulAut Q) {J : Subgroup Q}
     (h : ∀ x, x ∈ J ↔ σ x ∈ J) : MulAut ↥J where
   toFun j := ⟨σ (j : Q), (h j).mp j.2⟩
-  invFun j := ⟨σ.symm (j : Q), (h _).mpr (by simpa using j.2)⟩
+  invFun j := ⟨σ.symm (j : Q), (h _).mpr (by simp)⟩
   left_inv j := Subtype.ext (σ.symm_apply_apply j)
   right_inv j := Subtype.ext (σ.apply_symm_apply j)
   map_mul' a b := Subtype.ext (map_mul σ (a : Q) (b : Q))
@@ -36,11 +36,11 @@ private theorem exists_odd_prime_dvd_card {X : Type*} [Group X] [Finite X] [IsSi
     (hna : ∃ a b : X, a * b ≠ b * a) : ∃ ℓ : ℕ, ℓ.Prime ∧ ℓ ≠ 2 ∧ ℓ ∣ Nat.card X := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow := Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {d} hd hdvd => by
     by_contra hd2
     exact hcon d hd hd2 hdvd
-  haveI : Group.IsNilpotent X := (IsPGroup.of_card hpow).isNilpotent
+  have : Group.IsNilpotent X := (IsPGroup.of_card hpow).isNilpotent
   obtain ⟨a, b, hab⟩ := hna
   exact hab ((IsSimpleGroup.comm_iff_isSolvable).2 inferInstance a b)
 
@@ -89,9 +89,9 @@ private theorem map_component_eq {σ : MulAut Q}
     rcases CFSG.LocalCores.distinct_components_commute hJ hJ' with h | h
     · exact absurd h.symm hne
     · exact h
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.1.2.1
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.1.2.1
   obtain ⟨ℓ, hℓ, hℓ2, hℓd⟩ := exists_odd_prime_dvd_card (X := ↥J ⧸ Subgroup.center ↥J) hJ.1.2.2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨S, hS, hSfix⟩ := hfix ℓ hℓ hℓ2
   have hT : IsSylowOf ℓ (S ⊓ J) J :=
     hS.inf_of_le_normalizer (CFSG.LocalCores.components_normal_in_layer hJ).1
@@ -122,7 +122,7 @@ theorem fixed_of_isComponent (hSz : SzSections Q) (hSz3 : SzOrder3Aut) {σ : Mul
   have hstab : ∀ x, x ∈ J ↔ σ x ∈ J := by
     intro x
     have h : σ x ∈ J.map σ.toMonoidHom ↔ x ∈ J := by
-      simpa using (Subgroup.mem_map_equiv (f := σ) (K := J) (x := σ x))
+      simp
     rw [hmap] at h
     exact h.symm
   let τ : MulAut ↥J := restrictAut σ hstab
@@ -138,17 +138,17 @@ theorem fixed_of_isComponent (hSz : SzSections Q) (hSz3 : SzOrder3Aut) {σ : Mul
     refine MulEquiv.ext fun j => Subtype.ext ?_
     rw [hpow 3 j, hσ]
     rfl
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.1.2.1
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.1.2.1
   have hτbar : quotCenterAut ↥J τ = 1 := by
     by_contra hne
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (quotCenterAut ↥J τ) = 3 :=
       orderOf_eq_prime (by rw [← map_pow, hτ3, map_one]) hne
     obtain ⟨a, ha, K, _, _, hK, ⟨e⟩⟩ := hSz J (Subgroup.center ↥J) hJ.1.2.1 hJ.1.2.2
     have hmodel : CFSG.Blueprint.SuzukiModel (↥J ⧸ Subgroup.center ↥J) 2 (2 * a + 1) :=
       ⟨rfl, a, ha, K, inferInstance, inferInstance, rfl, hK, ⟨e⟩⟩
     obtain ⟨ℓ₁, _, hℓ₁, -, -, hℓ₁2, -, hmov⟩ := hSz3 _ _ hmodel _ hord
-    haveI : Fact ℓ₁.Prime := ⟨hℓ₁⟩
+    have : Fact ℓ₁.Prime := ⟨hℓ₁⟩
     obtain ⟨S, hS, hSfix⟩ := hfix ℓ₁ hℓ₁ hℓ₁2
     have hT : IsSylowOf ℓ₁ (S ⊓ J) J :=
       hS.inf_of_le_normalizer (CFSG.LocalCores.components_normal_in_layer hJ).1
@@ -167,7 +167,7 @@ theorem fixed_of_isComponent (hSz : SzSections Q) (hSz3 : SzOrder3Aut) {σ : Mul
       have := congrArg (fun f => f (QuotientGroup.mk j)) hτbar
       exact this
     exact QuotientGroup.eq.mp h.symm
-  haveI : Group.IsPerfect ↥J := hJ.1.1
+  have : Group.IsPerfect ↥J := hJ.1.1
   have hτ1 : τ = 1 := mulAut_eq_one_of_central τ hcen
   intro x hx
   have := congrArg (fun f : MulAut ↥J => ((f ⟨x, hx⟩ : ↥J) : Q)) hτ1

@@ -16,9 +16,10 @@ section Generic
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem comm_of_elemAbelian {p : ℕ} {E : Subgroup X} (hE : IsElemAbelian p E) {x y : X}
     (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI := hE.1
+  have := hE.1
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 
@@ -61,8 +62,8 @@ theorem card_le_of_involution_data
     (R E : Subgroup X) (hR : R ≠ ⊥) (hR2 : IsPGroup 2 R)
     (hER : E ≤ Subgroup.normalizer (R : Set X)) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hlt
   push Not at hlt
   have hEne : E ≠ ⊥ := by
@@ -91,7 +92,7 @@ theorem card_le_of_involution_data
     rintro _ ⟨b, hb, rfl⟩
     exact hBx b hb
   have hV2 : IsPGroup 2 V := hR2.to_le inf_le_left
-  haveI : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial V := ⟨⟨⟨x, hxV⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
   have hZ := hV2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center V) 2
     (by
@@ -282,7 +283,7 @@ theorem ly_involution_data {K : Type} [Group K] [Finite K] (hK : IsSporadic K .L
       intro h1
       have huZ : (⟨u, huC⟩ : ↥C) ∈ Subgroup.center ↥C := hker h1
       classical
-      haveI : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
+      have : Fintype ↥(Subgroup.center ↥C) := Fintype.ofFinite _
       have ht1 : t ≠ 1 := fun h => by rw [h, orderOf_one] at ht; norm_num at ht
       have hu1 : u ≠ 1 := fun h => by rw [h, orderOf_one] at hu; norm_num at hu
       let zt : ↥(Subgroup.center ↥C) := ⟨_, htZ⟩

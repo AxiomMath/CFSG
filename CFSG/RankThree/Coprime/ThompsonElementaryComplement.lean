@@ -332,7 +332,7 @@ theorem le_normalizer_of_forall_conj_mem {B K : Subgroup X}
 
 theorem card_mul_card_le (Pb : Sylow p X) {H : Subgroup X} (hH : ¬ p ∣ Nat.card H) :
     Nat.card H * Nat.card (Pb : Subgroup X) ≤ Nat.card X := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Pb.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Pb.isPGroup
   have hcop : Nat.Coprime (Nat.card H) (Nat.card (Pb : Subgroup X)) := by
     rw [hk]
     exact Nat.Coprime.pow_right k ((Nat.Prime.coprime_iff_not_dvd hp.out).mpr hH).symm
@@ -343,7 +343,7 @@ theorem eq_bot_or_eq_of_le_normalizer (Pb : Sylow p X) {H : Subgroup X} (hH : ¬
     (hmax : ∀ K : Subgroup X, (Pb : Subgroup X) ≤ K → K = Pb ∨ K = ⊤) {K : Subgroup X}
     (hKH : K ≤ H) (hPK : (Pb : Subgroup X) ≤ normalizer (K : Set X)) : K = ⊥ ∨ K = H := by
   have hinf : (Pb : Subgroup X) ⊓ H = ⊥ :=
-    SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup'
+    SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup
   rcases hmax (K ⊔ Pb) le_sup_right with h | h
   · left
     rw [eq_bot_iff, ← hinf]
@@ -367,7 +367,7 @@ theorem sup_eq_top_of_max (Pb : Sylow p X) {H : Subgroup X} (hH : ¬ p ∣ Nat.c
   rcases hmax ((Pb : Subgroup X) ⊔ H) le_sup_left with h | h
   · exfalso
     apply hH1
-    rw [eq_bot_iff, ← SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup']
+    rw [eq_bot_iff, ← SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup]
     exact le_inf (le_sup_right.trans h.le) le_rfl
   · exact h
 
@@ -377,7 +377,7 @@ theorem inf_centralizer_eq_bot_of_max (Pb : Sylow p X) {H : Subgroup X} [hHn : H
     (hH1 : H ≠ ⊥) (hOp : ∀ K : Subgroup X, K.Normal → IsPGroup p K → K = ⊥) :
     (Pb : Subgroup X) ⊓ centralizer (H : Set X) = ⊥ := by
   have hsup := sup_eq_top_of_max Pb hH hmax hH1
-  refine hOp _ ⟨fun n hn g => ?_⟩ (Pb.isPGroup'.to_le inf_le_left)
+  refine hOp _ ⟨fun n hn g => ?_⟩ (Pb.isPGroup.to_le inf_le_left)
   obtain ⟨hnP, hnC⟩ := Subgroup.mem_inf.mp hn
   have hg : g ∈ (((Pb : Subgroup X) ⊔ H : Subgroup X) : Set X) := by
     rw [hsup]
@@ -409,7 +409,7 @@ theorem exists_isElementaryAbelian_of_max (Pb : Sylow p X) {H : Subgroup X} [hHn
   obtain ⟨R, hR⟩ : ∃ R : Sylow q H, ∀ x : (Pb : Subgroup X), x • R = R := by
     by_contra hnone
     simp only [not_exists, not_forall] at hnone
-    have hmod := Pb.isPGroup'.card_modEq_card_fixedPoints (Sylow q H)
+    have hmod := Pb.isPGroup.card_modEq_card_fixedPoints (Sylow q H)
     have hempty : Nat.card (MulAction.fixedPoints (Pb : Subgroup X) (Sylow q H)) = 0 := by
       rw [Nat.card_eq_zero]
       left
@@ -437,7 +437,7 @@ theorem exists_isElementaryAbelian_of_max (Pb : Sylow p X) {H : Subgroup X} [hHn
   have hR'H : R' = H :=
     (eq_bot_or_eq_of_le_normalizer Pb hH hmax (map_subtype_le _) hR'P).resolve_left hR'1
   have hHq : IsPGroup q H := by
-    have h := R.isPGroup'.map H.subtype
+    have h := R.isPGroup.map H.subtype
     rw [← hR', hR'H] at h
     exact h
   set E := Quasithin.BlueprintB2.centerTorsion q H with hE
@@ -604,7 +604,7 @@ theorem pPrimeCore_eq_bot (M : ThompsonMinimal p G P) : pPrimeCore p G = ⊥ := 
     have h0 : 0 < Nat.card (G ⧸ R) := Nat.card_pos
     nlinarith
   set π := QuotientGroup.mk' R with hπ
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hinj : Function.Injective (π.comp (P : Subgroup G).subtype) :=
     (SteinbergBS.prime_to_p_quotient_normalizer_centralizer_lifting hRp hPp).1
   set Pb : Sylow p (G ⧸ R) := P.mapSurjective (QuotientGroup.mk'_surjective R) with hPbdef
@@ -666,21 +666,21 @@ theorem pCore_ne_bot (M : ThompsonMinimal p G P) : pCore p G ≠ ⊥ := by
   obtain ⟨⟨T, hTP, hT1, hTN⟩, hmax⟩ := Finite.exists_max
     (fun T : 𝒯 => Nat.card ↥((P : Subgroup G) ⊓ normalizer ((T : Subgroup G) : Set G)))
   simp only at hmax
-  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
   set L := normalizer (T : Set G) with hL
   set S := (P : Subgroup G) ⊓ L with hS
   have hTS : T ≤ S := le_inf hTP le_normalizer
-  have hSp : IsPGroup p S := P.isPGroup'.to_le inf_le_left
+  have hSp : IsPGroup p S := P.isPGroup.to_le inf_le_left
   obtain ⟨S₁, hS₁⟩ := (hSp.comap_of_injective L.subtype L.subtype_injective).exists_le_sylow
   set S₂ : Subgroup G := (S₁ : Subgroup L).map L.subtype with hS₂
   have hSS₂ : S ≤ S₂ := fun x hx => ⟨⟨x, (Subgroup.mem_inf.mp hx).2⟩, hS₁ hx, rfl⟩
   have hS₂L : S₂ ≤ L := map_subtype_le _
-  have hS₂p : IsPGroup p S₂ := S₁.isPGroup'.map L.subtype
+  have hS₂p : IsPGroup p S₂ := S₁.isPGroup.map L.subtype
   have hTS₂ : T ≤ S₂ := by
     have hTn : (T.subgroupOf L).Normal :=
       BenderSuzuki.External.hkt_subgroupOf_normalizer_normal T
     have hTp : IsPGroup p (T.subgroupOf L) :=
-      (P.isPGroup'.to_le hTP).comap_of_injective L.subtype L.subtype_injective
+      (P.isPGroup.to_le hTP).comap_of_injective L.subtype L.subtype_injective
     have hle := hTp.le_sylow_of_normal S₁
     intro x hx
     exact ⟨⟨x, le_normalizer hx⟩, hle hx, rfl⟩
@@ -710,7 +710,7 @@ theorem pCore_ne_bot (M : ThompsonMinimal p G P) : pCore p G ≠ ⊥ := by
     · intro hbot
       apply hT1
       have hTn : T.Normal := normalizer_eq_top_iff.mp hLtop
-      have hle : T ≤ pCore p G := le_sSup ⟨hTn, P.isPGroup'.to_le hTP⟩
+      have hle : T ≤ pCore p G := le_sSup ⟨hTn, P.isPGroup.to_le hTP⟩
       rw [hbot] at hle
       exact le_bot_iff.mp hle
     · exact absurd (M.hnc_of_le hPL hLtop) hTN
@@ -765,7 +765,7 @@ theorem hnc_quotient_pCore (M : ThompsonMinimal p G P) :
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Q
   set Pb : Sylow p (G ⧸ Q) := P.mapSurjective hπs with hPbdef
   have hPb : (Pb : Subgroup (G ⧸ Q)) = (P : Subgroup G).map π := Sylow.coe_mapSurjective _ _
-  have hPbp : IsPGroup p (Pb : Subgroup (G ⧸ Q)) := Pb.isPGroup'
+  have hPbp : IsPGroup p (Pb : Subgroup (G ⧸ Q)) := Pb.isPGroup
   have hPb1 : (Pb : Subgroup (G ⧸ Q)) ≠ ⊥ := by
     rw [hPb]
     intro h
@@ -797,7 +797,7 @@ theorem hnc_quotient_pCore (M : ThompsonMinimal p G P) :
     have hWtop : normalizer (W : Set G) ≠ ⊤ := by
       intro h
       have hWnorm : W.Normal := normalizer_eq_top_iff.mp h
-      have hWQ : W ≤ Q := le_sSup ⟨hWnorm, P.isPGroup'.to_le hWP⟩
+      have hWQ : W ≤ Q := le_sSup ⟨hWnorm, P.isPGroup.to_le hWP⟩
       apply hX1
       rw [← map_comap_eq_self_of_surjective hπs X, eq_bot_iff, Subgroup.map_le_iff_le_comap]
       intro x hx
@@ -915,7 +915,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
     rw [hB, Ne, Subgroup.map_eq_bot_iff, hker]
     exact hAQ
   have hBea : IsElementaryAbelian p B := Quasithin.BlueprintB2.isElementaryAbelian_map hA₀ea π
-  have hBp : IsPGroup p B := Pb.isPGroup'.to_le hBP
+  have hBp : IsPGroup p B := Pb.isPGroup.to_le hBP
   set H₁ := ⁅B, H⁆ with hH₁
   have hH₁H : H₁ ≤ H := Subgroup.commutator_le_right B H
   have hBH₁ : B ≤ normalizer (H₁ : Set (G ⧸ Q)) := by
@@ -940,7 +940,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
   set L := (H₁ ⊔ B).comap π with hL
   set S := Q ⊔ A₀ with hS
   have hSP : S ≤ P := sup_le hQP hA₀P
-  have hSp : IsPGroup p S := P.isPGroup'.to_le hSP
+  have hSp : IsPGroup p S := P.isPGroup.to_le hSP
   have hSmap : S.map π = B := by
     have hQb : Q.map π = ⊥ := by rw [Subgroup.map_eq_bot_iff, hker]
     rw [hS, Subgroup.map_sup, hQb, bot_sup_eq]
@@ -974,7 +974,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
           mul_mem (hH₁H hh) (hHn.conj_mem _ (inv_mem (hH₁H hh)) b')
         rwa [← mul_assoc, ← mul_assoc] at h3
       have h4 : h * b' * h⁻¹ * b'⁻¹ ∈ (Pb : Subgroup (G ⧸ Q)) ⊓ H := mem_inf.mpr ⟨hBP h1, h2⟩
-      rw [SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup', mem_bot] at h4
+      rw [SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH Pb.isPGroup, mem_bot] at h4
       calc b' * h = (h * b' * h⁻¹ * b'⁻¹)⁻¹ * (h * b') := by group
         _ = h * b' := by rw [h4, inv_one, one_mul]
     have hh1 : h = 1 := by
@@ -990,7 +990,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
     exact lt_irrefl _ (lt_of_lt_of_le hlt ((inf_le_inf_right _ hS₂L).trans hNLS))
   obtain ⟨S₁, hS₁⟩ := (hSp.comap_of_injective L.subtype L.subtype_injective).exists_le_sylow
   have hS₁eq : (S₁ : Subgroup L).map L.subtype = S :=
-    hSmax _ (S₁.isPGroup'.map L.subtype) (fun x hx => ⟨⟨x, hSL hx⟩, hS₁ hx, rfl⟩)
+    hSmax _ (S₁.isPGroup.map L.subtype) (fun x hx => ⟨⟨x, hSL hx⟩, hS₁ hx, rfl⟩)
       (map_subtype_le _)
   have hA₀J : A₀ ≤ 𝒥[p, S] := by
     have hA₀S : A₀ ≤ S := le_sup_right
@@ -1033,7 +1033,7 @@ theorem false_of_minimal (hp2 : p ≠ 2) (M : ThompsonMinimal p G P) : False := 
     have hH₁p : IsPGroup p H₁ := (hLp.map π).to_le hH₁L
     rw [eq_bot_iff, ← SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd hH hH₁p]
     exact le_inf le_rfl hH₁H
-  have hPS : (P : Subgroup G) = S := hSmax P P.isPGroup' hSP (by rw [hLtop]; exact le_top)
+  have hPS : (P : Subgroup G) = S := hSmax P P.isPGroup hSP (by rw [hLtop]; exact le_top)
   have hPbB : (Pb : Subgroup (G ⧸ Q)) = B := by rw [hPb, hPS, hSmap]
   have hPbcard : Nat.card (Pb : Subgroup (G ⧸ Q)) = p := by
     rw [hPbB]

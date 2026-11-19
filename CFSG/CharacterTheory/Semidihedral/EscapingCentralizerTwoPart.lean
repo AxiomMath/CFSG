@@ -33,7 +33,7 @@ theorem sylow_two_card_eq_two_of_no_centralizing_four (i : K) (hi : orderOf i = 
   obtain ⟨S, hiS⟩ := hZi.exists_le_sylow
   have hiS' : i ∈ (S : Subgroup K) := hiS (Subgroup.mem_zpowers i)
   let CS := (S : Subgroup K) ⊓ Subgroup.centralizer ({i} : Set K)
-  have hCSp : IsPGroup 2 CS := S.isPGroup'.to_le inf_le_left
+  have hCSp : IsPGroup 2 CS := S.isPGroup.to_le inf_le_left
   have hiCS : i ∈ CS := ⟨hiS', Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hi1 : i ≠ 1 := by
     intro h
@@ -61,7 +61,7 @@ theorem sylow_two_card_eq_two_of_no_centralizing_four (i : K) (hi : orderOf i = 
     Subgroup.eq_of_le_of_card_ge hZle (by rw [hCScard, Nat.card_zpowers, hi])
   let : Nontrivial (S : Subgroup K) :=
     ⟨⟨⟨i, hiS'⟩, 1, fun h => hi1 (congrArg Subtype.val h)⟩⟩
-  have hcenter := S.isPGroup'.center_nontrivial
+  have hcenter := S.isPGroup.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center (S : Subgroup K))
   have hcCS : ((c : (S : Subgroup K)) : K) ∈ CS := by
     refine ⟨(c : (S : Subgroup K)).property, ?_⟩

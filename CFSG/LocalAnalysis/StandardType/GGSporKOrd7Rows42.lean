@@ -78,7 +78,7 @@ private theorem lr2o42_lieAdm_markTag {lab : LargeEvenLabel} (hl : LargeEvenInLa
     obtain ⟨-, -, hodd, h3⟩ := hl
     rw [Nat.odd_iff] at hodd
     simp [hodd, h3]
-  all_goals first | rfl | (split_ifs <;> rfl)
+  all_goals (split_ifs <;> rfl)
 
 open CFSG.EvenSmallLie.CatalogOrders in
 private theorem lr2o42_labOrd_eq_lieOrd_of_markTag_mem {lab : LargeEvenLabel}
@@ -86,7 +86,7 @@ private theorem lr2o42_labOrd_eq_lieOrd_of_markTag_mem {lab : LargeEvenLabel}
     labOrd lab = lieOrd (markTag lab) (markRank lab) (markChar lab ^ markDeg lab) := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [labOrd, markTag, markRank, markChar, markDeg]
-  all_goals first | rfl |
+  all_goals first |
     (exact absurd ht (by simp only [markTag, searchTags]; decide))
 
 private theorem lr2o42_rank_le_markRank {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) :
@@ -294,7 +294,7 @@ theorem mem_rows42_of_marked
         intro g _
         exact (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x)) g
       have htop : commutator ↥L = ⊤ := hmark.1
-      haveI := hLs.toNontrivial
+      have := hLs.toNontrivial
       rw [hbot] at htop
       exact bot_ne_top htop
   have e : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=

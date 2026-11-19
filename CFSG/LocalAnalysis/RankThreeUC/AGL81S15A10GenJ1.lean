@@ -123,7 +123,7 @@ theorem disjoint_of_commute {α : Type*} [Fintype α] [DecidableEq α] (hα : Fi
   have hdlt : d < 15 := lt_of_le_of_lt hle hα
   have hdpos : 0 < d := Nat.pos_of_dvd_of_pos hdvd (by norm_num)
   have hcases : d = 1 ∨ d = 3 ∨ d = 5 := by
-    interval_cases d <;> first | omega | (exfalso; revert hdvd; decide)
+    interval_cases d <;> first | omega
   rcases hcases with rfl | rfl | rfl
   · have h1 : (p * q) x = x := by simpa using hfix
     have h3 := Perm.pow_apply_eq_self_of_apply_eq_self h1 3
@@ -136,8 +136,8 @@ theorem disjoint_of_commute {α : Type*} [Fintype α] [DecidableEq α] (hα : Fi
 
 theorem isThreeCycle_of_commute {p q : Perm (Fin 10)} (hp : p ^ 5 = 1) (hp1 : p ≠ 1)
     (hq : q ^ 3 = 1) (hq1 : q ≠ 1) (hpq : Commute p q) : IsThreeCycle q := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hop : orderOf p = 5 := orderOf_eq_prime hp hp1
   have hoq : orderOf q = 3 := orderOf_eq_prime hq hq1
   obtain ⟨m, hm⟩ := Equiv.Perm.cycleType_prime_order (σ := p) (by rw [hop]; exact Nat.prime_five)
@@ -344,7 +344,7 @@ theorem restr_range_eq (hφ : Function.Injective φ) {s₀ : alternatingGroup (F
     (restr_of_isThreeCycle φ x₀ hφ hs₀).resolve_left hne
   have hAlt : alternatingGroup (orb φ x₀) ≤ K :=
     Equiv.Perm.alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem hpt hg3 ⟨s₀, rfl⟩
-  haveI hnt : Nontrivial (orb φ x₀) :=
+  have hnt : Nontrivial (orb φ x₀) :=
     ⟨⟨⟨x₀, hx0mem⟩, ⟨φ s₀ x₀, s₀, rfl⟩, fun h => hx₀ (congrArg Subtype.val h).symm⟩⟩
   have hker : (restr φ x₀).ker = ⊥ := by
     rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top_of_card_ne_six (α := Fin 8)

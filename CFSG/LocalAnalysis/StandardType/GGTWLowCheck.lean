@@ -301,7 +301,7 @@ private theorem l05nLC_surv2_false {p N allow : ℕ} [Fact p.Prime] (hp : 3 ≤ 
         exact hOut hOut8
 
 theorem ggTWLCheck_sound {p N allow : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
-    (hallow : allow = 0 ∨ allow = 6 ∨ allow = 8)
+    (_hallow : allow = 0 ∨ allow = 6 ∨ allow = 8)
     (Out : Set (Module.End (ZMod p) (GGTWE p N)) → Prop) (hOut : GGTWLOutSound p N allow Out)
     (d : GGTWLData) (h : ggTWLCheck p N allow d = true) : GGTWLowCells p N Out := by
   have hh := h
@@ -324,7 +324,7 @@ theorem ggTWLCheck_sound {p N allow : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5
 
 theorem ggTWLCells55 (d : GGTWLData) (h : ggTWLCheck 5 5 0 d = true) :
     GGTWLowCells 5 5 (fun _ => False) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine ggTWLCheck_sound (p := 5) (N := 5) (allow := 0) (by norm_num) (by norm_num)
     (Or.inl rfl) (fun _ => False) ?_ d h
   refine ⟨?_, ?_⟩
@@ -335,7 +335,7 @@ theorem ggTWLCells55 (d : GGTWLData) (h : ggTWLCheck 5 5 0 d = true) :
 
 theorem ggTWLCells36 (d : GGTWLData) (h : ggTWLCheck 3 6 6 d = true) :
     GGTWLowCells 3 6 GGTWLowE6Outcome := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine ggTWLCheck_sound (p := 3) (N := 6) (allow := 6) (by norm_num) (by norm_num)
     (Or.inr (Or.inl rfl)) GGTWLowE6Outcome ?_ d h
   refine ⟨?_, ?_⟩
@@ -346,7 +346,7 @@ theorem ggTWLCells36 (d : GGTWLData) (h : ggTWLCheck 3 6 6 d = true) :
 
 theorem ggTWLCells39 (d : GGTWLData) (h : ggTWLCheck 3 9 8 d = true) :
     GGTWLowCells 3 9 GGTWLowE8Outcome := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine ggTWLCheck_sound (p := 3) (N := 9) (allow := 8) (by norm_num) (by norm_num)
     (Or.inr (Or.inr rfl)) GGTWLowE8Outcome ?_ d h
   refine ⟨?_, ?_⟩

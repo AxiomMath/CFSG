@@ -136,7 +136,7 @@ theorem L34MSide.false_of_mtilde' (hKZ : KFactMSideAlmostSimpleE27)
     have hle : R ≤ (S' : Subgroup _).map (Subgroup.centralizer ({z} : Set Y)).subtype := by
       rw [← Subgroup.map_subgroupOf_eq_of_le hRC]
       exact Subgroup.map_mono hS'
-    have hcard := hRsyl _ (Subgroup.map_subtype_le _) (S'.isPGroup'.map _)
+    have hcard := hRsyl _ (Subgroup.map_subtype_le _) (S'.isPGroup.map _)
     exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
   have hconj : ∀ y ∈ Subgroup.centralizer ({z} : Set Y), IsPGroup 3 (Subgroup.zpowers y) →
       ∃ c ∈ Subgroup.centralizer ({z} : Set Y), c⁻¹ * y * c ∈ R := by

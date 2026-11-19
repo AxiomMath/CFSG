@@ -16,13 +16,13 @@ open scoped commutatorElement Matrix
 theorem sec8_exists_mem_normalizer_not_mem {H : Type} [Group H] [Finite H] (T P : Subgroup H)
     (hT : IsPGroup 2 T) (hPT : P < T) :
     ∃ g : H, g ∈ T ∧ g ∈ Subgroup.normalizer (P : Set H) ∧ g ∉ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent T := hT.isNilpotent
   have hnc : NormalizerCondition T := Group.normalizerCondition_of_isNilpotent
   have htop : P.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     exact lt_irrefl P (lt_of_lt_of_le hPT (Subgroup.subgroupOf_eq_top.mp h))
-  obtain ⟨g, hgN, hgP⟩ := SetLike.exists_of_lt (hnc _ htop)
+  obtain ⟨g, hgN, hgP⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ htop)
   have hgN' : g ∈ (Subgroup.normalizer (P : Set H)).subgroupOf T := by
     rw [Subgroup.subgroupOf_normalizer_eq hPT.le]
     exact hgN
@@ -38,12 +38,12 @@ theorem sec8_exists_sylow_of_normalizer_le {H : Type} [Group H] [Finite H] (N P 
   refine ⟨S, ?_⟩
   by_contra hne
   have hPT : P < S.toSubgroup := lt_of_le_of_ne hPS (Ne.symm hne)
-  obtain ⟨g, hgT, hgN, hgP⟩ := sec8_exists_mem_normalizer_not_mem S.toSubgroup P S.isPGroup' hPT
+  obtain ⟨g, hgT, hgN, hgP⟩ := sec8_exists_mem_normalizer_not_mem S.toSubgroup P S.isPGroup hPT
   have hgN' : g ∈ N := hnorm g hgN
   have hS₁T : P ⊔ Subgroup.zpowers g ≤ S.toSubgroup :=
     sup_le hPT.le (Subgroup.zpowers_le.mpr hgT)
   have hS₁N : P ⊔ Subgroup.zpowers g ≤ N := sup_le hPN (Subgroup.zpowers_le.mpr hgN')
-  have hS₁2 : IsPGroup 2 ↥(P ⊔ Subgroup.zpowers g) := S.isPGroup'.to_le hS₁T
+  have hS₁2 : IsPGroup 2 ↥(P ⊔ Subgroup.zpowers g) := S.isPGroup.to_le hS₁T
   have heq : P ⊔ Subgroup.zpowers g = P := hmax _ hS₁2 hS₁N le_sup_left
   have hmem : g ∈ P ⊔ Subgroup.zpowers g := Subgroup.mem_sup_right (Subgroup.mem_zpowers g)
   rw [heq] at hmem
@@ -235,6 +235,7 @@ section Wrapper
 
 variable [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem sec8_mk_mem_normalizer_bar {S : Subgroup G} (hQS : Q ≤ S) (y : M)
     (hy : (y : G) ∈ Subgroup.normalizer (S : Set G)) :
     QuotientGroup.mk' (Q.subgroupOf M) y ∈ Subgroup.normalizer (bar M Q S : Set (Mbar M Q)) := by
@@ -259,15 +260,18 @@ theorem sec8_mem_normalizer_of_mk_mem_normalizer_bar {L : Subgroup G} (hQL : Q �
     Subgroup G :=
   (C.comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype
 
+omit [Finite G] in
 theorem sec8_mem_preBar {C : Subgroup (Mbar M Q)} (y : M) :
     (y : G) ∈ sec8_preBar M Q C ↔ QuotientGroup.mk' (Q.subgroupOf M) y ∈ C := by
   unfold sec8_preBar
   exact (Subgroup.mem_map_iff_mem M.subtype_injective).trans Subgroup.mem_comap
 
+omit [Finite G] in
 theorem sec8_preBar_le (C : Subgroup (Mbar M Q)) : sec8_preBar M Q C ≤ M := by
   rintro _ ⟨m, -, rfl⟩
   exact m.2
 
+omit [Finite G] in
 theorem sec8_Q_le_preBar (C : Subgroup (Mbar M Q)) (hQM : Q ≤ M) : Q ≤ sec8_preBar M Q C := by
   intro x hx
   have h := (sec8_mem_preBar (C := C) ⟨x, hQM hx⟩).mpr
@@ -277,6 +281,7 @@ theorem sec8_Q_le_preBar (C : Subgroup (Mbar M Q)) (hQM : Q ≤ M) : Q ≤ sec8_
   rw [this]
   exact C.one_mem
 
+omit [Finite G] in
 theorem sec8_bar_preBar (C : Subgroup (Mbar M Q)) : bar M Q (sec8_preBar M Q C) = C := by
   unfold bar
   have hsub : (sec8_preBar M Q C).subgroupOf M = C.comap (QuotientGroup.mk' (Q.subgroupOf M)) := by
@@ -320,7 +325,7 @@ theorem sec8Sylow_of (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatement)
     hLp.comap_of_injective NZ.subtype Subtype.val_injective
   obtain ⟨S, hLS⟩ := hLpNZ.exists_le_sylow
   set S' : Subgroup (Mbar M Q) := S.toSubgroup.map NZ.subtype with hS'
-  have hS'p : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 2 S' := S.isPGroup.map _
   have hS'NZ : S' ≤ NZ := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

@@ -12,9 +12,9 @@ theorem orderOf_card_dvd_finrank_range {K V : Type*} [Field K] [Finite K] [CharP
     (hp2 : p ≠ 2) (hg : orderOf g = p) :
     orderOf ((Nat.card K : ℕ) : ZMod p) ∣
       Module.finrank K (LinearMap.range ((g : V →ₗ[K] V) - 1)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite V := Module.finite_of_finite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite V := Module.finite_of_finite K
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := by
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, hn]
@@ -161,7 +161,7 @@ theorem two_mul_orderOf_le_finrank_of_isometry {K V : Type*} [Field K] [Finite K
 theorem orderOf_two_zmod_eq_of_primitive {e p : ℕ} (hp : p.Prime) (he : 0 < e)
     (hdvd : p ∣ 2 ^ e - 1) (hprim : ∀ k : ℕ, 0 < k → k < e → ¬ p ∣ 2 ^ k - 1) :
     orderOf (2 : ZMod p) = e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ k : ℕ, p ∣ 2 ^ k - 1 ↔ (2 : ZMod p) ^ k = 1 := fun k => by
     rw [← ZMod.natCast_eq_zero_iff, Nat.cast_sub Nat.one_le_two_pow]
     push_cast

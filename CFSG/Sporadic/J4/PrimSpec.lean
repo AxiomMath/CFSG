@@ -92,7 +92,7 @@ theorem subSizesF_blocks (S : Finset (Fin 7)) (h0 : (0 : Fin 7) ∈ S)
   rw [← Finset.univ_inter S, ← Finset.sum_ite_mem, Fin.sum_univ_seven] at hd
   simp only [subSizesF, h0, ite_true] at hd
   split_ifs at hd with h1 h2 h3 h4 h5 h6
-  all_goals first | (exfalso; norm_num at hd; done) | skip
+  all_goals try (exfalso; norm_num at hd; done)
   · right
     exact Finset.eq_univ_of_forall fun i => by fin_cases i <;> assumption
   · left

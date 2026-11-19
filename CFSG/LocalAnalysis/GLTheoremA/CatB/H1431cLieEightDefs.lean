@@ -33,7 +33,7 @@ theorem lieSEight_of_at (h : LieSEightAt fun _ => True) : LieSEight :=
       ∀ α : MulAut (Y ⧸ Subgroup.center Y), α ∈ innAutDerived (Y ⧸ Subgroup.center Y) →
         α ^ 3 = 1 → α ≠ 1 → ¬ CompOfType (Y ⧸ Subgroup.center Y) α S8.L84.isSp48
 
-theorem lieSEight_image_component {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple Y)
+theorem lieSEight_image_component {Y : Type} [Group Y] [Finite Y] (_hY : CFSG.Open.IsQuasisimple Y)
     {ξ : MulAut Y} {J : Subgroup Y}
     (hJ : GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup ξ) J)
     (hT : catalogIs (PSimple 3 J) S8.L84.isSp48) :
@@ -43,7 +43,7 @@ theorem lieSEight_image_component {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Ope
     CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ
   have hq' : CFSG.Open.IsQuasisimple (PQuot 3 J') :=
     CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ'
-  haveI : Nontrivial (PQuot 3 J') := by
+  have : Nontrivial (PQuot 3 J') := by
     have := hq'.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 J' ⧸ Subgroup.center (PQuot 3 J'))
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

@@ -169,7 +169,6 @@ private theorem tpq_fixed_map {X : Type*} [Group X] (hZ : Subgroup.center X = �
     rw [hcent]
     change (ρ d : MulAut X) ∈ Subgroup.centralizer ({y} : Set (MulAut X))
     rw [Subgroup.mem_centralizer_singleton_iff]
-    change (ρ d : MulAut X) * y = y * (ρ d : MulAut X)
     rw [hρ d]
     exact ((tpq_conj_commute_iff hZ y (d : X)).mpr hfix).symm
   · intro hx
@@ -205,19 +204,19 @@ private theorem tpq_quotient_pcomp_quasisimple {L : Type} [Group L] [Finite L] {
     (hmark : LargeEvenMarking L (fun _ _ _ I _ θ => GGInducedInn E θ I))
     (C : Subgroup (fixedSubgroup (centerQuotAut L y)))
     (hC : CFSG.IsPComponent p C) : CFSG.IsQuasisimple ↥C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmarkKeep : LargeEvenMarking L (fun _ _ _ I _ θ => GGInducedInn E θ I) := hmark
   obtain ⟨hperfL, lab0, hΛ0, hraw⟩ := hmark
   obtain ⟨R, hRgrp, I, F, hsimp, hna, θ, hind⟩ := largeEvenRawDatum_exists hraw
-  haveI : Group.IsPerfect L := ⟨hperfL⟩
+  have : Group.IsPerfect L := ⟨hperfL⟩
   have hZLb : Subgroup.center (L ⧸ Subgroup.center L) = ⊥ := Group.IsPerfect.center_quotient_center_eq_bot L
-  haveI : Group.IsPerfect (L ⧸ Subgroup.center L) :=
+  have : Group.IsPerfect (L ⧸ Subgroup.center L) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center L))
       (QuotientGroup.mk'_surjective _)
   let G₀ : Subgroup (MulAut (L ⧸ Subgroup.center L)) := (MulAut.conj : (L ⧸ Subgroup.center L) →* MulAut (L ⧸ Subgroup.center L)).range
   let ρ : (L ⧸ Subgroup.center L) ≃* ↥G₀ := MonoidHom.ofInjective (tpq_conj_injective hZLb)
-  haveI : IsSimpleGroup R := hsimp
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := θ.isSimpleGroup
+  have : IsSimpleGroup R := hsimp
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := θ.isSimpleGroup
   have hG0simple : IsSimpleGroup ↥G₀ := ρ.symm.isSimpleGroup
   let ψ : MulAut (L ⧸ Subgroup.center L) := centerQuotAut L y
   let A : Subgroup (MulAut (L ⧸ Subgroup.center L)) := Subgroup.zpowers ψ
@@ -243,7 +242,7 @@ private theorem tpq_quotient_pcomp_quasisimple {L : Type} [Group L] [Finite L] {
         _ = a⁻¹ * (a * g * a⁻¹) * a := by rw [hd]
         _ = g := by group
   have hperfG0 : commutator ↥G₀ = ⊤ := by
-    haveI : Group.IsPerfect ↥G₀ :=
+    have : Group.IsPerfect ↥G₀ :=
       Group.IsPerfect.ofSurjective (f := ρ.toMonoidHom) (fun x => ρ.surjective x)
     exact Group.IsPerfect.commutator_eq_top
   have hmarkG0 : LargeEvenMarking ↥G₀ (fun _ _ _ I _ θ'' => ∀ a ∈ A, ∃ φ ∈ I,
@@ -298,7 +297,7 @@ private theorem tpq_quotient_pcomp_quasisimple_all {L : Type} [Group L] [Finite 
 theorem ggPCompCentQuasisimple_holds :
     GGPCompCentQuasisimple fun _ => True := by
   intro p hp hp2 L _ _ E y lab hΛ hP hlab hy hord hmark S hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Z : Subgroup L := Subgroup.center L
   have hcentral : Z ≤ Subgroup.center L := le_rfl
   have hinv : Z.map y.toMonoidHom = Z := by
@@ -325,7 +324,7 @@ theorem ggPCompCentQuasisimple_holds :
   have hM : CFSG.IsPComponent p M :=
     ComponentClassification.CatalogueBCentralQuotient.pComponent_map p f hf_surj hf_central
       (S.subgroupOf (fixedSubgroup y)) hSpc
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hMpcN : CFSG.IsPComponent p M := hM
   have hMpcD : CFSG.IsPComponent p (M.map N.subtype) :=
     ComponentClassification.CatalogueBAlternating.pComponent_of_normal_subgroup p N M hM
@@ -333,7 +332,7 @@ theorem ggPCompCentQuasisimple_holds :
     tpq_quotient_pcomp_quasisimple_all ggStructSOne_holds hp hp2 E y hy hord hmark ψ hψ
       (M.map N.subtype) hMpcD
   have hMq : CFSG.IsQuasisimple ↥M := by
-    haveI : N.Normal := hNnorm
+    have : N.Normal := hNnorm
     exact CFSG.IsQuasisimple.of_mulEquiv
       (Subgroup.equivMapOfInjective M N.subtype N.subtype_injective) hMqD
   have hSsub_q : CFSG.IsQuasisimple ↥(S.subgroupOf (fixedSubgroup y)) :=

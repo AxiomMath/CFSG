@@ -58,8 +58,8 @@ private theorem ringAut_eq_one_of_iterate {F : Type} [Field F] [Finite F] (σ : 
     (hT : ∀ k : ℕ, (∀ y : F, (fun x => a * σ x)^[k] y = y) → Nat.card F - 1 ∣ k) :
     σ = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (RingAut F) :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite (RingAut F) :=
     Finite.of_injective (fun τ : RingAut F => (τ : F → F)) DFunLike.coe_injective
   by_contra hσ
   set s := orderOf σ with hsdef
@@ -67,7 +67,7 @@ private theorem ringAut_eq_one_of_iterate {F : Type} [Field F] [Finite F] (σ : 
   have hs1 : s ≠ 1 := fun h => hσ (orderOf_eq_one_iff.mp h)
   have hs2 : 2 ≤ s := by omega
   set H : Subgroup (RingAut F) := Subgroup.zpowers σ with hH
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   set F₀ : Subfield F := FixedPoints.subfield H F with hF₀
   have hrank : Module.finrank F₀ F = s := by
     rw [hF₀, FixedPoints.finrank_eq_card H F, Fintype.card_eq_nat_card, hH, Nat.card_zpowers]
@@ -95,7 +95,7 @@ private theorem ringAut_eq_one_of_iterate {F : Type} [Field F] [Finite F] (σ : 
     rw [hNdef, Finset.prod_ne_zero_iff]
     intro j _
     exact (map_ne_zero _).mpr ha
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Fintype F₀ := Fintype.ofFinite F₀
   have hNr : N ^ (Nat.card F₀ - 1) = 1 := by
     have h1 := FiniteField.pow_card_sub_one_eq_one (⟨N, hNF₀⟩ : F₀)
       (fun h => hN0 (congrArg Subtype.val h))
@@ -113,7 +113,7 @@ private theorem ringAut_eq_one_of_iterate {F : Type} [Field F] [Finite F] (σ : 
       ring
   have hdvd := hT (s * (Nat.card F₀ - 1)) fun y => by rw [hiter, hNr, one_mul]
   have hr2 : 2 ≤ Nat.card F₀ := by
-    haveI : Nontrivial F₀ := inferInstance
+    have : Nontrivial F₀ := inferInstance
     exact Finite.one_lt_card
   have hpos : 0 < s * (Nat.card F₀ - 1) := Nat.mul_pos hs0 (by omega)
   have hle := Nat.le_of_dvd hpos hdvd

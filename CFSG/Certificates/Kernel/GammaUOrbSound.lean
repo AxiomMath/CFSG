@@ -714,7 +714,7 @@ theorem reach (n : ℕ) : ∀ D D' : Sub, InS R D → MaxA D' →
     by_cases hle : D' ≤ D
     · rw [Submodule.eq_of_le_of_finrank_eq hle (by rw [hD'.2.1, hDm.2.1])]
       exact hD
-    obtain ⟨y, hyD', hyD⟩ := SetLike.not_le_iff_exists.1 hle
+    obtain ⟨y, hyD', hyD⟩ := IsConcreteLE.not_le_iff_exists.1 hle
     have hy : q0 y = 0 := hD'.1 y hyD'
     have hya : f0 y (vecOf 3072) = 0 := f0_eq_zero_of_mem hD'.1 hyD' hD'.2.2
     refine ih (nb D y) D' (nb_S hMg hN2 hD hy hya hyD) hD' ?_

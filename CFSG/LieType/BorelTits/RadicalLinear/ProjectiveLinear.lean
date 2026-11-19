@@ -42,7 +42,7 @@ private theorem ker_slImage_mk :
     by_cases hr0 : r = 0
     · rw [hr0] at hscalar
       rcases isEmpty_or_nonempty β with hβ | hβ
-      · haveI : IsEmpty β := hβ
+      · have : IsEmpty β := hβ
         exact ⟨1, by
           apply Units.ext
           rw [GeneralLinearGroup.coe_scalar]
@@ -106,7 +106,7 @@ theorem commutator_le_slImage : commutator (PGL β K) ≤ slImage β K := by
 
 theorem isSimpleGroup_slImage [Finite K] (h2 : 2 ≤ Fintype.card β)
     (h22 : ¬ (Fintype.card β = 2 ∧ Nat.card K ≤ 3)) : IsSimpleGroup (slImage β K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcond : 3 ≤ Fintype.card β ∨ ∃ s : Finset K, s.card = 4 := by
     rcases Nat.lt_or_ge (Fintype.card β) 3 with h3 | h3
     · right
@@ -123,15 +123,15 @@ theorem isSimpleGroup_slImage [Finite K] (h2 : 2 ≤ Fintype.card β)
   obtain ⟨-, hsimple, -⟩ := CFSG.LinearGroups.linear_projective_simple (K := K)
     (n := Fintype.card β) h2 hcond
   obtain ⟨e⟩ := nonempty_projectiveSpecialLinearGroup_equiv (K := K) (Fintype.equivFin β)
-  haveI : IsSimpleGroup (ProjectiveSpecialLinearGroup β K) := e.isSimpleGroup_congr.mpr hsimple
+  have : IsSimpleGroup (ProjectiveSpecialLinearGroup β K) := e.isSimpleGroup_congr.mpr hsimple
   obtain ⟨e2⟩ := nonempty_slImage_equiv β K
   exact e2.isSimpleGroup
 
-theorem isSolvable_pgl_of_card_eq_one (h : Fintype.card β = 1) : IsSolvable (PGL β K) := by
+theorem isSolvable_pgl_of_card_eq_one (h : Fintype.card β = 1) : Group.IsSolvable (PGL β K) := by
   have hcomm : ∀ a b : GL β K, a * b = b * a := by
     intro a b
     obtain ⟨hu⟩ := Fintype.card_eq_one_iff_nonempty_unique.1 h
-    letI := hu
+    let := hu
     apply Units.ext
     ext i j
     simp only [Units.val_mul, Matrix.mul_apply, Finset.univ_unique, Finset.sum_singleton]
@@ -143,14 +143,14 @@ theorem isSolvable_pgl_of_card_eq_one (h : Fintype.card β = 1) : IsSolvable (PG
   rw [← map_mul, ← map_mul, hcomm a b]
 
 theorem isSolvable_pgl_of_card_eq_two [Finite K] (h : Fintype.card β = 2) (hK : Nat.card K = 2) :
-    IsSolvable (PGL β K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+    Group.IsSolvable (PGL β K) := by
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
   have hcardGL : Nat.card (GL β K) = 6 := by
     have e : GL β K ≃* GL (Fin 2) K := Equiv.reindexGL (Fintype.equivFinOfCardEq h) K
     rw [Nat.card_congr e.toEquiv, Matrix.card_GL_field (𝔽 := K) 2, hcardK]
     norm_num [Fin.prod_univ_two]
-  haveI : Group.IsSolvable (GL β K) :=
+  have : Group.IsSolvable (GL β K) :=
     CFSG.GroupTheory.groups_order_below_sixty_solvable (by rw [hcardGL]; norm_num)
   have hq : Group.IsSolvable (GL β K ⧸ Subgroup.center (GL β K)) := inferInstance
   exact hq

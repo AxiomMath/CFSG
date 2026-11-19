@@ -61,7 +61,7 @@ private lemma ltrl6uni_actor {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
       (LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n)))
     (hφe : ∀ l : L', φ (ψ l) = ψ (e l)) :
     ∃ (S : GL (Fin (lab.rank + 1)) K)
-      (hSgu : S ∈ LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n))
+      (_hSgu : S ∈ LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n))
       (hSN : S ∈ Subgroup.normalizer
         (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n) :
           Set (GL (Fin (lab.rank + 1)) K)))
@@ -91,10 +91,10 @@ private lemma ltrl6uni_actor {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
         (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n) :
           Set (GL (Fin (lab.rank + 1)) K)) :=
     TableBUE.gu_subset_normalizer (h := hUF)
-  obtain ⟨S, hSgu, hSeq⟩ := TableB.exists_eq_projConj hSnorm hφI
+  obtain ⟨S, _hSgu, hSeq⟩ := TableB.exists_eq_projConj hSnorm hφI
   have hSN : S ∈ Subgroup.normalizer
       (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n) :
-        Set (GL (Fin (lab.rank + 1)) K)) := hSnorm hSgu
+        Set (GL (Fin (lab.rank + 1)) K)) := hSnorm _hSgu
   have hpow : ∀ k : ℕ, ∀ l : L', (φ ^ k) (ψ l) = ψ ((e ^ k) l) := by
     intro k
     induction k with
@@ -120,11 +120,11 @@ private lemma ltrl6uni_actor {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
   have hmem := ltrl6uni_kernel_scalar hUF hK hd3 hdq hprojA3
   rw [largeEvenScalars_def] at hmem
   obtain ⟨κ, hκ⟩ := hmem
-  refine ⟨S, hSgu, hSN, κ, ?_, hSeq⟩
+  refine ⟨S, _hSgu, hSN, κ, ?_, hSeq⟩
   exact hκ.symm
 
-private lemma ltrl6uni_beta {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
-    (htag : lab.tag = .twA) {K : Type} [Field K] [Finite K]
+private lemma ltrl6uni_beta {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
+    (_htag : lab.tag = .twA) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ lab.n) ^ 2) (hUF : UnitaryFieldData 2 lab.n K)
     (hSU : LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n) =
       unitarySU 2 lab.n K (lab.rank + 1))
@@ -263,10 +263,10 @@ private lemma ltrl6uni_noncube {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2
     (hK : Nat.card K = (2 ^ lab.n) ^ 2)
     {L' : Type} [Group L'] [Finite L']
     (ψ : L' →* LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n)))
-    (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
-    (hperf : commutator L' = ⊤)
+    (_hψ : Function.Surjective ψ) (_hker : ψ.ker ≤ Subgroup.center L')
+    (_hperf : commutator L' = ⊤)
     {e : MulAut L'} {J : Subgroup L'} {a : MulAut L'}
-    (hset : GGRankOneSetup
+    (_hset : GGRankOneSetup
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n)))
         (LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n))) ψ 3 e J 3 a)
     (hnot : ¬ SplitLift lab (LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n)))
@@ -339,14 +339,14 @@ private lemma ltrl6uni_label {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
   have hlabJmap : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel)
       (↥(J.map ψ) ⧸ Subgroup.center ↥(J.map ψ)) :=
     ggHasLabel_of_mulEquiv φlab hlabJ
-  haveI : CharP K 2 := hUF.charP
+  have : CharP K 2 := hUF.charP
   exact S2MathAs3_1624.d3Endpoints_of_jobs.2 K lab.n hUF (lab.rank + 1) hd2 S κ hnc
     hSgu hS3 hSN (J.map ψ) hJmap hlabJmap
 
 private lemma ltrl6uni_cube_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     {S : Matrix (Fin 6) (Fin 6) K} (hS : S.det = 1) {κ : K}
     (h : S ^ 3 = Matrix.scalar (Fin 6) κ) : κ = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card CFSG.Fischer.F4 := by
     rw [CFSG.Fischer.F4.card, ← Nat.card_eq_fintype_card, hK]
   let e : K ≃+* CFSG.Fischer.F4 := FiniteField.ringEquivOfCardEq hcard

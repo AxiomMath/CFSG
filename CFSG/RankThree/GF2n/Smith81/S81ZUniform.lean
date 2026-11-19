@@ -23,10 +23,12 @@ section Fix
 
 variable {K : Type} [Field K] [CharP K 2] {X : Type} [AddCommGroup X] [Module K X]
 
+omit [CharP K 2] in
 theorem mem_fix7_conj (A₁ : Gp K →* (X ≃ₗ[K] X)) (h : Gp K) {v : X} :
     v ∈ fix7 (A₁.comp (MulAut.conj h).toMonoidHom) ↔ ∀ u ∈ UA K a7, A₁ (h * u * h⁻¹) v = v :=
   Iff.rfl
 
+omit [CharP K 2] in
 theorem apply_mem_fix7_conj (A₁ : Gp K →* (X ≃ₗ[K] X)) (h h' : Gp K) {v : X}
     (hv : v ∈ fix7 (A₁.comp (MulAut.conj h).toMonoidHom)) :
     A₁ (h' * h⁻¹) v ∈ fix7 (A₁.comp (MulAut.conj h').toMonoidHom) := by
@@ -43,6 +45,7 @@ section Pt
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem exists_span_eq_img (hg : GlobalModelData M Q Z γ M₀) {A : Subgroup G}
     (hAZ : IsZConjugate Z A) (hAQ : A ≤ Q) (hAne : A ≠ Z) :
     ∃ e : M₀.E, e ≠ 0 ∧ ∀ v : M₀.E, (∃ x ∈ A, M₀.π x = v) ↔ v ∈ Submodule.span K {e} := by
@@ -58,6 +61,7 @@ theorem exists_span_eq_img (hg : GlobalModelData M Q Z γ M₀) {A : Subgroup G}
     obtain ⟨x, hx, -, hxs⟩ := (he (s • e)).2 ⟨s, rfl⟩
     exact ⟨x, hx, hxs⟩
 
+omit [CharP K 2] in
 theorem point_fix_E5 (hM2 : E7M2 K) (h34 : Stroth34Statement) (hctx : Ctx M Q Z B)
     (hw : Width Q Z 28) (hg : GlobalModelData M Q Z γ M₀)
     (θ : Lgen M (LB M Q B) →* Gp K) (hθk : ∀ s : Lgen M (LB M Q B), θ s = 1 ↔ (s : G) ∈ Q)

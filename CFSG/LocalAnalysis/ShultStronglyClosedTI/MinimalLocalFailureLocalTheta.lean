@@ -150,7 +150,7 @@ theorem minimalLocalFailure_local_theta_and_ZJ_normalizer
     rw [← CFSG.ComponentClassification.TwoRankTransport.subgroup K]
     exact numeric_rank_two_of_four hfour
   have hSylowTwo : ∀ S : Sylow 2 K, IsElementaryAbelian 2 (S : Subgroup K) :=
-    fun S => htwo _ S.isPGroup'
+    fun S => htwo _ S.isPGroup
   have hClassEq : {v : G | v ∈ K ∧ IsInvolution v} = conjugacyWithin T z := by
     ext v
     exact hclass v

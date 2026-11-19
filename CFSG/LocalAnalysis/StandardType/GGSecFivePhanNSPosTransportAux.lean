@@ -105,7 +105,7 @@ lemma ggNSPosPD_acts_conj {G : Type} [Group G] [Finite G]
       simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
     have hφx : ((MulAut.conj c x : Su K 2 f n) : GL (Fin n) K) =
         (c : GL (Fin n) K) * (x : GL (Fin n) K) * ((c : GL (Fin n) K))⁻¹ := by
-      simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+      simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hφy_mat, hy₀_mat, hφx]
     group
   · have hφy : MulAut.conj c (MulAut.conj c⁻¹ y₀) = y₀ := by

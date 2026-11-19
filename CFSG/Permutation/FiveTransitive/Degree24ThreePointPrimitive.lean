@@ -78,14 +78,14 @@ theorem three_point_stabilizer_is_preprimitive
     refine ⟨q, ?_⟩
     ext i
     exact hq i
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
   have hP4primitive :
       MulAction.IsMultiplyPreprimitive P X 4 :=
     MulAction.isMultiplyPreprimitive_of_isMultiplyPretransitive_succ
       P X (by
         rw [ENat.card_eq_coe_fintype_card, hcard]
         norm_num)
-  letI : MulAction.IsMultiplyPreprimitive P X 4 :=
+  let : MulAction.IsMultiplyPreprimitive P X 4 :=
     hP4primitive
   apply
     MulAction.IsMultiplyPreprimitive.isPreprimitive_ofFixingSubgroup
@@ -114,7 +114,7 @@ theorem three_point_stabilizer_card_eq_four_hundred_twenty_mul
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by

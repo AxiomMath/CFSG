@@ -122,17 +122,17 @@ theorem exists_coboundary_of_supIndep {G : Type} [Group G] {X : Subgroup G}
       have hdW_mem : ∀ x ∈ X, dW x ∈ W := by
         intro x hx
         dsimp only [dW]
-        rw [dif_pos hx]
+        rw [dite_eq_left hx]
         exact (Classical.choose (hex x hx)).1.2
       have hr_mem : ∀ x ∈ X, r x ∈ s'.sup id := by
         intro x hx
         dsimp only [r]
-        rw [dif_pos hx]
+        rw [dite_eq_left hx]
         exact (Classical.choose (hex x hx)).2.2
       have hdec : ∀ x ∈ X, dW x * r x = δ x := by
         intro x hx
         dsimp only [dW, r]
-        simp only [dif_pos hx]
+        simp only [dite_eq_left hx]
         exact Classical.choose_spec (hex x hx)
       have hkey : ∀ x ∈ X, ∀ y ∈ X,
           dW (x * y) * r (x * y) =
@@ -184,7 +184,7 @@ theorem exists_coboundary_of_supIndep {G : Type} [Group G] {X : Subgroup G}
           exact (eq_of_mul_eq_mul_of_disjoint_components hdisj (hdW_mem t htX) W.one_mem
             (hr_mem t htX) (s'.sup id).one_mem h1).1
         · dsimp only [dW]
-          rw [dif_neg htX]
+          rw [dite_eq_right htX]
       have hr_one : ∀ t ∈ T, r t = 1 := by
         intro t ht
         by_cases htX : t ∈ X
@@ -192,7 +192,7 @@ theorem exists_coboundary_of_supIndep {G : Type} [Group G] {X : Subgroup G}
           exact (eq_of_mul_eq_mul_of_disjoint_components hdisj (hdW_mem t htX) W.one_mem
             (hr_mem t htX) (s'.sup id).one_mem h1).2
         · dsimp only [r]
-          rw [dif_neg htX]
+          rw [dite_eq_right htX]
       obtain ⟨y', hy'mem, hy'⟩ := ih hs' hY' hXW' hW' r hr_mem hr_cross hr_one
       obtain ⟨w, hw_mem, hw⟩ :=
         hWt W (Finset.mem_insert_self W s') dW hdW_mem hdW_cross hdW_one

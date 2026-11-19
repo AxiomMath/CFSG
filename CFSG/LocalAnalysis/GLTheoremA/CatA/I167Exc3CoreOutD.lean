@@ -67,7 +67,7 @@ theorem exc3core_out_twoD {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP
     exc3core_Out (↥(rationalComponent SL.ρ SL.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent SL.ρ SL.Γ (rootCharHom a) i)) := by
   have h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i) := by
-    rcases hA with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;> simp [h1, h2]
+    rcases hA with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;> simp [h1]
   have hn : (componentRoots (rootCharHom a) i).ncard =
       2 * compRank (componentRoots (rootCharHom a) i) *
         (compRank (componentRoots (rootCharHom a) i) - 1) := by

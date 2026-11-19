@@ -27,7 +27,7 @@ theorem fixed_root_torus_scalar (theta : K →+* K) (e : k →+* K)
     (h : fixedGroup K theta) (hh : h ∈ ggTorus (twistedDatum K theta)) :
     ∃ c : k, ∀ t : k, h * phi (sl2Upper t) * h⁻¹ = phi (sl2Upper (c * t)) := by
   let A := Module.End K (Fin e6Data.d →₀ K)
-  letI : Algebra k A := Algebra.compHom A e
+  let : Algebra k A := Algebra.compHom A e
   let ι : fixedGroup K theta →* A :=
     { toFun := fun g => e6Data_valid.endo K (g : e6Data_valid.minGroup K)
       map_one' := e6Data_valid.endo_one K
@@ -88,6 +88,7 @@ section ModelData
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_e6_fixed_root_model_data (σ : K ≃+* K) (e : k →+* K)
     (hfix : ∀ t : K, σ t = t ↔ t ∈ Set.range e)
     (i : Fin (Tag.rank .E6)) (hi : rhoPerm i = i) :
@@ -110,6 +111,7 @@ theorem exists_e6_fixed_root_model_data (σ : K ≃+* K) (e : k →+* K)
   · exact fixed_root_lower_image σ.toRingHom e (fun t => (hfix _).2 ⟨t, rfl⟩)
       (fun t ht => (hfix t).1 ht) i hi phi hl
 
+omit [Finite K] [CharP K 2] in
 theorem exists_e6_fixed_selected_root (σ : K ≃+* K) (e : k →+* K)
     (hfix : ∀ t : K, σ t = t ↔ t ∈ Set.range e)
     (i : Fin (Tag.rank .E6)) (hi : rhoPerm i = i) :
@@ -145,7 +147,7 @@ theorem exists_selectedSL2Model_twistedE6_fixed {f : ℕ} (hf : 1 ≤ f)
         e6Data_valid.xm (GaloisField 2 (2 * f)) (Pi.single i 1) (gfEmbed 2 f hf t)) ∧
       ∀ t, (fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f)).subtype (model.phi (sl2Lower t)) =
         e6Data_valid.xm (GaloisField 2 (2 * f)) (-Pi.single i 1) (gfEmbed 2 f hf t) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact exists_e6_fixed_selected_root (frobQEquiv hf) (gfEmbed 2 f hf).toRingHom
     (fun t => frobQ_eq_iff_mem_range 2 f hf t) i hi
 

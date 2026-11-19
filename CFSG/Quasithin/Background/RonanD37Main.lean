@@ -205,6 +205,7 @@ theorem dim_two_data (Mm : MatModel L₁ L₂ F 2)
     have hmem : g ∈ Mm.R₂.range := h₂ ▸ CFSG.Open.StatedAPI.mem_statedSL_of_det hg
     exact hmem
 
+omit [CharP F 2] in
 theorem dim_three_data [Finite U] {X : Subgroup (MulAut U)} {s : MulAut U}
     (hC : Core X L₁ L₂ s) (Mm : MatModel L₁ L₂ F 3) (hF : Nat.card F = 2)
     (hL : IsPSL 2 7 1 ↥L₁) :

@@ -28,8 +28,8 @@ theorem false_of_point_of_meetsY4
     (hΩ : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P
         (Subgroup.normalizer (Subgroup.zpowers c' : Set G) ⊓ Subgroup.normalizer (Y : Set G)) →
       A ≤ P → A ≠ omegaOneThree P) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR' : Sec15R G A c' L' := Proof1511.sec15R_point h hc' hL'
   have hD' := hR'.toSec13Data
   obtain ⟨j, hj, hL3'⟩ :=

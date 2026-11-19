@@ -42,10 +42,10 @@ theorem exists_mulAut_lift {Y P : Type} [Group Y] [Finite Y] [Group.IsPerfect Y]
     (hM : ¬ 9 ∣ Nat.card (hopfMultiplier P)) (β : MulAut P) :
     ∃ β' : MulAut Y, ∀ y, p (β' y) = β (p y) := by
   classical
-  haveI : Finite P := Finite.of_surjective p hp
-  haveI hPperf : Group.IsPerfect P := Group.IsPerfect.ofSurjective (f := p) hp
-  haveI : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
-  haveI : Finite (HopfCover P) := finite_hopfCover hPperf
+  have : Finite P := Finite.of_surjective p hp
+  have hPperf : Group.IsPerfect P := Group.IsPerfect.ofSurjective (f := p) hp
+  have : Group.IsPerfect (HopfCover P) := hopfCover_isPerfect
+  have : Finite (HopfCover P) := finite_hopfCover hPperf
   set u : HopfCover P →* P := hopfCoverMap P with hu_def
   have hu : Function.Surjective u := hopfCoverMap_surjective
   have huc : u.ker ≤ center (HopfCover P) := hopfMultiplier_le_center

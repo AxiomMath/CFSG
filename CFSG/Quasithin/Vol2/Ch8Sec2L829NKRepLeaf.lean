@@ -23,7 +23,7 @@ theorem nk_leafSL3Rep : NKLeafSL3Rep := by
   intro K _ _ _ hK n N hirr htv hex
   classical
   obtain ⟨L, _, hL, ⟨e₁⟩⟩ := hex
-  letI : Algebra (ZMod 2) K := ZMod.algebra (R := K) 2
+  let : Algebra (ZMod 2) K := ZMod.algebra (R := K) 2
   have halg : ∀ a : ZMod 2, algebraMap (ZMod 2) K a = ((a.val : ℕ) : K) := by
     intro a
     conv_lhs => rw [← ZMod.natCast_zmod_val a]
@@ -55,7 +55,7 @@ theorem nk_leafSL3Rep : NKLeafSL3Rep := by
     have : (θ g : (Fin n → K) →ₗ[K] (Fin n → K)) - LinearMap.id =
         Matrix.mulVecLin (((φ g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) - 1) := by
       refine LinearMap.ext fun v => ?_
-      simp [hθ, Matrix.sub_mulVec]
+      simp [hθ]
     rw [this]
     exact hrk.le
   obtain ⟨b, hb1, hb2⟩ := nk_sl3_transvection_rep hK θ hθinj hirr' htv'
@@ -87,7 +87,7 @@ theorem nk_leafSL3Rep : NKLeafSL3Rep := by
       LinearMap.toMatrix b' b' f = (LinearMap.toMatrix b b f).submatrix (Fin.cast hn) (Fin.cast hn) := by
     intro f
     ext i j
-    simp [LinearMap.toMatrix_apply, b', Module.Basis.reindex_apply, Module.Basis.repr_reindex_apply]
+    simp [LinearMap.toMatrix_apply, b', Module.Basis.reindex_apply]
   have hcast : (algebraMap (ZMod 2) K) = (fun a : ZMod 2 => ((a.val : ℕ) : K)) := funext halg
   refine ⟨P, fun g => ⟨fun hg => ?_, fun ⟨M, hdet, hM⟩ => ?_⟩⟩
   · obtain ⟨h, rfl⟩ := hNφ g hg

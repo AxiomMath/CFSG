@@ -19,7 +19,7 @@ theorem Eev_qM : ∀ c v : VM, inU c → qM (Eev c v) = qM v := by
   have h : (2 : ZMod 2) = 0 := rfl
   simp only [Eev, bM, qM, e0, mkV, ex, xp, yp, dotProduct, Fin.sum_univ_three, Pi.add_apply,
     Pi.smul_apply, smul_eq_mul, Sum.elim_inl, Sum.elim_inr, h1, h2]
-  simp [Pi.single_apply]
+  simp
   ring_nf
   simp [h]
 

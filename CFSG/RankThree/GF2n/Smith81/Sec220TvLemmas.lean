@@ -26,7 +26,7 @@ theorem exists_dotProduct_one {r : Fin n → K} (hr : r ≠ 0) : ∃ x : Fin n �
     by_contra h
     push Not at h
     exact hr (funext h)
-  exact ⟨(r i)⁻¹ • Pi.single i 1, by simp [dotProduct_smul, Pi.single_apply, hi]⟩
+  exact ⟨(r i)⁻¹ • Pi.single i 1, by simp [dotProduct_smul, hi]⟩
 
 theorem vecMulVec_mulVec_smul (p r x : Fin n → K) : vecMulVec p r *ᵥ x = (r ⬝ᵥ x) • p := by
   ext i
@@ -45,7 +45,7 @@ variable {G : Type} [Group G]
 
 theorem eq_one_of_odd_mem_isPGroup_two {Q : Subgroup G} (hQ : IsPGroup 2 Q) {g : G} (hg : g ∈ Q)
     (ho : Odd (orderOf g)) : g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hQ) ⟨g, hg⟩
   rw [Subgroup.orderOf_mk] at hk
   have hk0 : k = 0 := by
@@ -61,7 +61,7 @@ theorem eq_one_of_odd_mem_isPGroup_two {Q : Subgroup G} (hQ : IsPGroup 2 Q) {g :
 
 theorem not_mem_of_inv_odd_normalizer {Q : Subgroup G} (hQ : IsPGroup 2 Q) {v e : G}
     (hvN : v ∈ Subgroup.normalizer (Q : Set G)) (hv : Odd (orderOf v)) (hv1 : orderOf v ≠ 1)
-    (he : e * e = 1) (hinv : e * v * e = v⁻¹) : e ∉ Q := by
+    (_he : e * e = 1) (hinv : e * v * e = v⁻¹) : e ∉ Q := by
   intro heQ
   have hvQ : ∀ q : G, q ∈ Q → v * q * v⁻¹ ∈ Q := fun q hq =>
     (Subgroup.mem_normalizer_iff.mp hvN q).mp hq
@@ -114,7 +114,7 @@ theorem exists_sit_of_isConj {G : Type} [Group G] {M Q Z : Subgroup G}
 
 theorem charP_two_of_natCard_pow_two {K : Type} [Field K] [Finite K] {k : ℕ}
     (hk : Nat.card K = 2 ^ k) : CharP K 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hp, hm⟩ := FiniteField.card K (ringChar K)
   rw [← Nat.card_eq_fintype_card, hk] at hm
   have h1 : ringChar K ∣ 2 ^ k := by

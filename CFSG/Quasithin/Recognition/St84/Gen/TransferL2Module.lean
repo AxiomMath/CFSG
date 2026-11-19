@@ -21,7 +21,7 @@ private theorem conj_mul_conj_eq_of_mem {L Q : Subgroup G} {c l q : G}
     (hl : l ∈ L) (hLn : L ≤ Subgroup.normalizer (Q : Set G))
     (hcLQ : ⁅c, l⁆ ∈ Q) (hq : q ∈ Q) :
     c * (l * q * l⁻¹) * c⁻¹ = l * (c * q * c⁻¹) * l⁻¹ := by
-  haveI : IsMulCommutative ↥Q := hQ
+  have : IsMulCommutative ↥Q := hQ
   have hquQ : c * q * c⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp hcQ q).mp hq
   have hlqQ : l * (c * q * c⁻¹) * l⁻¹ ∈ Q :=
     (Subgroup.mem_normalizer_iff.mp (hLn hl) (c * q * c⁻¹)).mp hquQ
@@ -356,15 +356,15 @@ theorem centralizes_pCoreOf_of_isLin2Type {L : Subgroup G} [Finite ↥L] {n : �
   classical
   obtain ⟨m, hm⟩ := hc2
   obtain ⟨F, hField, hFintype, hcard, α, hαsurj, hαker, β, hβsurj, hβker, hβcomm⟩ := hL
-  letI : Field F := hField
-  letI : Fintype F := hFintype
+  let : Field F := hField
+  let : Fintype F := hFintype
   let Q : Subgroup G := pCoreOf 2 L
   let U : Subgroup G := blockU L
   let Z : Subgroup G := blockZ L
   have hQleL : Q ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hUQ : U = Q := by simpa [U, Q, blockU, blockQ] using hU
   have hQU : ⁅Q, L⁆ = Q := by simpa [Q] using hU
-  haveI : IsMulCommutative ↥Q := hab
+  have : IsMulCommutative ↥Q := hab
   have hcQ : c ∈ Subgroup.normalizer (Q : Set G) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L hcL
   have hcU : c ∈ Subgroup.normalizer (U : Set G) := by rw [hUQ]; exact hcQ
@@ -395,8 +395,7 @@ theorem centralizes_pCoreOf_of_isLin2Type {L : Subgroup G} [Finite ↥L] {n : �
     conjAddEnd_eq_id_of_isLin2Type α hαsurj β hβsurj hβcomm hLU φ hφ_coe hcZ hβker
       hconj hcard hφpow
   have hZle : Z ≤ Subgroup.centralizer (L : Set G) := by
-    simpa [Z, U, blockZ] using (inf_le_right : U ⊓ Subgroup.centralizer (L : Set G) ≤
-      Subgroup.centralizer (L : Set G))
+    simp [Z, blockZ]
   exact commutatorElement_eq_one_of_conjAddEnd β hβker φ hφ_coe hβconj hZle hQleL hUQ
     hconj hLQ hQU
 
@@ -405,8 +404,8 @@ theorem mem_blockZ_of_mul_comm_of_odd {L : Subgroup G} [Finite ↥L] {n : ℕ}
     {u : G} (hu : u ∈ blockU L) (hku : k * u = u * k) : u ∈ blockZ L := by
   classical
   obtain ⟨F, hField, hFintype, hcard, α, hαsurj, hαker, β, hβsurj, hβker, hβcomm⟩ := hL
-  letI : Field F := hField
-  letI : Fintype F := hFintype
+  let : Field F := hField
+  let : Fintype F := hFintype
   have hcardNat : Nat.card F = 2 ^ n := by
     rwa [Nat.card_eq_fintype_card]
   have hn1 : 1 ≤ n := by
@@ -416,7 +415,7 @@ theorem mem_blockZ_of_mul_comm_of_odd {L : Subgroup G} [Finite ↥L] {n : ℕ}
     have hn0 : n = 0 := by omega
     rw [hn0, pow_zero] at h2
     exact lt_irrefl 1 h2
-  letI : CharP F 2 :=
+  let : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 hcardNat
   have hk' : Odd (orderOf (⟨k, hkL⟩ : ↥L)) := by

@@ -46,6 +46,7 @@ theorem nondegenerate_finset_sup [FiniteDimensional K V] (U : I → Submodule K 
   CFSG.RankThree.PartOne.K159.nondegenerate_of_regOn
     (polarNondegOn_finset_sup U hU horth S)
 
+omit [DecidableEq I] in
 theorem polar_eq_zero_of_mem_finset_sup_disjoint (U : I → Submodule K V)
     (horth : ∀ i j, i ≠ j → ∀ x ∈ U i, ∀ y ∈ U j, polar Q x y = 0)
     {S T : Finset I} (hdisj : Disjoint S T) {x y : V}
@@ -92,6 +93,7 @@ section NativeCommutation
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem supportedDerived_commute_of_orthogonal_supports [CharP K 2]
     {A B : Submodule K V}
     (hA : (polarBilin (Q.comp A.subtype)).Nondegenerate)
@@ -233,7 +235,7 @@ theorem supportedDerived_apply_perp_of_mem_two_supports
     rw [polar_add_left]
     simp [hwt w hw, mem_suppPerp.mp ht a' ha']
   have hgt : g t = t := supportedDerived_apply_perp hgA htWA
-  simpa only [map_add, hfixA a ha, hgt]
+  simp only [map_add, hfixA a ha, hgt]
 
 end SupportIntersection
 
@@ -266,6 +268,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {I : Type} [Fintype I] [DecidableEq I]
 
+omit [Fintype I] in
 theorem supportedDerived_anchor_finset_sup_eq_iSup_pair
     (U : I → Submodule K V) (W : Submodule K V)
     (hWreg : (polarBilin (Q.comp W.subtype)).Nondegenerate)

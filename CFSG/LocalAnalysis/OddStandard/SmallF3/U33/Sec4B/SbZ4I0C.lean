@@ -16,6 +16,7 @@ namespace Ctx4Z
 
 private def conjHom (g : G) : G →* G := (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 private theorem conjHom_apply (g x : G) : conjHom g x = g * x * g⁻¹ := rfl
 
 theorem z4i_M_le_NQ (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :

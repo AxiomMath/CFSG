@@ -118,7 +118,7 @@ private theorem testBit_fold_grow (r c S t : ℕ) :
   | succ r ih =>
     rw [Nat.fold_succ]
     by_cases hS : S.testBit r = true
-    · rw [if_pos hS, Nat.testBit_lor, Nat.testBit_and, Bool.or_eq_true_iff,
+    · rw [ite_eq_left hS, Nat.testBit_lor, Nat.testBit_and, Bool.or_eq_true_iff,
         Bool.and_eq_true_iff, ih]
       constructor
       · rintro (⟨hacc | ⟨s, hs, hSs, hadj, hc⟩⟩ | ⟨hadj, hc⟩)
@@ -130,7 +130,7 @@ private theorem testBit_fold_grow (r c S t : ℕ) :
         · rcases Nat.lt_succ_iff_lt_or_eq.mp hs with hs' | rfl
           · exact Or.inl (Or.inr ⟨s, hs', hSs, hadj, hc⟩)
           · exact Or.inr ⟨hadj, hc⟩
-    · rw [if_neg hS, ih]
+    · rw [ite_eq_right hS, ih]
       constructor
       · rintro (h | ⟨s, hs, hSs, hadj, hc⟩)
         · exact Or.inl h

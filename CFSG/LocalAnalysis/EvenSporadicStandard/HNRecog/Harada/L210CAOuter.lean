@@ -11,12 +11,12 @@ open Subgroup CFSG.Open
 variable {X : Type} [Group X]
 
 theorem L210_card_centralizer_le_of_coset {A : Subgroup X} (hA : IsElemAbelian 2 A)
-    (hcard : Nat.card A = 2 ^ 8) {i v : X} (hi : i ∈ normalizer (A : Set X))
-    (hv : v ∈ normalizer (A : Set X)) (hi2 : i * i = 1) (hv2 : v * v = 1)
+    (_hcard : Nat.card A = 2 ^ 8) {i v : X} (_hi : i ∈ normalizer (A : Set X))
+    (_hv : v ∈ normalizer (A : Set X)) (_hi2 : i * i = 1) (_hv2 : v * v = 1)
     (hiv : i * v⁻¹ ∈ A) (hCv : Nat.card ↥(A ⊓ centralizer ({v} : Set X)) ≤ 16) :
     Nat.card ↥(A ⊓ centralizer ({i} : Set X)) ≤ 16 := by
   have hcomm : ∀ {x y : X}, x ∈ A → y ∈ A → x * y = y * x := by
-    haveI : IsMulCommutative A := hA.1
+    have : IsMulCommutative A := hA.1
     intro x y hx hy
     simpa using congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) (⟨y, hy⟩ : A))
   have hi_decomp : i = (i * v⁻¹) * v := by group

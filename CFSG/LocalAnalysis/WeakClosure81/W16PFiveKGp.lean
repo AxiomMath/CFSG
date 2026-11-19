@@ -25,7 +25,7 @@ private theorem isSimpleGroup_of_isSz {X : Type} [Group X] [Finite X] {n : ℕ}
 private theorem false_of_isSimpleGroup_of_isMulCommutative {X : Type} [Group X] [Finite X]
     (hsimple : IsSimpleGroup X) (hcomm : IsMulCommutative X) {n : ℕ} (hn : 1 < n)
     (hcard : Nat.card X = 2 ^ n) : False := by
-  haveI : IsMulCommutative X := hcomm
+  have : IsMulCommutative X := hcomm
   have hprime : (Nat.card X).Prime := (Group.is_simple_iff_prime_card (α := X)).mp hsimple
   have hpow : (2 ^ n).Prime := by rwa [← hcard]
   exact absurd (Nat.Prime.eq_one_of_pow hpow) (by omega)
@@ -50,7 +50,7 @@ private theorem fusionOddCore_eq_bot_of_sq_eq_one {X : Type} [Group X] [Finite X
 private theorem false_of_isSimpleGroup_of_isMulCommutative_of_dvd {X : Type} [Group X] [Finite X]
     (hsimple : IsSimpleGroup X) (hcomm : IsMulCommutative X) {n : ℕ} (hn : 1 < n)
     (hdvd : 2 ^ n ∣ Nat.card X) : False := by
-  haveI : IsMulCommutative X := hcomm
+  have : IsMulCommutative X := hcomm
   have hprime : (Nat.card X).Prime := (Group.is_simple_iff_prime_card (α := X)).mp hsimple
   have h2n : 1 < 2 ^ n := by
     calc 1 < 4 := by norm_num
@@ -106,7 +106,7 @@ private theorem normal_isPGroup_eq_bot_of_index_two {X : Type} [Group X] [Finite
     · exact h
   exact hnotnormal (Subgroup.eq_of_le_of_card_ge hleY (by rw [hcardN, hcardY]) ▸ hN)
 
-theorem Shape166.odd_card_center (hY : IsElemAbelian 2 Y)
+theorem Shape166.odd_card_center (_hY : IsElemAbelian 2 Y)
     (hgen : normalClosure (Y : Set X) = ⊤) (hX : Shape166 X Y n) :
     Odd (Nat.card (center X)) := by
   obtain ⟨hcardY, hcase⟩ := hX
@@ -253,7 +253,7 @@ theorem Shape166.conj_inf_normalizer_eq_bot_of_isPSL
     (hx : conjSubgroup Y x ≠ Y) :
     conjSubgroup Y x ⊓ normalizer (W : Set X) = ⊥ := by
   have hB : BenderType X n 1 1 := rankOne_benderType_psl hPSL
-  haveI : IsSimpleGroup X := hB.isSimple
+  have : IsSimpleGroup X := hB.isSimple
   have hY2 : IsPGroup 2 Y := IsPGroup.of_card (n := n) hcardY
   obtain ⟨S, hYS⟩ := hY2.exists_le_sylow
   obtain ⟨t, hc⟩ := hB.exists_benderCore S
@@ -311,7 +311,7 @@ theorem Shape166.conj_inf_normalizer_eq_bot_of_isSz
     (hx : conjSubgroup Y x ≠ Y) :
     conjSubgroup Y x ⊓ normalizer (W : Set X) = ⊥ := by
   have hB : BenderType X n 2 1 := rankOne_benderType_sz hSz
-  haveI : IsSimpleGroup X := hB.isSimple
+  have : IsSimpleGroup X := hB.isSimple
   have hY2 : IsPGroup 2 Y := IsPGroup.of_card (n := n) hcardY
   obtain ⟨S, hYS⟩ := hY2.exists_le_sylow
   obtain ⟨t, hc⟩ := hB.exists_benderCore S
@@ -375,7 +375,7 @@ theorem Shape166.conj_inf_normalizer_eq_bot_of_isSz
 
 theorem Shape166.conj_inf_normalizer_eq_bot
     (hY : IsElemAbelian 2 Y)
-    (hgen : normalClosure (Y : Set X) = ⊤) (hX : Shape166 X Y n) {W : Subgroup X}
+    (_hgen : normalClosure (Y : Set X) = ⊤) (hX : Shape166 X Y n) {W : Subgroup X}
     (hWY : W ≤ Y) (hW : W ≠ ⊥) {x : X} (hx : conjSubgroup Y x ≠ Y) :
     conjSubgroup Y x ⊓ normalizer (W : Set X) = ⊥ := by
   obtain ⟨hcardY, hcase⟩ := hX
@@ -418,7 +418,7 @@ theorem Shape166.exists_conj_ne (hY : IsElemAbelian 2 Y)
       (CFSG.QuasithinUnique.Unc25G2.A312Sub.isSimpleGroup_of_stated hPSL) hcomm hn1 hcardX
   · exact false_of_isSimpleGroup_of_isMulCommutative
       (isSimpleGroup_of_isSz hSz) hcomm hn1 hcardX
-  · haveI : IsMulCommutative X := hcomm
+  · have : IsMulCommutative X := hcomm
     have hbot : commutator X = ⊥ := commutator_eq_bot X
     have htopbot : (⊤ : Subgroup X) = ⊥ := by rw [← hPSU.1]; exact hbot
     have hcard1 : Nat.card X = 1 := by
@@ -442,8 +442,8 @@ theorem Shape166.exists_conj_ne (hY : IsElemAbelian 2 Y)
 
 theorem Shape166.exists_eq_conj_of_isPSL
     {X : Type} [Group X] [Finite X] {Y : Subgroup X} {n : ℕ}
-    (hPSL : CFSG.Quasithin.IsPSL 2 2 n X) (hY : IsElemAbelian 2 Y)
-    (hcardY : Nat.card Y = 2 ^ n) (α : MulAut X) (hα : α * α = 1)
+    (hPSL : CFSG.Quasithin.IsPSL 2 2 n X) (_hY : IsElemAbelian 2 Y)
+    (hcardY : Nat.card Y = 2 ^ n) (α : MulAut X) (_hα : α * α = 1)
     (hαY : ∀ y ∈ Y, α y = y) : ∃ y ∈ Y, α = MulAut.conj y := by
   have hB : BenderType X n 1 1 := rankOne_benderType_psl hPSL
   have hY2 : IsPGroup 2 Y := IsPGroup.of_card (n := n) hcardY

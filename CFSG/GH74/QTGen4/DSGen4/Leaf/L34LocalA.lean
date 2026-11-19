@@ -48,14 +48,14 @@ theorem exists_complement_four [Finite X] {Q E : Subgroup X} (hQe : IsElemAbelia
     rwa [pow_two] at this
   obtain ⟨s, hsQ, hsE⟩ : ∃ s ∈ Q, s ∉ E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : Q = E := Subgroup.eq_of_le_of_card_ge hcon (by rw [hQc, hEc]; norm_num)
     have := congrArg (fun H : Subgroup X => Nat.card H) heq
     rw [hQc, hEc] at this
     norm_num at this
   obtain ⟨t, htQ, htE, htS⟩ : ∃ t ∈ Q, t ∉ E ∧ ∀ e ∈ E, t ≠ s * e := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     let f : ↥E ⊕ ↥E → ↥Q :=
       Sum.elim (fun e => ⟨(e : X), hEQ e.2⟩) (fun e => ⟨s * e, Q.mul_mem hsQ (hEQ e.2)⟩)
     have hf : Function.Surjective f := by
@@ -91,7 +91,7 @@ theorem exists_complement_four [Finite X] {Q E : Subgroup X} (hQe : IsElemAbelia
         intro a b ha hb
         simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb ⊢
         rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
-          simp [e1, e2, e4, e5, e6, e7, e8, e9, mul_assoc]
+          simp [e1, e2, e4, e5, e6, e7, e8, e9]
       one_mem' := by simp
       inv_mem' := by
         intro a ha
@@ -255,10 +255,10 @@ section Order3
 
 variable {X : Type*} [Group X]
 
-theorem card_modEq_one_of_fixedPointFree [Finite X] {E : Subgroup X} (hE : IsElemAbelian 2 E)
+theorem card_modEq_one_of_fixedPointFree [Finite X] {E : Subgroup X} (_hE : IsElemAbelian 2 E)
     {x : X} (hx3 : x ^ 3 = 1) (hxE : ∀ e ∈ E, x * e * x⁻¹ ∈ E)
     (hff : ∀ e ∈ E, x * e * x⁻¹ = e → e = 1) : Nat.card E ≡ 1 [MOD 3] := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : ↥E → ↥E := fun e => ⟨x * e * x⁻¹, hxE e e.2⟩
   have hfinj : Function.Injective f := by
     intro e e' h
@@ -270,7 +270,7 @@ theorem card_modEq_one_of_fixedPointFree [Finite X] {E : Subgroup X} (hE : IsEle
     ext e
     have hcalc : x * (x * (x * (e : X) * x⁻¹) * x⁻¹) * x⁻¹ = (e : X) := by
       have k1 : x * (x * (x * (e : X) * x⁻¹) * x⁻¹) * x⁻¹ = x ^ 3 * (e : X) * (x ^ 3)⁻¹ := by
-        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev, inv_mul_cancel_left]
+        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev]
       rw [k1, hx3, inv_one, mul_one, one_mul]
     simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply, hσf]
     exact hcalc

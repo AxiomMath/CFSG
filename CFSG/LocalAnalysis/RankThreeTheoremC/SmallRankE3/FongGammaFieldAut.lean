@@ -26,7 +26,7 @@ theorem not_pSolvable_fixed_of_equiv {J : Type*} [Group J] [Finite J] {p : ℕ} 
     (hS : p ∣ Nat.card S → ¬ CFSG.HallHigman.IsPSolvable p S) :
     ¬ CFSG.HallHigman.IsPSolvable p ↥(fixedSubgroup α) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hsolv
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime α hα
   have h1 : p ∣ Nat.card ↥(fixedSubgroup α) := by
@@ -45,11 +45,11 @@ theorem not_pSolvable_of_simple_nonabelian {S : Type} [Group S] [Finite S] (hS :
     (hnc : ¬ ∀ a b : S, a * b = b * a) {p : ℕ} (hp : p.Prime) :
     p ∣ Nat.card S → ¬ CFSG.HallHigman.IsPSolvable p S := by
   intro hpS hsolv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : Nat.card S ≠ p := by
     intro hc
-    haveI : Fact (Nat.card S).Prime := ⟨hc ▸ hp⟩
-    haveI := isCyclic_of_prime_card hc
+    have : Fact (Nat.card S).Prime := ⟨hc ▸ hp⟩
+    have := isCyclic_of_prime_card hc
     exact hnc fun a b => (IsCyclic.commGroup (α := S)).mul_comm a b
   exact CFSG.LocalAnalysis.RankThreeUC.S15.K421GrpProof.not_isPSolvable_of_simple hS hp hpS hne
     hsolv
@@ -79,7 +79,7 @@ theorem not_pSolvable_fixed_of_simple {J : Type*} [Group J] [Finite J] {p : ℕ}
 theorem not_comm_of_simple_of_not_prime {S : Type} [Group S] [IsSimpleGroup S]
     (hc : ¬ (Nat.card S).Prime) : ¬ ∀ a b : S, a * b = b * a := by
   intro h
-  letI : CommGroup S := { ‹Group S› with mul_comm := h }
+  let : CommGroup S := { ‹Group S› with mul_comm := h }
   exact hc (IsSimpleGroup.prime_card (α := S))
 
 theorem fixed_not_pSolvable_PSL_two {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
@@ -219,14 +219,14 @@ theorem fixed_not_pSolvable_PSL_three {K : Type} [Group K] [Finite K] {ℓ f : �
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (by norm_num)
   have hnc : ¬ ∀ a b : projectiveSL 3 ↥(semilinearFixedSubfield σ), a * b = b * a :=
     CFSG.RankThree.PartOne.KCLinearSubfield.not_commutative_projectiveSL (by norm_num)
-  haveI : Finite (projectiveSL 3 ↥(semilinearFixedSubfield σ)) :=
+  have : Finite (projectiveSL 3 ↥(semilinearFixedSubfield σ)) :=
     Finite.of_equiv _ e1.toEquiv
   exact not_pSolvable_fixed_of_simple hp hpK α hαp hsimple hnc e1
 
 theorem not_pSolvable_statedProj_sp_two_two {k : Type} [Field k] [Finite k] (hk : Nat.card k = 2)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpd : p ∣ Nat.card (StatedProj (StatedSp 2 k))) :
     ¬ CFSG.HallHigman.IsPSolvable p (StatedProj (StatedSp 2 k)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Function.Injective (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj 2 k) :=
     CFSG.RankThree.PartOne.proj_injective_sp (r := 2) (K := k) (f := 1) (by simp [hk]) le_rfl
       (by norm_num)
@@ -239,7 +239,7 @@ theorem not_pSolvable_statedProj_sp_two_two {k : Type} [Field k] [Finite k] (hk 
     rw [← Nat.card_congr eP.toEquiv,
       CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp_two, hk]
     all_goals norm_num
-  haveI : Finite (StatedProj (StatedSp 2 k)) :=
+  have : Finite (StatedProj (StatedSp 2 k)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hp360 : p ∣ 360 := by
     have hcop : Nat.Coprime p 2 := (Nat.coprime_primes hp Nat.prime_two).2 (by omega)
@@ -282,7 +282,7 @@ theorem fixed_not_pSolvable_PSp_two {K : Type} [Group K] [Finite K] {ℓ f : ℕ
   classical
   subst hℓ2
   obtain ⟨⟨hℓ, hf, hn, -⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨-, -, -, -, -, -, -, hidx, hDH, hdesc⟩ :=
     CFSG.RankThree.Classical.SteinbergBY.symplectic_prime_semilinear_field_descent hℓ hf hn hFcard
@@ -299,7 +299,7 @@ theorem fixed_not_pSolvable_PSp_two {K : Type} [Group K] [Finite K] {ℓ f : ℕ
       hidx hp hp2 hβp
   by_cases hD : β ∈ CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spLinearAutGroup 2 F
   · exfalso
-    haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal
+    have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal
       (StatedProj (StatedSp 2 F))
     exact hβout
       (CFSG.HardMathSupport.Lang.UnitaryAutomorphisms.mem_of_pow_eq_one_of_relIndex_dvd_two
@@ -342,7 +342,7 @@ theorem fixed_not_pSolvable_PSp_two {K : Type} [Group K] [Finite K] {ℓ f : ℕ
           · norm_num at h1
           · norm_num at hk2
         · exact (by norm_num : (4 : ℕ) = 2 ^ 2).trans_le (Nat.pow_le_pow_right (by norm_num) h2)
-      haveI : Fintype ↥k := Fintype.ofFinite _
+      have : Fintype ↥k := Fintype.ofFinite _
       have hsub : ∃ t : Finset ↥k, t.card = 4 := by
         obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq
           (show 4 ≤ (Finset.univ : Finset ↥k).card by
@@ -354,7 +354,7 @@ theorem fixed_not_pSolvable_PSp_two {K : Type} [Group K] [Finite K] {ℓ f : ℕ
         (Or.inl hsub)
       have hnc : ¬ ∀ a b : StatedProj (StatedSp 2 ↥k), a * b = b * a :=
         fun hcomm => Group.IsPerfect.not_isSolvable _ (Group.isSolvable_of_comm hcomm)
-      haveI : Finite (StatedProj (StatedSp 2 ↥k)) := inferInstance
+      have : Finite (StatedProj (StatedSp 2 ↥k)) := inferInstance
       exact not_pSolvable_of_simple_nonabelian hsimple hnc hp
   exact not_pSolvable_fixed_of_equiv hp hpK α hαp e1 hS
 
@@ -363,7 +363,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
   CFSG.HardMathSupport.Lang.Coordinator in
 theorem psu_four_fixed_equiv_simple {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
     (hcl : StatedClassicalModel K .PSU 4 ℓ f) (hℓ2 : ℓ = 2) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
-    (hpK : p ∣ Nat.card K) (α : MulAut K) (hαp : α ^ p = 1) (hαin : α ∉ inner K) :
+    (_hpK : p ∣ Nat.card K) (α : MulAut K) (hαp : α ^ p = 1) (hαin : α ∉ inner K) :
     ∃ (S : Type) (_ : Group S) (_ : Finite S), IsSimpleGroup S ∧ (¬ ∀ a b : S, a * b = b * a) ∧
       Nonempty (↥(fixedSubgroup α) ≃* S) := by
   subst hℓ2

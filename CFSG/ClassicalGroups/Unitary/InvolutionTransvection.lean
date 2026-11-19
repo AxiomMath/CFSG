@@ -10,7 +10,7 @@ open Matrix CFSG.LieType.Universal.Unitary
 
 variable {K : Type*} [Field K] {σ : K ≃+* K} {n : ℕ}
 
-theorem herm_smul_sub_self_right (hσ : ∀ c, σ (σ c) = c) {t : SUid σ n} (ht : t * t = 1)
+theorem herm_smul_sub_self_right (_hσ : ∀ c, σ (σ c) = c) {t : SUid σ n} (ht : t * t = 1)
     (x y : Fin n → K) :
     herm σ x (t • y - y) = herm σ (t • x - x) y := by
   have h1 : t • (t • x) = x := by rw [smul_smul, ht, one_smul]
@@ -146,7 +146,7 @@ theorem eq_transvection_of_forall_commute_eichler [CharP K 2] (hσ : IsUnitaryIn
     rw [herm_sub_right]
     funext i
     have h1i := congrFun h1 i
-    simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, Pi.neg_apply, smul_eq_mul,
+    simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
       neg_mul] at h1i ⊢
     linear_combination h1i
   have hNy : ∀ y : Fin n → K, herm σ a y = 0 → t • y - y = 0 := by

@@ -69,7 +69,7 @@ private lemma weightSpace_map_weightHom {K V Γ : Type*} [Field K] [AddCommGroup
 private lemma nontrivial_of_isIrreducible {K V Γ : Type*} [Field K] [AddCommGroup V]
     [Module K V] [Group Γ] {ρ : Representation K Γ V} (hirr : ρ.IsIrreducible) :
     Nontrivial V := by
-  haveI : IsSimpleModule (MonoidAlgebra K Γ) ρ.asModule :=
+  have : IsSimpleModule (MonoidAlgebra K Γ) ρ.asModule :=
     (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp hirr
   let : Nontrivial ρ.asModule := IsSimpleModule.nontrivial (MonoidAlgebra K Γ) ρ.asModule
   exact ρ.asModuleEquiv.symm.toEquiv.nontrivial
@@ -81,7 +81,7 @@ private lemma weightAction_orbit_eq_top {K V Γ Ω : Type*} [Field K] [AddCommGr
     (χ₀ : Ω) (hWne : W χ₀ ≠ ⊥) :
     (⨆ x : Set.range fun g : Γ => σ g χ₀, W x.1) = ⊤ := by
   classical
-  letI : ρ.IsIrreducible := hirr
+  let : ρ.IsIrreducible := hirr
   let S : Set Ω := Set.range fun g : Γ => σ g χ₀
   let U : Submodule K V := ⨆ x : S, W x.1
   have hUle (g : Γ) : U ≤ U.comap (ρ g) := by
@@ -127,7 +127,7 @@ private lemma transitive_of_weightAction {K V Γ Ω : Type*} [Field K] [AddCommG
     [Module K V] [Group Γ] {ρ : Representation K Γ V} (hirr : ρ.IsIrreducible)
     (W : Ω → Submodule K V) (σ : Γ →* Equiv.Perm Ω)
     (hmap : ∀ g χ, (W χ).map (ρ g) = W (σ g χ))
-    (hind : iSupIndep W) (htop : ⨆ χ, W χ = ⊤)
+    (hind : iSupIndep W) (_htop : ⨆ χ, W χ = ⊤)
     (hWne : ∀ χ, W χ ≠ ⊥) (χ₀ : Ω) :
     ∀ ψ : Ω, ∃ g : Γ, σ g χ₀ = ψ := by
   classical
@@ -162,9 +162,9 @@ private lemma eq_bot_of_isPGroup_of_charP {K : Type*} [Field K] {p : ℕ} [CharP
     {ρ : Representation K Γ V} (hirr : ρ.IsIrreducible) (hfaith : Function.Injective ρ)
     {r : ℕ} {Q : Subgroup Γ} (hQn : Q.Normal) (hQr : IsPGroup r Q) (hrp : r = p) :
     Q = ⊥ := by
-  letI : Q.Normal := hQn
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : ρ.IsIrreducible := hirr
+  let : Q.Normal := hQn
+  let : Fact p.Prime := ⟨hp⟩
+  let : ρ.IsIrreducible := hirr
   have hQrp : IsPGroup p Q := hrp ▸ hQr
   have hact := CFSG.TwoRankLowerBound.Helpers.normal_p_subgroup_irreducible_action_trivial
     p ρ Q hQrp
@@ -188,10 +188,10 @@ private lemma card_Q_cast_ne_zero {K : Type*} [Field K] {p : ℕ} [CharP K p]
     (hp : p.Prime) {r : ℕ} (hr : r.Prime) {Γ : Type*} [Group Γ] [Finite Γ]
     {Q : Subgroup Γ} (hQr : IsPGroup r Q) (hQZ : ¬ Q ≤ Subgroup.center Γ)
     (hrp : r ≠ p) : ((Nat.card Q : ℕ) : K) ≠ 0 := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   intro h0
   have hQne : Q ≠ ⊥ := fun h => hQZ (by rw [h]; exact bot_le)
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   have hpdvd : p ∣ Nat.card Q := (CharP.cast_eq_zero_iff K p (Nat.card Q)).mp h0
   obtain ⟨n, hn⟩ := hQr.exists_card_eq
   have hnpos : n ≠ 0 := by
@@ -237,23 +237,23 @@ private lemma two_le_card_weights {K V Γ : Type*} [Field K] [AddCommGroup V] [M
   classical
   let Ω := CFSG.Walter.JT.weights ρ Q
   let W : Ω → Submodule K V := fun χ => CFSG.Walter.JT.weightSpace ρ Q χ
-  letI : Finite Ω := ‹Finite (CFSG.Walter.JT.weights ρ Q)›
+  let : Finite Ω := ‹Finite (CFSG.Walter.JT.weights ρ Q)›
   change 2 ≤ Nat.card Ω
   have htop' : ⨆ χ : Ω, W χ = ⊤ := htop
   have hne : Nonempty Ω := by
     by_contra h
-    haveI : IsEmpty Ω := not_nonempty_iff.mp h
+    have : IsEmpty Ω := not_nonempty_iff.mp h
     have hbot : (⨆ χ : Ω, W χ) = ⊥ := iSup_of_empty W
     rw [htop'] at hbot
     exact bot_ne_top hbot.symm
   obtain ⟨χ₀⟩ := hne
-  letI : Nonempty Ω := ⟨χ₀⟩
+  let : Nonempty Ω := ⟨χ₀⟩
   by_contra hlt
   have hcard : Nat.card Ω = 1 := by
     have hpos : 0 < Nat.card Ω := Nat.card_pos
     omega
   obtain ⟨hsub, -⟩ := Nat.card_eq_one_iff_unique.mp hcard
-  letI : Subsingleton Ω := hsub
+  let : Subsingleton Ω := hsub
   have hscalar : ∀ q : Q, ρ (q : Γ) = (χ₀.1 q) • 1 :=
     eq_smul_one_of_subsingleton_weights htop χ₀
   have hcomm (q : Q) (g : Γ) : (q : Γ) * g = g * q := by
@@ -279,7 +279,7 @@ private lemma ker_comp_sigma_isSolvable {Y : Type*} {T : Type} [Group Y] [Group 
   let σT := CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover hT
   have hσTker : σT.ker = Subgroup.center T :=
     CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover_ker hT
-  haveI : Group.IsSolvable π.ker := hK
+  have : Group.IsSolvable π.ker := hK
   set N : Subgroup Y := (Subgroup.center T).comap π
   have hker : ((σT).comp π).ker = N := by
     rw [← MonoidHom.comap_ker σT π, hσTker]
@@ -296,15 +296,15 @@ private lemma ker_comp_sigma_isSolvable {Y : Type*} {T : Type} [Group Y] [Group 
   exact Group.isSolvable_of_ker_le_range f g hfg
 
 private lemma false_of_ker_sup_ker_eq_top {Γ T Ω : Type*} [Group Γ] [Group T] [Fintype Ω]
-    (π : Γ →* T) (hπ : Function.Surjective π) (hperf : Group.IsPerfect Γ)
+    (π : Γ →* T) (_hπ : Function.Surjective π) (hperf : Group.IsPerfect Γ)
     (σ : Γ →* Equiv.Perm Ω) (htrans : MulAction.IsPretransitive σ.range Ω)
     (hnt : 2 ≤ Fintype.card Ω) (hπker : σ.ker ⊔ π.ker = ⊤)
     (hkerS : Group.IsSolvable π.ker) : False := by
   classical
-  letI : Group.IsPerfect Γ := hperf
+  let : Group.IsPerfect Γ := hperf
   have hPne : σ.range ≠ ⊥ := by
     intro hPbot
-    haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     obtain ⟨χ, ψ, hχψ⟩ := exists_pair_ne Ω
     obtain ⟨p, hp⟩ := htrans.exists_smul_eq χ ψ
     have hp1 : p = 1 := by
@@ -330,10 +330,10 @@ private lemma false_of_ker_sup_ker_eq_top {Γ T Ω : Type*} [Group Γ] [Group T]
       refine ⟨⟨k, hk⟩, Subtype.ext ?_⟩
       change σ k = ↑p
       rw [hkg, hg]
-    haveI : Group.IsSolvable π.ker := hkerS
+    have : Group.IsSolvable π.ker := hkerS
     exact Group.isSolvable_of_surjective hf
-  haveI : Group.IsPerfect σ.range := Group.IsPerfect.range σ
-  haveI : Nontrivial σ.range := (Subgroup.nontrivial_iff_ne_bot σ.range).mpr hPne
+  have : Group.IsPerfect σ.range := Group.IsPerfect.range σ
+  have : Nontrivial σ.range := (Subgroup.nontrivial_iff_ne_bot σ.range).mpr hPne
   exact (Group.IsPerfect.not_isSolvable σ.range) hPsolv
 
 private lemma map_ker_le_center {Γ : Type*} {T : Type} {Ω : Type*} [Group Γ] [Group T]
@@ -344,8 +344,8 @@ private lemma map_ker_le_center {Γ : Type*} {T : Type} {Ω : Type*} [Group Γ] 
     (hnt : 2 ≤ Fintype.card Ω) (hkerS : Group.IsSolvable π.ker) :
     Subgroup.map π σ.ker ≤ Subgroup.center T := by
   classical
-  letI : Group.IsPerfect Γ := hperf
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective (f := π) hπ
+  let : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective (f := π) hπ
   let σT := CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover hT
   have hσT : Function.Surjective σT :=
     CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover_surjective hT
@@ -353,10 +353,10 @@ private lemma map_ker_le_center {Γ : Type*} {T : Type} {Ω : Type*} [Group Γ] 
     CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover_ker hT
   let N : Subgroup T := Subgroup.map π σ.ker
   have hNnormal : N.Normal := (MonoidHom.normal_ker σ).map π hπ
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hmapnorm : (N.map σT).Normal := hNnormal.map σT hσT
-  haveI : (N.map σT).Normal := hmapnorm
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : (N.map σT).Normal := hmapnorm
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map σT) with hbot | htop
   · have hle : N ≤ σT.ker := (Subgroup.map_eq_bot_iff (H := N) (f := σT)).mp hbot
@@ -387,21 +387,21 @@ private lemma exists_surjective_hom_solvable_ker {Γ : Type*} {T : Type} {Ω : T
     [Group Γ] [Group T] [Fintype Ω] [DecidableEq Ω]
     (π : Γ →* T) (hπ : Function.Surjective π)
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
-    (hkerS : Group.IsSolvable π.ker) (hperf : Group.IsPerfect Γ)
+    (hkerS : Group.IsSolvable π.ker) (_hperf : Group.IsPerfect Γ)
     (σ : Γ →* Equiv.Perm Ω)
     (hker : σ.ker ≤
       ((CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker) :
     ∃ φ : σ.range →* alternatingGroup (Fin 6),
       Function.Surjective φ ∧ Group.IsSolvable φ.ker := by
   classical
-  letI : Group.IsPerfect Γ := hperf
+  let : Group.IsPerfect Γ := _hperf
   let σT := CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover hT
   have hσT : Function.Surjective σT :=
     CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover_surjective hT
   let ψ : Γ →* alternatingGroup (Fin 6) := σT.comp π
   have hψ : Function.Surjective ψ := hσT.comp hπ
-  letI : Group.IsSolvable ψ.ker := ker_comp_sigma_isSolvable hT π hkerS
-  letI : (σ.ker).Normal := MonoidHom.normal_ker σ
+  let : Group.IsSolvable ψ.ker := ker_comp_sigma_isSolvable hT π hkerS
+  let : (σ.ker).Normal := MonoidHom.normal_ker σ
   let fl : Γ ⧸ σ.ker →* alternatingGroup (Fin 6) :=
     QuotientGroup.lift σ.ker ψ hker
   let e : σ.range ≃* Γ ⧸ σ.ker :=
@@ -450,7 +450,7 @@ private lemma card_actionSet_eq_six {Γ : Type*} {T : Type} {Ω : Type*} [Group 
       ((CFSG.RankThree.PartTwo.Sec16.ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker) :
     Fintype.card Ω = 6 ∧ σ.range = alternatingGroup Ω := by
   classical
-  letI : Group.IsPerfect Γ := hperf
+  let : Group.IsPerfect Γ := hperf
   obtain ⟨φ, hφ, hφker⟩ :=
     exists_surjective_hom_solvable_ker π hπ hT hkerS hperf σ hker
   exact card_eq_six_and_eq_alternatingGroup hcard9 σ.range htrans
@@ -522,10 +522,10 @@ private lemma weightHom_transitive {K V Γ : Type*} [Field K] [IsAlgClosed K]
   have hcard : Fintype.card (CFSG.Walter.JT.weights ρ Q) ≤ Module.finrank K V := by
     rw [← Nat.card_eq_fintype_card]
     exact hfin.2
-  haveI : Nontrivial V := nontrivial_of_isIrreducible hirr
+  have : Nontrivial V := nontrivial_of_isIrreducible hirr
   have hΩne : Nonempty Ω := by
     by_contra h
-    haveI : IsEmpty Ω := not_nonempty_iff.mp h
+    have : IsEmpty Ω := not_nonempty_iff.mp h
     have hempty : (⨆ χ : Ω, CFSG.Walter.JT.weightSpace ρ Q χ) = ⊥ :=
       iSup_of_empty _
     rw [hempty] at htop
@@ -646,7 +646,7 @@ theorem exists_six_lines {𝕜 : Type*} [Field 𝕜] [IsAlgClosed 𝕜] {p : ℕ
       (∀ i, Module.finrank 𝕜 (W i) = 1) ∧ iSupIndep W ∧ ⨆ i, W i = ⊤ ∧
       (∀ g i, (W i).map (ρ g) = W (σ g i)) ∧ σ.range = alternatingGroup (Fin 6) := by
   classical
-  letI : Q.Normal := hQn
+  let : Q.Normal := hQn
   have hrp : r ≠ p := fun h => r_ne_p hp hirr hfaith hQn hQr hQZ h
   have hQchar : ((Nat.card Q : ℕ) : 𝕜) ≠ 0 :=
     card_Q_cast_ne_zero hp hr hQr hQZ hrp
@@ -657,8 +657,8 @@ theorem exists_six_lines {𝕜 : Type*} [Field 𝕜] [IsAlgClosed 𝕜] {p : ℕ
     rw [← map_mul, ← map_mul, hcomm]
   let Ω := CFSG.Walter.JT.weights ρ Q
   have hfin := CFSG.Walter.JT.finite_weights_and_card_le ρ Q hN hQchar
-  haveI : Finite Ω := hfin.1
-  letI : Fintype (CFSG.Walter.JT.weights ρ Q) := Fintype.ofFinite Ω
+  have : Finite Ω := hfin.1
+  let : Fintype (CFSG.Walter.JT.weights ρ Q) := Fintype.ofFinite Ω
   have hdecomp := CFSG.Walter.JT.iSupIndep_weightSpace_and_iSup_eq_top ρ Q hN hQchar
   have hind_all : iSupIndep (CFSG.Walter.JT.weightSpace ρ Q) := hdecomp.1
   have hind : iSupIndep (fun χ : Ω => CFSG.Walter.JT.weightSpace ρ Q χ) :=
@@ -674,7 +674,7 @@ theorem exists_six_lines {𝕜 : Type*} [Field 𝕜] [IsAlgClosed 𝕜] {p : ℕ
     weightHom_ker_le_sigma hirr hfaith hQc hQchar hQZ hperf hT π hπ hkerS
   obtain ⟨hcard6, hPalt⟩ :=
     card_actionSet_eq_six π hπ hT hkerS hperf (weightHom ρ Q) htrans hcard9 hσker_le
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hcard6]; norm_num)
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hcard6]; norm_num)
   obtain ⟨χ₀⟩ := ‹Nonempty Ω›
   have hdimEq : ∀ χ ψ : Ω,
       Module.finrank 𝕜 (CFSG.Walter.JT.weightSpace ρ Q χ) =

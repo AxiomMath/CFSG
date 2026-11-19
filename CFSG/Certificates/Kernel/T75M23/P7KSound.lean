@@ -14,8 +14,8 @@ open CFSG.CGT.T75JM (V3 glAct FinCheck evalWord3 affPerm8 translate8 vecIdx idxV
 theorem iteN (f : Nat → Nat) (c i : Nat) (r : Nat) :
     (if i = c then f c else r) = if i = c then f i else r := by
   by_cases h : i = c
-  · rw [if_pos h, if_pos h, h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 theorem with8_eq (f : Nat → Nat) (k : (Nat → Nat) → Bool) : with8 f k = k f := by
   unfold with8

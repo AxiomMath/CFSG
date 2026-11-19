@@ -48,7 +48,7 @@ theorem elems_getD_succ (c : PSimple) (g1 g2 : G) {k : ℕ} (hk : k < c.par.leng
     elemsAux_getD_stable (j := k) (m := k + 1) (m' := c.par.length) c g1 g2 (by omega) (by omega)
   have h2 : (c.elemsAux g1 g2 (k + 1)).getD k 1 =
       (c.elemsAux g1 g2 k).getD (c.par.getD k 0) 1 * (if c.gen.getD k false then g2 else g1) := by
-    rw [elemsAux, List.getD_append_right _ _ _ _ (le_of_eq hlen), hlen, Nat.sub_self, if_neg hk0]
+    rw [elemsAux, List.getD_append_right _ _ _ _ (le_of_eq hlen), hlen, Nat.sub_self, ite_eq_right hk0]
     rfl
   have h3 : (c.elemsAux g1 g2 k).getD (c.par.getD k 0) 1 =
       (c.elemsAux g1 g2 c.par.length).getD (c.par.getD k 0) 1 :=
@@ -89,7 +89,6 @@ theorem sound [DecidableEq G] (c : PSimple) (g1 g2 z : G) (h : c.check g1 g2 z =
     (fun i => c.reps.getD i 0) hrep (fun k => c.cls.getD k none)
     (by
       intro k hk
-      try dsimp only
       obtain ⟨-, -, -, -, -, hm⟩ := hK k hk
       revert hm
       generalize c.cls.getD k none = ck

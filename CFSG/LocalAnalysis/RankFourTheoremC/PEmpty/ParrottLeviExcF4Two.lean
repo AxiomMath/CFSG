@@ -66,7 +66,7 @@ theorem exists_proper_parabolic_of_normalizer_le {τ : Tag} [Finite K] [CharP K 
     ∃ J : Set (Fin τ.rank), J ≠ Set.univ ∧
       K₀.map (adjointGroup τ K).subtype = parabolicSubgroup τ K J := by
   classical
-  haveI : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
+  have : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
   have hBK₀ : (borelGroup τ K).subgroupOf (adjointGroup τ K) ≤ K₀ :=
     borel_subgroupOf_le_normalizer.trans hN
   have hBP : borelGroup τ K ≤ K₀.map (adjointGroup τ K).subtype := fun x hx =>
@@ -97,7 +97,7 @@ theorem prime_eq_five_or_seven_of_dvd_card_parabolic [Finite K] (hK : Nat.card K
     ((standard_parabolic_cells .F4 K).2.2.2.1 J _).2 hsub
   have hdvd' := hdvd.trans (Subgroup.card_dvd_of_le hle)
   rw [(standard_parabolic_cells .F4 K).2.2.2.2.2.2] at hdvd'
-  haveI : Fintype (WeylGroup .F4) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .F4) := Fintype.ofFinite _
   rw [CFSG.Timmesfeld.ExceptionalOrders.card_torusGroup_F4,
     CFSG.Timmesfeld.ExceptionalOrders.ncard_posRoots_F4, hK,
     CFSG.LieType.SeitzGeneration.finsum_parabolicWeylGroup_eq] at hdvd'
@@ -124,12 +124,12 @@ theorem two_le_pRank_top_F4_two [CharP K 2] [Finite K] {p : ℕ}
     CFSG.RankThree.PartOne.SEITZX.cert5.check = true ∧
       CFSG.RankThree.PartOne.SEITZX.cert7.check = true)
   rcases hp with rfl | rfl
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨hAp, hBp, hAB, hA1, hBA, -⟩ :=
       CFSG.RankThree.PartOne.SEITZX.PlaneCert.facts (K := K)
         CFSG.RankThree.PartOne.SEITZX.cert5 hc.1
     exact two_le_pRank_of_pair hAp hBp hAB hA1 hBA
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨hAp, hBp, hAB, hA1, hBA, -⟩ :=
       CFSG.RankThree.PartOne.SEITZX.PlaneCert.facts (K := K)
         CFSG.RankThree.PartOne.SEITZX.cert7 hc.2
@@ -140,7 +140,7 @@ end F4Two
 theorem leviSubAt_adjointGroup_F4_two [Finite K] [CharP K 2]
     (h2 : Nat.card K = 2) : LeviSubAt ↥(adjointGroup .F4 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀⟩ : ∃ P : Sylow 2 ↥(adjointGroup .F4 K),
       (P : Subgroup ↥(adjointGroup .F4 K)) =
         (posUnipotent .F4 K).subgroupOf (adjointGroup .F4 K) :=

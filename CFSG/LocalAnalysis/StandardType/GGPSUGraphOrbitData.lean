@@ -110,7 +110,7 @@ private theorem psuC3b_transversal {f n : ℕ} {K : Type} [Field K] [Finite K] [
     change c.1 ∈ psuC3b_orbit h X a.1
     rw [← psuC3b_orbit_eq S hab]
     exact hbc
-  letI inst : Setoid α :=
+  let inst : Setoid α :=
     { r := rel
       iseqv := ⟨hrefl, fun {a b} hab => hsymm a b hab,
         fun {a b c} hab hbc => htrans a b c hab hbc⟩ }
@@ -118,7 +118,7 @@ private theorem psuC3b_transversal {f n : ℕ} {K : Type} [Field K] [Finite K] [
   let R : Finset (Matrix (Fin n) (Fin n) K) := P.attach.image rep
   have hRsub : R ⊆ P := by
     intro r hr
-    simp only [R, Finset.mem_image, Finset.mem_attach] at hr
+    simp only [R, Finset.mem_image] at hr
     obtain ⟨e, -, rfl⟩ := hr
     exact (Quotient.out (Quotient.mk inst e)).2
   refine ⟨R, hRsub, ?_⟩
@@ -127,7 +127,7 @@ private theorem psuC3b_transversal {f n : ℕ} {K : Type} [Field K] [Finite K] [
   let q := Quotient.mk inst eA
   let r : Matrix (Fin n) (Fin n) K := (Quotient.out q).1
   have hrR : r ∈ R := by
-    simp only [R, Finset.mem_image, Finset.mem_attach]
+    simp only [R, Finset.mem_image]
     refine ⟨eA, ?_, rfl⟩
     exact Finset.mem_attach P eA
   have hrel : rel eA (Quotient.out q) := by
@@ -152,7 +152,7 @@ private theorem psuC3b_transversal {f n : ℕ} {K : Type} [Field K] [Finite K] [
   have hmk0 : Quotient.mk inst eA = Quotient.mk inst r'A := Quotient.sound hrel_e
   have hmk : Quotient.mk inst r'A = Quotient.mk inst eA := hmk0.symm
   have hzmem : r' ∈ R := hr'R
-  simp only [R, Finset.mem_image, Finset.mem_attach] at hzmem
+  simp only [R, Finset.mem_image] at hzmem
   obtain ⟨z, -, hz⟩ := hzmem
   have hzr : (Quotient.out (Quotient.mk inst z)).1 = r' := hz
   have hzα : Quotient.out (Quotient.mk inst z) = r'A := by
@@ -172,7 +172,7 @@ private theorem psuC3b_orbit_size {f n : ℕ} {K : Type} [Field K] [Finite K] [C
     Nat.card {e' : Matrix (Fin n) (Fin n) K // e' = e ∨ e' = psuDag h e ∨
       e' = psuPsi h X e ∨ e' = psuDag h (psuPsi h X e)} = psuOrbSize (psuKind h X B e) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hEq : Nat.card {e' : Matrix (Fin n) (Fin n) K // e' = e ∨ e' = psuDag h e ∨
       e' = psuPsi h X e ∨ e' = psuDag h (psuPsi h X e)} =
       (psuC3b_orbit h X e).card := by
@@ -194,7 +194,7 @@ private theorem psuC3b_orbit_size {f n : ℕ} {K : Type} [Field K] [Finite K] [C
       have hdpsi : psuDag h (psuPsi h X e) = psuPsi h X e := by
         rw [psuC3b_dag_psi S e, hd]
       have horb : psuC3b_orbit h X e = {e, psuPsi h X e} := by
-        ext x; simp [psuC3b_orbit, hd, hp, hdpsi]
+        ext x; simp [psuC3b_orbit, hd, hdpsi]
       rw [horb, Finset.card_pair (Ne.symm hp)]
       simp [psuOrbSize]
   · by_cases hp : psuPsi h X e = e
@@ -212,7 +212,7 @@ private theorem psuC3b_orbit_size {f n : ℕ} {K : Type} [Field K] [Finite K] [C
         rw [horb, Finset.card_pair (Ne.symm hd)]
         simp [psuOrbSize]
     · by_cases h4 : psuPsi h X e = psuDag h e
-      · have hk : psuKind h X B e = 4 := by simp [psuKind, hd, hp, h4]
+      · have hk : psuKind h X B e = 4 := by simp [psuKind, hd, h4]
         rw [hk]
         have horb : psuC3b_orbit h X e = {e, psuDag h e} := by
           ext x; simp [psuC3b_orbit, h4, psuDag_dag, or_comm]
@@ -420,8 +420,8 @@ private lemma psuC3b_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) 
     subst hs
     subst ht
     exact Commute.refl _
-  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing (psuAlg B) := IsMulCommutative.instCommRing
+  have : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing (psuAlg B) := IsMulCommutative.instCommRing
   exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : psuAlg B) (⟨b, hb⟩ : psuAlg B))
 
 private lemma psuC3b_star_mem_of_primFamily {f n : ℕ} {K : Type} [Field K] [Finite K]
@@ -444,7 +444,7 @@ private lemma psuC3b_orbit_card_eq_orbSize {f n : ℕ} {K : Type} [Field K] [Fin
     (e : Matrix (Fin n) (Fin n) K) :
     (psuC3b_orbit h X e).card = psuOrbSize (psuKind h X B e) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hEq : Nat.card {e' : Matrix (Fin n) (Fin n) K // e' = e ∨ e' = psuDag h e ∨
       e' = psuPsi h X e ∨ e' = psuDag h (psuPsi h X e)} =
       (psuC3b_orbit h X e).card := by
@@ -576,12 +576,12 @@ private lemma psuC3b_degree_one_exists_char {f n : ℕ} {K : Type} [Field K] [Fi
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψemb, hπ, hker, hdim, hcard, hact,
     hrank, hpos, hinj, hψact, hψone, hψcomm, hψB⟩ :=
     exists_blockEmbed (A := psuAlg B) S.odd rfl hePrim
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
   have hfin1 : Module.finrank K F = 1 := by rw [hdim, hd]
-  haveI : FiniteDimensional K F := FiniteDimensional.of_finrank_pos (by rw [hfin1]; norm_num)
+  have : FiniteDimensional K F := FiniteDimensional.of_finrank_pos (by rw [hfin1]; norm_num)
   have hsurj : Function.Surjective (algebraMap K F) := by
     have htop : LinearMap.range (Algebra.linearMap K F) = ⊤ := by
       apply Submodule.eq_top_of_finrank_eq
@@ -603,10 +603,10 @@ private lemma psuC3b_degree_one_exists_char {f n : ℕ} {K : Type} [Field K] [Fi
         Algebra.subset_adjoin ⟨B, rfl, rfl⟩⟩ = 0 := by
       apply eK.injective
       simpa [κ] using hzero
-    haveI : Finite (LinearMap.range e.mulVecLin) :=
+    have : Finite (LinearMap.range e.mulVecLin) :=
       Finite.of_injective (Subtype.val) Subtype.val_injective
-    haveI : Module.Finite F (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-    haveI : Module.IsTorsionFree F (LinearMap.range e.mulVecLin) := inferInstance
+    have : Module.Finite F (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+    have : Module.IsTorsionFree F (LinearMap.range e.mulVecLin) := inferInstance
     obtain ⟨w, hwne⟩ := (Module.finrank_pos_iff_exists_ne_zero).mp hpos
     have hBw : (B : Matrix (Fin n) (Fin n) K) *ᵥ (w : Fin n → K) = 0 := by
       have h := hact ⟨(B : Matrix (Fin n) (Fin n) K),
@@ -637,13 +637,13 @@ private theorem psuC3b_degree_one_idem_count {f n : ℕ} {K : Type} [Field K] [F
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P) :
     (P.filter (fun e => blockDegree (psuAlg B) e = 1)).card ≤ Nat.card Kˣ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let E := {e : Matrix (Fin n) (Fin n) K // e ∈ P ∧ blockDegree (psuAlg B) e = 1}
   have hcard : (P.filter (fun e => blockDegree (psuAlg B) e = 1)).card = Nat.card E := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     congr 1
     ext x
-    simp [E, and_assoc, and_comm, and_left_comm]
+    simp
   rw [hcard]
   let lam : E → Kˣ := fun e =>
     let κ := Classical.choose (psuC3b_degree_one_exists_char S P hP e.1 e.2.1 e.2.2)
@@ -741,25 +741,25 @@ private lemma psuC3b_kind_three {f n : ℕ} {K : Type} [Field K] (h : UnitaryFie
     psuDag h e ≠ e ∧ psuPsi h X e = e ∧ ¬ psuPsiTrivial h X B e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       omega
-    · rw [if_neg hp] at hk
+    · rw [ite_eq_right hp] at hk
       omega
-  · rw [if_neg hd] at hk
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       by_cases ht : psuPsiTrivial h X B e
-      · rw [if_pos ht] at hk
+      · rw [ite_eq_left ht] at hk
         omega
-      · rw [if_neg ht] at hk
+      · rw [ite_eq_right ht] at hk
         exact ⟨hd, hp, ht⟩
-    · rw [if_neg hp] at hk
+    · rw [ite_eq_right hp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk
+      · rw [ite_eq_left h4] at hk
         omega
-      · rw [if_neg h4] at hk
+      · rw [ite_eq_right h4] at hk
         omega
 
 private theorem psuC3b_degree_data {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -774,14 +774,14 @@ private theorem psuC3b_degree_data {f n : ℕ} {K : Type} [Field K] [Finite K] [
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψemb, hπ, hker, hdim, hcard, hact,
     hrank, hpos, hinj, hψact, hψone, hψcomm, hψB⟩ :=
     exists_blockEmbed S.odd rfl he
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
   have hdpos : 0 < blockDegree (psuAlg B) r := by
     by_contra hcon
     have h0 : blockDegree (psuAlg B) r = 0 := by omega
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [h0, pow_zero, Nat.card_eq_fintype_card] at hcard
     have h2 := Fintype.one_lt_card (α := F)
     omega
@@ -796,8 +796,8 @@ private theorem psuC3b_degree_data {f n : ℕ} {K : Type} [Field K] [Finite K] [
     subst hs
     subst hs'
     exact Commute.refl _
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   let ψA : A →ₐ[K] A :=
     { toFun := fun a => ⟨psuPsi h X (a : Matrix (Fin n) (Fin n) K),
         (psuGraph_star_mem S a.1 a.2).2⟩
@@ -893,7 +893,7 @@ private theorem psuC3b_degree_data {f n : ℕ} {K : Type} [Field K] [Finite K] [
     have hx := congrArg (fun e : F ≃ₐ[K] F => e x) h
     change τ0 x = x
     exact hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have horder : orderOf τ = 2 :=
     orderOf_eq_prime (by simpa [pow_two] using hτ2) hτ1
   have hdvd1 : orderOf τ ∣ Nat.card (F ≃ₐ[K] F) := orderOf_dvd_natCard τ
@@ -1007,9 +1007,9 @@ private lemma psuC3b_first_iso {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
     subst hs
     subst ht
     exact Commute.refl _
-  haveI : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing (psuAlg B) := IsMulCommutative.instCommRing
-  letI mulG : Mul (psuC3b_F1 h B) :=
+  have : IsMulCommutative (psuAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing (psuAlg B) := IsMulCommutative.instCommRing
+  let mulG : Mul (psuC3b_F1 h B) :=
     ⟨fun t u => ⟨t.1 * u.1, by
       show psuDag h (((t.1 * u.1 : psuAlg B) : Matrix (Fin n) (Fin n) K)) *
         ((t.1 * u.1 : psuAlg B) : Matrix (Fin n) (Fin n) K) = 1
@@ -1022,12 +1022,12 @@ private lemma psuC3b_first_iso {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
         ← Matrix.mul_assoc (psuDag h (t.1 : Matrix (Fin n) (Fin n) K))
           (t.1 : Matrix (Fin n) (Fin n) K) (u.1 : Matrix (Fin n) (Fin n) K),
         t.2, Matrix.one_mul, u.2]⟩⟩
-  letI oneG : One (psuC3b_F1 h B) :=
+  let oneG : One (psuC3b_F1 h B) :=
     ⟨⟨(1 : psuAlg B), by
       show psuDag h (((1 : psuAlg B) : Matrix (Fin n) (Fin n) K)) *
         ((1 : psuAlg B) : Matrix (Fin n) (Fin n) K) = 1
       rw [Subalgebra.coe_one, psuDag_one, Matrix.one_mul]⟩⟩
-  letI invG : Inv (psuC3b_F1 h B) :=
+  let invG : Inv (psuC3b_F1 h B) :=
     ⟨fun t => ⟨psuC3bg4_dagA S t.1, by
       show psuDag h (((psuC3bg4_dagA S t.1 : psuAlg B) : Matrix (Fin n) (Fin n) K)) *
         ((psuC3bg4_dagA S t.1 : psuAlg B) : Matrix (Fin n) (Fin n) K) = 1
@@ -1035,7 +1035,7 @@ private lemma psuC3b_first_iso {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
         psuDag h (t.1 : Matrix (Fin n) (Fin n) K) = 1
       rw [psuDag_dag]
       exact psuC3bg4_self_dag_eq_one t.1 t.2⟩⟩
-  letI grpG : Group (psuC3b_F1 h B) :=
+  let grpG : Group (psuC3b_F1 h B) :=
     Group.ofLeftAxioms
       (fun a b c => Subtype.ext (by
         change (a.1 * b.1) * c.1 = a.1 * (b.1 * c.1)
@@ -1292,7 +1292,7 @@ private lemma psuC3b_block_prod {f n : ℕ} {K : Type} [Field K] [Finite K] [Cha
       (∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (psuAlg B) e.1) ∧
       Function.Bijective (fun (a : psuAlg B) (e : {e // e ∈ P}) => π e a) := by
   classical
-  letI : CommRing (psuAlg B) := psuC3bg1_commRing B
+  let : CommRing (psuAlg B) := psuC3bg1_commRing B
   have horth : OrthogonalIdempotents (psuC3bg1_idemFam B P hP) := psuC3bg1_orthIdem B P hP
   have hsum : (∑ i : {e // e ∈ P}, psuC3bg1_idemFam B P hP i) = 1 := by
     apply Subtype.ext
@@ -1332,10 +1332,10 @@ private lemma psuC3b_block_prod {f n : ℕ} {K : Type} [Field K] [Finite K] [Cha
     fun e => (hdata e).2.2.1
   have hcard : ∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (psuAlg B) e.1 :=
     fun e => (hdata e).2.2.2
-  letI := fieldF
-  letI := algF
-  letI := finF
-  letI := charF
+  let := fieldF
+  let := algF
+  let := finF
+  let := charF
   refine ⟨F, fieldF, algF, finF, charF, π, hπ, hker, hdim, hcard, ?_⟩
   have hker' : ∀ (e : {e // e ∈ P}) (a : psuAlg B),
       π e a = 0 ↔ a * psuC3bg1_idemFam B P hP e = 0 := by
@@ -1378,7 +1378,7 @@ private lemma psuC3b_star_transport {f n : ℕ} {K : Type} [Field K] [Finite K] 
     (S : PSUGraphSetting h n X B) (P : Finset (Matrix (Fin n) (Fin n) K))
     (hP : PrimFamily (psuAlg B) P)
     (F : {e // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, psuAlg B →ₐ[K] F e) (hπ : ∀ e, Function.Surjective (π e))
     (hker : ∀ e (a : psuAlg B), π e a = 0 ↔ (a : Matrix (Fin n) (Fin n) K) * e.1 = 0) :
     ∃ (ι : ∀ e e' : {e // e ∈ P}, e'.1 = psuDag h e.1 → (F e' ≃+* F e))
@@ -1390,7 +1390,7 @@ private lemma psuC3b_star_transport {f n : ℕ} {K : Type} [Field K] [Finite K] 
         π e ⟨psuPsi h X (a : Matrix (Fin n) (Fin n) K), (psuGraph_star_mem S a.1 a.2).2⟩ =
           Ψ e e' he (π e' a)) := by
   classical
-  letI : CommRing (psuAlg B) := psuC3bg1_commRing B
+  let : CommRing (psuAlg B) := psuC3bg1_commRing B
   have horth : OrthogonalIdempotents (psuC3bg1_idemFam B P hP) := psuC3bg1_orthIdem B P hP
   have hidem : ∀ e : {e // e ∈ P}, IsIdempotentElem (psuC3bg1_idemFam B P hP e) :=
     fun e => horth.1 e
@@ -1539,7 +1539,7 @@ private theorem psuC3b_field_unitary_card {E : Type} [Field E] [Finite E]
   have hQ2 : 2 ≤ Q := by
     have h2 : 2 ≤ Q * Q := by
       rw [← hQ]
-      haveI : Fintype E := Fintype.ofFinite E
+      have : Fintype E := Fintype.ofFinite E
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     by_contra hcon
@@ -1597,7 +1597,7 @@ private theorem psuC3b_field_fix_units_card {E : Type} [Field E] [Finite E]
     obtain ⟨t, ht⟩ := hY1
     exact fun h => ht (by simpa using congrArg (fun e : E ≃+* E => e t) h)
   have horder : orderOf Y = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by simpa [pow_two] using hY2') hY1'
   let K : Subfield E := FixedPoints.subfield (Subgroup.zpowers Y) E
   let F : Subfield E := FixedBy.subfield E Y
@@ -1658,7 +1658,7 @@ private noncomputable def psuC3bg2_D {f n : ℕ} {K : Type} [Field K] [Finite K]
 private noncomputable def psuC3bg2_ιA {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P)
-    {F : {e // e ∈ P} → Type} [fieldF : ∀ e, Field (F e)]
+    {F : {e // e ∈ P} → Type} [_fieldF : ∀ e, Field (F e)]
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = psuDag h e.1 → (F e' ≃+* F e))
     (e : {e // e ∈ P}) : F (psuC3bg2_D S P hP e) ≃+* F e :=
   ι e (psuC3bg2_D S P hP e) rfl
@@ -1962,47 +1962,47 @@ private lemma psuC3g2g2_kind_zero {f n : ℕ} {K : Type} [Field K] (h : UnitaryF
     psuDag h e = e ∧ psuPsi h X e = e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
     · exact ⟨hd, hp⟩
-    · rw [if_neg hp] at hk; omega
-  · rw [if_neg hd] at hk
+    · rw [ite_eq_right hp] at hk; omega
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       by_cases ht : psuPsiTrivial h X B e
-      · rw [if_pos ht] at hk; omega
-      · rw [if_neg ht] at hk; omega
-    · rw [if_neg hp] at hk
+      · rw [ite_eq_left ht] at hk; omega
+      · rw [ite_eq_right ht] at hk; omega
+    · rw [ite_eq_right hp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk; omega
-      · rw [if_neg h4] at hk; omega
+      · rw [ite_eq_left h4] at hk; omega
+      · rw [ite_eq_right h4] at hk; omega
 
 private lemma psuC3g2g2_kind_one {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X B : GL (Fin n) K) (e : Matrix (Fin n) (Fin n) K) (hk : psuKind h X B e = 1) :
     psuDag h e = e ∧ psuPsi h X e ≠ e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; omega
+    · rw [ite_eq_left hp] at hk; omega
     · exact ⟨hd, hp⟩
-  · rw [if_neg hd] at hk
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       by_cases ht : psuPsiTrivial h X B e
-      · rw [if_pos ht] at hk; omega
-      · rw [if_neg ht] at hk; omega
-    · rw [if_neg hp] at hk
+      · rw [ite_eq_left ht] at hk; omega
+      · rw [ite_eq_right ht] at hk; omega
+    · rw [ite_eq_right hp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk; omega
-      · rw [if_neg h4] at hk; omega
+      · rw [ite_eq_left h4] at hk; omega
+      · rw [ite_eq_right h4] at hk; omega
 
 private lemma psuC3g2g2_kind_ge_two_dag_ne {f n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (X B : GL (Fin n) K) (e : Matrix (Fin n) (Fin n) K)
     (hk : 2 ≤ psuKind h X B e) : psuDag h e ≠ e := by
   intro hcon
   unfold psuKind at hk
-  rw [if_pos hcon] at hk
+  rw [ite_eq_left hcon] at hk
   split_ifs at hk <;> omega
 
 private lemma psuC3g2g2_kind_le_four_psi {f n : ℕ} {K : Type} [Field K]
@@ -2011,31 +2011,31 @@ private lemma psuC3g2g2_kind_le_four_psi {f n : ℕ} {K : Type} [Field K]
     psuPsi h X e = e ∨ psuPsi h X e = psuDag h e := by
   unfold psuKind at hk2 hk4
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk2
+  · rw [ite_eq_left hd] at hk2
     split_ifs at hk2 <;> omega
-  · rw [if_neg hd] at hk2 hk4
+  · rw [ite_eq_right hd] at hk2 hk4
     by_cases hp : psuPsi h X e = e
     · exact Or.inl hp
-    · rw [if_neg hp] at hk2 hk4
+    · rw [ite_eq_right hp] at hk2 hk4
       by_cases h4 : psuPsi h X e = psuDag h e
       · exact Or.inr h4
-      · rw [if_neg h4] at hk4; omega
+      · rw [ite_eq_right h4] at hk4; omega
 
 private lemma psuC3g2g2_kind_five {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X B : GL (Fin n) K) (e : Matrix (Fin n) (Fin n) K) (hk : psuKind h X B e = 5) :
     psuDag h e ≠ e ∧ psuPsi h X e ≠ e ∧ psuPsi h X e ≠ psuDag h e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
-    split_ifs at hk <;> omega
-  · rw [if_neg hd] at hk
+  · rw [ite_eq_left hd] at hk
+    split_ifs at hk; omega
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       split_ifs at hk <;> omega
-    · rw [if_neg hp] at hk
+    · rw [ite_eq_right hp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk; omega
-      · rw [if_neg h4] at hk
+      · rw [ite_eq_left h4] at hk; omega
+      · rw [ite_eq_right h4] at hk
         exact ⟨hd, hp, h4⟩
 
 private lemma psuC3g2g2_sqrt_cardF {f n : ℕ} {K : Type} [Field K]
@@ -2090,7 +2090,7 @@ private lemma psuC3g2g2_LocalF_unique_at {f n : ℕ} {K : Type} [Field K]
     (he : (key star).1 = psuDag h (key star).1) :
     Nat.card (psuC3bg2_LocalF P ι A key) =
       Nat.card {u : F (key star) // ι (key star) (key star) he u * u = 1} := by
-  letI : Unique A := { default := star, uniq := huniq }
+  let : Unique A := { default := star, uniq := huniq }
   exact psuC3bg2_LocalF_unique P ι A key he
 
 private lemma psuC3g2g2_kind234_dag_ne {f n : ℕ} {K : Type} [Field K]
@@ -2279,7 +2279,7 @@ private lemma psuC3bg2_local_kind234 {f n : ℕ} {K : Type} [Field K] [Finite K]
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P)
     (R : Finset (Matrix (Fin n) (Fin n) K)) (hR : R ⊆ P)
     {F : {e // e ∈ P} → Type} [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, psuAlg B →ₐ[K] F e) (hπ : ∀ e, Function.Surjective (π e))
     (hcard : ∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (psuAlg B) e.1)
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = psuDag h e.1 → (F e' ≃+* F e))
@@ -2342,7 +2342,7 @@ private lemma psuC3bg2_local_kind5 {f n : ℕ} {K : Type} [Field K] [Finite K] [
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P)
     (R : Finset (Matrix (Fin n) (Fin n) K)) (hR : R ⊆ P)
     {F : {e // e ∈ P} → Type} [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, psuAlg B →ₐ[K] F e) (hπ : ∀ e, Function.Surjective (π e))
     (hcard : ∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (psuAlg B) e.1)
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = psuDag h e.1 → (F e' ≃+* F e))
@@ -3057,20 +3057,20 @@ private lemma psuC3bg3_kind_two {f n : ℕ} {K : Type} [Field K] (h : UnitaryFie
     psuDag h e ≠ e ∧ psuPsi h X e = e ∧ psuPsiTrivial h X B e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; omega
-    · rw [if_neg hp] at hk; omega
-  · rw [if_neg hd] at hk
+    · rw [ite_eq_left hp] at hk; omega
+    · rw [ite_eq_right hp] at hk; omega
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk
+    · rw [ite_eq_left hp] at hk
       by_cases ht : psuPsiTrivial h X B e
-      · rw [if_pos ht] at hk; exact ⟨hd, hp, ht⟩
-      · rw [if_neg ht] at hk; omega
-    · rw [if_neg hp] at hk
+      · rw [ite_eq_left ht] at hk; exact ⟨hd, hp, ht⟩
+      · rw [ite_eq_right ht] at hk; omega
+    · rw [ite_eq_right hp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk; omega
-      · rw [if_neg h4] at hk; omega
+      · rw [ite_eq_left h4] at hk; omega
+      · rw [ite_eq_right h4] at hk; omega
 
 private lemma psuC3bg3_Ψ_eq_of_idx_eq {f n : ℕ} {K : Type} [Field K]
     {h : UnitaryFieldData 2 f K} {X : GL (Fin n) K}
@@ -3162,28 +3162,28 @@ private lemma psuC3bg3_kind_one {f n : ℕ} {K : Type} [Field K] (h : UnitaryFie
     psuDag h e = e ∧ psuPsi h X e ≠ e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; omega
-    · rw [if_neg hp] at hk; exact ⟨hd, hp⟩
-  · rw [if_neg hd] at hk
+    · rw [ite_eq_left hp] at hk; omega
+    · rw [ite_eq_right hp] at hk; exact ⟨hd, hp⟩
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; split_ifs at hk <;> omega
-    · rw [if_neg hp] at hk; split_ifs at hk <;> omega
+    · rw [ite_eq_left hp] at hk; split_ifs at hk <;> omega
+    · rw [ite_eq_right hp] at hk; split_ifs at hk <;> omega
 
 private lemma psuC3bg3_kind_zero {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X B : GL (Fin n) K) (e : Matrix (Fin n) (Fin n) K) (hk : psuKind h X B e = 0) :
     psuDag h e = e ∧ psuPsi h X e = e := by
   unfold psuKind at hk
   by_cases hd : psuDag h e = e
-  · rw [if_pos hd] at hk
+  · rw [ite_eq_left hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; exact ⟨hd, hp⟩
-    · rw [if_neg hp] at hk; omega
-  · rw [if_neg hd] at hk
+    · rw [ite_eq_left hp] at hk; exact ⟨hd, hp⟩
+    · rw [ite_eq_right hp] at hk; omega
+  · rw [ite_eq_right hd] at hk
     by_cases hp : psuPsi h X e = e
-    · rw [if_pos hp] at hk; split_ifs at hk <;> omega
-    · rw [if_neg hp] at hk; split_ifs at hk <;> omega
+    · rw [ite_eq_left hp] at hk; split_ifs at hk
+    · rw [ite_eq_right hp] at hk; split_ifs at hk
 
 private lemma psuC3bg3_sqrt_sq (n : ℕ) : Nat.sqrt (n ^ 2) = n := by
   rw [pow_two]
@@ -3194,7 +3194,7 @@ private lemma psuC3bg3_unitary_fix_eq_one {E : Type} [Field E] [Finite E] [CharP
     (Θ : E ≃+* E) (hΘ2 : ∀ t, Θ (Θ t) = t) (hΘ1 : ∃ t, Θ t ≠ t) :
     Nat.card {t : E // σ t * t = 1 ∧ (Θ * σ) t * t = 1} = 1 := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let H1 : Subgroup Eˣ :=
     { carrier := {u | σ (u : E) * (u : E) = 1}
       one_mem' := by simp
@@ -3282,7 +3282,7 @@ private lemma psuC3bg3_unitary_fix_apply {E : Type} [Field E] [Finite E] [CharP 
     (σ : E ≃+* E) (hσ2 : ∀ t, σ (σ t) = t) (hσ1 : ∃ t, σ t ≠ t)
     (Θ : E ≃+* E) (hΘ2 : ∀ t, Θ (Θ t) = t) (hΘ1 : ∃ t, Θ t ≠ t)
     (t : E) (h1 : σ t * t = 1) (h2 : (Θ * σ) t * t = 1) : t = 1 := by
-  haveI : Subsingleton {t : E // σ t * t = 1 ∧ (Θ * σ) t * t = 1} :=
+  have : Subsingleton {t : E // σ t * t = 1 ∧ (Θ * σ) t * t = 1} :=
     (Nat.card_eq_one_iff_unique.mp
       (psuC3bg3_unitary_fix_eq_one σ hσ2 hσ1 Θ hΘ2 hΘ1)).1
   exact congrArg Subtype.val
@@ -3456,7 +3456,7 @@ private lemma psuC3bg3_local_kind0 {f n : ℕ} {K : Type} [Field K] [Finite K] [
     have he : e = rf := Subtype.ext (Subtype.ext he1)
     rw [he, hkey z]
   have hUO : psuC3b_UO (2 ^ f) (blockDegree (psuAlg B) r.1) 0 = 1 := by simp [psuC3b_UO]
-  haveI : Subsingleton (psuC3bg3_Local S P R hP F ι Ψ r) :=
+  have : Subsingleton (psuC3bg3_Local S P R hP F ι Ψ r) :=
     ⟨fun z w => by
       apply Subtype.ext
       funext e
@@ -3493,7 +3493,7 @@ private def psuC3bg3_piTwo {β : Type} [DecidableEq β]
     · simp
     · simp [hne.symm]
   right_inv p := by
-    simp [hne, hne.symm]
+    simp [hne.symm]
 
 private lemma psuC3bg3_Local_card_eq {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
@@ -3971,7 +3971,7 @@ private lemma psuC3bg3_local_kind2 {f n : ℕ} {K : Type} [Field K] [Finite K] [
     · have he : e = sf := Subtype.ext (Subtype.ext (hc.trans (congrArg (psuDag h) hp)))
       rw [he, hsf z]
   have hUO : psuC3b_UO (2 ^ f) (blockDegree (psuAlg B) r.1) 2 = 1 := by simp [psuC3b_UO]
-  haveI : Subsingleton (psuC3bg3_Local S P R hP F ι Ψ r) :=
+  have : Subsingleton (psuC3bg3_Local S P R hP F ι Ψ r) :=
     ⟨fun z w => by
       apply Subtype.ext
       funext e
@@ -4101,7 +4101,7 @@ private lemma psuC3bg3b_card_F {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (psuAlg B) P)
     (F : {e : Matrix (Fin n) (Fin n) K // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-        [algF : ∀ e, Algebra K (F e)] [charF : ∀ e, CharP (F e) 2] [finF : ∀ e, Finite (F e)]
+        [algF : ∀ e, Algebra K (F e)] [_charF : ∀ e, CharP (F e) 2] [_finF : ∀ e, Finite (F e)]
     (π : ∀ e : {e : Matrix (Fin n) (Fin n) K // e ∈ P}, psuAlg B →ₐ[K] F e)
     (hπ : ∀ e, Function.Surjective (π e))
     (hker : ∀ e (a : psuAlg B), π e a = 0 ↔ (a : Matrix (Fin n) (Fin n) K) * e.1 = 0)
@@ -4109,7 +4109,7 @@ private lemma psuC3bg3b_card_F {f n : ℕ} {K : Type} [Field K] [Finite K] [Char
     Nat.card (F e) = Nat.card K ^ blockDegree (psuAlg B) e.1 := by
   obtain ⟨F0, fieldF0, algF0, finF0, charF0, π0, hπ0, hker0, hdim0, hcard0, hbij0⟩ :=
     psuC3b_block_prod S P hP
-  letI := fieldF0
+  let := fieldF0
   have hker_eq : RingHom.ker (π e : psuAlg B →+* F e) =
       RingHom.ker (π0 e : psuAlg B →+* F0 e) := by
     ext a
@@ -4190,7 +4190,7 @@ private def psuC3bg3b_piTwoEquiv {β : Type} [DecidableEq β]
     · simp
     · simp [hne.symm]
   right_inv p := by
-    simp [hne, hne.symm]
+    simp [hne.symm]
 
 private def psuC3bg3b_piFourEquiv {β : Type} [DecidableEq β]
     (F : β → Type) (a b c d : β)
@@ -4323,29 +4323,29 @@ private lemma psuC3bg3b_kind_four {f n : ℕ} {K : Type} [Field K] (h : UnitaryF
     psuDag h e ≠ e ∧ psuPsi h X e = psuDag h e ∧ psuPsi h X e ≠ e := by
   unfold psuKind at hk
   by_cases hdd : psuDag h e = e
-  · rw [if_pos hdd] at hk; split_ifs at hk <;> omega
-  · rw [if_neg hdd] at hk
+  · rw [ite_eq_left hdd] at hk; split_ifs at hk; omega
+  · rw [ite_eq_right hdd] at hk
     by_cases hpp : psuPsi h X e = e
-    · rw [if_pos hpp] at hk; split_ifs at hk <;> omega
-    · rw [if_neg hpp] at hk
+    · rw [ite_eq_left hpp] at hk; split_ifs at hk <;> omega
+    · rw [ite_eq_right hpp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk
+      · rw [ite_eq_left h4] at hk
         exact ⟨hdd, h4, hpp⟩
-      · rw [if_neg h4] at hk; omega
+      · rw [ite_eq_right h4] at hk; omega
 
 private lemma psuC3bg3b_kind_five {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     (X B : GL (Fin n) K) (e : Matrix (Fin n) (Fin n) K) (hk : psuKind h X B e = 5) :
     psuDag h e ≠ e ∧ psuPsi h X e ≠ e ∧ psuPsi h X e ≠ psuDag h e := by
   unfold psuKind at hk
   by_cases hdd : psuDag h e = e
-  · rw [if_pos hdd] at hk; split_ifs at hk <;> omega
-  · rw [if_neg hdd] at hk
+  · rw [ite_eq_left hdd] at hk; split_ifs at hk; omega
+  · rw [ite_eq_right hdd] at hk
     by_cases hpp : psuPsi h X e = e
-    · rw [if_pos hpp] at hk; split_ifs at hk <;> omega
-    · rw [if_neg hpp] at hk
+    · rw [ite_eq_left hpp] at hk; split_ifs at hk <;> omega
+    · rw [ite_eq_right hpp] at hk
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at hk; omega
-      · rw [if_neg h4] at hk
+      · rw [ite_eq_left h4] at hk; omega
+      · rw [ite_eq_right h4] at hk
         exact ⟨hdd, hpp, h4⟩
 
 private lemma psuC3bg3_local_kind4 {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -4992,10 +4992,10 @@ private lemma psuC3b_F1_card {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP 
   classical
   obtain ⟨F, fieldF, algF, finF, charF, π, hsurj, hker, hdim, hcard, hbij⟩ :=
     psuC3b_block_prod S P hP
-  letI := fieldF
-  letI := algF
-  letI := finF
-  letI := charF
+  let := fieldF
+  let := algF
+  let := finF
+  let := charF
   obtain ⟨ι, Ψ, hι, hΨ⟩ := psuC3b_star_transport S P hP F π hsurj hker
   exact psuC3b_F1_prod S P hP R hR hrep F π hsurj hcard hbij ι hι
 
@@ -5010,10 +5010,10 @@ private lemma psuC3b_U_card {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K
   classical
   obtain ⟨F, fieldF, algF, finF, charF, π, hsurj, hker, hdim, hcard, hbij⟩ :=
     psuC3b_block_prod S P hP
-  letI := fieldF
-  letI := algF
-  letI := finF
-  letI := charF
+  let := fieldF
+  let := algF
+  let := finF
+  let := charF
   obtain ⟨ι, Ψ, hι, hΨ⟩ := psuC3b_star_transport S P hP F π hsurj hker
   exact psuC3b_U_prod S P hP R hR hrep F π hsurj hker hcard hbij ι hι Ψ hΨ
 

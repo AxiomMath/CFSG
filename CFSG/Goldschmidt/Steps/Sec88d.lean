@@ -31,7 +31,7 @@ theorem exists_mem_normalizer_of_maximal {N R : Subgroup X} (hRN : R ≤ N) (hR2
     obtain ⟨P, hP⟩ := (hY2.comap_subtype (K := N)).exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
     have h1 := hmax ((P : Subgroup N).map N.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
     rw [Subgroup.card_map_of_injective N.subtype_injective] at h1
     change Nat.card P ≤ Nat.card (Y.subgroupOf N)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hYN).toEquiv]
@@ -92,19 +92,19 @@ theorem exists_u34_data
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Ab := (A.subgroupOf M).map π with hAb
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hset.le
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hset.le
   obtain ⟨TM, hATM⟩ := (hA2.comap_subtype (K := M)).exists_le_sylow
-  have hinj := injOn_of_isPGroup π hπ TM.isPGroup'
+  have hinj := injOn_of_isPGroup π hπ TM.isPGroup
   set T := (TM : Subgroup M).map π with hT
   have hTscoe : ((TM.mapSurjective hπs : Sylow 2 Q) : Subgroup Q) = T :=
     Sylow.coe_mapSurjective _ _
-  have hT2 : IsPGroup 2 T := hTscoe ▸ (TM.mapSurjective hπs).isPGroup'
+  have hT2 : IsPGroup 2 T := hTscoe ▸ (TM.mapSurjective hπs).isPGroup
   have hTmax : ∀ P : Subgroup Q, IsPGroup 2 P → T ≤ P → P = T := fun P hP hTP => by
     rw [← hTscoe] at hTP ⊢
     exact le_antisymm ((TM.mapSurjective hπs).maximal_isPGroup.2 hP hTP) hTP
   have hTMA : ∀ t ∈ (TM : Subgroup M), ∀ a ∈ A, a * (t : G) = t * a := by
     have hle := pGroup_le_centralizer hset h4 (R := (TM : Subgroup M).map M.subtype)
-      (TM.isPGroup'.map _) (fun a ha => ⟨⟨a, hAM ha⟩, hATM ha, rfl⟩)
+      (TM.isPGroup.map _) (fun a ha => ⟨⟨a, hAM ha⟩, hATM ha, rfl⟩)
     exact fun t ht a ha => Subgroup.mem_centralizer_iff.mp (hle ⟨t, ht, rfl⟩) a ha
   have hTV : T ≤ Subgroup.centralizer (Ab : Set Q) := by
     rintro _ ⟨t, ht, rfl⟩
@@ -135,7 +135,7 @@ theorem exists_u34_data
   have hAR' : ∀ a (ha : a ∈ A), (⟨a, hAM ha⟩ : M) ∈ R' := fun a ha =>
     ⟨hATM ha, hAL ⟨⟨a, hAM ha⟩, ha, rfl⟩⟩
   have hAR : A ≤ R := fun a ha => ⟨⟨a, hAM ha⟩, hAR' a ha, rfl⟩
-  have hR2 : IsPGroup 2 R := (TM.isPGroup'.to_le hR'TM).map _
+  have hR2 : IsPGroup 2 R := (TM.isPGroup.to_le hR'TM).map _
   have hcardR : Nat.card R = 64 := by
     rw [hR, Subgroup.card_map_of_injective M.subtype_injective, ← h64, ← hR'map,
       G76.card_map_eq_of_injOn π hinjR']
@@ -163,7 +163,7 @@ theorem exists_u34_data
       ← G76.card_map_eq_of_injOn π hinjR', hR'map]
     exact Subgroup.card_le_of_le (Subgroup.map_le_iff_le_comap.mpr hYN)
   obtain ⟨n, hnN, hnm⟩ :=
-    exists_mem_normalizer_of_maximal hR'N (TM.isPGroup'.to_le hR'TM) hmax hmN
+    exists_mem_normalizer_of_maximal hR'N (TM.isPGroup.to_le hR'TM) hmax hmN
   set rt : M := n⁻¹ * m with hrt
   have hπn : π n ∈ T ⊓ L := hnN
   have hπm : π m = π n * π rt := by rw [hrt, map_mul, map_inv, mul_inv_cancel_left]

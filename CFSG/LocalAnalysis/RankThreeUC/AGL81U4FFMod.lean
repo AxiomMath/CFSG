@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {V : Type} [CommGroup V]
 
+omit [CommGroup V] in
 theorem cg_eq_of_add {a b : V} (h : Additive.ofMul a = Additive.ofMul b) : a = b :=
   Additive.ofMul.injective h
 
@@ -85,7 +86,7 @@ theorem flag_trivial {L : Subgroup (MulAut V)} (hperf : _root_.commutator ↥L =
 theorem isU4_simple {n : ℕ} {L : Subgroup (MulAut V)} (h : IsU4Group n L) :
     IsSimpleGroup ↥L ∧ ∃ a b : ↥L, a * b ≠ b * a := by
   obtain ⟨d, ⟨q, hq2, hqn, hd⟩, ⟨e⟩⟩ := h
-  haveI := u4Group_isSimple hq2 hd
+  have := u4Group_isSimple hd
   have hs : IsSimpleGroup ↥L := e.isSimpleGroup
   refine ⟨hs, ?_⟩
   obtain ⟨a, b, hab⟩ := u4Group_nonabelian hq2 hd
@@ -200,8 +201,8 @@ theorem mem_stabSub_fixV_of_comm {D : Subgroup (MulAut V)} {g : MulAut V}
 
 theorem xInv_fixV_cenD {L A : Subgroup (MulAut V)} (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     XInv L A (fixV (cenD L A)) :=
-  ⟨fun g hg => mem_stabSub_fixV_of_comm fun d hd => cenD_comm hd hg,
-   fun g hg => mem_stabSub_fixV_of_comm fun d hd => hAcomm g hg d (cenD_le L A hd)⟩
+  ⟨fun _g hg => mem_stabSub_fixV_of_comm fun _d hd => cenD_comm hd hg,
+   fun _g hg => mem_stabSub_fixV_of_comm fun _d hd => hAcomm _g hg _d (cenD_le L A hd)⟩
 
 theorem inf_centSec_le_cenD {L A : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L)
     (hAL : A ≤ Subgroup.normalizer (L : Set (MulAut V))) {Z' Z : Subgroup V} (hZ'Z : Z' ≤ Z)
@@ -222,7 +223,7 @@ theorem inf_centSec_le_cenD {L A : Subgroup (MulAut V)} (hs : IsSimpleGroup ↥L
         simp
       show ((g : MulAut V) * (k : MulAut V) * (g : MulAut V)⁻¹) z * z⁻¹ ∈ Z'
       rw [e]; exact h2⟩
-  haveI := hKn
+  have := hKn
   have hKbot : K = ⊥ := by
     rcases hs.eq_bot_or_eq_top_of_normal K with h | h
     · exact h

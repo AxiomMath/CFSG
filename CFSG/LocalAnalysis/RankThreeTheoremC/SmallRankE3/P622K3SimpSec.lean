@@ -44,7 +44,7 @@ private theorem normal_map_subgroupOf {G A : Type} [Group G] [Group A] (φ : G �
   exact h1
 
 private theorem eq_or_eq_range {G A : Type} [Group G] [Group A] (φ : G →* A)
-    (hφ : Function.Injective φ) (D : Subgroup G) [D.Normal]
+    (_hφ : Function.Injective φ) (D : Subgroup G) [D.Normal]
     (hsimple : IsSimpleGroup (G ⧸ D)) (N : Subgroup A) (hN1 : D.map φ ≤ N)
     (hN2 : N ≤ φ.range) (hN3 : (N.subgroupOf φ.range).Normal) :
     N = D.map φ ∨ N = φ.range := by

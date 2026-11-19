@@ -93,7 +93,7 @@ theorem e8T3ZColumn_apply_two {p : ℕ} {ε : ℤ} {q : ZMod p} :
 
 theorem e8T3XColumn_ne_zero {p : ℕ} (hp : p.Prime) {ε : ℤ} {q : ZMod p} :
     e8T3XColumn ε q ≠ 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro h
   have h3 := congrFun h (3 : Fin Tag.E8.rank)
   rw [e8T3XColumn_apply_three] at h3

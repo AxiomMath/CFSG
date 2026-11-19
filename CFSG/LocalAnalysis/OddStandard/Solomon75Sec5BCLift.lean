@@ -47,7 +47,7 @@ theorem perm_sq_eq_one {X : Type} [Group X] {n : ℕ} {A : Subgroup X} (hn : 8 �
 section Helpers
 
 private theorem exists_sq_eq_of_card_eight {K : Type*} [Group K] {Qb : Subgroup K} {c : K}
-    (hc2 : c * c = 1) (hc1 : c ≠ 1) (hQ : Nat.card Qb = 8)
+    (_hc2 : c * c = 1) (hc1 : c ≠ 1) (hQ : Nat.card Qb = 8)
     (hpow : ∀ q ∈ Qb, q ≠ 1 → ∃ k : ℕ, q ^ k = c) : ∃ y ∈ Qb, y * y = c := by
   classical
   have hex : ∃ q ∈ Qb, q * q ≠ 1 := by
@@ -127,7 +127,7 @@ private theorem wb_powers {K : Type*} [Group K] {xb ab : K} (hxa : xb * ab = ab 
 private theorem exists_pow_three_part {G H : Type*} [Group G] [Group H] [Finite G] (f : G →* H)
     {v : G} {xb : H} (hv : f v = xb) (hx3 : xb ^ 3 = 1) (hx1 : xb ≠ 1) :
     ∃ k j : ℕ, orderOf (v ^ k) = 3 ^ j ∧ f (v ^ k) = xb := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3o : orderOf xb = 3 := orderOf_eq_prime hx3 hx1
   have hpos : 0 < orderOf v := orderOf_pos v
   have hdvd : 3 ∣ orderOf v := by
@@ -163,14 +163,17 @@ variable {X : Type} [Group X] [Finite X] {n : ℕ} {A : Subgroup X}
 private noncomputable def piA (M : AhatModel X n A) : ↥A →* M.K :=
   M.e.toMonoidHom.comp (QuotientGroup.mk' (pPrimeCore 2 ↥A))
 
+omit [Finite X] in
 private theorem piA_apply (M : AhatModel X n A) (a : ↥A) :
     piA M a = M.e (QuotientGroup.mk a) := rfl
 
+omit [Finite X] in
 private theorem piA_eq_iff (M : AhatModel X n A) (a b : ↥A) :
     piA M a = piA M b ↔ (a : X)⁻¹ * (b : X) ∈ oddCoreOf A := by
   rw [piA_apply, piA_apply, M.e.injective.eq_iff, QuotientGroup.eq, mem_oddCoreOf_iff]
   exact ⟨fun hh => ⟨mul_mem (inv_mem a.2) b.2, hh⟩, fun ⟨_, hh⟩ => hh⟩
 
+omit [Finite X] in
 private theorem piA_eq_one_iff (M : AhatModel X n A) (a : ↥A) :
     piA M a = 1 ↔ (a : X) ∈ oddCoreOf A := by
   have := piA_eq_iff M 1 a
@@ -178,6 +181,7 @@ private theorem piA_eq_one_iff (M : AhatModel X n A) (a : ↥A) :
   rw [eq_comm]
   simpa using this
 
+omit [Finite X] in
 private theorem eq_one_of_mem_odd_of_pow {O : Subgroup X} (hodd : Odd (Nat.card O)) {x : X}
     (hx : x ∈ O) {k : ℕ} (hk : x ^ (2 ^ k) = 1) : x = 1 := by
   have h1 : orderOf (⟨x, hx⟩ : O) ∣ Nat.card O := orderOf_dvd_natCard _
@@ -227,8 +231,8 @@ private theorem exists_quatPiece_of_model (M : AhatModel X n A) (hn : 8 ≤ n) {
     (hfix : fixCount (M.perm s hsA) = 4) :
     Nonempty (QuatPiece z (centralizer ({z} : Set X) ⊓ centralizer ({s} : Set X))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite M.K := Finite.of_equiv _ M.e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite M.K := Finite.of_equiv _ M.e.toEquiv
   have hα := M.induces_perm hn s hsA
   have hσ2 := perm_sq_eq_one hn M hsA hss
   obtain ⟨Qb, xb, ab, hQbfix, hQbcard, hQbpow, hxbfix, habfix, habc, habne, hxbab, hxb3, hxbQ,
@@ -347,7 +351,7 @@ private theorem exists_quatPiece_of_model (M : AhatModel X n A) (hn : 8 ≤ n) {
     intro p₁ hp₁ p₂ hp₂ h12
     have hp : p₁⁻¹ * p₂ ∈ (P : Subgroup ↥Qt) := mul_mem (inv_mem hp₁) hp₂
     have hφ1 : φ (p₁⁻¹ * p₂) = 1 := by rw [map_mul, map_inv, h12, inv_mul_cancel]
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p₁⁻¹ * p₂, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p₁⁻¹ * p₂, hp⟩
     have hk' : (p₁⁻¹ * p₂ : ↥Qt) ^ (2 ^ k) = 1 := by
       have := congrArg (fun w : ↥(P : Subgroup ↥Qt) => (w : ↥Qt)) hk
       simpa using this
@@ -520,6 +524,7 @@ section Pieces
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))}
 
+omit [Finite X] in
 private theorem sec5Comp_map {H A : Subgroup X} (hA : Sec5Comp X n H A) (φ : X ≃* X) :
     Sec5Comp X n (H.map φ.toMonoidHom) (A.map φ.toMonoidHom) := by
   obtain ⟨⟨u, hu⟩, hcov⟩ := hA
@@ -527,6 +532,7 @@ private theorem sec5Comp_map {H A : Subgroup X} (hA : Sec5Comp X n H A) (φ : X 
   let ψ : ↥A ≃* ↥(A.map φ.toMonoidHom) := Subgroup.equivMapOfInjective A _ φ.injective
   exact isDoubleCoverOfAlt_congr' (QuotientGroup.congr _ _ ψ (pPrimeCore_map_iso 2 ψ)) hcov
 
+omit [Finite X] in
 private theorem map_symm_map_mulEquiv (φ : X ≃* X) (H : Subgroup X) :
     (H.map φ.toMonoidHom).map φ.symm.toMonoidHom = H := by
   rw [Subgroup.map_map]
@@ -535,6 +541,7 @@ private theorem map_symm_map_mulEquiv (φ : X ≃* X) (H : Subgroup X) :
     simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 theorem sec5One_map_conj (h1 : Sec5One X n Z) (g : X) :
     Sec5One X n (Z.map (MulAut.conj g).toMonoidHom) := by
   intro A A' hA hA'
@@ -633,7 +640,7 @@ theorem exists_lift_alt_cycles (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel X
           toPermHom (MB.perm w hwB) ⟨MB.permX b, hb⟩ = π := by
   classical
   intro π hπ
-  haveI : Finite MB.K := Finite.of_equiv _ MB.e.toEquiv
+  have : Finite MB.K := Finite.of_equiv _ MB.e.toEquiv
   have hind := MB.induces_perm hn w hwB
   have hσ2 : MB.perm w hwB * MB.perm w hwB = 1 := perm_sq_eq_one hn MB hwB hw2
   obtain ⟨k, hk⟩ := involution_support_even hσ2

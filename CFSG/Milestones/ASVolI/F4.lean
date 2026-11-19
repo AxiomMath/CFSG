@@ -2947,7 +2947,7 @@ theorem burnsideF4a_relIndex_ge_three {E : Type} [Group E] [Finite E] {p : ℕ} 
     (hS : ∃ S : Subgroup E, IsSylowOf p S H ∧ B = H ⊓ Subgroup.normalizer (S : Set E)) :
     3 ≤ B.relIndex P := by
   obtain ⟨S, ⟨hSH, hSp, hSidx⟩, hB⟩ := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSB : S ≤ B := by
     rw [hB]; exact le_inf hSH Subgroup.le_normalizer
   have hSP : S ≤ P := hSB.trans hBP
@@ -3092,7 +3092,7 @@ open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.
 theorem burnsideF4a_thick_of_hyp (hcompat : NativeChartCompatibilityGoal) {κ : GLKind}
     {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4g κ p f Gp M₁ M₂) :
     2 ≤ (RankTwoAmalgam.ofSubgroups M₁ M₂).qOne ∧ 2 ≤ (RankTwoAmalgam.ofSubgroups M₁ M₂).qTwo := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hp := burnsideF4a_prime_of_isGenLie hyp.model
   obtain ⟨h1, h2, h3⟩ := hyp.chart_matches
   have hlp := (hcompat κ p f E Gp hyp.chart).1
@@ -3130,7 +3130,7 @@ theorem burnsideF4a_card_kernels {D : Type u} [Preorder D] {α : Amalgam.{u, v} 
       exact h1.symm
   have hset : {K : Subgroup (Amalgam.gp α) | ∃ a, K = f a} = Set.range f := by
     ext K
-    simp only [Set.mem_setOf_eq, Set.mem_range]
+    simp only [Set.mem_ofPred_eq, Set.mem_range]
     exact ⟨fun ⟨a, ha⟩ => ⟨a, ha.symm⟩, fun ⟨a, ha⟩ => ⟨a, ha.symm⟩⟩
   rw [hset]
   let g : Amalgam.Aut α ⧸ Amalgam.Completion.stabilizer μ → Set.range f :=
@@ -3444,7 +3444,7 @@ theorem burnsideF4a_hermitianGram_mul_self (n : ℕ) (K : Type) [Field K] :
       · exfalso; apply hb; ext; simp; omega
       · simp [h]
     · intro h; exact absurd (Finset.mem_univ _) h
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     refine Finset.sum_eq_zero fun k _ => ?_
     by_cases h1 : (i : ℕ) + k + 1 = n
     · by_cases h2 : (k : ℕ) + j + 1 = n
@@ -3458,17 +3458,17 @@ theorem burnsideF4a_hermitian_basis {K : Type} [Field K] [Finite K] {p e : ℕ} 
     ∃ B : GL (Fin n) K,
       ((B : Matrix (Fin n) (Fin n) K).map (fun x => x ^ (p ^ e))).transpose *
         (B : Matrix (Fin n) (Fin n) K) = ClassicalRoots.hermitianGram n K := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (p := p) (f := e * 2)
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (p := p) (f := e * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hGsym : conjTr (unitaryInvolution K p e) (ClassicalRoots.hermitianGram n K) =
       ClassicalRoots.hermitianGram n K := by
     ext i j
     simp only [conjTr, Matrix.transpose_apply, Matrix.map_apply, ClassicalRoots.hermitianGram]
     by_cases h : (j : ℕ) + i + 1 = n
-    · rw [if_pos h, if_pos (by omega), map_one]
-    · rw [if_neg h, if_neg (by omega), map_zero]
+    · rw [ite_eq_left h, ite_eq_left (by omega), map_one]
+    · rw [ite_eq_right h, ite_eq_right (by omega), map_zero]
   have hdet : (ClassicalRoots.hermitianGram n K).det ≠ 0 := by
     intro h0
     have := congrArg Matrix.det (burnsideF4a_hermitianGram_mul_self n K)
@@ -3636,14 +3636,14 @@ theorem burnsideF4a_nativeChartExistence_of (hRee : burnsideF4a_ReePerfect) :
   · obtain ⟨hp2, -, ⟨hd1, K, _, _, hc, ⟨e⟩⟩ | ⟨hd3, -, a, ha, K, _, _, hc, ⟨e⟩⟩⟩ := h
     · subst hp2
       subst hd1
-      haveI := Fintype.ofFinite K
-      haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card, hc])
+      have := Fintype.ofFinite K
+      have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card, hc])
       exact burnsideF4a_chart_of_coordinates
         (NativeCoordinates.ree rfl rfl 0 rfl K
           (by show Nat.card K = 2 ^ (2 * 0 + 1); rw [hc]; norm_num) e.symm)
     · subst hp2
-      haveI := Fintype.ofFinite K
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := degree)
+      have := Fintype.ofFinite K
+      have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := degree)
         (by rw [← Nat.card_eq_fintype_card, hc])
       have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [hc, ha]
       have hperf := hRee K a (by omega) hK
@@ -3669,8 +3669,8 @@ theorem burnsideF4a_nativeChartExistence_of (hRee : burnsideF4a_ReePerfect) :
     subst hd1
     have ha0 : a = 0 := by omega
     subst ha0
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hc])
     exact burnsideF4a_chart_of_coordinates
       (NativeCoordinates.tits rfl rfl rfl K (by show Nat.card K = 2 ^ (2 * 0 + 1); rw [hc]) e.symm)
@@ -3680,7 +3680,7 @@ open CFSG.LieType.Ree in
 theorem burnsideF4a_reePerfect :
     burnsideF4a_ReePerfect := by
   intro K _ _ _ a ha hK
-  letI : CharP K ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  let : CharP K ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   have h1 : _root_.commutator (ReeTag.F4.reeGamma K a) = ⊤ :=
     ReeTag.commutator_reeGamma_eq_top ha hK
   have h2 : ReeTag.F4.reeGamma K a = ExceptionalRoots.reeGroup K a :=

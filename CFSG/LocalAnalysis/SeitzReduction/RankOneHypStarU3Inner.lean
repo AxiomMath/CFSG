@@ -221,7 +221,7 @@ theorem hypOneStar_u3_inner {D : Type} [Group D] [Finite D] {f : ℕ} (hf : 2 �
     rw [MulAut.smul_def, ← Sylow.pointwise_smul_def, huR] at this
     exact this
   set IR : Subgroup (MulAut D) := (R : Subgroup D).map (MulAut.conj : D →* MulAut D) with hIR
-  have hIR2 : IsPGroup 2 IR := R.isPGroup'.map _
+  have hIR2 : IsPGroup 2 IR := R.isPGroup.map _
   have hu2 : IsPGroup 2 (zpowers u) := IsPGroup.of_card (by rw [Nat.card_zpowers, hu_ord])
   have huN : zpowers u ≤ normalizer (IR : Set (MulAut D)) :=
     zpowers_le_normalizer_of_conj_mem fun h hh => by

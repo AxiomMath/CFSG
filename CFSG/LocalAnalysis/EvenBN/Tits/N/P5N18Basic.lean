@@ -134,7 +134,7 @@ theorem exists_Ks_conj_t (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z�
     · intro hx
       have h1 : (star d h)⁻¹ * x * star d h ∈
           (U0s d).map (MulAut.conj (star d h)⁻¹).toMonoidHom :=
-        ⟨x, hx, by simp [MulAut.conj_apply]⟩
+        ⟨x, hx, by simp⟩
       rw [heq] at h1
       exact h1
     · intro hx

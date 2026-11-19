@@ -253,11 +253,11 @@ private noncomputable def caPara_blockGL (m : ℕ)
   val_inv := by
     rw [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one, Matrix.fromBlocks_inj]
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
-      simp [Units.mul_inv, Matrix.mul_zero, Matrix.zero_mul]
+      simp [Matrix.mul_zero, Matrix.zero_mul]
   inv_val := by
     rw [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one, Matrix.fromBlocks_inj]
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
-      simp [Units.inv_mul, Matrix.mul_zero, Matrix.zero_mul]
+      simp [Matrix.mul_zero, Matrix.zero_mul]
 
 private theorem caPara_uGL_eq_one_add_fromBlocks (m : ℕ) (a : caPara_Mat1 m)
     (c : caPara_MatC) :
@@ -295,7 +295,7 @@ private theorem caPara_blockGL_uGL_conj (m : ℕ) (h : GL (Fin m ⊕ Fin 1) (ZMo
           Matrix (Fin m ⊕ Fin 1) (Fin m ⊕ Fin 1) (ZMod 2)) = 1 := by
     rw [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one, Matrix.fromBlocks_inj]
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
-      simp [Units.mul_inv, Matrix.mul_zero, Matrix.zero_mul]
+      simp [Matrix.mul_zero, Matrix.zero_mul]
   have hN : Matrix.fromBlocks (1 : Matrix (Fin 1) (Fin 1) (ZMod 2)) 0 0
       (h : Matrix (Fin m ⊕ Fin 1) (Fin m ⊕ Fin 1) (ZMod 2)) *
       Matrix.fromBlocks (0 : Matrix (Fin 1) (Fin 1) (ZMod 2)) (caPara_rowOf a c) 0
@@ -341,7 +341,7 @@ theorem exists_normalizer_uOne_of_mulEquiv {m : ℕ} (f : ↥(uOne m) ≃* ↥(u
       Matrix (Fin m ⊕ Fin 1) (Fin m ⊕ Fin 1) (ZMod 2)) =
       ((S : GL (Fin m ⊕ Fin 1) (ZMod 2)) :
         Matrix (Fin m ⊕ Fin 1) (Fin m ⊕ Fin 1) (ZMod 2))ᵀ := by
-    simp [h, caPara_transposeGL, inv_inv]
+    simp [h, caPara_transposeGL]
   let y : GL (BlkIdx 1 m) (ZMod 2) := caPara_blockGL m h
   refine ⟨y, caPara_blockGL_mem_normalizer m h, ?_⟩
   intro u

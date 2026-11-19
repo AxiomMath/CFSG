@@ -16,7 +16,7 @@ variable {H : Type} [Group H] [Finite H]
 
 theorem pgroup_comm_of_absyl {S0 : Subgroup H} (hS0 : IsSylowOf 3 S0 ⊤) (hc : IsMulCommutative S0)
     {S : Subgroup H} (hS : IsPGroup 3 S) : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hp, hcop⟩ := hS0
   rw [Subgroup.relIndex_top_right] at hcop
   let S0s : Sylow 3 H := hp.toSylow ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop)
@@ -40,6 +40,7 @@ theorem pgroup_comm_of_absyl {S0 : Subgroup H} (hS0 : IsSylowOf 3 S0 ⊤) (hc : 
     _ = g * (t * s) * g⁻¹ := by rw [hst]
     _ = _ := by group
 
+omit [Finite H] in
 theorem le_nor_of_stable {T P : Subgroup H} (h : ∀ a ∈ T, ∀ x ∈ P, a * x * a⁻¹ ∈ P) :
     T ≤ Nor P := by
   intro a ha
@@ -49,6 +50,7 @@ theorem le_nor_of_stable {T P : Subgroup H} (h : ∀ a ∈ T, ∀ x ∈ P, a * x
   have := h a⁻¹ (T.inv_mem ha) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite H] in
 theorem isElementaryAbelian_of_le {A T : Subgroup H} (hA : IsElementaryAbelian 3 ↥A) (hTA : T ≤ A) :
     IsElementaryAbelian 3 ↥T where
   is_comm := ⟨fun a b => by
@@ -58,6 +60,7 @@ theorem isElementaryAbelian_of_le {A T : Subgroup H} (hA : IsElementaryAbelian 3
   exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
     Subtype.ext (elemPow_eq_one_of_isElementaryAbelian (p := 3) (A := A) x (hTA x.2))
 
+omit [Finite H] in
 theorem card_sup_of_commute {P Q : Subgroup H} (hc : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x)
     (hd : P ⊓ Q = ⊥) : Nat.card ↥(P ⊔ Q) = Nat.card P * Nat.card Q := by
   let f : P × Q →* H := MonoidHom.noncommCoprod P.subtype Q.subtype fun x y => hc x x.2 y y.2
@@ -84,10 +87,11 @@ theorem card_sup_of_commute {P Q : Subgroup H} (hc : ∀ x ∈ P, ∀ y ∈ Q, x
   rw [hrange] at h1
   rw [← h1, Nat.card_prod]
 
+omit [Finite H] in
 theorem exists_elemAb_compl {A Z : Subgroup H} (hA : IsElemAb 3 4 A) (hZA : Z ≤ A)
     (hZ : Nat.card Z = 9) : ∃ T : Subgroup H, T ≤ A ∧ IsElemAb 3 2 T ∧ T ⊓ Z = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hA.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hA.1
   obtain ⟨C', hC'⟩ := IsElementaryAbelian.exists_isCompl 3 ↥A (Z.subgroupOf A)
   set T : Subgroup H := C'.map A.subtype with hT
   have hTA : T ≤ A := by

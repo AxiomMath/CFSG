@@ -10,13 +10,14 @@ namespace CFSG.Timmesfeld
 
 variable {Y : Type} [Group Y] [Finite Y] {D : Set Y}
 
+omit [Finite Y] in
 theorem image_isClass_center (hcls : ∃ d₀ : Y, D = {g | IsConj d₀ g}) :
     ∃ d₀ : Y ⧸ Subgroup.center Y,
       QuotientGroup.mk' (Subgroup.center Y) '' D = {g | IsConj d₀ g} := by
   obtain ⟨d₀, rfl⟩ := hcls
   refine ⟨QuotientGroup.mk' (Subgroup.center Y) d₀, ?_⟩
   ext h
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, hg, rfl⟩
     obtain ⟨c, hc⟩ := isConj_iff.mp hg
@@ -26,11 +27,13 @@ theorem image_isClass_center (hcls : ∃ d₀ : Y, D = {g | IsConj d₀ g}) :
     obtain ⟨c', rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center Y) c
     exact ⟨c' * d₀ * c'⁻¹, isConj_iff.mpr ⟨c', rfl⟩, by rw [← hc]; simp⟩
 
+omit [Finite Y] in
 theorem image_closure_eq_top_center (hgen : Subgroup.closure D = ⊤) :
     Subgroup.closure (QuotientGroup.mk' (Subgroup.center Y) '' D) = ⊤ := by
   rw [← MonoidHom.map_closure, hgen, ← MonoidHom.range_eq_map]
   exact MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)
 
+omit [Finite Y] in
 theorem solvable_normal_eq_bot_quotient_center
     (hsolv : ∀ N : Subgroup Y, N.Normal → Group.IsSolvable N → N ≤ Subgroup.center Y)
     (N : Subgroup (Y ⧸ Subgroup.center Y)) [N.Normal] (hN : Group.IsSolvable N) : N = ⊥ := by
@@ -40,9 +43,9 @@ theorem solvable_normal_eq_bot_quotient_center
     rw [Subgroup.mem_comap, hπ, QuotientGroup.mk'_apply,
       (QuotientGroup.eq_one_iff z).2 hz]
     exact N.one_mem
-  haveI : (N.comap π).Normal := Subgroup.Normal.comap inferInstance π
+  have : (N.comap π).Normal := Subgroup.Normal.comap inferInstance π
   have hsol : Group.IsSolvable (N.comap π) := by
-    refine solvable_of_ker_le_range (Subgroup.inclusion hZ) (π.subgroupComap N) ?_
+    refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hZ) (π.subgroupComap N) ?_
     rintro ⟨x, hx⟩ hx1
     have hx1' : π x = 1 := congrArg Subtype.val (MonoidHom.mem_ker.mp hx1)
     have hxz : x ∈ Subgroup.center Y := (QuotientGroup.eq_one_iff x).1 hx1'
@@ -55,6 +58,7 @@ theorem solvable_normal_eq_bot_quotient_center
   have := (QuotientGroup.eq_one_iff x).2 (hle this)
   simpa using this
 
+omit [Finite Y] in
 theorem image_isOddTransp_center (hroot : IsRootInvolutionSet D)
     (hDZ : ∀ d ∈ D, d ∉ Subgroup.center Y)
     (hdeg : ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ≠ 4) :

@@ -39,7 +39,7 @@ theorem i1430_fieldSize (hB : LieOrderBridge) {T : Type} [Group T] [Finite T]
     have hc : Nat.card (alternatingGroup (Fin n)) = 360 := by
       rw [← hT]
       exact (Nat.card_congr φ.toEquiv).symm
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, Nat.card_fin] at hc
     rcases hrel with ⟨rfl, -⟩ | ⟨-, h⟩ | ⟨rfl, -⟩
     · norm_num [Nat.factorial] at hc
@@ -101,7 +101,7 @@ theorem i1430InnNoF4_proved
   have hlay := hsh.layer _ hJ.1 (glaPComponent_perfect hJ)
   have hJc := (glaPComponent_isComponent_of_le_layer hJ hlay).1
   have h360 : Nat.card (PSimple 3 J) = 360 := card_a6 hB hT
-  haveI : Nontrivial (PSimple 3 J) := by
+  have : Nontrivial (PSimple 3 J) := by
     rw [← Finite.one_lt_card_iff_nontrivial, h360]
     norm_num
   obtain ⟨φ⟩ := I1431C2.nonempty_centerQuot_equiv_psimple hJc.2.2 inferInstance
@@ -143,7 +143,7 @@ theorem i1430InnNoOther_proved
     simp only [KD264Lie.fieldSize] at hf
     have : 2 ^ 3 ≤ 2 ^ (2 * m + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  · haveI := hS
+  · have := hS
     exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs141c.false_of_glaPComponent_of_isSolvable
       (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_tits hv hnc ⟨e⟩
         Nat.prime_three (by norm_num) hα3 hα1) hJ

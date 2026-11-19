@@ -65,7 +65,7 @@ theorem exists_perfect_le_centralizer_of_quasisimple_le {G : Type*} [Group G]
     ∃ P : Subgroup Γ, P ≤ Subgroup.centralizer ({d} : Set Γ) ∧ ⁅P, P⁆ = P ∧
       p ∣ Nat.card P := by
   have hRperf : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥R := hRq.1
+    have : Group.IsPerfect ↥R := hRq.1
     exact Subgroup.commutator_eq_self
   have hRrange : R ≤ Γ.subtype.range := by
     rw [Subgroup.range_subtype]
@@ -293,7 +293,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E8_four_five (K : Type) [Field K] 
     (h5 : 5 ∣ Nat.card K ^ 2 + 1) :
     PerfectCentralizerPlanes 5 (adjointGroup Tag.E8 K) := by
   classical
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨Fr, hFr, g0, hg0C, hg0⟩ := exists_lang_conjugator_E8 K e8PhiFourWeyl
   have hpq : ¬ 5 ∣ Nat.card K := not_five_dvd_of_dvd_sq_add_one h5
   obtain ⟨S, hS⟩ := exists_langSetup_ofFrobenius (Or.inr (Or.inr (Or.inr rfl)))
@@ -333,7 +333,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E8_four_five (K : Type) [Field K] 
       (Nat.card ↥(S.D.torus.subgroupOf S.Γ)).factorization 5 + 1 := by
     rw [hcardΓ, hcardT]
     exact factorization_card_adjointE8_eq_torus_add_one K h5
-  haveI := S.finite_Γ
+  have := S.finite_Γ
   have hP : BigAnyPBig S :=
     bigAnyPBig_of_phi4_of_ne_two (S := S) hFr' hΦ hn (Or.inr (Or.inr (Or.inr rfl)))
       (fun δ _ => e8PhiFourWeyl_sq_smul δ) (by norm_num) hMΓ

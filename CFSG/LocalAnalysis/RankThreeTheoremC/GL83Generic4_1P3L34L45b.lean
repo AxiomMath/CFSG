@@ -54,7 +54,7 @@ theorem l34l45_eq_top {X : Type} [Group X] [Finite X] (hK1 : KFactL34TwoSignaliz
     have hRbT : Rb ≤ (T : Subgroup X).map (QuotientGroup.mk' O) := hQhat ▸ hRbQ
     have hRmap := CFSG.AGLEmbedding.map_comap_inf_eq (QuotientGroup.mk' O) hRbT
     set R : Subgroup X := Rb.comap (QuotientGroup.mk' O) ⊓ (T : Subgroup X) with hR
-    have hRp : IsPGroup 3 R := T.isPGroup'.to_le inf_le_right
+    have hRp : IsPGroup 3 R := T.isPGroup.to_le inf_le_right
     have hRne : R ≠ ⊥ := by
       intro hbot
       rw [hbot, Subgroup.map_bot] at hRmap

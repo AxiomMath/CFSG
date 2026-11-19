@@ -31,8 +31,8 @@ theorem exists_rootChar_eq_zpow {p : ℕ} (hp : p.Prime) {b : Fin τ.rank → K�
     ∃ (ζ : Kˣ) (χ : (Fin τ.rank → ℤ) →+ ℤ), IsPrimitiveRoot ζ p ∧
       ∀ v : Fin τ.rank → ℤ, rootChar b v = ζ ^ (χ v) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.pos.ne'⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.pos.ne'⟩
   obtain ⟨i₀, hi₀⟩ : ∃ i, b i ≠ 1 := by
     by_contra h
     rw [not_exists] at h
@@ -178,8 +178,8 @@ theorem ggLieE6NonToralNoA8_of_isAlgebraic_of_weyl
     exact hnt ⟨C⁻¹, inv_mem hC, fun x hx => by
       have h := hCD x hx
       simpa only [inv_inv] using h⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hC, a, n, ha3, hCx, hCA, hn, hn3, hna, hstab, hnotker⟩ :=
     CFSG.StandardType.NTPlane.plane_nontoral_normal_form (p := 3) (ℓ := 2) (τ := Tag.E6)
       CFSG.HardMathSupport.Timmesfeld.CrossChar.monomialToralAt_E6_three

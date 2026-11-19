@@ -17,10 +17,10 @@ theorem u38R_normalizer_le_centralizer {H : Type} [Group H] [Finite H] {z : H}
     (hz : z ∈ Subgroup.center H) (hzo : orderOf z = 3) (P : Sylow 3 H)
     (hPc : IsCyclic (P : Subgroup H)) (hzP : z ∈ (P : Subgroup H)) :
     Subgroup.normalizer (P : Set H) ≤ Subgroup.centralizer (P : Set H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a ∈ (P : Subgroup H), ∀ b ∈ (P : Subgroup H), a * b = b * a := by
     intro a ha b hb
-    letI : CommGroup (P : Subgroup H) := IsCyclic.commGroup
+    let : CommGroup (P : Subgroup H) := IsCyclic.commGroup
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : (P : Subgroup H)) ⟨b, hb⟩)
   intro n hn
   obtain ⟨a, b, hb, hab⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos n).ne' 3
@@ -34,13 +34,13 @@ theorem u38R_normalizer_le_centralizer {H : Type} [Group H] [Finite H] {z : H}
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hle : zpowers (n ^ b) ≤ Subgroup.normalizer (P : Set H) :=
       (zpowers_le).mpr (pow_mem hn b)
-    have h1 := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup' hzp hle) le_sup_left
+    have h1 := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup hzp hle) le_sup_left
     have h2 : n ^ b ∈ (P : Subgroup H) ⊔ zpowers (n ^ b) := mem_sup_right (mem_zpowers _)
     rwa [h1] at h2
   have hcop : Nat.Coprime b 3 := ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hb).symm
   have hcent : n ^ 3 ^ a ∈ Subgroup.centralizer (P : Set H) := by
     refine CFSG.RankThree.PartTwo.Sec17.Proof168Res8Comm.mem_centralizer_of_coprime hPc
-      P.isPGroup' hzP hzo (pow_mem hn _) ?_ ?_
+      P.isPGroup hzP hzo (pow_mem hn _) ?_ ?_
     · have hdv : orderOf (n ^ 3 ^ a) ∣ b := by
         rw [orderOf_dvd_iff_pow_eq_one, ← pow_mul, ← hab, pow_orderOf_eq_one]
       exact Nat.Coprime.coprime_dvd_left hdv hcop
@@ -73,9 +73,9 @@ theorem u38R_exists_normal_compl {H : Type} [Group H] [Finite H] {z : H}
     (hcyc : ∀ S : Subgroup H, IsPGroup 3 S → IsCyclic S)
     (T : Subgroup H) (hT : IsPGroup 2 T) :
     ∃ M : Subgroup H, M.Normal ∧ ¬ 3 ∣ Nat.card M ∧ T ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
-  have hPc : IsCyclic (P : Subgroup H) := hcyc _ P.isPGroup'
+  have hPc : IsCyclic (P : Subgroup H) := hcyc _ P.isPGroup
   have hzN : (zpowers z).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hn
@@ -90,7 +90,7 @@ theorem u38R_exists_normal_compl {H : Type} [Group H] [Finite H] {z : H}
   have hcomp := MonoidHom.ker_transferSylow_isComplement' P hN
   refine ⟨(MonoidHom.transferSylow P hN).ker, inferInstance,
     MonoidHom.not_dvd_card_ker_transferSylow P hN, ?_⟩
-  obtain ⟨j, hj⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨j, hj⟩ := P.isPGroup.exists_card_eq
   have hM : (MonoidHom.transferSylow P hN).ker.index = 3 ^ j := hcomp.symm.index_eq_card.trans hj
   intro t ht
   obtain ⟨k, hk⟩ := hT ⟨t, ht⟩
@@ -149,7 +149,7 @@ section Row
 
 theorem u38RankAt_holds (G : Type) [Group G] [Finite G] : U38RankAt G := by
   intro x L hx hL hcat hcyc hlayer E T hEC hEab hTC hT2 hEN hTnot
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hCdef
   have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hCN : C ≤ Subgroup.normalizer (L : Set G) := by

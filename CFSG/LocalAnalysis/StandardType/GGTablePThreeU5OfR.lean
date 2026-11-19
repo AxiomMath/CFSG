@@ -16,7 +16,7 @@ open Matrix Module CFSG CFSG.Assembly CFSG.AGLEmbedding
 
 private theorem charP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ} (hk : 1 ≤ k)
     (h : Nat.card F = 2 ^ k) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   apply ringChar.of_eq
   rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, h]
   apply Nat.mod_eq_zero_of_dvd
@@ -76,15 +76,15 @@ theorem u5_of_R
   subst hrankH
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hrawM
   obtain ⟨K, hfieldK, hfiniteK, hcardK, hQK⟩ := hrawM
-  letI : Field K := hfieldK
-  letI : Finite K := hfiniteK
+  let : Field K := hfieldK
+  let : Finite K := hfiniteK
   obtain ⟨hsimpleK, hnaK, hθK⟩ := hQK
   obtain ⟨θM, hsplitM, hGGInducedInnM⟩ := hθK
   have hq3 : 3 ∣ 2 ^ nH + 1 := hsplitH
   have hnH : 1 ≤ nH := hlabH_in.1
   have hcardK2 : Nat.card K = 2 ^ (2 * nH) := by
     rw [hcardK, ← pow_mul, Nat.mul_comm]
-  haveI : CharP K 2 := charP_two_of_card_pow (by omega) hcardK2
+  have : CharP K 2 := charP_two_of_card_pow (by omega) hcardK2
   have hleaf := leafR_holds X hcomm
     (LargeEvenProj (LargeEvenSUGroup (Fin 5) K (2 ^ nH))) θM A δ J hKLocal huniq hA3
   obtain ⟨Ā, δ', J', hRdat, hcardĀ, hδ'eq, hAmap, hJ'eq, hcenter⟩ := hleaf
@@ -122,8 +122,8 @@ theorem u5_of_R
   have hnJ : 2 ≤ nJ := hlabJ_in.2.2 rfl
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hrawJ
   obtain ⟨KJ, hfieldKJ, hfiniteKJ, hcardKJ, hQJ⟩ := hrawJ
-  letI : Field KJ := hfieldKJ
-  letI : Finite KJ := hfiniteKJ
+  let : Field KJ := hfieldKJ
+  let : Finite KJ := hfiniteKJ
   obtain ⟨-, -, hθJ⟩ := hQJ
   obtain ⟨θJ, -, -⟩ := hθJ
   have h4J : 4 ≤ 2 ^ nJ := by
@@ -151,7 +151,7 @@ theorem u5_of_R
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.mp hxcenter (g : X))
-  haveI : Group.IsPerfect J := ⟨hJcomm⟩
+  have : Group.IsPerfect J := ⟨hJcomm⟩
   let eJ : J ⧸ Subgroup.center J ≃* J' ⧸ Subgroup.center J' :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence f hf_surj hker_le
   have hisoJ : Nonempty (J' ⧸ Subgroup.center J' ≃*
@@ -167,7 +167,7 @@ theorem u5_of_R
     rw [hbot, Subgroup.mem_bot] at hmem
     exact Subgroup.mem_bot.mpr (hinj (hmem.trans (map_one _).symm))
   have hŪ2 : IsPGroup 2 (U.map (ggInducedAut θM)) := by
-    haveI : IsPGroup 2 U := hU2
+    have : IsPGroup 2 U := hU2
     exact IsPGroup.of_equiv hU2 (Subgroup.equivMapOfInjective U (ggInducedAut θM) hinj)
   have hŪnorm : ∀ a ∈ Ā, ∀ u ∈ U.map (ggInducedAut θM),
       a * u * a⁻¹ ∈ U.map (ggInducedAut θM) := by

@@ -21,7 +21,7 @@ section Order
 theorem dichLieDef_PSL : DichLieDefAt .PSL := by
   intro K _ _ hs hnab n ℓ f hadm hmodel hℓ h3
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstated := hmodel.statedClassicalModel (by decide)
   obtain ⟨-, hf, hrank⟩ := classical_model_rank (by norm_num) hstated
   have hord := (CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput K .PSL n 3 f
@@ -49,7 +49,7 @@ theorem dichLieDef_PSL : DichLieDefAt .PSL := by
 theorem dichLieDef_PSU : DichLieDefAt .PSU := by
   intro K _ _ hs hnab n ℓ f hadm hmodel hℓ h3
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstated := hmodel.statedClassicalModel (by decide)
   obtain ⟨-, hf, hrank⟩ := classical_model_rank (by norm_num) hstated
   have hord := (CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput K .PSU n 3 f
@@ -61,7 +61,7 @@ theorem dichLieDef_PSU : DichLieDefAt .PSU := by
   · have hf1 : f = 1 := by omega
     subst hf1
     obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := hstated
-    haveI hcp : CharP F 3 := by
+    have hcp : CharP F 3 := by
       have := Fintype.ofFinite F
       exact charP_of_card_eq_prime_pow (f := 1 * 2)
         (by rw [← Nat.card_eq_fintype_card, hF, pow_mul])
@@ -122,7 +122,7 @@ theorem dichLieDef_PSp : DichLieDefAt .PSp := by
 theorem dichLieDef_F4 : DichLieDefAt .F4 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inl rfl) hm
@@ -131,7 +131,7 @@ theorem dichLieDef_F4 : DichLieDefAt .F4 := by
 theorem dichLieDef_E6 : DichLieDefAt .E6 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inl rfl)) hm
@@ -140,7 +140,7 @@ theorem dichLieDef_E6 : DichLieDefAt .E6 := by
 theorem dichLieDef_E7 : DichLieDefAt .E7 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inr (Or.inl rfl))) hm
@@ -149,7 +149,7 @@ theorem dichLieDef_E7 : DichLieDefAt .E7 := by
 theorem dichLieDef_E8 : DichLieDefAt .E8 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h4 := four_mul_le_pRank_of_untwistedModel (Or.inr (Or.inr (Or.inr rfl))) hm
@@ -158,7 +158,7 @@ theorem dichLieDef_E8 : DichLieDefAt .E8 := by
 theorem dichLieDef_twistedE6 : DichLieDefAt .twistedE6 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact dichThreeLieAt_of_four_le_pRank (four_le_pRank_of_twistedE6Model hf hm)
@@ -166,7 +166,7 @@ theorem dichLieDef_twistedE6 : DichLieDefAt .twistedE6 := by
 theorem dichLieDef_trialityD4 : DichLieDefAt .trialityD4 := by
   intro K _ _ _ _ n ℓ f _ hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   exact dichThreeLieAt_of_four_le_pRank (four_le_pRank_of_trialityD4Model hf hm)
@@ -174,7 +174,7 @@ theorem dichLieDef_trialityD4 : DichLieDefAt .trialityD4 := by
 theorem dichLieDef_G2 : DichLieDefAt .G2 := by
   intro K _ _ _ _ n ℓ f hadm hmodel hℓ _
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨_, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have h3 := three_mul_le_pRank_of_G2Model hm

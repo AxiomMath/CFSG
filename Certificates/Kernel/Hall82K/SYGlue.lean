@@ -375,7 +375,7 @@ theorem fixPts_singleton_map_conjK {B : Subgroup (Equiv.Perm (Fin 64))} {m : Equ
   have e1 : ({m * b₀ * m⁻¹} : Set (Equiv.Perm (Fin 64))) =
       (fun b => m * b * m⁻¹) '' ({b₀} : Set (Equiv.Perm (Fin 64))) := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [e1, fixPts_conj_imageK, h b₀ hb₀ hb₀1, ← fixPts_conj_imageK, ← coe_map_conjK]
 
 theorem le_64 : ∀ B : Subgroup (Equiv.Perm (Fin 64)), B ≤ hexaM → IsPGroup 2 B →

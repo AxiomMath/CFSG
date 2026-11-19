@@ -225,7 +225,7 @@ theorem commute_rootGroup_one_three {s t : Fin (Tag.rank .F4) → ℤ}
     rw [hroot, ← mem_rootFinset] at hmem
     have h := f4_root_support_one_three_check _ hmem
     rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;>
-      simp [h10, h20, h30, h12, h13, h23, h13.symm] at h <;> omega
+      simp [h10, h13, h23, h13.symm] at h <;> omega
 
 theorem commute_levi_one_three :
     ∀ x ∈ CFSG.LieType.CurtisTits.levi (Adjoint.f4Datum K).rootGroup {1},
@@ -259,6 +259,7 @@ noncomputable abbrev Lv (K : Type) [Field K] (J : Finset (Fin (Tag.rank .F4))) :
     Subgroup ↥(adjointGroup .F4 K) :=
   CFSG.LieType.CurtisTits.levi (Adjoint.f4Datum K).rootGroup J
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_le_B3Levi {J : Finset (Fin (Tag.rank .F4))} (h : (3 : Fin (Tag.rank .F4)) ∉ J) :
     Lv K J ≤ B3Levi K :=
   levi_le_B3Levi h
@@ -273,22 +274,28 @@ theorem eq_pair_of_mem {I : Type*} [DecidableEq I] {J : Finset I} {a b : I} (hab
   have h2 : ({a, b} : Finset I).card = 2 := Finset.card_pair hab
   exact (Finset.eq_of_subset_of_card_le hsub (by rw [h2]; exact hJ)).symm
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_le_sup_of_mem_of_mem {J : Finset (Fin (Tag.rank .F4))} {a b : Fin (Tag.rank .F4)}
     (hJ : J.card ≤ 2) (ha : a ∈ J) (hb : b ∈ J) (hab : a ≠ b) :
     Lv K J ≤ Lv K {a} ⊔ Lv K {b} := by
   rw [eq_pair_of_mem hab hJ ha hb]
   exact (levi_pair (Adjoint.f4Datum K).rootGroup a b).le
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_two_le_A : Lv K {2} ≤ Lv K {2, 3} :=
   CFSG.LieType.CurtisTits.levi_mono _ (Finset.singleton_subset_iff.2 (by simp))
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_three_le_A : Lv K {3} ≤ Lv K {2, 3} :=
   CFSG.LieType.CurtisTits.levi_mono _ (Finset.singleton_subset_iff.2 (by simp))
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_two_le_P : Lv K {2} ≤ B3Levi K := Lv_le_B3Levi (by decide)
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_one_le_P : Lv K {1} ≤ B3Levi K := Lv_le_B3Levi (by decide)
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_zero_le_P : Lv K {0} ≤ B3Levi K := Lv_le_B3Levi (by decide)
 
 variable (K) (G : Type) [Group G]
@@ -311,21 +318,25 @@ noncomputable def FamilyData.rho (j : Fin (Tag.rank .F4)) : ↥(Lv K {j}) →* G
   else
     D.θP.comp (Subgroup.inclusion (Lv_le_B3Levi (by simpa using fun h' => h h'.symm)))
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.rho_of_ne {j : Fin (Tag.rank .F4)} (hj : j ≠ 3) (x : ↥(Lv K {j})) :
     D.rho j x = D.θP ⟨x.1, Lv_le_B3Levi (by simpa using fun h' => hj h'.symm) x.2⟩ := by
-  rw [FamilyData.rho, dif_neg hj]
+  rw [FamilyData.rho, dite_eq_right hj]
   rfl
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.rho_three (x : ↥(Lv K {3})) :
     D.rho 3 x = D.θA ⟨x.1, Lv_three_le_A x.2⟩ := by
-  rw [FamilyData.rho, dif_pos rfl]
+  rw [FamilyData.rho, dite_eq_left rfl]
   rfl
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.rho_comm0 (a : ↥(Lv K {0})) (b : ↥(Lv K {3})) :
     Commute (D.rho 0 a) (D.rho 3 b) := by
   rw [D.rho_of_ne (by decide), D.rho_three]
   exact D.comm0 a b
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.rho_comm1 (a : ↥(Lv K {1})) (b : ↥(Lv K {3})) :
     Commute (D.rho 1 a) (D.rho 3 b) := by
   rw [D.rho_of_ne (by decide), D.rho_three]
@@ -348,11 +359,13 @@ theorem one_ne_three' : (1 : Fin (Tag.rank .F4)) ≠ 3 := by decide
 
 theorem two_ne_three' : (2 : Fin (Tag.rank .F4)) ≠ 3 := by decide
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_le_A_of_mem {J : Finset (Fin (Tag.rank .F4))} (hJ : J.card ≤ 2)
     (h2 : (2 : Fin (Tag.rank .F4)) ∈ J) (h3 : (3 : Fin (Tag.rank .F4)) ∈ J) :
     Lv K J ≤ Lv K {2, 3} := by
   rw [eq_pair_of_mem two_ne_three' hJ h2 h3]
 
+omit [Finite K] [CharP K LieType.Ree.ReeTag.F4.prime] in
 theorem Lv_le_A_of_not_mem {J : Finset (Fin (Tag.rank .F4))}
     (h0 : (0 : Fin (Tag.rank .F4)) ∉ J) (h1 : (1 : Fin (Tag.rank .F4)) ∉ J)
     (h2 : (2 : Fin (Tag.rank .F4)) ∉ J) : Lv K J ≤ Lv K {2, 3} :=
@@ -378,14 +391,15 @@ noncomputable def FamilyData.phi (J : {J : Finset (Fin (Adjoint.f4Datum K).rank)
       D.θA.comp (Subgroup.inclusion (Lv_le_A_of_not_mem h0 h1 h2))
   else D.θP.comp (Subgroup.inclusion (Lv_le_B3Levi h3))
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.phi_spec (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) // J.card ≤ 2})
     {j : Fin (Tag.rank .F4)} (hj : j ∈ J.1) (x : ↥(adjointGroup .F4 K)) (hx : x ∈ Lv K {j}) :
     D.phi J ⟨x, levi_mono _ (Finset.singleton_subset_iff.2 hj) hx⟩ = D.rho j ⟨x, hx⟩ := by
   unfold FamilyData.phi
   by_cases h3 : (3 : Fin (Tag.rank .F4)) ∈ J.1
-  · rw [dif_pos h3]
+  · rw [dite_eq_left h3]
     by_cases h2 : (2 : Fin (Tag.rank .F4)) ∈ J.1
-    · rw [dif_pos h2]
+    · rw [dite_eq_left h2]
       have hJ := eq_pair_of_mem two_ne_three' J.2 h2 h3
       have hj' : j = 2 ∨ j = 3 := by
         rw [hJ] at hj
@@ -395,9 +409,9 @@ theorem FamilyData.phi_spec (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) // J
         exact D.agree x hx
       · rw [D.rho_three]
         rfl
-    · rw [dif_neg h2]
+    · rw [dite_eq_right h2]
       by_cases h0 : (0 : Fin (Tag.rank .F4)) ∈ J.1
-      · rw [dif_pos h0]
+      · rw [dite_eq_left h0]
         have hJ := eq_pair_of_mem zero_ne_three' J.2 h0 h3
         have hj' : j = 0 ∨ j = 3 := by
           rw [hJ] at hj
@@ -407,9 +421,9 @@ theorem FamilyData.phi_spec (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) // J
             levi_zero_inf_levi_three_eq_bot D.rho_comm0 ⟨x, hx⟩
         · exact supLift_apply_right (A := Lv K {0}) (B := Lv K {3}) commute_levi_zero_three
             levi_zero_inf_levi_three_eq_bot D.rho_comm0 ⟨x, hx⟩
-      · rw [dif_neg h0]
+      · rw [dite_eq_right h0]
         by_cases h1 : (1 : Fin (Tag.rank .F4)) ∈ J.1
-        · rw [dif_pos h1]
+        · rw [dite_eq_left h1]
           have hJ := eq_pair_of_mem one_ne_three' J.2 h1 h3
           have hj' : j = 1 ∨ j = 3 := by
             rw [hJ] at hj
@@ -419,16 +433,17 @@ theorem FamilyData.phi_spec (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) // J
               levi_one_inf_levi_three_eq_bot D.rho_comm1 ⟨x, hx⟩
           · exact supLift_apply_right (A := Lv K {1}) (B := Lv K {3}) commute_levi_one_three
               levi_one_inf_levi_three_eq_bot D.rho_comm1 ⟨x, hx⟩
-        · rw [dif_neg h1]
+        · rw [dite_eq_right h1]
           have hj3 := eq_three_of_not_mem h0 h1 h2 j hj
           subst hj3
           rw [D.rho_three]
           rfl
-  · rw [dif_neg h3]
+  · rw [dite_eq_right h3]
     have hj3 : j ≠ 3 := fun h => h3 (h ▸ hj)
     rw [D.rho_of_ne hj3]
     rfl
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.compat_Lv (I J : Finset (Fin (Adjoint.f4Datum K).rank)) (hI : I.card ≤ 2)
     (hJ : J.card ≤ 2) (hsub : I ⊆ J) (x : ↥(Lv K I)) (y : ↥(Lv K J))
     (hxy : (x : ↥(adjointGroup .F4 K)) = y) : D.phi ⟨I, hI⟩ x = D.phi ⟨J, hJ⟩ y := by
@@ -444,6 +459,7 @@ theorem FamilyData.compat_Lv (I J : Finset (Fin (Adjoint.f4Datum K).rank)) (hI :
     exact hxy
   rw [h1, hxy']
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.isCompatible : IsCompatible (Adjoint.f4Datum K).leviAmalgam D.phi :=
   fun i j hij x y hxy => D.compat_Lv i.1 j.1 i.2 j.2 hij x y hxy
 
@@ -491,6 +507,7 @@ section Main
 variable {K : Type} [Field K] [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime]
   {G : Type} [Group G] (D : FamilyData K G)
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.exists_ne_one (hθ : Function.Injective D.θP) :
     ∃ (x : ↥(adjointGroup .F4 K)) (hx : x ∈ Lv K {0}), D.θP ⟨x, Lv_zero_le_P hx⟩ ≠ 1 := by
   have hX0 := (Adjoint.f4_steinbergExtras K).ne_bot (Pi.single 0 1)
@@ -507,6 +524,7 @@ theorem FamilyData.exists_ne_one (hθ : Function.Injective D.θP) :
     congrArg Subtype.val h2
   exact Subtype.ext h3
 
+omit [Finite K] [CharP K CFSG.LieType.Ree.ReeTag.F4.prime] in
 theorem FamilyData.range_phi_le (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) // J.card ≤ 2}) :
     (D.phi J).range ≤ D.θP.range ⊔ D.θA.range := by
   have hP : ∀ j (x : ↥(Lv K {j})), j ≠ 3 → D.rho j x ∈ D.θP.range ⊔ D.θA.range := fun j x hj =>
@@ -515,25 +533,25 @@ theorem FamilyData.range_phi_le (J : {J : Finset (Fin (Adjoint.f4Datum K).rank) 
     mem_sup_right ⟨_, (D.rho_three x).symm⟩
   unfold FamilyData.phi
   by_cases h3 : (3 : Fin (Tag.rank .F4)) ∈ J.1
-  · rw [dif_pos h3]
+  · rw [dite_eq_left h3]
     by_cases h2 : (2 : Fin (Tag.rank .F4)) ∈ J.1
-    · rw [dif_pos h2]
+    · rw [dite_eq_left h2]
       exact (range_comp_le _ _).trans le_sup_right
-    · rw [dif_neg h2]
+    · rw [dite_eq_right h2]
       by_cases h0 : (0 : Fin (Tag.rank .F4)) ∈ J.1
-      · rw [dif_pos h0]
+      · rw [dite_eq_left h0]
         refine (range_comp_le _ _).trans ?_
         rw [range_supLift]
         exact sup_le (fun _ ⟨x, hx⟩ => hx ▸ hP 0 x zero_ne_three') (fun _ ⟨x, hx⟩ => hx ▸ hA x)
-      · rw [dif_neg h0]
+      · rw [dite_eq_right h0]
         by_cases h1 : (1 : Fin (Tag.rank .F4)) ∈ J.1
-        · rw [dif_pos h1]
+        · rw [dite_eq_left h1]
           refine (range_comp_le _ _).trans ?_
           rw [range_supLift]
           exact sup_le (fun _ ⟨x, hx⟩ => hx ▸ hP 1 x one_ne_three') (fun _ ⟨x, hx⟩ => hx ▸ hA x)
-        · rw [dif_neg h1]
+        · rw [dite_eq_right h1]
           exact (range_comp_le _ _).trans le_sup_right
-  · rw [dif_neg h3]
+  · rw [dite_eq_right h3]
     exact (range_comp_le _ _).trans le_sup_left
 
 theorem FamilyData.exists_injective (hθ : Function.Injective D.θP) :

@@ -100,7 +100,7 @@ theorem mem_pCoreOf_of_isNilpotent [Finite Ω] {N : Subgroup Ω} (hN : Group.IsN
   have hPn : (P : Subgroup ↥N).Normal := htf.mp hN q hq P
   have hle : (P : Subgroup ↥N).map N.subtype ≤ pCoreOf q N := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer q
-      (fun y ⟨z, _, hz⟩ => hz ▸ z.2) (fun n hn => ?_) (P.isPGroup'.map N.subtype)
+      (fun y ⟨z, _, hz⟩ => hz ▸ z.2) (fun n hn => ?_) (P.isPGroup.map N.subtype)
     rw [Subgroup.mem_normalizer_iff]
     intro y
     constructor

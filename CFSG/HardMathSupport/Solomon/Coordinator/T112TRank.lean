@@ -87,7 +87,7 @@ theorem false_of_nine_cosets (h3 : (3 : F) ≠ 0) {A : Subgroup (GL (Fin 3) F)}
       Matrix.trace_smul] at h1
     rw [Finset.sum_eq_single j] at h1
     · have hj : Matrix.trace (v j * (((r j)⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) = 3 := by
-        simp [v, ← Units.val_mul]
+        simp [v]
       rw [hj, smul_eq_mul] at h1
       exact (mul_eq_zero.1 h1).resolve_right h3
     · intro i _ hij
@@ -106,7 +106,7 @@ theorem card_le_nine [Finite F] (h3 : (3 : F) ≠ 0) {A : Subgroup (GL (Fin 3) F
   by_contra hlt
   push Not at hlt
   have hPG : IsPGroup 3 A := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hp g g.2)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hPG.exists_card_eq
   have hk3 : 27 ≤ Nat.card A := by
     have : 3 ≤ k := by
@@ -131,8 +131,8 @@ theorem card_le_nine [Finite F] (h3 : (3 : F) ≠ 0) {A : Subgroup (GL (Fin 3) F
     have h4 : Nat.card Z * Z.index ≤ 3 * 8 := Nat.mul_le_mul hZc (by omega)
     omega
   have hQcard : 9 ≤ Nat.card (A ⧸ Z) := hidx
-  haveI : Finite (A ⧸ Z) := inferInstance
-  haveI := Fintype.ofFinite (A ⧸ Z)
+  have : Finite (A ⧸ Z) := inferInstance
+  have := Fintype.ofFinite (A ⧸ Z)
   obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le
     (α := Fin 9) (β := A ⧸ Z) (by simpa [Nat.card_eq_fintype_card] using hQcard)
   have hcA : ∀ a b : A, a * b = b * a := fun a b => Subtype.ext (hcomm a a.2 b b.2)

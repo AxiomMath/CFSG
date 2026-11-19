@@ -46,7 +46,7 @@ theorem exists_inner_of_sylow_invol {L : Subgroup X} [L.Normal] (S : Sylow 2 X)
     fun y => rfl
   let T : Sylow 2 (L ⧸ Subgroup.center L) := P.mapSurjective (QuotientGroup.mk'_surjective _)
   have hT : IsSylowTwoOf (T : Subgroup (L ⧸ Subgroup.center L)) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨T.isPGroup', T.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨T.isPGroup, T.not_dvd_index⟩
   have hTfix : ∀ q ∈ (T : Subgroup (L ⧸ Subgroup.center L)), β q = q := by
     intro q hq
     rw [Sylow.coe_mapSurjective] at hq

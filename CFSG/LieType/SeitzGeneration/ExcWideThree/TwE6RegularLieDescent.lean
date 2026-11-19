@@ -39,7 +39,7 @@ theorem twE6_descent_of_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K :
       rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
     rw [← hder, h1]
     exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
-  haveI hnorm : (((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).map
+  have hnorm : (((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).map
       (baseChangeGL (algebraMap K (AlgebraicClosure K)))).subgroupOf
         (twistedFixedGroup TwistTag.E6 (AlgebraicClosure K) Fr)).Normal := by
     rw [hNR]
@@ -55,7 +55,7 @@ theorem twE6_descent_of_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K :
     refine ⟨n, Subtype.ext ?_⟩
     rw [Subgroup.coe_pow, Subgroup.coe_one, ← hm, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul,
       zpow_natCast, hn, one_zpow]
-  haveI : Finite (Subgroup.zpowers x) :=
+  have : Finite (Subgroup.zpowers x) :=
     (isOfFinOrder_iff_pow_eq_one.2 ⟨p ^ n, pow_pos hp.pos n, hn⟩).finite_zpowers
   have hle := le_of_isPGroup_of_index_eq_pow hPR hp Nat.prime_three hp3 hk hPp
   obtain ⟨u, hu, hux⟩ := Subgroup.mem_map.1 (hle (Subgroup.mem_zpowers x))

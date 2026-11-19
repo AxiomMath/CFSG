@@ -11,7 +11,7 @@ open CFSG.Open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem IsStronglyPEmbedded.rankThreeGamma_one_le_of_le {p : ℕ} {M X : Subgroup G}
-    (hsp : IsStronglyPEmbedded p M) (hp : p.Prime) (hX : IsPGroup p X) (hXM : X ≤ M) :
+    (hsp : IsStronglyPEmbedded p M) (_hp : p.Prime) (_hX : IsPGroup p X) (hXM : X ≤ M) :
     rankThreeGamma 1 p X ≤ M := by
   rw [CFSG.RankThreeCoreUniqueness.Helpers.gamma_le_iff]
   intro Y hYX hYrank
@@ -36,7 +36,7 @@ theorem IsStronglyPEmbedded.rankThreeGamma_one_le_of_le {p : ℕ} {M X : Subgrou
 theorem IsStronglyPEmbedded.inf_map_conj_eq_bot {p : ℕ} {M Q : Subgroup G}
     (hsp : IsStronglyPEmbedded p M) (hp : p.Prime) (hQM : Q ≤ M) (hQp : IsPGroup p Q) :
     ∀ g : G, g ∉ M → Q ⊓ M.map (MulAut.conj g).toMonoidHom = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro g hg
   let C : Subgroup G := M.map (MulAut.conj g).toMonoidHom
   change Q ⊓ C = ⊥

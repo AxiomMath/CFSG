@@ -17,8 +17,8 @@ theorem ODC.nonempty_mulEquiv_psl2_of_isLTwoTwentySeven {X : Type} [Group X]
     (h : IsLTwoTwentySeven X) :
     Nonempty (X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3)) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 3 3) := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField 3 3) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 3 3) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF,
       GaloisField.card 3 3 (by norm_num)]
@@ -34,14 +34,14 @@ theorem oddDefCharCentralizer_of_coreFree
   intro d hodd ε hεp hε1 R hR1 hR2 hRc hRn
   obtain ⟨hfin, hsimp, hnab⟩ :=
     hCar (CFSG.Yardstones.Md42047359a2a.lieFamily d.1) d rfl hodd
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hp : d.1.characteristic.Prime := TauCeti.LieTypeIndex.characteristic_prime d.1
-  haveI : Fact d.1.characteristic.Prime := ⟨hp⟩
+  have : Fact d.1.characteristic.Prime := ⟨hp⟩
   have hZ : center (CatGrp d) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.DefChar.center_eq_bot_of_simple hsimp hnab
   have hεo : orderOf ε = d.1.characteristic := orderOf_eq_prime hεp hε1
-  haveI hInnN : (innerAut (CatGrp d)).Normal :=
+  have hInnN : (innerAut (CatGrp d)).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   set H : Subgroup (MulAut (CatGrp d)) := innerAut (CatGrp d) ⊔ R with hH
   have hRle : R ≤ GLAPPrimeCoreOf d.1.characteristic

@@ -22,7 +22,7 @@ theorem closure_swap_left_eq_top {α : Type*} [Finite α] [DecidableEq α] (c : 
   have hS : ∀ σ ∈ {σ : Equiv.Perm α | ∃ ω ≠ c, σ = Equiv.swap c ω}, σ.IsSwap := by
     rintro σ ⟨ω, hω, rfl⟩
     exact Equiv.Perm.swap_isSwap_iff.mpr hω.symm
-  haveI : MulAction.IsPretransitive
+  have : MulAction.IsPretransitive
       (Subgroup.closure {σ : Equiv.Perm α | ∃ ω ≠ c, σ = Equiv.swap c ω}) α := by
     refine ⟨fun x y => ?_⟩
     have hx : Equiv.swap c x ∈
@@ -101,7 +101,7 @@ private theorem exists_equiv_fin_add_two {n m : ℕ} (hm : m = n + 2)
       ext
       simp
     simp only [e, Equiv.trans_apply, hsrc, finSumFinEquiv_symm_apply_castAdd,
-      Equiv.sumCongr_apply, Sum.map_inl, Equiv.Set.sumCompl_apply_inl]
+      Equiv.sumCongr_apply, Sum.map_inl]
     exact heι a
   have he_last1 : e ((Fin.last (n + 1)).castSucc) = z₁ := by
     have hsrc : (finCongr hmn).symm ((Fin.last (n + 1)).castSucc) =
@@ -109,7 +109,7 @@ private theorem exists_equiv_fin_add_two {n m : ℕ} (hm : m = n + 2)
       ext
       simp
     simp only [e, Equiv.trans_apply, hsrc, finSumFinEquiv_symm_apply_natAdd,
-      Equiv.sumCongr_apply, Sum.map_inr, Equiv.Set.sumCompl_apply_inr]
+      Equiv.sumCongr_apply, Sum.map_inr]
     exact hg0
   have he_last2 : e (Fin.last (n + 2)) = z₂ := by
     have hsrc : (finCongr hmn).symm (Fin.last (n + 2)) =
@@ -117,7 +117,7 @@ private theorem exists_equiv_fin_add_two {n m : ℕ} (hm : m = n + 2)
       ext
       simp
     simp only [e, Equiv.trans_apply, hsrc, finSumFinEquiv_symm_apply_natAdd,
-      Equiv.sumCongr_apply, Sum.map_inr, Equiv.Set.sumCompl_apply_inr]
+      Equiv.sumCongr_apply, Sum.map_inr]
     exact hg1
   exact ⟨e, he_apply, he_last1, he_last2⟩
 
@@ -299,7 +299,7 @@ theorem star_struct {M : Type*} [Group M] {n m : ℕ}
       simp
     · by_cases hy : z = e y
       · subst hy
-        simp [hx]
+        simp
       · have hx' : e.symm z ≠ x := by
           intro h
           apply hx

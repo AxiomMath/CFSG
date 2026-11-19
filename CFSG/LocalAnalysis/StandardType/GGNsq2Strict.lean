@@ -38,7 +38,7 @@ theorem ggPhanStrict_card_lt_join_of_wA (hWA : GGTBFixNbrXInput) {G : Type} [Gro
     rw [← h] at hmem
     exact hφx (MulAction.mem_stabilizer_iff.mp
       (ggAutomizer_le_stabilizer_of_centralizes hx hxL hmem))
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun φ : MulAut ↥Bs => (φ : ↥Bs → ↥Bs)) DFunLike.coe_injective
   exact lt_of_lt_of_le (Subgroup.card_lt_of_lt hlt) hmax
 
@@ -49,7 +49,7 @@ theorem ggPhanStrict_card_lt_join_of_nbr (hFix : GGTBFixInput) {G : Type} [Group
     Nat.card ↥(ggAutomizer X Bs) < Nat.card ↥(ggAutomizerJoin L Bs 𝒦) := by
   by_contra hle
   push Not at hle
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun φ : MulAut ↥Bs => (φ : ↥Bs → ↥Bs)) DFunLike.coe_injective
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1
   have hyBs : y ∈ Bs := hconf.2.1.1 hnbr.1.2.1

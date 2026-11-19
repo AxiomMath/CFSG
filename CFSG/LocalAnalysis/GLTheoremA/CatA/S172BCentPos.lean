@@ -15,6 +15,7 @@ open QuadraticMap Module CFSG.RankThree.Classical2 CFSG.RankThree.PartOne.KCOrth
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_mem_ne_of_two_le_length {l : List (V × V)} (hl : IsFrame Q l) (hlen : 2 ≤ l.length) :
     ∃ p ∈ l, ∃ q ∈ l, p ≠ q := by
   rcases l with _ | ⟨a, _ | ⟨b, l'⟩⟩
@@ -26,18 +27,21 @@ theorem exists_mem_ne_of_two_le_length {l : List (V × V)} (hl : IsFrame Q l) (h
     rw [← hab, ha.ab] at h
     exact one_ne_zero h
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_apply_eq_of_apply_eq {ρ : V ≃ₗ[ZMod 2] V} {x : V} (hx : ρ x = x) (j : ℕ) :
     (ρ ^ j) x = x := by
   induction j with
   | zero => rfl
   | succ j ih => rw [pow_succ, LinearEquiv.mul_apply, hx, ih]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem rot_apply_mem_planeSpan {p : V × V} (hp : MinusPair Q p.1 p.2) {x : V}
     (hx : x ∈ planeSpan p) : rot Q p.1 p.2 x ∈ planeSpan p := by
   rw [rot_apply hp]
   exact add_mem (add_mem hx (Submodule.smul_mem _ _ (left_mem_planeSpan p)))
     (Submodule.smul_mem _ _ (right_mem_planeSpan p))
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem rot_pow_apply_mem_planeSpan {p : V × V} (hp : MinusPair Q p.1 p.2) (k : ℕ) {x : V}
     (hx : x ∈ planeSpan p) : (rot Q p.1 p.2 ^ k) x ∈ planeSpan p := by
   induction k with
@@ -46,6 +50,7 @@ theorem rot_pow_apply_mem_planeSpan {p : V × V} (hp : MinusPair Q p.1 p.2) (k :
     rw [pow_succ', LinearEquiv.mul_apply]
     exact rot_apply_mem_planeSpan hp ih
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_pow_rot_apply_planeSpan {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) :
     ∃ k : ℕ, ∀ x ∈ planeSpan p, t x = (rot Q p.1 p.2 ^ k) x := by
@@ -84,6 +89,7 @@ theorem exists_pow_rot_apply_planeSpan {l : List (V × V)} (hl : IsFrame Q l) {p
     rw [LinearEquiv.symm_apply_eq, hk _ hmem, ← LinearEquiv.mul_apply, ← pow_add, h3]
     rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_pow_rot_mul_apply_left_eq {l : List (V × V)} (hl : IsFrame Q l) {p : V × V}
     (hp : p ∈ l) {t : V ≃ₗ[ZMod 2] V} (ht : t ∈ torus Q l) :
     ∃ j : ℕ, (t * rot Q p.1 p.2 ^ j) p.1 = p.1 := by
@@ -96,6 +102,7 @@ theorem exists_pow_rot_mul_apply_left_eq {l : List (V × V)} (hl : IsFrame Q l) 
   rw [LinearEquiv.mul_apply, hk _ hmem, ← LinearEquiv.mul_apply, ← pow_add, h3]
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_zpowers_rot_of_fixes_perpPlane {l : List (V × V)} (hl : IsFrame Q l) {p₀ : V × V}
     (hp₀ : p₀ ∈ l) {b : V ≃ₗ[ZMod 2] V} (hb : b ∈ torus Q l)
     (hfix : ∀ w ∈ perpPlane Q p₀, b w = w) : b ∈ Subgroup.zpowers (rot Q p₀.1 p₀.2) := by
@@ -116,6 +123,7 @@ theorem mem_zpowers_rot_of_fixes_perpPlane {l : List (V × V)} (hl : IsFrame Q l
   rw [this]
   exact inv_mem (pow_mem (Subgroup.mem_zpowers _) j)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_planeSpan_of_rot_sq_add {p : V × V} (hp : MinusPair Q p.1 p.2) {v : V}
     (hv : rot Q p.1 p.2 (rot Q p.1 p.2 v) + rot Q p.1 p.2 v + v = 0) : v ∈ planeSpan p := by
   obtain ⟨w, hw, hu⟩ := hp.exists_decomp v
@@ -137,6 +145,7 @@ theorem mem_planeSpan_of_rot_sq_add {p : V × V} (hp : MinusPair Q p.1 p.2) {v :
   rw [sub_eq_zero.1 h0]
   exact hw
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_pair_adjust {l : List (V × V)} (hl : IsFrame Q l) {p₁ : V × V} (hp₁ : p₁ ∈ l)
     {d : V ≃ₗ[ZMod 2] V} (hd : d ∈ torus Q l) (hmov : ∀ p ∈ l, d p.1 ≠ p.1) :
     ∃ j : ℕ, (d * rot Q p₁.1 p₁.2 ^ j) p₁.1 = p₁.1 ∧

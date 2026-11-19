@@ -37,7 +37,7 @@ private theorem map_conj_inv_le_and_normal {h : G} {S Y : Subgroup G}
         = s * (MulAut.conj h⁻¹).toMonoidHom y₀ * s⁻¹ := by
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       group
-    rwa [hEq]
+    rw [hEq]
 
 theorem ThLocalIn.map_A_le_of_normal_map (W : ThLocalIn L S A B z) (h : G) {Y : Subgroup G}
     (hYS : Y ≤ S.map (MulAut.conj h).toMonoidHom)
@@ -90,7 +90,7 @@ theorem ThCyc.conj_mem_omega1_of_mem_A (H : ThCyc G L R t) (W : ThLocalIn L S A 
   have huNV : g⁻¹ * t * g ∈ normalizer (V : Set G) :=
     ThCyc.normalizer_D_le_normalizer_omega1 hD (hTM hu)
   have hVcard : Nat.card V = 2 ^ 8 := H.card_omega1 W W2 hD hsq
-  haveI hVele : IsElementaryAbelian 2 V :=
+  have hVele : IsElementaryAbelian 2 V :=
     IsElementaryAbelian.two_of_forall_mul_self
       (fun x hx y hy => H.omega1_comm W W2 hD hx hy)
       (fun x hx => by simpa [pow_two] using hx.2)

@@ -17,8 +17,8 @@ section Odd
 variable {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF429_odd_index_F4tw (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hf : 2 ≤ f
   · refine burnsideF429_odd_index_of_outer hyp.centralizer_trivial ?_
     rw [burnsideF429_card_outer_F4tw hyp hf]
@@ -32,8 +32,8 @@ theorem burnsideF429_odd_index_F4tw (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) : Od
 
 theorem burnsideF429_odd_index_G2 (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hfo : Odd f) :
     Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hf : 2 ≤ f
   · refine burnsideF429_odd_index_of_outer hyp.centralizer_trivial ?_
     rw [burnsideF429_card_outer_G2 hyp hf]
@@ -47,8 +47,8 @@ theorem burnsideF429_odd_index_G2 (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hfo : O
 
 theorem burnsideF429_odd_index_D4tw (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) (hfo : Odd f) :
     Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   refine burnsideF429_odd_index_of_outer hyp.centralizer_trivial ?_
   rw [burnsideF429_card_outer_D4tw hyp]
   exact Odd.mul (by decide) hfo
@@ -87,8 +87,8 @@ section Clause
 theorem burnsideF429_ctr_le_of (hZ : burnsideF429_C7ZInput) {κ : GLKind} {f : ℕ} {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hκ : κ.IsLie)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : ctr T ≤ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   cases κ with
   | L3 => exact hZ _ f E Gp M₁ M₂ hyp (Or.inl rfl) T hT
   | Sp4 => exact hZ _ f E Gp M₁ M₂ hyp (Or.inr rfl) T hT

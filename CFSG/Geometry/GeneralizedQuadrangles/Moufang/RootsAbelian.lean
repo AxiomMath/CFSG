@@ -51,18 +51,18 @@ theorem isRegular_lines_or_points (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
   ·
     left
     intro L hL M hLM
-    rw [hp' L M hL hLM, hps, hdeg L, if_neg (by rw [hL]; decide)]
+    rw [hp' L M hL hLM, hps, hdeg L, ite_eq_right (by rw [hL]; decide)]
   · rcases htri with hpt | hp1
     ·
       right
       obtain ⟨⟨x, hx⟩⟩ := hP.exists_point (by norm_num) hT c
       have hregx : IsRegularVertex Γ x := by
         intro y hy
-        rw [hp x y hx hy, hpt, hdeg x, if_pos hx]
+        rw [hp x y hx hy, hpt, hdeg x, ite_eq_left hx]
       have hts : t ≤ s := t_le_s_of_isRegularVertex hP hT c hdeg hx hregx
       refine ⟨by omega, ?_⟩
       intro x' hx' y hy
-      rw [hp x' y hx' hy, hpt, hdeg x', if_pos hx']
+      rw [hp x' y hx' hy, hpt, hdeg x', ite_eq_left hx']
     ·
       exfalso
       obtain ⟨⟨x, hx⟩⟩ := hP.exists_point (by norm_num) hT c

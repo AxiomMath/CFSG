@@ -29,10 +29,10 @@ private theorem layer_conj_mem {R : Type} [Group R] {X E : Subgroup R} (h : GGLa
 theorem ggTwE6D4LayerInput_holds : GGTwE6D4LayerInput := by
   intro n hn h3 K _ _ σ hK hσ Fr hFr v hv g0 hg0C hg0 α β hα hβ hαβ ζ hζ hζ1 t ht ta hta ht' hta'
   classical
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζo : orderOf ζ = 3 := orderOf_eq_prime hζ hζ1
   have hα' : IsRoot Tag.E6 α := hα
   have hβ' : IsRoot Tag.E6 β := hβ
@@ -42,15 +42,15 @@ theorem ggTwE6D4LayerInput_holds : GGTwE6D4LayerInput := by
   set D := LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0 with hD
   have hΓS : S.Γ = D.Γ := by
     show S.D.Γ = D.Γ
-    rw [hSD] <;> rfl
+    rw [hSD]; rfl
   set a : Fin Tag.E6.rank → Lˣ := zetaVec ζ hζ (kgExpVec α + kgExpVec β) with ha
   have hcor : TwE6RootAs.corootTuple α ζ * TwE6RootAs.corootTuple β ζ = a := by
     rw [corootTuple_eq_zetaVec_kg ζ hζ α, corootTuple_eq_zetaVec_kg ζ hζ β]
     exact (CFSG.StandardType.ExcFrames.zetaVec_add ζ hζ _ _).symm
   have hdt : rootDiagUnit Tag.E6 a = twThetaHom g0 t := by
-    rw [twThetaHom_apply, ht', hcor] <;> rfl
+    rw [twThetaHom_apply, ht', hcor]; rfl
   have hdα : rootDiagUnit TwistTag.E6.tag (zetaVec ζ hζ (kgExpVec α)) = twThetaHom g0 ta := by
-    rw [twThetaHom_apply, hta', corootTuple_eq_zetaVec_kg ζ hζ α] <;> rfl
+    rw [twThetaHom_apply, hta', corootTuple_eq_zetaVec_kg ζ hζ α]; rfl
   have hap : ∀ i, a i ^ 3 = 1 := fun i => zetaVec_apply_pow_three hζ _ i
   have h1 : rootDiagUnit Tag.E6 a ≠ 1 :=
     rootDiagUnit_zetaVec_kgExpVec_add_ne_one hζ hζo hα' hαβ'

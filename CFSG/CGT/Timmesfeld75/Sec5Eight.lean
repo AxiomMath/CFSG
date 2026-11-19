@@ -254,7 +254,7 @@ theorem sec58 (h1 : Sec4NoA) (hy : StepHyp T T₁) (hS : Sec3Global T) (hI : Sec
     rw [conjSubgroup_barSub hn, conjSubgroup_normIn_conj hn] at hconj
     have hS₂' : IsPGroup 2 ↥(barSub T (normIn T₁ T) ⊔
         barSub T (normIn (conjSubgroup (n' * h) T) T)) :=
-      S₁.isPGroup'.to_le (sup_le hS₁ hconj)
+      S₁.isPGroup.to_le (sup_le hS₁ hconj)
     have hle := sec58_le h1 hy hS hI (hh.mul_normalizer hn) hS₂'
     have hnT : conjSubgroup (n'⁻¹ : G) T = T :=
       mem_normalizer_iff_conjSubgroup_eq.1 ((Subgroup.normalizer (T : Set G)).inv_mem hn)

@@ -582,8 +582,8 @@ private theorem ninv_init {U : Array Nat} {TP WT : Nat → Nat} {QB PW : Nat}
     intro y hy
     rw [show (1 : Nat) = 2 ^ 0 from by norm_num, Nat.testBit_two_pow]
     by_cases hy0 : y = 0
-    · rw [if_pos hy0, decide_eq_true hy0.symm]
-    · rw [if_neg hy0, decide_eq_false (fun h : 0 = y => hy0 h.symm)]
+    · rw [ite_eq_left hy0, decide_eq_true hy0.symm]
+    · rw [ite_eq_right hy0, decide_eq_false (fun h : 0 = y => hy0 h.symm)]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · simp only [gInit, Array.size_replicate]
   · simp only [gInit, Array.size_set!, Array.size_replicate]
@@ -732,7 +732,7 @@ private theorem ninv_inner {U : Array Nat} {TP WT GI : Nat → Nat} {QB PW : Nat
       unfold wseen; rw [hst', hK]
     have hgi : gInner (tvTabsG U) x k ns = pure (ForInStep.yield ns) := by
       unfold gInner
-      rw [if_neg (by rw [hy]; simp [hseens])]
+      rw [ite_eq_right (by rw [hy]; simp [hseens])]
     refine ⟨ns, hgi, ?_⟩
     refine ⟨hN.wsize, hN.ssize, ?_, ?_, ?_, hN.wall, ?_⟩
     · rw [hcE]; exact hN.qsize
@@ -812,7 +812,7 @@ private theorem ninv_inner {U : Array Nat} {TP WT GI : Nat → Nat} {QB PW : Nat
     let ns' : WSt := (ns.1.set! y (Nat.mul 23 k :: ns.1[x]!), ns.2.1.set! y true, ns.2.2.push y)
     have hgi : gInner (tvTabsG U) x k ns = pure (ForInStep.yield ns') := by
       unfold gInner
-      rw [if_pos (by rw [hy]; simp [hnsseen])]
+      rw [ite_eq_left (by rw [hy]; simp [hnsseen])]
       rw [hy]
     refine ⟨ns', hgi, ?_⟩
     have hbits : ∀ z < 693, (wseen TP QB PW (31 * h + (k + 1))).testBit z =
@@ -821,8 +821,8 @@ private theorem ninv_inner {U : Array Nat} {TP WT GI : Nat → Nat} {QB PW : Nat
       rw [hse', Nat.lor_eq, Nat.testBit_lor,
         show Nat.shiftLeft 1 y = 2 ^ y from shiftLeft_one y, Nat.testBit_two_pow]
       by_cases hzy : z = y
-      · rw [if_pos hzy, decide_eq_true hzy.symm, Bool.or_true]
-      · rw [if_neg hzy, decide_eq_false (fun h : y = z => hzy h.symm), Bool.or_false,
+      · rw [ite_eq_left hzy, decide_eq_true hzy.symm, Bool.or_true]
+      · rw [ite_eq_right hzy, decide_eq_false (fun h : y = z => hzy h.symm), Bool.or_false,
           ← hK, wseen_land]
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · rw [Array.size_set!, hN.wsize]
@@ -840,9 +840,9 @@ private theorem ninv_inner {U : Array Nat} {TP WT GI : Nat → Nat} {QB PW : Nat
     · intro z hz
       rw [hbits z hz]
       by_cases hzy : z = y
-      · rw [if_pos hzy, hzy]
+      · rw [ite_eq_left hzy, hzy]
         rw [Array.getElem!_set!_self _ _ _ (by rw [hN.ssize]; exact hy_lt)]
-      · rw [if_neg hzy, Array.getElem!_set!_ne _ _ _ _ (fun h : y = z => hzy h.symm), hN.seen z hz]
+      · rw [ite_eq_right hzy, Array.getElem!_set!_ne _ _ _ _ (fun h : y = z => hzy h.symm), hN.seen z hz]
     · intro z hz
       by_cases hzy : z = y
       · rw [hzy]
@@ -892,7 +892,7 @@ private theorem ninv_outer {U : Array Nat} {TP WT GI : Nat → Nat} {QB PW : Nat
     have hlt : h < ns.2.2.size := hI.qsize.symm ▸ hh'
     have hget : ns.2.2[h]! = fd 10 QB h := hI.qget h hh'
     unfold gBody
-    rw [if_pos hlt, hget]
+    rw [ite_eq_left hlt, hget]
     have hinner : NInv U TP WT QB PW (31 * h + 31)
           (forIn (β := WSt) [:31] ns (gInner (tvTabsG U) (fd 10 QB h)))
         ∧ h < wcnt TP QB PW (31 * h + 31) := by

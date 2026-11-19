@@ -232,14 +232,14 @@ theorem slTwo_central_of_sq_eq_one {E : Type} [Field E] (h2 : (2 : E) ≠ 0)
       linear_combination e00
     · ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.scalar_apply, Matrix.diagonal_apply, ha, hb, hc, hd, hb0, hc0, had] <;>
+        simp [Matrix.scalar_apply, ha] <;>
         simp_all
 
 theorem not_isType419_of_injective_slTwo_odd {E : Type} [Field E] [Finite E]
     (h2 : (2 : E) ≠ 0) {K : Type} [Group K] (hK : IsType419 K) (hZ : Subgroup.center K = ⊥)
     (f : K →* SpecialLinearGroup (Fin 2) E) (hf : Function.Injective f) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := Finite.of_injective f hf
+  have : Finite K := Finite.of_injective f hf
   have h4 := four_dvd_card_isType419 hK
   have h2dvd : 2 ∣ Nat.card K := (show (2 : ℕ) ∣ 4 by norm_num).trans h4
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
@@ -261,7 +261,7 @@ theorem not_isType419_of_injective_slTwo_field {E : Type} [Field E] [Finite E]
     (hZ : Subgroup.center K = ⊥) (f : K →* SpecialLinearGroup (Fin 2) E)
     (hf : Function.Injective f) : False := by
   by_cases h2 : (2 : E) = 0
-  · haveI : CharP E 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  · have : CharP E 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     exact not_isType419_of_injective_slTwo hK hs hZ f hf
   · exact not_isType419_of_injective_slTwo_odd h2 hK hZ f hf
 

@@ -119,8 +119,8 @@ theorem l72_wreathFacts : WreathFacts l72Z l72T where
     exact blk_smul_fst_ne l72_ne01 h3
 
 theorem l72_card_wreathW : Nat.card (wreathW l72Z l72T) = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)) :=
     Finite.of_injective _ Subtype.val_injective
   have hle := Item434AltPerm.card_le_of_isPGroup (isPGroup_wreathW l72_wreathFacts)
   rw [Item434SmallTwoOther.L72.factorization_card_SL7] at hle
@@ -165,7 +165,7 @@ theorem listRow_sl7 [Finite (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)
 
 theorem listRow_l72 [Finite (projSL 7 (GaloisField 2 1))] :
     ListRow (projSL 7 (GaloisField 2 1)) := by
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)) :=
+  have : Finite (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)) :=
     Finite.of_injective _ Subtype.val_injective
   exact ListRow.of_mulEquiv (Item434SmallTwoOther.slEquivProjSL (by norm_num)) listRow_sl7
 
@@ -176,7 +176,7 @@ theorem outerRow_l72 [Finite (projSL 7 (GaloisField 2 1))] :
 
 theorem row_l72 : RowOf (projSL 7 (GaloisField 2 1)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSL 7 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
+  have : Finite (projSL 7 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv e.symm ⟨listRow_l72, outerRow_l72⟩
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

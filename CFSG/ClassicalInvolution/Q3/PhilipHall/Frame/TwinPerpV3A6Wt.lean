@@ -171,7 +171,7 @@ theorem mem_tG_W {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R
     Subgroup.mem_centralizer_iff.mpr fun x hx =>
       Q3CL.Thompson.commutes_of_mem_WSet hP.hyp H.hW x hx _ hv
   obtain ⟨m, hmN, hm⟩ := Sec7.control_centralizer_of_weaklyClosed
-    (S₀.isPGroup'.to_le hWS₀) hWC (hWab htW) (g := g) (by rw [hg]; exact hWab hwW)
+    (S₀.isPGroup.to_le hWS₀) hWC (hWab htW) (g := g) (by rw [hg]; exact hWab hwW)
   rw [hg] at hm
   set J := conjSub m K with hJdef
   have hJΩ : J ∈ Ω[R] := hΩ.conjInvariant m K hd.mem

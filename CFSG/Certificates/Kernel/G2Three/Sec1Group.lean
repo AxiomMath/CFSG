@@ -534,7 +534,7 @@ theorem exists_glHom [Finite G] {n : ℕ} {N F : Subgroup G} (E : (Fin n → ZMo
   have hEinv : ∀ y ∈ F, E (Einv y) = y := by
     intro y hy
     have h := hsurj y hy
-    simp only [Einv, dif_pos h]
+    simp only [Einv, dite_eq_left h]
     exact h.choose_spec
   have hEinvE : ∀ v, Einv (E v) = v := fun v => hinj (hEinv _ (hmem v))
   have hconj : ∀ x ∈ N, ∀ y ∈ F, x * y * x⁻¹ ∈ F := fun x hx y hy =>
@@ -605,7 +605,7 @@ theorem pow_val_add {x : G} (hx : x * x = 1) (a b : ZMod 2) :
 
 theorem zmod2_add_self {n : ℕ} (v : Fin n → ZMod 2) : v + v = 0 := by
   funext i
-  rcases zmod2_cases (v i) with h | h <;> simp [h] <;> rfl
+  rcases zmod2_cases (v i) with h | h <;> simp [h]; rfl
 
 theorem basis_of_E [Finite G] {n : ℕ} (f : Fin n → G) (E : (Fin n → ZMod 2) → G)
     (hadd : ∀ v w, E (v + w) = E v * E w) (hmem : ∀ v, E v ∈ closure (Set.range f))

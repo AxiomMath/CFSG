@@ -17,6 +17,7 @@ variable {K V ι : Type*} [Field K] [AddCommGroup V] [Module K V] [DecidableEq �
 noncomputable def orthReflProd (Q : QuadraticForm K V) (e : ι → V) (s : Finset ι) : V →ₗ[K] V :=
   LinearMap.id - ∑ i ∈ s, LinearMap.smulRight ((Q (e i))⁻¹ • polarBilin Q (e i)) (e i)
 
+omit [DecidableEq ι] in
 theorem orthReflProd_apply (Q : QuadraticForm K V) (e : ι → V) (s : Finset ι) (v : V) :
     orthReflProd Q e s v = v - ∑ i ∈ s, ((Q (e i))⁻¹ * polar Q (e i) v) • e i := by
   simp [orthReflProd, LinearMap.sum_apply, smul_eq_mul]
@@ -44,7 +45,7 @@ theorem orthReflProd_comp (horth : ∀ i j, i ≠ j → polar Q (e i) (e j) = 0)
   rw [LinearMap.comp_apply, orthReflProd_apply Q e s, orthReflProd_apply Q e (s ∪ t),
     Finset.sum_union hst]
   have hs : ∀ i ∈ s, polar Q (e i) (orthReflProd Q e t v) = polar Q (e i) v := fun i hi => by
-    rw [polar_orthReflProd horth, if_neg (Finset.disjoint_left.1 hst hi), sub_zero]
+    rw [polar_orthReflProd horth, ite_eq_right (Finset.disjoint_left.1 hst hi), sub_zero]
   rw [Finset.sum_congr rfl fun i hi => by rw [hs i hi], orthReflProd_apply]
   abel
 
@@ -55,7 +56,7 @@ theorem orthReflProd_comp_self (he : ∀ i, Q (e i) ≠ 0)
   rw [LinearMap.comp_apply, LinearMap.id_apply, orthReflProd_apply Q e s (orthReflProd Q e s v)]
   have hs : ∀ i ∈ s, (Q (e i))⁻¹ * polar Q (e i) (orthReflProd Q e s v) =
       -((Q (e i))⁻¹ * polar Q (e i) v) := fun i hi => by
-    rw [polar_orthReflProd horth, if_pos hi, polar_self, nsmul_eq_mul]
+    rw [polar_orthReflProd horth, ite_eq_left hi, polar_self, nsmul_eq_mul]
     field_simp [he i]
     ring
   rw [Finset.sum_congr rfl fun i hi => by rw [hs i hi], orthReflProd_apply]
@@ -75,11 +76,11 @@ private noncomputable def reflGL (Q : QuadraticForm K (Fin d → K)) (f : Fin d 
 
 private theorem glEquiv_reflGL_apply (f : Fin d → K) (hf : Q f ≠ 0) (v : Fin d → K) :
     glEquiv (reflGL Q f hf) v = v - ((Q f)⁻¹ * polar Q f v) • f := by
-  letI := invertibleOfNonzero hf
+  let := invertibleOfNonzero hf
   rw [reflGL, MulEquiv.apply_symm_apply, TauCeti.QuadraticMap.reflection_apply, invOf_eq_inv]
 
 private theorem reflGL_mem (f : Fin d → K) (hf : Q f ≠ 0) : reflGL Q f hf ∈ matrixIsometries Q := by
-  letI := invertibleOfNonzero hf
+  let := invertibleOfNonzero hf
   rw [mem_matrixIsometries_iff]
   intro v
   rw [matrixLinearEquiv_apply, ← glEquiv_apply, reflGL, MulEquiv.apply_symm_apply]
@@ -140,7 +141,7 @@ private theorem pair_eq_commutator (h2 : (2 : K) ≠ 0) {e e' : Fin d → K} (he
       LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     have hinv : ∀ (g : Fin d → K) (hg : Q g ≠ 0), (glEquiv (reflGL Q g hg))⁻¹ =
         glEquiv (reflGL Q g hg) := fun g hg => by
-      letI := invertibleOfNonzero hg
+      let := invertibleOfNonzero hg
       rw [reflGL, MulEquiv.apply_symm_apply, TauCeti.QuadraticMap.reflection_inv]
     rw [hinv, hinv, glEquiv_reflGL_apply, glEquiv_reflGL_apply, glEquiv_reflGL_apply,
       glEquiv_reflGL_apply]

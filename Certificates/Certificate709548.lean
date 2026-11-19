@@ -27,7 +27,7 @@ private theorem feS_eq {n C : ℕ}
   by_cases hq : q = i
   · subst hq
     simp [feS]
-  · simp [feS, hq, Pi.single_apply]
+  · simp [feS, hq]
 
 private theorem der_iff {n : ℕ} {S : Fin n → FEMat n} (hS : ∀ i, feS n i = S i) (r : FEMat n) :
     FEConjDer n r ↔ ConjDer S r := by

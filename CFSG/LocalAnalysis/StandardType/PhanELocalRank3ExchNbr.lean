@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plxn_finrank_sup_of_disjoint {A B : Submodule K (Fin 3 → K)}
     (h : Disjoint A B) : finrank K ↥(A ⊔ B) = finrank K A + finrank K B := by
   have hsum := Submodule.finrank_sup_add_finrank_inf_eq A B
@@ -78,7 +79,7 @@ private theorem plxn_exists_pt (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f
     (hDdim : ∀ d ∈ D, finrank K d = 2) (hDV : ∀ d ∈ D, Vsub 3 1 ≤ d) :
     ∃ t : V K f, t.1 ⊔ Vsub 3 1 ∉ D := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hDtop : ∀ d ∈ D, d ≠ ⊤ := by
     intro d hd htop
     have hd2 := hDdim d hd
@@ -98,14 +99,14 @@ private theorem plxn_exists_pt (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f
   have hp : ∀ d, p d ≠ ⊤ := by
     intro d
     by_cases hd : d ∈ D
-    · simp only [p, if_pos hd]; exact hDtop d hd
-    · simp only [p, if_neg hd]; exact bot_ne_top
+    · simp only [p, ite_eq_left hd]; exact hDtop d hd
+    · simp only [p, ite_eq_right hd]; exact bot_ne_top
   have hsub := Submodule.iUnion_ssubset_of_forall_ne_top_of_card_lt D p hp hcard
   obtain ⟨v, hv⟩ := Set.ssubset_univ_iff_nonempty_compl.mp hsub
   have hvD : ∀ d ∈ D, v ∉ d := by
     intro d hd hmem
     exact hv (Set.mem_iUnion.mpr ⟨d, Set.mem_iUnion.mpr ⟨hd, by
-      simp only [p, if_pos hd]; exact hmem⟩⟩)
+      simp only [p, ite_eq_left hd]; exact hmem⟩⟩)
   have hvV : v ∉ Vsub 3 1 := by
     obtain ⟨d₀, hd₀⟩ := hDne
     exact fun hmem => hvD d₀ hd₀ (hDV d₀ hd₀ hmem)

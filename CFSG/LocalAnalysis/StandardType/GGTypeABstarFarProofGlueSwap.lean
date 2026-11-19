@@ -14,7 +14,7 @@ section Swap
 variable {G : Type} [Group G] {p : ℕ} {Bs : Subgroup G} {n : ℕ} {F : Type} [Field F] [Finite F]
   {φ₁ φ₂ : SpecialLinearGroup (Fin (n + 1)) F →* G} {x y : G}
 
-theorem GGFarCtx.permAut₁_swap_fix_iff (hC : GGFarCtx p Bs φ₁ φ₂ x y) {i j : Fin n} (hij : i ≠ j)
+theorem GGFarCtx.permAut₁_swap_fix_iff (hC : GGFarCtx p Bs φ₁ φ₂ x y) {i j : Fin n} (_hij : i ≠ j)
     (b : ↥Bs) :
     hC.permAut₁ (Equiv.swap i.succ j.succ) b = b ↔ hC.lamHom i.succ j.succ b = 1 := by
   classical

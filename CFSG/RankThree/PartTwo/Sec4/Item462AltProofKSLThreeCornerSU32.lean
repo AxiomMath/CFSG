@@ -14,7 +14,7 @@ open CFSG.RankThree.PartTwo.Sec4
 theorem false_of_fixedDatumZ_su32 {K₀ : Type} [Field K₀] (hK₀ : PiField false 2 1 K₀)
     {F : Type} [Group F] (e : F ≃* slPi false 3 (2 ^ 1) K₀) (h : FixedDatumZ F) : False := by
   obtain ⟨R, P, hPR, hP2, hPnc, hRs, hRn, hZR, h9⟩ := h
-  haveI := hK₀.finite
+  have := hK₀.finite
   have hq : ModThree false (2 ^ 1) := by
     change 2 ^ 1 % 3 = 2
     norm_num

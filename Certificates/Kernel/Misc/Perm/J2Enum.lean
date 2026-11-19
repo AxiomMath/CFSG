@@ -118,10 +118,10 @@ theorem hvk (k : ℕ) (hk : k < 3) (i : ℕ) (hi : i = 1 ∨ i = 2) :
     vkArr k i = unpack 315 9 (VK k i) := by
   rcases hi with rfl | rfl
   · unfold vkArr
-    rw [if_pos rfl, hcc k hk, hv1, conj_unpack hw (pCC k hk) pV1]
+    rw [ite_eq_left rfl, hcc k hk, hv1, conj_unpack hw (pCC k hk) pV1]
     rfl
   · unfold vkArr
-    rw [if_neg (by decide), hcc k hk, hv2, conj_unpack hw (pCC k hk) pV2]
+    rw [ite_eq_right (by decide), hcc k hk, hv2, conj_unpack hw (pCC k hk) pV2]
     rfl
 
 theorem gs_size (k : ℕ) : (gensS k).size = 4 := by

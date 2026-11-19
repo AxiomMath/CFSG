@@ -98,7 +98,7 @@ theorem hdRo7DAJAux_three_dvd_card_of_row {G : Type} [Group G] [Finite G]
       have hJlab' : CFSG.Assembly.LargeEvenRecipeOmegaPlus labJ.rank (2 ^ labJ.n)
           (fun R' _ _ _ => Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* R')) := by
         rw [GGHasLabel] at hJlab
-        simpa only [LargeEvenRawDatum, hD, if_neg hJ3] using hJlab
+        simpa only [LargeEvenRawDatum, hD, ite_eq_right hJ3] using hJlab
       obtain ⟨K, hKfield, hKfin, hKcard, hKiso⟩ := hJlab'
       let : Field K := hKfield
       let : Finite K := hKfin
@@ -120,7 +120,7 @@ theorem hdRo7DAJAux_three_dvd_card_of_row {G : Type} [Group G] [Finite G]
       have hJlab' : CFSG.Assembly.LargeEvenRecipeOmegaMinus (labJ.rank - 1) (2 ^ labJ.n)
           (fun R' _ _ _ => Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* R')) := by
         rw [GGHasLabel] at hJlab
-        simpa only [LargeEvenRawDatum, htwD, if_neg hJ2, if_neg hJ3] using hJlab
+        simpa only [LargeEvenRawDatum, htwD, ite_eq_right hJ2, ite_eq_right hJ3] using hJlab
       obtain ⟨K, hKfield, hKfin, hKcard, b, c, hirr, hKiso⟩ := hJlab'
       let : Field K := hKfield
       let : Finite K := hKfin
@@ -222,7 +222,7 @@ private theorem hdRo7DAJAux_repr_unitsSMul {p : ℕ} [Fact p.Prime] {V : Type} [
     rw [map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [map_smul, hf i, smul_smul]
-  rw [hfun, map_sum, Finsupp.finset_sum_apply]
+  rw [hfun, map_sum, _root_.Finsupp.finsetSum_apply]
   have hterm : ∀ i, b.repr (((b.repr v) i * (u i : ZMod p)) • b i) j
       = ((b.repr v) i * (u i : ZMod p)) * (if i = j then 1 else 0) := by
     intro i
@@ -230,9 +230,9 @@ private theorem hdRo7DAJAux_repr_unitsSMul {p : ℕ} [Fact p.Prime] {V : Type} [
       smul_eq_mul]
   simp only [hterm]
   rw [Finset.sum_eq_single j]
-  · rw [if_pos rfl, mul_one, mul_comm]
+  · rw [ite_eq_left rfl, mul_one, mul_comm]
   · intro i _ hij
-    rw [if_neg hij, mul_zero]
+    rw [ite_eq_right hij, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ j) h
 
@@ -281,13 +281,13 @@ private theorem hdRo7DAJAux_dsp_repr_eq_zero {p : ℕ} [Fact p.Prime] (hp3 : p =
     intro i
     simp only [u, Units.val_mul, apply_ite Units.val, Units.val_neg, Units.val_one]
   have hu0 : ((u 0 : ZMod p)) = 1 := by
-    rw [huval, if_neg h0j, if_neg h0k]
+    rw [huval, ite_eq_right h0j, ite_eq_right h0k]
     norm_num
   have huj : ((u j : ZMod p)) = -1 := by
-    rw [huval, if_pos rfl, if_neg hkj']
+    rw [huval, ite_eq_left rfl, ite_eq_right hkj']
     norm_num
   have huk : ((u k : ZMod p)) = -1 := by
-    rw [huval, if_neg hkj, if_pos rfl]
+    rw [huval, ite_eq_right hkj, ite_eq_left rfl]
     norm_num
   have hu1 : ∀ i, ((u i : ZMod p)) = 1 ∨ ((u i : ZMod p)) = -1 := by
     intro i
@@ -296,7 +296,7 @@ private theorem hdRo7DAJAux_dsp_repr_eq_zero {p : ℕ} [Fact p.Prime] (hp3 : p =
     · by_cases hik : i = k
       · rw [hik]; exact Or.inr huk
       · refine Or.inl ?_
-        rw [huval, if_neg hij, if_neg hik]
+        rw [huval, ite_eq_right hij, ite_eq_right hik]
         norm_num
   have huprod : ∏ i, ((u i : ZMod p)) = 1 := by
     simp only [huval, Finset.prod_mul_distrib]

@@ -30,7 +30,7 @@ theorem BenderType.suzuki_normal_two_complement
   have hJQ : J ≤ borel (Q : Subgroup K) :=
     hJN.trans (IsStronglyEmbedded.normalizer_le hc.strong (hUQ.trans (le_borel _)) hU2 hU1)
   have hYM : Y ≤ borel (Q : Subgroup K) := hYJ.trans hJQ
-  obtain ⟨q', hq'Q, hq'⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup' hYM hY
+  obtain ⟨q', hq'Q, hq'⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup hYM hY
   have hYD : Y.map (MulAut.conj q').toMonoidHom ≤ cartan (Q : Subgroup K) t := by
     rintro _ ⟨y, hy, rfl⟩
     exact hq' y hy
@@ -51,7 +51,7 @@ theorem BenderType.suzuki_normal_two_complement
       have : y = q'⁻¹ * (q' * y * q'⁻¹) * q' := by group
       rw [this, h1]
       group
-    have hcen := hc.centralizer_cartan_eq Q.isPGroup' hy'D hy'1
+    have hcen := hc.centralizer_cartan_eq Q.isPGroup hy'D hy'1
     apply le_antisymm
     · rintro j ⟨hjc, hjJ⟩
       have hjUY : j ∈ U ⊔ Y := hJ ▸ hjJ
@@ -111,7 +111,7 @@ theorem BenderType.suzuki_normal_two_complement
       have hy₁Q : y₁ ∈ (Q : Subgroup K) := by
         have := Q.mul_mem (Q.inv_mem (hUQ hu)) hjQ
         simpa using this
-      have hy₁1 : y₁ = 1 := eq_one_of_isPGroup_two_of_odd Q.isPGroup' hY hy₁Q hy₁
+      have hy₁1 : y₁ = 1 := eq_one_of_isPGroup_two_of_odd Q.isPGroup hY hy₁Q hy₁
       rw [hy₁1, mul_one]
       exact hu
     · intro u hu

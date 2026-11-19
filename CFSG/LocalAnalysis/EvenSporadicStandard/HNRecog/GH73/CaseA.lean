@@ -25,9 +25,9 @@ theorem caseA
   have hXnt : Nontrivial X := by
     rw [← Finite.one_lt_card_iff_nontrivial, hXcard]
     omega
-  haveI := hXnt
+  have := hXnt
   obtain ⟨Q, hQnorm, hQp, hQne, hmax, hcent⟩ := exists_selfCentralizing_two_core hO hE
-  haveI : Q.Normal := hQnorm
+  have : Q.Normal := hQnorm
   have hgen := D.gen_four Q hQp
   obtain ⟨d, hd4, hQbar, hYdvd⟩ := exists_rank_card_dvd Q hQp hgen hmax hcent
   have hQtop : Q ≠ ⊤ := by
@@ -35,9 +35,9 @@ theorem caseA
     have hpg : IsPGroup 2 X := by
       have hQp' : IsPGroup 2 (⊤ : Subgroup X) := htop ▸ hQp
       exact hQp'.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent X := hpg.isNilpotent
+    have : Group.IsNilpotent X := hpg.isNilpotent
     exact Group.IsPerfect.not_isSolvable X inferInstance
-  haveI : Nontrivial (X ⧸ Q) := QuotientGroup.nontrivial_iff.mpr hQtop
+  have : Nontrivial (X ⧸ Q) := QuotientGroup.nontrivial_iff.mpr hQtop
   have hY60 : 60 ≤ Nat.card (X ⧸ Q) := perfect_sixty_le_card
   have hY4 : 4 ∣ Nat.card (X ⧸ Q) := perfect_four_dvd_card
   have hXne0 : Nat.card X ≠ 0 := by rw [hXcard]; positivity
@@ -154,7 +154,7 @@ theorem caseA
       rw [h2] at hsplit
       omega
     have hcommQ : ∀ x y : ↥Q, x * y = y * x := by
-      haveI : IsMulCommutative (↥Q ⧸ frattini (↥Q)) :=
+      have : IsMulCommutative (↥Q ⧸ frattini (↥Q)) :=
         (CFSG.GroupTheory.frattini_elementary_quotient hQp).2.1
       have hinj : Function.Injective
           (QuotientGroup.mk' (frattini (↥Q)) : ↥Q →* ↥Q ⧸ frattini (↥Q)) := by
@@ -170,11 +170,11 @@ theorem caseA
     obtain ⟨S, hQS⟩ := hQp.exists_le_sylow
     have hZ := D.card_center S
     have hS := D.card_sylow S
-    haveI : IsSimpleGroup (X ⧸ Q) :=
+    have : IsSimpleGroup (X ⧸ Q) :=
       isSimpleGroup_quotient_of_perfect Q hQab hcent S hQS hZ hS hQ16 hYdvd
     have hnonab : ∃ x y : X ⧸ Q, x * y ≠ y * x := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact Group.IsPerfect.not_isMulCommutative (X ⧸ Q) (IsMulCommutative.of_comm h)
     obtain ⟨m, hmeq⟩ := hY4
     have hfacY : (Nat.card (X ⧸ Q)).factorization 2 = 2 := by

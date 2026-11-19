@@ -107,7 +107,7 @@ private theorem rdU32_eq (b : ByteArray) {i : Nat}
     change ((i.toUSize <<< (USize.ofNat 2)) + USize.ofNat 3).toNat < b.usize.toNat
     rw [h3, ho, usize_size b hb]
     exact hi
-  simp only [rdU32, dif_pos hcut, dif_pos hg, uget_nat, ho, h1, h2, h3]
+  simp only [rdU32, dite_eq_left hcut, dite_eq_left hg, uget_nat, ho, h1, h2, h3]
 
 private theorem getElem_wrU32 (b : ByteArray) {i x j : Nat}
     (hb : b.size < 2 ^ 32) (hi : 4 * i + 3 < b.size) (hj : j < b.size) :
@@ -126,7 +126,7 @@ private theorem getElem_wrU32 (b : ByteArray) {i x j : Nat}
     change ((i.toUSize <<< (USize.ofNat 2)) + USize.ofNat 3).toNat < b.usize.toNat
     rw [h3, ho, usize_size b hb]
     exact hi
-  simp only [wrU32, dif_pos hcut, dif_pos hg, getElem_uset, h1, h2, h3, ho]
+  simp only [wrU32, dite_eq_left hcut, dite_eq_left hg, getElem_uset, h1, h2, h3, ho]
 
 theorem rdU32_wrU32_self (b : ByteArray) {i x : Nat}
     (hb : b.size < 2 ^ 32) (hi : 4 * i + 3 < b.size) (hx : x < 2 ^ 32) :
@@ -142,7 +142,7 @@ theorem rdU32_wrU32_self (b : ByteArray) {i x : Nat}
     show ¬4 * i + 3 = 4 * i + 1 by omega,
     show ¬4 * i + 2 = 4 * i + 1 by omega,
     show ¬4 * i + 3 = 4 * i + 2 by omega,
-    if_false, if_pos rfl] at h0 h1 h2 h3
+    ite_false] at h0 h1 h2 h3
   simp only [ite_true] at h0 h1 h2 h3
   rw [h0, h1, h2, h3]
   have bytes (w : UInt32) :
@@ -171,7 +171,7 @@ theorem rdU32_wrU32_other (b : ByteArray) {i j x : Nat}
     simp only [show ¬4 * i + 3 = 4 * j + k by omega,
       show ¬4 * i + 2 = 4 * j + k by omega,
       show ¬4 * i + 1 = 4 * j + k by omega,
-      show ¬4 * i = 4 * j + k by omega, if_false]
+      show ¬4 * i = 4 * j + k by omega, ite_false]
   rw [show (wrU32 b i x)[4 * j]'(by rw [size_wrU32]; omega) =
       b[4 * j]'(by omega) by simpa using hbyte 0 (by omega),
     hbyte 1 (by omega), hbyte 2 (by omega), hbyte 3 (by omega)]

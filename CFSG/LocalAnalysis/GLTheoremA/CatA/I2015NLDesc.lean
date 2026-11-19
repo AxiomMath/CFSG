@@ -149,7 +149,7 @@ theorem glaInduces_relOfAut_iff (p : ℕ) (δ : MulAut H) {R : Type} [Group R]
     exact (congr_apply_self θ (psAut p δ) _).trans h2
 
 private theorem inv_mul_apply_mem_of_zpowers {N : Subgroup H} (hN : ∀ g : MulAut H, N.map g.toMonoidHom = N)
-    (hNn : N.Normal) {δ : MulAut H} {x : H} (hx : x⁻¹ * δ x ∈ N) :
+    (_hNn : N.Normal) {δ : MulAut H} {x : H} (hx : x⁻¹ * δ x ∈ N) :
     ∀ g ∈ Subgroup.zpowers δ, x⁻¹ * g x ∈ N := by
   intro g hg
   have hmapN : ∀ (g : MulAut H) (n : H), n ∈ N → g n ∈ N := by
@@ -178,7 +178,7 @@ private theorem inv_mul_apply_mem_of_zpowers {N : Subgroup H} (hN : ∀ g : MulA
 theorem map_fixSub_ppQuot [Finite H] {p : ℕ} (hp : p.Prime) (δ : MulAut H) (hδ : δ ^ p = 1) :
     (fixSub δ).map (QuotientGroup.mk' (GLAPPrimeCore p H)) = fixSub (ppAut p δ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   ext y
   constructor
   · rintro ⟨x, hx, rfl⟩
@@ -211,7 +211,7 @@ theorem map_fixSub_ppQuot [Finite H] {p : ℕ} (hp : p.Prime) (δ : MulAut H) (h
         rw [map_mul, ← mul_assoc]
       rw [this]
       exact (GLAPPrimeCore p H).mul_mem h1 h2
-    letI act : MulAction (Subgroup.zpowers δ) (GLAPPrimeCore p H) :=
+    let act : MulAction (Subgroup.zpowers δ) (GLAPPrimeCore p H) :=
       { smul := fun g n => ⟨x⁻¹ * ((g : MulAut H) (x * (n : H))), hmem g n⟩
         one_smul := fun n => Subtype.ext (show x⁻¹ * ((1 : MulAut H) (x * (n : H))) = (n : H) by
           simp)
@@ -234,10 +234,10 @@ theorem map_fixSub_ppQuot [Finite H] {p : ℕ} (hp : p.Prime) (δ : MulAut H) (h
 theorem map_primeCoreOf_le_of_map [Finite H] {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q]
     (ψ : H →* Q) (A : Subgroup H) :
     (GLAPPrimeCoreOf p A).map ψ ≤ GLAPPrimeCoreOf p (A.map ψ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : (GLAPPrimeCore p ↥A).map (ψ.subgroupMap A) ≤ GLAPPrimeCore p ↥(A.map ψ) := by
     have hf := ψ.subgroupMap_surjective A
-    haveI : Finite ↥(A.map ψ) := Finite.of_surjective _ hf
+    have : Finite ↥(A.map ψ) := Finite.of_surjective _ hf
     exact le_sSup ⟨Subgroup.Normal.map inferInstance _ hf,
       Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ _) CFSG.pPrimeCore_coprime_card⟩
   unfold GLAPPrimeCoreOf
@@ -252,7 +252,7 @@ theorem map_primeCoreOf_le_of_map [Finite H] {p : ℕ} (hp : p.Prime) {Q : Type}
 theorem glaPComponent_map_piOf [Finite H] {p : ℕ} (hp : p.Prime) (δ : MulAut H) (hδ : δ ^ p = 1)
     {I : Subgroup H} (hI : GLAPComponent p (fixSub δ) I) :
     GLAPComponent p (fixSub (psAut p δ)) (I.map (piOf p H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : Nat.Coprime p
       (Nat.card ↥(fixSub δ ⊓ (QuotientGroup.mk' (GLAPPrimeCore p H)).ker)) := by
     rw [QuotientGroup.ker_mk']

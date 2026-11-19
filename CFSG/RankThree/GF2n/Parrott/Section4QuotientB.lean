@@ -127,6 +127,7 @@ structure QuotSetup (z z₁ : G) : Prop where
   hz₁z : z₁ ∉ Subgroup.zpowers z
   hz₁2 : orderOf z₁ = 2
 
+omit [Finite G] in
 theorem QuotSetup.hzC (hs : QuotSetup z z₁) : z ∈ Subgroup.centralizer ({z₁} : Set G) :=
   H_le_centralizer_of_mem_centerIn hs.hZ hs.hz₁ z_mem_H
 
@@ -281,6 +282,7 @@ theorem commutator_mem_centralizer {a b : G} (ha : a ∈ Subgroup.centralizer ({
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ ha hb) (Subgroup.inv_mem _ ha))
     (Subgroup.inv_mem _ hb)
 
+omit [Finite G] in
 theorem commutator_H_le_preC {K₁ : Subgroup (QuotC z₁)} (hs : QuotSetup z z₁)
     (hK₁ : K₁.index = 2) : ⁅H z, H z⁆ ≤ preC z₁ K₁ := by
   rw [Subgroup.commutator_le]
@@ -295,6 +297,7 @@ theorem commutator_H_le_preC {K₁ : Subgroup (QuotC z₁)} (hs : QuotSetup z z�
   rw [this]
   exact comm_mem_of_index_two hK₁ _ _
 
+omit [Finite G] in
 theorem z_mem_preC_of_index_two {K₁ : Subgroup (QuotC z₁)} (hs : QuotSetup z z₁)
     (hK₁ : K₁.index = 2) : z ∈ preC z₁ K₁ := by
   have h1 : z ∈ ⁅J z, J z⁆ := by
@@ -530,7 +533,7 @@ theorem preC_eq_H_inf_centralizer (hs : QuotSetup z z₁) {Ek : Subgroup (QuotC 
   constructor
   · intro hx
     refine ⟨hEH hx, Subgroup.mem_centralizer_iff.mpr (fun y hy => ?_)⟩
-    haveI : IsMulCommutative (preC z₁ Ek) := hab.1
+    have : IsMulCommutative (preC z₁ Ek) := hab.1
     exact setLike_mul_comm hy.1 hx
   · rintro ⟨hxH, hxc⟩
     have hxC := H_le_centralizer_of_mem_centerIn hs.hZ hs.hz₁ hxH
@@ -731,6 +734,7 @@ theorem orderOf_eq_two_of_mem_centerIn_J (h : Tim79a.ParrottHyp z) {e : G}
   · exact hz₁2
   · exact (exists_z1_mul h hz₁ hz₁z hz₁2).2.2
 
+omit [Finite G] in
 theorem quotH_eq_iff (hZ : centerIn (J z) = centerIn (H z)) (hz₁ : z₁ ∈ centerIn (J z))
     (x y : ↥(H z)) :
     quotH hZ hz₁ x = quotH hZ hz₁ y ↔ (x : G)⁻¹ * (y : G) ∈ Subgroup.zpowers z₁ := by

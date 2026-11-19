@@ -46,7 +46,6 @@ theorem exists_commute_of_commute_wM (hF : Nat.card F = 4) {A : Matrix (Fin 3) (
     ext i j
     fin_cases i <;> fin_cases j <;> simp [hl, hm, ha, hb, hd] <;>
       first
-        | rfl
         | linear_combination e12
         | linear_combination e22
         | linear_combination e01

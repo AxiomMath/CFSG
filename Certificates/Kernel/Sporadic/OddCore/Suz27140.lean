@@ -99,8 +99,7 @@ theorem check27140 : suzDBridgeCheck = true := by
     rw [(dWordTab_eq r).1, hid, beq_unpack (dWordTab_eq r).2 (canon_pidn hsz)]
   unfold suzDBridgeCheck
   simp only [hA, hB, hAI, hBI, hw, size_unpack, comp_inv_of_pcomp cA cAI eA,
-    comp_inv_of_pcomp cB cBI eB, beq_self_eq_true, Bool.true_and, hrel, Bool.and_eq_true,
-    true_and]
+    comp_inv_of_pcomp cB cBI eB, beq_self_eq_true, Bool.true_and, hrel]
   rw [List.all_eq_true] at hgen ⊢
   intro j hj
   have hj5 := List.mem_range.1 hj

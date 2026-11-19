@@ -26,6 +26,7 @@ private lemma c8k_card_elemAbelian {P : Type} [Group P] (N : Subgroup P)
     Nat.card_zmod, Nat.card_eq_fintype_card, Fintype.card_fin]
   norm_num
 
+omit [Finite G] in
 private lemma c8k_conj_mem_Opp (p : ℕ) {Y : Subgroup G} {y : G} (hy : y ∈ Y)
     {x : G} (hx : x ∈ Opp p Y) : y * x * y⁻¹ ∈ Opp p Y := by
   have h1 : Opp p Y ≤ (Opp p Y).comap (MulAut.conj y).toMonoidHom := by
@@ -43,6 +44,7 @@ private lemma c8k_conj_mem_Opp (p : ℕ) {Y : Subgroup G} {y : G} (hy : y ∈ Y)
   show y * x * y⁻¹ ∈ Opp p Y
   exact h2
 
+omit [Finite G] in
 private lemma c8k_Opp_subgroupOf_normal (p : ℕ) (Y : Subgroup G) :
     ((Opp p Y).subgroupOf Y).Normal := by
   refine ⟨fun x hx y => ?_⟩
@@ -53,8 +55,8 @@ theorem c8k_x_l3 {Y C : Subgroup G} (hCY : C ≤ Y) (hC3 : ¬ 3 ∣ Nat.card C) 
     LieModel (BarO3 (Opp 3 Y)) .PSL 3 2 1 := by
   classical
   obtain ⟨P, _, φ, hφs, hφk, ⟨N, hNn, hN64, hL3⟩, -⟩ := hP
-  haveI := hNn
-  haveI : Finite P := Finite.of_surjective φ hφs
+  have := hNn
+  have : Finite P := Finite.of_surjective φ hφs
   have hL3' : LieModel (P ⧸ N) .PSL 3 2 1 := hL3
   have hsimple :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hL3'
@@ -97,7 +99,7 @@ theorem c8k_x_l3 {Y C : Subgroup G} (hCY : C ≤ Y) (hC3 : ¬ 3 ∣ Nat.card C) 
     rw [hψrange]
     exact (c8k_Opp_subgroupOf_normal 3 Y).map θ hθs
   have hψrange_top : ψ.range = ⊤ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases hsimp.eq_bot_or_eq_top_of_normal ψ.range with h | h
     · exfalso
       have h3dvd : 3 ∣ Nat.card (P ⧸ N) := by rw [hLcard]; norm_num
@@ -132,11 +134,11 @@ theorem c8k_x_l3 {Y C : Subgroup G} (hCY : C ≤ Y) (hC3 : ¬ 3 ∣ Nat.card C) 
       (Subgroup.inclusion_injective hXY)]
     exact Subgroup.card_dvd_of_le hψker_le
   have hψker3 : ¬ 3 ∣ Nat.card ψ.ker := fun h => hθker3 (h.trans hψker_dvd)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcore_bot : CFSG.pPrimeCore 3 (P ⧸ N) = ⊥ := by
     rw [CFSG.pPrimeCore_eq_bot_iff]
     intro K hK hcop
-    haveI : K.Normal := hK
+    have : K.Normal := hK
     rcases hsimp.eq_bot_or_eq_top_of_normal K with h | h
     · exact h
     · exfalso
@@ -158,12 +160,12 @@ theorem c8k_l3_of_prod {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
     IsL3 (Hbar9 H) 1 := by
   classical
   obtain ⟨P, _, φ, hφs, hφk, ⟨N, hNn, hN64, hL3⟩, -⟩ := hP
-  haveI := hNn
-  haveI : Finite P := Finite.of_surjective φ hφs
+  have := hNn
+  have : Finite P := Finite.of_surjective φ hφs
   have hL3' : LieModel (P ⧸ N) .PSL 3 2 1 := hL3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
-  haveI : I.Normal := CFSG.pPrimeCore_normal
+  have : I.Normal := CFSG.pPrimeCore_normal
   let π : ↥H →* Hbar9 H := QuotientGroup.mk' I
   have hkerπ : π.ker = I := QuotientGroup.ker_mk' I
   let ρ : ↥Y →* Hbar9 H := π.comp (Subgroup.inclusion hYH)

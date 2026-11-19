@@ -39,7 +39,7 @@ theorem inCalEi_of_eOne
     unfold E3.mQuot
     rw [hrel]
     exact padicValNat.self (p := 2) (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨hτ, CFSG.ABGLocalTools.isSylowOf_iff.mpr hSyl, hnA, Or.inl hcase⟩, ?_⟩
   rw [hm]
   exact hi
@@ -60,8 +60,8 @@ theorem inCalEi_comap_and_eOne
     let J : Subgroup G := (I.comap π).map K.subtype
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.InCalEi 1 T A J ∧
       E1.EOne ↥J (A.subgroupOf J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Γ := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Γ := Finite.of_surjective π hπ
   have hAK : A ≤ K :=
     (le_sup_left.trans (E1.le_tauOf hT hAT hA)).trans (hτ.trans inf_le_right)
   let S0 : Subgroup ↥K := (T ⊓ K).subgroupOf K
@@ -186,7 +186,7 @@ theorem relative_generation_printed_of_eOne
         E1.EOne ↥I (((A.subgroupOf K).map π).subgroupOf I)}, I) = ⊤) :
     K ≤ T ⊔ ⨆ J ∈ {J : Subgroup G |
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.InCalEi 1 T A J}, J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAK : A ≤ K :=
     (le_sup_left.trans (E1.le_tauOf hT hAT hA)).trans (hτ.trans inf_le_right)
   let S0 : Subgroup ↥K := (T ⊓ K).subgroupOf K

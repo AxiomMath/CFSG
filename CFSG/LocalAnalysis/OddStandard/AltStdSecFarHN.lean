@@ -248,7 +248,7 @@ theorem exists_two_subgroup_of_hn
   set T₁ : Subgroup (secQ (secP O R)) := (P₂ : Subgroup Ch).map Ch.subtype with hT₁
   have hT₁Ch : ∀ τ ∈ T₁, τ ∈ Ch := fun τ hτ => map_subtype_le _ hτ
   have hsT : s ∈ T₁ := ⟨⟨s, hsCh⟩, hP₂ (mem_zpowers _), rfl⟩
-  have hT₁p : IsPGroup 2 T₁ := P₂.isPGroup'.map _
+  have hT₁p : IsPGroup 2 T₁ := P₂.isPGroup.map _
   have hT₁card : Nat.card T₁ = Nat.card P₂ :=
     Subgroup.card_map_of_injective Ch.subtype_injective
   have hmem : ∀ τ ∈ T₁, ∀ o ∈ Od, f1⁻¹ * (τ * (f1 * o) * τ⁻¹) ∈ Od := by

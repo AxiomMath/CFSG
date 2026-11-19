@@ -51,7 +51,7 @@ theorem eq_top_of_normal_odd_index_of_sz
     (ha : 1 ≤ a) (h : Nonempty (oTwoQuot L ≃* Sz a)) :
     ∀ N : Subgroup L, N.Normal → Odd N.index → N = ⊤ := by
   obtain ⟨e⟩ := h
-  haveI hsimple : IsSimpleGroup (oTwoQuot L) :=
+  have hsimple : IsSimpleGroup (oTwoQuot L) :=
     e.isSimpleGroup_congr.mpr
       (CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha)
   have heven : Even (Nat.card (oTwoQuot L)) := by
@@ -68,7 +68,7 @@ theorem eq_top_of_normal_odd_index_of_isL2Quot {L : Type} [Group L] [Finite L] {
     (hf : 2 ≤ f) (h : IsL2Quot f (oTwoQuot L)) :
     ∀ N : Subgroup L, N.Normal → Odd N.index → N = ⊤ := by
   obtain ⟨e⟩ := h
-  haveI hsimple : IsSimpleGroup (oTwoQuot L) :=
+  have hsimple : IsSimpleGroup (oTwoQuot L) :=
     CFSG.CGT.Timmesfeld75.isSimpleGroup_of_psl2 hf e
   have heven : Even (Nat.card (oTwoQuot L)) := by
     rw [Nat.card_congr e.toEquiv, CFSG.Walter.psl2_even_card (by omega : f ≠ 0)]
@@ -112,7 +112,7 @@ private theorem odd_index_comap {D : Type} [Group D] [Finite D]
     (K : Subgroup ↥M) (hK : K = (I.subgroupOf (Mbar ⊓ autStab P)).comap φ.toMonoidHom) :
     Odd K.index := by
   classical
-  haveI : Finite (MulAut D) := CFSG.Quasithin.H13.F431.finite_mulAut_of_finite
+  have : Finite (MulAut D) := CFSG.Quasithin.H13.F431.finite_mulAut_of_finite
   have hIle : I ≤ Mbar ⊓ autStab P := by
     rw [hI]
     exact inf_le_inf hinn le_rfl
@@ -529,11 +529,11 @@ theorem isAmalgamOfGroup_twistedF4_of_ext {G : Type} [Group G] [Finite G]
     · exact hmodel
   obtain ⟨a0, K, hKfield, hKfinite, hKchar, ha0, hfa0, hKcard, ⟨eΓ⟩⟩ :=
     CFSG.Quasithin.H13.F431.TwoF4.f4_model_data hD'
-  letI : Field K := hKfield
-  haveI : Finite K := hKfinite
+  let : Field K := hKfield
+  have : Finite K := hKfinite
   have ha0 : a0 = a := by omega
   subst a0
-  haveI : Finite D := Finite.of_equiv _ eΓ.symm.toEquiv
+  have : Finite D := Finite.of_equiv _ eΓ.symm.toEquiv
   have hZ : Subgroup.center D = ⊥ := by
     have h := Subgroup.map_center_eq eΓ
     rw [CFSG.LieType.Ree.ReeTag.large_Ree_fixed_group_center_trivial a K hKcard] at h

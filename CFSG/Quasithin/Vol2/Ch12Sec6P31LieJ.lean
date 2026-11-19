@@ -33,6 +33,7 @@ section Transport
 
 variable {Q : Type} [Group Q] [Finite Q] (X : Subgroup Q)
 
+omit [Finite Q] in
 theorem three_rank_transport
     (h : ∃ A B : Subgroup ↥X, Nat.card A = 3 ∧ Nat.card B = 3 ∧
       A ≤ Subgroup.centralizer (B : Set ↥X) ∧ A ⊓ B = ⊥) :
@@ -54,6 +55,7 @@ theorem three_rank_transport
     exact hab
   · rw [← Subgroup.map_inf_eq A B X.subtype X.subtype_injective, hinf, Subgroup.map_bot]
 
+omit [Finite Q] in
 theorem card_borel_transport (m : ℕ)
     (h : ∀ T : Subgroup ↥X, IsSylowTwoOf T ⊤ →
       Nat.card ↥(Subgroup.normalizer (T : Set ↥X)) = m) :
@@ -65,6 +67,7 @@ theorem card_borel_transport (m : ℕ)
   exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left :
     X ⊓ Subgroup.normalizer (S : Set Q) ≤ X)).symm.toEquiv).trans hT
 
+omit [Finite Q] in
 theorem overgroup_transport (d : ℕ)
     (h : ∀ T N W : Subgroup ↥X, IsSylowTwoOf T ⊤ → Subgroup.normalizer (T : Set ↥X) ≤ N →
       N ≠ Subgroup.normalizer (T : Set ↥X) → N ≠ ⊤ → W ≤ N → (W.subgroupOf N).Normal →

@@ -54,7 +54,7 @@ theorem comm_mem_core_symm {p : ℕ} {X : Subgroup G} {x y : G}
 
 theorem le_centMod_comm {p : ℕ} {X H J : Subgroup G} (hJX : J ≤ X) (h : H ≤ centMod p X J) :
     J ≤ centMod p X H :=
-  fun y hy => ⟨hJX hy, fun x hx => comm_mem_core_symm ((h hx).2 y hy)⟩
+  fun y hy => ⟨hJX hy, fun _x hx => comm_mem_core_symm ((h hx).2 y hy)⟩
 
 theorem core_le_centMod (p : ℕ) {X J : Subgroup G} (hJX : J ≤ X) :
     GLAPPrimeCoreOf p X ≤ centMod p X J := by
@@ -215,6 +215,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.HardMathSupport.Solomon.LocalBalance (barAut_mk)
 
+omit [Finite G] in
 theorem cg2_eq_inf (e a : G) : Cg2 e a = Cg a ⊓ Cg e := by
   ext x
   simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_insert_iff,
@@ -227,7 +228,7 @@ theorem ke_facts (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemma119Statemen
     GLAPComponent 5 (K ⊓ Cg e) (GLAPLayer 5 (K ⊓ Cg e)) ∧
       IsAltType 5 (barOf 5 (GLAPLayer 5 (K ⊓ Cg e))) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨-, hN, hfaith, hinn⟩ := h119 h
@@ -269,7 +270,7 @@ theorem ke_facts (hI1421 : Input14_21) (hF : Fi22Facts) (h119 : Lemma119Statemen
   have hkbo : orderOf kb = 5 := orderOf_eq_prime hkb5 hkb1
   obtain ⟨ψ⟩ := hI1421 (barOf 5 K) hfi kb hkbo
   set Lb : Subgroup (↥K ⧸ O') := GLAPLayer 5 (Subgroup.centralizer ({kb} : Set (↥K ⧸ O'))) with hLb
-  haveI hLbs : IsSimpleGroup ↥Lb := ψ.isSimpleGroup
+  have hLbs : IsSimpleGroup ↥Lb := ψ.isSimpleGroup
   have hLc : Nat.card ↥Lb = 60 := by
     rw [Nat.card_congr ψ.toEquiv]
     exact CFSG.GH74.GLS.LU.Local.Five.nat_card_alternatingGroup_five
@@ -414,10 +415,12 @@ section IeStar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_iSup₂ {ι : Sort*} {κ : ι → Sort*} (g : G) (f : ∀ i, κ i → Subgroup G) :
     GLBConj g (⨆ i, ⨆ j, f i j) = ⨆ i, ⨆ j, GLBConj g (f i j) := by
   simp only [GLBConj, Subgroup.map_iSup]
 
+omit [Finite G] in
 theorem ieStarOf_eq_iSup (K : Subgroup G) {e a : G} (hae : a ∈ Cg e) {J₁ : Subgroup G}
     (hI : Claims1110b.IeOf K e = ⨆ g ∈ Subgroup.zpowers a, GLBConj g J₁) :
     Claims1110c.IeStarOf K e = ⨆ c ∈ Cg e, GLBConj c J₁ := by
@@ -433,11 +436,13 @@ theorem ieStarOf_eq_iSup (K : Subgroup G) {e a : G} (hae : a ∈ Cg e) {J₁ : S
       exact gLBConj_mono c (le_iSup₂_of_le 1 (Subgroup.one_mem _) (le_of_eq (gLBConj_one J₁).symm))
     exact h1.trans (le_iSup₂_of_le (f := fun g (_ : g ∈ Cg e) => GLBConj g (Claims1110b.IeOf K e)) c hc le_rfl)
 
+omit [Finite G] in
 theorem glaPComponent_gLBConj_cg {p : ℕ} {e c : G} (hc : c ∈ Cg e) {J : Subgroup G}
     (hJ : GLAPComponent p (Cg e) J) : GLAPComponent p (Cg e) (GLBConj c J) := by
   have h := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_gLBConj hJ c
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hc)] at h
 
+omit [Finite G] in
 theorem center_gLBConj_eq_bot {p : ℕ} {J : Subgroup G} (c : G) (hZ : Subgroup.center (barOf p J) = ⊥) :
     Subgroup.center (barOf p (GLBConj c J)) = ⊥ := by
   have h := Subgroup.map_center_eq (CFSG.LocalAnalysis.GLTheoremB.conjQuotEquiv p c J)
@@ -451,7 +456,7 @@ theorem eq_one_of_mem_ieStar {K : Subgroup G} {e : G} {J₁ : Subgroup G}
     (hx : ∀ y ∈ Claims1110c.IeStarOf K e, x * y * x⁻¹ * y⁻¹ ∈ GLAPPrimeCoreOf 5 (Cg e)) {k : ℕ}
     (hk : x ^ (5 ^ k) = 1) : x = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set 𝒥 : Finset (Subgroup G) :=
     (Set.toFinite {J : Subgroup G | ∃ c ∈ Cg e, J = GLBConj c J₁}).toFinset with h𝒥
   have hmem : ∀ J, J ∈ 𝒥 ↔ ∃ c ∈ Cg e, J = GLBConj c J₁ := fun J => by
@@ -500,6 +505,7 @@ theorem isSylowIn_inf' {p : ℕ} [Fact p.Prime] {X O R : Subgroup G} (hR : IsSyl
     exact Subgroup.card_le_of_le h1
   exact (Subgroup.eq_of_le_of_card_ge hle h2).symm
 
+omit [Finite G] in
 theorem isSylowIn_of_top {p : ℕ} {X R : Subgroup G} (hR : IsSylowIn p ⊤ R) (hRX : R ≤ X) :
     IsSylowIn p X R :=
   ⟨hRX, hR.2.1, fun R' _ hR'p hle => hR.2.2 R' le_top hR'p hle⟩
@@ -534,6 +540,7 @@ theorem prime_dvd_card_of_glaPComponent {p : ℕ} (hp : p.Prime) {X J : Subgroup
   obtain ⟨hjX', hj'⟩ := (mem_gLAPPrimeCoreOf_iff p X j).1 (hJO (Subgroup.mem_subgroupOf.1 hj))
   exact hj'
 
+omit [Finite G] in
 theorem exists_pow_eq_one_of_isPGroup {p : ℕ} {R : Subgroup G} (hR : IsPGroup p ↥R) {x : G}
     (hx : x ∈ R) : ∃ k : ℕ, x ^ (p ^ k) = 1 := by
   obtain ⟨k, hk⟩ := hR ⟨x, hx⟩
@@ -565,7 +572,7 @@ theorem iSup_conj_le_normalizer {p : ℕ} (hp : p.Prime) {e : G} {J₁ : Subgrou
 theorem eq_one_of_mem_inf_conj {e : G} {J₁ J' : Subgroup G} (hJ₁ : GLAPComponent 5 (Cg e) J₁)
     (hJ' : GLAPComponent 5 (Cg e) J') (hne : J' ≠ J₁) (hZ : Subgroup.center (barOf 5 J₁) = ⊥)
     {x : G} (hx1 : x ∈ J₁) (hx2 : x ∈ J') {k : ℕ} (hk : x ^ (5 ^ k) = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxc := le_centMod_of_ne (by norm_num) hJ₁ hJ' hne hx2
   have hxO : x ∈ GLAPPrimeCoreOf 5 J₁ := mem_core_of_center_eq_bot hZ hx1 fun y hy =>
     core_inf_le hJ₁.1 (Subgroup.mem_inf.2 ⟨hxc.2 y hy,
@@ -578,7 +585,7 @@ theorem conj_eq_of_isCyclic {K : Subgroup G} {e : G} {J₁ : Subgroup G}
     (hR : IsSylowIn 5 (Cg e) R) (hcyc : IsCyclic ↥(R ⊓ Claims1110c.IeStarOf K e)) :
     ∀ c ∈ Cg e, GLBConj c J₁ = J₁ := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   intro c hc
   by_contra hne
   set I := Claims1110c.IeStarOf K e with hIdef
@@ -653,7 +660,7 @@ theorem conj_eq_of_isCyclic {K : Subgroup G} {e : G} {J₁ : Subgroup G}
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
     exact ((Commute.zpow_left (show Commute x₂ x₁ from hcomm) j)).eq
   set T' : Subgroup ↥(R ⊓ I) := T.subgroupOf (R ⊓ I) with hT'
-  haveI : IsCyclic ↥(R ⊓ I) := hcyc
+  have : IsCyclic ↥(R ⊓ I) := hcyc
   have hT'card : Nat.card ↥T' = Nat.card ↥T :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTW).toEquiv
   have h5 := Claims1110b.card_le_of_isCyclic_of_pow (T := T') inferInstance (fun t ht => Subtype.ext
@@ -661,6 +668,7 @@ theorem conj_eq_of_isCyclic {K : Subgroup G} {e : G} {J₁ : Subgroup G}
   rw [hT'card, hcard] at h5
   norm_num at h5
 
+omit [Finite G] in
 theorem comm_mem_core_of_barAut_eq_one {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (h1 : barAut p L ⟨g, hg⟩ = 1) :
     ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ GLAPPrimeCoreOf p L := by
@@ -668,6 +676,7 @@ theorem comm_mem_core_of_barAut_eq_one {p : ℕ} {L : Subgroup G} {g : G}
     (Claims1110.mem_centBar_iff'.2 ⟨trivial, hg, h1⟩)
   exact h
 
+omit [Finite G] in
 theorem barAut_eq_one_of_comm_mem_core {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G))
     (h : ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ GLAPPrimeCoreOf p L) : barAut p L ⟨g, hg⟩ = 1 := by
@@ -695,7 +704,7 @@ theorem card_le_of_single {K : Subgroup G} {e : G} {J₁ : Subgroup G}
     (hF5 : ∀ x ∈ F, x ^ 5 ∈ (R ⊓ Claims1110c.IeStarOf K e) ⊔ Claims1110c.CRIeStar R K e) :
     Nat.card ↥F ≤ 5 * Nat.card ↥(F ⊓ ((R ⊓ Claims1110c.IeStarOf K e) ⊔ Claims1110c.CRIeStar R K e)) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   set I := Claims1110c.IeStarOf K e with hIdef
   set W := R ⊓ I with hW
   set V := Claims1110c.CRIeStar R K e with hV
@@ -898,7 +907,7 @@ theorem mem_innerAut_of_pow_five {Y : Type} [Group Y] [Finite Y] (hY : IsAltType
   have hI : Nat.card (innerAut Y) = 60 := by
     rw [← hYc]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
-  haveI := innerAut_normal' Y
+  have := innerAut_normal' Y
   have hidx : (innerAut Y).index = 2 := by
     have h := Subgroup.card_mul_index (innerAut Y)
     rw [hI, hA] at h
@@ -922,7 +931,7 @@ theorem exists_mem_inf_of_mem_inner {J R : Subgroup G} (hZ : Subgroup.center (ba
     ∃ t, ∃ ht : t ∈ R ⊓ J,
       barAut 5 J ⟨x, hxN⟩ = barAut 5 J ⟨t, Subgroup.le_normalizer (Subgroup.mem_inf.1 ht).2⟩ := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   set N : Subgroup G := R ⊓ Subgroup.normalizer (J : Set G) with hNdef
   set φ : ↥N →* MulAut (barOf 5 J) := (barAut 5 J).comp (Subgroup.inclusion inf_le_right) with hφ
   have hφapp : ∀ (r : G) (hr : r ∈ N), φ ⟨r, hr⟩ = barAut 5 J ⟨r, (Subgroup.mem_inf.1 hr).2⟩ :=
@@ -992,6 +1001,7 @@ theorem exists_mem_inf_of_mem_inner {J R : Subgroup G} (hZ : Subgroup.center (ba
   rw [← hq]
   exact (Claims1110.barAut_of_mem htJ).symm
 
+omit [Finite G] in
 theorem mem_centMod_sup {p : ℕ} {X A B : Subgroup G} (hAX : A ≤ X) (hBX : B ≤ X) {c : G}
     (hA : c ∈ centMod p X A) (hB : c ∈ centMod p X B) : c ∈ centMod p X (A ⊔ B) := by
   have h1 : Subgroup.closure ({c} : Set G) ≤ centMod p X A :=
@@ -1117,7 +1127,7 @@ theorem card_le_of_cycled {K : Subgroup G} {e a : G} {J₁ : Subgroup G}
     Nat.card ↥X ≤ 5 * Nat.card ↥((R ⊓ Claims1110c.IeStarOf K e) ⊔ Claims1110c.CRIeStar R K e) := by
   classical
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   set I := Claims1110c.IeStarOf K e with hIdef
   set W := R ⊓ I with hW
   set V := Claims1110c.CRIeStar R K e with hV
@@ -1193,7 +1203,7 @@ theorem card_le_of_cycled {K : Subgroup G} {e a : G} {J₁ : Subgroup G}
     have hgx : g * x⁻¹ ∈ Cg e := (Cg e).mul_mem (hza hg) ((Cg e).inv_mem (hR.1 (hXR hx)))
     obtain ⟨g', hg', hgg'⟩ := hconj _ hgx
     exact ⟨g', hg', hgg'⟩
-  letI := conjActComp X 𝒮 h𝒮cl
+  let := conjActComp X 𝒮 h𝒮cl
   set ρ := MulAction.toPermHom ↥X ↥𝒮 with hρ
   have hXp : IsPGroup 5 ↥X := hR.2.1.to_le hXR
   have hρc : Nat.card ρ.range ≤ 5 := card_range_le_of_isPGroup hXp ρ hcard𝒮

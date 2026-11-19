@@ -126,8 +126,8 @@ theorem res3L125_rows_McL :
 
 theorem res3L125_isPGroup_two_outer_McL :
     IsPGroup 2 (Outer Blueprint.NativeSporadic.McL) := by
-  haveI : Finite Blueprint.NativeSporadic.McL := CFSG.Sporadic.McL.fam_mcl_simplicity.1
-  haveI : Finite (MulAut Blueprint.NativeSporadic.McL) := MulEquiv.finite_left
+  have : Finite Blueprint.NativeSporadic.McL := CFSG.Sporadic.McL.fam_mcl_simplicity.1
+  have : Finite (MulAut Blueprint.NativeSporadic.McL) := MulEquiv.finite_left
   exact res3L125_isPGroup_two_outer_of_card_le_two
     (outer_card_le_of_equiv CFSG.Sporadic.SmallOddCore.mcl_outer_card_le mclPermEquiv)
 
@@ -143,7 +143,7 @@ theorem res3L125_three_mul_card_center_lt_McL
 theorem res3NoDatumMcL_holds :
     Res3NoDatumMcL := by
   rintro J _ _ _ hq ⟨e⟩ c g V U hd
-  haveI : Finite Blueprint.NativeSporadic.McL := Finite.of_equiv _ e.toEquiv
+  have : Finite Blueprint.NativeSporadic.McL := Finite.of_equiv _ e.toEquiv
   refine @res3L125_false_of_rows J _ _ hq Blueprint.NativeSporadic.McL
     (inferInstance : Group Blueprint.NativeSporadic.McL) this e
     res3L125_isPGroup_two_outer_McL ?_ c g V U hd

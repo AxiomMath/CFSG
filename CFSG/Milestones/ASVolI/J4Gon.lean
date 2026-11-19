@@ -92,13 +92,13 @@ variable {G : Type} [Group G]
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_card_zpowers_five {t : G} (h5 : t ^ 5 = 1) (h1 : t ≠ 1) :
     Nat.card (Subgroup.zpowers t) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Nat.card_zpowers, orderOf_eq_prime h5 h1]
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_inf_eq_bot {X Y : Subgroup G} (hX : Nat.card X = 5) (hY : Nat.card Y = 5)
     (hne : X ≠ Y) : X ⊓ Y = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY]; norm_num)
   have hd : Nat.card (X ⊓ Y : Subgroup G) ∣ 5 := by
@@ -135,7 +135,7 @@ theorem burnsideJ49B_comm_zpowers_iff {a b : G} :
     exact ((Commute.zpow_left (show Commute b a from h.symm) n)).eq
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
-theorem burnsideJ49B_mem_normalizer_zpowers {w x : G} [Finite G] (hx5 : x ^ 5 = 1)
+theorem burnsideJ49B_mem_normalizer_zpowers {w x : G} [Finite G] (_hx5 : x ^ 5 = 1)
     (h : w * x * w⁻¹ = x ∨ w * x * w⁻¹ = x ^ 4) :
     w ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
   refine CFSG.ASVolI.RuChoice.mem_normalizer fun y hy => ?_
@@ -311,7 +311,7 @@ theorem burnsideJ49B_X_inj (hC : Cfg t z y u i1 i2 r s) {k j : ℕ} (hk : k < 12
     intro i j hi hj hij he
     have hmem : t j ∈ Subgroup.zpowers (t i) := he ▸ Subgroup.mem_zpowers _
     obtain ⟨n, hn⟩ := CFSG.Quasithin.RuType.exists_pow_of_mem_zpowers hmem
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have ho : orderOf (t i) = 5 := orderOf_eq_prime (hC.x_pow i hi) (hC.x_ne i hi)
     have hn' : t i ^ (n % 5) = t j := by
       rw [← hn, ← ho, pow_mod_orderOf]
@@ -703,6 +703,7 @@ section Dist
 variable {G : Type} [Group G] [Finite G]
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_comm_card_five {X : Subgroup G} (h : Nat.card X = 5) :
     ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := by
   obtain ⟨x, -, -, -, hx⟩ := CFSG.Quasithin.RuType.exists_gen_of_card_five h
@@ -712,9 +713,10 @@ theorem burnsideJ49B_comm_card_five {X : Subgroup G} (h : Nat.card X = 5) :
   exact ((Commute.refl x).pow_pow m n).eq
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_card_125 {N P : Subgroup G} (hNP : N ≤ P) (hP : Nat.card P = 125)
     (h5 : 5 ∣ Nat.card N) (hnab : ∃ a ∈ N, ∃ b ∈ N, a * b ≠ b * a) : Nat.card N = 125 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : Nat.card N ∣ 5 ^ 3 := by
     have := Subgroup.card_dvd_of_le hNP
     rw [hP] at this
@@ -727,7 +729,7 @@ theorem burnsideJ49B_card_125 {N P : Subgroup G} (hNP : N ≤ P) (hP : Nat.card 
     have hN5 : Nat.card N = 5 := by rw [hjN]; norm_num
     exact hab (burnsideJ49B_comm_card_five hN5 a ha b hb)
   · exfalso
-    haveI : IsPGroup 5 N := IsPGroup.of_card (n := 2) hjN
+    have : IsPGroup 5 N := IsPGroup.of_card (n := 2) hjN
     have := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) hjN
     exact hab (congrArg Subtype.val (this.is_comm.comm (⟨a, ha⟩ : ↥N) ⟨b, hb⟩))
   · rw [hjN]; norm_num
@@ -744,6 +746,7 @@ variable {G : Type} [Group G] [Finite G] {t : ℕ → G} {z y u i1 i2 r s : G}
 include hC hLS hzu hzuz
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_LS_at {k : ℕ} (hk : k < 12) :
     burnsideJ48_LS z (labG z u k) (Subgroup.zpowers (t k)) := by
   refine hLS (labG z u k) _ (burnsideJ49B_isConj_lab hzu hzuz k)
@@ -753,6 +756,7 @@ theorem burnsideJ49B_LS_at {k : ℕ} (hk : k < 12) :
   exact (burnsideJ49B_comm_zpowers (hC.x_cent k hk) hx).symm
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_sq_P {m : ℕ} (hm : m < 12) :
     IsPOnePlusTwoGroup 5 ↥(Subgroup.zpowers (t ((m + 1) % 12)) ⊔
       Subgroup.zpowers (t ((m + 11) % 12))) := by
@@ -800,6 +804,7 @@ variable {G : Type} [Group G] [Finite G] {t : ℕ → G} {z y u i1 i2 r s : G}
 include hC hLS hzu hzuz hnbr hB5
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] hC hLS hzu hzuz hnbr hB5 in
 theorem burnsideJ49B_cgon_X {Y : Subgroup G} (hY : Y ∈ CgonRu B5 z u) : Y ∈ EInv5Ru z u := by
   obtain ⟨-, hX, -⟩ := hY
   exact hX
@@ -823,14 +828,14 @@ theorem burnsideJ49B_dist2 (B1 B2 : ↥(CgonRu B5 z u))
     simp at hd
   have n1 : (B1 : Subgroup G) = Subgroup.zpowers (t ((m + 1) % 12)) ∨
       (B1 : Subgroup G) = Subgroup.zpowers (t ((m + 11) % 12)) := by
-    refine burnsideJ49B_nbrs hC hLS hzu hzuz hnbr hm (burnsideJ49B_cgon_X hC hLS hzu hzuz hnbr hB5 B1.2) ?_ ?_
+    refine burnsideJ49B_nbrs hC hLS hzu hzuz hnbr hm (burnsideJ49B_cgon_X B1.2) ?_ ?_
     · intro h
       exact h1.1 (Subtype.ext (h.trans hMeq.symm))
     · rw [← hMeq, Subgroup.commutator_comm]
       exact h1.2
   have n2 : (B2 : Subgroup G) = Subgroup.zpowers (t ((m + 1) % 12)) ∨
       (B2 : Subgroup G) = Subgroup.zpowers (t ((m + 11) % 12)) := by
-    refine burnsideJ49B_nbrs hC hLS hzu hzuz hnbr hm (burnsideJ49B_cgon_X hC hLS hzu hzuz hnbr hB5 B2.2) ?_ ?_
+    refine burnsideJ49B_nbrs hC hLS hzu hzuz hnbr hm (burnsideJ49B_cgon_X B2.2) ?_ ?_
     · intro h
       exact h2.1 (Subtype.ext (hMeq.trans h.symm))
     · rw [← hMeq]
@@ -1108,7 +1113,7 @@ theorem burnsideJ49B_inv_in_sup {a b ℓ : G} (ha5 : a ^ 5 = 1) (ha1 : a ≠ 1) 
     (hℓY : ℓ ∈ Subgroup.normalizer (Y : Set G))
     (hYle : Y ≤ Subgroup.zpowers a ⊔ Subgroup.zpowers b) :
     Y = Subgroup.zpowers a ∨ Y = Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hA5 : Nat.card (Subgroup.zpowers a) = 5 := burnsideJ49B_card_zpowers_five ha5 ha1
   have hB5 : Nat.card (Subgroup.zpowers b) = 5 := burnsideJ49B_card_zpowers_five hb5 hb1
   have hoa : orderOf a = 5 := orderOf_eq_prime ha5 ha1
@@ -1225,7 +1230,7 @@ theorem burnsideJ49B_gen_pres {n : G}
     · refine burnsideJ49B_cgon_conj hnE hB1 ?_ hB
       have hB1' := (Set.ext_iff.1 (burnsideJ49B_cgon_eq hC hLS hzu hzuz hnbr hB5) B1).1 hB1
       obtain ⟨j, hj, rfl⟩ := hB1'
-      have hY := burnsideJ49B_conj_X hnE (burnsideJ49B_cgon_X hC hLS hzu hzuz hnbr hB5 hB1)
+      have hY := burnsideJ49B_conj_X hnE (burnsideJ49B_cgon_X hB1)
       have hle : CFSG.conjugate (Subgroup.zpowers (t j)) n ≤
           Subgroup.zpowers (t j) ⊔ B2 := by
         have := CFSG.ASVolI.RuChoice.fx_conjugate_eq_self hn12
@@ -1291,9 +1296,10 @@ section RS
 variable {G : Type} [Group G] [Finite G]
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_zpowers_pow {x : G} (hx5 : x ^ 5 = 1) (hx1 : x ≠ 1) {m : ℕ} (hm : m < 4) :
     Subgroup.zpowers (x ^ (m + 1)) = Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hK : Nat.card (Subgroup.zpowers x) = 5 := burnsideJ49B_card_zpowers_five hx5 hx1
   have hmem : x ^ (m + 1) ∈ Subgroup.zpowers x := pow_mem (Subgroup.mem_zpowers x) _
   have h5 : (x ^ (m + 1)) ^ 5 = 1 := by rw [← pow_mul, mul_comm, pow_mul, hx5, one_pow]
@@ -1303,6 +1309,7 @@ theorem burnsideJ49B_zpowers_pow {x : G} (hx5 : x ^ 5 = 1) (hx1 : x ≠ 1) {m : 
   exact CFSG.Quasithin.RuType.zpowers_eq_of_card_five hK hmem h5 h1
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_conj_zpowers_of {x y g c : G} (hy5 : y ^ 5 = 1) (hy1 : y ≠ 1)
     (h : x * g = g * c) {m : ℕ} (hm : m < 4) (hc : c = y ^ (m + 1)) :
     CFSG.conjugate (Subgroup.zpowers x) g = Subgroup.zpowers y := by
@@ -1315,6 +1322,7 @@ theorem burnsideJ49B_conj_zpowers_of {x y g c : G} (hy5 : y ^ 5 = 1) (hy1 : y �
   exact burnsideJ49B_zpowers_pow hy5 hy1 hm
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_mem_normalizer_of_conj_eq {A : Subgroup G} {g : G}
     (h : CFSG.conjugate A g = A) : g ∈ Subgroup.normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1331,6 +1339,7 @@ variable {t : ℕ → G} {z y u i1 i2 r s : G} (hC : CFSG.Sporadic.RuSchreier.J4
 include hC
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_conj_r {k : ℕ} (hk : k < 12) :
     CFSG.conjugate (Subgroup.zpowers (t k)) r = Subgroup.zpowers (t ((12 - k) % 12)) := by
   obtain ⟨m, hm, e⟩ := hC.r_x k hk
@@ -1338,6 +1347,7 @@ theorem burnsideJ49B_conj_r {k : ℕ} (hk : k < 12) :
   exact burnsideJ49B_conj_zpowers_of (hC.x_pow _ hj) (hC.x_ne _ hj) e hm rfl
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_conj_s {k : ℕ} (hk : k < 12) :
     CFSG.conjugate (Subgroup.zpowers (t k)) s = Subgroup.zpowers (t ((13 - k) % 12)) := by
   obtain ⟨m, hm, e⟩ := hC.s_x k hk
@@ -1345,6 +1355,7 @@ theorem burnsideJ49B_conj_s {k : ℕ} (hk : k < 12) :
   exact burnsideJ49B_conj_zpowers_of (hC.x_pow _ hj) (hC.x_ne _ hj) e hm rfl
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit hC in
 theorem burnsideJ49B_norm_I {g : G}
     (h1 : ∃ p < 4, ∃ q < 4, i1 * g = g * (i1 ^ p * i2 ^ q))
     (h2 : ∃ p < 4, ∃ q < 4, i2 * g = g * (i1 ^ p * i2 ^ q)) :
@@ -1394,12 +1405,12 @@ theorem burnsideJ49B_norm_I {g : G}
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_r_normI :
     r ∈ Subgroup.normalizer (Subgroup.closure ({i1, i2} : Set G) : Set G) :=
-  burnsideJ49B_norm_I hC hC.r_i1 hC.r_i2
+  burnsideJ49B_norm_I hC.r_i1 hC.r_i2
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_s_normI :
     s ∈ Subgroup.normalizer (Subgroup.closure ({i1, i2} : Set G) : Set G) :=
-  burnsideJ49B_norm_I hC hC.s_i1 hC.s_i2
+  burnsideJ49B_norm_I hC.s_i1 hC.s_i2
 
 end RS
 
@@ -1492,6 +1503,7 @@ variable {G : Type} [Group G] [Finite G] {t : ℕ → G} {z y u i1 i2 r s : G}
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 include hC in
+omit [Finite G] in
 theorem burnsideJ49B_rot_one {k : ℕ} (hk : k < 12) :
     CFSG.conjugate (Subgroup.zpowers (t k)) (r * s) = Subgroup.zpowers (t ((k + 1) % 12)) := by
   rw [← CFSG.ASVolI.RuChoice.fx_conjugate_conjugate, burnsideJ49B_conj_r hC hk,
@@ -1501,6 +1513,7 @@ theorem burnsideJ49B_rot_one {k : ℕ} (hk : k < 12) :
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 include hC in
+omit [Finite G] in
 theorem burnsideJ49B_rot_pow (c : ℕ) {k : ℕ} (hk : k < 12) :
     CFSG.conjugate (Subgroup.zpowers (t k)) ((r * s) ^ c) =
       Subgroup.zpowers (t ((k + c) % 12)) := by
@@ -1514,6 +1527,7 @@ theorem burnsideJ49B_rot_pow (c : ℕ) {k : ℕ} (hk : k < 12) :
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 include hC in
+omit [Finite G] in
 theorem burnsideJ49B_refl_pow (c : ℕ) {k : ℕ} (hk : k < 12) :
     CFSG.conjugate (Subgroup.zpowers (t k)) (r * (r * s) ^ c) =
       Subgroup.zpowers (t ((12 - k + c) % 12)) := by
@@ -1584,6 +1598,7 @@ variable {G : Type} [Group G] [Finite G] {t : ℕ → G} {z y u i1 i2 r s : G}
 include hC
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_cent_inv_false {k : ℕ} (hk : k < 12) {e : G} (he2 : e * e = 1)
     (hc : e * t k = t k * e) (hi : e * t k * e = t k ^ 4) : False := by
   have h1 : e * t k * e = t k := by
@@ -1602,6 +1617,7 @@ theorem burnsideJ49B_cent_inv_false {k : ℕ} (hk : k < 12) {e : G} (he2 : e * e
   exact hC.x_ne k hk this
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_cent_label {k : ℕ} (hk : k < 12) {j : ℕ}
     (h : labG z u j * t k = t k * labG z u j) : labG z u j = labG z u k := by
   rcases burnsideJ49B_lab_three z u j k with e | e | e
@@ -1616,6 +1632,7 @@ theorem burnsideJ49B_cent_label {k : ℕ} (hk : k < 12) {j : ℕ}
     exact burnsideJ49B_cent_inv_false hC hk (burnsideJ49B_lab_sq hC _) h hi
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_I_inv_lab {e : G} (he : e ∈ Subgroup.closure ({i1, i2} : Set G))
     (he2 : e * e = 1) (he1 : e ≠ 1) : ∃ j, e = labG z u j := by
   rcases burnsideJ49B_I_inv hC he he2 with h | h | h | h
@@ -1625,6 +1642,7 @@ theorem burnsideJ49B_I_inv_lab {e : G} (he : e ∈ Subgroup.closure ({i1, i2} : 
   · exact ⟨2, by rw [h]; simp [labG]⟩
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_lab_mem_I (j : ℕ) : labG z u j ∈ Subgroup.closure ({i1, i2} : Set G) := by
   rcases burnsideJ49B_lab_cases z u j with ⟨h, -, -⟩ | ⟨h, -, -⟩ | ⟨h, -, -⟩ <;> rw [h]
   · exact burnsideJ49B_z_mem_I hC
@@ -1632,6 +1650,7 @@ theorem burnsideJ49B_lab_mem_I (j : ℕ) : labG z u j ∈ Subgroup.closure ({i1,
   · exact mul_mem (burnsideJ49B_u_mem_I hC) (burnsideJ49B_z_mem_I hC)
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_lab_ne_one (j : ℕ) : labG z u j ≠ 1 := by
   rcases burnsideJ49B_lab_cases z u j with ⟨h, -, -⟩ | ⟨h, -, -⟩ | ⟨h, -, -⟩ <;> rw [h]
   · exact hC.z_ne
@@ -1639,6 +1658,7 @@ theorem burnsideJ49B_lab_ne_one (j : ℕ) : labG z u j ≠ 1 := by
   · exact burnsideJ49B_uz_ne_one hC
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_fix_label {w : G}
     (hwI : w ∈ Subgroup.normalizer (Subgroup.closure ({i1, i2} : Set G) : Set G)) {k : ℕ}
     (hk : k < 12) (hwk : w ∈ Subgroup.normalizer (Subgroup.zpowers (t k) : Set G)) :
@@ -1976,6 +1996,7 @@ theorem burnsideJ49B_abelian16_unique {X : Type} [Group X] (ψ : X ≃* Wreathed
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem burnsideJ49B_abelian16_in {S : Subgroup A} (hS : Nonempty (↥S ≃* WreathedTwoGroup 2))
     {I I' : Subgroup A} (hI : I ≤ S) (hI' : I' ≤ S) (h1 : ∀ a ∈ I, ∀ b ∈ I, a * b = b * a)
     (h2 : ∀ a ∈ I', ∀ b ∈ I', a * b = b * a) (c1 : Nat.card I = 16) (c2 : Nat.card I' = 16) :
@@ -2001,6 +2022,7 @@ variable {A : Type} [Group A] [Finite A] {N R : Subgroup A}
   (hN : ¬ 64 ∣ Nat.card N)
 include hR hRc hN
 
+omit [Finite A] hR hRc in
 theorem burnsideJ49B_relIndex_odd {S : Subgroup A} (hS : S ≤ N) (hSc : Nat.card S = 32) :
     ¬ 2 ∣ S.relIndex N := by
   have h := CFSG.Quasithin.RuType.relIndex_mul_card_of_le hS
@@ -2014,7 +2036,7 @@ theorem burnsideJ49B_relIndex_odd {S : Subgroup A} (hS : S ≤ N) (hSc : Nat.car
 
 theorem burnsideJ49B_exists_S32 {I : Subgroup A} (hI : I ≤ N) (hIc : Nat.card I = 16) :
     ∃ S : Subgroup A, S ≤ N ∧ I ≤ S ∧ Nat.card S = 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI2 : IsPGroup 2 (I.subgroupOf N) :=
     (IsPGroup.of_card (n := 4) (by rw [hIc]; norm_num)).of_equiv
       (Subgroup.subgroupOfEquivOfLe hI).symm
@@ -2042,10 +2064,10 @@ theorem burnsideJ49B_exists_S32 {I : Subgroup A} (hI : I ≤ N) (hIc : Nat.card 
 
 theorem burnsideJ49B_S32_conj {S : Subgroup A} (hS : S ≤ N) (hSc : Nat.card S = 32) :
     ∃ n ∈ N, S = CFSG.conjugate R n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact burnsideJ49B_syl_conj hR hS (IsPGroup.of_card (n := 5) (by rw [hRc]; norm_num))
     (IsPGroup.of_card (n := 5) (by rw [hSc]; norm_num))
-    (burnsideJ49B_relIndex_odd hR hRc hN hR hRc) (burnsideJ49B_relIndex_odd hR hRc hN hS hSc)
+    (burnsideJ49B_relIndex_odd hN hR hRc) (burnsideJ49B_relIndex_odd hN hS hSc)
     (by rw [hRc, hSc])
 
 include hRW in
@@ -2062,13 +2084,13 @@ theorem burnsideJ49B_abelian16_conj {I₁ I₂ : Subgroup A} (h1 : I₁ ≤ N) (
     (a1 : ∀ a ∈ I₁, ∀ b ∈ I₁, a * b = b * a) (a2 : ∀ a ∈ I₂, ∀ b ∈ I₂, a * b = b * a)
     (c1 : Nat.card I₁ = 16) (c2 : Nat.card I₂ = 16) :
     ∃ n ∈ N, CFSG.conjugate I₁ n = I₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₁, hS₁N, hIS₁, hS₁c⟩ := burnsideJ49B_exists_S32 hR hRc hN h1 c1
   obtain ⟨S₂, hS₂N, hIS₂, hS₂c⟩ := burnsideJ49B_exists_S32 hR hRc hN h2 c2
   obtain ⟨n, hnN, hn⟩ := burnsideJ49B_syl_conj hS₁N hS₂N
     (IsPGroup.of_card (n := 5) (by rw [hS₁c]; norm_num))
     (IsPGroup.of_card (n := 5) (by rw [hS₂c]; norm_num))
-    (burnsideJ49B_relIndex_odd hR hRc hN hS₁N hS₁c) (burnsideJ49B_relIndex_odd hR hRc hN hS₂N hS₂c)
+    (burnsideJ49B_relIndex_odd hN hS₁N hS₁c) (burnsideJ49B_relIndex_odd hN hS₂N hS₂c)
     (by rw [hS₁c, hS₂c])
   refine ⟨n, hnN, ?_⟩
   have hle : CFSG.conjugate I₁ n ≤ S₂ := by
@@ -2092,6 +2114,7 @@ section KLemma
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem burnsideJ49B_eq_one_of_sq {x : A} (h5 : x ^ 5 = 1) (h2 : x * x = 1) : x = 1 := by
   have h2' : x ^ 2 = 1 := by rw [pow_two]; exact h2
   have := (pow_gcd_eq_one (a := x)).mpr ⟨h2', h5⟩
@@ -2106,7 +2129,7 @@ theorem burnsideJ49B_K {z u : A} {B5 I N R : Subgroup A} (hz2 : z * z = 1) (hu2 
     (hIc : Nat.card I = 16) (huI : u ∈ I)
     (hu_inv : ∀ x ∈ B5, u * x * u⁻¹ = x⁻¹) :
     ∀ n ∈ N, n * u = u * n → n ∈ I := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hN64 : ¬ 64 ∣ Nat.card N := by
     intro h
     have h2 : 64 ∣ 160 := h.trans hN160
@@ -2204,12 +2227,14 @@ section Bridge
 variable {G : Type} [Group G] [Finite G] {z u : G}
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_LS_proj {c : G} {Bc : Subgroup G} (h : burnsideJ410_LS z c Bc) :
     burnsideJ48_LS z c Bc :=
   ⟨h.card_B, h.cent, h.card_P, h.exp, h.le_P, h.central, h.nonab, h.norm, h.pcore, h.inv_mod,
     h.card_cent, h.mem_P⟩
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
+omit [Finite G] in
 theorem burnsideJ49B_hLS (hL : burnsideJ410_Loc z u) :
     ∀ (c : G) (Bc : Subgroup G), IsConj z c → Nat.card Bc = 5 →
       Bc ≤ Subgroup.centralizer ({c} : Set G) → burnsideJ48_LS z c Bc :=
@@ -2269,6 +2294,7 @@ variable {G : Type} [Group G] [Finite G] {t : ℕ → G} {z y u i1 i2 r s : G}
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 include hC in
+omit [Finite G] in
 theorem burnsideJ49B_sl2_rot
     (h0 : CFSG.Quasithin.IsSL2 5 ↥(Subgroup.zpowers (t 0) ⊔ Subgroup.zpowers (t 3))) {j : ℕ}
     (hj : j < 12) :
@@ -2420,8 +2446,8 @@ open CFSG.Sporadic.RuSchreier CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_involution_class
     {t : ↥ruP} (ht2 : t * t = 1) (ht1 : t ≠ 1) {y : ↥ruP} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (hyt : y * t = t * y) : ∃ c : ↥ruP, (c : Equiv.Perm (Fin 4060)) * ruZ * (c : Equiv.Perm (Fin 4060))⁻¹ = (t : Equiv.Perm (Fin 4060)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf (t : Equiv.Perm (Fin 4060)) = 2 := by
     refine orderOf_eq_prime ?_ ?_
     · have := congrArg Subtype.val ht2
@@ -2471,7 +2497,7 @@ variable {G : Type} [Group G]
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_conj_apply (g x : G) : (MulAut.conj g⁻¹).toMonoidHom (g * x * g⁻¹) = x := by
-  simp [MulAut.conj_apply, mul_assoc]
+  simp [mul_assoc]
 
 open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier.J49 in
 theorem burnsideJ49B_Cfg_conj {t : ℕ → G} {z y u i1 i2 r s : G} (g : G)
@@ -2662,7 +2688,7 @@ variable {A : Type} [Group A] [Finite A]
 theorem burnsideJ49B_sylow_card {K I : Subgroup A} (hK : Nat.card K = 80)
     (h : CFSG.ASVolI.ChIJK.IsSylowIn 2 I K) : Nat.card I = 16 := by
   obtain ⟨hIK, hIp, hidx⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hIp.exists_card_eq
   have hmul := CFSG.Quasithin.RuType.relIndex_mul_card_of_le hIK
   rw [hK, hn] at hmul
@@ -2686,8 +2712,8 @@ theorem burnsideJ49B_unique_sylow2 {b v : A} {K S1 S2 : Subgroup A} (hb5 : b ^ 5
     (hKnorm : K ≤ Subgroup.normalizer (Subgroup.zpowers b : Set A)) (hK : Nat.card K = 80)
     (hS1 : S1 ≤ K) (hS2 : S2 ≤ K) (hc1 : Nat.card S1 = 16) (hc2 : Nat.card S2 = 16)
     (hv1 : v ∈ S1) (hv2 : v ∈ S2) (hvb : v * b * v⁻¹ = b⁻¹) (hv : v * v = 1) : S1 = S2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set P := Subgroup.zpowers b with hP
   have hPc : Nat.card P = 5 := burnsideJ49B_card_zpowers_five hb5 hb1
   have hPK : P ≤ K := Subgroup.zpowers_le.2 hbK
@@ -2752,7 +2778,7 @@ theorem burnsideJ49B_unique_sylow2 {b v : A} {K S1 S2 : Subgroup A} (hb5 : b ^ 5
   have hp5 : p ^ 5 = 1 := by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hp
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-    simp [← zpow_natCast, hb5]
+    simp [hb5]
   have hp1 : p = 1 := by
     have hpp : p * p = 1 := by
       have := congrArg (fun w => w⁻¹) hp2one
@@ -2797,8 +2823,8 @@ theorem burnsideJ49B_normalize
     (hinv : ∀ x ∈ B5', u' * x * u'⁻¹ = x⁻¹) :
     ∃ h ∈ C.F1, (h * u' * h⁻¹ = C.u ∨ h * u' * h⁻¹ = C.u * M.z) ∧
       CFSG.conjugate B5' h⁻¹ = Subgroup.zpowers C.b := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxB, hx5, hx1, -⟩ := exists_gen_of_card_five hB5c
   have hxF : x ∈ C.F1 := hB5F hxB
   have hxo : orderOf x = 5 := orderOf_eq_prime hx5 hx1
@@ -3089,8 +3115,8 @@ theorem burnsideJ49B_N_facts {G : Type} [Group G] [Finite G]
     ∃ R : Subgroup G, R ≤ Subgroup.normalizer (B5 : Set G) ⊓ Subgroup.centralizer ({z} : Set G) ∧
       Nat.card R = 32 ∧ Nonempty (↥R ≃* WreathedTwoGroup 2) ∧
       Nat.card ↥(Subgroup.normalizer (B5 : Set G) ⊓ Subgroup.centralizer ({z} : Set G)) ∣ 160 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRu := hS.setup.ru
   obtain ⟨hL, hB5X, hcent⟩ := burnsideJ410_Loc_of_setup hS
   have hB5c : Nat.card B5 = 5 := hB5X.1
@@ -3238,7 +3264,7 @@ open CFSG.Quasithin CFSG.Quasithin.RuType CFSG.Sporadic.RuSchreier CFSG.Sporadic
 open CFSG.ASVolI.ChIJK in
 theorem as_J_4_9 : J_4_9 := by
   intro G _ _ L V T V2 B5 X g v a z u I hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRu := hS.setup.ru
   obtain ⟨hL, hB5X, hcent⟩ := burnsideJ410_Loc_of_setup hS
   obtain ⟨hIN, hIab, hIc⟩ := burnsideJ49B_I_facts hS

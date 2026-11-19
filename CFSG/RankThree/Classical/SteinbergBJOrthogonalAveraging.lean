@@ -285,14 +285,14 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] (L : Type*) [Fiel
 theorem finrank_submodule_baseChange [FiniteDimensional K V] (W : Submodule K V) :
     finrank L (W.baseChange L) = finrank K W := by
   have hinj : Function.Injective (W.subtype.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ W.injective_subtype
   rw [Submodule.baseChange, LinearMap.finrank_range_of_inj hinj, Module.finrank_baseChange]
 
 theorem range_baseChange_eq (f : V →ₗ[K] V) :
     LinearMap.range (f.baseChange L) = (LinearMap.range f).baseChange L := by
   have hsurj : Function.Surjective (f.rangeRestrict.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact LinearMap.lTensor_surjective L f.surjective_rangeRestrict
   have hf : f = (LinearMap.range f).subtype ∘ₗ f.rangeRestrict := by
     ext v; rfl

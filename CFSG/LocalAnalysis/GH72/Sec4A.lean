@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem IsIsolatedIn.conj_mul_inv_mem_O {H : Subgroup G} {t : G} (ht : IsIsolatedIn H t)
     {h : G} (hh : h ∈ H) : h * t * h⁻¹ * t⁻¹ ∈ O H := by
   obtain ⟨htH, ht2, hiso⟩ := ht
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let τ : H := ⟨t, htH⟩
   have hτ1 : τ ≠ 1 := fun h1 => by
     have h1' : t = 1 := congrArg Subtype.val h1

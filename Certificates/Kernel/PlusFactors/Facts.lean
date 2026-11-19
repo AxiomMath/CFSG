@@ -285,7 +285,7 @@ theorem prodMem_of {x i j : ℕ} (hx : PP 60 6 x) (hi : i < 60) (hj : j < 60) (h
   unfold plusFactorsProdMem
   refine any_range_of i hi (any_range_of j hj ?_)
   rw [bindE.2 i hi, bindE.2 j hj, compA_PP (gE hi) (gE hj),
-    eqA_PP ((gE hi).mul (gE hj)) hx, unpack_getElem!, if_pos hj]
+    eqA_PP ((gE hi).mul (gE hj)) hx, unpack_getElem!, ite_eq_left hj]
   simp [hij, hpg, h]
 
 theorem enumMemA_of {x : ℕ} (hx : PP 60 6 x) (h : memT 60 PA.T x = true) :

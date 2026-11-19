@@ -152,7 +152,7 @@ private theorem lieModel_trialityD4_of_twistedBridge
     (e : X ≃* (TauCeti.CFSGIndex.lie
       ⟨.trialityD4 q, TauCeti.LieTypeIndex.valid_trialityD4 q⟩).Group) :
     LieModel X .trialityD4 0 q.p q.exponent := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p (q.exponent * TwistTag.D4.order)) =
       (q.p ^ q.exponent) ^ TwistTag.D4.order := by
     rw [GaloisField.card _ _ (Nat.mul_pos q.exponent_pos TwistTag.D4.order_pos).ne', pow_mul]
@@ -232,8 +232,8 @@ theorem lieModel_rationalComponent_d4t2 {K : Type} [Field K] [Finite K] {σ : K 
       (D.S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))
   · exact Or.inl (Or.inl ⟨by decide, statedClassicalModel_rationalComponent_d4_inner D.S D.hℓ
       D.he D.hSq D.hL3 D.hT D.hap i hc hρ hin⟩)
-  haveI : Fact (ringChar K).Prime := ⟨D.hℓ⟩
-  haveI := D.hchar
+  have : Fact (ringChar K).Prime := ⟨D.hℓ⟩
+  have := D.hchar
   have hf : 1 ≤ D.e := D.he
   have h3 : 3 ∣ ringChar K ^ D.e + 1 := D.hqe ▸ h3q
   have hTp : rootDiagUnit Tag.E6 D.a ^ 3 = 1 := by

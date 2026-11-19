@@ -575,7 +575,7 @@ theorem Cfg89T.Q_comm_of_sq (c : Cfg89T G T P Q u z x f r s) (sc : Cfg89S G T u 
     rw [← h2, hq2e, (show Commute d2 c2 from (hc2c d2 hd2).symm).mul_pow, hc22, mul_one]
   have hd12 : d1 * d2 = d2 * d1 := by
     rcases hD.sq_eq_z hd1 hd1sq with h | h <;> rcases hD.sq_eq_z hd2 hd2sq with h' | h' <;>
-      rw [h, h'] <;> first | rfl | exact (Commute.self_pow r' 3).eq | exact (Commute.pow_self r' 3).eq
+      rw [h, h'] <;> first | exact (Commute.self_pow r' 3).eq | exact (Commute.pow_self r' 3).eq
   have hq12 : q1 * q2 = d1 * d2 * (c1 * c2) := by
     rw [hq1e, hq2e]
     calc d1 * c1 * (d2 * c2) = d1 * (c1 * d2) * c2 := by group

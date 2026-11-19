@@ -70,7 +70,7 @@ private theorem false_of_ggLabelIso_aOne_e6CompLabel {q : ℕ} {labA lab' : Larg
 section Cert
 
 theorem kg5f_E6eps
-    {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤)
+    {X : Type} [Group X] [Finite X] (_hX : commutator X = ⊤)
     {A : Subgroup (MulAut X)} {δ : MulAut X} {J : Subgroup X}
     (hD : DatumOn (fun t => t = .E6 ∨ t = .twE6) X A δ J)
     (hq : LargeEvenMarking X fun lab _ _ _ _ _ => 2 ≤ lab.n) :

@@ -132,7 +132,7 @@ theorem stdSubCoverAt_of_diag_facts (G : Type) [Group G] [Finite G]
     have h6 : Nat.card ↥(Subgroup.center ↥K) ∣ 2 * 3 := hdvd
     exact h3.symm.dvd_of_dvd_mul_right h6
   have hP : IsPGroup 2 ↥(Subgroup.center ↥K) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [IsPGroup.iff_card]
     rcases (Nat.dvd_prime Nat.prime_two).1 h2 with h | h
     · exact ⟨0, by simpa using h⟩

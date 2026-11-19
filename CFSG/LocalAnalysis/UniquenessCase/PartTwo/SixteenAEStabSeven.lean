@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 theorem s16ae_eq_bot_of_stab_seven {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^ 2 = 1)
     {X : Subgroup (MulAut T)} {ι : Type} {Y : ι → Subgroup T} (hsup : ⨆ i, Y i = ⊤)
     (hrk : ∀ i, rk ↥(Y i) = 3) (htrans : ∀ i j, ∃ g ∈ X, (Y i).map g.toMonoidHom = Y j)
-    {Q : Subgroup (MulAut T)} (hQX : Q ≤ X) (hQ : IsPGroup 7 ↥Q) (hQ1 : Q ≠ ⊥)
+    {Q : Subgroup (MulAut T)} (_hQX : Q ≤ X) (hQ : IsPGroup 7 ↥Q) (hQ1 : Q ≠ ⊥)
     (hQn : ∀ φ ∈ X, Q.map (MulAut.conj φ).toMonoidHom = Q)
     (hQY : ∀ q ∈ Q, ∀ i, (Y i).map q.toMonoidHom = Y i) {A : Subgroup (MulAut T)} (hAX : A ≤ X)
     (hA : IsElemAbelian2 A) (hstab : ∀ a ∈ A, ∀ i, (Y i).map a.toMonoidHom = Y i) :

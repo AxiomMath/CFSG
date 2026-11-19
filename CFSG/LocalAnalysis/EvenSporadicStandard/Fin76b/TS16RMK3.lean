@@ -64,6 +64,7 @@ theorem center_bar_trivial {g : K ⧸ fusionOddCore K} (hg : ∀ y : K ⧸ fusio
   exact hgZ
 
 include h in
+omit [Finite K] in
 theorem map_D_le : D.map (QuotientGroup.mk' (fusionOddCore K)) ≤
     centralizer ({(QuotientGroup.mk z : K ⧸ fusionOddCore K)} : Set (K ⧸ fusionOddCore K)) := by
   rintro _ ⟨d, hd, rfl⟩
@@ -94,7 +95,8 @@ theorem map_D_iso : Nonempty (↥(D.map (QuotientGroup.mk' (fusionOddCore K))) �
       ((QuotientGroup.quotientMulEquivOfEq hker).trans e))⟩
 
 include h in
-theorem card_map_two {F : Subgroup K} (hFD : F ≤ D) (hF2 : IsPGroup 2 F) :
+omit h in
+theorem card_map_two {F : Subgroup K} (_hFD : F ≤ D) (hF2 : IsPGroup 2 F) :
     Nat.card ↥(F.map (QuotientGroup.mk' (fusionOddCore K))) = Nat.card ↥F := by
   have hinj : Function.Injective ((QuotientGroup.mk' (fusionOddCore K)).comp F.subtype) := by
     rw [injective_iff_map_eq_one]

@@ -88,7 +88,7 @@ theorem d4_caseA_eight {ℓ f e : ℕ} [Fact ℓ.Prime] {K : Type} [Field K] [Fi
   classical
   have : Finite (ModGL Tag.D4 K) := finite_modGL
   have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
-  haveI := inner_normal (adjointGroup Tag.D4 K)
+  have := inner_normal (adjointGroup Tag.D4 K)
   have hα3 : α ^ 3 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian α hαE
   have hβ3 : (α * ι) ^ 3 = 1 :=
     CFSG.elemPow_eq_one_of_isElementaryAbelian (α * ι) (E.mul_mem hαE hιE)

@@ -11,8 +11,7 @@ namespace CFSG.StandardType
 open CFSG.Assembly
 
 theorem ggR4AmbExcl_classBig (hM5 : GGClassicalTwoLocalRankNine) : GGR4AmbExcl GGR4ClassBig := by
-  intro G _ _ B Bs x L D J hCfg hInner hCard
-  intro _ Γ _ _ C V _ _ ι φ h α _ _ _ hmark
+  intro G _ _ B Bs x L D J hCfg hInner hCard _ Γ _ _ C V _ _ ι φ h α _ _ _ hmark
   obtain ⟨hperf, lab, hlab, hraw⟩ := hmark
   have hlabel : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L) :=
     largeEvenRawDatum_mono (fun R _ I F hq => by
@@ -22,7 +21,7 @@ theorem ggR4AmbExcl_classBig (hM5 : GGClassicalTwoLocalRankNine) : GGR4AmbExcl G
     GGDichotomy.rawDatum_elim_const (largeEvenRawDatum_mono (fun R _ I F hq => by
       obtain ⟨-, -, θ, hθ⟩ := hq
       exact hθ.1) hraw)
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have h9 : 9 ≤ LargeEvenTwoLocalRank 3 ↥L := hM5 ↥L lab hlab hlabel hT
   have hle : LargeEvenTwoLocalRank 3 ↥L ≤ LargeEvenTwoLocalRank 3 G :=
     CFSG.LocalAnalysis.GLTheoremB.glaTwoLocalRank_subgroup_le (by norm_num) L

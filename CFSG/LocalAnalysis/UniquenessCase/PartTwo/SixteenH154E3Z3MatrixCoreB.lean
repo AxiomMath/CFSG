@@ -119,7 +119,7 @@ theorem s16h_e3_z3_scalar_contra
     (hKN : K ≤ N) (hKnorm : (K.subgroupOf N).Normal)
     (hno : ∀ P : Subgroup (coordinateSemilinearGroup 3 OmegaField), P ≤ K →
       IsElemAbelian 3 P → Nat.card ↥P < 9)
-    {t : coordinateSemilinearGroup 3 OmegaField} (htK : t ∈ K) (ht2 : t ^ 2 = 1)
+    {t : coordinateSemilinearGroup 3 OmegaField} (htK : t ∈ K) (_ht2 : t ^ 2 = 1)
     (htn : SemidirectProduct.rightHom t ≠ 1)
     {Q : Subgroup (coordinateSemilinearGroup 3 OmegaField)} (hQN : Q ≤ N)
     (hQ : IsElemAbelian 3 Q) (hQ9 : 9 ≤ Nat.card ↥Q)
@@ -153,7 +153,7 @@ theorem s16h_e3_z3_scalar_contra
     exact s16h_e3_z3_mem_normalizer_of_normal hFnorm hFleN (by rw [ha]; exact hQN hq)
   have hcardA : Nat.card ↥(Subgroup.map (SemidirectProduct.inl : GL3 →* Gam3) P) = 9 := by
     rw [Subgroup.card_map_of_injective SemidirectProduct.inl_injective, hPcard]
-  haveI : Finite ↥(Subgroup.map (SemidirectProduct.inl : GL3 →* Gam3) P) :=
+  have : Finite ↥(Subgroup.map (SemidirectProduct.inl : GL3 →* Gam3) P) :=
     Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
   have hQA : Q = Subgroup.map (SemidirectProduct.inl : GL3 →* Gam3) P :=
     Subgroup.eq_of_le_of_card_ge hsub (by rw [hcardA]; exact hQ9)

@@ -85,7 +85,7 @@ private theorem kyRep_injective {r : ℕ} [Fact r.Prime] {U W : Subgroup G}
 private theorem nontrivial_kyRep {r : ℕ} {U W : Subgroup G}
     (hUW : CFSG.ABGLocalTools.IsChiefFactorUnder r t.Ky U W) :
     Nontrivial (Additive (↥U ⧸ W.subgroupOf U)) := by
-  haveI : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm
@@ -95,7 +95,7 @@ private theorem kyRep_irreducible {r : ℕ} [Fact r.Prime] {U W : Subgroup G}
     (hUW : CFSG.ABGLocalTools.IsChiefFactorUnder r t.Ky U W)
     [(W.subgroupOf U).Normal] [IsElementaryAbelian r (↥U ⧸ W.subgroupOf U)] :
     Representation.IsIrreducible (kyRep t hUW) := by
-  haveI := nontrivial_kyRep t hUW
+  have := nontrivial_kyRep t hUW
   refine CFSG.Quasithin.H13.A6.G52.isIrreducible_of_forall_submodule _ ?_
   intro V₀ hV₀
   exact CFSG.ABGLocalTools.chiefRep_irreducible hUW V₀ (fun k v hv => hV₀ k v hv)
@@ -132,7 +132,7 @@ private theorem fixV_kyRep_eq_bot {r : ℕ} [Fact r.Prime] {U W : Subgroup G}
   rfl
 
 private theorem Ky_ne_top : t.Ky ≠ ⊤ := by
-  haveI : IsSimpleGroup G := c.standing.simple
+  have : IsSimpleGroup G := c.standing.simple
   intro htop
   have hcent : Subgroup.centralizer ({t.y} : Set G) = ⊤ :=
     eq_top_iff.mpr fun x _ => (t.Ky_le (by rw [htop]; trivial)).2
@@ -146,7 +146,7 @@ private theorem isKGroup_Ky : CFSG.Open.IsKGroup ↥t.Ky :=
   c.standing.kProper.isKGroup t.Ky (Ky_ne_top t)
 
 private theorem commutator_Ky_top : commutator ↥t.Ky = ⊤ := by
-  haveI : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
+  have : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
   exact Group.IsPerfect.commutator_eq_top
 
 private theorem card_subgroupOf_Z : Nat.card (t.Z.subgroupOf t.Ky) = 3 := by
@@ -164,7 +164,7 @@ private theorem normalClosure_subgroupOf_Z_eq_top
   set D : Subgroup ↥t.Ky := t.Z.subgroupOf t.Ky with hD
   set Nc : Subgroup ↥t.Ky := Subgroup.normalClosure (D : Set ↥t.Ky) with hNc
   have hDNc : D ≤ Nc := Subgroup.subset_normalClosure
-  haveI : Nc.Normal := Subgroup.normalClosure_normal
+  have : Nc.Normal := Subgroup.normalClosure_normal
   set M₀ : Subgroup G := Nc.map t.Ky.subtype with hM
   have hMle : M₀ ≤ t.Ky := Subgroup.map_subtype_le _
   have hZM : t.Z ≤ M₀ := by
@@ -205,7 +205,7 @@ private theorem pRank_top_Ky_eq_one
     {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.Open.pRank 3 (⊤ : Subgroup ↥t.Ky) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) t.Ky]
     exact (CFSG.SectionRank.pRank_mono (by norm_num) (t.Ky_le_Xz hK32 hGA hSp)).trans
@@ -233,9 +233,9 @@ theorem Ky_cases (hK461 : CFSG.LocalAnalysis.UniquenessCase.UCK.K461)
         (fun Y _ => CFSG.Quasithin.IsAlt 5 Y) := by
   classical
   rcases eq_or_ne r 2 with rfl | hr2
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-    haveI hEl : IsElementaryAbelian 2 (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hWn : (W.subgroupOf U).Normal := hUW.normal
+    have hEl : IsElementaryAbelian 2 (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
     have hinj : Function.Injective (kyRep t hUW) := kyRep_injective t hUW hfaith
     have hirr : Representation.IsIrreducible (kyRep t hUW) := kyRep_irreducible t hUW
     have hfixV := fixV_kyRep_eq_bot t hUW hfix
@@ -252,12 +252,12 @@ theorem Ky_cases (hK461 : CFSG.LocalAnalysis.UniquenessCase.UCK.K461)
       (pRank_top_Ky_eq_one t hK32 hGA hSp hK332 hOut hp hN hZ) (commutator_Ky_top t)
     rcases hn with ⟨F, hF, hFin, φ, ψ, hcard, hact⟩
     exact Or.inl ⟨F, hF, hFin, ⟨φ⟩⟩
-  · haveI : Fact r.Prime := ⟨hr⟩
+  · have : Fact r.Prime := ⟨hr⟩
     have h2r : 2 < r := by
       have := hr.two_le
       omega
-    haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-    haveI hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+    have hWn : (W.subgroupOf U).Normal := hUW.normal
+    have hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
     have hinj : Function.Injective (kyRep t hUW) := kyRep_injective t hUW hfaith
     have hirr : Representation.IsIrreducible (kyRep t hUW) := kyRep_irreducible t hUW
     have hfixV := fixV_kyRep_eq_bot t hUW hfix

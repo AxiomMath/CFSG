@@ -30,7 +30,7 @@ private lemma aor_l12_mem_normalizer_zpowers_iff [Finite S] {u x : S} :
 theorem aor_l12_normal [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Main S t u) :
     (Subgroup.zpowers u).Normal := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Subgroup.normalizer_eq_top_iff]
   let M : Subgroup S := Subgroup.normalizer (Subgroup.zpowers u : Set S)
   change M = ⊤
@@ -38,15 +38,15 @@ theorem aor_l12_normal [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Main S t
   have hM_iff : ∀ x : S, x ∈ M ↔ x * u * x⁻¹ ∈ Subgroup.zpowers u :=
     fun x => aor_l12_mem_normalizer_zpowers_iff
   have hMlt : M < ⊤ := lt_top_iff_ne_top.mpr hMne
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsNilpotent S := hS.isNilpotent
   have hMlt' : M < Subgroup.normalizer (M : Set S) :=
     Group.normalizerCondition_of_isNilpotent M hMlt
-  obtain ⟨s, hs_norm, hs_notM⟩ := SetLike.exists_of_lt hMlt'
+  obtain ⟨s, hs_norm, hs_notM⟩ := _root_.IsConcreteLE.exists_of_lt hMlt'
   have hN_le_M : L12N t ≤ M := by
     intro n hn
     rw [hM_iff]
     have hc := h.N_comm n hn
-    simpa [hc] using Subgroup.mem_zpowers u
+    simp [hc]
   have htM : t ∈ M := by
     rw [hM_iff]
     have hu : t * u * t⁻¹ = u := by rw [← h.coord.comm]; group

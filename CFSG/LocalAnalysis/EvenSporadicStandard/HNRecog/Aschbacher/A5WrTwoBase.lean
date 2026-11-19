@@ -41,7 +41,7 @@ private theorem eq_coord_mul (g : A5WrTwo) (hg : g.right = 1) :
     rcases coord_cases q with rfl | rfl <;>
       simp [coordEmb, RegularWreathProduct.mul_def, inv_one, one_mul, mul_one,
         Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne]
-  · simpa [coordEmb, RegularWreathProduct.mul_def, hg]
+  · simp [coordEmb, RegularWreathProduct.mul_def, hg]
 
 theorem A5WrTwo.commutator_commutator :
     ⁅commutator A5WrTwo, commutator A5WrTwo⁆ = commutator A5WrTwo := by
@@ -50,8 +50,8 @@ theorem A5WrTwo.commutator_commutator :
   have hcoord : ∀ x : Multiplicative (ZMod 2),
       (coordEmb x).range ≤ ⁅commutator A5WrTwo, commutator A5WrTwo⁆ := by
     intro x
-    haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨hperf⟩
-    haveI : Group.IsPerfect (coordEmb x).range := Group.IsPerfect.range (coordEmb x)
+    have : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨hperf⟩
+    have : Group.IsPerfect (coordEmb x).range := Group.IsPerfect.range (coordEmb x)
     have hxB : (coordEmb x).range ≤ commutator A5WrTwo :=
       calc (coordEmb x).range = ⁅(coordEmb x).range, (coordEmb x).range⁆ :=
             (Subgroup.commutator_eq_self (H := (coordEmb x).range)).symm
@@ -60,7 +60,7 @@ theorem A5WrTwo.commutator_commutator :
     calc (coordEmb x).range = ⁅(coordEmb x).range, (coordEmb x).range⁆ :=
           (Subgroup.commutator_eq_self (H := (coordEmb x).range)).symm
       _ ≤ ⁅commutator A5WrTwo, commutator A5WrTwo⁆ := Subgroup.commutator_mono hxB hxB
-  haveI : IsMulCommutative (Multiplicative (ZMod 2)) :=
+  have : IsMulCommutative (Multiplicative (ZMod 2)) :=
     IsMulCommutative.of_comm (fun a b => mul_comm a b)
   have hle : commutator A5WrTwo ≤
       (RegularWreathProduct.rightHom : A5WrTwo →* Multiplicative (ZMod 2)).ker :=

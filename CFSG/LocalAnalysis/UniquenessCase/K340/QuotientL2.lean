@@ -75,13 +75,14 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.Campbell340
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_sl2_quotient {H L : Subgroup G} {n : ℕ}
     (hL : L = CFSG.Quasithin.opResidual 2 H) (hL2 : IsL2 (Bar2 L) n)
     (hHL : H = L ⊔ CFSG.Open.pCoreOf 2 H) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : CharP k 2)
       (π : ↥H →* Matrix.SpecialLinearGroup (Fin 2) k),
       Function.Surjective π ∧ π.ker = CFSG.pCore 2 ↥H ∧ Nat.card k = 2 ^ n ∧ 2 ≤ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSC : CFSG.Quasithin.IsPSL 2 2 n (Bar2 L) :=
     CFSG.Blueprint.LieModel.statedClassicalModel hL2 (by decide)
   obtain ⟨hn2, K, hK, hKfin, hKchar, hKcard, he2⟩ :=

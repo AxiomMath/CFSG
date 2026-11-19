@@ -490,7 +490,7 @@ theorem vanishing_centralizing_two_commutator_full_perfect_supplement [Finite G]
   have hP''E : P'' ≤ (E.subgroupOf K).comap ε := map_subtype_le _
   have hP''card : Nat.card P'' = Nat.card P' :=
     card_map_of_injective ((E.subgroupOf K).comap ε).subtype_injective
-  obtain ⟨s, hs⟩ := IsPGroup.iff_card.mp P'.isPGroup'
+  obtain ⟨s, hs⟩ := IsPGroup.iff_card.mp P'.isPGroup
   have hdisj : P'' ⊓ ε.ker = ⊥ := disjoint_iff.mp (disjoint_of_coprime_natCard (by
     rw [hP''card, hs]
     exact Nat.Coprime.pow_left s ((Nat.Prime.coprime_iff_not_dvd hp).mpr hcardker)))

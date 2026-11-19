@@ -132,7 +132,7 @@ theorem isSylowOf_of_relImg [Finite G] {p : ℕ} [Fact p.Prime] (hW : IsPGroup p
     ABGLocalTools.IsSylowOf p K N := by
   obtain ⟨S, hS⟩ := h
   rw [ABGLocalTools.isSylowOf_iff]
-  refine ⟨hKN, isPGroup_of_relImg hW hWK hKN (hS ▸ S.isPGroup'), ?_⟩
+  refine ⟨hKN, isPGroup_of_relImg hW hWK hKN (hS ▸ S.isPGroup), ?_⟩
   rw [← relIndex_relImg hWK le_rfl, relImg_self_eq_top, relIndex_top_right, ← hS]
   exact S.not_dvd_index
 

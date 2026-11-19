@@ -72,7 +72,7 @@ private theorem catalogIs_isSp8two_of_tySp8 {G : Type} [Group G] (h : catalogIs 
 private theorem isSimpleGroup_of_tySp8 {G : Type} [Group G] (h : catalogIs G tySp8) :
     IsSimpleGroup G := by
   obtain ⟨e⟩ := HSubT.sp8_model (catalogIs_isSp8two_of_tySp8 h)
-  haveI : IsSimpleGroup (StatedProj (StatedSp 4 (ZMod 2))) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 4 (ZMod 2))) :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_statedProj_statedSp_of_two_le (by norm_num)
       fun h4 => absurd h4.1 (by norm_num)
   have hsc : (StatedScalars (Fin 4 ⊕ Fin 4) (ZMod 2)).subgroupOf (StatedSp 4 (ZMod 2)) = ⊥ := by
@@ -87,7 +87,7 @@ theorem false_of_sp8_big {X J B D : Subgroup Ω} (hN : NLAct 3 X J B D) (hB : Is
   have hle : 27 ≤ Nat.card Ab :=
     Nat.le_of_mul_le_mul_right (by rw [hcard]; exact h27) Nat.card_pos
   have hAb27 : 27 ∣ Nat.card Ab := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := hAb.isPGroup.exists_card_eq
     rw [hk] at hle ⊢
     have hk3 : 3 ≤ k := by
@@ -101,8 +101,8 @@ theorem false_of_sp8_big {X J B D : Subgroup Ω} (hN : NLAct 3 X J B D) (hB : Is
       (spLin 4 (ZMod 2))
   have hφ : Function.Injective φ :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) _).injective.comp spLin_injective
-  haveI : Finite ↥(Ab.map φ) := Finite.of_equiv _ (Subgroup.equivMapOfInjective Ab φ hφ).toEquiv
-  letI : Fintype ↥(Ab.map φ) := Fintype.ofFinite _
+  have : Finite ↥(Ab.map φ) := Finite.of_equiv _ (Subgroup.equivMapOfInjective Ab φ hφ).toEquiv
+  let : Fintype ↥(Ab.map φ) := Fintype.ofFinite _
   have hV : Module.finrank (ZMod 2) (Fin 4 ⊕ Fin 4 → ZMod 2) = 8 := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
   refine false_of_nOut_const (fun D : Hyperplane (Ab.map φ) 3 => D.1)

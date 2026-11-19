@@ -20,6 +20,7 @@ variable {K : Type*} [Group K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
     (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
 
 include hct hext in
+omit hext in
 theorem mem_parabolic_of_mul_nrep_mem {X : Subgroup K} (hU : posUnipotent D ≤ X) :
     ∀ (N : ℕ) (w : (coxeterMatrix D.isFiniteType).Group),
       (coxeterMatrix D.isFiniteType).toCoxeterSystem.length w = N →
@@ -89,7 +90,7 @@ theorem le_parJ_of_posUnipotent_le {X : Subgroup K} (hU : posUnipotent D ≤ X) 
   have hm : t * nrep hct w ∈ X := by
     have h1 := mul_mem (inv_mem (hU hv')) hbn
     simpa [mul_assoc] using h1
-  have hwJ := mem_parabolic_of_mul_nrep_mem hct hext hU _ w rfl t ht hm
+  have hwJ := mem_parabolic_of_mul_nrep_mem hct hU _ w rfl t ht hm
   have hnJ : nrep hct w ∈ parJ D H {i | rankOne D.rootGroup i ≤ X} :=
     (iSup₂_le fun i hi => rankOne_le_parJ hi : leviM D {i | rankOne D.rootGroup i ≤ X} ≤ _)
       (nrep_mem_leviM hct hwJ)

@@ -114,7 +114,7 @@ theorem exists_sylow_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x :
     simpa [pow_two] using h1
   obtain ⟨Q, hQ⟩ := hD'2.exists_le_sylow
   refine ⟨Q, ?_⟩
-  have hS2 : IsPGroup 2 ↥((Q : Subgroup ↥C).map C.subtype) := Q.isPGroup'.map _
+  have hS2 : IsPGroup 2 ↥((Q : Subgroup ↥C).map C.subtype) := Q.isPGroup.map _
   have hΔS : kuDelta E x ≤ (Q : Subgroup ↥C).map C.subtype := by
     intro d hd
     exact ⟨⟨d, kuDelta_le_centralizer x hd⟩, hQ (Subgroup.mem_subgroupOf.mpr hd), rfl⟩

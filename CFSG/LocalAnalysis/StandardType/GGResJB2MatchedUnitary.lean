@@ -43,8 +43,8 @@ theorem B2_coroot_span_of_lineJDatum
       ggAutomizer J Bs = Subgroup.closure (Set.range r) := by
   classical
   obtain ⟨V, instA, instM, ι, r, hvec, α, hform, _hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hdet : (CartanMatrix.B 2).det = 2 := by
     simpa using CartanMatrix.B_det (by norm_num : 0 < 2)
@@ -171,12 +171,12 @@ theorem B2_coroot_span_of_lineJDatum
 private theorem closure_map_eq_of_generators
     {X : Type} [Group X] [Finite X] {E : Subgroup X} {a b : X} {r s : MulAut X}
     (hE : E = Subgroup.closure ({a, b} : Set X))
-    (ha : a ∈ E) (hb : b ∈ E)
+    (_ha : a ∈ E) (_hb : b ∈ E)
     (hr_a : r a = a⁻¹) (hr_b : r b = a⁻¹ * b)
     (hs_a : s a = b * a) (hs_b : s b = b⁻¹) :
     ∀ φ ∈ Subgroup.closure ({r, s} : Set (MulAut X)), E.map φ.toMonoidHom = E := by
   classical
-  haveI : Finite ↥E := Subtype.finite
+  have : Finite ↥E := Subtype.finite
   have hr_le : E.map r.toMonoidHom ≤ E := by
     rw [hE, MonoidHom.map_closure]
     apply (Subgroup.closure_le (Subgroup.closure ({a, b} : Set X))).2
@@ -253,23 +253,23 @@ private theorem B2_rank2_preimage_commutative
         x ∈ Ebar.comap (LargeEvenProjMk (LargeEvenSUGroup (Fin 3) F (2 ^ n))) →
         y ∈ Ebar.comap (LargeEvenProjMk (LargeEvenSUGroup (Fin 3) F (2 ^ n))) →
         x * y = y * x) ∧
-      (∀ x (hx : x ∈ Ebar),
+      (∀ x (_hx : x ∈ Ebar),
         cubeClass (π := LargeEvenProjMk (LargeEvenSUGroup (Fin 3) F (2 ^ n)))
           (hπ := QuotientGroup.mk'_surjective _)
           (hZ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.ker_projMk_uni_le_center
             (LargeEvenSUGroup (Fin 3) F (2 ^ n))) x = 1) ∧
       (∀ z ∈ (LargeEvenProjMk (LargeEvenSUGroup (Fin 3) F (2 ^ n))).ker, z ^ 3 = 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let L : Subgroup (GL (Fin 3) F) := LargeEvenSUGroup (Fin 3) F (2 ^ n)
   let R : Type := LargeEvenProj L
   let ψ : ↥J →* R := ggQuotHom θ
   obtain ⟨V, instA, instM, ι, r, hvec, α, E, eG, hform, hα2, hind,
     hEspan, hEgen, hEsub, hEelem, hEcard, hEbot, hmem,
     hr1e1, hr1e0, hr0e0, hr0e1, hgen⟩ := B2_coroot_span_of_lineJDatum hH hD
-  have hEsubBs : E ≤ Bs := fun x hx => (hEsub hx).1
-  have hEsubJ : E ≤ J := fun x hx => (hEsub hx).2
-  haveI : Finite ↥Bs := Subtype.finite
+  have hEsubBs : E ≤ Bs := fun x _hx => (hEsub _hx).1
+  have hEsubJ : E ≤ J := fun x _hx => (hEsub _hx).2
+  have : Finite ↥Bs := Subtype.finite
   let A : Subgroup (MulAut ↥J) := (ggGamma J hN).range
   let I : Set (MulAut R) :=
     LargeEvenMatConjImage (LargeEvenProjMk L) (LargeEvenGUSet (Fin 3) F (2 ^ n))
@@ -554,8 +554,8 @@ private theorem B2_rank2_preimage_commutative
     constructor
     · rintro ⟨y, hy, rfl⟩
       exact y.2
-    · intro hx
-      exact ⟨⟨x, hx⟩, Subgroup.mem_top _, rfl⟩
+    · intro _hx
+      exact ⟨⟨x, _hx⟩, Subgroup.mem_top _, rfl⟩
   have hEgenE : (⊤ : Subgroup ↥E) =
       Subgroup.closure ({⟨eG 0, he0E⟩, ⟨eG 1, he1E⟩} : Set ↥E) := by
     apply Subgroup.map_injective (Subgroup.subtype_injective E)
@@ -645,7 +645,7 @@ private theorem B2_rank2_preimage_commutative
         simp [t1, e1J, φE, map_mul, map_inv]
       _ = ψ e1J⁻¹ := by rw [hEq]
       _ = t1⁻¹ := by simp [t1, e1J, φE, map_inv]
-  haveI : IsElementaryAbelian 3 Ebar := hEbar_elem.isElementaryAbelian
+  have : IsElementaryAbelian 3 Ebar := hEbar_elem.isElementaryAbelian
   have hclass : cubeClassHom (π := LargeEvenProjMk L)
       (hπ := QuotientGroup.mk'_surjective _)
       (hZ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.ker_projMk_uni_le_center L) Ebar = 1 := by
@@ -700,8 +700,6 @@ private theorem B2_rank2_preimage_commutative
         QuotientGroup.mk' ((LargeEvenScalars (Fin 3) F).subgroupOf L) from rfl,
       QuotientGroup.ker_mk']
     rw [unitaryScalars_eq hU (by norm_num)]
-    change (LargeEvenScalars (Fin 3) F).subgroupOf L =
-      (CFSG.Open.StatedScalars (Fin 3) F).subgroupOf (unitarySU 2 n F 3)
     rfl
   have hkerexp : ∀ z ∈ (LargeEvenProjMk L).ker, z ^ 3 = 1 := by
     intro z hz
@@ -744,8 +742,8 @@ private theorem B2_rank2_preimage_commutative
       rw [hb0]
       rfl
     exact congrArg γEe.symm hb'.symm
-  · intro x hx
-    have h := congrArg (fun f => f ⟨x, hx⟩) hclass
+  · intro x _hx
+    have h := congrArg (fun f => f ⟨x, _hx⟩) hclass
     simpa [cubeClassHom_apply] using h
 
 
@@ -766,12 +764,12 @@ private theorem B2_rank2_false
       ⟨Aact b, TableBUE.gu_subset_normalizer hU (hAGU b)⟩ = ggBeta J θ hN b)
     (hperfJ : commutator ↥J = ⊤) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let L : Subgroup (GL (Fin 3) F) := LargeEvenSUGroup (Fin 3) F (2 ^ n)
   let π : ↥L →* LargeEvenProj L := LargeEvenProjMk L
   obtain ⟨Ebar, hEbar_card, hEbar_elem, hcomm, hclassPt, hkerexp⟩ :=
     B2_rank2_preimage_commutative hH hD hU hFcard hn2 hpq θ hN Aact hAGU hAproj hperfJ
-  haveI : IsElementaryAbelian 3 Ebar := hEbar_elem.isElementaryAbelian
+  have : IsElementaryAbelian 3 Ebar := hEbar_elem.isElementaryAbelian
   have hclass : cubeClassHom (π := π)
       (hπ := QuotientGroup.mk'_surjective _)
       (hZ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.ker_projMk_uni_le_center L) Ebar = 1 := by
@@ -805,7 +803,6 @@ private theorem B2_rank2_false
   have hdet : ∀ g ∈ A9, (g : Matrix (Fin 3) (Fin 3) F).det = 1 := by
     rintro _ ⟨u, hu, rfl⟩
     have huSU : (u : GL (Fin 3) F) ∈ unitarySU 2 n F 3 := by
-      change (u : GL (Fin 3) F) ∈ unitarySU 2 n F 3
       exact u.2
     exact ((mem_unitarySU_iff hU).mp huSU).1
   have hcommA9 : ∀ x ∈ A9, ∀ y ∈ A9, x * y = y * x := by
@@ -819,7 +816,7 @@ private theorem B2_rank2_false
     have hu3 : u ^ 3 = 1 := elemPow_eq_one_of_isElementaryAbelian (A := U) u hu
     simpa using congrArg (fun z : ↥L => (z : GL (Fin 3) F)) hu3
   have h3F : (3 : F) ≠ 0 := by
-    haveI : CharP F 2 := hU.charP
+    have : CharP F 2 := hU.charP
     have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
     have h3eq : (3 : F) = 1 := by
       calc (3 : F) = 2 + 1 := by norm_num
@@ -830,7 +827,7 @@ private theorem B2_rank2_false
   have hle : Nat.card A9 ≤ 9 :=
     CFSG.HardMathSupport.Solomon.Coordinator.card_le_nine
       (F := F) h3F hdet hcommA9 hpowA9
-  have : 27 ≤ 9 := by simpa [hA9card] using hle
+  have : 27 ≤ 9 := by simp [hA9card] at hle
   omega
 
 
@@ -842,7 +839,7 @@ theorem GGResHyp.actual_J_not_matched_unitary_for_B2
     (hMark : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
   obtain ⟨tag, r, n⟩ := lab
   obtain ⟨R0, _, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw

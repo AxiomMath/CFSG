@@ -96,7 +96,7 @@ theorem innerCase_seven (hU42 : NormIrred (projSU 4 2 1)) (hU48 : NormIrred (pro
       · exact Sec19.SimsC198.false_of_rankHyp_PSU4_two hX hn h1 h3 φ
   · exact noInnerData_of_noE27 (noE27_isoGTwo_two hq2 hG) _ _ _ hq
   · exact noInnerData_of_noE27 (noE27_trialityD4_two hv hq2 φ) _ _ _ hq
-  · haveI : Finite (X ⧸ Subgroup.center X) := inferInstance
+  · have : Finite (X ⧸ Subgroup.center X) := inferInstance
     exact noInnerData_of_noE27 (noE27_suzuki hv φ) _ _ _ hq
   · exact noInnerData_of_noE27 (noE27_reeF4 hv φ) _ _ _ hq
   · exact noInnerData_of_noE27 (noE27_tits hv φ) _ _ _ hq

@@ -14,6 +14,7 @@ open TauCeti QuadraticMap CFSG.ClassicalInvolution CFSG.ClassicalGroups.Orthogon
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffE8Sign_single_eq_reflection {ι : Type} [Fintype ι] [DecidableEq ι]
     {c : ι → ZMod 3} (fr : PFrame Q ι c) (k : ι) [Invertible (Q (fr.b k))] :
     fr.signChange {k} = TauCeti.QuadraticMap.reflectionOrthogonal Q (fr.b k) := by
@@ -23,8 +24,8 @@ private lemma ffE8Sign_single_eq_reflection {ι : Type} [Fintype ι] [DecidableE
   rw [fr.signChange_basis {k} j, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   by_cases hjk : j = k
   · rw [hjk]
-    rw [if_pos (Finset.mem_singleton_self k), TauCeti.QuadraticMap.reflection_apply_self]
-  · rw [if_neg (by simpa [Finset.mem_singleton] using hjk),
+    rw [ite_eq_left (Finset.mem_singleton_self k), TauCeti.QuadraticMap.reflection_apply_self]
+  · rw [ite_eq_right (by simpa [Finset.mem_singleton] using hjk),
       TauCeti.QuadraticMap.reflection_apply, fr.orth k j (Ne.symm hjk), mul_zero, zero_smul,
       sub_zero]
 
@@ -32,7 +33,7 @@ private lemma ffE8Sign_single_one {ι : Type} [Fintype ι] [DecidableEq ι] {c :
     (hQ : Q.Nondegenerate) (fr : PFrame Q ι c) {k : ι} (h : c k = 1) :
     detSpinorNorm hQ (fr.signChange {k}) =
       ((-1 : (ZMod 3)ˣ), (1 : Multiplicative (SquareClassGroup (ZMod 3)))) := by
-  haveI : Invertible (Q (fr.b k)) := invertibleOfNonzero (by rw [fr.norm k, h]; decide)
+  have : Invertible (Q (fr.b k)) := invertibleOfNonzero (by rw [fr.norm k, h]; decide)
   rw [ffE8Sign_single_eq_reflection fr k, detSpinorNorm_reflectionOrthogonal hQ]
   have hunit : unitOfInvertible (Q (fr.b k)) = 1 :=
     Units.ext (by rw [val_unitOfInvertible, fr.norm k, h]; rfl)
@@ -42,7 +43,7 @@ private lemma ffE8Sign_single_neg {ι : Type} [Fintype ι] [DecidableEq ι] {c :
     (hQ : Q.Nondegenerate) (fr : PFrame Q ι c) {k : ι} (h : c k = -1) :
     detSpinorNorm hQ (fr.signChange {k}) =
       ((-1 : (ZMod 3)ˣ), Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) := by
-  haveI : Invertible (Q (fr.b k)) := invertibleOfNonzero (by rw [fr.norm k, h]; decide)
+  have : Invertible (Q (fr.b k)) := invertibleOfNonzero (by rw [fr.norm k, h]; decide)
   rw [ffE8Sign_single_eq_reflection fr k, detSpinorNorm_reflectionOrthogonal hQ]
   have hunit : unitOfInvertible (Q (fr.b k)) = (-1 : (ZMod 3)ˣ) :=
     Units.ext (by rw [val_unitOfInvertible, fr.norm k, h]; rfl)
@@ -72,12 +73,12 @@ theorem ffE8Sign_detSpinor (hQ : Q.Nondegenerate) {ι : Type} [Fintype ι] [Deci
     rcases hc i with h | h
     · rw [ffE8Sign_single_one hQ fr h, Prod.mk_mul_mk,
         Finset.card_insert_of_notMem hi, Finset.filter_insert,
-        if_neg (by rw [h]; decide), Prod.mk.injEq]
+        ite_eq_right (by rw [h]; decide), Prod.mk.injEq]
       refine ⟨?_, ?_⟩
       · rw [pow_succ]
       · rw [mul_one]
     · rw [ffE8Sign_single_neg hQ fr h, Prod.mk_mul_mk,
-        Finset.card_insert_of_notMem hi, Finset.filter_insert, if_pos h,
+        Finset.card_insert_of_notMem hi, Finset.filter_insert, ite_eq_left h,
         Finset.card_insert_of_notMem (by simp [hi]), Prod.mk.injEq]
       refine ⟨?_, ?_⟩
       · rw [pow_succ]

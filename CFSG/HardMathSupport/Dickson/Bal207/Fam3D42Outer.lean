@@ -160,9 +160,9 @@ theorem compShape_of_isSolvable {T : ∀ (Q : Type) [Group Q], Prop} {S : Type} 
     (β : MulAut S) (h : Group.IsSolvable ↥(fixSubgroup β)) : CompShape T β := by
   have hno : ∀ L : Subgroup S, ¬ CFSG.Open.IsComponentOf L (fixSubgroup β) := by
     rintro L ⟨hLC, -, hq⟩
-    haveI := h
+    have := h
     exact not_isSolvable_of_isQuasisimple hq
-      (solvable_of_solvable_injective (Subgroup.inclusion_injective hLC))
+      (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLC))
   exact ⟨perfectInLayer_of_isSolvable_fixSubgroup β h, fun L hL => absurd hL (hno L),
     fun _ _ L hL => absurd hL (hno L)⟩
 
@@ -206,11 +206,11 @@ theorem compShape_of_fix_fieldActor (hK : Nat.card K = (2 ^ 1) ^ 3) (σ : K ≃+
     (hσ : ∀ c, σ c = c ^ (2 ^ 1)) (β : MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (hβ : fixSubgroup β = fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :
     CompShape G28CompType β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_graphFixedRootGroup σ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_graphFixedRootGroup σ
   obtain ⟨e⟩ := LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2 (ℓ := 2) (f := 1) (by norm_num)
     le_rfl (Or.inl rfl) hK σ hσ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hk2 : Nat.card (fixSubfield σ) = 2 := by
     rw [CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two le_rfl hK σ hσ]
     norm_num
@@ -247,11 +247,11 @@ theorem compShape_outer (hK : Nat.card K = (2 ^ 1) ^ 3) (σ : K ≃+* K)
     · obtain ⟨e₂⟩ := he₂
       obtain ⟨F, _, _, hF, ⟨e₃⟩⟩ := kF82D4SecondCentY0_holds 1 odd_one K σ hK hσ
       have hPi : Sec4.PiField false 2 1 F := ⟨Nat.prime_two, le_rfl, hF⟩
-      haveI := Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
+      have := Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
       have hfix : fixSubgroup β = Sec4.autFix β := Subgroup.ext fun _ => Iff.rfl
       let ε := ((MulEquiv.subgroupCongr hfix).trans e₂).trans e₃
       exact compShape_of_isSolvable β
-        (solvable_of_solvable_injective (f := ε.toMonoidHom) ε.injective)
+        (Group.isSolvable_of_isSolvable_injective (f := ε.toMonoidHom) ε.injective)
 
 end Outer
 

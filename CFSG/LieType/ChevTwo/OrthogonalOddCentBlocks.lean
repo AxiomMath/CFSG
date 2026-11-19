@@ -53,7 +53,7 @@ theorem eq_top_of_monomial_invariant {u : Eˣ} (hu : (u : E) ≠ 1) (S : Submodu
     · subst hk
       simp only [Pi.sub_apply, monoDiag_apply, Pi.mulSingle_eq_same, Pi.single_eq_same]
       ring
-    · simp [monoDiag_apply, hk, Pi.mulSingle_eq_of_ne hk]
+    · simp [monoDiag_apply, hk]
   have h2 : Pi.single i (1 : E) ∈ S := by
     have h3 : Pi.single i (((u : E) - 1) * a i) ∈ S := h1 ▸ S.sub_mem (hD i a haS) haS
     have h4 : Pi.single i (1 : E) =
@@ -78,9 +78,9 @@ theorem eq_top_of_monomial_invariant {u : Eˣ} (hu : (u : E) ≠ 1) (S : Submodu
     · by_cases hki : k = i
       · rw [hki, Equiv.swap_apply_left]
         rw [hki] at hkj
-        simp [Pi.single_apply, hkj, Ne.symm hkj]
+        simp [hkj, Ne.symm hkj]
       · rw [Equiv.swap_apply_of_ne_of_ne hki hkj]
-        simp [Pi.single_apply, hki, hkj]
+        simp [hki, hkj]
   rw [Submodule.eq_top_iff']
   intro b
   rw [pi_eq_sum_univ' b]
@@ -238,16 +238,16 @@ theorem fixes_primaryComponent (q : QuadraticForm (ZMod 2) V) {p : ℕ} {x : V �
     (hN2 : IsPGroup 2 N) {h : (ZMod 2)[X]} (hh : h ∈ primaryFactors x.toLinearMap)
     (hne1 : h ≠ X - 1) : ∀ φ ∈ N, ∀ v ∈ primaryComponent x.toLinearMap h, φ v = v := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hNc : N ≤ Subgroup.centralizer ({x} : Set (V ≃ₗ[ZMod 2] V)) :=
     fun φ hφ => (Subgroup.mem_inf.mp (hN hφ)).2
   have hS0 : fixedSub N hNc h ≠ ⊥ := by
-    letI : MulAction N (primaryComponent x.toLinearMap h) :=
+    let : MulAction N (primaryComponent x.toLinearMap h) :=
       { smul := fun φ v => ⟨φ.1 v, apply_mem_primaryComponent
           (commute_toLinearMap_of_mem_centralizer x (hNc φ.2)) v.2⟩
         one_smul := fun v => rfl
         mul_smul := fun φ ψ v => rfl }
-    haveI : Finite V := Module.finite_of_finite (ZMod 2)
+    have : Finite V := Module.finite_of_finite (ZMod 2)
     have hpos : 1 ≤ finrank (ZMod 2) (primaryComponent x.toLinearMap h) :=
       Submodule.one_le_finrank_iff.mpr (primaryComponent_ne_bot hx.squarefree_minpoly hh)
     have hdvd : 2 ∣ Nat.card (primaryComponent x.toLinearMap h) := by

@@ -136,7 +136,7 @@ theorem keysN_eq {n : ℕ} {G Gi : List ℕ} {x : ℕ} {w : List ℕ} {σ : ℕ 
     have hp := hpts p (List.mem_cons_self ..)
     change Nat.lor (keyN G Gi x p w) (keysN G Gi x pts w <<< 13) = _
     rw [keysN_eq hG hGi hx hw hw' pts fun q hq => hpts q (List.mem_cons_of_mem p hq), keyP,
-      dif_pos hp]
+      dite_eq_left hp]
     congr 1
     have e1 := wImg_eq hG hw p hp
     have hlt : wImg G w p < n := by rw [e1]; exact Fin.isLt _
@@ -200,7 +200,7 @@ theorem conjOK_sound {n : ℕ} {G Gi : List ℕ} {x : ℕ} {pts : List ℕ} {R :
   have hsub : ((R.map f).toFinset : Set (Equiv.Perm (Fin n))) ⊆
       {y | ∃ k ∈ closure (σ '' {i | i < G.length}), y = k⁻¹ * X * k} := by
     intro y hy
-    simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hy
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hy
     obtain ⟨r, hr, rfl⟩ := hy
     refine ⟨wordP σ r.2, list_prod_mem ?_, rfl⟩
     intro g hg

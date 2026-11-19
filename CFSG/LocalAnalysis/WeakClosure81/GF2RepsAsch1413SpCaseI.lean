@@ -29,7 +29,7 @@ theorem asch1413_sp4_caseI {Q : Type} [Group Q] [Finite Q] {V : Type} [CommGroup
   have h4 : 4 ≤ Nat.card K := by omega
   have h5 : 5 ≤ Nat.card K := by omega
   have hLsub : CFSG.ComponentClassification.GeneralizedFitting.subgroup Q = L := hF
-  haveI hLn : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
+  have hLn : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
   have hcenL : centralizer (L : Set Q) ≤ L :=
     hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.centralizer_le Q
   obtain ⟨r, hr⟩ := isConj_iff.mp hzD

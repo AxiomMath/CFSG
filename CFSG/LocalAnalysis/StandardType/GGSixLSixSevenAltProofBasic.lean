@@ -68,7 +68,7 @@ theorem ggLe_pCoreOf_sup_of_central {X Z : Subgroup G}
     have hTn : (T : Subgroup ↥X).Normal :=
       ((Group.isNilpotent_of_finite_tfae (G := ↥X)).out 1 4 rfl rfl).mp hnil 2 hp2 T
     have hTc : (T : Subgroup ↥X) ≤ CFSG.Assembly.pCore 2 ↥X :=
-      Dichotomy.CentralizerContainment.le_pCore_assembly hTn T.isPGroup'
+      Dichotomy.CentralizerContainment.le_pCore_assembly hTn T.isPGroup
     exact ⟨⟨t, ht⟩, hTc (hT (Subgroup.mem_zpowers _)), rfl⟩
   intro x hx
   obtain ⟨a, ha⟩ := h2 x hx

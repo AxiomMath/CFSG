@@ -53,7 +53,7 @@ theorem exists_mul_mem_normalizer_of_commutator_mem_of_mem_normalizer {N R : Sub
   obtain ⟨n, hn, m, hm, hx_eq⟩ :=
     CFSG.ShultStronglyClosedTI.LinearChain.NontrivialTwoCore.exists_normalizer_mul_of_hall
       (H := H) (C := C) (M := N) (W := R) le_sup_left le_sup_right le_sup_left hCn hMn
-      (show N ⊔ R = C from rfl) (Subgroup.inf_eq_bot_of_coprime hcop) hsolv hcop
+      (show N ⊔ R = C from rfl) ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))) hsolv hcop
       (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))
   refine ⟨m⁻¹, N.inv_mem hm, ?_⟩
   have hxm : x * m⁻¹ = n := by rw [hx_eq]; group
@@ -67,7 +67,7 @@ theorem exists_mem_centralizer_of_commutator_mem {X N R : Subgroup G}
     {x : G} (hx : x ∈ X) (hxR : ∀ r ∈ R, ⁅x, r⁆ ∈ N) :
     ∃ y ∈ X, (∀ r ∈ R, y * r = r * y) ∧ x⁻¹ * y ∈ N := by
   classical
-  have hNR_bot : N ⊓ R = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hNR_bot : N ⊓ R = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hXN : X ≤ Subgroup.normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).mp hN
   have hxN : x ∈ Subgroup.normalizer (N : Set G) := hXN hx
@@ -124,16 +124,16 @@ theorem exists_isPGroup_two_mem_normalizer_of_sq_mem {N H : Subgroup G}
     ∃ w' : G, w'⁻¹ * w ∈ N ∧ w' ∈ Subgroup.normalizer (H : Set G) ∧
       ∃ k : ℕ, orderOf w' = 2 ^ k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := H ⊔ N
   let P : Subgroup G := C ⊔ Subgroup.zpowers w
-  haveI : Group.IsNilpotent N := hN2.isNilpotent
+  have : Group.IsNilpotent N := hN2.isNilpotent
   have hNsolv : Group.IsSolvable N := inferInstance
   have hcop : Nat.Coprime (Nat.card N) (Nat.card H) := by
     obtain ⟨a, ha⟩ := hN2.exists_card_eq
     rw [ha]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr hHodd)
-  have hNH_bot : N ⊓ H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hNH_bot : N ⊓ H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hPnormC : P ≤ Subgroup.normalizer (C : Set G) := by
     refine sup_le Subgroup.le_normalizer ?_
     exact Subgroup.zpowers_le.mpr hwHN

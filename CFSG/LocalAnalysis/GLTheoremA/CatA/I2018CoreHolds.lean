@@ -154,7 +154,7 @@ private theorem eq_top_of_glaPComponent_top {S : Type} [Group S] [Finite S] [IsS
   rcases CFSG.Open.IsSubnormal.eq_bot_or_top hJ.2.1 with h | h
   · exfalso
     have hQ := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
-    haveI := hQ.2.toNontrivial
+    have := hQ.2.toNontrivial
     have hsub : Subsingleton (PQuot 3 J) := by
       subst h
       refine ⟨fun a b => ?_⟩
@@ -510,7 +510,7 @@ private theorem not_td4 {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) (
 
 theorem i2018ChevCore_holds : I2018.I2018ChevCore := by
   intro S _ _ hS hna hχ α hα3 P hP T hTP hT J hJ hJP hU
-  haveI := hS
+  have := hS
   have hU8 := card_of_isU3eight hU
   have hJd : 5515776 ∣ Nat.card J := hU8 ▸ card_pSimple_dvd' J
   have hJS : Nat.card J ∣ Nat.card S := Subgroup.card_subgroup_dvd_card J

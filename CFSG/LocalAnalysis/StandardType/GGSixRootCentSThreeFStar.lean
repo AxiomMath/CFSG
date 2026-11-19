@@ -20,7 +20,7 @@ theorem ggSThree_layer_le_centralizer {H A : Subgroup Y}
   rw [CFSG.layer.eq_sSup Y]
   refine sSup_le fun K hK => (Subgroup.commutator_eq_bot_iff_le_centralizer.mp ?_)
   have hKH : K ≤ H := hcomp K hK
-  haveI : Group.IsSolvable A := hAs
+  have : Group.IsSolvable A := hAs
   have hsol : Group.IsSolvable (A.subgroupOf H) :=
     solvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hAH)
   have hnorm : (A.subgroupOf H).Normal :=
@@ -107,7 +107,7 @@ theorem ggSThree_eq_bot_of_two_group {H A : Subgroup Y} (hO : CFSG.pPrimeCore 3 
     (hFH : CFSG.fittingSubgroup Y ≤ H)
     (hcomp : ∀ K : Subgroup Y, CFSG.IsComponent K → K ≤ H) (hAH : A ≤ H)
     (hAn : ∀ h ∈ H, ∀ a ∈ A, h * a * h⁻¹ ∈ A) (hA2 : IsPGroup 2 A) : A = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF3 : IsPGroup 3 (CFSG.fittingSubgroup Y) := by
     rw [CFSG.Fitting_eq_pcore Y 3 hO]
     exact CFSG.pCore_isPGroup (p := 3) (G := Y)

@@ -17,6 +17,7 @@ section Separation
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {k : Type} [Field k] [CharP k 2]
   [Algebra F k] {f : ℕ}
 
+omit [CharP k 2] in
 theorem mem_of_forall_sum_frobTwist_smul_mem (hF : Fintype.card F = 2 ^ f)
     {V : Type*} [AddCommGroup V] [Module k V] (S : Submodule k V) (v : Fin f → V)
     (h : ∀ t : F, ∑ r, frobTwist F k f r t • v r ∈ S) (r : Fin f) : v r ∈ S := by
@@ -46,7 +47,7 @@ theorem mem_of_forall_sum_frobTwist_smul_mem (hF : Fintype.card F = 2 ^ f)
       have h2 := congrArg φ h1
       have h2' : ∑ x : Fin f, frobTwist F k f x t * φ (Submodule.mkQ S (v x)) = 0 := by
         simpa only [map_sum, map_smul, smul_eq_mul, map_zero] using h2
-      simp only [P, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+      simp only [P, eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
         Polynomial.eval_pow, Polynomial.eval_X]
       rw [← h2']
       refine Finset.sum_congr rfl fun x _ => ?_
@@ -99,17 +100,17 @@ theorem bFirst_one_add_single (ε : τ → Finset (Fin n)) (c : τ → k) {a b :
     simp only [Matrix.smul_apply, smul_eq_mul, Matrix.add_apply, Matrix.one_apply,
       Matrix.single_apply]
     by_cases hij : (j : ℕ) = i + 1
-    · rw [if_pos hij]
+    · rw [ite_eq_left hij]
       by_cases h1 : i = j
       · exfalso
         rw [h1] at hij
         omega
-      · rw [if_neg h1, zero_add]
+      · rw [ite_eq_right h1, zero_add]
         by_cases h2 : a = i ∧ b = j
         · obtain ⟨h2a, h2b⟩ := h2
-          rw [if_pos ⟨h2a, h2b⟩, if_pos ⟨h2a, h2b⟩, mul_one]
-        · rw [if_neg h2, if_neg h2, mul_zero]
-    · rw [if_neg hij, if_neg]
+          rw [ite_eq_left ⟨h2a, h2b⟩, ite_eq_left ⟨h2a, h2b⟩, mul_one]
+        · rw [ite_eq_right h2, ite_eq_right h2, mul_zero]
+    · rw [ite_eq_right hij, ite_eq_right]
       · rw [mul_zero]
       · rintro ⟨rfl, rfl⟩
         exact hij hab
@@ -124,6 +125,7 @@ section TwistedTransvection
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {k : Type} [Field k] [CharP k 2]
   [Algebra F k] {m f : ℕ}
 
+omit [Fintype F] [CharP k 2] in
 theorem coe_twist_transvection (s : Fin m) (t : F) (r : Fin f) :
     ((twistHom (frobTwist F k f) (SpecialLinearGroup.transvection
       (Fin.castSucc_lt_succ (i := s)).ne t)) r :
@@ -133,6 +135,7 @@ theorem coe_twist_transvection (s : Fin m) (t : F) (r : Fin f) :
     Matrix.SpecialLinearGroup.transvection_coe, map_add, map_one, RingHom.mapMatrix_apply,
     Matrix.map_single]
 
+omit [Fintype F] [CharP k 2] in
 theorem bFirst_twist_transvection (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (t : F) :
     bFirst (k := k) ε (fun r => ((twistHom (frobTwist F k f)
       (SpecialLinearGroup.transvection (Fin.castSucc_lt_succ (i := s)).ne t)) r :
@@ -174,10 +177,10 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed (hF : Fintype.card F = 2 ^ f)
       refine ⟨fun i => ?_, fun i j hji => ?_⟩
       · rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply,
           Matrix.one_apply_eq, Matrix.single_apply,
-          if_neg (by rintro ⟨h1, h2⟩; exact hne (h1.symm ▸ h2.symm)), add_zero]
+          ite_eq_right (by rintro ⟨h1, h2⟩; exact hne (h1.symm ▸ h2.symm)), add_zero]
       · rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply,
           Matrix.one_apply_ne hji.ne', Matrix.single_apply,
-          if_neg (by
+          ite_eq_right (by
             rintro ⟨rfl, rfl⟩
             exact absurd hji (not_lt.mpr (le_of_lt (Fin.castSucc_lt_succ (i := s))))),
           add_zero]
@@ -187,7 +190,7 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed (hF : Fintype.card F = 2 ^ f)
       intro q i j hji
       rw [coe_twist_transvection s t q, Matrix.add_apply, Matrix.one_apply_ne hji.ne',
         Matrix.single_apply,
-        if_neg (by
+        ite_eq_right (by
           rintro ⟨rfl, rfl⟩
           exact absurd hji (not_lt.mpr (le_of_lt (Fin.castSucc_lt_succ (i := s))))),
         add_zero]
@@ -197,7 +200,7 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed (hF : Fintype.card F = 2 ^ f)
       intro q i
       rw [coe_twist_transvection s t q, Matrix.add_apply, Matrix.one_apply_eq,
         Matrix.single_apply,
-        if_neg (by rintro ⟨h1, h2⟩; exact hne (h1.symm ▸ h2.symm)), add_zero]
+        ite_eq_right (by rintro ⟨h1, h2⟩; exact hne (h1.symm ▸ h2.symm)), add_zero]
     have hdiff : bMat ε (fun q => ((twistHom (frobTwist F k f)
         (SpecialLinearGroup.transvection hne t)) q :
           Matrix (Fin (m + 1)) (Fin (m + 1)) k)) *ᵥ w - w ∈ bRad (k := k) ε :=

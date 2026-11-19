@@ -21,7 +21,7 @@ theorem uc22pwSLnDv_mul (a b : Kˣ) (i : Fin (m + 2)) :
     simp [uc22pwSLnDv, Units.val_mul]
   by_cases hl : i = Fin.last (m + 1)
   · subst hl
-    simp only [uc22pwSLnDv, h0, if_false, if_true, Units.val_mul, _root_.mul_inv_rev]
+    simp only [uc22pwSLnDv, h0, ite_false, ite_true, Units.val_mul, _root_.mul_inv_rev]
     rw [mul_comm]
   · simp [uc22pwSLnDv, h0, hl]
 

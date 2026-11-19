@@ -23,7 +23,7 @@ theorem i1431ChevTwoS_of_residuals (h1 : U42InnField) (h2 : U42Outer) (h3 : U42F
       CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ
     have hq' : CFSG.Open.IsQuasisimple (PQuot 3 J') :=
       CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ'
-    haveI : Nontrivial (PQuot 3 J') := by
+    have : Nontrivial (PQuot 3 J') := by
       have := hq'.2.toNontrivial
       obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 J' ⧸ Subgroup.center (PQuot 3 J'))
       obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

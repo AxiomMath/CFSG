@@ -63,8 +63,8 @@ private lemma card_inf_range_le_fixed {B : Subgroup G} (h : Setting24 ι a)
 theorem E24_unique (h : Setting24 ι a) {B : Subgroup G} (hB : B ≤ P24 ι a)
     (hBab : IsMulCommutative B) (hBcard : Nat.card B = 16) : B = E24 ι a := by
   classical
-  haveI hBfin : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hBcard]; norm_num)
-  haveI hEfin : Finite ↥(E24 ι a) :=
+  have hBfin : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hBcard]; norm_num)
+  have hEfin : Finite ↥(E24 ι a) :=
     Nat.finite_of_card_ne_zero (by rw [card_E24 h]; norm_num)
   have hBle_top : B ≤ indSub ι ⊤ := fun x hx => by
     obtain ⟨g, hg, hgind⟩ := mem_indSub.mp (hB hx).1

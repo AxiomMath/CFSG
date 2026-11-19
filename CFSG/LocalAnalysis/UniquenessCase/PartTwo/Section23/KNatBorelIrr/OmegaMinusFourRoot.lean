@@ -41,6 +41,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
 local notation "ιM" => Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2
 
+omit [Finite K] [CharP K 2] in
 private theorem isometry_of_mem_statedOmega_minus_L21 {b c : K} {g : GL ιM K}
     (hg : g ∈ StatedOmega (StatedQuadMinus 2 K b c)) :
     ∀ v, quadMinus 2 K b c ((g : Matrix ιM ιM K) *ᵥ v) = quadMinus 2 K b c v := by
@@ -50,6 +51,7 @@ private theorem isometry_of_mem_statedOmega_minus_L21 {b c : K} {g : GL ιM K}
     (CFSG.GroupTheory.WeirSylow.statedOmega_le_isometryCore _ hg) v
   rwa [← CFSG.LieType.Universal.Spin.coe_quadMinus 2 K b c] at h
 
+omit [Finite K] [CharP K 2] in
 private theorem mem_lineStabilizer_of_mem_lineStab_L21 {b c : K}
     {g : ↥(StatedOmega (StatedQuadMinus 2 K b c))}
     (hg : g ∈ KTabD.lineStab (StatedOmega (StatedQuadMinus 2 K b c)) (KTabC.e1M K)) :
@@ -58,6 +60,7 @@ private theorem mem_lineStabilizer_of_mem_lineStab_L21 {b c : K}
   exact (mem_lineStabilizer_iff (quadMinus 2 K b c)).mpr
     ⟨isometry_of_mem_statedOmega_minus_L21 g.2, d, hd⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem conj_mem_rootGroupGL_subgroupOf_L21 {b c : K}
     {g : ↥(StatedOmega (StatedQuadMinus 2 K b c))}
     (hg : g ∈ KTabD.lineStab (StatedOmega (StatedQuadMinus 2 K b c)) (KTabC.e1M K))
@@ -88,7 +91,7 @@ theorem sylow_eq_rootGroupGL_omegaMinusFour (hirr : ∀ s : K, s ^ 2 + b * s + c
   have hPfix : ∀ g ∈ P, (g : Matrix ιM ιM K) *ᵥ KTabC.e1M K = KTabC.e1M K := by
     rintro g ⟨u, hu, rfl⟩
     exact mulVec_eq_of_mem_sylow_le_lineStab KOm.e1M_ne_zero U hU hu
-  have hP2 : IsPGroup 2 ↥P := U.isPGroup'.map (StatedOmega (StatedQuadMinus 2 K b c)).subtype
+  have hP2 : IsPGroup 2 ↥P := U.isPGroup.map (StatedOmega (StatedQuadMinus 2 K b c)).subtype
   have hPR : P ≤ R := KOm.le_rootGroupGL_of_le_statedOmega hirr hPΩ hPfix hP2
   have hUR : (U : Subgroup ↥(StatedOmega (StatedQuadMinus 2 K b c))) ≤
       R.subgroupOf (StatedOmega (StatedQuadMinus 2 K b c)) := by
@@ -161,7 +164,7 @@ theorem exists_mulVec_e1M_eq_smul_omegaMinusFour (a : Kˣ) :
           Matrix (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K) *ᵥ
         KTabC.e1M K = (a : K) • KTabC.e1M K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (m : ℕ) := Nat.card_eq_fintype_card.trans hm
   have hOdd : Odd (Nat.card Kˣ) := by

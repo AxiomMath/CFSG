@@ -25,9 +25,9 @@ theorem exists_noncentral_of_elemAbelian {G : Type*} [Group G] {J T : Subgroup G
     ∃ (s₀ : G) (hs₀ : s₀ ∈ J), orderOf s₀ = q ∧
       (⟨s₀, hs₀⟩ : ↥J) ∉ Subgroup.center ↥J := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpos : 0 < Nat.card ↥(Subgroup.center ↥J) := Nat.pos_of_dvd_of_pos hZ (by norm_num)
-  haveI : Finite ↥(Subgroup.center ↥J) := Nat.finite_of_card_ne_zero hpos.ne'
+  have : Finite ↥(Subgroup.center ↥J) := Nat.finite_of_card_ne_zero hpos.ne'
   have hnotle : ¬ T.subgroupOf J ≤ Subgroup.center ↥J := by
     intro hle
     have h1 : Nat.card ↥(T.subgroupOf J) ≤ Nat.card ↥(Subgroup.center ↥J) :=
@@ -37,7 +37,7 @@ theorem exists_noncentral_of_elemAbelian {G : Type*} [Group G] {J T : Subgroup G
     have h3 : Nat.card ↥(Subgroup.center ↥J) ≤ 3 := Nat.le_of_dvd (by norm_num) hZ
     rw [h2] at h1
     nlinarith [hq.two_le]
-  obtain ⟨s, hsT, hsZ⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨s, hsT, hsZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hs1 : s ≠ 1 := fun h => hsZ (h ▸ Subgroup.one_mem _)
   have hsq' : s ^ q = 1 := (hT.subgroupOf J).2 s hsT
   have hsq : orderOf s = q := orderOf_eq_prime hsq' hs1

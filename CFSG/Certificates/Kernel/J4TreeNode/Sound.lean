@@ -32,12 +32,12 @@ theorem enumOK_spec {f : ℕ → ℕ → Bool} {l : List ℕ} {X u t : ℕ}
       omega
     rcases Nat.mod_two_eq_zero_or_one m with h0 | h1
     · have := ih h.1 (m / 2) hm2
-      rw [prodFrom, if_neg (by omega)]
+      rw [prodFrom, ite_eq_right (by omega)]
       have hm' : m = 2 * (m / 2) := by omega
       rwa [show u + 2 ^ t * m = u + 2 ^ (t + 1) * (m / 2) by
         rw [pow_succ]; nth_rewrite 1 [hm']; ring]
     · have := ih h.2 (m / 2) hm2
-      rw [prodFrom, if_pos h1]
+      rw [prodFrom, ite_eq_left h1]
       have hm' : m = 2 * (m / 2) + 1 := by omega
       rwa [show u + 2 ^ t * m = u + 2 ^ t + 2 ^ (t + 1) * (m / 2) by
         rw [pow_succ]; nth_rewrite 1 [hm']; ring]
@@ -61,13 +61,13 @@ theorem enumZ_spec {f : ℕ → ℕ → ℕ → Bool} {l : List ℕ} {X u t : �
     rcases Nat.mod_two_eq_zero_or_one m with h0 | h1
     · obtain ⟨z, hz⟩ := ih h.1 (m / 2) hm2
       refine ⟨z, ?_⟩
-      rw [prodFrom, if_neg (by omega)]
+      rw [prodFrom, ite_eq_right (by omega)]
       have hm' : m = 2 * (m / 2) := by omega
       rwa [show u + 2 ^ t * m = u + 2 ^ (t + 1) * (m / 2) by
         rw [pow_succ]; nth_rewrite 1 [hm']; ring]
     · obtain ⟨z, hz⟩ := ih h.2 (m / 2) hm2
       refine ⟨z, ?_⟩
-      rw [prodFrom, if_pos h1]
+      rw [prodFrom, ite_eq_left h1]
       have hm' : m = 2 * (m / 2) + 1 := by omega
       rwa [show u + 2 ^ t * m = u + 2 ^ t + 2 ^ (t + 1) * (m / 2) by
         rw [pow_succ]; nth_rewrite 1 [hm']; ring]
@@ -114,7 +114,7 @@ private theorem entsOK_gen {NA AI N NI kidU : List ℕ} (es : List (ℕ × ℕ �
         exact he
       · left
         have hk' : (kid != 0) = true := by simpa using hk
-        rw [if_pos hk', Bool.and_eq_true, beq_iff_eq, Nat.blt_eq] at h1
+        rw [ite_eq_left hk', Bool.and_eq_true, beq_iff_eq, Nat.blt_eq] at h1
         exact ⟨hk, h1.2, h1.1⟩
     | succ j =>
       simp only [List.getD_cons_succ]
@@ -182,9 +182,9 @@ theorem orbOK_spec {S SI : List ℕ} {Y root : ℕ} {orb : List (ℕ × ℕ × �
     simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi]
   have := h4 _ hmem
   by_cases hr : i = root
-  · simp only [hr, if_true, Bool.and_eq_true, Nat.beq_eq, beq_iff_eq] at this
+  · simp only [hr, ite_true, Bool.and_eq_true, Nat.beq_eq, beq_iff_eq] at this
     exact ⟨fun _ => ⟨by rw [hr]; exact this.1, by rw [hr]; exact this.2⟩, fun h => absurd hr h⟩
-  · simp only [hr, if_false, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, beq_iff_eq] at this
+  · simp only [hr, ite_false, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, beq_iff_eq] at this
     obtain ⟨⟨⟨a1, a2⟩, a3⟩, a4⟩ := this
     exact ⟨fun h => absurd h hr, fun _ => ⟨a1, a2, a3, a4⟩⟩
 
@@ -284,7 +284,7 @@ theorem leadOf_spec {Y : ℕ} {a : Code} (h : leadOf Y < 66) (ha : RC a Y) :
     have g0 : (posL.getD x.2 (0, 0)).1 < 12 := by omega
     refine ⟨⟨⟨_, g0⟩, ⟨_, g2⟩, g1, g3, ?_⟩, fun i j hij hlt => ?_⟩
     · rw [codeMat_apply ha]
-      simp only [hx3, if_true]
+      simp only [hx3, ite_true]
     · have := hx4 (idx i j) (Nat.zero_le _) hlt
       rw [posL_idx i j hij] at this
       rw [codeMat_apply ha]
@@ -371,8 +371,8 @@ private theorem spF_mul (z : ℕ) : ∀ n, spF z n * 4095 < 2 ^ (12 * n) ∧
     · intro m
       rw [Nat.testBit_two_pow_mul_add _ ih1]
       by_cases hm : m < n
-      · rw [if_pos (by omega), ih2, decide_eq_true hm, decide_eq_true (by omega : m < n + 1)]
-      · rw [if_neg (by omega)]
+      · rw [ite_eq_left (by omega), ih2, decide_eq_true hm, decide_eq_true (by omega : m < n + 1)]
+      · rw [ite_eq_right (by omega)]
         rcases Nat.eq_or_lt_of_not_lt hm with rfl | hm'
         · rw [Nat.sub_self, decide_eq_true (Nat.lt_succ_self m), Bool.true_and]
           cases z.testBit m <;> rfl
@@ -483,7 +483,7 @@ theorem ut_mul {A B : Matrix (Fin 12) (Fin 12) (ZMod 2)} (hA : UT A) (hB : UT B)
 
 theorem ut_mul_apply {A B : Matrix (Fin 12) (Fin 12) (ZMod 2)} (hA : UT A) (hB : UT B) {p : ℕ}
     (hA0 : ∀ i j : Fin 12, i < j → idx i j < p → A i j = 0)
-    (hB0 : ∀ i j : Fin 12, i < j → idx i j < p → B i j = 0) {i j : Fin 12} (hij : i < j)
+    (_hB0 : ∀ i j : Fin 12, i < j → idx i j < p → B i j = 0) {i j : Fin 12} (hij : i < j)
     (hp : idx i j ≤ p) : (A * B) i j = A i j + B i j := by
   rw [Matrix.mul_apply, Fintype.sum_eq_add i j (ne_of_lt hij)]
   · rw [(hA i i).2, (hB j j).2, one_mul, mul_one, add_comm]
@@ -536,7 +536,7 @@ theorem nwFrom_mem {K : Subgroup G} : ∀ {l : List G} (_ : ∀ x ∈ l, x ∈ K
 @[expose] def LeadAt (q : ℕ) (A : Matrix (Fin 12) (Fin 12) (ZMod 2)) : Prop :=
   (∃ i j : Fin 12, i < j ∧ idx i j = q ∧ A i j = 1) ∧ Zb q A
 
-theorem ut_one : UT (1 : Matrix (Fin 12) (Fin 12) (ZMod 2)) := fun i j =>
+theorem ut_one : UT (1 : Matrix (Fin 12) (Fin 12) (ZMod 2)) := fun i _j =>
   ⟨fun h => Matrix.one_apply_ne (ne_of_gt h), Matrix.one_apply_eq i⟩
 
 theorem zb_one (q : ℕ) : Zb q (1 : Matrix (Fin 12) (Fin 12) (ZMod 2)) := fun _ _ hij _ =>
@@ -599,8 +599,7 @@ theorem nw_injective {K : Subgroup G} (φ : G → Matrix (Fin 12) (Fin 12) (ZMod
     have hm2 : m % 2 = 0 ∨ m % 2 = 1 := Nat.mod_two_eq_zero_or_one m
     have hm2' : m' % 2 = 0 ∨ m' % 2 = 1 := Nat.mod_two_eq_zero_or_one m'
     rcases hm2 with h0 | h0 <;> rcases hm2' with h0' | h0' <;>
-      simp only [h0, h0', if_true, if_false, one_mul, Nat.zero_ne_one, Nat.one_ne_zero,
-        mul_right_inj] at he
+      simp only [h0, h0', ite_true, ite_false, one_mul, Nat.zero_ne_one, mul_right_inj] at he
     · have := nw_injective φ hφ hφ1 l hl' (List.pairwise_cons.mp hP).2 _ _ (by omega)
         (by omega) he
       omega
@@ -696,9 +695,9 @@ theorem nw_split {K : Subgroup G} : ∀ (fs : List Bool) (l : List G), fs.length
     · subst hf
       have hxc : ∀ y ∈ K, x * y = y * x := hc x (by simp [filt])
       refine ⟨u, by simpa [filt] using hu, m % 2 + 2 * v, ?_, ?_⟩
-      · simp only [filt, if_true, List.length_cons, pow_succ]
+      · simp only [filt, ite_true, List.length_cons, pow_succ]
         omega
-      · simp only [filt, if_true, if_false, Bool.true_eq_false]
+      · simp only [filt, ite_true, ite_false, Bool.true_eq_false]
         rw [nwFrom_cons]
         have e1 : (m % 2 + 2 * v) % 2 = m % 2 := by omega
         have e2 : (m % 2 + 2 * v) / 2 = v := by omega
@@ -711,9 +710,9 @@ theorem nw_split {K : Subgroup G} : ∀ (fs : List Bool) (l : List G), fs.length
     · have hf' : f = false := by simpa using hf
       subst hf'
       refine ⟨m % 2 + 2 * u, ?_, v, by simpa [filt] using hv, ?_⟩
-      · simp only [filt, if_true, List.length_cons, pow_succ]
+      · simp only [filt, ite_true, List.length_cons, pow_succ]
         omega
-      · simp only [filt, if_true, if_false, Bool.false_eq_true]
+      · simp only [filt, ite_true, ite_false, Bool.false_eq_true]
         rw [nwFrom_cons]
         have e1 : (m % 2 + 2 * u) % 2 = m % 2 := by omega
         have e2 : (m % 2 + 2 * u) / 2 = u := by omega
@@ -744,8 +743,8 @@ theorem nw_mul_xor : ∀ (l : List G), (∀ x ∈ l, ∀ y ∈ l, x * y = y * x)
     rw [nwFrom_cons, nwFrom_cons, nwFrom_cons, e1, ← nw_mul_xor l hc' hs' (v / 2) (v' / 2), e2]
     rcases Nat.mod_two_eq_zero_or_one v with h1 | h1 <;>
       rcases Nat.mod_two_eq_zero_or_one v' with h2 | h2 <;>
-      simp only [h1, h2, Nat.reduceAdd, Nat.reduceMod, Nat.zero_ne_one, if_true, if_false,
-        one_mul, mul_one]
+      simp only [h1, h2, Nat.reduceAdd, Nat.reduceMod, Nat.zero_ne_one, ite_true, ite_false,
+        one_mul]
     · rw [← mul_assoc, ← hxw, mul_assoc]
     · rw [mul_assoc]
     · rw [← mul_assoc, mul_assoc x (nwFrom 1 l (v / 2)) x, ← hxw, ← mul_assoc, hxx, one_mul]
@@ -931,12 +930,12 @@ theorem sxOf_testBit (zm : List ℕ) :
       rw [Nat.testBit_or, Nat.testBit_two_pow, h t ht, Array.set!_eq_setIfInBounds,
         Array.getElem?_setIfInBounds, transl_etaCode]
       by_cases he : etaCK UK c % 2 ^ 12 / 2 = t
-      · rw [if_pos he, if_pos (by rw [hA, he]; exact ht), decide_eq_true he]
+      · rw [ite_eq_left he, ite_eq_left (by rw [hA, he]; exact ht), decide_eq_true he]
         simp
-      · rw [if_neg he, decide_eq_false he, Bool.or_false]
+      · rw [ite_eq_right he, decide_eq_false he, Bool.or_false]
   intro t ht
   refine key zm 0 _ (by simp) (fun t ht => ?_) t ht
-  simp [Array.getElem?_replicate, ht]
+  simp [ht]
 
 section PK
 

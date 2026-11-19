@@ -48,7 +48,7 @@ theorem eq_bot_of_permutes_sylow_two_of_odd_of_not_three_dvd_of_quotient_perm
   have hφ : Function.Surjective φ := e.surjective.comp (QuotientGroup.mk'_surjective N)
   let S' : Sylow 2 (Perm α) := S.mapSurjective hφ
   have hS' : IsSylowTwoOf (S' : Subgroup (Perm α)) ⊤ := by
-    refine ⟨le_top, S'.isPGroup', ?_⟩
+    refine ⟨le_top, S'.isPGroup, ?_⟩
     change ¬ 2 ∣ (S' : Subgroup (Perm α)).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact S'.not_dvd_index

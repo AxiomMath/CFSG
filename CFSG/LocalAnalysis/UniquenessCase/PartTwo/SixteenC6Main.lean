@@ -15,6 +15,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c6_not_isCyclic {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) (hcard : p ^ 2 ≤ Nat.card E) : ¬ IsCyclic E := by
   intro hcyc
@@ -26,6 +27,7 @@ private theorem s16c6_not_isCyclic {p : ℕ} (hp : p.Prime) {E : Subgroup G}
   have h3 := hp.one_lt
   nlinarith
 
+omit [Finite G] in
 private theorem s16c6_uniqueMax_of_le {M E C : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hEC : E ≤ C) (hCM : C ≤ M) (hE : UniqueMax M E) : UniqueMax M C := by
   refine Set.eq_singleton_iff_unique_mem.2 ⟨⟨hM, hCM⟩, fun N hN => ?_⟩
@@ -58,8 +60,8 @@ theorem s168e3_false_of_case163_6
     rwa [hwT] at h
   obtain ⟨F, hFfield, hFfin, b, c₀, hF, hirr, ε, ψ, hcoords⟩ :=
     S18.exists_natCoords_of_natOmegaMinus hNat
-  letI := hFfield
-  letI := hFfin
+  let := hFfield
+  let := hFfin
   let co : S16c6Coords V₀ V L hV :=
     { F := F, b := b, c := c₀, card_eq := by rw [hF], irr := hirr, ε := ε, ψ := ψ,
       coords := hcoords }
@@ -77,7 +79,7 @@ theorem s168e3_false_of_case163_6
     by_cases hQ : StatedQuadMinus 3 co.F co.b co.c (co.vec w hw) = 0
     · obtain ⟨K, P, X, hK, hKN, hU, hP, hX, hL2, hXp, hXle⟩ :=
         s16c6_singular_lift D c.std hS hc co hw ⟨hne1, hQ⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hSP : IsStronglyPEmbedded 3 D.M :=
         UC6S846.sp_of_mem_sig c.std.hSg (UC6S846.not_solvable_of_mem_calC hK) h3sig
       have hcomm := s16c6_comm D hK hKN (n := 3) (by norm_num) hU

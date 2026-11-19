@@ -93,8 +93,8 @@ private theorem d4qIR_finrank_le {T W : Type} [Group T] [AddCommGroup W] [Module
     Module.finrank (ZMod 2) W ≤
       Module.finrank (ZMod 2) (Submodule.span (ZMod 2) {v | ∃ t w, v = ρ t w - w}) +
         Module.finrank (ZMod 2) ρ.invariants := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hnd : LinearMap.BilinForm.Nondegenerate B :=
     LinearMap.BilinForm.Nondegenerate.ofSeparatingLeft hsep
   set X := Submodule.span (ZMod 2) {v | ∃ t w, v = ρ t w - w} with hX
@@ -131,9 +131,9 @@ private theorem d4qIR_card_invariants_le (hf : 2 ≤ f) {K H : Subgroup G}
     Nat.card (Representation.invariants
       ((leviRep le_sup_left s).comp (S.subgroupOf K).subtype)) ≤ 2 ^ f := by
   classical
-  letI := c1.field
-  letI := c1.fintype
-  haveI : CharP c1.F 2 :=
+  let := c1.field
+  let := c1.fintype
+  have : CharP c1.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c1.card])
   have hF : Fintype.card c1.F = 2 ^ (3 * f) := by rw [← Nat.card_eq_fintype_card, c1.card]
   let α' : ↥K →* SL(2, c1.F) := c1.α.comp (Subgroup.inclusion hKL)
@@ -165,7 +165,7 @@ private theorem d4qIR_card_invariants_le (hf : 2 ≤ f) {K H : Subgroup G}
   have hρ' : ∀ k : ↥K, ρ' (e k) = leviRep le_sup_left s k := by
     intro k
     simp [ρ']
-  haveI : Fact ρ'.IsIrreducible := by
+  have : Fact ρ'.IsIrreducible := by
     refine ⟨?_⟩
     rw [CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff]
     obtain ⟨hnt, hinv⟩ := (CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff
@@ -180,9 +180,9 @@ private theorem d4qIR_card_invariants_le (hf : 2 ≤ f) {K H : Subgroup G}
   have hW : Nat.card W = 2 ^ (8 * f) := hd.card_secRep s
   obtain ⟨K', hK'field, hK'fin, hK'alg, hK'card, σ, β, hβ⟩ :=
     exists_kForm_model hf hF ρ' hnt hW
-  letI : Field K' := hK'field
-  letI : Fintype K' := hK'fin
-  letI : Algebra K' c1.F := hK'alg
+  let : Field K' := hK'field
+  let : Fintype K' := hK'fin
+  let : Algebra K' c1.F := hK'alg
   have hτ : ∀ a, FiniteField.frobeniusAlgHom K' c1.F a = a ^ 2 ^ f := by
     intro a
     rw [FiniteField.frobeniusAlgHom_apply, hK'card]
@@ -222,7 +222,7 @@ private theorem d4qIR_centerOf_left_le_commutator (hH : Hyp111 L1 L2 S)
     (hD : D4qLocalData L1 L2 S f) (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1)) :
     centerOf (pCoreOf 2 L1) ≤ ⁅pCoreOf 2 L2, L2⁆ := by
   obtain ⟨c⟩ := hD.exists_coordRight hH
-  letI := c.field
+  let := c.field
   obtain ⟨β, hβs, hβker, hβeq⟩ := c.nat
   refine (hD.centerOf_pCoreOf_left_le_right hH h1).trans fun z hz => ?_
   obtain ⟨y, hyc, hyZ, hy⟩ := exists_commutator_natSecVec_eq c.surj hβs hβeq
@@ -267,7 +267,7 @@ private theorem d4qIR_card_subgroupOf_ge (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (hcommM : ∀ t ∈ S, ∀ x ∈ pCoreOf 2 L1, t * x * t⁻¹ * x⁻¹ ∈ M) :
     2 ^ (8 * f) ≤ Nat.card (M.subgroupOf (pCoreOf 2 L1)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨H, hHB, hSH, hSinfH, hHcard, hHcomm⟩ := hD.exists_hall_bigB hH h1
   obtain ⟨hd, hQK, hQinfK, -, -⟩ := hD.vertexOne_left hf hH h1 hHB hSH hSinfH hHcard hHcomm
   generalize hKdef : L1 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G) = K
@@ -276,7 +276,7 @@ private theorem d4qIR_card_subgroupOf_ge (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
   obtain ⟨W, hW1, hW2, hW3, ⟨s⟩⟩ := exists_secRep hd.secHyp
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
   obtain ⟨B, hBinv, hBsep⟩ := hd.exists_invariant_form hf s
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hfin := d4qIR_finrank_le ((leviRep le_sup_left s).comp (S.subgroupOf K).subtype) B
     (fun t x y => hBinv (t : ↥K) x y) hBsep
   have hinv := d4qIR_card_invariants_le hf hd s c1 hKL hQK hQinfK
@@ -366,11 +366,12 @@ private theorem d4qIR_comm_mem_center (hD : D4qLocalData L1 L2 S f) :
   rw [hcomm] at hmem
   simpa [commutatorElement_def] using hmem
 
+omit [Finite G] in
 private theorem d4qIR_card_centerOf_right (hD : D4qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L2)) = 2 ^ (2 * f) := by
   obtain ⟨F, hField, hFintype, hFcard, α, -, -, β, hβ, hker, -⟩ := hD.nat_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hinj : Function.Injective β := by
     rw [← MonoidHom.ker_eq_bot_iff, hker, Subgroup.bot_subgroupOf]
   rw [Nat.card_eq_of_bijective β ⟨hinj, hβ⟩, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
@@ -478,7 +479,7 @@ theorem D4qLocalData.eq_one_of_mem_trivOTwoQuot (hf : 2 ≤ f) (hH : Hyp111 L1 L
     (hD : D4qLocalData L1 L2 S f) (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1)) {k : G}
     (hkL : k ∈ L2) (hkodd : Odd (orderOf k)) (hk : k ∈ trivOTwoQuot L1) : k = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS1 : S ≤ L1 := hD.le_left hH h1
   have hS2 : S ≤ L2 := hD.le_right hH
   have hQ1S : pCoreOf 2 L1 ≤ S := hH.pCoreOf_le_left
@@ -582,9 +583,9 @@ theorem D4qLocalData.eq_one_of_mem_trivOTwoQuot (hf : 2 ≤ f) (hH : Hyp111 L1 L
     omega
   ·
     obtain ⟨c2⟩ := hD.exists_coordRight hH
-    letI := c2.field
-    letI := c2.fintype
-    haveI : CharP c2.F 2 :=
+    let := c2.field
+    let := c2.fintype
+    have : CharP c2.F 2 :=
       charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c2.card])
     obtain ⟨s, hs⟩ := c2.surj (utriElt 1)
     have hsS : (s : G) ∈ S := (c2.memS s).mpr (by rw [hs]; exact utriElt_mem_utri 1)

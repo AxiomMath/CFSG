@@ -41,11 +41,10 @@ theorem exists_line_of_card_fixed_gt {g : MulAut W}
   have hLapply : ∀ x : OmI → S.K,
       L x = (γ : Matrix OmI OmI S.K) *ᵥ x - x := by
     intro x
-    simp [L, Matrix.mulVecLin_apply]
+    simp [L]
   have hLw : ∀ w : W, L (S.vec w) = S.vec (g w * w⁻¹) := by
     intro w
     rw [hLapply]
-    change (γ : Matrix OmI OmI S.K) *ᵥ S.vec w - S.vec w = S.vec (g w * w⁻¹)
     rw [S.vec_mul, S.vec_inv, ← hγ, S.actHom_vec, sub_eq_add_neg]
   have hfixp : ∀ X : W, g X = X ↔ L (S.vec X) = 0 := by
     intro X
@@ -65,7 +64,7 @@ theorem exists_line_of_card_fixed_gt {g : MulAut W}
       right_inv := fun Y => Subtype.ext (S.vec_ofVec Y.1) }
   have hcard : Nat.card {v : W // g v = v}
       = Nat.card S.K ^ Module.finrank S.K L.ker := by
-    haveI : Module.Finite S.K L.ker := inferInstance
+    have : Module.Finite S.K L.ker := inferInstance
     calc Nat.card {v : W // g v = v} = Nat.card L.ker := Nat.card_congr fixEquiv
       _ = Nat.card S.K ^ Module.finrank S.K L.ker :=
             Module.natCard_eq_pow_finrank (K := S.K) (V := L.ker)

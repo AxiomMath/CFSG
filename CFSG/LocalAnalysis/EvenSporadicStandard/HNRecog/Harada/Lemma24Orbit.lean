@@ -24,7 +24,7 @@ theorem exists_orbit_card_two {Q X : Type*} [Group Q] [Finite Q] [MulAction Q X]
     ∃ x : X, Nat.card (MulAction.orbit Q x) = 2 := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have h4 : 4 ∣ Nat.card X := by
     refine dvd_natCard_of_forall_dvd_ncard_orbit (H := Q) (n := 4) fun x => ?_
     rw [← Nat.card_coe_set_eq]

@@ -15,6 +15,7 @@ variable {S : Type} [CommGroup S] [Finite S] [Fact (∀ s : S, s * s = 1)]
 @[expose] noncomputable def disp (t : MulAut S) : ℕ :=
   Module.finrank (ZMod 2) (LinearMap.range ((binaryLin t : Additive S →ₗ[ZMod 2] Additive S) - 1))
 
+omit [Finite S] in
 theorem disp_conj (g t : MulAut S) : disp (g * t * g⁻¹) = disp t :=
   finrank_range_sub_one_conj (binaryLin : MulAut S →* (Additive S ≃ₗ[ZMod 2] Additive S)) g t
 

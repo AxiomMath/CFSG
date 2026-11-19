@@ -249,7 +249,7 @@ theorem item135A7Three_of_inputs (hR : KS135A7TwoLocal) (hT : Item135A7ThreeTran
   have hR2' : IsPGroup 2 (R.subgroupOf CB) := hR2.comap_subtype
   obtain ⟨S, hRS⟩ := hR2'.exists_le_sylow
   set SG : Subgroup G := (S : Subgroup CB).map CB.subtype with hSGdef
-  have hSG2 : IsPGroup 2 SG := S.isPGroup'.map _
+  have hSG2 : IsPGroup 2 SG := S.isPGroup.map _
   have hRSG : R ≤ SG := fun r hr => ⟨⟨r, hRC hr⟩, hRS hr, rfl⟩
   have hSG1 : SG ≠ ⊥ := fun h => hR1 (le_bot_iff.mp (h ▸ hRSG))
   have hSGB : SG ≤ CB := Subgroup.map_subtype_le _

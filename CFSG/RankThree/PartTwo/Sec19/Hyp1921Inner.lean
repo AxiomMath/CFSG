@@ -78,6 +78,7 @@ theorem Hyp1921.card_map_inf_Q (h : Hyp1921 G A M N L) {Q : Subgroup G}
     CFSG.pCore_isPGroup, mul_one, hB'card] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem barAut_of_mem {L : Subgroup G} (l : L) :
     Sec3.Sims321.barAut L ⟨(l : G), Subgroup.le_normalizer l.2⟩ =
       MulAut.conj (QuotientGroup.mk' (CFSG.pCore 2 ↥L) l) := by
@@ -147,6 +148,7 @@ private theorem mem_zpowers_of_isCyclic_of_pow_three {K : Subgroup G} (hK : IsCy
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx'mem
   exact Subgroup.mem_zpowers_iff.mpr ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite G] in
 theorem zpowers_le_normalizer_zpowers_of_commute {c x : G} (hcomm : x * c = c * x) :
     Subgroup.zpowers x ≤ Subgroup.normalizer ((Subgroup.zpowers c : Subgroup G) : Set G) := by
   refine Subgroup.zpowers_le.mpr (Subgroup.centralizer_le_normalizer _ ?_)

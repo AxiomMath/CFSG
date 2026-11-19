@@ -45,6 +45,7 @@ theorem rhoL_map_sylowBar2 {L U : Subgroup G} (m : ↥(normalizer (L : Set G)))
   · rw [Subgroup.card_map_of_injective (f := (UC6S846.rhoL L m).toMonoidHom)
       (UC6S846.rhoL L m).injective]
 
+omit [Finite G] in
 theorem exists_rhoL_pow_two_pow_eq_one {T L : Subgroup G} (hT2 : IsPGroup 2 T)
     (m : ↥(normalizer (L : Set G))) (hmT : (m : G) ∈ T) :
     ∃ k : ℕ, UC6S846.rhoL L m ^ 2 ^ k = 1 := by
@@ -120,6 +121,7 @@ theorem powerMap_lift_of_rhoL {L U : Subgroup G}
   rw [← hxeq]
   exact hx'
 
+omit [Finite G] in
 theorem mem_map_comap_mk_iff {L : Subgroup G} (P : Subgroup (Bar2 L)) (x : ↥L) :
     (x : G) ∈ (P.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).map L.subtype ↔
       (QuotientGroup.mk x : Bar2 L) ∈ P := by

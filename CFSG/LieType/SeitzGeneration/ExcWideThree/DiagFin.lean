@@ -38,7 +38,7 @@ theorem rf_cols_row (w : WeylGroup Tag.E6) (i : Fin Tag.E6.rank) :
   rw [List.map_ofFn]
   congr 1
   funext j
-  simp [Function.comp_apply, List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+  simp [Function.comp_apply, List.getD_eq_getElem?_getD]
 
 @[expose] def rfLincombZ (v : List ℤ) (β : List (List ℤ)) : List ℤ :=
   (List.range 6).map fun i => rfDotL v (β.map fun b => b.getD i 0)
@@ -232,7 +232,7 @@ theorem exists_lift_of_rfCls0 (w : WeylGroup Tag.E6) {κs : List (List ℕ)}
     have hrow : (rfCartanMod3.map fun row => rfDotN row mL).getD j 0 =
         rfDotN ((List.ofFn (fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)).map rfRes3) mL := by
       rw [rfCartanMod3_eq, rfCartanL_eq, List.map_ofFn, List.map_ofFn, List.getD_eq_getElem?_getD]
-      simp [List.getElem?_ofFn]
+      simp
     rw [hrow] at h1
     rw [rfDotN_comm (List.map rfRes3 _) mL] at h1
     have h2 := rfDotN_res3 mL (List.ofFn fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)
@@ -328,7 +328,7 @@ theorem rf_residue_cond (w : WeylGroup Tag.E6) {κ : List ℕ} (hκ : κ.length 
 theorem rfCartanL_getD (i t : Fin Tag.E6.rank) :
     (rfCartanL.getD (i : ℕ) []).getD (t : ℕ) 0 = Tag.E6.cartan i t := by
   rw [rfCartanL_eq]
-  simp [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+  simp [List.getD_eq_getElem?_getD]
 
 theorem rf_dot_cartan_cols (w : WeylGroup Tag.E6) (i t : Fin Tag.E6.rank) :
     rfDotL (List.ofFn (w • (Pi.single i 1 : Fin Tag.E6.rank → ℤ)))

@@ -178,9 +178,8 @@ theorem siegel_pair_relation {a₁ a₂ a₁' a₂' : V} {c c' : K} {s s' : V �
   have hgz : ∀ z, s (s' z) = z + corr z := by
     intro z
     rw [hcorr z, hs (s' z), hs' z]
-    simp only [polar_add_left, polar_smul_left, v11, v12, v13, v14, v21, v22, v23, v24,
-      v31, v32, v33, v34, v41, v42, v43, v44, smul_eq_mul, mul_zero, mul_one, zero_add,
-      add_zero, smul_zero]
+    simp only [polar_add_left, polar_smul_left, v31, v32, v41, v42, smul_eq_mul, mul_zero, mul_one, zero_add,
+      add_zero]
     module
   have hGz : ∀ z, G z = z + corr z := fun z => hgz z
   have hcadd : ∀ u v, corr (u + v) = corr u + corr v := by
@@ -214,23 +213,20 @@ theorem siegel_pair_relation {a₁ a₂ a₁' a₂' : V} {c c' : K} {s s' : V �
     intro x
     have h1 : polar Qf (x + pj x) a₁ = 0 := by
       rw [hpj x]
-      simp only [polar_add_left, polar_smul_left, v11, v12, v13, v14, v21, v22, v23, v24,
-        v31, v32, v33, v34, v41, v42, v43, v44, smul_eq_mul]
+      simp only [polar_add_left, polar_smul_left, v11, v21, v31, v41, smul_eq_mul]
       linear_combination e2K (polar Qf x a₁)
     have h2 : polar Qf (x + pj x) a₂ = 0 := by
       rw [hpj x]
-      simp only [polar_add_left, polar_smul_left, v11, v12, v13, v14, v21, v22, v23, v24,
-        v31, v32, v33, v34, v41, v42, v43, v44, smul_eq_mul]
+      simp only [polar_add_left, polar_smul_left, v12, v22, v32, v42, smul_eq_mul]
       linear_combination e2K (polar Qf x a₂)
     have h3 : polar Qf (x + pj x) a₁' = 0 := by
       rw [hpj x]
-      simp only [polar_add_left, polar_smul_left, v11, v12, v13, v14, v21, v22, v23, v24,
-        v31, v32, v33, v34, v41, v42, v43, v44, smul_eq_mul]
+      simp only [polar_add_left, polar_smul_left, v13, v23, v33, v43, smul_eq_mul]
       linear_combination e2K (polar Qf x a₁')
     have h4 : polar Qf (x + pj x) a₂' = 0 := by
       rw [hpj x]
-      simp only [polar_add_left, polar_smul_left, v11, v12, v13, v14, v21, v22, v23, v24,
-        v31, v32, v33, v34, v41, v42, v43, v44, smul_eq_mul]
+      simp only [polar_add_left, polar_smul_left, v14, v24,
+        v34, v44, smul_eq_mul]
       linear_combination e2K (polar Qf x a₂')
     rw [hGz, hzero _ h1 h2 h3 h4, add_zero]
   apply LinearMap.ext
@@ -278,8 +274,8 @@ theorem pow_four_eq_one_or_odd_orderOf_mul
   obtain ⟨c', hc'0, hc'⟩ := exists_siegel_scalar hnd hs'.isometry hli' hspan' hA's
   have hrel := siegel_pair_relation hc hc' (polar_eq_zero_of_totallySingular hAs ha₁ ha₂)
     (polar_eq_zero_of_totallySingular hA's ha₁' ha₂') d11 d12 d21 d22
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) fun f g h => LinearEquiv.ext (congrFun h)
   exact odd_orderOf_of_annihilated (s * s') (mul_ne_zero hc0 hc'0) (orderOf_pos _).ne' hrel
 

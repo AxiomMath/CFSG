@@ -43,6 +43,7 @@ variable {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal]
 noncomputable abbrev conjQuot (L : Subgroup Y) [L.Normal] : Y →* MulAut (↥L ⧸ center ↥L) :=
   (centerQuotientHom ↥L).comp (MulAut.conjNormal : Y →* MulAut ↥L)
 
+omit [Finite Y] in
 theorem conjQuot_apply_mem (l : ↥L) :
     conjQuot L (l : Y) = MulAut.conj (l : ↥L ⧸ center ↥L) := by
   ext z
@@ -52,6 +53,7 @@ theorem conjQuot_apply_mem (l : ↥L) :
   rw [hz, MulAut.conj_apply]
   simp
 
+omit [Finite Y] in
 theorem mem_centralizer_of_conjQuot_eq_one (hLp : Group.IsPerfect ↥L) {y : Y}
     (hy : conjQuot L y = 1) : y ∈ centralizer (L : Set Y) := by
   have h1 : (MulAut.conjNormal y : MulAut ↥L) = 1 :=
@@ -69,9 +71,9 @@ theorem kFactTenElevenOneLieAutFieldG2_of_rankFour (hK : KFactOuterThreeRankFour
   intro Y _ _ L hLn hq hO2 d hd hlist hA2 h3 hG he hu hJ hC3 hrk hE hN
   rcases hlist with hl | hl
   · exact h2 Y L hLn hq hO2 d hd hl hA2 h3 hG he hu hJ hC3 hrk hE hN
-  haveI := hLn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+  have := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
   set ρ := LieClAut.conjQuot L with hρ
   have hker : ρ.ker ≤ centralizer (L : Set Y) := fun y hy =>
     LieClAut.mem_centralizer_of_conjQuot_eq_one inferInstance hy

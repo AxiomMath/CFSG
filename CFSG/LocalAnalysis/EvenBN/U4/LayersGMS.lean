@@ -107,7 +107,7 @@ theorem not_normal_of_isSylowOf_zpowers {X : Type*} [Group X] [Finite X] {A : Su
   obtain ⟨T, hT⟩ := hsyl.isPGroup.exists_le_sylow
   obtain ⟨x, hxT, hx⟩ := he T
   have h1 : (T : Subgroup X) ⊓ centralizer (A : Set X) = zpowers t :=
-    hsyl.eq_of_le (le_inf hT hsyl.le) inf_le_right T.isPGroup'.to_inf_left
+    hsyl.eq_of_le (le_inf hT hsyl.le) inf_le_right T.isPGroup.to_inf_left
   have h2 : x * t * x⁻¹ ∈ (T : Subgroup X) ⊓ centralizer (A : Set X) :=
     mem_inf.2 ⟨mul_mem (mul_mem hxT (hT (mem_zpowers t))) (inv_mem hxT),
       (inferInstance : (centralizer (A : Set X)).Normal).conj_mem t ht x⟩

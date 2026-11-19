@@ -10,22 +10,22 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 open CFSG.Open CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts
 
-@[expose] private def w183finG4A6_isInvC (c : List Nat) : Bool :=
+private def w183finG4A6_isInvC (c : List Nat) : Bool :=
   A6Facts.Core.cmul c c == A6Facts.Core.cid && c != A6Facts.Core.cid
 
-@[expose] private def w183finG4A6_comm (a b : List Nat) : Bool :=
+private def w183finG4A6_comm (a b : List Nat) : Bool :=
   A6Facts.Core.cmul a b == A6Facts.Core.cmul b a
 
-@[expose] private def w183finG4A6_e8free (iv : List (List Nat)) (b : List Nat) : Bool :=
+private def w183finG4A6_e8free (iv : List (List Nat)) (b : List Nat) : Bool :=
   let cb := iv.filter (fun c => c != b && w183finG4A6_comm b c)
   cb.all fun c => cb.all fun d =>
     !(d != c && d != A6Facts.Core.cmul b c && w183finG4A6_comm c d)
 
-@[expose] private def w183finG4A6_outerE8free : Bool :=
+private def w183finG4A6_outerE8free : Bool :=
   let iv := A6Facts.Core.autL.filter w183finG4A6_isInvC
   iv.all fun b => A6Facts.Core.inS6 b || w183finG4A6_e8free iv b
 
-@[expose] private def w183finG4A6_pE8free : Bool :=
+private def w183finG4A6_pE8free : Bool :=
   let iv := A6Facts.Core.pslLit.filter w183finG4A6_isInvC
   iv.all fun b => w183finG4A6_e8free iv b
 
@@ -75,7 +75,7 @@ private theorem w183finG4A6_not_e8free {iv : List (List Nat)} {b c d : List Nat}
 
 private theorem w183finG4A6_exists_ne_one_of_card_eight {X : Type} [Group X] [Finite X]
     {B : Subgroup X} (h8 : 8 ≤ Nat.card B) : ∃ x ∈ B, x ≠ 1 := by
-  haveI : Nontrivial B := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial B := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨x, hx⟩ := exists_ne (1 : B)
   exact ⟨(x : X), x.2, fun h => hx (Subtype.ext h)⟩
 

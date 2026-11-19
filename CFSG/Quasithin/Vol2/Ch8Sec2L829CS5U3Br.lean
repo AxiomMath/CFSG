@@ -82,12 +82,12 @@ theorem u3_branch_cs5 (hfam : RankOneU3) (hU34 : U34Facts)
   have hIH : ch82I V h ≤ H := ch82I_le_829 hVH hh
   have hKH : K ≤ H := hHK ▸ le_sup_left
   have hT2 : IsPGroup 2 T := hT.2.1
-  haveI hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   have hYX : IsPGroup 2 (E2.StarQuot (H ⊓ M) H ⧸ E2.star (H ⊓ M) H K) :=
     isPGroup_starQuot_quotient_cs5 hT2 hHK hTK
   have hO2 : ∀ N : Subgroup (E2.StarQuot (H ⊓ M) H), N.Normal → IsPGroup 2 N → N = ⊥ :=
     fun N hN hN2 => by
-      haveI := hN
+      have := hN
       exact normal_twoGroup_starQuot_eq_bot_cs5 hT hTM N hN2
   obtain ⟨S, hS, hB⟩ := hBor
   have hR := hfam _ (E2.star (H ⊓ M) H K) S n hn hKs hS
@@ -175,7 +175,7 @@ theorem u3_branch_cs5 (hfam : RankOneU3) (hU34 : U34Facts)
       _ = B6.conjSub g (B6.conjSub (g⁻¹ * hs) (centerSub S)) := B6.conjSub_mul _ _ _
       _ = B6.conjSub g (centerSub S) := by rw [hcZ]
   obtain ⟨hC5, hCB⟩ := (hU34 _ (E2.star (H ⊓ M) H K) S hKs hC hS).2 g hgX hgN
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set Wg : Subgroup (E2.StarQuot (H ⊓ M) H) := centerSub S ⊔ B6.conjSub g (centerSub S) with hWg
   obtain ⟨c, hc5⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(E2.star (H ⊓ M) H K ⊓ Subgroup.centralizer (Wg : Set (E2.StarQuot (H ⊓ M) H)))) 5 hC5

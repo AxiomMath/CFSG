@@ -24,7 +24,7 @@ theorem coordRefl_mulVec (a : Fin k) (v : Fin k → ZMod 3) :
   change (if i = a then -1 else 1) * v i = (if i = a then -v i else v i)
   by_cases h : i = a
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     exact neg_one_mul (v i)
   · simp [h]
 
@@ -41,7 +41,7 @@ theorem coordRefl_mul_self (a : Fin k) : coordRefl a * coordRefl a = 1 := by
   change (if j = a then -1 else 1) * (if j = a then -1 else 1) = 1
   by_cases h : j = a
   · subst j
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     decide
   · simp [h]
 
@@ -65,11 +65,11 @@ theorem coordRefl_ne_swapRefl {a b : Fin k} (hab : a ≠ b) (c : Fin k) (δ : ZM
     coordRefl c ≠ swapRefl a b δ := by
   intro h
   have e : coordRefl c a a = swapRefl a b δ a a := by rw [h]
-  rw [coordRefl, swapRefl, spMat_apply, spMat_apply, Equiv.swap_apply_left, if_neg hab] at e
+  rw [coordRefl, swapRefl, spMat_apply, spMat_apply, Equiv.swap_apply_left, ite_eq_right hab] at e
   simp only [Equiv.Perm.one_apply] at e
-  by_cases hca : a = c <;> simp [hca] at e <;> revert e <;> decide
+  by_cases hca : a = c <;> simp [hca] at e
 
-theorem swapRefl_ne_neg {a b : Fin k} (hab : a ≠ b) {δ : ZMod 3} (hδ : δ ≠ 0) :
+theorem swapRefl_ne_neg {a b : Fin k} (_hab : a ≠ b) {δ : ZMod 3} (hδ : δ ≠ 0) :
     swapRefl a b δ ≠ swapRefl a b (-δ) := by
   intro h
   have e : δ = -δ := by
@@ -89,7 +89,7 @@ theorem swapRefl_eq_of_axis {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d) {�
     intro hγ0
     have e := congrFun h a
     rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
-    simp only [if_true, if_false, if_neg hab, hγ0, zero_mul, mul_zero, sub_zero] at e
+    simp only [ite_true, ite_eq_right hab, hγ0, zero_mul, mul_zero] at e
     revert e
     decide
   have hc : c = a ∨ c = b := by
@@ -97,16 +97,15 @@ theorem swapRefl_eq_of_axis {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d) {�
     rw [not_or] at hc
     have e := congrFun h c
     rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
-    simp only [if_true, if_false, if_neg hc.1, if_neg hc.2, if_neg hcd, mul_zero,
-      sub_zero, mul_one, zero_mul] at e
+    simp only [ite_true, ite_eq_right hc.1, ite_eq_right hc.2, ite_eq_right hcd, mul_zero] at e
     rcases eq_one_or_of_ne_zero hγ with h1 | h1 <;> rw [h1] at e <;> revert e <;> decide
   have hd : d = a ∨ d = b := by
     by_contra hd
     rw [not_or] at hd
     have e := congrFun h d
     rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
-    simp only [if_true, if_false, if_neg hd.1, if_neg hd.2, if_neg (Ne.symm hcd),
-      mul_zero, sub_zero, mul_one, mul_neg, zero_mul] at e
+    simp only [ite_true, ite_eq_right hd.1, ite_eq_right hd.2, ite_eq_right (Ne.symm hcd),
+      mul_zero, mul_one] at e
     rcases eq_one_or_of_ne_zero hγ with h1 | h1 <;>
       rcases eq_one_or_of_ne_zero hε with h2 | h2 <;>
       rw [h1, h2] at e <;> revert e <;> decide
@@ -117,15 +116,14 @@ theorem swapRefl_eq_of_axis {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d) {�
     have h1 : γ = 1 := by
       have e := congrFun h a
       rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
-      simp only [if_true, if_false, if_neg hab, mul_zero, sub_zero, mul_one] at e
-      rcases eq_one_or_of_ne_zero hγ with h2 | h2 <;> rw [h2] at e ⊢ <;>
-        revert e <;> decide
+      simp only [ite_true, ite_eq_right hab, mul_zero] at e
+      rcases eq_one_or_of_ne_zero hγ with h2 | h2 <;> rw [h2] at e ⊢;
+        revert e; decide
     have h2 : δ = ε := by
       have e := congrFun h b
       rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
       rw [h1] at e
-      simp only [if_true, if_false, if_neg (Ne.symm hab), mul_zero, sub_zero,
-        mul_one] at e
+      simp only [ite_true, ite_eq_right (Ne.symm hab), mul_one] at e
       rcases eq_one_or_of_ne_zero hδ with h2 | h2 <;>
         rcases eq_one_or_of_ne_zero hε with h3 | h3 <;>
         rw [h2, h3] at e ⊢ <;> revert e <;> decide
@@ -136,16 +134,15 @@ theorem swapRefl_eq_of_axis {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d) {�
     have h1 : γ = -δ := by
       have e := congrFun h b
       rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord] at e
-      simp only [if_true, if_false, if_neg hab, if_neg (Ne.symm hab), mul_zero,
-        sub_zero, mul_one] at e
+      simp only [ite_true, ite_eq_right (Ne.symm hab), mul_zero,
+        mul_one] at e
       rcases eq_one_or_of_ne_zero hγ with h2 | h2 <;>
         rcases eq_one_or_of_ne_zero hδ with h3 | h3 <;>
         rw [h2, h3] at e ⊢ <;> revert e <;> decide
     have h2 : δ * ε = 1 := by
       have e := congrFun h a
       rw [monoRefl_axis_coord, Pi.smul_apply, smul_eq_mul, monoRefl_axis_coord, h1] at e
-      simp only [if_true, if_false, if_neg hab, mul_zero, sub_zero, mul_one,
-        neg_mul, neg_neg] at e
+      simp only [ite_true, ite_eq_right hab, mul_zero, mul_one] at e
       rcases eq_one_or_of_ne_zero hδ with h2 | h2 <;>
         rcases eq_one_or_of_ne_zero hε with h3 | h3 <;>
         rw [h2, h3] at e ⊢ <;> revert e <;> decide
@@ -170,12 +167,12 @@ private theorem monoRefl_coord_mul_swap_apply (c a b : Fin k) (δ : ZMod 3) (j :
       (if Equiv.swap a b j = c then -1 else 1) *
         (if j = a ∨ j = b then δ else 1) := by
   rw [coordRefl, swapRefl, spMat_mul]
-  simp only [one_mul, spMat_apply, if_pos rfl, if_true, if_false, Equiv.Perm.one_apply]
+  simp only [one_mul, spMat_apply, ite_true]
 
 private theorem monoRefl_swap_mul_coord_apply (c a b : Fin k) (δ : ZMod 3) (j : Fin k) :
     (swapRefl a b δ * coordRefl c) (Equiv.swap a b j) j =
       (if j = a ∨ j = b then δ else 1) * (if j = c then -1 else 1) := by
-  rw [coordRefl, swapRefl, spMat_mul, mul_one, spMat_apply, if_pos rfl]
+  rw [coordRefl, swapRefl, spMat_mul, mul_one, spMat_apply, ite_eq_left rfl]
   change (if j = a ∨ j = b then δ else 1) * (if j = c then -1 else 1) =
     (if j = a ∨ j = b then δ else 1) * (if j = c then -1 else 1)
   rfl
@@ -196,7 +193,7 @@ theorem coordRefl_commute_swapRefl_iff {a b : Fin k} (hab : a ≠ b) {δ : ZMod 
       subst c
       have e := congrFun (congrFun hcomm.eq (Equiv.swap a b a)) a
       rw [monoRefl_coord_mul_swap_apply, monoRefl_swap_mul_coord_apply] at e
-      simp [hab, Ne.symm hab] at e
+      simp [hab] at e
       rcases eq_one_or_of_ne_zero hδ with h1 | h1 <;> rw [h1] at e <;>
         revert e <;> decide
   · rintro ⟨hca, hcb⟩
@@ -226,7 +223,7 @@ private theorem monoRefl_swapRefl_not_commute {a b d : Fin k} (hab : a ≠ b) (h
   intro hcomm
   have e := congrFun (congrFun hcomm.eq b) d
   rw [swapRefl, swapRefl, spMat_mul, spMat_mul, spMat_apply, spMat_apply] at e
-  simp [Equiv.swap_apply_def, hab, had, hbd, Ne.symm hab, Ne.symm had, Ne.symm hbd] at e
+  simp [Equiv.swap_apply_def, hab, Ne.symm hab, Ne.symm had, Ne.symm hbd] at e
   rcases eq_one_or_of_ne_zero hδ with h1 | h1 <;>
     rcases eq_one_or_of_ne_zero hε with h2 | h2 <;>
     rw [h1, h2] at e <;> revert e <;> decide
@@ -278,11 +275,11 @@ private theorem monoRefl_commute_disjoint {a b c d : Fin k} (hac : a ≠ c) (had
       (if l = a ∨ l = b then δ else 1)
     refine Equiv.apply_swap_eq_self
       (v := fun l => if l = a ∨ l = b then δ else 1) ?_ l
-    rw [if_neg (by
+    rw [ite_eq_right (by
         rintro (h | h)
         · exact hac h.symm
         · exact hbc h.symm),
-      if_neg (by
+      ite_eq_right (by
         rintro (h | h)
         · exact had h.symm
         · exact hbd h.symm)]
@@ -293,11 +290,11 @@ private theorem monoRefl_commute_disjoint {a b c d : Fin k} (hac : a ≠ c) (had
       (if l = c ∨ l = d then ε else 1)
     refine Equiv.apply_swap_eq_self
       (v := fun l => if l = c ∨ l = d then ε else 1) ?_ l
-    rw [if_neg (by
+    rw [ite_eq_right (by
         rintro (h | h)
         · exact hac h
         · exact had h),
-      if_neg (by
+      ite_eq_right (by
         rintro (h | h)
         · exact hbc h
         · exact hbd h)]
@@ -354,7 +351,6 @@ private theorem monoRefl_col_coord (σ : Equiv.Perm (Fin k)) (s : Fin k → ZMod
     ((spMat σ s *ᵥ Pi.single m 1) - Pi.single m 1 : Fin k → ZMod 3) i =
       s m * (if i = σ m then 1 else 0) - (if i = m then 1 else 0) := by
   rw [spMat_mulVec]
-  beta_reduce
   by_cases hi : i = σ m
   · subst hi
     simp [Pi.single_apply]
@@ -403,7 +399,7 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
         simp only [Equiv.Perm.one_apply]
         rw [ha]
         simpa using monoRefl_neg_one_mul_sub_one
-      · simp [Pi.single_apply, hi, Ne.symm hi]
+      · simp [hi]
     obtain ⟨c_a, hca⟩ := hw a
     rw [hva] at hca
     have hca0 : c_a ≠ 0 := by
@@ -423,7 +419,7 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
           simp only [Equiv.Perm.one_apply]
           rw [hm]
           simpa using monoRefl_neg_one_mul_sub_one
-        · simp [Pi.single_apply, hi, Ne.symm hi]
+        · simp [hi]
       obtain ⟨c_m, hcm⟩ := hw m
       rw [hvm] at hcm
       have hprop : Pi.single m 1 = (c_m * c_a⁻¹) • Pi.single a 1 := by
@@ -431,7 +427,7 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
       have e := congrFun hprop m
       by_contra hma
       rw [Pi.single_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply,
-        if_pos rfl, if_neg hma, mul_zero] at e
+        ite_eq_left rfl, ite_eq_right hma, mul_zero] at e
       revert e
       decide
     have hs1 : ∀ m, m ≠ a → s m = 1 := by
@@ -457,7 +453,7 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
       intro h0
       have e := congrFun h0 a
       rw [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, Pi.single_apply,
-        if_neg (fun h => ha h.symm), if_pos rfl, mul_zero, zero_sub, Pi.zero_apply] at e
+        ite_eq_right (fun h => ha h.symm), ite_eq_left rfl, mul_zero, zero_sub, Pi.zero_apply] at e
       revert e
       decide
     obtain ⟨c_a, hca⟩ := hw a
@@ -484,11 +480,11 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
       rw [Pi.sub_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
         Pi.smul_apply, Pi.sub_apply, Pi.smul_apply, Pi.single_apply,
         Pi.single_apply] at e
-      rw [if_neg hmb, if_neg hma, if_pos rfl] at e
+      rw [ite_eq_right hmb, ite_eq_right hma, ite_eq_left rfl] at e
       simp at e
       by_cases hm : σ m = m
       · refine ⟨hm, ?_⟩
-        rw [if_pos hm.symm] at e
+        rw [ite_eq_left hm.symm] at e
         rcases hs m with h1 | h1
         · exact h1
         · exfalso
@@ -496,7 +492,7 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
           revert e
           decide
       · exfalso
-        rw [if_neg (fun h : m = σ m => hm h.symm)] at e
+        rw [ite_eq_right (fun h : m = σ m => hm h.symm)] at e
         revert e
         decide
     have hbmap : σ b = a := by
@@ -518,8 +514,8 @@ theorem spMat_refl_cases {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMod 3} (hs : 
     rw [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, Pi.single_apply,
       Pi.smul_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply,
       Pi.single_apply] at ea eb
-    rw [if_pos rfl, if_neg hab] at ea
-    rw [if_neg (Ne.symm hab), if_pos rfl] at eb
+    rw [ite_eq_left rfl, ite_eq_right hab] at ea
+    rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl] at eb
     have ea' : s b = -lam := by
       simpa using ea
     have eb' : -1 = lam * s a := by
@@ -586,9 +582,9 @@ theorem swapRefl_mem_monoN0 {n : ℕ} {a b : Fin (n + 1)} (ha : a ≠ 0) (hb : b
   · intro l
     change (if l = a ∨ l = b then δ else 1) = 1 ∨ (if l = a ∨ l = b then δ else 1) = -1
     by_cases hl : l = a ∨ l = b
-    · rw [if_pos hl]
+    · rw [ite_eq_left hl]
       exact eq_one_or_of_ne_zero hδ
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       exact Or.inl rfl
   · exact Equiv.swap_apply_of_ne_of_ne (fun h => ha h.symm) (fun h => hb h.symm)
 
@@ -610,9 +606,9 @@ theorem commute_coordRefl_zero_of_mem_monoN0 {n : ℕ}
     · intro h
       rw [h, hσ0]
   by_cases h0 : j = 0
-  · rw [if_pos h0, if_pos (hj.mpr h0)]
+  · rw [ite_eq_left h0, ite_eq_left (hj.mpr h0)]
     ring
-  · rw [if_neg h0, if_neg (fun h => h0 (hj.mp h))]
+  · rw [ite_eq_right h0, ite_eq_right (fun h => h0 (hj.mp h))]
     ring
 
 end CFSG.StandardType.FrameRoute.FS81

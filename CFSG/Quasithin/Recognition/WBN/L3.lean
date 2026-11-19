@@ -52,8 +52,8 @@ private theorem model_fact {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
     have h := CFSG.Quasithin.F7.commutator_le_inf_of_normalizes hVN hNX
     exact (Subgroup.commutator_mono hQle le_rfl).trans (h.trans inf_le_left)
   obtain ⟨K, hKfield, hKfintype, hKcard, -, -, -, β, hβsurj, hβker, -⟩ := hlin
-  letI := hKfield
-  letI := hKfintype
+  let := hKfield
+  let := hKfintype
   have hKF : Nat.card K = Nat.card F := by
     rw [← Fintype.card_eq_nat_card, hKcard, ← hF]
   have hkerCard : Nat.card ((blockZ X).subgroupOf (blockU X)) = Nat.card (blockZ X) :=

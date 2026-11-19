@@ -41,7 +41,7 @@ private theorem hasQDOrWreathedSylow_or_dihedral_of_kleinFour_le {G : Type} [Gro
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 V := IsPGroup.of_card (n := 2) (by rw [hV.card_four]; norm_num)
   obtain ⟨P₀, hP₀⟩ := (hV2.comap_subtype (K := H)).exists_le_sylow
-  have hP2 : IsPGroup 2 ((P₀ : Subgroup H).map H.subtype) := P₀.isPGroup'.map H.subtype
+  have hP2 : IsPGroup 2 ((P₀ : Subgroup H).map H.subtype) := P₀.isPGroup.map H.subtype
   obtain ⟨S', hPS'⟩ := hP2.exists_le_sylow
   have hVP : V ≤ (P₀ : Subgroup H).map H.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hVH]
@@ -144,7 +144,7 @@ private theorem not_three_dvd_automizerIndex_of_hasNormalPComplement
   obtain ⟨x, hxQ, hxC⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   apply hxC
   have hxodd : Odd (orderOf (x : X)) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨x, hxQ⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨x, hxQ⟩
     rw [Subgroup.orderOf_mk, ← Subgroup.orderOf_coe] at hk
     rw [hk]
     exact Odd.pow (by decide)

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_pow_mem_of_mem_sup_pGroup {p : ℕ} {R L : Subgroup G} (hR : IsPGroup p R)
     (hRL : R ≤ normalizer (L : Set G)) {u : G} (hu : u ∈ R ⊔ L) :
     ∃ e : ℕ, u ^ p ^ e ∈ L := by
@@ -25,8 +26,8 @@ theorem isSylowIn_two_of_pow_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O N :
     (hO : IsPGroup 2 O) (hON : O ≤ N) (hNO : N ≤ normalizer (O : Set G))
     (hpow : ∀ x ∈ N, ∃ k : ℕ, x ^ p ^ k ∈ O) : IsSylowIn 2 O N := by
   refine ⟨hON, hO, fun hdvd => ?_⟩
-  haveI : (O.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNO
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (O.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNO
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd' : 2 ∣ Nat.card (↥N ⧸ O.subgroupOf N) := hdvd
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := ↥N ⧸ O.subgroupOf N) 2 hdvd'
   obtain ⟨n, rfl⟩ := QuotientGroup.mk_surjective q
@@ -44,7 +45,7 @@ theorem isSylowIn_two_of_pow_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O N :
 theorem eOneAmb_sup_mod {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O P₀ τ A : Subgroup G}
     (hO : IsPGroup 2 O) (hOP : O ≤ P₀) (hPO : P₀ ≤ normalizer (O : Set G))
     (hτO : τ ≤ normalizer (O : Set G)) (hpow : ∀ x ∈ P₀, ∃ k : ℕ, x ^ p ^ k ∈ O)
-    (hτ : IsPGroup 2 τ) (hτP : τ ≤ normalizer (P₀ : Set G)) (hne : ¬ P₀ ≤ O) (hAτ : A ≤ τ)
+    (hτ : IsPGroup 2 τ) (hτP : τ ≤ normalizer (P₀ : Set G)) (hne : ¬ P₀ ≤ O) (_hAτ : A ≤ τ)
     (hcomm : P₀ ≤ ⁅P₀, A⁆ ⊔ O) (hrel : O.relIndex A = 2) :
     E1.EOneAmb (P₀ ⊔ τ) A := by
   set S := P₀ ⊔ τ with hS
@@ -109,14 +110,14 @@ theorem comm_le_comm_comm_sup_of_pow_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hpow : ∀ x ∈ N, ∃ k : ℕ, x ^ p ^ k ∈ O) :
     ⁅N, A⁆ ≤ ⁅⁅N, A⁆, A⁆ ⊔ O := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup G := N ⊔ A with hS
   have hNS : N ≤ S := le_sup_left
   have hAS : A ≤ S := le_sup_right
   have hOS : O ≤ S := hON.trans hNS
   have hSO : S ≤ normalizer (O : Set G) := sup_le hNO hAO
-  haveI hOn : (O.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSO
+  have hOn : (O.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSO
   set π : ↥S →* ↥S ⧸ O.subgroupOf S := QuotientGroup.mk' (O.subgroupOf S) with hπ
   have hker : π.ker = O.subgroupOf S := QuotientGroup.ker_mk' _
   set N' : Subgroup ↥S := N.subgroupOf S with hN'
@@ -139,7 +140,7 @@ theorem comm_le_comm_comm_sup_of_pow_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hN'p
     rw [hm]
     exact Nat.Coprime.pow_right m ((Nat.coprime_primes Nat.prime_two hp).2 (Ne.symm hp2))
-  haveI : Group.IsNilpotent ↥(N'.map π) := hN'p.isNilpotent
+  have : Group.IsNilpotent ↥(N'.map π) := hN'p.isNilpotent
   have hAbar : A'.map π ≤ normalizer ((N'.map π : Subgroup (↥S ⧸ O.subgroupOf S)) : Set _) := by
     rw [Subgroup.le_normalizer_iff]
     rintro _ ⟨a, ha, rfl⟩ _ ⟨n, hn, rfl⟩

@@ -130,7 +130,7 @@ theorem qtwoOrth_win_eq (E : QuadExt F K (unitaryInvolution K 2 1)) (hF : Nat.ca
   have hcard : Nat.card (normOne (unitaryInvolution K 2 1)) = 3 := by
     have h3 := card_normOne (K := K) (p := 2) (f := 1) hK'
     simpa using h3
-  haveI : Nontrivial (normOne (unitaryInvolution K 2 1)) :=
+  have : Nontrivial (normOne (unitaryInvolution K 2 1)) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨ζ, hζ⟩ := exists_ne (1 : normOne (unitaryInvolution K 2 1))
   have hsub : ggOTwoPrime (orthDerived (Qn E (m + 1)) ⊓ Subgroup.centralizer

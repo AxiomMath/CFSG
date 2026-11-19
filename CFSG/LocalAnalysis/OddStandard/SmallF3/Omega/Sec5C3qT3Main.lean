@@ -19,7 +19,7 @@ theorem sec5c3q_inv3_ncard_le [FiniteDimensional (ZMod 3) V] (hV : finrank (ZMod
     (hdim : ∀ t ∈ S, finrank (ZMod 3) (LinearMap.range (t - 1)) = 3)
     (hcomm : ∀ t ∈ S, ∀ t' ∈ S, t * t' = t' * t ∨ t * t' = -(t' * t)) : S.ncard ≤ 20 := by
   classical
-  haveI := sec5c3q_finite_end (V := V)
+  have := sec5c3q_finite_end (V := V)
   by_cases hall : ∀ t ∈ S, ∀ t' ∈ S, t * t' = t' * t
   · have h := sec5c3q_card_le_choose (fun t : S => (t : Module.End (ZMod 3) V))
       (fun i j => hall i i.2 j j.2) (fun i => hsq i i.2) Subtype.val_injective 3
@@ -67,20 +67,25 @@ variable {Q : QuadraticForm (ZMod 3) V} [FiniteDimensional (ZMod 3) V]
 @[expose] noncomputable def sec5c3q_end (t : OGroup Q) : Module.End (ZMod 3) V :=
   ((t : V ≃ₗ[ZMod 3] V) : V →ₗ[ZMod 3] V)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_end_mul (a b : OGroup Q) :
     sec5c3q_end (a * b) = sec5c3q_end a * sec5c3q_end b := rfl
 
-theorem sec5c3q_end_injective : Function.Injective (sec5c3q_end (Q := Q)) := fun a b h =>
+omit [FiniteDimensional (ZMod 3) V] in
+theorem sec5c3q_end_injective : Function.Injective (sec5c3q_end (Q := Q)) := fun _a _b h =>
   Subtype.ext (LinearEquiv.toLinearMap_injective h)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_end_piOrth : sec5c3q_end (piOrth Q) = -1 := by
   apply LinearMap.ext
   intro v
   exact coe_piOrth_apply v
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_end_invDim (t : OGroup Q) :
     finrank (ZMod 3) (LinearMap.range (sec5c3q_end t - 1)) = invDim t := rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_lift_comm {x x' : ProjSim Q} (hxx' : x * x' = x' * x) {t t' : OGroup Q}
     (ht : projOrthToProjSim Q (toProj Q t) = x) (ht' : projOrthToProjSim Q (toProj Q t') = x') :
     sec5c3q_end t * sec5c3q_end t' = sec5c3q_end t' * sec5c3q_end t ∨
@@ -107,8 +112,8 @@ theorem sec5c3q_lift_comm {x x' : ProjSim Q} (hxx' : x * x' = x' * x) {t t' : OG
 theorem asc82Type3Bound_holds : Asc82Type3Bound := by
   intro V _ _ _ Q _ hV6 _ F hF
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI := sec5c3q_finite_end (V := V)
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have := sec5c3q_finite_end (V := V)
   have hpos : 0 < finrank (ZMod 3) V := by omega
   set X : Set (ProjSim Q) := {x | x ∈ F ∧ SimHasDim x 3} with hX
   have hex : ∀ x ∈ X, ∃ t : OGroup Q, t * t = 1 ∧ invDim t = 3 ∧

@@ -19,7 +19,7 @@ open CFSG.LinearAlgebra.CoprimeActions.RepresentationScalarExtensionVocabulary i
 theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {ρ : Representation (ZMod p) G V}
     (hS : FaithfulPrimeFieldKGroupModule G p V ρ) {q r : ℕ} (hq : q.Prime) (hr : r.Prime)
-    (hqp : q ≠ p) (hrp : r ≠ p) (hqr : q ≠ r)
+    (hqp : q ≠ p) (hrp : r ≠ p) (_hqr : q ≠ r)
     (D : Subgroup G) (hD : Nat.card D = r)
     (hCV : (⨅ d ∈ D, LinearMap.ker (ρ d - LinearMap.id)) = (⊥ : Submodule (ZMod p) V))
     (Q : Subgroup G) (hQD : ⁅D, Q⁆ = Q) (hQ1 : Q ≠ ⊥) (hQq : IsPGroup q Q) :
@@ -44,7 +44,7 @@ theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
           Nat.card D' = r ∧ ⁅D', E⁆ = E ∧ E ⊔ D' = ⊤ ∧
           (⨅ e ∈ D', LinearMap.ker (τ e - LinearMap.id)) = ⊥ ∧ Nat.card H ∣ Nat.card H0 := by
     classical
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hQ1
     have hx : τ0 (x : H0) ≠ 1 := fun h => hx1 (Subtype.ext (hfaith (by simpa using h)))
     obtain ⟨W, hW, hWn, hWirr, hWx⟩ :=
@@ -73,7 +73,7 @@ theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
       exact top_ne_bot hfd
     have hinj : Function.Injective (π.domRestrict Dh) := by
       rw [← MonoidHom.ker_eq_bot_iff]
-      haveI : Fact (Nat.card Dh).Prime := ⟨hDr ▸ hr⟩
+      have : Fact (Nat.card Dh).Prime := ⟨hDr ▸ hr⟩
       rcases (MonoidHom.ker (π.domRestrict Dh)).eq_bot_or_eq_top_of_prime_card with h | h
       · exact h
       · exfalso
@@ -133,8 +133,8 @@ theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Qh, mul_comm]
     exact mul_dvd_mul_left _ h1
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact q.Prime := ⟨hq⟩
   let K := AlgebraicClosure (ZMod p)
   have hpne : ∀ n : ℕ, ¬ p ∣ n → (n : K) ≠ 0 := fun n hn h => hn ((CharP.cast_eq_zero_iff K p n).1 h)
   have hpq : ¬ p ∣ q := fun h => hqp ((Nat.prime_dvd_prime_iff_eq hS.prime hq).1 h).symm
@@ -144,7 +144,7 @@ theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
   have hρ0 : Function.Injective ρ0 := hS.faithful.comp H0.subtype_injective
   obtain ⟨W0, hW0, hfin, hinj0⟩ := CFSG.GroupTheory.CoprimeActionSupport.FiniteFaithfulInvariantSubspace.exists_submodule ρ0 hρ0
   let ρ1 := Representation.subrepresentation ρ0 W0 hW0
-  haveI : Nontrivial D := by
+  have : Nontrivial D := by
     rw [← Finite.one_lt_card_iff_nontrivial, hD]; exact hr.one_lt
   obtain ⟨g, hg⟩ := exists_ne (1 : D)
   have hDg : D = Subgroup.zpowers (g : G) := by
@@ -189,11 +189,11 @@ theorem exists_image {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     let S : Subgroup G :=
       { carrier := {e | ρ e x = x}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           rw [map_mul]; simp [ha, hb]
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq] at *
+          simp only [Set.mem_ofPred_eq] at *
           calc ρ a⁻¹ x = ρ a⁻¹ (ρ a x) := by rw [ha]
             _ = x := by rw [← Module.End.mul_apply, ← map_mul]; simp }
     have hle : D ≤ S := by

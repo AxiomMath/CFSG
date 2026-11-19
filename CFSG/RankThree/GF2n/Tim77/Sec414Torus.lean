@@ -16,7 +16,7 @@ theorem sec414tor_lift {U K : Type} [Group U] [Finite U] [Group K] (π : U →* 
     (hTmax : ∀ T' : Subgroup U, IsPGroup 2 T' → T ≤ T' → T' = T) {δ : K}
     (hδ : δ ∈ Subgroup.normalizer ((T.map π : Subgroup K) : Set K)) :
     ∃ n ∈ Subgroup.normalizer (T : Set U), π n = δ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T0 : Sylow 2 U := ⟨T, hT, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩
   obtain ⟨u, hu⟩ := hπ δ
   let P : Subgroup U := (T.map π).comap π
@@ -52,7 +52,7 @@ theorem sec414tor_torus {K : Type} [Group K] [Finite K]
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_fusionBenderBorel hK
   obtain ⟨hSE, hZ2, hZcard, -⟩ := benderBorel_sylowCenter hB S
   obtain ⟨-, ⟨D, hDcyc, hDodd, -, hsupN⟩, -⟩ := hB S
-  haveI := hDcyc
+  have := hDcyc
   obtain ⟨δ, hδ⟩ := IsCyclic.exists_generator (α := ↥D)
   have hDN : D ≤ Subgroup.normalizer ((S : Subgroup K) : Set K) := by
     rw [← hsupN]
@@ -106,8 +106,8 @@ theorem sec414_exists_torus {U K : Type} [Group U] [Finite U] [Group K]
         z ≠ 1 →
         ∀ z' ∈ CFSG.ComponentClassification.AschbacherToolkit.Bender.sylowCenter (T.map π),
           z' ≠ 1 → ∃ i : ℕ, π n ^ i * z * (π n ^ i)⁻¹ = z' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Finite.of_surjective π hπ
   obtain ⟨S, hS⟩ : ∃ S : Sylow 2 K, (S : Subgroup K) = T.map π :=
     ⟨Sylow.mapSurjective hπ (⟨T, hT, fun {Q} hQ hle => (hTmax Q hQ hle).le⟩ : Sylow 2 U), rfl⟩
   obtain ⟨δ, hδN, hδodd, hcard, htrans⟩ := sec414tor_torus hK S

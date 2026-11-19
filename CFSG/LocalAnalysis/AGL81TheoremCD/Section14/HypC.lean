@@ -145,7 +145,7 @@ theorem isPGroup (h : HypCGen G M q E H) : IsPGroup q E :=
   CFSG.RankThreeCoreUniqueness.Helpers.elementary_isPGroup q E h.elem
 
 theorem isTwoLocal (h : HypCGen G M q E H) : IsTwoLocal H := by
-  haveI := h.cstar.simple
+  have := h.cstar.simple
   exact isTwoLocal_of_mem_H2StarFam h.cstar.nonab h.cstar.charTwo h.E_ne_bot h.mem
 
 theorem not_mem_sigmaA (h : HypCGen G M q E H) : q ∉ rankThreeSigmaA G := fun hq =>
@@ -166,12 +166,14 @@ theorem mem_H2Fam (h : HypCGen G M q E H) : H ∈ H2Fam M E :=
 
 end HypCGen
 
+omit [Finite G] in
 theorem kSub_le (p : ℕ) (M H : Subgroup G) : kSub p M H ≤ H := by
   unfold kSub
   split_ifs with h
   · exact sSup_le fun Y hY => hY.1
   · exact sSup_le fun Y hY => hY.1.1
 
+omit [Finite G] in
 theorem mem_H2StarFam_of_le {M E A H : Subgroup G} (hH : H ∈ H2StarFam M E) (hAH : A ≤ H) :
     H ∈ H2StarFam M A := by
   refine ⟨⟨hH.1.1, hAH, hH.1.2.2.1, hH.1.2.2.2⟩, ?_⟩
@@ -221,14 +223,14 @@ end HypCGen
 
 theorem exists_hypCGen (hC : CStarGen G) {M : Subgroup G}
     (hM : CFSG.Open.rankThreeIsMaxTwoLocal M) (hσ : (sigmaSet G M).Nonempty) {q : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G} (hQM : Q ≤ M) (hQp : IsPGroup q Q)
+    (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G} (hQM : Q ≤ M) (_hQp : IsPGroup q Q)
     (hQ2 : 2 ≤ CFSG.Open.pRank q Q) (hΓ : CFSG.Open.rankThreeGamma 1 q Q ≤ M)
     {H₀ : Subgroup G} (hH₀ : CFSG.Open.IsTwoLocal H₀) (hQH₀ : Q ≤ H₀) (hH₀M : ¬ H₀ ≤ M) :
     ∃ E H : Subgroup G, E ≤ Q ∧ HypCGen G M q E H ∧
       ∀ H₁ ∈ H2StarFam M E, kSub q M H ≤ kSub q M H₁ → kSub q M H₁ = kSub q M H := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI := hC.simple
+  have : Fact q.Prime := ⟨hq⟩
+  have := hC.simple
   obtain ⟨E, hEQ, hE, hEc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := q) (k := 2) hQ2
   have hEM : E ≤ M := hEQ.trans hQM
@@ -252,8 +254,8 @@ theorem fourteenFifteenAt_of_one_two (hC : CStarGen G) {M : Subgroup G}
     (hM : CFSG.Open.rankThreeIsMaxTwoLocal M) (hσ : (sigmaSet G M).Nonempty)
     (h1 : FourteenFifteenOneAt M) (h2 : FourteenFifteenTwoAt M) : FourteenFifteenAt M := by
   intro q hq hq2 _ Q hQM hQp hQ2 hΓ H₀ hH₀ hQH₀ hH₀M S hSM
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, H, -, hdata, -⟩ :=
     exists_hypCGen (G := G) hC hM hσ hq hq2 hQM hQp hQ2 hΓ hH₀ hQH₀ hH₀M
   obtain ⟨A, hAK, hAM, hA, hAc, hΓA⟩ := h1 q E H hdata
@@ -264,7 +266,7 @@ theorem fourteenFifteenAt_of_one_two (hC : CStarGen G) {M : Subgroup G}
   obtain ⟨hTM, hTH⟩ := h2 q A H' hdata' hAK' hmax' T hT
   have hStopsyl : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   have hSMsyl : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup G) M :=
     hStopsyl.of_le hSM le_top
   have hTtop : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ := by

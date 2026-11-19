@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 theorem kdI278SporCNoM_holds
     : KDI278SporCNoM := by
   intro p s hpair hsM Z _ _ K hKn hsK hC B hB hBc hSC W hBW hW
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   rcases hpair with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · exact kdSporC_HS_five hsK hC hB hBc hBW hW
   · exact kdSporC_Ru_five hsK hC hB hBc hBW hW

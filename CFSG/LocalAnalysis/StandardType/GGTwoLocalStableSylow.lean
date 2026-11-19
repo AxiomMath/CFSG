@@ -12,8 +12,8 @@ theorem exists_stable_two_subgroup {L' R : Type} [Group L'] [Finite L'] [Group R
     (E : Subgroup (MulAut L')) (hE : ∀ e ∈ E, ∀ w : L', ψ w ∈ V → ψ (e w) ∈ V) :
     ∃ U : Subgroup L', U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ e ∈ E, ∀ u ∈ U, e u ∈ U := by
   classical
-  haveI : Finite R := Finite.of_surjective ψ hψ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite R := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let W : Subgroup L' := V.comap ψ
   have hW : ∀ w : L', w ∈ W ↔ ψ w ∈ V := fun w => Subgroup.mem_comap
   let f : W →* V := ψ.subgroupComap V
@@ -38,8 +38,8 @@ theorem exists_stable_two_subgroup {L' R : Type} [Group L'] [Finite L'] [Group R
     have hxc : (x : L') ∈ Subgroup.center L' := by
       exact hker (by simpa [MonoidHom.mem_ker] using hx1)
     exact Subgroup.mem_center_iff.mp hxc (y : L')
-  haveI : Group.IsNilpotent ↥V := IsPGroup.isNilpotent (p := 2) hV2
-  haveI : Group.IsNilpotent ↥W := Subgroup.isNilpotent_of_ker_le_center f hkerf
+  have : Group.IsNilpotent ↥V := IsPGroup.isNilpotent (p := 2) hV2
+  have : Group.IsNilpotent ↥W := Subgroup.isNilpotent_of_ker_le_center f hkerf
   let P : Sylow 2 W := default
   have hPnormal : P.Normal := inferInstance
   have hPchar : P.Characteristic := Sylow.characteristic_of_normal P hPnormal
@@ -55,7 +55,7 @@ theorem exists_stable_two_subgroup {L' R : Type} [Group L'] [Finite L'] [Group R
   · intro hU
     apply hPbot
     exact (Subgroup.map_eq_bot_iff_of_injective (P : Subgroup W) W.subtype_injective).mp hU
-  · exact (P.isPGroup').map W.subtype
+  · exact (P.isPGroup).map W.subtype
   · intro e he u hu
     let φ : W →* W :=
       { toFun := fun w => ⟨e (w : L'), (hW (e (w : L'))).mpr (hE e he (w : L') ((hW (w : L')).mp w.2))⟩

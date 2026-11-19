@@ -14,10 +14,10 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 private theorem s16t3_center_bot_of_simple {X : Type} [Group X] (hS : IsSimpleGroup X)
     (hnp : ¬ (Nat.card X).Prime) : Subgroup.center X = ⊥ := by
-  haveI := hS
+  have := hS
   apply TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
   intro hc
-  haveI := hc
+  have := hc
   exact hnp (Group.is_simple_iff_prime_card.mp hS)
 
 private theorem s16t3_conj_injective {S : Type} [Group S] (hz : Subgroup.center S = ⊥) :
@@ -48,7 +48,7 @@ private theorem s16t3_card_outer_dvd_of_mulAut_dvd {S : Type} [Group S] [Finite 
     (CFSG.ComponentClassification.OuterAutomorphisms.inner S)
   rw [s16t3_card_inner hz] at hcard
   rw [hcard] at hdvd
-  haveI : Nonempty S := ⟨1⟩
+  have : Nonempty S := ⟨1⟩
   exact Nat.dvd_of_mul_dvd_mul_right Nat.card_pos hdvd
 
 private theorem s16t3_not_three_dvd_of_dvd {S : Type} [Group S] {k : ℕ}

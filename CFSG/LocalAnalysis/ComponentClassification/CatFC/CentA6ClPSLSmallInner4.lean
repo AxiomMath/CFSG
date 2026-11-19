@@ -20,13 +20,13 @@ section Inner4
 variable {K : Type} [Field K] [Finite K]
 
 theorem card_GL_two_of_card_three (hK : Nat.card K = 3) : Nat.card (GL (Fin 2) K) = 48 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field, Fin.prod_univ_two, hK']
   norm_num
 
 theorem card_GL_two_of_card_nine (hK : Nat.card K = 9) : Nat.card (GL (Fin 2) K) = 5760 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 9 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field, Fin.prod_univ_two, hK']
   norm_num
@@ -115,7 +115,7 @@ theorem Tw_root_smul (A : GL ι K) (lambda : Kˣ) (hsq : A ^ 2 = GeneralLinearGr
 theorem exists_conj_neg [Nonempty ι] (A : GL ι K) (lambda : Kˣ) (hns : ¬ IsSquare lambda.val)
     (hsq : A ^ 2 = GeneralLinearGroup.scalar ι lambda) :
     ∃ w : GL ι K, w * A * w⁻¹ = GeneralLinearGroup.scalar ι (-1) * A := by
-  haveI : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
+  have : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
   set s : GL ι K := GeneralLinearGroup.scalar ι (-1) with hs
   set A' : GL ι K := s * A with hA'
   have hcomm : Commute s A := GeneralLinearGroup.scalar_commute _ A
@@ -138,8 +138,7 @@ theorem exists_conj_neg [Nonempty ι] (A : GL ι K) (lambda : Kˣ) (hns : ¬ IsS
     intro x
     ext i
     rw [hs]
-    simp [GeneralLinearGroup.scalar, Matrix.mulVec, dotProduct, Matrix.diagonal_apply,
-      Matrix.one_apply]
+    simp [GeneralLinearGroup.scalar, Matrix.mulVec, dotProduct, Matrix.one_apply]
   have hA'mul : ∀ u : ι → K, A'.val.mulVec u = -(A.val.mulVec u) := by
     intro u
     rw [hA', Units.val_mul, ← Matrix.mulVec_mulVec, hsmul]
@@ -170,14 +169,15 @@ section Quad4
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_units_of_card_three (hK : Nat.card K = 3) : Nat.card Kˣ = 2 := by
   rw [Nat.card_units, hK]
 
 theorem card_range_quad_ge (hK : Nat.card K = 3) {A : GL (Fin 4) K} {lambda : Kˣ}
     (hns : ¬ IsSquare lambda.val) (hsq : A ^ 2 = GeneralLinearGroup.scalar (Fin 4) lambda) :
     2880 ≤ Nat.card (ordinaryCentralizerProjection A).range := by
-  haveI : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
-  haveI : Finite (extension lambda.val) := quadraticExtension_finite lambda.val
+  have : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
+  have : Finite (extension lambda.val) := quadraticExtension_finite lambda.val
   have hdim := matrixDimension_twice A lambda hsq
   simp only [Fintype.card_fin] at hdim
   have hm : matrixDimension A lambda hsq = 2 := by omega

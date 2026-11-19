@@ -142,7 +142,7 @@ theorem lin_swap_radicals (hl : d.LinCtx) {R R₁ R₂ : Subgroup G} (hR : IsSyl
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd := hl.hyp
   have hf2 : 2 ≤ f := hd.two_le
-  haveI hchar : (CFSG.layer (d.s38dH ⧸ d.s38dO)).Characteristic :=
+  have hchar : (CFSG.layer (d.s38dH ⧸ d.s38dO)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
   obtain ⟨hout, -⟩ := hd.sec3_3_two hl.gms
   have hs : IsSimpleGroup (CFSG.layer (d.s38dH ⧸ d.s38dO)) := (lin_layer_facts hl).1

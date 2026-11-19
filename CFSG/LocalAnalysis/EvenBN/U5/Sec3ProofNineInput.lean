@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
 theorem Hyp.sec39i_A₃_le_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
-    d.A₃ ≤ d.B₆ := fun b hb => hd.FB₃_le_B₆ hGMS (mem_sup_right (d.A₃_le_B₃ hb))
+    d.A₃ ≤ d.B₆ := fun _b hb => hd.FB₃_le_B₆ hGMS (mem_sup_right (d.A₃_le_B₃ hb))
 
 theorem Hyp.sec39i_A₃_le_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
     (hF : d.F ≤ d.D) : d.A₃ ≤ d.D := by
@@ -145,7 +145,7 @@ theorem Hyp.sec39i_proj_comm (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd 
   exact proj_mul_comm_of_commutator_mem (hd.commutator_B₆_FA₃_mem_F hGMS hδ haX)
 
 theorem Hyp.sec39i_mem_FB₃_of_two (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
-    (hZ : CFSG.centerIn d.D = d.F) {c : G}
+    (_hZ : CFSG.centerIn d.D = d.F) {c : G}
     (hc : c ∈ normalizer (d.B₃ : Set G) ⊓ centralizer ({d.t} : Set G))
     (hcD : c ∈ normalizer (d.D : Set G)) (hc2 : IsPGroup 2 (zpowers c))
     (hcn : ∀ n ∈ d.N₁, (c * n)⁻¹ * (n * c) ∈ d.D) : c ∈ d.F ⊔ d.B₃ := by
@@ -230,8 +230,8 @@ theorem Hyp.sec39i_mem_FB₃_of_two (hGMS : GMSK.GMSUnitarySharpKRankOneStatemen
 theorem sec39i_normalizer_D_ne_top (hp : d.CaseHyp) (he : d.Sec39e) :
     normalizer (d.D : Set G) ≠ ⊤ := by
   intro htop
-  haveI hD : d.D.Normal := normalizer_eq_top_iff.1 htop
-  haveI hsimple : IsSimpleGroup G := hp.hyp.setting.std.simple
+  have hD : d.D.Normal := normalizer_eq_top_iff.1 htop
+  have hsimple : IsSimpleGroup G := hp.hyp.setting.std.simple
   have hD2 : IsPGroup 2 d.D := IsPGroup.to_le d.isPGroup_B₆ (hp.hyp.sec39e_D_le_B₆ hp.gms)
   have hcard := he.card_D
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal d.D with hb | ht
@@ -243,9 +243,9 @@ theorem sec39i_normalizer_D_ne_top (hp : d.CaseHyp) (he : d.Sec39e) :
   · have hG2 : IsPGroup 2 G := by
       rw [ht] at hD2
       exact hD2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial G := hsimple.toNontrivial
-    haveI : Nontrivial (center G) := hG2.center_nontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial G := hsimple.toNontrivial
+    have : Nontrivial (center G) := hG2.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center G) with hc | hc
     · obtain ⟨z, hz⟩ := exists_ne (1 : center G)
       exact hz (Subtype.ext (Subgroup.mem_bot.1 (hc.le z.2)))
@@ -284,7 +284,7 @@ theorem sec39i_field (hp : d.CaseHyp) :
   have hd := hp.hyp
   have : CharP K 2 := h.charP
   have hfin := h.finite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ (2 * f) := by rw [← Nat.card_eq_fintype_card, h.card]
   refine ⟨K, inferInstance, inferInstance, hcard, ?_⟩
   have h4 : 4 ≤ Fintype.card K := by
@@ -294,7 +294,7 @@ theorem sec39i_field (hp : d.CaseHyp) :
       _ ≤ 2 ^ (2 * f) := Nat.pow_le_pow_right (by norm_num) (by omega)
   have hSL : IsSimpleGroup (SL(2, K)) :=
     GMSK.sl2_isSimpleGroup (CharTwo.two_eq_zero (R := K)) h4
-  haveI hsimple : IsSimpleGroup d.N₁ := d.N₁equiv.symm.isSimpleGroup
+  have hsimple : IsSimpleGroup d.N₁ := d.N₁equiv.symm.isSimpleGroup
   let φ : d.N₁ →* Bar d.D := (proj d.D).comp (Subgroup.inclusion hd.N₁_le_normalizer_D)
   have hker : φ.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h1 | h1
@@ -305,9 +305,9 @@ theorem sec39i_field (hp : d.CaseHyp) :
         exact proj_eq_one_iff.1 (MonoidHom.mem_ker.1 this)
       have h2 : IsPGroup 2 d.N₁ :=
         IsPGroup.to_le (IsPGroup.to_le d.isPGroup_B₆ (hd.sec39e_D_le_B₆ hp.gms)) hND
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Nontrivial d.N₁ := hsimple.toNontrivial
-      haveI : Nontrivial (center d.N₁) := h2.center_nontrivial
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Nontrivial d.N₁ := hsimple.toNontrivial
+      have : Nontrivial (center d.N₁) := h2.center_nontrivial
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center d.N₁) with hc | hc
       · obtain ⟨z, hz⟩ := exists_ne (1 : center d.N₁)
         exact hz (Subtype.ext (Subgroup.mem_bot.1 (hc.le z.2)))
@@ -437,7 +437,7 @@ theorem sec39i_rank_of_rank_centralizer {H : Type*} [Group H] [Finite H] {A : Su
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
   obtain ⟨Q, hQ⟩ := (hz2.of_equiv (subgroupOfEquivOfLe htC).symm).exists_le_sylow
   set Q' : Subgroup H := (Q : Subgroup ↥C).map C.subtype with hQ'
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map _
   have htQ' : t ∈ Q' := ⟨⟨t, htC (mem_zpowers t)⟩, hQ (mem_subgroupOf.2 (mem_zpowers t)), rfl⟩
   have hQ'C : Q' ≤ C := map_subtype_le _
   have ht1 : t ≠ 1 := by
@@ -450,8 +450,8 @@ theorem sec39i_rank_of_rank_centralizer {H : Type*} [Group H] [Finite H] {A : Su
   have hQcard : Nat.card Q' ≤ 2 := by
     have hR := hrank (Q' ⊓ centralizer ({t} : Set H)) (inf_le_inf_right _ hQ'C)
       (IsPGroup.to_le hQ'2 inf_le_left)
-    haveI : Nontrivial Q' := ⟨⟨⟨t, htQ'⟩, 1, fun h => ht1 (congrArg Subtype.val h)⟩⟩
-    haveI : Nontrivial (center Q') := hQ'2.center_nontrivial
+    have : Nontrivial Q' := ⟨⟨⟨t, htQ'⟩, 1, fun h => ht1 (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial (center Q') := hQ'2.center_nontrivial
     obtain ⟨z, hz⟩ := exists_ne (1 : center Q')
     have hzc : ((z : Q') : H) * t = t * ((z : Q') : H) := by
       have := Subgroup.mem_center_iff.1 z.2 ⟨t, htQ'⟩
@@ -480,7 +480,7 @@ theorem sec39i_rank_of_rank_centralizer {H : Type*} [Group H] [Finite H] {A : Su
         have := Subgroup.mem_center_iff.1 z.2 ⟨q, hq⟩
         have h2 := congrArg Subtype.val this
         rw [Subgroup.coe_mul, Subgroup.coe_mul] at h2
-        simp only [Subgroup.coe_mk] at h2
+        simp only at h2
         rw [hz1] at h2
         exact h2)⟩
     exact (Subgroup.card_le_of_le hQc).trans hR

@@ -13,6 +13,7 @@ local notation "V₄" => Fin 2 ⊕ Fin 2
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem false_of_forall_conj_anticommute (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)}
     (hq : CFSG.IsQuasisimple G)
     (hZ : ∀ z ∈ Subgroup.center G, (z : GL V₄ K) = 1 ∨ (z : GL V₄ K) = -1)
@@ -69,11 +70,11 @@ theorem false_of_forall_conj_anticommute (h2 : (2 : K) ≠ 0) {G : Subgroup (GL 
     { carrier := {x | ((x : GL V₄ K) : Matrix V₄ V₄ K) * q = q *
         ((x : GL V₄ K) : Matrix V₄ V₄ K)}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
         rw [Matrix.mul_assoc, hb, ← Matrix.mul_assoc, ha, Matrix.mul_assoc]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         have haa : (((a⁻¹ : G) : GL V₄ K) : Matrix V₄ V₄ K) *
             ((a : GL V₄ K) : Matrix V₄ V₄ K) = 1 := by
           rw [← Units.val_mul, ← Subgroup.coe_mul, inv_mul_cancel]; rfl

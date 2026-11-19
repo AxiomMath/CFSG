@@ -13,8 +13,8 @@ open Subgroup CFSG.ComponentClassification
 theorem ks1543A6 : KS1543A6 := by
   intro Q _ _ hQ htc K hK1 hKp P hP hKP
   classical
-  haveI : Group.IsPerfect Q := hQ.1
-  haveI : Group.IsPerfect K := hKp
+  have : Group.IsPerfect Q := hQ.1
+  have : Group.IsPerfect K := hKp
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, ⟨φ⟩⟩ := htc
   set Z := Subgroup.center Q with hZ
@@ -67,7 +67,7 @@ theorem ks1543A6 : KS1543A6 := by
     rw [map_mul, map_mul, map_inv]
     exact (mem_normalizer_iff.mp (hKP k hk) (c q)).mp (Subgroup.mem_inf.mp hq).1
   have hSbot : S = ⊥ := by
-    haveI := hS2.isNilpotent
+    have := hS2.isNilpotent
     exact Proof15Res8Diag.eq_bot_of_isSolvable_six φ hTp hT1 inferInstance hTS
   have hPinn : ∀ q : Q, c q ∈ P → q ∈ Z := by
     intro q hq
@@ -95,7 +95,7 @@ theorem ks1543A6 : KS1543A6 := by
     · ext x
       rw [MulAut.one_apply]
       exact hfixT x (hTt ▸ Subgroup.mem_top x)
-    · haveI : IsSimpleGroup (Q ⧸ Z) := hQ.2.1
+    · have : IsSimpleGroup (Q ⧸ Z) := hQ.2.1
       exact GH74.Generic.S45.LAlt.aut_eq_one_of_fixes_index_six (Proof15Res8Diag.card_six φ) _ T
         h60 hfixT
   exact PerfectAutomorphisms.onCenterQuotient_eq_one_imp σ hσ1

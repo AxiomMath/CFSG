@@ -18,7 +18,8 @@ section Helpers
 
 open Subgroup
 
-private theorem central_mem_normalizer {P T : Subgroup G} (hTP : T ≤ P) {z : G} (hzP : z ∈ P)
+omit [Finite G] in
+private theorem central_mem_normalizer {P T : Subgroup G} (hTP : T ≤ P) {z : G} (_hzP : z ∈ P)
     (hz : ∀ g ∈ P, z * g = g * z) : z ∈ normalizer (T : Set G) := by
   rw [mem_normalizer_iff]
   intro h
@@ -38,6 +39,7 @@ private theorem central_mem_normalizer {P T : Subgroup G} (hTP : T ≤ P) {z : G
     rw [← e, e2]
     exact hh
 
+omit [Finite G] in
 private theorem exists_mul_of_central_sup {P T Z : Subgroup G} (hsup : T ⊔ Z = P)
     (hZc : ∀ z ∈ Z, ∀ g ∈ P, z * g = g * z) :
     ∀ y ∈ P, ∃ t ∈ T, ∃ z ∈ Z, y = t * z := by
@@ -50,6 +52,7 @@ private theorem exists_mul_of_central_sup {P T Z : Subgroup G} (hsup : T ⊔ Z =
   obtain ⟨t, ht, z, hz, rfl⟩ := h1
   exact ⟨t, ht, z, hz, rfl⟩
 
+omit [Finite G] in
 private theorem commutator_mem_of_central_sup {P T Z : Subgroup G} (hsup : T ⊔ Z = P)
     (hZc : ∀ z ∈ Z, ∀ g ∈ P, z * g = g * z) :
     ∀ s ∈ P, ∀ t ∈ P, s * t * s⁻¹ * t⁻¹ ∈ T := by
@@ -72,6 +75,7 @@ private theorem commutator_mem_of_central_sup {P T Z : Subgroup G} (hsup : T ⊔
   rw [key]
   exact T.mul_mem (T.mul_mem (T.mul_mem ht₁ ht₂) (T.inv_mem ht₁)) (T.inv_mem ht₂)
 
+omit [Finite G] in
 private theorem exists_noncomm_commutator_central {p : ℕ} [Fact p.Prime] {A : Subgroup G}
     (hcard : Nat.card A = p ^ 3) (hnc : ¬ IsMulCommutative A) :
     ∃ s ∈ A, ∃ t ∈ A, s * t * s⁻¹ * t⁻¹ ≠ 1 ∧
@@ -176,7 +180,7 @@ theorem u3_second_u3_false (hc : U3Config G p P M x J)
     {a : G} (ha : a ∈ u3U0 P x J) (hax : a ∉ Subgroup.zpowers x)
     {Ja : Subgroup G} (hca : U3Config G p P M a Ja) : False := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   have hPa : (P : Subgroup G) ≤ Subgroup.centralizer ({a} : Set G) :=
     u3_P_le_centralizer_of_mem_U0 hc hfus.1 ha
@@ -195,7 +199,7 @@ theorem u3_second_u3_false (hc : U3Config G p P M x J)
   have hTaP : u3T P a Ja ≤ (P : Subgroup G) := inf_le_left.trans hSa.le
   have hU0P : u3U0 P x J ≤ (P : Subgroup G) := hU0S
   have hZcomm : ∀ z ∈ Z, ∀ z' ∈ Z, z * z' = z' * z := by
-    letI := hZcyc.commGroup
+    let := hZcyc.commGroup
     intro z hz z' hz'
     exact congrArg Subtype.val (mul_comm (⟨z, hz⟩ : Z) ⟨z', hz'⟩)
   have hZc : ∀ z ∈ Z, ∀ g ∈ (P : Subgroup G), z * g = g * z := by

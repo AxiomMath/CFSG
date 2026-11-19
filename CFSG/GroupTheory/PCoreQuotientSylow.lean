@@ -16,7 +16,7 @@ theorem pCore_comap_le_sup_sylow [Finite H] {p : ℕ} [Fact p.Prime]
   let N : Subgroup (H ⧸ K) := pCore p (H ⧸ K)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective K
   have hNp : IsPGroup p N := pCore_isPGroup
-  haveI : N.Normal := pCore_normal
+  have : N.Normal := pCore_normal
   let Tq : Sylow p (H ⧸ K) := Sylow.mapSurjective (f := π) hπ T
   have hcoe : (Tq : Subgroup (H ⧸ K)) = (T : Subgroup H).map π :=
     Sylow.coe_mapSurjective (f := π) hπ T

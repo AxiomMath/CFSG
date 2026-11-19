@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem inv_mul_conj_mem_of_commutator {V A X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXV : X ≤ Subgroup.normalizer (V : Set G))
     (hc : ∀ x ∈ X, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ A) {v : G} (hvV : v ∈ V) {x : G}
@@ -25,6 +26,7 @@ private theorem inv_mul_conj_mem_of_commutator {V A X : Subgroup G} (hV : IsElem
     simpa only [Subgroup.coe_mul, Subgroup.coe_mk] using hcomm]
   exact hc x hx v hvV
 
+omit [Finite G] in
 private theorem inv_mul_conj_mem_bot {S X : Subgroup G} {v : G}
     (hvS : v ∈ Subgroup.centralizer (S : Set G)) :
     ∀ s ∈ S.subgroupOf X,
@@ -37,6 +39,7 @@ private theorem inv_mul_conj_mem_bot {S X : Subgroup G} {v : G}
     group
   simp [hsv]
 
+omit [Finite G] in
 private theorem mul_mem_centralizer_of_fixed_mod_bot {X : Subgroup G} {w : G}
     (hfix : ∀ x ∈ X, w⁻¹ * (x * w * x⁻¹) ∈ (⊥ : Subgroup G)) :
     w ∈ Subgroup.centralizer (X : Set G) := by
@@ -50,6 +53,7 @@ private theorem mul_mem_centralizer_of_fixed_mod_bot {X : Subgroup G} {w : G}
   calc x * w = (x * w * x⁻¹) * x := by group
     _ = w * x := by rw [h2]
 
+omit [Finite G] in
 private theorem exists_mul_mem_centralizer {V A X S : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXV : X ≤ Subgroup.normalizer (V : Set G)) (hAV : A ≤ V)
     (hXA : X ≤ Subgroup.normalizer (A : Set G)) (hodd : Odd (S.relIndex X))
@@ -72,9 +76,10 @@ private theorem exists_mul_mem_centralizer {V A X S : Subgroup G} (hV : IsElemAb
       (inv_mul_conj_mem_bot hvS) hodd'
   exact ⟨a, haA, V.mul_mem hvV (hAV haA), mul_mem_centralizer_of_fixed_mod_bot hfix⟩
 
+omit [Finite G] in
 theorem fixed_le_of_odd_index {V A X S : Subgroup G} (hV : IsElemAbelian 2 V)
     (hXV : X ≤ Subgroup.normalizer (V : Set G)) (hAV : A ≤ V)
-    (hXA : X ≤ Subgroup.normalizer (A : Set G)) (hSX : S ≤ X)
+    (hXA : X ≤ Subgroup.normalizer (A : Set G)) (_hSX : S ≤ X)
     (hodd : Odd (S.relIndex X)) (hc : ∀ x ∈ X, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ A) :
     V ⊓ Subgroup.centralizer (S : Set G) ≤
       A ⊔ (V ⊓ Subgroup.centralizer (X : Set G)) := by
@@ -90,7 +95,7 @@ theorem fixed_le_of_odd_index {V A X S : Subgroup G} (hV : IsElemAbelian 2 V)
 
 theorem Ctx23L.A_eq_V_of_commutator_le {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) {A : Subgroup G}
-    (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
+    (_hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
     (hcomm : ⁅c.V, c.L⁆ ≤ A) : A = c.V := by
   have hV : IsElemAbelian 2 c.V := isElemAbelian_V_basic c
@@ -170,6 +175,7 @@ theorem rkIdx_fixV_zpowers_ge {W : Type} [CommGroup W] [Finite W]
   have e3 := rk_add_rkIdx (fixV (autQuot P A))
   omega
 
+omit [Finite G] in
 theorem mem_stabTil_bot {s : G} {V : Subgroup G}
     (hsV : s ∈ Subgroup.normalizer (V : Set G)) : s ∈ stabTil (⊥ : Subgroup G) V :=
   ⟨hsV, by rw [Subgroup.normalizer_eq_top]; exact Subgroup.mem_top s⟩

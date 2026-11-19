@@ -138,7 +138,7 @@ theorem kd292LinLangInput_of_conj_std (h1 : KD292LangConjInput) (h2 : KD292StdSy
       simpa [MulAut.conj_apply] using hconjD u hu
     · intro hx
       refine ⟨c * x * c⁻¹, mul_mem (mul_mem hcD hx) (inv_mem hcD), ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   refine ⟨R.map (MulAut.conj c⁻¹).toMonoidHom, ?_, hRp.map _, ?_, ?_⟩
   · rintro _ ⟨r, hr, rfl⟩
     simpa [MulAut.conj_apply] using hconjD r (hRD hr)

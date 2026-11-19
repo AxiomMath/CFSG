@@ -13,7 +13,7 @@ open Subgroup
 
 private theorem res3L125W_sup_eq_top {R : Type*} [Group R] {M N : Subgroup R}
     (hM : M.index = 2) (h : ¬ N ≤ M) : M ⊔ N = ⊤ := by
-  obtain ⟨b, hbN, hbM⟩ := SetLike.not_le_iff_exists.mp h
+  obtain ⟨b, hbN, hbM⟩ := IsConcreteLE.not_le_iff_exists.mp h
   refine eq_top_iff.mpr fun x _ => ?_
   by_cases hx : x ∈ M
   · exact mem_sup_left hx
@@ -238,9 +238,9 @@ theorem res3L125_eq_one_of_coprime_six {R : Type*} [Group R] [Finite R] (hR : Is
     (hE : ∀ E : Subgroup R, (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) → (∀ a ∈ E, a ^ 2 = 1) →
       Nat.card E ≤ 4)
     {β : MulAut R} (hβ : Nat.Coprime (orderOf β) 6) : β = 1 := by
-  haveI : Small.{0} R := small_map (Finite.equivFin R)
+  have : Small.{0} R := small_map (Finite.equivFin R)
   let e : Shrink.{0} R ≃* R := Shrink.mulEquiv
-  haveI : Finite (Shrink.{0} R) := Finite.of_equiv R e.symm.toEquiv
+  have : Finite (Shrink.{0} R) := Finite.of_equiv R e.symm.toEquiv
   have hR' : IsPGroup 2 (Shrink.{0} R) := hR.of_injective e.toMonoidHom e.injective
   have hA' : ∀ a ∈ A.comap e.toMonoidHom, ∀ b ∈ A.comap e.toMonoidHom, a * b = b * a := by
     intro a ha b hb

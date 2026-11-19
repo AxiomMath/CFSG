@@ -93,8 +93,8 @@ theorem kerConcl_odd3 {K : Type} [Field K] [Finite K] (h2 : (2 : K) ≠ 0) (h3 :
   have hdim : finrank K (Fin 3 ⊕ Fin 3 ⊕ Unit → K) = 7 := by
     simp
   have hnd := nondegenerate_polarBilin_quadOdd 3 K h2
-  haveI : Finite (Fin 3 ⊕ Fin 3 ⊕ Unit → K) := inferInstance
-  haveI : Finite ((Fin 3 ⊕ Fin 3 ⊕ Unit → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 ⊕ Unit → K)) :=
+  have : Finite (Fin 3 ⊕ Fin 3 ⊕ Unit → K) := inferInstance
+  have : Finite ((Fin 3 ⊕ Fin 3 ⊕ Unit → K) ≃ₗ[K] (Fin 3 ⊕ Fin 3 ⊕ Unit → K)) :=
     Finite.of_injective (fun f => (f : (Fin 3 ⊕ Fin 3 ⊕ Unit → K) →
       (Fin 3 ⊕ Fin 3 ⊕ Unit → K))) DFunLike.coe_injective
   have hv₀ : (quadOdd 3 K) (Pi.single (Sum.inr (Sum.inr ())) 1) = 1 := by

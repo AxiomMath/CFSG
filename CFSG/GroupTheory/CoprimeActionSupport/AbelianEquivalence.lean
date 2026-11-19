@@ -16,15 +16,15 @@ theorem abelian_equiv {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     ∃ n : ℕ, Nonempty (E ≃* Multiplicative (Fin n → ZMod p)) := by
   have add_equiv_aux {p : ℕ} [Fact p.Prime] (A : Type) [AddCommGroup A] [Finite A]
       [Module (ZMod p) A] : ∃ n : ℕ, Nonempty (A ≃+ (Fin n → ZMod p)) := by
-    haveI : Module.Finite (ZMod p) A := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) A := Module.Finite.of_finite
     exact ⟨_, ⟨(Module.finBasis (ZMod p) A).equivFun.toAddEquiv⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup E := { ‹Group E› with mul_comm := hab }
-  letI : Module (ZMod p) (Additive E) :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup E := { ‹Group E› with mul_comm := hab }
+  let : Module (ZMod p) (Additive E) :=
     AddCommGroup.zmodModule (n := p) fun x => by
       have := hexp x.toMul
       simpa using congrArg Additive.ofMul this
-  haveI : Finite (Additive E) := ‹Finite E›
+  have : Finite (Additive E) := ‹Finite E›
   obtain ⟨n, ⟨e⟩⟩ := add_equiv_aux (p := p) (Additive E)
   exact ⟨n, ⟨AddEquiv.toMultiplicative e⟩⟩
 

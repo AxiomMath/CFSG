@@ -10,6 +10,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22nc_le_normalizer_inf_centralizer {M V : Subgroup G}
     (hMV : M ≤ normalizer (V : Set G)) :
     M ≤ normalizer ((M ⊓ centralizer (V : Set G) : Subgroup G) : Set G) := by
@@ -40,8 +41,8 @@ theorem uc22p22nc_le_normalizer_inf_centralizer {M V : Subgroup G}
 theorem uc22p22nc_inCalV1_of_good (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈ D.sig)
     {V P : Subgroup G} (hV : InCalV D.M V) (hPM : P ≤ D.M) (hPp : IsPGroup p P)
     (hPc : ¬ IsCyclic P) (hPV : P ⊓ centralizer (V : Set G) = ⊥) : InCalV1 D.M D.T V := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : D.M ⊓ centralizer (V : Set G) ≤ D.M := inf_le_left
   have hMK := uc22p22nc_le_normalizer_inf_centralizer hV.2.2.1
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ centralizer (V : Set G))

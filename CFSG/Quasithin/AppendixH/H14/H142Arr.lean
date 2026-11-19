@@ -59,7 +59,7 @@ theorem mem_M23g_of_arr {σ : S24} {a : Array ℕ} (hσ : HasArr σ a) (h : inAu
 
 theorem hasArr_permOfArrD {a : Array ℕ} (h : inAutOK a = true) : HasArr (permOfArrD a) a := by
   simp only [inAutOK, Bool.and_eq_true] at h
-  rw [permOfArrD, dif_pos h.1]
+  rw [permOfArrD, dite_eq_left h.1]
   exact hasArr_permOfArr h.1
 
 theorem permOfArrD_mem_M24g {a : Array ℕ} (h : inAutOK a = true) : permOfArrD a ∈ M24g :=

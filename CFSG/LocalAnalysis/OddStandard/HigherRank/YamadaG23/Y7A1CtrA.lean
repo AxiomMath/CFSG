@@ -17,7 +17,7 @@ theorem y7a_pgroup_fixed {G : Type} [Group G] [Finite G] {C M V : Subgroup G}
     (hne : ∃ m ∈ M, m ∉ V) :
     ∃ x ∈ M, x ∉ V ∧ ∀ c ∈ C, ⁅c, x⁆ ∈ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let n : ℕ := Nat.card ((M : Set G).image ((↑) : G → G ⧸ V))
   have hmul : (M : Set G) * (V : Set G) = (M : Set G) := by
     ext g
@@ -35,7 +35,7 @@ theorem y7a_pgroup_fixed {G : Type} [Group G] [Finite G] {C M V : Subgroup G}
     intro u hu v hv
     exact M.mul_mem hu (hVM hv)
   have hMpos : 0 < Nat.card ↥(M : Set G) := by
-    haveI : Nonempty ↥(M : Set G) := ⟨⟨1, M.one_mem⟩⟩
+    have : Nonempty ↥(M : Set G) := ⟨⟨1, M.one_mem⟩⟩
     exact Nat.card_pos
   have hn : 0 < n := by
     by_contra h
@@ -77,7 +77,7 @@ theorem y7a_pgroup_fixed {G : Type} [Group G] [Finite G] {C M V : Subgroup G}
       group
   obtain ⟨ψ, hψ, -⟩ :=
     y6_act_exists (X := C) (V := V) (U := (M : Set G)) (n := n) hCVnorm hCM lab hlab hsurj
-  letI : MulAction ↥C (Fin n) := MulAction.compHom (Fin n) ψ
+  let : MulAction ↥C (Fin n) := MulAction.compHom (Fin n) ψ
   have hfix1 : lab 1 ∈ MulAction.fixedPoints ↥C (Fin n) := by
     rw [MulAction.mem_fixedPoints]
     intro c

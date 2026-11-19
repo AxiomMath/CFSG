@@ -70,7 +70,7 @@ theorem omegaNbr_linkFam_iff (hp : p ≠ 2) (hΨ : HypOmegaMod p f Ψ) {J K : Su
     have hsyl : IsSylow2In R J := T3.isSylow2In_of_mem_RSet_of_le hp hΨ hJ.1 hR hRJ
     exact ⟨hJ, hne, R, mem_RSet_of_isSylow2In hJ hsyl, hRJ, hRN⟩
 
-theorem link_path (hp : p ≠ 2) (hΨ : HypOmegaMod p f Ψ) (hk : ∀ g : X, conjSub g k = k)
+theorem link_path (hp : p ≠ 2) (hΨ : HypOmegaMod p f Ψ) (_hk : ∀ g : X, conjSub g k = k)
     (hconn : DConnected (restrictFamily (linkFam Ψ k) (linkGen Ψ k))) {B₀ B : Subgroup X}
     (hB₀ : B₀ ∈ linkFam Ψ k) (hB : B ∈ linkFam Ψ k) :
     Relation.ReflTransGen

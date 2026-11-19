@@ -160,7 +160,7 @@ private theorem r90p2_isSylow_of_maximal {G : Type} [Group G] [Finite G]
   have hSX : ((P : Subgroup C).map C.subtype : Subgroup G) ≤ H :=
     (Subgroup.map_subtype_le (P : Subgroup C)).trans hCH
   have hSp : IsPGroup 2 ((P : Subgroup C).map C.subtype : Subgroup G) :=
-    P.isPGroup'.map C.subtype
+    P.isPGroup.map C.subtype
   have hKNnormS : KN ≤ normalizer (((P : Subgroup C).map C.subtype : Subgroup G) : Set G) :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourteenEight.le_normalizer_of_isSylowOf_centOverO2
       hKN hPSyl

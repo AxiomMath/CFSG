@@ -15,7 +15,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley
 theorem exists_d4Datum_twE6
     {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) :
-    ∃ θ : ↥(d4Group σ.toRingHom) ≃*
+    ∃ _θ : ↥(d4Group σ.toRingHom) ≃*
         OrthRest.RPlus (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 4,
       commutator ↥(d4Group σ.toRingHom) = ⊤ ∧
       (∀ z : ↥(d4Group σ.toRingHom), (∀ x : ↥(d4Group σ.toRingHom), z * x = x * z) → z = 1) ∧
@@ -25,8 +25,8 @@ theorem exists_d4Datum_twE6
       (∀ y ∈ d4Group σ.toRingHom, ∀ z ∈ (torusG σ.toRingHom).range, y * z = z * y) := by
   have hkcard : Nat.card (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) = 2 ^ n :=
     CFSG.RankThree.Chevalley.card_eqLocusField_of_pow (by norm_num) (by omega) hK hσ
-  haveI : Fintype (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) := Fintype.ofFinite _
-  haveI : CharP (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 2 :=
+  have : Fintype (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) := Fintype.ofFinite _
+  have : CharP (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hkcard])
   obtain ⟨Ψ, hΨker, hΨrange⟩ :=
     exists_psi_d4 Nat.prime_two (by omega) σ.toRingHom hkcard
@@ -52,7 +52,7 @@ theorem exists_d4Datum_twE6
       OrthRest.RPlus (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 4 :=
     MulEquiv.ofBijective _ (OrthRest.spinPlus_bij
       (K := RingHom.eqLocusField σ.toRingHom (RingHom.id K)) (n := 4) (by norm_num)).1
-  let θ : ↥(d4Group σ.toRingHom) ≃*
+  let _θ : ↥(d4Group σ.toRingHom) ≃*
       OrthRest.RPlus (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 4 := e1.symm.trans eSpin
   have hcenter : Subgroup.center ↥(d4Group σ.toRingHom) = ⊥ := by
     have hmap := Subgroup.map_center_eq e1
@@ -63,13 +63,13 @@ theorem exists_d4Datum_twE6
         (CFSG.Open.StatedQuadPlus 4 (RingHom.eqLocusField σ.toRingHom (RingHom.id K)))) :=
       CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus
         (K := RingHom.eqLocusField σ.toRingHom (RingHom.id K)) (n := 4) (by norm_num)
-    haveI : Group.IsPerfect (CFSG.Open.StatedOmega
+    have : Group.IsPerfect (CFSG.Open.StatedOmega
         (CFSG.Open.StatedQuadPlus 4 (RingHom.eqLocusField σ.toRingHom (RingHom.id K)))) := hperfS
     have hperfD : Group.IsPerfect ↥(d4Group σ.toRingHom) :=
       Group.IsPerfect.ofSurjective
-        (f := (θ.trans (rPlusEquivStatedOmega
+        (f := (_θ.trans (rPlusEquivStatedOmega
           (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 4)).symm.toMonoidHom)
-        (θ.trans (rPlusEquivStatedOmega
+        (_θ.trans (rPlusEquivStatedOmega
           (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) 4)).symm.surjective
     exact hperfD.commutator_eq_top
   have hM3 : orbitRankOneGroup TwistTag.E6 K σ.toRingHom ⟨3, by decide⟩ ≤
@@ -95,7 +95,7 @@ theorem exists_d4Datum_twE6
     intro y hy z hz
     obtain ⟨t, rfl⟩ := hz
     exact (torusG_commute_d4Group σ.toRingHom t y hy).symm
-  refine ⟨θ, hperf, ?_, hM3, hframe, htorus⟩
+  refine ⟨_θ, hperf, ?_, hM3, hframe, htorus⟩
   intro z hz
   have hz' : z ∈ Subgroup.center ↥(d4Group σ.toRingHom) :=
     Subgroup.mem_center_iff.mpr (fun g => (hz g).symm)

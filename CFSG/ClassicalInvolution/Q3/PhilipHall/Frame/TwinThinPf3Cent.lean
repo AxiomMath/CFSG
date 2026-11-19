@@ -61,7 +61,7 @@ theorem model37_pair {m : ℕ} {𝒜 : Set (Finset (Fin m))} {X : Subgroup G} (�
     (hker : φ.ker ≤ Subgroup.center ↥X) (hZ : Subgroup.center ↥φ.range = ⊥)
     (hFix : FixTrivialPair φ.range 𝒜) {α β : Finset (Fin m)} (hα : α ∈ 𝒜) (hβ : β ∈ 𝒜)
     (h4 : α.card = 4) (h4' : β.card = 4) (b b' : Bool) {L₀ L₁ : Subgroup G} (hL₀ : L₀ ≤ X)
-    (hL₁ : L₁ ≤ X) (hlab : (L₀.subgroupOf X).map φ = memBar α h4 b)
+    (_hL₁ : L₁ ≤ X) (hlab : (L₀.subgroupOf X).map φ = memBar α h4 b)
     (hlab' : (L₁.subgroupOf X).map φ = memBar β h4' b') (hzb : zBar β h4' = zBar α h4)
     (hne : memBar α h4 b ≠ memBar β h4' b') {y : G}
     (hy : y ∈ Subgroup.normalizer (X : Set G)) (hy3 : ∃ a : ℕ, y ^ 3 ^ a = 1)

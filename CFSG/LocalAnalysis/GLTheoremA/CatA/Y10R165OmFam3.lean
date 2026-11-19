@@ -59,21 +59,21 @@ theorem i165On_famTwD_of_engine (hE : Om165Engine) : I165On i165FamTwD := by
     obtain ⟨lab', hlab', hs⟩ :=
       rk2_split16_of_tables_holds hq hq2 (hasLabel_mono (fun _ _ => trivial) hK) h3 he.symm
     exact dvd_two_pow_sub_one_or_add_one_of_hasLabel_of_exists_split16 hm4 hK
-      ⟨lab', hlab', hs⟩ (by simp [CFSG.Assembly.LargeEvenUntwisted])
+      ⟨lab', hlab', hs⟩ (by simp)
   have hZ : Subgroup.center K = ⊥ := by
     have hℓ2' : ℓ ≠ 2 := by omega
     have hℓ3' : ℓ ≠ 3 := by omega
     have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaMinus ℓ 2 n := by
       simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
         CFSG.StandardType.markRank, CFSG.StandardType.markChar,
-        CFSG.StandardType.markDeg, if_neg hℓ2', if_neg hℓ3'] using hM
+        CFSG.StandardType.markDeg, ite_eq_right hℓ2', ite_eq_right hℓ3'] using hM
     exact i61_center_eq_bot_of_model hQ hM'
       (OmFam.genericOrders_pomegaMinus_eq_one hn1 (by omega)) rfl
   obtain ⟨F, hfield, hfinite, hchar, b, c, hcard, hirr, ⟨eΩ⟩⟩ :=
     exists_mulEquiv_statedOmega_minus_of_hasLabel hℓ4 hK hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   let Q : QuadraticForm F (Fin (ℓ - 1) ⊕ Fin (ℓ - 1) ⊕ Fin 2 → F) :=
     CFSG.LieType.Universal.Spin.quadMinus ℓ F b c
   let e : K ≃* ↥(orthDerived Q) :=

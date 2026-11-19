@@ -23,6 +23,7 @@ variable {ℓ f n : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [CharP
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem linearIndependent_of_isON {σ : K ≃+* K} {ι : Type*} [Fintype ι] [DecidableEq ι]
     {c : ι → Fin n → K} (hc : ∀ i j, herm σ (c i) (c j) = if i = j then 1 else 0) :
     LinearIndependent K c := by

@@ -386,7 +386,7 @@ theorem e8_num42 : ∀ m : ℕ, 42 ≤ m * (m - 1) → 4 ≤ m ∧ 8 + 1 < 2 * m
   refine ⟨h4, ?_⟩
   by_contra hm
   have hm4 : m ≤ 4 := by omega
-  interval_cases m <;> omega
+  interval_cases m; omega
 
 theorem e8_num30 : ∀ m : ℕ, 30 ≤ m * (m - 1) → 4 ≤ m ∧ 8 + 1 < 2 * m := by
   intro m h
@@ -396,7 +396,7 @@ theorem e8_num30 : ∀ m : ℕ, 30 ≤ m * (m - 1) → 4 ≤ m ∧ 8 + 1 < 2 * m
   refine ⟨h4, ?_⟩
   by_contra hm
   have hm4 : m ≤ 4 := by omega
-  interval_cases m <;> omega
+  interval_cases m; omega
 
 theorem e8_num72 : ∀ m : ℕ, 72 ≤ m * (m - 1) → 4 ≤ m ∧ 8 + 1 < 2 * m := by
   intro m h
@@ -406,7 +406,7 @@ theorem e8_num72 : ∀ m : ℕ, 72 ≤ m * (m - 1) → 4 ≤ m ∧ 8 + 1 < 2 * m
   refine ⟨h4, ?_⟩
   by_contra hm
   have hm4 : m ≤ 4 := by omega
-  interval_cases m <;> omega
+  interval_cases m; omega
 
 
 section Good

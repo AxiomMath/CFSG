@@ -45,6 +45,7 @@ private theorem wc819sa_exists_conj_of_isSylowIn {p : ℕ} [Fact p.Prime]
       group
     exact hmem
 
+omit [Finite G] in
 private theorem wc819sa_isSylowIn_conj_iff {p : ℕ} (g : G) {P H : Subgroup G} :
     IsSylowIn p (conjSub g P) (conjSub g H) ↔ IsSylowIn p P H := by
   unfold conjSub
@@ -72,6 +73,7 @@ private theorem wc819sa_isSylowIn_two_of_sup_inf {N S : Subgroup G}
   rw [← hri]
   exact h.not_dvd_relIndex
 
+omit [Finite G] in
 private theorem wc819sa_isSylowIn_two_of_le {P₁ P₂ K : Subgroup G} (h : IsSylowIn 2 P₁ K)
     (h12 : P₁ ≤ P₂) (h2K : P₂ ≤ K) (hP₂ : IsPGroup 2 P₂) : IsSylowIn 2 P₂ K :=
   ⟨h2K, hP₂, fun hd => h.not_dvd_relIndex (hd.trans (Subgroup.relIndex_dvd_of_le_left K h12))⟩
@@ -80,8 +82,8 @@ theorem exists_isSylowIn_three_good {J T : Subgroup G} (hTJ : T ≤ normalizer (
     (hT : IsPGroup 2 ↥T) (hS : IsSylowIn 2 (T ⊓ J) J) :
     ∃ Y : Subgroup G, IsSylowIn 3 Y J ∧
       IsSylowIn 2 (T ⊓ normalizer (Y : Set G)) ((J ⊔ T) ⊓ normalizer (Y : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDJ : J ⊔ T ≤ Subgroup.normalizer (J : Set G) :=
     sup_le Subgroup.le_normalizer hTJ
   have hTD : IsSylowIn 2 T (J ⊔ T) := wc819sa_isSylowIn_two_of_sup_inf hTJ hT hS

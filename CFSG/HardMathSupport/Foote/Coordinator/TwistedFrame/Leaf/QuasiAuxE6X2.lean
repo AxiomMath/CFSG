@@ -114,7 +114,7 @@ theorem exchange (D : LangLevi TwClass.e6Six.tag K TwClass.e6Six.w) :
       ∃ a b : SL(3, D.L), ∀ A B : SL(3, D.L), θ (twoA2MulSup (A, B)) =
         twoA2MulSup (a * Matrix.SpecialLinearGroup.map D.Fr B * a⁻¹,
           b * Matrix.SpecialLinearGroup.map D.Fr A * b⁻¹) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   exact CFSG.RankThree.PartOne.KE6.exists_exchanged_layer_pos (Fr := D.Fr)
     D.Fr_bijective.2 ((MulAut.conj D.nW).toMonoidHom.comp D.frobGL) (twist_injective D) 1 1
     (twist_13 D) (twist_56 D)
@@ -140,7 +140,7 @@ theorem rootSpan_S₂ (L : Type) [Field L] :
   rw [S₂_eq_parabolic]
   exact rootSpan_supportA2A2 (Ω := L)
 
-theorem exch_data (hK : 3 ≤ Nat.card K) (D : LangLevi TwClass.e6Six.tag K TwClass.e6Six.w) :
+theorem exch_data (_hK : 3 ≤ Nat.card K) (D : LangLevi TwClass.e6Six.tag K TwClass.e6Six.w) :
     ∃ (a b : SL(3, D.L)) (P : Subgroup (ModGL TwClass.e6Six.tag D.L)),
       (∀ A B : SL(3, D.L),
         muGL D.L (a * Matrix.SpecialLinearGroup.map D.Fr B * a⁻¹,
@@ -153,14 +153,14 @@ theorem exch_data (hK : 3 ≤ Nat.card K) (D : LangLevi TwClass.e6Six.tag K TwCl
         (a * Matrix.SpecialLinearGroup.map D.Fr s.2 * a⁻¹,
           b * Matrix.SpecialLinearGroup.map D.Fr s.1 * b⁻¹) = s → muGL D.L s ∈ P) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : ∀ c, D.Fr c = c ^ (p ^ (m : ℕ)) := fun c => by rw [D.hFr, hcard']
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   obtain ⟨θ, hθΨ, a, b, hθ⟩ := exchange D
   obtain ⟨k₂, hk₂, h₁, h₂, ρ, hρ, hρfix, hρnorm, hρqs, hρker, hρkerc, hρiso, hρcen, hfin, hind,
     hder⟩ := CFSG.RankThree.Classical.SteinbergBY.exchanged_sl3_central_product_frobenius_full_fixed_layer

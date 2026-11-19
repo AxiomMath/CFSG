@@ -37,12 +37,14 @@ namespace ZEData
 
 variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
 
+omit [Finite H] in
 private lemma word_mul_tl (h : ZEData Q Y V V' B K ρ t τ l) (b c b' c' : Fin 2) :
     (τ ^ (b : ℕ) * l ^ (c : ℕ)) * (τ ^ (b' : ℕ) * l ^ (c' : ℕ)) =
       τ ^ ((b + b' : Fin 2) : ℕ) * l ^ ((c + c' : Fin 2) : ℕ) := by
   rw [z4i_mul_pair_comm ((show Commute l τ from h.tau_l.symm).pow_pow c b'),
       z4i_pow_add_fin τ h.tau_sq b b', z4i_pow_add_fin l h.l_sq c c']
 
+omit [Finite H] in
 private lemma word_sq_tl (h : ZEData Q Y V V' B K ρ t τ l) (b c : Fin 2) :
     (τ ^ (b : ℕ) * l ^ (c : ℕ)) * (τ ^ (b : ℕ) * l ^ (c : ℕ)) = 1 := by
   rw [word_mul_tl h b c b c]
@@ -51,6 +53,7 @@ private lemma word_sq_tl (h : ZEData Q Y V V' B K ρ t τ l) (b c : Fin 2) :
   rw [hb, hc]
   simp
 
+omit [Finite H] in
 private lemma mem_closure_tl_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ closure ({τ, l} : Set H) ↔ ∃ b c : Fin 2, x = τ ^ (b : ℕ) * l ^ (c : ℕ) := by
   let W : Subgroup H :=
@@ -80,6 +83,7 @@ private lemma mem_closure_tl_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
       ((closure ({τ, l} : Set H)).pow_mem hτ (b : ℕ))
       ((closure ({τ, l} : Set H)).pow_mem hl (c : ℕ))
 
+omit [Finite H] in
 private lemma closure_tl_norm_K (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ s ∈ closure ({τ, l} : Set H), ∀ k ∈ K, s * k * s⁻¹ ∈ K := by
   have hle : closure ({τ, l} : Set H) ≤ z4iT3 t τ l :=
@@ -129,6 +133,7 @@ private lemma card_closure_tl (h : ZEData Q Y V V' B K ρ t τ l) :
   rw [← Nat.card_congr (Equiv.ofBijective f hf), Nat.card_eq_fintype_card]
   norm_num [Fintype.card_prod]
 
+omit [Finite H] in
 theorem mem_M_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     x ∈ z4iM K τ l ↔ ∃ k ∈ K, ∃ b c : Fin 2, x = k * τ ^ (b : ℕ) * l ^ (c : ℕ) := by
   rw [z4iM, mem_sup_iff_of_normalizes (H := K) (K := closure ({τ, l} : Set H))
@@ -141,6 +146,7 @@ theorem mem_M_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} :
     exact ⟨k, hk, τ ^ (b : ℕ) * l ^ (c : ℕ), (mem_closure_tl_iff h).mpr ⟨b, c, rfl⟩,
       by rw [mul_assoc]⟩
 
+omit [Finite H] in
 theorem M_le_Vc (h : ZEData Q Y V V' B K ρ t τ l) : z4iM K τ l ≤ z4iVc K t τ l := by
   show K ⊔ closure ({τ, l} : Set H) ≤ K ⊔ z4iT3 t τ l
   refine sup_le_sup_left ?_ K
@@ -203,7 +209,7 @@ theorem invol_M (h : ZEData Q Y V V' B K ρ t τ l) {u : H} (hu : u ∈ z4iM K �
   · right; left
     have hul : u = l * (l * k * l) := by
       rw [hku]
-      simp only [Fin.val_zero, pow_zero, Fin.val_one, pow_one, one_mul]
+      simp only [pow_zero, pow_one]
       rw [show l * (l * k * l) = (l * l) * k * l by group, h.l_sq]
       group
     have hs : l * k * l ∈ K := by
@@ -223,7 +229,7 @@ theorem invol_M (h : ZEData Q Y V V' B K ρ t τ l) {u : H} (hu : u ∈ z4iM K �
       rwa [inv_eq_of_mul_eq_one_right htaul2] at h'
     have hul : u = (τ * l) * ((τ * l) * k * (τ * l)) := by
       rw [hku]
-      simp only [Fin.val_one, pow_one, Fin.val_zero, pow_zero, mul_one]
+      simp only [pow_one]
       calc k * τ * l = k * (τ * l) := by group
         _ = (τ * l) * ((τ * l) * k * (τ * l)) := by
             rw [show (τ * l) * ((τ * l) * k * (τ * l)) =

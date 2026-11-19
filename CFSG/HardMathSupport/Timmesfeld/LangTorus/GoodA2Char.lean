@@ -149,8 +149,7 @@ theorem A2_rotation {β β' : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (hβ' : 
     mul_mem (Subgroup.subset_closure ⟨β + β', by simp [A2roots], rfl⟩)
       (Subgroup.subset_closure ⟨β, by simp [A2roots], rfl⟩), ?_⟩
   simp only [mul_smul, rootReflection_smul_two hsl hβ, rootReflection_smul_two hsl hs, sub_eq_add_neg,
-    iform_add_left, iform_add_right, SimplyLacedCover.iform_neg_left,
-    SimplyLacedCover.iform_neg_right, iform_smul_right, h11, h22, hab, h21]
+    iform_add_left, iform_add_right, SimplyLacedCover.iform_neg_right, iform_smul_right, h11, h22, hab, h21]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> module
 
 end A2

@@ -23,11 +23,13 @@ variable {G : Type} [Group G] [Finite G]
   ¬ conjSubgroup V k ≤ M ∧ ¬ V ≤ conjSubgroup M k ∧ E3.mQuot V (conjSubgroup M k) ≤ n ∧
     E3.mQuot (conjSubgroup V k) M ≤ n
 
+omit [Finite G] in
 theorem exists_cond1512 {n : ℕ} {M V₀ V : Subgroup G} (h : (calO n M V₀ V).Nonempty) :
     ∃ k : G, Cond1512 n M V k := by
   obtain ⟨X, g, -, ⟨h1, h2, -⟩, ⟨h3, h4, -⟩⟩ := h
   exact ⟨g, h1, h3, h2, h4⟩
 
+omit [Finite G] in
 theorem cond1512_inv {n : ℕ} {M V : Subgroup G} {k : G} (h : Cond1512 n M V k) :
     Cond1512 n M V k⁻¹ := by
   obtain ⟨h1, h2, h3, h4⟩ := h
@@ -49,16 +51,19 @@ theorem cond1512_inv {n : ℕ} {M V : Subgroup G} {k : G} (h : Cond1512 n M V k)
     rw [h']
     exact h3
 
+omit [Finite G] in
 private lemma s15_TwelveA_imgTil_mono {V₀ V A B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hAB : A ≤ B) : imgTil V₀ V hV A ≤ imgTil V₀ V hV B := by
   unfold imgTil intSub
   exact Subgroup.map_mono fun x hx => hAB hx
 
+omit [Finite G] in
 private lemma s15_TwelveA_conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private lemma s15_TwelveA_conjSubgroup_conjSubgroup_of_mem_normalizer {F : Subgroup G}
     {g c : G} (hc : g * c * g⁻¹ ∈ normalizer (F : Set G)) :
     conjSubgroup (conjSubgroup F g) c = conjSubgroup F g := by
@@ -97,9 +102,9 @@ private lemma s15_TwelveA_rk_map_le {A B : Type*} [Group A] [Finite A] [Group B]
   unfold rk
   exact padicValNat_two_le_of_dvd (Nat.card_pos (α := ↥H)).ne' (Subgroup.card_map_dvd (H := H) f)
 
-private lemma s15_TwelveA_imgTil_wConj_injOn (D : Data G) (h1217 : R1217 D)
+private lemma s15_TwelveA_imgTil_wConj_injOn (D : Data G) (_h1217 : R1217 D)
     {V₀ V L : Subgroup G} (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
-    (hL : barSub V₀ V hV L ≠ ⊥) :
+    (_hL : barSub V₀ V hV L ≠ ⊥) :
     Set.InjOn (fun X => imgTil (v1Sub D.M V₀ V hV L) V hV X) (wConj D.M V₀ V hV L) := by
   have himgset : (fun X => imgTil (v1Sub D.M V₀ V hV L) V hV X) '' wConj D.M V₀ V hV L =
       wStarConj D.M V₀ V hV L := by
@@ -448,8 +453,8 @@ theorem s15_Twelve_rank_bound (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D
       omega
   exact ⟨hbound, fun hcases => hgood hcases⟩
 
-theorem s15_Twelve_moved_rank (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
-    (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥) {y : G}
+theorem s15_Twelve_moved_rank (D : Data G) (_h1217 : R1217 D) {V₀ V L : Subgroup G}
+    (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) (_hL : barSub V₀ V hV L ≠ ⊥) {y : G}
     (hy : y ∈ D.M) {Z : Subgroup G} (hZ : Z ∈ wConj D.M V₀ V hV L)
     (hmove : conjSubgroup (fSub15 D.M V₀ V hV L Z) y ≠ fSub15 D.M V₀ V hV L Z) :
     gamma15 D.M V₀ V hV L ≤ E3.mQuot V (centralizer ({y} : Set G)) := by

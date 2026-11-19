@@ -46,7 +46,7 @@ theorem isInGMinusOne_of_pRank_le_one {p : ℕ} {B L : Subgroup Y}
 theorem isInGMinusOne_of_card_stab_le {p : ℕ} (hp : p.Prime) {B K : Subgroup Y}
     (hB : IsElemAbelian p B) (hK : IsComponentOf K ⊤) (h1 : 1 ≤ CFSG.Open.pRank p B)
     (hA : Nat.card (stab B K) ≤ p * Nat.card (cen B K)) : IsInGMinusOne p B K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF := isFam_conjSet hB hK
   obtain ⟨m, hm⟩ := GL83.CompFam.exists_card_eq_pow hB
   have hpm : CFSG.Open.pRank p B = m := i224_pRank_eq hp hB hm
@@ -71,7 +71,7 @@ theorem le_gammaPrimeIn_of_centGen {p : ℕ} (hp : p.Prime) {B K : Subgroup Y}
     (hCG : CFSG.HardMathSupport.Dickson.I271.CentGen p ↥K)
     (hA : p * Nat.card (cen B K) < Nat.card (stab B K)) :
     K ≤ gammaPrimeIn p (CFSG.Open.pRank p (stab B K) - 1) (stab B K) K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A : Subgroup Y := stab B K with hAdef
   have hAN : A ≤ Subgroup.normalizer (K : Set Y) := inf_le_right
   have hAel : IsElemAbelian p A := elem_mono hB inf_le_left
@@ -219,7 +219,7 @@ theorem isGMinusOne_of_facts {p : ℕ} (hp : p.Prime) (hcore : GLAPPrimeCore p Y
     (hinn : ∀ φ : MulAut ↥K, ∃ g : ↥K, φ = MulAut.conj g) (hZ : Subgroup.center ↥K = ⊥)
     (h3 : ¬ p ^ 3 ∣ Nat.card ↥K) (hCG : CFSG.HardMathSupport.Dickson.I271.CentGen p ↥K) :
     Lemma1314.IsGMinusOne p B K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply isGMinusOne_of_isInGMinusOne
   by_cases h1 : CFSG.Open.pRank p B ≤ 1
   · exact isInGMinusOne_of_pRank_le_one h1
@@ -282,12 +282,12 @@ theorem card_of_isAltType_seven {S : Type*} [Group S] (h : IsAltType 7 S) : Nat.
 
 theorem isAltType_barOf_of_isAltType {S : Type} [Group S] {Λ : Subgroup S} (h : IsAltType 7 ↥Λ) :
     IsAltType 7 (barOf 5 Λ) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard := card_of_isAltType_seven h
-  haveI : Finite ↥Λ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥Λ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Λ := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Λ := e.isSimpleGroup
   have hcore : GLAPPrimeCore 5 ↥Λ = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 5 ↥Λ) with h0 | h0
     · exact h0
@@ -368,7 +368,7 @@ theorem centralizer_le_normalizer_sup {S : Type} [Group S] [Finite S] (h3 : ¬ 5
     (hΛn : Subgroup.centralizer ({y} : Set S) ≤ Subgroup.normalizer (Λ : Set S))
     (hΛcard : Nat.card Λ = 2520) (hyΛ : y ∉ Λ) :
     Subgroup.centralizer ({y} : Set S) ≤ Subgroup.normalizer (P : Set S) ⊔ Λ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set C : Subgroup S := Subgroup.centralizer ({y} : Set S) with hCdef
   have hPC : P ≤ C := fun q hq => Subgroup.mem_centralizer_singleton_iff.2 (elem_comm hPel hq hyP)
   have hC0 : Nat.card C ≠ 0 := Nat.card_pos.ne'
@@ -385,7 +385,7 @@ theorem centralizer_le_normalizer_sup {S : Type} [Group S] [Finite S] (h3 : ¬ 5
   set SX : Sylow 5 ↥C := Sylow.ofCard (P.subgroupOf C) hP'card with hSX
   have hSXc : (SX : Subgroup ↥C) = P.subgroupOf C := Sylow.coe_ofCard _ _
   set F : Subgroup ↥C := Λ.subgroupOf C with hF
-  haveI hFn : F.Normal := ⟨fun n hn c => by
+  have hFn : F.Normal := ⟨fun n hn c => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact (Subgroup.mem_normalizer_iff.1 (hΛn c.2) n).1 hn⟩
@@ -504,7 +504,7 @@ theorem top_le_layers {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     exact hCle y hy hy1 (Subgroup.mem_centralizer_singleton_iff.2 hσy)
   have hnorm : Subgroup.normalizer (X : Set S) = ⊤ :=
     eq_top_iff.2 (htop.trans (sup_le (normalizer_le_normalizer_layers 5 P) (Subgroup.le_normalizer)))
-  haveI hXn : X.Normal := Subgroup.normalizer_eq_top_iff.1 hnorm
+  have hXn : X.Normal := Subgroup.normalizer_eq_top_iff.1 hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal X with h0 | h0
   · exfalso
     have hPne : P ≠ ⊥ := by
@@ -584,7 +584,7 @@ theorem locQ_of_facts {Y' : Type} [Group Y'] [Finite Y']
 theorem input23_24Fi23Loc_of_Q (h : Input23_24Fi23LocQ) : Lemma1314c.Input23_24Fi23Loc := by
   intro G _ _ C L U hL hsp hUC hUel hUcard hUN hfaith
   have hp : Nat.Prime 5 := Nat.prime_five
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hfaith' : ∀ x ∈ U, x ∈ centBar 5 ⊤ L → x = 1 := by
     intro x hxU hx
     have hxc : x ∈ centBar 5 U L := Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hx).1, hxU⟩

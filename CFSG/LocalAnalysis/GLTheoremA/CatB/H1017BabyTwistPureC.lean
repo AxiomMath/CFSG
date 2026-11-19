@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Monster.GMS CFSG.HardMathSupport.Timmesfeld.S
 
 theorem babyNoPureFourAt_three_of_zero (h : BabyNoPureFourAt 0) : BabyNoPureFourAt 3 := by
   intro t ht D hDt hD hDcard
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨r, s, hr, hs, hrst⟩ :
       ∃ r s : NativeSporadic.B, BabyInv 0 r ∧ BabyInv 0 s ∧ r * s = t := by
     obtain ⟨r₀, hr₀⟩ : ∃ r₀ : NativeSporadic.B, BabyInv 0 r₀ :=

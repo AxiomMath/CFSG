@@ -106,7 +106,7 @@ theorem card_centralizer_inverting {U : Subgroup Γ} (hc : ∀ a ∈ U, ∀ b �
     (hwx : w * x * w⁻¹ = x⁻¹) (hx5 : x ^ 5 = 1) (hfpf : ∀ u ∈ U, x * u * x⁻¹ = u → u = 1) :
     Nat.card ↥(U ⊓ centralizer ({w} : Set Γ)) = 4 := by
   classical
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rw [card_inf_centralizer_eq hc hsq w hw]
   set φ := onePlus U hc w hw with hφ
   have hker : ∀ u : U, u ∈ φ.ker ↔ w * u = u * w := mem_ker_onePlus hc hsq w hw
@@ -217,13 +217,13 @@ theorem sq_conj (h : IsF20 U x v) : v ^ 2 * x * (v ^ 2)⁻¹ = x⁻¹ := by
   · rw [hv]
     have : v * x ^ 2 * v⁻¹ = (v * x * v⁻¹) ^ 2 := by
       have := conj_pow (i := (2 : ℕ)) (a := v) (b := x)
-      simpa using this.symm
+      simp
     rw [this, hv, ← pow_mul]
     exact h4
   · rw [hv]
     have : v * x ^ 3 * v⁻¹ = (v * x * v⁻¹) ^ 3 := by
       have := conj_pow (i := (3 : ℕ)) (a := v) (b := x)
-      simpa using this.symm
+      simp
     rw [this, hv, ← pow_mul]
     exact h9
 

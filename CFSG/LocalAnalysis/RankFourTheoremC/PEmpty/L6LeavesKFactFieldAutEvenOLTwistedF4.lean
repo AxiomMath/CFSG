@@ -125,16 +125,16 @@ theorem twoLocalWhen_twistedF4
   obtain ⟨-, -, -, -, -, -, hmain⟩ :=
     large_Ree_model_field_outer_group_and_inner_involutions K 2 f hR
   obtain ⟨-, a, hfa, F, _, _, hFcard, he⟩ := hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F F4.prime :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F F4.prime :=
     charP_of_card_eq_prime_pow (p := 2) (f := f) (by rw [← Nat.card_eq_fintype_card, hFcard])
   obtain ⟨⟨e⟩, -⟩ := hmain a F hfa hFcard he
   have hK : Nat.card F = 2 ^ (2 * a + 1) := by rw [hFcard, hfa]
   have hdv : ∀ k : ℕ, r ∣ (2 ^ (2 * a + 1)) ^ k - 1 ↔ 12 ∣ k := fun k => by
     rw [← hfa, hf]
     exact (hz k).2
-  haveI : Finite (ModGL F4.tag F) := finite_modGL
+  have : Finite (ModGL F4.tag F) := finite_modGL
   refine ⟨r, hr, fun R hR2 hR1 => ?_⟩
   have hRn : ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set K)) :=
     not_dvd_card_normalizer_of_mulEquiv e (fun U hU2 hU1 =>

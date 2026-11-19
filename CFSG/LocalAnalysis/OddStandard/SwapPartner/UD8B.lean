@@ -180,7 +180,7 @@ theorem x_comm (h : D8Rel z g x) {q : G} (hq : q ∈ closure ({z, g} : Set G)) :
     q * x = x * q := by
   have hAx : ∀ i : ℤ, (z * g) ^ i * x = x * (z * g) ^ i := by
     intro i
-    rw [← u_A_sq_zpow h, u_zpow_mul h, u_zpow_mul h]
+    rw [← u_A_sq_zpow h, u_zpow_mul, u_zpow_mul]
     congr 1; ring
   rcases (u_form h q).mp hq with ⟨i, rfl⟩ | ⟨i, rfl⟩
   · exact hAx i
@@ -194,7 +194,7 @@ theorem x_mem (h : D8Rel z g x) : x ∈ closure ({z, g} : Set G) := by
   rw [← u_A_sq_zpow h]
   exact Subgroup.zpow_mem _ (mul_mem (subset_closure (by simp)) (subset_closure (by simp))) 2
 
-def u_F (h : D8Rel z g x) (p : Fin 4 × Bool) : closure ({z, g} : Set G) :=
+def u_F (_h : D8Rel z g x) (p : Fin 4 × Bool) : closure ({z, g} : Set G) :=
   match p.2 with
   | false => ⟨(z * g) ^ ((p.1 : ℤ)),
       Subgroup.zpow_mem _ (mul_mem (subset_closure (by simp)) (subset_closure (by simp))) _⟩
@@ -228,7 +228,7 @@ lemma u_F_bijective (h : D8Rel z g x) : Function.Bijective (u_F h) := by
           _ = ((z * g) ^ (kq : ℤ))⁻¹ * (z * g) ^ (kp : ℤ) := by rw [← hval]
           _ = (z * g) ^ (-(kq : ℤ)) * (z * g) ^ (kp : ℤ) := by rw [← zpow_neg]
           _ = (z * g) ^ ((kp : ℤ) - (kq : ℤ)) := by
-                rw [u_zpow_mul h, show -(kq : ℤ) + (kp : ℤ) = (kp : ℤ) - (kq : ℤ) from by ring]
+                rw [u_zpow_mul, show -(kq : ℤ) + (kp : ℤ) = (kp : ℤ) - (kq : ℤ) from by ring]
       exact hg.symm
     · simp only [u_F] at hval
       exfalso
@@ -240,7 +240,7 @@ lemma u_F_bijective (h : D8Rel z g x) : Function.Bijective (u_F h) := by
           _ = ((z * g) ^ (kp : ℤ))⁻¹ * (z * g) ^ (kq : ℤ) := by rw [hval]
           _ = (z * g) ^ (-(kp : ℤ)) * (z * g) ^ (kq : ℤ) := by rw [← zpow_neg]
           _ = (z * g) ^ ((kq : ℤ) - (kp : ℤ)) := by
-                rw [u_zpow_mul h, show -(kp : ℤ) + (kq : ℤ) = (kq : ℤ) - (kp : ℤ) from by ring]
+                rw [u_zpow_mul, show -(kp : ℤ) + (kq : ℤ) = (kq : ℤ) - (kp : ℤ) from by ring]
       exact hg.symm
     · simp only [u_F] at hval
       have hval' : (z * g) ^ (kp : ℤ) = (z * g) ^ (kq : ℤ) := mul_right_cancel hval

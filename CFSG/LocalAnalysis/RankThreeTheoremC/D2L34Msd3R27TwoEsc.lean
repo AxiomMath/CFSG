@@ -23,6 +23,7 @@ variable {d : TauCeti.ValidLieTypeIndex} {P : Sylow 3 G} {M A H R : Subgroup G}
   {Rbar : Sylow 3 (H ⧸ primeComplementCore (G := H) 3)}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} {T : Subgroup G}
 
+omit [Finite G] in
 private theorem isSylowTwoOf_inf_of_le {N : Subgroup G} (hT : IsSylowTwoOf T M) (hTN : T ≤ N) :
     IsSylowTwoOf T (N ⊓ M) := by
   refine ⟨le_inf hTN hT.1, hT.2.1, fun h => hT.2.2 ?_⟩
@@ -57,9 +58,9 @@ theorem D2L34R27.false_of_two_escapes
     (hW₁ : W₁ ≤ M ⊓ Subgroup.normalizer (X₁ : Set G))
     (hW₂ : W₂ ≤ M ⊓ Subgroup.normalizer (X₂ : Set G))
     (hW₁p : IsPGroup 3 W₁) (hW₂p : IsPGroup 3 W₂) (hg₁ : HasGoodE9 M W₁)
-    (hg₂ : HasGoodE9 M W₂) (hW : IsPGroup 3 (W₁ ⊔ W₂ : Subgroup G))
+    (hg₂ : HasGoodE9 M W₂) (_hW : IsPGroup 3 (W₁ ⊔ W₂ : Subgroup G))
     (h3 : 3 ≤ CFSG.Open.pRank 3 (W₁ ⊔ W₂ : Subgroup G)) : False := by
-  haveI := c.amb
+  have := c.amb
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : IsSylowTwoOf T M := c.sylow
@@ -77,9 +78,9 @@ theorem D2L34R27.false_of_two_escapes
       W ≤ M ⊓ Subgroup.normalizer (X : Set G) → IsPGroup 3 W → HasGoodE9 M W →
       ∃ N : Subgroup G, IsTwoLocal N ∧ ¬ N ≤ M ∧ W ≤ N ∧
         ((good N Zc ∧ good N Jc) ∨ (good N Zc ∧ good N Ec) ∨ (good N Jc ∧ good N Ec)) := by
-    intro X W hX hX2 hXT hW hWp ⟨E, hEW, hEel, hE9, hEcore⟩
+    intro X W hX hX2 hXT _hW hWp ⟨E, hEW, hEel, hE9, hEcore⟩
     obtain ⟨N₁, E₀, d₁, Rbar₁, K₁, -, hWN₁, hT₁, hc₁⟩ :=
-      c.exists_conf_of_normalizer hX hX2 hXT hW hWp hEW hEel hE9 hEcore
+      c.exists_conf_of_normalizer hX hX2 hXT _hW hWp hEW hEel hE9 hEcore
     have hTN₁ : T ≤ N₁ := hT₁.1.trans inf_le_left
     obtain ⟨B, hBg, hBHM, -, -, hBU, hTBU⟩ :=
       D2L34BetaConf3.exists_permuting_elemAbelian_conj hc₁ hT₁

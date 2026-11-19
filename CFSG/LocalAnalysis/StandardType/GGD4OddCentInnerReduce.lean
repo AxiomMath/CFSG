@@ -121,9 +121,9 @@ private theorem ggD4OddCentInner_core
       (GGLabelA2 lab' ∧ lab'.tag = .twA ∧ Subgroup.center J ≠ ⊥ ∧
         (GGAutsFixedInCenter A J ∨ ¬ GGAutsInduceOn A J θ' I')) ∨
       (lab'.tag = .A ∧ lab'.rank = 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F₁ := Fintype.ofFinite F₁
-  haveI : CharP F₁ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F₁ := Fintype.ofFinite F₁
+  have : CharP F₁ 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hF₁])
   have hloc0 := hloc
   obtain ⟨⟨hEA, hσA, hσ1, hcomp, -⟩, -⟩ := hloc
@@ -230,7 +230,7 @@ private theorem ggD4OddCentInner_core
     have hL : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus 4 2 1 :=
       CFSG.SeitzReduction.OmegaPilot.lieModel_of_mulEquiv_orthDerived_plus
         (m := 4) (f := 1) le_rfl le_rfl (by simpa using hF₂) φ
-    haveI : Group.IsPerfect K := ⟨hK⟩
+    have : Group.IsPerfect K := ⟨hK⟩
     have hcZ4 : Nat.card (Subgroup.center K) ∣ 4 :=
       CFSG.ComponentClassification.RankTwoClassical.card_center_dvd_four_of_omegaEight hL
     let π : K →* D4Recipe F₁ := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
@@ -258,7 +258,7 @@ private theorem ggD4OddCentInner_core
       · intro r hr
         have hr' : s₁ r = r := hr
         obtain ⟨g, hg⟩ := hπsurj r
-        haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
         have hx : g⁻¹ * σ g ∈ Subgroup.center K := by
           apply hπker
           rw [map_mul, map_inv, ← hcomm1 g, hg, hr']
@@ -287,7 +287,7 @@ private theorem ggD4OddCentInner_core
         intro k
         exact Subtype.ext
           (Subgroup.mem_center_iff.mp (hπker (j : K) (hle j.2)) (k : K))
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hcomp.2.2.2.toNontrivial
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hcomp.2.2.2.toNontrivial
       obtain ⟨q, hq⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
       have hq1 : q = 1 := by
         induction q using QuotientGroup.induction_on with
@@ -321,8 +321,8 @@ theorem ggD4OddCentInnerInput_of_om8
     obtain ⟨rfl, rfl⟩ := hD
     refine ⟨hperf, ⟨.D, 4, n⟩, hlab, ?_⟩
     unfold LargeEvenRawDatumLegacy at hraw ⊢
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)]
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)]
     obtain ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ⟩ := hraw
     exact ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ, fun hdat hσ =>
       ggD4OddCentInner_core h1 h4 h2m h2d hK hloc hA hF₁ θ hdat hσ⟩

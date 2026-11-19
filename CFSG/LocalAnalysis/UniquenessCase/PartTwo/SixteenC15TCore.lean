@@ -80,6 +80,7 @@ theorem s16c15t_rk_fixV_split {A B : Subgroup W} {E : Subgroup (MulAut W)}
   rw [hsup, hdisj, rk_bot] at h
   omega
 
+omit [Finite W] in
 theorem s16c15t_eq_one_of_fix_summand {F₀ F₁ F₂ : Subgroup W} (h12 : F₁ ⊓ F₂ = ⊥)
     (j01 : F₀ ⊔ F₁ = ⊤) (j02 : F₀ ⊔ F₂ = ⊤) {e : MulAut W}
     (hF₁ : ∀ x ∈ F₁, e x ∈ F₁) (hF₂ : ∀ x ∈ F₂, e x ∈ F₂) (he : ∀ x ∈ F₀, e x = x) :
@@ -103,6 +104,7 @@ theorem s16c15t_eq_one_of_fix_summand {F₀ F₁ F₂ : Subgroup W} (h12 : F₁ 
   simp only [MulAut.one_apply]
   rw [← hay, map_mul, he a ha, hfix1 y hy]
 
+omit [Finite W] in
 private theorem s16c15t_mul_mem_of_index_two_notMem {A H : Subgroup W}
     (hidx : (H.subgroupOf A).index = 2) {a b : W} (ha : a ∈ A) (hb : b ∈ A)
     (haH : a ∉ H) (hbH : b ∉ H) : a * b ∈ H := by

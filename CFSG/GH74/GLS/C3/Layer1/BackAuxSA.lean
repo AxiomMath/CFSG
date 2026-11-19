@@ -41,7 +41,7 @@ theorem exists_sylow_gt_and_a {G : Type} [Group G] [Finite G] {T : Subgroup G} (
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hlt : T < (P : Subgroup G) := by
@@ -51,7 +51,7 @@ theorem exists_sylow_gt_and_a {G : Type} [Group G] [Finite G] {T : Subgroup G} (
   have hH : T.subgroupOf (P : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     exact not_le_of_gt hlt (Subgroup.subgroupOf_eq_top.mp h)
-  obtain ⟨a, ha, haT, ha2⟩ := exists_normalizer_sq_mem_of_lt_top P.isPGroup' hH
+  obtain ⟨a, ha, haT, ha2⟩ := exists_normalizer_sq_mem_of_lt_top P.isPGroup hH
   rw [← Subgroup.subgroupOf_normalizer_eq hTP] at ha
   exact ⟨P, hS, hlt, (a : G), a.2, ha, haT, ha2⟩
 

@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def conjSubMap (a : G) (H : Subgroup G) : Subgroup G := H.map (MulAut.conj a).toMonoidHom
 
+omit [Finite G] in
 theorem mem_conjSubMap {a x : G} {H : Subgroup G} : x ∈ conjSubMap a H ↔ a⁻¹ * x * a ∈ H := by
   constructor
   · rintro ⟨e, he, rfl⟩
@@ -29,10 +30,12 @@ theorem mem_conjSubMap {a x : G} {H : Subgroup G} : x ∈ conjSubMap a H ↔ a�
 @[expose] noncomputable def conjIso (a : G) (H : Subgroup G) : ↥H ≃* ↥(conjSubMap a H) :=
   (MulAut.conj a).subgroupMap H
 
+omit [Finite G] in
 theorem z_comm_E {z : G} {E S : Subgroup G} (hzS : z ∈ S)
     (hSC : S ≤ centralizer (E : Set G)) {e : G} (he : e ∈ E) : z * e = e * z :=
   ((Subgroup.mem_centralizer_iff.1 (hSC hzS)) e he).symm
 
+omit [Finite G] in
 theorem mem_centralizer_z_iff {z x : G} : x ∈ centralizer ({z} : Set G) ↔ z * x = x * z := by
   rw [Subgroup.mem_centralizer_iff]
   simp

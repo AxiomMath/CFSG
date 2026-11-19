@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 theorem c623_of_kernels (hr3 : m.r = 3) (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C620)
     (h621 : m.C621) (h621x : m.C621x) : m.C623 := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hsix := m.hZ.sixteen h69
   intro g hg
   by_contra hne

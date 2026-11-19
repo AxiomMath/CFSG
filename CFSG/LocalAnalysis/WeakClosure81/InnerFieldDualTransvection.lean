@@ -95,7 +95,7 @@ theorem conjAut_mul_fieldAut_mul_dualAut_ne_of_fixes_tvCenter [Finite K] {n : �
           (CFSG.CGT.Timmesfeld75.tvSL a f hf)) := by
   classical
   intro hfix
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   obtain ⟨i, hi⟩ : ∃ i : Fin n, a i ≠ 0 := Function.ne_iff.mp ha
   have hcard : 1 < (Finset.univ.erase i).card := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ, Fintype.card_fin]
@@ -214,7 +214,7 @@ theorem conjAut_mul_fieldAut_mul_dualAut_ne_of_fixes_tvCenter [Finite K] {n : �
   obtain ⟨ν, hν⟩ := key g hg
   have hfj : f j = 1 := by simp [f, hji]
   have hgj : g j = 0 := by simp [g, hji, hkj]
-  have hgk : g k = 1 := by simp [g, hki, hkj]
+  have hgk : g k = 1 := by simp [g, hki]
   have h1 : (1 : K) = μ * v j := by
     have := congrFun hμ j
     simpa [hfj, Pi.smul_apply, smul_eq_mul] using this

@@ -34,7 +34,7 @@ theorem mem_map_conj_inv_iff {K : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 theorem sec18Std_map_conj {A M : Subgroup G} (h : Sec18Std G A M) (y : G) :
     Sec18Std G (A.map (MulAut.conj y).toMonoidHom) (M.map (MulAut.conj y).toMonoidHom) :=
@@ -179,8 +179,8 @@ theorem claim1844Inner_of (h4443 : Sec4.Item4_44_3) (h1812 : Item181_2) (h184 : 
     have hSR : S ≤ R := inf_le_left
     have hRS : R ≤ Subgroup.normalizer (S : Set G) := fun r hr =>
       Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hr, hTK (hRT.le hr)⟩
-    haveI : Group.IsNilpotent R := hRT.isPGroup.isNilpotent
-    haveI : (S.subgroupOf R).Normal :=
+    have : Group.IsNilpotent R := hRT.isPGroup.isNilpotent
+    have : (S.subgroupOf R).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hSR).mpr hRS
     have hSbot : S.subgroupOf R ≠ ⊥ := by
       intro hbot

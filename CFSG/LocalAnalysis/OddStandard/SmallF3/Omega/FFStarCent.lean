@@ -15,12 +15,13 @@ open Subgroup CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_toProj_signChange_compl (fr : NFrame Q (Fin 6) 1) (K : Finset (Fin 6)) :
     toProj Q (fr.signChange Kᶜ) = toProj Q (fr.signChange K) := by
   rw [show Kᶜ = symmDiff Finset.univ K by ext i; simp [Finset.mem_symmDiff],
     ← fr.signChange_mul, ← fr.piOrth_eq_signChange_univ, map_mul, toProj_piOrth, one_mul]
 
-theorem ff_simHasType_signChange (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
+theorem ff_simHasType_signChange (_hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
     {K : Finset (Fin 6)} (hK : K.card = 1 ∨ K.card = 3) :
     ∃ α : ℤˣ, SimHasType (projOrthToProjSim Q (toProj Q (fr.signChange K))) K.card α := by
   refine ⟨invSign (fr.signChange K), simHasType_projOrthToProjSim ?_⟩
@@ -49,8 +50,8 @@ theorem ff_exists_mem_ffB1_signChange (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin
   rw [ffB1]
   exact (mem_ffStar_iff hQ).mpr ⟨⟨fr.signChange K, hΩ⟩, hB0, rfl⟩
 
-theorem ff_star_cent_kinds (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : NFrame Q (Fin 6) 1)
+theorem ff_star_cent_kinds (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = -1) (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : NFrame Q (Fin 6) 1)
     {z : ProjSim Q} (hz : ∀ b ∈ ffB1 hQ fr, ffSimOmegaAct hQ h2 z b = b) :
     (∃ b ∈ ffB1 hQ fr, z = projOrthToProjSim Q (b : ProjOrth Q)) ∨
       (∃ α : ℤˣ, SimHasType z 1 α) ∨ ∃ α : ℤˣ, SimHasType z 3 α := by

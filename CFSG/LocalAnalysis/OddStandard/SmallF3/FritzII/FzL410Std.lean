@@ -14,10 +14,12 @@ open Subgroup _root_.Certificates
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma fz410_std_comm_of_conj {t g : G} (hgt : g * t * g⁻¹ = t) : g * t = t * g := by
   calc g * t = g * t * g⁻¹ * g := by group
     _ = t * g := by rw [hgt]
 
+omit [Finite G] in
 private lemma fz410_std_mem_E_iff {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) (pf : FzPFacts t tau rho E W Q T P) :
     ∀ p ∈ P, p ∈ E ↔ t * p * t⁻¹ = p := by
@@ -40,6 +42,7 @@ private lemma fz410_std_mem_E_iff {t tau lam rho : G} {Z E W Q R T P : Subgroup 
           _ = t := by group
       exact h.Q_t p hpQ hpW hconj2
 
+omit [Finite G] in
 private lemma fz410_std_card_fix {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) (pf : FzPFacts t tau rho E W Q T P)
     {emb : FzL410.A → G} (E0 : Fz410Coord P emb) :
@@ -63,6 +66,7 @@ private lemma fz410_std_card_fix {t tau lam rho : G} {Z E W Q R T P : Subgroup G
   rw [Nat.card_eq_of_bijective _ hbij]
   exact h.card_E
 
+omit [Finite G] in
 private lemma fz410_std_card_fix2 {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) (pf : FzPFacts t tau rho E W Q T P)
     {emb : FzL410.A → G} (E0 : Fz410Coord P emb) :
@@ -101,9 +105,10 @@ private lemma fz410_std_card_fix2 {t tau lam rho : G} {Z E W Q R T P : Subgroup 
   rw [Nat.card_eq_of_bijective _ hbij]
   exact h.card_Z
 
+omit [Finite G] in
 theorem fzl410_emb (hN : FzL410.NormSpec) (hA : FzL410.StageA) (hB : FzL410.StageB)
     {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
-    (h : FzStr t tau lam rho Z E W Q R T) (pf : FzPFacts t tau rho E W Q T P) (htP : t ∉ P)
+    (h : FzStr t tau lam rho Z E W Q R T) (pf : FzPFacts t tau rho E W Q T P) (_htP : t ∉ P)
     (φ₀ : ↥P ≃* Multiplicative FzL410.A) :
     ∃ (s : G) (emb : FzL410.A → G), (s = tau ∨ s = t * tau) ∧ Fz410Emb P t s lam rho emb := by
   have ht_mem_T : t ∈ T := h.RT (h.QR (h.WQ h.t_mem))

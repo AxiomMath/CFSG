@@ -51,6 +51,7 @@ theorem even_card_of_closed (p : FpfInv α) (S : Set α) (hS : ∀ x ∈ S, p.μ
   rw [Nat.card_eq_fintype_card]
   exact even_iff_two_dvd.mpr h2
 
+omit [DecidableEq α] in
 theorem perfect_fix_small {E : Subgroup (Perm α)} (hE : ⁅E, E⁆ = E) {W : Set α}
     (hW : Nat.card W ≤ 4) (hinv : ∀ e ∈ E, ∀ x ∈ W, e x ∈ W) :
     ∀ e ∈ E, ∀ x ∈ W, e x = x := by
@@ -70,10 +71,10 @@ theorem perfect_fix_small {E : Subgroup (Perm α)} (hE : ⁅E, E⁆ = E) {W : Se
     rw [hEp.commutator_eq_top, ← MonoidHom.range_eq_map] at h1
     exact h1.symm
   have hKperf : Group.IsPerfect ↥(ρ.range) := Subgroup.isPerfect_iff.mpr hK
-  haveI : Group.IsSolvable (Perm W) := Equiv.Perm.isSolvable hW
+  have : Group.IsSolvable (Perm W) := Equiv.Perm.isSolvable hW
   have hKbot : ρ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(ρ.range) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Nontrivial ↥(ρ.range) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     exact (Group.IsPerfect.not_isSolvable ↥(ρ.range)) inferInstance
   intro e he x hx
   have h1 : ρ ⟨e, he⟩ = 1 := by
@@ -150,7 +151,7 @@ theorem perfect_fix_pairs (p : FpfInv α) {E : Subgroup (Perm α)} (hE : ⁅E, E
   intro e he x hx
   exact mem_fixOn.mp (hsub he) x hx
 
-theorem fix_pairs_of_commute (p : FpfInv α) {W : Set α} (hW : ∀ x ∈ W, p.μ x ∈ W)
+theorem fix_pairs_of_commute (p : FpfInv α) {W : Set α} (_hW : ∀ x ∈ W, p.μ x ∈ W)
     (h6 : 6 ≤ Nat.card W) {e : Perm α}
     (h : ∀ x ∈ W, ∀ y ∈ W, y ≠ x → y ≠ p.μ x →
       Commute e (swap x (p.μ x) * swap y (p.μ y))) :
@@ -228,6 +229,7 @@ theorem fix_pairs_of_commute (p : FpfInv α) {W : Set α} (hW : ∀ x ∈ W, p.�
     | exact Or.inr hB
     | exact absurd (hA.symm.trans hB) (by assumption)
 
+omit [Fintype α] [DecidableEq α] in
 theorem altBigBlockFact {Y : Subgroup (Perm α)} {B : Set α} (hBl : MulAction.IsBlock (↥Y) B)
     {σ : Perm α} (hσ : σ ∈ Y) {b : α} (hb : b ∈ B) (hσb : σ b ∈ B) :
     ∀ z ∈ B, σ z ∈ B := by
@@ -368,6 +370,7 @@ theorem exists_bad_pair (p : FpfInv α) (h3 : 3 ≤ Fintype.card α) {Y : Subgro
         | exact hac (h1.trans h4.symm)
         | exact hbc (h2.trans h4.symm)
 
+omit [Fintype α] in
 theorem th3_swap_commute {a b c d : α} (h1 : a ≠ c) (h2 : a ≠ d) (h3 : b ≠ c) (h4 : b ≠ d) :
     swap a b * swap c d = swap c d * swap a b := by
   ext z
@@ -405,6 +408,7 @@ theorem th3_core {G : Type*} [Group G] {a1 a2 a3 a4 : G}
     _ = (a1 * a3) * (a1 * a3) * ((a2 * a4) * (a2 * a4)) := by simp only [mul_assoc]
     _ = (a1 * a3) * (a1 * a3) := by rw [hd2, mul_one]
 
+omit [DecidableEq α] in
 theorem th3_exists_not_mem {S : Finset α} (h : S.card < Fintype.card α) : ∃ z, z ∉ S := by
   have hlt : S.card < (Finset.univ : Finset α).card := by
     rw [Finset.card_univ]

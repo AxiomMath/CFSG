@@ -235,7 +235,7 @@ theorem tw_kills_of_pair {K : Type} [Field K] {σ : K ≃+* K}
   have hφx : ∀ x : twistedE6RootGroup K σ, φ x =
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
         (x : ModGL TwistTag.E6.tag K) * g0 := fun x => by
-    simp [hφ, MulAut.conj_apply]
+    simp [hφ]
   set Sg : Subgroup (twistedE6RootGroup K σ) :=
     ((rootCharHom (τ := TwistTag.E6.tag) (L := AlgebraicClosure K) α).ker.map
       (rootDiagUnitHom TwistTag.E6.tag (AlgebraicClosure K))).comap φ with hSg

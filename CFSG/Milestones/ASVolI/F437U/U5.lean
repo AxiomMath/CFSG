@@ -49,10 +49,10 @@ theorem burnsideF437U_U5_mat_u (a b : HypIndex 2 1) :
   obtain ⟨⟨d1, d2, d3, d4, d5⟩, ⟨l1, l2, l3, l4, l5, l6, l7, l8, l9, l10⟩⟩ := U_entries hU'
   obtain ⟨r1, r2, r3, r4, -, -⟩ := U_rel hU'
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.of_apply, Matrix.cons_val',
-    Matrix.empty_val', Matrix.cons_val_fin_one, one_mul, add_zero, mul_zero, zero_add,
+    Matrix.empty_val', Matrix.cons_val_fin_one, add_zero, mul_zero, zero_add,
     mul_one] at c1 c2 c3 c4 c5 c6 c7
-  simp only [c1, c2, c3, c5, c7, map_one, map_zero, mul_zero, zero_mul, one_mul, mul_one,
-    add_zero, zero_add, CharTwo.add_self_eq_zero] at r1 r2 r3 r4
+  simp only [c1, c2, c3, c5, c7, map_one, map_zero, mul_zero, mul_one,
+    CharTwo.add_self_eq_zero] at r1 r2 r3 r4
   rcases hypIndex_cases a with rfl | rfl | rfl | rfl | rfl <;>
     rcases hypIndex_cases b with rfl | rfl | rfl | rfl | rfl <;>
     simp_all
@@ -370,8 +370,8 @@ theorem burnsideF437U_U5_par [Finite K] :
         u5PtStab h)
       (burnsideF437U_fix (fieldAut h (CFSG.Quasithin.H13.F431.Un.OL5.bar5 h)).toMonoidHom ⊓
         u5LnStab h) := by
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField h
-  haveI : Finite h.fixedField := Subtype.finite
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField h
+  have : Finite h.fixedField := Subtype.finite
   have hmap := burnsideF48_isLieParabolics_map (burnsideF429b_U5_spEmb h)
     (burnsideF429b_U5_spEmb_injective h) (burnsideF437U_sp_isLieParabolics h.fixedField)
   rw [Subgroup.map_inf_eq _ _ _ (burnsideF429b_U5_spEmb_injective h), burnsideF437U_U5_map_Q0,
@@ -388,8 +388,8 @@ theorem burnsideF437U_U5_ctr [Finite K] (z : hypSU h 2 1)
     (hz : z ∈ burnsideF437U_fix (fieldAut h (CFSG.Quasithin.H13.F431.Un.OL5.bar5 h)).toMonoidHom)
     (hc : ∀ y ∈ burnsideF437U_fix (fieldAut h (CFSG.Quasithin.H13.F431.Un.OL5.bar5 h)).toMonoidHom,
       z * y = y * z) : z = 1 := by
-  haveI := CFSG.Quasithin.H13.U4Par.charP_fixedField h
-  haveI : Finite h.fixedField := Subtype.finite
+  have := CFSG.Quasithin.H13.U4Par.charP_fixedField h
+  have : Finite h.fixedField := Subtype.finite
   rw [← burnsideF437U_U5_range_spEmb] at hz
   obtain ⟨A, rfl⟩ := hz
   have hA : A ∈ Subgroup.center (StatedSp 2 h.fixedField) := by
@@ -456,8 +456,8 @@ theorem burnsideF437U_U5_model (hyp : HypF_4_4 .U5 2 1 Gp M₁ M₂) {fb : E}
 
 theorem burnsideF437U_fixedInputDeg_U5 : burnsideF437_FixedInputDeg .U5 1 := by
   intro E _ Gp M₁ M₂ hyp fb hinv hFG
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   have hfield : ¬ hyp.toHypF_4_4g.chart.IsFieldInv fb := by
     rintro ⟨-, -, sd, hsd, hdeg, -⟩
     omega
@@ -467,7 +467,7 @@ theorem burnsideF437U_fixedInputDeg_U5 : burnsideF437_FixedInputDeg .U5 1 := by
     · exact absurd (h ▸ Subgroup.mem_top fb) hinv.not_mem
     · exact h.1
   obtain ⟨K, fK, h, φ, hφ, hrange, h1, h2, a, hact⟩ := burnsideF437U_U5_model hyp hgr
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hpc := burnsideF437U_U5_pCore h
   obtain ⟨hpar, huniq, hrig⟩ := burnsideF437U_fixedFacts_of_model φ hφ hrange
     (fieldAut h (CFSG.Quasithin.H13.F431.Un.OL5.bar5 h)).toMonoidHom h1 h2

@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveTwentyTwo
 
+omit [Finite G] in
 theorem xCond1218_anti {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {j j' : ℕ}
     {X : Subgroup G} (hjj : j' ≤ j) (h : XCond1218 M V₀ V hV j X) :
     XCond1218 M V₀ V hV j' X := by
@@ -57,9 +58,9 @@ theorem inFSq_mono {j j' : ℕ} (hjj : j ≤ j') {H : Subgroup G} (h : InFSq j H
 theorem exists_ne_one_mem_inf_center {T W : Subgroup G} (hT : IsPGroup 2 T) (hWT : W ≤ T)
     (hTW : T ≤ normalizer (W : Set G)) (hW : W ≠ ⊥) :
     ∃ z ∈ W, (∀ t ∈ T, z * t = t * z) ∧ z ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
-  haveI : (W.subgroupOf T).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : (W.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWT).2 hTW
   have hW' : W.subgroupOf T ≠ ⊥ := by
     intro h0
@@ -241,7 +242,7 @@ theorem twelve_twentyTwo_three (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   rw [Subgroup.commutator_comm] at hC
   have hR : twoResidual H ≤ centralizer (E3.cClos V (Δ.sup ι) D.T : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 hC
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hNi
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hNi
   exact hO2 H hH g hgM
     (TwelveTwentyTwo.le_conjSubgroup_of_le_centralizer_cClos h hV₀ (by omega) hR hgN)
 
@@ -284,7 +285,7 @@ theorem twelve_twentyTwo_three_two (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1
   rw [Subgroup.commutator_comm] at hC
   have hR : twoResidual H ≤ centralizer (E3.cClos V 1 D.T : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 hC
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hN1
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hN1
   exact hO2 H hH g hgM
     (TwelveTwentyTwo.le_conjSubgroup_of_le_centralizer_cClos h hV₀ (by omega) hR hgN)
 

@@ -10,7 +10,7 @@ namespace CFSG.EvenSporadicStandard.Fin76b
 open Subgroup
 
 theorem exists_invol_cent_nine {G : Type} [Group G] [Finite G] {L : Subgroup G} {β ξ' : G}
-    (hβL : β ∈ L) (hβ3 : orderOf β = 3)
+    (_hβL : β ∈ L) (hβ3 : orderOf β = 3)
     (hD : Nat.card ↥(L ⊓ centralizer ({β} : Set G)) = 1080)
     (hξL : ξ' ∈ L) (hξβ : ξ' * β * ξ'⁻¹ = β⁻¹)
     (hcomm : ∀ x ∈ L ⊓ centralizer ({β} : Set G), ξ' * x * ξ'⁻¹ * x⁻¹ ∈ zpowers β) :

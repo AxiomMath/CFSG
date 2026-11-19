@@ -82,14 +82,14 @@ theorem finrank_actSub (ha : Function.Injective a) :
     rw [hg_apply, Finset.sum_eq_single j]
     · simp
     · intro k _ hk
-      rw [if_neg (fun h => hk (ha h).symm)]
+      rw [ite_eq_right (fun h => hk (ha h).symm)]
     · intro h
       exact absurd (Finset.mem_univ j) h
   have hg_zero : ∀ (d : Fin r → D) {i : Fin s}, (∀ j, a j ≠ i) → g d i = 0 := by
     intro d i hi
     rw [hg_apply, Finset.sum_eq_zero]
     intro j _
-    rw [if_neg (fun h => hi j h.symm)]
+    rw [ite_eq_right (fun h => hi j h.symm)]
   have hf : Function.Injective f := by
     intro d d' h
     have h0 : Φ ((g d, 0) : (Fin s → D) × (κ → K)) =

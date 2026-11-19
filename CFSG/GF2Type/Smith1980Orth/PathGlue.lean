@@ -53,6 +53,7 @@ theorem local_of_OLocal (S : Setting G) (hLoc : OLocal S) (x y : G)
       exact (h2 h4).trans (isConj_iff.mpr ⟨x, rfl⟩)
   · exact hLoc x y hx hy hxM hyM hxQ
 
+omit [Finite G] in
 theorem mem_Qa_of_isConj_mul' (S : Setting G) (h34a : OE34a S) {g x : G}
     (hx : IsConj S.z x) (hxa : Commute x (g * S.z * g⁻¹))
     (hxa' : IsConj S.z (x * (g * S.z * g⁻¹))) : g⁻¹ * x * g ∈ S.QG := by

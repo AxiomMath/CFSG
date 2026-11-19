@@ -26,7 +26,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD264Lie
 
 
 theorem idxCoreAt_fieldActor_canonicalD4 {q : TauCeti.PrimePower}
-    (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
+    (_hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (q.p ^ q.exponent) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ q.p ^ q.exponent)
     (δ : K ≃+* K) (hδord : orderOf δ = p)
@@ -35,7 +35,7 @@ theorem idxCoreAt_fieldActor_canonicalD4 {q : TauCeti.PrimePower}
       p ∣ (q.p ^ q.exponent) ^ 4 - (q.p ^ q.exponent) ^ 2 + 1) :
     IdxCoreAt p (.trialityD4 q) (fieldActor (t := TwistTag.D4) σ δ) := by
   classical
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hd0 : 0 < q.exponent / p := Nat.div_pos (Nat.le_of_dvd q.exponent_pos hpf) hp.pos
   let q₀ : TauCeti.PrimePower := ⟨q.p, q.exponent / p, q.prime_p, hd0⟩
   have hq₀card : q₀.card = q.p ^ (q.exponent / p) := TauCeti.PrimePower.card_def q₀
@@ -61,8 +61,8 @@ theorem idxCoreAt_fieldActor_canonicalD4 {q : TauCeti.PrimePower}
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype_injective).trans
       (MulEquiv.subgroupCongr hfixJ)
-  haveI : IsSimpleGroup ↥(trialityFieldImage σ δ) := hsimpJ
-  haveI : IsSimpleGroup ↥(fixedSubgroup (fieldActor (t := TwistTag.D4) σ δ)) := e3.isSimpleGroup
+  have : IsSimpleGroup ↥(trialityFieldImage σ δ) := hsimpJ
+  have : IsSimpleGroup ↥(fixedSubgroup (fieldActor (t := TwistTag.D4) σ δ)) := e3.isSimpleGroup
   have hncCan : ∃ a b : ↥(fixedSubgroup (fieldActor (t := TwistTag.D4) σ δ)), a * b ≠ b * a := by
     have hncJ' : ∃ a b : ↥(trialityFieldImage σ δ), a * b ≠ b * a := by
       simpa only [not_forall, ne_eq] using hncJ
@@ -111,7 +111,7 @@ theorem idxCoreAt_fieldActor_trialityD4 {q : TauCeti.PrimePower}
       p ∣ (q.p ^ q.exponent) ^ 4 - (q.p ^ q.exponent) ^ 2 + 1) :
     IdxCoreAt p (.trialityD4 q) x := by
   classical
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hKpq : Nat.card K = (q.p ^ q.exponent) ^ 3 := by
     rw [hK, TauCeti.PrimePower.card_def]
   have hσpf : ∀ c, σ c = c ^ q.p ^ q.exponent := fun c => by
@@ -134,7 +134,7 @@ theorem idxCoreAt_fieldActor_trialityD4 {q : TauCeti.PrimePower}
     rw [hδcdef, orderOf_pow_of_dvd (by have := hd0; omega : 3 * d ≠ 0)
       (by rw [hφord]; exact ⟨p, by rw [← hdp, mul_assoc]⟩), hφord]
     rw [← hdp, ← mul_assoc, Nat.mul_div_cancel_left p (by have := hd0; omega)]
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; have := q.exponent_pos; omega)
   have hzp : Subgroup.zpowers (Θ x) = Subgroup.zpowers δc :=
     CFSG.RankThree.PartOne.CTP.zpowers_ringEquiv_eq_of_orderOf q.prime_p
@@ -176,12 +176,12 @@ theorem lieOuterIdx_triality : LieOuterIdx isTrialityIdx := by
       intro h
       exact hpc (by rw [TauCeti.LieTypeIndex.characteristic_trialityD4]; exact h.symm)
     obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eK⟩⟩ := exists_catEquiv_trialityD4 q hv
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     have hpdvdCat : p ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hpdvd
-    haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-    haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
-    haveI : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group :=
+    have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+    have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+    have : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group :=
       Finite.of_equiv ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) eK.symm.toEquiv
     obtain ⟨m, hm, hdvdphi⟩ :=
       ((exact_E_type_and_triality_cross_prime_factor_exhaustion (ℓ := q.p) (f := q.exponent)
@@ -200,7 +200,7 @@ theorem lieOuterIdx_triality : LieOuterIdx isTrialityIdx := by
         have h2 : x ∈ Θ.ker := h1
         rw [hΘker] at h2
         exact inner_le_innAutDerived _ h2)
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hxord : orderOf x = p :=
         orderOf_eq_prime hxp (by rintro rfl; exact hxo (Subgroup.one_mem _))
       have hKq : Nat.card K = q.card ^ 3 := by rw [hK, TauCeti.PrimePower.card_def]

@@ -448,7 +448,7 @@ theorem LocSpec.locMat_mul (g h : SL(4, k)) :
     _ = S.Pmk k * (ambRepF k fs g * S.Bk k) * M := by
         rw [hz, S.Pmk_z k]
         ext x y
-        simp [Matrix.vecMulVec_apply]
+        simp
 
 @[expose] noncomputable def LocSpec.locRep : SL(4, k) →* Matrix (Fin S.m) (Fin S.m) k where
   toFun := S.locMat k

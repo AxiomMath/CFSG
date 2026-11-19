@@ -17,6 +17,7 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem mem_zpowers_eq_one_or_self {v y : G} (h2 : v * v = 1)
     (hy : y ∈ Subgroup.zpowers v) : y = 1 ∨ y = v := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
@@ -29,6 +30,7 @@ private theorem mem_zpowers_eq_one_or_self {v y : G} (h2 : v * v = 1)
   · right
     rw [hk, zpow_add, zpow_mul, hv2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup_of_isMulCommutative {H K L : Subgroup G}
     [IsMulCommutative L] (hH : H ≤ L) (hK : K ≤ L) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ y ∈ H, ∃ z ∈ K, y * z = x := by
@@ -53,7 +55,7 @@ theorem exists_mul_mem_normalizer_F (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V
   classical
   have hM : M ≤ Subgroup.normalizer (V : Set G) := by rw [h.normalizer_eq]
   have hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G) := by rw [h.normalizer₀]
-  haveI hVcomm : IsMulCommutative ↥V := h.elemAbelian.1
+  have hVcomm : IsMulCommutative ↥V := h.elemAbelian.1
   have hV₂self : v₂ * v₂ = 1 := h.elemAbelian.mul_self_eq_one (h.le hv₂)
   have hrel : ((Z0Of M V₀ g).subgroupOf V₀).index = 2 := relIndex_Z0_eq_two h hV₀K hn
   have hU_inf_V₀ : UOf M V g ⊓ V₀ = Z0Of M V₀ g := by

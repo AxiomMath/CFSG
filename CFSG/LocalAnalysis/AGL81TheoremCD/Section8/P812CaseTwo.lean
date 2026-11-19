@@ -51,7 +51,7 @@ private theorem normalizer_le_of_caseTwo_data
     (hC : ∀ x ∈ S, ⁅Subgroup.zpowers x, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype →
       ⁅Subgroup.zpowers x, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype → x = 1)
     (hAel : CFSG.Open.IsElemAbelian 3 A) (h27 : Nat.card A = 27) (hAS : A ≤ S)
-    (hA₁A : A₁ ≤ A) (hA₂A : A₂ ≤ A) (hA₁₂ : Nat.card ↥(A₁ ⊔ A₂) = 9)
+    (hA₁A : A₁ ≤ A) (hA₂A : A₂ ≤ A) (_hA₁₂ : Nat.card ↥(A₁ ⊔ A₂) = 9)
     {a : Fin 3 → G} {y t₁ t₂ : G} {k : Fin 3} (hk : k ≠ 0) (hk12 : k = 1 ∨ k = 2)
     (haA : ∀ i, a i ∈ A) (hgen : Subgroup.closure {a 0, a 1, a 2} = A)
     (hz₁ : Subgroup.zpowers (a 1) = A₁) (hz₂ : Subgroup.zpowers (a 2) = A₂)
@@ -118,6 +118,7 @@ private theorem generator_data {A A₁ A₂ : Subgroup G} {a : Fin 3 → G} {a�
   rw [hset]
   exact closure_eq_of_not_mem_sup hAel h27 hA₁A hA₂A hA₁₂ ha₀A ha₀' hz₁ hz₂
 
+omit [Finite G] in
 private theorem elemAbelian_comm_data {Abig A B : Subgroup G} {a₀ : G}
     (hAel : CFSG.Open.IsElemAbelian 3 Abig) (ha₀ : a₀ ∈ Abig)
     (hAA : A ≤ Abig) (hBA : B ≤ Abig) :
@@ -131,6 +132,7 @@ private theorem elemAbelian_comm_data {Abig A B : Subgroup G} {a₀ : G}
   · intro b hb
     exact CFSG.Open.IsElemAbelian.comm hAel ha₀ (hBA hb)
 
+omit [Finite G] in
 private theorem le_centralizer_sup_of_elemAbelian {Abig A B : Subgroup G} {a₀ : G}
     (hAel : CFSG.Open.IsElemAbelian 3 Abig) (ha₀ : a₀ ∈ Abig)
     (hAA : A ≤ Abig) (hBA : B ≤ Abig) :
@@ -358,7 +360,7 @@ private theorem case_one_normalizer_le
       ((CFSG.pPrimeCore p ↥L₂).map L₂.subtype)) :
     Subgroup.normalizer (A : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha₀S : a₀ ∈ S := hAS ha₀A
   have ha₀3 : a₀ ^ 3 = 1 := hAel.2 a₀ ha₀A
   have ha₀1 : a₀ ≠ 1 := by
@@ -429,7 +431,7 @@ private theorem case_two_normalizer_le
       ((CFSG.pPrimeCore p ↥L₁).map L₁.subtype)) :
     Subgroup.normalizer (A : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha₀S : a₀ ∈ S := hAS ha₀A
   have ha₀3 : a₀ ^ 3 = 1 := hAel.2 a₀ ha₀A
   have ha₀1 : a₀ ≠ 1 := by
@@ -500,7 +502,7 @@ private theorem case_three_normalizer_le
       ((CFSG.pPrimeCore p ↥L₂).map L₂.subtype)) :
     Subgroup.normalizer (A : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha₀S : a₀ ∈ S := hAS ha₀A
   have ha₀3 : a₀ ^ 3 = 1 := hAel.2 a₀ ha₀A
   obtain ⟨y, c, -, hzc, hconv, hyA₁, hyA₂⟩ :=
@@ -556,7 +558,7 @@ theorem normalizer_le_of_caseTwo (h : P812Hyp G M p L₁ L₂)
     {x : G} (hxS : x ∈ S) (hx3 : x ^ 3 = 1) (hx : x ∉ A₁ ⊔ A₂) :
     Subgroup.normalizer ((Subgroup.zpowers x ⊔ A₁ ⊔ A₂ : Subgroup G) : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE := P812Hyp.isElemAbelian_zpowers_sup h hSch hK h714 hS.le hS.isPGroup hA₁ hA₁S hA₁3
     hA₂ hA₂S hA₂3 hC hxS hx3 hx
   have hAel : CFSG.Open.IsElemAbelian 3
@@ -604,7 +606,7 @@ theorem mem_uniqueSet_of_caseTwo (h : P812Hyp G M p L₁ L₂)
     A₁ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M ∧
       A₂ ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE := P812Hyp.isElemAbelian_zpowers_sup h hSch hK h714 hS.le hS.isPGroup hA₁ hA₁S hA₁3
     hA₂ hA₂S hA₂3 hC hxS hx3 hx
   have hAel : CFSG.Open.IsElemAbelian 3
@@ -661,7 +663,7 @@ theorem p812Gen_of_inputs
     (hFA : Section8.KFactFieldAutThree) (hFI : Section8.KFactFieldAutInvert) :
     P812Gen := by
   intro G _ _ hC M hM hne hstrong
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hMne : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.nonab M hM.1
   have hK : CFSG.Open.IsKGroup ↥M :=

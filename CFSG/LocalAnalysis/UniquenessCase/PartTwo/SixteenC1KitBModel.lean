@@ -42,7 +42,7 @@ theorem s16c1b_aSet_conj {W : Type} [CommGroup W] {X : Subgroup (MulAut W)} {h :
   constructor
   · intro hA'
     rw [E3.aSet] at hA' ⊢
-    simp only [Set.mem_setOf_eq] at hA' ⊢
+    simp only [Set.mem_ofPred_eq] at hA' ⊢
     obtain ⟨hle, hne, hel, hfix⟩ := hA'
     refine ⟨?_, ?_, ?_, ?_⟩
     · intro a ha
@@ -75,7 +75,7 @@ theorem s16c1b_aSet_conj {W : Type} [CommGroup W] {X : Subgroup (MulAut W)} {h :
       exact (Subgroup.map_injective h.injective) hf
   · intro hA
     rw [E3.aSet] at hA ⊢
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     obtain ⟨hle, hne, hel, hfix⟩ := hA
     refine ⟨?_, ?_, ?_, ?_⟩
     · rw [← hXc]
@@ -291,7 +291,7 @@ theorem s16c1b_fix_SM {A : Subgroup (MulAut (Multiplicative V₀))}
     simp [s16c1b_vec_zero]
   have hcheck : s16c1b_A.all (fun a => a.all fun c => act c n == n) = true := by
     have h := s16c1b_checkOrb_ok
-    simp only [s16c1b_checkOrb, Bool.and_eq_true, List.all_eq_true] at h
+    simp only [s16c1b_checkOrb, List.all_eq_true] at h
     have h1 := h n (List.mem_range.mpr hn64)
     have hn0' : (n == 0) = false := beq_eq_false_iff_ne.mpr hn0
     have horb'' : decide (4 < s16c1b_orbSize n) = false := by
@@ -452,7 +452,7 @@ private theorem s16c1b_closure_pair {G : Type*} [Group G] [Finite G] [DecidableE
     · exact hab
     · exact hab.symm
     · exact absurd rfl hxy
-  haveI : IsMulCommutative E := isMulCommutative_closure hpair
+  have : IsMulCommutative E := isMulCommutative_closure hpair
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x :=
     fun x hx y hy => setLike_mul_comm hx hy
   have h3 : ∀ x ∈ E, x ^ 3 = 1 := by
@@ -612,7 +612,7 @@ private noncomputable def s16c1b_QcodesSub : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)
     exact List.contains_iff_mem.mp
       (List.all_eq_true.mp (List.all_eq_true.mp s16c1b_Q_mul_closed c hc) d hd)
   inv_mem' := by
-    haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) :=
+    have : Finite (V₀ ≃ₗ[ZMod 2] V₀) :=
       Finite.of_injective (fun f : V₀ ≃ₗ[ZMod 2] V₀ => (f : V₀ → V₀))
         (fun f g h => LinearEquiv.ext (congrFun h))
     rintro g ⟨c, hc, hgc⟩
@@ -649,8 +649,8 @@ private theorem s16c1b_Q_inner {g : ℕ} (hg : ∃ G ∈ s16c1b_Qsub, Coded G g)
     rw [List.foldl_cons] at hc
     refine ih (fun y hy => hl y (List.mem_cons_of_mem x hy)) ?_ c hc
     by_cases hcont : acc.contains (Code.mul g x)
-    · rw [if_pos hcont]; exact hacc
-    · rw [if_neg hcont]
+    · rw [ite_eq_left hcont]; exact hacc
+    · rw [ite_eq_right hcont]
       intro y hy
       rw [List.mem_append, List.mem_singleton] at hy
       rcases hy with hy | rfl
@@ -880,7 +880,7 @@ theorem s16c1b_join_SM (𝒮 : Set (Subgroup (MulAut (Multiplicative V₀))))
       E ≤ normalizer ((⨆ A ∈ 𝒮, A : Subgroup (MulAut (Multiplicative V₀))) :
         Set (MulAut (Multiplicative V₀))) ⊓ s16c1b_ΩM ∧ IsPGroup 3 E ∧ ¬ IsCyclic E := by
   classical
-  haveI : Finite (MulAut (Multiplicative V₀)) :=
+  have : Finite (MulAut (Multiplicative V₀)) :=
     Finite.of_injective
       (fun f : MulAut (Multiplicative V₀) => (f : Multiplicative V₀ → Multiplicative V₀))
       (fun f g h => MulEquiv.ext (congrFun h))

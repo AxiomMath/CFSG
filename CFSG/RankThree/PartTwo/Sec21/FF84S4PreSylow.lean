@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_mem_normalizer_of_lt {p : ℕ} [Fact p.Prime] {P Q : Subgroup G}
     (hQ : IsPGroup p Q) (hPQ : P < Q) : ∃ x ∈ Q, x ∉ P ∧ x ∈ Nor P := by
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hlt : P.subgroupOf Q < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
@@ -22,7 +22,7 @@ theorem exists_mem_normalizer_of_lt {p : ℕ} [Fact p.Prime] {P Q : Subgroup G}
       exact this
     exact absurd hPQ (not_lt_of_ge this)
   have hn := Group.normalizerCondition_of_isNilpotent (G := ↥Q) (P.subgroupOf Q) hlt
-  obtain ⟨y, hy, hyn⟩ := SetLike.exists_of_lt hn
+  obtain ⟨y, hy, hyn⟩ := IsConcreteLE.exists_of_lt hn
   refine ⟨y, y.2, hyn, ?_⟩
   rw [Subgroup.mem_normalizer_iff] at hy ⊢
   intro z
@@ -47,7 +47,7 @@ theorem isSylowOf_of_normalizer {p : ℕ} [Fact p.Prime] {B D : Subgroup G} (hBD
   have hEq : B.subgroupOf D = (S : Subgroup ↥D) := by
     by_contra hne
     have hlt : B.subgroupOf D < (S : Subgroup ↥D) := lt_of_le_of_ne hS hne
-    obtain ⟨x, hxS, hxn, hxnor⟩ := exists_mem_normalizer_of_lt S.isPGroup' hlt
+    obtain ⟨x, hxS, hxn, hxnor⟩ := exists_mem_normalizer_of_lt S.isPGroup hlt
     have hnor : (x : G) ∈ Nor B := by
       rw [Subgroup.mem_normalizer_iff] at hxnor ⊢
       intro z
@@ -61,7 +61,7 @@ theorem isSylowOf_of_normalizer {p : ℕ} [Fact p.Prime] {B D : Subgroup G} (hBD
           rw [this]
           exact D.mul_mem (D.mul_mem (D.inv_mem x.2) h1) x.2
         exact (hxnor ⟨z, hzD⟩).2 hz
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hxS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hxS⟩
     have hk2 : x ^ p ^ k = 1 := congrArg Subtype.val hk
     exact hxn (hN x x.2 hnor ⟨k, congrArg Subtype.val hk2⟩)
   have hnd := Sylow.not_dvd_index S
@@ -82,12 +82,14 @@ theorem le_of_isSylowOf {p : ℕ} [Fact p.Prime] {B H Q : Subgroup G} (hB : IsSy
   rw [hn0, pow_zero] at hn
   exact Subgroup.relIndex_eq_one.1 hn
 
+omit [Finite G] in
 theorem isPGroup_zpowers {p : ℕ} [Fact p.Prime] {g : G} {k : ℕ} (hk : g ^ p ^ k = 1) :
     IsPGroup p (Subgroup.zpowers g) := by
   have hd : orderOf g ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Fact.out).1 hd
   exact IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
 
+omit [Finite G] in
 theorem commute_of_sq_commute {g u : G} {k : ℕ} (hk : g ^ 3 ^ k = 1)
     (hc : Commute (g ^ 2) u) : Commute g u := by
   obtain ⟨m, hm⟩ : Odd (3 ^ k) := Odd.pow (by decide)

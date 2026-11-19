@@ -95,7 +95,7 @@ theorem ncard_fixed_gamma :
       {y : Fin 920808 | (∃ k < gTrees[1]!.pts.size, ap gTrees[1]!.pts k = y.val) ∧
         (fun p => ap objTabs[epsReg qcentEps]! p == p) y.val = true} := by
     ext y
-    simp only [Set.mem_setOf_eq, beq_iff_eq]
+    simp only [Set.mem_ofPred_eq, beq_iff_eq]
     rw [Δ_adj_x0_iff, mem_orbit_x1_iff]
     refine and_congr Iff.rfl ?_
     rw [← smul_val_of_rep rep_t13 y]
@@ -111,7 +111,7 @@ theorem ncard_fixed_gamma_tau :
         (fun p => ap objTabs[epsReg qcentEps]! (ap objTabs[tauReg]! p) ==
           ap objTabs[tauReg]! p) y.val = true} := by
     ext y
-    simp only [Set.mem_setOf_eq, beq_iff_eq]
+    simp only [Set.mem_ofPred_eq, beq_iff_eq]
     rw [Δ_adj_x0_iff, mem_orbit_x1_iff]
     refine and_congr Iff.rfl ?_
     rw [← smul_val_of_rep rep_tauElt y, ← smul_val_of_rep rep_t13 (tauElt • y)]

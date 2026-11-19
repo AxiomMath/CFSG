@@ -63,6 +63,7 @@ structure SetC41 (H R M L V T K : Subgroup G) : Prop where
   L = conjClosure L M ∧ conjClosure L M ≤ conjClosure K H ∧ conjClosure K H = K ∧
     (C41Case1 R M L V K ∨ C41Case2 M L V K ∨ C41Case3 R M L V K ∨ C41Case4 M L K)
 
+omit [Finite G] in
 theorem c42_local_intersection_eq (H M L T K : Subgroup G) :
     (M ⊓ (conjClosure K H ⊔ conjClosure L M ⊔ T)) ⊓ K = M ⊓ K := by
   have le_reduction : K ≤ conjClosure K H ⊔ conjClosure L M ⊔ T :=
@@ -187,12 +188,12 @@ theorem as_C_4_3
     intro k hk
     rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr (Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hk) x)
       (Subgroup.mem_normalizer_iff.mp (hKO hk) x)
   have hKOinf : K ⊓ pCoreOf 2 (CFSG.Quasithin.conjClosure K H) ≤
       pCoreOf 2 K := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_left hKinf
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (CFSG.Quasithin.conjClosure K H)).to_le
         inf_le_right)

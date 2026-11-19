@@ -20,7 +20,7 @@ theorem three_dvd_card_SL {E : Type} [Field E] [Finite E] (h3 : (3 : E) ≠ 0) {
     (Finset.dvd_prod_of_mem (fun j => Nat.card E ^ j - 1) h2)) _
   have hcop : ¬ 3 ∣ Nat.card E := by
     intro h
-    letI := Fintype.ofFinite E
+    let := Fintype.ofFinite E
     obtain ⟨d, hp, hcard⟩ := FiniteField.card E (ringChar E)
     rw [Nat.card_eq_fintype_card, hcard] at h
     have h3p : 3 ∣ ringChar E := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
@@ -101,10 +101,11 @@ theorem exists_perfect_three_dvd_autFix_of_block (h3 : (3 : K) ≠ 0) {y : GL (F
     exact Subtype.ext ((Subgroup.mem_center_iff.1 hc) (h : SpecialLinearGroup (Fin n) K))
   have hperfG : commutator BS = ⊤ :=
     Group.isPerfect_def.1 (Subgroup.isPerfect_iff.2 hperfBS)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := dvd_card_quotient_of_perfect (p := 3) hperfG h3BS (N := f.ker) hker
   rwa [Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv, hrange] at h
 
+omit [Finite K] in
 theorem autFix_le_centralizer {g : SpecialLinearGroup (Fin n) K} {Q : Subgroup (projectiveSL n K)}
     (hQ : Q ≤ Curtis.Coordinator.autFix (conjAut n K (SpecialLinearGroup.toGL g))) :
     Q ≤ Subgroup.centralizer ({proj n K g} : Set (projectiveSL n K)) := by

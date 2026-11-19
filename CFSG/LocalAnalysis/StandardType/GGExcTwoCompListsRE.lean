@@ -136,7 +136,7 @@ private theorem ltqRe_card_E8 :
 
 private theorem ltqRe_eq_top_of_central
     {G R : Type} [Group G] [Finite G] [Group R] [Finite R]
-    (hperf : commutator G = ⊤) (ψ : G →* R) (hψ : Function.Surjective ψ)
+    (hperf : commutator G = ⊤) (ψ : G →* R) (_hψ : Function.Surjective ψ)
     (hk : ψ.ker ≤ Subgroup.center G) (J : Subgroup G)
     (hcard : Nat.card R ≤ Nat.card (↥J ⧸ Subgroup.center ↥J)) : J = ⊤ := by
   let f : ↥J →* R := ψ.comp J.subtype
@@ -195,9 +195,9 @@ private theorem ltqRe_eq_top_of_central
   have hker_comm : IsMulCommutative ↥ψ.ker := by
     refine IsMulCommutative.of_comm fun x y => ?_
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hk x.2) (y : G)).symm
-  haveI : J.Normal := hJnorm
+  have : J.Normal := hJnorm
   have hcomm : commutator G ≤ J := by
-    haveI : IsMulCommutative ↥ψ.ker := hker_comm
+    have : IsMulCommutative ↥ψ.ker := hker_comm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := J) (H := ψ.ker) hJN
   rw [hperf] at hcomm
   exact top_le_iff.mp hcomm
@@ -249,7 +249,7 @@ private theorem ltqRe_assembly {lab : LargeEvenLabel} {S : LargeEvenLabel → Pr
   · exact ⟨o.lab, hmem, hlab⟩
   · exfalso
     rw [hself] at hlab
-    haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; exact hN)
+    have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; exact hN)
     have hJcard : Nat.card (↥J ⧸ Subgroup.center ↥J) = N := by
       obtain ⟨R', _, _, _, hR'⟩ := largeEvenRawDatum_exists
         (hord (fun R' _ _ _ => Nonempty (↥J ⧸ Subgroup.center ↥J ≃* R')) hlab)

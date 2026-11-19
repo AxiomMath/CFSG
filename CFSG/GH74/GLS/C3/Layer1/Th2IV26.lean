@@ -442,7 +442,7 @@ theorem isCompIn_imgM_at_e_onePump
 theorem isCompIn_imgM_at_e {x y : G} {K T S : Subgroup G} (hstd : Th2Std x y K T S)
     (hKM : K ≤ M) (hKq : IsQuasisimple ↥(imgM M K))
     {e : G} (heT : e ∈ T ⊓ CxK x K) (he2 : orderOf e = 2) (heM : e ∈ M)
-    (hecent : eb M heM ∈ centralizer ((imgM M K : Subgroup (Mb M)) : Set (Mb M)))
+    (_hecent : eb M heM ∈ centralizer ((imgM M K : Subgroup (Mb M)) : Set (Mb M)))
     (hR3e : 3 ≤ pRank 2 ↥(centralizer ({e} : Set G)))
     (hB : ∀ J : Subgroup ↥(centralizer ({eb M heM} : Set (Mb M))), IsPComponent 2 J → IsComponent J) :
     IsCompIn (centralizer ({eb M heM} : Set (Mb M))) (imgM M K) := by

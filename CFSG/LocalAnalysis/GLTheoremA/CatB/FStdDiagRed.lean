@@ -65,6 +65,7 @@ section Image
 
 variable {X : Type} [Group X] [Finite X] {L B : Subgroup X}
 
+omit [Finite X] in
 theorem fstd_phi_ne_one (hL : CFSG.Open.IsQuasisimple ↥L)
     (hBN : B ≤ Subgroup.normalizer (L : Set X)) (b : ↥B)
     (hbL : (b : X) ∉ Subgroup.centralizer (L : Set X)) :
@@ -72,7 +73,8 @@ theorem fstd_phi_ne_one (hL : CFSG.Open.IsQuasisimple ↥L)
   intro h
   exact hbL ((normalizerToCenterQuotientAut_eq_one_iff ⟨hL.1⟩ hBN b).1 h).2
 
-theorem fstd_image (hL : CFSG.Open.IsQuasisimple ↥L) (hBN : B ≤ Subgroup.normalizer (L : Set X))
+omit [Finite X] in
+theorem fstd_image (_hL : CFSG.Open.IsQuasisimple ↥L) (hBN : B ≤ Subgroup.normalizer (L : Set X))
     {d : X} (hdB : d ∈ B) {K : Subgroup X}
     (hK : CFSG.Open.IsComponentOf K (L ⊓ Subgroup.centralizer ({d} : Set X))) :
     CFSG.Open.IsComponentOf ((K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)))
@@ -133,10 +135,10 @@ theorem fstd_image (hL : CFSG.Open.IsQuasisimple ↥L) (hBN : B ≤ Subgroup.nor
       intro y
       apply Subtype.ext
       exact Subgroup.mem_center_iff.1 (hZQ x.2) (y : Q)
-    haveI : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
+    have : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
       rw [hcenter_top]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'qs.2.toNontrivial
+    have : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'qs.2.toNontrivial
     exact not_subsingleton _ ‹Subsingleton (↥K' ⧸ Subgroup.center ↥K')›
   have hJqs : CFSG.Open.IsQuasisimple ↥J := by
     have hrange : (π.comp K'.subtype).range = J := by
@@ -178,6 +180,7 @@ theorem fstd_image (hL : CFSG.Open.IsQuasisimple ↥L) (hBN : B ≤ Subgroup.nor
       (Subgroup.map_center_eq eKK')
   exact ⟨eJq.symm.trans eKK'q⟩
 
+omit [Finite X] in
 theorem fstd_mem_center_of_image {K : Subgroup X} (hKL : K ≤ L)
     (hI : Subgroup.center ↥((K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))) = ⊥) :
     ∀ z ∈ K, (∀ k ∈ K, k * z = z * k) → ∀ l ∈ L, l * z = z * l := by
@@ -209,13 +212,14 @@ section Marking
 
 variable {X : Type} [Group X] [Finite X] {L B : Subgroup X}
 
+omit [Finite X] in
 theorem fstd_innDiagKind (hL : CFSG.Open.IsQuasisimple ↥L)
     (hBN : B ≤ Subgroup.normalizer (L : Set X)) (hidm : InnerDiagMarking B L) :
     ∃ labK : GLALabel, ∀ b : ↥B,
       InnDiagKind (↥L ⧸ Subgroup.center ↥L) labK (normalizerToCenterQuotientAut L B hBN b) := by
   have hcen : Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hL
-  haveI : Group.IsPerfect ↥L := ⟨hL.1⟩
+  have : Group.IsPerfect ↥L := ⟨hL.1⟩
   have hS : commutator (↥L ⧸ Subgroup.center ↥L) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥L))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -237,6 +241,7 @@ theorem fstd_innDiagKind (hL : CFSG.Open.IsQuasisimple ↥L)
   apply hind l
   simp [normalizerConjAutOfMem]
 
+omit [Finite X] in
 theorem fstd_isElemAbelian_range (hB : CFSG.Assembly.IsElemAbelian 3 B)
     (hBN : B ≤ Subgroup.normalizer (L : Set X)) :
     CFSG.Assembly.IsElemAbelian 3 (normalizerToCenterQuotientAut L B hBN).range := by
@@ -251,6 +256,7 @@ theorem fstd_isElemAbelian_range (hB : CFSG.Assembly.IsElemAbelian 3 B)
     have hx : x ^ 3 = 1 := Subtype.ext (by rw [Subgroup.coe_pow, hB.2 _ x.2, Subgroup.coe_one])
     rw [← map_pow, hx, map_one]
 
+omit [Finite X] in
 theorem fstd_card_range (hL : CFSG.Open.IsQuasisimple ↥L)
     (hBN : B ≤ Subgroup.normalizer (L : Set X)) :
     Nat.card ↥(normalizerToCenterQuotientAut L B hBN).range *
@@ -272,14 +278,14 @@ section Centre
 
 variable {X : Type} [Group X] [Finite X] {L K B : Subgroup X} {d : X}
 
-theorem fstd_ne_top_of_small (hL : CFSG.Open.IsQuasisimple ↥L)
+theorem fstd_ne_top_of_small (_hL : CFSG.Open.IsQuasisimple ↥L)
     (hK : CFSG.Open.IsComponentOf K (L ⊓ Subgroup.centralizer ({d} : Set X)))
     (hs : SmallType 3 K) : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
   have hKL : K ≤ L := hK.1.trans inf_le_left
   have h3L : 3 ∣ Nat.card ↥L :=
     dvd_trans (fstd_three_dvd_card hK.2.2 hs) (Subgroup.card_dvd_of_le hKL)
   intro htop
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥L) := by
     have h := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥L)
     have htop' : CFSG.pPrimeCore 3 ↥L = ⊤ := htop
@@ -299,7 +305,7 @@ theorem fstd_smallConcl (h : SmallCentreS) (hL : CFSG.Open.IsQuasisimple ↥L)
         Subgroup.center ↥((K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))) ≃*
           ↥K ⧸ Subgroup.center ↥K) := by
   have hBN : B ≤ Subgroup.normalizer (L : Set X) := S11.le_normalizer_of_innerDiag hidm
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2
   have hnab : ∃ a b : ↥L ⧸ Subgroup.center ↥L, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hL
   obtain ⟨eL0⟩ := hstd_pSimple_equiv_center hL (fstd_ne_top_of_small hL hK hs)
@@ -364,7 +370,7 @@ theorem fstd_cover {L : Subgroup X} (H : Subgroup (↥L ⧸ Subgroup.center ↥L
       ∀ P : Subgroup ↥L, ⁅P, P⁆ = P → P.map (QuotientGroup.mk' (Subgroup.center ↥L)) ≤ H →
         P ≤ M := by
   classical
-  haveI : IsSimpleGroup ↥H := hHs
+  have : IsSimpleGroup ↥H := hHs
   let Q := ↥L
   let Z : Subgroup Q := Subgroup.center Q
   let π : Q →* Q ⧸ Z := QuotientGroup.mk' Z

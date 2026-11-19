@@ -335,7 +335,7 @@ theorem five_model_proper_Sylow_two_overgroups_are_solvable
     have hU33 : Nat.card U33G = 6048 := by rw [← Nat.card_congr eU.toEquiv, hQ]
     have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [hU33]; norm_num)
     set TU : Sylow 2 U33G := IsPGroup.toSylow u33_syl.1 u33_syl.2 with hTU
-    have hS' : IsPGroup 2 ((S : Subgroup Q).map eU.toMonoidHom) := S.isPGroup'.map _
+    have hS' : IsPGroup 2 ((S : Subgroup Q).map eU.toMonoidHom) := S.isPGroup.map _
     have hS'i : ¬ 2 ∣ ((S : Subgroup Q).map eU.toMonoidHom).index := by
       rw [index_map_of_bijective eU.bijective]
       exact S.not_dvd_index

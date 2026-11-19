@@ -108,7 +108,7 @@ theorem centralizer_radTag_le {J : Set (Fin τ.rank)} (hJ : J ≠ Set.univ) (x :
 
 theorem isPGroup_radTag [Finite K] [CharP K 2] (J : Set (Fin τ.rank)) :
     IsPGroup 2 (radTag τ K J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (parabolicRadical τ K J) :=
     (isPGroup_posUnipotent 2 τ).to_le (parabolicRadical_le_posUnipotent J)
   exact h2.of_equiv (Subgroup.subgroupOfEquivOfLe (parabolicRadical_le_adjointGroup' J)).symm
@@ -118,7 +118,7 @@ theorem exists_std_position [Finite K] [CharP K 2] {R : Subgroup ↥(adjointGrou
     ∃ (g : ↥(adjointGroup τ K)) (J : Set (Fin τ.rank)), J ≠ Set.univ ∧
       R.map (MulAut.conj g⁻¹).toMonoidHom = radTag τ K J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   have hfinM : Finite (ModGL τ K) := finite_modGL
   have hQ₀ne : R.map (adjointGroup τ K).subtype ≠ ⊥ := fun h =>
@@ -179,7 +179,7 @@ theorem centralizer_le_of_isRadical [Finite K] [CharP K 2] {R : Subgroup ↥(adj
 
 theorem closure_parTag_eq_top (hrank : 2 ≤ τ.rank) :
     Subgroup.closure (⋃ i : Fin τ.rank, (parTag τ K {i}ᶜ : Set ↥(adjointGroup τ K))) = ⊤ := by
-  haveI : Nontrivial (Fin τ.rank) := Fin.nontrivial_iff_two_le.2 hrank
+  have : Nontrivial (Fin τ.rank) := Fin.nontrivial_iff_two_le.2 hrank
   obtain ⟨Y, hY⟩ : ∃ Y : Subgroup ↥(adjointGroup τ K),
       Y = Subgroup.closure (⋃ i : Fin τ.rank, (parTag τ K {i}ᶜ : Set ↥(adjointGroup τ K))) :=
     ⟨_, rfl⟩
@@ -225,7 +225,7 @@ theorem closure_parTag_eq_top (hrank : 2 ≤ τ.rank) :
 theorem exists_sylow_posUnipotent [Finite K] [CharP K 2] :
     ∃ P : Sylow 2 ↥(adjointGroup τ K),
       (P : Subgroup ↥(adjointGroup τ K)) = (posUnipotent τ K).subgroupOf (adjointGroup τ K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (RootWeightDatum.ordinary (K := K) τ).exists_sylow_eq_unipotent 2
 
 theorem radicalGen_posUnipotent [Finite K] [CharP K 2] (hrank : 2 ≤ τ.rank) :
@@ -247,7 +247,7 @@ theorem radicalGen_posUnipotent [Finite K] [CharP K 2] (hrank : 2 ≤ τ.rank) :
 
 theorem radRigid_adjointGroup [Finite K] [CharP K 2] (hrank : 2 ≤ τ.rank) :
     RadRigid 2 ↥(adjointGroup τ K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U₀, hU₀⟩ := exists_sylow_posUnipotent (τ := τ) (K := K)
   refine radRigid_of_gen ((holds_adjointGroup_tag τ K 2).holdsTits)
     (fun R hR => centralizer_le_of_isRadical hR) ?_

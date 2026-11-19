@@ -160,7 +160,7 @@ theorem inf_centralizer_le_oddCent
       simpa using congrArg Subtype.val hn
     have h1 : orderOf (τ ⟨x, hxC⟩) ∣ p ^ n :=
       (orderOf_map_dvd τ _).trans (orderOf_dvd_of_pow_eq_one hxn)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') (τ ⟨x, hxC⟩)
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) (τ ⟨x, hxC⟩)
     rw [hk] at h1
     have h2 : 2 ^ k ∣ 1 := by
       have hcop : Nat.Coprime (2 ^ k) (p ^ n) :=

@@ -75,8 +75,8 @@ theorem chi_pow_of_twist {L : Type} [Group L] [Finite L]
     (a : Fin TwistTag.E6.foldedTag.rank) (w : (orbitField TwistTag.E6 K σe.toRingHom a)ˣ) :
     χ (hatH hf hK σe.toRingHom hσ a w) ^ (2 ^ f) = χ (hatH hf hK σe.toRingHom hσ a w) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(TwistedE6.fixedGroup K σe.toRingHom) := finite_fixedGroup σe.toRingHom
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(TwistedE6.fixedGroup K σe.toRingHom) := finite_fixedGroup σe.toRingHom
   have hcc := isCentralCover_of_odd_center hodd eS
   have hq2 : ∀ {l₁ l₂ : L}, IsPElt 2 l₁ → IsPElt 2 l₂ →
       eS (QuotientGroup.mk l₁) = eS (QuotientGroup.mk l₂) → l₁ = l₂ :=

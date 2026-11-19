@@ -32,7 +32,7 @@ theorem sl2_noCover {K : Type} [Field K] {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
     with hT
   have hTc : T ≤ Subgroup.center E := Subgroup.map_subtype_le _
   have : T.Normal := Subgroup.normal_of_le_center hTc
-  have hTp : IsPGroup 2 T := P.isPGroup'.map (Subgroup.center E).subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map (Subgroup.center E).subtype
   have hTker : T ≤ ρ.ker := hρker ▸ hTc
   let ψ : E ⧸ T →* ProjectiveSpecialLinearGroup (Fin 2) K := QuotientGroup.lift T ρ hTker
   have hψsurj : Function.Surjective ψ := fun y => by

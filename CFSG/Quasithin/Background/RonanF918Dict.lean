@@ -454,6 +454,7 @@ theorem hat_eq_map_theta (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosur
       tilde_mem_normalizer_CcOf (h.H_le_normalizer_V₁ hx)
         (le_normalizer_conjClosure Vp H hx) (h.K₀_normal hx)⟩
 
+omit [Finite G] in
 theorem kbarOf_mem_hat (h : HypF918 T V L V₁ Vp H K) {x : G} (hx : x ∈ conjClosure K T) :
     kbarOf h (h.K₀_le_H hx) ∈ hat' V₁ Vp H K T (conjClosure K T) :=
   mem_secImg.mpr ⟨⟨secMk (Subgroup.normalizer (V₁ : Set G)) V₁
@@ -695,6 +696,7 @@ theorem wOf_eq [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
     rw [autIH_eq_map h h.T_le_H]
     exact this
 
+omit [Finite G] in
 theorem isModInv_wOf [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
     (h : HypF918 T V L V₁ Vp H K)
     (hIinv : IsModInv (autIH V₁ I H (conjClosure K T)) (subM V₁ (conjClosure I H) I)) :
@@ -724,7 +726,7 @@ theorem hom_of_isIrrPlusTildeT (h : HypF918 T V L V₁ Vp H K) (hV₁I : V₁ �
     HomHat V₁ Vp H K T I := by
   unfold HomHat
   intro S hSle hKS hiso
-  haveI := factElem h hIU
+  have := factElem h hIU
   have hirr' : subM V₁ (conjClosure I H) I ∈ IrrPlusOn (autIH V₁ I H (conjClosure K T))
       (orbSup (autIH V₁ I H T) (subM V₁ (conjClosure I H) I)) (autIH V₁ I H T) := hirr
   obtain ⟨hIP, hHC⟩ := hirr'
@@ -942,7 +944,7 @@ theorem hat_le_normalizer_map_thetaB [Fact (IsElemAbelian 2 (tildeOf V₁ (conjC
 theorem isIrrPlusTildeT_of_homHat (h : HypF918 T V L V₁ Vp H K) (hV₁I : V₁ ≤ I)
     (hIU : I ≤ conjClosure Vp H) (hIrr : IsIrrPlusTilde V₁ (conjClosure K T) I)
     (hhom : HomHat V₁ Vp H K T I) : IsIrrPlusTildeT h hIU := by
-  haveI := factElem h hIU
+  have := factElem h hIU
   have hIP : XMod.IsIrrPlus ↥(autIH V₁ I H (conjClosure K T)) (subM V₁ (conjClosure I H) I) :=
     isIrrPlus_subM_of_isIrrPlusTilde h hV₁I hIU hIrr
   show subM V₁ (conjClosure I H) I ∈ IrrPlusOn (autIH V₁ I H (conjClosure K T))

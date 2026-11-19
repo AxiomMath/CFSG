@@ -46,10 +46,10 @@ theorem aeBlocks8_of_prim : AEBlocks8' := by
       obtain ⟨a, haα, haβ⟩ := h1
       have hs : mkQ 8 (ofVec (pairVec a c')) ∈ Hn 8 := ⟨_, ofVec_pairVec_mem a c', rfl⟩
       have hsα : ∑ i, pairVec a c' (emb α hα i) = 0 := by
-        rw [sum_pairVec_emb, if_pos haα, if_pos hc'α]
+        rw [sum_pairVec_emb, ite_eq_left haα, ite_eq_left hc'α]
         exact zmod_two_add_self _
       have hsβ : ∑ i, pairVec a c' (emb β hβ i) = 1 := by
-        rw [sum_pairVec_emb, if_neg haβ, if_pos hc'β]
+        rw [sum_pairVec_emb, ite_eq_right haβ, ite_eq_left hc'β]
         simp
       have h1 := conj_memBar_vec_even hn5 α hα true _ hsα
       have h2 := blk_step hB hs hT (by rw [h1]; exact hT) hc0

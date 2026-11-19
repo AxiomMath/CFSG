@@ -15,6 +15,7 @@ namespace Assumption131
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem kernel_dichotomy (h : Assumption131 G Γ VA i) {A L : Subgroup (LGL 2 V)}
     [IsSimpleGroup ↥L] (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) (hLG : L ≤ G)

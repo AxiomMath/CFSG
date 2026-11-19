@@ -153,7 +153,7 @@ theorem exists_central_not_nine_dvd_card_centralizer (h : NineSixSetting hC T S 
       rw [cosetNormalizerPerm_ker_eq_entire_centralizer, h.five.1]
       have hp : IsPGroup 2 (((T : Subgroup (Halpha D hC.alpha)).map
           (Halpha D hC.alpha).subtype).subgroupOf (Subgroup.normalizer ((S : Set G) ∩ D))) :=
-        (T.isPGroup'.map _).comap_of_injective _ (Subgroup.subtype_injective _)
+        (T.isPGroup.map _).comap_of_injective _ (Subgroup.subtype_injective _)
       exact hp.exists_card_eq
     have hneg : (-1 : ZMod 7) ≠ 1 := by decide
     obtain ⟨e⟩ := h.psl27
@@ -231,7 +231,7 @@ theorem twentySeven_dvd_card_centralizer_d (h : NineSixSetting hC T S U) :
       Equiv.Perm.coe_one, id_eq, Subgroup.coe_pow] at h2
     calc δ * m ^ 3 = m ^ 3 * δ * (m ^ 3)⁻¹ * m ^ 3 := by rw [h2]
       _ = m ^ 3 * δ := by group
-  obtain ⟨k, hk⟩ := (T.isPGroup'.map (Halpha D hC.alpha).subtype) ⟨m ^ 3, hm3T⟩
+  obtain ⟨k, hk⟩ := (T.isPGroup.map (Halpha D hC.alpha).subtype) ⟨m ^ 3, hm3T⟩
   have hk' : (m ^ 3) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   set x := m ^ 2 ^ k with hx
   have hxN : x ∈ Subgroup.normalizer Δ := Subgroup.pow_mem _ hmN _

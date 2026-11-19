@@ -124,7 +124,7 @@ theorem exists_twE6PlusTorus
       ∀ t : Fin Tag.E6.rank → ZMod p,
         ggKGTwY F (T (ofAdd t)) =
           rootDiagUnit TwistTag.E6.tag (TableBExc.E6Three.zetaVec ζ hζ t) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hζ' : IsPrimitiveRoot ζ p := hζo ▸ IsPrimitiveRoot.orderOf ζ
   change ∃ T : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) →*
       twistedE6RootGroup K σ,

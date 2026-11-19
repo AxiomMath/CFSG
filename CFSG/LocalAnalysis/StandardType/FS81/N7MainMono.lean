@@ -12,7 +12,7 @@ private theorem nmh_even_card_symmDiff_singleton_of_odd {k : ℕ} {A : Finset (F
     (hA : Odd A.card) : Even (A ∆ {i}).card := by
   have hcard : (A ∆ {i}).card = if i ∈ A then A.card - 1 else A.card + 1 := by
     by_cases hi : i ∈ A
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have h : A ∆ {i} = A.erase i := by
         ext j
         simp only [Finset.mem_symmDiff, Finset.mem_erase, Finset.mem_singleton]
@@ -23,7 +23,7 @@ private theorem nmh_even_card_symmDiff_singleton_of_odd {k : ℕ} {A : Finset (F
         · rintro ⟨hji, hjA⟩
           exact Or.inl ⟨hjA, hji⟩
       rw [h, Finset.card_erase_of_mem hi]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       have h : A ∆ {i} = insert i A := by
         ext j
         simp only [Finset.mem_symmDiff, Finset.mem_insert, Finset.mem_singleton]
@@ -37,11 +37,11 @@ private theorem nmh_even_card_symmDiff_singleton_of_odd {k : ℕ} {A : Finset (F
       rw [h, Finset.card_insert_of_notMem hi]
   rw [hcard]
   by_cases hi : i ∈ A
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     obtain ⟨t, ht⟩ := hA
     rw [ht, Nat.add_sub_cancel]
     exact even_two_mul t
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     exact hA.add_one
 
 private theorem nmh_exists_notMem_pair {k l : Fin 8} (hkl : k ≠ l) :
@@ -120,7 +120,7 @@ theorem nm_normalizer_mono {X : Type} [Group X] [Finite X] (S : N7MSetup X) {x :
     rw [hv, Matrix.mulVec_zero] at h1
     have h01 : (0 : ZMod 3) = 1 := by
       have := congrFun h1 l
-      simpa using this
+      simp at this
     exact one_ne_zero h01.symm
   have hex : ∀ l, ∃ r, S.ρ x r l ≠ 0 := by
     intro l
@@ -159,14 +159,14 @@ theorem nm_normalizer_mono {X : Type} [Group X] [Finite X] (S : N7MSetup X) {x :
       have h := congrFun (congrFun hEq r) l
       rw [hy, hSa] at h
       simp only [nmSgn, Matrix.diagonal_mul, Matrix.mul_diagonal] at h
-      rw [if_pos (show r ∈ ({r, m} : Finset (Fin 8)) by simp)] at h
+      rw [ite_eq_left (show r ∈ ({r, m} : Finset (Fin 8)) by simp)] at h
       have hcomm : ∀ z w : ZMod 3, -1 * z = w → w = z * (-1) := by decide
       exact hcomm _ _ h
     have h_r' : S.ρ x r' l * (if l ∈ B then (-1 : ZMod 3) else 1) = S.ρ x r' l * 1 := by
       have h := congrFun (congrFun hEq r') l
       rw [hy, hSa] at h
       simp only [nmSgn, Matrix.diagonal_mul, Matrix.mul_diagonal] at h
-      rw [if_neg hr'_notmem, one_mul] at h
+      rw [ite_eq_right hr'_notmem, one_mul] at h
       rw [mul_one]
       exact h.symm
     have hdl : (if l ∈ B then (-1 : ZMod 3) else 1) = -1 :=
@@ -213,7 +213,7 @@ theorem nm_normalizer_mono {X : Type} [Group X] [Finite X] (S : N7MSetup X) {x :
     by_cases hij : i = π j
     · subst hij
       simp [s]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact hM_zero j i hij
 
 end CFSG.StandardType.FrameRoute.FS81

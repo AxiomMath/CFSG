@@ -17,12 +17,12 @@ namespace CFSG.StandardType.ClassicalPosition.HeisRank
   one_mem' := ⟨1, fun v => by simp⟩
   mul_mem' := by
     rintro a b ⟨c, hc⟩ ⟨d, hd⟩
-    exact ⟨c * d, fun v => by simp [hc, hd, smul_smul, mul_comm]⟩
+    exact ⟨c * d, fun v => by simp [hc, hd, smul_smul]⟩
   inv_mem' := by
     rintro a ⟨c, hc⟩
     by_cases hV : Subsingleton V
     · exact ⟨1, fun v => Subsingleton.elim _ _⟩
-    · haveI : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
+    · have : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
       obtain ⟨v, hv⟩ := exists_ne (0 : V)
       have hc0 : c ≠ 0 := by
         rintro rfl

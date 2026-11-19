@@ -103,7 +103,7 @@ theorem exists_vecMulVec_of_involution {K : Type*} [Field K] [CharP K 2]
     _ = 1 + Matrix.vecMulVec v w := by rw [hNvec]
 
 theorem matrix_mul_comm_one_add_vecMulVec_iff {K : Type*} [Field K] [CharP K 2]
-    {v w : Fin 3 → K} (hvw : w ⬝ᵥ v = 0) (hv : v ≠ 0) (hw : w ≠ 0)
+    {v w : Fin 3 → K} (_hvw : w ⬝ᵥ v = 0) (hv : v ≠ 0) (hw : w ≠ 0)
     (g : Matrix (Fin 3) (Fin 3) K) :
     g * (1 + Matrix.vecMulVec v w) = (1 + Matrix.vecMulVec v w) * g ↔
       ∃ a : K, g *ᵥ v = a • v ∧ gᵀ *ᵥ w = a • w := by
@@ -123,7 +123,7 @@ theorem matrix_mul_comm_one_add_vecMulVec_iff {K : Type*} [Field K] [CharP K 2]
     obtain ⟨j, hj⟩ : ∃ j : Fin 3, w j ≠ 0 := Function.ne_iff.mp hw
     let x0 : Fin 3 → K := Pi.single j (w j)⁻¹
     have hx0 : w ⬝ᵥ x0 = 1 := by
-      simp only [x0, dotProduct_single, Pi.single_eq_same]
+      simp only [x0, dotProduct_single]
       exact mul_inv_cancel₀ hj
     let a : K := w ⬝ᵥ (g *ᵥ x0)
     have hgv : g *ᵥ v = a • v := by

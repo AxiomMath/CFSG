@@ -35,7 +35,7 @@ private theorem fourFive_open_isQuasisimple_of_simple_nonabelian {A : Type*} [Gr
 
 private theorem fourFive_open_isQuasisimple_nontrivial {A : Type*} [Group A]
     (h : CFSG.Open.IsQuasisimple A) : Nontrivial A := by
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
   obtain ⟨a, b, hne⟩ := exists_pair_ne (A ⧸ Subgroup.center A)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -54,11 +54,12 @@ private theorem fourFive_isQuasisimple_of_open {A : Type*} [Group A]
     rw [map_commutatorElement, commutatorElement_def,
       hnab ((QuotientGroup.mk' (Subgroup.center A)) x), mul_inv_cancel_right, mul_inv_cancel]
   rw [h.1] at hle
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
-  haveI : Subsingleton (A ⧸ Subgroup.center A) :=
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
+  have : Subsingleton (A ⧸ Subgroup.center A) :=
     QuotientGroup.subsingleton_iff.mpr (top_le_iff.mp hle)
   exact not_subsingleton (A ⧸ Subgroup.center A) inferInstance
 
+omit [Finite Q] in
 private theorem fourFive_map_conj_eq_of_normal {N : Subgroup Q} (hN : N.Normal) (t : Q) :
     N.map (MulAut.conj t).toMonoidHom = N := by
   ext x
@@ -140,7 +141,7 @@ private noncomputable def fourFive_factors {N : Subgroup Q} (hN : FourFiveNMN N)
     FourFiveData N :=
   Classical.choice (fourFive_factors_nonempty hN)
 
-private theorem fourFive_component_eq_factor {N : Subgroup Q} (hN : FourFiveNMN N)
+private theorem fourFive_component_eq_factor {N : Subgroup Q} (_hN : FourFiveNMN N)
     (D : FourFiveData N) {J : Subgroup Q} (hJ : IsComponentOf J N) : ∃ i, J = D.S i := by
   classical
   have hJ'q : CFSG.Open.IsQuasisimple ↥(J.subgroupOf N) :=
@@ -159,7 +160,7 @@ private theorem fourFive_component_eq_factor {N : Subgroup Q} (hN : FourFiveNMN 
       rwa [inf_eq_left.mpr hJSi] at h
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub (D.simple i) with h | h
     · exfalso
-      haveI : Nontrivial ↥J := fourFive_open_isQuasisimple_nontrivial hJ.2.2
+      have : Nontrivial ↥J := fourFive_open_isQuasisimple_nontrivial hJ.2.2
       exact not_subsingleton ↥J (by rw [h]; infer_instance)
     · exact h
   · exfalso
@@ -187,9 +188,9 @@ private theorem fourFive_component_eq_factor {N : Subgroup Q} (hN : FourFiveNMN 
       IsMulCommutative.of_comm fun x y => by
         have h := Subgroup.mem_centralizer_iff.mp (hcent x.2) (y : Q) (hJ.1 y.2)
         exact Subtype.ext h.symm
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
     have hcenter : Subgroup.center ↥J = ⊤ := Subgroup.center_eq_top_iff.mpr hcommJself
-    haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
+    have : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
       QuotientGroup.subsingleton_iff.mpr hcenter
     exact not_subsingleton (↥J ⧸ Subgroup.center ↥J) inferInstance
 
@@ -206,13 +207,14 @@ theorem fourFive_nmn_components_sup {N : Subgroup Q} (hN : FourFiveNMN N) :
   refine le_antisymm (iSup₂_le fun J hJ => hJ.1) ?_
   have hle : (⨆ i, D.S i) ≤ ⨆ (J) (_ : IsComponentOf J N), J := by
     refine iSup_le fun i => ?_
-    haveI : IsSimpleGroup ↥(D.S i) := D.simple i
+    have : IsSimpleGroup ↥(D.S i) := D.simple i
     have hcomp : IsComponentOf (D.S i) N :=
       ⟨D.le i, CFSG.Open.IsSubnormal.step (D.le i) (D.normal i) (CFSG.Open.IsSubnormal.refl N),
         fourFive_open_isQuasisimple_of_simple_nonabelian (D.nonabelian i)⟩
     exact le_iSup₂ (f := fun J (_ : IsComponentOf J N) => J) (D.S i) hcomp
   rwa [D.iSup_eq] at hle
 
+omit [Finite Q] in
 theorem fourFive_nmn_component_conj {N J : Subgroup Q} (hN : FourFiveNMN N)
     (hJ : IsComponentOf J N) (t : Q) : IsComponentOf (conjSub t J) N := by
   refine ⟨?_, ?_, ?_⟩

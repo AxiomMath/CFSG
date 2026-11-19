@@ -77,7 +77,7 @@ theorem card_centralizer_ge_and_not_seven_dvd [Finite Y] (hK : Nat.card K = 4)
     (hdout : ¬ ∃ a ∈ A, ∀ x ∈ A, Ψ d x = a * x * a⁻¹) :
     15360 ≤ Nat.card (Subgroup.centralizer ({d} : Set Y)) ∧
       ¬ 7 ∣ Nat.card (Subgroup.centralizer ({d} : Set Y)) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   have hZ : ∀ z : projectiveSL 4 K, (∀ x, x * z = z * x) → z = 1 :=
     center_projectiveSL_four hK
   have hdE : Ψ d ∉ semilinearAutGroup 4 K :=
@@ -108,39 +108,27 @@ theorem card_centralizer_ge_and_not_seven_dvd [Finite Y] (hK : Nat.card K = 4)
   have hed : ∀ i, e i * d = d * e i := by
     intro i
     fin_cases i <;>
-      simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, ht2,
-        hdt', hdtd, hdtt, inv_one, one_mul, mul_one]
+      simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, hdt', hdtd, one_mul, mul_one]
   have hprod : ∀ i j, i ≠ j →
       e i * (e j)⁻¹ = d ∨ e i * (e j)⁻¹ = t ∨ e i * (e j)⁻¹ = d * t := by
     intro i j hij
     fin_cases i <;> fin_cases j
     · exact absurd rfl hij
-    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, ht2,
-        hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, ht2,
-        hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
+    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', hd_inv, one_mul]
+    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ht_inv, one_mul]
+    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hdt', mul_inv_rev, hd_inv, ht_inv, one_mul]
+    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', inv_one, mul_one]
     · exact absurd rfl hij
-    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
+    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ht_inv]
     · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
+        hdt', mul_inv_rev, hd_inv, ht_inv, one_mul]
+    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', inv_one, mul_one]
+    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', hdt', hd_inv]
     · exact absurd rfl hij
-    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, ht2,
-        hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2,
-        ht2, hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
-    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hd2, ht2,
-        hdt', hdtd, hdtt, mul_inv_rev, hd_inv, ht_inv, inv_one, one_mul, mul_one]
+    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', ← mul_assoc, hdt', hdtt, mul_inv_rev, hd_inv, ht_inv]
+    · right; right; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', inv_one, mul_one]
+    · right; left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', hdtd, hd_inv]
+    · left; simp only [e, Matrix.cons_val_zero', Matrix.cons_val_succ', hdtt, ht_inv]
     · exact absurd rfl hij
   have hne : ∀ i j, i ≠ j → Ψ (e i * (e j)⁻¹) ∉ inner (projectiveSL 4 K) := by
     intro i j hij
@@ -160,7 +148,7 @@ theorem card_centralizer_ge_and_not_seven_dvd [Finite Y] (hK : Nat.card K = 4)
       omega
     exact le_trans h15360 h4le
   · intro h7dvd
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 7 h7dvd
     have hz' : orderOf (z : Y) = 7 := (Subgroup.orderOf_coe z).trans hz
     have hdz : d * (z : Y) = (z : Y) * d :=

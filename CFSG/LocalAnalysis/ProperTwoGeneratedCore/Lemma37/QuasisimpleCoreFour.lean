@@ -44,7 +44,7 @@ theorem no_normal_four (h : Setting J Q B) (hno : ∀ z, ¬ FourGen Q z)
     (V : Subgroup (Q : Subgroup J)) (hVn : V.Normal) (hV : IsElemAbelian 2 V) :
     Nat.card V ≠ 4 := by
   intro hV4
-  have hnil : Group.IsNilpotent (Q : Subgroup J) := Q.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (Q : Subgroup J) := Q.isPGroup.isNilpotent
   have hVne : V ≠ ⊥ := by
     rintro rfl
     rw [Subgroup.card_bot] at hV4
@@ -151,7 +151,7 @@ theorem mem_center_of_cyclic (h : Setting J Q B) (hno : ∀ z, ¬ FourGen Q z)
     have hCeven : 2 ∣ Nat.card C := by
       have hmul := C.index_mul_card
       rw [h2] at hmul
-      obtain ⟨n, hn⟩ := (Q.isPGroup'.to_subgroup C).exists_card_eq
+      obtain ⟨n, hn⟩ := (Q.isPGroup.to_subgroup C).exists_card_eq
       rw [hn] at hmul ⊢
       rcases n with _ | n
       · omega
@@ -196,8 +196,8 @@ theorem exists_fourGen (h : Setting J Q B) : ∃ z, FourGen Q z := by
   by_contra hno
   push Not at hno
   have hcyc : ∀ A : Subgroup (Q : Subgroup J), A.Normal → IsMulCommutative A → IsCyclic A :=
-    fun A hA hAc => no_normal_four_abelian_normal_cyclic Q.isPGroup' (h.no_normal_four hno) A hAc
-  obtain ⟨C, hCn, hC, hCi⟩ := cyclic_abelian_normal_index_two _ Q.isPGroup' hcyc
+    fun A hA hAc => no_normal_four_abelian_normal_cyclic Q.isPGroup (h.no_normal_four hno) A hAc
+  obtain ⟨C, hCn, hC, hCi⟩ := cyclic_abelian_normal_index_two _ Q.isPGroup hcyc
   obtain ⟨y, hy, hyZ⟩ := h.exists_involution_not_mem_center
   exact hyZ (h.mem_center_of_cyclic hno hCn hC hCi hy)
 

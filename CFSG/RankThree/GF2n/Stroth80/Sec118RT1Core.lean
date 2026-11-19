@@ -12,6 +12,7 @@ open CFSG.Open Matrix
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m n : ℕ} {E : Type*} [AddCommGroup E]
   [Module K E] [Finite E] {D : Type*} [Group D] [Finite D]
 
+omit [CharP K 2] in
 theorem rt1_core (hm : 2 ≤ m) (hq : 2 < Nat.card K) (hn : 2 * m ≤ n)
     (ι₁ ι₂ : (Fin m ⊕ Fin m → K) →ₗ[K] E) {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0)
     {k₀ k₁ : Fin 2 → K} (hk : detFin2 k₀ k₁ = 1)

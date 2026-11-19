@@ -67,20 +67,20 @@ theorem injective_nf (h : Rel z q c) (hz : z ≠ 1) (hnd : Nondegenerate c) :
 
 end NF
 
-@[expose] def cInvRows : List ℕ := [966, 3153, 3769, 3524, 2918, 1428, 155, 365, 697, 277, 46, 30]
+def cInvRows : List ℕ := [966, 3153, 3769, 3524, 2918, 1428, 155, 365, 697, 277, 46, 30]
 
-@[expose] def cMat (a b : Fin 12) : ZMod 2 := if (cRows.getD a 0).testBit b then 1 else 0
+def cMat (a b : Fin 12) : ZMod 2 := if (cRows.getD a 0).testBit b then 1 else 0
 
-@[expose] def cInvMat : Matrix (Fin 12) (Fin 12) (ZMod 2) :=
+def cInvMat : Matrix (Fin 12) (Fin 12) (ZMod 2) :=
   Matrix.of fun a b => if (cInvRows.getD a 0).testBit b then 1 else 0
 
-@[expose] def rConjN (i : ℕ) : GL (Fin 112) (ZMod 2) := if h : i < 12 then rConj ⟨i, h⟩ else 1
+def rConjN (i : ℕ) : GL (Fin 112) (ZMod 2) := if h : i < 12 then rConj ⟨i, h⟩ else 1
 
-@[expose] def qGen (a : Fin 12) : GL (Fin 112) (ZMod 2) := ((qIdx.getD a []).map rConjN).prod
+def qGen (a : Fin 12) : GL (Fin 112) (ZMod 2) := ((qIdx.getD a []).map rConjN).prod
 
-@[expose] def rProd (l : List ℕ) : GL (Fin 112) (ZMod 2) := (l.map rConjN).prod
+def rProd (l : List ℕ) : GL (Fin 112) (ZMod 2) := (l.map rConjN).prod
 
-@[expose] def qProd (l : List ℕ) : GL (Fin 112) (ZMod 2) :=
+def qProd (l : List ℕ) : GL (Fin 112) (ZMod 2) :=
   (l.map fun a => rProd (qIdx.getD a [])).prod
 
 theorem qGen_eq (a : Fin 12) : qGen a = rProd (qIdx.getD a []) := rfl

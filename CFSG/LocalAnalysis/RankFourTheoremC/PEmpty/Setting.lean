@@ -77,10 +77,12 @@ namespace Point
 
 variable {x : G}
 
+omit [Finite G] in
 theorem pow_eq_one (hx : Point P M x) : x ^ p = 1 := by
   rw [← hx.order]
   exact pow_orderOf_eq_one x
 
+omit [Finite G] in
 theorem ne_one (hp : p.Prime) (hx : Point P M x) : x ≠ 1 := by
   intro h
   have := hx.order

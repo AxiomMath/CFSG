@@ -22,7 +22,7 @@ theorem sigmaA_eq_three (hrank : evenRank G = 3) (h : 3 ∈ rankThreeSigmaA G) :
   · exact absurd h.2.1 (by norm_num)
   · exact absurd h.2.1 (lt_irrefl 3)
   · ext p
-    simp only [Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Set.mem_singleton_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hp, hodd, hdvd, hloc⟩
       by_contra hne
@@ -41,7 +41,7 @@ theorem sigmaA_eq_five (hrank : evenRank G = 3) (h : 5 ∈ rankThreeSigmaA G) :
     omega
   · exact absurd h.2.1 (lt_irrefl 5)
   · ext p
-    simp only [Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Set.mem_singleton_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hp, hgt3, hdvd, hloc⟩
       by_cases hgt5 : 5 < p
@@ -56,7 +56,7 @@ theorem sigmaA_eq_five (hrank : evenRank G = 3) (h : 5 ∈ rankThreeSigmaA G) :
   · exfalso
     exact h3 ⟨5, h.1, by norm_num, h.2.2.1, h.2.2.2⟩
 
-theorem seven_le_of_mem_sigmaA (hrank : evenRank G = 3) {q : ℕ} (hq : q ∈ rankThreeSigmaA G)
+theorem seven_le_of_mem_sigmaA (_hrank : evenRank G = 3) {q : ℕ} (hq : q ∈ rankThreeSigmaA G)
     (h3 : q ≠ 3) (h5 : q ≠ 5) : 7 ≤ q := by
   have hprime : q.Prime := sigmaA_prime q hq
   have hodd : q ≠ 2 := sigmaA_odd q hq

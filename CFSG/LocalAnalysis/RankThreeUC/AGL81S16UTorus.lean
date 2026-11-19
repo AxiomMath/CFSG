@@ -39,7 +39,7 @@ def torusVec (a b : Fˣ) : Fin 4 → F := ![1, (a : F), (b : F), (((a * b)⁻¹ 
 theorem torusVec_det (a b : Fˣ) : ∏ i, torusVec a b i = 1 := by
   rw [Fin.prod_univ_four]
   have h : ((a * b * (a * b)⁻¹ : Fˣ) : F) = 1 := by simp
-  simpa [torusVec, mul_assoc] using h
+  simp [torusVec, mul_assoc]
 
 theorem torusVec_norm {Z : Subgroup Fˣ} (hZ : ∀ a ∈ Z, σ (a : F) * a = 1) {a b : Fˣ}
     (ha : a ∈ Z) (hb : b ∈ Z) (i : Fin 4) : σ (torusVec a b i) * torusVec a b i = 1 := by
@@ -150,7 +150,7 @@ variable {F : Type} [Field F] [Finite F] {n p : ℕ}
 theorem exists_torus_data (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hF : Nat.card F = (2 ^ n) ^ 2)
     {σ : F ≃+* F} (hσ : ∀ c, σ c * c = c ^ (2 ^ n + 1)) :
     ∃ Z : Subgroup Fˣ, (∀ a ∈ Z, a ^ p = 1) ∧ Nat.card Z = p ∧ ∀ a ∈ Z, σ (a : F) * a = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardU : p ∣ Nat.card Fˣ := by
     rw [CFSG.ClassicalGroups.Unitary.card_units_of_card (p := 2) (f := n) hF]
     have hq : 1 ≤ 2 ^ n := Nat.one_le_two_pow
@@ -170,8 +170,8 @@ theorem exists_stab_elemAbelian_nonsing (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     ∃ E : Subgroup (GL (Fin 4) F), E ≤ StatedSU 4 (2 ^ n) F ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 2 ∧
       ∀ g ∈ E, ((g : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
   set σ : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 n with hσdef
   have hσ : IsUnitaryInvolution σ :=
     CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hF
@@ -208,8 +208,8 @@ theorem exists_stab_elemAbelian_ne_zero (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     ∃ E : Subgroup (GL (Fin 4) F), E ≤ StatedSU 4 (2 ^ n) F ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 1 ∧
       ∀ g ∈ E, ((g : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
   set σ : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 n with hσdef
   have hσ : IsUnitaryInvolution σ :=
     CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hF

@@ -16,7 +16,7 @@ private theorem s16h_card_eq_of_le_three_mul_card_of_card_eq_pow {p n : ℕ} (hp
   have hmul := Subgroup.relIndex_mul_card (H := E₁) (K := E)
   rw [inf_eq_left.2 hE₁, hEn] at hmul
   have hpos : 0 < Nat.card ↥E₁ := by
-    haveI : Nonempty ↥E₁ := ⟨1⟩
+    have : Nonempty ↥E₁ := ⟨1⟩
     exact Nat.card_pos
   have hrel : E₁.relIndex E ≤ 3 := by
     have hle : E₁.relIndex E * Nat.card ↥E₁ ≤ 3 * Nat.card ↥E₁ := by
@@ -96,7 +96,7 @@ theorem s16h_uniqueMax_or_dvd_of_blockBound_one_five (D : Data G) (h61 : UC6.R6_
     set P := (E ⊓ nBar D.M V₀ V hV L) ⊓ preBarSub D.M V₀ V hV (centSub (wTil V₀ V hV
       (conjSubgroup L x) ⊔ wTil V₀ V hV (conjSubgroup L y))) with hP
     have hPab : IsElemAbelian q P := hE.mono (inf_le_left.trans inf_le_left)
-    haveI : Fact q.Prime := ⟨hpp.1⟩
+    have : Fact q.Prime := ⟨hpp.1⟩
     have hPne : Nat.card ↥P ≠ 1 := by
       intro h1
       rw [hEcard, h1, mul_one] at hcard

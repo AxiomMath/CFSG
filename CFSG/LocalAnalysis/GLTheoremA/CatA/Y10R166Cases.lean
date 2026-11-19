@@ -54,7 +54,7 @@ theorem hasLabel_inLambda2 {X : Type} [Group X] {lab : GLALabel}
 @[expose] def i166FamA8Two (lab : GLALabel) (p : ℕ) (_z : Prop) : Prop :=
   lab = ⟨.A, 8, 1⟩ ∧ p = 7
 
-theorem i166_label_cases {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : GLALabel} {z : Prop}
+theorem i166_label_cases {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {lab : GLALabel} {z : Prop}
     (hlab : GLAInLambda2 lab) (hh : GLAHalfSplit16 p lab z) (hns : ¬ GLASplit16 p lab)
     (hE6 : p = 7 → lab ≠ ⟨.E6, 0, 1⟩) :
     i166FamB lab p z ∨ i166FamD lab p z ∨ i166FamF4 lab p z ∨ i166FamE7 lab p z ∨

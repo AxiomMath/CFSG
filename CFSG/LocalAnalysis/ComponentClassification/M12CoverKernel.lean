@@ -56,7 +56,7 @@ theorem ctss_m12_original_large_cyclic_kernel_false {G : Type} [Group G] [Finite
   have hker : π.ker = zpowers t' := hkerZ.trans hZ'
   have htT : t ∈ T := by rw [← hCL]; exact htC
   have hTc : IsCyclic T := isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := S.isPGroup.map _
   have hT4 : 4 ≤ Nat.card T := by
     rw [hTdef, card_map_of_injective (subtype_injective _)]
     exact hS4

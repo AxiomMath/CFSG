@@ -39,7 +39,7 @@ theorem goal_of_alt (h : K37Setting X K E S) {n : ℕ} (hn : 5 ≤ n) (hn6 : n �
     (φ : ↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin n)) (hO : ¬ K37Open K E) :
     K37Goal K S := by
   intro hSC
-  haveI := h.normal
+  have := h.normal
   have hKc : commutator ↥K = ⊤ := Group.isPerfect_def.mp h.quasi.1
   have hn12 : n ≤ 12 := by
     by_contra hcon
@@ -75,12 +75,12 @@ theorem goal_of_alt (h : K37Setting X K E S) {n : ℕ} (hn : 5 ≤ n) (hn6 : n �
     · exact h.center_eq_bot_of_not_cover φ fun hc =>
         hO (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hc)))))))))
     · obtain ⟨m, rfl⟩ : ∃ m, n = m + 2 := ⟨n - 2, by omega⟩
-      haveI : Group.IsPerfect ↥K := h.quasi.1
+      have : Group.IsPerfect ↥K := h.quasi.1
       set ψ : ↥K →* alternatingGroup (Fin (m + 2)) :=
         φ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))
       have hker : ψ.ker = Subgroup.center ↥K := by
         ext x
-        simp [ψ, MonoidHom.mem_ker]
+        simp [ψ]
       obtain ⟨k, hk⟩ := h.isPGroup_center.exists_card_eq
       have h1 := CFSG.Alternating.Multipliers.card_ker_eq_one_of_odd (by omega : 6 ≤ m) ψ
         (φ.surjective.comp (QuotientGroup.mk'_surjective _)) hker.le

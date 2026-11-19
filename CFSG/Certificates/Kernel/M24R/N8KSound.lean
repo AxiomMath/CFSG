@@ -211,7 +211,6 @@ theorem glFresh_sound : ∀ (L : List Nat) (S cnt : Nat), glFreshK glEnd L S cnt
     · rw [List.map_cons, List.nodup_cons]
       refine ⟨fun hm => ?_, hnd⟩
       obtain ⟨m, hm, hmc⟩ := List.mem_map.1 hm
-      beta_reduce at hmc
       have := hS m hm
       omega
     · intro m hm

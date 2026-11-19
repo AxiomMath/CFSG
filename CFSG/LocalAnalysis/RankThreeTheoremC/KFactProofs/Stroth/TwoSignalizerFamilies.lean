@@ -42,6 +42,7 @@ private theorem map_eq_of_ti {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.P
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem eq_one_of_mem_of_mem {p : ℕ} (hp : p.Prime) {V T : Subgroup X}
     (hV : IsPGroup p V) (hT : ¬ p ∣ Nat.card T) {x : X} (hxV : x ∈ V) (hxT : x ∈ T) :
     x = 1 := by
@@ -101,7 +102,7 @@ theorem commutator_eq_bot_of_ti_sylow {p : ℕ} [Fact p.Prime] {K : Subgroup X} 
     have h3 : b * t * b⁻¹ ∈ T := (Subgroup.mem_normalizer_iff.1 (hBT hb) t).1 ht
     simpa [commutatorElement_def] using T.mul_mem h3 (T.inv_mem ht)
   rw [Subgroup.mem_bot]
-  exact eq_one_of_mem_of_mem hp (U.isPGroup'.map K.subtype) hT h1 h2
+  exact eq_one_of_mem_of_mem hp (U.isPGroup.map K.subtype) hT h1 h2
 
 theorem commutator_eq_bot_of_forall_ti_sylow {p : ℕ} [Fact p.Prime] {K : Subgroup X} [K.Normal]
     (hti : ∀ U : Sylow p K, ∀ t ∈ (U : Subgroup K), t ≠ 1 → ∀ g : K,

@@ -17,7 +17,7 @@ theorem exists_sylow_containing {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2)
     ∃ T : Subgroup G, T ≤ Hz z ∧ IsPGroup 2 T ∧
       (∀ Q : Subgroup G, Q ≤ Hz z → IsPGroup 2 Q → T ≤ Q → Q = T) ∧
       Fz z ≤ T ∧ (Zc z).map (MulAut.conj h).toMonoidHom ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup ↥(Hz z) := ((Zc z).map (MulAut.conj h).toMonoidHom).subgroupOf (Hz z)
   have hKcard : Nat.card ↥K = 4 := by
     have e := Subgroup.subgroupOfEquivOfLe hh
@@ -30,7 +30,7 @@ theorem exists_sylow_containing {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2)
   have hKQ : K ≤ Q.toSubgroup := le_trans le_sup_left hQ
   have hNQ : pCore 2 ↥(Hz z) ≤ Q.toSubgroup := le_trans le_sup_right hQ
   refine ⟨Q.toSubgroup.map (Hz z).subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_, ?_⟩
-  · exact Q.isPGroup'.map (Hz z).subtype
+  · exact Q.isPGroup.map (Hz z).subtype
   · intro Q' hQ'H hQ'p hTQ'
     have hQ''p : IsPGroup 2 ↥(Q'.subgroupOf (Hz z)) :=
       hQ'p.of_equiv (Subgroup.subgroupOfEquivOfLe hQ'H).symm
@@ -49,6 +49,7 @@ theorem exists_sylow_containing {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2)
     rw [hmap]
     exact Subgroup.map_mono hKQ
 
+omit [Finite G] in
 theorem map_conj_eq_conjugate {z h : G} :
     (Zc z).map (MulAut.conj h).toMonoidHom = conjugate (Zc z) h⁻¹ := by
   unfold conjugate

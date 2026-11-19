@@ -27,8 +27,8 @@ open scoped MatrixGroups
 
 open CFSG.LieType.Steinberg CFSG.LieType.Steinberg.Isogeny CFSG.HardMathSupport.Timmesfeld.CrossChar in
 theorem tableZ_lift_cube
-    (K : Type) [Field K] [Finite K] (σ : K ≃+* K) {n : ℕ} (hn : 1 ≤ n)
-    (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n))
+    (K : Type) [Field K] [Finite K] (σ : K ≃+* K) {n : ℕ} (_hn : 1 ≤ n)
+    (_hK : Nat.card K = (2 ^ n) ^ 2) (_hσ : ∀ c, σ c = c ^ (2 ^ n))
     (x : ↥(TwistedE6.fixedGroup K σ.toRingHom))
     (w : ModGL Tag.E6 (AlgebraicClosure K)) (hw : w ∈ adjointGroup Tag.E6 (AlgebraicClosure K))
     (u : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ) (hu : ∀ l, u l ^ 3 = 1)
@@ -46,7 +46,7 @@ theorem tableZ_lift_cube
   obtain ⟨S, hS⟩ := exists_finset_descent (τ := Tag.E6) hw
   obtain ⟨E, hEfin, hSE, hKE⟩ := exists_finite_subfield_of_finset (K := K) (L := L)
     (S ∪ Finset.univ.image (fun l => ((u l : Lˣ) : L)))
-  haveI : Finite E := hEfin
+  have : Finite E := hEfin
   have hSE' : (S : Set L) ⊆ (E : Set L) := fun s hs =>
     hSE (Finset.mem_coe.2 (Finset.mem_union_left _ hs))
   have huE : ∀ l, (u l : L) ∈ E := fun l =>

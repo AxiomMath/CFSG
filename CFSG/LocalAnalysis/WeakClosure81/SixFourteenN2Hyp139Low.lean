@@ -13,12 +13,12 @@ variable {W : Type*} [CommGroup W] [Finite W]
 
 theorem one_le_n_of_hyp139_data {W : Type} [CommGroup W] [Finite W]
     {n : ℕ} (hW : Nat.card W = 4 ^ n)
-    {G X : Subgroup (MulAut W)} (hXG : X ≤ G) (hXcard : Nat.card X = 3) : 1 ≤ n := by
+    {G X : Subgroup (MulAut W)} (_hXG : X ≤ G) (hXcard : Nat.card X = 3) : 1 ≤ n := by
   by_contra hlt
   have hn : n = 0 := by omega
   rw [hn, pow_zero] at hW
-  haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hW).1
-  haveI : Subsingleton (MulAut W) :=
+  have : Subsingleton W := (Nat.card_eq_one_iff_unique.mp hW).1
+  have : Subsingleton (MulAut W) :=
     ⟨fun a b => MulEquiv.ext fun w => Subsingleton.elim _ _⟩
   have hle : Nat.card X ≤ Nat.card (MulAut W) := X.card_le_card_group
   have hcardAut : Nat.card (MulAut W) = 1 :=
@@ -32,7 +32,7 @@ theorem finrank_galoisModule_one (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
     (hW : Nat.card W = 4) :
     letI := galoisModule hw2 x hx3 hfix
     Module.finrank (GaloisField 2 2) (Additive W) = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   have hcard : Nat.card (Additive W) = 4 := hW
   have hK : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
@@ -89,7 +89,7 @@ theorem hGL1_mul (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
     letI := galoisModule hw2 x hx3 hfix
     hGL1 hw2 x hx3 hfix (h₁ * h₂) hc hW =
       hGL1 hw2 x hx3 hfix h₁ hc₁ hW * hGL1 hw2 x hx3 hfix h₂ hc₂ hW := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   dsimp only [hGL1]
   rw [hGaloisLinearEquiv_mul hw2 x hx3 hfix h₁ h₂ hc₁ hc₂ hc]
   rw [← conj_mul (galoisEquivFun1 hw2 x hx3 hfix hW)
@@ -102,7 +102,7 @@ theorem hGL1_one (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
     (hc : (1 : MulAut W) * x = x * 1) (hW : Nat.card W = 4) :
     letI := galoisModule hw2 x hx3 hfix
     hGL1 hw2 x hx3 hfix 1 hc hW = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   dsimp only [hGL1]
   rw [hGaloisLinearEquiv_one, LinearEquiv.refl_trans, LinearEquiv.symm_trans_self,
     matrixOfLinearEquiv_refl]
@@ -115,7 +115,7 @@ theorem galoisEquivFun1_hGL1_apply (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
         (hGaloisLinearEquiv hw2 x hx3 hfix h hcomm v) =
       Matrix.mulVec (hGL1 hw2 x hx3 hfix h hcomm hW)
         (galoisEquivFun1 hw2 x hx3 hfix hW v) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let e := galoisEquivFun1 hw2 x hx3 hfix hW
   let C := e.symm.trans ((hGaloisLinearEquiv hw2 x hx3 hfix h hcomm).trans e)
   have hC : hGL1 hw2 x hx3 hfix h hcomm hW = matrixOfLinearEquiv C := rfl
@@ -160,7 +160,7 @@ theorem hGL1Hom_injective (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
     (hW : Nat.card W = 4) :
     Function.Injective (hGL1Hom hw2 x hx3 hfix G X hxgen hW) := by
   intro h₁ h₂ hEq
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let e := galoisEquivFun1 hw2 x hx3 hfix hW
   have hM : matrixOfLinearEquiv
       (e.symm.trans ((hGaloisLinearEquiv hw2 x hx3 hfix (h₁ : MulAut W)
@@ -199,19 +199,19 @@ end FinOne
 theorem concl139_one_of_hyp139_n1 {W : Type} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1)
     {G X D : Subgroup (MulAut W)} {s : MulAut W} {Y : Subgroup W}
-    (hK : CFSG.Open.IsKGroup ↥G) (hpCore : pCoreOf 2 G = ⊥)
+    (_hK : CFSG.Open.IsKGroup ↥G) (_hpCore : pCoreOf 2 G = ⊥)
     (hirr : ∀ Z : Subgroup W, (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤)
     (ht2 : ∃ t ∈ G, orderOf t = 2 ∧ rkIdx (fixV (Subgroup.zpowers t)) ≤ 3)
     (hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ y ∈ X, g * y * g⁻¹ ∈ X)
     (hXcard : Nat.card X = 3)
-    (hsG : s ∈ G) (hs_ord2 : orderOf s = 2)
-    (hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
-    (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (hYrk : rkIdx Y = 2)
+    (_hsG : s ∈ G) (_hs_ord2 : orderOf s = 2)
+    (_hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
+    (_hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (_hYrk : rkIdx Y = 2)
     (hW : Nat.card W = 4 ^ 1)
-    (hD : D ≤ G) (hDCX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d)
-    (hDs : ∀ d ∈ D, d * s = s * d)
-    (hElem : CFSG.Quasithin.IsElemAbelian2 D) (hDcard : Nat.card D = 2 ^ (1 - 1))
-    (hYD : Y ≤ fixV D) :
+    (_hD : D ≤ G) (_hDCX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d)
+    (_hDs : ∀ d ∈ D, d * s = s * d)
+    (_hElem : CFSG.Quasithin.IsElemAbelian2 D) (_hDcard : Nat.card D = 2 ^ (1 - 1))
+    (_hYD : Y ≤ fixV D) :
     Concl139Printed W G X 1 := by
   have hW4 : Nat.card W = 4 := by
     rw [hW]
@@ -222,7 +222,7 @@ theorem concl139_one_of_hyp139_n1 {W : Type} [CommGroup W] [Finite W]
     omega
   have hfixX : fixV X = ⊥ := fixV_eq_bot_of_irreducible hirr hXG hXnorm hXne
   have hXcard' : Nat.card ↥X = 3 := hXcard
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by
@@ -271,12 +271,12 @@ theorem concl139_one_of_hyp139_n1 {W : Type} [CommGroup W] [Finite W]
     rw [hXcard] at hle
     exact hle
   have hGLcard : Nat.card (Matrix.GeneralLinearGroup (Fin 1) (GaloisField 2 2)) = 3 := by
-    letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+    let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
     rw [Matrix.card_GL_field (n := 1)]
     have hq : Fintype.card (GaloisField 2 2) = 4 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
       norm_num
-    simp [Fin.prod_univ_one, hq]
+    simp [hq]
   have hφinj : Function.Injective (hGL1Hom hw2 x hx3 hfix G X hxgen hW4) :=
     hGL1Hom_injective hw2 x hx3 hfix G X hxgen hW4
   have hHle : Nat.card ↥H ≤ 3 := by

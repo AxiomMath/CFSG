@@ -28,7 +28,7 @@ theorem exists_langSetup_of_toral_datum_uniform {τ : Tag} {L : Type} [Field L] 
         ∀ β : MulAut C, (∀ c, ι₀ (β c) = u * ι₀ c * u⁻¹) →
           ∀ c, ι (β c) = rootDiagUnit τ a * ι c * (rootDiagUnit τ a)⁻¹ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2

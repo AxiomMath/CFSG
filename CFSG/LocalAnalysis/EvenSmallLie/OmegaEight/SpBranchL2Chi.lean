@@ -14,6 +14,7 @@ variable {G : Type*} [Group G] {T : Subgroup G} {N : ℕ} {mul : ℕ → ℕ →
   (hinv : invOK mul inv N = true) (hgens : ∀ g ∈ gens, g < N) (hG : Gen mul gens N)
 
 include Φ h0 hinv hgens hG in
+omit hinv in
 theorem chi_conj {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true) {y : G}
     (hyN : y ∈ normalizer (T : Set G)) {B : ℕ → ℕ}
     (hB : ∀ g : T, Φ.f (conjEquiv hyN g) = B (Φ.f g)) (hgen : ∀ g ∈ gens, χ[B g]! = χ[g]!) :
@@ -23,8 +24,8 @@ theorem chi_conj {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ
   · intro x hx g hg
     have hgl := hgens g hg
     rw [map_mul, Φ.map_mul, Φ.map_mul,
-      chi_mul Φ h0 hinv hgens hG hchi (Φ.lt _) (Φ.lt _),
-      chi_mul Φ h0 hinv hgens hG hchi (Φ.lt _) (Φ.lt _), hx, hB, Φ.f_g hgl, hgen g hg]
+      chi_mul Φ h0 hgens hG hchi (Φ.lt _) (Φ.lt _),
+      chi_mul Φ h0 hgens hG hchi (Φ.lt _) (Φ.lt _), hx, hB, Φ.f_g hgl, hgen g hg]
 
 end CFSG.EvenSmallLie.OmegaEight.SpBranch
 

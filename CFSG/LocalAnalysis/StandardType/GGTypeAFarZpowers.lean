@@ -16,11 +16,11 @@ theorem ggFar_swap_conj {n : ℕ} {i j : Fin n} (hi : i.val = 0) (hj : j.val + 1
         (Equiv.swap i.castSucc j.castSucc)⁻¹ = Equiv.swap i.castSucc j.succ := by
   have hjn : j.succ ≠ j.castSucc := fun h => by
     have := congrArg Fin.val h
-    simp only [Fin.val_succ, Fin.coe_castSucc] at this
+    simp only [Fin.val_succ, Fin.val_castSucc] at this
     omega
   have hin : j.succ ≠ i.castSucc := fun h => by
     have := congrArg Fin.val h
-    simp only [Fin.val_succ, Fin.coe_castSucc] at this
+    simp only [Fin.val_succ, Fin.val_castSucc] at this
     omega
   rw [Equiv.swap_inv, Equiv.swap_comm j.castSucc j.succ, Equiv.swap_comm i.castSucc j.castSucc]
   exact Equiv.swap_mul_swap_mul_swap hjn hin
@@ -31,11 +31,11 @@ theorem ggFar_swap_conj' {n : ℕ} {i j : Fin n} (hi : i.val = 0) (hj : j.val + 
         (Equiv.swap i.castSucc j.succ)⁻¹ = Equiv.swap j.castSucc j.succ := by
   have hjc : j.castSucc ≠ i.castSucc := fun h => by
     have := congrArg Fin.val h
-    simp only [Fin.coe_castSucc] at this
+    simp only [Fin.val_castSucc] at this
     omega
   have hjs : j.castSucc ≠ j.succ := fun h => by
     have := congrArg Fin.val h
-    simp only [Fin.val_succ, Fin.coe_castSucc] at this
+    simp only [Fin.val_succ, Fin.val_castSucc] at this
     omega
   rw [Equiv.swap_inv, Equiv.swap_comm i.castSucc j.castSucc, Equiv.swap_comm j.castSucc j.succ]
   exact Equiv.swap_mul_swap_mul_swap hjc hjs

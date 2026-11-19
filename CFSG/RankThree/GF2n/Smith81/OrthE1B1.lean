@@ -288,7 +288,7 @@ theorem quotSat_preIm {R X Q : Subgroup Gp} (hQX : Q ≤ X) (hXR : X ≤ R) (ρ 
   have hnorm : (Q.subgroupOf (preIm hXR ρ F)).Normal := by
     rw [← hker]
     infer_instance
-  haveI := hnorm
+  have := hnorm
   let e1 := QuotientGroup.quotientKerEquivOfSurjective ψ hsurjψ
   let e2 := QuotientGroup.quotientMulEquivOfEq (N := ψ.ker) hker.symm
   exact ⟨hnorm, isSLModel_of_mulEquiv (e2.trans e1) hSL⟩
@@ -353,6 +353,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
     ↥(Rt M (LB M Q B) t) →* (AM.M₀.E ≃ₗ[AM.K] AM.M₀.E) :=
   AM.φ.comp (Subgroup.inclusion hRH)
 
+omit [Finite G] in
 theorem mem_actImage_of (AM : ActionModel M Q Z) {S : Subgroup G} (x : ↥(H0 M Z))
     (hx : (x : G) ∈ S) : AM.φ x ∈ AM.actImage S :=
   Subgroup.mem_map.mpr ⟨x, Subgroup.mem_subgroupOf.mpr hx, rfl⟩

@@ -56,7 +56,7 @@ public theorem CFSG.section12_nilpotent_le_centralizer_of_pSubgroup_pre
         Group.IsNilpotent.sylow_normal hnil q Q
       have hdis : Disjoint (Q : Subgroup R) (P₀ : Subgroup R) :=
         IsPGroup.disjoint_of_ne q p.val hqp (Q : Subgroup R) (P₀ : Subgroup R)
-          Q.isPGroup' P₀.isPGroup'
+          Q.isPGroup P₀.isPGroup
       intro x hx
       rw [Subgroup.mem_centralizer_iff]
       intro a ha
@@ -91,7 +91,7 @@ public theorem CFSG.section12_fitting_le_centralizer_of_normal_pSubgroup_abelian
     intro P _hA0P
     let Pamb : Subgroup G := (P : Subgroup F).map F.subtype
     have hPamb_p : IsPGroup p.val Pamb := by
-      simpa [Pamb] using IsPGroup.map P.isPGroup' F.subtype
+      simpa [Pamb] using IsPGroup.map P.isPGroup F.subtype
     obtain ⟨S, hPamb_le_S⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPamb_p
     have hScomm : IsMulCommutative (S : Subgroup G) := hSylow_comm S
     refine ⟨⟨fun x y => ?_⟩⟩
@@ -138,7 +138,7 @@ public theorem CFSG.section12_fitting_le_centralizer_of_pSubgroup_le_fitting_abe
     intro P _hA0P
     let Pamb : Subgroup G := (P : Subgroup F).map F.subtype
     have hPamb_p : IsPGroup p.val Pamb := by
-      simpa [Pamb] using IsPGroup.map P.isPGroup' F.subtype
+      simpa [Pamb] using IsPGroup.map P.isPGroup F.subtype
     obtain ⟨S, hPamb_le_S⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPamb_p
     have hScomm : IsMulCommutative (S : Subgroup G) := hSylow_comm S
     refine ⟨⟨fun x y => ?_⟩⟩
@@ -220,7 +220,7 @@ public theorem CFSG.section12_sylow_subgroupOf_normalizer_isHall_pre
   · intro q hq_dvd
     have hPsubp : IsPGroup p.val Psub := by
       rw [hPsub_eq]
-      exact PN.isPGroup'
+      exact PN.isPGroup
     exact section8_isPiSubgroup_singleton_of_isPGroup hPsubp q hq_dvd
   · intro q hq_mem hq_dvd_index
     have hq_eq : q = p := by simpa using hq_mem
@@ -399,7 +399,7 @@ public theorem CFSG.section12_lemma_12_8_c_core_pre
       section8FittingSubgroup E ≤ Subgroup.centralizer ((S : Subgroup G) : Set G) :=
     section12_fitting_le_centralizer_of_pSubgroup_le_fitting_abelian_sylow_pre
       (G := G) (H := E) (A := (S : Subgroup G)) (p := p)
-      hS_le_FE S.isPGroup' hSylow_comm_all
+      hS_le_FE S.isPGroup hSylow_comm_all
   have hCS_le_E : Subgroup.centralizer ((S : Subgroup G) : Set G) ≤ E :=
     (Subgroup.centralizer_le (show (A : Set G) ⊆ ((S : Subgroup G) : Set G) from hAS)).trans
       hC_le_E
@@ -600,7 +600,7 @@ public theorem CFSG.lemma_12_8_a
           infer_instance
         · let q' : Nat.Primes := ⟨q, hqprime.out⟩
           have hq_dvd_P : q ∣ Nat.card (P : Subgroup E₂) := by
-            rcases P.isPGroup'.card_eq_or_dvd with hcard | hdiv
+            rcases P.isPGroup.card_eq_or_dvd with hcard | hdiv
             · exact False.elim
                 (hPbot ((Subgroup.card_eq_one (H := (P : Subgroup E₂))).mp hcard))
             · exact hdiv
@@ -610,7 +610,7 @@ public theorem CFSG.lemma_12_8_a
             hHallE2.p_in_pi_of_p_dvd_card q' (by simpa [q'] using hq_dvd_E2)
           let Pamb : Subgroup G := (P : Subgroup E₂).map E₂.subtype
           have hPamb_p : IsPGroup q Pamb := by
-            simpa [Pamb] using IsPGroup.map P.isPGroup' E₂.subtype
+            simpa [Pamb] using IsPGroup.map P.isPGroup E₂.subtype
           obtain ⟨Q, hPamb_le_Q⟩ :=
             IsPGroup.exists_le_sylow (G := G) (p := q) hPamb_p
           have hQcomm : IsMulCommutative (Q : Subgroup G) :=

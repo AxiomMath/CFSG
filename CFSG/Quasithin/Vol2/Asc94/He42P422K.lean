@@ -53,7 +53,7 @@ theorem cent_iff_422 {g z r β : G} (hg : g ∈ S.L2) (hzZ : z ∈ S.Z)
         _ = b * (g⁻¹ * c * g) := by group
     exact S.le_J_of_isPGroup hB hzZ hPz hdz hdB
   · intro hd
-    have hdz : g⁻¹ * c * g * z = z * (g⁻¹ * c * g) := HeJ.TData.Z_central S.hD.hT S.hD.hK.Aab
+    have hdz : g⁻¹ * c * g * z = z * (g⁻¹ * c * g) := HeJ.TData.Z_central S.hD.hK.Aab
       S.hD.hK.A'ab hzZ hd
     have hcv : c * (g * z * g⁻¹) = (g * z * g⁻¹) * c := by
       calc c * (g * z * g⁻¹) = g * (g⁻¹ * c * g * z) * g⁻¹ := by group
@@ -198,7 +198,7 @@ theorem R_elts_422 {y₁ y₀ τ : G} (hR4 : Nat.card ↥(S.A' ⊓ centralizer (
     ∀ r ∈ S.A' ⊓ centralizer ({y₁} : Set G),
       r = 1 ∨ r = τ ∨ r = y₀ * τ * y₀⁻¹ ∨ r = y₀ * (y₀ * τ * y₀⁻¹) * y₀⁻¹ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have h4 : y₀ * y₀ * y₀ * y₀ = y₀ := by rw [hy3, one_mul]
   have hσR := hyR τ hτR
   have hσ₂R := hyR _ hσR

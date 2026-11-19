@@ -22,6 +22,7 @@ theorem barImage_normal_of_calC {L L₁ L₂ : Subgroup G} (h₁ : L₁ ∈ calC
       (P22s.le_normalizer_of_mem_calC h₁ h₂ hsup)
   exact Subgroup.Normal.map hN _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem barImage_sup_eq_top {L L₁ L₂ : Subgroup G} (hsup : L = L₁ ⊔ L₂) :
     barImage L L₁ ⊔ barImage L L₂ = ⊤ := by
   have h1 : L₁ ≤ L := hsup ▸ le_sup_left
@@ -29,6 +30,7 @@ theorem barImage_sup_eq_top {L L₁ L₂ : Subgroup G} (hsup : L = L₁ ⊔ L₂
   rw [barImage, barImage, ← Subgroup.map_sup, ← Subgroup.subgroupOf_sup h1 h2, hsup,
     Subgroup.subgroupOf_self, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
+omit [Finite G] in
 theorem barImage_perfect {L L₁ : Subgroup G} (h₁ : L₁ ∈ calC L) :
     ⁅barImage L L₁, barImage L L₁⁆ = barImage L L₁ := by
   have hle : L₁ ≤ L := h₁.1.le
@@ -47,8 +49,8 @@ private theorem isComponent_barImage {L L₁ L₂ : Subgroup G} (h₁ : L₁ ∈
 private theorem le_of_barImage_eq {L L₁ L₂ : Subgroup G} (h₁ : L₁ ∈ calC L)
     (h₂ : L₂ ∈ calC L) (hsup : L = L₁ ⊔ L₂) (h : barImage L L₁ = barImage L L₂) :
     L₁ ≤ L₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   set π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hL : L ≤ normalizer (L₂ : Set G) :=
     P22s.le_normalizer_of_mem_calC h₂ h₁ (by rw [hsup, sup_comm])

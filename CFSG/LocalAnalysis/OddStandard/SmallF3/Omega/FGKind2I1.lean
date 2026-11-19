@@ -51,7 +51,7 @@ theorem fg_kind2_quot_ker (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ} (hφ :
     (FGKind2Quot hL hφ hs2 hgg hty hact).ker = Subgroup.center ↥(layerCent L s) := by
   have hsurj := fg_kind2_quot_surjective hL hφ hs2 hgg hty hact
   obtain ⟨hsE, hnc⟩ := ff_simple_of_lieModel_psp (fg_kind2_E0_lieModel hQ hφ.finrank_eq hgg hty)
-  haveI := hsE
+  have := hsE
   have hcE : Subgroup.center ↥(FGKind2E0 hQ hgg) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥(FGKind2E0 hQ hgg))
       with h | h
@@ -96,8 +96,8 @@ theorem fg_kind2_I1_quasisimple (hL : IsOm6Z2 L) {φ : ↥L →* omegaGroup hQ}
     IsQuasisimple (layerCent L s) := by
   obtain ⟨e, -⟩ := fg_kind2_I1_equiv hL hφ hs2 hgg hty hact
   obtain ⟨hsE, hnc⟩ := ff_simple_of_lieModel_psp (fg_kind2_E0_lieModel hQ hφ.finrank_eq hgg hty)
-  haveI := hsE
-  haveI : Group.IsPerfect ↥(CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))) :=
+  have := hsE
+  have : Group.IsPerfect ↥(CFSG.layer ↥(L ⊓ centralizer ({s} : Set G))) :=
     CFSG.LocalCores.layer_isPerfect
   refine ⟨?_, e.isSimpleGroup, ?_⟩
   · exact Group.IsPerfect.map (L ⊓ centralizer ({s} : Set G)).subtype

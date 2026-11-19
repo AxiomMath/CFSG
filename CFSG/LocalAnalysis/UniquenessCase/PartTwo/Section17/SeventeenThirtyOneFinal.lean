@@ -342,13 +342,13 @@ theorem exists_delta_Tits {D : Data G}
   have hA₂card : Nat.card ↥A₂ = 5 := by
     rw [show Nat.card ↥A₂ = orderOf (y₂ : G) from Nat.card_zpowers _, Subgroup.orderOf_coe, hy₂]
   have hA₁inf : A₁ ⊓ D.T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hA₁card]
     obtain ⟨k, hk⟩ := D.sylowM.isPGroup.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (by norm_num : Nat.Coprime 3 2)
   have hA₂inf : A₂ ⊓ D.T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hA₂card]
     obtain ⟨k, hk⟩ := D.sylowM.isPGroup.exists_card_eq
     rw [hk]

@@ -75,7 +75,7 @@ theorem nine_two_commutator_eq (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V 
   let π : Q →* Q ⧸ R0 := QuotientGroup.mk' R0
   let B : Subgroup Q := A.subgroupOf K
   let P : Subgroup (Q ⧸ R0) := CFSG.Open.pCore p (Q ⧸ R0)
-  haveI : P.Normal := E1.instNormalPCore p (Q ⧸ R0)
+  have : P.Normal := E1.instNormalPCore p (Q ⧸ R0)
   have hmapP : P = (X.subgroupOf K).map π := TwoPTwo.pCore_quot_eq_map hbase
   refine le_antisymm (Subgroup.commutator_le_left P (E1.barO2 Q B)) ?_
   intro z hzP
@@ -83,14 +83,14 @@ theorem nine_two_commutator_eq (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V 
   obtain ⟨x0, hx0B, hx0eq⟩ := Subgroup.mem_map.mp hzP'
   have hx0X : (x0 : G) ∈ X := Subgroup.mem_subgroupOf.mp hx0B
   obtain ⟨-, -, -, hAnotR⟩ := mem_omegaSet.mp hA.1
-  obtain ⟨a, haA, haR⟩ := SetLike.not_le_iff_exists.mp hAnotR
+  obtain ⟨a, haA, haR⟩ := IsConcreteLE.not_le_iff_exists.mp hAnotR
   have haK : a ∈ K := hAK haA
   have ha2 : a * a = 1 := by
     have := (isElemAbelian_of_mem_omegaSet hV.1 hA.1).2 a haA
     simpa [pow_two] using this
   have hBmem : (⟨a, haK⟩ : Q) ∈ B := Subgroup.mem_subgroupOf.mpr haA
   have hāmem : π ⟨a, haK⟩ ∈ E1.barO2 Q B := Subgroup.mem_map_of_mem π hBmem
-  haveI : Fact p.Prime := ⟨h.base.prime⟩
+  have : Fact p.Prime := ⟨h.base.prime⟩
   have hodd : Odd (orderOf (π x0)) := by
     obtain ⟨c, hc⟩ := h.base.sylowP.isPGroup.exists_orderOf_eq_pow
       (⟨(x0 : G), hx0X⟩ : ↥X)

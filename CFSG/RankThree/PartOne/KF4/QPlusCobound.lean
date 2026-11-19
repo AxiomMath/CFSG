@@ -37,7 +37,7 @@ theorem qpW_eq : (qpW : SL2 Ω) = uSL 1 * vSL 1 * uSL 1 := by
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
     simp [qpW, uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | rfl | linear_combination h2 | linear_combination (-1 : Ω) * h2
+    first | linear_combination h2 | linear_combination (-1 : Ω) * h2
 
 theorem qpA_inv_mul_map (f : ℕ) {ω : Ω} (hω : ω ^ 2 ^ f = ω + 1) :
     (qpA ω)⁻¹ * Matrix.SpecialLinearGroup.map (iterateFrobenius Ω 2 f) (qpA ω) = qpW := by
@@ -54,7 +54,7 @@ theorem qpA_inv_mul_map (f : ℕ) {ω : Ω} (hω : ω ^ 2 ^ f = ω + 1) :
   fin_cases i <;> fin_cases j <;>
     simp [qpA, qpW, Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, hF, hF1,
       RingHom.mapMatrix_apply] <;>
-    first | rfl | linear_combination h2 | linear_combination (-1 : Ω) * h2
+    first | linear_combination h2 | linear_combination (-1 : Ω) * h2
 
 theorem qpW_mul_self : (qpW : SL2 Ω) * qpW = 1 := by
   have h2 : (2 : Ω) = 0 := qp_two_eq_zero

@@ -29,6 +29,7 @@ theorem u42_card_rootsOfUnity_dvd (k : ℕ) : Nat.card (rootsOfUnity k K) ∣ k 
   have := (mem_rootsOfUnity k (g : Kˣ)).mp g.2
   simpa using this
 
+omit [Finite K] in
 theorem u42_card_rootsOfUnity_dvd_card (k : ℕ) : Nat.card (rootsOfUnity k K) ∣ Nat.card K - 1 := by
   rw [← Nat.card_units]
   exact Subgroup.card_subgroup_dvd_card _
@@ -40,6 +41,7 @@ theorem u42_card_center_sl_dvd {n : ℕ} (hn : 1 ≤ n) :
   have := u42_card_rootsOfUnity_dvd (K := K) (Fintype.card (Fin n))
   simpa using this
 
+omit [Finite K] in
 theorem u42_card_center_sl_dvd_card {n : ℕ} (hn : 1 ≤ n) :
     Nat.card (center (SpecialLinearGroup (Fin n) K)) ∣ Nat.card K - 1 := by
   rw [Nat.card_congr (SpecialLinearGroup.center_equiv_rootsOfUnity' (R := K)
@@ -76,6 +78,7 @@ theorem u42_pg_constraints (hn : 3 ≤ n) (A : GL (Fin n) K)
   rw [hC, hB] at h1 h2
   exact ⟨h1, h2⟩
 
+omit [Finite K] in
 theorem u42_pg_det_sq (R : GL (Fin n) K) (x : GL (Fin n) K) (hx : x ∈ isometryGroup n K R) :
     (Matrix.GeneralLinearGroup.det x) ^ 2 = 1 := by
   rw [mem_isometryGroup] at hx

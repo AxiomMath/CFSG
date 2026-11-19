@@ -19,6 +19,7 @@ section Witness
 
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
 
+omit [Finite K] in
 theorem natCast_ne_zero_of_dvd_sq (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime)
     (hpQ : p ∣ (ℓ ^ f) ^ 2 - 1) : (p : K) ≠ 0 := by
   intro h
@@ -32,19 +33,20 @@ theorem natCast_ne_zero_of_dvd_sq (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime)
     rwa [Nat.sub_sub_self h2] at this
   exact (Fact.out : ℓ.Prime).not_dvd_one h3
 
+omit [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem exists_orderOf_units_eq (hK : Nat.card K = (ℓ ^ f) ^ 2) {p : ℕ} (hp : p.Prime)
     (hpQ : p ∣ (ℓ ^ f) ^ 2 - 1) : ∃ c : Kˣ, orderOf c = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : Nat.card Kˣ = Nat.card K - 1 := by
     classical
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_units]
   exact exists_prime_orderOf_dvd_card' p (by rw [hc, hK]; exact hpQ)
 
 theorem modelAGen_twistedE6_of_dvd_sub_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf : 1 ≤ f)
     (hℓ2 : ℓ ≠ 2) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpQ : p ∣ ℓ ^ f - 1) :
     ModelGen.ModelAGen p 4 ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := Fact.out
   have hQ1 : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ hℓ.pos
   have hpQ2 : p ∣ (ℓ ^ f) ^ 2 - 1 := hpQ.trans (Nat.sub_one_dvd_pow_sub_one _ 2)
@@ -87,7 +89,7 @@ theorem modelAGen_twistedE6_of_dvd_sub_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf
 theorem modelAGen_twistedE6_of_dvd_add_one (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf : 1 ≤ f)
     (hℓ2 : ℓ ≠ 2) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpQ : p ∣ ℓ ^ f + 1) :
     ModelGen.ModelAGen p 6 ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : ℓ.Prime := Fact.out
   have hQ1 : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ hℓ.pos
   have hpQ2 : p ∣ (ℓ ^ f) ^ 2 - 1 := by
@@ -141,7 +143,7 @@ theorem card_le_pow_twistedE6 (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf : 1 ≤ f) {
       rwa [Nat.sub_sub_self h1] at this
     exact hp.not_dvd_one h3
   split_ifs with h1
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have he : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = 1 := by
       rw [orderOf_eq_one_iff]
       have hQ1 : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ hℓ.pos
@@ -206,18 +208,18 @@ theorem card_le_pow_add_two_twistedE6 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     Nat.card B ≤ p ^ ((if p ∣ Q.card - 1 then 4 else 6) + 2) := by
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     have : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
   obtain ⟨K, _, σ, hK, hσ, ⟨ec⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hQ : Q.card = Q.p ^ Q.exponent := by rw [TauCeti.PrimePower.card_def]
   obtain ⟨Θ, hΘ⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_ringAut_twistedE6
@@ -225,7 +227,7 @@ theorem card_le_pow_add_two_twistedE6 {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hσ' : σ = unitaryInvolution K Q.p Q.exponent :=
     RingEquiv.ext fun c => (hσ c).trans (unitaryInvolution_apply K Q.p Q.exponent c).symm
   subst hσ'
-  haveI : IsCyclic (RingAut K) :=
+  have : IsCyclic (RingAut K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hZX : Subgroup.center ↥(twistedE6RootGroup K (unitaryInvolution K Q.p Q.exponent)) = ⊥ :=
     center_graphFixedRootGroup_eq_bot (unitaryInvolution K Q.p Q.exponent).surjective
@@ -243,18 +245,18 @@ theorem concA_badExcCore_twistedE6_of_dvd_of_card_le {p q : ℕ} (hp : p.Prime) 
     (hBle : Nat.card B ≤ p ^ (if p ∣ Q.card - 1 then 5 else 7)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     have : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
   obtain ⟨K, _, σ, hK, hσ, ⟨ec⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hσ' : σ = unitaryInvolution K Q.p Q.exponent :=
     RingEquiv.ext fun c => (hσ c).trans (unitaryInvolution_apply K Q.p Q.exponent c).symm
@@ -271,10 +273,10 @@ theorem concA_badExcCore_twistedE6_of_dvd_of_card_le {p q : ℕ} (hp : p.Prime) 
     rw [hφdef, MonoidHom.range_comp, MonoidHom.range_eq_top.2 (eX.trans eS).surjective,
       ← MonoidHom.range_eq_map, Subgroup.range_subtype]
   by_cases h1 : p ∣ Q.card - 1
-  · rw [if_pos h1] at hBle
+  · rw [ite_eq_left h1] at hBle
     exact ModelGen.concA_of_modelAGen hp (by norm_num) hS hcore hZ hB hBC hBle φ hφ hφS
       (modelAGen_twistedE6_of_dvd_sub_one hK Q.exponent_pos hq2 hp hp2 (hQ ▸ h1))
-  · rw [if_neg h1] at hBle
+  · rw [ite_eq_right h1] at hBle
     have hQ1 : 1 ≤ Q.card := Nat.one_le_iff_ne_zero.2 (by rw [hQ]; exact pow_ne_zero _ Q.prime_p.ne_zero)
     have h2 : p ∣ Q.card + 1 := by
       have e2 : Q.card ^ 2 - 1 = (Q.card + 1) * (Q.card - 1) := by

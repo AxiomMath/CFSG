@@ -19,8 +19,8 @@ theorem y7c_B_M3_isE (c : Ctx7 G L) (hb : B7Std c) : IsE 6 ↥(M3 c.s) :=
 
 theorem y7c_X_ne_top (c : Ctx7 G L) (hb : B7Std c) : y7cX c.s ≠ ⊤ := by
   intro htop
-  haveI : IsSimpleGroup G := hb.hH.hS.std.simple
-  haveI : (M3 c.s).Normal := Subgroup.normalizer_eq_top_iff.mp htop
+  have : IsSimpleGroup G := hb.hH.hS.std.simple
+  have : (M3 c.s).Normal := Subgroup.normalizer_eq_top_iff.mp htop
   rcases Subgroup.Normal.eq_bot_or_eq_top (M3 c.s) with hbot | htop'
   · have hcard := y7c_card_M3 c.toCtx5 hb.hH
     rw [hbot, Subgroup.card_bot] at hcard

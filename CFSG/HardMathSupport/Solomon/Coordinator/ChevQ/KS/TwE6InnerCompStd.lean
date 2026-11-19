@@ -119,8 +119,8 @@ theorem natCast_three_ne_zero_of_charTwo {L : Type} [Field L] [CharP L 2] : ((3 
 
 theorem exists_orderOf_three {L : Type} [Field L] [CharP L 2] [IsAlgClosed L] :
     ∃ ω : Lˣ, orderOf ω = 3 := by
-  haveI : NeZero ((3 : ℕ) : L) := ⟨natCast_three_ne_zero_of_charTwo⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨natCast_three_ne_zero_of_charTwo⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot ((hu.unit : Lˣ) : L) 3 := by simpa using hζ₀
   exact ⟨hu.unit, (IsPrimitiveRoot.coe_units_iff.1 hζ).eq_orderOf.symm⟩
@@ -137,10 +137,10 @@ theorem exists_stdSetup_of_inner {K : Type} [Field K] [Finite K] (hK : Nat.card 
       rootDiagUnit Tag.E6 a ≠ 1 ∧ rootChar a e6Omega3 = 1 ∧ Function.Injective ι ∧
       ι.range = S.Γ ∧ ι s = rootDiagUnit Tag.E6 a := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI hcL : CharP (AlgebraicClosure K) 2 :=
+  have hcL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨g0, hg0C, hg0⟩ := exists_twE6Two_lang K
   have hK2 : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num

@@ -31,7 +31,7 @@ theorem nonempty_mulEquiv_QP45_of_rels_ne_one {G : Type} [Group G] (g : Fin 2 �
     (MulEquiv.ofBijective φ₂.rangeRestrict hb₂).trans
       (MulEquiv.subgroupCongr
         (hφ₂.trans CFSG.HardMathSupport.Dickson.I271.closure_range_x45_y45))
-  haveI : IsSimpleGroup (CFSG.CosetTable.PG 2 u42Words) :=
+  have : IsSimpleGroup (CFSG.CosetTable.PG 2 u42Words) :=
     CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e₂
   have hker : φ₁.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ₁.ker with h | h
@@ -71,8 +71,8 @@ private theorem catalogIs_isU4of_two {X : Type} [Group X] {K : Type} [Field K] [
         2 ^ 1 := by
     rw [hc2, hf2]
   rw [← hq] at e
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
     ⟨.twistedA 3 pp2, valid_twistedA_three⟩)
       (2 * TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA 3 pp2, valid_twistedA_three⟩)) :=
     Fintype.ofFinite _

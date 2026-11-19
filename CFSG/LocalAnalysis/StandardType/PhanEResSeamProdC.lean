@@ -216,7 +216,7 @@ theorem hmbSP_coord_prod [CharP Fld 2] {m₁ : ℕ}
       ((g : K) : K ⧸ borel D H)).Φ
       ((ChamberIso.restrictCongr (buildingOver (cs) (stdδ hct) (insert z J₁)) hR).Φ c) =
       (p₁, p₂) := by
-    rw [Equiv.apply_eq_iff_eq_symm_apply]
+    rw [← _root_.Equiv.eq_symm_apply]
     apply Subtype.ext
     have h := prodChart_symm_apply_of_mem (stdBuilding hct hext) hz hcomm
       ((g : K) : K ⧸ borel D H) p₁.2 p₂.2 hyp hyq
@@ -275,7 +275,7 @@ theorem hmbSP_blockSL_le_map_beta {m₁ : ℕ} {d₁ : List ℕ} {k₁ : Fin m�
 
 theorem hmbSP_refSet_two : refSet Fld 2 [0,2] = Set.univ := by
   ext x
-  simp only [refSet, Set.mem_setOf_eq, Set.mem_univ, iff_true]
+  simp only [refSet, Set.mem_ofPred_eq, Set.mem_univ, iff_true]
   intro i hi
   simp only [List.length_cons, List.length_nil] at hi
   interval_cases i

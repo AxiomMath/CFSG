@@ -63,7 +63,7 @@ theorem exists_section_lift_SU3 {H G k : Type} [Group H] [Finite H] [Group G]
     ∃ (S : Subgroup H) (eS : ↥S ≃* ↥L),
       S ≤ Subgroup.centralizer ({x} : Set H) ∧ S.map π = L ∧ S ⊓ π.ker = ⊥ ∧
       (∀ s : ↥S, π s = eS s) ∧ Group.IsPerfect ↥S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ^ n ≠ 2 := by
     have h4 : 4 ≤ 2 ^ n := by
       simpa using Nat.pow_le_pow_right (by norm_num : 1 ≤ 2) hn

@@ -122,6 +122,7 @@ theorem two_pow_19_dvd (hC : CCore c) (hcat : CatSections C) (hSch : CatalogOute
       exact ⟨3 ^ 3 * 5, by norm_num⟩
   exact h19.trans hdvd
 
+omit [Finite C] in
 theorem not_two_pow_21_dvd (hC : CCore c) (L1 : Subgroup c.Qt) : ¬ 2 ^ 21 ∣ Nat.card ↥L1 := by
   intro h21
   apply hC.two_part

@@ -99,7 +99,7 @@ theorem specialBlock_eq_map_l154BlockExt (hsq : Squarefree (minpoly K (x : Modul
         ((l154BlockExt hsq a).comp
           (Matrix.GeneralLinearGroup.toLin' e).toMonoidHom) := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   have hsupp : orbitFactor B x (a : K[X]) = supportedUnitary B x {(a : K[X])} := by
     unfold orbitFactor
     rw [hself, Set.pair_eq_singleton]
@@ -197,7 +197,7 @@ theorem l154_selfDual_model_aux (hsq : Squarefree (minpoly K (x : Module.End K V
           (P : Matrix (Fin m) (Fin m) (AdjoinRoot (a : K[X]))) =
             algebraMap K (AdjoinRoot (a : K[X])) z • (1 : Matrix (Fin m) (Fin m) (AdjoinRoot (a : K[X]))) := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   let T := Matrix.GeneralLinearGroup.toLin' e
   have hιapp : ∀ (P : GL (Fin m) (AdjoinRoot (a : K[X]))) (v : V)
       (hv : v ∈ primaryComponent (x : Module.End K V) (a : K[X])),
@@ -232,16 +232,16 @@ theorem l154_selfDual_model_aux (hsq : Squarefree (minpoly K (x : Module.End K V
     have h4 : (P : Matrix (Fin m) (Fin m) (AdjoinRoot (a : K[X]))) i j =
         algebraMap K (AdjoinRoot (a : K[X])) z * e.equivFun (e j) i := by
       rw [← smul_eq_mul, ← Pi.smul_apply, ← h3]
-      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self, Pi.single_apply]
+      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self]
     rw [h4]
     by_cases hij : i = j
     · subst hij
-      simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply]
-    · simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply, hij, Ne.symm hij]
+      simp [Module.Basis.equivFun_self, Matrix.smul_apply]
+    · simp [Module.Basis.equivFun_self, Matrix.smul_apply, hij, Ne.symm hij]
 
 theorem l154_selfDual_model (H : UnitaryPrimaryData hK.bar B x) (a : primaryFactors (x : Module.End K V))
     (hself : dualPoly hK.bar (a : K[X]) = a) :
-    ∃ (hE : UnitaryFieldData ℓ (f * (a : K[X]).natDegree) (AdjoinRoot (a : K[X])))
+    ∃ (_hE : UnitaryFieldData ℓ (f * (a : K[X]).natDegree) (AdjoinRoot (a : K[X])))
       (ι : GL (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X])) →*
         LinearMap.GeneralLinearGroup K V),
       Function.Injective ι ∧
@@ -253,10 +253,10 @@ theorem l154_selfDual_model (H : UnitaryPrimaryData hK.bar B x) (a : primaryFact
           (P : Matrix (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))
             (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X]))) =
               algebraMap K (AdjoinRoot (a : K[X])) z • (1 : Matrix _ _ (AdjoinRoot (a : K[X]))) := by
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
-  obtain ⟨hE, hbarE, -, Hf, hHf, hHfl, -, ⟨e, he⟩, φ, hφ, -⟩ :=
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  obtain ⟨_hE, hbarE, -, Hf, hHf, hHfl, -, ⟨e, he⟩, φ, hφ, -⟩ :=
     (selfDualPrimaryBlock H a hself).unitaryForm
-  exact ⟨hE, l154_selfDual_model_aux H.squarefree a hself e he φ hφ⟩
+  exact ⟨_hE, l154_selfDual_model_aux H.squarefree a hself e he φ hφ⟩
 
 theorem l154_paired_model (H : UnitaryPrimaryData hK.bar B x) (a : primaryFactors (x : Module.End K V))
     (hne : (a : K[X]) ≠ dualPoly hK.bar (a : K[X])) :
@@ -271,7 +271,7 @@ theorem l154_paired_model (H : UnitaryPrimaryData hK.bar B x) (a : primaryFactor
             (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X]))) =
               algebraMap K (AdjoinRoot (a : K[X])) z • (1 : Matrix _ _ (AdjoinRoot (a : K[X]))) := by
   classical
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   let bW : Module.Basis (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))
       (AdjoinRoot (a : K[X])) (primaryComponent (x : Module.End K V) (a : K[X])) :=
     Module.finBasisOfFinrankEq _ _ rfl
@@ -352,12 +352,12 @@ theorem l154_paired_model (H : UnitaryPrimaryData hK.bar B x) (a : primaryFactor
         (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X]))) i j =
         algebraMap K (AdjoinRoot (a : K[X])) z * bW.equivFun (bW j) i := by
       rw [← smul_eq_mul, ← Pi.smul_apply, ← h3]
-      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self, Pi.single_apply]
+      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self]
     rw [h4]
     by_cases hij : i = j
     · subst hij
-      simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply]
-    · simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply, hij, Ne.symm hij]
+      simp [Module.Basis.equivFun_self, Matrix.smul_apply]
+    · simp [Module.Basis.equivFun_self, Matrix.smul_apply, hij, Ne.symm hij]
 
 end Models
 

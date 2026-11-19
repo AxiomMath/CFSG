@@ -18,24 +18,27 @@ open OmegaMinusFourTrans
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Finite K] [CharP K 2] in
 theorem smul_e_eq_vec (a : K) : a • (minusPair K b c i₀).e = vec a 0 0 0 := by
   funext k
   rcases k with i | i | j
-  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only [i₀]; omega)
+  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only; omega)
     subst hi
     simp [minusPair_e, vec]
   · simp [minusPair_e, vec]
   · simp [minusPair_e, vec]
 
+omit [Finite K] [CharP K 2] in
 theorem smul_f_eq_vec (d : K) : d • (minusPair K b c i₀).f = vec 0 d 0 0 := by
   funext k
   rcases k with i | i | j
   · simp [minusPair_f, vec]
-  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only [i₀]; omega)
+  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only; omega)
     subst hi
     simp [minusPair_f, vec]
   · simp [minusPair_f, vec]
 
+omit [Finite K] [CharP K 2] in
 theorem vec_zero : (vec 0 0 0 0 : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) = 0 := by
   funext k
   rcases k with i | i | j <;> simp [vec]
@@ -43,6 +46,7 @@ theorem vec_zero : (vec 0 0 0 0 : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) =
 variable (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
 include hirr
 
+omit [Finite K] [CharP K 2] in
 theorem eq_zero_of_singular {p : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K}
     (hQ : quadMinus 2 K b c p = 0) (ha : p (.inl i₀) = 0) (hd : p (.inr (.inl i₀)) = 0) :
     p = 0 := by
@@ -53,6 +57,7 @@ theorem eq_zero_of_singular {p : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K}
   obtain ⟨hs, ht⟩ := binary_eq_zero hirr h
   rw [hp, hs, ht, vec_zero]
 
+omit [Finite K] [CharP K 2] hirr in
 theorem singular_sub_smul {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K}
     (hQp : quadMinus 2 K b c p = 0) (hQp' : quadMinus 2 K b c p' = 0)
     (hpp' : polar (quadMinus 2 K b c) p p' = 0) (μ : K) :
@@ -71,6 +76,7 @@ theorem singular_sub_smul {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K}
     exact e.symm
   · rw [polar_sub_right, polar_smul_right, hpp, hpp', smul_zero, sub_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_eq_smul_of_singular {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K} (hp : p ≠ 0)
     (hQp : quadMinus 2 K b c p = 0) (hQp' : quadMinus 2 K b c p' = 0)
     (hpp' : polar (quadMinus 2 K b c) p p' = 0) : ∃ μ : K, p' = μ • p := by
@@ -81,7 +87,7 @@ theorem exists_eq_smul_of_singular {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2
     ·
       refine ⟨p' (.inr (.inl i₀)) / p (.inr (.inl i₀)), ?_⟩
       set μ := p' (.inr (.inl i₀)) / p (.inr (.inl i₀))
-      obtain ⟨hQr, hpr⟩ := singular_sub_smul hirr hQp hQp' hpp' μ
+      obtain ⟨hQr, hpr⟩ := singular_sub_smul hQp hQp' hpp' μ
       set r := p' - μ • p with hr
       have hrd : r (.inr (.inl i₀)) = 0 := by
         rw [hr, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ hd, sub_self]
@@ -104,7 +110,7 @@ theorem exists_eq_smul_of_singular {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2
   ·
     refine ⟨p' (.inl i₀) / p (.inl i₀), ?_⟩
     set μ := p' (.inl i₀) / p (.inl i₀)
-    obtain ⟨hQr, hpr⟩ := singular_sub_smul hirr hQp hQp' hpp' μ
+    obtain ⟨hQr, hpr⟩ := singular_sub_smul hQp hQp' hpp' μ
     set r := p' - μ • p with hr
     have hra : r (.inl i₀) = 0 := by
       rw [hr, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, div_mul_cancel₀ _ ha, sub_self]
@@ -125,6 +131,7 @@ theorem exists_eq_smul_of_singular {p p' : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2
     rw [hr] at hr0
     exact (sub_eq_zero.mp hr0)
 
+omit [CharP K 2] in
 theorem eq_of_isometry_of_singular
     (F : (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) →ₗ[K] (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K))
     (hiso : ∀ w, quadMinus 2 K b c (F w) = quadMinus 2 K b c w)
@@ -179,12 +186,12 @@ theorem omegaMinusFourGeom_holds : OmegaMinusFourGeomStatement := by
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre ht
   have hxM : x ∈ M := hx.1
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := hom
-  haveI : CharP K 2 := sec7ctr_charP hc hK
+  have : CharP K 2 := sec7ctr_charP hc hK
   have hnat' := hnat
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
-  haveI : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have := hn
+  have : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hX := addCommutantScalar_statedOmegaMinus (le_rfl : 2 ≤ 2) hirr
   have hQ := nondegenerate_polarBilin_quadMinus_of_finite 2 K hirr
   have E := ElemMatrixIso.minus (le_rfl : 2 ≤ 2) hirr
@@ -260,7 +267,7 @@ theorem omegaMinusFourGeom_holds : OmegaMinusFourGeomStatement := by
       (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 ha'M) _).mp
         (Smith81.comm_mem_Z hc.hyp hx2 (hVM k k.2))
     convert hz using 1
-    simp only [commutatorElement_def, pow_two, Subgroup.coe_mk]
+    simp only [commutatorElement_def, pow_two]
     group
   have hN : ∀ A : GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K,
       (∀ g ∈ StatedOmega (StatedQuadMinus 2 K b c),

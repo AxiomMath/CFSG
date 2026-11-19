@@ -14,24 +14,30 @@ variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G}
 
 namespace Sec3Ctx
 
+omit [Finite G] in
 theorem exists_abar_eq (h : Sec3Ctx A Abar S₀ B) : ∃ g : G, Abar = conjSubgroup g A :=
   h.nota.choice.1
 
+omit [Finite G] in
 theorem abar0_eq (_h : Sec3Ctx A Abar S₀ B) :
     Section3.Abar0 A Abar = Abar ⊓ normalizer (A : Set G) := by
   unfold Section3.Abar0 normalizerIn; rfl
 
+omit [Finite G] in
 theorem a0_eq (_h : Sec3Ctx A Abar S₀ B) :
     Section3.A0 A Abar = A ⊓ normalizer (Abar : Set G) := by
   unfold Section3.A0 normalizerIn; rfl
 
+omit [Finite G] in
 theorem m_eq (_h : Sec3Ctx A Abar S₀ B) :
     Section3.M A Abar = Section3.A0 A Abar ⊔ Section3.Abar0 A Abar := by
   unfold Section3.M; rfl
 
+omit [Finite G] in
 theorem x_eq (_h : Sec3Ctx A Abar S₀ B) : Section3.X A Abar = A ⊔ Abar := by
   unfold Section3.X; rfl
 
+omit [Finite G] in
 theorem setup_symm (h : Sec3Ctx A Abar S₀ B) :
     Prop24Setup Abar A (Section3.Abar0 A Abar) (Section3.A0 A Abar)
       (Section3.Abar0 A Abar ⊔ Section3.A0 A Abar) := by
@@ -58,18 +64,24 @@ theorem a0_ne (h : Sec3Ctx A Abar S₀ B) : Section3.A0 A Abar ≠ A := h.setup.
 
 theorem inf_abar_eq_bot (h : Sec3Ctx A Abar S₀ B) : A ⊓ Abar = ⊥ := h.setup.inf_eq_bot
 
+omit [Finite G] in
 theorem b_le_centralizer (h : Sec3Ctx A Abar S₀ B) : B ≤ centralizer (A : Set G) :=
   fun _ hb => (h.nota.le hb).2
 
+omit [Finite G] in
 theorem b_le_s0 (h : Sec3Ctx A Abar S₀ B) : B ≤ S₀ := fun _ hb => (h.nota.le hb).1
 
+omit [Finite G] in
 theorem isPGroup_s0 (h : Sec3Ctx A Abar S₀ B) : IsPGroup 2 S₀ := h.nota.sylow.1
 
+omit [Finite G] in
 theorem s0_le_normalizer (h : Sec3Ctx A Abar S₀ B) : S₀ ≤ normalizer (A : Set G) :=
   h.nota.sylow.2.1
 
+omit [Finite G] in
 theorem a_le_s0 (h : Sec3Ctx A Abar S₀ B) : A ≤ S₀ := le_sup_left.trans h.nota.contains
 
+omit [Finite G] in
 theorem abar0_le_s0 (h : Sec3Ctx A Abar S₀ B) : Section3.Abar0 A Abar ≤ S₀ :=
   le_sup_right.trans h.nota.contains
 

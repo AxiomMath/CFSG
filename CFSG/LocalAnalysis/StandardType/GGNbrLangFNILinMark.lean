@@ -146,7 +146,7 @@ private lemma l02qfnm_linConjAut_eq_one_scalar {d : ℕ} (hd : 2 ≤ d) {K : Typ
           have hji : ¬ j = i := fun h => hij h.symm
           simp [Matrix.scalar_apply, hji]
         · have hil : ¬ i = l := fun h => hli h.symm
-          simp [Matrix.single_apply, hil]
+          simp [hil]
       rw [hsum, add_zero]
       by_cases hjk : j = k
       · rw [hjk]
@@ -219,7 +219,7 @@ private lemma l02qfnm_orderOf_odd {N p n : ℕ} {K : Type} [Field K] [Finite K]
   have hgp : (g ^ p) ^ (2 ^ n - 1) = 1 := by
     rw [← hc, ← map_pow]
     have hcunit : c ^ (2 ^ n - 1) = 1 := by
-      haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+      have : Fintype Kˣ := Fintype.ofFinite Kˣ
       have hcard : Fintype.card Kˣ = 2 ^ n - 1 := by
         rw [← Nat.card_eq_fintype_card, Nat.card_units, hK]
       have := pow_card_eq_one (x := c)
@@ -388,7 +388,7 @@ private theorem l02qfnm_commutatorElement_mul_center_right {X : Type*} [Group X]
 private theorem l02qfnm_commutator_sup_center {X : Type*} [Group X] {J Z : Subgroup X}
     (hZ : Z ≤ Subgroup.center X) (hJJ : ⁅J, J⁆ = J) :
     ⁅J ⊔ Z, J ⊔ Z⁆ = J := by
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZ
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZ
   apply le_antisymm
   · refine Subgroup.commutator_le.2 fun x hx y hy => ?_
     obtain ⟨j, hj, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
@@ -403,7 +403,7 @@ private theorem l02qfnm_commutator_sup_center {X : Type*} [Group X] {J Z : Subgr
 
 private theorem l02qfnm_sigma_invariant {N : ℕ} {K : Type} [Field K] [Finite K]
     (M : GL (Fin N) K) (σ : K ≃+* K)
-    (hMσ : ∃ μ : K, (M : Matrix (Fin N) (Fin N) K).map σ = μ • (M : Matrix (Fin N) (Fin N) K))
+    (_hMσ : ∃ μ : K, (M : Matrix (Fin N) (Fin N) K).map σ = μ • (M : Matrix (Fin N) (Fin N) K))
     {f : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin N) K))}
     (hgraph : LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
       (fun x x' => ((x' : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) =
@@ -439,7 +439,7 @@ private theorem l02qfnm_sigma_invariant {N : ℕ} {K : Type} [Field K] [Finite K
     have hfx : f (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K) ⟨c, hcSL⟩) =
         LargeEvenProjMk (LargeEvenSLGroup (Fin N) K) ⟨σh c, hσSL⟩ := by
       apply hgraph
-      simpa [hσh] using CFSG.LocalAnalysis.GLTheoremA.YS09Field.coe_glMap σ.toRingHom c
+      simp [hσh]
     have hσJ : LargeEvenProjMk (LargeEvenSLGroup (Fin N) K) ⟨σh c, hσSL⟩ ∈ J₀ := by
       rw [← hfx, ← hf' ⟨_, hπcJ⟩]
       exact (f' ⟨_, hπcJ⟩).2
@@ -473,7 +473,7 @@ private lemma l02qfnm_two_le_exponent {D : Type} [Field D] [Finite D] [CharP D 2
   have hk_eq : k = 1 := by omega
   have hcard2 : Nat.card D = 2 := by rw [hk, hk_eq, pow_one]
   apply hτ
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   have h2 : Fintype.card D = 2 := by rwa [Nat.card_eq_fintype_card] at hcard2
   ext x
   have hx : x = 0 ∨ x = 1 := by
@@ -488,7 +488,7 @@ private lemma l02qfnm_two_le_exponent {D : Type} [Field D] [Finite D] [CharP D 2
 
 private lemma l02qfnm_exists_card_eq_two_pow (D : Type) [Field D] [Finite D] [CharP D 2] :
     ∃ k : ℕ, 1 ≤ k ∧ Nat.card D = 2 ^ k := by
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   obtain ⟨k, -, hk⟩ := FiniteField.card D 2
   exact ⟨k, k.pos, by rw [Nat.card_eq_fintype_card, hk]⟩
 
@@ -516,7 +516,7 @@ theorem fniLin_oneMarking {N n p : ℕ} (hN : 2 ≤ N) (hn : 1 ≤ n) (hp : p.Pr
     LargeEvenMarking ↥J₀ fun _ _ _ I _ θ =>
       ¬ ∃ φ ∈ Subgroup.closure I, LargeEvenInduces θ (fun j k : ↥J₀ => k = f' j) φ := by
   classical
-  haveI hcharK : CharP K 2 := charP_two_of_card hK
+  have hcharK : CharP K 2 := charP_two_of_card hK
   obtain ⟨M, hM⟩ := TableB.exists_eq_linConjAut hh
   obtain ⟨σ, hσgraph⟩ := hf
   have hf1 : f ≠ 1 := by
@@ -541,9 +541,9 @@ theorem fniLin_oneMarking {N n p : ℕ} (hN : 2 ≤ N) (hn : 1 ≤ n) (hp : p.Pr
     l02qfnm_sigma_invariant M σ hMσ hσgraph C hC hCSL J₀ hJeq f' hf'
   obtain ⟨m, D, hDfield, hDfin, hDchar, ψ, B, τ, hm, hτ, hact⟩ :=
     fniLin_block hN M hModd σ hσne hMσ C hC hCSL hσC J₀ hJeq
-  letI : Field D := hDfield
-  letI : Finite D := hDfin
-  letI : CharP D 2 := hDchar
+  let : Field D := hDfield
+  let : Finite D := hDfin
+  let : CharP D 2 := hDchar
   obtain ⟨k, hk1, hk⟩ := l02qfnm_exists_card_eq_two_pow D
   have hk2 : 2 ≤ k := l02qfnm_two_le_exponent hk hk1 hτ
   let θ : ↥J₀ ⧸ Subgroup.center ↥J₀ ≃* LargeEvenProj (LargeEvenSLGroup (Fin m) D) :=
@@ -557,7 +557,7 @@ theorem fniLin_oneMarking {N n p : ℕ} (hN : 2 ≤ N) (hn : 1 ≤ n) (hp : p.Pr
   · refine l02qfnm_rawDatum_linear (m := m) (k := k) (D := D) (by omega) hk _ ?_
     refine ⟨?hsimple, ?hnonab, ?hθP⟩
     · exact ((TypeA.recipeEquiv m D).trans ψ.symm).isSimpleGroup_congr.mpr hJ₀.2.2.2
-    · haveI : Nontrivial (↥J₀ ⧸ Subgroup.center ↥J₀) := hJ₀.2.2.2.toNontrivial
+    · have : Nontrivial (↥J₀ ⧸ Subgroup.center ↥J₀) := hJ₀.2.2.2.toNontrivial
       have hnab : ∃ a b : ↥J₀ ⧸ Subgroup.center ↥J₀, a * b ≠ b * a :=
         exists_mul_ne_mul_centerQuot_of_perfect hJ₀.2.2.1 inferInstance
       exact nonabelian_of_mulEquiv ((TypeA.recipeEquiv m D).trans ψ.symm).symm hnab

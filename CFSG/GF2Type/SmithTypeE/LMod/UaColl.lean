@@ -119,7 +119,7 @@ theorem collAux_invol {cols : Array ℕ} (hs : cols.size = 9)
         · subst h
           simp [Nat.testBit_of_two_pow_le_and_two_pow_add_one_gt hle ha, Nat.testBit_two_pow_self]
         · have hai : a < 2 ^ i := lt_of_lt_of_le ha (Nat.pow_le_pow_right (by norm_num) h)
-          simp [Nat.testBit_lt_two_pow hai, Nat.testBit_two_pow, Nat.ne_of_lt h]
+          simp [Nat.testBit_lt_two_pow hai, Nat.ne_of_lt h]
       have hab : a = (a ^^^ 2 ^ n) ^^^ 2 ^ n := by
         rw [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
       obtain ⟨b, hb, rfl⟩ : ∃ b, b < 2 ^ n ∧ a = b ^^^ 2 ^ n := ⟨a ^^^ 2 ^ n, hbt, hab⟩
@@ -213,7 +213,7 @@ theorem mem_collL {cols : Array ℕ} (hs : cols.size = 9)
       obtain ⟨m, hm, hne'⟩ := hne
       exact ⟨m, List.mem_range.2 hm, by simpa using hne'⟩
   unfold collL
-  rw [Array.mem_toArray, List.mem_filter]
+  rw [List.mem_toArray, List.mem_filter]
   exact ⟨hleaf, hB⟩
 
 section Reading
@@ -335,7 +335,6 @@ theorem collAux_comm3_eq {a b c : Nat} (ha : a < collL.size) (hb : b < collL.siz
   rw [collAux_commList ha, List.countP_eq_length_filter, List.filter_filter]
   refine congrArg List.length (List.filter_congr fun m hm => ?_)
   have hm' : m < collL.size := List.mem_range.mp hm
-  try dsimp only
   rw [collAux_commTab_apply ha hm', collAux_commTab_apply hb hm', collAux_commTab_apply hc hm']
   exact collAux_bool3 _ _ _
 

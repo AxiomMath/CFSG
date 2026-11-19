@@ -62,10 +62,11 @@ private lemma commute_pCore_of_orderOf_five {LB : Subgroup G} (f : ↥LB) (hf : 
   intro x
   have h := hact ⟨f, Subgroup.mem_zpowers f⟩ x
   have h' := congrArg (fun y : ↥(CFSG.pCore 2 ↥LB) => (y : ↥LB)) h
-  simp only [hsmul, MulAut.conjNormal_apply, Subgroup.coe_subtype] at h'
+  simp only [hsmul, MulAut.conjNormal_apply] at h'
   calc f * x = (f * x * f⁻¹) * f := by group
     _ = x * f := by rw [h']
 
+omit [Finite G] in
 private lemma five_dvd_card_lB {LB : Subgroup G}
     (hZcard : Nat.card ↥(Subgroup.center (↥LB ⧸ CFSG.pCore 2 ↥LB)) = 3)
     (eA : (↥LB ⧸ CFSG.pCore 2 ↥LB) ⧸ Subgroup.center (↥LB ⧸ CFSG.pCore 2 ↥LB) ≃*
@@ -142,7 +143,7 @@ private lemma card_pCore_le_two {LB : Subgroup G} {d : G} (hdLB : d ∈ LB) (hd3
       Subgroup.center (↥LB ⧸ CFSG.pCore 2 ↥LB) := by
     apply Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hqd'c)
     rw [Nat.card_zpowers, hqord, hZcard]
-  haveI hDn : (Subgroup.zpowers (⟨d, hdLB⟩ : ↥LB)).Normal :=
+  have hDn : (Subgroup.zpowers (⟨d, hdLB⟩ : ↥LB)).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hd'c)
   have hle : Subgroup.zpowers (⟨d, hdLB⟩ : ↥LB) ≤ ψ.ker := by
     rw [Subgroup.zpowers_le, MonoidHom.mem_ker]
@@ -161,8 +162,8 @@ private lemma card_pCore_le_two {LB : Subgroup G} {d : G} (hdLB : d ∈ LB) (hd3
   have hη : Function.Surjective η :=
     QuotientGroup.lift_surjective_of_surjective _ ψ hψ hle
   have hqD : Function.Surjective qD := QuotientGroup.mk'_surjective _
-  haveI : Group.IsPerfect LB := hperf
-  haveI : Group.IsPerfect M := by
+  have : Group.IsPerfect LB := hperf
+  have : Group.IsPerfect M := by
     show Group.IsPerfect (↥LB ⧸ Subgroup.zpowers (⟨d, hdLB⟩ : ↥LB))
     infer_instance
   have hker_ge : (CFSG.pCore 2 ↥LB).map qD ≤ η.ker := by
@@ -427,7 +428,7 @@ theorem exists_involution {L LB : Subgroup G} {d : G} (hJ : J2Config L d LB)
     pRank_two_le_one_of_unique_involution hz1 hz2 huniqU
   obtain ⟨hZcard, ⟨eA⟩⟩ := hJ.tripleCover
   have h5LB : 5 ∣ Nat.card ↥LB := five_dvd_card_lB hZcard eA
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨f, hford⟩ := exists_prime_orderOf_dvd_card' (G := ↥LB) 5 h5LB
   have hfcent : ∀ u ∈ CFSG.Open.pCoreOf 2 LB, (f : G) * u = u * (f : G) := by
     have hU'rank : CFSG.Open.pRank 2 (⊤ : Subgroup ↥(CFSG.pCore 2 ↥LB)) ≤ 1 := by

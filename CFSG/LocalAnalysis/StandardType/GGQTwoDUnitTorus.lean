@@ -168,14 +168,14 @@ private theorem qtwoDB14_dPerm_single {m : ℕ} (i j : Fin m) :
 private theorem qtwoDB14_dSign_single_self {m : ℕ} (a b : Fin m) :
     dSign m a b (Pi.single a 1) = -Pi.single a 1 := by
   rw [show (Pi.single a 1 : DVec m) = dBasis m a by rw [dBasis, Pi.basisFun_apply],
-    dSign_apply, if_pos (Or.inl rfl), neg_one_smul,
+    dSign_apply, ite_eq_left (Or.inl rfl), neg_one_smul,
     show dBasis m a = (Pi.single a 1 : DVec m) by rw [dBasis, Pi.basisFun_apply]]
 
 private theorem qtwoDB14_dSign_single_of_ne {m : ℕ} {a b k : Fin m} (hka : k ≠ a)
     (hkb : k ≠ b) :
     dSign m a b (Pi.single k 1) = Pi.single k 1 := by
   rw [show (Pi.single k 1 : DVec m) = dBasis m k by rw [dBasis, Pi.basisFun_apply],
-    dSign_apply, if_neg (fun h => h.elim hka hkb), one_smul,
+    dSign_apply, ite_eq_right (fun h => h.elim hka hkb), one_smul,
     show dBasis m k = (Pi.single k 1 : DVec m) by rw [dBasis, Pi.basisFun_apply]]
 
 private theorem qtwoDB14_sum_smul_single {F0 : Type} [Field F0] {m : ℕ} (v : Fin m → F0) :
@@ -257,7 +257,7 @@ theorem ggQTwoDUnit_torus (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε)
     (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω) {a b c : Fin m} (hab : a ≠ b)
     (hca : c ≠ a) (hcb : c ≠ b) {α : MulAut ↥Bs}
     (hα : ∀ s : ↥Bs, βL (Additive.ofMul (α s)) = dSign m a b (βL (Additive.ofMul s))) {g : G}
-    (hgN : g ∈ Subgroup.normalizer (Bs : Set G))
+    (_hgN : g ∈ Subgroup.normalizer (Bs : Set G))
     (hg : ∀ s : ↥Bs, ((α s : ↥Bs) : G) = g * (s : G) * g⁻¹) (s : ↥Bs)
     (hs : βL (Additive.ofMul s) c = 0) :
     (s : G) ∈ (coordBlockSU F0 2 1 (Finset.univ.erase c)).map ψ ⊔
@@ -365,7 +365,7 @@ theorem ggQTwoDUnit_weyl_X (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε
     (hα : ∀ s : ↥Bs, βL (Additive.ofMul (α s)) = dSign m a b (βL (Additive.ofMul s))) {g : G}
     (hgN : g ∈ Subgroup.normalizer (Bs : Set G))
     (hg : ∀ s : ↥Bs, ((α s : ↥Bs) : G) = g * (s : G) * g⁻¹) {a' : MulAut ↥Bs}
-    (ha' : a' ∈ ggAutomizerJoin L Bs 𝒦) {w : DVec m ≃ₗ[ZMod 3] DVec m} (hw : w ∈ dEven m)
+    (_ha' : a' ∈ ggAutomizerJoin L Bs 𝒦) {w : DVec m ≃ₗ[ZMod 3] DVec m} (hw : w ∈ dEven m)
     (hwc : w (Pi.single c 1) = Pi.single c 1)
     (ha'w : ∀ s : ↥Bs, βL (Additive.ofMul (a' s)) = w (βL (Additive.ofMul s))) :
     a' ∈ ggAutomizer ((coordBlockSU F0 2 1 (Finset.univ.erase c)).map ψ ⊔

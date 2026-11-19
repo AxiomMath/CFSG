@@ -126,7 +126,7 @@ theorem sq_mul_card_le_of_inf {B C Bs : Subgroup G} [Finite G] (hB : B ≤ Bs) (
   have h1 := Subgroup.relIndex_mul_card B C
   have h2 := Subgroup.relIndex_mul_card B Bs
   rw [inf_of_le_left hB] at h2
-  haveI : B.IsFiniteRelIndex Bs := ⟨Subgroup.index_ne_zero_of_finite⟩
+  have : B.IsFiniteRelIndex Bs := ⟨Subgroup.index_ne_zero_of_finite⟩
   have h3 : B.relIndex C ≤ B.relIndex Bs :=
     Subgroup.relIndex_le_of_le_right hC Subgroup.relIndex_ne_zero
   rw [hD] at h1
@@ -230,7 +230,7 @@ theorem corank_le_three_of_twisted [Finite G] [Fact p.Prime]
       simp only [hfm mg i₀ hi₀, hfm mg' i₀ hi₀] at h3
       exact mul_right_cancel₀ hsi h3
     · have h3 := congrArg (fun f => toAdd (f i.1)) h2
-      simp only [fm, i.2, dif_neg, not_false_eq_true, toAdd_ofAdd] at h3
+      simp only [fm, i.2, dite_eq_right, not_false_eq_true, toAdd_ofAdd] at h3
       exact h3
   have h2 := Nat.card_le_card_of_injective Ψ hΨ
   rw [Nat.card_prod, Nat.card_zmod, Nat.card_fun, Nat.card_zmod, Nat.card_eq_fintype_card,

@@ -76,7 +76,7 @@ theorem hRS : R ≤ (S : Subgroup G) := h.hyp.hR.2.2
 theorem hR'S : R' ≤ (S : Subgroup G) := h.hyp.hR'.2.2
 theorem hcomm : Commutes R R' :=
   h.hΩ.commutes_of_twin_of_isPGroup h.hK h.hK' h.hs.hne.symm h.hz h.hz' h.hRsyl.1 h.hR'syl.1
-    (S.isPGroup'.to_le (sup_le h.hRS h.hR'S))
+    (S.isPGroup.to_le (sup_le h.hRS h.hR'S))
 theorem hqR : IsQuatSub R := h.hΩ.isQuatSub_of_mem_RSet h.hyp.hR.1
 theorem hzR : IsUniqueInvolution R z :=
   CFSG.ClassicalInvolution.T7F25.Asc77.T7F2.Hyp25T.hzR h.toF

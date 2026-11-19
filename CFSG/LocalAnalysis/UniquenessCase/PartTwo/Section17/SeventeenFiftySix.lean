@@ -43,7 +43,7 @@ theorem mem_sup_centralizer_barImage_of_shape {D : Data G} {L : Subgroup G}
     (hL3inner : IsL3 (Bar2 L) 2 → p ≠ 3) {y : Bar2 D.M}
     (hcomm : y ∈ commutator (Bar2 D.M)) (hypow : y ^ p ^ k = 1) :
     y ∈ barImage D.M L ⊔ Subgroup.centralizer (barImage D.M L : Set (Bar2 D.M)) := by
-  haveI : (barImage D.M L).Normal := s13_barImage_normal (hp.2 L hL).1
+  have : (barImage D.M L).Normal := s13_barImage_normal (hp.2 L hL).1
   obtain ⟨e⟩ := s13_bar_equiv hL
   rcases hshape with hthin | ⟨n, heven, hU⟩ | hL3
   · exact s13_commutator_le_sup_centralizer _ (uc22p22u_outAbelian_thin hThin hCyc D hL hthin)

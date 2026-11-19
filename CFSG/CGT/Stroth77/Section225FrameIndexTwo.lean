@@ -18,6 +18,7 @@ local notation "𝓡[" S ", " D "]" =>
 variable {G : Type} [Group G] [Finite G] {S D : Subgroup G} {τ : StrothTypeIndex}
   {dD : StrothWeakTypeData D τ}
 
+omit [Finite G] in
 theorem devMat_col_of_fixed (hk : ∀ i, 2 ≤ τ.k i) {y : G} (hy : y ∈ 𝓡[S, D])
     (ht : actT (devMat dD hk y hy) = devMat dD hk y hy)
     (huv : actUv (devMat dD hk y hy) = devMat dD hk y hy) : ∀ i, devMat dD hk y hy i 0 = 0 := by
@@ -47,6 +48,7 @@ variable (hfam : τ.m + 2 = τ.n) (hm : 2 ≤ τ.m) (hk : ∀ i, 2 ≤ τ.k i) (
 include hfam hk hcent huvS htS
 
 include hDS in
+omit [Finite G] in
 theorem sqBar_of_fixed {y : G} (hy : y ∈ 𝓡[S, D])
     (ht : actT (devMat dD hk y hy) = devMat dD hk y hy)
     (huv : actUv (devMat dD hk y hy) = devMat dD hk y hy) :
@@ -63,6 +65,7 @@ theorem sqBar_of_fixed {y : G} (hy : y ∈ 𝓡[S, D])
       ((devMat_conj_t hfam hk hy hyt).trans ht).symm).symm
   exact fixed_vec_of_uv_t _ h2 h1
 
+omit [Finite G] in
 theorem exists_fixed_of_not_mem {x : G} (hx : x ∈ 𝓡[S, D]) (hxD : x ∉ D) :
     ∃ y : G, ∃ hy : y ∈ 𝓡[S, D], y ∉ D ∧ actT (devMat dD hk y hy) = devMat dD hk y hy ∧
       actUv (devMat dD hk y hy) = devMat dD hk y hy := by

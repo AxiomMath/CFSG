@@ -64,7 +64,8 @@ theorem le_theta_S_of_normal_two (hA : Asc81bHyp M S) (hSM : S ≤ M) {Ω : Type
   have hmS : (m : G) ∈ S := by rw [hA.twoRadical.2.2]; exact hmem
   exact ⟨m, Subgroup.mem_subgroupOf.2 hmS, rfl⟩
 
-theorem theta_S_le_normalizer (hA : Asc81bHyp M S) (hSM : S ≤ M) {Ω : Type*}
+omit [Finite G] in
+theorem theta_S_le_normalizer (_hA : Asc81bHyp M S) (_hSM : S ≤ M) {Ω : Type*}
     (θ : ↥M →* Perm Ω) (W : Subgroup (Perm Ω))
     (hW : ((thompsonJ S).subgroupOf M).map θ = W) :
     (S.subgroupOf M).map θ ≤ Subgroup.normalizer (W : Set (Perm Ω)) := by

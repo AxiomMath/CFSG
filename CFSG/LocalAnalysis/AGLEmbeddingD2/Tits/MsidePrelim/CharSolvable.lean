@@ -116,7 +116,7 @@ theorem not_isSylowTwoOf_of_card_lt {T S N : Subgroup G} (hT : IsPGroup 2 T) (hS
   have hne : T ≠ (Q : Subgroup G) := fun h => by rw [h] at hlt; omega
   obtain ⟨y, -, hyN, hyT, k, hk⟩ :=
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.exists_normalizer_not_mem_of_two_group
-      Q.isPGroup' hTQ hne
+      Q.isPGroup hTQ hne
   exact not_isSylowTwoOf_of_mem_normalizer (hN hyN) hyN hyT hk
 
 end CFSG.AGLEmbeddingD2.Tits.MsidePrelim

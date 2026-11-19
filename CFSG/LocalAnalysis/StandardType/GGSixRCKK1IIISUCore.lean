@@ -71,8 +71,7 @@ private theorem rckSUk_exists_psi (hk : 4 ≤ k) (x : SUG k) (hx : x ∈ rckSUk_
     simpa only [rckSUk_map_refl] using hconj v
   apply Subtype.ext
   apply Units.ext
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, Units.val_inv_eq_inv_val,
-    suZ_val]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, suZ_val]
   exact hconjv
 
 private noncomputable def rckSUk_psi (hk : 4 ≤ k) (x : rckSUk_C hk) :

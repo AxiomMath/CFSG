@@ -75,7 +75,7 @@ theorem eq_one_or_exists_pow_mul_eq_one {F : Type*} [Field F] {p : ℕ} (hp : p.
   by_cases hr : r₁ = 1
   · exact Or.inl hr
   · right
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hprim : IsPrimitiveRoot r₁ p := isPrimitiveRoot_of_pow_eq_one_ne_one hp h₁ hr
     have hr₂ : r₂ ≠ 0 := by
       rintro rfl
@@ -153,7 +153,7 @@ theorem map_suSub_le_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {n : �
       Subgroup.closure (hyperLiftSet p E) := by
   classical
   have hfin : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : 3 ≤ n + 1 := by omega
   have : Finite (MulAut (primeFormP h (idGram K (n + 1)))) := MulEquiv.finite_left
   set k : Subfield K := fixSubfield σ with hkdef
@@ -253,7 +253,7 @@ theorem map_suSub_le_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {n : �
     rw [h1]
     exact Dvd.intro_left _ rfl
   obtain ⟨ζ₀, hζ₀⟩ := exists_isPrimitiveRoot_of_dvd_natCard_sub_one hdvd
-  haveI : NeZero (ℓ ^ e + 1) := ⟨by omega⟩
+  have : NeZero (ℓ ^ e + 1) := ⟨by omega⟩
   obtain ⟨P₀, hP₀⟩ :=
     CFSG.RankThree.PartOne.Q1327C.exists_unitary_conj_diag_m h₀ hζ₀ dvd_rfl G hGcomm hGpow
   set Pg : GL (Fin (n + 1)) k := (P₀ : GL (Fin (n + 1)) k) with hPg
@@ -326,7 +326,6 @@ theorem map_suSub_le_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {n : �
     · exact ⟨⟨x₁, hx₁G⟩, by rw [hψ₁]; exact hb₁1, hρ1 _ h1⟩
     · refine ⟨⟨x₁, hx₁G⟩ ^ a * ⟨x₂, hx₂G⟩, ?_, hρ1 _ ?_⟩
       · rw [Subgroup.coe_mul, Subgroup.coe_pow, map_mul, map_pow]
-        change ψ (⟨x₁, hx₁G⟩ : G) ^ a * ψ (⟨x₂, hx₂G⟩ : G) ≠ 1
         rw [hψ₁, hψ₂]
         intro h12
         apply hb₂
@@ -335,13 +334,13 @@ theorem map_suSub_le_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {n : �
         exact Subgroup.zpow_mem_zpowers _ _
       · rw [map_mul, map_pow, Units.val_mul, Units.val_pow_eq_pow_val]
         exact ha
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP k ℓ := h₀.charP
-  haveI : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ e) k) :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP k ℓ := h₀.charP
+  have : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ e) k) :=
     CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two h₀.card_eq_sq hq₀4
   let ε₂ : Su k ℓ e 2 ≃* CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ e) k :=
     MulEquiv.subgroupCongr (SUid_eq_statedSU h₀.card_eq_sq 2)
-  haveI : Group.IsPerfect (Su k ℓ e 2) :=
+  have : Group.IsPerfect (Su k ℓ e 2) :=
     Group.IsPerfect.ofSurjective (f := ε₂.symm.toMonoidHom) ε₂.symm.surjective
   let ε₀ : Su k ℓ e (n + 1) ≃* unitarySU ℓ e k (n + 1) :=
     MulEquiv.subgroupCongr (SUid_eq_statedSU h₀.card_eq_sq (n + 1))
@@ -415,7 +414,7 @@ theorem closure_hyperLiftSet_eq_top_of_split
     Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
   have hfin : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : 3 ≤ n + 1 := by omega
   have : Finite (MulAut (primeFormP h (idGram K (n + 1)))) := MulEquiv.finite_left
   have hC : IsPrimeFormGram (1 : GL (Fin (n + 1)) K) := isPrimeFormGram_one
@@ -698,7 +697,7 @@ theorem mul_add_one_lt_pow_add_one {p q : ℕ} (hq : 3 ≤ q) (hp : 3 ≤ p) :
 theorem exists_prime_dvd_pow_add_one {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 3 ≤ q)
     (hpq : p ∣ q + 1) :
     p * (q + 1) ∣ q ^ p + 1 ∧ ∃ r : ℕ, r.Prime ∧ r ∣ q ^ p + 1 ∧ ¬ r ∣ q + 1 ∧ r ≠ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨m, hm⟩ : q + 1 ∣ q ^ p + 1 := by simpa using hodd.nat_add_dvd_pow_add_pow q 1
   have hmZ : (m : ℤ) = ∑ i ∈ Finset.range p, (-(q : ℤ)) ^ i := by
@@ -844,7 +843,7 @@ theorem heisShiftMat_map (φ : K →+* K) (p : ℕ) : (heisShiftMat K p).map φ 
       Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     congr 1
     funext i
-    simp only [Function.comp_apply, map_pow, ← mul_pow, hζN, one_pow, Pi.one_apply]⟩
+    simp only [map_pow, ← mul_pow, hζN, one_pow]⟩
 
 @[expose] noncomputable def diagU (h : UnitaryFieldData ℓ f K) {p : ℕ} {ζ : K} (hζ : ζ ^ p = 1)
     (hζN : h.bar ζ * ζ = 1) (hp : Odd p) : primeFormUnitary h (idGram K p) :=
@@ -888,8 +887,8 @@ theorem mk_diag_mem_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {p : ℕ
     (hs : ∀ i, σ (s i) = s i) :
     (g : primeFormP h (idGram K p)) ∈ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfin : Finite K := h.finite
   have hp3 : 3 ≤ p := three_le_of_odd_prime hp hodd
   obtain ⟨hgU, hgdet⟩ := mem_gramSU.1 g.2
@@ -1108,8 +1107,8 @@ theorem mk_fourier_mem_closure_hyperLiftSet (h : UnitaryFieldData ℓ f K) {p : 
     (hgσ : glAut σ (g : GL (Fin p) K) = g) :
     (g : primeFormP h (idGram K p)) ∈ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfin : Finite K := h.finite
   set Φ : Matrix (Fin p) (Fin p) K := heisFourierMat ζ with hΦdef
   have hΦdet : Φ.det ≠ 0 := det_heisFourierMat_ne_zero hζ
@@ -1222,8 +1221,8 @@ theorem closure_hyperLiftSet_eq_top_of_std_of_sub
           Matrix (Fin p) (Fin p) K)) p)) ≤ Subgroup.closure (hyperLiftSet p E)) :
     Subgroup.closure (hyperLiftSet p E) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hfin : Finite K := h.finite
   have hp3 : 3 ≤ p := three_le_of_odd_prime hp hodd
   have : Finite (MulAut (primeFormP h (idGram K p))) := MulEquiv.finite_left
@@ -1270,9 +1269,9 @@ theorem closure_hyperLiftSet_eq_top_of_std_of_sub
   have hσp : σ ^ p = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   obtain ⟨-, r, hr, hrq, hrq₀, hrp⟩ := exists_prime_dvd_pow_add_one hp hp2 (by omega) hpq₀
   rw [← hqq] at hrq
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hfink : Finite k := h₀.finite
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcardk : Fintype.card k = (ℓ ^ e) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, h₀.card_eq_sq]
   have hrk : Nat.Coprime r (Fintype.card k - 1) := by
@@ -1449,7 +1448,7 @@ theorem closure_hyperLiftSet_eq_top_of_std_of_sub
       Units.val_one, ← diagonal_one]
     congr 1
     ext i
-    simp only [Pi.pow_apply, htv, ← map_pow, hur, map_one, Pi.one_apply]
+    simp only [Pi.pow_apply, htv, ← map_pow, hur, map_one]
   have hpr : ¬ p ∣ r := fun h' => hrp ((Nat.prime_dvd_prime_iff_eq hp hr).1 h').symm
   have htmem : (t : primeFormP h (idGram K p)) ∈ hyperLiftSet p E :=
     mem_hyperLiftSet_of_pow (closure_pair_le hD hb) hrel hpr
@@ -1499,7 +1498,7 @@ theorem closure_hyperLiftSet_eq_top_of_std_of_sub
       exact Nat.mod_eq_of_lt hp.one_lt
     have hent : (diagonal tv * heisShiftMat K p * diagonal (fun i => (tv i)⁻¹))
         ⟨0, hp.pos⟩ ⟨1, hp.one_lt⟩ = tv ⟨0, hp.pos⟩ * (tv ⟨1, hp.one_lt⟩)⁻¹ := by
-      rw [mul_diagonal, diagonal_mul, heisShiftMat_entry, if_pos hrot, mul_one]
+      rw [mul_diagonal, diagonal_mul, heisShiftMat_entry, ite_eq_left hrot, mul_one]
     rw [hent] at h01
     have ht0 : tv ⟨0, hp.pos⟩ = u := by
       show (σ ^ 0) u = u
@@ -1552,7 +1551,7 @@ theorem exists_pow_eq_of_fixed_norm (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp
     have h1 : (((ℓ ^ (f / p)) ^ p + 1 : ℕ) : ZMod p) = 0 :=
       (ZMod.natCast_eq_zero_iff _ p).2 (by rw [← hqq]; exact hpq)
     push_cast at h1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [ZMod.pow_card] at h1
     exact (ZMod.natCast_eq_zero_iff _ p).1 (by push_cast; exact h1)
   have hq₀3 : ℓ ^ (f / p) ≠ 3 := by
@@ -1593,8 +1592,8 @@ theorem map_suSub_le_closure_of_torusGen (h : UnitaryFieldData ℓ f K) {p : ℕ
       (QuotientGroup.mk' (normOneScalars h (gramSU h ((1 : GL (Fin p) K) :
         Matrix (Fin p) (Fin p) K)) p)) ≤ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hfin : Finite K := h.finite
   have hp3 : 3 ≤ p := three_le_of_odd_prime hp hodd
   set k : Subfield K := fixSubfield σ with hkdef
@@ -1632,7 +1631,7 @@ theorem map_suSub_le_closure_of_torusGen (h : UnitaryFieldData ℓ f K) {p : ℕ
     have h2 : p ∣ 1 := (Nat.dvd_add_right h1).1 hpq
     exact hp.one_lt.ne' (Nat.dvd_one.1 h2)
   have hfink : Finite k := h₀.finite
-  haveI : CharP k ℓ := h₀.charP
+  have : CharP k ℓ := h₀.charP
   have hpk : (p : k) ≠ 0 := by
     intro h0
     have := (CharP.cast_eq_zero_iff k ℓ p).1 h0
@@ -1656,7 +1655,7 @@ theorem map_suSub_le_closure_of_torusGen (h : UnitaryFieldData ℓ f K) {p : ℕ
   have hΦk : (heisFourierMat ζk : Matrix (Fin p) (Fin p) k).map k.subtype = heisFourierMat ζ := by
     ext i j
     simp [heisFourierMat, hζk]
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let incl : unitarySU ℓ e k p →*
       gramSU h₀ ((1 : GL (Fin p) k) : Matrix (Fin p) (Fin p) k) :=
     Subgroup.inclusion (le_of_eq (unitarySU_eq_gramSU h₀ p))
@@ -1761,7 +1760,7 @@ theorem mk_projCentD_mem_closure (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : 
       c • (heisDiagMat ζ * ((g : GL (Fin p) K) : Matrix (Fin p) (Fin p) K))) :
     (g : primeFormP h (idGram K p)) ∈ Subgroup.closure (hyperLiftSet p E) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set S := shiftSU h hodd with hSdef
   have hScoe : (((S : gramSU h (idGram K p)) : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) =
       heisShiftMat K p := rfl
@@ -1945,7 +1944,7 @@ theorem heisDiagMat_mul_heisFourierMat_mul_heisShiftMat {p : ℕ} [NeZero p] {ζ
     heisDiagMat ζ * heisFourierMat ζ * heisShiftMat K p = heisFourierMat (p := p) ζ := by
   ext i j
   rw [Matrix.mul_apply, Finset.sum_eq_single ((finRotate p).symm j)]
-  · rw [heisShiftMat_entry, if_pos (Equiv.apply_symm_apply _ _), mul_one, heisDiagMat,
+  · rw [heisShiftMat_entry, ite_eq_left (Equiv.apply_symm_apply _ _), mul_one, heisDiagMat,
       diagonal_mul]
     simp only [heisFourierMat, Matrix.of_apply]
     have hk : (((finRotate p).symm j : Fin p) : ℕ) + 1 ≡ (j : ℕ) [MOD p] := by
@@ -1961,7 +1960,7 @@ theorem heisDiagMat_mul_heisFourierMat_mul_heisShiftMat {p : ℕ} [NeZero p] {ζ
         (i : ℕ) * ((((finRotate p).symm j : Fin p) : ℕ) + 1) by ring, this]
     rw [← pow_add, pow_eq_pow_mod _ hζ, hmod, ← pow_eq_pow_mod _ hζ]
   · intro b _ hb
-    rw [heisShiftMat_entry, if_neg (fun h' => hb (by rw [← h', Equiv.symm_apply_apply])),
+    rw [heisShiftMat_entry, ite_eq_right (fun h' => hb (by rw [← h', Equiv.symm_apply_apply])),
       mul_zero]
   · intro h'
     exact absurd (Finset.mem_univ _) h'
@@ -1969,7 +1968,7 @@ theorem heisDiagMat_mul_heisFourierMat_mul_heisShiftMat {p : ℕ} [NeZero p] {ζ
 theorem heisShiftMat_three : heisShiftMat K 3 = !![0, 1, 0; 0, 0, 1; 1, 0, 0] := by
   ext i j
   rw [heisShiftMat_entry]
-  fin_cases i <;> fin_cases j <;> simp [Fin.ext_iff, finRotate_val_mod]
+  fin_cases i <;> fin_cases j <;> simp [Fin.ext_iff]
 
 theorem hS_eq_sq : (hS : Matrix (Fin 3) (Fin 3) K) = heisShiftMat K 3 * heisShiftMat K 3 := by
   rw [heisShiftMat_three]
@@ -1980,11 +1979,11 @@ theorem heisShiftMat_three_cube :
     heisShiftMat K 3 * heisShiftMat K 3 * heisShiftMat K 3 = 1 := by
   rw [heisShiftMat_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem hD_eq (ω : K) : hD ω = heisDiagMat (p := 3) ω := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [hD, heisDiagMat, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [hD, heisDiagMat]
 
 theorem hD_mul_hS_mul_hS (ω : K) : hD ω * hS * hS = heisDiagMat (p := 3) ω * heisShiftMat K 3 := by
   rw [hD_eq, hS_eq_sq]
@@ -2012,8 +2011,8 @@ theorem diag_mul_shift_sq_three {ζ : K} (hζ : ζ ^ 3 = 1) :
   rw [heisShiftMat_three, ← hD_eq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;>
-    first | rfl | linear_combination hζ | linear_combination -hζ
+    simp [hD, Matrix.mul_apply, Matrix.diagonal_apply];
+    first | linear_combination hζ | linear_combination -hζ
 
 theorem diag_mul_shift_three {ζ : K} (hζ : ζ ^ 3 = 1) :
     diagonal ![1, 1, ζ ^ 2] * heisShiftMat K 3 =
@@ -2021,8 +2020,8 @@ theorem diag_mul_shift_three {ζ : K} (hζ : ζ ^ 3 = 1) :
   rw [heisShiftMat_three, ← hD_eq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;>
-    first | rfl | linear_combination hζ | linear_combination -hζ
+    simp [hD, Matrix.mul_apply, Matrix.diagonal_apply];
+    first | linear_combination hζ | linear_combination -hζ
 
 theorem conj_comm_smul_of_conj {n : ℕ} (N A B g : GL (Fin n) K) (hNA : N * A * N⁻¹ = B) {c : K}
     (hG : (g : Matrix (Fin n) (Fin n) K) * (B : Matrix (Fin n) (Fin n) K) =
@@ -2085,7 +2084,7 @@ theorem mk_heisLine_mem_closure (h : UnitaryFieldData ℓ f K) (hodd : Odd 3) (h
       c • (M * ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))) :
     (g : primeFormP h (idGram K 3)) ∈ Subgroup.closure (hyperLiftSet 3 E) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hζ3 : ζ ^ 3 = 1 := hζ.pow_eq_one
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (by norm_num)
@@ -2292,8 +2291,8 @@ theorem map_suSub_le_closure_three (hcore : UnitaryHeisCore) (h : UnitaryFieldDa
         Matrix (Fin p) (Fin p) K)) p)) ≤ Subgroup.closure (hyperLiftSet p E) := by
   classical
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hfin : Finite K := h.finite
   set k : Subfield K := fixSubfield σ with hkdef
   set h₀ : UnitaryFieldData ℓ (f / 3) k := fixSubfield_unitaryFieldData h hp hp2 hσ with hh₀
@@ -2336,7 +2335,7 @@ theorem map_suSub_le_closure_three (hcore : UnitaryHeisCore) (h : UnitaryFieldDa
     have h2 : 3 ∣ 1 := (Nat.dvd_add_right h1).1 hpq
     exact hp.one_lt.ne' (Nat.dvd_one.1 h2)
   have hfink : Finite k := h₀.finite
-  haveI : CharP k ℓ := h₀.charP
+  have : CharP k ℓ := h₀.charP
   have hpk : ((3 : ℕ) : k) ≠ 0 := by
     intro h0
     have := (CharP.cast_eq_zero_iff k ℓ 3).1 h0
@@ -2357,7 +2356,7 @@ theorem map_suSub_le_closure_three (hcore : UnitaryHeisCore) (h : UnitaryFieldDa
   set ζk : k := ⟨ζ, hζσ⟩ with hζk
   have hζk' : IsPrimitiveRoot ζk 3 :=
     (IsPrimitiveRoot.map_iff_of_injective (f := k.subtype) Subtype.val_injective).1 hζ
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let incl : unitarySU ℓ e k 3 →*
       gramSU h₀ ((1 : GL (Fin 3) k) : Matrix (Fin 3) (Fin 3) k) :=
     Subgroup.inclusion (le_of_eq (unitarySU_eq_gramSU h₀ 3))
@@ -2415,7 +2414,7 @@ theorem seitzHyperGamma_eq_top_of_uFieldSplit {K : Type} [Group K]
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hU : UFieldSplit p E) : seitzHyperGamma p E = ⊤ := by
   obtain ⟨ℓ, f, n, Kf, _, h, θ, σ, hn, hpq, hq₀, hσ, hσE, hlift, hcomm, hpow⟩ := hU
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj := modelAut_injective hperf θ
   have hE' : IsElemAbelian p (E.map (modelAut θ)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _
@@ -2438,7 +2437,7 @@ theorem seitzHyperGamma_eq_top_of_uFieldStd
     (hp2 : p ≠ 2) {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
     (hU : UFieldStd p E) : seitzHyperGamma p E = ⊤ := by
   obtain ⟨ℓ, f, Kf, _, h, θ, σ, ζ, hζ, hζN, hodd, hpq, hq₀, hσ, hζσ, hσE, hSE, hDE⟩ := hU
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj := modelAut_injective hperf θ
   have hE' : IsElemAbelian p (E.map (modelAut θ)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _

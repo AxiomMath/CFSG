@@ -24,7 +24,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
     orderOf ζ = p ∧ Function.Injective ι₀ ∧ ι₀.range = E ∧
     (∀ k s, nk k * ι₀ (Multiplicative.ofAdd s) * (nk k)⁻¹ =
       ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E6 p (simple .E6 k) s))) ∧
-    (∀ k, wt.n k = nk k) ∧ wt.Holds CartanMatrix.E₆ CoxeterMatrix.E₆ ∧
+    (∀ k, wt.n k = nk k) ∧ wt.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆ ∧
     ∀ t : Fin Tag.E6.rank → ZMod p, ι₀ (Multiplicative.ofAdd t) ≠ 1 →
       ∀ Y : Subgroup R, IsComponentOf Y
         (Subgroup.centralizer ({ι₀ (Multiplicative.ofAdd t)} : Set R)) →
@@ -42,7 +42,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem e6Split_frame
     {K : Type} [Field K] [Finite K] [CharP K 2]
-    {p : ℕ} [Fact p.Prime] [NeZero p] (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hq : p ∣ Nat.card K - 1) :
+    {p : ℕ} [Fact p.Prime] [NeZero p] (_hp2 : p ≠ 2) (hp3 : p ≠ 3) (hq : p ∣ Nat.card K - 1) :
     ∃ (ζ : Kˣ) (hζ : ζ ^ p = 1)
       (ι₀ : Multiplicative (Fin Tag.E6.rank → ZMod p) →* adjointGroup .E6 K),
       orderOf ζ = p ∧ Function.Injective ι₀ ∧ ι₀.range = TableBExc.torusPow .E6 K p ∧

@@ -149,7 +149,7 @@ variable (p) in
 private def classStab (S : Subgroup G) : Subgroup G where
   carrier := {g | Relation.EqvGen (isoRel p) S (conjSub g S)}
   one_mem' := by
-    simp only [Set.mem_setOf_eq, conjSub_one]
+    simp only [Set.mem_ofPred_eq, conjSub_one]
     exact .refl _
   mul_mem' {a b} ha hb := by
     have h := eqvGen_conjSub hb a

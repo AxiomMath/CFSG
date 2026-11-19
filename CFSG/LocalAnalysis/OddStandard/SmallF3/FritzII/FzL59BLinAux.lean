@@ -34,7 +34,7 @@ theorem card_inH_subtype : Nat.card {a : X // inH a = true} = 2 ^ 10 := by
 theorem LinData.phi_inj (D : LinData ε fn y u) {T₃ : Subgroup G}
     (hmem : ∀ x : X, phi fn y u x ∈ T₃) (hcov : ∀ g ∈ T₃, ∃ x : X, phi fn y u x = g)
     (hcard : Nat.card T₃ = 2 ^ 10) {x x' : X} (h : phi fn y u x = phi fn y u x') : KEq x x' := by
-  haveI : Finite T₃ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite T₃ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hrep : ∀ z : X, ∃ r : X, inH r = true ∧ phi fn y u r = phi fn y u z ∧
       (z = r ∨ z = ktr r) := by
     intro z

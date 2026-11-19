@@ -12,7 +12,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open
 
 theorem wcOn_Suz_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Suz] : WCOn 3 CFSG.Blueprint.NativeSporadic.Suz := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.card CFSG.Blueprint.NativeSporadic.Suz = 448345497600 :=
     CFSG.Sporadic.Suz.card_Suz
   have hf : (Nat.card CFSG.Blueprint.NativeSporadic.Suz).factorization 3 = 7 := by

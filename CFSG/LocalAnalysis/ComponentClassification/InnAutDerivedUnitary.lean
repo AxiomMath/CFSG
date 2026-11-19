@@ -16,8 +16,8 @@ theorem innAutDerived_le_primeFormD {ℓ f n : ℕ} {K : Type} [Field K]
     (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) :
     innAutDerived (primeFormP h (C : Matrix (Fin n) (Fin n) K)) ≤
       primeFormD h (C : Matrix (Fin n) (Fin n) K) := by
-  haveI : Finite K := h.finite
-  haveI : IsMulCommutative (K ≃+* K) :=
+  have : Finite K := h.finite
+  have : IsMulCommutative (K ≃+* K) :=
     ⟨⟨fun σ τ => CFSG.ComponentClassification.UnbalancedCatalog.ringAut_commute σ τ⟩⟩
   rw [innAutDerived, sup_le_iff]
   constructor

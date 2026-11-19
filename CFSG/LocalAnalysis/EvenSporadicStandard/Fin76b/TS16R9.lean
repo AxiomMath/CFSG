@@ -29,7 +29,7 @@ theorem EB_index_le : (actOn E (L ⊓ centralizer ({t} : Set G))
     rw [h] at h1
     omega)
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have : 960 * 3 ≤ Nat.card ↥A * A.index := Nat.mul_le_mul h960 hgt
   omega
 
@@ -51,6 +51,7 @@ theorem EB_orbit_four (hE69 : EFacts69 E t) {x y : G} (hx : x ∈ E) (hy : y ∈
   rw [← hg] at this
   simpa [actOn_apply] using this
 
+omit [Finite G] c in
 theorem conj_z_form {s : G} (hS : S16Gen S s z t) :
     ∀ s' ∈ S, ∃ k : ℕ, s' * z * s'⁻¹ = s ^ (2 * k) * z := by
   intro s' hs'
@@ -198,7 +199,7 @@ theorem involutions_W_conj (hE69 : EFacts69 E t) {s σ v ξ : G} (hS : S16Gen S 
     obtain ⟨g, hg⟩ := (hcls d (hβS d (hDS hd)) hd2 hd1).2 hdK
     have hgS : g * z * g⁻¹ ∈ S := hg ▸ hDS hd
     obtain ⟨s', hs', hs'g⟩ := c.zconj g hgS
-    obtain ⟨k, hk⟩ := c.conj_z_form hS s' hs'
+    obtain ⟨k, hk⟩ := OuterS16Ctx.conj_z_form hS s' hs'
     have hdeq : d = s ^ (2 * k) * z := by rw [← hg, hs'g, hk]
     have hs2k : s ^ (2 * k) ∈ Dsub s z := by
       rw [pow_mul, pow_two]
@@ -262,7 +263,7 @@ theorem involutions_W_conj (hE69 : EFacts69 E t) {s σ v ξ : G} (hS : S16Gen S 
         · rw [h, mul_one]; exact hd
         · rw [h]; exact mul_mem hd htD
       exact (hcls (d * e) (hβS _ (hDS hwD)) hw2 hw1).1 (hDK0 hwD)
-    · push_neg at hcentral
+    · push Not at hcentral
       obtain ⟨g, hg, hge⟩ := c.EB_orbit_two hE69 hvξE he hvξ2 hvξne1 hvξnet he2 hcentral.1
         hcentral.2
       have hdg : d * g = g * d := mem_centralizer_iff.1 (c.EB_le_centS hg) d (hDS hd)

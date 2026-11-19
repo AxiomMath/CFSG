@@ -35,7 +35,7 @@ theorem heisC_mul_diagTau_pow_three :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [heisC, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination β * hτ
+    linear_combination β * hτ
 
 theorem heisC_mul_diagTau_sq_pow_three :
     (heisC β * ((diagTau hτ ^ 2 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) ^ 3 =
@@ -44,7 +44,7 @@ theorem heisC_mul_diagTau_sq_pow_three :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [heisC, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination (β * τ ^ 3 + β) * hτ
+    linear_combination (β * τ ^ 3 + β) * hτ
 
 theorem diagTau_mul_heisC_mul_pow (n : ℕ) :
     ((diagTau hτ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *
@@ -73,7 +73,7 @@ theorem heisD_eq_smul :
   congr 1
   funext i
   fin_cases i <;> simp <;>
-    first | ring1 | linear_combination (-1 : K) * hτ | linear_combination (-τ) * hτ
+    first | linear_combination (-1 : K) * hτ | linear_combination (-τ) * hτ
 
 theorem heisC_mul_diag_inv {β : K} (hβ : β ≠ 0) :
     heisC β * diagonal ![1, 1, β⁻¹] = hS := by

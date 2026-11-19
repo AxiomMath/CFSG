@@ -29,7 +29,7 @@ private theorem sift_step {trees : Array Tree} {letters : Array Table} {m : Nat}
       (decide (ap trees[l]!.pos (img.toList.getD l 0) < trees[l]!.pts.size) &&
         sift trees letters (Array.range m) base (l + 1)
           (walkInv trees[l]! letters (ap trees[l]!.pos (img.toList.getD l 0)) img)) := by
-  rw [sift.eq_def, dif_pos hl]
+  rw [sift.eq_def, dite_eq_left hl]
   have hqb : (Array.range m)[l]! = l := by
     rw [getElem!_pos _ l (by simpa using hlm), Array.getElem_range]
   have htl : trees[l] = trees[l]! := (getElem!_pos trees l hl).symm
@@ -42,7 +42,7 @@ theorem sift_eq {trees : Array Tree} {letters : Array Table} {LC R : Nat → Nat
       sift trees letters (Array.range m) base l img =
         siftL LC R base.toList szs (List.range' l d) img.toList
   | 0, l, img, hd, _ => by
-    rw [sift.eq_def, dif_neg (by omega)]
+    rw [sift.eq_def, dite_eq_right (by omega)]
     exact tupleEq_eq img base
   | d + 1, l, img, hd, hq => by
     have hlm : l < m := by omega

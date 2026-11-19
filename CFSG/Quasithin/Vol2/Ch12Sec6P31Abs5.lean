@@ -49,6 +49,7 @@ theorem sylow_inf_eq_pCoreOf_borel (X Ts Ms : Subgroup Y) [X.Normal] (hT : IsSyl
   refine ⟨hcore, hMn, ?_⟩
   exact le_pCoreOf_of_le_normalizer 2 (hSle.trans inf_le_left) hMn hSyl.2.1
 
+omit [Finite Y] in
 theorem eq_borel_of_overgroup (X Ts Ms Ls : Subgroup Y) [X.Normal] (m : ℕ)
     (hBM : X ⊓ Subgroup.normalizer ((Ts ⊓ X : Subgroup Y) : Set Y) ≤ Ms) (hXM : ¬ X ≤ Ms)
     (hLM : Ls ≤ Ms) (hLn : Ms ≤ Subgroup.normalizer (Ls : Set Y))
@@ -75,6 +76,7 @@ theorem eq_borel_of_overgroup (X Ts Ms Ls : Subgroup Y) [X.Normal] (m : ℕ)
   · intro p hp hpd
     exact hL23 p hp (hpd.trans (Subgroup.card_dvd_of_le inf_le_left))
 
+omit [Finite Y] in
 theorem card_eq_relIndex_mul (X Ls : Subgroup Y) [X.Normal] :
     Nat.card Ls = X.relIndex Ls * Nat.card ↥(Ls ⊓ X) ∧ X.relIndex Ls ∣ X.index := by
   refine ⟨?_, Subgroup.relIndex_dvd_index_of_normal X Ls⟩

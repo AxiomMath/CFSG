@@ -15,7 +15,7 @@ variable {K : Type} [Field K] {n m : ℕ} {d : List ℕ}
 
 theorem glLin_apply (g : GL (Fin n) K) (v : Fin n → K) :
     glLin g v = (g : Matrix (Fin n) (Fin n) K).mulVec v := by
-  simp [glLin, Matrix.GeneralLinearGroup.toLin_apply]
+  simp [glLin]
 
 private theorem q2cFAc_glLin_mul (g h : GL (Fin n) K) :
     glLin (g * h) = (glLin h).trans (glLin g) := by

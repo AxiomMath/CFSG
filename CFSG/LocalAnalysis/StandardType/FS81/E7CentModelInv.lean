@@ -296,7 +296,7 @@ private theorem linearIndependent_eichler_tuple {K V : Type*} [Field K] [AddComm
   have ha3 : a 3 = 0 := by
     have h := congrArg (fun v => polar Q v x₁) h0
     simp only [polar_add_left, polar_smul_left_eq, polar_self_eq_zero hx₁, h11',
-      hxx', h12', mul_one, mul_zero, add_zero] at h
+      hxx', h12', mul_one, mul_zero] at h
     simpa using h
   intro i
   fin_cases i <;> simp [ha0, ha1, ha2, ha3]
@@ -495,7 +495,7 @@ private theorem e7CentModelInv_reflection :
       simpa [mul_assoc] using this
     rw [← h1, mul_assoc, mul_inv_cancel, mul_one]
   have hr_not : e7ModelReflect ∉ omegaGroup e7ModelQ e7ModelQ_nondegenerate := by
-    letI : Invertible (e7ModelQ e7ModelVv) :=
+    let : Invertible (e7ModelQ e7ModelVv) :=
       invertibleOfNonzero (by rw [e7ModelVv_Q]; exact one_ne_zero)
     intro hmem
     have heven : Even (Module.finrank (ZMod 2) (commSpace e7ModelReflect)) :=
@@ -521,8 +521,8 @@ private theorem e7CentModelInv_dickson {x₁ y₁ x₂ y₂ : e7ModelV}
     if g ∈ omegaGroup e7ModelQ e7ModelQ_nondegenerate then g else e7ModelReflect * g
   have hg'Ω : g' ∈ omegaGroup e7ModelQ e7ModelQ_nondegenerate := by
     by_cases hgΩ : g ∈ omegaGroup e7ModelQ e7ModelQ_nondegenerate
-    · simpa only [g', hgΩ, if_true] using hgΩ
-    · simp only [g', hgΩ, if_false]
+    · simp only [g', hgΩ, ite_true]
+    · simp only [g', hgΩ, ite_false]
       have hcorr : e7ModelReflect * g ∈ omegaGroup e7ModelQ e7ModelQ_nondegenerate ↔
           g ∉ omegaGroup e7ModelQ e7ModelQ_nondegenerate := by
         have h1 := Subgroup.mul_mem_iff_of_index_two (H :=
@@ -534,8 +534,8 @@ private theorem e7CentModelInv_dickson {x₁ y₁ x₂ y₂ : e7ModelV}
   have hg'P : g' * (eichler e7ModelQ x₁ y₁ * eichler e7ModelQ x₂ y₂) * g'⁻¹ =
       e7ModelP := by
     by_cases hgΩ : g ∈ omegaGroup e7ModelQ e7ModelQ_nondegenerate
-    · simp only [g', hgΩ, if_true]; exact hgP
-    · simp only [g', hgΩ, if_false]
+    · simp only [g', hgΩ, ite_true]; exact hgP
+    · simp only [g', hgΩ, ite_false]
       have h1 : (e7ModelReflect * g) *
           (eichler e7ModelQ x₁ y₁ * eichler e7ModelQ x₂ y₂) * (e7ModelReflect * g)⁻¹ =
           e7ModelReflect * (g * (eichler e7ModelQ x₁ y₁ *
@@ -605,7 +605,7 @@ private theorem e7CentModelInv_pullback {x₁ y₁ x₂ y₂ : e7ModelV}
     rw [omegaGroup_eq_elementaryGroup e7ModelQ_nondegenerate
       (by rw [e7ModelV_finrank]; omega)
       (plusPair_orth (K := ZMod 2) (i := (⟨0, by omega⟩ : Fin 6))
-        (j := (⟨1, by omega⟩ : Fin 6)) (by simp [Fin.ext_iff]))]
+        (j := (⟨1, by omega⟩ : Fin 6)) (by simp))]
     exact mul_mem (eichler_mem_elementaryGroup e7ModelQ x₁ y₁)
       (eichler_mem_elementaryGroup e7ModelQ x₂ y₂)
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.mp (by rwa [e7ModelPhi_range])

@@ -34,7 +34,7 @@ theorem sec10L104_exists_proj {N K K0 : Subgroup G}
   have hπ : ∀ x, x ∈ K0 → π x ∈ K ∧ ∃ n ∈ N, x = n * π x := by
     intro x hx
     have h := Classical.choose_spec (hex x hx)
-    simp only [π, dif_pos hx]
+    simp only [π, dite_eq_left hx]
     exact h
   refine ⟨π, hπ, ?_, ?_⟩
   · intro x hx y hy

@@ -119,7 +119,7 @@ variable {k : Fin 3 → ℕ}
 theorem ofInt_eq_zsmul_gens (v : Fin 3 → ℤ) :
     ofInt k v = v 0 • gen k 0 + v 1 • gen k 1 + v 2 • gen k 2 := by
   funext i
-  fin_cases i <;> simp [ofInt, gen, Pi.single_apply, zsmul_eq_mul]
+  fin_cases i <;> simp [ofInt, gen, zsmul_eq_mul]
 
 theorem exists_ofInt (x : Torus k) : ∃ v : Fin 3 → ℤ, ofInt k v = x := by
   choose v hv using fun i : Fin 3 => ZMod.intCast_surjective (x i)
@@ -166,7 +166,7 @@ theorem ofInt_eq_zero_iff {v : Fin 3 → ℤ} : ofInt k v = 0 ↔ ∀ i, (2 : �
 
 private theorem zmod_two_mul_eq_zero_iff_aux {t : ℕ} (x : ZMod (2 ^ (t + 1))) :
     2 * x = 0 ↔ x = 0 ∨ x = 2 ^ t := by
-  haveI : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
   constructor
   · intro h
     obtain ⟨n, hn, rfl⟩ : ∃ n : ℕ, n < 2 ^ (t + 1) ∧ (n : ZMod (2 ^ (t + 1))) = x :=
@@ -212,7 +212,7 @@ theorem two_zsmul_eq_zero_iff (hk : ∀ i, 1 ≤ k i) (x : Torus k) :
     · simp [h0]
     · by_cases h0 : x i = 0
       · simp [h0]
-      · simp [h0, h1]
+      · simp [h1]
   · rintro ⟨e, -, rfl⟩
     funext i
     simp only [Pi.smul_apply, ofInt_apply, Pi.zero_apply, zsmul_eq_mul]

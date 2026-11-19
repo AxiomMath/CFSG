@@ -92,12 +92,12 @@ lemma fixedPointSubgroup_quotient_eq_autFixedSubgroup
         (inferInstance)
     fixedPointSubgroup (Subgroup.zpowers α) (J ⧸ Subgroup.center J) =
       autFixedSubgroup (quotientAut α) := by
-  letI : (Subgroup.center J).Characteristic := Subgroup.centerCharacteristic
-  letI hInv : IsInvariant (Subgroup.zpowers α) J (Subgroup.center J) :=
+  let : (Subgroup.center J).Characteristic := Subgroup.centerCharacteristic
+  let hInv : IsInvariant (Subgroup.zpowers α) J (Subgroup.center J) :=
     isInvariant_of_characteristic (Subgroup.center J)
-  letI : MulDistribMulAction (Subgroup.zpowers α) (J ⧸ Subgroup.center J) :=
+  let : MulDistribMulAction (Subgroup.zpowers α) (J ⧸ Subgroup.center J) :=
     quotientMulDistribMulAction (A := Subgroup.zpowers α) (G := J) (Subgroup.center J) hInv
-  letI : MulAction.QuotientAction (Subgroup.zpowers α) (Subgroup.center J) :=
+  let : MulAction.QuotientAction (Subgroup.zpowers α) (Subgroup.center J) :=
     quotientAction_of_isInvariant (A := Subgroup.zpowers α) (Subgroup.center J) hInv
   refine fixedPointSubgroup_eq_autFixedSubgroup_of_zpowers_eq_top
     (a := (⟨α, Subgroup.mem_zpowers α⟩ : Subgroup.zpowers α))
@@ -128,10 +128,10 @@ theorem card_autFixedSubgroup_eq_card_inf_mul_card_quotient
   have hcopZ : Nat.Coprime (Nat.card A) (Nat.card Z) :=
     hcopA.coprime_dvd_right (Subgroup.card_subgroup_dvd_card Z)
   have hZchar : Z.Characteristic := Subgroup.centerCharacteristic
-  letI : Z.Characteristic := hZchar
-  letI hInv : IsInvariant A J Z := isInvariant_of_characteristic Z
-  letI : IsMulCommutative Z := Subgroup.center.isMulCommutative (G := J)
-  letI : MulDistribMulAction A (J ⧸ Z) :=
+  let : Z.Characteristic := hZchar
+  let hInv : IsInvariant A J Z := isInvariant_of_characteristic Z
+  let : IsMulCommutative Z := Subgroup.center.isMulCommutative (G := J)
+  let : MulDistribMulAction A (J ⧸ Z) :=
     quotientMulDistribMulAction (A := A) (G := J) Z hInv
   have hC : fixedPointSubgroup A J = autFixedSubgroup α := by
     simpa [A] using fixedPointSubgroup_zpowers_eq_autFixedSubgroup (J := J) α
@@ -144,7 +144,7 @@ theorem card_autFixedSubgroup_eq_card_inf_mul_card_quotient
   let f : C →* J ⧸ Z := (QuotientGroup.mk' Z).comp C.subtype
   have hker : f.ker = (Z ⊓ C).subgroupOf C := by
     ext x
-    simp [f, Subgroup.mem_subgroupOf, Subgroup.mem_inf, QuotientGroup.eq_one_iff]
+    simp [f, Subgroup.mem_subgroupOf, QuotientGroup.eq_one_iff]
   have hkercard : Nat.card ↥f.ker = Nat.card ↥(Z ⊓ C) := by
     rw [hker]
     exact Nat.card_congr

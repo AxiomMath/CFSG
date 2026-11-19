@@ -80,7 +80,7 @@ theorem genR_map (f : R →+* S) (σ : R → R) (σ' : S → S) (hσ : ∀ a, f 
     (one x x2 : R) (idx : ℕ) (w : ℕ → R) (p : ℕ) :
     f (genR σ one x x2 idx w p) = genR σ' (f one) (f x) (f x2) idx (fun q => f (w q)) p := by
   rcases idx with _ | _ | _ | _ | _ | _ | _ | _ | n <;>
-    simp only [genR, xEg_map, yEg_map, tpEg_map f σ σ' hσ, tmEg_map f σ σ' hσ] <;> rfl
+    simp only [genR, xEg_map, yEg_map, tpEg_map f σ σ' hσ, tmEg_map f σ σ' hσ]
 
 end Gen
 

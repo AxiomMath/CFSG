@@ -181,12 +181,12 @@ private theorem wreathHom_inl_e (h : WreathData P e u w) :
 private theorem wreathHom_inr_u (h : WreathData P e u w) :
     wreathHom h (SemidirectProduct.inr uG) = u := by
   rw [wreathHom, SemidirectProduct.lift_inr, vHom_apply, z2hom_apply, z2hom_apply]
-  simp [uG, val_zero_two, val_one_two]
+  simp [uG, val_one_two]
 
 private theorem wreathHom_inr_w (h : WreathData P e u w) :
     wreathHom h (SemidirectProduct.inr wG) = w := by
   rw [wreathHom, SemidirectProduct.lift_inr, vHom_apply, z2hom_apply, z2hom_apply]
-  simp [wG, val_zero_two, val_one_two]
+  simp [wG, val_one_two]
 
 private theorem wreathHom_surjective (h : WreathData P e u w) :
     Function.Surjective (wreathHom h) := by

@@ -201,7 +201,7 @@ theorem exists_intertwiner_locR101 {E K : Type} [Field E]
               ((re Tl) * (re Tli)) * re (Θ v) *
               ((re Tli)ᵀ * (re Tl)ᵀ) *
               (re (compound2 (G : Matrix (Fin 4) (Fin 4) k)))ᵀ * (re Tli)ᵀ := by
-            simp only [h1, h2, Matrix.mul_one, Matrix.one_mul]
+            simp only [h1, h2, Matrix.mul_one]
         _ = (re Tli * re (compound2 (G : Matrix (Fin 4) (Fin 4) k)) * re Tl) *
               (re Tli * re (Θ v) * (re Tli)ᵀ) *
               ((re Tl)ᵀ * ((re (compound2 (G : Matrix (Fin 4) (Fin 4) k)))ᵀ *
@@ -236,16 +236,16 @@ theorem adjointOmega6_of_locR101
       locR101 k (twistHom n (frobTw K k i₀) (η l)) * (P : Matrix (Fin 14) (Fin 14) k)) :
     AdjointOmega6 n L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 1 ≤ n := one_le_of_isU4Group hL
-  haveI hEchar : CharP E 2 := by
+  have hEchar : CharP E 2 := by
     have h := CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hn hE
-    haveI := ringChar.charP E
+    have := ringChar.charP E
     rwa [h] at this
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic E
   obtain ⟨inst, ⟨D⟩⟩ := exists_kleinDataEven hE hK hirr
-  letI : Algebra E K := inst
+  let : Algebra E K := inst
   let Φ : spinGroup (quadMinus 3 E b c) ≃* ↥(SU (unitaryInvolution K 2 n) 4) :=
     D.phiSUEven hK hirr
   have hperfSU : Group.IsPerfect ↥(SU (unitaryInvolution K 2 n) 4) :=

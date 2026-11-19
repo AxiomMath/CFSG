@@ -18,15 +18,18 @@ open Classical in
 @[expose] noncomputable def fgS : Finset (↥B → ZMod 3) :=
   Finset.univ.filter (fun χ => χ ≠ (fun _ => (1 : ZMod 3)) ∧ fgWt (fgT B) χ ≠ ⊥)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_fgS_iff {χ : ↥B → ZMod 3} :
     χ ∈ fgS B ↔ χ ≠ (fun _ => (1 : ZMod 3)) ∧ fgWt (fgT B) χ ≠ ⊥ := by
   simp [fgS]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem triv_notMem_fgS : (fun _ => (1 : ZMod 3)) ∉ fgS B := fun h => ((mem_fgS_iff B).1 h).1 rfl
 
 variable (hB : IsElemAb2 B 4) (hdim : Module.finrank (ZMod 3) V = 6) (f : OGroup Q)
   (hf : ∀ g, g ∈ B ↔ f * g * f⁻¹ ∈ B) (hf5 : f ^ 5 = 1) (hf1 : f ≠ 1)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgS_perm_iff (χ : ↥B → ZMod 3) :
     fgPerm B (ZMod 3) (fgCj B f hf) χ ∈ fgS B ↔ χ ∈ fgS B := by
   have h1 : fgPerm B (ZMod 3) (fgCj B f hf) (fun _ => (1 : ZMod 3)) = fun _ => 1 := rfl
@@ -70,7 +73,7 @@ theorem fg_orbit_structure :
     have hB16 : Nat.card ↥B = 16 := by
       rw [hB.2]
       norm_num
-    haveI : Subsingleton ↥B := ⟨fun a b => (hall a).trans (hall b).symm⟩
+    have : Subsingleton ↥B := ⟨fun a b => (hall a).trans (hall b).symm⟩
     have h1 : Nat.card ↥B = 1 := Nat.card_unique (α := ↥B)
     omega
   have hsum : ∑ χ ∈ fgS B, Module.finrank (ZMod 3) (fgWt (fgT B) χ) ≤ 6 := by

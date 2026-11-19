@@ -250,8 +250,8 @@ theorem griessSL34Statement_holds : GriessSL34Statement := by
   by_contra h16
   replace h16 := not_lt.1 h16
   apply hY
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_two_of_card_four hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_two_of_card_four hK
   have hπSL : ∀ e, π e ∈ StatedSL 3 K := fun e => hrange ▸ ⟨e, rfl⟩
   have hker' : (toSL3 π hπSL).ker = Y := (toSL3_ker π hπSL).trans hker
   rw [← hker'] at hYc hAY hAn ⊢

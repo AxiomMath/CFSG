@@ -47,6 +47,7 @@ theorem c8k_sylow_top {M K S U : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf 
   rw [Subgroup.relIndex_top_right]
   exact h4
 
+omit [Finite G] in
 theorem c8k_q_le_of_sylow {M K S : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S K)
     (hSM : S ≤ M) : CFSG.pCore 2 ↥K ≤ (K ⊓ M).subgroupOf K := by
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
@@ -80,6 +81,7 @@ theorem c8_invthree_of_k {K : Subgroup G}
   exact Subgroup.mem_map.2
     ⟨⟨t, ht⟩, h ⟨t, ht⟩ (Subtype.ext (by simpa using hsq)), rfl⟩
 
+omit [Finite G] in
 theorem c8_transport_char {K T' : Subgroup G} {C : Subgroup ↥K} (hC1 : C ≠ ⊥)
     (hCS : C ≤ (T' ⊓ K).subgroupOf K)
     (hchar : (C.subgroupOf ((T' ⊓ K).subgroupOf K)).Characteristic) (hn : C.Normal) :

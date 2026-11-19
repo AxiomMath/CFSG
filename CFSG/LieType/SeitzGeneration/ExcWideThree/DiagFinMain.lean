@@ -150,7 +150,7 @@ theorem e6_regular_dichotomy (w : WeylGroup Tag.E6) (k₁ k₂ : Fin Tag.E6.rank
     have hget : ∀ (k : Fin Tag.E6.rank → ℕ) (j : Fin Tag.E6.rank),
         (List.ofFn fun i : Fin Tag.E6.rank => k i % 3).getD (j : ℕ) 0 = k j % 3 := by
       intro k j
-      simp [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+      simp [List.getD_eq_getElem?_getD]
     refine ⟨m₁, m₂, fun j => ?_, fun j => ?_, hw₁, hw₂⟩
     · have h := hm₁ j
       rw [hK₁, hget] at h

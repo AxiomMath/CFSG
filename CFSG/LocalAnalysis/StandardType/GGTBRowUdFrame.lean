@@ -27,11 +27,11 @@ private theorem ggUdF_root_mem_sumZero {d p : ℕ} (i j : Fin d) :
 
 private theorem ggUdF_root_self {d p : ℕ} {i j : Fin d} (hij : i ≠ j) :
     ggUdF_root (p := p) i j i = Multiplicative.ofAdd (1 : ZMod p) := by
-  rw [ggUdF_root_apply, if_pos rfl, if_neg hij, sub_zero]
+  rw [ggUdF_root_apply, ite_eq_left rfl, ite_eq_right hij, sub_zero]
 
 private theorem ggUdF_root_of_ne {d p : ℕ} {i j k : Fin d} (hki : k ≠ i) (hkj : k ≠ j) :
     ggUdF_root (p := p) i j k = 1 := by
-  rw [ggUdF_root_apply, if_neg hki, if_neg hkj, sub_self]
+  rw [ggUdF_root_apply, ite_eq_right hki, ite_eq_right hkj, sub_self]
   rfl
 
 private theorem ggUdF_permAut_root {d p : ℕ} (σ : Equiv.Perm (Fin d)) (i j : Fin d) :
@@ -62,16 +62,16 @@ private theorem ggUdF_root_pow_ratio {d p : ℕ} [NeZero p] {i j : Fin d} (hij :
   rw [hroot]
   by_cases hki : k = i
   · subst hki
-    rw [Equiv.swap_apply_left, if_pos rfl, if_neg hij, sub_zero]
+    rw [Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right hij, sub_zero]
     rw [← sub_eq_add_neg]
     exact hm
   · by_cases hkj : k = j
-    · rw [hkj, Equiv.swap_apply_right, if_neg (Ne.symm hij), if_pos rfl, zero_sub]
+    · rw [hkj, Equiv.swap_apply_right, ite_eq_right (Ne.symm hij), ite_eq_left rfl, zero_sub]
       calc (↑m : ZMod p) * (Multiplicative.toAdd (f i) + -Multiplicative.toAdd (f j))
           = -((↑m : ZMod p) *
               (Multiplicative.toAdd (f j) + -Multiplicative.toAdd (f i))) := by ring
         _ = -1 := by rw [← sub_eq_add_neg, hm]
-    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, if_neg hki, if_neg hkj]
+    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, ite_eq_right hki, ite_eq_right hkj]
       ring
 
 private theorem ggUdF_permAut_eq_one_of_root {d p : ℕ} [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2)
@@ -140,7 +140,7 @@ private theorem ggUdF_permAut_eq_one_of_root {d p : ℕ} [NeZero p] (hp : p.Prim
     · simpa using hii
     · exfalso
       by_cases hjj : σ i = j
-      · rw [if_neg hii, if_pos hjj] at hx
+      · rw [ite_eq_right hii, ite_eq_left hjj] at hx
         have h2 : (2 : ZMod p) = 0 := by
           have h3 : (-1 : ZMod p) = 1 := by simpa using hx
           linear_combination -h3
@@ -148,7 +148,7 @@ private theorem ggUdF_permAut_eq_one_of_root {d p : ℕ} [NeZero p] (hp : p.Prim
         have hle : p ≤ 2 := Nat.le_of_dvd (by norm_num) hdvd
         have hpge : 2 ≤ p := hp.two_le
         omega
-      · rw [if_neg hii, if_neg hjj] at hx
+      · rw [ite_eq_right hii, ite_eq_right hjj] at hx
         have h1 : ((1 : ℕ) : ZMod p) = 0 := by simpa using hx.symm
         have hdvd : p ∣ 1 := (ZMod.natCast_eq_zero_iff 1 p).mp h1
         have hle : p ≤ 1 := Nat.le_of_dvd (by norm_num) hdvd
@@ -177,8 +177,8 @@ theorem ggUdTB_frame
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
   have hmd : m + 1 - 1 = m := Nat.add_sub_cancel m 1
   rw [hmd]
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one (by omega) hpq
   have hd3 : 3 ≤ m + 1 := by omega
   have hK' : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK (by omega)

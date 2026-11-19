@@ -16,6 +16,7 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {Qf : E → K} {φ : X →* (E ≃ₗ[K] E)}
   {V L Nb Rb : Subgroup X} {T : Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem quad (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     ∀ s ∈ L, ∀ u ∈ L, ∀ w, opm (φ s) (opm (φ u) w) = 0 := by
   intro s hs u hu w
@@ -29,6 +30,7 @@ theorem quad (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     ring
   rw [h1, I.quadIso u hu s hs, I.quadIso s hs s hs, add_zero, neg_zero]
 
+omit [FiniteDimensional K E] in
 theorem isLayerCorner_of_mapsTo (I : Sec717RepInputs B Qf φ V L Nb Rb T) {n : X}
     (h : ∀ e, opm (φ n) e ∈ T) : IsLayerCorner T (B.orthogonal T) (opm (φ n)) := by
   have hrange : LinearMap.range (opm (φ n)) ≤ T := by
@@ -39,6 +41,7 @@ theorem isLayerCorner_of_mapsTo (I : Sec717RepInputs B Qf φ V L Nb Rb T) {n : X
     exact LinearMap.BilinForm.orthogonal_le hrange
   exact ⟨h, fun x hx => hker hx⟩
 
+omit [FiniteDimensional K E] in
 theorem opm_inv_of_sq {g : E ≃ₗ[K] E} (hg : ∀ v, opm g (opm g v) = 0) (v : E) :
     opm g⁻¹ v = -opm g v := by
   have h1 : g (v - opm g v) = v := by
@@ -53,6 +56,7 @@ theorem opm_inv_of_sq {g : E ≃ₗ[K] E} (hg : ∀ v, opm g (opm g v) = 0) (v :
   rw [opm_apply, h2]
   abel
 
+omit [FiniteDimensional K E] in
 theorem transvection (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     ∀ g : X, (∀ a ∈ V, g * a * g⁻¹ ∈ Rb) → (¬ ∀ a ∈ V, g * a * g⁻¹ ∈ Nb) →
       ∀ a ∈ V, ∀ b ∈ V, ∀ x ∈ L, ⁅g * a * g⁻¹, ⁅x, g * b * g⁻¹⁆⁆ ∈ V := by
@@ -121,7 +125,7 @@ theorem transvection (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
       I.layer.Rb_T yb hybR _ (hDlow.mid _ (hDlow.top _))
     have key : D e - φ yb (D (φ yb⁻¹ e)) = Δ e := by
       rw [hyb_inv, hyb_apply, hΔ]
-      simp only [map_sub, map_smul, map_add, hΨΨ, smul_zero, sub_zero, add_zero]
+      simp only [map_sub, map_smul]
       module
     have e2 : opm (φ ⁅x, yb⁆) e - Δ e =
         (opm (φ (yb * x⁻¹ * yb⁻¹)) e + φ yb (D (φ yb⁻¹ e))) +
@@ -157,7 +161,7 @@ theorem transvection (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     have t7 := hℓ e
     have key2 : φ ya (Δ (φ ya⁻¹ e)) - Δ e = ((2 : K) * β) • Ψ (D (Ψ e)) := by
       rw [hya_inv, hya_apply]
-      simp only [hΔ, map_sub, map_smul, map_add, hΨΨ, smul_zero, sub_zero, add_zero, map_zero]
+      simp only [hΔ, map_sub, map_smul, map_add, hΨΨ, smul_zero, sub_zero, add_zero]
       module
     rw [I.char2, zero_mul, zero_smul] at key2
     have e2 : opm (φ ⁅ya, ℓ⁆) e =
@@ -170,6 +174,7 @@ theorem transvection (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     exact T.add_mem (T.sub_mem (T.add_mem t6 t5) t7) t4
   exact I.layer.corner_mem _ (I.LN hwL) (I.isLayerCorner_of_mapsTo hcorner)
 
+omit [FiniteDimensional K E] in
 theorem B_opm_self_eq_zero (I : Sec717RepInputs B Qf φ V L Nb Rb T) (g : X) {a : X}
     (ha : a ∈ V) (ha1 : a ≠ 1) (e : E) : B e (opm (φ (g * a * g⁻¹)) e) = 0 := by
   have hc : ∀ c : K, c ^ 2 * Qf (opm (φ (g * a * g⁻¹)) e) +
@@ -312,7 +317,7 @@ theorem pair_dim (I : Sec717RepInputs B Qf φ V L Nb Rb T) {Tt : X → Submodule
     rw [I.Tt_eq_map hTt g₂, I.Tt_eq_map hTt h, hg₂, ← Submodule.map_comp]
     congr 1
     ext v
-    simp [map_mul, LinearEquiv.mul_apply]
+    simp [map_mul]
   have hinf : Tt g₁ ⊓ Tt g₂ = (T ⊓ Tt h).map ((φ g₁ : E ≃ₗ[K] E) : E →ₗ[K] E) := by
     rw [hTt₂, I.Tt_eq_map hTt g₁, Submodule.map_inf _ (φ g₁).injective]
   rw [hinf, LinearEquiv.finrank_map_eq, ← hTt h a ha ha1]

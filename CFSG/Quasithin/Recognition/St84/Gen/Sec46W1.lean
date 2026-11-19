@@ -466,9 +466,9 @@ private theorem s46w1_nss (W : X.CaseAW1Hyp) :
     (∀ k ∈ X.L 1, Odd (orderOf k) → k ≠ 1 → ∀ w ∈ X.Q 1,
       ⁅w, k⁆ ∈ X.Q 0 ⊓ X.Q 2 → w ∈ X.Q 0 ⊓ X.Q 2) := by
   classical
-  haveI : Finite ↥(X.L 1) :=
+  have : Finite ↥(X.L 1) :=
     finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hq : IsL2Quot (X.n 1) (oTwoQuot ↥(X.L 1)) :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 1)).quot
@@ -588,7 +588,7 @@ theorem CaseAW1Hyp.centerOf_Q_zero_le_Q_two (W : X.CaseAW1Hyp)
     have hBconj : conjSub g (X.Q 1 ⊓ X.Q 2) = X.Q 1 ⊓ X.Q 0 := by
       rw [conjSub_inf, hQ1, hQ2]
     have hBab : IsMulCommutative ↥(X.Q 1 ⊓ X.Q 2) := by
-      haveI : IsMulCommutative ↥(X.Q 1 ⊓ X.Q 0) := hCab
+      have : IsMulCommutative ↥(X.Q 1 ⊓ X.Q 0) := hCab
       have h : IsMulCommutative ↥(conjSub g⁻¹ (X.Q 1 ⊓ X.Q 0)) :=
         Subgroup.map_isMulCommutative (H := X.Q 1 ⊓ X.Q 0)
           (MulAut.conj g⁻¹).toMonoidHom

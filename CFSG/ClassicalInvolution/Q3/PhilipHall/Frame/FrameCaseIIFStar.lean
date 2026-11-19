@@ -81,8 +81,8 @@ theorem Std20Frame.noIndexTwo_of_not_concl203 {G : Type} [Group G] [Finite G] [F
 
 theorem frameCaseIITF_of_closed (hcl : Frame206ClosedF) : FrameCaseIITF := by
   intro T _ _ hF hO hB hnab hcit hP R t hdat J zK zJ a g hv ha hac hne hg hgK hs
-  haveI : FrameCore T := frameCore_of_fstar hF hO
-  haveI := hF.1
+  have : FrameCore T := frameCore_of_fstar hF hO
+  have := hF.1
   have h := frameIIHyp_of_datum hnab hdat hv ha hac hne hg hgK hs
   have h202 := frameNbrTwinSG_of_hyp51L frameHyp51L_holds T hB hcit hP R J zK zJ a g h
   obtain ⟨K', S, R₁, R₁', W, V, d⟩ := std20Frame_of_nbrTwin h h202
@@ -93,7 +93,7 @@ theorem frameCaseIITF_of_closed (hcl : Frame206ClosedF) : FrameCaseIITF := by
       d hB hcit hP c4
     have c8 := frameC208 T _ K' J S R₁ R₁' W V zK zJ d (concl20_7_of_cent frame203Cent_holds d c5)
     exact FStar.frameC206_fstar hF.2 hO d (hcl T R K' J S R₁ R₁' W V zK zJ d c8 h3)
-  · haveI : FrameSimple T := FrameSimple.of_frameCore fun _ => d.noIndexTwo_of_not_concl203 h3
+  · have : FrameSimple T := FrameSimple.of_frameCore fun _ => d.noIndexTwo_of_not_concl203 h3
     exact frameCaseIITGSN_of_namedG (frameNbrTwinSG_of_hyp51L frameHyp51L_holds)
       frame203Cent_holds (frameHyp51BG_holds_of g2ModelInnerOddFree_holds) frameXCover_holds T hB
       hnab hcit hP R t hdat J zK zJ a g hv ha hac hne hg hgK hs

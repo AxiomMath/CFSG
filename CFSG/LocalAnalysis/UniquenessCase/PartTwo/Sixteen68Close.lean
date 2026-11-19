@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s1668_comm_eq_bot_of_conj_le (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V₀ V)
     (hW : ⁅E3.wClos V 0 D.T, V⁆ = ⊥) {g : G} (hg : conjSubgroup V g ≤ D.M) :
     ⁅V, conjSubgroup V g⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 V := h.isElemAbelian.isPGroup
   obtain ⟨m, hmM, hm⟩ := UC6.exists_conj_le_of_isSylowOf D.sylowM hg
     (E3.isPGroup_conjSubgroup hV2 g)
@@ -52,6 +52,7 @@ theorem s1668_gammaOneBar_le (D : Data G) (h22 : R1622 D) {V₀ V : Subgroup G}
     lt_of_le_of_lt (by exact_mod_cast Nat.add_le_add_right hi2 (mSub V₀)) hr
   exact (sixteen_twentyThree_one D h22 h hB (hBA.trans hAg) hi).2.2
 
+omit [Finite G] in
 theorem s1668_card_barSub_bot {V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (hA : A ≤ normalizer (V : Set G)) :
     Nat.card (barSub ⊥ V hV A) = (centralizer (V : Set G)).relIndex A := by
@@ -97,7 +98,7 @@ theorem s1668_card_barSub_bot {V A : Subgroup G} (hV : IsElemAbelian 2 V)
 theorem r16_68_close_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h61 : UC6.R6_1 D)
     (h1217 : R1217 D) (h22 : R1622 D) (h129 : R129_1 D) (h159 : R15_9Small D) :
     R16_68_close D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro V₀ V L hV hS hs h0 A g hA hAbar hAg
   subst h0
   have hmsubbot : mSub (⊥ : Subgroup G) = 0 := by
@@ -156,7 +157,7 @@ theorem r16_68_close_holds (D : Data G) (hSg : UC6S846.SigmaStd D) (h61 : UC6.R6
       change E3.mQuot A (A ⊓ centralizer (V : Set G)) ≤ 1
       unfold E3.mQuot
       rw [hrelB]
-      simpa using (padicValNat.prime_pow (p := 2) 1)
+      simp
     have hVleCB : V ≤ centralizer (B : Set G) := by
       have hBle : B ≤ centralizer (V : Set G) := inf_le_right
       exact Subgroup.le_centralizer_iff.mp hBle

@@ -394,7 +394,7 @@ theorem CentralBlockModel.exists_SL_normalizer_fix_kernel_move
       dsimp only [a] at hv
       split_ifs at hv <;> omega
     have hb : μ D.primitive = u := by simpa using congrFun hf b
-    have ha : 1 = u := by simpa only [if_neg hab] using congrFun hf a
+    have ha : 1 = u := by simpa only [ite_eq_right hab] using congrFun hf a
     exact hμne (hb.trans ha.symm)
 
 end CFSG.StandardType.TypeA.PGLTor

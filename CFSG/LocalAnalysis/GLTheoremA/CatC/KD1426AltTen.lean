@@ -26,6 +26,7 @@ theorem center_bot_of_ten {K : Subgroup Y} (hq : CFSG.Open.IsQuasisimple ↥K)
   · exact h
   · exact absurd h.2 (by norm_num)
 
+omit [Finite Y] in
 theorem inf_centralizer_sup {K B0 : Subgroup Y} {a : Y}
     (hB0C : ∀ b ∈ B0, b ∈ Subgroup.centralizer (K : Set Y)) :
     K ⊓ Subgroup.centralizer ((Subgroup.zpowers a ⊔ B0 : Subgroup Y) : Set Y) =
@@ -66,6 +67,7 @@ theorem comm_zpowers {Y' : Type} [Group Y'] {a b : Y'} (h : a * b = b * a) {g : 
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
   exact Commute.zpow_right (show Commute b a from h.symm) n
 
+omit [Finite Y] in
 theorem card_sup_zpowers {a : Y} {B0 : Subgroup Y} (hza : Nat.card (Subgroup.zpowers a) = 3)
     (hnorm0 : B0 ≤ Subgroup.normalizer (Subgroup.zpowers a : Set Y))
     (hBz : Nat.card ↥(Subgroup.zpowers a ⊓ B0) = 1) :
@@ -86,7 +88,8 @@ theorem layer_sup {K B0 : Subgroup Y} (hK : K.Normal) (π : ↥K ≃* alternatin
   rw [inf_centralizer_sup hB0C]
   exact KD1426AltTenLayer.layer_three_cycle hK π a σ hσ3 hσc hcomm
 
-theorem criterion_sup {K B : Subgroup Y} (hK : K.Normal) (hB : CFSG.Open.IsElemAbelian 3 B)
+omit [Finite Y] in
+theorem criterion_sup {K B : Subgroup Y} (hK : K.Normal) (_hB : CFSG.Open.IsElemAbelian 3 B)
     (π : ↥K ≃* alternatingGroup (Fin 10)) (ψ : ↥B →* alternatingGroup (Fin 10))
     (hψequiv : ∀ (b : ↥B) (k : ↥K),
       π (KD264Inner.conjKequiv K hK (b : Y) k) = ψ b * π k * (ψ b)⁻¹)
@@ -188,7 +191,7 @@ theorem alt10_main {K B : Subgroup Y} (hK : K.Normal) (hB : CFSG.Open.IsElemAbel
       Nat.card T = 4 ∧ B ≤ Subgroup.normalizer (T : Set Y) ∧ ⁅B, T⁆ = T ∧
       GLAPPrimeCore 3 ↥(GLAPLayer 3 (K ⊓ Subgroup.centralizer (A : Set Y))) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : ∀ b ∈ B, b ^ 3 = 1 := hB.2
   have ha3' : (a : Y) ^ 3 = 1 := hB3 (a : Y) a.2
   have hσ3 : ψ a ^ 3 = 1 := by

@@ -15,6 +15,7 @@ variable {A : Type} [Group A] [Finite A]
 
 @[expose] def Pxc (P : Subgroup A) (x : A) : Subgroup A := P ⊓ centralizer ({x} : Set A)
 
+omit [Finite A] in
 theorem mem_Pxc {P : Subgroup A} {x y : A} :
     y ∈ Pxc P x ↔ y ∈ P ∧ y ∈ centralizer ({x} : Set A) := Iff.rfl
 
@@ -58,7 +59,7 @@ theorem x_not_mem_frattini_Pxc {p : ℕ} {P : Sylow p A} {X : Subgroup A} {x z :
     x ∉ (frattini ↥(Pxc (P : Subgroup A) x)).map (Pxc (P : Subgroup A) x).subtype := by
   classical
   have hprime := h.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hxB : x ∈ zpowers x ⊔ zpowers z := mem_sup_left (mem_zpowers x)
   have hxPx : x ∈ Pxc (P : Subgroup A) x := plane_le_Pxc h hxB
   have hxP : x ∈ (P : Subgroup A) := (mem_Pxc.mp hxPx).1
@@ -84,24 +85,24 @@ theorem x_not_mem_frattini_Pxc {p : ℕ} {P : Sylow p A} {X : Subgroup A} {x z :
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact h.plane.isElemAbelian.2 x hxB
   obtain ⟨T, hTP, hTe, hTc⟩ := exists_elemAbelian_cube_of_four_le P h.four_le
-  haveI hTel : CFSG.IsElementaryAbelian p ↥T :=
+  have hTel : CFSG.IsElementaryAbelian p ↥T :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p T).2 hTe
-  haveI hTPel : CFSG.IsElementaryAbelian p ↥(T.subgroupOf (P : Subgroup A)) :=
+  have hTPel : CFSG.IsElementaryAbelian p ↥(T.subgroupOf (P : Subgroup A)) :=
     CFSG.IsElementaryAbelian.subgroupOf hTP
   have hTc' : Nat.card ↥(T.subgroupOf (P : Subgroup A)) = p ^ 3 := by
     rw [Nat.card_congr (subgroupOfEquivOfLe hTP).toEquiv]
     exact hTc
   obtain ⟨E, hEC, hEe, hE3⟩ := exists_centralizer_rank_three_of_mem_frattini
-    (by have := h.five_le; omega) P.isPGroup' hxp ⟨hxmem, hgfr'⟩ hTPel hTc'
+    (by have := h.five_le; omega) P.isPGroup hxp ⟨hxmem, hgfr'⟩ hTPel hTc'
   have hEA : E.map (P : Subgroup A).subtype ≤ centralizer ({x} : Set A) := by
     rintro _ ⟨e, he, rfl⟩
     exact mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (mem_centralizer_singleton_iff.mp (hEC he)))
-  haveI : CFSG.IsElementaryAbelian p ↥E := hEe
+  have : CFSG.IsElementaryAbelian p ↥E := hEe
   have hEel : CFSG.Open.IsElemAbelian p (E.map (P : Subgroup A).subtype) :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p _).1
       CFSG.IsElementaryAbelian.map_subtype
-  have hEp : IsPGroup p ↥E := P.isPGroup'.to_subgroup E
+  have hEp : IsPGroup p ↥E := P.isPGroup.to_subgroup E
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hEp
   have hcardmap : Nat.card ↥(E.map (P : Subgroup A).subtype) = p ^ k := by
     rw [Subgroup.card_map_of_injective (P : Subgroup A).subtype_injective]
@@ -117,7 +118,7 @@ theorem comm_Pxc_sub {p : ℕ} {P : Sylow p A} {X : Subgroup A} {x z : A}
     (h : Plane65 p P X x z) (a b : ↥(Pxc (P : Subgroup A) x)) : a * b = b * a := by
   classical
   have hprime := h.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hxB : x ∈ zpowers x ⊔ zpowers z := mem_sup_left (mem_zpowers x)
   have hxPx : x ∈ Pxc (P : Subgroup A) x := plane_le_Pxc h hxB
   have hxcent : ∀ g : ↥(Pxc (P : Subgroup A) x), g * ⟨x, hxPx⟩ = ⟨x, hxPx⟩ * g := by
@@ -158,7 +159,7 @@ theorem comm_Pxc_sub {p : ℕ} {P : Sylow p A} {X : Subgroup A} {x z : A}
     nlinarith
   have hPxp : IsPGroup p ↥(Pxc (P : Subgroup A) x) := by
     intro g
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g.1, (mem_Pxc.mp g.2).1⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g.1, (mem_Pxc.mp g.2).1⟩
     refine ⟨k, Subtype.ext ?_⟩
     simpa using congrArg Subtype.val hk
   have hDp : IsPGroup p ↥D := hPxp.to_subgroup D
@@ -184,7 +185,7 @@ theorem comm_Pxc_sub {p : ℕ} {P : Sylow p A} {X : Subgroup A} {x z : A}
     · intro g hg
       refine mem_subgroupOf.mpr ⟨?_, g.2⟩
       exact hΩ g.1 g.2 (by simpa using congrArg Subtype.val hg)
-  haveI := hcyc
+  have := hcyc
   have hDcomm : ∀ c d : ↥(Pxc (P : Subgroup A) x), c ∈ D → d ∈ D → c * d = d * c := by
     intro c d hc hd
     exact congrArg Subtype.val (comm_of_isCyclic (G := ↥D) ⟨c, hc⟩ ⟨d, hd⟩)

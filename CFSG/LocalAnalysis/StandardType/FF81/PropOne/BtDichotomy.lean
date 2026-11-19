@@ -100,7 +100,7 @@ theorem bt_dichotomy {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subg
         CK := hCK
         NLN := hNLN
         NLb := hNLb
-        NLC := fun x hx => hself ⟨hx.1.1.1, Subgroup.centralizer_le D.B₁_le_B hx.2⟩
+        NLC := fun x hx => hself ⟨hx.1.1.1, Subgroup.centralizer_le CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hx.2⟩
         gen := fun m hm => D.gen_of_no_inv M hmono hno hNLN hNLb hNL hm }⟩
   exact D.hbt_of M (fun m hm hmb => hmono m hm (Or.inr hmb)) hcompl
 

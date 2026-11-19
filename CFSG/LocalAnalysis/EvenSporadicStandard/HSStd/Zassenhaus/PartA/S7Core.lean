@@ -14,12 +14,14 @@ section Core
 
 variable {T : Type} [Group T] [Finite T]
 
+omit [Finite T] in
 theorem commutator_le_self_of_subgroup (E : Subgroup T) : ⁅E, E⁆ ≤ E := by
   rw [Subgroup.commutator_le]
   intro a ha b hb
   rw [commutatorElement_def]
   exact E.mul_mem (E.mul_mem (E.mul_mem ha hb) (E.inv_mem ha)) (E.inv_mem hb)
 
+omit [Finite T] in
 theorem exists_perfect_core (P : Subgroup T) :
     ∃ E : Subgroup T, E ≤ P ∧ ⁅E, E⁆ = E ∧ ∀ H : Subgroup T, H ≤ P → ⁅H, H⁆ = H → H ≤ E := by
   let S : Set (Subgroup T) := {H | H ≤ P ∧ ⁅H, H⁆ = H}
@@ -30,6 +32,7 @@ theorem exists_perfect_core (P : Subgroup T) :
   calc H = ⁅H, H⁆ := hH.2.symm
     _ ≤ ⁅sSup S, sSup S⁆ := Subgroup.commutator_mono (le_sSup hH) (le_sSup hH)
 
+omit [Finite T] in
 theorem conj_le_perfectCore {P E : Subgroup T} (hE : ⁅E, E⁆ = E) (hEP : E ≤ P)
     (hmax : ∀ H : Subgroup T, H ≤ P → ⁅H, H⁆ = H → H ≤ E) {g : T}
     (hg : ∀ x ∈ P, g * x * g⁻¹ ∈ P) {x : T} (hx : x ∈ E) : g * x * g⁻¹ ∈ E := by

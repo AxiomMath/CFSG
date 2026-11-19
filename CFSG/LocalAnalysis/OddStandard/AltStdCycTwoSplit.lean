@@ -21,7 +21,7 @@ theorem cyc_of_sylow (hS : StandardSetting G L) (S : Sylow 2 (centralizer (L : S
     rw [card_sylowSub]
     exact two_dvd_card_sylow (even_card_centralizer hS) S
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := sylowSub S) 2 h2
-  refine ⟨(x : G), Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, ?_, ?_, x.2⟩
+  refine ⟨(x : G), Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, ?_, ?_, x.2⟩
   · have : (sylowSub S).relIndex (centralizer (L : Set G)) =
         (S : Subgroup (centralizer (L : Set G))).index := by
       unfold Subgroup.relIndex sylowSub
@@ -78,7 +78,7 @@ theorem mem_zpowers_of_two_pow (d : Cyc L Q z) (hQ2 : Nat.card Q = 2) {c : G}
   have hcp : IsPGroup 2 (zpowers c') := IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
   have := hSn
   have hsup : IsPGroup 2 ((S : Subgroup M) ⊔ zpowers c' : Subgroup M) :=
-    S.isPGroup'.to_sup_of_normal_left hcp
+    S.isPGroup.to_sup_of_normal_left hcp
   have heq : (S : Subgroup M) ⊔ zpowers c' ≤ (S : Subgroup M) :=
     S.maximal_isPGroup.2 hsup le_sup_left
   have hcS : c' ∈ (S : Subgroup M) :=
@@ -92,6 +92,7 @@ theorem mem_zpowers_of_two_pow (d : Cyc L Q z) (hQ2 : Nat.card Q = 2) {c : G}
     Subgroup G :=
   ((alternatingGroup (Fin n)).comap (rho θ hn)).map (normalizer (L : Set G)).subtype
 
+omit [Finite G] in
 theorem mem_evenAct_iff (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {x : G}
     (hx : x ∈ normalizer (L : Set G)) :
     x ∈ evenAct θ hn ↔ rho θ hn ⟨x, hx⟩ ∈ alternatingGroup (Fin n) := by
@@ -101,6 +102,7 @@ theorem mem_evenAct_iff (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {x
   · intro h
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem sup_le_evenAct (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) :
     L ⊔ centralizer (L : Set G) ≤ evenAct θ hn := by
   refine sup_le (fun l hl => ?_) (fun c hc => ?_)
@@ -111,6 +113,7 @@ theorem sup_le_evenAct (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) :
     rw [mem_evenAct_iff θ hn hcN, (rho_eq_one_iff θ hn ⟨c, hcN⟩).2 hc]
     exact one_mem _
 
+omit [Finite G] in
 theorem mem_sup_of_rho_mem (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {c : G}
     (hcN : c ∈ normalizer (L : Set G)) (hc : rho θ hn ⟨c, hcN⟩ ∈ alternatingGroup (Fin n)) :
     c ∈ L ⊔ centralizer (L : Set G) := by

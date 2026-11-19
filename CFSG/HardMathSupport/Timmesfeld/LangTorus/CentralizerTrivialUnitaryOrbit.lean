@@ -21,8 +21,8 @@ theorem exists_order_nine (L : Type) [Field L] [IsAlgClosed L] [CharP L 2] :
   have h9 : (9 : L) = 1 := by
     calc (9 : L) = 4 * 2 + 1 := by ring
       _ = 1 := by rw [h2, mul_zero, zero_add]
-  letI : NeZero (9 : L) := ⟨by rw [h9]; exact one_ne_zero⟩
-  obtain ⟨v, hv⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 9
+  let : NeZero (9 : L) := ⟨by rw [h9]; exact one_ne_zero⟩
+  obtain ⟨v, hv⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 9
   let w : Lˣ := Units.mk0 v (hv.ne_zero (by decide))
   refine ⟨w, ?_⟩
   have ho : orderOf (w : L) = orderOf w := orderOf_units
@@ -278,7 +278,7 @@ theorem commute_kernelSpan_of_geom_unitary_orbit_three
     (CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.TwE6UniqAbs.kac_facts h3 hap).frame i hSix
   obtain ⟨pi, hpi⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.KSNotAll24.exists_unitary_perm_of_odd_orbit
-      S hT hap h1 i hSix hpsi hnorm hPsi (by simpa only [hs3] using (show (3 : ℕ) % 2 = 1 from by decide))
+      S hT hap h1 i hSix hpsi hnorm hPsi (by simp only [hs3])
       (by simpa only [hq2] using (show (3 : ℕ) ∣ 2 + 1 from by decide))
   obtain ⟨sigmaQ, xu, hSigmaQ, hXu, hXuN, hStepPsi⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.exists_unitary_untwist_kd264alg (S := S)

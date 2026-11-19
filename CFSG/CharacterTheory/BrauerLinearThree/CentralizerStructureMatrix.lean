@@ -331,7 +331,7 @@ theorem exists_conj_diagGL_of_mul_self (h2 : (2 : F) ≠ 0) (A : GL (Fin 2) F) (
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
         simp only [← ha_def, ← hb_def, ← hc_def, ← hd_def] <;>
-        first | ring1 | linear_combination hdet | linear_combination c * htr
+        first | linear_combination hdet | linear_combination c * htr
   ·
     have hP : (!![b, b; 1 - a, -1 - a] : Matrix (Fin 2) (Fin 2) F).det ≠ 0 := by
       rw [Matrix.det_fin_two_of]

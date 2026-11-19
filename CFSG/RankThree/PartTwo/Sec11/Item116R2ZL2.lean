@@ -56,7 +56,7 @@ theorem nonempty_fixedSub_equiv_L2 {p e : ℕ} [Fact p.Prime] (he : 1 ≤ e)
   have hSσ : ∀ a, a ∈ S ↔ σ a = a := by
     intro a
     have h : a ∈ (S : Set F) ↔ a ∈ {a | ∀ τ ∈ Subgroup.zpowers σ, τ a = a} := by rw [hSset]
-    simp only [SetLike.mem_coe, Set.mem_setOf_eq] at h
+    simp only [SetLike.mem_coe, Set.mem_ofPred_eq] at h
     rw [h]
     constructor
     · intro h1
@@ -71,10 +71,10 @@ theorem nonempty_fixedSub_equiv_L2 {p e : ℕ} [Fact p.Prime] (he : 1 ≤ e)
       obtain ⟨n, rfl⟩ := (Submonoid.mem_powers_iff _ _).1 hτ
       exact key n
   obtain ⟨e3⟩ := SimsR1.FieldCent.L2.nonempty_psl2_equiv_fixedSub S σ hσ3 hSσ
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by
+  have : Finite S := Nat.finite_of_card_ne_zero (by
     rw [hScard]; exact pow_ne_zero _ (Fact.out : p.Prime).ne_zero)
-  letI : Fintype S := Fintype.ofFinite S
-  letI : Fintype (GaloisField p e) := Fintype.ofFinite _
+  let : Fintype S := Fintype.ofFinite S
+  let : Fintype (GaloisField p e) := Fintype.ofFinite _
   have hcard : Fintype.card S = Fintype.card (GaloisField p e) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hScard,
       GaloisField.card p e (by omega)]

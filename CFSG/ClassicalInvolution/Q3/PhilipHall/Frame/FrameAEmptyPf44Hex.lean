@@ -211,7 +211,7 @@ private theorem exists_orderOf_four_mem (hΩ : TypeRHyp Ω) (S : Sylow 2 G) {η 
   obtain ⟨R', -, J', hJ', hR'J', -, hcyc, hcard, -⟩ := Sec6Gen.exists_data_of_mem_USet hΩg hVU
   have h8 := natCard_eq_eight hΩ hJ' hR'J'
   have hV4 : Nat.card V = 4 := by omega
-  haveI := hcyc
+  have := hcyc
   obtain ⟨u, hu⟩ := IsCyclic.exists_generator (α := ↥V)
   have hu4 : orderOf (u : G) = 4 := by
     rw [Subgroup.orderOf_coe, ← hV4, orderOf_eq_card_of_forall_mem_zpowers hu]
@@ -246,7 +246,7 @@ theorem false_of_hexagon (hΩ : TypeRHyp Ω) {L P J₀ : Subgroup G} {zL zJ₀ :
   obtain ⟨S, hSLS⟩ := hSL.2.1.exists_le_sylow
   obtain ⟨W, hW, hWS, hSW⟩ := Q3CP.exists_W_of_hypOmegaGen hΩg S
   have hWc := Q3CL.Thompson.commutes_of_mem_WSet hΩg hW
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hWS
   have hSN : ∀ x ∈ (S : Subgroup G), x ∈ Subgroup.normalizer (W : Set G) :=
     fun x hx => mem_normalizer_of_conjSub_eq (hSW x hx)
   obtain ⟨η, hη, hWη⟩ := id hW

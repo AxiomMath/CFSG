@@ -24,7 +24,7 @@ theorem outLift_of_orthogonalGates {K : Type} [Field K] [Finite K] {d : ℕ}
     (hH : (Nat.card (K ≃+* K)).factorization ℓ ≤ (Nat.card H).factorization ℓ)
     (σ₀ : H →* similarityPairs Q) (hσ₀ : ∀ σ : H, (σ₀ σ).val.right = σ.1)
     [Finite (matrixProjectiveDerived Q)] : OutLift ℓ (matrixProjectiveDerived Q) := by
-  haveI := finite_ringAut K
+  have := finite_ringAut K
   obtain ⟨-, ⟨ψ, hψ1, hψk, -⟩, ⟨hID, k, hk⟩, -⟩ := hg
   have hDE : (linearConjugationHom Q).range ≤ matrixProjectiveImage Q := by
     rintro _ ⟨g, rfl⟩
@@ -91,7 +91,7 @@ theorem liftClause_classical_POmegaOdd {n p f : ℕ} :
     n p f h K hK e
   have htop := CFSG.RankThree.PartOne.KCOrthogonalAut.matrixProjectiveImage_eq_top_odd K n hn
     (by rw [hchar]; exact hr2)
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     Finite.of_equiv S (coordinateOddWitnessEquiv K e).toEquiv
   refine OutLift.of_mulEquiv (coordinateOddWitnessEquiv K e) ?_
   exact outLift_of_orthogonalGates_top (coordinateQuadOdd n K) hℓ hℓ2 hg
@@ -106,7 +106,7 @@ theorem liftClause_classical_POmegaPlus {n p f : ℕ} :
   obtain ⟨⟨hp, hf, hn⟩, K, _, _, hK, ⟨e⟩⟩ := h0
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates S .POmegaPlus
     (Or.inr (Or.inl rfl)) n p f h K hK e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv S (coordinatePlusWitnessEquiv K e).toEquiv
   have hEidx : ¬ ℓ ∣ (matrixProjectiveImage (coordinateQuadPlus n K)).index := by
     by_cases hn5 : 5 ≤ n

@@ -20,7 +20,7 @@ theorem i167COrth_innerImage_fixed {S T : Type} [Group S] [Group T] (e : S ≃* 
     (hZ : Subgroup.center S = ⊥) {Bb : Subgroup (MulAut S)} (hBb : IsElemAbelian p Bb)
     {β : MulAut S} (hβ : β ∈ Bb) : ∀ a ∈ COrthInnerImage e Bb, (MulAut.congr e β) a = a := by
   have hinj := CFSG.mulAutConj_injective_of_center_eq_bot hZ
-  haveI : IsMulCommutative Bb := hBb.1
+  have : IsMulCommutative Bb := hBb.1
   intro a ha
   obtain ⟨s, hs, hes⟩ := Subgroup.mem_map.mp ha
   rw [Subgroup.mem_comap] at hs
@@ -40,7 +40,7 @@ theorem i167COrth_innerImage_fixed {S T : Type} [Group S] [Group T] (e : S ≃* 
   rw [hkey]
 
 theorem i167COrth_descent_max_outer {S T : Type} [Group S] [Group T] (e : S ≃* T) {p : ℕ}
-    {Bb : Subgroup (MulAut S)} {β : MulAut S} (hβ : β ∈ Bb)
+    {Bb : Subgroup (MulAut S)} {β : MulAut S} (_hβ : β ∈ Bb)
     (hcyc : ∀ β' ∈ Bb, ∃ (j : ℤ) (s : S), (MulAut.conj s : MulAut S) ∈ Bb ∧
       β' = MulAut.conj s * β ^ j)
     (hScp : ∀ s : S, (∀ β ∈ Bb, β s = s) → s ^ p = 1 → (MulAut.conj s : MulAut S) ∈ Bb) :
@@ -83,6 +83,7 @@ section Model
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem i167COrth_descent_cent_triv_aux1 {x t j : V ≃ₗ[F] V}
     (hx : OddOrderIsometry Q p x) (ht : t ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (htW : ∀ w ∈ fixedSpace x, t w = w) (hj : j ∈ supportedFixedDerived Q x) :

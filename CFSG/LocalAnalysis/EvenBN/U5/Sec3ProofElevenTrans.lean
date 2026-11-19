@@ -62,7 +62,7 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
       ∀ x ∈ V, x ∉ Q' → ∀ y ∈ V, y ∉ Q' → ∃ j ∈ J, (j * x * j⁻¹) * y⁻¹ ∈ Q' := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP k₂ 2 := U4.charP_two_of_card hk
+  have : CharP k₂ 2 := U4.charP_two_of_card hk
   have hPX : P' ≤ X := hP.le
   have hPcard : Nat.card P' = Nat.card k₂ := by
     rw [hk]; exact Prelim.card_of_isSylowOf hk (by omega) ψ hP
@@ -86,7 +86,7 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
       rw [hVc]; exact Nat.one_lt_two_pow (by omega)
     obtain ⟨a, haV, ha1⟩ : ∃ a ∈ V ⊓ centralizer (P' : Set G'), a ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hb : (V ⊓ centralizer (P' : Set G')) = ⊥ :=
         eq_bot_iff.2 fun z hz => Subgroup.mem_bot.2 (hcon z hz)
       rw [hb, Subgroup.card_bot] at hpos
@@ -131,7 +131,7 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
     calc p * (j * z * j⁻¹) = j * ((j⁻¹ * p * j) * z) * j⁻¹ := by group
       _ = j * (z * (j⁻¹ * p * j)) * j⁻¹ := by rw [h1]
       _ = (j * z * j⁻¹) * p := by group
-  have hsolv : Group.IsSolvable V := isSolvable_of_comm fun a b => Subtype.ext (hcomm a a.2 b b.2)
+  have hsolv : Group.IsSolvable V := _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (hcomm a a.2 b b.2)
   have hVNQ : V ≤ normalizer (Q' : Set G') := by
     intro v hv
     refine mem_normalizer_fintype fun z hz => ?_
@@ -173,7 +173,7 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
       have hc1 : c = 1 := hfix s hs hs1 c hcV hcs
       rw [hxc, hc1, one_mul]
       exact hn'
-  haveI hQn : (Q'.subgroupOf V).Normal := ⟨fun z hz g => by
+  have hQn : (Q'.subgroupOf V).Normal := ⟨fun z hz g => by
     have hc : (g : G') * z * (g : G')⁻¹ = z := by
       have := hcomm g g.2 z z.2
       calc (g : G') * z * (g : G')⁻¹ = z * g * (g : G')⁻¹ := by rw [this]
@@ -213,8 +213,8 @@ theorem s311a_abstract {n : ℕ} (hk : Nat.card k₂ = 2 ^ n) (hn : 2 ≤ n)
     rcases hsemireg _ (J.mul_mem (J.inv_mem j.2) j'.2) x hx h2 with hs | hs
     · exact Subtype.ext (inv_mul_eq_one.1 hs)
     · exact absurd hs hxQ
-  letI : Fintype J := Fintype.ofFinite J
-  letI : Fintype (↥V ⧸ Q'.subgroupOf V) := Fintype.ofFinite _
+  let : Fintype J := Fintype.ofFinite J
+  let : Fintype (↥V ⧸ Q'.subgroupOf V) := Fintype.ofFinite _
   have hS₁card : (Finset.univ.image f).card = 2 ^ n - 1 := by
     rw [Finset.card_image_of_injective _ hf_inj, Finset.card_univ, ← Nat.card_eq_fintype_card,
       hJcard]
@@ -260,35 +260,43 @@ variable (hp : d.CaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf 2 S d.
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit [Finite G] hp in
 theorem s311a_D_le_S : d.D ≤ S := (k.s9_1 S hS hP).1.symm ▸ le_sup_right
 
+omit [Finite G] hp in
 theorem s311a_E_le_S : d.E ≤ S := (k.s9_1 S hS hP).1.symm ▸ le_sup_left
 
+omit [Finite G] hp in
 theorem s311a_S_le_N_D : S ≤ normalizer (d.D : Set G) := by
-  haveI : (d.D.subgroupOf S).Characteristic := (k.s9_1 S hS hP).2.2
-  haveI : (d.D.subgroupOf S).Normal := inferInstance
-  exact (Subgroup.normal_subgroupOf_iff_le_normalizer (s311a_D_le_S hp k hS hP)).1 inferInstance
+  have : (d.D.subgroupOf S).Characteristic := (k.s9_1 S hS hP).2.2
+  have : (d.D.subgroupOf S).Normal := inferInstance
+  exact (Subgroup.normal_subgroupOf_iff_le_normalizer (s311a_D_le_S k hS hP)).1 inferInstance
 
+omit [Finite G] hp in
 theorem s311a_F_le_D : d.F ≤ d.D := by
   have h := (k.s9_2 S hS hP).2.2.2.1
   rw [← h]
   exact inf_le_left
 
+omit [Finite G] hp in
 theorem s311a_N_D_le_N_F : normalizer (d.D : Set G) ≤ normalizer (d.F : Set G) := by
   have h := (k.s9_2 S hS hP).2.2.2.1
   rw [← h]
   exact normalizer_le_normalizer_centerIn d.D
 
+omit [Finite G] hp in
 theorem s311a_S_le_N_F : S ≤ normalizer (d.F : Set G) :=
-  (s311a_S_le_N_D hp k hS hP).trans (s311a_N_D_le_N_F hp k hS hP)
+  (s311a_S_le_N_D k hS hP).trans (s311a_N_D_le_N_F k hS hP)
 
+omit hS hP in
 theorem s311a_M₁_le_N_D : d.M₁ ≤ normalizer (d.D : Set G) := by
   have h1 : d.M₁ ≤ d.L₁ := by rw [k.s9_3.1]; exact le_sup_right
   exact h1.trans (hp.hyp.L₁_le_normalizer_D)
 
 theorem s311a_M₁_le_N_F : d.M₁ ≤ normalizer (d.F : Set G) :=
-  (s311a_M₁_le_N_D hp k hS hP).trans (s311a_N_D_le_N_F hp k hS hP)
+  (s311a_M₁_le_N_D hp k).trans (s311a_N_D_le_N_F k hS hP)
 
+omit [Finite G] hp hS hP in
 theorem s311a_M₁_inf_D : d.M₁ ⊓ d.D = ⊥ := by
   refine eq_bot_iff.2 fun z hz => ?_
   have hz' : z ∈ d.D ⊓ centralizer (d.I₁ : Set G) :=
@@ -296,8 +304,10 @@ theorem s311a_M₁_inf_D : d.M₁ ⊓ d.D = ⊥ := by
   rw [k.s9e.centralizer_I₁] at hz'
   exact hz'
 
+omit [Finite G] hp in
 theorem s311a_R_sylow : IsSylowOf 2 (S ⊓ d.M₁) d.M₁ := (k.s10_2 S hS hP).1.2
 
+omit [Finite G] hp in
 theorem s311a_S_eq : S = d.D ⊔ (S ⊓ d.M₁) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, ⟨h12, -⟩⟩ := k.s10_1 S hS hP
   rw [← (k.s10_2 S hS hP).1.1]
@@ -308,9 +318,9 @@ theorem s311a_card_Q : Nat.card ((d.E ⊓ d.D) ⊔ d.F : Subgroup G) = (2 ^ f) ^
   have hQ : (d.E ⊓ d.D) ⊔ d.F = d.F ⊔ (S ⊓ centralizer (d.I₅ : Set G)) := by
     rw [sup_comm]; exact h10
   rw [hQ]
-  have hFS : d.F ≤ S := (s311a_F_le_D hp k hS hP).trans (s311a_D_le_S hp k hS hP)
+  have hFS : d.F ≤ S := (s311a_F_le_D k hS hP).trans (s311a_D_le_S k hS hP)
   have hC₅N : S ⊓ centralizer (d.I₅ : Set G) ≤ normalizer (d.F : Set G) :=
-    inf_le_left.trans (s311a_S_le_N_F hp k hS hP)
+    inf_le_left.trans (s311a_S_le_N_F k hS hP)
   have h1 := Common.card_sup_mul_card_inf_eq hC₅N
   have h2 : (d.F ⊓ (S ⊓ centralizer (d.I₅ : Set G))) = d.F ⊓ centralizer (d.I₅ : Set G) := by
     ext z
@@ -350,23 +360,27 @@ variable (hp : d.CaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf 2 S d.
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit [Finite G] hp in
 theorem s311a_D_le_N_F : d.D ≤ normalizer (d.F : Set G) :=
-  (s311a_D_le_S hp k hS hP).trans (s311a_S_le_N_F hp k hS hP)
+  (s311a_D_le_S k hS hP).trans (s311a_S_le_N_F k hS hP)
 
+omit [Finite G] hp in
 theorem s311a_Q_le_D : (d.E ⊓ d.D) ⊔ d.F ≤ d.D :=
-  sup_le inf_le_right (s311a_F_le_D hp k hS hP)
+  sup_le inf_le_right (s311a_F_le_D k hS hP)
 
+omit [Finite G] hp in
 theorem s311a_bar_D_sq : ∀ v ∈ bar d.F d.D, v * v = 1 := by
   rintro _ ⟨⟨x, hxN⟩, hx, rfl⟩
   have hx2 : x * x ∈ d.F := (k.s9_2 S hS hP).2.2.2.2 x (mem_subgroupOf.1 hx)
   rw [← map_mul]
   exact proj_eq_one_iff.2 hx2
 
+omit [Finite G] hp in
 theorem s311a_bar_D_comm : ∀ a ∈ bar d.F d.D, ∀ b ∈ bar d.F d.D, a * b = b * a :=
-  fun _ ha _ hb => Common.mul_comm_of_mul_self (s311a_bar_D_sq hp k hS hP) ha hb
+  fun _ ha _ hb => Common.mul_comm_of_mul_self (s311a_bar_D_sq k hS hP) ha hb
 
 theorem s311a_card_bar_D : Nat.card (bar d.F d.D) = (2 ^ (4 * f)) ^ 2 := by
-  have h := card_bar_mul (s311a_F_le_D hp k hS hP) (s311a_D_le_N_F hp k hS hP)
+  have h := card_bar_mul (s311a_F_le_D k hS hP) (s311a_D_le_N_F k hS hP)
   rw [k.s9e.card_D, hp.hyp.card_F hp.gms] at h
   have hpos : 0 < (2 ^ f) ^ 8 := by positivity
   apply Nat.eq_of_mul_eq_mul_right hpos
@@ -375,7 +389,7 @@ theorem s311a_card_bar_D : Nat.card (bar d.F d.D) = (2 ^ (4 * f)) ^ 2 := by
 
 theorem s311a_card_bar_Q : Nat.card (bar d.F ((d.E ⊓ d.D) ⊔ d.F)) = 2 ^ (4 * f) := by
   have hQN : (d.E ⊓ d.D) ⊔ d.F ≤ normalizer (d.F : Set G) :=
-    (s311a_Q_le_D hp k hS hP).trans (s311a_D_le_N_F hp k hS hP)
+    (s311a_Q_le_D k hS hP).trans (s311a_D_le_N_F k hS hP)
   have h := card_bar_mul (le_sup_right : d.F ≤ (d.E ⊓ d.D) ⊔ d.F) hQN
   rw [s311a_card_Q hp k hS hP, hp.hyp.card_F hp.gms] at h
   have hpos : 0 < (2 ^ f) ^ 8 := by positivity
@@ -388,10 +402,11 @@ theorem s311a_proj_inj {m m' : G} (hm : m ∈ d.M₁) (hm' : m' ∈ d.M₁)
       proj d.F ⟨m', s311a_M₁_le_N_F hp k hS hP hm'⟩) : m = m' := by
   have h1 := proj_eq_proj_iff.1 h
   have h2 : m⁻¹ * m' ∈ d.M₁ ⊓ d.D :=
-    Subgroup.mem_inf.2 ⟨mul_mem (inv_mem hm) hm', s311a_F_le_D hp k hS hP h1⟩
-  rw [s311a_M₁_inf_D hp k hS hP, Subgroup.mem_bot] at h2
+    Subgroup.mem_inf.2 ⟨mul_mem (inv_mem hm) hm', s311a_F_le_D k hS hP h1⟩
+  rw [s311a_M₁_inf_D k, Subgroup.mem_bot] at h2
   exact inv_mul_eq_one.1 h2
 
+omit [Finite G] hp in
 theorem s311a_bar_Q_le_centralizer : bar d.F ((d.E ⊓ d.D) ⊔ d.F) ≤
     centralizer ((bar d.F (S ⊓ d.M₁) : Subgroup (Bar d.F)) : Set (Bar d.F)) := by
   rintro _ ⟨⟨q, hqN⟩, hq, rfl⟩
@@ -419,15 +434,15 @@ theorem s311a_not_X_le_centralizer : ¬ bar d.F d.M₁ ≤
   intro hXC
   apply s311a_not_D_le_Q hp k hS hP
   intro dd hdd
-  have hddS := s311a_D_le_S hp k hS hP hdd
-  have hddN : dd ∈ normalizer (d.F : Set G) := s311a_D_le_N_F hp k hS hP hdd
+  have hddS := s311a_D_le_S k hS hP hdd
+  have hddN : dd ∈ normalizer (d.F : Set G) := s311a_D_le_N_F k hS hP hdd
   rw [← k.s10_3 S hS hP]
   refine Subgroup.mem_inf.2 ⟨hddS, Subgroup.le_normalizer hddS, hddN, fun x hx => ?_⟩
-  have hxD : x ∈ d.D ⊔ (S ⊓ d.M₁) := (s311a_S_eq hp k hS hP) ▸ hx
+  have hxD : x ∈ d.D ⊔ (S ⊓ d.M₁) := (s311a_S_eq k hS hP) ▸ hx
   have hRD : S ⊓ d.M₁ ≤ normalizer (d.D : Set G) :=
-    inf_le_right.trans (s311a_M₁_le_N_D hp k hS hP)
+    inf_le_right.trans (s311a_M₁_le_N_D hp k)
   obtain ⟨d', hd', r, hr, rfl⟩ := exists_mul_of_mem_sup_of_le_normalizer hRD hxD
-  have hd'N : d' ∈ normalizer (d.F : Set G) := s311a_D_le_N_F hp k hS hP hd'
+  have hd'N : d' ∈ normalizer (d.F : Set G) := s311a_D_le_N_F k hS hP hd'
   have hrN : r ∈ normalizer (d.F : Set G) := s311a_M₁_le_N_F hp k hS hP (Subgroup.mem_inf.1 hr).2
   have hmem : (d' * r)⁻¹ * (dd * (d' * r) * dd⁻¹) ∈ normalizer (d.F : Set G) :=
     mul_mem (inv_mem (mul_mem hd'N hrN)) (mul_mem (mul_mem hddN (mul_mem hd'N hrN)) (inv_mem hddN))
@@ -441,7 +456,7 @@ theorem s311a_not_X_le_centralizer : ¬ bar d.F d.M₁ ≤
   have hV2 : proj d.F ⟨dd, hddN⟩ ∈ bar d.F d.D := proj_mem_bar hdd
   have hX : proj d.F ⟨r, hrN⟩ ∈ bar d.F d.M₁ := proj_mem_bar (Subgroup.mem_inf.1 hr).2
   have hac : proj d.F ⟨d', hd'N⟩ * proj d.F ⟨dd, hddN⟩ = proj d.F ⟨dd, hddN⟩ * proj d.F ⟨d', hd'N⟩ :=
-    s311a_bar_D_comm hp k hS hP _ hV1 _ hV2
+    s311a_bar_D_comm k hS hP _ hV1 _ hV2
   have hbc : proj d.F ⟨r, hrN⟩ * proj d.F ⟨dd, hddN⟩ = proj d.F ⟨dd, hddN⟩ * proj d.F ⟨r, hrN⟩ :=
     (mem_centralizer_iff.1 (hXC hX) _ hV2).symm
   exact s311a_comm_aux hac hbc
@@ -462,13 +477,14 @@ variable (hp : d.CaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf 2 S d.
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit hp in
 theorem s311a_mem_N_E {g : G} (hg : g ∈ normalizer (S : Set G)) :
     g ∈ normalizer (d.E : Set G) := by
   refine mem_normalizer_fintype fun e he => ?_
   set α : MulAut S := S.normalizerMonoidHom ⟨g, hg⟩ with hα
   have hchar := (k.s9_1 S hS hP).2.1
   have hfix : (d.E.subgroupOf S).comap α.toMonoidHom = d.E.subgroupOf S := hchar.fixed α
-  have heS : e ∈ S := s311a_E_le_S hp k hS hP he
+  have heS : e ∈ S := s311a_E_le_S k hS hP he
   have hmem : (⟨e, heS⟩ : S) ∈ (d.E.subgroupOf S).comap α.toMonoidHom := by
     rw [hfix]; exact he
   have : (α ⟨e, heS⟩ : G) ∈ d.E := hmem
@@ -483,7 +499,7 @@ theorem s311a_bar_R_sylow : IsSylowOf 2 (bar d.F (S ⊓ d.M₁)) (bar d.F d.M₁
     refine (CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (normalizer (d.F : Set G))).1 ?_
     rw [Subgroup.subgroupOf_map_subtype, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hRN,
       inf_eq_left.2 hM₁N]
-    exact s311a_R_sylow hp k hS hP
+    exact s311a_R_sylow k hS hP
   exact s311a_isSylowOf_map h1 (proj d.F)
 
 theorem s311a_exists_iso : Nonempty (↥d.M₁ ≃* ↥(bar d.F d.M₁)) := by
@@ -511,20 +527,20 @@ theorem s311a_core {k₂ : Type} [Field k₂] [Fintype k₂]
   obtain ⟨e⟩ := s311a_exists_iso hp k hS hP
   have hk : Nat.card k₂ = 2 ^ (4 * f) := by
     rw [Nat.card_eq_fintype_card, hk₂, ← pow_mul, ← pow_mul]; ring_nf
-  haveI : CharP k₂ 2 := U4.charP_two_of_card hk
+  have : CharP k₂ 2 := U4.charP_two_of_card hk
   have hf2 : 2 ≤ f := hp.hyp.setting.two_le
   have hn : 2 ≤ 4 * f := by omega
   have hM₁N := s311a_M₁_le_N_F hp k hS hP
-  have hM₁ND := s311a_M₁_le_N_D hp k hS hP
-  have hDN := s311a_D_le_N_F hp k hS hP
-  have hFD := s311a_F_le_D hp k hS hP
-  have hQD := s311a_Q_le_D hp k hS hP
+  have hM₁ND := s311a_M₁_le_N_D hp k
+  have hDN := s311a_D_le_N_F k hS hP
+  have hFD := s311a_F_le_D k hS hP
+  have hQD := s311a_Q_le_D k hS hP
   have hFQ : d.F ≤ (d.E ⊓ d.D) ⊔ d.F := le_sup_right
   obtain ⟨Jb, hJbX, hJbP, hJbcard, hJbtrans⟩ := s311a_abstract (V := bar d.F d.D)
     (P' := bar d.F (S ⊓ d.M₁)) (Q' := bar d.F ((d.E ⊓ d.D) ⊔ d.F)) hk hn (e.symm.trans ψ)
-    (s311a_bar_D_comm hp k hS hP) (bar_le_normalizer_bar hFD hM₁ND)
+    (s311a_bar_D_comm k hS hP) (bar_le_normalizer_bar hFD hM₁ND)
     (s311a_card_bar_D hp k hS hP) (s311a_not_X_le_centralizer hp k hS hP)
-    (s311a_bar_R_sylow hp k hS hP) (bar_mono hQD) (s311a_bar_Q_le_centralizer hp k hS hP)
+    (s311a_bar_R_sylow hp k hS hP) (bar_mono hQD) (s311a_bar_Q_le_centralizer k hS hP)
     (s311a_card_bar_Q hp k hS hP)
   have hJ1 : ∀ j ∈ lift Jb ⊓ d.M₁, ∃ hjN : j ∈ normalizer (d.F : Set G),
       j ∈ d.M₁ ∧ proj d.F ⟨j, hjN⟩ ∈ Jb := by
@@ -583,9 +599,9 @@ theorem s311a_core {k₂ : Type} [Field k₂] [Fintype k₂]
     intro j hj
     have h1 : j ∈ normalizer ((d.D ⊔ (S ⊓ d.M₁) : Subgroup G) : Set G) :=
       Common.mem_normalizer_sup (hM₁ND (hJM hj)) (hJR hj)
-    rwa [← s311a_S_eq hp k hS hP] at h1
+    rwa [← s311a_S_eq k hS hP] at h1
   have hJE : ∀ j ∈ lift Jb ⊓ d.M₁, j ∈ normalizer (d.E : Set G) := fun j hj =>
-    s311a_mem_N_E hp k hS hP (hJS hj)
+    s311a_mem_N_E k hS hP (hJS hj)
   refine ⟨lift Jb ⊓ d.M₁, hJodd, fun j hj => ?_, ?_⟩
   · exact Subgroup.mem_inf.2 ⟨Subgroup.mem_inf.2 ⟨Subgroup.mem_inf.2 ⟨hJS hj, hM₁N (hJM hj)⟩,
       hJE j hj⟩, hM₁ND (hJM hj)⟩

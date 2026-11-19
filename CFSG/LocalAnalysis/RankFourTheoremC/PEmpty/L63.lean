@@ -15,12 +15,13 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (IsMaxTwoInvariantIn)
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
 
+omit [Finite G] in
 theorem Point.ne_top (hx : Point P M x) : M ≠ ⊤ := fun h => hx.not_le (h ▸ le_top)
 
 theorem plane63_of_situation (hS : Situation G p P M) (hx : Point P M x) (hz : Central P z) :
     Plane63 p ↥M (P.subtype hS.sylow_le) ⟨x, hx.mem_M hS⟩ ⟨z, hS.sylow_le hz.mem⟩ := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hxM : x ∈ M := hx.mem_M hS
   have hzM : z ∈ M := hS.sylow_le hz.mem
   refine ⟨hprime, hS.p_ge,

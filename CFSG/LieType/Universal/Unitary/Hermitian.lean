@@ -39,7 +39,7 @@ private abbrev basisVec (i : Fin n) : Fin n → F := Pi.single i (1 : F)
 private theorem map_basisVec (i : Fin n) :
     (fun k => σ (basisVec (F := F) i k)) = basisVec (F := F) i := by
   funext k
-  by_cases h : k = i <;> simp [basisVec, Pi.single_apply, h]
+  by_cases h : k = i <;> simp [basisVec, h]
 
 private theorem vecMulVec_basisVec (i j : Fin n) :
     vecMulVec (basisVec (F := F) i) (basisVec (F := F) j) = single i j 1 := by
@@ -52,11 +52,11 @@ private theorem sum_single_self_apply (B : Matrix (Fin n) (Fin n) F) (a b : Fin 
   have hsum : (∑ i, single i i (B i i) a b) = single a a (B a a) a b := by
     apply Finset.sum_eq_single a
     · intro i _ hia
-      simp [Matrix.single_apply, hia]
+      simp [hia]
     · intro ha
       exact absurd (Finset.mem_univ a) ha
   rw [hsum]
-  by_cases hab : a = b <;> simp [Matrix.single_apply, hab]
+  by_cases hab : a = b <;> simp [hab]
 
 private theorem sum_single_offdiag_apply (B : Matrix (Fin n) (Fin n) F) (a b : Fin n) :
     (∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
@@ -64,7 +64,7 @@ private theorem sum_single_offdiag_apply (B : Matrix (Fin n) (Fin n) F) (a b : F
       if a < b then B a b else if b < a then σ (B b a) else 0 := by
   rw [Matrix.sum_apply]
   rcases lt_trichotomy a b with hab | heq | hba
-  · rw [if_pos hab]
+  · rw [ite_eq_left hab]
     have hsum : (∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
         (single p.1 p.2 (B p.1 p.2) + single p.2 p.1 (σ (B p.1 p.2))) a b) =
         (single a b (B a b) + single b a (σ (B a b))) a b := by
@@ -75,22 +75,22 @@ private theorem sum_single_offdiag_apply (B : Matrix (Fin n) (Fin n) F) (a b : F
         have h2 : ¬ (p.2 = a ∧ p.1 = b) := by
           rintro ⟨h2a, h2b⟩
           exact (lt_asymm hab) (by simpa [h2a, h2b] using hp.2)
-        simp [Matrix.add_apply, Matrix.single_apply, h1, h2]
+        simp [Matrix.add_apply, h1, h2]
       · intro hmem
         exfalso
         exact hmem (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hab⟩)
     rw [hsum]
-    simp [Matrix.add_apply, Matrix.single_apply, ne_of_lt hab]
+    simp [Matrix.add_apply, ne_of_lt hab]
   · subst b
-    rw [if_neg (lt_irrefl a), if_neg (lt_irrefl a)]
+    rw [ite_eq_right (lt_irrefl a), ite_eq_right (lt_irrefl a)]
     apply Finset.sum_eq_zero
     intro p hp
     rw [Finset.mem_filter] at hp
     have hne : p.1 ≠ p.2 := ne_of_lt hp.2
     have h1 : ¬ (p.1 = a ∧ p.2 = a) := fun h => hne (h.1.trans h.2.symm)
     have h2 : ¬ (p.2 = a ∧ p.1 = a) := fun h => hne (h.2.trans h.1.symm)
-    simp [Matrix.add_apply, Matrix.single_apply, h1, h2]
-  · rw [if_neg (not_lt.mpr (le_of_lt hba)), if_pos hba]
+    simp [Matrix.add_apply, h1, h2]
+  · rw [ite_eq_right (not_lt.mpr (le_of_lt hba)), ite_eq_left hba]
     have hsum : (∑ p ∈ Finset.univ.filter (fun p : Fin n × Fin n => p.1 < p.2),
         (single p.1 p.2 (B p.1 p.2) + single p.2 p.1 (σ (B p.1 p.2))) a b) =
         (single b a (B b a) + single a b (σ (B b a))) a b := by
@@ -101,12 +101,12 @@ private theorem sum_single_offdiag_apply (B : Matrix (Fin n) (Fin n) F) (a b : F
           rintro ⟨h1a, h1b⟩
           exact (lt_asymm hba) (by simpa [h1a, h1b] using hp.2)
         have h2 : ¬ (p.2 = a ∧ p.1 = b) := fun h => hne (Prod.ext h.2 h.1)
-        simp [Matrix.add_apply, Matrix.single_apply, h1, h2]
+        simp [Matrix.add_apply, h1, h2]
       · intro hmem
         exfalso
         exact hmem (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hba⟩)
     rw [hsum]
-    simp [Matrix.add_apply, Matrix.single_apply, ne_of_lt hba]
+    simp [Matrix.add_apply, ne_of_lt hba]
 
 private theorem eq_sum_of_add_conjTr_eq_zero [CharP F 2]
     {B : Matrix (Fin n) (Fin n) F} (hB : B + conjTr σ B = 0) :
@@ -119,10 +119,10 @@ private theorem eq_sum_of_add_conjTr_eq_zero [CharP F 2]
     congrFun (congrFun (Matrix.sum_sum_single (fun i j => B i j)) a) b
   rw [hsum, Matrix.add_apply, sum_single_self_apply, sum_single_offdiag_apply]
   rcases lt_trichotomy a b with hab | heq | hba
-  · rw [if_neg (ne_of_lt hab), if_pos hab, zero_add]
+  · rw [ite_eq_right (ne_of_lt hab), ite_eq_left hab, zero_add]
   · subst b
     simp
-  · rw [if_neg (not_lt.mpr (le_of_lt hba)), if_pos hba, if_neg (ne_of_gt hba), zero_add]
+  · rw [ite_eq_right (not_lt.mpr (le_of_lt hba)), ite_eq_left hba, ite_eq_right (ne_of_gt hba), zero_add]
     have h := congrFun (congrFun hB a) b
     rw [Matrix.add_apply, conjTr_apply] at h
     exact CharTwo.add_eq_zero.mp h
@@ -140,7 +140,7 @@ private theorem single_add_single_eq [CharP F 2] (hσ : ∀ c, σ (σ c) = c)
     with hu
   have hsig : (fun k => σ (u k)) = basisVec (F := F) i + c • basisVec (F := F) j := by
     funext k
-    simp only [u, Pi.add_apply, Pi.smul_apply, map_add, map_mul, basisVec, Pi.single_apply]
+    simp only [u, Pi.add_apply, Pi.smul_apply, map_add, basisVec, Pi.single_apply]
     by_cases hk : k = j
     · simp [hk, hσ]
     · simp [hk]

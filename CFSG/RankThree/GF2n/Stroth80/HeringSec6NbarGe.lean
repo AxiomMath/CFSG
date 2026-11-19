@@ -81,10 +81,10 @@ theorem card_CN_ge_omegaPlus (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     (h51 : Stroth51Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t) {m : ℕ}
     (hm : 3 ≤ m) (h : OmegaPlusNat hc t m) : Nat.card Q * Nat.card Z ≤ Nat.card ↥(hc.CN t) := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
@@ -99,10 +99,10 @@ theorem card_CN_ge_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
     (h51 : Stroth51Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t) {m : ℕ}
     (hm : 2 ≤ m) (h : OmegaMinusNat hc t m) : Nat.card Q * Nat.card Z ≤ Nat.card ↥(hc.CN t) := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by

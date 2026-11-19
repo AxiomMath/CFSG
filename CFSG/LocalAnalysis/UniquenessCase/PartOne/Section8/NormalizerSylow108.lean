@@ -30,7 +30,7 @@ theorem le_of_commuting_elemAbelian_of_pRank_three_le
     (hcomm : ∀ z ∈ Z, ∀ q ∈ Q, z * q = q * z)
     (hm3 : CFSG.Open.pRank 3 M ≤ 3) : Z ≤ Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let W : Subgroup G := CFSG.RankThree.PartOne.omegaOne 3 Q
   have hW_le_Q : W ≤ Q := CFSG.RankThree.PartOne.K159.omegaOne_le' 3 Q
   have hW_rank : CFSG.Open.pRank 3 W = 3 := by
@@ -81,13 +81,13 @@ theorem le_of_commuting_elemAbelian_of_pRank_three_le
 
 theorem normalizer_le_of_gammaQ
     {M Q P : Subgroup G}
-    (hQM : Q ≤ M) (hQp : IsPGroup 3 Q) (hQrank : CFSG.Open.pRank 3 Q = 3)
+    (hQM : Q ≤ M) (_hQp : IsPGroup 3 Q) (hQrank : CFSG.Open.pRank 3 Q = 3)
     (hQP : Q ≤ P) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P M)
     (hm3 : CFSG.Open.pRank 3 M ≤ 3)
     (hΓQ : CFSG.Open.rankThreeGamma 1 3 Q ≤ M) :
     Subgroup.normalizer (P : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPp : IsPGroup 3 P := hP.isPGroup
   have hPM : P ≤ M := hP.le
   obtain ⟨E₀, hE₀Q, hE₀el, hE₀card⟩ :=
@@ -99,7 +99,7 @@ theorem normalizer_le_of_gammaQ
     intro hbot
     rw [hbot, Subgroup.card_bot] at hP_card_ge
     omega
-  haveI : Nontrivial ↥P :=
+  have : Nontrivial ↥P :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   let ZP : Subgroup G := (Subgroup.center P).map P.subtype
   let Z : Subgroup G := CFSG.RankThree.PartOne.omegaOne 3 ZP
@@ -217,7 +217,7 @@ theorem q8108_explicit
       CFSG.Open.rankThreeGamma 1 3 Q ≤ S.M := by
   dsimp only
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL'conj : L' ∈ conjSetOf S.M L := by
     rw [hset]
     simp
@@ -293,7 +293,7 @@ theorem q8108_explicit
     have h' := congrArg (Subgroup.subgroupOfEquivOfLe hPB_le) h
     simpa using h'
   have hPA_ext' : CFSG.IsExtraspecial 3 ↥PA := by
-    haveI : CFSG.IsExtraspecial 3 ↥(PA.subgroupOf A) := hPA_ext
+    have : CFSG.IsExtraspecial 3 ↥(PA.subgroupOf A) := hPA_ext
     exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hPA_le).symm
   set Q : Subgroup G := R ⊔ R' with hQdef
@@ -367,7 +367,7 @@ theorem q8108_explicit
       have hQ_iso : ↥Q ≃* ↥Qbar :=
         (equiv_barImage_of_isPGroup hQM hQp).trans (MulEquiv.subgroupCongr hbarQ_eq)
       have hQ_ext : CFSG.IsExtraspecial 3 Q := by
-        haveI : CFSG.IsExtraspecial 3 ↥Qbar := hQbar_ext
+        have : CFSG.IsExtraspecial 3 ↥Qbar := hQbar_ext
         exact CFSG.LocalAnalysis.WeakClosure81.isExtraspecial_of_mulEquiv hQ_iso
       have hQ_exp : ∀ x : Q, x ^ 3 = 1 := by
         intro x
@@ -400,7 +400,7 @@ theorem q8108_explicit
   have hΓQ : CFSG.Open.rankThreeGamma 1 3 Q ≤ S.M :=
     rankThreeGamma_Q_le_of_le_X (hS := hS) (hU := hU) (S := S) (hMS := hMS)
       (hC := hC) (hnot := hnot) (hSE := hSE) (hL := hL) (hset := hset)
-      (hSL := hSL) (hQX := hQX) (hQp := hQp) (hQexp := hQexp_pt)
+      (hSL := hSL) (hQX := hQX) (_hQp := hQp) (hQexp := hQexp_pt)
       (hE9contain := hE9contain)
   exact ⟨hQX, hQP, hQp, hQexp_pt, hQ_ext, hQcard, hQrank, hE9contain, hΓQ⟩
 
@@ -417,7 +417,7 @@ theorem normalizer_sylow_le_8108
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P S.M) :
     Subgroup.normalizer (P : Set G) ≤ S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfacts := q8108_explicit hS hU S hMS hC hnot hSE hL hset hLL' hSL hP
   dsimp only at hfacts
   obtain ⟨-, hQP, hQp, -, -, -, hQrank, -, hΓQ⟩ := hfacts
@@ -445,7 +445,7 @@ theorem q8108_singleton_card
     (hLL : L' = L) (hSL : IsSL3Four (Bar2 L))
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P S.M) :
     Nat.card ↥((P ⊓ L) ⊔ (P ⊓ L')) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ S.M := hL.1.le
   have hR_sylow : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ L) L :=
     CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.YCfg.isSylowOf_inf_of_subnormalIn

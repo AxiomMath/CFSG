@@ -139,12 +139,14 @@ private theorem s16c13bc_map_eq_of_mem_normalizer {Γ : Type*} [Group Γ] {A : S
     show g * (g⁻¹ * x * g) * g⁻¹ = x
     group
 
+omit [Finite G] in
 private theorem s16c13bc_wTil_map_conj (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (L : Subgroup G) (x : MulAut (Vtil V₀ V hV)) :
     (wTil V₀ V hV L).map x.toMonoidHom =
       commSub ⊤ ((lBar V₀ V hV L).map (MulAut.conj x).toMonoidHom) :=
   (s15_Infra_commSub_top_map_conj (lBar V₀ V hV L) x).symm
 
+omit [Finite G] in
 private theorem s16c13bc_wTil_map_eq (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (L : Subgroup G) {x : MulAut (Vtil V₀ V hV)}
     (h : (lBar V₀ V hV L).map (MulAut.conj x).toMonoidHom = lBar V₀ V hV L) :
@@ -173,7 +175,7 @@ theorem s16c13bc_six_nonswap (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian
   set B : Subgroup (MulAut (Vtil ⊥ V hV)) :=
     (lBar ⊥ V hV L).map (MulAut.conj g).toMonoidHom with hB
   have hinj : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
-  haveI : Group.IsPerfect ↥(lBar ⊥ V hV L) := Group.isPerfect_def.2 hLp
+  have : Group.IsPerfect ↥(lBar ⊥ V hV L) := Group.isPerfect_def.2 hLp
   have hBp : _root_.commutator ↥B = ⊤ :=
     Group.isPerfect_def.1 (Group.IsPerfect.map (H := lBar ⊥ V hV L) (MulAut.conj g).toMonoidHom)
   have hBc : Subgroup.center ↥B = ⊥ := s16c13bc_center_map_eq_bot _ hinj hLc
@@ -319,8 +321,8 @@ theorem s16c13bc_six_swap (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 
   have hWT : E3.wClos V D.k D.T ≤ D.T := E3.wClos_le_of_forall fun A hA => hA.1
   have hWM : barSub ⊥ V hV (E3.wClos V D.k D.T) ≤ Mbar D.M ⊥ V hV :=
     barSub_mono ⊥ V hV (hWT.trans D.sylowM.le)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP2 : IsPGroup 2 ↥(barSub ⊥ V hV (E3.wClos V D.k D.T)) :=
     s15_LP_isPGroup_barSub hV (D.sylowM.isPGroup.to_le hWT)
   have hM2 : Set.ncard {Y : Subgroup (MulAut (Vtil ⊥ V hV)) | ∃ φ ∈ Mbar D.M ⊥ V hV,

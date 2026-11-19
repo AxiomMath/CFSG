@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
     (M : CoxeterMatrix ι) (e : M.Group ≃* ↥A) : Set (MulAut ↥Bs) :=
   {r | ∃ (w : M.Group) (i : ι), r = ((e (w * M.simple i * w⁻¹) : ↥A) : MulAut ↥Bs)}
 
+omit [Finite G] in
 theorem ggCoxRefl_isReflection {p : ℕ} {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} {e : M.Group ≃* ↥A}
     (h : ∀ i : ι, GGIsReflection p ((e (M.simple i) : ↥A) : MulAut ↥Bs))

@@ -80,7 +80,7 @@ theorem MinCex.card_primeFactors_subset (h186 : Item186H) (hX : MinCex A M H c X
   have hK : ∀ r : ℕ, r.Prime → r ≠ 2 → ∃ K : Subgroup G, K ≤ X ∧ S ≤ K ∧ K ∈ scriptX A M H ∧
       (∀ q : ℕ, q.Prime → q ∣ Nat.card K → q = 2 ∨ q = r) ∧ ¬ r ∣ K.relIndex X := by
     intro r hr hr2
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨K, hKX, hSK, hAK, hKπ, hKidx⟩ := exists_invariant_hall_of_coprime (p := 3) hA3 hAX
       h3 hsol hSX hAS ({(⟨2, Nat.prime_two⟩ : Nat.Primes), ⟨r, hr⟩} : Set Nat.Primes)
       (fun q hq => Set.mem_insert_iff.mpr (Or.inl (Subtype.ext (hSq q hq))))
@@ -104,7 +104,7 @@ theorem MinCex.card_primeFactors_subset (h186 : Item186H) (hX : MinCex A M H c X
       ∃ Q : Subgroup G, IsSylowOf r Q X ∧ Q ≤ K := by
     intro r hr hr2
     obtain ⟨K, hKX, hSK, hKsc, hKπ, hKidx⟩ := hK r hr hr2
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hKlt : K < X := by
       refine lt_of_le_of_ne hKX fun hKeq => hA ⟨r, hr, hr2, fun q hq hqX => hKπ q hq ?_⟩
       rw [hKeq]

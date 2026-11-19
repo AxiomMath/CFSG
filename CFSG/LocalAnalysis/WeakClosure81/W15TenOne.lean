@@ -21,14 +21,14 @@ variable {M V₀ V U S H P : Subgroup G}
 theorem le_M (hI : NamedInputs15 G) (hS : Std15 G)
     (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S H P) : P ≤ M := by
   by_contra hPM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 P := hP.sylow.isPGroup
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hlt : M.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hPM fun x hx => ?_
     have h1 : (⟨x, hx⟩ : ↥P) ∈ M.subgroupOf P := htop ▸ Subgroup.mem_top _
     exact h1
-  obtain ⟨g, hgN, hgA⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨g, hgN, hgA⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hgM : (g : G) ∉ M := fun hm => hgA hm
   have hle : conjSubgroup V₀ (g : G) ≤ M := by
     intro y hy
@@ -44,7 +44,7 @@ theorem le_M (hI : NamedInputs15 G) (hS : Std15 G)
 theorem exists_mul_mem_inf (hI : NamedInputs15 G) (hS : Std15 G)
     (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S H P) :
     ∀ g ∈ H, ∃ k ∈ kHull15 V₀ H, ∃ m ∈ H ⊓ M, g = k * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKH := hP.kHull15_le
   have hKnorm : ((kHull15 V₀ H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 (le_normalizer_kHull15 V₀ H)
@@ -80,7 +80,7 @@ theorem exists_mul_mem_inf (hI : NamedInputs15 G) (hS : Std15 G)
 
 theorem eq_sup (hI : NamedInputs15 G) (hS : Std15 G)
     (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S H P) : kHull15 V₀ H ⊔ P = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKH := hP.kHull15_le
   have hdec := hP.exists_mul_mem_inf hI hS h
   have hK2 : kHull15 V₀ H ≤ conjClosure V₀ (kHull15 V₀ H) := by

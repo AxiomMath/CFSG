@@ -18,6 +18,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThree.PartOne.CTP
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem d4Graph_one_pow_three : d4Graph K 1 ^ 3 = 1 := by
   rw [pow_succ, pow_two, ← d4Graph_add, ← d4Graph_add, d4Graph_three]
 
@@ -40,7 +41,7 @@ theorem cardFixGammaPTwo_holds :
     ∀ (K : Type) [Field K] [Finite K], Nat.card K = 2 →
       Nat.card (fixedSubgroup (gammaP K (uSL 1 * vSL 1))) ∣ 12096 := by
   intro K _ _ hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; rfl
   have hα : gammaP K (uSL 1 * vSL 1) = MulAut.conj (sl2At K ⟨2, by decide⟩ (uSL 1 * vSL 1)) *
       (exactNormalAut Tag.D4 K 1 1 0 * d4Graph K 1) := by

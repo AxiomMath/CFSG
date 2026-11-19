@@ -15,19 +15,23 @@ private def perpIn (b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2) (W : Submodule
     Submodule (ZMod 2) V :=
   W ⊓ LinearMap.ker (b.flip x)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem mem_perpIn {b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2} {W : Submodule (ZMod 2) V}
     {x w : V} : w ∈ perpIn b W x ↔ w ∈ W ∧ b w x = 0 := by
   simp [perpIn]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem perpIn_le (b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2) (W : Submodule (ZMod 2) V)
     (x : V) : perpIn b W x ≤ W := inf_le_left
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem sub_smul_mem_perpIn {b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2}
     {W : Submodule (ZMod 2) V} {x z : V} (hxW : x ∈ W) (hx : b x x = 1) (hz : z ∈ W) :
     z - b z x • x ∈ perpIn b W x := by
   refine mem_perpIn.mpr ⟨W.sub_mem hz (W.smul_mem _ hxW), ?_⟩
   simp [hx]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem perpIn_nondeg {b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2}
     {W : Submodule (ZMod 2) V} {x : V} (hxW : x ∈ W) (hx : b x x = 1)
     (hnd : ∀ w ∈ W, (∀ w' ∈ W, b w w' = 0) → w = 0) :
@@ -123,10 +127,10 @@ theorem exists_orthonormal_family (b : V →ₗ[ZMod 2] V →ₗ[ZMod 2] ZMod 2)
     · refine Fin.cases ?_ (fun i => ?_) i <;> refine Fin.cases ?_ (fun j => ?_) j
       · simpa using hx₁
       · simp only [Fin.cons_zero, Fin.cons_succ]
-        rw [if_neg (Fin.succ_ne_zero j).symm, hsymm]
+        rw [ite_eq_right (Fin.succ_ne_zero j).symm, hsymm]
         exact hperp j
       · simp only [Fin.cons_zero, Fin.cons_succ]
-        rw [if_neg (Fin.succ_ne_zero i)]
+        rw [ite_eq_right (Fin.succ_ne_zero i)]
         exact hperp i
       · simpa using he' i j
 

@@ -121,7 +121,7 @@ theorem eq_u_or_x_or_ux (hNP : KDNP) (h15 : FS79Lemma15Sec G) (hh : IsNPCentralL
   · exact Or.inr (Or.inl h1)
   · exact Or.inr (Or.inr h1)
 
-theorem ne_u (hNP : KDNP) (h15 : FS79Lemma15Sec G) (hh : IsNPCentralLift X u x h)
+theorem ne_u (_hNP : KDNP) (_h15 : FS79Lemma15Sec G) (hh : IsNPCentralLift X u x h)
     (hS : NPSetting G X u x T₀ s₀) : h ≠ u := by
   intro hu
   subst hu
@@ -183,7 +183,7 @@ theorem bar_x_mem_Abar (hNP : KDNP) (h15 : FS79Lemma15Sec G) (hh : IsNPCentralLi
   have hcenD : center (OddQuot D) = zpowers hh.bar := hcen
   have hsupD : oddBar D (npA X x s₀) ⊔ zpowers hh.bar = ⊤ := hsup
   have hbar_cen : hh.bar ∈ center (OddQuot D) := hh.central
-  haveI : (zpowers hh.bar).Normal :=
+  have : (zpowers hh.bar).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.2 hbar_cen)
   have hobar : oddProj D ⟨o, ho.1⟩ ∈ Abar ⊔ zpowers hh.bar := by
     rw [show Abar = oddBar D (npA X x s₀) from rfl, hsupD]

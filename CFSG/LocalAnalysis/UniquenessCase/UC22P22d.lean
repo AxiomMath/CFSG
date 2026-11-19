@@ -19,15 +19,15 @@ open CFSG.RankThree.FFModules CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF
 open CFSG.LocalAnalysis.UniquenessCase.UC22.Ext
 open scoped commutatorElement
 
-theorem uc22p22d_charP_two {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+theorem uc22p22d_charP_two {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
 
 theorem uc22p22d_isL2_of_statedSL {X : Type} [Group X] {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 2 ^ n) (e : X ≃* ↥(StatedSL 2 F)) : IsL2 X n := by
-  haveI : CharP F 2 := uc22p22d_charP_two (by omega) hF
+  have : CharP F 2 := uc22p22d_charP_two (by omega) hF
   have hZ := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := F)
   let g : StatedProj (StatedSL 2 F) ≃* StatedSL 2 F :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -46,13 +46,13 @@ theorem uc22p22d_isL2_of_statedSL {X : Type} [Group X] {n : ℕ} (hn : 2 ≤ n) 
 theorem uc22p22d_isL2_of_omegaMinus4 {X : Type} [Group X] {k : ℕ} (hk : 1 ≤ k) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 2 ^ k) (b c : F) (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (e : X ≃* ↥(StatedOmega (StatedQuadMinus 2 F b c))) : IsL2 X (2 * k) := by
-  haveI : CharP F 2 := uc22p22d_charP_two hk hF
-  letI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := uc22p22d_charP_two hk hF
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨F', _, _, ω, hrank, hω⟩ := CFSG.ASVolI.burnsideI16h_exists_quad_ext hbc
-  haveI : Module.Finite F F' := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
-  haveI : Finite F' := Module.finite_of_finite F
-  letI : Fintype F' := Fintype.ofFinite F'
-  haveI : CharP F' 2 := charP_of_injective_algebraMap (algebraMap F F').injective 2
+  have : Module.Finite F F' := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
+  have : Finite F' := Module.finite_of_finite F
+  let : Fintype F' := Fintype.ofFinite F'
+  have : CharP F' 2 := charP_of_injective_algebraMap (algebraMap F F').injective 2
   have hK : Fintype.card F = 2 ^ k := by rw [← Nat.card_eq_fintype_card, hF]
   let S : CFSG.ASVolI.burnsideI16h_Setup F F' := ⟨k, b, c, hk, hK, ω, hω, hbc, hrank⟩
   have hF' : Nat.card F' = 2 ^ (2 * k) := by
@@ -64,9 +64,9 @@ theorem uc22p22d_isL2_of_omegaMinus4 {X : Type} [Group X] {k : ℕ} (hk : 1 ≤ 
 
 theorem uc22p22d_comm_mem_of_index_two {Γ : Type} [Group Γ] {N : Subgroup Γ} [N.Normal]
     (h : N.index = 2) (x y : Γ) : ⁅x, y⁆ ∈ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (Γ ⧸ N) = 2 := by rw [← Subgroup.index_eq_card]; exact h
-  haveI : IsCyclic (Γ ⧸ N) := isCyclic_of_prime_card hcard
+  have : IsCyclic (Γ ⧸ N) := isCyclic_of_prime_card hcard
   have h1 : (QuotientGroup.mk' N) ⁅x, y⁆ = 1 := by
     rw [map_commutatorElement]
     exact commutatorElement_eq_one_iff_mul_comm.2 (IsMulCommutative.is_comm.comm _ _)
@@ -84,7 +84,7 @@ theorem uc22p22d_omegaPlus4_equiv {F : Type} [Field F] [Finite F] [CharP F 2]
   have hle2 : StatedOmega (StatedQuadPlus 2 F) ≤ (jProd (F := F)).range := by
     have hidx : ((jProd (F := F)).range.subgroupOf
         (CFSG.LieType.BorelTits.orthGroup (StatedQuadPlus 2 F))).index = 2 := relIndex_jProd_range
-    haveI hN : ((jProd (F := F)).range.subgroupOf
+    have hN : ((jProd (F := F)).range.subgroupOf
         (CFSG.LieType.BorelTits.orthGroup (StatedQuadPlus 2 F))).Normal :=
       Subgroup.normal_of_index_eq_two hidx
     refine Subgroup.commutator_le.mpr fun x hx y hy => ?_
@@ -105,7 +105,7 @@ theorem uc22p22d_prod {A B : Type} [Group A] [Group B] (hA : IsSimpleGroup A) (h
     (hAn : ∃ a b : A, a * b ≠ b * a) (hBn : ∃ a b : B, a * b ≠ b * a)
     {C : Subgroup (A × B)} (hsub : C.IsSubnormal) (hq : CFSG.Open.IsQuasisimple ↥C) :
     Nonempty (↥C ≃* A) ∨ Nonempty (↥C ≃* B) := by
-  haveI hCnt : Nontrivial ↥C := uc22p22a_qs_nontrivial hq
+  have hCnt : Nontrivial ↥C := uc22p22a_qs_nontrivial hq
   have hsurj1 : Function.Surjective (MonoidHom.fst A B) := fun a => ⟨(a, 1), rfl⟩
   have hsurj2 : Function.Surjective (MonoidHom.snd A B) := fun b => ⟨(1, b), rfl⟩
   have h1 := Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hA (hsub.map hsurj1)
@@ -160,8 +160,8 @@ theorem uc22p22d_prod {A B : Type} [Group A] [Group B] (hA : IsSimpleGroup A) (h
         obtain ⟨a', ha'⟩ := hsnd b'
         have := C.mul_mem (C.mul_mem ha' hb) (C.inv_mem ha')
         simpa [CB] using this⟩
-      haveI := hCAn
-      haveI := hCBn
+      have := hCAn
+      have := hCBn
       rcases hA.eq_bot_or_eq_top_of_normal CA with hCA | hCA
       · refine Or.inr (uc22p22d_equiv_of_proj (MonoidHom.snd A B) ?_ (htop2 h2))
         intro c hc c' hc' h
@@ -196,7 +196,7 @@ theorem uc22p22d_prod {A B : Type} [Group A] [Group B] (hA : IsSimpleGroup A) (h
             have : b ∈ CB := by rw [hCB]; trivial
             exact this
           let W : Subgroup ↥C := ((MonoidHom.snd A B).comp C.subtype).ker
-          haveI hWn : W.Normal := MonoidHom.normal_ker _
+          have hWn : W.Normal := MonoidHom.normal_ker _
           rcases uc22p22a_qs_normal hq hWn with hW | hW
           · obtain ⟨a, a', haa⟩ := hAn
             have hm1 : (⟨(a, 1), hAin a⟩ : ↥C) ∈ W := by simp [W]
@@ -223,7 +223,7 @@ theorem uc22p22d_noncomm_of_perfect {A : Type} [Group A] [Nontrivial A] (hp : co
     ∃ a b : A, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative A := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative A := ⟨⟨fun a b => hcon a b⟩⟩
   have h1 : commutator A = ⊥ := (commutator_eq_bot_iff A).2 inferInstance
   rw [hp] at h1
   exact top_ne_bot h1
@@ -253,7 +253,7 @@ theorem uc22p22d_isL2_of_concl {H : Type} [Group H] [Finite H] {W : Type} [AddCo
     · subst h3
       exact hL2
   · obtain ⟨F, _, _, hF, -, -, -, φ, -⟩ := h
-    haveI : CharP F 2 := uc22p22d_charP_two (by omega) hF
+    have : CharP F 2 := uc22p22d_charP_two (by omega) hF
     have h4 : 4 ≤ Nat.card F := by
       rw [hF]
       calc 4 = 2 ^ 2 := by norm_num
@@ -262,7 +262,7 @@ theorem uc22p22d_isL2_of_concl {H : Type} [Group H] [Finite H] {W : Type} [AddCo
     have hsimp := CFSG.Quasithin.QP.sl2_isSimpleGroup h4
     have hqs : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.LieType.HighestRoot.isQuasisimple_SL2_of_four_le h4
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := hsimp.toNontrivial
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := hsimp.toNontrivial
     obtain ⟨a, b, hab⟩ := uc22p22d_noncomm_of_perfect (Group.isPerfect_def.1 hqs.1)
     set X : Subgroup H := lgConj L
     have hLX : L ≤ X := by
@@ -316,8 +316,8 @@ theorem uc22p22d_lgConj_of_normal {M K : Subgroup G} (V : Subgroup G) (hKM : K �
 theorem uc22p22d_isSU3_of_isU3 {X : Type} [Group X] {n : ℕ} (hq : CFSG.Open.IsQuasisimple X)
     (hU : IsU3 X n) : IsSU3 X n := by
   have hs := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU
-  haveI := hs
-  haveI := uc22p22a_qs_nontrivial hq
+  have := hs
+  have := uc22p22a_qs_nontrivial hq
   have hc : Subgroup.center X = ⊥ :=
     uc22p22a_center_eq_bot (uc22p22d_noncomm_of_perfect hq.1)
   exact ⟨hq, CFSG.Blueprint.LieModel.of_mulEquiv
@@ -359,12 +359,12 @@ theorem uc22p22d_mbarImage_ne (M V : Subgroup G) {K K' : Subgroup G} (hK : K ∈
     rw [← Subgroup.map_le_iff_le_comap, Subgroup.map_commutator,
       Subgroup.map_subgroupOf_eq_of_le hKM, Subgroup.map_subgroupOf_eq_of_le hK'M]
     exact hcomm
-  haveI := CFSG.Quasithin.solvRad_isSolvable M
-  haveI hRs : Group.IsSolvable ↥((CFSG.Quasithin.solvRad M).subgroupOf M) :=
+  have := CFSG.Quasithin.solvRad_isSolvable M
+  have hRs : Group.IsSolvable ↥((CFSG.Quasithin.solvRad M).subgroupOf M) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (CFSG.Quasithin.solvRad_le M)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (CFSG.Quasithin.solvRad_le M)).injective
-  haveI hRb : Group.IsSolvable ↥(((CFSG.Quasithin.solvRad M).subgroupOf M).map π) :=
+  have hRb : Group.IsSolvable ↥(((CFSG.Quasithin.solvRad M).subgroupOf M).map π) :=
     Group.isSolvable_of_surjective
       (MonoidHom.subgroupMap_surjective π ((CFSG.Quasithin.solvRad M).subgroupOf M))
   have hKbar : ⁅mbarImage M V K, mbarImage M V K⁆ = mbarImage M V K := by
@@ -377,10 +377,10 @@ theorem uc22p22d_mbarImage_ne (M V : Subgroup G) {K K' : Subgroup G} (hK : K ∈
         unfold mbarImage
         rw [← Subgroup.map_commutator]
         exact Subgroup.map_mono hcomm'
-  haveI : Group.IsSolvable ↥(mbarImage M V K) :=
+  have : Group.IsSolvable ↥(mbarImage M V K) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥(mbarImage M V K) := Subgroup.isPerfect_iff.2 hKbar
-  haveI : Nontrivial ↥(mbarImage M V K) := (Subgroup.nontrivial_iff_ne_bot _).2 hnt
+  have : Group.IsPerfect ↥(mbarImage M V K) := Subgroup.isPerfect_iff.2 hKbar
+  have : Nontrivial ↥(mbarImage M V K) := (Subgroup.nontrivial_iff_ne_bot _).2 hnt
   exact Group.IsPerfect.not_isSolvable ↥(mbarImage M V K) inferInstance
 
 theorem uc22p22d_conjSet_pair {M K : Subgroup G} {t : G} (ht : t ∈ M)

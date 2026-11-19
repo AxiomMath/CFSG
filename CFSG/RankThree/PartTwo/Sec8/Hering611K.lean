@@ -283,7 +283,7 @@ theorem exists_K_SK (h45 : Sec4.Item4_5) (h48 : Sec4.Item4_8) (F : Frame611 G A 
       CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
         3 Nat.prime_three B N hB3 hN3 hBN 2 Nat.prime_two
     set RG := (R : Subgroup N).map N.subtype with hRG
-    have hRG2 : IsPGroup 2 RG := R.isPGroup'.map N.subtype
+    have hRG2 : IsPGroup 2 RG := R.isPGroup.map N.subtype
     have hRG1 : RG ≠ ⊥ := by
       intro hbot
       obtain ⟨y, -, hle⟩ := exists_le_conj_sylow R (le_sup_left : S ≤ N) hS2

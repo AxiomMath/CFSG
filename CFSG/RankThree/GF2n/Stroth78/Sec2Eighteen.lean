@@ -14,7 +14,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem centerIn_QaOf_le_H (S : Setting z E F) {a : G} (hza : z ∈ QaOf a) :
+omit [Finite G] in
+theorem centerIn_QaOf_le_H (_S : Setting z E F) {a : G} (hza : z ∈ QaOf a) :
     centerIn (QaOf a) ≤ H z := by
   intro x hx
   obtain ⟨-, hxCent⟩ := Subgroup.mem_inf.mp hx
@@ -24,6 +25,7 @@ theorem centerIn_QaOf_le_H (S : Setting z E F) {a : G} (hza : z ∈ QaOf a) :
   rw [hy]
   exact Subgroup.mem_centralizer_iff.mp hxCent z hza
 
+omit [Finite G] in
 theorem card_centerIn_QaOf_inf_H (S : Setting z E F) {a : G} (hza : z ∈ QaOf a) :
     Nat.card (centerIn (QaOf a) ⊓ H z : Subgroup G) = Nat.card (centerIn (QaOf a)) := by
   rw [inf_eq_left.mpr (centerIn_QaOf_le_H S hza)]
@@ -34,7 +36,7 @@ theorem card_Rbar_mul_card_inf_Q_of_mem (S : Setting z E F) {a : G} (hza : z ∈
   rw [← card_centerIn_QaOf_inf_H S hza]
   exact card_Rbar_mul S a
 
-theorem card_QaInterImage_eq_card_map (S : Setting z E F) (A : Subgroup G) (hA : A ≤ Q z) :
+theorem card_QaInterImage_eq_card_map (S : Setting z E F) (A : Subgroup G) (_hA : A ≤ Q z) :
     Nat.card (QaInterImage S A) =
       Nat.card ↥(Subgroup.map (mkQbar S) (A.subgroupOf (Q z))) := by
   classical
@@ -52,6 +54,7 @@ theorem card_QaInterImage_eq_card_map (S : Setting z E F) (A : Subgroup G) (hA :
     right_inv := fun w => Subtype.ext (by simp) }
   exact Nat.card_congr e
 
+omit [Finite G] in
 theorem card_map_mkQbar_mul_card_inf (S : Setting z E F) (A : Subgroup G) (hA : A ≤ Q z) :
     Nat.card ↥(Subgroup.map (mkQbar S) (A.subgroupOf (Q z))) *
       Nat.card (A ⊓ ZQ z : Subgroup G) = Nat.card A := by
@@ -76,6 +79,7 @@ theorem card_QaInterImage_mul_card_inf (S : Setting z E F) (A : Subgroup G) (hA 
   rw [card_QaInterImage_eq_card_map S A hA]
   exact card_map_mkQbar_mul_card_inf S A hA
 
+omit [Finite G] in
 theorem card_ZQ_mul_card_QbarOf (S : Setting z E F) :
     Nat.card (ZQ z) * Nat.card (QbarOf S) = Nat.card (Q z) := by
   have h := Subgroup.card_ker_mul_card_of_surjective (f := mkQbar S)

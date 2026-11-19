@@ -165,9 +165,9 @@ theorem splittingG {G : Type*} [Group G] [Finite G] (D Y : Subgroup G) [(Y.subgr
     hU' hcommΓ' hU₁' hU₂' hw₁' hw₂' hp₁' hp₂' hgen₁' hgen₂' hfix' hplus' hdisj'
   refine ⟨?_, ?_, ?_, ?_⟩
   · show Nat.card (liftFix D Y (Γ₁.subgroupOf (normDY D Y))) = 2 ^ 12
-    rw [card_liftFix D Y hYD, c1, hYcard] <;> norm_num
+    rw [card_liftFix D Y hYD, c1, hYcard]; norm_num
   · show Nat.card (liftFix D Y (Γ₂.subgroupOf (normDY D Y))) = 2 ^ 12
-    rw [card_liftFix D Y hYD, c2, hYcard] <;> norm_num
+    rw [card_liftFix D Y hYD, c2, hYcard]; norm_num
   · exact liftFix_sup_of_fixSub_sup D Y (Γ₁.subgroupOf (normDY D Y))
       (Γ₂.subgroupOf (normDY D Y)) s12
   · show liftFix D Y (Γ₁.subgroupOf (normDY D Y)) ⊓ liftFix D Y (Γ₂.subgroupOf (normDY D Y)) = Y

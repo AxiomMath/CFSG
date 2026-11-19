@@ -84,8 +84,8 @@ theorem avoid_distinct : ∀ k : Fin 3, ∀ j j' : Fin 6, j ≠ j' → ∃ c : F
 theorem exists_dual3_of_index_eq_five {H : Subgroup (Multiplicative (Fin 3 → ZMod 5))}
     (hH : H.index = 5) :
     ∃ l : Fin 3 → ZMod 5, l ≠ 0 ∧ ∀ c, Multiplicative.ofAdd c ∈ H ↔ dual3 l c = 0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : H.Normal := Subgroup.normal_of_comm H
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : H.Normal := Subgroup.normal_of_isMulCommutative H
   have hQ : Nat.card (Multiplicative (Fin 3 → ZMod 5) ⧸ H) = 5 := hH
   have hM : Nat.card (Multiplicative (ZMod 5)) = 5 := by
     rw [← Nat.card_congr Multiplicative.ofAdd, Nat.card_eq_fintype_card, ZMod.card]
@@ -105,7 +105,7 @@ theorem exists_dual3_of_index_eq_five {H : Subgroup (Multiplicative (Fin 3 → Z
     have hc : c = (c 0).val • Pi.single 0 1 + (c 1).val • Pi.single 1 1 +
         (c 2).val • Pi.single 2 1 := by
       funext j
-      fin_cases j <;> simp [Pi.single_apply, nsmul_eq_mul, -ZMod.natCast_val, ZMod.natCast_zmod_val]
+      fin_cases j <;> simp [nsmul_eq_mul, -ZMod.natCast_val, ZMod.natCast_zmod_val]
     conv_lhs => rw [hc]
     simp only [ofAdd_add, ofAdd_nsmul, map_mul, map_pow, toAdd_mul, toAdd_pow]
     simp only [dual3, l, nsmul_eq_mul, ZMod.natCast_zmod_val]

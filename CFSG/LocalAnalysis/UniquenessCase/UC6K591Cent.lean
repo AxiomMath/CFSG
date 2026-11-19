@@ -26,17 +26,17 @@ theorem center_eq_bot_of_simple {X : Type*} [Group X] [IsSimpleGroup X]
 theorem exists_noncomm_of_simple_of_even {X : Type*} [Group X] [Finite X] [IsSimpleGroup X]
     (h2 : 2 ∣ Nat.card X) (h3 : 2 < Nat.card X) : ∃ a b : X, a * b ≠ b * a := by
   by_contra! hcomm
-  letI : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcomm a b }
+  let : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcomm a b }
   have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card (α := X)
   have := (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h2
   omega
 
 theorem centreless_of_isAlt_ten {X : Type} [Group X] (h : IsAlt X 10) : center X = ⊥ := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup X := e.isSimpleGroup
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have hcard : Nat.card X = 1814400 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num [Nat.factorial]

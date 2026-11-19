@@ -170,7 +170,7 @@ theorem exists_sylow_ge_normalized {q : ℕ} [Fact q.Prime] {W A Q₁ : Subgroup
     calc Q₂ = (Q₂.subgroupOf W').map W'.subtype := h2.symm
       _ ≤ _ := map_mono hle
   have hS'T : (S' : Subgroup W').map W'.subtype ∈ 𝒯 :=
-    ⟨hQ₁₂.trans hQ₂S', (map_subtype_le _).trans inf_le_left, S'.isPGroup'.map _, hS'⟩
+    ⟨hQ₁₂.trans hQ₂S', (map_subtype_le _).trans inf_le_left, S'.isPGroup.map _, hS'⟩
   have heq : (S' : Subgroup W').map W'.subtype = Q₂ :=
     le_antisymm (hmax.le_of_ge hS'T hQ₂S') hQ₂S'
   have hsyl : ¬ q ∣ Q₂.relIndex W' := by
@@ -184,7 +184,7 @@ theorem exists_sylow_ge_normalized {q : ℕ} [Fact q.Prime] {W A Q₁ : Subgroup
       rw [subgroupOf_map_subtype, inf_eq_left.2 hQ₂W]
     calc Q₂ = (Q₂.subgroupOf W).map W.subtype := h2.symm
       _ ≤ _ := map_mono hS₀
-  have hSp : IsPGroup q ↥((S₀ : Subgroup W).map W.subtype) := S₀.isPGroup'.map _
+  have hSp : IsPGroup q ↥((S₀ : Subgroup W).map W.subtype) := S₀.isPGroup.map _
   have hSN : (S₀ : Subgroup W).map W.subtype ⊓ normalizer (Q₂ : Set G) ≤ Q₂ :=
     le_of_isPGroup_of_not_dvd_relIndex hQ₂ hQ₂W' hsyl (hSp.to_le inf_le_left)
       (inf_le_inf_right _ (map_subtype_le _)) inf_le_right
@@ -289,7 +289,7 @@ theorem factorization_le_of_normal_of_not_dvd {q : ℕ} [hq : Fact q.Prime] (hpq
       IsFactorized M N R) :
     (Nat.card N₀).factorization q + (Nat.card ↥(M ⊓ N ⊓ N₀)).factorization q ≤
       (Nat.card ↥(M ⊓ N₀)).factorization q + (Nat.card ↥(N ⊓ N₀)).factorization q := by
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hPD₀ : (P : Subgroup G) ≤ normalizer ((M ⊓ N ⊓ N₀ : Subgroup G) : Set G) :=
     le_normalizer_inf_of_le (le_normalizer_inf_of_le (hPM.trans le_normalizer)
       (hPN.trans le_normalizer)) le_normalizer_of_normal
@@ -305,7 +305,7 @@ theorem factorization_le_of_normal_of_not_dvd {q : ℕ} [hq : Fact q.Prime] (hpq
     rw [relIndex, h3]
     exact S₁.not_dvd_index
   obtain ⟨Q₂, hQ₁₂, hQ₂N₀, hQ₂p, hPQ₂, hQ₂syl⟩ := exists_sylow_ge_normalized hPp
-    le_normalizer_of_normal hN₀ (hQ₁D₀.trans inf_le_right) (S₁.isPGroup'.map _) hS₁
+    le_normalizer_of_normal hN₀ (hQ₁D₀.trans inf_le_right) (S₁.isPGroup.map _) hS₁
   have hRQ₂ : (P : Subgroup G) ⊔ Q₂ ≤ normalizer (Q₂ : Set G) := sup_le hPQ₂ le_normalizer
   have hqP : ¬ q ∣ Nat.card (P : Subgroup G) := by
     obtain ⟨k, hk⟩ := hPp.exists_card_eq

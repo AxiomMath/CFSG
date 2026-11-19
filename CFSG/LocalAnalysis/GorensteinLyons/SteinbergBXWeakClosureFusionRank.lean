@@ -294,7 +294,7 @@ theorem goldschmidt_weak_closure_fusion_rank_frontier [Finite D] (S : Sylow 2 D)
       _ = E := by rw [h1, h2]
   have hSsyl : IsSylowOf 2 (S : Subgroup D) (normalizer (E : Set D)) := by
     rw [isSylowOf_iff]
-    refine ⟨hSN, S.isPGroup', fun hdvd => ?_⟩
+    refine ⟨hSN, S.isPGroup, fun hdvd => ?_⟩
     apply S.not_dvd_index
     rw [← relIndex_mul_index hSN]
     exact hdvd.mul_right _

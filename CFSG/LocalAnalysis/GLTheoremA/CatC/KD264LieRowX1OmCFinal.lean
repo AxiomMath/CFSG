@@ -47,7 +47,7 @@ noncomputable def omStatedProjEquivOfCardTwo {K : Type} [Field K] (hK : Nat.card
 
 theorem kd264OmPlusCore_holds : KD264OmPlusCore := by
   intro n hn K _ _ hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -69,7 +69,7 @@ theorem kd264OmPlusCore_holds : KD264OmPlusCore := by
 
 theorem kd264OmMinusCore_holds : KD264OmMinusCore := by
   intro n hn K _ _ hK b c hirr
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

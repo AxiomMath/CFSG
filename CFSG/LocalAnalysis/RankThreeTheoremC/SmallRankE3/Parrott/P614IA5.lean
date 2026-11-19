@@ -140,6 +140,7 @@ theorem A5Std.mem_or (hf : A5Std H S K z f) (hyp : Hyp P M x z H S) (h618 : Stag
     Subgroup G :=
   (stab01.comap f).map (K ⊔ S).subtype
 
+omit [Finite G] in
 theorem mem_a5X {y : G} : y ∈ a5X S K f ↔ ∃ hy : y ∈ K ⊔ S, f ⟨y, hy⟩ ∈ stab01 := by
   constructor
   · rintro ⟨⟨y, hy⟩, hmem, rfl⟩
@@ -147,6 +148,7 @@ theorem mem_a5X {y : G} : y ∈ a5X S K f ↔ ∃ hy : y ∈ K ⊔ S, f ⟨y, hy
   · rintro ⟨hy, hmem⟩
     exact ⟨⟨y, hy⟩, hmem, rfl⟩
 
+omit [Finite G] in
 theorem a5X_le_KS : a5X S K f ≤ K ⊔ S := map_subtype_le _
 
 theorem a5X_le_H (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) : a5X S K f ≤ H :=
@@ -162,6 +164,7 @@ theorem A5Std.S_le_a5X (hf : A5Std H S K z f) (hyp : Hyp P M x z H S)
   · rw [h]
     exact sA_mem_stab01
 
+omit [Finite G] in
 theorem mem_a5X_of {y : ↥(K ⊔ S)} (hy : f y ∈ stab01) : (y : G) ∈ a5X S K f :=
   mem_a5X.2 ⟨y.2, hy⟩
 
@@ -212,6 +215,7 @@ noncomputable def a5Psi (S K : Subgroup G) (f : ↥(K ⊔ S) →* Perm (Fin 5)) 
     ↥(a5X S K f) →* Perm (Fin 3) :=
   stab01Equiv.toMonoidHom.comp (a5Theta S K f)
 
+omit [Finite G] in
 theorem A5Std.a5Psi_surjective (hf : A5Std H S K z f) : Function.Surjective (a5Psi S K f) := by
   intro π
   obtain ⟨y, hy⟩ := hf.surj (stab01Equiv.symm π : Perm (Fin 5))
@@ -221,6 +225,7 @@ theorem A5Std.a5Psi_surjective (hf : A5Std H S K z f) : Function.Surjective (a5P
       stab01Equiv.symm π := Subtype.ext hy
   rw [this, MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem A5Std.mem_ker_a5Psi (hf : A5Std H S K z f) (y : ↥(a5X S K f)) :
     a5Psi S K f y = 1 ↔ (y : G) ∈ pCoreOf 2 H := by
   change stab01Equiv (a5Theta S K f y) = 1 ↔ _
@@ -234,7 +239,6 @@ theorem A5Std.ker_a5Psi (hf : A5Std H S K z f) (hyp : Hyp P M x z H S)
   have h := hf.pCoreOf_a5X hyp h618
   ext y
   rw [MonoidHom.mem_ker, hf.mem_ker_a5Psi, ← h]
-  change _ ↔ y ∈ CFSG.Open.pCore 2 ↥(a5X S K f)
   constructor
   · rintro ⟨y', hy', hyy⟩
     rwa [← Subtype.ext hyy]

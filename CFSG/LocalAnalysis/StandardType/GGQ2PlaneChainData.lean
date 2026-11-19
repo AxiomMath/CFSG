@@ -38,9 +38,9 @@ private theorem pcd_pairing_coord {t : ℕ} {e : V t} {i j : Fin t} (hi : e i �
   rw [coordRoot_apply, coordCoroot_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     exact pcd_sq hi
-  · rw [if_neg h, if_neg h, mul_zero]
+  · rw [ite_eq_right h, ite_eq_right h, mul_zero]
 
 private theorem pcd_pairA {t : ℕ} {e : V t} {a b p q : Fin t}
     (ha : e a ≠ 0) (hb : e b ≠ 0) :
@@ -143,17 +143,17 @@ private theorem pcd_cartanB_castSucc {m : ℕ} (κ μ : Fin m) :
   simp only [CartanMatrix.B, CartanMatrix.A, Matrix.of_apply, Fin.ext_iff, Fin.val_castSucc]
   push_cast
   by_cases h1 : κ.val = μ.val
-  · simp only [if_pos h1]
-  · simp only [if_neg h1]
+  · simp only [ite_eq_left h1]
+  · simp only [ite_eq_right h1]
     by_cases h2 : κ.val + 1 = μ.val
     · have h3 : ¬ (μ.val + 1 = κ.val) := by omega
       have h4 : ¬ (μ.val = m) := by omega
-      simp only [if_pos h2, if_neg h4, if_pos (Or.inl h2)]
-    · simp only [if_neg h2]
+      simp only [ite_eq_left h2, ite_eq_right h4, ite_eq_left (Or.inl h2)]
+    · simp only [ite_eq_right h2]
       by_cases h3 : μ.val + 1 = κ.val
       · have h4 : ¬ (μ.val = m) := by omega
-        simp only [if_pos h3, if_pos (Or.inr h3)]
-      · simp only [if_neg h3, if_neg (not_or.mpr ⟨h2, h3⟩)]
+        simp only [ite_eq_left h3, ite_eq_left (Or.inr h3)]
+      · simp only [ite_eq_right h3, ite_eq_right (not_or.mpr ⟨h2, h3⟩)]
 
 private theorem pcd_cartanB_castSucc_last {m : ℕ} (κ : Fin m) :
     (CartanMatrix.B (m + 1) κ.castSucc (Fin.last m) : F) =
@@ -161,13 +161,13 @@ private theorem pcd_cartanB_castSucc_last {m : ℕ} (κ : Fin m) :
   have hκ : κ.val < m := κ.isLt
   simp only [CartanMatrix.B, Matrix.of_apply, Fin.ext_iff, Fin.val_castSucc, Fin.val_last]
   push_cast
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   by_cases h : κ.val + 1 = m
   · have h1 : ¬ (κ.val = m) := by omega
-    simp only [if_neg h1, if_pos h]
+    simp only [ite_eq_right h1, ite_eq_left h]
   · have h1 : ¬ (κ.val = m) := by omega
     have h2 : ¬ (m + 1 = κ.val) := by omega
-    simp only [if_neg h1, if_neg h, if_neg h2]
+    simp only [ite_eq_right h1, ite_eq_right h, ite_eq_right h2]
 
 private theorem pcd_cartanB_last_castSucc {m : ℕ} (κ : Fin m) :
     (CartanMatrix.B (m + 1) (Fin.last m) κ.castSucc : F) =
@@ -178,10 +178,10 @@ private theorem pcd_cartanB_last_castSucc {m : ℕ} (κ : Fin m) :
   by_cases h : κ.val + 1 = m
   · have h1 : ¬ (m = κ.val) := by omega
     have h2 : ¬ (m + 1 = κ.val) := by omega
-    simp only [if_neg h1, if_neg h2, if_pos h]
+    simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_left h]
   · have h1 : ¬ (m = κ.val) := by omega
     have h2 : ¬ (m + 1 = κ.val) := by omega
-    simp only [if_neg h1, if_neg h2, if_neg h]
+    simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h]
 
 theorem chainB_pairing {t m : ℕ} {e : V t} {c : Fin (m + 1) → Fin t} (hc : Function.Injective c)
     (he : ∀ κ, e (c κ) ≠ 0) (κ μ : Fin (m + 1)) :
@@ -197,9 +197,9 @@ theorem chainB_pairing {t m : ℕ} {e : V t} {c : Fin (m + 1) → Fin t} (hc : F
       simp only [hc.eq_iff, Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Fin.val_last]
       by_cases h : κ'.val + 1 = m
       · have h1 : ¬ (κ'.val = m) := by omega
-        simp only [if_pos h, if_neg h1]; norm_num
+        simp only [ite_eq_left h, ite_eq_right h1]; norm_num
       · have h1 : ¬ (κ'.val = m) := by omega
-        simp only [if_neg h, if_neg h1]; norm_num
+        simp only [ite_eq_right h, ite_eq_right h1]; norm_num
   · rcases Fin.eq_castSucc_or_eq_last μ with ⟨μ', rfl⟩ | rfl
     · simp only [chainRootB, chainCorootB, Fin.lastCases_last, Fin.lastCases_castSucc]
       simp only [chainCorootA, map_sub]
@@ -209,10 +209,10 @@ theorem chainB_pairing {t m : ℕ} {e : V t} {c : Fin (m + 1) → Fin t} (hc : F
       simp only [hc.eq_iff, Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Fin.val_last]
       by_cases h : μ'.val + 1 = m
       · have h1 : ¬ (m = μ'.val) := by omega
-        simp only [if_pos h.symm, if_pos h, if_neg h1]; norm_num
+        simp only [ite_eq_left h.symm, ite_eq_left h, ite_eq_right h1]; norm_num
       · have h1 : ¬ (m = μ'.val) := by omega
         have h' : ¬ (m = μ'.val + 1) := fun hh => h hh.symm
-        simp only [if_neg h', if_neg h, if_neg h1]; norm_num
+        simp only [ite_eq_right h', ite_eq_right h, ite_eq_right h1]; norm_num
     · simp only [chainRootB, chainCorootB, Fin.lastCases_last]
       rw [pcd_pairB_coord (he (Fin.last m)), CartanMatrix.B_diag]
       norm_num
@@ -275,14 +275,14 @@ theorem chainD_pairing {t m : ℕ} {e : V t} {c : Fin (m + 2) → Fin t} (hc : F
       · have h1 : ¬ (κ'.val = m) := by omega
         have h2 : ¬ (κ'.val = m + 1) := by omega
         have h3 : ¬ (κ'.val + 1 = m + 1) := by omega
-        simp only [if_pos h, if_neg h1, if_neg h2, if_neg h3]; norm_num
+        simp only [ite_eq_left h, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]; norm_num
       · by_cases hq : κ'.val = m
         · have h1 : ¬ (κ'.val = m + 1) := by omega
           have h3 : κ'.val + 1 = m + 1 := by omega
-          simp only [if_neg h, if_pos hq, if_neg h1, if_pos h3]; norm_num
+          simp only [ite_eq_right h, ite_eq_left hq, ite_eq_right h1, ite_eq_left h3]; norm_num
         · have h1 : ¬ (κ'.val = m + 1) := by omega
           have h3 : ¬ (κ'.val + 1 = m + 1) := by omega
-          simp only [if_neg h, if_neg hq, if_neg h1, if_neg h3]; norm_num
+          simp only [ite_eq_right h, ite_eq_right hq, ite_eq_right h1, ite_eq_right h3]; norm_num
   · rcases Fin.eq_castSucc_or_eq_last μ with ⟨μ', rfl⟩ | rfl
     · simp only [chainRootD, chainCorootD, Fin.lastCases_last, Fin.lastCases_castSucc,
         chainCorootA, LinearMap.add_apply, map_sub]
@@ -297,19 +297,19 @@ theorem chainD_pairing {t m : ℕ} {e : V t} {c : Fin (m + 2) → Fin t} (hc : F
       · have h1 : ¬ (m = μ'.val) := by omega
         have h2 : ¬ (m + 1 = μ'.val) := by omega
         have h4 : ¬ (m + 1 = μ'.val + 1) := by omega
-        rw [if_pos h, if_pos h.symm, if_neg h1, if_neg h2, if_neg h4]
+        rw [ite_eq_left h, ite_eq_left h.symm, ite_eq_right h1, ite_eq_right h2, ite_eq_right h4]
         norm_num
       · by_cases hq : μ'.val = m
         · have h1 : ¬ (m + 1 = μ'.val) := by omega
           have h3 : ¬ (m = μ'.val + 1) := by omega
           have h4 : m + 1 = μ'.val + 1 := by omega
-          rw [if_neg h, if_pos hq.symm, if_neg h1, if_neg h3, if_pos h4]
+          rw [ite_eq_right h, ite_eq_left hq.symm, ite_eq_right h1, ite_eq_right h3, ite_eq_left h4]
           norm_num
         · have h1 : ¬ (m + 1 = μ'.val) := by omega
           have h3 : ¬ (m = μ'.val + 1) := by omega
           have h4 : ¬ (m + 1 = μ'.val + 1) := by omega
-          rw [if_neg h, if_neg (fun hh : m = μ'.val => hq hh.symm), if_neg h1, if_neg h3,
-            if_neg h4]
+          rw [ite_eq_right h, ite_eq_right (fun hh : m = μ'.val => hq hh.symm), ite_eq_right h1, ite_eq_right h3,
+            ite_eq_right h4]
           norm_num
     · simp only [chainRootD, chainCorootD, Fin.lastCases_last, LinearMap.add_apply, map_add,
         pcd_pairing_coord (j := c ((Fin.last m).castSucc)) (he (Fin.last m).castSucc),
@@ -319,8 +319,8 @@ theorem chainD_pairing {t m : ℕ} {e : V t} {c : Fin (m + 2) → Fin t} (hc : F
         CartanMatrix.D_diag]
       have hpl : ((Fin.last m).castSucc : Fin (m + 2)) ≠ Fin.last (m + 1) := by
         simp [Fin.ext_iff]
-      simp only [hc.eq_iff, if_neg (fun hh : ((Fin.last m).castSucc : Fin (m + 2)) =
-        Fin.last (m + 1) => hpl hh), if_neg (fun hh : Fin.last (m + 1) =
+      simp only [hc.eq_iff, ite_eq_right (fun hh : ((Fin.last m).castSucc : Fin (m + 2)) =
+        Fin.last (m + 1) => hpl hh), ite_eq_right (fun hh : Fin.last (m + 1) =
         ((Fin.last m).castSucc : Fin (m + 2)) => hpl hh.symm)]; norm_num
 
 private theorem pcd_reflection_swapTwist {t : ℕ} {e : V t} {a b : Fin t} (ha : e a ≠ 0)
@@ -341,7 +341,7 @@ private theorem pcd_reflection_swapTwist {t : ℕ} {e : V t} {a b : Fin t} (ha :
   by_cases hka : k = a
   · rw [hka]
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.sub_apply,
-      coordRoot_apply, coordCoroot_apply, if_true, if_neg hne, sub_zero]
+      coordRoot_apply, coordCoroot_apply, ite_true, ite_eq_right hne, sub_zero]
     calc v a - (e a * v a - e b * v b) * e a
         = v a - (e a * v a * e a - e b * v b * e a) := by ring
       _ = e a * e b * v b := by
@@ -351,7 +351,7 @@ private theorem pcd_reflection_swapTwist {t : ℕ} {e : V t} {a b : Fin t} (ha :
   · by_cases hkb : k = b
     · rw [hkb]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.sub_apply,
-        coordRoot_apply, coordCoroot_apply, if_neg (Ne.symm hne), if_true, zero_sub]
+        coordRoot_apply, coordCoroot_apply, ite_eq_right (Ne.symm hne), ite_true, zero_sub]
       calc v b - (e a * v a - e b * v b) * (-e b)
           = v b - (-(e a * v a * e b) + e b * v b * e b) := by ring
         _ = e a * e b * v a := by
@@ -359,7 +359,7 @@ private theorem pcd_reflection_swapTwist {t : ℕ} {e : V t} {a b : Fin t} (ha :
             rw [mul_assoc, mul_comm (v b) (e b), ← mul_assoc, ht, one_mul]]
           ring
     · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.sub_apply,
-        coordRoot_apply, coordCoroot_apply, if_neg hka, if_neg hkb, sub_zero, sub_self, mul_zero]
+        coordRoot_apply, coordCoroot_apply, ite_eq_right hka, ite_eq_right hkb, sub_zero, sub_self, mul_zero]
 
 private theorem pcd_reflection_neg {t : ℕ} {e : V t} {l : Fin t} (hl : e l ≠ 0)
     (h : coordRoot t e l (2 • coordCoroot t e l) = 2) :
@@ -372,11 +372,11 @@ private theorem pcd_reflection_neg {t : ℕ} {e : V t} {l : Fin t} (hl : e l ≠
   by_cases hk : k = l
   · rw [hk]
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, coordRoot_apply, two_nsmul,
-      Pi.add_apply, coordCoroot_apply, if_true]
+      Pi.add_apply, coordCoroot_apply, ite_true]
     calc v l - e l * v l * (e l + e l) = v l - 2 * (e l * e l) * v l := by ring
       _ = - v l := by rw [hs]; ring
   · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, coordRoot_apply, two_nsmul,
-      Pi.add_apply, coordCoroot_apply, if_neg hk, sub_zero, add_zero, mul_zero]
+      Pi.add_apply, coordCoroot_apply, ite_eq_right hk, sub_zero, add_zero, mul_zero]
 
 private theorem pcd_reflection_fork {t : ℕ} {e : V t} {p l : Fin t} (hp : e p ≠ 0)
     (hl : e l ≠ 0) (hpl : p ≠ l)
@@ -391,19 +391,19 @@ private theorem pcd_reflection_fork {t : ℕ} {e : V t} {p l : Fin t} (hp : e p 
   by_cases hkp : k = p
   · rw [hkp]
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.add_apply,
-      coordRoot_apply, Pi.add_apply, coordCoroot_apply, if_true, if_neg hpl]
+      coordRoot_apply, Pi.add_apply, coordCoroot_apply, ite_true, ite_eq_right hpl]
     ring_nf
     rw [show e p ^ 2 = 1 by rw [pow_two]; exact hs]
     ring
   · by_cases hkl : k = l
     · rw [hkl]
       simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.add_apply,
-        coordRoot_apply, Pi.add_apply, coordCoroot_apply, if_neg (Ne.symm hpl), if_true]
+        coordRoot_apply, Pi.add_apply, coordCoroot_apply, ite_eq_right (Ne.symm hpl), ite_true]
       ring_nf
       rw [show e l ^ 2 = 1 by rw [pow_two]; exact ht]
       ring
     · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.add_apply,
-        coordRoot_apply, Pi.add_apply, coordCoroot_apply, if_neg hkp, if_neg hkl, sub_zero,
+        coordRoot_apply, Pi.add_apply, coordCoroot_apply, ite_eq_right hkp, ite_eq_right hkl, sub_zero,
         add_zero, mul_zero]
 
 private theorem pcd_reflection_swapTwist_of_eq {t : ℕ} {e : V t} {a b : Fin t} (ha : e a ≠ 0)
@@ -569,7 +569,7 @@ theorem cartanB_zero_leaf (m : ℕ) : ∃! x, x ≠ 0 ∧ CartanMatrix.B (m + 2)
   refine ⟨1, ⟨?_, ?_⟩, ?_⟩
   · simp
   · simp only [CartanMatrix.B, Matrix.of_apply, Fin.val_zero, Fin.val_one,
-      if_true]
+      ite_true]
     split_ifs <;> omega
   · rintro y ⟨hy0, hyA⟩
     simp only [Fin.ext_iff, Fin.val_one]
@@ -583,7 +583,7 @@ theorem cartanB_last_leaf (m : ℕ) :
   · simp only [ne_eq, Fin.ext_iff, Fin.val_last]
     omega
   · simp only [CartanMatrix.B, Matrix.of_apply, Fin.val_last,
-      if_true]
+      ite_true]
     split_ifs <;> omega
   · rintro y ⟨hy, hyA⟩
     simp only [Fin.ext_iff]

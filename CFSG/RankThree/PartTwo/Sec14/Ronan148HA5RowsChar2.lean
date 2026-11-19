@@ -270,7 +270,7 @@ theorem a5Rows_holds : A5Rows where
   six_model := a5Row_six_model
   six_SL3 := a5Row_six_SL3
   seven_SL52 := a5Row_of_cardRow cardRow_seven_SL52
-  seven_Sp62 := fun T _ _ hd ⟨φ⟩ => hd.false_of_iso_E16 φ exists_E16_projSp_three_two
+  seven_Sp62 := fun _T _ _ hd ⟨φ⟩ => hd.false_of_iso_E16 φ exists_E16_projSp_three_two
   seven_SU54 := a5Row_of_cardRow cardRow_seven_SU54
   eight_SL3 := fun e he1 he2 => a5Row_of_cardRow (cardRow_eight_SL3 e he1 he2)
   eight_SU3 := a5Row_eight_SU3

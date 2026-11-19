@@ -54,7 +54,7 @@ theorem u4_center_eq_bot
     (hq : q.card = 2) {K : Type} [Group K] [Finite K] (hK : CFSG.Open.IsQuasisimple K)
     (hZp : IsPGroup 3 (Subgroup.center K))
     (e : K ⧸ Subgroup.center K ≃* U4Group q hv) : Subgroup.center K = ⊥ := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   obtain ⟨-, ⟨eM⟩⟩ := CFSG.LieType.Multipliers.U42.multiplier_PSU_four_two (U4Group q hv)
     (u4_lieModel hq)
   have hdvd := CFSG.AGLEmbedding.card_center_dvd_card_griessHopfMultiplier ⟨hK.1⟩ e
@@ -84,7 +84,7 @@ theorem u4_inner_of_pow_three (hq : q.card = 2) {S : Type}
     have h := Subgroup.index_mul_card Inn
     rw [hInnCard, hAutS] at h
     omega
-  haveI : Inn.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  have : Inn.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
   have h1 := Subgroup.pow_index_mem Inn α
   rw [hidx] at h1
   have h2 : α ^ 2 = α⁻¹ := by
@@ -127,9 +127,9 @@ theorem u4_sylow_elem (hq : q.card = 2) :
     ∃ (E₀ : Subgroup (U4Group q hv)) (P₀ : Sylow 3 (U4Group q hv)), IsElemAbelian 3 E₀ ∧
       3 ^ 2 ≤ Nat.card E₀ ∧ E₀ ≤ (P₀ : Subgroup (U4Group q hv)) ∧
         (P₀ : Subgroup (U4Group q hv)) ≤ Subgroup.normalizer (E₀ : Set (U4Group q hv)) := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   obtain ⟨-, hG⟩ := u4_card (hv := hv) hq
-  haveI : Finite (U4Group q hv) := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
+  have : Finite (U4Group q hv) := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := u4_statedModel (hv := hv) hq
   have h3 : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (U4Group q hv)) := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) eF]
@@ -183,10 +183,10 @@ theorem u4Case
     (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (e : ↥K ⧸ Subgroup.center ↥K ≃* U4Group q hv) : IsStronglyBalancedIn 3 B K := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   have hBel : IsElemAbelian 3 B := hscp.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hcore hcomp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore 3 ↥K = ⊥ := i271h_primeCore_eq_bot hcore hcomp
   have hZp : IsPGroup 3 (Subgroup.center ↥K) := isPGroup_center hp hOK
   have h3K : 3 ∣ Nat.card K := i116e_dvd_card hp hcore hcomp
@@ -205,7 +205,7 @@ theorem u4Case
     have hcard : autOrderIn B K = 3 := by simpa [hr1] using hr
     obtain ⟨E₀, P₀, hE, h2, hEP, hPN⟩ := u4_sylow_elem (hv := hv) hq2
     let eK : ↥K ≃* U4Group q hv := mulEquivOfCenterBot hZ e
-    haveI : Finite (U4Group q hv) := Finite.of_equiv ↥K eK.toEquiv
+    have : Finite (U4Group q hv) := Finite.of_equiv ↥K eK.toEquiv
     have hx₁p : eK ⟨x, hxK⟩ ^ 3 = 1 := by
       rw [← map_pow]
       have : (⟨x, hxK⟩ : ↥K) ^ 3 = 1 := Subtype.ext (by simpa using hxp)
@@ -244,7 +244,7 @@ theorem u4Case
       rw [hr]
       exact Nat.pow_le_pow_right (by norm_num) hr2
     obtain ⟨A, hAB, hAnc, hAf⟩ := exists_faithful_noncyclic hp hBel hBN h2
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
     have hZS : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
       center_eq_bot_of_simple (exists_noncomm_of_isQuasisimple hq)
     have hin : ∀ a ∈ A, ∃ k ∈ K, k⁻¹ * a ∈ Subgroup.centralizer (K : Set X) := by

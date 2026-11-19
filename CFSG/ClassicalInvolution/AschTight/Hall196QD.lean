@@ -19,7 +19,7 @@ theorem mem_W_of_sec19DataT [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t 
   have hI := isUniqueInvolution_of_tight hd.tight.toTightBranch
   have ef := S1911.etaYForm p f G K z S W L t V hDT
   have hcard := S1911.card_inf_eq_card hDT
-  have h2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup'.to_le (inf_le_right.trans hd.hWS)
+  have h2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup.to_le (inf_le_right.trans hd.hWS)
   have hz := AscL62.mem_of_uniqueInvolution_of_pGroup hI inf_le_left h2
     (by rw [hcard]; have := ef.four; omega)
   exact hz.2
@@ -49,8 +49,8 @@ theorem exists_quat_elem [IsSimpleGroup G] (hstar : C19_11aTmp p f)
   have hstar' := fun x hx hxt => mem_inf_of_commute hstar hDT ef (x := x) hx hxt
   have hCP : W ⊓ sec19Y K z ≤ (S : Subgroup G) ⊓ sec19Y K z := inf_le_inf_right _ hd.hWS
   have hC4 : 4 ≤ Nat.card ↥(W ⊓ sec19Y K z) := ef.card ▸ ef.four
-  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd.hWS)
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hd.hWS)
+  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hd.hWS)
   have hPC : ¬ (S : Subgroup G) ⊓ sec19Y K z ≤ W ⊓ sec19Y K z := by
     intro h
     obtain ⟨a, b, ha4, -, -, hbab, hcl⟩ := hQ
@@ -136,7 +136,7 @@ theorem mul_conj_mem_of_quat [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t
     rw [← huv, mul_one]
     exact hu.2
   have hV2 : IsPGroup 2 (Subgroup.zpowers v') :=
-    (S.isPGroup'.to_le (hDT.leW.trans hd.hWS)).to_le (Subgroup.zpowers_le.mpr hv')
+    (S.isPGroup.to_le (hDT.leW.trans hd.hWS)).to_le (Subgroup.zpowers_le.mpr hv')
   have htv := mem_zpowers_of_isUniqueInvolution hDT.invL (le_of_sec19DataT hDT hv') hV2 hv'1
   obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp htv
   have hqti : q * t * q⁻¹ = t := by

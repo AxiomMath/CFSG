@@ -17,7 +17,7 @@ noncomputable def wordW (w : List ℕ) : WeylGroup Tag.E6 :=
 
 theorem wordW_cons (i : ℕ) (w : List ℕ) (h : i < 6) :
     wordW (i :: w) = simple Tag.E6 ⟨i, h⟩ * wordW w := by
-  simp only [wordW, List.map_cons, List.prod_cons, dif_pos h]
+  simp only [wordW, List.map_cons, List.prod_cons, dite_eq_left h]
 
 theorem rep_tImg {t : List ℕ} {x : WeylGroup Tag.E6} (hx : e6Certificate.Represents t x) {i : ℕ}
     (hi : i < 6) : e6Certificate.Represents (tImg i t) (simple Tag.E6 ⟨i, hi⟩ * x) :=
@@ -74,7 +74,7 @@ theorem wordW_getD_mem (gw : List (List ℕ)) (k : ℕ) : wordW (gw.getD k []) �
   · rw [List.getD_eq_getElem _ _ hk]
     exact Subgroup.subset_closure ⟨_, List.getElem_mem hk, rfl⟩
   · rw [List.getD_eq_default _ _ (by omega)]
-    simpa [wordW] using (qSub gw).one_mem
+    simp [wordW]
 
 theorem letters_getD {gw : List (List ℕ)} (hl : ∀ w ∈ gw, ∀ i ∈ w, i < 6) (k : ℕ) :
     ∀ i ∈ gw.getD k [], i < 6 := by

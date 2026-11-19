@@ -102,7 +102,7 @@ theorem k631a_center_bot (h : k631aBHyp f Q) {J : Subgroup B} (hJ : IsComponent 
     have hwf : w ^ f = 1 := by
       have := pow_orderOf_eq_one w
       rwa [hwo, hrf] at this
-    have hw1 := lift62x_center_eq_one hJ.1.1.commutator_eq_top h.prime P.isPGroup'
+    have hw1 := lift62x_center_eq_one hJ.1.1.commutator_eq_top h.prime P.isPGroup
       P.not_dvd_index hPc hwc hwf
     rw [hw1, orderOf_one] at hwo
     exact hr.one_lt.ne hwo

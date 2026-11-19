@@ -26,14 +26,14 @@ theorem mctx_beta_surjective (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) : Fu
   exact hβsurj
 
 theorem mctx_finite (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) : Finite V := by
-  haveI : Finite (mathModel false d a b Γ).Amb := by
+  have : Finite (mathModel false d a b Γ).Amb := by
     unfold mathModel FFModel.golaySec
     infer_instance
-  haveI : Finite ↥(mathModel false d a b Γ).sec := Subtype.finite
-  haveI : Finite (↥(mathModel false d a b Γ).sec ⧸
+  have : Finite ↥(mathModel false d a b Γ).sec := Subtype.finite
+  have : Finite (↥(mathModel false d a b Γ).sec ⧸
       (mathModel false d a b Γ).ker.subgroupOf (mathModel false d a b Γ).sec) :=
     Finite.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : Finite ↥(⊤ : Subgroup V) := Finite.of_injective β (mctx_beta_injective hM)
+  have : Finite ↥(⊤ : Subgroup V) := Finite.of_injective β (mctx_beta_injective hM)
   exact Finite.of_surjective (⊤ : Subgroup V).subtype
     (fun v => ⟨⟨v, Subgroup.mem_top v⟩, rfl⟩)
 
@@ -46,7 +46,7 @@ theorem isVecOf_unique (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {e : PM24}
     mctx_beta_injective hM (by rw [hv, hw])
   exact congrArg Subtype.val h
 
-theorem isVecOf_congr (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {e f : PM24} {v : V}
+theorem isVecOf_congr (_hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {e f : PM24} {v : V}
     (hv : IsVecOf (mathModel false d a b Γ) β e v) (hf : f ∈ (mathModel false d a b Γ).sec)
     (hef : e * f⁻¹ ∈ (mathModel false d a b Γ).ker) :
     IsVecOf (mathModel false d a b Γ) β f v := by

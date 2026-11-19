@@ -96,7 +96,7 @@ theorem taKw1_eq : taKw1 = tg0.getD 0 [] := by decide
 
 theorem taPW0 : taPW.getD 0 [] = [0] ∧ nthN taPO 0 = 4 ∧ 0 < taPW.length := by decide
 
-theorem k0_facts (hℓ : LRep taLL ℓ) (h0 : ℓ 0 = wv gP taKw1)
+theorem k0_facts (hℓ : LRep taLL ℓ) (_h0 : ℓ 0 = wv gP taKw1)
     (hK : ∀ i < taKW.length, nthN taKI i < 168 ∧ ℓ (nthN taKI i) = wv gP (taKW.getD i []))
     (hT : ∀ i < tg0.length, nthN taTI i < 168 ∧ ℓ (nthN taTI i) = wv gP (tg0.getD i []))
     (hP : prof ℓ taB taPW taPO taPS taPM (nthN taTI)) {i j : Equiv.Perm (Fin 360)}

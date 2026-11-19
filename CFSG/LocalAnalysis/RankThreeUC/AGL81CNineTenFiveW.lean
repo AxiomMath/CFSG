@@ -25,7 +25,7 @@ omit [Finite X] in
 theorem exists_mul_of_mem_sup (hp : p.Prime) {L W : Subgroup X} (hLn : L.Normal)
     (hWL : ∀ x ∈ W ⊓ L, Nat.Coprime (orderOf x) p) {e : X} (he : e ∈ L ⊔ W) {k : ℕ}
     (hek : e ^ (p ^ k) = 1) : ∃ l ∈ L, ∃ w ∈ W, w ^ (p ^ k) = 1 ∧ e = l * w := by
-  haveI := hLn
+  have := hLn
   obtain ⟨l₀, hl₀, w₀, hw₀, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp he
   rcases k with - | k
   · refine ⟨1, L.one_mem, 1, W.one_mem, by simp, ?_⟩
@@ -74,7 +74,7 @@ variable {L W : Subgroup X}
 omit [Finite X] in
 theorem pow_mem (hLn : L.Normal) (hW : IsSplitCover p L W) {w : X} (hw : w ∈ W) :
     ∃ k : ℕ, w ^ (p ^ k) ∈ centralizer (L : Set X) := by
-  haveI := hLn
+  have := hLn
   obtain ⟨g, -, ⟨k, hgk⟩, hgen⟩ := hW.2.2.2.1
   obtain ⟨n, hn⟩ := hgen w hw
   refine ⟨k, ?_⟩
@@ -94,7 +94,7 @@ theorem pow_mem (hLn : L.Normal) (hW : IsSplitCover p L W) {w : X} (hw : w ∈ W
 omit [Finite X] in
 theorem commutator_mem (hLn : L.Normal) (hW : IsSplitCover p L W) {w₁ w₂ : X} (h₁ : w₁ ∈ W)
     (h₂ : w₂ ∈ W) : w₁ * w₂ * w₁⁻¹ * w₂⁻¹ ∈ centralizer (L : Set X) := by
-  haveI := hLn
+  have := hLn
   let Y : Subgroup X := centralizer (L : Set X)
   obtain ⟨g, -, -, hgen⟩ := hW.2.2.2.1
   obtain ⟨a, ha⟩ := hgen w₁ h₁
@@ -133,8 +133,8 @@ theorem coprime_orderOf (hp : p.Prime) (hW : IsSplitCover p L W)
 theorem pRank_le_two (hp : p.Prime) (hLn : L.Normal) (hW : IsSplitCover p L W)
     (hZ : ∀ z ∈ L, z ∈ centralizer (L : Set X) → z ^ p = 1 → z = 1)
     (hrk : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 3) : CFSG.Open.pRank p W ≤ 2 := by
-  haveI := hLn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hLn
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt ?_
   intro E hEW hE
   let Y : Subgroup X := centralizer (L : Set X)
@@ -152,7 +152,7 @@ theorem pRank_le_two (hp : p.Prime) (hLn : L.Normal) (hW : IsSplitCover p L W)
     exact Subgroup.npow_mem_zpowers _ _
   have hEmap : E.map (QuotientGroup.mk' Y) ≤ Subgroup.zpowers (QuotientGroup.mk' Y g) :=
     (Subgroup.map_mono hEW).trans hWmap
-  haveI : IsCyclic (E.map (QuotientGroup.mk' Y)) := Subgroup.isCyclic_of_le hEmap
+  have : IsCyclic (E.map (QuotientGroup.mk' Y)) := Subgroup.isCyclic_of_le hEmap
   obtain ⟨x₀, hx₀⟩ := IsCyclic.exists_generator (α := E.map (QuotientGroup.mk' Y))
   obtain ⟨a, haE, hax⟩ := Subgroup.mem_map.mp x₀.2
   have haW : a ∈ W := hEW haE
@@ -193,7 +193,7 @@ theorem pRank_le_two (hp : p.Prime) (hLn : L.Normal) (hW : IsSplitCover p L W)
     have hz1 : z = 1 := hZ z hzL hzY' hzp
     rw [hz1, orderOf_one] at hzord
     exact hp.one_lt.ne' hzord.symm
-  haveI : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact hp⟩
+  have : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact hp⟩
   have hinf : Z ⊓ E = ⊥ := by
     rcases (E.subgroupOf Z).eq_bot_or_eq_top_of_prime_card with hbot | htop
     · rw [Subgroup.eq_bot_iff_forall]
@@ -230,7 +230,7 @@ theorem centralizer_pCore_le (hLn : L.Normal) (hW : IsSplitCover p L W)
     (hRY : CFSG.pCore p X ≤ centralizer (L : Set X))
     (hYR : centralizer (L : Set X) ⊓ centralizer (CFSG.pCore p X : Set X) ≤ CFSG.pCore p X) :
     centralizer (CFSG.pCore p ↥W : Set ↥W) ≤ CFSG.pCore p ↥W := by
-  haveI := hLn
+  have := hLn
   let Y : Subgroup X := centralizer (L : Set X)
   let R : Subgroup X := CFSG.pCore p X
   let C : Subgroup ↥W := centralizer (CFSG.pCore p ↥W : Set ↥W)
@@ -282,15 +282,15 @@ theorem normal_sup_pCore_of_isPGroup (hp : p.Prime) (hLn : L.Normal) (hW : IsSpl
     (hV : IsPGroup p ↥(closure {x : X | x ∈ W ∧ orderOf x = p})) :
     IsPGroup p ↥(E ⊔ CFSG.pCore p X) ∧
       ((E ⊔ CFSG.pCore p X).subgroupOf (E ⊔ centralizer (L : Set X))).Normal := by
-  haveI := hLn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hLn
+  have : Fact p.Prime := ⟨hp⟩
   let Y : Subgroup X := centralizer (L : Set X)
   let R : Subgroup X := CFSG.pCore p X
   let V : Subgroup X := closure {x : X | x ∈ W ∧ orderOf x = p}
   have hYn : Y.Normal := inferInstance
   have hRn : R.Normal := CFSG.pCore_normal
-  haveI : Y.Normal := hYn
-  haveI : R.Normal := hRn
+  have : Y.Normal := hYn
+  have : R.Normal := hRn
   have hVW : V ≤ W := by
     rw [Subgroup.closure_le]
     rintro x ⟨hxW, -⟩
@@ -306,7 +306,7 @@ theorem normal_sup_pCore_of_isPGroup (hp : p.Prime) (hLn : L.Normal) (hW : IsSpl
                 change g * x = (g * x * g⁻¹) * g
                 group)]
             exact hx.2⟩
-    | one => simpa using V.one_mem
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [show g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) by group]
         exact V.mul_mem ihx ihy

@@ -48,7 +48,7 @@ theorem mem_centralizer_of_conj_eq_zpow {Q : Sylow 3 X} {y n : X}
   have hyQ : y ∈ (Q : Subgroup X) := hQy ▸ Subgroup.mem_zpowers y
   obtain ⟨k, hk⟩ := Item1119Proof.exists_orderOf_eq_three_pow'
     (by
-      obtain ⟨j, hj⟩ := Q.isPGroup' ⟨y, hyQ⟩
+      obtain ⟨j, hj⟩ := Q.isPGroup ⟨y, hyQ⟩
       exact ⟨j, by simpa using congrArg Subtype.val hj⟩)
   set C := Subgroup.centralizer ({y} : Set X) with hC
   have h1 : n ^ 3 ^ k ∈ C := by
@@ -77,7 +77,7 @@ theorem mem_centralizer_of_conj_eq_zpow {Q : Sylow 3 X} {y n : X}
       have hle : Subgroup.zpowers (n ^ m) ≤
           Subgroup.normalizer ((Q : Subgroup X) : Set X) :=
         Subgroup.zpowers_le.mpr (Subgroup.pow_mem _ hn m)
-      have hsup := Q.isPGroup'.to_sup_of_normal_left' hp hle
+      have hsup := Q.isPGroup.to_sup_of_normal_left' hp hle
       have heq := Q.maximal_isPGroup.eq_of_ge hsup le_sup_left
       rw [← heq]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
@@ -135,7 +135,7 @@ theorem exists_conj_inv_of_isCyclic_sylow (hperf : Group.IsPerfect X)
       exact Subgroup.zpow_mem_zpowers y j
     · exact Subgroup.zpowers_le.mpr hyQ
   have hy3 : ∃ j : ℕ, y ^ 3 ^ j = 1 := by
-    obtain ⟨j, hj⟩ := Q.isPGroup' ⟨y, hyQ⟩
+    obtain ⟨j, hj⟩ := Q.isPGroup ⟨y, hyQ⟩
     exact ⟨j, by simpa using congrArg Subtype.val hj⟩
   obtain ⟨k, hk⟩ := Item1119Proof.exists_orderOf_eq_three_pow' hy3
   have hk0 : k ≠ 0 := by

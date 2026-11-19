@@ -34,7 +34,7 @@ def actLinEquiv (g : SL2 × SL2) : V0 ≃ₗ[ZMod 2] V0 where
   map_add' M N := by
     simp [actFun, Matrix.mul_add, Matrix.add_mul]
   map_smul' c M := by
-    simp [actFun, Matrix.mul_smul, Matrix.smul_mul]
+    simp [actFun]
   invFun := actFun g⁻¹
   left_inv M := by
     rw [← actFun_mul, inv_mul_cancel, actFun_one]
@@ -194,7 +194,7 @@ theorem q0_polar (M N : V0) : QuadraticMap.polar q0 M N = q0Polar M N := by
   abel
 
 theorem q0_nondegenerate : q0.polarBilin.Nondegenerate := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Module.Finite (ZMod 2) V0 := Module.Finite.of_finite
   refine LinearMap.BilinForm.Nondegenerate.ofSeparatingLeft fun M hM => ?_
   refine q0Polar_nondeg M fun N => ?_

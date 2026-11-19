@@ -69,7 +69,7 @@ theorem nlWitness_twE6_of_nl {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fini
     rw [coe_fixSubfieldRestrict, hT]
   have hNL := hnl d hd1 K hK2 (φ ^ (2 * d)) σe (fixSubfieldRestrict (φ ^ d) (φ ^ (2 * d)))
     hκ hσ hσ₀'
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨-, -, hJC, -, -, hsJ, hncJ, -⟩ :=
     twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer Nat.prime_two hd1 hp3
       (hp.odd_of_ne_two hp2) K hK2 (φ ^ (2 * d)) hκ σe hσ (fixSubfieldRestrict (φ ^ d) (φ ^ (2 * d)))
@@ -111,7 +111,7 @@ theorem nlWitness_twE6_of_nl {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fini
     show f (e.symm y) = e.symm y
     rw [← hx]
     exact hfixed x h2
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 K σe.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 K σe.toRingHom) := Subtype.finite
   exact nlWitness_of_nonLocalized e hs hna hNL hfix
 
 theorem nlWitness_twE6 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]

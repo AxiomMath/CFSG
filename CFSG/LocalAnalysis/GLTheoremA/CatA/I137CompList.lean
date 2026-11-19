@@ -177,7 +177,6 @@ private theorem char_two_of_isReeF432 {i : TauCeti.CFSGIndex} (h : S9.isReeF432 
   · simp only [S9.isReeF432, onLie] at h
   · simp only [S9.isReeF432, onLie] at h
   · cases d <;> simp only [S9.isReeF432, onLie] at h ⊢
-    all_goals first | exact h.elim | skip
     subst h
     simp only [TauCeti.LieTypeIndex.characteristic_reeF4]
   · simp only [S9.isReeF432, onLie] at h
@@ -189,7 +188,6 @@ private theorem card_eq_of_isReeF432 (hb : LieOrderBridge) {T : Type} [Group T] 
   · simp only [S9.isReeF432, onLie] at h
   · simp only [S9.isReeF432, onLie] at h
   · cases d <;> simp only [S9.isReeF432, onLie] at h
-    all_goals first | exact h.elim | skip
     subst h
     rw [hb ⟨TauCeti.LieTypeIndex.reeF4 2, hv⟩ T ⟨e⟩]
     simp only [lieOrderFormula]
@@ -415,7 +413,7 @@ theorem not_isList93_of_alt (hb : LieOrderBridge) {p n : ℕ} (hn : 5 ≤ n) (hn
       norm_num [Nat.factorial]
     omega
   · have h9 : 9 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have h2 : IsChevSimple 2 T := isChevSimple_two_of_isList93 h
     have hc : Nat.card T = n.factorial / 2 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,

@@ -74,6 +74,7 @@ theorem IsModelPhi.cl (hφ : IsModelPhi S ψ φ) (hw : S.width = 10) {h : G}
     φ (S.cl (h * S.z * h⁻¹)) = wtV (planeOf S ψ h) := by
   rw [cl_eq_xcl I ψ hw hbQ hbne, hφ]
 
+omit [IsSimpleGroup G] in
 theorem IsModelPhi.symm_wtV (hφ : IsModelPhi S ψ φ) (i : Fin 1395) :
     φ.symm (wtV i) = xcl S ψ i := by
   rw [← hφ i, LinearEquiv.symm_apply_apply]

@@ -53,7 +53,7 @@ theorem zlProp_of_good (hAL : GGAbelianLift) (D : FrameData R) (hD : D.Good)
     GGE6DepZLProp R I := by
   intro L' _ _ ψ A hTB _
   obtain ⟨hψ, hker, hperf, hA, hAI, h5, -, hsc⟩ := hTB
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZ : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hD.center
   let ρ : MulAut L' →* MulAut R := BstarDesc.descAut hψ hZ
   have hρ : ∀ a l, ρ a (ψ l) = ψ (a l) := fun a l => BstarDesc.descAut_apply hψ hZ a l
@@ -85,7 +85,7 @@ theorem zlProp_of_good (hAL : GGAbelianLift) (D : FrameData R) (hD : D.Good)
     obtain ⟨l, rfl⟩ := hψ' r
     rw [hρ']
     simp only [ψ', MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.mul_apply,
-      MulAut.inv_apply_self, hρ, map_mul]
+      MulAut.inv_apply_self, hρ]
   have hal : ∀ a ∈ A, ρ' a ∈ D.diag.range := fun a ha => by
     rw [hρ'eq]
     exact hγ a ha

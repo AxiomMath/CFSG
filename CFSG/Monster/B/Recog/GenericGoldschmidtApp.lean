@@ -78,7 +78,7 @@ theorem exists_sylow_eq_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {P 
     ∃ Q : Sylow p G, (Q : Subgroup G) = P := by
   obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
   refine ⟨Q, ?_⟩
-  have : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   have hself : Subgroup.normalizer ((P.subgroupOf Q : Subgroup Q) : Set Q) = P.subgroupOf Q := by
     rw [← Subgroup.subgroupOf_normalizer_eq hPQ]
     ext x
@@ -207,7 +207,7 @@ theorem normal_of_goldschmidt_conclusion {X : Type} [Group X] [Finite X] (S : Sy
   set E := goldschmidtLayer (M ⧸ goldschmidtOddCore M) with hE
   have hEX : (E.map ι).Normal := hnormal E (Layer.characteristic _)
   have hOY : goldschmidtOddCore (M ⧸ goldschmidtOddCore M) = ⊥ := OddCore.quotient_corefree M
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le hVS
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le hVS
   have hEK : ∀ K : Subgroup (M ⧸ goldschmidtOddCore M), IsComponentOf K ⊤ →
       E ≤ Subgroup.normalizer (K : Set (M ⧸ goldschmidtOddCore M)) := fun K hK =>
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Layer.component_le hK)).1
@@ -348,7 +348,7 @@ theorem normal_of_goldschmidt_conclusion {X : Type} [Group X] [Finite X] (S : Sy
         exact Subtype.ext (hQcomm _ (MonoidHom.transferSylow Q hQc a).2 _
           (MonoidHom.transferSylow Q hQc b).2)
       rw [hperf] at hker
-      have hdisj := MonoidHom.ker_transferSylow_disjoint Q hQc (Q : Subgroup E) Q.isPGroup'
+      have hdisj := MonoidHom.ker_transferSylow_disjoint Q hQc (Q : Subgroup E) Q.isPGroup
       rw [disjoint_iff, eq_top_iff.2 hker, top_inf_eq] at hdisj
       apply hVne
       rw [eq_bot_iff]

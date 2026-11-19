@@ -166,8 +166,8 @@ theorem ends_eq {j x y : Nat} (hj : j < 76545) : endsB elimSteps[j]! x y = endsK
 theorem ty2_eq (x : Nat) : (if 2835 ≤ x then 1 else 0) = ty2 x := by
   unfold ty2
   by_cases h : 2835 ≤ x
-  · rw [if_pos h, show Nat.ble 2835 x = true from nble.2 h]
-  · rw [if_neg h, nble_f (a := 2835) h]
+  · rw [ite_eq_left h, show Nat.ble 2835 x = true from nble.2 h]
+  · rw [ite_eq_right h, nble_f (a := 2835) h]
 
 theorem triB_eq (x y z : Nat) : triB x y z = triK x y z := by
   unfold triB triK
@@ -196,7 +196,7 @@ theorem stepOK_of {i : Nat} (hi : i < 76545) (h : stepK i = true) :
         exact Or.inl ⟨hcb.1, (treePar_get hb).trans hcb.2⟩
     simp only [List.getElem!_toArray, List.getElem!_cons_zero, List.getElem!_cons_succ,
       Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_eq, beq_iff_eq, List.size_toArray,
-      List.length_cons, List.length_nil, ha, hb, A, T, true_and, and_true, true_or]
+      List.length_cons, List.length_nil, ha, hb, A, T, and_true, true_or]
   · have hr := hr.2 (nblt_f ht)
     rw [sB, sB, sB, band, band, band, band, band, nblt, nblt, nblt] at hr
     obtain ⟨hc, h1, h2, e1, e2, htri⟩ := hr
@@ -206,7 +206,7 @@ theorem stepOK_of {i : Nat} (hi : i < 76545) (h : stepK i = true) :
     rw [steps_tri (by omega) hi]
     simp only [List.getElem!_toArray, List.getElem!_cons_zero, List.getElem!_cons_succ,
       Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_eq, beq_iff_eq, List.size_toArray,
-      List.length_cons, List.length_nil, ha, hb, A, hc, h1, h2, E1, E2, T, true_and, and_true,
+      List.length_cons, List.length_nil, ha, hb, A, hc, h1, h2, E1, E2, T, and_true,
       or_true]
 
 theorem emap_get {x k : Nat} (hx : x < 2835) (hk : k < 36) :

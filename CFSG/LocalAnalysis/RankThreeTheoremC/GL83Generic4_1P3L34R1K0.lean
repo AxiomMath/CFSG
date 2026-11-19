@@ -26,7 +26,7 @@ theorem l34_transitive (hK7 : KFactL34SylowTransitive) {P : Sylow 3 G} {M : Subg
   set A : Subgroup G := (P : Subgroup G) ⊓ J with hA
   have hAC : A ≤ C := inf_le_right.trans hJC
   set K' : Subgroup C := A.subgroupOf C with hK'
-  have hK'p : IsPGroup 3 K' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hK'p : IsPGroup 3 K' := (P.isPGroup.to_le inf_le_left).comap_subtype
   have hSylJ : IsSylowOf 3 A J := by
     have h := hgen.2.2.1.inf_of_le_normalizer hJC hJ.centralizer_le
     have hPJ : ((P : Subgroup G) ⊓ C) ⊓ J = (P : Subgroup G) ⊓ J := by

@@ -34,6 +34,7 @@ structure S16hL3Split (L : Subgroup (MulAut W)) (k : ℕ) where
   J_ind : ∀ i, J i ⊓ ⨆ (j : Fin k) (_ : j ≠ i), J j = ⊥
   J_iSup : (⨆ i, J i) = commSub ⊤ L
 
+omit [Finite W] in
 private theorem s16h_e3_l3_rk_le_of_card_le {Z : Subgroup W} {m : ℕ}
     (h : Nat.card ↥Z ≤ 2 ^ m) : rk ↥Z ≤ m := by
   change padicValNat 2 (Nat.card ↥Z) ≤ m
@@ -47,8 +48,8 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
   have hL3copy := hL3
   obtain ⟨hsl, I, hZI, hind, hsup, hnat⟩ := hL3
   obtain ⟨K, hKf, -, hKcard, ⟨e⟩⟩ := hsl
-  letI := hKf
-  haveI : Group.IsPerfect ↥(StatedSL 3 K) :=
+  let := hKf
+  have : Group.IsPerfect ↥(StatedSL 3 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K
   have hperf : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -64,8 +65,8 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
     s16jp_commSub_commSub hperf (Y := ⊤) htop
   have hIinv : ∀ i, ∀ l ∈ L, ∀ x ∈ I i, l x ∈ I i := by
     intro i
-    letI := hK'f i
-    letI := hK'fin i
+    let := hK'f i
+    let := hK'fin i
     exact s16c1614_invariant_of_realizes (hreal i)
   have hJI : ∀ i, J i ≤ I i := fun i => commSub_le_of_invariant (hIinv i)
   have hJinv : ∀ i, ∀ l ∈ L, ∀ x ∈ J i, l x ∈ J i :=
@@ -74,8 +75,8 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
     fun i => s16jp_commSub_commSub hperf (hIinv i)
   have hJZ : ∀ i, J i ⊔ (commSub ⊤ L ⊓ fixV L) = I i := by
     intro i
-    letI := hK'f i
-    letI := hK'fin i
+    let := hK'f i
+    let := hK'fin i
     exact s16fh_commSub_sup_nat (by norm_num) (hreal i)
   have hIleU : ∀ i, I i ≤ commSub ⊤ L := by
     intro i
@@ -88,8 +89,8 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
     rw [inf_assoc, inf_comm (fixV L) (J i), ← inf_assoc, inf_eq_right.mpr (hJU i)]
   have hJnat : ∀ i, BinaryNaturalSL L (J i) (J i ⊓ fixV L) 3 1 := by
     intro i
-    letI := hK'f i
-    letI := hK'fin i
+    let := hK'f i
+    let := hK'fin i
     refine ⟨K' i, hK'f i, hK'fin i, hK'card i, ?_⟩
     rw [← hZJ i]
     exact s16jp_realizes_restrict_sub (hJI i) (hJinv i) (hJZ i) (hreal i)
@@ -125,8 +126,8 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
   have hJdim : ∀ i, rk ↥(J i) = rk ↥(J i ⊓ fixV L) + 3 := by
     intro i
     obtain ⟨K'', hK''f, hK''fin, hK''card, hres⟩ := hJnat i
-    letI := hK''f
-    letI := hK''fin
+    let := hK''f
+    let := hK''fin
     have h := s16fh_rk_of_realizes_nat (d := 3) (a := 1) hK''card hres
     simpa using h
   have hJle4 : ∀ i, rk ↥(J i) ≤ 4 := by
@@ -151,7 +152,7 @@ theorem s16h_e3_l3_split_nonempty (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
   have hle_sum : 4 * k ≤ ∑ i, rk ↥(J i) :=
     (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hpow_le
   have hsum4 : (∑ i : Fin k, (4 : ℕ)) = 4 * k := by
-    simp [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, Nat.mul_comm]
+    simp [Finset.sum_const, Finset.card_univ, Fintype.card_fin, Nat.mul_comm]
   have hsum_le : (∑ i, rk ↥(J i)) ≤ 4 * k := by
     calc (∑ i, rk ↥(J i)) ≤ ∑ i, (4 : ℕ) := Finset.sum_le_sum fun i _ => hJle4 i
       _ = 4 * k := hsum4

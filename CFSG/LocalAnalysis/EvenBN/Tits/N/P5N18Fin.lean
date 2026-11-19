@@ -13,7 +13,7 @@ variable {X : Type*} [Group X]
 
 theorem centralizes_of_normal_sup {U O : Subgroup X} {t w g : X} (hO : O.Normal)
     (hOodd : Odd (Nat.card O)) (hU : IsElemAbelian 2 U) (hN : (U ⊔ O).Normal)
-    (htU : ∀ u ∈ U, t * u = u * t) (hwt : w * t = t * w) (hwU : ∀ u ∈ U, w * u * w⁻¹ ∈ U)
+    (htU : ∀ u ∈ U, t * u = u * t) (_hwt : w * t = t * w) (hwU : ∀ u ∈ U, w * u * w⁻¹ ∈ U)
     (hg : g * t * g⁻¹ = t * w) : ∀ u ∈ U, w * u * w⁻¹ = u := by
   intro u hu
   have hUO : ∀ a ∈ U, a ∈ O → a = 1 := by

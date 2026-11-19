@@ -36,7 +36,7 @@ theorem step86NotUnitary_of (h34 : Stroth34Statement) (h51 : Stroth51Statement)
     interval_cases jj <;> norm_num at hZ4
   obtain ⟨K, fK, finK, hKZ, hnat⟩ := hmSp
   obtain ⟨φ, hφr, hφk, -⟩ := hnat
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKZ.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKZ.trans hZ2)
   have hK4 : 4 ≤ Nat.card K := by rw [hKZ]; exact hc.hyp.q4
   obtain ⟨hSimple, h16, -⟩ := endg_sp_facts hK4 hm2
   obtain ⟨o₁, ho₁, hSp⟩ := exists_odd_card_statedSp (K := K) (f := jj) (by omega)
@@ -45,9 +45,9 @@ theorem step86NotUnitary_of (h34 : Stroth34Statement) (h51 : Stroth51Statement)
     have h1 : IsPSUModel 6 (Nat.card Z) ↥(generalizedFitting ↥(bar M Q (H0 M Z))) := hU
     rwa [hZ2] at h1
   obtain ⟨o₂, ho₂, hFord⟩ := hTwo jj _ (by omega) hU'
-  haveI hFnormal : (generalizedFitting ↥(bar M Q (H0 M Z))).Normal :=
+  have hFnormal : (generalizedFitting ↥(bar M Q (H0 M Z))).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic).2
-  have hsolv : IsSolvable (↥(bar M Q (H0 M Z)) ⧸ generalizedFitting ↥(bar M Q (H0 M Z))) :=
+  have hsolv : Group.IsSolvable (↥(bar M Q (H0 M Z)) ⧸ generalizedFitting ↥(bar M Q (H0 M Z))) :=
     hOut (Nat.card Z) _ _ hU (CFSG.centralizer_generalizedFitting_le _)
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre ht
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
@@ -92,7 +92,7 @@ theorem step86NotUnitary_of (h34 : Stroth34Statement) (h51 : Stroth51Statement)
       rw [← Subtype.coe_inj]
       rfl
     rw [h1, ← MonoidHom.mem_ker, hφk, Subgroup.mem_subgroupOf]
-  have hS : ¬ IsSolvable ↥(CFSG.Open.StatedSp m K) := not_isSolvable_of_simple_of_dvd h16
+  have hS : ¬ Group.IsSolvable ↥(CFSG.Open.StatedSp m K) := not_isSolvable_of_simple_of_dvd h16
   exact step86_abstract hQZ0 hZ0N hNR (fun r hr x hx => hc.CN_conj_mem ht hr hx)
     (fun r hr z hz => (Subgroup.mem_normalizer_iff.mp (hZ0.mem_normalizer hnormR hr) z).mp hz)
     hirrC hN2 hf he hQcard hNcard hZ0card θ hθ hsolv π hπ hπN hS hSp ho₁ hFord ho₂ hme

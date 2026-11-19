@@ -48,7 +48,7 @@ theorem eq_one_of_central_Rder (hCE : S4.CentralExtInput.{0}) {z : S.O} (hz : z 
     intro r hr
     exact mem_centralizer_singleton_iff.mp (hle hr)
   set zR : Rbar S g t := ⟨z, hzR⟩
-  haveI : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (by rw [D.h3]; norm_num)
+  have : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (by rw [D.h3]; norm_num)
   have hzN : z ∈ Nbar S g t := by
     let ψ : Vt S g t ≃ₗ[ZMod 2] Vt S g t := resV D.H.conj_mem t zR
     have hcomm : ∀ (h : Vt S g t ≃ₗ[ZMod 2] Vt S g t) (x : Vt S g t),

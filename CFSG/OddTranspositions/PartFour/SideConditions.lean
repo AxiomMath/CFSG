@@ -12,10 +12,11 @@ open CFSG.Timmesfeld.Bridge.OddTransp CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem not_isSolvable_Halpha_of_meetsSq (hC : HypothesisC D)
     (hsq : MeetsSq (imageClass hC)) : ¬ Group.IsSolvable (Halpha D hC.alpha) := by
   intro hsol
-  haveI := hsol
+  have := hsol
   have htop : CFSG.solvableRadical (Halpha D hC.alpha) = ⊤ :=
     top_le_iff.mp (le_solvableRadical (N := ⊤) Subgroup.normal_top inferInstance)
   have h1 : ∀ x ∈ imageClass hC, x = 1 := by
@@ -76,7 +77,7 @@ theorem not_threeTransp_of_pow_ne_one (hC : HypothesisC D)
   refine hxy (orderOf ((a : G) * (b : G))) (by omega) (by omega) ?_
   have hab : (a * b) ^ orderOf ((a : G) * (b : G)) = 1 := by
     apply Subtype.ext
-    simpa using pow_orderOf_eq_one ((a : G) * (b : G))
+    simp
   rw [← map_mul, ← map_pow, hab, map_one]
 
 end CFSG.OddTranspositions.PartFour

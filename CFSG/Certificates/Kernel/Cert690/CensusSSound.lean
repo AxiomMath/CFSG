@@ -275,7 +275,7 @@ theorem coverU_bitsS (spk cpk u pz nS : Nat) (hpz : ∀ n, pz.testBit n = true �
       rcases h with h | h
       · exact Or.inl h
       · by_cases hm : fS spk ρ = mulF u (fS cpk k)
-        · rw [if_pos (by simpa using hm)] at h
+        · rw [ite_eq_left (by simpa using hm)] at h
           change (1 <<< ρ).testBit n = true at h
           rw [Nat.testBit_shiftLeft] at h
           simp only [Bool.and_eq_true, decide_eq_true_eq] at h
@@ -284,7 +284,7 @@ theorem coverU_bitsS (spk cpk u pz nS : Nat) (hpz : ∀ n, pz.testBit n = true �
             omega
           subst this
           exact Or.inr (Or.inr ⟨k, hm⟩)
-        · rw [if_neg (by simpa using hm)] at h
+        · rw [ite_eq_right (by simpa using hm)] at h
           exact Or.inr (Or.inl (hpz n h))
     · exact Or.inr (Or.inl h)
     · exact Or.inr (Or.inr h)
@@ -484,7 +484,7 @@ theorem coverS_sound {nS spk : Nat} {gens : List Nat} {wg : List (List Nat)}
     exact this
   · intro t ht'
     have := (allS_eq_true _ _).mp ht t ht'
-    simp only [bAnd_eq, Bool.and_eq_true, blt_eqS, beq_eqS, decide_eq_true_eq] at this
+    simp only [Bool.and_eq_true, blt_eqS, beq_eqS, decide_eq_true_eq] at this
     exact ⟨this.1.1, this.1.2, this.2⟩
   · exact coverT_sound nS spk _ cpar T ranks hc
 
@@ -610,8 +610,7 @@ theorem clsS_sound {B : SBase} {gens h : List Nat} {wa wb : List (List Nat)}
     (H : clsS B.pglOK B.og B.omg B.kpg B.pglc gens h wa wb = true) : ClsOK B gens h wa wb := by
   unfold clsS at H
   simp only [nthS_eq, lenS_eq, bAnd_eq] at H
-  simp only [boolRec_eqS, beq_eqS, blt_eqS, ble_eqS, Bool.and_false, Bool.or_false,
-    Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_eq, Bool.not_eq_true',
+  simp only [boolRec_eqS, beq_eqS, blt_eqS, ble_eqS, Bool.and_eq_true, Bool.or_eq_true, decide_eq_true_eq, Bool.not_eq_true',
     decide_eq_false_iff_not, memS_eq_true, allS_eq_true, bothS_iff] at H
   unfold ClsOK
   rcases H with ⟨t1, ⟨h0, h64⟩, h5, hB, hv, hW⟩ | ⟨-, ⟨t2, hb2⟩ | ⟨-, ⟨t3, hb3⟩ |

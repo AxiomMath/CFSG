@@ -127,7 +127,7 @@ variable
   map_one' := by simp
   map_mul' := by
     intro y y'
-    simp only [Subgroup.coe_mul, map_mul, MulMemClass.coe_mul, map_inv]
+    simp only [map_mul, MulMemClass.coe_mul, map_inv]
     group
 
 theorem le_range_conjAdjEmbHom_of_twistedFixed (hg0C : g0 ∈ adjointGroup τ L)

@@ -31,7 +31,7 @@ variable (G) in
 theorem centralizer_ne_top_of_setting (hS : Setting G) {a : G} (ha : a ≠ 1) :
     Subgroup.centralizer ({a} : Set G) ≠ ⊤ := by
   intro htop
-  haveI := hS.simple
+  have := hS.simple
   rcases (Subgroup.center G).normal_of_characteristic.eq_bot_or_eq_top with hZ | hZ
   · refine ha ((Subgroup.mem_bot).mp (hZ ▸ Subgroup.mem_center_iff.mpr fun g => ?_))
     exact (Subgroup.mem_centralizer_iff.mp (htop ▸ Subgroup.mem_top g) a

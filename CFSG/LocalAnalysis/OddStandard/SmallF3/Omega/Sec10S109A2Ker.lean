@@ -17,6 +17,7 @@ variable {G : Type} [Group G]
 
 variable [Finite G] {t : G} {L S : Subgroup G} {z : G} {K1 K2 : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem sec10A2_cases_cent_K0 {w : G} (hw : w = 1 ∨ w = t ∨ w = z ∨ w = t * z) :
     ∀ x ∈ secK0 t z, w * x = x * w := by
   intro x hx
@@ -93,7 +94,7 @@ theorem sec10A2_z_mem_secB (hf : Asc82Facts10) (hb : Asc82Basic10)
   exact ⟨Subgroup.mem_centralizer_iff.mpr fun b hb' => hctx.central b (secB_le_S S L hb'), hzL⟩
 
 theorem sec10A2_S_le_M (h3 : Asc82Sec3Res10) (hctx : Sec10Ctx G t L S z K1 K2) :
-    S ≤ secM t S L := fun s hs =>
+    S ≤ secM t S L := fun _s hs =>
   sec10A_cent_mem_M h3.l36 hctx (Subgroup.le_normalizer hs)
     (Subgroup.mem_centralizer_singleton_iff.mp (hctx.sylow.1 hs))
 

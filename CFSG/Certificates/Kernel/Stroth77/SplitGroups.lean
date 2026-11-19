@@ -94,7 +94,7 @@ theorem mem_Tsp_iff (ht : tabOK D = true) {g : Msp} : g ∈ Tsp ↔ ∃ c < 256,
   · intro hg
     have hle : Tsp ≤ subS D (fun _ => true) ht closedP_true := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensTsp, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensTsp, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, rfl, elS_1⟩
       · exact ⟨2, by norm_num, rfl, elS_2⟩
@@ -161,7 +161,7 @@ theorem mem_Asp_iff (ht : tabOK D = true) (hc : clOK D = true) (ha : aOK D = tru
     have hg4 := (cl_facts hc).2.2.2
     have hle : Asp ≤ subS D (memA D) ht (cl_facts hc).1 := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensAsp, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensAsp, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, hg4 1 (by simp), elS_1⟩
       · exact ⟨2, by norm_num, hg4 2 (by simp), elS_2⟩
@@ -219,7 +219,7 @@ theorem mem_Esp_iff (ht : tabOK D = true) (hc : clOK D = true) {g : Msp} :
   · intro hg
     have hle : Esp ≤ subS D (fun c => decide (c < 16)) ht (cl_facts hc).2.2.1 := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensEsp, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensEsp, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, rfl, elS_1⟩
       · exact ⟨2, by norm_num, rfl, elS_2⟩

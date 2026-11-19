@@ -60,6 +60,7 @@ section Bar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mk_comp_injective_of_inf_eq_bot {L : Subgroup G} {K₁ : Subgroup L}
     (h : K₁ ⊓ Subgroup.center L = ⊥) :
     Function.Injective ((QuotientGroup.mk' (Subgroup.center L)).comp K₁.subtype) := by
@@ -75,8 +76,8 @@ theorem inf_center_eq_bot
     (hK'type : IsType429 (K' ⧸ CFSG.pCore 2 K')) (hZ : IsPGroup 3 (Subgroup.center L)) :
     K'.subgroupOf L ⊓ Subgroup.center L = ⊥ := by
   set e : K'.subgroupOf L ≃* K' := Subgroup.subgroupOfEquivOfLe hK'L
-  haveI : Group.IsPerfect K' := hK'q.1
-  haveI : Nontrivial (K' ⧸ CFSG.pCore 2 K') := nontrivial_quot_pCore_two hK'q
+  have : Group.IsPerfect K' := hK'q.1
+  have : Nontrivial (K' ⧸ CFSG.pCore 2 K') := nontrivial_quot_pCore_two hK'q
   have hZK' : Subgroup.center (K' ⧸ CFSG.pCore 2 K') = ⊥ := center_eq_bot_of_isType429 hK'type
   refine inf_eq_bot_of_center_eq_bot (Γ := L)
     (CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hK'q)
@@ -88,6 +89,7 @@ theorem inf_center_eq_bot
   (Subgroup.subgroupOfEquivOfLe hK'L).symm.trans
     (equivMapOfInjOn _ _ (mk_comp_injective_of_inf_eq_bot h))
 
+omit [Finite G] in
 theorem map_le_autFix {L K' : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (L : Set G))
     (hK'c : K' ≤ Subgroup.centralizer {c}) :
     (K'.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center L)) ≤
@@ -101,6 +103,7 @@ theorem map_le_autFix {L K' : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalize
   have hlc : (l : G) * c = c * l := Subgroup.mem_centralizer_singleton_iff.mp (hK'c hl)
   rw [← hlc, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem isSubnormal_bar {L K' : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (L : Set G))
     (hK'M : K' ≤ L ⊓ Subgroup.centralizer {c})
     (hK'sn : (K'.subgroupOf (L ⊓ Subgroup.centralizer {c})).IsSubnormal) :
@@ -202,7 +205,8 @@ theorem isSubnormal_bar {L K' : Subgroup G} {c : G} (hc : c ∈ Subgroup.normali
   rw [← heq]
   exact h₃.map hψs
 
-theorem descAut_mem_bar {L K' A : Subgroup G} (hK'L : K' ≤ L)
+omit [Finite G] in
+theorem descAut_mem_bar {L K' A : Subgroup G} (_hK'L : K' ≤ L)
     (hAN : A ≤ Subgroup.normalizer (L : Set G)) (hAK' : A ≤ Subgroup.normalizer (K' : Set G))
     {x : MulAut (L ⧸ Subgroup.center L)} (hx : x ∈ aBar hAN) {y : L ⧸ Subgroup.center L}
     (hy : y ∈ (K'.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center L))) :
@@ -258,8 +262,8 @@ theorem cfgS429_of
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp h1 l hl)
   ·
-    haveI : Group.IsPerfect K' := hK'q.1
-    haveI : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect K' := hK'q.1
+    have : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hK'L).symm.toMonoidHom) (MulEquiv.surjective _)
     exact Group.IsPerfect.map _
   ·

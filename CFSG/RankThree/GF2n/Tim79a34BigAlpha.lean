@@ -115,7 +115,7 @@ theorem bigAlpha_assemble [Finite G] {M V Q P H B : Subgroup G} (hc : MinCex M V
     have e : z = g * (g⁻¹ * z * g) * g⁻¹ := by group
     rw [e]
     exact hc.M_le_normalizer_P (M.mul_mem (M.mul_mem hg h1) (M.inv_mem hg))
-  obtain ⟨y, hy, hyP⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨y, hy, hyP⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   obtain ⟨hyS, hyS'⟩ := Subgroup.mem_inf.mp hy
   rw [hSB] at hyS hyS'
   rw [hSg, sup_comm] at hyS'

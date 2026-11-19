@@ -22,10 +22,12 @@ open CFSG.ClassicalInvolution.Phan CFSG.ClassicalInvolution.Balance.StrongBalanc
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private lemma p9uUCor_val_mul_val_inv {n : ℕ} (B : GL (Fin n) K) :
     (B : Matrix (Fin n) (Fin n) K) * ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = 1 := by
   rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
 
+omit [Finite K] [CharP K 2] in
 private lemma p9uUCor_val_inv_mul_val {n : ℕ} (B : GL (Fin n) K) :
     ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * (B : Matrix (Fin n) (Fin n) K) = 1 := by
   rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
@@ -68,6 +70,7 @@ private theorem p9uUCor_unitary_pow {n : ℕ} {g : GL (Fin n) K}
   | zero => simp [ggIsUnitaryMat, conjTr_one]
   | succ m ih => rw [pow_succ]; exact p9uUCor_unitary_mul ih hg
 
+omit [Finite K] [CharP K 2] in
 private lemma p9uUCor_coe_map {n : ℕ} (f : K ≃+* K) (g : GL (Fin n) K) :
     ((Matrix.GeneralLinearGroup.map (f : K →+* K) g : GL (Fin n) K) :
         Matrix (Fin n) (Fin n) K) =
@@ -76,6 +79,7 @@ private lemma p9uUCor_coe_map {n : ℕ} (f : K ≃+* K) (g : GL (Fin n) K) :
   simp only [Matrix.GeneralLinearGroup.map_apply, Matrix.map_apply]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private lemma p9uUCor_map_injective {n : ℕ} (τ : K ≃+* K) :
     Function.Injective (Matrix.GeneralLinearGroup.map (τ : K →+* K) :
       GL (Fin n) K → GL (Fin n) K) := by
@@ -88,6 +92,7 @@ private lemma p9uUCor_map_injective {n : ℕ} (τ : K ≃+* K) :
     simpa only [Matrix.GeneralLinearGroup.map_apply] using this
   exact (τ : K →+* K).injective hh
 
+omit [Finite K] [CharP K 2] in
 private lemma p9uUCor_det_conj {n : ℕ} (g m : GL (Fin n) K)
     (hm : (m : Matrix (Fin n) (Fin n) K).det = 1) :
     ((g * m * g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).det = 1 := by

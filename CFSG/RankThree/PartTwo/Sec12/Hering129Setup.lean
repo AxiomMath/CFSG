@@ -27,12 +27,14 @@ theorem le_inSubgroup_perfectResidual_of_isPerfect {X P : Subgroup G} (hPX : P �
   have h2 := Subgroup.map_mono (f := X.subtype) h
   rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hPX] at h2
 
+omit [Finite G] in
 theorem isElemAbelian_of_le_three {A V : Subgroup G} (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hVA : V ≤ A) : CFSG.Assembly.IsElemAbelian 3 V := by
   have hcomm : ∀ y ∈ A, ∀ z ∈ A, y * z = z * y := fun y hy z hz =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨y, hy⟩ ⟨z, hz⟩)
   exact ⟨⟨⟨fun x y => Subtype.ext (hcomm _ (hVA x.2) _ (hVA y.2))⟩⟩, fun x hx => hA.2 x (hVA hx)⟩
 
+omit [Finite G] in
 theorem card_center_eq_three_of_list {L : Subgroup G} (hty : IsList122 L) :
     Nat.card (Subgroup.center (L ⧸ aschbacherSolvableCore 3 L)) = 3 := by
   rcases hty with hSL | hA6 | hA7 | hM22
@@ -81,6 +83,7 @@ theorem mem_normalizer_centralizer_of_commute {a g : G} (h : g * a = a * g) :
     _ = (a * g) * n * g⁻¹ := by rw [h]
     _ = a * (g * n * g⁻¹) := by group
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -91,6 +94,7 @@ theorem mem_normalizer_commutator {H K : Subgroup G} {g : G}
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact h
 
+omit [Finite G] in
 theorem commutator_closure_eq_zpowers {S B : Subgroup G} {b c : G}
     (hB : Subgroup.closure ({c, b} : Set G) = B) (hSb : S ≤ Subgroup.centralizer ({b} : Set G))
     (hSc : c ∈ Subgroup.normalizer (S : Set G)) : ⁅S, B⁆ = ⁅S, Subgroup.zpowers c⁆ := by
@@ -142,6 +146,7 @@ theorem commutator_closure_eq_zpowers {S B : Subgroup G} {b c : G}
   · exact Subgroup.commutator_mono le_rfl
       (Subgroup.zpowers_le.mpr (hB ▸ Subgroup.subset_closure (Set.mem_insert c _)))
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq (c : G) :
     Subgroup.centralizer ((Subgroup.zpowers c : Subgroup G) : Set G) =
       Subgroup.centralizer ({c} : Set G) := by
@@ -154,6 +159,7 @@ theorem centralizer_zpowers_eq (c : G) :
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
     exact ((Commute.zpow_left (show Commute c x from hx.symm) k)).eq
 
+omit [Finite G] in
 theorem centralizer_singleton_eq_of_zpowers_eq {a b : G}
     (h : Subgroup.zpowers a = Subgroup.zpowers b) :
     Subgroup.centralizer ({a} : Set G) = Subgroup.centralizer ({b} : Set G) := by
@@ -202,7 +208,7 @@ theorem exists_refine {A V : Subgroup G} {c : G} (hAe : CFSG.Assembly.IsElemAbel
     ∃ a ∈ V, a ∉ Subgroup.zpowers c ∧ ∃ S' : Subgroup G, S' ≠ ⊥ ∧ IsPGroup 2 S' ∧
       A ≤ Subgroup.normalizer (S' : Set G) ∧ S' ≤ S ∧ S' ≤ Subgroup.centralizer ({a} : Set G) ∧
       ⁅S', Subgroup.zpowers c⁆ = S' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ y ∈ A, ∀ z ∈ A, y * z = z * y := fun y hy z hz =>
     congrArg Subtype.val (hAe.1.is_comm.comm ⟨y, hy⟩ ⟨z, hz⟩)
   have hc3 : orderOf c = 3 := orderOf_eq_prime (hAe.2 c hcA) hc1

@@ -66,7 +66,7 @@ open scoped commutatorElement
 
 theorem odd_dvd_twelve {z : ℕ} (h : z ∣ 12) (ho : Odd z) : z = 1 ∨ z = 3 := by
   have hz : z ≤ 12 := Nat.le_of_dvd (by norm_num) h
-  interval_cases z <;> simp_all [Nat.odd_iff] <;> omega
+  interval_cases z <;> simp_all [Nat.odd_iff]
 
 theorem spor_arith : ∀ name : TauCeti.SporadicName, ∀ z : ℕ, (z = 1 ∨ z = 3) →
     z ∣ sporadicMultiplierOrder name →

@@ -27,9 +27,9 @@ theorem twist_iso {F : Type*} [Field F]
     (S : Submodule F[E] ρ.asModule) [IsSimpleModule F[E] S] :
     Nonempty (S ≃ₗ[F[E]] tw (mkSLEquiv ρ α T hcov) S) := by
   by_contra hA
-  haveI : NeZero q := ⟨hq.out.ne_zero⟩
-  haveI : NeZero (Nat.card E : F) := ⟨hcard⟩
-  haveI : IsSemisimpleModule F[E] ρ.asModule := inferInstance
+  have : NeZero q := ⟨hq.out.ne_zero⟩
+  have : NeZero (Nat.card E : F) := ⟨hcard⟩
+  have : IsSemisimpleModule F[E] ρ.asModule := inferInstance
   set T' := mkSLEquiv ρ α T hcov with hT'
   have hit : ∀ n x, (⇑T')^[n] x = ρ.asModuleEquiv.symm ((⇑T)^[n] (ρ.asModuleEquiv x)) := by
     intro n
@@ -80,8 +80,8 @@ theorem twist_iso {F : Type*} [Field F]
     tw_iter_simple T' ‹_› n
   have hne : ∀ i : Fin q, ∃ v : ρ.asModule, v ∈ W i ∧ v ≠ 0 := by
     intro i
-    haveI := hsimple i.val
-    haveI := IsSimpleModule.nontrivial F[E] ((tw T')^[i.val] S)
+    have := hsimple i.val
+    have := IsSimpleModule.nontrivial F[E] ((tw T')^[i.val] S)
     obtain ⟨⟨v, hv⟩, hv0⟩ := exists_ne (0 : ((tw T')^[i.val] S))
     exact ⟨v, Submodule.le_isotypicComponent _ hv, fun h => hv0 (by ext; simpa using h)⟩
   choose v hvW hv0 using hne

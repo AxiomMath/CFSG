@@ -32,7 +32,7 @@ theorem uc22s217u3b_exists_sr {n : ℕ} (hn0 : n ≠ 0) (hn : ¬ IsPowTwo n) :
   have h8 : 2 ^ 3 ≤ 2 ^ s := Nat.pow_le_pow_right (by norm_num) hs3
   obtain ⟨r, hr, hrs⟩ := Nat.exists_prime_and_dvd (n := 2 ^ s - 1) (by omega)
   refine ⟨s, r, hso, hsn, hr, hrs, fun hrn => ?_⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr5 : 5 ≤ r := prime_ne_two_three_of_dvd hr hso hrs
   have h2s : (2 : ZMod r) ^ s = 1 := by
     have h1 : ((2 ^ s - 1 : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hrs
@@ -109,7 +109,7 @@ theorem uc22s217u3b_exists_lift_cent {M : Subgroup G} {r q : ℕ} (hr : r.Prime)
     ∃ A : Subgroup G, A ≤ M ⊓ centralizer (zpowers y : Set G) ∧ IsElemAbelian q A ∧
       Nat.card A = q ^ k := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   obtain ⟨Q, hQp, hQmap, hQdisj⟩ :=
@@ -149,7 +149,7 @@ theorem uc22s217u3b_two_cent {M K₀ K₁ : Subgroup G} (hK₀ : K₀ ∈ calC M
     ∃ W : Subgroup G, W ≤ M ⊓ centralizer (zpowers y : Set G) ∧ IsElemAbelian q W ∧
       Nat.card W = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   have himg : ∀ {A K : Subgroup G}, A ≤ K → K ≤ M → Nat.card A = q →
@@ -206,7 +206,7 @@ theorem uc22s217u3b_exists_partner {K : Subgroup G} {r : ℕ} (hr : r.Prime) (hr
     (hα : rhoL K ⟨x, hxN⟩ ∈ (MulAut.conj : Bar2 K →* MulAut (Bar2 K)).range) :
     ∃ A : Subgroup G, A ≤ K ∧ A ≤ centralizer (zpowers x : Set G) ∧ Nat.card A = r := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   have hcop : Nat.Coprime 3 r := (Nat.coprime_primes Nat.prime_three hr).2 (by omega)
   obtain ⟨b, hb, hbr⟩ := UCK.exists_inner_gen_pow_eq_one hZ3 hr.one_lt hcop hαr hα
@@ -237,7 +237,7 @@ theorem uc22s217u3b_sup_elemAbelian {K : Subgroup G} {r : ℕ} (hr : r.Prime) {x
     (hAc : A ≤ centralizer (zpowers x : Set G)) (hAr : Nat.card A = r) :
     IsElemAbelian r (zpowers x ⊔ A) ∧ Nat.card ↥(zpowers x ⊔ A) = r ^ 2 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hxc : Nat.card (zpowers x) = r := by rw [Nat.card_zpowers, hxr]
   have hint : zpowers x ⊓ A = ⊥ := by
     have hdvd : Nat.card ↥(zpowers x ⊓ A) ∣ r := hxc ▸ Subgroup.card_dvd_of_le inf_le_left

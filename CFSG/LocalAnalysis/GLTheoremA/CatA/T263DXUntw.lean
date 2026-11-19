@@ -101,7 +101,7 @@ theorem exists_comp_of_two_adjointGroup {τ : Tag}
   open CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple
     CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.LocalAnalysis.GLTheoremA.S267.Gen in
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcardK, hK2]
   have hpK : ¬ p ∣ Nat.card K := fun hd =>

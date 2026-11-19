@@ -88,8 +88,8 @@ theorem ggFixLine_not_linWeyl {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
     ¬ ZS.LinWeyl p (ggFixLineQ S) := by
   intro hlw
   obtain ⟨ι', M, hM, f, hf⟩ := hlw
-  haveI : Fintype ι' := Classical.choice (l6w4_nonempty_fintype hM)
-  haveI : DecidableEq ι' := Classical.decEq ι'
+  have : Fintype ι' := Classical.choice (l6w4_nonempty_fintype hM)
+  have : DecidableEq ι' := Classical.decEq ι'
   let sg : ι' → (↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) :=
     fun i => (f (M.simple i) : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s))
   choose c β hc hβ hform using fun i => ggFLW_isRefl_form S.odd (hf i)
@@ -128,7 +128,7 @@ theorem ggFixLine_not_linWeyl {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
         have h1 : a (a⁻¹ w) = w := by
           have := congrArg (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) => e w)
             (mul_inv_cancel a)
-          simpa [LinearEquiv.mul_apply] using this
+          simp
         have h2 := (ha (a⁻¹ w)).symm
         rwa [h1] at h2 }
   have hgen_mem_SW : ∀ i, sg i ∈ SW := by
@@ -247,7 +247,7 @@ theorem ggFixLine_not_linWeyl {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
           have h1 : a⁻¹ (a v) = v := by
             have := congrArg (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) => e v)
               (inv_mul_cancel a)
-            simpa [LinearEquiv.mul_apply] using this
+            simp
           rw [iha] at h1
           exact h1
     have : v ∈ (⊥ : Submodule (ZMod p) ↥(ggFixLineT r s)) := by
@@ -272,11 +272,11 @@ theorem ggFixLine_not_linWeyl {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGrou
         have h1 : a (a⁻¹ u) = u := by
           have := congrArg (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) => e u)
             (mul_inv_cancel a)
-          simpa [LinearEquiv.mul_apply] using this
+          simp
         have h2 : a (a⁻¹ v) = v := by
           have := congrArg (fun e : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) => e v)
             (mul_inv_cancel a)
-          simpa [LinearEquiv.mul_apply] using this
+          simp
         have h := iha (a⁻¹ u) (a⁻¹ v)
         rw [h1, h2] at h
         exact h.symm

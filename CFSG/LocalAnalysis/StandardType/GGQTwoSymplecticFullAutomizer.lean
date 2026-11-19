@@ -71,7 +71,7 @@ theorem four_dvd_moving_of_full_frame
         spSupported (t : StatedSp n K) {X ^ 2 + X + 1}⁆ E) := by
   classical
   have h4 := movingMultiplicity_ge_four_of_quasisimple_derived hK hn ht3 ht1 hQ
-  letI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+  let : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
   have hdim := finrank_primaryComponent (x := spEnd (t : StatedSp n K)) (a := SpFin.h3 K)
   rw [SpFin.h3_natDegree] at hdim
   change finrank K (primaryComponent (spEnd (t : StatedSp n K)) (X ^ 2 + X + 1)) =
@@ -114,9 +114,9 @@ theorem four_dvd_image_of_full_symplectic
   obtain ⟨K, hField, hFinite, hK, θ, E, A₀, M, k, d, t, -, hdet, hM, hframe, -,
     hsurj, hmapE, hQJ, -, ht3, ht1, hJ⟩ :=
       exists_symplectic_full_component hS hq2 htag hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
   have hr : 3 ≤ lab.rank := QTwoCav.three_le_exponent_of_beta_index hS Nat.prime_three θ hN hidx
   rcases hJ with hfixed | hmoving
   · have hQ := isQuasisimple_of_symplectic_projective_image hK hQJ hfixed

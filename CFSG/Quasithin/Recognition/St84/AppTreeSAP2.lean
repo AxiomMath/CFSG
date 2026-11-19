@@ -12,7 +12,7 @@ open CFSG.Open
 
 theorem isPGroup_two_of_odd_eq_one {C : Type*} [Group C] [Finite C]
     (h : ∀ c : C, Odd (orderOf c) → c = 1) : IsPGroup 2 C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro c
   obtain ⟨k, m, hm, hkm⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos c).ne'
@@ -56,6 +56,7 @@ theorem f112saP2_oTwoRes_normal {L1 L2 S : Subgroup H}
   rw [f112sa_P2_eq_sup hF h1]
   exact sup_le (le_normalizer_oTwoRes L2) hS
 
+omit [Finite H] in
 theorem f112saP2_pCoreOf_subgroupOf_eq (L : Subgroup H) :
     (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
   ext x
@@ -94,6 +95,7 @@ theorem f112saP2_bigB_normal_X2 {L1 L2 S : Subgroup H}
   rw [Subgroup.mem_normalizer_iff_map_conj_eq.mp (hBM hb),
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hb)]
 
+omit [Finite H] in
 theorem f112saP2_V_le_M (L2 S : Subgroup H) : f112saP2_V L2 S ≤ oTwoRes L2 := inf_le_right
 
 theorem f112saP2_le_V_of_isPGroup_of_hyp111R {L1 L2 S : Subgroup H}

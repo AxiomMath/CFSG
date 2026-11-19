@@ -18,10 +18,10 @@ theorem S43_Tstar_of_commTheta
     (h23 : FF84_2_3)
     (hct : S43_CommThetaAll) (hR : S43_TstarCen₁) : S43_Tstar := by
   intro G _ _ b L B K b₁ b₂ h V hV hVne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA := a8Model_of_hyp h.hyp
   have hC := hct G b L B K b₁ b₂ h
-  haveI := isElemAb_E h
+  have := isElemAb_E h
   have hET : Subgroup.closure ({b, b₁} : Set G) ≤ Nor (Op 2 (Nor V)) := fun e he =>
     FF79.L41.mem_nor_of_forall (fun z hz => Tstar_B_inv hA h hV z hz e (E_le_B h he))
   have hgen := B_gen_centralizers (E := Subgroup.closure ({b, b₁} : Set G)) (X := Op 2 (Nor V))

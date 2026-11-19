@@ -27,7 +27,7 @@ theorem y7c_step1 {M L1 L2 P V : Subgroup G} (h : Gl3Pair M L1 L2)
   let D : Subgroup G := L1 ⊓ P
   let D2 : Subgroup G := L2 ⊓ P
   let W : Subgroup G := centIn M D
-  haveI : IsMulCommutative M := h.elem.1
+  have : IsMulCommutative M := h.elem.1
   have hMcomm : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : M) (⟨b, hb⟩ : M))

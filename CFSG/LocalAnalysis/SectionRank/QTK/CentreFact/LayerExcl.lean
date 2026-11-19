@@ -362,7 +362,7 @@ theorem layer_false_of_u4_three {H : Type} [Group H] [Finite H] (he : CFSG.Open.
   have hφ : Function.Surjective φ := eX.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : φ.ker = center ↥L₁ := by
     ext g
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(center ↥L₁)) 3 hrZ
   have hzo : orderOf (z : ↥L₁) = 3 := by rw [Subgroup.orderOf_coe, hz]
   have hz3 : (z : ↥L₁) ^ 3 = 1 := by rw [← hzo]; exact pow_orderOf_eq_one _

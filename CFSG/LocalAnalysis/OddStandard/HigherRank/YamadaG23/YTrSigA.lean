@@ -14,6 +14,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem eq_one_of_odd_order_dvd_two_pow {x : G} (hodd : Odd (orderOf x)) {n : ℕ}
     (h : orderOf x ∣ 2 ^ n) : x = 1 := by
   rw [← orderOf_eq_one_iff]
@@ -25,6 +26,7 @@ private theorem eq_one_of_odd_order_dvd_two_pow {x : G} (hodd : Odd (orderOf x))
       exact (Nat.not_even_iff_odd.mpr hodd)
         (by rw [hk]; exact Even.pow_of_ne_zero even_two (Nat.succ_ne_zero k))
 
+omit [Finite G] in
 private theorem mem_sup_closure_singleton {H : Subgroup G} {g : G} (hg2 : g ^ 2 = 1)
     (hgH : g ∈ normalizer (H : Set G)) (x : G) :
     x ∈ H ⊔ Subgroup.closure {g} ↔ x ∈ H ∨ ∃ y ∈ H, x = y * g := by
@@ -72,8 +74,7 @@ private theorem Sσ_eq_sup (s : Setting3 G L) (g : G) :
   have hset : ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
       ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀} : Set G) ∪ {g} := by
     ext x
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union,
-      Set.mem_empty_iff_false]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
     tauto
   change Subgroup.closure ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
     s.fr.S ⊔ Subgroup.closure {g}
@@ -83,7 +84,7 @@ private theorem Sσ_eq_sup (s : Setting3 G L) (g : G) :
 theorem s3_g_normalizes_S (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) {g : G} (hg : ActsAs L g s.fr'.σ) :
     g ∈ normalizer (s.fr.S : Set G) := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   refine (mem_normalizer_iff_jSub (L := L) hZ (s3_S_le_L s) (s3_isPGroup_S s) hg).mpr ?_
   rw [s3_jSub_S s]
   exact frame_sigma_normalizes s.fr' s.facts.1
@@ -94,23 +95,25 @@ theorem s3_mem_Sσ_iff (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
   rw [Sσ_eq_sup s g]
   exact mem_sup_closure_singleton (H := s.fr.S) hg2 hgS x
 
+omit [Finite G] in
 theorem s3_mem_Vg_iff {g : G} (hg2 : g ^ 2 = 1) (hgN : g ∈ normalizer (L : Set G)) {x : G} :
     x ∈ L ⊔ closure {g} ↔ x ∈ L ∨ ∃ y ∈ L, x = y * g :=
   mem_sup_closure_singleton (H := L) hg2 hgN x
 
+omit [Finite G] in
 theorem s3_Vg_le_normalizer {g : G} (hgN : g ∈ normalizer (L : Set G)) :
     L ⊔ closure {g} ≤ normalizer (L : Set G) :=
   sup_le Subgroup.le_normalizer
     ((Subgroup.closure_le _).mpr (Set.singleton_subset_iff.mpr hgN))
 
-theorem s3_Sσ_le_normalizer (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
+theorem s3_Sσ_le_normalizer (_hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) {g : G} (hg : ActsAs L g s.fr'.σ) :
     (frameWith s g).Sσ ≤ normalizer (L : Set G) := by
   rw [Sσ_eq_sup s g]
   exact sup_le (s3_S_le_N s)
     ((Subgroup.closure_le _).mpr (Set.singleton_subset_iff.mpr (mem_normalizer_of_actsAs L hg)))
 
-theorem s3_mul_g_not_mem_L (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).index = 2)
+theorem s3_mul_g_not_mem_L (_hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).index = 2)
     (s : Setting3 G L) {g : G} (hg : ActsAs L g s.fr'.σ) {y : G} (hy : y ∈ L) :
     y * g ∉ L := by
   intro hmem
@@ -125,10 +128,10 @@ theorem s3_mul_g_not_mem_L (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center 
   rw [hσeq, innerAut, MonoidHom.mem_range]
   exact ⟨_, rfl⟩
 
-theorem s3_kernel_Vg (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).index = 2)
+theorem s3_kernel_Vg (_hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).index = 2)
     (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1) (hg : ActsAs L g s.fr'.σ) {x : G}
     (hx : x ∈ L ⊔ closure {g}) (hxc : x ∈ centralizer (L : Set G)) : x ∈ zL L := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting _hS
   have hgN : g ∈ normalizer (L : Set G) := mem_normalizer_of_actsAs L hg
   rcases (s3_mem_Vg_iff (L := L) hg2 hgN).mp hx with hxL | ⟨y, hy, hyx⟩
   · exact mem_zL_iff.mpr ⟨hxL, hxc⟩
@@ -156,7 +159,7 @@ theorem s3_jOn_Sσ_injective (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center
     (hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
     (hg : ActsAs L g s.fr'.σ) (hP : (frameWith s g).Sσ ≤ normalizer (L : Set G)) :
     Function.Injective (jOn L hP) := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   rw [← MonoidHom.ker_eq_bot_iff (jOn L hP), Subgroup.eq_bot_iff_forall]
   intro x hx
   have hxc : (x : G) ∈ centralizer (L : Set G) := by

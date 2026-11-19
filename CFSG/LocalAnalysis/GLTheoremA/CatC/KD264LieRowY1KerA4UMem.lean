@@ -54,7 +54,7 @@ theorem diagUnit_mem {p f : ℕ} (h : UnitaryFieldData p f K) (hdiv : 3 ∣ p ^ 
     have h1 := pow_succ_of_mem_mu3 (K := K) hdiv (hd.1 i)
     have h2 := congrArg (fun u : Kˣ => (u : K)) h1
     rw [Units.val_pow_eq_pow_val, Units.val_one, pow_succ] at h2
-    simp only [Function.comp, Pi.mul_apply, Pi.one_apply, h.bar_apply]
+    simp only [h.bar_apply]
     exact h2
 
 @[expose] def diagHomU (h : UnitaryFieldData p f K) (hdiv : 3 ∣ p ^ f + 1) :

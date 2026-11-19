@@ -25,7 +25,7 @@ theorem tau_apply (hc : BinaryActionRankCounterexample G p P T B e ρ) (φ : Mul
 
 theorem odd (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPrimePow (2 ^ e - 1)) :
     Odd (Module.finrank (ZMod p) (Space hc)) := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   obtain ⟨hcard, hrp, -, -⟩ := PrimeB.prime_order hc hr
   set r := Nat.card B with hrdef
   have hrodd : Odd r := hc.oddPrimeClassTwoAction.setting.oddOrder

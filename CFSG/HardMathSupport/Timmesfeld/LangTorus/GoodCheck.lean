@@ -149,7 +149,7 @@ theorem goodM_spec {n : ℕ} {C M : List (List ℤ)} {R : List (List ℤ)} {b : 
   have := List.find?_some h
   simpa only [Bool.and_eq_true, decide_eq_true_eq] using this
 
-theorem dvd_pow_sub_one_of_orderOf {p q e k : ℕ} (hp : p.Prime) (hq : 0 < q)
+theorem dvd_pow_sub_one_of_orderOf {p q e k : ℕ} (_hp : p.Prime) (hq : 0 < q)
     (he : orderOf ((q : ℕ) : ZMod p) = e) (hk : e ∣ k) : p ∣ q ^ k - 1 := by
   have h1 : ((q : ℕ) : ZMod p) ^ k = 1 := orderOf_dvd_iff_pow_eq_one.1 (he ▸ hk)
   have h2 : 1 ≤ q ^ k := Nat.one_le_pow _ _ hq

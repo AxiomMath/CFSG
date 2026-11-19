@@ -49,6 +49,7 @@ theorem PlaneData.orth_piecesOf (f : LinearMap.BilinForm (ZMod 2) W)
     · intro j hj y hy
       exact D.orth_of_ne f hf (hST i hi j hj) hx hy
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem sym_of_alt (f : LinearMap.BilinForm (ZMod 2) W) (hf : f.IsAlt) (x y : W) :
     f x y = f y x := by
   have h := hf (x + y)
@@ -90,7 +91,7 @@ theorem PlaneData.finrank_lo (hn : 2 ≤ n) :
   rw [D.inf_lo hn, finrank_bot, D.dim2, D.dim2] at h
   omega
 
-theorem PlaneData.isCompl_pieces (hn : 2 ≤ n) :
+theorem PlaneData.isCompl_pieces (_hn : 2 ≤ n) :
     IsCompl (D.piecesOf (idxLo n)) (D.piecesOf (idxHi n)) := by
   refine ⟨?_, ?_⟩
   · have hdisj : Disjoint (idxLo n) (idxHi n) := by

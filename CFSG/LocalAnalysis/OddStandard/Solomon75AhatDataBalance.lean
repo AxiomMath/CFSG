@@ -23,7 +23,7 @@ theorem exists_commuting_prime_elem {G : Type*} [Group G] [Finite G] {Xb Pb : Su
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial 2 r
       Nat.prime_two hr Xb Pb hX hnorm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 hodd) hrdvd
   set R' : Subgroup G := (R : Subgroup Pb).map Pb.subtype with hR'
-  have hRp : IsPGroup r R' := (R.isPGroup').map Pb.subtype
+  have hRp : IsPGroup r R' := (R.isPGroup).map Pb.subtype
   have hnt : Nontrivial R' := (Subgroup.nontrivial_iff_ne_bot R').2 hRne
   have hzne : Nontrivial (center R') := hRp.center_nontrivial
   have hAnorm := CFSG.SignalizerFunctor.Helpers.characteristic_subgroup_map_normalized Xb R'

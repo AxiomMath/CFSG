@@ -75,7 +75,7 @@ private theorem oma2_exists_singular [Finite F] [CharP F 2] [FiniteDimensional F
     rw [Finset.coe_insert, Finset.coe_singleton] at h1
     have := (Submodule.finrank_mono hle).trans (h1.trans Finset.card_le_two)
     omega
-  obtain ⟨y₀, hy₀U, hy₀S⟩ := SetLike.not_le_iff_exists.1 hUS
+  obtain ⟨y₀, hy₀U, hy₀S⟩ := IsConcreteLE.not_le_iff_exists.1 hUS
   obtain ⟨pr, hpr⟩ : ∃ pr : V → V, ∀ y, pr y =
       y + (((Q u)⁻¹ * polar Q y (t u)) • u + ((Q u)⁻¹ * polar Q y u) • t u) :=
     ⟨_, fun _ => rfl⟩

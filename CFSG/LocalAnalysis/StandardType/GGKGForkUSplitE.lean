@@ -27,7 +27,7 @@ theorem ggTorusSignedElt_unitary_split_even {K : Type} [Field K] [Finite K] {n r
     fun E hE hcard _ => ggKGUs_signed_frame_hypSU h hp hp2 hpq (by omega) E hE hcard
   have hSU : GGTorusSignedElt p r (LargeEvenSUGroup (Fin (2 * r)) K (2 ^ n)) :=
     ggTorusSignedElt_of_mulEquiv (CFSG.ClassicalGroups.UnitaryFlag.hypTransport h hR).symm hhyp
-  haveI : Finite (LargeEvenSUGroup (Fin (2 * r)) K (2 ^ n)) := Finite.of_injective
+  have : Finite (LargeEvenSUGroup (Fin (2 * r)) K (2 ^ n)) := Finite.of_injective
     (fun x : LargeEvenSUGroup (Fin (2 * r)) K (2 ^ n) =>
       ((x : GL (Fin (2 * r)) K) : Matrix (Fin (2 * r)) (Fin (2 * r)) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
@@ -54,7 +54,7 @@ private theorem ggKGUs_recipeUnitarySplitEven_lattice
   obtain ⟨K, _, _, hK, hQ⟩ := hQ
   refine ⟨K, inferInstance, inferInstance, hK, hQ, ?_⟩
   have hp2 : p ≠ 2 := ne_two_of_dvd_two_pow_sub_one hn hpq
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   have hd : 3 ≤ 2 * r := by omega
   have hdq : (2 * r, 2 ^ n) ≠ (3, 2) := fun h => by
     have := congrArg Prod.fst h

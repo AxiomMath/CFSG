@@ -163,7 +163,7 @@ theorem i61_model_D {lab : GLALabel} (h : CFSG.StandardType.MarkedModel lab X)
   have h' := h
   unfold CFSG.StandardType.MarkedModel at h'
   simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank, CFSG.StandardType.markChar,
-    CFSG.StandardType.markDeg, if_neg hr] at h'
+    CFSG.StandardType.markDeg, ite_eq_right hr] at h'
   exact h'
 
 theorem i61_model_F4 {lab : GLALabel} (h : CFSG.StandardType.MarkedModel lab X)
@@ -257,7 +257,7 @@ theorem i61_labelOf_model {G : Type} [Group G] [Finite G] {K : Subgroup G} {lab 
   obtain ⟨hcomm, lab', hlam, R, _, I, F, θ, hs, -, ⟨rfl, hm⟩⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists
       (CFSG.StandardType.Canonical.largeEvenMarking_markedModel h)
-  haveI := hs
+  have := hs
   exact ⟨hlam.1, ⟨hcomm, θ.isSimpleGroup⟩,
     CFSG.StandardType.MarkedModel.of_mulEquiv θ.symm hm⟩
 

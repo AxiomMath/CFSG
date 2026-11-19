@@ -61,7 +61,7 @@ theorem burnsideF4m_center_Gp (hyp : HypF_4_4g κ 2 f Gp M₁ M₂) : Subgroup.c
 theorem burnsideF4m_hgen [Finite E] (hyp : HypF_4_4g κ 2 f Gp M₁ M₂) {TD : Subgroup ↥Gp}
     (hyam : IsYAmalgamPair TD (M₁.subgroupOf Gp) (M₂.subgroupOf Gp)) :
     (MulAut.conj : ↥Gp →* MulAut ↥Gp).range ≤ (burnsideF4d_lieExtE hyp hyam).K := by
-  haveI := hyp.normal
+  have := hyp.normal
   intro φ hφ
   have h1 : φ ∈ (burnsideF4d_lieExtE hyp hyam).Mbar := (burnsideF4d_lieExtE hyp hyam).inn_le hφ
   have hK : (burnsideF4d_lieExtE hyp hyam).K = (burnsideF4d_rho Gp).range :=
@@ -74,7 +74,7 @@ theorem burnsideF4m_not_two_dvd [Finite E] (hyp : HypF_4_4g κ 2 f Gp M₁ M₂)
     (hgen : (MulAut.conj : ↥Gp →* MulAut ↥Gp).range ≤ (burnsideF4d_lieExtE hyp hyam).K)
     (hcen : Subgroup.center ↥Gp = ⊥) (hodd : Odd Gp.index) :
     ¬ 2 ∣ (Lift.iK (burnsideF4d_lieExtE hyp hyam).toLieAmalgamExt hgen).range.index := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   have hK : Nat.card ↥(burnsideF4d_lieExtE hyp hyam).K = Nat.card E := by
@@ -101,7 +101,7 @@ theorem burnsideF4m_centInput_of_invCent [Finite E] (hyp : HypF_4_4g κ 2 f Gp M
     {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   have hK : (burnsideF4d_lieExtE hyp hyam).K = (burnsideF4d_rho Gp).range :=

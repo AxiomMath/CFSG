@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
-theorem y7b_g_mul_self (c : Ctx7 G L) (hb : B5Std c) (hRT : c.s.R ≠ c.s.T) :
+theorem y7b_g_mul_self (c : Ctx7 G L) (_hb : B5Std c) (hRT : c.s.R ≠ c.s.T) :
     c.g * c.g = 1 := by
   rw [← pow_two]
   exact (c.g_spec hRT).2.2.2.1

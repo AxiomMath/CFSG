@@ -90,7 +90,7 @@ theorem facts_of_sylow {A L Y P : Subgroup G} {c : G} (hR : Sec15R G A c L)
       Subgroup.normalizer (Y : Set G)).subtype ≤
       Subgroup.normalizer (Subgroup.zpowers c : Set G) ⊓ Subgroup.normalizer (Y : Set G) :=
     Subgroup.map_subtype_le _
-  refine ⟨Q.isPGroup'.map _, hPK.trans inf_le_left,
+  refine ⟨Q.isPGroup.map _, hPK.trans inf_le_left,
     (hPK.trans inf_le_left).trans (Sec16.normalizer_zpowers_le_normalizer_L hR h3L),
     (hPK.trans inf_le_right).trans
       (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 Y)⟩

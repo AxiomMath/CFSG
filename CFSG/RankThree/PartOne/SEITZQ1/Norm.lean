@@ -173,7 +173,7 @@ theorem q1_conj_mem (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime)
     exact Subtype.ext (hJW y.2).2⟩
   obtain ⟨S, hS⟩ := hJp.exists_le_sylow
   have hshape := CFSG.RankThree.PartOne.K128.sylowShape_ree_phi2 hK hp hp5 hpq
-  obtain ⟨φ⟩ := hshape _ S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hshape _ S.isPGroup S.not_dvd_index
   have hEE' : E = E' := CFSG.RankThree.PartOne.SEITZ3.plane_unique hp φ (le_sup_left.trans hS)
     (le_sup_right.trans hS) hexp hE'p hcard hE'card
   intro x hx

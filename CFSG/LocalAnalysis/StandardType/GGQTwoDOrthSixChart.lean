@@ -41,10 +41,10 @@ private noncomputable def planeSpanEquiv (A : Finset (Fin n)) :
       rcases k with i | i
       · have hk' : i ∉ A := by simpa [planeOf] using hk
         dsimp only
-        rw [dif_neg hk']
+        rw [dite_eq_right hk']
       · have hk' : i ∉ A := by simpa [planeOf] using hk
         dsimp only
-        rw [dif_neg hk']⟩
+        rw [dite_eq_right hk']⟩
   map_add' v w := by
     ext x
     rcases x with a | a <;> simp
@@ -78,6 +78,7 @@ section Coords
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] in
 private theorem sixPlaneK_coords_eq_zero {ω : K} {c : Fin n → ZMod 3}
     (hω : ω ^ 2 + ω + 1 = 0) (hc : ∀ i, c i = 1 ∨ c i = -1) {v : V n} {i : Fin n}
     (h : sixPlaneK ω c v i = 0) : v (Sum.inl i) = 0 ∧ v (Sum.inr i) = 0 := by
@@ -90,10 +91,10 @@ private theorem sixPlaneK_coords_eq_zero {ω : K} {c : Fin n → ZMod 3}
     by_cases hj : j = i
     · subst hj
       rw [sixPlaneK_apply]
-      simp only [v', if_pos rfl]
+      simp only [v', ite_eq_left rfl]
       exact h
     · rw [sixPlaneK_apply]
-      simp only [v', if_neg hj]
+      simp only [v', ite_eq_right hj]
       simp
   have hv'0 : v' = 0 := sixPlaneK_injective hω hc (by rw [hv', map_zero])
   constructor
@@ -233,7 +234,7 @@ private theorem chartCoord_Qn_eq_zero_iff {F K : Type} [Field F] [Field K] [Fini
     (E : QuadExt F K (unitaryInvolution K 2 1)) (u : ↥(planeSpan n A)) :
     Qn E r (κ u) = 0 ↔ ChartU n A u = 0 := by
   let E₂ : QuadExt (ZMod 2) K (unitaryInvolution K 2 1) :=
-    quadExt_of_card_of_char_two 1 (by simpa using Nat.card_zmod 2)
+    quadExt_of_card_of_char_two 1 (by simp)
       (by rw [hK4]; norm_num)
   have hkey : algebraMap F K (Qn E r (κ u)) =
       algebraMap (ZMod 2) K (ChartQ n (u : ChartV n)) := by
@@ -293,14 +294,14 @@ private theorem chartCoord_diagHom_rot {F K : Type} [Field F] [Field K] [Finite 
   rw [diagHom_apply, hκ u j]
   by_cases hj : j = π i
   · have hcond : ((π.symm j : ↥A) : Fin n) = (i : Fin n) := (hif j).mpr hj
-    rw [if_pos hcond, hcs i]
+    rw [ite_eq_left hcond, hcs i]
     have htoAdd : toAdd (chartScalar π s i j) = s i := by
       rw [hj]
       simp [chartScalar]
     rw [htoAdd, hζpow (s i).val]
   · have hcond : ¬ (((π.symm j : ↥A) : Fin n) = (i : Fin n)) :=
       fun h => hj ((hif j).mp h)
-    rw [if_neg hcond, one_mul]
+    rw [ite_eq_right hcond, one_mul]
     have htoAdd : toAdd (chartScalar π s i j) = 0 := by
       simp [chartScalar, hj]
     rw [htoAdd]
@@ -425,7 +426,7 @@ theorem OrthFrameCore.exists_sixPlane_chart {G : Type} [Group G] {p : ℕ} [Fact
   classical
   obtain rfl : p = 3 := Φ.p_eq_three hF
   obtain ⟨inst, E, χ, ζ, hζ1, hζp, hχQ, hχτ⟩ := Φ.exists_normIso hF
-  letI := inst
+  let := inst
   let K := GaloisField 2 2
   let σ : K ≃+* K := unitaryInvolution K 2 1
   let ω : K := ((ζ : Kˣ) : K)

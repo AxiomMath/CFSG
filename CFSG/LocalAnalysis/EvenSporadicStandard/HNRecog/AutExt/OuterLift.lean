@@ -44,7 +44,7 @@ private theorem barOf_not_mem_commutator' (h : F5Std a z) {c : G} (hcz : c ∈ G
     (hcQ : c ∉ Qz z) (hcA : IsConj a c) :
     barOf z (⟨c, hcz⟩ : ↥(Gx z)) ∉ _root_.commutator (Gbar z) := by
   classical
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   let Q : Subgroup ↥(Gx z) := CFSG.pCore 2 ↥(Gx z)
   have hQ : IsExtraspecialPlusByA5WrTwoWith ↥(Gx z) Q :=
     isExtraspecialPlusByA5WrTwoWith_pCore h.typ.cent_z
@@ -133,7 +133,7 @@ theorem exists_conj_mem_coset (h : F5Std a z) {c y : G} (hcz : c ∈ Gx z) (hcQ 
     (hcA : IsConj a c) (hy : y ∈ Gx z) (hy2 : y ^ 2 = 1) (hyd : y ∉ derivedOf (Gx z)) :
     ∃ k ∈ Gx z, ∃ q ∈ Qz z, k * y * k⁻¹ = c * q := by
   classical
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   have hc2 : c ^ 2 = 1 := sq_eq_one_of_isConj h.typ.orderOf_a hcA
   have hcbar2 : (barOf z (⟨c, hcz⟩ : ↥(Gx z))) ^ 2 = 1 := barOf_sq_eq_one hcz hc2
   have hcbar_out : barOf z (⟨c, hcz⟩ : ↥(Gx z)) ∉ _root_.commutator (Gbar z) :=
@@ -142,7 +142,7 @@ theorem exists_conj_mem_coset (h : F5Std a z) {c y : G} (hcz : c ∈ Gx z) (hcQ 
   have hmap := map_commutator_mk' z
   have hQle : CFSG.pCore 2 ↥(Gx z) ≤ _root_.commutator ↥(Gx z) := by
     obtain ⟨Q', hQ'n, hAH⟩ := h.loc.gz9.self.aschbacher
-    haveI : Q'.Normal := hQ'n
+    have : Q'.Normal := hQ'n
     have hp : CFSG.pCore 2 ↥(Gx z) = Q' :=
       IsExtraspecialPlusByA5WrTwoWith.pCore_eq hAH.toIsExtraspecialPlusByA5WrTwoWith
     rw [hp]

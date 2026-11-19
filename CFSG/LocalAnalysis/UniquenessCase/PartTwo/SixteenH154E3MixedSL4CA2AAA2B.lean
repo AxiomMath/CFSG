@@ -23,7 +23,7 @@ private theorem s16h_sl4_inf_frame_eq_bot {W : Type} [CommGroup W] [Finite W]
     (hL : UC22.IsAlt ↥L 5) (hLL' : L ≠ L') (hcard : Nat.card ↥L' = Nat.card ↥L) :
     L ⊓ L' = ⊥ := by
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hLnorm : L ≤ Subgroup.normalizer ((L ⊓ L') : Set (MulAut W)) := by
     refine (show L ≤ Subgroup.centralizer ((L ⊓ L') : Set (MulAut W)) from ?_).trans
       (Subgroup.centralizer_le_normalizer _)
@@ -41,6 +41,7 @@ private theorem s16h_sl4_inf_frame_eq_bot {W : Type} [CommGroup W] [Finite W]
     have hle : L ≤ L' := (Subgroup.subgroupOf_eq_top.1 htop).trans inf_le_right
     exact hLL' (Subgroup.eq_of_le_of_card_ge hle hcard.le)
 
+omit [Finite G] in
 private theorem s16h_barSub_zpowers_eq_zpowers {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {M : Subgroup G} (hM : M ≤ stabTil V₀ V) {g : G} (hg : g ∈ M) :
     barSub V₀ V hV (Subgroup.zpowers g) =
@@ -57,6 +58,7 @@ private theorem s16h_barSub_zpowers_eq_zpowers {V₀ V : Subgroup G} (hV : IsEle
   unfold barSub
   rw [hsub, MonoidHom.map_zpowers]
 
+omit [Finite G] in
 private theorem s16h_actTil_eq_one_of_barSub_zpowers_eq_bot {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) {M : Subgroup G} (hM : M ≤ stabTil V₀ V) {g : G} (hg : g ∈ M)
     (hbot : barSub V₀ V hV (Subgroup.zpowers g) = ⊥) :
@@ -66,6 +68,7 @@ private theorem s16h_actTil_eq_one_of_barSub_zpowers_eq_bot {V₀ V : Subgroup G
   rw [hbot] at hmem
   simpa using hmem
 
+omit [Finite G] in
 private theorem s16h_barSub_zpowers_ne_bot_of_not_mem_cTilde {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) {M : Subgroup G} (hMn : M ≤ normalizer (V : Set G))
     (hM : M ≤ stabTil V₀ V) {g : G} (hg : g ∈ M) (hgC : g ∉ F11.CTilde M V₀ V) :
@@ -101,8 +104,8 @@ theorem s16h_sl4_pure_to_mixed
     (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
       wSub ⊥ V h.hyp151.isElemAbelian L ⊓ Subgroup.centralizer (L : Set G))
-    {Y : Subgroup G} (hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y) (hYcard : Nat.card ↥Y = 9)
-    (hYnc : ¬ IsCyclic ↥Y) (hperm : Permutes Y D.T) :
+    {Y : Subgroup G} (hYM : Y ≤ D.M) (_hY3 : IsPGroup 3 ↥Y) (_hYcard : Nat.card ↥Y = 9)
+    (_hYnc : ¬ IsCyclic ↥Y) (_hperm : Permutes Y D.T) :
     ∀ r ∈ (Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G),
       orderOf r = 3 → ¬ s16h_SL4Mixed V L h.hyp151.isElemAbelian x r →
       ∃ s ∈ (Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G),
@@ -228,7 +231,7 @@ theorem s16h_sl4_pure_to_mixed
         have h1 : Subgroup.zpowers ((u : G)⁻¹ * r * (u : G)) =
             conjSubgroup (Subgroup.zpowers r) (u : G) := by
           rw [conjSubgroup, MonoidHom.map_zpowers]
-          simp [MulAut.conj_apply]
+          simp
         rw [h1, s15_Infra_barSub_conjSubgroup ⊥ V hV u.2 (Subgroup.zpowers r), huact]
       refine ⟨(u : G)⁻¹ * r * (u : G), r,
         (by simpa using hconjR (u : G)⁻¹ (D.T.inv_mem huT)), hRR,

@@ -37,7 +37,7 @@ theorem exists_isFixedPointFreeTorus
     (h : Hyp64 n M V₀ V g) : ∃ Y : Subgroup G, IsFixedPointFreeTorus M V g Y := by
   have hgen := genHyp_of_hyp64 h
   obtain ⟨-, K, hKnorm, hKset, hQuot, ⟨l, hlL, hlV⟩, -, -, -⟩ := h.inCalOStar
-  haveI : (K.subgroupOf (LOf V g)).Normal := hKnorm
+  have : (K.subgroupOf (LOf V g)).Normal := hKnorm
   have hrel := card_map_subgroupOf_eq_relIndex (K := K) h hKset
   rcases hQuot.1 with ⟨r, hL2⟩ | ⟨r, hSz⟩ | hdi
   · have hcard := card_image_eq_two_pow h hKset hQuot.2 hL2

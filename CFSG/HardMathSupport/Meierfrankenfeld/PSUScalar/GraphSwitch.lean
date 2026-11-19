@@ -14,15 +14,15 @@ theorem antidiag_mul_mul_antidiag {F : Type*} [Field F] {n : ℕ} (M : Matrix (F
   ext i j
   simp only [Matrix.mul_apply, antidiag, of_apply, submatrix_apply]
   rw [Finset.sum_eq_single (Fin.rev j)]
-  · rw [if_pos (Fin.rev_rev j).symm, mul_one, Finset.sum_eq_single (Fin.rev i)]
-    · rw [if_pos rfl, one_mul]
+  · rw [ite_eq_left (Fin.rev_rev j).symm, mul_one, Finset.sum_eq_single (Fin.rev i)]
+    · rw [ite_eq_left rfl, one_mul]
     · intro a _ ha
-      rw [if_neg ha, zero_mul]
+      rw [ite_eq_right ha, zero_mul]
     · intro h
       exact absurd (Finset.mem_univ _) h
   · intro b _ hb
     have hjb : j ≠ Fin.rev b := fun h => hb (by rw [h, Fin.rev_rev])
-    rw [if_neg hjb, mul_zero]
+    rw [ite_eq_right hjb, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -38,8 +38,8 @@ theorem inv_transpose_eq_submatrix_rev_of_mem_SU {F : Type*} [Field F] {σ : F �
     ext i j
     simp only [hJ, antidiag, transpose_apply, of_apply]
     by_cases h : j = Fin.rev i
-    · rw [if_pos h, if_pos (by rw [h, Fin.rev_rev])]
-    · rw [if_neg h, if_neg (fun h' => h (by rw [h', Fin.rev_rev]))]
+    · rw [ite_eq_left h, ite_eq_left (by rw [h, Fin.rev_rev])]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h (by rw [h', Fin.rev_rev]))]
   have hMN : M * N = 1 := by
     rw [hM, hN, ← Units.val_mul, mul_inv_cancel, Units.val_one]
   have h1 : (M.map σ)ᵀ * J * M = J := (mem_SU.mp hA).2

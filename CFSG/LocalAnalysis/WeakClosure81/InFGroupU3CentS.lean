@@ -14,6 +14,7 @@ open CFSG.ComponentClassification.AschbacherToolkit.Bender
 
 variable {Q : Type} [Group Q] [Finite Q] {C : Subgroup Q} {n : ℕ}
 
+omit [Finite Q] in
 private theorem Setting.mk'_inj_on (h : Setting C n) {S₀ : Subgroup Q}
     (hS₀ : IsSylowIn 2 S₀ C) {x y : Q} (hx : x ∈ S₀) (hy : y ∈ S₀)
     (hxy : (QuotientGroup.mk' (Subgroup.center ↥C)) ⟨x, hS₀.le hx⟩ =
@@ -29,6 +30,7 @@ private theorem Setting.mk'_inj_on (h : Setting C n) {S₀ : Subgroup Q}
   rw [Subgroup.mem_bot] at hbot
   exact inv_mul_eq_one.mp hbot
 
+omit [Finite Q] in
 private theorem Setting.card_inf_eq_card_sylowCenter (h : Setting C n) {S₀ : Subgroup Q}
     (hS₀ : IsSylowIn 2 S₀ C) {s : Q} (hsS : ∀ x ∈ S₀, s * x * s⁻¹ ∈ S₀)
     {R : Sylow 2 (↥C ⧸ center ↥C)}
@@ -101,7 +103,7 @@ theorem Setting.card_inf_centralizer (h : Setting C n) {S₀ : Subgroup Q}
     (hsS : ∀ x ∈ S₀, s * x * s⁻¹ ∈ S₀) :
     Nat.card ↥(S₀ ⊓ centralizer {s}) = 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := ↥C ⧸ center ↥C
   let π : ↥C →* Y := QuotientGroup.mk' _
   let R : Sylow 2 Y :=
@@ -138,7 +140,7 @@ theorem Setting.card_le_of_le_centralizer (h : Setting C n) {s : Q} (hsC : s ∉
     (hs2 : s ^ 2 = 1) {P : Subgroup Q} (hP : IsPGroup 2 P) (hPC : P ≤ C ⊓ centralizer {s}) :
     Nat.card P ≤ 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPcent : P ≤ centralizer ({s} : Set Q) := hPC.trans inf_le_right
   have hPC' : P ≤ C := hPC.trans inf_le_left
   have hcomm : ∀ p ∈ P, p * s = s * p := fun p hp =>

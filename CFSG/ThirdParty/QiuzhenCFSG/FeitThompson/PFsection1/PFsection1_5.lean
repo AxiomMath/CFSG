@@ -458,7 +458,7 @@ public theorem representation_dual_irreducible_of
     [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) (hρ : Representation.IsIrreducible ρ) :
     Representation.IsIrreducible ρ.dual := by
-  letI : Representation.IsIrreducible ρ := hρ
+  let : Representation.IsIrreducible ρ := hρ
   exact representation_dual_irreducible ρ
 
 public lemma conjugateOnNormal_one
@@ -579,7 +579,7 @@ lemma conjugateOrbitRepresentation_irreducible
     (ρ : Representation ℂ H V) (hρ : Representation.IsIrreducible ρ) :
     ∀ i : conjugateOrbitIndex H ρ.character,
       Representation.IsIrreducible (conjugateOrbitRepresentation H ρ i) := by
-  letI : Representation.IsIrreducible ρ := hρ
+  let : Representation.IsIrreducible ρ := hρ
   intro i
   exact irreducible_conjugateRepresentation H ρ (Quotient.out i)
 
@@ -935,7 +935,7 @@ lemma sum_eq_sum_subgroup_of_supported
     (hzero : ∀ g : G, g ∉ H → f g = 0) :
     ∑ g : G, f g = ∑ h : H, f h := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let s : Finset G := Finset.univ.filter fun g : G => g ∈ H
   have hs : ∀ g : G, g ∈ s ↔ g ∈ H := by
     intro g
@@ -964,7 +964,7 @@ public lemma inducedClassFunction_frobenius_general
     scalarProduct G (inducedCF H phi) mu =
       scalarProduct H phi (subgroupRestriction H mu) := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   let cG : ℂ := Nat.card G
   let cH : ℂ := Nat.card H
   let S : ℂ := ∑ h : H, phi h * star (mu h)
@@ -1006,7 +1006,7 @@ public lemma inducedClassFunction_frobenius_general
                     phi ⟨x * (x⁻¹ * y * x) * x⁻¹, h⟩
                   else 0) * star (mu (x⁻¹ * y * x)) =
                   (if h : y ∈ H then phi ⟨y, h⟩ else 0) * star (mu y)
-              rw [hclass, dif_pos hxy, dif_pos hyH]
+              rw [hclass, dite_eq_left hxy, dite_eq_left hyH]
               congr 1
               apply congrArg phi
               apply Subtype.ext
@@ -1023,7 +1023,7 @@ public lemma inducedClassFunction_frobenius_general
                     phi ⟨x * (x⁻¹ * y * x) * x⁻¹, h⟩
                   else 0) * star (mu (x⁻¹ * y * x)) =
                   (if h : y ∈ H then phi ⟨y, h⟩ else 0) * star (mu y)
-              rw [hclass, dif_neg hxy, dif_neg hyH]
+              rw [hclass, dite_eq_right hxy, dite_eq_right hyH]
       _ = ∑ h : H, phi h * star (mu h) := by
             have hreduce := sum_eq_sum_subgroup_of_supported H
               (fun y : G => (if hy : y ∈ H then phi ⟨y, hy⟩ else 0) * star (mu y))
@@ -1329,7 +1329,7 @@ lemma fiber_exists_of_count
   have hfiberPos : 0 < Nat.card {x // fiber x = i} := by
     rw [hcount i]
     exact Nat.mul_pos hHpos (Nat.pos_of_ne_zero hr)
-  haveI : Nonempty {x // fiber x = i} := Finite.card_pos_iff.mp hfiberPos
+  have : Nonempty {x // fiber x = i} := Finite.card_pos_iff.mp hfiberPos
   let g0 : {x // fiber x = i} := Classical.choice inferInstance
   exact ⟨g0.1, g0.2⟩
 
@@ -1574,7 +1574,7 @@ public lemma scalarProduct_representation_char_eq_orthonormal
   classical
   have hcard : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := G)).ne'
-  letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
+  let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   calc
     scalarProduct G ρ.character σ.character =
         (Nat.card G : ℂ)⁻¹ * ∑ g : G, ρ.character g * σ.character g⁻¹ := by
@@ -1608,7 +1608,7 @@ public lemma scalarProduct_representation_char_self
     (ρ : Representation ℂ G V) (hρ : Representation.IsIrreducible ρ) :
     scalarProduct G ρ.character ρ.character = 1 := by
   classical
-  letI : Representation.IsIrreducible ρ := hρ
+  let : Representation.IsIrreducible ρ := hρ
   have horth := scalarProduct_representation_char_eq_orthonormal ρ ρ
   have hnonempty : Nonempty (Representation.Equiv ρ ρ) :=
     ⟨Representation.Equiv.refl ρ⟩
@@ -1698,8 +1698,8 @@ public lemma scalarProduct_irreducible_representationCharacter_eq_zero_of_ne
     rw [hphi, hpsi]
     exact hchars
   rw [hphi, hpsi]
-  letI : Representation.IsIrreducible phiRep := hphi_irreducible
-  letI : Representation.IsIrreducible psiRep := hpsi_irreducible
+  let : Representation.IsIrreducible phiRep := hphi_irreducible
+  let : Representation.IsIrreducible psiRep := hpsi_irreducible
   exact scalarProduct_representation_char_eq_zero_of_ne
     phiRep psiRep hne'
 
@@ -1980,8 +1980,8 @@ theorem proposition_1_5_e_rep_dual_family
     intro i hne
     have hθ_irreducible : Representation.IsIrreducible thetaRep.dual :=
       representation_dual_irreducible_of thetaRep htheta_irreducible
-    letI : Representation.IsIrreducible thetaRep.dual := hθ_irreducible
-    letI : Representation.IsIrreducible (conjRep i) := hconj_irreducible i
+    let : Representation.IsIrreducible thetaRep.dual := hθ_irreducible
+    let : Representation.IsIrreducible (conjRep i) := hconj_irreducible i
     have hne_rep : thetaRep.dual.character ≠ (conjRep i).character := by
       intro hchars
       apply hne
@@ -2131,7 +2131,7 @@ theorem proposition_1_5_a_orbit
       fun h => (r : ℂ) * ∑ i : conjugateOrbitIndex H theta,
         conjugateOrbitConj H theta i h := by
   classical
-  letI : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
+  let : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
   exact proposition_1_5_a H theta (conjugateOrbitConj H theta)
     (conjugateOrbitFiber H theta) r (conjugateOrbit_hfiber H theta) hcount
 
@@ -2226,7 +2226,7 @@ theorem proposition_1_5_d_rep_orbit
         ∑ i : conjugateOrbitIndex H theta,
           degree (conjugateOrbitConj H theta i) * conjugateOrbitConj H theta i h := by
   classical
-  letI : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
+  let : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
   exact proposition_1_5_d_rep H (conjugateOrbitFiber H theta 1) theta
     (conjugateOrbitConj H theta) (conjugateOrbitFiber H theta) r
     thetaRep conjRep (conjugateOrbit_hfiber H theta) hcount
@@ -2446,7 +2446,7 @@ public theorem proposition_1_5_b_irreducible_rep_orbit_relIndex_canonical
         (inducedCF H thetaRep.character) = 1 := by
     simpa [hr] using
       proposition_1_5_b_rep_orbit_relIndex_canonical H thetaRep htheta_irreducible
-  haveI : FiniteDimensional ℂ (Representation.IndV H.subtype thetaRep) :=
+  have : FiniteDimensional ℂ (Representation.IndV H.subtype thetaRep) :=
     Theory.Representation.finiteDimensional_ind H thetaRep
   have hIndIrr : Representation.IsIrreducible (Representation.ind H.subtype thetaRep) := by
     exact (Theory.Character.irreducible_iff_character_norm_one
@@ -2519,7 +2519,7 @@ public theorem proposition_1_5_c_induced_eq_imp_conjugate_orbit_canonical
   have hself :=
     proposition_1_5_b_rep_orbit_relIndex_canonical H thetaRep htheta_irreducible
   have hrel_ne : H.relIndex (inertiaSubgroup H thetaRep.character) ≠ 0 := by
-    haveI : (H.subgroupOf (inertiaSubgroup H thetaRep.character)).FiniteIndex :=
+    have : (H.subgroupOf (inertiaSubgroup H thetaRep.character)).FiniteIndex :=
       inferInstance
     simpa [Subgroup.relIndex] using
       (Subgroup.FiniteIndex.index_ne_zero

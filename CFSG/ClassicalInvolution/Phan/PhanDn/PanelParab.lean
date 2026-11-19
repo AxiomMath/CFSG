@@ -99,7 +99,7 @@ private theorem stdSpan_le_ker {n l : ℕ} (i : Fin n) (hi : l ≤ (i : ℕ)) :
   rintro _ ⟨u, hu, rfl⟩
   rw [SetLike.mem_coe, LinearMap.mem_ker, LinearMap.proj_apply]
   refine Pi.single_eq_of_ne (M := fun _ : Fin n => K) (show i ≠ u from fun h => ?_) 1
-  simp only [Set.mem_setOf_eq] at hu
+  simp only [Set.mem_ofPred_eq] at hu
   have hvu : (i : ℕ) = (u : ℕ) := congrArg Fin.val h
   omega
 
@@ -258,7 +258,7 @@ private theorem flipSpan_map_eq_of_mem_panelStab (hm : 4 ≤ m + 1)
   · rw [hlm1]
     have hI : {i : Fin (m + 1) | (i : ℕ) < m + 1} = Set.univ := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       exact i.isLt
     rw [hI, ← stdDChamber_elt_last_eq_coordSpan]
     refine hg (Fin.last m) fun h => ?_
@@ -331,7 +331,7 @@ private theorem flipSpan_map_eq_of_mem_panelStab (hm : 4 ≤ m + 1)
     have hset : {i : Fin (m + 1) | (i : ℕ) < l} =
         {i : Fin (m + 1) | (i : ℕ) < ((⟨l - 1, by omega⟩ : Fin (m + 1)) : ℕ) + 1} := by
       ext i
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       have h2 : ((⟨l - 1, by omega⟩ : Fin (m + 1)) : ℕ) = l - 1 := rfl
       omega
     rw [hset]

@@ -46,9 +46,9 @@ theorem exists_elemAbelian_five_projSU_six {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ 4) :
     ∃ E : Subgroup (StatedProj (StatedSU 6 (2 ^ 2) F)), IsElemAbelian 5 E ∧ Nat.card E = 5 ^ 5 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h16 : Fintype.card F = 2 ^ 4 := by rw [← Nat.card_eq_fintype_card, hF]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5card : 5 ∣ Fintype.card Fˣ := by
     rw [Fintype.card_units, h16]
     norm_num
@@ -107,7 +107,7 @@ theorem exists_elemAbelian_five_projSU_six {F : Type} [Field F] [Finite F]
       exact u5_pow5_chi (x i)
     rw [this, map_one]
   · rw [Nat.card_congr (MonoidHom.ofInjective hinj).symm.toEquiv]
-    simp [Nat.card_pi]
+    simp
 
 theorem u6Rank_holds : U6Rank := by
   intro L _ _ hL

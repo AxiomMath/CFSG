@@ -167,7 +167,7 @@ end LinearAlgebra
 
 private theorem card_zpowers_eq_three {B : Type} [Group B] (hexp : ∀ b : B, b ^ 3 = 1) {b : B}
     (hb : b ≠ 1) : Nat.card (Subgroup.zpowers b) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_zpowers, orderOf_eq_prime (hexp b) hb]
 
 private theorem zpowers_sup_eq_top {B : Type} [Group B] [Finite B] (hcard : Nat.card B = 9)
@@ -366,7 +366,7 @@ private theorem la_core {K V B : Type} [Field K] [AddCommGroup V] [Module K V]
     rcases smul_eq_zero.mp h4 with h | h
     · exact sub_eq_zero.mp h
     · exact absurd h hv
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have hBcard' : (Finset.univ : Finset B).card = 9 := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hcard]
   have hmaps : ∀ x ∈ (Finset.univ : Finset B),
@@ -497,7 +497,7 @@ private theorem frattiniLin_eq_one_of_B {Y : Type} [Group Y] [Finite Y] {p : ℕ
 theorem centralizes_pCore {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime] (hp : 3 < p)
     (hrank : ∀ E : Subgroup Y, IsElemAbelian p E → Nat.card E ≤ p ^ 2)
     {B S : Subgroup Y} (hB : IsElemAbelian 3 B) (hB9 : Nat.card B = 9)
-    (hSB : S ≤ Subgroup.normalizer (B : Set Y))
+    (_hSB : S ≤ Subgroup.normalizer (B : Set Y))
     (htrans : ∀ x ∈ B, x ≠ 1 → ∀ y ∈ B, y ≠ 1 → ∃ s ∈ S, s * x * s⁻¹ = y) :
     ∀ b ∈ B, ∀ y ∈ CFSG.pCore p Y, b * y = y * b := by
   have hp1 : 1 < p := by omega
@@ -511,9 +511,9 @@ theorem centralizes_pCore {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prim
   obtain ⟨D, hD⟩ := exists_criticalAt (q := p) hp2 hP
   have hDp : IsPGroup p D := pCore_isPGroup.to_le hD.le
   have hexpD : ∀ x : D, x ^ p = 1 := fun x => Subtype.ext (by simpa using hD.exp (x : Y) x.2)
-  haveI hVel : IsElementaryAbelian p (D ⧸ frattini D) :=
+  have hVel : IsElementaryAbelian p (D ⧸ frattini D) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hDp).2.2.2.1
-  haveI hVfin : Module.Finite (ZMod p) (Additive (D ⧸ frattini D)) := Module.Finite.of_finite
+  have hVfin : Module.Finite (ZMod p) (Additive (D ⧸ frattini D)) := Module.Finite.of_finite
   have hpRankD : CFSG.pRank p D ≤ 2 := by
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top,
       ← CFSG.RankThreeCoreUniqueness.Helpers.pRank_subgroup_eq_internal_top p hp1 D]
@@ -532,7 +532,7 @@ theorem centralizes_pCore {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prim
     exact hF2
   have hcopD : ¬ 3 ∣ Nat.card D := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := D) 3 h3
     have h1 : orderOf t ∣ p := orderOf_dvd_of_pow_eq_one (hexpD t)
     rw [ht] at h1

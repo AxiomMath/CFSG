@@ -150,7 +150,7 @@ theorem orbit_structure {p k : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p) (hn : n = p *
     (∀ w : Fin n, (orb E w).card = p) ∧
       ∀ v w : Fin n, w ∉ orb E v → ∀ z ∈ orb E v, ∃ f ∈ E, f v = z ∧ f w = w := by
   classical
-  haveI : Fintype E := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite _
   have hmin : ∀ w : Fin n, ∃ m, m ∈ orb E w ∧ ∀ v ∈ orb E w, m ≤ v := fun w =>
     ⟨(orb E w).min' ⟨w, self_mem_orb E w⟩, Finset.min'_mem _ _,
       fun v hv => Finset.min'_le _ _ hv⟩
@@ -297,9 +297,9 @@ theorem orbit_structure {p k : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p) (hn : n = p *
   have hmem : ∀ t : R, (if t.1 = r then (g : Equiv.Perm (Fin n))⁻¹ z else t.1) ∈ orb E t.1 := by
     intro t
     by_cases ht : t.1 = r
-    · rw [if_pos ht, ht]
+    · rw [ite_eq_left ht, ht]
       exact hgz
-    · rw [if_neg ht]
+    · rw [ite_eq_right ht]
       exact self_mem_orb E t.1
   obtain ⟨F, hF⟩ := hsurj (fun t => ⟨_, hmem t⟩)
   have hFval : ∀ t ∈ R, (F : Equiv.Perm (Fin n)) t = if t = r then (g : Equiv.Perm (Fin n))⁻¹ z else t := by
@@ -322,8 +322,8 @@ theorem orbit_structure {p k : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p) (hn : n = p *
       (hEc (F : Equiv.Perm (Fin n)) F.2 (q : Equiv.Perm (Fin n)) hq)
     simpa [Equiv.Perm.mul_apply] using this
   refine ⟨(F : Equiv.Perm (Fin n)), F.2, ?_, ?_⟩
-  · rw [← hgr, hcFg, hFval r hr, if_pos rfl, hginv]
-  · rw [← hqs, hcFq, hFval s hs, if_neg (Ne.symm hrs)]
+  · rw [← hgr, hcFg, hFval r hr, ite_eq_left rfl, hginv]
+  · rw [← hqs, hcFq, hFval s hs, ite_eq_right (Ne.symm hrs)]
 
 end I203Aux
 
@@ -387,7 +387,7 @@ theorem i203_core {n p k : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p) (hn : n = p * k)
       have hp2 : p ∣ 2 := hp.dvd_of_dvd_pow hdiv
       have hp2' : p = 2 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 hp2
       omega
-    · push_neg at hcase
+    · push Not at hcase
       have hblock : 2 ^ a ∣ (orb E x).card :=
         dvd_card_of_blocks (2 ^ a) (orb U) (orb E x)
           (fun w _ => self_mem_orb U w)
@@ -421,8 +421,8 @@ theorem i203At_holds : I203At := by
     have := hp.two_le
     omega
   have hn : n = p * (n / p) := (Nat.mul_div_cancel' hpn).symm
-  haveI : Finite Q := Finite.of_equiv _ e.symm.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Q := Finite.of_equiv _ e.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val (hEcomm.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)

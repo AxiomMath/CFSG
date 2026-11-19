@@ -25,6 +25,7 @@ def K3Clause (Y : Subgroup G) : Prop :=
   ∀ x ∈ Y, orderOf x = 3 → 3 ^ 6 ∣ Nat.card ↥(Y ⊓ Cen x) ∨
     Nat.card ↥(Y ⊓ Cen x) = 2 ^ 9 * 3 ^ 5 * 5 * 7
 
+omit [Finite G] in
 theorem card_sp6 {M : Subgroup G} (hM : StatedClassicalModel M .PSp 3 2 1) :
     Nat.card M = 1451520 := by
   rw [(CFSG.Timmesfeld.card_statedClassicalModel_two hM).2.2.1 rfl]
@@ -189,6 +190,7 @@ theorem cen_le_of_card {Y : Subgroup G} (K3 : K3Clause Y) {x : G} (hxY : x ∈ Y
       Subgroup.eq_of_le_of_card_ge inf_le_right (by rw [h, hc])
     exact inf_eq_right.mp this
 
+omit [Finite G] in
 theorem card_cen_conj (g x : G) : Nat.card (Cen (g * x * g⁻¹)) = Nat.card (Cen x) := by
   rw [cen_conj, card_conjBy]
 
@@ -206,10 +208,10 @@ theorem card_cen_t₀ (hB : FF81Basis b L B b₁ b₂ b₃) {t₀ : G} (ht₀L :
   have hTle : T ≤ Cen t₀ := op_two_le t₀
   have hTp : IsPGroup 2 T := op_two_isPGroup t₀
   have hTL : T ⊓ L = ⊥ := by
-    haveI : IsSimpleGroup L :=
+    have : IsSimpleGroup L :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1
         hB.hyp.model
-    haveI hn : ((T ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
+    have hn : ((T ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨hTn g (hLt g.2) n hn.1, L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((T ⊓ L).subgroupOf L) with h | h

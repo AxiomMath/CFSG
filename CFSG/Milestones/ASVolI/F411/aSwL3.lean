@@ -21,7 +21,7 @@ theorem burnsideF411a_swap_of_comm {E : Type} [Group E] [Finite E] {p : ℕ} [Fa
     (hζ1 : ((Gp ⊓ M₁).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₂).subgroupOf Gp)
     (hζ2 : ((Gp ⊓ M₂).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₁).subgroupOf Gp) :
     burnsideF411_Swap M₁ M₂ := by
-  haveI := hN
+  have := hN
   have hM₁ := burnsideF411_eq_normalizer hN hsplit hP
   have hsplit' : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₂ ⊓ M₁, e = n * h := fun e => by
     obtain ⟨n, hn, h, hh, rfl⟩ := hsplit e
@@ -69,10 +69,10 @@ theorem burnsideF411a_L3_chart {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
   iterate 5 exact absurd hk (by decide)
   have hc : c = .L3 := by cases c <;> first | rfl | exact absurd hk (by decide)
   subst hc
-  haveI : Fact p.Prime := ⟨marking.prime⟩
+  have : Fact p.Prime := ⟨marking.prime⟩
   set K := marking.field
   have hK : Nat.card K = p ^ f := by simpa using marking.field_card
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : CharP K p := burnsideF4h_cl_charP hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   let s : Matrix.SpecialLinearGroup (Fin 3) K ≃* StatedSL 3 K :=
     specialLinearGroupEquivStatedSL 3 K
@@ -102,10 +102,10 @@ theorem burnsideF411a_L3_chart {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
     simp only [Units.val_one, Matrix.one_mulVec, Set.image_id']
     rw [hxu]
     cases b
-    · simp only [Bool.false_eq_true, if_false, ChF.ClassicalRoots.flagOne]
+    · simp only [Bool.false_eq_true, ite_false, ChF.ClassicalRoots.flagOne]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sl_coordinateSpace _).1, (burnsideF4h_cl_sl_coordinateSpace _).1]
-    · simp only [if_true, ChF.ClassicalRoots.flagTwo]
+    · simp only [ite_true, ChF.ClassicalRoots.flagTwo]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sl_coordinateSpace _).2, (burnsideF4h_cl_sl_coordinateSpace _).2]
   let φ : projectiveSL 3 K ≃* StatedProj (StatedSL 3 K) :=
@@ -137,10 +137,10 @@ theorem burnsideF411a_L3_chart {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
 
 theorem burnsideF411a_swap_L3_of_mod {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 p f Gp M₁ M₂) (hp : p % 3 ≠ 1) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨K, fK, finK, e, hpr, hK, hP1, hP2, hP⟩ := burnsideF411a_L3_chart hyp
-  haveI : Fact p.Prime := ⟨hpr⟩
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : Fact p.Prime := ⟨hpr⟩
+  have : CharP K p := burnsideF4h_cl_charP hK
   have hQ : ∀ (X : Subgroup E) (L : Subgroup (projectiveSL 3 K)),
       Gp ⊓ X = L.map (Gp.subtype.comp e.toMonoidHom) →
         (Gp ⊓ X).subgroupOf Gp = L.map e.toMonoidHom := by
@@ -170,7 +170,7 @@ theorem burnsideF411a_swap_of_normalizing {E : Type} [Group E] [Finite E] {p : �
     (hζ1 : ((Gp ⊓ M₁).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₂).subgroupOf Gp)
     (hζ2 : ((Gp ⊓ M₂).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₁).subgroupOf Gp) :
     burnsideF411_Swap M₁ M₂ := by
-  haveI := hN
+  have := hN
   have hM₁ := burnsideF411_eq_normalizer hN hsplit hP
   have hsplit' : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₂ ⊓ M₁, e = n * h := fun e => by
     obtain ⟨n, hn, h, hh, rfl⟩ := hsplit e
@@ -189,11 +189,11 @@ theorem burnsideF411a_swap_L3_of_normalizes {p f : ℕ} {E : Type} [Group E]
           @MulAut.conjNormal E _ Gp hyp.normal x *
           (MulAut.congr e (burnsideF411a_L3zeta K (frobeniusEquiv K p)))⁻¹) :
     burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
+  have : Finite E := hyp.finite
+  have := hyp.normal
   obtain ⟨K, fK, finK, e, hpr, hK, hP1, hP2, hP⟩ := burnsideF411a_L3_chart hyp
-  haveI : Fact p.Prime := ⟨hpr⟩
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : Fact p.Prime := ⟨hpr⟩
+  have : CharP K p := burnsideF4h_cl_charP hK
   have hQ : ∀ (X : Subgroup E) (L : Subgroup (projectiveSL 3 K)),
       Gp ⊓ X = L.map (Gp.subtype.comp e.toMonoidHom) →
         (Gp ⊓ X).subgroupOf Gp = L.map e.toMonoidHom := by

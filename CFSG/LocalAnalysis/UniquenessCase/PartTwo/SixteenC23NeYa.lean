@@ -21,7 +21,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 private theorem c23ne_ya_isPGroup {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    {x : G} {K₁ K₂ : Subgroup G} (hctx : C23NeCtx D V₀ V L hV x K₁ K₂)
+    {x : G} {K₁ K₂ : Subgroup G} (_hctx : C23NeCtx D V₀ V L hV x K₁ K₂)
     (hMs : D.M ≤ stabTil V₀ V) {K : Subgroup G} (hKM : K ≤ D.M)
     (hK2 : ∃ n : ℕ, ((centralizer (V : Set G)).subgroupOf K).index = 2 ^ n) :
     IsPGroup 2 ↥(barSub V₀ V hV K) := by
@@ -34,7 +34,7 @@ private theorem c23ne_ya_isPGroup {D : Data G} {V₀ V L : Subgroup G} {hV : IsE
     constructor
     · rintro ⟨k, rfl⟩
       refine ⟨Subgroup.inclusion hKs k, ?_, rfl⟩
-      simpa using k.2
+      simp
     · rintro ⟨g, hg, hgφ⟩
       refine ⟨⟨(g : G), hg⟩, ?_⟩
       show actTil V₀ V hV (Subgroup.inclusion hKs ⟨(g : G), hg⟩) = φ
@@ -55,7 +55,7 @@ private theorem c23ne_ya_isPGroup {D : Data G} {V₀ V L : Subgroup G} {hV : IsE
   exact IsPGroup.of_card_dvd_pow hdvd
 
 private theorem c23ne_ya_normal {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    {x : G} {K₁ K₂ : Subgroup G} (hctx : C23NeCtx D V₀ V L hV x K₁ K₂)
+    {x : G} {K₁ K₂ : Subgroup G} (_hctx : C23NeCtx D V₀ V L hV x K₁ K₂)
     (hMs : D.M ≤ stabTil V₀ V) {K : Subgroup G} (hKM : K ≤ D.M)
     (hKn : D.M ≤ normalizer (K : Set G)) :
     ((barSub V₀ V hV K).subgroupOf (Mbar D.M V₀ V hV)).Normal := by
@@ -172,7 +172,7 @@ private theorem c23ne_ya_barSub_eq_bot {D : Data G} {V₀ V L : Subgroup G} {hV 
     by_cases huOm : u ∈ c23Omega (wTil V₀ V hV L) (wTil V₀ V hV (conjSubgroup L x))
     · exact ⟨u, huOm, hufix⟩
     · have hu' : u ∈ wTil V₀ V hV L ∨ u ∈ wTil V₀ V hV (conjSubgroup L x) := by
-        simp only [c23Omega, Set.mem_setOf_eq] at huOm
+        simp only [c23Omega, Set.mem_ofPred_eq] at huOm
         rcases not_and_or.mp huOm with h | h
         · exact Or.inl (not_not.mp h)
         · exact Or.inr (not_not.mp h)
@@ -182,7 +182,7 @@ private theorem c23ne_ya_barSub_eq_bot {D : Data G} {V₀ V L : Subgroup G} {hV 
       have hprod : u * φ u ∈ fixV (barSub V₀ V hV K) :=
         (fixV (barSub V₀ V hV K)).mul_mem hufix hφfix
       refine ⟨u * φ u, ?_, hprod⟩
-      rw [c23Omega, Set.mem_setOf_eq]
+      rw [c23Omega, Set.mem_ofPred_eq]
       constructor
       · intro hmem
         rcases hu' with huA | huB
@@ -278,7 +278,7 @@ private theorem c23ne_ya_barSub_eq_bot {D : Data G} {V₀ V L : Subgroup G} {hV 
       ∀ z' ∈ wTil V₀ V hV (conjSubgroup L x), z' ≠ 1 →
         y' * z' ∈ c23Omega (wTil V₀ V hV L) (wTil V₀ V hV (conjSubgroup L x)) := by
     intro y' hy'A hy'1 z' hz'B hz'1
-    rw [c23Omega, Set.mem_setOf_eq]
+    rw [c23Omega, Set.mem_ofPred_eq]
     constructor
     · intro hmem
       have hz'A : z' ∈ wTil V₀ V hV L := by
@@ -717,7 +717,7 @@ theorem c23ne_exists_q0 {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian
       exact c23_core_card_top hctx.core
     rw [hCVt_index2, hV₀index] at hdvd
     norm_num at hdvd
-  obtain ⟨v, hvCVt, hvV0⟩ := SetLike.not_le_iff_exists.1 hCVt_not_le_V₀
+  obtain ⟨v, hvCVt, hvV0⟩ := IsConcreteLE.not_le_iff_exists.1 hCVt_not_le_V₀
   have hvV : v ∈ V := (Subgroup.mem_inf.1 hvCVt).1
   have hclosure_le : Subgroup.closure {x : G | ∃ m ∈ D.M, x = m * v * m⁻¹} ≤ CVt := by
     rw [Subgroup.closure_le]

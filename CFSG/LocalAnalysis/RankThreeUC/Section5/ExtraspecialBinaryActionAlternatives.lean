@@ -54,7 +54,7 @@ theorem extraspecialBinaryActionAlternatives {p : ℕ} {P T B : Subgroup G} {e :
     exact ⟨⟨k, hk⟩, Or.inr ⟨hcyc, hcent, hlt⟩⟩
   have hS := h51.setting
   have hp := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     obtain ⟨r, hr⟩ := hS.odd

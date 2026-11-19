@@ -32,7 +32,7 @@ theorem exists_d1Escape_of_sylow {p : ℕ} {P : Sylow p G} {M H R N : Subgroup G
   have : Fact p.Prime := ⟨hp⟩
   have hPM : (P : Subgroup G) ≤ M := he.sylow_le
   set T' := (T : Subgroup N).map N.subtype with hT'
-  have hT : IsPGroup p T' := T.isPGroup'.map N.subtype
+  have hT : IsPGroup p T' := T.isPGroup.map N.subtype
   obtain ⟨S, hS⟩ := (hT.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq M (P.subtype hPM) S
   set P' : Sylow p G := (m : G) • P with hP'

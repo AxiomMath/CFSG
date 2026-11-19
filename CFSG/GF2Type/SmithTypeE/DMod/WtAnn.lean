@@ -141,8 +141,8 @@ theorem disjoint_annSub_of_testBit {s : ℕ} (h : s.testBit 31 = true) :
     rfl
   have hrho := congrFun (mem_annSub.1 hxA) (flipS i0 63)
   simp only [rhoL_apply, hx1, Pi.zero_apply, zero_smul, Finset.sum_const_zero, zero_add,
-    LinearMap.add_apply, LinearMap.sum_apply, Finset.sum_apply, LinearMap.smul_apply,
-    Pi.add_apply, Pi.smul_apply,
+    LinearMap.sum_apply, Finset.sum_apply, LinearMap.smul_apply,
+    Pi.smul_apply,
     contrL_apply] at hrho
   rw [Finset.sum_eq_single i0] at hrho
   · rw [testBit_flipS_63 i0 i0, flipS_flipS, hi1, h63] at hrho

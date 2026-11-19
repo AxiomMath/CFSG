@@ -19,7 +19,8 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
-theorem eichler_pow_nsmul {u w : V} (hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
+omit [Finite K] [FiniteDimensional K V] in
+theorem eichler_pow_nsmul {u w : V} (_hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
     eichler Q u w ^ n = eichler Q u (n • w) := by
   induction n with
   | zero => simp [eichler_zero_right]
@@ -28,6 +29,7 @@ theorem eichler_pow_nsmul {u w : V} (hu : Q u = 0) (huw : polar Q u w = 0) (n : 
       rw [← Nat.cast_smul_eq_nsmul K, polar_smul_right_eq, huw, mul_zero]
     rw [pow_succ, ih, succ_nsmul, eichler_mul hnw huw]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_pow_ringChar (u w : V) : eichler Q u w ^ ringChar K = 1 := by
   by_cases hc : Q u = 0 ∧ polar Q u w = 0
   · rw [eichler_pow_nsmul hc.1 hc.2]
@@ -36,6 +38,7 @@ theorem eichler_pow_ringChar (u w : V) : eichler Q u w ^ ringChar K = 1 := by
     rw [this, eichler_zero_right]
   · rw [eichler_of_not hc, one_pow]
 
+omit [Finite K] in
 theorem eichler_mem_supportedBlock {p : ℕ} (hx : OddOrderIsometry Q p x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) {u w : V}
     (hu : u ∈ orbitSpace x.toLinearMap h) (hw : w ∈ orbitSpace x.toLinearMap h)
@@ -56,6 +59,7 @@ theorem eichler_mem_supportedBlock {p : ℕ} (hx : OddOrderIsometry Q p x) {h : 
     · rw [polar_comm]; exact hx.polar_orbit_others hh hu hr
     · rw [polar_comm]; exact hx.polar_orbit_others hh hw hr
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Q_eq_zero_of_eigen {p : ℕ} (hx : OddOrderIsometry Q p x) {v : V} {ω : K}
     (hv : x v = ω • v) (hω : ω ^ 2 ≠ 1) : Q v = 0 := by
   have h1 : Q (x v) = Q v := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp hx.mem v
@@ -78,12 +82,12 @@ theorem eichler_mem_specialBlock {p : ℕ} (hx : OddOrderIsometry Q p x) {h : K[
   have hS := eichler_mem_supportedBlock hx hh hu hw hcomm
   rw [mem_specialBlock]
   refine ⟨hS, ?_⟩
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fact (ringChar K).Prime := by
-    haveI := Fintype.ofFinite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (ringChar K).Prime := by
+    have := Fintype.ofFinite K
     obtain ⟨n, hp, -⟩ := FiniteField.card K (ringChar K)
     exact ⟨hp⟩
-  haveI : CharP (AdjoinRoot h) (ringChar K) :=
+  have : CharP (AdjoinRoot h) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective (ringChar K)
   set g : ↥(supportedBlock Q x h) := ⟨eichler Q u w, hS⟩ with hgdef
   have hg : g ^ ringChar K = 1 := Subtype.ext (eichler_pow_ringChar u w)
@@ -107,6 +111,7 @@ noncomputable def thetaSL (x : V ≃ₗ[K] V) (h : K[X])
 
 variable {h : K[X]}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem thetaSL_apply (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (m : SL(2, K)) (j : Fin 2) :
     (thetaSL x h bE m).1 (bE j) = ∑ i, algebraMap K (AdjoinRoot h) (m i j) • bE i := by
@@ -117,6 +122,7 @@ theorem thetaSL_apply (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponen
   rw [Matrix.toLin_self] at h2
   exact h2
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sl_ext_basis
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     {u v : SpecialLinearGroup (AdjoinRoot h) (primaryComponent x.toLinearMap h)}
@@ -133,9 +139,11 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_upper_apply_fst (A B : HypPair Q) (c : K) :
     eichler Q A.e (c • B.f) A.e = A.e := eichler_apply_self _ _
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_upper_apply_snd (A B : HypPair Q) (hAB : A.Orth B) (c : K) :
     eichler Q A.e (c • B.f) B.e = B.e - c • A.e := by
   have hpol : polar Q A.e (c • B.f) = 0 := by rw [polar_smul_right_eq, hAB.ef, mul_zero]
@@ -143,9 +151,11 @@ theorem eichler_upper_apply_snd (A B : HypPair Q) (hAB : A.Orth B) (c : K) :
   rw [eichler_apply A.Q_e hpol, h1, polar_smul_right_eq, B.polar_ef, zero_smul, add_zero, mul_zero,
     add_zero, mul_one]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_lower_apply_snd (A B : HypPair Q) (c : K) :
     eichler Q B.e (c • A.f) B.e = B.e := eichler_apply_self _ _
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_lower_apply_fst (A B : HypPair Q) (hAB : A.Orth B) (c : K) :
     eichler Q B.e (c • A.f) A.e = A.e - c • B.e := by
   have hpol : polar Q B.e (c • A.f) = 0 := by
@@ -161,10 +171,12 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem coe_of_smul_primaryComponent (c : K) (v : primaryComponent x.toLinearMap h) :
     ((AdjoinRoot.of h c • v : primaryComponent x.toLinearMap h) : V) = c • (v : V) :=
   coe_algebraMap_smul_primaryComponent x.toLinearMap h c v
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem specialToSL_eichler_upper (A B : HypPair Q) (hAB : A.Orth B)
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (hb0 : (bE 0 : V) = A.e) (hb1 : (bE 1 : V) = B.e) (c : K)
@@ -175,9 +187,9 @@ theorem specialToSL_eichler_upper (A B : HypPair Q) (hAB : A.Orth B)
   fin_cases j
   · simp [Fin.sum_univ_two, hb0, eichler_upper_apply_fst]
   · simp [Fin.sum_univ_two, hb0, hb1, eichler_upper_apply_snd A B hAB, sub_eq_add_neg,
-      coe_algebraMap_smul_primaryComponent,
-      coe_of_smul_primaryComponent] <;> abel
+      coe_of_smul_primaryComponent]; abel
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem specialToSL_eichler_lower (A B : HypPair Q) (hAB : A.Orth B)
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (hb0 : (bE 0 : V) = A.e) (hb1 : (bE 1 : V) = B.e) (c : K)
@@ -187,8 +199,7 @@ theorem specialToSL_eichler_lower (A B : HypPair Q) (hAB : A.Orth B)
   rw [thetaSL_apply, specialToSL_apply]
   fin_cases j
   · simp [Fin.sum_univ_two, hb0, hb1, eichler_lower_apply_fst A B hAB, sub_eq_add_neg,
-      coe_algebraMap_smul_primaryComponent,
-      coe_of_smul_primaryComponent] <;> abel
+      coe_of_smul_primaryComponent]
   · simp [Fin.sum_univ_two, hb1, eichler_lower_apply_snd]
 
 end
@@ -198,6 +209,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] in
 theorem specialBlock_eq_levi_of {p : ℕ} (hx : OddOrderIsometry Q p x)
     (hh : h ∈ primaryFactors x.toLinearMap) (A B : HypPair Q) (hAB : A.Orth B)
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
@@ -266,6 +278,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] in
 theorem natDegree_eq_one_of_paired (hx : OddOrderIsometry Q 3 x)
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hne : h ≠ reciprocalPolynomial h) : h.natDegree = 1 := by
@@ -296,6 +309,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] in
 theorem exists_eigen_of_natDegree_one (hx : OddOrderIsometry Q 3 x)
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (hdeg : h.natDegree = 1) :
     ∃ ω : K, ω ≠ 0 ∧ ω ^ 2 ≠ 1 ∧ (∀ v ∈ primaryComponent x.toLinearMap h, x v = ω • v) ∧
@@ -340,6 +354,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem thetaSL_surjective (hsurj : Function.Surjective (algebraMap K (AdjoinRoot h)))
     (hinj : Function.Injective (algebraMap K (AdjoinRoot h)))
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h)) :
@@ -378,7 +393,7 @@ theorem specialBlock_eq_levi_paired (hQ : (QuadraticMap.polarBilin Q).Nondegener
       specialBlock Q x h = leviV Q A.e B.e A.f B.f := by
   classical
   have _hQ := hQ
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hdeg := natDegree_eq_one_of_paired hx hh hne1 hne
   obtain ⟨ω, hω0, hω2, heig, heig'⟩ := exists_eigen_of_natDegree_one hx hh hne1 hdeg
   have hfin : finrank K (primaryComponent x.toLinearMap h) = 2 := by
@@ -497,6 +512,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem eichler_mem_supportedBlock_fixed {p : ℕ} (hx : OddOrderIsometry Q p x) {u w : V}
     (hu : u ∈ fixedSpace x) (hw : w ∈ fixedSpace x) :
     eichler Q u w ∈ supportedBlock Q x (X - 1) := by
@@ -517,6 +533,7 @@ theorem eichler_mem_supportedBlock_fixed {p : ℕ} (hx : OddOrderIsometry Q p x)
 
 section Coordinates
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_left_upper (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2) (Fin 2) K)
     (c : K) :
     eichler Q A.e (c • B.e) (matrixToOriginal A B X) =
@@ -529,6 +546,7 @@ theorem eichler_left_upper (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2
   simp
   module
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_left_lower (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2) (Fin 2) K)
     (c : K) :
     eichler Q B.f (c • A.f) (matrixToOriginal A B X) =
@@ -541,6 +559,7 @@ theorem eichler_left_lower (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2
   simp
   module
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_right_lower (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2) (Fin 2) K)
     (c : K) :
     eichler Q A.e (c • B.f) (matrixToOriginal A B X) =
@@ -553,6 +572,7 @@ theorem eichler_right_lower (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 
   simp
   module
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_right_upper (A B : HypPair Q) (hAB : A.Orth B) (X : Matrix (Fin 2) (Fin 2) K)
     (c : K) :
     eichler Q B.e (c • A.f) (matrixToOriginal A B X) =
@@ -575,6 +595,7 @@ section
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem range_le_of_sl2_generators {G : Type*} [Group G] (f : SL(2, K) →* G) (H : Subgroup G)
     (hU : ∀ c, f (sl2Upper K c) ∈ H) (hL : ∀ c, f (sl2Lower K c) ∈ H) : f.range ≤ H := by
   rw [MonoidHom.range_eq_map, ← sl2_closure_upper_lower, MonoidHom.map_closure,
@@ -591,7 +612,7 @@ theorem supportedFixedDerived_eq_levi (hQ : (QuadraticMap.polarBilin Q).Nondegen
   have hK3 : Nat.card K ≠ 3 := by
     intro h3
     apply hx.cast_ne_zero
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have := FiniteField.cast_card_eq_zero K
     rwa [← Nat.card_eq_fintype_card, h3] at this
   let m : Matrix (Fin 2) (Fin 2) K →ₗ[K] V := matrixToOriginal A B
@@ -749,6 +770,7 @@ theorem trace_surjective_ff : Function.Surjective (Algebra.trace K E) := by
   have : Module.Finite K E := Module.Finite.of_finite
   exact Algebra.trace_surjective K E
 
+omit [Finite K] in
 theorem algebraMap_trace_eq_add (hd : finrank K E = 2) (z : E) :
     algebraMap K E (Algebra.trace K E z) = z + z ^ Nat.card K := by
   rw [FiniteField.algebraMap_trace_eq_sum_pow, hd]
@@ -797,7 +819,7 @@ theorem exists_hermitian_isotropic_pair (hd : finrank K E = 2) (σ : E →+* E)
     rw [Module.natCard_eq_pow_finrank (K := K) (V := E), hd]
   have hσσ : ∀ z, σ (σ z) = z := fun z => by
     rw [hσ, hσ, ← pow_mul, ← pow_two, ← hcardE]
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card z
   have hfix : ∀ z, σ z = z → ∃ k : K, algebraMap K E k = z := fun z hz =>
@@ -810,7 +832,7 @@ theorem exists_hermitian_isotropic_pair (hd : finrank K E = 2) (σ : E →+* E)
   have hI : ∃ a : M, a ≠ 0 ∧ B a a = 0 := by
     by_contra hno
     push Not at hno
-    haveI : Nontrivial M := Module.nontrivial_of_finrank_pos (R := E) (by omega)
+    have : Nontrivial M := Module.nontrivial_of_finrank_pos (R := E) (by omega)
     obtain ⟨u₁, hu₁⟩ := exists_ne (0 : M)
     have hα0 : B u₁ u₁ ≠ 0 := hno u₁ hu₁
     have hex : ∃ w : M, ∀ c : E, c • u₁ ≠ w := by
@@ -903,7 +925,7 @@ theorem entries_fixed_of_unitary (σ : E →+* E) {p r s t : E}
 variable {M : Type} [AddCommGroup M] [Module E M]
 
 theorem unitary_entries_fixed (σ : E →+* E) (B : M →ₛₗ[σ] M →ₗ[E] E) {a b : M} {ε : E}
-    (hε : ε ≠ 0) (hσε : σ ε = -ε) (haa : B a a = 0) (hbb : B b b = 0) (hab : B a b = ε)
+    (hε : ε ≠ 0) (_hσε : σ ε = -ε) (haa : B a a = 0) (hbb : B b b = 0) (hab : B a b = ε)
     (hba : B b a = -ε) {p r s t : E}
     (h1 : B (p • a + r • b) (p • a + r • b) = B a a)
     (h2 : B (s • a + t • b) (s • a + t • b) = B b b)
@@ -941,6 +963,7 @@ section SelfDual
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem eichler_swap {u v : V} (hu : Q u = 0) (hv : Q v = 0) (huv : polar Q u v = 0) :
     eichler Q u v = eichler Q v (-u) := by
   have hvu : polar Q v (-u) = 0 := by rw [polar_neg_right, polar_comm, huv, neg_zero]
@@ -948,6 +971,7 @@ theorem eichler_swap {u v : V} (hu : Q u = 0) (hv : Q v = 0) (huv : polar Q u v 
   rw [eichler_apply hu huv, eichler_apply hv hvu, polar_neg_right, QuadraticMap.map_neg, hu, hv]
   module
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem polar_apply_self_of_sq {p : ℕ} (hx : OddOrderIsometry Q p x) {u : V}
     (hsq : x (x u) = -u - x u) : polar Q u (x u) = - Q u := by
   have h1 : Q (x (x u)) = Q u := by
@@ -960,6 +984,7 @@ theorem polar_apply_self_of_sq {p : ℕ} (hx : OddOrderIsometry Q p x) {u : V}
 
 variable {h : K[X]} [Fact (Irreducible h)]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem x_sq_of_root (hlam : AdjoinRoot.root h ^ 2 + AdjoinRoot.root h + 1 = 0)
     (u : primaryComponent x.toLinearMap h) : x (x (u : V)) = -(u : V) - x (u : V) := by
   have h0 : ((AdjoinRoot.root h ^ 2 + AdjoinRoot.root h + 1) • u :
@@ -969,6 +994,7 @@ theorem x_sq_of_root (hlam : AdjoinRoot.root h ^ 2 + AdjoinRoot.root h + 1 = 0)
   simp only [Submodule.coe_add, coe_root_smul_primaryComponent, ZeroMemClass.coe_zero] at h1
   linear_combination (norm := module) h1
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem x_mem_of_mem (u : primaryComponent x.toLinearMap h) :
     x (u : V) ∈ primaryComponent x.toLinearMap h := by
   have h1 := (AdjoinRoot.root h • u).2
@@ -1011,6 +1037,7 @@ section Spans
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem range_matrixToOriginal (A B : HypPair Q) :
     LinearMap.range (matrixToOriginal A B) = Submodule.span K {A.e, A.f, B.e, B.f} := by
   apply le_antisymm
@@ -1027,6 +1054,7 @@ theorem range_matrixToOriginal (A B : HypPair Q) :
     · exact ⟨!![0, 1; 0, 0], by simp [matrixToOriginal_apply]⟩
     · exact ⟨!![0, 0; -1, 0], by simp [matrixToOriginal_apply]⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem finrank_span_two_hypPairs (A B : HypPair Q) (hAB : A.Orth B) :
     finrank K (Submodule.span K {A.e, A.f, B.e, B.f}) = 4 := by
   rw [← range_matrixToOriginal, LinearMap.finrank_range_of_inj (matrixToOriginal_injective A B hAB),
@@ -1040,6 +1068,7 @@ section ThetaEntries
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {x : V ≃ₗ[K] V} {h : K[X]}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_thetaSL_eq_of_entries
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (hinj : Function.Injective (algebraMap K (AdjoinRoot h)))
@@ -1065,6 +1094,7 @@ theorem exists_thetaSL_eq_of_entries
     (Matrix.SpecialLinearGroup.map (algebraMap K (AdjoinRoot h)) ⟨M', hdet⟩) = γ
   rw [h1, hX, MulEquiv.apply_symm_apply]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem sl_apply_basis
     (bE : Module.Basis (Fin 2) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
     (γ : SpecialLinearGroup (AdjoinRoot h) (primaryComponent x.toLinearMap h)) (j : Fin 2) :
@@ -1096,10 +1126,10 @@ theorem specialBlock_eq_levi_selfDual (hQ : (QuadraticMap.polarBilin Q).Nondegen
       specialBlock Q x h = leviV Q A.e B.e A.f B.f := by
   classical
   have _hQ := hQ
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Module.Finite K (AdjoinRoot h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Module.Finite K (AdjoinRoot h) :=
     (AdjoinRoot.powerBasis (Fact.out : Irreducible h).ne_zero).finite
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   obtain ⟨d, H, hdeg2d, hroot, hHtr, hHadd1, hHadd2, hHsm1, hHsm2, hHsymm⟩ :=
     hx.exists_selfDual_hermitian (by decide) hh hne1 hself
   have hdvd := hx.dvd_X_pow_sub_one hh

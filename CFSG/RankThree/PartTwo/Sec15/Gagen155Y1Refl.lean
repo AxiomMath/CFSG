@@ -34,7 +34,7 @@ theorem exists_reflection {A : Subgroup G} (hA : A ∈ partTwoF G) {B : Subgroup
     ∃ s ∈ Subgroup.normalizer (A : Set G), s ∈ Subgroup.centralizer (B : Set G) ∧
       s * a * s⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Subgroup.centralizer (B : Set G)
   let N : Subgroup C := CFSG.pPrimeCore 3 C
   let π : C →* C ⧸ N := QuotientGroup.mk' N
@@ -49,7 +49,7 @@ theorem exists_reflection {A : Subgroup G} (hA : A ∈ partTwoF G) {B : Subgroup
   have hB'def : B' = B.subgroupOf C := rfl
   have hAtdef : At = A'.map π := rfl
   have hBtdef : Bt = B'.map π := rfl
-  haveI hNnormal : N.Normal := by
+  have hNnormal : N.Normal := by
     rw [hNdef]
     exact CFSG.pPrimeCore_normal
   have hN3 : ¬ 3 ∣ Nat.card N := by
@@ -192,7 +192,7 @@ theorem exists_reflection {A : Subgroup G} (hA : A ∈ partTwoF G) {B : Subgroup
   obtain ⟨r, hrY, hr_inv⟩ :=
     CFSG.GroupTheory.exists_conj_eq_inv_of_isPerfect hYc.1.1 haYc hxord hR1
   have hrB : r ∈ Subgroup.normalizer (Bt : Set (C ⧸ N)) := by
-    haveI : Bt.Normal := hBnorm
+    have : Bt.Normal := hBnorm
     exact Subgroup.le_normalizer_of_normal (H := Bt) (K := ⊤) (Subgroup.mem_top r)
   have hrZ : r ∈ Subgroup.normalizer (Subgroup.zpowers (π aC) : Set (C ⧸ N)) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers]

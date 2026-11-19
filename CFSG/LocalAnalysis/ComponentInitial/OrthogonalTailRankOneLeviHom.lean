@@ -113,9 +113,9 @@ variable (qA) in
 variable (qA) in
 @[expose] noncomputable def tailLeviMidHom {i : Fin r} (hi : i.val + 1 < r) :
     ↥(tailLeviDom r qA i) →* ({j : Fin r // j.val ≠ i.val ∧ j.val ≠ i.val + 1} → Kˣ) :=
-  Pi.monoidHom fun j => MonoidHom.toHomUnits (G := ↥(tailLeviDom r qA i)) (M := K)
+  _root_.MonoidHom.pi fun j => MonoidHom.toHomUnits (G := ↥(tailLeviDom r qA i)) (M := K)
     { toFun := fun g => tailCoeff (g : TailModel K A r) j.1 j.1
-      map_one' := (tailCoeff_one j.1 j.1).trans (if_pos rfl)
+      map_one' := (tailCoeff_one j.1 j.1).trans (ite_eq_left rfl)
       map_mul' := fun g h => tailCoeff_diag_mul hi g.2 h.2 j.2 }
 
 variable (qA) in

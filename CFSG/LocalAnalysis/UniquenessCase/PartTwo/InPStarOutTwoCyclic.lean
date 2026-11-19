@@ -22,7 +22,7 @@ theorem inPStar_of_le_normalizer_of_outTwoCyclic {D : Data G} {V₀ X E : Subgro
     (hout : Nobq.OutTwoCyclic (Bar2 X)) (hE : F11.InP11 D E) :
     InPStar D V₀ E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ D.M := CFSG.Open.IsSubnormal.le hX.1
   set C : Subgroup G := F08.CentOverO2 D.M X with hCdef
   set T₀ : Subgroup G := (D.T ⊓ X) ⊔ (D.T ⊓ C) with hT₀def
@@ -34,7 +34,7 @@ theorem inPStar_of_le_normalizer_of_outTwoCyclic {D : Data G} {V₀ X E : Subgro
   have hO2T : pCoreOf 2 X ≤ D.T := by
     have hMO2 : D.M ≤ normalizer (pCoreOf 2 X : Set G) :=
       hMX.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 X)
-    haveI : (Subgroup.comap D.M.subtype (pCoreOf 2 X)).Normal :=
+    have : (Subgroup.comap D.M.subtype (pCoreOf 2 X)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hMO2
     obtain ⟨Q, hQ⟩ := D.sylowM.exists_sylow_eq_subgroupOf
     have hle := IsPGroup.le_sylow_of_normal (p := 2) (G := ↥D.M)
@@ -86,8 +86,8 @@ theorem inPStar_of_le_normalizer_of_outTwoCyclic {D : Data G} {V₀ X E : Subgro
   let φ : ↥D.T →* Outer (Bar2 X) :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 X))).comp
       ((rhoL X).comp (Subgroup.inclusion hTnorm))
-  haveI : Finite (MulAut (Bar2 X)) := Nobq.finite_mulAut_of_finite (Bar2 X)
-  haveI : Finite (Outer (Bar2 X)) :=
+  have : Finite (MulAut (Bar2 X)) := Nobq.finite_mulAut_of_finite (Bar2 X)
+  have : Finite (Outer (Bar2 X)) :=
     Finite.of_surjective
       (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 X)))
       (QuotientGroup.mk'_surjective _)
@@ -98,7 +98,7 @@ theorem inPStar_of_le_normalizer_of_outTwoCyclic {D : Data G} {V₀ X E : Subgro
       rw [← Subgroup.card_ker_mul_card_range φ]
       exact dvd_mul_left _ _
     exact IsPGroup.of_card_dvd_pow (hdvd.trans hn)
-  haveI : IsCyclic Cφ := hout Cφ hφ2
+  have : IsCyclic Cφ := hout Cφ hφ2
   let φ' : ↥D.T →* Cφ :=
     { toFun := fun u => ⟨φ u, ⟨u, rfl⟩⟩
       map_one' := by ext; simp

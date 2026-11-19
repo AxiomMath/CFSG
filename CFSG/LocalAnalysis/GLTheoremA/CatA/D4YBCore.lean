@@ -122,6 +122,7 @@ theorem fixDim_two_or_four (hcls : GGD4TrialityClassInput) (α : MulAut (Om8 K))
       rcases h with h | h <;> omega
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem subsingleton_ringEquiv_of_card_two' (hK : Nat.card K = 2) : Subsingleton (K ≃+* K) := by
   obtain ⟨y, -, hy⟩ := (Nat.card_eq_two_iff' (0 : K)).mp hK
   have hx : ∀ x : K, x = 0 ∨ x = 1 := by
@@ -132,6 +133,7 @@ theorem subsingleton_ringEquiv_of_card_two' (hK : Nat.card K = 2) : Subsingleton
   refine ⟨fun f g => RingEquiv.ext fun x => ?_⟩
   rcases hx x with rfl | rfl <;> simp
 
+omit [CharP K 2] in
 theorem card_singular_coordinate (hK : Nat.card K = 2) :
     Nat.card {v : Fin (2 * 4) → K // coordinateQuadPlus 4 K v = 0} = 136 := by
   rw [← CFSG.HardMathSupport.Curtis.Coordinator.card_singular_quadPlus_four hK]
@@ -148,11 +150,11 @@ theorem core (hK : Nat.card K = 2) {α : MulAut (Om8 K)} (hα3 : α ^ 3 = 1)
     (hfix : ∀ e ∈ E, α e = e) (hcard : 9 ≤ Nat.card E) {R : Subgroup (Om8 K)}
     (hR2 : IsPGroup 2 R) (hR : R ≠ ⊥) (hER : E ≤ Subgroup.normalizer (R : Set (Om8 K))) :
     False := by
-  haveI := subsingleton_ringEquiv_of_card_two' hK
+  have := subsingleton_ringEquiv_of_card_two' hK
   have hns := not_conjAct_of_not_inner hα3 hα
   have hd := fixDim_two_or_four ggD4TrialityClassInput_holds α hα3 hns E hE hfix
   obtain ⟨Z, hZne, hZs, hZE⟩ := exists_totallySingular R hR2 hR
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have hnd : ∀ v : Fin (2 * 4) → K, (∀ w, QuadraticMap.polar (coordinateQuadPlus 4 K) v w = 0) →
       v = 0 := fun v hv =>
     (regular_coordinateQuadPlus 4 K (by norm_num)).1.1 v fun w => by
@@ -215,7 +217,7 @@ theorem main_om8 (hK : Nat.card K = 2)
   have hrel1 : (inner (Om8 K)).relIndex P ≠ 1 := fun h => hPn (Subgroup.relIndex_eq_one.1 h)
   have hrel3 : (inner (Om8 K)).relIndex P = 3 := by
     have hpos : 0 < (inner (Om8 K)).relIndex P := Nat.pos_of_dvd_of_pos hrel_dvd (by norm_num)
-    interval_cases h : (inner (Om8 K)).relIndex P <;> simp_all <;> omega
+    interval_cases h : (inner (Om8 K)).relIndex P <;> simp_all
   have hE9 : 9 ≤ Nat.card E := by
     rw [hEcard, inf_comm]
     rw [hrel3, hcard] at hrel

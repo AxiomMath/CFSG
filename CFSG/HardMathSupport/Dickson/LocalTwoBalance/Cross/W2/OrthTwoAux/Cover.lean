@@ -181,7 +181,7 @@ theorem rank_two_cover' (hK : Nat.card K = 2) (ρ : Multiplicative Z3 →* Modul
         have hvker : v ∈ LinearMap.ker (eCyc ρ (xOf ψ)) := by
           obtain ⟨w, rfl⟩ := hv
           have hne : ¬ dot φ (xOf ψ) = 0 := fun h => hψφ (eq_of_dot_xOf ψ hψ φ hφ hψd hd h).symm
-          rw [LinearMap.mem_ker, eCyc_isoP ρ φ (xOf ψ) w, if_neg hne]
+          rw [LinearMap.mem_ker, eCyc_isoP ρ φ (xOf ψ) w, ite_eq_right hne]
         exact hfixU (xOf ψ) (xOf_ne ψ hψ hψd) hdimker v hvker
   have hdecomp : ∀ v, G v - v = G (e0 ρ v) - e0 ρ v := by
     intro v

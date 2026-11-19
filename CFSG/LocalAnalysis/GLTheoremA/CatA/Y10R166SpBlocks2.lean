@@ -19,10 +19,12 @@ section SplitTorus
 
 variable {n : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem rootTorusHom_orderOf (k : Fin n) (u : Fˣ) :
     orderOf (rootTorusHom F n k u) = orderOf u :=
   orderOf_injective (rootTorusHom F n k) (rootTorusHom_injective k) u
 
+omit [Finite F] [CharP F 2] in
 theorem commute_rootTorusHom_of_ne {i j : Fin n} (hij : i ≠ j) (u v : Fˣ) :
     Commute (rootTorusHom F n i u) (rootTorusHom F n j v) := by
   have h₁ : rootTorusHom F n i u ∈ suppGroup (coords j)ᶜ := by
@@ -39,6 +41,7 @@ theorem commute_rootTorusHom_of_ne {i j : Fin n} (hij : i ≠ j) (u v : Fˣ) :
     simpa using mem_suppGroup.2 (isSupp_rootTorusHom j v)
   exact commute_suppGroup_compl h₁ h₂
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_symplecticQTorus_gen {i : Fin n} {ζ : Fˣ}
     (hζ : orderOf ζ = q) :
     rootTorusHom F n i ζ ∈ symplecticQTorus (F := F) (ℓ := n) q := by
@@ -52,6 +55,7 @@ theorem rootTorusHom_mem_symplecticQTorus_gen {i : Fin n} {ζ : Fˣ}
   · rw [Pi.mulSingle_eq_of_ne hj]
     simp
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_complSp_of_ne_gen {i j : Fin n} (hij : i ≠ j)
     (u : Fˣ) :
     rootTorusHom F n i u ∈ complSp F j := by
@@ -65,12 +69,14 @@ theorem rootTorusHom_mem_complSp_of_ne_gen {i j : Fin n} (hij : i ≠ j)
   · exact Sum.inr_ne_inl h
   · exact hij (Sum.inr_injective h)
 
+omit [Finite F] [CharP F 2] in
 private theorem rootTorusSp_le_complSp_of_ne {i j : Fin n} (hij : i ≠ j) :
     rootTorusSp F i ≤ complSp F j :=
   fun _ hx => by
     obtain ⟨u, rfl⟩ := hx
     exact rootTorusHom_mem_complSp_of_ne_gen hij u
 
+omit [Finite F] [CharP F 2] in
 private theorem disjoint_rootTorusSp_of_ne {i j : Fin n} (hij : i ≠ j) :
     Disjoint (rootTorusSp F i) (rootTorusSp F j) :=
   (disjoint_longRootSp2_complSp (K := F) (k := i)).mono
@@ -81,18 +87,21 @@ private theorem disjoint_rootTorusSp_of_ne {i j : Fin n} (hij : i ≠ j) :
   Subgroup.zpowers (rootTorusHom F n i ζ) ⊔
     Subgroup.zpowers (rootTorusHom F n j ζ)
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_symplecticE2Torus_left (i j : Fin n) (ζ : Fˣ) :
     rootTorusHom F n i ζ ∈ symplecticE2Torus (F := F) (n := n) i j ζ :=
   Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_symplecticE2Torus_right (i j : Fin n) (ζ : Fˣ) :
     rootTorusHom F n j ζ ∈ symplecticE2Torus (F := F) (n := n) i j ζ :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
 
-theorem card_symplecticE2Torus {i j : Fin n} (hq : q.Prime)
+omit [Finite F] [CharP F 2] in
+theorem card_symplecticE2Torus {i j : Fin n} (_hq : q.Prime)
     (hij : i ≠ j) {ζ : Fˣ} (hζ : orderOf ζ = q) :
     Nat.card (symplecticE2Torus (F := F) (n := n) i j ζ) = q ^ 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨_hq⟩
   have hcard_i : Nat.card (Subgroup.zpowers (rootTorusHom F n i ζ)) = q := by
     rw [Nat.card_zpowers, rootTorusHom_orderOf, hζ]
   have hcard_j : Nat.card (Subgroup.zpowers (rootTorusHom F n j ζ)) = q := by
@@ -121,6 +130,7 @@ theorem card_symplecticE2Torus {i j : Fin n} (hq : q.Prime)
       (G := StatedSp n F) _ _ hnorm hdisj, hcard_i, hcard_j]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticE2Torus_le_symplecticQTorus {i j : Fin n} {ζ : Fˣ}
     (hζ : orderOf ζ = q) :
     symplecticE2Torus (F := F) (n := n) i j ζ ≤
@@ -134,6 +144,7 @@ section E3
 
 variable {m : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_symplecticQTorus {i : Fin (m + 1)} {ζ : Fˣ}
     (hζ : orderOf ζ = q) :
     rootTorusHom F (m + 1) i ζ ∈ symplecticQTorus (F := F) (ℓ := m + 1) q :=
@@ -145,14 +156,16 @@ theorem rootTorusHom_mem_symplecticQTorus {i : Fin (m + 1)} {ζ : Fˣ}
     Subgroup.zpowers (rootTorusHom F (m + 1) j ζ)) ⊔
       Subgroup.zpowers (rootTorusHom F (m + 1) k ζ)
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_symplecticE3Torus (i j k : Fin (m + 1)) (ζ : Fˣ) :
     rootTorusHom F (m + 1) i ζ ∈ symplecticE3Torus (F := F) (m := m) i j k ζ :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
-theorem isElemAbelian_symplecticE3Torus {i j k : Fin (m + 1)} (hq : q.Prime)
+omit [Finite F] [CharP F 2] in
+theorem isElemAbelian_symplecticE3Torus {i j k : Fin (m + 1)} (_hq : q.Prime)
     (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) {ζ : Fˣ} (hζ : orderOf ζ = q) :
     IsElemAbelian q (symplecticE3Torus (F := F) (m := m) i j k ζ) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨_hq⟩
   have hord_i : orderOf (rootTorusHom F (m + 1) i ζ) = q := by
     rw [rootTorusHom_orderOf, hζ]
   have hord_j : orderOf (rootTorusHom F (m + 1) j ζ) = q := by
@@ -193,10 +206,11 @@ theorem isElemAbelian_symplecticE3Torus {i j k : Fin (m + 1)} (hq : q.Prime)
     exact (hcomm.zpow_right s).eq
   exact hXij.sup_of_commute hXk hcomm_ijk
 
-theorem card_symplecticE3Torus {i j k : Fin (m + 1)} (hq : q.Prime)
+omit [Finite F] [CharP F 2] in
+theorem card_symplecticE3Torus {i j k : Fin (m + 1)} (_hq : q.Prime)
     (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) {ζ : Fˣ} (hζ : orderOf ζ = q) :
     Nat.card (symplecticE3Torus (F := F) (m := m) i j k ζ) = q ^ 3 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨_hq⟩
   have hcard_i : Nat.card (Subgroup.zpowers (rootTorusHom F (m + 1) i ζ)) = q := by
     rw [Nat.card_zpowers, rootTorusHom_orderOf, hζ]
   have hcard_j : Nat.card (Subgroup.zpowers (rootTorusHom F (m + 1) j ζ)) = q := by
@@ -276,6 +290,7 @@ theorem card_symplecticE3Torus {i j k : Fin (m + 1)} (hq : q.Prime)
       (G := StatedSp (m + 1) F) _ _ hnorm_k hdisj_ijk, hcard_ij, hcard_k]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticE3Torus_le_symplecticQTorus {i j k : Fin (m + 1)} {ζ : Fˣ}
     (hζ : orderOf ζ = q) :
     symplecticE3Torus (F := F) (m := m) i j k ζ ≤
@@ -352,8 +367,8 @@ private theorem range_blockEmbed (hm : 3 ≤ m) :
         coords (2 : Fin (m + 1)))ᶜ := by
   ext a
   rcases a with i | i
-  · simpa [Sum.map, exists_blockEmbed_eq_iff hm i, mem_coords, and_assoc]
-  · simpa [Sum.map, exists_blockEmbed_eq_iff hm i, mem_coords, and_assoc]
+  · simp [Sum.map, exists_blockEmbed_eq_iff hm i, mem_coords, and_assoc]
+  · simp [Sum.map, exists_blockEmbed_eq_iff hm i, mem_coords, and_assoc]
 
 theorem suppGroup_inf {n : ℕ} {K : Type} [Field K]
     (S T : Set (Fin n ⊕ Fin n)) :
@@ -370,6 +385,7 @@ theorem suppGroup_inf {n : ℕ} {K : Type} [Field K]
     exact ⟨fun r t hrt => h r t fun h' => hrt ⟨h'.1.1, h'.2.1⟩,
       fun r t hrt => h r t fun h' => hrt ⟨h'.1.2, h'.2.2⟩⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSp_eq_inf (hm : 3 ≤ m) :
     blockSp (F := F) (m := m) =
       complSp F (0 : Fin (m + 1)) ⊓ complSp F (1 : Fin (m + 1)) ⊓
@@ -381,6 +397,7 @@ private theorem blockSp_eq_inf (hm : 3 ≤ m) :
   simp only [Set.mem_compl_iff, Set.mem_union, Set.mem_inter_iff]
   tauto
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSp_le_inf_centralizer (hm : 3 ≤ m) :
     blockSp (F := F) (m := m) ≤
       complSp F (0 : Fin (m + 1)) ⊓ Subgroup.centralizer
@@ -412,6 +429,7 @@ private theorem blockSp_le_inf_centralizer (hm : 3 ≤ m) :
         (Subgroup.centralizer_le (Subgroup.zpowers_le.2
           (rootTorusHom_mem_rootTorusSp 2 ζ))))
 
+omit [Finite F] [CharP F 2] in
 private theorem isQuasisimple_blockSp (hm : 3 ≤ m) (hF : 4 ≤ Nat.card F) :
     CFSG.IsQuasisimple (blockSp (F := F) (m := m)) := by
   have hN : 1 ≤ m - 2 := by omega
@@ -420,10 +438,11 @@ private theorem isQuasisimple_blockSp (hm : 3 ≤ m) (hF : 4 ≤ Nat.card F) :
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv
     (MonoidHom.ofInjective (spEmbed_injective (blockEmbed_injective m))) hQ
 
-private theorem dvd_card_blockSp (hm : 3 ≤ m) (hq : q.Prime)
+omit [Finite F] [CharP F 2] in
+private theorem dvd_card_blockSp (hm : 3 ≤ m) (_hq : q.Prime)
     (hqdvd : q ∣ Nat.card F - 1) :
     q ∣ Nat.card (blockSp (F := F) (m := m)) := by
-  haveI : NeZero (m - 2) := ⟨by omega⟩
+  have : NeZero (m - 2) := ⟨by omega⟩
   have hcard : Nat.card (blockSp (F := F) (m := m)) =
       Nat.card (StatedSp (m - 2) F) :=
     Nat.card_congr
@@ -434,15 +453,17 @@ private theorem dvd_card_blockSp (hm : 3 ≤ m) (hq : q.Prime)
     exact hqdvd
   exact hrt.trans (Subgroup.card_subgroup_dvd_card _)
 
-private theorem center_blockSp (hm : 3 ≤ m) :
+omit [Finite F] in
+private theorem center_blockSp (_hm : 3 ≤ m) :
     Subgroup.center (blockSp (F := F) (m := m)) = ⊥ := by
-  haveI : NeZero (m - 2) := ⟨by omega⟩
+  have : NeZero (m - 2) := ⟨by omega⟩
   exact (center_eq_bot_congr
     (MonoidHom.ofInjective (spEmbed_injective (blockEmbed_injective m)))).2
     (center_statedSp_eq_bot (m - 2))
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSp_normal_inf_centralizer (hm : 3 ≤ m) (hq : q.Prime) (hq2 : q ≠ 2)
-    (hqdvd : q ∣ Nat.card F - 1) (hζ : orderOf ζ = q) :
+    (_hqdvd : q ∣ Nat.card F - 1) (hζ : orderOf ζ = q) :
     ((blockSp (F := F) (m := m)).subgroupOf
       (complSp F (0 : Fin (m + 1)) ⊓ Subgroup.centralizer
         (symplecticE3Torus (F := F) (m := m) (0 : Fin (m + 1)) (1 : Fin (m + 1))

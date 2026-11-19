@@ -29,6 +29,7 @@ theorem sstar_s0 {B : Subgroup G} {x : G} {L : Subgroup G} (h : IsSStarMax p B x
 theorem sstar_cyc {B : Subgroup G} {x : G} {L : Subgroup G} (h : IsSStarMax p B x L) :
     CycModSylow p L := h.2
 
+omit [Finite G] in
 theorem centMod_zpowers_of_le {x g : G} {L : Subgroup G} (hL : L ≤ cx x) (hg : g ∈ Subgroup.zpowers x) :
     CentMod p L g := by
   refine centMod_of_mem_centralizer (Subgroup.mem_centralizer_iff.2 fun l hl => ?_)
@@ -39,6 +40,7 @@ theorem centMod_zpowers_of_le {x g : G} {L : Subgroup G} (hL : L ≤ cx x) (hg :
     Subgroup.zpowers_le.2 hx
   exact Subgroup.mem_centralizer_iff.1 (hz hg) l hl
 
+omit [Finite G] in
 theorem inducesInnerMod_of_centMod {L : Subgroup G} {g : G} (h : CentMod p L g) :
     InducesInnerMod p L g := by
   refine ⟨1, Subgroup.one_mem _, fun y hy => ?_⟩
@@ -46,6 +48,7 @@ theorem inducesInnerMod_of_centMod {L : Subgroup G} {g : G} (h : CentMod p L g) 
   have := hg.2 y⁻¹ (L.inv_mem hy)
   simpa [commutatorElement_def, mul_assoc] using this
 
+omit [Finite G] in
 theorem dgrp_eq_sup (b x : G) : Dgrp b x = Subgroup.zpowers b ⊔ Subgroup.zpowers x := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
   congr 1
@@ -134,7 +137,7 @@ theorem exists_maxR2 (hc : S10Ctx G p) :
 theorem exists_nid (hc : S10Ctx G p) (hin : AutCalcAt G p) (hnot : ¬ Alt1 G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} (hstar : IsSStarMax p B x L) : ∃ b₀ ∈ B, NonInnDiag p b₀ L := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hch : IsChevSimple 2 (PSimple p L) := hc.stage8.1 B x L hstar
   have hq : CFSG.Open.IsQuasisimple ↥L := (hc.stage9.1 B x L hstar).1
   have hL := (sstar_triple hstar).2.2
@@ -232,8 +235,8 @@ private theorem setup_tripleLevel_le_five (B L : Subgroup G) : tripleLevel 3 B L
   classical
   unfold tripleLevel
   by_cases h : IsGStar 3 B L
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     exact (Nat.min_le_left 4 _).trans (by norm_num)
 
 theorem tripleLevel_eq_of_gStar_imp {B B' L : Subgroup G} {x : G}
@@ -255,12 +258,12 @@ theorem tripleLevel_eq_of_gStar_imp {B B' L : Subgroup G} {x : G}
   by_cases hG : IsGStar 3 B' L
   · have h5 : tripleLevel 3 B' L = 5 := by
       unfold tripleLevel
-      rw [if_pos hG]
+      rw [ite_eq_left hG]
     omega
   · have hGB : ¬ IsGStar 3 B L := fun h => hG (himp h)
     have heq : tripleLevel 3 B' L = tripleLevel 3 B L := by
       unfold tripleLevel
-      rw [if_neg hG, if_neg hGB]
+      rw [ite_eq_right hG, ite_eq_right hGB]
     omega
 
 theorem isGStar_of_td4_big (hc : S10Ctx G 3) (hg2 : TD4G2At G) {B' : Subgroup G} {x : G} {L : Subgroup G}
@@ -363,7 +366,7 @@ theorem isGStar_of_td4_big (hc : S10Ctx G 3) (hg2 : TD4G2At G) {B' : Subgroup G}
 
 theorem not_isGStar_of_td42 (hperf : TD42PerfAt G) {B₀ : Subgroup G} {x : G} {L : Subgroup G}
     (hS : IsSTriple 3 B₀ x L) (hcyc : CycModSylow 3 L) (htd2 : catalogIs (PSimple 3 L) S9.isTD4two)
-    (hB : IsElemAbelian 3 B₀) (hN : B₀ ≤ Subgroup.normalizer (L : Set G)) : ¬ IsGStar 3 B₀ L := by
+    (_hB : IsElemAbelian 3 B₀) (hN : B₀ ≤ Subgroup.normalizer (L : Set G)) : ¬ IsGStar 3 B₀ L := by
   classical
   rintro ⟨E, hEB, hE, hE27, hLE⟩
   have hp : Nat.Prime 3 := Nat.prime_three
@@ -569,11 +572,11 @@ theorem exists_goodB (hc : S10Ctx G p) (hin : SetupInputs G p) (hpow : Lemma103P
     have hR' : R2TD4 3 B' L := ⟨rfl, htd, b, hbB', ne_one_of_nonInner hnb', hnb'⟩
     have hr : r2 3 B' L = r2 3 B L := by
       unfold r2
-      rw [if_pos hR, if_pos hR']
+      rw [ite_eq_left hR, ite_eq_left hR']
     refine ⟨B', b, hstar', fun B'' x'' L'' h'' => (hmax B'' x'' L'' h'').trans hr.ge, hbB', hbx,
       Or.inr ⟨rfl, htd, hnb'⟩, fun _ _ => hcc, ?_⟩
     unfold r2
-    rw [if_pos hR']
+    rw [ite_eq_left hR']
     exact hcc.symm
 
 theorem cent_B_eq (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
@@ -594,7 +597,7 @@ theorem p3_mul_cent_le (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup 
   have hp : p.Prime := hc.ctx.prime
   have hx1 : x ≠ 1 := hS.2.1.2.1
   have hxp : x ^ p = 1 := hS.1.1.2 x hS.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   rw [cent_B_eq hc hstar, Nat.card_zpowers, hord, hS.1.2.1]
   have h4 : 4 ≤ GLATwoLocalRank p G := hc.ctx.rank_ge
@@ -626,7 +629,7 @@ theorem exists_goodB' (hc : S10Ctx G p) (hin : SetupInputs G p) {B : Subgroup G}
     · subst hp3
       have hR : R2TD4 3 B L := ⟨rfl, htd, a, haB, ne_one_of_nonInner hna, hna⟩
       unfold r2
-      rw [if_pos hR]
+      rw [ite_eq_left hR]
       exact (hag2 rfl htd).symm
   · exact ⟨b, hgood, fun h => absurd h hT⟩
 
@@ -725,7 +728,7 @@ theorem exclude_U38 (hc : S10Ctx G 3) (hin : SetupInputs G 3) {B : Subgroup G} {
   have hd2 : dLevel G 3 ≤ 2 := by
     have h1 := hstar.1.1.2
     unfold tripleLevel at h1
-    rw [if_neg hnG] at h1
+    rw [ite_eq_right hnG] at h1
     have h2 := hin.lvl (cx x) L hS.2.2 hU
     omega
   have hBel : IsElemAbelian 3 B := hS.1.1

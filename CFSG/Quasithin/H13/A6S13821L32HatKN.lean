@@ -43,9 +43,9 @@ theorem H_le_K_mul_N {S : Setting4 G T L V}
   have hAK : A ≤ Subgroup.normalizer (K : Set G) := hAH.trans hKn
   have hAN : A ≤ Subgroup.normalizer ((pCoreOf 2 K : Subgroup G) : Set G) := hAH.trans hHN
   have hAsolv : Group.IsSolvable ↥A := by
-    haveI := S.isSolvable_L1T h1334 hS
-    haveI hNsolv : Group.IsSolvable ↥(pCoreOf 2 H) := by
-      haveI := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 H)
+    have := S.isSolvable_L1T h1334 hS
+    have hNsolv : Group.IsSolvable ↥(pCoreOf 2 H) := by
+      have := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 H)
       infer_instance
     have := CFSG.Quasithin.C126.isSolvable_sup_of_le_normalizer'
       (hL1H.trans hHNH) hNsolv ‹Group.IsSolvable ↥(S.L1 ⊔ T)›
@@ -87,7 +87,7 @@ theorem H_le_K_mul_N {S : Setting4 G T L V}
         rw [htop]
         exact Subgroup.mem_top _
       exact (hPA_mem k hk).mp hmem
-    haveI := hAsolv
+    have := hAsolv
     exact not_isSolvable_of_mem_cComp hK
       (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKA)
         (Subgroup.inclusion_injective hKA))

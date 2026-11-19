@@ -60,7 +60,7 @@ theorem rk2_half_D {lab : GLALabel} (ht : lab.tag = .D) (hn : 1 ≤ lab.n)
   · have := hE.bcd_ge hbcd (by omega)
     omega
 
-theorem rk2_half_twD {lab : GLALabel} (ht : lab.tag = .twD) (hn : 1 ≤ lab.n)
+theorem rk2_half_twD {lab : GLALabel} (ht : lab.tag = .twD) (_hn : 1 ≤ lab.n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hE : Rk2ELowAt lab c e)
     (hr : 3 ≤ rk2Mult lab (rk2Ord p lab.n)) (he : e ≤ rk2Mult lab (rk2Ord p lab.n) + 1) :
     GLAHalfSplit16 p lab c := by
@@ -226,7 +226,7 @@ theorem rk2_half_E8 {lab : GLALabel} (ht : lab.tag = .E8) (hn : 1 ≤ lab.n)
     · have := hE.e8 ht (by omega)
       omega
 
-theorem rk2_half_F4 {lab : GLALabel} (ht : lab.tag = .F4) (hn : 1 ≤ lab.n)
+theorem rk2_half_F4 {lab : GLALabel} (ht : lab.tag = .F4) (_hn : 1 ≤ lab.n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hr : 3 ≤ rk2Mult lab (rk2Ord p lab.n)) :
     GLAHalfSplit16 p lab c := by
   have hmult : ∀ m, rk2Mult lab m = rk2Cnt [(2, true), (6, true), (8, true), (12, true)] m := by

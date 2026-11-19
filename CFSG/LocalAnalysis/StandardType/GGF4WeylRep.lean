@@ -18,14 +18,12 @@ noncomputable def rho :
     show LinearMap.toMatrixAlgEquiv' (weylAction (isFiniteType_cartan Tag.F4) 1) = 1
     first
     | (rw [map_one]; exact map_one _)
-    | (simp; done)
   map_mul' a b := by
     show LinearMap.toMatrixAlgEquiv' (weylAction (isFiniteType_cartan Tag.F4) (a * b)) =
       LinearMap.toMatrixAlgEquiv' (weylAction (isFiniteType_cartan Tag.F4) a) *
         LinearMap.toMatrixAlgEquiv' (weylAction (isFiniteType_cartan Tag.F4) b)
     first
-    | (rw [map_mul, map_mul]; done)
-    | (simp; done)
+    | (rw [map_mul, map_mul])
 
 theorem rho_injective : Function.Injective rho := by
   intro a b h
@@ -49,8 +47,6 @@ theorem rho_entry (i a j : Fin 4) :
   fin_cases i <;> fin_cases a <;> fin_cases j <;>
     first
     | decide
-    | (simp [Pi.single_apply, Sm, Sdata, M4.toMat]; done)
-    | (simp [Pi.single_apply, Sm, Sdata, M4.toMat]; norm_num; done)
 
 theorem rho_simple (i : Fin Tag.F4.rank) : rho (simple Tag.F4 i) = (Sm i).toMat := by
   ext a j
@@ -62,7 +58,6 @@ theorem rho_simple (i : Fin Tag.F4.rank) : rho (simple Tag.F4 i) = (Sm i).toMat 
     cartan_F4_entry]
   first
   | exact rho_entry i a j
-  | simpa using rho_entry i a j
 
 theorem coxeterMatrix_F4 : coxeterMatrix (isFiniteType_cartan Tag.F4) = CoxeterMatrix.F₄ := by
   have hC : GGIntCartan CoxeterMatrix.F₄ (Tag.cartan .F4) := by

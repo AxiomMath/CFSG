@@ -17,13 +17,17 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {M D X W : Subgroup G}
 
+omit [Finite G] in
 theorem chief_W_le_M (h : Lemma97Chief p M D X W) : W ≤ M :=
   h.le_core.trans (Subgroup.map_subtype_le _)
 
+omit [Finite G] in
 theorem chief_X_le_W (h : Lemma97Chief p M D X W) : X ≤ W := h.lt.le
 
+omit [Finite G] in
 theorem chief_X_le_M (h : Lemma97Chief p M D X W) : X ≤ M := (chief_X_le_W h).trans (chief_W_le_M h)
 
+omit [Finite G] in
 theorem chief_M_le_normalizer_X (h : Lemma97Chief p M D X W) :
     M ≤ Subgroup.normalizer (X : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (chief_X_le_M h)).1 h.normalX
@@ -40,7 +44,7 @@ theorem twoLocal_ne_top {m : ℕ} (hS : GLStanding G m p) (hM : IsTwoLocal M) : 
   intro htop
   obtain ⟨P, hP1, hP2, hMP⟩ := hM
   have hPn : P.Normal := Subgroup.normalizer_eq_top_iff.1 (hMP ▸ htop)
-  haveI := hS.simple
+  have := hS.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with h | h
   · exact hP1 h
   · rw [h] at hP2
@@ -69,25 +73,32 @@ abbrev HQ (M X : Subgroup G) [(X.subgroupOf M).Normal] (d : G) : Subgroup (QM M 
 abbrev GQ (M X D : Subgroup G) [(X.subgroupOf M).Normal] : Subgroup (QM M X) :=
   ((gammaD D).subgroupOf M).map (piQ M X)
 
+omit [Finite G] in
 theorem piQ_eq_one_iff {x : ↥M} : piQ M X x = 1 ↔ (x : G) ∈ X := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem piQ_surjective : Function.Surjective (piQ M X) := QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem mem_NQ {y : QM M X} : y ∈ NQ M X W ↔ ∃ w : ↥M, (w : G) ∈ W ∧ piQ M X w = y := by
   simp [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem mem_HQ {d : G} {y : QM M X} :
     y ∈ HQ M X d ↔ ∃ w : ↥M, (w : G) ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set G)) ∧
       piQ M X w = y := by
   simp [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem mem_GQ {y : QM M X} : y ∈ GQ M X D ↔ ∃ w : ↥M, (w : G) ∈ gammaD D ∧ piQ M X w = y := by
   simp [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem NQ_normal (h : Lemma97Chief p M D X W) : (NQ M X W).Normal :=
   h.normalW.map _ piQ_surjective
 
+omit [Finite G] in
 theorem NQ_ne_bot (h : Lemma97Chief p M D X W) : NQ M X W ≠ ⊥ := by
   intro hbot
   obtain ⟨w, hwW, hwX⟩ := Set.exists_of_ssubset h.lt
@@ -96,6 +107,7 @@ theorem NQ_ne_bot (h : Lemma97Chief p M D X W) : NQ M X W ≠ ⊥ := by
   rw [hbot, Subgroup.mem_bot, piQ_eq_one_iff] at this
   exact hwX this
 
+omit [Finite G] in
 theorem NQ_nonab (h : Lemma97Chief p M D X W) (hnab : ¬ ⁅W, W⁆ ≤ X) :
     ∃ a ∈ NQ M X W, ∃ b ∈ NQ M X W, a * b ≠ b * a := by
   rw [Subgroup.commutator_le] at hnab
@@ -110,6 +122,7 @@ theorem NQ_nonab (h : Lemma97Chief p M D X W) (hnab : ¬ ⁅W, W⁆ ≤ X) :
     exact heq
   exact (piQ_eq_one_iff.1 h1)
 
+omit [Finite G] in
 theorem NQ_minimal (h : Lemma97Chief p M D X W) :
     ∀ V : Subgroup (QM M X), V.Normal → V ≤ NQ M X W → V = ⊥ ∨ V = NQ M X W := by
   intro V hVn hVN
@@ -161,12 +174,14 @@ theorem NQ_minimal (h : Lemma97Chief p M D X W) :
     exact ((hmem w).1 this).2 |> fun h => by simpa using h
 
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow_eq_one {d : G} (hp : p.Prime) (hd : d ^ p = 1) :
     IsPGroup p (Subgroup.zpowers d) := by
   have h1 : orderOf d ∣ p ^ 1 := by simpa using orderOf_dvd_of_pow_eq_one hd
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hp).1 h1
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
 
+omit [Finite G] in
 theorem piQ_pow_eq_one {d : G} (hdM : d ∈ M) {n : ℕ} (hd : d ^ n = 1) :
     piQ M X ⟨d, hdM⟩ ^ n = 1 := by
   rw [← map_pow (piQ M X)]
@@ -174,11 +189,12 @@ theorem piQ_pow_eq_one {d : G} (hdM : d ∈ M) {n : ℕ} (hd : d ^ n = 1) :
   rw [this, map_one]
 
 theorem HQ_isPGroup (d : G) : IsPGroup 2 (HQ M X d) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : IsPGroup 2 (pCoreOf 2 (Subgroup.centralizer ({d} : Set G))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   exact (h1.comap_of_injective M.subtype M.subtype_injective).map (piQ M X)
 
+omit [Finite G] in
 theorem HQ_comm {d : G} (hdM : d ∈ M) :
     ∀ h ∈ HQ M X d, piQ M X ⟨d, hdM⟩ * h = h * piQ M X ⟨d, hdM⟩ := by
   intro h hh
@@ -202,7 +218,7 @@ theorem HQ_normalized (hp : p.Prime) (h : Lemma97Chief p M D X W) {d : G} (hdM :
       rw [map_mul, map_mul, map_mul, map_inv, map_inv, hy]
       group
     exact piQ_eq_one_iff.1 h1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdN : d ∈ Subgroup.normalizer (X : Set G) := chief_M_le_normalizer_X h hdM
   have hmN : (m : G) ∈ Subgroup.normalizer (X : Set G) := chief_M_le_normalizer_X h m.2
   obtain ⟨v, hvX, hvc⟩ := exists_mul_mem_centralizer (isPGroup_zpowers_of_pow_eq_one hp hd)
@@ -218,6 +234,7 @@ theorem HQ_normalized (hp : p.Prime) (h : Lemma97Chief p M D X W) {d : G} (hdM :
   have := (Subgroup.mem_normalizer_iff.1 hnorm w).1 hw
   simpa using this
 
+omit [Finite G] in
 theorem GQ_le_iSup (hD : Prop95Hyp p M D) :
     GQ M X D ≤ ⨆ (d : G) (_ : d ∈ D) (_ : d ≠ 1), HQ M X d := by
   intro y hy
@@ -236,6 +253,7 @@ theorem GQ_le_iSup (hD : Prop95Hyp p M D) :
   rw [this] at hw'
   exact hw'
 
+omit [Finite G] in
 theorem GQ_not_centralizes (h : Lemma97Chief p M D X W) (hc : ¬ ⁅gammaD D, W⁆ ≤ X)
     (hΓM : gammaD D ≤ M) : ¬ ∀ g ∈ GQ M X D, ∀ n ∈ NQ M X W, g * n = n * g := by
   intro hcen
@@ -296,7 +314,7 @@ theorem lemma97NonAb_of (h96 : Lemma96) (hodd : FixedOddFact) (htwo : FixedTwoFa
   classical
   have hp : p.Prime := prime_of_standing hS
   have hp2 : p ≠ 2 := ne_two_of_standing hS
-  haveI : (X.subgroupOf M).Normal := h.normalX
+  have : (X.subgroupOf M).Normal := h.normalX
   have hΓM : gammaD D ≤ M := gammaD_le hD
   have hclaim : ¬ ⁅gammaD D, W⁆ ≤ X := (L97.claim1 hD h).1
   have hNn := NQ_normal h
@@ -311,7 +329,7 @@ theorem lemma97NonAb_of (h96 : Lemma96) (hodd : FixedOddFact) (htwo : FixedTwoFa
       exact (hno i g hg s hs).symm
     exact (Subgroup.mem_centralizer_singleton_iff.1 (hle hn)).symm
   obtain ⟨i, hi⟩ := hex
-  haveI := hF.simple i
+  have := hF.simple i
   have hcat : IsCatalogGroup ↥(S i) := isCatalogGroup_of_simple hS hD (S i) (hF.nonab i)
   have hpS : ¬ p ∣ Nat.card ↥(S i) := fun hd =>
     not_dvd_card_NQ hp h (hd.trans (Subgroup.card_dvd_of_le (hF.le i)))

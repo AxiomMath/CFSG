@@ -30,9 +30,11 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def resI (L : Subgroup G) (b : G) : Subgroup G :=
   inSubgroup perfectResidual (L ⊓ Subgroup.centralizer ({b} : Set G))
 
+omit [Finite G] in
 theorem resI_le_inf (L : Subgroup G) (b : G) :
     resI L b ≤ L ⊓ Subgroup.centralizer ({b} : Set G) := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem resI_le_L (L : Subgroup G) (b : G) : resI L b ≤ L := (resI_le_inf L b).trans inf_le_left
 
 theorem isPerfect_resI (L : Subgroup G) (b : G) : Group.IsPerfect (resI L b) :=
@@ -68,18 +70,21 @@ variable {G : Type} [Group G] [Finite G] {A L K S : Subgroup G} {c b a : G}
 @[expose] noncomputable def Ibar (L K : Subgroup G) (b : G) (hIK : resI L b ≤ K) :
     Subgroup (↥K ⧸ aschbacherSolvableCore 3 ↥K) := (psiI L K b hIK).range
 
+omit [Finite G] in
 theorem psiI_apply (hIK : resI L b ≤ K) (x : ↥(resI L b)) :
     psiI L K b hIK x = QuotientGroup.mk' (aschbacherSolvableCore 3 ↥K) ⟨x, hIK x.2⟩ := rfl
 
+omit [Finite G] in
 theorem mk_mem_Ibar (hIK : resI L b ≤ K) {x : G} (hx : x ∈ resI L b) :
     QuotientGroup.mk' (aschbacherSolvableCore 3 ↥K) (⟨x, hIK hx⟩ : ↥K) ∈ Ibar L K b hIK :=
   ⟨⟨x, hx⟩, rfl⟩
 
 theorem isPerfect_Ibar (hIK : resI L b ≤ K) : Group.IsPerfect (Ibar L K b hIK) := by
-  haveI := isPerfect_resI L b
+  have := isPerfect_resI L b
   exact Group.IsPerfect.ofSurjective (f := (psiI L K b hIK).rangeRestrict)
     (psiI L K b hIK).rangeRestrict_surjective
 
+omit [Finite G] in
 theorem Ibar_le_centralizer (hIK : resI L b ≤ K) (hcK : c ∈ K)
     (hIc : resI L b ≤ Subgroup.centralizer ({c} : Set G)) :
     Ibar L K b hIK ≤ Subgroup.centralizer
@@ -94,6 +99,7 @@ theorem Ibar_le_centralizer (hIK : resI L b ≤ K) (hcK : c ∈ K)
   show (x : G) * c = c * x
   exact Subgroup.mem_centralizer_singleton_iff.mp (hIc x.2)
 
+omit [Finite G] in
 theorem Ibar_ne_top (hIK : resI L b ≤ K)
     (hlt : ¬ (resI L b ⊔ inSubgroup (aschbacherSolvableCore 3) K = K)) :
     Ibar L K b hIK ≠ ⊤ := by
@@ -113,6 +119,7 @@ theorem Ibar_ne_top (hIK : resI L b ≤ K)
     ↥(resI L b) →* L ⧸ aschbacherSolvableCore 3 L :=
   (QuotientGroup.mk' (aschbacherSolvableCore 3 L)).comp (Subgroup.inclusion (resI_le_L L b))
 
+omit [Finite G] in
 theorem phiI_surjective (hX : L = resI L b ⊔ inSubgroup (aschbacherSolvableCore 3) L) :
     Function.Surjective (phiI L b) := by
   set θ₀ := aschbacherSolvableCore 3 ↥L with hθ₀
@@ -145,15 +152,15 @@ theorem ker_psiI_le_ker_phiI (hIK : resI L b ≤ K)
     (QuotientGroup.eq_one_iff _).mp x.2
   let j : ↥N₀ →* ↥(aschbacherSolvableCore 3 ↥K) := g.codRestrict _ hgθ
   have hj : Function.Injective j := fun x y h => hg (congrArg Subtype.val h)
-  haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥K) := hθs
-  haveI : Group.IsSolvable ↥N₀ := Group.isSolvable_of_isSolvable_injective hj
+  have : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥K) := hθs
+  have : Group.IsSolvable ↥N₀ := Group.isSolvable_of_isSolvable_injective hj
   have hN₀card : Nat.card N₀ ∣ Nat.card (aschbacherSolvableCore 3 ↥K) :=
     Subgroup.card_dvd_of_injective j hj
   set N₁ := N₀.map (phiI L b) with hN₁
-  haveI : N₁.Normal := Subgroup.Normal.map inferInstance (phiI L b) hφ
+  have : N₁.Normal := Subgroup.Normal.map inferInstance (phiI L b) hφ
   have hsurj : Function.Surjective ((phiI L b).subgroupMap N₀) :=
     (phiI L b).subgroupMap_surjective N₀
-  haveI : Group.IsSolvable ↥N₁ := Group.isSolvable_of_surjective hsurj
+  have : Group.IsSolvable ↥N₁ := Group.isSolvable_of_surjective hsurj
   have hN₁c : N₁ ≤ Subgroup.center (L ⧸ aschbacherSolvableCore 3 L) :=
     Hering129HLift.solvable_normal_le_center hLq N₁ inferInstance
   have hcard1 : Nat.card N₁ ∣ Nat.card N₀ := Subgroup.card_dvd_of_surjective hsurj
@@ -179,6 +186,7 @@ theorem ker_psiI_le_ker_phiI (hIK : resI L b ≤ K)
   (psiI L K b hIK).rangeRestrict.liftOfSurjective (psiI L K b hIK).rangeRestrict_surjective
     ⟨phiI L b, by rwa [MonoidHom.ker_rangeRestrict]⟩
 
+omit [Finite G] in
 theorem fI_apply (hIK : resI L b ≤ K) (hker : (psiI L K b hIK).ker ≤ (phiI L b).ker)
     (x : ↥(resI L b)) :
     fI hIK hker ((psiI L K b hIK).rangeRestrict x) = phiI L b x := by
@@ -278,6 +286,7 @@ variable {G : Type} [Group G] [Finite G] {A L K S : Subgroup G} {c b a x y : G}
     ↥K ⧸ aschbacherSolvableCore 3 ↥K :=
   QuotientGroup.mk' (aschbacherSolvableCore 3 ↥K) ⟨x, hx⟩
 
+omit [Finite G] in
 theorem barK_zpow (hx : x ∈ K) (k : ℤ) :
     barK K (x ^ k) (K.zpow_mem hx k) = barK K x hx ^ k := by
   unfold barK
@@ -329,6 +338,7 @@ variable {G : Type} [Group G] [Finite G] {A L K S : Subgroup G} {c b a x y : G}
     Subgroup (↥K ⧸ aschbacherSolvableCore 3 ↥K) :=
   ((A ⊓ K).subgroupOf K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥K))
 
+omit [Finite G] in
 theorem barK_mem_Xbar (hxA : x ∈ A) (hxK : x ∈ K) : barK K x hxK ∈ Xbar A K :=
   ⟨⟨x, hxK⟩, Subgroup.mem_subgroupOf.mpr ⟨hxA, hxK⟩, rfl⟩
 
@@ -513,6 +523,7 @@ section Eps
 
 variable {G : Type} [Group G] [Finite G] {A L K S : Subgroup G} {c b a x y : G}
 
+omit [Finite G] in
 theorem Ibar_eq_map (hIK : resI L b ≤ K) :
     Ibar L K b hIK =
       ((resI L b).subgroupOf K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥K)) := by
@@ -608,7 +619,7 @@ theorem eps_lift (h125 : Item125BarC9) (cfg : Cfg129 G A c L b a K S)
         Subgroup.card_le_of_le (le_inf (le_sup_right : Ft ≤ E) hFtL)
       omega
     obtain ⟨j, hj3, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hdvd
-    interval_cases j <;> simp_all <;> omega
+    interval_cases j <;> simp_all
   have hNE := h125 G A c L cfg.std cfg.list E ⟨hEab, hE27⟩ hEL hcE hB9
   have hN := Sec13.normalizer_map_mk_eq hS₀3
   rw [hS₀F] at hN

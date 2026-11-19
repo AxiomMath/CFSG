@@ -41,9 +41,9 @@ private theorem mem_of_quot {A L : Subgroup G} {c : G} (h : Sec14Std G A c L) {C
   set θ := pPrimeCoreOf 3 Y with hθ
   set π := QuotientGroup.mk' (θ.subgroupOf C) with hπ
   have hθ3 : Nat.Coprime 3 (Nat.card θ) := coprime_card_pPrimeCoreOf 3 Y
-  have hAθ : A ⊓ θ = ⊥ := Subgroup.inf_eq_bot_of_coprime (by
+  have hAθ : A ⊓ θ = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hA27]
-    simpa using Nat.Coprime.pow_left 3 hθ3)
+    simpa using Nat.Coprime.pow_left 3 hθ3)))
   have hinj : Function.Injective (π.comp (A.subgroupOf C).subtype) := by
     rw [injective_iff_map_eq_one]
     intro a ha
@@ -129,7 +129,7 @@ theorem mem_pPrimeCoreOf_of_cp {A L : Subgroup G} {c : G} (h : Sec14Std G A c L)
   have hYC : Y ≤ C := sup_le (pPrimeCoreOf_le 3 C) hXC
   have hθX : inSubgroup (aschbacherSolvableCore 3) X ≤ pPrimeCoreOf 3 C :=
     Proof15Res11.theta_le_pPrimeCoreOf hXC hCY
-  haveI : ((pPrimeCoreOf 3 Y).subgroupOf C).Normal :=
+  have : ((pPrimeCoreOf 3 Y).subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hCY.trans (normalizer_le_normalizer_pPrimeCoreOf 3 Y))
   obtain ⟨J₁, J₂, hJsup, hJc, hJ3, hJ₁, hJ₂⟩ :=

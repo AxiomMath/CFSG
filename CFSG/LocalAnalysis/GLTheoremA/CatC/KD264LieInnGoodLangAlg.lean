@@ -25,7 +25,7 @@ theorem perfectCentralizerPlanes_of_sylow_le_torus {τ : Tag} {L : Type} [Field 
       (bigComponentSet S D₁).Nonempty) :
     PerfectCentralizerPlanes p S.Γ :=
   perfectCentralizerPlanes_of_langSetup S
-    (fun F hF hFp _ => S.exists_conj_le hsyl hF hFp) hbig
+    (fun _F hF hFp _ => S.exists_conj_le hsyl hF hFp) hbig
 
 end SylowTorus
 

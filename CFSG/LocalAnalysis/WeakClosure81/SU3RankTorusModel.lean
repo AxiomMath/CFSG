@@ -162,12 +162,12 @@ theorem orderOf_two_le_modCommRank_permSU_swap {n : ℕ} {F₀ : Type} [Field F�
     change (f (μ, μ⁻¹)) ^ j = f (μ ^ j, μ ^ (-j))
     rw [← map_zpow]
     congr 1
-    ext <;> simp [inv_zpow]
+    ext <;> simp
   have hz_zpow : ∀ j : ℤ, (f (μ⁻¹, 1)) ^ j = f (μ ^ (-j), 1) := by
     intro j
     rw [← map_zpow]
     congr 1
-    ext <;> simp [inv_zpow]
+    ext <;> simp
   have hpair_inj : ∀ a b a' b' : R, a ∈ Subgroup.zpowers μ → b ∈ Subgroup.zpowers μ →
       a' ∈ Subgroup.zpowers μ → b' ∈ Subgroup.zpowers μ →
       f (a, b) = f (a', b') → (a, b) = (a', b') := by
@@ -269,7 +269,7 @@ theorem orderOf_two_le_modCommRank_permSU_swap {n : ℕ} {F₀ : Type} [Field F�
     have hτB : τ ^ (ℓ ^ (k - 1)) ∉ B := by rw [hτ1]; exact heB
     have hdvd := orderOf_two_dvd_finrank_fixSub_inf_commSub hℓ hℓ2 hk hcardE hBE hB hτE hτ
       hτE' hτB
-    haveI : Module.Finite (ZMod 2) ↥(fixSub B ⊓ commSub E) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) ↥(fixSub B ⊓ commSub E) := Module.Finite.of_finite
     have hpos : 0 < Module.finrank (ZMod 2) ↥(fixSub B ⊓ commSub E) := by
       have hle := Submodule.one_le_finrank_iff.mpr hne
       omega

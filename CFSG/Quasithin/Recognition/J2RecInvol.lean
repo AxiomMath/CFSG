@@ -114,7 +114,7 @@ theorem exists_involution_not_mem [Finite G] (h : IsTypeH2 G z)
   have hSsub : S.subgroupOf C = S₀ := by
     rw [hS, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective C.subtype_injective]
   have hSC : IsSylowTwoOf S C :=
-    ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map _, by rw [hSsub]; exact S₀.not_dvd_index⟩
+    ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map _, by rw [hSsub]; exact S₀.not_dvd_index⟩
   obtain ⟨-, hS2, hSidx⟩ := h.isSylowTwoOf_top hSC
   have hSidx' : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right]

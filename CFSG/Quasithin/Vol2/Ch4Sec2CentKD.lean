@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L I H K : Subgroup G}
 
+omit [Finite G] in
 private theorem le_normalizer_sup_inf_centralizer {N A : Subgroup G}
     (hN : N ≤ Subgroup.normalizer (A : Set G)) :
     N ≤ Subgroup.normalizer ((N ⊓ Subgroup.centralizer (A : Set G) : Subgroup G) : Set G) := by
@@ -24,6 +25,7 @@ private theorem le_normalizer_sup_inf_centralizer {N A : Subgroup G}
   exact CFSG.Quasithin.A4.mem_normalizer_inf (Subgroup.le_normalizer hn)
     (CFSG.Quasithin.A1b.le_normalizer_centralizer hN hn)
 
+omit [Finite G] in
 private theorem exists_pow_mem_of_mem_sup {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) (hB2 : IsPGroup 2 ↥B) {x : G}
     (hx : x ∈ A ⊔ B) : ∃ a : ℕ, x ^ 2 ^ a ∈ A := by
@@ -92,8 +94,8 @@ theorem omega_inf_centralizer_ne_bot_of_ne_bot (c : Conf4212 G T M L I H K)
     intro h
     apply hne
     rw [← Subgroup.map_subgroupOf_eq_of_le hD, h, Subgroup.map_bot]
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
-  haveI : (D.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDN
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : (D.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDN
   obtain ⟨⟨y, hy⟩, hy1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hDR)
   have hyD : (y : G) ∈ D := Subgroup.mem_subgroupOf.mp hy.1

@@ -57,7 +57,7 @@ theorem eq_scalar_of_conjM {B B' : M43} (h : B * B' = 1) {X : M43} {s : ZMod 3}
 theorem exists_conj_mul_orderOf_eq_thirteen (x : projectiveSL 4 (ZMod 3)) (hx : orderOf x = 3) :
     ∃ g₂ g₃ : projectiveSL 4 (ZMod 3), orderOf (x * (g₂ * x * g₂⁻¹) * (g₃ * x * g₃⁻¹)) = 13 := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hx3 : x ^ 3 = 1 := by
     have := pow_orderOf_eq_one x
     rwa [hx] at this
@@ -192,7 +192,7 @@ theorem exists_conj_mul_orderOf_eq_thirteen_of_mulEquiv {G : Type*} [Group G]
 theorem nonempty_mulEquiv_projectiveSL_of_lieModel {G : Type} [Group G]
     (hL : CFSG.Blueprint.LieModel G .PSL 4 3 1) : Nonempty (G ≃* projectiveSL 4 (ZMod 3)) := by
   rcases hL with ⟨-, -, K, iK, fK, hK, ⟨e⟩⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
-  · letI := Fintype.ofFinite K
+  · let := Fintype.ofFinite K
     have hcard : Fintype.card K = 3 := by
       rw [← Nat.card_eq_fintype_card, hK, pow_one]
     let σ : K ≃+* ZMod 3 := (ZMod.ringEquivOfPrime K Nat.prime_three hcard).symm
@@ -209,7 +209,7 @@ theorem not_psl43 {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (hdim : Module.finrank (ZMod 2)
       ↥(CFSG.Quasithin.G11.commSpace (Subgroup.zpowers c) ⊤) = 2)
     (hL : CFSG.Blueprint.LieModel (↥J ⧸ Subgroup.center ↥J) .PSL 4 3 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E⟩ := nonempty_mulEquiv_projectiveSL_of_lieModel hL
   set c' : ↥J := ⟨c, hcJ⟩ with hc'
   have hc'3 : orderOf c' = 3 := by

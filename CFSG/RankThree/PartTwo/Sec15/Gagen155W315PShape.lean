@@ -32,7 +32,7 @@ private theorem eq_bot_of_cover_quasisimple {T X : Type*} [Group T] [Group X]
     (hX : CFSG.IsQuasisimple X) (e : T ≃* X) {V E : Subgroup T} (hV : V.IsSubnormal)
     (hVq : CFSG.IsQuasisimple ↥V) (hEp : Group.IsPerfect ↥E) (hVE : ⁅V, E⁆ = ⊥) : E = ⊥ := by
   obtain ⟨-, hsimple, -⟩ := hX
-  letI : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
+  let : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
   exact eq_bot_of_cover (ψ := QuotientGroup.mk' (Subgroup.center X))
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk'])
     (φ := e.symm.toMonoidHom) e.symm.surjective hV hVq hEp hVE
@@ -61,20 +61,20 @@ theorem shape148_of_ne_bot
         alternatingGroup (Fin 5) × CFSG.Blueprint.NativeSporadic.J2) := by
   intro V E hV hVq hEp hVE hE1
   let := ker148_normal hM.1.2
-  haveI hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
+  have hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   rcases (h148 M hM.1).2 with h1 | h2 | h3 | h4 | h5 | h6 | h7'
   ·
     have hD : img148 A M (deltaZero A (lB A) M) = ⊥ := img148_eq_bot_of_le h1
-    haveI hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
+    have hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
       rw [hD]
       exact inferInstance
     have hVbot : V = ⊥ := by
@@ -91,13 +91,13 @@ theorem shape148_of_ne_bot
     · exact (hE1 (eq_bot_of_cover_quasisimple
         (Sec6.isQuasisimple_of_mem_thetaComponentsAt hL'.1) φ hV hVq hEp hVE)).elim
     · exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
-    · haveI : Fact p.Prime := hp
+    · have : Fact p.Prime := hp
       rcases hε with ⟨⟨φ⟩⟩ | ⟨h2q, ⟨φ⟩⟩
-      · haveI : IsSimpleGroup
+      · have : IsSimpleGroup
             (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
         exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
-      · haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
+      · have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two p f hf (by omega)
         exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
     · exact (hE1 (eq_bot_of_cover_triple h6 hV hVq hEp hVE)).elim
@@ -110,8 +110,8 @@ theorem shape148_of_ne_bot
     · exact Or.inl ⟨d, hdA, hd1, hdecomp, Or.inr (Or.inl hCTA)⟩
     · exact Or.inl ⟨d, hdA, hd1, hdecomp, Or.inr (Or.inr ⟨φ⟩)⟩
     · exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
-    · haveI : Fact (Nat.Prime 7) := hp7
-      haveI : IsSimpleGroup
+    · have : Fact (Nat.Prime 7) := hp7
+      have : IsSimpleGroup
           (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1)) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
       exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
@@ -120,9 +120,9 @@ theorem shape148_of_ne_bot
     exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
   ·
     obtain ⟨-, -, -, n, -, -, -, hn, -, hiso, -⟩ := h5
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
-    · haveI : IsSimpleGroup
+    · have : IsSimpleGroup
           (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (3 * n))) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
       exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
@@ -130,7 +130,7 @@ theorem shape148_of_ne_bot
         intro h22
         have := Nat.pow_right_injective (le_refl 2) (h22.trans (pow_one 2).symm)
         omega
-      haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
+      have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two 2 (3 * n) (by omega) h2
       exact (hE1 (eq_bot_of_cover_simple φ hV hVq hEp hVE)).elim
   ·

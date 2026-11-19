@@ -39,7 +39,7 @@ theorem inf_centralizer_le_centralizer_of_isStdElt {p : ℕ} {A T : Subgroup G�
   have hS : CFSG.Open.IsQuasisimple ↥(stdLayer e) := he.2.2.2.1.2.2
   have hN : T ⊓ Subgroup.centralizer ({e} : Set G₀) ≤ T := inf_le_left
   have hNsolv : Group.IsSolvable ↥(T ⊓ Subgroup.centralizer ({e} : Set G₀)) := by
-    haveI : Group.IsNilpotent ↥(T ⊓ Subgroup.centralizer ({e} : Set G₀)) :=
+    have : Group.IsNilpotent ↥(T ⊓ Subgroup.centralizer ({e} : Set G₀)) :=
       IsPGroup.isNilpotent (hT2.to_le hN)
     exact IsNilpotent.to_isSolvable
   have hSN : ∀ s ∈ stdLayer e, ∀ n ∈ T ⊓ Subgroup.centralizer ({e} : Set G₀),
@@ -121,10 +121,10 @@ theorem stdVanishes_of_hyperplanes {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       ∃ n ∈ Subgroup.normalizer (A : Set G₀), n * d * n⁻¹ ∈ D.map A.subtype) :
     StdVanishes A d := by
   rintro ⟨T, hT, hT2, hTN⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CFSG.IsElementaryAbelian p ↥A := hAel.isElementaryAbelian
-  haveI : Nontrivial ↥A :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CFSG.IsElementaryAbelian p ↥A := hAel.isElementaryAbelian
+  have : Nontrivial ↥A :=
     ⟨⟨⟨d, hd.1⟩, 1, fun h => hd.2.1 (congrArg Subtype.val h)⟩⟩
   have hAp : IsPGroup p A := hAel.isPGroup
   have hTp : ¬ p ∣ Nat.card T := by

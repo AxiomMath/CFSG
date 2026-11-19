@@ -44,7 +44,7 @@ noncomputable def gen (k : ℕ) : PG :=
 
 theorem phiX_gen {k : ℕ} (hk : k < 10) : phiX (gen k) = xS k := by
   unfold gen
-  rw [dif_pos (by rw [generatorCount_P23]; exact hk)]
+  rw [dite_eq_left (by rw [generatorCount_P23]; exact hk)]
   exact presHom_of P23 xS rels_X _
 
 noncomputable def wordP (w : List ℕ) : PG := (w.map gen).prod
@@ -95,9 +95,9 @@ theorem acts_wv : ∀ v : List ℕ,
     rw [List.map_cons, List.prod_cons, map_mul, List.map_cons]
     have h2 := acts_wv v
     by_cases h0 : x = 0
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
       exact phiX_wα.mul h2
-    · rw [if_neg h0, if_neg h0]
+    · rw [ite_eq_right h0, ite_eq_right h0]
       exact phiX_wβ.mul h2
 
 theorem phiX_wZ : ActsAs (phiX wZ) (tb G 42) := by

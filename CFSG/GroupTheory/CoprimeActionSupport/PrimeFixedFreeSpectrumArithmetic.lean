@@ -37,8 +37,8 @@ theorem dimension_eq {F : Type u} [Field F] [IsAlgClosed F]
     rw [h2, hT]; rfl
   obtain ⟨I, _, _, lam, U, hinj, hint, hlam, hTU⟩ :=
     FiniteOrderSplitEigenspaceDecomposition.exists_decomposition r hr.pos hrF T.toLinearMap hTr
-  haveI : NeZero (r : F) := ⟨hrF⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot F r
+  have : NeZero (r : F) := ⟨hrF⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot F r
   have hcard : (nthRootsFinset r (1 : F)).card = r := hζ.card_nthRootsFinset
   set R : Finset F := nthRootsFinset r (1 : F) with hR
   have hmem : ∀ i, lam i ∈ R := fun i => by

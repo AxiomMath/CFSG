@@ -29,9 +29,11 @@ variable {G : Type} [Group G] [Finite G]
     ext x
     simp [mul_assoc]
 
+omit [Finite G] in
 theorem conjAct_apply (N : Subgroup G) (X : Set G) (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (n : ↥N) (x : ↥X) : ((conjAct N X hX n x : ↥X) : G) = (n : G) * x * (n : G)⁻¹ := rfl
 
+omit [Finite G] in
 theorem conjAct_eq_one_iff (N : Subgroup G) (X : Set G) (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (n : ↥N) : conjAct N X hX n = 1 ↔ ∀ x ∈ X, (n : G) * x * (n : G)⁻¹ = x := by
   constructor
@@ -46,6 +48,7 @@ theorem conjAct_eq_one_iff (N : Subgroup G) (X : Set G) (hX : ∀ n ∈ N, ∀ x
 
 @[expose] def nonid (F : Subgroup G) : Set G := {f | f ∈ F ∧ f ≠ 1}
 
+omit [Finite G] in
 theorem conj_mem_nonid {N F : Subgroup G} (hNF : ∀ n ∈ N, ∀ f ∈ F, n * f * n⁻¹ ∈ F) :
     ∀ n ∈ N, ∀ x ∈ nonid F, n * x * n⁻¹ ∈ nonid F := by
   intro n hn x hx
@@ -53,17 +56,19 @@ theorem conj_mem_nonid {N F : Subgroup G} (hNF : ∀ n ∈ N, ∀ f ∈ F, n * f
   calc x = n⁻¹ * (n * x * n⁻¹) * n := by group
     _ = 1 := by rw [h]; group
 
+omit [Finite G] in
 theorem card_nonid {F : Subgroup G} (hF : Nat.card F = 4) : Nat.card ↥(nonid F) = 3 := by
   have hset : nonid F = (F : Set G) \ {1} := by
     ext f
-    simp [nonid, Set.mem_diff]
+    simp [nonid]
   rw [hset, Nat.card_coe_set_eq,
-    Set.ncard_diff_singleton_of_mem (by simp : (1 : G) ∈ (F : Set G))]
+    Set.ncard_sdiff_singleton_of_mem (by simp : (1 : G) ∈ (F : Set G))]
   have h4 : (F : Set G).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]
     exact hF
   omega
 
+omit [Finite G] in
 theorem centralizer_nonid (F : Subgroup G) :
     centralizer (nonid F) = centralizer (F : Set G) := by
   ext g
@@ -123,8 +128,8 @@ theorem conjAct_surjective_of_card_three {K : Subgroup G} {X : Set G}
     (hρ : ρ ∈ K) (hl : lam ∈ K) (hρ3 : ρ ^ 3 = 1) (hl2 : lam * lam = 1)
     (hρm : ∃ x ∈ X, ρ * x * ρ⁻¹ ≠ x) (hlm : ∃ x ∈ X, lam * x * lam⁻¹ ≠ x) :
     Function.Surjective (conjAct K X hX) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha3 : (conjAct K X hX ⟨ρ, hρ⟩) ^ 3 = 1 := by
     rw [← map_pow]
     have : (⟨ρ, hρ⟩ : ↥K) ^ 3 = 1 := Subtype.ext (by simpa using hρ3)
@@ -162,12 +167,14 @@ theorem conjAct_surjective_of_card_three {K : Subgroup G} {X : Set G}
     Subgroup.eq_top_of_card_eq _ (hr.trans hperm.symm)
   exact MonoidHom.range_eq_top.mp htop
 
+omit [Finite G] in
 theorem exists_conj_of_surjective {N : Subgroup G} {X : Set G}
     (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X) (hs : Function.Surjective (conjAct N X hX))
     (σ : Equiv.Perm ↥X) : ∃ n ∈ N, ∀ x : ↥X, ((σ x : ↥X) : G) = n * x * n⁻¹ := by
   obtain ⟨n, rfl⟩ := hs σ
   exact ⟨n, n.2, fun x => rfl⟩
 
+omit [Finite G] in
 theorem surjective_of_exists_conj {N : Subgroup G} {X : Set G}
     (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (h : ∀ σ : Equiv.Perm ↥X, ∃ n ∈ N, ∀ x : ↥X, ((σ x : ↥X) : G) = n * x * n⁻¹) :
@@ -240,6 +247,7 @@ theorem card_eq_six_mul {N : Subgroup G} {X : Set G} (hX : ∀ n ∈ N, ∀ x �
     at h1
   omega
 
+omit [Finite G] in
 theorem exists_mul_centralizes {N K : Subgroup G} {X : Set G}
     (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (hK : ∀ σ : Equiv.Perm ↥X, ∃ k ∈ K, ∀ x : ↥X, ((σ x : ↥X) : G) = k * x * k⁻¹)

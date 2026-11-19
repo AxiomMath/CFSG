@@ -20,14 +20,16 @@ variable {X : Type} [Group X] [Finite X] {n : ℕ}
 section Certified
 
 
+omit [Finite X] in
 private theorem w16l_u3_odd_center (hX : IsU3Shape X n) :
     Odd (Nat.card (Subgroup.center X)) := by
   rcases (Nat.dvd_prime Nat.prime_three).1 hX.2.2 with h | h <;> rw [h] <;> decide
 
 private theorem w16l_u3_inf_center_eq_bot (hX : IsU3Shape X n) (R : Sylow 2 X) :
     (R : Subgroup X) ⊓ Subgroup.center X = ⊥ :=
-  CFSG.RankThree.OddKernel.inf_eq_bot_of_odd R.isPGroup' (w16l_u3_odd_center hX)
+  CFSG.RankThree.OddKernel.inf_eq_bot_of_odd R.isPGroup (w16l_u3_odd_center hX)
 
+omit [Finite X] in
 private theorem w16l_sylowCenter_le (R : Sylow 2 X) :
     sylowCenter R ≤ (R : Subgroup X) := by
   unfold sylowCenter

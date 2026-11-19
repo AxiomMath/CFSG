@@ -16,6 +16,7 @@ namespace KTCfg16
 
 variable {U V₀ V I K T Q : Subgroup G}
 
+omit [Finite G] in
 private lemma w16q_mem_sup_of_comm {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -29,28 +30,34 @@ private lemma w16q_mem_sup_of_comm {A B : Subgroup G}
     exact hx
   exact Set.mem_mul.mp hx'
 
+omit [Finite G] in
 private lemma w16q_comm_of_sq_one {x y : G} (hx : x * x = 1) (hy : y * y = 1)
     (hxy : (x * y) * (x * y) = 1) : x * y = y * x := by
   calc x * y = (x * y)⁻¹ := (inv_eq_of_mul_eq_one_right hxy).symm
     _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
     _ = y * x := by rw [inv_eq_of_mul_eq_one_right hy, inv_eq_of_mul_eq_one_right hx]
 
+omit [Finite G] in
 private lemma w16q_C_le_centralizer_V (h : KTCfg16 U V₀ V I K T Q) :
     T ⊓ centralizer (K : Set G) ≤ centralizer (V : Set G) :=
   le_trans inf_le_right (Subgroup.centralizer_le h.V_le_K)
 
+omit [Finite G] in
 private lemma w16q_C_le_centralizer_I (h : KTCfg16 U V₀ V I K T Q) :
     T ⊓ centralizer (K : Set G) ≤ centralizer (I : Set G) :=
   le_trans inf_le_right (Subgroup.centralizer_le h.I_le_K)
 
+omit [Finite G] in
 private lemma w16q_comm_I_C (h : KTCfg16 U V₀ V I K T Q) :
-    ∀ i ∈ I, ∀ c ∈ T ⊓ centralizer (K : Set G), i * c = c * i :=
-  fun i hi c hc => Subgroup.mem_centralizer_iff.mp hc.2 i (h.I_le_K hi)
+    ∀ i ∈ I, ∀ _c ∈ T ⊓ centralizer (K : Set G), i * _c = _c * i :=
+  fun i hi _c hc => Subgroup.mem_centralizer_iff.mp hc.2 i (h.I_le_K hi)
 
+omit [Finite G] in
 private lemma w16q_comm_V_C (h : KTCfg16 U V₀ V I K T Q) :
-    ∀ v ∈ V, ∀ c ∈ T ⊓ centralizer (K : Set G), v * c = c * v :=
-  fun v hv c hc => Subgroup.mem_centralizer_iff.mp (w16q_C_le_centralizer_V h hc) v hv
+    ∀ v ∈ V, ∀ _c ∈ T ⊓ centralizer (K : Set G), v * _c = _c * v :=
+  fun v hv _c hc => Subgroup.mem_centralizer_iff.mp (w16q_C_le_centralizer_V h hc) v hv
 
+omit [Finite G] in
 theorem I_inf_centralizer_le (h : KTCfg16 U V₀ V I K T Q) :
     I ⊓ centralizer (V : Set G) ≤ U ⊔ V₀ := by
   obtain ⟨v, hv, hvU⟩ := Set.not_subset.mp h.not_le
@@ -92,6 +99,7 @@ theorem I_inf_centralizer_K_le (h : KTCfg16 U V₀ V I K T Q) :
   have hxV : x ∈ V := h.le_V (I_inf_centralizer_le h hx1)
   exact V_inf_centralizer_le h ⟨hxV, hx.2⟩
 
+omit [Finite G] in
 theorem mul_self_mem_centralizer (h : KTCfg16 U V₀ V I K T Q) {y : G} (hy : y ∈ Q) :
     y * y ∈ centralizer (K : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -112,6 +120,7 @@ theorem mul_self_mem_centralizer (h : KTCfg16 U V₀ V I K T Q) {y : G} (hy : y 
   have := congrArg (· * k) hconj
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem isElementaryAbelian_sup (h : KTCfg16 U V₀ V I K T Q) :
     IsElementaryAbelian 2 ↥(I ⊔ (T ⊓ centralizer (K : Set G))) := by
   have hI : IsElementaryAbelian 2 ↥I :=
@@ -125,6 +134,7 @@ theorem isElementaryAbelian_sup (h : KTCfg16 U V₀ V I K T Q) :
   exact CFSG.QuasithinUnique.Setup.Campbell.isElementaryAbelian_sup_of_le_centralizer hI hC
     (w16q_C_le_centralizer_I h)
 
+omit [Finite G] in
 theorem inf_centralizer_eq_sup (h : KTCfg16 U V₀ V I K T Q) :
     T ⊓ centralizer (V : Set G) = V ⊔ (T ⊓ centralizer (K : Set G)) := by
   apply le_antisymm

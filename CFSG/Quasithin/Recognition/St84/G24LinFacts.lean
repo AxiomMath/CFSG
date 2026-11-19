@@ -176,9 +176,8 @@ private def quadDefectLinear {n d : ℕ} (R : Fin 3 → Matrix (Fin n) (Fin n) (
           (CFSG.Quasithin.St84.G24LE.cmOf x) (CFSG.Quasithin.St84.G24LE.testVec r.2.1))) r.2.2
     rw [hsq, hcm]
     simp only [CFSG.GroupTheory.quadMapOfCoeffs_smul, Matrix.mulVec_smul,
-      Pi.smul_apply, smul_add]
-    simp [Matrix.mulVec, dotProduct, Finset.mul_sum, Finset.sum_mul, mul_assoc,
-      mul_left_comm, mul_comm]
+      Pi.smul_apply]
+    simp [Matrix.mulVec, dotProduct, Finset.mul_sum]
     rw [mul_add, Finset.mul_sum]
 
 private theorem quadM_mulVec {n d : ℕ} (R : Fin 3 → Matrix (Fin n) (Fin n) (ZMod 2))
@@ -200,8 +199,7 @@ private theorem quadK_mulVec_inl {n d : ℕ} {sq : Fin n → Fin d → ZMod 2}
     (CFSG.Quasithin.St84.G24LE.quadK sq cm W *ᵥ c) (Sum.inl i, t) =
       c 0 * sq i t + c 1 * (W *ᵥ sq i) t := by
   simp [CFSG.Quasithin.St84.G24LE.quadK, CFSG.Quasithin.St84.G24LE.coeffVec,
-    Matrix.mulVec, Fin.sum_univ_two, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
-    mul_comm, mul_left_comm, mul_assoc]
+    Matrix.mulVec, mul_comm]
 
 private theorem quadK_mulVec_inr {n d : ℕ} {sq : Fin n → Fin d → ZMod 2}
     {cm : Fin n → Fin n → Fin d → ZMod 2} {W : Matrix (Fin d) (Fin d) (ZMod 2)}
@@ -209,8 +207,7 @@ private theorem quadK_mulVec_inr {n d : ℕ} {sq : Fin n → Fin d → ZMod 2}
     (CFSG.Quasithin.St84.G24LE.quadK sq cm W *ᵥ c) (Sum.inr ⟨(i, j), hij⟩, t) =
       c 0 * cm i j t + c 1 * (W *ᵥ cm i j) t := by
   simp [CFSG.Quasithin.St84.G24LE.quadK, CFSG.Quasithin.St84.G24LE.coeffVec,
-    Matrix.mulVec, Fin.sum_univ_two, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
-    mul_comm, mul_left_comm, mul_assoc]
+    Matrix.mulVec, mul_comm]
 
 private theorem zmod_two_cases (a : ZMod 2) : a = 0 ∨ a = 1 := by
   revert a
@@ -239,7 +236,7 @@ private theorem commM_mulVec (X : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
       · subst hq
         simp [CFSG.Quasithin.St84.G24LE.commM, commA, Matrix.single,
           Matrix.mul_apply, hp, Finset.sum_ite_eq]
-      · simp [CFSG.Quasithin.St84.G24LE.commM, commA, Matrix.single,
+      · simp [CFSG.Quasithin.St84.G24LE.commM, Matrix.single,
           Matrix.mul_apply, hp, hq]
   simp only [hentry, add_mul, Finset.sum_add_distrib]
   have h1 : (∑ p, ∑ q, (if p = r.2.1 then commA r.1 q r.2.2 else 0) * X p q) =
@@ -268,8 +265,7 @@ private theorem commK_mulVec (c : Fin 2 → ZMod 2) (i j : Fin 4) :
     (CFSG.Quasithin.St84.G24LE.commK *ᵥ c) (i, j) =
       c 0 * (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) i j +
         c 1 * CFSG.Quasithin.St84.G24LE.omegaN i j := by
-  simp [CFSG.Quasithin.St84.G24LE.commK, Matrix.mulVec, Fin.sum_univ_two,
-    Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_comm]
+  simp [CFSG.Quasithin.St84.G24LE.commK, Matrix.mulVec, mul_comm]
 
 private theorem omegaN_sq : CFSG.Quasithin.St84.G24LE.omegaN ^ 2 =
     (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) + CFSG.Quasithin.St84.G24LE.omegaN := by
@@ -393,21 +389,18 @@ theorem quad1_proportional {sq : Fin 8 → Fin 2 → ZMod 2}
   · refine ⟨1, by norm_num, fun v => ?_⟩
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul, zero_smul, zero_add] at hv
     simpa [pow_one] using hv
   · refine ⟨0, by norm_num, fun v => ?_⟩
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul, zero_smul, add_zero, Matrix.one_mulVec] at hv
     simpa using hv
   · refine ⟨2, by norm_num, fun v => ?_⟩
     have h2 : om ^ 2 = (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) + om := by decide
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul] at hv
     rw [← h2] at hv
     simpa using hv
 
@@ -531,22 +524,19 @@ theorem quad2_proportional {sq : Fin 6 → Fin 4 → ZMod 2}
   · refine ⟨1, by norm_num, fun v => ?_⟩
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul, zero_smul, zero_add] at hv
     simpa [pow_one] using hv
   · refine ⟨0, by norm_num, fun v => ?_⟩
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul, zero_smul, add_zero, Matrix.one_mulVec] at hv
     simpa using hv
   · refine ⟨2, by norm_num, fun v => ?_⟩
     have h2 : CFSG.Quasithin.St84.G24LE.omegaN ^ 2 =
         (1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) + CFSG.Quasithin.St84.G24LE.omegaN := by decide
     have hv := hquad v
     rw [h0, h1] at hv
-    simp only [one_smul, zero_smul, add_zero, zero_add, Matrix.one_mulVec,
-      Matrix.zero_mulVec] at hv
+    simp only [one_smul] at hv
     rw [← h2] at hv
     simpa using hv
 
@@ -626,16 +616,15 @@ private theorem v2Block_mul (U1 : Matrix (Fin 2) (Fin 2) (ZMod 2))
         mul_zero, Finset.sum_const_zero, add_zero]
     · rw [v2Block_castAdd_natAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4),
         Matrix.add_apply, Matrix.mul_apply, Matrix.mul_apply]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
-        v2Block_natAdd_natAdd, mul_zero, Finset.sum_const_zero, add_zero]
+      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_natAdd]
   · refine Fin.addCases (m := 2) (n := 4) (fun b => ?_) (fun d => ?_) j
     · rw [v2Block_natAdd_castAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4)]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
+      simp only [v2Block_castAdd_castAdd, v2Block_natAdd_castAdd,
         v2Block_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
     · rw [v2Block_natAdd_natAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4),
         Matrix.mul_apply]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
-        v2Block_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
+      simp only [v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
+        v2Block_natAdd_natAdd, zero_mul, Finset.sum_const_zero]
       ring
 
 private theorem v2Block_mul_upper_apply
@@ -668,7 +657,7 @@ private theorem v2Block_one_upper_entry (i : Fin 2) (j : Fin 4) :
     have hv := congrArg Fin.val hEq
     simp [Fin.castAdd, Fin.natAdd] at hv
     omega
-  simp [Matrix.one_apply, hne]
+  simp [hne]
 
 private theorem sum_fin_three (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
     (∑ k : Fin 3, N ^ (k : ℕ)) = 1 + N + N ^ 2 := by
@@ -722,7 +711,7 @@ private theorem v2Block_sq (X : Matrix (Fin 2) (Fin 4) (ZMod 2))
     (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) :
     v2Block 1 X N * v2Block 1 X N = v2Block 1 (X + X * N) (N * N) := by
   rw [v2Block_mul]
-  simp [Matrix.one_mul, Matrix.mul_one]
+  simp [Matrix.one_mul]
 
 private theorem ext2Map_add (X Y : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)) :
     CFSG.Quasithin.St84.G24LE.ext2Map (X + Y) =
@@ -731,7 +720,7 @@ private theorem ext2Map_add (X Y : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)) :
   fin_cases rho
   · change ((X 0 + Y 0) + (X 0 + Y 0) * aN) =
       (X 0 + X 0 * aN) + (Y 0 + Y 0 * aN)
-    simp only [Matrix.add_mul, Matrix.mul_add]
+    simp only [Matrix.add_mul]
     try abel
   · change ((X 1 + Y 1) * (1 + bN + bN ^ 2)) =
       X 1 * (1 + bN + bN ^ 2) + Y 1 * (1 + bN + bN ^ 2)
@@ -741,7 +730,7 @@ private theorem ext2Map_add (X Y : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)) :
         ∑ k : Fin 5, (aN * bN) ^ (k : ℕ)) =
       (X 1 + X 0 * bN) * (∑ k : Fin 5, (aN * bN) ^ (k : ℕ)) +
         (Y 1 + Y 0 * bN) * (∑ k : Fin 5, (aN * bN) ^ (k : ℕ))
-    simp only [Matrix.add_mul, Matrix.mul_add]
+    simp only [Matrix.add_mul]
     try abel
   · change (om ^ 2 * (X 2 + Y 2) + om * (X 2 + Y 2) * CFSG.Quasithin.St84.G24LE.omegaN +
         (X 2 + Y 2) * CFSG.Quasithin.St84.G24LE.omegaN ^ 2) =
@@ -812,7 +801,7 @@ private theorem ext2M_mulVec (X : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)) :
           · simp [matsOfVec, Pi.single_apply, Matrix.single, hj, Prod.ext_iff, eq_comm]
         · simp [matsOfVec, Pi.single_apply, Matrix.single, hs, Prod.ext_iff, eq_comm]
       · ext s j
-        simp [matsOfVec, Pi.single_apply, Matrix.single, ht, Prod.ext_iff, eq_comm]
+        simp [matsOfVec, ht, Prod.ext_iff, eq_comm]
     change CFSG.Quasithin.St84.G24LE.ext2Map (matsOfVec (Pi.single u (1 : ZMod 2)))
       r.1 r.2.1 r.2.2 = CFSG.Quasithin.St84.G24LE.ext2M r u
     rw [hX]
@@ -842,7 +831,7 @@ private theorem ext2Map_eq_zero_of_relations
     simpa [v2Block_pow_unit, hbN, sum_fin_three, Matrix.mul_one] using h1
   have hAB : v2Block 1 (X 0) aN * v2Block 1 (X 1) bN =
       v2Block 1 (X 1 + X 0 * bN) (aN * bN) := by
-    simpa [v2Block_mul, Matrix.one_mul, Matrix.mul_one]
+    simp [v2Block_mul, Matrix.one_mul]
   have h2' : (v2Block 1 (X 1 + X 0 * bN) (aN * bN)) ^ 5 = 1 := by
     simpa [hAB] using h2
   have hX2 : (X 1 + X 0 * bN) *
@@ -911,8 +900,7 @@ private theorem ext2K_mulVec_apply (c : ((Fin 2 × Fin 4) ⊕ Fin 2) → ZMod 2)
       c (Sum.inr 0) * CFSG.Quasithin.St84.G24LE.nonsplitX t s j +
       c (Sum.inr 1) * (om * CFSG.Quasithin.St84.G24LE.nonsplitX t) s j := by
   simp [CFSG.Quasithin.St84.G24LE.ext2K, Matrix.mulVec, dotProduct,
-    Fintype.sum_sum_type, Fin.sum_univ_two, Pi.add_apply, Pi.smul_apply,
-    smul_eq_mul, mul_comm, mul_left_comm, mul_assoc]
+    Fintype.sum_sum_type, Fin.sum_univ_two, mul_comm]
   abel
 
 private theorem shiftX_sum (c : Fin 2 × Fin 4 → ZMod 2) (t : Fin 3) :
@@ -927,7 +915,7 @@ private theorem shiftX_sum (c : Fin 2 × Fin 4 → ZMod 2) (t : Fin 3) :
     by_cases h : i = p.1 ∧ j = p.2
     · rcases h with ⟨rfl, rfl⟩
       simp
-    · simp [Matrix.single, h]
+    · simp [Matrix.single]
   fin_cases t
   · change (∑ p : Fin 2 × Fin 4, c p • Matrix.single p.1 p.2 1) * aN +
         ∑ p : Fin 2 × Fin 4, c p • Matrix.single p.1 p.2 1 =
@@ -1033,8 +1021,7 @@ theorem ext2_solutions {X : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)}
         L * CFSG.Quasithin.St84.G24LE.nonsplitX t) s j := by
       rw [shiftX_sum (fun p => c (Sum.inl p)) t, Matrix.add_apply,
         Matrix.sum_apply]
-      simp [L, Matrix.add_mul, Matrix.smul_mul, Matrix.one_mul, Pi.add_apply,
-        Pi.smul_apply, smul_eq_mul]
+      simp [L, Matrix.add_mul, Matrix.smul_mul, Matrix.one_mul, smul_eq_mul]
       abel
 
 end

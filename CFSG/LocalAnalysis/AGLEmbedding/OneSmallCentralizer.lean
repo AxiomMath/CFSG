@@ -53,7 +53,7 @@ theorem D1ComponentConfigU.exists_sylow_centralizer (hcfg : D1ComponentConfigU p
   obtain ⟨S, hS⟩ := (hRp.comap_subtype (K := C ⊓ M)).exists_le_sylow
   set Q₀ : Subgroup G := (S : Subgroup (C ⊓ M : Subgroup G)).map (C ⊓ M).subtype
   have hQ₀CM : Q₀ ≤ C ⊓ M := Subgroup.map_subtype_le _
-  have hQ₀p : IsPGroup p Q₀ := S.isPGroup'.map _
+  have hQ₀p : IsPGroup p Q₀ := S.isPGroup.map _
   have hRQ₀ : R ≤ Q₀ := fun r hr =>
     ⟨⟨r, hRC hr, hRM hr⟩, hS (show (⟨r, hRC hr, hRM hr⟩ : (C ⊓ M : Subgroup G)) ∈
       R.comap (C ⊓ M).subtype from hr), rfl⟩
@@ -81,11 +81,11 @@ theorem D1ComponentConfigU.exists_sylow_centralizer (hcfg : D1ComponentConfigU p
   have hQ₀T : Q₀ ≤ (T : Subgroup C).map C.subtype := fun q hq =>
     ⟨⟨q, (hQ₀CM hq).1⟩, hT (show (⟨q, (hQ₀CM hq).1⟩ : C) ∈ Q₀.comap C.subtype from hq), rfl⟩
   have hTeq : (T : Subgroup C).map C.subtype = Q₀ := by
-    refine eq_of_isPGroup_of_le_of_normalizer (T.isPGroup'.map _) hQ₀T fun g hgT hgN => ?_
+    refine eq_of_isPGroup_of_le_of_normalizer (T.isPGroup.map _) hQ₀T fun g hgT hgN => ?_
     have hgC : g ∈ C := Subgroup.map_subtype_le _ hgT
     have hY : Q₀ ⊔ Subgroup.zpowers g ≤ (T : Subgroup C).map C.subtype :=
       sup_le hQ₀T (Subgroup.zpowers_le.mpr hgT)
-    exact hmax _ ((T.isPGroup'.map _).to_le hY) le_sup_left
+    exact hmax _ ((T.isPGroup.map _).to_le hY) le_sup_left
       (sup_le hQ₀CM (Subgroup.zpowers_le.mpr ⟨hgC, hNQ₀ hgN⟩))
       (Subgroup.mem_sup_right (Subgroup.mem_zpowers g))
   refine ⟨(c : G)⁻¹, hm, T, ?_, ?_⟩

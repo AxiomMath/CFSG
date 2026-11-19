@@ -134,9 +134,9 @@ theorem chunkOK_sound {t : KT} {sz N : Nat} {cs : List (List Nat)} {c : Nat} (hc
       have h'' : Nat.blt (c + 1) cs.length = true := by simpa using h'
       rw [hb] at h''
       exact Bool.false_ne_true h''
-    rw [if_neg this]
+    rw [ite_eq_right this]
   · have : c + 1 < cs.length := by simpa using hb
-    rw [if_pos this]
+    rw [ite_eq_left this]
 
 theorem flatten_facts {t : KT} {sz N : Nat} : ∀ (cs : List (List Nat)) (base : Nat), cs ≠ [] →
     (∀ c (hc : c < cs.length),
@@ -165,11 +165,11 @@ theorem flatten_facts {t : KT} {sz N : Nat} : ∀ (cs : List (List Nat)) (base :
       · simp only [List.getElem_cons_succ, List.length_cons] at g2 ⊢
         have hcond : c + 1 + 1 < rest.length + 1 + 1 ↔ c + 1 < rest.length + 1 := by omega
         by_cases hq : c + 1 < rest.length + 1
-        · rw [if_pos hq]
-          rw [if_pos (hcond.2 hq)] at g2
+        · rw [ite_eq_left hq]
+          rw [ite_eq_left (hcond.2 hq)] at g2
           omega
-        · rw [if_neg hq]
-          rw [if_neg (fun h' => hq (hcond.1 h'))] at g2
+        · rw [ite_eq_right hq]
+          rw [ite_eq_right (fun h' => hq (hcond.1 h'))] at g2
           omega)
     rw [List.flatten_cons]
     refine ⟨fun i hi => ?_, by rw [List.length_append]; omega⟩
@@ -221,7 +221,7 @@ theorem KT.chunks_sound {t : KT} {sz N : Nat} {cs : List (List Nat)} (hne : cs �
   have hp : cs.flatten.Pairwise (· < ·) := flatten_pairwise cs (fun c hc' => by
     obtain ⟨-, g2, g3⟩ := hc c hc'
     refine ⟨fun hlt hnil => ?_, g3⟩
-    rw [if_pos hlt, hnil] at g2
+    rw [ite_eq_left hlt, hnil] at g2
     simp [Nat.mul_succ] at g2
     omega)
   simp only [Nat.zero_add] at f1 f2

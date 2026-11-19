@@ -30,7 +30,7 @@ theorem comm_mem_iff_mem_of_isSimpleGroup {R N P J : Subgroup G} {X : Type} [Gro
     { carrier := {a | ∀ x ∈ P, ⁅(a : G), x⁆ ∈ J}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         intro x hx
         have e : ⁅((a * b : ↥R) : G), x⁆ =
             (a : G) * ⁅(b : G), x⁆ * (a : G)⁻¹ * ⁅(a : G), x⁆ := by
@@ -39,13 +39,13 @@ theorem comm_mem_iff_mem_of_isSimpleGroup {R N P J : Subgroup G} {X : Type} [Gro
         rw [e]
         exact J.mul_mem (hJ _ a.2 _ (hb x hx)) (ha x hx)
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         intro x _
         rw [Subgroup.coe_one, commutatorElement_one_left]
         exact J.one_mem
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         intro x hx
         have e : ⁅((a⁻¹ : ↥R) : G), x⁆ = (a : G)⁻¹ * ⁅(a : G), x⁆⁻¹ * ((a : G)⁻¹)⁻¹ := by
           simp only [Subgroup.coe_inv, commutatorElement_def]
@@ -67,8 +67,8 @@ theorem comm_mem_iff_mem_of_isSimpleGroup {R N P J : Subgroup G} {X : Type} [Gro
     intro a ha
     rw [hker, Subgroup.mem_subgroupOf] at ha
     exact (hmem a).mpr (hN _ ha)
-  haveI := hsimple
-  haveI : (K₀.map φ.rangeRestrict).Normal := hK₀n.map _ φ.rangeRestrict_surjective
+  have := hsimple
+  have : (K₀.map φ.rangeRestrict).Normal := hK₀n.map _ φ.rangeRestrict_surjective
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K₀.map φ.rangeRestrict) with hbot | htop
   · intro r hr
     refine ⟨fun h => ?_, fun h x hx => hN r h x hx⟩
@@ -114,7 +114,7 @@ theorem exists_comm_not_mem_of_hom (E : ElemMatrixIso Q X) (hQ : (polarBilin Q).
   push Not at hcon
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   have huu'' : polar Q u' u ≠ 0 := by rwa [polar_comm]
   obtain ⟨y, hy, hny⟩ := exists_nonA2_of_map_Lom E hQ h4 φ hu' huu' hL₂
@@ -165,8 +165,8 @@ private theorem sec715_CN_conj (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) 
 
 private theorem sec715_Z0_conj (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
-    ∀ g ∈ Rt M (LB M Q B) t, ∀ y ∈ Z0, g * y * g⁻¹ ∈ Z0 := fun g hg y hy =>
-  (Subgroup.mem_normalizer_iff.mp (hZ0.mem_normalizer (fun ρ hρ y hy =>
+    ∀ _g ∈ Rt M (LB M Q B) t, ∀ y ∈ Z0, _g * y * _g⁻¹ ∈ Z0 := fun _g hg y hy =>
+  (Subgroup.mem_normalizer_iff.mp (hZ0.mem_normalizer (fun _ρ hρ y hy =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hc.Rt_le_M t hρ)) y).mp hy) hg) y).mp hy
 
 private theorem sec715_plus_data (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)

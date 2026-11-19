@@ -23,7 +23,7 @@ theorem isComponent_map_pCore_of_mem_thetaComponents {L : Subgroup H}
     (hL : L ∈ thetaComponents 3 H)
     (hθ : CFSG.pCore 2 L = aschbacherSolvableCore 3 L) :
     CFSG.IsComponent (L.map (QuotientGroup.mk' (CFSG.pCore 2 H))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpi : (CFSG.pCore 2 L).map L.subtype = L ⊓ CFSG.pCore 2 H := by
     have h := CFSG.LocalCores.prime_set_core_subnormal_intersection
       (G := H) {q : Nat.Primes | (q : ℕ) = 2} hL.2.1
@@ -99,7 +99,7 @@ theorem eq_or_eq_or_eq_of_isComponent {Q : Type*} [Group Q] [Finite Q]
   have h12 : K₁ ≠ K₂ := fun he => h (Or.inl he)
   have h13 : K₁ ≠ K₃ := fun he => h (Or.inr (Or.inl he))
   have h23 : K₂ ≠ K₃ := fun he => h (Or.inr (Or.inr he))
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hnc : ∀ K : Subgroup Q, CFSG.IsComponent K →
       ∃ e ∈ K, orderOf e = 5 ∧ ∃ c ∈ K, e * c ≠ c * e := by
     intro K hK

@@ -78,14 +78,14 @@ theorem comm_levi_scL {g : Matrix (Fin 3) (Fin 3) (ZMod p)}
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [coe_leviHom, coe_scL, Matrix.scalar_apply, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply, h02, h12, h20, h21] <;> ring
+      h02, h12, h20, h21] <;> ring
 
 theorem transpose_leviHom_scL (a : (ZMod p)ˣ) :
     ((leviHom p (scL p a) : SL(3, ZMod p)) : Matrix (Fin 3) (Fin 3) (ZMod p))ᵀ =
       ((leviHom p (scL p a) : SL(3, ZMod p)) : Matrix (Fin 3) (Fin 3) (ZMod p)) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_leviHom, coe_scL, Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [coe_leviHom, coe_scL, Matrix.scalar_apply]
 
 
 theorem linClass_zmod
@@ -177,8 +177,7 @@ theorem f3_core_lin
   have htr : c = 1 := by
     have h1 := congrArg Matrix.trace hconj
     rw [Matrix.trace_units_conj] at h1
-    simp [coe_zt, Matrix.trace_fin_three, Matrix.scalar_apply, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.diagonal_apply] at h1
+    simp [coe_zt, Matrix.trace_fin_three, Matrix.scalar_apply] at h1
     exact h1.symm
   have hcomm : (g : Matrix (Fin 3) (Fin 3) (ZMod p)) *
       ((zt p : SL(3, ZMod p)) : Matrix (Fin 3) (Fin 3) (ZMod p)) =

@@ -35,8 +35,8 @@ theorem false_of_caseI {X S L Q : Subgroup G} (hA : CFSG.AGLEmbedding.Asc81bHyp 
     exact CFSG.Quasithin.H13.I51.isPGroup_pCoreOf _
   have hC1 : C ≠ ⊥ := by
     have hS1 : S ≠ ⊥ := hA.twoRadical.2.1
-    haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hS1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hS1
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hbot := hSp.bot_lt_center
     obtain ⟨z, hz1⟩ := (Subgroup.ne_bot_iff_exists_ne_one (H := Subgroup.center S)).1
       (bot_lt_iff_ne_bot.1 hbot)

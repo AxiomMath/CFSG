@@ -51,7 +51,7 @@ theorem char_dvd_card_of_isFundamentalOver {X : Type} [Group X] [Finite X]
   hK X q r Kb h hr hr2 (hrq.trans (dvd_mul_right q (q ^ 2 - 1)))
 
 theorem three_dvd_card_of_mem_delta_two (D : Data G) {V₀ V L : Subgroup G} {r q : ℕ}
-    (hC : Ctx17_6 D V₀ V L r q) {H X : Subgroup G} (hXL : X ≤ L)
+    (_hC : Ctx17_6 D V₀ V L r q) {H X : Subgroup G} (_hXL : X ≤ L)
     (hL2 : IsL2Over17 (Bar2 X) q) (hH : H = D.T ⊔ X) : 3 ∣ Nat.card H := by
   have hBar : 3 ∣ Nat.card (Bar2 X) := three_dvd_card_of_isL2Over17_abs hL2
   have hX : 3 ∣ Nat.card X :=
@@ -59,7 +59,7 @@ theorem three_dvd_card_of_mem_delta_two (D : Data G) {V₀ V L : Subgroup G} {r 
   exact hX.trans (Subgroup.card_dvd_of_le (by rw [hH]; exact le_sup_right))
 
 theorem three_dvd_card_of_mem_delta_three (D : Data G) (hK : K_G176FunOrder)
-    {V₀ V L : Subgroup G} {r q : ℕ} (hC : Ctx17_6 D V₀ V L r q)
+    {V₀ V L : Subgroup G} {r q : ℕ} (_hC : Ctx17_6 D V₀ V L r q)
     {x : G} {X H : Subgroup G}
     (hXLx : X ≤ L.map (MulAut.conj x).toMonoidHom) (hH : H = D.T ⊔ X)
     (hKb : let Lx := L.map (MulAut.conj x).toMonoidHom
@@ -121,11 +121,11 @@ theorem gap17_6_O2Rest_of_k_one (D : Data G) (hK : K_G176FunOrder) (hk : D.k = 1
   have h3 : 3 ∣ Nat.card H := by
     by_cases h2 : P17_12_2 q L
     · have hHeq := hH
-      rw [Delta17_12, dif_neg h1, dif_pos h2] at hHeq
+      rw [Delta17_12, dite_eq_right h1, dite_eq_left h2] at hHeq
       obtain ⟨X, hXL, hperm, hL2, hH'⟩ := hHeq
       exact three_dvd_card_of_mem_delta_two D hC hXL hL2 hH'
     · have hHeq := hH
-      rw [Delta17_12, dif_neg h1, dif_neg h2] at hHeq
+      rw [Delta17_12, dite_eq_right h1, dite_eq_right h2] at hHeq
       obtain ⟨x, hx, X, hXLx, hO2, hH', hKb⟩ := hHeq
       exact three_dvd_card_of_mem_delta_three D hK hC hXLx hH' hKb
   exact CFSG.GroupTheory.twoResidual_not_le_conjSubgroup_of_isStronglyPEmbedded Nat.prime_three
@@ -175,14 +175,14 @@ theorem gap17_6_O2Rest_of_char (D : Data G) (hSg : UC6S846.SigmaStd D)
     UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hC.memL) hr
   have hrdvd : r ∣ Nat.card H := by
     have hHeq := hH
-    rw [Delta17_12, dif_neg h1, dif_neg h2] at hHeq
+    rw [Delta17_12, dite_eq_right h1, dite_eq_right h2] at hHeq
     obtain ⟨x, hx, X, hXLx, hO2, hH', hKb⟩ := hHeq
     exact char_dvd_card_of_mem_delta_three D hK hC hXLx hH' hKb
   exact CFSG.GroupTheory.twoResidual_not_le_conjSubgroup_of_isStronglyPEmbedded hrp hr2 hHM
     hrdvd hsp g hg
 
 @[expose] def Gap17_6_O2RestChar (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   V₀ ≠ ⊥ → D.k = 2 → ¬ P17_12_1 r q L → ¬ P17_12_2 q L → r ∉ D.sig →
     ∀ H ∈ Delta17_12 D (fundPred q) r q L, ∀ g : G, g ∉ D.M →
       ¬ twoResidual H ≤ conjSubgroup D.M g
@@ -204,7 +204,7 @@ theorem gap17_6_O2Rest_of_inputs (D : Data G) {V₀ V : Subgroup G} (h82 : F08.R
       omega
     by_cases h2 : P17_12_2 q L
     · have hHeq := hH
-      rw [Delta17_12, dif_neg h1, dif_pos h2] at hHeq
+      rw [Delta17_12, dite_eq_right h1, dite_eq_left h2] at hHeq
       obtain ⟨X, hXL, hperm, hL2, hH'⟩ := hHeq
       exact (false_of_ree_case_two D h82 hk2 hKrank hC h2 hXL hL2).elim
     · by_cases hr : r ∈ D.sig

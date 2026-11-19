@@ -46,7 +46,7 @@ theorem exists_vecFunMod {K K₁ U Z : Subgroup G} [(Z.subgroupOf U).Normal] {v 
   change (QuotientGroup.mk _ : ↥U ⧸ Z.subgroupOf U) = QuotientGroup.mk _
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
   have h2 := (Subgroup.mem_normalizer_iff.mp (hZK x.2) _).mp h1
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv] at h2 ⊢
+  simp only [Subgroup.coe_mul, InvMemClass.coe_inv] at h2 ⊢
   convert h2 using 1
   group
 
@@ -65,13 +65,13 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
   classical
   set K₁ : Subgroup G := K ⊓ Subgroup.normalizer (V : Set G) with hK₁def
   have S : FiveSetup K K₁ N := D.setup
-  haveI : Fintype (Cosets K K₁) := Fintype.ofFinite _
+  have : Fintype (Cosets K K₁) := Fintype.ofFinite _
   have hcard : Fintype.card (Cosets K K₁) = 5 := by
     rw [← Nat.card_eq_fintype_card]
     exact S.card_cosets
-  letI : CommGroup ↥U := { (inferInstance : Group ↥U) with
+  let : CommGroup ↥U := { (inferInstance : Group ↥U) with
     mul_comm := fun x y => Subtype.ext (D.u_comm x x.2 y y.2) }
-  haveI : (Z.subgroupOf U).Normal := inferInstance
+  have : (Z.subgroupOf U).Normal := inferInstance
   have hU : ∀ k ∈ K, k * v * k⁻¹ ∈ U := fun k hk => D.u_gen k hk v hvV
   obtain ⟨f, hf⟩ := exists_vecFunMod (K₁ := K₁) (U := U) (Z := Z) hU hZK hK₁
   have hW2 : ∀ w : ↥U ⧸ Z.subgroupOf U, w * w = 1 := by
@@ -98,8 +98,7 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
           change f (QuotientGroup.mk (g * k)) = φ (f (QuotientGroup.mk k))
           rw [hf, hf, hφ]
           rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv, Subtype.coe_mk,
-            coe_conjAut]
+          simp only [Subgroup.coe_mul, InvMemClass.coe_inv, coe_conjAut]
           convert Z.one_mem using 1
           group
   obtain ⟨a, haA, ha1, b, hbA, hb1, hab⟩ := exists_two_ne_one D.a_card
@@ -165,8 +164,7 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
       have hk' : a * (k : G) * a⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.mp haK k).1 k.2
       have h2 := (Subgroup.mem_normalizer_iff.mp (hZK hk') (v⁻¹ * (a * v * a⁻¹))).mp
         (hA a haA)
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv, Subtype.coe_mk,
-        coe_conjAut] at h2 ⊢
+      simp only [Subgroup.coe_mul, InvMemClass.coe_inv, coe_conjAut] at h2 ⊢
       convert h2 using 1
       group
   have hfb : ∀ ω, f (conjPerm K K₁ b hbK hbK₁ ω) = θb (f ω) := by
@@ -178,8 +176,7 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
       have hk' : b * (k : G) * b⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.mp hbK k).1 k.2
       have h2 := (Subgroup.mem_normalizer_iff.mp (hZK hk') (v⁻¹ * (b * v * b⁻¹))).mp
         (hA b hbA)
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv, Subtype.coe_mk,
-        coe_conjAut] at h2 ⊢
+      simp only [Subgroup.coe_mul, InvMemClass.coe_inv, coe_conjAut] at h2 ⊢
       convert h2 using 1
       group
   have hfixed : ∀ ω, θb (f ω * θa (f ω)) = f ω * θa (f ω) := by
@@ -220,7 +217,7 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
           _ = (c : G) := by group
       change (b * (c : G) * b⁻¹)⁻¹ * (c : G) ∈ Z
       rw [hbcc]
-      simpa using Z.one_mem
+      simp
   have key := five_point_const' (Ω := Cosets K K₁) (W := ↥U ⧸ Z.subgroupOf U) hcard hW2 f
     ω₁ htrans (conjPerm K K₁ a haK haK₁) (conjPerm K K₁ b hbK hbK₁) θa θb hfa hfb hsq hcomm
     (hfix1 a haK haK₁) (hfix1 b hbK hbK₁) hua hub huab hfixed
@@ -228,7 +225,7 @@ theorem five_conjugates_mod {V K N T R A U : Subgroup G} (D : FiveData V K N T R
   have h1 := key (QuotientGroup.mk ⟨k, hk⟩)
   rw [hf, hf] at h1
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf] at h1
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv, Subtype.coe_mk] at h1
+  simp only [Subgroup.coe_mul, InvMemClass.coe_inv] at h1
   have h2 : ((k * v * k⁻¹)⁻¹ * (1 * v * 1⁻¹))⁻¹ ∈ Z := Z.inv_mem h1
   have h3 : ((k * v * k⁻¹)⁻¹ * (1 * v * 1⁻¹))⁻¹ = v⁻¹ * (k * v * k⁻¹) := by group
   rwa [h3] at h2

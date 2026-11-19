@@ -58,8 +58,7 @@ noncomputable def quotientUnit (g : S) : (Module.End F (W ⧸ U))ˣ where
     intro y
     have h : ((g : (Module.End F W)ˣ) : Module.End F W) *
         (((g⁻¹ : ↥S) : (Module.End F W)ˣ) : Module.End F W) = 1 := by
-      simpa [Subgroup.coe_inv] using congrArg (fun u : (Module.End F W)ˣ =>
-        (u : Module.End F W)) (Units.mul_inv ((g : (Module.End F W)ˣ)))
+      simp
     simp only [Submodule.mapQ_apply]
     change Submodule.Quotient.mk ((((g : (Module.End F W)ˣ) : Module.End F W) *
       (((g⁻¹ : ↥S) : (Module.End F W)ˣ) : Module.End F W)) y) = Submodule.Quotient.mk y
@@ -72,8 +71,7 @@ noncomputable def quotientUnit (g : S) : (Module.End F (W ⧸ U))ˣ where
     intro y
     have h : (((g⁻¹ : ↥S) : (Module.End F W)ˣ) : Module.End F W) *
         ((g : (Module.End F W)ˣ) : Module.End F W) = 1 := by
-      simpa [Subgroup.coe_inv] using congrArg (fun u : (Module.End F W)ˣ =>
-        (u : Module.End F W)) (Units.inv_mul ((g : (Module.End F W)ˣ)))
+      simp
     simp only [Submodule.mapQ_apply]
     change Submodule.Quotient.mk (((((g⁻¹ : ↥S) : (Module.End F W)ˣ) : Module.End F W) *
       ((g : (Module.End F W)ˣ) : Module.End F W)) y) = Submodule.Quotient.mk y
@@ -129,6 +127,7 @@ private theorem isMulCommutative_range_quotient
     (IsPGroup.of_surjective hS (quotientHom hUinv).rangeRestrict
       (quotientHom hUinv).rangeRestrict_surjective)
 
+omit [Finite F] [Module.Finite F W] in
 private theorem eq_one_of_fixes_invariant
     {S : Subgroup (Module.End F W)ˣ} {U : Submodule F W} (h3F : (3 : F) ≠ 0)
     (hexp : ∀ x ∈ S, x ^ 3 = 1) {c : ↥S}
@@ -228,7 +227,7 @@ theorem isMulCommutative_of_invariant_submodule
     {S : Subgroup (Module.End F W)ˣ} (hS : IsPGroup 3 S)
     (hexp : ∀ x ∈ S, x ^ 3 = 1)
     (h3F : (3 : F) ≠ 0) (h3card : ¬ 3 ∣ Nat.card F)
-    (U : Submodule F W) (hU0 : U ≠ ⊥) (hUt : U ≠ ⊤)
+    (U : Submodule F W) (_hU0 : U ≠ ⊥) (_hUt : U ≠ ⊤)
     (hUinv : ∀ g ∈ S, ∀ w ∈ U, ((g : Module.End F W) w) ∈ U)
     (hU : Module.finrank F U < 3) (hQ : Module.finrank F (W ⧸ U) < 3) :
     IsMulCommutative S := by
@@ -284,9 +283,9 @@ private theorem nontrivial_of_exists_noncommuting {F W : Type} [Field F] [AddCom
     (hna : ∃ x ∈ D, ∃ x' ∈ D, x * x' ≠ x' * x) : Nontrivial W := by
   rcases subsingleton_or_nontrivial W with h | h
   · exfalso
-    haveI : Subsingleton W := h
-    haveI : Subsingleton (Module.End F W) := inferInstance
-    haveI : Subsingleton (Module.End F W)ˣ := inferInstance
+    have : Subsingleton W := h
+    have : Subsingleton (Module.End F W) := inferInstance
+    have : Subsingleton (Module.End F W)ˣ := inferInstance
     obtain ⟨x, hx, x', hx', hne⟩ := hna
     exact hne (Subsingleton.elim _ _)
   · exact h
@@ -338,7 +337,7 @@ private theorem isMulCommutative_of_three_not_dvd_sub_one {q : ℕ} [Fact q.Prim
   have he_ne1 : e ≠ 1 := by
     intro he1
     have h1 : 3 ∣ q ^ 1 - 1 :=
-      (hpeq 1).mpr (by simpa [he1] using (one_dvd 1 : (1 : ℕ) ∣ 1))
+      (hpeq 1).mpr (by simp [he1])
     exact h3dvd (by simpa using h1)
   have he_dvd2 : e ∣ 2 := (hpeq 2).mp hq2mod
   have he2 : e = 2 := by
@@ -395,12 +394,12 @@ private theorem kernel_scalar_invariant {q : ℕ} [Fact q.Prime]
             (algebraMap (ZMod q) (Module.End (ZMod q) W) lam w)).symm
     _ = 0 := by rw [hw, map_zero]
 
-private theorem isMulCommutative_of_scalar_kernel {q : ℕ} [Fact q.Prime] (hq3 : q ≠ 3)
+private theorem isMulCommutative_of_scalar_kernel {q : ℕ} [Fact q.Prime] (_hq3 : q ≠ 3)
     {W : Type} [AddCommGroup W] [Module (ZMod q) W] [Module.Finite (ZMod q) W]
     (hW : Module.finrank (ZMod q) W ≤ 3) {D : Subgroup (Module.End (ZMod q) W)ˣ}
     (hD : IsPGroup 3 D) (hexp : ∀ x ∈ D, x ^ 3 = 1)
     (h3F : (3 : ZMod q) ≠ 0) (h3card : ¬ 3 ∣ Nat.card (ZMod q))
-    {z : (Module.End (ZMod q) W)ˣ} (hz : z ∈ D)
+    {z : (Module.End (ZMod q) W)ˣ} (_hz : z ∈ D)
     (hzc : z ∈ Subgroup.centralizer (D : Set (Module.End (ZMod q) W)ˣ)) {lam : ZMod q}
     (hker : LinearMap.ker ((z : Module.End (ZMod q) W) -
       algebraMap (ZMod q) (Module.End (ZMod q) W) lam) ≠ ⊤)
@@ -471,7 +470,7 @@ private theorem exists_eq_algebraMap_of_three_dvd {q : ℕ} [Fact q.Prime] (hq3 
     (h3F : (3 : ZMod q) ≠ 0) (h3card : ¬ 3 ∣ Nat.card (ZMod q)) (h3dvd : 3 ∣ q - 1) :
     ∃ c : ZMod q, (z : Module.End (ZMod q) W) = algebraMap (ZMod q) _ c := by
   classical
-  haveI : Nontrivial W := nontrivial_of_exists_noncommuting hna
+  have : Nontrivial W := nontrivial_of_exists_noncommuting hna
   obtain ⟨ω, hω3, hω1, hωsum⟩ := exists_primitive_cube_root h3dvd
   let f : Module.End (ZMod q) W := (z : Module.End (ZMod q) W)
   have hz3 : f ^ 3 = 1 := congrArg Units.val (hexp z hz)
@@ -516,7 +515,7 @@ theorem exists_eq_algebraMap_of_mem_centralizer {q : ℕ} [Fact q.Prime] (hq3 : 
     (hzc : z ∈ Subgroup.centralizer (D : Set (Module.End (ZMod q) W)ˣ)) :
     ∃ c : ZMod q, (z : Module.End (ZMod q) W) = algebraMap (ZMod q) _ c := by
   classical
-  haveI : Nontrivial W := nontrivial_of_exists_noncommuting hna
+  have : Nontrivial W := nontrivial_of_exists_noncommuting hna
   have hqnotdvd : ¬ 3 ∣ q := by
     intro h
     have hqeq : 3 = q :=
@@ -723,14 +722,14 @@ private theorem relIndex_centralizer_le_nine {q : ℕ} [Fact q.Prime] (hq3 : q �
     (hna : ∃ x ∈ D, ∃ x' ∈ D, x * x' ≠ x' * x) :
     (Subgroup.centralizer (D : Set (Module.End (ZMod q) W)ˣ)).relIndex D ≤ 9 := by
   classical
-  haveI : Nontrivial W := nontrivial_of_exists_noncommuting hna
+  have : Nontrivial W := nontrivial_of_exists_noncommuting hna
   set C : Subgroup (Module.End (ZMod q) W)ˣ :=
     Subgroup.centralizer (D : Set (Module.End (ZMod q) W)ˣ) with hC
   set Z : Subgroup (Module.End (ZMod q) W)ˣ := D ⊓ C with hZ
   have hZC : Z.relIndex D = C.relIndex D := by
     rw [hZ, inf_comm]
     exact Subgroup.inf_relIndex_right C D
-  haveI : Fintype (↥D ⧸ Z.subgroupOf D) := Fintype.ofFinite _
+  have : Fintype (↥D ⧸ Z.subgroupOf D) := Fintype.ofFinite _
   let scal : (↥D ⧸ Z.subgroupOf D) → ↥D → ZMod q := fun c g =>
     Classical.choose (exists_eq_algebraMap_of_mem_centralizer (q := q) hq3 hW hD hexp hna
       (z := ((⁅g, Quotient.out c⁆ : ↥D) : (Module.End (ZMod q) W)ˣ))
@@ -798,11 +797,11 @@ private theorem k_ne_one_of_center_quotient {q : ℕ} [Fact q.Prime]
   intro h1
   have hcard : Nat.card (↥D ⧸ Subgroup.center ↥D) = 3 := by
     rw [hk, h1]; norm_num
-  haveI : IsCyclic (↥D ⧸ Subgroup.center ↥D) :=
+  have : IsCyclic (↥D ⧸ Subgroup.center ↥D) :=
     isCyclic_of_prime_card (p := 3) hcard
   have hcommD : ∀ a b : ↥D, a * b = b * a :=
-    commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center ↥D))
-      (by rw [QuotientGroup.ker_mk'])
+    (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center ↥D))
+      (by rw [QuotientGroup.ker_mk'])).is_comm.comm
   obtain ⟨x, hx, x', hx', hne⟩ := hna
   exact hne (congrArg Subtype.val (hcommD ⟨x, hx⟩ ⟨x', hx'⟩))
 
@@ -901,7 +900,7 @@ private theorem critical_subgroup_normalizer {q : ℕ} [Fact q.Prime]
     (hD0char : D0.Characteristic) {y : (Module.End (ZMod q) W)ˣ}
     (hy : y ∈ Subgroup.normalizer (T : Set (Module.End (ZMod q) W)ˣ)) :
     y ∈ Subgroup.normalizer (D0.map T.subtype : Set (Module.End (ZMod q) W)ˣ) := by
-  letI : D0.Characteristic := hD0char
+  let : D0.Characteristic := hD0char
   rw [Subgroup.mem_normalizer_iff]
   intro d
   constructor
@@ -1089,7 +1088,7 @@ theorem glThreeAutFour_of_pow_thirtySix {q : ℕ} [Fact q.Prime] (hq3 : q ≠ 3)
     intro x hx
     have hx1 : x = 1 := Subgroup.mem_bot.mp (hTbot ▸ hx)
     simp [hx1]
-  · haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTbot
+  · have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTbot
     obtain ⟨D0, hD0char, hD0ne, hD0comm, hD0exp, hD0fix⟩ :=
       CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := 3) (by norm_num) hT
     let D : Subgroup (Module.End (ZMod q) W)ˣ := D0.map T.subtype

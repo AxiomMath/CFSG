@@ -108,14 +108,14 @@ theorem cor2Beta_decomp_Y_commute {S : Sylow 2 G} {t : G} (hs : ShultSetup S t) 
       ∀ n ∈ N, ∀ h ∈ normalClosure ({t} : Set G), n * h = h * n) :
     ∀ y ∈ Y, ∀ h ∈ normalClosure ({t} : Set G), y * h = h * y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := normalClosure ({t} : Set G) with hH
   have hHn : H.Normal := inferInstance
   have htH : t ∈ H := subset_normalClosure (Set.mem_singleton t)
-  haveI hYn : Y.Normal := hd.Y_normal
-  haveI hEn : E.Normal := hd.E_normal
+  have hYn : Y.Normal := hd.Y_normal
+  have hEn : E.Normal := hd.E_normal
   obtain ⟨O, hOn, hOodd, hO2, hOp⟩ := hd.Y_compl
-  haveI := hOn
+  have := hOn
   set O' : Subgroup G := O.map Y.subtype with hO'
   have hO'Y : O' ≤ Y := by
     rintro _ ⟨o, -, rfl⟩

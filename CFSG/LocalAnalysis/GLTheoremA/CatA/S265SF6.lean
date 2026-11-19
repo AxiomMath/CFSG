@@ -34,7 +34,7 @@ theorem card_le_of_nl_primeFormD (hF : UnitaryFieldData 2 m F) (hn : 3 ≤ n) (h
     (hXD : X ≤ primeFormD hF ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))
     (hX : IsElemAbelian p X) (hnl : ∀ α ∈ X, α ≠ 1 → GLAPLayer p (fixSubgroup α) = ⊥) :
     Nat.card X ≤ p ^ (n / p + 1) := by
-  haveI := hF.finite
+  have := hF.finite
   have hp2 := TableBUD.ne_two_of_dvd hF hpq
   have hne : ¬(n = 3 ∧ 2 ^ m = 2) := fun h' => by have := h'.2; omega
   set ρ := primeFormConjHom hF (idGram F n)

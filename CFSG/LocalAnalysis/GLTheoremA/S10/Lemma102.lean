@@ -48,9 +48,11 @@ theorem lemma102_twoPart_le_of_dvd {a b : ℕ} (hb : b ≠ 0) (h : a ∣ b) : tw
   map_one' := by ext; simp
   map_mul' a b := by ext; simp [mul_assoc]
 
+omit [Finite G] in
 theorem lemma102_conjHomL_val {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) (l : ↥L) :
     ((lemma102_conjHomL hg l : ↥L) : G) = g⁻¹ * (l : G) * g := rfl
 
+omit [Finite G] in
 theorem lemma102_mem_glaPPrimeCore_iff {p : ℕ} {H : Subgroup G} {x : G} (hx : x ∈ H) :
     (⟨x, hx⟩ : ↥H) ∈ GLAPPrimeCore p ↥H ↔ x ∈ GLAPPrimeCoreOf p H := by
   unfold GLAPPrimeCoreOf
@@ -63,6 +65,7 @@ theorem lemma102_mem_glaPPrimeCore_iff {p : ℕ} {H : Subgroup G} {x : G} (hx : 
     rw [← this]
     exact hz
 
+omit [Finite G] in
 theorem lemma102_conjHomL_mem_glaPPrimeCore {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     GLAPPrimeCore p ↥L ≤ (GLAPPrimeCore p ↥L).comap (lemma102_conjHomL hg) := by
@@ -82,9 +85,11 @@ theorem lemma102_conjHomL_mem_glaPPrimeCore {p : ℕ} {L : Subgroup G} {g : G}
   QuotientGroup.map (GLAPPrimeCore p ↥L) (GLAPPrimeCore p ↥L) (lemma102_conjHomL hg)
     (lemma102_conjHomL_mem_glaPPrimeCore hg)
 
+omit [Finite G] in
 theorem lemma102_conjQ_mk {p : ℕ} {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G))
     (l : ↥L) : lemma102_conjQ p hg (QuotientGroup.mk l) = QuotientGroup.mk (lemma102_conjHomL hg l) := rfl
 
+omit [Finite G] in
 theorem lemma102_indRel_iff_conjQ {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (q q' : PQuot p L) :
     indRel p L g q q' ↔ lemma102_conjQ p hg q = q' := by
@@ -102,6 +107,7 @@ theorem lemma102_indRel_iff_conjQ {p : ℕ} {L : Subgroup G} {g : G}
     Subgroup (PQuot p L) :=
   MonoidHom.eqLocus (lemma102_conjQ p hg) (MonoidHom.id _)
 
+omit [Finite G] in
 theorem lemma102_centCard2_eq_fixSub (p : ℕ) {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     centCard2 p L g = twoPart (Nat.card (lemma102_fixSub p hg)) := by
@@ -120,16 +126,17 @@ theorem r2_le_card2 (p : ℕ) (B L : Subgroup G) : r2 p B L ≤ card2 p L := by
   classical
   unfold r2
   by_cases h1 : R2TD4 p B L
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     obtain ⟨hp3, -⟩ := h1
     subst hp3
     exact Nat.sqrt_le_self _
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : ∃ b ∈ B, FieldOn p b L
-    · rw [dif_pos h2]
+    · rw [dite_eq_left h2]
       exact lemma102_centCard2_le_card2 p h2.choose_spec.2.1
-    · rw [dif_neg h2]
+    · rw [dite_eq_right h2]
 
+omit [Finite G] in
 theorem exists_r2prop_of_lt {B L : Subgroup G} (h : r2 p B L < card2 p L) : ∃ b ∈ B, R2Prop p b L := by
   classical
   unfold r2 at h
@@ -137,17 +144,18 @@ theorem exists_r2prop_of_lt {B L : Subgroup G} (h : r2 p B L < card2 p L) : ∃ 
   · obtain ⟨hp3, htd, b, hbB, -, hbn⟩ := h1
     subst hp3
     exact ⟨b, hbB, Or.inr ⟨rfl, htd, hbn⟩⟩
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : ∃ b ∈ B, FieldOn p b L
     · obtain ⟨b, hbB, hbf⟩ := h2
       exact ⟨b, hbB, Or.inl hbf⟩
-    · rw [dif_neg h2] at h
+    · rw [dite_eq_right h2] at h
       exact absurd h (lt_irrefl _)
 
+omit [Finite G] in
 theorem ne_one_of_nonInner {g : G} {L : Subgroup G} (h : NonInner p g L) : g ≠ 1 := by
   rintro rfl
   refine h.2 ⟨1, Subgroup.one_mem _, fun y hy => ?_⟩
-  simp [Subgroup.one_mem]
+  simp
 
 theorem r2_ge_cent (hin : R2Inputs G p) {X L B : Subgroup G} (hL : GLAPComponent p X L)
     (hch : IsChevSimple 2 (PSimple p L)) (hB : IsElemAbelian p B) {b : G} (hbB : b ∈ B)
@@ -155,19 +163,19 @@ theorem r2_ge_cent (hin : R2Inputs G p) {X L B : Subgroup G} (hL : GLAPComponent
   classical
   unfold r2
   by_cases h1 : R2TD4 p B L
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     obtain ⟨hp3, htd, -⟩ := h1
     subst hp3
     rcases hprop with hf | ⟨-, -, hn⟩
     · exact absurd hf (hin.aut.td4_not_field X L b hL rfl htd)
     · exact hin.cent X L b hL hch htd (hB.2 b hbB) hn
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     have hf : FieldOn p b L := by
       rcases hprop with hf | ⟨hp3, htd, hn⟩
       · exact hf
       · exact absurd ⟨hp3, htd, b, hbB, ne_one_of_nonInner hn, hn⟩ h1
     have h2 : ∃ b ∈ B, FieldOn p b L := ⟨b, hbB, hf⟩
-    rw [dif_pos h2]
+    rw [dite_eq_left h2]
     exact (hin.indep X L B hL hch hB b hbB _ h2.choose_spec.1 hf h2.choose_spec.2).le
 
 theorem r2_eq_cent (hin : R2Inputs G p) {X L B : Subgroup G} (hL : GLAPComponent p X L)
@@ -175,15 +183,17 @@ theorem r2_eq_cent (hin : R2Inputs G p) {X L B : Subgroup G} (hL : GLAPComponent
     (hf : FieldOn p b L) (hn : ¬ R2TD4 p B L) : r2 p B L = centCard2 p L b := by
   classical
   unfold r2
-  rw [if_neg hn]
+  rw [ite_eq_right hn]
   have h2 : ∃ b ∈ B, FieldOn p b L := ⟨b, hbB, hf⟩
-  rw [dif_pos h2]
+  rw [dite_eq_left h2]
   exact hin.indep X L B hL hch hB _ h2.choose_spec.1 b hbB h2.choose_spec.2 hf
 
+omit [Finite G] in
 theorem lemma102_closureIn_mono_right {I H H' : Subgroup G} (h : H ≤ H') : closureIn I H ≤ closureIn I H' := by
   rw [closureIn_eq_iSup_gLBConj, closureIn_eq_iSup_gLBConj]
   exact iSup₂_le fun g hg => le_biSup (fun g => GLBConj g I) (h hg)
 
+omit [Finite G] in
 theorem lemma102_glaPLayer_le {p : ℕ} (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun _ h => h.1
 
@@ -193,7 +203,7 @@ theorem lemma102_I_le {p : ℕ} (hp : p.Prime) (h183 : Input18_3_4) (hKP : CFSG.
     Ipart p L x' ≤ closureIn L' (Subgroup.zpowers x) ∧
       (x ∈ Subgroup.normalizer (L' : Set G) → Ipart p L x' ≤ L') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hx, hL⟩, ⟨hB', hx', hL'c⟩, hxB', -, hx'B', hx'L, hL'⟩ := hrel
   have hB'Cx' : B' ≤ Subgroup.centralizer ({x'} : Set G) :=
     isElemAbelian_le_centralizer hB'.1 hx'B'
@@ -249,7 +259,7 @@ theorem lemma102_ker_le {p : ℕ} (hp : p.Prime) {I K : Subgroup G} (hIK : I ≤
     ((QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK)).ker ≤
       GLAPPrimeCore p ↥I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ψ : ↥I →* PQuot p K :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK) with hψ
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := by
@@ -275,10 +285,12 @@ theorem lemma102_inf_le {p : ℕ} (hp : p.Prime) {H K : Subgroup G} (hHK : H ≤
     exact (lemma102_mem_glaPPrimeCore_iff (hHK hxH)).2 hxO
   exact (lemma102_mem_glaPPrimeCore_iff hxH).1 (lemma102_ker_le hp hHK hmem)
 
+omit [Finite G] in
 theorem lemma102_closureIn_mono_left {I I' H : Subgroup G} (h : I ≤ I') : closureIn I H ≤ closureIn I' H := by
   rw [closureIn_eq_iSup_gLBConj, closureIn_eq_iSup_gLBConj]
   exact iSup₂_le fun g hg => (gLBConj_mono (g := g) h).trans (le_biSup (fun g => GLBConj g I') hg)
 
+omit [Finite G] in
 theorem lemma102_closureIn_le_of {L H K : Subgroup G} (hLK : L ≤ K) (hHK : H ≤ K) : closureIn L H ≤ K := by
   rw [closureIn_eq_iSup_gLBConj]
   refine iSup₂_le fun g hg => ?_
@@ -292,7 +304,7 @@ theorem lemma102_card_dvd_range {p : ℕ} (hp : p.Prime) {I K : Subgroup G} (hIK
     Nat.card (PQuot p I) ∣ Nat.card
       ((QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK)).range := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ψ : ↥I →* PQuot p K :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK) with hψ
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := by
@@ -333,7 +345,7 @@ theorem step_chev2 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Sub
     IsChevSimple 2 (PSimple p L) := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := hrel.1
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hS.2.2
   have hS' := hrel.2.1
@@ -362,7 +374,7 @@ theorem step_chev2 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Sub
   ·
     obtain ⟨e1⟩ := hin.i1122 B' x' L' x hS'.1 hS'.2.1 hL'c hxB' hxN (Ipart p L x') hIdiag
     obtain ⟨hsimp, hnab⟩ := chev_pSimple_simple_nonabelian hp hL'c
-    haveI := hsimp
+    have := hsimp
     have hZ : Subgroup.center (PSimple p L') = ⊥ := chev_center_eq_bot_of_simple_nonabelian hnab
     have hcard : Nat.card (Subgroup.center (PQuot p (Ipart p L x'))) = 1 := by
       rw [Nat.card_congr (Subgroup.centerCongr e1).toEquiv, hZ]
@@ -377,7 +389,7 @@ theorem step_dvd (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subgr
     Nat.card (PQuot p L) ∣ Nat.card (PQuot p L') := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := hrel.1
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hS.2.2
   have hx'B' : x' ∈ B' := hrel.2.2.2.2.1
@@ -403,7 +415,7 @@ theorem step_card2 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Sub
 theorem lemma102_perm_fixed {p : ℕ} (hp : p.Prime) {α : Type} [Finite α] (σ : Equiv.Perm α)
     (hσ : σ ^ p = 1) (hcop : ¬ p ∣ Nat.card α) : ∃ a, σ a = a := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hH : IsPGroup p (Subgroup.zpowers σ) := by
     intro g
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -501,7 +513,7 @@ theorem lemma102_fix_dvd {p : ℕ} (hp : p.Prime) {I₀ L' : Subgroup G} {b : G}
     (hb1 : b ∈ Subgroup.normalizer (I₀ : Set G)) (hbp : b ^ p = 1) :
     Nat.card (lemma102_fixSub p hb1) ∣ Nat.card (lemma102_fixSub p hb0) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O : Subgroup G := GLAPPrimeCoreOf p I₀ with hOdef
   have hbO : b ∈ Subgroup.normalizer (O : Set G) :=
     normalizer_le_normalizer_glaPPrimeCoreOf p I₀ hb1
@@ -586,7 +598,7 @@ theorem lemma102_isPGroup_of_central {Y : Type} [Group Y] [Finite Y] {p : ℕ} (
     (hY : CFSG.pPrimeCore p Y = ⊥) (Z : Subgroup Y) (hZ : Z ≤ Subgroup.center Y) :
     IsPGroup p Z := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [IsPGroup.iff_orderOf]
   rintro ⟨g, hg⟩
   have hgc : g ∈ Subgroup.center Y := hZ hg
@@ -664,6 +676,7 @@ open scoped commutatorElement
 def lemma105NN (𝒞 : Set (Subgroup G)) (O K : Subgroup G) : Subgroup G :=
   (⨆ (C : Subgroup G) (_ : C ∈ 𝒞 ∧ C ≠ K), C) ⊔ O
 
+omit [Finite G] in
 theorem lemma102_core_le {p : ℕ} (H : Subgroup G) : GLAPPrimeCoreOf p H ≤ H := by
   unfold GLAPPrimeCoreOf
   exact Subgroup.map_subtype_le _
@@ -683,6 +696,7 @@ theorem lemma102_comm_mod {p : ℕ} (hp : p.Prime) {X J : Subgroup G} {𝒞 : Se
   have h1 := (mem_centModSubgroup.1 (hle hc)).2 d hd
   exact lemma102_core_comp_le hp hJX (hcomp D hD) (hJ D hD) h1
 
+omit [Finite G] in
 theorem lemma102_O_normal {p : ℕ} {J : Subgroup G} {j n : G} (hj : j ∈ J)
     (hn : n ∈ GLAPPrimeCoreOf p J) : j * n * j⁻¹ ∈ GLAPPrimeCoreOf p J :=
   (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf p J hj) n).1 hn
@@ -770,12 +784,14 @@ theorem lemma102_J_le_normalizer_NN {p : ℕ} (hp : p.Prime) {X J : Subgroup G} 
     group
 
 
+omit [Finite G] in
 theorem lemma102_cm_conj {p : ℕ} {K : Subgroup G} {i m : G} (hi : i ∈ Subgroup.normalizer (K : Set G))
     (hm : m ∈ centModSubgroup p K) : i * m * i⁻¹ ∈ centModSubgroup p K := by
   have hN : i ∈ Subgroup.normalizer ((centModSubgroup p K : Subgroup G) : Set G) :=
     normalizer_le_normalizer_centModSubgroup p K hi
   exact (Subgroup.mem_normalizer_iff.1 hN m).1 hm
 
+omit [Finite G] in
 theorem lemma102_decomp {p : ℕ} {I K : Subgroup G} (hIN : I ≤ Subgroup.normalizer (K : Set G))
     (hcov : K ≤ I ⊔ centModSubgroup p K) :
     ∀ k ∈ K, ∃ i ∈ I, ∃ m ∈ centModSubgroup p K, k = i * m := by
@@ -824,7 +840,7 @@ theorem lemma102_comm_mul_central_right {Y : Type} [Group Y] {a b z : Y} (hz : �
 theorem lemma102_le_comm_sup {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPComponent p X K) :
     K ≤ ⁅K, K⁆ ⊔ GLAPPrimeCoreOf p K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
   let f : K →* PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective _
@@ -861,7 +877,7 @@ theorem lemma102_cover {p : ℕ} (hp : p.Prime) {X J : Subgroup G} {𝒞 : Set (
     (hcov : K ≤ I ⊔ centModSubgroup p K) :
     J ≤ I ⊔ lemma105NN 𝒞 (GLAPPrimeCoreOf p J) K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJ : ∀ C ∈ 𝒞, C ≤ J := fun C hC => hJdef ▸ le_iSup₂ (f := fun C (_ : C ∈ 𝒞) => C) C hC
   have hOJ : GLAPPrimeCoreOf p J ≤ J := lemma102_core_le J
   have hNJ : lemma105NN 𝒞 (GLAPPrimeCoreOf p J) K ≤ J :=
@@ -879,7 +895,7 @@ theorem lemma102_cover {p : ℕ} (hp : p.Prime) {X J : Subgroup G} {𝒞 : Set (
     lemma102_J_le_normalizer_NN hp hJX hcomp hJdef hJ hK
   have hNn : ((lemma105NN 𝒞 (GLAPPrimeCoreOf p J) K).subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).2 hJnorm
-  haveI := hNn
+  have := hNn
   have hJI : J ≤ Subgroup.normalizer (K : Set G) := by
     rw [hJdef]; exact lemma102_J_le_normalizer hp hcomp hK
   have hIN : I ≤ Subgroup.normalizer (K : Set G) := hIJ.trans hJI
@@ -972,6 +988,7 @@ theorem lemma102_cover {p : ℕ} (hp : p.Prime) {X J : Subgroup G} {𝒞 : Set (
         le_sup_left) hx)
 
 
+omit [Finite G] in
 theorem lemma102_conj_J {𝒞 : Set (Subgroup G)} {x : G}
     (hperm : ∀ e ∈ Subgroup.zpowers x, ∀ C ∈ 𝒞, GLBConj e C ∈ 𝒞)
     {e : G} (he : e ∈ Subgroup.zpowers x) :
@@ -1056,11 +1073,13 @@ theorem lemma102_central {p : ℕ} (hp : p.Prime) {X J : Subgroup G} {𝒞 : Set
   exact fun j hj => (hJS hj).2
 
 
+omit [Finite G] in
 theorem lemma102_card_subgroupOf {H K : Subgroup G} (hHK : H ≤ K) :
     Nat.card ↥(H.subgroupOf K) = Nat.card ↥H :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHK).toEquiv
 
-theorem lemma102_card_inf_subgroupOf {J H K : Subgroup G} (hH : H ≤ J) (hK : K ≤ J) :
+omit [Finite G] in
+theorem lemma102_card_inf_subgroupOf {J H K : Subgroup G} (hH : H ≤ J) (_hK : K ≤ J) :
     Nat.card ↥(H.subgroupOf J ⊓ K.subgroupOf J) = Nat.card ↥(H ⊓ K : Subgroup G) := by
   apply Nat.card_congr
   exact
@@ -1083,6 +1102,7 @@ theorem lemma102_card_split {J A N : Subgroup G} (hAJ : A ≤ J) (hNJ : N ≤ J)
   rw [lemma102_card_subgroupOf hAJ, lemma102_card_inf_subgroupOf hAJ hNJ] at h2
   exact h2
 
+omit [Finite G] in
 theorem lemma102_mem_core_iff {H : Subgroup G} {x : G} (hx : x ∈ H) (p : ℕ) :
     (⟨x, hx⟩ : ↥H) ∈ GLAPPrimeCore p ↥H ↔ x ∈ GLAPPrimeCoreOf p H := by
   unfold GLAPPrimeCoreOf
@@ -1095,12 +1115,12 @@ theorem lemma102_mem_core_iff {H : Subgroup G} {x : G} (hx : x ∈ H) (p : ℕ) 
     rw [← this]
     exact hz
 
-theorem lemma102_K0_card {p : ℕ} (hp : p.Prime) {X K₀ N : Subgroup G} (hK₀ : GLAPComponent p X K₀)
+theorem lemma102_K0_card {p : ℕ} (hp : p.Prime) {X K₀ N : Subgroup G} (_hK₀ : GLAPComponent p X K₀)
     (hON : GLAPPrimeCoreOf p K₀ ≤ N)
     (hcomm : ∀ k ∈ K₀, ∀ t ∈ K₀ ⊓ N, ⁅k, t⁆ ∈ GLAPPrimeCoreOf p K₀) :
     ∃ k : ℕ, Nat.card ↥K₀ = Nat.card (PSimple p K₀) * p ^ k * Nat.card ↥(K₀ ⊓ N : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O' : Subgroup ↥K₀ := GLAPPrimeCore p ↥K₀
   let Nt : Subgroup ↥K₀ := (K₀ ⊓ N).subgroupOf K₀
   let f : ↥K₀ →* PQuot p K₀ := QuotientGroup.mk' O'
@@ -1153,13 +1173,13 @@ theorem lemma102_K0_card {p : ℕ} (hp : p.Prime) {X K₀ N : Subgroup G} (hK₀
   rw [← hNtN, ← hgc, hK', hQ, hZcard, ← hPS]
   ring
 
-theorem lemma102_I_card {p : ℕ} (hp : p.Prime) {J I N : Subgroup G} (hIJ : I ≤ J) (hNJ : N ≤ J)
+theorem lemma102_I_card {p : ℕ} (hp : p.Prime) {J I N : Subgroup G} (hIJ : I ≤ J) (_hNJ : N ≤ J)
     (hON : GLAPPrimeCoreOf p J ≤ N)
     (hcent : ∀ t ∈ I ⊓ N, ∀ j ∈ J, ⁅j, t⁆ ∈ GLAPPrimeCoreOf p J) :
     ∃ r : ℕ, Nat.card ↥(I ⊓ N : Subgroup G) =
       Nat.card ↥(I ⊓ GLAPPrimeCoreOf p J : Subgroup G) * p ^ r := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIN : I ⊓ N ≤ J := inf_le_left.trans hIJ
   let O' : Subgroup ↥J := GLAPPrimeCore p ↥J
   let f : ↥J →* PQuot p J := QuotientGroup.mk' O'
@@ -1211,7 +1231,7 @@ theorem lemma102_O_le {p : ℕ} (hp : p.Prime) {X : Subgroup G} {𝒞 : Set (Sub
     (hcard : Nat.card (PQuot p I) = Nat.card (PSimple p K₀)) :
     GLAPPrimeCoreOf p I ≤ GLAPPrimeCoreOf p J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJX : J ≤ X := hJdef ▸ iSup₂_le fun C hC => (hcomp C hC).1
   have hJ : ∀ C ∈ 𝒞, C ≤ J := fun C hC => hJdef ▸ le_iSup₂ (f := fun C (_ : C ∈ 𝒞) => C) C hC
   have hOJ : GLAPPrimeCoreOf p J ≤ J := lemma102_core_le J
@@ -1228,7 +1248,7 @@ theorem lemma102_O_le {p : ℕ} (hp : p.Prime) {X : Subgroup G} {𝒞 : Set (Sub
         le_sup_left).trans le_sup_right)
   have hNnorm : J ≤ Subgroup.normalizer (N : Set G) := lemma102_J_le_normalizer_NN hp hJX hcomp hJdef hJ hK₀
   have hNn : (N.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).2 hNnorm
-  haveI := hNn
+  have := hNn
   have hcovJ : J ≤ I ⊔ N := lemma102_cover hp hJX hcomp hJdef hK₀ hIJ hcov
   have hK0comm : ∀ k ∈ K₀, ∀ t ∈ K₀ ⊓ N, ⁅k, t⁆ ∈ GLAPPrimeCoreOf p K₀ := by
     intro k hk t ht
@@ -1543,6 +1563,7 @@ private theorem lemma102_cd_fixB {A Q : Type} [Group A] [Group Q] [Finite A] [Fi
   exact h2.le
 
 
+omit [Finite G] in
 private theorem lemma102_cd_centralizer_sup (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -1556,6 +1577,7 @@ private theorem lemma102_cd_centralizer_sup (A B : Subgroup G) :
     · exact h1 a ha
     · exact h2 a hb
 
+omit [Finite G] in
 private theorem lemma102_cd_decomp {J A N : Subgroup G} (hAJ : A ≤ J) (hNJ : N ≤ J)
     [hN : (N.subgroupOf J).Normal] (hJ : J ≤ A ⊔ N) :
     ∀ j ∈ J, ∃ a ∈ A, ∃ n ∈ N, j = a * n := by
@@ -1570,16 +1592,19 @@ private theorem lemma102_cd_decomp {J A N : Subgroup G} (hAJ : A ≤ J) (hNJ : N
   have := congrArg Subtype.val hjan
   simpa using this.symm
 
+omit [Finite G] in
 private theorem lemma102_cd_comm_zpowers {x b e : G} (hxb : Commute x b) (he : e ∈ Subgroup.zpowers x) :
     e * b = b * e := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 he
   exact (hxb.zpow_left k).eq
 
+omit [Finite G] in
 private theorem lemma102_cd_gLBConj_sup (g : G) (A B : Subgroup G) :
     GLBConj g (A ⊔ B) = GLBConj g A ⊔ GLBConj g B := by
   unfold GLBConj
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem lemma102_cd_gLBConj_join (b : G) (𝒞' : Set (Subgroup G))
     (h : ∀ C ∈ 𝒞', GLBConj b C = C) : GLBConj b (⨆ C ∈ 𝒞', C) = ⨆ C ∈ 𝒞', C := by
   have key : ∀ C : Subgroup G, (⨆ (_ : C ∈ 𝒞'), GLBConj b C) = ⨆ (_ : C ∈ 𝒞'), C := by
@@ -1592,7 +1617,7 @@ private theorem lemma102_cd_gLBConj_join (b : G) (𝒞' : Set (Subgroup G))
 private theorem lemma102_cd_quasi_false {X K : Subgroup G} (hp : p.Prime) (hK : GLAPComponent p X K)
     (hcomm : ∀ c ∈ K, ∀ c' ∈ K, ⁅c, c'⁆ ∈ GLAPPrimeCoreOf p K) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hK
   let f : K →* PQuot p K := QuotientGroup.mk' (GLAPPrimeCore p ↥K)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective _
@@ -1617,7 +1642,7 @@ private theorem lemma102_cd_quasi_false {X K : Subgroup G} (hp : p.Prime) (hK : 
   have htop : (⊤ : Subgroup (PQuot p K)) ≤ ⊥ := by
     rw [← hmapt]
     exact hcom_bot
-  haveI : Nontrivial (PQuot p K ⧸ Subgroup.center (PQuot p K)) := hq.2.toNontrivial
+  have : Nontrivial (PQuot p K ⧸ Subgroup.center (PQuot p K)) := hq.2.toNontrivial
   obtain ⟨y, hy⟩ := exists_ne (1 : PQuot p K ⧸ Subgroup.center (PQuot p K))
   apply hy
   obtain ⟨z, rfl⟩ := QuotientGroup.mk_surjective y
@@ -1635,7 +1660,7 @@ private theorem lemma102_cd_b (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B'
       (∀ C ∈ 𝒞, ∀ C' ∈ 𝒞, ∃ e ∈ Subgroup.zpowers x, GLBConj e C = C') ∧ L' ∈ 𝒞 := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p (cx x) L := hrel.1.2.2
   have hL'c : GLAPComponent p (cx x') L' := hrel.2.1.2.2
   have hx'L : CentMod p L x' := hrel.2.2.2.2.2.1
@@ -1675,6 +1700,7 @@ private theorem lemma102_cd_b (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B'
   exact ⟨𝒞, h𝒞c, hJ.symm, h𝒞perm, h𝒞tr, hL'𝒞⟩
 
 
+omit [Finite G] in
 private theorem lemma102_cd_comm_of_mod {J N : Subgroup G} (hNJ : N ≤ J) [hN : (N.subgroupOf J).Normal]
     {a₀ b₀ n₁ n₂ : G} (ha₀ : a₀ ∈ J) (hb₀ : b₀ ∈ J) (hn₁ : n₁ ∈ N) (hn₂ : n₂ ∈ N)
     (hc : ⁅a₀, b₀⁆ ∈ N) : ⁅a₀ * n₁, b₀ * n₂⁆ ∈ N := by
@@ -1721,7 +1747,7 @@ private theorem lemma102_cd_c {X X₀ J N I K : Subgroup G} {b : G} (hp : p.Prim
     (hKc : GLAPComponent p X K) (hOKN : GLAPPrimeCoreOf p K ≤ N) (hKnN : ¬ K ≤ N) :
     GLBConj b I = I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbJ : GLBConj b J = J := mem_normalizer_iff_gLBConj_eq.1 hbJn
   have hbNn : b ∈ Subgroup.normalizer (N : Set G) := mem_normalizer_iff_gLBConj_eq.2 hbN
   have hI'comp : GLAPComponent p X₀ (GLBConj b I) := by
@@ -1776,7 +1802,7 @@ private theorem lemma102_cd_core {X : Subgroup G} {𝒞 : Set (Subgroup G)} (hp 
     (hbfix : ∀ C ∈ 𝒞, GLBConj b C = C) (hbK : b ∈ Subgroup.normalizer (K : Set G)) :
     b ∈ Subgroup.normalizer (I : Set G) ∧ centCard2 p I b ≤ centCard2 p K b := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨J, hJdef⟩ : ∃ J : Subgroup G, J = ⨆ C ∈ 𝒞, C := ⟨_, rfl⟩
   have hIJ' : I ≤ J := hJdef ▸ hIJ
@@ -1803,7 +1829,7 @@ private theorem lemma102_cd_core {X : Subgroup G} {𝒞 : Set (Subgroup G)} (hp 
     rw [hNdef]; exact lemma102_J_le_normalizer_NN hp hJX hcomp hJdef hJ hK
   have hNn : (N.subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).2 hNnorm
-  haveI := hNn
+  have := hNn
   have hKnN : ¬ K ≤ N := fun h => lemma102_cd_not_le_N hp hJX hcomp hJdef hK (hNdef ▸ h)
   have hbJ : GLBConj b J = J := by
     rw [hJdef]; exact lemma102_cd_gLBConj_join b 𝒞 hbfix
@@ -1948,7 +1974,7 @@ private theorem lemma102_cd_main (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B
     centCard2 p (closureIn (Ipart p L x') (Subgroup.zpowers b)) b ≤ centCard2 p L' b := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hxB' : x ∈ B' := hrel.2.2.1
   have hx'B' : x' ∈ B' := hrel.2.2.2.2.1
@@ -2098,7 +2124,7 @@ theorem lemma102_fix_card_eq {p : ℕ} (hp : p.Prime) {I₀ L₀ : Subgroup G} {
     (hb0 : b ∈ Subgroup.normalizer (L₀ : Set G)) (hb1 : b ∈ Subgroup.normalizer (I₀ : Set G)) :
     Nat.card (lemma102_fixSub p hb1) = Nat.card (lemma102_fixSub p hb0) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO_eq : GLAPPrimeCoreOf p I₀ = I₀ ⊓ GLAPPrimeCoreOf p L₀ :=
     (cover_facts hp hIL₀ hsup).1
   have hOI : GLAPPrimeCore p ↥I₀ ≤ (GLAPPrimeCore p ↥L₀).comap (Subgroup.inclusion hIL₀) := by
@@ -2149,13 +2175,13 @@ theorem lemma102_fix_card_eq {p : ℕ} (hp : p.Prime) {I₀ L₀ : Subgroup G} {
     exact hFbij.1.eq_iff.symm
   exact Nat.card_congr (Equiv.subtypeEquiv e (fun q => hfix q))
 
-theorem cent_cover (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subgroup G} {x x' : G}
+theorem cent_cover (hc : S10Ctx G p) (_hin : Lemma102Inputs G p) {B B' L L' : Subgroup G} {x x' : G}
     (hrel : PumpRel p (B, x, L) (B', x', L')) {b : G} (hbB' : b ∈ B') :
     centCard2 p (closureIn L (Subgroup.zpowers b)) b ≤
       centCard2 p (closureIn (Ipart p L x') (Subgroup.zpowers b)) b := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := hrel.1
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hS.2.2
   have hxB' : x ∈ B' := hrel.2.2.1
@@ -2214,11 +2240,13 @@ theorem cent_cover (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Sub
     exact (lemma102_mem_glaPPrimeCore_iff ((Subgroup.inclusion hIL₀ ⟨y, hy⟩)⁻¹ * l).2).2 hXO
   rw [lemma102_centCard2_eq_fixSub p hb0, lemma102_centCard2_eq_fixSub p hb1, lemma102_fix_card_eq hp hIL₀ hsup hb0 hb1]
 
+omit [Finite G] in
 theorem lemma102_conj_inv_mem {L : Subgroup G} {u y : G} (hu : u ∈ Subgroup.normalizer (L : Set G))
     (hy : y ∈ L) : u⁻¹ * y * u ∈ L := by
   have h := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hu) y).1 hy
   rwa [inv_inv] at h
 
+omit [Finite G] in
 theorem lemma102_mem_glaPPrimeCoreOf_comm {p : ℕ} {L : Subgroup G} {c m : G} (hc : CentMod p L c)
     (hm : m ∈ L) : m⁻¹ * (c⁻¹ * m * c) ∈ GLAPPrimeCoreOf p L := by
   have h1 : ⁅m⁻¹, c⁻¹⁆ ∈ (⁅L, Subgroup.zpowers c⁆ : Subgroup G) :=
@@ -2228,6 +2256,7 @@ theorem lemma102_mem_glaPPrimeCoreOf_comm {p : ℕ} {L : Subgroup G} {c m : G} (
   rw [commutatorElement_def] at h2
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem lemma102_conjQ_eq_of_cent {p : ℕ} {L : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hgc : g * c ∈ Subgroup.normalizer (L : Set G))
     (hc : CentMod p L c) : lemma102_conjQ p hgc = lemma102_conjQ p hg := by
@@ -2248,6 +2277,7 @@ theorem lemma102_conjQ_eq_of_cent {p : ℕ} {L : Subgroup G} {g c : G}
       L.mul_mem (L.inv_mem (lemma102_conjHomL hgc l).2) (lemma102_conjHomL hg l).2
     exact (lemma102_mem_glaPPrimeCore_iff hXL).2 hXO
 
+omit [Finite G] in
 theorem lemma102_indRel_mul_cent {p : ℕ} {L : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hgc : g * c ∈ Subgroup.normalizer (L : Set G))
     (hc : CentMod p L c) : indRel p L (g * c) = indRel p L g := by
@@ -2255,6 +2285,7 @@ theorem lemma102_indRel_mul_cent {p : ℕ} {L : Subgroup G} {g c : G}
   apply propext
   rw [lemma102_indRel_iff_conjQ hgc, lemma102_indRel_iff_conjQ hg, lemma102_conjQ_eq_of_cent hg hgc hc]
 
+omit [Finite G] in
 theorem lemma102_inducesInnerMod_mul_cent {p : ℕ} {L : Subgroup G} {u v : G}
     (hu : u ∈ Subgroup.normalizer (L : Set G)) (hv : CentMod p L v) :
     InducesInnerMod p L (u * v) ↔ InducesInnerMod p L u := by
@@ -2276,6 +2307,7 @@ theorem lemma102_inducesInnerMod_mul_cent {p : ℕ} {L : Subgroup G} {u v : G}
     rw [key y hy, ← mul_assoc]
     exact (Subgroup.mul_mem_cancel_right _ hO).2 (h y hy)
 
+omit [Finite G] in
 theorem lemma102_innDiagOn_zpowers_congr {p : ℕ} {L : Subgroup G} {b u : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) (hu : u ∈ Subgroup.normalizer (L : Set G))
     (hk : ∀ k : ℤ, indRel p L (b ^ k) = indRel p L (u ^ k)) :
@@ -2303,6 +2335,7 @@ theorem lemma102_innDiagOn_zpowers_congr {p : ℕ} {L : Subgroup G} {b u : G}
     exact ⟨Subgroup.zpowers_le.2 hb, CFSG.StandardType.Canonical.largeEvenMarking_mono
       (fun lab R _ I F θ hP => (hpt lab R I F θ).2 hP) h⟩
 
+omit [Finite G] in
 theorem lemma102_act_congr_aux {L : Subgroup G} {u v b : G} (hb : b = u * v)
     (hcomm : u * v = v * u) (hv : CentMod p L v) (hbN : b ∈ Subgroup.normalizer (L : Set G)) :
     u ∈ Subgroup.normalizer (L : Set G) ∧ (NonInnDiag p b L ↔ NonInnDiag p u L) ∧
@@ -2337,14 +2370,14 @@ theorem lemma102_card_central_pPower {p : ℕ} (hp : p.Prime) {Y : Type} [Group 
     (hY : CFSG.pPrimeCore p Y = ⊥) {M : Subgroup Y} (hM : M ≤ Subgroup.center Y) :
     ∃ k : ℕ, Nat.card M = p ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : Nat.card M ≠ 0 := by
-    haveI : Finite M := inferInstance
+    have : Finite M := inferInstance
     exact Nat.card_ne_zero.2 ⟨⟨1⟩, inferInstance⟩
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd hne ?_⟩
   intro q hq hqd
   by_contra hqp
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' q hqd
   have hwc : (w : Y) ∈ Subgroup.center Y := hM w.2
   have hnorm : (Subgroup.zpowers (w : Y)).Normal := by
@@ -2369,6 +2402,7 @@ theorem lemma102_card_central_pPower {p : ℕ} (hp : p.Prime) {Y : Type} [Group 
   exact hq.one_lt.ne' h2.symm
 
 
+omit [Finite G] in
 theorem lemma102_normalizer_of_pow {p : ℕ} (hp : p.Prime) {L : Subgroup G} {b : G} (hbp : b ^ p = 1)
     {d : ℕ} (hd0 : 0 < d) (hdp : d < p) (hbd : b ^ d ∈ Subgroup.normalizer (L : Set G)) :
     b ∈ Subgroup.normalizer (L : Set G) := by
@@ -2398,7 +2432,7 @@ theorem lemma102_easy_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgr
     (hbL : b ∉ Subgroup.normalizer (L : Set G)) :
     card2 p L ≤ centCard2 p (closureIn L (Subgroup.zpowers b)) b := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : ℕ → Subgroup G := fun i => GLBConj (b ^ i) L with hKdef
   set L₀ : Subgroup G := closureIn L (Subgroup.zpowers b) with hL₀def
   have hbXN : ∀ i : ℕ, b ^ i ∈ Subgroup.normalizer (X : Set G) := fun i =>
@@ -2580,7 +2614,7 @@ theorem lemma102_easy_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgr
     exact hf1 i
   have hPne : ∃ l : ↥L, P l ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcommL0 : ∀ l m : ↥L, Commute (f 0 l) (f 0 m) := by
       intro l m
       obtain ⟨R, hPR, -, hRc⟩ := hdec l
@@ -2619,12 +2653,12 @@ theorem lemma102_easy_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgr
       Subgroup.commutator_le.2 fun g _ h _ =>
         Subgroup.mem_bot.2 (commutatorElement_eq_one_iff_mul_comm.2 (hcomQ g h))
     rw [hqs.1] at hcommut
-    haveI := isQuasisimple_nontrivial hqs
+    have := isQuasisimple_nontrivial hqs
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (PQuot p L)
     exact hxy ((Subgroup.mem_bot.1 (hcommut (Subgroup.mem_top x))).trans
       (Subgroup.mem_bot.1 (hcommut (Subgroup.mem_top y))).symm)
   have hqs : CFSG.Open.IsQuasisimple (PQuot p L) := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI := isQuasisimple_nontrivial hqs
+  have := isQuasisimple_nontrivial hqs
   let Pbar : PQuot p L →* PQuot p L₀ :=
     QuotientGroup.lift (GLAPPrimeCore p ↥L) P (fun l hl => (MonoidHom.mem_ker).2 (hOker l hl))
   have hPbar : ∀ l : ↥L, Pbar (QuotientGroup.mk l) = P l := fun l => rfl
@@ -2657,13 +2691,13 @@ theorem lemma102_easy_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgr
   exact lemma102_twoPart_le_of_dvd hfne (Subgroup.card_dvd_of_le hrange)
 
 
-theorem step_easy (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subgroup G} {x x' : G}
+theorem step_easy (hc : S10Ctx G p) (_hin : Lemma102Inputs G p) {B B' L L' : Subgroup G} {x x' : G}
     (hrel : PumpRel p (B, x, L) (B', x', L')) {b : G} (hbB' : b ∈ B')
     (hcase : ¬ (b ∈ Subgroup.normalizer (L : Set G) ∧ ¬ CentMod p L b)) :
     card2 p L ≤ centCard2 p (closureIn L (Subgroup.zpowers b)) b := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hrel.1.2.2
   have hbp : b ^ p = 1 := hrel.2.1.1.1.2 b hbB'
   have hbx : b * x = x * b :=
@@ -2706,6 +2740,7 @@ theorem x_innDiag (hin : Lemma102Inputs G p) {B B' L L' : Subgroup G} {x x' : G}
     exact hxprop (Or.inr ⟨rfl, htd, hxN, fun hinn =>
       hn (hin.aut.inner_innDiag _ L' x hS'.2.2 h2 hxN hinn)⟩)
 
+omit [Finite G] in
 theorem r2Prop_mem_normalizer {g : G} {L : Subgroup G} (h : R2Prop p g L) :
     g ∈ Subgroup.normalizer (L : Set G) := by
   rcases h with h | ⟨-, -, h⟩
@@ -2720,7 +2755,7 @@ theorem step_I148 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subg
   classical
   subst hp3
   have hp : Nat.Prime 3 := hc.ctx.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hS := hrel.1
   have hS' := hrel.2.1
   have hL : GLAPComponent 3 (Subgroup.centralizer ({x} : Set G)) L := hS.2.2
@@ -2756,7 +2791,7 @@ theorem step_I148 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subg
   have hI148 : centCard2 3 L' x ^ 2 ≤ card2 3 L' := hin.i148 _ L' x hL'c htd hx3 hxinn hnc
   have hR' : r2 3 B' L' = Nat.sqrt (card2 3 L') := by
     unfold r2
-    rw [if_pos hR]
+    rw [ite_eq_left hR]
   have hLI : card2 3 L = card2 3 (Ipart 3 L x') := by
     unfold card2
     rw [hPI]
@@ -2778,6 +2813,7 @@ theorem lemma102_marking_transport {X Y : Type} [Group X] [Group Y] (hY : commut
   rintro R _ I F ⟨hs, hna, θ, hθ⟩
   exact ⟨hs, hna, e.trans θ, h lab R I F θ hθ⟩
 
+omit [Finite G] in
 theorem lemma102_innDiagOn_mono {p : ℕ} {A A' L : Subgroup G} (hAA : A ≤ A') (h : InnDiagOn p A' L) :
     InnDiagOn p A L := by
   refine ⟨hAA.trans h.1, CFSG.StandardType.Canonical.largeEvenMarking_mono ?_ h.2⟩
@@ -2834,7 +2870,7 @@ theorem lemma102_cover_equiv {p : ℕ} (hp : p.Prime) {I L : Subgroup G} (hIL : 
     ∃ F : PQuot p I ≃* PQuot p L, ∀ w : ↥I,
       F (QuotientGroup.mk w) = QuotientGroup.mk (Subgroup.inclusion hIL w) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO_eq : GLAPPrimeCoreOf p I = I ⊓ GLAPPrimeCoreOf p L := (cover_facts hp hIL hsup).1
   have hOI : GLAPPrimeCore p ↥I ≤ (GLAPPrimeCore p ↥L).comap (Subgroup.inclusion hIL) := by
     intro w hw
@@ -2873,10 +2909,12 @@ theorem lemma102_cover_equiv {p : ℕ} (hp : p.Prime) {I L : Subgroup G} (hIL : 
       exact (lemma102_mem_glaPPrimeCore_iff ((Subgroup.inclusion hIL ⟨y, hy⟩)⁻¹ * l).2).2 hXO
   exact ⟨MulEquiv.ofBijective F hFbij, fun w => hFmk w⟩
 
+omit [Finite G] in
 theorem lemma102_cover_pSimple {p : ℕ} {I L : Subgroup G} {F : PQuot p I ≃* PQuot p L} :
     Nonempty (PSimple p I ≃* PSimple p L) := nonempty_pSimple_congr F
 
 
+omit [Finite G] in
 theorem lemma102_cover_conj {p : ℕ} {I L : Subgroup G} {F : PQuot p I ≃* PQuot p L} {hIL : I ≤ L}
     (hF : ∀ w : ↥I, F (QuotientGroup.mk w) = QuotientGroup.mk (Subgroup.inclusion hIL w))
     {a : G} (haI : a ∈ Subgroup.normalizer (I : Set G)) (haL : a ∈ Subgroup.normalizer (L : Set G))
@@ -2886,6 +2924,7 @@ theorem lemma102_cover_conj {p : ℕ} {I L : Subgroup G} {F : PQuot p I ≃* PQu
     rw [lemma102_conjQ_mk, hF, hF, lemma102_conjQ_mk]
     congr 1
 
+omit [Finite G] in
 theorem lemma102_indRel_cover {p : ℕ} {I L : Subgroup G} {F : PQuot p I ≃* PQuot p L} {hIL : I ≤ L}
     (hF : ∀ w : ↥I, F (QuotientGroup.mk w) = QuotientGroup.mk (Subgroup.inclusion hIL w))
     {a : G} (haI : a ∈ Subgroup.normalizer (I : Set G)) (haL : a ∈ Subgroup.normalizer (L : Set G))
@@ -2899,6 +2938,7 @@ theorem lemma102_primeField_mono {p : ℕ} {lab : CFSG.Assembly.LargeEvenLabel} 
   obtain ⟨h1, f, hf, u, hu, hord, hα⟩ := h
   exact ⟨h1, f, hf, u, hu, hord, hi _ hα⟩
 
+omit [Finite G] in
 theorem lemma102_innDiagOn_cover {p : ℕ} {A I L : Subgroup G} {F : PQuot p I ≃* PQuot p L} {hIL : I ≤ L}
     (hF : ∀ w : ↥I, F (QuotientGroup.mk w) = QuotientGroup.mk (Subgroup.inclusion hIL w))
     (hAI : A ≤ Subgroup.normalizer (I : Set G)) (hY : commutator (PQuot p I) = ⊤)
@@ -2918,6 +2958,7 @@ theorem lemma102_innDiagOn_cover {p : ℕ} {A I L : Subgroup G} {F : PQuot p I �
   exact hφ' (F q) (F q') ((lemma102_indRel_cover hF haI haL q q').2 hq)
 
 
+omit [Finite G] in
 theorem lemma102_fieldOn_cover {p : ℕ} {b : G} {I L : Subgroup G} {F : PQuot p I ≃* PQuot p L} {hIL : I ≤ L}
     (hF : ∀ w : ↥I, F (QuotientGroup.mk w) = QuotientGroup.mk (Subgroup.inclusion hIL w))
     (hbI : b ∈ Subgroup.normalizer (I : Set G)) (hbL : b ∈ Subgroup.normalizer (L : Set G))
@@ -2939,6 +2980,7 @@ theorem lemma102_fieldOn_cover {p : ℕ} {b : G} {I L : Subgroup G} {F : PQuot p
   rw [e1, e2]
   exact hφ q q' ((lemma102_indRel_cover hF hbI hbL q q').1 hr)
 
+omit [Finite G] in
 theorem lemma102_graph_iso {p : ℕ} {R : Type} [Group R] {y : G} {I L : Subgroup G}
     (e : PSimple p I ≃* PSimple p L) (hIso : IsoPresAct p y I L e) {θ : PSimple p L ≃* R} {φ : MulAut R}
     (h : GLAInduces θ (indRel p L y) φ) : GLAInduces (e.trans θ) (indRel p I y) φ := by
@@ -2948,6 +2990,7 @@ theorem lemma102_graph_iso {p : ℕ} {R : Type} [Group R] {y : G} {I L : Subgrou
   rw [← hrq, ← hrq']
   exact h r r' hr
 
+omit [Finite G] in
 theorem lemma102_fieldOn_iso {p : ℕ} {b : G} {I L : Subgroup G} (e : PSimple p I ≃* PSimple p L)
     (hIso : IsoPresAct p b I L e) (hbI : b ∈ Subgroup.normalizer (I : Set G))
     (hY : commutator (PQuot p I) = ⊤) (h : FieldOn p b L) : FieldOn p b I := by
@@ -2989,6 +3032,7 @@ theorem lemma102_inducesInnerMod_of_cover {p : ℕ} (hp : p.Prime) {I L : Subgro
   exact (lemma102_inf_le hp hIL) ⟨hinI, Subgroup.mul_mem _ hB hA⟩
 
 
+omit [Finite G] in
 theorem lemma102_conjQ_surjective {p : ℕ} {L : Subgroup G} {u : G}
     (hu : u ∈ Subgroup.normalizer (L : Set G)) : Function.Surjective (lemma102_conjQ p hu) := by
   intro r
@@ -3001,6 +3045,7 @@ theorem lemma102_conjQ_surjective {p : ℕ} {L : Subgroup G} {u : G}
     rw [lemma102_conjHomL_val, lemma102_conjHomL_val]
     group
 
+omit [Finite G] in
 theorem lemma102_conjQ_mem_center {p : ℕ} {L : Subgroup G} {u : G} (hu : u ∈ Subgroup.normalizer (L : Set G))
     {z : PQuot p L} (hz : z ∈ Subgroup.center (PQuot p L)) :
     lemma102_conjQ p hu z ∈ Subgroup.center (PQuot p L) := by
@@ -3009,6 +3054,7 @@ theorem lemma102_conjQ_mem_center {p : ℕ} {L : Subgroup G} {u : G} (hu : u ∈
   obtain ⟨s, rfl⟩ := lemma102_conjQ_surjective hu g
   rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.1 hz s]
 
+omit [Finite G] in
 theorem lemma102_inducesInnerMod_iso {p : ℕ} {I L' : Subgroup G} {b : G}
     (e : PSimple p I ≃* PSimple p L') (hIso : IsoPresAct p b I L' e)
     (hbI : b ∈ Subgroup.normalizer (I : Set G)) (hbL : b ∈ Subgroup.normalizer (L' : Set G))
@@ -3028,7 +3074,6 @@ theorem lemma102_inducesInnerMod_iso {p : ℕ} {I L' : Subgroup G} {b : G}
       have e1 : ((((lemma102_conjHomL hbI w)⁻¹ * (iu * w * iu⁻¹) : ↥I)) : G) =
           ((i⁻¹ * (w : G) * i)⁻¹ * (b⁻¹ * (w : G) * b))⁻¹ := by
         simp only [Subgroup.coe_mul, Subgroup.coe_inv, lemma102_conjHomL_val, iu, mul_inv_rev, inv_inv]
-        try group
       refine (lemma102_mem_glaPPrimeCore_iff ((lemma102_conjHomL hbI w)⁻¹ * (iu * w * iu⁻¹) : ↥I).2).2 ?_
       rw [e1]
       exact (GLAPPrimeCoreOf p I).inv_mem (hi' (w : G) w.2)
@@ -3097,6 +3142,7 @@ theorem lemma102_not_innDiagOn_of_R2Prop {p : ℕ} {X L' : Subgroup G} {b : G} (
   · subst hp3
     exact (hin.td4_nonInnDiag X L' b hL'c htd hn).2 hI
 
+omit [Finite G] in
 theorem lemma102_normalizer_I {p : ℕ} {L : Subgroup G} {x' b : G} (hbL : b ∈ Subgroup.normalizer (L : Set G))
     (hbx' : b * x' = x' * b) :
     b ∈ Subgroup.normalizer (GLAPLayer p (L ⊓ Subgroup.centralizer ({x'} : Set G)) : Set G) := by
@@ -3106,7 +3152,7 @@ theorem lemma102_normalizer_I {p : ℕ} {L : Subgroup G} {x' b : G} (hbL : b ∈
   have hC' := Subgroup.mem_normalizer_iff.1 (Subgroup.le_normalizer hbC)
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hL' h) (hC' h)
 
 theorem lemma102_not_mem_zpowers_of_R2Prop {p : ℕ} (hp : p.Prime) {X L' : Subgroup G} {x b : G}
@@ -3117,7 +3163,7 @@ theorem lemma102_not_mem_zpowers_of_R2Prop {p : ℕ} (hp : p.Prime) {X L' : Subg
     b ∉ Subgroup.zpowers x := by
   classical
   intro hbx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF1 := lemma102_not_innDiagOn_of_R2Prop hin hL'c h2 hprop
   have hbc : b ∈ centModSubgroup p L' := by
     by_cases hb1 : b = 1
@@ -3166,7 +3212,7 @@ theorem step_I155 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subg
         (p = 3 → IsTD4 3 L' → NonInner 3 b L' → IsTD4 3 L ∧ NonInner 3 b L)) := by
   classical
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L := hrel.1.2.2
   have hL'c : GLAPComponent p (Subgroup.centralizer ({x'} : Set G)) L' := hrel.2.1.2.2
   have hxB' : x ∈ B' := hrel.2.2.1
@@ -3221,7 +3267,8 @@ theorem step_I155 (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : Subg
       exact lemma102_inducesInnerMod_iso e hIso hbJ hn'.1 hYL'
         (lemma102_inducesInnerMod_of_cover hp hJL hsup hbJ hinL)
 
-theorem act_congr {X L : Subgroup G} (hL : GLAPComponent p X L) {u v b : G} (hb : b = u * v)
+omit [Finite G] in
+theorem act_congr {X L : Subgroup G} (_hL : GLAPComponent p X L) {u v b : G} (hb : b = u * v)
     (hcomm : u * v = v * u) (hv : CentMod p L v) (hbN : b ∈ Subgroup.normalizer (L : Set G)) :
     u ∈ Subgroup.normalizer (L : Set G) ∧ (NonInnDiag p b L ↔ NonInnDiag p u L) ∧
       (FieldOn p b L ↔ FieldOn p u L) ∧ (NonInner p b L ↔ NonInner p u L) ∧
@@ -3249,7 +3296,7 @@ theorem lemma102_step (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : 
   have hrle := r2_le_card2 p B L
   by_cases hbig : card2 p L' ≤ r2 p B' L'
   · exact hrle.trans (hcard.trans hbig)
-  push_neg at hbig
+  push Not at hbig
   obtain ⟨b0, hb0, hp0⟩ := exists_r2prop_of_lt hbig
   obtain ⟨b, hbB', hbprop, hbx⟩ : ∃ b ∈ B', R2Prop p b L' ∧ (R2Prop p x L' → b = x) := by
     by_cases hx : R2Prop p x L'
@@ -3300,7 +3347,7 @@ theorem lemma102_step (hc : S10Ctx G p) (hin : Lemma102Inputs G p) {B B' L L' : 
         have hRB : R2TD4 p B L := ⟨hp3, htdL, u, huB, ne_one_of_nonInner hnu, hnu⟩
         have hRB' : R2TD4 p B' L' := ⟨hp3, htd, b, hbB', ne_one_of_nonInner hnb, hnb⟩
         unfold r2
-        rw [if_pos hRB, if_pos hRB']
+        rw [ite_eq_left hRB, ite_eq_left hRB']
         subst hp3
         exact Nat.sqrt_le_sqrt hcard
   by_cases hxc : x ∈ Subgroup.normalizer (L' : Set G) ∧ ¬ CentMod p L' x

@@ -106,7 +106,7 @@ theorem l154_label_twA_of_mark {lab : LargeEvenLabel} {n : ℕ} (ht : markTag la
   cases t <;> simp [markTag, markRank, markChar, markDeg] at ht hr hc hd ⊢
   case twA => exact ⟨hr, hd⟩
   case D => split_ifs at ht
-  case twD => split_ifs at ht hr <;> omega
+  case twD => split_ifs at ht hr; omega
 
 end CFSG.LocalAnalysis.GLTheoremA.K155X
 

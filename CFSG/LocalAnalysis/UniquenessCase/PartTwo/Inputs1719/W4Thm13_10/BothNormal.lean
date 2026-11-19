@@ -137,7 +137,7 @@ theorem false_of_both_normal (hInv : KA5InvertsThree) {W : Type} [CommGroup W] [
         (H := L) (fun y hy h hl => (Subgroup.mem_set_normalizer_iff.mp hy h).mp hl))
     have hKsimple : IsSimpleGroup ↥K := by
       obtain ⟨e⟩ := haK
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       exact MulEquiv.isSimpleGroup e
     have hz1 : z ≠ 1 := by
       intro h

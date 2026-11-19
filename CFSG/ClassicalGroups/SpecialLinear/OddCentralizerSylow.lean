@@ -21,7 +21,7 @@ theorem odd_centralizer_sylow_le_center (hm : 2 ≤ m)
   let n := m + 1
   let S := Matrix.SpecialLinearGroup (Fin n) F
   have hn : 2 ≤ n := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unitriangular (K := F) (p := 2) (n := n) (by omega)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S P₀ U
   have hg' : P₀ = g⁻¹ • U := by
@@ -42,13 +42,13 @@ theorem odd_centralizer_sylow_le_center (hm : 2 ≤ m)
       simpa [MulAut.conj_apply, mul_assoc] using hv'
     · intro hu
       refine ⟨g * u * g⁻¹, (hmem u).mp hu, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   have hyc : y ∈ Subgroup.centralizer ((unitriangular n F : Subgroup S) : Set S) := by
     have hmap := Subgroup.map_centralizer_le_centralizer_image
       ((U : Subgroup S) : Set S) (MulAut.conj g⁻¹).toMonoidHom
     have hy : y ∈ (Subgroup.centralizer ((U : Subgroup S) : Set S)).map
         (MulAut.conj g⁻¹).toMonoidHom :=
-      ⟨(x : S), hxc, by simp [y, MulAut.conj_apply, mul_assoc]⟩
+      ⟨(x : S), hxc, by simp [y, mul_assoc]⟩
     exact himg ▸ hmap hy
   have hM : ∀ i j : Fin n, (i : ℕ) + 1 = (j : ℕ) →
       (y : Matrix (Fin n) (Fin n) F) * single i j (1 : F) =

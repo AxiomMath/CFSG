@@ -25,6 +25,7 @@ variable {G : Type*} [Group G] [Finite G] {w : G} {F : Set G}
     simp only [Subgroup.coe_mul]
     group)
 
+omit [Finite G] in
 theorem conjAct_smul_val (hF : ∀ g ∈ Subgroup.centralizer ({w} : Set G), ∀ x ∈ F, g * x * g⁻¹ ∈ F)
     (g : ↥(Subgroup.centralizer ({w} : Set G))) (x : ↥F) :
     ((@HSMul.hSMul _ _ _ (@instHSMul _ _ (conjAct hF).toSMul) g x : ↥F) : G) =
@@ -36,7 +37,7 @@ theorem card_centralizer_eq_mul_orbit
     (hN : Nat.card ↥(Subgroup.centralizer ({w} : Set G) ⊓ Subgroup.centralizer ({x₀} : Set G)) = N) :
     ∃ m, Nat.card ↥(Subgroup.centralizer ({w} : Set G)) = N * m ∧ m ≤ F.ncard := by
   classical
-  letI := conjAct hF
+  let := conjAct hF
   set S := stabilizer ↥(Subgroup.centralizer ({w} : Set G)) (⟨x₀, hx₀⟩ : ↥F)
   have hS : Nat.card S = N := by
     rw [← hN]
@@ -75,13 +76,13 @@ theorem prime_dvd_card_of_dvd_centralizer
     {r : ℕ} (hr : r.Prime) (hrC : r ∣ Nat.card ↥(Subgroup.centralizer ({w} : Set G)))
     (hrN : ¬ r ∣ N) : r ∣ F.ncard := by
   classical
-  letI := conjAct hF
-  haveI : Fact r.Prime := ⟨hr⟩
+  let := conjAct hF
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({w} : Set G))) r hrC
   set P := Subgroup.zpowers g
   have hP : IsPGroup r ↥P := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hg, pow_one])
-  haveI : Fintype ↥F := Fintype.ofFinite _
-  haveI : Fintype (fixedPoints ↥P ↥F) := Fintype.ofFinite _
+  have : Fintype ↥F := Fintype.ofFinite _
+  have : Fintype (fixedPoints ↥P ↥F) := Fintype.ofFinite _
   have hfix : IsEmpty (fixedPoints ↥P ↥F) := by
     constructor
     rintro ⟨x, hx⟩

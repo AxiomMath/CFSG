@@ -180,7 +180,7 @@ theorem no_cocycle_index_two_t110
     omega
   have heven : 2 ∣ x0 := by
     rw [hzuv, hzt] at h4
-    simp only [map_add, map_zsmul, hVc, hVa, hVb, hWc, hWa, hWb, hVt, hWt] at h4
+    simp only [map_add, map_zsmul, hVa, hVb, hWc, hWa, hWb, hVt, hWt] at h4
     have key : tor300 (t + 1) (-2 + 16 * (2 ^ t) + y0 + x0) (-2 + 4 * (2 ^ t) + y1 + (x0 + x1))
         (-2 + 4 * (2 ^ t) + y2 + x2) =
         tor300 (t + 1) (x0 + y0) (x1 + (y0 + y1)) (x2 + (y0 + y2)) := by
@@ -202,7 +202,7 @@ theorem no_cocycle_index_four_t110
     (by rw [smul_sub, two_zsmul, ← two_nsmul, h1, hVa]; module)
   have hz : z = (𝔤 t 0) + (𝔤 t 2) + tor300 (t + 1) x0 x1 x2 := by rw [← hx]; abel
   rw [hz] at h2
-  simp only [map_add, map_zsmul, hVc, hVa, hVb, hVt] at h2
+  simp only [map_add, hVc, hVb, hVt] at h2
   have key : tor300 (t + 1) (-8 + x0 + x0) (-1 + x1 + (x0 + x1)) (-2 + x2 + (x0 + x2)) =
       tor300 (t + 1) 0 0 0 := by
     simp only [tor300] at h2 ⊢

@@ -127,7 +127,7 @@ private theorem le_fixSub_of_plane {p : ℕ} [Fact p.Prime] [Finite K] (U : Sylo
   have hβU : β ∈ (U : Subgroup K).map (MulAut.conj : K →* MulAut K) := by
     refine ⟨α x * x⁻¹, (U : Subgroup K).mul_mem (hαU x (hEU hx)) (inv_mem (hEU hx)), ?_⟩
     rw [hβ, aut_mul_conj_mul_inv, map_mul, map_inv]
-  have hβ1 : β = 1 := eq_one_of_mem_of_mem_map_conj U.isPGroup' hW hβW hβU
+  have hβ1 : β = 1 := eq_one_of_mem_of_mem_map_conj U.isPGroup hW hβW hβU
   apply hZ
   have : α * MulAut.conj x * α⁻¹ = MulAut.conj x := mul_inv_eq_one.1 hβ1
   rw [← aut_mul_conj_mul_inv, this]
@@ -153,7 +153,7 @@ theorem signalizer_eq_bot_of_ti_planes {p : ℕ} (hp : p.Prime) [Finite K] (U : 
   intro α hα
   obtain ⟨u, hu, rfl⟩ := hinner α fun t ht => hfix ht α hα
   rw [Subgroup.mem_bot]
-  exact eq_one_of_mem_of_mem_map_conj U.isPGroup' hW hα ⟨u, hu, rfl⟩
+  exact eq_one_of_mem_of_mem_map_conj U.isPGroup hW hα ⟨u, hu, rfl⟩
 
 private theorem le_iSup_planes_of_card {p : ℕ} [Fact p.Prime] [Finite K] (U : Subgroup K)
     {n : ℕ} (hn : 2 ≤ n) (hcard : Nat.card U = p ^ n) (hexp : ∀ x ∈ U, x ^ p = 1) :

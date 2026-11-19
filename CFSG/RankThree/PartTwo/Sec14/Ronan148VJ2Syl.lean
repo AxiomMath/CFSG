@@ -24,7 +24,7 @@ theorem j2Syl_comm_central {X : Type} [Group X] {P : Subgroup X}
 
 theorem j2Syl_exists_sylow {X : Type} [Group X] [Finite X] {B : Subgroup X}
     (hB9 : Nat.card B = 9) : ∃ P : Sylow 3 X, B ≤ (P : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB : IsPGroup 3 B := IsPGroup.of_card (n := 2) (hB9.trans (by norm_num))
   obtain ⟨P, hP⟩ := hB.exists_le_sylow
   exact ⟨P, hP⟩
@@ -121,7 +121,7 @@ theorem exists_conj_eq_mul_of_j2
     (hd3 : d ^ 3 = 1) (h27 : 27 ∣ Nat.card (Subgroup.centralizer ({d} : Set X)))
     (hc3 : c ^ 3 = 1) (hcd : c * d = d * c) (hcnd : c ∉ Subgroup.zpowers d) :
     ∃ y : X, y * d = d * y ∧ (y * c * y⁻¹ = d * c ∨ y * c * y⁻¹ = d ^ 2 * c) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h415 : CFSG.RankThree.PartTwo.Sec4.Item4_15 :=
     CFSG.RankThree.PartTwo.Sec4.Sporadic.rank3II_4_15
   have hB9 : Nat.card ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers c) = 9 :=

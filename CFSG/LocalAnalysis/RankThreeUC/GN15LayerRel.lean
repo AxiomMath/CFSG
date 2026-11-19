@@ -22,7 +22,7 @@ open scoped Pointwise
 variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
 
 private theorem charTwo_sup_of_normal (hX : GNSetting X T) (K : Subgroup X) : CharTwo (K ⊔ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQT : pCoreOf 2 (⊤ : Subgroup X) ≤ T := B6.pCoreOf_two_le_of_isSylowTwoOf hX.sylow
   have hQnormal : (pCoreOf 2 (⊤ : Subgroup X)).Normal := by
     rw [B6.pCoreOf_top]; infer_instance
@@ -34,6 +34,7 @@ private theorem charTwo_sup_of_normal (hX : GNSetting X T) (K : Subgroup X) : Ch
   intro x hx
   exact hQM (hX.charTwo ⟨Subgroup.mem_top x, Subgroup.centralizer_le hQM hx.2⟩)
 
+omit [Finite X] in
 private theorem isSubnormal_inf_normal {A B N : Subgroup X} (h : IsSubnormal A B) (hNB : N ≤ B)
     (hN : (N.subgroupOf B).Normal) : IsSubnormal (A ⊓ N) N := by
   induction h with
@@ -47,6 +48,7 @@ private theorem isSubnormal_inf_normal {A B N : Subgroup X} (h : IsSubnormal A B
     intro x g hx hg
     exact ⟨hn x g hx.1 hg.1, N.mul_mem (N.mul_mem hg.2 hx.2) (N.inv_mem hg.2)⟩
 
+omit [Finite X] in
 private theorem isSubnormal_top_of_le {K Y : Subgroup X} (hK : K.Normal)
     (hY : IsSubnormal Y (K ⊔ T)) (hYK : Y ≤ K) : IsSubnormal Y ⊤ := by
   have h1 : IsSubnormal (Y ⊓ K) K := isSubnormal_inf_normal hY le_sup_left (hK.subgroupOf _)

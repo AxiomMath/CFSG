@@ -218,7 +218,7 @@ theorem Hyp.s56_comm_t (h49 : d.Thm49Statement) (hd : d.Hyp) {j q : G} (hj : j �
 theorem Hyp.s56_eps_one (hd : d.Hyp) : d.s56Eps 1 = 1 := by
   rw [s56Eps]; simp [hd.t_mul_self]
 
-theorem Hyp.s56_eps_conj (hd : d.Hyp) {g : G} (hg : g * d.t = d.t * g) (m : G) :
+theorem Hyp.s56_eps_conj (_hd : d.Hyp) {g : G} (hg : g * d.t = d.t * g) (m : G) :
     d.s56Eps (g * m * g⁻¹) = g * d.s56Eps m * g⁻¹ := by
   have hgt : g * d.t * g⁻¹ = d.t := by rw [hg]; group
   calc d.s56Eps (g * m * g⁻¹) = (g * d.t * g⁻¹) * (g * m * g⁻¹ * (g * d.t * g⁻¹) *

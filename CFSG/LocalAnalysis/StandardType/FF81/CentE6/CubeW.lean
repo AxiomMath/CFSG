@@ -63,7 +63,7 @@ private theorem u_update_zero_eq_zero (v : Fin 3 → Fin 6) (t0 t1 : Fin 3)
 private theorem coe_elem (i j : Fin 6) (hij : i ≠ j) :
     (elem i j : Matrix (Fin 6) (Fin 6) (ZMod 2)) = 1 + Matrix.single i j 1 := by
   unfold elem
-  rw [dif_neg hij]
+  rw [dite_eq_right hij]
   exact Matrix.SpecialLinearGroup.transvection_coe hij 1
 
 private theorem cubeAct_elem_u (i j : Fin 6) (hij : i ≠ j) (v : Fin 3 → Fin 6)
@@ -111,7 +111,7 @@ private theorem cubeAct_elem_u_of_notMem (i j : Fin 6) (hij : i ≠ j) (v : Fin 
 
 private theorem elem_zero_five : elem (0 : Fin 6) 5 = CFSG.Holt.SL6.stdTransvection := by
   unfold elem CFSG.Holt.SL6.stdTransvection
-  rw [dif_neg (show (0 : Fin 6) ≠ 5 by decide)]
+  rw [dite_eq_right (show (0 : Fin 6) ≠ 5 by decide)]
 
 private def Good (v : Fin 3 → Fin 6) : Prop :=
   (∀ t, v t ≠ 5) ∧ ∃ t, v t = 0
@@ -264,11 +264,11 @@ private def FixVec (x : Fin 6 → ZMod 2) : Subgroup SL(6, ZMod 2) where
   one_mem' := by simp
   mul_mem' := by
     intro g h hg hh
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rw [Matrix.SpecialLinearGroup.coe_mul, ← Matrix.mulVec_mulVec, hh, hg]
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have h2 : (↑(g⁻¹) : Matrix (Fin 6) (Fin 6) (ZMod 2)).mulVec
         ((↑g : Matrix (Fin 6) (Fin 6) (ZMod 2)).mulVec x) = x := by
       rw [Matrix.mulVec_mulVec, ← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel,
@@ -303,12 +303,12 @@ private def StabM0 : Subgroup SL(6, ZMod 2) where
   one_mem' := by intro x; simp
   mul_mem' := by
     intro g h hg hh x
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rw [map_mul, LinearEquiv.mul_apply]
     exact (hh x).trans (hg _)
   inv_mem' := by
     intro g hg x
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     rw [map_inv]
     have hInv :
         (Matrix.SpecialLinearGroup.toLin' g) ((Matrix.SpecialLinearGroup.toLin' g)⁻¹ x) = x := by
@@ -486,7 +486,7 @@ private theorem ym_offdiag {j : SL(6, ZMod 2)} (hj : j ∈ Jgrp)
   have hE2 := minor_eq_all hj h i k i a
   have hE3 := minor_eq_all hj h i k a k
   have hik : i ≠ k := fun hh => hki hh.symm
-  simp [if_neg hki, if_neg hik, if_neg hka, if_neg hia] at hE1 hE2 hE3
+  simp [ite_eq_right hki, ite_eq_right hik, ite_eq_right hka, ite_eq_right hia] at hE1 hE2 hE3
   have hcomb : ym j i k * (ym j i i * ym j k a - ym j i a * ym j k i) +
       ym j i i * (ym j i a * ym j k k - ym j i k * ym j k a) = ym j i a := by
     rw [show ym j i k * (ym j i i * ym j k a - ym j i a * ym j k i) +
@@ -504,7 +504,7 @@ private theorem ym_diag {j : SL(6, ZMod 2)} (hj : j ∈ Jgrp)
   have hik : i ≠ k := fun hh => hk hh.symm
   have hoff1 : ym j i k = 0 := ym_offdiag hj h hik
   have hoff2 : ym j k i = 0 := ym_offdiag hj h hk
-  simp [if_neg hk, if_neg hik, hoff1, hoff2] at hE1
+  simp [ite_eq_right hk, ite_eq_right hik, hoff1, hoff2] at hE1
   exact hE1.1
 
 private theorem ym_eq_delta {j : SL(6, ZMod 2)} (hj : j ∈ Jgrp)
@@ -512,7 +512,7 @@ private theorem ym_eq_delta {j : SL(6, ZMod 2)} (hj : j ∈ Jgrp)
     ym j i a = if i = a then 1 else 0 := by
   by_cases hia : i = a
   · subst hia; simpa using ym_diag hj h i
-  · rw [ym_offdiag hj h hia]; simp [if_neg hia]
+  · rw [ym_offdiag hj h hia]; simp [ite_eq_right hia]
 
 private theorem jj_eq_one {j : SL(6, ZMod 2)} (hj : j ∈ Jgrp)
     (h : ∀ w ∈ Wsp, cubeAct j w = w) : j = 1 := by

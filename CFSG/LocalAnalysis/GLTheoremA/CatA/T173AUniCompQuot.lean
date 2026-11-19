@@ -31,7 +31,7 @@ theorem comp_quot {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω]
   have hBsup : (Subgroup.zpowers x).subgroupOf B ⊔ (B ⊓ S).subgroupOf B = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hxle inf_le_left, ← hBx, Subgroup.subgroupOf_self]
   have hD_eq : D = Subgroup.zpowers x ⊔ D ⊓ S := by
-    haveI : IsMulCommutative ↥B := hB.1
+    have : IsMulCommutative ↥B := hB.1
     refine le_antisymm ?_ (sup_le (Subgroup.zpowers_le.mpr hxD) inf_le_left)
     intro d hd
     have hdB : d ∈ B := hDB hd
@@ -196,10 +196,10 @@ theorem comp_quot {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Finite Ω]
     CFSG.Assembly.isComponentOf_iff_open.mpr hK₁_open
   have hKO : ¬ K.subgroupOf S ≤ Subgroup.center ↥S := by
     intro hle
-    haveI : Group.IsPerfect ↥(K.subgroupOf S) := ⟨hK₁_q.1⟩
+    have : Group.IsPerfect ↥(K.subgroupOf S) := ⟨hK₁_q.1⟩
     have hbot : K.subgroupOf S = ⊥ :=
       CFSG.ComponentClassification.Quasisimple.perfect_le_center_eq_bot (K.subgroupOf S) hle
-    haveI : Nontrivial ↥(K.subgroupOf S) :=
+    have : Nontrivial ↥(K.subgroupOf S) :=
       CFSG.ComponentClassification.Quasisimple.nontrivial hK₁_q
     exact (Subgroup.nontrivial_iff_ne_bot (K.subgroupOf S)).mp inferInstance hbot
   obtain ⟨-, hKbar_comp⟩ :=

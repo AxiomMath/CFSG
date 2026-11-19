@@ -32,7 +32,7 @@ theorem exists_orthogonal_value_one {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [finrank_span_singleton hy₀0] at h1
     simp only [Module.finrank_fin_fun] at h3
     omega
-  obtain ⟨w, hw, hwy⟩ := SetLike.not_le_iff_exists.1 hker
+  obtain ⟨w, hw, hwy⟩ := IsConcreteLE.not_le_iff_exists.1 hker
   have hwy₀ : polar Q₀ w y₀ = 0 := by rw [← hφ]; exact LinearMap.mem_ker.1 hw
   obtain ⟨α, hα⟩ := surjective_frobenius K 2 (1 + Q₀ w)
   rw [frobenius_def] at hα
@@ -318,7 +318,7 @@ private theorem exists_fixed_smul_of_dot_eq_zero {F : Type} [Field F] (σ : F �
     simp at h3
   set M : Matrix (Fin 4) (Fin 4) F := Matrix.of (Fin.snoc c (Pi.single j 1))
   have hM : IsUnit M := by
-    rw [← Matrix.linearIndependent_rows_iff_isUnit]
+    rw [← Matrix.linearIndependent_row_iff_isUnit]
     exact linearIndependent_finSnoc.2 ⟨hc, hj⟩
   have hdet : M.det ≠ 0 := ((Matrix.isUnit_iff_isUnit_det M).1 hM).ne_zero
   have hMfix : σ.mapMatrix M = M := by
@@ -424,7 +424,7 @@ theorem exists_norm_one_smul_fixedSpan {K F : Type} [Field K] [CharP K 2] [Field
     have hzero : ∀ i, herm σ (a y) (a (e i)) = 0 := fun i =>
       herm_eq_zero_comm σ hinv (by rw [hℓi, zero_mul])
     have hli : LinearIndependent F fun i => a (e i) :=
-      Matrix.linearIndependent_rows_iff_isUnit.2
+      Matrix.linearIndependent_row_iff_isUnit.2
         ((Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 hdet))
     have htop := hli.span_eq_top_of_card_eq_finrank' (by simp)
     apply (hA1 y hy).1
@@ -585,7 +585,7 @@ theorem exists_fixedSpan_centres {K F : Type} [Field K] [Finite K] [CharP K 2] [
     fin_cases i <;> rfl
   have hdet : (Matrix.of fun i => a' (![y₀, y₁, y₂, y₃] i)).det ≠ 0 :=
     ((Matrix.isUnit_iff_isUnit_det _).1
-      ((Matrix.linearIndependent_rows_iff_isUnit
+      ((Matrix.linearIndependent_row_iff_isUnit
         (A := Matrix.of fun i => a' (![y₀, y₁, y₂, y₃] i))).1 hli')).ne_zero
   have hGram : ∀ i j, σ (herm σ (a' (![y₀, y₁, y₂, y₃] i)) (a' (![y₀, y₁, y₂, y₃] j))) =
       herm σ (a' (![y₀, y₁, y₂, y₃] i)) (a' (![y₀, y₁, y₂, y₃] j)) :=

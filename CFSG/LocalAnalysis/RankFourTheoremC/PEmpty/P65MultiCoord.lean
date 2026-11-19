@@ -20,7 +20,7 @@ theorem fixes_components {p f : ℕ} (hp : p.Prime) (hf : f.Prime) (hfp : f ≠ 
     {x : Y} (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C')
     {T : Subgroup Y} (hTf : IsPGroup f T) (hxT : x ∈ normalizer (T : Set Y)) :
     ∀ t ∈ T, ∀ C : ComponentIndex Y, cjComp t C = C := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hmod := hTf.card_modEq_card_fixedPoints (ComponentIndex Y)
   rw [hcard] at hmod
   have hfix : Nonempty (MulAction.fixedPoints ↥T (ComponentIndex Y)) := by

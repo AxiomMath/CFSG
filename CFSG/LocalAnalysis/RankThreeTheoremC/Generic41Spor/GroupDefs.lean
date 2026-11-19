@@ -85,12 +85,12 @@ structure ExtraFacts (T : ℕ → ∀ (Q : Type) [Group Q], Prop) (p : ℕ)
 @[expose] def J4Shape {X : Type} [Group X] (K R U₀ : Subgroup X) : Prop :=
   U₀ ⊓ K ≠ ⊥ ∧ ∀ u ∈ U₀ ⊓ K, ∀ s ∈ R ⊓ K, s * u = u * s
 
-@[expose] def TitsShape {X : Type} [Group X] (K R U₀ : Subgroup X) : Prop := U₀ ⊓ K ≠ ⊥
+@[expose] def TitsShape {X : Type} [Group X] (K _R U₀ : Subgroup X) : Prop := U₀ ⊓ K ≠ ⊥
 
-@[expose] def A10Shape {X : Type} [Group X] (K R U₀ : Subgroup X) : Prop :=
+@[expose] def A10Shape {X : Type} [Group X] (K _R U₀ : Subgroup X) : Prop :=
   ∃ e : ↥K ≃* alternatingGroup (Fin 10), ∃ u ∈ U₀ ⊓ K, ∃ hu : u ∈ K,
     ((e ⟨u, hu⟩ : alternatingGroup (Fin 10)) : Equiv.Perm (Fin 10)).cycleType = {5, 5}
 
-@[expose] def Sz32Shape {X : Type} [Group X] (K R U₀ : Subgroup X) : Prop := ¬ U₀ ≤ K
+@[expose] def Sz32Shape {X : Type} [Group X] (K _R U₀ : Subgroup X) : Prop := ¬ U₀ ≤ K
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor

@@ -36,7 +36,7 @@ theorem not_commute_c3SL_uSL : ¬ Commute (c3SL : SL2 K) (uSL 1) := by
     rw [hc.eq]
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_c3SL, coe_uSL,
     Matrix.mul_fin_two, Matrix.mul_fin_two] at h
-  exact zero_ne_one (by simpa using h : (0 : K) = 1)
+  exact zero_ne_one (by simp at h : (0 : K) = 1)
 
 theorem coe_comm_uSL_WSL :
     ((⁅(uSL 1 : SL2 K), WSL⁆ : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![2, 1; 1, 1] := by
@@ -130,7 +130,7 @@ theorem d4Block_zero_neg_one_ne_one (hK : ringChar K ≠ 2) : d4Block K 0 (-1) �
 
 theorem fixedBlocks_conj_d4Block [Finite K] (hK : 4 ≤ Nat.card K) :
     FixedBlocks 3 (MulAut.conj (d4Block K 0 (-1))) 4 := by
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   refine ⟨fun i => (d4Block K i).range, fun i => d4Block K i c3SL, ?_, ?_, fun i => ?_,
     fun i => ?_, fun i => ⟨d4Block K i (uSL 1), ⟨uSL 1, rfl⟩, fun hc => ?_⟩⟩
   · rintro i j hij _ ⟨A, rfl⟩ _ ⟨B, rfl⟩

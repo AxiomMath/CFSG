@@ -18,7 +18,7 @@ theorem pRank_mulAut_le_perm {Y : Type} [Group Y] [Finite Y] {n p : ℕ}
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut Y)) ≤
       CFSG.Open.pRank p (⊤ : Subgroup (Equiv.Perm (Fin n))) := by
   obtain ⟨e⟩ := hA
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   have hconj := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn hn6
   calc
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut Y))

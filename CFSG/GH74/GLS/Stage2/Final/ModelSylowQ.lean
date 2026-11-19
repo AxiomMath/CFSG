@@ -110,7 +110,7 @@ theorem exists_sylow_quot4 {X : Type*} [Group X] [Finite X] (E : Subgroup X) [E.
     ext s
     simp [f, hπ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   have hRp : IsPGroup 2 ↥f.range :=
-    (S.isPGroup').of_surjective f.rangeRestrict (MonoidHom.rangeRestrict_surjective f)
+    (S.isPGroup).of_surjective f.rangeRestrict (MonoidHom.rangeRestrict_surjective f)
   have hmemR : ∀ x ∈ (S : Subgroup X), π x ∈ f.range := fun x hx => ⟨⟨x, hx⟩, rfl⟩
   have hne1 : π a ≠ 1 := fun h => haE ((QuotientGroup.eq_one_iff a).1 h)
   have hne2 : π b ≠ 1 := fun h => hbE ((QuotientGroup.eq_one_iff b).1 h)
@@ -213,7 +213,7 @@ theorem exists_sylow_quot2 {X : Type*} [Group X] [Finite X] (E : Subgroup X) [E.
     ext s
     simp [f, hπ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   have hRp : IsPGroup 2 ↥f.range :=
-    (S.isPGroup').of_surjective f.rangeRestrict (MonoidHom.rangeRestrict_surjective f)
+    (S.isPGroup).of_surjective f.rangeRestrict (MonoidHom.rangeRestrict_surjective f)
   have hmemR : ∀ x ∈ (S : Subgroup X), π x ∈ f.range := fun x hx => ⟨⟨x, hx⟩, rfl⟩
   have hne1 : π a ≠ 1 := fun h => haE ((QuotientGroup.eq_one_iff a).1 h)
   let T : Finset (X ⧸ E) := {1, π a}

@@ -81,10 +81,10 @@ theorem w183finG4A6_br2NormalConj_autS6 {M : Type} [Group M]
   change Br2NormalConj M X₀
   intro P₀ hP₀ A hA_le hA_el hA8
   obtain ⟨f, hf_inj, -, hf_surj, hf_inn, hf_s6⟩ := w183finG4A6_exists_model e
-  haveI : Finite M := Finite.of_injective e e.injective
-  haveI : Finite (MulAut M) :=
+  have : Finite M := Finite.of_injective e e.injective
+  have : Finite (MulAut M) :=
     Finite.of_injective (fun α : MulAut M => (α : M → M)) DFunLike.coe_injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX₀map : X₀.map f = A6Facts.s6 := by
     ext y
     constructor

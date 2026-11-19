@@ -120,10 +120,10 @@ noncomputable def exists_sesqBlockData (hm0 : CFSG.LocalAnalysis.GLTheoremA.rk2O
     (h3 : 3 ≤ CFSG.Open.pRank p A) : SesqBlockData h A hp := by
   classical
   suffices h : Nonempty (SesqBlockData h A hp) from Classical.choice h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpF : (p : F) ≠ 0 := by
     intro h0
-    haveI : CharP F 2 := h.charP
+    have : CharP F 2 := h.charP
     have hpdiv : 2 ∣ p := (CharP.cast_eq_zero_iff F 2 p).mp h0
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp hpdiv).symm
   have hpq : ¬ p ∣ 2 ^ n + 1 :=
@@ -159,7 +159,7 @@ noncomputable def exists_sesqBlockData (hm0 : CFSG.LocalAnalysis.GLTheoremA.rk2O
   have hmax'' :
       CFSG.Open.pRank p (sesqSpecialUnitaryGroupLE (idForm h N)) ≤ CFSG.Open.pRank p A'' :=
     hmaxA.trans (le_of_eq hpRankA''.symm)
-  haveI : Fintype A'' := Fintype.ofFinite _
+  have : Fintype A'' := Fintype.ofFinite _
   obtain ⟨t, ht⟩ := exists_blockRep (A := A'') hp
   have hB : InvariantSesq A'' (idForm h N) := fun a u v =>
     ((mem_sesqSpecialUnitaryGroupLE (B := idForm h N)).mp (hA''le a.2)).1 u v
@@ -238,7 +238,7 @@ noncomputable def exists_sesqTorusData (hm0 : CFSG.LocalAnalysis.GLTheoremA.rk2O
     SesqTorusData h A hp q S := by
   classical
   suffices h : Nonempty (SesqTorusData h A hp q S) from Classical.choice h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Fq, hFqe, hFq3⟩ := exists_elemAbelian_qtorsion_pointwiseStab_blockSpace (h := h)
     S.A'' hp S.hpF S.hA''e S.hB S.hBsym S.hBn S.D₁ hq hq2 hqd h4perp
   set x₁ : ↥(sesqSpecialUnitaryGroupLE (idForm h N)) :=

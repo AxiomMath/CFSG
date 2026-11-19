@@ -27,7 +27,7 @@ theorem catalogIs_isL2n_card_of_odd {S : Type} [Group S] [Finite S] {r : ℕ} (h
       | A n q =>
           rcases n with _ | _ | n <;> simp [S10.isL2n] at hi
           obtain ⟨hp, hn⟩ := hi
-          haveI : Fact q.p.Prime := ⟨hp ▸ Nat.prime_two⟩
+          have : Fact q.p.Prime := ⟨hp ▸ Nat.prime_two⟩
           have hcardS : Nat.card S =
               Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
                 (GaloisField q.p q.exponent)) :=
@@ -71,7 +71,7 @@ private theorem exists_odd_card_centerQuot_SL (hm : 2 ≤ m) (he : 1 ≤ e) (hE 
     have hi2 : 2 ≤ i := (Finset.mem_Icc.1 hi).1
     rw [hE, ← pow_mul]
     exact CatDistinct.odd_two_pow_sub_one (by nlinarith)
-  haveI : Finite (T ⧸ Subgroup.center T) := inferInstance
+  have : Finite (T ⧸ Subgroup.center T) := inferInstance
   obtain ⟨u, O, hO, hcard⟩ := Nat.exists_eq_two_pow_mul_odd
     (Nat.card_pos (α := T ⧸ Subgroup.center T)).ne'
   rw [hcard, show Nat.card E ^ (m * (m - 1) / 2) = 2 ^ (e * (m * (m - 1) / 2)) by
@@ -144,8 +144,8 @@ private theorem card_centerQuot_mul_gcd_SU {r t : ℕ} (hr : 2 ≤ r) (ht : 1 �
     Nat.card (T ⧸ Subgroup.center T) * Nat.gcd (r + 1) (2 ^ t + 1) =
       (2 ^ t) ^ (r * (r + 1) / 2) * CatDistinct.twP r (2 ^ t) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := t) hE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := t) hE
   have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 t E :=
     CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hE ht
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := E) (p := 2)

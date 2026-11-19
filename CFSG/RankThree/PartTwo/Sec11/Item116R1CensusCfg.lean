@@ -58,7 +58,7 @@ theorem cd_R_facts (h113 : Item113) (h : ResidueConfig G A c L a R Y d) (hT : A 
   have hA : A = Subgroup.closure {y | y ∈ R ∧ y ^ 3 = 1} := (h113 G A c L a R Y hs).1
   have hPgrp : IsPGroup 3 R := by
     obtain ⟨Q, hQ⟩ := h.isSylowOf_top
-    have h1 := Q.isPGroup'.map (⊤ : Subgroup G).subtype
+    have h1 := Q.isPGroup.map (⊤ : Subgroup G).subtype
     rw [hQ] at h1
     exact h1
   have hAR : A ≤ R := by
@@ -145,11 +145,11 @@ section Certified
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G} {a : G}
   {R Y : Subgroup G} {d : G}
 
-theorem cd_R_transvection (h113 : Item113) (h : ResidueConfig G A c L a R Y d)
-    (hT : A ∉ partTwoT G) :
+theorem cd_R_transvection (_h113 : Item113) (h : ResidueConfig G A c L a R Y d)
+    (_hT : A ∉ partTwoT G) :
     ∀ u ∈ A, u ∉ Subgroup.closure ({c, d} : Set G) →
       ∀ b ∈ Subgroup.closure ({c, d} : Set G), ∃ r ∈ R, r * u * r⁻¹ = u * b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro u hu huB b hb
   have hAe := h.mem_partTwoF.1
   have hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
@@ -335,7 +335,7 @@ theorem cdRbar_aux (x : G) {R A : Subgroup G} (hsyl : CFSG.ABGLocalTools.IsSylow
     (∃ Rs : Sylow 3 (QAt x), (Rs : Subgroup (QAt x)) = cdSub x R) ∧
       (∀ z ∈ cdSub x R, z ^ 3 = 1 → z ∈ cdSub x A) ∧
       cdSub x A ≤ cdSub x R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hθ3 : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 (CAt x)) :=
     (solvable_prime_complement_core_characterization (H := CAt x) Nat.prime_three).2.2.1
   have hinj : ∀ s : CAt x, (s : G) ∈ R → cdπ x s = 1 → s = 1 := by
@@ -468,6 +468,7 @@ theorem cdSub_card_of_exp_three (x : G) (S : Subgroup G)
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm.trans
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS).toEquiv)
 
+omit [Finite G] in
 theorem cdSub_exp_three_of (x : G) (S : Subgroup G) (hexp : ∀ g ∈ S, g ^ 3 = 1) :
     ∀ y ∈ cdSub x S, y ^ 3 = 1 := by
   intro y hy
@@ -477,6 +478,7 @@ theorem cdSub_exp_three_of (x : G) (S : Subgroup G) (hexp : ∀ g ∈ S, g ^ 3 =
     Subtype.ext (by simpa using hexp (g : G) (Subgroup.mem_subgroupOf.mp hg))
   rw [← map_pow, hg3, map_one]
 
+omit [Finite G] in
 theorem cdSub_comm_of (x : G) (S : Subgroup G)
     (hcomm : ∀ u ∈ S, ∀ v ∈ S, u * v = v * u) :
     ∀ y ∈ cdSub x S, ∀ z ∈ cdSub x S, y * z = z * y := by
@@ -488,6 +490,7 @@ theorem cdSub_comm_of (x : G) (S : Subgroup G)
   congr 1
   exact Subtype.ext (hcomm _ (Subgroup.mem_subgroupOf.mp hg) _ (Subgroup.mem_subgroupOf.mp hk))
 
+omit [Finite G] in
 theorem cdSub_eq_closure_of (x : G) (S : Subgroup G)
     (hS : S ≤ Subgroup.centralizer ({x} : Set G)) (T : Set (CAt x))
     (hT : Subgroup.closure ((Subgroup.centralizer ({x} : Set G)).subtype '' T) = S) :
@@ -501,7 +504,7 @@ theorem cdSub_eq_closure_of (x : G) (S : Subgroup G)
   unfold cdSub
   rw [← hkey, MonoidHom.map_closure]
 
-theorem cd_Abar_data (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
+theorem cd_Abar_data (h : ResidueConfig G A c L a R Y d) (_hT : A ∉ partTwoT G)
     (hc : c ∈ Subgroup.centralizer ({c * d} : Set G)) (hd : d ∈ Subgroup.centralizer ({c * d} : Set G))
     (ha : a ∈ Subgroup.centralizer ({c * d} : Set G)) :
     (∀ x ∈ cdSub (c * d) A, x ^ 3 = 1) ∧
@@ -516,7 +519,7 @@ theorem cd_Abar_data (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
     cdπ (c * d) ⟨c, hc⟩ * cdπ (c * d) ⟨d, hd⟩ ≠ 1 ∧
     (∀ x : QAt (c * d), x * (cdπ (c * d) ⟨c, hc⟩ * cdπ (c * d) ⟨d, hd⟩) =
       (cdπ (c * d) ⟨c, hc⟩ * cdπ (c * d) ⟨d, hd⟩) * x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAe := h.mem_partTwoF.1
   have hEA : IsElementaryAbelian 3 A :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A).2 hAe
@@ -566,7 +569,7 @@ theorem cd_Abar_data (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
         (Subgroup.zpowers_le.mpr
           (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))))
   have hB9 : Nat.card (Subgroup.closure ({c, d} : Set G)) = 9 := by
-    rw [hBeq, hcd9] <;> norm_num
+    rw [hBeq, hcd9]; norm_num
   have hgenA : (Subgroup.centralizer ({c * d} : Set G)).subtype ''
       ({⟨c, hc⟩, ⟨d, hd⟩, ⟨a, ha⟩} : Set (CAt (c * d))) = {c, d, a} := by
     simp [Set.image_insert_eq]
@@ -579,12 +582,12 @@ theorem cd_Abar_data (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
   have hclA : Subgroup.closure ({cdπ (c * d) ⟨c, hc⟩, cdπ (c * d) ⟨d, hd⟩, cdπ (c * d) ⟨a, ha⟩} :
       Set (QAt (c * d))) = cdSub (c * d) A := by
     rw [cdSub_eq_closure_of (c * d) A hAC ({⟨c, hc⟩, ⟨d, hd⟩, ⟨a, ha⟩} : Set (CAt (c * d)))
-      (by rw [hgenA]; exact h.closure_eq)] <;>
+      (by rw [hgenA]; exact h.closure_eq)];
       simp only [Set.image_insert_eq, Set.image_singleton]
   have hclB : cdSub (c * d) (Subgroup.closure ({c, d} : Set G)) =
       Subgroup.closure ({cdπ (c * d) ⟨c, hc⟩, cdπ (c * d) ⟨d, hd⟩} : Set (QAt (c * d))) := by
     rw [cdSub_eq_closure_of (c * d) (Subgroup.closure ({c, d} : Set G)) hBC
-      ({⟨c, hc⟩, ⟨d, hd⟩} : Set (CAt (c * d))) (by rw [hgenB])] <;>
+      ({⟨c, hc⟩, ⟨d, hd⟩} : Set (CAt (c * d))) (by rw [hgenB])];
       simp only [Set.image_insert_eq, Set.image_singleton]
   have hmemc : cdπ (c * d) ⟨c, hc⟩ ∈ cdSub (c * d) A := by
     unfold cdSub
@@ -639,7 +642,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup 
 theorem cd_lift_comm (x : G) (u : CAt x) (hu : u ^ 3 = 1) (z : QAt x)
     (hz : z * cdπ x u = cdπ x u * z) :
     ∃ y : CAt x, cdπ x y = z ∧ y * u = u * y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 (CAt x)) :=
     (solvable_prime_complement_core_characterization (H := CAt x) Nat.prime_three).2.2.1
   have hZ3 : IsPGroup 3 (Subgroup.zpowers u) := by
@@ -656,7 +659,7 @@ theorem cd_lift_comm (x : G) (u : CAt x) (hu : u ^ 3 = 1) (z : QAt x)
   refine ⟨y, hyz, ?_⟩
   exact (Subgroup.mem_centralizer_iff.mp hy u (Subgroup.mem_zpowers u)).symm
 
-theorem cd_centralizers (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
+theorem cd_centralizers (h : ResidueConfig G A c L a R Y d) (_hT : A ∉ partTwoT G)
     (hc : c ∈ Subgroup.centralizer ({c * d} : Set G)) (hd : d ∈ Subgroup.centralizer ({c * d} : Set G)) :
     (∀ x : QAt (c * d), x * cdπ (c * d) ⟨c, hc⟩ = cdπ (c * d) ⟨c, hc⟩ * x →
       x * cdπ (c * d) ⟨d, hd⟩ = cdπ (c * d) ⟨d, hd⟩ * x) ∧
@@ -828,7 +831,7 @@ theorem cd_swap_data (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G)
       ((Subgroup.centralizer ({c * d} : Set G) : Subgroup G) : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
+    simp only [Subgroup.mem_centralizer_singleton_iff]
     exact cdQ6_comm_iff hcd3 hk3 hcdp y
   obtain ⟨σ, hσ⟩ : ∃ σ : MulAut (CAt (c * d)),
       ∀ y : CAt (c * d), ((σ y : CAt (c * d)) : G) = n' * (y : G) * n'⁻¹ :=
@@ -973,7 +976,7 @@ theorem censusD_of (h113 : Item113) (hK1 : CyclicSylowThreeOutAbelian)
       card_B := hA9
       z_ne := hA10
       z_central := hA11
-      R_pgroup := Rs.isPGroup'
+      R_pgroup := Rs.isPGroup
       A_le_R := hAR'
       omega := hΩ'
       R_centralizes_B := hRB

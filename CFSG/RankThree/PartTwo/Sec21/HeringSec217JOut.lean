@@ -45,8 +45,8 @@ theorem j217_hInn_J3
     (hX : Group.IsPerfect X) (e : X ≃* NativeSporadic.J3) :
     ∀ σ : MulAut X, σ ^ 3 = 1 → ∃ k : X, σ = MulAut.conj k := by
   intro σ hσ
-  haveI hs : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI : IsSimpleGroup X := @MulEquiv.isSimpleGroup _ _ _ _ hs e
+  have hs : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
+  have : IsSimpleGroup X := @MulEquiv.isSimpleGroup _ _ _ _ hs e
   have hZ := j217_center_eq_bot_of_perfect_simple hX
   obtain ⟨e'⟩ : Nonempty (X ⧸ Subgroup.center X ≃* NativeSporadic.J3) :=
     ⟨((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans e⟩

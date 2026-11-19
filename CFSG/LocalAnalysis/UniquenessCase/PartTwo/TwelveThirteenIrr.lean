@@ -18,6 +18,7 @@ private theorem card_fibreStab {ι : Type} [Fintype ι] [DecidableEq ι] (f : Ω
   exact Nat.card_congr (Equiv.subtypeEquivRight fun g =>
     ⟨fun h => funext h, fun h x => congrFun h x⟩)
 
+omit [Fintype Ω] in
 private theorem swap_mem_fibreStab {ι : Type} {f : Ω → ι} {p q : Ω} (h : f p = f q) :
     swap p q ∈ fibreStab f := fun z => by
   rcases eq_or_ne z p with rfl | hp
@@ -26,10 +27,12 @@ private theorem swap_mem_fibreStab {ι : Type} {f : Ω → ι} {p q : Ω} (h : f
   · rw [swap_apply_right, h]
   · rw [swap_apply_of_ne_of_ne hp hq]
 
+omit [Fintype Ω] in
 private theorem swap_apply_of_ne_fibre {ι : Type} {f : Ω → ι} {i : ι} {a b : Ω} (ha : f a = i)
     (hb : f b = i) (x : Ω) (hx : f x ≠ i) : swap a b x = x :=
   swap_apply_of_ne_of_ne (fun h => hx (h ▸ ha)) (fun h => hx (h ▸ hb))
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private theorem commute_of_fixOut {ι : Type} {f : Ω → ι} {i j : ι} (hij : i ≠ j)
     {g h : Perm Ω} (hg : g ∈ fibreStab f) (hh : h ∈ fibreStab f)
     (hgi : ∀ x, f x ≠ i → g x = x) (hhj : ∀ x, f x ≠ j → h x = x) : g * h = h * g := by
@@ -43,6 +46,7 @@ private theorem commute_of_fixOut {ι : Type} {f : Ω → ι} {i j : ι} (hij : 
     have h2 : g (h x) = h x := hgi (h x) (by rw [hh x]; exact hx)
     rw [h1, h2]
 
+omit [DecidableEq Ω] in
 private theorem exists_three_of_card {f : Ω → Fin 4} {i : Fin 4}
     (h : Nat.card {x // f x = i} = 4) :
     ∃ u v w : Ω, f u = i ∧ f v = i ∧ f w = i ∧ u ≠ v ∧ u ≠ w ∧ v ≠ w := by
@@ -51,6 +55,7 @@ private theorem exists_three_of_card {f : Ω → Fin 4} {i : Fin 4}
   refine ⟨e.symm 0, e.symm 1, e.symm 2, (e.symm 0).2, (e.symm 1).2, (e.symm 2).2, ?_, ?_, ?_⟩ <;>
     intro hh <;> exact absurd (e.symm.injective (Subtype.ext hh)) (by decide)
 
+omit [DecidableEq Ω] in
 private theorem exists_two_of_card {f : Ω → Fin 4} {i : Fin 4}
     (h : Nat.card {x // f x = i} = 2) : ∃ r r' : Ω, f r = i ∧ f r' = i ∧ r ≠ r' := by
   have h' : Fintype.card {x // f x = i} = 2 := by rw [← Nat.card_eq_fintype_card]; exact h
@@ -104,8 +109,8 @@ theorem exists_irr {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω ≤ Γ)
       (P : Set (Perm Ω)) * (T : Set (Perm Ω)) = (T : Set (Perm Ω)) * (P : Set (Perm Ω)) ∧
       ∀ W : Subgroup (Perm Ω), W ≤ P →
         normalizer (P : Set (Perm Ω)) ⊓ T ≤ normalizer (W : Set (Perm Ω)) → W = ⊥ ∨ W = P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hTf, hc0, hc1, hc2, hc3, hc2', t, htT, ht⟩ := exists_labelling hA hT h8 h11
   obtain ⟨u, v, w, hu, hv, hw, huv, huw, hvw⟩ := exists_three_of_card hc0
   obtain ⟨u', v', w', hu', hv', hw', huv', huw', hvw'⟩ := exists_three_of_card hc1
@@ -281,7 +286,7 @@ theorem exists_irr {Γ T : Subgroup (Perm Ω)} (hA : alternatingGroup Ω ≤ Γ)
   obtain ⟨ρ, hρf, hρfix, hτΓ⟩ : ∃ ρ : Perm Ω, ρ ∈ fibreStab f ∧ (∀ x, f x ≠ 2 → ρ x = x) ∧
       swap u v * ρ ∈ Γ := by
     rcases hΓ with hΓ | h10
-    · obtain ⟨g, hgΓ, hgA⟩ := SetLike.not_le_iff_exists.1 hΓ
+    · obtain ⟨g, hgΓ, hgA⟩ := IsConcreteLE.not_le_iff_exists.1 hΓ
       have hsg : Perm.sign g = -1 := by
         rcases Int.units_eq_one_or (Perm.sign g) with h | h
         · exact absurd (mem_alternatingGroup.2 h) hgA

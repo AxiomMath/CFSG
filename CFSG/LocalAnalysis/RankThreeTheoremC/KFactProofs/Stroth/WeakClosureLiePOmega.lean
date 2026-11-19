@@ -15,9 +15,9 @@ theorem crossClassical_pomegaOdd : CrossClassical .POmegaOdd 3 := by
   obtain ⟨hadm, F, _, _, hF, ⟨e⟩⟩ := h
   have hℓ : ℓ.Prime := hadm.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (p := ℓ) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have h2 : ringChar F ≠ 2 := by rw [ringChar.eq F ℓ]; exact hℓ2
   have hpq : ¬ p ∣ Fintype.card F := by
@@ -39,7 +39,7 @@ theorem crossClassical_pomegaPlus : CrossClassical .POmegaPlus 4 := by
   have hp := (Fact.out : p.Prime)
   obtain ⟨hadm, F, _, _, hF, ⟨e⟩⟩ := h
   have hℓ : ℓ.Prime := hadm.1
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]
     intro hd
@@ -57,7 +57,7 @@ theorem crossClassical_pomegaMinus : CrossClassical .POmegaMinus 4 := by
   have hp := (Fact.out : p.Prime)
   obtain ⟨hadm, F, _, _, hF, b, c, hirr, ⟨e⟩⟩ := h
   have hℓ : ℓ.Prime := hadm.1
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpq : ¬ p ∣ Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hF]
     intro hd

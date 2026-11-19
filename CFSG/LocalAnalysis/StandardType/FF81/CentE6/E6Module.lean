@@ -222,49 +222,49 @@ private theorem coord_cubeAct_elem {i j : Fin 6} (hij : i ≠ j)
     obtain ⟨I, rfl⟩ := hx
     rw [cubeAct_elem_cubeBasis hij I]
     by_cases hI : j ∈ I.val ∧ i ∉ I.val
-    · rw [dif_pos hI]
+    · rw [dite_eq_left hI]
       simp only [A5Cube.coord_add, A5Cube.coord_cubeBasis]
       by_cases hJ : i ∈ J.val ∧ j ∉ J.val
-      · rw [dif_pos hJ]
+      · rw [dite_eq_left hJ]
         have hiff := A5Cube.replSet_eq_iff hI.1 hI.2 hJ.1 hJ.2
         by_cases hIJ : I = J
         · exact absurd hJ.1 (hIJ ▸ hI.2)
-        · rw [if_neg hIJ]
+        · rw [ite_eq_right hIJ]
           by_cases h2 : A5Cube.replSet I i j hI.1 hI.2 = J
-          · rw [if_pos h2, if_pos (hiff.mp h2)]
-          · rw [if_neg h2, if_neg (fun h => h2 (hiff.mpr h))]
-      · rw [dif_neg hJ]
+          · rw [ite_eq_left h2, ite_eq_left (hiff.mp h2)]
+          · rw [ite_eq_right h2, ite_eq_right (fun h => h2 (hiff.mpr h))]
+      · rw [dite_eq_right hJ]
         have h1 : A5Cube.replSet I i j hI.1 hI.2 ≠ J := by
           intro h
           exact hJ (A5Cube.replSet_eq_imp hij hI.1 hI.2 h)
         simp [h1]
-    · rw [dif_neg hI]
+    · rw [dite_eq_right hI]
       simp only [A5Cube.coord_cubeBasis]
       by_cases hJ : i ∈ J.val ∧ j ∉ J.val
-      · rw [dif_pos hJ]
+      · rw [dite_eq_left hJ]
         have h1 : I ≠ A5Cube.replSet J j i hJ.1 hJ.2 := by
           intro h
           exact hI (A5Cube.replSet_mem_imp hij hJ.1 hJ.2 h)
         simp [h1]
-      · rw [dif_neg hJ]
+      · rw [dite_eq_right hJ]
         simp
   | zero =>
     simp [A5Cube.coord_zero]
   | add x y _ _ hx hy =>
     rw [map_add]
     by_cases hJ : i ∈ J.val ∧ j ∉ J.val
-    · rw [dif_pos hJ, A5Cube.coord_add, A5Cube.coord_add, A5Cube.coord_add, hx, hy]
+    · rw [dite_eq_left hJ, A5Cube.coord_add, A5Cube.coord_add, A5Cube.coord_add, hx, hy]
       simp [hJ]
       ring
-    · rw [dif_neg hJ, A5Cube.coord_add, A5Cube.coord_add, hx, hy]
+    · rw [dite_eq_right hJ, A5Cube.coord_add, A5Cube.coord_add, hx, hy]
       simp [hJ]
   | smul c x _ hx =>
     rw [map_smul]
     by_cases hJ : i ∈ J.val ∧ j ∉ J.val
-    · rw [dif_pos hJ, A5Cube.coord_smul, A5Cube.coord_smul, A5Cube.coord_smul, hx]
+    · rw [dite_eq_left hJ, A5Cube.coord_smul, A5Cube.coord_smul, A5Cube.coord_smul, hx]
       simp [hJ]
       ring
-    · rw [dif_neg hJ, A5Cube.coord_smul, A5Cube.coord_smul, hx]
+    · rw [dite_eq_right hJ, A5Cube.coord_smul, A5Cube.coord_smul, hx]
       simp [hJ]
 
 private theorem heisCoord_conj_a5Root
@@ -284,14 +284,14 @@ private theorem heisCoord_conj_a5Root
   have hcoord := hc.2 (cubeRoot J.val)
   have hbase : cubeRoot J.val ∈ CFSG.Blueprint.Chevalley.rootFinset .E6 :=
     cubeRoot_mem_rootFinset J.val J.prop
-  rw [if_pos hbase] at hcoord
+  rw [ite_eq_left hbase] at hcoord
   simp only [one_mul] at hcoord
   by_cases h : i ∈ J.val ∧ j ∉ J.val
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have heq := cubeRoot_sub_a5Root_eq i j hij J.val J.prop h.1 h.2
     rw [heq] at hcoord
     simpa [hcE6, xr, A5Cube.replSet] using hcoord
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     have hzero : hcE6 (q : ModGL6) (cubeRoot J.val - a5Root i j) = 0 := by
       change CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.Heis.heisCoord .E6 F2
         (q : ModGL6) (cubeRoot J.val - a5Root i j) = 0
@@ -343,7 +343,7 @@ private theorem coordFun_cubeRoot (ξ : A5Cube.Cube (ZMod 2))
   classical
   unfold coordFun
   have hJ : ∃ I : Set.powersetCard (Fin 6) 3, cubeRoot I.val = cubeRoot J.val := ⟨J, rfl⟩
-  rw [dif_pos hJ]
+  rw [dite_eq_left hJ]
   have hch : Classical.choose hJ = J := by
     apply Subtype.ext
     exact cubeRoot_injective (Classical.choose hJ).val J.val
@@ -356,7 +356,7 @@ private theorem coordFun_support
   classical
   unfold coordFun
   by_cases h : ∃ I : Set.powersetCard (Fin 6) 3, cubeRoot I.val = β
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exfalso
     obtain ⟨I, hI⟩ := h
     have hmem : cubeRoot I.val ∈ Deg1E6 :=
@@ -366,7 +366,7 @@ private theorem coordFun_support
           CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.Heis.iθ, cubeRoot]⟩
     rw [hI] at hmem
     exact hβ hmem
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
 
 private theorem vecOf_surjective
     : Function.Surjective

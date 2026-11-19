@@ -23,6 +23,7 @@ section Red2a
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {K T : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem isSylowTwoOf_imKT614' (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) :
     IsSylowTwoOf (imKT614 hTK T)
@@ -52,7 +53,7 @@ theorem isSylowTwoOf_imKT614' (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
 
 theorem mem_of_piKT614_eq_one_of_mem614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) {X : Subgroup Γ} (hXK : X ≤ K) (hXO : X = oTwoUpper X)
-    (hX5 : (X ⊓ T).relIndex X = 5) (hXn : ((X ⊓ T).subgroupOf X).Normal)
+    (hX5 : (X ⊓ T).relIndex X = 5) (_hXn : ((X ⊓ T).subgroupOf X).Normal)
     (hXN : ¬ X ≤ Subgroup.normalizer ((T ⊓ K : Subgroup Γ) : Set Γ)) {x : Γ} (hx : x ∈ X)
     (hxKT : x ∈ K ⊔ T) (h : piKT614 hTK ⟨x, hxKT⟩ = 1) : x ∈ T := by
   by_contra hxT

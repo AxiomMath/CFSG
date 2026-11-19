@@ -28,6 +28,7 @@ noncomputable def slEquiv (ρ : E ≃+* F4) : SL(2, E) ≃* SL(2, F4) where
     simp [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
   map_mul' := (Matrix.SpecialLinearGroup.map ρ.toRingHom).map_mul
 
+omit [Algebra (ZMod 2) E] in
 @[simp] theorem coe_slEquiv (ρ : E ≃+* F4) (g : SL(2, E)) :
     (slEquiv ρ g).1 = g.1.map ρ := by
   ext i j
@@ -39,6 +40,7 @@ theorem sigma_eq_sq (z : E) : P.σ z = z ^ 2 := by
 theorem rho_sigma_sq (ρ : E ≃+* F4) (z : E) : ρ (P.σ z) = (ρ z) ^ 2 := by
   rw [sigma_eq_sq P z, map_pow]
 
+omit [Algebra (ZMod 2) E] in
 theorem map_injective (ρ : E ≃+* F4) :
     Function.Injective (fun M : Matrix (Fin 2) (Fin 2) E => M.map ρ) := by
   intro M N h
@@ -64,6 +66,7 @@ theorem map_hermFourRho (ρ : E ≃+* F4) (g : SL(2, E)) (Y : hermFourSpace P.σ
     exact rho_sigma_sq P ρ z
   rw [Matrix.map_map, Matrix.map_map, hcomp]
 
+omit [Algebra (ZMod 2) E] in
 theorem map_det (ρ : E ≃+* F4) (M : Matrix (Fin 2) (Fin 2) E) :
     (M.map ρ).det = ρ M.det := by
   simpa [RingHom.mapMatrix_apply] using (RingHom.map_det ρ.toRingHom M).symm
@@ -111,8 +114,8 @@ open CFSG.GF2Type.Smith1979.W4Swap.Model
 
 theorem hermStabFacts : HermStabFacts := by
   intro E _ _ P hE X hX
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = Fintype.card F4 := by
     rw [CFSG.Fischer.F4.card, ← Nat.card_eq_fintype_card, hE]
   let ρ : E ≃+* F4 := FiniteField.ringEquivOfCardEq hcard

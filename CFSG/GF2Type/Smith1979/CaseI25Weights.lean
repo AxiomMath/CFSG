@@ -67,7 +67,7 @@ theorem card_subgroup_odd (hA : ∀ a : A, a ^ 3 = 1) (U : Subgroup A) : Odd (Na
 
 theorem of_mul_eSub {U : Subgroup A} {a : A} (ha : a ∈ U) :
     MonoidAlgebra.of (ZMod 2) A a * eSub U = eSub U := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [eSub_eq_sum, Finset.mul_sum]
   simp only [← map_mul]
   exact Fintype.sum_equiv (Equiv.mulLeft (⟨a, ha⟩ : U)) _ _ (fun u => by simp)
@@ -75,7 +75,7 @@ theorem of_mul_eSub {U : Subgroup A} {a : A} (ha : a ∈ U) :
 theorem mul_eSub_of_invariant (hA : ∀ a : A, a ^ 3 = 1) {U : Subgroup A}
     {X : MonoidAlgebra (ZMod 2) A} (hX : ∀ a ∈ U, MonoidAlgebra.of (ZMod 2) A a * X = X) :
     X * eSub U = X := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [eSub_eq_sum, Finset.mul_sum]
   have h1 : ∀ u : U, X * MonoidAlgebra.of (ZMod 2) A (u : A) = X := fun u => by
     rw [mul_comm]
@@ -150,17 +150,17 @@ theorem orthogonalIdempotents_eps (hA : ∀ a : A, a ^ 3 = 1) : OrthogonalIdempo
 theorem span_eps_eq_top (hA : ∀ a : A, a ^ 3 = 1) : Ideal.span (Set.range (eps A)) = ⊤ := by
   by_contra hne
   obtain ⟨M, hM, hle⟩ := Ideal.exists_le_maximal _ hne
-  letI : Field (MonoidAlgebra (ZMod 2) A ⧸ M) := Ideal.Quotient.field M
+  let : Field (MonoidAlgebra (ZMod 2) A ⧸ M) := Ideal.Quotient.field M
   set mk : MonoidAlgebra (ZMod 2) A →+* MonoidAlgebra (ZMod 2) A ⧸ M := Ideal.Quotient.mk M
   let φ : A →* (MonoidAlgebra (ZMod 2) A ⧸ M) :=
     (mk.toMonoidHom).comp (MonoidAlgebra.of (ZMod 2) A)
   let χ : A →* (MonoidAlgebra (ZMod 2) A ⧸ M)ˣ := φ.toHomUnits
-  haveI : Finite χ.range := Finite.of_surjective χ.rangeRestrict χ.rangeRestrict_surjective
+  have : Finite χ.range := Finite.of_surjective χ.rangeRestrict χ.rangeRestrict_surjective
   have hχ3 : ∀ g : χ.range, g ^ 3 = 1 := by
     rintro ⟨_, a, rfl⟩
     apply Subtype.ext
     simp [← map_pow, hA a]
-  haveI : IsCyclic χ.range :=
+  have : IsCyclic χ.range :=
     isCyclic_of_injective_ringHom ((Units.coeHom _).comp χ.range.subtype)
       (fun x y hxy => Subtype.ext (Units.ext hxy))
   have hidx : χ.ker.index ∣ 3 := by
@@ -169,7 +169,7 @@ theorem span_eps_eq_top (hA : ∀ a : A, a ^ 3 = 1) : Ideal.span (Set.range (eps
   have h2 : (2 : MonoidAlgebra (ZMod 2) A ⧸ M) = 0 := by
     rw [← map_ofNat mk 2, two_eq_zero_monoidAlgebra, map_zero]
   have himg : mk (eSub χ.ker) = 1 := by
-    haveI : Fintype χ.ker := Fintype.ofFinite _
+    have : Fintype χ.ker := Fintype.ofFinite _
     rw [eSub_eq_sum, map_sum]
     have h1 : ∀ u : χ.ker, mk (MonoidAlgebra.of (ZMod 2) A (u : A)) = 1 := fun u => by
       have hu : χ (u : A) = 1 := u.2
@@ -292,7 +292,7 @@ variable [Finite A]
 
 theorem asAlgebraHom_eSub_top [Fintype A] :
     ρ.asAlgebraHom (eSub (⊤ : Subgroup A)) = ∑ a : A, ρ a := by
-  haveI : Fintype (⊤ : Subgroup A) := Fintype.ofFinite _
+  have : Fintype (⊤ : Subgroup A) := Fintype.ofFinite _
   rw [asAlgebraHom_eSub]
   exact Fintype.sum_equiv Subgroup.topEquiv.toEquiv _ _ (fun u => rfl)
 
@@ -303,7 +303,7 @@ theorem apply_asAlgebraHom_eSub {U : Subgroup A} {a : A} (ha : a ∈ U) (v : V) 
 
 theorem asAlgebraHom_eSub_apply_of_mem (hA : ∀ a : A, a ^ 3 = 1) {U : Subgroup A} {v : V}
     (hv : v ∈ fixedSpace ρ U) : ρ.asAlgebraHom (eSub U) v = v := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [asAlgebraHom_eSub, LinearMap.sum_apply]
   have h1 : ∀ u : U, ρ (u : A) v = v := fun u => hv u u.2
   simp only [h1, Finset.sum_const, Finset.card_univ]
@@ -360,7 +360,7 @@ theorem sum_asAlgebraHom_eps (hA : ∀ a : A, a ^ 3 = 1) [Fintype (Option (Hyper
   rw [← map_sum, sum_eps hA, map_one]
 
 theorem iSup_weightFamily (hA : ∀ a : A, a ^ 3 = 1) : ⨆ i, weightFamily ρ i = ⊤ := by
-  haveI := Fintype.ofFinite (Option (Hyperplane A))
+  have := Fintype.ofFinite (Option (Hyperplane A))
   exact iSup_range_eq_top_of_sum_eq_one (sum_asAlgebraHom_eps ρ hA)
 
 theorem finrank_eq_fixedSpace_add_sum (hA : ∀ a : A, a ^ 3 = 1) [FiniteDimensional (ZMod 2) V]
@@ -395,8 +395,8 @@ variable {A : Type*} [Group A]
 theorem even_finrank_of_no_fixed (hA : ∀ a : A, a ^ 3 = 1) {W : Type*} [AddCommGroup W]
     [Module (ZMod 2) W] [Module.Finite (ZMod 2) W] (σ : Representation (ZMod 2) A W)
     (hfix : ∀ w : W, (∀ a, σ a w = w) → w = 0) : Even (Module.finrank (ZMod 2) W) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  letI : MulAction A W :=
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  let : MulAction A W :=
     { smul := fun a w => σ a w
       one_smul := fun w => by
         show σ 1 w = w
@@ -408,7 +408,7 @@ theorem even_finrank_of_no_fixed (hA : ∀ a : A, a ^ 3 = 1) {W : Type*} [AddCom
         rfl }
   have hp : IsPGroup 3 A := fun a => ⟨1, by simp [hA]⟩
   have hmod := hp.card_modEq_card_fixedPoints W
-  haveI : Unique (MulAction.fixedPoints A W) :=
+  have : Unique (MulAction.fixedPoints A W) :=
     ⟨⟨⟨0, fun a => map_zero (σ a)⟩⟩, fun x => Subtype.ext (hfix x.1 fun a => x.2 a)⟩
   have hfp : Nat.card (MulAction.fixedPoints A W) = 1 := Nat.card_unique
   rw [hfp, Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W), Nat.card_zmod] at hmod
@@ -475,7 +475,7 @@ theorem iInf_hyperplane_weightSpace_ne_bot (hA : ∀ a : A, a ^ 3 = 1)
 theorem map_weightSpace (hA : ∀ a : A, a ^ 3 = 1) {b : V ≃ₗ[ZMod 2] V} {σ : A ≃* A}
     (hb : ∀ a v, ρ (σ a) (b v) = b (ρ a v)) (H : Subgroup A) :
     (weightSpace ρ H).map (b : V →ₗ[ZMod 2] V) = weightSpace ρ (H.map σ.toMonoidHom) := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hT : ∀ v, ρ.asAlgebraHom (eSub ⊤) (b v) = b (ρ.asAlgebraHom (eSub ⊤) v) := by
     intro v
     rw [asAlgebraHom_eSub_top, LinearMap.sum_apply, LinearMap.sum_apply, map_sum]
@@ -540,7 +540,7 @@ theorem sum_finrank_weightSpace_le (hA : ∀ a : A, a ^ 3 = 1) [Module.Finite (Z
     (T : Finset (Subgroup A)) (hT : ∀ H ∈ T, H.index = 3) :
     ∑ H ∈ T, Module.finrank (ZMod 2) (weightSpace ρ H) ≤ Module.finrank (ZMod 2) V := by
   classical
-  haveI : Fintype (Hyperplane A) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A) := Fintype.ofFinite _
   rw [finrank_eq_fixedSpace_add_sum ρ hA]
   refine le_trans ?_ (Nat.le_add_left _ _)
   rw [← Finset.sum_subtype_of_mem (fun H => Module.finrank (ZMod 2) (weightSpace ρ H)) hT]

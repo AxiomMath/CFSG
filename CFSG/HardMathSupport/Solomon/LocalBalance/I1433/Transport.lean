@@ -155,7 +155,7 @@ theorem orderOf_mk_eq_three {X : Type*} [Group X] {K : Subgroup X} {z : X} (hzK 
 
 theorem coprime_orderOf_of_mem_gLAPPrimeCore {G : Type*} [Group G] [Finite G] {o : G}
     (ho : o ∈ GLAPPrimeCore 3 G) : Nat.Coprime 3 (orderOf o) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 G)) := CFSG.pPrimeCore_coprime_card
   have hd : orderOf o ∣ Nat.card (GLAPPrimeCore 3 G) := by
     have := orderOf_dvd_natCard (⟨o, ho⟩ : GLAPPrimeCore 3 G)
@@ -168,7 +168,7 @@ theorem inf_center_eq_bot {X : Type} [Group X] [Finite X] {K J : Subgroup X}
     (hctr : ((Subgroup.zpowers z).subgroupOf J).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J)) =
       Subgroup.center (↥J ⧸ GLAPPrimeCore 3 ↥J)) :
     J ⊓ (Subgroup.center ↥K).map K.subtype = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz1 : z ^ 3 = 1 := hz3 ▸ pow_orderOf_eq_one z
   rw [eq_bot_iff]
   rintro w ⟨hwJ, a, haZ, hwa⟩
@@ -305,7 +305,7 @@ theorem isSL3EpsOver_of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (e : Y ≃* 
 theorem exists_barEquiv {A B : Type} [Group A] [Group B] [Finite A] [Finite B] (e : A ≃* B) :
     ∃ f : (A ⧸ GLAPPrimeCore 3 A) ≃* (B ⧸ GLAPPrimeCore 3 B),
       ∀ a : A, f (QuotientGroup.mk a) = QuotientGroup.mk (e a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : (GLAPPrimeCore 3 A).map e.toMonoidHom ≤ GLAPPrimeCore 3 B :=
     CFSG.map_pPrimeCore_le e.toMonoidHom e.surjective
   have h2 : (GLAPPrimeCore 3 B).map e.symm.toMonoidHom ≤ GLAPPrimeCore 3 A :=
@@ -413,8 +413,8 @@ variable {X : Type} [Group X] [Finite X] {K Q₁ Q J : Subgroup X} {t : X} {q : 
 theorem I1433Cfg.exists_sCfg (c : I1433Cfg K Q₁ Q J t q) :
     ∃ (x : ↥K ⧸ Subgroup.center ↥K) (Q' : Subgroup (MulAut (↥K ⧸ Subgroup.center ↥K)))
       (J' : Subgroup (↥K ⧸ Subgroup.center ↥K)), I1433SCfg Q' x J' q := by
-  haveI := c.setup.normal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := c.setup.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzK, hz3, hZz⟩ := c.exists_gen
   have hzQ : z ∈ ZQ Q := hZz ▸ Subgroup.mem_zpowers z
   have hperf : Group.IsPerfect ↥K := c.setup.quasisimple.1

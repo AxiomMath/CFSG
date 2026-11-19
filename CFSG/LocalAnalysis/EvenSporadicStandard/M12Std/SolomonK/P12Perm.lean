@@ -116,7 +116,7 @@ theorem gensFn_coe {ws : List (List (ℕ × ℕ))} {k : ℕ} (hk : k < ws.length
     rw [List.getD_eq_getElem _ _ hk]
     exact hv _ (List.getElem_mem hk)
   unfold gensFn
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem permArr_gensFn {ws : List (List (ℕ × ℕ))} {k : ℕ} (hk : k < ws.length)
     (hv : ∀ w ∈ ws, swapsOK n w = true) :

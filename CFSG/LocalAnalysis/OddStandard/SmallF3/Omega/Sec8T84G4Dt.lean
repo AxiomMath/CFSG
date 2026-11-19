@@ -10,6 +10,7 @@ open Subgroup CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E T T1 T2 V1 V2 F1 F2 : Subgroup G}
 
+omit [Finite G] in
 theorem sec8t84g4_swap_of_map (ht : t * t = 1) {A A2 : Subgroup G}
     (h : A2 = A.map (MulAut.conj t).toMonoidHom) :
     (∀ a ∈ A, t * a * t⁻¹ ∈ A2) ∧ ∀ b ∈ A2, t * b * t⁻¹ ∈ A := by
@@ -24,6 +25,7 @@ theorem sec8t84g4_swap_of_map (ht : t * t = 1) {A A2 : Subgroup G}
   rw [e]
   exact ha
 
+omit [Finite G] in
 theorem sec8t84g4_map_conj_mul {γ d : G} {X : Subgroup G} (hd : d ∈ normalizer (X : Set G)) :
     X.map (MulAut.conj (γ * d)).toMonoidHom = X.map (MulAut.conj γ).toMonoidHom := by
   have h1 : X.map (MulAut.conj (γ * d)).toMonoidHom =

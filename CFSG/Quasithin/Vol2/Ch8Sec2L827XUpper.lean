@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {Γ : Type} [Group Γ]
 
+omit [Group Γ] in
 theorem relIndex_sup_of_le_normalizer [Group Γ] {H K : Subgroup Γ}
     (hH : H ≤ Subgroup.normalizer (K : Set Γ)) :
     K.relIndex (H ⊔ K) = K.relIndex H := by
@@ -19,7 +20,7 @@ theorem relIndex_sup_of_le_normalizer [Group Γ] {H K : Subgroup Γ}
   have hKC : K ≤ C := le_sup_right
   have hCN : C ≤ Subgroup.normalizer (K : Set Γ) := sup_le hH Subgroup.le_normalizer
   have hN : (K.subgroupOf C).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKC).mpr hCN
-  haveI : (K.subgroupOf C).Normal := hN
+  have : (K.subgroupOf C).Normal := hN
   have hsup : H.subgroupOf C ⊔ K.subgroupOf C = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hHC hKC]
     exact Subgroup.subgroupOf_self C
@@ -35,7 +36,7 @@ theorem mQuot_commutator_le_five [Finite Γ] {V U W₀ W₁ R : Subgroup Γ} {v 
     (hcomm : ⁅W₁, Subgroup.zpowers v⁆ ≤ V ⊓ R) (hPN : V ⊓ R ≤ Subgroup.normalizer (W₀ : Set Γ)) :
     mQuot (⁅W₁, Subgroup.zpowers v⁆ ⊔ W₀) W₀ ≤ 5 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup Γ := V ⊓ R with hPdef
   set A : Subgroup Γ := ⁅W₁, Subgroup.zpowers v⁆ ⊔ W₀ with hAdef
   have hUP : U ≤ P := le_inf hUV (hUW₀.trans (hW₀W₁.trans hW₁R))

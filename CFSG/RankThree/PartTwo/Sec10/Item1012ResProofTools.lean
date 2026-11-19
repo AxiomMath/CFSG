@@ -57,7 +57,7 @@ theorem eq_one_of_mem_center_of_mem_sylow {F : Type*} [Group F] [Finite F]
   have h3 : z ^ (R : Subgroup F).index = 1 := by
     have := congrArg Subtype.val h1
     simpa using this.symm
-  obtain ⟨k, hk⟩ := R.isPGroup' ⟨z, hzR⟩
+  obtain ⟨k, hk⟩ := R.isPGroup ⟨z, hzR⟩
   have hk' : z ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hcop : Nat.Coprime (p ^ k) (R : Subgroup F).index :=
     Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Fact.out).mpr R.not_dvd_index)
@@ -103,7 +103,7 @@ theorem exists_lift {X Y : Type*} [Group X] [Finite X] [Group Y]
   set Q : Subgroup X := (P : Subgroup C).map C.subtype with hQ
   have hxQ : x ∈ Q := ⟨⟨x, hx⟩, hP (Subgroup.mem_zpowers _), rfl⟩
   have hQC : Q ≤ C := Subgroup.map_subtype_le _
-  have hQp : IsPGroup 3 Q := P.isPGroup'.map C.subtype
+  have hQp : IsPGroup 3 Q := P.isPGroup.map C.subtype
   set M := Subgroup.normalizer (Q : Set X) with hM
   have hFrat : M ⊔ C = ⊤ := Sylow.normalizer_sup_eq_top P
   have hMrange : M.map π = π.range := by
@@ -179,7 +179,7 @@ theorem exists_lift {X Y : Type*} [Group X] [Finite X] [Group Y]
   have ht₀R : t₀ ∈ (R : Subgroup F₀) := hR (Subgroup.mem_zpowers _)
   have hRC : ∀ r ∈ (R : Subgroup F₀), ((r : X) ∈ C) → ∀ f : F₀, f * r = r * f := by
     intro r hr hrC f
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
     have hk' : (r : X) ^ 3 ^ k = 1 := by
       simpa using congrArg (fun z : (R : Subgroup F₀) => ((z : F₀) : X)) hk
     have hrQ : (r : X) ∈ Q := hJC3 r (hF₀J r.2) hrC ⟨k, hk'⟩
@@ -197,7 +197,7 @@ theorem exists_lift {X Y : Type*} [Group X] [Finite X] [Group Y]
       rintro _ ⟨r, rfl⟩
       exact (hF₀F₁ (r : F₀).2).2
     have hp : IsPGroup 3 fR.range :=
-      R.isPGroup'.of_surjective fR.rangeRestrict fR.rangeRestrict_surjective
+      R.isPGroup.of_surjective fR.rangeRestrict fR.rangeRestrict_surjective
     have hcard := hFp _ hle hp
     obtain ⟨m, hm⟩ := hp.exists_card_eq
     have hcyc : IsCyclic fR.range := by

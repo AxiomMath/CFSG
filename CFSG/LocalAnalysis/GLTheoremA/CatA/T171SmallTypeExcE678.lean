@@ -20,7 +20,7 @@ theorem exists_eq_conj_of_pow_three_E6 {K : Type} [Field K] [Finite K] (hK : Nat
   obtain ⟨hfin, hle⟩ :=
     CFSG.SeitzReduction.SeitzQ2.card_outer_le_two_of_mulEquiv_E6_two (K := K) hK
       (MulEquiv.refl ↥(adjointGroup Tag.E6 K))
-  haveI := hfin
+  have := hfin
   have hne : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       ↥(adjointGroup Tag.E6 K)) := by
     intro h3
@@ -79,8 +79,8 @@ theorem noSmall_lie_E6 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E6 q
     (MulEquiv.refl _)
   obtain ⟨K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup Tag.E6 hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by
     rw [hK, ← TauCeti.PrimePower.card_def]
     exact hq
@@ -94,8 +94,8 @@ theorem noSmall_lie_E7 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E7 q
     (MulEquiv.refl _)
   obtain ⟨K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup Tag.E7 hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by
     rw [hK, ← TauCeti.PrimePower.card_def]
     exact hq
@@ -109,8 +109,8 @@ theorem noSmall_lie_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8 q
     (MulEquiv.refl _)
   obtain ⟨K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup Tag.E8 hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by
     rw [hK, ← TauCeti.PrimePower.card_def]
     exact hq

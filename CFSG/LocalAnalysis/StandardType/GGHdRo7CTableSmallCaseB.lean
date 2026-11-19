@@ -77,10 +77,10 @@ theorem hdRo7CSmallAux_case_c1_k3
     simp [hd12, hi1j1, hd13, hi1j2]
   have hσi2 : σ i2 = j1 := by
     simp only [σ, Equiv.Perm.mul_apply, Equiv.swap_apply_def]
-    simp [hi2j2, hd12, hd23, hi2j1]
+    simp [hi2j2, hd23]
   have hσi3 : σ i3 = j2 := by
     simp only [σ, Equiv.Perm.mul_apply, Equiv.swap_apply_def]
-    simp [hd23, hi3j2, hd13, hi3j1, hj2i2, hj2j1]
+    simp [hj2i2, hj2j1]
   have hcc1 : cc i1 = -1 := by simp [cc]
   have hcc2 : cc i2 = 1 := by simp [cc, hi2i1]
   have hcc3 : cc i3 = 1 := by simp [cc, hi3i1]
@@ -117,22 +117,22 @@ theorem hdRo7CSmallAux_case_c1_k3
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0i2, h0i3, h0j1, h0j2, hd12, hi2i1, hd13, hi3i1, hd23, hi3i2, hi1j1, hj1i1, hi2j1, hj1i2, hi3j1, hj1i3, hi1j2, hj2i1, hi2j2, hj2i2, hi3j2, hj2i3, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0i2, h0i3, h0j1, h0j2]
   have hinv1 : h⁻¹ (b i1) = -b i1 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0i2, h0i3, h0j1, h0j2, hd12, hi2i1, hd13, hi3i1, hd23, hi3i2, hi1j1, hj1i1, hi2j1, hj1i2, hi3j1, hj1i3, hi1j2, hj2i1, hi2j2, hj2i2, hi3j2, hj2i3, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hd12, hd13, hi1j1, hi1j2]
   have hinv2 : h⁻¹ (b i2) = b j1 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0i2, h0i3, h0j1, h0j2, hd12, hi2i1, hd13, hi3i1, hd23, hi3i2, hi1j1, hj1i1, hi2j1, hj1i2, hi3j1, hj1i3, hi1j2, hj2i1, hi2j2, hj2i2, hi3j2, hj2i3, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hj1i1, hj1i3, hj12]
   have hinv3 : h⁻¹ (b i3) = b j2 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0i2, h0i3, h0j1, h0j2, hd12, hi2i1, hd13, hi3i1, hd23, hi3i2, hi1j1, hj1i1, hi2j1, hj1i2, hi3j1, hj1i3, hi1j2, hj2i1, hi2j2, hj2i2, hi3j2, hj2i3, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi3i2, hi3j1, hj2i1]
   have hhu_inv : h⁻¹ u = b.coord 0 u • b 0 - b.coord i1 u • b i1
       + b.coord i2 u • b j1 + b.coord i3 u • b j2 := by
     conv_lhs => rw [hu3]
@@ -241,10 +241,10 @@ theorem hdRo7CSmallAux_case_c1_k4
     by_cases h : j ∈ ({i1, i2, i3} : Finset (Fin (n + 1)))
     · right
       change (if j ∈ ({i1, i2, i3} : Finset (Fin (n + 1))) then (-1 : ZMod 3) else 1) = -1
-      rw [if_pos h]
+      rw [ite_eq_left h]
     · left
       change (if j ∈ ({i1, i2, i3} : Finset (Fin (n + 1))) then (-1 : ZMod 3) else 1) = 1
-      rw [if_neg h]
+      rw [ite_eq_right h]
   have hσ0 : σ 0 = 0 := by
     simp only [σ, Equiv.swap_apply_def]; simp [h0i4, h0j1]
   have hc0 : cc 0 = 1 := by simp [cc, h0i1, h0i2, h0i3]
@@ -295,28 +295,27 @@ theorem hdRo7CSmallAux_case_c1_k4
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i4, h0j1, h0i1, h0i2, h0i3]
+    simp [σ, cc, Equiv.swap_apply_def, h0i4, h0j1, h0i1, h0i2, h0i3]
   have hinv1 : h⁻¹ (b i1) = -b i1 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi1j1, hd14, h0i1]
+    simp [σ, cc, Equiv.swap_apply_def, hi1j1, hd14]
   have hinv2 : h⁻¹ (b i2) = -b i2 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi2j1, hd24, h0i2]
+    simp [σ, cc, Equiv.swap_apply_def, hi2j1, hd24]
   have hinv3 : h⁻¹ (b i3) = -b i3 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi3j1, hd34, h0i3]
+    simp [σ, cc, Equiv.swap_apply_def, hi3j1, hd34]
   have hinv4 : h⁻¹ (b i4) = b j1 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi4j1, hi4i1, hi4i2, hi4i3,
-      hj1i1, hj1i2, hj1i3]
+    simp [σ, cc, hj1i1, hj1i2, hj1i3]
   have hhu_inv : h⁻¹ u = b.coord 0 u • b 0 - b.coord i1 u • b i1 - b.coord i2 u • b i2
       - b.coord i3 u • b i3 + b.coord i4 u • b j1 := by
     conv_lhs => rw [hu4]

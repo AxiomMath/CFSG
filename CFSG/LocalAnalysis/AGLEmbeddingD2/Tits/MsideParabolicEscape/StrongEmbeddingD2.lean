@@ -222,7 +222,7 @@ theorem D2Escape.normalizer_zpowers_le_of_centralizer_le {p : ℕ} {P : Sylow p 
   have hF''C : F'' ≤ C := by
     rintro _ ⟨_, ⟨f, hf, rfl⟩, rfl⟩
     exact Subgroup.mem_subgroupOf.mp f.2
-  have hF''p : IsPGroup p F'' := (F.isPGroup'.map _).map _
+  have hF''p : IsPGroup p F'' := (F.isPGroup.map _).map _
   have hEF'' : E ≤ F'' := by
     intro e he
     have heC : e ∈ C := hEC he

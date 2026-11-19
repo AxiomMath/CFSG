@@ -15,7 +15,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.LieType.Universal CFSG.LieType.RootSystem
 open CFSG.Open (StatedLieTag StatedLieAdmissible)
 
 theorem irg_hasLabel_exc
-    {X : Type} [Group X] {J : Subgroup X} (hqs : CFSG.Assembly.IsQuasisimple ↥J)
+    {X : Type} [Group X] {J : Subgroup X} (_hqs : CFSG.Assembly.IsQuasisimple ↥J)
     {t : StatedLieTag} {n g : ℕ} (ht : t = .F4 ∨ t = .E6 ∨ t = .E7 ∨ t = .E8 ∨ t = .twistedE6)
     (hn : RCKNormalizedModel t n g) (φ : (ggU t n g).K →* X)
     (hr : φ.range = J) (hk : φ.ker ≤ Subgroup.center (ggU t n g).K) :

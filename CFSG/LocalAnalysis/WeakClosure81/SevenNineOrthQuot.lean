@@ -139,7 +139,7 @@ private theorem orthReflSet_three_eq_reflSet {m : ℕ}
     orthReflSet 3 m f = CFSG.Fischer.Classification.F3.reflSet f := by
   ext g
   simp only [orthReflSet, CFSG.Fischer.Classification.F3.reflSet, fischerTransvections,
-    Set.mem_setOf_eq, show (-2 : ZMod 3) = 1 by decide]
+    Set.mem_ofPred_eq, show (-2 : ZMod 3) = 1 by decide]
 
 theorem coe_eq_of_mem_center_orthRefl_three (hf : ∀ x y, f x y = f y x)
     (hnd : ∀ x, (∀ y, f x y = 0) → x = 0) {z : ↥(Subgroup.closure (orthReflSet 3 6 f))}

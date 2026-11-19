@@ -53,9 +53,9 @@ private theorem three_dvd_card_psl_three {p : ℕ} [Fact p.Prime] :
       congrFun (congrFun hscalar 1) 0
     have hP10 : (P : Matrix (Fin 3) (Fin 3) (ZMod p)) 1 0 = 1 := by
       rw [show P = permMatrix 3 (ZMod p) w from rfl, permMatrix_apply]
-      rw [if_pos (by decide : (1 : Fin 3) = w 0)]
+      rw [ite_eq_left (by decide : (1 : Fin 3) = w 0)]
     have : (0 : ZMod p) = 1 := by
-      simpa [g, Matrix.scalar_apply, hP10] using h10'
+      simp [g, Matrix.scalar_apply, hP10] at h10'
     exact zero_ne_one this
   have hg3' : (QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p))) g) ^ 3 = 1 := by
     rw [← map_pow, hg3, map_one]
@@ -113,7 +113,7 @@ private theorem reflection_conj_diagSL {p : ℕ} [Fact p.Prime] {a b c : ZMod p}
       exact hij rfl
     rw [permMatrix_apply] at hpij
     by_contra hne
-    rw [if_neg hne] at hpij
+    rw [ite_eq_right hne] at hpij
     exact hpij rfl
   have hconj := conj_diag_of_perm (A := A) (ρ := ρ) hρ (φ := ![(a : ZMod p), b, c])
   have hxmat : ((SpecialLinearGroup.toGL (diagSL a b c h) : GL (Fin 3) (ZMod p)) :
@@ -127,7 +127,7 @@ private theorem reflection_conj_diagSL {p : ℕ} [Fact p.Prime] {a b c : ZMod p}
     rw [hconj]
     congr 1
     ext i
-    fin_cases i <;> simp [ρ, hρdef, hc, Equiv.swap_apply_def]
+    fin_cases i <;> simp [ρ, hc, Equiv.swap_apply_def]
   apply SpecialLinearGroup.toGL_injective
   rw [map_mul, map_mul, map_inv]
   change A * SpecialLinearGroup.toGL (diagSL a b c h) * A⁻¹ =
@@ -144,7 +144,7 @@ private theorem dvd_p_sub_one_of_upperTriangular_isBorelDLocal {p d : ℕ} [Fact
     (hpre : Y.comap (QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p)))) =
       upperTriangular 3 (ZMod p)) : d ∣ p - 1 := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let π : SL(3, ZMod p) →* PSL(3, ZMod p) :=
     QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p)))
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -216,7 +216,7 @@ private theorem exists_diagonal_element_conj_reflection {p d : ℕ} [Fact p.Prim
       reflection 3 (ZMod p) 1 (by norm_num) (by norm_num) * x *
         (reflection 3 (ZMod p) 1 (by norm_num) (by norm_num))⁻¹ = x⁻¹ := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' d
     (G := ((ZMod p)ˣ)) (by
       rw [Nat.card_units, Nat.card_zmod]
@@ -266,7 +266,7 @@ private theorem normalizer_zpowers_le_of_borel_diagonal {p d : ℕ} [Fact p.Prim
       (QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p))) x) :
         Set (PSL(3, ZMod p))) ≤ Y := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let y : PSL(3, ZMod p) := QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p))) x
   have hy_mem_Y : y ∈ Y := Subgroup.mem_comap.mp hx_mem
   have hy_d : y ^ d = 1 := by
@@ -289,13 +289,13 @@ private theorem normalizer_zpowers_le_of_borel_diagonal {p d : ℕ} [Fact p.Prim
     rw [show H = Subgroup.zpowers y from rfl, Nat.card_zpowers, hord_y]
   exact hY.normalizer_le_of_dvd hd hH_le hH_abel hdH
 
-private theorem upperTriangular_not_isBorelDLocal {p d : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
+private theorem upperTriangular_not_isBorelDLocal {p d : ℕ} [Fact p.Prime] (_hp5 : 5 ≤ p)
     (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p) (hdG : d ∣ Nat.card PSL(3, ZMod p))
     {Y : Subgroup PSL(3, ZMod p)} (hY : IsBorelDLocal p d Y)
     (hpre : Y.comap (QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p)))) =
       upperTriangular 3 (ZMod p)) : False := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hddvd : d ∣ p - 1 :=
     dvd_p_sub_one_of_upperTriangular_isBorelDLocal hd hdp hdG hY hpre
   obtain ⟨x, hx_mem_B, hx_not_center, hxpow, hrx⟩ :=
@@ -338,7 +338,7 @@ private theorem upperTriangular_not_isBorelDLocal {p d : ℕ} [Fact p.Prime] (hp
 
 private theorem statedClassicalModel_psl_three_of_isPSLType {G : Type} [Group G] {p : ℕ}
     (hp : p.Prime) (hG : IsPSLType 3 (ZMod p) G) : StatedClassicalModel G .PSL 3 p 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hG
   refine ⟨⟨hp, le_rfl, by norm_num, ?_, ?_⟩, ZMod p, inferInstance, inferInstance, ?_,
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3
@@ -353,7 +353,7 @@ private theorem statedClassicalModel_psl_three_of_isPSLType {G : Type} [Group G]
 
 private theorem center_eq_bot_of_isPSLType_three {G : Type} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hG : IsPSLType 3 (ZMod p) G) : Subgroup.center G = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hG
   have hsimplePSL : IsSimpleGroup (PSL(3, ZMod p)) :=
     (CFSG.LinearGroups.linear_projective_simple (K := ZMod p) (n := 3) (by norm_num)
@@ -397,7 +397,7 @@ private theorem center_eq_bot_of_isPSLType_three {G : Type} [Group G] [Finite G]
       omega
   have hnotcomm : ¬ IsMulCommutative G := by
     intro hcomm
-    haveI : IsSimpleGroup G := hsimpleG
+    have : IsSimpleGroup G := hsimpleG
     let : CommGroup G :=
       { (inferInstance : Group G) with
         mul_comm := fun x y => hcomm.is_comm.comm x y }
@@ -406,7 +406,7 @@ private theorem center_eq_bot_of_isPSLType_three {G : Type} [Group G] [Finite G]
 
 private theorem three_dvd_card_of_isPSLType_three {G : Type} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) (hG : IsPSLType 3 (ZMod p) G) : 3 ∣ Nat.card G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hG
   rw [Nat.card_congr e.toEquiv]
   exact three_dvd_card_psl_three
@@ -414,7 +414,7 @@ private theorem three_dvd_card_of_isPSLType_three {G : Type} [Group G] [Finite G
 private theorem outer_dvd_of_isPSLType_three {G : Type} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) (hG : IsPSLType 3 (ZMod p) G) :
     Nat.card (Outer G) ∣ 2 * Nat.gcd 3 (p - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : StatedClassicalModel G .PSL 3 p 1 :=
     statedClassicalModel_psl_three_of_isPSLType hp hG
   have h := CFSG.Quasithin.A318P.outer_dvd_linear hS
@@ -445,7 +445,7 @@ private theorem outer_not_dvd_and_only_three {G : Type} [Group G] [Finite G] {p 
   have hout_lt : Nat.card (Outer G) < p := lt_of_le_of_lt hout_le hbound
   constructor
   · intro hdiv
-    haveI : Nonempty (Outer G) := ⟨1⟩
+    have : Nonempty (Outer G) := ⟨1⟩
     have hle : p ≤ Nat.card (Outer G) := Nat.le_of_dvd (Nat.card_pos (α := Outer G)) hdiv
     omega
   · intro q hq hq2 hqdvd
@@ -469,7 +469,7 @@ theorem isCyclic_of_isPGroup_psl_three {p d : ℕ} [Fact p.Prime] (hd : d.Prime)
     (hdp : d ∣ p + 1) {S : Subgroup PSL(3, ZMod p)} (hS : IsPGroup d S) : IsCyclic S := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hdp' : d ≠ p := by
     intro hdpq
     subst hdpq
@@ -483,7 +483,7 @@ theorem isCyclic_of_isPGroup_psl_three {p d : ℕ} [Fact p.Prime] (hd : d.Prime)
     isCyclic_of_isSylow_dvd_p_add_one_of_prime_ne_two hp hd hd2 hdp' hdp
       (Subgroup.topEquiv) (by
         rw [CFSG.ABGLocalTools.isSylowOf_iff]
-        exact ⟨le_top, Q.isPGroup', by simpa using Q.not_dvd_index⟩)
+        exact ⟨le_top, Q.isPGroup, by simpa using Q.not_dvd_index⟩)
   let π : SL(3, ZMod p) →* PSL(3, ZMod p) :=
     QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p)))
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -499,11 +499,11 @@ theorem isCyclic_of_isPGroup_psl_three {p d : ℕ} [Fact p.Prime] (hd : d.Prime)
       rintro ⟨y, hy⟩
       obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
       exact ⟨⟨x, hx⟩, Subtype.ext rfl⟩
-    haveI : IsCyclic ↥(Q : Subgroup (SL(3, ZMod p))) := hQcyc
+    have : IsCyclic ↥(Q : Subgroup (SL(3, ZMod p))) := hQcyc
     exact isCyclic_of_surjective f hf
   obtain ⟨T', hST'⟩ := hS.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (PSL(3, ZMod p)) T T'
-  haveI : IsCyclic ↥(T' : Subgroup (PSL(3, ZMod p))) := by
+  have : IsCyclic ↥(T' : Subgroup (PSL(3, ZMod p))) := by
     rw [← hg]
     exact (T.equivSMul g).isCyclic.mp hTcyc
   exact Subgroup.isCyclic_of_le (H := S)
@@ -560,7 +560,7 @@ theorem exists_conj_comap_eq_flagStabilizer {p d : ℕ} [Fact p.Prime] (hp5 : 5 
           (QuotientGroup.mk' (Subgroup.center (SL(3, ZMod p)))) =
         flagStabilizer 3 (ZMod p) ({i} : Set ℕ) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨g, hY', hBleA⟩ := exists_conj_upperTriangular_le_comap hY
   let Y' : Subgroup (PSL(3, ZMod p)) := Y.map (MulAut.conj g).toMonoidHom
   let π : SL(3, ZMod p) →* PSL(3, ZMod p) :=

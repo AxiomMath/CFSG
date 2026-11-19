@@ -22,6 +22,7 @@ section Core
 
 variable {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem conj_twFrobE6_c0 (Fr : L →+* L) (s : WeylGroup Tag.E6) (h g : ModGL Tag.E6 L) :
     canonicalRep (coxeterSystem Tag.E6) L s *
       twFrobE6 ((canonicalRep (coxeterSystem Tag.E6) L s)⁻¹ * h⁻¹ *
@@ -172,7 +173,7 @@ theorem twE6HeisFrameFixedEltD_holds : TwE6HeisFrameFixedEltD := by
   obtain ⟨K₀, _, _, _, hK₀alg, hK₀card, hK₀char⟩ := exists_fixedField_data hℓ hf hK σ hσ
   have hK3 : ringChar K₀ ≠ 3 := by rw [hK₀char]; exact hℓ3
   have hFr : ∀ c, F.Fr c = c ^ Nat.card K₀ := fun c => by rw [F.hFr c, hK₀card]
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   refine twFrame_exists_fixedElt_of_exists_x hℓ hℓ3 hf hK σ hσ hEab F ?_
   obtain ⟨c₀, hc₀, hx⟩ := twD_exists_x (K₀ := K₀) hK3 F.Fr hFr hD
   refine ⟨c₀, hc₀, fun y' hyN hym hy3 hFy' => ?_⟩

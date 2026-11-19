@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizerMonoidHom_eq_one_iff {V : Subgroup G} {x : G}
     (hx : x ∈ normalizer (V : Set G)) :
     V.normalizerMonoidHom ⟨x, hx⟩ = 1 ↔ ∀ v ∈ V, x * v = v * x := by

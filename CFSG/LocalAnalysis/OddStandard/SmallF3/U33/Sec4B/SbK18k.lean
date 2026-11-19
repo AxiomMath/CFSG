@@ -122,7 +122,7 @@ theorem k18_card_Y_sup (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     by_contra h
     have h0 : m = 0 := Nat.eq_zero_of_not_pos h
     rw [h0, mul_zero] at hm
-    haveI : Nonempty ↥(Y ⊔ zpowers g) := ⟨⟨1, Subgroup.one_mem _⟩⟩
+    have : Nonempty ↥(Y ⊔ zpowers g) := ⟨⟨1, Subgroup.one_mem _⟩⟩
     have hpos : 0 < Nat.card ↥(Y ⊔ zpowers g) := Nat.card_pos
     rw [hm] at hpos
     exact Nat.lt_irrefl 0 hpos

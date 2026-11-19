@@ -20,30 +20,30 @@ theorem lin_two_stdVanishes_of_top (hV : 3 ≤ Module.finrank (ZMod 2) V)
   rintro ⟨T, hTbot, hT2, hTN⟩
   let d := Module.finrank (ZMod 2) V
   let e : V ≃ₗ[ZMod 2] (Fin d → ZMod 2) :=
-    LinearEquiv.ofFinrankEq V _ (by simp [d, Module.finrank_fin_fun])
+    LinearEquiv.ofFinrankEq V _ (by simp [d])
   have hsn : IsSimpleGroup (V ≃ₗ[ZMod 2] V) ∧
       ∃ a b : V ≃ₗ[ZMod 2] V, a * b ≠ b * a :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.GL.simple_nonab_of_equiv
       (CFSG.LocalAnalysis.GLTheoremA.S172A.GL.conjEquiv e)
       (CFSG.LocalAnalysis.GLTheoremA.S172A.GL.vecAut_simple_nonab (k := d)
         (by simpa [d] using hV))
-  haveI : IsSimpleGroup (V ≃ₗ[ZMod 2] V) := hsn.1
+  have : IsSimpleGroup (V ≃ₗ[ZMod 2] V) := hsn.1
   have htop : Subgroup.normalizer (T : Set (V ≃ₗ[ZMod 2] V)) = ⊤ := by
     refine le_antisymm le_top ?_
     calc (⊤ : Subgroup (V ≃ₗ[ZMod 2] V)) = innerClosure A g ⊔ A := by rw [h, top_sup_eq]
       _ ≤ Subgroup.normalizer (T : Set (V ≃ₗ[ZMod 2] V)) := hTN
   have hTnorm : T.Normal := Subgroup.normalizer_eq_top_iff.mp htop
-  haveI : T.Normal := hTnorm
+  have : T.Normal := hTnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T with hT | hT
   · exact hTbot hT
   · have hT2GL : IsPGroup 2 (V ≃ₗ[ZMod 2] V) :=
       hT2.of_equiv ((MulEquiv.subgroupCongr hT).trans Subgroup.topEquiv)
-    haveI : Finite V := Module.finite_of_finite (ZMod 2)
-    haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+    have : Finite V := Module.finite_of_finite (ZMod 2)
+    have : Finite (V ≃ₗ[ZMod 2] V) :=
       Finite.of_injective (fun f : V ≃ₗ[ZMod 2] V => (f : V → V)) DFunLike.coe_injective
     have hctr : Subgroup.center (V ≃ₗ[ZMod 2] V) = ⊥ :=
       CFSG.LocalAnalysis.GLTheoremA.S172A.GL.center_eq_bot_of_simple_nonab hsn.2
-    haveI : Nontrivial (↥(⊥ : Subgroup (V ≃ₗ[ZMod 2] V))) :=
+    have : Nontrivial (↥(⊥ : Subgroup (V ≃ₗ[ZMod 2] V))) :=
       hctr ▸ hT2GL.center_nontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(⊥ : Subgroup (V ≃ₗ[ZMod 2] V)))
     exact hx (Subtype.ext (Subgroup.mem_bot.mp x.2))
@@ -54,7 +54,7 @@ theorem lin_two_stdVanishes_of_irreducible (hV : 0 < Module.finrank (ZMod 2) V)
       W = ⊥ ∨ W = ⊤) :
     StdVanishes A g := by
   rintro ⟨T, hTbot, hT2, hTN⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hN : stdLayer g ≤ Subgroup.normalizer (T : Set (V ≃ₗ[ZMod 2] V)) :=
     (le_closureIn_self (stdLayer g)
         (Subgroup.normalizer (A : Set (V ≃ₗ[ZMod 2] V)))).trans (le_sup_left.trans hTN)

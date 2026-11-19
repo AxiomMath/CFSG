@@ -21,7 +21,7 @@ theorem lz_construct_cov {G : Type} [Group G] [Finite G] (L T : Subgroup G) (z :
       T ≤ Subgroup.normalizer (Lz : Set G) ∧
       Nonempty (↥Lz ⧸ CFSG.pCore 2 ↥Lz ≃* ↥Pq ⧸ CFSG.pCore 2 ↥Pq) ∧
       (∀ x ∈ L, x * z = z * x → Odd (orderOf x) → x ∈ Lz) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf' : ⁅(Subgroup.comap L.subtype (Subgroup.centralizer ({z} : Set G))).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L)),
       (Subgroup.comap L.subtype (Subgroup.centralizer ({z} : Set G))).map
@@ -148,7 +148,7 @@ theorem lz_construct_cov {G : Type} [Group G] [Finite G] (L T : Subgroup G) (z :
       exact h4
     exact pCore_quot_equiv_kz3 φ2 hφ2 hK
   · intro x hxL hxz hodd
-    haveI hNO : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+    have hNO : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
     have hxC0 : (⟨x, hxL⟩ : ↥L) ∈ Subgroup.comap L.subtype (Subgroup.centralizer ({z} : Set G)) := by
       rw [Subgroup.mem_comap]
       exact Subgroup.mem_centralizer_singleton_iff.mpr hxz

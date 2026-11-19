@@ -16,10 +16,10 @@ theorem isPSL_modO2_perfectCore_parP2 :
     CFSG.Quasithin.IsPSL 2 2 (2 * m) (CFSG.Quasithin.ModO2 (perfectCore (parP2 h))) := by
   obtain ⟨F, hFld, hFintype, hFcard, α, hα, hαker, -⟩ :=
     CFSG.Quasithin.F112R.isOmega4MinusType_perfectCore_parP2 h
-  letI := hFld
-  letI := hFintype
+  let := hFld
+  let := hFintype
   have hFchar : CharP F 2 := charP_of_card_eq_prime_pow (by simpa using hFcard)
-  letI := hFchar
+  let := hFchar
   have hFnat : Nat.card F = 2 ^ (2 * m) := by rw [Nat.card_eq_fintype_card, hFcard]
   let e : CFSG.Quasithin.ModO2 (perfectCore (parP2 h)) ≃*
       Matrix.SpecialLinearGroup (Fin 2) F :=

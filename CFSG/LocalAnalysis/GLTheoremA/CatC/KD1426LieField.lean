@@ -30,11 +30,11 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD1426Lie
 theorem catalogIs_statedProj_statedSL_three {K : Type} [Field K] [Finite K]
     (hK : Nat.card K % 6 = 1) :
     catalogIs (StatedProj (StatedSL 3 K)) (onLie k3Lie) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hchar⟩ := CharP.exists K
   have hp : p.Prime := CharP.char_is_prime K p
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : CharP K p := hchar
+  let : Fact p.Prime := ⟨hp⟩
+  let : CharP K p := hchar
   obtain ⟨f, hpp, hKcard⟩ := FiniteField.card K p
   have hKcard' : Nat.card K = p ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hKcard
@@ -46,7 +46,7 @@ theorem catalogIs_statedProj_statedSL_three {K : Type} [Field K] [Finite K]
     norm_num at hq6
   obtain ⟨-, -, -, -, hcat⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.native_SL3_recognition p (f : ℕ) hp hf K hKcard'
-  rw [if_neg h2] at hcat
+  rw [ite_eq_right h2] at hcat
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat
   refine ⟨i, ?_, ⟨e⟩⟩
   cases i with
@@ -71,7 +71,7 @@ theorem catalogIs_statedProj_statedSL_three {K : Type} [Field K] [Finite K]
 theorem catalogIs_statedProj_statedSU_three {p f : ℕ} {K : Type} [Field K] [Finite K]
     (h : UnitaryFieldData p f K) (hq : p ^ f % 6 = 5) :
     catalogIs (StatedProj (StatedSU 3 (p ^ f) K)) (onLie k3Lie) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let q : TauCeti.PrimePower := ⟨p, f, h.prime, by have := h.one_le; omega⟩
   have hq5 : q.card % 6 = 5 := by
     rw [TauCeti.PrimePower.card_def]
@@ -209,8 +209,8 @@ theorem glaPComponent_fixSubgroup_of_not_mem_psuConj_range {p f : ℕ} {F : Type
     rw [hf, show 3 * f₀ = f₀ * 3 by omega, pow_mul]
   have hq₀6 : p ^ f₀ % 6 = 5 := CFSG.mod_six_eq_five_of_pow_three (by rw [hcube]; exact hq)
   have hq₀ : p ^ f₀ ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI hfin : Finite F := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
+  have hfin : Finite F := h.finite
   have hZ : Subgroup.center (unitaryPSU h 3) = ⊥ :=
     center_unitaryPSU_three_eq_bot h hq2
   have hFcard : Nat.card F = (p ^ f) ^ 2 := by
@@ -220,7 +220,7 @@ theorem glaPComponent_fixSubgroup_of_not_mem_psuConj_range {p f : ℕ} {F : Type
   have hnq : ((3 : ℕ), p ^ f) ≠ (3, 2) := fun h' => by
     simp only [Prod.mk.injEq, true_and] at h'
     omega
-  haveI : IsSimpleGroup (StatedProj (StatedSU 3 (p ^ f) F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU 3 (p ^ f) F)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F p f hFcard 3
       le_rfl hnq
   have hsimple : IsSimpleGroup (unitaryPSU h 3) :=
@@ -351,11 +351,11 @@ private theorem l3AutFieldFacts_of_unitaryModel {S : Type} [Group S] [Finite S]
 theorem l3AutFieldFacts_holds : L3AutFieldFacts := by
   intro S _ _ hmodel A hA h27
   rcases hmodel with ⟨K, hK, hKf, hmod, ⟨e⟩⟩ | ⟨K, hK, hKf, p, f, hp, hf, hmod, hcard, ⟨e⟩⟩
-  · letI : Field K := hK
-    letI : Finite K := hKf
+  · let : Field K := hK
+    let : Finite K := hKf
     exact l3AutFieldFacts_of_linearModel hmod e A hA h27
-  · letI : Field K := hK
-    letI : Finite K := hKf
+  · let : Field K := hK
+    let : Finite K := hKf
     exact l3AutFieldFacts_of_unitaryModel hp hf hmod hcard e A hA h27
 
 end CFSG.LocalAnalysis.GLTheoremA.KD1426Lie

@@ -42,7 +42,7 @@ theorem embedded_normal_sylow_intersection (prime : ℕ) (prime_prime : prime.Pr
   let : Fact prime.Prime := ⟨prime_prime⟩
   let embedded := (parentSylow : Subgroup parent).map parent.subtype
   let intersection := embedded ⊓ normal
-  have intersection_pgroup : IsPGroup prime intersection := (parentSylow.isPGroup'.map parent.subtype).to_le inf_le_left
+  have intersection_pgroup : IsPGroup prime intersection := (parentSylow.isPGroup.map parent.subtype).to_le inf_le_left
   have internal_pgroup : IsPGroup prime (intersection.subgroupOf normal) :=
     intersection_pgroup.of_equiv (Subgroup.subgroupOfEquivOfLe (show intersection ≤ normal from inf_le_right)).symm
   have internal_contains : (normalSylow : Subgroup normal) ≤ intersection.subgroupOf normal := by
@@ -62,7 +62,7 @@ theorem parent_sylow_of_parent_normalizer_containment (prime : ℕ) (prime_prime
   let target := (sylow : Subgroup localParent).map localParent.subtype
   have target_le : target ≤ parent := (Subgroup.map_subtype_le _).trans local_le
   have target_prime : IsPGroup prime (target.subgroupOf parent) :=
-    (sylow.isPGroup'.map localParent.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe target_le).symm
+    (sylow.isPGroup.map localParent.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe target_le).symm
   obtain ⟨parentSylow, equal⟩ := pgroup_sylow_of_normalizer_pgroups prime prime_prime (target.subgroupOf parent)
     target_prime (by
       intro subgroup subgroup_prime subgroup_normalizes

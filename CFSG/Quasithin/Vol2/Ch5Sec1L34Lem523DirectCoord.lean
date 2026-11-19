@@ -12,14 +12,16 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L V H B D D₃ Z₁ : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem conj_one_apply {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) (w : Fin 2 → D.K) :
     D.conj 1 w = w := by
   obtain ⟨v, rfl⟩ : ∃ v : ↥N, Multiplicative.toAdd (D.E v) = w :=
     ⟨D.E.symm (Multiplicative.ofAdd w), by simp⟩
   have h1 : conjAct N (1 : Subgroup.normalizer (N : Set G)) v = v :=
-    Subtype.ext (by simp [conjAct_apply_coe])
+    Subtype.ext (by simp)
   rw [NatL2Data.conj_apply, h1]
 
+omit [Finite G] in
 theorem conj_cube_apply {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
     {g : Subgroup.normalizer (N : Set G)} (hg : g * g * g = 1) (w : Fin 2 → D.K) :
     D.conj g (D.conj g (D.conj g w)) = w := by
@@ -28,6 +30,7 @@ theorem conj_cube_apply {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
     _ = D.conj 1 w := by rw [hg]
     _ = w := conj_one_apply D w
 
+omit [Finite G] in
 theorem normalizer_cube_eq_one {N : Subgroup G} {d : G} (hdN : d ∈ Subgroup.normalizer (N : Set G))
     (hd3 : d ^ 3 = 1) :
     (⟨d, hdN⟩ * ⟨d, hdN⟩ * ⟨d, hdN⟩ : Subgroup.normalizer (N : Set G)) = 1 :=
@@ -38,6 +41,7 @@ theorem normalizer_cube_eq_one {N : Subgroup G} {d : G} (hdN : d ∈ Subgroup.no
       rwa [mul_assoc]
     simpa using h3)
 
+omit [Finite G] in
 theorem conj_linear_of_pow_three {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
     (hm : m = 2 ∨ m = 4) {d : G} (hdL : d ∈ L) (hd3 : d ^ 3 = 1) :
     ∃ hd : d ∈ Subgroup.normalizer (N : Set G), ∀ (a : D.K) (w : Fin 2 → D.K),
@@ -60,7 +64,7 @@ theorem conj_linear_of_pow_three {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N
     exact smul_left_injective D.K hw h
   have ha : 1 ≤ m := by rcases hm with rfl | rfl <;> norm_num
   have hco : Nat.Coprime 3 m := by rcases hm with rfl | rfl <;> norm_num
-  haveI : CharP D.K 2 := CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
+  have : CharP D.K 2 := CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
   have hσid : ∀ x, σ x = x :=
     Direct523Gal.eq_id_of_pow_three ha D.card hco σ hσ3
   intro a w
@@ -70,12 +74,14 @@ theorem conj_linear_of_pow_three {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N
     Fin 2 → D.K :=
   Multiplicative.toAdd (D.E ⟨x, hx⟩)
 
+omit [Finite G] in
 theorem coordN_mul {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {x y : G} (hx : x ∈ N)
     (hy : y ∈ N) (hxy : x * y ∈ N) : coordN D (x * y) hxy = coordN D x hx + coordN D y hy := by
   unfold coordN
   have : (⟨x * y, hxy⟩ : ↥N) = ⟨x, hx⟩ * ⟨y, hy⟩ := rfl
   rw [this, map_mul, toAdd_mul]
 
+omit [Finite G] in
 theorem coordN_injective {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {x y : G} (hx : x ∈ N)
     (hy : y ∈ N) (h : coordN D x hx = coordN D y hy) : x = y := by
   unfold coordN at h
@@ -136,7 +142,7 @@ theorem step1_coord (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_
     unfold coordN at *
     rw [ha₀, ha₁, hc]
     ext i
-    fin_cases i <;> simp [mul_assoc, ha0]
+    fin_cases i <;> simp [ha0]
   have hgz : D.conj g (coordN D z hzN) = coordN D (d * z * d⁻¹) hzdN := by
     unfold coordN
     rw [NatL2Data.conj_apply]

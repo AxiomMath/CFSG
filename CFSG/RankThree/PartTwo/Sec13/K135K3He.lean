@@ -18,9 +18,9 @@ theorem hsyl_He
     R3E_He_full_seven_centralizer_structures
   obtain ⟨S7, hS7⟩ := hSyl
   intro Q hQ hQcard l hl3 hcomm
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let θ : S ≃* ↥heP := e.trans heEquivP
-  haveI : Finite ↥heP := Finite.of_equiv S θ.toEquiv
+  have : Finite ↥heP := Finite.of_equiv S θ.toEquiv
   have hQ'p : IsPGroup 7 (Q.map θ.toMonoidHom) := isPGroup_map_of_equiv θ hQ
   have hQ'card : Nat.card (Q.map θ.toMonoidHom) = Nat.card Q :=
     Subgroup.card_map_of_injective θ.injective
@@ -52,7 +52,7 @@ theorem hsyl_He
       _ = g⁻¹ * (θ l * (g * u0 * g⁻¹)) * g := by rw [hcl]
       _ = m * u0 := by simp only [m]; group
   have hm3 : m ^ 3 = 1 := by
-    have h1 : m = MulAut.conj g⁻¹ (θ l) := by simp [m, MulAut.conj_apply]
+    have h1 : m = MulAut.conj g⁻¹ (θ l) := by simp [m]
     rw [h1, ← map_pow, ← map_pow, hl3, map_one, map_one]
   have hmC : (m : Equiv.Perm (Fin 8330)) ∈ heSevenC2 := by
     rw [hC2eq, Subgroup.mem_inf]
@@ -79,8 +79,8 @@ theorem k3_He
   have hsimp : IsSimpleGroup NativeSporadic.He := CFSG.Sporadic.He.isSimpleGroup_He
   have hcard : Nat.card NativeSporadic.He = 4030387200 := CFSG.Sporadic.He.card_He
   have hnp : ¬ Nat.Prime 4030387200 := by norm_num
-  haveI : IsSimpleGroup NativeSporadic.He := hsimp
-  haveI : Finite NativeSporadic.He := Finite.of_equiv S e.toEquiv
+  have : IsSimpleGroup NativeSporadic.He := hsimp
+  have : Finite NativeSporadic.He := Finite.of_equiv S e.toEquiv
   have hcen : Subgroup.center S = ⊥ := by
     refine center_eq_bot_of_simple_card (X := NativeSporadic.He) e ?_
     intro hp

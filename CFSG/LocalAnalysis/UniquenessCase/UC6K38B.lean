@@ -20,10 +20,10 @@ theorem false_of_borelConfig (hq2 : q ≠ 2) (hq3 : q ≠ 3) {Hb K : Subgroup X}
     (hB : BorelConfig q Hb K T) {W A : Subgroup X} (hW : IsPGroup 2 W) (hWH : W ≤ Hb)
     (hA : IsElemAbelian q A) (hAcard : q < Nat.card A) (hAH : A ≤ Hb)
     (hAW : A ≤ normalizer (W : Set X)) (hCW : centralizer (W : Set X) ≤ Hb) : False := by
-  haveI := hB.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hB.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup X := (T : Subgroup K).map K.subtype with hQ
-  have hQp : IsPGroup q Q := T.isPGroup'.map K.subtype
+  have hQp : IsPGroup q Q := T.isPGroup.map K.subtype
   obtain ⟨⟨a, haA, haK⟩, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1
     (inf_ne_bot_of_outPChain (hB.outPChain hq2 hq3) hB.centralizer_eq_bot hA hAcard)
   have ha1' : a ≠ 1 := fun h => ha1 (Subtype.ext h)
@@ -101,7 +101,7 @@ theorem not_normalizer_le (hq2 : q ≠ 2) (hq3 : q ≠ 3) {H : Subgroup G}
     ¬ normalizer (W : Set G) ≤ H := by
   intro hNH
   obtain ⟨K, T, hB⟩ := hA
-  haveI : (CFSG.pPrimeCore q G).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore q G).Normal := CFSG.pPrimeCore_normal
   set O := CFSG.pPrimeCore q G with hO
   set π : G →* G ⧸ O := QuotientGroup.mk' O with hπ
   obtain ⟨A, hAN, hA, hAc⟩ :=
@@ -137,7 +137,7 @@ theorem exists_maxTwoLocal_not_le (hq2 : q ≠ 2) (hq3 : q ≠ 3) {H : Subgroup 
       BorelConfig q (H.map (QuotientGroup.mk' (CFSG.pPrimeCore q G))) K T) :
     ∃ N : Subgroup G, IsMaxTwoLocalSubgroup N ∧ 1 < CFSG.Open.pRank q N ∧
       ∀ g : G, ¬ N ≤ H.map (MulAut.conj g).toMonoidHom := by
-  haveI : (CFSG.pPrimeCore q G).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore q G).Normal := CFSG.pPrimeCore_normal
   set O := CFSG.pPrimeCore q G with hO
   have hp1 := hq.out.one_lt
   obtain ⟨L₀, hL₀, hL₀r⟩ : ∃ L₀ : Subgroup G, IsTwoLocal L₀ ∧ 1 < CFSG.Open.pRank q L₀ := by
@@ -187,7 +187,7 @@ theorem exists_maxTwoLocal_not_le (hq2 : q ≠ 2) (hq3 : q ≠ 3) {H : Subgroup 
       exact le_normalizer_map _
     exact not_normalizer_le hq2 hq3 hodd hA (hV.map _) hrk hWN
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2O : 2 ∣ Nat.card O := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd)
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow q G))
     have hqO : ¬ q ∣ Nat.card O :=
@@ -199,7 +199,7 @@ theorem exists_maxTwoLocal_not_le (hq2 : q ≠ 2) (hq3 : q ≠ 3) {H : Subgroup 
       rw [normalizer_eq_top_iff.2 inferInstance]
       exact le_top
     obtain ⟨S, hS, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing hq.out
-      Nat.prime_two (A := (P : Subgroup G)) (M := O) (Q := ⊥) P.isPGroup' hqO hPO bot_le
+      Nat.prime_two (A := (P : Subgroup G)) (M := O) (Q := ⊥) P.isPGroup hqO hPO bot_le
       IsPGroup.of_bot hPbot
     obtain ⟨T₂, hT₂⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hS
     have hfr : normalizer (S : Set G) ⊔ O = ⊤ := by
@@ -216,7 +216,7 @@ theorem exists_maxTwoLocal_not_le (hq2 : q ≠ 2) (hq3 : q ≠ 3) {H : Subgroup 
       exact absurd (Nat.le_of_dvd one_pos hTd) (by norm_num)
     obtain ⟨N, hN, hSN⟩ := exists_isMaxTwoLocal_ge (L := normalizer (S : Set G))
       ⟨S, hS1, hS.2.1, rfl⟩
-    haveI : (P : Subgroup G).FiniteIndex := Subgroup.finiteIndex_of_finite
+    have : (P : Subgroup G).FiniteIndex := Subgroup.finiteIndex_of_finite
     have hrkP : CFSG.Open.pRank q (⊤ : Subgroup G) ≤ CFSG.Open.pRank q (P : Subgroup G) :=
       CFSG.SectionRank.pRank_top_le_of_not_dvd_index hq.out (P : Subgroup G) P.not_dvd_index
     refine ⟨N, hN, ?_, fun g hg => hHg g ?_⟩

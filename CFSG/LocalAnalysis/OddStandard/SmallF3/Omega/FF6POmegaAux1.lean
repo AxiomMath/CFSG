@@ -16,6 +16,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6POmega_signChange_single_eq_reflection (fr : PFrame Q (Option (Fin 5)) ffC)
     (k : Option (Fin 5)) [Invertible (Q (fr.b k))] :
     fr.signChange {k} = TauCeti.QuadraticMap.reflectionOrthogonal Q (fr.b k) := by
@@ -25,11 +26,12 @@ theorem ffOutFF6POmega_signChange_single_eq_reflection (fr : PFrame Q (Option (F
   rw [fr.signChange_basis {k} j, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   by_cases hjk : j = k
   · rw [hjk]
-    rw [if_pos (Finset.mem_singleton_self k), TauCeti.QuadraticMap.reflection_apply_self]
-  · rw [if_neg (by simpa [Finset.mem_singleton] using hjk),
+    rw [ite_eq_left (Finset.mem_singleton_self k), TauCeti.QuadraticMap.reflection_apply_self]
+  · rw [ite_eq_right (by simpa [Finset.mem_singleton] using hjk),
       TauCeti.QuadraticMap.reflection_apply, fr.orth k j (Ne.symm hjk), mul_zero, zero_smul,
       sub_zero]
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutFF6POmega_Q_sub (fr : PFrame Q (Option (Fin 5)) ffC) {i j : Fin 5} (hij : i ≠ j) :
     Q (fr.b (some i) - fr.b (some j)) = -1 := by
   rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg,
@@ -38,6 +40,7 @@ lemma ffOutFF6POmega_Q_sub (fr : PFrame Q (Option (Fin 5)) ffC) {i j : Fin 5} (h
   simp only [ffC]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutFF6POmega_polar_sub_left (fr : PFrame Q (Option (Fin 5)) ffC) {i j : Fin 5}
     (hij : i ≠ j) :
     polar Q (fr.b (some i) - fr.b (some j)) (fr.b (some i)) = -1 := by
@@ -47,6 +50,7 @@ lemma ffOutFF6POmega_polar_sub_left (fr : PFrame Q (Option (Fin 5)) ffC) {i j : 
   simp only [ffC]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutFF6POmega_polar_sub_right (fr : PFrame Q (Option (Fin 5)) ffC) {i j : Fin 5}
     (hij : i ≠ j) :
     polar Q (fr.b (some i) - fr.b (some j)) (fr.b (some j)) = 1 := by
@@ -55,12 +59,14 @@ lemma ffOutFF6POmega_polar_sub_right (fr : PFrame Q (Option (Fin 5)) ffC) {i j :
   simp only [ffC]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 lemma ffOutFF6POmega_polar_sub_of_ne (fr : PFrame Q (Option (Fin 5)) ffC) {a b c : Option (Fin 5)}
     (hca : c ≠ a) (hcb : c ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b c) = 0 := by
   rw [QuadraticMap.polar_sub_left, fr.orth a c hca.symm, fr.orth b c hcb.symm]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6POmega_swap_eq_reflection (fr : PFrame Q (Option (Fin 5)) ffC) {i j : Fin 5}
     (hij : i ≠ j) [Invertible (Q (fr.b (some i) - fr.b (some j)))] :
     fr.pOrth (Equiv.swap i j) =
@@ -128,7 +134,7 @@ lemma ffOutFF6POmega_eps_map (σ ρ : Equiv.Perm (Fin 5)) :
       (if Equiv.Perm.sign σ = 1 then ∅ else {none}) := by
   by_cases hs : Equiv.Perm.sign σ = 1
   · simp [hs]
-  · rw [if_neg hs, Finset.map_singleton, Finset.singleton_inj]
+  · rw [ite_eq_right hs, Finset.map_singleton, Finset.singleton_inj]
     rfl
 
 lemma ffOutFF6POmega_symmDiff_eps (σ τ : Equiv.Perm (Fin 5)) :
@@ -137,15 +143,15 @@ lemma ffOutFF6POmega_symmDiff_eps (σ τ : Equiv.Perm (Fin 5)) :
     (if Equiv.Perm.sign (σ * τ) = 1 then ∅ else {none}) := by
   by_cases hs : Equiv.Perm.sign σ = 1
   · by_cases ht : Equiv.Perm.sign τ = 1
-    · rw [if_pos hs, if_pos ht,
-        if_pos (by rw [Equiv.Perm.sign_mul, hs, ht, mul_one])]
+    · rw [ite_eq_left hs, ite_eq_left ht,
+        ite_eq_left (by rw [Equiv.Perm.sign_mul, hs, ht, mul_one])]
       simp
-    · rw [if_pos hs, if_neg ht,
-        if_neg (by rw [Equiv.Perm.sign_mul, hs, one_mul]; exact ht)]
+    · rw [ite_eq_left hs, ite_eq_right ht,
+        ite_eq_right (by rw [Equiv.Perm.sign_mul, hs, one_mul]; exact ht)]
       simp
   · by_cases ht : Equiv.Perm.sign τ = 1
-    · rw [if_neg hs, if_pos ht,
-        if_neg (by rw [Equiv.Perm.sign_mul, ht, mul_one]; exact hs)]
+    · rw [ite_eq_right hs, ite_eq_left ht,
+        ite_eq_right (by rw [Equiv.Perm.sign_mul, ht, mul_one]; exact hs)]
       simp
     · have hs' : Equiv.Perm.sign σ = -1 := by
         rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h
@@ -155,8 +161,8 @@ lemma ffOutFF6POmega_symmDiff_eps (σ τ : Equiv.Perm (Fin 5)) :
         rcases Int.units_eq_one_or (Equiv.Perm.sign τ) with h | h
         · exact absurd h ht
         · exact h
-      rw [if_neg hs, if_neg ht,
-        if_pos (by rw [Equiv.Perm.sign_mul, hs', ht']; decide)]
+      rw [ite_eq_right hs, ite_eq_right ht,
+        ite_eq_left (by rw [Equiv.Perm.sign_mul, hs', ht']; decide)]
       simp
 
 end CFSG.OddStandard.SmallF3.Omega

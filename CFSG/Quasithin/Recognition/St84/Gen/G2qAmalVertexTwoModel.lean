@@ -56,7 +56,7 @@ theorem exists_mulEquiv_parB_of_coords [Finite G] {L Q Z N : Subgroup G}
         ((ψ ⟨x, Subgroup.mem_sup_left x.2⟩ : ↥(Model.M K ⊔ (Model.leviB K ⊔ Model.J₄ K))) :
           ModGL Tag.G2 K) = y * G2q.leviBHom (α x, 1) := by
   classical
-  haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+  have : Finite (ModGL Tag.G2 K) := finite_modGL
   have hK4 : 4 ≤ Nat.card K := by omega
   have hLQ' : ∀ ℓ ∈ L, ∀ u ∈ Q, ℓ * u * ℓ⁻¹ ∈ Q := fun ℓ hℓ u hu =>
     (Subgroup.mem_normalizer_iff.mp (hLQ hℓ) u).mp hu
@@ -171,7 +171,7 @@ theorem exists_mulEquiv_parB_of_coords [Finite G] {L Q Z N : Subgroup G}
         ε (p.1, 1) * (ε (1, p.2) * z * (ε (1, p.2))⁻¹) * (ε (p.1, 1))⁻¹ := by group
     rw [e]
     exact hLZ _ hg _ (hNZ _ ht z hz)
-  haveI : (Z.subgroupOf Q).Normal := by
+  have : (Z.subgroupOf Q).Normal := by
     rw [← hγker]
     exact MonoidHom.normal_ker γ
   let eR : ↥ε.range ≃* ↥(Model.leviB K ⊔ Model.J₄ K) :=

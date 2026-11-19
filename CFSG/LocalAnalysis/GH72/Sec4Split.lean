@@ -39,7 +39,7 @@ theorem exists_conj_mem_of_thompson_of_min_order {K T U : Subgroup G} (hT : IsSy
     (hmin : ∀ y ∈ T, y ∉ U → orderOf x ≤ orderOf y)
     (hno : ∀ N : Subgroup ↥K, N.Normal → N.index ≠ 2) :
     ∃ k ∈ K, k * x * k⁻¹ ∈ U ∧ ∀ c ∈ T ⊓ C x, k * c * k⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTK : T ≤ K := hT.le
   obtain ⟨-, hTp, hTidx⟩ := isSylowOf_iff.1 hT
   let x' : K := ⟨x, hTK hxT⟩
@@ -113,7 +113,7 @@ theorem not_conj_mem_of_normal {D C T W M : Subgroup G} (hCD : C ≤ D) (hT : Is
     (hWn : ∀ t ∈ T, ∀ w ∈ W, t * w * t⁻¹ ∈ W) (hWD : W ≤ D) (hDM : D ≤ normalizer (M : Set G))
     (hpow : ∀ x ∈ D, ∃ k : ℕ, x ^ 2 ^ k ∈ M) {y : G} (hyM : ∀ w ∈ W, y⁻¹ * w ∉ M) {c : G}
     (hc : c ∈ C) : c * y * c⁻¹ ∉ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hcW
   have hMn : (M.subgroupOf C).Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
@@ -148,7 +148,7 @@ theorem exists_normal_of_section {z : G} {P P' : Subgroup G} (hPz : P ≤ C z) (
     (hP' : bar (C z) P' ≤ Hb) :
     ∃ M : Subgroup G, C z ≤ normalizer (M : Set G) ∧ P' ≤ M ∧ (∀ x ∈ P, x ∈ M → x = 1) ∧
       ∀ x ∈ C z, ∃ k : ℕ, x ^ 2 ^ k ∈ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHbn : Hb.Normal := by
     have hle : bar (C z) P ⊔ Hb ≤ normalizer (Hb : Set (Bar (C z))) := by
       refine sup_le (fun p hp => mem_normalizer_iff.2 fun h => ?_) le_normalizer
@@ -166,7 +166,7 @@ theorem exists_normal_of_section {z : G} {P P' : Subgroup G} (hPz : P ≤ C z) (
         exact hh
     rw [hsup] at hle
     exact normalizer_eq_top_iff.1 (top_le_iff.1 hle)
-  haveI := hHbn
+  have := hHbn
   set M := (Hb.comap (QuotientGroup.mk' (CFSG.oddCore (C z)))).map (C z).subtype with hM
   have hmem : ∀ x (hx : x ∈ C z), x ∈ M ↔ (QuotientGroup.mk ⟨x, hx⟩ : Bar (C z)) ∈ Hb := by
     intro x hx
@@ -176,7 +176,7 @@ theorem exists_normal_of_section {z : G} {P P' : Subgroup G} (hPz : P ≤ C z) (
     · intro h
       exact ⟨⟨x, hx⟩, h, rfl⟩
   refine ⟨M, ?_, fun x hx => (hmem x (hP'z hx)).2 (hP' (mk_mem_bar (hP'z hx) hx)), ?_, ?_⟩
-  · haveI := hHbn.comap (QuotientGroup.mk' (CFSG.oddCore (C z)))
+  · have := hHbn.comap (QuotientGroup.mk' (CFSG.oddCore (C z)))
     exact le_normalizer_map_subtype (C z) _
   · intro x hxP hxM
     have h2 : (QuotientGroup.mk ⟨x, hPz hxP⟩ : Bar (C z)) ∈ bar (C z) P ⊓ Hb :=
@@ -287,7 +287,7 @@ theorem eq_inf_sup_inf_of_isSylowOf_of
     (hT : IsSylowOf 2 T K) (hTS : T ≤ 𝔖.S) {V₁ V₂ : Subgroup G} (hV₁ : IsFourIn 𝔖.S₁ V₁)
     (hV₁T : V₁ ≤ T) (hV₂ : IsFourIn 𝔖.S₂ V₂) (hV₂T : V₂ ≤ T) :
     T = (T ⊓ 𝔖.S₁) ⊔ (T ⊓ 𝔖.S₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd := 𝔖.decomp
   set W := (T ⊓ 𝔖.S₁) ⊔ (T ⊓ 𝔖.S₂) with hW
   have hc₁₂ : ∀ x ∈ T ⊓ 𝔖.S₁, ∀ y ∈ T ⊓ 𝔖.S₂, x * y = y * x := fun x hx y hy =>
@@ -401,7 +401,7 @@ theorem eq_inf_sup_inf_of_isSylowOf_of
     rcases hz with rfl | rfl | rfl
     · obtain ⟨H₁, hinf, hsup, hcomm, hS₂, -⟩ := (h315 _ _ 𝔖.hz₁ 𝔖.hz₂).1
       obtain ⟨M, hMn, hS₂M, hS₁M, hpow⟩ := exists_normal_of_section (z := 𝔖.z₁) 𝔖.hz₁.2.2
-        (𝔖.S.isPGroup'.to_le hd.le_left) (hd.le_right.trans 𝔖.S_le_C_z₁) hinf hsup hcomm
+        (𝔖.S.isPGroup.to_le hd.le_left) (hd.le_right.trans 𝔖.S_le_C_z₁) hinf hsup hcomm
         (hS₂.trans (commutator_le.2 fun a ha b hb => mul_mem (mul_mem (mul_mem ha hb)
           (inv_mem ha)) (inv_mem hb)))
       refine ⟨M, hMn, hpow, fun w hw hwM => ?_⟩
@@ -415,7 +415,7 @@ theorem eq_inf_sup_inf_of_isSylowOf_of
       exact hy₁T ((inv_mul_eq_one.1 h3) ▸ (mem_inf.1 hw₁).1)
     · obtain ⟨K₁, hinf, hsup, hcomm, hS₁, -⟩ := (h315 _ _ 𝔖.hz₁ 𝔖.hz₂).2
       obtain ⟨M, hMn, hS₁M, hS₂M, hpow⟩ := exists_normal_of_section (z := 𝔖.z₂) 𝔖.hz₂.2.2
-        (𝔖.S.isPGroup'.to_le hd.le_right) (hd.le_left.trans 𝔖.S_le_C_z₂) hinf hsup hcomm
+        (𝔖.S.isPGroup.to_le hd.le_right) (hd.le_left.trans 𝔖.S_le_C_z₂) hinf hsup hcomm
         (hS₁.trans (commutator_le.2 fun a ha b hb => mul_mem (mul_mem (mul_mem ha hb)
           (inv_mem ha)) (inv_mem hb)))
       refine ⟨M, hMn, hpow, fun w hw hwM => ?_⟩

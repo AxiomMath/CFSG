@@ -40,11 +40,11 @@ public theorem CFSG.lemma_12_1_b
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
     exact y.property
-  haveI : D.Normal := by
+  have : D.Normal := by
     dsimp [D]
     infer_instance
-  haveI : (piCore π D).Characteristic := piCore_characteristic π
-  haveI : Dπ.Normal := by
+  have : (piCore π D).Characteristic := piCore_characteristic π
+  have : Dπ.Normal := by
     change ((piCore π D).map D.subtype).Normal
     infer_instance
   have hE3eq : E₃.subgroupOf E = Dπ := hDπHall.eq_of_normal hHallE3

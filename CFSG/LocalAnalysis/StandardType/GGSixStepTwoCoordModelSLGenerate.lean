@@ -52,7 +52,7 @@ private theorem exists_inl_of_mem_frameBlockCoords {n e s r : ℕ}
   · rcases ak with ⟨a, k⟩
     exact ⟨a, k, rfl, by simpa [hε] using hp⟩
   · exfalso
-    simpa [hε] using hp
+    simp [hε] at hp
 
 private noncomputable def pairCoordsInvFun {n e s r : ℕ}
     {ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r} {i j : Fin s}
@@ -188,10 +188,10 @@ private theorem pairBasis_apply {K : Type} [Field K] {g : K[X]} [Fact (Irreducib
       pairCoordsEquiv ε hij x := by
     simp
   rw [hsymm]
-  rcases hq : pairCoordsEquiv ε hij x with a | a <;> simp [hq]
+  rcases hq : pairCoordsEquiv ε hij x with a | a <;> simp
 
 private noncomputable def pairFrame {K : Type} [Field K] {g : K[X]} [Fact (Irreducible g)]
-    {n s r : ℕ} (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (i j : Fin s) :
+    {n s r : ℕ} (_ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (i j : Fin s) :
     (AdjoinRoot g × AdjoinRoot g) →ₗ[K]
       ((Fin s → AdjoinRoot g) × (Fin r → K)) where
   toFun v := (Pi.single i v.1 + Pi.single j v.2, 0)
@@ -261,7 +261,7 @@ private theorem blockOn_mulVec_single {K : Type} [Field K] {n : ℕ}
         exact hp (h ▸ y.2)
 
 private theorem frameBlockCoords_pair_eq_union {n e s r : ℕ}
-    {ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r} {i j : Fin s} (hij : i ≠ j) :
+    {ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r} {i j : Fin s} (_hij : i ≠ j) :
     frameBlockCoords ε ({i, j} : Finset (Fin s)) =
       frameBlockCoords ε {i} ∪ frameBlockCoords ε {j} := by
   ext x
@@ -269,7 +269,7 @@ private theorem frameBlockCoords_pair_eq_union {n e s r : ℕ}
   rw [frameBlockCoords, frameBlockCoords, frameBlockCoords]
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
   rcases hx : ε x with ⟨a, k⟩ | z <;>
-    simp [hx, Finset.mem_insert, Finset.mem_singleton]
+    simp [Finset.mem_insert, Finset.mem_singleton]
 
 private theorem frameBlockCoords_singleton_subset_left {n e s r : ℕ}
     {ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r} {i j : Fin s} (hij : i ≠ j) :
@@ -301,7 +301,7 @@ private theorem pairBasis_repr_pair {K : Type} [Field K] {g : K[X]} [Fact (Irred
       pairCoordsEquiv ε hij x := by
     simp
   rw [hsymm]
-  rcases hq : pairCoordsEquiv ε hij x with a | a <;> simp [hq]
+  rcases hq : pairCoordsEquiv ε hij x with a | a <;> simp
 
 private theorem frameCoords_pairFrame_fst_zero {K : Type} [Field K] {g : K[X]}
     [Fact (Irreducible g)] {n s r : ℕ}
@@ -426,9 +426,9 @@ private theorem frameForm_pairSLHom_pairBasis {K : Type} [Field K] {g : K[X]}
   rw [hframe]
   rw [blockOn_mulVec_single C X.1 x.2]
   rw [map_sum]
-  simp only [map_smul, LinearEquiv.symm_apply_apply]
+  simp only [map_smul]
   simp_rw [← frameCoords_pairFrame_pairBasis (g := g) ε hij]
-  simp only [map_smul, LinearEquiv.symm_apply_apply]
+  simp only [LinearEquiv.symm_apply_apply]
   have hsum : (∑ y : C, X.1 (C.equivFin y)
         (C.equivFin x) • pairFrame (g := g) ε i j (pb (C.equivFin y))) =
       pairFrame (g := g) ε i j
@@ -510,7 +510,7 @@ private theorem pairSLHom_blockSLk_mem_left {K : Type} [Field K] {g : K[X]}
     pairSLHom (g := g) ε hij
         (blockSLk (VJ := AdjoinRoot g) K (AdjoinRoot g) A) ∈
       CALinearPlane.coordBlockSL K (frameBlockCoords ε ({i} : Finset (Fin s))) := by
-  letI : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
+  let : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
   classical
   let C := frameBlockCoords ε ({i, j} : Finset (Fin s))
   let Ci := frameBlockCoords ε ({i} : Finset (Fin s))
@@ -583,7 +583,7 @@ private theorem pairSLHom_blockSLk_prodComm_mem_right {K : Type} [Field K] {g : 
           (LinearEquiv.prodComm K (AdjoinRoot g) (AdjoinRoot g))
           (blockSLk (VJ := AdjoinRoot g) K (AdjoinRoot g) A)) ∈
       CALinearPlane.coordBlockSL K (frameBlockCoords ε ({j} : Finset (Fin s))) := by
-  letI : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
+  let : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
   classical
   let C := frameBlockCoords ε ({i, j} : Finset (Fin s))
   let Ci := frameBlockCoords ε ({i} : Finset (Fin s))
@@ -609,8 +609,7 @@ private theorem pairSLHom_blockSLk_prodComm_mem_right {K : Type} [Field K] {g : 
       have hBapply : B (pairBasis (g := g) ε hij (C.equivFin x)) =
           pairBasis (g := g) ε hij (C.equivFin x) := by
         rw [hq_basis]
-        simp [B, SpecialLinearGroup.congr_linearEquiv_apply_apply,
-          LinearEquiv.prodComm_apply, blockSLk_apply]
+        simp [B, LinearEquiv.prodComm_apply, blockSLk_apply]
       have hentry := matrix_entry_pairSLHom_of_mem_pair (g := g) ε hij B x p
       rw [hentry, hBapply, frameCoords_pairFrame_pairBasis (g := g) ε hij x]
       simp [Pi.single_apply]
@@ -624,8 +623,7 @@ private theorem pairSLHom_blockSLk_prodComm_mem_right {K : Type} [Field K] {g : 
       have hBapply : B (pairBasis (g := g) ε hij (C.equivFin x)) =
           (0, A ((rootPB g).basis a)) := by
         rw [hq_basis]
-        simp [B, SpecialLinearGroup.congr_linearEquiv_apply_apply,
-          LinearEquiv.prodComm_apply, blockSLk_apply]
+        simp [B, LinearEquiv.prodComm_apply, blockSLk_apply]
       have hentry := matrix_entry_pairSLHom_of_mem_pair (g := g) ε hij B x p
       rw [hentry, hBapply, frameCoords_pairFrame_snd_zero (g := g) ε
         (A ((rootPB g).basis a)) hpCj]
@@ -647,28 +645,28 @@ private theorem pairEmbed_mulVec_apply {E : Type} [Field E] {s : ℕ}
       else u k := by
   rw [Matrix.mulVec, dotProduct]
   by_cases hk : k = a
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     rw [← Finset.sum_subset (Finset.subset_univ ({a, b} : Finset (Fin s))) ?_]
     · rw [Finset.sum_insert (by simp [hab]), Finset.sum_singleton]
-      simp [pairEmbed_apply, hk]
+      simp [hk]
     · intro x _ hx
       rw [pairEmbed_apply_of_notMem hab M (Or.inr hx)]
       have hkx : k ≠ x := by
         intro h
-        exact hx (by simpa [h.symm, hk])
-      simp [Matrix.one_apply, hkx]
+        exact hx (by simp [h.symm, hk])
+      simp [hkx]
   · by_cases hk' : k = b
-    · rw [if_neg hk, if_pos hk']
+    · rw [ite_eq_right hk, ite_eq_left hk']
       rw [← Finset.sum_subset (Finset.subset_univ ({a, b} : Finset (Fin s))) ?_]
       · rw [Finset.sum_insert (by simp [hab]), Finset.sum_singleton]
-        simp [pairEmbed_apply, hab, hab.symm, hk']
+        simp [hk']
       · intro x _ hx
         rw [pairEmbed_apply_of_notMem hab M (Or.inr hx)]
         have hkx : k ≠ x := by
           intro h
-          exact hx (by simpa [h.symm, hk'])
-        simp [Matrix.one_apply, hkx]
-    · rw [if_neg hk, if_neg hk']
+          exact hx (by simp [h.symm, hk'])
+        simp [hkx]
+    · rw [ite_eq_right hk, ite_eq_right hk']
       rw [Finset.sum_eq_single k]
       · rw [pairEmbed_apply_of_notMem hab M (Or.inl (by simpa [Finset.mem_insert,
           Finset.mem_singleton] using ⟨hk, hk'⟩))]
@@ -686,8 +684,7 @@ private theorem matrix_toLin_finTwoProd_apply_zero {E : Type} [Field E]
       (N 0 0, N 1 0) := by
   rw [← Module.Basis.finTwoProd_zero]
   rw [Matrix.toLin_self]
-  simp [Module.Basis.finTwoProd_zero, Module.Basis.finTwoProd_one, Fin.sum_univ_two,
-    Prod.ext_iff]
+  simp [Module.Basis.finTwoProd_zero, Module.Basis.finTwoProd_one, Fin.sum_univ_two]
 
 private theorem matrix_toLin_finTwoProd_apply_one {E : Type} [Field E]
     (N : Matrix (Fin 2) (Fin 2) E) :
@@ -695,8 +692,7 @@ private theorem matrix_toLin_finTwoProd_apply_one {E : Type} [Field E]
       (N 0 1, N 1 1) := by
   rw [← Module.Basis.finTwoProd_one]
   rw [Matrix.toLin_self]
-  simp [Module.Basis.finTwoProd_zero, Module.Basis.finTwoProd_one, Fin.sum_univ_two,
-    Prod.ext_iff]
+  simp [Module.Basis.finTwoProd_zero, Module.Basis.finTwoProd_one, Fin.sum_univ_two]
 
 private theorem pairEmbed_mulVec_eq_self_of_zero {E : Type} [Field E] {s : ℕ}
     {a b : Fin s} (hab : a ≠ b) (M : Matrix.SpecialLinearGroup (Fin 2) E)
@@ -705,12 +701,12 @@ private theorem pairEmbed_mulVec_eq_self_of_zero {E : Type} [Field E] {s : ℕ}
   funext k
   rw [pairEmbed_mulVec_apply]
   by_cases hk : k = a
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     simp [hk, ha, hb]
   · by_cases hk' : k = b
-    · rw [if_neg hk, if_pos hk']
+    · rw [ite_eq_right hk, ite_eq_left hk']
       simp [hk', ha, hb]
-    · rw [if_neg hk, if_neg hk']
+    · rw [ite_eq_right hk, ite_eq_right hk']
 
 private theorem matrix_toLin_finTwoProd_basis_zero {E : Type} [Field E]
     (N : Matrix (Fin 2) (Fin 2) E) (c : E) :
@@ -777,13 +773,13 @@ private theorem blockAct_pairEmbed_pairFrame_zero {K : Type} [Field K] {g : K[X]
     dsimp only [Prod.fst, Prod.snd]
     erw [pairEmbed_mulVec_apply]
     by_cases hk : k = i
-    · rw [if_pos hk]
-      simp [Pi.single_apply, hk, hij, Ne.symm hij, mul_comm]
+    · rw [ite_eq_left hk]
+      simp [hk, hij, Ne.symm hij, mul_comm]
     · by_cases hk' : k = j
-      · rw [if_neg hk, if_pos hk']
-        simp [Pi.single_apply, hk, hk', hij, Ne.symm hij, mul_comm]
-      · rw [if_neg hk, if_neg hk']
-        simp [Pi.single_apply, hk, hk']
+      · rw [ite_eq_right hk, ite_eq_left hk']
+        simp [hk', Ne.symm hij, mul_comm]
+      · rw [ite_eq_right hk, ite_eq_right hk']
+        simp [hk, hk']
   · rfl
 
 private theorem blockAct_pairEmbed_pairFrame_one {K : Type} [Field K] {g : K[X]}
@@ -809,18 +805,18 @@ private theorem blockAct_pairEmbed_pairFrame_one {K : Type} [Field K] {g : K[X]}
     dsimp only [Prod.fst, Prod.snd]
     erw [pairEmbed_mulVec_apply]
     by_cases hk : k = i
-    · rw [if_pos hk]
-      simp [Pi.single_apply, hk, hij, Ne.symm hij, mul_comm]
+    · rw [ite_eq_left hk]
+      simp [hk, hij, mul_comm]
     · by_cases hk' : k = j
-      · rw [if_neg hk, if_pos hk']
-        simp [Pi.single_apply, hk, hk', hij, Ne.symm hij, mul_comm]
-      · rw [if_neg hk, if_neg hk']
-        simp [Pi.single_apply, hk, hk']
+      · rw [ite_eq_right hk, ite_eq_left hk']
+        simp [hk', hij, Ne.symm hij, mul_comm]
+      · rw [ite_eq_right hk, ite_eq_right hk']
+        simp [hk, hk']
   · rfl
 
 private theorem frameCoords_symm_single_zero_pair {K : Type} [Field K] {g : K[X]}
     [Fact (Irreducible g)] {n s r : ℕ}
-    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (hij : i ≠ j)
+    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (_hij : i ≠ j)
     {q : Fin n} (hq : q ∉ frameBlockCoords ε ({i, j} : Finset (Fin s))) :
     ((frameCoords g ε).symm (Pi.single q 1)).1 i = 0 ∧
       ((frameCoords g ε).symm (Pi.single q 1)).1 j = 0 := by
@@ -876,8 +872,8 @@ private theorem pairSLHom_restrictSL_eq_theta_pairEmbed {K : Type} [Field K] {g 
       theta g ε (pairEmbed hij
         ((Matrix.SpecialLinearGroup.toLin_equiv
           (Module.Basis.finTwoProd (AdjoinRoot g))).symm A)) := by
-  letI : Module.Finite (AdjoinRoot g) (AdjoinRoot g × AdjoinRoot g) := inferInstance
-  letI : Module.Finite K (AdjoinRoot g × AdjoinRoot g) := inferInstance
+  let : Module.Finite (AdjoinRoot g) (AdjoinRoot g × AdjoinRoot g) := inferInstance
+  let : Module.Finite K (AdjoinRoot g × AdjoinRoot g) := inferInstance
   let C := frameBlockCoords ε ({i, j} : Finset (Fin s))
   let Ci := frameBlockCoords ε ({i} : Finset (Fin s))
   let Cj := frameBlockCoords ε ({j} : Finset (Fin s))
@@ -944,7 +940,7 @@ theorem coordBlockSL_frameBlockCoords_pair_eq_sup {K : Type} [Field K] {g : K[X]
         CALinearPlane.coordBlockSL K (frameBlockCoords ε ({j} : Finset (Fin s))) ⊔
           (CALinearPlane.coordBlockSL (AdjoinRoot g) ({i, j} : Finset (Fin s))).map
             (theta g ε) := by
-  letI : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
+  let : Module.Finite K (AdjoinRoot g) := (rootPB g).finite
   classical
   let C := frameBlockCoords ε ({i, j} : Finset (Fin s))
   let Ci := frameBlockCoords ε ({i} : Finset (Fin s))

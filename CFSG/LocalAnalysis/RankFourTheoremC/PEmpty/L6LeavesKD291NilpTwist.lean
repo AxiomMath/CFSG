@@ -25,7 +25,7 @@ theorem exists_twist {p : ℕ} (hp : p.Prime) (hodd : Odd p) {K : Type*} [Field 
     {M : Matrix (Fin p) (Fin p) K} {ω : K} (hM : M ^ p = Matrix.scalar (Fin p) ω)
     (hω : ∀ b : K, b ^ p ≠ ω) {τ : K} (hτ : τ ^ p = 1) :
     ∃ Φ : Matrix (Fin p) (Fin p) K, Φ.det = 1 ∧ Φ ^ p = 1 ∧ Φ * M = τ • (M * Φ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hT : (Matrix.toLin' M) ^ p = algebraMap K (Module.End K (Fin p → K)) ω := by
     have hc := AlgEquiv.commutes (Matrix.toLinAlgEquiv' (R := K) (n := Fin p)) ω
     rw [show (Matrix.toLin' M) = Matrix.toLinAlgEquiv' M from rfl, ← map_pow, hM]

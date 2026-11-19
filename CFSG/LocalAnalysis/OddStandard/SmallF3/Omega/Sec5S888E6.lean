@@ -64,7 +64,7 @@ private lemma checkSUb_all :
   apply hnotmem
   rw [bad6, Finset.mem_filter, Finset.mem_product]
   refine ⟨⟨hS, hU⟩, ?_⟩
-  simp only [Bool.not_eq_true]
+  simp only
   cases hc : checkSUb S U with
   | false => rfl
   | true => exact absurd hc hne
@@ -76,9 +76,9 @@ private lemma checkSU :
   intro S hS U
   exact of_decide_eq_true (by simpa [checkSUb] using checkSUb_all S hS U)
 
-theorem table71 {H : Finset (Equiv.Perm (Fin 4))} (h1 : 1 ∈ H)
+theorem table71 {H : Finset (Equiv.Perm (Fin 4))} (_h1 : 1 ∈ H)
     (hmul : ∀ a ∈ H, ∀ b ∈ H, a * b ∈ H) (hsq : ∀ a ∈ H, a * a = 1)
-    {C : Finset (Fin 4 → ZMod 2)} (h0 : 0 ∈ C) (hadd : ∀ x ∈ C, ∀ y ∈ C, x + y ∈ C)
+    {C : Finset (Fin 4 → ZMod 2)} (h0 : 0 ∈ C) (_hadd : ∀ x ∈ C, ∀ y ∈ C, x + y ∈ C)
     (heven : ∀ x ∈ C, IsEvenVec x) (hfix : ∀ x ∈ C, ∀ a ∈ H, ∀ i, x (a i) = x i) :
     H.card * C.card * fixedBound H C ≤ 2 ^ 7 ∨ (H.card = 1 ∧ C.card = 1) := by
   classical

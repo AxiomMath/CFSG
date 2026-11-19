@@ -91,14 +91,14 @@ theorem exists_frameAutPackage {f p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 �
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     TwE6TB.GGTwE6FramePackage p ↥(graphFixedRootGroup TwistTag.E6 K σ) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (by norm_num))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, ← pow_mul])
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, ← pow_mul])
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c, Fr c = c ^ (2 ^ f) := fun c => iterateFrobenius_def 2 f c
   obtain ⟨ζK, hζ, g₀, T, ι₀, hζKord, hg₀C, hlang, hι₀, hbase, hTcomm, hrangeT, htors, _,
@@ -107,7 +107,7 @@ theorem exists_frameAutPackage {f p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 �
   refine ⟨ι₀, m, hι₀, hm, ?_, ?_⟩
   · intro E hE h4 hSC
     have hXel : IsElemAbelian p ι₀.range := by
-      letI : Module (ZMod p) (Fin TwistTag.E6.tag.rank → ZMod p) := inferInstance
+      let : Module (ZMod p) (Fin TwistTag.E6.tag.rank → ZMod p) := inferInstance
       exact NoOffE8Five.isElemAbelian_range_of_module (p := p) ι₀
     have hXcard : Nat.card ι₀.range = p ^ 6 := by
       rw [← Nat.card_congr (MonoidHom.ofInjective hι₀).toEquiv,
@@ -141,7 +141,7 @@ namespace TwE6TB
 theorem ggTwE6FramePackage_recipeR {n p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 ≤ p)
     (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2)
     (hpq : p ∣ 2 ^ n + 1) : GGTwE6FramePackage p (TwE6Delta.RecipeR K n) := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK
     (iterateFrobenius K 2 n) (iterateFrobenius_def 2 n)
   exact ggTwE6FramePackage_of_mulEquiv e.symm

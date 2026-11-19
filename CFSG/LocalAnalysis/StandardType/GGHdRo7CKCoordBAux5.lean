@@ -18,7 +18,7 @@ open CFSG.Assembly
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
+theorem hdRo7CKCoordAux_coord_transfer_core (_hRig : GGLabelRigidInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs K : Subgroup G} {y z : G}
     (n : ℕ) (hy : y ∈ Bs) (hz : z ∈ Bs ⊓ K)
     (τ : (Fin (n + 1) → Multiplicative (ZMod p)) ≃* ↥Bs) (hp3 : p = 3) (hn : 5 ≤ n)
@@ -131,7 +131,7 @@ theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
         omega
       show wtOn (a b) = wtOn b
       dsimp only [wtOn]
-      rw [dif_pos hb', dif_pos hb]
+      rw [dite_eq_left hb', dite_eq_left hb]
       exact hsuppc
     · have hb' : ¬ ((a b : ↥Bs) : G) ∈ S := by
         intro h
@@ -142,7 +142,7 @@ theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
         exact hb (hΨx ▸ x.2)
       show wtOn (a b) = wtOn b
       dsimp only [wtOn]
-      rw [dif_neg hb', dif_neg hb]
+      rw [dite_eq_right hb', dite_eq_right hb]
   have hAut : ggAutomizer K Bs ≤ P := (Subgroup.closure_le P).mpr hgen
   let ΨS : ↥S → ↥Bs := fun z => ⟨z.1, z.2.1⟩
   have hcoord0 : ∀ c : Fin F.s → ZMod 3, (τ.symm (ΨS (T c))) 0 = 1 := by
@@ -202,7 +202,7 @@ theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
     have hTv : T (frameCoord v) = v := hframeCoord v
     have hΨv : ΨS (T (frameCoord v)) = τ f := by rw [hTv]
     change Multiplicative.toAdd (τ.symm (ΨS (T (frameCoord v))) (Fin.succ k)) = u k
-    simpa [hΨv, f, Fin.cases_succ]
+    simp [hΨv, f, Fin.cases_succ]
   have hB_bij : Function.Bijective Bfun := ⟨hB_inj, hB_surj⟩
   let BL : (Fin F.s → ZMod 3) ≃ₗ[ZMod 3] (Fin n → ZMod 3) :=
     LinearEquiv.ofBijective B hB_bij
@@ -279,12 +279,12 @@ theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
     have wtOn_apply : ∀ b : ↥S, wtOn (ΨS b) = (F.suppSet (frameCoord b)).card := by
       intro b
       dsimp only [wtOn]
-      rw [dif_pos b.2]
+      rw [dite_eq_left b.2]
     have wtOn_a : ∀ (b : ↥S) (hb' : ((a (ΨS b) : ↥Bs) : G) ∈ S),
         wtOn (a (ΨS b)) = (F.suppSet (frameCoord ⟨a (ΨS b), hb'⟩)).card := by
       intro b hb'
       dsimp only [wtOn]
-      rw [dif_pos hb']
+      rw [dite_eq_left hb']
     let c_u : Fin F.s → ZMod 3 := BL.symm u'
     have hcu : BL c_u = u' := BL.apply_symm_apply u'
     have hfccu : frameCoord (T c_u) = c_u := by
@@ -335,7 +335,7 @@ theorem hdRo7CKCoordAux_coord_transfer_core (hRig : GGLabelRigidInput)
     · have hP := hAut hha (ΨS (T c_u))
       have hleft : wtOn (a (ΨS (T c_u))) = 0 := by
         dsimp only [wtOn]
-        rw [dif_neg hab]
+        rw [dite_eq_right hab]
       rw [hleft, wtOn_apply (T c_u), hfccu] at hP
       have hP0 : (F.suppSet c_u).card = 0 := hP.symm
       have hcu0 : c_u = 0 := by

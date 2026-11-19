@@ -13,6 +13,7 @@ open CFSG.RankThree.PartTwo.Sec4
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem closure_pair_pow_three {c d z : G} (hcd : c * d = d * c)
     (hc3 : c ^ 3 = 1) (hd3 : d ^ 3 = 1) (hz : z ∈ Subgroup.closure ({c, d} : Set G)) :
     z ^ 3 = 1 := by
@@ -22,6 +23,7 @@ private theorem closure_pair_pow_three {c d z : G} (hcd : c * d = d * c)
   rw [hc.mul_pow, ← pow_mul, ← pow_mul, mul_comm i, mul_comm j, pow_mul, pow_mul, hc3, hd3,
     one_pow, one_pow, one_mul]
 
+omit [Finite G] in
 private theorem isPGroup_three_of_pow_three {H : Subgroup G} (h : ∀ x ∈ H, x ^ 3 = 1) :
     IsPGroup 3 H := by
   intro g

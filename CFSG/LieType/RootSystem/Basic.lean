@@ -135,6 +135,7 @@ variable {A : Matrix I I ℤ} (hA : TauCeti.IsFiniteType A)
 
 omit [DecidableEq I] in
 include hA in
+omit [Fintype I] in
 theorem cartan_pair_cases {i j : I} (hij : i ≠ j) :
     (A i j = 0 ∧ A j i = 0) ∨ (A i j = -1 ∧ A j i = -1) ∨ (A i j = -1 ∧ A j i = -2) ∨
       (A i j = -2 ∧ A j i = -1) ∨ (A i j = -1 ∧ A j i = -3) ∨ (A i j = -3 ∧ A j i = -1) :=

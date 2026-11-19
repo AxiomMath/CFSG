@@ -43,7 +43,7 @@ theorem closure_rSg : Subgroup.closure {x | x ∈ rSg} = sylowS.subgroupOf R := 
     ofArrays_originalSubgroup]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, rSg, List.mem_cons, List.mem_nil_iff, or_false]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, rSg, List.mem_cons, List.mem_nil_iff, or_false]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rcases hx with rfl | rfl | rfl

@@ -24,7 +24,7 @@ private theorem padicValNat_list_prod {p : ℕ} [Fact p.Prime] (l : List ℕ)
 
 theorem not_dvd_numTwistedE6 {q : ℕ} (hq : 2 ≤ q) (h3 : 3 ∣ q + 1) :
     ¬ ((q + 1) ^ 6 * 3 ^ 5 ∣ numTwistedE6 q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : 1 < q := by omega
   have h3q : ¬ 3 ∣ q := by
     intro h

@@ -17,7 +17,7 @@ theorem mem_sylow_of_pow_eq_one {P : Sylow p Y} (hP : (P : Subgroup Y).Normal) {
     simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hs, one_zpow]
   obtain ⟨Q, hQ⟩ := hz.exists_le_sylow
-  haveI := Sylow.unique_of_normal P hP
+  have := Sylow.unique_of_normal P hP
   have hQP : Q = P := Subsingleton.elim Q P
   rw [← hQP]
   exact hQ (Subgroup.mem_zpowers s)
@@ -30,7 +30,7 @@ theorem isPGroup_closure_of_isNilpotent [Group.IsNilpotent Y] {S : Set Y}
     intro s hs
     obtain ⟨k, hk⟩ := hS s hs
     exact mem_sylow_of_pow_eq_one inferInstance hk
-  exact P.isPGroup'.to_le hle
+  exact P.isPGroup.to_le hle
 
 theorem isPGroup_closure_of_map_center {S : Set Y} (hS : ∀ s ∈ S, ∃ k : ℕ, s ^ p ^ k = 1)
     (hmap : IsPGroup p
@@ -49,8 +49,8 @@ theorem isPGroup_closure_of_map_center {S : Set Y} (hS : ∀ s ∈ S, ∃ k : �
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp hx') y)
-  haveI : Group.IsNilpotent (K.map (QuotientGroup.mk' (Subgroup.center Y))) := hmap.isNilpotent
-  haveI : Group.IsNilpotent K := Subgroup.isNilpotent_of_ker_le_center f hker
+  have : Group.IsNilpotent (K.map (QuotientGroup.mk' (Subgroup.center Y))) := hmap.isNilpotent
+  have : Group.IsNilpotent K := Subgroup.isNilpotent_of_ker_le_center f hker
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p K))
   have hle : K ≤ (P : Subgroup K).map K.subtype := by
     change Subgroup.closure S ≤ _
@@ -64,7 +64,7 @@ theorem isPGroup_closure_of_map_center {S : Set Y} (hS : ∀ s ∈ S, ∃ k : �
   intro g
   obtain ⟨h, hh, hhg⟩ := hle g.2
   have hg : g = h := Subtype.ext hhg.symm
-  obtain ⟨n, hn⟩ := P.isPGroup' ⟨h, hh⟩
+  obtain ⟨n, hn⟩ := P.isPGroup ⟨h, hh⟩
   exact ⟨n, by rw [hg]; exact congrArg Subtype.val hn⟩
 
 end CFSG.GroupTheory

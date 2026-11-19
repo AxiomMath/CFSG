@@ -131,7 +131,7 @@ theorem e6_stab_le_kernelReflectionGroup_of_conn {K : Type}
     rw [← Set.ncard_coe_finset]
     congr 1
     ext α
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, mem_rootFinset]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_rootFinset]
     exact mem_kernelRoots_triChar.symm
   rw [this, ← hker']
   exact hk

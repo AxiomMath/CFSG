@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {H : Subgroup G} {X : Type} [Group X]
 variable {W : Subgroup G}
 
+omit [Finite G] in
 theorem sectionAction_bot_apply
     (hHbot : H ≤ Subgroup.normalizer ((⊥ : Subgroup G) : Set G))
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
@@ -23,7 +24,7 @@ theorem sectionAction_bot_apply
       chiefModBotMulEquiv W
         ⟨(h : G) * (w : G) * (h : G)⁻¹,
           (Subgroup.mem_normalizer_iff.mp (hHW h.2) (w : G)).mp w.2⟩ := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
   rw [sectionAction_apply]
   change Ch3z.chiefPsi hHbot hHW h (chiefModBotMulEquiv W w) =
     chiefModBotMulEquiv W
@@ -32,6 +33,7 @@ theorem sectionAction_bot_apply
   rw [chiefModBotMulEquiv_apply, chiefModBotMulEquiv_apply]
   exact Ch3z.chiefPsi_iota hHbot hHW (D14.le_normalizer_bot W) h w _
 
+omit [Finite G] in
 theorem mem_fixSub_sectionRep_bot_iff
     (hHbot : H ≤ Subgroup.normalizer ((⊥ : Subgroup G) : Set G))
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
@@ -44,8 +46,8 @@ theorem mem_fixSub_sectionRep_bot_iff
         (sectionRep hHbot hHW (D14.le_normalizer_bot W) hE hO e)
         ((P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom) ↔
       (w : G) ∈ Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   rw [CFSG.RankThree.FFModules.mem_fixSub, Subgroup.mem_centralizer_iff]
   constructor
   · intro hfix p hp
@@ -87,6 +89,7 @@ theorem mem_fixSub_sectionRep_bot_iff
     simp only [QuotientGroup.mk'_apply]
     rw [sectionRep_apply, sectionAction_bot_apply hHbot hHW hE h w, h2]
 
+omit [Finite G] in
 theorem card_fixSub_sectionRep_bot
     (hHbot : H ≤ Subgroup.normalizer ((⊥ : Subgroup G) : Set G))
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
@@ -99,8 +102,8 @@ theorem card_fixSub_sectionRep_bot
       (sectionRep hHbot hHW (D14.le_normalizer_bot W) hE hO e)
       ((P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom)) =
     Nat.card ↥(W ⊓ Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G)) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let C : Subgroup G := Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G)
   let A : Subgroup X := (P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom
   let ρ := sectionRep hHbot hHW (D14.le_normalizer_bot W) hE hO e
@@ -124,7 +127,7 @@ theorem card_fixSub_sectionRep_bot
       have hw : chiefModBotMulEquiv W ((chiefModBotMulEquiv W).symm x.1.toMul) = x.1.toMul :=
         Equiv.apply_symm_apply _ _
       rw [hw]
-      simpa using x.2)
+      simp)
   · exact (key w).mpr (Subgroup.mem_inf.mp y.2).2
   · intro x
     apply Subtype.ext

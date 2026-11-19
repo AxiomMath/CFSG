@@ -66,6 +66,7 @@ theorem comm2_mul_right (a b b' : ↥Q) :
   rw [this, map_mul, toAdd_mul]
 
 include hZc in
+omit hZc in
 theorem comm2_symm (a b : ↥Q) : comm2 lam hcomm b a = comm2 lam hcomm a b := by
   unfold comm2
   have h1 : (⟨⁅(b : G), (a : G)⁆, hcomm _ b.2 _ a.2⟩ : ↥Z) =
@@ -77,6 +78,7 @@ theorem comm2_symm (a b : ↥Q) : comm2 lam hcomm b a = comm2 lam hcomm a b := b
   decide
 
 include hZc in
+omit hZc in
 theorem comm2_self (a : ↥Q) : comm2 lam hcomm a a = 0 := by
   unfold comm2
   have : (⟨⁅(a : G), (a : G)⁆, hcomm _ a.2 _ a.2⟩ : ↥Z) = 1 := Subtype.ext (by simp)
@@ -99,7 +101,7 @@ theorem comm2_congr_left (a a' b : ↥Q) (h : (a : G) * (a' : G)⁻¹ ∈ Z) :
 include hZc in
 theorem comm2_congr_right (a b b' : ↥Q) (h : (b : G) * (b' : G)⁻¹ ∈ Z) :
     comm2 lam hcomm a b = comm2 lam hcomm a b' := by
-  rw [← comm2_symm lam hcomm hZc a b, ← comm2_symm lam hcomm hZc a b']
+  rw [← comm2_symm lam hcomm a b, ← comm2_symm lam hcomm a b']
   exact comm2_congr_left lam hcomm hZc b b' a h
 
 theorem comm2_eq_zero_iff (a b : ↥Q) : comm2 lam hcomm a b = 0 ↔ LamOrth Z lam (a : G) (b : G) := by
@@ -178,7 +180,7 @@ theorem exists_lamForm [Module (ZMod 2) M] (hκ : IsSecMod R Q Z M κ)
     intro x y
     have := hFκ (secLift hκ y) (secLift hκ x)
     simp only [hF]
-    rw [comm2_symm lam hcomm hZc]
+    rw [comm2_symm lam hcomm]
   have hscal2 : ∀ (c : ZMod 2) x y, F x (c • y) = c • F x y := by
     intro c x y
     rw [hsymm, hscal, hsymm]
@@ -206,7 +208,7 @@ theorem exists_lamForm [Module (ZMod 2) M] (hκ : IsSecMod R Q Z M κ)
     have := hFκ (secLift hκ x) (secLift hκ x)
     rw [hlift] at this
     rw [this]
-    exact comm2_self lam hcomm hZc _
+    exact comm2_self lam hcomm _
   · exact fun a b => hFκ a b
 
 end Descent
@@ -255,10 +257,10 @@ theorem propAGroup_holds :
     ⟨hZQ, hcomm, hsq, fun r hr x hx => hnormR r hr x hx,
       fun r hr x hx => by rw [hfixR r hr x hx]; exact hx⟩
   obtain ⟨M, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite M := hκ.finite
-  letI : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
+  have : Finite M := hκ.finite
+  let : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
     rw [two_nsmul]; exact hκ.two a)
-  haveI : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
   obtain ⟨f, hfnd, hfalt, hfκ⟩ := exists_lamForm lam hcomm hZc hκ hnd
   let Sub : Subgroup G → Submodule (ZMod 2) M := fun U =>
     AddSubgroup.toZModSubmodule 2 (secSub κ U)
@@ -314,10 +316,10 @@ theorem propAGroup_holds :
     constructor
     · intro h v hv
       have := h ⟨v, hVQ hv⟩ hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm] at this
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm] at this
       exact this
     · intro h v hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
       exact h v hv
   have hsubW : Sub W = Sub SB ⊔ Sub SC ⊔ Sub V := by
     have : secSub κ W = secSub κ SB ⊔ secSub κ SC ⊔ secSub κ V := by

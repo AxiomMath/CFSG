@@ -89,7 +89,7 @@ theorem hdRo7CKCoordAux_centralizer_K_le_zpowers_y {G : Type} [Group G]
       rw [hmodel a]
       refine ⟨Equiv.refl _, (fun i => if i = l then -1 else 1), rfl, ?_, ?_, ?_⟩
       · show (if (0 : Fin (n + 1)) = l then -1 else 1) = 1
-        rw [if_neg (Ne.symm hl)]
+        rw [ite_eq_right (Ne.symm hl)]
       · intro i
         by_cases hi : i = l
         · right; simp [hi]
@@ -102,7 +102,7 @@ theorem hdRo7CKCoordAux_centralizer_K_le_zpowers_y {G : Type} [Group G]
         · subst hi
           rw [Function.update_self]
           simp
-        · rw [Function.update_of_ne hi, if_neg hi, one_mul]
+        · rw [Function.update_of_ne hi, ite_eq_right hi, one_mul]
     have hfixed : a (τ f) = τ f := by
       have h := hfix a ha_mem
       rwa [← hbf] at h
@@ -122,7 +122,7 @@ theorem hdRo7CKCoordAux_centralizer_K_le_zpowers_y {G : Type} [Group G]
     funext i
     by_cases hi : i = 0
     · subst hi; rw [Pi.mulSingle_eq_same]
-    · rw [Pi.mulSingle_apply, if_neg hi]; exact hfl i hi
+    · rw [Pi.mulSingle_apply, ite_eq_right hi]; exact hfl i hi
   rw [Subgroup.mem_zpowers_iff]
   refine ⟨((Multiplicative.toAdd (f 0)).val : ℤ), ?_⟩
   rw [zpow_natCast]
@@ -138,7 +138,7 @@ theorem hdRo7CKCoordAux_centralizer_K_le_zpowers_y {G : Type} [Group G]
       rw [Pi.pow_apply, Pi.mulSingle_eq_same, Pi.mulSingle_eq_same,
         hdRo7CKCoordAux_ofAdd_pow, mul_one, ZMod.natCast_zmod_val]
       exact Multiplicative.ofAdd.apply_symm_apply (f 0)
-    · simp [Pi.pow_apply, Pi.mulSingle_apply, hi]
+    · simp [Pi.pow_apply, hi]
   simpa using (Subgroup.coe_pow Bs ⟨y, hy⟩ _).symm.trans (congrArg Subtype.val hthis)
 
 theorem hdRo7CKCoordAux_E_selfCentralizing
@@ -149,13 +149,13 @@ theorem hdRo7CKCoordAux_E_selfCentralizing
     (n : ℕ) (hy : y ∈ Bs) (τ : (Fin (n + 1) → Multiplicative (ZMod p)) ≃* ↥Bs)
     (h0 : τ (Pi.mulSingle 0 (Multiplicative.ofAdd (1 : ZMod p))) = ⟨y, hy⟩)
     (hmodel : C2CoordModel p Bs K n τ)
-    {m : ℕ} (φ : StatedSp m (GaloisField 2 1) →* G) (hinj : Function.Injective φ)
+    {m : ℕ} (φ : StatedSp m (GaloisField 2 1) →* G) (_hinj : Function.Injective φ)
     (hrange : φ.range = K) :
     ∀ Z : StatedSp m (GaloisField 2 1),
       (∀ Y ∈ (Bs ⊓ K).comap φ, Z * Y = Y * Z) → Z ^ 3 = 1 → Z ∈ (Bs ⊓ K).comap φ := by
   obtain ⟨R, hRgrp, I, θ, hBsN, -, -, -, -, hI, hBs3⟩ :=
     hdRo7CKCoordAux_torus_data hRig hH hrow
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   have hZK : Subgroup.center ↥K = ⊥ := hdRo7CKCoordAux_center_K_eq_bot hH hrow
   have hinner : ∀ b ∈ Bs, ∃ x ∈ K, ∀ y ∈ K, b * y * b⁻¹ = x * y * x⁻¹ :=
     hdRo7CKCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZK hBsN hBs3
@@ -200,7 +200,7 @@ theorem hdRo7CKCoordAux_E_selfCentralizing
   exact ⟨hZBs, hZKmem⟩
 
 theorem hdRo7CKCoordAux_frame_of_K {G : Type} [Group G]
-    {m : ℕ} (φ : StatedSp m (GaloisField 2 1) →* G)
+    {m : ℕ} (_φ : StatedSp m (GaloisField 2 1) →* G)
     {E : Subgroup (StatedSp m (GaloisField 2 1))}
     (hEab : IsElemAbelian 3 E)
     (hEsc : ∀ Z : StatedSp m (GaloisField 2 1),
@@ -216,7 +216,7 @@ theorem hdRo7CKCoordAux_frame_of_K {G : Type} [Group G]
     norm_num
   obtain ⟨L, hLf, hAlg, hMF, ζ, hdim, hζ, ⟨F⟩⟩ :=
     A6InsideSp.exists_frame_two (K := GaloisField 2 1) (n := m) hK hEab hEsc
-  haveI : Module.Finite (GaloisField 2 1) L := hMF
+  have : Module.Finite (GaloisField 2 1) L := hMF
   obtain ⟨c, hc⟩ := F.mem_tor t ht
   exact ⟨L, hLf, hAlg, hMF, ζ, hdim, hζ, F, A6InsideSp.s_eq F hdim, c, hc⟩
 
@@ -290,10 +290,10 @@ private theorem hdRo7CKCoordAux_card_statedSp_congr {K K' : Type} [Field K] [Fin
     Nat.card (StatedSp r K) = Nat.card (StatedSp r K') := by
   induction r with
   | zero =>
-    haveI : Subsingleton (StatedSp 0 K) := inferInstance
-    haveI : Nonempty (StatedSp 0 K) := ⟨1⟩
-    haveI : Subsingleton (StatedSp 0 K') := inferInstance
-    haveI : Nonempty (StatedSp 0 K') := ⟨1⟩
+    have : Subsingleton (StatedSp 0 K) := inferInstance
+    have : Nonempty (StatedSp 0 K) := ⟨1⟩
+    have : Subsingleton (StatedSp 0 K') := inferInstance
+    have : Nonempty (StatedSp 0 K') := ⟨1⟩
     rw [Nat.card_unique, Nat.card_unique]
   | succ r ih => rw [tpbcB_card_statedSp_succ K r, tpbcB_card_statedSp_succ K' r, ih, h]
 
@@ -319,9 +319,9 @@ theorem hdRo7CKCoordAux_rank_K_eq_m
     have h := hdRo7CLCoordAux_statedClassicalModel_of_hasLabel_BC htagK (by omega) h1n hKlab
     rwa [hnK] at h
   obtain ⟨K', hK'f, hK'fin, hK'card, ⟨e'⟩⟩ := hmodelK.2
-  letI : Field K' := hK'f
-  letI : Finite K' := hK'fin
-  haveI : CharP K' 2 := charP_two_of_card hK'card
+  let : Field K' := hK'f
+  let : Finite K' := hK'fin
+  have : CharP K' 2 := charP_two_of_card hK'card
   have hcardKZ : Nat.card (↥K ⧸ Subgroup.center ↥K) = Nat.card ↥K := by
     rw [hZK]
     exact Nat.card_congr (QuotientGroup.quotientBot (G := ↥K)).toEquiv

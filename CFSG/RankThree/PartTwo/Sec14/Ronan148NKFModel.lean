@@ -188,7 +188,7 @@ theorem comm_of_diagonal148 {A B : GL (Fin 3) K} {a b : Fin 3 → K}
 theorem model_kf148 (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {x g : GL (Fin 3) K}
     (hxL : x ∈ slPi π 3 (p ^ f) K) (hx1 : ProjGenLinGroup.mk x ≠ 1)
     (hx3 : ProjGenLinGroup.mk x ^ 3 = 1) (hg : g ∈ glPi π 3 (p ^ f) K)
-    (hgx : ProjGenLinGroup.mk g * ProjGenLinGroup.mk x =
+    (_hgx : ProjGenLinGroup.mk g * ProjGenLinGroup.mk x =
       ProjGenLinGroup.mk x * ProjGenLinGroup.mk g) :
     ∃ c ∈ glPi π 3 (p ^ f) K,
       ProjGenLinGroup.mk c * ProjGenLinGroup.mk x = ProjGenLinGroup.mk x * ProjGenLinGroup.mk c ∧

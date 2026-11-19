@@ -176,7 +176,7 @@ theorem sc_image_not_isCyclic {T D X : Subgroup G} {p : ℕ} (hS : SCSetup T D X
         exact orderOf_le_of_pow_eq_one hp.pos (hWpow w)
       rw [htop, card_top, hC.card_W] at h1
       nlinarith [hp.two_le]
-  have hRD2 : IsPGroup 2 RD := SD.isPGroup'.map _
+  have hRD2 : IsPGroup 2 RD := SD.isPGroup.map _
   have hRDI : RD ≤ ρD.range := map_le_range _ _
   have heven : Even (Nat.card ρD.range) := by
     obtain ⟨m, hm⟩ := hRD2.exists_card_eq

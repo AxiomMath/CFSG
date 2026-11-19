@@ -17,7 +17,7 @@ open scoped commutatorElement
 
 private lemma commutator_sup_le_of_le_center {G : Type*} [Group G] {C Z : Subgroup G}
     (hZ : Z ≤ Subgroup.center G) : ⁅C ⊔ Z, C ⊔ Z⁆ ≤ ⁅C, C⁆ := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [Subgroup.commutator_le]
   intro x hx y hy
   obtain ⟨c, hc, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
@@ -121,7 +121,7 @@ theorem commutator_facts_of_cover [Finite T] {S : Type*} [Group S] [IsSimpleGrou
     calc C_H = ⁅(⊤ : Subgroup ↥V₀), ⊤⁆ := hC_H
       _ = ⁅C_H ⊔ Subgroup.center ↥V₀, C_H ⊔ Subgroup.center ↥V₀⁆ := by rw [hCsup]
       _ ≤ ⁅C_H, C_H⁆ := commutator_sup_le_of_le_center (le_refl _)
-  haveI hCHperfect : Group.IsPerfect ↥C_H := Subgroup.isPerfect_iff.mpr hCHcomm
+  have hCHperfect : Group.IsPerfect ↥C_H := Subgroup.isPerfect_iff.mpr hCHcomm
   have hsupV : C ⊔ (Subgroup.center ↥V₀).map V₀.subtype = V₀ := by
     rw [← hCmap, ← Subgroup.map_sup, hCsup, Subgroup.map_top, Subgroup.range_subtype]
   let f : ↥C_H →* S := ψ.comp C_H.subtype
@@ -131,9 +131,9 @@ theorem commutator_facts_of_cover [Finite T] {S : Type*} [Group S] [IsSimpleGrou
     obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hx⟩, by simpa [f] using hxy⟩
   have hOnorm : (oPrimeResidual 3 ↥C_H).Normal := CFSG.GH74.GLS.IVK.oPrimeResidual_normal_gen 3
-  haveI : (oPrimeResidual 3 ↥C_H).Normal := hOnorm
-  haveI : Finite S := Finite.of_surjective ψ hψ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (oPrimeResidual 3 ↥C_H).Normal := hOnorm
+  have : Finite S := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' 3 h3
   obtain ⟨x₀, hx₀C, hx₀s⟩ : ∃ x ∈ C_H, ψ x = s := by
     have hs_mem : s ∈ C_H.map ψ := by rw [hCHmapψ]; exact Subgroup.mem_top s
@@ -156,7 +156,7 @@ theorem commutator_facts_of_cover [Finite T] {S : Type*} [Group S] [IsSimpleGrou
     rw [h1, orderOf_one] at hs
     norm_num at hs
   have hOmap_top : (oPrimeResidual 3 ↥C_H).map f = ⊤ := by
-    haveI hnorm : ((oPrimeResidual 3 ↥C_H).map f).Normal :=
+    have hnorm : ((oPrimeResidual 3 ↥C_H).map f).Normal :=
       Subgroup.Normal.map hOnorm f hf
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((oPrimeResidual 3 ↥C_H).map f) with h | h
@@ -315,8 +315,8 @@ theorem exists_split_of_mulEquiv_prod [Finite T] [Group.IsPerfect T] {H₁ H₂ 
   let π₂ : T →* H₂ := (MonoidHom.snd H₁ H₂).comp e.toMonoidHom
   let U₀ : Subgroup T := π₂.ker
   let V₀ : Subgroup T := π₁.ker
-  haveI hU₀ : U₀.Normal := MonoidHom.normal_ker π₂
-  haveI hV₀ : V₀.Normal := MonoidHom.normal_ker π₁
+  have hU₀ : U₀.Normal := MonoidHom.normal_ker π₂
+  have hV₀ : V₀.Normal := MonoidHom.normal_ker π₁
   have hsup : U₀ ⊔ V₀ = ⊤ := by
     rw [eq_top_iff]
     intro t _

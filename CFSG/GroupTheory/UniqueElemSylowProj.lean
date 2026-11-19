@@ -39,7 +39,7 @@ theorem UniqueElemSylow.statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {K 
             (map_pow (Matrix.GeneralLinearGroup.scalar ι) c d).symm
       _ = Matrix.GeneralLinearGroup.scalar ι 1 := by rw [hcd]
       _ = 1 := map_one (Matrix.GeneralLinearGroup.scalar ι)
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   exact (UniqueElemSylow.quotient_iff (p := p) (k := k) N hN).2 h
 
 end CFSG.GroupTheory

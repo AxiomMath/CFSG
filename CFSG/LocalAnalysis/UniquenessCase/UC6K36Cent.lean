@@ -15,7 +15,7 @@ include h
 
 theorem normalizer_le_of_le_of_ne_bot {A : Subgroup G} (hAE : A ≤ E) (hA : A ≠ ⊥) :
     normalizer (A : Set G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hp1 : 1 < p := h.prime.one_lt
   have hAel : IsElemAbelian p A := h.elem.mono hAE
   obtain ⟨j, hj⟩ := (h.isPGroup.to_le hAE).exists_card_eq

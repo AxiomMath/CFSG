@@ -149,14 +149,14 @@ theorem GGResHyp.card_Bs_six_or_seven_of_original_L_E6_datum
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨e, hML'⟩ := htyp
   let h' : Fin 6 → V := fun i => h (Sum.inl (e i))
   let α' : Fin 6 → Module.Dual (ZMod 3) V := fun i => α (Sum.inl (e i))
@@ -255,8 +255,8 @@ theorem e6_dependent_fixed_axis_coordinates_of_original_L
         ((c v).1 - (c v).1 i • (fun j => (CartanMatrix.E 6 j i : ZMod 3)), (c v).2)) := by
   classical
   obtain ⟨e, hML⟩ := htyp
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let h' : Fin 6 → V := fun i => h (Sum.inl (e i))
   let α' : Fin 6 → Module.Dual (ZMod 3) V := fun i => α (Sum.inl (e i))
   let xV : V := ι (Additive.ofMul (⟨x, hH.1.tableB_facts.2.2.1⟩ : ↥Bs))
@@ -365,9 +365,9 @@ theorem e6_dependent_dual_transport_of_raw
       (∀ i, E6DependentDualSeven.s i ∈ H) ∧
       (∀ a : Λa, ggLin (p := 3) ι7 (φ (Sum.inr a)) ∈ H) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hcardV : Nat.card V = 3 ^ 7 := by
     rw [← Nat.card_congr ι.toEquiv]
     exact hcard
@@ -435,12 +435,12 @@ theorem GGResHyp.weyl_join_of_original_L_E6_dep_card_seven
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hca : 0 < Fintype.card Λa := by
     rw [← Nat.card_eq_fintype_card]
     omega

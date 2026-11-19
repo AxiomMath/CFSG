@@ -44,7 +44,7 @@ theorem bm_parab_exp (y : Fin Tag.E6.rank → ℤ) (h0 : (2 * y 0 + y 2) % 3 = 0
     ∃ x : Fin Tag.E6.rank → ℤ, y 0 + (∑ k, x k * bmTw 0 k - x 0) = 0 ∧
       y 2 + (∑ k, x k * bmTw 2 k - x 2) = 0 := by
   obtain ⟨a, ha⟩ : (3 : ℤ) ∣ y 0 - y 2 := by omega
-  refine ⟨![a, 0, y 2 + a, 0, 0, 0], ?_, ?_⟩ <;> simp [bm_sum_six, bmTw] <;> omega
+  refine ⟨![a, 0, y 2 + a, 0, 0, 0], ?_, ?_⟩ <;> simp [bm_sum_six, bmTw]; omega
 
 theorem bm_final_exp (y : Fin Tag.E6.rank → ℤ) (hl1 : (2 * y 4 + y 5) % 3 = 0)
     (hl3 : (y 1 + y 2 + 2 * y 5 - (2 * y 0 + y 2)) % 3 = 0) :

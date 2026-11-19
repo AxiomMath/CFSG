@@ -57,8 +57,8 @@ theorem mem_of_fix {X P R : Subgroup (Equiv.Perm (Fin 728))} {pt : Fin 728}
 theorem gens_size : (burnsideF48t_g23Gens ()).size = 4 := rfl
 
 theorem X_eq : arrGen 728 (burnsideF48t_g23Gens ()) =
-    Subgroup.closure (Set.range fun k : Fin (burnsideF48t_g23Gens ()).size => gam k) :=
-  CFSG.Sporadic.HNOddCore.arrGen_eq fun k hk => (prep_gen (gens_size ▸ hk)).1
+    Subgroup.closure (Set.range fun _k : Fin (burnsideF48t_g23Gens ()).size => gam _k) :=
+  CFSG.Sporadic.HNOddCore.arrGen_eq fun _k hk => (prep_gen (gens_size ▸ hk)).1
 
 theorem X_lt {g : Equiv.Perm (Fin 728)} (hg : g ∈ arrGen 728 (burnsideF48t_g23Gens ()))
     {x : Fin 728} (hx : (x : ℕ) < 364) : ((g x : Fin 728) : ℕ) < 364 := by
@@ -69,7 +69,7 @@ theorem X_lt {g : Equiv.Perm (Fin 728)} (hg : g ∈ arrGen 728 (burnsideF48t_g23
   have hs4 : s < 4 := gens_size ▸ hs
   have h := allN_spec (allN_spec x_pres s hs4) y hy
   rw [Nat.blt_eq] at h
-  rw [Set.mem_setOf_eq, ← (prep_gen hs4).2.1 y]
+  rw [Set.mem_ofPred_eq, ← (prep_gen hs4).2.1 y]
   exact h
 
 theorem X_ge {g : Equiv.Perm (Fin 728)} (hg : g ∈ arrGen 728 (burnsideF48t_g23Gens ()))
@@ -79,8 +79,8 @@ theorem X_ge {g : Equiv.Perm (Fin 728)} (hg : g ∈ arrGen 728 (burnsideF48t_g23
   simp only [Equiv.Perm.coe_inv, Equiv.symm_apply_apply] at this
   omega
 
-theorem gam_rep : ∀ s < 4, CFSG.ONSchreier.PRep 728 (burnsideF48t_g23Gens ())[s]! (gam s) ∧
-    gam s ∈ arrGen 728 (burnsideF48t_g23Gens ()) := fun s hs => ⟨(prep_gen hs).1, gam_mem hs⟩
+theorem gam_rep : ∀ _s < 4, CFSG.ONSchreier.PRep 728 (burnsideF48t_g23Gens ())[_s]! (gam _s) ∧
+    gam _s ∈ arrGen 728 (burnsideF48t_g23Gens ()) := fun _s hs => ⟨(prep_gen hs).1, gam_mem hs⟩
 
 theorem p1_rep : ∀ s < 3, CFSG.ONSchreier.PRep 728 burnsideF48t_g23P1Arr[s]! (sig s) ∧
     sig s ∈ arrGen 728 burnsideF48t_g23P1Arr := fun s hs => by

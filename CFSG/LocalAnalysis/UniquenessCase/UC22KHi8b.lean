@@ -232,7 +232,7 @@ theorem KLift.isNaturalL2Prime (D : Data G) (Ch : Choice2011 G) (h3 : S22_3_3 D 
   have hIU : Ii ≤ D.U := P22x.proofIi_le D (preN_le_M D (Nb i))
   have hb : bsub e Ii = natIi ρ Nbar (Nb i) := bsub_proofIi D e ρ hc hNbN
   obtain ⟨n, hn, F, _, _, hF, -, -, -, φ, ψ, hψB, hψA, hψs, hψφ⟩ := d.nat i
-  haveI := P22y.charP_two_of_card hF
+  have := P22y.charP_two_of_card hF
   have hLIi : K ≤ normalizer (Ii : Set G) := hK.le_normalizer_proofIi
   have hVL : ⁅Ii, K⁆ ≤ Ii := commutator_le_of_normalizer le_rfl hLIi
   have hVLU : ⁅Ii, K⁆ ≤ D.U := hVL.trans hIU
@@ -280,7 +280,7 @@ theorem KLift.isNaturalL2Prime (D : Data G) (Ch : Choice2011 G) (h3 : S22_3_3 D 
     have h4 : (2 ^ n) ^ 2 = 4 ^ n := by rw [← pow_mul, mul_comm, pow_mul]; norm_num
     rw [h4]
     simpa using Nat.sub_dvd_pow_sub_pow 4 1 n
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   obtain ⟨l₃, hl₃⟩ := hπsurj g
   set g₃ : ↥(StatedSL 2 F) := α₀ l₃ with hg₃def
@@ -374,7 +374,7 @@ theorem KLift.isNaturalL2Prime (D : Data G) (Ch : Choice2011 G) (h3 : S22_3_3 D 
     subst hn1
     rw [hcard] at h6
     norm_num at h6
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   exact ⟨n, Or.inl ⟨hn2, F, inferInstance, inferInstance, by rw [← Nat.card_eq_fintype_card, hF],
     hLnorm, α₀, hαsurj, hαker, β₀, hβsurj, hβker, hequi⟩⟩
 
@@ -394,7 +394,7 @@ theorem KLift.le_commutator (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) (h6 : 6 < Nat.card ↥(Nb i)) :
     K ≤ ⁅proofS D, K⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := uc22p22xf_hV D
   have hKM : K ≤ D.M := hK.le_M
   have hWK : ⁅proofS D, K⁆ ≤ K := by
@@ -403,7 +403,7 @@ theorem KLift.le_commutator (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
   have hKW : K ≤ normalizer ((⁅proofS D, K⁆ : Subgroup G) : Set G) :=
     Subgroup.normalizer_commutator_ge_right (proofS D) K
   obtain ⟨n, hL2, -⟩ := h51 hH c m Nb hNb i
-  haveI := P22y.isSimpleGroup_of_isL2Ev hL2 (P22y.two_le_of_isL2Ev_of_card hL2 h6)
+  have := P22y.isSimpleGroup_of_isL2Ev hL2 (P22y.two_le_of_isL2Ev_of_card hL2 h6)
   set Q : Subgroup ↥(Nb i) := (mbarImage D.M D.U ⁅proofS D, K⁆).subgroupOf (Nb i) with hQdef
   have hQle : mbarImage D.M D.U ⁅proofS D, K⁆ ≤ Nb i := by
     rw [← hK.image]
@@ -476,7 +476,7 @@ theorem KLift.isSylowTwoOf_sup (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D 
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) (h6 : 6 < Nat.card ↥(Nb i)) :
     CFSG.QuasithinUnique.IsSylowTwoOf (proofS D) (K ⊔ proofS D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Mx, hMP⟩ := KLift.exists_minParabolic D Ch h2 h3 h51 hH c hNb hK
   have hF : quasithinGenFitting (K ⊔ proofS D) = pCoreOf 2 (K ⊔ proofS D) :=
     (CFSG.Quasithin.quasithinGenFitting_eq_pCoreOf_iff (K ⊔ proofS D) 2).2 hK.charTwo

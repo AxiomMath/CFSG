@@ -79,7 +79,7 @@ theorem exists_unitary_quotient_frame_of_aPermutationFull {G : Type} [Group G] [
   subst m
   have hcard' : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hcard
   let h := TableBU.unitaryFieldData_of_card hcard' (by omega : 1 ≤ 1)
-  letI : CharP F 2 := h.charP
+  let : CharP F 2 := h.charP
   have hstrong : 3 ^ (n - 1) ≤ Nat.card (ggGamma X hN).range :=
     pow_le_card_range_ggGamma_of_aPermutationFull (by omega) eta hA hN
   have hrank : 3 ^ (n / 3 + 2) ≤ Nat.card (ggGamma X hN).range :=

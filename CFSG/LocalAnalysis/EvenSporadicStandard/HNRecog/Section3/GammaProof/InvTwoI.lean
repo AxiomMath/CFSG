@@ -12,6 +12,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem gamma_invTwoI_orderOf_sq_ne_two {x : G} (h : orderOf x = 3 ∨ orderOf x = 6) :
     orderOf (x ^ 2) ≠ 2 := by
   have hx6 : x ^ 6 = 1 := by
@@ -27,21 +28,24 @@ private theorem gamma_invTwoI_orderOf_sq_ne_two {x : G} (h : orderOf x = 3 ∨ o
   rw [h2] at hdvd
   norm_num at hdvd
 
+omit [Finite G] in
 private theorem gamma_invTwoI_sq_mul_eq_one {x y : G} (hx : x ^ 2 = 1) (hy : y ^ 2 = 1)
     (hc : x * y = y * x) : (x * y) ^ 2 = 1 := by
   have hcomm : Commute x y := hc
   rw [hcomm.mul_pow 2, hx, hy, mul_one]
 
+omit [Finite G] in
 theorem gamma_sixA_eq (H : GammaHyps a z) {y b : G} (hy : y ∈ orb6A a a)
     (hb : b ∈ orb2A a a ∩ orb2A a y) : b = (a * y) ^ 3 := by
   obtain ⟨hb0, hrow⟩ := tableV_orb6A_row H.h hy
   have hset := (H.hPerp.self).perp_4B_6A ((a * y) ^ 3) hb0 y (Or.inr hrow)
   have hbcenter : b ∈ centerOf (Subgroup.closure {a, y}) ∧ b ≠ 1 := by
     have hmem : b ∈ {w : G | w ∈ centerOf (Subgroup.closure {a, y}) ∧ w ≠ 1} := hset ▸ hb
-    simpa only [Set.mem_setOf_eq] using hmem
+    simpa only [Set.mem_ofPred_eq] using hmem
   exact (perp_center_closure_pair (c := y) (H.sq_a (IsConj.refl a)) (H.sq_a hy.1)
     (k := 3) (by norm_num) (by rw [hy.2.1]) b).mp hbcenter
 
+omit [Finite G] in
 theorem gamma_partner (H : GammaHyps a z) {y b : G} (hy : y ∈ orb3A a a ∪ orb6A a a)
     (hb : b ∈ orb2A a a ∩ orb2A a y) :
     ∃ c ∈ orb6A a y, (y * c) ^ 3 = b ∧ Gxy y c ≤ Gx a := by

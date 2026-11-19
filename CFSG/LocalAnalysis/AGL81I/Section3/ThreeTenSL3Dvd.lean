@@ -20,7 +20,7 @@ theorem dvd_card_of_threeTenHyp_of_isSLType_of_not_dvd_sub_one {H : Type} [Group
     (h1 : ¬ d ∣ p - 1) : d ∣ Nat.card ↥I := by
   have hdvdAutI : d ∣ Nat.card (MulAut ↥I) := dvd_card_mulAut_of_threeTenHyp hhyp
   obtain ⟨hp, -, hd, hd2, -, -, -, -, -, -, -, -⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardAutI : Nat.card (MulAut ↥I) =
       Nat.card (MulAut (SpecialLinearGroup (Fin 3) (ZMod p))) :=
     Nat.card_congr (MulAut.congr e).toEquiv
@@ -37,7 +37,7 @@ theorem dvd_card_of_threeTenHyp_of_isSLType_of_not_dvd_sub_one {H : Type} [Group
       rwa [hcardRange] at hdvdAutSL
     exact h.trans (Subgroup.card_subgroup_dvd_card _)
   have hcenter : Subgroup.center (projectiveSL 3 (ZMod p)) = ⊥ := by
-    haveI : Group.IsPerfect (SpecialLinearGroup (Fin 3) (ZMod p)) :=
+    have : Group.IsPerfect (SpecialLinearGroup (Fin 3) (ZMod p)) :=
       CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (by norm_num)
     have h := Group.IsPerfect.center_quotient_center_eq_bot
       (G := SpecialLinearGroup (Fin 3) (ZMod p))

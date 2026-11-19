@@ -348,11 +348,11 @@ open CFSG.Yardstones.Md0ec50421ce4
 
 theorem kLevel_le_two_of_k2 {S : Type} [Group S] (h : catalogIs S (k2 3)) : kLevel 3 S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 theorem kLevel_le_one_of_chev3 {S : Type} [Group S] (h : IsChevSimple 3 S) : kLevel 3 S ≤ 1 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem kLevel_le_two_of_chev2
     {Q : Type} [Group Q] [Finite Q] (hQ : IsChevSimple 2 Q) (hdvd : Nat.card Q ∣ N8)

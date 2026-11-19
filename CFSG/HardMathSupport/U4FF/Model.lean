@@ -53,8 +53,8 @@ theorem exists_equiv_SU {S : Type} [CommGroup S] {n : ℕ} {L : Subgroup (MulAut
       Nonempty (↥L ≃* ↥(CFSG.LieType.Universal.Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution K 2 n) 4)) := by
   obtain ⟨F, _, hFfin, hcard, ⟨e⟩⟩ := exists_equiv_statedProj hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hcard
   have hn := one_le_of_isU4Group hL
   have hcop : Nat.Coprime 4 (2 ^ n + 1) := by
     have h2 : Nat.Coprime 2 (2 ^ n + 1) := by

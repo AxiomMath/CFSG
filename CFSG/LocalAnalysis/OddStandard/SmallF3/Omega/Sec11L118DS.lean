@@ -26,7 +26,7 @@ private theorem exists_cyclic_relIndex_two_of_mulEquiv {D : Subgroup G} {P₀ : 
       Subgroup.comap_map_eq_self_of_injective D.subtype_injective]
     exact hidx₁
 
-private theorem dihedral_rotation_cyclic_index_two (m : ℕ) (hm : 1 ≤ m) :
+private theorem dihedral_rotation_cyclic_index_two (m : ℕ) (_hm : 1 ≤ m) :
     IsCyclic (Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup (2 ^ m))) ∧
       (Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup (2 ^ m))).index = 2 := by
   refine ⟨Subgroup.isCyclic_zpowers _, ?_⟩

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem StrothHyp.QB_Z (H : StrothHyp M Q Z) : QB Z = Q := by
   unfold QB
   rw [H.normalizer_Z.1, H.hQ]

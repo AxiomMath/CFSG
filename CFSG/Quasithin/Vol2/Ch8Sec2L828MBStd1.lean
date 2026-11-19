@@ -134,7 +134,7 @@ theorem comm_closure_le_mb {V : Type} [CommGroup V] (S : Set (MulAut V)) (W : Su
       (∀ w ∈ W, g w ∈ W) ∧ (∀ w ∈ W, g⁻¹ w ∈ W)) ?_ ?_ ?_ ?_ hg
     · intro x hx
       exact ⟨hgen x hx, (hS x hx).1, (hS x hx).2⟩
-    · exact ⟨fun v => by simpa using W.one_mem, fun w hw => by simpa using hw,
+    · exact ⟨fun v => by simp, fun w hw => by simpa using hw,
         fun w hw => by simpa using hw⟩
     · intro x y _ _ hx hy
       refine ⟨fun v => ?_, fun w hw => hx.2.1 _ (hy.2.1 w hw), fun w hw => ?_⟩
@@ -190,7 +190,7 @@ theorem commP_le_mb : CFSG.Quasithin.commV P2 ≤ maskSub 9 mbL8_mb := by
       exact mem_maskSub.2 ⟨_, actM_id_mem_mb colsY2 (mbP_basis_mem_mb colsY2 (by simp)) hm',
         (comm_y2_toW_mb hm').symm⟩
 
-@[expose] noncomputable abbrev BStd_mb : Subgroup W9 :=
+noncomputable abbrev BStd_mb : Subgroup W9 :=
   CFSG.Quasithin.commV QW9 ⊔ CFSG.Quasithin.commV P2 ⊔ U0
 
 theorem U0_le_mb : U0 ≤ maskSub 9 mbL8_mb := by

@@ -36,8 +36,8 @@ theorem exists_not_commute_of_axb {M T₁ : Subgroup G} {z : G} (hT₁ : IsPGrou
     (hT₁M : T₁ ≤ M) (hzT₁ : ∀ t ∈ T₁, z * t = t * z) (hzM : z ∈ M) (hz1 : z ≠ 1)
     (hz3 : z ^ 3 = 1) (hchar : M ⊓ centralizer (pCoreOf 2 M : Set G) ≤ pCoreOf 2 M) :
     ∃ r ∈ pCoreOf 2 M ⊓ centralizer (T₁ : Set G), z * r ≠ r * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   set R : Subgroup G := pCoreOf 2 M with hRdef
@@ -134,8 +134,8 @@ end P614J
 
 theorem pieceClosing_holds : PieceClosing := by
   intro k3010 G _ _ P M x z H S K b hyp h618 h620 h620iii
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := hyp.setting
   have hsit := hyp.situation
   have hx := hyp.point
@@ -215,7 +215,7 @@ theorem pieceClosing_holds : PieceClosing := by
   obtain ⟨g, hgM, hP₁T, hBP₁⟩ :=
     P614J.exists_conj_le_normalizer_of_le hS hsit h618.alpha hx hz hT
   set P₁ : Subgroup G := (P : Subgroup G).map (MulAut.conj g).toMonoidHom with hP₁def
-  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup'.map _
+  have hP₁3 : IsPGroup 3 P₁ := P.isPGroup.map _
   have hP₁M : P₁ ≤ M := by
     rintro _ ⟨p, hp, rfl⟩
     exact M.mul_mem (M.mul_mem hgM (hPM hp)) (M.inv_mem hgM)

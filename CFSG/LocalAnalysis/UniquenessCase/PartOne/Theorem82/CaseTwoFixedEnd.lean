@@ -81,7 +81,7 @@ theorem eq_one_of_isPGroup_of_mem_inf_Lf (d : SylowThreeData G) {p : ℕ} [Fact 
     (hxp : IsPGroup p (Subgroup.zpowers x)) (hrank : CFSG.Open.pRank p (d.Lf i) = 1) :
     x = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpp : p.Prime := Fact.out
   let xbar : d.Q := d.phi i ⟨x, hxi⟩
   have hxbar_Lbi : xbar ∈ d.Lb i := ⟨⟨x, hxi⟩, rfl⟩
@@ -96,7 +96,7 @@ theorem eq_one_of_isPGroup_of_mem_inf_Lf (d : SylowThreeData G) {p : ℕ} [Fact 
     intro w
     apply Subtype.ext
     exact d.Lb_commute i j hij w.2 hxbar_Lbj
-  haveI : Group.IsPerfect ↥(d.Lb i) := d.isPerfect_Lb i
+  have : Group.IsPerfect ↥(d.Lb i) := d.isPerfect_Lb i
   have hcenter_notdvd : ¬ p ∣ Nat.card (Subgroup.center ↥(d.Lb i)) := by
     have hrankLb : CFSG.Open.pRank p (⊤ : Subgroup ↥(d.Lb i)) = 1 := by
       rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]
@@ -178,7 +178,7 @@ private theorem false_of_two_pElements (c : Ctx812E G) {p : ℕ}
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
   have hp1 : 1 < p := hpp.one_lt
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have ha_pow : a ^ p = 1 := by rw [← haord]; exact pow_orderOf_eq_one a
   have hb_pow : b ^ p = 1 := by rw [← hbord]; exact pow_orderOf_eq_one b
   let R : Subgroup G := Subgroup.zpowers a ⊔ Subgroup.zpowers b
@@ -262,7 +262,7 @@ namespace Ctx812
 theorem pRank_inf_centralizer_AA_le_one (c : Ctx812 G) {p : ℕ}
     (hp : p ∈ c.sig)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p)
-    (d : SylowThreeData G) (hdM : d.M = c.S.M) (hdL : d.L = c.L) {P : Subgroup G}
+    (d : SylowThreeData G) (_hdM : d.M = c.S.M) (_hdL : d.L = c.L) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) (hdS : d.S = P ⊓ c.L)
     (hPn : ∀ i, P ≤ Subgroup.normalizer (d.Lf i : Set G)) :
     CFSG.Open.pRank p (c.S.M ⊓ Subgroup.centralizer (d.AA : Set G)) ≤ 1 := by
@@ -297,7 +297,7 @@ namespace Ctx812E
 theorem false_of_pElement_centralizer_AA_of_ne (c : Ctx812E G) {p : ℕ}
     (hp : p ∈ c.sig)
     (h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p)
-    (d : SylowThreeData G) (hdM : d.M = c.S.M) (hdL : d.L = c.L) {P : Subgroup G}
+    (d : SylowThreeData G) (hdM : d.M = c.S.M) (_hdL : d.L = c.L) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) (hdS : d.S = P ⊓ c.L)
     (hPn : ∀ i, P ≤ Subgroup.normalizer (d.Lf i : Set G))
     {k k' : Fin 3} (hkk' : k ≠ k')
@@ -310,7 +310,7 @@ theorem false_of_pElement_centralizer_AA_of_ne (c : Ctx812E G) {p : ℕ}
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
   have hp1 : 1 < p := hpp.one_lt
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hP3 : IsPGroup 3 P := hP.isPGroup
   have hSP : d.S ≤ P := by rw [hdS]; exact inf_le_left
   have hPnormL : P ≤ Subgroup.normalizer (c.L : Set G) := hP.le.trans (c.le_normalizer_L)

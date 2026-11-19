@@ -14,8 +14,8 @@ namespace DSANoField
 
 theorem relIndex_sup_of_le_normalizer {G : Type} [Group G] {H N : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (H ⊔ N) = N.relIndex H := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hH
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hH
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
   exact (Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hH).toEquiv).symm
 
 theorem side [DSLeaf LeafSylowS] [DSLeaf LeafM2] {G : Type} [Group G] [Finite4 G]

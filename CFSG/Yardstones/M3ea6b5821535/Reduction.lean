@@ -50,8 +50,8 @@ theorem cfsg_classification_of_yardstones
     constructor
     · exact hnative_converse G
     · rintro ⟨hfinite, _hnontrivial, hsimple⟩
-      letI : Finite G := hfinite
-      letI : IsSimpleGroup G := hsimple
+      let : Finite G := hfinite
+      let : IsSimpleGroup G := hsimple
       exact hsimple_transport G (hexhaustiveness G)
 
 end CFSG.Yardstones.M3ea6b5821535

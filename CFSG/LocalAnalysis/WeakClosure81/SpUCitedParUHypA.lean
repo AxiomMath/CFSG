@@ -50,7 +50,7 @@ private theorem spUCited_exists_smul_of_mem_normalizer {p f : ℕ} (h : UnitaryF
   have h2 : ((g : GL (HypIndex r ε) K) :
       Matrix (HypIndex r ε) (HypIndex r ε) K) *ᵥ y = μ⁻¹ • y := by
     have h := congrArg (fun z => μ⁻¹ • z) hμ
-    simp only [Matrix.smul_mulVec, inv_smul_smul₀ hμ0] at h
+    simp only [inv_smul_smul₀ hμ0] at h
     exact h.symm
   exact ⟨μ⁻¹, inv_ne_zero hμ0, h2⟩
 

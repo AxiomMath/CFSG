@@ -63,14 +63,14 @@ theorem exists_sylow_setup (hΩ : ConjInvariant Ω) (hz : IsUniqueInvolution K z
     have h2 := Disconnected.AschTight.Sec7.isSylow2In_inf_of_normal h1 le_sup_left hKN'
     have hle : (Q ⊓ (K ⊔ K')) ⊓ K ≤ K ⊓ (S : Subgroup G) :=
       le_inf inf_le_right (inf_le_left.trans (inf_le_left.trans hQS))
-    have h3 := h2.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left hle
+    have h3 := h2.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left hle
     rw [h3]
     exact h2
   · have hKN' : K ⊔ K' ≤ Subgroup.normalizer (K' : Set G) := sup_le hKN Subgroup.le_normalizer
     have h2 := Disconnected.AschTight.Sec7.isSylow2In_inf_of_normal h1 le_sup_right hKN'
     have hle : (Q ⊓ (K ⊔ K')) ⊓ K' ≤ K' ⊓ (S : Subgroup G) :=
       le_inf inf_le_right (inf_le_left.trans (inf_le_left.trans hQS))
-    have h3 := h2.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left hle
+    have h3 := h2.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left hle
     rw [h3]
     exact h2
 

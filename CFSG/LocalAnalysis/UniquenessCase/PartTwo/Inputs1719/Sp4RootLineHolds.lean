@@ -18,6 +18,7 @@ open CFSG.ClassicalGroups.Symplectic.Sp4
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_rootLine_statedSp_two {n r : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n)
     (hr : r.Prime) (hr3 : 3 < r) (hrd : r ∣ 2 ^ n - 1)
     (E : Subgroup (StatedSp 2 K)) (hEel : IsElemAbelian r E) (hEcard : Nat.card E = r ^ 2) :
@@ -97,7 +98,7 @@ theorem exists_rootLine_statedSp_two {n r : ℕ} (hK : Nat.card K = 2 ^ n) (hn :
     exact ((hqcop.pow_right 4).mul_right (hq1cop.pow_right 2)).mul_right hq2cop
   let PT : Sylow r ↥T := Classical.arbitrary _
   let P : Subgroup (StatedSp 2 K) := Subgroup.map T.subtype (PT : Subgroup ↥T)
-  have hPp : IsPGroup r P := PT.isPGroup'.map T.subtype
+  have hPp : IsPGroup r P := PT.isPGroup.map T.subtype
   have hPindex : P.index = (PT : Subgroup ↥T).index * T.index :=
     Subgroup.index_map_subtype (PT : Subgroup ↥T)
   have hPT_cop : Nat.Coprime r (PT : Subgroup ↥T).index :=
@@ -190,9 +191,9 @@ theorem exists_rootLine_statedSp_two {n r : ℕ} (hK : Nat.card K = 2 ^ n) (hn :
     intro i _
     rw [mem_rootsOfUnity, Pi.mulSingle_apply]
     by_cases hi : i = (1 : Fin 2)
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact (mem_rootsOfUnity r (a : Kˣ)).1 a.2
-    · rw [if_neg hi, one_pow]
+    · rw [ite_eq_right hi, one_pow]
   have hB0_le_Econj : B0 ≤ E.conjBy g := by
     rw [hEconj_eq_Tr]
     exact hB0_le_Tr

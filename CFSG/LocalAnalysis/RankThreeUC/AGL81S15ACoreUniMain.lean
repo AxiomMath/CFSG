@@ -15,7 +15,7 @@ theorem lieOddRankChevUniCore_of_matrix (hmat : UniCoreMatrix)
     (hG : CFSG.Open.GriessAllModelsStatement) : LieOddRankChevUniCore := by
   intro K _ _ hq l Q hv hQ he r hr hr2 hc
   obtain ⟨hrQ, hrl⟩ := hc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e⟩ := he
   have hstd : 2 ≤ l ∧ (l = 2 → 3 ≤ Q.card) :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -23,7 +23,7 @@ theorem lieOddRankChevUniCore_of_matrix (hmat : UniCoreMatrix)
   have hq3 : l + 1 = 3 → 3 ≤ Q.card := fun h => hstd.2 (by omega)
   obtain ⟨F, instF, instFin, Z₀, hZ₀N, j, hcard, hZ₀D, hcenter, hrank⟩ :=
     coverIdUni hG hq hl hv hQ e
-  haveI := hZ₀N
+  have := hZ₀N
   rw [hrank r hr hr2]
   rw [hmat F Q.card (l + 1) r hr hr2 hcard hrQ hrl (by omega) hq3 Z₀ hZ₀D, hcenter]
   have hD : 0 < Nat.card ((StatedScalars (Fin (l + 1)) F).subgroupOf (StatedSU (l + 1) Q.card F)) :=

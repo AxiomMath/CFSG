@@ -37,18 +37,18 @@ private theorem j2l_not_isSolvable_GL {U : Type} [Group U] {G J' : Subgroup U}
     (hJ' : IsComponentOf J' ⁅G, G⁆) {m : ℕ} {E : Type} [Field E] [Fintype E]
     (eG : ↥G ≃* GL (Fin m) E) : ¬ Group.IsSolvable (GL (Fin m) E) := by
   intro hGL
-  haveI : Group.IsSolvable (GL (Fin m) E) := hGL
+  have : Group.IsSolvable (GL (Fin m) E) := hGL
   have hG : Group.IsSolvable ↥G :=
     Group.isSolvable_of_isSolvable_injective (f := eG.toMonoidHom) eG.injective
-  haveI : Group.IsSolvable ↥G := hG
+  have : Group.IsSolvable ↥G := hG
   have hle : ⁅G, G⁆ ≤ G := j2l_commutator_le_self G
   have hJ'sol : Group.IsSolvable ↥J' :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (le_trans hJ'.1 hle))
       (Subgroup.inclusion_injective (le_trans hJ'.1 hle))
   have hq : CFSG.IsQuasisimple ↥J' :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J').mp hJ'.2.2
-  haveI : Nontrivial ↥J' := CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect ↥J' := hq.1
+  have : Nontrivial ↥J' := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥J' := hq.1
   exact (Group.IsPerfect.not_isSolvable ↥J') hJ'sol
 
 private theorem j2l_GL_solvable_of_small {E : Type} [Field E] [Fintype E] {m a : ℕ}
@@ -193,7 +193,7 @@ private lemma j2u_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m a : ℕ}
   apply le_antisymm
   · rw [GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq] at hA
+    rw [Set.mem_ofPred_eq] at hA
     change A ∈ primeFormUnitary h (idGram E m)
     rw [mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
@@ -204,7 +204,7 @@ private lemma j2u_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m a : ℕ}
     simpa only [idGram, Units.val_one, Matrix.mul_one] using hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hA' := (mem_primeFormUnitary.mp hA)
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
         (A : Matrix (Fin m) (Fin m) E).map (· ^ (2 ^ a)) := by
@@ -367,11 +367,11 @@ private theorem j2u_solvable_J' {U E : Type} [Group U] [Field E] {m a : ℕ}
     (eG : ↥G ≃* ↥(GUFull m (2 ^ a) E))
     (hJ' : CFSG.Assembly.IsComponentOf J' ⁅G, G⁆)
     (hsol : Group.IsSolvable ↥(unitarySU 2 a E m)) : Group.IsSolvable ↥J' := by
-  haveI : Group.IsSolvable ↥(unitarySU 2 a E m) := hsol
-  haveI : Group.IsSolvable ↥⁅GUFull m (2 ^ a) E, GUFull m (2 ^ a) E⁆ :=
+  have : Group.IsSolvable ↥(unitarySU 2 a E m) := hsol
+  have : Group.IsSolvable ↥⁅GUFull m (2 ^ a) E, GUFull m (2 ^ a) E⁆ :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (j2u_comm_le_SU h)) (Subgroup.inclusion_injective _)
-  haveI : Group.IsSolvable ↥⁅G, G⁆ :=
+  have : Group.IsSolvable ↥⁅G, G⁆ :=
     Group.isSolvable_of_isSolvable_injective
       (f := (j2u_commIso eG).toMonoidHom) (j2u_commIso eG).injective
   exact Group.isSolvable_of_isSolvable_injective
@@ -388,16 +388,16 @@ theorem fieldExt_unitary_lt
   let h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 a E :=
     { prime := Nat.prime_two, one_le := ha1,
       card := by rw [Nat.card_eq_fintype_card, hE, ← pow_mul, Nat.mul_comm] }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite E := h.finite
-  haveI : CharP E 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := h.finite
+  have : CharP E 2 := h.charP
   have hJq : CFSG.Open.IsQuasisimple ↥J' :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open ↥J').mp hJ'.2.2
   have hnot : ¬ Group.IsSolvable ↥J' :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.AltFacts6.not_isSolvable_of_isQuasisimple hJq
   rcases (by omega : m ≤ 1 ∨ m = 2 ∨ 3 ≤ m) with hm1 | hm2 | hm3
-  · haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 a E m) := by
-      haveI : Group.IsSolvable (GL (Fin m) E) := by
+  · have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 a E m) := by
+      have : Group.IsSolvable (GL (Fin m) E) := by
         rcases (by omega : m = 0 ∨ m = 1) with rfl | rfl
         · infer_instance
         · exact CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_one_solvable E
@@ -406,14 +406,14 @@ theorem fieldExt_unitary_lt
   · subst hm2
     by_cases ha : a = 1
     · subst ha
-      haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 E 2) :=
+      have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 E 2) :=
         CFSG.StandardType.WitSU.isSolvable_unitarySU_two_one h (by omega) (by omega)
       exact absurd (j2u_solvable_J' h eG hJ' inferInstance) hnot
     · have ha2 : 2 ≤ a := by omega
       have h4a : 4 ≤ 2 ^ a := by
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) ha2
-      haveI : Finite ↥h.fixedField := inferInstance
+      have : Finite ↥h.fixedField := inferInstance
       have h4F : 4 ≤ Nat.card ↥h.fixedField := by
         rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.card_fixedField h]; exact h4a
       have hqSL : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) ↥h.fixedField) :=
@@ -431,7 +431,7 @@ theorem fieldExt_unitary_lt
         (Subgroup.equivMapOfInjective J' ψ hψ).symm.trans
           ((MulEquiv.subgroupCongr (j2u_component_eq eG h hq hJ')).trans
             ((j2u_commIsoSU h eG hq).trans (j2u_unitarySU_two_iso_SL2 h)))
-      haveI : CharP ↥h.fixedField 2 := inferInstance
+      have : CharP ↥h.fixedField 2 := inferInstance
       have hX : LieModel (↥(J'.map ψ) ⧸ Subgroup.center ↥(J'.map ψ)) .PSL 2 2 a :=
         CFSG.RankThree.PartOne.TCP.lieModel_of_equiv_SL2 h4a
           (by rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.card_fixedField h]) eSL
@@ -450,7 +450,7 @@ theorem fieldExt_unitary_lt
         omega
       subst ha
       have hm3eq : m = 3 := congrArg Prod.fst h32
-      haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 E m) :=
+      have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 E m) :=
         CFSG.StandardType.WitSU.isSolvable_unitarySU_two_one h (by omega) (by omega)
       exact absurd (j2u_solvable_J' h eG hJ' inferInstance) hnot
     · have hq : CFSG.IsQuasisimple ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 a E m) :=
@@ -488,7 +488,7 @@ private lemma j2o_matrixOrthogonal_eq {ι K : Type} [Fintype ι] [DecidableEq ι
       (TauCeti.QuadraticMap.orthogonalGroup Q).comap
         (j2o_ML (ι := ι) (K := K)).toMonoidHom := by
   ext A
-  simp only [CFSG.Blueprint.EvenSource.matrixOrthogonal, Set.mem_setOf_eq, Subgroup.mem_comap,
+  simp only [CFSG.Blueprint.EvenSource.matrixOrthogonal, Subgroup.mem_comap,
     TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
   change (∀ v, Q (Matrix.mulVec (A : Matrix ι ι K) v) = Q v) ↔ ∀ v, Q (j2o_ML A v) = Q v
   simp only [j2o_ML_apply]
@@ -530,30 +530,30 @@ private lemma j2o_small
   have hle : orthDerived Φ₁ ≤ TauCeti.QuadraticMap.orthogonalGroup Φ₁ :=
     CFSG.RankThree.PartOne.KCOrthogonal.orthDerived_le_orthogonalGroup
   have hSolD : Group.IsSolvable ↥(orthDerived Φ₁) := by
-    haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Φ₁) := hSolO
+    have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Φ₁) := hSolO
     exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hle).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).surjective
   have hSolS : Group.IsSolvable ↥(StatedOmega ⇑Φ₁) := by
-    haveI : Group.IsSolvable ↥(orthDerived Φ₁) := hSolD
+    have : Group.IsSolvable ↥(orthDerived Φ₁) := hSolD
     exact Group.isSolvable_of_surjective
       (f := (j2o_statedOmega_equiv Φ₁).symm.toMonoidHom)
       (j2o_statedOmega_equiv Φ₁).symm.surjective
   have hSolG : Group.IsSolvable ↥G := by
-    haveI : Group.IsSolvable ↥(StatedOmega ⇑Φ₁) := hSolS
+    have : Group.IsSolvable ↥(StatedOmega ⇑Φ₁) := hSolS
     exact Group.isSolvable_of_surjective (f := eG.symm.toMonoidHom) eG.symm.surjective
   have hJG : J' ≤ G := hJ'.1.trans (j2o_commutator_le_self G)
   have hSolJ : Group.IsSolvable ↥J' := by
-    haveI : Group.IsSolvable ↥G := hSolG
+    have : Group.IsSolvable ↥G := hSolG
     have hSolJsub : Group.IsSolvable ↥(J'.subgroupOf G) := inferInstance
-    haveI : Group.IsSolvable ↥(J'.subgroupOf G) := hSolJsub
+    have : Group.IsSolvable ↥(J'.subgroupOf G) := hSolJsub
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe hJG).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJG).surjective
   have hqJ : CFSG.Open.IsQuasisimple ↥J' := hJ'.2.2
-  haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hqJ.2
-  haveI : Nontrivial ↥J' :=
+  have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hqJ.2
+  have : Nontrivial ↥J' :=
     Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-  haveI : Group.IsPerfect ↥J' := ⟨hqJ.1⟩
+  have : Group.IsPerfect ↥J' := ⟨hqJ.1⟩
   exact (Group.IsPerfect.not_isSolvable ↥J') hSolJ
 
 private lemma j2o_eq_top_of_isQuasisimple
@@ -576,12 +576,12 @@ private lemma j2o_eq_top_of_isQuasisimple
     rw [hGq.1, hmap] at h
     exact h.symm
   have hJ'G_sub : CFSG.Assembly.IsSubnormal J' G := hcomm_eq ▸ hJ'.2.1
-  haveI : Finite (Matrix ι₁ ι₁ K) := Fintype.finite inferInstance
-  haveI : Finite (GL ι₁ K) :=
+  have : Finite (Matrix ι₁ ι₁ K) := Fintype.finite inferInstance
+  have : Finite (GL ι₁ K) :=
     Finite.of_injective (fun A : GL ι₁ K => (A : Matrix ι₁ ι₁ K))
       (fun _ _ h => Units.ext h)
-  haveI : Finite ↥(StatedOmega ⇑Φ₁) := Subtype.finite
-  haveI : Finite ↥G := Finite.of_injective eG.toMonoidHom eG.injective
+  have : Finite ↥(StatedOmega ⇑Φ₁) := Subtype.finite
+  have : Finite ↥G := Finite.of_injective eG.toMonoidHom eG.injective
   have hJG : J' ≤ G := hJ'.1.trans (j2o_commutator_le_self G)
   have hsubM : (J'.subgroupOf G).IsSubnormal := hJ'G_sub.subgroupOf
   have hsubA : CFSG.Assembly.IsSubnormal (J'.subgroupOf G) ⊤ :=
@@ -698,8 +698,8 @@ private lemma j2o_six_minus
   obtain ⟨E, hFieldE, hFiniteE, hEcard, heSU⟩ :=
     CFSG.SeitzReduction.OmegaPilot.nonempty_orthDerived_mulEquiv_statedSU_of_six
       hF hΦ₁ hdim hnts
-  letI : Field E := hFieldE
-  letI : Finite E := hFiniteE
+  let : Field E := hFieldE
+  let : Finite E := hFiniteE
   have eSU : ↥(J'.map ψ) ≃* ↥(StatedSU 4 (2 ^ f) E) :=
     ((Subgroup.equivMapOfInjective J' ψ hψ).symm.trans
       ((MulEquiv.subgroupCongr hJ'G).trans eOD)).trans (Classical.choice heSU)
@@ -736,7 +736,7 @@ theorem fieldExt_one_card
     · exact j2o_six_plus ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE hdim hts
     · exact j2o_six_minus ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE hdim (fun U hU => by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hts ⟨U, hU, h⟩)
   · exact j2o_big ψ hψ hJ' Φ₁ hΦ₁ eG hK hFE h8
 

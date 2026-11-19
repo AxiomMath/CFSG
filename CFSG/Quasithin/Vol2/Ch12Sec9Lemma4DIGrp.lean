@@ -12,10 +12,10 @@ theorem sylow_odd_normal {N : Type} [Group N] [Finite N] (A S : Subgroup N) [A.N
     (hS2 : IsPGroup 2 S) (hSyl : ¬ 2 ∣ S.index) (hSA : S ≤ A)
     (hodd : ∀ x : N, Odd (orderOf x) → x ∈ A) : A = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S', hS'⟩ : ∃ S' : Sylow 2 N, (S' : Subgroup N) = S :=
     ⟨hS2.toSylow hSyl, rfl⟩
-  haveI : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex S'
+  have : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex S'
   have hsyl : ∀ y : N, (∃ k : ℕ, y ^ 2 ^ k = 1) → ∃ g s : N, s ∈ S ∧ y = g * s * g⁻¹ := by
     rintro y ⟨k, hk⟩
     have hZ : IsPGroup 2 (Subgroup.zpowers y) := by
@@ -65,11 +65,11 @@ theorem sylow_odd_normal {N : Type} [Group N] [Finite N] (A S : Subgroup N) [A.N
 theorem fixed_vector_GL {M : Type} [AddCommGroup M] [Module (ZMod 2) M]
     (hM : 2 ≤ Module.finrank (ZMod 2) M) {v : M} (hv : v ≠ 0) :
     ∃ g : M ≃ₗ[ZMod 2] M, g v ≠ v := by
-  haveI : Module.Finite (ZMod 2) M := Module.finite_of_finrank_pos (by omega)
-  haveI : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
+  have : Module.Finite (ZMod 2) M := Module.finite_of_finrank_pos (by omega)
+  have : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
   obtain ⟨f, hfv⟩ : ∃ f : Module.Dual (ZMod 2) M, f v ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv ((Module.forall_dual_apply_eq_zero_iff (ZMod 2) v).1 hcon)
   have hker : LinearMap.ker f ≠ ⊥ := by
     apply LinearMap.ker_ne_bot_of_finrank_lt

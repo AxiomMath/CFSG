@@ -35,7 +35,7 @@ private theorem ggStdSubNotLinearTwoAux_label_arith {lab : LargeEvenLabel} {m : 
       have := h2 h
       split_ifs at this <;> omega
     subst hl2
-    simp only [if_true] at h3
+    simp only [ite_true] at h3
     exact ⟨rfl, h3⟩
   case B2der => omega
 
@@ -48,7 +48,7 @@ private theorem ggStdSubNotLinearTwoAux_label
     (lab_J.tag = .A ∧ lab_J.rank = 1 ∧ lab_J.n = m) ∨
       (lab_J.tag = .twD ∧ lab_J.rank = 2 ∧ 2 * lab_J.n = m) := by
   have hEchar : CharP E 2 := charP_two_of_card (m := m) hE
-  haveI : CharP E 2 := hEchar
+  have : CharP E 2 := hEchar
   have hEadm : CFSG.Open.StatedLieAdmissible .PSL 2 2 m := by
     refine ⟨Nat.prime_two, by omega, by norm_num, ?_, ?_⟩
     · intro h
@@ -132,7 +132,7 @@ private theorem ggStdSubNotLinearTwoAux_linearTwo_contra {G : Type} [Group G] [F
         _ ≤ p ^ 2 * Nat.card α.range := Nat.mul_le_mul_right _ hker_card
     exact Nat.le_of_mul_le_mul_left h (pow_pos hp.pos 2)
   have hK0char : CharP K0 2 := charP_two_of_card (m := m) hK0
-  haveI : CharP K0 2 := hK0char
+  have : CharP K0 2 := hK0char
   have hEp : Nat.card α.range ≤ p :=
     NbrLangRest.card_le_of_forall_mem_conjImage_two (p := p) hp hp2 hs hna α.range hE_ab hE_I
   have hp2lt : p < p ^ 2 := by
@@ -167,18 +167,18 @@ theorem ggConfig_false_of_innerDiagOn_psl_two {G : Type} [Group G] [Finite G] {p
     dsimp only [LargeEvenRawDatum] at hraw_J
     obtain ⟨K0, hK0field, hK0fin, hK0card, hQK⟩ := hraw_J
     obtain ⟨hs, hna, θ_J, hNJ, hall⟩ := hQK
-    letI : Field K0 := hK0field
-    letI : Finite K0 := hK0fin
+    let : Field K0 := hK0field
+    let : Finite K0 := hK0fin
     exact ggStdSubNotLinearTwoAux_linearTwo_contra hcfg hJperf hK0card hs hna θ_J hNJ hall
   ·
     obtain ⟨t, l, n⟩ := lab_J
     dsimp only at ht hr hn
     subst ht; subst hr
-    simp only [LargeEvenRawDatum, ↓reduceIte] at hraw_J
+    simp only at hraw_J
     obtain ⟨K0, hK0field, hK0fin, hK0card, hQK⟩ := hraw_J
     obtain ⟨hs, hna, θ_J, hNJ, hall⟩ := hQK
-    letI : Field K0 := hK0field
-    letI : Finite K0 := hK0fin
+    let : Field K0 := hK0field
+    let : Finite K0 := hK0fin
     dsimp only at hK0card
     have hK0card' : Nat.card K0 = 2 ^ m := by
       rw [hK0card, ← pow_mul, show n * 2 = m by omega]

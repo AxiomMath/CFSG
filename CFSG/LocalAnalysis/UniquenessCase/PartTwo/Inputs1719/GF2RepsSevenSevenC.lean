@@ -20,10 +20,11 @@ namespace SevenSevenC
 
 variable {U : Type} [CommGroup U] [Finite U]
 
+omit [Finite U] in
 theorem stableUnder_fixV_of_le_normalizer {N P : Subgroup (MulAut U)}
     (hNP : N ≤ Subgroup.normalizer (P : Set (MulAut U))) :
-    ∀ n ∈ N, ∀ u ∈ fixV P, n u ∈ fixV P :=
-  fun n hn u hu => CFSG.Quasithin.fixV_apply_mem_of_mem_normalizer (hNP hn) hu
+    ∀ _n ∈ N, ∀ _u ∈ fixV P, _n _u ∈ fixV P :=
+  fun _n hn _u hu => CFSG.Quasithin.fixV_apply_mem_of_mem_normalizer (hNP hn) hu
 
 theorem range_actOnSub_fixV_ne_bot {L P : Subgroup (MulAut U)}
     (hU : ∀ u : U, u ^ 2 = 1) (hLq : CFSG.IsQuasisimple ↥L) (hP2 : IsPGroup 2 ↥P)
@@ -247,7 +248,7 @@ theorem caseB_data_of_normalizes (hU : ∀ u : U, u ^ 2 = 1) {L A : Subgroup (Mu
     (hA : A ∈ E3.aSet k (L ⊔ A))
     (hAC : ¬ A ≤ Subgroup.centralizer (L : Set (MulAut U))) :
     ∃ (U₁ : Type) (_ : CommGroup U₁) (_ : Finite U₁), (∀ u : U₁, u ^ 2 = 1) ∧
-      ∃ (Y₁ : Subgroup (MulAut U₁)) (hLn : (fstarSubOf Y₁).Normal),
+      ∃ (Y₁ : Subgroup (MulAut U₁)) (_hLn : (fstarSubOf Y₁).Normal),
         IsQuasisimple ↥(fstarSubOf Y₁) ∧
         (∃ f : ↥L →* ↥(fstarSubOf Y₁), Function.Surjective f) ∧ k ≤ E3.aParam Y₁ := by
   classical
@@ -333,7 +334,7 @@ theorem caseB_data_of_normalizes (hU : ∀ u : U, u ^ 2 = 1) {L A : Subgroup (Mu
     exact MonoidHom.mem_range.mpr ⟨⟨z, hzL⟩, rfl⟩
   have hfst : fstarSubOf Y₁ = (fL.range).subgroupOf Y₁ :=
     fstarSubOf_eq_of_centralizer_le (le_sup_left : fL.range ≤ Y₁) hL1q hN hcent
-  have hLn : (fstarSubOf Y₁).Normal := by
+  have _hLn : (fstarSubOf Y₁).Normal := by
     rw [hfst]
     exact hN
   have hq : CFSG.IsQuasisimple ↥(fstarSubOf Y₁) := by
@@ -368,7 +369,7 @@ theorem caseB_data_of_normalizes (hU : ∀ u : U, u ^ 2 = 1) {L A : Subgroup (Mu
     · subst hk0
       exact Nat.zero_le _
     · exact E3.le_aParam_of_mem_aSet hk0 hA1
-  refine ⟨V, inferInstance, inferInstance, ?_, Y₁, hLn, hq, ?_, hk⟩
+  refine ⟨V, inferInstance, inferInstance, ?_, Y₁, _hLn, hq, ?_, hk⟩
   · intro u
     apply Subtype.ext
     simpa using hU (u : U)

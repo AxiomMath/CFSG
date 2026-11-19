@@ -271,7 +271,7 @@ theorem exists_conj_map_le {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Pr
     ∃ g : G, P.map (MulAut.conj g).toMonoidHom ≤ H := by
   obtain ⟨S₀⟩ : Nonempty (Sylow r H) := inferInstance
   set S := (S₀ : Subgroup H).map H.subtype
-  have hS : IsPGroup r S := S₀.isPGroup'.map H.subtype
+  have hS : IsPGroup r S := S₀.isPGroup.map H.subtype
   have hSi : ¬ r ∣ S.index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : r.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hH

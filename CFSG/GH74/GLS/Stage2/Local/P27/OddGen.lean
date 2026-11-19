@@ -22,7 +22,7 @@ theorem odd_card_of_two_elements_central {Y : Type} [Group Y] [Finite Y] {V : Su
     intro s hs
     refine ⟨Subgroup.le_normalizer hs, Subgroup.mem_centralizer_iff.2 ?_⟩
     intro h _
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup ⟨s, hs⟩
     exact hcomm s k ((Subgroup.orderOf_mk s hs).symm.trans hk) h
   obtain ⟨N, hN, hcop, hquot⟩ :=
     CFSG.exists_normal_coprime_subgroup_and_pgroup_quotient_of_sylow_le_center_normalizer

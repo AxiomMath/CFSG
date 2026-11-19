@@ -95,7 +95,7 @@ theorem witOK_sound {E W : Nat → Nat} {nE i : Nat} (h : witOK E nE W i = true)
   simp only [om1B_strictB] at h
   rcases om1B_case _ _ _ h with ⟨hz, -⟩ | ⟨-, h⟩
   · exact Or.inl (Nat.eq_of_beq_eq_true hz)
-  · simp only [om1B_strictB, om1B_bAnd, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq, Nat.beq_eq,
+  · simp only [om1B_bAnd, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq, Nat.beq_eq,
       om1B_imp] at h
     exact Or.inr h
 
@@ -119,9 +119,9 @@ theorem sqOK_sound {E SQ RT : Nat → Nat} {tt nR i : Nat} (h : sqOK E SQ RT tt 
   unfold sqOK at h
   simp only [om1B_strictB] at h
   rcases om1B_case _ _ _ h with ⟨-, h⟩ | ⟨-, h⟩
-  · simp only [om1B_strictB, om1B_bAnd, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
+  · simp only [om1B_bAnd, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
     exact Or.inl ⟨_, h.1, h.2⟩
-  · simp only [om1B_strictB, om1B_bAnd, Bool.and_eq_true, Nat.blt_eq, om1B_neq] at h
+  · simp only [om1B_bAnd, Bool.and_eq_true, Nat.blt_eq, om1B_neq] at h
     exact Or.inr ⟨_, h.1, h.2⟩
 
 theorem rootOK_sound {E RT : Nat → Nat} {nE a : Nat} (h : rootOK E RT nE a = true) :
@@ -166,7 +166,7 @@ theorem q8Row_sound {E RT PR Lg LgI : Nat → Nat} {nL nR : Nat} {withR : Bool} 
   rcases om1B_case _ _ _ hp with ⟨-, hp⟩ | ⟨-, hp⟩
   · simp only [om1B_bAnd, Bool.and_eq_true, Nat.beq_eq] at hp
     exact Or.inr (Or.inr (Or.inl hp))
-  simp only [om1B_strictB, om1B_bAnd, Bool.and_eq_true, Nat.blt_eq] at hp
+  simp only [om1B_bAnd, Bool.and_eq_true, Nat.blt_eq] at hp
   exact Or.inr (Or.inr (Or.inr ⟨_, hp.1, om1B_twin hp.2⟩))
 
 theorem oNodeOK_sound {OP : Nat → Nat} {m : Nat} (h : oNodeOK OP m = true) :
@@ -183,14 +183,14 @@ theorem oNodeOK_sound {OP : Nat → Nat} {m : Nat} (h : oNodeOK OP m = true) :
       rw [hm]
       rfl
     rw [hz] at h2
-    simp only [om1B_bAnd, Bool.and_eq_true, Nat.beq_eq] at h2
+    simp only [Bool.and_eq_true, Nat.beq_eq] at h2
     exact h2
   · have hz : Nat.beq m 0 = false := by
       cases e : Nat.beq m 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) hm
     rw [hz] at h2
-    simp only [om1B_bAnd, Bool.and_eq_true, Nat.blt_eq] at h2
+    simp only [Bool.and_eq_true, Nat.blt_eq] at h2
     exact ⟨_, h2.1, _, h2.2.1, fun c hc => Nat.eq_of_beq_eq_true (om1B_allN h2.2.2 c hc)⟩
 
 end CertificateChecks.KernelOm1.B

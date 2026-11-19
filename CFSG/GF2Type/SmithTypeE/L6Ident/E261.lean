@@ -96,7 +96,7 @@ theorem exists_conj_eq_mul_of_mem_Qa (hE : SmithL6E23a) [IsSimpleGroup G] (S : S
   have ha' : IsConj S.z (h⁻¹ * a * h) := ha.trans (isConj_iff.mpr ⟨h⁻¹, by group⟩)
   have htu' : orderOf ((h⁻¹ * t * h) * (h⁻¹ * u * h)) = 3 := by
     rw [show (h⁻¹ * t * h) * (h⁻¹ * u * h) = MulAut.conj h⁻¹ (t * u) by
-      simp [MulAut.conj_apply]; group, MulEquiv.orderOf_eq]
+      simp; group, MulEquiv.orderOf_eq]
     exact htu
   have haz : h⁻¹ * a * h ≠ S.z := fun e => hab (by
     calc a = h * (h⁻¹ * a * h) * h⁻¹ := by group
@@ -116,7 +116,7 @@ theorem exists_conj_eq_mul_of_mem_Qa (hE : SmithL6E23a) [IsSimpleGroup G] (S : S
       _ = h * S.z * h⁻¹ * a := by group
 
 theorem mem_of_acts (h34a : SmithL6E34a) (h34b : SmithL6E34b) (hE : SmithL6E23a)
-    (h33 : SmithL6E33) (hF : E23FourFacts) (hwt : ∀ i < 1395, wt i ≠ 0) [IsSimpleGroup G]
+    (h33 : SmithL6E33) (hF : E23FourFacts) (_hwt : ∀ i < 1395, wt i ≠ 0) [IsSimpleGroup G]
     (S : Setting G) (hw : S.width = 10) (hU : Nonempty (Mbar0 S ≃* PSL(6, ZMod 2)))
     {t u : G} (ht : IsConj S.z t) (hu : IsConj S.z u) (htM : t ∈ S.M) (huM : u ∈ S.M)
     (htQ : t ∉ S.QG) (huQ : u ∉ S.QG) (htu : orderOf (t * u) = 3)
@@ -327,7 +327,7 @@ theorem smithL6E261_of (h34a : SmithL6E34a) (h34b : SmithL6E34b) (hLoc : SmithL6
   obtain ⟨f, hf⟩ : ∃ f : G →* G, f = (MulAut.conj g⁻¹).toMonoidHom := ⟨_, rfl⟩
   have hfinj : Function.Injective f := by rw [hf]; exact (MulAut.conj g⁻¹).injective
   have hfapp : ∀ a : G, f a = g⁻¹ * a * g := fun a => by
-    simp [hf, MulAut.conj_apply]
+    simp [hf]
   have hK'M : K.map f ≤ S.M := by
     rintro _ ⟨k, hk, rfl⟩
     rw [hfapp, mem_centralizer_singleton_iff]
@@ -337,7 +337,7 @@ theorem smithL6E261_of (h34a : SmithL6E34a) (h34b : SmithL6E34b) (hLoc : SmithL6
     calc g⁻¹ * k * g * S.z = g⁻¹ * (k * (g * S.z * g⁻¹)) * g := by group
       _ = g⁻¹ * ((g * S.z * g⁻¹) * k) * g := by rw [hkt]
       _ = S.z * (g⁻¹ * k * g) := by group
-  haveI : IsSimpleGroup (K.map f) := (Subgroup.equivMapOfInjective K f hfinj).symm.isSimpleGroup
+  have : IsSimpleGroup (K.map f) := (Subgroup.equivMapOfInjective K f hfinj).symm.isSimpleGroup
   have hxK : g⁻¹ * S.z * g ∈ K.map f := ⟨S.z, hzK, hfapp _⟩
   have hx : IsConj S.z (g⁻¹ * S.z * g) := isConj_iff.mpr ⟨g⁻¹, by group⟩
   have hxQ : g⁻¹ * S.z * g ∉ S.QG := fun h => htQ (by

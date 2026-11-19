@@ -64,10 +64,10 @@ theorem involvedInSymm_comp (R : Red n p K P z D)
     (hOut : ∀ C : ComponentIndex K, Group.IsSolvable (Outer C.1))
     (hemb : CentralizerSectionEmbeds p D z) {w : K} (hw : w ∈ D) {C₀ : ComponentIndex K}
     (hmove : w • C₀ ≠ C₀) (C : ComponentIndex K) : InvolvedInSymm p C.1 := by
-  haveI := R.fact
+  have := R.fact
   have hall := R.moves_all hw hmove
   obtain ⟨hsimple, hnonab⟩ := R.isSimpleGroup_comp C
-  haveI := hsimple
+  have := hsimple
   obtain ⟨U, f, hU, hf⟩ := R.exists_diag_section hw (hall C)
   obtain ⟨U', f', hU', hf'⟩ := hemb w hw (R.not_mem_zpowers hw (hall C)) C.1
     (dvd_card_comp R.core C) ⟨U, f, hU, hf⟩
@@ -81,7 +81,7 @@ theorem caseB (hB : GL83I203Sigma) (R : Red n p K P z D) (h5 : 5 ≤ p)
     (hmove : w • C₀ ≠ C₀) :
     ∀ T : Subgroup K, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set K) → T = ⊥ := by
   intro T hT hDT
-  haveI := R.fact
+  have := R.fact
   have hcard := R.card_comp hw hmove
   have hTY : T ≤ (actHom K).ker := by
     have hbot : T.map (actHom K) = ⊥ := by
@@ -98,7 +98,7 @@ theorem caseB (hB : GL83I203Sigma) (R : Red n p K P z D) (h5 : 5 ≤ p)
   have hcent : ∀ t ∈ T, ∀ C : ComponentIndex K, ∀ c ∈ C.1, t * c * t⁻¹ = c := by
     intro t ht C c hc
     obtain ⟨hsimple, hnonab⟩ := R.isSimpleGroup_comp C
-    haveI := hsimple
+    have := hsimple
     have hcatC : IsCatalogGroup C.1 := hcat.simple_subgroup C.1 hsimple hnonab
     have hTN : T ≤ normalizer (C.1 : Set K) := hTY.trans (ker_actHom_le_normalizer C)
     let H : Subgroup (normalizer (C.1 : Set K)) := T.subgroupOf (normalizer (C.1 : Set K))

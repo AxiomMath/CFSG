@@ -42,6 +42,7 @@ theorem conj_mem_commutator_of_mem_normalizer {S : Subgroup G} {x : G}
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_center_of_mem_normalizer {S : Subgroup G} {z x : G} (hzS : z ∈ S)
     (hSz : S ≤ centralizer ({z} : Set G)) (hx : x ∈ normalizer (S : Set G)) :
     x⁻¹ * z * x ∈ S ∧ ∀ s ∈ S, x⁻¹ * z * x * s = s * (x⁻¹ * z * x) := by
@@ -125,7 +126,7 @@ theorem exists_normalizer_conj_mul [IsSimpleGroup G] (hnab : ∃ a b : G, a * b 
       exact mem_subgroupOf.1 this
     have : S = P := le_antisymm hSP hPS
     exact P.not_dvd_index (this ▸ hidx)
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hlt := Group.normalizerCondition_of_isNilpotent (G := P) _ (lt_of_le_of_ne le_top hne)
   obtain ⟨⟨x, hxP⟩, hxN, hxS⟩ := IsConcreteLE.exists_of_lt hlt
   have hxN' : x ∈ normalizer (S : Set G) := by
@@ -170,7 +171,7 @@ theorem exists_normalizer_conj_mul [IsSimpleGroup G] (hnab : ∃ a b : G, a * b 
         calc x * z = x * w := by rw [hwz]
           _ = z * x := by rw [hw]; group
       have hP' := hSmax ((P : Subgroup G) ⊓ centralizer ({z} : Set G))
-        (P.isPGroup'.to_le inf_le_left) (le_inf hSP hSz) inf_le_right
+        (P.isPGroup.to_le inf_le_left) (le_inf hSP hSz) inf_le_right
       exact hxS' (hP' ▸ ⟨hxP, hxC⟩)
     ·
       have hyz : y * z = z * y := by

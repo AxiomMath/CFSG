@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem four_mul_card_le {H L : Subgroup G} (hL : IsChiBlock H L) :
     4 * Nat.card ↥(blockZ L) ≤ Nat.card ↥(blockU L) := by
   rcases hL.2 with ⟨n, hn, hlin⟩ | ⟨m, hm, hm3, halt⟩

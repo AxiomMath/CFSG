@@ -96,7 +96,7 @@ theorem rg {i k : ℕ} (h : rgP (trP i k) = true) :
   unfold rgP at h
   rw [Bool.and_eq_true] at h
   refine ⟨⟨rfl, h.1⟩, fun p hp => ?_⟩
-  rw [CFSG.KC.BfsPin.unpack_getElem!, if_pos hp]
+  rw [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left hp]
   simpa using allN_get h.2 hp
 
 theorem ordRow_all {a : ℕ} (ha : a < 26) : ordRow a = true := by

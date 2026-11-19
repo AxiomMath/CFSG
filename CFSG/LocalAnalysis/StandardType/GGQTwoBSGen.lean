@@ -37,13 +37,13 @@ private theorem bsgen_permMatrix_swap_mem_coordBlockSU {N : ℕ} {i j : Fin N}
     by_cases hai : a = i
     · subst hai
       rw [Equiv.swap_apply_left]
-      rw [if_neg (fun h => hbj h.symm)]
-      rw [if_neg (fun h => hbi h.symm)]
+      rw [ite_eq_right (fun h => hbj h.symm)]
+      rw [ite_eq_right (fun h => hbi h.symm)]
     · by_cases haj : a = j
       · subst haj
         rw [Equiv.swap_apply_right]
-        rw [if_neg (fun h => hbi h.symm)]
-        rw [if_neg (fun h => hbj h.symm)]
+        rw [ite_eq_right (fun h => hbi h.symm)]
+        rw [ite_eq_right (fun h => hbj h.symm)]
       · rw [Equiv.swap_apply_of_ne_of_ne hai haj]
 
 private theorem bsgen_window_eq {k s : ℕ} (hs : s + 3 ≤ k) :

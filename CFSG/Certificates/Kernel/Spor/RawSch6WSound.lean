@@ -136,7 +136,7 @@ theorem schK_of_sch6WL {n w kS kO BP i TS TJ j0 NSi N1 N2 N3 N4 N5 CH : Nat}
       have e : lp n w S kS (stAt (stepsAt n w S kS BP i) j) =
           pp n w (S (stAt (stepsAt n w S kS BP i) j)) := by
         unfold lp
-        exact if_pos hl1
+        exact ite_eq_left hl1
       rw [e]
       exact Submonoid.closure_mono hJS (hWm _ (Nat.le_of_ble_eq_true (hlo' j hj)) hl1)
     · obtain ⟨j', rfl⟩ : ∃ j', j = q + j' := ⟨j - q, by omega⟩
@@ -144,7 +144,7 @@ theorem schK_of_sch6WL {n w kS kO BP i TS TJ j0 NSi N1 N2 N3 N4 N5 CH : Nat}
       have e : lp n w S kS (stAt (stepsAt n w S kS BP i) (q + j')) =
           (pp n w (S (stAt (stepsAt n w S kS BP i) j')))⁻¹ := by
         unfold lp
-        rw [if_neg (by omega), e1, Nat.add_sub_cancel_left]
+        rw [ite_eq_right (by omega), e1, Nat.add_sub_cancel_left]
       rw [e]
       exact inv_mem_closure (Submonoid.closure_mono hJS
         (hWm _ (Nat.le_of_ble_eq_true (hlo' j' (by omega))) hl1))
@@ -202,7 +202,7 @@ theorem schK_of_sch6WL {n w kS kO BP i TS TJ j0 NSi N1 N2 N3 N4 N5 CH : Nat}
       (letterK S SI kS (stAt (stepsAt n w S kS BP i) j)) (rpt w (mask w) (LR i) (h₀ + dh))) = k' := by
     rw [ept]
     exact (hR0.pt k' hk').2
-  rw [ek, if_pos hk']
+  rw [ek, ite_eq_left hk']
   have hPG : PRep n w _ ((tp n w TR (LR i) k')⁻¹ *
       (lp n w S kS (stAt (stepsAt n w S kS BP i) j) * tp n w TR (LR i) (h₀ + dh))) :=
     prep_pcomp hn (prep_pp (hp0 _ hk')).2 (prep_pcomp hn hσ (prep_pp (hp0 _ hc')).1)

@@ -379,19 +379,19 @@ theorem eq_sum_of_mem_insideExt {m : ℕ} {e u : PlaneRaw.V m} {i₀ : Fin m} (h
       linear_combination herase
     rw [hs]
     linear_combination (-(u i₀)) * zmod3_mul_self hi₀
-  · simp only [Pi.single_apply, hl, if_false, sub_zero]
+  · simp only [Pi.single_apply, hl, ite_false, sub_zero]
     by_cases hlT : l ∈ PlaneRaw.Code.extSupport e
     · rw [Finset.sum_eq_single l]
-      · rw [if_pos rfl]
+      · rw [ite_eq_left rfl]
         linear_combination (-(u l)) * zmod3_mul_self ((PlaneRaw.mem_extSupport e l).mp hlT)
       · intro k _ hkl
-        rw [if_neg (Ne.symm hkl), mul_zero]
+        rw [ite_eq_right (Ne.symm hkl), mul_zero]
       · intro h
         exact absurd (Finset.mem_erase.mpr ⟨hl, hlT⟩) h
     · rw [Finset.sum_eq_zero]
       · exact hsupp l (by simpa using hlT)
       · intro k hk
-        rw [if_neg, mul_zero]
+        rw [ite_eq_right, mul_zero]
         rintro rfl
         exact hlT (Finset.mem_of_mem_erase hk)
 
@@ -458,9 +458,9 @@ theorem planeBlock_mul_planeMat {m : ℕ} (g : Matrix (Fin m ⊕ Fin m) (Fin m �
     (M : Fin m → Matrix (Fin 2) (Fin 2) K) (a b : Fin m) :
     planeBlock (g * WitSpNs.planeMat M) a b = planeBlock g a b * M b := by
   rw [planeBlock_mul, Finset.sum_eq_single b]
-  · rw [planeBlock_planeMat, if_pos rfl]
+  · rw [planeBlock_planeMat, ite_eq_left rfl]
   · intro c _ hcb
-    rw [planeBlock_planeMat, if_neg hcb, Matrix.mul_zero]
+    rw [planeBlock_planeMat, ite_eq_right hcb, Matrix.mul_zero]
   · intro h
     exact absurd (Finset.mem_univ b) h
 
@@ -468,9 +468,9 @@ theorem planeBlock_planeMat_mul {m : ℕ} (M : Fin m → Matrix (Fin 2) (Fin 2) 
     (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) (a b : Fin m) :
     planeBlock (WitSpNs.planeMat M * g) a b = M a * planeBlock g a b := by
   rw [planeBlock_mul, Finset.sum_eq_single a]
-  · rw [planeBlock_planeMat, if_pos rfl]
+  · rw [planeBlock_planeMat, ite_eq_left rfl]
   · intro c _ hca
-    rw [planeBlock_planeMat, if_neg (Ne.symm hca), Matrix.zero_mul]
+    rw [planeBlock_planeMat, ite_eq_right (Ne.symm hca), Matrix.zero_mul]
   · intro h
     exact absurd (Finset.mem_univ a) h
 
@@ -483,12 +483,12 @@ theorem coe_apply_of_mem_levi {m : ℕ} {S : Finset (Fin m)} {g : ↥(StatedSp m
     rw [planeIdem_compl]
     exact hg
   have h' := congrFun (congrFun h x) y
-  rw [planeIdem, Matrix.mul_diagonal, Matrix.diagonal_apply, if_pos (Finset.mem_compl.mpr hy),
+  rw [planeIdem, Matrix.mul_diagonal, Matrix.diagonal_apply, ite_eq_left (Finset.mem_compl.mpr hy),
     mul_one] at h'
   rw [h', Matrix.one_apply]
   by_cases hxy : x = y
-  · rw [if_pos hxy, if_pos hxy, hxy, if_pos (Finset.mem_compl.mpr hy)]
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_left hxy, ite_eq_left hxy, hxy, ite_eq_left (Finset.mem_compl.mpr hy)]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
 
 theorem planeBlock_eq_zero_of_mem_levi {m : ℕ} {S : Finset (Fin m)} {g : ↥(StatedSp m K)}
     (hg : g ∈ levi m S) {a c : Fin m} (hc : c ∉ S) (hac : a ≠ c) :
@@ -741,9 +741,9 @@ theorem blockMatC_one [Finite K] [CharP K 2] (hK : Nat.card K = 2)
   rw [normBlock, planeBlock_one]
   by_cases hab : a = b
   · subst hab
-    rw [Matrix.one_apply_eq, if_pos rfl, Matrix.mul_one, coe_normSL_mul_inv]
+    rw [Matrix.one_apply_eq, ite_eq_left rfl, Matrix.mul_one, coe_normSL_mul_inv]
     rfl
-  · rw [Matrix.one_apply_ne hab, if_neg fun h => hab (Subtype.ext h), Matrix.mul_zero,
+  · rw [Matrix.one_apply_ne hab, ite_eq_right fun h => hab (Subtype.ext h), Matrix.mul_zero,
       Matrix.zero_mul]
     rfl
 
@@ -752,7 +752,7 @@ theorem blockMatC_mul [Finite K] [CharP K 2] (hK : Nat.card K = 2)
     {m : ℕ} (e : PlaneRaw.V m) (g h : ↥(blockGroup ζ m (.extension e))) :
     blockMatC hK hζ e (g * h) = blockMatC hK hζ e g * blockMatC hK hζ e h := by
   refine Matrix.ext fun a b => Subtype.ext ?_
-  rw [Matrix.mul_apply, AddSubmonoidClass.coe_finset_sum]
+  rw [Matrix.mul_apply, _root_.AddSubmonoidClass.coe_finsetSum]
   change normBlock e ((((g : ↥(StatedSp m K)) : GL (Fin m ⊕ Fin m) K) :
       Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) * (((h : ↥(StatedSp m K)) : GL (Fin m ⊕ Fin m) K) :
       Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K)) a b =
@@ -787,10 +787,10 @@ theorem blockMatC_tau [Finite K] [CharP K 2] (hK : Nat.card K = 2)
   rw [normBlock, coe_tau, planeBlock_planeMat, Matrix.diagonal_apply]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, if_pos rfl,
+    rw [ite_eq_left rfl, ite_eq_left rfl,
       coe_normSL_conj_zeta hK hζ ((PlaneRaw.mem_extSupport e a).mp a.2)]
     rfl
-  · rw [if_neg fun h => hab (Subtype.ext h), if_neg hab, Matrix.mul_zero, Matrix.zero_mul]
+  · rw [ite_eq_right fun h => hab (Subtype.ext h), ite_eq_right hab, Matrix.mul_zero, Matrix.zero_mul]
     rfl
 
 theorem detF4_tau [Finite K] [CharP K 2] (hK : Nat.card K = 2)

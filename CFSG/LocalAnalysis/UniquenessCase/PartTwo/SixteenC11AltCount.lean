@@ -51,7 +51,7 @@ private lemma s16c11_altcount_inf_stabilizer_eq {G : Type} [Group G] {V : Type} 
   exact le_antisymm (Subgroup.relIndex_eq_one.1 h4) hTS
 
 private lemma s16c11_altcount_le_of_common {G : Type} [Group G] {T X X' : Subgroup G} {c : G}
-    (hTX : T ≤ X) (hTX' : T ≤ X') (h3 : T.relIndex X = 3) (h3' : T.relIndex X' = 3)
+    (hTX : T ≤ X) (hTX' : T ≤ X') (h3 : T.relIndex X = 3) (_h3' : T.relIndex X' = 3)
     (hcX : c ∈ X) (hcX' : c ∈ X') (hcT : c ∉ T) : X ≤ X' := by
   set K : Subgroup G := X ⊓ X' with hK
   have hTK : T ≤ K := le_inf hTX hTX'
@@ -85,8 +85,8 @@ theorem s16c11_forcedPairs_ncard_three_of_cover {G : Type} [Group G] [Finite G] 
       g ∈ X₁ ∨ g ∈ X₂ ∨ g ∈ X₃) :
     (S16C11ForcedPairs ρ T₁ y₀ a b).ncard = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsub : S16C11ForcedPairs ρ T₁ y₀ a b =
       ({(y₀, X₁), (y₀, X₂), (y₀, X₃)} : Set (V × Subgroup G)) := by
     ext p

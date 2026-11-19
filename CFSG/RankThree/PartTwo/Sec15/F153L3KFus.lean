@@ -28,7 +28,7 @@ theorem exists_beta {π : Bool} {f f₀ : ℕ} {K : Type} [Field K] (hK : PiFiel
     (hσ : (∀ c, σ c = c ^ piCard π (2 ^ f₀)) ∨ ∀ c, σ c = c ^ (piCard π (2 ^ f₀) ^ 2))
     {ω : K} (hω3 : ω ^ 3 = 1) (hσω : σ ω = ω) (k : ℕ) :
     ∃ β : Kˣ, (π = false → β ^ (2 ^ f + 1) = 1) ∧ (β : K) = ω ^ k * σ (β : K) := by
-  haveI := hK.finite
+  have := hK.finite
   have hω0 : ω ≠ 0 := by rintro rfl; simp at hω3
   have hωk3 : (ω ^ k) ^ 3 = 1 := by rw [← pow_mul, mul_comm, pow_mul, hω3, one_pow]
   have hσωk : σ (ω ^ k) = ω ^ k := by rw [map_pow, hσω]
@@ -89,8 +89,8 @@ theorem frame_case {π : Bool} {f f₀ : ℕ} {K : Type} [Field K] (hK : PiField
         (∀ a ∈ E, ProjGenLinGroup.mk s * a = a * ProjGenLinGroup.mk s) ∧
         ProjGenLinGroup.mk s * (ProjGenLinGroup.mk (g * frobGL σ s * g⁻¹))⁻¹ = r ^ k := by
   classical
-  haveI := hK.finite
-  haveI hchar : CharP K 2 := hK.charP
+  have := hK.finite
+  have hchar : CharP K 2 := hK.charP
   have hπ : π = false → UnitaryFieldData 2 f K := fun h => by subst h; exact hK.unitary
   have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective _ ProjGenLinGroup.mk_surjective
@@ -134,7 +134,7 @@ theorem frame_case {π : Bool} {f f₀ : ℕ} {K : Type} [Field K] (hK : PiField
   have hωu3 : ωu ∈ rootsOfUnity 3 K := (mem_rootsOfUnity 3 ωu).mpr hωu3'
   have hωu23 : ωu ^ 2 ∈ rootsOfUnity 3 K := pow_mem hωu3 2
   have hωu1 : ωu ≠ 1 := fun h => hω1 (by rw [← hωuv, h]; rfl)
-  have hσωu : Units.map (σ : K →* K) ωu = ωu := Units.ext (by simp only [Units.coe_map, MonoidHom.coe_coe, hωuv]; exact hσω)
+  have hσωu : Units.map (σ : K →* K) ωu = ωu := Units.ext (by simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass, hωuv]; exact hσω)
   have hσωu2 : Units.map (σ : K →* K) (ωu ^ 2) = ωu ^ 2 := by rw [map_pow, hσωu]
   have hd01 : (1 : Kˣ) ≠ ωu := fun h => hωu1 h.symm
   have hd02 : (1 : Kˣ) ≠ ωu ^ 2 := fun h => hωu1 (by
@@ -200,7 +200,7 @@ theorem frame_case {π : Bool} {f f₀ : ℕ} {K : Type} [Field K] (hK : PiField
       obtain ⟨sβ, hsβ⟩ : ∃ s : Kˣ, s = Units.map (σ : K →* K) β := ⟨_, rfl⟩
       have hβu : β = ωu ^ k * sβ := Units.ext (by
         rw [hsβ]
-        simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_coe,
+        simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.coe_map, _root_.MonoidHom.coe_ofClass,
           hωuv]
         exact hβω)
       have hdecomp : diagUnits 1 β (β ^ 2) =
@@ -241,8 +241,8 @@ theorem mmt {π : Bool} {f f₀ : ℕ} {K : Type} [Field K] (hK : PiField π 2 f
         (r = 1 ∧ ∀ a ∈ E, a ≠ 1 → ∀ t : ProjGenLinGroup (Fin 3) K, orderOf t = 2 →
           t * a ≠ a * t)) := by
   classical
-  haveI := hK.finite
-  haveI hchar : CharP K 2 := hK.charP
+  have := hK.finite
+  have hchar : CharP K 2 := hK.charP
   have h3 : (3 : K) ≠ 0 := hK.three_ne_zero hq
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq
   obtain ⟨hc, he, hcard⟩ := map_pglEquivQuot_facts hE
@@ -302,8 +302,8 @@ theorem l3FieldFusionK_holds : CFSG.RankThree.PartTwo.Sec15.ThmD.L3FieldFusionK 
     rwa [hx3] at this
   obtain ⟨π, K, hF, hK, hq, e, f₀, hf, σ, hσ, g, hg, hmodel⟩ :=
     CFSG.RankThree.PartTwo.Sec15.F153L3K.FusModel.exists_fieldAct_model hn hiso hxN hx3' hkind
-  haveI := hK.finite
-  haveI : CharP K 2 := hK.charP
+  have := hK.finite
+  have : CharP K 2 := hK.charP
   have hσ3 : orderOf σ = 3 := CFSG.RankThree.PartTwo.Sec15.F153L3K.FusH90.orderOf_eq_three_of_frobenius_forms hK hf σ hσ
   let ψ : ↥Kg →* ProjGenLinGroup (Fin 3) K :=
     (projImage (slPi π 3 (2 ^ (3 * n)) K)).subtype.comp e.toMonoidHom

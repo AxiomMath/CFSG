@@ -77,7 +77,7 @@ theorem ggResGenFrame_of_not_rest
     (hrest : ¬ GGInnerDiagOnLabel ggRowP_ResGenRest p Bs X) :
     ∃ Φ : OrthTorus.OrthWeakFrame p Bs X, Φ.Recognized := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hcfg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXA : ggAutomizer X Bs ≤ ggAutomizerJoin L Bs 𝒦 := by
     rcases hX with rfl | hw
     · exact ggAutomizer_le_ggAutomizerJoin (Or.inl rfl)
@@ -235,7 +235,7 @@ theorem GGGenResidualFrameInputOf.baseRefl
       rcases h.apply hU62 hFix hWA hRk hWI hLB hTCJ hcfg hns hpres h3 hbig hA (X := L) (Or.inl rfl) hns hU
           (fun hLL => absurd rfl hLL) with hF | hC
       · have hp := ggRouteCfg_prime hcfg
-        haveI : Fact p.Prime := ⟨hp.1⟩
+        have : Fact p.Prime := ⟨hp.1⟩
         exact ggGenConcl_of_le_iSup_isReflection hcfg hpres h3 (ggAutomizer_le_ggAutomizerJoin (Or.inl rfl))
           (hF.le_iSup_rankOne hD hPE hp.2)
       · exact hC
@@ -306,7 +306,7 @@ theorem GGGenResidualFrameInputOf.toWeak
             ⟨hcfg, hns, ι, M, e, hpres, GGIsWeylMatrixE.of_not_typeA_not_typeD hpres.1 h3 hA hDM, hbig⟩ y X hnb
     rcases hF with hF | hC
     · have hp := ggRouteCfg_prime hcfg
-      haveI : Fact p.Prime := ⟨hp.1⟩
+      have : Fact p.Prime := ⟨hp.1⟩
       exact ggGenConcl_of_le_iSup_isReflection hcfg hpres h3 hXA (hF.le_iSup_rankOne hD hPE hp.2)
     · exact hC
 

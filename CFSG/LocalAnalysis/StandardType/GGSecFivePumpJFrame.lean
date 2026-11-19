@@ -75,7 +75,7 @@ private theorem jframe_full {m : ℕ} {F : Type} [Field F] {p : ℕ} (hp : p.Pri
     [Group H] (δ : H →* (Fin (m + 1) → Fˣ)) (h0 : ∀ b, δ b 0 = 1)
     (hδp : ∀ b j, δ b j ^ p = 1) (hcard : p ^ m ≤ Nat.card δ.range)
     (v : Fin (m + 1) → Fˣ) (hv : ∀ j, v j ^ p = 1) : ∃ (b : H) (c : Fˣ), ∀ j, δ b j = c * v j := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmem : ∀ (y : δ.range) (j : Fin (m + 1)), (y : Fin (m + 1) → Fˣ) j ∈ rootsOfUnity p F := by
     intro y j
     obtain ⟨b, hb⟩ := MonoidHom.mem_range.mp y.2
@@ -150,9 +150,9 @@ theorem ggDk_exists_diagFrame {m : ℕ} {F : Type} [Field F] [CharP F 2] (hm : 2
     refine Subgroup.mem_inf.mpr ⟨b.2, LinFusion.mem_centralizer_of_mem_ggInducedPairs_one ?_⟩
     have h1 := hd b
     rwa [show d b = 1 from hb, LinFusion.diagGL_one] at h1
-  haveI : Finite ↥Bs :=
+  have : Finite ↥Bs :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ hp.ne_zero)
-  haveI : Finite ↥(Bs ⊓ Subgroup.centralizer (ψ.range : Set G)) :=
+  have : Finite ↥(Bs ⊓ Subgroup.centralizer (ψ.range : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective inf_le_left)
   have hk : Nat.card δ.ker ≤ p :=
     (Nat.card_le_card_of_injective (fun b : δ.ker => (⟨b.1, hkerC b.1 (MonoidHom.mem_ker.mp b.2)⟩ :

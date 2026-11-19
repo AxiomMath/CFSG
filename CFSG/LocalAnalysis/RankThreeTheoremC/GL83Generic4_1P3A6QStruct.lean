@@ -41,7 +41,7 @@ private theorem a6qs_key (hK2 : A6AutData) {P : Sylow 3 G} {M : Subgroup G} {x :
   have hbot := a6_bar_inf_reducedCentralizer_eq_bot hJ
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set ρ : C →* GenericReduced 3 x := QuotientGroup.mk' (primeComplementCore (G := C) 3) with hρ
-  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf C) := P.isPGroup'.comap_subtype
+  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf C) := P.isPGroup.comap_subtype
   have hTP : ((P : Subgroup G) ⊓ J).subgroupOf C ≤ (P : Subgroup G).subgroupOf C :=
     fun t ht => mem_subgroupOf.mpr (mem_subgroupOf.mp ht).1
   set χ : C →* MulAut ↥(r1sBar x J) := (MulAut.conjNormal (H := r1sBar x J)).comp ρ with hχ
@@ -102,7 +102,7 @@ theorem a6_qstruct (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 : A6SylowData)
   have hbot := a6_bar_inf_reducedCentralizer_eq_bot hJ
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set ρ : C →* GenericReduced 3 x := QuotientGroup.mk' (primeComplementCore (G := C) 3) with hρ
-  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf C) := P.isPGroup'.comap_subtype
+  have hP'p : IsPGroup 3 ((P : Subgroup G).subgroupOf C) := P.isPGroup.comap_subtype
   obtain ⟨W, hW⟩ : ∃ W : Subgroup C,
       W = (P : Subgroup G).subgroupOf C ⊓ (reducedCentralizerOfJ x J).comap ρ := ⟨_, rfl⟩
   have hWm : ∀ w : C, w ∈ W ↔ (w : G) ∈ (P : Subgroup G) ∧ ρ w ∈ reducedCentralizerOfJ x J := by

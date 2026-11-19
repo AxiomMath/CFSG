@@ -88,7 +88,7 @@ private structure tHyp (n : Nat) (f : Nat → Nat → Nat) (P G : Nat → Nat) :
   p0 : P 0 = 0
   g0 : G 0 = 0
 
-private theorem tInv_stable (hH : tHyp n f P G) {p gi q : Nat} (hp : p < n) (hgi : gi < 2)
+private theorem tInv_stable (hH : tHyp n f P G) {p gi q : Nat} (_hp : p < n) (hgi : gi < 2)
     (hq : q < n) (hne : q ≠ f gi p) :
     decide (q = 0 ∨ 2 * P q + G q < 2 * p + gi + 1) = decide (q = 0 ∨ 2 * P q + G q < 2 * p + gi) ∧
       (if 2 * P q + G q < 2 * p + gi + 1 then P q else 0) =
@@ -125,7 +125,7 @@ private theorem tInner_step (hH : tHyp n f P G) {p gi : Nat} (hp : p < n) (hgi :
   by_cases hd : st.2.2[f gi p]! = true
   · refine ⟨st, ?_, h1, h2, h3, fun q hqn => ?_⟩
     · unfold tInner
-      rw [if_neg (by simp [hd])]
+      rw [ite_eq_right (by simp [hd])]
     · by_cases hqe : q = f gi p
       · subst hqe
         have hd' := (hv (f gi p) hq).1
@@ -143,7 +143,7 @@ private theorem tInner_step (hH : tHyp n f P G) {p gi : Nat} (hp : p < n) (hgi :
             simp [hH.g0]
         · have hlt : 2 * P (f gi p) + G (f gi p) < 2 * p + gi + 1 := by omega
           obtain ⟨e1, e2, e3⟩ := hv (f gi p) hq
-          rw [e1, e2, e3, if_pos hc, if_pos hc, if_pos hlt, if_pos hlt]
+          rw [e1, e2, e3, ite_eq_left hc, ite_eq_left hc, ite_eq_left hlt, ite_eq_left hlt]
           simp [hc, hlt]
       · obtain ⟨s1, s2, s3⟩ := tInv_stable hH hp hgi hqn hqe
         obtain ⟨e1, e2, e3⟩ := hv q hqn
@@ -160,19 +160,19 @@ private theorem tInner_step (hH : tHyp n f P G) {p gi : Nat} (hp : p < n) (hgi :
     have hP : P (f gi p) = p := by omega
     have hG : G (f gi p) = gi := by omega
     refine ⟨(st.1.set! (f gi p) p, st.2.1.set! (f gi p) gi, st.2.2.set! (f gi p) true), ?_,
-      by simp [Array.size_set!, h1], by simp [Array.size_set!, h2],
-      by simp [Array.size_set!, h3], fun q hqn => ?_⟩
+      by simp [h1], by simp [h2],
+      by simp [h3], fun q hqn => ?_⟩
     · unfold tInner
-      rw [if_pos (by simp [hq, hd0])]
+      rw [ite_eq_left (by simp [hq, hd0])]
     · simp only
       rw [getElem!_set!_eq _ _ (by omega), getElem!_set!_eq _ _ (by omega),
         getElem!_set!_eq _ _ (by omega)]
       by_cases hqe : f gi p = q
       · subst hqe
         have hlt : 2 * P (f gi p) + G (f gi p) < 2 * p + gi + 1 := by omega
-        simp only [if_true, if_pos hlt, hP, hG]
+        simp only [ite_true, hP, hG]
         simp
-      · rw [if_neg hqe, if_neg hqe, if_neg hqe]
+      · rw [ite_eq_right hqe, ite_eq_right hqe, ite_eq_right hqe]
         obtain ⟨s1, s2, s3⟩ := tInv_stable hH hp hgi hqn (Ne.symm hqe)
         obtain ⟨e1, e2, e3⟩ := hv q hqn
         exact ⟨e1.trans s1.symm, e2.trans s2.symm, e3.trans s3.symm⟩
@@ -211,8 +211,8 @@ private theorem tree_loop (hH : tHyp n f P G) (hn : 0 < n) :
     let s := Id.run (forIn (List.range' 0 n) (tInit n) (tOuter n f))
     s.1.size = n ∧ s.2.1.size = n ∧ ∀ q < n, s.1[q]! = P q ∧ s.2.1[q]! = G q := by
   have hI0 : tInv n P G (2 * 0) (tInit n) := by
-    refine ⟨by simp [tInit], by simp [tInit], by simp [tInit, Array.size_set!], fun q hq => ?_⟩
-    simp only [tInit, Nat.mul_zero, Nat.not_lt_zero, or_false, if_false]
+    refine ⟨by simp, by simp, by simp, fun q hq => ?_⟩
+    simp only [Nat.mul_zero, Nat.not_lt_zero, or_false, ite_false]
     rw [getElem!_set!_eq _ _ (by simp; omega)]
     have hr : ∀ {α : Type} [Inhabited α] (v : α), (Array.replicate n v)[q]! = v := fun v => by
       rw [getElem!_pos (Array.replicate n v) q (by simp; omega)]
@@ -222,7 +222,7 @@ private theorem tree_loop (hH : tHyp n f P G) (hn : 0 < n) :
     by_cases h0 : q = 0
     · subst h0
       simp
-    · rw [if_neg (Ne.symm h0)]
+    · rw [ite_eq_right (Ne.symm h0)]
       simp [h0]
   have h := tOuter_loop hH n 0 (tInit n) (by omega) hI0
   intro s
@@ -236,7 +236,7 @@ private theorem tree_loop (hH : tHyp n f P G) (hn : 0 < n) :
       omega
     · obtain ⟨hg, hpq, -⟩ := hH.tree q (Nat.pos_of_ne_zero h0) hq
       omega
-  rw [if_pos hlt] at e2 e3
+  rw [ite_eq_left hlt] at e2 e3
   exact ⟨e2, e3⟩
 
 end Inv

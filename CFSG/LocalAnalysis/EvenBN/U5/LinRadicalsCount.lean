@@ -20,7 +20,7 @@ theorem radicals_card_of_product {Q : Type*} [Group Q] [Finite Q] {q : ℕ} (hq 
     {Q₁ Q₂ : Subgroup Q}
     (hR : CFSG.LocalAnalysis.EvenBN.LinearThree.Radicals (⊤ : Subgroup Q) Q₁ Q₂ q)
     {B B' Z : Subgroup Q} (hB : CFSG.Open.IsElemAbelian 2 B)
-    (hB' : CFSG.Open.IsElemAbelian 2 B') (hBn : B.Normal) (hB'n : B'.Normal)
+    (hB' : CFSG.Open.IsElemAbelian 2 B') (hBn : B.Normal) (_hB'n : B'.Normal)
     (hsup : B ⊔ B' = ⊤) (hcard : Nat.card B = Nat.card B') (hZ : Z ≤ B ⊓ B')
     (hZc : Nat.card Z = q) : Nat.card B = q ^ 2 := by
   have hQ : Nat.card Q = q ^ 3 := (Subgroup.card_top (G := Q)).symm.trans hR.card

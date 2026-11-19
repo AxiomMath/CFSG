@@ -42,13 +42,13 @@ private theorem f13_mem_normalizer_subgroupOf {G : Type} [Group G] {K S : Subgro
     (⟨g, hgK⟩ : K) ∈ Subgroup.normalizer ((S.subgroupOf K : Subgroup K) : Set K) := by
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact Subgroup.mem_normalizer_iff.mp hg (y : G)
 
 private theorem f13_pRank_five_range {T V : Type} [Group T] [Finite T] [Group V] [Finite V]
     (φ : T →* V) (hker : ∀ t : T, φ t = 1 → ∃ n : ℕ, t ^ 2 ^ n = 1) :
     CFSG.pRank 5 ↥φ.range = CFSG.pRank 5 T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ¬ 5 ∣ Nat.card φ.rangeRestrict.ker := by
     have h2 : IsPGroup 2 φ.rangeRestrict.ker := by
       intro x
@@ -161,8 +161,8 @@ private theorem f13_mem_normalizer_of_inv {G : Type} [Group G] {W : Subgroup G} 
 private theorem f13_conj_sup_mem {G : Type} [Group G] {K L W : Subgroup G} {g : G}
     (hK : K ≤ W.comap (MulAut.conj g).toMonoidHom)
     (hL : L ≤ W.comap (MulAut.conj g).toMonoidHom) :
-    ∀ y ∈ K ⊔ L, g * y * g⁻¹ ∈ W :=
-  fun y hy => sup_le hK hL hy
+    ∀ _y ∈ K ⊔ L, g * _y * g⁻¹ ∈ W :=
+  fun _y hy => sup_le hK hL hy
 
 variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G} {X : Subgroup G}
 
@@ -197,14 +197,14 @@ private theorem f13_comm_inv {G : Type} [Group G] (a b : G) : ⁅a, b⁆ = ⁅b,
 private theorem f13_shape81_abstract {Kg : Type} [Group Kg] [Finite Kg] {Y : Type} [Group Y]
     (N S0 P0 : Subgroup Kg) [N.Normal] [P0.Normal] (c0 : Kg) (ψ : Kg →* Y)
     (hS2 : ∀ x ∈ S0, ∃ n : ℕ, x ^ 2 ^ n = 1) (hN2 : ∀ t ∈ N, ∃ n : ℕ, t ^ 2 ^ n = 1)
-    (hNS : N ≤ S0) (hNP : N ≤ P0) (hcS : c0 ∈ Subgroup.normalizer (S0 : Set Kg))
+    (hNS : N ≤ S0) (_hNP : N ≤ P0) (hcS : c0 ∈ Subgroup.normalizer (S0 : Set Kg))
     (hc3 : c0 ^ 3 = 1) (hPpow : ∀ y ∈ P0, ∃ n : ℕ, y ^ 5 ^ n ∈ N)
     (hrank : CFSG.pRank 5 ↥P0 ≤ 2)
     (hMS : ∀ s ∈ S0, (∀ p ∈ P0, ⁅s, p⁆ ∈ N) → s ∈ N)
     (hMc : ¬ ∀ p ∈ P0, ∀ z ∈ Subgroup.zpowers c0, ⁅p, z⁆ ∈ N)
     (hψ : ∀ s ∈ S0, ψ s = 1 ↔ s ∈ N) :
     Shape81 (S0.map ψ) (ψ c0) := by
-  haveI : Finite (Kg ⧸ N) := Quotient.finite _
+  have : Finite (Kg ⧸ N) := Quotient.finite _
   have hNψ : N ≤ ψ.ker := fun n hn => MonoidHom.mem_ker.mpr ((hψ n (hNS hn)).mpr hn)
   have hpsiq : ∀ x : Kg, QuotientGroup.lift N ψ hNψ (QuotientGroup.mk' N x) = ψ x :=
     fun x => rfl
@@ -224,7 +224,7 @@ private theorem f13_shape81_abstract {Kg : Type} [Group Kg] [Finite Kg] {Y : Typ
     rw [SubgroupClass.coe_pow, ← hyx, ← map_pow]
     rw [OneMemClass.coe_one]
     exact (QuotientGroup.eq_one_iff (y ^ 5 ^ n)).mpr hn
-  haveI : (P0.map (QuotientGroup.mk' N)).Normal :=
+  have : (P0.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
   have hrankq : CFSG.Open.pRank 5 (P0.map (QuotientGroup.mk' N)) ≤ 2 := by
     rw [← CFSG.SectionRank.pRank_coe_eq_openPRank]
@@ -238,8 +238,8 @@ private theorem f13_shape81_abstract {Kg : Type} [Group Kg] [Finite Kg] {Y : Typ
       exact ⟨n, f13_pow_eq_one_of_coe t hn⟩
     rw [← hrange, f13_pRank_five_range _ hker]
     exact hrank
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk, φ, hφ⟩ := CFSG.RankThree.PartTwo.Sec16.Crit167.exists_rep (r := 5)
     (by norm_num) (P0.map (QuotientGroup.mk' N)) hP5q hrankq
   have hcpow : cq ^ 3 = 1 := by rw [hcq, ← map_pow, hc3, map_one]
@@ -348,13 +348,13 @@ theorem MinCex.shape81_map (h1812 : Item181_2) (h184 : Item184_1) (h186 : Item18
   have hPK : oTwoFive X ≤ X ⊔ Subgroup.zpowers c := hPX.trans le_sup_left
   have hKN : X ⊔ Subgroup.zpowers c ≤ Subgroup.normalizer (oTwoFive X : Set G) :=
     sup_le hXP (Subgroup.zpowers_le.mpr hcP)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc3G : c ^ 3 = 1 := by
     rw [← MinCex.orderOf_c h184 hX]
     exact pow_orderOf_eq_one c
-  haveI hNn : ((CFSG.Open.pCoreOf 2 X).subgroupOf (X ⊔ Subgroup.zpowers c)).Normal :=
+  have hNn : ((CFSG.Open.pCoreOf 2 X).subgroupOf (X ⊔ Subgroup.zpowers c)).Normal :=
     MinCex.normal_pCoreOf_subgroupOf hX
-  haveI hPn : ((oTwoFive X).subgroupOf (X ⊔ Subgroup.zpowers c)).Normal :=
+  have hPn : ((oTwoFive X).subgroupOf (X ⊔ Subgroup.zpowers c)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPK).mpr hKN
   have hS2 : ∀ x ∈ (CFSG.Open.pCoreOf 2 (H ⊓ M)).subgroupOf (X ⊔ Subgroup.zpowers c),
       ∃ n : ℕ, x ^ 2 ^ n = 1 := by

@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
     ∀ r : ℕ, r.Prime → r ∣ 2 ^ s - 1 → ∀ X : Subgroup G, X ≤ L → Nat.card X = r →
       normalizer (X : Set G) ≤ D.M → (n = 3 ∨ n = 3 * r) → X ∈ uniqueSet D.M
 
+omit [Finite G] in
 theorem mem_map_conj_inv {X : Subgroup G} (g z : G) :
     z ∈ X.map (MulAut.conj g⁻¹).toMonoidHom ↔ g * z * g⁻¹ ∈ X := by
   simp only [Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
@@ -30,6 +31,7 @@ theorem mem_map_conj_inv {X : Subgroup G} (g z : G) :
   · intro h
     exact ⟨g * z * g⁻¹, h, by group⟩
 
+omit [Finite G] in
 theorem conj_mem_normalizer_of_mem_normalizer_conj {X : Subgroup G} (g n : G)
     (hn : n ∈ normalizer ((X.map (MulAut.conj g⁻¹).toMonoidHom : Subgroup G) : Set G)) :
     g * n * g⁻¹ ∈ normalizer (X : Set G) := by
@@ -44,8 +46,8 @@ theorem conj_mem_normalizer_of_mem_normalizer_conj {X : Subgroup G} (g n : G)
 
 theorem exists_generator {Y : Subgroup G} {r : ℕ} (hr : r.Prime) (hY : Nat.card Y = r) :
     ∃ y ∈ Y, orderOf y = r ∧ ∀ x ∈ Y, ∃ k : ℕ, y ^ k = x := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsCyclic ↥Y := isCyclic_of_prime_card (p := r) hY
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsCyclic ↥Y := isCyclic_of_prime_card (p := r) hY
   obtain ⟨y, hy⟩ := IsCyclic.exists_generator (α := ↥Y)
   refine ⟨(y : G), y.2, ?_, ?_⟩
   · rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hy, hY]

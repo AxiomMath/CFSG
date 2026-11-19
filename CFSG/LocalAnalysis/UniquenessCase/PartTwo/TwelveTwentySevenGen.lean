@@ -169,7 +169,7 @@ theorem exists_conj_eq_mul_of_inCalV0_gen {M V₀ V X : Subgroup G} (h : InCalV0
       Subgroup.mem_subgroupOf.mp h
     have hcoeeq : (((conjAutV ⟨k', hk'⟩) w / w : V) : G) =
         k' * (w : G) * k'⁻¹ * (w : G)⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv,
         conjAutV, MonoidHom.comp_apply, normalizerMonoidHom_apply_coe, Subgroup.coe_inclusion]
     rwa [hcoeeq] at hmem
   have hKcent : ∀ k ∈ K, CentralizesMod V₀ V k := by
@@ -187,7 +187,7 @@ theorem exists_conj_eq_mul_of_inCalV0_gen {M V₀ V X : Subgroup G} (h : InCalV0
       { carrier := {x : G | x ∈ V ∧ k * x * k⁻¹ * x⁻¹ ∈ V₀}
         one_mem' := by
           refine ⟨V.one_mem, ?_⟩
-          simpa using V₀.one_mem
+          simp
         mul_mem' := by
           rintro x y ⟨hxV, hx0⟩ ⟨hyV, hy0⟩
           refine ⟨V.mul_mem hxV hyV, ?_⟩

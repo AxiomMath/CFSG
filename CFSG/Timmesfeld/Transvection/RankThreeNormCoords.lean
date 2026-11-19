@@ -34,6 +34,7 @@ variable [Finite G] (hfr : IsMaxFrame Δ P Q) (hΔ : IsTransvectionClass Δ)
 include hfr hΔ hiso hpts hml hq φ hμ1 hσ hmem hsurj hmemP hmemL hinjL hsl
 
 omit hfr hΔ hiso hpts hml hq φ hμ1 hσ hmem hsurj hmemP hmemL hinjL hsl in
+omit [Finite G] in
 private theorem mul_inv_eq_of_decomposition {a₁ a₂ b₃ b₄ c₁ c₂ : G}
     (heq0 : a₁ * a₂ = c₁ * c₂ * (b₃ * b₄))
     (hc₁₃ : Commute a₁⁻¹ c₁) (hc₂₃ : Commute c₂ b₃) (hc₁b : Commute a₁⁻¹ b₃) :
@@ -47,6 +48,7 @@ private theorem mul_inv_eq_of_decomposition {a₁ a₂ b₃ b₄ c₁ c₂ : G}
     _ = c₁ * b₃ * (a₁⁻¹ * c₂) := by group
 
 omit hiso hpts hml hq φ hμ1 hσ hmem hsurj hmemP hmemL hinjL hsl in
+omit [Finite G] in
 private theorem commute_factors {a₁ b₃ c₁ c₂ : G} {i j k : Fin r}
     (ha₁ : a₁ ∈ shortRootGroup Δ (P i) (Q i) (P k) (Q k))
     (hb₃ : b₃ ∈ shortRootGroup Δ (P j) (Q j) (P k) (Q k))

@@ -147,7 +147,7 @@ theorem testBit_opBlk {f : Nat → Nat} (hf : ∀ r, f r < 2 ^ 256) {s : Nat} (h
       have h3 : q < n + 1 := by omega
       have h4 : ¬ q < n := by omega
       rw [h1]
-      simp [h2, h3, h4, h]
+      simp [h]
     · have h1 : 256 * n ≤ 256 * q + s := by omega
       have h3 : ¬ q < n + 1 := by omega
       have h4 : ¬ q < n := by omega
@@ -182,11 +182,11 @@ theorem and_ccP (x : Nat) :
     ⟨j / 256, j % 256, Nat.mod_lt _ (by norm_num), (Nat.div_add_mod j 256).symm⟩
   rw [Nat.testBit_and, ccP_eq, testBit_opBlk (f := fun _ => 1) (fun _ => by norm_num) hs,
     testBit_opBlk (f := fun r => if x.testBit (256 * r) = true then 1 else 0)
-      (fun r => by beta_reduce; split <;> norm_num) hs]
+      (fun r => by split <;> norm_num) hs]
   by_cases h0 : s = 0
   · subst h0
-    cases hx : x.testBit (256 * q) <;> simp [hx, one_testBit']
-  · cases hx : x.testBit (256 * q) <;> simp [hx, one_testBit', h0]
+    cases hx : x.testBit (256 * q) <;> simp
+  · cases hx : x.testBit (256 * q) <;> simp [one_testBit', h0]
 
 @[expose] noncomputable def opStep (A B k : Nat) : Nat :=
   Nat.land (Nat.mul (Nat.land (Nat.shiftRight A k) ccP) rmP)
@@ -218,7 +218,6 @@ theorem stepBit (A B k : Nat) {i s : Nat} (hi : i < 248) (hs : s < 248) :
   rw [e, Nat.testBit_and, and_ccP, opBlk_mul, ccP_eq, mul_opBlk,
     testBit_opBlk (f := fun r => (if (A >>> k).testBit (256 * r) = true then 1 else 0) * rmP)
       (fun r => by
-        beta_reduce
         split
         · rw [Nat.one_mul]
           exact hr
@@ -263,7 +262,6 @@ theorem mulPk_row (A B i : Nat) (hi : i < 248) :
   · rw [decide_eq_true hs, Bool.true_and]
     apply opBx_congr
     intro k hk
-    beta_reduce
     rw [stepBit A B k hi hs, unpk_testBit A i k, decide_eq_true hk, Bool.true_and,
       Nat.add_comm k (256 * i)]
     cases A.testBit (256 * i + k) <;> simp

@@ -158,7 +158,7 @@ private lemma bmSDS_J_mul_self {n : ℕ} {F : Type} [Field F] [CharP F 2] :
     (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         Matrix.fromBlocks 0 1 (-1) 0 = 1 := by
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul, Matrix.zero_mul, zero_add,
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add,
     add_zero, Matrix.mul_neg, neg_zero]
   rw [bmSDS_neg_one_matrix_eq_one, Matrix.fromBlocks_one]
 
@@ -397,7 +397,7 @@ private lemma bmSDS_adjoin_comm {n f : ℕ} (S : Set (GL (Fin n ⊕ Fin n) (Galo
           (u : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f))) (hS s hs s' hs'))
     (fun r₁ r₂ => by
       rw [Algebra.algebraMap_eq_smul_one]
-      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, mul_comm])
+      simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
     (fun r x hx => by
       rw [Algebra.algebraMap_eq_smul_one]
       simp only [smul_mul_assoc, mul_smul_comm, one_mul, mul_one])
@@ -704,7 +704,7 @@ private noncomputable def bmSDS_pwIso {F V : Type} [Field F] [AddCommGroup V]
     rw [bmSDS_restrictPointwise_apply]
     rw [show ((x : B.orthogonal U) : V) = ((0 : U) : V) + (x : V) by simp,
       gluePointwise_apply]
-    simpa using zero_add ((φ : LinearMap.GeneralLinearGroup F (B.orthogonal U)) x : V)
+    simp
   map_mul' g h := by
     apply Subtype.ext
     apply Units.ext
@@ -922,7 +922,7 @@ private lemma bmSDS_one_le_m
   simp only [not_le] at h
   have hm0 : m = 0 := by omega
   subst m
-  haveI : Subsingleton (ggU .PSp 0 g').K := by
+  have : Subsingleton (ggU .PSp 0 g').K := by
     change Subsingleton (StatedSp 0 (GaloisField 2 g'))
     infer_instance
   have hbot : bmSDS_Ge S e = ⊥ := by
@@ -935,7 +935,7 @@ private lemma bmSDS_one_le_m
     calc J' ≤ ⁅bmSDS_Ge S e, bmSDS_Ge S e⁆ := hJe.1
       _ = ⊥ := by rw [hbot, Subgroup.commutator_bot_left]
   have hsub : Subsingleton ↥J' := by rw [hJbot]; infer_instance
-  haveI : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
+  have : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
   have hsubq : Subsingleton (↥J' ⧸ Subgroup.center ↥J') :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥J')).subsingleton
   obtain ⟨a, b, hab⟩ := Nontrivial.exists_pair_ne (α := ↥J' ⧸ Subgroup.center ↥J')
@@ -1779,7 +1779,7 @@ private lemma bmSDS_transv_sq_one (m g' : ℕ)
     rw [← two_nsmul, nsmul_eq_mul, CharP.cast_eq_zero (GaloisField 2 g') 2, zero_mul]
   have hM := bmSDS_vecMulVec_sq_zero m g' v₀
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.smul_mul, Matrix.mul_smul, smul_smul, hM, smul_zero, add_zero]
+    Matrix.smul_mul, Matrix.mul_smul, hM, smul_zero, add_zero]
   rw [add_assoc, ← add_smul, hcc, zero_smul, add_zero]
 
 private lemma bmSDS_transv_source_gen (m g' : ℕ)
@@ -1998,7 +1998,7 @@ private lemma bmSDS_transport_altSiegel_gen
     IsCentralScalar.op_smul_eq_smul, IsCentralScalar.op_smul_eq_smul]
   rw [bmSDS_altSiegel_gen_W' n f m g' r iota ext S e h a₁ a₂ c w' hw']
   simp only [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.smul_mulVec,
-    Matrix.vecMulVec_mulVec, IsCentralScalar.op_smul_eq_smul, smul_smul]
+    Matrix.vecMulVec_mulVec, IsCentralScalar.op_smul_eq_smul]
 
 private lemma bmSDS_altSiegel_image_preimage
     (m g' : ℕ)
@@ -2156,7 +2156,7 @@ private lemma bmSDS_altSiegel_M_sq (m g' : ℕ)
     Matrix.vecMulVec_mul_vecMulVec, Matrix.vecMulVec_mul_vecMulVec,
     Matrix.vecMulVec_mul_vecMulVec, Matrix.vecMulVec_mul_vecMulVec,
     h11, h22, h12, zero_smul]
-  simp [smul_add, add_smul, smul_smul, add_assoc, add_comm, add_left_comm]
+  simp [smul_add, add_comm]
 
 private lemma bmSDS_altSiegel_scalar_id (g' : ℕ) (c s : GaloisField 2 g')
     (hs : 1 + c * s ≠ 0) :
@@ -2205,7 +2205,7 @@ private lemma bmSDS_altSiegel_M_mul_expand (m g' : ℕ)
   change (1 + c • M) * (1 + (c * (1 + c * s)⁻¹) • M) =
     1 + (c + c * (1 + c * s)⁻¹ + c * (1 + c * s)⁻¹ * (c * s)) • M
   rw [Matrix.add_mul, Matrix.mul_add, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one]
-  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, smul_add, hM, Matrix.one_mul]
+  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hM, Matrix.one_mul]
   rw [add_assoc, add_assoc, ← add_smul, ← add_smul, ← add_assoc, ← add_assoc]
   congr 1
   ring_nf
@@ -2406,34 +2406,34 @@ private lemma bmSDS_dim_rank_one
     (hιinj : Function.Injective ι) (hιrange : ι.range = bmSDS_Ge S e)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
     (hJe : IsComponentOf J' ⁅bmSDS_Ge S e, bmSDS_Ge S e⁆) : False := by
-  haveI hsGL : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have hsGL : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 f)) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable _
       (Or.inl hcard)
-  haveI hsSL : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have hsSL : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Matrix.SpecialLinearGroup.toGL :
         Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) →*
           Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 f)))
       Matrix.SpecialLinearGroup.toGL_injective
-  haveI hsSp : Group.IsSolvable (CFSG.Open.StatedSp 1 (GaloisField 2 f)) :=
+  have hsSp : Group.IsSolvable (CFSG.Open.StatedSp 1 (GaloisField 2 f)) :=
     Group.isSolvable_of_surjective
       (f := (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne
         (GaloisField 2 f)).toMonoidHom)
       (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne
         (GaloisField 2 f)).surjective
-  haveI hsGe : Group.IsSolvable ↥(bmSDS_Ge S e) :=
+  have hsGe : Group.IsSolvable ↥(bmSDS_Ge S e) :=
     Group.isSolvable_of_surjective
       (f := ((MonoidHom.ofInjective hιinj).trans
         (MulEquiv.subgroupCongr hιrange)).toMonoidHom)
       ((MonoidHom.ofInjective hιinj).trans (MulEquiv.subgroupCongr hιrange)).surjective
   have hJ'le : J' ≤ bmSDS_Ge S e := hJe.1.trans (Subgroup.commutator_le_self _)
-  haveI hsJ : Group.IsSolvable ↥J' :=
+  have hsJ : Group.IsSolvable ↥J' :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hJ'le) (Subgroup.inclusion_injective hJ'le)
-  haveI hSJ : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
-  haveI hnt : Nontrivial ↥J' :=
+  have hSJ : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
+  have hnt : Nontrivial ↥J' :=
     Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-  haveI hperf : Group.IsPerfect ↥J' := ⟨hJe.2.2.1⟩
+  have hperf : Group.IsPerfect ↥J' := ⟨hJe.2.2.1⟩
   exact Group.IsPerfect.not_isSolvable ↥J' inferInstance
 
 private lemma bmSDS_dim_rank_two
@@ -2466,16 +2466,16 @@ private lemma bmSDS_dim_rank_two
     (MulEquiv.subgroupCongr hmapGe).trans (e1.trans (eC.trans
       (CFSG.Adapters.CatalogueFieldBridges.nonempty_commutator_statedSp_two_mulEquiv_alternating_six
         hcard).some))
-  haveI hA6s : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have hA6s : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hSimple : IsSimpleGroup ↥⁅bmSDS_Ge S e, bmSDS_Ge S e⁆ :=
+  have hSimple : IsSimpleGroup ↥⁅bmSDS_Ge S e, bmSDS_Ge S e⁆ :=
     MulEquiv.isSimpleGroup eA
   have hJbot : J' = ⊥ ∨ J' = ⁅bmSDS_Ge S e, bmSDS_Ge S e⁆ :=
     hJe.2.1.eq_bot_or_eq_of_isSimpleGroup hSimple
   have hne : J' ≠ ⊥ := by
     intro hbot
-    haveI hSJ' : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
-    haveI hnt : Nontrivial ↥J' :=
+    have hSJ' : IsSimpleGroup (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2
+    have hnt : Nontrivial ↥J' :=
       Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
     rw [hbot] at hnt
     obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
@@ -2680,7 +2680,7 @@ private lemma bmSDS_transvGen_mul (n f : ℕ)
         (1 + c' • Matrix.vecMulVec v (Matrix.mulVec (bmSDS_J n f) v)) =
       1 + (c + c') • Matrix.vecMulVec v (Matrix.mulVec (bmSDS_J n f) v) := by
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.smul_mul, Matrix.mul_smul, smul_smul, bmSDS_transvGen_sq_zero n f v,
+    Matrix.smul_mul, Matrix.mul_smul, bmSDS_transvGen_sq_zero n f v,
     smul_zero, add_zero]
   rw [add_assoc, ← add_smul, add_comm]
 
@@ -3244,7 +3244,7 @@ private lemma bmSDS_siegel_plane_partner (m g' : ℕ)
     (b₁ b₂ : (Fin m ⊕ Fin m) → GaloisField 2 g')
     (hli : LinearIndependent (GaloisField 2 g') ![b₁, b₂])
     (horth : b₁ ⬝ᵥ (Matrix.mulVec (bmSDS_J m g') b₂) = 0) :
-    ∃ (hm2 : 2 ≤ m) (b₁' b₂' : (Fin m ⊕ Fin m) → GaloisField 2 g'),
+    ∃ (_hm2 : 2 ≤ m) (b₁' b₂' : (Fin m ⊕ Fin m) → GaloisField 2 g'),
       b₁ ⬝ᵥ (Matrix.mulVec (bmSDS_J m g') b₁') = 1 ∧
       b₂ ⬝ᵥ (Matrix.mulVec (bmSDS_J m g') b₂') = 1 ∧
       b₁' ⬝ᵥ (Matrix.mulVec (bmSDS_J m g') b₂') = 0 ∧
@@ -3268,10 +3268,10 @@ private lemma bmSDS_siegel_plane_partner (m g' : ℕ)
   have hfin : Module.finrank (GaloisField 2 g') (Fin m ⊕ Fin m → GaloisField 2 g') = m + m := by
     rw [Module.finrank_eq_card_basis (Pi.basisFun (GaloisField 2 g') (Fin m ⊕ Fin m)),
       Fintype.card_sum, Fintype.card_fin]
-  have hm2 : 2 ≤ m := by omega
+  have _hm2 : 2 ≤ m := by omega
   let i0 : Fin (m0 + 2) := ⟨0, by omega⟩
   let i1 : Fin (m0 + 2) := ⟨1, by omega⟩
-  refine ⟨hm2, b (Sum.inr i0), b (Sum.inr i1), ?_, ?_, ?_, ?_, ?_⟩
+  refine ⟨_hm2, b (Sum.inr i0), b (Sum.inr i1), ?_, ?_, ?_, ?_, ?_⟩
   · rw [← hb1]
     have hp := hpair (Sum.inl i0) (Sum.inr i0)
     rw [bmSDS_B, Matrix.toBilin'_apply'] at hp
@@ -3279,7 +3279,7 @@ private lemma bmSDS_siegel_plane_partner (m g' : ℕ)
   · rw [← hb2]
     have hp := hpair (Sum.inl i1) (Sum.inr i1)
     rw [bmSDS_B, Matrix.toBilin'_apply'] at hp
-    exact hp.trans (by simp [Matrix.fromBlocks, i0, i1])
+    exact hp.trans (by simp [Matrix.fromBlocks, i1])
   · have hp := hpair (Sum.inr i0) (Sum.inr i1)
     rw [bmSDS_B, Matrix.toBilin'_apply'] at hp
     exact hp.trans (by simp [Matrix.fromBlocks, i0, i1])

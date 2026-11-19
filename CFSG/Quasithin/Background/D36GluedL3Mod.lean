@@ -16,7 +16,7 @@ theorem card_Γ : Nat.card Γ = 168 := by
   set_option maxRecDepth 100000 in decide +kernel
 
 theorem seven_le_index (H : Subgroup Γ) (hH : H ≠ ⊤) : 7 ≤ H.index := by
-  haveI : IsSimpleGroup Γ := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
+  have : IsSimpleGroup Γ := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
   have hdvd := H.index_normalCore_dvd_factorial_index
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H.normalCore with h | h
   · rw [h, Subgroup.index_bot, card_Γ] at hdvd
@@ -43,17 +43,20 @@ section Action
 
 variable {M : Type} [CommGroup M] [Finite M] [MulDistribMulAction Γ M]
 
+omit [Finite M] in
 theorem stab_ne_top (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) {x : M} (hx : x ≠ 1) :
     MulAction.stabilizer Γ x ≠ ⊤ := fun h =>
   hx (hfix x fun g => by
     have : g ∈ MulAction.stabilizer Γ x := by rw [h]; trivial
     exact this)
 
+omit [Finite M] in
 theorem seven_le_card_orbit (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) {x : M} (hx : x ≠ 1) :
     7 ≤ (MulAction.orbit Γ x).ncard := by
   rw [← MulAction.index_stabilizer]
   exact seven_le_index _ (stab_ne_top hfix hx)
 
+omit [Finite M] in
 theorem card_orbit_dvd (x : M) : (MulAction.orbit Γ x).ncard ∣ 168 := by
   rw [← MulAction.index_stabilizer, ← card_Γ]
   exact Subgroup.index_dvd_card _
@@ -70,7 +73,7 @@ theorem attain_card (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) (R :
     have hdvd := card_orbit_dvd x
     have hle : (MulAction.orbit Γ x).ncard ≤ R.ncard := Set.ncard_le_ncard hOR
     have hdiff : (R \ MulAction.orbit Γ x).ncard = R.ncard - (MulAction.orbit Γ x).ncard :=
-      Set.ncard_diff hOR
+      Set.ncard_sdiff hOR
     have hat := ih (R \ MulAction.orbit Γ x).ncard (by omega) (R \ MulAction.orbit Γ x)
       (fun z hz => hR1 z hz.1) (fun g z hz => by
         refine ⟨hinv g z hz.1, fun hgz => hz.2 ?_⟩
@@ -92,7 +95,7 @@ theorem compl_attain (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) (S 
     S.ncard ≤ Nat.card M - 1 ∧ Attain (Nat.card M - 1 - S.ncard) := by
   have hsub : S ⊆ Set.univ \ {1} := fun x hx => ⟨Set.mem_univ x, hS1 x hx⟩
   have hc : (Set.univ \ {(1 : M)}).ncard = Nat.card M - 1 := by
-    rw [Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
+    rw [Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
   have hle : S.ncard ≤ Nat.card M - 1 := by
     rw [← hc]
     exact Set.ncard_le_ncard hsub
@@ -104,7 +107,7 @@ theorem compl_attain (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) (S 
         simpa using this
       · have : g⁻¹ • (g • x) ∈ S := hSinv g⁻¹ _ hgx
         simpa using this)
-  rw [Set.ncard_diff hsub, hc] at hR
+  rw [Set.ncard_sdiff hsub, hc] at hR
   exact hR
 
 end Action
@@ -163,6 +166,7 @@ section Fano
 
 variable {M : Type} [CommGroup M] [Finite M] [MulDistribMulAction Γ M]
 
+omit [Finite M] in
 theorem orbit_ne_one {v : M} (hv : v ≠ 1) {x : M} (hx : x ∈ MulAction.orbit Γ v) : x ≠ 1 := by
   obtain ⟨g, rfl⟩ := hx
   intro h
@@ -171,11 +175,13 @@ theorem orbit_ne_one {v : M} (hv : v ≠ 1) {x : M} (hx : x ∈ MulAction.orbit 
   have : g • v = g • (1 : M) := by rw [smul_one]; exact h'
   exact smul_left_cancel g this
 
+omit [Finite M] in
 theorem smul_mem_orbit' {v x : M} (g : Γ) (hx : x ∈ MulAction.orbit Γ v) :
     g • x ∈ MulAction.orbit Γ v := by
   obtain ⟨h, rfl⟩ := hx
   exact ⟨g * h, mul_smul g h v⟩
 
+omit [Finite M] in
 theorem Datum.card_orbit (D : Datum) {v : M} (hstab : MulAction.stabilizer Γ v = D.H₁) :
     (MulAction.orbit Γ v).ncard = 7 := by
   rw [← MulAction.index_stabilizer, hstab]
@@ -278,6 +284,7 @@ theorem Datum.line (D : Datum) (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → 
   · have := hat.small (by norm_num)
     omega
 
+omit [Finite M] in
 theorem Datum.closed_orbit (D : Datum) (hM : ∀ x : M, x ^ 2 = 1) {v : M}
     (hstab : MulAction.stabilizer Γ v = D.H₁)
     (hline : (D.hs 0 • v) * (D.hs 1 • v) * (D.hs 2 • v) = 1) {a b : M}
@@ -334,7 +341,7 @@ def Datum.orbitSubgroup (D : Datum) (hM : ∀ x : M, x ^ 2 = 1) {v : M}
     rw [this]
     exact hx
 
-def quotAction (W : Subgroup M) (hW : ∀ (g : Γ), ∀ x ∈ W, g • x ∈ W) :
+@[instance_reducible] def quotAction (W : Subgroup M) (hW : ∀ (g : Γ), ∀ x ∈ W, g • x ∈ W) :
     MulAction Γ (M ⧸ W) where
   smul g := QuotientGroup.map W W (MulDistribMulAction.toMonoidHom M g) (fun x hx => hW g x hx)
   one_smul q := by
@@ -344,10 +351,10 @@ def quotAction (W : Subgroup M) (hW : ∀ (g : Γ), ∀ x ∈ W, g • x ∈ W) 
     induction q using QuotientGroup.induction_on with
     | H x => exact congrArg QuotientGroup.mk (mul_smul g h x)
 
-theorem trivial_on_quot (hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) (W : Subgroup M)
+theorem trivial_on_quot (_hfix : ∀ x : M, (∀ g : Γ, g • x = x) → x = 1) (W : Subgroup M)
     (hW : ∀ (g : Γ), ∀ x ∈ W, g • x ∈ W) (hW8 : Nat.card W = 8) (h32 : Nat.card M ≤ 32)
     (g : Γ) (x : M) : (g • x) * x⁻¹ ∈ W := by
-  letI : MulAction Γ (M ⧸ W) := quotAction W hW
+  let : MulAction Γ (M ⧸ W) := quotAction W hW
   have hidx : W.index * 8 = Nat.card M := by
     have := W.index_mul_card
     rwa [hW8] at this
@@ -484,7 +491,7 @@ theorem card_eq_eight (hM : ∀ x : M, x ^ 2 = 1)
   have hsub : MulAction.orbit Γ x ⊆ Set.univ \ {1} := fun y hy =>
     ⟨Set.mem_univ y, orbit_ne_one hx hy⟩
   have h1 : (Set.univ \ {(1 : M)}).ncard = Nat.card M - 1 := by
-    rw [Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
+    rw [Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
   have h2 := Set.ncard_le_ncard hsub
   rw [h1] at h2
   omega

@@ -18,14 +18,17 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] def weylTwo (K : Type) [Field K] : SL(2, K) :=
   tv 0 1 (1 : K) * tv 1 0 (1 : K) * tv 0 1 (1 : K)
 
+omit [Finite K] in
 private theorem cm2_tv01 (c : K) :
     Matrix.SpecialLinearGroup.coeMonoidHom (tv 0 1 c : SL(2, K)) = !![1, c; 0, 1] := by
   rw [Matrix.SpecialLinearGroup.coeMonoidHom_apply, tv01_eq_sl2Upper, coe_sl2Upper]
 
+omit [Finite K] in
 private theorem cm2_tv10 (c : K) :
     Matrix.SpecialLinearGroup.coeMonoidHom (tv 1 0 c : SL(2, K)) = !![1, 0; c, 1] := by
   rw [Matrix.SpecialLinearGroup.coeMonoidHom_apply, tv10_eq_sl2Lower, coe_sl2Lower]
 
+omit [Finite K] in
 private theorem cm_weylTwo (hK : Nat.card K = 2) :
     Matrix.SpecialLinearGroup.coeMonoidHom (weylTwo K) = !![0, 1; 1, 0] := by
   have h2 := one_add_one_eq_zero hK
@@ -36,16 +39,19 @@ private theorem cm_weylTwo (hK : Nat.card K = 2) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [h2]
 
+omit [Finite K] in
 private theorem weylTwo_coe (hK : Nat.card K = 2) :
     ((weylTwo K : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) = !![0, 1; 1, 0] := by
   simpa only [Matrix.SpecialLinearGroup.coeMonoidHom_apply] using cm_weylTwo hK
 
+omit [Finite K] in
 theorem weylTwo_mul_self (hK : Nat.card K = 2) : weylTwo K * weylTwo K = 1 := by
   apply Matrix.SpecialLinearGroup.coeMonoidHom_injective
   rw [map_mul, map_one, cm_weylTwo hK, Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [one_add_one_eq_zero hK]
+  fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 theorem weylTwo_ne_one (hK : Nat.card K = 2) : weylTwo K ≠ 1 := by
   intro h
   have h' : ((weylTwo K : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) 1 1 = 1 := by
@@ -55,6 +61,7 @@ theorem weylTwo_ne_one (hK : Nat.card K = 2) : weylTwo K ≠ 1 := by
   rw [weylTwo_coe hK] at h'
   exact zero_ne_one h'
 
+omit [Finite K] in
 theorem tv01_ne_weylTwo (hK : Nat.card K = 2) :
     (tv 0 1 (1 : K) : SL(2, K)) ≠ weylTwo K := by
   intro h
@@ -62,6 +69,7 @@ theorem tv01_ne_weylTwo (hK : Nat.card K = 2) :
   rw [cm2_tv01, cm_weylTwo hK] at h'
   exact one_ne_zero h'
 
+omit [Finite K] in
 theorem tv10_ne_weylTwo (hK : Nat.card K = 2) :
     (tv 1 0 (1 : K) : SL(2, K)) ≠ weylTwo K := by
   intro h
@@ -69,6 +77,7 @@ theorem tv10_ne_weylTwo (hK : Nat.card K = 2) :
   rw [cm2_tv10, cm_weylTwo hK] at h'
   exact zero_ne_one h'
 
+omit [Finite K] in
 theorem eq_one_or_tv_of_mul_self (hK : Nat.card K = 2) {A : SL(2, K)} (hA : A * A = 1) :
     A = 1 ∨ A = tv 0 1 (1 : K) ∨ A = tv 1 0 (1 : K) ∨ A = weylTwo K := by
   have h01 := eq_zero_or_one_of_card_two hK
@@ -97,34 +106,32 @@ theorem eq_one_or_tv_of_mul_self (hK : Nat.card K = 2) {A : SL(2, K)} (hA : A * 
   · rcases h01 b with hb | hb <;> rcases h01 c with hc | hc
     · exfalso
       rw [ha, hb, hc] at h00'
-      simpa [h2] using h00'
+      simp at h00'
     · exfalso
       rw [ha, hb, hc] at h00'
-      simpa [h2] using h00'
+      simp at h00'
     · exfalso
       rw [ha, hb, hc] at h00'
-      simpa [h2] using h00'
+      simp at h00'
     · right; right; right
       apply Subtype.ext
-      rw [hmat, ← had, ha, hb, hc, weylTwo_coe hK] <;> ext i j <;> fin_cases i <;>
-        fin_cases j <;> simp
+      rw [hmat, ← had, ha, hb, hc, weylTwo_coe hK]
   · rcases h01 b with hb | hb <;> rcases h01 c with hc | hc
     · left
       apply Subtype.ext
-      rw [hmat, ← had, ha, hb, hc, Matrix.SpecialLinearGroup.coe_one] <;> ext i j <;>
+      rw [hmat, ← had, ha, hb, hc, Matrix.SpecialLinearGroup.coe_one]; ext i j;
         fin_cases i <;> fin_cases j <;> simp
     · right; right; left
       apply Subtype.ext
-      rw [hmat, ← had, ha, hb, hc, tv10_eq_sl2Lower, coe_sl2Lower] <;> ext i j <;>
-        fin_cases i <;> fin_cases j <;> simp
+      rw [hmat, ← had, ha, hb, hc, tv10_eq_sl2Lower, coe_sl2Lower]
     · right; left
       apply Subtype.ext
-      rw [hmat, ← had, ha, hb, hc, tv01_eq_sl2Upper, coe_sl2Upper] <;> ext i j <;>
-        fin_cases i <;> fin_cases j <;> simp
+      rw [hmat, ← had, ha, hb, hc, tv01_eq_sl2Upper, coe_sl2Upper]
     · exfalso
       rw [ha, hb, hc] at h00'
-      simpa [h2] using h00'
+      simp [h2] at h00'
 
+omit [Finite K] in
 theorem invTransposeSL_weylTwo (hK : Nat.card K = 2) :
     invTransposeSL 2 (weylTwo K) = weylTwo K := by
   have hinv : (weylTwo K)⁻¹ = weylTwo K := inv_eq_of_mul_eq_one_right (weylTwo_mul_self hK)
@@ -133,6 +140,7 @@ theorem invTransposeSL_weylTwo (hK : Nat.card K = 2) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem cm_blk_zero_weylTwo (hK : Nat.card K = 2) :
     Matrix.SpecialLinearGroup.coeMonoidHom (blk K 0 (weylTwo K)) =
       !![0, 1, 0; 1, 0, 0; 0, 0, 1] := by
@@ -142,6 +150,7 @@ private theorem cm_blk_zero_weylTwo (hK : Nat.card K = 2) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [weylTwo_coe hK]
 
+omit [Finite K] in
 private theorem cm_blk_one_weylTwo (hK : Nat.card K = 2) :
     Matrix.SpecialLinearGroup.coeMonoidHom (blk K 1 (weylTwo K)) =
       !![1, 0, 0; 0, 0, 1; 0, 1, 0] := by
@@ -151,6 +160,7 @@ private theorem cm_blk_one_weylTwo (hK : Nat.card K = 2) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [weylTwo_coe hK]
 
+omit [Finite K] in
 private theorem cm_tv02 :
     Matrix.SpecialLinearGroup.coeMonoidHom (tv 0 2 (1 : K) : SL(3, K)) =
       !![1, 0, 1; 0, 1, 0; 0, 0, 1] := by
@@ -159,6 +169,7 @@ private theorem cm_tv02 :
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem cm_tv20 :
     Matrix.SpecialLinearGroup.coeMonoidHom (tv 2 0 (1 : K) : SL(3, K)) =
       !![1, 0, 0; 0, 1, 0; 1, 0, 1] := by
@@ -167,10 +178,12 @@ private theorem cm_tv20 :
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem blk_weylTwo_mul_self (hK : Nat.card K = 2) (s : Fin 2) :
     blk K s (weylTwo K) * blk K s (weylTwo K) = 1 := by
   rw [← map_mul, weylTwo_mul_self hK, map_one]
 
+omit [Finite K] in
 private theorem Bs_zero_le_closure_rev_weylTwo (hK : Nat.card K = 2) :
     Bs K 0 ≤ Subgroup.closure ((Bs K 1 : Set SL(3, K)) ∪ {blk K 0 (weylTwo K)}) := by
   let H := Subgroup.closure ((Bs K 1 : Set SL(3, K)) ∪ {blk K 0 (weylTwo K)})
@@ -228,6 +241,7 @@ private theorem Bs_zero_le_closure_rev_weylTwo (hK : Nat.card K = 2) :
     · exact hcv
   exact range_le_of_tv (blk K 0) H hu hv
 
+omit [Finite K] in
 private theorem Bs_one_le_closure_rev_weylTwo (hK : Nat.card K = 2) :
     Bs K 1 ≤ Subgroup.closure ((Bs K 0 : Set SL(3, K)) ∪ {blk K 1 (weylTwo K)}) := by
   let H := Subgroup.closure ((Bs K 0 : Set SL(3, K)) ∪ {blk K 1 (weylTwo K)})
@@ -285,6 +299,7 @@ private theorem Bs_one_le_closure_rev_weylTwo (hK : Nat.card K = 2) :
     · exact hcv
   exact range_le_of_tv (blk K 1) H hu hv
 
+omit [Finite K] in
 theorem Bs_le_closure_rev_weylTwo (hK : Nat.card K = 2) (s : Fin 2) :
     Bs K s ≤ Subgroup.closure ((Bs K s.rev : Set SL(3, K)) ∪ {blk K s (weylTwo K)}) := by
   have hs : s = 0 ∨ s = 1 := by

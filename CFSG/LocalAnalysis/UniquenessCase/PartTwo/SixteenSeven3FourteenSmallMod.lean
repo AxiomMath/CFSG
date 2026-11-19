@@ -85,8 +85,8 @@ theorem s16c1614_altDn_seven_faithful (γ : ↥(alternatingGroup (Fin 7))) (hγ 
     have hya : Multiplicative.toAdd
         ((Multiplicative.ofAdd v)⁻¹ * G6.permAct 7 σ (Multiplicative.ofAdd v)) a = 1 := by
       rw [toAdd_mul, toAdd_inv, Pi.add_apply, Pi.neg_apply, G6.permAct_apply, hb]
-      simp only [toAdd_ofAdd, v, Pi.add_apply, Pi.single_apply, hca.symm, ha, hcb.symm, if_true,
-        if_false]
+      simp only [toAdd_ofAdd, v, Pi.add_apply, Pi.single_apply, hca.symm, ha, hcb.symm, ite_true,
+        ite_false]
       decide
     have hk1 : k • (1 : ZMod 2) = 1 := by
       have h : Multiplicative.toAdd ((G6.allOnes 7) ^ k) a = 1 :=

@@ -26,7 +26,7 @@ theorem exists_sylow_of_bstarUnique {p : ℕ} (hp : p.Prime) {M Bs : Subgroup G}
   have hBsp : IsPGroup p Bs := fun b => ⟨1, Subtype.ext (by simpa using hBs.2 b b.2)⟩
   obtain ⟨Q, hQ⟩ := (hBsp.comap_of_injective M.subtype M.subtype_injective).exists_le_sylow
   have hPM : (Q : Subgroup ↥M).map M.subtype ≤ M := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p ((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup'.map M.subtype
+  have hPp : IsPGroup p ((Q : Subgroup ↥M).map M.subtype) := Q.isPGroup.map M.subtype
   have hBsP : Bs ≤ (Q : Subgroup ↥M).map M.subtype := fun b hb => ⟨⟨b, hBsM hb⟩, hQ hb, rfl⟩
   have hmaxM : ∀ R : Subgroup G, R ≤ M → IsPGroup p R →
       (Q : Subgroup ↥M).map M.subtype ≤ R → R = (Q : Subgroup ↥M).map M.subtype := by

@@ -36,8 +36,8 @@ theorem T3Parab.of_normalized (h : ThreeNat A L T) {P : Subgroup (MulAut W)} {a 
   have hInf : T ⊓ P = T ⊓ L :=
     le_antisymm (inf_le_inf_left T hPL) (le_inf inf_le_left hTL)
   have hcardJ : Nat.card (T ⊔ P : Subgroup (MulAut W)) = 3 ^ a * Nat.card ↥T := by
-    haveI : (P.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnorm
-    haveI : (P.subgroupOf (T ⊔ P)).Normal :=
+    have : (P.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnorm
+    have : (P.subgroupOf (T ⊔ P)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hTnorm
     have hformula : Nat.card (T ⊔ P : Subgroup (MulAut W)) *
         Nat.card (T ⊓ P : Subgroup (MulAut W)) = Nat.card ↥T * Nat.card ↥P := by
@@ -61,7 +61,7 @@ theorem T3Parab.of_normalized (h : ThreeNat A L T) {P : Subgroup (MulAut W)} {a 
   intro x hxJ n hxn
   have hxP : x ∈ P := by
     let J : Subgroup (MulAut W) := T ⊔ P
-    haveI : (P.subgroupOf J).Normal :=
+    have : (P.subgroupOf J).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hTnorm
     let q : ↥J →* J ⧸ P.subgroupOf J := QuotientGroup.mk' (P.subgroupOf J)
     let xJ : ↥J := ⟨x, hxJ⟩
@@ -69,7 +69,7 @@ theorem T3Parab.of_normalized (h : ThreeNat A L T) {P : Subgroup (MulAut W)} {a 
       rw [← map_pow]
       rw [show xJ ^ 3 ^ n = 1 from Subtype.ext (by simpa using hxn), map_one]
     have hqJ : IsPGroup 2 (J ⧸ P.subgroupOf J) := by
-      haveI : (P.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnorm
+      have : (P.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTnorm
       exact (h.sylow.isPGroup.to_quotient (P.subgroupOf T)).of_equiv
         (QuotientGroup.quotientInfEquivProdNormalizerQuotient T P hTnorm)
     obtain ⟨k, hk⟩ := hqJ (q xJ)

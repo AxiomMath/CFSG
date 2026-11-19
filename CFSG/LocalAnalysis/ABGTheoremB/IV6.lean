@@ -48,7 +48,7 @@ private theorem subset_normalizer_mul_of_isSylowOf [Finite G] {p : ℕ} [Fact p.
 
 private theorem isSylowOf_of_sylow_le [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylow p G)
     {K : Subgroup G} (hPK : (P : Subgroup G) ≤ K) : IsSylowOf p (P : Subgroup G) K :=
-  isSylowOf_iff.mpr ⟨hPK, P.isPGroup', fun hdvd =>
+  isSylowOf_iff.mpr ⟨hPK, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPK))⟩
 
 private theorem dvd_card_of_isSylowOf_of_dvd [Finite G] {p : ℕ} [Fact p.Prime] {P K : Subgroup G}
@@ -165,7 +165,7 @@ theorem isSylowOf_oddCoreIn_normalizer_of_mem_familyL (hσ : σ.IsValid)
     exact (Subgroup.centralizer_le fun y hy => hXR hy).trans
       (Subgroup.centralizer_le_normalizer _)
   have hKL := σ.normalizer_mem_familyL hσ hr hdiv hR hRD
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hRK : R ≤ oddCoreIn (Subgroup.normalizer (R : Set G)) :=
     le_oddCoreIn Subgroup.le_normalizer le_rfl (odd_card_of_isPGroup hr hr2 hR.isPGroup)
   obtain ⟨R', hR', hRR', hR'D⟩ := exists_isSylowOf_normalized_ge_of_odd hr hD2
@@ -221,7 +221,7 @@ theorem propIV61 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (h32 : σ.LemmaIV3
   have hr2 : r ≠ 2 := σ.prime_ne_two_of_dvd_ON hr hdiv
   obtain ⟨-, -, -, ⟨P₂, hP₂⟩, -, R, hR, hRD, hRH⟩ := σ.familyL_properties hσ hII hr hdiv hH
   have hDH : σ.D ≤ H := hH.2.2.1
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨Rs, hRs, hRRs, hRsD⟩ := exists_isSylowOf_normalized_ge_of_odd hr hD2
     (hDH.trans (le_normalizer_oddCoreIn H)) (odd_card_oddCoreIn H) hRH hR.isPGroup hRD
   rcases hRRs.lt_or_eq with hlt | hReq
@@ -254,7 +254,7 @@ theorem propIV62 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) : σ.PropIV62 := b
   obtain ⟨-, hfac, -, -, ⟨hON, -⟩, RN, hRN, hRND, hRNH⟩ :=
     σ.familyL_properties hσ hII hr hdiv hH
   have hDH : σ.D ≤ H := hH.2.2.1
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hxD : σ.x ∈ σ.D := σ.T_le_D hσ σ.x_mem_T
   have hDO : σ.D ≤ Subgroup.normalizer (oddCoreIn H : Set G) :=
     hDH.trans (le_normalizer_oddCoreIn H)
@@ -321,7 +321,7 @@ theorem corIV61 (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (h61 : σ.PropIV61)
   have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := σ.prime_ne_two_of_dvd_ON hr hdiv
   have hDH : σ.D ≤ H := hH.2.2.1
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hOH : oddCoreIn H ≠ ⊥ := oddCoreIn_ne_bot_of_isPLocal hr hr2 hH.1
   set Z := CFSG.thompsonCenter Rs with hZ
   set M := pPrimeCoreIn r H with hM

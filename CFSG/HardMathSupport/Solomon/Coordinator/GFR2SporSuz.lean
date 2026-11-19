@@ -64,7 +64,7 @@ private theorem mem_zpowers_cases_of_pow_three {G : Type*} [Group G] {a b : G} (
   obtain h | h | h : k % 3 = 0 ∨ k % 3 = 1 ∨ k % 3 = 2 := by omega
   · left; rw [h]; simp
   · right; left; rw [h]; simp
-  · right; right; rw [h]; simp [zpow_two, sq]
+  · right; right; rw [h]; simp [sq]
 
 private theorem commutator_eq_top_of_mulEquiv_suz {X X' : Type*} [Group X] [Group X']
     (f : X ≃* X') (h : commutator X = ⊤) : commutator X' = ⊤ := by
@@ -178,7 +178,7 @@ private theorem fuseCheckG_sound {tab ts ns : Array (Array ℕ)} {xA y x1 : Arra
 private theorem permsA_two_suz {n : ℕ} {gs : Array (Array ℕ)} (h : gs.size = 2) :
     permsA n gs = {permOfArr n gs[0]!, permOfArr n gs[1]!} := by
   ext x
-  simp only [permsA, h, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, h, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
@@ -212,7 +212,7 @@ private theorem pairCheckG_sound {xA : Array ℕ} {X : Equiv.Perm (Fin 1782)} (h
     have h1 : permOfArr 1782 gs[k]! ≠ 1 := fun h1 => by
       rw [(eqA_iff hrep rep_idA).2 h1] at hne
       exact absurd hne (by decide)
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime h5 h1
   obtain ⟨o0, m0, c0⟩ := hone 0 (by norm_num)
   obtain ⟨o1, m1, c1⟩ := hone 1 (by norm_num)
@@ -342,7 +342,7 @@ private theorem card_suzFiveQ_sylow :
 private theorem exists_conj_into_C {s g : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM) (hg : g ∈ suzM)
     (hg5 : orderOf g = 5) (hcomm : g * s = s * g) :
     ∃ h ∈ suzM, ∃ i : Fin 6, h * s * h⁻¹ ∈ suzFiveC i := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set E : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.zpowers g with hE
   have hEP : E ≤ suzM := (Subgroup.zpowers_le).2 hg
   have hEcard : Nat.card E = 5 := by rw [hE, Nat.card_zpowers, hg5]
@@ -388,7 +388,7 @@ private theorem exists_rep_of_mem_C {i : Fin 6} {s : Equiv.Perm (Fin 1782)} (hs 
 private theorem no_order25_centralized {s : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM)
     (hs3 : orderOf s = 3) {E : Subgroup (Equiv.Perm (Fin 1782))} (hEP : E ≤ suzM)
     (hE : Nat.card E = 25) (hcomm : ∀ e ∈ E, e * s = s * e) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hEG : IsPGroup 5 (E.subgroupOf suzM) := by
     refine IsPGroup.of_card (n := 2) ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEP).toEquiv, hE]
@@ -439,7 +439,7 @@ private theorem not_25_dvd_centralizer {s : Equiv.Perm (Fin 1782)} (hs : s ∈ s
     ¬ 25 ∣ Nat.card (Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 1782))) ⊓ suzM :
       Subgroup (Equiv.Perm (Fin 1782))) := by
   intro hd
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.centralizer ({s} : Set _) ⊓ suzM with hC
   obtain ⟨E, hE⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥C) 5 (n := 2) (by simpa using hd)
   refine no_order25_centralized hs hs3 (E := E.map C.subtype) ?_ ?_ ?_
@@ -458,7 +458,7 @@ private theorem classes_of_order_three {s : Equiv.Perm (Fin 1782)} (hs : s ∈ s
   by_cases h5 : 5 ∣ Nat.card (Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 1782))) ⊓ suzM :
       Subgroup (Equiv.Perm (Fin 1782)))
   · right
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({s} :
       Set (Equiv.Perm (Fin 1782))) ⊓ suzM : Subgroup (Equiv.Perm (Fin 1782)))) 5 h5
     have hxc := Subgroup.mem_inf.1 x.2
@@ -493,7 +493,7 @@ section Components
 
 
 private theorem xA_ord : orderOf xA = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime fuse_facts.2.2.1 fuse_facts.2.2.2.1
 
 private theorem yPerm_ne_one : yPerm ≠ 1 := fun h1 => by
@@ -502,7 +502,7 @@ private theorem yPerm_ne_one : yPerm ≠ 1 := fun h1 => by
   exact absurd this (by decide)
 
 private theorem yPerm_ord : orderOf yPerm = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime yPerm_pow yPerm_ne_one
 
 private theorem card_Cy : Nat.card (Subgroup.centralizer ({yPerm} : Set (Equiv.Perm (Fin 1782))) ⊓
@@ -587,7 +587,7 @@ private theorem reflect_y {K : Subgroup (Equiv.Perm (Fin 1782))}
     (Subgroup.closure_le K).2 hTK
   have heq : Subgroup.closure ({u, v} : Set (Equiv.Perm (Fin 1782))) = K :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [hcardK, hD])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨A, heq ▸ hAD, B, heq ▸ hBD, G, hG, hAB, orderOf_eq_prime hA3 hA1,
     orderOf_eq_prime hB3 hB1, fun hmem => ?_, hGA, hGB⟩
   rcases mem_zpowers_cases_of_pow_three hA3 hmem with h | h | h
@@ -628,7 +628,7 @@ private theorem reflect_P {s : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM) (hs3 : o
       exact ⟨(K.equivMapOfInjective _ (MulAut.conj k⁻¹).injective).symm.trans e⟩)).elim
   · set φ : Equiv.Perm (Fin 1782) →* Equiv.Perm (Fin 1782) := (MulAut.conj k⁻¹).toMonoidHom with hφ
     have hφinj : Function.Injective φ := (MulAut.conj k⁻¹).injective
-    have hφx : ∀ x, φ x = k⁻¹ * x * k := fun x => by simp [hφ, MulAut.conj_apply]
+    have hφx : ∀ x, φ x = k⁻¹ * x * k := fun x => by simp [hφ]
     obtain ⟨a₀, ha₀, b₀, hb₀, g₀, hg₀, hab, ha3, hb3, hba, hga, hgb⟩ := reflect_y
       (conj_component hk hK) (by
         obtain ⟨e⟩ := h
@@ -743,7 +743,7 @@ theorem sporNoPumpup_Suz
     (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) : SporNoPumpup .Suz := by
   let φ : (TauCeti.CFSGIndex.sporadic .Suz).Group ≃* ↥suzM :=
     (hbr .Suz).some.symm.trans suzEquivM
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Suz).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Suz).Group :=
     Finite.of_equiv ↥suzM φ.symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [← Nat.card_congr (hbr .Suz).some.toEquiv]

@@ -20,10 +20,10 @@ theorem ggRC_fixed_vector_of_diag {p : ℕ} [Fact p.Prime] {W : Type} [AddCommGr
     (hΔn : ∀ a ∈ A, ∀ d ∈ Δ, a * d * a⁻¹ ∈ Δ) (hΔp : ¬ p ∣ Nat.card Δ)
     (hUΔ : ∀ u ∈ U, (∀ d ∈ Δ, d u = u) → u = 0) :
     ∃ w : W, w ∉ U ∧ ∀ a ∈ A, a w = w := by
-  obtain ⟨w₀, hw₀⟩ := SetLike.exists_not_mem_of_ne_top U hU
+  obtain ⟨w₀, hw₀⟩ := SetLike.exists_notMem_of_ne_top U hU
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype Δ := Fintype.ofInjective
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype Δ := Fintype.ofInjective
     (fun d : Δ => ((d : W ≃ₗ[ZMod p] W) : W → W))
     (fun d₁ d₂ h => Subtype.ext (LinearEquiv.ext (fun x => congrFun h x)))
   have hΔp' : ¬ p ∣ Fintype.card Δ := by
@@ -81,7 +81,7 @@ theorem ggRC_fixed_vector_of_diag {p : ℕ} [Fact p.Prime] {W : Type} [AddCommGr
       · intro y
         refine ⟨⟨d⁻¹ * (y : W ≃ₗ[ZMod p] W), Δ.mul_mem (Δ.inv_mem hd) y.2⟩, ?_⟩
         apply Subtype.ext
-        simp only [Subtype.coe_mk]
+        simp only
         group
     have h := hbij.sum_comp (fun x : Δ => (x : W ≃ₗ[ZMod p] W) w₀)
     simpa [LinearEquiv.mul_apply] using h

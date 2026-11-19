@@ -32,7 +32,7 @@ theorem eq_bot_of_perfect_of_le_centralizer {H : Type*} [Group H] [Finite H]
     have := (hF.trans (le_of_eq (by rw [hFs]))).trans (CFSG.centralizer_generalizedFitting_le H)
     rwa [hFs] at this
   refine CFSG.GH74.Generic.BProg.B3.S3Sec29I.eq_bot_of_perfect_of_solvable hK ?_
-  exact solvable_of_solvable_injective (f := Subgroup.inclusion hKF)
+  exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKF)
     (Subgroup.inclusion_injective hKF)
 
 theorem centralizer_oTwo_quotient_pPrimeCore_le_of_layer {H : Type*} [Group H] [Finite H]
@@ -45,9 +45,9 @@ theorem centralizer_oTwo_quotient_pPrimeCore_le_of_layer {H : Type*} [Group H] [
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := CFSG.pPrimeCore 2 H with hR
-  haveI : R.Normal := CFSG.pPrimeCore_normal
+  have : R.Normal := CFSG.pPrimeCore_normal
   set P := CFSG.pCore 2 H with hP
-  haveI : P.Normal := CFSG.pCore_normal
+  have : P.Normal := CFSG.pCore_normal
   set π : H →* H ⧸ R := QuotientGroup.mk' R with hπ
   rw [← pCore_two_eq_oTwo]
   set CP := Subgroup.centralizer (P : Set H) with hCP
@@ -64,7 +64,7 @@ theorem centralizer_oTwo_quotient_pPrimeCore_le_of_layer {H : Type*} [Group H] [
     exact (Subgroup.map_eq_bot_iff_of_injective _ CP.subtype_injective).mp h0
   have hPR : P ⊓ R = ⊥ := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := H))
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hk]
     exact Nat.Coprime.pow_left k CFSG.pPrimeCore_coprime_card
   have hPQ : P.map π ≤ CFSG.pCore 2 (H ⧸ R) :=
@@ -94,11 +94,11 @@ theorem centralizer_oTwo_quotient_pPrimeCore_le_of_layer {H : Type*} [Group H] [
     calc u * x = (u * x * u⁻¹ * x⁻¹) * (x * u) := by group
       _ = x * u := by rw [hc1, one_mul]
   have hNs : Group.IsSolvable ↥Nc := by
-    haveI : Group.IsSolvable ↥(π.comp CP.subtype).range :=
-      solvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hN)
-  haveI : (CFSG.pCore 2 (H ⧸ R)).Normal := CFSG.pCore_normal
-  haveI : Nc.Normal := Subgroup.normal_centralizer
+    have : Group.IsSolvable ↥(π.comp CP.subtype).range :=
+      Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hN)
+  have : (CFSG.pCore 2 (H ⧸ R)).Normal := CFSG.pCore_normal
+  have : Nc.Normal := Subgroup.normal_centralizer
   have hQ0 : CFSG.pPrimeCore 2 (H ⧸ R) = ⊥ := CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 2
   have hN0 : CFSG.pPrimeCore 2 ↥Nc = ⊥ := by
     have hle : (CFSG.pPrimeCore 2 ↥Nc).map Nc.subtype ≤ CFSG.pPrimeCore 2 (H ⧸ R) := by
@@ -140,7 +140,7 @@ theorem core168At_of_layer {A : Subgroup G} {Y₀ : Subgroup G}
   have hperf : ∀ K : Subgroup ↥Ŷ, ⁅K, K⁆ = K → ∀ r : ℕ, r.Prime → r ≠ 2 →
       K ≤ Subgroup.centralizer (CFSG.pCore r ↥Ŷ : Set ↥Ŷ) := by
     intro K hK r hr hr2
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hK' : ⁅K.map Ŷ.subtype, K.map Ŷ.subtype⁆ = K.map Ŷ.subtype := by
       rw [← Subgroup.map_commutator, hK]
     have hc := le_centralizer_pCoreOf_of_perfect hG hŶ (Subgroup.map_subtype_le K) hK' hr hr2
@@ -173,7 +173,7 @@ theorem core168At_of_layer {A : Subgroup G} {Y₀ : Subgroup G}
       Nat.Coprime.pow_left k CFSG.pPrimeCore_coprime_card
     have key := commute_pPrimeCore_of_commute_pCore hgk hcop (by
       intro p hp hp2 x hx
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hxG : (x : G) ∈ CFSG.Open.pCoreOf p Ŷ := by
         refine ⟨x, ?_, rfl⟩
         rw [← CFSG.pCore_eq_open]

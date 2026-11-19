@@ -25,7 +25,7 @@ open CFSG.Blueprint.Chevalley (TwistTag)
 private theorem kd91_cube_roots_cyclic {G : Type} [Group G] [Finite G] [IsCyclic G] {σ x : G}
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hx : x ^ 3 = 1) : x = 1 ∨ x = σ ∨ x = σ ^ 2 := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hσ2 : σ ^ 2 ≠ 1 := by
     intro h
     apply hσ1
@@ -71,7 +71,7 @@ private theorem kd91_frob_ne_one {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) {K : 
     have := congrArg (fun τ : K ≃+* K => τ c) h1
     simpa [hσ] using this
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hQ : 1 < p ^ f := Nat.one_lt_pow (by omega) hp.one_lt
   have hdeg : (Polynomial.X ^ (p ^ f) - Polynomial.X : Polynomial K).natDegree = p ^ f :=
     FiniteField.X_pow_card_sub_X_natDegree_eq K hQ
@@ -157,8 +157,8 @@ private theorem kd91_coset {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (K : Type) 
     ∃ (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (δ : K ≃+* K),
       (δ = σ ∨ δ = σ ^ 2) ∧ MulAut.conj g * β = fieldActor (t := TwistTag.D4) σ δ := by
   obtain ⟨hdec, ⟨Θ, hΘ⟩, hcyc⟩ := kd91_normal_form hp hf K hK σ hσ
-  haveI := hcyc
-  haveI : Finite (K ≃+* K) :=
+  have := hcyc
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (fun a b h => RingEquiv.ext fun x => congrFun h x)
   obtain ⟨g₀, δ₀, hβ⟩ := hdec β
   have h3 : δ₀ ^ 3 = 1 := by
@@ -179,8 +179,8 @@ private theorem kd91_fixSubgroup_G2 {q : TauCeti.PrimePower}
     {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ (q.p ^ q.exponent)) :
     Nonempty (↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) ≃*
       TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (K ≃+* K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (fun a b h => RingEquiv.ext fun x => congrFun h x)
   have hq3 : 3 ≤ q.card :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -313,7 +313,7 @@ private theorem kd91_clause_c {T : Type} [Group T] [Finite T] {q : TauCeti.Prime
     IsSimpleGroup T ∧ (∃ a b : T, a * b ≠ b * a) ∧ 3 ∣ Nat.card T := by
   have hsimple : IsSimpleGroup T := (MulEquiv.isSimpleGroup_congr eT).2
     (CFSG.Assembly.lie_finite_simple ⟨.G2 q, hv⟩).2
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card _ _ q.exponent_pos.ne'
   have hq3' : 3 ≤ q.card := by omega
@@ -333,7 +333,7 @@ private theorem kd91_clause_c {T : Type} [Group T] [Finite T] {q : TauCeti.Prime
   have h3sq : 3 ∣ q.card ^ 2 - 1 := by
     have hmod : q.card % 3 = 1 ∨ q.card % 3 = 2 := by omega
     have hsq : q.card ^ 2 % 3 = 1 := by
-      rcases hmod with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+      rcases hmod with h | h <;> rw [Nat.pow_mod, h]
     generalize q.card ^ 2 = M at hsq ⊢
     omega
   have h3 : 3 ∣ Nat.card T := by
@@ -342,7 +342,7 @@ private theorem kd91_clause_c {T : Type} [Group T] [Finite T] {q : TauCeti.Prime
   have hnab : ∃ a b : T, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative T := ⟨⟨fun a b => hcon a b⟩⟩
+    have : IsMulCommutative T := ⟨⟨fun a b => hcon a b⟩⟩
     have hprime : (Nat.card T).Prime := Group.is_simple_iff_prime_card.1 hsimple
     rw [hord] at hprime
     have h9 : 9 ≤ q.card ^ 2 := le_trans (by norm_num) (Nat.pow_le_pow_left hq3' 2)

@@ -50,7 +50,7 @@ open CFSG.BenderSuzuki.MatrixGroups
 theorem exists_pow_eq_one_of_mem_escapingSylowImage {G : Type} [Group G] {S : Sylow 2 G} {z : G}
     {w : EscapingQuotient z} (hw : w ∈ escapingSylowImage S z) : ∃ a : ℕ, w ^ 2 ^ a = 1 := by
   have hP : IsPGroup 2 (escapingSylowImage S z) :=
-    (S.isPGroup'.comap_subtype (K := Subgroup.centralizer ({z} : Set G))).map _
+    (S.isPGroup.comap_subtype (K := Subgroup.centralizer ({z} : Set G))).map _
   obtain ⟨a, ha⟩ := hP ⟨w, hw⟩
   exact ⟨a, by simpa using congrArg Subtype.val ha⟩
 

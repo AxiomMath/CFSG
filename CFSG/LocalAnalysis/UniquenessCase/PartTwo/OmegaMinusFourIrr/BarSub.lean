@@ -46,6 +46,7 @@ private theorem stableUnder_imgTil_O03 {V₀ V : Subgroup G} (hV : IsElemAbelian
   rw [actStab_apply_val]
   simpa using (Subgroup.mem_normalizer_iff''.1 (hLU (L.inv_mem hgL)) x.val).1 hxU
 
+omit [Finite G] in
 theorem irrOn_of_isIrrOn_barSub {L A : Subgroup G} (hA : IsElemAbelian 2 A)
     (hirr : IsIrrOn (barSub ⊥ A hA L) ⊤ ⊥) :
     UC22.IrrOn L A := by

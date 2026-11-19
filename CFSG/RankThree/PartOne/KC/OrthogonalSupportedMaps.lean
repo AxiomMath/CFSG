@@ -190,7 +190,7 @@ theorem nondegenerate_comap_of_le {A B : Submodule K V} (hAB : A ≤ B)
       (polarBilin ((Q.comp B.subtype).comp (A.comap B.subtype).subtype)) =
       polarBilin (Q.comp A.subtype) := by
     ext x y
-    simp only [LinearMap.BilinForm.congr_apply, polar_comp_subtype_eq]
+    simp only [LinearMap.BilinForm.congr_apply]
     rfl
   have h1 : (LinearMap.BilinForm.congr e
       (polarBilin ((Q.comp B.subtype).comp (A.comap B.subtype).subtype))).Nondegenerate := by
@@ -363,10 +363,10 @@ theorem map_supportedDerived_autCongr_of_map_eq
         ext x
         rw [LinearEquiv.autCongr_symm_apply_apply, LinearEquiv.autCongr_apply_apply]
         rfl
-      haveI : RingHomInvPair ((σ.symm).symm : K →+* K) (σ.symm : K →+* K) := by
+      have : RingHomInvPair ((σ.symm).symm : K →+* K) (σ.symm : K →+* K) := by
         rw [RingEquiv.symm_symm]
         exact hpair1
-      haveI : RingHomInvPair (σ.symm : K →+* K) ((σ.symm).symm : K →+* K) := by
+      have : RingHomInvPair (σ.symm : K →+* K) ((σ.symm).symm : K →+* K) := by
         rw [RingEquiv.symm_symm]
         exact hpair2
       rw [heq]
@@ -379,10 +379,10 @@ theorem map_supportedDerived_isometryEquiv (e : Q1.IsometryEquiv Q2)
     (supportedDerived Q1 R).map
         (LinearEquiv.autCongr e.toLinearEquiv).toMonoidHom =
       supportedDerived Q2 (R.map e.toLinearEquiv.toLinearMap) := by
-  letI : RingHomInvPair ((RingEquiv.refl K : K ≃+* K) : K →+* K)
+  let : RingHomInvPair ((RingEquiv.refl K : K ≃+* K) : K →+* K)
       (((RingEquiv.refl K : K ≃+* K).symm : K →+* K)) :=
     RingHomInvPair.of_ringEquiv (RingEquiv.refl K)
-  letI : RingHomInvPair (((RingEquiv.refl K : K ≃+* K).symm : K →+* K))
+  let : RingHomInvPair (((RingEquiv.refl K : K ≃+* K).symm : K →+* K))
       ((RingEquiv.refl K : K ≃+* K) : K →+* K) :=
     RingHomInvPair.of_ringEquiv_symm (RingEquiv.refl K)
   have hQ : ∀ v : V1, Q2 (e.toLinearEquiv v) = (1 : K) * (RingEquiv.refl K) (Q1 v) := by

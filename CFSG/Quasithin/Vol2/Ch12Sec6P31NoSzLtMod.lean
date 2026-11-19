@@ -85,7 +85,7 @@ theorem false_of_szEnd_grp [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (hSzE : SzEnd)
     (hsum : IsSumMod (fixV Mp) (commV L) ((commV L).map t.toMonoidHom) ⊤) {f : ℕ}
     (hSz : BinaryNaturalSz L (commV L) (commV L ⊓ fixV Mp) f) : False := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hQ : ∀ e ∈ E, ∀ w : W, ρ e w * w⁻¹ ∈ fixV Mp := fun e he =>
     trivial_mod_fix hSzE (hE3 e he) (hEMp e he) hLMp htL htMp htMp' hsum hSz
   have hall : ∀ w : W, w ∈ fixV Mp := by

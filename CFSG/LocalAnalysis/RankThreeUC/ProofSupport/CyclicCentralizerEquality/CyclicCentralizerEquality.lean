@@ -7,7 +7,7 @@ public section
 
 namespace CFSG.LocalAnalysis.RankThreeUC.ProofSupport.CyclicCentralizerEquality
 
-theorem eq_of_cyclic_exponent_prime {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
+theorem eq_of_cyclic_exponent_prime {G : Type*} [Group G] [Finite G] {p : ℕ} (_hp : p.Prime)
     {X C : Subgroup G} (hXC : X ≤ C) (hcyc : IsCyclic C) (hexp : ∀ c ∈ C, c ^ p = 1)
     (hX : Nat.card X = p) : C = X := by
   obtain ⟨c, hc⟩ := hcyc.exists_generator

@@ -21,7 +21,7 @@ theorem three_lt_card {Y : Subgroup G} {F : Type} [Field F] [Finite F]
     (eY : ↥Y ⧸ classicalInvolutionOddCore ↥Y ≃* SL(2, F)) (h3 : 3 ≤ Nat.card F)
     (h16 : 16 ≤ Nat.card ↥((S : Subgroup G) ⊓ Y)) : 3 < Nat.card F := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (S.isPGroup'.to_le inf_le_left :
+  obtain ⟨k, hk⟩ := (S.isPGroup.to_le inf_le_left :
     IsPGroup 2 ↥((S : Subgroup G) ⊓ Y)).exists_card_eq
   have hk4 : 4 ≤ k := by
     by_contra h
@@ -141,7 +141,7 @@ theorem exists_mem_derived (hd : Sec19DataT p f K z S W L t V) {a : G}
   obtain ⟨y', hy'D, hy'n⟩ : n ∈ (⁅⁅T₃, T₃⁆, ⁅T₃, T₃⁆⁆).map π := hD ▸ hnD
   set zYa : ↥(sec19Y K z ⊓ Subgroup.centralizer ({a} : Set G)) := ⟨z, hzZ.mem.2, hzA⟩ with hzYa
   have hbot : W ⊓ sec19Y K z ⊓ oddCoreOf (sec19Y K z) = ⊥ :=
-    S1916.inf_oddCoreOf_eq_bot (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) _
+    S1916.inf_oddCoreOf_eq_bot (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) _
   have hπz : (((π zYa : ↥(S1911.slFix eY ⟨a, haN⟩)) : SL(2, GaloisField p' (2 * e₂))) :
       Matrix (Fin 2) (Fin 2) (GaloisField p' (2 * e₂))) = -1 := by
     refine CFSG.LinearGroups.SL2_coe_eq_neg_one_of_sq h2' _ ?_ ?_

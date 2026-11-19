@@ -23,7 +23,7 @@ theorem eq_of_isSwap_commute_three {σ τ : Equiv.Perm (Fin 3)} (hσ : σ.IsSwap
   simp at this
 
 theorem noSqE1_of_pair_perm_three {G : Type} [Group G] {D : Set G}
-    (hP : Pair G D) (φ : G ≃* Equiv.Perm (Fin 3)) (hφ : ∀ g, g ∈ D ↔ (φ g).IsSwap) :
+    (_hP : Pair G D) (φ : G ≃* Equiv.Perm (Fin 3)) (hφ : ∀ g, g ∈ D ↔ (φ g).IsSwap) :
     CFSG.RankThree.GF2n.Tim79a.NoSqE1 D := by
   intro d hd
   have hcen : CFSG.RankThree.GF2n.Tim79a.cenGen D d = Subgroup.zpowers d := by

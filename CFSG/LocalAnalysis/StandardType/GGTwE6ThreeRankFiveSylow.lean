@@ -76,7 +76,7 @@ theorem exists_conj_le_xHat {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f) (K : T
       X.map (MulAut.conj (k * g⁻¹ * r)).toMonoidHom ≤
         xHat Tag.E6 Ω modelHomE6.range ⊓ TwistedDiag.thetaFixed Fr := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hℓ : ℓ.Prime := Fact.out
   have hq2 : 2 ≤ ℓ ^ f := by
     calc 2 ≤ ℓ := hℓ.two_le
@@ -85,7 +85,7 @@ theorem exists_conj_le_xHat {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f) (K : T
   have hq0 : ((ℓ ^ f : ℕ) : Ω) = 0 := by
     rw [Nat.cast_pow, CharP.cast_eq_zero Ω ℓ, zero_pow (by omega)]
   obtain ⟨hfinR, -, -, -, hRnum⟩ := cgrp_facts hf K hK σ hσ h3 Ω Fr hFr
-  haveI : Finite (TwistedDiag.Rgrp Ω Fr) := hfinR
+  have : Finite (TwistedDiag.Rgrp Ω Fr) := hfinR
   let φ : TwistedDiag.thetaFixed Fr → TwistedDiag.Rgrp Ω Fr := fun x =>
     ⟨g * (x : ModGL Tag.E6 Ω) * g⁻¹,
       (mem_thetaFixed_iff_conj Fr hg hgn (x : ModGL Tag.E6 Ω)).1 x.2⟩

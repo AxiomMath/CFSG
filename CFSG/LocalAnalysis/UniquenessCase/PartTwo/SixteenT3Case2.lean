@@ -131,7 +131,7 @@ theorem s16t_false_of_case153_2 (D : Data G) (h1217 : R1217 D) {V L : Subgroup G
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV) (h : Case153_2 D ⊥ V hV L) :
     False := by
   obtain ⟨K₀, p, hKL, hshape, hdir, hsig, -, hrs, hrs1⟩ := h
-  haveI : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil ⊥ V hV)) := MulEquiv.finite_left
   have hmSub : mSub (⊥ : Subgroup G) = 0 := rk_bot
   have hr1 : 0 < (conjSet (barSub ⊥ V hV K₀)
       (Mbar D.M ⊥ V hV ⊓ normalizer ((lBar ⊥ V hV L : Subgroup _) : Set _))).ncard := by

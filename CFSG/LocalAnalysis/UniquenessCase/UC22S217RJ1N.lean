@@ -29,8 +29,8 @@ theorem uc22s217rj_normalizer_le (D : Data G) (h920 : PartOne.Section9.R920J1 D)
     (CFSG.GroupTheory.inf_centralizer_sup_pCoreOf_eq_of_commutator_le hr hr2 hZr hZL).symm
   have hHt : normalizer (Z : Set G) ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := D.standing.simple
-    haveI : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : IsSimpleGroup G := D.standing.simple
+    have : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Z with h | h
     · exact hZ1 h
     · rw [h] at hZM
@@ -54,7 +54,7 @@ theorem uc22s217rj_normalizer_le_of_ne (D : Data G) (h8107 : F08.R8107 D)
     (hK : K ∈ calC D.M) (hLK : L ≠ K) (hJL : IsJ1 (Bar2 L)) (hJK : IsJ1 (Bar2 K)) {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) {Z : Subgroup G} (hZr : IsPGroup r Z) (hZ1 : Z ≠ ⊥)
     (hZM : Z ≤ D.M) (hZL : ⁅Z, L⁆ ≤ pCoreOf 2 L) : normalizer (Z : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3L : 3 ∣ Nat.card L :=
     (show 3 ∣ Nat.card (Bar2 L) by rw [(kJ1_holds _ hJL).1]; norm_num).trans
       (Subgroup.card_quotient_dvd_card _)

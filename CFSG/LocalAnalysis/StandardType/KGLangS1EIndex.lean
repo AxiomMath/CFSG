@@ -89,7 +89,7 @@ theorem kgLangS1E_index_lang {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [Fini
     (E : Subgroup G) (hEN : E ≤ N) (hEp : ∀ x ∈ E, x ^ p = 1) (hEβ : ∀ x ∈ E, β x = x)
     (hEcard : p ^ 2 ≤ Nat.card E) :
     ∃ s ∈ N ⊓ R₀, s⁻¹ * β s ≠ 1 ∧ s⁻¹ * β s ∈ E := by
-  letI : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hNab a a.2 b b.2)
+  let : CommGroup N := CommGroup.mk fun a b => Subtype.ext (hNab a a.2 b b.2)
   let βN : N →* N :=
     { toFun := fun s => ⟨β (s : G), (hβN (s : G)).mpr s.2⟩
       map_one' := by apply Subtype.ext; simp

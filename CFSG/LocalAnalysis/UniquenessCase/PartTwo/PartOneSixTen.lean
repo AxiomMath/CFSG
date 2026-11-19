@@ -172,8 +172,9 @@ private lemma matrix_eq_transvection_of_mulVec {F : Type*} [Field F] {M : Matrix
     simpa [Matrix.mulVec_single_one] using this
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single, Pi.single_apply, e00, e01, e10, e11]
+    simp [Matrix.transvection, Matrix.single, e00, e01, e10, e11]
 
+omit [Finite G] in
 private theorem elemAutEquivGL_transvection_form {p : ℕ} [Fact p.Prime] {E : Subgroup G}
     {e : ↥E ≃* Multiplicative (Fin 2 → ZMod p)}
     {A' : Subgroup ↥E} {a₀ b₀ : ↥E}
@@ -219,6 +220,7 @@ private noncomputable def conjE' {E P : Subgroup G}
   ((MulAut.conj (p : G)).subgroupMap E).trans
     (MulEquiv.subgroupCongr (Subgroup.mem_normalizer_iff_map_conj_eq.mp (hPE p.2)))
 
+omit [Finite G] in
 private theorem conjE'_coe {E P : Subgroup G}
     (hPE : P ≤ Subgroup.normalizer (E : Set G)) (p : ↥P) (x : ↥E) :
     ((conjE' hPE p x : ↥E) : G) = (p : G) * (x : G) * (p : G)⁻¹ := rfl
@@ -254,8 +256,9 @@ private lemma matrix_eq_transvection10_of_mulVec {F : Type*} [Field F] {M : Matr
     simpa [Matrix.mulVec_single_one] using this
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single, Pi.single_apply, e00, e01, e10, e11]
+    simp [Matrix.transvection, Matrix.single, e00, e01, e10, e11]
 
+omit [Finite G] in
 private theorem elemAutEquivGL_transvection_form' {p : ℕ} [Fact p.Prime] {E : Subgroup G}
     {e : ↥E ≃* Multiplicative (Fin 2 → ZMod p)}
     {B' : Subgroup ↥E} {a₀ b₀ : ↥E}
@@ -308,7 +311,7 @@ private lemma transvection_pow {F : Type*} [Field F] {i j : Fin 2} (hij : i ≠ 
     push_cast
     ring
 
-private theorem exists_sl2_map {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {E : Subgroup G}
+private theorem exists_sl2_map {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {E : Subgroup G}
     (hEel : CFSG.Open.IsElemAbelian p E) (hEcard : Nat.card E = p ^ 2)
     {A B : Subgroup G} (hAE : A ≤ E) (hBE : B ≤ E)
     (hA : Nat.card A = p) (hB : Nat.card B = p) (hne : A ≠ B)
@@ -465,7 +468,7 @@ private theorem exists_sl2_map {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {E : Sub
       exact (CFSG.SectionRank.Ccomm.elemAutEquivGL e).map_eq_one_iff
     rw [h1, h2, h3, hρ]
 
-private theorem gamma_normalizer_le_of_le_nontrivial {p : ℕ} (hp : p.Prime) {Y K Z : Subgroup G}
+private theorem gamma_normalizer_le_of_le_nontrivial {p : ℕ} (_hp : p.Prime) {Y K Z : Subgroup G}
     (hΓ : rankThreeGamma 1 p Y ≤ K) (hZY : Z ≤ Y) (hZ : 1 ≤ CFSG.Open.pRank p Z) :
     Subgroup.normalizer (Z : Set G) ≤ K :=
   (CFSG.RankThreeCoreUniqueness.Helpers.gamma_le_iff 1 p Y K).1 hΓ Z hZY hZ
@@ -494,6 +497,7 @@ private theorem gamma_le_uniqueFourConj {p : ℕ} (hp : p.Prime) {Y K : Subgroup
     ← uniqueFourConj_normalizer]
   exact uniqueFourConj_mono hN g
 
+omit [Finite G] in
 private theorem uniqueMax_conj {M E : Subgroup G} (h : UniqueMax M E) (g : G) :
     UniqueMax (uniqueFourConj g M) (uniqueFourConj g E) := by
   have hMmem : M ∈ calMOf E := by rw [h]; exact Set.mem_singleton M
@@ -511,9 +515,9 @@ private theorem uniqueMax_conj {M E : Subgroup G} (h : UniqueMax M E) (g : G) :
     exact ⟨UC6.isMaxTwoLocal_conj hMmem.1 g, uniqueFourConj_mono hMmem.2 g⟩
 
 private def Has63 (K : Subgroup G) : Prop :=
-  ∀ {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {E : Subgroup G} (hE : E ≤ K)
-    (hEel : CFSG.Open.IsElemAbelian r E) (hEcard : Nat.card E = r ^ 2)
-    (hΓ : rankThreeGamma 1 r E ≤ K), UniqueMax K E
+  ∀ {r : ℕ} (_hr : r.Prime) (_hr2 : r ≠ 2) {E : Subgroup G} (_hE : E ≤ K)
+    (_hEel : CFSG.Open.IsElemAbelian r E) (_hEcard : Nat.card E = r ^ 2)
+    (_hΓ : rankThreeGamma 1 r E ≤ K), UniqueMax K E
 
 private theorem has63_conj (D : Data G) (h63 : UC6.R6_3 D) (x : G) :
     Has63 (uniqueFourConj x D.M) := by
@@ -535,7 +539,7 @@ private theorem has63_conj (D : Data G) (h63 : UC6.R6_3 D) (x : G) :
 private theorem exists_elemAbelian_sq_of_isPGroup_exp {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (hH : IsPGroup p H) (hexp : ∀ x ∈ H, x ^ p = 1) (hcard : p ^ 2 ≤ Nat.card H) :
     ∃ E : Subgroup G, E ≤ H ∧ CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ^ 2 ∣ Nat.card ↥H := by
     obtain ⟨k, hk⟩ := hH.exists_card_eq
     have hk2 : 2 ≤ k := (Nat.pow_le_pow_iff_right hp.one_lt).1 (by rw [← hk]; exact hcard)
@@ -556,8 +560,8 @@ private theorem exists_elemAbelian_sq_of_isPGroup_exp {p : ℕ} (hp : p.Prime) {
 private theorem inf_centralizer_ne_bot_of_normal {p : ℕ} (hp : p.Prime) {S N : Subgroup G}
     (hS : IsPGroup p S) (hN : N ≤ S) (hNnormal : (N.subgroupOf S).Normal) (hNne : N ≠ ⊥) :
     N ⊓ Subgroup.centralizer (S : Set G) ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hNnormal
+  have : Fact p.Prime := ⟨hp⟩
+  have := hNnormal
   have hN'ne : N.subgroupOf S ≠ ⊥ := by
     intro hb
     rw [Subgroup.subgroupOf_eq_bot] at hb
@@ -583,25 +587,25 @@ private theorem inf_centralizer_ne_bot_of_normal {p : ℕ} (hp : p.Prime) {S N :
   exact hmap (le_bot_iff.1 (hle.trans (le_of_eq hbot)))
 
 private theorem key_step {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {K K' : Subgroup G} (hK : rankThreeIsMaxTwoLocal K) (hK' : rankThreeIsMaxTwoLocal K')
-    (hKK' : K ≠ K') (h63K : Has63 K) (h63K' : Has63 K')
+    {K K' : Subgroup G} (hK : rankThreeIsMaxTwoLocal K) (_hK' : rankThreeIsMaxTwoLocal K')
+    (hKK' : K ≠ K') (_h63K : Has63 K) (h63K' : Has63 K')
     {P₁ : Sylow p G} (hP₁K' : (P₁ : Subgroup G) ≤ K')
     {Y₁ : Subgroup G} (hY₁P₁ : Y₁ ≤ (P₁ : Subgroup G))
     (hY₁norm : (Y₁.subgroupOf (P₁ : Subgroup G)).Normal)
     (hY₁nc : ¬ IsCyclic Y₁) (hY₁exp : ∀ y ∈ Y₁, y ^ p = 1)
     (hΓY₁ : rankThreeGamma 1 p Y₁ ≤ K')
-    {X₁ : Subgroup G} (hX₁ne : X₁ ≠ ⊥) (hX₁p : IsPGroup p X₁)
-    (hX₁K : X₁ ≤ K) (hX₁K' : X₁ ≤ K') (hNX₁ : normalizer (X₁ : Set G) ≤ K) :
+    {X₁ : Subgroup G} (_hX₁ne : X₁ ≠ ⊥) (hX₁p : IsPGroup p X₁)
+    (_hX₁K : X₁ ≤ K) (hX₁K' : X₁ ≤ K') (hNX₁ : normalizer (X₁ : Set G) ≤ K) :
     ∃ c ∈ K', (∀ c' ∈ K', CFSG.Open.pRank p (uniqueFourConj c' Y₁ ⊓ K) ≤ 1) ∧
       X₁ ≤ uniqueFourConj c (P₁ : Subgroup G) ∧
       Nat.card ↥(uniqueFourConj c Y₁ ⊓ centralizer (X₁ : Set G)) = p ∧
       uniqueFourConj c Y₁ ⊓ centralizer (X₁ : Set G) = uniqueFourConj c Y₁ ⊓ K ∧
       uniqueFourConj c Y₁ ⊓ centralizer (X₁ : Set G) ≤
         Subgroup.centralizer (uniqueFourConj c (P₁ : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP₁top : CFSG.ABGLocalTools.IsSylowOf p (P₁ : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, P₁.isPGroup', by simpa using P₁.not_dvd_index⟩
+    exact ⟨le_top, P₁.isPGroup, by simpa using P₁.not_dvd_index⟩
   have hP₁ : CFSG.ABGLocalTools.IsSylowOf p (P₁ : Subgroup G) K' := hP₁top.of_le hP₁K' le_top
   obtain ⟨k, hkK', hk⟩ := UC6.exists_conj_le_of_isSylowOf hP₁ hX₁K' hX₁p
   have hboundAll : ∀ c ∈ K', CFSG.Open.pRank p (uniqueFourConj c Y₁ ⊓ K) ≤ 1 := by
@@ -629,7 +633,7 @@ private theorem key_step {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hY₁ne : Y₁ ≠ ⊥ := fun h => hY₁nc (h ▸ (inferInstance : IsCyclic (⊥ : Subgroup G)))
   have hY₁cne : uniqueFourConj k⁻¹ Y₁ ≠ ⊥ := uniqueFourConj_ne_bot hY₁ne k⁻¹
   have hPp : IsPGroup p (uniqueFourConj k⁻¹ (P₁ : Subgroup G)) :=
-    isPGroup_uniqueFourConj P₁.isPGroup' k⁻¹
+    isPGroup_uniqueFourConj P₁.isPGroup k⁻¹
   have hNnormal : ((uniqueFourConj k⁻¹ Y₁).subgroupOf
       (uniqueFourConj k⁻¹ (P₁ : Subgroup G))).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer (uniqueFourConj_mono hY₁P₁ k⁻¹)]
@@ -719,6 +723,7 @@ private theorem key_step {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [← hZ₀eqB]
   exact inf_le_right
 
+omit [Finite G] in
 private theorem not_isCyclic_uniqueFourConj {Y : Subgroup G} (h : ¬ IsCyclic Y) (g : G) :
     ¬ IsCyclic (uniqueFourConj g Y) := by
   intro hc
@@ -727,6 +732,7 @@ private theorem not_isCyclic_uniqueFourConj {Y : Subgroup G} (h : ¬ IsCyclic Y)
     Subgroup.equivMapOfInjective Y (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective
   exact e.isCyclic.mpr hc
 
+omit [Finite G] in
 private theorem uniqueFourConj_exp {p : ℕ} {Y : Subgroup G}
     (hexp : ∀ y ∈ Y, y ^ p = 1) (g : G) :
     ∀ y ∈ uniqueFourConj g Y, y ^ p = 1 := by
@@ -738,6 +744,7 @@ private theorem uniqueFourConj_exp {p : ℕ} {Y : Subgroup G}
     conj_pow, hexp _ hy']
   simp
 
+omit [Finite G] in
 private theorem normal_subgroupOf_uniqueFourConj {Y P : Subgroup G} (hYP : Y ≤ P)
     (h : (Y.subgroupOf P).Normal) (g : G) :
     ((uniqueFourConj g Y).subgroupOf (uniqueFourConj g P)).Normal := by
@@ -746,12 +753,14 @@ private theorem normal_subgroupOf_uniqueFourConj {Y P : Subgroup G} (hYP : Y ≤
         uniqueFourConj_mono ((Subgroup.normal_subgroupOf_iff_le_normalizer hYP).1 h) g
     _ = Subgroup.normalizer (uniqueFourConj g Y : Set G) := uniqueFourConj_normalizer Y g
 
+omit [Finite G] in
 private theorem uniqueFourConj_mul (a b : G) (Y : Subgroup G) :
     uniqueFourConj a (uniqueFourConj b Y) = uniqueFourConj (b * a) Y := by
   ext x
   rw [mem_uniqueFourConj_iff, mem_uniqueFourConj_iff, mem_uniqueFourConj_iff]
   rw [show b * (a * x * a⁻¹) * b⁻¹ = (b * a) * x * (b * a)⁻¹ by group]
 
+omit [Finite G] in
 private theorem isPGroup_of_exp {p : ℕ} {Y : Subgroup G} (hexp : ∀ y ∈ Y, y ^ p = 1) :
     IsPGroup p Y := fun y => ⟨1, by rw [pow_one]; exact Subtype.ext (hexp y y.2)⟩
 
@@ -815,7 +824,7 @@ private theorem exists_conj_le_of_le_centralizer {p : ℕ} (hp : p.Prime) {B R :
     (hRB : R ≤ Subgroup.centralizer (B : Set G))
     {E : Subgroup G} (hE : IsPGroup p E) (hEB : E ≤ Subgroup.centralizer (B : Set G)) :
     ∃ d ∈ Subgroup.centralizer (B : Set G), E ≤ uniqueFourConj d R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf p R (Subgroup.centralizer (B : Set G)) :=
     hR.of_le hRB le_top
   obtain ⟨k, hk, hkE⟩ := UC6.exists_conj_le_of_isSylowOf hRsyl hEB hE
@@ -866,7 +875,7 @@ private theorem exists_mem_normalizer_of_lt_pGroup {p : ℕ} [Fact p.Prime] {H P
   have : Group.IsNilpotent P := hP.isNilpotent
   have hlt : IP < Subgroup.normalizer (IP : Set P) :=
     Group.normalizerCondition_of_isNilpotent IP hIPlt
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨x, x.2, fun hx => hxnot (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   have hxsub : x ∈ (Subgroup.normalizer (H : Set G)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hHP.le]
@@ -893,6 +902,7 @@ private theorem inf_normalizer_not_le_of_not_le {p : ℕ} [Fact p.Prime] {P E H 
       ((Subgroup.normalizer (E : Set G)).inv_mem (Subgroup.le_normalizer he)) hxN
   exact hxE (hey ▸ E.mul_mem he (hle ⟨hy, hyN⟩))
 
+omit [Finite G] in
 private theorem mem_centralizer_of_conjHomE_eq_one {E H R : Subgroup G}
     (hHN : H ≤ Subgroup.normalizer (E : Set G)) (hRH : R ≤ H) {r : ↥R}
     (h : conjHomE hHN (⟨r, hRH r.2⟩ : ↥H) = 1) :
@@ -911,7 +921,7 @@ private theorem mem_centralizer_of_conjHomE_eq_one {E H R : Subgroup G}
 private theorem card_le_prime_of_pRank_le_one {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (hHp : IsPGroup p H) (hexp : ∀ x ∈ H, x ^ p = 1) (hrank : CFSG.Open.pRank p H ≤ 1) :
     Nat.card H ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hle
   have hcard : p ^ 2 ≤ Nat.card H := by
     obtain ⟨n, hn⟩ := hHp.exists_card_eq
@@ -935,7 +945,7 @@ private theorem ne_of_inf_centralizer_eq {p : ℕ} (hp : p.Prime) {Y B A : Subgr
     (hA : A = Y ⊓ Subgroup.centralizer (B : Set G)) (hAcard : Nat.card A = p)
     (hBcard : Nat.card B = p) : A ≠ B := by
   intro hAB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hCB : Y ⊓ Subgroup.centralizer (B : Set G) = B := by rw [← hA, hAB]
   have hBY : B ≤ Y := hCB.symm ▸ inf_le_left
   have hZYne : Y ⊓ Subgroup.centralizer (Y : Set G) ≠ ⊥ :=
@@ -962,7 +972,7 @@ private theorem ne_of_inf_centralizer_eq {p : ℕ} (hp : p.Prime) {Y B A : Subgr
 
 theorem r6_10_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : UC6.R6_10 D := by
   intro p hp hp2 P Y hYP hYnorm hYnc hYexp hΓ X hXM hXp hNX g hg hXMg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYne : Y ≠ ⊥ := fun h => hYnc (h ▸ (inferInstance : IsCyclic (⊥ : Subgroup G)))
   have hPleM : (P : Subgroup G) ≤ D.M := by
     have hPY : (P : Subgroup G) ≤ Subgroup.normalizer (Y : Set G) :=
@@ -1054,7 +1064,7 @@ theorem r6_10_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : UC6.R6_10 D := by
       _ ≤ uniqueFourConj a D.M := uniqueFourConj_mono hPleM a
       _ = D.M := uniqueFourConj_eq_self_iff.mpr haN
   have hYaPa : Ya ≤ uniqueFourConj a (P : Subgroup G) := uniqueFourConj_mono hYP a
-  have hPaP : IsPGroup p (uniqueFourConj a (P : Subgroup G)) := isPGroup_uniqueFourConj P.isPGroup' a
+  have hPaP : IsPGroup p (uniqueFourConj a (P : Subgroup G)) := isPGroup_uniqueFourConj P.isPGroup a
   have hYap : IsPGroup p Ya := hPaP.to_le hYaPa
   have hYane : Ya ≠ ⊥ := uniqueFourConj_ne_bot hYne a
   have hYanc : ¬ IsCyclic Ya := not_isCyclic_uniqueFourConj hYnc a
@@ -1088,7 +1098,7 @@ theorem r6_10_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : UC6.R6_10 D := by
     CFSG.RankThreeCoreUniqueness.Helpers.sylow_conjugate_eq_map p P (g * c₁)⁻¹
   have hRtop : CFSG.ABGLocalTools.IsSylowOf p (Pbg : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Pbg.isPGroup', by simpa using Pbg.not_dvd_index⟩
+    exact ⟨le_top, Pbg.isPGroup, by simpa using Pbg.not_dvd_index⟩
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf p
       (uniqueFourConj (g * c₁) (P : Subgroup G)) ⊤ := hPbgcoe ▸ hRtop
   have hRB : uniqueFourConj (g * c₁) (P : Subgroup G) ≤ Subgroup.centralizer (B : Set G) :=
@@ -1188,7 +1198,7 @@ theorem r6_10_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : UC6.R6_10 D := by
     exact not_isCyclic_uniqueFourConj hYnc (b' * g)
       (isCyclic_of_prime_card (p := p) (by rw [← hBeq]; exact hBcard))
   have hQnotleE : ¬ Q ≤ E :=
-    inf_normalizer_not_le_of_not_le (isPGroup_uniqueFourConj P.isPGroup' (b' * g))
+    inf_normalizer_not_le_of_not_le (isPGroup_uniqueFourConj P.isPGroup (b' * g))
       hE_Pb'g (uniqueFourConj_mono hYP (b' * g)) hPa'bN hYb'notleE
   have hRfixA : ∀ r ∈ R, ∀ b ∈ A, r * b * r⁻¹ = b := by
     intro r hr b hb
@@ -1290,7 +1300,7 @@ theorem r6_10_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : UC6.R6_10 D := by
     uniqueFourConj_exp hYexp (b' * g) x
       ((inf_le_left : Q ≤ uniqueFourConj (b' * g) Y) hx)
   have hQp : IsPGroup p Q :=
-    (isPGroup_uniqueFourConj P.isPGroup' (b' * g)).to_le
+    (isPGroup_uniqueFourConj P.isPGroup (b' * g)).to_le
       (inf_le_left.trans (uniqueFourConj_mono hYP (b' * g)))
   have hAleR : A ≤ R := le_inf hAleYa (hAleE.trans (Subgroup.le_normalizer : E ≤ _))
   have hRneA : R ≠ A := fun h => hRnotleE (h ▸ hAleE)

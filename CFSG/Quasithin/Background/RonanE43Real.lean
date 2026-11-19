@@ -9,7 +9,7 @@ namespace CFSG.Quasithin.RonanE43
 theorem exists_conj_of_order_three {D : Type*} [Group D] [Finite D] {a b : D} (ha3 : a ^ 3 = 1)
     (hb3 : b ^ 3 = 1) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (h9 : ¬ 9 ∣ Nat.card D) :
     ∃ d : D, d * a * d⁻¹ ∈ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hacard : Nat.card (Subgroup.zpowers a) = 3 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime ha3 ha1
@@ -47,7 +47,7 @@ theorem exists_real_of_real_mod_two_kernel {H N : Type*} [Group H] [Finite H] [G
   by_cases hy1 : y = 1
   · exact ⟨1, by simp [hy1]⟩
   obtain ⟨K, hK⟩ : ∃ K : Subgroup H, K = φ.ker := ⟨_, rfl⟩
-  haveI hKn : K.Normal := hK ▸ MonoidHom.normal_ker φ
+  have hKn : K.Normal := hK ▸ MonoidHom.normal_ker φ
   obtain ⟨y', hy'⟩ : ∃ y' : H, y' = g₁ * y * g₁⁻¹ := ⟨_, rfl⟩
   have hφy' : φ y' = (φ y)⁻¹ := by rw [hy']; exact hg₁
   have hy'3 : y' ^ 3 = 1 := by rw [hy', conj_pow, hy3]; simp

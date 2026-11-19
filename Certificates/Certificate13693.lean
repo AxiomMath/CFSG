@@ -13,7 +13,6 @@ open CertificateChecks
 theorem certificate13693 : 
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Fi24Three.Fi24ThreeClasses :=
   by
-    intros
     exact CFSG.KD.Fi24Pc.fi24ThreeClasses_of_letters KernelFi24OrbL.pairG_LN
 
 end Certificates

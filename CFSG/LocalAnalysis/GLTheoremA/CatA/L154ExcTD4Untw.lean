@@ -77,7 +77,7 @@ theorem l154td4_exists_langSetup_frobRoot_untw_of_mon {τ : Tag}
       (∀ c, ι (φ c) = R.step0 (ι c)) ∧ L154RootD0 S R := by
   classical
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hcomp : (iterateFrobenius L 2 e).comp ι₁ = ι₁.comp T := RingHom.ext fun c => by
     simp only [RingHom.comp_apply, iterateFrobenius_def, hT, map_pow]
@@ -188,13 +188,13 @@ theorem l154td4_excUntw_lang {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type
           (onLie fun | .trialityD4 _ => True | _ => False)) := by
   classical
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := by
-    haveI := hSn
+    have := hSn
     rw [Subgroup.normalizer_eq_top S]
     exact Subgroup.mem_top x
   obtain ⟨τ, K, _, _, e, k, θ, φx, φy, h, T, hτ, hchar, he, hK, hT, hperf, -, hhp, hfix, hhL,
     -, hφx, hφy, hindx, hindy⟩ := excUntw_marking_data hp hp2 hQ hxp hyp hxy hInn hF
-  haveI := hchar
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
+  have := hchar
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
   have hh1 : h ≠ 1 := by
     rintro rfl
     have h1 : φx = 1 := by

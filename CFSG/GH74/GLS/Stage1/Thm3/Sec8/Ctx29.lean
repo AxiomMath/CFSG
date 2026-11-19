@@ -36,6 +36,7 @@ theorem xdata (hII : II4_4_4_center) (hq : II4_4_quat) (hs : Setup8 G z S K₁ K
   · rw [pow_one, pow_two] at hxz
     exact hxz.symm
 
+omit [Finite G] in
 theorem conj_comm_psi {d : G} (hdh : d * h = h * d) (g : G) :
     d * (h⁻¹ * g * h) * d⁻¹ = h⁻¹ * (d * g * d⁻¹) * h := by
   have hdd : h⁻¹ * d * h = d := by

@@ -32,7 +32,7 @@ theorem exists_mem_inf_centralizer_of_commutator_mem [Finite X] {r : ℕ} (hr : 
     (hhA : h ∈ Subgroup.normalizer (A : Set X)) {b : X} (hb : ⁅b, h⁆ ∈ A) :
     ∃ y : X, y * b⁻¹ ∈ A ∧ h * y = y * h := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hhinvA : h⁻¹ ∈ Subgroup.normalizer (A : Set X) := inv_mem hhA
   have hbinv : ⁅b, h⁻¹⁆ ∈ A := by
     have h1 : h⁻¹ * ⁅h, b⁆ * h ∈ A := by
@@ -94,8 +94,7 @@ theorem noCentral_of_fixedPoint [Finite X] {K R : Subgroup X} {r : ℕ} (hr : r.
     {h : X} (hh : orderOf h = r) (hhN : h ∈ K ⊓ Subgroup.normalizer (R : Set X))
     (hfix : ∀ y ∈ pCoreOf 2 (K ⊓ Subgroup.normalizer (R : Set X)), h * y = y * h → y ∈ R) :
     GGRootNoCentralAt K R := by
-  intro A B' hRA hAB hBp hNA hNB hcomm
-  intro b hb
+  intro A B' hRA hAB hBp hNA hNB hcomm b hb
   have hA2 : IsPGroup 2 A :=
     ((GGRootNorm.isPGroup_pCoreOf (K ⊓ Subgroup.normalizer (R : Set X))).to_le
       (hAB.trans hBp))

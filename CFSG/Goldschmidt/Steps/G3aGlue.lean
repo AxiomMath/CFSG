@@ -17,7 +17,7 @@ variable {G : Type} [Group G]
 theorem fusionIsSylowIn_of_sylow {S X : Subgroup G} (hSX : S ≤ X) (P : Sylow 2 X)
     (hP : (P : Subgroup X) = S.subgroupOf X) : fusionIsSylowIn 2 S X := by
   have hS : IsPGroup 2 S := by
-    have h1 := P.isPGroup'.map X.subtype
+    have h1 := P.isPGroup.map X.subtype
     rwa [hP, Subgroup.map_subgroupOf_eq_of_le hSX] at h1
   refine ⟨hSX, hS, fun R hRX hR hSR => ?_⟩
   have h1 := P.maximal_isPGroup.eq_of_ge hR.comap_subtype (by

@@ -64,14 +64,14 @@ theorem exists_mul_mul_mem_normalizer_of_map_mem_normalizer {H : Type} [Group H]
   rw [hr, hxeq, hyeq]
   group
 
-private theorem quotient_hypotheses {R : Subgroup G} (hRs : Group.IsSolvable ↥R)
+private theorem quotient_hypotheses {R : Subgroup G} (_hRs : Group.IsSolvable ↥R)
     (h3 : ¬ 3 ∣ Nat.card R) :
     ¬ 3 ∣ Nat.card (⊤ : Subgroup (↥R ⧸ CFSG.pPrimeCore 2 ↥R)) ∧
       ∀ K : Subgroup (↥R ⧸ CFSG.pPrimeCore 2 ↥R), K ≤ ⊤ →
         ⊤ ≤ Subgroup.normalizer (K : Set (↥R ⧸ CFSG.pPrimeCore 2 ↥R)) →
           ¬ 2 ∣ Nat.card K → K = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥R := hRs
+  have : Group.IsSolvable ↥R := _hRs
   have h3Q : ¬ 3 ∣ Nat.card (↥R ⧸ CFSG.pPrimeCore 2 ↥R) := by
     intro h
     apply h3
@@ -105,7 +105,7 @@ private theorem exists_quotient_factor {R S : Subgroup G} (hRs : Group.IsSolvabl
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥R := CFSG.pPrimeCore 2 ↥R
-  haveI hNn : N.Normal := CFSG.pPrimeCore_normal
+  have hNn : N.Normal := CFSG.pPrimeCore_normal
   have hNcop : Nat.Coprime 2 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   let S₁ : Subgroup ↥R := S.subgroupOf R
   have hS₁2 : IsPGroup 2 S₁ := hS2.of_equiv (Subgroup.subgroupOfEquivOfLe hSR).symm
@@ -172,7 +172,7 @@ private theorem exists_mul_mul_mem_normalizer {R S : Subgroup G} (hRs : Group.Is
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥R := CFSG.pPrimeCore 2 ↥R
-  haveI : N.Normal := CFSG.pPrimeCore_normal
+  have : N.Normal := CFSG.pPrimeCore_normal
   have hNcop : Nat.Coprime 2 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   have hNodd : ¬ 2 ∣ Nat.card N := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).1 hNcop
   let S₁ : Subgroup ↥R := S.subgroupOf R

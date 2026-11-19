@@ -18,7 +18,7 @@ private def coordDepthD (k : ℕ) (i : Fin k) : ℕ := if i.val = k - 1 then k -
 
 private theorem coordHslD (k : ℕ) (i j : Fin k) (hij : i ≠ j) :
     cartanD k i j = 0 ∨ cartanD k i j = -1 := by
-  simp only [cartanD, Matrix.of_apply, if_neg hij]
+  simp only [cartanD, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 private theorem coordHparD (k : ℕ) (hk : 4 ≤ k) (i j : Fin k) (hij : i ≠ j) :
@@ -27,13 +27,13 @@ private theorem coordHparD (k : ℕ) (hk : 4 ≤ k) (i j : Fin k) (hij : i ≠ j
   obtain ⟨i, hi⟩ := i
   obtain ⟨j, hj⟩ := j
   have hij' : i ≠ j := fun h => hij (Fin.ext h)
-  simp only [cartanD, Matrix.of_apply, coordParD, ne_eq, Fin.mk.injEq, if_neg hij']
+  simp only [cartanD, Matrix.of_apply, coordParD, ne_eq, Fin.mk.injEq, ite_eq_right hij']
   by_cases hc : i + 1 = j ∧ j + 1 < k ∨ j + 1 = i ∧ i + 1 < k ∨ i + 3 = k ∧ j + 1 = k ∨
       j + 3 = k ∧ i + 1 = k
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     refine iff_of_true rfl ?_
     split_ifs <;> omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine iff_of_false (by decide) ?_
     split_ifs <;> omega
 

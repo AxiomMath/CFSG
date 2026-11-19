@@ -55,7 +55,7 @@ variable {S Lb : Type} [Group S] [Finite S] [Group Lb] {s : S} {J : Subgroup S} 
 theorem PPair.eq_centralizer_of_card (h : PPair s J g) {M B : ℕ}
     (hC : Nat.card (Subgroup.centralizer ({s} : Set S)) = M) (hM0 : 0 < M) (hB : M < B ^ 3)
     (hfree : ∀ t ∈ typeOrders425 M B, t = M) : J = Subgroup.centralizer ({s} : Set S) := by
-  haveI := h.finite_Lb
+  have := h.finite_Lb
   have hM := hfree _ (card_mem_typeOrders425 h.quasisimple_Lb hM0 hB
     (isType425_of_isType122 h.type_Lb) (h.card_Lb_dvd.trans hC.dvd))
   have hLJ : Nat.card Lb ∣ Nat.card J := Subgroup.card_dvd_of_surjective h.surjective
@@ -81,7 +81,7 @@ theorem census_map_eq_centralizer_of_quasisimple (hD : Census129 c a I X f) (ψ 
   have hKC : I.map ψ.toMonoidHom ≤ Subgroup.centralizer ({ψ c} : Set T) := by
     rw [← hCmap]
     exact Subgroup.map_mono hD.le_centralizer
-  haveI := hD.isPerfect
+  have := hD.isPerfect
   have hKp : Group.IsPerfect ↥(I.map ψ.toMonoidHom) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom.subgroupMap I)
       (ψ.toMonoidHom.subgroupMap_surjective I)

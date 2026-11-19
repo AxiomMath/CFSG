@@ -172,7 +172,7 @@ theorem exists_eq_map_conj_rootSub (hm : 0 < m) (T : Sylow 2 (SuzukiMatrixGroup 
     ∃ g : SuzukiMatrixGroup m,
       (T : Subgroup (SuzukiMatrixGroup m)) = (rootSub m).map (MulAut.conj g).toMonoidHom := by
   obtain ⟨R, hR⟩ := exists_sylow_eq_rootSub m hm
-  haveI : MulAction.IsPretransitive (SuzukiMatrixGroup m)
+  have : MulAction.IsPretransitive (SuzukiMatrixGroup m)
       (Sylow 2 (SuzukiMatrixGroup m)) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := SuzukiMatrixGroup m) R T
   refine ⟨g, ?_⟩

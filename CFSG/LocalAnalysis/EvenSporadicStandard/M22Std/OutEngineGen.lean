@@ -76,7 +76,7 @@ theorem OutData.property [Finite G] (D : OutData L z t T₁ F tb) (hcZ : center 
   set S : Subgroup (MulAut (L ⧸ center L)) := T₁.map (thetaH D.cfg.cent_le) with hS
   have hSp : IsPGroup 2 S := IsPGroup.of_card (n := 8) (by rw [D.W.card_S]; norm_num)
   obtain ⟨Pg, hPg⟩ := hSp.exists_le_sylow
-  obtain ⟨t₂, F₂, W₂, E₂⟩ := hEng Pg Pg.isPGroup' Pg.not_dvd_index
+  obtain ⟨t₂, F₂, W₂, E₂⟩ := hEng Pg Pg.isPGroup Pg.not_dvd_index
   have hPS : S = Pg := Subgroup.eq_of_le_of_card_ge hPg (by rw [W₂.card_S, D.W.card_S])
   have hW : SylowWitness (L ⧸ center L) (Pg : Subgroup _) tb F := hPS ▸ D.W
   have hF : F = F₂ := SylowWitness.F_unique hcZ hW W₂

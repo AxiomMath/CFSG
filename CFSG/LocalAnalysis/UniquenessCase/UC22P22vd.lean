@@ -44,7 +44,7 @@ private theorem uc22p22vd_squarefree_orderOf_sylow {C : Type*} [Group C] [Finite
     (γ : C) : Squarefree (orderOf γ) := by
   rw [Nat.squarefree_iff_prime_squarefree]
   intro p hp hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ^ 2 ∣ orderOf γ := by simpa [pow_two] using hdvd
   have hpC : p ∣ Nat.card C :=
     (dvd_trans (dvd_pow_self p two_ne_zero) hp2).trans (orderOf_dvd_natCard γ)
@@ -55,7 +55,7 @@ private theorem uc22p22vd_squarefree_orderOf_sylow {C : Type*} [Group C] [Finite
     rw [Nat.card_zpowers, hδ]
   have hZp : IsPGroup p ↥(Subgroup.zpowers (γ ^ (orderOf γ / p ^ 2))) := IsPGroup.of_card hZcard
   obtain ⟨Q, hZQ⟩ := hZp.exists_le_sylow
-  haveI : Unique (Sylow p C) := Sylow.unique_of_normal P inferInstance
+  have : Unique (Sylow p C) := Sylow.unique_of_normal P inferInstance
   have hQP : Q = P := Subsingleton.elim Q P
   subst hQP
   have hZeq : Subgroup.zpowers (γ ^ (orderOf γ / p ^ 2)) = (Q : Subgroup C) :=
@@ -91,6 +91,7 @@ private theorem uc22p22vd_squarefree_orderOf_sup {A B C : Subgroup G} (hA : A = 
   exact (uc22p22vd_squarefree_lcm h1 h2).squarefree_of_dvd
     (Commute.orderOf_mul_dvd_lcm (hcomm β hβ γ hγ))
 
+omit [Finite G] in
 theorem uc22p22vd_mbarImage_basic (M V T A : Subgroup G) (hTM : T ≤ M) (hAM : A ≤ M) :
     (IsPGroup 2 ↥T → IsPGroup 2 ↥(mbarImage M V T)) ∧
     (IsMulCommutative ↥A → IsMulCommutative ↥(mbarImage M V A)) ∧
@@ -100,8 +101,8 @@ theorem uc22p22vd_mbarImage_basic (M V T A : Subgroup G) (hTM : T ≤ M) (hAM : 
   refine ⟨fun hT => ?_, fun hA => ?_, fun hodd => ?_, fun hperm => ?_⟩
   · have hT' : IsPGroup 2 ↥(T.subgroupOf M) := hT.comap_subtype
     exact hT'.map π
-  · haveI := hA
-    haveI : IsMulCommutative ↥(A.subgroupOf M) := inferInstance
+  · have := hA
+    have : IsMulCommutative ↥(A.subgroupOf M) := inferInstance
     exact (inferInstance : IsMulCommutative ↥((A.subgroupOf M).map π))
   · have h1 : Nat.card ↥(mbarImage M V A) ∣ Nat.card ↥(A.subgroupOf M) :=
       Subgroup.card_map_dvd (A.subgroupOf M) π
@@ -123,14 +124,14 @@ theorem uc22p22vd_mbarImage_basic (M V T A : Subgroup G) (hTM : T ≤ M) (hAM : 
 
 theorem uc22p22vd_isSylow_mbarImage (D : Data G) (V : Subgroup G) :
     CFSG.ABGLocalTools.IsSylowOf 2 (mbarImage D.M V D.T) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := D.sylowM.exists_sylow_eq_subgroupOf
   let S : Sylow 2 (MBar D.M V) := Q.mapSurjective (QuotientGroup.mk'_surjective _)
   have hS : (S : Subgroup (MBar D.M V)) = mbarImage D.M V D.T := by
     rw [Sylow.coe_mapSurjective, hQ]
     rfl
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+  refine ⟨le_top, hS ▸ S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right, ← hS]
   exact S.not_dvd_index
 

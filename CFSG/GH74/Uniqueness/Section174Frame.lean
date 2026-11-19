@@ -75,7 +75,7 @@ theorem Sec174.le_of_card_dvd {G : Type*} [Group G] [Finite G] {T : Subgroup G}
   obtain ⟨R⟩ : Nonempty (Sylow 3 ↥A) := inferInstance
   set R' : Subgroup G := (R : Subgroup ↥A).map A.subtype with hR'
   have hR'A : R' ≤ A := Subgroup.map_subtype_le _
-  have hR'p : IsPGroup 3 R' := R.isPGroup'.map A.subtype
+  have hR'p : IsPGroup 3 R' := R.isPGroup.map A.subtype
   have hR'idx : ¬ 3 ∣ R'.relIndex A := by
     have : R'.subgroupOf A = R := Subgroup.comap_map_eq_self_of_injective A.subtype_injective _
     rw [Subgroup.relIndex, this]
@@ -132,7 +132,7 @@ theorem Sec174.le_of_card_dvd {G : Type*} [Group G] [Finite G] {T : Subgroup G}
     symm
     apply Subgroup.eq_of_le_of_card_ge (Subgroup.map_mono hRQ)
     rw [hπR]
-    obtain ⟨j, hj⟩ := (Q.isPGroup'.map π).exists_card_eq
+    obtain ⟨j, hj⟩ := (Q.isPGroup.map π).exists_card_eq
     have h6 : Nat.card ↥((Q : Subgroup G).map π) ∣ 6 := by
       have := Subgroup.card_subgroup_dvd_card ((Q : Subgroup G).map π)
       rwa [Sec174.card_perm_fin_three] at this
@@ -142,7 +142,7 @@ theorem Sec174.le_of_card_dvd {G : Type*} [Group G] [Finite G] {T : Subgroup G}
       have h9 : 3 ^ 2 ∣ 6 := (pow_dvd_pow 3 (by omega : 2 ≤ j)).trans h6
       norm_num at h9
     interval_cases j <;> norm_num
-  obtain ⟨E, hRE, hEp, hEle⟩ := Sec174.exists_pgroup_lt_normalizer 3 R' Q Q.isPGroup' hRQlt
+  obtain ⟨E, hRE, hEp, hEle⟩ := Sec174.exists_pgroup_lt_normalizer 3 R' Q Q.isPGroup hRQlt
   have hEA : E ≤ A := by
     intro y hy
     have hyQ : y ∈ (Q : Subgroup G) := (Subgroup.mem_inf.mp (hEle hy)).1

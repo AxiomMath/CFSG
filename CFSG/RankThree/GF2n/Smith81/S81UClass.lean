@@ -20,22 +20,26 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 @[expose] def OrthPairs (σ : F ≃+* F) {j : ℕ} (a b : Fin j → (Fin 6 → F)) (y : Fin 6 → F) : Prop :=
   ∀ i, herm σ (a i) y = 0 ∧ herm σ (b i) y = 0
 
+omit [CharP F 2] in
 private theorem h63_herm_sum_right {j : ℕ} (x : Fin 6 → F) (f : Fin j → (Fin 6 → F)) :
     herm σ x (∑ i, f i) = ∑ i, herm σ x (f i) := by
   simpa only [hermL_apply] using map_sum (CFSG.ClassicalGroups.Unitary.hermL σ x) f Finset.univ
 
+omit [CharP F 2] in
 private theorem h63_herm_ba (hσ : IsUnitaryInvolution σ) {j : ℕ} {a b : Fin j → (Fin 6 → F)}
     (hab : IsHypPairs σ a b) (i l : Fin j) : herm σ (b l) (a i) = if i = l then 1 else 0 := by
   unfold IsHypPairs at hab
   rw [herm_conj σ hσ.invol, hab.2.2 i l]
   split_ifs <;> simp
 
+omit [CharP F 2] in
 private theorem h63_proj {j : ℕ} (a b : Fin j → (Fin 6 → F)) :
     ∃ P : (Fin 6 → F) →ₗ[F] (Fin 6 → F), ∀ y,
       P y = y - ∑ i, (herm σ (b i) y • a i + herm σ (a i) y • b i) :=
   ⟨LinearMap.id - ∑ i, ((CFSG.ClassicalGroups.Unitary.hermL σ (b i)).smulRight (a i) + (CFSG.ClassicalGroups.Unitary.hermL σ (a i)).smulRight (b i)),
     fun y => by simp [LinearMap.sum_apply]⟩
 
+omit [CharP F 2] in
 private theorem h63_proj_orth (hσ : IsUnitaryInvolution σ) {j : ℕ} {a b : Fin j → (Fin 6 → F)}
     (hab : IsHypPairs σ a b) (y : Fin 6 → F) :
     OrthPairs σ a b (y - ∑ i, (herm σ (b i) y • a i + herm σ (a i) y • b i)) := by
@@ -49,12 +53,14 @@ private theorem h63_proj_orth (hσ : IsUnitaryInvolution σ) {j : ℕ} {a b : Fi
   · rw [herm_sub_right, h63_herm_sum_right]
     simp [herm_add_right, herm_smul_right, hB, hD, mul_ite]
 
+omit [CharP F 2] in
 private theorem h63_sum_mem {S : Set (Fin 6 → F)} {j : ℕ} {a b : Fin j → (Fin 6 → F)}
     (ha : ∀ i, a i ∈ Submodule.span F S) (hb : ∀ i, b i ∈ Submodule.span F S) (y : Fin 6 → F) :
     ∑ i, (herm σ (b i) y • a i + herm σ (a i) y • b i) ∈ Submodule.span F S :=
   Submodule.sum_mem _ fun i _ =>
     Submodule.add_mem _ (Submodule.smul_mem _ _ (ha i)) (Submodule.smul_mem _ _ (hb i))
 
+omit [CharP F 2] in
 private theorem h63_orth_smul {j : ℕ} {a b : Fin j → (Fin 6 → F)} {v : Fin 6 → F}
     (hv : OrthPairs σ a b v) (c : F) : OrthPairs σ a b (c • v) := by
   intro i
@@ -167,6 +173,7 @@ theorem exists_hyp_pair_perp (hσ : IsUnitaryInvolution σ) {j : ℕ} (hj : j �
     exact ⟨by rw [herm_add_right, herm_smul_right, (hPorth y i).1, (hzo i).1, mul_zero, add_zero],
       by rw [herm_add_right, herm_smul_right, (hPorth y i).2, (hzo i).2, mul_zero, add_zero]⟩
 
+omit [CharP F 2] in
 theorem herm_N_perp (hσ : ∀ c, σ (σ c) = c) {t : SUid σ 6} (ht : t * t = 1) {j : ℕ}
     {a b : Fin j → (Fin 6 → F)} (hN : ∀ i, t • a i - a i = 0)
     (hNb : ∀ i, t • b i - b i = a i ∨ t • b i - b i = 0) {y : Fin 6 → F}
@@ -180,30 +187,36 @@ theorem herm_N_perp (hσ : ∀ c, σ (σ c) = c) {t : SUid σ 6} (ht : t * t = 1
       exact (hy i).1
     · rw [h, herm_zero_left]
 
+omit [CharP F 2] in
 private theorem h64_herm_sum_left {j : ℕ} (x : Fin j → (Fin 6 → F)) (z : Fin 6 → F) :
     herm σ (∑ i, x i) z = ∑ i, herm σ (x i) z := by
   simp only [herm, Finset.sum_apply, map_sum, Finset.sum_mul]
   exact Finset.sum_comm
 
+omit [CharP F 2] in
 private theorem h64_herm_sum_right {j : ℕ} (z : Fin 6 → F) (x : Fin j → (Fin 6 → F)) :
     herm σ z (∑ i, x i) = ∑ i, herm σ z (x i) := by
   simp only [herm, Finset.sum_apply, Finset.mul_sum]
   exact Finset.sum_comm
 
+omit [CharP F 2] in
 private theorem h64_N_add (t : SUid σ 6) (x y : Fin 6 → F) :
     t • (x + y) - (x + y) = (t • x - x) + (t • y - y) := by
   rw [smul_add]
   abel
 
+omit [CharP F 2] in
 private theorem h64_N_add_smul (t : SUid σ 6) (x y : Fin 6 → F) (c : F) :
     t • (x + c • y) - (x + c • y) = (t • x - x) + c • (t • y - y) := by
   rw [smul_add, smul_comm t c y, smul_sub]
   abel
 
+omit [CharP F 2] in
 private theorem h64_N_smul (t : SUid σ 6) (c : F) (y : Fin 6 → F) :
     t • (c • y) - c • y = c • (t • y - y) := by
   rw [smul_sub, smul_comm t c y]
 
+omit [CharP F 2] in
 private theorem h64_Y_add {j : ℕ} {a b : Fin j → (Fin 6 → F)} {u v : Fin 6 → F}
     (hu : OrthPairs σ a b u) (hv : OrthPairs σ a b v) : OrthPairs σ a b (u + v) := by
   intro i
@@ -211,6 +224,7 @@ private theorem h64_Y_add {j : ℕ} {a b : Fin j → (Fin 6 → F)} {u v : Fin 6
   · rw [herm_add_right, (hu i).1, (hv i).1, add_zero]
   · rw [herm_add_right, (hu i).2, (hv i).2, add_zero]
 
+omit [CharP F 2] in
 private theorem h64_Y_smul {j : ℕ} {a b : Fin j → (Fin 6 → F)} {u : Fin 6 → F} (c : F)
     (hu : OrthPairs σ a b u) : OrthPairs σ a b (c • u) := by
   intro i
@@ -218,6 +232,7 @@ private theorem h64_Y_smul {j : ℕ} {a b : Fin j → (Fin 6 → F)} {u : Fin 6 
   · rw [herm_smul_right, (hu i).1, mul_zero]
   · rw [herm_smul_right, (hu i).2, mul_zero]
 
+omit [CharP F 2] in
 private theorem h64_proj_mem {j : ℕ} {a b : Fin j → (Fin 6 → F)} (hσ : IsUnitaryInvolution σ)
     (hab : IsHypPairs σ a b) (w : Fin 6 → F) :
     OrthPairs σ a b (w - ∑ i, (herm σ (b i) w • a i + herm σ (a i) w • b i)) := by
@@ -311,6 +326,7 @@ theorem exists_typeI_pair (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : t
     rw [h64_N_add_smul, hta, smul_zero, add_zero]
   exact ⟨t • u - u, u + c' • (t • u - u), hA3, hb0, hab1, hOa, hOb, hta, htb⟩
 
+omit [CharP F 2] in
 private theorem h65_snoc_hyp {j : ℕ} {a b : Fin j → (Fin 6 → F)} {a' b' : Fin 6 → F}
     (hs : ∀ c, σ (σ c) = c) (hab : IsHypPairs σ a b) (ha' : herm σ a' a' = 0)
     (hb' : herm σ b' b' = 0) (hab' : herm σ a' b' = 1) (hoa : OrthPairs σ a b a')
@@ -343,13 +359,14 @@ private theorem h65_snoc_hyp {j : ℕ} {a b : Fin j → (Fin 6 → F)} {a' b' : 
     rcases i.eq_castSucc_or_eq_last with ⟨i, rfl⟩ | rfl <;>
       rcases l.eq_castSucc_or_eq_last with ⟨l, rfl⟩ | rfl
     · simpa only [Fin.snoc_castSucc, Fin.castSucc_inj] using h3 i l
-    · rw [Fin.snoc_castSucc, Fin.snoc_last, if_neg (Fin.castSucc_ne_last i)]
+    · rw [Fin.snoc_castSucc, Fin.snoc_last, ite_eq_right (Fin.castSucc_ne_last i)]
       exact (hob i).1
-    · rw [Fin.snoc_last, Fin.snoc_castSucc, if_neg (Fin.castSucc_ne_last l).symm]
+    · rw [Fin.snoc_last, Fin.snoc_castSucc, ite_eq_right (Fin.castSucc_ne_last l).symm]
       exact oab l
-    · rw [Fin.snoc_last, Fin.snoc_last, if_pos rfl]
+    · rw [Fin.snoc_last, Fin.snoc_last, ite_eq_left rfl]
       exact hab'
 
+omit [CharP F 2] in
 private theorem h65_snoc_orth {j : ℕ} {a b : Fin j → (Fin 6 → F)} {a' b' y : Fin 6 → F}
     (hy : OrthPairs σ (Fin.snoc a a' : Fin (j + 1) → (Fin 6 → F))
       (Fin.snoc b b' : Fin (j + 1) → (Fin 6 → F)) y) :
@@ -357,6 +374,7 @@ private theorem h65_snoc_orth {j : ℕ} {a b : Fin j → (Fin 6 → F)} {a' b' y
   intro i
   simpa only [Fin.snoc_castSucc] using hy i.castSucc
 
+omit [CharP F 2] in
 private theorem h65_snoc_N {j : ℕ} {t : SUid σ 6} {a : Fin j → (Fin 6 → F)} {a' : Fin 6 → F}
     (hN : ∀ i, t • a i - a i = 0) (hN' : t • a' - a' = 0) :
     ∀ i : Fin (j + 1), t • (Fin.snoc a a' : Fin (j + 1) → (Fin 6 → F)) i -
@@ -384,8 +402,8 @@ private theorem h65_induct (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : 
       intro i
       rw [hNb i]
       by_cases h : i.val < k
-      · exact Or.inl (if_pos h)
-      · exact Or.inr (if_neg h)
+      · exact Or.inl (ite_eq_left h)
+      · exact Or.inr (ite_eq_right h)
     by_cases hA : ∃ y, OrthPairs σ a b y ∧ t • y - y ≠ 0
     ·
       obtain ⟨y, hy, hNy⟩ := hA
@@ -401,9 +419,9 @@ private theorem h65_induct (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : 
       intro i
       rcases i.eq_castSucc_or_eq_last with ⟨i, rfl⟩ | rfl
       · have hi := i.isLt
-        simp only [Fin.snoc_castSucc, Fin.coe_castSucc]
-        rw [hNb i, if_pos (show i.val < k by omega), if_pos (show i.val < j + 1 by omega)]
-      · rw [Fin.snoc_last, Fin.snoc_last, Fin.val_last, hNb'', if_pos (show j < j + 1 by omega)]
+        simp only [Fin.snoc_castSucc, Fin.val_castSucc]
+        rw [hNb i, ite_eq_left (show i.val < k by omega), ite_eq_left (show i.val < j + 1 by omega)]
+      · rw [Fin.snoc_last, Fin.snoc_last, Fin.val_last, hNb'', ite_eq_left (show j < j + 1 by omega)]
     ·
       have hA' : ∀ y, OrthPairs σ a b y → t • y - y = 0 := fun y hy => by
         by_contra h
@@ -417,9 +435,9 @@ private theorem h65_induct (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : 
         fun _ y hy => hA' y (h65_snoc_orth hy)⟩
       intro i
       rcases i.eq_castSucc_or_eq_last with ⟨i, rfl⟩ | rfl
-      · simp only [Fin.snoc_castSucc, Fin.coe_castSucc]
+      · simp only [Fin.snoc_castSucc, Fin.val_castSucc]
         exact hNb i
-      · rw [Fin.snoc_last, Fin.snoc_last, Fin.val_last, hNb'', if_neg (show ¬ (j < k) by omega)]
+      · rw [Fin.snoc_last, Fin.snoc_last, Fin.val_last, hNb'', ite_eq_right (show ¬ (j < k) by omega)]
 
 theorem exists_adapted_pairs (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : t * t = 1) :
     ∃ (k : ℕ) (a b : Fin 3 → (Fin 6 → F)), k ≤ 3 ∧ IsHypPairs σ a b ∧
@@ -431,14 +449,17 @@ theorem exists_adapted_pairs (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht 
 @[expose] def frameOf (a b : Fin 3 → (Fin 6 → F)) : Matrix (Fin 6) (Fin 6) F :=
   Matrix.of fun r c => if c.val % 2 = 0 then a ⟨c.val / 2, by omega⟩ r else b ⟨c.val / 2, by omega⟩ r
 
+omit [CharP F 2] in
 theorem conjTr_frameOf_mul (hσ : ∀ c, σ (σ c) = c) {a b : Fin 3 → (Fin 6 → F)} (hab : IsHypPairs σ a b) :
     conjTr σ (frameOf a b) * frameOf a b = hypGram F :=
   conjTr_hypMat_mul (v := a) (w := b) hσ hab.1 hab.2.2 hab.2.1
 
+omit [CharP F 2] in
 private theorem h68_tInv1_val :
     (tInv1 F : Matrix (Fin 6) (Fin 6) F) = 1 + Matrix.single 0 1 1 := by
   rw [tInv1, transvGL_val, Matrix.transvection]
 
+omit [CharP F 2] in
 private theorem h68_tInv2_val :
     (tInv2 F : Matrix (Fin 6) (Fin 6) F) = 1 + (Matrix.single 0 1 1 + Matrix.single 2 3 1) := by
   rw [tInv2, Units.val_mul, h68_tInv1_val, transvGL_val, Matrix.transvection, add_mul, one_mul,
@@ -446,6 +467,7 @@ private theorem h68_tInv2_val :
     add_zero]
   abel
 
+omit [CharP F 2] in
 private theorem h68_tInv3_val :
     (tInv3 F : Matrix (Fin 6) (Fin 6) F) =
       1 + (Matrix.single 0 1 1 + Matrix.single 2 3 1 + Matrix.single 4 5 1) := by
@@ -514,10 +536,9 @@ theorem exists_frame_conj (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : t
       have f0 := congrFun hB0 r
       have f1 := congrFun hB1 r
       have f2 := congrFun hB2 r
-      simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_six, Pi.add_apply] at e0 e1 e2 f0 f1 f2
+      simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_six] at e0 e1 e2 f0 f1 f2
       fin_cases c <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_six, frameOf, Matrix.single_apply, Matrix.one_apply,
-          Matrix.add_apply] <;>
+        simp [Matrix.mul_apply, Fin.sum_univ_six, frameOf] <;>
         (first | linear_combination e0 | linear_combination e1 | linear_combination e2 |
           linear_combination f0 | linear_combination f1 | linear_combination f2)
     have ht' : (t : GL (Fin 6) F) = 1 := by
@@ -587,6 +608,7 @@ theorem exists_frame_conj (hσ : IsUnitaryInvolution σ) {t : SUid σ 6} (ht : t
       (first | linear_combination e0 | linear_combination e1 | linear_combination e2 |
         linear_combination f0 | linear_combination f1 | linear_combination f2)
 
+omit [CharP F 2] in
 private theorem h69_det_norm {B : Matrix (Fin 6) (Fin 6) F} (hB : conjTr σ B * B = 1) :
     σ B.det * B.det = 1 := by
   have h1 : σ B.det = (conjTr σ B).det := by
@@ -594,6 +616,7 @@ private theorem h69_det_norm {B : Matrix (Fin 6) (Fin 6) F} (hB : conjTr σ B * 
     rfl
   rw [h1, ← Matrix.det_mul, hB, Matrix.det_one]
 
+omit [CharP F 2] in
 private theorem h69_unitary_mul {A S T H : Matrix (Fin 6) (Fin 6) F} (hA : conjTr σ A * A = H)
     (hS : conjTr σ S * S = H) (hST : S * T = 1) :
     conjTr σ (A * T) * (A * T) = 1 := by
@@ -605,6 +628,7 @@ private theorem h69_unitary_mul {A S T H : Matrix (Fin 6) (Fin 6) F} (hA : conjT
         rw [CFSG.LieType.Universal.Unitary.conjTr_mul]; simp only [Matrix.mul_assoc]
     _ = 1 := by rw [hST, CFSG.LieType.Universal.Unitary.conjTr_one, Matrix.one_mul]
 
+omit [CharP F 2] in
 private theorem h69_diag_herm {lam : F} (hl : σ lam * lam = 1) :
     conjTr σ (Matrix.diagonal ![lam, lam, 1, 1, 1, 1]) * hypGram F *
       Matrix.diagonal ![lam, lam, 1, 1, 1, 1] = hypGram F := by
@@ -613,6 +637,7 @@ private theorem h69_diag_herm {lam : F} (hl : σ lam * lam = 1) :
     simp [conjTr, hypGram, Matrix.mul_apply, Fin.sum_univ_six, Matrix.diagonal_apply] <;>
     linear_combination hl
 
+omit [CharP F 2] in
 private theorem h69_diag_ne {lam : F} (hl : lam ≠ 0) :
     ∀ i, (![lam, lam, 1, 1, 1, 1] : Fin 6 → F) i ≠ 0 := by
   intro i

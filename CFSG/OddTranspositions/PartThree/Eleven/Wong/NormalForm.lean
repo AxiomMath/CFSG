@@ -40,7 +40,7 @@ theorem WongHyp.exists_embedding_left (h : WongHyp t L₁ L₂) :
 
 theorem WongHyp.exists_mem_centralizer_notMem (h : WongHyp t L₁ L₂) :
     ∃ n ∈ centralizer ({t} : Set G), n ∉ L₁ ⊔ L₂ := by
-  refine SetLike.not_le_iff_exists.mp fun hle => ?_
+  refine IsConcreteLE.not_le_iff_exists.mp fun hle => ?_
   have h1 := relIndex_eq_one.mpr hle
   rw [h.relIndex_eq] at h1
   exact absurd h1 (by norm_num)

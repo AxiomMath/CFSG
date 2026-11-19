@@ -83,7 +83,7 @@ private theorem section8_natCard_coprime_of_section12InternalDirectProduct_cycli
     hcent.trans (centralizer_le_normalizer W2)
   let W1J : Subgroup J := W1.subgroupOf J
   let W2J : Subgroup J := W2.subgroupOf J
-  haveI : W2J.Normal := by
+  have : W2J.Normal := by
     simpa [J, W2J] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -156,7 +156,7 @@ private theorem section8_natCard_coprime_of_section12InternalDirectProduct_cycli
     simpa [j] using congrArg Subtype.val hxy
   let e : W1 × W2 ≃* W := MulEquiv.ofBijective f ⟨hf_inj, hf_surj⟩
   have hprodcyc : IsCyclic (W1 × W2) := e.isCyclic.mpr hcyc
-  letI : IsCyclic (W1 × W2) := hprodcyc
+  let : IsCyclic (W1 × W2) := hprodcyc
   simpa [Nat.card_eq_fintype_card] using coprime_card_of_isCyclic_prod W1 W2
 
 private theorem caseB_W2_le_ambientDerived_S
@@ -172,7 +172,7 @@ private theorem caseB_W2_le_ambientDerived_S
   have hW2_le_S : W2 ≤ S := hprod.2.1.trans hW_le_S
   have hDnorm : (D.subgroupOf S).Normal := by
     simpa [D] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := S)).2
-  letI : (D.subgroupOf S).Normal := hDnorm
+  let : (D.subgroupOf S).Normal := hDnorm
   let q : S →* S ⧸ D.subgroupOf S := QuotientGroup.mk' (D.subgroupOf S)
   let W2sub : Subgroup S := W2.subgroupOf S
   have hcompLocal : (W1.subgroupOf S).IsComplement' (D.subgroupOf S) :=
@@ -363,7 +363,7 @@ private theorem caseB_W2S_le_W2
     have hya : y * a = a * y :=
       (Subgroup.mem_centralizer_iff.mp (hW2S_cent_W1 hyW2S) a haW1).symm
     have hyb : y * b = b * y := by
-      letI : IsCyclic W2S := hW2Scyc
+      let : IsCyclic W2S := hW2Scyc
       exact setLike_mul_comm
         (s := W2S) hyW2S (hW2_le_W2S hbW2)
     calc
@@ -381,8 +381,8 @@ private theorem caseB_W2S_le_W2
   let W1W : Subgroup W := W1.subgroupOf W
   let W2W : Subgroup W := W2.subgroupOf W
   let yW : W := ⟨y, hyW⟩
-  letI : IsCyclic W := hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : IsCyclic W := hcyc
+  let : CommGroup W := IsCyclic.commGroup
   have hsupTop : W1W ⊔ W2W = ⊤ := by
     calc
       W1W ⊔ W2W = (W1 ⊔ W2).subgroupOf W := by

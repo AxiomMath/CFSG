@@ -28,6 +28,7 @@ theorem charP_two_of_card_four (hK : Nat.card K = (2 ^ 1) ^ 2) : CharP K 2 :=
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem scalars_statedSU_five_eq_bot (hK : Nat.card K = (2 ^ 1) ^ 2) :
     (StatedScalars (Fin 5) K).subgroupOf (StatedSU 5 (2 ^ 1) K) = ⊥ :=
   CFSG.LocalAnalysis.EvenBN.UnitaryFiveTwo.statedScalars_subgroupOf_eq_bot hK

@@ -32,16 +32,18 @@ namespace RelDPlane
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {U : Type} [AddCommGroup U] [Module K U]
   {Q : QuadraticForm K U}
 
+omit [Finite K] [CharP K 2] in
 theorem exists_map_ne_zero (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) : ∃ u : U, Q u ≠ 0 := by
   classical
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   by_contra h
   push Not at h
   obtain ⟨u, hu⟩ := exists_ne (0 : U)
   refine hu (hQ.1 u fun v => ?_)
   simp [polarBilin_apply_apply, polar, h]
 
+omit [Finite K] in
 theorem not_scalar (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0) :
@@ -68,7 +70,7 @@ theorem not_scalar (hU : Module.finrank K U = 2)
     rcases mul_eq_zero.mp hfac with h | h
     · exact sub_eq_zero.mp h
     · exact sub_eq_zero.mp h
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   obtain ⟨u, hu⟩ := exists_ne (0 : U)
   apply hu
   apply hfix u
@@ -77,11 +79,12 @@ theorem not_scalar (hU : Module.finrank K U = 2)
     simpa [ha1] using h
   exact hcu'
 
+omit [Finite K] [CharP K 2] in
 theorem exists_cyclic_vector (hU : Module.finrank K U = 2) {c : Module.End K U}
     (hcns : ∀ a : K, c ≠ a • 1) :
     ∃ v : U, LinearIndependent K ![v, c v] := by
   classical
-  haveI : FiniteDimensional K U := .of_finrank_pos (by omega)
+  have : FiniteDimensional K U := .of_finrank_pos (by omega)
   let b := Module.finBasisOfFinrankEq K U hU
   by_contra h
   push Not at h
@@ -122,8 +125,9 @@ theorem exists_cyclic_vector (hU : Module.finrank K U = 2) {c : Module.End K U}
     (a • (1 : Module.End K U)) ((b.repr u) 0 • b 0 + (b.repr u) 1 • b 1)
   rw [map_add, map_smul, map_smul, hb0, hb1, ha0, ha1]
   simp only [LinearMap.smul_apply, Module.End.one_apply, smul_add, smul_smul]
-  simp [mul_comm, mul_left_comm, mul_assoc]
+  simp [mul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem centralizer_eq_adjoin (hU : Module.finrank K U = 2) {c : Module.End K U}
     (hcns : ∀ a : K, c ≠ a • 1) :
     Subalgebra.centralizer K ({c} : Set (Module.End K U)) = Algebra.adjoin K {c} := by
@@ -131,7 +135,7 @@ theorem centralizer_eq_adjoin (hU : Module.finrank K U = 2) {c : Module.End K U}
   refine le_antisymm ?_ ?_
   · intro g hg
     obtain ⟨v, hv⟩ := exists_cyclic_vector (K := K) (U := U) hU hcns
-    haveI : FiniteDimensional K U := .of_finrank_pos (by omega)
+    have : FiniteDimensional K U := .of_finrank_pos (by omega)
     let b : Basis (Fin 2) K U :=
       basisOfLinearIndependentOfCardEqFinrank (b := ![v, c v]) hv (by simp [hU])
     have hb0 : b 0 = v := by
@@ -196,6 +200,7 @@ theorem centralizer_eq_adjoin (hU : Module.finrank K U = 2) {c : Module.End K U}
       subst hy
       exact (Commute.refl y).eq
 
+omit [Finite K] [CharP K 2] in
 theorem mem_adjoin_of_mem_centralizer_group (hU : Module.finrank K U = 2)
     {c : U ≃ₗ[K] U} (hcns : ∀ a : K, (c : Module.End K U) ≠ a • 1)
     {g : U ≃ₗ[K] U}
@@ -213,6 +218,7 @@ theorem mem_adjoin_of_mem_centralizer_group (hU : Module.finrank K U = 2)
     rw [← LinearEquiv.coe_toLinearMap_mul, ← LinearEquiv.coe_toLinearMap_mul, hg']
   rwa [hcent_eq] at hg_cent
 
+omit [Finite K] [CharP K 2] in
 theorem centralizer_comm (hU : Module.finrank K U = 2)
     {c : U ≃ₗ[K] U} (hcns : ∀ a : K, (c : Module.End K U) ≠ a • 1)
     {g h : U ≃ₗ[K] U}
@@ -220,7 +226,7 @@ theorem centralizer_comm (hU : Module.finrank K U = 2)
     (hh : h ∈ Subgroup.centralizer ({c} : Set (U ≃ₗ[K] U))) : g * h = h * g := by
   have hg_adj := mem_adjoin_of_mem_centralizer_group (K := K) (U := U) (c := c) hU hcns hg
   have hh_adj := mem_adjoin_of_mem_centralizer_group (K := K) (U := U) (c := c) hU hcns hh
-  letI : IsMulCommutative (Algebra.adjoin K ({(c : Module.End K U)} : Set (Module.End K U))) :=
+  let : IsMulCommutative (Algebra.adjoin K ({(c : Module.End K U)} : Set (Module.End K U))) :=
     Algebra.isMulCommutative_adjoin_singleton (R := K) (x := (c : Module.End K U))
   have hcomm_sub :
       (⟨(g : Module.End K U), hg_adj⟩ :
@@ -239,6 +245,7 @@ theorem centralizer_comm (hU : Module.finrank K U = 2)
   change g (h u) = h (g u)
   exact LinearMap.congr_fun hcomm u
 
+omit [Finite K] [CharP K 2] in
 theorem hypPair_linearIndependent {P : HypPair Q} :
     LinearIndependent K ![P.e, P.f] := by
   rw [linearIndependent_fin2]
@@ -253,20 +260,23 @@ noncomputable def hypPairBasis (hU : Module.finrank K U = 2) (P : HypPair Q) :
   basisOfLinearIndependentOfCardEqFinrank (b := ![P.e, P.f])
     (hypPair_linearIndependent (Q := Q)) (by simp [hU])
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem hypPairBasis_zero (hU : Module.finrank K U = 2) (P : HypPair Q) :
     hypPairBasis (Q := Q) hU P 0 = P.e := by
   dsimp only [hypPairBasis]; simp
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem hypPairBasis_one (hU : Module.finrank K U = 2) (P : HypPair Q) :
     hypPairBasis (Q := Q) hU P 1 = P.f := by
   dsimp only [hypPairBasis]; simp
 
+omit [Finite K] [CharP K 2] in
 theorem isPlusType_iff_exists_singular (hU : Module.finrank K U = 2) :
     CFSG.GroupTheory.WeirSylow.IsPlusType Q ↔ ∃ u : U, u ≠ 0 ∧ Q u = 0 := by
   constructor
   · rintro ⟨W, hWdim, hWQ⟩
     have hW1 : Module.finrank K W = 1 := by omega
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (M := W) (by rw [hW1]; norm_num)
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (M := W) (by rw [hW1]; norm_num)
     obtain ⟨u, hu0⟩ := exists_ne (0 : W)
     exact ⟨u, fun h => hu0 (Subtype.ext h), hWQ u u.2⟩
   · rintro ⟨u, hu0, huQ⟩
@@ -277,23 +287,24 @@ theorem isPlusType_iff_exists_singular (hU : Module.finrank K U = 2) :
       obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hx
       rw [map_smul_eq_sq, huQ, mul_zero]
 
+omit [CharP K 2] in
 theorem card_orthogonalGroup_of_isPlusType (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) = 2 * (Nat.card K - 1) := by
-  haveI : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
+  have : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
   have h := CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type (K := K) (V := U)
     (Q := Q) hQ (m := 0) (by rw [hU]) (ε := 1) (Or.inl ⟨rfl, hplus⟩)
   rw [Finset.Icc_eq_empty_of_lt (by norm_num : (0 : ℕ) < 1), Finset.prod_empty] at h
-  simp only [Nat.zero_mul, Nat.zero_add, pow_zero, pow_one, mul_one, one_mul] at h
+  simp only [Nat.zero_add, pow_zero, pow_one, mul_one] at h
   have hq : 1 ≤ Nat.card K := by have := Finite.one_lt_card (α := K); omega
   have hcast : ((2 * (Nat.card K - 1) : ℕ) : ℤ) = 2 * ((Nat.card K : ℤ) - 1) := by
     rw [Nat.cast_mul, Nat.cast_sub hq, Nat.cast_ofNat, Nat.cast_one]
   rw [← hcast] at h
   exact_mod_cast h
 
-theorem even_natCard (h2 : (2 : K) = 0) : Even (Nat.card K) := by
-  letI : Fintype K := Fintype.ofFinite K
+theorem even_natCard (_h2 : (2 : K) = 0) : Even (Nat.card K) := by
+  let : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hdvd : 2 ∣ Nat.card K := by
     have h := (prime_dvd_char_iff_dvd_card (R := K) 2).mp (by rw [hchar])

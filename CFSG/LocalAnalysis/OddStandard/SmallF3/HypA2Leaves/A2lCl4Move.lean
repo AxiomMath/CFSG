@@ -16,7 +16,7 @@ theorem cl24_exists_move (hQ : (polarBilin Q).Nondegenerate) {P₁ P₂ : HypPai
     [MulAction.IsPretransitive (elementaryGroup Q) X] (hX : 2 ≤ Nat.card X) :
     ∃ (y : X) (w : P₁.perp), cl24_eps P₁ w • y ≠ y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : ((rootGroup Q P₁.e).subgroupOf (elementaryGroup Q) : Set (elementaryGroup Q)) ⊆
       (MulAction.toPermHom (elementaryGroup Q) X).ker := by
     intro g hg
@@ -42,7 +42,7 @@ theorem cl24_exists_move (hQ : (polarBilin Q).Nondegenerate) {P₁ P₂ : HypPai
     have h2 := congrArg (fun e : Equiv.Perm X => e y) hg
     change g • y = y at h2
     exact h2
-  haveI : Subsingleton X := ⟨fun x y => by
+  have : Subsingleton X := ⟨fun x y => by
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (elementaryGroup Q) x y
     rw [← hg, htriv g x]⟩
   have hcard : Nat.card X ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr inferInstance

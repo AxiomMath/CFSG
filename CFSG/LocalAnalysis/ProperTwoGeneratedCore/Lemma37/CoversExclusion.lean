@@ -101,7 +101,7 @@ theorem false_of_benderCoverFacts [Finite K] (hperf : commutator K = ⊤)
   have hZ : IsPGroup 2 (Subgroup.center K) := IsPGroup.of_card (n := 1) (by rw [hZ2, pow_one])
   have hZQ : Subgroup.center K ≤ (Q : Subgroup K) := hZ.le_sylow_of_normal Q
   obtain ⟨D, -, -, -, htrans, -⟩ := hBF.torus
-  have hQ2 : IsPGroup 2 (centralImage (Q : Subgroup K)) := Q.isPGroup'.map _
+  have hQ2 : IsPGroup 2 (centralImage (Q : Subgroup K)) := Q.isPGroup.map _
   have hab : ∀ x ∈ centerPreimage (Q : Subgroup K), ∀ y ∈ centerPreimage (Q : Subgroup K),
       x * y = y * x := by
     intro x hx y hy

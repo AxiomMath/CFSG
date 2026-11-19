@@ -18,10 +18,10 @@ theorem exists_ne_zero_quadMap_eq_zero {W U : Type*} [AddCommGroup W] [Module (Z
     (hq : ∀ a b, q (a + b) = q a + q b + β a b) (hcard : Nat.card U ^ 2 < Nat.card W) :
     ∃ w : W, w ≠ 0 ∧ q w = 0 := by
   classical
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) U := Module.Finite.of_finite
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) U := Module.Finite.of_finite
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype U := Fintype.ofFinite U
   set f := Module.finrank (ZMod 2) U with hf
   let bU := Module.finBasis (ZMod 2) U
   have hU : Nat.card U = 2 ^ f := by
@@ -200,7 +200,7 @@ theorem exists_comm_mem_of_card_lt {X : Type} [Group X] [Finite X]
     rw [this, commutatorElement_one_right]
   set D : Subgroup ↥K₂ := C.subgroupOf K₂ with hD
   have hmemD : ∀ k : ↥K₂, k ∈ D ↔ (k : X) ∈ C := fun k => mem_subgroupOf
-  haveI hDn : D.Normal := by
+  have hDn : D.Normal := by
     refine ⟨fun c hc k => (hmemD _).2 ?_⟩
     have hc' : (c : X) ∈ C := (hmemD c).1 hc
     have e : (k : X) * c * (k : X)⁻¹ = ⁅(k : X), (c : X)⁆ * c := by
@@ -220,20 +220,20 @@ theorem exists_comm_mem_of_card_lt {X : Type} [Group X] [Finite X]
     show (((a * b)⁻¹ * (b * a) : ↥K₂) : X) ∈ C
     rw [e]
     exact hVC (hNc _ (N.inv_mem (hK₂N b.2)) _ (N.inv_mem (hK₂N a.2)))
-  letI : CommGroup (↥K₂ ⧸ D) := sec717CommGroup hWcomm
+  let : CommGroup (↥K₂ ⧸ D) := sec717CommGroup hWcomm
   have hWsq : ∀ x : Additive (↥K₂ ⧸ D), 2 • x = 0 := by
     intro x
     obtain ⟨a, ha⟩ := QuotientGroup.mk_surjective (Additive.toMul x)
     rw [← Additive.toMul.injective.eq_iff, toMul_nsmul, toMul_zero, ← ha, ← QuotientGroup.mk_pow,
       QuotientGroup.eq_one_iff, hmemD, pow_two]
     exact hVC (hNsq _ (hK₂N a.2))
-  letI : Module (ZMod 2) (Additive (↥K₂ ⧸ D)) := AddCommGroup.zmodModule hWsq
-  letI : CommGroup ↥V := sec717CommGroup fun a b => Subtype.ext (hVab a a.2 b b.2)
+  let : Module (ZMod 2) (Additive (↥K₂ ⧸ D)) := AddCommGroup.zmodModule hWsq
+  let : CommGroup ↥V := sec717CommGroup fun a b => Subtype.ext (hVab a a.2 b b.2)
   have hUsq : ∀ x : Additive ↥V, 2 • x = 0 := by
     intro x
     rw [← Additive.toMul.injective.eq_iff, toMul_nsmul, toMul_zero, pow_two]
     exact Subtype.ext (hVsq _ (Additive.toMul x).2)
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule hUsq
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule hUsq
   let v' : ↥K₂ → ↥V := fun n => ⟨vf n n.2, hvV n n.2⟩
   let β' : ↥K₂ → ↥K₂ → ↥V := fun n n' =>
     ⟨⁅(n : X), ⁅y, (n' : X)⁆⁆, hβV n (hK₂N n.2) n' (hK₂N n'.2)⟩

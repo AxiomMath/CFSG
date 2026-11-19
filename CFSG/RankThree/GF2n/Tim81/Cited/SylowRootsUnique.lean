@@ -179,7 +179,7 @@ private theorem card_fixV_le [Finite F] [Finite (SU σ N)] [CharP F 2]
         rw [hĝ₀a]
         exact congrArg Subtype.val (show a₀ q = q from hq a₀ ha₀A)
       rw [coe_conjAct_apply] at hval
-      simp only [Subgroup.coe_mk] at hval
+      simp only at hval
       calc ĝ₀ * (q : SU σ N)
           = (ĝ₀ * (q : SU σ N) * ĝ₀⁻¹) * ĝ₀ := by group
         _ = (q : SU σ N) * ĝ₀ := by rw [hval])
@@ -261,11 +261,12 @@ private theorem card_offender_le [Finite F] [CharP F 2] {f : ℕ}
     refine MulEquiv.ext fun w => ?_
     apply Subtype.ext
     rw [coe_conjAct_apply, coe_conjAct_apply]
-    simp only [Subgroup.coe_mk]
+    simp only
     exact hact (w : SU σ N) w.2
   have := Nat.card_le_card_of_injective φ hφinj
   rwa [htrace] at this
 
+omit [Field F] in
 private theorem lt_irrefl_of_card {f : ℕ} (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f)
     {n : ℕ} (hn : 0 < n) (h : n * Nat.card F ≤ 2 ^ f * n) : False := by
   have h2 : n * ((2 ^ f) * (2 ^ f)) ≤ n * (2 ^ f) := by
@@ -355,7 +356,7 @@ private theorem false_of_not_le_centralizer [Finite F] [Finite (SU σ N)] [CharP
       _ = Nat.card A₁ * (Nat.card (fixV A₁) * Nat.card F) := by ring
       _ ≤ Nat.card A₁ * Nat.card ↥(lowRad σ N) := Nat.mul_le_mul_left _ hfixle
       _ ≤ 2 ^ f * Nat.card ↥(lowRad σ N) := Nat.mul_le_mul_right _ hAle
-  haveI : Nonempty ↥(lowRad σ N) := ⟨⟨1, (lowRad σ N).one_mem⟩⟩
+  have : Nonempty ↥(lowRad σ N) := ⟨⟨1, (lowRad σ N).one_mem⟩⟩
   exact lt_irrefl_of_card (F := F) hF hf Nat.card_pos hmain
 
 theorem eq_map_lowRad_of_le_normalizer [Finite F] [CharP F 2] {f : ℕ}
@@ -371,13 +372,13 @@ theorem eq_map_lowRad_of_le_normalizer [Finite F] [CharP F 2] {f : ℕ}
   let σ := unitaryInvolution F 2 f
   have hσ : ∀ c, σ (σ c) = c := unitaryInvolution_involutive hF
   have htr : ∀ a, σ a = a → ∃ c, c + σ c = a := fun _ ha => exists_add_unitaryInvolution_eq hF ha
-  haveI : Finite (SU σ N) :=
+  have : Finite (SU σ N) :=
     Finite.of_injective (mat σ N) (mat_injective (σ := σ) (n := N))
   have hodd : Odd (Nat.card Φ.ker) :=
     CFSG.StandardType.odd_natCard_of_le_center_SU σ hker
   obtain ⟨Ê, hÊmap, hÊel, hÊN, hcardÊ⟩ :=
     exists_lift (σ := σ) (N := N) (Φ := Φ) hker hodd hE hEc hE2 hcard
-  haveI : Finite ↥((lowRad σ N).map Φ) :=
+  have : Finite ↥((lowRad σ N).map Φ) :=
     Finite.of_surjective
       (fun q : ↥(lowRad σ N) =>
         (⟨Φ q, Subgroup.mem_map.mpr ⟨q, q.2, rfl⟩⟩ : ↥((lowRad σ N).map Φ)))

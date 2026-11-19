@@ -64,7 +64,7 @@ theorem kFactStrongThreeAutomizer_of_gls3Plus (hG : Gls3StronglyThreeEmbeddedPlu
   have hP'R : (P' : Subgroup N) ≤ R := by
     have h1 := Subgroup.relIndex_mul_relIndex R P' N₀ hRP' hP'N₀
     have h3 : ¬ 3 ∣ R.relIndex P' := fun h => hRidx (h1 ▸ Dvd.dvd.mul_right h _)
-    obtain ⟨n, hn⟩ := P'.isPGroup'.index (R.subgroupOf P')
+    obtain ⟨n, hn⟩ := P'.isPGroup.index (R.subgroupOf P')
     have hn' : R.relIndex P' = 3 ^ n := hn
     have : n = 0 := by
       by_contra hne

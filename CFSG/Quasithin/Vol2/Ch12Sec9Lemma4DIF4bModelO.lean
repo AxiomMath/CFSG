@@ -73,7 +73,7 @@ theorem conj_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
     (hrel : Ω.relIndex GM = 2) {γ n : VM ≃ₗ[ZMod 2] VM} (hγ : γ ∈ GM) (hn : n ∈ Ω) :
     γ * n * γ⁻¹ ∈ Ω := by
   have hidx : (Ω.subgroupOf GM).index = 2 := hrel
-  haveI : (Ω.subgroupOf GM).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (Ω.subgroupOf GM).Normal := Subgroup.normal_of_index_eq_two hidx
   have hn' : (⟨n, hΩG hn⟩ : GM) ∈ Ω.subgroupOf GM := Subgroup.mem_subgroupOf.2 hn
   have h := Subgroup.Normal.conj_mem inferInstance _ hn' ⟨γ, hγ⟩
   exact Subgroup.mem_subgroupOf.1 h
@@ -83,9 +83,9 @@ theorem conj_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
   map_one' := LA_one
   map_mul' := LA_mul
 
-theorem LA_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
+theorem LA_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (_hΩG : Ω ≤ GM)
     (hrel : Ω.relIndex GM = 2) (u : GL3) : LA u ∈ Ω := by
-  haveI : IsSimpleGroup GL3 := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (by norm_num)
+  have : IsSimpleGroup GL3 := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (by norm_num)
   have hidx : (Ω.subgroupOf GM).index = 2 := hrel
   let LAG : GL3 →* GM := LAhom.codRestrict GM (fun u => LA_mem_GM u)
   let K : Subgroup GL3 := (Ω.subgroupOf GM).comap LAG
@@ -101,7 +101,7 @@ theorem LA_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
       have h1 : K.index ≠ 1 := fun h => hne (Subgroup.index_eq_one.1 h)
       have h0 : K.index ≠ 0 := Subgroup.index_ne_zero_of_finite
       omega
-    haveI : K.Normal := Subgroup.normal_of_index_eq_two h2
+    have : K.Normal := Subgroup.normal_of_index_eq_two h2
     rcases Subgroup.Normal.eq_bot_or_eq_top K with h | h
     · rw [h, Subgroup.index_bot, card_GL3] at h2
       norm_num at h2
@@ -161,8 +161,8 @@ theorem gA_mem_Omega {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
     omega
   have hcard : 1 < Nat.card (Ω ⊓ K0 : Subgroup _) := by
     rcases hr with h | h <;> rw [h] at hcount <;> omega
-  haveI : Finite ↥(Ω ⊓ K0 : Subgroup _) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial ↥(Ω ⊓ K0 : Subgroup _) := Finite.one_lt_card_iff_nontrivial.mp hcard
+  have : Finite ↥(Ω ⊓ K0 : Subgroup _) := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial ↥(Ω ⊓ K0 : Subgroup _) := Finite.one_lt_card_iff_nontrivial.mp hcard
   obtain ⟨g, hg⟩ := exists_ne (1 : ↥(Ω ⊓ K0 : Subgroup _))
   obtain ⟨hgΩ, hgK0⟩ := Subgroup.mem_inf.1 g.2
   have hg1 : (g : VM ≃ₗ[ZMod 2] VM) ≠ 1 := fun h => hg (Subtype.ext h)

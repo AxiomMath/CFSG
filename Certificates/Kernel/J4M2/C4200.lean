@@ -221,14 +221,14 @@ theorem tMats_enc : ∀ i < 77, WfA tMats[i]! ∧ encR tMats[i]! = getN one (tOf
       refine ⟨by simp [hs], by simp [hl], fun i hi => ?_⟩
       rw [getN_append, hl]
       by_cases hik : i < k
-      · rw [if_pos hik, push_get! (by omega)]
+      · rw [ite_eq_left hik, push_get! (by omega)]
         exact hm i hik
       · have e : i = k := by omega
         subst e
         have e2 : ∀ x : Array V2, (A.push x)[i]! = x := fun x => by
           rw [← hs]
           exact push_get!_size
-        rw [if_neg (lt_irrefl i), Nat.sub_self, e2]
+        rw [ite_eq_right (lt_irrefl i), Nat.sub_self, e2]
         exact hx
   intro i hi
   exact (key 77 le_rfl).2.2 i hi

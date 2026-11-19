@@ -484,7 +484,7 @@ theorem basic : (∀ k < 2, permOK 3850 (hsCentTbl (k + 6)) = true ∧
   · rw [hsCentTbl_eq (by omega)]
     exact unpack_size _ _ _
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG CFSG.Sporadic CFSG.Sporadic.SmallOddCore CFSG.PSL3Four.Native in
 open CFSG.Sporadic.SmallOddCore.Native in
 theorem facts2273 : ((∀ k < 2, permOK 3850 (hsCentTbl (k + 6)) = true ∧

@@ -77,7 +77,7 @@ theorem commutator_mem_centralizer_of_isCyclic {X : Type*} [Group X] {R : Subgro
     (hR : IsCyclic R) {g₁ g₂ : X} (h₁ : g₁ ∈ normalizer (R : Set X))
     (h₂ : g₂ ∈ normalizer (R : Set X)) :
     g₁ * g₂ * g₁⁻¹ * g₂⁻¹ ∈ centralizer (R : Set X) := by
-  haveI := hR
+  have := hR
   have hpow : ∀ g ∈ normalizer (R : Set X), ∃ m : ℤ, ∀ r ∈ R, g * r * g⁻¹ = r ^ m := by
     intro g hg
     let σ : R →* R :=

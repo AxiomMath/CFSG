@@ -26,14 +26,14 @@ theorem inner_of_pow_three_pomegaOdd {n ℓ f : ℕ} {G : Type} [Group G] [Finit
     (hβ : β ∈ innAutDerived G) (hβ3 : β ^ 3 = 1) : β ∈ inner G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn : 3 ≤ n := hadm.2.2.1
   have hℓ2 : ℓ ≠ 2 := hadm.2.2.2
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
   have h2 : ringChar K ≠ 2 := by rw [hchar]; exact hℓ2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     Finite.of_equiv G (coordinateOddWitnessEquiv K e).toEquiv
   have hmodel : ∀ β' : MulAut (matrixProjectiveDerived (coordinateQuadOdd n K)),
       β' ∈ innAutDerived (matrixProjectiveDerived (coordinateQuadOdd n K)) →
@@ -66,12 +66,12 @@ theorem inner_of_pow_three_pomegaPlus {n ℓ f : ℕ} {G : Type} [Group G] [Fini
     (hβ : β ∈ innAutDerived G) (hβ3 : β ^ 3 = 1) : β ∈ inner G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hchar : ringChar K = ℓ :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   have hmodel : ∀ β' : MulAut (matrixProjectiveDerived (coordinateQuadPlus n K)),
       β' ∈ innAutDerived (matrixProjectiveDerived (coordinateQuadPlus n K)) →
@@ -104,11 +104,11 @@ theorem inner_of_pow_three_pomegaMinus {n ℓ f : ℕ} {G : Type} [Group G] [Fin
     (hβ : β ∈ innAutDerived G) (hβ3 : β ^ 3 = 1) : β ∈ inner G := by
   have hG0 := hG
   obtain ⟨hadm, K, hfield, hfinite, hK, b, c, hirr, ⟨e⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn4 : 4 ≤ n := hadm.2.2
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   have hmodel : ∀ β' : MulAut (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)),
       β' ∈ innAutDerived (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) →
@@ -142,7 +142,7 @@ theorem inner_of_pow_three_symplectic (d : TauCeti.ValidLieTypeIndex)
     (ha : a ∈ innAutDerived (TauCeti.CFSGIndex.lie d).Group) (ha3 : a ^ 3 = 1) :
     a ∈ inner (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨r, hr2, hne, hcard, ⟨e⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hK : Nat.card d.fixedField = d.characteristic ^ d.fieldExponent := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]
@@ -168,7 +168,7 @@ theorem kd264Y1OutOS_holds : KD264Y1OutOS := by
   ·
     by_cases hB : r = 2 ∨ q.p = 2
     · exact inner_of_pow_three_symplectic ⟨_, hv⟩ (by simp [isSymplecticIdx, hB]) ha ha3
-    · push_neg at hB
+    · push Not at hB
       have hstd := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
         ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
       have hn3 : 3 ≤ r := by

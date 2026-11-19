@@ -26,9 +26,9 @@ theorem s1667_kg_inf_centralizer_equiv {Q : Type} [Group Q] (J : Subgroup Q) {x 
 
 theorem s1667_kgl2_ringChar_eq {F : Type} [Field F] [Finite F] {p f : ℕ} (hp : p.Prime)
     (hcard : Nat.card F = p ^ f) : ringChar F = p := by
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
+  let : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
   exact ringChar.eq F p
 
 theorem s1667_kgl2_card_le_two_of_forall_eq {G : Type*} [Group G] [Finite G]

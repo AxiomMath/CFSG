@@ -22,6 +22,7 @@ theorem p622Exit_card_mulAut : Nat.card (MulAut GL32) = 336 := by
   rw [hInn, index_Inn] at h
   omega
 
+omit [Finite C] in
 theorem p622Exit_inf_centralizer {L : Subgroup C} (e : ↥L ≃* GL32) :
     centralizer (L : Set C) ⊓ L = ⊥ := by
   rw [eq_bot_iff]
@@ -116,8 +117,8 @@ private lemma card_le_card_p622Prod {G : Type*} [Group G] [Finite G] {A B : Subg
 
 private lemma p622_exists_elemAbelian_nine {R : Subgroup C} (hR : IsPGroup 3 R)
     (hnc : ¬ IsCyclic R) : ∃ A : Subgroup C, A ≤ R ∧ IsElemAbelian 3 A ∧ Nat.card A = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 R) := ⟨hR⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 R) := ⟨hR⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   refine ⟨S.map R.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
@@ -175,7 +176,7 @@ theorem p622Exit_card_eq_three_of_cyclic {x : C} (hx3 : orderOf x = 3)
     (hcube : ∀ y : C, (∃ k : ℕ, y ^ 3 ^ k = 1) → y ^ 3 ≠ x)
     {R : Subgroup C} (hcyc : IsCyclic R) (hR : IsPGroup 3 R) (hxR : x ∈ R) :
     Nat.card R = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hR
   obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := R)
   have hord : orderOf g = Nat.card R := orderOf_eq_card_of_forall_mem_powers hg
@@ -223,7 +224,7 @@ theorem p622Exit_centralizer_eq {L : Subgroup C} [L.Normal] (e : ↥L ≃* GL32)
     (hrk : ∀ E : Subgroup C, IsElemAbelian 3 E → Nat.card E ≤ 9)
     (hcube : ∀ y : C, (∃ k : ℕ, y ^ 3 ^ k = 1) → y ^ 3 ≠ x) :
     centralizer (L : Set C) = zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup C, Q = centralizer (L : Set C) := ⟨_, rfl⟩
   have hQn : Q.Normal := by
     rw [hQ]
@@ -244,8 +245,8 @@ theorem p622Exit_centralizer_eq {L : Subgroup C} [L.Normal] (e : ↥L ≃* GL32)
   have hZ3 : IsPGroup 3 (zpowers x') :=
     IsPGroup.of_card (((Nat.card_zpowers x').trans hx'ord).trans (pow_one 3).symm)
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hZ3
-  haveI : Finite (Sylow 3 Q) := Sylow.finite_of_finiteIndex P
-  have hR0_3 : IsPGroup 3 ((P : Subgroup Q).map Q.subtype) := P.isPGroup'.map Q.subtype
+  have : Finite (Sylow 3 Q) := Sylow.finite_of_finiteIndex P
+  have hR0_3 : IsPGroup 3 ((P : Subgroup Q).map Q.subtype) := P.isPGroup.map Q.subtype
   have hR0_le : (P : Subgroup Q).map Q.subtype ≤ centralizer (L : Set C) := by
     rw [← hQ]
     rintro c hc
@@ -349,6 +350,7 @@ theorem p622Exit_centralizer_eq {L : Subgroup C} [L.Normal] (e : ↥L ≃* GL32)
     rw [← hx', ← Subgroup.coe_zpow, hk, hpc]
   · exact Subgroup.zpowers_le.mpr hxQ
 
+omit [Finite C] in
 private theorem p622Exit_conjNormal_eq_one_iff {L : Subgroup C} [L.Normal] (g : C) :
     (MulAut.conjNormal g : MulAut ↥L) = 1 ↔ g ∈ centralizer (L : Set C) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -374,6 +376,7 @@ private theorem p622Exit_dvd_cases {n : ℕ} (h1 : 168 ∣ n) (h2 : n ∣ 336) :
   · norm_num
   · norm_num
 
+omit [Finite C] in
 theorem p622Exit_card {L : Subgroup C} [L.Normal] (e : ↥L ≃* GL32) {x : C} (hx3 : orderOf x = 3)
     (hcent : centralizer (L : Set C) = zpowers x) : Nat.card C = 504 ∨ Nat.card C = 1008 := by
   have hker : (MulAut.conjNormal : C →* MulAut ↥L).ker = centralizer (L : Set C) := by
@@ -482,7 +485,7 @@ private lemma p622_pow_eq_one_of_mem_zpowers {G : Type} [Group G] {z y : G} {n :
 private lemma p622_exists_N2 {G : Type} [Group G] [Finite G] (L : Subgroup G) [L.Normal]
     (hLi : L.index = 6) (hcard : Nat.card G = 1008) :
     ∃ N : Subgroup G, Nat.card N = 336 ∧ ∀ g ∈ N, g ^ 3 = 1 → g ∈ L := by
-  haveI : Fintype (G ⧸ L) := Fintype.ofFinite _
+  have : Fintype (G ⧸ L) := Fintype.ofFinite _
   have hQ : Nat.card (G ⧸ L) = 6 := hLi
   have hdvd : 2 ∣ Fintype.card (G ⧸ L) := by
     rw [← Nat.card_eq_fintype_card, hQ]
@@ -578,7 +581,7 @@ private lemma p622_split {G : Type} [Group G] [Finite G] {L : Subgroup G} [L.Nor
     rw [hzL, Subgroup.mem_bot] at hmem
     exact Subtype.ext hmem
   have hφbij : Function.Bijective φ2 := by
-    haveI : Finite (MulAut L) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+    have : Finite (MulAut L) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
     rw [Nat.bijective_iff_injective_and_card]
     exact ⟨hφinj, by rw [hNcard, hA]⟩
   exact ⟨(MulEquiv.ofBijective Ψ hΨbij).symm.trans

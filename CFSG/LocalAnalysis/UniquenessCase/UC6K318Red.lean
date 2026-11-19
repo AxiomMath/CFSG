@@ -16,17 +16,19 @@ open scoped commutatorElement
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem eq_top_of_isSolvable_quotient [Group.IsPerfect L] (N : Subgroup L) [N.Normal]
     (h : Group.IsSolvable (L ⧸ N)) : N = ⊤ := by
   by_contra hN
-  obtain ⟨g, -, hg⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.2 hN)
+  obtain ⟨g, -, hg⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.2 hN)
   have : Nontrivial (L ⧸ N) := ⟨⟨(g : L ⧸ N), 1, fun h1 => hg ((QuotientGroup.eq_one_iff g).1 h1)⟩⟩
   exact Group.IsPerfect.not_isSolvable (L ⧸ N) h
 
+omit [Finite L] in
 theorem le_or_eq_top_of_normal [Group.IsPerfect L] {Y : Subgroup L} [Y.Normal]
     (hYs : Group.IsSolvable Y) (hs : IsSimpleGroup (L ⧸ Y)) (N : Subgroup L) [N.Normal] :
     N ≤ Y ∨ N = ⊤ := by
-  haveI : (N.map (QuotientGroup.mk' Y)).Normal :=
+  have : (N.map (QuotientGroup.mk' Y)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective Y)
   rcases hs.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' Y)) with h | h
   · left
@@ -50,8 +52,8 @@ theorem le_or_eq_top_of_normal [Group.IsPerfect L] {Y : Subgroup L} [Y.Normal]
       have e : (n⁻¹ * g)⁻¹ * g = g⁻¹ * n * g⁻¹⁻¹ := by group
       rw [e]
       exact Normal.conj_mem inferInstance n hn g⁻¹
-    haveI := hYs
-    exact solvable_of_surjective hsurj
+    have := hYs
+    exact Group.isSolvable_of_surjective hsurj
 
 theorem exists_pCore_not_le_centralizer {Y : Subgroup L} (hYs : Group.IsSolvable Y)
     (hcent : centralizer (Y : Set L) ≤ Y) (hY : Y ≠ ⊤) :
@@ -139,9 +141,9 @@ theorem exists_linear_section [Group.IsPerfect L] (Y : Subgroup L) [Y.Normal]
   have hq2 : q ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hYodd) (even_iff_two_dvd.2 hqdvd)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let Q : Subgroup L := (CFSG.pCore q Y).map Y.subtype
-  haveI : Q.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : Q.Normal := ConjAct.normal_of_characteristic_of_normal
   have hQp : IsPGroup q Q := (CFSG.pCore_isPGroup (p := q) (G := Y)).map Y.subtype
   have hQY : Q ≤ Y := map_subtype_le _
   have hQnt : Nontrivial Q := by

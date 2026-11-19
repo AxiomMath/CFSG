@@ -29,7 +29,7 @@ section GroupTheory
 private theorem normal_eq_top_or_le_center' {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q)
     {N : Subgroup Q} (hN : N.Normal) : N = ⊤ ∨ N ≤ Subgroup.center Q := by
   obtain ⟨hp, hs⟩ := hQ
-  haveI := hs
+  have := hs
   have := hN.map (QuotientGroup.mk' (Subgroup.center Q)) (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (N.map (QuotientGroup.mk' (Subgroup.center Q))) with h | h
@@ -61,7 +61,7 @@ private noncomputable def frattiniActHom (T L : Subgroup G)
 private theorem commute_of_frattiniActHom_eq_one {T L : Subgroup G} (hT : IsPGroup 2 T)
     (hLT : L ≤ Subgroup.normalizer (T : Set G)) {m : ℕ} (hm : Odd m) {x : ↥L} (hxm : x ^ m = 1)
     (hx : frattiniActHom T L hLT x = 1) : ∀ t ∈ T, (x : G) * t = t * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set c : MulAut ↥T := Subgroup.normalizerMonoidHom T (Subgroup.inclusion hLT x) with hc
   have hker : c ∈ (CFSG.GH74.BNPair.frattiniAutHom ↥T).ker := hx
   obtain ⟨k, hk⟩ := CFSG.GH74.BNPair.frattiniAutHom_ker_isPGroup hT ⟨c, hker⟩
@@ -77,6 +77,7 @@ private theorem commute_of_frattiniActHom_eq_one {T L : Subgroup G} (hT : IsPGro
   calc (x : G) * t = ((x : G) * t * (x : G)⁻¹) * x := by group
     _ = t * x := by rw [h1]
 
+omit [Finite G] in
 private theorem mem_center_of_commute {T L : Subgroup G} (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hLT : L ≤ Subgroup.normalizer (T : Set G)) (hTL : ⁅T, L⁆ ≠ ⊥) {x : ↥L}
     (hx : ∀ t ∈ T, (x : G) * t = t * x) : x ∈ Subgroup.center ↥L := by
@@ -112,7 +113,7 @@ private theorem mem_center_of_commute {T L : Subgroup G} (hLq : CFSG.Open.IsQuas
 
 private theorem card_frattini_le (hsec : CFSG.GH74.SectionalTwoRankLE G 17) {T : Subgroup G}
     (hT : IsPGroup 2 T) : Nat.card (↥T ⧸ frattini ↥T) ≤ 2 ^ 17 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, hd, hcard⟩ := frattini_quotient_card_eq_pow_of_rank_le hT
     (CFSG.GH74.SectionalTwoRankLE.rank_le_of_isPGroup hsec hT)
   rw [hcard]
@@ -129,8 +130,8 @@ private theorem card_le_three_pow_ten {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w * w = 1) (hW17 : Nat.card W ≤ 2 ^ 17) {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup 3 P) (ρ : P →* MulAut W) (hρ : Function.Injective ρ) :
     Nat.card P ≤ 3 ^ 10 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := CFSG.QuasithinUnique.Setup.X1.card_eq_two_pow_W hW (⊤ : Subgroup W)
   rw [Subgroup.card_top] at hn
   have hn17 : n ≤ 17 := by
@@ -151,7 +152,7 @@ private theorem card_le_three_pow_ten {W : Type} [CommGroup W] [Finite W]
 
 private theorem center_quotient_center_eq_bot {J : Type*} [Group J]
     (hJq : CFSG.Open.IsQuasisimple J) : Subgroup.center (J ⧸ Subgroup.center J) = ⊥ := by
-  haveI := hJq.2
+  have := hJq.2
   rcases (Subgroup.center (J ⧸ Subgroup.center J)).normal_of_characteristic.eq_bot_or_eq_top
     with h | h
   · exact h
@@ -180,8 +181,8 @@ private theorem factorization_three_le_ten {J : Type} [Group J] [Finite J] {W : 
     (hρ : ∀ x : J, ∀ m : ℕ, Odd m → x ^ m = 1 → ρ x = 1 → x ∈ Subgroup.center J) :
     (Nat.card (J ⧸ Subgroup.center J)).factorization 3 ≤ 10 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
     (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨P⟩ : Nonempty (Sylow 3 J) := inferInstance
   set π : J →* J ⧸ Subgroup.center J := QuotientGroup.mk' (Subgroup.center J) with hπ
@@ -191,7 +192,7 @@ private theorem factorization_three_le_ten {J : Type} [Group J] [Finite J] {W : 
     with hπP
   have hker : ρP.ker ≤ πP.ker := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have hxk : (x : J) ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hc := hρ x (3 ^ k) (Odd.pow (by decide)) hxk hx
     rw [MonoidHom.mem_ker]
@@ -208,7 +209,7 @@ private theorem factorization_three_le_ten {J : Type} [Group J] [Finite J] {W : 
     have h2 : 0 < Nat.card πP.range := Nat.card_pos
     nlinarith
   have hR3 : IsPGroup 3 ρP.range :=
-    P.isPGroup'.of_surjective ρP.rangeRestrict ρP.rangeRestrict_surjective
+    P.isPGroup.of_surjective ρP.rangeRestrict ρP.rangeRestrict_surjective
   have hR10 := card_le_three_pow_ten hW hW17 hR3 ρP.range.subtype ρP.range.subtype_injective
   have hS := (P.mapSurjective hπs).card_eq_multiplicity
   rw [Sylow.coe_mapSurjective] at hS
@@ -264,7 +265,7 @@ private theorem sectionalTwoRankLE_seventeen (hsec : S2019ExcSecRank) {q : ℕ} 
   by_cases hG2 : ∃ Q, d = .G2 Q
   · obtain ⟨Q, rfl⟩ := hG2
     simp only [LieTypeIndex.characteristic_G2] at hchar
-    haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+    have : Fact Q.p.Prime := ⟨Q.prime_p⟩
     have hQ3 : 3 ≤ Q.card := ((LieTypeIndex.inStandardRange_iff _).1
       ((LieTypeIndex.valid_iff _).1 hv).1)
     obtain ⟨b⟩ := CFSG.TauCetiBridge.chevalleyBridges.g2 Q hv (by rw [hchar]; exact hq2)
@@ -354,8 +355,8 @@ theorem commutator_eq_bot_of_excComp (hsec : S2019ExcSecRank) (hcen : S2019ExcCo
     ⁅T, J⁆ = ⊥ := by
   classical
   by_contra hTJ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨A, hAel, hAcard⟩ := hA
   have hpA : p < Nat.card A := lt_of_lt_of_le (by nlinarith [hp.two_le]) hAcard
   have hqodd : Odd q := hq.odd_of_ne_two hq2
@@ -372,9 +373,9 @@ theorem commutator_eq_bot_of_excComp (hsec : S2019ExcSecRank) (hcen : S2019ExcCo
   · exact absurd hi id
   obtain ⟨hJcomp, hchev⟩ := isComponentOf_and_isChevSimple hp hp2 hqp hKs hKna hi.1 eK hβp hβ1 hJ
   have hJq : CFSG.Open.IsQuasisimple ↥J := hJcomp.2.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hWc, hW2⟩ := CFSG.Walter.Huppert.frattini_quotient_facts (p := 2) hT
-  letI : CommGroup (↥T ⧸ frattini ↥T) :=
+  let : CommGroup (↥T ⧸ frattini ↥T) :=
     { (inferInstance : Group (↥T ⧸ frattini ↥T)) with mul_comm := hWc }
   have hW : ∀ w : ↥T ⧸ frattini ↥T, w * w = 1 := fun w => by rw [← pow_two]; exact hW2 w
   have hW17 : Nat.card (↥T ⧸ frattini ↥T) ≤ 2 ^ 17 :=

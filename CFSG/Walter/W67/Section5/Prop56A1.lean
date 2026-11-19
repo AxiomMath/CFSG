@@ -432,7 +432,7 @@ theorem false_of_nonabelian
   obtain ⟨S₀⟩ : Nonempty (Sylow 3 s.fr.E) := inferInstance
   set P₀ := (S₀ : Subgroup s.fr.E).map s.fr.E.subtype with hP₀def
   have hP₀E : P₀ ≤ s.fr.E := Subgroup.map_subtype_le _
-  have hP₀3 : IsPGroup 3 P₀ := S₀.isPGroup'.map _
+  have hP₀3 : IsPGroup 3 P₀ := S₀.isPGroup.map _
   set a := (Nat.card s.fr.E).factorization 3 with ha
   have hP₀card : Nat.card P₀ = 3 ^ a := by
     rw [hP₀def, Subgroup.card_map_of_injective s.fr.E.subtype_injective,

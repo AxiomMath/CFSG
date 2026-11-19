@@ -25,7 +25,7 @@ theorem isSolvable_normalizer_of_benderBorel {G : Type*} [Group G] [Finite G] {q
   have : Qn.Normal := Subgroup.normal_in_normalizer
   have : Group.IsSolvable Qn := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have : Group.IsNilpotent Qn := (Q.isPGroup'.comap_subtype (K := H)).isNilpotent
+    have : Group.IsNilpotent Qn := (Q.isPGroup.comap_subtype (K := H)).isNilpotent
     infer_instance
   have : IsCyclic D := hDcyc
   have : IsCyclic (H ⧸ Qn) := by
@@ -136,7 +136,7 @@ theorem centralizer_sup_eq_top_of_odd_normal {H : Type*} [Group H] [Finite H]
       exact Subgroup.mul_mem _ h1 (Subgroup.inv_mem _ hzP)
     have h3 : ⁅g, z⁆ = 1 := by
       obtain ⟨p, hp, hpc⟩ := h2
-      obtain ⟨k, hk⟩ := P0.isPGroup' ⟨p, hp⟩
+      obtain ⟨k, hk⟩ := P0.isPGroup ⟨p, hp⟩
       refine eq_one_of_mem_odd_subgroup_of_pow_two_pow hN (hc g) (k := k) ?_
       rw [← hpc]
       have := congrArg (fun u : (P0 : Subgroup Y) => ((u : Y) : H)) hk
@@ -182,7 +182,7 @@ theorem isSolvable_of_isCyclic_sylow_two {K : Type*} [Group K] [Finite K] (P : S
   have hs1 : Group.IsSolvable (pPrimeCore 2 K) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have : (pPrimeCore 2 K).Normal := hnormal
   have hs2 : Group.IsSolvable (K ⧸ pPrimeCore 2 K) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hq : IsPGroup 2 (K ⧸ pPrimeCore 2 K) :=
       IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card, hindex, hn])
     have := hq.isNilpotent
@@ -354,7 +354,7 @@ theorem isBenderGroup_of_simple_section
     rw [hord] at this
     exact even_iff_two_dvd.mpr this
   have hSE := stronglyEmbedded_subgroupOf (hB Q).1 K hKE heven
-  rcases CFSG.Open.Open.bender_strongly_embedded K _ hSE with
+  rcases CFSG.Open.Thm.bender_strongly_embedded K _ hSE with
     halt | ⟨M, N, hM, hN, hMN', -, hMo, hNo, hBN⟩
   · exact absurd (isSolvable_of_sylow_cyclic_or_quaternion hB K halt) hKns
   · have := hM

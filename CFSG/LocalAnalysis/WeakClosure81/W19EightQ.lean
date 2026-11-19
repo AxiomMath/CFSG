@@ -79,7 +79,7 @@ theorem centralizerQuot_eq_pCoreOf (c : MinCex193 D V₀ V p X) (h162 : W3Thm162
     centralizerQuot (X ⊔ D.T) E F = pCoreOf 2 (X ⊔ D.T) := by
   refine le_antisymm ?_ (h.pCoreOf_le_centralizerQuot c)
   have hXC := h.X_inf_centralizerQuot c h162 hne
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hnop : ¬ p ∣ Nat.card ↥(centralizerQuot (X ⊔ D.T) E F) := by
     intro hdvd
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' p hdvd

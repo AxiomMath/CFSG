@@ -35,8 +35,8 @@ theorem fermat_main_uc6 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type} [Gro
         exact hDZ d hd z hz
     intro g
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle (Subgroup.mem_top g))
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
-  haveI := hirr
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have := hirr
   have hcycG : IsCyclic ↥(center G) :=
     CFSG.center_cyclic_of_representation_faithful_irreducible ρ hρ
   have hcyc : IsCyclic ↥(center ↥Q) := by
@@ -48,13 +48,13 @@ theorem fermat_main_uc6 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type} [Gro
     have h1 := congrArg Subtype.val hab
     exact Subtype.ext (Subtype.ext h1)
   obtain ⟨hcardZ, hcent⟩ := structure2_uc6 hr hD hDQ hcomm hnab hcomm1 hsq hDZ hcyc
-  haveI hext : CFSG.IsExtraspecial 2 ↥Q := isExtraspecial_uc6 hcardZ hcomm1 hsq hnab
+  have hext : CFSG.IsExtraspecial 2 ↥Q := isExtraspecial_uc6 hcardZ hcomm1 hsq hnab
   obtain ⟨w, hw⟩ := CFSG.LargeExtraspecial.S63.exists_card_extraspecial
     (CFSG.IsExtraspecial.isExtraspecialPGroup (P := ↥Q))
   have hcardQ : Nat.card Q = 2 ^ (2 * w + 1) := by rw [hw, add_comm]
   have hnormalizer : normalizer (Q : Set G) = ⊤ :=
     eq_top_iff.2 (htop ▸ sup_le Subgroup.le_normalizer hDQ)
-  haveI hQnormal : Q.Normal := Subgroup.normalizer_eq_top_iff.1 hnormalizer
+  have hQnormal : Q.Normal := Subgroup.normalizer_eq_top_iff.1 hnormalizer
   have hcop : Nat.Coprime (Nat.card Q) (Nat.card D) := by
     rw [hcardQ, hD]
     exact Nat.Coprime.pow_left _ ((Nat.coprime_primes Nat.prime_two hr).2 (Ne.symm hr2))
@@ -73,7 +73,7 @@ theorem fermat_main_uc6 {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G : Type} [Gro
     rfl
   have hKR : Q.IsComplement' D := Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul
   have hℓ : ¬ p ∣ Nat.card G := by
-    rw [← hKR.card_mul, hcardQ, hD]
+    rw [← hKR.card_mul_card, hcardQ, hD]
     intro h
     rcases (Nat.Prime.dvd_mul (Fact.out : p.Prime)).1 h with h2 | h2
     · exact hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out : p.Prime) Nat.prime_two).1

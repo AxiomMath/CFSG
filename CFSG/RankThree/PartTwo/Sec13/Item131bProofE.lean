@@ -39,7 +39,7 @@ theorem mem_partTwoE_of_le_centralizer {X : Subgroup G} (hXe : CFSG.Assembly.IsE
       (Sec11.not_three_dvd_card_inSubgroup_theta _)
   obtain ⟨S, hSN, hS1⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     3 2 Nat.prime_three Nat.prime_two X _ hX3 hXN hcop h2
-  exact ⟨hXe, hX27, _, hS1, S.isPGroup'.map _, hSN⟩
+  exact ⟨hXe, hX27, _, hS1, S.isPGroup.map _, hSN⟩
 
 theorem exists_even_theta {A L : Subgroup G} {c : G} (hD : Sec13Data G A c L) :
     ∃ a ∈ A, a ≠ 1 ∧ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3)
@@ -114,7 +114,7 @@ theorem exists_two_subgroup_of_mk {H : Type} [Group H] [Finite H] {P : Subgroup 
     exact (Subgroup.mem_normalizer_iff.mp (hPR x hx) _).mp hy'
   obtain ⟨S, hSN, hS1⟩ := SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     3 2 Nat.prime_three Nat.prime_two P T hP hPT hcop h2
-  exact ⟨_, hS1, S.isPGroup'.map _, hSN⟩
+  exact ⟨_, hS1, S.isPGroup.map _, hSN⟩
 
 section AltSix
 

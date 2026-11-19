@@ -68,8 +68,8 @@ theorem s16c4v1_transvection (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D) {
       simpa [pow_two] using hAea.2 (y : G) y.2
     rw [← map_mul, hy, map_one]
   have hEc : ∀ x ∈ φ.range, ∀ y ∈ φ.range, x * y = y * x := by
-    haveI : IsMulCommutative ↥A := hAea.1
-    letI : CommGroup ↥A := IsMulCommutative.instCommGroup
+    have : IsMulCommutative ↥A := hAea.1
+    let : CommGroup ↥A := IsMulCommutative.instCommGroup
     rintro x ⟨u, rfl⟩ y ⟨v, rfl⟩
     rw [← map_mul, ← map_mul, mul_comm u v]
   have hF : Nat.card S.F.K = (2 ^ 1) ^ 2 := by rw [S.F.card_K]; norm_num
@@ -159,8 +159,7 @@ theorem s16c4v1_transvection (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D) {
         (hZmem zz hz).2 (hzv ▸ hx)
       have hcomm := hc zz hzZ
       rw [← hcomm]; group
-    · intro hb'
-      intro z hz
+    · intro hb' z hz
       have hzV : z ∈ V := (Subgroup.mem_inf.1 hz).1
       have hzfix : s16c4v1_vec S z ∈ fixSp B₁ := (hZmem z hzV).1 hz
       have hx := (hB₁mem (φ a')).1 hb'

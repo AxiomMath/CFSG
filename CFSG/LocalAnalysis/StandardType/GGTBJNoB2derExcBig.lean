@@ -30,7 +30,7 @@ private theorem a1big_smallOrd_b2der {S : Type} [Group S] (J : Subgroup S)
 
 private theorem a1big_nab_of_simple_center_bot {R : Type} [Group R] (hsimple : IsSimpleGroup R)
     (hcen : Subgroup.center R = ⊥) : ∃ a b : R, a * b ≠ b * a := by
-  haveI : Nontrivial R := hsimple.toNontrivial
+  have : Nontrivial R := hsimple.toNontrivial
   by_contra h
   push Not at h
   have htop : Subgroup.center R = ⊤ := by
@@ -64,8 +64,8 @@ theorem noB2derInput_exceptionalBig :
     obtain ⟨eB⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv K (by rw [hq]; exact hcard)
     let e : LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false) ≃*
         (TauCeti.CFSGIndex.lie d).Group := eQ.trans eB
-    haveI : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
-    haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
+    have : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
+    have : Finite (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
       Finite.of_equiv _ e.symm.toEquiv
     have hsimple : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH LargeEvenCartanF4 K false)) :=
       e.isSimpleGroup_congr.mpr (CFSG.Assembly.lie_finite_simple d).2
@@ -117,8 +117,8 @@ theorem noB2derInput_exceptionalBig :
     obtain ⟨eB⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv K (by rw [hq]; exact hcard)
     let e : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false) ≃*
         (TauCeti.CFSGIndex.lie d).Group := eQ.trans eB
-    haveI : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
-    haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) :=
+    have : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
+    have : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) :=
       Finite.of_equiv _ e.symm.toEquiv
     have hsimple : IsSimpleGroup
         (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)) :=
@@ -170,8 +170,8 @@ theorem noB2derInput_exceptionalBig :
     obtain ⟨eB⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv K (by rw [hq]; exact hcard)
     let e : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false) ≃*
         (TauCeti.CFSGIndex.lie d).Group := eQ.trans eB
-    haveI : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
-    haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false)) :=
+    have : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
+    have : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false)) :=
       Finite.of_equiv _ e.symm.toEquiv
     have hsimple : IsSimpleGroup
         (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false)) :=
@@ -223,8 +223,8 @@ theorem noB2derInput_exceptionalBig :
     obtain ⟨eB⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv K (by rw [hq]; exact hcard)
     let e : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 8) K false) ≃*
         (TauCeti.CFSGIndex.lie d).Group := eQ.trans eB
-    haveI : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
-    haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 8) K false)) :=
+    have : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
+    have : Finite (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 8) K false)) :=
       Finite.of_equiv _ e.symm.toEquiv
     have hsimple : IsSimpleGroup
         (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 8) K false)) :=
@@ -272,7 +272,7 @@ theorem noB2derInput_exceptionalBig :
     have hq : q.card = 2 ^ n := TauCeti.PrimePower.card_def q
     have hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid := by simp
     let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedE6 q, hv⟩
-    haveI : CharP K 2 := TCJ.tcjDatum_charP_two_of_card (m := n * 2) (by rw [hcard, pow_mul])
+    have : CharP K 2 := TCJ.tcjDatum_charP_two_of_card (m := n * 2) (by rw [hcard, pow_mul])
     let σ : K →+* K := iterateFrobenius K 2 n
     have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
       change (iterateFrobenius K 2 n) c = c ^ 2 ^ n
@@ -287,8 +287,8 @@ theorem noB2derInput_exceptionalBig :
     let e : LargeEvenCenterQuot
         (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n) ≃*
         (TauCeti.CFSGIndex.lie d).Group := eQ.trans eB
-    haveI : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
-    haveI : Finite
+    have : Finite (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).1
+    have : Finite
         (LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
       Finite.of_equiv _ e.symm.toEquiv
     have hsimple : IsSimpleGroup

@@ -173,7 +173,7 @@ theorem exists_le_natCard_eq_two_pow {Λ L : Subgroup G} (hΛL : Λ ≤ L) {n R 
   obtain ⟨P⟩ : Nonempty (Sylow 2 Λ) := inferInstance
   refine ⟨(P : Subgroup Λ).map Λ.subtype, map_subtype_le _, ?_⟩
   rw [card_map_of_injective Λ.subtype_injective]
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).1 P.isPGroup'
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2)).1 P.isPGroup
   have h1 : 2 ^ n ∣ 2 ^ m := hm ▸ P.pow_dvd_card_of_pow_dvd_card hΛ
   have h2 : 2 ^ m ∣ 2 ^ n * R := by
     rw [← hm, ← hL, ← card_map_of_injective Λ.subtype_injective]

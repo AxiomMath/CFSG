@@ -97,7 +97,7 @@ theorem three_dvd_of_classical {τ : StatedLieTag} {n p f m : ℕ}
             (q ^ 2 - 1) * (q ^ 3 + 1) := by
           have hodd3 : ¬ Even (3 : ℕ) := by rintro ⟨k, hk⟩; omega
           rw [Finset.prod_pair (by norm_num : (2 : ℕ) ≠ 3),
-            if_pos (even_two : Even (2 : ℕ)), if_neg hodd3]
+            ite_eq_left (even_two : Even (2 : ℕ)), ite_eq_right hodd3]
         have hsq : (q + 1) ^ 2 ∣ (q ^ 2 - 1) * (q ^ 3 + 1) := by
           rw [pow_two]
           refine Nat.mul_dvd_mul ?_ ?_
@@ -113,7 +113,7 @@ theorem three_dvd_of_classical {τ : StatedLieTag} {n p f m : ℕ}
         have hdvd := Finset.dvd_prod_of_mem
           (fun i => if Even i then q ^ i - 1 else q ^ i + 1) hmem
         have hf2 : (if Even (2 : ℕ) then q ^ 2 - 1 else q ^ 2 + 1) = q ^ 2 - 1 := by
-          rw [if_pos (even_two : Even (2 : ℕ))]
+          rw [ite_eq_left (even_two : Even (2 : ℕ))]
         rw [hf2] at hdvd
         exact Dvd.dvd.mul_left hdvd _
       exact (three_dvd_sq_sub_one hq).trans hfac

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem normal_bar_Lgen [hN : (Q.subgroupOf M).Normal] (L : Subgroup G) :
     (bar M Q (Lgen M L)).Normal := by
-  haveI : ((Lgen M L).subgroupOf M).Normal :=
+  have : ((Lgen M L).subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Lgen_normalizes M L)
   exact Subgroup.Normal.map this _ (QuotientGroup.mk'_surjective _)
 
@@ -48,11 +48,11 @@ theorem Ctx.false_of_comm [hN : (Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
       (hφπ t) (fun x hx => ?_)) e
     rw [htu]
     exact hφ₀π u x hx
-  haveI : Group.IsPerfect ↥X := hXq.1
-  haveI : Nontrivial ↥X :=
+  have : Group.IsPerfect ↥X := hXq.1
+  have : Nontrivial ↥X :=
     haveI := hXq.2.1.toNontrivial
     (QuotientGroup.mk'_surjective (Subgroup.center ↥X)).nontrivial
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
   let ρ : ↥X →* Equiv.Perm M₀.E := Φ.comp X.subtype
   let Λ : Subgroup (M₀.E ≃ₗ[GaloisField 2 m] M₀.E) := (φ₀.comp (Subgroup.inclusion hLH)).range
   have hΛ : IsPGroup 2 Λ := by

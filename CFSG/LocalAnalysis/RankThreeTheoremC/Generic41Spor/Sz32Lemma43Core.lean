@@ -36,7 +36,7 @@ theorem szj_orders {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {R V Y : Subgroup G}
     CFSG.ABGLocalTools.IsSylowOf 2 Y ((V ⊔ R) ⊔ Y) ∧
     ∀ q : ℕ, q.Prime → q ∣ R.relIndex ((V ⊔ R) ⊔ Y) → q = 2 ∨ q = p := by
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   have hp2' : Nat.Coprime 2 p := (Nat.coprime_primes Nat.prime_two hp).2 (Ne.symm hp2)
   have hRp : ¬ p ∣ Nat.card R := (Nat.Prime.coprime_iff_not_dvd hp).1 hRcop

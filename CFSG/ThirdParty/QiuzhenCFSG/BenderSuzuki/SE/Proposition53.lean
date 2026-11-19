@@ -159,9 +159,9 @@ public theorem normalizer_not_twoRank_of_not_fixed
   have hPN : P ≤ N := Subgroup.le_normalizer
   have hWnormal : W.Normal := by
     simpa [W, N] using (Subgroup.normal_in_normalizer (H := P))
-  letI : W.Normal := hWnormal
+  let : W.Normal := hWnormal
   have hWodd : Odd (Nat.card W) := by
-    letI : Fact (Nat.Prime p) := ⟨hp⟩
+    let : Fact (Nat.Prime p) := ⟨hp⟩
     have hWp : IsPGroup p W :=
       hPp.of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hWp
@@ -208,7 +208,7 @@ private theorem involutions_conjugate_of_not_twoRank
     {x y : G} (hx : IsInvolution x) (hy : IsInvolution y) :
     ∃ g : G, rightConjugateElem x g = y := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxp : IsPGroup 2 (Subgroup.zpowers x) := by
     apply IsPGroup.of_card (p := 2) (G := Subgroup.zpowers x) (n := 1)
     simp [Nat.card_zpowers,
@@ -237,11 +237,11 @@ private theorem involutions_conjugate_of_not_twoRank
     intro hQr
     exact hrank (hQr.map_of_injective (Q : Subgroup G).subtype
       Subtype.val_injective)
-  letI : Nontrivial Q :=
+  let : Nontrivial Q :=
     ⟨⟨xQ, 1, hxQInv.ne_one⟩⟩
   obtain ⟨U, _hUcard, hUunique⟩ :=
     PFAppendixII.unique_order_two_subgroup_of_not_twoRank
-      Q.isPGroup' hQrank
+      Q.isPGroup hQrank
   have hxcard : Nat.card (Subgroup.zpowers xQ) = 2 := by
     simp [Nat.card_zpowers,
       orderOf_eq_prime hxQInv.sq_eq_one hxQInv.ne_one]
@@ -284,7 +284,7 @@ public theorem rankOne_pair_involutions_card_eq_two_core
     have hpos : 0 < Nat.card Omega := Nat.card_pos
     rcases hOmegaEven with ⟨n, hn⟩
     omega
-  letI : Nontrivial Omega :=
+  let : Nontrivial Omega :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   let alpha : Omega := Classical.choice inferInstance
   obtain ⟨beta, hbeta⟩ := exists_ne alpha
@@ -294,7 +294,7 @@ public theorem rankOne_pair_involutions_card_eq_two_core
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hOodd : Odd (Nat.card O) := by
     exact Nat.coprime_two_left.mp
       (by simpa [O] using pPrimeCore_coprime_card (p := 2) (G := G))
@@ -320,7 +320,7 @@ public theorem rankOne_pair_involutions_card_eq_two_core
     apply IsPGroup.of_card (p := 2) (G := Subgroup.zpowers s) (n := 1)
     simp [Nat.card_zpowers,
       orderOf_eq_prime hs.sq_eq_one hs.ne_one]
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqinj : Function.Injective
       (q.comp (Subgroup.zpowers s).subtype) := by
     simpa [q, O] using
@@ -372,7 +372,7 @@ public theorem rankOne_pair_involutions_card_eq_two_core
     · exact ⟨1, by simp [hab]⟩
     · obtain ⟨t, _ht, htab⟩ := hpair a b hab
       exact ⟨t, htab⟩
-  letI : MulAction.IsPretransitive G Omega := htrans
+  let : MulAction.IsPretransitive G Omega := htrans
   let H : Subgroup G := MulAction.stabilizer G alpha
   have hcardOmegaQuotient : Nat.card Omega = Nat.card (G ⧸ H) := by
     calc
@@ -456,7 +456,7 @@ public theorem chapter1_rank_one_pair_involutions_card_eq_two
     Nat.card Omega = 2 := by
   classical
   let L : Subgroup G := involutionCore G
-  letI : MulAction L Omega := MulAction.compHom Omega L.subtype
+  let : MulAction L Omega := MulAction.compHom Omega L.subtype
   have hrankL : ¬ TwoRankAtLeastTwo L := by
     intro hL
     exact hrank (hL.map_of_injective L.subtype Subtype.val_injective)
@@ -616,7 +616,7 @@ public theorem eq_of_isPGroup_of_le_of_sylow
     (hQp : IsPGroup p Q) (hPQ : P ≤ Q) (hQD : Q ≤ D) :
     Q = P := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨_hp⟩
+  let : Fact (Nat.Prime p) := ⟨_hp⟩
   rcases hPsyl with ⟨S, hP⟩
   let QD : Subgroup D := Q.subgroupOf D
   have hQDp : IsPGroup p QD :=
@@ -650,7 +650,7 @@ public theorem odd_pSubgroup_le_pairStabilizer_of_normalizes
       omega ∈ fixedPointsOfSubgroup G Omega R} = 2) :
     A ≤ MulAction.stabilizer G beta ⊓ MulAction.stabilizer G gamma := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let FixedR := {omega : Omega //
     omega ∈ fixedPointsOfSubgroup G Omega R}
   let betaR : FixedR := ⟨beta, hRbeta⟩
@@ -684,7 +684,7 @@ public theorem odd_pSubgroup_le_pairStabilizer_of_normalizes
     have hbetaGammaO : betaO ≠ gammaO := by
       intro h
       exact hbetaGamma (congrArg Subtype.val h)
-    letI : Nontrivial (MulAction.orbit A beta) :=
+    let : Nontrivial (MulAction.orbit A beta) :=
       ⟨⟨betaO, gammaO, hbetaGammaO⟩⟩
     have horbitTwo : Nat.card (MulAction.orbit A beta) = 2 := by
       have hone : 1 < Nat.card (MulAction.orbit A beta) :=
@@ -743,7 +743,7 @@ private theorem pair_involution_of_same_normalizer_orbit
     (hg : (g : X) • beta = gamma) :
     ∃ s : X, IsInvolution s ∧ s ∈ Subgroup.normalizer (P : Set X) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let Omega := conjugateCosetSpace M
   let N : Subgroup X := Subgroup.normalizer (P : Set X)
   let D : Subgroup X :=
@@ -768,7 +768,7 @@ private theorem pair_involution_of_same_normalizer_orbit
         hM hp hbetaGamma ⟨S, hPQeq⟩
     exact ⟨t, ht, htNorm⟩
   have hPQlt : P < Q := lt_of_le_of_ne hPQ hPQeq
-  have hQp : IsPGroup p Q := S.isPGroup'.map D.subtype
+  have hQp : IsPGroup p Q := S.isPGroup.map D.subtype
   obtain ⟨R₀, hR₀p, hPR₀, hR₀Q, hR₀N⟩ :=
     exists_larger_normalizer_pSubgroup hp hQp hPQlt
   let K : Subgroup X := N ⊓ D
@@ -789,7 +789,7 @@ private theorem pair_involution_of_same_normalizer_orbit
     exact Subgroup.mem_map.mpr
       ⟨xK, hR₀KT (show xK ∈ R₀K from hxR₀), rfl⟩
   have hPR : P < R := hPR₀.trans_le hR₀R
-  have hRp : IsPGroup p R := T.isPGroup'.map K.subtype
+  have hRp : IsPGroup p R := T.isPGroup.map K.subtype
   have hRK : R ≤ K := by
     simpa [R] using Subgroup.map_le_range K.subtype (T : Subgroup K)
   have hRN : R ≤ N := hRK.trans inf_le_left
@@ -863,7 +863,7 @@ private theorem pair_involution_of_same_normalizer_orbit
         exact hxUX
       have hRUXlt : R < UX := lt_of_le_of_ne hRUX hRUXne
       have hUXp : IsPGroup p UX := by
-        exact (U.isPGroup'.map B.subtype).map N.subtype
+        exact (U.isPGroup.map B.subtype).map N.subtype
       have hUXN : UX ≤ N := by
         simpa [UX] using Subgroup.map_le_range N.subtype UN
       have hUXbeta : UX ≤ MulAction.stabilizer X beta := by
@@ -969,15 +969,15 @@ private theorem pair_involution_of_same_normalizer_orbit
   have hbetaGammaC : betaC ≠ gammaC := by
     intro h
     exact hbetaGamma (congrArg Subtype.val h)
-  letI : Nontrivial (MulAction.orbit C beta) :=
+  let : Nontrivial (MulAction.orbit C beta) :=
     ⟨⟨betaC, gammaC, hbetaGammaC⟩⟩
   have hCOrbitCard : Nat.card (MulAction.orbit C beta) = 2 := by
     have hone : 1 < Nat.card (MulAction.orbit C beta) :=
       Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     omega
-  letI := Fintype.ofFinite C
-  letI := Fintype.ofFinite (MulAction.orbit C beta)
-  letI := Fintype.ofFinite (MulAction.stabilizer C beta)
+  let := Fintype.ofFinite C
+  let := Fintype.ofFinite (MulAction.orbit C beta)
+  let := Fintype.ofFinite (MulAction.stabilizer C beta)
   have horbitStabilizer :
       Nat.card (MulAction.orbit C beta) *
           Nat.card (MulAction.stabilizer C beta) = Nat.card C := by
@@ -1007,12 +1007,12 @@ public theorem lemma_5_1_normalizer_involution
           omega ∈ fixedPointsOfSubgroup X (conjugateCosetSpace M) Q}) P) :
     ∃ s : X, IsInvolution s ∧ s ∈ Subgroup.normalizer (P : Set X) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   let Omega := conjugateCosetSpace M
   let FixedP := {omega : Omega //
     omega ∈ fixedPointsOfSubgroup X Omega P}
   have hFixedP : 2 < Nat.card FixedP := hmax.1.2
-  letI : Nontrivial FixedP :=
+  let : Nontrivial FixedP :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   let betaP : FixedP := Classical.choice inferInstance
   obtain ⟨gammaP, hgammaP⟩ := exists_ne betaP
@@ -1045,7 +1045,7 @@ public theorem lemma_5_1_normalizer_involution
         hM hp hbetaGamma ⟨S, hPQeq⟩
     exact ⟨t, ht, htNorm⟩
   have hPQlt : P < Q := lt_of_le_of_ne hPQ hPQeq
-  have hQp : IsPGroup p Q := S.isPGroup'.map D.subtype
+  have hQp : IsPGroup p Q := S.isPGroup.map D.subtype
   obtain ⟨R₀, hR₀p, hPR₀, hR₀Q, hR₀N⟩ :=
     exists_larger_normalizer_pSubgroup hp hQp hPQlt
   let N : Subgroup X := Subgroup.normalizer (P : Set X)
@@ -1086,7 +1086,7 @@ public theorem lemma_5_1_normalizer_involution
   have hdeltaExists : ∃ delta : FixedP,
       ¬ (delta : Omega) ∈ fixedPointsOfSubgroup X Omega R₀ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     let f : FixedP → FixedR₀ := fun delta => ⟨delta, hno delta⟩
     have hf : Function.Injective f := by
       intro delta epsilon h
@@ -1099,7 +1099,7 @@ public theorem lemma_5_1_normalizer_involution
   let delta : Omega := deltaP
   have hdelta : delta ∈ fixedPointsOfSubgroup X Omega P := deltaP.property
   change ¬ ∀ x : X, x ∈ R₀ → x • delta = delta at hdeltaNot
-  push_neg at hdeltaNot
+  push Not at hdeltaNot
   obtain ⟨r, hrR₀, hrDelta⟩ := hdeltaNot
   let epsilon : Omega := r • delta
   have hepsilon : epsilon ∈ fixedPointsOfSubgroup X Omega P := by

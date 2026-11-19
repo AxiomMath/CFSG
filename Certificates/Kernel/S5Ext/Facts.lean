@@ -21,7 +21,7 @@ noncomputable def gF (e : Nat) : Nat → Nat :=
   if h : e < 1152 then Classical.choose (treeE e h) else id
 
 theorem gF_spec {e : Nat} (h : e < 1152) : IsAutN (gF e) ∧ HasKey (gF e) (l20 AKP e) := by
-  rw [gF, dif_pos h]
+  rw [gF, dite_eq_left h]
   exact Classical.choose_spec (treeE e h)
 
 theorem autK_len : autK.length = 1152 := by
@@ -131,7 +131,7 @@ theorem isAutN_comp {f g : Nat → Nat} (hf : IsAutN f) (hg : IsAutN g) :
   · exact hg.2.2 x y hx hy (hf.2.2 _ _ (hg.1 x hx) (hg.1 y hy) h)
 
 theorem isAutN_id : IsAutN id :=
-  ⟨fun _ hx => hx, fun x y hx hy => rfl, fun _ _ _ _ h => h⟩
+  ⟨fun _ _hx => _hx, fun _x _y _hx _hy => rfl, fun _ _ _ _ h => h⟩
 
 theorem lM_lt (MP g c : Nat) : lM MP g c < 128 := Nat.lt_of_le_of_lt Nat.and_le_right (by decide)
 

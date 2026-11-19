@@ -55,7 +55,7 @@ theorem false_of_isCyclic_inf {Rb : Sylow 3 X} {X₀ : Subgroup X}
     have hra' : r * a = a * r := hcinj (by rw [map_mul, map_mul]; exact hra)
     rw [← map_pow, hC r hr hra', map_one]
   set TZ : Subgroup X := (Rb : Subgroup X) ⊓ Subgroup.centralizer (K : Set X) with hTZ
-  have hTZ3 : IsPGroup 3 TZ := Rb.isPGroup'.to_le inf_le_left
+  have hTZ3 : IsPGroup 3 TZ := Rb.isPGroup.to_le inf_le_left
   have hTZc : IsCyclic TZ := by
     by_contra hnc
     have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp (by norm_num) hTZ3 hnc
@@ -66,7 +66,7 @@ theorem false_of_isCyclic_inf {Rb : Sylow 3 X} {X₀ : Subgroup X}
     fun W hW => card_le_of_card_map_le (kFactL28AutThree K hiso _ (hW.map _))
   have hTZ27 : 27 ≤ Nat.card TZ := by
     have h1 : Nat.card Rb ≤ 27 * Nat.card TZ := by
-      have h0 := hbound Rb Rb.isPGroup'
+      have h0 := hbound Rb Rb.isPGroup
       rw [inf_comm] at h0
       exact h0
     omega

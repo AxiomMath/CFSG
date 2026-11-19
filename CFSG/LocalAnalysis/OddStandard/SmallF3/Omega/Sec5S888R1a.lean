@@ -150,7 +150,7 @@ theorem Sec5B517Q8.sq_mem_zpowers (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i
   · rw [haa, hbb, mul_one]; exact Subgroup.mem_zpowers z
   · rw [haa, hbb, hq.z_sq]; exact (zpowers z).one_mem
 
-theorem Sec5B517Q8.commutator_mem_zpowers (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i ≠ j)
+theorem Sec5B517Q8.commutator_mem_zpowers (hq : Sec5B517Quad K z) {i j : Fin 4} (_hij : i ≠ j)
     {x y : G} (hx : x ∈ Sec5B517Q8.pair hq i j) (hy : y ∈ Sec5B517Q8.pair hq i j) :
     x * y * x⁻¹ * y⁻¹ ∈ zpowers z := by
   obtain ⟨k, hk, rfl⟩ := (Sec5B517Q8.mem_iff hq).mp hx.1
@@ -163,7 +163,7 @@ theorem Sec5B517Q8.commutator_mem_zpowers (hq : Sec5B517Quad K z) {i j : Fin 4} 
     (s888r1a_comm_mem_zpowers hq (hk 2).1 (hk 2).2 (hl 2).1 (hl 2).2))
     (s888r1a_comm_mem_zpowers hq (hk 3).1 (hk 3).2 (hl 3).1 (hl 3).2)
 
-theorem Sec5B517Q8.twoCoreIn_sup_eq_pair (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i ≠ j) :
+theorem Sec5B517Q8.twoCoreIn_sup_eq_pair (hq : Sec5B517Quad K z) {i j : Fin 4} (_hij : i ≠ j) :
     twoCoreIn (K i ⊔ K j) = Sec5B517Q8.pair hq i j := by
   refine le_antisymm ?_ ?_
   · intro x hx

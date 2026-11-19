@@ -29,7 +29,7 @@ private noncomputable def ct_memBarOf (p : Finset (Fin 7) × Bool) : Subgroup (A
 private theorem ct_memBarOf_mk {α : Finset (Fin 7)} (h : α.card = 4) (b : Bool) :
     ct_memBarOf (α, b) = memBar α h b := by
   unfold ct_memBarOf
-  exact dif_pos h
+  exact dite_eq_left h
 
 private theorem ct_univ_bool : (Set.univ : Set Bool).ncard = 2 := by
   rw [Set.ncard_univ, Nat.card_eq_fintype_card, Fintype.card_bool]

@@ -25,10 +25,10 @@ theorem tG_mul_tG (hb : PAB G L t E W z) (a : PA5 L t E z) : tG hb a * tG hb a =
   Subtype.ext hb.t_mul_t
 
 theorem PA5.J_le_Cen (hb : PAB G L t E W z) (a : PA5 L t E z) :
-    derivedIn a.Abar ≤ Cen a.ub := fun j hj =>
+    derivedIn a.Abar ≤ Cen a.ub := fun _j hj =>
   mem_Cen.2 (PA5.Abar_comm_ub hb a (derivedIn_le _ hj))
 
-@[expose] def JG (hb : PAB G L t E W z) (a : PA5 L t E z) : Subgroup ↥(Cen a.ub) :=
+@[expose] def JG (_hb : PAB G L t E W z) (a : PA5 L t E z) : Subgroup ↥(Cen a.ub) :=
   (derivedIn a.Abar).subgroupOf (Cen a.ub)
 
 @[expose] def JG_equiv (hb : PAB G L t E W z) (a : PA5 L t E z) :
@@ -100,7 +100,7 @@ theorem exists_orbit (hb : PAB G L t E W z) (a : PA7 L t E z) :
       ∀ K' : Subgroup ↥(Cen a.ub), IsComponent K' →
         K' = K ∨ K' = cj (tG hb a.toPA6.toPA5) K :=
   single_orbit (tG_mul_tG hb a.toPA6.toPA5) (JG_simple hb a.toPA6.toPA5) (JG_perfect hb a.toPA6.toPA5)
-    (JG_le_layer hb a) (fun j hj => JG_comm_t hb a.toPA6.toPA5 hj)
+    (JG_le_layer hb a) (fun _j hj => JG_comm_t hb a.toPA6.toPA5 hj)
     (fun Q _ hQt hQ => JG_hHJ hb a.toPA6.toPA5 Q hQt hQ) (JG_hZ hb a.toPA6)
 
 end Gamma

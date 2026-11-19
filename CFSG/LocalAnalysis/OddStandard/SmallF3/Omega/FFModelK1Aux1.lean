@@ -15,6 +15,7 @@ open Subgroup CFSG.Blueprint
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_commSp_blockHom_inl {t : OGroup Q} (htt : t * t = 1)
     (a : OGroup (Q.restrict (fixSp t))) :
     commSp (blockHom htt (a, 1)) = (commSp a).map (fixSp t).subtype := by
@@ -27,7 +28,6 @@ theorem ff_commSp_blockHom_inl {t : OGroup Q} (htt : t * t = 1)
     refine ⟨(a : fixSp t ≃ₗ[ZMod 3] fixSp t) w - w, ?_, ?_⟩
     · exact CFSG.RankThree.OrthogonalInvolutions.sub_mem_commSpace _ _
     · rw [← hx]
-      change (fixSp t).subtype ((a : fixSp t ≃ₗ[ZMod 3] fixSp t) w - w) = _
       rw [LinearMap.map_sub]
       have h1 : ((blockHom htt (a, 1) : OGroup Q) : V ≃ₗ[ZMod 3] V) ((w : V) + (u : V)) =
           (((a : fixSp t ≃ₗ[ZMod 3] fixSp t) w : fixSp t) : V) + (u : V) := by
@@ -75,6 +75,7 @@ theorem ff_invType_blockHom_inl (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t *
       rfl
     exact (quadSign_congr (nondegenerate_restrict_commSp hQU haa) hequiv).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_blockHom_inl_commute {t : OGroup Q} (htt : t * t = 1)
     (a : OGroup (Q.restrict (fixSp t))) :
     blockHom htt (a, 1) * t = t * blockHom htt (a, 1) := by

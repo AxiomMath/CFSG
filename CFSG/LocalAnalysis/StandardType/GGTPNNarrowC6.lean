@@ -20,7 +20,7 @@ open CFSG CFSG.Assembly
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
     (y : G) (K : Subgroup G) (hc : GGConfig p B Bs x L D J), GGInnerDiagOn Bs L →
     GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-    ∃ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+    ∃ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
       (hx : x ∈ Subgroup.normalizer (K : Set G)),
       GGTPNBasicB p (Nat.card Bs) (fun _ _ => True) (ggAutsOf K Bs hN)
         (ggAutsOf K B (hc.2.1.1.trans hN)) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K)

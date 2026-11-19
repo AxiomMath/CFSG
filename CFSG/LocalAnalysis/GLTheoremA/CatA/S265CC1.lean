@@ -60,6 +60,7 @@ theorem case1_or_case2 {S B T : Subgroup Ω} (hSn : S.Normal) (hcore : GLAPPrime
       exact hcomm
   · exact Or.inl fun E hE _ => hall E hE
 
+omit [Finite Ω] in
 private theorem mem_normalizer_sup_of_mem {A C : Subgroup Ω} {c : Ω}
     (hA : c ∈ Subgroup.normalizer (A : Set Ω)) (hC : c ∈ Subgroup.normalizer (C : Set Ω)) :
     c ∈ Subgroup.normalizer ((A ⊔ C : Subgroup Ω) : Set Ω) := by
@@ -84,7 +85,7 @@ theorem exists_two_subgroup_of_case2 {S B T : Subgroup Ω} (hKG : CFSG.Open.IsKG
   have hSN : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g =>
     (Subgroup.normalizer_eq_top_iff.2 hSn) ▸ Subgroup.mem_top g
   set Z : Subgroup Ω := Subgroup.centralizer (S : Set Ω) with hZdef
-  haveI hZn : Z.Normal := Subgroup.normal_centralizer
+  have hZn : Z.Normal := Subgroup.normal_centralizer
   have hcZ : ∀ g ∈ centModSubgroup 3 S, g ∈ Z := fun g hg =>
     Subgroup.mem_centralizer_iff.2 fun s hs => (S267.ModelGen.comm_of_mem_centMod hSn hcore hg hs).symm
   set T₁ : Subgroup Ω := ⁅T, B⁆ with hT₁def
@@ -106,8 +107,8 @@ theorem exists_two_subgroup_of_case2 {S B T : Subgroup Ω} (hKG : CFSG.Open.IsKG
     exact Subgroup.inv_mem _ hct
   set H : Subgroup Ω := S ⊓ (T₁ ⊔ Z) with hHdef
   set Z' : Subgroup Ω := S ⊓ Z with hZ'def
-  haveI : S.Normal := hSn
-  haveI hZ'n : Z'.Normal := Subgroup.normal_inf_normal S Z
+  have : S.Normal := hSn
+  have hZ'n : Z'.Normal := Subgroup.normal_inf_normal S Z
   have hZ'H : Z' ≤ H := inf_le_inf_left S le_sup_right
   have hZ'c : ∀ z ∈ Z', ∀ g ∈ H, z * g = g * z := fun z hz g hg =>
     (Subgroup.mem_centralizer_iff.1 hz.2 g hg.1).symm
@@ -117,7 +118,7 @@ theorem exists_two_subgroup_of_case2 {S B T : Subgroup Ω} (hKG : CFSG.Open.IsKG
     have hgTZ' : g ∈ ((T₁ ⊔ Z : Subgroup Ω) : Set Ω) := hgTZ
     rw [Subgroup.mul_normal] at hgTZ'
     obtain ⟨t, ht, z, hz, rfl⟩ := Set.mem_mul.1 hgTZ'
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT₁2
     refine ⟨n, S.pow_mem hgS _, ?_⟩
     have ht1 : t ^ (2 ^ n) = 1 := by
@@ -212,8 +213,8 @@ theorem card_le_of_elemAbelian_mulAut_td42 {Q : Type} [Group Q] [Finite Q]
   obtain ⟨q, hv, hq, ⟨e⟩⟩ := CatB.lieIndex_isTD4two hQ
   obtain ⟨hq2, hq1⟩ := HDesc.pp_eq_of_card Nat.prime_two one_ne_zero
     (hq.trans (by norm_num : (2 : ℕ) = 2 ^ 1))
-  haveI : IsSimpleGroup Q := by
-    haveI := (CFSG.Assembly.lie_finite_simple ⟨.trialityD4 q, hv⟩).2
+  have : IsSimpleGroup Q := by
+    have := (CFSG.Assembly.lie_finite_simple ⟨.trialityD4 q, hv⟩).2
     exact MulEquiv.isSimpleGroup e
   have hcardQ : Nat.card Q = 211341312 := card_fTD42 hQ
   have hcardA : Nat.card (MulAut Q) = 3 * 211341312 := card_mulAut_fTD42 hQ
@@ -251,7 +252,7 @@ private theorem exists_big_elem_abelian_six {S E₀ : Subgroup Ω} {x : Ω}
     (hxc : ∀ g : Ω, g * x = x * g)
     (hE : 3 ^ 5 * Nat.card ↥(E₀ ⊓ Subgroup.centralizer (S : Set Ω)) ≤ Nat.card E₀) :
     ∃ E : Subgroup Ω, IsElemAbelian 3 E ∧ E ≤ S ⊔ Subgroup.zpowers x ∧ 3 ^ 6 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxz : x ∈ Subgroup.center Ω := Subgroup.mem_center_iff.2 hxc
   have hCz : Subgroup.zpowers x ≤ Subgroup.center Ω := Subgroup.zpowers_le.2 hxz
   have hCN : Subgroup.zpowers x ≤ Subgroup.normalizer (E₀ : Set Ω) :=

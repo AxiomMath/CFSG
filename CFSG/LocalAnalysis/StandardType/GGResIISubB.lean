@@ -177,7 +177,7 @@ theorem ggResII_subB_sound {n : ℕ} {C : Matrix (Fin n) (Fin n) ℤ} (hsymm : �
           split_ifs with hr
           · intro h
             have h1 := congrArg Fin.val h
-            simp only [Fin.val_last, Fin.coe_castSucc] at h1
+            simp only [Fin.val_last, Fin.val_castSucc] at h1
             have := ib.isLt
             omega
           · intro h
@@ -189,8 +189,8 @@ theorem ggResII_subB_sound {n : ℕ} {C : Matrix (Fin n) (Fin n) ℤ} (hsymm : �
       have hd0 : ∀ j₀ : Fin n, d j₀ = 0 := by
         intro j₀
         calc d j₀ = ∑ j : Fin n, d j * (if j₀ = j then 1 else 0) := by
-              rw [Finset.sum_eq_single j₀ (fun j _ hj => by rw [if_neg (Ne.symm hj), mul_zero])
-                (fun h0 => absurd (Finset.mem_univ j₀) h0), if_pos rfl, mul_one]
+              rw [Finset.sum_eq_single j₀ (fun j _ hj => by rw [ite_eq_right (Ne.symm hj), mul_zero])
+                (fun h0 => absurd (Finset.mem_univ j₀) h0), ite_eq_left rfl, mul_one]
           _ = ∑ j : Fin n, d j * ∑ r : Fin n, (((w.2.1.getD j₀.val []).getD r.val 0 : ℕ) :
                 ZMod p) * α (ggKNode ib r) (h j.castSucc) := by
               refine Finset.sum_congr rfl fun j _ => ?_
@@ -224,14 +224,14 @@ theorem ggResII_subB_sound {n : ℕ} {C : Matrix (Fin n) (Fin n) ℤ} (hsymm : �
         constructor
         · intro k l
           rw [hT.1 k l]
-          simp only [ggStdTable, ggStdTableB, Vector.get_ofFn, RingHom.id_apply, Fin.coe_castSucc]
-          rw [if_neg (by omega)]
+          simp only [ggStdTable, ggStdTableB, Vector.get_ofFn, RingHom.id_apply, Fin.val_castSucc]
+          rw [ite_eq_right (by omega)]
         · intro k
-          simp only [ggStdTableB, Vector.get_ofFn, RingHom.id_apply, Fin.val_last, if_true,
+          simp only [ggStdTableB, Vector.get_ofFn, RingHom.id_apply, Fin.val_last, ite_true,
             map_smul, smul_eq_mul]
           by_cases hk : k = ib.castSucc
           · subst hk
-            simp only [Fin.coe_castSucc, if_true, Int.cast_one]
+            simp only [Fin.val_castSucc, ite_true, Int.cast_one]
             rw [← hβ]
             exact inv_mul_cancel₀ hβ0
           · rw [hyK k hk, mul_zero]

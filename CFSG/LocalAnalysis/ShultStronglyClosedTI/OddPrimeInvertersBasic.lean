@@ -86,7 +86,7 @@ theorem exists_conj_mem_of_not_dvd_index [Finite G] {p : ℕ} [Fact p.Prime] (T 
     (hT : ¬ p ∣ T.index) {x : G} (hx : IsPGroup p (Subgroup.zpowers x)) :
     ∃ g : G, g * x * g⁻¹ ∈ T := by
   obtain ⟨Q⟩ : Nonempty (Sylow p T) := inferInstance
-  have hQ : IsPGroup p ((Q : Subgroup T).map T.subtype) := Q.isPGroup'.map _
+  have hQ : IsPGroup p ((Q : Subgroup T).map T.subtype) := Q.isPGroup.map _
   have hidx : ¬ p ∣ ((Q : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype, (Fact.out : p.Prime).dvd_mul, not_or]
     exact ⟨Q.not_dvd_index, hT⟩
@@ -166,7 +166,7 @@ theorem exists_inverts_of_frobenius [Finite G] (hperf : commutator G = ⊤) {p :
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz'
     have hcomm : Commute g y := mul_inv_eq_iff_eq_mul.mp h
     exact (hcomm.zpow_right n).eq.symm
-  have hyp : IsPGroup p (Subgroup.zpowers y) := hPy ▸ P.isPGroup'
+  have hyp : IsPGroup p (Subgroup.zpowers y) := hPy ▸ P.isPGroup
   obtain ⟨h, hh⟩ : ∃ h : G, h * y * h⁻¹ = y⁻¹ := by
     rcases hfrob y g hyp hgy hgy' with h1 | h2
     exacts [⟨g, h1⟩, ⟨g ^ 2, h2⟩]

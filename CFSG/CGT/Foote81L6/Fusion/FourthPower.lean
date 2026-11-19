@@ -13,7 +13,7 @@ theorem exists_conj_of_sylow_centralizer {G : Type*} [Group G] [Finite G] {X : S
     (hSK : (SK : Subgroup _) = X.subgroupOf (centralizer ({e} : Set G)))
     {P : Subgroup G} (hPC : P ≤ centralizer ({e} : Set G)) (hP : IsPGroup 2 P) :
     ∃ c : G, c * e = e * c ∧ ∀ x ∈ P, c * x * c⁻¹ ∈ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf (centralizer ({e} : Set G))) := hP.comap_subtype
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (centralizer ({e} : Set G)) Q SK

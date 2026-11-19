@@ -40,6 +40,7 @@ theorem isThreeCycle_of_mem_zpowers {α : Type*} [DecidableEq α] [Fintype α] {
     rw [this]
     exact hσ.isThreeCycle_sq
 
+omit [Finite G] in
 theorem alt_final_data {n : ℕ} (hn13 : n = 13) (ψ : ↥(barX 3 N K) ≃* alternatingGroup (Fin n))
     (Ω₀ : Set (Fin n)) (hΩ₀ : Ω₀.ncard = 4)
     (hFfix : ∀ g ∈ permImage ψ (barX 3 N F), ∀ j ∈ Ω₀, g j = j)
@@ -91,7 +92,7 @@ theorem alt_orbit_nine (h23 : Input23_5) (h : Cex127 G m 3 B M E A N D) (hs : Se
     (hδ4 : D'.δ = 4) (hr2 : CFSG.Open.pRank 3 F = 2) :
     ∃ i : Fin D'.n, Set.ncard (MulAction.orbit ↥(permImage D'.ψ (barX 3 N (E ⊓ A))) i) = 9 := by
   have hp := prime_of h
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   have hAN := A_le_N h
   have hFA' := hs.F_le_A
@@ -186,7 +187,7 @@ theorem alt_case_of_norm (h23 : Input23_5) (h121 : Prop121_corStatement)
   have hFA := alt_F_ne_A h23 h hs D'
   obtain ⟨hp3, hδ4⟩ := alt_p_three_delta_four h121 h hs D' hAK hFA
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   obtain ⟨hcomp, hpcore, -⟩ := alt_Ystruct h hs D' hAK hFA rfl hδ4
   have hle := alt_le_K h hs D' hAK hFA rfl hδ4

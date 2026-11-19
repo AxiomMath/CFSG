@@ -36,7 +36,7 @@ theorem conj_mem_map_diagFour {g b t : GL (Fin 3) K}
 private theorem exists_fourGroup_of_support (hK : PiField π p f K) (hp : 5 ≤ p)
     (hq : ModThree π (p ^ f)) {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1)
     {B : Subgroup (GL (Fin 3) K)} {g b : GL (Fin 3) K} {σ : Equiv.Perm (Fin 3)}
-    (hg : g ∈ glPi π 3 (p ^ f) K) (hb : b ∈ B)
+    (hg : g ∈ glPi π 3 (p ^ f) K) (_hb : b ∈ B)
     (hmono_b : IsMonomialFor
       ((g⁻¹ * b * g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) σ)
     (hσ3 : σ ^ 3 = 1) (hσne : σ ≠ 1)
@@ -137,7 +137,7 @@ theorem exists_fourGroup_of_pgl_nine (hK : PiField π p f K) (hp : 5 ≤ p) (hq 
       (∀ b ∈ B, b ∈ Subgroup.normalizer (T : Set (GL (Fin 3) K))) ∧
       ∃ b ∈ B, ⁅T, Subgroup.zpowers b⁆ = T := by
   classical
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   obtain ⟨g, b, σ, hg, hb, hmono_b, hσ3, hσne, hmono⟩ :=
     exists_threeCycle_support hK hq hτ hτ1 hBH hZB hB hBc hB9 hno
   obtain ⟨T, hTle, hTcard, hTsq, hTinf, hTnorm, hTabelian, hfree⟩ :=

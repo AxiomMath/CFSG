@@ -51,8 +51,8 @@ theorem kJFix_holds :
   intro L _ _ hψ M hMn hMR hM1 hmin d hd hdS hcard
   obtain ⟨ψ⟩ := hψ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 L).Normal := CFSG.pCore_normal
-  haveI : M.Normal := hMn
+  have : (CFSG.pCore 2 L).Normal := CFSG.pCore_normal
+  have : M.Normal := hMn
   have hR2 : IsPGroup 2 (CFSG.pCore 2 L) := CFSG.pCore_isPGroup
   obtain ⟨hEA, hRC⟩ := CFSG.minimalNormal_le_isPGroup hMn CFSG.pCore_normal hR2 hMR hM1 hmin
   have hRM : ∀ r ∈ CFSG.pCore 2 L, ∀ m ∈ M, r * m = m * r := fun r hr m hm =>
@@ -149,13 +149,13 @@ theorem kJFix_holds :
     · rintro (rfl | rfl)
       · exact (M ⊓ Subgroup.centralizer {d}).one_mem
       · exact v₀.2
-  haveI := hEA
+  have := hEA
   have hcomm : ∀ a b : ↥M, a * b = b * a := fun a b =>
     (IsMulCommutative.is_comm (M := ↥M)).comm a b
   have hsq : ∀ a : ↥M, a * a = 1 := fun a => by
     have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := M) (a : L) a.2
     exact Subtype.ext (by rw [Subgroup.coe_mul, Subgroup.coe_one, ← sq, h])
-  letI : CommGroup ↥M := { (inferInstance : Group ↥M) with mul_comm := hcomm }
+  let : CommGroup ↥M := { (inferInstance : Group ↥M) with mul_comm := hcomm }
   exact C280.card_eq_two ρ' v hsq hirr' hv hfix
 
 end CFSG.RankThree.PartTwo.J2Residue

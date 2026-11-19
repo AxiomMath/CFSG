@@ -110,9 +110,9 @@ theorem kronMinor_one_add_eps_smul (P : ι → Prop) [DecidablePred P]
   · simpa only [kronDer] using h
   · intro i
     by_cases hP : P i
-    · rw [if_pos hP]
+    · rw [ite_eq_left hP]
       exact map_fst_one_add_eps_smul_map_inl (m := Fin n) (T := R) X
-    · rw [if_neg hP, Matrix.map_one TrivSqZeroExt.fst (by simp) (by simp)]
+    · rw [ite_eq_right hP, Matrix.map_one TrivSqZeroExt.fst (by simp) (by simp)]
 
 noncomputable def dualLiftAlgHom {S : Type*} [CommRing S] [Algebra R S] {η : S}
     (hη : η * η = 0) : DualNumber R →ₐ[R] S :=
@@ -214,7 +214,7 @@ theorem kronDer_eq_zero_of_forall_not {P : ι → Prop} [DecidablePred P]
       1 + (ε : DualNumber R) • (X.map inl : Matrix (Fin n) (Fin n) (DualNumber R)) else 1) =
       fun _ => (1 : Matrix (Fin n) (Fin n) (DualNumber R)) := by
     funext i
-    rw [if_neg (hP i)]
+    rw [ite_eq_right (hP i)]
   rw [hfam, kronMinor_one]
   ext a b
   by_cases hab : a = b <;> simp [hab]
@@ -255,10 +255,10 @@ theorem kronDer_add (P : ι → Prop) [DecidablePred P] (X Y : Matrix (Fin n) (F
           congr 1
           funext i
           by_cases hP : P i
-          · rw [if_pos hP, if_pos hP, if_pos hP,
+          · rw [ite_eq_left hP, ite_eq_left hP, ite_eq_left hP,
               one_add_smul_mul_one_add_smul (DualNumber.eps_mul_eps),
               Matrix.map_add (f := TrivSqZeroExt.inl) (fun a b => by simp)]
-          · rw [if_neg hP, if_neg hP, if_neg hP, mul_one]
+          · rw [ite_eq_right hP, ite_eq_right hP, ite_eq_right hP, mul_one]
       _ = kronMinor (d := d) (fun i => if P i then
             1 + (ε : DualNumber R) • (X.map inl : Matrix (Fin n) (Fin n) (DualNumber R))
             else 1) *
@@ -307,8 +307,8 @@ theorem kronDer_smul (P : ι → Prop) [DecidablePred P] (c : R) (X : Matrix (Fi
         (ε : DualNumber R) • ((c • X).map (TrivSqZeroExt.inl : R → DualNumber R)) else 1 := by
     funext i
     by_cases hP : P i
-    · rw [if_pos hP, if_pos hP, eps_mul_inl_smul_map]
-    · rw [if_neg hP, if_neg hP]
+    · rw [ite_eq_left hP, ite_eq_left hP, eps_mul_inl_smul_map]
+    · rw [ite_eq_right hP, ite_eq_right hP]
   rw [hfam] at h
   have h2 : (1 : Matrix (KIdx n d) (KIdx n d) (DualNumber R)) +
       ((ε : DualNumber R) * TrivSqZeroExt.inl c) •
@@ -355,7 +355,7 @@ theorem kronDer_transpose (P : ι → Prop) [DecidablePred P] (X : Matrix (Fin n
     congr 1
     funext i
     by_cases hP : P i
-    · rw [if_pos hP, if_pos hP, Matrix.transpose_add, Matrix.transpose_one,
+    · rw [ite_eq_left hP, ite_eq_left hP, Matrix.transpose_add, Matrix.transpose_one,
         Matrix.transpose_smul, ← Matrix.transpose_map]
     · simp [hP]
   have h2 : (kronMinor (d := d) (fun i => if P i then
@@ -430,11 +430,11 @@ theorem kronDer_map {S : Type*} [CommRing S] (φ : R →+* S) (P : ι → Prop) 
         ((X.map φ).map inl : Matrix (Fin n) (Fin n) (DualNumber S)) else 1 := by
     funext i
     by_cases hP : P i
-    · rw [if_pos hP, if_pos hP]
+    · rw [ite_eq_left hP, ite_eq_left hP]
       apply Matrix.ext
       intro a b
       exact map_dualNumberMap_one_add_eps φ X a b
-    · rw [if_neg hP, if_neg hP, Matrix.map_one _ (by simp) (by simp)]
+    · rw [ite_eq_right hP, ite_eq_right hP, Matrix.map_one _ (by simp) (by simp)]
   have h1 : kronMinor (d := d) (fun i => if P i then
         (1 : Matrix (Fin n) (Fin n) (DualNumber S)) + (ε : DualNumber S) •
           ((X.map φ).map inl) else 1) =
@@ -526,7 +526,7 @@ theorem kronMinor_mul_kronDer_mul_kronMinor (P : ι → Prop) [DecidablePred P]
         1 + (ε : DualNumber R) • ((g₀ * X * g₀').map inl) else 1 := by
       funext i
       by_cases hPi : P i
-      · simp only [G, D, hPi, if_true]
+      · simp only [G, D, hPi, ite_true]
         rw [hg i hPi, hg' i hPi]
         calc (g₀.map (TrivSqZeroExt.inl : R → DualNumber R)) *
               (1 + (ε : DualNumber R) • (X.map inl)) * (g₀'.map inl)
@@ -544,7 +544,7 @@ theorem kronMinor_mul_kronDer_mul_kronMinor (P : ι → Prop) [DecidablePred P]
           _ = 1 + (ε : DualNumber R) • (((g₀ * X) * g₀').map
                 (TrivSqZeroExt.inl : R → DualNumber R)) := by
                 rw [hg₀, map_inl_one]
-      · simp only [G, D, hPi, if_false]
+      · simp only [G, D, hPi, ite_false]
         rw [Matrix.mul_one, ← map_inl_mul, hgg' i, map_inl_one]
     have h2 : kronMinor (d := d) G =
         1 + (ε : DualNumber R) • ((kronDer P (g₀ * X * g₀')).map inl) := by
@@ -599,10 +599,10 @@ theorem kronDer_or {P Q : ι → Prop} [DecidablePred P] [DecidablePred Q]
           (ε : DualNumber R) • (X.map inl) else 1) := by
     funext i
     by_cases hP : P i
-    · rw [if_pos (Or.inl hP), if_pos hP, if_neg (hPQ i hP), mul_one]
+    · rw [ite_eq_left (Or.inl hP), ite_eq_left hP, ite_eq_right (hPQ i hP), mul_one]
     · by_cases hQ : Q i
-      · rw [if_pos (Or.inr hQ), if_neg hP, if_pos hQ, one_mul]
-      · rw [if_neg (not_or.mpr ⟨hP, hQ⟩), if_neg hP, if_neg hQ, mul_one]
+      · rw [ite_eq_left (Or.inr hQ), ite_eq_right hP, ite_eq_left hQ, one_mul]
+      · rw [ite_eq_right (not_or.mpr ⟨hP, hQ⟩), ite_eq_right hP, ite_eq_right hQ, mul_one]
   have hmain : kronMinor (d := d) (fun i => if P i ∨ Q i then
       (1 : Matrix (Fin n) (Fin n) (DualNumber R)) + (ε : DualNumber R) •
         (X.map inl : Matrix (Fin n) (Fin n) (DualNumber R)) else 1) =
@@ -630,7 +630,7 @@ theorem map_snd_snd_one_add_inr_eps_smul {m : Type*} [Fintype m] [DecidableEq m]
   ext a b
   by_cases hab : a = b <;>
     simp only [Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply, hab,
-      if_true, if_false, TrivSqZeroExt.snd_add, TrivSqZeroExt.snd_mul, TrivSqZeroExt.snd_one,
+      ite_true, ite_false, TrivSqZeroExt.snd_add, TrivSqZeroExt.snd_mul, TrivSqZeroExt.snd_one,
       TrivSqZeroExt.snd_inr,
       TrivSqZeroExt.fst_inr,
       DualNumber.snd_eps, DualNumber.fst_eps, smul_eq_mul,
@@ -676,8 +676,8 @@ theorem kronDer_mul_sub_mul (P : ι → Prop) [DecidablePred P]
       fun i => if P i then 1 + (e₁ * e₂) • ((X * Y - Y * X).map (algebraMap R S)) else 1 := by
     funext i
     by_cases hP : P i
-    · rw [if_pos hP]
-      simp only [G1, G2, G1', G2', if_pos hP, neg_smul, ← sub_eq_add_neg]
+    · rw [ite_eq_left hP]
+      simp only [G1, G2, G1', G2', ite_eq_left hP, neg_smul, ← sub_eq_add_neg]
       rw [one_add_smul_group_commutator h₁ h₂ XS YS]
       have hinner : XS * YS - YS * XS = (X * Y - Y * X).map (algebraMap R S) := by
         rw [show XS = X.map (algebraMap R S) from rfl,
@@ -685,7 +685,7 @@ theorem kronDer_mul_sub_mul (P : ι → Prop) [DecidablePred P]
           ← Matrix.map_mul, ← Matrix.map_mul]
         exact (Matrix.map_sub _ (map_sub (algebraMap R S)) (X * Y) (Y * X)).symm
       rw [hinner]
-    · simp [G1, G2, G1', G2', if_neg hP]
+    · simp [G1, G2, G1', G2', ite_eq_right hP]
   have hL : kronMinor (d := d) G1 * kronMinor G2 * kronMinor G1' * kronMinor G2' =
       1 + (e₁ * e₂) • ((kronDer P (X * Y - Y * X)).map (algebraMap R S)) := by
     rw [← kronMinor_mul, ← kronMinor_mul, ← kronMinor_mul, hfam]
@@ -774,12 +774,12 @@ theorem kronDer_single_self_apply (P : ι → Prop) [DecidablePred P] (a : Fin n
         (1 + (ε : DualNumber R)) else 1) := by
     funext i
     by_cases hP : P i
-    · rw [if_pos hP]
+    · rw [ite_eq_left hP]
       rw [one_add_eps_smul_single_self]
       congr 1
       funext x
       simp [hP]
-    · rw [if_neg hP]
+    · rw [ite_eq_right hP]
       ext x y <;> (by_cases hxy : x = y <;> simp [Matrix.one_apply,
         hxy, hP, TrivSqZeroExt.snd_one, TrivSqZeroExt.snd_zero, TrivSqZeroExt.fst_one,
         TrivSqZeroExt.fst_zero])
@@ -844,14 +844,14 @@ theorem kronDer_mul_comm_of_disjoint {P Q : ι → Prop} [DecidablePred P] [Deci
     funext i
     by_cases hP : P i
     · have hQ : ¬ Q i := hPQ i hP
-      simp only [G1, G2, G1', G2', if_pos hP, if_neg hQ, neg_smul, ← sub_eq_add_neg,
+      simp only [G1, G2, G1', G2', ite_eq_left hP, ite_eq_right hQ, neg_smul, ← sub_eq_add_neg,
         Matrix.mul_one]
       exact one_add_smul_mul_one_sub_smul h₁ XS
     · by_cases hQ : Q i
-      · simp only [G1, G2, G1', G2', if_neg hP, if_pos hQ, neg_smul, ← sub_eq_add_neg,
+      · simp only [G1, G2, G1', G2', ite_eq_right hP, ite_eq_left hQ, neg_smul, ← sub_eq_add_neg,
           Matrix.one_mul, Matrix.mul_one]
         exact one_add_smul_mul_one_sub_smul h₂ YS
-      · simp [G1, G2, G1', G2', if_neg hP, if_neg hQ]
+      · simp [G1, G2, G1', G2', ite_eq_right hP, ite_eq_right hQ]
   have hL : kronMinor (d := d) G1 * kronMinor G2 * kronMinor G1' * kronMinor G2' =
       (1 : Matrix (KIdx n d) (KIdx n d) S) := by
     rw [← kronMinor_mul, ← kronMinor_mul, ← kronMinor_mul, hfam, kronMinor_one]
@@ -911,20 +911,20 @@ theorem kronDer_mulVec_single_ktop (P : ι → Prop) [DecidablePred P]
     change ((if P i then (1 : Matrix (Fin n) (Fin n) (DualNumber R)) +
       (ε : DualNumber R) • X.map inl else 1) : Matrix (Fin n) (Fin n) (DualNumber R)) a b = 0
     by_cases hP : P i
-    · rw [if_pos hP]
+    · rw [ite_eq_left hP]
       have hXab : X a b = 0 := hX a b (le_of_lt hba)
       simp [hXab, ne_of_gt hba]
-    · rw [if_neg hP]
+    · rw [ite_eq_right hP]
       simp [ne_of_gt hba]
   have hg1 : ∀ i a, G i a a = 1 := by
     intro i a
     change ((if P i then (1 : Matrix (Fin n) (Fin n) (DualNumber R)) +
       (ε : DualNumber R) • X.map inl else 1) : Matrix (Fin n) (Fin n) (DualNumber R)) a a = 1
     by_cases hP : P i
-    · rw [if_pos hP]
+    · rw [ite_eq_left hP]
       have hXaa : X a a = 0 := hX a a le_rfl
       simp [hXaa]
-    · rw [if_neg hP]
+    · rw [ite_eq_right hP]
       simp
   have hfix := kronMinor_mulVec_single_ktop (g := G) hg hg1 hd
   have hdecomp : kronMinor (d := d) G = 1 + (ε : DualNumber R) • (kronDer (d := d) P X).map inl :=
@@ -1009,24 +1009,24 @@ theorem snd_prod_ite_eps {T κ : Type*} [CommRing T] [Fintype κ] [DecidableEq �
   simp only [hfst, hsnd]
   by_cases hex : ∃ i, Q i ∧ ∀ j, j ≠ i → E j
   · obtain ⟨i₀, hQ₀, hE₀⟩ := hex
-    rw [if_pos ⟨i₀, hQ₀, hE₀⟩, Finset.sum_eq_single i₀]
-    · rw [if_pos hQ₀, one_mul]
-      exact Finset.prod_eq_one fun j hj => if_pos (hE₀ j (Finset.ne_of_mem_erase hj))
+    rw [ite_eq_left ⟨i₀, hQ₀, hE₀⟩, Finset.sum_eq_single i₀]
+    · rw [ite_eq_left hQ₀, one_mul]
+      exact Finset.prod_eq_one fun j hj => ite_eq_left (hE₀ j (Finset.ne_of_mem_erase hj))
     · intro i _ hi
-      rw [if_neg fun h => hQE i h (hE₀ i hi), zero_mul]
+      rw [ite_eq_right fun h => hQE i h (hE₀ i hi), zero_mul]
     · intro h
       exact absurd (Finset.mem_univ i₀) h
-  · rw [if_neg hex]
+  · rw [ite_eq_right hex]
     refine Finset.sum_eq_zero fun i _ => ?_
     by_cases hQ : Q i
-    · rw [if_pos hQ, one_mul]
+    · rw [ite_eq_left hQ, one_mul]
       have hj : ∃ j ∈ Finset.univ.erase i, ¬ E j := by
         by_contra hall
         push Not at hall
         exact hex ⟨i, hQ, fun j hji => hall j (Finset.mem_erase.mpr ⟨hji, Finset.mem_univ j⟩)⟩
       obtain ⟨j, hjmem, hjne⟩ := hj
-      exact Finset.prod_eq_zero hjmem (if_neg hjne)
-    · rw [if_neg hQ, zero_mul]
+      exact Finset.prod_eq_zero hjmem (ite_eq_right hjne)
+    · rw [ite_eq_right hQ, zero_mul]
 
 theorem kronDer_single_apply (h2 : (2 : R) = 0) (P : ι → Prop) [DecidablePred P] {a b : Fin n}
     (hab : a ≠ b) (s t : KIdx n d) :
@@ -1045,8 +1045,8 @@ theorem kronDer_single_apply (h2 : (2 : R) = 0) (P : ι → Prop) [DecidablePred
       fun i => 1 + Matrix.single a b (if P i then (ε : DualNumber R) else 0) := by
     funext i
     by_cases hP : P i
-    · rw [if_pos hP, if_pos hP, eps_smul_map_inl_single]
-    · rw [if_neg hP, if_neg hP, Matrix.single_zero, add_zero]
+    · rw [ite_eq_left hP, ite_eq_left hP, eps_smul_map_inl_single]
+    · rw [ite_eq_right hP, ite_eq_right hP, Matrix.single_zero, add_zero]
   rw [kronDer, hfam, Matrix.map_apply, kronMinor_one_add_single h2' hab]
   simp only [← ite_and]
   rw [snd_prod_ite_eps]

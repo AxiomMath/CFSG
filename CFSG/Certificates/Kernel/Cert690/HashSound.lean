@@ -20,12 +20,12 @@ theorem idxMapOf_fold {E : List ℕ} (hE : E.Nodup) :
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil,
       Std.HashMap.getD_insert, ih (by omega)]
     have hk' : k < E.length := by omega
-    rw [List.getElem!_toArray, getElem!_pos E k hk', List.take_succ, List.getElem?_eq_getElem hk']
+    rw [List.getElem!_toArray, getElem!_pos E k hk', List.take_add_one, List.getElem?_eq_getElem hk']
     simp only [Option.toList_some, List.mem_append, List.mem_singleton, beq_iff_eq]
     by_cases h : E[k] = c
     · subst h
-      rw [if_pos rfl, if_pos (Or.inr rfl), hE.idxOf_getElem k hk']
-    · rw [if_neg h]
+      rw [ite_eq_left rfl, ite_eq_left (Or.inr rfl), hE.idxOf_getElem k hk']
+    · rw [ite_eq_right h]
       have : ¬ c = E[k] := fun e => h e.symm
       simp only [this, or_false]
 
@@ -49,7 +49,7 @@ theorem hashSet_fold (L : List ℕ) :
     rw [List.foldl_cons]
     have e : F ∪ (a :: L).toFinset = (insert a F) ∪ L.toFinset := by
       ext x
-      simp [or_assoc, or_comm, or_left_comm]
+      simp
     rw [e]
     refine ih _ _ (fun x => ?_) ?_
     · rw [Std.HashSet.contains_insert, Bool.or_eq_true, h1, beq_iff_eq, Finset.mem_insert]
@@ -59,11 +59,11 @@ theorem hashSet_fold (L : List ℕ) :
       · have : a ∈ s := by
           rw [Std.HashSet.mem_iff_contains, h1]
           exact ha
-        rw [if_pos this, Finset.insert_eq_of_mem ha]
+        rw [ite_eq_left this, Finset.insert_eq_of_mem ha]
       · have : a ∉ s := by
           rw [Std.HashSet.mem_iff_contains, h1]
           exact ha
-        rw [if_neg this, Finset.card_insert_of_notMem ha]
+        rw [ite_eq_right this, Finset.card_insert_of_notMem ha]
 
 theorem hashSetOfArray_contains (A : Array ℕ) (x : ℕ) :
     (hashSetOfArray A).contains x = A.toList.contains x := by

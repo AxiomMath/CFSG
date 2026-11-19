@@ -78,11 +78,11 @@ theorem gh23_z3a5_equiv_of_rels {H : Type*} [Group H] [Finite H] (y : ℕ → H)
       show y ((i + 2) - 2) = y i
       rw [Nat.add_sub_cancel]
     rw [MonoidHom.noncommCoprod_apply, hφ, hx']
-    simp [f, toAdd_ofAdd, ZMod.val_zero]
+    simp [f, ZMod.val_zero]
   have hrange_top : Ψ.range = ⊤ := by
     rw [eq_top_iff, ← hgen, Subgroup.closure_le]
     intro g hg
-    rw [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq] at hg
+    rw [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | ⟨i, hi, rfl⟩
     · exact hz_range
     · exact hy_range i hi

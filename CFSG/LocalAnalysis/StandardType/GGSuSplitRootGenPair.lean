@@ -37,7 +37,7 @@ private theorem exists_splitEntries_ne {ζ : K} (hζ : IsPrimitiveRoot ζ p) (hp
     (hF2 : ¬ (a = .inr (.inr j) ∧ b = .inr (.inr i))) :
     ∃ t : Fin r → ZMod p, t i = t j ∧
       splitEntries (ε := ε) ζ t a ≠ splitEntries (ε := ε) ζ t b := by
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hζ1 : ζ ≠ 1 := hζ.ne_one hp.one_lt
   have hζinv : ζ ≠ ζ⁻¹ := ne_inv_self_of_isPrimitiveRoot hζ hp hp2
   have hζinv1 : ζ⁻¹ ≠ 1 := by simpa [inv_eq_one] using hζ1
@@ -269,7 +269,7 @@ private theorem entry_eq_zero_of_mem_centralizer (h : UnitaryFieldData 2 n K) (h
     (hF2 : ¬ (a = .inr (.inr j) ∧ b = .inr (.inr i))) :
     (((c : hypSU h r ε) : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) a b =
       0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, hti, hne⟩ := exists_splitEntries_ne hζ hp hp2 hij hε hab hE1 hE2 hF1 hF2
   have hmem : τ (Multiplicative.ofAdd t) ∈ torusFix τ (SlNsRootGen.swapMap i j) := by
     refine ⟨Multiplicative.ofAdd t, ?_, rfl⟩
@@ -302,7 +302,7 @@ theorem leviDual_apply_eq_zero_of_not_mem (h : UnitaryFieldData 2 n K)
     · exact Or.inl hy
   unfold leviDual
   rw [← map_inv, Matrix.SpecialLinearGroup.coe_GL_coe_matrix, transpose_apply, Matrix.map_apply,
-    hmem, if_neg (Ne.symm hxy), map_zero]
+    hmem, ite_eq_right (Ne.symm hxy), map_zero]
 
 theorem leviSU_apply_ne_zero_splitEntries_eq (h : UnitaryFieldData 2 n K)
     {i j : Fin r} {A : SpecialLinearGroup (Fin r) K}
@@ -338,22 +338,22 @@ theorem leviSU_apply_ne_zero_splitEntries_eq (h : UnitaryFieldData 2 n K)
     simp only [blk3_inl_inr_inr, Matrix.zero_apply] at hM
     exact absurd rfl hM
   ·
-    simp only [blk3_inr_inl_inl, Matrix.zero_apply] at hM
+    simp only [blk3_inr_inl_inl] at hM
     exact absurd rfl hM
   ·
     simp only [blk3_inr_inl_inr_inl, Matrix.one_apply] at hM
     by_cases hkl : k = l
     · rw [hkl]
-    · rw [if_neg hkl] at hM
+    · rw [ite_eq_right hkl] at hM
       exact absurd rfl hM
   ·
     simp only [blk3_inr_inl_inr_inr, Matrix.zero_apply] at hM
     exact absurd rfl hM
   ·
-    simp only [blk3_inr_inr_inl, Matrix.zero_apply] at hM
+    simp only [blk3_inr_inr_inl] at hM
     exact absurd rfl hM
   ·
-    simp only [blk3_inr_inr_inr_inl, Matrix.zero_apply] at hM
+    simp only [blk3_inr_inr_inr_inl] at hM
     exact absurd rfl hM
   ·
     simp only [blk3_inr_inr_inr_inr] at hM
@@ -392,7 +392,7 @@ private theorem pairBlock_le_centralizer (h : UnitaryFieldData 2 n K) (hp : p.Pr
     {i j : Fin r} :
     pairBlock h ε i j ≤
       Subgroup.centralizer (torusFix τ (SlNsRootGen.swapMap i j)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hx
   obtain ⟨A, hA, rfl⟩ := Subgroup.mem_map.mp hx
   rw [Subgroup.mem_centralizer_iff]
@@ -466,7 +466,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
     {i j : Fin r} (hij : i ≠ j) :
     IsComponentOf (pairBlock h ε i j)
       (Subgroup.centralizer (torusFix τ (SlNsRootGen.swapMap i j))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup (hypSU h r ε) :=
     Subgroup.centralizer (torusFix τ (SlNsRootGen.swapMap i j)) with hC
   have hpair_le : pairBlock h ε i j ≤ C := by
@@ -481,7 +481,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
       omega
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (2 * n) := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hqJ : CFSG.IsQuasisimple
       (CFSG.RankThree.CALinearPlane.coordBlockSL K ({i, j} : Finset (Fin r))) :=
     CFSG.RankThree.CALinearPlane.isQuasisimple_coordBlockSL hJ h4
@@ -602,7 +602,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
       rw [hCei, ← Units.val_mul, mul_inv_cancel, Units.val_one]
     have hgg : (((g : hypSU h r ε)) * (((g⁻¹ : xyStab h r ε)) : hypSU h r ε)) = 1 := by
       have h : g * g⁻¹ = (1 : xyStab h r ε) := mul_inv_cancel g
-      simpa using congrArg (fun z : xyStab h r ε => (z : hypSU h r ε)) h
+      simp
     have hprod : (((hx : hypSU h r ε) : GL (HypIndex r ε) K) :
         Matrix (HypIndex r ε) (HypIndex r ε) K) *
         (((hx⁻¹ : hypSU h r ε) : GL (HypIndex r ε) K) :
@@ -610,7 +610,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
       have := congrArg (fun z : hypSU h r ε =>
         (((z : hypSU h r ε) : GL (HypIndex r ε) K) :
           Matrix (HypIndex r ε) (HypIndex r ε) K)) hgg
-      simpa [hg] using this
+      simp
     have hzblock : Cz * Czi = 1 := by
       have hblk : blk3 (Ce : Matrix (Fin r) (Fin r) K) 0 0 Cz 0 (leviDual h Ce) *
           blk3 (Cei : Matrix (Fin r) (Fin r) K) 0 0 Czi 0 (leviDual h Cei) = 1 := by
@@ -641,12 +641,12 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
         · exact (hnot hb).1 (by simpa using h2)
       · rintro ⟨h1, h2⟩
         rcases hout with ha | hb
-        · exact (hnot ha).1 (by simpa using h1)
-        · exact (hnot hb).2 (by simpa using h2)
+        · exact (hnot ha).1 (by simp at h1)
+        · exact (hnot hb).2 (by simp at h2)
       · rintro ⟨h1, h2⟩
         rcases hout with ha | hb
-        · exact (hnot ha).2 (by simpa using h1)
-        · exact (hnot hb).1 (by simpa using h2)
+        · exact (hnot ha).2 (by simp at h1)
+        · exact (hnot hb).1 (by simp at h2)
     have hCei_zero : ∀ a b : Fin r, a ≠ b →
         (a ∉ ({i, j} : Finset (Fin r)) ∨ b ∉ ({i, j} : Finset (Fin r))) →
         (Cei : Matrix (Fin r) (Fin r) K) a b = 0 := by
@@ -669,12 +669,12 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
         · exact (hnot hb).1 (by simpa using h2)
       · rintro ⟨h1, h2⟩
         rcases hout with ha | hb
-        · exact (hnot ha).1 (by simpa using h1)
-        · exact (hnot hb).2 (by simpa using h2)
+        · exact (hnot ha).1 (by simp at h1)
+        · exact (hnot hb).2 (by simp at h2)
       · rintro ⟨h1, h2⟩
         rcases hout with ha | hb
-        · exact (hnot ha).2 (by simpa using h1)
-        · exact (hnot hb).1 (by simpa using h2)
+        · exact (hnot ha).2 (by simp at h1)
+        · exact (hnot hb).1 (by simp at h2)
     have hArow : ∀ {a b : Fin r}, a ∉ ({i, j} : Finset (Fin r)) →
         ((A : Matrix (Fin r) (Fin r) K) * (Cei : Matrix (Fin r) (Fin r) K)) a b =
           (Cei : Matrix (Fin r) (Fin r) K) a b := by
@@ -685,11 +685,11 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
         refine Finset.sum_eq_single a ?_ ?_
         · intro d _ hda
           rw [CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA a d (Or.inl ha),
-            if_neg (Ne.symm hda), zero_mul]
+            ite_eq_right (Ne.symm hda), zero_mul]
         · intro ha'
           exact absurd (Finset.mem_univ a) ha'
       rw [Matrix.mul_apply, hsum,
-        CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA a a (Or.inl ha), if_pos rfl,
+        CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA a a (Or.inl ha), ite_eq_left rfl,
         one_mul]
     have hCerow : ∀ {X : Matrix (Fin r) (Fin r) K} {a b : Fin r},
         a ∉ ({i, j} : Finset (Fin r)) →
@@ -738,11 +738,11 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
         refine Finset.sum_eq_single b ?_ ?_
         · intro d _ hdb
           rw [CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA d b (Or.inr hb),
-            if_neg hdb, mul_zero]
+            ite_eq_right hdb, mul_zero]
         · intro hb'
           exact absurd (Finset.mem_univ b) hb'
       rw [Matrix.mul_apply, hsum,
-        CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA b b (Or.inr hb), if_pos rfl,
+        CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp hA b b (Or.inr hb), ite_eq_left rfl,
         mul_one]
     have hCeCeicol : ∀ {a b : Fin r}, b ∉ ({i, j} : Finset (Fin r)) →
         ((Ce : Matrix (Fin r) (Fin r) K) * (Cei : Matrix (Fin r) (Fin r) K)) a b =
@@ -803,8 +803,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
       apply Units.ext
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hMg, hMx, hMgi,
         blk3_mul, blk3_mul]
-      simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, Matrix.mul_one,
-        Matrix.one_mul]
+      simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, Matrix.mul_one]
       rw [← hA'val, hzblock, ← hDual, hMl]
     exact ⟨A', hA'mem, hconj.symm⟩
   refine ⟨hpair_le, IsSubnormal.step hpair_le hnormal (IsSubnormal.refl _), ?_⟩
@@ -813,7 +812,7 @@ theorem isComponentOf_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
 theorem dvd_card_pairBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K}
     (hζ : IsPrimitiveRoot ζ p) {i j : Fin r} (hij : i ≠ j) :
     p ∣ Nat.card (pairBlock h ε i j) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   have hζ1 : ζ ≠ 1 := hζ.ne_one hp.one_lt
   have hinj : Function.Injective (leviSU (r := r) h ε) := leviSU_injective h

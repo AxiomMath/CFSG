@@ -23,14 +23,14 @@ open CFSG.HardMathSupport.Dickson.I271.KDLevelCo3 (LevelTwo levelTwo_of_equiv)
 open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.KDSpor
 
 theorem lv_s0 : ShapeRkAt 3 LevelTwo (fun _ _ => True) s0 := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   refine CFSG.HardMathSupport.Dickson.I271.KDLevelFi23.shapeRkAt_levelTwo_of_card shapeRkAt_s0 ?_
   show ¬ 239500800 ∣ Nat.card cent0
   rw [card_cent0]
   norm_num
 
 theorem lv_xJ : ShapeRkAt 3 LevelTwo (fun _ _ => True) xJ := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   refine CFSG.HardMathSupport.Dickson.I271.KDLevelFi23.shapeRkAt_levelTwo_of_card shapeRkAt_xJ ?_
   show ¬ 239500800 ∣ Nat.card centX
   intro h
@@ -41,7 +41,7 @@ theorem lv_xJ : ShapeRkAt 3 LevelTwo (fun _ _ => True) xJ := by
   omega
 
 theorem lv_fi24Rep3 (i : Fin 5) : ShapeRkAt 3 LevelTwo (fun _ _ => True) (fi24Rep3 i) := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   fin_cases i
   · obtain ⟨c, hc⟩ := isConj_iff.1 isConj_rep0_s0
@@ -71,8 +71,8 @@ theorem lv_fi24Rep3 (i : Fin 5) : ShapeRkAt 3 LevelTwo (fun _ _ => True) (fi24Re
 theorem lv_centShapeRk_J : CentShapeRk 3 LevelTwo (fun _ _ => True) ↥J := by
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hkp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥J :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hord : orderOf k = 3 := orderOf_eq_prime hkp hk1
   obtain ⟨i, hconj⟩ := Fi24Sylow.fi24ThreeClasses_holds k hord

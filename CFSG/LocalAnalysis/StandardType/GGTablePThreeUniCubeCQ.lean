@@ -57,10 +57,10 @@ private lemma psuEquivPSUg_mk {K : Type} [Field K] {f n : ℕ} (h : UnitaryField
       (QuotientGroup.mk A : ↥(LargeEvenSUGroup (Fin n) K (2 ^ f)) ⧸
         ((LargeEvenScalars (Fin n) K).subgroupOf
           (LargeEvenSUGroup (Fin n) K (2 ^ f)))) := by
-  haveI hM : (unitaryScalars h n :
+  have hM : (unitaryScalars h n :
       Subgroup ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     normOneScalars_normal h (LargeEvenSUGroup (Fin n) K (2 ^ f)) n
-  haveI hN : ((LargeEvenScalars (Fin n) K).subgroupOf
+  have hN : ((LargeEvenScalars (Fin n) K).subgroupOf
       (LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     Subgroup.normal_subgroupOf (N := LargeEvenScalars (Fin n) K)
   simp only [psuEquivPSUg]
@@ -73,26 +73,26 @@ private lemma psuEquivPSUg_unitaryProj {K : Type} [Field K] {f n : ℕ} (h : Uni
     (A : ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))) :
     psuEquivPSUg h hn (unitaryProj h n A) =
       LargeEvenProjMk (LargeEvenSUGroup (Fin n) K (2 ^ f)) A := by
-  haveI hM : (unitaryScalars h n :
+  have hM : (unitaryScalars h n :
       Subgroup ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     normOneScalars_normal h (LargeEvenSUGroup (Fin n) K (2 ^ f)) n
-  haveI hN : ((LargeEvenScalars (Fin n) K).subgroupOf
+  have hN : ((LargeEvenScalars (Fin n) K).subgroupOf
       (LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     Subgroup.normal_subgroupOf (N := LargeEvenScalars (Fin n) K)
-  haveI hMU : (unitaryScalars h n : Subgroup ↥(unitarySU 2 f K n)).Normal := inferInstance
+  have hMU : (unitaryScalars h n : Subgroup ↥(unitarySU 2 f K n)).Normal := inferInstance
   exact psuEquivPSUg_mk h hn A
 
 private lemma psuEquivPSUg_symm_largeEvenProjMk {K : Type} [Field K] {f n : ℕ} (h : UnitaryFieldData 2 f K)
     (hn : 1 ≤ n) (g : ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))) :
     (psuEquivPSUg h hn).symm
         (LargeEvenProjMk (LargeEvenSUGroup (Fin n) K (2 ^ f)) g) = unitaryProj h n g := by
-  haveI hM : (unitaryScalars h n :
+  have hM : (unitaryScalars h n :
       Subgroup ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     normOneScalars_normal h (LargeEvenSUGroup (Fin n) K (2 ^ f)) n
-  haveI hN : ((LargeEvenScalars (Fin n) K).subgroupOf
+  have hN : ((LargeEvenScalars (Fin n) K).subgroupOf
       (LargeEvenSUGroup (Fin n) K (2 ^ f))).Normal :=
     Subgroup.normal_subgroupOf (N := LargeEvenScalars (Fin n) K)
-  haveI hMU : (unitaryScalars h n : Subgroup ↥(unitarySU 2 f K n)).Normal := inferInstance
+  have hMU : (unitaryScalars h n : Subgroup ↥(unitarySU 2 f K n)).Normal := inferInstance
   rw [← psuEquivPSUg_unitaryProj h hn g, MulEquiv.symm_apply_apply]
 
 private noncomputable def psuEquivPSUgZero {K : Type} [Field K] {f : ℕ} (h : UnitaryFieldData 2 f K) :
@@ -153,7 +153,7 @@ private lemma mulVec_conj {K : Type} [Field K] {n : ℕ} (S D : GL (Fin n) K) (v
       (S : Matrix (Fin n) (Fin n) K) * (D : Matrix (Fin n) (Fin n) K) *
         ((S⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) by
     rw [Units.val_mul, Units.val_mul]]
-  simp only [Matrix.mulVec_mulVec, Matrix.one_mulVec, mul_assoc, hSin, one_mul, mul_one]
+  simp only [Matrix.mulVec_mulVec, mul_assoc, hSin, mul_one]
 
 private lemma mulVec_injective {K : Type} [Field K] {n : ℕ} (S : GL (Fin n) K) :
     Function.Injective (fun v : Fin n → K => (S : Matrix (Fin n) (Fin n) K) *ᵥ v) := by
@@ -163,7 +163,7 @@ private lemma mulVec_injective {K : Type} [Field K] {n : ℕ} (S : GL (Fin n) K)
   intro a b hab
   have h := congrArg (fun v : Fin n → K =>
     (((S⁻¹ : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K) *ᵥ v) hab
-  simp only [Matrix.mulVec_mulVec, Matrix.one_mulVec, hSin, one_mul, mul_one] at h
+  simp only [Matrix.mulVec_mulVec, Matrix.one_mulVec, hSin] at h
   exact h
 
 private lemma mem_cubeEigen_conj {K : Type} [Field K] {n : ℕ} (S D : GL (Fin n) K) {v : Fin n → K} {μ : K} :
@@ -466,14 +466,13 @@ private lemma eigSub_conj {K : Type} [Field K] {f n : ℕ} (S : ↥(LargeEvenSUG
       have hg' := hg ν hν hνμ ((S : GL (Fin n) K) *ᵥ v) hv'
       have hSS : ((((S : GL (Fin n) K)⁻¹) : Matrix (Fin n) (Fin n) K) *
           ((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) = 1 := by
-        simpa using congrArg (fun u : GL (Fin n) K => (u : Matrix (Fin n) (Fin n) K))
-          (inv_mul_cancel (S : GL (Fin n) K))
+        simp
       have hcoe : (((S⁻¹ * g * S : ↥(LargeEvenSUGroup (Fin n) K (2 ^ f))) :
           GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
           (((S : GL (Fin n) K)⁻¹) : Matrix (Fin n) (Fin n) K) *
           (((g : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K) *
           ((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [Subgroup.coe_mul]
       rw [hcoe]
       exact conj_mulVec_eq ((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
         (((g : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K) v
@@ -484,8 +483,7 @@ private lemma eigSub_conj {K : Type} [Field K] {f n : ℕ} (S : ↥(LargeEvenSUG
     intro ν hν hνμ w hw
     have hSS : (((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         (((S : GL (Fin n) K)⁻¹) : Matrix (Fin n) (Fin n) K)) = 1 := by
-      simpa using congrArg (fun u : GL (Fin n) K => (u : Matrix (Fin n) (Fin n) K))
-        (mul_inv_cancel (S : GL (Fin n) K))
+      simp
     have hv : (((S : GL (Fin n) K)⁻¹) : Matrix (Fin n) (Fin n) K) *ᵥ w ∈
         cubeEigen D ν := by
       refine (mem_cubeEigen_conj (S : GL (Fin n) K) D
@@ -498,7 +496,7 @@ private lemma eigSub_conj {K : Type} [Field K] {f n : ℕ} (S : ↥(LargeEvenSUG
         ((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         (((x : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K) *
         (((S : GL (Fin n) K)⁻¹) : Matrix (Fin n) (Fin n) K) := by
-      simp [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [MulAut.conj_apply, Subgroup.coe_mul]
     rw [hcoe]
     exact conj_mulVec_eq_inv ((S : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
       (((x : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K) w hSS hx'
@@ -515,7 +513,7 @@ open CFSG.RankThree.PartOne.KCUnitaryModel (idGram)
 theorem uni_cube_eigBlock_centerQuot {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) (hn : 4 ≤ n)
     {d : GL (Fin n) K} (hd : IsHermIsometry q (d : Matrix (Fin n) (Fin n) K)) (hd3 : d ^ 3 = 1)
-    {μ : K} (hμ : μ ^ 3 = 1) :
+    {μ : K} (_hμ : μ ^ 3 = 1) :
     Nonempty (eigBlock q d μ ⧸ Subgroup.center (eigBlock q d μ) ≃*
       LargeEvenProj (LargeEvenSUGroup (Fin (Module.finrank K (cubeEigen d μ))) K q)) := by
   classical
@@ -524,7 +522,7 @@ theorem uni_cube_eigBlock_centerQuot {K : Type} [Field K] [Finite K] [CharP K 2]
   have h : UnitaryFieldData 2 f K :=
     CFSG.AGLEmbedding.ToralCensus.unitaryFieldData_of_card_eq_sq hK hf1
   have hdU : d ∈ primeFormUnitary h (idGram K n) := uni_cube_mem_primeFormUnitary h rfl hd
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨s, τ, hs⟩ :=
     CFSG.StandardType.UnitModel.exists_det_one_conj_diag h Nat.prime_three hq3 hdU hd3
   let D : GL (Fin n) K := SectionRank.OddCover.diagHom n τ

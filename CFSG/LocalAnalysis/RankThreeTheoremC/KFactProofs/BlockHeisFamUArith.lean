@@ -16,7 +16,7 @@ theorem famU_two_le_padicValInt {p ℓ f₀ : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hℓ : 2 ≤ ℓ) (hf₀ : 1 ≤ f₀) :
     2 ≤ padicValInt p ((-((ℓ ^ (p * f₀) : ℕ) : ℤ)) ^
       orderOf (-((ℓ ^ (p * f₀) : ℕ) : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcp := famU_neg_pow_eq (ℓ := ℓ) (f₀ := f₀) (hp.odd_of_ne_two hp2)
   have hcz : ((((-((ℓ ^ f₀ : ℕ) : ℤ)) ^ p : ℤ)) : ZMod p) = -((ℓ ^ (p * f₀) : ℕ) : ZMod p) := by
     rw [hcp]

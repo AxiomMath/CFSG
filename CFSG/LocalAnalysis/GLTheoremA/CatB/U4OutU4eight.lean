@@ -10,10 +10,10 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.HardMathSupport.Solomon.LocalB
 
 theorem u4Out_index_u4eight {P : Type} [Group P] [Finite P] (h : catalogIs P S9.isU4eight) :
     (innerAut P).index = 6 := by
-  haveI : Finite (MulAut P) :=
+  have : Finite (MulAut P) :=
     Finite.of_injective (fun α : MulAut P => (α : P → P)) DFunLike.coe_injective
   obtain ⟨e1⟩ := CFSG.LocalAnalysis.GLTheoremA.bridge_u4eight h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 3 (GaloisField 2 (2 * 3)) :=
     ⟨Nat.prime_two, by norm_num, GaloisField.card 2 (2 * 3) (by norm_num)⟩
   obtain ⟨-, -, -, -, hout, -⟩ :=

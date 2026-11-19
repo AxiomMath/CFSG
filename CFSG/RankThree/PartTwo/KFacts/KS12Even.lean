@@ -167,7 +167,7 @@ theorem exists_orderOf_three_not_mem_center {X : Type*} [Group X] [Finite X]
   by_contra hcon
   push Not at hcon
   have hcyc : IsCyclic (S : Subgroup X) :=
-    CFSG.Quasithin.A318P.isCyclic_of_unique_three S.isPGroup' hZ fun r _ hr => hcon r hr
+    CFSG.Quasithin.A318P.isCyclic_of_unique_three S.isPGroup hZ fun r _ hr => hcon r hr
   exact hSnc ⟨⟨fun a b => (IsCyclic.commGroup.mul_comm a b)⟩⟩
 
 end CFSG.RankThree.PartTwo.KFacts

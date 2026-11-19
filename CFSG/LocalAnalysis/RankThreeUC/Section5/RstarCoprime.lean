@@ -17,8 +17,9 @@ open CFSG.LocalAnalysis.RankThreeUC.Section5.Local
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Bstar_mono {P B A : Subgroup G} (hAB : A ≤ B) : Bstar P A ≤ Bstar P B :=
-  Subgroup.map_mono (fun x hx => hAB hx)
+  Subgroup.map_mono (fun _x hx => hAB hx)
 
 theorem Bstar_le_normalizer_Sstar {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}

@@ -39,16 +39,16 @@ private theorem ltrd4b_typeCl {lab : LargeEvenLabel} {T : GGKacTypeCl} {tw : Boo
     · rw [h] at hΛ'; exact hΛ'.1
   rcases hS with ht | ht
   · subst ht
-    simp only [ggKacTypeClOfLabel, if_pos hr, Option.some.injEq, Prod.mk.injEq] at h
+    simp only [ggKacTypeClOfLabel, ite_eq_left hr, Option.some.injEq, Prod.mk.injEq] at h
     exact ⟨h.1.symm, h.2.1.symm, h.2.2.symm⟩
   · subst ht
-    simp only [ggKacTypeClOfLabel, if_pos hr, Option.some.injEq, Prod.mk.injEq] at h
+    simp only [ggKacTypeClOfLabel, ite_eq_left hr, Option.some.injEq, Prod.mk.injEq] at h
     exact ⟨h.1.symm, h.2.1.symm, h.2.2.symm⟩
 
 private theorem ltrd4b_ord_ne_zero {n : ℕ} (h : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1) :
     ggMultOrd 3 n ≠ 0 := by
   rcases h with h | h
-  · simp only [ggMultOrd, if_pos h]; norm_num
+  · simp only [ggMultOrd, ite_eq_left h]; norm_num
   · have hnot : ¬ (3 ∣ 2 ^ n - 1) := by
       intro h1
       have h2 : 3 ∣ 2 ^ n + 1 - (2 ^ n - 1) :=
@@ -57,7 +57,7 @@ private theorem ltrd4b_ord_ne_zero {n : ℕ} (h : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ 
         have := Nat.one_le_two_pow (n := n); omega
       rw [hdiff] at h2
       norm_num at h2
-    simp only [ggMultOrd, if_neg hnot, if_pos h]; norm_num
+    simp only [ggMultOrd, ite_eq_right hnot, ite_eq_left h]; norm_num
 
 private theorem ltrd4b_blockA_tag (r nf d : ℕ) :
     (ggMultBlockA r nf d).lab.tag = .A ∨ (ggMultBlockA r nf d).lab.tag = .twA := by
@@ -100,7 +100,7 @@ private theorem ltrd4b_datum
     {E : Subgroup (MulAut L)} {labL : LargeEvenLabel}
     (hΛL : LargeEvenInLambda2 labL)
     (hgen : GGKacGenericCl labL 3) (hperfL : commutator L = ⊤)
-    (hraw : LargeEvenRawDatum labL (fun R _ I F =>
+    (hraw : LargeEvenRawDatum labL (fun R _ I _F =>
       IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
         ∃ θ : L ⧸ Subgroup.center L ≃* R, GGInducedInn E θ I))
     (hyE : y ∈ E) (hy3 : y ^ 3 = 1)
@@ -108,7 +108,7 @@ private theorem ltrd4b_datum
     ∃ D : GGKacDatum, GGMultValidCl labL 3 D ∧ ∃ o ∈ D.orbits,
       LargeEvenInLambda2 o.lab ∧ GGHasLabel o.lab (J ⧸ Subgroup.center J) := by
   have hmain := hB 3 labL hΛL hgen _ hraw
-  obtain ⟨R, hRgrp, I, F, hQR⟩ := largeEvenRawDatum_exists hmain
+  obtain ⟨R, hRgrp, I, _F, hQR⟩ := largeEvenRawDatum_exists hmain
   obtain ⟨hsimple, hna, θ, hInd⟩ := hQR.1
   let ψ : L →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψ : Function.Surjective ψ := by

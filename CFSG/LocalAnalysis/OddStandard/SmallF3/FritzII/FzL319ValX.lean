@@ -16,6 +16,7 @@ variable {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
 
 namespace Fz319Data
 
+omit [Finite G] in
 theorem cL_x {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hl : lam * x₁ * lam⁻¹ = x₂) :
     (D.cL) (D.φ ⟨x₁, D.pf.EP hx₁⟩) = D.φ ⟨x₂, D.pf.EP hx₂⟩ := by
   apply D.φ.symm.injective
@@ -24,6 +25,7 @@ theorem cL_x {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hl : lam
   simp only [MulEquiv.symm_apply_apply, Subtype.coe_mk]
   exact hl
 
+omit [Finite G] in
 theorem validX {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hE : E = closure {x₁, x₂})
     (hl : lam * x₁ * lam⁻¹ = x₂) :
     FzValidX D.cT D.cL (D.φ ⟨x₁, D.pf.EP hx₁⟩) := by
@@ -38,11 +40,11 @@ theorem validX {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hE : E
     (D.E_iff ⟨x₂, D.pf.EP hx₂⟩).mp hx₂
   have hx1pow : (⟨x₁, D.pf.EP hx₁⟩ : ↥P) ^ 4 = 1 := by
     apply Subtype.ext
-    simp only [Subgroup.coe_pow, Subtype.coe_mk, Subgroup.coe_one]
+    simp only [Subgroup.coe_pow, Subgroup.coe_one]
     exact hx1E
   have hx2pow : (⟨x₂, D.pf.EP hx₂⟩ : ↥P) ^ 4 = 1 := by
     apply Subtype.ext
-    simp only [Subgroup.coe_pow, Subtype.coe_mk, Subgroup.coe_one]
+    simp only [Subgroup.coe_pow, Subgroup.coe_one]
     exact hx2E
   have x1_four : (D.φ ⟨x₁, D.pf.EP hx₁⟩) ^ 4 = 1 := by
     rw [← map_pow, hx1pow, map_one]
@@ -51,7 +53,7 @@ theorem validX {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hE : E
   have hcommP : (⟨x₁, D.pf.EP hx₁⟩ : ↥P) * ⟨x₂, D.pf.EP hx₂⟩
       = ⟨x₂, D.pf.EP hx₂⟩ * ⟨x₁, D.pf.EP hx₁⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul]
     exact hcomm
   have comm : (D.φ ⟨x₁, D.pf.EP hx₁⟩) * ((D.cL) (D.φ ⟨x₁, D.pf.EP hx₁⟩))
       = ((D.cL) (D.φ ⟨x₁, D.pf.EP hx₁⟩)) * (D.φ ⟨x₁, D.pf.EP hx₁⟩) := by
@@ -83,7 +85,7 @@ theorem validX {x₁ x₂ : G} (hx₁ : x₁ ∈ E) (hx₂ : x₂ ∈ E) (hE : E
       have hsub : (⟨x₁ ^ i * x₂ ^ j, hmemP⟩ : ↥P)
           = (⟨x₁, D.pf.EP hx₁⟩ : ↥P) ^ i * (⟨x₂, D.pf.EP hx₂⟩ : ↥P) ^ j := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_pow]
       rw [← MulEquiv.apply_symm_apply D.φ y, hpcoe, hsub,
         map_mul, map_pow, map_pow, h2, pow_eq_pow_mod i x1_four, pow_eq_pow_mod j x2_four]
     · rintro ⟨i, j, rfl⟩

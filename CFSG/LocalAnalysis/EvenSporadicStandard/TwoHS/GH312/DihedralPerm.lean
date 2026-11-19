@@ -77,11 +77,11 @@ theorem eq_altSubgroup_of_isSimpleGroup (S : Subgroup (DihedralGroup 4 × Equiv.
       rw [DihedralGroup.nat_card] at h1
       rw [← hcard] at h1
       simpa using h1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 S := IsPGroup.of_card_dvd_pow hdvd
     have h2 : Nat.card S = 2 := (IsPGroup.isSimpleGroup_iff_card_eq hp).mp hS
-    haveI : IsCyclic S := isCyclic_of_prime_card h2
-    haveI : IsMulCommutative S := IsCyclic.isMulCommutative
+    have : IsCyclic S := isCyclic_of_prime_card h2
+    have : IsMulCommutative S := IsCyclic.isMulCommutative
     obtain ⟨a, b, hab⟩ := hna
     exact (hab (mul_comm' a b)).elim
   ·
@@ -104,7 +104,7 @@ theorem eq_altSubgroup_of_isSimpleGroup (S : Subgroup (DihedralGroup 4 × Equiv.
     let S' : Subgroup (Equiv.Perm (Fin 5)) := g.range
     let e' : S ≃* S' := MonoidHom.ofInjective hginj
     have hS'simple : IsSimpleGroup S' := (MulEquiv.isSimpleGroup_congr e').mp hS
-    haveI : IsSimpleGroup S' := hS'simple
+    have : IsSimpleGroup S' := hS'simple
     have hna' : ∃ a b : S', a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hna
       refine ⟨e' a, e' b, fun h => hab ?_⟩
@@ -162,12 +162,12 @@ theorem eq_altSubgroup_of_isSimpleGroup (S : Subgroup (DihedralGroup 4 × Equiv.
         have hcard_sub : Nat.card ↥(S'.subgroupOf (alternatingGroup (Fin 5))) = 30 := by
           rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSA).toEquiv, h]
         have hA5simple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-          alternatingGroup.isSimpleGroup_five
+          (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
         have hidx : (S'.subgroupOf (alternatingGroup (Fin 5))).index = 2 := by
           have hmul := (S'.subgroupOf (alternatingGroup (Fin 5))).card_mul_index
           rw [hcard_sub, card_alternatingGroup_five] at hmul
           omega
-        haveI : (S'.subgroupOf (alternatingGroup (Fin 5))).Normal :=
+        have : (S'.subgroupOf (alternatingGroup (Fin 5))).Normal :=
           ⟨fun n hn g => by
             simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hn, iff_true, Subgroup.inv_mem_iff]⟩
         rcases hA5simple.eq_bot_or_eq_top_of_normal
@@ -265,9 +265,9 @@ theorem mem_or_altSubgroup_le_of_normal
       let M : Subgroup (Equiv.Perm (Fin 5)) :=
         N₀.map (MonoidHom.snd (DihedralGroup 4) (Equiv.Perm (Fin 5)))
       have hMnormal : M.Normal := by
-        haveI : N.Normal := hN
+        have : N.Normal := hN
         have hN₀normal : N₀.Normal := by
-          haveI : P1.Normal := by
+          have : P1.Normal := by
             show ((⊥ : Subgroup (DihedralGroup 4)).prod
               (⊤ : Subgroup (Equiv.Perm (Fin 5)))).Normal
             infer_instance
@@ -279,7 +279,7 @@ theorem mem_or_altSubgroup_le_of_normal
         rw [hbot] at hsM
         exact hs1 (Subgroup.mem_bot.mp hsM)
       have hAM : alternatingGroup (Fin 5) ≤ M := by
-        haveI : M.Normal := hMnormal
+        have : M.Normal := hMnormal
         rcases CFSG.Holt.eq_bot_or_eq_alternatingGroup_or_eq_top_of_normal
           (Λ := Fin 5) (by simp : 5 ≤ Nat.card (Fin 5)) (N := M) with hb | ha | ht
         · exact absurd hb hMne
@@ -394,7 +394,7 @@ theorem mem_or_altSubgroup_le_of_normal
         have h1 : (⟨x, hxN⟩ : N) = 1 := hginj (by rw [hg1, map_one])
         simpa using congrArg Subtype.val h1
       have hAM : alternatingGroup (Fin 5) ≤ M := by
-        haveI : M.Normal := hMnormal
+        have : M.Normal := hMnormal
         rcases CFSG.Holt.eq_bot_or_eq_alternatingGroup_or_eq_top_of_normal
           (Λ := Fin 5) (by simp : 5 ≤ Nat.card (Fin 5)) (N := M) with hb | ha | ht
         · exact absurd hb hMne

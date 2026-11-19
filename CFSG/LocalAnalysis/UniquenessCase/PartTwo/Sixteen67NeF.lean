@@ -56,6 +56,7 @@ theorem commute_V₀_conj_V₀ (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOSt
   exact (commutatorElement_eq_one_iff_mul_comm.mp (by
     rw [commutatorElement_def]; exact h1)).symm
 
+omit [Finite G] in
 theorem E_le_X (h : Cfg1667Ne M V₀ V W₁ W₂) :
     V₀ ⊔ conjSubgroup V₀ g ≤ V ⊔ conjSubgroup V g := by
   exact sup_le_sup (V₀_le h) (E3.conjSubgroup_mono_left g (V₀_le h))
@@ -298,10 +299,12 @@ theorem exists_not_commute (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOStar 1
   have hpos : 0 < Nat.card V₀ := Nat.card_pos (α := V₀)
   omega
 
-theorem K_le_X (h : Cfg1667Ne M V₀ V W₁ W₂) :
+omit [Finite G] in
+theorem K_le_X (_h : Cfg1667Ne M V₀ V W₁ W₂) :
     (V ⊓ conjSubgroup M g) ⊔ (conjSubgroup V g ⊓ M) ≤ V ⊔ conjSubgroup V g := by
   exact sup_le (inf_le_left.trans le_sup_left) (inf_le_left.trans le_sup_right)
 
+omit [Finite G] in
 theorem K_le_M (h : Cfg1667Ne M V₀ V W₁ W₂) :
     (V ⊓ conjSubgroup M g) ⊔ (conjSubgroup V g ⊓ M) ≤ M := by
   exact sup_le (inf_le_left.trans (le_M h)) inf_le_right

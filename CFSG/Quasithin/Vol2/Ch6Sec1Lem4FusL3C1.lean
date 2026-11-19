@@ -18,7 +18,7 @@ theorem kg614FusionL2_of_psl2_prime {Γ : Type} [Group Γ] [Finite Γ] (K T X : 
     (hEK : ¬ E ≤ pCoreOf 2 (K ⊔ T)) :
     ∃ k ∈ K, E.map (MulAut.conj k).toMonoidHom ≤ T ∧
       ¬ E.map (MulAut.conj k).toMonoidHom ≤ pCoreOf 2 (X ⊔ T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKo : IsOddPrimePower (Nat.card F) :=
     ⟨p, 1, hp, hp.odd_of_ne_two (by omega), le_rfl, by rw [hF, pow_one]⟩
   have hcard : 3 < Nat.card F := by
@@ -45,7 +45,7 @@ theorem le_centralizer_of_le_pCoreOf_levi614 {G : Type} [Group G] [Finite G] {K 
     {z : G} {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hK : IsL3Levi K z p)
     (hTK : T ≤ Subgroup.normalizer (K : Set G)) (hE : E ≤ pCoreOf 2 (K ⊔ T)) :
     E ≤ Subgroup.centralizer (K : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpc : CFSG.pCore 2 ↥K = Subgroup.center ↥K := IsL3Levi.pCore_eq_center hp hp5 hK
   have hperf : Group.IsPerfect ↥K := by
     obtain ⟨-, -, -, hpf, -⟩ := hK
@@ -64,7 +64,7 @@ theorem le_centralizer_of_le_pCoreOf_levi614 {G : Type} [Group G] [Finite G] {K 
     intro h
     have e1 := h1 h
     have e2 := h2 h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at e1 e2 ⊢
+    simp only [Subgroup.mem_inf] at e1 e2 ⊢
     exact and_congr e1 e2
   have hOK : pCoreOf 2 (K ⊔ T) ⊓ K ≤ pCoreOf 2 K :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right hKO (hOp.to_le inf_le_left)

@@ -29,7 +29,7 @@ public theorem card_stabilizer_eq_twoPoint_mul
       Nat.card ((MulAction.stabilizer K a ⊓ MulAction.stabilizer K b : Subgroup K)) *
         (Nat.card Ω - 1) := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite _
   have h2' : ∀ {x y z w : Ω}, x ≠ y → z ≠ w → ∃ g : K, g • x = z ∧ g • y = w :=
     MulAction.is_two_pretransitive_iff.1 h2
   have horb : MulAction.orbit (MulAction.stabilizer K a) b = {z : Ω | z ≠ a} := by

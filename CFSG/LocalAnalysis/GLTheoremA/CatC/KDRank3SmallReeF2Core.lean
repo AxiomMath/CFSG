@@ -57,7 +57,7 @@ theorem frobRing_three (hK : Nat.card K = 27) : (frobRing : K ≃+* K) ^ 3 = 1 :
   ext x
   rw [frobRing_pow_apply]
   show x ^ 3 ^ 3 = x
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card x
   rw [← Nat.card_eq_fintype_card, hK] at h
   norm_num
@@ -71,7 +71,7 @@ theorem frobRing_ne_one (hK : Nat.card K = 27) : (frobRing : K ≃+* K) ≠ 1 :=
     change x = x ^ 3 ^ 1 at this
     norm_num at this
     exact this.symm
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hdeg : (Polynomial.X ^ 3 - Polynomial.X : Polynomial K).natDegree = 3 := by
     compute_degree!
   have hne : (Polynomial.X ^ 3 - Polynomial.X : Polynomial K) ≠ 0 := by
@@ -89,7 +89,7 @@ theorem frobRing_ne_one (hK : Nat.card K = 27) : (frobRing : K ≃+* K) ≠ 1 :=
   norm_num at hle
 
 theorem orderOf_frobRing (hK : Nat.card K = 27) : orderOf (frobRing : K ≃+* K) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (frobRing_three hK) (frobRing_ne_one hK)
 
 theorem card_fix3 (hK : Nat.card K = 27) : Nat.card (fix3 K) = 3 := by
@@ -138,17 +138,21 @@ theorem card_gam0 (hK : Nat.card K = 27) : Nat.card (gam0 : Subgroup (ReeTag.G2.
 theorem sigma_of_cube {t : K} (ht : t ^ 3 = t) : smallReeSigma 1 t = t :=
   sigma_fix3 ((mem_fix3_iff t).2 ht)
 
+omit [Finite K] in
 theorem cube_add {x y : K} (hx : x ^ 3 = x) (hy : y ^ 3 = y) : (x + y) ^ 3 = x + y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [add_pow_char, hx, hy]
 
+omit [Finite K] [CharP K ReeTag.G2.prime] in
 theorem cube_mul {x y : K} (hx : x ^ 3 = x) (hy : y ^ 3 = y) : (x * y) ^ 3 = x * y := by
   rw [mul_pow, hx, hy]
 
+omit [Finite K] [CharP K ReeTag.G2.prime] in
 theorem cube_neg {x : K} (hx : x ^ 3 = x) : (-x) ^ 3 = -x := by
   calc (-x) ^ 3 = -(x ^ 3) := by ring
     _ = -x := by rw [hx]
 
+omit [Finite K] in
 theorem cube_sub {x y : K} (hx : x ^ 3 = x) (hy : y ^ 3 = y) : (x - y) ^ 3 = x - y := by
   rw [sub_eq_add_neg, cube_add hx (cube_neg hy)]
 
@@ -278,8 +282,7 @@ theorem mem_q0_of_cube (hK : Nat.card K = 3 ^ (2 * 1 + 1)) {x : ReeTag.G2.reeGam
   exact ⟨b, hb, c, hc, rfl⟩
 
 theorem conj_pow3 {G : Type} [Group G] (a b : G) : (a * b * a⁻¹) ^ 3 = a * b ^ 3 * a⁻¹ := by
-  simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_cancel_left, inv_mul_cancel_left,
-    mul_inv_cancel, mul_one]
+  simp only [pow_succ, pow_zero, one_mul, mul_assoc, inv_mul_cancel_left]
 
 theorem fact_1512 : Nat.factorization 1512 3 = 3 := by
   rw [show (1512 : ℕ) = 3 ^ 3 * 56 by norm_num, Nat.factorization_mul (by norm_num) (by norm_num)]
@@ -291,7 +294,7 @@ set_option maxHeartbeats 400000 in
 theorem exists_conj_z0_mem (hK : Nat.card K = 3 ^ (2 * 1 + 1)) (X : Subgroup (ReeTag.G2.reeGamma K 1))
     (hX0 : X ≤ gam0) (hX9 : Nat.card X = 9) (hX3 : ∀ x ∈ X, x ^ 3 = 1) :
     ∃ g : ReeTag.G2.reeGamma K 1, g * uIn hK 0 0 1 * g⁻¹ ∈ X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK27 : Nat.card K = 27 := by rw [hK]; norm_num
   have hG0 : Nat.card (gam0 : Subgroup (ReeTag.G2.reeGamma K 1)) = 1512 := card_gam0 hK27
   have hQle : qSub hK ≤ gam0 := qSub_le_gam0 hK
@@ -349,7 +352,7 @@ theorem exists_conj_z0_mem (hK : Nat.card K = 3 ^ (2 * 1 + 1)) (X : Subgroup (Re
 theorem commute_z_gen (hK : Nat.card K = 3 ^ (2 * 1 + 1)) (t b c e : K) :
     uIn hK t b c * uIn hK 0 0 e = uIn hK 0 0 e * uIn hK t b c := by
   rw [uIn_mul, uIn_mul]
-  congr 1 <;> simp [smallReeSigma_zero] <;> ring
+  congr 1 <;> simp [smallReeSigma_zero]; ring
 
 theorem no_invol_centralizes_z0 (hK : Nat.card K = 3 ^ (2 * 1 + 1)) {y : ReeTag.G2.reeGamma K 1}
     (hy2 : y * y = 1) (hy1 : y ≠ 1) (hyz : y * uIn hK 0 0 1 = uIn hK 0 0 1 * y) : False := by

@@ -246,7 +246,7 @@ theorem ncard_eq {E : List (ℕ × ℕ)} {H : Subgroup GL12} (hc : ∀ p ∈ E, 
   have himg : vm '' {w | w ∈ H ∧ Q w} =
       (fun p : ℕ × ℕ => pkMat3 p.1) '' ((E.filter P).toFinset : Set (ℕ × ℕ)) := by
     ext M
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.coe_toFinset, List.mem_filter]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.coe_toFinset, List.mem_filter]
     constructor
     · rintro ⟨w, ⟨hw, hq⟩, rfl⟩
       obtain ⟨p, hp, hpw⟩ := hf w hw
@@ -257,7 +257,7 @@ theorem ncard_eq {E : List (ℕ × ℕ)} {H : Subgroup GL12} (hc : ∀ p ∈ E, 
   rw [himg, Set.InjOn.ncard_image, Set.ncard_coe_finset,
     List.toFinset_card_of_nodup ((hnd.of_map _).filter _), List.countP_eq_length_filter]
   intro p hp q hq h
-  simp only [List.coe_toFinset, List.mem_filter, Set.mem_setOf_eq] at hp hq
+  simp only [List.coe_toFinset, List.mem_filter, Set.mem_ofPred_eq] at hp hq
   exact inj hp.1 hq.1 h
 
 theorem card_eq {E : List (ℕ × ℕ)} {H : Subgroup GL12} (hc : ∀ p ∈ E, Canon3 p.1)
@@ -446,7 +446,7 @@ theorem ab_mem {k : ℕ} (hk : k < 5) {u : GL12} (hu : vm u = pkMat3 (ab.getD k 
   have hv : vm (abGS.letterU abv (2 * k)) = ofMt (abGS.mats.getD k oneM) := by
     have e : 2 * k / 2 = k := by omega
     have h := GenSys.val_letterU abGS abv (2 * k)
-    rw [GenSys.letter, if_pos (by omega), e] at h
+    rw [GenSys.letter, ite_eq_left (by omega), e] at h
     exact h
   have heq : u = abGS.letterU abv (2 * k) :=
     vm_inj (by rw [hu, h1, h2, pkMat3_lanesMt (abCanon.1 k), hv])
@@ -496,7 +496,7 @@ theorem canon_cover {i : ℕ} (hi : i < 7) : canonB (coverGS.mats.getD i oneM) =
     change (coverMats.extract 0 7).getD i oneM = _
     simp only [Array.getD_eq_getD_getElem?, Array.getElem?_extract, h9, Nat.zero_add,
       Nat.sub_zero]
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   rw [e]
   exact hcan i (by omega)
 

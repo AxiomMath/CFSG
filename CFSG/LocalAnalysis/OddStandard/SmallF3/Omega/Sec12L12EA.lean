@@ -11,11 +11,13 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
 
+omit [Finite G] in
 theorem sec12E_f_mul_aux (t p q : G) :
     sec12f t (p * q) = p * sec12f t q * p⁻¹ * sec12f t p := by
   rw [sec12f, sec12f, sec12f]
   group
 
+omit [Finite G] in
 theorem sec12E_f_conj {y : G} (hy : y * t = t * y) (p : G) :
     sec12f t (y * p * y⁻¹) = y * sec12f t p * y⁻¹ := by
   have hyt : y⁻¹ * t * y = t := by rw [mul_assoc, ← hy]; group
@@ -104,6 +106,7 @@ private theorem sec12E_A_B_comm (F : Sec12Frame t L S) {a : G} (ha : a ∈ secA 
       _ = (b * t) * b0 := by rw [(sec12E_t_comm_B F hb).symm]
       _ = b * (t * b0) := by group
 
+omit [Finite G] in
 private theorem mem_secCMB_iff {p : G} :
     p ∈ secCMB t S L ↔ p ∈ secM t S L ∧ p ∈ centralizer (secB S L : Set G) := by
   rw [secCMB, Subgroup.mem_inf]
@@ -135,7 +138,7 @@ theorem sec12E_A_le_P (F : Sec12Frame t L S) : secA t S L ≤ secCMB t S L := by
     intro b hb
     exact sec12E_A_comm F (Subgroup.mem_sup_left hb) ha
 
-theorem sec12E_C_le_P (F : Sec12Frame t L S) :
+theorem sec12E_C_le_P (_F : Sec12Frame t L S) :
     centralizer (secA t S L : Set G) ≤ secCMB t S L := by
   intro p hp
   rw [mem_secCMB_iff]

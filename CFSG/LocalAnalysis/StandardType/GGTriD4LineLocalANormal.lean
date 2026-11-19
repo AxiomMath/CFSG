@@ -40,7 +40,7 @@ private lemma triD4Line_pow_mod_three {M : Type*} [Monoid M] {x : M} (hx : x ^ 3
 
 private lemma triD4Line_isPrimitiveRoot_cube (k : Type) [Field k] (ω : k) (hω : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) : IsPrimitiveRoot ω 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hω, fun l hl => ?_⟩
   rw [← orderOf_eq_prime (p := 3) hω hω1]
   exact orderOf_dvd_iff_pow_eq_one.mpr hl
@@ -62,9 +62,9 @@ private lemma triD4Line_exists_pow_mul_of_mem {G : Type*} [Group G] (E : Subgrou
     (hzs : s ∉ Subgroup.zpowers z) :
     ∀ e ∈ E, ∃ i j : ℕ, e = z ^ i * s ^ j := by
   intro e he
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : CommGroup E := { (inferInstance : Group E) with
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : CommGroup E := { (inferInstance : Group E) with
     mul_comm := (isMulCommutative_iff.mp hEcomm) }
   let zE : E := ⟨z, hzE⟩
   let sE : E := ⟨s, hsE⟩
@@ -128,7 +128,7 @@ private lemma triD4LineSL3_eq_one_iff (k K : Type) [Field k] [Field K] [Algebra 
     have hμ1 : μ = 1 := by
       have hval : algebraMap k K (μ : k) = 1 := (congrArg Units.val hc).symm
       exact Units.ext ((algebraMap k K).injective
-        (by simpa [hval] using (map_one (algebraMap k K)).symm))
+        (by simp [hval]))
     rw [hμ1, map_one] at hμ
     refine (Matrix.SpecialLinearGroup.toGL_inj m 1).1 ?_
     rwa [map_one]
@@ -267,14 +267,12 @@ theorem triD4Line_diagonal_eq_scalar_mul_pow (k : Type) [Field k] (ω : k) (hω 
   intro i
   fin_cases i
   · simp
-  · simp only [Pi.pow_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Fin.zero_eta, Fin.isValue, Fin.mk_one,
-      Fin.reduceFinMk, Nat.succ_eq_add_one, Nat.reduceAdd]
+  · simp only [Pi.pow_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Fin.isValue, Fin.mk_one,
+      Nat.succ_eq_add_one, Nat.reduceAdd]
     rw [← pow_add]
     exact triD4Line_pow_eq_of_mod_three hω (show a1 % 3 = (a0 + (a1 + 3 - a0) % 3) % 3 by omega)
-  · simp only [Pi.pow_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Fin.zero_eta, Fin.isValue, Fin.mk_one,
-      Fin.reduceFinMk, Nat.succ_eq_add_one, Nat.reduceAdd]
+  · simp only [Pi.pow_apply, Matrix.head_cons,
+      Matrix.cons_val_two, Matrix.tail_cons, Fin.isValue, Fin.reduceFinMk, Nat.succ_eq_add_one, Nat.reduceAdd]
     rw [← pow_mul, ← pow_add]
     exact triD4Line_pow_eq_of_mod_three hω
       (show a2 % 3 = (a0 + 2 * ((a1 + 3 - a0) % 3)) % 3 by omega)
@@ -312,7 +310,7 @@ theorem triD4LineX_exists_conj_diagonal_of_le_N0 (k K : Type) [Field k] [Field K
     norm_num at hz₀
   have hprim := triD4Line_isPrimitiveRoot_cube k ω hω3 hω1
   have hz0card : Nat.card ↥(Subgroup.zpowers z₀) = 3 := by rw [Nat.card_zpowers, hz₀]
-  haveI : Finite ↥(Subgroup.zpowers z₀) :=
+  have : Finite ↥(Subgroup.zpowers z₀) :=
     Nat.finite_of_card_ne_zero (by rw [hz0card]; norm_num)
   have hnotle : ¬ E ≤ Subgroup.zpowers z₀ := by
     intro hle

@@ -62,7 +62,7 @@ theorem commute_of_commute_nonscalar {M N N' : Matrix (Fin 2) (Fin 2) K} (hM : �
   obtain ⟨k1, k2, k3⟩ := key
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | ring1 | linear_combination k1 | linear_combination -k1 | linear_combination k2 |
+    first | linear_combination k1 | linear_combination -k1 | linear_combination k2 |
       linear_combination -k2 | linear_combination k3
 
 theorem eq_one_or_trace_eq_neg_one {x : Matrix (Fin 2) (Fin 2) K} (hdet : x.det = 1)

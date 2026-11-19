@@ -14,7 +14,7 @@ open CFSG.LieType.SemisimpleCentralizers.Held (SLComponentsTrivial)
 
 theorem two_eq_zero_of_natCard_pow {K : Type} [Field K] [Finite K] {m : ℕ} (hm : Nat.card K = 2 ^ m) :
     (2 : K) = 0 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨q, _, n, hqp, hqcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card, hqcard] at hm
   have hdvd : q ∣ 2 ^ m := by

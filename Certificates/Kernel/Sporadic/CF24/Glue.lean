@@ -252,7 +252,7 @@ theorem pg1 (P x : Nat) : pg 1 (mask 1) P x = if P.testBit x then 1 else 0 := by
 
 theorem inO1_eq (x : Nat) : cf24InO1 x = (pg 1 (mask 1) OM x == 1) := by
   rw [pg1, ← beq_of omK, testBit_maskL, cf24InO1]
-  by_cases h : x ∈ cf24O1 <;> simp [h, List.contains_iff_mem]
+  by_cases h : x ∈ cf24O1 <;> simp [h]
 
 theorem bk_canon : canonK 1782 11 (mask 11) (1782 * 11) BK = true := betaK_parts.2.1
 
@@ -279,7 +279,7 @@ theorem check : cf24PermCheck = true := by
       Nat.beq_refl]
   · simp only [allBelow, List.all_eq_true, List.mem_range]
     intro j hj x hx'
-    rw [ell_eq hj, unpack_getElem!, if_pos hx', inO1_eq, inO1_eq]
+    rw [ell_eq hj, unpack_getElem!, ite_eq_left hx', inO1_eq, inO1_eq]
     have e := beq_of (allN_spec (allN_spec oK j hj) x hx')
     rw [e]
     exact beq_self_eq_true _
@@ -290,12 +290,12 @@ theorem check : cf24PermCheck = true := by
     exact allN_spec bK j hj
   · rw [inO1_eq, beq_of p1]
     rfl
-  · rw [t0_eq, unpack_getElem!, if_pos (by norm_num), inO1_eq, beq_of p2]
+  · rw [t0_eq, unpack_getElem!, ite_eq_left (by norm_num), inO1_eq, beq_of p2]
     rfl
-  · rw [betaArr_eq, unpack_getElem!, if_pos (by norm_num), inO1_eq, beq_of p3]
+  · rw [betaArr_eq, unpack_getElem!, ite_eq_left (by norm_num), inO1_eq, beq_of p3]
     rfl
   · rw [tBetaArr, t0_eq, betaArr_eq, compA_unpack t0_canon bk_canon, unpack_getElem!,
-      if_pos (by norm_num), inO1_eq, beq_of p4]
+      ite_eq_left (by norm_num), inO1_eq, beq_of p4]
     rfl
 
 end CertificateChecks.KernelSpor.CF24

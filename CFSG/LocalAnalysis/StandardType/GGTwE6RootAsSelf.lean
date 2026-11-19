@@ -87,7 +87,7 @@ theorem ggEndNodeRootAsInn_of_self {p r : ℕ} {R : Type} [Group R] {I : Set (Mu
     by_contra hV1
     set E : Subgroup (MulAut L') := As ⊓ Eb.comap ρ with hE
     have hAE : A ≤ E := fun a ha => ⟨hAAs.le ha, hAbE.le ⟨a, ha, rfl⟩⟩
-    obtain ⟨eb, heb, hebA⟩ := SetLike.exists_of_lt hAbE
+    obtain ⟨eb, heb, hebA⟩ := _root_.IsConcreteLE.exists_of_lt hAbE
     obtain ⟨a, ha, rfl⟩ := hEAbs heb
     have hAE' : A < E := lt_of_le_of_ne hAE fun heq => hebA ⟨a, heq ▸ ⟨ha, heb⟩, rfl⟩
     have hVX : V ≤ (⊤ : Subgroup L').map ψ := by

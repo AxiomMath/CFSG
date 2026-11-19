@@ -30,6 +30,7 @@ theorem conj_centre_normalizes {Q Z0 : Subgroup G} (hQZ0 : Q ≤ Z0) {y : G}
   rw [e1]
   exact Z0.mul_mem (Z0.inv_mem (hQZ0 (hy h hh'))) hh'
 
+omit [Finite G] in
 theorem conjSubgroup_mem_H0 (hc : Ctx M Q Z B) {Z0 : Subgroup G} (hZ0H : Z0 ≤ H0 M Z) {g : G}
     (hg : g ∈ M) {y : G} (hy : y ∈ conjSubgroup g Z0) : y ∈ H0 M Z := by
   have h := hc.conj_mem_H0 hg (hZ0H (mem_conjSubgroup.mp hy))
@@ -59,7 +60,7 @@ theorem sec7Adm_of_conj (hSV : Sec7SVStatement) (hSW : Sec7SWStatement)
     rw [mem_conjSubgroup]
     simpa [mul_assoc] using htZ0
   have hxM : g * t * g⁻¹ ∈ M := hyM _ hxmem
-  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simpa using Q.one_mem⟩
+  have hx : ConjMod M Q t (g * t * g⁻¹) := ⟨hxM, g, hg, by simp⟩
   have hxt : ⁅g * t * g⁻¹, t⁆ ∈ Q := hcomm _ hxmem
   exact ⟨hyM y hy, hcomm y hy,
     hSV G M Q Z B hc n t hs Z0 hZ0 g hg (hV G M Q Z B hc n t hs hcl.2.1 _ hx hxt) y hy,
@@ -106,7 +107,7 @@ theorem comm_mem_CN_of_adm (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc
 theorem commutator_adm_comm_R (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hcomm : ∀ y : G, Sec7Adm hc t y → ∀ k ∈ hc.CN t, ⁅k, y⁆ ∈ Z0) {y₁ y₂ : G}
-    (h₁ : Sec7Adm hc t y₁) (h₁' : Sec7Adm hc t y₁⁻¹) (h₂ : Sec7Adm hc t y₂)
+    (_h₁ : Sec7Adm hc t y₁) (h₁' : Sec7Adm hc t y₁⁻¹) (h₂ : Sec7Adm hc t y₂)
     (h₂' : Sec7Adm hc t y₂⁻¹) (hn₁ : y₁ ∈ Subgroup.normalizer (Z0 : Set G))
     (hn₂ : y₂ ∈ Subgroup.normalizer (Z0 : Set G)) :
     ∀ r ∈ Rt M (LB M Q B) t, ⁅⁅y₁, y₂⁆, r⁆ ∈ Z0 := by
@@ -132,7 +133,7 @@ theorem commutator_adm_comm_R (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp
     exact commutatorElement_inv _ _
   rwa [e] at key
 
-theorem commutator_R_comm_of_comm (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
+theorem commutator_R_comm_of_comm (hc : Ctx M Q Z B) {n : ℕ} {t : G} (_hs : Sec7Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {w : G} (hwM : w ∈ M)
     (hw : ∀ r ∈ Rt M (LB M Q B) t, ⁅w, r⁆ ∈ Z0) :
     ∀ a ∈ ⁅Rt M (LB M Q B) t, Rt M (LB M Q B) t⁆, ⁅w, a⁆ ∈ Q := by
@@ -184,6 +185,7 @@ theorem commutator_R_comm_of_comm (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec
   have := Q.inv_mem h1
   rwa [commutatorElement_inv] at this
 
+omit [Finite G] in
 theorem Sec7Adm.conj_Wt (hc : Ctx M Q Z B) {t y : G} (hy : Sec7Adm hc t y) :
     (∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), y * w * y⁻¹ ∈ Wt Q (Vt M (LB M Q B) B Z t)) ∧
     (∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), y⁻¹ * w * y ∈ Wt Q (Vt M (LB M Q B) B Z t)) := by
@@ -199,7 +201,7 @@ theorem close71E_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiState
     (hSch : Sec7SchurStatement) (h52a : Stroth52aStatement) (hA : Sec7AExistsStatement)
     (hV : Step71VanishStatement) : Close71EStatement := by
   intro G _ _ M Q Z B hc n t hcl Z0 hZ0
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hs : Sec7Hyp hc n t := hcl.1
   have hSV := sec7SV_of_parts h34 h310chi hZc hZV
   have hSW := sec7SW_of_parts h34 h310chi hZc hZV

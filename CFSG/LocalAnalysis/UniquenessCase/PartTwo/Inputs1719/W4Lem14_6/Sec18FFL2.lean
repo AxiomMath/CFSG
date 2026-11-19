@@ -23,7 +23,7 @@ theorem k146FFL2_holds :
     K146FFL2 := by
   intro W _ _ hW Y L n hO2 hcomp hL2 hn2 hoff
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.GroupTheory.elemModule 2 hW
+  let : Module (ZMod 2) (Additive W) := CFSG.GroupTheory.elemModule 2 hW
   let ρ : Representation (ZMod 2) Y (Additive W) :=
     (CFSG.RankThree.FFModules.autRep W).comp Y.subtype
   have hρinj : Function.Injective ρ :=
@@ -33,7 +33,7 @@ theorem k146FFL2_holds :
   have hcomp' : IsComponentOf L' ⊤ := CFSG.Quasithin.RonanF615.isComponentOf_subgroupOf hcomp
   have hL2' : UC22.IsL2 ↥L' n :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hcomp.1).symm hL2
-  haveI hsimple' : IsSimpleGroup ↥L' :=
+  have hsimple' : IsSimpleGroup ↥L' :=
     CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2'
   obtain ⟨A, hA, hAL⟩ := hoff
   let A' : Subgroup Y := A.subgroupOf Y
@@ -68,7 +68,7 @@ theorem k146FFL2_holds :
         (fun g hg l hl => L.mul_mem (L.mul_mem hg hl) (L.inv_mem hg))
         (fun g hg => L.inv_mem hg)
       rwa [inf_comm] at h
-    haveI hsimple : IsSimpleGroup ↥L :=
+    have hsimple : IsSimpleGroup ↥L :=
       CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
     have hperf : Group.IsPerfect ↥L :=
       CFSG.Quasithin.F6.isPerfect_of_isSimpleGroup

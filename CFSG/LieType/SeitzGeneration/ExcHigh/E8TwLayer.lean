@@ -51,7 +51,7 @@ theorem bc_mem_adjointGroup {K₁ K₂ : Type} [Field K₁] [Field K₂] (f : K�
       exact xUnit_mem_adjointGroup _ _
     · rw [show y = yUnit Tag.E8 K₁ i c from Units.ext h, baseChangeGL_yUnit]
       exact yUnit_mem_adjointGroup _ _
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 
@@ -265,7 +265,7 @@ theorem layer_of_maps {G M U : Type*} [Group G] [Group M] [Group U] (Ψ₀ : M �
 
 theorem twE8SCLayer_holds : E8Layer6.TwE8SCLayer := by
   intro q hv
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hcard : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hq2 : 2 ≤ q.card := by
@@ -273,7 +273,7 @@ theorem twE8SCLayer_holds : E8Layer6.TwE8SCLayer := by
     exact le_trans q.prime_p.two_le (Nat.le_self_pow (by omega) _)
   have hK : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
     rw [GaloisField.card q.p (2 * q.exponent) (by omega), hcard, ← pow_mul, mul_comm]
-  haveI : CharP (AlgebraicClosure (GaloisField q.p (2 * q.exponent))) q.p :=
+  have : CharP (AlgebraicClosure (GaloisField q.p (2 * q.exponent))) q.p :=
     charP_of_injective_algebraMap (algebraMap (GaloisField q.p (2 * q.exponent))
       (AlgebraicClosure (GaloisField q.p (2 * q.exponent)))).injective q.p
   obtain ⟨Kq, _, _, _, hKq⟩ := CFSG.RankThree.PartOne.KE.exists_finite_field_into q.p q.exponent

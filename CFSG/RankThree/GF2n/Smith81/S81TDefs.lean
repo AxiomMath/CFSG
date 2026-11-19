@@ -195,11 +195,11 @@ theorem tOp_single_apply {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β) (a b :
       have hw : e7Data.wt (shift (-β) b) = e7Data.wt b - MinData.toWeight β := by
         have := wt_shift (isRoot_neg hβ) (show pr b (-β) = -1 by rw [pr_neg, h])
         rw [this, MinData.toWeight_neg, sub_eq_add_neg]
-      rw [if_pos h, if_pos h', ih hS' (shift (-β) b), hw]
+      rw [ite_eq_left h, ite_eq_left h', ih hS' (shift (-β) b), hw]
       push_cast
       rfl
     · have h' : ¬ (e7Data.wt b ⬝ᵥ β = 1) := h
-      rw [if_neg h, if_neg h']
+      rw [ite_eq_right h, ite_eq_right h']
       push_cast
       simp
 
@@ -209,6 +209,7 @@ theorem tOp_single_apply {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β) (a b :
   map_add' _ _ := Finsupp.filter_add
   map_smul' _ _ := Finsupp.filter_smul
 
+omit [CharP K 2] in
 theorem projP_apply (p : Fin e7Data.d → Prop) [DecidablePred p] (v : V K) (b : Fin e7Data.d) :
     projP K p v b = if p b then v b else 0 := Finsupp.filter_apply p v b
 
@@ -218,11 +219,11 @@ theorem projP_rootOp {γ : Rt} (hγ : IsRoot .E7 γ) (p : Fin e7Data.d → Prop)
   ext b
   rw [projP_apply, rootOp_apply hγ, rootOp_apply hγ, projP_apply]
   by_cases h : pr b γ = 1
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     by_cases hpb : p b
-    · rw [if_pos hpb, if_pos ((hp b h).2 hpb)]
-    · rw [if_neg hpb, if_neg (fun hh => hpb ((hp b h).1 hh))]
-  · simp only [if_neg h]
+    · rw [ite_eq_left hpb, ite_eq_left ((hp b h).2 hpb)]
+    · rw [ite_eq_right hpb, ite_eq_right (fun hh => hpb ((hp b h).1 hh))]
+  · simp only [ite_eq_right h]
     split_ifs <;> rfl
 
 set_option maxRecDepth 20000 in
@@ -252,12 +253,14 @@ theorem projP_mul_NOp {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β) (p : Fin 
   rw [NOp_eq, mul_sub, sub_mul, mul_one, one_mul, projP_mul_tOp hS p hp]
 
 set_option maxRecDepth 20000 in
+omit [CharP K 2] in
 theorem rootOp_tOp_apply {α : Rt} (hα : IsRoot .E7 α) {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β)
     (h : ∀ β ∈ S, 0 ≤ ipR α β) (v : V K) :
     e7Data.rootOp K α (tOp K S v) = tOp K S (e7Data.rootOp K α v) :=
   LinearMap.congr_fun (rootOp_comm_tOp hα hS h) v
 
 set_option maxRecDepth 20000 in
+omit [CharP K 2] in
 theorem rootOp_NOp_apply {α : Rt} (hα : IsRoot .E7 α) {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β)
     (h : ∀ β ∈ S, 0 ≤ ipR α β) (v : V K) :
     e7Data.rootOp K α (NOp K S v) = NOp K S (e7Data.rootOp K α v) :=

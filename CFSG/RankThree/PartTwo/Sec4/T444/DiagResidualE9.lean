@@ -12,6 +12,7 @@ section E9
 
 variable {T : Type} [Group T] [Finite T] {a b f j : T}
 
+omit [Finite T] in
 theorem f_sq_conj (hfa : f * a * f⁻¹ = b) (hfb : f * b * f⁻¹ = a⁻¹) :
     f ^ 2 * a * (f ^ 2)⁻¹ = a⁻¹ ∧ f ^ 2 * b * (f ^ 2)⁻¹ = b⁻¹ := by
   have h1 : f ^ 2 * a * (f ^ 2)⁻¹ = f * (f * a * f⁻¹) * f⁻¹ := by
@@ -45,6 +46,7 @@ theorem mem_normalizer_of_conj_mem {E : Subgroup T} {n : T} (h : ∀ x ∈ E, n 
     have : y = x := (MulAut.conj n).injective (by simpa [hc, MulAut.conj_apply] using hyx)
     exact this ▸ hy
 
+omit [Finite T] in
 theorem eq_one_or_eq_or_eq_sq_of_mem_zpowers {x y : T} (hx : x ^ 3 = 1)
     (hy : y ∈ Subgroup.zpowers x) : y = 1 ∨ y = x ∨ y = x ^ 2 := by
   obtain ⟨i, rfl⟩ := hy

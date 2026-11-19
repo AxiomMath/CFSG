@@ -14,7 +14,7 @@ namespace CFSG.HardMathSupport.Dickson.SuzukiReeB
 theorem lieSemisimpleCentSuzukiReeTits :
     CFSG.Yardstones.Md42047359a2a.LieSemisimpleCentSuzukiReeTits := by
   intro S _ _ hS hnc idx hfam he p hp hp2 hpc β hβ hβ1
-  haveI := hS
+  have := hS
   obtain ⟨d, hv⟩ := idx
   cases d with
   | suzuki m => exact perfectInLayer_suzuki m hv hnc he hp hp2 hβ hβ1

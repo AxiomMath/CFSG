@@ -17,6 +17,7 @@ section Module
 variable {Mg : Type} [Group Mg] [Finite Mg] (Q₀ : Subgroup Mg) [Q₀.Normal]
   [IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀)]
 
+omit [Finite Mg] in
 theorem frattiniRep_eq_one_of_mem_uc6 {q : Mg} (hq : q ∈ Q₀) : frattiniRep Q₀ q = 1 := by
   refine LinearMap.ext fun v => ?_
   obtain ⟨w, hw⟩ := QuotientGroup.mk_surjective (Additive.toMul v)
@@ -117,7 +118,7 @@ theorem fixSub_frattini_eq_bot_uc6 (hQ : IsPGroup 2 Q₀) {p : ℕ} [Fact p.Prim
     exact h2
   rw [eq_bot_iff]
   intro v hv
-  haveI : Subsingleton ↥(fixSub (frattiniRep Q₀) X) := Finite.card_le_one_iff_subsingleton.1 hcard1
+  have : Subsingleton ↥(fixSub (frattiniRep Q₀) X) := Finite.card_le_one_iff_subsingleton.1 hcard1
   have h0 : (⟨v, hv⟩ : ↥(fixSub (frattiniRep Q₀) X)) = 0 := Subsingleton.elim _ _
   exact (Submodule.mem_bot _).2 (congrArg Subtype.val h0)
 

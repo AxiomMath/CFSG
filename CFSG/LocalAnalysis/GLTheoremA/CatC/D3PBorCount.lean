@@ -57,13 +57,13 @@ theorem borel_card_le [CharP K 3] (α t : MulAut ↥(adjointGroup Tag.D4 K)) (h�
     have h' := congrFun (congrArg Multiplicative.toAdd h) δ
     change laT.f k δ * (1 : K ≃+* K) (Multiplicative.toAdd q (laT.r k δ)) = Multiplicative.toAdd q δ
       at h'
-    rw [hrT k δ, hbT k δ, if_pos hδ] at h'
+    rw [hrT k δ, hbT k δ, ite_eq_left hδ] at h'
     have h2 : (2 : K) * Multiplicative.toAdd q δ = 0 := by
       have : (1 : K ≃+* K) (Multiplicative.toAdd q δ) = Multiplicative.toAdd q δ := rfl
       rw [this] at h'
       linear_combination -h'
     exact (mul_eq_zero.1 h2).resolve_left (two_ne_zero_of_charThree (K := K))
-  haveI : ∀ k, Fintype (UnitRoots Tag.D4 k) := fun k => Fintype.ofFinite _
+  have : ∀ k, Fintype (UnitRoots Tag.D4 k) := fun k => Fintype.ofFinite _
   let Sset : ∀ k, Finset (UnitRoots Tag.D4 k) :=
     fun k => Finset.univ.filter fun δ => sgnB b δ.1 = false
   have hSmem : ∀ k (δ : UnitRoots Tag.D4 k), δ ∈ Sset k ↔ sgnB b δ.1 = false := fun k δ => by
@@ -139,7 +139,7 @@ theorem borel_card_le [CharP K 3] (α t : MulAut ↥(adjointGroup Tag.D4 K)) (h�
           (fun k δ hδ => hTP k δ hδ)) hc
       calc Nat.card A ≤ ∏ k ∈ Finset.range d, Nat.card (layerImage A k) := hprod
         _ ≤ ∏ k ∈ Finset.range d, Nat.card K ^ (Tset k).card :=
-            Finset.prod_le_prod' fun k _ => hlay k
+            Finset.prod_le_prod fun k _ => hlay k
         _ = Nat.card K ^ ∑ k ∈ Finset.range d, (Tset k).card := Finset.prod_pow_eq_pow_sum _ _ _
         _ ≤ Nat.card K ^ 2 := Nat.pow_le_pow_right hqpos hsum
     ·
@@ -261,7 +261,7 @@ theorem borel_card_le [CharP K 3] (α t : MulAut ↥(adjointGroup Tag.D4 K)) (h�
             Nat.pow_le_pow_left hprod 3
         _ = ∏ k ∈ Finset.range d, Nat.card (layerImage A k) ^ 3 := (Finset.prod_pow _ _ _).symm
         _ ≤ ∏ k ∈ Finset.range d, Nat.card K ^ (Sset k).card :=
-            Finset.prod_le_prod' fun k _ => hlay k
+            Finset.prod_le_prod fun k _ => hlay k
         _ = Nat.card K ^ ∑ k ∈ Finset.range d, (Sset k).card := Finset.prod_pow_eq_pow_sum _ _ _
         _ ≤ Nat.card K ^ 6 := Nat.pow_le_pow_right hqpos hsum
         _ = (Nat.card K ^ 2) ^ 3 := by rw [← pow_mul]

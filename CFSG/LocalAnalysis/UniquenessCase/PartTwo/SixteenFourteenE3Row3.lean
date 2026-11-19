@@ -37,7 +37,7 @@ theorem s1614e3_row3_frame (D : Data G) {V L : Subgroup G} (hV : IsElemAbelian 2
     rw [← map_mul, ← sq, IntMod.sq_eq_one y, map_one]
   have hcard : Nat.card (Vtil ⊥ V hV) = 2 ^ 6 := by
     have hp : IsPGroup 2 (Vtil ⊥ V hV) := fun x => ⟨1, by simpa [pow_two] using hWsq x⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6
@@ -50,8 +50,8 @@ theorem s1614e3_row3_frame (D : Data G) {V L : Subgroup G} (hV : IsElemAbelian 2
   have hMN : Mbar D.M ⊥ V hV ≤
       Subgroup.normalizer (lBar ⊥ V hV L : Set (MulAut (Vtil ⊥ V hV))) :=
     s16c167_mbar_le_normalizer_lbar D hV hc h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hext : CFSG.IsExtraspecial 3 ↥(lBar ⊥ V hV L) := h3.1.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hext : CFSG.IsExtraspecial 3 ↥(lBar ⊥ V hV L) := h3.1.1
   have hZcard : Nat.card (Subgroup.center ↥(lBar ⊥ V hV L)) = 3 :=
     CFSG.IsExtraspecial.center_order_p 3 ↥(lBar ⊥ V hV L)
   obtain ⟨ℓ, hℓ, hℓ1⟩ :
@@ -162,7 +162,7 @@ theorem s1614e3_row3_comm_false (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
 theorem s1614e3_row3_inv_desc (D : Data G) {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hc : Counterex16 D ⊥ V L hV) (hk1 : D.k = 1) {U : Subgroup G} (hU : Min1614 D V U)
     (hW : ∀ x : Vtil ⊥ V hV, x * x = 1) (hcard : Nat.card (Vtil ⊥ V hV) = 2 ^ 6)
-    {z s : MulAut (Vtil ⊥ V hV)} (hz3 : z * z * z = 1) (hz1 : z ≠ 1)
+    {z s : MulAut (Vtil ⊥ V hV)} (hz3 : z * z * z = 1) (_hz1 : z ≠ 1)
     (hzfix : ∀ x : Vtil ⊥ V hV, z x = x → x = 1)
     (hN : ∀ m ∈ Mbar D.M ⊥ V hV, m * z = z * m ∨ m * z = z * z * m)
     (hzc : ∀ y ∈ lBar ⊥ V hV L, (∀ w ∈ lBar ⊥ V hV L, w * y = y * w) →

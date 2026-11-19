@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
   Z2 L1 L2 S ⊓ Q1 L1 L2 S
 
 theorem str86_p1_inf_normalizer_le_bigB {L1 L2 S : Subgroup G}
-    (hF : F112HypW L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) :
+    (hF : F112HypW L1 L2 S) (_hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) :
     P1 L1 L2 S ⊓ Subgroup.normalizer (S : Set G) ≤ bigB L1 L2 S := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hBsyl : bigB L1 L2 S = P1 L1 L2 S ⊓
@@ -38,6 +38,7 @@ theorem str86_p1_inf_normalizer_le_bigB {L1 L2 S : Subgroup G}
   exact Subgroup.mem_inf.mpr ⟨hxP, Subgroup.inf_normalizer_le_normalizer_inf
     (Subgroup.mem_inf.mpr ⟨hxN, hP1N hxP⟩)⟩
 
+omit [Finite G] in
 theorem bigB_le_normalizer_z2_sup_q1 {L1 L2 S : Subgroup G} :
     bigB L1 L2 S ≤
       Subgroup.normalizer ((Z2 L1 L2 S ⊔ Q1 L1 L2 S : Subgroup G) : Set G) := by
@@ -52,20 +53,24 @@ theorem bigB_le_normalizer_z2_sup_q1 {L1 L2 S : Subgroup G} :
       (normalizer_le_normalizer_omegaOneCenterOf (Q2 L1 L2 S))
   exact F1.le_normalizer_sup hBZ hBQ
 
+omit [Finite G] in
 theorem u3X1_le_q1 {L1 L2 S : Subgroup G} : u3X1 L1 L2 S ≤ Q1 L1 L2 S := by
   refine conjClosure_le fun l hl y hy => ?_
   have hlP : l ∈ P1 L1 L2 S := (le_sup_left : L1 ≤ P1 L1 L2 S) hl
   exact (Subgroup.mem_normalizer_iff.mp (le_normalizer_pCoreOf 2 (P1 L1 L2 S) hlP) y).mp
     (Subgroup.mem_inf.mp hy).2
 
+omit [Finite G] in
 theorem u3Y_le_u3X1 {L1 L2 S : Subgroup G} : u3Y L1 L2 S ≤ u3X1 L1 L2 S := by
   rw [u3Y, u3X1]
   exact le_conjClosure (Z2 L1 L2 S ⊓ Q1 L1 L2 S) L1
 
+omit [Finite G] in
 theorem le_normalizer_u3X1_left {L1 L2 S : Subgroup G} :
     L1 ≤ Subgroup.normalizer (u3X1 L1 L2 S : Set G) :=
   le_normalizer_conjClosure (Z2 L1 L2 S ⊓ Q1 L1 L2 S) L1
 
+omit [Finite G] in
 theorem le_normalizer_z2_of_sylow {L1 L2 S : Subgroup G} :
     S ≤ Subgroup.normalizer (Z2 L1 L2 S : Set G) := by
   have hSP2 : S ≤ P2 L1 L2 S :=
@@ -73,12 +78,14 @@ theorem le_normalizer_z2_of_sylow {L1 L2 S : Subgroup G} :
   exact (hSP2.trans (le_normalizer_pCoreOf 2 (P2 L1 L2 S))).trans
     (normalizer_le_normalizer_omegaOneCenterOf (Q2 L1 L2 S))
 
+omit [Finite G] in
 theorem le_normalizer_q1_of_sylow {L1 L2 S : Subgroup G} :
     S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G) := by
   have hSP1 : S ≤ P1 L1 L2 S :=
     (le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right
   exact hSP1.trans (le_normalizer_pCoreOf 2 (P1 L1 L2 S))
 
+omit [Finite G] in
 theorem le_normalizer_u3Y_of_sylow {L1 L2 S : Subgroup G} :
     S ≤ Subgroup.normalizer (u3Y L1 L2 S : Set G) := by
   exact (le_inf (le_normalizer_z2_of_sylow (L1 := L1) (L2 := L2) (S := S))
@@ -303,6 +310,7 @@ theorem str86_commutator_u3X1_ne_bot {L1 L2 S : Subgroup G}
     (u3X1_le_q1 (L1 := L1) (L2 := L2) (S := S))
     (le_normalizer_u3X1_sup hF) hcbot hzS hzQ1 hc
 
+omit [Finite G] in
 theorem oTwoUpper_le_of_sup_eq {H C Q : Subgroup G} (hH : C ⊔ Q = H)
     (hCN : H ≤ Subgroup.normalizer (C : Set G)) (hQ2 : IsPGroup 2 Q) :
     oTwoUpper H ≤ C := by
@@ -499,7 +507,7 @@ theorem relIndex_pCoreOf_sylow_of_isL2Quot
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]]
     exact hT.2.2
   have hcard : Nat.card (T1.map π) = 2 ^ f := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 K1 := hT1syl.2.1.toSylow (by
       have h := hT1syl.2.2
       rwa [show (T1.subgroupOf ⊤).index = T1.index from by
@@ -625,7 +633,7 @@ theorem str86_chief_count_bound
     simpa [pow_two] using (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S)).2 z hzZ2
   have hzsq : z * z ∈ pCoreOf 2 (L1 ⊔ S) := by
     rw [hQcore]
-    simpa [hz2] using (Q1 L1 L2 S).one_mem
+    simp [hz2]
   have hzO : z ∉ pCoreOf 2 (L1 ⊔ S) := by
     rwa [hQcore]
   have hM6 := pow_sq_le_relIndex_centralizer (H := L1 ⊔ S) (U := u3X1 L1 L2 S)
@@ -670,6 +678,7 @@ theorem str86_chief_count_bound
     _ ≤ (Q2 L1 L2 S).relIndex S := hle2
     _ = 2 ^ n := hq2s
 
+omit [Finite G] in
 theorem bigB_le_normalizer_u3X1 {L1 L2 S : Subgroup G} (hF : Hyp111 L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (u3X1 L1 L2 S : Set G) := by
   have hBP1 : bigB L1 L2 S ≤ P1 L1 L2 S := le_sup_right
@@ -733,7 +742,7 @@ theorem str86_borel_transitive_mod_q2_of_inf
     rw [show (T1.subgroupOf ⊤).index = T1.index from by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]]
     exact hF.1.h2.sylow.2.2
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P1 : Sylow 2 K1 := hT1syl.2.1.toSylow (by
     have h := hT1syl.2.2
     rwa [show (T1.subgroupOf ⊤).index = T1.index from by
@@ -879,7 +888,7 @@ theorem str86_u3X1_sup_q2_ne
     simpa [pow_two] using (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S)).2 z hzZ2
   have hzsq : z * z ∈ pCoreOf 2 (L1 ⊔ S) := by
     rw [hQcore]
-    simpa [hz2] using (Q1 L1 L2 S).one_mem
+    simp [hz2]
   have hzO : z ∉ pCoreOf 2 (L1 ⊔ S) := by
     rwa [hQcore]
   have hX1Lh : u3X1 L1 L2 S ≤ L1 ⊔ S :=

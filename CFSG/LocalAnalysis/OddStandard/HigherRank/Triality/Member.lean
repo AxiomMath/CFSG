@@ -20,10 +20,10 @@ theorem exists_isClassicalMember_of_trialityD4 {p e : ℕ} (hp : p.Prime) (hp2 :
     ∃ (J : Subgroup L) (u : L),
       CFSG.ClassicalInvolution.Generic.IsClassicalMember p (3 * e) J u ∧
         u ∉ Subgroup.center L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (L ⧸ center L) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (L ⧸ center L) := hq.2
   have hadm : StatedLieAdmissible .trialityD4 0 p e := ⟨hp, he, rfl⟩
-  haveI : Finite (modelUniv .trialityD4 0 p e hp).K :=
+  have : Finite (modelUniv .trialityD4 0 p e hp).K :=
     ModelFacts.finite_modelUniv hp2 hp trivial hadm
   obtain ⟨ψ, hψ, hker⟩ := Upgrade.lieModelCentralCover .trialityD4 0 p e hp hp2 trivial hadm
     (L ⧸ center L) hm

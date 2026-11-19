@@ -86,12 +86,12 @@ theorem twoLocalWhen_trialityD4
   obtain ⟨F, hFf, hFfin, σ, hFcard, hσ, ⟨e⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card .D4 Nat.prime_two hf1 hchev.2
   have hF : Nat.card F = (2 ^ f) ^ 3 := hFcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hF3 : Fintype.card F = 2 ^ (3 * f) := by
     rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, mul_comm]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hF3
-  haveI : Finite (ModGL TwistTag.D4.tag F) := finite_modGL
+  have : CharP F 2 := charP_of_card_eq_prime_pow hF3
+  have : Finite (ModGL TwistTag.D4.tag F) := finite_modGL
   have hH : Holds (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) 2 :=
     (holds_of_chevalleyExceptionalModel hchev).of_mulEquiv e
   refine ⟨r, hr, fun R hR2 hR1 => ?_⟩

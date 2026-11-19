@@ -31,8 +31,8 @@ theorem exists_fixed_of_card_seven {X Y : Type*} [Group X] [Finite X] [MulAction
       exact hx ((MulAction.mem_stabilizer_iff).mp (h1 ▸ Subgroup.mem_top x))
     rw [Nat.odd_iff] at hodd
     omega
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Fintype (MulAction.orbitRel.Quotient X Y) := Fintype.ofFinite _
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Fintype (MulAction.orbitRel.Quotient X Y) := Fintype.ofFinite _
   have hsum : Nat.card Y = ∑ ω : MulAction.orbitRel.Quotient X Y,
       (MulAction.stabilizer X (Quotient.out ω)).index := by
     rw [Nat.card_congr (MulAction.selfEquivSigmaOrbitsQuotientStabilizer X Y), Nat.card_sigma]
@@ -78,8 +78,8 @@ theorem Sit813.exists_ne_one_mem_centralizer_oTwoMod {V H T A L K : Subgroup G} 
     have h8 := h.card_V_eq_eight
     rw [hb, Subgroup.card_bot] at h8
     omega
-  haveI : Group.IsNilpotent ↥T := hTp.isNilpotent
-  haveI hnormal : (V.subgroupOf T).Normal :=
+  have : Group.IsNilpotent ↥T := hTp.isNilpotent
+  have hnormal : (V.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVT).mpr h.le_normalizer_T
   have hne : V.subgroupOf T ≠ ⊥ := by
     intro hb
@@ -124,7 +124,7 @@ theorem Sit813.exists_fixed_vector {V H T A L K : Subgroup G} {i : ℕ}
     (hPV : ∀ p ∈ P, ∀ v ∈ V, p * v = v * p) :
     ∃ v ∈ V, v ≠ 1 ∧ ∀ k ∈ K ⊓ normalizer (V : Set G), k * v * k⁻¹ = v := by
   classical
-  letI : MulAction ↥(K ⊓ normalizer (V : Set G)) {v : G // v ∈ V ∧ v ≠ 1} := conjActNonone V K
+  let : MulAction ↥(K ⊓ normalizer (V : Set G)) {v : G // v ∈ V ∧ v ≠ 1} := conjActNonone V K
   have hPK₁ : P ≤ K ⊓ normalizer (V : Set G) := fun p hp =>
     Subgroup.mem_inf.mpr ⟨hPK hp, Subgroup.mem_normalizer_fintype fun n hn => by
       rw [hPV p hp n hn]
@@ -150,7 +150,7 @@ theorem Sit813.exists_fixed_vector {V H T A L K : Subgroup G} {i : ℕ}
         left_inv := fun y => rfl
         right_inv := fun y => rfl }
     rw [Nat.card_congr e]
-    haveI : Fintype ↥V := Fintype.ofFinite _
+    have : Fintype ↥V := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card] at h8 ⊢
     have h9 : Fintype.card {v : ↥V // v ≠ 1} = Fintype.card ↥V - 1 := by simp
     omega

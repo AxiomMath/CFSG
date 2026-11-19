@@ -26,15 +26,15 @@ theorem card_dvd_of_pKer {A H Q₀ : Type*} [Group A] [Group H] [Finite H] [Grou
   have hker2 : IsPGroup 2 Φ.ker := fun ⟨a, ha⟩ => by
     obtain ⟨n, hn⟩ := hΦ a ha
     exact ⟨n, Subtype.ext hn⟩
-  haveI hN : (Φ.ker.map f₀).Normal := Subgroup.Normal.map inferInstance f₀ hf₀
+  have hN : (Φ.ker.map f₀).Normal := Subgroup.Normal.map inferInstance f₀ hf₀
   have hbot : Φ.ker.map f₀ = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Φ.ker.map f₀) with h | h
     · exact h
     · exfalso
       have h2 : IsPGroup 2 (Φ.ker.map f₀) := hker2.map f₀
       rw [h] at h2
-      haveI : IsPGroup 2 Q₀ := h2.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent Q₀ := IsPGroup.isNilpotent this
+      have : IsPGroup 2 Q₀ := h2.of_equiv Subgroup.topEquiv
+      have : Group.IsNilpotent Q₀ := IsPGroup.isNilpotent this
       obtain ⟨a, b, hab⟩ := hnc
       exact hab (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b)
   have hle : Φ.ker ≤ f₀.ker := (Subgroup.map_eq_bot_iff _).1 hbot
@@ -177,7 +177,7 @@ end Unitary
 
 theorem not_two_pow_seven_dvd_card_gl {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64) :
     ¬ 128 ∣ Nat.card (GL (Fin 2) K × Kˣ) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq : Fintype.card K = 64 := by rw [← Nat.card_eq_fintype_card, hK]
   rw [Nat.card_prod, Matrix.card_GL_field, Nat.card_units, hK, hq, Fin.prod_univ_two]
   decide +kernel
@@ -202,8 +202,8 @@ theorem exists_model_hyp {S : Type} [Group S] {q : PrimePower}
     rwa [hc, hf, h1, h2] at h
   refine ⟨hm.toBlueprint (by decide), ?_⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 (2 * 3)) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 (2 * 3)) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 (2 * 3)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 (2 * 3) (by norm_num)]
@@ -228,18 +228,18 @@ theorem core3At_U4eight :
   rintro ⟨d, hv⟩ ⟨q, hdq, hq8⟩ S _ _ ⟨e⟩
   obtain rfl : d = .twistedA 3 q := hdq
   intro T A hT2 hT hA Q₀ _ ⟨f₀, hf₀⟩ hQ
-  haveI : Finite Q₀ := Finite.of_surjective f₀ hf₀
+  have : Finite Q₀ := Finite.of_surjective f₀ hf₀
   rcases card_list93three_two_part hQ with h128 | hL3
   swap
   · exact hL3
   exfalso
   obtain ⟨d', ⟨e'⟩, -⟩ := list93three_cases hQ
-  haveI : IsSimpleGroup (CFSGIndex.lie d').Group := (CFSG.Assembly.lie_finite_simple d').2
-  haveI : IsSimpleGroup Q₀ := e'.isSimpleGroup
+  have : IsSimpleGroup (CFSGIndex.lie d').Group := (CFSG.Assembly.lie_finite_simple d').2
+  have : IsSimpleGroup Q₀ := e'.isSimpleGroup
   have hnc : ∃ a b : Q₀, a * b ≠ b * a := by
     by_contra hcomm
     push Not at hcomm
-    haveI : IsMulCommutative Q₀ := ⟨⟨fun a b => hcomm a b⟩⟩
+    have : IsMulCommutative Q₀ := ⟨⟨fun a b => hcomm a b⟩⟩
     have hp : (Nat.card Q₀).Prime := Group.is_simple_iff_prime_card.mp inferInstance
     have h2 : 2 ∣ Nat.card Q₀ := (dvd_trans (by norm_num) h128)
     have h3 := (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h2

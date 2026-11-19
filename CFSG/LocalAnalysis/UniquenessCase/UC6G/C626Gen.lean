@@ -75,7 +75,7 @@ theorem not_dvd_card_OL_of_sigma (h619 : m.C619) (h620 : m.C620) {p : ℕ}
     (hp : p ∈ Dat.sig) : ¬ p ∣ Nat.card m.OL := by
   intro hdvd
   have hpp : p.Prime := (Dat.sig_prime _ hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨T, hT⟩ := exists_isSylowOf p m.OL
   have hTne : T ≠ ⊥ := by
     intro hTb
@@ -106,9 +106,9 @@ theorem exists_mem_centralizer_L_mod_OL {p : ℕ} [Fact p.Prime] (hpO : ¬ p ∣
   have hKcN : Kc ≤ normalizer (m.OL : Set G) :=
     sup_le m.L_le_normalizer_OL (Subgroup.zpowers_le.2 hyO)
   set M' : Subgroup Kc := m.OL.subgroupOf Kc with hM'
-  haveI hMn : M'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOKc).2 hKcN
+  have hMn : M'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOKc).2 hKcN
   set T' : Subgroup Kc := (zpowers y).subgroupOf Kc with hT'
-  haveI : Fact (IsPGroup p T') := ⟨hyp.comap_subtype⟩
+  have : Fact (IsPGroup p T') := ⟨hyp.comap_subtype⟩
   have hcop : Nat.Coprime p (Nat.card M') := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOKc).toEquiv]
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).2 hpO
@@ -151,14 +151,14 @@ theorem exists_mem_normalizer_E_mk_eq (h620 : m.C620) (hEL : m.E ≤ m.L) {n : m
     (hn : n ∈ normalizer (m.Ebar : Set m.Lbar)) :
     ∃ l : ↥m.L, (l : G) ∈ normalizer (m.E : Set G) ∧ (QuotientGroup.mk l : m.Lbar) = n := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hEeq : m.EL = m.E := by
     refine (Subgroup.eq_of_le_of_card_ge (le_inf (m.E_le_A) hEL) ?_).symm
     rw [m.card_A_inf_L h620, m.d.E_card]
   set N : Subgroup ↥m.L := CFSG.pPrimeCore m.r ↥m.L with hN
-  haveI hNn : N.Normal := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
+  have hNn : N.Normal := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
   set T : Subgroup ↥m.L := m.E.subgroupOf m.L with hT
-  haveI : Fact (IsPGroup m.r T) := ⟨(IsElemAbelian.isPGroup m.d.E_el).comap_subtype⟩
+  have : Fact (IsPGroup m.r T) := ⟨(IsElemAbelian.isPGroup m.d.E_el).comap_subtype⟩
   have hcop : Nat.Coprime m.r (Nat.card N) := CFSG.pPrimeCore_coprime_card
   have key := CFSG.normalizer_map_quotient_eq_map_normalizer m.r T N hNn hcop
   simp only at key

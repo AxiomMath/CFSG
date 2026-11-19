@@ -91,7 +91,7 @@ theorem exists_sl_lift (hperf : commutator K = ⊤) {m : ℕ} {F : Type} [Field 
     (θ : K ⧸ Subgroup.center K ≃* projectiveSL (m + 1) F) :
     ∃ φ : SpecialLinearGroup (Fin (m + 1)) F →* K, Function.Surjective φ ∧
       ∀ g, θ ((φ g : K) : K ⧸ Subgroup.center K) = proj (m + 1) F g := by
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   set Ψ := LinearCover.projectiveSpecialLinearEquivProjectiveSL (m + 1) F with hΨ
   let ρ : K →* ProjectiveSpecialLinearGroup (Fin (m + 1)) F :=
     (Ψ.symm.toMonoidHom.comp θ.toMonoidHom).comp (QuotientGroup.mk' (Subgroup.center K))
@@ -158,6 +158,7 @@ theorem map_eq_of_mem_slSub (σ : F ≃+* F) {B : SpecialLinearGroup (Fin n) F}
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem seitzHyperGamma_eq_top_linear_field
     (hperf : commutator K = ⊤) {m : ℕ} [Finite F] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hF : Nat.card F = ℓ ^ f) (hm : 2 ≤ m)
@@ -260,7 +261,7 @@ variable {F : Type} [Field F]
 theorem companionMat_three_eq_heisC (c : F) : companionMat 3 c = heisC c := by
   ext i j
   rw [companionMat_apply]
-  fin_cases i <;> fin_cases j <;> simp [heisC] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [heisC]
 
 theorem companionMat_one_mul_heisShiftMat {p : ℕ} [NeZero p] :
     companionMat p (1 : F) * heisShiftMat F p = 1 := by
@@ -327,7 +328,7 @@ theorem closure_comm_heis_eq_top {p : ℕ} (hp : p.Prime) (hT : TorusFourierGen 
         (g : Matrix (Fin p) (Fin p) F) * x = x * g} ∪
       {g | (g : Matrix (Fin p) (Fin p) F) * y = y * g}) = ⊤ := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set H := Subgroup.closure ({g : SpecialLinearGroup (Fin p) F |
         (g : Matrix (Fin p) (Fin p) F) * x = x * g} ∪
       {g | (g : Matrix (Fin p) (Fin p) F) * y = y * g}) with hH
@@ -468,9 +469,9 @@ theorem exists_heis_pair_of_irreducible [Finite F] (hn : 3 ≤ n) {p : ℕ} (hp 
       Subgroup.subset_closure (Or.inr ⟨c, rfl⟩)
     have hz₀K : z₀ ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inl rfl))
     have hz'K : z' ∈ Subgroup.closure S := Subgroup.subset_closure (Or.inl (Or.inr rfl))
-    haveI hcommS : IsMulCommutative (Subgroup.closure S) :=
+    have hcommS : IsMulCommutative (Subgroup.closure S) :=
       Subgroup.isMulCommutative_closure fun x hx y hy _ => hSc x hx y hy
-    letI : CommGroup (Subgroup.closure S) := by
+    let : CommGroup (Subgroup.closure S) := by
       open scoped IsMulCommutative in exact inferInstance
     let W : Submodule F (Fin n → F) :=
       LinearMap.ker (Matrix.toLin' ((z₀ : Matrix (Fin n) (Fin n) F) - ξ • 1))
@@ -642,7 +643,7 @@ theorem seitzHyperGamma_eq_top_linear_diag (hperf : commutator K = ⊤) {m : ℕ
         (g : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * x = x * g} ∪
       {g | (g : Matrix (Fin (m + 1)) (Fin (m + 1)) F) * y = y * g}) = ⊤ := by
     subst hnp
-    haveI : Fact (m + 1).Prime := ⟨hp⟩
+    have : Fact (m + 1).Prime := ⟨hp⟩
     have hF2 : 2 ≤ Nat.card F := Finite.one_lt_card
     by_cases h5 : 5 ≤ m + 1
     · exact closure_comm_heis_eq_top hp (torusFourierGen_of_prime h5)
@@ -684,7 +685,7 @@ theorem seitzHyperGamma_eq_top_linear {p : ℕ} (hp : p.Prime)
     (hpq : p ≠ q.p) (hci : CoverIndex p (.A m q)) (h34 : ¬ (p = 3 ∧ m = 2 ∧ q.card = 4))
     {E : Subgroup (MulAut K)} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 2) :
     seitzHyperGamma p E = ⊤ := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hF : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
   have hcardF : Nat.card (GaloisField q.p q.exponent) = q.card := by

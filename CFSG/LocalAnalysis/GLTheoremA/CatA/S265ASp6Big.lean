@@ -109,10 +109,10 @@ theorem false_of_sp6_big {X J B D : Subgroup Ω} (hN : NLAct 3 X J B D) (hB : Is
     rw [← Nat.card_congr (Subgroup.equivMapOfInjective K _ Ab.subtype_injective).toEquiv, hK]
     norm_num
   have hA₀ : IsElemAbelian 3 A₀ := hAb.mono hA₀A
-  haveI : Finite (V₆ ≃ₗ[ZMod 2] V₆) :=
+  have : Finite (V₆ ≃ₗ[ZMod 2] V₆) :=
     Finite.of_injective (fun e : V₆ ≃ₗ[ZMod 2] V₆ => (e : V₆ → V₆))
       fun e e' h => LinearEquiv.ext (congrFun h)
-  letI : Fintype ↥(A₀.map sp6Act) := Fintype.ofFinite _
+  let : Fintype ↥(A₀.map sp6Act) := Fintype.ofFinite _
   have hAe : IsElemAbelian 3 (A₀.map sp6Act) := hA₀.map sp6Act
   have hpF : ((3 : ℕ) : ZMod 2) ≠ 0 := by decide
   have hBi : InvariantBilin (A₀.map sp6Act) (spForm 3 (ZMod 2)) := fun a u v => by

@@ -24,6 +24,7 @@ variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRo
     (i : Fin D.rank) : Set (Fin D.rank) :=
   Set.range fun a : ↥𝒜 => nodeHom h 𝒜 h𝒜 a i
 
+omit [Finite S] in
 theorem image_orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) (a : ↥𝒜) :
@@ -37,6 +38,7 @@ theorem image_orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S
     refine ⟨nodeHom h 𝒜 h𝒜 (a⁻¹ * b) i, ⟨a⁻¹ * b, rfl⟩, ?_⟩
     rw [← nodeHom_apply, ← Equiv.Perm.mul_apply, ← map_mul, mul_inv_cancel_left]
 
+omit [Finite S] in
 theorem map_map_unipJ_orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) (a : ↥𝒜) :
@@ -44,6 +46,7 @@ theorem map_map_unipJ_orbitSet (h : BorelQuotient D n H π M) (𝒜 : Subgroup (
       (unipJ D (orbitSet h 𝒜 h𝒜 i)).map π := by
   rw [map_unipJ_nodePerm h a.1 (h𝒜 a.1 a.2), image_orbitSet]
 
+omit [Finite S] in
 theorem map_map_unipJ_singleton (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (a : ↥𝒜) (j : Fin D.rank) :

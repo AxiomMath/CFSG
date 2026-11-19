@@ -193,7 +193,7 @@ theorem caseB_core (h : UnitaryFieldData 2 n K) (hodd : n % 2 = 1) (h1 : 1 < n)
     rw [e1, ← e3]
     exact Subgroup.card_dvd_of_le e2
   have hFfin : Finite h.fixedField := inferInstance
-  letI : Fintype h.fixedField := Fintype.ofFinite _
+  let : Fintype h.fixedField := Fintype.ofFinite _
   have hq : Fintype.card h.fixedField = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, h.card_fixedField]
   have hGL : Nat.card (GL (Fin 3) h.fixedField) =

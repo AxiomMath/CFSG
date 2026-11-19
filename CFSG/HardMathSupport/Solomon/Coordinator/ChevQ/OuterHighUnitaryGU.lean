@@ -18,6 +18,7 @@ variable {ℓ f n : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [CharP
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem smul_def_gu (h : UnitaryFieldData ℓ f K) (A : primeFormUnitary h (idGram K n))
     (v : Fin n → K) : A • v = ((A : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v := rfl
 
@@ -35,6 +36,7 @@ theorem herm_smul_smul_gu (h : UnitaryFieldData ℓ f K) (A : primeFormUnitary h
     (u v : Fin n → K) : herm σ₀ (A • u) (A • v) = herm σ₀ u v :=
   herm_mulVec_gu h A.2 u v
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem coe_comm_gu (h : UnitaryFieldData ℓ f K) {x s : primeFormUnitary h (idGram K n)}
     (hxs : x * s = s * x) :
     ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * ((s : GL (Fin n) K) :
@@ -44,6 +46,7 @@ theorem coe_comm_gu (h : UnitaryFieldData ℓ f K) {x s : primeFormUnitary h (id
     ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) hxs
   simpa only [Subgroup.coe_mul, Units.val_mul] using this
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem coe_pow_mul_pow_gu (h : UnitaryFieldData ℓ f K) (x s : primeFormUnitary h (idGram K n))
     (a b : ℕ) :
     (((x ^ a * s ^ b : primeFormUnitary h (idGram K n)) : GL (Fin n) K) :
@@ -52,6 +55,7 @@ theorem coe_pow_mul_pow_gu (h : UnitaryFieldData ℓ f K) (x s : primeFormUnitar
         ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ b := by
   simp only [Subgroup.coe_mul, Subgroup.coe_pow, Units.val_mul, Units.val_pow_eq_pow_val]
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem pow_word_of_comm_gu (h : UnitaryFieldData ℓ f K) {p : ℕ}
     {x s : primeFormUnitary h (idGram K n)} (hxs : x * s = s * x) {α β : K}
     (hxp : ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ^ p = α • 1)
@@ -210,6 +214,7 @@ theorem coe_resGL_gu {x : Fin m → Fin n → K} (hx : ONExt.IsON σ₀ x)
     ((resGL_gu h hx s hs hs' : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) =
       ONExt.resMat σ₀ x ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := rfl
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem exists_orthoEmb_of_stable_gu {x : Fin m → Fin n → K}
     {W : Submodule K (Fin n → K)} (hW : Submodule.span K (Set.range x) = W)
     {s : primeFormUnitary h (idGram K n)} (hs : ∀ v ∈ W, s • v ∈ W) (c : Fin m → K) :
@@ -481,6 +486,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Fact ℓ.Prime] [CharP K ℓ] in
 theorem exists_pth_word_gu (h : UnitaryFieldData ℓ f K) (hp : p.Prime)
     (hpK : p ∣ Nat.card K - 1) (hn : 0 < n) {Γ : Type*} [Group Γ]
     (κ : primeFormUnitary h (idGram K n) →* Γ)
@@ -511,6 +517,7 @@ theorem exists_pth_word_gu (h : UnitaryFieldData ℓ f K) (hp : p.Prime)
     exact mul_ne_zero (pow_ne_zero _ hα0) (pow_ne_zero _ hβ0) hν.symm
   exact ⟨a, b, hb, ν, hν0, by rw [pow_word_of_comm_gu h hxs hxp hβ' a b, ← hν]⟩
 
+omit [Fact ℓ.Prime] [CharP K ℓ] in
 theorem exists_pth_lines_gu (h : UnitaryFieldData ℓ f K) (hp : p.Prime)
     (hpK : p ∣ Nat.card K - 1) (hn : 0 < n) {Γ : Type*} [Group Γ] [Finite Γ]
     (κ : primeFormUnitary h (idGram K n) →* Γ) {E : Subgroup Γ}
@@ -900,7 +907,7 @@ variable {ℓ f p : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [CharP
 local notation "σ₀" => unitaryInvolution K ℓ f
 
 theorem hyperGen_of_unitary_diag_gu (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp : p.Prime)
-    (hpq : p ∣ ℓ ^ f + 1) (hq : ℓ ^ f ≠ 2) {Γ : Type*} [Group Γ]
+    (_hpq : p ∣ ℓ ^ f + 1) (hq : ℓ ^ f ≠ 2) {Γ : Type*} [Group Γ]
     (κ : primeFormUnitary h (idGram K (n + 1)) →* Γ) {E : Subgroup Γ}
     (hEκ : ∀ e ∈ E, ∃ a : primeFormUnitary h (idGram K (n + 1)), κ a = e)
     (hker : ∀ g ∈ κ.ker, ∃ c : K,
@@ -911,8 +918,8 @@ theorem hyperGen_of_unitary_diag_gu (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp
     (hpow : ∀ x : primeFormUnitary h (idGram K (n + 1)), κ x ∈ E → x ^ (ℓ ^ f + 1) = 1) :
     H = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 hp.ne_zero)
   set Eh : Subgroup (primeFormUnitary h (idGram K (n + 1))) := E.comap κ with hEh
   have hGcomm : ∀ u ∈ Eh, ∀ v ∈ Eh, u * v = v * u := fun u hu v hv => hcomm u v hu hv
@@ -925,7 +932,7 @@ theorem hyperGen_of_unitary_diag_gu (h : UnitaryFieldData ℓ f K) {n : ℕ} (hp
     rw [h1]
     exact Dvd.intro_left _ rfl
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_dvd_natCard_sub_one hdvdK
-  haveI : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
+  have : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
   obtain ⟨P, hP⟩ :=
     CFSG.RankThree.PartOne.Q1327C.exists_unitary_conj_diag_m h hζ dvd_rfl Eh hGcomm hGpow
   let Pg : GL (Fin (n + 1)) K := (P : GL (Fin (n + 1)) K)

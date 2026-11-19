@@ -61,13 +61,13 @@ theorem TightStd8R.exists_sylow_RT (hs : TightStd8R r n Rd Sd z J S R T W t) :
     sup_le Subgroup.le_normalizer (fun r hr => mem_normalizer_iff_conjSub_eq.mpr (hRN r hr))
   have hJX : J ≤ X := le_omegaNbrGen hs.hJ
   have hTX : T ≤ X := hs.hT.2.1.trans hJX
-  have hRT : IsPGroup 2 ↥(R ⊔ T) := S.isPGroup'.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
+  have hRT : IsPGroup 2 ↥(R ⊔ T) := S.isPGroup.to_le (sup_le hs.hR.2.2 hs.hT.2.2)
   have hRTle : R ⊔ T ≤ X ⊔ R := sup_le le_sup_right (hTX.trans le_sup_left)
   obtain ⟨V, hV, hRTV⟩ := IsSylow2In.exists_ge hRT hRTle
   have hVX : IsSylow2In (V ⊓ X) X := AscP1Nine3.isSylow2In_inf_of_le_normalizer' hV le_sup_left hYN
   obtain ⟨S₂, hS₂⟩ := hV.2.1.exists_le_sylow
   have heq : (S₂ : Subgroup Y) ⊓ X = V ⊓ X :=
-    hVX.2.2 _ inf_le_right S₂.isPGroup'.to_inf_left (inf_le_inf_right X hS₂)
+    hVX.2.2 _ inf_le_right S₂.isPGroup.to_inf_left (inf_le_inf_right X hS₂)
   exact ⟨S₂, le_sup_left.trans (hRTV.trans hS₂), le_sup_right.trans (hRTV.trans hS₂), heq ▸ hVX⟩
 
 theorem TightStd8R.eq_J_of_mem_X (hs : TightStd8R r n Rd Sd z J S R T W t)

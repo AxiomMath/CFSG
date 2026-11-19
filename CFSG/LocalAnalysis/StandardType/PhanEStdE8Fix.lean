@@ -18,7 +18,7 @@ variable {k : Type} [Field k] [Finite k] [CharP k 2] (θ : k →+* k) (hθ : ∀
     (hι : ∀ c, θ (ι c) = ι c) (hdesc : ∀ c, θ c = c → ∃ c', ι c' = c) :
     ↥(adjointGroup .E8 k₀) ≃* frobFix (e8Frob θ hθ) :=
   frobFixEquivOfDescent (e8_isCTGroupDatum k) (e8Frob θ hθ) (e8_steinbergExtras k)
-    (e8W0_isLongest k) (e8_bruhatExtras k) (e8StdLevi θ hθ hnorm) (fun _ => rfl) rfl
+ (e8_bruhatExtras k) (e8StdLevi θ hθ hnorm) (fun _ => rfl) rfl
     (fun γ hγ => by
       rintro _ ⟨x, hx, rfl⟩
       exact (adj_isTwist (τ := .E8) θ hθ).map_rootGroup γ hγ x hx)

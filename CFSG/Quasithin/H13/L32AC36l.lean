@@ -85,7 +85,7 @@ theorem centralizer_inf_le {Γ : Type} [Group Γ] [Finite Γ] {X L S : Subgroup 
   have hPn : (P : Subgroup ↥C).Normal := inferInstance
   have hPle : (P : Subgroup ↥C).map C.subtype ≤ pCoreOf 2 C :=
     le_pCoreOf 2 (Subgroup.map_subtype_le _) (by rwa [map_subtype_subgroupOf'])
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
   have hCO : pCoreOf 2 C ≤ pCoreOf 2 X :=
     le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 C).trans hCX)
       (hXC.trans (normalizer_le_normalizer_pCoreOf 2 C)) (pCoreOf_isPGroup 2 C)

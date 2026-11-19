@@ -6,7 +6,7 @@ public section
 
 universe u v w
 
-namespace CFSG.Open.Open
+namespace CFSG.Open.Thm
 
 theorem aschbacher_component_type_theorem_five
     (G : Type) [Group G] [Finite G]
@@ -44,4 +44,4 @@ theorem aschbacher_component_type_theorem_five
           a₁ = a₂ ∨ a₁ * a₂ ∈ Subgroup.center G) :=
   _root_.CFSG.Milestones.cl_lit_aschbacher_component_type_theorem_5 G D r hr Abar hdistinct hsemisimple hcomm hgen hperm hi hii hH
 
-end CFSG.Open.Open
+end CFSG.Open.Thm

@@ -77,8 +77,7 @@ theorem tv_mem (hB : B.IsAlt) (c : K) (v : M) : tv hB c v ∈ sesqUnitaryGroup B
   intro z z'
   rw [tv_val]
   simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, nv_apply, map_add,
-    map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hB.self_eq_zero,
-    RingHom.id_apply]
+    map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hB.self_eq_zero]
   have h := hB.neg v z
   rw [← h]
   ring
@@ -142,7 +141,7 @@ theorem torus_mem (hB : B.IsAlt) (hvw : B v w = 1) {l : K} (hl : l ≠ 0) :
   have hwv : B w v = -1 := by rw [← hB.neg, hvw]
   conv_lhs => rw [torusMap_apply, torusMap_apply]
   simp only [map_add, map_sub, map_smul, LinearMap.add_apply, LinearMap.sub_apply,
-    LinearMap.smul_apply, smul_eq_mul, hB.self_eq_zero, hvw, hwv, RingHom.id_apply]
+    LinearMap.smul_apply, smul_eq_mul, hB.self_eq_zero, hvw, hwv]
   have h1 := hB.neg z v
   have h2 := hB.neg z w
   rw [← h1, ← h2]
@@ -211,14 +210,16 @@ variable {E M : Type*} [Field E] [AddCommGroup M] [Module E M] {ι : Type*} [Dec
 @[expose] noncomputable def nb (b : Module.Basis ι E M) (i j : ι) : M →ₗ[E] M :=
   (b.coord j).smulRight (b i)
 
+omit [DecidableEq ι] in
 theorem nb_apply (b : Module.Basis ι E M) (i j : ι) (z : M) : nb b i j z = b.coord j z • b i := rfl
 
+omit [DecidableEq ι] in
 private theorem coord_self (b : Module.Basis ι E M) (i : ι) : b.coord i (b i) = 1 := by
   rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_eq_same]
 
 private theorem coord_ne (b : Module.Basis ι E M) {i j : ι} (hij : i ≠ j) :
     b.coord j (b i) = 0 := by
-  rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, if_neg hij]
+  rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right hij]
 
 theorem nb_mul_self (b : Module.Basis ι E M) {i j : ι} (hij : i ≠ j) : nb b i j * nb b i j = 0 := by
   refine LinearMap.ext fun z => ?_
@@ -238,6 +239,7 @@ theorem unipotentUnit_val (N : M →ₗ[E] M) (hN : N * N = 0) :
 @[expose] noncomputable def diagMap (b : Module.Basis ι E M) (i j : ι) (l : E) : M →ₗ[E] M :=
   1 + (l - 1) • nb b i i + (l⁻¹ - 1) • nb b j j
 
+omit [DecidableEq ι] in
 theorem diagMap_apply (b : Module.Basis ι E M) (i j : ι) (l : E) (z : M) :
     diagMap b i j l z = z + (l - 1) • (b.coord i z • b i) + (l⁻¹ - 1) • (b.coord j z • b j) := rfl
 
@@ -332,7 +334,7 @@ theorem modelPair_lin (b : Module.Basis ι E M) (h2 : (2 : E) ≠ 0) (hij : i �
     intro h
     have h' := congrArg (b.coord i) h
     simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, nb_apply, map_add,
-      map_smul, map_neg, smul_eq_mul, coord_self, coord_ne b hij, coord_ne b (Ne.symm hij)] at h'
+      map_smul, map_neg, smul_eq_mul, coord_self, coord_ne b (Ne.symm hij)] at h'
     apply mul_ne_zero h2 hc
     linear_combination h'
 
@@ -363,24 +365,29 @@ theorem htorusMap_apply (l : E) (z : M) :
 variable (hH : H.IsSymm) (hv : H v v = 0) (hw : H w w = 0) (hvw : H v w = 1)
 include hH hv hw hvw
 
+omit hv hw in
 theorem hwv_eq : H w v = 1 := by rw [← hH.eq v w, hvw, map_one]
 
+omit hH hw in
 theorem H_htorusMap_v (l : E) (z : M) : H v (htorusMap H l v w z) = l⁻¹ * H v z := by
   rw [htorusMap_apply]
   simp only [map_add, map_smul, smul_eq_mul, hv, hvw]
   ring
 
+omit hv in
 theorem H_htorusMap_w (l : E) (z : M) : H w (htorusMap H l v w z) = l * H w z := by
-  have hwv := hwv_eq hH hv hw hvw
+  have hwv := hwv_eq hH hvw
   rw [htorusMap_apply]
   simp only [map_add, map_smul, smul_eq_mul, hw, hwv]
   ring
 
+omit hw in
 theorem htorusMap_v (l : E) : htorusMap H l v w v = l • v := by
-  have hwv := hwv_eq hH hv hw hvw
+  have hwv := hwv_eq hH hvw
   rw [htorusMap_apply, hwv, hv]
   module
 
+omit hH hv in
 theorem htorusMap_w (l : E) : htorusMap H l v w w = l⁻¹ • w := by
   rw [htorusMap_apply, hw, hvw]
   module
@@ -389,7 +396,7 @@ theorem htorusMap_comp {l : E} (hl : l ≠ 0) : htorusMap H l v w * htorusMap H 
   refine LinearMap.ext fun z => ?_
   rw [Module.End.mul_apply, Module.End.one_apply]
   conv_lhs => rw [htorusMap_apply]
-  rw [H_htorusMap_w hH hv hw hvw, H_htorusMap_v hH hv hw hvw, htorusMap_apply, inv_inv]
+  rw [H_htorusMap_w hH hw hvw, H_htorusMap_v hv hvw, htorusMap_apply, inv_inv]
   match_scalars <;> field_simp <;> ring
 
 @[expose] noncomputable def htorus {l : E} (hl : l ≠ 0) : LinearMap.GeneralLinearGroup E M where
@@ -406,48 +413,50 @@ theorem htorus_val {l : E} (hl : l ≠ 0) :
 
 theorem htorus_mem {l : E} (hl : l ≠ 0) (hσl : σ l = l) :
     htorus hH hv hw hvw hl ∈ sesqUnitaryGroup H := by
-  have hwv := hwv_eq hH hv hw hvw
+  have hwv := hwv_eq hH hvw
   intro z z'
   rw [htorus_val]
   conv_lhs => rw [htorusMap_apply, htorusMap_apply]
   have hσl' : σ l⁻¹ = l⁻¹ := by rw [map_inv₀, hσl]
-  simp only [map_add, map_smulₛₗ, LinearMap.map_smulₛₗ₂, LinearMap.add_apply,
-    LinearMap.smul_apply, smul_eq_mul, map_sub, map_one, hσl, hσl', hv, hw, hvw, hwv, map_mul,
-    RingHom.id_apply]
+  simp only [map_add, map_smulₛₗ, LinearMap.add_apply,
+    LinearMap.smul_apply, smul_eq_mul, map_sub, map_one, hσl, hσl', hv, hw, hvw, hwv, RingHom.id_apply]
   rw [hH.eq w z, hH.eq v z]
   field_simp
   ring
 
+omit hv hw hvw in
 theorem htv_mem {η : E} (hη : σ η = -η) (u : M) (hu : H u u = 0) :
     unipotentUnit (η • nh H u) (by rw [smul_mul_smul, nh_mul_self hu, smul_zero]) ∈
       sesqUnitaryGroup H := by
   intro z z'
   rw [unipotentUnit_val]
   simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, nh_apply, map_add,
-    map_smul, map_smulₛₗ, LinearMap.map_smulₛₗ₂, LinearMap.add_apply, LinearMap.smul_apply,
-    smul_eq_mul, hu, map_mul, hη, RingHom.id_apply]
+    map_smul, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply,
+    smul_eq_mul, hu, hη]
   rw [hH.eq u z]
   ring
 
+omit hw in
 theorem htorus_mul_nh {l : E} (hl : l ≠ 0) (η : E) :
     htorusMap H l v w * (η • nh H v) = (l ^ 2) • ((η • nh H v) * htorusMap H l v w) := by
   refine LinearMap.ext fun z => ?_
   simp only [Module.End.mul_apply, LinearMap.smul_apply, nh_apply, map_smul,
-    htorusMap_v hH hv hw hvw, H_htorusMap_v hH hv hw hvw, smul_smul]
+    htorusMap_v hH hv hvw, H_htorusMap_v hv hvw, smul_smul]
   congr 1
   field_simp
 
+omit hv in
 theorem htorus_mul_nh' {l : E} (hl : l ≠ 0) (η : E) :
     htorusMap H l v w * (η • nh H w) = (l⁻¹ ^ 2) • ((η • nh H w) * htorusMap H l v w) := by
   refine LinearMap.ext fun z => ?_
   simp only [Module.End.mul_apply, LinearMap.smul_apply, nh_apply, map_smul,
-    htorusMap_w hH hv hw hvw, H_htorusMap_w hH hv hw hvw, smul_smul]
+    htorusMap_w hw hvw, H_htorusMap_w hH hw hvw, smul_smul]
   congr 1
   field_simp
 
 theorem modelPair_herm (h2 : (2 : E) ≠ 0) {l : E} (hl : l ≠ 0) (hl2 : l ^ 2 ≠ 1) (hσl : σ l = l)
     {η : E} (hη0 : η ≠ 0) (hη : σ η = -η) : ModelPair (sesqUnitaryGroup H) := by
-  have hwv := hwv_eq hH hv hw hvw
+  have hwv := hwv_eq hH hvw
   set d := htorus hH hv hw hvw hl
   set τ := unipotentUnit (η • nh H v) (by rw [smul_mul_smul, nh_mul_self hv, smul_zero])
   set τ' := unipotentUnit (η • nh H w) (by rw [smul_mul_smul, nh_mul_self hw, smul_zero])
@@ -455,10 +464,10 @@ theorem modelPair_herm (h2 : (2 : E) ≠ 0) {l : E} (hl : l ≠ 0) (hl2 : l ^ 2 
   have hNw : (η • nh H w) * (η • nh H w) = 0 := by rw [smul_mul_smul, nh_mul_self hw, smul_zero]
   have hu : ((⁅d, τ⁆ : LinearMap.GeneralLinearGroup E M) : M →ₗ[E] M) =
       1 + (l ^ 2 - 1) • (η • nh H v) :=
-    commutator_val_of_conj (unipotentUnit_val _ _) hNv (htorus_mul_nh hH hv hw hvw hl η)
+    commutator_val_of_conj (unipotentUnit_val _ _) hNv (htorus_mul_nh hH hv hvw hl η)
   have hu' : ((⁅d, τ'⁆ : LinearMap.GeneralLinearGroup E M) : M →ₗ[E] M) =
       1 + (l⁻¹ ^ 2 - 1) • (η • nh H w) :=
-    commutator_val_of_conj (unipotentUnit_val _ _) hNw (htorus_mul_nh' hH hv hw hvw hl η)
+    commutator_val_of_conj (unipotentUnit_val _ _) hNw (htorus_mul_nh' hH hw hvw hl η)
   have hc : l ^ 2 - 1 ≠ 0 := sub_ne_zero.2 hl2
   have hc' : l⁻¹ ^ 2 - 1 ≠ 0 := by
     rw [inv_pow]
@@ -466,8 +475,8 @@ theorem modelPair_herm (h2 : (2 : E) ≠ 0) {l : E} (hl : l ≠ 0) (hl2 : l ^ 2 
     apply hl2
     have h' : (l ^ 2)⁻¹ = 1 := sub_eq_zero.1 h
     rwa [inv_eq_one] at h'
-  refine ⟨d, htorus_mem hH hv hw hvw hl hσl, τ, htv_mem hH hv hw hvw hη v hv, τ',
-    htv_mem hH hv hw hvw hη w hw, ?_, w, ?_, ?_⟩
+  refine ⟨d, htorus_mem hH hv hw hvw hl hσl, τ, htv_mem hH hη v hv, τ',
+    htv_mem hH hη w hw, ?_, w, ?_, ?_⟩
   · rw [hu, add_sub_cancel_left, sq, smul_mul_smul, hNv, smul_zero]
   · rw [Units.val_mul, Units.val_mul, hu, hu', Module.End.mul_apply, Module.End.mul_apply]
     intro h
@@ -480,7 +489,7 @@ theorem modelPair_herm (h2 : (2 : E) ≠ 0) {l : E} (hl : l ≠ 0) (hl2 : l ^ 2 
     intro h
     have h' := congrArg (H w) h
     simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, nh_apply, map_add,
-      map_smul, map_neg, smul_eq_mul, hv, hw, hvw, hwv] at h'
+      map_smul, map_neg, smul_eq_mul, hw, hvw, hwv] at h'
     apply mul_ne_zero (mul_ne_zero h2 hc) hη0
     linear_combination h'
 

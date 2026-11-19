@@ -56,7 +56,7 @@ theorem exists_fixed_of_commute {x w : GL (Fin 3) F4} {r : ℕ} (hr : r.Prime) (
     (hw : w ∈ StatedSL 3 F4) (hwx : x * w = w * x) (hwr : orderOf w = r) :
     ∃ y : projectiveSL 3 F4, LinearFlag.conjAut 3 F4 x y = y ∧ orderOf y = r := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hk : Nat.card F4 = 4 := L34.card_galoisField_two_two
   have hdet : (w : Matrix (Fin 3) (Fin 3) F4).det = 1 := by
     rw [CFSG.Open.StatedAPI.statedSL_eq_ker_det, MonoidHom.mem_ker] at hw
@@ -165,7 +165,7 @@ theorem exists_fixed_of_pow_three {ε : MulAut (projectiveSL 3 F4)} (hε : ε * 
       r ∣ Nat.card ↥(Sec4.slPi true 3 (2 ^ 2) F4 ⊓ Subgroup.centralizer {x * z}) →
       ∃ y : projectiveSL 3 F4, LinearFlag.conjAut 3 F4 x y = y ∧ orderOf y = r := by
     intro r hr hr3 hrC
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' r hrC
     have hmem := Subgroup.mem_inf.1 w.2
     exact exists_fixed_of_commute hr hr3 hmem.1
@@ -185,7 +185,7 @@ theorem exists_fixed_of_pow_three {ε : MulAut (projectiveSL 3 F4)} (hε : ε * 
       one_mul] at h1
     exact h1
   ·
-    haveI : Fintype F4 := Fintype.ofFinite F4
+    have : Fintype F4 := Fintype.ofFinite F4
     obtain ⟨y, hy, hy5⟩ := key 5 (by norm_num) (by norm_num) (by
       rw [Nat.card_congr eC.toEquiv]
       change 5 ∣ Nat.card ↥(⊤ : Subgroup (GL (Fin 2) F4))
@@ -317,7 +317,7 @@ end Cover
 theorem l34OuterFree : L34OuterFree := by
   intro K _ _ hK τ ε hgf hττ hε _ hfix
   have hk : Nat.card F4 = 4 := L34.card_galoisField_two_two
-  haveI hSL : Group.IsPerfect SL(3, F4) :=
+  have hSL : Group.IsPerfect SL(3, F4) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect le_rfl
   rcases hK with hK | hK
   · obtain ⟨eK⟩ := hK

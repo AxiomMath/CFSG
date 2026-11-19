@@ -52,8 +52,8 @@ theorem ggQTwoDUnit_not_unitary (hm : 7 ≤ m)
     (hU : lab = ⟨.twA, m - 1, 1⟩ ∨ (lab = ⟨.twA, m, 1⟩ ∧ 3 ∣ m + 1)) : False := by
   obtain ⟨s, K, hKfield, hKfin, hcardK, hQ, hs⟩ :=
     qtwoDB23_unitary_model (by omega) hlab hU
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨θ⟩ := hQ
   have hBsN : Bs ≤ Subgroup.normalizer (N : Set G) :=
     ggQTwoDUnit_normalizer_N (by omega) hbase b'.2 hN hJ₁

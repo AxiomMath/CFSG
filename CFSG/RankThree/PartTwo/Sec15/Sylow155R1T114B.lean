@@ -12,6 +12,7 @@ open CFSG
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] in
 theorem le_normalizer_inf_of_le_normalizer {X N : Subgroup G}
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) :
     X ≤ Subgroup.normalizer ((X ⊓ N : Subgroup G) : Set G) := by
@@ -19,7 +20,7 @@ theorem le_normalizer_inf_of_le_normalizer {X N : Subgroup G}
   have h1 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx)
   have h2 := Subgroup.mem_normalizer_iff.mp (hXN hx)
   exact Subgroup.mem_normalizer_iff.mpr fun g => by
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+    simp only [Subgroup.mem_inf] at h1 h2 ⊢
     exact and_congr (h1 g) (h2 g)
 
 theorem pCoreOf_le_pCoreOf_of_le_sup {X K : Subgroup G} (hXK : X ≤ K)

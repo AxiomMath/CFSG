@@ -24,7 +24,7 @@ theorem conjBy_conjBy_inv (g : G) (H : Subgroup G) : conjBy g⁻¹ (conjBy g H) 
   rw [mem_conjBy_iff, mem_conjBy_iff]
   simp [mul_assoc]
 
-theorem normal_subgroupOf_of_conj {H M : Subgroup G} (hMH : M ≤ H)
+theorem normal_subgroupOf_of_conj {H M : Subgroup G} (_hMH : M ≤ H)
     (hn : ∀ h ∈ H, ∀ m ∈ M, h * m * h⁻¹ ∈ M) : (M.subgroupOf H).Normal := by
   refine ⟨fun n hn' g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn' ⊢
@@ -104,10 +104,10 @@ theorem Cen_conjBy (g x : G) : Cen (g * x * g⁻¹) = conjBy g (Cen x) := by
     have h' : g⁻¹ * y * g * x = x * (g⁻¹ * y * g) := by
       have := congrArg (fun z => g⁻¹ * z * g) h
       simpa [mul_assoc] using this
-    first | exact h' | exact h'.symm
+    first | exact h'
   · intro h
     have := congrArg (fun z => g * z * g⁻¹) h
-    first | simpa [mul_assoc] using this | simpa [mul_assoc] using this.symm
+    first | simpa [mul_assoc] using this
 
 end Tools
 

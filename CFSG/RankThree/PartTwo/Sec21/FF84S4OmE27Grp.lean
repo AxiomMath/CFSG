@@ -63,7 +63,7 @@ theorem enc_apply (g : GL6) (v : F6) : enc (g v) = app (tab g) (enc v) := by
     simp [bas, Finset.sum_apply]
   obtain ⟨h0, h1, h2, h3, h4, h5⟩ := enc_bits v
   conv_lhs => rw [hv]
-  simp only [map_sum, map_smul, Fin.sum_univ_six, map_add, enc_add, enc_smul]
+  simp only [map_smul, Fin.sum_univ_six, map_add, enc_add, enc_smul]
   simp only [app, tab, h0, h1, h2, h3, h4, h5, decide_eq_true_eq]
 
 theorem tab_mul (g h : GL6) : tab (g * h) = tmul (tab g) (tab h) := by
@@ -193,7 +193,7 @@ theorem nfP_four (i : Fin 3 × Fin 3 × Fin 3 × Fin 3) (a b c d : Fin 3) :
     nfP (nfP (nfP (nfP i (a, 0, 0, 0)) (0, b, 0, 0)) (0, 0, c, 0)) (0, 0, 0, d) =
       nfP i (a, b, c, d) := by
   obtain ⟨i1, i2, i3, i4⟩ := i
-  fin_cases i4 <;> simp [nfP, rotK] <;> abel
+  fin_cases i4 <;> simp [nfP, rotK]
 
 theorem TP_mul : ∀ i j, tmul (TP i) (TP j) = TP (nfP i j) := by
   rintro i ⟨a, b, c, d⟩

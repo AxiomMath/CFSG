@@ -74,7 +74,7 @@ theorem e8_commuting_SL2
       ∀ i j, i ≠ j → ∀ A B : SL(2, ValidLieTypeIndex.fixedField ⟨.E8 q, hv⟩),
         φ i A * φ j B = φ j B * φ i A := by
   set d : ValidLieTypeIndex := ⟨.E8 q, hv⟩ with hd
-  haveI := finite_fixedField d
+  have := finite_fixedField d
   change ∃ φ : Fin 5 → SL(2, d.fixedField) →* FixedPointCandidate d.geckFrobenius,
     (∀ i, Function.Injective (φ i)) ∧
       ∀ i j, i ≠ j → ∀ A B : SL(2, d.fixedField), φ i A * φ j B = φ j B * φ i A
@@ -97,7 +97,7 @@ theorem f4_commuting_SL2
       ∀ i j, i ≠ j → ∀ A B : SL(2, ValidLieTypeIndex.fixedField ⟨.F4 q, hv⟩),
         φ i A * φ j B = φ j B * φ i A := by
   set d : ValidLieTypeIndex := ⟨.F4 q, hv⟩ with hd
-  haveI := finite_fixedField d
+  have := finite_fixedField d
   change ∃ φ : Fin 4 → SL(2, d.fixedField) →* FixedPointCandidate d.geckFrobenius,
     (∀ i, Function.Injective (φ i)) ∧
       ∀ i j, i ≠ j → ∀ A B : SL(2, d.fixedField), φ i A * φ j B = φ j B * φ i A

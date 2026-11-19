@@ -29,9 +29,9 @@ theorem fromBlocks_diag_mul_eq_one {A B : Matrix (Fin m) (Fin m) K} (hAB : A * B
       fromBlocks B 0 0 Aᵀ * fromBlocks A 0 0 Bᵀ = 1 := by
   constructor
   · rw [fromBlocks_multiply]
-    simp [← transpose_mul, hAB, hBA]
+    simp [← transpose_mul, hAB]
   · rw [fromBlocks_multiply]
-    simp [← transpose_mul, hAB, hBA]
+    simp [← transpose_mul, hBA]
 
 @[expose] def levU (A : GL (Fin m) K) : GL (Fin m ⊕ Fin m) K :=
   ⟨fromBlocks (A : Matrix (Fin m) (Fin m) K) 0 0 ((A⁻¹ : GL (Fin m) K) : Matrix _ _ K)ᵀ,
@@ -79,11 +79,11 @@ theorem fromBlocks_diag_mul_eq_one {A B : Matrix (Fin m) (Fin m) K} (hAB : A * B
 theorem statedQuadPlus_eq (v : Fin m ⊕ Fin m → K) :
     StatedQuadPlus m K v = ∑ i, v (Sum.inl i) * v (Sum.inr i) := rfl
 
-theorem dotProduct_altT_mulVec [CharP K 2] {i j : Fin m} (hij : i ≠ j) (t : K)
+theorem dotProduct_altT_mulVec [CharP K 2] {i j : Fin m} (_hij : i ≠ j) (t : K)
     (y : Fin m → K) : (altT i j t *ᵥ y) ⬝ᵥ y = 0 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   simp [altT, add_mulVec, Matrix.single_mulVec, dotProduct, Function.update_apply, add_mul,
-    Finset.sum_add_distrib, ite_mul, hij, Ne.symm hij]
+    Finset.sum_add_distrib, ite_mul]
   linear_combination (t * y i * y j) * h2
 
 theorem statedQuadPlus_levU (A : GL (Fin m) K) (w : Fin m ⊕ Fin m → K) :
@@ -115,7 +115,7 @@ theorem statedQuadPlus_lowU [CharP K 2] {i j : Fin m} (hij : i ≠ j) (t : K)
   have h := dotProduct_altT_mulVec (K := K) hij t (fun j => w (Sum.inl j))
   rw [statedQuadPlus_eq, statedQuadPlus_eq]
   simp only [lowU, Units.val_mk, fromBlocks_mulVec_inl, fromBlocks_mulVec_inr, one_mulVec,
-    zero_mulVec, Pi.zero_apply, zero_add, add_zero, mul_add, Finset.sum_add_distrib]
+    zero_mulVec, Pi.zero_apply, add_zero, mul_add, Finset.sum_add_distrib]
   simp only [dotProduct] at h
   have h' : ∑ k, w (Sum.inl k) * (altT i j t *ᵥ fun j => w (Sum.inl j)) k = 0 := by
     simp only [mul_comm (w _)] at h ⊢
@@ -127,20 +127,18 @@ theorem commutator_levU_upU_val (A : GL (Fin m) K) (T : Matrix (Fin m) (Fin m) K
       fromBlocks 1 (-T + (A : Matrix (Fin m) (Fin m) K) * T * (A : Matrix (Fin m) (Fin m) K)ᵀ)
         0 1 := by
   rw [commutatorElement_def]
-  simp only [levU, upU, Units.val_mul, Units.inv_mk, Units.val_mk]
+  simp only [levU, upU, Units.val_mul, Units.inv_mk]
   simp only [fromBlocks_multiply, Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero,
-    Matrix.zero_mul, add_zero, zero_add, Matrix.mul_neg, Units.mul_inv, Units.inv_mul,
-    neg_zero, ← transpose_mul, transpose_one]
+    Matrix.zero_mul, add_zero, zero_add, Matrix.mul_neg, Units.mul_inv, neg_zero, ← transpose_mul, transpose_one]
 
 theorem commutator_levU_lowU_val (A : GL (Fin m) K) (T : Matrix (Fin m) (Fin m) K) :
     (⁅levU A, lowU T⁆ : GL (Fin m ⊕ Fin m) K).val =
       fromBlocks 1 0 (((A⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)ᵀ * T *
         ((A⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) - T) 1 := by
   rw [commutatorElement_def]
-  simp only [levU, lowU, Units.val_mul, Units.inv_mk, Units.val_mk]
+  simp only [levU, lowU, Units.val_mul, Units.inv_mk]
   simp only [fromBlocks_multiply, Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero,
-    Matrix.zero_mul, add_zero, zero_add, Matrix.mul_neg, Units.mul_inv, Units.inv_mul,
-    neg_zero, ← transpose_mul, transpose_one]
+    Matrix.zero_mul, add_zero, zero_add, Matrix.mul_neg, Units.mul_inv, neg_zero, ← transpose_mul, transpose_one]
   rw [sub_eq_add_neg]
 
 theorem commutator_levU_levU_val (A B : GL (Fin m) K) :
@@ -152,7 +150,7 @@ theorem commutator_levU_levU_val (A B : GL (Fin m) K) :
           ((B⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)ᵀ *
             (A : Matrix (Fin m) (Fin m) K)ᵀ * (B : Matrix (Fin m) (Fin m) K)ᵀ) := by
   rw [commutatorElement_def]
-  simp only [levU, Units.val_mul, Units.inv_mk, Units.val_mk]
+  simp only [levU, Units.val_mul, Units.inv_mk]
   simp only [fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
 
 theorem diagU_val (i : Fin m) (s : K) (hs : s ≠ 0) :
@@ -189,14 +187,14 @@ theorem diagU_mul_altT_mul_transpose (i j : Fin m) (hij : i ≠ j) (s : K) (hs :
       (diagU i s hs : Matrix (Fin m) (Fin m) K)ᵀ = altT i j (s * t) := by
   rw [diagU_val, diagonal_transpose, altT, mul_add, add_mul, diagonal_mul_single_mul_diagonal,
     diagonal_mul_single_mul_diagonal]
-  simp [hij, Ne.symm hij, altT, mul_comm, mul_left_comm]
+  simp [Ne.symm hij, altT, mul_comm]
 
 theorem diagU_inv_mul_altT_mul (i j : Fin m) (hij : i ≠ j) (s : K) (hs : s ≠ 0) (t : K) :
     (((diagU i s hs)⁻¹ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)ᵀ * altT i j t *
       ((diagU i s hs)⁻¹ : GL (Fin m) K) = altT i j (s⁻¹ * t) := by
   rw [diagU_inv_val, diagonal_transpose, altT, mul_add, add_mul, diagonal_mul_single_mul_diagonal,
     diagonal_mul_single_mul_diagonal]
-  simp [hij, Ne.symm hij, altT, mul_comm, mul_left_comm]
+  simp [Ne.symm hij, altT, mul_comm]
 
 theorem diagU_mul_transU_mul_inv (i j : Fin m) (hij : i ≠ j) (s : K) (hs : s ≠ 0) :
     (diagU i s hs : Matrix (Fin m) (Fin m) K) *
@@ -228,27 +226,26 @@ theorem diagU_mul_transU_mul_inv (i j : Fin m) (hij : i ≠ j) (s : K) (hs : s �
     _ = (1 + s • Matrix.single i j 1) * (1 - Matrix.single i j 1) := by
         rw [hDD, key]
     _ = 1 + (s - 1) • Matrix.single i j 1 := by
-        simp only [add_mul, one_mul, smul_mul_assoc, mul_sub, mul_one, hee, smul_zero, sub_zero,
-          sub_smul, one_smul]
+        simp only [add_mul, one_mul, smul_mul_assoc, mul_sub, mul_one, hee, smul_zero, sub_smul, one_smul]
         abel
 
 theorem altT_mul_row (i j : Fin m) (hij : i ≠ j) (t : K) (M : Matrix (Fin m) (Fin m) K)
     (l : Fin m) : (altT i j t * M) i l = t * M j l ∧ (altT i j t * M) j l = t * M i l := by
   have hji : j ≠ i := Ne.symm hij
   constructor
-  · simp [altT, add_mul, Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, hij, hji]
-  · simp [altT, add_mul, Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, hij, hji]
+  · simp [altT, add_mul, Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, hij]
+  · simp [altT, add_mul, Matrix.single_mul_apply_same, Matrix.single_mul_apply_of_ne, hji]
 
 theorem mul_altT_col (i j : Fin m) (hij : i ≠ j) (t : K) (M : Matrix (Fin m) (Fin m) K)
     (k : Fin m) : (M * altT i j t) k j = M k i * t ∧ (M * altT i j t) k i = M k j * t := by
   have hji : j ≠ i := Ne.symm hij
   constructor
-  · simp [altT, mul_add, Matrix.mul_single_apply_same, Matrix.mul_single_apply_of_ne, hij, hji]
-  · simp [altT, mul_add, Matrix.mul_single_apply_same, Matrix.mul_single_apply_of_ne, hij, hji]
+  · simp [altT, mul_add, Matrix.mul_single_apply_same, Matrix.mul_single_apply_of_ne, hji]
+  · simp [altT, mul_add, Matrix.mul_single_apply_same, Matrix.mul_single_apply_of_ne, hij]
 
 theorem altT_apply_row_second {r q : Fin m} (hrq : r ≠ q) (t : K) (l : Fin m) :
     altT r q t q l = if l = r then t else 0 := by
-  simp [altT, Matrix.single_apply, hrq, Ne.symm hrq, eq_comm]
+  simp [altT, Matrix.single_apply, hrq, eq_comm]
 
 theorem exists_ne_index (hm : 2 ≤ m) (r : Fin m) : ∃ j : Fin m, j ≠ r := by
   have hm1 : 1 < Fintype.card (Fin m) := by simp; omega
@@ -294,7 +291,7 @@ theorem exists_ne_zero_ne_one (F : Type) [Field F] [Finite F] (hF : 4 ≤ Nat.ca
   have H' : ∀ x : F, x ≠ 0 → x = 1 := fun x hx => by
     by_contra h1
     exact H ⟨x, hx, h1⟩
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hsub : (Finset.univ : Finset F) ⊆ ({0, 1} : Finset F) := by
     intro x _
     by_cases hx : x = 0
@@ -359,10 +356,10 @@ theorem scalar_of_commute (hm : 2 ≤ m) {a b c d : Matrix (Fin m) (Fin m) K} {t
     altT_apply_row_second hq.symm t₁ x, smul_eq_mul] at h
   by_cases hxr : x = r
   · subst hxr
-    simp only [if_true] at h
+    simp only [ite_true] at h
     rw [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one]
     exact mul_left_cancel₀ ht₁ (by rw [← h]; ring)
-  · simp only [hxr, if_false, mul_zero] at h
+  · simp only [hxr, ite_false, mul_zero] at h
     rw [Matrix.smul_apply, Matrix.one_apply_ne (Ne.symm hxr), smul_eq_mul, mul_zero]
     exact (mul_eq_zero.mp h.symm).resolve_left ht₁
 
@@ -394,8 +391,7 @@ theorem stroth_2_4_omegaPlus (K : Type) [Field K] [Finite K] [CharP K 2] (hK : 4
     rw [commutator_diag_upU i j hij s hs0, hFabcd, fromBlocks_multiply, fromBlocks_multiply,
       fromBlocks_inj] at h
     obtain ⟨h1, h2, -, -⟩ := h
-    simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, Matrix.one_mul, Matrix.zero_mul,
-      zero_add] at h1 h2
+    simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, Matrix.one_mul] at h1 h2
     refine ⟨add_right_cancel (h2.trans (add_comm _ _)), ?_⟩
     simpa using h1.symm
   have hL : ∀ i j : Fin m, i ≠ j → b * altT i j (s⁻¹ - 1) = 0 := by

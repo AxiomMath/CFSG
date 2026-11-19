@@ -78,6 +78,6 @@ theorem properHull_theta_nontrivial_joint_sylow
       Subgroup.card_map_of_injective (minimalLocalFailurePairConfinementTheta p D).subtype_injective
     rw [← hmapcard, heq, Subgroup.card_bot] at hcard
     exact hq.not_dvd_one hcard
-  exact ⟨Q, hne, Q.isPGroup'.map _, Subgroup.map_subtype_le _, hXQ, hsQ⟩
+  exact ⟨Q, hne, Q.isPGroup.map _, Subgroup.map_subtype_le _, hXQ, hsQ⟩
 
 end CFSG.ProperTwoGeneratedCore.LocalCriterionProperHull

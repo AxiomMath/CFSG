@@ -76,8 +76,8 @@ theorem exists_mem_T_conj_eq {x y g : G} (hx : x ∈ D.Zab) (hy : y ∈ D.Zab)
     (hsyl : ∃ SK : Sylow 2 ↥(centralizer ({x} : Set G)),
       (SK : Subgroup _) = (T : Subgroup G).subgroupOf (centralizer ({x} : Set G))) :
     ∃ u ∈ (T : Subgroup G), u * x * u⁻¹ = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hT₁2 : IsPGroup 2 D.T₁ := T.isPGroup'.to_le D.T₁_le_T
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hT₁2 : IsPGroup 2 D.T₁ := T.isPGroup.to_le D.T₁_le_T
   have hT₁y : D.T₁ ≤ centralizer ({y} : Set G) := fun w hw =>
     mem_centralizer_singleton_iff.2 (comm_of_mem_Zab D hy hw)
   obtain ⟨h, hhx, hhT⟩ := exists_conj_eq_and_conj_le hg hsyl hT₁2 hT₁y

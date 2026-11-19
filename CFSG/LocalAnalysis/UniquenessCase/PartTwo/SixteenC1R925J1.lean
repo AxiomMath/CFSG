@@ -16,7 +16,7 @@ theorem oddIdxProp_j1
     (hK : IsSpor K .J1) : OddIdxProp K := by
   intro N Y D hNne hodd hD hDY hYN hnorm hcover hKGN
   exfalso
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hK
   let ψ : K ≃* CFSG.Sporadic.J1.J := e.trans CFSG.Sporadic.J1.nativeEquiv
   set W : Subgroup CFSG.Sporadic.J1.J := N.map ψ.toMonoidHom with hW

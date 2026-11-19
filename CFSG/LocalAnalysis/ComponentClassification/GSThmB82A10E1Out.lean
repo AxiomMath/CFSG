@@ -148,7 +148,7 @@ theorem sign_eq_neg_one (Z : ZData s.h) (hJo : CFSec8JOrder)
             _ = jb * t * jb⁻¹ := by group
         rw [h2]
         exact ht
-    have hDp : IsPGroup 2 (Dbar s.h) := hT ▸ T.isPGroup'
+    have hDp : IsPGroup 2 (Dbar s.h) := hT ▸ T.isPGroup
     have hsup := hp2.to_sup_of_normal_right' hDp hle
     have hT' : (T : Subgroup _) ≤ zpowers jb ⊔ Dbar s.h := hT ▸ le_sup_right
     have heq := T.maximal_isPGroup.eq_of_ge (hT ▸ hsup) hT'

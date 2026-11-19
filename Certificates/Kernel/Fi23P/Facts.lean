@@ -34,7 +34,7 @@ theorem slice_pt {F : Nat → Bool}
   have e : Nat.add (Nat.mul (y / 2048) 2048) (y % 2048) = y := by
     change y / 2048 * 2048 + y % 2048 = y
     omega
-  rw [e, if_pos (by simpa [Nat.blt_eq] using hy)] at h1
+  rw [e, ite_eq_left (by simpa [Nat.blt_eq] using hy)] at h1
   exact h1
 
 theorem bPt_all : ∀ y < 31671, bPt y = true := slice_pt bAll
@@ -109,7 +109,7 @@ theorem moving {y : Nat} (hy : y < 31671) (hr : y ≠ rtP (labP y)) :
     cases e : Nat.beq y (rtP (labP y))
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hr
-  rw [hb, if_neg Bool.false_ne_true, strictB_eq] at h
+  rw [hb, ite_eq_right Bool.false_ne_true, strictB_eq] at h
   simp only [bAnd_eq, Bool.and_eq_true, Bool.not_eq_true'] at h
   refine ⟨Nat.le_of_ble_eq_true h.1, by simpa [Nat.blt_eq] using h.2.1, fun e => ?_⟩
   have := h.2.2

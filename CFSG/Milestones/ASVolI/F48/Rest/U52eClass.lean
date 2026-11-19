@@ -59,7 +59,7 @@ theorem burnsideF48t_u52e_classify {K'' : Subgroup ↥burnsideF48t_u52Xh}
     ∃ t ∈ burnsideF48t_u52eP1 ⊓ burnsideF48t_u52eP2, ∃ j < 4,
       ∀ z, z ∈ K'' ↔ t * z * t⁻¹ ∈ burnsideF48t_u52eKh j := by
   obtain ⟨hcard, hS⟩ := hQ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H, hH⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥K'') 3 (n := 2)
     (by rw [hcard]; norm_num)
   set T : Subgroup ↥burnsideF48t_u52Xh := H.map K''.subtype with hTdef

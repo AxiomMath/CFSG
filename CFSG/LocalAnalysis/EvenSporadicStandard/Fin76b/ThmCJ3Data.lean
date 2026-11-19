@@ -38,14 +38,9 @@ theorem outerData_j3P :
   obtain ⟨hErep, hcov, hcard⟩ :=
     enum_spec hn hsgA hsginv htree (closedOK_of_closedOKH hclosed) hdist
   try rw [← sylXList_eq'] at hErep
-  try rw [← sylXList_eq''] at hErep
   try rw [← sylXList_eq'] at hcov
-  try rw [← sylXList_eq''] at hcov
   try rw [← sylXList_eq'] at hcard
-  try rw [← sylXList_eq''] at hcard
-  try rw [← sylXList_eq'] at hsize
   try rw [← sylXList_eq''] at hsize
-  try rw [← sylXList_eq'] at hdist
   try rw [← sylXList_eq''] at hdist
   set S := closure (tp 6156 '' {x | x ∈ sylXGens}) with hSdef
   have rt0 := rep_tp ht0

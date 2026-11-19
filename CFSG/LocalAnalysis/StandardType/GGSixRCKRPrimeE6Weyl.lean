@@ -34,7 +34,7 @@ theorem rckE6_gcdSearch_false {α : Type} (m : α → ℕ) {p : ℕ} (hp : p.Pri
 theorem rckE6_natCard_ker {K : Type*} [Field K] [Fintype K] {n : ℕ} (N : Matrix (Fin n) (Fin n) K) :
     Nat.card {z : Fin n → K // N *ᵥ z = 0} = Nat.card K ^ (n - N.rank) := by
   have e : {z : Fin n → K // N *ᵥ z = 0} ≃ ↥(LinearMap.ker N.mulVecLin) :=
-    Equiv.subtypeEquivRight fun z => by simp [LinearMap.mem_ker, Matrix.mulVecLin_apply]
+    Equiv.subtypeEquivRight fun z => by simp [LinearMap.mem_ker]
   rw [Nat.card_congr e, Module.natCard_eq_pow_finrank (K := K)]
   have h := LinearMap.finrank_range_add_finrank_ker N.mulVecLin
   rw [Module.finrank_fin_fun] at h
@@ -54,7 +54,7 @@ theorem rckE6_natCard_eigen {K : Type*} [Field K] [Fintype K] {n : ℕ} (A : Mat
 theorem rckE6_minor3_dvd_of_rank_le {p : ℕ} (hp : p.Prime) (N : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ)
     (hrank : (N.map (Int.castRingHom (ZMod p))).rank ≤ 2) (a b c x y z : Fin Tag.E6.rank) :
     (p : ℤ) ∣ det3 N a b c x y z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Nb := N.map (Int.castRingHom (ZMod p)) with hNb
   have hsub : (Nb.submatrix ![a, b, c] ![x, y, z]).rank ≤ 2 :=
     (Matrix.rank_submatrix_le Nb ![a, b, c] ![x, y, z]).trans hrank
@@ -69,7 +69,7 @@ theorem rckE6_minor3_dvd_of_rank_le {p : ℕ} (hp : p.Prime) (N : Matrix (Fin Ta
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd]
   simp only [det3]
   push_cast
-  simp [hNb, Matrix.submatrix_apply, Matrix.map_apply, Matrix.vecHead, Matrix.vecTail] at hdet
+  simp [hNb, Matrix.submatrix_apply, Matrix.map_apply] at hdet
   linear_combination hdet
 
 theorem rckE6_rank_ge_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -83,7 +83,7 @@ theorem rckE6_rank_ge_three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem rckE6_minor2_dvd_of_rank_le {p : ℕ} (hp : p.Prime) (N : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ)
     (hrank : (N.map (Int.castRingHom (ZMod p))).rank ≤ 1) (a b x y : Fin Tag.E6.rank) :
     (p : ℤ) ∣ det2 N a b x y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Nb := N.map (Int.castRingHom (ZMod p)) with hNb
   have hsub : (Nb.submatrix ![a, b] ![x, y]).rank ≤ 1 :=
     (Matrix.rank_submatrix_le Nb ![a, b] ![x, y]).trans hrank
@@ -98,7 +98,7 @@ theorem rckE6_minor2_dvd_of_rank_le {p : ℕ} (hp : p.Prime) (N : Matrix (Fin Ta
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd]
   simp only [det2]
   push_cast
-  simp [hNb, Matrix.submatrix_apply, Matrix.map_apply, Matrix.vecHead, Matrix.vecTail] at hdet
+  simp [hNb, Matrix.submatrix_apply, Matrix.map_apply] at hdet
   linear_combination hdet
 
 theorem rckE6_rank_ge_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -173,13 +173,13 @@ theorem rckE6_map_add_smul_one {p : ℕ} (N : Matrix (Fin Tag.E6.rank) (Fin Tag.
     (N + a • 1).map (Int.castRingHom (ZMod p)) = modMat p N - c • 1 := by
   subst hc
   ext i j
-  by_cases hij : i = j <;> simp [modMat, Matrix.one_apply, Matrix.intCast_apply, hij] <;> ring
+  by_cases hij : i = j <;> simp [modMat, Matrix.intCast_apply, hij]
 
 theorem rckE6_card_eigen_lt_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (N : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ) (a : ℤ) (hN : gcdSearch3 (N + a • 1) = true)
     {c : ZMod p} (hc : c = -(a : ZMod p)) :
     Nat.card {z : Fin Tag.E6.rank → ZMod p // (modMat p N)ᵀ *ᵥ z = c • z} < p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrk := rckE6_rank_ge_three hp hp2 (N + a • 1) hN
   rw [rckE6_map_add_smul_one N a hc] at hrk
   rw [rckE6_natCard_eigen, Nat.card_zmod]
@@ -194,13 +194,13 @@ theorem rckE6_map_sub_smul_one {p : ℕ} (N : Matrix (Fin Tag.E6.rank) (Fin Tag.
     (N - a • 1).map (Int.castRingHom (ZMod p)) = modMat p N - c • 1 := by
   subst hc
   ext i j
-  by_cases hij : i = j <;> simp [modMat, Matrix.one_apply, Matrix.intCast_apply, hij] <;> ring
+  by_cases hij : i = j <;> simp [modMat, Matrix.intCast_apply, hij]
 
 theorem rckE6_card_eigen_lt_five {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (N : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ) (a : ℤ) (hN : gcdSearch2 (N - a • 1) = true)
     {c : ZMod p} (hc : c = (a : ZMod p)) :
     Nat.card {z : Fin Tag.E6.rank → ZMod p // (modMat p N)ᵀ *ᵥ z = c • z} < p ^ 5 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrk := rckE6_rank_ge_two hp hp2 (N - a • 1) hN
   rw [rckE6_map_sub_smul_one N a hc] at hrk
   rw [rckE6_natCard_eigen, Nat.card_zmod]
@@ -295,7 +295,7 @@ theorem rckE6_card_eigen_lt_of_isometry {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hNB : Nᵀ * Tag.E6.symmetrizedCartan * N = Tag.E6.symmetrizedCartan)
     {c : ZMod p} (hc1 : c ≠ 1) (hc2 : c ≠ -1) :
     Nat.card {z : Fin Tag.E6.rank → ZMod p // (modMat p N)ᵀ *ᵥ z = c • z} < p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : (3 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((3 : ℕ) : ZMod p) = 0 := by exact_mod_cast h
@@ -371,7 +371,7 @@ theorem rckE6_matrix_sq_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rcases hall c hc0 with h | h
     · exact hc1 h
     · exact hc2 h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact absurd h4 (not_le.2 (rckE6_card_eigen_lt_of_isometry hp hp5 N hNB hc1 hc2))
 
 theorem rckE6_rhoMatrix_pres_form :

@@ -38,11 +38,11 @@ theorem exists_sylow_central_involution {B : Subgroup G} {u₀ : G} (hu₀ : u�
   have hy1 : y ≠ 1 := fun h1 => by rw [h1, orderOf_one] at hy; omega
   have : Nontrivial (S : Subgroup B) :=
     ⟨⟨⟨y, hyS⟩, 1, fun h1 => hy1 (congrArg Subtype.val h1)⟩⟩
-  have hZ : Nontrivial (Subgroup.center (S : Subgroup B)) := S.isPGroup'.center_nontrivial
-  obtain ⟨n, hn, hcard⟩ := ((S.isPGroup'.to_subgroup _).nontrivial_iff_card).mp hZ
+  have hZ : Nontrivial (Subgroup.center (S : Subgroup B)) := S.isPGroup.center_nontrivial
+  obtain ⟨n, hn, hcard⟩ := ((S.isPGroup.to_subgroup _).nontrivial_iff_card).mp hZ
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (S : Subgroup B)) 2
     (by rw [hcard]; exact dvd_pow_self 2 (by omega))
-  refine ⟨(S : Subgroup B).map B.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_,
+  refine ⟨(S : Subgroup B).map B.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_,
     (((c : S) : B) : G), ⟨(c : S), (c : S).2, rfl⟩, ?_, ?_⟩
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective B.subtype_injective]

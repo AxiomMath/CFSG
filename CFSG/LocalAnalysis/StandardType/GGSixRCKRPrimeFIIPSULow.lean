@@ -36,8 +36,8 @@ private theorem rckRPu2_le_one {n : ℕ} (hn : n ≤ 1) {X : Type*} [Group X]
       fin_cases i
       fin_cases j
       simp [hdet a, hdet b]
-  letI : Subsingleton (Unitary.SU (unitaryInvolution F 2 f) n) := hsub
-  letI : Subsingleton ↥φ.range := (MonoidHom.rangeRestrict_surjective φ).subsingleton
+  let : Subsingleton (Unitary.SU (unitaryInvolution F 2 f) n) := hsub
+  let : Subsingleton ↥φ.range := (MonoidHom.rangeRestrict_surjective φ).subsingleton
   have hKbot : K = ⊥ := by
     rw [← hφr]
     exact Subgroup.eq_bot_of_subsingleton φ.range
@@ -49,7 +49,7 @@ private theorem rckRPu2_injective (hF : Nat.card F = (2 ^ f) ^ 2)
     {X : Type*} [Group X] (φ : Unitary.SU (unitaryInvolution F 2 f) 2 →* X)
     (hφk : φ.ker ≤ Subgroup.center (Unitary.SU (unitaryInvolution F 2 f) 2)) :
     Function.Injective φ := by
-  letI : CharP ↥(CFSG.LieType.Steinberg.fixedSubfield F 2 f) 2 :=
+  let : CharP ↥(CFSG.LieType.Steinberg.fixedSubfield F 2 f) 2 :=
     Subfield.charP (CFSG.LieType.Steinberg.fixedSubfield F 2 f) 2
   have hcenter : Subgroup.center (Unitary.SU (unitaryInvolution F 2 f) 2) = ⊥ := by
     obtain ⟨⟨e⟩, -⟩ := CFSG.StandardType.RCSTSU.exists_equiv_sl2 (F := F) (f := f) hF
@@ -106,7 +106,7 @@ private theorem rckRPu2_scalar (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f)
       rw [show f = 1 by omega]
       norm_num
     obtain ⟨eS3⟩ := CFSG.StandardType.RCSTSU.nonempty_su2_equiv_perm (F := F) (f := f) hF hcard
-    letI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+    let : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
     have hKsolv : Group.IsSolvable ↥K :=
       Group.isSolvable_of_isSolvable_injective
         (f := (e.symm.trans eS3).toMonoidHom) (e.symm.trans eS3).injective
@@ -204,7 +204,7 @@ theorem rckRP_eq_of_PSU_le_two
     (_hdK : d ∈ Subgroup.normalizer (K : Set X))
     (hdiag : GGPsiInnerDiag (ggU .PSU n (g + 1)).D φ d)
     (hcomp : IsComponentOf J (K ⊓ Subgroup.centralizer {d})) : J = K := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases lt_or_ge n 2 with hn1 | hn2
   · exact rckRPu2_le_one (f := g + 1) (by omega) φ hφr hcomp
   · have hn_eq : n = 2 := by omega

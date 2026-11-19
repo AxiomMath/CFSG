@@ -18,7 +18,6 @@ theorem map_conj_conj_le_range_conj {G : Type*} [Group G] (g : G) {R : Subgroup 
   ext y
   first
     | (change g * x * g⁻¹ * y * (g * x * g⁻¹)⁻¹ = g * (x * (g⁻¹ * y * g) * x⁻¹) * g⁻¹; group)
-    | simp [MulAut.conj_apply, mul_assoc]
 
 section Cert
 
@@ -69,17 +68,17 @@ theorem oppositeFixedAt_reeGamma_inner (hK : Nat.card K = 2 ^ (2 * a + 1))
           g⁻¹ * x * g ∈ (parabolicSubgroup Tag.F4 K (A j)).subgroupOf (ReeTag.F4.reeGamma K a)) ∧
         ∀ q ∈ Q, g⁻¹ * q * g ∈
           (parabolicRadical Tag.F4 K (A j)).subgroupOf (ReeTag.F4.reeGamma K a))
-    (hNF : ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ R : Subgroup (MulAut ↥(ReeTag.F4.reeGamma K a)),
-      IsPGroup p R → R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
-        MulAut ↥(ReeTag.F4.reeGamma K a)).range → UniqueNormalFormRee a R) :
-    ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ R : Subgroup (MulAut ↥(ReeTag.F4.reeGamma K a)),
-      IsPGroup p R → R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
+    (hNF : ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ _R : Subgroup (MulAut ↥(ReeTag.F4.reeGamma K a)),
+      IsPGroup p _R → _R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
+        MulAut ↥(ReeTag.F4.reeGamma K a)).range → UniqueNormalFormRee a _R) :
+    ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ _R : Subgroup (MulAut ↥(ReeTag.F4.reeGamma K a)),
+      IsPGroup p _R → _R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
         MulAut ↥(ReeTag.F4.reeGamma K a)).range →
-      ∀ Q : Subgroup ↥(ReeTag.F4.reeGamma K a), OppositeFixedAt R Q :=
+      ∀ Q : Subgroup ↥(ReeTag.F4.reeGamma K a), OppositeFixedAt _R Q :=
   oppositeFixedAt_reeGamma hK hDual A hA hstd
-    (fun R => R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
+    (fun _R => _R ≤ (MulAut.conj : ↥(ReeTag.F4.reeGamma K a) →*
       MulAut ↥(ReeTag.F4.reeGamma K a)).range)
-    (fun g R hR => map_conj_conj_le_range_conj g⁻¹ hR) hNF
+    (fun g _R hR => map_conj_conj_le_range_conj g⁻¹ hR) hNF
 
 end Cert
 

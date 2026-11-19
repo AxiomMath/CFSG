@@ -77,8 +77,8 @@ theorem countP_range (n : ℕ) (p : ℕ → Bool) :
   | succ n ih =>
     rw [List.range_succ, List.countP_append, ih, Finset.range_add_one, Finset.filter_insert]
     by_cases hp : p n = true
-    · rw [if_pos hp, Finset.card_insert_of_notMem (by simp), List.countP_singleton, if_pos hp]
-    · rw [if_neg hp, List.countP_singleton, if_neg hp, Nat.add_zero]
+    · rw [ite_eq_left hp, Finset.card_insert_of_notMem (by simp), List.countP_singleton, ite_eq_left hp]
+    · rw [ite_eq_right hp, List.countP_singleton, ite_eq_right hp, Nat.add_zero]
 
 theorem subI_mat {W : ℕ} (hW : Canon 5 133 13 W) :
     Canon 5 133 13 (CFSG.KC.LL.HN.subI W) ∧ OM (CFSG.KC.LL.HN.subI W) = OM W - 1 := by
@@ -220,10 +220,10 @@ theorem sorted_lt {F : Array ℕ} (h : (F.toList.zip F.toList.tail).all (fun p =
     getElem!_pos F.toList j (by simpa using hj)]
   exact hp
 
-theorem posArr_of {F : Array ℕ} (hF : ∀ i < F.size, F[i]! < nPts)
+theorem posArr_of {F : Array ℕ} (hF : ∀ _i < F.size, F[_i]! < nPts)
     (h : (F.toList.zip F.toList.tail).all (fun p => decide (p.1 < p.2)) = true) :
-    (posArr nPts F).size = nPts ∧ ∀ i < F.size, (posArr nPts F)[F[i]!]! = i :=
-  PW.posArr_spec hF fun i hi j hj => (Nat.ne_of_lt (sorted_lt h hj hi))
+    (posArr nPts F).size = nPts ∧ ∀ _i < F.size, (posArr nPts F)[F[_i]!]! = _i :=
+  PW.posArr_spec hF fun _i hi _j hj => (Nat.ne_of_lt (sorted_lt h hj hi))
 
 theorem fixListOK_of {t : Array ℕ} {L : List ℕ}
     (hs : (L.zip L.tail).all (fun p => decide (p.1 < p.2)) = true)

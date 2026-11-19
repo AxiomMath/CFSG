@@ -32,7 +32,6 @@ theorem mat_sq_eq_one_of_pow_four (F : Type) [Field F] [CharP F 2] (A : Matrix (
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two] <;>
       first
-        | ring1
         | linear_combination ((A 0 0 + A 1 1) * A 0 0) * h2
         | linear_combination ((A 0 0 + A 1 1) * A 0 1) * h2
         | linear_combination ((A 0 0 + A 1 1) * A 1 0) * h2

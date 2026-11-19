@@ -27,7 +27,7 @@ theorem w135c2_four_le_mQuot_ree
     (hlie : LieModel (↥L ⧸ Subgroup.center ↥L) .twistedF4 n 2 f) :
     4 ≤ E3.mQuot ⊤ (fixV (Subgroup.zpowers t)) := by
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← pow_two]; exact hW w
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hq : IsQuasisimple ↥L := hctx.2.2.2.2.1
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) := w135_odd_card_center hctx
   obtain ⟨-, hR⟩ := hlie.reeTitsModel (by decide)
@@ -35,7 +35,7 @@ theorem w135c2_four_le_mQuot_ree
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hR
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hea]
   have hZ : Subgroup.center ↥L = ⊥ := by
-    haveI : Group.IsPerfect ↥L := hq.1
+    have : Group.IsPerfect ↥L := hq.1
     set π : ↥L →* LieType.Ree.reeFixed LieType.Ree.ReeTag.F4 K a :=
       (LieType.Ree.ReeTag.reeFixedEquivReeGamma K a).symm.toMonoidHom.comp
         (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))) with hπ

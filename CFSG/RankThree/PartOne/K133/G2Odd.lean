@@ -96,7 +96,7 @@ theorem card_le_sq_of_sylowShape {X : Type*} [Group X] [Finite X] {p e : ℕ} (h
   have : Fact p.Prime := ⟨hp⟩
   have : NeZero (p ^ e) := ⟨pow_ne_zero _ hp.ne_zero⟩
   obtain ⟨S, hAS⟩ := IsPGroup.exists_le_sylow (IsElementaryAbelian.isPGroup p A)
-  obtain ⟨φ⟩ := hs (S : Subgroup X) S.isPGroup' (Sylow.not_dvd_index S)
+  obtain ⟨φ⟩ := hs (S : Subgroup X) S.isPGroup (Sylow.not_dvd_index S)
   let A' : Subgroup (S : Subgroup X) := A.subgroupOf S
   let E : Subgroup (Fin 2 → Multiplicative (ZMod (p ^ e))) := A'.map φ.toMonoidHom
   have hE : ∀ x ∈ E, x ^ p = 1 := by

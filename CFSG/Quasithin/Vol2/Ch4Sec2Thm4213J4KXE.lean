@@ -24,7 +24,7 @@ theorem false_of_two_E9 {H A B : Subgroup Q} (hrank : CFSG.Open.pRank 3 H ≤ 2)
     (hAH : A ≤ H) (hBH : B ≤ H) (hA : CFSG.Open.IsElemAbelian 3 A)
     (hB : CFSG.Open.IsElemAbelian 3 B) (hAc : Nat.card A = 9) (hBc : Nat.card B = 9)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hint : Nat.card ↥(A ⊓ B) ≤ 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hbB, hbA⟩ : ∃ b ∈ B, b ∉ A := by
     by_contra hcon
     have hBA : B ≤ A := fun x hx => Classical.byContradiction fun hxA => hcon ⟨x, hx, hxA⟩

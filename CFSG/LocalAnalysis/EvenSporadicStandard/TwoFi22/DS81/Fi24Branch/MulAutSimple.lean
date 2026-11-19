@@ -89,7 +89,7 @@ theorem center_mulAut_eq_bot [IsSimpleGroup U] (hna : ∃ a b : U, a * b ≠ b *
   intro h _
   exact (Subgroup.mem_center_iff.mp hφ h)
 
-theorem inn_le_of_normal [IsSimpleGroup U] (hna : ∃ a b : U, a * b ≠ b * a)
+theorem inn_le_of_normal [IsSimpleGroup U] (_hna : ∃ a b : U, a * b ≠ b * a)
     (N : Subgroup (MulAut U)) [hN : N.Normal] (hbot : N ≠ ⊥) : inn U ≤ N := by
   have hM : ((N.comap (MulAut.conj : U →* MulAut U))).Normal := hN.comap _
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.comap (MulAut.conj : U →* MulAut U)) with

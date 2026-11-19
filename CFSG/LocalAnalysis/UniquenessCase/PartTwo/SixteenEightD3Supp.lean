@@ -35,7 +35,7 @@ private theorem s16e_d3_card_of_elem {X : Type*} [Group X] {p n : ℕ}
   have h1 : Nat.card X = Nat.card (Multiplicative (Fin n → ZMod p)) := Nat.card_congr e.toEquiv
   rw [h1, show Nat.card (Multiplicative (Fin n → ZMod p)) = Nat.card (Fin n → ZMod p) from rfl,
     Nat.card_fun]
-  simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+  simp [Nat.card_eq_fintype_card, Fintype.card_fin]
 
 private theorem s16e_d3_isElemAbelian {X : Type*} [Group X] {p n : ℕ} {E : Subgroup X}
     (hE : IsElemAbelianOfRank p n ↥E) : IsElemAbelian p E := by
@@ -56,7 +56,7 @@ private theorem s16e_d3_isElemAbelian {X : Type*} [Group X] {p n : ℕ} {E : Sub
 private theorem s16e_d3_pow_val_add {X : Type*} [Group X] {p : ℕ} (hp : p.Prime) {x : X}
     (hx : x ^ p = 1) (a b : ZMod p) :
     x ^ (a + b).val = x ^ a.val * x ^ b.val := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmod : (a + b).val ≡ a.val + b.val [MOD p] := by
     rw [ZMod.val_add]
     exact Nat.mod_modEq _ _
@@ -65,10 +65,11 @@ private theorem s16e_d3_pow_val_add {X : Type*} [Group X] {p : ℕ} (hp : p.Prim
     _ = x ^ a.val * x ^ b.val := pow_add x a.val b.val
 
 private theorem s16e_d3_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
+omit [Finite W] in
 private lemma s16e_d3_stab_of_map_eq {U : Subgroup W} {φ : MulAut W}
     (h : U.map φ.toMonoidHom = U) : φ ∈ stabSub U := by
   intro u
@@ -84,6 +85,7 @@ private lemma s16e_d3_stab_of_map_eq {U : Subgroup W} {φ : MulAut W}
     rw [h] at hu'
     exact hu'
 
+omit [Finite W] in
 private lemma s16e_d3_map_eq_of_mem_stab {U : Subgroup W} {φ : MulAut W}
     (h : φ ∈ stabSub U) : U.map φ.toMonoidHom = U := by
   apply le_antisymm
@@ -93,6 +95,7 @@ private lemma s16e_d3_map_eq_of_mem_stab {U : Subgroup W} {φ : MulAut W}
     refine Subgroup.mem_map.2 ⟨φ.symm u, ?_, by simp⟩
     exact (mem_stabSub.mp h (φ.symm u)).mp (by simpa using hu)
 
+omit [Finite W] in
 private lemma s16e_d3_conj_mem_of_map_conj_eq {L : Subgroup (MulAut W)} {n : MulAut W}
     (h : L.map (MulAut.conj n).toMonoidHom = L) {l : MulAut W} (hl : l ∈ L) :
     n * l * n⁻¹ ∈ L := by
@@ -105,15 +108,18 @@ private def s16e_d3_supp (Δ : Fin (r + 1) → Subgroup W) (l : MulAut W) :
     Set (Fin (r + 1)) :=
   {i | ∃ x ∈ Δ i, l x ≠ x}
 
+omit [Finite W] in
 private theorem s16e_d3_notMem_supp_iff {Δ : Fin (r + 1) → Subgroup W} {l : MulAut W}
     {i : Fin (r + 1)} : i ∉ s16e_d3_supp Δ l ↔ l ∈ centSub (Δ i) := by
   rw [mem_centSub]
   simp [s16e_d3_supp]
 
+omit [Finite W] in
 private theorem s16e_d3_cent_of_notMem_supp {Δ : Fin (r + 1) → Subgroup W}
     {l : MulAut W} {i : Fin (r + 1)} (h : i ∉ s16e_d3_supp Δ l) : l ∈ centSub (Δ i) :=
   s16e_d3_notMem_supp_iff.mp h
 
+omit [Finite W] in
 private theorem s16e_d3_supp_conj {A : Subgroup (MulAut W)}
     {Δ : Fin (r + 1) → Subgroup W}
     {σ : ↥A →* Equiv.Perm (Fin (r + 1))}
@@ -145,6 +151,7 @@ private theorem s16e_d3_supp_conj {A : Subgroup (MulAut W)}
       apply (g : MulAut W).injective
       simpa using h
 
+omit [Finite W] in
 private theorem s16e_d3_eq_one_of_supp_empty {Δ : Fin (r + 1) → Subgroup W}
     (hsup : (⨆ i, Δ i) = ⊤) {l : MulAut W} (h : s16e_d3_supp Δ l = ∅) : l = 1 := by
   apply MulEquiv.ext
@@ -165,6 +172,7 @@ private theorem s16e_d3_eq_one_of_supp_empty {Δ : Fin (r + 1) → Subgroup W}
     exact (Set.eq_empty_iff_forall_notMem.mp h) i ⟨y, hy, hne⟩
   exact (iSup_le hU) (by rw [hsup]; exact Subgroup.mem_top x)
 
+omit [Finite W] in
 private theorem s16e_d3_dvd_of_pow_mem_centSub [Finite W] {L : Subgroup (MulAut W)} {p r : ℕ}
     (hE : IsElemAbelianOfRank p r ↥L) (hp : p.Prime) {l : MulAut W} (hl : l ∈ L) {e : ℕ}
     {Δ : Fin (r + 1) → Subgroup W} {i : Fin (r + 1)}
@@ -199,7 +207,7 @@ private theorem s16e_d3_dvd_of_pow_mem_centSub [Finite W] {L : Subgroup (MulAut 
     have hlK : l ∈ Subgroup.zpowers l ⊓ centSub (Δ i) := heq.ge (Subgroup.mem_zpowers l)
     exact (s16e_d3_notMem_supp_iff.mpr hlK.2) hi
 
-private theorem s16e_d3_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p r : ℕ}
+private theorem s16e_d3_triangular_card {L : Subgroup (MulAut W)} {p r : ℕ}
     (hp : p.Prime) (hE : IsElemAbelianOfRank p r ↥L) {s : ℕ}
     {Δ : Fin (r + 1) → Subgroup W} {v : Fin s → MulAut W} {i : Fin s → Fin (r + 1)}
     (hv : ∀ k, v k ∈ L)
@@ -210,7 +218,7 @@ private theorem s16e_d3_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
     (Subgroup.closure_le L).mpr (by rintro _ ⟨k, rfl⟩; exact hv k)
   let x : Fin s → ↥(Subgroup.closure (Set.range v)) := fun k =>
     ⟨v k, Subgroup.subset_closure ⟨k, rfl⟩⟩
-  haveI hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
+  have hcomm : IsMulCommutative ↥(Subgroup.closure (Set.range v)) :=
     IsMulCommutative.of_comm fun a b => by
       refine Subtype.ext ?_
       rw [Subgroup.coe_mul, Subgroup.coe_mul]
@@ -302,7 +310,7 @@ private theorem s16e_d3_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
           (v k) ^ (d k).val := by simp [x]
       rwa [hcoe] at h1
     have hdvd := s16e_d3_dvd_of_pow_mem_centSub hE hp (hv k) (hmem k) hcent
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hval0 : (d k).val = 0 := Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt (d k))
     exact hkmem ((ZMod.val_eq_zero (d k)).mp hval0)
   have hinj : Function.Injective φ := by
@@ -316,10 +324,10 @@ private theorem s16e_d3_triangular_card [Finite W] {L : Subgroup (MulAut W)} {p 
   have hcard : Nat.card (Multiplicative (Fin s → ZMod p)) = p ^ s := by
     rw [show Nat.card (Multiplicative (Fin s → ZMod p)) = Nat.card (Fin s → ZMod p) from rfl,
       Nat.card_fun]
-    simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+    simp [Nat.card_eq_fintype_card, Fintype.card_fin]
   simpa [hcard] using hle
 
-private theorem s16e_d3_supp_not_singleton [Finite W] {A L : Subgroup (MulAut W)} {p r : ℕ}
+private theorem s16e_d3_supp_not_singleton {A L : Subgroup (MulAut W)} {p r : ℕ}
     (hp : p.Prime) (hE : IsElemAbelianOfRank p r ↥L)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L)
     {Δ : Fin (r + 1) → Subgroup W}

@@ -23,7 +23,7 @@ theorem ree27_hyp_false {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup 
     False := by
   have hK : Nat.card (GaloisField 3 (2 * 1 + 1)) = 3 ^ (2 * 1 + 1) :=
     GaloisField.card 3 (2 * 1 + 1) (by norm_num)
-  haveI : CharP (GaloisField 3 (2 * 1 + 1)) ReeTag.G2.prime :=
+  have : CharP (GaloisField 3 (2 * 1 + 1)) ReeTag.G2.prime :=
     inferInstanceAs (CharP (GaloisField 3 (2 * 1 + 1)) 3)
   obtain ⟨ψ⟩ := CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.nonempty_reeGamma_equiv hr hK
   set e := φ.trans ψ
@@ -32,7 +32,7 @@ theorem ree27_hyp_false {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup 
     norm_num
   obtain ⟨-, -, hFbar, ⟨R, -, -, -, -, hR3, hcompl⟩, -, -⟩ :=
     small_Ree_outer_three_kernel_field_complement 1 le_rfl (GaloisField 3 (2 * 1 + 1)) hK
-  haveI : Finite (ReeTag.G2.reeGamma (GaloisField 3 (2 * 1 + 1)) 1) :=
+  have : Finite (ReeTag.G2.reeGamma (GaloisField 3 (2 * 1 + 1)) 1) :=
     Finite.of_equiv S e.toEquiv
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hR3
   have hout : Nat.card (Outer S) = 3 ^ (k + 1) := by

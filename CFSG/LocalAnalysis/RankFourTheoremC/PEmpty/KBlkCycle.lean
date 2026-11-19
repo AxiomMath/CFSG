@@ -26,6 +26,7 @@ theorem isBlockOfInX_conjugate_of_normalizes {N Y : Subgroup G} (hY : IsBlockOfI
   · have := CFSG.GroupTheory.isSubnormal_subgroupOf_conjugate g hY.2.1
     rwa [hNg] at this
 
+omit [Finite G] in
 theorem conjugate_pow_inv_ne {Y : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (hz : z ^ p = 1)
     (hzY : z ∉ normalizer (Y : Set G)) {i : ℕ} (hi0 : 0 < i) (hip : i < p) :
     CFSG.conjugate Y (z ^ i)⁻¹ ≠ Y := by
@@ -62,7 +63,7 @@ theorem block_le_of_cycled {N S Y : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime)
     (hzY : z ∉ normalizer (Y : Set G)) (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y))
     (hev : 2 ∣ Nat.card (↥Y ⧸ CFSG.pCore 2 ↥Y)) :
     Y ≤ S ⊔ (N ⊓ centralizer ({z} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar' := CFSG.AGLEmbedding.LocalCGT.isCharacteristicP_of_charTwo hchar
   set H : Subgroup G := S ⊔ (N ⊓ centralizer ({z} : Set G)) with hH
   set N' : Subgroup ↥Y := CFSG.pCore 2 ↥Y with hN'
@@ -71,7 +72,7 @@ theorem block_le_of_cycled {N S Y : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime)
     obtain ⟨d, hd, hdt⟩ := exists_diagonal hp.pos hzp hzN hY.1
       (fun i hi0 hip x hx t ht => conj_pow_commute hchar' hp hzp hzN hY hzY hi0 hip hx ht) hy
     exact ⟨d, Subgroup.mem_sup_right hd, hdt⟩
-  haveI hnormal : (H.subgroupOf Y).Normal := by
+  have hnormal : (H.subgroupOf Y).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     obtain ⟨d, hdH, hdt⟩ := hdiag (g : G) g.2
@@ -92,8 +93,8 @@ theorem block_le_of_cycled {N S Y : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime)
 theorem not_isQuasisimple_of_card_three {K : Type*} [Group K] (hK : Nat.card K = 3) :
     ¬ CFSG.IsQuasisimple K := by
   intro hq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic K := isCyclic_of_prime_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic K := isCyclic_of_prime_card hK
   have hcomm : IsMulCommutative K :=
     (MonoidHom.id K).isMulCommutative_of_isCyclic_of_ker_le_center (by simp)
   have hbot : commutator K = ⊥ := by
@@ -108,13 +109,13 @@ theorem not_isQuasisimple_of_card_three {K : Type*} [Group K] (hK : Nat.card K =
 theorem two_dvd_card_top_of_quasisimple {N Y : Subgroup G}
     (hY : IsBlockOfInX N Y) (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y)) :
     2 ∣ Nat.card (↥Y ⧸ CFSG.pCore 2 ↥Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hY.2.2.2 with ⟨n, hn1, hnat⟩ | ⟨n, hn1, hnat⟩
   · obtain ⟨φ, -⟩ := hnat
     have hcard : Nat.card (↥Y ⧸ CFSG.pCore 2 ↥Y) =
         Nat.card (alternatingGroup (Fin (2 * n + 1))) := Nat.card_congr φ.toEquiv
     by_cases hn2 : 2 ≤ n
-    · haveI : Nontrivial (Fin (2 * n + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    · have : Nontrivial (Fin (2 * n + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
       rw [hcard, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       obtain ⟨k, hk⟩ : Nat.factorial 4 ∣ Nat.factorial (2 * n + 1) :=
         Nat.factorial_dvd_factorial (by omega)

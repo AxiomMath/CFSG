@@ -33,7 +33,7 @@ private def indAut (τ : (Fin k → Multiplicative (ZMod p)) →* R) :
 
 private theorem finite_mulAut (hp : p.Prime) :
     Finite (MulAut (Fin k → Multiplicative (ZMod p))) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   exact Finite.of_injective (fun u : MulAut (Fin k → Multiplicative (ZMod p)) =>
     (⇑u : (Fin k → Multiplicative (ZMod p)) → (Fin k → Multiplicative (ZMod p))))
     DFunLike.coe_injective
@@ -43,7 +43,7 @@ theorem exists_inducedAut (hp : p.Prime) {E : Subgroup R}
     (hτE : τ.range = E) {g : R} (hg : g ∈ Subgroup.normalizer (E : Set R)) :
     ∃ u : MulAut (Fin k → Multiplicative (ZMod p)), ∀ f, g * τ f * g⁻¹ = τ (u f) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmem : ∀ f, (MulAut.conj g).toMonoidHom (τ f) ∈ τ.range := fun f => by
     rw [hτE]
     exact (Subgroup.mem_normalizer_iff.mp hg (τ f)).mp (by rw [← hτE]; exact ⟨f, rfl⟩)
@@ -69,8 +69,8 @@ theorem isSignedPerm_of_coords (hp : p.Prime) {τ τ' : (Fin k → Multiplicativ
     {g : R} {u : MulAut (Fin k → Multiplicative (ZMod p))} (hgu : ∀ f, g * τ f * g⁻¹ = τ (u f)) :
     IsSignedPerm ⇑u := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI := finite_mulAut (k := k) hp
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have := finite_mulAut (k := k) hp
   let ψ : MulAut (Fin k → Multiplicative (ZMod p)) :=
     ((MonoidHom.ofInjective hτ).trans (MulEquiv.subgroupCongr hr.symm)).trans
       (MonoidHom.ofInjective hτ').symm
@@ -118,13 +118,13 @@ private theorem ggKGComponentDatumAt_of_model_core (hp : p.Prime) {E : Subgroup 
         w ∈ J ∧ IsComponentOf J
           (Subgroup.centralizer ((E ⊓ Subgroup.centralizer ({w} : Set R) : Subgroup R) : Set R)) ∧
         p ∣ Nat.card J ∧
-        (∀ (hlayer : ∀ a ∈ E, ∀ J : Subgroup R, ⁅J, J⁆ = J →
+        (∀ (_hlayer : ∀ a ∈ E, ∀ J : Subgroup R, ⁅J, J⁆ = J →
             J ≤ Subgroup.centralizer ({a} : Set R) →
               J ≤ LargeEvenLayer (Subgroup.centralizer ({a} : Set R))),
           ∀ a ∈ E, w * a = a * w →
             J ≤ LargeEvenLayer (Subgroup.centralizer ({a} : Set R))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hτmem : ∀ f, τ f ∈ E := fun f => by rw [← hτE]; exact ⟨f, rfl⟩
   rintro w₀ ⟨hnorm, hinv, hfix⟩
   obtain ⟨u, hu⟩ := exists_inducedAut hp hτ hτE hnorm
@@ -165,11 +165,11 @@ private theorem ggKGComponentDatumAt_of_model_core (hp : p.Prime) {E : Subgroup 
     rw [hws, hu, hi]
   · rw [hinf]
     exact hcomp i
-  · intro hlayer a ha haw
+  · intro _hlayer a ha haw
     have haS : a ∈ τ '' {f | s i f = f} := by
       rw [← hinf]
       exact ⟨ha, Subgroup.mem_centralizer_singleton_iff.mpr haw.symm⟩
-    refine hlayer a ha (S i) (commutator_eq_self_of_isComponentOf (hcomp i)) fun x hx => ?_
+    refine _hlayer a ha (S i) (commutator_eq_self_of_isComponentOf (hcomp i)) fun x hx => ?_
     have hxc := Subgroup.mem_centralizer_iff.mp ((hcomp i).1 hx) a haS
     exact Subgroup.mem_centralizer_iff.mpr fun y hy => by
       rw [Set.mem_singleton_iff.mp hy]

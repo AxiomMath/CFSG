@@ -14,7 +14,7 @@ namespace CFSG.BenderSuzuki
 namespace Converse
 
 open PFchapter1section1 PFAppendixIII Matrix Projectivization
-open scoped LinearAlgebra.Projectivization MatrixGroups
+open scoped LinearAlgebra.Projectivization _root_.CFSG.BenderSuzuki.MatrixGroups
 
 universe u
 

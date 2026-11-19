@@ -14,7 +14,7 @@ open CFSG.Open CFSG.SectionRank CFSG.Assembly.LowTwoRank CFSG.Blueprint.Multipli
 theorem lieOddRankChevG2_holds
     (hG : CFSG.Open.GriessAllModelsStatement) : LieOddRankChevG2 := by
   intro K _ _ hq Q hv hQ ⟨e⟩ r hr hr2
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hQ3 : 3 ≤ Q.card := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
   have hQc : Q.card = 2 ^ Q.exponent := by rw [TauCeti.PrimePower.card_def, hQ]
@@ -37,7 +37,7 @@ theorem lieOddRankChevG2_holds
     fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1
       (hr.dvd_of_dvd_pow (h.trans (by simpa using hdvd))))
   let F := GaloisField 2 Q.exponent
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFN : Nat.card F = 2 ^ Q.exponent := GaloisField.card 2 Q.exponent (by omega)
   have hFcard : Fintype.card F = 2 ^ Q.exponent := by rw [← Nat.card_eq_fintype_card, hFN]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.Even.untwistedBridgeEven_G2 Q hv hQ F (by rw [hFN, hQc])

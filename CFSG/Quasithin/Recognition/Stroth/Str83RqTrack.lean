@@ -59,7 +59,7 @@ structure Track (L1 L2 S : Subgroup G) : Type where
 theorem Frame.nonempty_track {L1 L2 S : Subgroup G} {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : Nonempty (Track L1 L2 S) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hF, -, hN, ha, hSz, hf, hL2⟩ := hfr
   obtain ⟨D1, D2, hD1hall, hD2hall, hD1sup, hD2sup, hcomm, hBsplit, hdelta₁⟩ :=
     str83_exists_cartan_delta hF.1 ha hSz
@@ -132,6 +132,7 @@ theorem Frame.nonempty_track {L1 L2 S : Subgroup G} {a f : ℕ}
 private def edgeElt (x₁ x₂ : G) (u : ℤ) : G :=
   if Even u then (x₂ * x₁) ^ (u / 2) else (x₂ * x₁) ^ (u / 2) * x₂
 
+omit [Finite G] in
 private theorem edgeElt_mem {N : Subgroup G} {x₁ x₂ : G} (h₁ : x₁ ∈ N) (h₂ : x₂ ∈ N) (u : ℤ) :
     edgeElt x₁ x₂ u ∈ N := by
   unfold edgeElt
@@ -139,12 +140,14 @@ private theorem edgeElt_mem {N : Subgroup G} {x₁ x₂ : G} (h₁ : x₁ ∈ N)
   · exact zpow_mem (mul_mem h₂ h₁) _
   · exact mul_mem (zpow_mem (mul_mem h₂ h₁) _) h₂
 
+omit [Finite G] in
 private theorem map_conj_inf (A B : Subgroup G) (g : G) :
     (A ⊓ B).map (MulAut.conj g).toMonoidHom =
       A.map (MulAut.conj g).toMonoidHom ⊓ B.map (MulAut.conj g).toMonoidHom := by
   ext y
   simp only [mem_inf, mem_map_conj_iff]
 
+omit [Finite G] in
 private theorem map_conj_eq_of_mem {H : Subgroup G} {g : G} (hg : g ∈ normalizer (H : Set G)) :
     H.map (MulAut.conj g).toMonoidHom = H := by
   ext y
@@ -153,24 +156,25 @@ private theorem map_conj_eq_of_mem {H : Subgroup G} {g : G} (hg : g ∈ normaliz
   rw [inv_inv] at this
   exact this.symm
 
+omit [Finite G] in
 private theorem qv_edge {R₁ R₂ : Subgroup G} {x₁ x₂ : G} (h₁ : x₁ ∈ normalizer (R₁ : Set G))
     (h₂ : x₂ ∈ normalizer (R₂ : Set G)) (u : ℤ) :
     qv R₁ R₂ x₁ x₂ u = (trackPar R₁ R₂ u).map (MulAut.conj (edgeElt x₁ x₂ u)).toMonoidHom ∧
       qv R₁ R₂ x₁ x₂ (u + 1) =
         (trackPar R₁ R₂ (u + 1)).map (MulAut.conj (edgeElt x₁ x₂ u)).toMonoidHom := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' u
-  · have hp0 : trackPar R₁ R₂ (2 * k) = R₁ := if_pos (even_two_mul k)
-    have hp1 : trackPar R₁ R₂ (2 * k + 1) = R₂ := if_neg (Int.not_even_two_mul_add_one k)
+  · have hp0 : trackPar R₁ R₂ (2 * k) = R₁ := ite_eq_left (even_two_mul k)
+    have hp1 : trackPar R₁ R₂ (2 * k + 1) = R₂ := ite_eq_right (Int.not_even_two_mul_add_one k)
     have he : edgeElt x₁ x₂ (2 * k) = (x₂ * x₁) ^ k := by
-      rw [edgeElt, if_pos (even_two_mul k), show 2 * k / 2 = k by omega]
+      rw [edgeElt, ite_eq_left (even_two_mul k), show 2 * k / 2 = k by omega]
     rw [qv, qv, trackElt, trackElt, he, hp0, hp1, show 2 * k / 2 = k by omega,
       show (2 * k + 1) / 2 = k by omega]
     exact ⟨rfl, rfl⟩
-  · have hp1 : trackPar R₁ R₂ (2 * k + 1) = R₂ := if_neg (Int.not_even_two_mul_add_one k)
+  · have hp1 : trackPar R₁ R₂ (2 * k + 1) = R₂ := ite_eq_right (Int.not_even_two_mul_add_one k)
     have hp2 : trackPar R₁ R₂ (2 * k + 1 + 1) = R₁ :=
-      if_pos (show Even (2 * k + 1 + 1) from ⟨k + 1, by ring⟩)
+      ite_eq_left (show Even (2 * k + 1 + 1) from ⟨k + 1, by ring⟩)
     have he : edgeElt x₁ x₂ (2 * k + 1) = (x₂ * x₁) ^ k * x₂ := by
-      rw [edgeElt, if_neg (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
+      rw [edgeElt, ite_eq_right (Int.not_even_two_mul_add_one k), show (2 * k + 1) / 2 = k by omega]
     rw [qv, qv, trackElt, trackElt, he, hp1, hp2, show (2 * k + 1) / 2 = k by omega,
       show (2 * k + 1 + 1) / 2 = k + 1 by omega]
     refine ⟨?_, ?_⟩
@@ -178,28 +182,31 @@ private theorem qv_edge {R₁ R₂ : Subgroup G} {x₁ x₂ : G} (h₁ : x₁ �
     · rw [zpow_add_one, ← mul_assoc, ← Subgroup.map_conj_map_conj R₁ x₁ ((x₂ * x₁) ^ k * x₂),
         map_conj_eq_of_mem h₁]
 
+omit [Finite G] in
 private theorem trackPar_inf_succ (P₁ P₂ : Subgroup G) (u : ℤ) :
     trackPar P₁ P₂ u ⊓ trackPar P₁ P₂ (u + 1) = P₁ ⊓ P₂ := by
   unfold trackPar
   by_cases hu : Even u
-  · rw [if_pos hu, if_neg fun h => Int.even_add_one.mp h hu]
-  · rw [if_neg hu, if_pos (Int.even_add_one.mpr hu), inf_comm]
+  · rw [ite_eq_left hu, ite_eq_right fun h => Int.even_add_one.mp h hu]
+  · rw [ite_eq_right hu, ite_eq_left (Int.even_add_one.mpr hu), inf_comm]
 
+omit [Finite G] in
 private theorem qv_zero (R₁ R₂ : Subgroup G) (x₁ x₂ : G) : qv R₁ R₂ x₁ x₂ 0 = R₁ := by
   ext y
-  rw [mem_qv_iff, trackElt, trackPar, if_pos (show Even (0 : ℤ) from ⟨0, rfl⟩),
+  rw [mem_qv_iff, trackElt, trackPar, ite_eq_left (show Even (0 : ℤ) from ⟨0, rfl⟩),
     show (0 : ℤ) / 2 = 0 by norm_num,
     zpow_zero, inv_one, one_mul, mul_one]
 
+omit [Finite G] in
 private theorem qv_one (R₁ R₂ : Subgroup G) (x₁ x₂ : G) : qv R₁ R₂ x₁ x₂ 1 = R₂ := by
   ext y
-  rw [mem_qv_iff, trackElt, trackPar, if_neg Int.not_even_one, show (1 : ℤ) / 2 = 0 by norm_num,
+  rw [mem_qv_iff, trackElt, trackPar, ite_eq_right Int.not_even_one, show (1 : ℤ) / 2 = 0 by norm_num,
     zpow_zero, inv_one, one_mul, mul_one]
 
 private theorem pCoreOf_bigB {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) (hN : bigB L1 L2 S ≤ normalizer (S : Set G)) :
     pCoreOf 2 (bigB L1 L2 S) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl := F1.isSylowTwoOf_bigB_of_normal (Hyp111R.of_hyp111 rankOneListedFacts hF.1) hN
   exact le_antisymm (F7.isSylowTwoOf_pCoreOf_le hSyl)
     (le_pCoreOf_of_le_normalizer 2 hSyl.1 hN hSyl.2.1)
@@ -220,7 +227,7 @@ private theorem eq_pCoreOf_sup_of_le {E W K : Subgroup G} (hE : E = pCoreOf 2 E 
 
 private theorem le_pCoreOf_of_eq_sup {W K X : Subgroup G} (hW : W = pCoreOf 2 W ⊔ K)
     (hK : Odd (Nat.card K)) (hX : IsPGroup 2 X) (hXW : X ≤ W) : X ≤ pCoreOf 2 W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKW : K ≤ W := (le_sup_right : K ≤ pCoreOf 2 W ⊔ K).trans hW.symm.le
   have hKN : K ≤ normalizer (pCoreOf 2 W : Set G) := hKW.trans (le_normalizer_pCoreOf 2 W)
   have hidx : (pCoreOf 2 W).relIndex W = (pCoreOf 2 W).relIndex K := by
@@ -282,15 +289,17 @@ abbrev Zv (i : ℤ) : Subgroup G := qv (Z1 L1 L2 S) (Z2 L1 L2 S) t.x₁ t.x₂ i
 abbrev GT : Subgroup G := ⨅ i : ℤ, t.Gv i
 
 theorem K_inf_eq_bot {a f : ℕ} (hfr : Frame L1 L2 S a f) : t.K ⊓ S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hfr.hF.1.h1.pgroup.exists_card_eq
-  apply Subgroup.inf_eq_bot_of_coprime
+  apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
   rw [hn]
   exact Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr t.hHall.2.1)
 
+omit [Finite G] in
 theorem sup_K_eq_bigB : S ⊔ t.K = bigB L1 L2 S :=
   (t.hBsplit.trans (sup_assoc _ _ _)).symm
 
+omit [Finite G] in
 theorem K_le_Gw (a b : ℤ) : t.K ≤ t.Gw a b := by
   intro h hh
   refine mem_win_iff.mpr fun i _ _ => mem_qv_iff.mpr ?_
@@ -305,6 +314,7 @@ theorem K_le_Gw (a b : ℤ) : t.K ≤ t.Gw a b := by
   · exact (le_sup_right : bigB L1 L2 S ≤ P1 L1 L2 S) hB
   · exact (le_sup_right : bigB L1 L2 S ≤ P2 L1 L2 S) hB
 
+omit [Finite G] in
 theorem Qv_eq (i : ℤ) : t.Qv i = pCoreOf 2 (t.Gv i) := by
   have hQ : trackPar (Q1 L1 L2 S) (Q2 L1 L2 S) i =
       pCoreOf 2 (trackPar (P1 L1 L2 S) (P2 L1 L2 S) i) := by
@@ -313,6 +323,7 @@ theorem Qv_eq (i : ℤ) : t.Qv i = pCoreOf 2 (t.Gv i) := by
   show (trackPar _ _ i).map _ = pCoreOf 2 ((trackPar _ _ i).map _)
   rw [hQ, CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv 2 (MulAut.conj _) _]
 
+omit [Finite G] in
 theorem Zv_eq (i : ℤ) : t.Zv i = omegaOneCenterOf (t.Qv i) := by
   have hZ : trackPar (Z1 L1 L2 S) (Z2 L1 L2 S) i =
       omegaOneCenterOf (trackPar (Q1 L1 L2 S) (Q2 L1 L2 S) i) := by

@@ -63,7 +63,7 @@ variable (F : Type*) [Field F] [Algebra (ZMod 2) F]
     simp
   map_mul' g h := by
     ext v i
-    simp [Matrix.mulVec_mulVec]
+    simp
 
 theorem natLin_apply (g : Matrix.SpecialLinearGroup (Fin 2) F) (v : Fin 2 → F) :
     natLin F g v = (g : Matrix (Fin 2) (Fin 2) F) *ᵥ v :=
@@ -109,6 +109,7 @@ variable [Module.Finite (ZMod 2) F]
   (LinearMap.toMatrixAlgEquiv' (R := ZMod 2) (n := Fin 4)).toAlgHom.toMonoidHom.comp
     ((conjK κ).comp (natLin F))
 
+omit [Module.Finite (ZMod 2) F] in
 theorem natMat_mulVec (κ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 2 → F))
     (g : Matrix.SpecialLinearGroup (Fin 2) F) (x : Fin 4 → ZMod 2) :
     natMat F κ g *ᵥ x = κ.symm (natLin F g (κ x)) := by

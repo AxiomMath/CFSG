@@ -81,7 +81,7 @@ theorem oneOr_of {t q : ℕ} (h : q = idK ∨ q = t) : oneOr t q = true := by
   unfold oneOr
   rw [bIf_eq]
   rcases h with rfl | rfl
-  · rw [if_pos (Nat.beq_refl _)]
+  · rw [ite_eq_left (Nat.beq_refl _)]
   · split
     · rfl
     · exact Nat.beq_refl _
@@ -278,9 +278,9 @@ theorem flt_at {T : ℕ → ℕ} {cnt s₁K s₂K tK nA nB : ℕ} {YA YB FA FB :
   obtain ⟨hA, hB⟩ := h
   rw [bIf_eq] at hA hB
   refine ⟨fun ho => ?_, fun ho => ?_⟩
-  · rw [if_pos ho, Bool.and_eq_true, Nat.blt_eq] at hA
+  · rw [ite_eq_left ho, Bool.and_eq_true, Nat.blt_eq] at hA
     exact ⟨hA.1, Nat.eq_of_beq_eq_true hA.2⟩
-  · rw [if_pos ho, Bool.and_eq_true, Nat.blt_eq] at hB
+  · rw [ite_eq_left ho, Bool.and_eq_true, Nat.blt_eq] at hB
     exact ⟨hB.1, Nat.eq_of_beq_eq_true hB.2⟩
 
 theorem pow5 (y : Equiv.Perm (Fin 1408)) : y * y * (y * y) * y = y ^ 5 := by
@@ -362,11 +362,11 @@ theorem badSome_at {T : ℕ → ℕ} {cnt kt nA nB : ℕ} {YA YB C : ℕ → ℕ
   have h1 := Orb.allN_iff.1 h a ha
   simp only [strictB_eq] at h1
   have h2 := Orb.allN_iff.1 h1 b hb
-  simp only [strictB_eq, bIf_eq] at h2
+  simp only [bIf_eq] at h2
   have hb' : Nat.blt (C (Nat.add (Nat.mul a nB) b)) (nat_lit 1000) = true := by
     rw [Nat.blt_eq]
     exact hk
-  rw [if_pos hb'] at h2
+  rw [ite_eq_left hb'] at h2
   exact h2
 
 theorem good_at {a b : ℕ} (ha : a < 16) (hb : b < 32) (hk : ¬ r32 Caz (a * 32 + b) < 1000) :
@@ -376,11 +376,11 @@ theorem good_at {a b : ℕ} (ha : a < 16) (hb : b < 32) (hk : ¬ r32 Caz (a * 32
   have h1 := Orb.allN_iff.1 h a ha
   simp only [strictB_eq] at h1
   have h2 := Orb.allN_iff.1 h1 b hb
-  simp only [strictB_eq, bIf_eq] at h2
+  simp only [bIf_eq] at h2
   have hb' : ¬ Nat.blt (r32 Caz (Nat.add (Nat.mul a (nat_lit 32)) b)) (nat_lit 1000) = true := by
     rw [Nat.blt_eq]
     exact hk
-  rw [if_neg hb'] at h2
+  rw [ite_eq_right hb'] at h2
   exact h2
 
 @[expose] def encP (p : Fin 1408 × Fin 1408) : ℕ := p.1.val * 1408 + p.2.val
@@ -420,7 +420,7 @@ theorem orb_card {y₁K y₂K : ℕ} {y₁ y₂ : Equiv.Perm (Fin 1408)} (h1 : R
     simp only [encP, Prod.smul_mk, Equiv.Perm.smul_def]
     rw [hd, hm, rc_pt hX a.isLt, rc_pt hX b.isLt]
   obtain ⟨x₀, hx0⟩ : ∃ x₀ : Fin 1408 × Fin 1408, encP x₀ = E 0 :=
-    ⟨(⟨E 0 / 1408, by omega⟩, ⟨E 0 % 1408, by omega⟩), by simp only [encP, Fin.val_mk]; omega⟩
+    ⟨(⟨E 0 / 1408, by omega⟩, ⟨E 0 % 1408, by omega⟩), by simp only [encP]; omega⟩
   have ht : ∀ k < 240, treeAt pairAct (encP x₀) (gen2 y₁K y₂K) [y₁, y₂].length E PA k = true :=
     fun k hk => by
       rw [hx0]

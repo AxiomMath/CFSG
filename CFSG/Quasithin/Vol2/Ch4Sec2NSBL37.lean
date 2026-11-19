@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_pCoreOf_nsb37 {X : Subgroup G} (x : ↥X) :
     (x : G) ∈ pCoreOf 2 X ↔ x ∈ CFSG.pCore 2 ↥X :=
   Subgroup.mem_map_iff_mem X.subtype_injective
@@ -76,11 +77,12 @@ private theorem LH_inf_eq_nsb37 {T M L Mm I H K H₁ K₁ : Subgroup G} (c : Con
     have hoH₁ : o ∈ H₁ := (pCoreOf_le 2 I).trans hIH₁ hoR
     exact ⟨hxL, H₁.mul_mem (hLHH₁ ha) hoH₁⟩
 
+omit [Finite G] in
 private theorem le_sup_coreK_nsb37 {K N : Subgroup G} (hs : IsSimpleGroup (ModO2 K))
     (hNK : N ≤ K) (hKN : K ≤ Subgroup.normalizer (N : Set G)) {x : G} (hxN : x ∈ N)
     (hxK : x ∉ pCoreOf 2 K) : K ≤ pCoreOf 2 K ⊔ N := by
   have hNn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI hMn : ((N.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))).Normal :=
+  have hMn : ((N.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))).Normal :=
     hNn.map _ (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K))
   have hxK' : (⟨x, hNK hxN⟩ : ↥K) ∈ N.subgroupOf K := Subgroup.mem_subgroupOf.mpr hxN
   have hne : (N.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) ≠ ⊥ := by
@@ -128,6 +130,7 @@ private theorem K_le_K₁_nsb37 {K K₁ H₁ A : Subgroup G} (hKperf : ⁅K, K�
   exact (CFSG.Quasithin.H13.Ch4.CentK.le_of_perfect_of_le_sup_coreA hKperf
     ((pCoreOf_le 2 K).trans hN') (CFSG.Quasithin.isSolvable_pCoreOf_two K) hKWN).trans inf_le_right
 
+omit [Finite G] in
 private theorem pCoreOf_subgroupOf_nsb37 (L : Subgroup G) :
     (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
   unfold pCoreOf
@@ -137,6 +140,7 @@ private theorem relIndex_ne_zero_nsb37 (A B : Subgroup G) : A.relIndex B ≠ 0 :
   unfold Subgroup.relIndex
   exact Subgroup.index_ne_zero_of_finite
 
+omit [Finite G] in
 private theorem card_modO2_eq_relIndex_nsb37 (L : Subgroup G) :
     Nat.card (ModO2 L) = (pCoreOf 2 L).relIndex L := by
   rw [Subgroup.relIndex, pCoreOf_subgroupOf_nsb37, Subgroup.index_eq_card]
@@ -201,7 +205,7 @@ private theorem K₁_le_K_nsb37 {T M L Mm I H K H₁ K₁ : Subgroup G} (hy : Hy
     rw [h1, h2, h3]
     exact Nat.le_mul_of_pos_left _ (Nat.pos_of_ne_zero (relIndex_ne_zero_nsb37 _ _))
   have hsup : Uu.relIndex (Ku ⊔ Uu) = Uu.relIndex Ku := by
-    haveI := hUuN
+    have := hUuN
     exact Subgroup.relIndex_sup_right Ku Uu
   have hmul : Uu.relIndex (Ku ⊔ Uu) * (Ku ⊔ Uu).index = Uu.index :=
     Subgroup.relIndex_mul_index le_sup_right
@@ -237,6 +241,7 @@ private theorem K₁_le_K_nsb37 {T M L Mm I H K H₁ K₁ : Subgroup G} (hy : Hy
   exact CFSG.Quasithin.H13.Ch4.CentK.le_of_perfect_of_le_sup_coreA (perfect_of_mem_cComp c₁.K_mem)
     hU₁N (CFSG.Quasithin.isSolvable_pCoreOf_two K₁) hK₁le'
 
+omit [Finite G] in
 private theorem transport_eq_nsb37 {X Y : Subgroup G} (P : Subgroup G → Prop) (h : X = Y)
     (hP : P X) : P Y := by
   subst h

@@ -167,6 +167,7 @@ theorem not_uniqueFour_of_gamma_eq_top (hS : Standing4 G) {p : ℕ} (hp : p ∈ 
   rw [hΓ] at hΓP'
   exact ne_top_of_uniqueFourIsMaxTwoLocal hS hM (top_le_iff.mp hΓP')
 
+omit [Finite G] in
 theorem closure_hyp_of_mulEquiv {H : Type} [Group H] [Finite H] (e : G ≃* H)
     (hcl : ∀ (p : ℕ), p.Prime → p ≠ 2 → ∀ E S₀ : Subgroup H, IsElemAbelian p E →
       S₀ ≠ ⊥ → IsPGroup 2 S₀ → E ≤ normalizer (S₀ : Set H) → twoLocalClosure E = ⊤) :

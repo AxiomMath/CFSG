@@ -13,12 +13,13 @@ section Plain
 
 variable {F : Type} [Field F] [Finite F] (σ : F ≃+* F)
 
+omit [Finite F] in
 theorem sl2_lang (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (y : Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) (hy : y ^ 3 = 1) :
     ∃ g : Matrix.SpecialLinearGroup (Fin 2) F,
       Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype y =
         g * (Matrix.SpecialLinearGroup.map σ.toRingHom g)⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   set Y := Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype y with hY
   set A : Matrix (Fin 2) (Fin 2) F := (Y : Matrix (Fin 2) (Fin 2) F) with hA

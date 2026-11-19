@@ -100,8 +100,8 @@ theorem genFittingFStar_eq_of_le [Finite Y] (hLn : L.Normal) [IsSimpleGroup ↥L
     (hnab : ∃ a b : L, a * b ≠ b * a) (hC : Subgroup.centralizer (L : Set Y) = ⊥)
     {X : Subgroup Y} (hLX : L ≤ X) : genFittingFStar ↥X = L.subgroupOf X := by
   let e : ↥(L.subgroupOf X) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLX
-  haveI : (L.subgroupOf X).Normal := hLn.subgroupOf X
-  haveI : IsSimpleGroup ↥(L.subgroupOf X) := e.isSimpleGroup
+  have : (L.subgroupOf X).Normal := hLn.subgroupOf X
+  have : IsSimpleGroup ↥(L.subgroupOf X) := e.isSimpleGroup
   refine genFittingFStar_eq_of_normal_simple (L.subgroupOf X) ?_ ?_
   · obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -268,7 +268,7 @@ theorem orbitHyp_of_ctx {m : ℕ} {Y : Type} [Group Y] [Finite Y] {Φ : Set (Sub
         (M.subgroupOf (omegaGen (lOrbit (genFittingFStar Y) M))) ⟨z, hzH⟩ := by
   set L := genFittingFStar Y with hL
   set H := omegaGen (lOrbit L M) with hH
-  haveI : IsSimpleGroup ↥L := hF.1
+  have : IsSimpleGroup ↥L := hF.1
   have hLn : L.Normal := genFittingFStar_normal Y
   have hC := centralizer_eq_bot_of_fStarSimple hF
   have hMne : M ≠ ⊥ := fun h => hz.ne_one (Subgroup.mem_bot.mp (h ▸ hz.mem))

@@ -99,7 +99,7 @@ theorem globally_maximal_prime_is_sylow_pointwise_kernel [Finite G]
     exact pointFixedSet_antitone hVK
   have hVthree : 3 ≤ Nat.card (pointFixedSet H V) := hthree.trans
     (Nat.card_le_card_of_injective (Set.inclusion hfixed) (Set.inclusion_injective hfixed))
-  have hVW : V ≤ W := hmax V (P.isPGroup'.map K.subtype) hWV hVthree
+  have hVW : V ≤ W := hmax V (P.isPGroup.map K.subtype) hWV hVthree
   exact ⟨P, le_antisymm hVW hWV⟩
 
 end CFSG.ProperTwoGeneratedCore.LocalCriterionClassFreeAffine

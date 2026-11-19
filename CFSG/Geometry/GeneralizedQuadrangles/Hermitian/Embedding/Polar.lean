@@ -27,16 +27,19 @@ variable {ι : V → Submodule K W} {A : Submodule K W}
     (X : Submodule K W) : Submodule K W :=
   ⨆ y : {y : V // y ∈ collar c ι X}, ι y.1
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem le_polar_of_mem_collar {X : Submodule K W} {y : V} (hy : y ∈ collar c ι X) :
     ι y ≤ polar c ι X :=
   le_iSup (fun z : {z : V // z ∈ collar c ι X} => ι z.1) ⟨y, hy⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem polar_le_ambient (hι : IsProjGQ c ι A) (X : Submodule K W) : polar c ι X ≤ A := by
   change (⨆ y : {y : V // y ∈ collar c ι X}, ι y.1) ≤ A
   refine iSup_le ?_
   rintro ⟨y, -⟩
   exact hι.le_ambient y
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_ptPerp_singleton {z y : V} (hy : c y = 0) (h : Γ.dist y z ≤ 2) :
     y ∈ ptPerp Γ c {z} := by
   refine ⟨hy, ?_⟩
@@ -74,8 +77,8 @@ theorem polar_eq_perpSpan (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
 theorem finrank_sup_eq_three_of_finrank_eq_one_of_not_le {X Y : Submodule K W}
     (hX : finrank K X = 1) (hY : finrank K Y = 2) (hXY : ¬ X ≤ Y) :
     finrank K ↥(X ⊔ Y) = 3 := by
-  haveI : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K Y := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K X := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K Y := Module.finite_of_finrank_pos (by omega)
   have hbot : X ⊓ Y = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro v hv
@@ -118,8 +121,8 @@ theorem exists_adj_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL
     have hPi3 : finrank K ↥(X ⊔ ι L) = 3 :=
       finrank_sup_eq_three_of_finrank_eq_one_of_not_le hX1 hL2 hXL
-    haveI hLfin : FiniteDimensional K ↥(ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
-    haveI hPifin : FiniteDimensional K ↥(X ⊔ ι L) :=
+    have hLfin : FiniteDimensional K ↥(ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
+    have hPifin : FiniteDimensional K ↥(X ⊔ ι L) :=
       Submodule.finiteDimensional_of_le (sup_le hXA (hι.le_ambient L))
     have hdegL : 0 < Γ.degree L := by
       have := hT L
@@ -131,7 +134,7 @@ theorem exists_adj_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hT2 : finrank K ↥(X ⊔ ι y₀) = 2 :=
       finrank_sup_eq_two_of_finrank_eq_one hX1 (hι.finrank_point y₀ hy₀0) hXne
     have hTA : X ⊔ ι y₀ ≤ A := sup_le hXA (hι.le_ambient y₀)
-    haveI hy₀fin : FiniteDimensional K ↥(ι y₀) :=
+    have hy₀fin : FiniteDimensional K ↥(ι y₀) :=
       Module.finite_of_finrank_pos (by rw [hι.finrank_point y₀ hy₀0]; norm_num)
     by_cases hcase : ∀ z, c z = 0 → ι z ≤ X ⊔ ι L → Γ.Adj L z
     ·
@@ -143,11 +146,11 @@ theorem exists_adj_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
         have hne : (X ⊔ ι y₀) ⊓ ι L ≠ ι L := by
           intro heq
           have hLle : ι L ≤ X ⊔ ι y₀ := heq ▸ inf_le_left
-          haveI : FiniteDimensional K ↥(X ⊔ ι y₀) := Submodule.finiteDimensional_of_le hTA
+          have : FiniteDimensional K ↥(X ⊔ ι y₀) := Submodule.finiteDimensional_of_le hTA
           have hdim : finrank K (ι L) = finrank K ↥(X ⊔ ι y₀) := by rw [hL2, hT2]
           have hsup : ι L = X ⊔ ι y₀ := Submodule.eq_of_le_of_finrank_eq hLle hdim
           exact hXL (hsup.symm ▸ le_sup_left)
-        haveI : FiniteDimensional K ↥((X ⊔ ι y₀) ⊓ ι L) :=
+        have : FiniteDimensional K ↥((X ⊔ ι y₀) ⊓ ι L) :=
           Submodule.finiteDimensional_of_le (inf_le_right : (X ⊔ ι y₀) ⊓ ι L ≤ ι L)
         have hlt : (X ⊔ ι y₀) ⊓ ι L < ι L := lt_of_le_of_ne inf_le_right hne
         have hrank_lt := Submodule.finrank_lt_finrank_of_lt hlt
@@ -182,7 +185,7 @@ theorem exists_adj_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       have hpM : Γ.Adj p M := commonNeighbor_adj_right hP hzp
       have hM1 : c M = 1 := color_eq_one_of_adj_of_color_eq_zero hz0 hzM
       have hM2 : finrank K (ι M) = 2 := hι.finrank_line M hM1
-      haveI hMfin : FiniteDimensional K ↥(ι M) :=
+      have hMfin : FiniteDimensional K ↥(ι M) :=
         Module.finite_of_finrank_pos (by rw [hM2]; norm_num)
       have hMeq : ι M = ι z ⊔ ι p :=
         line_eq_sup_of_two_adjacent_points hι hz0 hp0 hzpne hzM hpM
@@ -205,7 +208,7 @@ theorem exists_adj_mem_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
           have hle : ι L ≤ ι M := heq ▸ inf_le_right
           have heq2 : ι L = ι M := Submodule.eq_of_le_of_finrank_eq hle (by rw [hL2, hM2])
           exact hML (hι.injective heq2).symm
-        haveI : FiniteDimensional K ↥(ι L ⊓ ι M) :=
+        have : FiniteDimensional K ↥(ι L ⊓ ι M) :=
           Submodule.finiteDimensional_of_le (inf_le_left : ι L ⊓ ι M ≤ ι L)
         have hlt : ι L ⊓ ι M < ι L := lt_of_le_of_ne inf_le_left hne
         have hrank_lt := Submodule.finrank_lt_finrank_of_lt hlt
@@ -305,7 +308,7 @@ private theorem ncard_collar_inter_perp (hP : IsGeneralizedPolygon Γ 4) (hT : I
 private theorem traceSet_subset_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (hι : IsProjGQ c ι A) [FiniteDimensional K A] {X : Submodule K W}
     (hX1 : finrank K X = 1) (hXA : X ≤ A) {z m : V} (hz : c z = 0)
-    (hzX : z ∉ collar c ι X) (hcol : ∀ y ∈ collar c ι X, Γ.dist z y = 2)
+    (_hzX : z ∉ collar c ι X) (hcol : ∀ y ∈ collar c ι X, Γ.dist z y = 2)
     (hzm : Γ.dist z m = 4) : traceSet Γ z m ⊆ collar c ι X := by
   classical
   have hm0 : c m = 0 := by
@@ -483,8 +486,8 @@ theorem finrank_polar_add_one_of_ne (hP : IsGeneralizedPolygon Γ 4) (hT : IsThi
     finrank K (polar c ι X) + 1 = finrank K A := by
   have hsup := polar_sup_eq_of_not_mem_collar hP hT hι hX1 hXA hz hzX
   have hPA : polar c ι X ≤ A := polar_le_ambient hι X
-  haveI : FiniteDimensional K (polar c ι X) := Submodule.finiteDimensional_of_le hPA
-  haveI : FiniteDimensional K (ι z) := Submodule.finiteDimensional_of_le (hι.le_ambient z)
+  have : FiniteDimensional K (polar c ι X) := Submodule.finiteDimensional_of_le hPA
+  have : FiniteDimensional K (ι z) := Submodule.finiteDimensional_of_le (hι.le_ambient z)
   have hlt : polar c ι X < A := lt_of_le_of_ne hPA hne
   have hrank_lt : finrank K (polar c ι X) < finrank K A :=
     Submodule.finrank_lt_finrank_of_lt hlt
@@ -668,7 +671,7 @@ theorem collar_compl_induction (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ
 
 theorem sectionPoints_sup_subset_spanSet (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (hι : IsProjGQ c ι A) [FiniteDimensional K A] {x y : V} (hx : c x = 0)
-    (hxy : Γ.dist x y = 4) :
+    (_hxy : Γ.dist x y = 4) :
     sectionPoints c ι (ι x ⊔ ι y) ⊆ spanSet Γ x y := by
   intro z hz
   have hz0 : c z = 0 := hz.1

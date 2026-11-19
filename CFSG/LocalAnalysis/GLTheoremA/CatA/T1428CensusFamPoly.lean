@@ -10,12 +10,14 @@ open Polynomial CFSG.RankThree.PartOne.KCPrimary CFSG.RankThree.PartOne.KCOrthog
 
 variable {K : Type} [Field K] [Finite K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [Finite K] in
 private theorem dvd_X_pow_three_sub_one_of_mem_primaryFactors {y : Module.End K V} (hy : y ^ 3 = 1)
     {h : K[X]} (hh : h ∈ primaryFactors y) : h ∣ (X ^ 3 - 1 : K[X]) := by
   have hroot : aeval y (X ^ 3 - 1 : K[X]) = 0 := by
     rw [map_sub, map_pow, aeval_X, map_one, hy, sub_self]
   exact (mem_primaryFactors.mp hh).2.2.trans (minpoly.dvd K y hroot)
 
+omit [Finite K] in
 private theorem dvd_cyclotomic_three_of_pow_three {y : Module.End K V} (hy : y ^ 3 = 1) {h : K[X]}
     (hh : h ∈ primaryFactors y) (hne1 : h ≠ X - 1) : h ∣ (X ^ 2 + X + 1 : K[X]) := by
   have hirr := irreducible_of_mem_primaryFactors hh
@@ -28,6 +30,7 @@ private theorem dvd_cyclotomic_three_of_pow_three {y : Module.End K V} (hy : y ^
       (hirr.associated_of_dvd irreducible_X_sub_one h1)) hne1
   · exact h2
 
+omit [Finite K] in
 private theorem eq_or_eq_reciprocal_of_pow_three {y : Module.End K V} (hy : y ^ 3 = 1) {a b : K[X]}
     (ha : a ∈ primaryFactors y) (hb : b ∈ primaryFactors y) (ha1 : a ≠ X - 1)
     (hb1 : b ≠ X - 1) : b = a ∨ b = reciprocalPolynomial a := by
@@ -66,6 +69,7 @@ private theorem eq_or_eq_reciprocal_of_pow_three {y : Module.End K V} (hy : y ^ 
   conv_rhs => rw [hform_a, CFSG.HardMathSupport.Dickson.Sec6.I1431.OrthL2.reciprocalPolynomial_X_add_C ha0]
   rw [hform_b, hb0]
 
+omit [Finite K] in
 private theorem coeff_zero_ne_zero_of_pow_three {y : Module.End K V} (hy : y ^ 3 = 1) {h : K[X]}
     (hh : h ∈ primaryFactors y) : h.coeff 0 ≠ 0 := by
   intro h0
@@ -74,12 +78,14 @@ private theorem coeff_zero_ne_zero_of_pow_three {y : Module.End K V} (hy : y ^ 3
   rw [← Polynomial.coeff_zero_eq_eval_zero, h0, zero_dvd_iff] at this
   simp at this
 
+omit [Finite K] in
 private theorem reciprocalPolynomial_reciprocalPolynomial_of_pow_three {y : Module.End K V}
     (hy : y ^ 3 = 1) {h : K[X]} (hh : h ∈ primaryFactors y) :
     reciprocalPolynomial (reciprocalPolynomial h) = h :=
   reciprocalPolynomial_reciprocalPolynomial (monic_of_mem_primaryFactors hh)
     (coeff_zero_ne_zero_of_pow_three hy hh)
 
+omit [Finite K] in
 private theorem reciprocalOrbit_eq_of_pow_three {y : Module.End K V} (hy : y ^ 3 = 1) {a b : K[X]}
     (ha : a ∈ primaryFactors y) (hb : b ∈ primaryFactors y) (ha1 : a ≠ X - 1)
     (hb1 : b ≠ X - 1) :
@@ -88,6 +94,7 @@ private theorem reciprocalOrbit_eq_of_pow_three {y : Module.End K V} (hy : y ^ 3
   · rfl
   · rw [reciprocalPolynomial_reciprocalPolynomial_of_pow_three hy ha, Set.pair_comm]
 
+omit [Finite K] in
 theorem exists_eq_of_three_reciprocalOrbits {y : Module.End K V} (hy : y ^ 3 = 1)
     {O₁ O₂ O₃ : Set K[X]}
     (h₁ : ∃ h ∈ primaryFactors y, ({h, reciprocalPolynomial h} : Set K[X]) = O₁)

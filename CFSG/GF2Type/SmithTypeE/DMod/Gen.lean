@@ -65,7 +65,7 @@ theorem siegelEquiv_eq_one_or_siegelK {u w : V12} (h : TsPair u w) :
   by_cases hw : w = 0 ∨ w = u
   · exact Or.inl (siegelEquiv_eq_one_of_dependent h hw)
   · right
-    push_neg at hw
+    push Not at hw
     have hline : IsTsLine (lineOfPair u w) := ⟨u, w, hu, hw.1, fun e => hw.2 e.symm, h, rfl⟩
     obtain ⟨k, hk, hks⟩ := exists_lineSet_eq hline
     obtain ⟨hu', hw', huw'⟩ := linePair_ne hk

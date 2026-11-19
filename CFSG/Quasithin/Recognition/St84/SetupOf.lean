@@ -118,18 +118,18 @@ theorem exists_fixed_neighbor (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β
   ·
     have hn1' : n = 1 := by omega
     have hoddK : Odd (Nat.card ↥K) := odd_card_of_complement h hαβ hKle hKinf hKsup
-    haveI : Finite ↥K := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥K := Nat.finite_of_card_ne_zero (by
       rintro h0
       rw [h0] at hoddK
       exact (Nat.not_odd_zero) hoddK)
     obtain ⟨γ, hαγ, hγβ⟩ := h.exists_adj_ne α β
     refine ⟨γ, hαγ, hγβ, fun k hk => ?_⟩
-    letI : Fintype ↥K := Fintype.ofFinite _
-    haveI : Finite (MulAction.orbit ↥K γ) := by
+    let : Fintype ↥K := Fintype.ofFinite _
+    have : Finite (MulAction.orbit ↥K γ) := by
       have hfin : (MulAction.orbit ↥K γ : Set V).Finite := by
         simpa [MulAction.orbit] using Set.finite_range (fun k : ↥K => k • γ)
       exact hfin.to_subtype
-    letI : Fintype (MulAction.orbit ↥K γ) := Fintype.ofFinite _
+    let : Fintype (MulAction.orbit ↥K γ) := Fintype.ofFinite _
     have horb_dvd : Nat.card (MulAction.orbit ↥K γ) ∣ Nat.card ↥K := by
       have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥K) γ
       exact ⟨_, by simpa only [Nat.card_eq_fintype_card] using h.symm⟩
@@ -177,7 +177,7 @@ theorem exists_fixed_neighbor (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β
         have heven : Even (Nat.card (MulAction.orbit ↥K γ)) := by rw [h]; norm_num
         exact (Nat.not_even_iff_odd.mpr hoddorb) heven
       · omega
-    haveI : Subsingleton (MulAction.orbit ↥K γ) := (Nat.card_eq_one_iff_unique.mp hone).1
+    have : Subsingleton (MulAction.orbit ↥K γ) := (Nat.card_eq_one_iff_unique.mp hone).1
     let xK : MulAction.orbit ↥K γ :=
       ⟨(⟨k, hk⟩ : ↥K) • γ, MulAction.mem_orbit γ (⟨k, hk⟩ : ↥K)⟩
     have hsingle : xK = ⟨γ, MulAction.mem_orbit_self γ⟩ := Subsingleton.elim _ _
@@ -196,7 +196,7 @@ theorem exists_fixed_neighbor (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β
       rw [hbot] at hK'card
       simp at hK'card
       omega
-    haveI : IsCyclic ↥K' := hcyc.1
+    have : IsCyclic ↥K' := hcyc.1
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥K')
     let N : Subgroup G := oTwoPrime (MulAction.stabilizer G α)
     let gN : N := ((g : ↥K') : N)
@@ -322,16 +322,16 @@ theorem exists_conj_eq_of_complement {F : Subgroup G} [Finite ↥F] {N : Subgrou
     (hNH' : N ⊓ H = ⊥) (hNK' : N ⊓ K = ⊥) :
     ∃ n ∈ N, K = conjSub n⁻¹ H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥N :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥N :=
     Finite.of_injective (Subgroup.inclusion hNF) (Subgroup.inclusion_injective hNF)
   let N' : Subgroup ↥F := N.subgroupOf F
   let H' : Subgroup ↥F := H.subgroupOf F
   let K' : Subgroup ↥F := K.subgroupOf F
-  haveI : N'.Normal := hNnorm
+  have : N'.Normal := hNnorm
   have hN'p : IsPGroup 2 ↥N' :=
     hSylow.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hNF).symm
-  haveI : Group.IsNilpotent ↥N' := hN'p.isNilpotent
+  have : Group.IsNilpotent ↥N' := hN'p.isNilpotent
   have hN'solv : Group.IsSolvable ↥N' := inferInstance
   have hN'card : Nat.card ↥N' = Nat.card ↥N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNF).toEquiv
@@ -379,7 +379,7 @@ theorem exists_conj_eq_of_complement {F : Subgroup G} [Finite ↥F] {N : Subgrou
   have hcomp : F.subtype.comp (MulAut.conj n⁻¹).toMonoidHom =
       (MulAut.conj ((n : G)⁻¹)).toMonoidHom.comp F.subtype := by
     ext x
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [hcomp, ← Subgroup.map_map, Subgroup.map_subgroupOf_eq_of_le hHF] at hmap
   exact hmap
 
@@ -391,12 +391,12 @@ theorem card_conjSub (g : G) (H : Subgroup G) :
 theorem inf_eq_bot_of_odd_of_isPGroup {A B : Subgroup G} (hA : Odd (Nat.card ↥A))
     (hB : IsPGroup 2 ↥B) : A ⊓ B = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by
     rintro h0
     rw [h0] at hA
     exact Nat.not_odd_zero hA)
-  haveI : Finite ↥(A ⊓ B) :=
+  have : Finite ↥(A ⊓ B) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have h2 : IsPGroup 2 ↥(A ⊓ B) := hB.to_le inf_le_right
   have hodd : Odd (Nat.card ↥(A ⊓ B)) := hA.of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left)
@@ -410,7 +410,7 @@ theorem inf_eq_bot_of_odd_of_isPGroup {A B : Subgroup G} (hA : Odd (Nat.card ↥
     exact (Nat.not_even_iff_odd.mpr hodd) heven
   rw [Subgroup.eq_bot_iff_card, hn, hn0, pow_zero]
 
-theorem card_mul_pCoreOf_edgeStab (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β)
+theorem card_mul_pCoreOf_edgeStab (_h : Hyp30 Γ G) {α β : V} (_hαβ : Γ.Adj α β)
     {K : Subgroup G}
     (hKle : K ≤ MulAction.stabilizer G α ⊓ MulAction.stabilizer G β)
     (hKinf : K ⊓ pCoreOf 2 (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β) = ⊥)
@@ -424,11 +424,11 @@ theorem card_mul_pCoreOf_edgeStab (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj �
   have hSle : S ≤ Gα ⊓ Gβ := CFSG.LieType.BorelTits.pCoreOf_le 2 _
   have hSnorm : K ≤ Subgroup.normalizer (S : Set G) :=
     hKle.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Gα ⊓ Gβ))
-  have h := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
+  have _h := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
     S K hSnorm (by rw [disjoint_iff, inf_comm, hKinf])
-  rw [sup_comm, hKsup] at h
+  rw [sup_comm, hKsup] at _h
   rw [mul_comm (Nat.card ↥K) (Nat.card ↥S)]
-  exact h.symm
+  exact _h.symm
 
 
 theorem exists_normalizer_fixes_moves (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α β)
@@ -448,7 +448,7 @@ theorem exists_normalizer_fixes_moves (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.A
   let F := Gα ⊓ Gγ
   let S := pCoreOf 2 (Gα ⊓ Gβ)
   let SF := pCoreOf 2 F
-  haveI : Finite ↥F := finite_of_le_stabilizer h (H := F) inf_le_left
+  have : Finite ↥F := finite_of_le_stabilizer h (H := F) inf_le_left
   have hF_eq : F = conjSub g (Gα ⊓ Gβ) := by
     have hGγ_eq : Gγ = conjSub g Gβ := by
       have h := stabilizer_smul_eq_conjSub g β
@@ -717,8 +717,8 @@ theorem edgeSylow_le_L (i : ℤ) : X.edgeSylow i ≤ X.L i :=
   le_oTwoPrime_of_isPGroup (X.isPGroup_edgeSylow i) ((X.isSylowTwoOf_edgeSylow i).1.trans inf_le_left)
 
 theorem K_inf_edgeSylow (i : ℤ) : X.K ⊓ X.edgeSylow i = ⊥ := by
-  haveI : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
-  haveI : Finite ↥(X.K ⊓ X.edgeSylow i) :=
+  have : Finite ↥X.K := finite_of_le_stabilizer X.hyp (H := X.K) (X.K_le_Gi 0)
+  have : Finite ↥(X.K ⊓ X.edgeSylow i) :=
     finite_of_le_stabilizer X.hyp (H := X.K ⊓ X.edgeSylow i)
       (inf_le_left.trans (X.K_le_Gi 0))
   have h2 : IsPGroup 2 ↥(X.K ⊓ X.edgeSylow i) :=
@@ -761,7 +761,7 @@ theorem K_sup_edgeSylow (i : ℤ) :
       (X.edgeSylow i) X.K hSnorm (by rw [disjoint_iff, inf_comm, X.K_inf_edgeSylow i])
     rw [sup_comm] at h
     rw [h, mul_comm, hcard]
-  haveI : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
+  have : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi i ⊓ X.Gi (i + 1)) inf_le_left
   exact Subgroup.eq_of_le_of_card_ge (sup_le hKle hSle) (le_of_eq hsupcard.symm)
 
@@ -787,7 +787,7 @@ theorem exists_torusSylow (i : ℤ) :
   exists_edgeTorusSylow X.hyp (X.adj i) (le_inf (X.K_le_Gi i) (X.K_le_Gi (i + 1)))
     (X.K_inf_edgeSylow i) (X.K_sup_edgeSylow i)
 
-theorem torus_fixed (i : ℤ) (hn : 2 ≤ X.n i) {k : G} (hk : k ∈ X.Ki i) (hk1 : k ≠ 1) :
+theorem torus_fixed (i : ℤ) (_hn : 2 ≤ X.n i) {k : G} (hk : k ∈ X.Ki i) (hk1 : k ≠ 1) :
     ∀ a : V, Γ.Adj (X.vert i) a →
       (k • a = a ↔ a = X.vert (i - 1) ∨ a = X.vert (i + 1)) := by
   classical
@@ -1033,7 +1033,7 @@ theorem torus_swap_contradiction (X : Setup Γ G) (h0 : 2 ≤ X.n 0) (h1 : 2 ≤
       c • X.vert (k + 1) = X.vert (k - 1)) : False := by
   classical
   have hn : 2 ≤ X.n k := X.two_le_n h0 h1 k
-  haveI : Finite ↥(X.Gi k) := X.hyp.finite_stab (X.vert k)
+  have : Finite ↥(X.Gi k) := X.hyp.finite_stab (X.vert k)
   have hordpos : 0 < orderOf c := by
     rw [Subgroup.orderOf_coe (H := X.Gi k) (a := ⟨c, hck⟩)]
     exact orderOf_pos (⟨c, hck⟩ : X.Gi k)
@@ -1335,9 +1335,9 @@ theorem edgeSylow_transitive (i : ℤ) :
   classical
   let S := X.edgeSylow i
   let Q := X.Q (i + 1)
-  haveI : Finite ↥S :=
+  have : Finite ↥S :=
     finite_of_le_stabilizer X.hyp (H := S) ((X.isSylowTwoOf_edgeSylow i).1.trans inf_le_right)
-  haveI : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi (i + 1))
+  have : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi (i + 1))
   have hSle : S ≤ X.Gi (i + 1) := (X.isSylowTwoOf_edgeSylow i).1.trans inf_le_right
   have hSleGi : S ≤ X.Gi i := (X.isSylowTwoOf_edgeSylow i).1.trans inf_le_left
   have hQleS : Q ≤ S := by
@@ -1412,13 +1412,13 @@ theorem edgeSylow_transitive (i : ℤ) :
       exact hQfix x hx.1 (s : G) hs
   have horbit : ∀ x ∈ Ω, (MulAction.orbit ↥S x : Set V) = Ω := by
     intro x hx
-    haveI : Finite ↥(MulAction.orbit ↥S x) := by
+    have : Finite ↥(MulAction.orbit ↥S x) := by
       have hfin : (MulAction.orbit ↥S x : Set V).Finite := by
         simpa [MulAction.orbit] using Set.finite_range (fun s : ↥S => s • x)
       exact hfin.to_subtype
-    letI : Fintype ↥S := Fintype.ofFinite _
-    letI : Fintype ↥(MulAction.orbit ↥S x) := Fintype.ofFinite _
-    letI : Fintype ↥(MulAction.stabilizer ↥S x) := Fintype.ofFinite _
+    let : Fintype ↥S := Fintype.ofFinite _
+    let : Fintype ↥(MulAction.orbit ↥S x) := Fintype.ofFinite _
+    let : Fintype ↥(MulAction.stabilizer ↥S x) := Fintype.ofFinite _
     have hcard_orbit : Nat.card ↥(MulAction.orbit ↥S x) * Nat.card ↥(MulAction.stabilizer ↥S x) =
         Nat.card ↥S := by
       have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥S) x

@@ -23,7 +23,7 @@ private lemma add_add_self (a b : ZMod 2) : a + b + a = b := by
 private lemma elem_coe_of_ne (i j : Fin 6) (hij : i ≠ j) :
     ((elem i j : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
       1 + Matrix.single i j 1 := by
-  simp only [elem, dif_neg hij]
+  simp only [elem, dite_eq_right hij]
   exact Matrix.SpecialLinearGroup.transvection_coe hij 1
 
 private def rowSupp (s : Finset (Fin 6)) : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
@@ -40,15 +40,15 @@ private lemma rowSupp_apply (s : Finset (Fin 6)) (i j : Fin 6) :
   by_cases hi : i = 0
   · subst hi
     by_cases hj : j ∈ s
-    · rw [if_pos ⟨rfl, hj⟩]
+    · rw [ite_eq_left ⟨rfl, hj⟩]
       rw [Finset.sum_eq_single j (fun b _ hbj => by simp [hbj]) (fun hj' => absurd hj hj')]
       simp
-    · rw [if_neg (by simp [hj])]
+    · rw [ite_eq_right (by simp [hj])]
       apply Finset.sum_eq_zero
       intro b hb
       have hbj : b ≠ j := fun h => hj (h ▸ hb)
       simp [hbj]
-  · rw [if_neg (by simp [hi])]
+  · rw [ite_eq_right (by simp [hi])]
     apply Finset.sum_eq_zero
     intro b _
     simp [show (0 : Fin 6) ≠ i from fun h => hi h.symm]
@@ -61,15 +61,15 @@ private lemma colSupp_apply (s : Finset (Fin 6)) (i j : Fin 6) :
   by_cases hj : j = 5
   · subst hj
     by_cases hi : i ∈ s
-    · rw [if_pos ⟨hi, rfl⟩]
+    · rw [ite_eq_left ⟨hi, rfl⟩]
       rw [Finset.sum_eq_single i (fun b _ hbi => by simp [hbi]) (fun hi' => absurd hi hi')]
       simp
-    · rw [if_neg (by simp [hi])]
+    · rw [ite_eq_right (by simp [hi])]
       apply Finset.sum_eq_zero
       intro b hb
       have hbi : b ≠ i := fun h => hi (h ▸ hb)
       simp [hbi]
-  · rw [if_neg (by simp [hj])]
+  · rw [ite_eq_right (by simp [hj])]
     apply Finset.sum_eq_zero
     intro b _
     simp [show (5 : Fin 6) ≠ j from fun h => hj h.symm]
@@ -251,17 +251,17 @@ private lemma SoneSub_le_Sone : SoneSub ≤ Sone := by
           simp only [s, Finset.mem_filter, Finset.mem_univ, true_and]
           exact ⟨fun h => h.2, fun h => ⟨fin_one_le_of_ne_zero hj, h⟩⟩
         have hcond : ¬ ((0 : Fin 6) = j) := fun h => hj h.symm
-        rw [if_neg hcond]
+        rw [ite_eq_right hcond]
         simp only [true_and, zero_add]
         by_cases h : j ∈ s
-        · rw [if_pos h]
+        · rw [ite_eq_left h]
           rcases zmod_two_eq_zero_or_one (g.1 0 j) with h0 | h1
           · exact absurd h0 (hjs.mp h)
           · exact h1.symm
-        · rw [if_neg h]
+        · rw [ite_eq_right h]
           exact (not_not.mp (hjs.not.mp h)).symm
     · have hcond : ¬ (i = 0 ∧ j ∈ s) := fun h => hi h.1
-      rw [if_neg hcond, add_zero]
+      rw [ite_eq_right hcond, add_zero]
       exact (hg i j hi).symm
   rw [← heq]
   exact rowElt_mem s hs
@@ -382,17 +382,17 @@ private lemma SsixSub_le_Ssix : SsixSub ≤ Ssix := by
           have h6 : i.val < 6 := i.isLt
           have hne : i.val ≠ 5 := fun h5 => hi (Fin.ext h5)
           omega
-        rw [if_neg hi]
+        rw [ite_eq_right hi]
         simp only [and_true, zero_add]
         by_cases h : i ∈ s
-        · rw [if_pos h]
+        · rw [ite_eq_left h]
           rcases zmod_two_eq_zero_or_one (g.1 i 5) with h0 | h1
           · exact absurd h0 (his.mp h)
           · exact h1.symm
-        · rw [if_neg h]
+        · rw [ite_eq_right h]
           exact (not_not.mp (his.not.mp h)).symm
     · have hcond : ¬ (i ∈ s ∧ j = 5) := fun h => hj h.2
-      rw [if_neg hcond, add_zero]
+      rw [ite_eq_right hcond, add_zero]
       exact (hg i j hj).symm
   rw [← heq]
   exact colElt_mem s hs
@@ -423,7 +423,7 @@ private lemma grpShape_mul (x y : SL(6, ZMod 2)) (hx : grpShape x) (hy : grpShap
     have hj5 : j ≠ 5 := fun h => by rw [h] at hj2; simp at hj2
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single i]
-    · rw [hxmid i i hi1 hi2 hi1 hi2, if_pos rfl, one_mul, hymid i j hi1 hi2 hj1 hj2]
+    · rw [hxmid i i hi1 hi2 hi1 hi2, ite_eq_left rfl, one_mul, hymid i j hi1 hi2 hj1 hj2]
     · intro k _ hk
       rcases eq_or_ne k 0 with rfl | hk0
       · rw [hx0 i hi0, zero_mul]
@@ -434,7 +434,7 @@ private lemma grpShape_mul (x y : SL(6, ZMod 2)) (hx : grpShape x) (hy : grpShap
         have h6 : k.val < 6 := k.isLt
         have hne : k.val ≠ 5 := fun h => hk5 (Fin.ext h)
         omega
-      rw [hxmid i k hi1 hi2 hk1 hk4, if_neg (fun h => hk h.symm), zero_mul]
+      rw [hxmid i k hi1 hi2 hk1 hk4, ite_eq_right (fun h => hk h.symm), zero_mul]
     · intro h; exact absurd (Finset.mem_univ i) h
   · intro i hi
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
@@ -458,13 +458,13 @@ private lemma grpShape_col_mul_row (y z : SL(6, ZMod 2)) (hy : colShape y) (hz :
     rw [Finset.sum_eq_single 0]
     · rw [hz0, mul_one]
       simpa using hy 0 0 (by decide)
-    · intro k _ hk; rw [hz k 0 hk, if_neg hk, mul_zero]
+    · intro k _ hk; rw [hz k 0 hk, ite_eq_right hk, mul_zero]
     · intro h; exact absurd (Finset.mem_univ 0) h
   · rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single 5]
     · rw [hy5, one_mul]
       simpa using hz 5 5 (by decide)
-    · intro k _ hk; rw [hy 5 k hk, if_neg (fun h => hk h.symm), zero_mul]
+    · intro k _ hk; rw [hy 5 k hk, ite_eq_right (fun h => hk h.symm), zero_mul]
     · intro h; exact absurd (Finset.mem_univ 5) h
   · intro i j hi1 hi2 hj1 hj2
     have hi0 : i ≠ 0 := fun h => by rw [h] at hi1; simp at hi1
@@ -472,31 +472,31 @@ private lemma grpShape_col_mul_row (y z : SL(6, ZMod 2)) (hy : colShape y) (hz :
     have hj5 : j ≠ 5 := fun h => by rw [h] at hj2; simp at hj2
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single j]
-    · rw [hz j j hj0, if_pos rfl, mul_one, hy i j hj5]
+    · rw [hz j j hj0, ite_eq_left rfl, mul_one, hy i j hj5]
     · intro k _ hk
       rcases eq_or_ne k 0 with rfl | hk0
-      · rw [hy i 0 (by decide), if_neg hi0, zero_mul]
+      · rw [hy i 0 (by decide), ite_eq_right hi0, zero_mul]
       rcases eq_or_ne k 5 with rfl | hk5
-      · rw [hz 5 j (by decide), if_neg (fun h => hj5 h.symm), mul_zero]
+      · rw [hz 5 j (by decide), ite_eq_right (fun h => hj5 h.symm), mul_zero]
       have hk1 : 1 ≤ k.val := fin_one_le_of_ne_zero hk0
       have hk4 : k.val ≤ 4 := by
         have h6 : k.val < 6 := k.isLt
         have hne : k.val ≠ 5 := fun h => hk5 (Fin.ext h)
         omega
-      rw [hz k j hk0, if_neg hk, mul_zero]
+      rw [hz k j hk0, ite_eq_right hk, mul_zero]
     · intro h; exact absurd (Finset.mem_univ j) h
   · intro i hi
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single 0]
-    · rw [hz0, mul_one, hy i 0 (by decide), if_neg hi]
-    · intro k _ hk; rw [hz k 0 hk, if_neg hk, mul_zero]
+    · rw [hz0, mul_one, hy i 0 (by decide), ite_eq_right hi]
+    · intro k _ hk; rw [hz k 0 hk, ite_eq_right hk, mul_zero]
     · intro h; exact absurd (Finset.mem_univ 0) h
   · intro j hj
     have hj5 : j ≠ 5 := hj
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply]
     rw [Finset.sum_eq_single 5]
-    · rw [hy5, one_mul, hz 5 j (by decide), if_neg (fun h => hj5 h.symm)]
-    · intro k _ hk; rw [hy 5 k hk, if_neg (fun h => hk h.symm), zero_mul]
+    · rw [hy5, one_mul, hz 5 j (by decide), ite_eq_right (fun h => hj5 h.symm)]
+    · intro k _ hk; rw [hy 5 k hk, ite_eq_right (fun h => hk h.symm), zero_mul]
     · intro h; exact absurd (Finset.mem_univ 5) h
 
 private lemma one_add_rowSupp_mul_one_add_colSupp (s t : Finset (Fin 6)) :
@@ -511,7 +511,7 @@ private lemma one_add_rowSupp_mul_one_add_colSupp (s t : Finset (Fin 6)) :
     rw [Matrix.mul_apply]
     by_cases hij : i = 0 ∧ j = 5
     · obtain ⟨rfl, rfl⟩ := hij
-      rw [Matrix.smul_apply, Matrix.single_apply, if_pos ⟨rfl, rfl⟩, smul_eq_mul, mul_one]
+      rw [Matrix.smul_apply, Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, smul_eq_mul, mul_one]
       apply Finset.sum_congr rfl
       intro k _
       by_cases hks : k ∈ s <;> by_cases hkt : k ∈ t <;>
@@ -520,7 +520,7 @@ private lemma one_add_rowSupp_mul_one_add_colSupp (s t : Finset (Fin 6)) :
       have hne : ¬ (0 = i ∧ 5 = j) := by
         rintro ⟨h1, h2⟩
         exact hij ⟨h1.symm, h2.symm⟩
-      rw [if_neg hne, smul_zero]
+      rw [ite_eq_right hne, smul_zero]
       apply Finset.sum_eq_zero
       intro k _
       by_cases hi : i = 0

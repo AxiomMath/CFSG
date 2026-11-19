@@ -15,6 +15,7 @@ structure IsBasis (z : G) (V : Subgroup G) (t₁ t₂ : G) : Prop where
   not_mem₂ : t₂ ∉ Subgroup.zpowers z
   not_mem₃ : t₁ * t₂ ∉ Subgroup.zpowers z
 
+omit [Finite G] in
 theorem ne_one_ne_z_of_not_mem {t : G} (ht : t ∉ Subgroup.zpowers z) : t ≠ 1 ∧ t ≠ z :=
   ⟨fun h => ht (h ▸ Subgroup.one_mem _), fun h => ht (h ▸ Subgroup.mem_zpowers z)⟩
 
@@ -67,6 +68,7 @@ theorem exists_noncomm_F (hset : HSSetting G z) (hV : HSV z T V) {t : G} (htV : 
   have htsq : t ^ 2 = 1 := by rw [pow_two]; exact hsAut_mul_self hV htV
   exact htz (Width.involution_eq hD hz htZ htsq ht1 ▸ Subgroup.mem_zpowers z)
 
+omit [Finite G] in
 theorem zpow_of_mul_self_eq_one {g : G} (hg : g * g = 1) (n : ℤ) :
     (Even n → g ^ n = 1) ∧ (Odd n → g ^ n = g) := by
   have hg2 : g ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact hg
@@ -76,6 +78,7 @@ theorem zpow_of_mul_self_eq_one {g : G} (hg : g * g = 1) (n : ℤ) :
   · rintro ⟨r, rfl⟩
     rw [zpow_add_one, zpow_mul, hg2, one_zpow, one_mul]
 
+omit [Finite G] in
 theorem independent_of_basis {t₁ t₂ : G} (hz1 : z ≠ 1) (hz2 : z * z = 1) (h1 : t₁ * t₁ = 1)
     (h2 : t₂ * t₂ = 1) (hb : IsBasis z V t₁ t₂) (i j l : ℤ)
     (h : z ^ i * t₁ ^ j * t₂ ^ l = 1) : Even i ∧ Even j ∧ Even l := by

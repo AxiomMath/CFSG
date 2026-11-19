@@ -38,6 +38,7 @@ theorem locR_upTransv_fix {g : SL(4, k)} (hg : g ∈ upTransv k) :
   obtain ⟨i, j, hij, hlt, t, rfl⟩ := hg
   exact locMat_upper_fix a b c (locValid a b c).1 hij hlt t
 
+omit [CharP k 2] in
 theorem fixed_of_upTransv {m : ℕ} (R : SL(4, k) →* Matrix (Fin m) (Fin m) k) (v : Fin m → k)
     (h : ∀ g ∈ upTransv k, R g *ᵥ v = v) : ∀ g ∈ UpT k, R g *ᵥ v = v := by
   intro g hg
@@ -53,6 +54,7 @@ theorem locR_upT_fix {g : SL(4, k)} (hg : g ∈ UpT k) :
     locR a b c k g *ᵥ ylocC a b c k = ylocC a b c k :=
   fixed_of_upTransv (locR a b c k) _ (fun _ hg' => locR_upTransv_fix hg') g hg
 
+omit [CharP k 2] in
 theorem equiv_of_lowTransv {m₁ m₂ : ℕ} (R₁ : SL(4, k) →* Matrix (Fin m₁) (Fin m₁) k)
     (R₂ : SL(4, k) →* Matrix (Fin m₂) (Fin m₂) k) (P : Matrix (Fin m₁) (Fin m₂) k)
     (h : ∀ g ∈ lowTransv k, P * R₂ g = R₁ g * P) : ∀ g ∈ LowT k, P * R₂ g = R₁ g * P := by
@@ -130,6 +132,7 @@ theorem iocK_equiv {g : SL(4, k)} (hg : g ∈ LowT k) :
   equiv_of_lowTransv (locR true true true k) (locR a b c k) (iocK a b c k)
     (fun _ hg' => iocK_equivTransv hg') g hg
 
+omit [CharP k 2] in
 theorem ambRepF_nil (g : SL(4, k)) : ambRepF k ([] : List FK) g = 1 := by
   have h1 : ambDim ([] : List FK) = 1 := Finset.prod_eq_one fun i _ => Fin.elim0 i
   ext x y

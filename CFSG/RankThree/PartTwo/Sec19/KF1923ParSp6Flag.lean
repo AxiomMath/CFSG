@@ -76,7 +76,7 @@ theorem toGL6_injective : Function.Injective toGL6 := by
 theorem mem_flag_iff_tau (s : ℕ) (hs : s ≤ 6) (v : Fin 3 ⊕ Fin 3 → ZMod 2) :
     v ∈ flag 3 (ZMod 2) s ↔ ∀ k : Fin 6, s ≤ k.val → v (tauEquiv k) = 0 := by
   by_cases hs3 : s ≤ 3
-  · rw [flag, if_pos hs3, mem_isoFlag]
+  · rw [flag, ite_eq_left hs3, mem_isoFlag]
     constructor
     · rintro ⟨h1, h2⟩ k hk
       by_cases hk3 : k.val < 3
@@ -90,7 +90,7 @@ theorem mem_flag_iff_tau (s : ℕ) (hs : s ≤ 6) (v : Fin 3 ⊕ Fin 3 → ZMod 
         rwa [tauEquiv_symm_inr] at h'
       · have h' := h ⟨j.val, by have := j.isLt; omega⟩ (by simpa using hj)
         rwa [tauEquiv_symm_inl] at h'
-  · push_neg at hs3
+  · push Not at hs3
     rw [mem_flag_of_lt hs3]
     constructor
     · intro h k hk
@@ -120,7 +120,7 @@ theorem toM6_eq_zero_of_stab {g : StatedSp 3 (ZMod 2)} {s : ℕ} (hs : s ≤ 6)
   have hv : Pi.single (tauEquiv j) (1 : ZMod 2) ∈ flag 3 (ZMod 2) s := by
     rw [mem_flag_iff_tau s hs]
     intro k hk
-    rw [Pi.single_apply, if_neg]
+    rw [Pi.single_apply, ite_eq_right]
     intro e
     have := tauEquiv.injective e
     subst this
@@ -136,7 +136,7 @@ theorem toM6_eq_zero_of_stab {g : StatedSp 3 (ZMod 2)} {s : ℕ} (hs : s ≤ 6)
 theorem exists_cut_of_blkOf_lt (S : Finset ℕ) {i j : Fin 6} (h : blkOf S j < blkOf S i) :
     ∃ s ∈ S, j.val < s ∧ s ≤ i.val := by
   by_contra H
-  push_neg at H
+  push Not at H
   have hsub : S.filter (fun c => 0 < c ∧ c ≤ i.val) ⊆ S.filter (fun c => 0 < c ∧ c ≤ j.val) := by
     intro c hc
     rw [Finset.mem_filter] at hc ⊢
@@ -156,7 +156,7 @@ theorem blockTri_of_stab (S : Finset ℕ) (hS : ∀ s ∈ S, s ≤ 6) {g : State
   obtain ⟨s, hs, hj, hi⟩ := exists_cut_of_blkOf_lt S hij
   exact toM6_eq_zero_of_stab (hS s hs) (hg s hs) i j hj hi
 
-@[expose] abbrev stMat (g : StatedSp 3 (ZMod 2)) :
+abbrev stMat (g : StatedSp 3 (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
   ((g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2))
@@ -184,10 +184,10 @@ theorem mem_stab_orth {W : Submodule (ZMod 2) (Fin 3 ⊕ Fin 3 → ZMod 2)} {g :
 
 theorem flag_six_sub_eq_orth (i : ℕ) (hi : i ≤ 2) :
     flag 3 (ZMod 2) (6 - i) = (pairedSympForm (ZMod 2) 3).orthogonal (isoFlag 3 (ZMod 2) i) := by
-  rw [flag, if_neg (by omega), show 2 * 3 - (6 - i) = i by omega]
+  rw [flag, ite_eq_right (by omega), show 2 * 3 - (6 - i) = i by omega]
 
 theorem flag_le_eq_iso (i : ℕ) (hi : i ≤ 3) : flag 3 (ZMod 2) i = isoFlag 3 (ZMod 2) i := by
-  rw [flag, if_pos hi]
+  rw [flag, ite_eq_left hi]
 
 @[expose] def cutSet (I : Finset ℕ) : Finset ℕ := I ∪ I.image (fun i => 6 - i)
 

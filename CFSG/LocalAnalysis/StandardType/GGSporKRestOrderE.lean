@@ -13,9 +13,9 @@ theorem sporKRest_cover_of_orderE {K : Type} [Group K] [Finite K] {p : ℕ} (hp 
     (hval : (Nat.card K).factorization p = 2) (x₀ : K) (hx₀ : x₀ ≠ 1)
     (hx₀p : IsPGroup p (Subgroup.zpowers x₀)) (hgen : ∀ x : K, IsConj x₀ x → SporKRestGenerating p x) :
     SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hE hcard
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
   have hEp : IsPGroup p E := IsPGroup.of_card hcard
   obtain ⟨S, hES⟩ := hEp.exists_le_sylow
   have hS : Nat.card S = p ^ 2 := by rw [Sylow.card_eq_multiplicity, hval]

@@ -22,7 +22,7 @@ theorem exists_mul_mem_normalizer_of_commutator_mem_prime [Finite X] {p : ℕ} (
   have hPT : P ≤ T := Subgroup.map_subtype_le _
   have hBP : B ≤ P := fun b hb => ⟨⟨b, hBT hb⟩,
     hBS ((Subgroup.mem_subgroupOf).mpr hb), rfl⟩
-  have hPp : IsPGroup p P := S.isPGroup'.map _
+  have hPp : IsPGroup p P := S.isPGroup.map _
   have hyT : ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
     intro t ht
     rw [hT] at ht

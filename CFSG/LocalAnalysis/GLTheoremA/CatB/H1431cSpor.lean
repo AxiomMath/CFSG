@@ -32,7 +32,7 @@ theorem component_to_simple_explicit {Y : Type} [Group Y] [Finite Y] {α : MulAu
       GLAPComponent 3 (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (inducedAut α)) J' ∧
         ∃ ψ : PQuot 3 J →* PQuot 3 J', Function.Surjective ψ ∧
           ψ.ker ≤ Subgroup.center (PQuot 3 J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : Y →* Y ⧸ Subgroup.center Y := QuotientGroup.mk' (Subgroup.center Y)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker ≤ Subgroup.center Y := (QuotientGroup.ker_mk' _).le
@@ -194,8 +194,8 @@ theorem typeHyp2_sp4eight
   aut T _ _ h := by
     have h6 := CFSG.LocalAnalysis.GLTheoremA.CatB.I1015PSp4Out.card_outer_sp4eight_le h
     have hpos : 0 < Nat.card (Outer T) := by
-      haveI : Finite (MulAut T) := CFSG.HardMathSupport.Dickson.Sec6.BM2.finite_mulAut T
-      haveI : Finite (Outer T) :=
+      have : Finite (MulAut T) := CFSG.HardMathSupport.Dickson.Sec6.BM2.finite_mulAut T
+      have : Finite (Outer T) :=
         Finite.of_surjective _ (QuotientGroup.mk'_surjective _ : Function.Surjective
           (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner T)))
       exact Nat.card_pos
@@ -227,8 +227,8 @@ theorem typeHyp2_j3
       CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.card_outer_of_equiv (e.trans b.symm)
     have h2 : Nat.card (Outer T) ≤ 2 := ho ▸ CFSG.RankThree.PartTwo.Sec4.card_outer_J3
     have hpos : 0 < Nat.card (Outer T) := by
-      haveI : Finite (MulAut T) := CFSG.HardMathSupport.Dickson.Sec6.BM2.finite_mulAut T
-      haveI : Finite (Outer T) :=
+      have : Finite (MulAut T) := CFSG.HardMathSupport.Dickson.Sec6.BM2.finite_mulAut T
+      have : Finite (Outer T) :=
         Finite.of_surjective _ (QuotientGroup.mk'_surjective _ : Function.Surjective
           (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner T)))
       exact Nat.card_pos
@@ -361,14 +361,14 @@ theorem not_rkY_co1
     (hcore : GLAPPrimeCore 3 Y = ⊥)
     (e : Y ⧸ Subgroup.center Y ≃* (TauCeti.CFSGIndex.sporadic .Co1).Group)
     (hRk : CFSG.HardMathSupport.Dickson.Sec6.I1431.RkY Y) : False := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hdvd := CFSG.LocalAnalysis.GLTheoremA.i66_card_center_dvd
     CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.sporadicMultipliers_holds
     inferInstance .Co1 e
   have hZ3 : IsPGroup 3 (Subgroup.center Y) :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
       Nat.prime_three hcore
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hZ3
   have h2 : Nat.card (Subgroup.center Y) ∣ 2 := by
     have : CFSG.RankThree.PartTwo.Sec4.Census.sporadicMultiplierOrder .Co1 = 2 := by decide
@@ -384,7 +384,7 @@ theorem not_rkY_co1
   have eY : Y ≃* Y ⧸ Subgroup.center Y :=
     (QuotientGroup.quotientBot.symm).trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
-  haveI : Finite NativeSporadic.Co1 :=
+  have : Finite NativeSporadic.Co1 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co1.card_Co1]; norm_num)
   let φ : NativeSporadic.Co1 ≃* Y := b.trans (e.symm.trans eY.symm)
   obtain ⟨U, E, hU2, hU1, hEN, hEe, hEc⟩ :=
@@ -411,7 +411,7 @@ theorem i1431SporS_holds
     CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ
   have hq' : CFSG.Open.IsQuasisimple (PQuot 3 J') :=
     CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quotient_of_glaPComponent hJ'
-  haveI : Nontrivial (PQuot 3 J') := by
+  have : Nontrivial (PQuot 3 J') := by
     have := hq'.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 J' ⧸ Subgroup.center (PQuot 3 J'))
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

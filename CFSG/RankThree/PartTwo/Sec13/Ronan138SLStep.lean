@@ -84,7 +84,7 @@ theorem exists_mem_inv_mul_mem_of_commute {L B : Subgroup G} (hBL : B ≤ L) (hB
     {r : G} (hrN : r ∈ Subgroup.normalizer (L : Set G)) (hrB : ∀ b ∈ B, r * b = b * r)
     (hr3 : ∃ k : ℕ, r ^ 3 ^ k = 1) :
     ∃ β ∈ B, β⁻¹ * r ∈ Sec4.thetaQuotCentralizer L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hr3
   obtain ⟨σ, hσdef⟩ : ∃ σ : MulAut (L ⧸ aschbacherSolvableCore 3 L),
       σ = ((Sec4.thetaQuotMulAut L).comp L.normalizerMonoidHom) ⟨r, hrN⟩ := ⟨_, rfl⟩
@@ -176,7 +176,7 @@ theorem exists_mem_inv_mul_mem_of_normalizes {L Q : Subgroup G} (hQL : Q ≤ L)
     {g : G} (hgN : g ∈ Subgroup.normalizer (L : Set G)) (hgQ : g ∈ Subgroup.normalizer (Q : Set G))
     (hg3 : ∃ k : ℕ, g ^ 3 ^ k = 1) :
     ∃ y ∈ Q, y⁻¹ * g ∈ Sec4.thetaQuotCentralizer L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hg3
   obtain ⟨σ, hσdef⟩ : ∃ σ : MulAut (L ⧸ aschbacherSolvableCore 3 L),
       σ = ((Sec4.thetaQuotMulAut L).comp L.normalizerMonoidHom) ⟨g, hgN⟩ := ⟨_, rfl⟩

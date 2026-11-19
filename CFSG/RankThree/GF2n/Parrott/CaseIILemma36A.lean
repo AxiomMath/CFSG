@@ -48,6 +48,7 @@ theorem mem_QP45_of_isConj {a b : A45} (hab : IsConj a b) (hb : b ∈ QP) : a �
   rw [← hc]
   exact (Subgroup.normal_of_index_eq_two index_QP45).conj_mem _ hb c
 
+omit [Finite G] in
 theorem mem_commutator_of_qH_mem_QP45 (D : QuotientData (z := z) (J_subgroupOf_normal z))
     (hJ : J z ≤ ⁅H z, H z⁆) {x : G} (hxH : x ∈ H z) (hq : qH D ⟨x, hxH⟩ ∈ QP) :
     x ∈ ⁅H z, H z⁆ := by
@@ -67,6 +68,7 @@ theorem mem_commutator_of_qH_mem_QP45 (D : QuotientData (z := z) (J_subgroupOf_n
   have h1 : x * (y : G)⁻¹ ∈ ⁅H z, H z⁆ := hJ (Subgroup.mem_subgroupOf.mp hJmem)
   simpa using Subgroup.mul_mem _ h1 hyW
 
+omit [Finite G] in
 theorem qH_mul_of_mem_J (D : QuotientData (z := z) (J_subgroupOf_normal z)) {x j : G}
     (hxH : x ∈ H z) (hj : j ∈ J z) :
     qH D ⟨x * j, Subgroup.mul_mem _ hxH (J_le_H hj)⟩ = qH D ⟨x, hxH⟩ := by

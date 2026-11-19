@@ -127,7 +127,6 @@ theorem sig_conj_a_of_comm {c : G12} (hc : c ∈ centralizer ({x * y} : Set G12)
     have h1 := mem_centralizer_singleton_iff.mp hc
     first
     | (rw [h1]; group)
-    | (rw [← h1]; group)
   have h2 := congrArg (fun g : G12 => tbl g.1) h
   simp only [tblG_conj, tbl_a] at h2
   exact h2
@@ -195,7 +194,6 @@ theorem mem_C_of_facts
     rw [mem_centralizer_singleton_iff]
     first
     | exact hg
-    | exact hg.symm
   obtain ⟨k, hk, he⟩ := List.mem_map.mp (sig_tbl_mem_of_card hLi.2 hreal hcard g hgC)
   exact ⟨k, hk, he.symm⟩
 
@@ -368,7 +366,7 @@ theorem le_V_of_facts
       tbl g.1 ∈ VT k := by
     intro k g hg
     have hgc := mem_centralizer_singleton_iff.mp hg.2
-    obtain ⟨m, hm, he⟩ := hC k.val k.isLt g (by first | exact hgc | exact hgc.symm)
+    obtain ⟨m, hm, he⟩ := hC k.val k.isLt g (by first | exact hgc)
     have h2 := sig_isTwo_of_pow (sig_pow_two_pow_seven hY.2.1 hg.1)
     have h := List.all_eq_true.mp (List.all_eq_true.mp htwo k.val (List.mem_range.mpr k.isLt)) m hm
     rw [← he, h2, Bool.not_true, Bool.false_or, List.contains_iff_mem] at h
@@ -443,7 +441,6 @@ theorem cz_words {g : G12} {S W C R : List (List ℕ)}
     rw [beq_iff_eq] at this
     first
     | exact this
-    | exact this.symm
   intro c hc
   have hm := sig_tbl_mem_of_card hnd hreal (by rw [hcard, List.length_map, hC]) c hc
   obtain ⟨w, hw, he⟩ := List.mem_map.mp hm
@@ -497,7 +494,6 @@ theorem inner_of_outerB
       rw [mem_centralizer_singleton_iff]
       first
       | exact hcomm
-      | exact hcomm.symm
     obtain ⟨w, hw, hcw⟩ := hC _ hcz
     have hcw' : g * (wG g1W)⁻¹ = wG w := eq_iff_tbl.mpr (hcw.trans (tbl_wG w).symm)
     have hg' : g = wG w * wG g1W := by

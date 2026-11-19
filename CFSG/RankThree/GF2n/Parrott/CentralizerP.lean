@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit hN [Finite G] in
 theorem pi_conjJ'_mul_inv (h : Tim79a.ParrottHyp z) (b : H z) (j : J z) :
     QuotientV.pi z (conjJ' z b j * j⁻¹) =
       conjV h b (QuotientV.pi z j) * (QuotientV.pi z j)⁻¹ := by

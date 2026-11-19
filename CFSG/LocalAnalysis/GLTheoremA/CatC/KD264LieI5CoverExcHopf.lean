@@ -23,10 +23,10 @@ theorem exists_hopf_lift {X K : Type} [Group X] [Group K] [Finite X] [Finite K]
     ∃ (π : HopfCover X →* K) (βL : MulAut (HopfCover X)), Function.Surjective π ∧
       (∀ x, ρ (π x) = hopfCoverMap X x) ∧ (∀ x, π x = 1 → x ∈ hopfMultiplier X) ∧ βL ^ 3 = 1 ∧
       (∀ x, π (βL x) = β (π x)) := by
-  haveI := hX
-  haveI := hK
-  haveI hfin : Finite (HopfCover X) := finite_hopfCover hX
-  haveI hperfL : Group.IsPerfect (HopfCover X) := hopfCover_isPerfect
+  have := hX
+  have := hK
+  have hfin : Finite (HopfCover X) := finite_hopfCover hX
+  have hperfL : Group.IsPerfect (HopfCover X) := hopfCover_isPerfect
   have hu : Function.Surjective (hopfCoverMap X) := hopfCoverMap_surjective
   have hker : hopfMultiplier X ≤ Subgroup.center (HopfCover X) := hopfMultiplier_le_center
   have hπ : ρ.comp (hopfLift ρ hρ hcen) = hopfCoverMap X := comp_hopfLift ρ hρ hcen

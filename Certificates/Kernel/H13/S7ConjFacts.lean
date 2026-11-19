@@ -136,7 +136,7 @@ theorem hBF_of_hBP (r : ℕ) (hr : r < 2 ^ 64) (h : hBP r = true) : hBF (unpackM
   have hg : [c7, unpackM r].all validB = true := by
     simp only [List.all_cons, List.all_nil, hc7, validB_unpackM, Bool.and_self]
   have hE : elemsF [c7, unpackM r] 5041 = (elemsP [code64R c7, r] 5041).map unpackM := by
-    rw [elemsF, if_pos hg, List.map_cons, List.map_cons, List.map_nil, code64R_unpackM hr]
+    rw [elemsF, ite_eq_left hg, List.map_cons, List.map_cons, List.map_nil, code64R_unpackM hr]
   rw [hBP, hBQ] at h
   generalize elemsP [code64R c7, r] 5041 = L at h hE
   simp only [Bool.and_eq_true] at h
@@ -163,7 +163,7 @@ theorem hBF_of_hBP (r : ℕ) (hr : r < 2 ^ 64) (h : hBP r = true) : hBF (unpackM
   · rw [← oneP_eq]
     exact hmem oneP hone
   · split_ifs with hl
-    · rw [if_pos hl, Bool.and_eq_true] at hif
+    · rw [ite_eq_left hl, Bool.and_eq_true] at hif
       obtain ⟨hcl, hcj⟩ := hif
       rw [Bool.and_eq_true]
       refine ⟨?_, ?_⟩

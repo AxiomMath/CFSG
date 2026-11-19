@@ -35,12 +35,12 @@ theorem exists_toral_conj_gen {τ : Tag} {p : ℕ} (hp : p.Prime) (hmon : Monomi
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hℓp : ringChar K ≠ p := fun h => hK (by rw [hq, h]; exact dvd_pow_self p f.ne_zero)
   have hLchar : ringChar (AlgebraicClosure K) ≠ p := by
@@ -54,7 +54,7 @@ theorem exists_toral_conj_gen {τ : Tag} {p : ℕ} (hp : p.Prime) (hmon : Monomi
   set y' := baseChangeGL (algebraMap K (AlgebraicClosure K)) y with hy'def
   have hBC : Subgroup.zpowers y' ≤ adjointGroup τ (AlgebraicClosure K) :=
     (Subgroup.zpowers_le).2 hy'
-  haveI hBfin' : Finite (Subgroup.zpowers y') :=
+  have hBfin' : Finite (Subgroup.zpowers y') :=
     finite_zpowers.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp.pos, hy'p⟩)
   have hBfin : ((Subgroup.zpowers y' : Subgroup (ModGL τ (AlgebraicClosure K))) :
       Set (ModGL τ (AlgebraicClosure K))).Finite := Set.toFinite _
@@ -101,8 +101,8 @@ theorem exists_fixed_datum_gen {τ : Tag} {p n : ℕ} (hp : p.Prime) (hmon : Mon
           (canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w0)⁻¹ = rootDiagUnit τ b) ∧
       baseChangeGL (algebraMap K (AlgebraicClosure K)) y = g * rootDiagUnit τ a * g⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hpK : ¬ p ∣ Nat.card K := by rw [hq]; exact hpq
   have hpq' : Nat.Coprime p (ℓ ^ f) := (Nat.Prime.coprime_iff_not_dvd hp).2 hpq
   obtain ⟨g0, hg0C, a, hap, hy0⟩ := exists_toral_conj_gen hp hmon K hpK hy hyp
@@ -182,7 +182,7 @@ theorem exists_fixed_datum_gen {τ : Tag} {p n : ℕ} (hp : p.Prime) (hmon : Mon
     rw [kernelReflectionGroup_eq_closure_rootReflection] at h1
     have hset : rootCharKernel a = familyKernel (fun _ : Unit => a) := by
       ext α
-      simp only [rootCharKernel, familyKernel, Set.mem_setOf_eq, forall_const]
+      simp only [rootCharKernel, familyKernel, Set.mem_ofPred_eq, forall_const]
     rwa [hset] at h1
   have hy_mem := canonicalRep_mem_familyGroup_of_closure (L := L) (fun _ : Unit => a) hS
   have hw0img : (fun α => w0 • α) '' familyKernel (fun _ : Unit => a) =
@@ -221,15 +221,15 @@ theorem centralizer_rank_of_cover {τ : Tag} {p n d : ℕ} (hp : p.Prime) (hp3 :
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact p.Prime := ⟨hp⟩
   have hq' : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
   set L := AlgebraicClosure K with hL
-  haveI : CharP L (ringChar K) :=
+  have : CharP L (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K L).injective _
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hyp : (y : ModGL τ K) ^ p = 1 := by
     have := congrArg Subtype.val hy
     simpa using this

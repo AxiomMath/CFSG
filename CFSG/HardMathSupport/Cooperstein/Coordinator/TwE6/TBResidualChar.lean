@@ -46,12 +46,12 @@ theorem chi_eq_one_of_hatH {k V : Type*} [Field k] [AddCommGroup V] [Module k V]
   rw [chi_mul_cover hf hK σ hσ ht (Subgroup.list_prod_mem _ hP) hQ,
     chi_list_prod_cover hf hK σ hσ ht _ hP, List.prod_eq_one hone,
     chi_mul_cover hf hK σ hσ ht (hatH_mem_H hf hK σ hσ _ _) (hatH_mem_H hf hK σ hσ _ _)]
-  simp only [hχ, mul_one, one_mul]
+  simp only [hχ, mul_one]
 
 theorem sum_units_orbitField_eq_one (k : Type*) [Field k] [CharP k 2]
     (a : Fin TwistTag.E6.foldedTag.rank) [Fintype (orbitField TwistTag.E6 K σ a)ˣ] :
     ∑ _u : (orbitField TwistTag.E6 K σ a)ˣ, (1 : k) = 1 := by
-  haveI : Fintype (orbitField TwistTag.E6 K σ a) := Fintype.ofFinite _
+  have : Fintype (orbitField TwistTag.E6 K σ a) := Fintype.ofFinite _
   obtain ⟨n, -, hn⟩ := FiniteField.card (orbitField TwistTag.E6 K σ a) 2
   have h22 : (2 : k) = 0 := by exact_mod_cast CharP.cast_eq_zero k 2
   have hpow : ((2 ^ (n : ℕ) : ℕ) : k) = 0 := by
@@ -75,19 +75,19 @@ theorem coinvScalar_residual {k V : Type*} [Field k] [Algebra K k] [CharP k 2] [
   have hfac : ∀ s : Fin TwistTag.E6.foldedTag.rank,
       μ s - (twistedE6CoverData hf hK σ hσ).datum.dScalar χ s = if s = twN0 then 0 else 1 := by
     intro s
-    haveI : Fintype (orbitField TwistTag.E6 K σ s)ˣ := Fintype.ofFinite _
+    have : Fintype (orbitField TwistTag.E6 K σ s)ˣ := Fintype.ofFinite _
     have hd : (twistedE6CoverData hf hK σ hσ).datum.dScalar χ s =
         ∑ u : (orbitField TwistTag.E6 K σ s)ˣ, χ (hatH hf hK σ hσ s u) :=
       (twistedE6CoverRankOne hf hK σ hσ).dScalar_datum (twistedCover_hodd hf hK σ hσ) s χ
     by_cases hs : s = twN0
     · subst hs
       have hnot : twN0 ∉ Finset.univ.erase twN0 := fun h => (Finset.mem_erase.1 h).1 rfl
-      rw [IsCoverType.mu_eq_dScalar (twistedCover_hodd hf hK σ hσ) ht hμ hnot, sub_self, if_pos rfl]
+      rw [IsCoverType.mu_eq_dScalar (twistedCover_hodd hf hK σ hσ) ht hμ hnot, sub_self, ite_eq_left rfl]
     · have hmem : s ∈ Finset.univ.erase twN0 := Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩
       have hμ0 : μ s = 0 := by
-        rw [twisted_mu_eq hf hK σ hσ ht hμ s, if_neg]
+        rw [twisted_mu_eq hf hK σ hσ ht hμ s, ite_eq_right]
         exact fun h => h.2 hmem
-      rw [hμ0, zero_sub, hd, if_neg hs]
+      rw [hμ0, zero_sub, hd, ite_eq_right hs]
       simp only [hχ]
       rw [sum_units_orbitField_eq_one σ k s]
       exact neg_one_eq_one_iff.2 (ringChar.eq k 2)
@@ -110,7 +110,7 @@ theorem coinvScalar_twRep27 {μ : Fin TwistTag.E6.foldedTag.rank → K}
   have hfac : ∀ s : Fin TwistTag.E6.foldedTag.rank,
       μ s - (twistedE6CoverData hf hK σ hσ).datum.dScalar (twChi27 σ) s = 0 ↔ s = twN0 := by
     intro s
-    haveI : Fintype (orbitField TwistTag.E6 K σ s)ˣ := Fintype.ofFinite _
+    have : Fintype (orbitField TwistTag.E6 K σ s)ˣ := Fintype.ofFinite _
     have hd : (twistedE6CoverData hf hK σ hσ).datum.dScalar (twChi27 σ) s =
         ∑ u : (orbitField TwistTag.E6 K σ s)ˣ, twChi27 σ (hatH hf hK σ hσ s u) :=
       (twistedE6CoverRankOne hf hK σ hσ).dScalar_datum (twistedCover_hodd hf hK σ hσ) s
@@ -124,7 +124,7 @@ theorem coinvScalar_twRep27 {μ : Fin TwistTag.E6.foldedTag.rank → K}
       have hall : ∀ u : (orbitField TwistTag.E6 K σ s)ˣ, twChi27 σ (hatH hf hK σ hσ s u) = 1 :=
         ((ht.2.2.2 s).1 hmem).1
       have hμ0 : μ s = 0 := by
-        rw [twisted_mu_eq hf hK σ hσ ht hμ s, if_neg]
+        rw [twisted_mu_eq hf hK σ hσ ht hμ s, ite_eq_right]
         exact fun h => h.2 hmem
       rw [hμ0, hd]
       simp only [hall]

@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 open CFSG.Open
 
-theorem w183art_gcd_mul_ordA_one {x : ℕ} (hx : 1 ≤ x) :
+theorem w183art_gcd_mul_ordA_one {x : ℕ} (_hx : 1 ≤ x) :
     Nat.gcd 2 (x - 1) * ordA 1 x = x * (x ^ 2 - 1) := by
   have hp : (∏ i ∈ Finset.Icc 2 (1 + 1), (x ^ i - 1)) = x ^ 2 - 1 := by
     have e : Finset.Icc 2 (1 + 1) = {2} := by decide
@@ -25,7 +25,7 @@ theorem w183art_gcd_mul_ordA_one {x : ℕ} (hx : 1 ≤ x) :
   norm_num at h ⊢
   exact h
 
-theorem w183art_gcd_mul_ordA_two {p : ℕ} (hp : 1 ≤ p) :
+theorem w183art_gcd_mul_ordA_two {p : ℕ} (_hp : 1 ≤ p) :
     Nat.gcd 3 (p - 1) * ordA 2 p = p ^ 3 * ((p ^ 2 - 1) * (p ^ 3 - 1)) := by
   have hprod : (∏ i ∈ Finset.Icc 2 (2 + 1), (p ^ i - 1)) =
       (p ^ 2 - 1) * (p ^ 3 - 1) := by
@@ -49,9 +49,8 @@ theorem w183art_gcd_mul_ordTwistedA_two {p : ℕ} :
       (p ^ 2 - 1) * (p ^ 3 + 1) := by
     have e : Finset.Icc 2 (2 + 1) = {2, 3} := by decide
     rw [e]
-    simp only [Finset.mem_insert, Finset.mem_singleton, or_self, not_false_eq_true,
-      Finset.prod_insert, Finset.prod_singleton, show (3 : ℕ) ≠ 4 by decide,
-      show (2 : ℕ) ≠ 3 by decide, show (2 : ℕ) ≠ 4 by decide]
+    simp only [Finset.mem_singleton, not_false_eq_true,
+      Finset.prod_insert, Finset.prod_singleton, show (2 : ℕ) ≠ 3 by decide]
     have h2 : ((p : ℤ) ^ 2 - (-1 : ℤ) ^ 2).toNat = p ^ 2 - 1 := by
       have hh : ((p : ℤ) ^ 2 - (-1 : ℤ) ^ 2) = ((p ^ 2 : ℕ) : ℤ) - 1 := by
         push_cast; ring
@@ -87,7 +86,7 @@ theorem w183art_gcd_mul_ordBC {n q : ℕ} (hn : 1 ≤ n) :
   unfold ordBC
   exact Nat.mul_div_cancel' hdvd
 
-theorem w183art_gcd_mul_ordD {n q : ℕ} (hn : 1 ≤ n) :
+theorem w183art_gcd_mul_ordD {n q : ℕ} (_hn : 1 ≤ n) :
     Nat.gcd 4 (q ^ n - 1) * ordD n q =
       q ^ (n * (n - 1)) * ((q ^ n - 1) * ∏ i ∈ Finset.Icc 1 (n - 1), (q ^ (2 * i) - 1)) := by
   have hdvd : Nat.gcd 4 (q ^ n - 1) ∣
@@ -99,7 +98,7 @@ theorem w183art_gcd_mul_ordD {n q : ℕ} (hn : 1 ≤ n) :
   rw [mul_assoc]
   exact Nat.mul_div_cancel' hdvd
 
-theorem w183art_gcd_mul_ordTwistedD {n q : ℕ} (hn : 1 ≤ n) :
+theorem w183art_gcd_mul_ordTwistedD {n q : ℕ} (_hn : 1 ≤ n) :
     Nat.gcd 4 (q ^ n + 1) * ordTwistedD n q =
       q ^ (n * (n - 1)) * ((q ^ n + 1) * ∏ i ∈ Finset.Icc 1 (n - 1), (q ^ (2 * i) - 1)) := by
   have hdvd : Nat.gcd 4 (q ^ n + 1) ∣

@@ -34,9 +34,9 @@ theorem kFactBetaStructure_of_partI (h64 : KFactCenterCyclicGeFive) (h610 : GL83
       hC (fun C => hcfg.dvd_card_comp C) h7131 hsplit
   refine le_trans ?_ hR
   refine CFSG.GH74.Uniqueness.SU.SU1.pRank_le_of fun E hEP hE k hk => ?_
-  have hEp : IsPGroup p E := (P.isPGroup').to_le hEP
+  have hEp : IsPGroup p E := (P.isPGroup).to_le hEP
   have hEm : IsElemAbelian p (E.map (QuotientGroup.mk' D)) := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨inferInstance, ?_⟩
     rintro _ ⟨e, he, rfl⟩
     show (QuotientGroup.mk' D e) ^ p = 1

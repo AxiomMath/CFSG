@@ -40,6 +40,7 @@ theorem conj_pow_right_of_central {G : Type*} [Group G] {x k z : G}
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem commute_of_barHom_commute (hp : p.Prime) {L B : Subgroup X} (hB : IsElemAbelian p B)
     (hin : ∀ b ∈ B, ∃ k ∈ L, k⁻¹ * b ∈ Subgroup.centralizer (L : Set X)) (u : ↥B) (x : ↥L)
     (hc : Commute (QuotientGroup.mk x : ↥L ⧸ Subgroup.center ↥L) (Inputs2711d.barHom hin u))
@@ -195,7 +196,7 @@ theorem exists_rankTwo_of_ne_bot [Finite X] (hp : p.Prime) {L B : Subgroup X}
     ∃ U : Subgroup X, ∃ hUB : U ≤ B, 2 ≤ CFSG.Open.pRank p U ∧
       ∀ u : ↥U, Inputs2711d.barHom hin ⟨u, hUB u.2⟩ ∈
         Subgroup.zpowers (Inputs2711d.barHom hin b) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hB0
   have hzB : (z : X) ∈ B := (Subgroup.mem_inf.1 z.2).1
   have hzC : (z : X) ∈ Subgroup.centralizer (L : Set X) := (Subgroup.mem_inf.1 z.2).2
@@ -294,7 +295,7 @@ theorem exists_rankTwo_of_pair [Finite X] (hp : p.Prime) {L B : Subgroup X}
       ∀ u : ↥U, Inputs2711d.barHom hin ⟨u, hUB u.2⟩ ∈
         Subgroup.zpowers (Inputs2711d.barHom hin b₁) ⊔
           Subgroup.zpowers (Inputs2711d.barHom hin b₂) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb₁' : (b₁ : X) ≠ 1 := fun h => hb₁ (by rw [show b₁ = 1 from Subtype.ext h, map_one])
   have hb₂' : (b₂ : X) ≠ 1 := fun h => hb₂ (by
     rw [show b₂ = 1 from Subtype.ext h, map_one]; exact Subgroup.one_mem _)
@@ -370,7 +371,7 @@ theorem eq_gammaTwo_of_two_lines [Finite X] (hp : p.Prime) {L B : Subgroup X}
       f₂ ∉ Subgroup.zpowers f₁ ∧ Commute s f₁ ∧ Commute s f₂ ∧ ∃ m, s ^ m = 1 ∧ ¬ p ∣ m) :
     L = ⨆ (U : Subgroup X) (_ : U ≤ B) (_ : 2 ≤ CFSG.Open.pRank p U),
       L ⊓ Subgroup.normalizer (U : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set R := (Inputs2711d.barHom hin).range with hRdef
   have hRel : IsElemAbelian p R := Inputs2711d.isElemAbelian_range_barHom hB hin
   set A : Subgroup G := R.map τ₀.toMonoidHom with hA
@@ -714,7 +715,7 @@ theorem sporPairCase_J3_three_of_ne_bot
   have hR := Inputs2711d.card_range_barHom_mul hin
   rw [hB₀c] at hR
   have hR27 : 27 ≤ Nat.card (Inputs2711d.barHom hin).range := by omega
-  haveI : Finite (CFSG.Sporadic.J3.J J3.D) := Finite.of_equiv _ J3.φ.toEquiv
+  have : Finite (CFSG.Sporadic.J3.J J3.D) := Finite.of_equiv _ J3.φ.toEquiv
   obtain ⟨S, hS, hSf⟩ := j3_gen_set
   refine eq_gammaTwo_of_conj_rankOne (G := CFSG.Sporadic.J3.J J3.D)
     (W := Subgroup.closure (Set.range J3.x)) (S := S) hp hLq hB hin hB0 ?_ ?_ ?_ ?_ ?_
@@ -996,9 +997,9 @@ theorem sporPairCase_ONan_three
   intro X _ _ hp _ L B _ hLq hB _ _ hrk4 _ _ _ hC1 hname hin _ _ _ _ _ _ _ _ _ _ _ _
   obtain ⟨σ⟩ := hname
   obtain ⟨β⟩ := hBr .ONan
-  haveI : Finite NativeSporadic.ON :=
+  have : Finite NativeSporadic.ON :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.ON.card_ON]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, S, hT, hT4, hS, hSl⟩ := on_gen_set
   have hP : Nat.card T = 3 ^ (Nat.card NativeSporadic.ON).factorization 3 := by
     rw [hT4, CFSG.Sporadic.ON.card_ON, factorization_eq_of_eq Nat.prime_three

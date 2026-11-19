@@ -127,6 +127,7 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem mem_omegaNbr_of_map_comm (h : EndHyp Ω) {P : Set (Subgroup G)} (hP : P ⊆ Ω)
     (hinv : ∀ L ∈ P, ∀ x ∈ pSpan P, conjSub x L ∈ P) {Q : Type} [Group Q]
     (φ : ↥(pSpan P) →* Q)
@@ -150,6 +151,7 @@ theorem mem_omegaNbr_of_map_comm (h : EndHyp Ω) {P : Set (Subgroup G)} (hP : P 
     exact conjSub_eq_self_of_commute fun y hy => hc _ hφx y hy
   exact ⟨hP hM, hne, M, TC.mem_RSet_of_isPGroup (hP hM) (h.thmD.two M (hP hM)), le_rfl, hN⟩
 
+omit [Finite G] in
 theorem centMembers_eq_pair_of_not_conj (h : EndHyp Ω) (h9 : Perp9 Ω) {a : G}
     {R R' : Subgroup G} {r : G} (s : TwinSit Ω R R' r) (hR : R ∈ centMembers Ω a)
     (hR' : R' ∈ centMembers Ω a)
@@ -440,6 +442,7 @@ theorem le_sup_of_e8Struct (h : EndHyp Ω) {a : G} {R R' : Subgroup G} {r : G}
   exact PhilipHall.Frame.TwinThin.E8.le_of_card_thirtyTwo hE
     (sup_le (le_pSpan hR) (le_pSpan hR')) (s.card_sup h) hsq
 
+omit [Finite G] in
 theorem exists_swapHom (h : EndHyp Ω) {a : G} {R R' : Subgroup G} {r : G}
     (s : TwinSit Ω R R' r) (hR : R ∈ centMembers Ω a) (hR' : R' ∈ centMembers Ω a)
     (hone : ∀ L ∈ centMembers Ω a, ∀ L' ∈ centMembers Ω a,
@@ -670,7 +673,7 @@ theorem ncard_eq_six_of_normal_wSet {Y : Type} [Group Y] [Finite Y] {Φ : Set (S
       hrW⟩, rfl⟩
   obtain ⟨L₁, hL₁, T₁, hT₁, hT₁ne, hT₁n⟩ := hmore
   obtain ⟨ρ₀, -⟩ := hrepex L₁ hL₁
-  haveI : Nonempty (Thompson.Rep Φ W) := ⟨ρ₀⟩
+  have : Nonempty (Thompson.Rep Φ W) := ⟨ρ₀⟩
   choose! rep hrepK using hrepex
   have hstar : ∀ L ∈ Φ, ∀ T ∈ Φ, T ≠ L → T ∈ omegaStarNbr Φ L := by
     intro L hL T hT hne
@@ -756,6 +759,7 @@ theorem ncard_eq_six_of_normal_wSet {Y : Type} [Group Y] [Finite Y] {Φ : Set (S
     refine ⟨σ.K, σ.hK, ?_⟩
     exact (Q3T6.Mu.muTabElt_eq_iff hP hW _ _).mpr (hrepK σ.K σ.hK)
 
+omit [Finite G] in
 theorem exists_wSet_normal_of_WIn_singleton {P : Set (Subgroup G)}
     (hinv : ∀ L ∈ P, ∀ x ∈ pSpan P, conjSub x L ∈ P) {W₀ : Subgroup G}
     (hW : WIn P (pSpan P) = {W₀}) :
@@ -775,6 +779,7 @@ theorem exists_wSet_normal_of_WIn_singleton {P : Set (Subgroup G)}
   have h1 := conj_mem_conjSub (n := g) hn
   rwa [hW'uniq _ (WSet.conj hc' hW'mem g)] at h1
 
+omit [Finite G] in
 theorem restrictFamily_centMembers_eq {Ω : Set (Subgroup G)} (a : G) :
     restrictFamily (centMembers Ω a) (pSpan (centMembers Ω a)) =
       restrictFamily Ω (pSpan (centMembers Ω a)) := by

@@ -32,7 +32,7 @@ theorem kFactCentreBlockPLRank_of_psu (hG : GriessAllModelsStatement)
   have hperfX : commutator ↥(barM M L) = ⊤ :=
     Group.isPerfect_def.mp (Subgroup.isPerfect_iff.mpr (barM_perfect hL.le hL.perfect))
   have hnt : Nontrivial ↥(barM M L) := by
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
   have hcard := card_inf_centralizer_eq_card_center (barM M L)
   have hcentreless : Subgroup.center ↥(barM M L) = ⊥ → False := fun h => by
@@ -53,7 +53,7 @@ theorem kFactCentreBlockPLRank_of_psu (hG : GriessAllModelsStatement)
     · exact hP G M S L hL h2' hsolv hSyl hZP hZ hpsu
   · exfalso
     obtain ⟨-, horth, -⟩ := h3
-    haveI : Group.IsPerfect ↥(barM M L) := ⟨hperfX⟩
+    have : Group.IsPerfect ↥(barM M L) := ⟨hperfX⟩
     have hnab : ∃ a b : ↥(barM M L), a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon

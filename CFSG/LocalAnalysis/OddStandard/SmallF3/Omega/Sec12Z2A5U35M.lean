@@ -22,7 +22,7 @@ private theorem u35_det {E : Type} [Field E] [CharP E 5] {ι : Type} [Fintype ι
   have : LinearMap.toMatrix b b L = Matrix.diagonal ![(2 : E), 3, 1] := by
     ext i j
     rw [LinearMap.toMatrix_apply]
-    fin_cases j <;> fin_cases i <;> simp [h0, h1, h2, Matrix.diagonal_apply]
+    fin_cases j <;> fin_cases i <;> simp [h0, h1, h2]
   rw [this, det_diagonal, Fin.prod_univ_three]
   have h5 : (5 : E) = 0 := CharP.cast_eq_zero E 5
   simp
@@ -59,7 +59,7 @@ private theorem u35_main {E : Type} [Field E] {h : UnitaryFieldData 5 1 E}
     ∃ g : hypSU h 1 1,
       semilinearAutHom h le_rfl le_rfl ⟨_, hx⟩ (hypProj h 1 1 g) = hypProj h 1 1 g ∧
         orderOf (hypProj h 1 1 g) = 4 := by
-  haveI : CharP E 5 := h.charP
+  have : CharP E 5 := h.charP
   have h5 : (5 : E) = 0 := CharP.cast_eq_zero E 5
   have hdet := u35_det b _ h0 h1 h2
   set g₂ : sesqSpecialUnitaryGroup (hypForm h 1 1) :=
@@ -90,7 +90,7 @@ private theorem u35_main {E : Type} [Field E] {h : UnitaryFieldData 5 1 E}
   · apply Units.ext
     rw [Units.val_mul, Units.val_mul, coe_glAut_of_bar h hσ]
     exact hcomm
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmvn : ∀ (n : ℕ) v, (((g ^ n : hypSU h 1 1) : GL (HypIndex 1 1) E) :
         Matrix (HypIndex 1 1) (HypIndex 1 1) E) *ᵥ v =
         ((g₁ : (HypIndex 1 1 → E) →ₗ[E] (HypIndex 1 1 → E)) ^ n) v := fun n v => by
@@ -150,7 +150,7 @@ theorem psu35_fixed_order_four {E : Type} [Field E] {h : UnitaryFieldData 5 1 E}
       (conjFixed h (semilinearMatrixMap h (A : Matrix (HypIndex 1 1) (HypIndex 1 1) E))).subtype))
     (Bf : LinearMap.BilinForm h.fixedField
       (conjFixed h (semilinearMatrixMap h (A : Matrix (HypIndex 1 1) (HypIndex 1 1) E))))
-    (hBf : ∀ v w, (Bf v w : E) = hypForm h 1 1 v w) (hs : Bf.IsSymm) (hnd : Bf.Nondegenerate)
+    (_hBf : ∀ v w, (Bf v w : E) = hypForm h 1 1 v w) (hs : Bf.IsSymm) (hnd : Bf.Nondegenerate)
     (Φ : commutingUnitary (hypForm h 1 1)
         (semilinearMatrixMap h (A : Matrix (HypIndex 1 1) (HypIndex 1 1) E)) ≃*
       TauCeti.BilinForm.isometryGroup Bf)
@@ -165,8 +165,8 @@ theorem psu35_fixed_order_four {E : Type} [Field E] {h : UnitaryFieldData 5 1 E}
       semilinearAutHom h le_rfl le_rfl ⟨_, hx⟩ (hypProj h 1 1 g) = hypProj h 1 1 g ∧
         orderOf (hypProj h 1 1 g) = 4 := by
   classical
-  haveI : Finite h.fixedField := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
-  letI : Fintype h.fixedField := Fintype.ofFinite _
+  have : Finite h.fixedField := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  let : Fintype h.fixedField := Fintype.ofFinite _
   have hF : Fintype.card h.fixedField = 5 := by rw [← Nat.card_eq_fintype_card, hk]
   obtain ⟨b, y, hy, y0, y1, y2⟩ := exists_isometry_two_three hF hdim Bf hs hnd
   have hyI : y ∈ TauCeti.BilinForm.isometryGroup Bf :=

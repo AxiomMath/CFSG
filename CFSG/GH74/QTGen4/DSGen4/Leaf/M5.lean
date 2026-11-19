@@ -36,12 +36,12 @@ private def m5V0 : Subgroup (alternatingGroup (Fin 5)) where
   carrier := {x | x = 1 ∨ x = m5a ∨ x = m5b ∨ x = m5a * m5b}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;> decide +kernel
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> decide +kernel
 
 private theorem m5V0_mem (x : alternatingGroup (Fin 5)) :
@@ -89,7 +89,7 @@ private theorem m5_exists_three_normalizer (V : Subgroup (alternatingGroup (Fin 
   have hcV : ∀ v, v ∈ V ↔ c⁻¹ * v * c ∈ m5V0 := by
     intro v
     rw [← hcoe, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.smul_def, MulAut.conj_inv_apply]
+    simp [MulAut.smul_def]
   refine ⟨c * m5c * c⁻¹, ?_, ?_, ?_⟩
   · rw [conj_pow, m5c_pow]
     simp

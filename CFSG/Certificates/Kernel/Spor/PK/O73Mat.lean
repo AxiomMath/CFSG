@@ -177,12 +177,12 @@ private theorem beq_cast {a b : Nat} (ha : a < 7) (hb : b < 7) :
       if idxOf a = idxOf b then 1 else 0 := by
   by_cases h : a = b
   · subst h
-    have e : Nat.beq a a = true := by simp [Nat.beq_eq]
-    rw [e, if_pos rfl]
+    have e : Nat.beq a a = true := by simp
+    rw [e, ite_eq_left rfl]
     exact Nat.cast_one
   · have e : Nat.beq a b = false :=
       Bool.eq_false_iff.mpr (fun h' => h (Nat.eq_of_beq_eq_true h'))
-    rw [e, if_neg (fun e => h ((idxOf_eq_iff ha hb).mp e))]
+    rw [e, ite_eq_right (fun e => h ((idxOf_eq_iff ha hb).mp e))]
     exact Nat.cast_zero
 
 theorem oneM7_eq : oneM7 = mEnc 1 := by
@@ -218,11 +218,11 @@ private theorem crdZ (v : List Nat) {a : Nat} (ha : a < 7) :
   simp only [vecOf, idx_idxOf ha]
 
 private theorem idxOf_inl {b : Nat} (h : b < 3) : idxOf b = .inl ⟨b, h⟩ := by
-  unfold idxOf; rw [dif_pos h]
+  unfold idxOf; rw [dite_eq_left h]
 
 private theorem idxOf_inr {b : Nat} (h3 : 3 ≤ b) (h6 : b < 6) :
     idxOf b = .inr (.inl ⟨b - 3, by omega⟩) := by
-  unfold idxOf; rw [dif_neg (by omega), dif_pos h6]
+  unfold idxOf; rw [dite_eq_right (by omega), dite_eq_left h6]
 
 private theorem blt_true {a b : Nat} (h : a < b) : Nat.blt a b = true := by
   rw [Nat.blt_eq]; exact h
@@ -302,7 +302,7 @@ private theorem mulVec_idxOf (A : Matrix Idx Idx (ZMod 3)) (v : Idx → ZMod 3) 
   rw [← sum_idx (fun j => A i j * v j)]
   rfl
 
-theorem appM7_mEnc (A : Matrix Idx Idx (ZMod 3)) {x : Nat} (hx : x < 2187) :
+theorem appM7_mEnc (A : Matrix Idx Idx (ZMod 3)) {x : Nat} (_hx : x < 2187) :
     appM7 (mEnc A) x = code (A *ᵥ dec x) := by
   unfold appM7
   rw [natRec_sum, code_eq_sum]
@@ -338,10 +338,10 @@ theorem wordM7_mEnc (Ms : List (Matrix Idx Idx (ZMod 3))) (w : List Nat) :
     congr 1
     by_cases hc : c < Ms.length
     · have h1 : c < (Ms.map mEnc).length := by rw [List.length_map]; exact hc
-      rw [if_pos hc, blt_true (by rw [lenN_misc_eq]; exact h1), nthN_eq,
+      rw [ite_eq_left hc, blt_true (by rw [lenN_misc_eq]; exact h1), nthN_eq,
         List.getD_eq_getElem _ _ h1, List.getD_eq_getElem _ _ hc, List.getElem_map]
     · have h1 : ¬ c < (Ms.map mEnc).length := by rw [List.length_map]; exact hc
-      rw [if_neg hc, blt_false (by rw [lenN_misc_eq]; exact h1)]
+      rw [ite_eq_right hc, blt_false (by rw [lenN_misc_eq]; exact h1)]
       exact oneM7_eq
 
 private theorem q3_polar (v : Idx → ZMod 3) : 2 * q3 v = v ⬝ᵥ (gram *ᵥ v) := by

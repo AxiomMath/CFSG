@@ -11,7 +11,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 
 
 theorem step1_of (h34 : Stroth34Statement) (hN : E1NaturalStatement)
-    (hKF1 : ParabolicStatement) : Step1Statement := by
+    (_hKF1 : ParabolicStatement) : Step1Statement := by
   intro G _ _ M Q Z B t hH AM
   have hc : Ctx M Q Z B := hH.ctx
   have hsec : Sec5Hyp hc 4 t := hH.sec

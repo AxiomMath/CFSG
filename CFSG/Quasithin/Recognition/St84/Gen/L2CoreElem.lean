@@ -32,14 +32,14 @@ private theorem exists_orderOf_eq_three {L : Subgroup G} [Finite ↥L] {n : ℕ}
     exact dvd_mul_of_dvd_left
       (dvd_mul_of_dvd_right (by simpa using Nat.sub_one_dvd_pow_sub_one 4 n) (2 ^ n))
       (Nat.card (pCoreOf 2 L))
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x₀, hx₀3⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   exact ⟨(x₀ : G), x₀.2, by rw [Subgroup.orderOf_coe, hx₀3]⟩
 
 private theorem eq_one_of_odd_of_mem_centralizer [Finite G] {L : Subgroup G} {x : G}
     (hc : CharTwo L) (hxL : x ∈ L) (hxodd : Odd (orderOf x))
     (hxcent : x ∈ Subgroup.centralizer (pCoreOf 2 L : Set G)) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.Quasithin.F53Push.eq_one_of_odd_of_mem
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L) (hc ⟨hxL, hxcent⟩) hxodd
 
@@ -47,8 +47,8 @@ private theorem isElemAbelian_pCoreOf_of_card_finite [Finite G] {L : Subgroup G}
     (hn : 2 ≤ n) (hc : CharTwo L) (hquot : IsL2Quot n (oTwoQuot ↥L))
     (hcard : Nat.card (pCoreOf 2 L) = 2 ^ (2 * n)) : IsElemAbelian 2 (pCoreOf 2 L) := by
   classical
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥L := Subtype.finite
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥L := Subtype.finite
   obtain ⟨x, hxL, hx3⟩ := exists_orderOf_eq_three (L := L) hn hquot
   have hxodd : Odd (orderOf x) := by rw [hx3]; exact ⟨1, rfl⟩
   have hxne : x ≠ 1 := by
@@ -114,11 +114,11 @@ private theorem eq_bot_or_eq_pCoreOf_of_card_finite [Finite G] {L W : Subgroup G
     (hcard : Nat.card (pCoreOf 2 L) = 2 ^ (2 * n)) (hW : W ≤ pCoreOf 2 L)
     (hLW : L ≤ Subgroup.normalizer (W : Set G)) : W = ⊥ ∨ W = pCoreOf 2 L := by
   classical
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥L := Subtype.finite
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥L := Subtype.finite
   have hQelem : IsElemAbelian 2 (pCoreOf 2 L) :=
     isElemAbelian_pCoreOf_of_card_finite hn hc hquot hcard
-  haveI : IsMulCommutative ↥(pCoreOf 2 L) := hQelem.1
+  have : IsMulCommutative ↥(pCoreOf 2 L) := hQelem.1
   have hQcomm : ∀ a ∈ pCoreOf 2 L, ∀ b ∈ pCoreOf 2 L, ⁅a, b⁆ = 1 := fun a ha b hb =>
     commutatorElement_eq_one_iff_mul_comm.mpr (congrArg Subtype.val (mul_comm' ⟨a, ha⟩ ⟨b, hb⟩))
   have hQsq : ∀ e ∈ pCoreOf 2 L, e ^ 2 = 1 := hQelem.2

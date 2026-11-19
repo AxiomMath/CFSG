@@ -36,7 +36,7 @@ theorem word_val (hB : Bridge) : ∀ (w : List ℕ), (∀ l ∈ w, l < 26) → �
     rw [wordElt_cons, mul_smul, hB.letter l (hw l List.mem_cons_self), word_val hB w
       (fun l' h => hw l' (List.mem_cons_of_mem l h)) x, cP_cons]
     unfold CF
-    rw [if_neg (by have := hw l List.mem_cons_self; omega)]
+    rw [ite_eq_right (by have := hw l List.mem_cons_self; omega)]
 
 theorem word_inv_val (hB : Bridge) {w : List ℕ} (hw : ∀ l ∈ w, l < 26) (x : Fin 306936) :
     ((wordElt w)⁻¹ • x).val = cP NW NT (invC w) x.val := by
@@ -77,7 +77,7 @@ theorem cls_word (hB : Bridge) {W : List ℕ} (hW : ∀ l ∈ W, l < 26) (k : Fi
   unfold dW
   rw [cP_append, cP_cons]
   unfold CF
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem root_val (W : List ℕ) (hB : Bridge) (hW : ∀ l ∈ W, l < 26) :
     (wordElt W • CFSG.Sporadic.Fi24.root).val = cP NW NT W 0 := word_val hB W hW _
@@ -260,7 +260,7 @@ theorem orbit_lvl3 (hB : Bridge) (hlv : CFSG.Perm.Native.levelLetters letters
       change LN NW l (wN NW v x) = CF NW NT l (cP NW NT v x)
       rw [ih (fun l' h => hv l' (List.mem_cons_of_mem l h))]
       unfold CF
-      rw [if_neg (by have := hv l List.mem_cons_self; omega)]
+      rw [ite_eq_right (by have := hv l List.mem_cons_self; omega)]
   have hinv : ∀ l ∈ lv3, ∀ x : Fin 306936, P.testBit x.val = true ↔
       P.testBit ((pairG gs l) • x).val = true := by
     intro l hl x
@@ -360,7 +360,7 @@ theorem orbit_lvl3 (hB : Bridge) (hlv : CFSG.Perm.Native.levelLetters letters
       ((Finset.range 306936).filter fun x => P.testBit x = true).card := by
     rw [Finset.card_filter, Finset.card_filter]
     exact Fin.sum_univ_eq_sum_range (fun x => if P.testBit x = true then 1 else 0) 306936
-  rw [hset, Nat.card_coe_set_eq, Set.ncard_eq_toFinset_card', Set.toFinset_setOf, hfin, ← hsplit,
+  rw [hset, Nat.card_coe_set_eq, Set.ncard_eq_toFinset_card', Set.toFinset_ofPred, hfin, ← hsplit,
     hcard]
 
 @[expose] noncomputable def sF : J := wordElt [2]

@@ -157,7 +157,7 @@ theorem J12x_ne_one : J12x ≠ 1 := fun h => by
   decide +kernel
 
 noncomputable def linOfGL (g : GL (Fin 12) (ZMod 2)) : V12 ≃ₗ[ZMod 2] V12 :=
-  LinearEquiv.ofLinear (Matrix.mulVecLin (g : Matrix (Fin 12) (Fin 12) (ZMod 2)))
+  LinearEquiv.ofLinearMap (Matrix.mulVecLin (g : Matrix (Fin 12) (Fin 12) (ZMod 2)))
     (Matrix.mulVecLin ((g⁻¹ : GL (Fin 12) (ZMod 2)) : Matrix (Fin 12) (Fin 12) (ZMod 2)))
     (by rw [← Matrix.mulVecLin_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one,
       Matrix.mulVecLin_one])
@@ -224,7 +224,7 @@ theorem rowsOf_conj {x y : MulAut W12} {r s : Array ℕ} (hx : RowsOf x r) (hy :
 
 theorem genSet_eq : Viol.GenSet [hjAc, hjBc] = {linOfGL A12, linOfGL B12} := by
   ext l
-  simp only [Viol.GenSet, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq,
+  simp only [Viol.GenSet, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨r, hr, hl⟩
@@ -250,7 +250,7 @@ theorem grpOf_append_eq_sup (l₁ l₂ : List (Array ℕ)) :
     grpOf (l₁ ++ l₂) = grpOf l₁ ⊔ grpOf l₂ := by
   have hset : Viol.GenSet (l₁ ++ l₂) = Viol.GenSet l₁ ∪ Viol.GenSet l₂ := by
     ext u
-    simp only [Viol.GenSet, List.mem_append, Set.mem_union, Set.mem_setOf_eq]
+    simp only [Viol.GenSet, List.mem_append, Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨r, hr | hr, hu⟩
       · exact Or.inl ⟨r, hr, hu⟩
@@ -295,7 +295,7 @@ theorem grpOf_words (ws : List (List ℕ)) :
     grpOf (ws.map wordR) = Subgroup.closure {x | ∃ w ∈ ws, x = hjWord w} := by
   have hset : ofLin '' Viol.GenSet (ws.map wordR) = {x | ∃ w ∈ ws, x = hjWord w} := by
     ext x
-    simp only [Viol.GenSet, List.mem_map, Set.mem_image, Set.mem_setOf_eq]
+    simp only [Viol.GenSet, List.mem_map, Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨u, ⟨r, ⟨w, hw, rfl⟩, hu⟩, rfl⟩
       refine ⟨w, hw, MulEquiv.ext fun y => ?_⟩

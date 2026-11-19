@@ -45,7 +45,7 @@ theorem fkEngel_of_subnormal {G : Type*} [Group G] {H K : Subgroup G} (hKH : K �
 
 private theorem fk_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -58,7 +58,7 @@ theorem fkPocket_unique_involution {G : Type} [Group G] [Finite G] {K : Subgroup
     (hKz : K ≤ centralizer ({z} : Set G)) {t : G} (htK : t ∈ K) (ht2 : t * t = 1)
     (ht1 : t ≠ 1) : t = z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hK
   set ψ : ↥K →* Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.oddCore ↥K)) with hψ

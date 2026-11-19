@@ -31,7 +31,6 @@ theorem isQuasisimple_of_le_mulAut_plane
   obtain ⟨-, -, hq, -⟩ := CFSG.SectionRank.Ccomm.perfect_prime_linear_recognition hp2 _ hne
   have hq' : CFSG.IsQuasisimple (J.map φ.toMonoidHom) := by
     first
-    | exact hq
     | exact A3.isQuasisimple_iff_open.mpr hq
   exact (CFSG.LocalAnalysis.ComponentInitial.isQuasisimple_congr
     (J.equivMapOfInjective φ.toMonoidHom φ.injective)).mpr hq'
@@ -184,11 +183,11 @@ theorem quasithinIsLocal_of_mem_cComp_normalizer {A C : Subgroup H} (T : Sylow 2
     (hCT : C ≤ T) (hC1 : C ≠ ⊥) : CFSG.Open.quasithinIsLocal (T : Subgroup H) A := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hATK : A ⊔ (T : Subgroup H) ≤ normalizer (C : Set H) := sup_le (le_of_mem_cComp hAK) hTK
-  refine ⟨T.isPGroup', cComp_mem_of_le hAK le_sup_left hATK, fun h2 => ?_, fun hbot => ?_⟩
+  refine ⟨T.isPGroup, cComp_mem_of_le hAK le_sup_left hATK, fun h2 => ?_, fun hbot => ?_⟩
   · exact T.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le le_sup_right))
   · apply hC1
     have hC := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
-      (hCT.trans le_sup_right) hATK (T.isPGroup'.to_le hCT)
+      (hCT.trans le_sup_right) hATK (T.isPGroup.to_le hCT)
     rw [hbot] at hC
     exact le_bot_iff.mp hC
 
@@ -345,7 +344,7 @@ theorem characteristic_normalizer_perfect_residuals_are_original_nonquasisimple_
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (inf_le_inf_right ψ.ker hAL)) (Subgroup.inclusion_injective _)
   have hEs : Group.IsSolvable (ψ.domRestrict K).ker :=
-    isSolvable_ker_restrict hBK hBn T.isPGroup' hKBT.le ψ hBs
+    isSolvable_ker_restrict hBK hBn T.isPGroup hKBT.le ψ hBs
   have : Finite (MulAut ((X ⧸ CFSG.pCore 2 X) ⧸ frattini (X ⧸ CFSG.pCore 2 X))) :=
     Finite.of_injective (fun e => (e : _ → _)) fun a b h => MulEquiv.ext (congrFun h)
   have hAq : CFSG.IsQuasisimple ↥(A.map ψ) := by

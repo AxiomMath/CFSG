@@ -39,7 +39,7 @@ theorem w155_le_u155 (A M X : Subgroup G) : w155 A M X ≤ u155 A M X :=
   (Subgroup.map_subtype_le _).trans (Sec14.oPrimeResidualOf_le_self 3 (u155 A M X))
 
 theorem isPerfect_w155 (A M X : Subgroup G) : Group.IsPerfect ↥(w155 A M X) := by
-  haveI : Group.IsPerfect ↥(CFSG.perfectResidual (b155 A M X)) :=
+  have : Group.IsPerfect ↥(CFSG.perfectResidual (b155 A M X)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
   exact Group.IsPerfect.map (b155 A M X).subtype
 

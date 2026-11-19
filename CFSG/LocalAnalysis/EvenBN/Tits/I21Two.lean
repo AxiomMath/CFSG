@@ -14,9 +14,11 @@ variable (h : SecTwoHyp G t u)
 
 include h
 
+omit [Finite G] h in
 theorem mem_centralizer_iff_conj {x : G} : x ∈ centralizer ({t} : Set G) ↔ x * t * x⁻¹ = t := by
   rw [mem_centralizer_singleton_iff, mul_inv_eq_iff_eq_mul]
 
+omit [Finite G] in
 theorem conj_z_of_normalizer {g : G} (hg : g ∈ normalizer (secTwoR t u : Set G)) :
     g * u ^ 2 * g⁻¹ = u ^ 2 := by
   have hu : g * u * g⁻¹ ∈ secTwoR t u := (mem_normalizer_iff.mp hg u).mp SecTwoHyp.u_mem_R
@@ -49,7 +51,7 @@ theorem orbit_cases {N : Subgroup G} (hN : N ≤ normalizer (secTwoR t u : Set G
   by_cases hall : ∀ g ∈ N, g * t * g⁻¹ = t
   · left
     intro g hg
-    exact h.mem_centralizer_iff_conj.mpr (hall g hg)
+    exact SecTwoHyp.mem_centralizer_iff_conj.mpr (hall g hg)
   · right
     push Not at hall
     obtain ⟨g, hgN, hgt⟩ := hall
@@ -59,7 +61,7 @@ theorem orbit_cases {N : Subgroup G} (hN : N ≤ normalizer (secTwoR t u : Set G
     refine ⟨⟨g, hgN⟩, fun b => ?_⟩
     have hbz : (b : G) * u ^ 2 * (b : G)⁻¹ = u ^ 2 := h.conj_z_of_normalizer (hN b.2)
     simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.mem_inf, SetLike.coe_mem,
-      true_and, h.mem_centralizer_iff_conj]
+      true_and, SecTwoHyp.mem_centralizer_iff_conj]
     have hbN : (b : G) ∈ N := b.2
     have hbgN : (b : G) * g ∈ N := mul_mem hbN hgN
     simp only [hbgN, true_and]
@@ -102,6 +104,7 @@ variable (h : Sec622Bar G t u x)
 
 include h
 
+omit [Finite G] in
 theorem eq_one_of_mem_R_of_pow_five {g : G} (hg : g ∈ secTwoR t u) (h5 : g ^ 5 = 1) : g = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp h.secTwo.isPGroup_R) ⟨g, hg⟩
@@ -114,6 +117,7 @@ theorem eq_one_of_mem_R_of_pow_five {g : G} (hg : g ∈ secTwoR t u) (h5 : g ^ 5
   rw [hk0, pow_zero] at hk'
   exact orderOf_eq_one_iff.mp hk'
 
+omit [Finite G] in
 theorem mem_R_of_mem_centralizer_normalizer {g : G} (hgC : g ∈ centralizer ({t} : Set G))
     (hgN : g ∈ normalizer (secTwoR t u : Set G)) : g ∈ secTwoR t u := by
   have hc := h.crel
@@ -192,9 +196,9 @@ theorem isPGroup_of_sylow_eq (S : Sylow 2 G) (hS : secTwoR t u = S) : IsPGroup 2
   have hKO : K ≤ standardComponentOddCore G := le_sSup ⟨inferInstance, hKodd⟩
   have hKbot : K = ⊥ := by
     rw [eq_bot_iff, ← h.oddCore]; exact hKO
-  have hcard : Nat.card K * Nat.card (S : Subgroup G) = Nat.card G := hcompl.card_mul
+  have hcard : Nat.card K * Nat.card (S : Subgroup G) = Nat.card G := hcompl.card_mul_card
   rw [hKbot, Subgroup.card_bot, one_mul] at hcard
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   exact IsPGroup.of_card (n := n) (hcard ▸ hn)
 
 end CFSG.LocalAnalysis.EvenBN.Tits.Sec622Bar

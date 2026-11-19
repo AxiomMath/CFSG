@@ -259,7 +259,7 @@ theorem sq_add_add_one_of_commute [Nontrivial V] (L : Subgroup (V ≃ₗ[ZMod 2]
       by_contra hne
       fin_cases i <;> fin_cases j <;> simp [hes] at h hne <;>
         first
-        | exact h01 h | exact h01 h.symm | exact hf0 h.symm | exact hf0 h
+        | exact hf0 h.symm | exact hf0 h
         | exact hf1 h.symm | exact hf1 h | exact hf1' h.symm | exact hf1' h
         | exact hs0 h.symm | exact hs0 h | exact hs1 h.symm | exact hs1 h
         | exact hsf h.symm | exact hsf h | exact hsf1 h.symm | exact hsf1 h

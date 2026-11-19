@@ -39,8 +39,8 @@ theorem cvec_conj_e₂ (a : SU52) :
     decide
   have hone : F4.ω * (F4.ω)⁻¹ = 1 := by decide
   fin_cases i
-  · simp only [ι3, Fin.zero_eta, Matrix.cons_val_zero, Fin.mk_one, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.head_cons]
+  · simp only [ι3, Fin.zero_eta, Matrix.cons_val_zero, Matrix.cons_val_one,
+      Matrix.cons_val_two]
     show F4.ω * mat a 1 0 * F4.ω⁻¹ = mat a 1 0
     rw [mul_comm F4.ω, mul_assoc, hone, mul_one]
   · show bar F4.ω * mat a 2 0 * F4.ω⁻¹ = F4.ω * mat a 2 0

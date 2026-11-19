@@ -53,7 +53,7 @@ private theorem lad_exists_perfect_lift {Q : Type*} [Group Q] [Finite Q]
   obtain ⟨S, hS, hmin⟩ := (wellFounded_lt (α := Subgroup Q)).has_min
     {S : Subgroup Q | S.map (MulAut.conj : Q →* MulAut Q) = P}
     ⟨P.comap (MulAut.conj : Q →* MulAut Q), by
-      rw [Set.mem_setOf_eq, Subgroup.map_comap_eq]; exact inf_eq_right.mpr hP⟩
+      rw [Set.mem_ofPred_eq, Subgroup.map_comap_eq]; exact inf_eq_right.mpr hP⟩
   refine ⟨S, ?_, hS⟩
   have hmap : ⁅S, S⁆.map (MulAut.conj : Q →* MulAut Q) = P := by
     rw [Subgroup.map_commutator, show S.map (MulAut.conj : Q →* MulAut Q) = P from hS]
@@ -63,12 +63,12 @@ private theorem lad_exists_perfect_lift {Q : Type*} [Group Q] [Finite Q]
 
 theorem A_normalized {G : Type} [Group G] {F L A : Subgroup G} {y z : G}
     (hFL : ∀ f ∈ F, ∀ l ∈ L, f * l * f⁻¹ ∈ L) (hzF : ∀ x ∈ F, x * z = z * x)
-    (hzy : ∀ l ∈ L, z * l * z⁻¹ = y * l * y⁻¹) (hyL : y ∈ L)
+    (hzy : ∀ l ∈ L, z * l * z⁻¹ = y * l * y⁻¹) (_hyL : y ∈ L)
     (hAL : A ≤ L) (hAy : ∀ x ∈ A, x * y = y * x) (hAperf : Group.IsPerfect ↥A)
     (hAmax : ∀ P : Subgroup G, P ≤ L → (∀ x ∈ P, x * y = y * x) → Group.IsPerfect ↥P → P ≤ A) :
     ∀ f ∈ F, ∀ x ∈ A, f * x * f⁻¹ ∈ A := by
   intro f hf x hx
-  haveI : Group.IsPerfect ↥A := hAperf
+  have : Group.IsPerfect ↥A := hAperf
   have hzA : ∀ a ∈ A, z * a * z⁻¹ = a := fun a ha => by
     rw [hzy a (hAL ha), ← hAy a ha, mul_inv_cancel_right]
   have hPL : A.map (MulAut.conj f).toMonoidHom ≤ L := by
@@ -85,7 +85,7 @@ theorem A_normalized {G : Type} [Group G] {F L A : Subgroup G} {y z : G}
 theorem layer_le_mul {G : Type} [Group G] [Finite G] {F L A : Subgroup G} {y z : G}
     (hFL : ∀ f ∈ F, ∀ l ∈ L, f * l * f⁻¹ ∈ L) (hyL : y ∈ L)
     (hzF : ∀ x ∈ F, x * z = z * x) (hzy : ∀ l ∈ L, z * l * z⁻¹ = y * l * y⁻¹)
-    (hAL : A ≤ L) (hAy : ∀ x ∈ A, x * y = y * x) (hAF : A ≤ F)
+    (_hAL : A ≤ L) (_hAy : ∀ x ∈ A, x * y = y * x) (hAF : A ≤ F)
     (hAmax : ∀ P : Subgroup G, P ≤ L → (∀ x ∈ P, x * y = y * x) → Group.IsPerfect ↥P → P ≤ A)
     (hOut : ∀ P : Subgroup (MulAut ↥L), Group.IsPerfect ↥P →
       P ≤ (MulAut.conj : ↥L →* MulAut ↥L).range) :
@@ -96,12 +96,12 @@ theorem layer_le_mul {G : Type} [Group G] [Finite G] {F L A : Subgroup G} {y z :
   let act : ↥F →* MulAut ↥L := (Subgroup.normalizerMonoidHom L).comp (Subgroup.inclusion hFN)
   have hact : ∀ (f : ↥F) (l : ↥L), ((act f l : ↥L) : G) = (f : G) * l * (f : G)⁻¹ :=
     fun f l => rfl
-  haveI : Group.IsPerfect ↥(ComponentClassification.Layer.subgroup ↥F) :=
+  have : Group.IsPerfect ↥(ComponentClassification.Layer.subgroup ↥F) :=
     ComponentClassification.Layer.perfect ↥F
-  haveI hPperf : Group.IsPerfect ↥((ComponentClassification.Layer.subgroup ↥F).map act) :=
+  have hPperf : Group.IsPerfect ↥((ComponentClassification.Layer.subgroup ↥F).map act) :=
     Group.IsPerfect.map act
   obtain ⟨S, hSperf, hSmap⟩ := lad_exists_perfect_lift _ (hOut _ hPperf)
-  haveI := hSperf
+  have := hSperf
   let y' : ↥L := ⟨y, hyL⟩
   have hcomm : ∀ x : ↥F, ∀ m : ↥L, act x (y' * m * y'⁻¹) = y' * act x m * y'⁻¹ := by
     intro x m

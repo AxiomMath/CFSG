@@ -67,7 +67,7 @@ private lemma inner_quasisimple_of_class (S : LangSetup Tag.F4 L 3)
     S.rho_eq_smul hτ hn hγ
   have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [hi_orbit, if_pos (f4Three_twistInner_one S hρ hE hq3 i)]
+    rw [hi_orbit, ite_eq_left (f4Three_twistInner_one S hρ hE hq3 i)]
   have hQ : 4 ≤ S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) := by
     rw [hi_orbit, hq, pow_one]
     calc 4 ≤ 2 ^ 2 := by norm_num

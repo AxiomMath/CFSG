@@ -267,7 +267,7 @@ private noncomputable def rl (α : Fin Tag.G2.rank → ℤ) : Label .G2 := by
 private theorem rl_of_isRoot {α : Fin Tag.G2.rank → ℤ}
     (h : IsRoot .G2 α) : rl α = Sum.inr ⟨α, h⟩ := by
   unfold rl
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private theorem isRoot_sigma {α : Fin Tag.G2.rank → ℤ}
     (hα : IsRoot .G2 α) : IsRoot .G2 (sigma α) :=

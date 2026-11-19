@@ -77,9 +77,9 @@ theorem canonicalRep_rootVec_exists (w : WeylGroup τ) {β : Fin τ.rank → ℤ
 theorem hVecSum_apply_inl (c : Fin τ.rank → ℤ) (j : Fin τ.rank) :
     RootWalk.hVecSum K c (Sum.inl j) = (c j : K) := by
   classical
-  simp only [RootWalk.hVecSum, hVec, Finsupp.finset_sum_apply, Finsupp.smul_apply,
+  simp only [RootWalk.hVecSum, hVec, _root_.Finsupp.finsetSum_apply, Finsupp.smul_apply,
     Finsupp.single_apply, Sum.inl.injEq, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem rootDiag_hVecSum (b : Fin τ.rank → Kˣ) (c : Fin τ.rank → ℤ) :
     rootDiag b (RootWalk.hVecSum K c) = RootWalk.hVecSum K c := by
@@ -93,7 +93,7 @@ theorem rootDiag_canonicalRep_coord_inr_of_ne (b : Fin τ.rank → Kˣ) (w : Wey
   obtain ⟨ε, hε⟩ := canonicalRep_rootVec_exists (K := K) w α.2
   rw [← FourGroupChevalley.rootVec_eq_single α.2, hε, map_smul,
     FourGroupChevalley.rootVec_eq_single (IsRoot.smul α.2 w), rootDiag_single_inr,
-    Finsupp.smul_apply, Finsupp.smul_apply, Finsupp.single_apply, if_neg]
+    Finsupp.smul_apply, Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right]
   · simp
   · intro h
     exact hw (congrArg Subtype.val (Sum.inr_injective h))
@@ -124,7 +124,7 @@ theorem hStep_e8Sign (i : Fin Tag.E8.rank) (c : Fin Tag.E8.rank → ℤ) :
   simp only [RootWalk.hStep, reflect, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
   by_cases h : k = i
   · subst h
-    simp only [if_true, mul_one, mul_sub, Finset.mul_sum]
+    simp only [ite_true, mul_one, mul_sub, Finset.mul_sum]
     congr 1
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [← mul_assoc, e8Sign_cartan k j, mul_assoc]

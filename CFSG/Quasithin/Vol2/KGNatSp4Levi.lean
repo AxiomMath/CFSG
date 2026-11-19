@@ -145,7 +145,7 @@ theorem factLeviSp4_holds : Ch11.SecA.FactLeviSp4 := by
     have hxU := CFSG.QuasithinUnique.Vol2Native.A312L.blkN_ker (K := K) j
       (x : ↥(perfectCore (CFSG.QuasithinUnique.Setup.X7a.Q2 K j)))
       (MonoidHom.mem_ker.mp x.2)
-    obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨_, hP₀ ▸ hxU⟩
+    obtain ⟨k, hk⟩ := P₀.isPGroup ⟨_, hP₀ ▸ hxU⟩
     refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
     have h1 := congrArg Subtype.val hk
     simpa using h1

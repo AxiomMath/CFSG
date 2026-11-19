@@ -23,7 +23,7 @@ theorem ggUnitaryTorusRank_of_unitDvdRow {p : ℕ} {lab : LargeEvenLabel}
     ggUnitaryTorusRank p (lab.rank + 1) = lab.rank - 2 := by
   obtain ⟨-, -, hl, hpd, -⟩ := h
   unfold ggUnitaryTorusRank
-  rw [if_pos hpd]
+  rw [ite_eq_left hpd]
   omega
 
 section Rows
@@ -91,7 +91,7 @@ theorem ggFieldFixKnown_unitDvd : GGFieldFixKnown GGFieldOtherUnitDvdLabel := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, ← pow_mul])
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   intro _ _ f hf hord
   exact CFSG.LocalAnalysis.GLTheoremA.T156.Uni.exists_raw_unitary (d := l + 1) (by omega) hn hK

@@ -85,7 +85,7 @@ theorem yamadaD₄_le_normalizer_yamadaF₄_R5 (h : Setup G L f t) (d : Triality
     (le_normalizer hx)
 
 theorem yamadaM₄_le_normalizer_yamadaF₄_R5 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
-    (hlay : h.LayerHyp d) : yamadaM₄ d t ≤ normalizer (yamadaF₄ d t : Set G) := by
+    (_hlay : h.LayerHyp d) : yamadaM₄ d t ≤ normalizer (yamadaF₄ d t : Set G) := by
   intro m hm
   have hmR₄ : m ∈ yamadaR₄ d t := (inf_le_left : yamadaM₄ d t ≤ yamadaR₄ d t) hm
   have hmY₂ : m ∈ centralizer (yamadaY₂ d t : Set G) :=

@@ -186,8 +186,8 @@ theorem cols_of_comm_zz {c : List ℕ} (h : mulS c zzS = mulS zzS c) :
   have e6 := e 6 (by norm_num)
   have e7 := e 7 (by norm_num)
   simp only [zzS_eq, List.getD_cons_zero, List.getD_cons_succ] at e0 e1 e2 e3 e4 e5 e6 e7
-  simp +decide only [mv8, bt, if_true, if_false, Nat.xor_zero, Nat.zero_xor] at e0 e1 e2 e3
-  simp +decide only [mv8, bt, if_true, if_false, Nat.xor_zero, Nat.zero_xor] at e4 e5 e6 e7
+  simp +decide only [mv8, ite_true, ite_false, Nat.xor_zero, Nat.zero_xor] at e0 e1 e2 e3
+  simp +decide only [mv8, ite_true, ite_false, Nat.xor_zero, Nat.zero_xor] at e4 e5 e6 e7
   exact ⟨e0, e1, e2, e3, e4, e5, e6, e7⟩
 
 theorem spS_getD {c : List ℕ} (h : spS c = true) {i j : ℕ} (hi : i < 8) (hj : j < 8) :
@@ -521,7 +521,7 @@ theorem normalizer_E0_le : Subgroup.normalizer (E0 : Set H8) ≤ N0 := by
   choose a ha ea using hl
   have hnd : [a 0 / 2, a 1 / 2, a 2 / 2, a 3 / 2].Nodup := by
     have d := fun k l (hkl : k ≠ l) => conj_zE_ne g hkl (ha k) (ha l) (ea k) (ea l)
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
       not_or, List.nodup_nil, and_true, not_false_eq_true]
     exact ⟨⟨d 0 1 (by decide), d 0 2 (by decide), d 0 3 (by decide)⟩,
       ⟨d 1 2 (by decide), d 1 3 (by decide)⟩, d 2 3 (by decide)⟩

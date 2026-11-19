@@ -17,11 +17,13 @@ private lemma zmod4_val_one : (1 : ZMod 4).val = 1 := by rw [ZMod.val_one_eq_one
 
 private lemma zmod4_val_zero : (0 : ZMod 4).val = 0 := ZMod.val_zero
 
+omit [Finite G] in
 private lemma zpow_val_add {g : G} (hg : orderOf g = 4) (x y : ZMod 4) :
     g ^ ((x + y).val) = g ^ x.val * g ^ y.val := by
   have hmod : (x.val + y.val) % 4 = (x.val + y.val) % orderOf g := by rw [hg]
   rw [ZMod.val_add, hmod, pow_mod_orderOf, pow_add]
 
+omit [Finite G] in
 private lemma zpow_mul_rearrange {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (i j k i' j' k' : ℕ) :
     a ^ i * b ^ j * c ^ k * (a ^ i' * b ^ j' * c ^ k')
@@ -56,6 +58,7 @@ private noncomputable def z4powHom {a b c : G} (hab : Commute a b) (hac : Commut
     rw [zpow_mul_rearrange hab hac hbc]
     group)
 
+omit [Finite G] in
 private lemma z4powHom_apply {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (ha : orderOf a = 4) (hb : orderOf b = 4) (hc : orderOf c = 4)
     (f : Outside.Z4pow 3) :
@@ -63,6 +66,7 @@ private lemma z4powHom_apply {a b c : G} (hab : Commute a b) (hac : Commute a c)
       a ^ (Multiplicative.toAdd f 0).val * b ^ (Multiplicative.toAdd f 1).val *
         c ^ (Multiplicative.toAdd f 2).val := rfl
 
+omit [Finite G] in
 private lemma z4powHom_injective {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (ha : orderOf a = 4) (hb : orderOf b = 4) (hc : orderOf c = 4)
     (h1 : zpowers a ⊓ zpowers b = ⊥) (h2 : (zpowers a ⊔ zpowers b) ⊓ zpowers c = ⊥) :
@@ -136,6 +140,7 @@ private lemma z4powHom_injective {a b c : G} (hab : Commute a b) (hac : Commute 
   rw [← ofAdd_toAdd f, hF]
   rfl
 
+omit [Finite G] in
 private lemma z4powHom_range {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (ha : orderOf a = 4) (hb : orderOf b = 4) (hc : orderOf c = 4) :
     (z4powHom hab hac hbc ha hb hc).range =
@@ -153,16 +158,17 @@ private lemma z4powHom_range {a b c : G} (hab : Commute a b) (hac : Commute a c)
       · rw [Subgroup.zpowers_le]
         refine ⟨Multiplicative.ofAdd (Pi.single 0 1), ?_⟩
         rw [z4powHom_apply]
-        simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one, zmod4_val_zero]
+        simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one]
       · rw [Subgroup.zpowers_le]
         refine ⟨Multiplicative.ofAdd (Pi.single 1 1), ?_⟩
         rw [z4powHom_apply]
-        simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one, zmod4_val_zero]
+        simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one]
     · rw [Subgroup.zpowers_le]
       refine ⟨Multiplicative.ofAdd (Pi.single 2 1), ?_⟩
       rw [z4powHom_apply]
-      simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one, zmod4_val_zero]
+      simp [Pi.single_eq_same, Pi.single_eq_of_ne, zmod4_val_one]
 
+omit [Finite G] in
 theorem q13d_exists_mulEquiv_Z4cube {a b c : G} (hab : a * b = b * a) (hac : a * c = c * a)
     (hbc : b * c = c * b) (ha : orderOf a = 4) (hb : orderOf b = 4) (hc : orderOf c = 4)
     (h1 : zpowers a ⊓ zpowers b = ⊥) (h2 : (zpowers a ⊔ zpowers b) ⊓ zpowers c = ⊥) :

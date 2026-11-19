@@ -41,6 +41,7 @@ noncomputable def torusHom {a b : ℕ} (φ : TorusAlg K ch e a b ≃ₗ[K] V) :
   Units.map ((LinearEquiv.conjAlgEquiv K φ).toAlgHom.comp
     (Algebra.lmul K (TorusAlg K ch e a b))).toMonoidHom
 
+omit [Module.Finite K V] in
 theorem torusHom_injective {a b : ℕ} (φ : TorusAlg K ch e a b ≃ₗ[K] V) :
     Function.Injective (torusHom ch e φ) :=
   Units.map_injective ((LinearEquiv.conjAlgEquiv K φ).injective.comp
@@ -58,8 +59,8 @@ theorem isMulCommutative_of_isPGroup_GL (hp2 : Odd p) (hpK : ¬ p ∣ Nat.card K
     (hne : Module.finrank K V / e < p) {P : Subgroup (Module.End K V)ˣ} (hP : IsPGroup p P) :
     IsMulCommutative P := by
   obtain ⟨ch, hch⟩ := CharP.exists K
-  haveI : Fact ch.Prime := ⟨CharP.char_is_prime K ch⟩
-  haveI : NeZero e := ⟨he.ne'⟩
+  have : Fact ch.Prime := ⟨CharP.char_is_prime K ch⟩
+  have : NeZero e := ⟨he.ne'⟩
   set n := Module.finrank K V with hn
   set a := n / e with ha
   set b := n % e with hb
@@ -106,12 +107,12 @@ theorem isMulCommutative_of_isPGroup_GL (hp2 : Odd p) (hpK : ¬ p ∣ Nat.card K
   exact CFSG.SignalizerFunctorTheorem.McBride.UnitaryO.isMulCommutative_of_isPGroup_of_not_dvd_index
     T hidx hP
 
-theorem le_pRank_GL (hpK : ¬ p ∣ Nat.card K) {e : ℕ} (he : 0 < e)
+theorem le_pRank_GL (_hpK : ¬ p ∣ Nat.card K) {e : ℕ} (he : 0 < e)
     (hpe : ∀ j : ℕ, p ∣ Nat.card K ^ j - 1 ↔ e ∣ j) {r : ℕ} (hr : r * e ≤ Module.finrank K V) :
     r ≤ CFSG.Open.pRank p (⊤ : Subgroup (Module.End K V)ˣ) := by
   obtain ⟨ch, hch⟩ := CharP.exists K
-  haveI : Fact ch.Prime := ⟨CharP.char_is_prime K ch⟩
-  haveI : NeZero e := ⟨he.ne'⟩
+  have : Fact ch.Prime := ⟨CharP.char_is_prime K ch⟩
+  have : NeZero e := ⟨he.ne'⟩
   set b := Module.finrank K V - r * e with hb
   have hrb : r * e + b = Module.finrank K V := by omega
   let φ : TorusAlg K ch e r b ≃ₗ[K] V :=
@@ -133,7 +134,7 @@ theorem le_pRank_GL (hpK : ¬ p ∣ Nat.card K) {e : ℕ} (he : 0 < e)
     simp only [Subgroup.coe_mul]
     rw [← zpow_add, ← zpow_add, add_comm]
   let φ1 : (Fin r → S) →* (Fin r → (FiniteField.Extension K ch e)ˣ) :=
-    Pi.monoidHom fun i => S.subtype.comp (Pi.evalMonoidHom (fun _ => S) i)
+    _root_.MonoidHom.pi fun i => S.subtype.comp (Pi.evalMonoidHom (fun _ => S) i)
   let φ2 : (Fin r → (FiniteField.Extension K ch e)ˣ) →* (TorusAlg K ch e r b)ˣ :=
     (Units.map (MonoidHom.inl (Fin r → FiniteField.Extension K ch e) (Fin b → K))).comp
       (MulEquiv.piUnits (M := fun _ : Fin r => FiniteField.Extension K ch e)).symm.toMonoidHom

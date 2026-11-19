@@ -23,7 +23,7 @@ theorem noL2Layer_iff_noL2Sub {P : Type} [Group P] (ψ : MulAut P) :
 
 theorem map_gLAPPrimeCore_equiv {A B : Type*} [Group A] [Finite A] [Group B] (p : ℕ) (e : A ≃* B) :
     (GLAPPrimeCore p A).map e.toMonoidHom = GLAPPrimeCore p B := by
-  haveI : Finite B := Finite.of_equiv A e.toEquiv
+  have : Finite B := Finite.of_equiv A e.toEquiv
   refine le_antisymm (map_gLAPPrimeCore_le' p e.toMonoidHom e.surjective) ?_
   have h := map_gLAPPrimeCore_le' p e.symm.toMonoidHom e.symm.surjective
   intro y hy

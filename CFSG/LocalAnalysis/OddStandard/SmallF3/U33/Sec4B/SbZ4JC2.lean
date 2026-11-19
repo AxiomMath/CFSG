@@ -62,7 +62,7 @@ private theorem vec_xor_comm {W : Type*} [CommGroup W] (y z v₁ v₂ : W)
       (y ^ (n &&& 1) * z ^ ((n >>> 1) &&& 1) * v₁ ^ ((n >>> 2) &&& 1) * v₂ ^ ((n >>> 3) &&& 1)) *
         (y ^ (m &&& 1) * z ^ ((m >>> 1) &&& 1) * v₁ ^ ((m >>> 2) &&& 1) *
           v₂ ^ ((m >>> 3) &&& 1)) := by
-  simp only [pow_and_one, pow_shift_and_one]
+  simp only [pow_and_one]
   exact zjB_prod_xor y z v₁ v₂ hy hz hv₁ hv₂ n m
 
 private theorem bits_determine (n : ℕ) (hn : n < 16) :
@@ -101,22 +101,27 @@ namespace ZJBase
 variable {Q Y V V' B : Subgroup H} {ρ t τ l y z v₁ v₂ : H}
 variable (h : ZJBase Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 theorem y_mem : y ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_left (by rw [h.V_eq]; exact Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem z_mem : z ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_left (by rw [h.V_eq]; exact Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem v₁_mem : v₁ ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_right (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem v₂_mem : v₂ ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_right (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 private theorem yz_pow_eq_one {a b : ℕ} (ha : a < 2) (hb : b < 2)
     (he : y ^ a * z ^ b = 1) : a = 0 ∧ b = 0 := by
   have ha' : a = 0 ∨ a = 1 := by omega
@@ -130,6 +135,7 @@ private theorem yz_pow_eq_one {a b : ℕ} (ha : a < 2) (hb : b < 2)
     exact h.y_ne_z
       (by rw [eq_inv_of_mul_eq_one_left he, inv_eq_of_mul_eq_one_right (h.Y_sq z h.z_mem)])
 
+omit [Finite H] in
 private theorem v_pow_eq_one {c d : ℕ} (hc : c < 2) (hd : d < 2)
     (he : v₁ ^ c * v₂ ^ d = 1) : c = 0 ∧ d = 0 := by
   have hc' : c = 0 ∨ c = 1 := by omega
@@ -143,26 +149,31 @@ private theorem v_pow_eq_one {c d : ℕ} (hc : c < 2) (hd : d < 2)
     exact h.v₁_ne_v₂
       (by rw [eq_inv_of_mul_eq_one_left he, inv_eq_of_mul_eq_one_right (h.Y_sq v₂ h.v₂_mem)])
 
+omit [Finite H] in
 theorem Y_normal : Y.Normal := by
   exact ⟨fun x hx g => h.normal_Y g x hx⟩
 
+omit [Finite H] in
 theorem Y_comm : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a := by
   intro a ha b hb
   exact h.Q_comm a (h.Y_le_Q ha) b (h.Y_le_Q hb)
 
+omit [Finite H] in
 theorem vec_mem (n : ℕ) : zjVec y z v₁ v₂ n ∈ Y := by
   simp only [zjVec]
   exact mul_mem (mul_mem (mul_mem (pow_mem h.y_mem _) (pow_mem h.z_mem _))
     (pow_mem h.v₁_mem _)) (pow_mem h.v₂_mem _)
 
+omit [Finite H] h in
 theorem vec_basis : zjVec y z v₁ v₂ 0 = 1 ∧ zjVec y z v₁ v₂ 1 = y ∧ zjVec y z v₁ v₂ 2 = z ∧
     zjVec y z v₁ v₂ 4 = v₁ ∧ zjVec y z v₁ v₂ 8 = v₂ := by
   refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     simp only [zjVec, Nat.shiftRight_eq_div_pow, Nat.and_one_is_mod] <;> norm_num
 
-theorem vec_xor {n m : ℕ} (hn : n < 16) (hm : m < 16) :
+omit [Finite H] in
+theorem vec_xor {n m : ℕ} (_hn : n < 16) (_hm : m < 16) :
     zjVec y z v₁ v₂ (n ^^^ m) = zjVec y z v₁ v₂ n * zjVec y z v₁ v₂ m := by
-  haveI : IsMulCommutative ↥Y :=
+  have : IsMulCommutative ↥Y :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (h.Y_comm a.1 a.2 b.1 b.2)
   open scoped IsMulCommutative in
   have key := vec_xor_comm (W := ↥Y) ⟨y, h.y_mem⟩ ⟨z, h.z_mem⟩ ⟨v₁, h.v₁_mem⟩
@@ -172,6 +183,7 @@ theorem vec_xor {n m : ℕ} (hn : n < 16) (hm : m < 16) :
   simp only [Subgroup.coe_mul, Subgroup.coe_pow] at key2
   simpa only [zjVec] using key2
 
+omit [Finite H] in
 theorem vec_eq_one {n : ℕ} (hn : n < 16) (h1 : zjVec y z v₁ v₂ n = 1) : n = 0 := by
   let p := y ^ (n &&& 1) * z ^ ((n >>> 1) &&& 1)
   let q := v₁ ^ ((n >>> 2) &&& 1) * v₂ ^ ((n >>> 3) &&& 1)
@@ -198,6 +210,7 @@ theorem vec_eq_one {n : ℕ} (hn : n < 16) (h1 : zjVec y z v₁ v₂ n = 1) : n 
   have hdet := bits_determine n hn
   omega
 
+omit [Finite H] in
 theorem vec_inj {n m : ℕ} (hn : n < 16) (hm : m < 16)
     (e : zjVec y z v₁ v₂ n = zjVec y z v₁ v₂ m) : n = m := by
   have hx : n ^^^ m < 16 := Nat.xor_lt_two_pow (show n < 2 ^ 4 from hn) (show m < 2 ^ 4 from hm)
@@ -206,10 +219,11 @@ theorem vec_inj {n m : ℕ} (hn : n < 16) (hm : m < 16)
     exact h.Y_sq _ (h.vec_mem n)
   exact xor_eq_zero (h.vec_eq_one hx h1)
 
+omit [Finite H] in
 theorem vec_surj {u : H} (hu : u ∈ Y) : ∃ n, n < 16 ∧ zjVec y z v₁ v₂ n = u := by
   let W : Subgroup H :=
     { carrier := {u | ∃ n, n < 16 ∧ zjVec y z v₁ v₂ n = u}
-      one_mem' := ⟨0, by norm_num, h.vec_basis.1⟩
+      one_mem' := ⟨0, by norm_num, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).1⟩
       mul_mem' := by
         rintro a b ⟨n, hn, rfl⟩ ⟨m, hm, rfl⟩
         exact ⟨n ^^^ m, Nat.xor_lt_two_pow (show n < 2 ^ 4 from hn) (show m < 2 ^ 4 from hm),
@@ -220,16 +234,17 @@ theorem vec_surj {u : H} (hu : u ∈ Y) : ∃ n, n < 16 ∧ zjVec y z v₁ v₂ 
   have hV : V ≤ W := by
     rw [h.V_eq, Subgroup.closure_le]
     rintro g (rfl | rfl)
-    · exact ⟨1, by norm_num, h.vec_basis.2.1⟩
-    · exact ⟨2, by norm_num, h.vec_basis.2.2.1⟩
+    · exact ⟨1, by norm_num, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (H := H)).2.1⟩
+    · exact ⟨2, by norm_num, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (H := H)).2.2.1⟩
   have hV' : V' ≤ W := by
     rw [h.V'_eq, Subgroup.closure_le]
     rintro g (rfl | rfl)
-    · exact ⟨4, by norm_num, h.vec_basis.2.2.2.1⟩
-    · exact ⟨8, by norm_num, h.vec_basis.2.2.2.2⟩
+    · exact ⟨4, by norm_num, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (H := H)).2.2.2.1⟩
+    · exact ⟨8, by norm_num, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (H := H)).2.2.2.2⟩
   have hY : Y ≤ W := by rw [h.Y_eq]; exact sup_le hV hV'
   exact hY hu
 
+omit [Finite H] in
 theorem vec_mem_V_iff {n : ℕ} (hn : n < 16) : zjVec y z v₁ v₂ n ∈ V ↔ n < 4 := by
   constructor
   · intro hV
@@ -276,6 +291,7 @@ theorem vec_mem_V_iff {n : ℕ} (hn : n < 16) : zjVec y z v₁ v₂ n ∈ V ↔ 
       (pow_mem (by rw [h.V_eq]; exact Subgroup.subset_closure (by simp)) _)
       (pow_mem (by rw [h.V_eq]; exact Subgroup.subset_closure (by simp)) _)
 
+omit [Finite H] in
 theorem vec_mem_V'_iff {n : ℕ} (hn : n < 16) : zjVec y z v₁ v₂ n ∈ V' ↔ n &&& 3 = 0 := by
   constructor
   · intro hV'
@@ -320,27 +336,32 @@ theorem vec_mem_V'_iff {n : ℕ} (hn : n < 16) : zjVec y z v₁ v₂ n ∈ V' �
       (pow_mem (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp)) _)
       (pow_mem (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp)) _)
 
+omit [Finite H] in
 theorem code_vec {n : ℕ} (hn : n < 16) : zjCode y z v₁ v₂ (zjVec y z v₁ v₂ n) = n := by
   classical
   have hex : ∃ k, k < 16 ∧ zjVec y z v₁ v₂ k = zjVec y z v₁ v₂ n := ⟨n, hn, rfl⟩
-  rw [zjCode, dif_pos hex]
+  rw [zjCode, dite_eq_left hex]
   exact h.vec_inj (Nat.find_spec hex).1 hn (Nat.find_spec hex).2
 
+omit [Finite H] in
 theorem vec_code {u : H} (hu : u ∈ Y) : zjVec y z v₁ v₂ (zjCode y z v₁ v₂ u) = u := by
   classical
   obtain ⟨n, hn, rfl⟩ := h.vec_surj hu
   rw [h.code_vec hn]
 
+omit [Finite H] in
 theorem code_lt {u : H} (hu : u ∈ Y) : zjCode y z v₁ v₂ u < 16 := by
   classical
   have hex := h.vec_surj hu
-  rw [zjCode, dif_pos hex]
+  rw [zjCode, dite_eq_left hex]
   exact (Nat.find_spec hex).1
 
+omit [Finite H] in
 theorem code_one : zjCode y z v₁ v₂ (1 : H) = 0 := by
-  rw [← h.vec_basis.1]
+  rw [← (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).1]
   exact h.code_vec (by norm_num)
 
+omit [Finite H] in
 theorem code_mul {u u' : H} (hu : u ∈ Y) (hu' : u' ∈ Y) :
     zjCode y z v₁ v₂ (u * u') = zjCode y z v₁ v₂ u ^^^ zjCode y z v₁ v₂ u' := by
   obtain ⟨n, hn, rfl⟩ := h.vec_surj hu
@@ -348,15 +369,18 @@ theorem code_mul {u u' : H} (hu : u ∈ Y) (hu' : u' ∈ Y) :
   rw [← h.vec_xor hn hm, h.code_vec (Nat.xor_lt_two_pow (show n < 2 ^ 4 from hn)
     (show m < 2 ^ 4 from hm)), h.code_vec hn, h.code_vec hm]
 
+omit [Finite H] in
 theorem eq_of_code_eq {u u' : H} (hu : u ∈ Y) (hu' : u' ∈ Y)
     (e : zjCode y z v₁ v₂ u = zjCode y z v₁ v₂ u') : u = u' := by
   rw [← h.vec_code hu, ← h.vec_code hu', e]
 
+omit [Finite H] in
 theorem code_lt_four_iff {u : H} (hu : u ∈ Y) : zjCode y z v₁ v₂ u < 4 ↔ u ∈ V := by
   have hh := h.vec_mem_V_iff (h.code_lt hu)
   rw [h.vec_code hu] at hh
   exact hh.symm
 
+omit [Finite H] in
 theorem code_and_three_iff {u : H} (hu : u ∈ Y) :
     zjCode y z v₁ v₂ u &&& 3 = 0 ↔ u ∈ V' := by
   have hh := h.vec_mem_V'_iff (h.code_lt hu)

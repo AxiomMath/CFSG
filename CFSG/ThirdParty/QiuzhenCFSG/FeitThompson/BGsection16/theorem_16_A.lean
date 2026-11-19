@@ -176,7 +176,7 @@ private theorem CFSG.section16_theoremA1_of_maximal
   rcases hSHall with ⟨_hSM', hSHallM⟩
   have hlocal :
       (section10Msigma M).subgroupOf M = S.subgroupOf M := by
-    letI : (S.subgroupOf M).Normal := hSNormalM
+    let : (S.subgroupOf M).Normal := hSNormalM
     exact hSHallM.eq_of_normal hσHallIn.2
   apply le_antisymm
   · intro x hxS
@@ -411,7 +411,7 @@ public theorem CFSG.section16_complement_k_msigma_of_KUData
                 simpa [SK] using hySK
       rw [htop]
       exact trivial
-    letI : (S.subgroupOf SK).Normal := hSNormSK
+    let : (S.subgroupOf SK).Normal := hSNormSK
     rcases (Subgroup.mem_sup_of_normal_left
         (s := S.subgroupOf SK) (t := K.subgroupOf SK) (x := xSK)).1 hxTop with
       ⟨sSK, hsS, kSK, hkK, hsk⟩

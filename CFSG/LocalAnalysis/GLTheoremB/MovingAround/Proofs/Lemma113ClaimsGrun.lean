@@ -125,12 +125,14 @@ open Lemma113c Lemma113d CFSG.GorensteinWalter
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_top_eq_top_of_simple (hsimple : IsSimpleGroup G)
     (hnonab : ∃ a b : G, a * b ≠ b * a) :
     ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤ :=
   haveI := hsimple
   CFSG.Wreathed.commutator_eq_top_of_nonabelian_simple hnonab
 
+omit [Finite G] in
 theorem le_of_isSylowIn_normalizer {p : ℕ} {W Q : Subgroup G} (hW : IsPGroup p ↥W)
     (hQ : IsSylowIn p (Subgroup.normalizer (W : Set G)) Q) : W ≤ Q := by
   have hsup : IsPGroup p ↥(Q ⊔ W) := IsPGroup.to_sup_of_normal_right' hQ.2.1 hW hQ.1
@@ -138,6 +140,7 @@ theorem le_of_isSylowIn_normalizer {p : ℕ} {W Q : Subgroup G} (hW : IsPGroup p
   rw [← heq]
   exact le_sup_right
 
+omit [Finite G] in
 theorem normalizer_le_of_weaklyClosed {W Q : Subgroup G} (hWQ : W ≤ Q)
     (hwc : ∀ g : G, GLBConj g W ≤ Q → GLBConj g W = W) :
     Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (W : Set G) := by
@@ -145,6 +148,7 @@ theorem normalizer_le_of_weaklyClosed {W Q : Subgroup G} (hWQ : W ≤ Q)
   rw [mem_normalizer_iff_gLBConj_eq]
   exact hwc x ((gLBConj_mono x hWQ).trans (gLBConj_eq_of_mem_normalizer hx).le)
 
+omit [Finite G] in
 theorem mem_normalizer_of_alperinDecomposition {p : ℕ} {S P W : Subgroup G} {c : G}
     (hWS : W ≤ S) (hSW : S ≤ Subgroup.centralizer (W : Set G))
     (hwc : ∀ g : G, GLBConj g W ≤ S → GLBConj g W = W)
@@ -218,7 +222,7 @@ theorem le_commutator_normalizer (hperf : ⁅(⊤ : Subgroup G), (⊤ : Subgroup
       GLBConj g (Subgroup.zpowers z) = Subgroup.zpowers z) :
     Q ≤ ⁅Subgroup.normalizer (Subgroup.zpowers z : Set G),
       Subgroup.normalizer (Subgroup.zpowers z : Set G)⁆ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzp : IsPGroup 3 ↥(Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz, pow_one])
   have hQW : Q ≤ Subgroup.centralizer (Subgroup.zpowers z : Set G) := by
@@ -258,7 +262,7 @@ theorem claim113A_clause7' {K Q X A : Subgroup G} {e : G}
     (hAmax : ∀ F : Subgroup G, F ≤ ⊤ → IsElemAbelian 3 F → A ≤ F → F = A) :
     ∃ g : G, GLBConj g (Subgroup.zpowers e) ≤ Q ∧
       GLBConj g (Subgroup.zpowers e) ≠ Subgroup.zpowers e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   have hcon' : ∀ g : G, GLBConj g (Subgroup.zpowers e) ≤ Q →
       GLBConj g (Subgroup.zpowers e) = Subgroup.zpowers e := by
@@ -288,7 +292,7 @@ theorem claim113A_clause7' {K Q X A : Subgroup G} {e : G}
   let Φ : ↥N →* (GaloisField 3 3 ≃+* GaloisField 3 3) :=
     (galHom e0).comp ((barAut 3 K).comp (Subgroup.inclusion hNK))
   have hΦ3 : Nat.card (GaloisField 3 3 ≃+* GaloisField 3 3) = 3 := finite_ringAut_card
-  haveI : IsCyclic (GaloisField 3 3 ≃+* GaloisField 3 3) := isCyclic_of_prime_card hΦ3
+  have : IsCyclic (GaloisField 3 3 ≃+* GaloisField 3 3) := isCyclic_of_prime_card hΦ3
   have hΦx : Φ ⟨x, hsylN.1 hxQ⟩ ≠ 1 := galHom_rho_ne_one e0 hQ.2.1 hQK hU27 hxQ hx3 hxN
   exact hΦx (grun_hom' (commutator_top_eq_top_of_simple hsimple hnonab) e Q hord hsylN hcomm
     hcon' Φ x hxQ)
@@ -299,7 +303,7 @@ open Lemma113d Lemma113Claims.Grun in
 theorem lemma113_ii_pieceA_of_inputs' (hC : Lemma113d.Input113dCentralizer27) :
     Lemma113_ii_pieceAStatement := by
   intro G _ _ m B M E A a e K Q h h0
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDD : IsDDpStar 3 M E A := h.pair
   have hEmax : IsSCp 3 ⊤ E := (lemma104_ii_holds h.toSec10Fails hDD).1
   have hAmax : IsSCp 3 ⊤ A := (lemma104_ii_holds h.toSec10Fails hDD).2

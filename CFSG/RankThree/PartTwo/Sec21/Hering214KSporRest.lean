@@ -52,7 +52,7 @@ theorem item214BarSporadicRest_of_split
       hd.card9
   · exact h₂ X h Ē Ū hd
   · obtain ⟨hZ3, ⟨e⟩⟩ := h
-    haveI : Group.IsPerfect X := hperf
+    have : Group.IsPerfect X := hperf
     exact eInvFour_of_perfect_central_quotient (Y := X ⧸ Subgroup.center X) hZ3 (MulEquiv.refl _)
       (fun Ē' Ū' hd' => h₂ (X ⧸ Subgroup.center X) ⟨e⟩ Ē' Ū' hd') hd
 

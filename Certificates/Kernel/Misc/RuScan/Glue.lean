@@ -262,7 +262,7 @@ theorem scanL {W : Nat → Nat} {H : Nat} {h : Equiv.Perm (Fin 4060)} (hH : PRep
   have hpl : PL [H, RuLS.TR (roff 4060 48720 (RuLS.LR 0) + i / rcnt (RuLS.LR 1)),
       RuLS.TR (roff 4060 48720 (RuLS.LR 1) + i % rcnt (RuLS.LR 1))] [h, g₀, g₁] :=
     .cons hH (.cons P0 (.cons P1 .nil))
-  have e : [h, g₀, g₁].prod = h * (g₀ * g₁) := by simp [mul_assoc]
+  have e : [h, g₀, g₁].prod = h * (g₀ * g₁) := by simp
   rw [← e]
   exact witK_sound hpl prep_A0 (bnd_all hbd i (by omega)) (chk2_all hck i hi)
 
@@ -283,7 +283,7 @@ theorem scan8 {c : Equiv.Perm (Fin 4060)} (hc : c ∈ ruL) :
       [abG (cosetWords.getD 8 []), g₀, g₁] :=
     .cons (prep_H (i := 8) (by norm_num)) (.cons P0 (.cons P1 .nil))
   have e : [abG (cosetWords.getD 8 []), g₀, g₁].prod = abG (cosetWords.getD 8 []) * (g₀ * g₁) := by
-    simp [mul_assoc]
+    simp
   rw [← e]
   have hK := kbnd_all (K := 3) (cnt := 8192) k8All
   refine rec_sound (Kh := K8) hpl prep_A0 (bnd_all (K := 7) (cnt := 16640) b8All i (by omega))
@@ -311,7 +311,7 @@ theorem closure_LGen :
   congr 1
   ext g
   rw [ruLGens_eq]
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false]
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false]
   constructor
   · rintro ⟨l, hl, rfl⟩
     rcases (by omega : l = 0 ∨ l = 1 ∨ l = 2) with rfl | rfl | rfl <;> simp

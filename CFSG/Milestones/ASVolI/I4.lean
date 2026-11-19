@@ -136,7 +136,7 @@ private theorem burnsideId_isZ4Q8Q8_of_isZ4StarQ8Sq {X : Type} [Group X]
       simp only [map_one, Subgroup.coe_one, mul_one]
       rw [← hA2, ← hB2, hww]
     · rw [SetLike.mem_coe, MonoidHom.mem_ker, hψ]
-      simp only [map_one, Subgroup.coe_one, mul_one, one_mul]
+      simp only [map_one, Subgroup.coe_one, mul_one]
       rw [← hA2, ← hC2, hww]
   have hker : ψ.ker ≤ z4Q8Q8Ident := by
     intro t ht
@@ -235,7 +235,7 @@ private theorem burnsideId_exists_hom_of_equiv {X : Type*} [Group X] (F : Subgro
   ⟨e.toMonoidHom.comp (QuotientGroup.mk' F),
     e.surjective.comp (QuotientGroup.mk'_surjective F), by
       ext x
-      simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]⟩
+      simp⟩
 
 open CFSG.ASVolI.ChIJK in
 private theorem burnsideId_isTypeHS_of_isHSType {G : Type} [Group G] [Finite G] (h : IsHSType G) :
@@ -268,7 +268,7 @@ private theorem burnsideId_psl_four_equiv_alternating :
   have hcard : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hcard])
   exact CFSG.LargeExtraspecial.S12Tri.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
     (CFSG.ClassicalModels.projectiveSpecialLinear_two_card_of_card_four _ hcard)
@@ -344,9 +344,9 @@ private theorem burnsideId_sylow_comm {G : Type} [Group G] [Finite G] {z : G} (h
     (hF60 : Nat.card F = 60) (T : Sylow 2 G) (hzT : z ∈ (T : Subgroup G))
     (hTz : ∀ x ∈ (T : Subgroup G), x * z = z * x) :
     IsMulCommutative (T : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsMulCommutative ↥((T : Subgroup G) ⊓ F) := by
-    have hp : IsPGroup 2 ↥((T : Subgroup G) ⊓ F) := T.isPGroup'.to_le inf_le_left
+    have hp : IsPGroup 2 ↥((T : Subgroup G) ⊓ F) := T.isPGroup.to_le inf_le_left
     obtain ⟨n, hn⟩ := hp.exists_card_eq
     have hdvd : Nat.card ↥((T : Subgroup G) ⊓ F) ∣ 60 :=
       hF60 ▸ Subgroup.card_dvd_of_le inf_le_right
@@ -357,10 +357,10 @@ private theorem burnsideId_sylow_comm {G : Type} [Group G] [Finite G] {z : G} (h
       have := h8.trans hdvd
       omega
     interval_cases n
-    · haveI : Subsingleton ↥((T : Subgroup G) ⊓ F) :=
+    · have : Subsingleton ↥((T : Subgroup G) ⊓ F) :=
         (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-    · haveI : IsCyclic ↥((T : Subgroup G) ⊓ F) := isCyclic_of_prime_card (by simpa using hn)
+    · have : IsCyclic ↥((T : Subgroup G) ⊓ F) := isCyclic_of_prime_card (by simpa using hn)
       infer_instance
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hn
   have hdecT : ∀ u : ↥(T : Subgroup G), ∃ u' ∈ (T : Subgroup G) ⊓ F,

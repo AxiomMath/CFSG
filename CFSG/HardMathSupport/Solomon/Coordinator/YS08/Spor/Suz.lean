@@ -116,7 +116,7 @@ theorem fuseCheckG_sound {tab ts ns : Array (Array ℕ)} {xA y x1 : Array ℕ}
 theorem permsA_two_suz {n : ℕ} {gs : Array (Array ℕ)} (h : gs.size = 2) :
     permsA n gs = {permOfArr n gs[0]!, permOfArr n gs[1]!} := by
   ext x
-  simp only [permsA, h, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, h, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
@@ -168,7 +168,7 @@ theorem card_suzFiveQ_sylow :
 theorem exists_conj_into_C {s g : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM) (hg : g ∈ suzM)
     (hg5 : orderOf g = 5) (hcomm : g * s = s * g) :
     ∃ h ∈ suzM, ∃ i : Fin 6, h * s * h⁻¹ ∈ suzFiveC i := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set E : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.zpowers g with hE
   have hEP : E ≤ suzM := (Subgroup.zpowers_le).2 hg
   have hEcard : Nat.card E = 5 := by rw [hE, Nat.card_zpowers, hg5]
@@ -214,7 +214,7 @@ theorem exists_rep_of_mem_C {i : Fin 6} {s : Equiv.Perm (Fin 1782)} (hs : s ∈ 
 theorem no_order25_centralized {s : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM)
     (hs3 : orderOf s = 3) {E : Subgroup (Equiv.Perm (Fin 1782))} (hEP : E ≤ suzM)
     (hE : Nat.card E = 25) (hcomm : ∀ e ∈ E, e * s = s * e) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hEG : IsPGroup 5 (E.subgroupOf suzM) := by
     refine IsPGroup.of_card (n := 2) ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEP).toEquiv, hE]
@@ -265,7 +265,7 @@ theorem not_25_dvd_centralizer {s : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM)
     ¬ 25 ∣ Nat.card (Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 1782))) ⊓ suzM :
       Subgroup (Equiv.Perm (Fin 1782))) := by
   intro hd
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup (Equiv.Perm (Fin 1782)) := Subgroup.centralizer ({s} : Set _) ⊓ suzM with hC
   obtain ⟨E, hE⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥C) 5 (n := 2) (by simpa using hd)
   refine no_order25_centralized hs hs3 (E := E.map C.subtype) ?_ ?_ ?_
@@ -284,7 +284,7 @@ theorem classes_of_order_three {s : Equiv.Perm (Fin 1782)} (hs : s ∈ suzM)
   by_cases h5 : 5 ∣ Nat.card (Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 1782))) ⊓ suzM :
       Subgroup (Equiv.Perm (Fin 1782)))
   · right
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({s} :
       Set (Equiv.Perm (Fin 1782))) ⊓ suzM : Subgroup (Equiv.Perm (Fin 1782)))) 5 h5
     have hxc := Subgroup.mem_inf.1 x.2
@@ -325,7 +325,7 @@ theorem yPerm_ne_one : yPerm ≠ 1 := fun h1 => by
   exact absurd this (by decide)
 
 theorem yPerm_ord : orderOf yPerm = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime yPerm_pow yPerm_ne_one
 
 theorem card_Cy : Nat.card (Subgroup.centralizer ({yPerm} : Set (Equiv.Perm (Fin 1782))) ⊓
@@ -344,7 +344,7 @@ theorem pairEqCheckG_sound {xA : Array ℕ} {X : Equiv.Perm (Fin 1782)} (hX : Re
     ∃ g₁ g₂ : Equiv.Perm (Fin 1782), g₁ ∈ suzM ∧ g₂ ∈ suzM ∧ g₁ * X = X * g₁ ∧
       g₂ * X = X * g₂ ∧ orderOf g₁ = 5 ∧ orderOf g₂ = 5 ∧
       Nat.card (Subgroup.closure ({g₁, g₂} : Set (Equiv.Perm (Fin 1782)))) = N := by
-  simp only [pairEqCheckG, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at h
+  simp only [pairEqCheckG, Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨hsz, hall⟩, henum, hN⟩ := h
   have hspec := enumOK_spec suzFiveKeys_lt henum
   have hcard : Nat.card (Subgroup.closure (permsA 1782 gs)) =
@@ -362,7 +362,7 @@ theorem pairEqCheckG_sound {xA : Array ℕ} {X : Equiv.Perm (Fin 1782)} (hX : Re
     have h1 : permOfArr 1782 gs[k]! ≠ 1 := fun h1 => by
       rw [(eqA_iff hrep rep_idA).2 h1] at hne
       exact absurd hne (by decide)
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime h5 h1
   obtain ⟨o0, m0, c0⟩ := hone 0 (by norm_num)
   obtain ⟨o1, m1, c1⟩ := hone 1 (by norm_num)
@@ -382,7 +382,7 @@ theorem pair_xA :
   exact pairEqCheckG_sound fuse_facts.1 h
 
 theorem xA_ord : orderOf xA = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime fuse_facts.2.2.1 fuse_facts.2.2.2.1
 
 theorem card_suzM_eq : Nat.card ↥suzM = 448345497600 := by
@@ -417,7 +417,7 @@ end SuzCopy
 
 theorem sporL3DownInner_Suz
     (hbr : SporadicBridges) : SporL3DownInner .Suz := by
-  haveI : Finite ↥suzM := Nat.finite_of_card_ne_zero (by rw [SuzCopy.card_suzM_eq]; norm_num)
+  have : Finite ↥suzM := Nat.finite_of_card_ne_zero (by rw [SuzCopy.card_suzM_eq]; norm_num)
   have hM : Nonempty (↥suzM ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group) :=
     ⟨suzEquivM.symm.trans (hbr .Suz).some⟩
   refine sporL3DownInner_of_perm_comp (G := Equiv.Perm (Fin 1782)) suzM hM

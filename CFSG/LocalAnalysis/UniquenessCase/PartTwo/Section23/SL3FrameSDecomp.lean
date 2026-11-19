@@ -34,14 +34,14 @@ private theorem frameAux_V_eq {c : Ctx2311 D Ch} (x : Fin 3 → ↥c.L) (i : Fin
   refine CFSG.Quasithin.conjSubgroup_eq_iff_mem_normalizer.mpr ?_
   exact Ctx23L.sup_le_normalizer_V D Ch c.toCtx23L (Subgroup.mem_sup_left (x i).2)
 
-private theorem frameAux_Z_le_E {c : Ctx2311 D Ch} (F : c.SL3Facts)
+private theorem frameAux_Z_le_E {c : Ctx2311 D Ch} (_F : c.SL3Facts)
     (x : Fin 3 → ↥c.L) (i : Fin 3) :
     conjSubgroup D.Z (x i : G) ≤ frameE x i := by
   have hZV : conjSubgroup D.Z (x i : G) ≤ c.V := by
     simpa [frameAux_V_eq x i] using SL3Facts.frame_Z_le_V x i
   exact hZV.trans (by simpa [frameAux_V_eq x i] using SL3Facts.frame_V_le_E x i)
 
-private theorem frameAux_V_le_inter {c : Ctx2311 D Ch} (F : c.SL3Facts)
+private theorem frameAux_V_le_inter {c : Ctx2311 D Ch} (_F : c.SL3Facts)
     (x : Fin 3 → ↥c.L) (i j : Fin 3) :
     c.V ≤ frameE x i ⊓ frameE x j := by
   refine le_inf ?_ ?_
@@ -79,11 +79,11 @@ private theorem frameAux_A_le_pCoreOf {c : Ctx2311 D Ch} (F : c.SL3Facts)
 private theorem frameAux_S_le_normalizer_E {c : Ctx2311 D Ch} (F : c.SL3Facts)
     (x : Fin 3 → ↥c.L) (i : Fin 3) :
     frameS c ≤ Subgroup.normalizer (frameE x i : Set G) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   intro s hs
   have hsL : s ∈ c.L := CFSG.LieType.BorelTits.pCoreOf_le 2 c.L hs
   let l : ↥c.L := ⟨s, hsL⟩
@@ -120,7 +120,7 @@ private theorem frameAux_S_le_normalizer_sup {c : Ctx2311 D Ch} (F : c.SL3Facts)
       (frameE x i ⊓ frameE x k))
 
 private theorem frameAux_commutator_inter_le {c : Ctx2311 D Ch} (F : c.SL3Facts)
-    (x : Fin 3 → ↥c.L) {m i : Fin 3} (hmi : m ≠ i) :
+    (x : Fin 3 → ↥c.L) {m i : Fin 3} (_hmi : m ≠ i) :
     ⁅frameE x m ⊓ frameS c, frameE x i ⊓ frameS c⁆ ≤ frameE x i ⊓ frameE x m := by
   refine Subgroup.commutator_le.mpr ?_
   intro g hg y hy
@@ -211,7 +211,7 @@ private theorem frameAux_exists_lift {c : Ctx2311 D Ch} (F : c.SL3Facts)
     c.L.mul_mem (c.L.mul_mem (c.L.inv_mem (x i).2) l.2) (x i).2
   refine ⟨k, hkL, ?_, ?_⟩
   · exact Subgroup.mem_map.mpr ⟨(l : G), Subgroup.mem_subgroupOf.mp hl,
-      by simp [k, MulAut.conj_apply]⟩
+      by simp [k]⟩
   · have hsub : (⟨k, hkL⟩ : ↥c.L) =
         (⟨(x i : G)⁻¹, c.L.inv_mem (x i).2⟩ : ↥c.L) * l *
           ⟨(x i : G), (x i).2⟩ := by
@@ -231,11 +231,11 @@ private theorem frameAux_Kstar_le_stabilizer {c : Ctx2311 D Ch} (F : c.SL3Facts)
     frameKStar F ≤ MulAction.stabilizer ↥(c.H F.hV)
       ((c.toCtx23L.Ztil F.hV : Subgroup (c.toCtx23L.W F.hV)) :
         Set (c.toCtx23L.W F.hV)) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   intro h hh
   obtain ⟨l, hl, hlh⟩ := Subgroup.mem_map.mp hh
   have hlK : (l : G) ∈ c.K := Subgroup.mem_subgroupOf.mp hl
@@ -256,8 +256,8 @@ private theorem frameAux_map_Kstar_le_stabilizer {c : Ctx2311 D Ch} (F : c.SL3Fa
 
 private theorem frameAux_exists_decomp {c : Ctx2311 D Ch} (F : c.SL3Facts)
     (x : Fin 3 → ↥c.L)
-    (hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)))
-    {i j : Fin 3} (hij : i ≠ j) {u : ↥(c.H F.hV)}
+    (_hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)))
+    {i j : Fin 3} (_hij : i ≠ j) {u : ↥(c.H F.hV)}
     (huKstar : u ∈ (frameKStar F).map (MulAut.conj (c.phiL F.hV (x i))⁻¹).toMonoidHom)
     (huU : u ∈ (CFSG.Open.pCoreOf 2 (frameKStar F)).map
       (MulAut.conj (c.phiL F.hV (x j))⁻¹).toMonoidHom) :
@@ -303,7 +303,7 @@ private theorem frameAux_mem_pCoreOf_of_phi_eq_one {c : Ctx2311 D Ch} (F : c.SL3
     (hk : k ∈ conjSubgroup c.K (x i : G))
     (hphi : c.phiL F.hV ⟨k, hkL⟩ = 1) :
     k ∈ CFSG.Open.pCoreOf 2 (conjSubgroup c.K (x i : G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkS : k ∈ frameS c := by
     rw [show frameS c = (CFSG.pCore 2 ↥c.L).map c.L.subtype from rfl, Subgroup.mem_map]
     refine ⟨⟨k, hkL⟩, ?_, rfl⟩
@@ -359,7 +359,7 @@ private theorem frameAux_phi_pCoreOf_mem {c : Ctx2311 D Ch} (F : c.SL3Facts)
       (⟨(x i : G)⁻¹, c.L.inv_mem (x i).2⟩ : ↥c.L) * ⟨k0, hk0L⟩ *
         ⟨(x i : G), (x i).2⟩ := by
     apply Subtype.ext
-    simpa [hk_eq, mul_assoc]
+    simp [hk_eq, mul_assoc]
   have hval : c.phiL F.hV ⟨k, hkL⟩ =
       (MulAut.conj (c.phiL F.hV (x i))⁻¹) (c.phiL F.hV ⟨k0, hk0L⟩) := by
     have hxinv : c.phiL F.hV
@@ -368,7 +368,7 @@ private theorem frameAux_phi_pCoreOf_mem {c : Ctx2311 D Ch} (F : c.SL3Facts)
       rw [show (⟨(x i : G)⁻¹, c.L.inv_mem (x i).2⟩ : ↥c.L) =
         (⟨(x i : G), (x i).2⟩ : ↥c.L)⁻¹ from rfl, map_inv]
     rw [hsub, map_mul, map_mul, hxinv]
-    simp [MulAut.conj_apply]
+    simp
   exact hval.symm
 
 private theorem frameAux_point_congruence {c : Ctx2311 D Ch} (F : c.SL3Facts)
@@ -453,7 +453,7 @@ private theorem frameAux_map_conj_le {c : Ctx2311 D Ch} (F : c.SL3Facts)
 private theorem frameAux_normalizes_sup {c : Ctx2311 D Ch} (F : c.SL3Facts)
     (x : Fin 3 → ↥c.L)
     (hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)))
-    (i j k : Fin 3) (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
+    (i j k : Fin 3) (_hij : i ≠ j) (hik : i ≠ k) (_hjk : j ≠ k)
     {g : G} (hgn : g ∈ Subgroup.normalizer (frameE x i : Set G))
     (hgj : g ∈ frameE x j) :
     g ∈ Subgroup.normalizer
@@ -769,7 +769,7 @@ private theorem frameAux_sq_mul_mem {c : Ctx2311 D Ch}
     (hz : z ^ 2 ∈ c.V.subgroupOf (frameS c)) :
     (y * z) ^ 2 ∈ c.V.subgroupOf (frameS c) := by
   let N : Subgroup ↥(frameS c) := c.V.subgroupOf (frameS c)
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   change (y * z) ^ 2 ∈ N
   rw [← QuotientGroup.eq_one_iff]
   have hcomm : Commute (QuotientGroup.mk' N y) (QuotientGroup.mk' N z) :=
@@ -794,7 +794,7 @@ private theorem frameAux_sq_mem_V {c : Ctx2311 D Ch} (F : c.SL3Facts)
   have hSA := frameAux_iSup_triple_eq_pCoreOf F x hx
   have hSclosure : frameS c = Subgroup.closure (⋃ i, (frameTriple x i : Set G)) := by
     rw [← hSA, Subgroup.iSup_eq_closure]
-  haveI : (c.V.subgroupOf (frameS c)).Normal :=
+  have : (c.V.subgroupOf (frameS c)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (frameAux_pCoreOf_le_normalizer_V (D := D) (Ch := Ch) (c := c))
   intro s hs

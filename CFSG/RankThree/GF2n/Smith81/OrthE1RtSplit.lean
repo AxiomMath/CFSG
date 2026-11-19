@@ -16,7 +16,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 theorem e1SplitCompl {H : Type} [Group H] [Finite H] (P N : Subgroup H)
     (hcomm : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) (hsq : ∀ a ∈ P, a ^ 2 = 1) (hNP : N ≤ P) :
     ∃ K : Subgroup H, N ⊓ K = ⊥ ∧ N ⊔ K = P := by
-  letI : CommGroup P :=
+  let : CommGroup P :=
     { (inferInstance : Group P) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   have hsqP : ∀ a : P, a ^ 2 = 1 := fun a => Subtype.ext (hsq a a.2)
   obtain ⟨KA, hKA, hmax⟩ := Set.Finite.exists_maximal
@@ -26,7 +26,7 @@ theorem e1SplitCompl {H : Type} [Group H] [Finite H] (P N : Subgroup H)
     by_contra hne
     obtain ⟨x, hx⟩ : ∃ x : P, x ∉ N.subgroupOf P ⊔ KA := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hne (eq_top_iff.mpr fun x _ => hcon x)
     have hK'S : N.subgroupOf P ⊓ (KA ⊔ Subgroup.zpowers x) = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
@@ -76,7 +76,8 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem e1SplitMemBar {R Q S : Subgroup G} [(Q.subgroupOf R).Normal] (hQS : Q ≤ S) (hSR : S ≤ R)
+omit [Finite G] in
+theorem e1SplitMemBar {R Q S : Subgroup G} [(Q.subgroupOf R).Normal] (hQS : Q ≤ S) (_hSR : S ≤ R)
     {r : G} (hr : r ∈ R) :
     (QuotientGroup.mk' (Q.subgroupOf R) ⟨r, hr⟩ : ↥R ⧸ Q.subgroupOf R) ∈ bar R Q S ↔ r ∈ S := by
   unfold bar
@@ -199,10 +200,10 @@ theorem e1SplitCore {R N Q L : Subgroup G} {q : ℕ} [(Q.subgroupOf R).Normal]
     have hn' : n ∈ (N.subgroupOf R).map (QuotientGroup.mk' (Q.subgroupOf R)) := hn
     obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hn'
     exact hcenmk r.1 r.2 s.1 (Subgroup.mem_subgroupOf.mp hs)
-  haveI hNbn : Nb.Normal := ⟨fun n hn h => by
+  have hNbn : Nb.Normal := ⟨fun n hn h => by
     rw [hNbcen h n hn, mul_inv_cancel_right]
     exact hn⟩
-  haveI hNbmc : IsMulCommutative ↥Nb :=
+  have hNbmc : IsMulCommutative ↥Nb :=
     ⟨⟨fun a b => Subtype.ext (hNbcen (a : ↥R ⧸ Q.subgroupOf R) (b : ↥R ⧸ Q.subgroupOf R) b.2)⟩⟩
   have hNbpg : IsPGroup 2 ↥Nb := IsPGroup.map hN2 _
   have hLbcomm : ∀ a ∈ Lb, ∀ b ∈ Lb, a * b = b * a := by
@@ -216,7 +217,7 @@ theorem e1SplitCore {R N Q L : Subgroup G} {q : ℕ} [(Q.subgroupOf R).Normal]
     have hc := hLcomm s.1⁻¹ (L.inv_mem hs) r.1⁻¹ (L.inv_mem hr)
     simp only [commutatorElement_def, inv_inv] at hc
     convert hc using 1
-    simp only [mul_inv_rev, inv_inv, Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc]
+    simp only [mul_inv_rev, Subgroup.coe_mul, Subgroup.coe_inv, mul_assoc]
   have hLbsq : ∀ a ∈ Lb, a ^ 2 = 1 := by
     intro a ha
     obtain ⟨r, rfl⟩ := hmksurj a
@@ -478,7 +479,7 @@ theorem e1SplitCore {R N Q L : Subgroup G} {q : ℕ} [(Q.subgroupOf R).Normal]
     rw [hbareq, hLbD] at hbar
     rw [← hbar, mul_comm]
   have hQuot : QuotIso X Q Ω := by
-    haveI := hQnX
+    have := hQnX
     exact ⟨hQnX, ⟨(QuotientGroup.quotientMulEquivOfEq hθker).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective θ hθsurj)⟩⟩
   exact ⟨X, hQX, hXR, hNX, hNXR, hXnorm, hPerfX, hRQ, hLdec, hNL, hLX_card, hQuot⟩
@@ -507,9 +508,9 @@ theorem e1_split_base (h34 : Stroth34Statement) (hC : NtCentralStatement)
       Nat.card ↥(LB M Q B ⊓ E1Xpre M Q B t) = Nat.card Q * Nat.card Z ^ 2 := by
   have hc := hH.ctx
   have hQt : Q ≤ Rt M (LB M Q B) t := hc.Q_le_Rt hH.mem
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hc.Rt_le_M t hx)
-  haveI : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
+  have : (Q.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hc.hyp.Q_normal.2
   have hQN : Q ≤ Nt M (LB M Q B) t := orth_Q_le_Nt hc hH.mem
   have hNR : Nt M (LB M Q B) t ≤ Rt M (LB M Q B) t := orth_Nt_le_Rt _ _ _
   have hLR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt _ hH.mem
@@ -543,10 +544,10 @@ theorem e1_plus_all (h34 : Stroth34Statement) (hC : NtCentralStatement)
     E1SplitSeven M Q Z B t ∧ QuotSat (E1Xpre M Q B t) Q (IsOmegaPlus 2 (Nat.card Z)) := by
   obtain ⟨hQc, hNc, hY⟩ := hP
   obtain ⟨hNn, KE, hFE, hFinE, hKE, ⟨e⟩⟩ := hY
-  haveI := hNn
+  have := hNn
   have hc := hH.ctx
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have h4 : 4 ≤ Nat.card KE := by rw [hKE]; exact hc.hyp.q4
   obtain ⟨hperfKF, -, hsylKF⟩ := (hKF3 KE h4).1
   have hsyl : ∀ P : Sylow 2 ↥(StatedOmega (StatedQuadPlus 2 KE)),
@@ -563,10 +564,10 @@ theorem e1_minus_all (h34 : Stroth34Statement) (hC : NtCentralStatement)
     E1SplitSeven M Q Z B t ∧ QuotSat (E1Xpre M Q B t) Q (IsOmegaMinus 2 (Nat.card Z)) := by
   obtain ⟨hQc, hNc, hY⟩ := hM
   obtain ⟨hNn, KE, hFE, hFinE, hKE, b, c, hirr, ⟨e⟩⟩ := hY
-  haveI := hNn
+  have := hNn
   have hc := hH.ctx
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have h4 : 4 ≤ Nat.card KE := by rw [hKE]; exact hc.hyp.q4
   obtain ⟨hperfKF, -, hsylKF⟩ := (hKF3 KE h4).2 b c hirr
   have hsyl : ∀ P : Sylow 2 ↥(StatedOmega (StatedQuadMinus 2 KE b c)),
@@ -577,10 +578,10 @@ theorem e1_minus_all (h34 : Stroth34Statement) (hC : NtCentralStatement)
   obtain ⟨hQn, ⟨isoX⟩⟩ := hQuot
   exact ⟨⟨b1, b2, b3, b4, b5, b6, b7⟩, hQn, KE, hFE, hFinE, hKE, b, c, hirr, ⟨isoX⟩⟩
 
-theorem rtSplit_of (h34 : Stroth34Statement) (hNt : StrothNtStatement) (hN : E1NaturalStatement)
-    (hC : NtCentralStatement) (hT : TMemNtStatement) (hKF3 : Omega4BasicStatement) :
+theorem rtSplit_of (h34 : Stroth34Statement) (_hNt : StrothNtStatement) (_hN : E1NaturalStatement)
+    (hC : NtCentralStatement) (_hT : TMemNtStatement) (hKF3 : Omega4BasicStatement) :
     RtSplitStatement := by
-  clear hNt hN hT
+  clear _hNt _hN _hT
   intro G _ _ M Q Z B t hH
   rcases (caseE1_iff M Q Z B t).mp hH.case with hP | hM
   · obtain ⟨⟨b1, b2, b3, b4, b5, b6, b7⟩, hq⟩ := e1_plus_all h34 hC hKF3 hH hP

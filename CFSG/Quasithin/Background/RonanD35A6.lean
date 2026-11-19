@@ -118,7 +118,7 @@ theorem a6r_mem (i : Fin 4) : (QuotientGroup.mk (a6r i) : a6Q) ∈ a6P := by
   · exact a6P.mul_mem h01 h23
 
 theorem a6_four_le_card_P : 4 ≤ Nat.card ↥a6P := by
-  haveI : Finite a6Q := Nat.finite_of_card_ne_zero (by rw [a6Q_card]; norm_num)
+  have : Finite a6Q := Nat.finite_of_card_ne_zero (by rw [a6Q_card]; norm_num)
   have hf : Function.Injective
       (fun i : Fin 4 => (⟨QuotientGroup.mk (a6r i), a6r_mem i⟩ : ↥a6P)) := by
     intro i j hij

@@ -17,6 +17,7 @@ section Pure
 
 variable {K : Type} [Field K] [CharP K 2] {ι : Type}
 
+omit [CharP K 2] in
 theorem pure_of_smul_add_eq_zero (p : (ι → K) × (ι → K)) {s t : K}
     (h : s • p.1 + t • p.2 = 0) (hst : s ≠ 0 ∨ t ≠ 0) :
     ∃ (c : Fin 2 → K) (u : ι → K), p = (c 0 • u, c 1 • u) := by
@@ -93,6 +94,7 @@ section Dickson
 
 variable {K : Type} [Field K] [CharP K 2] {ι : Type} [Fintype ι]
 
+omit [CharP K 2] [Fintype ι] in
 theorem polarBilin_nondegenerate_of_hnd {qU : QuadraticForm K (ι → K)}
     (hnd : ∀ v : ι → K, (∀ w, QuadraticMap.polar qU v w = 0) → v = 0) :
     (QuadraticMap.polarBilin qU).Nondegenerate := by

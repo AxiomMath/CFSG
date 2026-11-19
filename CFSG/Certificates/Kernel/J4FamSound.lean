@@ -28,7 +28,7 @@ theorem invsOK_spec {INV : List (List Nat)} (h : invsOK INV = true) :
 
 theorem getD_take {α : Type} (l : List α) {n r : Nat} (hr : r < n) (d : α) :
     (l.take n).getD r d = l.getD r d := by
-  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, hr, if_true]
+  simp only [List.getD_eq_getElem?_getD, List.getElem?_take, hr, ite_true]
 
 theorem getD_drop {α : Type} (l : List α) (n r : Nat) (d : α) :
     (l.drop n).getD r d = l.getD (n + r) d := by
@@ -43,13 +43,13 @@ theorem getD_chunks {α : Type} : ∀ (f : Nat) (l : List α), l.length ≤ 16 *
   | f + 1, l, h, q => by
     unfold chunks
     cases hl : l.isEmpty
-    · simp only [cond_false]
+    · simp only [Bool.cond_false]
       rcases q with _ | q
       · simp
       · rw [List.getD_cons_succ, getD_chunks f (l.drop 16) (by simp; omega) q, List.drop_drop]
         congr 2
         omega
-    · simp only [cond_true]
+    · simp only [_root_.Bool.cond_true]
       have : l = [] := List.isEmpty_iff.1 hl
       subst this
       simp
@@ -59,7 +59,7 @@ theorem length_chunks_le {α : Type} : ∀ (f : Nat) (l : List α), (chunks f l)
   | f + 1, l => by
     unfold chunks
     cases l.isEmpty
-    · simp only [cond_false, List.length_cons]
+    · simp only [Bool.cond_false, List.length_cons]
       have := length_chunks_le f (l.drop 16)
       omega
     · simp
@@ -123,7 +123,7 @@ theorem fieldR_packR : ∀ {l : List Nat}, (∀ x ∈ l, x < 256) → ∀ j, fie
 theorem tbit_eq (m i : Nat) : tbit m i = m.testBit i := by
   unfold tbit Nat.testBit
   rw [Nat.and_comm 1, Nat.and_one_is_mod]
-  rcases Nat.mod_two_eq_zero_or_one (m >>> i) with h | h <;> simp [h] <;> rfl
+  rcases Nat.mod_two_eq_zero_or_one (m >>> i) with h | h <;> simp [h]; rfl
 
 theorem bitsR_eq (m : Nat) : ∀ (n i : Nat), bitsR m n i = (List.range' i n).filter m.testBit
   | 0, _ => rfl
@@ -180,9 +180,9 @@ theorem extsGo_eq (m : Nat) (bs : List Nat) :
       else extsGo m bs (k + 1) cs rs) = _
     rw [hk0, tbit_eq, prodR_eq]
     cases hc : (!m.testBit k && Nat.beq (m &&& c) m)
-    · simp only [cond_false, Bool.false_eq_true, if_false]
+    · simp only [Bool.cond_false, Bool.false_eq_true, ite_false]
       exact hrest.symm
-    · simp only [cond_true, if_true, List.map_cons, hr0]
+    · simp only [_root_.Bool.cond_true, ite_true, List.map_cons, hr0]
       rw [hrest]
       rfl
 

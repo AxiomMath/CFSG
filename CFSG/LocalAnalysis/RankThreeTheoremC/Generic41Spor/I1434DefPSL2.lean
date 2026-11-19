@@ -17,12 +17,12 @@ open CFSG.EvenSmallLie.CatalogOrders (lieOrd lieExp lieMin card_eq_lieOrd_of_cla
 theorem psl2_five_false {K : Type} [Group K] [Finite K] {f : ℕ}
     (hM : StatedClassicalModel K .PSL 2 5 f) {Q : Sylow 5 K} {x : K} {J₁ J₂ : Subgroup K}
     (hD : Data K Q x J₁ J₂) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard := card_eq_lieOrd_of_classical hM
   obtain ⟨hadm, F, hFfield, hFfin, hF, ⟨e⟩⟩ := hM
   obtain ⟨-, hf1, -⟩ := hadm
-  haveI := hFfin
-  haveI : CharP F 5 := charP_five_of_card_eq_five_pow hF
+  have := hFfin
+  have : CharP F 5 := charP_five_of_card_eq_five_pow hF
   have hK1 : FiveExpLe K 1 :=
     FiveExpLe.of_mulEquiv e.symm
       (fiveExpLe_statedProj (StatedSL 2 F) (k := 1) (by simp))

@@ -23,9 +23,9 @@ private theorem exists_neighbor_ne_of_one_lt_card {z : V}
     (h : 1 < Nat.card {w : V // Γ.Adj z w}) :
     ∀ w, Γ.Adj z w → ∃ w', Γ.Adj z w' ∧ w' ≠ w := by
   classical
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by omega)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have h' : 1 < Fintype.card {w : V // Γ.Adj z w} := by
     simpa [Nat.card_eq_fintype_card] using h
   intro w hw
@@ -37,9 +37,9 @@ theorem vertexFacts_of_isLocalL2 [Finite H] {z : V} {m : ℕ} (hm : 2 ≤ m)
     LocalFacts H Γ z ∧ ZassenhausFacts H Γ z ∧ CenterFacts H Γ z 1 ∧ TransitiveFacts H Γ z := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ m + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -49,7 +49,7 @@ theorem vertexFacts_of_isLocalL2 [Finite H] {z : V} {m : ℕ} (hm : 2 ≤ m)
     omega
   let X := ↥(localGroup H Γ z)
   let π : ↥(MulAction.stabilizer H z) →* X := (localPermHom (H := H) Γ z).rangeRestrict
-  haveI : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
+  have : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
   have hπ : Function.Surjective π := MonoidHom.rangeRestrict_surjective _
   have hact : ∀ (g : ↥(MulAction.stabilizer H z)) (w : {w : V // Γ.Adj z w}),
       ((π g • w : {w : V // Γ.Adj z w}) : V) = (g : H) • (w : V) := fun _ _ => rfl
@@ -74,9 +74,9 @@ theorem vertexFacts_of_isLocalSz [Finite H] {z : V} {a : ℕ}
     LocalFacts H Γ z ∧ ZassenhausFacts H Γ z ∧ CenterFacts H Γ z 1 := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ (2 * (2 * a + 1)) + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -86,7 +86,7 @@ theorem vertexFacts_of_isLocalSz [Finite H] {z : V} {a : ℕ}
     omega
   let X := ↥(localGroup H Γ z)
   let π : ↥(MulAction.stabilizer H z) →* X := (localPermHom (H := H) Γ z).rangeRestrict
-  haveI : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
+  have : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
   have hπ : Function.Surjective π := MonoidHom.rangeRestrict_surjective _
   have hact : ∀ (g : ↥(MulAction.stabilizer H z)) (w : {w : V // Γ.Adj z w}),
       ((π g • w : {w : V // Γ.Adj z w}) : V) = (g : H) • (w : V) := fun _ _ => rfl
@@ -108,9 +108,9 @@ theorem vertexFacts_of_isLocalU3 [Finite H] {z : V} {k : ℕ} (hk : 2 ≤ k) (F 
     LocalFacts H Γ z ∧ CenterFacts H Γ z (2 ^ k + 1) ∧ UnitaryFacts H Γ z (2 ^ k) := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ (3 * k) + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -120,7 +120,7 @@ theorem vertexFacts_of_isLocalU3 [Finite H] {z : V} {k : ℕ} (hk : 2 ≤ k) (F 
     omega
   let X := ↥(localGroup H Γ z)
   let π : ↥(MulAction.stabilizer H z) →* X := (localPermHom (H := H) Γ z).rangeRestrict
-  haveI : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
+  have : Finite X := Finite.of_surjective π (MonoidHom.rangeRestrict_surjective _)
   have hπ : Function.Surjective π := MonoidHom.rangeRestrict_surjective _
   have hact : ∀ (g : ↥(MulAction.stabilizer H z)) (w : {w : V // Γ.Adj z w}),
       ((π g • w : {w : V // Γ.Adj z w}) : V) = (g : H) • (w : V) := fun _ _ => rfl

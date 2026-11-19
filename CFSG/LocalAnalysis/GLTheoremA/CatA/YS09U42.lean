@@ -48,8 +48,8 @@ private theorem u42_model_iso {S : Type} [Group S] (h : catalogIs S S9.isU4eight
   rw [h1, h2] at hm
   refine ⟨hm.toBlueprint (by decide), ?_⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 (2 * 3)) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 (2 * 3)) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 (2 * 3)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 (2 * 3) (by norm_num)]

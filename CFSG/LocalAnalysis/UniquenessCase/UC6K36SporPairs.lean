@@ -26,7 +26,7 @@ theorem exists_noncomm_of_simple_card {X : Type*} [Group X] [Finite X] [IsSimple
     (hc : Nat.card X = n) (h2 : 2 ∣ n) (hn : 2 < n) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+  let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
   have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card
   rw [hc] at hp
   rcases hp.eq_one_or_self_of_dvd 2 h2 with h | h <;> omega

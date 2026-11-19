@@ -33,37 +33,45 @@ structure W172MinInv (p : ℕ) (X : Subgroup Γ) (d : Γ) (S Y : Subgroup Γ) : 
   minimal : ∀ Z : Subgroup Γ, Z ≤ Y → (∀ z ∈ Z, d * z * d⁻¹ ∈ Z) →
     (∀ s ∈ S, ∀ z ∈ Z, s * z * s⁻¹ ∈ Z) → (∃ z ∈ Z, d * z * d⁻¹ ≠ z) → Z = Y
 
+omit [Finite Γ] in
 private theorem w172_mul_self_eq_one_of_sq_eq_one {d : Γ} (h : d ^ 2 = 1) : d * d = 1 := by
   simpa [pow_two] using h
 
+omit [Finite Γ] in
 private theorem w172_inv_eq_self_of_sq_eq_one {d : Γ} (h : d ^ 2 = 1) : d⁻¹ = d :=
   inv_eq_of_mul_eq_one_right (w172_mul_self_eq_one_of_sq_eq_one h)
 
+omit [Finite Γ] in
 private theorem w172_conj_conj_eq_self {d y : Γ} (hd : d * d = 1) :
     d * (d * y * d⁻¹) * d⁻¹ = y := by
   have hd_inv : d⁻¹ = d := inv_eq_of_mul_eq_one_right hd
   rw [hd_inv, show d * (d * y * d) * d = (d * d) * y * (d * d) by group, hd, one_mul, mul_one]
 
+omit [Finite Γ] in
 private theorem w172_conj_eq_self_of_comm {d s : Γ} (h : s * d = d * s) : d * s * d⁻¹ = s := by
   rw [← h, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite Γ] in
 private theorem w172_conj_inv_eq_inv_of_comm {d s : Γ} (h : s * d = d * s) :
     d * s⁻¹ * d⁻¹ = s⁻¹ := by
   have h1 := w172_conj_eq_self_of_comm h
   simpa [mul_assoc] using congrArg Inv.inv h1
 
+omit [Finite Γ] in
 private theorem w172_conj_conj_mul {d s y : Γ} (h : s * d = d * s) :
     d * (s * y * s⁻¹) * d⁻¹ = s * (d * y * d⁻¹) * s⁻¹ := by
   rw [show d * (s * y * s⁻¹) * d⁻¹ =
       (d * s * d⁻¹) * (d * y * d⁻¹) * (d * s⁻¹ * d⁻¹) by group,
     w172_conj_eq_self_of_comm h, w172_conj_inv_eq_inv_of_comm h]
 
+omit [Finite Γ] in
 private theorem w172_conj_tau {d s y : Γ} (h : s * d = d * s) :
     s * (y⁻¹ * (d * y * d⁻¹)) * s⁻¹ =
       (s * y * s⁻¹)⁻¹ * (d * (s * y * s⁻¹) * d⁻¹) := by
   rw [w172_conj_conj_mul h]
   group
 
+omit [Finite Γ] in
 private theorem w172_conj_inv_conj_inv_mul {d y : Γ} (hd : d * d = 1) :
     d * (y⁻¹ * (d * y * d⁻¹)) * d⁻¹ = (d * y * d⁻¹)⁻¹ * y := by
   have hd_inv : d⁻¹ = d := inv_eq_of_mul_eq_one_right hd
@@ -79,6 +87,7 @@ private theorem w172_frattini_lt_top {Y : Subgroup Γ} [Nontrivial ↥Y] : fratt
   obtain ⟨M, hM⟩ := IsCoatomic.exists_coatom (α := Subgroup ↥Y)
   exact lt_of_le_of_lt (frattini_le_coatom hM) hM.1.lt_top
 
+omit [Finite Γ] in
 private theorem w172_nontrivial_of_minInv {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) : Nontrivial ↥Y := by
   obtain ⟨y, hy, hne⟩ := h.nontriv
@@ -86,6 +95,7 @@ private theorem w172_nontrivial_of_minInv {p : ℕ} {X : Subgroup Γ} {d : Γ} {
     have : y = 1 := Subtype.ext_iff.mp hcon
     rw [this]; simp)⟩
 
+omit [Finite Γ] in
 private theorem w172_eq_one_of_mem_of_inverted_of_fixed {Y : Subgroup Γ} (hYodd : Odd (Nat.card Y))
     {d y : Γ} (hy : y ∈ Y) (hinv : d * y * d⁻¹ = y⁻¹) (hfix : d * y * d⁻¹ = y) : y = 1 := by
   have h1 : y = y⁻¹ := hfix.symm.trans hinv
@@ -99,6 +109,7 @@ private theorem w172_eq_one_of_mem_of_inverted_of_fixed {Y : Subgroup Γ} (hYodd
       exact absurd hodd (by decide)
   exact orderOf_eq_one_iff.mp h1'
 
+omit [Finite Γ] in
 private theorem w172_mem_normalizer_of_normalizes {Y : Subgroup Γ} {d : Γ}
     (hd : ∀ y ∈ Y, d * y * d⁻¹ ∈ Y) (hd_mul : d * d = 1) :
     d ∈ Subgroup.normalizer (Y : Set Γ) := by
@@ -108,6 +119,7 @@ private theorem w172_mem_normalizer_of_normalizes {Y : Subgroup Γ} {d : Γ}
     have h := hd (d * y * d⁻¹) hy
     rwa [w172_conj_conj_eq_self hd_mul] at h⟩
 
+omit [Finite Γ] in
 private theorem w172_minInv_centralizes_of_ne {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) {Z : Subgroup Γ} (hZY : Z ≤ Y)
     (hdZ : ∀ z ∈ Z, d * z * d⁻¹ ∈ Z) (hsZ : ∀ s ∈ S, ∀ z ∈ Z, s * z * s⁻¹ ∈ Z)
@@ -119,10 +131,10 @@ private theorem w172_minInv_centralizes_of_ne {p : ℕ} {X : Subgroup Γ} {d : �
 private theorem w172_commutator_lt_self {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) : (⁅Y, Y⁆ : Subgroup Γ) < Y := by
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Nontrivial ↥Y := w172_nontrivial_of_minInv h
-  haveI : Group.IsNilpotent ↥Y := IsPGroup.isNilpotent hYp
-  haveI : Group.IsSolvable ↥Y := inferInstance
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Nontrivial ↥Y := w172_nontrivial_of_minInv h
+  have : Group.IsNilpotent ↥Y := IsPGroup.isNilpotent hYp
+  have : Group.IsSolvable ↥Y := inferInstance
   have hlt : (_root_.commutator ↥Y).map Y.subtype < (⊤ : Subgroup ↥Y).map Y.subtype :=
     (Subgroup.map_subtype_lt_map_subtype (G' := Y) (H := _root_.commutator ↥Y)
       (K := ⊤)).mpr (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥Y))
@@ -130,6 +142,7 @@ private theorem w172_commutator_lt_self {p : ℕ} {X : Subgroup Γ} {d : Γ} {S 
     simpa [MonoidHom.range_eq_map] using (Y.range_subtype : Y.subtype.range = Y)
   simpa [Subgroup.map_subtype_commutator, htop] using hlt
 
+omit [Finite Γ] in
 private theorem w172_mem_commutator_of_conj {Y : Subgroup Γ} {a q : Γ} (ha : a ∈ Y)
     (hq : q ∈ (⁅Y, Y⁆ : Subgroup Γ)) : a * q * a⁻¹ ∈ (⁅Y, Y⁆ : Subgroup Γ) :=
   (Subgroup.mem_normalizer_iff.mp
@@ -155,7 +168,7 @@ theorem w172_exists_minInv {p : ℕ} {X : Subgroup Γ} {d : Γ} {S : Subgroup Γ
 theorem w172_minInv_gen {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) : Subgroup.closure (W172Inv d Y) = Y := by
   have hd_mul : d * d = 1 := w172_mul_self_eq_one_of_sq_eq_one h.sq
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
   have hYodd : Odd (Nat.card Y) := by
     obtain ⟨n, hn⟩ := hYp.exists_card_eq
@@ -230,9 +243,9 @@ theorem w172_minInv_gen {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
 theorem w172_minInv_pow_fixed {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) : ∀ y ∈ Y, d * y ^ p * d⁻¹ = y ^ p := by
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (IsPGroup p ↥Y) := ⟨hYp⟩
-  haveI : Nontrivial ↥Y := w172_nontrivial_of_minInv h
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (IsPGroup p ↥Y) := ⟨hYp⟩
+  have : Nontrivial ↥Y := w172_nontrivial_of_minInv h
   let Yp : Subgroup Γ := Subgroup.closure {z : Γ | ∃ y ∈ Y, z = y ^ p}
   have hYp_le_Y : Yp ≤ Y := by
     rw [Subgroup.closure_le]
@@ -292,7 +305,7 @@ theorem w172_minInv_centralizer {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subg
     ∀ y ∈ Y, d * y * d⁻¹ = y ↔ y ∈ (⁅Y, Y⁆ : Subgroup Γ) := by
   have hd_mul : d * d = 1 := w172_mul_self_eq_one_of_sq_eq_one h.sq
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hYodd : Odd (Nat.card Y) := by
     obtain ⟨n, hn⟩ := hYp.exists_card_eq
     rw [hn]
@@ -373,7 +386,7 @@ theorem w172_minInv_centralizer {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subg
 theorem w172_minInv_transversal {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) :
     ∀ y ∈ Y, ∃! z : Γ, z ∈ W172Inv d Y ∧ z⁻¹ * y ∈ (⁅Y, Y⁆ : Subgroup Γ) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
   have hYodd : Odd (Nat.card Y) := by
     obtain ⟨n, hn⟩ := hYp.exists_card_eq
@@ -387,7 +400,7 @@ theorem w172_minInv_transversal {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subg
     intro hd1
     exact hne (by rw [hd1]; simp)
   have hd_order : orderOf d = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime h.sq hd_ne_one
   have hbij := CFSG.OddInversion.inverted_mul_fixed_bijOn (A := Y) (t := d) hYodd hd_order hd_norm
   intro y hy
@@ -413,7 +426,6 @@ theorem w172_minInv_transversal {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subg
       change w⁻¹ * y ∈ (Y ⊓ Subgroup.centralizer {d} : Subgroup Γ)
       rw [Subgroup.mem_inf]
       refine ⟨hcwY, ?_⟩
-      change w⁻¹ * y ∈ Subgroup.centralizer {d}
       rw [Subgroup.mem_centralizer_singleton_iff]
       calc (w⁻¹ * y) * d = d * (w⁻¹ * y) * d⁻¹ * d := by rw [hcwfix]
         _ = d * (w⁻¹ * y) := by group
@@ -491,7 +503,7 @@ theorem w172_minInv_center {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup 
 theorem w172_minInv_card {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     (h : W172MinInv p X d S Y) :
     ∃ a : ℕ, 1 ≤ a ∧ Nat.card Y = p ^ a * Nat.card (⁅Y, Y⁆ : Subgroup Γ) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hYp : IsPGroup p Y := h.pgroup.to_le h.le
   have hY'le : (⁅Y, Y⁆ : Subgroup Γ) ≤ Y := Subgroup.commutator_le_self Y
   have hcomm_lt : (⁅Y, Y⁆ : Subgroup Γ) < Y := w172_commutator_lt_self h

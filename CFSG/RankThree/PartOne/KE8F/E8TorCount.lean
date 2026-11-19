@@ -88,7 +88,7 @@ theorem card_rootsOfUnity_pos {m : ℕ} (hm : ¬ ℓ ∣ m) (hm0 : m ≠ 0) :
   have hm' : (m : L) ≠ 0 := fun h => hm ((CharP.cast_eq_zero_iff L ℓ m).1 h)
   have : NeZero m := ⟨hm0⟩
   have : NeZero (m : L) := ⟨hm'⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   have h := hζ.card_rootsOfUnity
   have e : {u : Lˣ // u ^ m = 1} ≃ rootsOfUnity m L :=
     { toFun := fun u => ⟨u.1, (mem_rootsOfUnity m u.1).2 u.2⟩

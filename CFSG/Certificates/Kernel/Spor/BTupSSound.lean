@@ -38,7 +38,7 @@ theorem btInc_spec {cnt : Nat} {SV : Nat → Nat} (h : btIncK cnt SV = true) {i 
     (hij : i < j) (hj : j < cnt) : btSv SV i < btSv SV j := by
   have step : ∀ a, a + 1 < cnt → btSv SV a < btSv SV (a + 1) := fun a ha => by
     have h1 := CFSG.KS.Raw.Orb.allN_iff.1 h a (by omega)
-    rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr ha)] at h1
+    rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr ha)] at h1
     exact Nat.blt_eq.mp h1
   induction j with
   | zero => omega
@@ -93,7 +93,7 @@ theorem btCjKy_eq {c : Nat} {γ : Equiv.Perm (Fin n)} (hc : ∀ x : Fin n, pg w 
     btCjKy w (mask w) d G R PRE c j s = btKf w b (γ * y * γ⁻¹) := by
   unfold btCjKy btKf
   exact btSh_congr fun t ht => by
-    rw [dif_pos ht]
+    rw [dite_eq_left ht]
     exact btCjPt hg hp hfix hb hc hpre hs hy hk ⟨t, ht⟩
 
 theorem btCjSK_spec {B c j : Nat} {PRE SV : Nat → Nat} {γ : Equiv.Perm (Fin n)}

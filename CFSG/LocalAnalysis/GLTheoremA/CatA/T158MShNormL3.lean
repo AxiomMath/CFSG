@@ -136,8 +136,8 @@ theorem t158NormL3_of (hI : ∀ (X : Type) [Group X] [Finite X], I91CentPartAt X
     hInn.1 (Subgroup.mem_sup_left (Subgroup.mem_zpowers x₁))
   rcases hExc with ⟨F, hFf, hFfin, hFeven, hFmod, ⟨eSL⟩⟩ |
       ⟨F, hFf, hFfin, q, hqeven, hFcard, hqmod, ⟨eSU⟩⟩
-  · letI := hFf
-    letI := hFfin
+  · let := hFf
+    let := hFfin
     have hc : Nat.card F % 3 = 1 := by
       rcases hFmod with h | h <;> omega
     obtain ⟨p, f, hKf, hq, h2⟩ := exists_true_data F hc
@@ -160,8 +160,8 @@ theorem t158NormL3_of (hI : ∀ (X : Type) [Group X] [Finite X], I91CentPartAt X
       · exact t158NormL3_false_of_fieldAut hKf hF h9
       · exact t158NormL3_inner hI hBel hx1B hx2B hL1comp hL1chev hfg2 hx1N hKf hq h2
           heven h9 rfl hin
-  · letI := hFf
-    letI := hFfin
+  · let := hFf
+    let := hFfin
     obtain ⟨p, f, rfl, ⟨hF⟩⟩ := exists_unitaryFieldData hFcard
     have hKf : PiField false p f F :=
       ⟨hF.prime, hF.one_le, by simpa [piCard, pow_mul, mul_comm] using hF.card⟩
@@ -198,7 +198,7 @@ theorem t158NormL3_of (hI : ∀ (X : Type) [Group X] [Finite X], I91CentPartAt X
       have hsol : Group.IsSolvable ↥(StatedSU 3 (p ^ f) F) := by
         rw [hq2]
         exact CFSG.Quasithin.isSolvable_statedSU_one (by simpa using hcard4)
-      haveI : Group.IsSolvable ↥(StatedSU 3 (p ^ f) F) := hsol
+      have : Group.IsSolvable ↥(StatedSU 3 (p ^ f) F) := hsol
       exact CFSG.ClassicalInvolution.not_isSolvable_of_open_isQuasisimple
         (isQuasisimple_pQuot_of_glaPComponent hp hKcomp)
         (Group.isSolvable_of_surjective (f := eSU.symm.toMonoidHom) eSU.symm.surjective)

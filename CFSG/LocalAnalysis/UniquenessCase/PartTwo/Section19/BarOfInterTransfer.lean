@@ -13,6 +13,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem index_barOfInter {M L : Subgroup G} (hO2 : pCoreOf 2 L ≤ M) :
     (barOfInter M L).index = (L ⊓ M).relIndex L := by
   have hsub : (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by

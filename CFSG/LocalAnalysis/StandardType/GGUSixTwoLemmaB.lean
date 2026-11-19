@@ -71,7 +71,7 @@ theorem odd_card_relPPrimeCore [Finite G] [Finite K] (hG : IsCharTwoType G)
         (Subgroup.inf_normalizer_le_normalizer_inf (H := N) (K := M))
     have hNMnormal : ((N ⊓ M).subgroupOf M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hMN
-    haveI := hNMnormal
+    have := hNMnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((N ⊓ M).subgroupOf M) with hbot | htop
     ·
       have hinf : N ⊓ M = ⊥ := by
@@ -115,7 +115,7 @@ theorem odd_card_relPPrimeCore [Finite G] [Finite K] (hG : IsCharTwoType G)
         sup_le hOeC (Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl))
       have hCnormOe : C ≤ Subgroup.normalizer (Oe : Set G) :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hOeC).mp hOeNC
-      haveI : (Oe.subgroupOf (Oe ⊔ Subgroup.zpowers e)).Normal :=
+      have : (Oe.subgroupOf (Oe ⊔ Subgroup.zpowers e)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr (hPleC.trans hCnormOe)
       have hqP' : (⟨q, hqP⟩ : ↥(Oe ⊔ Subgroup.zpowers e)) ∈
           (Oe.subgroupOf (Oe ⊔ Subgroup.zpowers e)) ⊔
@@ -253,7 +253,7 @@ theorem odd_card_centralizer_inf_centralizer [Finite G] [Finite K] (hG : IsCharT
       Nat.card (relPPrimeCore 3 (Subgroup.centralizer {b})) * 3 := by
     have hOleCb : relPPrimeCore 3 (Subgroup.centralizer {b}) ≤
         Subgroup.centralizer ({b} : Set G) := relPPrimeCore_le _
-    haveI : ((relPPrimeCore 3 (Subgroup.centralizer {b})).subgroupOf
+    have : ((relPPrimeCore 3 (Subgroup.centralizer {b})).subgroupOf
         (relPPrimeCore 3 (Subgroup.centralizer {b}) ⊔ Subgroup.zpowers b)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
         ((sup_le hOleCb (Subgroup.zpowers_le.mpr
@@ -338,7 +338,7 @@ theorem exists_involution [Finite G] [Finite K] (hG : IsCharTwoType G)
     ∃ t ∈ Subgroup.zpowers g, t ∈ Subgroup.normalizer (Bs : Set G) ∧ orderOf t = 2 ∧
       t * b * t⁻¹ = b⁻¹ ∧ t ∈ Subgroup.centralizer (L : Set G) := by
   classical
-  haveI hLsimple : IsSimpleGroup L := isSimpleGroup_L hS
+  have hLsimple : IsSimpleGroup L := isSimpleGroup_L hS
   have hbne : b ≠ b⁻¹ := by
     intro h
     have h2 : b ^ 2 = 1 := by
@@ -473,7 +473,7 @@ theorem exists_involution [Finite G] [Finite K] (hG : IsCharTwoType G)
     rw [htinv] at h2
     exact hbne h2.symm
   have htord2 : orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime ht2 htne
   have htNBs : t ∈ Subgroup.normalizer (Bs : Set G) := by
     rw [htdef]
@@ -543,7 +543,7 @@ theorem exists_involution [Finite G] [Finite K] (hG : IsCharTwoType G)
       intro h
       rw [hL'def] at h
       exact hnot (Subgroup.mem_normalizer_iff_map_conj_eq.mpr h)
-    haveI : ((L ⊓ L').subgroupOf L).Normal := hL'infL_normal
+    have : ((L ⊓ L').subgroupOf L).Normal := hL'infL_normal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((L ⊓ L').subgroupOf L) with hbot | htop
     · have hinf : L ⊓ L' = ⊥ := by
         rw [eq_bot_iff]

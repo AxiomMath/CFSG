@@ -67,8 +67,8 @@ theorem u81_mem_uniqueSet_of_residual (u : U4P D L K n p) {r : ℕ} (hr : r.Prim
   have hns := UC6S846.not_solvable_of_mem_calC u.hL
   have hsp := UC6S846.sp_of_mem_sig hSg hns u.hσ
   have hr2 := u.r_ne_two hr hrp
-  haveI : Fact p.Prime := ⟨u.prime_p⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨u.prime_p⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr3 : CFSG.Open.pRank r D.M ≤ 3 := by
     by_contra h4
     exact hnsp (UC6S846.sp_of_mem_sig hSg hns (hSg.four_mem _ hr hr2 (by omega)))
@@ -97,7 +97,7 @@ theorem u81_mem_uniqueSet_of_residual (u : U4P D L K n p) {r : ℕ} (hr : r.Prim
 theorem u81_normalizer_le (u : U4P D L K n p) {r : ℕ}
     (hr : r.Prime) (hrp : r ∣ 2 ^ p - 1) (hsp : IsStronglyPEmbedded p D.M)
     (hfour : 4 ≤ CFSG.Open.pRank p D.M) (h847 : F08.R847 D) (he : 3 < CFSG.Open.evenRank G)
-    (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl) (hGLR : GL3Excl.GL3ExclR3)
+    (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hGLR : GL3Excl.GL3ExclR3)
     {R B : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R D.M) (hBR : B ≤ R)
     (hRB : R ≤ centralizer (B : Set G)) (hBel : IsElemAbelian r B)
     (hΩ : ∀ x ∈ R, x ^ r = 1 → x ∈ B) (hr3 : CFSG.Open.pRank r D.M ≤ 3)
@@ -111,9 +111,9 @@ theorem u81_normalizer_le (u : U4P D L K n p) {r : ℕ}
   have hn := u.prime_p
   have hn2 := u.p_ne_two
   have hr2 := u.r_ne_two hr hrp
-  haveI : Fact p.Prime := ⟨hn⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact p.Prime := ⟨hn⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hBM : B ≤ D.M := hBR.trans hR.le
   obtain ⟨b, hb⟩ := u.u81_exists_basis hr hrp hr3 hR hBR hBel hΩ hB0
   have hCN : centralizer (B : Set G) ≤ normalizer (B : Set G) :=
@@ -259,7 +259,7 @@ theorem r8101U3_of_inputs
     {D : Data G} (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M) (h614 : UC6.R6_14 D)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p) (h847 : F08.R847 D)
-    (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl) (hGLR : GL3Excl.GL3ExclR3) :
+    (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hGLR : GL3Excl.GL3ExclR3) :
     R8101U3 D := by
   intro he L n s r p k hL hc2 hL2 hs hsn hr hrs hp hk hn hcong A hAL hAr
   obtain ⟨K, hKne, hset, hKC⟩ := uc22s21ru4e_exists_second_member hc2 hL
@@ -272,7 +272,7 @@ theorem r8101U3_of_inputs
     · have h1 : r ∣ 1 := by simpa using hrs
       exact absurd (Nat.dvd_one.1 h1) hr.one_lt.ne'
     · exact hrs
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hspr : IsStronglyPEmbedded r D.M
   · refine uc22p22r_mem_uniqueSet_of_sp D hr hspr (hAL.trans hL.1.le)
       (IsPGroup.of_card (n := 1) (by rw [hAr, pow_one])) ?_

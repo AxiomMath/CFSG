@@ -54,7 +54,7 @@ theorem isoBasis_exists (hι : ∀ x, ι (ι x) = x)
       linear_combination (ι ω * ω) * hu + hω * (-1) + hω * 0
     · rw [herm_isoVec]; simp [isoVec, hu]
   · intro k l hkl
-    fin_cases k <;> fin_cases l <;> first | exact absurd rfl hkl | skip
+    fin_cases k <;> fin_cases l <;> try exact absurd rfl hkl
     all_goals rw [herm_isoVec]
     all_goals simp [isoVec, map_mul]
     · intro h

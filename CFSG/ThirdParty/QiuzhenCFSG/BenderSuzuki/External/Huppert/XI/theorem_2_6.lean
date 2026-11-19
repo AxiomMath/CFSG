@@ -34,7 +34,7 @@ public theorem xi26_exists_square_add_one_nonsquare
     (hchar : ringChar K ≠ 2) :
     ∃ b : K, IsSquare b ∧ ¬ IsSquare (b + 1) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   by_contra hex
   push Not at hex
   have hadd {x y : K} (hx : IsSquare x) (hy : IsSquare y) :
@@ -44,7 +44,7 @@ public theorem xi26_exists_square_add_one_nonsquare
     have hxy : IsSquare (x / y) := by simpa [div_eq_mul_inv] using hx.mul hy.inv
     have hxy1 : IsSquare (x / y + 1) := hex _ hxy
     have hprod : IsSquare ((x / y + 1) * y) := hxy1.mul hy
-    convert hprod using 1 <;> field_simp
+    convert hprod using 1; field_simp
   have hneg {x : K} (hx : IsSquare x) : IsSquare (-x) := by
     have hnsmul : ∀ n : ℕ, IsSquare (n • x) := by
       intro n
@@ -169,7 +169,7 @@ private theorem xi26_tau_inverse
         | none => some 0
         | some x => if x = 0 then none else some x⁻¹ := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let negOne : Kˣ := Units.mk0 (-1 : K) (by
     exact neg_ne_zero.mpr one_ne_zero)
   have hThetaNegOne : theta negOne = negOne := by
@@ -198,10 +198,10 @@ private theorem xi26_tau_inverse
     have hunit :
         Units.mk0 (-(x : K)) (neg_ne_zero.mpr (Units.ne_zero x)) = negOne * x := by
       apply Units.ext
-      simpa [negOne]
+      simp [negOne]
     rw [hunit, map_mul, hThetaNegOne]
     apply Units.ext
-    simpa [negOne]
+    simp [negOne]
   have hThetaInvolutive : Function.Involutive theta := by
     intro x
     apply Units.ext
@@ -256,8 +256,8 @@ private theorem xi26_tau_inverse
       rw [hTauInf]
       simp only [hT_apply, Option.map_some, add_zero]
       rw [hThetaApply]
-      simp only [hT_apply, Option.map_some]
-      simp only [Option.map_some, neg_add_cancel]
+      simp only [Option.map_some]
+      simp only [neg_add_cancel]
       rw [hTauZero]
       rfl
     have hhaZero : ha (some 0) = some 0 := by
@@ -267,7 +267,7 @@ private theorem xi26_tau_inverse
       rw [hTauZero]
       simp only [hT_apply, Option.map_none]
       rw [hTauInf]
-      simp only [hT_apply, Option.map_some, add_zero]
+      simp only [Option.map_some, add_zero]
       have hnegApply := hThetaApply
         (Units.mk0 (-((theta a : Kˣ) : K))
           (neg_ne_zero.mpr (Units.ne_zero (theta a))))
@@ -276,7 +276,7 @@ private theorem xi26_tau_inverse
           tau (some (-((theta a : Kˣ) : K))) = some (-(a : K)) := by
         simpa using hnegApply
       rw [hnegApply']
-      simp [hT_apply]
+      simp
     have hhaA : ha ∈ A :=
       (hA_fix_infty ⟨ha, hha_mem⟩).mpr hhaInf
     have hhaA' : ha ∈ (A : Set (Equiv.Perm (Option K))) := hhaA
@@ -340,7 +340,7 @@ private theorem xi26_tau_inverse
       rw [hzc]
       simp only [hT_apply, Option.map_some, neg_add_cancel]
       rw [hTauZero]
-      simp [hT_apply]
+      simp
     have hinner : T (a : K) (tau (some (z : K))) = some 0 := by
       apply tau.injective
       rw [hleft0, hTauZero]
@@ -501,7 +501,7 @@ private theorem xi26_tau_inverse
           calc
             x = (x / (b + 1)) * (b + 1) := (div_mul_cancel₀ x hb1zero).symm
             _ = (b + 1) * z ^ 2 := by rw [hz, pow_two]; ac_rfl
-        simp only [if_neg hx0]
+        simp only [ite_eq_right hx0]
         change tau (some ((Units.mk0 x hx0 : Kˣ) : K)) = some x⁻¹
         have hbtheta : theta bx = bx⁻¹ := by
           apply Units.ext
@@ -615,7 +615,7 @@ private theorem xi26_card_pgl2
     Nat.card (Matrix.ProjGenLinGroup (Fin 2) K) =
       Nat.card K * (Nat.card K ^ 2 - 1) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let GL2 := GL (Fin 2) K
   let PGL2 := Matrix.ProjGenLinGroup (Fin 2) K
   let centerGL := Subgroup.center GL2
@@ -702,7 +702,7 @@ public theorem xi26_pglRange_of_tau
     have ha0 : (a : K) ≠ 0 := Units.ne_zero a
     let M : GL (Fin 2) K :=
       Matrix.GeneralLinearGroup.mkOfDetNeZero !![(a : K), b; 0, 1] (by
-        simpa [Matrix.det_fin_two] using ha0)
+        simp [Matrix.det_fin_two])
     refine ⟨Matrix.ProjGenLinGroup.mk M, ?_⟩
     apply Equiv.ext
     intro y

@@ -23,8 +23,8 @@ private theorem isElemAbelian_closure_pair_aux {p : ℕ} {b e : G} (hb : b ^ p =
     intro x hx y hy _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with hx | hx <;> rcases hy with hy | hy <;> rw [hx, hy]
-    all_goals first | exact hbe | exact hbe.symm | exact Commute.refl b | exact Commute.refl e
-  haveI hcomm : IsMulCommutative ↥(Subgroup.closure ({b, e} : Set G)) :=
+    all_goals first | exact hbe | exact hbe.symm
+  have hcomm : IsMulCommutative ↥(Subgroup.closure ({b, e} : Set G)) :=
     Subgroup.isMulCommutative_closure hpair
   refine ⟨hcomm, ?_⟩
   intro x hx
@@ -66,7 +66,7 @@ theorem ggE6Dep_hZ {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   have hx1 : x ≠ 1 := hS.2.2.1
   have hcyc := hS.2.2.2.2
   have hxp : x ^ p = 1 := hBs.2 x hxB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' p hdiv
   let z' : G := ((z : ↥L) : G)
   have hz'ord : orderOf z' = p := by

@@ -23,7 +23,7 @@ theorem sylow_central_conj {α : MulAut SU4} (hα3 : α ^ 3 = 1) (hα1 : fieldFa
     (hS : Nat.card S = 81) {z : SU4} (hzS : z ∈ S) (hzc : ∀ q ∈ S, q * z = z * q) :
     ∃ (g : SU4) (a : ZMod 9), g * z * g⁻¹ = tau4 (.ofAdd fun _ => a) ∧
       ∀ x ∈ fixSub (fieldSU4 (fieldFactor4 α)), g⁻¹ * x * g ∈ fixSub α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h, hh⟩ := exists_conj_fieldSU4 hα3 hα1
   have hφ3 : fieldFactor4 α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   set F := fixSub α with hF
@@ -84,7 +84,7 @@ theorem ipart_fix_model {G : Type} [Group G] [Finite G] (X L : Subgroup G) (b : 
     (hFO : FieldOn 3 b L) (hb3 : b ^ 3 = 1) (I : Subgroup G) (hI : I = Ipart 3 L b) :
     ∃ γ : MulAut SU4, γ ^ 3 = 1 ∧ fieldFactor4 γ ≠ 1 ∧ Nat.card (fixSub γ) = 25920 ∧
       ∃ ψ : ↥I →* ↥(fixSub γ), Function.Surjective ψ ∧ ¬ 3 ∣ Nat.card ψ.ker ∧ I ≤ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb : b ∈ Subgroup.normalizer (L : Set G) := hFO.1
   have hZ := center_pquot_eq_bot_of_u48 hL hcat
   let e := pqModelP hZ hcat
@@ -124,10 +124,10 @@ theorem ipart_fix_model {G : Type} [Group G] [Finite G] (X L : Subgroup G) (b : 
   have hψk : ¬ 3 ∣ Nat.card ψ.ker :=
     restrictTo_ker (piOf L e) F hYL hπF (not_three_dvd_card_ker_piOf e)
   have hcardF' : Nat.card ↥F = 25920 := hcardF
-  haveI hsimp : IsSimpleGroup ↥F := isSimple_of_u4two hcatF
+  have hsimp : IsSimpleGroup ↥F := isSimple_of_u4two hcatF
   have hC : GLAPPrimeCore 3 ↥F = ⊥ := pPrimeCore_eq_bot_of_simple (by rw [hcardF']; norm_num)
   have hS : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup ↥F) := by
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥F) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup ↥F) := Subgroup.topEquiv.isSimpleGroup
     refine isQuasisimple_of_simple_nonabelian ?_
     intro hcomm
     have hp := (@Group.is_simple_iff_prime_card ↥(⊤ : Subgroup ↥F) _ hcomm).1 inferInstance
@@ -161,7 +161,7 @@ theorem ipart_central_conj {G : Type} [Group G] [Finite G] {I : Subgroup G} {γ 
     ∃ (g : SU4) (a : ZMod 9), g * ((ψ ⟨y, hyI⟩ : ↥(fixSub γ)) : SU4) * g⁻¹ =
         tau4 (.ofAdd fun _ => a) ∧
       ∀ x ∈ fixSub (fieldSU4 (fieldFactor4 γ)), g⁻¹ * x * g ∈ fixSub γ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, P, hPI, hP3, hyP, hPc, hPmax⟩ := hyc
   obtain ⟨S, hSdef⟩ := sylow_image hPI hP3 hPmax ψ hψs hψk
   set S' : Subgroup SU4 := (S : Subgroup ↥(fixSub γ)).map (fixSub γ).subtype with hS'

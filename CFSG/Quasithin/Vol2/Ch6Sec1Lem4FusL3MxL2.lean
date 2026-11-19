@@ -20,8 +20,8 @@ private theorem exists_coeffs_inverter_L3mxL2 {F : Type} [Field F] (a b c d : F)
   · have hbi : b * b⁻¹ = 1 := mul_inv_cancel₀ hb
     exact ⟨1, 0, -(a - d) * b⁻¹, by ring, by linear_combination (-(a - d)) * hbi⟩
 
-theorem exists_inverter_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
-    (hp5 : 5 < p) (hF : Nat.card F = p) :
+theorem exists_inverter_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (_hp : p.Prime)
+    (_hp5 : 5 < p) (_hF : Nat.card F = p) :
     ∀ B ∈ sl2Of (⊤ : Subgroup (GL (Fin 2) F)), B ^ 5 = 1 → B ≠ 1 →
       ∃ R ∈ (⊤ : Subgroup (GL (Fin 2) F)), R * R = 1 ∧
         (Matrix.GeneralLinearGroup.det R : Fˣ) = -1 ∧ R * B * R⁻¹ = B⁻¹ := by

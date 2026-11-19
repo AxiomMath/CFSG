@@ -18,6 +18,7 @@ open scoped Matrix
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
 
+omit [Finite W] in
 theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : ℕ}
     (hL : IsSLn ↥L n 1) (hn : n = 6 ∨ n = 7)
     (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z n 1) L ⊤ (fixV L) 3) :
@@ -149,7 +150,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by
             have h : ((Ag 1 * (Ag 1)⁻¹ : Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) :
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by simp
-            simpa using h
+            simp
           calc ((t : Matrix (Fin n) (Fin n) (ZMod 2))) *ᵥ bvec 1
               = (Ag 1 : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
                   ((gs : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
@@ -244,7 +245,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by
             have h : ((Ag 1 * (Ag 1)⁻¹ : Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) :
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by simp
-            simpa using h
+            simp
           calc ((t : Matrix (Fin n) (Fin n) (ZMod 2))) *ᵥ bvec 1
               = (Ag 1 : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
                   ((((gs⁻¹ : Matrix.SpecialLinearGroup (Fin n) (ZMod 2)) :
@@ -288,7 +289,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by
             have h : ((Ag 2 * (Ag 2)⁻¹ : Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) :
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by simp
-            simpa using h
+            simp
           calc ((t : Matrix (Fin n) (Fin n) (ZMod 2))) *ᵥ bvec 2
               = (Ag 2 : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
                   ((gs : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
@@ -383,7 +384,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by
             have h : ((Ag 2 * (Ag 2)⁻¹ : Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) :
                 Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by simp
-            simpa using h
+            simp
           calc ((t : Matrix (Fin n) (Fin n) (ZMod 2))) *ᵥ bvec 2
               = (Ag 2 : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
                   ((((gs⁻¹ : Matrix.SpecialLinearGroup (Fin n) (ZMod 2)) :
@@ -426,7 +427,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
   have hp : y (x0 * x1 * x2) * (x0 * x1 * x2)⁻¹ ∈ fixV L := by
     have h := (fixV L).mul_mem ((fixV L).mul_mem (hfix_i 0) (hfix_i 1)) (hfix_i 2)
     convert h using 1
-    simp [xf, x0, x1, x2, map_mul, map_inv]
+    simp [xf, x0, x1, x2, map_mul]
     ac_rfl
   have hfull : y x * x⁻¹ ∈ fixV L := by
     have hprod : y x * x⁻¹ = (y z * z⁻¹) * (y (x0 * x1 * x2) * (x0 * x1 * x2)⁻¹) := by
@@ -439,6 +440,7 @@ theorem s16t3_exists_fix_seven_of_sum_nat (helem : ∀ w : W, w * w = 1) {n : �
     (fun w hw => (mem_fixV.1 hw) (y : MulAut W) hyL) hfull
   exact ⟨y, hyL, horder_y, hfix⟩
 
+omit [Finite W] in
 theorem ThreeNat.exists_fix_seven_sl (h : ThreeNat A L T)
     (hL : IsSLn ↥L 6 1 ∨ IsSLn ↥L 7 1) :
     ∀ x : W, x ≠ 1 → ∃ y ∈ L, orderOf y = 7 ∧ y x = x := by

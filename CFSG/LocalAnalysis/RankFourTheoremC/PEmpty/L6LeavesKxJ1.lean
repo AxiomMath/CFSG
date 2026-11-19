@@ -19,8 +19,8 @@ variable {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G} {T S L : Subgroup 
 theorem false_of_j1 (hE : KFactJ1Sylow) (h27 : KFactJ1L27) (c : KxCfg p P M x z T S L)
     (h : Nonempty (↥L ≃* (TauCeti.CFSGIndex.sporadic .J1).Group)) : False := by
   have hp := c.conf.config.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp5 : 5 ≤ p := c.conf.config.situation.p_ge
   set R : Subgroup G := ⁅zpowers z, S⁆ with hR
   have hzR : z ∈ normalizer (R : Set G) := c.conf.z_le_normalizer_R (mem_zpowers z)

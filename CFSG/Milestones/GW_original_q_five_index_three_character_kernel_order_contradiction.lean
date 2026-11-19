@@ -11,12 +11,12 @@ open DihedralBlueprint
 
 theorem gw_original_q_five_index_three_character_kernel_order_contradiction (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
     (hnonab : ∃ a b : G, a * b ≠ b * a) (d : OriginalData G)
-    (hs : d.Stationarity) (hc : d.CanonicalNormalizers) (hm : d.MaximalOddKernel)
-    (hp : d.PureProjectiveNormalizer) (hb : d.CosetBounds)
-    (hn : d.n = 3) (hR : d.R ≠ ⊥) (hCN : d.C < d.N)
+    (_hs : d.Stationarity) (_hc : d.CanonicalNormalizers) (_hm : d.MaximalOddKernel)
+    (hp : d.PureProjectiveNormalizer) (_hb : d.CosetBounds)
+    (hn : d.n = 3) (hR : d.R ≠ ⊥) (_hCN : d.C < d.N)
     (w : CoordinateWitness (d.N ⧸ CFSG.Assembly.oddCore d.N)) (hq : Nat.card w.K = 5)
-    (hindex : (d.commonE.subgroupOf d.R).index = 3) (horder : d.ConditionalOrder) : d.CharacterKernelConclusion := by
-  clear hs hc hm hb hCN horder
+    (hindex : (d.commonE.subgroupOf d.R).index = 3) (_horder : d.ConditionalOrder) : d.CharacterKernelConclusion := by
+  clear _hs _hc _hm _hb _hCN _horder
   exact (d.q_five_index_three_impossible hnonab hp hn hR w hq hindex).elim
 
 end CFSG.Milestones

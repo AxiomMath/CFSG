@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.GLTheoremA
 
 theorem fldExc_F4
     (hRig : GGLabelRigidInput) {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S)
-    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .F4) (hp : p.Prime) (hp2 : p ≠ 2)
+    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .F4) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hcen : Subgroup.center S = ⊥) (hfld : FieldKind S labK α) (hα : α ^ p = 1)
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) (hJ : GLAPComponent p (fixSubgroup α) J) :
     (canonLabel labK).n = p * (canonLabel labJ).n ∧ (canonLabel labK).tag = (canonLabel labJ).tag ∧
@@ -39,8 +39,8 @@ theorem fldExc_F4
     have h2 := hlam'.2
     rw [hT] at h2
     exact h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hconj := RecipeExcLang.ggRawFieldConj_chev (τ := .F4) (ℓ := 2) (f := lab'.n) (p := p) hn hK
     hp (RecipeExcLang.innerFieldTrivial_F4 hn hK)
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenChevH LargeEvenCartanF4 K false),
@@ -72,7 +72,7 @@ theorem fldExc_F4
 
 theorem fldExc_E7
     (hRig : GGLabelRigidInput) {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S)
-    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .E7) (hp : p.Prime) (hp2 : p ≠ 2)
+    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .E7) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hcen : Subgroup.center S = ⊥) (hfld : FieldKind S labK α) (hα : α ^ p = 1)
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) (hJ : GLAPComponent p (fixSubgroup α) J) :
     (canonLabel labK).n = p * (canonLabel labJ).n ∧ (canonLabel labK).tag = (canonLabel labJ).tag ∧
@@ -91,8 +91,8 @@ theorem fldExc_E7
     have h2 := hlam'.2
     rw [hT] at h2
     exact h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hconj := RecipeExcLang.ggRawFieldConj_chev (τ := .E7) (ℓ := 2) (f := lab'.n) (p := p) hn hK
     hp (RecipeExcLang.innerFieldTrivial_E7_E8 (τ := .E7) hn hK (Or.inl rfl))
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage (LargeEvenCartanE 7) K (LargeEvenChevH (LargeEvenCartanE 7) K false),
@@ -124,7 +124,7 @@ theorem fldExc_E7
 
 theorem fldExc_E8
     (hRig : GGLabelRigidInput) {S : Type} [Group S] [Finite S] (p : ℕ) (α : MulAut S)
-    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .E8) (hp : p.Prime) (hp2 : p ≠ 2)
+    (J : Subgroup S) (labK labJ : GLALabel) (hT : labK.tag = .E8) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hcen : Subgroup.center S = ⊥) (hfld : FieldKind S labK α) (hα : α ^ p = 1)
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) (hJ : GLAPComponent p (fixSubgroup α) J) :
     (canonLabel labK).n = p * (canonLabel labJ).n ∧ (canonLabel labK).tag = (canonLabel labJ).tag ∧
@@ -143,8 +143,8 @@ theorem fldExc_E8
     have h2 := hlam'.2
     rw [hT] at h2
     exact h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hconj := RecipeExcLang.ggRawFieldConj_chev (τ := .E8) (ℓ := 2) (f := lab'.n) (p := p) hn hK
     hp (RecipeExcLang.innerFieldTrivial_E7_E8 (τ := .E8) hn hK (Or.inr rfl))
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage (LargeEvenCartanE 8) K (LargeEvenChevH (LargeEvenCartanE 8) K false),

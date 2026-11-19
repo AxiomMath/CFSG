@@ -148,7 +148,7 @@ theorem transfer_index_two {H Q : Subgroup G} (hQ4 : Nat.card Q = 4)
         rw [Nat.card_perm, hT]
         rfl
       exact h6 ▸ Subgroup.card_subgroup_dvd_card φ.range
-    obtain ⟨n, hn⟩ := (S.isPGroup').exists_card_eq
+    obtain ⟨n, hn⟩ := (S.isPGroup).exists_card_eq
     have hrange2 : Nat.card φ.range ∣ 2 ^ n := hn ▸ Subgroup.card_range_dvd φ
     obtain ⟨k, -, hkcard⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hrange2
     have hk1 : k ≤ 1 := by

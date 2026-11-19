@@ -278,7 +278,7 @@ theorem false_of_isXi_of_fusionIsBenderGroup (hB : fusionIsBenderGroup G) {T X :
   have : IsCyclic (↥B ⧸ S') := isCyclic_of_surjective _ hsurj
   have hPB : P ≤ B := hP.le.trans hXB
   have hPS : P ⊓ (S : Subgroup G) = ⊥ :=
-    (IsPGroup.disjoint_of_ne p 2 hp2 P S hP.isPGroup S.isPGroup').eq_bot
+    (IsPGroup.disjoint_of_ne p 2 hp2 P S hP.isPGroup S.isPGroup).eq_bot
   let f : ↥(P.subgroupOf B) →* ↥B ⧸ S' := (QuotientGroup.mk' S').comp (P.subgroupOf B).subtype
   have hf : Function.Injective f := by
     rw [injective_iff_map_eq_one]

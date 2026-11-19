@@ -151,7 +151,7 @@ theorem card_le_twentyfive_of_elemAbelian_reeGamma
   have hEp : IsPGroup 5 E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hES⟩ := hEp.exists_le_sylow
-  obtain ⟨φ⟩ := hshape (S : Subgroup (F4.reeGamma F 2)) S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hshape (S : Subgroup (F4.reeGamma F 2)) S.isPGroup S.not_dvd_index
   let ι : E →* (Fin 2 → Multiplicative (ZMod (5 ^ 2))) :=
     φ.toMonoidHom.comp (Subgroup.inclusion hES)
   have hι : Function.Injective ι := φ.injective.comp (Subgroup.inclusion_injective hES)

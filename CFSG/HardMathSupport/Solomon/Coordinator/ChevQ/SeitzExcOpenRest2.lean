@@ -61,7 +61,7 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
     (hN : ¬ NormalizesRGroup (ringChar K) E₀) :
     ∃ g : adjointGroup .E7 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e7FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp5p : (5 : ℕ).Prime := Nat.prime_five
   have hord := orderOf_eq_two_of_dvd_add_one hp5p (by norm_num) hpq
   have hpK : ¬ 5 ∣ Nat.card K := not_dvd_card_of_dvd_add_one hp5p hpq
@@ -79,8 +79,8 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
   obtain ⟨ρ, hρi, hρr⟩ := exists_sl2_hom_rootPairE7 (K := K) isRoot_e7Theta
   have hcomm : ∀ (a : SL(2, K)) (t : spinGroup (Spin.quadPlus 6 K)), Commute (ρ a) (Ψ t) :=
     fun a t => commute_rootPairE7_theta_of_mem_e7D6Group (hρr ▸ ⟨a, rfl⟩) (hrange ▸ ⟨t, rfl⟩)
-  haveI : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 6 K)) :=
+  have : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 6 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen5 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 5) (by norm_num) hpq1
   let ψ : SL(2, K) × spinGroup (Spin.quadPlus 6 K) →* adjointGroup .E7 K :=
@@ -118,7 +118,7 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
       (∀ v ∈ T, Spin.quadPlus 6 K v = 0) → T = ⊥ := by
     intro T hTi hTs
     by_contra hT0
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     obtain ⟨U, hU0, hUp, hUn⟩ : ∃ U : Subgroup (spinGroup (Spin.quadPlus 6 K)), U ≠ ⊥ ∧
         IsPGroup (ringChar K) U ∧ ∀ e ∈ E₂, U.map (MulAut.conj e).toMonoidHom = U := by
       rcases Nat.even_or_odd (Nat.card K) with hev | hodd
@@ -127,7 +127,7 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
             rw [← Nat.card_eq_fintype_card]
             exact hev
           exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-        haveI : CharP K 2 := ringChar.of_eq hchar2
+        have : CharP K 2 := ringChar.of_eq hchar2
         exact exists_rGroup_normalized_of_invariant_singular_charTwo hn3 E₂ T hT0 hTs hTi
       · exact exists_rGroup_normalized_of_invariant_singular hodd hn3 E₂ T hT0 hTs hTi
     have hcenr : ¬ ringChar K ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus 6 K))) := by
@@ -137,7 +137,7 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
             rw [← Nat.card_eq_fintype_card]
             exact hev
           exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-        haveI : CharP K 2 := ringChar.of_eq hchar2
+        have : CharP K 2 := ringChar.of_eq hchar2
         rw [hchar2]
         exact not_dvd_card_center_spinPlus_charTwo hn3
       · have hr2 : ringChar K ≠ 2 := by
@@ -176,7 +176,7 @@ theorem e7_conj_into_frame_five_elem (hpq : 5 ∣ Nat.card K + 1)
           rw [← Nat.card_eq_fintype_card]
           exact hev
         exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-      haveI : CharP K 2 := ringChar.of_eq hchar2
+      have : CharP K 2 := ringChar.of_eq hchar2
       exact exists_spin_conj_frameGroup_elem_charTwo hn3 (k := 3) (by norm_num) ι6 hp5p le_rfl
         hpl hord E₂ hE₂comm hE₂ea.2 hNS
     · exact exists_spin_conj_frameGroup_elem hodd hn3 (k := 3) (by norm_num) ι6 hp5p le_rfl hpl
@@ -205,7 +205,7 @@ theorem hyperGen_adjoint_E7_two_five (K : Type) [Field K] [Finite K] (hpq : 5 �
       IsElemAbelian 5 E → Nat.card E = 5 ^ 3 → HyperGen 5 ⊤ E)
     {E₀ : Subgroup (adjointGroup .E7 K)} (hE₀ : IsElemAbelian 5 E₀) (hc : Nat.card E₀ = 5 ^ 3)
     (hN : ¬ NormalizesRGroup (ringChar K) E₀) : HyperGen 5 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact hyperGen_of_two_conj (e7A1D6 K) (e7FrameGroup K) (weylWordElt .E7 K e7Word)
     e7FrameGroup_le_e7A1D6 e7FrameGroup_le_conj_e7A1D6
     (fun M hX hn => eq_top_of_e7A1D6_le_of_conj_le M hX hn)
@@ -223,7 +223,7 @@ theorem e8_conj_into_frame_seven_elem (hpq : 7 ∣ Nat.card K + 1)
     (hN : ¬ NormalizesRGroup (ringChar K) E₀) :
     ∃ g : adjointGroup .E8 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e8FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp7 : (7 : ℕ).Prime := by norm_num
   have hodd := odd_card_of_seven_dvd_add_one hpq
   have hord := orderOf_eq_two_of_dvd_add_one hp7 (by norm_num) hpq
@@ -244,8 +244,8 @@ theorem e8_conj_into_frame_seven_elem (hpq : 7 ∣ Nat.card K + 1)
   have hEa : IsElemAbelian 7 E := CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map 7 hE₀ _
   have hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hEa.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 8 K)) :=
+  have : Nonempty (Fin 8 ⊕ Fin 8) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 8 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen7 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 7) (by norm_num) hpq1
   have hΨcop : ¬ 7 ∣ Nat.card Ψ.ker := fun hd => hcen7 (hd.trans (Subgroup.card_dvd_of_le hker))
@@ -275,7 +275,7 @@ theorem e8_conj_into_frame_seven_elem (hpq : 7 ∣ Nat.card K + 1)
     by_contra hT0
     obtain ⟨U, hU0, hUp, hUn⟩ :=
       exists_rGroup_normalized_of_invariant_singular hodd hn3 E' T hT0 hTs hTi
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     have hr2 : ringChar K ≠ 2 := by
       intro h2
       have : Even (Nat.card K) := by
@@ -317,7 +317,7 @@ theorem hyperGen_adjoint_E8_two_seven (K : Type) [Field K] [Finite K] (hpq : 7 �
       IsElemAbelian 7 E → Nat.card E = 7 ^ 3 → HyperGen 7 ⊤ E)
     {E₀ : Subgroup (adjointGroup .E8 K)} (hE₀ : IsElemAbelian 7 E₀) (hc : Nat.card E₀ = 7 ^ 3)
     (hN : ¬ NormalizesRGroup (ringChar K) E₀) : HyperGen 7 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   have hpq1 : ¬ 7 ∣ Nat.card K - 1 := not_dvd_pred_of_dvd_add_one (by norm_num) (by norm_num) hpq
   exact hyperGen_of_two_conj (⨆ k, e8D8Chain K k) (e8FrameGroup K) (weylWordElt .E8 K e8Word)

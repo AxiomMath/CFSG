@@ -120,7 +120,7 @@ theorem a2lDatum_psl_block {K : Type} [Field K] [Finite K] (h2 : (2 : K) ≠ 0) 
 theorem a2l_rowPSL_two {X : Type} [Group X] [Finite X] {n f : ℕ} (hn : 3 ≤ n) (hf : 2 ≤ f)
     (hm : LieModel X .PSL n 3 f) : a2lDatum X := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨m, rfl⟩ : ∃ m, n = 2 + m := ⟨n - 2, by omega⟩
   have hFc : Fintype.card F = 3 ^ f := by rw [← Nat.card_eq_fintype_card, hcard]
   have hodd : Odd (3 ^ f) := Odd.pow (by decide)

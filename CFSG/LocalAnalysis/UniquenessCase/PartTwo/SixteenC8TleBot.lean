@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem c8_card_of_isE64L3 (X : Type) [Group X] (h : IsE64L3 X) :
     Nat.card X = 10752 := by
   obtain ⟨N, hN, hNcard, hL3⟩ := h
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hN' : Nat.card ↥N = 2 ^ 6 := by
     obtain ⟨e⟩ := hNcard
     rw [Nat.card_congr e.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
@@ -28,8 +28,8 @@ private theorem c8_card_of_isE64L3 (X : Type) [Group X] (h : IsE64L3 X) :
 private theorem c8_card_of_isSpn_six (X : Type) [Group X] (h : IsSpn X 6 1) :
     Nat.card X = 1451520 := by
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hidx : (6 / 2 : ℕ) = 3 := by norm_num
   rw [Nat.card_congr e.toEquiv, hidx,
@@ -40,12 +40,14 @@ private noncomputable def c8_barHom (V₀ V : Subgroup G) (hV : IsElemAbelian 2 
     {M : Subgroup G} (hM : M ≤ stabTil V₀ V) : ↥M →* MulAut (Vtil V₀ V hV) :=
   (actTil V₀ V hV).comp (Subgroup.inclusion hM)
 
+omit [Finite G] in
 private theorem c8_range_barHom (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {M : Subgroup G} (hM : M ≤ stabTil V₀ V) :
     (c8_barHom V₀ V hV hM).range = barSub V₀ V hV M := by
   unfold c8_barHom barSub
   rw [MonoidHom.range_comp, Subgroup.inclusion_range]
 
+omit [Finite G] in
 private theorem c8_barHom_fix_iff (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {M : Subgroup G} (hM : M ≤ stabTil V₀ V) (y : ↥M) (x : IntMod V hV) :
     c8_barHom V₀ V hV hM y (mkTil V₀ V hV x) = mkTil V₀ V hV x ↔
@@ -60,7 +62,7 @@ theorem c8_tle_of_bot (D : Data G) (h1217 : R1217 D) (hSpA : RSp6SmallMod)
     {v₀ : IntMod V hV} {T₀ K T' : Subgroup G} (hU : C8SetUp D V₀ V L hV v₀ T₀ K T') :
     T' ≤ K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst V₀
   have hP := hS.setting.hyp16.hyp125.pairFacts
   have hMs : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀

@@ -72,7 +72,7 @@ theorem o2_pow_eight {N : Subgroup (Equiv.Perm (Fin 5))} (hp : IsPGroup 2 N)
   rw [hm, pow_mul, h2, one_pow]
 
 theorem o2_pCore_perm5 : CFSG.pCore 2 (Equiv.Perm (Fin 5)) = ⊥ := by
-  haveI : (CFSG.pCore 2 (Equiv.Perm (Fin 5))).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 (Equiv.Perm (Fin 5))).Normal := CFSG.pCore_normal
   have hp : IsPGroup 2 (CFSG.pCore 2 (Equiv.Perm (Fin 5))) := CFSG.pCore_isPGroup
   rw [eq_bot_iff]
   intro x hx
@@ -168,7 +168,7 @@ theorem pCoreOf_M2Dot : pCoreOf 2 M2Dot = Q2Dot :=
       o2_isPGroup_Q2Dot)
 
 theorem o2_conj_mem_GDot {g h : GL6} (hg : g ∈ M0Dot) (hh : h ∈ GDot) : g * h * g⁻¹ ∈ GDot := by
-  haveI : (GDot.subgroupOf M0Dot).Normal :=
+  have : (GDot.subgroupOf M0Dot).Normal :=
     Subgroup.normal_of_index_eq_two index_GDot_subgroupOf_M0Dot
   have := (inferInstance : (GDot.subgroupOf M0Dot).Normal).conj_mem ⟨h, GDot_le_M0Dot hh⟩
     (Subgroup.mem_subgroupOf.2 hh) ⟨g, hg⟩
@@ -403,7 +403,7 @@ theorem o2_closure_Dbl_normal : (Subgroup.closure o2Dbl).Normal := by
   refine ⟨fun n hn g => ?_⟩
   induction hn using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (o2Dbl_conj hx g)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -414,15 +414,15 @@ theorem o2_closure_Dbl_normal : (Subgroup.closure o2Dbl).Normal := by
     exact Subgroup.inv_mem _ hx
 
 theorem o2_alternating_le_closure : alternatingGroup (Fin 5) ≤ Subgroup.closure o2Dbl := by
-  haveI := o2_closure_Dbl_normal
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have := o2_closure_Dbl_normal
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hN : ((Subgroup.closure o2Dbl).subgroupOf (alternatingGroup (Fin 5))).Normal :=
     Subgroup.Normal.subgroupOf inferInstance _
   have hδ : (Equiv.swap (0 : Fin 5) 1 * Equiv.swap 2 3) ∈ o2Dbl := by
     refine ⟨?_, by decide⟩
     rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap (by decide), Equiv.Perm.sign_swap (by decide)]
     decide
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((Subgroup.closure o2Dbl).subgroupOf (alternatingGroup (Fin 5))) with h | h
   · exfalso
@@ -527,7 +527,7 @@ theorem ctr_oPPrime_GDot_inf_M1Dot {w : GL6} (hw : w ∈ ctr (oPPrime 2 (GDot �
     by_cases hij : i = j
     · subst hij
       simp [hd]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact o2_offdiag_zero hJ hij
   have hperm : ∀ κ : Equiv.Perm (Fin 5), κ 4 = 4 → Equiv.Perm.sign κ = 1 → κ * κ = 1 →
       ∀ i : Fin 6, d (monoExt κ i) = d i := by
@@ -539,7 +539,7 @@ theorem ctr_oPPrime_GDot_inf_M1Dot {w : GL6} (hw : w ∈ ctr (oPPrime 2 (GDot �
       Matrix.mulVec_smul, s5Hom_mulVec_xvec κ i, o2_diagonal_mulVec_xvec d (monoExt κ i),
       smul_smul, smul_smul] at h
     have h2 := congrFun h (monoExt κ i)
-    simp only [Pi.smul_apply, smul_eq_mul, mono_xvec_apply, if_true, mul_one] at h2
+    simp only [Pi.smul_apply, smul_eq_mul, mono_xvec_apply, ite_true, mul_one] at h2
     exact mul_left_cancel₀ (mono_scal_ne_zero κ i) (by rw [h2, mul_comm])
   have k1 : Equiv.Perm.sign (Equiv.swap (0 : Fin 5) 1 * Equiv.swap 2 3) = 1 := by
     rw [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap (by decide), Equiv.Perm.sign_swap (by decide)]

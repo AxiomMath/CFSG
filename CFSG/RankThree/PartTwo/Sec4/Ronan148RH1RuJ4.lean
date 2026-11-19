@@ -18,8 +18,8 @@ theorem rowOf427_ru
   have b' : Blueprint.NativeSporadic.Carrier .Ru ≃* Spor .Ru := b
   have hcard : Nat.card (Spor .Ru) = 145926144000 := by
     rw [← Nat.card_congr b.toEquiv, CFSG.Sporadic.Ru.card_Ru]
-  haveI : Finite (Spor .Ru) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ru) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (Spor .Ru) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ru) := Finite.of_equiv _ b'.symm.toEquiv
   refine rowOf427_of_e9Move ?_ rankTwo_spor_ru
     (fun S _ _ ⟨e⟩ => e9Move_of_ru ⟨e.trans b'.symm⟩) (by rw [hcard]; norm_num)
   intro L _ _ hSL hL hZ3 ⟨e'⟩
@@ -33,8 +33,8 @@ theorem rowOf427_j4
   have b' : Blueprint.NativeSporadic.Carrier .J4 ≃* Spor .J4 := b
   have hcard : Nat.card (Spor .J4) = 86775571046077562880 := by
     rw [← Nat.card_congr b.toEquiv, CFSG.Sporadic.J4.card_J4]
-  haveI : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv _ b'.symm.toEquiv
   refine rowOf427_of_e9Move ?_ rankTwo_spor_j4
     (fun S _ _ ⟨e⟩ => e9Move_of_j4 ⟨e.trans b'.symm⟩) (by rw [hcard]; norm_num)
   intro L _ _ hSL hL hZ3 ⟨e'⟩

@@ -28,10 +28,10 @@ theorem mem_spPull_of_sq (hK : Nat.card K = 2) {x b : StatedSp m K} (hx3 : x ^ 3
   have hc2 : c * c = 1 := Subtype.ext (by
     rw [Subgroup.coe_mul, ← map_mul, hb2, map_one]
     rfl)
-  haveI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
-  haveI : Module.Finite K (AdjoinRoot (SpFin.h3 K)) :=
+  have : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+  have : Module.Finite K (AdjoinRoot (SpFin.h3 K)) :=
     (AdjoinRoot.powerBasis SpFin.h3_monic.ne_zero).finite
-  haveI : Finite (AdjoinRoot (SpFin.h3 K)) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (SpFin.h3 K)) := Module.finite_of_finite K
   set d := blockDetHom (spLin m K x) (SpFin.h3 K) c with hd
   have hd2 : d * d = 1 := by rw [hd, ← map_mul, hc2, map_one]
   have hd3 : d ^ 3 = 1 := by
@@ -57,6 +57,7 @@ theorem mem_spPull_of_sq (hK : Nat.card K = 2) {x b : StatedSp m K} (hx3 : x ^ 3
 
 section Unip
 
+omit [Finite K] [CharP K 2] in
 theorem spTransvection_comm_of_orth {a b : Fin m ⊕ Fin m → K} (hba : spForm m K b a = 0) :
     spTransvection a (1 : K) * spTransvection b 1 = spTransvection b 1 * spTransvection a 1 := by
   have h := CFSG.RankThree.PartOne.CTP.spTransvection_conj (spTransvection a (1 : K)) b 1
@@ -68,6 +69,7 @@ theorem spTransvection_comm_of_orth {a b : Fin m ⊕ Fin m → K} (hba : spForm 
 
 variable {T : Submodule K (Fin m ⊕ Fin m → K)}
 
+omit [Finite K] [CharP K 2] in
 theorem uElem_mem_gammaT (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0) {x : StatedSp m K}
     (hTx : ∀ t ∈ T, spEnd x t ∈ T) {v : Fin m ⊕ Fin m → K} (hv : v ∈ T) :
     uElem x v ∈ gammaT T :=
@@ -75,6 +77,7 @@ theorem uElem_mem_gammaT (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0) {x 
     (spTransvection_mem_gammaT hT (hTx v hv) 1))
     (spTransvection_mem_gammaT hT (hTx _ (hTx v hv)) 1)
 
+omit [Finite K] [CharP K 2] in
 theorem uElem_comm (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0) {x : StatedSp m K}
     (hx3 : x ^ 3 = 1) (hTx : ∀ t ∈ T, spEnd x t ∈ T) {v : Fin m ⊕ Fin m → K} (hv : v ∈ T) :
     uElem x v * x = x * uElem x v := by
@@ -112,6 +115,7 @@ theorem uElem_comm (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0) {x : Stat
           spTransvection (spEnd x (spEnd x v)) 1 := by rw [c01]
   exact (mul_inv_eq_iff_eq_mul.mp hconj).symm
 
+omit [Finite K] in
 theorem spEnd_three_transvections {a b c : Fin m ⊕ Fin m → K} (hab : spForm m K a b = 0)
     (hac : spForm m K a c = 0) (hbc : spForm m K b c = 0) (w : Fin m ⊕ Fin m → K) :
     spEnd (spTransvection a (1 : K) * spTransvection b 1 * spTransvection c 1) w =
@@ -120,7 +124,7 @@ theorem spEnd_three_transvections {a b c : Fin m ⊕ Fin m → K} (hab : spForm 
   have hca : spForm m K c a = 0 := (spForm_comm' c a).trans hac
   have hcb : spForm m K c b = 0 := (spForm_comm' c b).trans hbc
   simp only [spEnd_mul, Module.End.mul_apply, spEnd_spTransvection, map_add, map_smul,
-    LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, one_mul, hba, hca, hcb, mul_zero,
+    one_mul, hba, hca, hcb, mul_zero,
     zero_smul, add_zero]
 
 theorem uElem_ne_one (hK : Nat.card K = 2) (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0)
@@ -187,7 +191,7 @@ theorem conclAt_of_zero (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp 4 K)}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj 4 K x)) (hd : spFixedDim x = 0)
     (hEN : EndNodeAt Ã x) : ConclAt Ã x := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := 4)
+  have := SpFin.finite_statedSp_group (K := K) (m := 4)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   have hx3' : spLin 4 K x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hbx : ∀ b ∈ Ã, b * x = x * b := fun b hb => TableB.IsElemAbelian.comm hÃ hb hx
@@ -210,7 +214,7 @@ theorem conclAt_of_zero (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp 4 K)}
     exact h
   have hh3 := SpFin.h3_mem_primaryFactors hK hx3 hx1
   have hmult : 4 ≤ primaryMultiplicity (spEnd x) (SpFin.h3 K) := by
-    haveI : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
+    have : Fact (Irreducible (SpFin.h3 K)) := ⟨SpFin.h3_irreducible hK⟩
     have h1 := finrank_primaryComponent (spEnd x) (SpFin.h3 K)
     rw [SpFin.h3_natDegree] at h1
     have h1' : finrank K (primaryComponent (spEnd x) (SpFin.h3 K)) =

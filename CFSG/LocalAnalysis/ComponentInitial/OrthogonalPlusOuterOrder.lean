@@ -138,14 +138,14 @@ theorem card_outer_dvd_of_pOmegaPlus (T : Type) [Group T] {n p f : ℕ}
     rw [hG, hb1]
     by_cases hn4 : n = 4
     · subst hn4
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hkd : k ∣ 3 := hk_dvd rfl
       have hdiv : a * 1 * c * k ∣ 2 * 1 * f * 3 :=
         mul_dvd_mul (mul_dvd_mul (mul_dvd_mul ha2 dvd_rfl) hc_dvd) hkd
       rw [show (1 : ℕ) * f * 6 = 2 * 1 * f * 3 by ring]
       exact hdiv
     · have hk1 : k = 1 := hk_one (by omega)
-      rw [if_neg hn4, hk1]
+      rw [ite_eq_right hn4, hk1]
       have hdiv : a * 1 * c * 1 ∣ 2 * 1 * f * 1 :=
         mul_dvd_mul (mul_dvd_mul (mul_dvd_mul ha2 dvd_rfl) hc_dvd) dvd_rfl
       rw [show (1 : ℕ) * f * 2 = 2 * 1 * f * 1 by ring]
@@ -202,14 +202,14 @@ theorem card_outer_dvd_of_pOmegaPlus (T : Type) [Group T] {n p f : ℕ}
       rw [hG]
       by_cases hn4 : n = 4
       · subst hn4
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         have hkd : k ∣ 3 := hk_dvd rfl
         have hdiv : a * b * c * k ∣ 4 * 2 * f * 3 :=
           mul_dvd_mul (mul_dvd_mul (mul_dvd_mul ha_dvd4 hb_dvd2) hc_dvd) hkd
         rw [show (4 : ℕ) * f * 6 = 4 * 2 * f * 3 by ring]
         exact hdiv
       · have hk1 : k = 1 := hk_one (by omega)
-        rw [if_neg hn4, hk1]
+        rw [ite_eq_right hn4, hk1]
         have hdiv : a * b * c * 1 ∣ 4 * 2 * f * 1 :=
           mul_dvd_mul (mul_dvd_mul (mul_dvd_mul ha_dvd4 hb_dvd2) hc_dvd) dvd_rfl
         rw [show (4 : ℕ) * f * 2 = 4 * 2 * f * 1 by ring]
@@ -229,7 +229,7 @@ theorem card_outer_dvd_of_pOmegaPlus (T : Type) [Group T] {n p f : ℕ}
           CFSG.ClassicalInvolution.pow_mod_four_of_even hpodd (by decide : Even 4)
         omega
       have hk1 : k = 1 := hk_one (by omega)
-      rw [hG, if_neg hn4, hk1]
+      rw [hG, ite_eq_right hn4, hk1]
       have hdiv : a * b * c * 1 ∣ 2 * 2 * f * 1 :=
         mul_dvd_mul (mul_dvd_mul (mul_dvd_mul ha2 hb_dvd2) hc_dvd) dvd_rfl
       rw [show (2 : ℕ) * f * 2 = 2 * 2 * f * 1 by ring]

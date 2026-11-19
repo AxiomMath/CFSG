@@ -47,7 +47,7 @@ theorem semLetter_inv {g : Int → M} (hg1 : g 1 * g (-1) = 1 ∧ g (-1) * g 1 =
   unfold semLetter
   rw [Int.natAbs_neg]
   by_cases ha : z.natAbs ≤ 2
-  · rw [if_pos ha, if_pos ha]
+  · rw [ite_eq_left ha, ite_eq_left ha]
     have hz4 : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2 := by omega
     rcases hz4 with rfl | rfl | rfl | rfl
     · exact hg1
@@ -56,11 +56,11 @@ theorem semLetter_inv {g : Int → M} (hg1 : g 1 * g (-1) = 1 ∧ g (-1) * g 1 =
     · exact hg2
     · rw [neg_neg]
       exact ⟨hg2.2, hg2.1⟩
-  · rw [if_neg ha, if_neg ha]
+  · rw [ite_eq_right ha, ite_eq_right ha]
     by_cases hp : 0 < z
-    · rw [if_pos hp, if_neg (by omega : ¬ 0 < -z)]
+    · rw [ite_eq_left hp, ite_eq_right (by omega : ¬ 0 < -z)]
       exact hL _
-    · rw [if_neg hp, if_pos (by omega : 0 < -z)]
+    · rw [ite_eq_right hp, ite_eq_left (by omega : 0 < -z)]
       exact ⟨(hL _).2, (hL _).1⟩
 
 theorem invPairs_empty : InvPairs (#[] : Array M) := fun k => by simp
@@ -127,16 +127,16 @@ theorem gen3_inv {gA gB : M} (hA : gA * gA = 1) (hB : gB * (gB * gB) = 1) :
       (gen3 gA gB 2 * gen3 gA gB (-2) = 1 ∧ gen3 gA gB (-2) * gen3 gA gB 2 = 1) := by
   have e1 : gen3 gA gB 1 = gA := by
     unfold gen3
-    rw [if_pos (by decide)]
+    rw [ite_eq_left (by decide)]
   have e2 : gen3 gA gB (-1) = gA := by
     unfold gen3
-    rw [if_pos (by decide)]
+    rw [ite_eq_left (by decide)]
   have e3 : gen3 gA gB 2 = gB := by
     unfold gen3
-    rw [if_neg (by decide), if_pos rfl]
+    rw [ite_eq_right (by decide), ite_eq_left rfl]
   have e4 : gen3 gA gB (-2) = gB ^ 2 := by
     unfold gen3
-    rw [if_neg (by decide), if_neg (by decide)]
+    rw [ite_eq_right (by decide), ite_eq_right (by decide)]
   rw [e1, e2, e3, e4, pow_two]
   refine ⟨⟨hA, hA⟩, hB, ?_⟩
   rw [mul_assoc]

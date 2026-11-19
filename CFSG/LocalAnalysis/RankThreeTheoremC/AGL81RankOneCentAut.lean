@@ -61,6 +61,7 @@ variable {p : ℕ} [Fact p.Prime] {C : Subgroup G}
 
 local notation "φ" => RankOneSylow.act (primeComplementCore (G := C) p) K
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem map_comap_act_eq :
     (K.comap (QuotientGroup.mk' (primeComplementCore (G := C) p))).map φ =
       (MulAut.conj : ↥K →* MulAut ↥K).range := by

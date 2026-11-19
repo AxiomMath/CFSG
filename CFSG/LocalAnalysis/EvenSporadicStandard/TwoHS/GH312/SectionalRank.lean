@@ -62,7 +62,7 @@ theorem AlmostSimpleLocal.three_le_twoRank {T : Type*} [Group T] [Finite T] {u :
     (h : AlmostSimpleLocal T u) : 3 ≤ CFSG.Open.twoRank T := by
   classical
   obtain ⟨K, hKC, ⟨φ⟩⟩ := h.exists_alt
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hnab : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon

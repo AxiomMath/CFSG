@@ -42,11 +42,12 @@ theorem parabolicSum_thirteen [Fintype (WeylGroup .F4)] (q : ℕ) :
   rw [parabolicSum_eq_of_chainCheck q _ _ CFSG.RankThree.PartOne.KFU.f4ChainA1A2_check,
     parabolicSum_eq_of_chainCheck q _ _ htail]
   simp [CFSG.RankThree.PartOne.KFU.f4ChainA1A2, ChainStep.value, geomSum,
-    Finset.sum_range_succ] <;> ring
+    Finset.sum_range_succ]
 
 variable
   {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem parabolic_five_le_thirteen :
     parabolicSubgroup .F4 K (maskSet .F4 5 : Set (Fin Tag.F4.rank)) ≤
       parabolicSubgroup .F4 K (maskSet .F4 13 : Set (Fin Tag.F4.rank)) :=
@@ -58,8 +59,8 @@ theorem index_five_thirteen :
         ((parabolicSubgroup .F4 K (maskSet .F4 13 : Set (Fin Tag.F4.rank))).subgroupOf
           (adjointGroup .F4 K))).index = 1 + Nat.card K + Nat.card K ^ 2 := by
   classical
-  haveI : Fintype (WeylGroup .F4) := Fintype.ofFinite _
-  haveI : Finite (ModGL .F4 K) := finite_modGL
+  have : Fintype (WeylGroup .F4) := Fintype.ofFinite _
+  have : Finite (ModGL .F4 K) := finite_modGL
   set P5 := parabolicSubgroup .F4 K (maskSet .F4 5 : Set (Fin Tag.F4.rank)) with hP5
   set P13 := parabolicSubgroup .F4 K (maskSet .F4 13 : Set (Fin Tag.F4.rank)) with hP13
   have h5C : P5 ≤ adjointGroup .F4 K := parabolicSubgroup_le_adjointGroup _ _ _

@@ -61,12 +61,12 @@ theorem uc22p22q_exists_central_mod {p : ℕ} [Fact p.Prime] {R V₀ V : Subgrou
   have hnV : (V.subgroupOf R).Normal := ⟨fun x hx r => by
     have := hRV r r.2 x hx
     simpa [Subgroup.mem_subgroupOf] using this⟩
-  haveI := hn₀
-  haveI := hnV
+  have := hn₀
+  have := hnV
   let π : ↥R →* ↥R ⧸ V₀.subgroupOf R := QuotientGroup.mk' (V₀.subgroupOf R)
-  haveI : Group.IsNilpotent (↥R ⧸ V₀.subgroupOf R) := (hR.to_quotient (V₀.subgroupOf R)).isNilpotent
+  have : Group.IsNilpotent (↥R ⧸ V₀.subgroupOf R) := (hR.to_quotient (V₀.subgroupOf R)).isNilpotent
   let H : Subgroup (↥R ⧸ V₀.subgroupOf R) := (V.subgroupOf R).map π
-  haveI : H.Normal := Subgroup.Normal.map hnV π (QuotientGroup.mk'_surjective _)
+  have : H.Normal := Subgroup.Normal.map hnV π (QuotientGroup.mk'_surjective _)
   have hH : H ≠ ⊥ := by
     intro hbot
     apply hne
@@ -87,12 +87,13 @@ theorem uc22p22q_exists_central_mod {p : ℕ} [Fact p.Prime] {R V₀ V : Subgrou
       group
     exact Subgroup.mem_subgroupOf.1 ((QuotientGroup.eq_one_iff (N := V₀.subgroupOf R) _).1 h1)
 
+omit [Finite G] in
 theorem uc22p22q_fixed_in_coset_odd {V₀ V : Subgroup G} {g v : G} {m : ℕ} (hm : Odd m) (hgm : g ^ m = 1)
     (hVab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hVexp : ∀ w ∈ V, w ^ 2 = 1)
     (hgV : ∀ w ∈ V, g * w * g⁻¹ ∈ V) (hgV₀ : ∀ w ∈ V₀, g * w * g⁻¹ ∈ V₀) (hv : v ∈ V)
     (hgv : g * v * g⁻¹ * v⁻¹ ∈ V₀) :
     ∃ w ∈ V, g * w * g⁻¹ = w ∧ w * v⁻¹ ∈ V₀ := by
-  letI : CommGroup ↥V := { (inferInstance : Group ↥V) with
+  let : CommGroup ↥V := { (inferInstance : Group ↥V) with
     mul_comm := fun a b => Subtype.ext (hVab a a.2 b b.2) }
   let φ : Monoid.End ↥V :=
     { toFun := fun x => ⟨g * x * g⁻¹, hgV x x.2⟩
@@ -168,7 +169,7 @@ theorem uc22p22q_exists_fixed_involution {V : Subgroup G} {t : G} (ht : t ^ 2 = 
     (hV1 : V ≠ ⊥) (htV : ∀ w ∈ V, t * w * t⁻¹ ∈ V) :
     ∃ w ∈ V, w ≠ 1 ∧ t * w * t⁻¹ = w := by
   classical
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fintype ↥V := Fintype.ofFinite _
   have ht' : t * t = 1 := by rw [← sq]; exact ht
   have key : ∀ y : G, t * (t * y * t⁻¹) * t⁻¹ = y := fun y => by
     calc t * (t * y * t⁻¹) * t⁻¹ = (t * t) * y * (t * t)⁻¹ := by group
@@ -219,17 +220,17 @@ theorem uc22p22q_isCyclic_of_fpf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {V E :
     (hEV : ∀ e ∈ E, ∀ w ∈ V, e * w * e⁻¹ ∈ V)
     (hfpf : ∀ e ∈ E, e ≠ 1 → ∀ w ∈ V, e * w * e⁻¹ = w → w = 1) : IsCyclic ↥E := by
   by_contra hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup ↥V := { (inferInstance : Group ↥V) with
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup ↥V := { (inferInstance : Group ↥V) with
     mul_comm := fun a b => Subtype.ext (hVab a a.2 b b.2) }
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with
     mul_comm := fun a b => Subtype.ext (hEcomm a a.2 b b.2) }
   have h2 : ∀ x : Additive ↥V, (2 : ℕ) • x = 0 := fun x => by
     apply Additive.toMul.injective
     simp only [toMul_nsmul, toMul_zero]
     exact Subtype.ext (hVexp x.toMul x.toMul.2)
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule h2
-  haveI : Nontrivial (Additive ↥V) := by
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule h2
+  have : Nontrivial (Additive ↥V) := by
     obtain ⟨⟨w, hw⟩, hw1⟩ := (Subgroup.ne_bot_iff_exists_ne_one.1 hV1)
     exact ⟨⟨Additive.ofMul ⟨w, hw⟩, 0, fun h => hw1 (by simpa using congrArg Additive.toMul h)⟩⟩
   let ρ : Representation (ZMod 2) ↥E (Additive ↥V) :=
@@ -272,8 +273,8 @@ theorem uc22p22q_isCyclic_of_fpf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {V E :
 theorem uc22p22q_fix_of_card_lt {p : ℕ} (hp : p.Prime) {W : Subgroup G} {x : G} (hx : x ^ p = 1)
     (hxW : ∀ w ∈ W, x * w * x⁻¹ ∈ W) (hW : Nat.card W < p) : ∀ w ∈ W, x * w * x⁻¹ = w := by
   classical
-  haveI : Fintype ↥W := Fintype.ofFinite _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥W := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
   let σ : Equiv.Perm ↥W := Equiv.ofBijective (fun w : ↥W => (⟨x * w * x⁻¹, hxW w w.2⟩ : ↥W))
     (Finite.injective_iff_bijective.1 (fun a b h => Subtype.ext (by
       have := congrArg Subtype.val h

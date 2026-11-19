@@ -191,7 +191,7 @@ theorem exists_conj_le_frame_torus {G : Type*} [Group G] [Finite G] {k : ℕ}
           Matrix.SpecialLinearGroup.coe_one]
       rw [Pi.pow_apply, Pi.one_apply, pow_two]
       exact hmul
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨(y, a), hxQ⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨(y, a), hxQ⟩
     have hm' : (y, a) ^ (p ^ m) = 1 := by
       have := congrArg Subtype.val hm
       simpa using this

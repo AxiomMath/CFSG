@@ -30,7 +30,7 @@ private theorem ggShR_E_le_generalizedFitting
     (hyp : GGHypThreeSixteenFlat p H E) :
     E ≤ CFSG.generalizedFitting W := by
   obtain ⟨⟨-, -, -, -, -⟩, ⟨hsimple, hnab, -⟩, -⟩ := hyp
-  haveI : (CFSG.generalizedFitting W).Normal :=
+  have : (CFSG.generalizedFitting W).Normal :=
     CFSG.LocalCores.generalized_fitting_characteristic.2
   intro e he
   obtain ⟨k, hk⟩ := hin (MulAut.conjNormal (H := CFSG.generalizedFitting W) e)
@@ -60,7 +60,7 @@ private theorem ggShR_E_le_commutator
       Subgroup W).subgroupOf (CFSG.generalizedFitting W)).index) :
     E ≤ ⁅H ⊓ CFSG.generalizedFitting W, H ⊓ CFSG.generalizedFitting W⁆ := by
   obtain ⟨⟨hp, -, hEel, -, hfus⟩, -⟩ := hyp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K := CFSG.generalizedFitting W with hKdef
   set M : Subgroup W := ⁅H ⊓ K, H ⊓ K⁆ with hMdef
   have hEH : E ≤ H := hfus.1
@@ -97,7 +97,7 @@ private theorem ggShR_E_le_commutator
     exact ⟨1, by rw [pow_one]; exact Subtype.ext (hEel.2 g.1 g.2)⟩
   have hPp : IsPGroup p (E.subgroupOf (H ⊓ K)) :=
     IsPGroup.comap_of_injective hEp (H ⊓ K).subtype (H ⊓ K).subtype_injective
-  haveI := hNnormal
+  have := hNnormal
   have hle : E.subgroupOf (H ⊓ K) ≤ M.subgroupOf (H ⊓ K) :=
     CFSG.HardMathSupport.Solomon.Coordinator.i1810_le_of_not_dvd_index hPp hNindex
   intro e he
@@ -115,7 +115,7 @@ private theorem ggShR_mem_commutator_of_pElement
       H ⊓ CFSG.generalizedFitting W⁆ : Subgroup W), k * m = m * k) :
     k ∈ (⁅H ⊓ CFSG.generalizedFitting W,
       H ⊓ CFSG.generalizedFitting W⁆ : Subgroup W) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K := CFSG.generalizedFitting W with hKdef
   set M : Subgroup W := ⁅H ⊓ K, H ⊓ K⁆ with hMdef
   set N : Subgroup K := M.subgroupOf K with hNdef
@@ -126,7 +126,7 @@ private theorem ggShR_mem_commutator_of_pElement
     rcases hp.dvd_mul.mp hdvd with h | h
     · exact Sylow.not_dvd_index S h
     · exact hidx (hNdef ▸ h)
-  have hPp : IsPGroup p (S.toSubgroup.map N.subtype) := (Sylow.isPGroup' S).map N.subtype
+  have hPp : IsPGroup p (S.toSubgroup.map N.subtype) := (Sylow.isPGroup S).map N.subtype
   let S' : Sylow p K := hPp.toSylow hPindex
   have hS' : (S' : Subgroup K) = S.toSubgroup.map N.subtype := IsPGroup.toSylow_coe hPp hPindex
   let kK : K := ⟨k, hkK⟩
@@ -212,7 +212,7 @@ theorem ggShadow_rigid (hyp : GGHypThreeSixteenFlat p H E)
     have hX'ns : ¬ Group.IsSolvable
         ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))) :=
       fun h => hns (ggIsSolvable_of_commutator h)
-    haveI : IsSimpleGroup ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))) := hs
+    have : IsSimpleGroup ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))) := hs
     have hZ : Subgroup.center ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))) = ⊥ :=
       ggCenter_eq_bot_of_not_isSolvable hX'ns
     have hkcenter : (⟨(k : W), hkM⟩ : ↥(⁅H ⊓ CFSG.generalizedFitting W,

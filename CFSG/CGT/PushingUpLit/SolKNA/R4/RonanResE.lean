@@ -57,9 +57,11 @@ theorem normalizes {J L : Subgroup X} (hJ : J ∈ Φ) (hL : L ∈ Φ) {v : X}
   mem_normalizer_of_four_le h.four_le h.typeR.hyp (fun _ hJ => h.isPGroup hJ)
     (fun _ hJ => h.card_eq hJ) h.inO2 hJ hL hv
 
+omit [Finite X] in
 theorem exists_inv {L : Subgroup X} (hL : L ∈ Φ) : ∃ z, IsUniqueInvolution L z :=
   Sec6Gen.exists_uniqueInvolution h.typeR.hyp hL
 
+omit [Finite X] in
 theorem inv_ne {J K : Subgroup X} (hJ : J ∈ Φ) (hK : K ∈ Φ) (hne : J ≠ K) {zJ zK : X}
     (hzJ : IsUniqueInvolution J zJ) (hzK : IsUniqueInvolution K zK) : zJ ≠ zK := by
   intro e
@@ -98,6 +100,7 @@ end SetE
 
 @[expose] def NC (J K : Subgroup X) : Prop := J ≠ K ∧ ¬ Commutes J K
 
+omit [Finite X] in
 theorem NC.symm {J K : Subgroup X} (h : NC J K) : NC K J :=
   ⟨h.1.symm, fun hc => h.2 hc.symm⟩
 
@@ -175,13 +178,16 @@ namespace Gen
 
 variable {K : Subgroup X} {z : X} {U : Subgroup X} {u b : X}
 
+omit [Finite X] in
 theorem u_mem (g : Gen K z U u b) : u ∈ U := g.zp ▸ Subgroup.mem_zpowers u
 
+omit [Finite X] in
 theorem u_mem_K (g : Gen K z U u b) : u ∈ K := g.cyc.le g.u_mem
 
 theorem z_mem_U (g : Gen K z U u b) (hK : IsQuatSub K) : z ∈ U :=
   AscL62.mem_of_index_two hK g.inv g.cyc.le g.cyc.card
 
+omit [Finite X] in
 theorem mem_zpowers_of_mem_U (g : Gen K z U u b) {x : X} (hx : x ∈ U) :
     ∃ n : ℤ, u ^ n = x := by
   rw [← g.zp] at hx
@@ -191,14 +197,17 @@ theorem b_inv (g : Gen K z U u b) (hK : IsQuatSub K) {c : X} (hc : c ∈ U) :
     b * c * b⁻¹ = c⁻¹ :=
   AscL62.conj_eq_inv_of_not_mem hK g.inv g.cyc.le g.cyc.cyclic g.cyc.card g.b_mem g.b_not hc
 
+omit [Finite X] in
 theorem orderOf_u (g : Gen K z U u b) : orderOf u = Nat.card ↥U := by
   rw [← Nat.card_zpowers, g.zp]
 
+omit [Finite X] in
 theorem gen_K [Finite X] (g : Gen K z U u b) {x : X} (hx : x ∈ K) : x ∈ U ∨ b⁻¹ * x ∈ U := by
   by_cases hxU : x ∈ U
   · exact Or.inl hxU
   · exact Or.inr (AscL62.inv_mul_mem_of_index_two g.cyc.le g.cyc.card g.b_mem hx g.b_not hxU)
 
+omit [Finite X] in
 theorem conj (g : Gen K z U u b) (n : X) :
     Gen (conjSub n K) (n * z * n⁻¹) (conjSub n U) (n * u * n⁻¹) (n * b * n⁻¹) where
   inv := g.inv.conj n
@@ -224,7 +233,7 @@ include h
 theorem exists_gen {K : Subgroup X} (hK : K ∈ Φ) : ∃ z U u b, Gen K z U u b := by
   obtain ⟨z, hz⟩ := h.exists_inv hK
   obtain ⟨U, hU⟩ := h.exists_cyc2 hK
-  haveI := hU.cyclic
+  have := hU.cyclic
   obtain ⟨u, hu⟩ := IsCyclic.exists_generator (α := ↥U)
   have hzp : Subgroup.zpowers (u : X) = U := by
     ext x
@@ -242,7 +251,7 @@ theorem exists_gen {K : Subgroup X} (hK : K ∈ Φ) : ∃ z U u b, Gen K z U u b
     rw [e] at this
     have hpos : 0 < Nat.card ↥K := Nat.card_pos
     omega)
-  obtain ⟨b, hbK, hbU⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨b, hbK, hbU⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   exact ⟨z, U, u, b, ⟨hz, hU, hzp, hbK, hbU⟩⟩
 
 theorem commutator_mem {K U : Subgroup X} {z : X} {u b : X} (hK : K ∈ Φ) (g : Gen K z U u b)
@@ -452,7 +461,7 @@ theorem gen_zpow {K : Subgroup X} {z z' : X} {U U' : Subgroup X} {u b u' b' : X}
   exact g'.inv.ne_one ((h.u_pow_half hK g').symm.trans h1)
 
 theorem conj_gen_coeff {P Q T : Subgroup X} {zP zQ zT : X} {UP UQ UT : Subgroup X}
-    {uP uQ uT bP bQ bT : X} (hP : P ∈ Φ) (hQ : Q ∈ Φ) (hT : T ∈ Φ) (gP : Gen P zP UP uP bP)
+    {uP uQ uT bP bQ bT : X} (_hP : P ∈ Φ) (hQ : Q ∈ Φ) (hT : T ∈ Φ) (_gP : Gen P zP UP uP bP)
     (gQ : Gen Q zQ UQ uQ bQ) (gT : Gen T zT UT uT bT) {c₁ c₂ c₃ : ℤ}
     (e₁ : bQ * uP * bQ⁻¹ = uP * uQ ^ c₁) (e₂ : bT * uP * bT⁻¹ = uP * uT ^ c₂)
     (e₃ : bT * uQ * bT⁻¹ = uQ * uT ^ c₃) :
@@ -472,6 +481,7 @@ theorem conj_gen_coeff {P Q T : Subgroup X} {zP zQ zT : X} {UP UQ UT : Subgroup 
     _ = uP * uQ ^ c₁ * (uT ^ c₂ * uT ^ (c₃ * c₁)) := by group
     _ = uP * uQ ^ c₁ * uT ^ (c₂ + c₁ * c₃) := by rw [← zpow_add, mul_comm c₃ c₁]
 
+omit [Finite X] in
 theorem four_dvd_pow : (4 : ℤ) ∣ ((2 ^ (r - 1) : ℕ) : ℤ) := by
   have hr := h.four_le
   have : (2 : ℕ) ^ 2 ∣ 2 ^ (r - 1) := pow_dvd_pow 2 (by omega)
@@ -552,6 +562,7 @@ theorem sign_aux {P Q T : Subgroup X} {zP zQ zT : X} {UP UQ UT : Subgroup X}
       rw [h2, mul_one] at h1
       exact gT.inv.ne_one (mul_eq_left.mp h1.symm)
 
+omit [Finite X] h in
 theorem refl_z_of_not_nc {J K : Subgroup X} {zJ zK : X} {UJ UK : Subgroup X}
     {uJ uK bJ bK : X} (gJ : Gen J zJ UJ uJ bJ) (gK : Gen K zK UK uK bK) (hnc : ¬ NC J K) :
     bJ * zK * bJ⁻¹ = zK := by
@@ -593,19 +604,23 @@ open Classical in
 @[expose] noncomputable def nnv {Φ : Set (Subgroup X)} (i j : ↥Φ) : ZMod 2 :=
   if NC i.1 j.1 then 1 else 0
 
+omit [Finite X] in
 theorem nnv_eq_one_iff {Φ : Set (Subgroup X)} {i j : ↥Φ} : nnv i j = 1 ↔ NC i.1 j.1 := by
   unfold nnv
   split_ifs with hc <;> simp [hc]
 
+omit [Finite X] in
 theorem nnv_eq_zero_iff {Φ : Set (Subgroup X)} {i j : ↥Φ} : nnv i j = 0 ↔ ¬ NC i.1 j.1 := by
   unfold nnv
   split_ifs with hc <;> simp [hc]
 
+omit [Finite X] in
 theorem nnv_symm {Φ : Set (Subgroup X)} (i j : ↥Φ) : nnv i j = nnv j i := by
   by_cases hc : NC i.1 j.1
   · rw [nnv_eq_one_iff.mpr hc, nnv_eq_one_iff.mpr hc.symm]
   · rw [nnv_eq_zero_iff.mpr hc, nnv_eq_zero_iff.mpr fun h' => hc h'.symm]
 
+omit [Finite X] in
 theorem nnv_self {Φ : Set (Subgroup X)} (i : ↥Φ) : nnv i i = 0 :=
   nnv_eq_zero_iff.mpr fun hc => hc.1 rfl
 
@@ -646,7 +661,7 @@ theorem refl_nn_pow (h : SetE r Φ) (i j : ↥Φ) :
     exact h.refl_z_nc i.2 j.2 (h.gen_spec i) (h.gen_spec j) hc.1 hc.2
   · have h0 : nnv i j = 0 := nnv_eq_zero_iff.mpr hc
     rw [h0, ZMod.val_zero, pow_zero, mul_one]
-    exact h.refl_z_of_not_nc (h.gen_spec i) (h.gen_spec j) hc
+    exact SetE.refl_z_of_not_nc (h.gen_spec i) (h.gen_spec j) hc
 
 noncomputable def coeff (h : SetE r Φ) (i j : ↥Φ) : ℤ :=
   Classical.choose (h.refl_coeff i.2 j.2 (h.gen_spec i) (h.gen_spec j))

@@ -18,6 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {Y T L₁ L₂ : Subgroup (LGL 2 V)} {a : LGL 2 V}
 variable {Γ : Set (Subgroup (LGL 2 V))} {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem false_of_zeta_normalizes (c : SwapCfg Y T L₁ L₂ a) {D : Subgroup (LGL 2 V)}
     (hD : IsElemAbelian 2 D) (hDY : D ≤ Y) (haD : a ∈ D) {b : LGL 2 V} (hbD : b ∈ D)
     (hb1 : b ≠ 1) (hbL : cj b L₁ = L₁)
@@ -42,7 +43,7 @@ theorem false_of_zeta_normalizes (c : SwapCfg Y T L₁ L₂ a) {D : Subgroup (LG
         change zeta a ((l : LGL 2 V))⁻¹ ∈ D
         rw [zeta_inv c l.2]
         exact D.inv_mem hl }
-  haveI hNnormal : N.Normal :=
+  have hNnormal : N.Normal :=
     ⟨fun n hn g => by
       change zeta a ((g : LGL 2 V) * (n : LGL 2 V) * (g : LGL 2 V)⁻¹) ∈ D
       rw [show zeta a ((g : LGL 2 V) * (n : LGL 2 V) * (g : LGL 2 V)⁻¹)
@@ -119,6 +120,7 @@ theorem false_of_zeta_normalizes (c : SwapCfg Y T L₁ L₂ a) {D : Subgroup (LG
     obtain ⟨p, hp, q, hq, hpq⟩ := quasi_exists_noncomm c.two.quasi₁
     exact hpq ((mem_quasiCentre.mp (habel hp)).2 q hq)
 
+omit [Finite V] in
 theorem false_of_fixed_vector (h : Assumption131 Y Γ VA i) (c : SwapCfg Y T L₁ L₂ a)
     {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ) (haD : a ∈ D) {b : LGL 2 V} (hbD : b ∈ D)
     (hb1 : b ≠ 1) (hbL : cj b L₁ = L₁) {J : V} (hJ : J ∈ VA D) (hJ0 : J ≠ 0)
@@ -126,6 +128,7 @@ theorem false_of_fixed_vector (h : Assumption131 Y Γ VA i) (c : SwapCfg Y T L�
   exact false_of_zeta_normalizes c (h.isElemAb D hD) (h.le_G D hD) haD hbD hb1 hbL
     fun l hl => h.stabilizer_le_normalizer hD hJ hJ0 (zeta_mem_Y c hl) (hfix l hl)
 
+omit [Finite V] in
 theorem false_of_good (h : Assumption131 Y Γ VA i) (c : SwapCfg Y T L₁ L₂ a)
     {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ) (haD : a ∈ D) {b : LGL 2 V} (hbD : b ∈ D)
     (hb1 : b ≠ 1) (hbL : cj b L₁ = L₁) {B : Subgroup (LGL 2 V)} (hBD : B ≤ D)
@@ -156,6 +159,7 @@ theorem false_of_good (h : Assumption131 Y Γ VA i) (c : SwapCfg Y T L₁ L₂ a
       (a v - v) ⟨v, rfl⟩
   exact false_of_fixed_vector h c hD haD hbD hb1 hbL hJVA hJ0 hfixJ
 
+omit [Finite V] in
 theorem w183k3_exists_swapper_moving (htwo : Br3TwoComp Y T L₁ L₂) {D : Subgroup (LGL 2 V)}
     (hDY : D ≤ Y) {a d : LGL 2 V} (ha : a ∈ D) (hd : d ∈ D) (hswap : cj a L₁ = L₂) {v : V}
     (hdv : d v ≠ v) : ∃ s ∈ D, cj s L₁ = L₂ ∧ s v ≠ v := by

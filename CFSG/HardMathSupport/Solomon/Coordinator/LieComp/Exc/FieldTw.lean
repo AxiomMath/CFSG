@@ -49,10 +49,10 @@ theorem lieCompExport_twE6_field
   set C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC
   set J := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ) with hJdef
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-  haveI : Finite (fixSubfield κ) := Subtype.finite
-  haveI : Finite C := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite C := Subtype.finite
   have eJC : J.subgroupOf C ≃* J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJs : IsSimpleGroup (J.subgroupOf C) := eJC.isSimpleGroup
   have hJn : ∃ x y : J.subgroupOf C, x * y ≠ y * x := by
     by_contra hcon
@@ -77,7 +77,7 @@ theorem lieCompExport_twE6_field
       (baseChangeGL (fixSubfield κ).subtype) (baseChangeGL_injective _)
   let eX : ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ).toRingHom) ≃*
       ↥(J.subgroupOf C) := eXJ.trans eJC.symm
-  haveI : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
+  have : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
       (fixSubfieldRestrict T κ).toRingHom) := eX.isSimpleGroup
   have hXnc : ∃ a b : ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
       (fixSubfieldRestrict T κ).toRingHom), a * b ≠ b * a := by
@@ -87,7 +87,7 @@ theorem lieCompExport_twE6_field
     (by simp [TauCeti.LieTypeIndex.characteristic_twistedE6, q']) eCat.symm
   have hexp : LieCompExport ℓ δ := by
     refine lieCompExport_of_derived_eq_simple hder hJs hJn ?_ ?_
-    · haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
+    · have : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
           (fixSubfieldRestrict T κ).toRingHom) := Finite.of_equiv _ eX.toEquiv.symm
       refine ⟨_, inferInstance, inferInstance, lieFactorData_of_simple hXnc hchev,
         eX.toMonoidHom, eX.surjective, ?_⟩

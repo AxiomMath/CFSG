@@ -162,17 +162,21 @@ noncomputable def compAsSubspace
     (c : Submodule (MonoidAlgebra k N) (resSubgroup ρ N).asModule) : Submodule k V :=
   toSubspace ρ N (Submodule.restrictScalars k c)
 
+omit [N.Normal] in
 @[simp] lemma mem_compAsSubspace
     (c : Submodule (MonoidAlgebra k N) (resSubgroup ρ N).asModule) (v : V) :
     v ∈ compAsSubspace ρ N c ↔ (resSubgroup ρ N).asModuleEquiv.symm v ∈ c := by
   simp [compAsSubspace, toSubspace, Submodule.mem_map_equiv]
 
+omit [N.Normal] in
 lemma compAsSubspace_injective : Function.Injective (compAsSubspace ρ N) := fun _ _ h =>
   Submodule.restrictScalars_injective k _ _ ((toSubspace ρ N).injective h)
 
+omit [N.Normal] in
 @[simp] lemma compAsSubspace_bot : compAsSubspace ρ N ⊥ = ⊥ := by
   simp [compAsSubspace, toSubspace]
 
+omit [N.Normal] in
 lemma sSup_image_compAsSubspace
     (s : Set (Submodule (MonoidAlgebra k N) (resSubgroup ρ N).asModule)) :
     sSup (compAsSubspace ρ N '' s) = compAsSubspace ρ N (sSup s) := by
@@ -181,6 +185,7 @@ lemma sSup_image_compAsSubspace
     ← Submodule.restrictScalars_sSup]
   rfl
 
+omit [N.Normal] in
 lemma compAsSubspace_inf (c d : Submodule (MonoidAlgebra k N) (resSubgroup ρ N).asModule) :
     compAsSubspace ρ N c ⊓ compAsSubspace ρ N d = compAsSubspace ρ N (c ⊓ d) := by
   rw [compAsSubspace, compAsSubspace, compAsSubspace, ← map_inf, ← Submodule.restrictScalars_inf]
@@ -188,21 +193,25 @@ lemma compAsSubspace_inf (c d : Submodule (MonoidAlgebra k N) (resSubgroup ρ N)
 noncomputable def comps : Set (Submodule k V) :=
   compAsSubspace ρ N '' isotypicComponents (MonoidAlgebra k N) (resSubgroup ρ N).asModule
 
+omit [N.Normal] in
 lemma compAsSubspace_mem_comps
     {c : Submodule (MonoidAlgebra k N) (resSubgroup ρ N).asModule}
     (hc : c ∈ isotypicComponents (MonoidAlgebra k N) (resSubgroup ρ N).asModule) :
     compAsSubspace ρ N c ∈ comps ρ N := ⟨c, hc, rfl⟩
 
+omit [N.Normal] in
 lemma mem_comps_iff {W : Submodule k V} :
     W ∈ comps ρ N ↔ ∃ c ∈ isotypicComponents (MonoidAlgebra k N) (resSubgroup ρ N).asModule,
       compAsSubspace ρ N c = W := Iff.rfl
 
+omit [N.Normal] in
 lemma ne_bot_of_mem_comps {W : Submodule k V} (hW : W ∈ comps ρ N) : W ≠ ⊥ := by
   obtain ⟨c, ⟨S, hS, rfl⟩, rfl⟩ := hW
   intro hcon
   rw [← compAsSubspace_bot ρ N] at hcon
   exact (bot_lt_isotypicComponent S).ne' (compAsSubspace_injective ρ N hcon)
 
+omit [N.Normal] in
 lemma smul_mem_of_mem_comps {W : Submodule k V} (hW : W ∈ comps ρ N) (n : N) {v : V}
     (hv : v ∈ W) : ρ (n : G) v ∈ W := by
   obtain ⟨c, hc, rfl⟩ := hW
@@ -217,6 +226,7 @@ lemma smul_mem_of_mem_comps {W : Submodule k V} (hW : W ∈ comps ρ N) (n : N) 
     rw [LinearEquiv.apply_symm_apply, h2]; rfl
   exact h3 ▸ h
 
+omit [N.Normal] in
 theorem sSupIndep_comps : sSupIndep (comps ρ N) := by
   have key := sSupIndep_isotypicComponents (MonoidAlgebra k N) (resSubgroup ρ N).asModule
   intro W hW
@@ -227,12 +237,14 @@ theorem sSupIndep_comps : sSupIndep (comps ρ N) := by
   rw [himg, disjoint_iff, sSup_image_compAsSubspace, compAsSubspace_inf,
     (disjoint_iff).1 (key hc), compAsSubspace_bot]
 
+omit [N.Normal] in
 theorem sSup_comps [Finite N] (hN : (Nat.card N : k) ≠ 0) : sSup (comps ρ N) = ⊤ := by
   have : NeZero ((Nat.card N : k)) := ⟨hN⟩
   rw [comps, sSup_image_compAsSubspace,
     sSup_isotypicComponents (MonoidAlgebra k N) (resSubgroup ρ N).asModule]
   simp [compAsSubspace, toSubspace]
 
+omit [N.Normal] in
 theorem directSum_comps [Finite N] (hN : (Nat.card N : k) ≠ 0) :
     DirectSum.IsInternal (fun W : comps ρ N => (W : Submodule k V)) := by
   classical

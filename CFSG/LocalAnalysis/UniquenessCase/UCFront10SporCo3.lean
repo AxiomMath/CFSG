@@ -42,7 +42,7 @@ theorem eq_co3T_of_solvable
     exact le_antisymm hmdef hTZ
   exfalso
   have hzZ : co3Z ∈ Z := hTZ co3Z_mem_T
-  haveI : Nontrivial ↥Z :=
+  have : Nontrivial ↥Z :=
     nontrivial_of_ne (⟨co3Z, hzZ⟩ : Z) 1 fun h => co3Z_ne_one (congrArg Subtype.val h)
   obtain ⟨p, hp, A, hAn, hA1, hAp, hAc⟩ := exists_normal_comm_exponent_prime hZs
   have : Fact p.Prime := ⟨hp⟩
@@ -90,7 +90,7 @@ theorem eq_co3T_of_solvable
     rw [hmdef]
     exact hm2
   have hApg : IsPGroup 2 A := fun x => ⟨1, Subtype.ext (by simpa using hAp x x.2)⟩
-  haveI := hAn
+  have := hAn
   have hATz : A ≤ co3T.subgroupOf Z := hApg.le_sylow_of_normal (hTzP.toSylow hTzi)
   have hNT : N ≤ co3T := by
     rintro _ ⟨a, ha, rfl⟩
@@ -106,8 +106,8 @@ theorem eq_co3T_of_solvable
     rw [h, Subgroup.map_bot, inf_of_le_left hNT] at this
     exact this.symm
   have hTpg : IsPGroup 2 ↥co3T := IsPGroup.of_card (n := 10) (by rw [card_co3T]; norm_num)
-  haveI : Group.IsNilpotent ↥co3T := hTpg.isNilpotent
-  haveI := hNTn
+  have : Group.IsNilpotent ↥co3T := hTpg.isNilpotent
+  have := hNTn
   have hzN : co3Z ∈ N := by
     obtain ⟨⟨x, hx⟩, hx1⟩ :=
       ne_bot_iff_exists_ne_one.1 (Group.IsNilpotent.inf_center_ne_bot_of_normal hNT1)

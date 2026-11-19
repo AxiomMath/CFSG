@@ -180,7 +180,7 @@ theorem exists_fixed_of_odd_normalizes_rootSub (hm : 0 < m) (θ : MulAut (Suzuki
   have hτpow : τ ^ orderOf θ = 1 :=
     pow_eq_one_of_mul_torus_mem m hm θ τ hR hτmem (pow_orderOf_eq_one θ)
   have hτdvd : orderOf τ ∣ orderOf θ := orderOf_dvd_of_pow_eq_one hτpow
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hsa, hsdiv, y, hyord, hyfix, hygen⟩ :=
     CFSG.exists_zpowers_eq_fixed_units (p := 2) (a := 2 * m + 1)
       (CFSG.SectionRank.natCard_binaryGaloisField m) τ
@@ -189,7 +189,7 @@ theorem exists_fixed_of_odd_normalizes_rootSub (hm : 0 < m) (θ : MulAut (Suzuki
   obtain ⟨k, hk⟩ : ∃ k : ℕ, Nat.card (rootSub m) = 2 ^ k := by
     have hp : IsPGroup 2 (rootSub m) := by
       rw [← hS]
-      exact Sylow.isPGroup' S
+      exact Sylow.isPGroup S
     exact (IsPGroup.iff_card).mp hp
   have hy_units : Units.map (τ : F →* F) y = y := by
     ext

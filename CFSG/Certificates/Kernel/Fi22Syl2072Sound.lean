@@ -158,7 +158,6 @@ theorem s2072_elem {L D X : ℕ → ℕ} {s0 m o n p nw i : ℕ}
       covK L D X s0 o n p nw i (D (o + i)) = true) := by
   unfold elemK at h
   rw [s2072_strictB] at h
-  beta_reduce at h
   have e : Nat.add o i = o + i := rfl
   rw [e] at h
   obtain ⟨h1, h⟩ := s2072_bAnd h

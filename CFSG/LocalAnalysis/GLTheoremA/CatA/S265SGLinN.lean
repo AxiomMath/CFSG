@@ -13,7 +13,7 @@ open CFSG.RankThree.PartOne.KCPrimary CFSG.RankThree.CALinearPrimary
 
 private theorem linN_prim {R : Type*} [CommRing R] [Nontrivial R] (h2 : (2 : R) = 0) {r : R}
     (hr : r ^ 2 + r + 1 = 0) : IsPrimitiveRoot r 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime (by linear_combination (r - 1) * hr) ?_)
   rintro rfl
   exact one_ne_zero (by linear_combination hr - h2 : (1 : R) = 0)
@@ -26,7 +26,7 @@ theorem SG.exists_sl2_nonsplit {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
       (∃ u w : A, u * w ≠ w * u) ∧ 3 ∣ Nat.card A ∧ Y ≤ Bt ∧ d ∈ Y ∧ Y.relIndex Bt ≤ 3 ∧
       ∀ y ∈ Y, ∀ z ∈ A, y * z = z * y := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
   obtain ⟨a, ha⟩ : ∃ a : F[X], a = X ^ 2 + X + 1 := ⟨_, rfl⟩
   have hdeg : a.natDegree = 2 := by rw [ha]; compute_degree!
@@ -37,7 +37,7 @@ theorem SG.exists_sl2_nonsplit {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
         (FiniteField.pow_card_sub_one_eq_one r (hr'.ne_zero (by norm_num)))
       rw [← Nat.card_eq_fintype_card] at this
       omega
-  haveI : Fact (Irreducible a) := ⟨hirr⟩
+  have : Fact (Irreducible a) := ⟨hirr⟩
   have h2E : (2 : AdjoinRoot a) = 0 := by
     rw [← map_ofNat (algebraMap F (AdjoinRoot a)) 2, h2, map_zero]
   have hζ : IsPrimitiveRoot (AdjoinRoot.root a) 3 := linN_prim h2E (by
@@ -50,7 +50,7 @@ theorem SG.exists_sl2_nonsplit {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
   have hvv : ∀ v : Fin n → F, v + v = 0 := fun v => by rw [← two_smul F v, h2, zero_smul]
   have hW : ∀ y v, v ∈ W y ↔ T y (T y v) + T y v + v = 0 := fun y v => by
     rw [mem_primaryComponent, ha]
-    simp only [map_add, map_pow, map_mul, aeval_X, map_one, LinearMap.add_apply, pow_two,
+    simp only [map_add, map_mul, aeval_X, map_one, LinearMap.add_apply, pow_two,
       Module.End.mul_apply, Module.End.one_apply]
   have hTc : ∀ y ∈ Bt, ∀ z ∈ Bt, Commute (T y) (T z) := fun y hy z hz => by
     rw [commute_iff_eq, ← map_mul, ← map_mul, hBc y hy z hz]
@@ -105,7 +105,7 @@ theorem SG.exists_sl2_nonsplit {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
       (commutantRestrict a ⟨T z, (mem_commutant (T y)).2 (hTc z hz y hy)⟩)
     have hcw : ∀ w : W y, ((c • w : W y) : Fin n → F) = T z w := fun w =>
       (congrArg (fun f : Module.End (AdjoinRoot a) (W y) => ((f w : W y) : Fin n → F)) hc).symm
-    haveI := Module.nontrivial_of_finrank_eq_succ h1
+    have := Module.nontrivial_of_finrank_eq_succ h1
     obtain ⟨w, hw⟩ := exists_ne (0 : W y)
     have hc3 : c ^ 3 = 1 := smul_left_injective (AdjoinRoot a) hw (Subtype.ext (by
       show ((c ^ 3 • w : W y) : Fin n → F) = ((1 : AdjoinRoot a) • w : W y)
@@ -119,9 +119,7 @@ theorem SG.exists_sl2_nonsplit {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
     obtain ⟨u, w, huw⟩ := hirr.coprime_iff_not_dvd.2 hnd
     refine hy (eq_bot_iff.2 fun v hv => (Submodule.mem_bot F).2 ?_)
     have h1 := congrArg (fun p : F[X] => aeval (T y) p v) huw
-    simp only [map_add, map_mul, minpoly.aeval, mul_zero, add_zero, LinearMap.add_apply,
-      Module.End.mul_apply, mem_primaryComponent.1 hv, map_zero, map_one, LinearMap.zero_apply,
-      Module.End.one_apply] at h1
+    simp only [map_add, map_mul, minpoly.aeval, mul_zero, add_zero, Module.End.mul_apply, mem_primaryComponent.1 hv, map_zero, map_one, Module.End.one_apply] at h1
     exact h1.symm
   suffices hex : ∃ g ∈ Bt, ∃ c : AdjoinRoot a, 2 ≤ primaryMultiplicity (T g) a ∧
       ∀ v : W g, T d v = ((c • v : W g) : Fin n → F) by

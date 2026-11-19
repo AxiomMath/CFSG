@@ -46,12 +46,12 @@ theorem smulS_bits (s i : Nat) (a : Nat × Nat) (ha : okAt a i) :
   · simp only [h, BEq.rfl, ↓reduceIte, Nat.zero_testBit, f3v]
     simp
   · have e0 : (s % 3 == 0) = false := by rw [h]; rfl
-    simp only [e0, h, BEq.rfl, Bool.false_eq_true, ↓reduceIte]
+    simp only [h, BEq.rfl, ↓reduceIte]
     refine ⟨ha, ?_⟩
     cases hx : a.1.testBit i <;> cases hy : a.2.testBit i <;> simp_all [f3v]
   · have e0 : (s % 3 == 0) = false := by rw [h]; rfl
     have e1 : (s % 3 == 1) = false := by rw [h]; rfl
-    simp only [e0, e1, h, Bool.false_eq_true, ↓reduceIte]
+    simp only [h]
     cases hx : a.1.testBit i <;> cases hy : a.2.testBit i <;> simp_all [f3v]
 
 theorem f3v_lt (b1 b2 : Bool) : f3v b1 b2 < 3 := by
@@ -194,7 +194,7 @@ theorem foldBits (p : Nat → Bool) (j : Nat) : ∀ (n k m : Nat),
     · subst hjk
       have a2 : decide (j + 1 ≤ j) = false := by simp
       have a3 : decide (j < j + (n + 1)) = true := by simp
-      simp [a2, a3]
+      simp [a2]
     · have a1 : decide (j = k) = false := by simp; omega
       have a2 : decide (k + 1 ≤ j) = true := by simp; omega
       have a3 : decide (k ≤ j) = true := by simp; omega

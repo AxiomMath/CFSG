@@ -68,13 +68,13 @@ theorem acts_trivially_of_rank_le_two {P S : Type*} [Group P]
       have : ρ' x ∈ ρ'.range := ⟨x, rfl⟩
       rw [hbot, Subgroup.mem_bot] at this
       exact hx (hinj (this.trans (map_one ρ').symm))
-    haveI : Group.IsPerfect ρ'.range := Group.IsPerfect.range ρ'
+    have : Group.IsPerfect ρ'.range := Group.IsPerfect.range ρ'
     have eρ : S ≃* ρ'.range := MonoidHom.ofInjective hinj
     by_cases hd2' : d = 2
     · subst hd2'
       rcases CFSG.RankThree.SubgroupLists.perfect_gl2_mulEquiv hq2 ρ'.range hne with ⟨⟨e'⟩⟩ | ⟨⟨e'⟩⟩
       · exact false_of_mulEquiv_SL2 hSnc hq2 (eρ.trans e')
-      · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
         exact false_of_mulEquiv_SL2 hSnc (by norm_num) (eρ.trans e')
     ·
       obtain ⟨x, y, hxy⟩ := hSnc
@@ -92,11 +92,11 @@ theorem acts_trivially_of_rank_le_two {P S : Type*} [Group P]
       exact this
     set g : S →* (quotientAutomorphism (frattini P)).ker :=
       ρ.codRestrict _ hρker with hg
-    haveI : Group.IsNilpotent (quotientAutomorphism (frattini P)).ker := hkerP.isNilpotent
-    haveI : Group.IsPerfect g.range := Group.IsPerfect.range g
+    have : Group.IsNilpotent (quotientAutomorphism (frattini P)).ker := hkerP.isNilpotent
+    have : Group.IsPerfect g.range := Group.IsPerfect.range g
     have hrange : g.range = ⊥ := by
       by_contra hne
-      haveI : Nontrivial g.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+      have : Nontrivial g.range := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
       exact Group.IsPerfect.not_isSolvable g.range inferInstance
     refine MonoidHom.ext fun s => ?_
     have h1 : g s ∈ g.range := ⟨s, rfl⟩

@@ -15,16 +15,18 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_glaPPrimeCoreOf_of_le_normalizer' {p : ℕ} {N K : Subgroup G} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set G)) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p K := by
-  haveI hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   have hcard : Nat.card (N.subgroupOf K) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNK).toEquiv
   have hle : N.subgroupOf K ≤ GLAPPrimeCore p ↥K := le_sSup ⟨hn, hcard ▸ hcop⟩
   intro n hn'
   exact ⟨⟨n, hNK hn'⟩, hle hn', rfl⟩
 
+omit [Finite G] in
 theorem nGen_le_iff {B K X : Subgroup G} :
     nGen B K ≤ X ↔ ∀ T : Subgroup G, T ≤ K → IsPGroup 2 T →
       B ≤ Subgroup.normalizer (T : Set G) → T ≤ X := by
@@ -33,6 +35,7 @@ theorem nGen_le_iff {B K X : Subgroup G} :
   exact le_iSup₂_of_le (f := fun (T : Subgroup G)
     (_ : T ≤ K ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G)) => T) T ⟨h1, h2, h3⟩ le_rfl
 
+omit [Finite G] in
 theorem closureIn_le_of_le {I A D : Subgroup G} (hID : I ≤ D)
     (hAD : A ≤ Subgroup.normalizer (D : Set G)) : closureIn I A ≤ D := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -183,7 +186,7 @@ theorem lemma47 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h183 : Input18_3_4)
     (hKP : CFSG.Open.IsKProper G) (hsimple : IsSimpleGroup G) (hnonab : ∃ a b : G, a * b ≠ b * a) :
     Lemma47At G p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro t t' hrel hT
   obtain ⟨hIDC, -, hIK'⟩ := pumpRel_facts hp h183 hKP hsimple hnonab hrel
   obtain ⟨⟨hB, hx, hL⟩, ⟨hB', -, -⟩, hxB', hdec, hx'B', hx'L, -⟩ := hrel

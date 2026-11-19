@@ -63,8 +63,8 @@ theorem eq_component (hHE : HH G L v ≤ layerIn G) (h2E : ¬ 2 ^ 7 ∣ Nat.card
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact ⟨(HH G L v).mul_mem ((HH G L v).mul_mem h.2 hx.1) ((HH G L v).inv_mem h.2),
         conj_mem_of_isComponentOf hK (hHE h.2) hx.2⟩⟩
-    haveI := hsimp
-    haveI := hn
+    have := hsimp
+    have := hn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((HH G L v ⊓ K).subgroupOf (HH G L v)) with
       h | h
     · exfalso
@@ -89,8 +89,8 @@ theorem eq_component (hHE : HH G L v ≤ layerIn G) (h2E : ¬ 2 ^ 7 ∣ Nat.card
         exact (Nat.mul_dvd_mul (show 2 ^ 6 ∣ 25920 by norm_num) h2').trans hdvd
       have hsolv := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hKodd
       have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
-      haveI : Nontrivial ↥K := nontrivial_of_isQuasisimple' hq
-      haveI : Group.IsPerfect ↥K := Group.isPerfect_def.2 hq.1
+      have : Nontrivial ↥K := nontrivial_of_isQuasisimple' hq
+      have : Group.IsPerfect ↥K := Group.isPerfect_def.2 hq.1
       exact Group.IsPerfect.not_isSolvable ↥K hsolv
     · intro x hx
       have : (⟨x, hx⟩ : ↥(HH G L v)) ∈ (HH G L v ⊓ K).subgroupOf (HH G L v) :=
@@ -101,7 +101,7 @@ theorem eq_component (hHE : HH G L v ≤ layerIn G) (h2E : ¬ 2 ^ 7 ∣ Nat.card
   show Subgroup.closure _ ≤ K
   rw [Subgroup.closure_le]
   rintro _ ⟨γ, hγ, l, hl, rfl⟩
-  exact conj_mem_of_isComponentOf hK hγ (hHK (c.L_le_H hl))
+  exact conj_mem_of_isComponentOf hK hγ (hHK (CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hl))
 
 theorem false_of_alt_nine (hHE : HH G L v ≤ layerIn G)
     (e : ↥(layerIn G) ≃* alternatingGroup (Fin 9)) : False := by
@@ -120,7 +120,7 @@ theorem false_of_alt_nine (hHE : HH G L v ≤ layerIn G)
     omega
   have hdvd := Subgroup.index_normalCore_dvd_factorial_index H'
   rw [hidx] at hdvd
-  haveI := hsimp
+  have := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal H'.normalCore with h | h
   · rw [h, Subgroup.index_bot, hcard] at hdvd
     exact absurd hdvd (by decide)
@@ -175,7 +175,7 @@ theorem prop514 (hs : CaseIISplit) (haut : CaseIIAut) (hG1 : CaseIIG1) (hG2 : Ca
     rw [hT₀, Subgroup.card_map_of_injective (HH G L v).subtype_injective,
       Sylow.card_eq_multiplicity, c.card_H, factorization_25920]
   have hT₀E : T₀ ≤ layerIn G := (Subgroup.map_subtype_le _).trans hHE
-  have hT₀2 : IsPGroup 2 ↥T₀ := TH.isPGroup'.map _
+  have hT₀2 : IsPGroup 2 ↥T₀ := TH.isPGroup.map _
   have hsylE : ∀ (P : Sylow 2 ↥(layerIn G)) (Q : Sylow 2 ↥(alternatingGroup (Fin 8))),
       Nonempty (↥P ≃* ↥Q) := by
     intro P Q

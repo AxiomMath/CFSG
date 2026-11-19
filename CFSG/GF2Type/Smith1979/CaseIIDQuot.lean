@@ -26,6 +26,7 @@ theorem inducedAut_mk (t : M) (e : E) :
 @[expose] def embedQuot (R : Subgroup M) (hRE : R ≤ E) : R →* E ⧸ Subgroup.center E :=
   (QuotientGroup.mk' (Subgroup.center E)).comp (Subgroup.inclusion hRE)
 
+omit [E.Normal] in
 theorem embedQuot_apply (R : Subgroup M) (hRE : R ≤ E) (r : R) :
     embedQuot E R hRE r = QuotientGroup.mk (⟨r.1, hRE r.2⟩ : E) :=
   rfl
@@ -59,6 +60,7 @@ theorem commutatorElement_mul_mul {H : Type*} [Group H] {r r' z z' : H} (h2 : z 
 
 variable {t : M} {R : Subgroup M}
 
+omit [E.Normal] in
 theorem embedQuot_injective (hRE : R ≤ E)
     (hRZ : ∀ r : R, (⟨r.1, hRE r.2⟩ : E) ∈ Subgroup.center E → r = 1) :
     Function.Injective (embedQuot E R hRE) := by

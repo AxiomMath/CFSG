@@ -61,18 +61,22 @@ section Y8
 
 variable {Y D E₁ E₂ : Subgroup G} {t w : G}
 
+omit [Finite G] in
 theorem Y_le_S (hC : Concl86 z S K₁ W₂ U u h Y D t w) : Y ≤ S := by
   rw [hC.2.1]
   exact le_sup_left
 
+omit [Finite G] in
 theorem Y_norm_S (hC : Concl86 z S K₁ W₂ U u h Y D t w) :
     ∀ x ∈ S, ∀ y ∈ Y, x * y * x⁻¹ ∈ Y := fun x hx y hy =>
   hC.2.2.1.2.2.1 x ((le_sup_left : S ≤ S ⊔ zpowers h) hx) y hy
 
+omit [Finite G] in
 theorem Y_norm_h (hC : Concl86 z S K₁ W₂ U u h Y D t w) :
     ∀ y ∈ Y, h * y * h⁻¹ ∈ Y := fun y hy =>
   hC.2.2.1.2.2.1 h (Subgroup.mem_sup_right (Subgroup.mem_zpowers h)) y hy
 
+omit [Finite G] in
 theorem Y_norm_h_inv (hC : Concl86 z S K₁ W₂ U u h Y D t w) :
     ∀ y ∈ Y, h⁻¹ * y * h ∈ Y := fun y hy => by
   have := hC.2.2.1.2.2.1 h⁻¹ (inv_mem (Subgroup.mem_sup_right (Subgroup.mem_zpowers h))) y hy
@@ -100,6 +104,7 @@ theorem card_Y (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hE : EData Y U E�
   rw [sup_comm, hE.prod, inf_comm, hE.inter, hs.U_four.2, hE.card₂, hE.card₁] at h1
   omega
 
+omit [Finite G] in
 theorem t_facts (hC : Concl86 z S K₁ W₂ U u h Y D t w) :
     t ∈ S ∧ t * t = 1 ∧ t * h * t⁻¹ = h⁻¹ ∧ t * u * t⁻¹ = u * z := by
   obtain ⟨htP, hto, htu, hth⟩ := hC.2.2.2.2.1
@@ -193,6 +198,7 @@ theorem S_eq_Y_t (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U
   have hle : Y ⊔ zpowers t ≤ S := sup_le (Y_le_S hC) (zpowers_le.2 htS)
   exact (Subgroup.eq_of_le_of_card_ge hle (by omega)).symm
 
+omit [Finite G] in
 theorem Y_le_W (hE : EData Y U E₁ E₂) (hC : Concl86 z S K₁ W₂ U u h Y D t w) : Y ≤ Wsub S U := by
   have hUE₁ : U ≤ E₁ := hE.inter ▸ inf_le_left
   have hUE₂ : U ≤ E₂ := hE.inter ▸ inf_le_right
@@ -206,6 +212,7 @@ theorem Y_le_W (hE : EData Y U E₁ E₂) (hC : Concl86 z S K₁ W₂ U u h Y D 
     exact hy
   exact Subgroup.mem_inf.2 ⟨Y_le_S hC hy, (sup_le h₁ h₂) hy'⟩
 
+omit [Finite G] in
 theorem invol_of_EData (hE : EData Y U E₁ E₂) : ∀ x ∈ Y, x * x = 1 → x ∈ E₁ ∨ x ∈ E₂ := by
   intro x hx hx2
   by_cases hx1 : x = 1
@@ -214,10 +221,12 @@ theorem invol_of_EData (hE : EData Y U E₁ E₂) : ∀ x ∈ Y, x * x = 1 → x
     exact one_mem _
   · exact hE.invol x hx (orderOf_eq_prime (by rw [pow_two]; exact hx2) hx1)
 
+omit [Finite G] in
 theorem E₁_sq (hE : EData Y U E₁ E₂) : ∀ e ∈ E₁, e * e = 1 := fun e he => by
   have := hE.elem₁.2 e he
   simpa [pow_two] using this
 
+omit [Finite G] in
 theorem E₂_sq (hE : EData Y U E₁ E₂) : ∀ e ∈ E₂, e * e = 1 := fun e he => by
   have := hE.elem₂.2 e he
   simpa [pow_two] using this
@@ -230,6 +239,7 @@ theorem E₁_ne_E₂ (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (hE : EData Y
   rw [← h1, hE.card₁] at h2
   omega
 
+omit [Finite G] in
 theorem conj_sq (g : G) {E : Subgroup G} (hE : ∀ e ∈ E, e * e = 1) :
     ∀ x ∈ conjugate E g, x * x = 1 := by
   intro x hx

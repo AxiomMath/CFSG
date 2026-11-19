@@ -18,7 +18,7 @@ variable {W : Type} [CommGroup W] [Finite W]
   toFun w := ∏ᶠ b ∈ (B : Set (MulAut W)), b w
   map_one' := by simp
   map_mul' v w := by
-    haveI : Finite (MulAut W) := MulEquiv.finite_left
+    have : Finite (MulAut W) := MulEquiv.finite_left
     simp only [map_mul]
     exact finprod_mem_mul_distrib (Set.toFinite _)
 
@@ -42,6 +42,7 @@ private theorem mem_kSub {A H : Subgroup (MulAut W)} {w : W} :
     w ∈ kSub A H ↔ w ∈ fixV H ∧ normHom A w = 1 := by
   rw [kSub, Subgroup.mem_inf, MonoidHom.mem_ker]
 
+omit [Finite W] in
 private theorem pow_odd_eq_self (hW : ∀ w : W, w * w = 1) {n : ℕ} (hn : Odd n) (w : W) :
     w ^ n = w := by
   obtain ⟨k, rfl⟩ := hn
@@ -49,13 +50,14 @@ private theorem pow_odd_eq_self (hW : ∀ w : W, w * w = 1) {n : ℕ} (hn : Odd 
 
 private theorem odd_card_of_pow_eq_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {B : Subgroup (MulAut W)} (hB : ∀ b ∈ B, b ^ p = 1) : Odd (Nat.card B) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hpB : IsPGroup p B := fun b => ⟨1, Subtype.ext (by simpa using hB b b.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hpB
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite W] in
 private theorem mem_fixV_zpowers_of {c : MulAut W} {v : W} (h : c v = v) :
     v ∈ fixV (zpowers c) := by
   have hs : zpowers c ≤ MulAction.stabilizer (MulAut W) v :=
@@ -65,14 +67,15 @@ private theorem mem_fixV_zpowers_of {c : MulAut W} {v : W} (h : c v = v) :
   have := hs hx
   rwa [MulAction.mem_stabilizer_iff] at this
 
+omit [Finite W] in
 private theorem comm_of_mem {p : ℕ} {A : Subgroup (MulAut W)} (hA : IsElemAbelian p A)
     {a b : MulAut W} (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a := by
   exact congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
 theorem normHom_mem_fixV (B : Subgroup (MulAut W)) (w : W) : normHom B w ∈ fixV B := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype B := Fintype.ofFinite B
   rw [mem_fixV]
   intro g hg
   rw [normHom_eq_prod, map_prod]
@@ -84,8 +87,8 @@ theorem normHom_mem_fixV (B : Subgroup (MulAut W)) (w : W) : normHom B w ∈ fix
 theorem normHom_of_mem_fixV (B : Subgroup (MulAut W)) {w : W} (hw : w ∈ fixV B) :
     normHom B w = w ^ Nat.card B := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype B := Fintype.ofFinite B
   rw [normHom_eq_prod]
   have h1 : ∀ d : B, (d : MulAut W) w = w := fun d => mem_fixV.1 hw d d.2
   simp only [h1, Finset.prod_const, Finset.card_univ, Fintype.card_eq_nat_card]
@@ -94,8 +97,8 @@ theorem normHom_apply_of_mem_normalizer {A : Subgroup (MulAut W)} {s : MulAut W}
     (hs : s ∈ normalizer (A : Set (MulAut W))) (w : W) :
     normHom A (s w) = s (normHom A w) := by
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype A := Fintype.ofFinite A
   have hconj : ∀ d : A, s * (d : MulAut W) * s⁻¹ ∈ A := fun d =>
     (mem_normalizer_iff.1 hs d).1 d.2
   have hconj' : ∀ d : A, s⁻¹ * (d : MulAut W) * s ∈ A := by
@@ -119,11 +122,11 @@ private theorem normHom_eq_comp {p : ℕ} (hp : p.Prime) {B C : Subgroup (MulAut
     (hB : IsElemAbelian p B) (hCB : C ≤ B) (hC : C.relIndex B = p) {b : MulAut W} (hb : b ∈ B)
     (hbC : b ∉ C) (w : W) : normHom B w = normHom (zpowers b) (normHom C w) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fintype B := Fintype.ofFinite B
-  haveI : Fintype C := Fintype.ofFinite C
-  haveI : Fintype (zpowers b) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fintype B := Fintype.ofFinite B
+  have : Fintype C := Fintype.ofFinite C
+  have : Fintype (zpowers b) := Fintype.ofFinite _
   have hb1 : b ≠ 1 := fun h => hbC (h ▸ C.one_mem)
   have hbp : orderOf b = p := orderOf_eq_prime (hB.2 b hb) hb1
   have hDB : zpowers b ≤ B := zpowers_le.2 hb
@@ -174,6 +177,7 @@ theorem normHom_eq_normHom_zpowers (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p
   rw [normHom_eq_comp hp hB hCB hC hb hbC w, normHom_of_mem_fixV C hw,
     pow_odd_eq_self hW (odd_card_of_pow_eq_one hp hp2 fun c hc => hB.2 c (hCB hc)) w]
 
+omit [Finite W] in
 private theorem card_sup_of_inf_eq_bot {K U : Subgroup W} (h : K ⊓ U = ⊥) :
     Nat.card (K ⊔ U : Subgroup W) = Nat.card K * Nat.card U := by
   have hmem : ∀ z : K × U, (z.1 : W) * z.2 ∈ K ⊔ U := fun z =>
@@ -292,7 +296,7 @@ theorem card_kSub_modEq (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp
     {A H : Subgroup (MulAut W)} (hA : IsElemAbelian p A) (hH : H ≤ A) (hHA : H.relIndex A = p) :
     Nat.card (kSub A H) ≡ 1 [MOD p] := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, haA, haH⟩ : ∃ a ∈ A, a ∉ H := by
     by_contra hcon
     simp only [not_exists, not_and, not_not] at hcon
@@ -325,7 +329,7 @@ theorem card_kSub_modEq (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp
     apply Subtype.ext
     rw [pow_one, hσpow, hA.2 a haA]
     rfl
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := Equiv.Perm.card_fixedPoints_modEq (p := p) (n := 1) hσ
   rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card] at h
   have haodd : Odd (Nat.card (zpowers a)) :=
@@ -351,7 +355,7 @@ theorem card_kSub_ge (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp5 :
   obtain ⟨hHA, hHp, hne⟩ := hH
   have hp2 : p ≠ 2 := by omega
   have hmod := card_kSub_modEq hW hp hp2 hA hHA hHp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (kSub A H) := fun w =>
     ⟨1, Subtype.ext (by simpa [sq] using hW (w : W))⟩
   obtain ⟨e, he⟩ := IsPGroup.iff_card.1 h2
@@ -385,7 +389,7 @@ theorem card_kSub_ge (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp5 :
 private theorem iSup_fixV_hyperplanes (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {A : Subgroup (MulAut W)} (hA : IsElemAbelian p A) (hA1 : A ≠ ⊥) (w : W) :
     w ∈ ⨆ (H : Subgroup (MulAut W)) (_ : H ≤ A ∧ H.relIndex A = p), fixV H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
   have : CFSG.IsElementaryAbelian p A :=
     { toIsMulCommutative := hA.1
@@ -394,7 +398,7 @@ private theorem iSup_fixV_hyperplanes (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp 
   let _ : MulDistribMulAction A W := MulDistribMulAction.compHom W A.subtype
   have hpW : ¬ p ∣ Nat.card W := by
     have h2 : IsPGroup 2 W := fun g => ⟨1, by rw [pow_one, sq]; exact hW g⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 h2
     rw [hm]
     intro h

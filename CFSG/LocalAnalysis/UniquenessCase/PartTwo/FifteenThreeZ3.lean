@@ -369,8 +369,8 @@ private theorem s15_Three_equiv_star (h1217 : R1217 D) (h : Hyp151 D V₀ V L)
   have hkereq : (F11.CTilde D.M V₀ V).subgroupOf K₀ =
       (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀ := by
     rw [fifteen_two_cent D h1217 h hV]
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf K₀).Normal := hker₀ ▸ MonoidHom.normal_ker σ₀
-  haveI : ((F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf K₀).Normal := hker₀ ▸ MonoidHom.normal_ker σ₀
+  have : ((F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀).Normal :=
     hker₁ ▸ MonoidHom.normal_ker σ₁
   let e0 : ↥K₀ ⧸ (F11.CTilde D.M V₀ V).subgroupOf K₀ ≃* ↥(barSub V₀ V hV K₀) :=
     QuotientGroup.liftEquiv ((F11.CTilde D.M V₀ V).subgroupOf K₀) hσ₀ hker₀.symm
@@ -430,7 +430,7 @@ private theorem s15_Three_Z3_inj (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V
     intro e he
     rw [hV0, he]
     exact Subgroup.one_mem _
-  haveI : IsCyclic ↥(barSub V₀ V hV K₀) := hZ.1
+  have : IsCyclic ↥(barSub V₀ V hV K₀) := hZ.1
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(barSub V₀ V hV K₀))
   let t : MulAut (Vtil V₀ V hV) := (g : MulAut (Vtil V₀ V hV))
   have hgen : barSub V₀ V hV K₀ = Subgroup.zpowers t := by
@@ -524,7 +524,7 @@ private theorem s15_Three_le_stabTilZ3 {D : Data G} {V₀ V L : Subgroup G}
 private theorem s15_Three_closure_elemAbelian {A : Type*} [Group A] {k : Set A} {p : ℕ}
     (hpair : k.Pairwise Commute) (hexp : ∀ x ∈ k, x ^ p = 1) :
     IsElemAbelian p (Subgroup.closure k) := by
-  haveI : IsMulCommutative ↥(Subgroup.closure k) := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative ↥(Subgroup.closure k) := Subgroup.isMulCommutative_closure hpair
   refine ⟨inferInstance, ?_⟩
   have hcomm : ∀ x ∈ Subgroup.closure k, ∀ y ∈ Subgroup.closure k, x * y = y * x :=
     fun x hx y hy =>
@@ -539,10 +539,10 @@ private theorem s15_Three_closure_elemAbelian {A : Type*} [Group A] {k : Set A} 
   · intro y hy ihy
     rw [inv_pow, ihy, inv_one]
 
-private theorem s15_Three_barSub_elemAbelian_three {D : Data G} {V₀ V K₀ : Subgroup G}
+private theorem s15_Three_barSub_elemAbelian_three {_D : Data G} {V₀ V K₀ : Subgroup G}
     {hV : IsElemAbelian 2 V} (hZ : IsCyclicOrd ↥(barSub V₀ V hV K₀) 3) :
     IsElemAbelian 3 (barSub V₀ V hV K₀) := by
-  haveI : IsCyclic ↥(barSub V₀ V hV K₀) := hZ.1
+  have : IsCyclic ↥(barSub V₀ V hV K₀) := hZ.1
   refine ⟨inferInstance, ?_⟩
   intro x hx
   have hpow : (⟨x, hx⟩ : ↥(barSub V₀ V hV K₀)) ^ Nat.card ↥(barSub V₀ V hV K₀) = 1 :=
@@ -559,7 +559,7 @@ private theorem s15_Three_conjElemAbelian {D : Data G} {V₀ V L K₀ : Subgroup
     {m : G} (hm : m ∈ D.M) :
     IsElemAbelian 3 (barSub V₀ V hV (conjSubgroup K₀ m)) := by
   rw [s15_Three_barSub_conj_eq hV (s15_Three_le_stabTilZ3 h) (hshape.1.trans h.le) hm]
-  exact (s15_Three_barSub_elemAbelian_three (D := D) (V₀ := V₀) (V := V) (K₀ := K₀) hZ).map _
+  exact (s15_Three_barSub_elemAbelian_three (_D := D) (V₀ := V₀) (V := V) (K₀ := K₀) hZ).map _
 
 private theorem s15_Three_xbar_elemAbelian {D : Data G} {V₀ V L K₀ : Subgroup G}
     (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V)
@@ -586,7 +586,7 @@ private theorem s15_Three_xbar_elemAbelian {D : Data G} {V₀ V L K₀ : Subgrou
     obtain ⟨m₁, hm₁, ha₁⟩ := Set.mem_iUnion₂.mp ha
     obtain ⟨m₂, hm₂, hb₂⟩ := Set.mem_iUnion₂.mp hb
     rcases s15_Three_xbar_comm (D := D) h hV hshape hm₁ hm₂ with heq | hcomm
-    · haveI : IsMulCommutative ↥(barSub V₀ V hV (conjSubgroup K₀ m₂)) :=
+    · have : IsMulCommutative ↥(barSub V₀ V hV (conjSubgroup K₀ m₂)) :=
         (s15_Three_conjElemAbelian h hV hshape hZ hm₂).1
       rw [heq] at ha₁
       exact congrArg Subtype.val (IsMulCommutative.is_comm.comm
@@ -633,7 +633,7 @@ private theorem s15_Three_Xbar_transport (hTen : RTenP153 D) (h127 : R127 D) (h 
     (hder : Xb ≤ ⁅Mbar D.M V₀ V hV, Mbar D.M V₀ V hV⁆) : Nat.card V₀ < 8 := by
   have hMs := s15_Three_le_stabTilZ3 h
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp125
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal (D := D) hV hMs
   obtain ⟨e, -⟩ := s15_Three_barImage_equiv (D := D) (V₀ := V₀) (V := V) hV hMs
   set Xbar : Subgroup (F11.MBar11 D.M V₀ V) :=
@@ -676,7 +676,7 @@ theorem s15_Three_Z3_rs_one (hTen : RTenP153 D) (h127 : R127 D) (h : Hyp151 D V�
     have h1 : barSub V₀ V hV (conjSubgroup K₀ (1 : G)) = barSub V₀ V hV K₀ := by
       rw [conjSubgroup_one]
     exact le_iSup₂_of_le (1 : G) D.M.one_mem (le_of_eq h1.symm)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3group : IsPGroup 3 ↥(s15XBar D V₀ V hV K₀) := by
     intro x
     refine ⟨1, ?_⟩

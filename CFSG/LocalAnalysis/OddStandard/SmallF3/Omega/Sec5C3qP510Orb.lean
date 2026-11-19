@@ -53,7 +53,7 @@ private theorem sec5p510c_tM_subset (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r
   have hk : k = 1 ∨ k = 2 ∨ k = 5 ∨ k = 6 := by omega
   rcases hk with rfl | rfl | rfl | rfl <;> (simp only [Set.mem_union]; tauto)
 
-private theorem sec5p510c_tM_block (hR : Sec5RCtx G t L S z r B A)
+private theorem sec5p510c_tM_block (_hR : Sec5RCtx G t L S z r B A)
     (hm : Sec5Model58 t L z r A φ) (k : ℕ) :
     wclass φ k ⊆ conjClassIn (normalizer (A : Set G)) t ∨
       conjClassIn (normalizer (A : Set G)) t ∩ wclass φ k = ∅ := by
@@ -67,6 +67,7 @@ private theorem sec5p510c_tM_block (hR : Sec5RCtx G t L S z r B A)
   · right
     exact Set.not_nonempty_iff_eq_empty.mp h
 
+omit [Group G] [Finite G] in
 theorem sec5p510_wclass_twist_three (φ : (Fin 6 → ZMod 2) → G) :
     wclass (fun v => φ (sec5p510_twist v)) 3 = wclass φ 3 := by
   rw [wclass, wclass, ← Set.image_image]
@@ -82,7 +83,7 @@ theorem sec5p510_wclass_twist_three (φ : (Fin 6 → ZMod 2) → G) :
       rw [hv'] at he
       norm_num at he
     show vecWeight (sec5p510_twist v) = 3
-    rw [sec5p510_weight_twist, if_neg hsum, hv']
+    rw [sec5p510_weight_twist, ite_eq_right hsum, hv']
   · intro hu
     have hu' : vecWeight u = 3 := hu
     refine ⟨sec5p510_twist u, ?_, sec5p510_twist_twist u⟩
@@ -93,8 +94,9 @@ theorem sec5p510_wclass_twist_three (φ : (Fin 6 → ZMod 2) → G) :
       rw [hu'] at he
       norm_num at he
     show vecWeight (sec5p510_twist u) = 3
-    rw [sec5p510_weight_twist, if_neg hsum, hu']
+    rw [sec5p510_weight_twist, ite_eq_right hsum, hu']
 
+omit [Group G] [Finite G] in
 theorem sec5p510_wclass_twist_four (φ : (Fin 6 → ZMod 2) → G) :
     wclass (fun v => φ (sec5p510_twist v)) 4 = wclass φ 4 := by
   rw [wclass, wclass, ← Set.image_image]
@@ -107,7 +109,7 @@ theorem sec5p510_wclass_twist_four (φ : (Fin 6 → ZMod 2) → G) :
       have he : Even (vecWeight v) := by rw [hv']; norm_num
       simpa [IsEvenVec] using (sec5b6_isEvenVec_iff v).mpr he
     show vecWeight (sec5p510_twist v) = 4
-    rw [sec5p510_weight_twist, if_pos hsum, hv']
+    rw [sec5p510_weight_twist, ite_eq_left hsum, hv']
   · intro hu
     have hu' : vecWeight u = 4 := hu
     refine ⟨sec5p510_twist u, ?_, sec5p510_twist_twist u⟩
@@ -115,7 +117,7 @@ theorem sec5p510_wclass_twist_four (φ : (Fin 6 → ZMod 2) → G) :
       have he : Even (vecWeight u) := by rw [hu']; norm_num
       simpa [IsEvenVec] using (sec5b6_isEvenVec_iff u).mpr he
     show vecWeight (sec5p510_twist u) = 4
-    rw [sec5p510_weight_twist, if_pos hsum, hu']
+    rw [sec5p510_weight_twist, ite_eq_left hsum, hu']
 
 theorem sec5p510_delta_cases (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r B A)
     (hm : Sec5Model58 t L z r A φ)

@@ -21,7 +21,7 @@ theorem jθ_eq_thetaPerpF (τ : Tag) (hτ : τ = .E7 ∨ τ = .E8 ∨ τ = .F4) 
     Jθ τ = (thetaPerpF τ : Set (Fin τ.rank)) := by
   rcases hτ with rfl | rfl | rfl <;>
   · ext i
-    simp only [Jθ, thetaPerpF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    simp only [Jθ, thetaPerpF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     revert i
     decide +kernel
 

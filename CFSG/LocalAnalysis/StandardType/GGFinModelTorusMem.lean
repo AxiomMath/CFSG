@@ -90,9 +90,9 @@ private lemma ggMat_mulVec_permLattice {τ : Tag} (ε : ℤ) (π' : Equiv.Perm (
   rw [Matrix.mulVec_apply_eq_sum]
   simp only [Matrix.of_apply, ite_mul, zero_mul]
   rw [Finset.sum_ite_eq]
-  simp [permLattice, Pi.smul_apply, smul_eq_mul]
+  simp [permLattice, Pi.smul_apply]
 
-private lemma ggRootChar_frob {τ : Tag} {f p : ℕ} {ζ : GGLˣ} (hζ : orderOf ζ = p)
+private lemma ggRootChar_frob {τ : Tag} {f p : ℕ} {ζ : GGLˣ} (_hζ : orderOf ζ = p)
     {ε : ℤ} (hε : ε = 1 ∨ ε = -1) (hpε : (p : ℤ) ∣ ε * 2 ^ f - 1)
     (π' : Equiv.Perm (Fin τ.rank)) {a : Fin τ.rank → GGLˣ}
     (ha_pow : ∀ i, a i ^ p = 1) (hafix : ∀ i, a (π' i) = a i)

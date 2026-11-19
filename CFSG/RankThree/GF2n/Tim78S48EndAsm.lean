@@ -34,13 +34,13 @@ theorem false_of_frame {b' : G} (hb' : b' ∈ conjSubgroup g B) (hb'1 : b' ≠ 1
   let σ : ↥L₀ → ↥P := Function.surjInv hsurj
   have hσ : ∀ a, Θ (σ a) = a := Function.surjInv_eq hsurj
   have hLL : ∀ l ∈ L₀, l ∈ L := fun l hl => E.C_le_L (S.le_C hl)
-  letI : MulDistribMulAction ↥X ↥L₀ := Subgroup.conjMulDistribMulActionOfLeNormalizer X L₀ hXL₀
+  let : MulDistribMulAction ↥X ↥L₀ := Subgroup.conjMulDistribMulActionOfLeNormalizer X L₀ hXL₀
   have hXM : X ≤ M := by rw [← H.normalizer_B]; exact le_normalizer_of_comm hXB
   let cj : ↥X → ↥P → ↥P := fun x y => ⟨x * y * (x : G)⁻¹,
     (Subgroup.mem_normalizer_iff.mp (H.M_le_normalizer_P (hXM x.2)) y).mp y.2⟩
   have hΘcj : ∀ (x : ↥X) (y : ↥P), Θ (cj x y) = x • Θ y ∧ kp (cj x y) = kp y := by
     intro x y
-    have := E.Theta_conj H hb' S hΘ (hXb' x x.2) (hXB x x.2) (hXL₀ x.2) (y := y) (y₁ := cj x y) rfl
+    have := CFSG.RankThree.GF2n.Tim78.EndgameData.Theta_conj hb' S hΘ (hXb' x x.2) (hXB x x.2) (hXL₀ x.2) (y := y) (y₁ := cj x y) rfl
     exact ⟨Subtype.ext this.1, Subtype.ext this.2⟩
   have hD : ∀ y y' : ↥P, ⁅(y : G), ⁅b', (y' : G)⁆⁆ ∈ B := fun y y' =>
     E.D_mem H hb' (H.P_le_Q y.2) (H.P_le_Q y'.2)

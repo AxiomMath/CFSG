@@ -22,7 +22,7 @@ private theorem card_le_243_of_fixed_twelve
     (hF12 : Nat.card (sylowFixedPoints X P s S) = 12) : Nat.card S ≤ 243 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : Nat.card (fixedPoints Q X) = 12 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF12

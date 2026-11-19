@@ -620,7 +620,7 @@ theorem autL_sound (hcard : Nat.card ↥Lbar = 960) (α : ↥Lbar ≃* ↥Lbar)
     rw [Subgroup.closure_le]
     intro z hz
     change α z = z
-    simp only [gsL, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hz
+    simp only [gsL, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hz
     rcases hz with rfl | rfl | rfl | rfl
     · exact hα _ fA_mem
     · exact hα _ fB_mem

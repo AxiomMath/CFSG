@@ -79,7 +79,7 @@ private theorem exists_involution_lift (h : Setting24 ι a) {x : G} (hxP : x ∈
       _ = coordElt ι (y + g y + s) := by rw [← coordElt_add, ← coordElt_add]
       _ = 1 := by rw [hysum, v6_add_self, coordElt_zero]
 
-private theorem coordElt_mem_closure (h : Setting24 ι a) {e u w : G}
+private theorem coordElt_mem_closure (_h : Setting24 ι a) {e u w : G}
     (he : e = coordElt ι tv) (huind : Induces ι u uV) (hwind : Induces ι w wV) :
     ∀ v ∈ Fix3, coordElt ι v ∈ Subgroup.closure ({e, u, w} : Set G) := by
   intro v hv
@@ -104,7 +104,7 @@ private theorem coordElt_mem_closure (h : Setting24 ι a) {e u w : G}
     (pow_mem hmem2 _)) (pow_mem hmem3 _)
 
 private theorem P24_le_closure (h : Setting24 ι a) {e u w : G}
-    (he : e = coordElt ι tv) (huind : Induces ι u uV) (hwind : Induces ι w wV)
+    (_he : e = coordElt ι tv) (huind : Induces ι u uV) (hwind : Induces ι w wV)
     (huP : u ∈ P24 ι a) (hwP : w ∈ P24 ι a)
     (hcoord : ∀ v ∈ Fix3, coordElt ι v ∈ Subgroup.closure ({e, u, w} : Set G)) :
     P24 ι a ≤ Subgroup.closure ({e, u, w} : Set G) := by
@@ -198,7 +198,7 @@ theorem isA8Type_P24 (h : Setting24 ι a) : IsA8Type ↥(P24 ι a) := by
         = (u1 * u1) * (w1 * u1 * w1 * u1⁻¹) := by group
       _ = w1 * u1 * w1 * u1 := by rw [hu1_sq, one_mul, hu1inv]
       _ = (u1 * w1 * u1 * w1)⁻¹ := by
-            simp only [mul_inv_rev, inv_inv, hu1inv, hw1inv]
+            simp only [mul_inv_rev, hu1inv, hw1inv]
             group
       _ = u1 * w1 * u1 * w1 := inv_eq_of_mul_eq_one_left hκsq
   have hwk : w1 * κ * w1⁻¹ = κ := by
@@ -207,7 +207,7 @@ theorem isA8Type_P24 (h : Setting24 ι a) : IsA8Type ↥(P24 ι a) := by
         = (w1 * u1 * w1 * u1) * (w1 * w1⁻¹) := by group
       _ = w1 * u1 * w1 * u1 := by rw [mul_inv_cancel, mul_one]
       _ = (u1 * w1 * u1 * w1)⁻¹ := by
-            simp only [mul_inv_rev, inv_inv, hu1inv, hw1inv]
+            simp only [mul_inv_rev, hu1inv, hw1inv]
             group
       _ = u1 * w1 * u1 * w1 := inv_eq_of_mul_eq_one_left hκsq
   have huVr : uV r = r := by

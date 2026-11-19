@@ -61,7 +61,7 @@ private theorem isComponentIn_map_iff' {A M : Type} [Group A] [Group M] (f : A �
     exact CFSG.LocalCores.isComponent_map_mulEquiv e h.2
 
 theorem Sec4FDCover.exists_component_of_component [Finite G] [Finite Pr]
-    (h : Sec4FDCover L s X y ρ) {v : G} (hvL : v ∈ L) (hvs : v * s = s * v) (hvv : v * v = 1)
+    (h : Sec4FDCover L s X y ρ) {v : G} (hvL : v ∈ L) (_hvs : v * s = s * v) (hvv : v * v = 1)
     {K : Subgroup Pr}
     (hK : IsComponentIn K (X ⊓ centralizer ({y} : Set Pr) ⊓
       centralizer ({((ρ ⟨v, hvL⟩ : ↥X) : Pr)} : Set Pr)))
@@ -161,8 +161,8 @@ theorem Sec4FDCover.exists_component_of_component [Finite G] [Finite Pr]
       exact Subgroup.mem_center_iff.mp hnc (f m)
     · exact h.cover.odd_card_ker.of_dvd_nat
         (Subgroup.card_comap_dvd_of_injective (ρ.ker) f hf_inj)
-  haveI : Finite ↥Y₂ := Subtype.finite
-  haveI : Finite ↥Z := Subtype.finite
+  have : Finite ↥Y₂ := Subtype.finite
+  have : Finite ↥Z := Subtype.finite
   have htopZ : ((⊤ : Subgroup ↥Z).map Z.subtype) = Z := by
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
   have hK₁ : IsComponentIn (K.subgroupOf Z) ⊤ := by

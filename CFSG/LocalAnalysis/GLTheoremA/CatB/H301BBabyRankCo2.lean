@@ -27,8 +27,8 @@ section Co2
 
 theorem card_le_co2_three (E : Subgroup NativeSporadic.Co2) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite NativeSporadic.Co2 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite NativeSporadic.Co2 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co2.card_Co2]; norm_num)
   by_contra hlt
   rw [not_le] at hlt

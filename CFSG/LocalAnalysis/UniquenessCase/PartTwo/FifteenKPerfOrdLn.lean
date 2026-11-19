@@ -54,8 +54,8 @@ theorem s15k_pord_ln {X : Type} [Group X] {n : ℕ} (hn : 3 ≤ n) (h : IsLn X n
   have hsc := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero hn0 h
   rw [CFSG.Open.StatedClassicalModel] at hsc
   obtain ⟨-, K, hfield, hfin, hK, ⟨e⟩⟩ := hsc
-  letI : Field K := hfield
-  letI : Finite K := hfin
+  let : Field K := hfield
+  let : Finite K := hfin
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hcard : Nat.card X = Nat.card (StatedSL n K) := s15k_pord_ln_card_eq hK2 e
   refine ⟨?_, ?_, ?_⟩
@@ -64,8 +64,8 @@ theorem s15k_pord_ln {X : Type} [Group X] {n : ℕ} (hn : 3 ≤ n) (h : IsLn X n
   · intro hn4
     rw [hcard, hn4, CFSG.Open.StatedAPI.card_statedSL_four_of_card_eq_two hK2]
   · intro h5
-    haveI : NeZero n := ⟨hn0⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : NeZero n := ⟨hn0⟩
+    have : Fintype K := Fintype.ofFinite K
     have hq : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK2
     rw [hcard, CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, hq,
       show (2 : ℕ) - 1 = 1 by norm_num, Nat.div_one]

@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16c11_big_coord_fix_iff {X K L₀ : Subgroup (MulAut W)} {J₀ : Subgroup W}
     (ψ : W ≃* ↥(s16c2m_Triples ↥J₀))
     (h2 : ∀ g ∈ X, (∀ k ∈ K, g * k = k * g) → ∀ (w : W) (i : Fin 3),
@@ -31,6 +32,7 @@ private theorem s16c11_big_coord_fix_iff {X K L₀ : Subgroup (MulAut W)} {J₀ 
     apply Subtype.ext
     exact (h2 φ hφX hφK w i).trans (hw i)
 
+omit [Finite W] in
 private theorem s16c11_big_coord_mem_fixV_iff {X K L₀ H : Subgroup (MulAut W)}
     {J₀ : Subgroup W}
     (ψ : W ≃* ↥(s16c2m_Triples ↥J₀))

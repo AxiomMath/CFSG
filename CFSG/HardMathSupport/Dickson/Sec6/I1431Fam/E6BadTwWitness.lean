@@ -21,7 +21,7 @@ variable {K : Type} [Field K]
 
 theorem exists_unit_orderOf_three [Finite K] (h3 : 3 ∣ Nat.card K - 1) :
     ∃ ζ : Kˣ, orderOf ζ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : 3 ∣ Nat.card Kˣ := by rw [Nat.card_units]; exact h3
   exact exists_prime_orderOf_dvd_card' 3 this
 
@@ -335,7 +335,7 @@ theorem witness_of_involution {P S : Type*} [Group P] [Group S] (iso : P →* S)
 
 theorem uOdd_apply (a : Fin Tag.E6.rank) :
     uOdd K a = if (a = nd 0 ∨ a = nd 3 ∨ a = nd 5) then -1 else 1 := by
-  fin_cases a <;> simp [uOdd, Pi.mulSingle_apply, Fin.ext_iff]
+  fin_cases a <;> simp [uOdd, Fin.ext_iff]
 
 theorem uOdd_sq : uOdd K ^ 2 = 1 := by
   funext a
@@ -349,8 +349,8 @@ theorem uOdd_rho (a : Fin Tag.E6.rank) : uOdd K (rhoPerm a) = uOdd K a := by
     decide
   rw [uOdd_apply, uOdd_apply]
   by_cases hc : a = nd 0 ∨ a = nd 3 ∨ a = nd 5
-  · rw [if_pos hc, if_pos (h.2 hc)]
-  · rw [if_neg hc, if_neg (fun h' => hc (h.1 h'))]
+  · rw [ite_eq_left hc, ite_eq_left (h.2 hc)]
+  · rw [ite_eq_right hc, ite_eq_right (fun h' => hc (h.1 h'))]
 
 theorem uOdd_isSymU (θ : K →+* K) : IsSymU θ (uOdd K) := fun a => by
   rw [uOdd_rho, uOdd_apply]
@@ -496,7 +496,7 @@ theorem card_multiplicative_fin_five :
     Nat.card (Multiplicative (Fin 5 → ZMod 3)) = 3 ^ 5 := by
   rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 5 → ZMod 3) ≃ _)]
   rw [Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 theorem tw_exists_torus_witness [Finite K] (θ : K →+* K) (hθ : ∀ c, θ (θ c) = c)
     (hK : 4 ≤ Nat.card K) {q : ℕ} (hKq : Nat.card K = q ^ 2) (hθq : ∀ c, θ c = c ^ q)

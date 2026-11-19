@@ -176,7 +176,7 @@ theorem ggTPNRankB_atL (hc : GGConfig p B Bs x L D J)
           rw [Nat.card_zpowers, horder_xL]
         rw [← h1]
         exact Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hxL_center)
-      rw [if_pos hdiv]
+      rw [ite_eq_left hdiv]
       have hle := le_twoLocalRank_of_normalizes hp hPGne hPG2 hEGel hEG_le_N hEGcard
       omega
     ·
@@ -191,8 +191,8 @@ theorem ggTPNRankB_atL (hc : GGConfig p B Bs x L D J)
       have hle := le_twoLocalRank_of_normalizes hp hPGne hPG2 hEGx_el hEGx_le_N
         (k := r + 1) hEGx_card
       by_cases hZ : p ∣ Nat.card (Subgroup.center ↥L)
-      · rw [if_pos hZ]; omega
-      · rw [if_neg hZ]; omega
+      · rw [ite_eq_left hZ]; omega
+      · rw [ite_eq_right hZ]; omega
   refine ⟨m, hm, ?_⟩
   exact hrankL.trans (Nat.add_le_add_right hm_le _)
 

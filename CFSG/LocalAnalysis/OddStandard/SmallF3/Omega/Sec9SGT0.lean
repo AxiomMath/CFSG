@@ -22,7 +22,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G]
 
 theorem sec9g_commute_of_commutator_central [Finite G] {L : Subgroup G} (hL : IsOm6M L) {s b : G}
-    (hs : s ∈ normalizer (L : Set G)) (hb : b ∈ L) (hb2 : b * b = 1)
+    (_hs : s ∈ normalizer (L : Set G)) (hb : b ∈ L) (hb2 : b * b = 1)
     (hc : s * b * s⁻¹ * b⁻¹ ∈ centerIn L) : s * b = b * s := by
   set c : G := s * b * s⁻¹ * b⁻¹ with hcdef
   have hcomm : ∀ k ∈ L, c * k = k * c := ((sec4_mem_centerIn_iff c).mp hc).2

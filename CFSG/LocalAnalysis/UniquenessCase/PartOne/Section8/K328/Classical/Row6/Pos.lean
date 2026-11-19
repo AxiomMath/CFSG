@@ -53,8 +53,8 @@ private theorem k328r6p_block_of_commute (F : Type) [Field F] (ω : F) (hω : ω
   have e1 := congrFun (congrFun hg i) 3
   have e2 := congrFun (congrFun hg 3) i
   rw [hz, k328r6p_zmat, Matrix.mul_diagonal, Matrix.diagonal_mul] at e1 e2
-  simp only [if_true] at e1 e2
-  rw [if_neg hi] at e1 e2
+  simp only [ite_true] at e1 e2
+  rw [ite_eq_right hi] at e1 e2
   constructor
   · have h : (g : Matrix (Fin 4) (Fin 4) F) i 3 = ω * (g : Matrix (Fin 4) (Fin 4) F) i 3 := by
       simpa using e1

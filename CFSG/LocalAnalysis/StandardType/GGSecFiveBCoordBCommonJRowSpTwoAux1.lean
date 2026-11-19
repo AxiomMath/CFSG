@@ -23,8 +23,8 @@ private lemma zmodPowHom_injective_of_order {G : Type} [Group G] {p : ℕ} [NeZe
 theorem ggCommonJSpTwo_exists_torus {K : Type} [Field K] [Finite K] [CharP K 2] :
     ∃ ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K,
       Function.Injective ζ ∧ (∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹) ∧ SpPlaneConj K 3 ζ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hpF : (3 : K) ≠ 0 := natCast_ne_zero_of_two_eq_zero h2 (by norm_num) (by norm_num)
   rcases OrthTorus.three_dvd_card_sub_or_add (K := K) with hsplit | hnon
@@ -49,7 +49,7 @@ theorem ggCommonJSpTwo_exists_torus {K : Type} [Field K] [Finite K] [CharP K 2] 
       intro h
       have h00 := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
         (x : Matrix (Fin 2) (Fin 2) K) 0 0) h
-      simpa [coe_spCompanion] using h00
+      simp [coe_spCompanion] at h00
     have hto : orderOf (spCompanion t) = 3 := orderOf_eq_prime ht htne
     exact ⟨spPlaneZetaCompanion (p := 3) t ht,
       zmodPowHom_injective_of_order ht hto,

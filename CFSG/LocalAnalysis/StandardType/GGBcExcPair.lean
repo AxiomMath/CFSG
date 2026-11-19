@@ -156,7 +156,7 @@ private theorem bcxp_orbit_F4_eq {p n d : ℕ} {D : GGKacDatum} {o : GGKacOrbit}
         have h := ggKacShVecs_sum (k0DiagOf .F4).marks p s hs
         change (∑ i : Fin 5, [1, 2, 3, 4, 2].getD (i : ℕ) 0 * s.getD (i : ℕ) 0) = p at h
         rw [Fin.sum_univ_five] at h
-        simp only [Fin.val_ofNat, Nat.reduceMod, Fin.val_zero, Fin.val_one] at h
+        simp only [Fin.val_zero, Fin.val_one] at h
         norm_num at h
         rw [List.getD_eq_getElem?_getD] at hs0 hs1 hs2 hs3
         rw [List.getD_eq_getElem?_getD]
@@ -259,10 +259,10 @@ theorem ggBcExcPairRK_holds
     have hraw0 := ggKacSh_mem_rawDatums hDmem hbranch
     by_cases h1 : p ∣ 2 ^ labX.n - 1
     · have hraw1 : D ∈ k0RawDatums (k0DiagOf .E6) false p labX.n 1 := by
-        simpa only [if_pos h1] using hraw0
+        simpa only [ite_eq_left h1] using hraw0
       exact False.elim (hcontra hraw1 bcxpTypeCheck_E6_false_1)
     · have hraw2 : D ∈ k0RawDatums (k0DiagOf .E6) false p labX.n 2 := by
-        simpa only [if_neg h1] using hraw0
+        simpa only [ite_eq_right h1] using hraw0
       exact False.elim (hcontra hraw2 bcxpTypeCheck_E6_false_2)
   ·
     have hty' : ggKacTypeOfLabel labX = some (.E6, true) := by
@@ -274,10 +274,10 @@ theorem ggBcExcPairRK_holds
     have hraw0 := ggKacSh_mem_rawDatums hDmem hbranch
     by_cases h1 : p ∣ 2 ^ labX.n - 1
     · have hraw1 : D ∈ k0RawDatums (k0DiagOf .E6) true p labX.n 1 := by
-        simpa only [if_pos h1] using hraw0
+        simpa only [ite_eq_left h1] using hraw0
       exact False.elim (hcontra hraw1 bcxpTypeCheck_E6_true_1)
     · have hraw2 : D ∈ k0RawDatums (k0DiagOf .E6) true p labX.n 2 := by
-        simpa only [if_neg h1] using hraw0
+        simpa only [ite_eq_right h1] using hraw0
       exact False.elim (hcontra hraw2 bcxpTypeCheck_E6_true_2)
   ·
     have hty' : ggKacTypeOfLabel labX = some (.E7, false) := by
@@ -289,10 +289,10 @@ theorem ggBcExcPairRK_holds
     have hraw0 := ggKacSh_mem_rawDatums hDmem hbranch
     by_cases h1 : p ∣ 2 ^ labX.n - 1
     · have hraw1 : D ∈ k0RawDatums (k0DiagOf .E7) false p labX.n 1 := by
-        simpa only [if_pos h1] using hraw0
+        simpa only [ite_eq_left h1] using hraw0
       exact False.elim (hcontra hraw1 bcxpTypeCheck_E7_1)
     · have hraw2 : D ∈ k0RawDatums (k0DiagOf .E7) false p labX.n 2 := by
-        simpa only [if_neg h1] using hraw0
+        simpa only [ite_eq_right h1] using hraw0
       exact False.elim (hcontra hraw2 bcxpTypeCheck_E7_2)
   ·
     have hty' : ggKacTypeOfLabel labX = some (.E8, false) := by
@@ -304,10 +304,10 @@ theorem ggBcExcPairRK_holds
     have hraw0 := ggKacSh_mem_rawDatums hDmem hbranch
     by_cases h1 : p ∣ 2 ^ labX.n - 1
     · have hraw1 : D ∈ k0RawDatums (k0DiagOf .E8) false p labX.n 1 := by
-        simpa only [if_pos h1] using hraw0
+        simpa only [ite_eq_left h1] using hraw0
       exact False.elim (hcontra hraw1 bcxpTypeCheck_E8_1)
     · have hraw2 : D ∈ k0RawDatums (k0DiagOf .E8) false p labX.n 2 := by
-        simpa only [if_neg h1] using hraw0
+        simpa only [ite_eq_right h1] using hraw0
       exact False.elim (hcontra hraw2 bcxpTypeCheck_E8_2)
   ·
     have hty' : ggKacTypeOfLabel labX = some (.F4, false) := by
@@ -319,13 +319,13 @@ theorem ggBcExcPairRK_holds
     have hraw0 := ggKacSh_mem_rawDatums hDmem hbranch
     by_cases h1 : p ∣ 2 ^ labX.n - 1
     · have hraw1 : D ∈ k0RawDatums (k0DiagOf .F4) false p labX.n 1 := by
-        simpa only [if_pos h1] using hraw0
+        simpa only [ite_eq_left h1] using hraw0
       have hoC3 := bcxp_orbit_F4_eq hp hp2 (Or.inl rfl) hraw1 ho hBCo h3o
       have hiso' := hiso
       rw [hoC3] at hiso'
       exact ⟨labJ, labX, hΛJ, hΛX, bcxp_row_F4 hΛX htag hiso' hbranch, hhJ, hhX⟩
     · have hraw2 : D ∈ k0RawDatums (k0DiagOf .F4) false p labX.n 2 := by
-        simpa only [if_neg h1] using hraw0
+        simpa only [ite_eq_right h1] using hraw0
       have hoC3 := bcxp_orbit_F4_eq hp hp2 (Or.inr rfl) hraw2 ho hBCo h3o
       have hiso' := hiso
       rw [hoC3] at hiso'

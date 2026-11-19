@@ -50,7 +50,7 @@ theorem central_odd_quotient_invariant_subgroup_sylow [Finite K]
   obtain ⟨Q, hQnorm⟩ := odd_central_quotient_invariant_odd_sylow_exists
     p hp hodd (⊤ : Subgroup B) J t ht hJodd le_top hJcentral
   let W : Subgroup B := (Q : Subgroup (⊤ : Subgroup B)).map (⊤ : Subgroup B).subtype
-  have hWp : IsPGroup p W := Q.isPGroup'.map _
+  have hWp : IsPGroup p W := Q.isPGroup.map _
   have hWindex : ¬ p ∣ W.index := by
     rw [Subgroup.index_map_subtype, Subgroup.index_top, mul_one]
     exact Q.not_dvd_index

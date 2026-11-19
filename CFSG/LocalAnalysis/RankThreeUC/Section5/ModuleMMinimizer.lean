@@ -16,14 +16,14 @@ theorem exists_involution_in_sylow_attaining_moduleM {G : Type} [Group G] [Finit
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] (ρ : Representation (ZMod 2) G V)
     (T : Subgroup G) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) (hev : Even (Nat.card G)) :
     ∃ t ∈ T, orderOf t = 2 ∧ commRank ρ t = moduleM ρ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card G := even_iff_two_dvd.mp hev
   obtain ⟨t0, ht0⟩ := exists_prime_orderOf_dvd_card' (G := G) 2 h2
   have hne : (involutionDisplacements ρ).Nonempty :=
     ⟨_, t0, ht0, rfl⟩
   obtain ⟨t1, ht1, hval⟩ := Nat.sInf_mem hne
   have hM : moduleM ρ = sInf (involutionDisplacements ρ) := by
-    unfold moduleM; rw [if_pos hev]
+    unfold moduleM; rw [ite_eq_left hev]
   have hS : Nat.card T = 2 ^ (Nat.card G).factorization 2 := by
     have := hT.card_eq
     simpa [Subgroup.card_top] using this

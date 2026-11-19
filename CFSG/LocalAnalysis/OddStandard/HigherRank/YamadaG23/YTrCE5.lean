@@ -27,7 +27,6 @@ theorem lf18_5d_of (hS : HRSetting G L) (hZ : Nat.card ↥(center ↥L) ∣ 3)
   have hAF : s.fr.A ≤ normIn L s.fr.F := by
     refine le_inf hAL ?_
     intro a ha
-    change a ∈ Subgroup.normalizer (s.fr.F : Set G)
     rw [Subgroup.mem_normalizer_iff]
     intro f
     constructor

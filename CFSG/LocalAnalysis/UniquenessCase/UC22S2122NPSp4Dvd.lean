@@ -78,7 +78,7 @@ private theorem uc22s2122np_quot_pgroup {L S V W : Subgroup G} {a s : ℕ}
     (hs : s.Prime) (hs2 : s ≠ 2) {b : G} (hbNL : b ∈ normalizer (L : Set G))
     (hbS : b ∈ normalizer (S : Set G)) (hbs : b ^ s = 1) (hW : W = V ⊔ zpowers b)
     [hSnorm : (S.subgroupOf W).Normal] : IsPGroup s (↥W ⧸ S.subgroupOf W) := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   rw [IsPGroup.iff_orderOf]
   intro x
   obtain ⟨w, rfl⟩ := QuotientGroup.mk'_surjective (S.subgroupOf W) x
@@ -104,12 +104,12 @@ private theorem uc22s2122np_quot_pgroup {L S V W : Subgroup G} {a s : ℕ}
 
 private theorem uc22s2122np_sylow_top {S W : Subgroup G}
     [hSnorm : (S.subgroupOf W).Normal] {s : ℕ} (hs : s.Prime) (hSW : S ≤ W)
-    (hWN : W ≤ normalizer (S : Set G))
+    (_hWN : W ≤ normalizer (S : Set G))
     (hquot : IsPGroup s (↥W ⧸ S.subgroupOf W)) {b : G} (hbW : b ∈ W)
     (hbs : orderOf b = s) :
     ∃ F : Subgroup G, F ≤ W ∧ b ∈ F ∧ IsSylowOf s F W ∧ W = S ⊔ F := by
   classical
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   let q : ↥W →* ↥W ⧸ S.subgroupOf W := QuotientGroup.mk' (S.subgroupOf W)
   have himage : IsPGroup s ↥((⊤ : Subgroup ↥W).map q) := by
     have htop : ((⊤ : Subgroup ↥W).map q : Subgroup (↥W ⧸ S.subgroupOf W)) = ⊤ := by
@@ -155,6 +155,7 @@ private theorem uc22s2122np_exists_sylow {S W : Subgroup G}
     exact Subgroup.coe_mul_of_left_le_normalizer_right F S (hFle.trans hWN)
   exact ⟨F, hFle, hbF, hFsyl, hWF, hFS⟩
 
+omit [Finite G] in
 private theorem uc22s2122np_W_comm {V T W : Subgroup G} {b : G}
     (hWdef : W = V ⊔ zpowers b) (hTV : T ≤ normalizer (V : Set G))
     (hbV : b ∈ normalizer (V : Set G)) (hbT : b ∈ normalizer (T : Set G)) :
@@ -181,6 +182,7 @@ private theorem uc22s2122np_W_comm {V T W : Subgroup G} {b : G}
         rw [hWdef, Subgroup.coe_mul_of_right_le_normalizer_left V (Subgroup.zpowers b)
           (Subgroup.zpowers_le.2 hbV)]
 
+omit [Finite G] in
 private theorem uc22s2122np_sylow_mul_comm {V S T F W : Subgroup G} {b : G}
     (hWdef : W = V ⊔ zpowers b) (hTV : T ≤ normalizer (V : Set G))
     (hbV : b ∈ normalizer (V : Set G)) (hbT : b ∈ normalizer (T : Set G))
@@ -205,62 +207,62 @@ private theorem uc22s2122np_sylow_mul_comm {V S T F W : Subgroup G} {b : G}
 private theorem uc22s2122np_sylow_inf_bot {L S W F : Subgroup G} {s : ℕ}
     (hS : IsSylowOf 2 S L) (hs : s.Prime) (hs2 : s ≠ 2) (hFsyl : IsSylowOf s F W) :
     F ⊓ S = ⊥ := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hFp : IsPGroup s F := hFsyl.isPGroup
   have hSp : IsPGroup 2 S := hS.isPGroup
   obtain ⟨k, hk⟩ := hFp.exists_card_eq
   obtain ⟨m, hm⟩ := hSp.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hk, hm]
   exact (Nat.Coprime.pow_left k ((Nat.coprime_primes hs Nat.prime_two).2 hs2)).pow_right m
 
-private theorem uc22s2122np_sylow_isElemAbelian {D : Data G} {L S V W F : Subgroup G} {a s : ℕ}
+private theorem uc22s2122np_sylow_isElemAbelian {_D : Data G} {L S V W _F : Subgroup G} {a s : ℕ}
     (hS : IsSylowOf 2 S L) (hV : V = uc22s2122npV L S s) (hX : IsSp4 (Bar2 L) a)
     (hs : s.Prime) (hs2 : s ≠ 2) {b : G} (hbNL : b ∈ normalizer (L : Set G))
     (hbS : b ∈ normalizer (S : Set G)) (hbs : b ^ s = 1) (hW : W = V ⊔ zpowers b)
-    {F : Subgroup G} (hFW : F ≤ W) (hFSbot : F ⊓ S = ⊥) :
-    CFSG.Open.IsElemAbelian s F := by
-  haveI : Fact s.Prime := ⟨hs⟩
+    {_F : Subgroup G} (hFW : _F ≤ W) (hFSbot : _F ⊓ S = ⊥) :
+    CFSG.Open.IsElemAbelian s _F := by
+  have : Fact s.Prime := ⟨hs⟩
   have hmod := uc22s2122npV_mod hS hX hs hs2 hbNL hbS hbs
-  have hFW' : ∀ x ∈ F, (x : G) ∈ uc22s2122npV L S s ⊔ zpowers b := by
+  have hFW' : ∀ x ∈ _F, (x : G) ∈ uc22s2122npV L S s ⊔ zpowers b := by
     intro x hx
     have h1 : (x : G) ∈ V ⊔ zpowers b := hW ▸ hFW hx
     simpa [hV] using h1
-  have hFcomm : IsMulCommutative F := by
+  have hFcomm : IsMulCommutative _F := by
     refine ⟨⟨fun x y => ?_⟩⟩
     apply Subtype.ext
     have hcS : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ S :=
       (hmod x (hFW' x x.2) y (hFW' y y.2)).1
-    have hcF : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ F :=
-      F.mul_mem (F.mul_mem (F.mul_mem x.2 y.2) (F.inv_mem x.2)) (F.inv_mem y.2)
+    have hcF : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ _F :=
+      _F.mul_mem (_F.mul_mem (_F.mul_mem x.2 y.2) (_F.inv_mem x.2)) (_F.inv_mem y.2)
     have hc1 : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ = 1 := by
-      have hmem : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ F ⊓ S := ⟨hcF, hcS⟩
+      have hmem : (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ _F ⊓ S := ⟨hcF, hcS⟩
       rw [hFSbot] at hmem
       exact Subgroup.mem_bot.1 hmem
     calc (x : G) * (y : G) = ((x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹) *
           ((y : G) * (x : G)) := by group
       _ = (y : G) * (x : G) := by rw [hc1, one_mul]
-  have hFexp : ∀ x ∈ F, x ^ s = 1 := by
+  have hFexp : ∀ x ∈ _F, x ^ s = 1 := by
     intro x hx
     have hpS : x ^ s ∈ S := (hmod x (hFW' x hx) x (hFW' x hx)).2
-    have hpF : x ^ s ∈ F := F.pow_mem hx s
-    have hmem : x ^ s ∈ F ⊓ S := ⟨hpF, hpS⟩
+    have hpF : x ^ s ∈ _F := _F.pow_mem hx s
+    have hmem : x ^ s ∈ _F ⊓ S := ⟨hpF, hpS⟩
     rw [hFSbot] at hmem
     exact Subgroup.mem_bot.1 hmem
   exact ⟨hFcomm, hFexp⟩
 
-private theorem uc22s2122np_sylow_elem {D : Data G} {L S V W F : Subgroup G} {a s : ℕ}
+private theorem uc22s2122np_sylow_elem {D : Data G} {L S V W _F : Subgroup G} {a s : ℕ}
     (hS : IsSylowOf 2 S L) (hV : V = uc22s2122npV L S s) (hX : IsSp4 (Bar2 L) a)
     (hs : s.Prime) (hs2 : s ≠ 2) {b : G} (hbNL : b ∈ normalizer (L : Set G))
     (hbS : b ∈ normalizer (S : Set G)) (hbs : b ^ s = 1) (hW : W = V ⊔ zpowers b)
-    {F : Subgroup G} (hFW : F ≤ W) (hFsyl : IsSylowOf s F W) (hWM : W ≤ D.M)
+    {_F : Subgroup G} (hFW : _F ≤ W) (hFsyl : IsSylowOf s _F W) (hWM : W ≤ D.M)
     (hrk : CFSG.Open.pRank s D.M ≤ 2) :
-    CFSG.Open.IsElemAbelian s F ∧ Nat.card F ∣ s ^ 2 := by
-  haveI : Fact s.Prime := ⟨hs⟩
-  have hFSbot : F ⊓ S = ⊥ := uc22s2122np_sylow_inf_bot hS hs hs2 hFsyl
-  have hFelem := uc22s2122np_sylow_isElemAbelian (D := D) (F := F) hS hV hX hs hs2 hbNL hbS
+    CFSG.Open.IsElemAbelian s _F ∧ Nat.card _F ∣ s ^ 2 := by
+  have : Fact s.Prime := ⟨hs⟩
+  have hFSbot : _F ⊓ S = ⊥ := uc22s2122np_sylow_inf_bot hS hs hs2 hFsyl
+  have hFelem := uc22s2122np_sylow_isElemAbelian (_D := D) (_F := _F) hS hV hX hs hs2 hbNL hbS
     hbs hW hFW hFSbot
-  have hFM : F ≤ D.M := hFW.trans hWM
+  have hFM : _F ≤ D.M := hFW.trans hWM
   obtain ⟨k, hk⟩ := hFsyl.isPGroup.exists_card_eq
   have hk2 : k ≤ 2 := (CFSG.SectionRank.le_pRank hs.one_lt hFM hFelem hk).trans hrk
   refine ⟨hFelem, ?_⟩
@@ -272,7 +274,7 @@ private theorem uc22s2122np_conj_X {D : Data G} {W F X : Subgroup G} {s : ℕ}
     (hXU : X ∈ uniqueSet D.M) (hWM : W ≤ D.M) :
     ∃ X' : Subgroup G, X' ≤ F ∧ Nat.card X' = Nat.card X ∧ X' ∈ uniqueSet D.M := by
   classical
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   obtain ⟨w, hwW, hwX⟩ := UC6.exists_conj_le_of_isSylowOf hFsyl hXW hXp
   refine ⟨X.map (MulAut.conj w⁻¹).toMonoidHom, ?_, ?_, ?_⟩
   · rintro x ⟨y, hy, rfl⟩
@@ -281,6 +283,7 @@ private theorem uc22s2122np_conj_X {D : Data G} {W F X : Subgroup G} {s : ℕ}
   · exact (CFSG.LocalAnalysis.RankThreeUC.ProofSupport.Y2ConjugationInvariance.mem_uniqueSet_map_iff
       (D.M.inv_mem (hWM hwW)) X).mpr hXU
 
+omit [Finite G] in
 private theorem uc22s2122np_X_pgroup_le {L S V X : Subgroup G} {s : ℕ}
     (hV : V = uc22s2122npV L S s) (hXcard : Nat.card X = s)
     (hXle : X ≤ L ⊓ normalizer (S : Set G)) :
@@ -310,13 +313,13 @@ theorem uc22s2122np_false_of_dvd {D : Data G} {Ch : Choice2011 G}
     (hbT : b ∈ normalizer (D.T : Set G)) {s : ℕ} (hs : s.Prime) (hbs : orderOf b = s)
     (hsa : s ∣ 2 ^ a - 1) : False := by
   classical
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hs2 : s ≠ 2 := uc22p218c_ne_two_of_dvd (by obtain ⟨k, rfl⟩ := ha; omega) hsa
   have hbs' : b ^ s = 1 := hbs ▸ pow_orderOf_eq_one b
   have hML : D.M ≤ normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hL.1.le).1 hLN
   obtain ⟨d⟩ := uc22s2122np_setup_exists (s := s) hL hLN hbB0 hbT
-  letI : (d.S.subgroupOf d.W).Normal := d.hSnorm
+  let : (d.S.subgroupOf d.W).Normal := d.hSnorm
   have hquot := uc22s2122np_quot_pgroup d.hS d.hV hX hs hs2 d.hbNL d.hbS hbs' d.hW
   have hbW : b ∈ d.W := d.hW ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers b)
   obtain ⟨F, hFW, hbF, hFsyl, hWF, hFS⟩ :=
@@ -324,7 +327,7 @@ theorem uc22s2122np_false_of_dvd {D : Data G} {Ch : Choice2011 G}
   have hFT := uc22s2122np_sylow_mul_comm d.hW d.hTV d.hbV hbT d.hST hWF hFS
   have hrk : CFSG.Open.pRank s D.M ≤ 2 :=
     uc22s2122np_pRank_le_two hSg h211 h1930 c hσ hL hML hX ha hs hsa
-  obtain ⟨hFelem, hFdvd⟩ := uc22s2122np_sylow_elem (F := F) d.hS d.hV hX hs hs2
+  obtain ⟨hFelem, hFdvd⟩ := uc22s2122np_sylow_elem (_F := F) d.hS d.hV hX hs hs2
     d.hbNL d.hbS hbs' d.hW hFW hFsyl d.hWM hrk
   obtain ⟨X, hXcard, hXle, hXU⟩ := h218UR h1930 c L hL a ha hX s hs hsa
   have hXle' : X ≤ L ⊓ normalizer (d.S : Set G) := by

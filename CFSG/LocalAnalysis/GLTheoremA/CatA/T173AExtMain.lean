@@ -29,7 +29,7 @@ theorem ext_quot_model {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} {S : Subgrou
     (hqs : CFSG.Open.IsQuasisimple ↥S) {t : StatedLieTag} {n q f : ℕ}
     (h : StatedClassicalModel (PSimple p S) t n q f) :
     StatedClassicalModel (↥S ⧸ Subgroup.center ↥S) t n q f := by
-  haveI : Nontrivial (PSimple p S) :=
+  have : Nontrivial (PSimple p S) :=
     (CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h).toNontrivial
   obtain ⟨e⟩ := CFSG.LocalAnalysis.GLTheoremA.HSubT.psimple_nonempty_equiv_quotCenter p S hqs
     inferInstance
@@ -76,7 +76,7 @@ theorem t173AExtract_of_inputs (hRig : CFSG.StandardType.GGLabelRigidInput)
     exact Or.inr (ext_uni_data hlab (ext_tag_of_iso_twA hiso) hrank hraw')
   ·
     exfalso
-    haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hqs.2
+    have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hqs.2
     have hMZ := ext_quot_model hqs hM
     have hiso := hRig lab ⟨.G2der, 0, 1⟩ _ hlab ⟨le_rfl, rfl, rfl⟩ hHasLab (ext_u33_label hperf hMZ)
     have hlab_eq := ext_label_of_iso_g2der hiso

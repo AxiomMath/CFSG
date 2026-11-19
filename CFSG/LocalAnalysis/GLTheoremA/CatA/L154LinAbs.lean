@@ -67,7 +67,7 @@ theorem l154_exists_pSimple_equiv {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     (hJ : GLAPComponent p X J) {R : Type} [Group R] (hR : IsSimpleGroup R) (Θ : ↥J →* R)
     (hsurj : Function.Surjective Θ) (hker : Θ.ker ≤ Subgroup.center ↥J) :
     ∃ e : PSimple p J ≃* R, ∀ l : ↥J, e (QuotientGroup.mk (QuotientGroup.mk l)) = Θ l := by
-  haveI := hR
+  have := hR
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hJ
   let π₁ : ↥J →* PSimple p J :=
     (QuotientGroup.mk' (Subgroup.center (PQuot p J))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥J))

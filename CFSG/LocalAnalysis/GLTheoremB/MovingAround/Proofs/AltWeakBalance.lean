@@ -53,6 +53,7 @@ variable {α : Type*} [Fintype α] [DecidableEq α]
       calc u⁻¹ x = (σ ^ ((orderOf σ - 1) * k) * σ ^ k) (u⁻¹ x) := by rw [h2]; rfl
         _ = (σ ^ ((orderOf σ - 1) * k)) x := by rw [Perm.mul_apply, h1]
 
+omit [DecidableEq α] in
 theorem pow_apply_of_mem_orbSub {σ u : Perm α} (hu : u ∈ orbSub σ) {x : α} {k : ℕ}
     (hk : u x = (σ ^ k) x) : ∀ m : ℕ, (u ^ m) x = (σ ^ (m * k)) x
   | 0 => by simp
@@ -63,12 +64,14 @@ theorem pow_apply_of_mem_orbSub {σ u : Perm α} (hu : u ∈ orbSub σ) {x : α}
     congr 2
     ring
 
+omit [DecidableEq α] in
 theorem pow_eq_one_of_mem_orbSub {p : ℕ} {σ u : Perm α} (hσ : σ ^ p = 1) (hu : u ∈ orbSub σ) :
     u ^ p = 1 := by
   ext x
   obtain ⟨k, hk⟩ := hu.2 x
   rw [pow_apply_of_mem_orbSub hu hk p, pow_mul, hσ, one_pow]
 
+omit [DecidableEq α] in
 theorem conj_mem_orbSub {σ c u : Perm α} (hc : c * σ = σ * c) (hu : u ∈ orbSub σ) :
     c * u * c⁻¹ ∈ orbSub σ := by
   refine ⟨?_, fun x => ?_⟩
@@ -86,11 +89,11 @@ theorem cycleOf_mem_orbSub (σ : Perm α) (x : α) : σ.cycleOf x ∈ orbSub σ 
   · ext y
     rw [Perm.mul_apply, Perm.mul_apply, Perm.cycleOf_apply, Perm.cycleOf_apply]
     by_cases h : σ.SameCycle x y
-    · rw [if_pos (Perm.sameCycle_apply_right.2 h), if_pos h]
-    · rw [if_neg (mt Perm.sameCycle_apply_right.1 h), if_neg h]
+    · rw [ite_eq_left (Perm.sameCycle_apply_right.2 h), ite_eq_left h]
+    · rw [ite_eq_right (mt Perm.sameCycle_apply_right.1 h), ite_eq_right h]
   · by_cases h : σ.SameCycle x y
-    · exact ⟨1, by rw [Perm.cycleOf_apply, if_pos h, pow_one]⟩
-    · exact ⟨0, by rw [Perm.cycleOf_apply, if_neg h, pow_zero]; rfl⟩
+    · exact ⟨1, by rw [Perm.cycleOf_apply, ite_eq_left h, pow_one]⟩
+    · exact ⟨0, by rw [Perm.cycleOf_apply, ite_eq_right h, pow_zero]; rfl⟩
 
 theorem sign_eq_one_of_pow_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {g : Perm α}
     (hg : g ^ p = 1) : Perm.sign g = 1 := by
@@ -235,13 +238,14 @@ theorem autPerm_symm_mem_innerAut (e : Y ≃* alternatingGroup (Fin n)) (h5 : 5 
 
 variable [Finite Y]
 
+omit [Finite Y] in
 theorem apply_eq_self_of_mem_pCoreOf (e : Y ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n ≠ 6)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {H : Subgroup (MulAut Y)} (hH : innerAut Y ≤ H)
     {d x : MulAut Y} (hd : d ^ p = 1)
     (hx : x ∈ pCoreOf 2 (H ⊓ Subgroup.centralizer ({d} : Set (MulAut Y)))) {y : Fin n}
     (hy : autPerm e h5 h6 d y ≠ y) : autPerm e h5 h6 x y = y := by
-  haveI : Finite (MulAut Y) := Finite.of_equiv _ (autPerm e h5 h6).symm.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut Y) := Finite.of_equiv _ (autPerm e h5 h6).symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Θ := autPerm e h5 h6 with hΘ
   set C : Subgroup (MulAut Y) := H ⊓ Subgroup.centralizer ({d} : Set (MulAut Y)) with hC
   have hP : IsPGroup 2 ↥(pCoreOf 2 C) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 C
@@ -281,6 +285,7 @@ theorem apply_eq_self_of_mem_pCoreOf (e : Y ≃* alternatingGroup (Fin n)) (h5 :
     rw [map_commutatorElement, MulEquiv.apply_symm_apply]
   rw [h2, ← map_pow, h1, map_one]
 
+omit [Finite Y] in
 theorem comm_of_mem_pCoreOf (e : Y ≃* alternatingGroup (Fin n)) (h5 : 5 ≤ n) (h6 : n ≠ 6)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {H : Subgroup (MulAut Y)} (hH : innerAut Y ≤ H)
     {d b x : MulAut Y} (hd : d ^ p = 1) (hb : b ^ p = 1) (hbd : b * d = d * b)

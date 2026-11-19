@@ -219,7 +219,7 @@ theorem derivedSeries_two_le_ker_rhoW_of_mem_ker (S : Setting z E F) {a : G} {w 
     have hmem := Subgroup.mem_map_of_mem (residualProj (alphaInX S h hα)) hk
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hk1 hmem
-  haveI : ((rhoW S a (alphaInX S h hα)).ker.map (residualProj (alphaInX S h hα))).Normal :=
+  have : ((rhoW S a (alphaInX S h hα)).ker.map (residualProj (alphaInX S h hα))).Normal :=
     Subgroup.Normal.map (MonoidHom.normal_ker _) _ (residualProj_surjective _)
   have hNK' := commutator_le_of_normal hH.center hH.simple hNne
   have hG' := TransvectionSymplectic.commutator_le_sup_ker _ _ (residualProj_surjective _) hNK'

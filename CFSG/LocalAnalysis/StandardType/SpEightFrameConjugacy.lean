@@ -21,7 +21,7 @@ theorem frameMat_mulVec_expand (bas : Idx → Vec) (u : Vec) :
 theorem frameMat_single_eq_one :
     frameMat (fun i : Idx => Pi.single i 1) = (1 : Matrix Idx Idx (ZMod 2)) := by
   ext i j
-  simp only [frameMat, Matrix.of_apply, Matrix.one_apply, Pi.single_apply, eq_comm]
+  simp only [frameMat, Matrix.of_apply, Matrix.one_apply, Pi.single_apply]
 
 theorem omega_sum_left {ι : Type*} (s : Finset ι) (f : ι → Vec) (v : Vec) :
     omega (∑ i ∈ s, f i) v = ∑ i ∈ s, omega (f i) v := by

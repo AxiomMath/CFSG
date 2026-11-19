@@ -92,10 +92,10 @@ private theorem card_mulAut_alternating_eight (hn : 5 ≤ 8) :
 theorem kd264Amb_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264Amb p := by
   constructor
   · intro n hn hn568 hexcl D hD
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rcases hn568 with rfl | rfl | rfl
     · have hcard := card_mulAut_alternating_five hn
-      haveI : Finite (MulAut (TauCeti.CFSGIndex.alternating 5 hn).Group) :=
+      have : Finite (MulAut (TauCeti.CFSGIndex.alternating 5 hn).Group) :=
         Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
       have hdvd : Nat.card D ∣ 120 := by
         calc Nat.card D ∣ Nat.card (MulAut (TauCeti.CFSGIndex.alternating 5 hn).Group) :=
@@ -105,7 +105,7 @@ theorem kd264Amb_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264Amb p := 
         (CFSG.Open.IsElemAbelian.isPGroup hD) hdvd (not_sq_dvd_120 hp hp2)
     · have hcard := card_mulAut_alternating_six hn
       have hp3 : p ≠ 3 := fun h => hexcl ⟨h, Or.inl rfl⟩
-      haveI : Finite (MulAut (TauCeti.CFSGIndex.alternating 6 hn).Group) :=
+      have : Finite (MulAut (TauCeti.CFSGIndex.alternating 6 hn).Group) :=
         Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
       have hdvd : Nat.card D ∣ 1440 := by
         calc Nat.card D ∣ Nat.card (MulAut (TauCeti.CFSGIndex.alternating 6 hn).Group) :=
@@ -115,7 +115,7 @@ theorem kd264Amb_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264Amb p := 
         (CFSG.Open.IsElemAbelian.isPGroup hD) hdvd (not_sq_dvd_1440 hp hp2 hp3)
     · have hcard := card_mulAut_alternating_eight hn
       have hp3 : p ≠ 3 := fun h => hexcl ⟨h, Or.inr rfl⟩
-      haveI : Finite (MulAut (TauCeti.CFSGIndex.alternating 8 hn).Group) :=
+      have : Finite (MulAut (TauCeti.CFSGIndex.alternating 8 hn).Group) :=
         Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
       have hdvd : Nat.card D ∣ 40320 := by
         calc Nat.card D ∣ Nat.card (MulAut (TauCeti.CFSGIndex.alternating 8 hn).Group) :=
@@ -128,11 +128,11 @@ theorem kd264Amb_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264Amb p := 
     obtain ⟨d, hv⟩ := e
     obtain ⟨q, hq, hq7⟩ := he
     subst hq
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hcard : Nat.card (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) = 336 :=
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1116c.card_mulAut_L27 hq7
         (MulEquiv.refl _)
-    haveI : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) :=
+    have : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     have hdvd : Nat.card D ∣ 336 := by
       calc Nat.card D ∣ Nat.card (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) :=

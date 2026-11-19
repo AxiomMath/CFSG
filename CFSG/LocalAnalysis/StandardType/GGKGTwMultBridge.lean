@@ -20,8 +20,8 @@ theorem exists_mulEquiv_statedSU_of_lieModel_PSU_four {E : Type} [Group E] {f : 
       Nat.card K = (2 ^ f) ^ 2 ∧ Nonempty (E ≃* StatedSU 4 (2 ^ f) K) := by
   rcases hE with ⟨-, hadm, K, hKf, hKfin, hcard, ⟨e⟩⟩ | ⟨h4, -⟩ | ⟨h4, -⟩ | ⟨h4, -⟩
   · have hf : 1 ≤ f := hadm.2.1
-    haveI hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, by rw [hcard, ← pow_mul, mul_comm]⟩
-    haveI : CharP K 2 := hU.charP
+    have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, by rw [hcard, ← pow_mul, mul_comm]⟩
+    have : CharP K 2 := hU.charP
     have hscal := CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedSU_four_eq_bot
       (K := K) (2 ^ f)
     let ε : StatedProj (StatedSU 4 (2 ^ f) K) ≃* StatedSU 4 (2 ^ f) K :=
@@ -35,9 +35,9 @@ theorem kgMult_of_mulEquiv_statedSU_four
     (N : Type) [Group N] [Finite N] (π : N →* E) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center N) (hperf : commutator N = ⊤) :
     IsCyclic (Subgroup.center N) := by
-  haveI hU : UnitaryFieldData 2 f F := ⟨Nat.prime_two, hf, by rw [hF, ← pow_mul, mul_comm]⟩
-  haveI : Finite F := hU.finite
-  haveI : CharP F 2 := hU.charP
+  have hU : UnitaryFieldData 2 f F := ⟨Nat.prime_two, hf, by rw [hF, ← pow_mul, mul_comm]⟩
+  have : Finite F := hU.finite
+  have : CharP F 2 := hU.charP
   obtain ⟨e⟩ := he
   have hπ' : Function.Surjective (e.toMonoidHom.comp π) := e.surjective.comp hπ
   have hker' : (e.toMonoidHom.comp π).ker = π.ker :=

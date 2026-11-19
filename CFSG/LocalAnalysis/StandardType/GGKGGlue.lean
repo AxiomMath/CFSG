@@ -48,8 +48,7 @@ private theorem kgg_ne_one {L' R : Type} [Group L'] [Group R]
 
 theorem ggPumpCLabelKnown_of_kgSimple
     (h : KGSimple) : GGPumpCLabelKnown := by
-  intro p hp hp2 lab hlab
-  intro Q hQ
+  intro p hp hp2 lab hlab Q hQ
   refine largeEvenRawDatum_mono (fun R _ I F hqP => ⟨hqP.1, ?_⟩) (ggTCJ_datum_marking hlab Q hQ)
   intro L' _ _ ψ hψ hker hperf e he1 hep hφe J k f hJ hk3 hlabJ
   let φ : MulAut R := hφe.choose
@@ -58,7 +57,7 @@ theorem ggPumpCLabelKnown_of_kgSimple
   have hna : ∃ a b : R, a * b ≠ b * a := by
     by_contra hnab
     push Not at hnab
-    haveI : IsMulCommutative R := isMulCommutative_iff.mpr hnab
+    have : IsMulCommutative R := isMulCommutative_iff.mpr hnab
     have hRcomm : commutator R = ⊥ := (commutator_eq_bot_iff R).mpr inferInstance
     have hmap : (commutator L').map ψ = ⊥ := by
       have h1 : (commutator L').map ψ = commutator R := by
@@ -76,18 +75,18 @@ theorem ggPumpCLabelKnown_of_kgSimple
       (commutator_eq_bot_iff L').mpr (isMulCommutative_iff.mpr fun a b =>
         (Subgroup.mem_center_iff.mp (hZtop.symm ▸ Subgroup.mem_top a) b).symm)
     have htopbot : (⊤ : Subgroup L') = ⊥ := by rw [← hperf, hcommL']
-    haveI : Subsingleton L' := ⟨fun a b => by
+    have : Subsingleton L' := ⟨fun a b => by
       have ha : a = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; exact Subgroup.mem_top a)
       have hb : b = 1 := Subgroup.mem_bot.mp (by rw [← htopbot]; exact Subgroup.mem_top b)
       rw [ha, hb]⟩
-    haveI : Subsingleton J := ⟨fun a b =>
+    have : Subsingleton J := ⟨fun a b =>
       Subtype.ext (Subsingleton.elim (a : L') (b : L'))⟩
-    haveI : Subsingleton (J ⧸ Subgroup.center J) := inferInstance
-    haveI : Nontrivial (J ⧸ Subgroup.center J) := hJ.2.2.2.toNontrivial
+    have : Subsingleton (J ⧸ Subgroup.center J) := inferInstance
+    have : Nontrivial (J ⧸ Subgroup.center J) := hJ.2.2.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (J ⧸ Subgroup.center J)
     exact hab (Subsingleton.elim a b)
-  haveI : Finite R := hqP.2.1
-  haveI : IsSimpleGroup R := (hqP.2.2 hna).1
+  have : Finite R := hqP.2.1
+  have : IsSimpleGroup R := (hqP.2.2 hna).1
   have hRinn : InnDiagKind R lab φ := (hqP.2.2 hna).2 φ hφI
   have hRcenter : Subgroup.center R = ⊥ := center_eq_bot_of_isSimpleGroup_of_nonabelian hna
   have hpow : ∀ n : ℕ, ∀ l : L', (φ ^ n) (ψ l) = ψ ((e ^ n) l) := by

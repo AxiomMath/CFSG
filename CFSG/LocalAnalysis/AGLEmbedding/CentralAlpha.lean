@@ -172,7 +172,7 @@ theorem centralizer_le_of_not_isCyclic (h : ReducedNongeneration p X R X₀) {K 
     (le_inf Subgroup.le_normalizer (by rw [Subgroup.normalizer_eq_top]; exact le_top)).trans
       Subgroup.inf_normalizer_le_normalizer_inf
   obtain ⟨V, hVRK, hRV, hVcard, hVp, hVab⟩ :=
-    CFSG.Goldschmidt.Sec82.exists_normal_plane_le_of_le hp h.ne_two R.isPGroup' inf_le_left hRN
+    CFSG.Goldschmidt.Sec82.exists_normal_plane_le_of_le hp h.ne_two R.isPGroup inf_le_left hRN
       hnc
   have hV : IsElemAbelian p V := ⟨⟨⟨fun x y => Subtype.ext (hVab x x.2 y y.2)⟩⟩, hVp⟩
   obtain ⟨A, hAR, hA, hAcard⟩ := pRank_attained p hp (R : Subgroup X)
@@ -196,7 +196,7 @@ theorem false_of_kOutNormalSylow (h : ReducedNongeneration p X R X₀) {K : Subg
     [K.Normal] (hKX₀ : K ≤ X₀) (hCX₀ : Subgroup.centralizer (K : Set X) ≤ X₀)
     (hout : KOutNormalSylow p K) : False := by
   have : (MulAut.conj : K →* MulAut K).range.Normal := normal_range_mulAutConj K
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map (MulAut.conjNormal (H := K))).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map (MulAut.conjNormal (H := K))).exists_le_sylow
   have := (hout S).comap (MulAut.conjNormal (H := K))
   refine h.false_of_normal_of_pow_mem
     (N := (MulAut.conj : K →* MulAut K).range.comap (MulAut.conjNormal (H := K)))
@@ -204,7 +204,7 @@ theorem false_of_kOutNormalSylow (h : ReducedNongeneration p X R X₀) {K : Subg
       (MulAut.conjNormal (H := K)))
     (comap_range_conj_le hKX₀ hCX₀) (fun r hr => Subgroup.mem_sup_right (hS ⟨r, hr, rfl⟩))
     fun w hw => ?_
-  obtain ⟨k, hk⟩ := exists_pow_mem_of_mem_sup S.isPGroup' hw
+  obtain ⟨k, hk⟩ := exists_pow_mem_of_mem_sup S.isPGroup hw
   exact ⟨k, by rw [Subgroup.mem_comap, map_pow]; exact hk⟩
 
 theorem outTwo_of_mem (h : ReducedNongeneration p X R X₀)

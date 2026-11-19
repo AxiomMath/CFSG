@@ -18,7 +18,7 @@ theorem eq_oTwoUpper_sup_pCoreOf_of_perfect {H : Subgroup G}
   classical
   let π : ↥H →* oTwoQuot ↥H := QuotientGroup.mk' (pCore 2 ↥H)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hperf
+  have : Group.IsPerfect (oTwoQuot ↥H) := hperf
   have htop : oTwoUpper (⊤ : Subgroup (oTwoQuot ↥H)) = ⊤ :=
     le_antisymm (oTwoUpper_le _) (perfect_le_oTwoUpper le_rfl inferInstance)
   have hmap : (oTwoUpper (⊤ : Subgroup ↥H)).map π = ⊤ := by
@@ -43,6 +43,7 @@ theorem eq_oTwoUpper_sup_pCoreOf_of_perfect {H : Subgroup G}
   rw [Subgroup.map_top, Subgroup.range_subtype] at h
   exact h.symm
 
+omit [Finite G] in
 theorem commutator_le_of_le_oTwoUpper_sup {H Z Y Q : Subgroup G}
     (hH : H ≤ oTwoUpper H ⊔ Q)
     (hQN : Q ≤ Subgroup.normalizer (oTwoUpper H : Set G))

@@ -20,8 +20,7 @@ theorem odd_5095K : CFSG.GH74.GLS.Prop27.oddCoreCheck 189 (elemsV L28.QA) (elems
     (elemsT_eq_elemsV L28.QP).symm.trans (elemsT_eq_elemsC L28.QP)]
   unfold CFSG.GH74.GLS.Prop27.oddCoreCheck CFSG.GH74.GLS.Prop27.oddCoreAt
   simp only [List.all_map, List.any_map, List.filter_map, Function.comp_def, ev_pow', ev_mul', ev_inv',
-    one_eq_ev, decide_ev_eq, decide_mem_map_ev, ne_eq, decide_not, Bool.decide_and, conj_fast,
-    comm_fast, sq_fast, pow_fast]
+    one_eq_ev, decide_ev_eq, ne_eq, decide_not, comm_fast, pow_fast]
   decide +kernel
 
 end CertificateChecks.KernelKGroupsE

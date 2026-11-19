@@ -83,7 +83,7 @@ theorem rckTw78_phi_quasisimple
     (h : ℕ) (hh : 0 < h) (z₁ : ModGL τ CoeffField) (X : Subgroup (ModGL τ CoeffField))
     (hX : (rckTw78_phi h hh z₁).range = X) :
     CFSG.IsQuasisimple ↥X := by
-  haveI : Finite (K2 CoeffField 2 h) :=
+  have : Finite (K2 CoeffField 2 h) :=
     finite_frobeniusFixedField (L := CoeffField) (ℓ := 2) (m := 2 * h) (by omega)
   have hk : Nat.card (K2 CoeffField 2 h) = (2 ^ h) ^ 2 := by
     rw [card_K2 (L := CoeffField) (ℓ := 2) (f := h) (by omega), pow_mul']
@@ -109,8 +109,8 @@ theorem rckTw78_frob
     · exact twistTag_tag_ne_E7
     · exact twistTag_tag_ne_E8
   obtain ⟨ℓ, f, hℓ, hchar, hf, hq'⟩ := S.exists_char_pow
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP CoeffField ℓ := hchar
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP CoeffField ℓ := hchar
   have hℓ2 : ℓ = 2 := by
     have hc2 : CharP CoeffField 2 :=
       charP_of_injective_algebraMap (algebraMap (ZMod 2) CoeffField).injective 2
@@ -121,7 +121,7 @@ theorem rckTw78_frob
     exact Nat.pow_right_injective (by norm_num : 1 < 2) h2
   subst ℓ
   subst f
-  haveI : CharP CoeffField 2 := hchar
+  have : CharP CoeffField 2 := hchar
   obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted hτ'
   have hFr' : Fr = iterateFrobenius CoeffField 2 h := by
     ext c

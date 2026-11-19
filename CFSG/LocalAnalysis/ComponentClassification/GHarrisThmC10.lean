@@ -170,7 +170,7 @@ theorem not_order_five_seven (hO : pPrimeCore 2 X = ⊥)
     rw [← D.ker_theta hO hEn]
     exact hθ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp D.T.isPGroup' ⟨x, D.E_le_T hxE⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp D.T.isPGroup ⟨x, D.E_le_T hxE⟩
   rw [Subgroup.orderOf_mk, hx] at hk
   rcases k with _ | k
   · rcases hp with rfl | rfl <;> norm_num at hk
@@ -239,7 +239,7 @@ theorem thmC_of_normal
   by_cases hTn : (D.T : Subgroup X).Normal
   ·
     have hpT : pCore 2 X = D.T := le_antisymm (D.le_T_of_normal pCore_normal pCore_isPGroup)
-      (le_sSup ⟨hTn, D.T.isPGroup'⟩)
+      (le_sSup ⟨hTn, D.T.isPGroup⟩)
     refine ⟨?_, Or.inl ⟨hpT, D.index_dvd_nine hO hEn hTn, fun B hBT hB2 hBc h16 => ?_⟩⟩
     · rw [hpT]
       exact (D.centralizer_T_le hO hEn).trans D.E_le_T

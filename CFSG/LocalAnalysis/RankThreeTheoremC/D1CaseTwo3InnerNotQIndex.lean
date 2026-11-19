@@ -24,8 +24,8 @@ private theorem card_sup_mul_card_inf_of_le_normalizer {X : Type*} [Group X] {E 
   have h1 := Subgroup.relIndex_mul_card N (E ⊔ N)
   have h2 := Subgroup.relIndex_mul_card N E
   have h3 : N.relIndex (E ⊔ N) = N.relIndex E := by
-    haveI := Subgroup.normal_subgroupOf_of_le_normalizer hE
-    haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hE
+    have := Subgroup.normal_subgroupOf_of_le_normalizer hE
+    have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hE
     exact (Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient E N hE).toEquiv).symm
   rw [inf_eq_left.mpr le_sup_right, h3, sup_comm E N] at h1

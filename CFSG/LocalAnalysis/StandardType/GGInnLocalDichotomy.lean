@@ -226,7 +226,7 @@ theorem exists_two_subgroup_of_inn {L : Subgroup G} (hL : commutator L = ⊤) {R
   have hPB : ∀ b (hb : b ∈ B) (w : W), w ∈ (P : Subgroup W) →
       (⟨ggGamma L hBN ⟨b, hb⟩ (w : L), hγW b hb w⟩ : W) ∈ (P : Subgroup W) := by
     intro b hb w hw
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨w, hw⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨w, hw⟩
     have hw' : w ^ 2 ^ k = 1 := by
       have h1 := pow_orderOf_eq_one (⟨w, hw⟩ : (P : Subgroup W))
       rw [hk] at h1
@@ -272,7 +272,7 @@ theorem exists_two_subgroup_of_inn {L : Subgroup G} (hL : commutator L = ⊤) {R
   · rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective,
       Subgroup.map_eq_bot_iff_of_injective _ W.subtype_injective]
     exact hP1
-  · exact (P.isPGroup'.map _).map _
+  · exact (P.isPGroup.map _).map _
   · rw [Subgroup.le_normalizer_iff]
     rintro b hb _ ⟨_, ⟨w, hw, rfl⟩, rfl⟩
     exact ⟨_, ⟨_, hPB b hb w hw, rfl⟩, ggGamma_coe L hBN ⟨b, hb⟩ (w : L)⟩

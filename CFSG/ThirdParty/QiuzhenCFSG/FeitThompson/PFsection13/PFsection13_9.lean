@@ -225,7 +225,7 @@ private theorem theorem_13_9_supportedOn_H_of_inducedFromLinearCharacter
   classical
   rcases hχ with ⟨_hHS, θ, _hθirr, _hθdeg, hχeq⟩
   rw [hχeq]
-  letI : (H.subgroupOf Smax).Normal := hHnormal
+  let : (H.subgroupOf Smax).Normal := hHnormal
   exact Section10.inducedCF_supportedOn_subgroup (H.subgroupOf Smax) θ
 
 private theorem theorem_13_9_supportedOn_Hsharp_of_supportedOn_H_and_degree_eq
@@ -351,7 +351,7 @@ private theorem theorem_13_9_fitting_punctured_subset_centralizerUnion_of_typeP
   have hxSupM : xM ∈ MF.subgroupOf M ⊔ C.subgroupOf M := by
     rw [hsupM]
     exact hxF
-  letI : (MF.subgroupOf M).Normal := hMFNormalM
+  let : (MF.subgroupOf M).Normal := hMFNormalM
   rcases (Subgroup.mem_sup_of_normal_left (s := MF.subgroupOf M)
       (t := C.subgroupOf M) (x := xM)).1 hxSupM with
     ⟨mM, hmMFsub, cM, hcCsub, hmulM⟩
@@ -1151,8 +1151,8 @@ private theorem theorem_13_9_omegaSystem_prime_zero_column_row_power_source
   rcases h31 with ⟨hW1le, _hW2le, hIP, _hcycW, _hodd, _hcard1, _hcard2, _hTI⟩
   intro i hi0
   have hcycW1 : IsCyclic W1 := Subgroup.isCyclic_of_le hW1le
-  letI : CommGroup W1 := IsCyclic.commGroup
-  letI : Fintype (W1 →* ℂˣ) := by
+  let : CommGroup W1 := IsCyclic.commGroup
+  let : Fintype (W1 →* ℂˣ) := by
     let e := (CommGroup.monoidHom_mulEquiv_of_hasEnoughRootsOfUnity W1 ℂ).some
     exact Fintype.ofEquiv W1 e.toEquiv.symm
   have hcardW1 : Nat.card W1 = q := by
@@ -1186,7 +1186,7 @@ private theorem theorem_13_9_omegaSystem_prime_zero_column_row_power_source
   have htarget_ne : leftTarget ≠ 1 := by
     exact theorem_13_9_zeroColumn_leftCharacter_ne_one hIP hωFin
       (i := i) hi0 targetLin htargetLin
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   have hleftBase_gen : ∀ χ : W1 →* ℂˣ, χ ∈ Subgroup.zpowers leftBase := by
     intro χ
     exact mem_zpowers_of_prime_card (G := W1 →* ℂˣ) (p := q) hcardLin hbase_ne
@@ -2560,7 +2560,7 @@ private theorem theorem_13_9_sum_normSq_ge_card_of_prod_normSq_ge_one
     field_simp [hcard_ne] at hmul
     simpa using hmul
   · have hsub : IsEmpty α := not_nonempty_iff.mp hα
-    letI : IsEmpty α := hsub
+    let : IsEmpty α := hsub
     simp
 
 private theorem theorem_13_9_cyclotomic_resultant_eq_primitiveRoot_eval_prod
@@ -2571,8 +2571,8 @@ private theorem theorem_13_9_cyclotomic_resultant_eq_primitiveRoot_eval_prod
       (primitiveRoots n ℂ).prod
         (fun z => Polynomial.eval z (P.map (Int.castRingHom ℂ))) := by
   classical
-  haveI : NeZero n := NeZero.of_gt hn
-  haveI : NeZero (n : ℂ) := inferInstance
+  have : NeZero n := NeZero.of_gt hn
+  have : NeZero (n : ℂ) := inferInstance
   have hmap : ((Polynomial.cyclotomic n ℤ).resultant P : ℂ) =
       (Polynomial.cyclotomic n ℂ).resultant (P.map (Int.castRingHom ℂ)) := by
     have h := Polynomial.resultant_map_map (φ := Int.castRingHom ℂ)
@@ -2662,11 +2662,11 @@ private theorem theorem_13_9_sum_normSq_cyclic_repeated_linear_characters_genera
     dsimp [n]
     exact Nat.card_pos
   have hn_ne : n ≠ 0 := hn.ne'
-  haveI : NeZero n := ⟨hn_ne⟩
+  have : NeZero n := ⟨hn_ne⟩
   have hxmem : ∀ y : H, y ∈ Subgroup.zpowers x := by
     intro y
     exact _hx.ge (Subgroup.mem_top y)
-  haveI : IsCyclic H := (isCyclic_iff_exists_zpowers_eq_top (α := H)).2 ⟨x, _hx⟩
+  have : IsCyclic H := (isCyclic_iff_exists_zpowers_eq_top (α := H)).2 ⟨x, _hx⟩
   have hcardRoots : Nat.card (rootsOfUnity n ℂ) = n :=
     Complex.card_rootsOfUnity n
   have hcard : Nat.card H = Nat.card (rootsOfUnity n ℂ) := by
@@ -2858,7 +2858,7 @@ private theorem theorem_13_9_sum_normSq_cyclic_repeated_linear_characters_genera
   rcases theorem_13_9_sum_normSq_cyclic_repeated_linear_characters_generator_cyclotomic_model_source
       x _hx e lam hnonzero with
     ⟨n, hn, P, reindex, hvalue, hPnonzero⟩
-  letI : Fintype {g : H // Subgroup.zpowers g = (⊤ : Subgroup H)} := Fintype.ofFinite _
+  let : Fintype {g : H // Subgroup.zpowers g = (⊤ : Subgroup H)} := Fintype.ofFinite _
   have hprimitive :
       (1 : ℝ) ≤
         (primitiveRoots n ℂ).prod
@@ -3021,10 +3021,10 @@ private theorem theorem_13_9_sum_normSq_cyclic_character_generators_source
   intro hχnonzero
   rcases Section1.character_irreducible_decomposition_all χ _hχchar with
     ⟨ι, hι, hιdec, e, ψ, hψbook, _hψpair, hχdecomp⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
-  letI : CommGroup H := IsCyclic.commGroup
-  haveI : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
+  let : CommGroup H := IsCyclic.commGroup
+  have : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
   choose lam hlam using fun i : ι =>
     Section1.exists_linearCharacter_of_irreducible_degree_one
       (Section1.isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
@@ -3059,9 +3059,9 @@ private theorem theorem_13_9_sum_normSq_character_generators_source
   intro x hnonzero
   let H : Subgroup G := Subgroup.zpowers x
   let χH : Section1.ClassFunction H := Section1.subgroupRestriction H χ
-  letI : Fintype {g : G // Subgroup.zpowers g = Subgroup.zpowers x} :=
+  let : Fintype {g : G // Subgroup.zpowers g = Subgroup.zpowers x} :=
     Fintype.ofFinite _
-  letI : Fintype {g : H // Subgroup.zpowers g = (⊤ : Subgroup H)} :=
+  let : Fintype {g : H // Subgroup.zpowers g = (⊤ : Subgroup H)} :=
     Fintype.ofFinite _
   have hχHchar : Section1.IsCharacter χH := by
     rcases Section1.subgroupRestriction_eq_representation_character_of_isCharacter
@@ -3187,9 +3187,9 @@ private theorem theorem_13_9_signed_nonzero_support_cycle_representative_nonzero
         intro y
         ext
         rfl }
-  letI : Fintype {g : G // Subgroup.zpowers g = Subgroup.zpowers x} :=
+  let : Fintype {g : G // Subgroup.zpowers g = Subgroup.zpowers x} :=
     Fintype.ofFinite _
-  letI : Fintype {g : G // g ∈ supportFiber ∧ χ g ≠ 0} :=
+  let : Fintype {g : G // g ∈ supportFiber ∧ χ g ≠ 0} :=
     Fintype.ofFinite _
   have hgenerators :=
     theorem_13_9_signed_nonzero_support_cycle_generator_sum_normSq_source

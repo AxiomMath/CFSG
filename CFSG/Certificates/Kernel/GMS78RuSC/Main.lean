@@ -18,7 +18,6 @@ private theorem sRowP_eq (GT : List (List Nat)) (DPR : List Nat) (LIN DM DO IDX 
   unfold sRowP rowF
   beta_reduce
   rw [P117.strictN_eq, P117.strictN_eq]
-  beta_reduce
   rw [czPack9_eq]
   rw [listRec_map (fun q => fget IDX (sMulRow LIN DM DO (sGamRow GT (Nat.land p 255))
     (neGet 0 DPR (Nat.land (Nat.shiftRight p 10) 7)) (Nat.land p 255)

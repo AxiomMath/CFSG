@@ -82,7 +82,7 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
     {V : Type u} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
     (ρ : Representation F H V) (hρ : Function.Injective ρ)
     (E D : Subgroup H) (hE : E ≠ ⊥) (hE2 : IsPGroup 2 E)
-    (q : ℕ) (hD : Nat.card D = q) (hq : q.Prime) (hq3 : 3 < q)
+    (q : ℕ) (hD : Nat.card D = q) (hq : q.Prime) (_hq3 : 3 < q)
     (hcomm : ⁅E, D⁆ = E) (h2 : (2 : F) ≠ 0) (hdim : Module.finrank F V < q) :
     ∃ (J : Type u) (_ : Group J) (_ : Finite J) (W : Type u) (_ : AddCommGroup W)
       (_ : Module F W) (_ : FiniteDimensional F W) (_ : Nontrivial W)
@@ -90,9 +90,9 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
       Function.Injective τ ∧ Module.finrank F W ≤ Module.finrank F V ∧ Q ≠ ⊥ ∧ IsPGroup 2 Q ∧
         Nat.card X = q ∧ ⁅Q, X⁆ = Q ∧ Representation.IsIrreducible (τ.comp Q.subtype) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.card D).Prime := ⟨hD ▸ hq⟩
-  haveI : IsCyclic D := isCyclic_of_prime_card hD
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.card D).Prime := ⟨hD ▸ hq⟩
+  have : IsCyclic D := isCyclic_of_prime_card hD
   obtain ⟨d0, hd0⟩ := IsCyclic.exists_generator (α := D)
   set d : H := (d0 : H) with hd
   have hdD : d ∈ D := d0.2
@@ -213,7 +213,7 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
     exact this
   have hcommQ : ⁅E0.map f, D0.map f⁆ = E0.map f := by
     rw [← Subgroup.map_commutator, hcommH0]
-  haveI : Fact (Nat.card D0).Prime := ⟨hD0card ▸ hq⟩
+  have : Fact (Nat.card D0).Prime := ⟨hD0card ▸ hq⟩
   have hXcard : Nat.card (D0.map f) = q := by
     rcases (MonoidHom.ker (f.domRestrict D0)).eq_bot_or_eq_top_of_prime_card with h | h
     · rw [← hD0card]
@@ -249,8 +249,8 @@ theorem exists_image {F : Type*} [Field F] [IsAlgClosed F]
       rw [faithful_toImage]
       ext w
       rfl
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.2 hWne
-  haveI : Finite (imageGroup τ0) := Finite.of_surjective _ (toImage_surjective τ0)
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.2 hWne
+  have : Finite (imageGroup τ0) := Finite.of_surjective _ (toImage_surjective τ0)
   exact ⟨imageGroup τ0, inferInstance, inferInstance, W, inferInstance, inferInstance, inferInstance,
     inferInstance, faithful τ0, E0.map f, D0.map f, faithful_injective τ0, Submodule.finrank_le W,
     hQne, hQp, hXcard, hcommQ, hirr⟩

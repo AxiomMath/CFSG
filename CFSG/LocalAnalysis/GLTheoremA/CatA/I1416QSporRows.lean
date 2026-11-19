@@ -62,11 +62,11 @@ theorem qcompOK_of_no_comp {p : ℕ} {Q : Type} [Group Q] {k : Q}
 theorem qcompOK_of_pConstrained {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q] {k : Q}
     (h : CFSG.HardMathSupport.Timmesfeld.SporadicBalance.PConstrainedShape p
       (Subgroup.centralizer ({k} : Set Q))) : QCompOK p k :=
-  qcompOK_of_no_comp fun I hI => KDSpor.false_of_glaPComponent_of_pConstrained hp h hI
+  qcompOK_of_no_comp fun _I hI => KDSpor.false_of_glaPComponent_of_pConstrained hp h hI
 
 theorem qcompOK_of_solvable {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q] {k : Q}
     (h : Group.IsSolvable ↥(Subgroup.centralizer ({k} : Set Q))) : QCompOK p k :=
-  qcompOK_of_no_comp fun I hI => KDSpor.false_of_glaPComponent_of_solvable hp h hI
+  qcompOK_of_no_comp fun _I hI => KDSpor.false_of_glaPComponent_of_solvable hp h hI
 
 theorem qcompOK_of_shapeRkAt {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q]
     {Good Rk : ∀ (T : Type) [Group T], Prop} {k : Q}
@@ -108,7 +108,7 @@ theorem qrow_of_model {s : TauCeti.SporadicName} {p : ℕ} {Q : Type} [Group Q] 
     (h : ∀ k : Q, orderOf k = p → QCompOK p k) : I1416QRow s p := by
   intro S _ _ ⟨e⟩ hp hp2 β hβ hβ1 K hK
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -120,7 +120,7 @@ theorem qrow_of_model {s : TauCeti.SporadicName} {p : ℕ} {Q : Type} [Group Q] 
     · obtain ⟨a, c, hac⟩ := hncS
       exact absurd ((Subgroup.mem_center_iff.1 (h' ▸ Subgroup.mem_top c)) a) hac
   have hout := hOut S inferInstance hncS s ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, rfl, hxp⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow hp hp2 hcen hout β hβ
   have hx1 : x ≠ 1 := by
@@ -138,15 +138,15 @@ theorem qrow_of_model_not_sq_dvd {s : TauCeti.SporadicName} {p : ℕ} {Q : Type}
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (b : Q ≃* (TauCeti.CFSGIndex.sporadic s).Group) (hnc : ∃ a c : Q, a * c ≠ c * a)
     (hp : p.Prime) (hd : ¬ p ^ 2 ∣ Nat.card Q) : I1416QRow s p :=
-  qrow_of_model hOut b hnc fun k hk => qcompOK_of_no_comp fun I hI =>
+  qrow_of_model hOut b hnc fun _k hk => qcompOK_of_no_comp fun _I hI =>
     CFSG.HardMathSupport.Solomon.Coordinator.no_glaPComponent_of_exact hp hk hd hI
 
 theorem sq_dvd_card_mulAut_of_elemAb {p : ℕ} (hp : p.Prime) {T : Type} [Group T] [Finite T]
     (h : ∃ A : Subgroup (MulAut T), IsElemAbelian p A ∧ p ^ 2 ≤ Nat.card A) :
     p ^ 2 ∣ Nat.card (MulAut T) := by
   obtain ⟨A, ⟨-, hA⟩, hle⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut T) := Finite.of_injective _ DFunLike.coe_injective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut T) := Finite.of_injective _ DFunLike.coe_injective
   have hpg : IsPGroup p ↥A := fun g => ⟨1, Subtype.ext (by simpa using hA g g.2)⟩
   obtain ⟨n, hn⟩ := hpg.exists_card_eq
   have hn2 : 2 ≤ n := by
@@ -301,7 +301,7 @@ theorem qtypeOK_of_card (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderB
 
 theorem qtypeOK_A5 {p : ℕ} (hp : p = 3 ∨ p = 5) {T : Type}
     [Group T] (e : T ≃* ↥(alternatingGroup (Fin 5))) : QTypeOK p T := by
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨e'⟩ := CFSG.GH74.KGroups.A5.equiv_of_alt e
   refine qtypeOK_of_not_sq_dvd_aut (by rcases hp with rfl | rfl <;> norm_num) ?_
   rw [CFSG.GH74.KGroups.A5.card_mulAut e']
@@ -314,7 +314,7 @@ theorem qtypeOK_three_of_card_360 (hb : CFSG.HardMathSupport.Solomon.Coordinator
 
 theorem qtypeOK_A6 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) {T : Type}
     [Group T] (e : T ≃* ↥(alternatingGroup (Fin 6))) : QTypeOK 3 T := by
-  haveI : Finite T := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite T := Finite.of_equiv _ e.symm.toEquiv
   refine qtypeOK_three_of_card_360 hb ?_
   rw [Nat.card_congr e.toEquiv, CFSG.HardMathSupport.Solomon.Coordinator.YS08.L3Char.card_alt 6
     (by norm_num)]

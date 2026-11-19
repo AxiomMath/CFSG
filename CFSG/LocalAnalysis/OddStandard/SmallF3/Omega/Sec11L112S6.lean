@@ -60,7 +60,7 @@ variable {t z : G} {L S : Subgroup G} {K1 K2 T : Subgroup G}
 
 theorem exists_swap [Finite G] (hm : Sec11Model t L S z K1 K2 T Alt φ) (hTM : T ≤ secM t S L)
     (hAT : secA t S L ≤ T) (hAlt : Alt = ⊤) : ∃ x ∈ T, hm.perm.rho x = Equiv.swap 0 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let g : ↥(T.subgroupOf (secM t S L)) →* Equiv.Perm (Fin 6) :=
     hm.perm.rhoHom.comp (T.subgroupOf (secM t S L)).subtype
   have hgx : ∀ x : ↥(T.subgroupOf (secM t S L)),

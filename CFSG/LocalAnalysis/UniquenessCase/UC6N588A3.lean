@@ -16,7 +16,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 theorem normal_of_conjugate_eq {G : Type} [Group G] {H : Subgroup G}
     (hH : ∀ g : G, CFSG.conjugate H g = H) : H.Normal :=
-  ⟨fun x hx g => mem_conjugate_iff.mp ((hH g).symm ▸ hx)⟩
+  ⟨fun _x hx g => mem_conjugate_iff.mp ((hH g).symm ▸ hx)⟩
 
 section Subnormal
 
@@ -58,7 +58,7 @@ theorem le_pPrimeCore_of_isSubnormal [Fact p.Prime] {A : Subgroup G} (hA : A.IsS
 
 theorem dvd_card_of_isSubnormal (hp : p.Prime) (hcore : CFSG.pPrimeCore p G = ⊥)
     {H : Subgroup G} (hH : H.IsSubnormal) (hne : H ≠ ⊥) : p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hdvd
   have hle := le_pPrimeCore_of_isSubnormal hH ((Nat.Prime.coprime_iff_not_dvd hp).mpr hdvd)
   rw [hcore, le_bot_iff] at hle
@@ -106,7 +106,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {S Z : Subgroup G}
 
 theorem normal_of_le_normal_isPGroup (h : Hyp G p S Z) {P : Subgroup G} [P.Normal]
     (hP : IsPGroup p P) (hZP : Z ≤ P) : Z.Normal := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨Q, hQS⟩ := exists_sylow_of_isSylowOf_top h.sylow
   have hPS : P ≤ S := hQS ▸ hP.le_sylow_of_normal Q
   refine normal_of_conjugate_eq fun g => h.wc g fun x hx => hPS ?_
@@ -123,12 +123,12 @@ theorem dvd_card_of_isComponent (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G =
 
 theorem exists_component (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G = ⊥) (hZ : ¬ Z.Normal) :
     ∃ J : Subgroup G, CFSG.IsComponent J ∧ ¬ Z ≤ Subgroup.centralizer (J : Set G) := by
-  haveI := h.fact
+  have := h.fact
   by_contra hall
   push Not at hall
   have hF : CFSG.fittingSubgroup G = CFSG.pCore p G := CFSG.Fitting_eq_pcore G p hcore
   obtain ⟨Q, hQS⟩ := exists_sylow_of_isSylowOf_top h.sylow
-  haveI : (CFSG.pCore p G).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p G).Normal := CFSG.pCore_normal
   have hPS : CFSG.pCore p G ≤ S := hQS ▸ CFSG.pCore_isPGroup.le_sylow_of_normal Q
   have hZF : Z ≤ Subgroup.centralizer (CFSG.fittingSubgroup G : Set G) := by
     rw [Subgroup.le_centralizer_iff, hF]
@@ -148,7 +148,7 @@ theorem exists_component (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G = ⊥) (
 
 theorem le_normalizer_of_isComponent (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G = ⊥)
     {J : Subgroup G} (hJ : CFSG.IsComponent J) : Z ≤ Subgroup.normalizer (J : Set G) := by
-  haveI := h.fact
+  have := h.fact
   intro z hz
   have hmap : J.map (MulAut.conj z).toMonoidHom = J := by
     by_contra hne

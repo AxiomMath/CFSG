@@ -20,7 +20,7 @@ namespace HeringOF
 
 theorem ringEquiv_eq_one_of_prime_card {F : Type} [Field F] [Finite F]
     (hp : (Nat.card F).Prime) (σ : F ≃+* F) : σ = 1 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := Nat.card_eq_fintype_card.symm
   let e : F ≃+* ZMod (Nat.card F) := (ZMod.ringEquivOfPrime F hp hc).symm
   have h1 : (e.toRingHom.comp (σ.toRingHom.comp e.symm.toRingHom)) = RingHom.id _ :=

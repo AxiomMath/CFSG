@@ -21,8 +21,8 @@ theorem ggKGCAAction
       (∀ φ : ggKGCAFix k ≃ₗ[GGKGCF] ggKGCAFix k, ∃ a ∈ J, ∀ w : ggKGCAFix k,
         (a (w : V) : V) = (φ w : V)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite GGKGCF
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Module.finite_of_finite GGKGCF
+  have : Fintype V := Fintype.ofFinite V
   have hcomm : ∀ a ∈ J, a * k = k * a := fun a ha =>
     (Subgroup.mem_centralizer_iff.mp hkJ) a ha
   have hstable : ∀ a ∈ J, (∀ w ∈ ggKGCAFix k, a w ∈ ggKGCAFix k) ∧
@@ -32,8 +32,8 @@ theorem ggKGCAAction
     fun a ha x hx => (hstable a ha).2 x hx
   have hJW : ∀ a ∈ J, ∀ x ∈ ggKGCAFix k, a x ∈ ggKGCAFix k :=
     fun a ha x hx => (hstable a ha).1 x hx
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) GGKGCF) := ggKGCASimple (by omega)
-  haveI : IsSimpleGroup ↥J := MulEquiv.isSimpleGroup hJ.some
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) GGKGCF) := ggKGCASimple (by omega)
+  have : IsSimpleGroup ↥J := MulEquiv.isSimpleGroup hJ.some
   have hcompl : IsCompl (ggKGCAFix k) (ggKGCAPlane k) := ggKGCASplit_isCompl k hk3
   have hfr : Module.finrank GGKGCF (ggKGCAFix k) + Module.finrank GGKGCF (ggKGCAPlane k) =
       Module.finrank GGKGCF V := Submodule.finrank_add_eq_of_isCompl hcompl
@@ -58,7 +58,7 @@ theorem ggKGCAAction
   have hJcard : Nat.card ↥J = Nat.card (Matrix.SpecialLinearGroup (Fin m) GGKGCF) :=
     Nat.card_congr hJ.some.toEquiv
   have hkerT : ρT.ker = ⊥ ∨ ρT.ker = ⊤ := by
-    haveI : ρT.ker.Normal := MonoidHom.normal_ker ρT
+    have : ρT.ker.Normal := MonoidHom.normal_ker ρT
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal ρT.ker
   have hkerTtop : ρT.ker = ⊤ := by
     rcases hkerT with hbot | htop
@@ -117,8 +117,8 @@ theorem ggKGCAAction
       simpa using this
     rw [hρT_apply] at h3
     exact h3
-  haveI : Fintype (ggKGCAFix k) := Fintype.ofFinite _
-  haveI : Finite (ggKGCAFix k ≃ₗ[GGKGCF] ggKGCAFix k) :=
+  have : Fintype (ggKGCAFix k) := Fintype.ofFinite _
+  have : Finite (ggKGCAFix k ≃ₗ[GGKGCF] ggKGCAFix k) :=
     Finite.of_injective (fun e : ggKGCAFix k ≃ₗ[GGKGCF] ggKGCAFix k =>
         (e : ggKGCAFix k → ggKGCAFix k))
       (fun e1 e2 h => LinearEquiv.ext (congrFun h))

@@ -20,7 +20,7 @@ theorem exists_E9_fixed_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hn : 4
     (hℓ3 : ℓ ≠ 3) (hg : ¬ 3 ∣ Nat.gcd n (ℓ ^ f + 1)) {σ : K ≃+* K} (hσ : orderOf σ = 3) :
     ∃ E : Subgroup (primeFormP h (idGram K n)), IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       ∀ e ∈ E, primeFormFieldHom h isPrimeFormGram_one σ e = e := by
-  haveI := h.finite
+  have := h.finite
   have hn3 : 3 ≤ n := by omega
   have hne : ¬ (n = 3 ∧ ℓ ^ f = 2) := by omega
   have hZ : ¬ 3 ∣ Nat.card (normOneScalars h
@@ -32,7 +32,7 @@ theorem exists_E9_fixed_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hn : 4
       hσ n hn3 hne hZ
   set h₀ := CFSG.RankThree.Classical.fixSubfield_unitaryFieldData h Nat.prime_three
     (by norm_num) hσ with hh₀
-  haveI := h₀.finite
+  have := h₀.finite
   have hmod : StatedClassicalModel (primeFormP h₀ ((1 : GL (Fin n)
       (CFSG.LieType.Chevalley.fixSubfield σ)) : Matrix (Fin n) (Fin n)
         (CFSG.LieType.Chevalley.fixSubfield σ))) .PSU n ℓ (f / 3) := by
@@ -42,7 +42,7 @@ theorem exists_E9_fixed_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hn : 4
         (unitaryPSUEquiv h₀ (by omega))⟩⟩
     rw [h₀.card, ← pow_mul, mul_comm]
   have h2 := CFSG.HardMathSupport.Timmesfeld.FieldBonus.two_le_pRank_three_psu_four hn hℓ3 hmod
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hE9⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h2
   obtain ⟨hE', hE9'⟩ := isElemAbelian_card_map_of_E9 _ hinj hE (by rw [hE9]; norm_num)
   refine ⟨_, hE', hE9', ?_⟩
@@ -55,7 +55,7 @@ theorem exists_E9_fixed_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (hn : 4
 
 theorem outerFixesE9_primeFormP (h : UnitaryFieldData ℓ f K) (hn : 4 ≤ n) (hℓ3 : ℓ ≠ 3)
     (hg : ¬ 3 ∣ Nat.gcd n (ℓ ^ f + 1)) : OuterFixesE9 (primeFormP h (idGram K n)) := by
-  haveI := h.finite
+  have := h.finite
   have hn3 : 3 ≤ n := by omega
   have hne : ¬ (n = 3 ∧ ℓ ^ f = 2) := by omega
   refine outerFixesE9_of_descent fun α hα3 hαo => ?_

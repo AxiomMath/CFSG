@@ -147,7 +147,7 @@ theorem card_alt_inf_centralizer_five_lt (g : Perm (Fin 10)) (hg : orderOf g = 5
     omega
   · have hS : Nat.card (centralizer ({g} : Set (Perm (Fin 10)))) = 50 := by
       rw [Equiv.Perm.nat_card_centralizer, hc, Fintype.card_fin]
-      simp [Nat.factorial]
+      simp
     have hle : Nat.card ↥(alternatingGroup (Fin 10) ⊓ centralizer ({g} : Set (Perm (Fin 10)))) ≤
         Nat.card (centralizer ({g} : Set (Perm (Fin 10)))) :=
       Subgroup.card_le_of_le inf_le_right
@@ -172,7 +172,7 @@ theorem a6sq_alt_false {S : Type} [Group S] [Finite S] {n : ℕ}
     (h360 : 360 ∣ Nat.card (fixedSubgroup τ)) (hS : 129600 ∣ Nat.card S) {A : Subgroup S}
     (hA6 : Nonempty (↥A ⧸ center ↥A ≃* alternatingGroup (Fin 6)))
     (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * τ b = τ b * a) : False := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   obtain ⟨r, hr1, hr2, hr⟩ := card_fixedSubgroup_alt (by omega) θ hτ
   have hSn : Nat.card S = n.factorial / 2 := by
     rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -182,7 +182,7 @@ theorem a6sq_alt_false {S : Type} [Group S] [Finite S] {n : ℕ}
   subst hn10
   have hAcard : Nat.card A = 360 * Nat.card (center ↥A) := a6sq_card_A hA6
   have h5 : 5 ∣ Nat.card A := ⟨72 * Nat.card (center ↥A), by rw [hAcard]; ring⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hxS : orderOf (x : S) = 5 := by rw [Subgroup.orderOf_coe]; exact hx
   have hb : orderOf (τ (x : S)) = 5 :=

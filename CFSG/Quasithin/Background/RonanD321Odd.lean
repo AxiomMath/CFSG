@@ -20,7 +20,7 @@ theorem exists_inverting_of_d321Three (h3 : D321Three Mp L) {p : ℕ} (hp : p.Pr
     (hpL : p ∣ Nat.card ↥L) :
     ∃ u ∈ L, u ^ p = 1 ∧ u ≠ 1 ∧ ∃ s ∈ L, s * s = 1 ∧ s * u * s = u⁻¹ := by
   obtain ⟨n, -, K, _, _, hK, _, π₀, -, -, -, hreal⟩ := h3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     have h := FiniteField.cast_card_eq_zero K
@@ -72,7 +72,7 @@ theorem smul_eq_of_odd (hB : D321Base M Mp T L V t) (h3 : D321Three Mp L)
     change (QuotientGroup.mk (y w) : W ⧸ modFix Mp (⊤ : Subgroup W)) = QuotientGroup.mk w
     rw [(mem_fixV.1 (hle hw)) _ hyLt]
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hzM, hzL, hzp, hzLt⟩ := exists_pow_eq_one_not_mem hB h3 hcent hp hyM hyL hyk hyLt
   have hzNL : z ∈ Subgroup.normalizer (L : Set (MulAut W)) :=
     Subgroup.centralizer_le_normalizer _

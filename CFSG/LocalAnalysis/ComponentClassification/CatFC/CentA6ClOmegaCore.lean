@@ -56,6 +56,7 @@ section Witness
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.omega_witness (hO : LieOrderFormulasInput) (h : A6Hyp σ D) {Y : Type}
     [Group Y] (hY : IsQuasisimple Y) (φ : Y →* ↥(fixedSubgroup σ)) (hφ : φ.range ≠ ⊥)
     {τ : StatedLieTag} {n e : ℕ} (hadm : StatedLieAdmissible τ n 3 e)
@@ -80,6 +81,7 @@ theorem A6Hyp.omega_witness (hO : LieOrderFormulasInput) (h : A6Hyp σ D) {Y : T
   have : Finite D := Nat.finite_of_card_ne_zero (by rw [h.card_D]; norm_num)
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [h.card_D, hcard])
 
+omit [Finite S] in
 theorem A6Hyp.omega_false_of_commuting (hO : LieOrderFormulasInput) (h : A6Hyp σ D) {Y₁ Y₂ : Type}
     [Group Y₁] [Group Y₂] (hY₁ : IsQuasisimple Y₁) (hY₂ : IsQuasisimple Y₂)
     (φ₁ : Y₁ →* ↥(fixedSubgroup σ)) (φ₂ : Y₂ →* ↥(fixedSubgroup σ))

@@ -11,16 +11,19 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l31_isMulCommutative_of_le {R Z : Subgroup G} (hR : IsMulCommutative R)
     (h : Z ≤ R) : IsMulCommutative Z :=
   ⟨⟨fun a b => Subtype.ext (by
     have := hR.is_comm.comm ⟨a.1, h a.2⟩ ⟨b.1, h b.2⟩
     simpa using congrArg Subtype.val this)⟩⟩
 
+omit [Finite G] in
 private theorem l31_isMulCommutative_of_forall {S : Subgroup G}
     (h : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) : IsMulCommutative S :=
   ⟨⟨fun a b => Subtype.ext (h a a.2 b b.2)⟩⟩
 
+omit [Finite G] in
 private theorem l31_isMulCommutative_map {T : Subgroup G} {A : Subgroup T}
     (hA : IsMulCommutative A) : IsMulCommutative (A.map T.subtype) := by
   apply l31_isMulCommutative_of_forall
@@ -29,6 +32,7 @@ private theorem l31_isMulCommutative_map {T : Subgroup G} {A : Subgroup T}
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hb
   exact congrArg (fun z : A => ((z : ↥T) : G)) (hA.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem l31_le_normalizer_inf {D S S' : Subgroup G}
     (h1 : D ≤ Subgroup.normalizer (S : Set G)) (h2 : D ≤ Subgroup.normalizer (S' : Set G)) :
     D ≤ Subgroup.normalizer ((S ⊓ S' : Subgroup G) : Set G) := by
@@ -43,7 +47,7 @@ private theorem l31_le_normalizer_inf {D S S' : Subgroup G}
 private theorem l31_coprime_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {D X : Subgroup G}
     (hD : IsElemAbelian p D) (hX : IsPGroup 2 X) :
     Nat.Coprime (Nat.card D) (Nat.card X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := exists_card_eq_pow_of_isElemAbelian hp hD
   obtain ⟨b, hb⟩ := hX.exists_card_eq
   rw [ha, hb]
@@ -52,8 +56,8 @@ private theorem l31_coprime_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {D X :
 private theorem l31_double_comm {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {D X : Subgroup G}
     (hD : IsElemAbelian p D) (hX : IsPGroup 2 X) (hDX : D ≤ Subgroup.normalizer (X : Set G)) :
     (⁅⁅X, D⁆, D⁆ : Subgroup G) = ⁅X, D⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent X := IsPGroup.isNilpotent hX
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent X := IsPGroup.isNilpotent hX
   exact GL83.commutator_double_eq_self D X hDX (l31_coprime_card hp hp2 hD hX) inferInstance
 
 private theorem l31_card_le_two_quaternion (W : Subgroup (QuaternionGroup 2))
@@ -71,6 +75,7 @@ private theorem l31_card_le_two_quaternion (W : Subgroup (QuaternionGroup 2))
         Subgroup.card_le_of_le hle
     _ = 2 := by rw [Nat.card_zpowers, h2]
 
+omit [Finite G] in
 private theorem l31_card_le_two_of_mulEquiv {X U : Subgroup G} (e : X ≃* QuaternionGroup 2)
     (hUX : U ≤ X) (hU : IsElemAbelian 2 U) : Nat.card U ≤ 2 := by
   have hV : IsElemAbelian 2 (U.subgroupOf X) := CFSG.Open.IsElemAbelian.subgroupOf hU X
@@ -154,6 +159,7 @@ private theorem l31_exists_hyperplane {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp h1
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (Subgroup.le_centralizer_iff.mp hle)
 
+omit [Finite G] in
 private theorem l31_essential {p : ℕ} {B D D₀ T : Subgroup G} (hB : IsElemAbelian p B)
     (hDB : D ≤ B) (hD₀D : D₀ ≤ D) (hT : IsPGroup 2 T)
     (hBT : B ≤ Subgroup.normalizer (T : Set G))
@@ -260,7 +266,7 @@ theorem lemma31 {m : ℕ} (hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu G m)
   have hchar : IsCharTwoType G := hctx.1.charTwo
   have hBel : IsElemAbelian p B := hB.1
   have hD : IsElemAbelian p D := isElemAbelian_mono hBel hDB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : IsPGroup 2 (pCoreOf 2 N) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N
   have hBT : B ≤ Subgroup.normalizer ((pCoreOf 2 N : Subgroup G) : Set G) :=
     hBN.trans (le_normalizer_pCoreOf 2 N)

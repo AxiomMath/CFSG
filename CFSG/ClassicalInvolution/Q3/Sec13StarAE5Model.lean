@@ -9,9 +9,9 @@ namespace CFSG.ClassicalInvolution.Q3.Sec13.AE5Star
 open CFSG.ClassicalInvolution.Q3.AE CFSG.ClassicalInvolution.Q3.AE.Wr
 
 theorem eq_of_commutes {α α' : Finset (Fin 5)} (h : α.card = 4) (h' : α'.card = 4)
-    {b b' : Bool} (hne : memBar α h b ≠ memBar α' h' b')
+    {b b' : Bool} (_hne : memBar α h b ≠ memBar α' h' b')
     (hc : ∀ x ∈ memBar α h b, ∀ y ∈ memBar α' h' b', x * y = y * x) : α = α' := by
-  clear hne
+  clear _hne
   by_contra hαα'
   have hd : Disjoint α α' :=
     disjoint_of_zBar_comm hαα' fun y hy => hc _ (zBar_mem_memBar α h b) y hy

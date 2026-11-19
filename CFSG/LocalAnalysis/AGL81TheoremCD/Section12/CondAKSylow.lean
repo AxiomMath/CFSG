@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem not_hypA_of_cStarGen (hC : CStarGen G) : ¬ HypA G := by
   rintro ⟨-, M, hM, p, hpσ, H, hH, h3, hHM⟩
   have hp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hpσ.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEHM, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (H := H ⊓ M) (k := 2) h3.le
   have hEp : IsPGroup p E :=

@@ -59,7 +59,7 @@ theorem exists_component182_ker_AS (h172 : W3Thm172Weak G) (h5_4 : Asch5_4) (h5_
 theorem exists_shape185_AS (h172 : W3Thm172Weak G) (h5_12 : Asch5_12)
     (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS) (c : MinCex183 D V₀ V H i)
     (h1 : ¬ Concl181 D V₀ V H) :
-    IsSolvable ↥(relPPrimeCore 3 H) ∧ kerMV V H = relPPrimeCore 3 H ∧ Shape185 H := by
+    Group.IsSolvable ↥(relPPrimeCore 3 H) ∧ kerMV V H = relPPrimeCore 3 H ∧ Shape185 H := by
   obtain ⟨hsolv, hQM, hshape⟩ := c.exists_shape512 h172 h5_12 h1
   have hsp := (not_concl181_iff.mp h1).1.2
   exact ⟨hsolv, c.kerMV_eq_relPPrimeCore hsp (hQM.trans inf_le_right), hshape,

@@ -36,18 +36,18 @@ open CFSG.RankThree.PartOne.KCOrthogonal (reciprocalPolynomial)
 variable {r g : ℕ} {K : Type} [Field K]
 
 private theorem charP_two_kglSpU [Finite K] (hK : Nat.card K = 2 ^ g) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := g) (by rw [Fintype.card_eq_nat_card, hK])
 
 private theorem nontrivial_kglSpU {T : Type*} [Group T] (h : CFSG.Open.IsQuasisimple T) :
     Nontrivial T := by
-  haveI := h.2
+  have := h.2
   exact (QuotientGroup.mk'_surjective (Subgroup.center T)).nontrivial
 
 private theorem not_isSolvable_kglSpU {T : Type*} [Group T] (h : CFSG.Open.IsQuasisimple T) :
     ¬ Group.IsSolvable T := by
-  haveI := nontrivial_kglSpU h
-  haveI : Group.IsPerfect T := Group.isPerfect_def.mpr h.1
+  have := nontrivial_kglSpU h
+  have : Group.IsPerfect T := Group.isPerfect_def.mpr h.1
   exact Group.IsPerfect.not_isSolvable T
 
 private theorem spSupported_eq_bot_kglSpU {x : StatedSp r K}
@@ -76,7 +76,7 @@ private theorem cyc_ne_kglSpU : (X ^ 2 + X + 1 : K[X]) ≠ X - 1 := fun e => by
 private theorem ne_one_kglSpU (hr : 1 ≤ r) {x : StatedSp r K}
     (hh : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors (spEnd x)) : x ≠ 1 := by
   rintro rfl
-  haveI : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, hr⟩⟩
+  have : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, hr⟩⟩
   obtain ⟨hki, hkm, hkd⟩ := mem_primaryFactors.mp hh
   have h1 : spEnd (1 : StatedSp r K) = 1 := by simp [spEnd]
   rw [h1, minpoly.one] at hkd
@@ -92,7 +92,7 @@ private theorem reciprocal_cyc_kglSpU :
   have h0 : (X ^ 2 + X + 1 : K[X]).coeff 0 = 1 := by simp
   have hrev : (X ^ 2 + X + 1 : K[X]).reverse = X ^ 2 + X + 1 := by
     rw [Polynomial.reverse, hd]
-    simp [reflect_add, reflect_monomial, hX] <;> ring
+    simp [reflect_add, reflect_monomial, hX]; ring
   rw [reciprocalPolynomial, h0, hrev, inv_one, map_one, one_mul]
 
 open CFSG.HardMathSupport.Solomon.Coordinator.LieComp in
@@ -103,7 +103,7 @@ private theorem range_su_kglSpU {G : Type*} [Group G] {ℓ f : ℕ} {E W : Type}
     (A.subtype.comp (φ.symm.toMonoidHom.comp
       (Subgroup.inclusion (sesqSpecialUnitaryGroup_le Hf)))).range = ⁅A, A⁆ := by
   have hsU : ¬ Group.IsSolvable ↥(sesqUnitaryGroup Hf) := fun _ => by
-    haveI : Group.IsSolvable ↥A :=
+    have : Group.IsSolvable ↥A :=
       Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
     exact hns (Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (Subgroup.commutator_le_self A)))
@@ -133,8 +133,8 @@ theorem ggUnitaryOn_sp_unitary {r g : ℕ} {K : Type} [Field K] [Finite K]
     GGUnitaryOn ((⁅spSupported x {X ^ 2 + X + 1}, spSupported x {X ^ 2 + X + 1}⁆).map (proj r K))
       (MulAut.conj (proj r K y)) := by
   classical
-  haveI := charP_two_kglSpU hK
-  haveI : NeZero r := ⟨by omega⟩
+  have := charP_two_kglSpU hK
+  have : NeZero r := ⟨by omega⟩
   have hπ := CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
     (r := r) (K := K)
   have hg1 : 1 ≤ g := Nat.pos_of_ne_zero (by rintro rfl; norm_num at hg)
@@ -156,7 +156,7 @@ theorem ggUnitaryOn_sp_unitary {r g : ℕ} {K : Type} [Field K] [Finite K]
       (by rw [← map_pow, hx3, map_one]) fun h => hx1 (hπ.1 (h.trans (map_one _).symm)))).2 x rfl
     (orderOf_eq_prime hx3 hx1)
   let fac : CFSG.RankThree.PartOne.KCPrimary.primaryFactors (spEnd x) := ⟨X ^ 2 + X + 1, hh⟩
-  haveI : Fact (Irreducible (fac : K[X])) :=
+  have : Fact (Irreducible (fac : K[X])) :=
     ⟨(CFSG.RankThree.PartOne.KCPrimary.mem_primaryFactors.mp hh).1⟩
   obtain ⟨_, -, -, _, -, -, -, -, -, hE, -, Hf, hHf, hHfl, -, -, φ, -⟩ :=
     (blocks.selfDual fac cyc_ne_kglSpU reciprocal_cyc_kglSpU).exists_half
@@ -196,7 +196,7 @@ theorem ggUnitaryOn_sp_unitary {r g : ℕ} {K : Type} [Field K] [Finite K]
       rw [MulEquiv.apply_symm_apply, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply]
       apply Subtype.ext
       rw [Subgroup.coe_inclusion, sesqSUConj_apply]
-      simp only [Subgroup.coe_inclusion, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_inclusion, Subgroup.coe_mul, Subgroup.coe_inv]
     have hc := hy_hc (ψ s) (Subgroup.commutator_le_self _ (hψA s))
     have key : y * ψ s * y⁻¹ = ψ (sesqSUConj (φ ⟨y_h, hy_h⟩) s) :=
       calc y * ψ s * y⁻¹ = y_h * ((y_h⁻¹ * y) * ψ s * (y_h⁻¹ * y)⁻¹) * y_h⁻¹ := by group
@@ -209,8 +209,8 @@ theorem ggUnitaryOn_sp_unitary {r g : ℕ} {K : Type} [Field K] [Finite K]
 theorem ggInnerOrUnitaryOnComps_statedSp {r g : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ g) (hg : 3 ∣ 2 ^ g + 1) (hr : 2 ≤ r) :
     GGInnerOrUnitaryOnComps (StatedProj (StatedSp r K)) := by
-  haveI := charP_two_kglSpU hK
-  haveI : NeZero r := ⟨by omega⟩
+  have := charP_two_kglSpU hK
+  have : NeZero r := ⟨by omega⟩
   have hπ := CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
     (r := r) (K := K)
   intro a b ha3 ha1 hb3 hab J hJ _

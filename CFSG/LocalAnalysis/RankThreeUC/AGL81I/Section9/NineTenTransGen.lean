@@ -26,7 +26,7 @@ theorem pLayerIn_le_of_three_components (h62 : NineSixTwoComp)
       ∃ i : Fin 3, D = C.map (MulAut.conj (q ^ (i : ℕ))).toMonoidHom)
     (hinj : Function.Injective (fun i : Fin 3 => C.map (MulAut.conj (q ^ (i : ℕ))).toMonoidHom)) :
     pLayerIn 3 H ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hL
   have hm : ¬ CFSG.layer (StarGroup 3 H) ≤ starImg 3 H M :=
     fun hm => hL ((h.pLayerIn_le_iff).mpr hm)
@@ -105,7 +105,7 @@ theorem not_starImg_le_compNormalizer (h713 : SevenOneThree) (hI : NineTenInputs
     (hU : NineNineOne M 3) (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q H) (hLM : pLayerIn 3 H ≤ M)
     (hY : centralizer (CFSG.layer (StarGroup 3 H) : Set (StarGroup 3 H)) = ⊥) :
     ¬ starImg 3 H E ≤ compNormalizer (StarGroup 3 H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hE
   let π : ↥H →* StarGroup 3 H := QuotientGroup.mk' (primeComplementCore (G := ↥H) 3)
   let N : Subgroup G := ((compNormalizer (StarGroup 3 H)).comap π).map H.subtype
@@ -124,7 +124,7 @@ theorem not_starImg_le_compNormalizer (h713 : SevenOneThree) (hI : NineTenInputs
     rw [starImg, hSsub, hNsub, Subgroup.map_inf_comap (Q.subgroupOf H)
       (compNormalizer (StarGroup 3 H)) π]
     rfl
-  haveI hNnorm : (compNormalizer (StarGroup 3 H)).Normal := compNormalizer_normal
+  have hNnorm : (compNormalizer (StarGroup 3 H)).Normal := compNormalizer_normal
   have hb : CFSG.ABGLocalTools.IsSylowOf 3
       (starImg 3 H Q ⊓ compNormalizer (StarGroup 3 H))
       (compNormalizer (StarGroup 3 H)) :=
@@ -173,7 +173,7 @@ private theorem exists_moving_component_data (h : NineSettingGen G M 3 Q H E 2)
         ∃ i : Fin 3, D = D₀.map (MulAut.conj (x₀ ^ (i : ℕ))).toMonoidHom) ∧
       Function.Injective (fun i : Fin 3 =>
         D₀.map (MulAut.conj (x₀ ^ (i : ℕ))).toMonoidHom) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x₀, hx₀E, hx₀N⟩ : ∃ x ∈ starImg 3 H E, x ∉ compNormalizer (StarGroup 3 H) := by
     by_contra hcon
     exact hE fun x hx => by
@@ -324,8 +324,8 @@ theorem exists_ne_one_mem_compNormalizer (h : NineSettingGen G M 3 Q H E 2)
     rw [Subgroup.map_id]
   have hycomm : ∀ j : Fin 3, y * x₀ ^ (j : ℕ) = x₀ ^ (j : ℕ) * y := by
     intro j
-    haveI : IsMulCommutative ↥(starImg 3 H E) := by
-      haveI : IsMulCommutative ↥E := h.stdE.2.2.1.1
+    have : IsMulCommutative ↥(starImg 3 H E) := by
+      have : IsMulCommutative ↥E := h.stdE.2.2.1.1
       show IsMulCommutative ↥((E.subgroupOf H).map
         (QuotientGroup.mk' (primeComplementCore (G := ↥H) 3)))
       infer_instance
@@ -364,7 +364,7 @@ theorem nineTenTwo_list (h : NineSettingGen G M 3 Q H E 2) {C : Subgroup (StarGr
     ∃ S : Set (Subgroup G), S.ncard = 3 ∧
       (∀ J ∈ S, IsPComponentIn 3 J H ∧ CFSG.Open.pRank 3 J = 1) ∧ pLayerIn 3 H = sSup S ∧
       ∀ J ∈ S, ∀ J' ∈ S, ∃ e ∈ E, J' = J.map (MulAut.conj e).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : Fin 3 → Subgroup (StarGroup 3 H) :=
     fun i => C.map (MulAut.conj (q ^ (i : ℕ))).toMonoidHom
   have hfcomp : ∀ i : Fin 3, CFSG.IsComponent (f i) :=

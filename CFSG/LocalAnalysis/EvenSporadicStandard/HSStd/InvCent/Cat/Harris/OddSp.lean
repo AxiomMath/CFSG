@@ -26,8 +26,8 @@ open scoped MatrixGroups
 theorem InnerOutExact.of_mulEquiv {K : Type} [Field K] {d μ : K} {G G' : Type} [Group G]
     [Group G'] (e : G ≃* G') (h : InnerOutExact d μ G) : InnerOutExact d μ G' := by
   have hs : ∀ (H : Group.IsSolvable G), Group.IsSolvable G' := fun H => by
-    haveI := H
-    exact solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+    have := H
+    exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
   have hc : Nat.card G = Nat.card G' := Nat.card_congr e.toEquiv
   rcases h with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩
   · exact Or.inl ⟨h1, h2, hs h3⟩

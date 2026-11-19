@@ -29,12 +29,12 @@ theorem langFamilyCompLabel_conclusion_of_famLabelAt
     {K : Subgroup (ModGL τ L)} (hK : K = rationalComponentM S.ρ S.Γ (famCharHom a) i)
     (h : FamLabelAt S (famCharHom a) i) :
     ∃ n : ℕ, 2 ^ n = S.D.q ^ componentOrbitLength S.ρ
-        (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i) ∧
+        (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i) ∧
       GGCompLabelAt
         (componentLabel
-          (compRank (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i))
-          (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i).ncard
-          (twistKindOf S.ρ (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i)) n) K := by
+          (compRank (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i))
+          (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i).ncard
+          (twistKindOf S.ρ (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i)) n) K := by
   subst hK
   exact h
 

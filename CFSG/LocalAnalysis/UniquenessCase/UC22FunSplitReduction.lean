@@ -23,7 +23,7 @@ theorem funSplit_of_le_sup_centralizer {X : Type} [Group X] [Finite X]
     B = (B ⊓ K) ⊔ (B ⊓ centralizer (K : Set X)) := by
   obtain ⟨p, e₀, e, hp, hp2, he₀, -, he, ⟨eK⟩⟩ :=
     exists_psl2_quotient_of_isFundamentalOver hK.1
-  letI : Fact p.Prime := hp
+  let : Fact p.Prime := hp
   have he1 : 1 ≤ e := by rcases he with rfl | rfl <;> omega
   obtain ⟨s, hs, hinv⟩ := exists_inv_mod_centralizer_of_psl2_quotient
     hBK hBc hBo hB3 hT hperm hK.2 hp2 he1 eK

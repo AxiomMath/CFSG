@@ -97,7 +97,7 @@ theorem exists_conj_r0 [Finite F] (h2 : (2 : F) ≠ 0) (r : SL(2, F))
     !![a, b; c, d] * !![v₁, -(a * v₁ + b * v₂); v₂, -(c * v₁ - a * v₂)]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hda] <;> ring_nf <;>
-    first | ring1 | linear_combination v₁ * habc | linear_combination v₂ * habc
+    first | linear_combination v₁ * habc | linear_combination v₂ * habc
 
 theorem isQuasisimple_sl2 [Finite F] (h4 : 4 ≤ Nat.card F) : CFSG.IsQuasisimple SL(2, F) := by
   obtain ⟨hperf, hsimple⟩ :=

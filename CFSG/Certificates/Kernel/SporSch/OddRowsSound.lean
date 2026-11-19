@@ -128,7 +128,7 @@ theorem oddRowsCheck_of_rowsK {ps : List Nat} {specs : List WordRowSpec} {cap : 
     unfold genK
     congr 1
     ext g
-    simp only [generatorTables, List.size_toArray, List.length_map, Set.mem_setOf_eq]
+    simp only [generatorTables, List.size_toArray, List.length_map, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨l, hl, rfl⟩
       rw [List.getD_eq_getElem _ _ hl]
@@ -195,7 +195,7 @@ theorem oddRowsCheck_of_rowsK {ps : List Nat} {specs : List WordRowSpec} {cap : 
     apply List.countP_congr
     intro j _
     rw [strictB_id, Function.comp_apply, ← orderOf_of_ordC (prep_elemK hQ j)]
-    simp only [List.any_eq_true, Nat.beq_eq_true_eq, decide_eq_true_eq]
+    simp only [List.any_eq_true, decide_eq_true_eq]
     constructor
     · rintro ⟨p, hp, e⟩
       exact ⟨p, hp, by rw [e]; exact Nat.beq_refl p⟩

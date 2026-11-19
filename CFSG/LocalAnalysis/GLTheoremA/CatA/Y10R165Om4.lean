@@ -150,7 +150,7 @@ theorem exists_blocks_regimeI [Finite F] [CharP F 2] [FiniteDimensional F V]
   · omega
 
 theorem exists_blocks_regimeII [Finite F] [CharP F 2] [FiniteDimensional F V]
-    (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (hpF : (p : F) ≠ 0) (hp2 : p ≠ 2)
+    (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (hpF : (p : F) ≠ 0) (_hp2 : p ≠ 2)
     (hA : IsElemAbelian p A)
     (hB : ∀ a : ↥A, ∀ u v : V,
       polarBilin Q ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = polarBilin Q u v)

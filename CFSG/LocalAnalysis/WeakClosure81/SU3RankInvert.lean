@@ -31,7 +31,7 @@ theorem finrank_range_sub_le_two_mul_modCommRank {F : Type} [AddCommGroup F]
     Module.finrank (ZMod 2) (LinearMap.range ((y : F →ₗ[ZMod 2] F) - LinearMap.id)) ≤
       2 * modCommRank t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup (LGL 2 F) := Subgroup.zpowers y with hY
   set W : Submodule (ZMod 2) F := commSub Y with hW
   have hWrange : W = LinearMap.range ((y : F →ₗ[ZMod 2] F) - LinearMap.id) := by
@@ -120,9 +120,9 @@ theorem finrank_range_sub_le_two_mul_modCommRank {F : Type} [AddCommGroup F]
     have hmem : w ∈ fixSub Y ⊓ commSub Y := ⟨hwfixY, hwcommY⟩
     rw [hcompl.inf_eq_bot, Submodule.mem_bot] at hmem
     exact hmem
-  haveI : Module.Finite (ZMod 2) C := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) C' := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) C := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) C' := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have h2C : 2 * Module.finrank (ZMod 2) C ≤ Module.finrank (ZMod 2) W := by
     have h1 := Submodule.finrank_sup_add_finrank_inf_eq C C'
     rw [hinf, finrank_bot, add_zero] at h1

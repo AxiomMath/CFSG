@@ -52,7 +52,7 @@ theorem altHeart_bridge_proof (m : ℕ) :
 theorem sym_isAlt_of_perfect {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finite P]
     {H L : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) P)} (hsym : SymSpShape H)
     (hL : L = ⁅H, H⁆) (hperf : ⁅L, L⁆ = L) (hL1 : L ≠ ⊥) : ∃ m : ℕ, 5 ≤ m ∧ IsAltModel L m := by
-  haveI : FiniteDimensional (ZMod 2) P := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) P := Module.Finite.of_finite
   have h3 : 3 ≤ Module.finrank (ZMod 2) P := by
     by_contra hlt
     exact hL1 (eq_bot_of_isPerfect_of_finrank_le_two (by omega) L hperf)
@@ -69,6 +69,7 @@ theorem sym_isAlt_of_perfect {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Fi
 section AltModel
 variable {X : Type} [Group X] [Finite X] {W K : Subgroup X} [W.Normal]
 
+omit [Finite X] [W.Normal] in
 theorem altModel_of_isAlt_proof {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P]
     [Module (ZMod 2) P] [Finite P]
     {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P} {φs : ↥U₁ →* Multiplicative P}

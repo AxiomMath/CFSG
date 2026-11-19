@@ -11,6 +11,7 @@ open Subgroup CFSG.ComponentClassification.AS81 CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {z : G} {R : Subgroup G}
 
+omit [Finite G] in
 private theorem fz_map_subgroupOf_closure_le (hRC : R ≤ centralizer ({z} : Set G)) :
     (((fzCClosure z R).subgroupOf (centralizer ({z} : Set G))).map
         (QuotientGroup.mk' (zpowers (zC z))))
@@ -55,7 +56,7 @@ private theorem fz_map_subgroupOf_closure_le (hRC : R ≤ centralizer ({z} : Set
 theorem fz_relIndex_of_bar_sylow (hzR : z ∈ R) (hRC : R ≤ centralizer ({z} : Set G))
     (h : IsSylowOf 2 (fzBar z R) (normalClosure ((fzBar z R : Subgroup (FzCbar z)) :
       Set (FzCbar z)))) : ¬ 2 ∣ R.relIndex (fzCClosure z R) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := centralizer ({z} : Set G) with hC
   set π : ↥C →* FzCbar z := QuotientGroup.mk' (zpowers (zC z)) with hπ
   set K : Subgroup G := fzCClosure z R with hK

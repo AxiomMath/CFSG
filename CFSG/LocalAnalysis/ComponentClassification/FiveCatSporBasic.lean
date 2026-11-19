@@ -25,13 +25,13 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 theorem fivePumpSporClause_of_clauseFor {s : TauCeti.SporadicName} (h : FiveSporClauseFor s) :
     FivePumpSporClause s := by
   intro S _ _ hs hna e σ P hP hZ eP _
-  haveI := hs
+  have := hs
   exact (h S hna e σ P hP hZ eP).elim
 
 theorem fiveTwoLayerSporClause_of_clauseFor {s : TauCeti.SporadicName} (h : FiveSporClauseFor s) :
     FiveTwoLayerSporClause s := by
   intro S _ _ hs hna e σ P₁ P₂ h₁ _ _ hZ₁ _ e₁ _ _
-  haveI := hs
+  have := hs
   exact (h S hna e σ P₁ h₁ hZ₁ e₁).elim
 
 theorem false_of_noFive_comps {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
@@ -96,9 +96,9 @@ theorem fiveSpor_of_sporCompData {s : TauCeti.SporadicName}
     (h : HarrisLit.SporCompData s) : FiveSporClauseFor s :=
   fiveSpor_of_comps h.oddCore
     (fun G _ _ hG hna e t ht =>
-      (h.inner G hG hna e t ht).mono fun Y _ hY => noFive_of_not_smallCentralQuotient hY)
+      (h.inner G hG hna e t ht).mono fun _Y _ hY => noFive_of_not_smallCentralQuotient hY)
     (fun G _ _ hG hna e α hα2 hα =>
-      (h.outer G hG hna e α hα2 hα).mono fun Y _ hY => noFive_of_not_smallCentralQuotient hY)
+      (h.outer G hG hna e α hα2 hα).mono fun _Y _ hY => noFive_of_not_smallCentralQuotient hY)
 
 theorem false_of_not_dvd_fixed_card {S : Type} [Group S] [Finite S] {σ : MulAut S}
     {P : Subgroup S} (h : ProperFixedComponent σ P)

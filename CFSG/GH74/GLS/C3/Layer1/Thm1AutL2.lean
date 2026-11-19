@@ -18,7 +18,7 @@ variable {F : Type} [Field F] [Finite F] {K : Type} [Group K] [Finite K]
 theorem le_sylow_of_le_normalizer {X : Type} [Group X] [Finite X] (S : Sylow 2 X) {H : Subgroup X}
     (hH : IsPGroup 2 ↥H) (hN : H ≤ normalizer ((S : Subgroup X) : Set X)) : H ≤ (S : Subgroup X) := by
   have hsup : IsPGroup 2 ↥((S : Subgroup X) ⊔ H) :=
-    S.isPGroup'.to_sup_of_normal_left' hH hN
+    S.isPGroup.to_sup_of_normal_left' hH hN
   have hmax : ((S : Subgroup X) ⊔ H) ≤ (S : Subgroup X) :=
     S.maximal_isPGroup.2 hsup le_sup_left
   exact (le_sup_right : H ≤ (S : Subgroup X) ⊔ H).trans hmax
@@ -46,7 +46,7 @@ theorem exists_notation_field_inv (hF : L2Field F) (e : K ≃* L2 F) (B : Subgro
   obtain ⟨e', N, hNT⟩ := ivk_1_2a_exists F hF K e T'
   have hBN : B ≤ (N.T : Subgroup (MulAut K)) := by rw [hNT]; exact hBT'
   have hPeq : N.P = B ⊓ innAut K := by
-    have hNP2 : IsPGroup 2 ↥N.P := N.T.isPGroup'.to_inf_left
+    have hNP2 : IsPGroup 2 ↥N.P := N.T.isPGroup.to_inf_left
     exact hSyl.eq_of_le (inf_le_inf_right _ hBN) inf_le_right hNP2
   have hsq := sq_eq_one_of_isElementaryAbelian' hE
   have hcomm := comm_of_isElementaryAbelian' hE

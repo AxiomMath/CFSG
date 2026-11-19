@@ -19,7 +19,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 private theorem isSolvable_of_natCard {G : Type*} [Group G] [Finite G] {p q a b : ℕ}
     (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (h : Nat.card G = p ^ a * q ^ b) :
     Group.IsSolvable G := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [← Nat.card_eq_fintype_card]; exact h)
 
@@ -92,19 +92,19 @@ theorem ff_K0_solvable (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
     have h := finrank_fixSp_add_finrank_commSp (Q := Q) t
     omega
   have hsgnU := aux_quadSign_fixSp_eq hQ hdim hsgn htt hty
-  haveI hsolU : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
+  have hsolU : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
     isSolvable_of_natCard (p := 2) (q := 3) (a := 2) (b := 0)
       Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [natCard_oGroup_two_plus (nondegenerate_restrict_fixSp hQ htt) hdimU hsgnU]
           norm_num)
-  haveI hsolW : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
+  have hsolW : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
     isSolvable_of_natCard (p := 2) (q := 3) (a := 7) (b := 2)
       Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [natCard_oGroup_four_plus (nondegenerate_restrict_commSp hQ htt) hdimC hsgnC]
           norm_num)
-  haveI hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
+  have hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     ff_solvable_congr (auxProdEquiv hQ htt) inferInstance
-  haveI hsolA :
+  have hsolA :
       Group.IsSolvable ↥(omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     Group.isSolvable_of_isSolvable_injective (f := auxHom hQ htt) (auxHom_injective hQ htt)
   rw [← hyx']

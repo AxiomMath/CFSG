@@ -38,6 +38,7 @@ theorem isType198_of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (e : Y ≃* Y')
   · exact Or.inr (Or.inl (iso_isTripleCover e h))
   · exact Or.inr (Or.inr (iso_isTripleCover e h))
 
+omit [Finite S'] in
 private theorem iso_theta (e : S ≃* S') (L : Subgroup S) :
     (aschbacherSolvableCore 3 L).map (L.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom =
       aschbacherSolvableCore 3 (L.map e.toMonoidHom) :=
@@ -49,6 +50,7 @@ private noncomputable def iso_quotCore (e : S ≃* S') (L : Subgroup S) :
   QuotientGroup.congr (aschbacherSolvableCore 3 L) (aschbacherSolvableCore 3 (L.map e.toMonoidHom))
     (L.equivMapOfInjective e.toMonoidHom e.injective) (iso_theta e L)
 
+omit [Finite S'] in
 private theorem iso_thetaIn (e : S ≃* S') (L : Subgroup S) :
     thetaIn (L.map e.toMonoidHom) = (thetaIn L).map e.toMonoidHom := by
   have hcomp : (L.map e.toMonoidHom).subtype.comp
@@ -58,6 +60,7 @@ private theorem iso_thetaIn (e : S ≃* S') (L : Subgroup S) :
   unfold thetaIn
   rw [← iso_theta e L, Subgroup.map_map, Subgroup.map_map, hcomp]
 
+omit [Finite S] [Finite S'] in
 private theorem iso_centralizer (e : S ≃* S') (c : S) :
     (Subgroup.centralizer ({c} : Set S)).map e.toMonoidHom =
       Subgroup.centralizer ({e c} : Set S') := by
@@ -73,6 +76,7 @@ private theorem iso_centralizer (e : S ≃* S') (c : S) :
     rw [map_mul, map_mul, e.apply_symm_apply]
     exact hy
 
+omit [Finite S] [Finite S'] in
 private theorem iso_congr_conj (e : S ≃* S') (s : S) :
     (MulAut.congr e).toMonoidHom (MulAut.conj s) = MulAut.conj (e s) := by
   apply MulEquiv.ext
@@ -108,7 +112,7 @@ theorem LocalDatum.map (e : S ≃* S') {c : S} {L : Subgroup S} (h : LocalDatum 
     rw [hφ] at hsn
     exact hsn
   perfect := by
-    haveI := h.perfect
+    have := h.perfect
     exact Group.IsPerfect.map e.toMonoidHom
   quasisimple := CFSG.IsQuasisimple.of_mulEquiv (iso_quotCore e L).symm h.quasisimple
   type := isType198_of_mulEquiv (iso_quotCore e L) h.type

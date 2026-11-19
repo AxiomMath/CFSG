@@ -95,9 +95,9 @@ theorem colourLabelOK_of_clabK {n d k T L : Nat} {nbr : Array (List Nat)} {t : A
     unfold cgetN
     rw [nIf_eq]
     by_cases hv : v < n
-    · rw [if_pos (blt_true hv)]
+    · rw [ite_eq_left (blt_true hv)]
       exact CFSG.KC.Fi22Snd.cget_colourK hn hnbr hrow hsym ht hpre v
-    · rw [if_neg (fun h' => hv (blt_t h')),
+    · rw [ite_eq_right (fun h' => hv (blt_t h')),
         getElem!_neg _ _ (by rw [colourT_size]; omega)]
       rfl
   unfold clabK at h

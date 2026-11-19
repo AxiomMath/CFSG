@@ -180,8 +180,8 @@ theorem joinOK_of {GA GB : Nat} {BK BKI : Nat → Nat} {blocks : Array (Array Ta
     intro t ht
     rw [append_get4 (hblk _ hi').1 (hblk _ hj').1 ht]
     by_cases h4 : t < 4
-    · rw [if_pos h4, (hblk _ hi').2 t h4, l8_lt h4]
-    · rw [if_neg h4, (hblk _ hj').2 (t - 4) (by omega), l8_ge h4]
+    · rw [ite_eq_left h4, (hblk _ hi').2 t h4, l8_lt h4]
+    · rw [ite_eq_right h4, (hblk _ hj').2 (t - 4) (by omega), l8_ge h4]
   have hp : ∀ t < 8, perm275 (l8 BK e.1 e.2.1 t) (l8 BKI e.1 e.2.1 t) = true := by
     intro t ht
     by_cases h4 : t < 4

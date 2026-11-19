@@ -43,14 +43,14 @@ theorem drop5_eq (L : List Nat) : drop5 L = L.drop 5 := by
 theorem lineRec_spec (body : Nat → List Nat → Nat → Bool) : ∀ (S LNs CMs : List Nat) (i : Nat),
     List.rec (motive := fun _ => List Nat → List Nat → Nat → Bool) (fun _ _ _ => true)
       (fun t _ ih LNs CMs i => List.rec (motive := fun _ => Bool) false (fun row CMr _ =>
-        Bool.and' (ih (drop5 LNs) CMr (Nat.succ i)) (body t LNs row)) CMs) S LNs CMs i = true →
+        _root_.Bool.and (ih (drop5 LNs) CMr (Nat.succ i)) (body t LNs row)) CMs) S LNs CMs i = true →
     ∀ k (hk : k < S.length), ∃ hk' : k < CMs.length, body S[k] (LNs.drop (5 * k)) CMs[k] = true
   | [], _, _, _, _, k, hk => absurd hk (Nat.not_lt_zero k)
   | t :: S, LNs, [], i, h, _, _ => absurd h Bool.false_ne_true
   | t :: S, LNs, row :: CMs, i, h, k, hk => by
-    change Bool.and' (List.rec (motive := fun _ => List Nat → List Nat → Nat → Bool)
+    change _root_.Bool.and (List.rec (motive := fun _ => List Nat → List Nat → Nat → Bool)
       (fun _ _ _ => true) (fun t _ ih LNs CMs i => List.rec (motive := fun _ => Bool) false
-        (fun row CMr _ => Bool.and' (ih (drop5 LNs) CMr (Nat.succ i)) (body t LNs row)) CMs)
+        (fun row CMr _ => _root_.Bool.and (ih (drop5 LNs) CMr (Nat.succ i)) (body t LNs row)) CMs)
       S (drop5 LNs) CMs (Nat.succ i)) (body t LNs row) = true at h
     rw [and'_eq, Bool.and_eq_true] at h
     cases k with
@@ -142,7 +142,7 @@ theorem bitN_zero {r j : Nat} (h : Nat.beq (bitN r j) 0 = true) : r.testBit j = 
   rw [← bitN_testBit, Nat.eq_of_beq_eq_true h]
   rfl
 
-theorem or'_eq (a b : Bool) : Bool.or' a b = (a || b) := by
+theorem or'_eq (a b : Bool) : _root_.Bool.or a b = (a || b) := by
   cases a <;> cases b <;> rfl
 
 theorem incB_nodup {N : Nat} {L : List Nat} (h : incB N L = true) : L.Nodup :=
@@ -167,8 +167,8 @@ theorem line_perm {IL S INV LN CM : List Nat} (hs : slOK G S = true)
       allI ((LN.drop (5 * k)).take 5) (fun _ a => allI ((LN.drop (5 * k)).take 5) fun _ b =>
         Nat.beq (commP 1 (atLane 1 (ofIx (lanePl G)) a) (atLane 1 (ofIx (lanePl G)) b)) 1) =
         true ∧ distProd (ofIx (lanePl G)) ((LN.drop (5 * k)).take 5) = true := by
-  have hSb := incS hg hG hs
-  have hD := incD hg hG hs
+  have hSb := incS hs
+  have hD := incD hs
   have hDl : (laneT :: S).length = 37 := by simp [hS]
   have hdl := dl_eq hg hG hs hi
   have hrec := lineRec_spec _ S LN CM 0 (by
@@ -176,7 +176,7 @@ theorem line_perm {IL S INV LN CM : List Nat} (hs : slOK G S = true)
     simpa only [frc_eqL, lanesK_eq, bindP_eq] using h)
   intro k hk
   obtain ⟨hkc, hb⟩ := hrec k hk
-  simp only [and'_eq, Bool.and_eq_true, take5_eq] at hb
+  simp only [Bool.and_eq_true, take5_eq] at hb
   obtain ⟨F1, F2, F3, F4, F5, F6, -, -, -⟩ := hb
   have hl5 : ((LN.drop (5 * k)).take 5).length = 5 := by
     rw [← lenR_eq]
@@ -238,8 +238,8 @@ theorem lineOK_spec {IL S INV LN CM : List Nat} (hs : slOK G S = true)
       ∀ b' ∈ lineIn dlC t, a ≠ b → a' ≠ b' → mulC a b = mulC a' b' →
         (a = a' ∧ b = b') ∨ (a = b' ∧ b = a')) ∧
     ∀ t ∈ sl, mulC tau0 t ∉ dlC := by
-  have hSb := incS hg hG hs
-  have hD := incD hg hG hs
+  have hSb := incS hs
+  have hD := incD hs
   have hDl : (laneT :: S).length = 37 := by simp [hS]
   have hdl := dl_eq hg hG hs hi
   have hrec := lineRec_spec _ S LN CM 0 (by
@@ -282,7 +282,7 @@ theorem lineOK_spec {IL S INV LN CM : List Nat} (hs : slOK G S = true)
     simp only [List.getElem_map] at hcomm ⊢
     obtain ⟨hkc, hb⟩ := hrec k hk
     obtain ⟨hkc', hb'⟩ := hrec k' hk'
-    simp only [and'_eq, Bool.and_eq_true] at hb hb'
+    simp only [Bool.and_eq_true] at hb hb'
     obtain ⟨-, -, -, -, -, -, F7, F8, -⟩ := hb
     obtain ⟨-, -, -, -, -, -, F7', -, -⟩ := hb'
     have hrow : ∀ (k0 : Nat) (hk0 : k0 < S.length) (r : Nat),
@@ -326,7 +326,7 @@ theorem lineOK_spec {IL S INV LN CM : List Nat} (hs : slOK G S = true)
     rw [List.length_map] at hi hj hi' hj'
     simp only [List.getElem_map] at hab hab' he ⊢
     have h1 := allI_spec (allI_spec (allI_spec (allI_spec hdist i hi) j hj) i' hi') j' hj'
-    simp only [or'_eq, and'_eq, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq] at h1
+    simp only [Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq] at h1
     have hP : prodC (ofIx (lanePl G)) ℓ[i] ℓ[j] = prodC (ofIx (lanePl G)) ℓ[i'] ℓ[j'] := by
       apply prodC_congr
       rw [lane_mulP _ _ (lane1 hg hG (hℓ _ (List.getElem_mem hi)))
@@ -344,7 +344,6 @@ theorem lineOK_spec {IL S INV LN CM : List Nat} (hs : slOK G S = true)
       exact absurd rfl hab'
     · first
       | (rw [hPb] at e; exact absurd e (by decide))
-      | exact absurd hP e
     · subst e1
       subst e2
       exact Or.inl ⟨rfl, rfl⟩
@@ -360,7 +359,7 @@ theorem lineOK_spec {IL S INV LN CM : List Nat} (hs : slOK G S = true)
     rw [List.length_map] at hc
     simp only [List.getElem_map] at hce
     obtain ⟨hkc, hb⟩ := hrec k hk
-    simp only [and'_eq, Bool.and_eq_true, mulK_frc] at hb
+    simp only [Bool.and_eq_true, mulK_frc] at hb
     obtain ⟨-, -, -, -, -, -, -, -, F9⟩ := hb
     have ht : (ones 37).testBit c = true := by
       rw [ones_testBit]
@@ -375,13 +374,13 @@ theorem cm_spec {S LN CM : List Nat} (hs : slOK G S = true) (hS : S.length = 36)
     (h : lineOK G S LN CM = true) : ∀ i (hi : i < S.length), ∃ hi' : i < CM.length,
       ∀ j (hj : j < S.length), CM[i].testBit j =
         (mulC (dcG G S[i]) (dcG G S[j]) == mulC (dcG G S[j]) (dcG G S[i])) := by
-  have hSb := incS hg hG hs
+  have hSb := incS hs
   have hrec := lineRec_spec _ S LN CM 0 (by
     unfold lineOK at h
     simpa only [frc_eqL, lanesK_eq, bindP_eq] using h)
   intro i hi
   obtain ⟨hic, hb⟩ := hrec i hi
-  simp only [and'_eq, Bool.and_eq_true] at hb
+  simp only [Bool.and_eq_true] at hb
   obtain ⟨-, -, -, -, -, -, F7, -, -⟩ := hb
   refine ⟨hic, fun j hj => ?_⟩
   have ht : (ones 36).testBit j = true := by

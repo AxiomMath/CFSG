@@ -14,7 +14,7 @@ theorem card_frattini_quotient_le {H : Type} [Group H] [Finite H] (hH : IsPGroup
     (hT : ∀ x ∈ M, x ^ 2 = 1 → x ∈ T) :
     Nat.card (H ⧸ frattini H) ≤ M.index * Nat.card T := by
   classical
-  letI : CommGroup M := { (inferInstance : Group M) with
+  let : CommGroup M := { (inferInstance : Group M) with
     mul_comm := fun a b => Subtype.ext (hM a a.2 b b.2) }
   let sq : M →* M := powMonoidHom 2
   let K' : Subgroup M := sq.range

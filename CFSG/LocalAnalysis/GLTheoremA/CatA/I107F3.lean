@@ -59,19 +59,22 @@ theorem central_of_image_central {T Q : Type} [Group T] [Group Q] (π : T →* Q
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_top_le_glaPPrimeCore (p : ℕ) (L : Subgroup G) :
     ⁅(⊤ : Subgroup ↥L), GLAPPrimeCore p ↥L⁆ ≤ GLAPPrimeCore p ↥L :=
   Subgroup.commutator_le_right _ _
 
 noncomputable def ltildeToPQuot (p : ℕ) (L : Subgroup G) : LTilde p L →* PQuot p L :=
   QuotientGroup.map _ (GLAPPrimeCore p ↥L) (MonoidHom.id ↥L)
-    (fun x hx => commutator_top_le_glaPPrimeCore p L hx)
+    (fun _x hx => commutator_top_le_glaPPrimeCore p L hx)
 
+omit [Finite G] in
 theorem ltildeToPQuot_surjective (p : ℕ) (L : Subgroup G) : Function.Surjective (ltildeToPQuot p L) := by
   intro q
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
   exact ⟨(QuotientGroup.mk x : LTilde p L), rfl⟩
 
+omit [Finite G] in
 theorem ltilde_perfect {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L) :
     commutator (LTilde p L) = ⊤ := by
   have hLL : commutator ↥L = ⊤ := by
@@ -91,6 +94,7 @@ theorem ltilde_perfect {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L) :
   rw [_root_.commutator_def]
   exact hmem
 
+omit [Finite G] in
 theorem ltilde_ker_le_center (p : ℕ) (L : Subgroup G) :
     ∀ k ∈ (ltildeToPQuot p L).ker, k ∈ Subgroup.center (LTilde p L) := by
   intro k hk
@@ -110,6 +114,7 @@ theorem ltilde_ker_le_center (p : ℕ) (L : Subgroup G) :
   rw [key]
   exact Subgroup.inv_mem _ hmem
 
+omit [Finite G] in
 theorem ltilde_centre_equiv {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L) :
     Nonempty (LTilde p L ⧸ Subgroup.center (LTilde p L) ≃* PSimple p L) := by
   let f : LTilde p L →* PSimple p L :=

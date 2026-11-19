@@ -19,7 +19,7 @@ theorem le_mParam_of_index_sq {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
     rw [even_iff_two_dvd, ← h2]
     exact orderOf_dvd_natCard _
   unfold E3.mParam
-  rw [if_pos hEven]
+  rw [ite_eq_left hEven]
   refine le_csInf ⟨_, t, htY, hto, rfl⟩ ?_
   rintro n ⟨s, hsY, hso, rfl⟩
   obtain ⟨m, hm⟩ := CFSG.QuasithinUnique.Setup.X1.index_fixV_eq_two_pow hW (Subgroup.zpowers s)

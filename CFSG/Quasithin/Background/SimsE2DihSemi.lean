@@ -80,7 +80,7 @@ theorem card_le_of_minimal [Finite W] (θ : Module.End (ZMod 2) W) {n : ℕ} (hn
       exact congrArg Subtype.val (LinearMap.mem_ker.1 hy)
   set φ : (ZMod 2)[X] →+* Module.End (ZMod 2) S := (aeval θS).toRingHom with hφ
   have hφapp : ∀ f, φ f = aeval θS f := fun f => rfl
-  haveI hprime : (RingHom.ker φ).IsPrime := by
+  have hprime : (RingHom.ker φ).IsPrime := by
     rw [Ideal.isPrime_iff]
     refine ⟨?_, fun {f g} hfg => ?_⟩
     · rw [Ne, Ideal.eq_top_iff_one, RingHom.mem_ker, map_one]
@@ -99,9 +99,9 @@ theorem card_le_of_minimal [Finite W] (θ : Module.End (ZMod 2) W) {n : ℕ} (hn
         have h0 := hinj f (by rwa [← hφapp]) (this.trans (map_zero (aeval θS f)).symm)
         rw [h0]
         rfl
-  haveI : Finite (Module.End (ZMod 2) S) :=
+  have : Finite (Module.End (ZMod 2) S) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) S => (f : S → S)) DFunLike.coe_injective
-  haveI : Finite ((ZMod 2)[X] ⧸ RingHom.ker φ) :=
+  have : Finite ((ZMod 2)[X] ⧸ RingHom.ker φ) :=
     Finite.of_equiv _ (RingHom.quotientKerEquivRange φ).symm.toEquiv
   have hroot : ∀ x : (ZMod 2)[X] ⧸ RingHom.ker φ, x ^ 2 ^ n = x := by
     intro x
@@ -109,7 +109,7 @@ theorem card_le_of_minimal [Finite W] (θ : Module.End (ZMod 2) W) {n : ℕ} (hn
     rw [← map_pow, Ideal.Quotient.eq, RingHom.mem_ker, map_sub, sub_eq_zero, hφapp, hφapp]
     exact aeval_pow_two_pow θS hθS f
   have hcardR : Nat.card ((ZMod 2)[X] ⧸ RingHom.ker φ) ≤ 2 ^ n := by
-    haveI : Fintype ((ZMod 2)[X] ⧸ RingHom.ker φ) := Fintype.ofFinite _
+    have : Fintype ((ZMod 2)[X] ⧸ RingHom.ker φ) := Fintype.ofFinite _
     have hq : 1 < 2 ^ n := Nat.one_lt_two_pow hn
     have hdeg : (X ^ 2 ^ n - X : ((ZMod 2)[X] ⧸ RingHom.ker φ)[X]).natDegree = 2 ^ n := by
       rw [natDegree_sub_eq_left_of_natDegree_lt] <;> simp [hq]
@@ -200,7 +200,6 @@ variable {N : Type*} [CommGroup N]
   toFun x := γ x * γ⁻¹ x
   map_one' := by rw [map_one, map_one, one_mul]
   map_mul' x y := by
-    change γ (x * y) * γ⁻¹ (x * y) = γ x * γ⁻¹ x * (γ y * γ⁻¹ y)
     rw [map_mul, map_mul]
     exact mul_mul_mul_comm _ _ _ _
 
@@ -303,7 +302,7 @@ end Module
 theorem exists_compl_of_iterate (hsq : ∀ x : N, x * x = 1) (θ : N →* N) {n : ℕ} (hn : n ≠ 0)
     (hθ : ∀ x, θ^[2 ^ n] x = θ x) {S : Subgroup N} (hS : ∀ x ∈ S, θ x ∈ S) :
     ∃ S' : Subgroup N, (∀ x ∈ S', θ x ∈ S') ∧ S ⊓ S' = ⊥ ∧ S ⊔ S' = ⊤ := by
-  letI := moduleZModTwo hsq
+  let := moduleZModTwo hsq
   set e : Subgroup N ≃o Submodule (ZMod 2) (Additive N) := subgroupOrderIsoSubmodule
   obtain ⟨S'', hS''inv, hcompl⟩ := exists_isCompl_of_pow_eq_self _ hn
     (toZModLinearMap_pow_eq θ hθ) ((invtSubmodule_iff θ S).2 hS)
@@ -316,7 +315,7 @@ theorem card_le_of_minimal_mul [Finite N] (hsq : ∀ x : N, x * x = 1) (θ : N �
     (hn : n ≠ 0) (hθ : ∀ x, θ^[2 ^ n] x = θ x) {S : Subgroup N} (hS : ∀ x ∈ S, θ x ∈ S)
     (hS0 : S ≠ ⊥) (hmin : ∀ T : Subgroup N, (∀ x ∈ T, θ x ∈ T) → T ≤ S → T = ⊥ ∨ T = S) :
     Nat.card S ≤ 2 ^ n := by
-  letI := moduleZModTwo hsq
+  let := moduleZModTwo hsq
   set e : Subgroup N ≃o Submodule (ZMod 2) (Additive N) := subgroupOrderIsoSubmodule
   rw [← card_subgroupOrderIsoSubmodule S]
   refine card_le_of_minimal _ hn (toZModLinearMap_pow_eq θ hθ) ((invtSubmodule_iff θ S).2 hS)

@@ -46,10 +46,12 @@ theorem F1_ranPre (i : Fin 6) : (rho K (tInv1 K) - 1) (ranPre1 K i) = ranG1 K i 
   rw [rho_tInv1, cfm_rho_X01 _ _ hm, cfm_add]
   fin_cases i <;> interval_cases m <;> simp (config := {decide := true}) [ranPre1, ranG1, cfm_ub]
 
+omit [CharP K 2] in
 theorem kerG1_pivots : ∀ i j, cfm K (kerG1 K i) (kerP1 j) = if i = j then (1 : K) else 0 := by
   intro i j
   fin_cases i <;> fin_cases j <;> simp (config := {decide := true}) [kerG1, kerP1, cfm_ub]
 
+omit [CharP K 2] in
 theorem ranG1_pivots : ∀ i j, cfm K (ranG1 K i) (ranP1 j) = if i = j then (1 : K) else 0 := by
   intro i j
   fin_cases i <;> fin_cases j <;> simp (config := {decide := true}) [ranG1, ranP1, cfm_ub]
@@ -68,6 +70,7 @@ theorem ker_range_eq1 :
     (linearIndependent_of_pivots_mask _ kerP1 kerP1_card kerG1_pivots)
     (linearIndependent_of_pivots_mask _ ranP1 ranP1_card ranG1_pivots)
 
+omit [CharP K 2] in
 theorem isPure_ub (a b d : Fin 6) (hab : a < b) (hbd : b < d) : IsPure K (ub K a b d hab hbd) :=
   isPure_cubeBasis _
 
@@ -125,7 +128,7 @@ theorem mem_range_of_InR1 {η : Cube K} (h : InR1 η) : η ∈ LinearMap.range (
   intro m hm hc
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14⟩ := h
   rcases exists_mask3 hm hc with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-    simp (config := {decide := true}) [ranG1, ranP1, cfm_ub_mask, cfm_zero, cfm_add, cfm_smul, Fin.sum_univ_succ, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14]
+    simp (config := {decide := true}) [ranG1, ranP1, cfm_ub_mask, cfm_add, cfm_smul, Fin.sum_univ_succ, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14]
 
 theorem model1_hUC {u : GL (Fin 6) K} (hu : u ∈ Uset1 K) :
     ∀ ξ ∈ LinearMap.ker (rho K (tInv1 K) - 1),
@@ -150,14 +153,14 @@ theorem model1_hUfix :
     exact cfm_zero_of_fixed pos1 hz _ (by norm_num) (by decide)
 
 theorem model1_P3 :
-    ∃ U : Set (GL (Fin 6) K), (∀ u ∈ U, (u : Matrix (Fin 6) (Fin 6) K).det = 1) ∧
-      (∀ u ∈ U, u * tInv1 K = tInv1 K * u) ∧
-      (∀ u ∈ U, ∀ ξ ∈ LinearMap.ker (rho K (tInv1 K) - 1),
-        rho K u ξ - ξ ∈ LinearMap.range (rho K (tInv1 K) - 1)) ∧
-      (∀ ξ ∈ LinearMap.ker (rho K (tInv1 K) - 1), (∀ u ∈ U, rho K u ξ = ξ) →
+    ∃ U : Set (GL (Fin 6) K), (∀ _u ∈ U, (_u : Matrix (Fin 6) (Fin 6) K).det = 1) ∧
+      (∀ _u ∈ U, _u * tInv1 K = tInv1 K * _u) ∧
+      (∀ _u ∈ U, ∀ ξ ∈ LinearMap.ker (rho K (tInv1 K) - 1),
+        rho K _u ξ - ξ ∈ LinearMap.range (rho K (tInv1 K) - 1)) ∧
+      (∀ ξ ∈ LinearMap.ker (rho K (tInv1 K) - 1), (∀ _u ∈ U, rho K _u ξ = ξ) →
         ξ ∈ LinearMap.range (rho K (tInv1 K) - 1)) :=
-  ⟨Uset1 K, fun u hu => (Uset1_det_commute hu).1, fun u hu => (Uset1_det_commute hu).2,
-    fun u hu => model1_hUC hu, model1_hUfix⟩
+  ⟨Uset1 K, fun _u hu => (Uset1_det_commute hu).1, fun _u hu => (Uset1_det_commute hu).2,
+    fun _u hu => model1_hUC hu, model1_hUfix⟩
 
 theorem model1_P2 [Finite K] (h4 : 4 ≤ Nat.card K) :
     ∃ P : Set (GL (Fin 6) K),
@@ -182,9 +185,9 @@ theorem model1_P2 [Finite K] (h4 : 4 ≤ Nat.card K) :
       rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     first
     | (rw [cfm_zero_of_fixed (fun i j => 2 ≤ i.val ∧ i.val < j.val) hz _ hm (by decide)]
-       simp [cfm_smul, cfm_ub_mask]; done)
+       simp [cfm_smul, cfm_ub_mask])
     | (simp [cfm_smul, cfm_ub_mask]; done)
-    | (rw [← hc]; simp [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ, cfm_zero]; done)
+    | (rw [← hc]; simp [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ])
   refine ⟨s, hsS, hs0, ?_⟩
   rw [hs_eq]
   exact (isPure_ub 0 2 3 _ _).smul _

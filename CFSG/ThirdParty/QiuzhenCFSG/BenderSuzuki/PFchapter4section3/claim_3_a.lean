@@ -78,7 +78,7 @@ public theorem claim_3_a
     intro h
     exact hx (theta.injective h)
   have hcard : 5 ≤ Nat.card F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     let orbit : Finset F := {0, 1, x, theta x, theta (theta x)}
     have horbit_card : orbit.card = 5 := by
       have h0 : 0 ∉ ({1, x, theta x, theta (theta x)} : Finset F) := by
@@ -100,7 +100,7 @@ public theorem claim_3_a
     simpa [Nat.card_eq_fintype_card] using Finset.card_le_univ orbit
   have hexists_not_mem (s : Finset F) (hs : s.card < Nat.card F) :
       ∃ x : F, x ∉ s := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     by_contra h
     push Not at h
     have hsub : Finset.univ ⊆ s := by

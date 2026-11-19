@@ -840,10 +840,10 @@ theorem hasWitness_bthree_gen (hF : (rootData n K).IsFrobenius σ F)
     rw [hc0, hc1, zero_add, zero_add] at hcc
     have m0 := bracket_intMap hNl hMY hMY ((bracket_mul_of
       (num_cr_ne (b := b) h0l.symm) (num_cr_self (b := b) l)).trans
-        (by rw [zero_mul, zero_add]; try rfl)) K
+        (by rw [zero_mul, zero_add])) K
     have m1 := bracket_intMap hNl hMY' hMY'.neg ((bracket_mul_of
       (num_cr_ne (b := b) h0l.symm) (num_an_self (b := b) l)).trans
-        (by rw [zero_mul, zero_add, mul_neg]; try rfl)) K
+        (by rw [zero_mul, zero_add, mul_neg])) K
     have m3 := bracket_intMap hNl (hMM 3) IsIntOp.zero ((bracket_mul_of
       (num_cr_ne (b := b) h0l.symm) (num_zeta l)).trans (by rw [zero_mul, zero_add, mul_zero])) K
     rw [intMap_neg'] at m1

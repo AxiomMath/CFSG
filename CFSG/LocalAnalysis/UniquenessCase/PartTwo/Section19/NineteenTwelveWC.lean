@@ -152,7 +152,7 @@ theorem nineteen_twelve_wc_at (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     have hle : E ≤ D.M.map (MulAut.conj g⁻¹).toMonoidHom := by
       intro x hx
       refine ⟨g * x * g⁻¹, hEgM ⟨x, hx, rfl⟩, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     have hmem : g⁻¹ ∈ normalizer (D.M : Set G) :=
       Subgroup.mem_normalizer_iff_map_conj_eq.mpr (hEU.2 g⁻¹ hle)
     rw [CFSG.RankThreeCoreUniqueness.Helpers.maxTwoLocal_self_normalizing D.M D.maxLocal]

@@ -215,8 +215,8 @@ theorem addedReflection_fixes_x_of_coroot_mem_spanH_general
       (ι (Additive.ofMul (⟨x, hH.1.tableB_facts.2.2.1⟩ : ↥Bs))) =
       ι (Additive.ofMul (⟨x, hH.1.tableB_facts.2.2.1⟩ : ↥Bs)) := by
   classical
-  haveI : Finite ↥Bs := Subtype.finite
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite ↥Bs := Subtype.finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let hL : Fin 6 → V := fun i => h (Sum.inl (e6 i))
   let αL : Fin 6 → Module.Dual (ZMod 3) V := fun i => α (Sum.inl (e6 i))
   let φL : Fin 6 → MulAut ↥Bs := fun i => φ (Sum.inl (e6 i))
@@ -226,7 +226,7 @@ theorem addedReflection_fixes_x_of_coroot_mem_spanH_general
   have hselfL : ∀ i : Fin 6, αL i (hL i) = 2 := by
     intro i
     rw [hpairE6 i i]
-    norm_num [CartanMatrix.E₆]
+    norm_num [CartanMatrix.E_six_eq]
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hH.1.tableB_facts.2.2.2.1
@@ -393,7 +393,7 @@ theorem false_of_all_added_inside
       (Set.range (fun j : {j : Λ // j ∉ S} => φ (Sum.inl j)) ∪
         Set.range fun a : Λa => φ (Sum.inr a)))
     (hsel : ¬ LinearIndependent (ZMod 3) (fun i : Λ => h (Sum.inl i)))
-    (hcard : Nat.card Bs = 3 ^ 6)
+    (_hcard : Nat.card Bs = 3 ^ 6)
     (e6 : Fin 6 ≃ Λ) (hMLeq : ML = CoxeterMatrix.E₆.reindex e6)
     (hinsAll : ∀ a : Λa,
       h (Sum.inr a) ∈ E6QTwo.spanH (fun i : Fin 6 => h (Sum.inl (e6 i))))

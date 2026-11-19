@@ -61,7 +61,7 @@ theorem M10Cfg.inner_false (hI : A6InnerLieSmall)
     exact Subgroup.orderOf_mk z hzS
   have hDF : D ≤ F := le_inf cfg.hDS cfg.hDC
   have hFC : F ≤ C := inf_le_right
-  haveI hN : (D.subgroupOf F).Normal := cfg.normal_subgroupOf hFC
+  have hN : (D.subgroupOf F).Normal := cfg.normal_subgroupOf hFC
   have hmap : (centralizer ({z'} : Set ↥S)).map S.subtype = F :=
     map_centralizer_subtype_eq_inf S z'
   let e₁ : ↥(centralizer ({z'} : Set ↥S)) ≃* ↥F :=
@@ -162,12 +162,12 @@ theorem M10Cfg.outer_x0 (hO : A6OuterLieSmall) [S.Normal] [IsSimpleGroup ↥S] (
   let T : Subgroup ↥C := S.subgroupOf C
   let e₂ := CFSG.ComponentClassification.FixedNormalCentralizer.equivalence S z
   let DC : Subgroup ↥C := D.subgroupOf C
-  haveI hDCn : DC.Normal := ⟨fun d hd c => by
+  have hDCn : DC.Normal := ⟨fun d hd c => by
     rw [Subgroup.mem_subgroupOf] at hd ⊢
     simpa using cfg.hDn (c : K) c.2 (d : K) hd⟩
   have hDCT : DC ≤ T := fun x hx => cfg.hDS hx
   let DT : Subgroup ↥T := DC.subgroupOf T
-  haveI hDTn : DT.Normal := Subgroup.Normal.subgroupOf hDCn T
+  have hDTn : DT.Normal := Subgroup.Normal.subgroupOf hDCn T
   have hDTA : Nonempty (↥DT ≃* alternatingGroup (Fin 6)) :=
     ⟨(Subgroup.subgroupOfEquivOfLe hDCT).trans
       ((Subgroup.subgroupOfEquivOfLe (fun x hx => cfg.hDC hx : D ≤ C)).trans eD)⟩
@@ -224,7 +224,7 @@ theorem M10Cfg.outer_x0 (hO : A6OuterLieSmall) [S.Normal] [IsSimpleGroup ↥S] (
     show e₂.symm x ∈ DC.subgroupOf T
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
     exact hkD
-  haveI := hDσn
+  have := hDσn
   exact (arm_outer hO hna hcat hσ hout hcard Dσ hDσA hinv).1
 
 end CFSG.ComponentClassification.CatFC

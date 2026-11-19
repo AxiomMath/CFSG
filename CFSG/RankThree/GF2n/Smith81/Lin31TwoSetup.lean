@@ -42,7 +42,7 @@ private theorem exists_quotEquiv_of_img {G : Type} [Group G] {Q Z V : Subgroup G
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, ← M₀.π_ker _ (hVQ v.2), hκ, ofAdd_eq_one,
       AddEquiv.map_eq_zero_iff]
     exact ⟨fun h => congrArg Subtype.val h, fun h => Subtype.ext h⟩
-  haveI hN : (Z.subgroupOf V).Normal := hker ▸ κ.normal_ker
+  have hN : (Z.subgroupOf V).Normal := hker ▸ κ.normal_ker
   exact ⟨hN, (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective κ hκsurj), fun v => rfl⟩
 
@@ -57,7 +57,7 @@ private def dualCoord (F : Type) [Field F] : (Fin 2 → F) ≃+ (Fin 2 → F) wh
     fin_cases i <;> simp
   map_add' n n' := by
     funext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp; ring
 
 private theorem dualCoord_apply {F : Type} [Field F] (n : Fin 2 → F) :
     dualCoord F n = ![n 1, -n 0] := rfl
@@ -86,6 +86,7 @@ namespace TensorModel
 
 variable {TM : TensorModel M Q Z B}
 
+omit [Finite G] in
 private theorem exists_imgPlane_coord {u : Fin 2 → TM.F} (hu : u ≠ 0) :
     ∃ Ψ : ↥(TM.M₀.img (TM.plane u)) ≃+ (Fin 2 → TM.F),
       ∀ e, Matrix.vecMulVec (Ψ e) u = TM.Φ (e : TM.M₀.E) := by
@@ -100,6 +101,7 @@ private theorem exists_imgPlane_coord {u : Fin 2 → TM.F} (hu : u ≠ 0) :
   rw [← coe_planeEquiv hu, AddEquiv.trans_apply, AddEquiv.apply_symm_apply]
   rfl
 
+omit [Finite G] in
 private theorem exists_plane_quotEquiv {u : Fin 2 → TM.F} (hu : u ≠ 0)
     (J : (Fin 2 → TM.F) ≃+ (Fin 2 → TM.F)) :
     ∃ _ : (Z.subgroupOf (TM.plane u)).Normal,
@@ -129,6 +131,7 @@ private theorem sectionAct_plane {u : Fin 2 → TM.F} (hu : u ≠ 0)
     rw [hw, TM.act s v hvQ, hn, Matrix.mul_vecMulVec]
   rw [hψ w _ hwn, hψ v n hn, hJ]
 
+omit [Finite G] in
 private theorem det_φ (s : ↥(Lgen M (LB M Q B))) :
     ((TM.φ s : GL (Fin 2) TM.F) : Matrix (Fin 2) (Fin 2) TM.F).det = 1 := by
   have h : TM.φ s ∈ TM.φ.range := ⟨s, rfl⟩

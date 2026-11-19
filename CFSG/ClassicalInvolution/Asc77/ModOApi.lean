@@ -137,7 +137,7 @@ theorem HypOmegaMod.center_two [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ
 
 theorem isSylow2In_map_sylow (K : Subgroup G) (Q : Sylow 2 ↥K) :
     IsSylow2In ((Q : Subgroup ↥K).map K.subtype) K := by
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun V' hV'P hV'2 hle => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun V' hV'P hV'2 hle => ?_⟩
   have hQV : (Q : Subgroup ↥K) ≤ V'.subgroupOf K := by
     intro x hx
     exact hle ⟨x, hx, rfl⟩
@@ -278,7 +278,7 @@ theorem HypOmegaMod.isQuatSub_of_mem_RSet [Finite G] (hp : p ≠ 2) (hΩ : HypOm
   have hF : ringChar (GaloisField p f) ≠ 2 := by
     rw [ringChar.eq (GaloisField p f) p]
     exact hp
-  have hP2 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup.map _
   have hinj : Function.Injective (φ.comp (P : Subgroup ↥J).subtype) := by
     rw [injective_iff_map_eq_one]
     intro x hx

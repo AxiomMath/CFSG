@@ -43,7 +43,7 @@ theorem disjoint_zpowers_of_orderOf_prime {G : Type*} [Group G] {a b : G} {p : �
     (hp : p.Prime) (hb : orderOf b = p) (hba : b ∉ Subgroup.zpowers a) :
     Disjoint (Subgroup.zpowers a) (Subgroup.zpowers b) := by
   rw [disjoint_comm]
-  haveI : Finite (Subgroup.zpowers b) :=
+  have : Finite (Subgroup.zpowers b) :=
     finite_zpowers.2 (orderOf_pos_iff.1 (hb ▸ hp.pos))
   have hcard : Nat.card (Subgroup.zpowers b ⊓ Subgroup.zpowers a : Subgroup G) ∣ p := by
     have := Subgroup.card_dvd_of_le (inf_le_left : Subgroup.zpowers b ⊓ Subgroup.zpowers a ≤
@@ -159,7 +159,7 @@ theorem e6ThreeD4Lines_of
     · intro h2
       obtain ⟨hv, ⟨f⟩⟩ := hiso
       obtain ⟨hfin, hsim⟩ := hfs q' hv h2
-      haveI : IsSimpleGroup (Cat ⟨.trialityD4 q', hv⟩) := hsim
+      have : IsSimpleGroup (Cat ⟨.trialityD4 q', hv⟩) := hsim
       exact ⟨Finite.of_equiv _ f.symm.toEquiv, f.isSimpleGroup⟩
   exact le_hyperClosure_of_planeGen hab hcube hBle hB hBY hcent hE'le hE'Y hE'card hgen huY
 

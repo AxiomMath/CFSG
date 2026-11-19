@@ -43,12 +43,12 @@ variable [Finite U]
 theorem exists_fixed_of_invariant (hP : IsPGroup p P) (σ : P →* (U ≃ₗ[ZMod p] U))
     (N : Submodule (ZMod p) U) (hN : ∀ x u, u ∈ N → σ x u ∈ N) (hne : N ≠ ⊥) :
     ∃ u ∈ N, u ≠ 0 ∧ ∀ x, σ x u = u := by
-  letI : MulAction P N :=
+  let : MulAction P N :=
     { smul := fun x u => ⟨σ x u, hN x u u.2⟩
       one_smul := fun u => by ext; simp [HSMul.hSMul, SMul.smul]
       mul_smul := fun x y u => by ext; simp [HSMul.hSMul, SMul.smul] }
   have hsmul : ∀ (x : P) (u : N), ((x • u : N) : U) = σ x u := fun _ _ => rfl
-  haveI : Module.Finite (ZMod p) N := inferInstance
+  have : Module.Finite (ZMod p) N := inferInstance
   have hcard : Nat.card N = p ^ Module.finrank (ZMod p) N := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod p), Nat.card_zmod]
   have hpos : 0 < Module.finrank (ZMod p) N := Module.finrank_pos_iff.mpr

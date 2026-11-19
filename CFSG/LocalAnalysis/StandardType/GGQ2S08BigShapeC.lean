@@ -21,7 +21,7 @@ theorem ggQ2s08_bigC_holds
     (hCav : 4 ∣ Nat.card ↥(ggAutomizer J Bs))
     (hnc : ∃ S : Subgroup G, S ≤ L ∧ IsPGroup 3 S ∧ ¬ IsCyclic S)
     (M : GGQ2LDatum 3 Bs L x) (hC : M.ShapeC)
-    (hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
+    (_hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
     (hlab : GGQ2S08BigLabel lab) (hmark : GGQ2TBMarked 3 L lab)
     (hInn : GGInnerDiagOnLab (fun p lab' => p = 3 ∧ GGQ2S08BigLabel lab') 3 Bs L)
     (hMW : GGQ2LabelWeyl lab M.coxeter) (htag : lab.tag = .twA) (h3 : 3 ∣ lab.rank + 1)
@@ -29,8 +29,8 @@ theorem ggQ2s08_bigC_holds
     (g : G) (φ : MulAut ↥Bs) (hInd : GGQ2Ind Bs g φ) (hRefl : GGIsReflection 3 φ) :
     g ∈ Subgroup.normalizer (ggG0 3 B x L D J : Set G) := by
   classical
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   have hcard : Fintype.card M.Λ = lab.rank := by
     obtain ⟨e, -⟩ : ∃ e : Fin lab.rank ≃ M.Λ,
         M.coxeter = (CoxeterMatrix.A lab.rank).reindex e := by

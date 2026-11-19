@@ -13,8 +13,10 @@ open Equiv Equiv.Perm
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem perm_apply_inv (σ : Perm α) (x : α) : σ (σ⁻¹ x) = x := σ.apply_symm_apply x
 
+omit [Fintype α] [DecidableEq α] in
 theorem perm_inv_apply (σ : Perm α) (x : α) : σ⁻¹ (σ x) = x := σ.symm_apply_apply x
 
 theorem mem_altOn_iff {m : ℕ} {F : Set (Fin m)} {σ : Perm (Fin m)} :
@@ -105,7 +107,7 @@ theorem alternatingGroup_le_sup_altOn {m : ℕ} (hm : 8 ≤ m) {a b c d : Fin m}
   have hσA : σ ∈ alternatingGroup (Fin m) := hσ3.mem_alternatingGroup
   by_cases hσab : σ a = a ∧ σ b = b
   · refine Subgroup.mem_sup_left (mem_altOn_iff.2 ⟨hσA, fun x hx => ?_⟩)
-    simp only [Set.mem_setOf_eq, not_and_or, not_not] at hx
+    simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hx
     rcases hx with rfl | rfl
     · exact hσab.1
     · exact hσab.2
@@ -157,7 +159,7 @@ theorem alternatingGroup_le_sup_altOn {m : ℕ} (hm : 8 ≤ m) {a b c d : Fin m}
     · rw [Equiv.Perm.mem_alternatingGroup, hτ, map_mul, sign_swap (Ne.symm hpa),
         sign_swap (Ne.symm hqb)]
       rfl
-    · simp only [Set.mem_setOf_eq, not_and_or, not_not] at hx
+    · simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hx
       rcases hx with rfl | rfl
       · rw [hτ, Perm.mul_apply, swap_apply_of_ne_of_ne hbc.symm (Ne.symm hqc),
           swap_apply_of_ne_of_ne hac.symm (Ne.symm hpc)]
@@ -178,7 +180,7 @@ theorem alternatingGroup_le_sup_altOn {m : ℕ} (hm : 8 ≤ m) {a b c d : Fin m}
     refine mem_altOn_iff.2 ⟨?_, fun x hx => ?_⟩
     · exact (alternatingGroup (Fin m)).mul_mem ((alternatingGroup (Fin m)).mul_mem hτA hσA)
         ((alternatingGroup (Fin m)).inv_mem hτA)
-    · simp only [Set.mem_setOf_eq, not_and_or, not_not] at hx
+    · simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hx
       rcases hx with rfl | rfl
       · rw [Perm.mul_apply, Perm.mul_apply, hτia, hσp, hτp]
       · rw [Perm.mul_apply, Perm.mul_apply, hτib, hσq, hτq]
@@ -210,6 +212,7 @@ theorem card_support_of_mul_self {σ : Perm α} (hσ : σ * σ = 1) :
       show c * 2 + c = 2 * c + c by ring, pow_add, pow_mul]
     simp
 
+omit [Fintype α] in
 private theorem swap_mul_of_mul_self {σ : Perm α} (hσ : σ * σ = 1) {a : α} :
     (swap a (σ a) * σ) a = a ∧ (swap a (σ a) * σ) (σ a) = σ a ∧
       (∀ x, x ≠ a → x ≠ σ a → (swap a (σ a) * σ) x = σ x) ∧
@@ -233,6 +236,7 @@ private theorem swap_mul_of_mul_self {σ : Perm α} (hσ : σ * σ = 1) {a : α}
         swap_apply_of_ne_of_ne (hoff (σ x) (hoff x hxa hxb).1 (hoff x hxa hxb).2).1
           (hoff (σ x) (hoff x hxa hxb).1 (hoff x hxa hxb).2).2, hσσ]
 
+omit [Fintype α] in
 private theorem four_cycle_sq {a b c d : α} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
     (swap a d * swap a b * swap a c) * (swap a d * swap a b * swap a c) = swap a b * swap c d := by
@@ -367,10 +371,11 @@ theorem exists_mul_self_eq {σ : Perm α} (hσ : σ * σ = 1) (hsign : sign σ =
   obtain ⟨τ, hτ, -⟩ := exists_mul_self_eq_aux _ σ rfl hσ hsign
   exact ⟨τ, hτ⟩
 
+omit [DecidableEq α] in
 theorem exists_regular_of_unique_involution {Q : Subgroup (Perm α)} (hQ : IsPGroup 2 Q)
     {j : Perm α} (hj : orderOf j = 2) (huniq : ∀ x ∈ Q, orderOf x = 2 → x = j) :
     ∃ p : α, ∀ q ∈ Q, q p = p → q = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra h
   push Not at h
   have hfix : ∀ p, j p = p := by
@@ -396,6 +401,7 @@ theorem exists_regular_of_unique_involution {Q : Subgroup (Perm α)} (hQ : IsPGr
   rw [this, orderOf_one] at hj
   exact absurd hj (by norm_num)
 
+omit [DecidableEq α] in
 theorem card_le_of_unique_involution {Q : Subgroup (Perm α)} (hQ : IsPGroup 2 Q)
     {j : Perm α} (hj : orderOf j = 2) (huniq : ∀ x ∈ Q, orderOf x = 2 → x = j) :
     Nat.card Q ≤ Fintype.card α := by
@@ -530,7 +536,7 @@ theorem two_mul_card_altOn {m : ℕ} (F : Set (Fin m)) (hF : 2 ≤ Nat.card F) :
   have hcard : Nat.card {x // x ∈ Finset.univ.filter (· ∈ F)} = Nat.card F := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, Nat.card_eq_fintype_card,
       Fintype.card_subtype]
-  haveI : Nontrivial {x // x ∈ Finset.univ.filter (· ∈ F)} := by
+  have : Nontrivial {x // x ∈ Finset.univ.filter (· ∈ F)} := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     omega
   rw [Nat.card_eq_fintype_card, two_mul_card_alternatingGroup, Fintype.card_perm,
@@ -550,7 +556,7 @@ theorem two_mul_card_altOn {m : ℕ} (F : Set (Fin m)) (hF : 2 ≤ Nat.card F) :
     apply Fin.ext
     have h0 : i.1.val ≠ 0 := fun h => i.2.1 (Fin.ext h)
     have h1 : i.1.val ≠ 1 := fun h => i.2.2 (Fin.ext h)
-    simp only [Fin.coe_addNat]
+    simp only [Fin.val_addNat]
     omega
 
 theorem shift2_val {k : ℕ} (j : Fin k) : ((shift2 k j : Fin (k + 2)) : ℕ) = j + 2 := rfl
@@ -591,7 +597,7 @@ theorem exists_iota2_eq {k : ℕ} {τ : Perm (Fin (k + 2))} (h0 : τ 0 = 0) (h1 
   by_cases hx : x ≠ 0 ∧ x ≠ 1
   · rw [iota2, Equiv.Perm.extendDomainHom_apply,
       Equiv.Perm.extendDomain_apply_subtype (p := fun i : Fin (k + 2) => i ≠ 0 ∧ i ≠ 1) _ _ hx]
-    simp [Equiv.permCongr_symm_apply]
+    simp
   · rw [iota2, Equiv.Perm.extendDomainHom_apply,
       Equiv.Perm.extendDomain_apply_not_subtype (p := fun i : Fin (k + 2) => i ≠ 0 ∧ i ≠ 1) _ _ hx]
     simp only [not_and_or, not_not] at hx
@@ -613,7 +619,7 @@ theorem altOn_eq_map_iota2 (k : ℕ) :
     exact hA
   · rintro ⟨σ, hσ, rfl⟩
     refine ⟨by rw [Equiv.Perm.mem_alternatingGroup, sign_iota2]; exact hσ, fun x hx => ?_⟩
-    simp only [Set.mem_setOf_eq, not_and_or, not_not] at hx
+    simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hx
     rcases hx with rfl | rfl
     · exact iota2_apply_zero σ
     · exact iota2_apply_one σ
@@ -625,9 +631,10 @@ theorem commutator_altOn_eq_self {k : ℕ} (hk : 5 ≤ k) :
   rw [Nat.card_eq_fintype_card, Fintype.card_fin]
   exact hk
 
+omit [Fintype α] in
 theorem orderOf_swap_mul_swap {a b c d : α} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
-    (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) : orderOf (swap a b * swap c d) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (hbc : b ≠ c) (hbd : b ≠ d) (_hcd : c ≠ d) : orderOf (swap a b * swap c d) = 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Equiv.Perm.Disjoint (swap a b) (swap c d) := by
     intro x
     by_cases hxa : x = a

@@ -322,8 +322,8 @@ theorem g_lift_centralizer {H : Type*} [Group H] [Finite H] {p : ℕ} (hp : p.Pr
     calc c * g * y = (c * (g * y * g⁻¹) * c⁻¹) * (c * g) := by group
       _ = y * (c * g) := by rw [h2]
 
-theorem g_mem_of_pow {H : Type*} [Group H] [Finite H] {p : ℕ} (hp : p.Prime) {M L : Subgroup H}
-    (hLM : L ≤ M) (hn : (L.subgroupOf M).Normal) (hcop : Nat.Coprime p (L.relIndex M)) {g : H}
+theorem g_mem_of_pow {H : Type*} [Group H] [Finite H] {p : ℕ} (_hp : p.Prime) {M L : Subgroup H}
+    (_hLM : L ≤ M) (hn : (L.subgroupOf M).Normal) (hcop : Nat.Coprime p (L.relIndex M)) {g : H}
     (hg : g ∈ M) {k : ℕ} (hk : g ^ (p ^ k) = 1) : g ∈ L := by
   set q : ↥M ⧸ L.subgroupOf M := QuotientGroup.mk (⟨g, hg⟩ : ↥M) with hq
   have h1 : orderOf q ∣ p ^ k := by
@@ -434,8 +434,10 @@ theorem oPrimePOf_gLBConj (g : G) (X : Subgroup G) :
         (Subgroup.map_map _ _ _).symm
     _ = GLBConj g (oPrimePOf 3 X) := rfl
 
+omit [Finite G] in
 theorem g2_oPrimePOf_le (X : Subgroup G) : oPrimePOf 3 X ≤ X := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem g2_oPrimePOf_normal (X : Subgroup G) : ((oPrimePOf 3 X).subgroupOf X).Normal := by
   have : (oPrimePOf 3 X).subgroupOf X = oPrimeP 3 ↥X := by
     unfold oPrimePOf
@@ -658,7 +660,7 @@ theorem q_mem_of_bar {X L : Subgroup G} (hL : GLAPComponent 3 X L) {g : G} (hgX 
   have h6 : (⟨g, hg⟩ : ↥M) ∈ L.subgroupOf M := (QuotientGroup.eq_one_iff _).1 h5
   exact h6
 
-theorem q_mem_zpowers_of_bar {X : Subgroup G} {b g : G} (hbX : b ∈ X) {kb : ℕ}
+theorem q_mem_zpowers_of_bar {X : Subgroup G} {b g : G} (_hbX : b ∈ X) {kb : ℕ}
     (hb : b ^ (3 ^ kb) = 1) (hgX : g ∈ X) {k : ℕ} (hk : g ^ (3 ^ k) = 1) (hc : g * b = b * g)
     (h : mkX X g hgX ∈ barX 3 X (Subgroup.zpowers b)) : g ∈ Subgroup.zpowers b := by
   obtain ⟨s, hs, hsg⟩ := h
@@ -1162,6 +1164,7 @@ omit [Finite G] in
 theorem t2_barX_mono' {X S T : Subgroup G} (h : S ≤ T) : barX 3 X S ≤ barX 3 X T :=
   Subgroup.map_mono fun _ hx => h hx
 
+omit [Finite G] in
 theorem t2_comm_of_sup {C L M : Subgroup G} (hL : L ≤ C) (hM : M ≤ C)
     {w : ↥C ⧸ GLAPPrimeCore 3 ↥C} (hwL : ∀ y ∈ barX 3 C L, y * w = w * y)
     (hwM : ∀ y ∈ barX 3 C M, y * w = w * y) : ∀ y ∈ barX 3 C (L ⊔ M), y * w = w * y := by
@@ -1186,6 +1189,7 @@ theorem t2_comm_of_sup {C L M : Subgroup G} (hL : L ≤ C) (hM : M ≤ C)
   rw [Subgroup.mem_centralizer_singleton_iff] at hc'
   exact hc'
 
+omit [Finite G] in
 theorem t2_bClosure_conj {B L : Subgroup G} {g : G} (hg : g ∈ B) :
     bClosure B (GLBConj g L) = bClosure B L := by
   apply le_antisymm
@@ -1198,6 +1202,7 @@ theorem t2_bClosure_conj {B L : Subgroup G} {g : G} (hg : g ∈ B) :
         le_iSup₂ (f := fun (x : G) (_ : x ∈ B) => GLBConj x (GLBConj g L)) (g⁻¹ * h)
           (B.mul_mem (B.inv_mem hg) hh)
 
+omit [Finite G] in
 theorem t2_not_le_normalizer {B L L' : Subgroup G} {g : G} (hg : g ∈ B) (h : L' = GLBConj g L)
     (hne : L ≠ L') : ¬ B ≤ Subgroup.normalizer (L : Set G) := fun hB =>
   hne (h.trans (gLBConj_eq_of_mem_normalizer (hB hg))).symm
@@ -1208,6 +1213,7 @@ theorem t2_type_transfer {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y)
   · exact Or.inl ⟨K, F, fin, ⟨e.symm.trans e'⟩⟩
   · exact Or.inr ⟨K, F, fin, q, hk, ⟨e.symm.trans e'⟩⟩
 
+omit [Finite G] in
 theorem t2_type_conj {L L' : Subgroup G} {g : G} (h : L' = GLBConj g L)
     (ht : IsSLThree (barOf 3 L) ∨ IsSUThree (barOf 3 L)) :
     IsSLThree (barOf 3 L') ∨ IsSUThree (barOf 3 L') := by
@@ -1274,7 +1280,7 @@ theorem t2_core (i112 : Input11_2Four) (i302 : Input30_2) {m : ℕ}
   obtain ⟨hc27, hRna, hR3, hZsub, hZsup⟩ :=
     i112 G m hS (Cb b) B L hBel hBC hrk hL hnorm hcen R
   have hN := coprime_card_gLAPPrimeCore_aux 3 ↥L
-  have hRp : IsPGroup 3 (R : Subgroup ↥L) := R.isPGroup'
+  have hRp : IsPGroup 3 (R : Subgroup ↥L) := R.isPGroup
   have hcardRb : Nat.card ((R : Subgroup ↥L).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L))) = 27 :=
     (t2_map_card (GLAPPrimeCore 3 ↥L) hN _ hRp).trans hc27
   set Rb := (R : Subgroup ↥L).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L)) with hRb
@@ -1442,7 +1448,7 @@ theorem t2_core (i112 : Input11_2Four) (i302 : Input30_2) {m : ℕ}
 theorem rData_of_inputs (i112 : Input11_2Four) (i302 : Input30_2) {m : ℕ}
     (hS : GLStanding G m 3) {B : Subgroup G} (hB : IsBOneMax 3 B) {b : G}
     {L₁ L₂ L₃ : Subgroup G} (hT : Tri B b L₁ L₂ L₃) (hK : bClosure B L₁ = L₁ ⊔ L₂ ⊔ L₃)
-    (hbK : b ∈ bClosure B L₁)
+    (_hbK : b ∈ bClosure B L₁)
     (hZ : barImageAt 3 b (Subgroup.zpowers b) = barCenterAt 3 b (bClosure B L₁))
     (htype : IsSLThree (barOf 3 L₁) ∨ IsSUThree (barOf 3 L₁)) : RData B b L₁ L₂ L₃ := by
   obtain ⟨β, hβ, h2, h3, h1⟩ := hT.cyc
@@ -1598,7 +1604,7 @@ private theorem r1_sylow_inf_normal {K : Type*} [Group K] [Finite K] (S : Sylow 
   classical
   let P : Subgroup ↥N := ((S : Subgroup K) ⊓ N).subgroupOf N
   have hP1 : IsPGroup 3 P := by
-    have hSn : IsPGroup 3 (↥((S : Subgroup K) ⊓ N)) := S.isPGroup'.to_inf_left
+    have hSn : IsPGroup 3 (↥((S : Subgroup K) ⊓ N)) := S.isPGroup.to_inf_left
     exact hSn.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup K) ⊓ N) (K := N) inf_le_right).symm
   have hrel1 :
@@ -1704,7 +1710,7 @@ private theorem r1_abs {K : Type*} [Group K] [Finite K] (U V : Subgroup K) [U.No
   have hxS : x ∈ (S : Subgroup K) := hS (Subgroup.mem_zpowers x)
   have hpS : ∀ y ∈ (S : Subgroup K), ∃ k : ℕ, y ^ (3 ^ k) = 1 := by
     intro y hy
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   set A : Subgroup K := (S : Subgroup K) ⊓ U with hA
   set B : Subgroup K := (S : Subgroup K) ⊓ V with hB
@@ -1836,6 +1842,7 @@ theorem y2_of_exists {B : Subgroup G} {b : G} {L₁ L₂ L₃ : Subgroup G} (hR 
   rw [← hce]
   exact r1_transport (r1_ex_of_cb hcC) hgood
 
+omit [Finite G] in
 theorem y2_symm {b : G} {Li Lj : Subgroup G} (h : Y2 b Li Lj) : Y2 b Lj Li := by
   intro u hu v hv hc hu3 hv3 hnu hnv
   rw [hc]
@@ -3715,7 +3722,7 @@ private theorem sy3_sylow_inf_normal {K : Type*} [Group K] [Finite K] (S : Sylow
   classical
   let P : Subgroup ↥N := ((S : Subgroup K) ⊓ N).subgroupOf N
   have hP1 : IsPGroup 3 P := by
-    have hSn : IsPGroup 3 (↥((S : Subgroup K) ⊓ N)) := S.isPGroup'.to_inf_left
+    have hSn : IsPGroup 3 (↥((S : Subgroup K) ⊓ N)) := S.isPGroup.to_inf_left
     exact hSn.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup K) ⊓ N) (K := N) inf_le_right).symm
   have hrel1 :
@@ -4284,8 +4291,8 @@ theorem rank5_of_three_extraspecial {R₁ R₂ R₃ : Subgroup G}
     (hR₁ : Nat.card R₁ = 27 ∧ (¬ ∀ a ∈ R₁, ∀ c ∈ R₁, a * c = c * a) ∧ ∀ a ∈ R₁, a ^ 3 = 1)
     (hR₂ : Nat.card R₂ = 27 ∧ (¬ ∀ a ∈ R₂, ∀ c ∈ R₂, a * c = c * a) ∧ ∀ a ∈ R₂, a ^ 3 = 1)
     (hR₃ : Nat.card R₃ = 27 ∧ (¬ ∀ a ∈ R₃, ∀ c ∈ R₃, a * c = c * a) ∧ ∀ a ∈ R₃, a ^ 3 = 1)
-    (hZ : Nat.card ↥(ZR R₁ ⊔ ZR R₂ ⊔ ZR R₃) = 9) (h12' : ZR R₁ ≠ ZR R₂) (h23' : ZR R₂ ≠ ZR R₃)
-    (h13' : ZR R₁ ≠ ZR R₃) :
+    (hZ : Nat.card ↥(ZR R₁ ⊔ ZR R₂ ⊔ ZR R₃) = 9) (h12' : ZR R₁ ≠ ZR R₂) (_h23' : ZR R₂ ≠ ZR R₃)
+    (_h13' : ZR R₁ ≠ ZR R₃) :
     ∀ x ∈ R₁ ⊔ R₂ ⊔ R₃, 5 ≤ CFSG.Open.pRank 3 ((R₁ ⊔ R₂ ⊔ R₃) ⊓ Cb x) := by
   intro x hx
   obtain ⟨hc1, hn1, he1⟩ := hR₁
@@ -5489,10 +5496,10 @@ end BfSec
 
 section JmSec
 
-theorem jstar_mem {m : ℕ} (hS : GLStanding G m 3) {b : G} {L : Subgroup G}
-    (hL : GLAPComponent 3 (Cb b) L) (hbL : b ∈ L) (hb3 : b ^ 3 = 1)
+theorem jstar_mem {m : ℕ} (_hS : GLStanding G m 3) {b : G} {L : Subgroup G}
+    (hL : GLAPComponent 3 (Cb b) L) (_hbL : b ∈ L) (_hb3 : b ^ 3 = 1)
     (hfus : FusData (barX 3 (Cb b) L) (barX 3 (Cb b) (Subgroup.zpowers b))) {x : G}
-    (hxC : x ∈ Cb b) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
+    (hxC : x ∈ Cb b) (hx3 : x ^ 3 = 1) (_hx1 : x ≠ 1)
     (hxL : ⁅L, Subgroup.zpowers x⁆ ≤ P3 (Cb b)) :
     ∀ g ∈ L ⊓ Cb x, (∃ k : ℕ, g ^ (3 ^ k) = 1) → g ∈ GLAPLayer 3 (L ⊓ Cb x) := by
   have hLC : L ≤ Cb b := hL.1
@@ -6358,7 +6365,7 @@ theorem nil_fact3 {b : G} {L : Subgroup G} (hsyl : SylInfo b L) :
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 ↥L))
   have hRc : Nat.card ((R : Subgroup ↥L).map L.subtype) = 3 ^ (Nat.card ↥L).factorization 3 := by
     rw [Subgroup.card_map_of_injective L.subtype_injective, Sylow.card_eq_multiplicity]
-  have h27 := (hsyl _ (Subgroup.map_subtype_le _) (R.isPGroup'.map L.subtype) hRc).1
+  have h27 := (hsyl _ (Subgroup.map_subtype_le _) (R.isPGroup.map L.subtype) hRc).1
   have hf : (Nat.card ↥L).factorization 3 = 3 := by
     have h' : (27 : ℕ) = 3 ^ (Nat.card ↥L).factorization 3 := h27.symm.trans hRc
     exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) (show 3 ^ 3 = 3 ^ _ by simpa using h')).symm
@@ -7106,7 +7113,7 @@ theorem cfg_syl_conj {Γ : Type*} [Group Γ] [Finite Γ] (N : Subgroup Γ) [N.No
       exact IsPGroup.of_card (hAcard.trans (hAc.symm.trans ha))
     obtain ⟨P, hP⟩ := hAp.exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hdvd : Nat.card (P : Subgroup ↥M) ∣ Nat.card S * Nat.card N := by
       rw [← hcardM]; exact Subgroup.card_subgroup_dvd_card _
     rw [ha] at hdvd
@@ -7510,6 +7517,7 @@ section D4Sec
 abbrev d4_rho (W : Subgroup G) : ↥W →* (↥W ⧸ GLAPPrimeCore 3 ↥W) :=
   QuotientGroup.mk' (GLAPPrimeCore 3 ↥W)
 
+omit [Finite G] in
 theorem d4_mem_barX {W S : Subgroup G} {z : ↥W ⧸ GLAPPrimeCore 3 ↥W} :
     z ∈ barX 3 W S ↔ ∃ x : ↥W, (x : G) ∈ S ∧ d4_rho W x = z := by
   unfold barX
@@ -7527,6 +7535,7 @@ theorem d4_card_barX {W S : Subgroup G} (hS : IsPGroup 3 S) (hSW : S ≤ W) :
     (d4_isPGroup_subgroupOf hS hSW)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSW).toEquiv
 
+omit [Finite G] in
 theorem d4_isPGroup_barX {W S : Subgroup G} (hS : IsPGroup 3 S) :
     IsPGroup 3 (barX 3 W S) := by
   rintro ⟨z, hz⟩
@@ -7580,7 +7589,7 @@ theorem d4_map_cent {A H : Type*} [Group A] [Finite A] [Group H] [Finite H] (ι 
     rw [← map_mul, ← map_mul, Subgroup.mem_centralizer_singleton_iff.1 hg]
   · rintro ⟨⟨g, rfl⟩, hw⟩
     have hw' := Subgroup.mem_centralizer_singleton_iff.1 hw
-    haveI := ψ.normal_ker
+    have := ψ.normal_ker
     have hg : g * y * g⁻¹ * y⁻¹ ∈ ψ.ker := by
       rw [MonoidHom.mem_ker]
       simp only [map_mul, map_inv]
@@ -7594,6 +7603,7 @@ theorem d4_map_cent {A H : Type*} [Group A] [Finite A] [Group H] [Finite H] (ι 
     show ψ (g * n) = ψ g
     rw [map_mul, (MonoidHom.mem_ker.1 hn), mul_one]
 
+omit [Finite G] in
 theorem d4_range_barX {W S : Subgroup G} (hSW : S ≤ W) :
     ((d4_rho W).comp (Subgroup.inclusion hSW)).range = barX 3 W S := by
   ext z
@@ -7746,6 +7756,7 @@ theorem d4_nonab_barX {W Q : Subgroup G} (hQ : IsPGroup 3 Q) (hQW : Q ≤ W)
     (Q.mul_mem ha hc) (Q.mul_mem hc ha) h1
   exact congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem d4_exp3_barX {W Q : Subgroup G} (hQ3 : ∀ a ∈ Q, a ^ 3 = 1) :
     ∀ z ∈ barX 3 W Q, z ^ 3 = 1 := by
   intro z hz
@@ -7754,6 +7765,7 @@ theorem d4_exp3_barX {W Q : Subgroup G} (hQ3 : ∀ a ∈ Q, a ^ 3 = 1) :
   have : x ^ 3 = 1 := Subtype.ext (by simpa using hQ3 _ hx)
   rw [this, map_one]
 
+omit [Finite G] in
 theorem d4_mem_normalizer_barX {W S : Subgroup G} {g : ↥W}
     (hg : (g : G) ∈ Subgroup.normalizer (S : Set G)) :
     d4_rho W g ∈ Subgroup.normalizer ((barX 3 W S : Subgroup (d4_X W)) : Set (d4_X W)) := by
@@ -7950,6 +7962,7 @@ theorem d4_not_central {W Js : Subgroup G} {b : G} (hJsW : Js ≤ W) (hsub : IsS
   have hb'N : b' ∈ N := Subgroup.mem_zpowers _
   exact ⟨b', hNle hb'N, rfl⟩
 
+omit [Finite G] in
 theorem d4_join_top {W Js Q₁ : Subgroup G} {t : G} (hJsW : Js ≤ W) (hQ₁W : Q₁ ≤ W) (htW : t ∈ W)
     (hW : W = Js ⊔ Q₁ ⊔ Subgroup.zpowers t) :
     barX 3 W Js ⊔ barX 3 W Q₁ ⊔ Subgroup.zpowers (d4_rho W ⟨t, htW⟩) = ⊤ := by
@@ -8272,7 +8285,7 @@ theorem b1_d4 (i183 : Input18_3_4) (i145 : Input14_5) (i1433 : Input14_33) {m : 
     (hS : GLStanding G m 3) (hrk4 : GLATwoLocalRank 3 G = 4) {B : Subgroup G} {b : G}
     {L₁ L₂ L₃ : Subgroup G} (hR : RData B b L₁ L₂ L₃) {u v t : G} {Q₁ Q : Subgroup G}
     (hu : u ∈ L₁) (hv : v ∈ L₂) (hc : u * v = v * u) (hu3 : u ^ 3 = 1) (hv3 : v ^ 3 = 1)
-    (hnu : u ∉ Subgroup.zpowers b) (hnv : v ∉ Subgroup.zpowers b)
+    (hnu : u ∉ Subgroup.zpowers b) (_hnv : v ∉ Subgroup.zpowers b)
     (hnot : b ∉ oPrimePOf 3 (Cb (u * v))) (ht : t ∈ L₁ ⊔ L₂) (ht2 : ∃ k : ℕ, t ^ (2 ^ k) = 1)
     (hty : t * (u * v) * t⁻¹ = (u * v)⁻¹) (hQ₁p : IsPGroup 3 Q₁)
     (hQ₁C : Q₁ ≤ Cb b ⊓ Cb (u * v)) (hyQ₁ : u * v ∈ Q₁)
@@ -8353,7 +8366,7 @@ theorem d4r_lift {Z A : Type*} [Group Z] [Finite Z] [Group A] [Finite A] {p : �
   set φ : S →* Eb := f₁.comp (S : Subgroup Pc).subtype with hφdef
   have hker' : ∀ s : S, ι s ∈ f.ker → s = 1 := by
     intro s hs
-    obtain ⟨k, hk⟩ := S.isPGroup' s
+    obtain ⟨k, hk⟩ := S.isPGroup s
     have h1 : (ι s) ^ (p ^ k) = 1 := by
       rw [← map_pow, hk, map_one]
     have := hker (ι s) hs k h1
@@ -8856,7 +8869,7 @@ theorem c5_d13 {B : Subgroup G} {b : G} {L₁ L₂ L₃ : Subgroup G} (hR : RDat
     (c5_conj_cube hv3) (by simp) (c5_conj_cube hu3) (Or.inr ⟨hpn, c5_notZ hβb hvn⟩)
     (Or.inl ⟨rfl, one_mem _⟩) (Or.inr ⟨hqn, c5_notZ hβb hun⟩)
   refine ⟨β⁻¹ * c, ?_⟩
-  simp only [mul_one, one_mul] at hce
+  simp only [mul_one] at hce
   calc β⁻¹ * c * (p * q) * (β⁻¹ * c)⁻¹ = β⁻¹ * (c * (p * q) * c⁻¹) * β⁻¹⁻¹ := by group
     _ = v * u := by rw [hce]; group
     _ = u * v := huv.symm
@@ -8981,7 +8994,7 @@ theorem three_classes {B : Subgroup G} {b : G} {L₁ L₂ L₃ R R₁ R₂ R₃ 
     (hR : RData B b L₁ L₂ L₃) (hSy : SylData B b L₁ L₂ L₃ R R₁ R₂ R₃) {u v w : G} (hu : u ∈ R₁)
     (hv : v ∈ R₂) (hw : w ∈ R₃) (hu3 : u ^ 3 = 1) (hv3 : v ^ 3 = 1) (hw3 : w ^ 3 = 1)
     (hnu : u ∉ Subgroup.zpowers b) (hnv : v ∉ Subgroup.zpowers b)
-    (hnw : w ∉ Subgroup.zpowers b) {x : G} (hx : x ∈ L₁ ⊔ L₂ ⊔ L₃) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
+    (hnw : w ∉ Subgroup.zpowers b) {x : G} (hx : x ∈ L₁ ⊔ L₂ ⊔ L₃) (hx3 : x ^ 3 = 1) (_hx1 : x ≠ 1) :
     x ∈ Subgroup.zpowers b ∨ (∃ c : G, c * x * c⁻¹ = w) ∨ (∃ c : G, c * x * c⁻¹ = u * v) ∨
       (∃ c : G, c * x * c⁻¹ = w * (u * v)) := by
   classical
@@ -9029,7 +9042,7 @@ private theorem b1_transfer (c : G) {H H' : Subgroup G} (hHH' : ∀ h ∈ H, c *
   obtain ⟨E, hEH, hel, k, hk5, hk⟩ := b1_exists_elem h5
   let φ : G →* G := (MulAut.conj c).toMonoidHom
   have hφ : Function.Injective φ := (MulAut.conj c).injective
-  haveI := hel.1
+  have := hel.1
   have hcard : Nat.card (E.map φ) = 3 ^ k := by
     rw [← hk]; exact (Nat.card_congr (E.equivMapOfInjective φ hφ).toEquiv).symm
   refine le_trans hk5 (rk5_le_pRank (E := E.map φ) ?_ ⟨inferInstance, ?_⟩ hcard)
@@ -9075,19 +9088,20 @@ private theorem b1_uv_ne_one {B : Subgroup G} {b : G} {L₁ L₂ L₃ : Subgroup
   exact hnu (q_mem_zpowers_of_bar hbC hb3 hu1 (k := 1) (by simpa using hu3)
     (Subgroup.mem_centralizer_singleton_iff.1 hu1) hcm)
 
+omit [Finite G] in
 private theorem b1_cb {x z c : G} (hc : c * x * c⁻¹ = z) :
     ∀ h ∈ Cb z, c⁻¹ * h * c⁻¹⁻¹ ∈ Cb x := by
   intro h hh
   have hh' : h * z = z * h := by
     have := Subgroup.mem_centralizer_singleton_iff.1 hh
-    first | exact this | exact this.symm
+    first | exact this
   subst hc
   refine Subgroup.mem_centralizer_singleton_iff.2 ?_
   have e : c⁻¹ * h * c⁻¹⁻¹ * x = x * (c⁻¹ * h * c⁻¹⁻¹) := by
     calc c⁻¹ * h * c⁻¹⁻¹ * x = c⁻¹ * (h * (c * x * c⁻¹)) * c := by group
       _ = c⁻¹ * ((c * x * c⁻¹) * h) * c := by rw [hh']
       _ = x * (c⁻¹ * h * c⁻¹⁻¹) := by group
-  first | exact e | exact e.symm
+  first | exact e
 
 theorem b1_rank5 (i183 : Input18_3_4) (i145 : Input14_5) (i302 : Input30_2) (i1433 : Input14_33)
     (iD4 : InputD4) {m : ℕ} (hS : GLStanding G m 3) (hrk4 : GLATwoLocalRank 3 G = 4)
@@ -9129,7 +9143,7 @@ theorem b1_rank5 (i183 : Input18_3_4) (i145 : Input14_5) (i302 : Input30_2) (i14
     (IsPGroup.to_le hSy.hRp hR₃R) hSy.s3
   obtain ⟨w, hwR, w', hw'R, hww⟩ : ∃ w ∈ R₃, ∃ w' ∈ R₃, w * w' ≠ w' * w := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hna hcon
   have hnw : w ∉ Subgroup.zpowers b := by
     intro hw
@@ -9178,7 +9192,7 @@ section NcSec
 
 theorem exists_noncentral_of_four (i112f : Input11_2Four) {m : ℕ} (hS : GLStanding G m 3)
     {B : Subgroup G} (hB : IsBOneMax 3 B) {b : G} {L₁ L₂ L₃ : Subgroup G}
-    (hT : Tri B b L₁ L₂ L₃) (hK : bClosure B L₁ = L₁ ⊔ L₂ ⊔ L₃) (hbK : b ∈ bClosure B L₁) :
+    (hT : Tri B b L₁ L₂ L₃) (_hK : bClosure B L₁ = L₁ ⊔ L₂ ⊔ L₃) (hbK : b ∈ bClosure B L₁) :
     ∃ a : barOf 3 L₁, a ^ 3 = 1 ∧ a ∉ Subgroup.center (barOf 3 L₁) := by
   have hBel : IsElemAbelian 3 B := hB.1.1
   have hb3 : b ^ 3 = 1 := hBel.2 b hT.mem
@@ -9222,7 +9236,7 @@ theorem exists_noncentral_of_four (i112f : Input11_2Four) {m : ℕ} (hS : GLStan
   obtain ⟨-, hRna, hR3, -, -⟩ :=
     i112f G m hS (Cb b) B L₁ hBel hBC hrk hT.comp₁ hBn hcen R
   have hN := coprime_card_gLAPPrimeCore_aux 3 ↥L₁
-  have hRp : IsPGroup 3 (R : Subgroup ↥L₁) := R.isPGroup'
+  have hRp : IsPGroup 3 (R : Subgroup ↥L₁) := R.isPGroup
   have hex : ∃ r ∈ (R : Subgroup ↥L₁), ∃ s ∈ (R : Subgroup ↥L₁), r * s ≠ s * r := by
     by_contra hcon
     push Not at hcon

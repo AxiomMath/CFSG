@@ -34,7 +34,7 @@ theorem center_pQuot_eq_bot_sp6two (hGA : CFSG.Open.GriessAllModelsStatement) {J
     have hdvd := card_center_dvd_of_table hGA hq hm (a := 1) (b := 1) (c := 2) (d := 1)
       (by decide) (by decide) (by norm_num)
     by_contra hne
-    haveI : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact false_of_pGroup_dvd Nat.prime_three
       (CFSG.LocalAnalysis.GLTheoremA.I2611.isPGroup_center_pQuot' Nat.prime_three J) hdvd
       (by norm_num)
@@ -52,7 +52,7 @@ theorem center_pQuot_eq_bot_d4two (hGA : CFSG.Open.GriessAllModelsStatement) {J 
   have hdvd := card_center_dvd_of_table hGA hq hm (a := 1) (b := 1) (c := 2) (d := 2)
     (by decide) (by decide) (by norm_num)
   by_contra hne
-  haveI : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact false_of_pGroup_dvd Nat.prime_three
     (CFSG.LocalAnalysis.GLTheoremA.I2611.isPGroup_center_pQuot' Nat.prime_three J) hdvd
     (by norm_num)
@@ -95,8 +95,8 @@ theorem nonempty_equiv_timmesfeldPSU {S : Type} [Group S] (r : ℕ) (q : PrimePo
   have hm := lieModel_twistedA' r q hv e
   rw [h1, h2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 2 (by norm_num)]

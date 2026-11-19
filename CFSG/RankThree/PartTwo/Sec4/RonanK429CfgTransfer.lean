@@ -18,7 +18,7 @@ theorem center_eq_bot_of_alternating_ten {L : Type} [Group L]
     (e : L ⧸ Subgroup.center L ≃* alternatingGroup (Fin 10)) : Subgroup.center L = ⊥ := by
   have hdvd := CFSG.GH74.Generic.card_center_dvd_hopfMultiplier hq e
   rw [(CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput 10 (by norm_num)).2] at hdvd
-  simp only [show ¬ (10 = 6 ∨ 10 = 7) by omega, if_false] at hdvd
+  simp only [show ¬ (10 = 6 ∨ 10 = 7) by omega, ite_false] at hdvd
   obtain ⟨k, hk⟩ := hZ.exists_card_eq
   rw [hk] at hdvd
   have hk0 : k = 0 := by
@@ -35,7 +35,7 @@ theorem center_eq_bot_of_trialityD4 {L : Type} [Group L] [Finite L] (hq : IsQuas
     (hZ : IsPGroup 3 (Subgroup.center L)) {n : ℕ}
     (h : Blueprint.ChevalleyExceptionalModel (L ⧸ Subgroup.center L) .trialityD4 2 n) :
     Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hq.1
+  have : Group.IsPerfect L := hq.1
   have hodd : Odd (Nat.card (QuotientGroup.mk' (Subgroup.center L)).ker) := by
     rw [QuotientGroup.ker_mk']
     obtain ⟨k, hk⟩ := hZ.exists_card_eq
@@ -60,6 +60,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hZ : Subgroup.center L = ⊥) : L ⧸ aschbacherSolvableCore 3 L ≃* L ⧸ Subgroup.center L :=
   (thetaBotEquiv hθ).trans (quotCenterEquivOfEqBot hZ)
 
+omit [Finite G] in
 theorem thetaCenterEquiv_mk (hθ : aschbacherSolvableCore 3 L = ⊥) (hZ : Subgroup.center L = ⊥)
     (l : L) :
     thetaCenterEquiv hθ hZ (l : L ⧸ aschbacherSolvableCore 3 L) = (l : L ⧸ Subgroup.center L) :=
@@ -179,7 +180,7 @@ theorem row429_of_gen (h45 : Item4_5) {S : Type} [Group S]
   have hAK' := normalizer_le_of_item4_5 h45 hG hA hc hL hK'M hK'q hK'sn
   obtain ⟨hinf, hcfg⟩ :=
     cfgS429_of hθ hA hc hL hAN hAC hLc hK'M hK'q hK'sn hK'type hAK' hcent
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
   have hconc := h (L ⧸ Subgroup.center L) hL.1.2.1 hL.1.2.2 hLS _ _ _ hcfg
   have hθL := theta_eq_bot_of_isComponent hθ hL
   have hZ3 := isPGroup_center_of_isComponent hθ hL

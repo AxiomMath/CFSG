@@ -71,9 +71,6 @@ private theorem hmbS3_chart_e_x [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : F
       ⟨x, Set.mem_insert_of_mem z (Set.mem_insert_of_mem y (Set.mem_singleton x))⟩ =
     Sum.inl (Sum.inl (0 : Fin 1))
   rw [ChamberIso.trans_e_apply]
-  change (combined.prodCongr chartZ).e (outer.e
-      ⟨x, Set.mem_insert_of_mem z (Set.mem_insert_of_mem y (Set.mem_singleton x))⟩) =
-    Sum.inl (Sum.inl (0 : Fin 1))
   have houter : outer.e ⟨x, Set.mem_insert_of_mem z
         (Set.mem_insert_of_mem y (Set.mem_singleton x))⟩ =
       Sum.inl ⟨x, Set.mem_insert_of_mem y (Set.mem_singleton x)⟩ := by
@@ -93,10 +90,6 @@ private theorem hmbS3_chart_e_x [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : F
         (slChart hct hext Ly (hmbS3_range_e_one hy) g))).e
       ⟨x, Set.mem_insert_of_mem y (Set.mem_singleton x)⟩ = Sum.inl (0 : Fin 1)
   rw [ChamberIso.trans_e_apply]
-  change ((slChart hct hext Lx hJx g).prodCongr
-      (slChart hct hext Ly (hmbS3_range_e_one hy) g)).e
-      ((prodChart (stdBuilding hct hext) hyx hcomm_xy ((g : K) : K ⧸ borel D H)).e
-        ⟨x, Set.mem_insert_of_mem y (Set.mem_singleton x)⟩) = Sum.inl (0 : Fin 1)
   have hinner : (prodChart (stdBuilding hct hext) hyx hcomm_xy ((g : K) : K ⧸ borel D H)).e
       ⟨x, Set.mem_insert_of_mem y (Set.mem_singleton x)⟩ =
       Sum.inl ⟨x, Set.mem_singleton x⟩ :=
@@ -154,8 +147,6 @@ private theorem hmbS3_chart_e_y [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : F
   change (outer.trans (combined.prodCongr chartZ)).e
       ⟨y, Set.mem_insert_of_mem z (Set.mem_insert y {x})⟩ = Sum.inl (Sum.inr (0 : Fin 1))
   rw [ChamberIso.trans_e_apply]
-  change (combined.prodCongr chartZ).e (outer.e
-      ⟨y, Set.mem_insert_of_mem z (Set.mem_insert y {x})⟩) = Sum.inl (Sum.inr (0 : Fin 1))
   have houter : outer.e ⟨y, Set.mem_insert_of_mem z (Set.mem_insert y {x})⟩ =
       Sum.inl ⟨y, Set.mem_insert y {x}⟩ := by
     change (prodChart (stdBuilding hct hext) hzJ₁ hcomm_outer ((g : K) : K ⧸ borel D H)).e
@@ -173,10 +164,6 @@ private theorem hmbS3_chart_e_y [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : F
         (slChart hct hext Ly (hmbS3_range_e_one hy) g))).e
       ⟨y, Set.mem_insert y {x}⟩ = Sum.inr (0 : Fin 1)
   rw [ChamberIso.trans_e_apply]
-  change ((slChart hct hext Lx hJx g).prodCongr
-      (slChart hct hext Ly (hmbS3_range_e_one hy) g)).e
-      ((prodChart (stdBuilding hct hext) hyx hcomm_xy ((g : K) : K ⧸ borel D H)).e
-        ⟨y, Set.mem_insert y {x}⟩) = Sum.inr (0 : Fin 1)
   have hinner : (prodChart (stdBuilding hct hext) hyx hcomm_xy ((g : K) : K ⧸ borel D H)).e
       ⟨y, Set.mem_insert y {x}⟩ = Sum.inr ⟨y, rfl⟩ :=
     prodChart_e_self (hB := stdBuilding hct hext) (hz := hyx) (hcomm := hcomm_xy)
@@ -233,8 +220,6 @@ private theorem hmbS3_chart_e_z [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : F
   change (outer.trans (combined.prodCongr chartZ)).e
       ⟨z, Set.mem_insert z (insert y {x})⟩ = Sum.inr (0 : Fin 1)
   rw [ChamberIso.trans_e_apply]
-  change (combined.prodCongr chartZ).e (outer.e
-      ⟨z, Set.mem_insert z (insert y {x})⟩) = Sum.inr (0 : Fin 1)
   have houter : outer.e ⟨z, Set.mem_insert z (insert y {x})⟩ = Sum.inr ⟨z, rfl⟩ := by
     change (prodChart (stdBuilding hct hext) hzJ₁ hcomm_outer ((g : K) : K ⧸ borel D H)).e
         ⟨z, Set.mem_insert z (insert y {x})⟩ = _

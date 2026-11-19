@@ -46,12 +46,12 @@ theorem s16t3_inf_le_cTilde (hset : Setting16 D V₀ V L) {m : ℕ} (hm : m = 6 
   have hNpg : IsPGroup 2 ↥(((YL ⊓ YK).subgroupOf YL).map φ) := hRsub.map φ
   let N : Subgroup ↥(barSub V₀ V hV YL) := ((YL ⊓ YK).subgroupOf YL).map φ
   have hNnorm : N.Normal := hRnorm.map φ hφ
-  have h5m : 5 ≤ Nat.card (Fin m) := by rcases hm with rfl | rfl <;> simp [Nat.card_fin]
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup h5m
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := e.isSimpleGroup
-  haveI : IsSimpleGroup ↥(barSub V₀ V hV YL) :=
+  have h5m : 5 ≤ Nat.card (Fin m) := by rcases hm with rfl | rfl <;> simp
+  have : IsSimpleGroup ↥(alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup h5m
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(barSub V₀ V hV YL) :=
     (MulEquiv.subgroupCongr hYL.2.2.1).isSimpleGroup
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hNpg' : IsPGroup 2 ↥N := hNpg
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · intro r hr
@@ -79,7 +79,7 @@ theorem s16t3_inf_le_cTilde (hset : Setting16 D V₀ V L) {m : ℕ} (hm : m = 6 
     have hpg_lbar : IsPGroup 2 ↥(lBar V₀ V hV L) :=
       hpg_bar.of_equiv (MulEquiv.subgroupCongr hYL.2.2.1)
     have hpg_alt : IsPGroup 2 ↥(alternatingGroup (Fin m)) := hpg_lbar.of_equiv e
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨c, hc⟩ := hpg_alt.exists_card_eq
     have h3dvd : 3 ∣ Nat.card ↥(alternatingGroup (Fin m)) := by
       rcases hm with rfl | rfl <;>
@@ -134,7 +134,7 @@ theorem s16t3_cube_of_cover_alt (hset : Setting16 D V₀ V L) {m : ℕ} (hm : m 
         fun hx => by rw [hx, map_one]⟩
     rw [h1, hNker]
   let O : Subgroup ↥YL := CFSG.pCore 2 ↥YL
-  haveI : O.Normal := CFSG.pCore_normal (p := 2) (G := ↥YL)
+  have : O.Normal := CFSG.pCore_normal (p := 2) (G := ↥YL)
   have hO : IsPGroup 2 ↥O := CFSG.pCore_isPGroup (p := 2) (G := ↥YL)
   have hOker : O ≤ π.ker := by
     rw [hπker]

@@ -306,7 +306,7 @@ theorem normalizerGroup_reflCode (hT : Chk.tabsOK m T = true) (u : Root m)
   split_ifs
   · rw [weyl_reflCode]
     ext x
-    simp only [Subgroup.mem_inf, Subgroup.mem_map]
+    simp only [Subgroup.mem_map]
     constructor
     · rintro ⟨⟨y, hy, rfl⟩, hx⟩
       exact ⟨y, ⟨hy, (conj_mem_ker_iff _ _ _).mp hx⟩, rfl⟩
@@ -321,12 +321,12 @@ theorem orthCount_reflCode (hT : Chk.tabsOK m T = true) (u : Root m) (c : Finset
   refine Finset.card_nbij' (fun p => (rtE hT u p.1, rtE hT u p.2))
     (fun p => ((rtE hT u).symm p.1, (rtE hT u).symm p.2)) ?_ ?_ ?_ ?_
   · intro p hp
-    simp only [Finset.coe_filter, Finset.mem_product, Set.mem_setOf_eq] at hp ⊢
+    simp only [Finset.coe_filter, Finset.mem_product, Set.mem_ofPred_eq] at hp ⊢
     rw [reflCode_apply, Finset.mem_map_equiv, Finset.mem_map_equiv, Equiv.symm_apply_apply,
       Equiv.symm_apply_apply, rtE_apply, rtE_apply, pairing_rtR_eq_zero_iff]
     exact hp
   · intro p hp
-    simp only [Finset.coe_filter, Finset.mem_product, Set.mem_setOf_eq] at hp ⊢
+    simp only [Finset.coe_filter, Finset.mem_product, Set.mem_ofPred_eq] at hp ⊢
     rw [reflCode_apply, Finset.mem_map_equiv, Finset.mem_map_equiv] at hp
     refine ⟨⟨hp.1.1, hp.1.2⟩, ?_⟩
     rw [← pairing_rtR_eq_zero_iff hT u, ← rtE_apply, ← rtE_apply, Equiv.apply_symm_apply,

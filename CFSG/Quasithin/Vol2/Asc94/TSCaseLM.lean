@@ -50,7 +50,7 @@ theorem Frame0.nonabelian [IsSimpleGroup G] (F : Frame0 G z) : ∃ a b : G, a * 
   have hN : (Subgroup.zpowers z).Normal := ⟨fun n hn g => by
     rw [hcon g n, mul_inv_cancel_right]
     exact hn⟩
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers z) with h | h
   · exact F.z_ne_one (Subgroup.zpowers_eq_bot.1 h)
   · have h1 : Nat.card G = 2 := by

@@ -18,8 +18,8 @@ theorem IsAlternatingEightCover.statedSp_map_eq_one {J : Type*} [Group J] [Finit
     (hJ : IsAlternatingEightCover J) {F : Type} [Field F] [CharP F 2] {m : ℕ} (hm : m ≤ 2)
     (ρ : J →* StatedSp m F) (g : J) : ρ g = 1 := by
   let E := AlgebraicClosure F
-  haveI : IsAlgClosed E := inferInstance
-  haveI : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
+  have : IsAlgClosed E := inferInstance
+  have : CharP E 2 := charP_of_injective_algebraMap (algebraMap F E).injective 2
   let φ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F →+*
       Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) E := RingHom.mapMatrix (algebraMap F E)
   let ρ' : J →* Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) E :=

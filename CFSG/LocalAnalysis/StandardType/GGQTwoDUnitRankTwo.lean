@@ -81,7 +81,7 @@ theorem ggQTwoDUnit_rankTwoIn_le {f n : ℕ} {ψ : Su K 2 f n →* G}
     (hr' : ∀ s : ↥Bs, ((r' s : ↥Bs) : G) =
       ψ (ggPermSU (Equiv.swap b c)) * (s : G) * (ψ (ggPermSU (Equiv.swap b c)))⁻¹) :
     ggRankTwoIn ψ.range Bs r r' ≤ (coordBlockSU K 2 f {a, b, c}).map ψ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hT : ({a, b, c} : Finset (Fin n)).card = 3 :=
     Finset.card_triple_eq_three_iff.mpr ⟨hab, hac, hbc⟩
   rw [ggRankTwoIn, ggOTwoPrime, Subgroup.closure_le]

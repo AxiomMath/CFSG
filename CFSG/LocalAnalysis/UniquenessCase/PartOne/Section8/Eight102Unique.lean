@@ -93,7 +93,7 @@ theorem centralizer_le_of_notationA8103 {D : Data G} (hSg : SigmaStd D) (he : ev
     rw [hJeq]
     exact Subgroup.map_subtype_le _
   have hJperf : ⁅J, J⁆ = J := by
-    haveI : Group.IsPerfect ↥(CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥X) :=
+    have : Group.IsPerfect ↥(CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥X) :=
       CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
     have hmap : Group.IsPerfect
         ↥((CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥X).map X.subtype) :=
@@ -110,7 +110,7 @@ theorem centralizer_le_of_notationA8103 {D : Data G} (hSg : SigmaStd D) (he : ev
   · have hJcore : J ≤ F07.PPrimeCoreIn p H :=
       le_pPrimeCoreIn_of_isSolvable inf_le_left hJN hJperf hsol
     have hcop : Nat.Coprime p (Nat.card (F07.PPrimeCoreIn p H)) := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hcard : Nat.card (F07.PPrimeCoreIn p H) = Nat.card (CFSG.pPrimeCore p ↥H) :=
         Subgroup.card_map_of_injective H.subtype_injective
       rw [hcard]
@@ -136,7 +136,7 @@ theorem mem_uniqueSet_of_notationA8103 {D : Data G} (hK7 : KU45TorusFix)
   have hP'3 : IsPGroup 3 P' := hP3.comap_subtype
   obtain ⟨Q, hP'Q⟩ := hP'3.exists_le_sylow
   let S : Subgroup G := (Q : Subgroup ↥D.M).map D.M.subtype
-  have hS3 : IsPGroup 3 S := Q.isPGroup'.map D.M.subtype
+  have hS3 : IsPGroup 3 S := Q.isPGroup.map D.M.subtype
   have hSsyl : IsSylowOf 3 S D.M := ⟨Q, rfl⟩
   have hPS : P ≤ S := by
     intro x hx

@@ -184,8 +184,8 @@ theorem e6IsogenyAlgebraic_minBC_algebraic
   classical
   obtain ⟨k, hk, hfin, κ, j, _, hdesc⟩ := e6Data_valid.exists_finite_subfield_lift
     ({g} : Finset (e6Data_valid.minGroup Ω)) (ZMod 2) (algebraMap (ZMod 2) Ω)
-  letI : Field k := hk
-  letI : Finite k := hfin
+  let : Field k := hk
+  let : Finite k := hfin
   obtain ⟨x, hx⟩ := hdesc g (Finset.mem_singleton_self _)
   have hbc := congrArg (fun f => f x)
     (minBC_comp e6Data_valid j ι)
@@ -200,7 +200,7 @@ theorem e6IsogenyAlgebraic_xm_single (i : Fin Tag.E6.rank) (c : Ω) :
   classical
   obtain ⟨F, hF, hCF, _⟩ := exists_finite_subfield_of_finset
     (K := ZMod 2) (L := Ω) ({c} : Finset Ω)
-  letI : Finite F := hF
+  let : Finite F := hF
   let cF : F := ⟨c, hCF (Finset.mem_singleton_self _)⟩
   have hbc : minBC e6Data_valid F.subtype (e6Data_valid.xm F (Pi.single i 1) cF) =
       e6Data_valid.xm Ω (Pi.single i 1) c := by
@@ -219,7 +219,7 @@ theorem e6IsogenyAlgebraic_xm_neg_single (i : Fin Tag.E6.rank) (c : Ω) :
   classical
   obtain ⟨F, hF, hCF, _⟩ := exists_finite_subfield_of_finset
     (K := ZMod 2) (L := Ω) ({c} : Finset Ω)
-  letI : Finite F := hF
+  let : Finite F := hF
   let cF : F := ⟨c, hCF (Finset.mem_singleton_self _)⟩
   have hbc : minBC e6Data_valid F.subtype (e6Data_valid.xm F (-Pi.single i 1) cF) =
       e6Data_valid.xm Ω (-Pi.single i 1) c := by
@@ -255,6 +255,7 @@ theorem e6IsogenyAlgebraic_sigma (Fr : Ω →+* Ω) (g : e6Data_valid.minGroup �
         e6IsogenyAlgebraic_xm_neg_single, hFy]
   exact DFunLike.congr_fun h g
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem range_minTorus_e6_eq_iSup :
     (minTorus e6Data_valid Ω).range = ⨆ i, e6Data_valid.torus Ω i := by
   apply le_antisymm

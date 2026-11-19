@@ -31,7 +31,7 @@ theorem exists_pow_two_pow_ne_self {K : Type} [Field K] [Fintype K] {m : ℕ} (h
   have h1 : 1 < 2 ^ m := Nat.one_lt_two_pow (by omega)
   have hdeg : p.natDegree = 2 ^ m := by
     rw [hp, Polynomial.natDegree_sub_eq_left_of_natDegree_lt] <;>
-      simp [Polynomial.natDegree_X_pow, h1]
+      simp [h1]
   have hp0 : p ≠ 0 := by
     intro h0
     rw [h0, Polynomial.natDegree_zero] at hdeg
@@ -171,7 +171,7 @@ theorem exists_mul_conj_involution' {L : Subgroup G} {n : ℕ} (hSp : IsSp4 ↥L
       K148.AutAux.condHom_apply]
     show t * (((e.symm l : ↥L) : G)⁻¹ * t * (e.symm l : ↥L)) =
       (t * (e.symm l : ↥L) * t⁻¹)⁻¹ * (e.symm l : ↥L)
-    simp only [mul_inv_rev, inv_inv, htinv]
+    simp only [mul_inv_rev, htinv]
     group
   refine ⟨(e.symm l : G), (e.symm l).2, ?_, ?_, ?_⟩
   · rw [key]
@@ -244,7 +244,7 @@ theorem k14_5SmallFor_sp4 : K14_5SmallFor fun L _ e => IsSp4 L e := by
     rwa [hπ, MulEquiv.symm_apply_apply] at h
   have hntW : Nontrivial W := by
     obtain ⟨hlt, -, -, -⟩ := hirr
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     replace hv : v ≠ 1 := fun h => hv (h ▸ Subgroup.one_mem _)
     refine ⟨⟨Multiplicative.toAdd (θ v), 0, fun h => hv ?_⟩⟩
     have h1 : θ v = 1 := Multiplicative.toAdd.injective (by simpa using h)

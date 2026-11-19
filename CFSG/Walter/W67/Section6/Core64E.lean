@@ -191,7 +191,7 @@ theorem factorization_centralizer
     hE7.comap_of_injective C.subtype C.subtype_injective
   obtain ⟨T, hT⟩ := hE7'.exists_le_sylow
   set T' := (T : Subgroup C).map C.subtype with hT'
-  have hT'r : IsPGroup 7 T' := T.isPGroup'.map _
+  have hT'r : IsPGroup 7 T' := T.isPGroup.map _
   have hET' : s.fr.E ≤ T' := fun e he => ⟨⟨e, hEC he⟩, hT (Subgroup.mem_subgroupOf.mpr he), rfl⟩
   have hT'C : T' ≤ C := Subgroup.map_subtype_le _
   have hT'eq : T' = s.fr.E := by

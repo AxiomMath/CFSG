@@ -22,11 +22,11 @@ private theorem torusAct_simple' (τ : Tag) {p : ℕ} [NeZero p] (i : Fin τ.ran
   simp only [TableBExc.torusAct, simple_smul, reflect, TableBExc.redMod, TableBExc.liftMod,
     Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   push_cast
-  simp only [ZMod.natCast_zmod_val, ZMod.cast_id', id_eq]
+  simp only [ZMod.natCast_zmod_val]
   congr 2
   by_cases h : k = i
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private theorem latticeIrred_of_refl {τ : Tag} {p : ℕ} [NeZero p]
     (hp : p.Prime) (hdet : IsUnit ((τ.cartan.det : ℤ) : ZMod p))
@@ -115,7 +115,7 @@ private theorem f4Twist_smul_single (i : Fin Tag.F4.rank) (c : ZMod 3) :
   rw [f4Twist_apply]
   by_cases hk : k = i
   · subst hk
-    simp only [Pi.smul_apply, Pi.single_eq_same, mul_one]
+    simp only [Pi.smul_apply, Pi.single_eq_same]
     ring
   · simp only [Pi.smul_apply, Pi.single_apply]
     simp [hk]
@@ -130,14 +130,14 @@ theorem latticeIrred_E8 {p : ℕ} (hp : p = 3 ∨ p = 5) (U : AddSubgroup (Fin T
     (hU : ∀ (i : Fin Tag.E8.rank) (x : Fin Tag.E8.rank → ZMod p), x ∈ U →
       TableBExc.torusAct Tag.E8 p (simple Tag.E8 i) x ∈ U) : U = ⊥ ∨ U = ⊤ := by
   rcases hp with rfl | rfl
-  · haveI : NeZero 3 := ⟨by norm_num⟩
+  · have : NeZero 3 := ⟨by norm_num⟩
     exact latticeIrred_of_refl (τ := Tag.E8) (p := 3) (by norm_num)
       (TableBExc.isUnit_det_cartan_of_eq (τ := Tag.E8) (by norm_num)
         CFSG.LieType.Chevalley.det_cartan_E8 (Nat.coprime_one_left 3))
       (fun S hS hcl => NbrInnerRest.cartanE_connected (by decide) S hS hcl)
       (fun i j h => NbrInnerRest.cartanE_entry_ne_zero (by norm_num) (by norm_num) i j h)
       (fun i j => by fin_cases i <;> fin_cases j <;> decide) U hU
-  · haveI : NeZero 5 := ⟨by norm_num⟩
+  · have : NeZero 5 := ⟨by norm_num⟩
     exact latticeIrred_of_refl (τ := Tag.E8) (p := 5) (by norm_num)
       (TableBExc.isUnit_det_cartan_of_eq (τ := Tag.E8) (by norm_num)
         CFSG.LieType.Chevalley.det_cartan_E8 (Nat.coprime_one_left 5))
@@ -149,14 +149,14 @@ theorem latticeIrred_E7 {p : ℕ} (hp : p = 3 ∨ p = 5) (U : AddSubgroup (Fin T
     (hU : ∀ (i : Fin Tag.E7.rank) (x : Fin Tag.E7.rank → ZMod p), x ∈ U →
       TableBExc.torusAct Tag.E7 p (simple Tag.E7 i) x ∈ U) : U = ⊥ ∨ U = ⊤ := by
   rcases hp with rfl | rfl
-  · haveI : NeZero 3 := ⟨by norm_num⟩
+  · have : NeZero 3 := ⟨by norm_num⟩
     exact latticeIrred_of_refl (τ := Tag.E7) (p := 3) (by norm_num)
       (TableBExc.isUnit_det_cartan_of_eq (τ := Tag.E7) (by norm_num)
         CFSG.LieType.Chevalley.det_cartan_E7 (by decide))
       (fun S hS hcl => NbrInnerRest.cartanE_connected (by decide) S hS hcl)
       (fun i j h => NbrInnerRest.cartanE_entry_ne_zero (by norm_num) (by norm_num) i j h)
       (fun i j => by fin_cases i <;> fin_cases j <;> decide) U hU
-  · haveI : NeZero 5 := ⟨by norm_num⟩
+  · have : NeZero 5 := ⟨by norm_num⟩
     exact latticeIrred_of_refl (τ := Tag.E7) (p := 5) (by norm_num)
       (TableBExc.isUnit_det_cartan_of_eq (τ := Tag.E7) (by norm_num)
         CFSG.LieType.Chevalley.det_cartan_E7 (by decide))
@@ -167,7 +167,7 @@ theorem latticeIrred_E7 {p : ℕ} (hp : p = 3 ∨ p = 5) (U : AddSubgroup (Fin T
 theorem latticeIrred_F4 (U : AddSubgroup (Fin Tag.F4.rank → ZMod 3))
     (hU : ∀ (i : Fin Tag.F4.rank) (x : Fin Tag.F4.rank → ZMod 3), x ∈ U →
       TableBExc.torusAct Tag.F4 3 (simple Tag.F4 i) x ∈ U) : U = ⊥ ∨ U = ⊤ := by
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   set W : AddSubgroup (Fin Tag.F4.rank → ZMod 3) := U.map f4Twist.toAddMonoidHom with hW
   have hWstab : ∀ (i : Fin Tag.F4.rank) (y : Fin Tag.F4.rank → ZMod 3), y ∈ W →
       y - CFSG.RankThree.CentralCover.cartanFunctional Tag.F4 3 i y • Pi.single i 1 ∈ W := by
@@ -215,7 +215,7 @@ theorem latticeIrred_F4 (U : AddSubgroup (Fin Tag.F4.rank → ZMod 3))
     rwa [hux'] at hu
 
 theorem ggWeylIrred_range_of_torusAct {τ : Tag} {p : ℕ} [NeZero p] {R : Type} [Group R]
-    (ι : Multiplicative (Fin τ.rank → ZMod p) →* R) (hinj : Function.Injective ι)
+    (ι : Multiplicative (Fin τ.rank → ZMod p) →* R) (_hinj : Function.Injective ι)
     (m : Fin τ.rank → R)
     (hm : ∀ (i : Fin τ.rank) (s : Fin τ.rank → ZMod p),
       m i * ι (Multiplicative.ofAdd s) * (m i)⁻¹ =

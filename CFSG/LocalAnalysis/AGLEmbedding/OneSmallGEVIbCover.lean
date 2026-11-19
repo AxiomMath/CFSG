@@ -45,7 +45,7 @@ theorem D1OneSmallData.exists_second_component (hd : D1OneSmallData p P M H R Rb
   have hzbC : zb ∈ C := hz.2.2.2
   have hcard := D1OneSmallData.card_le_of_le_centralizer hd hR
     (inf_le_right : (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ C ≤ C)
-    (Rbar.isPGroup'.to_le inf_le_left)
+    (Rbar.isPGroup.to_le inf_le_left)
   have hle : Subgroup.zpowers t ≤ (Rbar : Subgroup _) ⊓ C :=
     Subgroup.zpowers_le.mpr ⟨htR, hL'C htL⟩
   have heq : Subgroup.zpowers t = (Rbar : Subgroup _) ⊓ C :=

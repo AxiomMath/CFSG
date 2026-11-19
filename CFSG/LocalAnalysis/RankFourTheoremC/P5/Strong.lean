@@ -193,7 +193,7 @@ theorem conj_mem_QK_of_mem_normalizer (hB : BorelDataP p P M x f W) {g : G}
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup p Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup (primeComplementCore_coprime (G := C) p) hQcp
   have hftC : f t ∈ C := mem_centralizer_singleton_iff.mpr (hB.f_comm t)
   obtain ⟨hc, hρt, -⟩ := hρ t
@@ -224,7 +224,7 @@ theorem conj_mem_QK_of_mem_normalizer (hB : BorelDataP p P M x f W) {g : G}
 
 theorem conj_mem_QK_of_conj_mem_P (hB : BorelDataP p P M x f W) (hS : PtShape p P x) {g q : G}
     (hq : q ∈ hB.QK) (hgq : g * q * g⁻¹ ∈ (P : Subgroup G)) : g * q * g⁻¹ ∈ hB.QK := by
-  haveI : IsMulCommutative (P : Subgroup G) := hS.abelian
+  have : IsMulCommutative (P : Subgroup G) := hS.abelian
   have hcomm : ∀ a ∈ (P : Subgroup G), ∀ b ∈ (P : Subgroup G), a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val ((IsMulCommutative.is_comm (M := (P : Subgroup G))).comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hqP : q ∈ (P : Subgroup G) := hB.QK_le_P hq

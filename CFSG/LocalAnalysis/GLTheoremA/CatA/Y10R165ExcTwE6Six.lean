@@ -29,9 +29,6 @@ theorem tw6SixZx_mulVec (p q : ℕ) (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 
     = (-(q : ZMod p)) • (tw6SixZx p q)
   funext i
   revert i
-  change ∀ i : Fin 6,
-    (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZx p q)) i
-      = ((-(q : ZMod p)) • (tw6SixZx p q)) i
   intro i
   fin_cases i <;>
     change (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZx p q)) _
@@ -47,9 +44,6 @@ theorem tw6SixZy_mulVec (p q : ℕ) (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 
     = (-(q : ZMod p)) • (tw6SixZy p q)
   funext i
   revert i
-  change ∀ i : Fin 6,
-    (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZy p q)) i
-      = ((-(q : ZMod p)) • (tw6SixZy p q)) i
   intro i
   fin_cases i <;>
     change (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZy p q)) _
@@ -76,7 +70,6 @@ theorem tw6SixZx_charVal (p q : ℕ) (α : Fin Tag.E6.rank → ℤ) :
   change (∑ i : Fin 6, ((α (e6Index i) : ℤ) : ZMod p) * tw6SixZx p q (e6Index i)) = _
   rw [Fin.sum_univ_six]
   simp [tw6SixZx, e6Index]
-  push_cast
   ring
 
 theorem tw6SixZx_charVal_eq_zero_iff {p q : ℕ} [Fact p.Prime] (hp5 : 5 < p)
@@ -162,8 +155,8 @@ theorem tw6SixZy_charVal (p q : ℕ) (α : Fin Tag.E6.rank → ℤ) :
   rw [Fin.sum_univ_six]
   simp [tw6SixZy, e6Index]
 
-theorem tw6SixSupportA2_subset_rootKernel_zy {p q : ℕ} [Fact p.Prime] (hp5 : 5 < p)
-    (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 0) :
+theorem tw6SixSupportA2_subset_rootKernel_zy {p q : ℕ} [Fact p.Prime] (_hp5 : 5 < p)
+    (_hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 0) :
     parabolicRoots Tag.E6 tw6SixSupportA2 ⊆ rootKernel (tw6SixZy p q) := by
   intro α hα
   rw [mem_rootKernel]

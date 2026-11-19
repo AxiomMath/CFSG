@@ -57,11 +57,11 @@ theorem supportedDeg1_shift_neg {j : Fin τ.rank} (hj : j ≠ iθ τ)
   intro ν hν
   simp only [shiftRoot] at hν
   by_cases hΦ : ν ∈ rootFinset τ
-  · rw [if_pos hΦ] at hν
+  · rw [ite_eq_left hΦ] at hν
     obtain ⟨-, h7⟩ := hg _ hν
     refine ⟨hΦ, ?_⟩
     simpa [Pi.single_apply, hj] using h7
-  · rw [if_neg hΦ] at hν
+  · rw [ite_eq_right hΦ] at hν
     exact absurd rfl hν
 
 private theorem eq_single_of_forall_shift_eq_zero (hK : Nat.card K = 2)
@@ -79,7 +79,7 @@ private theorem eq_single_of_forall_shift_eq_zero (hK : Nat.card K = 2)
     obtain ⟨hνΦ, hν7⟩ := hs ν hν
     obtain ⟨j, hj, hjΦ⟩ := hroot ν hνΦ hν7 hne
     have h0 := congrFun (hall j hj) (ν - Pi.single j 1)
-    simp only [shiftRoot, if_pos hjΦ, Pi.zero_apply] at h0
+    simp only [shiftRoot, ite_eq_left hjΦ, Pi.zero_apply] at h0
     have : ν - Pi.single j 1 - -Pi.single j 1 = ν := by abel
     rw [this] at h0
     exact hν h0
@@ -93,7 +93,7 @@ private theorem eq_single_of_forall_shift_eq_zero (hK : Nat.card K = 2)
   funext ν
   by_cases hν : ν = Pi.single (iθ τ) 1
   · subst hν; simp [hone]
-  · rw [Pi.single_apply, if_neg hν]
+  · rw [Pi.single_apply, ite_eq_right hν]
     by_contra hne
     exact hν (hsupp ν hne)
 
@@ -285,8 +285,8 @@ private theorem mem_coordGroup_of_supported (hnode : iθ τ = highNode τ)
     by_cases hμ : c μ = 0
     · have hnm : μ ∉ (rootFinset τ).filter (fun ν => c ν ≠ 0) := fun h =>
         (Finset.mem_filter.1 h).2 hμ
-      rw [if_neg hnm, hμ]
-    · rw [if_pos (Finset.mem_filter.2 ⟨(hcs μ hμ).1, hμ⟩), hK01 _ hμ]
+      rw [ite_eq_right hnm, hμ]
+    · rw [ite_eq_left (Finset.mem_filter.2 ⟨(hcs μ hμ).1, hμ⟩), hK01 _ hμ]
   rw [hc]
   refine AddSubgroup.sum_mem _ fun ν hν => ?_
   obtain ⟨hνΦ, hμ⟩ := Finset.mem_filter.1 hν

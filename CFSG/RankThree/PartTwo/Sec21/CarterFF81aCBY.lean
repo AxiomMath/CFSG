@@ -8,9 +8,10 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF81
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem FF81Hyp.cen_eq_bot_of_irreducible
     {B : Subgroup G} {X Y : Subgroup (MulAut ↥B)}
-    (hYX : Y ≤ X)
+    (_hYX : Y ≤ X)
     (hYnorm : ∀ σ : MulAut ↥B, σ ∈ X → ∀ y : MulAut ↥B, y ∈ Y → σ * y * σ⁻¹ ∈ Y)
     (hYne : Y ≠ ⊥)
     (hirr : ∀ U : Subgroup ↥B, (∀ σ : MulAut ↥B, σ ∈ X → Subgroup.map σ U = U) →

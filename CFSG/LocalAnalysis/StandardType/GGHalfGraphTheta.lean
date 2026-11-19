@@ -85,7 +85,7 @@ theorem ggHalfGraphTheta_exists_slToE6_of_chain
 
 private theorem ggHalfGraphTheta_isSimpleGroup_sl6 :
     IsSimpleGroup (SpecialLinearGroup (Fin 6) F2) := by
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   have hcard : Nat.card F2 = 2 := GaloisField.card 2 1 (by omega)
   have hZ : Subgroup.center (SpecialLinearGroup (Fin 6) F2) = ⊥ := by
     rw [eq_bot_iff]
@@ -126,11 +126,11 @@ theorem GGHalfE6Model.exists_theta
     intro i j hij
     change (if i = j then (0 : Fin (Tag.rank .E6) → ℤ) else m.frame b (b.lab i) (b.lab j)) =
       m.frame b (b.lab i) (b.lab j)
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
   have hr_self : ∀ i : Fin 6, r i i = 0 := by
     intro i
     change (if i = i then (0 : Fin (Tag.rank .E6) → ℤ) else m.frame b (b.lab i) (b.lab i)) = 0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hroot : ∀ i j, i ≠ j → IsRoot .E6 (r i j) := by
     intro i j hij
     rw [hr_ne hij]
@@ -165,11 +165,11 @@ theorem GGHalfE6Model.exists_theta
   obtain ⟨θ, hθ⟩ :=
     ggHalfGraphTheta_exists_slToE6_of_chain (k := GaloisField 2 1) hroot hadd hne hnot
   refine ⟨θ, ?_, ?_⟩
-  · haveI : IsSimpleGroup (SpecialLinearGroup (Fin 6) F2) :=
+  · have : IsSimpleGroup (SpecialLinearGroup (Fin 6) F2) :=
       ggHalfGraphTheta_isSimpleGroup_sl6
     have h01 : (0 : Fin 6) ≠ 1 := by decide
     have hx0 : θ (slE 0 1) = ggE6x (m.frame b (b.lab 0) (b.lab 1)) := by
-      rw [slE, dif_neg h01, hθ 0 1 h01 1, hr_ne h01]
+      rw [slE, dite_eq_right h01, hθ 0 1 h01 1, hr_ne h01]
       rfl
     have hxne : ggE6x (m.frame b (b.lab 0) (b.lab 1)) ≠ 1 := by
       change Minuscule.e6Data_valid.xm (GaloisField 2 1)
@@ -195,7 +195,7 @@ theorem GGHalfE6Model.exists_theta
         exact hθne hθ1
     exact (MonoidHom.ker_eq_bot_iff θ).1 hker
   · intro c d hcd
-    rw [slE, dif_neg hcd, hθ c d hcd 1, hr_ne hcd]
+    rw [slE, dite_eq_right hcd, hθ c d hcd 1, hr_ne hcd]
     rfl
 
 end CFSG.StandardType

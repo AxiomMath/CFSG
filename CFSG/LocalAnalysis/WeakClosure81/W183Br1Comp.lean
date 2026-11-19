@@ -29,7 +29,7 @@ theorem br1_shape_transport (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ
     (hP : ∀ (X Y : Type) [Group X] [Group Y], X ≃* Y → P X → P Y)
     (hQ : HasQuotShape L (kerMV V H : Set G) P) : P ↥(M.img L) := by
   obtain ⟨X, hX, φ, hφs, hφk, hPX⟩ := hQ
-  letI : Group X := hX
+  let : Group X := hX
   let ψ : ↥L →* LGL 2 M.W := M.ρ.comp (Subgroup.inclusion hLH)
   have hψ : ∀ k : ↥L, ψ k = M.ρ (Subgroup.inclusion hLH k) := fun _ => rfl
   let ψ' : ↥L →* ↥(M.img L) := ψ.codRestrict (M.img L) fun k => by
@@ -87,7 +87,7 @@ theorem br1_comp_base (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T
   have hnonab : ∃ a ∈ M.img L, ∃ b ∈ M.img L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hbase.2
     exact ⟨(a : LGL 2 M.W), a.2, (b : LGL 2 M.W), b.2, fun h => hab (Subtype.ext h)⟩
-  haveI hXn : ((M.img L).subgroupOf (M.img H)).Normal :=
+  have hXn : ((M.img L).subgroupOf (M.img H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (M.img_mono hLH)).mpr hnormLe
   have hsup : (M.img L).subgroupOf (M.img H) ⊔ (M.img D.T).subgroupOf (M.img H) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (M.img_mono hLH) (M.img_mono hDT),
@@ -108,7 +108,7 @@ theorem br1_comp_base (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T
     exact le_bot_iff.mp hle
   have hZ : Subgroup.center ↥((M.img L).subgroupOf (M.img H)) = ⊥ := by
     let eL := Subgroup.subgroupOfEquivOfLe (M.img_mono hLH)
-    haveI : IsSimpleGroup ↥((M.img L).subgroupOf (M.img H)) :=
+    have : IsSimpleGroup ↥((M.img L).subgroupOf (M.img H)) :=
       (MulEquiv.isSimpleGroup_congr eL).mpr hsimple
     refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative ?_
     intro hc
@@ -128,6 +128,7 @@ theorem br1_comp_base (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T
     exact hyc
   exact congrArg Subtype.val h1
 
+omit [Finite G] in
 private theorem w183_conjSubgroup_img {J E : Subgroup G} (M : ModDataE J E) {P : Subgroup G}
     (hP : P ≤ J) (j : ↥J) :
     conjSubgroup (M.img P) (M.ρ j) = M.img (conjSubgroup P (j : G)) := by

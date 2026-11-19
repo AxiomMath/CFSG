@@ -176,17 +176,17 @@ theorem ggResII_arow {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Modul
     · subst hi
       rw [hψib]
       by_cases hj : j = i
-      · subst hj; rw [if_pos rfl, if_pos rfl, hψib, hKdiag]
-      · rw [if_pos rfl, if_neg hj, hψ j hj]
-        simp only [r, dif_neg hj, hψ j hj]
+      · subst hj; rw [ite_eq_left rfl, ite_eq_left rfl, hψib, hKdiag]
+      · rw [ite_eq_left rfl, ite_eq_right hj, hψ j hj]
+        simp only [r, dite_eq_right hj, hψ j hj]
         rcases hKsl none (some ⟨e j, hne j hj⟩) (by simp) with h0 | h0 <;> simp [h0]
-    · rw [if_neg hi, hψ i hi]
+    · rw [ite_eq_right hi, hψ i hi]
       by_cases hj : j = ib
       · subst hj
-        rw [if_pos rfl, hψib, hKsymm]
-        simp only [r, dif_neg hi, hψ i hi]
+        rw [ite_eq_left rfl, hψib, hKsymm]
+        simp only [r, dite_eq_right hi, hψ i hi]
         rcases hKsl none (some ⟨e i, hne i hi⟩) (by simp) with h0 | h0 <;> simp [h0]
-      · rw [if_neg hj, hψ j hj, hKL i j hi hj]
+      · rw [ite_eq_right hj, hψ j hj, hKL i j hi hj]
   have hinv : ggInv (ggKmat C ib r) ∈ targets := by
     rw [hKmat, ggInv_submatrix]
     have : ggInv C' = ggInv CK := by
@@ -199,7 +199,7 @@ theorem ggResII_arow {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Modul
     intro j hj
     have hj' : j ≠ ib := fun h => hj (by rw [h, hib])
     have := hr j hj'
-    simp only [r, dif_neg hj', hψ j hj'] at this
+    simp only [r, dite_eq_right hj', hψ j hj'] at this
     rcases hKsl none (some ⟨e j, hj⟩) (by simp) with h0 | h0
     · rw [h0] at this ⊢
       by_cases hjc : j = ic

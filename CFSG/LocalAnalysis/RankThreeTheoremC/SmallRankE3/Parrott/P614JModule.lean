@@ -127,7 +127,7 @@ variable [Finite G]
 theorem eq_of_le_of_mem {M H K : Subgroup G} {z : G} (hK : PComp 3 M H K z)
     (hcore : rankThreePrimeCore 3 H = pCoreOf 2 H) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     ∀ N : Subgroup G, N ≤ K → K ≤ normalizer (N : Set G) → z ∈ N → N = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro N hNK hKN hzN
   set D : Subgroup G := K ⊓ pCoreOf 2 H with hD
   have hDp : IsPGroup 2 D := (pCoreOf_isPGroup 2 H).to_le inf_le_right
@@ -182,7 +182,7 @@ theorem relIndex_centralizer_eq_four {Q W : Subgroup G} {z : G} (hQ : IsPGroup 2
     (hzW' : ¬ ∀ w ∈ W, z * w = w * z)
     (hind : (centralizer (zpowers z : Set G)).relIndex Q = 4) :
     (centralizer (zpowers z : Set G)).relIndex W = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : (centralizer (zpowers z : Set G)).relIndex W ≤ 4 := by
     rw [← hind]
     exact Subgroup.relIndex_le_of_le_right hWQ (by rw [hind]; norm_num)
@@ -245,6 +245,7 @@ theorem commutator_mem_of_relIndex_eq {Q W : Subgroup G} {z : G} (hWQ : W ≤ Q)
   intro q hq
   exact (hQD.trans (sup_le hWX hCX) hq).2
 
+omit [Finite G] in
 theorem commutator_mem_of_gen {Q W K : Subgroup G} {z : G}
     (hKQ : K ≤ normalizer (Q : Set G)) (hKW : K ≤ normalizer (W : Set G)) (hzK : z ∈ K)
     (hgen : ∀ N : Subgroup G, N ≤ K → K ≤ normalizer (N : Set G) → z ∈ N → N = K)
@@ -279,6 +280,7 @@ theorem commutator_mem_of_gen {Q W K : Subgroup G} {z : G}
   have hkY : k ∈ Y := by rw [hYeq]; exact hk
   exact hkY.2 q hq
 
+omit [Finite G] in
 theorem comm_of_commutator_mem {Q W K : Subgroup G} (hWc : W ≤ centralizer (Q : Set G))
     (hWab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
     (hQK : ∀ k ∈ K, ∀ q ∈ Q, k * q * k⁻¹ * q⁻¹ ∈ W)
@@ -365,8 +367,8 @@ theorem commute_of_inf_centralizer_eq_bot (k3010 : KFact3010) {H K : Subgroup G}
     (hbK : b ∈ normalizer (K : Set G)) (hbQ : b ∈ normalizer (pCoreOf 2 H : Set G))
     (hbc : ⁅zpowers b, K⁆ ≤ pCoreOf 2 H) (hkbar : KbarA5 H K ∨ KbarL32 H K) :
     ∀ q ∈ pCoreOf 2 H, b * q = q * b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q : Subgroup G := pCoreOf 2 H with hQdef
   have hQ : IsPGroup 2 Q := pCoreOf_isPGroup 2 H
   have hQ1 : Q ≠ ⊥ := by

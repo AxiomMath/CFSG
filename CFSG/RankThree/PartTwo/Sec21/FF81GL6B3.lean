@@ -220,7 +220,7 @@ theorem mem_B3_iff {g : G6} :
     refine ⟨⟨a % 3, Nat.mod_lt _ (by norm_num)⟩, ⟨b % 3, Nat.mod_lt _ (by norm_num)⟩,
       ⟨c % 3, Nat.mod_lt _ (by norm_num)⟩, ?_⟩
     rw [hg]
-    simp only [Fin.val_mk, b3_pow_mod0, b3_pow_mod2, b3_pow_mod3]
+    simp only [b3_pow_mod0, b3_pow_mod2, b3_pow_mod3]
   · rintro ⟨a, b, c, rfl⟩
     have h0 : u0 ∈ B3 := Subgroup.subset_closure (by simp)
     have h2 : u2 ∈ B3 := Subgroup.subset_closure (by simp)
@@ -258,11 +258,11 @@ theorem commute_u0_of_mem_sig0 {g : G6} (hg : g ∈ Sig0) : g * u0 = u0 * g := b
   have hr5 : ∀ j, G 5 j = if j = 5 then 1 else 0 := by
     intro j
     have h := congrFun (congrFun hsp j) 2
-    fin_cases j <;> simpa [Matrix.mul_apply, Fin.sum_univ_six, hc2, J0] using h
+    fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_six, hc2, J0] at h ⊢ <;> exact h
   have hr2 : ∀ j, G 2 j = if j = 2 then 1 else 0 := by
     intro j
     have h := congrFun (congrFun hsp j) 5
-    fin_cases j <;> simpa [Matrix.mul_apply, Fin.sum_univ_six, hc5, J0] using h
+    fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_six, hc5, J0] at h ⊢ <;> exact h
   apply Units.ext
   show G * u0M = u0M * G
   ext i j

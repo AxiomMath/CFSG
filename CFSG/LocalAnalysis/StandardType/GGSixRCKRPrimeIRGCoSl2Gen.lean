@@ -44,7 +44,7 @@ theorem irg_isoCompat_of_sl2
   unfold IRGIsoCompat
   intro β' hβ' hlong
   obtain ⟨hc1, hc2, hinf⟩ := hroot β' hβ' hlong
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 g) = 2 ^ g := GaloisField.card 2 g (by omega)
   have hF4 : 4 ≤ Nat.card (GaloisField 2 g) := by
     rw [hF]

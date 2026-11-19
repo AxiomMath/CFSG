@@ -267,7 +267,7 @@ theorem fix_pt {k : ℕ} (hk : k < 9) : W.getD k 0 < 245520 ∧ ∀ j < 4,
   have hcol : ∀ s : Fin 154,
       omat (batK CS DS (fun _ => key ONW.K (W.getD k 0)) 0 1) s ⟨0, by norm_num⟩ =
         vecK (key ONW.K (W.getD k 0)) s := fun s => by
-    rw [batK_omat (by norm_num) hF, if_pos (by norm_num)]
+    rw [batK_omat (by norm_num) hF, ite_eq_left (by norm_num)]
   funext r
   have hrc := congrFun (congrFun hm r) ⟨0, by norm_num⟩
   rw [Matrix.mul_apply] at hrc

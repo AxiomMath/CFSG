@@ -15,8 +15,8 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly TableB Matrix CFSG.ClassicalGroups.UnitaryFlag
   CFSG.LocalAnalysis.ComponentInitial CFSG.StandardType.LineU CFSG.StandardType.UnitTB
 
-@[expose] def ggWTUS_weylAt (p r : ℕ) (R : Type) [Group R] (I : Set (MulAut R))
-    (L' : Type) [Group L'] [Finite L'] (ψ : L' →* R) (A : Subgroup (MulAut L')) : Prop :=
+@[expose] def ggWTUS_weylAt (p _r : ℕ) (R : Type) [Group R] (_I : Set (MulAut R))
+    (L' : Type) [Group L'] [Finite L'] (_ψ : L' →* R) (A : Subgroup (MulAut L')) : Prop :=
   ∃ (ι : Type) (M : CoxeterMatrix ι)
     (f : M.Group ≃* ↥(ggAutomizer (MulAut.conj : L' →* MulAut L').range A)),
     GGIsWeylMatrix M ∧

@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {T V : Subgroup G}
 
+omit [Finite G] in
 theorem cbit_eq_zero_iff (x t : G) : Width.cbit z x t = 0 ↔ t * x = x * t := by
   unfold Width.cbit
   split_ifs with h

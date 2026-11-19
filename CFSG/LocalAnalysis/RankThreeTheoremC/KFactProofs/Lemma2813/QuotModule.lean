@@ -84,7 +84,7 @@ theorem exists_quot_module {N : Type} [AddCommGroup N] [Finite N] [DistribMulAct
       Function.Surjective π ∧ (∀ n, π n = 0 ↔ n ∈ fixSub N ⊤) ∧
       (∀ (g : GL32) (n : N), π (g • n) = g • π n) ∧ (∀ m : M, m + m = 0) ∧
       (∀ m : M, (∀ g : GL32, g • m = m) → m = 0) := by
-  letI : DistribMulAction GL32 (N ⧸ fixSub N ⊤) :=
+  let : DistribMulAction GL32 (N ⧸ fixSub N ⊤) :=
     { smul := fun g x => qm_qend g x
       one_smul := qm_qend_one
       mul_smul := qm_qend_mul

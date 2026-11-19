@@ -12,7 +12,7 @@ private lemma fzl_zpowers_eq_one_or_eq_of_card_two {G : Type*} [Group G] {a n : 
     (hcard : Nat.card (Subgroup.zpowers a) = 2) (ha1 : a ≠ 1)
     (hn : n ∈ Subgroup.zpowers a) (hn1 : n ≠ 1) : n = a := by
   by_contra hna
-  haveI : Finite (Subgroup.zpowers a) :=
+  have : Finite (Subgroup.zpowers a) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let g : Fin 3 → Subgroup.zpowers a :=
     ![⟨1, (Subgroup.zpowers a).one_mem⟩, ⟨a, Subgroup.mem_zpowers a⟩, ⟨n, hn⟩]
@@ -86,7 +86,7 @@ theorem fzl_assemble (h21b : Fz21bFix) {N X : Type} [Group N] [CommGroup X]
   have hN₀_center : N₀ ≤ Subgroup.center φ.range := by
     change Subgroup.zpowers a ≤ Subgroup.center φ.range
     exact Subgroup.zpowers_le.mpr hgen_center
-  haveI : N₀.Normal := Subgroup.normal_of_le_center hN₀_center
+  have : N₀.Normal := Subgroup.normal_of_le_center hN₀_center
   have hN₀_card : Nat.card N₀ = 2 := by
     change Nat.card (Subgroup.zpowers a) = 2
     rw [Nat.card_zpowers]

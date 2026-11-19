@@ -37,6 +37,7 @@ theorem map_conj_eq_of_le {u : X} {K : Subgroup X}
   refine Subgroup.eq_of_le_of_card_ge h ?_
   rw [Subgroup.card_map_of_injective (f := (MulAut.conj u).toMonoidHom) (MulAut.conj u).injective]
 
+omit [Finite X] in
 theorem mem_map_conj_iff_of_eq {u x : X} {K : Subgroup X} (hK : K.map (MulAut.conj u).toMonoidHom = K) :
     u * x * u⁻¹ ∈ K ↔ x ∈ K := by
   constructor
@@ -51,6 +52,7 @@ theorem mem_map_conj_iff_of_eq {u x : X} {K : Subgroup X} (hK : K.map (MulAut.co
     rw [← hK]
     exact ⟨x, hx, rfl⟩
 
+omit [Finite X] in
 theorem map_conj_eq_of_mem_normalizer {u : X} {K : Subgroup X}
     (hu : u ∈ Subgroup.normalizer (K : Set X)) : K.map (MulAut.conj u).toMonoidHom = K := by
   ext x
@@ -79,6 +81,7 @@ theorem map_conj_centralizer {u : X} {D : Subgroup X} (hu : u ∈ Subgroup.norma
     _ = u * (x * (u⁻¹ * d * u)) * u⁻¹ := by rw [hxd]
     _ = u * x * u⁻¹ * d := by group
 
+omit [Finite X] in
 theorem centralizer_le_normalizer' (D : Subgroup X) :
     Subgroup.centralizer (D : Set X) ≤ Subgroup.normalizer (D : Set X) := by
   intro x hx
@@ -106,7 +109,7 @@ theorem card_normalizer_zpowers_le {q : X} (hq : orderOf q = 3) :
       2 * Nat.card ↥(Subgroup.centralizer ({q} : Set X)) := by
   set H : Subgroup X := Subgroup.zpowers q with hH
   set N : Subgroup X := Subgroup.normalizer (H : Set X) with hN
-  haveI : IsCyclic H := inferInstance
+  have : IsCyclic H := inferInstance
   have hH3 : Nat.card H = 3 := by rw [hH, Nat.card_zpowers, hq]
   have hAut : Nat.card (MulAut H) = 2 := by
     rw [IsCyclic.card_mulAut, hH3]

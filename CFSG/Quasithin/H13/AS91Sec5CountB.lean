@@ -71,7 +71,7 @@ theorem smul_mem_Lam {g : G} (hg : g ∈ c.G1 ⊓ c.G3) {w b : G ⧸ c.G1} :
     have := c.adj_smul_iff g (a := c.x0) (b := b)
     rwa [hx] at this
   have h3 : c.Delta.Adj (g • w) (g • b) ↔ c.Delta.Adj w b := c.adj_smul_iff g
-  simp only [Lam, Set.mem_setOf_eq, h1, h2, h3]
+  simp only [Lam, Set.mem_ofPred_eq, h1, h2, h3]
 
 theorem ncard_Lam_smul {g : G} (hg : g ∈ c.G1 ⊓ c.G3) (w : G ⧸ c.G1) :
     (c.Lam (g • w)).ncard = (c.Lam w).ncard := by
@@ -92,7 +92,7 @@ theorem ncard_biUnion_Aset (hLU : Stmt5_LineU) (hJ : HypJ4 G z) (y : G ⧸ c.G1)
     {b | ∃ m ∈ P, b ∈ c.Aset y m}.ncard = P.ncard * a := by
   have h := ncard_doubleCount (fun (m : G ⧸ c.G2) (b : G ⧸ c.G1) => c.OnL b m) (fun m => m ∈ P)
     (fun b => ∃ m ∈ P, b ∈ c.Aset y m) (m := a) (n := 1) ?_ ?_
-  · rw [Set.setOf_mem_eq, mul_one] at h
+  · rw [Set.ofPred_mem_eq, mul_one] at h
     exact h.symm
   · intro m hm
     have hset : {b | (∃ m' ∈ P, b ∈ c.Aset y m') ∧ c.OnL b m} = c.Aset y m := by
@@ -122,7 +122,7 @@ theorem ncard_Aset_l0 {y : G ⧸ c.G1} (hy : y ∈ c.ptsL) (hyx : y ≠ c.x0) :
   have hl0 : c.OnL c.x0 c.l0 := cInc_mk c.G1 c.G2 1
   have hset : c.Aset y c.l0 = {a | c.OnL a c.l0} \ {c.x0, y} := by
     ext a
-    simp only [mem_Aset, Set.mem_diff, Set.mem_setOf_eq, Set.mem_insert_iff,
+    simp only [mem_Aset, Set.mem_sdiff, Set.mem_ofPred_eq, Set.mem_insert_iff,
       Set.mem_singleton_iff, not_or]
     constructor
     · rintro ⟨ha, hax, hya⟩
@@ -134,7 +134,7 @@ theorem ncard_Aset_l0 {y : G ⧸ c.G1} (hy : y ∈ c.ptsL) (hyx : y ≠ c.x0) :
     rcases ha with rfl | rfl
     · exact hl0
     · exact hy
-  rw [hset, Set.ncard_diff hsub, Set.ncard_pair (Ne.symm hyx), c.ncard_onL c.l0]
+  rw [hset, Set.ncard_sdiff hsub, Set.ncard_pair (Ne.symm hyx), c.ncard_onL c.l0]
 
 end Loc49
 
@@ -262,7 +262,7 @@ theorem Lam_bounds (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z) {y 
     have h := ncard_doubleCount_le (fun (w v : G ⧸ c.G1) => c.Delta.Adj w v)
       (fun w => w ∈ c.nbrP) (fun v => v ∈ c.farP) (m := 59 - (c.Lam y).ncard) (n := 60)
       (fun w hw => hfar w hw) (fun v hv => ?_)
-    · rw [Set.setOf_mem_eq, Set.setOf_mem_eq, h60, h16] at h
+    · rw [Set.ofPred_mem_eq, Set.ofPred_mem_eq, h60, h16] at h
       omega
     · have hsub : {w | w ∈ c.nbrP ∧ c.Delta.Adj w v} ⊆ {u | c.OnP u c.pi0 ∧ c.Delta.Adj v u} :=
         fun w hw => ⟨hw.1.1, hw.2.symm⟩
@@ -286,7 +286,7 @@ theorem Lam_bounds (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2) (hJ : HypJ4 G z) {y 
     · intro hxu
       exact hempty u ⟨hu, hxu⟩ v hv hvu.symm
   have h1 := Set.ncard_le_ncard hsub
-  rw [ρ.ncard_adj_onP hLU hG2 hJ hv.1, Set.ncard_diff_singleton_of_mem hv, h16] at h1
+  rw [ρ.ncard_adj_onP hLU hG2 hJ hv.1, Set.ncard_sdiff_singleton_of_mem hv, h16] at h1
   omega
 
 include ρ in

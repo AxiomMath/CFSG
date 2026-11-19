@@ -49,6 +49,7 @@ theorem r10_tau_false {τ : G} (H : R10Hyp R Z X Y t ρ) (hZt : ∀ z ∈ Z, z *
       exact hRτ r hr (by rw [hrk, hτk])
     · exact r10_no_tau H hZt hτ2 hτR hk hτk hkZ hno
 
+omit [Finite G] in
 theorem r10_conj_mem_F {V F : Subgroup G} (hFV : F ≤ V) (hF : m11AutInv V F) {w : G}
     (hw : w ∈ normalizer (V : Set G)) {f : G} (hf : f ∈ F) : w * f * w⁻¹ ∈ F := by
   have h1 := hF (V.normalizerMonoidHom ⟨w, hw⟩) ⟨f, hFV hf⟩ hf
@@ -130,7 +131,7 @@ theorem r10_case_ii (h : L41GPh9 t L S x₁ x₂ lam rho)
   have hRV := m11_R_le_V h.toL41GPh8
   have hF := r10_autInv_F h H.sl.comm_Z H.sl.cent_pair hnab
   obtain ⟨𝒮, h𝒮⟩ := exists_sylow_gt h.normalizerFacts.V_pGroup h.normalizerFacts.V_not_sylow
-  have h𝒮p : IsPGroup 2 (𝒮 : Subgroup G) := 𝒮.isPGroup'
+  have h𝒮p : IsPGroup 2 (𝒮 : Subgroup G) := 𝒮.isPGroup
   obtain ⟨w, hw𝒮, hwN, hwV⟩ := exists_mem_normalizer_not_mem h𝒮p h𝒮
   have htF : t ∈ l41F t x₁ x₂ rho := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
   have hτF := r10_conj_mem_F (m11_F_le_V h.toL41GPh8) hF hwN htF

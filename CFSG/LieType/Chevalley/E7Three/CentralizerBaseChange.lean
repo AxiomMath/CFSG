@@ -55,11 +55,13 @@ theorem map_kronSL2 (f : K →+* L) (M : SL(2, K)) :
 
 variable [CharP K 2] [CharP L 2]
 
+omit [CharP K 2] [CharP L 2] in
 theorem baseChangeGL_cubeSL2 (f : K →+* L) (M : SL(2, K)) :
     baseChangeGL f (cubeSL2 K M) = cubeSL2 L (Matrix.SpecialLinearGroup.map f M) := by
   change baseChangeGL f (a5Frame K (kronSL2 K M)) = a5Frame L (kronSL2 L _)
   rw [baseChangeGL_a5Frame, map_kronSL2]
 
+omit [CharP K 2] [CharP L 2] in
 theorem baseChangeGL_rootDiagUnit_cubeChar (f : K →+* L) (ζ : Kˣ) (a : Fin Tag.E7.rank → ℤ) :
     baseChangeGL f (rootDiagUnit .E7 (cubeChar ζ a)) =
       rootDiagUnit .E7 (cubeChar (Units.map f.toMonoidHom ζ) a) := by
@@ -68,11 +70,13 @@ theorem baseChangeGL_rootDiagUnit_cubeChar (f : K →+* L) (ζ : Kˣ) (a : Fin T
   funext i
   exact map_zpow _ ζ (a i)
 
+omit [CharP K 2] [CharP L 2] in
 theorem baseChangeGL_scalarWord (f : K →+* L) (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     baseChangeGL f (scalarWord ζ : ModGL .E7 K) = scalarWord (Units.map f.toMonoidHom ζ) := by
   rw [scalarWord_val ζ hζ, scalarWord_val _ (by rw [← map_pow, hζ, map_one]),
     baseChangeGL_rootDiagUnit_cubeChar]
 
+omit [CharP K 2] [CharP L 2] in
 theorem baseChangeGL_pairedWord (f : K →+* L) (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     baseChangeGL f (pairedWord ζ : ModGL .E7 K) = pairedWord (Units.map f.toMonoidHom ζ) := by
   rw [pairedWord_val ζ hζ, pairedWord_val _ (by rw [← map_pow, hζ, map_one]),
@@ -107,6 +111,7 @@ theorem cubeE_congr {ζ ζ' : Kˣ} (h : ζ = ζ') (hζ : ζ ^ 3 = 1) (hζ' : ζ'
   subst h
   rfl
 
+omit [CharP K 2] in
 theorem scalarWord_inv (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (scalarWord ζ⁻¹ : ModGL .E7 K) = (scalarWord ζ : ModGL .E7 K)⁻¹ := by
   rw [scalarWord_val _ (by rw [inv_pow, hζ, inv_one]), scalarWord_val ζ hζ,
@@ -116,6 +121,7 @@ theorem scalarWord_inv (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   change ζ⁻¹ ^ scalarExp i = ζ ^ (-scalarExp i)
   exact inv_zpow' ζ (scalarExp i)
 
+omit [CharP K 2] in
 theorem pairedWord_inv (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (pairedWord ζ⁻¹ : ModGL .E7 K) = (pairedWord ζ : ModGL .E7 K)⁻¹ := by
   rw [pairedWord_val _ (by rw [inv_pow, hζ, inv_one]), pairedWord_val ζ hζ,
@@ -142,6 +148,7 @@ theorem cubeE_inv (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
   have h := cubeE_inv_le ζ⁻¹ (by rw [inv_pow, hζ, inv_one])
   rwa [cubeE_congr (inv_inv ζ) _ hζ] at h
 
+omit [CharP K 2] in
 theorem units_map_eq_or_eq_inv (σ : K →+* K) {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) :
     Units.map σ.toMonoidHom ζ = ζ ∨ Units.map σ.toMonoidHom ζ = ζ⁻¹ := by
   have hζK : IsPrimitiveRoot (ζ : K) 3 := IsPrimitiveRoot.coe_units_iff.2 hζ

@@ -127,7 +127,7 @@ theorem evenOnK_enc (g : Perm (Fin 7)) :
   have h4 : rd (enc g) 4 = ((g 4 : Fin 7) : ℕ) := rd_enc (by norm_num) g 4
   have h5 : rd (enc g) 5 = ((g 5 : Fin 7) : ℕ) := rd_enc (by norm_num) g 5
   simp only [evenOnK, h4, h5, Bool.or_eq_true, Bool.and_eq_true, Nat.beq_eq, Fin.ext_iff,
-    Fin.val_ofNat, Fin.isValue]
+    Fin.isValue]
   rfl
 
 theorem not_evenOnK_enc (g : Perm (Fin 7))

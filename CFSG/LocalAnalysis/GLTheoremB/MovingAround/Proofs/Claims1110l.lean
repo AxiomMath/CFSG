@@ -26,8 +26,8 @@ theorem exists_blocks_of_isometry (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} 
       ∃ F : Subgroup (V ≃ₗ[ZMod 2] V), F ≤ TauCeti.QuadraticMap.orthogonalGroup Q ∧
         IsElemAbelian p F ∧ ℓ ∈ F ∧ HasBlocks (polarBilin Q) (commSp ℓ) F p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hBs := polarBilin_symm Q
   have hG := isRestrClosed_orthogonalGroup Q
   have hpo : Odd p := hp.odd_of_ne_two hp2
@@ -57,7 +57,7 @@ theorem exists_blocks_of_isometry (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} 
   obtain ⟨hWU, hW0, hWnd, hWℓ⟩ := hWS
   have hWc : IsCompl W (LinearMap.BilinForm.orthogonal (polarBilin Q) W) := isCompl_of_nondeg hBs hWnd
   have hWperpℓ : ∀ x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) W, ℓ x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) W :=
-    fun x hx => apply_mem_orth_of_invariant hBs hℓiso hWℓ hx
+    fun x hx => apply_mem_orth_of_invariant hℓiso hWℓ hx
   set b := glueE hWc ℓ hWℓ with hb
   have hbW : ∀ w ∈ W, b w = ℓ w := fun w hw => glueE_left hWc _ _ hw
   have hbW' : ∀ x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) W, b x = x := fun x hx => glueE_right hWc _ _ hx
@@ -130,7 +130,7 @@ theorem exists_blocks_of_isometry (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} 
       refine linearEquiv_ext_of_isCompl hWc (fun w hw => ?_) (fun x hx => ?_)
       · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hF'ptw hf _ (hbWmem w hw), hF'ptw hf w hw]
       · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hbW' x hx,
-          hbW' _ (apply_mem_orth_of_ptw hBs hfiso (hF'ptw hf) hx)]
+          hbW' _ (apply_mem_orth_of_ptw hfiso (hF'ptw hf) hx)]
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hd
     exact ((Commute.zpow_right h1) j).eq
   have hinf : F' ⊓ Subgroup.zpowers b = ⊥ := by
@@ -179,8 +179,8 @@ theorem exists_conj_mem_of_maxEA (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (
       IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E₂) :
     ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, g * ℓ * g⁻¹ ∈ E₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hBs := polarBilin_symm Q
   have hG := isRestrClosed_orthogonalGroup Q
   have hsupp : TauCeti.QuadraticMap.orthogonalGroup Q ⊓
@@ -192,7 +192,7 @@ theorem exists_conj_mem_of_maxEA (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (
   obtain ⟨F, hFO, hFea, hℓF, s, b, W, hbF, hbl, -, horth, hcl, hcard⟩ :=
     exists_blocks_of_isometry hQ hp hp2 _ ℓ rfl hℓO hℓp
   obtain ⟨r, b', W', hb'E, hbl', -, horth', -, hcard'⟩ :=
-    hasBlocks_of_max hBs hQ hp hp2 hG _ ⊤ rfl (nondeg_top hBs hQ) E₂ (hE₂O.trans hsupp.symm.le) hE₂
+    hasBlocks_of_max hBs hQ hp hp2 hG _ ⊤ rfl (nondeg_top hQ) E₂ (hE₂O.trans hsupp.symm.le) hE₂
       (fun F hF hFa => hm₂ F (hF.trans hsupp.le) hFa)
   have hsr : s ≤ r := by
     have h1 := hm₂ F hFO hFea
@@ -283,9 +283,9 @@ theorem exists_elemAbelian_mem_of_isom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Type} [Group X] [Finite X] (f : X ≃* ↥(elementaryGroup Q)) {ℓ : X} (hℓ : ℓ ^ p = 1)
     (S₀ : Subgroup X) (hS₀ : IsElemAbelian p S₀) :
     ∃ T : Subgroup X, IsElemAbelian p T ∧ ℓ ∈ T ∧ Nat.card ↥S₀ ≤ Nat.card ↥T := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   set O : Subgroup (V ≃ₗ[ZMod 2] V) := TauCeti.QuadraticMap.orthogonalGroup Q with hO
   let F : X →* (V ≃ₗ[ZMod 2] V) := (elementaryGroup Q).subtype.comp f.toMonoidHom
   have hFinj : Function.Injective F := Subtype.val_injective.comp f.injective

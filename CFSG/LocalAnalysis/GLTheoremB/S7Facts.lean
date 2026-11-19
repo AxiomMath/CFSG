@@ -237,7 +237,7 @@ theorem exists_conj_eq_T {R : Subgroup S} (hR : Nat.card ↥R = 9) :
     rw [← hg, Sylow.coe_subgroup_smul]
     rfl
   have hRQ' : R = (Q : Subgroup S) :=
-    Subgroup.eq_of_le_of_card_ge hRQ (by rw [hR]; exact card_le_nine Q.isPGroup')
+    Subgroup.eq_of_le_of_card_ge hRQ (by rw [hR]; exact card_le_nine Q.isPGroup)
   refine ⟨g, fun r => ?_⟩
   rw [hRQ', hQ]
   exact mem_conj_smul_iff

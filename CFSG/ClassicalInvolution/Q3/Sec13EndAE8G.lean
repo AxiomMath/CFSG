@@ -43,6 +43,7 @@ namespace WFrame
 
 variable {W K : Subgroup G} {s g₀ : G}
 
+omit [Finite G] in
 private theorem ae8ga_sq_eq_one_of_mem_zpowers {z x : G} (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (hx : x ∈ Subgroup.zpowers z) : x * x = 1 := by
   have hzo : orderOf z = 2 := orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1
@@ -65,6 +66,7 @@ private theorem ae8ga_mem_zpowers_of_central {Ω : Set (Subgroup G)} (h : EndHyp
   obtain ⟨w, hw, hne⟩ := det_tw_q8_noncomm hQ hxJ hxz
   exact hne (hc w hw)
 
+omit [Finite G] in
 private theorem ae8ga_twinSet_eq {Ω : Set (Subgroup G)} {K K' : Subgroup G}
     (h : K' ∈ twinSet Ω K) : twinSet Ω K' = twinSet Ω K := by
   obtain ⟨_, z, hzK, hzK'⟩ := h
@@ -104,6 +106,7 @@ private theorem ae8ga_exists_noncomm_pair {M : Type} [Group M] {S : Set M}
   rw [map_mul, map_mul, e1, e2] at this
   exact this
 
+omit [Finite G] in
 private theorem ae8ga_isSylow2_self {Ω : Set (Subgroup G)} (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J)
     {K : Subgroup G} (hK : K ∈ Ω) : IsSylow2In K K :=
   ⟨le_rfl, h2 K hK, fun _ hVK _ hKV => le_antisymm hVK hKV⟩
@@ -118,6 +121,7 @@ private noncomputable def ae8ga_rep {Ω : Set (Subgroup G)} (h : EndHyp Ω) {W R
   ae8ga_repOf h hR (Q3CL.Thompson.exists_not_mem_of_mem_D h.thmD.hyp hW hR).choose_spec.1
     (Q3CL.Thompson.exists_not_mem_of_mem_D h.thmD.hyp hW hR).choose_spec.2
 
+omit [Finite G] in
 private theorem ae8ga_mem_kperp_iff {Ω : Set (Subgroup G)} {R T : Subgroup G} :
     T ∈ KPerp Ω R ↔ T = R ∨ T ∈ omegaNbr Ω R :=
   Iff.rfl
@@ -203,6 +207,7 @@ private theorem ae8ga_twinSet_subset_dSet {Ω : Set (Subgroup G)} (h : EndHyp Ω
   rintro M ⟨hM, z, hzR, hzM⟩
   exact h.mem_dSet_of_mem hW hM hzM (ae8ga_involution_mem h hW hR hzR)
 
+omit [Finite G] in
 private theorem ae8ga_cent_iff {y u : G} :
     y ∈ Subgroup.centralizer ({u} : Set G) ↔ y * u = u * y := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -223,6 +228,7 @@ private theorem ae8ga_sq_conj (H : Hyp Ω) (F : WFrame Ω W K s g₀) {z : G}
     _ = s * z * s⁻¹ := by rw [Thompson.sq_eq_involution_of_orderOf_four hz F.hg₀.1 F.hg₀4]
     _ = z := ae8ga_conj_inv_eq H F hz
 
+omit [Finite G] in
 private theorem ae8ga_comm_left {x a b u : G} (hu : u = a * b ∨ u = a * b⁻¹)
     (hxu : x * u = u * x) (hxb : x * b = b * x) : x * a = a * x := by
   have hxb' : Commute x b := hxb
@@ -243,6 +249,7 @@ private theorem ae8ga_comm_left {x a b u : G} (hu : u = a * b ∨ u = a * b⁻¹
         _ = a * x * b⁻¹ := by group
     exact mul_right_cancel h
 
+omit [Finite G] in
 private theorem ae8ga_comm_right {x a b u : G} (hu : u = a * b ∨ u = a * b⁻¹)
     (hxu : x * u = u * x) (hxa : x * a = a * x) : x * b = b * x := by
   have hxa' : Commute x a := hxa
@@ -263,6 +270,7 @@ private theorem ae8ga_comm_right {x a b u : G} (hu : u = a * b ∨ u = a * b⁻�
     have hb : Commute x b⁻¹ := mul_left_cancel h
     exact Commute.inv_right_iff.mp hb
 
+omit [Finite G] in
 private theorem ae8ga_mem_centMembers {J K Ks : Subgroup G} {g₀ g₁ u : G}
     (hJΩ : J ∈ Ω) (hJK : Commutes J K) (hJKs : Commutes J Ks) (hg₀ : g₀ ∈ K) (hg₁ : g₁ ∈ Ks)
     (hu : u = g₀ * g₁ ∨ u = g₀ * g₁⁻¹) : J ∈ Generic.centMembers Ω u := by
@@ -274,10 +282,12 @@ private theorem ae8ga_mem_centMembers {J K Ks : Subgroup G} {g₀ g₁ u : G}
   · exact (hc0.mul_right hc1).eq
   · exact (hc0.mul_right hc1.inv_right).eq
 
+omit [Finite G] in
 private theorem ae8ga_conj_mem_W (H : Hyp Ω) (F : WFrame Ω W K s g₀) : s * g₀ * s⁻¹ ∈ W :=
-  (Subgroup.mem_normalizer_iff.mp (H.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs))
+  (Subgroup.mem_normalizer_iff.mp (CFSG.ClassicalInvolution.Q3.Sec13.End18.Hyp.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs))
     g₀).mp F.hg₀.2
 
+omit [Finite G] in
 private theorem ae8ga_orderOf_conj (s g₀ : G) : orderOf (s * g₀ * s⁻¹) = orderOf g₀ :=
   orderOf_injective (MulAut.conj s).toMonoidHom (MulAut.conj s).injective g₀
 
@@ -359,6 +369,7 @@ private theorem ae8ga_omega_symm {Ω : Set (Subgroup G)} (h : EndHyp Ω) (hP : Q
   exact (Q3T6.Mu.muTab_commute_iff hP hW (ae8ga_rep h hW hY) (ae8ga_rep h hW hX) hne.symm).mp
     hc.symm
 
+omit [Finite G] in
 private theorem ae8ga_inv_mul_eq {g₀ v z : G} (hz2 : z * z = 1) (hg₀2 : g₀ * g₀ = z)
     (hvv : v * v = z) : g₀⁻¹ * v = g₀ * v * z := by
   have hvz : v * z = v⁻¹ := eq_inv_of_mul_eq_one_right (by rw [← mul_assoc, hvv, hz2])
@@ -382,7 +393,7 @@ theorem mem_zGroup (H : Hyp Ω) (F : WFrame Ω W K s g₀) {u : G}
     exact hz'Ks.mem
   have hzD : z ∈ zGroup Ω := Subgroup.subset_closure ⟨K, F.hK, hz⟩
   have hsN : s ∈ Subgroup.normalizer (W : Set G) :=
-    H.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs)
+    CFSG.ClassicalInvolution.Q3.Sec13.End18.Hyp.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs)
   have hg₁W : s * g₀ * s⁻¹ ∈ W := (Subgroup.mem_normalizer_iff.mp hsN g₀).mp F.hg₀.2
   have hg₀K : g₀ ∈ K := F.hg₀.1
   have hg₀W : g₀ ∈ W := F.hg₀.2
@@ -713,7 +724,7 @@ theorem exists_twin_cent (H : Hyp Ω) (F : WFrame Ω W K s g₀) {u : G}
   obtain ⟨x, hxL, hx4, hxu⟩ := H.exists_order_four_centralizes hL hudz huL
   have hg0W : g₀ ∈ W := (Subgroup.mem_inf.mp F.hg₀).2
   have hs_eq : conjSub s W = W :=
-    mem_normalizer_iff_conjSub_eq.mp (H.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs))
+    mem_normalizer_iff_conjSub_eq.mp (CFSG.ClassicalInvolution.Q3.Sec13.End18.Hyp.pCore_le_normalizer F.hW (H.endHyp.zGroup_le_pCore F.hs))
   have hsW : ∀ w ∈ W, s * w * s⁻¹ ∈ W := fun w hw => by
     have := conj_mem_conjSub (n := s) hw
     rwa [hs_eq] at this
@@ -736,7 +747,7 @@ theorem exists_twin_cent (H : Hyp Ω) (F : WFrame Ω W K s g₀) {u : G}
     obtain ⟨η, hη, hWeq⟩ := F.hW
     obtain ⟨S₀, hηS₀, -⟩ := hη
     rw [hWeq]
-    exact S₀.isPGroup'.to_le (iSup₂_le fun U hU => (hηS₀.1 hU).2)
+    exact S₀.isPGroup.to_le (iSup₂_le fun U hU => (hηS₀.1 hU).2)
   obtain ⟨y, hyC, hWy⟩ := Sec7.exists_conj_le_of_isSylow2In hV hW2 hWle
   obtain ⟨c, hcu, hcW⟩ : ∃ c : G, Commute c u ∧ conjSub c W ≤ V :=
     ⟨y⁻¹, Commute.inv_left_iff.mpr (Subgroup.mem_centralizer_singleton_iff.mp hyC),
@@ -783,7 +794,7 @@ section FrameCert
 
 theorem mem_pSpan (H : Hyp Ω) (F : WFrame Ω W K s g₀) {u : G}
     (hu : u = g₀ * (s * g₀ * s⁻¹) ∨ u = g₀ * (s * g₀ * s⁻¹)⁻¹)
-    (hP2 : ∀ L ∈ Generic.centMembers Ω u, (twinSet Ω L ∩ Generic.centMembers Ω u).ncard ≤ 2) :
+    (_hP2 : ∀ L ∈ Generic.centMembers Ω u, (twinSet Ω L ∩ Generic.centMembers Ω u).ncard ≤ 2) :
     u ∈ pSpan (Generic.centMembers Ω u) := by
   obtain ⟨z, hz⟩ := H.endHyp.exists_isUniqueInvolution F.hK
   obtain ⟨K₃, hK₃V, h1, h2, h3, h4, h5, hVeq⟩ := H.exists_twin_frame F.hK F.hs F.hsK

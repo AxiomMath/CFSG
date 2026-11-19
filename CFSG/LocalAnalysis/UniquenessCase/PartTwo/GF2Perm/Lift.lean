@@ -23,12 +23,14 @@ private noncomputable def conjCenterQuotAut (K : Subgroup Y) [K.Normal]
     MulAut (↥K ⧸ Subgroup.center ↥K) :=
   QuotientGroup.congr _ _ (K.normalizerMonoidHom s) (Subgroup.map_center_eq _)
 
+omit [Finite Y] in
 private theorem conjCenterQuotAut_mk (K : Subgroup Y) [K.Normal]
     (s : Subgroup.normalizer (K : Set Y)) (x : ↥K) :
     conjCenterQuotAut K s (QuotientGroup.mk x) =
       QuotientGroup.mk (K.normalizerMonoidHom s x) :=
   QuotientGroup.congr_mk _ _ _ _ x
 
+omit [Finite Y] in
 private theorem map_comap_eq_self_of_conjCenterQuotAut (K : Subgroup Y) [K.Normal]
     {H : Subgroup (↥K ⧸ Subgroup.center ↥K)}
     (s : Subgroup.normalizer (K : Set Y))
@@ -55,6 +57,7 @@ private theorem map_comap_eq_self_of_conjCenterQuotAut (K : Subgroup Y) [K.Norma
   rw [MulEquiv.apply_symm_apply] at h2
   exact h2.symm
 
+omit [Finite Y] in
 private theorem map_subtype_conj_eq_of_map_eq_self (K : Subgroup Y) [K.Normal]
     (s : Subgroup.normalizer (K : Set Y)) {L : Subgroup ↥K}
     (hL : L.map (K.normalizerMonoidHom s).toMonoidHom = L) :
@@ -72,6 +75,7 @@ private theorem map_subtype_conj_eq_of_map_eq_self (K : Subgroup Y) [K.Normal]
       rw [Subgroup.map_map]
     _ = L.map K.subtype := by rw [hL]
 
+omit [Finite Y] in
 private theorem map_image_comap_eq_self (K : Subgroup Y) [K.Normal]
     (s : Subgroup.normalizer (K : Set Y)) {U' : Subgroup ↥K}
     (hU' : U'.map (K.normalizerMonoidHom s).toMonoidHom = U') :
@@ -156,6 +160,7 @@ private theorem map_eq_self_of_two_pow_mem {G : Type*} [Group G] [Finite G]
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [Subgroup.card_map_of_injective φ.injective]
 
+omit [Finite Y] in
 private theorem card_comap_map_eq_mul_card_center (K : Subgroup Y) [K.Normal]
     (H : Subgroup (↥K ⧸ Subgroup.center ↥K)) :
     Nat.card ((H.comap (QuotientGroup.mk' (Subgroup.center ↥K))).map K.subtype) =
@@ -163,6 +168,7 @@ private theorem card_comap_map_eq_mul_card_center (K : Subgroup Y) [K.Normal]
   rw [Subgroup.card_map_of_injective K.subtype_injective, mul_comm]
   exact QuotientGroup.card_preimage_mk _ (H : Set (↥K ⧸ Subgroup.center ↥K))
 
+omit [Finite Y] in
 private theorem conj_mem_comap_map
     (K : Subgroup Y) [K.Normal]
     {H X : Subgroup (↥K ⧸ Subgroup.center ↥K)}
@@ -196,6 +202,7 @@ private theorem conj_mem_comap_map
   · exact Subgroup.normalizerMonoidHom_apply_apply_coe K
       ⟨xk, Subgroup.le_normalizer xk.2⟩ rk
 
+omit [Finite Y] in
 private theorem mem_normalizer_comap_map_of_le_normalizer
     (K : Subgroup Y) [K.Normal]
     {H X : Subgroup (↥K ⧸ Subgroup.center ↥K)}
@@ -270,6 +277,7 @@ private theorem le_normalizer_liftQuotientSubgroup
       Subgroup.mem_normalizer_iff_map_conj_eq.mpr hRmap⟩
   exact ⟨fun s hs => (hInv s hs).1, fun s hs => (hInv s hs).2⟩
 
+omit [Finite Y] in
 private theorem lift_basic_hypotheses
     (K : Subgroup Y) [K.Normal] (hodd : Odd (Nat.card (Subgroup.center ↥K)))
     {Xbar Rbar : Subgroup (↥K ⧸ Subgroup.center ↥K)}
@@ -311,6 +319,7 @@ private theorem lift_basic_hypotheses
     rw [Subgroup.card_map_of_injective K.subtype_injective]
     exact hodd
 
+omit [Finite Y] in
 private theorem lift_power_hypotheses
     (K : Subgroup Y) [K.Normal]
     {Xbar Rbar : Subgroup (↥K ⧸ Subgroup.center ↥K)}
@@ -370,8 +379,8 @@ theorem exists_permutes_of_permWitness {K : Subgroup Y} (hK : K.Normal)
     ∃ E : Subgroup Y, E ≤ K ∧ E ≠ ⊥ ∧ IsPGroup 3 ↥E ∧ (∀ x ∈ E, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥E ∧ Permutes E S := by
   classical
-  letI : K.Normal := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : K.Normal := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U' : Subgroup ↥K := (S ⊓ K).subgroupOf K
   let UK : Sylow 2 ↥K := (hS.inf_normal (N := K) le_top (hK.subgroupOf ⊤)).toSylow
   let Ubar : Sylow 2 (↥K ⧸ Subgroup.center ↥K) :=

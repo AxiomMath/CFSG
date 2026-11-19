@@ -110,7 +110,7 @@ theorem IsEnumSet.ncard_filter_of_mem {n : ℕ} {E : Array Table} {S : Set (Equi
   have hset : {g : Equiv.Perm (Fin n) | g ∈ S ∧ (g ∈ S ∧ Q g)} =
       {g : Equiv.Perm (Fin n) | g ∈ S ∧ Q g} := by
     ext g
-    simp only [Set.mem_setOf_eq, and_self_left]
+    simp only [Set.mem_ofPred_eq, and_self_left]
   have hfil : (E.filter (fun y => b y && memT n E y)).size = (E.filter b).size := by
     rw [← Array.countP_eq_size_filter, ← Array.countP_eq_size_filter]
     exact Array.countP_congr fun x hx => by simp only [memT_of_mem_array hx, Bool.and_true]

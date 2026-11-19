@@ -33,8 +33,8 @@ theorem bigElemAbelianToralBar_E6_three : BigElemAbelianToralBar .E6 3 := by
     exact Set.toFinite _
   obtain ⟨K₁, hK₁, -, hq, hdesc⟩ := exists_descent_subgroup (ℓ := 2) (r := 3) (by norm_num)
     (isAlgebraic_zmod_algebraicClosure_of_finite K 2) hA hAfin ∅ (M := 1) le_rfl
-  haveI : Finite K₁ := hK₁
-  haveI : Finite (ModGL Tag.E6 K₁) := finite_modGL
+  have : Finite K₁ := hK₁
+  have : Finite (ModGL Tag.E6 K₁) := finite_modGL
   set ι := K₁.subtype
   have hA₁C : A.comap (baseChangeGL ι) ≤ adjointGroup Tag.E6 K₁ := comap_le_adjointGroup ι hdesc
   have hcomm₁ : ∀ x ∈ A.comap (baseChangeGL ι), ∀ y ∈ A.comap (baseChangeGL ι),

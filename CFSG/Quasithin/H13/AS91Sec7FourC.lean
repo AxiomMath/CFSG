@@ -382,7 +382,7 @@ theorem card_inter_discTrios (hI : Sec7Inputs) (hJ : HypJ4 G z) {x y : G ⧸ c.G
       (fun w => ρ.trio (g⁻¹ • ℓ w)) '' {w | c.OnL w m ∧ c.Delta.Adj y w} := by
     ext t
     simp only [Finset.coe_inter, Set.mem_inter_iff, Finset.mem_coe, Set.mem_image,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     constructor
     · rintro ⟨htO, htS⟩
       obtain ⟨-, n, hxn, hnπ, rfl, w', hw', hw'n⟩ := (ρ.mem_discTrios).1 htS

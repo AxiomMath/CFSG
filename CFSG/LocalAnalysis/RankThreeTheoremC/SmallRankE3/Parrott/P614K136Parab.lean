@@ -37,7 +37,7 @@ theorem coe_mkSL {n : ℕ} (M : Matrix (Fin n) (Fin n) F) (h : M.det = 1) :
   mkSL F !![0, 1; 1, 1] (by simp [det_fin_two, CharTwo.neg_eq])
 
 theorem orderOf_tri [CharP F 2] : orderOf (triSL2 F) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     rw [coe_SL_pow, triSL2, coe_mkSL, coe_SL_one, pow_succ, pow_succ, pow_one]
@@ -63,7 +63,7 @@ theorem SL2_nonabelian : ∃ a b : SL(2, F), a * b ≠ b * a := by
   simp [mul_apply, Fin.sum_univ_two] at this
 
 theorem center_SL2_eq_bot [CharP F 2] : Subgroup.center SL(2, F) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   intro A hA
   obtain ⟨r, hr, hA'⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hA
@@ -75,7 +75,7 @@ theorem center_SL2_eq_bot [CharP F 2] : Subgroup.center SL(2, F) = ⊥ := by
   exact Subtype.ext hA'.symm
 
 theorem isSimpleGroup_SL2 [CharP F 2] (h4 : 4 ≤ Nat.card F) : IsSimpleGroup SL(2, F) := by
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   exact ((QuotientGroup.quotientMulEquivOfEq (center_SL2_eq_bot F)).trans
     QuotientGroup.quotientBot).symm.isSimpleGroup
 
@@ -303,7 +303,7 @@ variable {F}
 
 theorem le_pPrimeCore_three_of_sq {X : Type*} [Group X] [Finite X] {U : Subgroup X}
     [hU : U.Normal] (h2 : ∀ u ∈ U, u * u = 1) : U ≤ CFSG.pPrimeCore 3 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 U := fun u => ⟨1, by rw [pow_one, pow_two]; exact Subtype.ext (h2 u u.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hp
   refine le_sSup ⟨hU, ?_⟩
@@ -312,12 +312,12 @@ theorem le_pPrimeCore_three_of_sq {X : Type*} [Group X] [Finite X] {U : Subgroup
 
 theorem card_SL2_dvd_pLayer_A [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F) {X : Type*}
     [Group X] [Finite X] (φ : X ≃* parA F) : Nat.card SL(2, F) ∣ Nat.card (CFSG.pLayer X 3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup SL(2, F) := isSimpleGroup_SL2 F h4
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup SL(2, F) := isSimpleGroup_SL2 F h4
   set Y : Subgroup X := ((cornerA F).comp φ.toMonoidHom).ker with hY
   set U : Subgroup X := ((leviA F).comp φ.toMonoidHom).ker with hU
-  haveI : Y.Normal := MonoidHom.normal_ker _
-  haveI : U.Normal := MonoidHom.normal_ker _
+  have : Y.Normal := MonoidHom.normal_ker _
+  have : U.Normal := MonoidHom.normal_ker _
   have hYc : ∀ y : Y, cornerA F (φ y) = 1 := fun y => MonoidHom.mem_ker.1 y.2
   let ψ : Y →* SL(2, F) :=
     { toFun := fun y => mkSL F (blockA F (φ y)) (by
@@ -353,12 +353,12 @@ theorem card_SL2_dvd_pLayer_A [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F) {X 
 
 theorem card_SL2_dvd_pLayer_B [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F) {X : Type*}
     [Group X] [Finite X] (φ : X ≃* parB F) : Nat.card SL(2, F) ∣ Nat.card (CFSG.pLayer X 3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup SL(2, F) := isSimpleGroup_SL2 F h4
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup SL(2, F) := isSimpleGroup_SL2 F h4
   set Y : Subgroup X := ((cornerB F).comp φ.toMonoidHom).ker with hY
   set U : Subgroup X := ((leviB F).comp φ.toMonoidHom).ker with hU
-  haveI : Y.Normal := MonoidHom.normal_ker _
-  haveI : U.Normal := MonoidHom.normal_ker _
+  have : Y.Normal := MonoidHom.normal_ker _
+  have : U.Normal := MonoidHom.normal_ker _
   have hYc : ∀ y : Y, cornerB F (φ y) = 1 := fun y => MonoidHom.mem_ker.1 y.2
   let ψ : Y →* SL(2, F) :=
     { toFun := fun y => mkSL F (blockB F (φ y)) (by

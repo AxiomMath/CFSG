@@ -189,7 +189,7 @@ theorem cocCertA_spec {x : ℕ} (hx : x < 2048) (hN : cocMaskVal x 0 cocAFive = 
     exact absurd hN (by
       intro hc
       rw [hc] at h2
-      simpa using h2)
+      simp at h2)
   · simpa using h2
 
 theorem cocCertB_spec {y : ℕ} (hy : y < 2048)
@@ -342,7 +342,7 @@ theorem mul_coboundary_comm (w v a b : W11) (s : ↥sextStab) :
 
 theorem toW_mul_if (a b : ℕ) (β : Bool) :
     toW 11 a * (if β then toW 11 b else 1) = toW 11 (a ^^^ (if β then b else 0)) := by
-  cases β <;> simp [toW_xor, toW_zero]
+  cases β <;> simp [toW_xor]
 
 theorem sextStabCocycle_of_closure
     (hgen : sextStab = Subgroup.closure ({sxA, sxB} : Set S24)) : SextStabCocycle := by

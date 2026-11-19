@@ -14,7 +14,7 @@ open Module QuadraticMap CFSG.GroupTheory.WeirSylow
 
 theorem irreducible_iff_exists_stabilizer_alternatingGroup_five
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] (q : QuadraticForm (ZMod 2) V)
-    (hnd : q.polarBilin.Nondegenerate) (h8 : finrank (ZMod 2) V = 8) (hplus : IsPlusType q)
+    (_hnd : q.polarBilin.Nondegenerate) (h8 : finrank (ZMod 2) V = 8) (_hplus : IsPlusType q)
     {G : Type} [Group G] (ρ : G →* TauCeti.QuadraticMap.orthogonalGroup q)
     (hρ : Function.Injective ρ)
     (hG : Nonempty (G ≃* alternatingGroup (Fin 5) × alternatingGroup (Fin 5))) :

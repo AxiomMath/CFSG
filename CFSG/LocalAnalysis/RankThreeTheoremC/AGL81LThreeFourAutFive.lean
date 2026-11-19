@@ -33,9 +33,9 @@ theorem hhMinimal_commutator_le_centralizer {p : ℕ} [Fact p.Prime] (h : HHMini
   have hRQ : ⁅Q, Q⁆ ≤ Q := Subgroup.commutator_le_self Q
   have hBR : B ≤ normalizer ((⁅Q, Q⁆ : Subgroup K) : Set K) :=
     GorensteinWalter.le_normalizer_commutator_of_le_normalizer B Q Q h.normalizes h.normalizes
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
-  haveI : Group.IsSolvable ↥Q := inferInstance
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (hhMinimal_ne_bot h)
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsSolvable ↥Q := inferInstance
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (hhMinimal_ne_bot h)
   have hlt : ⁅Q, Q⁆ < Q := by
     have hcom : _root_.commutator ↥Q < ⊤ :=
       Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Q
@@ -65,8 +65,8 @@ theorem hhMinimal_commutator_le_centralizer_self {p d : ℕ} [Fact p.Prime] [Fac
 
 theorem hhMinimal_pow_mem_centralizer {p : ℕ} [Fact p.Prime] (h : HHMinimal B Q)
     (hQ : IsPGroup p Q) : ∀ x ∈ Q, x ^ p ∈ centralizer (B : Set K) := by
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (hhMinimal_ne_bot h)
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (hhMinimal_ne_bot h)
   let S : Set K := {y | ∃ x ∈ Q, y = x ^ p}
   let R : Subgroup K := Subgroup.closure S
   have hRQ : R ≤ Q := by
@@ -94,7 +94,7 @@ theorem hhMinimal_pow_mem_centralizer {p : ℕ} [Fact p.Prime] (h : HHMinimal B 
       · show b * (b⁻¹ * x ^ p * b) * b⁻¹ = x ^ p
         group
   obtain ⟨N, hN⟩ := IsCoatomic.exists_coatom (α := Subgroup ↥Q)
-  haveI : N.Normal := NormalizerCondition.normal_of_coatom N
+  have : N.Normal := NormalizerCondition.normal_of_coatom N
     (Group.normalizerCondition_of_isNilpotent (G := ↥Q)) hN
   have hNindex : N.index = p := (IsPGroup.isCoatom_iff_index_eq_prime (p := p) hQ).mp hN
   have hsub : R ≤ N.map (Subgroup.subtype Q) := by
@@ -116,8 +116,8 @@ theorem hhMinimal_pow_mem_centralizer {p : ℕ} [Fact p.Prime] (h : HHMinimal B 
 theorem sixteen_le_relIndex_centralizer_of_fiveGroup (hQ : IsPGroup 2 Q) (hB : IsPGroup 5 B)
     (hBQ : B ≤ normalizer (Q : Set K)) (hne : ¬ Q ≤ centralizer (B : Set K)) :
     16 ≤ (centralizer (B : Set K)).relIndex Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨F, hF⟩ : ∃ F : Subgroup K, F = Q ⊓ centralizer (B : Set K) := ⟨_, rfl⟩
   have hFQ : F ≤ Q := by rw [hF]; exact inf_le_left
   have hFC : F ≤ centralizer (B : Set K) := by rw [hF]; exact inf_le_right
@@ -364,7 +364,7 @@ theorem commute_of_sq_eq_one_of_normalizes {r : ℕ} (hr : r.Prime) (hF : ringCh
     have h3 : b * h * b⁻¹ = h := (inv_mul_eq_one.mp h2).symm
     calc b * h = b * h * b⁻¹ * b := by group
       _ = h * b := by rw [h3]
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let S : Finset (Module.End F W) :=
     Finset.univ.image fun e : E => ((e : (Module.End F W)ˣ) : Module.End F W)
   have hS : ∀ a ∈ S, ∃ e ∈ E, a = ((e : (Module.End F W)ˣ) : Module.End F W) := by
@@ -390,10 +390,10 @@ theorem commute_of_sq_eq_one_of_normalizes {r : ℕ} (hr : r.Prime) (hF : ringCh
   have hχ : ∀ e ∈ E, ((e : (Module.End F W)ˣ) : Module.End F W) * π = χ e • π := by
     intro e he
     by_cases h1 : ((e : (Module.End F W)ˣ) : Module.End F W) * π = π
-    · simp only [χ, if_pos h1, one_smul, h1]
+    · simp only [χ, ite_eq_left h1, one_smul, h1]
     · rcases hSπ _ (hmemS e he) with h2 | h2
       · exact absurd h2 h1
-      · simp only [χ, if_neg h1, neg_one_smul, h2]
+      · simp only [χ, ite_eq_right h1, neg_one_smul, h2]
   have hχsq : ∀ u, χ u * χ u = 1 := fun u => by
     by_cases h1 : (u : Module.End F W) * π = π <;> simp [χ, h1]
   obtain ⟨w₀, hw₀⟩ : ∃ w₀ : W, π w₀ ≠ 0 := by
@@ -429,10 +429,10 @@ theorem commute_of_sq_eq_one_of_normalizes {r : ℕ} (hr : r.Prime) (hF : ringCh
         rw [← Units.val_mul, ← Units.val_mul]
         congr 1
         group
-      simp only [φ, s₀, v, if_pos hg, if_pos hg']
+      simp only [φ, s₀, v, ite_eq_left hg, ite_eq_left hg']
       rw [← Module.End.mul_apply, hconj, Module.End.mul_apply, hχw _ hg', map_smul]
     · have hg' : (b ^ j)⁻¹ * g * b ^ j ∉ E := fun h1 => hg ((hbn j g).mp h1)
-      simp only [φ, s₀, if_neg hg, if_neg hg', LinearMap.zero_apply, zero_smul]
+      simp only [φ, s₀, ite_eq_right hg, ite_eq_right hg', LinearMap.zero_apply, zero_smul]
   have hT : (fun s : (Module.End F W)ˣ → F => fun g => s (b⁻¹ * g * b))^[r ^ k] s₀ = s₀ := by
     rw [iterate_comp_conj, hb]
     funext g
@@ -442,7 +442,7 @@ theorem commute_of_sq_eq_one_of_normalizes {r : ℕ} (hr : r.Prime) (hF : ringCh
     have h1 := congrFun hfix (b * h * b⁻¹)
     have hconj : b⁻¹ * (b * h * b⁻¹) * b = h := by group
     simp only [s₀] at h1
-    rw [hconj, if_pos hh, if_pos hbh] at h1
+    rw [hconj, ite_eq_left hh, ite_eq_left hbh] at h1
     exact h1.symm
   have hhinv : h⁻¹ = h := inv_eq_of_mul_eq_one_right (hE2 h hh)
   have hh'π : ((h' : (Module.End F W)ˣ) : Module.End F W) * π = π := by
@@ -457,11 +457,11 @@ theorem commute_of_five_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
     ∀ x ∈ R, y * x = x * y := by
   classical
   obtain ⟨k, hk⟩ := hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (Module.End F W) := Module.finite_of_finite F
-  haveI : Finite (Module.End F W)ˣ :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (Module.End F W) := Module.finite_of_finite F
+  have : Finite (Module.End F W)ˣ :=
     Finite.of_injective (fun u : (Module.End F W)ˣ => (u : Module.End F W)) Units.val_injective
   have hF2 : (2 : F) ≠ 0 := Ring.two_ne_zero hF
   let B : Subgroup (Module.End F W)ˣ := Subgroup.zpowers y
@@ -601,10 +601,10 @@ theorem commute_of_five_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
         ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = χ ⁅g, x⁆ • π := by
       intro g hg x hx
       by_cases h6 : ((⁅g, x⁆ : (Module.End F W)ˣ) : Module.End F W) * π = π
-      · simp only [χ, if_pos h6, one_smul, h6]
+      · simp only [χ, ite_eq_left h6, one_smul, h6]
       · rcases hSπ _ (hmemS g hg x hx) with h7 | h7
         · exact absurd h7 h6
-        · simp only [χ, if_neg h6, neg_one_smul, h7]
+        · simp only [χ, ite_eq_right h6, neg_one_smul, h7]
     have hχsq : ∀ u, χ u * χ u = 1 := fun u => by
       by_cases h6 : (u : Module.End F W) * π = π <;> simp [χ, h6]
     have hπQ : ∀ g ∈ Q, Commute ((g : (Module.End F W)ˣ) : Module.End F W) π := fun g hg =>
@@ -657,7 +657,7 @@ theorem commute_of_five_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
         exact hx₀N (hmin.minimal N hNQ hBN hne' hx₀)
       exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hbot
     have hrel : N.relIndex Q ≤ 9 := by
-      haveI : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
+      have : Fintype (↥Q ⧸ N.subgroupOf Q) := Fintype.ofFinite _
       let rep : ↥Q ⧸ N.subgroupOf Q → (Module.End F W)ˣ := fun c => ((Quotient.out c : ↥Q) : _)
       have hrepQ : ∀ c, rep c ∈ Q := fun c => (Quotient.out c).2
       let φ : (Module.End F W)ˣ → Module.End F (Module.End F W) := fun g =>
@@ -680,7 +680,7 @@ theorem commute_of_five_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
           have h6 : g * rep c * g⁻¹ = rep c * ⁅g, rep c⁆ := by
             rw [← hcent g hg (rep c) (hrepQ c) (rep c) (hrepQ c), commutatorElement_def]
             group
-          simp only [φ, t, v, if_pos hg, LinearMap.comp_apply, LinearMap.mulLeft_apply,
+          simp only [φ, t, v, ite_eq_left hg, LinearMap.comp_apply, LinearMap.mulLeft_apply,
             LinearMap.mulRight_apply]
           calc ((g : (Module.End F W)ˣ) : Module.End F W) *
                 (((rep c : (Module.End F W)ˣ) : Module.End F W) * π *
@@ -690,12 +690,12 @@ theorem commute_of_five_normalizes_two [Finite F] (hF : ringChar F ≠ 2)
                 simp only [Units.val_mul, mul_assoc]
             _ = χ ⁅g, rep c⁆ • (((rep c : (Module.End F W)ˣ) : Module.End F W) * π) := by
                 rw [h6, Units.val_mul, mul_assoc, hχ g hg (rep c) (hrepQ c), mul_smul_comm]
-        · simp only [φ, t, if_neg hg, LinearMap.zero_apply, zero_smul]
+        · simp only [φ, t, ite_eq_right hg, LinearMap.zero_apply, zero_smul]
       have htinj : Function.Injective t := by
         intro c c' hcc
         have hchar : ∀ g ∈ Q, χ ⁅g, rep c⁆ = χ ⁅g, rep c'⁆ := fun g hg => by
           have h6 := congrFun hcc g
-          simpa only [t, if_pos hg] using h6
+          simpa only [t, ite_eq_left hg] using h6
         rw [← QuotientGroup.out_eq' c, ← QuotientGroup.out_eq' c', QuotientGroup.eq,
           Subgroup.mem_subgroupOf]
         show (rep c)⁻¹ * rep c' ∈ N

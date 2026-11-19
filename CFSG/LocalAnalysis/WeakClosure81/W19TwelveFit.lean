@@ -16,9 +16,9 @@ theorem mem_of_mem_commutator_sup {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2) {E V
     (hE : IsElemAbelian 2 E) (hVE : V₀ ≤ E) (hX : IsPGroup p X)
     (hXE : X ≤ normalizer (E : Set G)) (hV₀ : ∀ x ∈ X, ∀ v ∈ V₀, x * v = v * x) {u : G}
     (hu : u ∈ ⁅E, X⁆ ⊔ V₀) (hc : ∀ x ∈ X, ⁅u, x⁆ ∈ V₀) : u ∈ V₀ := by
-  haveI : IsMulCommutative E := hE.1
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative E := hE.1
+  have : Fintype X := Fintype.ofFinite X
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.eq_two_or_odd'.resolve_left hodd
   have hn_odd : Odd (Nat.card X) := by
     obtain ⟨k, hk⟩ := hX.exists_card_eq

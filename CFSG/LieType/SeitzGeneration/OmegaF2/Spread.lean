@@ -42,9 +42,9 @@ private theorem eichler_frame_apply (he : TSFrame Q e) (a b : Fin 3) (s : K) (x 
       x + (polar Q x (e a) * s) • e b - (s * polar Q x (e b)) • e a := by
   have hw : polar Q (e a) (s • e b) = 0 := by simp [polar_smul_right, he.polar_e]
   rw [eichler_apply (he.Q_e a) hw x]
-  simp [polar_smul_right, QuadraticMap.map_smul, he.Q_e] <;> module
+  simp [polar_smul_right, QuadraticMap.map_smul, he.Q_e]; module
 
-theorem siegel_zero (he : TSFrame Q e) : siegel Q e 0 = 1 := by
+theorem siegel_zero (_he : TSFrame Q e) : siegel Q e 0 = 1 := by
   simp [siegel, eichler_zero_right]
 
 private theorem linearEquiv_mul_apply' (f g : V ≃ₗ[K] V) (x : V) : (f * g) x = f (g x) := rfl
@@ -53,7 +53,7 @@ private theorem siegel_apply (he : TSFrame Q e) (ω : Fin 3 → K) (x : V) :
     siegel Q e ω x = x + frameVec e (cross3 ω (fun i => polar Q x (e i))) := by
   simp only [siegel, linearEquiv_mul_apply', eichler_frame_apply he]
   simp [frameVec, cross3, Fin.sum_univ_three, polar_add_left, polar_sub_left, polar_smul_left,
-    he.polar_e] <;> module
+    he.polar_e]; module
 
 theorem siegel_add (he : TSFrame Q e) (ω ω' : Fin 3 → K) :
     siegel Q e (ω + ω') = siegel Q e ω * siegel Q e ω' := by
@@ -61,11 +61,10 @@ theorem siegel_add (he : TSFrame Q e) (ω ω' : Fin 3 → K) :
   intro x
   rw [linearEquiv_mul_apply']
   simp only [siegel_apply he, polar_add_frameVec_left he]
-  simp [frameVec, cross3, Fin.sum_univ_three] <;> module
+  simp [frameVec, cross3, Fin.sum_univ_three]; module
 
 private theorem Q_frameVec (he : TSFrame Q e) (u : Fin 3 → K) : Q (frameVec e u) = 0 := by
-  simp [frameVec, Fin.sum_univ_three, QuadraticMap.map_add, polar_add_left, polar_add_right,
-    polar_smul_left, polar_smul_right, QuadraticMap.map_smul, he.Q_e, he.polar_e]
+  simp [frameVec, Fin.sum_univ_three, QuadraticMap.map_add, polar_add_left, polar_smul_left, polar_smul_right, QuadraticMap.map_smul, he.Q_e, he.polar_e]
 
 private theorem polar_frameVec_frameVec (he : TSFrame Q e) (u w : Fin 3 → K) :
     polar Q (frameVec e u) (frameVec e w) = 0 := by
@@ -78,8 +77,7 @@ theorem eichler_frameVec (he : TSFrame Q e) (u w : Fin 3 → K) :
   intro x
   rw [eichler_apply (Q_frameVec he u) (polar_frameVec_frameVec he u w) x, Q_frameVec he w,
     zero_mul, add_zero, siegel_apply he]
-  simp [frameVec, cross3, Fin.sum_univ_three, polar_add_left, polar_add_right, polar_smul_left,
-    polar_smul_right] <;> module
+  simp [frameVec, cross3, Fin.sum_univ_three, polar_add_right, polar_smul_right]; module
 
 private theorem polar_frameVec_dual {e' : Fin 3 → V}
     (hdual : ∀ i j, polar Q (e i) (e' j) = if i = j then 1 else 0) (v : Fin 3 → K) (j : Fin 3) :
@@ -97,7 +95,7 @@ theorem siegel_conj (he : TSFrame Q e) {e' : Fin 3 → V}
     (ω : Fin 3 → K) :
     eichler Q (e i) (e' j) * siegel Q e ω * (eichler Q (e i) (e' j))⁻¹ =
       siegel Q e (Function.update ω j (ω j + ω i)) := by
-  have hpi : polar Q (e i) (e' j) = 0 := by rw [hdual, if_neg hij]
+  have hpi : polar Q (e i) (e' j) = 0 := by rw [hdual, ite_eq_right hij]
   have hT := eichler_apply (he.Q_e i) hpi
   rw [mul_inv_eq_iff_eq_mul]
   apply LinearEquiv.ext
@@ -105,10 +103,9 @@ theorem siegel_conj (he : TSFrame Q e) {e' : Fin 3 → V}
   simp only [linearEquiv_mul_apply', hT]
   fin_cases i <;> fin_cases j <;> try exact (hij rfl).elim
   all_goals
-    simp only [siegel_apply he, polar_add_left, polar_sub_left, polar_smul_left, polar_add_right,
-      polar_sub_right, polar_smul_right, polar_frameVec_left he, polar_add_frameVec_left he,
+    simp only [siegel_apply he, polar_add_left, polar_sub_left, polar_smul_left, polar_add_frameVec_left he,
       polar_frameVec_dual hdual, he.polar_e, polar_e'_e hdual]
-    simp [frameVec, cross3, Fin.sum_univ_three, Function.update_apply] <;> module
+    simp [frameVec, cross3, Fin.sum_univ_three]; module
 
 theorem full_line_of_spread {H : Subgroup (V ≃ₗ[K] V)} (he : TSFrame Q e) {e' : Fin 3 → V}
     (hdual : ∀ i j, polar Q (e i) (e' j) = if i = j then 1 else 0)
@@ -121,7 +118,7 @@ theorem full_line_of_spread {H : Subgroup (V ≃ₗ[K] V)} (he : TSFrame Q e) {e
     simp [frameVec, Finset.smul_sum, smul_smul]
   have frameVec_single : ∀ (j : Fin 3) (a : K), frameVec e (Pi.single j a) = a • e j := by
     intro j a
-    fin_cases j <;> simp [frameVec, Fin.sum_univ_three, Pi.single_apply]
+    fin_cases j <;> simp [frameVec, Pi.single_apply]
   have cross3_smul : ∀ (s : K) (u w : Fin 3 → K), cross3 u (s • w) = s • cross3 u w := by
     intro s u w
     funext k
@@ -164,7 +161,7 @@ theorem full_line_of_spread {H : Subgroup (V ≃ₗ[K] V)} (he : TSFrame Q e) {e
       by_cases hk : k = j
       · subst hk
         simp [mul_add]
-      · simp [Function.update_apply, hk]
+      · simp [hk]
     rw [← hupd, ← siegel_conj he hdual hij]
     exact H.mul_mem (H.mul_mem (hT i j hij) (hω s)) (H.inv_mem (hT i j hij))
   have hΩtop : Ω = ⊤ := eq_top_of_stable Ω hΩstab hc hnz

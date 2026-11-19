@@ -14,9 +14,9 @@ theorem linearA1EightImpossible_of_component (h : LinearComponentContract) :
   intro K _ _ _ d hd S κ hnc _hcube hSnorm J hJ hlabel
   obtain ⟨m, E, hEfield, hEalg, hEfin, hm, _hd3m, hcubic, hQ⟩ :=
     h K d hd S κ hnc _hcube hSnorm J hJ
-  letI : Field E := hEfield
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
   have h2E : (2 : E) = 0 := by
     have hmap : algebraMap K E (2 : K) = (2 : E) := map_natCast (algebraMap K E) 2
     have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
@@ -40,7 +40,7 @@ theorem linearA1EightImpossible_of_component (h : LinearComponentContract) :
     exact (Nat.pow_left_inj (by norm_num : (3 : ℕ) ≠ 0)).mp h
   have hKunits : Nat.card Kˣ = 1 := by
     rw [Nat.card_units, hK2]
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
   have hκ1 : κ = 1 := Subsingleton.elim κ 1
   exact hnc 1 (by rw [one_pow, hκ1])

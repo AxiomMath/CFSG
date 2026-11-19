@@ -70,9 +70,9 @@ theorem exists_sylow_N₁
   obtain ⟨S, hS⟩ := hN₁3.exists_le_sylow
   refine ⟨S, ?_⟩
   by_contra hne
-  have hlt := lt_inf_normalizer_of_lt S.isPGroup' (lt_of_le_of_ne hS (Ne.symm hne))
+  have hlt := lt_inf_normalizer_of_lt S.isPGroup (lt_of_le_of_ne hS (Ne.symm hne))
   set R := (S : Subgroup G) ⊓ normalizer ((fr.M ⊔ fr.EF : Subgroup G) : Set G)
-  have hR3 : IsPGroup 3 R := S.isPGroup'.to_inf_left
+  have hR3 : IsPGroup 3 R := S.isPGroup.to_inf_left
   have hRP₁ : R ≤ normalizer (fr.P₁ : Set G) := by
     intro x hx
     have := inf_mem_normalizer hx.2 (mem_normalizer_centralizer hx.2)

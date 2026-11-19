@@ -62,7 +62,7 @@ lemma odd_of_mul_two_pow_mul_factorial_eq {k N : ℕ}
     exact Nat.factorial_ne_zero _ h.symm
   have hpos : 2 ^ k * Nat.factorial k ≠ 0 :=
     mul_ne_zero (pow_ne_zero _ two_ne_zero) (Nat.factorial_ne_zero k)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv := congrArg (padicValNat 2) h
   rw [padicValNat.mul (p := 2) hN0 hpos,
     padicValNat.mul (p := 2) (pow_ne_zero _ two_ne_zero) (Nat.factorial_ne_zero k),
@@ -142,15 +142,15 @@ lemma card_fpf_involution_odd {k : ℕ} (hk : 1 ≤ k) :
     rw [hsum, Fintype.card_fin]
     omega
   have key := Equiv.Perm.card_of_cycleType_mul_eq (Fin (2 * k)) (Multiset.replicate k 2)
-  rw [if_pos hif, Fintype.card_fin, hsum, hprod, Multiset.toFinset_replicate,
-    if_neg (show ¬ k = 0 by omega), Finset.prod_singleton, Multiset.count_replicate_self,
+  rw [ite_eq_left hif, Fintype.card_fin, hsum, hprod, Multiset.toFinset_replicate,
+    ite_eq_right (show ¬ k = 0 by omega), Finset.prod_singleton, Multiset.count_replicate_self,
     show 2 * k - k * 2 = 0 by omega, Nat.factorial_zero, one_mul] at key
   exact key
 
 lemma exists_conj_fixed_of_odd {n : ℕ} (G : Subgroup (Perm (Fin n))) (hG : IsPGroup 2 G)
     (S : Finset (Perm (Fin n))) (hS : ∀ g ∈ G, ∀ σ ∈ S, g * σ * g⁻¹ ∈ S)
     (hodd : Odd S.card) : ∃ σ ∈ S, ∀ g ∈ G, g * σ * g⁻¹ = σ := by
-  letI act : MulAction G S :=
+  let act : MulAction G S :=
     { smul := fun g s => ⟨(g : Perm (Fin n)) * s.1 * (g : Perm (Fin n))⁻¹, hS _ g.2 s.1 s.2⟩
       one_smul := fun s => Subtype.ext (by
         change ((1 : G) : Perm (Fin n)) * s.1 * ((1 : G) : Perm (Fin n))⁻¹ = s.1

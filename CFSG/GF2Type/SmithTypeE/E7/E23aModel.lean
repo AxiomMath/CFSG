@@ -117,7 +117,7 @@ theorem decode32_two_pow_mem_C16 {m : Fin 32} (hm : m.val ∈ ea7Bits) :
     decode32 (2 ^ m.val) ∈ C16 := by
   rw [decode32_two_pow]
   intro j hj
-  rw [Pi.single_apply, if_neg]
+  rw [Pi.single_apply, ite_eq_right]
   rintro rfl
   exact hj hm
 

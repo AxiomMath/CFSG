@@ -104,7 +104,7 @@ theorem exists_conj_le_of_maximal {Γ : Type*} [Group Γ] [Finite Γ] {K T P : S
   obtain ⟨Q₀, hTQ₀⟩ := hT₀.exists_le_sylow
   obtain ⟨Q₁, hPQ₁⟩ := hP₀.exists_le_sylow
   have hQ₀ : (Q₀ : Subgroup ↥K) ≤ T.subgroupOf K := by
-    have hQ₀2 : IsPGroup 2 ↥(Q₀ : Subgroup ↥K) := Q₀.isPGroup'
+    have hQ₀2 : IsPGroup 2 ↥(Q₀ : Subgroup ↥K) := Q₀.isPGroup
     have h1 : IsPGroup 2 ↥((Q₀ : Subgroup ↥K).map K.subtype) := hQ₀2.map K.subtype
     have h2 : T ≤ (Q₀ : Subgroup ↥K).map K.subtype := fun t ht =>
       ⟨⟨t, hTK ht⟩, hTQ₀ (show (⟨t, hTK ht⟩ : ↥K) ∈ T.subgroupOf K from ht), rfl⟩

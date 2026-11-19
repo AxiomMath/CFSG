@@ -45,7 +45,7 @@ theorem row_of_model {s : TauCeti.SporadicName} {Q : Type} [Group Q] [Finite Q] 
     (h : ∀ k : Q, orderOf k = 3 → NoU42Comp 3 k) : I1431SporRow s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ hU
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩

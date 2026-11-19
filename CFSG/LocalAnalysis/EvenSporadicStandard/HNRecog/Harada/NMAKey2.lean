@@ -48,9 +48,11 @@ private theorem mem_zpowers_two {z y : G} (hz : z ^ 2 = 1) (hzne : z ≠ 1)
   · left; rw [← hny, h]; simp
   · right; rw [← hny, h]; simp
 
+omit [Finite G] in
 theorem Setting25.bil_tv_zv (h : Setting25 G t z z₁ ι zv R0 F) : bil tv zv = 0 := by
   rw [bil_comm, ← lam_eq_bil, h.hD2.lam_zv]
 
+omit [Finite G] in
 theorem Setting25.exists_lift_lam_zero (h : Setting25 G t z z₁ ι zv R0 F) {u u' : V6}
     (hu : bil u zv = 0) (hu' : bil u' zv = 0) :
     ∃ k ∈ Kgrp ι z, ∃ g ∈ OmegaMinus, Acts ι k g ∧ g zv = zv ∧ lam (g u) = 0 ∧
@@ -130,6 +132,7 @@ theorem Setting25.mem_R0_of_isRCand (h : Setting25 G t z z₁ ι zv R0 F) {x : G
     rw [hx_eq]
     exact mul_mem hr hcaR0
 
+omit [Finite G] in
 theorem Setting25.exists_isRCand_of_mem_R0 (h : Setting25 G t z z₁ ι zv R0 F) {x : G}
     (hx : x ∈ R0) : ∃ u : V6, IsRCand ι z zv x u ∧ lam u = 0 := by
   obtain ⟨u, hu, hlam, hact⟩ := h.hD2.R0_eichler x hx
@@ -153,6 +156,7 @@ theorem Setting25.exists_conj_mem_R0 (h : Setting25 G t z z₁ ι zv R0 F) {x y 
   · exact h.mem_R0_of_isRCand
       (IsRCand.conj hkActs (omegaMinus_le_orthMinus hgOm) hgzv hz hy) hlamgu'
 
+omit [Finite G] in
 theorem Setting25.exists_isRCand (h : Setting25 G t z z₁ ι zv R0 F) {u : V6}
     (hu : bil u zv = 0) : ∃ x : G, IsRCand ι z zv x u := by
   obtain ⟨k, hk, g, hgOm, hkActs, hgzv, hlamgu, -⟩ := h.exists_lift_lam_zero hu hu

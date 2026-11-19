@@ -32,7 +32,7 @@ private theorem rckW1F1_odd_order (m g p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (
     (hψ : ψ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g)))
     {d : X} (hdp : d ^ p = 1) {s : GL (Fin (m + 1)) (GaloisField 2 g)}
     (hs : IsGLLift Matrix.SpecialLinearGroup.toGL ψ s d) : Odd (orderOf s) := by
-  haveI : Fintype (GaloisField 2 g) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 g) := Fintype.ofFinite _
   have hsp : IsGLLift Matrix.SpecialLinearGroup.toGL ψ (s ^ p) 1 := by
     have h := hs.pow p
     rwa [hdp] at h

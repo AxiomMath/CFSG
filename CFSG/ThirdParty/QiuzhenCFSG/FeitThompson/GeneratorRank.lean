@@ -118,7 +118,7 @@ public theorem CFSG.elementaryAbelian_finrank_le_generatorRank
   have hnonempty :
       {n : ℕ | ∃ s : Fin n → G, Subgroup.closure (Set.range s) = ⊤}.Nonempty := by
     refine ⟨Nat.card G, ?_⟩
-    letI : Fintype G := Fintype.ofFinite G
+    let : Fintype G := Fintype.ofFinite G
     let e : Fin (Nat.card G) ≃ G :=
       (finCongr (Nat.card_eq_fintype_card (α := G))).trans (Fintype.equivFin G).symm
     refine ⟨fun i => e i, ?_⟩
@@ -403,7 +403,7 @@ public theorem CFSG.isCyclic_of_generatorRank_le_one
     refine ⟨0, ?_⟩
     have h0n : 0 < n := lt_of_le_of_lt (Nat.zero_le i) i.isLt
     dsimp [u]
-    rw [dif_pos h0n]
+    rw [dite_eq_left h0n]
     exact congrArg t (Fin.ext (by omega))
   have hu_top : Subgroup.closure (Set.range u) = ⊤ := by
     apply top_le_iff.mp
@@ -466,5 +466,5 @@ public theorem CFSG.quotient_isCyclic_of_sup_cyclic_right
       QuotientGroup.mk' R₁ z = 1 * QuotientGroup.mk' R₁ z := by simp
       _ = QuotientGroup.mk' R₁ y * QuotientGroup.mk' R₁ z := by rw [hy_one]
       _ = QuotientGroup.mk' R₁ (y * z) := by simp
-  letI : IsCyclic R₂ := hR₂cyc
+  let : IsCyclic R₂ := hR₂cyc
   exact isCyclic_of_surjective q hq_surj

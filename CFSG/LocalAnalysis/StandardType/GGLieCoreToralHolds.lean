@@ -13,7 +13,7 @@ open CFSG.StandardType.ExcFramesHalf (IsToralSubgroup)
 private theorem toralHolds_card_le {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     {A : Subgroup G} [Finite A] (hel : IsElemAbelian p A) {k : ℕ} (hk : Nat.card A < p ^ k) :
     Nat.card A ≤ p ^ (k - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hpg : IsPGroup p A := fun x =>
     ⟨1, Subtype.ext (by rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one]; exact hel.2 x x.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hpg

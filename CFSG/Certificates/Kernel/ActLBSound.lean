@@ -63,7 +63,7 @@ theorem nets_of_checks (hv : ∀ c < 2 * m, netOK k (Nf c) = true)
   refine ⟨hv', fun x hx y hy => ?_⟩
   have hmem : [2 * x, 2 * x + 1] ∈ invPairs m := List.mem_map.mpr ⟨x, List.mem_range.mpr hx, rfl⟩
   have e := wF_of_relsOK hv' hi hmem y hy
-  simp only [Sem.wF, if_pos (by omega : 2 * x < 2 * m), if_pos (by omega : 2 * x + 1 < 2 * m)] at e
+  simp only [Sem.wF, ite_eq_left (by omega : 2 * x < 2 * m), ite_eq_left (by omega : 2 * x + 1 < 2 * m)] at e
   have e2 := congrArg (benesInv k (Nf (2 * x))) e
   rw [benesInv_benesPerm (hv' _ (by omega))] at e2
   exact e2
@@ -89,7 +89,7 @@ theorem prod_val (H : Nets m k Nf) : ∀ (w : List (Fin m × Bool)) (r : Fin (2 
   | a :: w, r => by
     rw [List.map_cons, List.prod_cons, Equiv.Perm.mul_apply, letP_val, prod_val H w r,
       List.map_cons]
-    simp only [Sem.wF, if_pos (lcode_lt a)]
+    simp only [Sem.wF, ite_eq_left (lcode_lt a)]
 
 theorem lift_mk_val (H : Nets m k Nf) (w : List (Fin m × Bool)) (r : Fin (2 ^ k)) :
     (FreeGroup.lift (sig H) (FreeGroup.mk w) r).val = Sem.wF k (2 * m) Nf (w.map lcode) r := by

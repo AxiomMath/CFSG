@@ -169,6 +169,7 @@ structure KFacts1923 : Prop where
   kfl3two : KFL3Two
   kfl3aut3 : KFL3Aut3
 
+omit [Finite G] in
 theorem step1923_mem_oTwoComponentsIn (hK : K ∈ scriptJ M N) : K ∈ oTwoComponentsIn M := hK.1
 
 theorem step1923_list (h194 : Item194UsedWide3) (h : Hyp1921 G A M N L) (hK : K ∈ scriptJ M N) :

@@ -38,8 +38,8 @@ theorem rckRet_innerDiag_E6
         zh * pinnedX Tag.E6 GGL (-Pi.single i 1) (e c) * zh⁻¹) :
     GGPsiInnerDiag (ggU .E6 0 f).D ψ t := by
   classical
-  letI : Algebra (GaloisField 2 f) GGL := e.toAlgebra
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (GaloisField 2 f) GGL := e.toAlgebra
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f hf
   have hFrf : ∀ c, σ.toRingHom c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hcard]; exact hσ c

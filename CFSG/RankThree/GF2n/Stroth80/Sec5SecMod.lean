@@ -37,7 +37,7 @@ theorem SecHyp.of_isOppDecomp {R P I L₁ L₂ A₁ A₂ : Subgroup G}
 theorem exists_sectionModule {R P I : Subgroup G} (h : SecHyp R P I) :
     ∃ (M : Type) (_ : AddCommGroup M) (_ : DistribMulAction ↥R M)
       (κ : ↥P →* Multiplicative M), IsSecMod R P I M κ := by
-  haveI hN : (I.subgroupOf P).Normal := ⟨fun n hn g => by
+  have hN : (I.subgroupOf P).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc := h.comm g g.2 n n.2
     have e : ((g * n * g⁻¹ : ↥P) : G) = ⁅(g : G), (n : G)⁆ * n := by
@@ -45,7 +45,7 @@ theorem exists_sectionModule {R P I : Subgroup G} (h : SecHyp R P I) :
       group
     rw [e]
     exact I.mul_mem hc hn⟩
-  letI : CommGroup (↥P ⧸ I.subgroupOf P) :=
+  let : CommGroup (↥P ⧸ I.subgroupOf P) :=
     { (inferInstance : Group (↥P ⧸ I.subgroupOf P)) with
       mul_comm := fun u v => by
         induction u using QuotientGroup.induction_on with

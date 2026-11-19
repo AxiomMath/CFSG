@@ -72,7 +72,7 @@ theorem y7b_X76_isPGroup (c : Ctx7 G L) (hb : B6Std c) : IsPGroup 2 ↥(X76 c.e)
   have hxK : x ∈ (c.s.T ⊓ X76 c.e) ⊔ R5 c.e := by
     rw [hxrn]
     exact (sup_comm (R5 c.e) (c.s.T ⊓ X76 c.e)) ▸ Subgroup.mul_mem_sup hr hn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hx1 : x = 1 := eq_one_of_isPGroup_of_pow_prime (p := 2) (q := q) hq2 hK2 hxK hxq
   rw [hx1]
   exact Subgroup.mem_bot.mpr rfl

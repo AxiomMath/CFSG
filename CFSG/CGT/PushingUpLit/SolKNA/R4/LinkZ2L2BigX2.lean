@@ -32,7 +32,7 @@ theorem involution_cases (hr : 4 ≤ r) {g : G} (hg : ∀ q ∈ Q, g * q * g⁻�
     (hgx : ∀ x ∈ xc e, g * x = x * g) (hg2 : g * g = 1) :
     (∀ q ∈ Q, g * q * g⁻¹ = q) ∨ ∀ q ∈ Q, g * q * g⁻¹ = zeta e * q * (zeta e)⁻¹ := by
   have hm : 2 ≤ r - 2 := by omega
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   obtain ⟨α, β, -, ha, hxa⟩ := QAut.aut_data (m := r - 2) hm (QAut.conjHom e hg)
     (QAut.conjHom_injective e hg)
   have hα1 : α = 1 := by

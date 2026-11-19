@@ -497,8 +497,8 @@ theorem commutator_le_of_inf_centralizer_le_of_natCard_eq_prime [Finite X] [Grou
   group
 
 private theorem Z_le_and_inf_eq_bot_of_isPrimeFixedSectionSetup {q : ℕ} {Q D K Z : Subgroup X}
-    (h : IsPrimeFixedSectionSetup X q Q D K Z) (hQ0 : Q ⊓ centralizer (D : Set X) < Q)
-    {I : Subgroup X} (hIQ : I < Q) (hQ0I : Q ⊓ centralizer (D : Set X) ≤ I)
+    (h : IsPrimeFixedSectionSetup X q Q D K Z) (_hQ0 : Q ⊓ centralizer (D : Set X) < Q)
+    {I : Subgroup X} (_hIQ : I < Q) (hQ0I : Q ⊓ centralizer (D : Set X) ≤ I)
     (hDKI : (D ⊔ K : Subgroup X) ≤ normalizer (I : Set X)) {T : Subgroup X}
     (hTQ : T ≤ Q ⊓ normalizer (I : Set X)) (hIT : I < T)
     (hDKT : (D ⊔ K : Subgroup X) ≤ normalizer (T : Set X)) : Z ≤ T ∧ Z ⊓ I = ⊥ := by

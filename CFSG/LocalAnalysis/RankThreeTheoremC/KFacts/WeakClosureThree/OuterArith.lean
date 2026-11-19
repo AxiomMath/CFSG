@@ -25,11 +25,11 @@ theorem dvd_sq_sub_one_of_add {q : ℕ} (h : 3 ∣ q + 1) : 3 ∣ q ^ 2 - 1 := b
 theorem dvd_psu_factor {q i : ℕ} (h : 3 ∣ q + 1) :
     3 ∣ (if Even i then q ^ i - 1 else q ^ i + 1) := by
   by_cases he : Even i
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     obtain ⟨m, hm⟩ := he
     have h2 := dvd_pow_sub_one (i := m) (dvd_sq_sub_one_of_add h)
     rwa [← pow_mul, show 2 * m = i by omega] at h2
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     have h2 := Odd.nat_add_dvd_pow_add_pow q 1 (Nat.not_even_iff_odd.mp he)
     rw [one_pow] at h2
     exact h.trans h2
@@ -48,7 +48,7 @@ theorem dvd_even_pow_sub_one {q i : ℕ} (h : ¬ 3 ∣ q) : 3 ∣ q ^ (2 * i) - 
 
 theorem pow_dvd_pow_sub_one {x m : ℕ} (hx : 2 ≤ x) (hm : m ≠ 0) (h : 3 ∣ x - 1) :
     3 ^ (1 + m.factorization 3) ∣ x ^ m - 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnx : ¬ 3 ∣ x := by omega
   have hlte := padicValNat.pow_sub_pow (p := 3) (by decide) (by omega : 1 < x) h hnx hm
   rw [one_pow] at hlte
@@ -61,7 +61,7 @@ theorem pow_dvd_pow_sub_one {x m : ℕ} (hx : 2 ≤ x) (hm : m ≠ 0) (h : 3 ∣
 
 theorem pow_dvd_pow_add_one {x m : ℕ} (hm : Odd m) (h : 3 ∣ x + 1) :
     3 ^ (1 + m.factorization 3) ∣ x ^ m + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnx : ¬ 3 ∣ x := by omega
   have hlte := padicValNat.pow_add_pow (p := 3) (by decide) h hnx hm
   rw [one_pow] at hlte
@@ -72,7 +72,7 @@ theorem pow_dvd_pow_add_one {x m : ℕ} (hm : Odd m) (h : 3 ∣ x + 1) :
 theorem pow_dvd_psu_factor {q n : ℕ} (hq : 2 ≤ q) (hn : n ≠ 0) (h : 3 ∣ q + 1) :
     3 ^ (1 + n.factorization 3) ∣ (if Even n then q ^ n - 1 else q ^ n + 1) := by
   by_cases he : Even n
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     obtain ⟨m, hm⟩ := he
     have hm0 : m ≠ 0 := by omega
     have hn2 : n = 2 * m := by omega
@@ -83,7 +83,7 @@ theorem pow_dvd_psu_factor {q n : ℕ} (hq : 2 ≤ q) (hn : n ≠ 0) (h : 3 ∣ 
         Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 3 ∣ 2), zero_add]
     rw [hfac, hn2, pow_mul]
     exact h1
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     exact pow_dvd_pow_add_one (Nat.not_even_iff_odd.mp he) h
 
 theorem pow_dvd_prod_Icc {n a : ℕ} {f : ℕ → ℕ} (hn : 5 ≤ n) (h2 : 3 ∣ f 2) (h3 : 3 ∣ f 3)
@@ -120,7 +120,7 @@ theorem factorization_gcd_le {n m : ℕ} (hn : n ≠ 0) :
 theorem psl_three_factorization {q N : ℕ} (hq : 2 ≤ q) (h : 3 ∣ q - 1)
     (hN : N * Nat.gcd 3 (q - 1) = lieOrderNumerator .PSL 3 q) :
     N.factorization 3 = 2 * padicValNat 3 (q - 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hg : Nat.gcd 3 (q - 1) = 3 := Nat.gcd_eq_left h
   rw [hg] at hN
   have hnum : lieOrderNumerator .PSL 3 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) := by
@@ -152,7 +152,7 @@ theorem psl_three_factorization {q N : ℕ} (hq : 2 ≤ q) (h : 3 ∣ q - 1)
 theorem psu_three_factorization {q N : ℕ} (hq : 2 ≤ q) (h : 3 ∣ q + 1)
     (hN : N * Nat.gcd 3 (q + 1) = lieOrderNumerator .PSU 3 q) :
     N.factorization 3 = 2 * padicValNat 3 (q + 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hg : Nat.gcd 3 (q + 1) = 3 := Nat.gcd_eq_left h
   rw [hg] at hN
   have hnum : lieOrderNumerator .PSU 3 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) := by
@@ -201,7 +201,7 @@ open OuterArith
 theorem three_lie_conditions {t : StatedLieTag} {n q N : ℕ} (hq : 2 ≤ q)
     (hN : N * lieOrderDivisor t n q = lieOrderNumerator t n q) (h3 : N.factorization 3 = 3) :
     ¬ 3 ∣ lieOrderDivisor t n q ∧ ¬ (t = .POmegaPlus ∧ n = 4) ∧ t ≠ .trialityD4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : 1 < q := hq
   refine ⟨fun hd => ?_, fun ⟨ht, hn⟩ => ?_, fun ht => ?_⟩
   · cases t

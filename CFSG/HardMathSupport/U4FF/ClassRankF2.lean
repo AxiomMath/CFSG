@@ -20,7 +20,7 @@ theorem natCard_fixed_matrix {E : Type} [Field E] [Finite E] {κ : Type} [Fintyp
     Nat.card {y : κ → E // M.mulVec y = y} = Nat.card E ^ (Fintype.card κ - (M - 1).rank) := by
   have hker : {y : κ → E // M.mulVec y = y} ≃ LinearMap.ker (Matrix.mulVecLin (M - 1)) :=
     Equiv.subtypeEquivRight fun y => by
-      simp [LinearMap.mem_ker, Matrix.sub_mulVec, sub_eq_zero]
+      simp [LinearMap.mem_ker, sub_eq_zero]
   have hrn := LinearMap.finrank_range_add_finrank_ker (Matrix.mulVecLin (M - 1))
   rw [Nat.card_congr hker, Module.natCard_eq_pow_finrank (K := E)]
   congr 1

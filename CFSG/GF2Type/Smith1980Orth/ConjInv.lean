@@ -13,6 +13,7 @@ open Subgroup CFSG.LargeExtraspecial
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem OE34a.conjBy {S : Setting G} (h : OE34a S) (g : G) : OE34a (S.conjBy g) := by
   intro x hx hxM hxQ hconj
   have hyM : g⁻¹ * x * g ∈ S.M := (S.mem_conjBy_M_iff g).mp hxM
@@ -77,6 +78,7 @@ theorem OOdd.conjBy {S : Setting G} (h : OOdd S) (g : G) : OOdd (S.conjBy g) := 
   rw [← hncard]
   exact h k' hyM hyQ
 
+omit [Finite G] in
 theorem OF3.conjBy {S : Setting G} (h : OF3 S) (g : G) : OF3 (S.conjBy g) := by
   intro w y hw hwM hwQ hy hyQ hyne
   set k : G := w * y * w⁻¹ * y⁻¹ with hk
@@ -141,6 +143,7 @@ theorem OF3.conjBy {S : Setting G} (h : OF3 S) (g : G) : OF3 (S.conjBy g) := by
         _ = (g * c' * g⁻¹) * (g * S.z * g⁻¹) := by group
         _ = (g * c' * g⁻¹) * (S.conjBy g).z := rfl
 
+omit [Finite G] in
 theorem OLocal.conjBy {S : Setting G} (h : OLocal S) (g : G) : OLocal (S.conjBy g) := by
   intro x y hx hy hxM hyM hxQ
   have hxM' : g⁻¹ * x * g ∈ S.M := (S.mem_conjBy_M_iff g).mp hxM

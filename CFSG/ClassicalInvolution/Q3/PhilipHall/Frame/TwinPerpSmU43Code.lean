@@ -319,10 +319,10 @@ theorem card_inner_centralizer_le (h : orbOK () = true) :
     (Nat.mul_le_mul_left _ h2835).trans (hmul.le.trans hcardI)
   omega
 
-theorem exists_conj_le {G : Type*} [Group G] [Finite G] {H T P : Subgroup G} (hTH : T ≤ H)
+theorem exists_conj_le {G : Type*} [Group G] [Finite G] {H T P : Subgroup G} (_hTH : T ≤ H)
     (hT : IsPGroup 2 T) (hidx : ¬ 2 ∣ T.relIndex H) (hPH : P ≤ H) (hP : IsPGroup 2 P) :
     ∃ h ∈ H, ∀ x ∈ P, h * x * h⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 (T.subgroupOf H) := hT.comap_subtype
   have hP' : IsPGroup 2 (P.subgroupOf H) := hP.comap_subtype
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow

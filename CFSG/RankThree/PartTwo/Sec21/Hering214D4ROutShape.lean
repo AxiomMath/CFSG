@@ -28,8 +28,8 @@ theorem outer_reflection_shape (P : D4Par n F σ) {Ē : Subgroup (MulAut (C0 σ)
   classical
   have hn1 := P.one_le
   obtain ⟨x, ε₁, hε₁, ε₂, hε₂, h1, h2, hnorm, hfix, hinv⟩ := hR
-  haveI : IsMulCommutative ↥Ē := hE3.1
-  haveI : Finite ↥Ē := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
+  have : IsMulCommutative ↥Ē := hE3.1
+  have : Finite ↥Ē := Nat.finite_of_card_ne_zero (by rw [hE9]; norm_num)
   have hinj := conj_injective_C0 σ n hn1 P.card P.frob
   have hε₁3 : ε₁ ^ 3 = 1 := hE3.2 ε₁ hε₁
   have hε₂3 : ε₂ ^ 3 = 1 := hE3.2 ε₂ hε₂
@@ -105,7 +105,7 @@ theorem outer_reflection_shape (P : D4Par n F σ) {Ē : Subgroup (MulAut (C0 σ)
     · rw [h]; exact Subgroup.mem_zpowers σ
     · rw [h]; exact Subgroup.pow_mem _ (Subgroup.mem_zpowers σ) 2
   have hrange_ne : Θ'.range ≠ ⊥ := by
-    obtain ⟨a, haE, haI⟩ := SetLike.not_le_iff_exists.mp hout
+    obtain ⟨a, haE, haI⟩ := IsConcreteLE.not_le_iff_exists.mp hout
     intro hbot
     apply haI
     have : Θ a = 1 := by
@@ -139,12 +139,12 @@ theorem outer_reflection_shape (P : D4Par n F σ) {Ē : Subgroup (MulAut (C0 σ)
     show Θ (c * (e : MulAut (C0 σ)) * c⁻¹ * (e : MulAut (C0 σ))⁻¹) = 1
     rw [map_mul, map_mul, map_mul, map_inv, map_inv, hΘc', one_mul, inv_one, mul_one,
       mul_inv_cancel]
-  letI : CommGroup ↥Ē := ElementaryAbelianModule.subgroupCommGroup Ē hE3.1
+  let : CommGroup ↥Ē := ElementaryAbelianModule.subgroupCommGroup Ē hE3.1
   have hE3' : ∀ e : ↥Ē, e ^ 3 = 1 := fun e => Subtype.ext (by simpa using hE3.2 e e.2)
   obtain ⟨hlinv, e, heℓ, hφe⟩ := reflection_shape hE3' hE9 φ hφ2 hφ1 ℓ hℓ3 hφℓ hquot
   obtain ⟨l, hlℓ, hl1⟩ : ∃ l ∈ ℓ, l ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : ℓ = ⊥ := (Subgroup.eq_bot_iff_forall ℓ).mpr hcon
     rw [hbot, Subgroup.card_bot] at hℓ3
     omega

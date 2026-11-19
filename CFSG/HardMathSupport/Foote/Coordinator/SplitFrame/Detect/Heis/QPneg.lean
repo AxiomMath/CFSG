@@ -61,7 +61,7 @@ theorem Qθ_inf_Pneg : Qθ τ K ⊓ Pneg τ K = ⊥ := by
     have h := hflip (Pi.single (iθ τ) 1)
     rw [hδ] at h
     by_contra hne
-    simp [Pi.single_apply, Ne.symm hne] at h
+    simp [Ne.symm hne] at h
   have hδJ : δ '' Jθ τ = Jθ τ := by
     have hsurj : Function.Surjective δ := Finite.injective_iff_surjective.1 hinj
     ext k

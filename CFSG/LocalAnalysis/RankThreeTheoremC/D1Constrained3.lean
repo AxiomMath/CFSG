@@ -44,7 +44,7 @@ theorem exists_isolated_vertex3 {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
     CFSG.AGLEmbedding.pRank_inf_centralizer_le_two_of_normalizer_not_le hp P h.sylow_le
       h.weakCore_le hD hDcard (hDR.trans h.le_P) hDN, hzp, hzc, huniq, hCM, hcoreM,
     fun hRP => ?_⟩
-  exact CFSG.AGLEmbedding.odd_card_of_twoLocals_le hp P.isPGroup' hPC hCM
+  exact CFSG.AGLEmbedding.odd_card_of_twoLocals_le hp P.isPGroup hPC hCM
     (glbPrimeCore_le p _) (glbPrimeCore_normal p _) (glbPrimeCore_coprime p _) hcoreM
     fun T hT hT1 hPT => h.normalizer_le_of_sylow_le hRP hT hT1 hPT
 

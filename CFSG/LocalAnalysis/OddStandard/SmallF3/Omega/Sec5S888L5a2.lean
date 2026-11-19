@@ -15,6 +15,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem s888l5a2_twoCoreIn_le_self (X : Subgroup G) : twoCoreIn X ≤ X := by
   unfold twoCoreIn CFSG.inSubgroup
   exact Subgroup.map_subtype_le _

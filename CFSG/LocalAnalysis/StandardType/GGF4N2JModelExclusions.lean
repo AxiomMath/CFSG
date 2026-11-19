@@ -235,7 +235,7 @@ private theorem card_range_dvd_of_le_inner {B R : Type} [Group B] [Group R]
 private theorem sl6_four_five_part :
     5 ^ 3 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2)) ∧
     ¬ 5 ^ 4 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2)) := by
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 2) = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 2 (by norm_num)
@@ -529,13 +529,13 @@ theorem isSolvable_outer_of_centralImage_PSL_six_two
       (Outer (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 6 F)) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.linear_higher_schreier
       (K := F) (n := 6) (by norm_num)).2
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (Outer (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 6 F)) := hOutPSL
   have hOutQ : Group.IsSolvable (Outer (↥K ⧸ Subgroup.center ↥K)) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
-  haveI : Group.IsPerfect S := hSq.1
-  haveI : Group.IsPerfect ↥K := Group.IsPerfect.ofSurjective (f := f) hf
-  haveI : Group.IsSolvable (Outer (↥K ⧸ Subgroup.center ↥K)) := hOutQ
+  have : Group.IsPerfect S := hSq.1
+  have : Group.IsPerfect ↥K := Group.IsPerfect.ofSurjective (f := f) hf
+  have : Group.IsSolvable (Outer (↥K ⧸ Subgroup.center ↥K)) := hOutQ
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥K
 
 
@@ -567,13 +567,13 @@ theorem ggF4N2_card_outer_dvd_twelve
   let F := GaloisField 2 2
   have hSq : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 6) F) :=
     CFSG.LieType.Universal.SpecialLinear.isQuasisimple (m := 5) (F := F) (by norm_num)
-  letI : Group.IsPerfect (ggU .PSL 6 2).K := hSq.1
+  let : Group.IsPerfect (ggU .PSL 6 2).K := hSq.1
   have hK' := hK
   obtain ⟨ψ, _hadm, _hker, hrange⟩ := hK
   have hperfK : Group.IsPerfect ↥K := by
     have h := Group.IsPerfect.range ψ
     rwa [hrange] at h
-  letI : Group.IsPerfect ↥K := hperfK
+  let : Group.IsPerfect ↥K := hperfK
   have hcardKQ := ggF4N2_card_outer_centerQuotient_dvd_twelve hK'
   have hcardRange : Nat.card (Outer ↥K) =
       Nat.card ↥(outerCenterQuotientHom ↥K).range :=
@@ -598,13 +598,13 @@ theorem ggF4N2_outer_eq_one_of_pow_five
   let F := GaloisField 2 2
   have hSq : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 6) F) :=
     CFSG.LieType.Universal.SpecialLinear.isQuasisimple (m := 5) (F := F) (by norm_num)
-  letI : Group.IsPerfect (ggU .PSL 6 2).K := hSq.1
+  let : Group.IsPerfect (ggU .PSL 6 2).K := hSq.1
   have hcardKQ := ggF4N2_card_outer_centerQuotient_dvd_twelve hK
   obtain ⟨ψ, _hadm, _hker, hrange⟩ := hK
   have hperfK : Group.IsPerfect ↥K := by
     have h := Group.IsPerfect.range ψ
     rwa [hrange] at h
-  letI : Group.IsPerfect ↥K := hperfK
+  let : Group.IsPerfect ↥K := hperfK
   have hq5' : (outerCenterQuotientHom ↥K q) ^ 5 = 1 := by
     calc
       (outerCenterQuotientHom ↥K q) ^ 5 = outerCenterQuotientHom ↥K (q ^ 5) :=
@@ -667,7 +667,7 @@ theorem ggF4N2_central_cube
     exact MonoidHom.mem_ker.mpr h
   have hSq : CFSG.IsQuasisimple S :=
     CFSG.LieType.Universal.SpecialLinear.isQuasisimple (m := 5) (F := F) (by norm_num)
-  haveI : Group.IsPerfect S := hSq.1
+  have : Group.IsPerfect S := hSq.1
   have hZ : (Subgroup.center S).map f = Subgroup.center K :=
     CFSG.ClassicalInvolution.ModelFacts.UnitaryAut.map_center_eq_center_of_perfect hf hfker
   have hF : Nat.card F = 4 := by
@@ -718,9 +718,9 @@ theorem ggF4N2J_le_psl6_neighbor
     {y : G} {K : Subgroup G}
     {Rd Ra : Prop} (hR : GGSecFiveRestGen 5 B Bs x L D J Rd Ra)
     (hNbr : GGNbr 5 B x D J y K)
-    (hL : GGCentralImage .POmegaMinus 4 2 L)
+    (_hL : GGCentralImage .POmegaMinus 4 2 L)
     (hK : GGCentralImage .PSL 6 2 K) : J ≤ K := by
-  clear hL
+  clear _hL
   exact le_of_ggNbr_of_centralImage_PSL_six_two hR.1.1 hR.1.2.2 hNbr hK
 
 
@@ -750,8 +750,8 @@ theorem ggF4N2_exists_coherent_internal_lift
       (∀ b : Bs, (rho b) ^ 5 = 1) ∧
       rho.ker = action.ker := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite K := Subtype.finite
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite K := Subtype.finite
   let Inn : Subgroup (MulAut K) := (MulAut.conj : K →* MulAut K).range
   let π : K →* Inn :=
     (MulAut.conj : K →* MulAut K).codRestrict Inn (fun k => ⟨k, rfl⟩)
@@ -788,7 +788,7 @@ theorem ggF4N2_exists_coherent_internal_lift
         _ = y * z * z⁻¹ := by rw [← h]
         _ = y := by group
   have hcen : π.ker ≤ Subgroup.center K := by rw [hker]
-  haveI : Finite (Subgroup.center K) := Subtype.finite
+  have : Finite (Subgroup.center K) := Subtype.finite
   have hnot5 : ¬ 5 ∣ Nat.card π.ker := by
     rw [hker]
     intro h5
@@ -904,7 +904,7 @@ theorem ggF4N2_x_data
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
       rcases hz with hzx | hzy
       · simpa [hzx] using hxZ
-      · simpa [hzy] using Subgroup.mem_zpowers y
+      · simp [hzy]
     have hcardle : Nat.card D ≤ Nat.card (Subgroup.zpowers y) :=
       Subgroup.card_le_of_le hDle
     rw [hDcard, Nat.card_zpowers, hyord] at hcardle
@@ -1032,7 +1032,7 @@ theorem ggF4N2_exists_universal_action_lift
         rho.ker = (Subgroup.zpowers y).subgroupOf Bs ∧
         Nat.card rho.range = 5 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let F := GaloisField 2 2
   let S := Matrix.SpecialLinearGroup (Fin 6) F
   let action : Bs →* MulAut K :=
@@ -1301,7 +1301,7 @@ theorem ggF4N2_exists_actual_torus_data
   obtain ⟨hActionKer, _hActionRange, _hActionPow, _hActionNontriv⟩ := hAction'
   have hBeq : B = Bs := ggF4N2_B_eq_Bs hR hL
   have hBsElem : IsElemAbelian 5 Bs := hR.1.2.1.2.1
-  haveI : IsMulCommutative Bs := hBsElem.1
+  have : IsMulCommutative Bs := hBsElem.1
   have hyB : y ∈ B := hNbr.1.2.1
   have hyBs : y ∈ Bs := by
     rwa [hBeq] at hyB
@@ -1498,7 +1498,7 @@ theorem ggF4N2_actual_intersection_isSylow
     (hK : GGCentralImage .PSL 6 2 K) :
     ∃ P : Sylow 5 K, (P : Subgroup K) = (Bs ⊓ K).subgroupOf K := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let S := Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2)
   let H : Subgroup K := (Bs ⊓ K).subgroupOf K
   obtain ⟨_hBsEq, _hDisj, hCardInt, _ψ, _ρ, _hSurj, _hKer, _hConj, _hPoint,
@@ -1557,7 +1557,7 @@ theorem ggF4N2_exists_actual_lift_sylow
         ∃ Q : Sylow 5 (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2)),
           (Q : Subgroup (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2))) = rho.range := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨_hBsEq, _hDisj, _hCardInt, ψ, rho, hSurj, hKer, hConj, hPoint,
     hPow, hRhoKer, hRhoCard, hRange⟩ :=
     ggF4N2_exists_actual_torus_data hR hNbr hL hK
@@ -1691,7 +1691,7 @@ theorem coordT23_45_commute {a b : SL6F4} (ha : a ∈ coordT23) (hb : b ∈ coor
 theorem coordT23_45_isElemAbelian :
     IsElemAbelian 5 (coordT23 ⊔ coordT45) :=
   CFSG.Open.IsElemAbelian.sup_of_commute coordT23_isElemAbelian coordT45_isElemAbelian
-    (fun a ha b hb => coordT23_45_commute ha hb)
+    (fun _a ha _b hb => coordT23_45_commute ha hb)
 
 theorem coordT01_le_block : coordT01 ≤ blockSpecialLinear coordJ01 :=
   Subgroup.zpowers_le.mpr coordBlock01_mem
@@ -1837,7 +1837,7 @@ theorem exists_coordinate_torus_data
         ∃ g : SL6F4,
           rho.range.map (MulAut.conj g).toMonoidHom = coordinateTorus := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ψ, rho, hSurj, hKer, hConj, hPoint, hPow, hRhoKer, hRhoCard,
     hRange, Q, hQ⟩ := ggF4N2_exists_actual_lift_sylow hR hNbr hL hK
   have hmem : coordinateSylow ∈ MulAction.orbit SL6F4 Q := by
@@ -1939,10 +1939,10 @@ theorem pairEmbed_permMatrix_conj (w : Equiv.Perm (Fin 6)) (hwinv : w⁻¹ = w)
   have hsymm : w.symm = w := by simpa [Equiv.Perm.inv_def] using hwinv
   have hwi : ∀ x : Fin 6, (a = w x) ↔ (x = w a) := by
     intro x
-    rw [eq_comm, Equiv.apply_eq_iff_eq_symm_apply, hsymm]
+    rw [eq_comm, ← _root_.Equiv.eq_symm_apply, hsymm]
   have hwj : ∀ x : Fin 6, (b = w x) ↔ (x = w b) := by
     intro x
-    rw [eq_comm, Equiv.apply_eq_iff_eq_symm_apply, hsymm]
+    rw [eq_comm, ← _root_.Equiv.eq_symm_apply, hsymm]
   simp [hwi, hwj, Matrix.one_apply, eq_comm]
 
 
@@ -2083,7 +2083,7 @@ theorem exists_conj_mem_coordT45 (a : SL6F4)
   · refine ⟨1, ?_, by simpa using ha⟩
     have hconj : MulAut.conj (1 : SL6F4) = 1 := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hconj]
     change coordinateTorus.map (MonoidHom.id SL6F4) = coordinateTorus
     exact Subgroup.map_id (G := SL6F4) coordinateTorus
@@ -2208,7 +2208,7 @@ private lemma trace_blockMatrix_coordJ45 (A : Matrix coordJ45 coordJ45 F4) :
     change ((4 : ℕ) : F4) = 0
     rw [CharP.cast_eq_zero_iff F4 2]
     norm_num
-  simpa [h4]
+  simp [h4]
 
 private lemma trace_reindex_sl2_inv {I : Type*} [Fintype I] [DecidableEq I]
     (e : I ≃ Fin 2) (C : SpecialLinearGroup I F4) :
@@ -2248,13 +2248,12 @@ private theorem exists_sl2_block_model
   refine ⟨B, ?_, ?_, ?_⟩
   · have hBsub5 : orderOf Bsub = 5 := by
       have h1 : orderOf Bsub = orderOf aB := by
-        simpa [Bsub] using orderOf_injective E.toMonoidHom E.injective aB
+        simp [Bsub]
       have h2 : orderOf aB = orderOf a := Subgroup.orderOf_mk a _
       rw [h1, h2, ha5]
     have hB5 : orderOf B = 5 := by
       have h1 : orderOf B = orderOf Bsub := by
-        simpa [B] using orderOf_injective (reindexSpecialLinear e2).toMonoidHom
-          (reindexSpecialLinear e2).injective Bsub
+        simp [B]
       rw [h1, hBsub5]
     exact hB5
   · intro m
@@ -2333,14 +2332,14 @@ theorem k_fieldfree_power_eq_one_or_four
     constructor
     · intro hc0
       have h6 : ((B : SL2F4) : Matrix (Fin 2) (Fin 2) F4) ^ 6 = 1 :=
-        mat2_pow_six_eq_one_of_trace (by simpa using B.2) (Or.inl hc0)
+        mat2_pow_six_eq_one_of_trace (by simp) (Or.inl hc0)
       have h6SL : B ^ 6 = 1 := Subtype.ext (by simpa using h6)
       have hdvd : orderOf B ∣ 6 := orderOf_dvd_iff_pow_eq_one.mpr h6SL
       rw [hB5] at hdvd
       norm_num at hdvd
     · intro hc1
       have h6 : ((B : SL2F4) : Matrix (Fin 2) (Fin 2) F4) ^ 6 = 1 :=
-        mat2_pow_six_eq_one_of_trace (by simpa using B.2) (Or.inr hc1)
+        mat2_pow_six_eq_one_of_trace (by simp) (Or.inr hc1)
       have h6SL : B ^ 6 = 1 := Subtype.ext (by simpa using h6)
       have hdvd : orderOf B ∣ 6 := orderOf_dvd_iff_pow_eq_one.mpr h6SL
       rw [hB5] at hdvd
@@ -2381,7 +2380,7 @@ theorem k_fieldfree_power_eq_one_or_four
 
 theorem k_fieldfree_central_image_power_eq_one_or_four
     {Q : Type*} [Group Q] (ψ : SL6F4 →* Q)
-    (hψ : Function.Surjective ψ)
+    (_hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center SL6F4)
     {a : SL6F4} (haT : a ∈ coordT45) (ha5 : orderOf a = 5)
     (A : GL6F4) {ε m : ℕ} (hε : ε ≤ 1) (hm1 : 1 ≤ m) (hm5 : m < 5)
@@ -2392,14 +2391,14 @@ theorem k_fieldfree_central_image_power_eq_one_or_four
     constructor
     · intro hc0
       have h6 : ((B : SL2F4) : Matrix (Fin 2) (Fin 2) F4) ^ 6 = 1 :=
-        mat2_pow_six_eq_one_of_trace (by simpa using B.2) (Or.inl hc0)
+        mat2_pow_six_eq_one_of_trace (by simp) (Or.inl hc0)
       have h6SL : B ^ 6 = 1 := Subtype.ext (by simpa using h6)
       have hdvd : orderOf B ∣ 6 := orderOf_dvd_iff_pow_eq_one.mpr h6SL
       rw [hB5] at hdvd
       norm_num at hdvd
     · intro hc1
       have h6 : ((B : SL2F4) : Matrix (Fin 2) (Fin 2) F4) ^ 6 = 1 :=
-        mat2_pow_six_eq_one_of_trace (by simpa using B.2) (Or.inr hc1)
+        mat2_pow_six_eq_one_of_trace (by simp) (Or.inr hc1)
       have h6SL : B ^ 6 = 1 := Subtype.ext (by simpa using h6)
       have hdvd : orderOf B ∣ 6 := orderOf_dvd_iff_pow_eq_one.mpr h6SL
       rw [hB5] at hdvd
@@ -2562,7 +2561,7 @@ theorem blockFour_mem_coordBlock
   fin_cases i <;> fin_cases j <;>
     simp_all [CFSG.SeitzReduction.E6Pilot.coe_blockFour,
       CFSG.SeitzReduction.E6Pilot.blockFourMat, CFSG.SeitzReduction.E6Pilot.e46,
-      coordJ01, coordJ23, Matrix.fromBlocks, Matrix.one_apply]
+      coordJ01, coordJ23, Matrix.fromBlocks]
 
 theorem n2_exists_coordT45_inverter_centralizing_blockFour : ∃ w : SL6F4,
     w ∈ blockSpecialLinear coordJ45 ∧
@@ -3216,7 +3215,7 @@ private theorem offDiag_eq_zero_of_commute_blockScalar {r : F4} (hr : r ^ 3 = 1)
   refine ⟨?_, ?_⟩
   · intro i hi j hj
     have hline := key i j
-    simp only [d, hi, hj, if_true, if_false, mul_one] at hline
+    simp only [d, hi, hj, ite_true, ite_false, mul_one] at hline
     have hzero : (1 - r) * ((g : Matrix (Fin 6) (Fin 6) F4) i j) = 0 := by
       calc
         (1 - r) * ((g : Matrix (Fin 6) (Fin 6) F4) i j) =
@@ -3228,7 +3227,7 @@ private theorem offDiag_eq_zero_of_commute_blockScalar {r : F4} (hr : r ^ 3 = 1)
     exact (mul_eq_zero.mp hzero).resolve_left (sub_ne_zero.mpr (Ne.symm hr1))
   · intro i hi j hj
     have hline := key i j
-    simp only [d, hi, hj, if_true, if_false, one_mul] at hline
+    simp only [d, hi, hj, ite_true, ite_false, one_mul] at hline
     have hzero : (r - 1) * ((g : Matrix (Fin 6) (Fin 6) F4) i j) = 0 := by
       calc
         (r - 1) * ((g : Matrix (Fin 6) (Fin 6) F4) i j) =

@@ -62,7 +62,7 @@ public theorem centralizerSetup_reflection_invertedSubgroup_abelian_normal
     have hxU : x ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
       simpa [CentralizerSetup.U, oddCoreOf] using hx
     have hxH : x ∈ c.H :=
-      SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H)
+      _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H)
         (pPrimeCore 2 c.H)) hxU
     have hchar : (pPrimeCore 2 c.H).Characteristic :=
       pPrimeCore_characteristic (p := 2) (G := c.H)

@@ -197,7 +197,7 @@ private theorem mem_layer_of_fix {G : Type} [Group G] [Finite G]
     (hag : matrixProjectiveConjugationHom (coordinateQuadPlus 4 F₀) g = MulAut.congr φ₀ β)
     (hσ1 : g.val.right ≠ 1) {c : G} (hfix : β c = c) (hc3 : c ^ 3 = 1) :
     c ∈ GLAPLayer 3 (fixSubgroup β) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haE : MulAut.congr φ₀ β ∈ matrixProjectiveImage (coordinateQuadPlus 4 F₀) := ⟨g, hag⟩
   obtain ⟨-, ⟨ψ, hψg, hψker, -⟩, -⟩ := orthogonal_large_prime_semilinear_field_and_diagonal_gates
     G .POmegaPlus (Or.inr (Or.inl rfl)) 4 2 3 hS F₀ hF₀ e₀
@@ -236,11 +236,11 @@ private theorem mem_layer_of_fix {G : Type} [Group G] [Finite G]
   set J₀ := subfieldDerivedImage k SS.hext with hJ₀
   have hNβ : ∀ t, t ∈ N ↔ β (φ.symm t) = φ.symm t := fun t => by
     rw [← fieldAutT_apply_iff SS, ← he, MulAut.congr_apply]
-    exact φ.apply_eq_iff_eq_symm_apply
+    exact φ.eq_symm_apply.symm
   have hcN : φ c ∈ N := by
     rw [hNβ, MulEquiv.symm_apply_apply]
     exact hfix
-  haveI hJn := subfieldDerivedImage_normal k SS.hext
+  have hJn := subfieldDerivedImage_normal k SS.hext
   have hcJ : φ c ∈ J₀ := by
     have hx3 : (⟨φ c, hcN⟩ : ↥N) ^ 3 = 1 := Subtype.ext (by
       rw [Subgroup.coe_pow, ← map_pow, hc3, map_one]
@@ -256,8 +256,8 @@ private theorem mem_layer_of_fix {G : Type} [Group G] [Finite G]
   · rw [hc1]
     exact Subgroup.one_mem _
   have hd : 0 < 2 * 4 := by norm_num
-  haveI : Finite ↥k := Finite.of_injective (algebraMap k F₀) (algebraMap k F₀).injective
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 F₀)) :=
+  have : Finite ↥k := Finite.of_injective (algebraMap k F₀) (algebraMap k F₀).injective
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 F₀)) :=
     Finite.of_equiv G φ.toEquiv
   obtain ⟨hsimp, a₁, b₁, hab⟩ := matrix_simple_nonabelian hd SS.hnd₀ SS.hT₀
   have h3J : 3 ∣ Nat.card ↥J₀ := by
@@ -287,9 +287,9 @@ theorem d4eight_eq_conj_mul_pow {G : Type} [Group G] [Finite G]
     ∃ (c : G) (m : ℕ), c ∈ GLAPLayer 3 (fixSubgroup β) ∧ β' = MulAut.conj c * β ^ m := by
   classical
   obtain ⟨-, F₀, _, _, hF₀, ⟨e₀⟩⟩ := id hS
-  haveI : CharP F₀ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F₀ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num) hF₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQne : ∃ v, coordinateQuadPlus 4 F₀ v ≠ 0 :=
     ⟨stdU F₀, by rw [coordinateQuadPlus_stdU]; exact one_ne_zero⟩
   let Λ := derivedProjEquiv (coordinateQuadPlus 4 F₀) hQne

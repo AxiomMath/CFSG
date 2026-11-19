@@ -59,7 +59,7 @@ theorem le_oddCoreOf_of_isSolvable {M D : Subgroup G} (hMs : Group.IsSolvable M)
       congrArg Subtype.val (hTab.is_comm.comm ⟨_, hx'⟩ ⟨_, hy'⟩))
   have hTF : Tb ≤ F := fun x hx => Bender35.inf_centralizer_le_generalizedFitting ⊤
     ⟨trivial, Subgroup.mem_centralizer_iff.mpr fun y hy => (hTbc x hx y (hFT hy)).symm⟩
-  have hTbp : IsPGroup 2 Tb := T'.isPGroup'.map π
+  have hTbp : IsPGroup 2 Tb := T'.isPGroup.map π
   have hDbodd : ∀ x ∈ Db, Odd (orderOf x) := by
     rintro _ ⟨d, hd, rfl⟩
     refine Odd.of_dvd_nat ?_ (orderOf_map_dvd π d)

@@ -76,7 +76,7 @@ public theorem S_relIndex_E_eq_two_t26
   have hqP : Function.Injective (q.comp (P : Subgroup c.Hhat).subtype) := by
     have hcop : Nat.Coprime (Nat.card (P : Subgroup c.Hhat))
         (Nat.card O) := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
       rw [hn]
       exact (pPrimeCore_coprime_card (p := 2) (G := c.Hhat)).pow_left n
     have hdis : Disjoint (P : Subgroup c.Hhat) O :=
@@ -214,7 +214,7 @@ public theorem S_relIndex_E_eq_two_t26
           = (((P : Subgroup c.Hhat) ⊓ (Ei ⊔ O)).map q).relIndex
               ((P : Subgroup c.Hhat).map q) := by
               congr 1 <;> ext x <;>
-                simp [f, Subgroup.mem_map, Subgroup.mem_subgroupOf, and_assoc, and_comm, and_left_comm]
+                simp [f, Subgroup.mem_map, Subgroup.mem_subgroupOf, and_assoc, and_comm]
       _ = Ebar.relIndex (Pq : Subgroup (c.Hhat ⧸ O)) := by
               rw [hmap, hEsup, hPq]
               rw [Subgroup.inf_relIndex_left (H := (Pq : Subgroup (c.Hhat ⧸ O)))
@@ -344,7 +344,7 @@ public theorem S_relIndex_E_eq_two_t26
           (inf_le_left : B ≤ (P : Subgroup c.Hhat))).toEquiv).symm
       rw [hcard']
       exact h
-    rcases IsPGroup.iff_card.mp P.isPGroup' with ⟨n, hn⟩
+    rcases IsPGroup.iff_card.mp P.isPGroup with ⟨n, hn⟩
     have hdvd : Nat.card B ∣ 2 ^ n := by
       rw [← hn]
       exact Subgroup.card_dvd_of_le inf_le_left

@@ -93,7 +93,7 @@ theorem exists_perfect_le_centralizer_of_langTorus_twistedE6 {ℓ f : ℕ} (hℓ
   have hRcent : R ≤ Subgroup.centralizer ({d} : Set (ModGL TwistTag.E6.tag L)) :=
     fun r hr => (Subgroup.mem_inf.1 (hRle hr)).2
   have hRperf : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥R := hRq.1
+    have : Group.IsPerfect ↥R := hRq.1
     exact Subgroup.commutator_eq_self
   obtain ⟨a, haA, rfl⟩ := hdD
   have hRrange : R ≤ ψ.range := by

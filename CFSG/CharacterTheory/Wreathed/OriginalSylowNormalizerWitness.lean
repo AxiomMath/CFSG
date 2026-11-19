@@ -172,7 +172,7 @@ theorem original_sylow_in_intermediate {ell : ℕ} (H : Subgroup G)
     (hPD : ambientSylow H P ≤ D) (hDR : D ≤ ambientOddCore H) :
     ∃ Q : Sylow ell D, (Q : Subgroup D).map D.subtype = ambientSylow H P := by
   have hAp : IsPGroup ell (ambientSylow H P) :=
-    (P.isPGroup'.map (CFSG.oddCore H).subtype).map H.subtype
+    (P.isPGroup.map (CFSG.oddCore H).subtype).map H.subtype
   have hApD : IsPGroup ell ((ambientSylow H P).subgroupOf D) :=
     hAp.comap_subtype
   obtain ⟨Q, hQ⟩ := hApD.exists_le_sylow
@@ -180,7 +180,7 @@ theorem original_sylow_in_intermediate {ell : ℕ} (H : Subgroup G)
     rw [← Subgroup.map_subgroupOf_eq_of_le hPD]
     exact Subgroup.map_mono hQ
   exact ⟨Q, original_sylow_maximal H P _
-    ((Subgroup.map_subtype_le _).trans hDR) (Q.isPGroup'.map D.subtype) hAQ⟩
+    ((Subgroup.map_subtype_le _).trans hDR) (Q.isPGroup.map D.subtype) hAQ⟩
 
 theorem original_sylow_in_normalizer_core_intersection [Finite G]
     {ell : ℕ} (hell : ell.Prime) (H : Subgroup G)
@@ -208,7 +208,7 @@ theorem original_sylow_le_every_normalizer_core_sylow [Finite G]
   let _ : (A.subgroupOf O).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hOn
   have hAp : IsPGroup ell A :=
-    (P.isPGroup'.map (CFSG.oddCore H).subtype).map H.subtype
+    (P.isPGroup.map (CFSG.oddCore H).subtype).map H.subtype
   have hAop : IsPGroup ell (A.subgroupOf O) := hAp.comap_subtype
   have hle := hAop.le_sylow_of_normal Q
   change A ≤ (Q : Subgroup O).map O.subtype
@@ -249,7 +249,7 @@ theorem original_core_sylow_centralizer [Finite G]
   apply original_sylow_maximal H P (B ⊓ H)
   · exact (inf_le_inf (Subgroup.map_subtype_le _) le_rfl).trans
       (original_normalizer_oddCore_intersection hell H P)
-  · exact (Q.isPGroup'.map O.subtype).to_le inf_le_left
+  · exact (Q.isPGroup.map O.subtype).to_le inf_le_left
   · exact le_inf (original_sylow_le_every_normalizer_core_sylow H P Q)
       (Subgroup.map_subtype_le _)
 
@@ -593,7 +593,7 @@ theorem original_nonstationary_prime_order_witness [Finite G]
   have hellodd : Odd ell :=
     (CFSG.ComponentClassification.OddCore.odd_card H).of_dvd_nat helld
   obtain ⟨t, ht, w, hw, hwa, hwt, hwcomm⟩ :=
-    four_group_odd_p_group_prime_order_witness hell hellodd (Q.isPGroup'.map O.subtype)
+    four_group_odd_p_group_prime_order_witness hell hellodd (Q.isPGroup.map O.subtype)
       a b ha hb hab hF
   refine ⟨(t : G), (w : G), ?_, w.property, ?_, ?_, ?_, ?_⟩
   · rcases ht with ht | ht

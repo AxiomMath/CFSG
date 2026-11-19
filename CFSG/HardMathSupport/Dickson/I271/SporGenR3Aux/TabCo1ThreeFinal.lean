@@ -81,8 +81,8 @@ theorem tabCo1_centShapeRk_three
     (h3A : ∀ x : ↥GA, MRep (mul (mul (aRows 1) (aRows 4)) (aRows 5)) (x : GL24) →
       ShapeRkAt 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) x) :
     CentShapeRk 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) ↥GA := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro k hk1 hk3
   obtain ⟨g, x, hx, hcases⟩ := tabCo1_census_three k (orderOf_eq_prime hk3 hk1)
   have hshape : ShapeRkAt 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) x := by
@@ -100,8 +100,8 @@ theorem centShapeRk_Co1_three
     (h3A : ∀ x : ↥GA, MRep (mul (mul (aRows 1) (aRows 4)) (aRows 5)) (x : GL24) →
       ShapeRkAt 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) x) :
     CentShapeRk 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) (NativeSporadic.Carrier .Co1) := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  haveI : Finite (NativeSporadic.Carrier .Co1) :=
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite (NativeSporadic.Carrier .Co1) :=
     CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
   have h := tabCo1_centShapeRk_three (hBr .Suz) h3A
   have e : ↥GA ≃* NativeSporadic.Carrier .Co1 := co1MatEquiv.symm

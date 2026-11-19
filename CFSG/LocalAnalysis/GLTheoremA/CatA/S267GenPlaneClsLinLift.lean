@@ -120,7 +120,7 @@ theorem exists_smul_of_fix_specialFactor {p : ℕ} (hpk : (p : K) ≠ 0) {A : GL
         ((e • w : primaryComponent (glA A : Module.End K (Fin n → K)) h) : Fin n → K) := by
   have hsq := squarefree_minpoly_glA hpk hA
   have hperf : ⁅specialFactor A h, specialFactor A h⁆ = specialFactor A h := by
-    haveI := (isQuasisimple_specialFactor hsq hh hgood).1
+    have := (isQuasisimple_specialFactor hsq hh hgood).1
     exact CFSG.GroupTheory.commutator_eq_self_of_isPerfect_subgroup
   have hm : 2 ≤ finrank (AdjoinRoot h) (primaryComponent (glA A : Module.End K (Fin n → K)) h) := by
     rcases hgood with h3 | ⟨h2, -⟩
@@ -140,7 +140,7 @@ theorem eq_one_of_fix_specialFactor {p : ℕ} (hpk : (p : K) ≠ 0) {A : GL (Fin
     (B : GL (Fin n) K) (σ : K ≃+* K)
     (hfix : ∀ g ∈ specialFactor A h, (LinearFlag.conjAut n K B * LinearFlag.fieldAut n K σ)
       (LinearFlag.proj n K g) = LinearFlag.proj n K g) : σ = 1 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨e, he⟩ := exists_smul_of_fix_specialFactor hpk hA hh hgood B σ hfix
   have hm : 2 ≤ finrank (AdjoinRoot h) (primaryComponent (glA A : Module.End K (Fin n → K)) h) := by
     rcases hgood with h3 | ⟨h2, -⟩

@@ -13,10 +13,12 @@ open CFSG.CGT.Stroth77.L4Sylow CFSG.GH74.GLS.Stage1.Thm3.Sec8 CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ}
 
+omit [Finite G] in
 theorem exists_conj_trans {ι : L4Model n →* G} {a b c : L4Model n} {g h : G}
     (hg : g * ι a * g⁻¹ = ι b) (hh : h * ι b * h⁻¹ = ι c) : ∃ g' : G, g' * ι a * g'⁻¹ = ι c :=
   ⟨h * g, by rw [← hh, ← hg]; group⟩
 
+omit [Finite G] in
 theorem exists_conj_of_conj_isConj {ι : L4Model n →* G} {a b c : L4Model n} {g : G}
     (hg : g * ι a * g⁻¹ = ι b) (hbc : IsConj b c) : ∃ g' : G, g' * ι a * g'⁻¹ = ι c := by
   obtain ⟨x, rfl⟩ := isConj_iff.1 hbc
@@ -24,6 +26,7 @@ theorem exists_conj_of_conj_isConj {ι : L4Model n →* G} {a b c : L4Model n} {
   rw [map_mul, map_mul, map_inv, ← hg]
   group
 
+omit [Finite G] in
 theorem ne_one_of_conj_eq {ι : L4Model n →* G} (hι : Function.Injective ι) {a b : L4Model n}
     (ha : a ≠ 1) {g : G} (hg : g * ι a * g⁻¹ = ι b) : b ≠ 1 := by
   rintro rfl
@@ -33,12 +36,14 @@ theorem ne_one_of_conj_eq {ι : L4Model n →* G} (hι : Function.Injective ι) 
   calc ι a = g⁻¹ * (g * ι a * g⁻¹) * g := by group
     _ = 1 := by rw [hg, map_one]; group
 
+omit [Finite G] in
 theorem exists_conj_y1T_zT (hn : 2 ≤ n) {ι : L4Model n →* G}
     (hzx : ∃ g : G, g * ι (x1T (by omega)) * g⁻¹ = ι (zT (by omega))) :
     ∃ g : G, g * ι (y1T (by omega)) * g⁻¹ = ι (zT (by omega)) := by
   obtain ⟨g, hg⟩ := hzx
   exact exists_conj_of_isConj (isConj_y1T_x1T hn) hg
 
+omit [Finite G] in
 theorem conj_zT_or_w1T_of_conj_mem_A (hn : 3 ≤ n) {ι : L4Model n →* G}
     (hzx : ∃ g : G, g * ι (x1T (by omega)) * g⁻¹ = ι (zT (by omega))) {l e : L4Model n}
     (he : e ∈ A n) (he2 : e * e = 1) (he1 : e ≠ 1) {g : G} (hg : g * ι l * g⁻¹ = ι e) :

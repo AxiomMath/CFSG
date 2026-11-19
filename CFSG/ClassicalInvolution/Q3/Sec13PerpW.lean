@@ -13,13 +13,16 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem perpW_mem_RSet (h : EndHyp Ω) {J : Subgroup G} (hJ : J ∈ Ω) : J ∈ RSet Ω :=
   TC.mem_RSet_of_isPGroup hJ (h.thmD.two J hJ)
 
+omit [Finite G] in
 theorem perpW_isSylow2In_self (h : EndHyp Ω) {K : Subgroup G} (hK : K ∈ Ω) :
     IsSylow2In K K :=
   ⟨le_rfl, h.thmD.two K hK, fun _ hVK _ hKV => le_antisymm hVK hKV⟩
 
+omit [Finite G] in
 theorem perpW_card_of_mem_RSet (h : EndHyp Ω) {R : Subgroup G} (hR : R ∈ RSet Ω) :
     Nat.card R = 8 := by
   obtain ⟨J, hJ, hRJ⟩ := exists_isSylow2In_of_mem_RSet hR
@@ -27,11 +30,13 @@ theorem perpW_card_of_mem_RSet (h : EndHyp Ω) {R : Subgroup G} (hR : R ∈ RSet
   rw [← hJR]
   exact h.card_eq_eight hJ
 
+omit [Finite G] in
 theorem perpW_usetOf {η : Set (Subgroup G)} {U : Subgroup G} (hη : η ∈ etaG Ω) (hU : U ∈ η) :
     U ∈ USet Ω := by
   obtain ⟨S', hS', -⟩ := hη
   exact (hS'.1 hU).1
 
+omit [Finite G] in
 theorem perpW_frontier {K J : Subgroup G} (hJ : J ∈ dstarComp Ω K) (hJD : J ∉ dComp Ω K) :
     ∃ A B : Subgroup G, A ∈ dComp Ω K ∧ dstarAdj Ω A B ∧ B ∉ dComp Ω K := by
   have key : ∀ Y, Relation.ReflTransGen (dstarAdj Ω) K Y →
@@ -49,6 +54,7 @@ theorem perpW_frontier {K J : Subgroup G} (hJ : J ∈ dstarComp Ω K) (hJD : J �
   · exact absurd h1 hJD
   · exact h1
 
+omit [Finite G] in
 theorem perpW_mem_of_mem_dComp {K A : Subgroup G} (hK : K ∈ Ω) (hA : A ∈ dComp Ω K) :
     A ∈ Ω := by
   have h : Relation.ReflTransGen (fun M N : Subgroup G => N ∈ Ω ∧ Disconnected.dAdj Ω M N) K A :=
@@ -57,10 +63,12 @@ theorem perpW_mem_of_mem_dComp {K A : Subgroup G} (hK : K ∈ Ω) (hA : A ∈ dC
   | refl => exact hK
   | tail _ hbc _ => exact hbc.1
 
+omit [Finite G] in
 theorem perpW_dComp_step {K A B : Subgroup G} (hA : A ∈ dComp Ω K) (hB : B ∈ Ω)
     (hAB : Disconnected.dAdj Ω A B) : B ∈ dComp Ω K :=
   Relation.ReflTransGen.tail hA ⟨hB, hAB⟩
 
+omit [Finite G] in
 theorem perpW_exists_nc_edge (h : EndHyp Ω) :
     ∃ K ∈ Ω, ∃ J ∈ Ω, J ∈ omegaStarNbr Ω K ∧ J ∉ omegaNbr Ω K := by
   obtain ⟨K, hK, J, hJ, hJD⟩ : ∃ K ∈ Ω, ∃ J ∈ Ω, J ∉ dComp Ω K := by
@@ -162,6 +170,7 @@ theorem perpW_eq_of_sylow (h : EndHyp Ω) (S : Sylow 2 G) {η₁ η₂ : Set (Su
   obtain ⟨η₀, -, huniq, -⟩ := perpW_sylow_spec h S
   rw [huniq η₁ h₁ hs₁, huniq η₂ h₂ hs₂]
 
+omit [Finite G] in
 theorem perpW_conjSub_iSup (g : G) (η : Set (Subgroup G)) :
     conjSub g (⨆ U ∈ η, U) = ⨆ U ∈ η, conjSub g U := by
   simp only [conjSub, Subgroup.map_iSup]
@@ -198,6 +207,7 @@ theorem wSet_weaklyClosed (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω) 
     (conjSub_mono (le_iSup₂ (f := fun U (_ : U ∈ η) => U) U hU)).trans hg
   exact Sec7.conjSub_iSup_eq_of_forall_mem hall
 
+omit [Finite G] in
 theorem perpW_comm_of_index_two {R C : Subgroup G} {r : G}
     (hC : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x) (hr : ∀ c ∈ C, r * c = c * r)
     (hdec : ∀ x ∈ R, x ∈ C ∨ ∃ c ∈ C, x = r * c) : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x := by

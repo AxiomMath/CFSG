@@ -51,7 +51,7 @@ theorem layer_le_centralizer_of_sectionFourHyp
     (hQO : CFSG.pCore 3 (H ⧸ N) ≤ Subgroup.centralizer (Q : Set (H ⧸ N))) :
     CFSG.layer (H ⧸ N) ≤ Subgroup.centralizer (Q : Set (H ⧸ N)) := by
   subst hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 H) with hπ
   have hinj : ∀ {W : Subgroup H}, W ≤ A → Function.Injective (π.comp W.subtype) := by
     intro W hWA
@@ -59,7 +59,7 @@ theorem layer_le_centralizer_of_sectionFourHyp
     intro w hw
     have hwN : (w : H) ∈ CFSG.pPrimeCore 3 H := (QuotientGroup.eq_one_iff _).mp hw
     have hdisj : A ⊓ CFSG.pPrimeCore 3 H = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       rw [hA.2, show (27 : ℕ) = 3 ^ 3 by norm_num]
       exact Nat.Coprime.pow_left _ CFSG.pPrimeCore_coprime_card
     have : (w : H) ∈ A ⊓ CFSG.pPrimeCore 3 H := ⟨hWA w.2, hwN⟩

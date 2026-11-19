@@ -113,7 +113,7 @@ theorem virtualCharacterSubmodule_eq_BrauerSpanLin
       Submodule.smul_mem _ (ns i)
         (Submodule.subset_span
           ⟨{ H := Hs i, hElem := hElem i, ψ := ψs i }, rfl⟩)
-  · haveI : NeZero (Nat.card G : k) :=
+  · have : NeZero (Nat.card G : k) :=
       ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
     rw [BrauerSpanLin, Submodule.span_le]
     rintro _ ⟨i, rfl⟩

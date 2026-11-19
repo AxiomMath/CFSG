@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6KD291
 
 open CFSG.Open Subgroup CFSG.LocalAnalysis.RankFourTheoremC
 
-theorem exists_B_of_cover {p : ℕ} [hpp : Fact p.Prime] (hp5 : 5 ≤ p)
+theorem exists_B_of_cover {p : ℕ} [hpp : Fact p.Prime] (_hp5 : 5 ≤ p)
     {Y : Type} [Group Y] [Finite Y] (L : Subgroup Y) [L.Normal]
     (hperf : ∀ (N : Subgroup Y) [N.Normal], IsPGroup p (Y ⧸ N) → N = ⊤)
     {x : Y} (hx : orderOf x = p) (hx2 : CFSG.Open.pRank p (centralizer ({x} : Set Y)) ≤ 2)
@@ -23,10 +23,10 @@ theorem exists_B_of_cover {p : ℕ} [hpp : Fact p.Prime] (hp5 : 5 ≤ p)
     (htorus : ∀ B : G, B ^ p = 1 → ∃ f : (Fin 3 → Multiplicative (ZMod p)) →* S₀,
       Function.Injective (π.comp f) ∧ ∀ a, c B (f a) = f a) :
     ∃ B : G, Φ B = l212in_descend e (odC L x) ∧ B ^ p ∈ Z ∧ ∀ w ∈ Z, w ^ p ≠ B ^ p := by
-  haveI := hS₀
+  have := hS₀
   have hp : p.Prime := hpp.out
   set ψ : Y →* MulAut P := (l212in_descend e).comp (odC L) with hψ
-  haveI : Φ.range.Normal :=
+  have : Φ.range.Normal :=
     ⟨fun a ha g => by
       have h := hcomm g a
       have h2 : g * a * g⁻¹ = (g * a * g⁻¹ * a⁻¹) * a := by group

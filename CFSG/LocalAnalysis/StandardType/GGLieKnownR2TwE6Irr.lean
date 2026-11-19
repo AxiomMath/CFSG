@@ -22,7 +22,7 @@ theorem twE6_rad_irreducible
             Set (twistedE6Group 2 f)) ≤ Subgroup.normalizer (V : Set (twistedE6Group 2 f)) →
       V = twE6Cen (frobQ 2 f) ∨ V = twE6Rad (frobQ 2 f) := by
   intro V hCen hVrad hNorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ : ∀ c : GaloisField 2 (2 * f), frobQ 2 f (frobQ 2 f c) = c :=
     frobQ_frobQ 2 f (by omega)
   obtain ⟨Φ, hΦ⟩ := twE6_exists_coord (frobQ 2 f) hθ

@@ -29,7 +29,6 @@ theorem map_centralizer_mulEquiv {G' : Type*} [Group G'] (φ : G ≃* G') (X : S
 theorem assembly_pRank_map_mulEquiv [Finite G] {p : ℕ} (hp : 1 < p) (φ : G ≃* G)
     (X : Subgroup G) :
     CFSG.Assembly.pRank p (X.map φ.toMonoidHom) = CFSG.Assembly.pRank p X := by
-  change Open.pRank p (X.map φ.toMonoidHom) = Open.pRank p X
   apply le_antisymm
   · have h := SectionRank.pRank_le_map hp φ.symm.toMonoidHom φ.symm.injective
       (X.map φ.toMonoidHom)

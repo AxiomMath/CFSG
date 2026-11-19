@@ -58,19 +58,19 @@ theorem permSU_mem_blockSU_of_fixes_compl
     · have hsi : σ i = i := hσ i hi
       have hsinv : σ⁻¹ i = i := by
         apply σ.injective
-        simpa [hsi] using σ.apply_symm_apply i
+        simp [hsi]
       rw [hsinv]
     · have hsj : σ j = j := hσ j hj
       have hsinv : σ⁻¹ j = j := by
         apply σ.injective
-        simpa [hsj] using σ.apply_symm_apply j
+        simp [hsj]
       constructor
       · intro h
         have := congrArg σ h
         simpa [hsj] using this
       · intro h
         subst h
-        simpa [hsinv]
+        simp [hsinv]
   simp only [heq, Matrix.one_apply]
 
 end UnitAct

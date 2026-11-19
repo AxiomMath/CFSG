@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem inf_centralizer_le_of_autI_le {M V X X' : Subgroup G}
     (hV : IsElemAbelian 2 V) (hMV : M ≤ Subgroup.normalizer (V : Set G)) (hX'M : X' ≤ M)
     (hle : autI hV X' ≤ autI hV X) :

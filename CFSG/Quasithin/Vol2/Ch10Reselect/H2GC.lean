@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field 
 theorem false_of_odd_prime_dvd (h37 : Vol2Native.A37ForSQTKCat)
     (h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I) (hlt : L < fsuL0 T L)
     (hA : Concl326A T L I) [Finite K] [CharP K 2]
-    (M : RModel T L I K) {t : G} (ht : t ∈ T) (htn : t ∉ Subgroup.normalizer (L : Set G))
+    (M : RModel T L I K) {t : G} (ht : t ∈ T) (_htn : t ∉ Subgroup.normalizer (L : Set G))
     {z : G} (hz : z ∈ fsuML T L) {σ : RingAut K} {B₂ : GL (Fin 2) K}
     (h2 : actML M ⟨t * z * t⁻¹, conj_mem_fsuML h37 h38 hfsu hlt (le_fsuM T L ht) hz⟩ =
       phi K 1 σ B₂)

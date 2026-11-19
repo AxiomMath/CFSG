@@ -12,6 +12,7 @@ section Squares
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem isSquare_units_coe_iff (u : Fˣ) : IsSquare ((u : F)) ↔ IsSquare u := by
   constructor
   · rintro ⟨r, hr⟩
@@ -25,6 +26,7 @@ theorem isSquare_units_coe_iff (u : Fˣ) : IsSquare ((u : F)) ↔ IsSquare u := 
   · rintro ⟨v, rfl⟩
     exact ⟨(v : F), by rw [Units.val_mul]⟩
 
+omit [Finite F] in
 theorem pD_mem_pslRange_iff (x : Fˣ) : pD x ∈ pslRange F ↔ IsSquare x := by
   rw [pD, pslRange, CFSG.GorensteinWalter.pgl2_mk_mem_psl2_range_iff_det_isSquare]
   have hdet : Matrix.GeneralLinearGroup.det (glD x) = x := by
@@ -34,6 +36,7 @@ theorem pD_mem_pslRange_iff (x : Fˣ) : pD x ∈ pslRange F ↔ IsSquare x := by
   rw [hdet]
   exact isSquare_units_coe_iff x
 
+omit [Finite F] in
 theorem pA_mem_pslRange_iff (x : Fˣ) : pA x ∈ pslRange F ↔ IsSquare (-x) := by
   rw [pA, pslRange, CFSG.GorensteinWalter.pgl2_mk_mem_psl2_range_iff_det_isSquare]
   have hdet : Matrix.GeneralLinearGroup.det (glA x) = -x := by
@@ -69,7 +72,7 @@ theorem pA_mem_pslRange_iff_of_four_dvd (h : 4 ∣ Nat.card Fˣ) (x : Fˣ) :
 
 theorem isSquare_iff_pow_eq_one (h2 : (2 : F) ≠ 0) (x : Fˣ) :
     IsSquare x ↔ x ^ (Nat.card Fˣ / 2) = 1 := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF2 : ringChar F ≠ 2 := by
     intro hc
     exact h2 (by
@@ -102,6 +105,7 @@ theorem exists_unit_orderOf_eq (d : ℕ) (hd : d ∣ Nat.card Fˣ) : ∃ x : Fˣ
   rw [orderOf_pow_of_dvd (Nat.div_pos (Nat.le_of_dvd (Nat.pos_of_ne_zero hn) hd)
       (Nat.pos_of_ne_zero hd0)).ne' hdiv, hg, Nat.div_div_self hd hn]
 
+omit [Finite F] in
 theorem unit_sq_eq_one_iff (x : Fˣ) : x ^ 2 = 1 ↔ x = 1 ∨ x = -1 := by
   constructor
   · intro hx
@@ -117,11 +121,13 @@ theorem unit_sq_eq_one_iff (x : Fˣ) : x ^ 2 = 1 ↔ x = 1 ∨ x = -1 := by
       apply Units.ext
       simp
 
+omit [Finite F] in
 theorem units_neg_one_ne_one (h2 : (2 : F) ≠ 0) : (-1 : Fˣ) ≠ 1 :=
   neg_one_ne_one_units h2
 
+omit [Finite F] in
 theorem orderOf_units_neg_one (h2 : (2 : F) ≠ 0) : orderOf (-1 : Fˣ) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; apply Units.ext; simp) (units_neg_one_ne_one h2)
 
 end Squares
@@ -130,12 +136,13 @@ section Frob
 
 variable {F : Type} [Field F] [Finite F] {p f : ℕ}
 
+omit [Finite F] in
 theorem card_units_eq_of_card (hF : Nat.card F = p ^ f) : Nat.card Fˣ = p ^ f - 1 := by
   rw [Nat.card_units, hF]
 
 theorem exists_frob_half [Fact p.Prime] (hF : Nat.card F = p ^ f) (hf : Even f) (hf0 : f ≠ 0) :
     ∃ σ₀ : F ≃+* F, σ₀ ≠ 1 ∧ σ₀ * σ₀ = 1 ∧ ∀ x : F, σ₀ x = x ^ (p ^ (f / 2)) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card F = p ^ f := by rw [← Nat.card_eq_fintype_card, hF]
   have hchar : CharP F p := charP_of_card_eq_prime_pow hcardF
   let σ₀ : F ≃+* F := RingEquiv.ofBijective (iterateFrobenius F p (f / 2))
@@ -181,15 +188,15 @@ theorem exists_frob_half [Fact p.Prime] (hF : Nat.card F = p ^ f) (hf : Even f) 
 theorem ringAut_comm [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2) (h4 : 4 ≤ p ^ f)
     (σ τ : F ≃+* F) : σ * τ = τ * σ := by
   obtain ⟨hK, -⟩ := field_facts (Fact.out : p.Prime) hp2 hF h4
-  haveI : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
+  have : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
   exact IsCyclic.commGroup.mul_comm σ τ
 
 theorem ringAut_sq_eq_one [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2) (h4 : 4 ≤ p ^ f)
     {σ₀ : F ≃+* F} (h1 : σ₀ ≠ 1) (h2 : σ₀ * σ₀ = 1) {σ : F ≃+* F} (hσ : σ * σ = 1) :
     σ = 1 ∨ σ = σ₀ := by
   obtain ⟨hK, -⟩ := field_facts (Fact.out : p.Prime) hp2 hF h4
-  haveI : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
-  haveI : Finite (F ≃+* F) :=
+  have : IsCyclic (F ≃+* F) := CFSG.ClassicalInvolution.Q3.TL4.MF163.ringAut_isCyclic F hK
+  have : Finite (F ≃+* F) :=
     Finite.of_injective (fun τ : F ≃+* F => (τ : F → F)) DFunLike.coe_injective
   by_cases hσ1 : σ = 1
   · exact Or.inl hσ1
@@ -197,8 +204,8 @@ theorem ringAut_sq_eq_one [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 
 
 theorem ringAut_pow_two_pow_eq_one [Fact p.Prime] (hF : Nat.card F = p ^ f) {σ : F ≃+* F} {k : ℕ}
     (hσ : σ ^ 2 ^ k = 1) : σ ^ 2 ^ padicValNat 2 f = 1 := by
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf0 : f ≠ 0 := by
     intro h0
     rw [h0, pow_zero] at hF

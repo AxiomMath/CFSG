@@ -67,7 +67,7 @@ private theorem diagEntry_mul {n q : ℕ} (e e' : Fin n → rootsOfUnity q F) :
   by_cases h : (i : ℕ) < n
   · simp [diagEntry, h]
   · rw [Pi.mul_apply]
-    simp only [diagEntry, dif_neg h]
+    simp only [diagEntry, dite_eq_right h]
     have hprod : (∏ j, ((e * e') j : Fˣ)) = (∏ j, (e j : Fˣ)) * (∏ j, (e' j : Fˣ)) := by
       rw [← Finset.prod_mul_distrib]
       exact Finset.prod_congr rfl fun j _ => rfl
@@ -78,7 +78,7 @@ private theorem diagEntry_one {n q : ℕ} :
   funext i
   by_cases h : (i : ℕ) < n
   · simp [diagEntry, h]
-  · simp only [diagEntry, dif_neg h, Pi.one_apply]
+  · simp only [diagEntry, dite_eq_right h, Pi.one_apply]
     simp
 
 noncomputable def diagSLMat {n q : ℕ} (e : Fin n → rootsOfUnity q F) :
@@ -132,7 +132,7 @@ theorem diagSLMat_injective {n q : ℕ} :
     congrFun (congrFun h1 (Fin.castSucc j)) (Fin.castSucc j)
   rw [Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq] at h2
   have h3 : diagEntry e (Fin.castSucc j) = diagEntry e' (Fin.castSucc j) := Units.ext h2
-  simp only [diagEntry, Fin.val_castSucc, dif_pos j.isLt] at h3
+  simp only [diagEntry, Fin.val_castSucc, dite_eq_left j.isLt] at h3
   exact Subtype.ext (by simpa using h3)
 
 noncomputable def diagSLSub (n q : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin (n + 1)) F) where
@@ -175,7 +175,7 @@ theorem isElemAbelian_diagSLSub {n q : ℕ} :
 
 theorem le_pRank_diagSLSub {n q : ℕ} [Finite F] (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     n ≤ CFSG.Open.pRank q (diagSLSub (F := F) n q) := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   exact CFSG.SectionRank.le_pRank hq.one_lt le_rfl isElemAbelian_diagSLSub
     (card_diagSLSub (F := F) hdvd)
 

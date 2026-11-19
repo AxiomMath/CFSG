@@ -17,6 +17,7 @@ variable {K V : Type} [Field K] [CharP K 2] [Finite K]
   [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem exists_isometry_conj_charTwo (hQ : (polarBilin Q).Nondegenerate)
     (F F' : Frame Q) :
     ∃ g : V ≃ₗ[K] V, ∃ hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q,

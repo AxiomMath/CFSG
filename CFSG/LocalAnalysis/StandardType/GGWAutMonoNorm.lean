@@ -541,7 +541,7 @@ private lemma ggWAutN_support_subsingleton {n : ℕ} (hn : 3 ≤ n) {x : Fin n �
     have hcq : c = 1 := by
       have hq1 : ggWAutN_twoSign p k q = 1 := by
         unfold ggWAutN_twoSign
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro (h | h)
         · exact hpq h.symm
         · exact hkq h.symm
@@ -736,7 +736,7 @@ theorem ggWAut_monomial_mem {n : ℕ} (f : Module.Basis (Fin n) (ZMod 3) V)
           (if i = i0 then (-1 : ZMod 3) else 1) • f ((Equiv.refl (Fin n)) i)
         by_cases hi : i = i0
         · subst hi; simp [ggWAutN_signChange_self]
-        · rw [ggWAutN_signChange_ne f hi, if_neg hi, one_smul]
+        · rw [ggWAutN_signChange_ne f hi, ite_eq_right hi, one_smul]
           rfl
       have hεs : ∀ i, (if i = i0 then (-1 : ZMod 3) else 1) ≠ 0 := by
         intro i; split_ifs <;> decide

@@ -31,7 +31,7 @@ private theorem s888_mem_centralizer_of_suppVec_eq_zero (hS : PlaneSys V W)
       have h := congrFun hy i
       simp only [Pi.zero_apply, suppVec] at h
       by_contra hc
-      rw [if_pos hc] at h
+      rw [ite_eq_left hc] at h
       exact one_ne_zero h
     have hconj := (not_actsNontriv_iff (A := W i) (y := (y : X))).mp hnot w hw
     rwa [mul_inv_eq_iff_eq_mul] at hconj
@@ -128,7 +128,7 @@ private theorem s888_card_ker_suppHom (hS : PlaneSys V W) (hE : ActsElemAb V E) 
     Nat.card (s888_suppHom hS hE).ker = Nat.card ↥(E ⊓ centralizer (V : Set X)) :=
   Nat.card_congr (s888_kerEquiv hS hE)
 
-private theorem s888_range_planeHom (hS : PlaneSys V W) (hE : ActsElemAb V E) :
+private theorem s888_range_planeHom (hS : PlaneSys V W) (_hE : ActsElemAb V E) :
     (((planeHom hS).domRestrict (s888E' V E)).range : Set (Equiv.Perm (Fin 4))) =
       (planeImage hS E : Set (Equiv.Perm (Fin 4))) := by
   ext a

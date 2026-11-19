@@ -28,7 +28,6 @@ open CertificateChecks.KernelSpor.ON2129 (t32Enum_eq szOK32 t32_hd t32_gens t32_
 theorem qDw_eq (i : Nat) : qDw i = qD i := by
   unfold qDw
   rw [strictB_app']
-  beta_reduce
   generalize tab ON5T.DW i = c
   cases h0 : Nat.blt 0 c
   · rfl

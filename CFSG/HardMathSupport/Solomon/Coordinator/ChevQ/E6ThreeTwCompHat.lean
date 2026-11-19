@@ -74,7 +74,7 @@ theorem twTorusHat_pow_three_mem {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (pic : TwE6ThreeA2Picture K σ (ℓ ^ f) Fr g₀ h₀ L T n) {τ : ModGL TwistTag.E6.tag K}
     (hτ : τ ∈ twTorusHat K σ g₀) : τ ^ 3 ∈ T := by
   obtain ⟨hτC, hτH⟩ := twCompHat_mem_iff.1 hτ
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [pic.card_eq]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   obtain ⟨-, -, -, -, -, -, -, -, ⟨-, -, -, -, -, hcube, -⟩, -⟩ :=
@@ -112,7 +112,7 @@ theorem twTorusHat_card_three_le {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       by rw [← map_pow, τ.2.2, map_one]⟩
   have hφ : Function.Injective φ := fun a b h =>
     Subtype.ext (twLinePsi_injective K g₀ (congrArg Subtype.val h))
-  haveI := twCompHat_finite (Ω := AlgebraicClosure K)
+  have := twCompHat_finite (Ω := AlgebraicClosure K)
     fun d => tw6Theta (AlgebraicClosure K) Fr d = d
   exact (Nat.card_le_card_of_injective φ hφ).trans (twTheta_torus_card_three_le pic.Fr_apply h3)
 

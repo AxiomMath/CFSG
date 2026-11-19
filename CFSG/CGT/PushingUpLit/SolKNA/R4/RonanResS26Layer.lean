@@ -43,7 +43,7 @@ theorem layerIdent {r n : ℕ} (hr : 4 ≤ r) (hA : CIT3Below n) (hB : TightBelo
   have hc' := twistQ_clsR hd hNc hN2 htN hc
   have hnO' : ¬ TightInO2 (QuotientGroup.mk' (Subgroup.center Q) z) :=
     fun h => hnO (TwistQ.inO2_of hN2 h)
-  haveI := hLn
+  have := hLn
   have hTs : IsSimpleGroup ↥(socleOf L) := isSimpleGroup_socle hLq hLC
   have hTab := exists_ne_comm_socle hLq hLC
   have hTC := centralizer_socle_eq_bot hLq hLC

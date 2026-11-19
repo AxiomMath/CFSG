@@ -69,9 +69,9 @@ theorem inner_eq (x q : Nat) : ∀ m ≤ 64, ∀ h,
       (Nat.blt (64 * (63 - q) + (63 - m)) 4060) = _
     rw [hf]
     by_cases hi : 64 * (63 - q) + (63 - m) < 4060
-    · rw [Nat.blt_eq.mpr hi, if_pos hi, land_mask64]
+    · rw [Nat.blt_eq.mpr hi, ite_eq_left hi, land_mask64]
       rfl
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       have : Nat.blt (64 * (63 - q) + (63 - m)) 4060 = false := by
         cases e : Nat.blt (64 * (63 - q) + (63 - m)) 4060
         · rfl
@@ -107,7 +107,7 @@ theorem hrun_tail (x h : Nat) : ∀ l : List Nat, (∀ i ∈ l, 4060 ≤ i) → 
   | [], _ => rfl
   | i :: l, hl => by
     unfold hrun
-    rw [List.foldl_cons, if_neg (by have := hl i List.mem_cons_self; omega)]
+    rw [List.foldl_cons, ite_eq_right (by have := hl i List.mem_cons_self; omega)]
     exact hrun_tail x h l fun j hj => hl j (List.mem_cons_of_mem _ hj)
 
 theorem hkeyP_run (x : Nat) : hkeyP x = hrun x (List.range 4060) 14695981039346656037 := by
@@ -153,7 +153,7 @@ theorem hkeyP_eq {x : Nat} {g : G} (hx : PRep 4060 12 x g) :
   unfold hrun
   refine foldl_congr_mem _ _ _ _ fun h i hi => ?_
   rw [List.mem_range] at hi
-  rw [if_pos hi, hx ⟨i, hi⟩, CFSG.Sporadic.Th.idx_of_lt _ hi]
+  rw [ite_eq_left hi, hx ⟨i, hi⟩, CFSG.Sporadic.Th.idx_of_lt _ hi]
   rfl
 
 end CFSG.KC.Misc.RuInv.P

@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem sec93f_mem_Q_of_mk_mul_comm {a b : M}
     (h : QuotientGroup.mk' (Q.subgroupOf M) a * QuotientGroup.mk' (Q.subgroupOf M) b =
       QuotientGroup.mk' (Q.subgroupOf M) b * QuotientGroup.mk' (Q.subgroupOf M) a) :

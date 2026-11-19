@@ -11,6 +11,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private lemma mulAut_conj_injective (hZ : center Y = ⊥) :
     Function.Injective (MulAut.conj : Y →* MulAut Y) := by
   intro a b hab
@@ -27,12 +28,14 @@ private lemma mulAut_conj_injective (hZ : center Y = ⊥) :
   rw [hZ, Subgroup.mem_bot] at h2
   exact mul_inv_eq_one.mp h2
 
+omit [Finite Y] in
 private lemma conj_apply_mulAut (α : MulAut Y) (k : Y) :
     MulAut.conj (α k) = α * MulAut.conj k * α⁻¹ := by
   ext x
   rw [MulAut.conj_apply, MulAut.mul_apply, MulAut.mul_apply, MulAut.conj_apply, map_mul, map_mul,
     map_inv, show α (α⁻¹ x) = x from MulEquiv.apply_symm_apply α x]
 
+omit [Finite Y] in
 private lemma le_normalizer_comap {K : Subgroup Y} {W : Subgroup (MulAut Y)}
     (hWN : ∀ y ∈ normalizer (K : Set Y), ∀ α ∈ W,
       MulAut.conj y * α * (MulAut.conj y)⁻¹ ∈ W) :
@@ -43,6 +46,7 @@ private lemma le_normalizer_comap {K : Subgroup Y} {W : Subgroup (MulAut Y)}
   have h := hWN k hkK (MulAut.conj u) hu
   simpa [map_mul, map_inv] using h
 
+omit [Finite Y] in
 private lemma apply_eq_self_of_mem {K : Subgroup Y} {W : Subgroup (MulAut Y)}
     (hWN : ∀ y ∈ normalizer (K : Set Y), ∀ α ∈ W,
       MulAut.conj y * α * (MulAut.conj y)⁻¹ ∈ W)
@@ -59,6 +63,7 @@ private lemma apply_eq_self_of_mem {K : Subgroup Y} {W : Subgroup (MulAut Y)}
   rw [hU, Subgroup.mem_bot] at hmem
   exact mul_inv_eq_one.mp hmem
 
+omit [Finite Y] in
 private lemma ne_inv_self {g : Y} {f : ℕ} (hgord : orderOf g = 2 ^ f + 1) (hf : 4 ≤ f) :
     g ≠ g⁻¹ := by
   intro h
@@ -73,6 +78,7 @@ private lemma ne_inv_self {g : Y} {f : ℕ} (hgord : orderOf g = 2 ^ f + 1) (hf 
     simpa using Nat.pow_le_pow_right (by norm_num : 0 < 2) hf
   omega
 
+omit [Finite Y] in
 private lemma false_of_mem_ne_one {K : Subgroup Y} {W : Subgroup (MulAut Y)} {g : Y}
     (hinj : Function.Injective (MulAut.conj : Y →* MulAut Y))
     (hgN : g ∈ normalizer (K : Set Y))

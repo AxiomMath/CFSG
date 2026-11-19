@@ -46,7 +46,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem d4_layer_threeA (P : D4Par n X σ) (hn : 2 ≤ n) {z : C0 σ} (hx : IsClassX σ z) :
     Group.IsPerfect ↥(layerSub σ z) ∧ Sec4.IsSLThreePiAt ↥(layerSub σ z) (2 ^ n) := by
-  haveI := P.charP
+  have := P.charP
   rcases Nat.even_or_odd n with hev | hodd
   · obtain ⟨F, hFf, hFfin, h4, h3, e, -⟩ := layer_linear_model P hn hev hx
     have hcard := layer_card_even P hn hev hx
@@ -83,7 +83,7 @@ theorem d4_isThreeA (P : D4Par n X σ) (hn : 2 ≤ n) {z : C0 σ} (hzA : z ∈ A
   have hx : IsClassX σ z := ⟨hz3, hz1, 1, by simpa using hzA⟩
   obtain ⟨hperf, hSL⟩ := d4_layer_threeA P hn hx
   obtain ⟨hzD, -⟩ := classX_layer σ P hn hx
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   have hres : resCent (⊤ : Subgroup (C0 σ)) z = layerSub σ z := by
     apply le_antisymm
     · show inSubgroup perfectResidual ((⊤ : Subgroup (C0 σ)) ⊓
@@ -105,7 +105,7 @@ theorem d4_isThreeA (P : D4Par n X σ) (hn : 2 ≤ n) {z : C0 σ} (hzA : z ∈ A
 
 theorem d4_resCent_threeB (P : D4Par n X σ) (hn : 2 ≤ n) {t : C0 σ} (htB : t ∈ Bsub σ)
     (ht : orderOf t = 3) : resCent (⊤ : Subgroup (C0 σ)) t = Asub σ := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   have ht3 : t ^ 3 = 1 := by rw [← ht]; exact pow_orderOf_eq_one t
   have ht1 : t ≠ 1 := by
     rintro rfl
@@ -133,14 +133,14 @@ theorem d4_resCent_threeB (P : D4Par n X σ) (hn : 2 ≤ n) {t : C0 σ} (htB : t
 theorem d4_threeLocalModel [Finite (C0 σ)] (P : D4Par n X σ) (hn : 2 ≤ n)
     (r : TauCeti.PrimePower) (hr : r.card = 2 ^ n) :
     ThreeLocalModel (C0 σ) r (r.card ^ 3) (Asub σ) (Bsub σ) := by
-  haveI := P.charP
+  have := P.charP
   have hfix4 := P.four_le_card_fix hn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : ¬ 3 ∣ 2 ^ n := fun h => by
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
     omega
   refine ⟨?_, ?_, fun a ha b hb => Asub_Bsub_commute ha hb, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI : Fintype X := Fintype.ofFinite X
+  · have : Fintype X := Fintype.ofFinite X
     refine ⟨X, inferInstance, inferInstance, ?_, ⟨(asubEquiv P).symm⟩⟩
     rw [← Nat.card_eq_fintype_card, P.card, hr]
   · have := (isQuasisimple_sl2 hfix4).1

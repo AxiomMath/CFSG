@@ -31,7 +31,7 @@ theorem chevG2_fixed_data
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (n' : ℕ), Nat.card k = 2 ^ n' ∧ n = p * n' ∧
       1 ≤ n' ∧
         Nonempty (adjointGroup .G2 k ≃* ↥(ggAutFixedSubgroup (entrywiseAdjointAut .G2 σ))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcharP : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
@@ -121,8 +121,8 @@ theorem chevG2_fixStd
             f I₀ θ₀ := by
   obtain ⟨k, hkF, hkFin, hk, hE⟩ := chevG2FixGroup_recipe hn hK hp hf hord
   obtain ⟨E⟩ := hE
-  letI : Field k := hkF
-  letI : Finite k := hkFin
+  let : Field k := hkF
+  let : Finite k := hkFin
   refine ⟨k, inferInstance, inferInstance, hk, ?_⟩
   have h3 : 3 ≤ Nat.card k := by
     rw [hk]
@@ -131,11 +131,11 @@ theorem chevG2_fixStd
   have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card k h3
   obtain ⟨eR⟩ := centerQuot_chevGroup_equiv k Tag.G2
   have hsimple : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH Tag.G2.cartan k false)) := by
-    haveI : IsSimpleGroup (AdjointQuotient Tag.G2 k) := hq.2.1
+    have : IsSimpleGroup (AdjointQuotient Tag.G2 k) := hq.2.1
     exact eR.isSimpleGroup
   have hnab : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH Tag.G2.cartan k false), a * b ≠ b * a :=
     chevG2_nonabelian eR.symm hq.2.2
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH Tag.G2.cartan k false)) := hsimple
+  have : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH Tag.G2.cartan k false)) := hsimple
   refine ⟨hsimple, hnab, ?_⟩
   let e : LargeEvenCenterQuot (LargeEvenChevH Tag.G2.cartan k false) ≃* ↥(ggFixSub f) :=
     (TableBExc.recipeEquiv Tag.G2 k).trans E
@@ -149,8 +149,7 @@ theorem chevG2_fixStd
 
 theorem ggFieldFixKnown_G2 :
     GGFieldFixKnown fun p lab => lab.tag = .G2 ∧ 2 ≤ lab.n / p := by
-  intro p lab hp _ hlab hS
-  intro Q hQ
+  intro p lab hp _ hlab hS Q hQ
   obtain ⟨t, l, n⟩ := lab
   obtain ⟨hn, -⟩ := hlab
   obtain ⟨ht, hn2⟩ := hS

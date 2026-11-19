@@ -23,8 +23,8 @@ theorem plane_abelian
     ∀ a ∈ u3S P x, ∀ b ∈ u3S P x, a * b = b * a := by
   obtain ⟨-, hTel, -⟩ := plane_T_structure hsyl hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := plane_S_decomp hsyl hno hc
-  haveI : IsMulCommutative (u3T P x J) := hTel.1
-  haveI : IsMulCommutative Z := IsCyclic.isMulCommutative
+  have : IsMulCommutative (u3T P x J) := hTel.1
+  have : IsMulCommutative Z := IsCyclic.isMulCommutative
   have hTc : ∀ a ∈ u3T P x J, ∀ b ∈ u3T P x J, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : u3T P x J) ⟨b, hb⟩)
   have hZc : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a := fun a ha b hb =>
@@ -49,7 +49,7 @@ theorem plane_omega
     (hc : PointConfig Typ G p P M x J) :
     ∀ y ∈ u3S P x, y ^ p = 1 → ∃ t ∈ u3T P x J, ∃ z ∈ Subgroup.zpowers x, y = t * z := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   obtain ⟨-, hTel, -⟩ := plane_T_structure hsyl hc
@@ -69,7 +69,7 @@ theorem plane_lemma33 (hS : Setting G) (hD1 : TheoremD1 G) (hSig : SignalizerTwo
     (hno : ∀ (K : Type) [Group K] [Finite K], Typ p K → NoOuterP p K)
     (hSE : TypeSE Typ p) (hc : PointConfig Typ G p P M x J) : U3Lemma33 p x := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTcard, hTel, hxJ⟩ := plane_T_structure hsyl hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := plane_S_decomp hsyl hno hc
   have hTS : u3T P x J ≤ u3S P x := inf_le_left
@@ -93,7 +93,7 @@ theorem plane_quotient_data (hc : PointConfig Typ G p P M x J) {Q : Type} [Group
           t = t') ∧
       (∀ nb ∈ Subgroup.normalizer ((S' : Subgroup Q) : Set Q), ∃ n, ∃ hnJ : n ∈ J,
         n ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ∧ ψ ⟨n, hnJ⟩ = nb) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := tits_ker_coprime ψ hker
   have hcop' : ¬ p ∣ Nat.card ψ.ker := (hc.prime.coprime_iff_not_dvd).mp hcop
   have hTJ : u3T P x J ≤ J := inf_le_right
@@ -101,7 +101,7 @@ theorem plane_quotient_data (hc : PointConfig Typ G p P M x J) {Q : Type} [Group
     hc.generic.2.2.1.inf_of_le_normalizer hc.le_cent hc.cent_le
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf
   have hTinj : ∀ t ∈ (Tsyl : Subgroup ↥J), ψ t = 1 → t = 1 :=
-    CFSG.LocalAnalysis.RankThreeTheoremC.u3main_eq_one_of_ker ψ hcop' Tsyl.isPGroup'
+    CFSG.LocalAnalysis.RankThreeTheoremC.u3main_eq_one_of_ker ψ hcop' Tsyl.isPGroup
   let Tsyl' : Sylow p Q := Tsyl.mapSurjective hψ
   have hTsyl' : (Tsyl' : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
     Sylow.coe_mapSurjective hψ Tsyl
@@ -126,7 +126,7 @@ theorem plane_quotient_data (hc : PointConfig Typ G p P M x J) {Q : Type} [Group
   · intro nb hn
     obtain ⟨j, rfl⟩ := hψ nb
     rw [hTsyl'] at hn
-    obtain ⟨n₁, hn₁, hψn₁⟩ := typeII_frattini_ker ψ hcop Tsyl.isPGroup' hn
+    obtain ⟨n₁, hn₁, hψn₁⟩ := typeII_frattini_ker ψ hcop Tsyl.isPGroup hn
     refine ⟨(n₁ : G), n₁.2, ?_, hψn₁⟩
     have := CFSG.LocalAnalysis.RankThreeTheoremC.u3main_mem_normalizer_map hn₁
     rwa [hTsyl, Subgroup.map_subgroupOf_eq_of_le hTJ] at this

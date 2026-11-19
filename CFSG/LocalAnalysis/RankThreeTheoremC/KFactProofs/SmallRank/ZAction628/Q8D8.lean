@@ -70,7 +70,7 @@ theorem dihedral_equiv_of_cover {G : Type} [Group G] [Finite G] {ρ σ : G} {n :
     (hσ : σ ∉ Subgroup.zpowers ρ)
     (hcover : ∀ g : G, g ∈ Subgroup.zpowers ρ ∨ σ⁻¹ * g ∈ Subgroup.zpowers ρ) :
     Nonempty (G ≃* DihedralGroup n) ∧ Nat.card G = 2 * n := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let f : DihedralGroup n →* G :=
     MonoidHom.mk' (dihedral_phi ρ σ n) (dihedral_phi_mul hρ hσ2 hσρ)
   have hf : Function.Bijective f := ⟨dihedral_phi_inj hρ hσ, dihedral_phi_surj hρ hcover⟩

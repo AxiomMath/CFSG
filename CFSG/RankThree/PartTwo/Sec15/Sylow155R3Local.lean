@@ -78,8 +78,8 @@ theorem sectionFourHyp_of_isQuasisimple (h : Res3Ctx A c L d K)
 
 theorem localRank_lt (h : Res3Ctx A c L d K) (h41 : CFSG.RankThree.PartTwo.Sec4.Item4_1LargeAll) :
     ∀ X : Subgroup (Res3Bar d), CFSG.layer ↥X = ⊤ →
-      ∀ p : ℕ, p.Prime → 3 < p → localRank p ↥X < 3 :=
-  fun X hX p hp hp3 =>
+      ∀ _p : ℕ, _p.Prime → 3 < _p → localRank _p ↥X < 3 :=
+  fun X hX _p hp hp3 =>
     localRank_lt_of_layer_eq_top_pPrimeCoreQuot h41 h.sectionFourHyp_C X hX hp hp3
 
 end Res3Ctx

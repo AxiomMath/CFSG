@@ -57,6 +57,7 @@ theorem uc22p22qn_infty_le {X E : Subgroup G} [hn : (E.subgroupOf X).Normal]
       rintro _ ⟨y, hy, rfl⟩
       exact hy
 
+omit [Finite G] in
 theorem uc22p22qn_le_infty {X E : Subgroup G} (hEX : E ≤ X) (hperf : ⁅E, E⁆ = E) : E ≤ UC6.inftyOf X := by
   have hcomm : ⁅E.subgroupOf X, E.subgroupOf X⁆ = E.subgroupOf X := by
     apply Subgroup.map_injective X.subtype_injective
@@ -126,7 +127,7 @@ theorem uc22p22qn_quot_solvable {p : ℕ} [Fact p.Prime] {X E S : Subgroup G} (h
     have h2 : QuotientGroup.mk' (E.subgroupOf X) (⟨e, heX⟩ : ↥X) = 1 :=
       (QuotientGroup.eq_one_iff (N := E.subgroupOf X) _).2 he
     rw [h2, inv_one, one_mul]
-  haveI := hsolv
+  have := hsolv
   exact Group.isSolvable_of_surjective hρ
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

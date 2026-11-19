@@ -24,7 +24,7 @@ theorem exists_kleinFour_layer_of_suz
   obtain ⟨hbig, hLie⟩ := hbody
   obtain ⟨hEcard, hsq, hCecard, hCE, hHE, hH0CE, hCEderiv, hHderiv, hHcard,
     -, -, -, -⟩ := hbig
-  haveI : Finite ↥E₀ := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite ↥E₀ := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hE₀ : IsKleinFour ↥E₀ := by
     refine IsKleinFour.mk hEcard ?_
     have hdvd : Monoid.exponent ↥E₀ ∣ 2 :=
@@ -41,10 +41,10 @@ theorem exists_kleinFour_layer_of_suz
     intro hbot
     rw [hbot, Subgroup.card_bot] at hHcard
     omega
-  haveI hSimple : IsSimpleGroup ↥H₀ :=
+  have hSimple : IsSimpleGroup ↥H₀ :=
     CFSG.GH74.GLS.Stage2.Signalizer.Odd87.isSimpleGroup_of_lieModel_l34 hLie
-  haveI hPerf : Group.IsPerfect ↥H₀ := Subgroup.isPerfect_iff.mpr hHderiv
-  haveI hNontrivial : Nontrivial ↥H₀ := (Subgroup.nontrivial_iff_ne_bot H₀).mpr hH0ne
+  have hPerf : Group.IsPerfect ↥H₀ := Subgroup.isPerfect_iff.mpr hHderiv
+  have hNontrivial : Nontrivial ↥H₀ := (Subgroup.nontrivial_iff_ne_bot H₀).mpr hH0ne
   have hq : CFSG.IsQuasisimple ↥H₀ := by
     have hnotcomm : ¬ IsMulCommutative ↥H₀ :=
       Group.IsPerfect.not_isMulCommutative (G := ↥H₀)

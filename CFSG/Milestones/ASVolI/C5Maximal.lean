@@ -302,7 +302,7 @@ theorem burnsideC5x_s1_facts {G : Type} [Group G] [Finite G] {H M₀ TH R K₁ :
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
 theorem burnsideC5x_s1_RN {G : Type} [Group G] [Finite G] {H M₀ TH R K₁ : Subgroup G}
     (hset : SetC53 H M₀ TH R K₁) (hs1 : ∀ t ∈ TH, conjByElt t K₁ = K₁) :
-    R ≤ Subgroup.normalizer (K₁ : Set G) := fun r hr =>
+    R ≤ Subgroup.normalizer (K₁ : Set G) := fun _r hr =>
   (burnsideC5x_s1_facts hset hs1).1 (hset.hyp1.R_le hr)
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
@@ -1093,7 +1093,7 @@ theorem burnsideC5x_E_sup_conj :
   have h1 : Estd.map (MulAut.conj (finRotate 5)).toMonoidHom =
       Subgroup.closure ({Equiv.swap 1 2, Equiv.swap 3 4} : Set (Equiv.Perm (Fin 5))) := by
     rw [← closure_swaps, MonoidHom.map_closure, Set.image_insert_eq, Set.image_singleton]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, e1, e2]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, e1, e2]
   rw [h1, ← closure_swaps, ← Subgroup.closure_union, ← burnsideC5x_closure_four]
   congr 1
   ext g
@@ -1220,10 +1220,11 @@ namespace burnsideC5x_A5Cfg
 variable {G : Type} [Group G] [Finite G] {R K : Subgroup G} (C : burnsideC5x_A5Cfg R K)
 
 include C in
+omit [Finite G] C in
 theorem hBR : baum R ≤ R := C1GN.baum_le R
 
 include C in
-theorem hBN : baum R ≤ Subgroup.normalizer (K : Set G) := C.hBR.trans C.RN
+theorem hBN : baum R ≤ Subgroup.normalizer (K : Set G) := CFSG.ASVolI.burnsideC5x_A5Cfg.hBR.trans C.RN
 
 include C in
 theorem hU : IsElemAbelian 2 (blockU K) := AppC.isElemAbelian_blockU C.short
@@ -1245,7 +1246,7 @@ theorem hDQ : baum R ⊓ Subgroup.centralizer (K : Set G) ≤ pCoreOf 2 (K ⊔ b
   C.Q_UD ▸ le_sup_right
 
 include C in
-theorem hRU : R ≤ Subgroup.normalizer (blockU K : Set G) := fun r hr =>
+theorem hRU : R ≤ Subgroup.normalizer (blockU K : Set G) := fun _r hr =>
   C1.mem_normalizer_blockU (C.RN hr)
 
 include C in
@@ -1433,7 +1434,7 @@ theorem comm_UB_eq : ⁅blockU K, baum R⁆ = blockU K ⊓ Subgroup.centralizer 
     exact Subgroup.commutator_mem_commutator hb hu₀
 
 include C in
-theorem hBU : baum R ≤ Subgroup.normalizer (blockU K : Set G) := fun b hb =>
+theorem hBU : baum R ≤ Subgroup.normalizer (blockU K : Set G) := fun _b hb =>
   C1.mem_normalizer_blockU (C.hBN hb)
 
 include C in
@@ -1468,6 +1469,7 @@ theorem inf_C_conj {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
     exact ⟨huU, Subgroup.centralizer_le hVB huC⟩
 
 include C in
+omit [Finite G] C in
 theorem hBQ : baum R ≤ Subgroup.normalizer (pCoreOf 2 (K ⊔ baum R) : Set G) :=
   le_sup_right.trans (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 _)
 
@@ -1508,7 +1510,7 @@ theorem commutator_conj {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
   have hBV : baum R ≤ Subgroup.normalizer ((conjSubgroup (blockU K) x : Subgroup G) : Set G) :=
     C5.le_normalizer_conj hxB C.hBU
   have hVN : conjSubgroup (blockU K) x ≤ Subgroup.normalizer (pCoreOf 2 (K ⊔ baum R) : Set G) :=
-    hVB.trans C.hBQ
+    hVB.trans CFSG.ASVolI.burnsideC5x_A5Cfg.hBQ
   have hle1 : ⁅blockU K, conjSubgroup (blockU K) x⁆ ≤
       blockU K ⊓ Subgroup.centralizer (baum R : Set G) :=
     C.comm_UB_eq ▸ Subgroup.commutator_mono le_rfl hVB
@@ -1589,7 +1591,7 @@ theorem relIndex_inf_conj {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
     rw [C.conj_Q_eq hxB]; exact inf_le_left
   have hBQx : baum R ≤ Subgroup.normalizer
       ((conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x : Subgroup G) : Set G) :=
-    C5.le_normalizer_conj hxB C.hBQ
+    C5.le_normalizer_conj hxB CFSG.ASVolI.burnsideC5x_A5Cfg.hBQ
   have hQN : pCoreOf 2 (K ⊔ baum R) ≤ Subgroup.normalizer
       ((conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x : Subgroup G) : Set G) := C.hQB.trans hBQx
   have hA : (pCoreOf 2 (K ⊔ baum R) ⊓ conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x).relIndex
@@ -1622,7 +1624,7 @@ theorem relIndex_inf_conj {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
   have hUC : blockU K ≤ Subgroup.normalizer
       ((pCoreOf 2 (K ⊔ baum R) ⊓ conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x : Subgroup G) :
         Set G) := fun g hg =>
-    C5.mem_normalizer_inf (C.hBQ (C.hUB hg)) (hBQx (C.hUB hg))
+    C5.mem_normalizer_inf (CFSG.ASVolI.burnsideC5x_A5Cfg.hBQ (C.hUB hg)) (hBQx (C.hUB hg))
   have hb : (pCoreOf 2 (K ⊔ baum R) ⊓ conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x).relIndex
       (blockU K ⊔ (pCoreOf 2 (K ⊔ baum R) ⊓ conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x)) = 4 := by
     rw [C5.relIndex_sup_eq_of_le_normalizer hUC,
@@ -1657,7 +1659,7 @@ theorem im_conjSubgroup {A : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : Se
     have hya : k * y * k⁻¹ ∈ A := mem_conjSubgroup_iff.1 hy
     refine ⟨C.P.pf (k * y * k⁻¹), (C.P.mem_im_pf hA).2 ⟨_, hya, rfl⟩, ?_⟩
     rw [C.P.pf_mul (mul_mem hk hyN) (inv_mem hk), C.P.pf_mul hk hyN, C.P.pf_inv hk]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   · rintro ⟨τ, hτ, rfl⟩
     obtain ⟨a, ha, rfl⟩ := (C.P.mem_im_pf hA).1 hτ
     have haN := hA ha
@@ -1667,7 +1669,7 @@ theorem im_conjSubgroup {A : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : Se
       rw [this]; exact ha
     refine (C.P.mem_im_pf hAk).2 ⟨k⁻¹ * a * k, hyk, ?_⟩
     rw [C.P.pf_mul (mul_mem (inv_mem hk) haN) hk, C.P.pf_mul (inv_mem hk) haN, C.P.pf_inv hk]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
 
 include C in
 theorem exists_k {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
@@ -1707,7 +1709,7 @@ theorem exists_k {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
     refine sup_le (hVB.trans le_sup_right) ?_
     have := C5.conjSubgroup_mono (hVB.trans (le_sup_right : baum R ≤ K ⊔ baum R)) k
     rwa [hKBk] at this
-  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le C.hBR
+  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR
   have hXN : K ⊔ baum R ≤ Subgroup.normalizer (K : Set G) :=
     sup_le Subgroup.le_normalizer C.hBN
   have hXeq : (K ⊔ baum R) ⊓ Subgroup.centralizer (blockU K : Set G) = pCoreOf 2 (K ⊔ baum R) :=
@@ -1772,7 +1774,7 @@ theorem part123 {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
       rw [C.Q_eq]
       exact ⟨hy, Subgroup.centralizer_le hUK hc⟩
   have hVN : conjSubgroup (blockU K) x ≤ Subgroup.normalizer
-      (pCoreOf 2 (K ⊔ baum R) : Set G) := hVB.trans C.hBQ
+      (pCoreOf 2 (K ⊔ baum R) : Set G) := hVB.trans CFSG.ASVolI.burnsideC5x_A5Cfg.hBQ
   have e1 := C.sup_Q_conj hxR hne
   obtain ⟨hc1, hc2⟩ := C.commutator_conj hxR hne
   have hc3 := C.inf_C_conj hxR hne
@@ -1789,7 +1791,7 @@ theorem part123 {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
     exact this
   · have hQN : pCoreOf 2 (K ⊔ baum R) ≤ Subgroup.normalizer
         ((conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x : Subgroup G) : Set G) :=
-      C.hQB.trans (C5.le_normalizer_conj hxB C.hBQ)
+      C.hQB.trans (C5.le_normalizer_conj hxB CFSG.ASVolI.burnsideC5x_A5Cfg.hBQ)
     have := Subgroup.coe_mul_of_left_le_normalizer_right (pCoreOf 2 (K ⊔ baum R))
       (conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x) hQN
     have hsup : pCoreOf 2 (K ⊔ baum R) ⊔ conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x = baum R := by
@@ -1811,7 +1813,7 @@ theorem part4 {x : G} (hxR : x ∈ Subgroup.normalizer (R : Set G))
   have hxB : x ∈ Subgroup.normalizer (baum R : Set G) := normalizer_le_normalizer_baum R hxR
   have hVB := C.conj_le_B hxR
   obtain ⟨⟨hP1a, -⟩, -⟩ := C.part123 hxR hne
-  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le C.hBR
+  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR
   have hUK : blockU K ≤ K := (C1.blockU_le_blockQ C.short).trans (C1.blockQ_le K)
   have hQxB : conjSubgroup (pCoreOf 2 (K ⊔ baum R)) x ≤ baum R := by
     rw [C.conj_Q_eq hxB]; exact inf_le_left
@@ -1961,7 +1963,7 @@ theorem exists_r (hsyl : IsSylowTwoOf (R ⊓ K) K) : ∃ r ∈ R ⊓ K, C.P.pf r
       have h3 : 3 ≤ n := by omega
       have h8 : 8 ∣ 60 := by
         have : 2 ^ 3 ∣ 2 ^ n * (T.map C.P.α).index := Dvd.dvd.mul_right (pow_dvd_pow 2 h3) _
-        rw [h60] at this; simpa using this
+        rw [h60] at this; simp at this
       omega
   have hcard4 : Nat.card ↥(T.map C.P.α) = 4 := by rw [hn, hn2]; norm_num
   set F : Finset (Equiv.Perm (Fin 5)) := Eset.filter fun σ => Equiv.Perm.sign σ = 1 with hF
@@ -2022,7 +2024,7 @@ theorem SC {P : Subgroup G} (hCRU : R ⊓ Subgroup.centralizer (blockU K : Set G
   have hbN := C.hBN hb
   have hrb : r * b⁻¹ ∈ P := by
     have hmem : r * b⁻¹ ∈ R ⊓ Subgroup.centralizer (blockU K : Set G) := by
-      refine ⟨R.mul_mem hr (R.inv_mem (C.hBR hb)), ?_⟩
+      refine ⟨R.mul_mem hr (R.inv_mem (CFSG.ASVolI.burnsideC5x_A5Cfg.hBR hb)), ?_⟩
       have hN : r * b⁻¹ ∈ Subgroup.normalizer (K : Set G) := mul_mem hrN (inv_mem hbN)
       have hp1 : C.P.pf (r * b⁻¹) = 1 := by
         rw [C.P.pf_mul hrN (inv_mem hbN), C.P.pf_inv hbN, hbr, mul_inv_cancel]
@@ -2037,7 +2039,7 @@ theorem SC {P : Subgroup G} (hCRU : R ⊓ Subgroup.centralizer (blockU K : Set G
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hrb) (Subgroup.mem_sup_left hb)
 
 include C in
-theorem hRQ : R ≤ Subgroup.normalizer (pCoreOf 2 (K ⊔ baum R) : Set G) := fun r hr =>
+theorem hRQ : R ≤ Subgroup.normalizer (pCoreOf 2 (K ⊔ baum R) : Set G) := fun _r hr =>
   CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (K ⊔ baum R)
     (C1.mem_normalizer_sup (C.RN hr) (normalizer_le_normalizer_baum R (Subgroup.le_normalizer hr)))
 
@@ -2409,18 +2411,28 @@ theorem eq_one_or_of_mem_zpowers {v x : G} (hv : v ^ 2 = 1) (hx : x ∈ Subgroup
   · right; rw [h]; simp
 
 include m in
+omit m in
+include C in
+variable (C) in
 theorem V_comm {a b : G} (ha : a ∈ conjSubgroup (blockU K) x) (hb : b ∈ conjSubgroup (blockU K) x) :
     a * b = b * a := ((C1.elemAb2_blockU C.short).conjSubgroup x).1 a ha b hb
 
 include m in
+omit m in
+include C in
+variable (C) in
 theorem V_sq {a : G} (ha : a ∈ conjSubgroup (blockU K) x) : a ^ 2 = 1 :=
   ((C1.elemAb2_blockU C.short).conjSubgroup x).2 a ha
 
 include m in
+omit m in
+include C in
+variable (C) in
 theorem V_elem : IsElemAbelian 2 (conjSubgroup (blockU K) x) :=
   C5.isElemAbelian_two_iff.mpr ((C1.elemAb2_blockU C.short).conjSubgroup x)
 
 include m in
+omit m in
 theorem pf_ne_one {v : G} (hπ : C.P.pf v = Equiv.swap 0 1) : v ≠ 1 := by
   intro h
   rw [h, C.P.pf_eq (one_mem _)] at hπ
@@ -2468,7 +2480,7 @@ theorem Yv_isMax {v : G} (hv : v ∈ conjSubgroup (blockU K) x)
       (Yv K R v ⊓ pCoreOf 2 (K ⊔ baum R)).relIndex (Yv K R v) = 2 := by
   have hvS : v ∈ baum R := C.conj_le_B m.hxR hv
   have hvN : v ∈ Subgroup.normalizer (K : Set G) := C.hBN hvS
-  have hv2 : v ^ 2 = 1 := m.V_sq hv
+  have hv2 : v ^ 2 = 1 := (CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_sq C) hv
   obtain ⟨hXe, hXc⟩ := m.X'_spec hv hπ
   set X' := (blockU K ⊓ Subgroup.centralizer ({v} : Set G)) ⊔
     (baum R ⊓ Subgroup.centralizer (K : Set G)) with hX'
@@ -2486,7 +2498,7 @@ theorem Yv_isMax {v : G} (hv : v ∈ conjSubgroup (blockU K) x)
   have hcomm2 : ∀ a ∈ X', ∀ b ∈ Subgroup.zpowers v, a * b = b * a := fun a ha b hb =>
     Subgroup.mem_centralizer_iff.1 (hzp hb) a ha
   have hzpe : IsElemAbelian 2 (Subgroup.zpowers v) :=
-    B2F.isElemAbelian_mono (Subgroup.zpowers_le.2 hv) m.V_elem
+    B2F.isElemAbelian_mono (Subgroup.zpowers_le.2 hv) (CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_elem C)
   have hYe : IsElemAbelian 2 (Yv K R v) :=
     B2F.isElemAbelian_sup_of_commute hXe hzpe hcomm2
   have hinf : X' ⊓ Subgroup.zpowers v = ⊥ := by
@@ -2500,7 +2512,7 @@ theorem Yv_isMax {v : G} (hv : v ∈ conjSubgroup (blockU K) x)
       exact absurd this (by decide)
   have hcardz : Nat.card ↥(Subgroup.zpowers v) = 2 := by
     rw [Nat.card_zpowers]
-    exact orderOf_eq_prime hv2 (m.pf_ne_one hπ)
+    exact orderOf_eq_prime hv2 (CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.pf_ne_one hπ)
   have hY := B2F.card_sup_mul_card_inf_of_commute hcomm2
   rw [hinf, Subgroup.card_bot, mul_one, hcardz, hXc] at hY
   have hYcard : Nat.card ↥(Yv K R v) = 16 * Nat.card ↥(baum R ⊓ Subgroup.centralizer (K : Set G)) := by
@@ -2595,7 +2607,7 @@ theorem Yv_le {A : Subgroup G} (hA : IsMaxElemAbelian (baum R) A)
       simpa [mul_assoc] using this
     have hpv'1 : C.P.pf v' = Equiv.swap 0 1 := by rw [hpv', hpa]
     have hcom : v' * u' = u' * v' :=
-      comm_of_sq (hA.2.1.2 _ hvu) (m.V_sq hv') (C.hU.2 u' hu')
+      comm_of_sq (hA.2.1.2 _ hvu) ((CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_sq C) hv') (C.hU.2 u' hu')
     have hu'A : u' ∈ A := m.fix_mem hA hty hv' hpv'1 hu' hcom
     have hv'A : v' ∈ A := by
       have := mul_mem hvu (inv_mem hu'A)
@@ -2649,7 +2661,7 @@ theorem eq_VD_of_type_E {A : Subgroup G} (hA : IsMaxElemAbelian (baum R) A)
   have hfixu : ∀ v ∈ conjSubgroup (blockU K) x, ∀ u ∈ blockU K, v * u ∈ A →
       vact (C.P.pf v) (C.P.bf u) = C.P.bf u := by
     intro v hv u hu hvu
-    have hcom := comm_of_sq (hA.2.1.2 _ hvu) (m.V_sq hv) (C.hU.2 u hu)
+    have hcom := comm_of_sq (hA.2.1.2 _ hvu) ((CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_sq C) hv) (C.hU.2 u hu)
     exact (C.P.comm_iff (hVN hv) hu).1 hcom
   obtain ⟨v₁, hv₁, u₁, hu₁, h₁A, hp₁⟩ := hex (Equiv.swap 0 1) AppC.t1_mem_Eset
   obtain ⟨v₂, hv₂, u₂, hu₂, h₂A, hp₂⟩ := hex (Equiv.swap 2 3) AppC.t2_mem_Eset
@@ -2659,7 +2671,7 @@ theorem eq_VD_of_type_E {A : Subgroup G} (hA : IsMaxElemAbelian (baum R) A)
   rw [hp₂] at hf₂
   have hcomm12 : (v₁ * u₁) * (v₂ * u₂) = (v₂ * u₂) * (v₁ * u₁) :=
     B2F.isElemAbelian_comm hA.2.1 h₁A h₂A
-  have hrel := (C.P.comm_vu (hVN hv₁) (hVN hv₂) hu₁ hu₂ (m.V_comm hv₁ hv₂)).1 hcomm12
+  have hrel := (C.P.comm_vu (hVN hv₁) (hVN hv₂) hu₁ hu₂ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_comm C) hv₁ hv₂)).1 hcomm12
   rw [hp₁, hp₂, Equiv.swap_inv, Equiv.swap_inv] at hrel
   have hrel' : pact (Equiv.swap 2 3) (C.P.bf u₁).1 + (C.P.bf u₂).1 =
       pact (Equiv.swap 0 1) (C.P.bf u₂).1 + (C.P.bf u₁).1 := congrArg Subtype.val hrel
@@ -2681,14 +2693,14 @@ theorem eq_VD_of_type_E {A : Subgroup G} (hA : IsMaxElemAbelian (baum R) A)
     have hfix1 : vact (Equiv.swap 0 1) (C.P.bf u) = C.P.bf u := by
       have hcom : (v * u) * (v₁ * u₁) = (v₁ * u₁) * (v * u) :=
         B2F.isElemAbelian_comm hA.2.1 hvu h₁A
-      have h := (C.P.comm_vu (hVN hv) (hVN hv₁) hu hu₁ (m.V_comm hv hv₁)).1 hcom
+      have h := (C.P.comm_vu (hVN hv) (hVN hv₁) hu hu₁ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_comm C) hv hv₁)).1 hcom
       rw [hp₁, Equiv.swap_inv, hF1' _ hinvE] at h
       rw [add_comm (C.P.bf u₁) (C.P.bf u)] at h
       exact add_right_cancel h
     have hfix2 : vact (Equiv.swap 2 3) (C.P.bf u) = C.P.bf u := by
       have hcom : (v * u) * (v₂ * u₂) = (v₂ * u₂) * (v * u) :=
         B2F.isElemAbelian_comm hA.2.1 hvu h₂A
-      have h := (C.P.comm_vu (hVN hv) (hVN hv₂) hu hu₂ (m.V_comm hv hv₂)).1 hcom
+      have h := (C.P.comm_vu (hVN hv) (hVN hv₂) hu hu₂ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_comm C) hv hv₂)).1 hcom
       rw [hp₂, Equiv.swap_inv, hF2' _ hinvE] at h
       rw [add_comm (C.P.bf u₂) (C.P.bf u)] at h
       exact add_right_cancel h
@@ -2712,6 +2724,7 @@ theorem eq_VD_of_type_E {A : Subgroup G} (hA : IsMaxElemAbelian (baum R) A)
   rw [m.card_VD, ← C.card_Q, ← m.card_eq_Q hA]
 
 include m in
+omit m in
 theorem pf_r {r : G} (hrR : r ∈ R) (hrK : r ∈ K) (hrE : C.P.pf r ∉ Eset) :
     (C.P.pf r)⁻¹ * Equiv.swap 0 1 * C.P.pf r = Equiv.swap 2 3 ∧
       (C.P.pf r)⁻¹ * Equiv.swap 2 3 * C.P.pf r = Equiv.swap 0 1 := by
@@ -2734,7 +2747,7 @@ theorem eq_conj_Yv_of_type_t2 {r : G} (hrR : r ∈ R) (hrK : r ∈ K) (hrE : C.P
     (hty : ∀ g, g ∈ C.P.im A ↔ g = 1 ∨ g = Equiv.swap 2 3) {v : G}
     (hv : v ∈ conjSubgroup (blockU K) x) (hπ : C.P.pf v = Equiv.swap 0 1) :
     A = conjSubgroup (Yv K R v) r := by
-  obtain ⟨hσ1, hσ2⟩ := m.pf_r hrR hrK hrE
+  obtain ⟨hσ1, hσ2⟩ := CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.pf_r hrR hrK hrE
   have hrN : r ∈ Subgroup.normalizer (K : Set G) := C.RN hrR
   have hrNB : r⁻¹ ∈ Subgroup.normalizer (baum R : Set G) :=
     inv_mem (normalizer_le_normalizer_baum R (Subgroup.le_normalizer hrR))
@@ -2784,7 +2797,7 @@ include m in
 theorem S1Str_a5 (hsyl : IsSylowTwoOf (R ⊓ K) K) : burnsideC5x_S1Str R K x := by
   have hAB_le : ∀ A, IsMaxElemAbelian R A → A ≤ baum R := fun A hA =>
     (le_iSup₂_of_le A hA le_rfl : A ≤ thompsonJ R).trans (C5.thompsonJ_le_baum' R)
-  have hFam : AFam (baum R) = AFam R := burnsideC5x_AFam_eq C.hBR hAB_le
+  have hFam : AFam (baum R) = AFam R := burnsideC5x_AFam_eq CFSG.ASVolI.burnsideC5x_A5Cfg.hBR hAB_le
   have hRB : ∀ A, IsMaxElemAbelian R A ↔ IsMaxElemAbelian (baum R) A := fun A => by
     have := Set.ext_iff.mp hFam A
     exact this.symm
@@ -2855,7 +2868,7 @@ theorem S1Str_a5 (hsyl : IsSylowTwoOf (R ⊓ K) K) : burnsideC5x_S1Str R K x := 
       normalizer_le_normalizer_baum R (Subgroup.le_normalizer hrRK.1)
     refine ⟨Yv K R v, r, hrRK, hrB, (m.Yv_isMax hv hvπ).2, ?_⟩
     ext A
-    simp only [AFam, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [AFam, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hA
       have hAB := (hRB A).1 hA
@@ -2885,7 +2898,7 @@ theorem pCore_le_blockU : pCoreOf 2 K ≤ blockU K := by
   have ht₀B : t₀ ∈ baum R := C.conj_le_B m.hxR ht₀V
   have ht₀N : t₀ ∈ Subgroup.normalizer (K : Set G) := C.hBN ht₀B
   have ht₀2 : t₀ * t₀ = 1 := by
-    have := m.V_sq ht₀V
+    have := (CFSG.ASVolI.burnsideC5x_A5Cfg.Mate.V_sq C) ht₀V
     rwa [pow_two] at this
   obtain ⟨ℓ₀, hℓ₀⟩ := C.P.hα ⟨AppC.zA, Equiv.Perm.mem_alternatingGroup.2 AppC.zA_sign⟩
   have hℓ₀N : (ℓ₀ : G) ∈ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer ℓ₀.2
@@ -2903,7 +2916,7 @@ theorem pCore_le_blockU : pCoreOf 2 K ≤ blockU K := by
     calc ((ℓ₀ : G)⁻¹ * t₀) * u = (((ℓ₀ : G)⁻¹ * t₀) * u * ((ℓ₀ : G)⁻¹ * t₀)⁻¹) *
           ((ℓ₀ : G)⁻¹ * t₀) := by group
       _ = u * ((ℓ₀ : G)⁻¹ * t₀) := by rw [h2]
-  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le C.hBR
+  have hB2 : IsPGroup 2 (baum R) := C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR
   have hXN : K ⊔ baum R ≤ Subgroup.normalizer (K : Set G) := sup_le Subgroup.le_normalizer C.hBN
   have hXeq : (K ⊔ baum R) ⊓ Subgroup.centralizer (blockU K : Set G) = pCoreOf 2 (K ⊔ baum R) :=
     C1.inf_centralizer_blockU_eq C.short le_sup_left hXN
@@ -2981,10 +2994,16 @@ namespace Good
 variable {C : burnsideC5x_A5Cfg R K} {x : G} (m : Good C x)
 
 include m in
+omit m in
+include C in
+variable (C) in
 theorem V_sq {a : G} (ha : a ∈ conjSubgroup (blockU K) x) : a ^ 2 = 1 :=
   ((C1.elemAb2_blockU C.short).conjSubgroup x).2 a ha
 
 include m in
+omit m in
+include C in
+variable (C) in
 theorem V_comm {a b : G} (ha : a ∈ conjSubgroup (blockU K) x)
     (hb : b ∈ conjSubgroup (blockU K) x) : a * b = b * a :=
   ((C1.elemAb2_blockU C.short).conjSubgroup x).1 a ha b hb
@@ -2999,7 +3018,7 @@ theorem VU_sq {v u : G} (hv : v ∈ conjSubgroup (blockU K) x) (hu : u ∈ block
     (v * u) ^ 2 ∈ blockU K := by
   have hvN : v ∈ Subgroup.normalizer (K : Set G) := C.hBN (C.conj_le_B m.hxR hv)
   have hm : v * u * v⁻¹ ∈ blockU K := AppC.PiData.conj_mem_U hvN hu
-  have hv2 : v * v = 1 := by rw [← pow_two]; exact m.V_sq hv
+  have hv2 : v * v = 1 := by rw [← pow_two]; exact (CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_sq C) hv
   have : (v * u) ^ 2 = (v * u * v⁻¹) * u := by
     calc (v * u) ^ 2 = v * u * (v * u) := by rw [pow_two]
       _ = (v * u * v⁻¹) * (v * v) * u := by group
@@ -3020,7 +3039,7 @@ theorem comm_VU_mem_U {v u v' u' : G} (hv : v ∈ conjSubgroup (blockU K) x) (hu
   have hu₄ : (v⁻¹ * u' * v) * u ∈ blockU K := by
     have := AppC.PiData.conj_mem_U (inv_mem hvN) hu'
     simpa using mul_mem this hu
-  have hcomm : v * v' = v' * v := m.V_comm hv hv'
+  have hcomm : v * v' = v' * v := (CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_comm C) hv hv'
   have h3 : (v * u) * (v' * u') = (v * v') * ((v'⁻¹ * u * v') * u') := by group
   have h4 : (v' * u') * (v * u) = (v * v') * ((v⁻¹ * u' * v) * u) := by
     calc (v' * u') * (v * u) = (v' * v) * ((v⁻¹ * u' * v) * u) := by group
@@ -3060,7 +3079,7 @@ theorem le_VD_of_comm {A : Subgroup G} (hAB : A ≤ baum R)
   have hfixu : ∀ v ∈ conjSubgroup (blockU K) x, ∀ u ∈ blockU K, v * u ∈ A →
       vact (C.P.pf v) (C.P.bf u) = C.P.bf u := by
     intro v hv u hu hvu
-    have hcom := Mate.comm_of_sq (hsq v hv u hu hvu) (m.V_sq hv) (C.hU.2 u hu)
+    have hcom := Mate.comm_of_sq (hsq v hv u hu hvu) ((CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_sq C) hv) (C.hU.2 u hu)
     exact (C.P.comm_iff (hVN hv) hu).1 hcom
   obtain ⟨v₁, hv₁, u₁, hu₁, h₁A, hp₁⟩ := hex (Equiv.swap 0 1) AppC.t1_mem_Eset
   obtain ⟨v₂, hv₂, u₂, hu₂, h₂A, hp₂⟩ := hex (Equiv.swap 2 3) AppC.t2_mem_Eset
@@ -3070,7 +3089,7 @@ theorem le_VD_of_comm {A : Subgroup G} (hAB : A ≤ baum R)
   rw [hp₂] at hf₂
   have hcomm12 : (v₁ * u₁) * (v₂ * u₂) = (v₂ * u₂) * (v₁ * u₁) :=
     hcm v₁ hv₁ u₁ hu₁ h₁A v₂ hv₂ u₂ hu₂ h₂A
-  have hrel := (C.P.comm_vu (hVN hv₁) (hVN hv₂) hu₁ hu₂ (m.V_comm hv₁ hv₂)).1 hcomm12
+  have hrel := (C.P.comm_vu (hVN hv₁) (hVN hv₂) hu₁ hu₂ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_comm C) hv₁ hv₂)).1 hcomm12
   rw [hp₁, hp₂, Equiv.swap_inv, Equiv.swap_inv] at hrel
   have hrel' : pact (Equiv.swap 2 3) (C.P.bf u₁).1 + (C.P.bf u₂).1 =
       pact (Equiv.swap 0 1) (C.P.bf u₂).1 + (C.P.bf u₁).1 := congrArg Subtype.val hrel
@@ -3091,14 +3110,14 @@ theorem le_VD_of_comm {A : Subgroup G} (hAB : A ≤ baum R)
   have hfix1 : vact (Equiv.swap 0 1) (C.P.bf u) = C.P.bf u := by
     have hcom : (v * u) * (v₁ * u₁) = (v₁ * u₁) * (v * u) :=
       hcm v hv u hu hvu v₁ hv₁ u₁ hu₁ h₁A
-    have h := (C.P.comm_vu (hVN hv) (hVN hv₁) hu hu₁ (m.V_comm hv hv₁)).1 hcom
+    have h := (C.P.comm_vu (hVN hv) (hVN hv₁) hu hu₁ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_comm C) hv hv₁)).1 hcom
     rw [hp₁, Equiv.swap_inv, hF1' _ hinvE] at h
     rw [add_comm (C.P.bf u₁) (C.P.bf u)] at h
     exact add_right_cancel h
   have hfix2 : vact (Equiv.swap 2 3) (C.P.bf u) = C.P.bf u := by
     have hcom : (v * u) * (v₂ * u₂) = (v₂ * u₂) * (v * u) :=
       hcm v hv u hu hvu v₂ hv₂ u₂ hu₂ h₂A
-    have h := (C.P.comm_vu (hVN hv) (hVN hv₂) hu hu₂ (m.V_comm hv hv₂)).1 hcom
+    have h := (C.P.comm_vu (hVN hv) (hVN hv₂) hu hu₂ ((CFSG.ASVolI.burnsideC5x_A5Cfg.Good.V_comm C) hv hv₂)).1 hcom
     rw [hp₂, Equiv.swap_inv, hF2' _ hinvE] at h
     rw [add_comm (C.P.bf u₂) (C.P.bf u)] at h
     exact add_right_cancel h
@@ -3236,7 +3255,7 @@ theorem P_le_sup_inf_conj {P : Subgroup G} (hPR : P ≤ R)
     P ≤ blockU K ⊔ (P ⊓ conjSubgroup P x) := by
   intro p hp
   have hpR : p ∈ R := hPR hp
-  have hBR : baum R ≤ R := C.hBR
+  have hBR : baum R ≤ R := CFSG.ASVolI.burnsideC5x_A5Cfg.hBR
   have hRUx := C5.le_normalizer_conj m.hxR C.hRU
   have hRPx := C5.le_normalizer_conj m.hxR hRP
   have hUxPx : conjSubgroup (blockU K) x ≤ conjSubgroup P x := C5.conjSubgroup_mono hUP x
@@ -3334,7 +3353,7 @@ theorem burnsideC5x_a5_gamma (h116 : C_1_16) {G : Type} [Group G] [Finite G]
   have hxR : x ∈ Subgroup.normalizer (R : Set G) := hset.hyp1.R_norm hx.1
   have m : burnsideC5x_A5Cfg.Good C x := ⟨hxR, hx.2.2⟩
   have hD2 : IsPGroup 2 ↥(baum R ⊓ Subgroup.centralizer (K₁ : Set G)) :=
-    (C.R2.to_le C.hBR).to_le inf_le_left
+    (C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR).to_le inf_le_left
   have hYQ := burnsideC5x_YCls_of_UD C.Q_UD (fun q hq u hu => C.Q_comm_U hq hu)
     (C1.blockU_sq C.short) (fun u hu d hd => C.U_comm_D hu hd) hD2
   exact m.gamma_Y (Subgroup.map_subtype_le _) hYQ hy hyY
@@ -3389,7 +3408,7 @@ theorem burnsideC5x_a5_S1Str (h116 : C_1_16) {G : Type} [Group G] [Finite G]
     burnsideC5x_S1Str R K₁ x := by
   obtain ⟨C⟩ := burnsideC5x_a5cfg h116 hset hRN h5
   have hD2 : C5.ElemAb2 (baum R ⊓ Subgroup.centralizer (K₁ : Set G)) :=
-    burnsideC5x_elemAb_of_frattini ((C.R2.to_le C.hBR).to_le inf_le_left) hfr
+    burnsideC5x_elemAb_of_frattini ((C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR).to_le inf_le_left) hfr
   have hsyl : IsSylowTwoOf (R ⊓ K₁) K₁ := by
     have := burnsideC5h_p1_isSylow_inf hset (TH.one_mem)
     rwa [burnsideC5h_c54_conjByElt_one] at this
@@ -3556,9 +3575,9 @@ theorem burnsideC5x_s1_noCommon {G : Type} [Group G] [Finite G] {H M₀ TH R K�
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
 theorem burnsideC5x_s1_TH_normalizes_D {G : Type} [Group G] [Finite G]
     {H M₀ TH R K₁ : Subgroup G} (hset : SetC53 H M₀ TH R K₁)
-    (hs1 : ∀ t ∈ TH, conjByElt t K₁ = K₁) :
+    (hs1 : ∀ _t ∈ TH, conjByElt _t K₁ = K₁) :
     TH ≤ Subgroup.normalizer ((baum R ⊓ Subgroup.centralizer (K₁ : Set G) : Subgroup G) : Set G) :=
-  fun t ht => C5.mem_normalizer_inf
+  fun _t ht => C5.mem_normalizer_inf
     (normalizer_le_normalizer_baum R (hset.hyp1.R_norm (hset.hyp1.TH_le ht)))
     (C5.mem_normalizer_centralizer ((burnsideC5x_s1_facts hset hs1).1 ht))
 
@@ -4149,7 +4168,7 @@ theorem burnsideC5x_s1_key (h116 : C_1_16) {G : Type} [Group G] [Finite G]
   · obtain ⟨C⟩ := burnsideC5x_a5cfg h116 hset (burnsideC5x_s1_RN hset hs1) h5
     have hxR : x ∈ Subgroup.normalizer (R : Set G) := hset.hyp1.R_norm hx.1
     have hD2 : C5.ElemAb2 (baum R ⊓ Subgroup.centralizer (K₁ : Set G)) :=
-      burnsideC5x_elemAb_of_frattini ((C.R2.to_le C.hBR).to_le inf_le_left) hfr
+      burnsideC5x_elemAb_of_frattini ((C.R2.to_le CFSG.ASVolI.burnsideC5x_A5Cfg.hBR).to_le inf_le_left) hfr
     have m : burnsideC5x_A5Cfg.Mate C x := ⟨⟨hxR, hx.2.2⟩, hD2⟩
     exact ⟨burnsideC5x_a5_S1Str h116 hset (burnsideC5x_s1_RN hset hs1) hx h5 hfr,
       (burnsideC5x_a5_P h116 hset hs1 hidx hx h5 hfr).1, m.pCore_le_blockU, C.hQB⟩
@@ -4157,7 +4176,7 @@ theorem burnsideC5x_s1_key (h116 : C_1_16) {G : Type} [Group G] [Finite G]
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
 open scoped Pointwise in
 @[expose] def burnsideC5x_Concl7 {G : Type} [Group G] [Finite G]
-    (H M₀ TH R K₁ : Subgroup G) (x : G) : Prop :=
+    (H _M₀ TH R K₁ : Subgroup G) (x : G) : Prop :=
   (⨆ Ki ∈ conjSubgroupsBy TH K₁, blockU Ki : Subgroup G) = pCoreOf 2 (oTwoUpper H) ∧
   (frattini ↥(baum R ⊓ Subgroup.centralizer (oTwoUpper H : Set G))).map
       (baum R ⊓ Subgroup.centralizer (oTwoUpper H : Set G)).subtype = ⊥ ∧

@@ -203,6 +203,7 @@ private theorem s15_Three_layer_subgroupOf {A : Type} [Group A] {S H : Subgroup 
     exact le_iSup (fun K : {K : Subgroup ↥S // CFSG.Open.IsComponentOf K (H.subgroupOf S)} =>
       K.1) ⟨L.1.subgroupOf S, hL⟩
 
+omit [Finite G] in
 private theorem s15_Three_barSub_iSup₂ (hV : IsElemAbelian 2 V) (X : G → Subgroup G) (S : Set G)
     (hX : ∀ m ∈ S, X m ≤ stabTil V₀ V) :
     barSub V₀ V hV (⨆ m ∈ S, X m) = ⨆ m ∈ S, barSub V₀ V hV (X m) := by
@@ -267,6 +268,7 @@ theorem s15_Three_xstar_eq (h1217 : R1217 D) (h : Hyp151 D V₀ V L) (hV : IsEle
     exact s15_Three_barSub_iSup₂ h.isElemAbelian (fun m => conjSubgroup K₀ m) D.M hgen1
   exact hstar.trans hbar_X'star
 
+omit [Finite G] in
 private theorem s15_Three_conjSubgroup_le {K M : Subgroup G} (hK : K ≤ M) {m : G} (hm : m ∈ M) :
     conjSubgroup K m ≤ M := by
   intro x hx
@@ -522,7 +524,7 @@ theorem s15_Three_Y119 (hSimple : RSimple153) (h127 : R127 D) (h119 : F11.R119 D
   have hXbarN : ((s15XBar D V₀ V hV K₀).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
     s15_Three_xbar_normal h hV hshape
   let inst₀ : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
-  haveI := inst₀
+  have := inst₀
   set Xbar : Subgroup (MulAut (Vtil V₀ V hV)) := s15XBar D V₀ V hV K₀ with hXbardef
   set X : Subgroup G := preBarSub D.M V₀ V hV Xbar with hXdef
   have hX_le : X ≤ D.M := by rw [hXdef]; exact inf_le_left

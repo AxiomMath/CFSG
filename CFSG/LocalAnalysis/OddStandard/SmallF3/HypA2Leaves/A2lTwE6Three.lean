@@ -46,8 +46,8 @@ theorem a2l_scalar_sq_su_six (hd : UnitaryFieldData 3 1 F) {c : Fˣ}
 theorem a2l_typU_of_statedSU_six (hC : HypA2.ChevOddInChev2) (hF : Nat.card F = 9) {T : Type}
     [Group T] [Finite T] (hq : CFSG.IsQuasisimple T) (e : T ≃* StatedSU 6 3 F) : TypU T := by
   have hd : UnitaryFieldData 3 1 F := a2l_unitaryFieldData_three (by rw [hF]; norm_num)
-  haveI := hd.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hd.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card F = (3 ^ 1) ^ 2 := by rw [hF]; norm_num
   have hnq : ((6 : ℕ), 3 ^ 1) ≠ ((3 : ℕ), 2) := by decide
   have hperf : Group.IsPerfect (StatedSU 6 (3 ^ 1) F) :=
@@ -103,7 +103,7 @@ theorem a2lTwistedE6Three_of_su6 (hC : HypA2.ChevOddInChev2) (h : a2lTwistedE6Th
       rw [← h1, MulEquiv.symm_apply_apply]
     exact congrArg Subtype.val h2
   have hN : HarrisLit.IsSLTwoOver 27 ↥ι.range := by
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     exact ⟨E, inferInstance, inferInstance, by rw [← Nat.card_eq_fintype_card, hEc],
       ⟨(MonoidHom.ofInjective hιinj).symm⟩⟩
   refine ⟨27, T, ι.range, z, ⟨13, by norm_num⟩, by norm_num, hz2, ?_, ?_, hcomp.1, hcomp, hN,

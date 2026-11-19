@@ -86,7 +86,7 @@ private theorem oddCore_eq_bot_of_centralizer_top {X : Type} [Group X] {t : X} {
 private theorem oddCore_eq_bot {X : Type} [Group X] {Y : Subgroup X} [IsSimpleGroup Y]
     {t : X} {O : Subgroup X} (htY : t ∈ Y) (ht : orderOf t = 2)
     (hna : ∃ a c : Y, a * c ≠ c * a) (hO_norm : O.Normal) (hO_odd : Odd (Nat.card O))
-    (hO_inf_Y : O ⊓ Y = ⊥) (h_inv_t : ∀ o ∈ O, t * o * t⁻¹ = o⁻¹) : O = ⊥ := by
+    (_hO_inf_Y : O ⊓ Y = ⊥) (h_inv_t : ∀ o ∈ O, t * o * t⁻¹ = o⁻¹) : O = ⊥ := by
   have ht2 : t * t = 1 := by
     simpa [pow_two] using (orderOf_eq_prime_iff.mp ht).1
   have ht_ne_one : t ≠ 1 := by
@@ -140,7 +140,7 @@ private theorem IsHoltFactor.exists_mem_ne_one_fixed
       obtain ⟨k, hk⟩ := hEven
       have hpos : 0 < Fintype.card (MulAction.stabilizer M δ) := Fintype.card_pos
       omega
-    haveI : Nontrivial (MulAction.stabilizer M δ) :=
+    have : Nontrivial (MulAction.stabilizer M δ) :=
       Fintype.one_lt_card_iff_nontrivial.mp hcard
     obtain ⟨m, hm⟩ := exists_ne (1 : MulAction.stabilizer M δ)
     refine ⟨(m : M), (m : M).2, ?_, ?_⟩
@@ -188,7 +188,7 @@ private theorem core_faithful {X : Type} [Group X] {Y : Subgroup X} [IsSimpleGro
     exact hfix g (by rw [h1]; exact htY)
 
 private theorem oddCore_normal_odd_inf {X : Type} [Group X] [Finite X] {Y : Subgroup X}
-    [IsSimpleGroup Y] {t : X} (htY : t ∈ Y) (ht : orderOf t = 2) (hY : Y ≠ ⊤) :
+    [IsSimpleGroup Y] {t : X} (htY : t ∈ Y) (ht : orderOf t = 2) (_hY : Y ≠ ⊤) :
     (oddCoreOf (⊤ : Subgroup X)).Normal ∧
       Odd (Nat.card (oddCoreOf (⊤ : Subgroup X))) ∧
       oddCoreOf (⊤ : Subgroup X) ⊓ Y = ⊥ := by
@@ -224,7 +224,7 @@ private theorem oddCore_normal_odd_inf {X : Type} [Group X] [Finite X] {Y : Subg
   exact ⟨hO_norm, hO_odd, hO_inf_Y⟩
 
 private theorem involution_inverts_oddCore {X : Type} [Group X] [Finite X] {Y : Subgroup X}
-    [IsSimpleGroup Y] {t : X} (htY : t ∈ Y) (ht : orderOf t = 2)
+    [IsSimpleGroup Y] {t : X} (_htY : t ∈ Y) (ht : orderOf t = 2)
     (hC_t : Subgroup.centralizer ({t} : Set X) ≤ Y)
     (hO_norm : (oddCoreOf (⊤ : Subgroup X)).Normal)
     (hO_inf_Y : oddCoreOf (⊤ : Subgroup X) ⊓ Y = ⊥) :
@@ -298,11 +298,11 @@ private theorem holtData_oddCore_bot (h : HoltTheorem1) {X : Type} [Group X] [Fi
     (hfaith : FaithfulSMul X (X ⧸ Y))
     (hO_bot : oddCoreOf (⊤ : Subgroup X) = ⊥)
     (htriple : IsHoltTriple X (X ⧸ Y) t α) :
-    ∃ D : HoltData X (X ⧸ Y), jOddCore X (X ⧸ Y) = ⊥ := by
+    ∃ _D : HoltData X (X ⧸ Y), jOddCore X (X ⧸ Y) = ⊥ := by
   have hstar : IsStarGroup X (X ⧸ Y) := IsHoltTriple.isStarGroup htriple (by
     have h3 : 3 ≤ Nat.card (X ⧸ Y) := IsHoltTriple.three_le_card htriple
     exact h3)
-  obtain ⟨D⟩ := h X (X ⧸ Y) hstar
+  obtain ⟨_D⟩ := h X (X ⧸ Y) hstar
   have hO_top : oddCoreOf (⊤ : Subgroup X) = CFSG.pPrimeCore 2 X := by
     apply CFSG.Holt.General.OddOrbits.oddCoreOf_eq_pPrimeCore (B := ⊤) (z := t)
     · simpa [pow_two] using ht2
@@ -310,7 +310,7 @@ private theorem holtData_oddCore_bot (h : HoltTheorem1) {X : Type} [Group X] [Fi
   have hpc_bot : CFSG.pPrimeCore 2 X = ⊥ := by
     rw [← hO_top]
     exact hO_bot
-  refine ⟨D, ?_⟩
+  refine ⟨_D, ?_⟩
   exact le_bot_iff.mp ((jOddCore_le_pPrimeCore (G := X) (Ω := X ⧸ Y)).trans hpc_bot.le)
 
 private theorem le_jHull_of_simple {X : Type} [Group X] {Y : Subgroup X} [IsSimpleGroup Y]
@@ -367,7 +367,7 @@ private theorem inf_L_ne_bot {X : Type} [Group X] [Finite X]
 
 private theorem le_L {X : Type} [Group X] {Y : Subgroup X} [IsSimpleGroup Y]
     {Ω : Type} [MulAction X Ω] (D : HoltData X Ω) {α : Ω}
-    (hO : jOddCore X Ω = ⊥) (hstab : MulAction.stabilizer X α = Y)
+    (_hO : jOddCore X Ω = ⊥) (_hstab : MulAction.stabilizer X α = Y)
     (hY_le_H : Y ≤ jHull X Ω) (hne : ∀ i, D.L i ⊓ Y ≠ ⊥) : ∀ i, Y ≤ D.L i := by
   intro i
   have hY_normal : ((D.L i ⊓ Y).subgroupOf Y).Normal := by
@@ -393,13 +393,13 @@ private theorem false_of_alternating {X : Type} [Group X] [Finite X] {Y : Subgro
     (hA : D.M i₀ = alternatingGroup (D.Ψc i₀))
     (halt : ∀ m : ℕ, IsEmpty (Y ≃* alternatingGroup (Fin (2 * m)))) : False := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
+  have : Fintype Ω := Fintype.ofFinite Ω
   have hodd : Odd (Nat.card Ω) := by
     rw [Nat.card_congr (D.coordEquiv hO hι), Nat.card_eq_fintype_card]
     exact D.odd_card_Ψc i₀
   obtain ⟨m, hm⟩ := hodd
-  haveI : IsSimpleGroup (D.L i₀) := HoltData.isSimpleGroup_L (D := D) hO i₀
-  haveI : FaithfulSMul (D.L i₀) Ω := D.faithfulSMul_L hO hι
+  have : IsSimpleGroup (D.L i₀) := HoltData.isSimpleGroup_L (D := D) hO i₀
+  have : FaithfulSMul (D.L i₀) Ω := D.faithfulSMul_L hO hι
   obtain ⟨hm2, e, he⟩ :=
     CFSG.Holt.General.exists_mulEquiv_alternatingGroup_of_le_range
       (D.exists_mul_ne_mul_L hO i₀) hm
@@ -494,9 +494,9 @@ private theorem false_of_bender {X : Type} [Group X] {Y : Subgroup X} [IsSimpleG
     intro y hy
     have hmem : (⟨y, hy⟩ : Y) ∈ S.subgroupOf Y := by rw [hStop]; trivial
     exact Subgroup.mem_subgroupOf.mp hmem
-  have hP : IsPGroup 2 Y := (S.isPGroup').to_le hYleS
-  haveI : IsPGroup 2 Y := hP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hP : IsPGroup 2 Y := (S.isPGroup).to_le hYleS
+  have : IsPGroup 2 Y := hP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcenter_ne : Subgroup.center Y ≠ ⊥ :=
     (IsPGroup.bot_lt_center (p := 2) (G := Y) hP).ne'
   have hcenter_top : Subgroup.center Y = ⊤ := by
@@ -547,7 +547,7 @@ theorem eq_top_of_isSimpleGroup_of_conj_mem (h : HoltTheorem1)
   have hY_le_H : Y ≤ jHull X Ω := le_jHull_of_simple htY ht_ne_one ht_jHull
   have hne : ∀ i, D.L i ⊓ Y ≠ ⊥ := fun i => inf_L_ne_bot D hO_H hstab
   have hYL : ∀ i, Y ≤ D.L i := le_L D hO_H hstab hY_le_H hne
-  haveI : Nontrivial Ω := QuotientGroup.nontrivial_iff.mpr hY
+  have : Nontrivial Ω := QuotientGroup.nontrivial_iff.mpr hY
   obtain ⟨i₀, hι⟩ := D.exists_forall_eq_of_le_L hO_H hY_ne_bot hYL
   rcases D.factor i₀ with ⟨hA, h7⟩ | hM
   · exact false_of_alternating D hO_H hι hstab hYL hA halt

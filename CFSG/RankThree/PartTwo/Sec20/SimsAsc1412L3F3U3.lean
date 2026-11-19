@@ -81,7 +81,7 @@ theorem gen_normalizer_omega1412_U3 {G : Type} [Group G] [Finite G] {L : Subgrou
       ((IsCyclic.isMulCommutative (α := torusGroup J hJ)).is_comm.comm ⟨a, ha⟩ ⟨d, hd⟩)
   have hDT : torusGroup J hJ ≤ (S.comap F).map (MulAut.conj c⁻¹).toMonoidHom := by
     intro d hd
-    refine ⟨c * d * c⁻¹, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
+    refine ⟨c * d * c⁻¹, ?_, by simp [mul_assoc]⟩
     have hcomm : Commute (φ ⟨y, hyL⟩) (c * d * c⁻¹) := by
       have h := hDcomm _ htD d hd
       calc φ ⟨y, hyL⟩ * (c * d * c⁻¹) = c * ((c⁻¹ * φ ⟨y, hyL⟩ * c) * d) * c⁻¹ := by group

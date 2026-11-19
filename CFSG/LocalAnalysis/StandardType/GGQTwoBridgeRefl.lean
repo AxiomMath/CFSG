@@ -24,7 +24,7 @@ theorem ggQ2_reflGp_map {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {x y : G} {D L J K : Subgroup G}
     (M : GGQTwoModel p Bs x y D L J K) (hp2 : p ≠ 2) :
     (ggReflGp p Bs).map (ggLin (p := p) M.model) = reflGp M.linGroup := by
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
   have hST : ggLin (p := p) M.model '' {φ | φ ∈ ggAutomizer ⊤ Bs ∧ GGIsReflection p φ} =
       {t | t ∈ M.linGroup ∧ IsReflLin t} := by
     ext t

@@ -42,11 +42,13 @@ theorem mem_centralizer_of_hyperplane {p : ℕ} (hp : p.Prime) {H B : Subgroup G
   have hcK : c ∈ B ⊓ Subgroup.centralizer ({x} : Set G) := by rw [hK]; exact hc
   exact Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 hcK).2
 
+omit [Finite G] in
 theorem card_center_map_eq_two {R Z : Subgroup G} (hR : timmesfeldIsExtraspecial ↥R)
     (hZ : Z = (Subgroup.center ↥R).map R.subtype) : Nat.card Z = 2 := by
   rw [hZ, Subgroup.card_map_of_injective R.subtype_injective]
   exact hR.2.2.2
 
+omit [Finite G] in
 theorem normalizer_le_centralizer_center {R Z : Subgroup G}
     (hR : timmesfeldIsExtraspecial ↥R) (hZ : Z = (Subgroup.center ↥R).map R.subtype) :
     Subgroup.normalizer (R : Set G) ≤ Subgroup.centralizer (Z : Set G) :=
@@ -66,7 +68,7 @@ theorem le_of_hyperplane_centralizers {p : ℕ} (hp : p.Prime) {B X P : Subgroup
     (hX : Nat.Coprime p (Nat.card X))
     (h : ∀ H : Subgroup G, H ≤ B → Nat.card H * p = Nat.card B →
       X ⊓ Subgroup.centralizer (H : Set G) ≤ P) : X ≤ P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨r, hr⟩ :=
     (CFSG.SignalizerFunctor.Helpers.elementary_abelian_isPGroup p B hB).exists_card_eq
   obtain ⟨s, rfl⟩ : ∃ s, r = s + 1 := by

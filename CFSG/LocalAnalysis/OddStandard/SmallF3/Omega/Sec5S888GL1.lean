@@ -16,8 +16,8 @@ private theorem s888_gl1_isCyclic_sylow_of_le [Finite G] {D C : Subgroup G} (hDC
     ∀ P : Sylow 2 ↥D, IsCyclic (P : Subgroup ↥D) := by
   intro P
   have hinj : Function.Injective (Subgroup.inclusion hDC) := Subgroup.inclusion_injective hDC
-  obtain ⟨Q, hle⟩ := (P.isPGroup'.map (Subgroup.inclusion hDC)).exists_le_sylow
-  haveI : IsCyclic ↥(Q : Subgroup ↥C) := hC Q
+  obtain ⟨Q, hle⟩ := (P.isPGroup.map (Subgroup.inclusion hDC)).exists_le_sylow
+  have : IsCyclic ↥(Q : Subgroup ↥C) := hC Q
   have hcyc' : IsCyclic ↥((P : Subgroup ↥D).map (Subgroup.inclusion hDC)) :=
     Subgroup.isCyclic_of_le hle
   exact isCyclic_of_surjective
@@ -31,7 +31,7 @@ private theorem s888_gl1_isCyclic_sylow_of_surjective {A B : Type*} [Group A] [G
   intro Q
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective (p := 2) hf Q
   rw [← hP, Sylow.coe_mapSurjective]
-  haveI : IsCyclic ↥(P : Subgroup A) := hA P
+  have : IsCyclic ↥(P : Subgroup A) := hA P
   exact isCyclic_of_surjective (f.subgroupMap (P : Subgroup A))
     (f.subgroupMap_surjective (P : Subgroup A))
 
@@ -41,7 +41,7 @@ theorem relIndex_le_two_of_cyclic_sylow [Finite G] {C Y Y₀ Z : Subgroup G} (hY
     (hZ : ∀ u ∈ Z, ∃ y ∈ Y, ∃ c ∈ C, u = y * c) (hab : IsElemAbelianModSub C Z) :
     C.relIndex Z ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup G := Subgroup.normalizer (C : Set G)
   have hCM : C ≤ M := Subgroup.le_normalizer
   have hYM : Y ≤ M := Subgroup.le_normalizer_iff.mpr hCY
@@ -49,12 +49,12 @@ theorem relIndex_le_two_of_cyclic_sylow [Finite G] {C Y Y₀ Z : Subgroup G} (hY
     intro u hu
     obtain ⟨y, hy, c, hc, rfl⟩ := hZ u hu
     exact M.mul_mem (hYM hy) (hCM hc)
-  haveI hCnormal : (C.subgroupOf M).Normal := Subgroup.normal_in_normalizer
+  have hCnormal : (C.subgroupOf M).Normal := Subgroup.normal_in_normalizer
   let π : ↥M →* (↥M ⧸ C.subgroupOf M) := QuotientGroup.mk' (C.subgroupOf M)
   let Zb : Subgroup (↥M ⧸ C.subgroupOf M) := (Z.subgroupOf M).map π
   let Yb : Subgroup (↥M ⧸ C.subgroupOf M) := (Y.subgroupOf M).map π
   have hker : π.ker = C.subgroupOf M := QuotientGroup.ker_mk' _
-  haveI : Finite (↥M ⧸ C.subgroupOf M) :=
+  have : Finite (↥M ⧸ C.subgroupOf M) :=
     ((finite_iff_subgroup_quotient (C.subgroupOf M)).mp inferInstance).2
   have hcard : C.relIndex Z = Nat.card ↥Zb := by
     rw [show Zb = (Z.subgroupOf M).map π from rfl,
@@ -86,7 +86,7 @@ theorem relIndex_le_two_of_cyclic_sylow [Finite G] {C Y Y₀ Z : Subgroup G} (hY
         map_mul' := by
           intro a b
           apply Subtype.ext
-          simp only [Subgroup.coe_mul, map_mul]
+          simp only [Subgroup.coe_mul]
           rfl }
     have hψ : Function.Surjective ψ := by
       intro x

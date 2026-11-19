@@ -166,7 +166,7 @@ private theorem CFSG.section16_isMulCommutative_of_mulEquiv
     (e : R ≃* S)
     (hS : IsMulCommutative S) :
     IsMulCommutative R := by
-  letI : IsMulCommutative S := hS
+  let : IsMulCommutative S := hS
   refine ⟨⟨fun x y => ?_⟩⟩
   apply e.injective
   calc
@@ -183,7 +183,7 @@ private theorem CFSG.section16_hasAbelianSylowRankAtMostTwo_of_mulEquiv
     section16HasAbelianSylowRankAtMostTwo R := by
   classical
   intro p P
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let f : R →* S := e.toMonoidHom
   let Q : Sylow p.val S := P.mapSurjective (f := f) e.surjective
   have hQ := hS p Q
@@ -213,7 +213,7 @@ private theorem CFSG.section16_quotientHasAbelianSylowRankAtMostTwo_of_msigma_co
     rw [section16_msigma_subgroupOf_eq (G := G)]
     infer_instance
   refine ⟨section16_msigma_le (G := G) M, hNorm, ?_⟩
-  letI : ((section10Msigma M).subgroupOf M).Normal := hNorm
+  let : ((section10Msigma M).subgroupOf M).Normal := hNorm
   have hcomp' :
       (E.subgroupOf M).IsComplement' ((section10Msigma M).subgroupOf M) := by
     simpa [section16_msigma_subgroupOf_eq (G := G)] using
@@ -479,7 +479,7 @@ private theorem CFSG.section16_piStar_of_section15_source_setup
     have hMFnoncomm : ¬ IsMulCommutative MF := by
       intro hMFcomm
       have hPcomm : IsMulCommutative (section15PCoreIn p MF) := by
-        letI : IsMulCommutative MF := hMFcomm
+        let : IsMulCommutative MF := hMFcomm
         refine ⟨⟨fun a b => ?_⟩⟩
         apply Subtype.ext
         exact setLike_mul_comm (s := MF)
@@ -808,7 +808,7 @@ private theorem CFSG.section16_elementCentralizerIn_ambientDerived_eq_Kstar_of_c
     exact sup_le hK_norm_Kstar Subgroup.le_normalizer
   have hKstarNormal : (Kstar.subgroupOf Z).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKstar_le_Z).2 hZ_le_norm_Kstar
-  letI : (Kstar.subgroupOf Z).Normal := hKstarNormal
+  let : (Kstar.subgroupOf Z).Normal := hKstarNormal
   have htop0 : K.subgroupOf Z ⊔ Kstar.subgroupOf Z = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hK_le_Z hKstar_le_Z]
     exact Subgroup.subgroupOf_eq_top.mpr (sup_le hK_le_Z hKstar_le_Z)
@@ -1397,10 +1397,10 @@ private theorem CFSG.section16_hall_sylow_map_to_overgroup_sylow
     (P : Sylow p.val K) :
     ∃ PH : Sylow p.val H, (PH : Subgroup H) = (P : Subgroup K).map K.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup H := (P : Subgroup K).map K.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup' K.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup K.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup K).index * K.index := by
@@ -1422,7 +1422,7 @@ private theorem CFSG.section16_hall_ambientSylow_to_overgroup
     ∃ PH : Sylow p.val H,
       section10AmbientSylowSubgroup H PH = section10AmbientSylowSubgroup K P := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Kloc : Subgroup H := K.subgroupOf H
   let e : Kloc ≃* K := Subgroup.subgroupOfEquivOfLe (H := K) (K := H) hKH
   let Ploc : Sylow p.val Kloc :=
@@ -1522,12 +1522,12 @@ private theorem CFSG.section16_exists_p1_invariant_complement
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hDtop] using hDnorm.1
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvD : IsSolvable D :=
+  have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDneTop)
   have hKleNormD : K ≤ Subgroup.normalizer (D : Set G) :=
     hKU15.1.1.trans
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hDnorm.1).1 hDnorm.2)
-  letI : Subgroup.Normalizes K D := ⟨hKleNormD⟩
+  let : Subgroup.Normalizes K D := ⟨hKleNormD⟩
   have hMFHallD : IsHallSubgroup (subgroupPrimeSet MF) (MF.subgroupOf D) := by
     simpa [D] using
       section16_mf_hallSubgroup_in_ambientDerived (G := G) hM hMF
@@ -1625,7 +1625,7 @@ private theorem CFSG.section16_normalizer_le_of_p1_complement
     exact hVne ((Subgroup.card_eq_one (H := V)).1 hcard)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨p0, hp0prime, hp0V⟩
   let p : Nat.Primes := ⟨p0, hp0prime⟩
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hpV : p ∈ subgroupPrimeSet V := by
     change p0 ∣ Nat.card V
     exact hp0V
@@ -1638,7 +1638,7 @@ private theorem CFSG.section16_normalizer_le_of_p1_complement
     Group.IsNilpotent.sylow_normal hVnil p.val PV
   have hPVchar : (PV : Subgroup V).Characteristic :=
     Sylow.characteristic_of_normal PV hPVnormal
-  letI : (PV : Subgroup V).Characteristic := hPVchar
+  let : (PV : Subgroup V).Characteristic := hPVchar
   have hnormV_le_normPV :
       Subgroup.normalizer (V : Set G) ≤
         Subgroup.normalizer (section10AmbientSylowSubgroup V PV : Set G) := by
@@ -1764,8 +1764,8 @@ private theorem CFSG.section16_typeCommon_of_caseP2_with_T6
       section16_complementIn_ambientDerived_of_caseP2
         (G := G) hM hMF15 hKU15 hKne hUne
   have hUnil : Group.IsNilpotent U := by
-    letI : IsMulCommutative U := hUcomm
-    letI : CommGroup U := IsMulCommutative.instCommGroup
+    let : IsMulCommutative U := hUcomm
+    let : CommGroup U := IsMulCommutative.instCommGroup
     infer_instance
   have hKleNormU : K ≤ subgroupNormalizerIn M (U : Set G) := by
     intro x hxK
@@ -2306,7 +2306,7 @@ private theorem CFSG.section16_msigma_centralizer_ne_bot_of_typeCommon_primeOrde
       _hProduct, _hUnormalUK, _hCentralizerU, _hKstarNe, _hCentralizers,
       _hMFpos, hMFleMsigma, _hMsigmaLeDer, _hDerLtM, _hQuotNil,
       _hSecondLeFit, _hFittingEqA, _hFittingLeDer, _hProperBranch⟩
-  haveI : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
+  have : Nontrivial W2 := (Subgroup.nontrivial_iff_ne_bot W2).2 hW2ne
   obtain ⟨yW2, hyW2ne⟩ := exists_ne (1 : W2)
   let y : G := yW2
   have hyW2 : y ∈ W2 := yW2.property
@@ -2339,9 +2339,9 @@ private theorem CFSG.section16_primeRank_le_one_of_cyclic_sylow
     primeRank p R ≤ 1 := by
   rw [primeRank]
   refine csSup_le ?_ ?_
-  · letI : IsCyclic (S : Subgroup R) := hS_cyc
+  · let : IsCyclic (S : Subgroup R) := hS_cyc
     refine ⟨0, ?_⟩
-    exact ⟨(S : Subgroup R), S.isPGroup', inferInstance, by simp⟩
+    exact ⟨(S : Subgroup R), S.isPGroup, inferInstance, by simp⟩
   · intro n hn
     rcases hn with ⟨A, hAp, _hAcomm, hnA⟩
     obtain ⟨T, hA_le_T⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hAp
@@ -2424,7 +2424,7 @@ private theorem CFSG.section16_primeRank_le_one_of_typeCommon_W1_prime
     (hX : X ∈ section10PrimeOrderSubgroupsIn p W1) :
     primeRank p.val M ≤ 1 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hCommon with
     ⟨_hHallD, _hMFleD, _hComp, _hVnil, hW1norm, hW1cyc, _hW1card,
       _hMFnotCyclic, _hSecondLe, _hFittingEq, _hFittingLeD, _hW2le,
@@ -2459,7 +2459,7 @@ private theorem CFSG.section16_primeRank_le_one_of_typeCommon_W1_prime
   have hW1subCyclic : IsCyclic (W1.subgroupOf M) :=
     (Subgroup.subgroupOfEquivOfLe (H := W1) (K := M) hW1M).isCyclic.2 hW1cyc
   have hPW1cyclic : IsCyclic (PW1 : Subgroup (W1.subgroupOf M)) := by
-    letI : IsCyclic (W1.subgroupOf M) := hW1subCyclic
+    let : IsCyclic (W1.subgroupOf M) := hW1subCyclic
     exact Subgroup.isCyclic_of_le (show (PW1 : Subgroup (W1.subgroupOf M)) ≤ ⊤ from le_top)
   let Pmap : Subgroup M := (PW1 : Subgroup (W1.subgroupOf M)).map (W1.subgroupOf M).subtype
   have hPmapCyclic : IsCyclic Pmap := by
@@ -2855,7 +2855,7 @@ public theorem CFSG.section16_conjugate_ambient_complement_of_caseP2
       intro x _hx
       exact hDleM (by simp [hDtop])
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvD : IsSolvable D :=
+  have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDneTop)
   rcases exists_conj_eq_of_isHallSubgroup_of_solvable
       (G := D) hsolvD
@@ -2904,7 +2904,7 @@ private theorem CFSG.section16_normalizer_U_le_of_conjugate_ambient_complement
       intro x _hx
       exact hDleM (by simp [hDtop])
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvD : IsSolvable D :=
+  have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDneTop)
   rcases exists_conj_eq_of_isHallSubgroup_of_solvable
       (G := D) hsolvD

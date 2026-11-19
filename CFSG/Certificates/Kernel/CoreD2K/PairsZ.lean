@@ -70,11 +70,11 @@ theorem card_eq_of_nonabelian {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p
       rw [hk]
       exact (pow_dvd_pow p (by omega : k ≤ 1)).trans (by rw [pow_one])
     have : IsCyclic E := isCyclic_of_card_dvd_prime hdvd
-    exact absurd (fun a b => IsCyclic.commutative.is_comm.comm a b) hcomm
+    exact absurd (fun a b => _root_.IsCyclic.isMulCommutative.is_comm.comm a b) hcomm
   · rcases Nat.lt_or_ge k 3 with hk2' | hk3'
     · have hk2'' : k = 2 := by omega
       subst hk2''
-      exact absurd (IsPGroup.commutative_of_card_eq_prime_sq hk) hcomm
+      exact absurd ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hk).is_comm.comm) hcomm
     · rw [show k = 3 by omega]
 
 theorem coreGenerationZOf_of_zchecks {n w : Nat} {V : VData} {GP GPI EG GT GTI : Nat → Nat}

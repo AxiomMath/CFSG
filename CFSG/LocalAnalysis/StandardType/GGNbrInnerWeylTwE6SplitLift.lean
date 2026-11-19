@@ -16,8 +16,8 @@ theorem ggTorusLift_of_injective_adjointF4 {k R : Type} [Field k] [Finite k] [Ch
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card k - 1)
     (ι : CFSG.Blueprint.Chevalley.adjointGroup .F4 k →* R) (hι : Function.Injective ι) :
     GGTorusLift p 4 R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := CFSG.StandardType.TableBSymp.exists_orderOf_eq_of_dvd (K := k) hpq
   have hζ : ζ ^ p = 1 := by
     rw [← hζo]
@@ -58,9 +58,9 @@ theorem ggTorusLift_twE6Dvd_holds {K : Type} [Field K] [Finite K] {n p : ℕ} (h
     (hK : Nat.card K = (2 ^ n) ^ 2) (hp : p.Prime) (hp2 : p ≠ 2) (hpn : p ∣ 2 ^ n - 1) :
     GGTorusLift p 4 (TwE6Delta.RecipeR K n) := by
   obtain ⟨k, hfield, hfinite, hchar, ι, hk, hι⟩ := exists_injective_f4_recipeR hn hK
-  letI : Field k := hfield
-  letI : Finite k := hfinite
-  letI : CharP k 2 := hchar
+  let : Field k := hfield
+  let : Finite k := hfinite
+  let : CharP k 2 := hchar
   have hpq : p ∣ Nat.card k - 1 := by
     rw [hk]
     exact hpn

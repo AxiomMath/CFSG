@@ -16,8 +16,8 @@ theorem r1613g_mParam_ne_zero {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
     {A : Subgroup (MulAut W)} (hA : A ≠ ⊥) : E3.mParam A ≠ 0 := by
   by_cases hev : Even (Nat.card ↥A)
   · unfold E3.mParam
-    rw [if_pos hev]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    rw [ite_eq_left hev]
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 2 (even_iff_two_dvd.1 hev)
     set S : Set ℕ :=
       {n : ℕ | ∃ t ∈ A, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} with hS
@@ -32,11 +32,11 @@ theorem r1613g_mParam_ne_zero {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
     rw [ht1, orderOf_one] at ht2
     exact absurd ht2 (by norm_num)
   · unfold E3.mParam
-    rw [if_neg hev]
+    rw [ite_eq_right hev]
     intro h0
     have hcard : Nat.card W = 1 := by
       rw [card_eq_two_pow_of_isPGroup (isPGroup_two_of_sq_eq_one hW), h0, pow_zero]
-    haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.1 hcard).1
+    have : Subsingleton W := (Nat.card_eq_one_iff_unique.1 hcard).1
     apply hA
     rw [Subgroup.eq_bot_iff_forall]
     intro t _

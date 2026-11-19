@@ -30,7 +30,7 @@ private lemma uniShape_ggInducedAut_map_mem_of_GGInducedInn
     exact hmem y hy
   have hAne : Nat.card A ≠ 0 :=
     Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
-  haveI : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
+  have : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
   have hEq : A.map (ggInducedAut θ) = Ā :=
     Subgroup.eq_of_le_of_card_ge hle (hcardĀ.trans hcardMap.symm).le
   rw [← hEq] at ha
@@ -59,16 +59,16 @@ private lemma uniShape_uniShapeConcl_transfer
     ⟨F, hF, hFF, j, hj, hFcard, hF4, hequiv, hj1, hj3⟩ |
       ⟨E, hE, hFE, m, j, hj, hEcard, hm3, hmq, hequiv, hj1, hj3, hm3j1⟩
   · left
-    letI : Field F := hF
-    letI : Finite F := hFF
+    let : Field F := hF
+    let : Finite F := hFF
     obtain ⟨e⟩ := hquot
     obtain ⟨e2⟩ := hequiv
     exact ⟨F, hF, hFF, j, hj, hFcard, hF4, ⟨e.trans e2⟩,
       fun h1 => by rw [← hcardĀ]; exact hj1 h1,
       fun h3 => ⟨(hj3 h3).1, by rw [← hcardĀ]; exact (hj3 h3).2⟩⟩
   · right
-    letI : Field E := hE
-    letI : Finite E := hFE
+    let : Field E := hE
+    let : Finite E := hFE
     obtain ⟨e⟩ := hquot
     obtain ⟨e2⟩ := hequiv
     refine ⟨E, hE, hFE, m, j, hj, hEcard, hm3, hmq, ⟨e.trans e2⟩, hj1, hj3, ?_⟩
@@ -88,7 +88,7 @@ theorem uniShape_holds :
               (LargeEvenGUSet (Fin N) K q)) →
           UniShapeConcl q N A J := by
   intro K _ _ hchar q N hK hq3 hN _ X _ _ hperf θ A δ J hKloc huniq hcard hinn
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   obtain ⟨Ā, δ', J', hR, hcardĀ, _hδ', hmem, hJ', hcen⟩ :=
     leafR_holds X hperf (PSUg N K q) θ A δ J hKloc huniq hcard
   have hĀI : ∀ a ∈ Ā, a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin N) K q))

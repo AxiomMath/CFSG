@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 theorem eq_sup_centralizer_of_coprime {G : Type*} [Group G] [Finite G] {K U Y : Subgroup G} {r : ℕ}
     [Fact r.Prime] (hUK : U ≤ K) (hKU : K ≤ normalizer (U : Set G)) (hY : IsPGroup r Y)
-    (hYK : Y ≤ normalizer (K : Set G)) (hcomm : ⁅Y, K⁆ ≤ U) (hcop : ¬ r ∣ Nat.card U) :
+    (_hYK : Y ≤ normalizer (K : Set G)) (hcomm : ⁅Y, K⁆ ≤ U) (hcop : ¬ r ∣ Nat.card U) :
     K = U ⊔ (K ⊓ centralizer (Y : Set G)) := by
   classical
   refine le_antisymm (fun k hk => ?_) (sup_le hUK inf_le_left)
@@ -32,7 +32,7 @@ theorem eq_sup_centralizer_of_coprime {G : Type*} [Group G] [Finite G] {K U Y : 
         simpa [mul_assoc] using this
       exact U.mul_mem h1 (hyU y hy u hu)
     · simp [mul_assoc]
-  letI : MulAction Y S :=
+  let : MulAction Y S :=
     { smul := fun y x => ⟨(y : G) * (x : G) * (y : G)⁻¹, hS y y.2 x x.2⟩
       one_smul := fun x => Subtype.ext (by
         show ((1 : ↥Y) : G) * (x : G) * ((1 : ↥Y) : G)⁻¹ = x
@@ -49,7 +49,7 @@ theorem eq_sup_centralizer_of_coprime {G : Type*} [Group G] [Finite G] {K U Y : 
       simpa using this
     · rintro ⟨x, u, hu, rfl⟩
       exact ⟨⟨u, hu⟩, rfl⟩
-  haveI : Finite S := inferInstance
+  have : Finite S := inferInstance
   obtain ⟨⟨x, hxS⟩, hfix⟩ := hY.nonempty_fixed_point_of_prime_not_dvd_card S (by rw [hcard]; exact hcop)
   obtain ⟨u, hu, rfl⟩ := hxS
   have hfix' : ∀ y ∈ Y, y * (k * u) * y⁻¹ = k * u := by

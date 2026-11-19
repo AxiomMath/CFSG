@@ -38,8 +38,9 @@ private lemma commute_of_mem_components {z : Γ} (h : Setting A K K₀ z) {T T' 
   have hc := (h.hK.components_commute hT hT' hne).1
   exact (Subgroup.mem_centralizer_iff.mp (hc hx) y hy).symm
 
+omit [Finite Γ] in
 private lemma conj_mul_three_of_commute {c x y z : Γ} (hxy : Commute x y)
-    (hxz : Commute x z) (hyz : Commute y z) (hx : c * x * c⁻¹ = y)
+    (hxz : Commute x z) (_hyz : Commute y z) (hx : c * x * c⁻¹ = y)
     (hy : c * y * c⁻¹ = z) (hz : c * z * c⁻¹ = x) :
     c * (x * (y * z)) * c⁻¹ = x * (y * z) := by
   calc c * (x * (y * z)) * c⁻¹ = (c * x * c⁻¹) * (c * y * c⁻¹) * (c * z * c⁻¹) := by
@@ -49,12 +50,13 @@ private lemma conj_mul_three_of_commute {c x y z : Γ} (hxy : Commute x y)
           have h : Commute x (y * z) := hxy.mul_right hxz
           rw [← h.eq]
 
+omit [Finite Γ] in
 private lemma centralizes_of_normalizes {z : Γ} (h : Setting A K K₀ z)
     (hnorm : ∀ a ∈ A, ∀ T ∈ simpleComponents K,
       T.map (MulAut.conj a).toMonoidHom = T) :
     ∀ T ∈ simpleComponents K, T ≤ Subgroup.centralizer ({z} : Set Γ) := by
   intro T hT
-  letI : IsSimpleGroup ↥T := hT.2.2.1
+  let : IsSimpleGroup ↥T := hT.2.2.1
   have hAN : A ≤ Subgroup.normalizer (T : Set Γ) := fun a ha =>
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr (hnorm a ha T hT)
   let ρ : ↥A →* MulAut ↥T := T.normalizerMonoidHom.comp (Subgroup.inclusion hAN)
@@ -66,8 +68,8 @@ private lemma centralizes_of_normalizes {z : Γ} (h : Setting A K K₀ z)
     simpa [h.hz] using pow_orderOf_eq_one z
   have hρ3 : (ρ ⟨z, h.hzA⟩) ^ 3 = 1 := by
     rw [← map_pow, hzpow, map_one]
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr h.hA
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥T) :=
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr h.hA
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥T) :=
     h.hOut T hT
   obtain ⟨t, ht⟩ :=
     CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner ρ ⟨z, h.hzA⟩
@@ -173,6 +175,7 @@ private def away (c t : Γ) : Γ := (c * t * c⁻¹) * (c ^ 2 * t * (c ^ 2)⁻¹
 
 private def diag (c t : Γ) : Γ := t * away c t
 
+omit [Finite Γ] in
 private lemma conj_z_pow_three {z : Γ} (h : Setting A K K₀ z) (a : Γ) :
     (a * z * a⁻¹) ^ 3 = 1 := by
   have hz3 : z ^ 3 = 1 := by simpa [h.hz] using pow_orderOf_eq_one z
@@ -183,18 +186,22 @@ private lemma conj_z_pow_three {z : Γ} (h : Setting A K K₀ z) (a : Γ) :
   rw [h, hz3]
   group
 
+omit [Finite Γ] in
 private lemma sq_mul_self {c : Γ} (hc : c ^ 3 = 1) : c ^ 2 * c = 1 := by
   rw [← pow_succ]
   exact hc
 
+omit [Finite Γ] in
 private lemma self_mul_sq {c : Γ} (hc : c ^ 3 = 1) : c * c ^ 2 = 1 := by
   rw [← pow_succ']
   exact hc
 
+omit [Finite Γ] in
 private lemma sq_mul_sq {c : Γ} (hc : c ^ 3 = 1) : c ^ 2 * c ^ 2 = c := by
   have h : c ^ 2 * c ^ 2 = c ^ (2 + 2) := (pow_add c 2 2).symm
   rw [h, show 2 + 2 = 4 by norm_num, show (4 : ℕ) = 3 + 1 by norm_num, pow_succ, hc, one_mul]
 
+omit [Finite Γ] in
 private lemma map_conj_sq_ne_of_ne {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1)
     (hne : J.map (MulAut.conj c).toMonoidHom ≠ J) :
     J.map (MulAut.conj (c ^ 2)).toMonoidHom ≠ J := by
@@ -207,8 +214,9 @@ private lemma map_conj_sq_ne_of_ne {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1)
   rw [h2] at h1
   exact h1
 
+omit [Finite Γ] in
 private lemma map_conj_ne_sq {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1)
-    (hne : J.map (MulAut.conj c).toMonoidHom ≠ J)
+    (_hne : J.map (MulAut.conj c).toMonoidHom ≠ J)
     (hne2 : J.map (MulAut.conj (c ^ 2)).toMonoidHom ≠ J) :
     J.map (MulAut.conj c).toMonoidHom ≠
       J.map (MulAut.conj (c ^ 2)).toMonoidHom := by
@@ -221,6 +229,7 @@ private lemma map_conj_ne_sq {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1)
     CFSG.Timmesfeld.RankOne.map_conj_one] at h1
   exact h1
 
+omit [Finite Γ] in
 private lemma away_mem_K {z : Γ} (h : Setting A K K₀ z) {J : Subgroup Γ}
     (hJ : J ∈ simpleComponents K) {t : Γ} (ht : t ∈ J) {c : Γ} (hcA : c ∈ A) :
     away c t ∈ K := by
@@ -287,6 +296,7 @@ private lemma diag_fixed {z : Γ} (h : Setting A K K₀ z) {J : Subgroup Γ}
   have hmain := conj_mul_three_of_commute hxy hxz hyz rfl hy hz
   simpa [diag, away] using hmain
 
+omit [Finite Γ] in
 private lemma diag_mem_K {z : Γ} (h : Setting A K K₀ z) {J : Subgroup Γ}
     (hJ : J ∈ simpleComponents K) {t : Γ} (ht : t ∈ J) {c : Γ} (hcA : c ∈ A) :
     diag c t ∈ K := by
@@ -344,7 +354,7 @@ private lemma inf_component_eq_bot {z : Γ} (h : Setting A K K₀ z) (hne : K₀
       J.map (MulAut.conj (a * z * a⁻¹)).toMonoidHom ≠ J) :
     ∀ J ∈ simpleComponents K, K₀ ⊓ J = ⊥ := by
   intro J hJ
-  letI : IsSimpleGroup ↥J := hJ.2.2.1
+  let : IsSimpleGroup ↥J := hJ.2.2.1
   by_contra hbot
   obtain ⟨x, hx, hx1⟩ : ∃ x ∈ K₀ ⊓ J, x ≠ 1 := by
     by_contra hcon
@@ -401,7 +411,7 @@ private lemma not_normalizes_of_conj {z : Γ} (h : Setting A K K₀ z)
     {a : Γ} (ha : a ∈ A) {J : Subgroup Γ} (hJ : J ∈ simpleComponents K) :
     J.map (MulAut.conj (a * z * a⁻¹)).toMonoidHom ≠ J := by
   intro hNJ
-  letI : IsSimpleGroup ↥J := hJ.2.2.1
+  let : IsSimpleGroup ↥J := hJ.2.2.1
   let c : Γ := a * z * a⁻¹
   have hcA : c ∈ A := A.mul_mem (A.mul_mem ha h.hzA) (A.inv_mem ha)
   have hc3 : c ^ 3 = 1 := conj_z_pow_three h a
@@ -440,7 +450,7 @@ private lemma not_normalizes_of_conj {z : Γ} (h : Setting A K K₀ z)
     have hym : (y : Γ) ∈ (⊥ : Subgroup Γ) := hJbot ▸ y.2
     simpa using hym
   · have hαord : orderOf α = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime hα3 hα1
     by_cases hcent : J ⊓ Subgroup.centralizer ({c} : Set Γ) = ⊥
     · have hfix : ∀ y : ↥J, α y = y → y = 1 := by
@@ -456,7 +466,7 @@ private lemma not_normalizes_of_conj {z : Γ} (h : Setting A K K₀ z)
           Subgroup.mem_inf.mpr ⟨y.2, hycent⟩
         rw [hcent, Subgroup.mem_bot] at hyin
         exact Subtype.ext hyin
-      haveI : Group.IsPerfect ↥J :=
+      have : Group.IsPerfect ↥J :=
         Subgroup.isPerfect_iff.mpr
           (commutator_self_eq_of_isSimpleGroup
             hJ.2.2.2)
@@ -475,19 +485,23 @@ private lemma not_normalizes_of_conj {z : Γ} (h : Setting A K K₀ z)
       rw [hinf J hJ, Subgroup.mem_bot] at hybot
       exact hy1 hybot
 
+omit [Finite Γ] in
 private lemma orbit_step {J : Subgroup Γ} {c : Γ} :
     (J.map (MulAut.conj c).toMonoidHom).map (MulAut.conj c).toMonoidHom =
       J.map (MulAut.conj (c ^ 2)).toMonoidHom := by
   rw [← map_conj_mul, show c * c = c ^ 2 by rw [pow_two]]
 
+omit [Finite Γ] in
 private lemma orbit_step' {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1) :
     (J.map (MulAut.conj (c ^ 2)).toMonoidHom).map (MulAut.conj c).toMonoidHom = J := by
   rw [← map_conj_mul, self_mul_sq hc3, CFSG.Timmesfeld.RankOne.map_conj_one]
 
+omit [Finite Γ] in
 private lemma orbit_step_inv {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1) :
     (J.map (MulAut.conj c).toMonoidHom).map (MulAut.conj (c ^ 2)).toMonoidHom = J := by
   rw [← map_conj_mul, sq_mul_self hc3, CFSG.Timmesfeld.RankOne.map_conj_one]
 
+omit [Finite Γ] in
 private lemma orbit_step_inv' {J : Subgroup Γ} {c : Γ} (hc3 : c ^ 3 = 1) :
     (J.map (MulAut.conj (c ^ 2)).toMonoidHom).map (MulAut.conj (c ^ 2)).toMonoidHom =
       J.map (MulAut.conj c).toMonoidHom := by
@@ -690,7 +704,7 @@ private lemma eq_of_setting {z : Γ} (h : Setting A K K₀ z) : K₀ = K := by
     change a * b * a⁻¹ ∈ Subgroup.closure Gen
     refine Subgroup.closure_induction (p := fun b _ => a * b * a⁻¹ ∈ Subgroup.closure Gen)
       (fun x hx => Subgroup.subset_closure (hconjGen a ha x hx)) ?_ ?_ ?_ hb
-    · simpa using Subgroup.one_mem (Subgroup.closure Gen)
+    · simp
     · intro x y hx hy hpx hpy
       simpa [mul_assoc] using (Subgroup.closure Gen).mul_mem hpx hpy
     · intro x hx hpx
@@ -825,8 +839,8 @@ private lemma eq_of_setting {z : Γ} (h : Setting A K K₀ z) : K₀ = K := by
   have hβcard : Nat.card β ≤ 4 := by
     rw [Nat.card_coe_set_eq, hβncard]
     norm_num
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr h.hA
-  haveI : Group.IsSolvable (Equiv.Perm β) := Equiv.Perm.isSolvable hβcard
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr h.hA
+  have : Group.IsSolvable (Equiv.Perm β) := Equiv.Perm.isSolvable hβcard
   have hσ1 : σ = 1 := CFSG.ComponentClassification.SolvableKernelContainment.hom_eq_one σ
   have hσ1z : σ ⟨z, h.hzA⟩ = (1 : Equiv.Perm β) := by
     simpa using congrArg (fun f : ↥A →* Equiv.Perm β => f ⟨z, h.hzA⟩) hσ1

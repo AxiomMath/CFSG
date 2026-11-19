@@ -27,10 +27,10 @@ section Perfect
 variable {V : Type} [Group V] [Finite V]
 
 theorem oUpperTwo_eq_self_of_perfect {X : Subgroup V} (hX : ⁅X, X⁆ = X) : oUpperTwo X = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := oUpperTwo X with hOdef
   have hOX : O ≤ X := CFSG.AGLEmbedding.oUpperTwo_le_self X
-  haveI hn : (O.subgroupOf X).Normal := by
+  have hn : (O.subgroupOf X).Normal := by
     rw [normal_subgroupOf_iff_le_normalizer hOX]
     intro c hc
     rw [mem_normalizer_iff]
@@ -47,7 +47,7 @@ theorem oUpperTwo_eq_self_of_perfect {X : Subgroup V} (hX : ⁅X, X⁆ = X) : oU
     refine ⟨a, ?_⟩
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, mem_subgroupOf]
     simpa using ha
-  haveI : Group.IsNilpotent (↥X ⧸ O.subgroupOf X) := hp.isNilpotent
+  have : Group.IsNilpotent (↥X ⧸ O.subgroupOf X) := hp.isNilpotent
   have htop : ⁅(⊤ : Subgroup ↥X), (⊤ : Subgroup ↥X)⁆ = (⊤ : Subgroup ↥X) := by
     apply map_injective X.subtype_injective
     rw [map_commutator, Subgroup.map_top, range_subtype, hX]
@@ -62,11 +62,13 @@ theorem oUpperTwo_eq_self_of_perfect {X : Subgroup V} (hX : ⁅X, X⁆ = X) : oU
     exact h1
   · exact absurd hcomm (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial _))
 
+omit [Finite V] in
 theorem commutator_subgroupOf_eq_of_perfect {L X : Subgroup V} (hLX : L ≤ X) (hp : ⁅L, L⁆ = L) :
     ⁅L.subgroupOf X, L.subgroupOf X⁆ = L.subgroupOf X := by
   apply map_injective X.subtype_injective
   rw [map_commutator, map_subgroupOf_eq_of_le hLX, hp]
 
+omit [Finite V] in
 theorem mem_sylow_of_mem_normalizer {p : ℕ} [Fact p.Prime] (S : Sylow p V) {x : V}
     (hx : x ∈ normalizer ((S : Subgroup V) : Set V)) {k : ℕ} (hxk : x ^ p ^ k = 1) :
     x ∈ (S : Subgroup V) := by
@@ -102,6 +104,7 @@ section Parts
 
 variable {H : Subgroup G} {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
 
+omit [Finite G] in
 theorem center_eq_bot_of_isAltTwoP (hA6 : IsAltTwoP 3 K) : center ↥K = ⊥ := by
   obtain ⟨e⟩ := hA6
   have hcen : (center ↥K).map e.toMonoidHom = center (alternatingGroup (Fin (2 * 3))) :=
@@ -157,11 +160,12 @@ theorem coprime_orderOf_commutator_of_mem {x y : G} (hx : x ∈ hyp111Pre 3 H K)
   rw [he, Subgroup.subtype_apply, Subgroup.orderOf_coe]
   exact (primeComplementCore_coprime (G := H) 3).coprime_dvd_right hd
 
+omit [Finite G] in
 theorem mem_normalizer_map_comap {N' : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
     [N'.Normal] {h : G} (hh : h ∈ H) :
     h ∈ normalizer ((N'.comap (QuotientGroup.mk' (primeComplementCore (G := H) 3))).map
       H.subtype : Set G) := by
-  haveI : (N'.comap (QuotientGroup.mk' (primeComplementCore (G := H) 3))).Normal :=
+  have : (N'.comap (QuotientGroup.mk' (primeComplementCore (G := H) 3))).Normal :=
     Subgroup.Normal.comap inferInstance _
   rw [mem_normalizer_iff]
   intro x
@@ -180,6 +184,7 @@ theorem mem_normalizer_map_comap {N' : Subgroup (H ⧸ primeComplementCore (G :=
       (⟨h, hh⟩ : ↥H)⁻¹
     simpa [hw] using h2
 
+omit [Finite G] in
 theorem mem_normalizer_hyp111Pre_d1PlusCore [K.Normal] {h : G} (hh : h ∈ H) :
     h ∈ normalizer (hyp111Pre 3 H K : Set G) ∧ h ∈ normalizer (d1PlusCore 3 H K : Set G) :=
   ⟨mem_normalizer_map_comap (N' := K) hh,
@@ -204,8 +209,8 @@ theorem kPart_shape (hAS : KFactTwelveNotLeAltSix) (hd : AGL81CfgData 3 P M H Q 
         (S : Subgroup K).map K.subtype ∧
       Nat.card (((oUpperTwo I₀).subgroupOf H).map
         (QuotientGroup.mk' (primeComplementCore (G := H) 3))) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := primeComplementCore (G := H) 3 with hN
   set π := QuotientGroup.mk' N with hπ
   have hI₀' : IsCZeroMember (H ⊓ L) I₀ := hI₀
@@ -263,7 +268,7 @@ theorem kPart_shape (hAS : KFactTwelveNotLeAltSix) (hd : AGL81CfgData 3 P M H Q 
     have hperfIst : ⁅Ist, Ist⁆ = Ist := by rw [hIst, ← map_commutator, hperfH]
     have hperfK : ⁅Ist.subgroupOf K, Ist.subgroupOf K⁆ = Ist.subgroupOf K :=
       commutator_subgroupOf_eq_of_perfect hIstK hperfIst
-    haveI := (hAS ↥K hA6 S).2.1
+    have := (hAS ↥K hA6 S).2.1
     have hbot := eq_bot_of_perfect_of_le hIstN hperfK
     have h2 : (⟨π ⟨x₃, hx₃H⟩, hIstK hx₃Ist⟩ : ↥K) ∈ Ist.subgroupOf K := mem_subgroupOf.mpr hx₃Ist
     rw [hbot, mem_bot] at h2
@@ -358,7 +363,7 @@ theorem kPart_shape (hAS : KFactTwelveNotLeAltSix) (hd : AGL81CfgData 3 P M H Q 
     exact (Commute.pow_pow hxy n m).eq
   refine ⟨hO2, hS3, hIstE, ?_⟩
   have hIstp : IsPGroup 3 Ist :=
-    ((S.isPGroup').map K.subtype).to_le hIstE
+    ((S.isPGroup).map K.subtype).to_le hIstE
   obtain ⟨j, hj⟩ := hIstp.exists_card_eq
   have h3d : 3 ∣ Nat.card Ist := by
     have ho : orderOf (π ⟨x₃, hx₃H⟩) = 3 := by
@@ -402,7 +407,7 @@ theorem coe_mem_d1X0_of_mem_normalizer (hd : AGL81CfgData 3 P M H Q K) (hA6 : Is
     {b : G} (hb : TwelveB M H Q K b) {k : ↥K}
     (hk : k ∈ normalizer ((S : Subgroup ↥K) : Set ↥K)) :
     (k : H ⧸ primeComplementCore (G := H) 3) ∈ d1X0 3 M H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   obtain ⟨hbHM, hbX, hob, -, hQb⟩ := hb
   obtain ⟨hAX, hAel, hA9⟩ := d1LiftX_facts_cfg hd hA6
@@ -520,6 +525,7 @@ theorem normal_of_cfg (hd : AGL81CfgData 3 P M H Q K) (hA6 : IsAltTwoP 3 K) : K.
   rw [← hd.kbar] at this
   exact this
 
+omit [Finite G] in
 theorem oUpperTwo_map_conj_le [K.Normal] {I₀ : Subgroup G} (hIK : oUpperTwo I₀ ≤ hyp111Pre 3 H K)
     {g : G} (hg : g ∈ H) : oUpperTwo (I₀.map (MulAut.conj g).toMonoidHom) ≤ hyp111Pre 3 H K := by
   refine (closure_le _).mpr fun y ⟨hy, hyo⟩ => ?_
@@ -540,9 +546,9 @@ theorem commutator_mem_pCoreOf_of_kPart (hAS : KFactTwelveNotLeAltSix)
     (h3 : ∀ I ∈ cZero (H ⊓ L), 3 ∣ Nat.card (oUpperTwo I)) {I₀ : Subgroup G}
     (hI₀ : I₀ ∈ cZero (H ⊓ L)) (hIK : oUpperTwo I₀ ≤ hyp111Pre 3 H K) :
     ∀ s ∈ I₀, b * s * b⁻¹ * s⁻¹ ∈ pCoreOf 2 I₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := normal_of_cfg hd hA6
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := normal_of_cfg hd hA6
   have hZ := center_eq_bot_of_isAltTwoP hA6
   set D := H ⊓ L with hD
   have hDM : D ≤ M := inf_le_right.trans hLM

@@ -35,7 +35,7 @@ theorem s15k_schur2_not_sq_dvd {Y : Type} [Group Y] (hY : IsAlt Y 5 ∨ IsL3 Y 1
 
 theorem rSchur2_153_holds : RSchur2_153 := by
   intro X _ _ hq hodd hY
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
   refine CFSG.RankThree.PartTwo.KFacts.KS14.eq_bot_of_isPerfect_of_not_sq_dvd
     (Z := Subgroup.center X) le_rfl ?_
   intro p hp hpZ

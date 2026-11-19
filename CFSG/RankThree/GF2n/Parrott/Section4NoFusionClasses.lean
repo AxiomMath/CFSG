@@ -27,6 +27,7 @@ local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 set_option quotPrecheck false in
 local notation "vA" => (⟨v, v_mem_A⟩ : A45)
 
+omit [Finite G] in
 theorem exists_conj_eq_mul_J_of_isConj_qH {x₀ y : G} (hx₀ : x₀ ∈ H z) (hy : y ∈ H z)
     (hconj : IsConj (qH D ⟨x₀, hx₀⟩) (qH D ⟨y, hy⟩)) :
     ∃ g ∈ H z, ∃ j ∈ J z, g * y * g⁻¹ = x₀ * j := by

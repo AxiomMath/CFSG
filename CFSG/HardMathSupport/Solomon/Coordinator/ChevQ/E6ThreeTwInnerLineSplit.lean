@@ -22,7 +22,7 @@ theorem twLine_map_conj_inv_map {G : Type*} [Group G] (X : Subgroup G) (g : G) :
     (X.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = X := by
   rw [← map_conj_mul_aux, inv_mul_cancel]
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 section Split
 
@@ -562,7 +562,7 @@ theorem twLine_frame_map_conj {m : ModGL Tag.E6 Ω}
   have h1 : (rootSpan Tag.E6 Ω (twE6FrameS i)).map (MulAut.conj (1 : ModGL Tag.E6 Ω)).toMonoidHom =
       rootSpan Tag.E6 Ω (twE6FrameS i) := by
     ext x
-    simp [Subgroup.mem_map, MulAut.conj_apply]
+    simp [Subgroup.mem_map]
   rw [h1, hsh i]
 
 theorem twLine_shift_zero (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1)

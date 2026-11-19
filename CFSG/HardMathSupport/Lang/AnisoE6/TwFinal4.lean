@@ -31,20 +31,20 @@ theorem seitzExcAnisotropicTwistedE6Class_four_of_f4
   have he : orderOf (((q.p ^ q.exponent : ℕ)) : ZMod p) = 4 := by
     rw [← hc0]
     exact hord
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hpq : p ≠ q.p := by simpa using hpc
   obtain ⟨K, _, σ, hK, hσ, ⟨eG⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   obtain ⟨k, _, _, hk, hkchar, ⟨eF⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q (F4_valid4 q)
   have hk' : Nat.card k = q.p ^ q.exponent := by rw [hk, hc0]
   obtain ⟨ι⟩ := nonempty_ringHom_of_card_sq (ℓ := q.p) (f := q.exponent) hk' hK
-  letI : Algebra k K := ι.toAlgebra
+  let : Algebra k K := ι.toAlgebra
   have hp4dvd : p ∣ Nat.card k ^ 2 + 1 := by
     rw [hk']
     exact dvd_sq_add_one_of_orderOf_eq_four hp he

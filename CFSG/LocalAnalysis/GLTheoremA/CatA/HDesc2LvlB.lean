@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.Blueprint TauCeti CFSG.Assembl
 open CFSG.ComponentClassification.CatLeaf
 
 theorem card_alt_fin {m : ℕ} (hm : 2 ≤ m) : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
 
 theorem lv_chev (ctx : LvCtx) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} [Group S]

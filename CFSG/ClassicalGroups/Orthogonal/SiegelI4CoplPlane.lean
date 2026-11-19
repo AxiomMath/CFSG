@@ -15,6 +15,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   {BN : LinearMap.BilinForm K N}
   {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [Finite K] in
 theorem apply_eq_self_of_map_eq {u : V ≃ₗ[K] V} (hu : u * u = 1) {P : Submodule K V}
     (hP : finrank K P = 1) (hmap : P.map (u : V →ₗ[K] V) = P) : ∀ v ∈ P, u v = v := by
   obtain ⟨p, hp0, rfl⟩ := exists_ne_zero_span_eq_of_finrank_eq_one hP
@@ -41,6 +42,7 @@ theorem apply_eq_self_of_map_eq {u : V ≃ₗ[K] V} (hu : u * u = 1) {P : Submod
   obtain ⟨t, rfl⟩ := Submodule.mem_span_singleton.mp hv
   rw [map_smul, ← hs, hs1, one_smul]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem map_eq_of_forall_apply_eq {u : V ≃ₗ[K] V} {S : Submodule K V} (h : ∀ v ∈ S, u v = v) :
     S.map (u : V →ₗ[K] V) = S := by
   refine le_antisymm ?_ fun y hy => ⟨y, hy, h y hy⟩
@@ -54,6 +56,7 @@ theorem map_eq_of_forall_apply_eq {u : V ≃ₗ[K] V} {S : Submodule K V} (h : �
   map_one' := LinearEquiv.ext fun x => Subtype.ext (by simp)
   map_mul' g h := LinearEquiv.ext fun x => Subtype.ext (by simp)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem coe_restrictHom_apply {L : Type*} [Group L] (ψ : L →* (V ≃ₗ[K] V)) (A : Submodule K V)
     (hA : ∀ g, A.map (ψ g : V →ₗ[K] V) = A) (g : L) (x : A) :
     ((restrictHom ψ A hA g x : A) : V) = ψ g x := by
@@ -146,17 +149,21 @@ end Plane
     Submodule K V :=
   planePt hBN ρ ⊤ a
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem pt_le_famSpace (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {ℓ : Submodule K N}
     (hℓ : IsLine BN ℓ) {a : N} (ha : a ∈ ℓ) : pt hBN ρ a ≤ famSpace hBN ρ ℓ :=
   planePt_le hBN ρ hℓ ha le_top
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem pt_smul (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {c : K} (hc : c ≠ 0) (a : N) :
     pt hBN ρ (c • a) = pt hBN ρ a :=
   planePt_smul hBN ρ ⊤ hc a
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] in
 theorem Gsp.map_lin_top (g : Gsp BN) : (⊤ : Submodule K N).map g.lin = ⊤ :=
   eq_top_iff.mpr fun y _ => ⟨g⁻¹.app y, trivial, by simp [Gsp.lin_apply, Gsp.app_app_inv]⟩
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem pt_map (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (g : Gsp BN) (a : N) :
     pt hBN ρ (g.app a) = (pt hBN ρ a).map (ρ g : V →ₗ[K] V) := by
   have h := planePt_map hBN ρ g ⊤ a
@@ -232,11 +239,11 @@ theorem iSup_pt_eq_top : (⨆ (a : N) (_ : a ≠ 0), pt hBN ρ a) = ⊤ := by
     exact S.add_mem ((le_iSup₂ (f := fun (a : N) (_ : a ≠ 0) => pt hBN ρ a) a ha0) hx)
       ((le_iSup₂ (f := fun (a : N) (_ : a ≠ 0) => pt hBN ρ a) c hc0) hy)
   have hNpos : 0 < finrank K N := by have := hs.dimN; omega
-  haveI : Nontrivial N := Module.nontrivial_of_finrank_pos hNpos
+  have : Nontrivial N := Module.nontrivial_of_finrank_pos hNpos
   obtain ⟨a₁, ha₁⟩ := exists_ne (0 : N)
   obtain ⟨ℓ, hℓ, -⟩ := exists_isLine_of_ne_zero hBN hs.nondegN hs.dimN ha₁
   obtain ⟨a₀, c₀, hac₀, hind₀, -⟩ := hℓ.exists_pair
-  haveI : IsSimpleGroup (Gsp BN) :=
+  have : IsSimpleGroup (Gsp BN) :=
     isSimpleGroup_Gsp hs.card hBN hs.nondegN (by have := hs.dimN; omega)
   have hx1 : lineElt hBN a₀ c₀ ≠ 1 := lineElt_ne_one hBN hs.nondegN hac₀ hind₀
   have htop : Subgroup.normalClosure {lineElt hBN a₀ c₀} = ⊤ := by

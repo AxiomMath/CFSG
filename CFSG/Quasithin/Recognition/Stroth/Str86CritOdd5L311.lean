@@ -227,7 +227,7 @@ private theorem str86_L311ab_a
       Vv (Z2 L1 L2 S) δ = omegaOneCenterOf (pCoreOf 2 (stab δ)) :=
     (str86_vertex_basics hI).1
   have hZeq := str86_L311ab_a_Zeq hI hO hP hodd hb3 ha hμ hZa hVQ
-  obtain ⟨t, htZβ, htQα'⟩ := SetLike.not_le_iff_exists.mp hP.critical
+  obtain ⟨t, htZβ, htQα'⟩ := IsConcreteLE.not_le_iff_exists.mp hP.critical
   have htZβ' : t ∈ omegaOneCenterOf (pCoreOf 2 (stab (lam 0))) := by
     rwa [hD41 (lam 0) hP.linear] at htZβ
   have ht2 : t * t = 1 := by
@@ -336,7 +336,7 @@ private theorem str86_L311c_find_t
     exact hVQ (F112Crit.Vv_le_of_forall_mem_nbrs hvb hcon)
   obtain ⟨μ, hμ, hμQ⟩ := hex
   have hμlin : vtype μ = false := str86_vtype_of_mem_nbrs hvb hμ
-  obtain ⟨t, htZμ, htQα⟩ := SetLike.not_le_iff_exists.mp hμQ
+  obtain ⟨t, htZμ, htQα⟩ := IsConcreteLE.not_le_iff_exists.mp hμQ
   have htZμ' : t ∈ omegaOneCenterOf (pCoreOf 2 (stab μ)) := by
     rwa [(str86_vertex_basics hI).1 μ hμlin] at htZμ
   have ht2 : t * t = 1 := by

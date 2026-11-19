@@ -43,6 +43,7 @@ structure Twin (M V U : Subgroup G) (α : G) (H : Subgroup G) (h₀ y₀ z₀ : 
   sigma : conjSubgroup y₀ V ∈ sigmaSet M V
   mem : α * z₀ ∈ conjSubgroup y₀ V
 
+omit [Finite G] in
 theorem exists_minBad {d e : G} (hd : d ∈ Tim78.classD V) (he : e ∈ Tim78.classD V)
     (hb : BadPair d e) : ∃ U B α β, MinBad V U B α β := by
   classical
@@ -87,6 +88,7 @@ theorem exists_minBad {d e : G} (hd : d ∈ Tim78.classD V) (he : e ∈ Tim78.cl
   rw [hcard, hXcard]
   exact Nat.find_min' hex ⟨Y, hY, rfl⟩
 
+omit [Finite G] in
 theorem mem_center_iff_mem_ZU {U : Subgroup G} {x : ↥U} :
     x ∈ Subgroup.center ↥U ↔ (x : G) ∈ ZU U := by
   rw [Subgroup.mem_center_iff, Subgroup.mem_inf]
@@ -96,6 +98,7 @@ theorem mem_center_iff_mem_ZU {U : Subgroup G} {x : ↥U} :
   · rintro ⟨-, hx⟩ y
     exact Subtype.ext (hx y y.2)
 
+omit [Finite G] in
 theorem MinBad.le (hm : MinBad V U B α β) :
     V ≤ U ∧ B ≤ U ∧ α ∈ U ∧ β ∈ U := by
   refine ⟨?_, ?_, ?_, ?_⟩
@@ -104,6 +107,7 @@ theorem MinBad.le (hm : MinBad V U B α β) :
   · rw [hm.eq_sup]; exact Subgroup.mem_sup_left hm.memα
   · rw [hm.eq_sup]; exact Subgroup.mem_sup_right hm.memβ
 
+omit [Finite G] in
 theorem mem_omegaSet_self (V : Subgroup G) : V ∈ omegaSet V :=
   Tim79a.mem_omegaOf.mpr ⟨1, Subgroup.mem_top 1, (conjSubgroup_one V).symm⟩
 
@@ -122,6 +126,7 @@ theorem MinBad.beta_ne_one (hS : Sec6Hyp M V) (hm : MinBad V U B α β) : β ≠
   rw [h, mul_one]
   exact orderOf_dvd_iff_pow_eq_one.mpr (by simpa [pow_two] using hα2)
 
+omit [Finite G] in
 theorem MinBad.closure_EU (hm : MinBad V U B α β) : Subgroup.closure (EU V U) = U := by
   have hV : V ∈ omegaSet V := mem_omegaSet_self V
   refine le_antisymm ?_ ?_
@@ -132,11 +137,11 @@ theorem MinBad.closure_EU (hm : MinBad V U B α β) : Subgroup.closure (EU V U) 
     refine sup_le ?_ ?_
     · intro v hv
       by_cases hv1 : v = 1
-      · simpa [hv1] using Subgroup.one_mem (Subgroup.closure (EU V U))
+      · simp [hv1]
       · exact Subgroup.subset_closure ⟨mem_classD_of_mem hV hv hv1, V, hV, le_sup_left, hv⟩
     · intro b hb
       by_cases hb1 : b = 1
-      · simpa [hb1] using Subgroup.one_mem (Subgroup.closure (EU V U))
+      · simp [hb1]
       · exact Subgroup.subset_closure
           ⟨mem_classD_of_mem hm.memB hb hb1, B, hm.memB, le_sup_right, hb⟩
 

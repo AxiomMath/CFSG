@@ -155,15 +155,15 @@ private theorem m11_getD_pair (L : List (Nat → Nat)) (a b : Nat → Nat) (l : 
     (L ++ [a, b]).getD l id = if l < L.length then L.getD l id
       else if l = L.length then a else if l = L.length + 1 then b else id := by
   by_cases h : l < L.length
-  · rw [if_pos h, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD,
+  · rw [ite_eq_left h, List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD,
       List.getElem?_append_left h]
-  · rw [if_neg h, List.getD_eq_getElem?_getD, List.getElem?_append_right (Nat.not_lt.1 h)]
+  · rw [ite_eq_right h, List.getD_eq_getElem?_getD, List.getElem?_append_right (Nat.not_lt.1 h)]
     obtain ⟨k, rfl⟩ : ∃ k, l = L.length + k := ⟨l - L.length, by omega⟩
     rw [Nat.add_sub_cancel_left]
     rcases k with _ | _ | k
     · simp
     · simp
-    · rw [if_neg (by omega), if_neg (by omega)]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
       simp
 
 private theorem m11_word {gens : Int → Nat → Nat} {sh : Int → Int}
@@ -178,21 +178,21 @@ private theorem m11_word {gens : Int → Nat → Nat} {sh : Int → Int}
         (if 0 < z then S.getD (z.toNat - 1) 1 else (S.getD ((-z).toNat - 1) 1)⁻¹) := by
     intro z hz1 hz2
     by_cases hz : 0 < z
-    · have hsz : sh z = z + 2 := by rw [hsh, if_pos hz]
+    · have hsz : sh z = z + 2 := by rw [hsh, ite_eq_left hz]
       have e : (z + 2).natAbs - 3 = z.toNat - 1 := by omega
       have hl : letFn gens L (sh z) = L.getD (2 * (z.toNat - 1)) id := by
         rw [hsz]
         unfold letFn
-        rw [if_neg (by omega), if_pos (by omega), e]
-      rw [hl, if_pos hz]
+        rw [ite_eq_right (by omega), ite_eq_left (by omega), e]
+      rw [hl, ite_eq_left hz]
       exact ⟨hperm _, (hrel (z.toNat - 1) (by omega)).1⟩
-    · have hsz : sh z = z - 2 := by rw [hsh, if_neg hz]
+    · have hsz : sh z = z - 2 := by rw [hsh, ite_eq_right hz]
       have e : (z - 2).natAbs - 3 = (-z).toNat - 1 := by omega
       have hl : letFn gens L (sh z) = L.getD (2 * ((-z).toNat - 1) + 1) id := by
         rw [hsz]
         unfold letFn
-        rw [if_neg (by omega), if_neg (by omega), e]
-      rw [hl, if_neg hz]
+        rw [ite_eq_right (by omega), ite_eq_right (by omega), e]
+      rw [hl, ite_eq_right hz]
       obtain ⟨h1, h2⟩ := hrel ((-z).toNat - 1) (by omega)
       refine ⟨hperm _, ?_⟩
       rw [h2, ← permOf_inv (hperm _), h1]
@@ -239,14 +239,14 @@ private theorem m11_rel_step {gens : Int → Nat → Nat} {sh : Int → Int}
       have h2 : 2 * j + 1 < L.length := by omega
       have hSg : (S ++ [tab (evalCodes S w)]).getD j 1 = S.getD j 1 := by
         rw [List.getD_eq_getElem?_getD, List.getD_eq_getElem?_getD, List.getElem?_append_left hjS]
-      rw [m11_getD_pair, if_pos h1, m11_getD_pair, if_pos h2, hSg]
+      rw [m11_getD_pair, ite_eq_left h1, m11_getD_pair, ite_eq_left h2, hSg]
       exact hrel j hjS
     · have hj' : j = S.length := by omega
       subst hj'
       have h1 : ¬ 2 * S.length < L.length := by omega
       have h2 : ¬ 2 * S.length + 1 < L.length := by omega
-      rw [m11_getD_pair, if_neg h1, if_pos (by omega), m11_getD_pair, if_neg h2,
-        if_neg (by omega), if_pos (by omega),
+      rw [m11_getD_pair, ite_eq_right h1, ite_eq_left (by omega), m11_getD_pair, ite_eq_right h2,
+        ite_eq_right (by omega), ite_eq_left (by omega),
         List.getD_eq_getElem?_getD, List.getElem?_append_right (Nat.le_refl _), Nat.sub_self]
       refine ⟨?_, rfl⟩
       rw [hPσ, tab_eq]
@@ -300,18 +300,18 @@ private theorem m11_wordFn_one (fa fb : Nat → Nat) (L : List (Nat → Nat)) :
   funext x
   show letFn (m11_gens fa fb) L 1 x = fa x
   unfold letFn
-  rw [if_pos (by decide)]
+  rw [ite_eq_left (by decide)]
   unfold m11_gens
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private theorem m11_wordFn_two (fa fb : Nat → Nat) (L : List (Nat → Nat)) :
     wordFn (m11_gens fa fb) L [2] = fb := by
   funext x
   show letFn (m11_gens fa fb) L 2 x = fb x
   unfold letFn
-  rw [if_pos (by decide)]
+  rw [ite_eq_left (by decide)]
   unfold m11_gens
-  rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
 
 private theorem m11_lettersFn_W (fa fb : Nat → Nat) (ws : List (List Int)) :
     lettersFn 11 (m11_gens fa fb) ([[1], [2]] ++ ws) =
@@ -380,27 +380,27 @@ private theorem m11_LT_eq {A B : Nat} {gA gB : Equiv.Perm (Fin 11)} (hA : m11_PK
         (2 * W.length) := by
   have h := lettersP_eq (n := 11) (w := 4) (A := A) (Ai := pinvS 11 4 15 A) (B := B)
     (Bi := pinvS 11 4 15 B) (gens := m11_gens (fd 4 A) (fd 4 B)) (by decide) (by decide)
-    (fun x _ => by unfold m11_gens; rw [if_pos rfl])
+    (fun x _ => by unfold m11_gens; rw [ite_eq_left rfl])
     (fun x hx => by
       unfold m11_gens
-      rw [if_neg (by decide), if_pos rfl]
+      rw [ite_eq_right (by decide), ite_eq_left rfl]
       exact (m11_fd_pinv hA x hx).symm)
     (fun x _ => by
       unfold m11_gens
-      rw [if_neg (by decide), if_neg (by decide), if_pos rfl])
+      rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl])
     (fun x hx => by
       unfold m11_gens
-      rw [if_neg (by decide), if_neg (by decide), if_neg (by decide)]
+      rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]
       exact (m11_fd_pinv hB x hx).symm)
     (fun z hz0 hz2 => by
       unfold m11_gens
       by_cases h1 : z = 1
-      · rw [if_pos h1]; exact hA.2.1
+      · rw [ite_eq_left h1]; exact hA.2.1
       by_cases h2 : z = -1
-      · rw [if_neg h1, if_pos h2]; exact hA.2.1.finv
+      · rw [ite_eq_right h1, ite_eq_left h2]; exact hA.2.1.finv
       by_cases h3 : z = 2
-      · rw [if_neg h1, if_neg h2, if_pos h3]; exact hB.2.1
-      · rw [if_neg h1, if_neg h2, if_neg h3]; exact hB.2.1.finv) hws
+      · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]; exact hB.2.1
+      · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]; exact hB.2.1.finv) hws
   exact h
 
 private theorem m11_finv_finv {n : Nat} {f : Nat → Nat} (hf : IsPermN n f) {x : Nat} (hx : x < n) :
@@ -428,11 +428,11 @@ private theorem m11_PairsOK {F : Nat → Nat → Nat} {L : List (Nat → Nat)}
   intro x hx
   unfold CFSG.Perm.Native.invL
   by_cases hev : l % 2 = 0
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     obtain ⟨j, rfl⟩ : ∃ j, l = 2 * j := ⟨l / 2, by omega⟩
     rw [hF (2 * j + 1) (by omega) x hx, hodd j (by omega)]
     exact finv_congr (fun y hy => (hF (2 * j) hl y hy).symm) x
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     obtain ⟨j, rfl⟩ : ∃ j, l = 2 * j + 1 := ⟨l / 2, by omega⟩
     have e : 2 * j + 1 - 1 = 2 * j := by omega
     rw [e, hF (2 * j) (by omega) x hx, finv_congr (fun y hy => hF (2 * j + 1) hl y hy) x,
@@ -513,17 +513,17 @@ private theorem m11_chain_core {LT : Nat} (hL : ∀ l < 12, IsPermN 11 (letF 11 
     intro i hi
     have hi4 : i < 4 := by simpa using hi
     interval_cases i
-    · simp only [List.getElem_cons_zero, List.getElem_cons_succ, List.drop_succ_cons,
-        List.drop_zero, List.map_cons, List.map_nil, Nat.zero_add, Nat.reduceAdd]
+    · simp only [List.getElem_cons_zero, List.drop_succ_cons,
+        List.drop_zero, List.map_cons, List.map_nil, Nat.zero_add]
       exact hab'.1
     · simp only [List.getElem_cons_zero, List.getElem_cons_succ, List.drop_succ_cons,
-        List.drop_zero, List.map_cons, List.map_nil, Nat.zero_add, Nat.reduceAdd]
+        List.drop_zero, List.map_cons, List.map_nil, Nat.reduceAdd]
       exact hab'.2.1
     · simp only [List.getElem_cons_zero, List.getElem_cons_succ, List.drop_succ_cons,
-        List.drop_zero, List.map_cons, List.map_nil, Nat.zero_add, Nat.reduceAdd]
+        List.drop_zero, List.map_cons, List.map_nil, Nat.reduceAdd]
       exact hab'.2.2.1
     · simp only [List.getElem_cons_zero, List.getElem_cons_succ, List.drop_succ_cons,
-        List.drop_zero, List.map_cons, List.map_nil, Nat.zero_add, Nat.reduceAdd]
+        List.drop_zero, List.map_nil, Nat.reduceAdd]
       exact hab'.2.2.2
   · have hid := (maskId_iff (n := 11) (w := 4) (LT := LT) (NL := 12) (by decide) (by decide)
       (levMaskAt 11 4 LT 12 m11Bs 4)).1 hmask
@@ -787,7 +787,7 @@ theorem m11K_sound' {gA gB : Equiv.Perm (Fin 11)} {words : List (List Int)}
         [a, b, c, d] = true ∧ maskId 44 17592186044415 (pidn 11 4) (m11LT tA tB W) 12 e = true ∧
         sizesEq [a, b, c, d] [11, 10, 9, 8] = true)
     (fun a b c d e => by
-      simp only [m11_nIf_iff, Bool.and_eq_true, and_assoc])
+      simp only [m11_nIf_iff, Bool.and_eq_true])
     (Nat.eq_of_beq_eq_true h15)
   obtain ⟨hch, hmask, hsz⟩ := hP
   obtain ⟨hsch, hterm, hs0, hs1, hs2, hs3⟩ := m11_chain_core hLperm hch hmask hsz

@@ -42,6 +42,7 @@ theorem lemma34_eq_one_or_eq_of_mem_zpowers {x : G} (hz : orderOf z = 2)
   · right
     rw [← hk', h1, zpow_one]
 
+omit [Finite G] in
 theorem lemma34_conj_mem_J {g j : G} (hg : g ∈ H z) (hj : j ∈ J z) : g * j * g⁻¹ ∈ J z :=
   Subgroup.mem_subgroupOf.mp ((J_subgroupOf_normal z).conj_mem ⟨j, J_le_H hj⟩
     (Subgroup.mem_subgroupOf.mpr hj) ⟨g, hg⟩)
@@ -69,6 +70,7 @@ end Basic
 
 section Obligations
 
+omit [Finite G] in
 theorem J_le_normalizer_of_isParrottE (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) : J z ≤ Subgroup.normalizer (E : Set G) := by
   obtain ⟨hEH, -, hZE, hEab, -, -, hEC, -⟩ := hE
@@ -107,6 +109,7 @@ theorem J_le_normalizer_of_isParrottE (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     _ = j * e * j⁻¹ * f := by group
 
 
+omit [Finite G] in
 theorem relIndex_sup_J_of_isParrottE (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) : E.relIndex (J z ⊔ E) = 16 := by
   have hJN := J_le_normalizer_of_isParrottE h hE
@@ -119,6 +122,7 @@ theorem relIndex_sup_J_of_isParrottE (h : Tim79a.ParrottHyp z) {E : Subgroup G}
   rw [hFcard, card_J h] at h1
   omega
 
+omit [Finite G] in
 theorem commutator_mem_of_mem_J_sup (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) {r s : G} (hr : r ∈ J z ⊔ E) (hs : s ∈ J z ⊔ E) : ⁅r, s⁆ ∈ E := by
   have hJN := J_le_normalizer_of_isParrottE h hE
@@ -152,6 +156,7 @@ theorem mul_self_mem_of_mem_J_sup (h : Tim79a.ParrottHyp z) {E : Subgroup G}
   rw [hid]
   exact E.mul_mem hjj (E.mul_mem (hconj' j hj e he) he)
 
+omit [Finite G] in
 theorem exists_commutator_eq_z (h : Tim79a.ParrottHyp z) {E : Subgroup G} (hE : IsParrottE z E)
     {r : G} (hr : r ∈ J z ⊔ E) (hrE : r ∉ E) : ∃ e ∈ E, ⁅r, e⁆ = z := by
   have hJN := J_le_normalizer_of_isParrottE h hE
@@ -177,6 +182,7 @@ theorem exists_commutator_eq_z (h : Tim79a.ParrottHyp z) {E : Subgroup G} (hE : 
     _ = ⁅j, f⁆ := by rw [h1]; simp only [commutatorElement_def]
     _ = z := hjf
 
+omit [Finite G] in
 theorem commutator_eq_z_of_isConj (h : Tim79a.ParrottHyp z) {E : Subgroup G}
     (hE : IsParrottE z E) (hJ : ∀ j ∈ J z, j ∉ Subgroup.zpowers z → ¬ IsConj z j)
     {r e : G} (hr : r ∈ J z ⊔ E) (he : e ∈ E) (hc : IsConj z ⁅r, e⁆) : ⁅r, e⁆ = z := by

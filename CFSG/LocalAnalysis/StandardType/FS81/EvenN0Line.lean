@@ -217,11 +217,11 @@ theorem sign_change_mem_evenN0 {i j : Fin (n + 1)} (hi : i ≠ 0) (hj : j ≠ 0)
     rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ i'), ← Finset.mul_prod_erase _ _
       (Finset.mem_erase.mpr ⟨Ne.symm hij', Finset.mem_univ j'⟩)]
     rw [Finset.prod_eq_one fun l hl => ?_]
-    · simp only [true_or, or_true, if_true]
+    · simp only [true_or, or_true, ite_true]
       decide
     · have hl1 := Finset.ne_of_mem_erase hl
       have hl2 := Finset.ne_of_mem_erase (Finset.mem_of_mem_erase hl)
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro (h | h)
       · exact hl2 (Fin.succ_injective _ h)
       · exact hl1 (Fin.succ_injective _ h)
@@ -241,11 +241,11 @@ theorem swap_sign_mem_evenN0 {i j : Fin (n + 1)} {s : ZMod 3} (hi : i ≠ 0) (hj
     rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ i'), ← Finset.mul_prod_erase _ _
       (Finset.mem_erase.mpr ⟨Ne.symm hij', Finset.mem_univ j'⟩)]
     rw [Finset.prod_eq_one fun l hl => ?_]
-    · simp only [true_or, or_true, if_true]
+    · simp only [true_or, or_true, ite_true]
       rcases hs with rfl | rfl <;> decide
     · have hl1 := Finset.ne_of_mem_erase hl
       have hl2 := Finset.ne_of_mem_erase (Finset.mem_of_mem_erase hl)
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro (h | h)
       · exact hl2 (Fin.succ_injective _ h)
       · exact hl1 (Fin.succ_injective _ h)
@@ -285,14 +285,14 @@ theorem swap_sign_mulVec_eq {k : ℕ} {v : Fin k → ZMod 3} {i j : Fin k} {s : 
   rw [spMat_mulVec]
   by_cases hx : x = i
   · subst hx
-    simp only [Equiv.symm_swap, Equiv.swap_apply_left, or_true, if_true]
+    simp only [Equiv.symm_swap, Equiv.swap_apply_left, or_true, ite_true]
     rw [hij, ← mul_assoc, hs, one_mul]
   · by_cases hy : x = j
     · subst hy
-      simp only [Equiv.symm_swap, Equiv.swap_apply_right, true_or, if_true]
+      simp only [Equiv.symm_swap, Equiv.swap_apply_right, true_or, ite_true]
       rw [hij]
     · simp only [Equiv.symm_swap, Equiv.swap_apply_of_ne_of_ne hx hy]
-      rw [if_neg (by tauto), one_mul]
+      rw [ite_eq_right (by tauto), one_mul]
 
 theorem tau_mulVec_eq {v : Fin (n + 1) → ZMod 3} (hv0 : v 0 = 0) :
     tau0Mat n *ᵥ v = v := by
@@ -824,11 +824,11 @@ theorem evenN0Rep_two {n : ℕ} (hn : 3 ≤ n) (ε : ZMod 3) :
   by_cases hi0 : i = 0
   · subst hi0
     simp
-  · rw [if_neg hi0]
+  · rw [ite_eq_right hi0]
     have hi0' : (i : ℕ) ≠ 0 := fun h => hi0 (Fin.ext h)
     by_cases hle : (i : ℕ) ≤ 2
     · have hne : (i : ℕ) ≠ n := by omega
-      rw [if_pos hle, if_neg hne]
+      rw [ite_eq_left hle, ite_eq_right hne]
       have hval : (i : ℕ) = 1 ∨ (i : ℕ) = 2 := by omega
       rcases hval with h1 | h2
       · have hi1 : i = (⟨1, by omega⟩ : Fin (n + 1)) := Fin.ext (by simpa using h1)
@@ -843,7 +843,7 @@ theorem evenN0Rep_two {n : ℕ} (hn : 3 ≤ n) (ε : ZMod 3) :
         intro h
         have hiv : (i : ℕ) = 2 := by simpa using congrArg Fin.val h
         exact hle (by omega)
-      rw [if_neg hle, Pi.add_apply, Pi.single_eq_of_ne h1n, Pi.single_eq_of_ne h2n, add_zero]
+      rw [ite_eq_right hle, Pi.add_apply, Pi.single_eq_of_ne h1n, Pi.single_eq_of_ne h2n, add_zero]
 
 theorem evenN0MatHyp_hroot {n : ℕ} (hn : 3 ≤ n)
     {Xg : Subgroup (GL (Fin (n + 1)) (ZMod 3))} (h : EvenN0MatHyp n Xg) :

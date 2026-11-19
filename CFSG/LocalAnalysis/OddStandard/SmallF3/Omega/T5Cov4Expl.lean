@@ -19,6 +19,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     OGroup Q :=
   fr.signChange {0, 2, 4} * fr.permOrth (Equiv.swap 0 1 * Equiv.swap 2 3 * Equiv.swap 4 5)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.complexStructure_mul_self {c : ZMod 3} (fr : NFrame Q (Fin 6) c) :
     fr.complexStructure * fr.complexStructure = piOrth Q := by
   unfold NFrame.complexStructure

@@ -14,7 +14,7 @@ theorem exists_mulEquiv_genFittingFStar_of_hasQuotShape {Q : Type} [Group Q] [Fi
     ∃ (X : Type) (_ : Group X), P X ∧
       Nonempty (↥(CFSG.Open.genFittingFStar (↥H ⧸ (N.subgroupOf H).normalCore)) ≃* X) := by
   obtain ⟨X, hX, φ, hφ, hker, hP⟩ := h
-  haveI := hN
+  have := hN
   let Nc : Subgroup ↥H := (N.subgroupOf H).normalCore
   have hcore : Nc = N.subgroupOf H := Subgroup.normalCore_eq_self _
   let F : Subgroup (↥H ⧸ Nc) := CFSG.Open.genFittingFStar (↥H ⧸ Nc)

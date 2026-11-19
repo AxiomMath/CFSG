@@ -231,7 +231,7 @@ theorem tJ_not_mem_F : tJ ∉ FJ := by
   obtain ⟨P, hP⟩ := (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz2, pow_one]) :
     IsPGroup 2 (Subgroup.zpowers z)).exists_le_sylow
   have hPab : IsMulCommutative (P : Subgroup FJ) := by
-    obtain ⟨S', hS'⟩ := (P.isPGroup'.map FJ.subtype).exists_le_sylow
+    obtain ⟨S', hS'⟩ := (P.isPGroup.map FJ.subtype).exists_le_sylow
     have hc := hasAbelianSylowTwo S'
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha : ((a : FJ) : walterJ1) ∈ (S' : Subgroup walterJ1) := hS' ⟨a, a.2, rfl⟩

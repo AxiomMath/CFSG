@@ -99,8 +99,8 @@ theorem recK_parts {k cnt : Nat} {G GI GJ T PL POS SRT SRI HS HSI CL : Nat → N
   exact ⟨fun i hi => penumSl_spec hp i (Nat.zero_le _) (by omega) hi,
     fun i hi => slK_spec hs i (Nat.zero_le _) (by omega) hi,
     fun c hc' => slK_spec hc c (Nat.zero_le _)
-      (by first | (change c < 0 + cnt * (k + k); omega) | (change c < cnt * (k + k); omega))
-      (by first | (change c < 0 + cnt * (k + k); omega) | (change c < cnt * (k + k); omega))⟩
+      (by first | (change c < 0 + cnt * (k + k); omega))
+      (by first | (change c < cnt * (k + k); omega))⟩
 
 theorem hdQ : headI qWordsK 4 32 TKQ.G TKQ.GI TKQI TKQ.T TKQ.PL TKQ.cnt = true :=
   headI_of (by decide) (fun j _ => by rw [nspec_eq, qWordsK, getD_map_specWord]) ch26773_hQ

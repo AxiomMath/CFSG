@@ -57,7 +57,7 @@ open FiveWalk
 
 theorem five_two_mul_ne : ∀ c : ZMod 5, c ≠ 0 → 2 * c ≠ c ∧ 2 * c ≠ -c := by decide
 
-theorem fiveReflOf_mul_mem_closure_of_pairing_ne {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
+theorem fiveReflOf_mul_mem_closure_of_pairing_ne {k : ℕ} (_hk : 4 ≤ k) (ε π : Bool)
     (c : Fin (k + 1) → ZMod 5) {x y : Fin (k + 1) → ZMod 5}
     (hQ : fiveForm k ε y y = fiveForm k ε x x) (hx : fiveForm k ε x x ≠ 0)
     (hxπ : IsSquare (fiveForm k ε x x) ↔ (!π) = true)
@@ -169,7 +169,7 @@ theorem fiveReflOf_mul_mem_closure_of_pairing_ne {k : ℕ} (hk : 4 ≤ k) (ε π
     exact Subgroup.mul_mem _ (Subgroup.subset_closure hw_mem) (Subgroup.subset_closure ht_mem)
 
 theorem exists_fiveForm_orth_eq {k : ℕ} (hk : 4 ≤ k) (ε : Bool) {a : Fin (k + 1) → ZMod 5}
-    (ha : fiveForm k ε a a ≠ 0) (b : Fin (k + 1) → ZMod 5) {d : ZMod 5} (hd : d ≠ 0) :
+    (ha : fiveForm k ε a a ≠ 0) (b : Fin (k + 1) → ZMod 5) {d : ZMod 5} (_hd : d ≠ 0) :
     ∃ z, fiveForm k ε z a = 0 ∧ fiveForm k ε z b = 0 ∧ fiveForm k ε z z = d := by
   obtain ⟨w₁, w₂, h1a, h1b, h1n, h2a, h2b, h2n, h12⟩ :=
     exists_two_aniso_perp hk ε ha (b := b)

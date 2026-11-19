@@ -69,7 +69,7 @@ theorem wp7_conj_sandwich (P Q X N : M6) (hQP : Q * P = 1) (hPQ : Pᵀ * Qᵀ = 
       = P * X * (Q * P) * N * (Pᵀ * Qᵀ) * (Xᵀ * Pᵀ) := by simp only [mul_assoc]
     _ = P * (X * N * Xᵀ) * Pᵀ := by
       rw [hQP, hPQ]
-      simp only [mul_assoc, one_mul, mul_one]
+      simp only [mul_assoc, mul_one]
 
 @[expose] def wp7_kerImage {E : Type} [Group E] (a : E →* GL6) (n : E → M6)
     (hadd : ∀ e e', a e = 1 → a e' = 1 → n (e * e') = n e + n e') : AddSubgroup M6 where

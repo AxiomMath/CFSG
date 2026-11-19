@@ -16,7 +16,7 @@ theorem exists_ne_one_of_irr [FiniteDimensional K X] (ρ : H →* (X ≃ₗ[K] X
   by_contra hcon
   push Not at hcon
   have hpos : 0 < finrank K X := lt_trans Nat.zero_lt_one hX
-  haveI : Nontrivial X := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial X := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨x, hx⟩ := exists_ne (0 : X)
   have hinv : ∀ h : H, ∀ y ∈ K ∙ x, ρ h y ∈ K ∙ x := fun h y hy => by
     rw [hcon h]

@@ -22,11 +22,11 @@ variable {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U] [Module (ZMod p) U
 
 @[expose] noncomputable def formOf (e : U ≃ₗ[ZMod p] (Fin 3 → ZMod p))
     (M : Matrix (Fin 3) (Fin 3) (ZMod p)) : QuadraticForm (ZMod p) U :=
-  (Matrix.toQuadraticMap' M).comp (e : U →ₗ[ZMod p] (Fin 3 → ZMod p))
+  (toQuadraticForm' M).comp (e : U →ₗ[ZMod p] (Fin 3 → ZMod p))
 
 theorem formOf_apply (e : U ≃ₗ[ZMod p] (Fin 3 → ZMod p)) (M : Matrix (Fin 3) (Fin 3) (ZMod p))
     (u : U) : formOf e M u = e u ⬝ᵥ (M *ᵥ e u) := by
-  simp only [formOf, QuadraticMap.comp_apply, Matrix.toQuadraticMap', Matrix.toQuadraticForm',
+  simp only [formOf, QuadraticMap.comp_apply, toQuadraticForm', Matrix.toQuadraticForm',
     LinearMap.BilinMap.toQuadraticMap_apply, Matrix.toLinearMap₂'_apply']
   rfl
 

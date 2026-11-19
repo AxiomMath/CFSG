@@ -18,10 +18,10 @@ open CFSG CFSG.Open CFSG.Assembly CFSG.LocalAnalysis.GLTheoremA CFSG.Blueprint
 private theorem exceptionalOrders_psu_our {d n : ℕ} (hn : 1 ≤ n) (hd4 : d ≠ 4) :
     Multiplier.exceptionalOrders .PSU d 2 n = if d = 6 ∧ n = 1 then (2, 2) else (1, 1) := by
   by_cases h : d = 6 ∧ n = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     obtain ⟨rfl, rfl⟩ := h
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     by_cases hn1 : n = 1
     · subst hn1
       by_cases hd6 : d = 6
@@ -30,7 +30,7 @@ private theorem exceptionalOrders_psu_our {d n : ℕ} (hn : 1 ≤ n) (hd4 : d �
         split <;> first | rfl | (exfalso; simp_all)
     · have hn2 : 2 ≤ n := by omega
       unfold Multiplier.exceptionalOrders
-      split <;> first | rfl | (exfalso; simp_all <;> omega)
+      split <;> first | rfl | (exfalso; simp_all)
 
 private theorem card_hopfMultiplier_of_blueprint_PSL {X : Type} [Group X] {d n : ℕ}
     (hm : Blueprint.LieModel X .PSL d 2 n) (hn : 2 ≤ n) (hd : 3 ≤ d)

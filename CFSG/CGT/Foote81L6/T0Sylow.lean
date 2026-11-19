@@ -73,7 +73,7 @@ theorem sylow_centralizer_A (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ �
     ∃ SK : Sylow 2 ↥(centralizer ({a₁} : Set G)),
       (SK : Subgroup _) = D.T₀.subgroupOf (centralizer ({a₁} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₀C : D.T₀ ≤ centralizer ({a₁} : Set G) :=
     sup_le (fun x hx => mem_centralizer_singleton_iff.2 (D.A_comm_of_two hx ha₁))
       (fun y hy => mem_centralizer_singleton_iff.2 (D.A_comm_B a₁ ha₁ y hy).symm)
@@ -146,7 +146,7 @@ theorem sylow_centralizer_A (hcen : D.a ∈ center G) {a₁ : G} (ha₁ : a₁ �
   set c := h⁻¹ * a₁ * h with hc_def
   have hcT₀ : c ∈ D.T₀ := by
     rw [← hmapT₀]
-    exact ⟨a₁, D.A_le_T₀ ha₁, by simp [MulAut.conj_apply, hc_def]⟩
+    exact ⟨a₁, D.A_le_T₀ ha₁, by simp [hc_def]⟩
   have hcc : ∀ y ∈ (T : Subgroup G), y * c = c * y := by
     intro y hy
     have hyQ : h * y * h⁻¹ ∈ (Q : Subgroup G) := hmemQ.2 (by group; exact hy)

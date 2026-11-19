@@ -378,7 +378,7 @@ theorem exists_twinFrameData_of_sylows (hΩ : HypOmegaGen Ω)
     have := hR'T₀.conjSub g
     rwa [hgR'] at this
   obtain ⟨S₁, hS₁⟩ : ∃ S₁ : Sylow 2 G, conjSub g (S₀ : Subgroup G) ≤ (S₁ : Subgroup G) :=
-    (isPGroup_conjSub g S₀.isPGroup').exists_le_sylow
+    (isPGroup_conjSub g S₀.isPGroup).exists_le_sylow
   have hS₀ : ∀ {A : Subgroup G}, A ≤ (S₀ : Subgroup G) → conjSub g A ≤ (S₁ : Subgroup G) :=
     fun hA => (conjSub_mono hA).trans hS₁
   have hR₁S : R₁ ≤ (S₁ : Subgroup G) := by rw [← hgR]; exact hS₀ hR₀S
@@ -566,7 +566,7 @@ theorem twinFrame_t_not_mem_closure (hΩ : HypOmegaGen Ω)
       · exact h.hu
     exact this htcl
   have hS2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) :=
-    (Sylow.isPGroup' S).to_le inf_le_left
+    (Sylow.isPGroup S).to_le inf_le_left
   have heq : (S : Subgroup G) ⊓ (K ⊔ K') = R ⊔ R' :=
     hQ.eq_of_le hS2 inf_le_right (le_inf (sup_le hRS hR'S) hQ.1)
   have htRR' : t ∈ R ⊔ R' := by

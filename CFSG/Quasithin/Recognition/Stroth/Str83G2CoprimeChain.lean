@@ -31,8 +31,8 @@ theorem commutator_inf_eq_of_isElemAbelian {N L D : Subgroup G}
     obtain ⟨k, hk⟩ := (hKe.isPGroup (p := 2)).exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (Odd.coprime_two_right hDodd)
-  letI : CommGroup ↥N := hNe.1.instCommGroup
-  letI : CommGroup ↥L := hKe.1.instCommGroup
+  let : CommGroup ↥N := hNe.1.instCommGroup
+  let : CommGroup ↥L := hKe.1.instCommGroup
   have hcommL : ∀ a ∈ L, ∀ b ∈ L, a * b = b * a := fun a ha b hb => by
     simpa using (hKe.1.is_comm.comm (⟨a, ha⟩ : ↥L) (⟨b, hb⟩ : ↥L))
   have hCdisj : (⁅N, D⁆ ⊓ L) ⊓ (L ⊓ Subgroup.centralizer (D : Set G)) = ⊥ := by

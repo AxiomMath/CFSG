@@ -95,7 +95,7 @@ theorem exists_pow_three_ne_one_of_psl28 (R : Sylow 3 X) {K : Subgroup X}
       exact h1
     exact (equivMapOfInjective (P₀ : Subgroup K) e.toMonoidHom e.injective).isCyclic.mpr h2
   have hexp : ∀ x ∈ (P₀ : Subgroup K), x ^ 3 = 1 := by
-    obtain ⟨Q, hQ⟩ := (P₀.isPGroup'.map K.subtype).exists_le_sylow
+    obtain ⟨Q, hQ⟩ := (P₀.isPGroup.map K.subtype).exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X R Q
     intro x hx
     have hxQ : (x : X) ∈ (Q : Subgroup X) := hQ ⟨x, hx, rfl⟩
@@ -128,14 +128,14 @@ theorem card_sylow_le_of_l28 {R : Sylow 3 X} {A X₀ K : Subgroup X}
   obtain ⟨ι, hι, -, -⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.RankTwoUniq.k1Core_exists_action
       h.centralizer_eq_bot (MulEquiv.refl K)
-  have h27 := kFactL28AutThree K hL ((R : Subgroup X).map ι) (R.isPGroup'.map ι)
+  have h27 := kFactL28AutThree K hL ((R : Subgroup X).map ι) (R.isPGroup.map ι)
   rwa [card_map_of_injective hι] at h27
 
 theorem false_of_l28 {R : Sylow 3 X} {A X₀ K B : Subgroup X} (h : D2AlmostSimple 3 X R A X₀ K)
     (hL : IsCaseTwoGroup 3 K) (e : K ≃* PSL(2, GaloisField 2 3)) (hBR : B ≤ R)
     (hB : IsElemAbelian 3 B) (hBc : Nat.card B = 9) (hBA : B ≠ A) : False := by
   obtain ⟨t, htR, ht⟩ := exists_pow_three_ne_one_of_psl28 R e
-  exact false_of_two_planes R.isPGroup' (card_sylow_le_of_l28 h hL) h.A_le hBR h.elem.2 hB.2
+  exact false_of_two_planes R.isPGroup (card_sylow_le_of_l28 h hL) h.A_le hBR h.elem.2 hB.2
     (by rw [h.card_A]; norm_num) hBc (Ne.symm hBA) htR ht
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614K278

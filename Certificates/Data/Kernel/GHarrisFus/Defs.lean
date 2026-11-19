@@ -41,10 +41,10 @@ open CFSG.KC.Enum
 @[expose] noncomputable def evalWK (dm mv Q : Nat) (w : List Nat) : Nat := evalFrom dm mv Q (nat_lit 0) w
 
 @[expose] noncomputable def okK (rel : Bool) (x : Nat) : Bool :=
-  Bool.rec (Bool.not' (Nat.beq x (nat_lit 0))) (Nat.beq x (nat_lit 0)) rel
+  Bool.rec (not (Nat.beq x (nat_lit 0))) (Nat.beq x (nat_lit 0)) rel
 
 @[expose] noncomputable def isInvK (dm mv c : Nat) : Bool :=
-  Bool.and' (Nat.beq (mulK dm mv c c) (nat_lit 0)) (Bool.not' (Nat.beq c (nat_lit 0)))
+  _root_.Bool.and (Nat.beq (mulK dm mv c c) (nat_lit 0)) (not (Nat.beq c (nat_lit 0)))
 
 @[expose] noncomputable def patK (dm mv x y : Nat) : Nat :=
   strictN (mulK dm mv x y) fun p => strictN (mulK dm mv p p) fun p2 =>
@@ -61,7 +61,7 @@ open CFSG.KC.Enum
       (strictN (Nat.succ j) ih)) L (nat_lit 0)
 
 @[expose] noncomputable def rowsOK (dm mv : Nat) (R L : List (Nat × Nat)) : Bool :=
-  List.rec (motive := fun _ => Bool) true (fun e _ ih => Bool.and'
+  List.rec (motive := fun _ => Bool) true (fun e _ ih => _root_.Bool.and
     (Prod.rec (motive := fun _ => Bool) (fun c r =>
       Nat.beq (Nat.lor (rowK dm mv c L) (Nat.land r (nat_lit 18446744073709551615))) r) e) ih) R
 
@@ -71,34 +71,34 @@ open CFSG.KC.Enum
 
 @[expose] noncomputable def invsOK (dm mv : Nat) (L : List (Nat × Nat)) : Bool :=
   strictB (codeMask L) fun M =>
-    Nat.rec (motive := fun _ => Bool) true (fun c ih => Bool.and'
-      (Bool.or' (Bool.not' (isInvK dm mv c))
+    Nat.rec (motive := fun _ => Bool) true (fun c ih => _root_.Bool.and
+      (_root_.Bool.or (not (isInvK dm mv c))
         (Nat.beq (Nat.land (Nat.shiftRight M c) (nat_lit 1)) (nat_lit 1))) ih) (nat_lit 512)
 
 @[expose] noncomputable def badBK (dm mv CT BP Q : Nat) (IK : List (Nat × List Nat)) : Bool :=
   List.rec (motive := fun _ => Bool) false
-    (fun r _ ih => Bool.or' (Prod.rec (motive := fun _ => Bool) (fun c9 w =>
+    (fun r _ ih => _root_.Bool.or (Prod.rec (motive := fun _ => Bool) (fun c9 w =>
       Nat.beq (Nat.land (Nat.shiftRight BP (Nat.add c9 (clsK CT (evalWK dm mv Q w)))) (nat_lit 1))
         (nat_lit 1)) r) ih) IK
 
 @[expose] noncomputable def predEK (c : Nat) : Bool :=
-  Bool.and' (Nat.blt c (nat_lit 256)) (Nat.beq (Nat.land c (nat_lit 5)) (nat_lit 0))
+  _root_.Bool.and (Nat.blt c (nat_lit 256)) (Nat.beq (Nat.land c (nat_lit 5)) (nat_lit 0))
 
 @[expose] noncomputable def predFK (c : Nat) : Bool :=
-  Bool.and' (Nat.blt c (nat_lit 256)) (Nat.beq (Nat.land c (nat_lit 5))
+  _root_.Bool.and (Nat.blt c (nat_lit 256)) (Nat.beq (Nat.land c (nat_lit 5))
     (nib (nat_lit 5440) (Nat.shiftRight c (nat_lit 6))))
 
 @[expose] noncomputable def diffK (dm mv Q : Nat) (pred : Nat → Bool) (EW : List (Nat × List Nat)) :
     Bool :=
   List.rec (motive := fun _ => Bool) false
-    (fun r _ ih => Bool.or' (Prod.rec (motive := fun _ => Bool) (fun e w =>
-      Bool.rec (pred (evalWK dm mv Q w)) (Bool.not' (pred (evalWK dm mv Q w))) (pred e)) r) ih) EW
+    (fun r _ ih => _root_.Bool.or (Prod.rec (motive := fun _ => Bool) (fun e w =>
+      Bool.rec (pred (evalWK dm mv Q w)) (not (pred (evalWK dm mv Q w))) (pred e)) r) ih) EW
 
 @[expose] noncomputable def outK (dm mv CT BP Q : Nat) (IK EW : List (Nat × List Nat)) (zw : List Nat)
     (uE uF : Bool) (good : Nat → Bool) : Bool :=
-  Bool.or' (badBK dm mv CT BP Q IK)
-    (Bool.or' (Bool.and' (Nat.beq (evalWK dm mv Q zw) (nat_lit 32))
-        (Bool.or' (Bool.and' uE (diffK dm mv Q predEK EW)) (Bool.and' uF (diffK dm mv Q predFK EW))))
+  _root_.Bool.or (badBK dm mv CT BP Q IK)
+    (_root_.Bool.or (_root_.Bool.and (Nat.beq (evalWK dm mv Q zw) (nat_lit 32))
+        (_root_.Bool.or (_root_.Bool.and uE (diffK dm mv Q predEK EW)) (_root_.Bool.and uF (diffK dm mv Q predFK EW))))
       (good Q))
 
 abbrev Test := List Nat × List Nat × Bool
@@ -121,16 +121,16 @@ abbrev FusT := Nat × Nat × (Test × Test × Test) × List (Nat × List Nat) ×
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
     (fun e _ ih m => Bool.rec
       (Bool.rec (strictB (Nat.shiftRight m (nat_lit 1)) ih)
-        (Bool.and' (Prod.rec (motive := fun _ => Bool) f e) (strictB (Nat.shiftRight m (nat_lit 1)) ih))
+        (_root_.Bool.and (Prod.rec (motive := fun _ => Bool) f e) (strictB (Nat.shiftRight m (nat_lit 1)) ih))
         (Nat.beq (Nat.land m (nat_lit 1)) (nat_lit 1)))
       true (Nat.beq m (nat_lit 0))) L m
 
 @[expose] noncomputable def walkR (f : Nat → Nat → Bool) (lo hi : Nat) (L : List (Nat × Nat))
     (m : Nat) : Bool :=
   List.rec (motive := fun _ => Nat → Nat → Bool) (fun _ _ => true)
-    (fun e _ ih j m => Bool.and'
-      (Bool.or' (Bool.not' (Bool.and' (Nat.beq (Nat.land m (nat_lit 1)) (nat_lit 1))
-          (Bool.and' (Nat.ble lo j) (Nat.blt j hi))))
+    (fun e _ ih j m => _root_.Bool.and
+      (_root_.Bool.or (not (_root_.Bool.and (Nat.beq (Nat.land m (nat_lit 1)) (nat_lit 1))
+          (_root_.Bool.and (Nat.ble lo j) (Nat.blt j hi))))
         (Prod.rec (motive := fun _ => Bool) f e))
       (strictB (Nat.succ j) fun j' => strictB (Nat.shiftRight m (nat_lit 1)) (ih j'))) L (nat_lit 0) m
 
@@ -138,8 +138,8 @@ abbrev FusT := Nat × Nat × (Test × Test × Test) × List (Nat × List Nat) ×
     (IK EW : List (Nat × List Nat)) (zw : List Nat) (uE uF : Bool) (good : Nat → Bool) (c3 _ : Nat) :
     Bool :=
   strictB (Nat.lor Qp (Nat.shiftLeft c3 (nat_lit 27))) fun Q =>
-    Bool.or' (Bool.not' (Bool.and' (triOkK dm mv Q x1 t1)
-        (Bool.and' (triOkK dm mv Q x2 t2) (triOkK dm mv Q x3 t3))))
+    _root_.Bool.or (not (_root_.Bool.and (triOkK dm mv Q x1 t1)
+        (_root_.Bool.and (triOkK dm mv Q x2 t2) (triOkK dm mv Q x3 t3))))
       (outK dm mv CT BP Q IK EW zw uE uF good)
 
 @[expose] noncomputable def stage2 (dm mv CT BP Qv A3 p23 : Nat) (L : List (Nat × Nat)) (t1 t2 t3 : Test)
@@ -149,7 +149,7 @@ abbrev FusT := Nat × Nat × (Test × Test × Test) × List (Nat × List Nat) ×
   strictB (evalWK dm mv Qp (preK t1)) fun x1 =>
   strictB (evalWK dm mv Qp (preK t2)) fun x2 =>
   strictB (evalWK dm mv Qp (preK t3)) fun x3 =>
-    Bool.or' (Bool.not' (Bool.and' (pairOkK x1 t1) (Bool.and' (pairOkK x2 t2) (pairOkK x3 t3))))
+    _root_.Bool.or (not (_root_.Bool.and (pairOkK x1 t1) (_root_.Bool.and (pairOkK x2 t2) (pairOkK x3 t3))))
       (strictB (Nat.land A3 (lane R2 p23))
         (walkM (stage3 dm mv CT BP Qp x1 x2 x3 t1 t2 t3 IK EW zw uE uF good) L))
 
@@ -182,20 +182,20 @@ abbrev FusT := Nat × Nat × (Test × Test × Test) × List (Nat × List Nat) ×
 
 @[expose] noncomputable def hasEdgeK (dm mv CT Q i9 j : Nat) (IK : List (Nat × List Nat)) : Bool :=
   List.rec (motive := fun _ => Bool) false
-    (fun r _ ih => Bool.or' (Prod.rec (motive := fun _ => Bool) (fun c9 w =>
-      Bool.and' (Nat.beq c9 i9) (Nat.beq (clsK CT (evalWK dm mv Q w)) j)) r) ih) IK
+    (fun r _ ih => _root_.Bool.or (Prod.rec (motive := fun _ => Bool) (fun c9 w =>
+      _root_.Bool.and (Nat.beq c9 i9) (Nat.beq (clsK CT (evalWK dm mv Q w)) j)) r) ih) IK
 
 @[expose] noncomputable def goodAZK (dm mv CT : Nat) (IK : List (Nat × List Nat))
     (x : List Nat × List Nat × List Nat) (wit : List Nat) (Q : Nat) : Bool :=
-  Bool.and' (hasEdgeK dm mv CT Q (nat_lit 9) (nat_lit 7) IK)
-    (Bool.and' (hasEdgeK dm mv CT Q (nat_lit 63) (nat_lit 3) IK)
-      (Bool.and' (hasEdgeK dm mv CT Q (nat_lit 45) (nat_lit 8) IK)
+  _root_.Bool.and (hasEdgeK dm mv CT Q (nat_lit 9) (nat_lit 7) IK)
+    (_root_.Bool.and (hasEdgeK dm mv CT Q (nat_lit 63) (nat_lit 3) IK)
+      (_root_.Bool.and (hasEdgeK dm mv CT Q (nat_lit 45) (nat_lit 8) IK)
         (Prod.rec (motive := fun _ => Bool) (fun w26 r => Prod.rec (motive := fun _ => Bool) (fun w4 w2 =>
           strictB (evalWK dm mv Q w26) fun a => strictB (evalWK dm mv Q w4) fun b =>
           strictB (mulK dm mv b (evalWK dm mv Q w2)) fun bc =>
-            List.rec (motive := fun _ => Bool) false (fun s _ ih => Bool.or'
-              (Bool.and' (Nat.beq (mulK dm mv a s) (mulK dm mv s (nat_lit 8)))
-                (Bool.or' (Nat.beq (mulK dm mv b s) (mulK dm mv s (nat_lit 68)))
+            List.rec (motive := fun _ => Bool) false (fun s _ ih => _root_.Bool.or
+              (_root_.Bool.and (Nat.beq (mulK dm mv a s) (mulK dm mv s (nat_lit 8)))
+                (_root_.Bool.or (Nat.beq (mulK dm mv b s) (mulK dm mv s (nat_lit 68)))
                   (Nat.beq (mulK dm mv bc s) (mulK dm mv s (nat_lit 100))))) ih) wit) r) x)))
 
 @[expose] noncomputable def a1K : List Nat :=
@@ -204,21 +204,21 @@ abbrev FusT := Nat × Nat × (Test × Test × Test) × List (Nat × List Nat) ×
 
 @[expose] noncomputable def goodA34K (dm mv CT : Nat) (IK : List (Nat × List Nat))
     (x : List Nat × List Nat × List Nat × List Nat) (wit : List Nat) (Q : Nat) : Bool :=
-  Bool.and' (Bool.or' (hasEdgeK dm mv CT Q (nat_lit 9) (nat_lit 0) IK)
+  _root_.Bool.and (_root_.Bool.or (hasEdgeK dm mv CT Q (nat_lit 9) (nat_lit 0) IK)
       (hasEdgeK dm mv CT Q (nat_lit 0) (nat_lit 1) IK))
-    (Bool.and' (Bool.or' (hasEdgeK dm mv CT Q (nat_lit 45) (nat_lit 8) IK)
+    (_root_.Bool.and (_root_.Bool.or (hasEdgeK dm mv CT Q (nat_lit 45) (nat_lit 8) IK)
         (hasEdgeK dm mv CT Q (nat_lit 72) (nat_lit 5) IK))
       (Prod.rec (motive := fun _ => Bool) (fun w26 r => Prod.rec (motive := fun _ => Bool) (fun w2 r =>
         Prod.rec (motive := fun _ => Bool) (fun w3 w4 =>
-        Bool.and' (Nat.beq (clsK CT (evalWK dm mv Q w4)) (nat_lit 8))
+        _root_.Bool.and (Nat.beq (clsK CT (evalWK dm mv Q w4)) (nat_lit 8))
           (strictB (evalWK dm mv Q w26) fun a => strictB (evalWK dm mv Q w2) fun b =>
            strictB (evalWK dm mv Q w3) fun c =>
-            List.rec (motive := fun _ => Bool) false (fun s _ ih => Bool.or'
-              (Bool.and' (Nat.beq (mulK dm mv s (nat_lit 64)) (mulK dm mv (nat_lit 64) s))
-                (Bool.and' (Nat.beq (mulK dm mv a s) (mulK dm mv s (nat_lit 32)))
-                  (Bool.and' (Bool.or' (Nat.beq (mulK dm mv b s) (mulK dm mv s (nat_lit 8)))
+            List.rec (motive := fun _ => Bool) false (fun s _ ih => _root_.Bool.or
+              (_root_.Bool.and (Nat.beq (mulK dm mv s (nat_lit 64)) (mulK dm mv (nat_lit 64) s))
+                (_root_.Bool.and (Nat.beq (mulK dm mv a s) (mulK dm mv s (nat_lit 32)))
+                  (_root_.Bool.and (_root_.Bool.or (Nat.beq (mulK dm mv b s) (mulK dm mv s (nat_lit 8)))
                       (Nat.beq (mulK dm mv b s) (mulK dm mv s (nat_lit 40))))
                     (List.rec (motive := fun _ => Bool) false (fun w _ ih' =>
-                      Bool.or' (Nat.beq (mulK dm mv c s) (mulK dm mv s w)) ih') a1K)))) ih) wit)) r) r) x))
+                      _root_.Bool.or (Nat.beq (mulK dm mv c s) (mulK dm mv s w)) ih') a1K)))) ih) wit)) r) r) x))
 
 end CFSG.KC.GHFus

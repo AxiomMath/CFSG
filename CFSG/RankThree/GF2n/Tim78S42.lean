@@ -44,6 +44,7 @@ theorem B_lt_P : B < P := by
   have hgP := H.conj_le_P hgQ
   rw [← h] at hgP
   exact hgne (Subgroup.eq_of_le_of_card_ge hgP (by rw [card_conjSubgroup]))
+omit [Finite G] in
 theorem comm_P_of_comm_gens {y : G}
     (h : ∀ g : G, conjSubgroup g B ≤ Q → ∀ a ∈ conjSubgroup g B, a * y = y * a) :
     ∀ p ∈ P, p * y = y * p := by
@@ -77,6 +78,7 @@ theorem inf_centralizer_eq_B {N : Subgroup G} (hBN : B ≤ N) (hNQ : N ≤ Q)
   · exact fun m hm => mem_normalizer_inf (hMN hm) (mem_normalizer_centralizer (hMN hm))
   · exact ⟨⟨fun a b => Subtype.ext (Subgroup.mem_centralizer_iff.mp b.2.2 a a.2.1)⟩⟩
 
+omit [Finite G] in
 theorem not_comm_of_ne {N : Subgroup G} (hBN : B ≤ N) (hNQ : N ≤ Q)
     (hMN : M ≤ Subgroup.normalizer (N : Set G)) (hne : B ≠ N) :
     ¬ ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
@@ -205,10 +207,10 @@ theorem center_quotient {Hh : Subgroup G} (hHB : Hh ≤ B) (hH2 : Nat.card Hh * 
   rwa [H.inf_centralizer_P] at hmem
 
 theorem exists_inner {Hh : Subgroup G} (hHB : Hh ≤ B) (hH2 : Nat.card Hh * 2 = Nat.card B)
-    {y : G} (hy : y ∈ Q) : ∃ x ∈ P, ∀ p ∈ P, ⁅y * x, p⁆ ∈ Hh :=
-  exists_inner_of_hyperplane H.P_le_Q (fun a ha b hb => H.commutator_mem ha hb)
-    (fun b hb x hx => H.center_Q hb hx) hHB hH2
-    (fun x hx h => H.center_quotient hHB hH2 hx h) hy
+    {y : G} (hy : y ∈ Q) : ∃ _x ∈ P, ∀ p ∈ P, ⁅y * _x, p⁆ ∈ Hh :=
+  exists_inner_of_hyperplane H.P_le_Q (fun _a ha _b hb => H.commutator_mem ha hb)
+    (fun _b hb _x hx => H.center_Q hb hx) hHB hH2
+    (fun _x hx h => H.center_quotient hHB hH2 hx h) hy
 
 theorem Q_eq_sup : Q = P ⊔ T := by
   refine le_antisymm (fun y hy => ?_) (sup_le H.P_le_Q H.T_le_Q)
@@ -241,8 +243,9 @@ theorem center_T : (Subgroup.center T).map T.subtype = B := by
   rw [map_center_eq_inf]
   exact H.inf_centralizer_eq_B H.B_le_T H.T_le_Q H.M_le_normalizer_T
 
+omit [Finite G] in
 theorem P_le_centralizer_T : P ≤ Subgroup.centralizer (T : Set G) := fun p hp =>
-  Subgroup.mem_centralizer_iff.mpr fun t ht =>
+  Subgroup.mem_centralizer_iff.mpr fun _t ht =>
     (Subgroup.mem_centralizer_iff.mp (H.T_le_centralizer_P ht) p hp).symm
 
 theorem inf_centralizer_T_eq_P : Q ⊓ Subgroup.centralizer (T : Set G) = P := by

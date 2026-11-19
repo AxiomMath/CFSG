@@ -18,6 +18,7 @@ section Outer
 
 variable {X : Type} [Group X] [Finite X] (K : Subgroup X) [K.Normal]
 
+omit [Finite X] in
 theorem mem_of_conjNormal_mem_inner (hKc : centralizer (K : Set X) = ⊥) {u : X}
     (hu : (MulAut.conjNormal u : MulAut ↥K) ∈ inner ↥K) : u ∈ K := by
   obtain ⟨k, hk⟩ := hu
@@ -38,6 +39,7 @@ theorem mem_of_conjNormal_mem_inner (hKc : centralizer (K : Set X) = ⊥) {u : X
   rw [hu']
   exact k.2
 
+omit [Finite X] in
 theorem mem_of_pow_three_pow_eq_one (hKc : centralizer (K : Set X) = ⊥)
     (hout : ¬ 3 ∣ Nat.card (Outer ↥K)) {u : X} {n : ℕ} (hu : u ^ 3 ^ n = 1) : u ∈ K := by
   apply mem_of_conjNormal_mem_inner K hKc
@@ -56,7 +58,7 @@ end Outer
 
 theorem exists_map_conj_le {X : Type} [Group X] [Finite X] (Q : Sylow 3 X) {U : Subgroup X}
     (hU : IsPGroup 3 U) : ∃ g : X, U.map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q', hUQ'⟩ := hU.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q' Q
   refine ⟨g, ?_⟩
@@ -88,13 +90,13 @@ theorem false_of_centralFusion {X : Type} [Group X] [Finite X] (K : Subgroup X) 
     (hAc : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup X), q * a = a * q)
     (hwc : ∀ g : X, A.map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) →
       A.map (MulAut.conj g).toMonoidHom = A) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQK : (Q : Subgroup X) ≤ K := fun x hx => by
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨x, hx⟩
     exact mem_of_pow_three_pow_eq_one K hKc hF.1 (n := n) (congrArg Subtype.val hn)
   have hpg : IsPGroup 3 ((Q : Subgroup X).subgroupOf K) := by
     rw [← Subgroup.comap_subtype]
-    exact Q.isPGroup'.comap_subtype
+    exact Q.isPGroup.comap_subtype
   have hidx : ¬ 3 ∣ ((Q : Subgroup X).subgroupOf K).index := by
     intro h
     apply Q.not_dvd_index
@@ -130,7 +132,7 @@ theorem mem_of_fixes_abelian_sylow (hIA : KFactInnerAction) {X : Type} [Group X]
     (hKcat : IsCatalogGroup K) (hKc : centralizer (K : Set X) = ⊥) (hKdvd : 3 ∣ Nat.card K)
     (S : Sylow 3 ↥K) (hab : IsMulCommutative (S : Subgroup ↥K)) {u : X} (hu : u ^ 3 = 1)
     (hfix : ∀ s ∈ (S : Subgroup ↥K), u * (s : X) = (s : X) * u) : u ∈ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSne : (S : Subgroup ↥K) ≠ ⊥ := S.ne_bot_of_dvd_card hKdvd
   have hφ3 : (MulAut.conjNormal u : MulAut ↥K) ^ 3 ^ 1 = 1 := by
     rw [pow_one, ← map_pow, hu, map_one]
@@ -161,7 +163,7 @@ theorem false_of_abelian_sylow (hWC : KFactWeakClosure) (hIA : KFactInnerAction)
     (hAc : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup X), q * a = a * q)
     (hwc : ∀ g : X, A.map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) →
       A.map (MulAut.conj g).toMonoidHom = A) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hApow : ∀ a ∈ A, a ^ 3 = 1 := pow_eq_one_of_card_prime hA
   have hAK : A ≤ K := fun a ha =>
     mem_of_fixes_abelian_sylow hIA K hKs hKnab hKcat hKc hKdvd S hab (hApow a ha)

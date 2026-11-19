@@ -65,6 +65,7 @@ theorem coord_eq_one_of_orbit {F : Type} [Field F] {p n : ℕ} (hp : p.Prime) (h
         = (g * (φ.comp (spPlaneTorus n ζ)) v * g⁻¹) * (g * c * g⁻¹) := by group
       _ = (φ.comp (spPlaneTorus n ζ)) (h v) * c := by rw [hgconj v, hcomm]
 
+omit [Finite G] in
 theorem exists_lift_lam_zero_eq_tor_mulSingle {F : Type} [Field F] {p m : ℕ} (h2 : (2 : F) = 0)
     {Bs X : Subgroup G} {ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F}
     {φ : StatedSp (m + 1) F →* G} (hlift : IsPlaneTorusLift p Bs X ζ φ) (i : Fin (m + 1))
@@ -117,7 +118,7 @@ theorem exists_lift_lam_zero_of_orbit {F : Type} [Field F] {p m : ℕ} (hp : p.P
       Function.Injective ψ ∧ ψ.range = X ∧ (g : Matrix (Fin 2) (Fin 2) F).trace ≠ 0 ∧
         ψ (lam (0 : Fin (m + 1)) g) = (φ.comp (spPlaneTorus (m + 1) ζ)) v := by
   classical
-  haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
   obtain ⟨i, hi0⟩ := Function.ne_iff.mp hv
   have hi : v i ≠ 1 := hi0
   have hsingle : ∀ j, j ≠ i → v j = 1 := fun j hji =>
@@ -140,7 +141,7 @@ theorem exists_lift_lam_zero_of_orbit {F : Type} [Field F] {p m : ℕ} (hp : p.P
     apply hlift.torus_injective
     rw [htor, h1, map_one, map_one, map_one]
   have hvp : (v i) ^ p = 1 := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have h := pow_card_eq_one' (G := Multiplicative (ZMod p)) (x := v i)
     rwa [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod p) ≃ ZMod p),
       Nat.card_zmod] at h

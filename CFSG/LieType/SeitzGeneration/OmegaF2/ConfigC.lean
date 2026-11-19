@@ -107,11 +107,11 @@ theorem exists_perp_singular (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     rw [← hiso z, hhz]
     exact S.Q_single c hcH
   have hxz : polar Q x z = 0 := by
-    rw [← hpolar x z, hxh, hhz, S.polar_single a ha, Pi.single_apply, if_neg hac]
+    rw [← hpolar x z, hxh, hhz, S.polar_single a ha, Pi.single_apply, ite_eq_right hac]
   have hyz : polar Q y z = 0 := by
     rw [← hpolar y z, hyh, hhz]
     simp [polar_add_left, polar_smul_left, S.polar_single a ha, S.polar_single b hb,
-      Pi.single_apply, hac, hbc]
+      hac, hbc]
   obtain ⟨hα, hβ⟩ := hbad x y z hx hy hzr hQx hQy hQz hxy hxz hyz hΔ
   obtain ⟨hrad1, hrad2, hrad3⟩ := radical_vector_perp hQx hQy hQz hxy hxz hyz
     (pairDet Q c₁ c₂ y z / pairDet Q c₁ c₂ x y) (pairDet Q c₁ c₂ z x / pairDet Q c₁ c₂ x y)
@@ -127,7 +127,7 @@ theorem exists_perp_singular (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
       rw [hw0, map_zero]
     simp only [map_add, map_smul, hhz, hxh, hyh] at hsum
     have hc := congrFun hsum c
-    simp [Pi.single_apply, hca, hcb] at hc
+    simp [hca, hcb] at hc
 
 theorem mem_span_of_three {x y w c₁ c₂ v : Fin d → K}
     (hind : LinearIndependent K ![x, y, w, c₁, c₂])

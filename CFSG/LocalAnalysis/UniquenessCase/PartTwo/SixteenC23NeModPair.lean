@@ -24,6 +24,7 @@ private theorem c23ne_mem_map_of_map_inv_eq {W : Type*} [Group W] (f : MulAut W)
     exact MulAut.apply_inv_self (M := W) f x
   rwa [hfx]
 
+omit [Finite G] in
 private theorem c23ne_map_conj_barSub {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) {K A B : Subgroup G}
     (hK : conjSubgroup K m = B) (hA : barSub V₀ V hV K = barSub V₀ V hV A) :
@@ -31,6 +32,7 @@ private theorem c23ne_map_conj_barSub {V₀ V : Subgroup G} (hV : IsElemAbelian 
       barSub V₀ V hV B := by
   rw [← hA, ← s15_Infra_barSub_conjSubgroup V₀ V hV hm K, hK]
 
+omit [Finite G] in
 private theorem c23ne_wTil_map_conj {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil V₀ V) {A A' : Subgroup G}
     (h : (barSub V₀ V hV A).map
@@ -39,6 +41,7 @@ private theorem c23ne_wTil_map_conj {V₀ V : Subgroup G} (hV : IsElemAbelian 2 
   unfold wTil
   rw [← h, s15_Infra_commSub_top_map_conj]
 
+omit [Finite G] in
 private theorem c23ne_mem_normalizer_of_conj {Y V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil Y V) {K : Subgroup G} (hK : conjSubgroup K m = K) :
     actTil Y V hV ⟨m, hm⟩ ∈
@@ -52,6 +55,7 @@ private theorem c23ne_mem_normalizer_of_conj {Y V : Subgroup G} (hV : IsElemAbel
   simpa using (Subgroup.normalizer (barSub Y V hV K :
     Set (MulAut (Vtil Y V hV)))).inv_mem hinv
 
+omit [Finite G] in
 private theorem c23ne_pBlock_map_of_map {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hY : Y ≤ V₀) {A A' : Subgroup (Vtil V₀ V hV)} {m : MulAut (Vtil Y V hV)}
     {m₀ : MulAut (Vtil V₀ V hV)}

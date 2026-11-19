@@ -38,12 +38,12 @@ section VHom
       · have hab : a * b = 1 := by
           have h2 : ∀ a b : Multiplicative (ZMod 2), a ≠ 1 → b ≠ 1 → a * b = 1 := by decide
           exact h2 a b ha hb
-        rw [if_neg ha, if_neg hb, if_pos hab]
+        rw [ite_eq_right ha, ite_eq_right hb, ite_eq_left hab]
         exact h1408VPerm_mul_self.symm
 
 theorem h1408VHom_one2 : h1408VHom one2 = h1408VPerm := by
   change (if one2 = 1 then (1 : Equiv.Perm (Fin 1408)) else h1408VPerm) = h1408VPerm
-  rw [if_neg (show one2 ≠ 1 by decide)]
+  rw [ite_eq_right (show one2 ≠ 1 by decide)]
 
 end VHom
 
@@ -123,7 +123,7 @@ theorem hmod1408_mem_blocks_iff (hΛ : HSCtx) (x : hΛ.Hmod) :
     by_contra hr
     have hV : h1408VHom x.right = h1408VPerm := by
       change (if x.right = 1 then (1 : Equiv.Perm (Fin 1408)) else h1408VPerm) = h1408VPerm
-      rw [if_neg hr]
+      rw [ite_eq_right hr]
     rw [hV] at h
     exact mul_h1408VPerm_not_mem_blocks x.left h
   · intro hr
@@ -162,7 +162,7 @@ theorem hmod1408_range (hΛ : HSCtx) : (hmod1408 hΛ).range = P1408 := by
       · rw [ha, map_one]; exact P1408.one_mem
       · have hV : h1408VHom a = h1408VPerm := by
           change (if a = 1 then (1 : Equiv.Perm (Fin 1408)) else h1408VPerm) = h1408VPerm
-          rw [if_neg ha]
+          rw [ite_eq_right ha]
         rw [hV]; exact h1408VPerm_mem_P1408
     rw [← SemidirectProduct.inl_left_mul_inr_right x, map_mul, hmod1408_inl, hmod1408_inr]
     exact P1408.mul_mem (hl x.left) (hv x.right)

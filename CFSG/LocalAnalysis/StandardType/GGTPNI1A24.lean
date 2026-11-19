@@ -116,8 +116,8 @@ theorem ggI1PairRankOn_A24 :
   subst hlab
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hKfield, hKfin, hKcard, hQR⟩ := hraw
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨-, -, hθ⟩ := hQR
   obtain ⟨θ, hind⟩ := hθ
   have hKcard2 : Nat.card K = 2 := by simpa using hKcard
@@ -134,8 +134,8 @@ theorem ggI1PairRankOn_A24 :
       ((⊤ : Subgroup L) ⧸ Subgroup.center (⊤ : Subgroup L)) .PSL 6 2 1 :=
     statedClassicalModel_of_hasLabel_typeA tpa24_inLambda2_a51 hhasTop
   have hperfTop : commutator ↥(⊤ : Subgroup L) = ⊤ := by
-    haveI : Group.IsPerfect L := ⟨hperf⟩
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup L) :=
+    have : Group.IsPerfect L := ⟨hperf⟩
+    have : Group.IsPerfect ↥(⊤ : Subgroup L) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := L)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := L)).symm.surjective
     exact Group.IsPerfect.commutator_eq_top

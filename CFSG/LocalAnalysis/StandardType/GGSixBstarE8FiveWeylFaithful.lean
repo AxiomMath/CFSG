@@ -127,9 +127,6 @@ theorem torusAct_wordE8AB (c : ℕ) (x : Fin Tag.E8.rank → ZMod 5) :
     TableBExc.torusAct .E8 5 (TableBExc.weylE8A * TableBExc.weylE8B ^ c) x =
       TableBExc.torusWord .E8 5 (TableBExc.wordE8AB c) x := by
   rw [← TableBExc.wordProd_wordE8AB c]
-  change TableBExc.torusAct .E8 5
-      ((coxeterSystem .E8).wordProd (TableBExc.wordE8AB c)) x =
-    TableBExc.torusWord .E8 5 (TableBExc.wordE8AB c) x
   rw [← TableBExc.torusWord_eq_torusAct TableBExc.Three.cartan_symm_E8]
 
 theorem exists_not_fix_sq_wordE8B :
@@ -159,7 +156,7 @@ theorem not_sqZero_weylE8AB {c : ℕ} (hc : c < 5) :
     ¬ SqZero (TableBExc.weylE8A * TableBExc.weylE8B ^ c) := by
   intro h
   obtain ⟨j, hj⟩ := exists_not_fix_sq_wordE8AB ⟨c, hc⟩
-  simp only [Fin.val_mk] at hj
+  simp only at hj
   apply hj
   have h' := h (Pi.single j 1)
   simpa only [torusAct_wordE8AB] using h'

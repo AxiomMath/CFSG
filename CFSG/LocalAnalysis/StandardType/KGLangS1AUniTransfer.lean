@@ -260,8 +260,8 @@ theorem kgLangS1A_uni_commute_transfer {d m : ℕ} {F₀ E : Type} [Field F₀] 
     (M : GL (Fin d) F₀) * N = N * M := by
   classical
   have hd0 : 0 < d := by omega
-  letI := Fintype.ofFinite F₀
-  letI := Fintype.ofFinite E
+  let := Fintype.ofFinite F₀
+  let := Fintype.ofFinite E
   have hcard : Nat.card E = Nat.card F₀ := by rw [hE, hF₀]
   have hcard' : Fintype.card E = Fintype.card F₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]

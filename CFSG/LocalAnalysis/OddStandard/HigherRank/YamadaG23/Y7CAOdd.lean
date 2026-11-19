@@ -14,7 +14,7 @@ variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →*
 
 theorem y7c_cent_oddCore (c : K7Abs ρ t J Q P M6 M7) {x : Γ} (hx : x ∈ CFSG.oddCore Γ)
     (hxt : x * t = t * x) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj, q, hq, rfl⟩ := c.cent x hxt
   have hnot2 : ¬ 2 ∣ Nat.card (CFSG.oddCore Γ) := by
     rw [CFSG.oddCore_eq_piCore Γ, ← CFSG.pPrimeCore_eq_piCore Γ 2]
@@ -120,7 +120,7 @@ theorem y7c_J_le_cent_oddCore (c : K7Abs ρ t J Q P M6 M7) :
     J ≤ Subgroup.centralizer ((CFSG.oddCore Γ : Subgroup Γ) : Set Γ) := by
   obtain ⟨m, hmJ, hmne⟩ := c.comm_wit
   set C : Subgroup Γ := Subgroup.centralizer ((CFSG.oddCore Γ : Subgroup Γ) : Set Γ) with hC
-  haveI hCnorm : C.Normal := by
+  have hCnorm : C.Normal := by
     rw [hC]
     exact Subgroup.normal_centralizer
   have haC : ⁅m, t⁆ ∈ C := by

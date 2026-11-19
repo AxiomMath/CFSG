@@ -28,7 +28,7 @@ theorem exists_wild_subgroup (h52a : Stroth52aStatement) (hA : Sec7AExistsStatem
   classical
   obtain ⟨Md, iD, iA, κ, hκ, S, hSA, hS2, hSw⟩ :=
     exists_conj_section_data h52a hA h310chi hc hs hxM hxt hxV hx2
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hVW : Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := sec7_V_le_W h310chi hc hs
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left
@@ -214,7 +214,7 @@ theorem no_wild_plus8_of (hA : Sec7AExistsStatement) (hPts : Sec5NatPointsOmegaS
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hchi := card_mul_card_of_isChiIso

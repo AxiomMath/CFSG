@@ -51,7 +51,7 @@ theorem false_of_caseThreeKFact (hred : ReducedNongeneration p X Rbar X₀)
     IsPGroup.le_sylow_of_normal hCp Rbar
   have hRK : (Rbar : Subgroup X) ≤ K ⊔ Subgroup.centralizer (K : Set X) := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rbar.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rbar.isPGroup) ⟨x, hx⟩
     refine mem_sup_centralizer_of_pow hp hOut (n := n) ?_
     have h1 := pow_orderOf_eq_one (⟨x, hx⟩ : (Rbar : Subgroup X))
     rw [hn] at h1

@@ -19,7 +19,7 @@ def suzukiGroupEquivSz (a : ℕ) (K : Type) [Field K] [Finite K]
     (CFSG.ShultStronglyClosedTI.suzukiCoverNativeEquiv a).symm
 
 theorem isQuasisimple_sz (a : ℕ) (ha : 1 ≤ a) : CFSG.IsQuasisimple ↥(Sz a) := by
-  haveI : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
+  have : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
     (CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_6 a (by omega)).1
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv
     (CFSG.ShultStronglyClosedTI.suzukiCoverNativeEquiv a).symm
@@ -27,7 +27,7 @@ theorem isQuasisimple_sz (a : ℕ) (ha : 1 ≤ a) : CFSG.IsQuasisimple ↥(Sz a)
       (CFSG.SectionRank.suzukiMatrixGroup_nonabelian a (by omega))).1
 
 theorem center_sz (a : ℕ) (ha : 1 ≤ a) : Subgroup.center ↥(Sz a) = ⊥ := by
-  haveI : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
+  have : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) :=
     (CFSG.BenderSuzuki.External.huppert_blackburn_XI_3_6 a (by omega)).1
   have hZ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
     (CFSG.SectionRank.suzukiMatrixGroup_nonabelian a (by omega))).2
@@ -39,7 +39,7 @@ theorem center_sz (a : ℕ) (ha : 1 ≤ a) : Subgroup.center ↥(Sz a) = ⊥ := 
 theorem noIrrFFOffender_sz
     (a : ℕ) (ha : 1 ≤ a) : NoIrrFFOffender ↥(Sz a) := by
   intro W _ _ hW L E hLq hirr ⟨e⟩ hEN hEne hEel hEquad
-  haveI : Nontrivial W := hirr.1
+  have : Nontrivial W := hirr.1
   have hK : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
   have hlt := (CFSG.QuasithinUnique.Setup.Family.suzuki_irreducible_normalizer_excludes

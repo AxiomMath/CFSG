@@ -53,7 +53,7 @@ theorem s3_M_normal_H (hS : HRSetting G L) : ((L ⊔ centIn s.H L).subgroupOf s.
     exact sup_le (hLmap.le.trans le_sup_left) (hCmap.trans le_sup_right)
   exact hMmap (Subgroup.mem_map.mpr ⟨m, hm, rfl⟩)
 
-theorem s3_R_eq (hS : HRSetting G L) : s.R = s.T ⊓ (L ⊔ centIn s.H L) :=
+theorem s3_R_eq (_hS : HRSetting G L) : s.R = s.T ⊓ (L ⊔ centIn s.H L) :=
   sylowIn_eq_of_le (V := L ⊔ centIn s.H L) (P := s.R) (Q := s.T ⊓ (L ⊔ centIn s.H L))
     s.sylow_R s.sylow_T.2.1.to_inf_left inf_le_right (le_inf s.R_le_T s.sylow_R.1)
 
@@ -78,8 +78,8 @@ theorem s3_S_normal_T (hS : HRSetting G L) : (s.fr.S.subgroupOf s.T).Normal := b
     rw [← s3_R_inf_L s]
     simp only [Subgroup.subgroupOf, Subgroup.comap_inf]
   rw [hsplit]
-  haveI := hR
-  haveI := hL
+  have := hR
+  have := hL
   exact Subgroup.normal_inf_normal _ _
 
 theorem s3_T_inf_centralizer (h31 : s.Fact31) : s.T ⊓ centralizer (L : Set G) = zpowers s.t :=

@@ -28,9 +28,9 @@ theorem kFactTenNineWCGammaSp62 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZH : Subgroup.center H6 = ⊥ := by
-    haveI := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
+    have := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center H6) with h | h
     · exact h
     · exfalso

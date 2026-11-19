@@ -92,11 +92,11 @@ private lemma ltrkna_card_quot_ne_360 {X : Type} [Group X]
   simp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeLinear] at hlab
   obtain ⟨K, hF, hfin, hK, hQ⟩ := hlab
-  letI : Field K := hF
-  letI : Finite K := hfin
+  let : Field K := hF
+  let : Finite K := hfin
   obtain ⟨eK⟩ := hQ
   have hK' : Nat.card K = 2 ^ 3 := hK
-  haveI : CharP K 2 := CFSG.StandardType.LayerCC.charP_two_of_natCard hK'
+  have : CharP K 2 := CFSG.StandardType.LayerCC.charP_two_of_natCard hK'
   have hbot : (LargeEvenScalars (Fin (1 + 1)) K).subgroupOf
       (LargeEvenSLGroup (Fin (1 + 1)) K) = ⊥ :=
     CFSG.LocalAnalysis.GLTheoremA.scalars_subgroupOf_eq_bot K
@@ -113,7 +113,7 @@ private lemma ltrkna_card_quot_ne_360 {X : Type} [Group X]
     norm_num
   have hcard : Nat.card X = 504 := by
     rw [Nat.card_congr eK.toEquiv]
-    convert hQcard using 2 <;> rfl
+    convert hQcard using 2
   rw [hcard]
   norm_num
 
@@ -130,7 +130,7 @@ theorem connectedNativeAction_holds :
     CFSG.HardMathSupport.Timmesfeld.LangTorus.rationalComponent rho.setup.ρ rho.setup.Γ
       (CFSG.LieType.AlgebraicGroups.rootCharHom rho.a) (rho.repr j)
   have hCQ : C = Q.comap rho.iota := rfl
-  haveI hfinModel : Finite ↥rho.setup.D.model := rho.setup.finite
+  have hfinModel : Finite ↥rho.setup.D.model := rho.setup.finite
   have hQle : Q ≤ rho.setup.Γ := by
     simp only [Q, CFSG.HardMathSupport.Timmesfeld.LangTorus.rationalComponent,
       CFSG.HardMathSupport.Timmesfeld.LangTorus.rationalSpan]
@@ -139,7 +139,7 @@ theorem connectedNativeAction_holds :
     refine hQle.trans ?_
     show ⁅rho.setup.D.model, rho.setup.D.model⁆ ≤ rho.setup.D.model
     exact Subgroup.commutator_le_self _
-  haveI : Finite ↥Q :=
+  have : Finite ↥Q :=
     Finite.of_injective (Subgroup.inclusion hQmodel) (Subgroup.inclusion_injective hQmodel)
   have hmap : C.map rho.iota = Q := by
     rw [hCQ]

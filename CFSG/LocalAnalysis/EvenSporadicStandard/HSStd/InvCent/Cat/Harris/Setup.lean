@@ -61,11 +61,12 @@ theorem harris_setting (h : Cfg G S t)
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
     Setting G t ((MulAut.conj : alternatingGroup (Fin 6) →*
       MulAut (alternatingGroup (Fin 6))).range.map (embA ζ)) := by
-  haveI := alt6IsSimple
-  haveI := h.simple
+  have := alt6IsSimple
+  have := h.simple
   have hO : fusionOddCore G = ⊥ := fusionOddCore_eq_bot S h.nonab h.cent
   exact setting_of_RHyp (rhyp_mulAut alt6NonAb) hO h.ord ζ (not_mem_center h)
 
+omit [Finite G] in
 theorem harris_derived_eq
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
@@ -78,22 +79,24 @@ theorem harris_derived_le (h : Cfg G S t)
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
     centralizerDerived t ≤ S := by
-  haveI := h.simple
+  have := h.simple
   have hfd : FixedData G S := by
     obtain ⟨a, b, hab⟩ := h.nonab
     exact ⟨inferInstance, h.simple, ⟨a, a.2, b, b.2, fun h' => hab (Subtype.ext h')⟩, h.cent⟩
   rw [harris_derived_eq ζ]
   exact setting_le_of_fixedData (harris_setting h ζ) hfd
 
+omit [Finite G] in
 theorem harris_derived_equiv
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
     Nonempty (↥(centralizerDerived t) ≃* alternatingGroup (Fin 6)) := by
-  haveI := alt6IsSimple
+  have := alt6IsSimple
   obtain ⟨hiso⟩ := nonempty_mulEquiv_range_conj alt6NonAb
   exact ⟨(MulEquiv.subgroupCongr (harris_derived_eq ζ)).trans
     ((Subgroup.equivMapOfInjective _ (embA ζ) (embA_injective ζ)).symm.trans hiso)⟩
 
+omit [Finite G] in
 theorem card_derived
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
@@ -101,20 +104,23 @@ theorem card_derived
   obtain ⟨e⟩ := harris_derived_equiv ζ
   rw [Nat.card_congr e.toEquiv, alt6_card]
 
+omit [Finite G] in
 theorem derived_isPerfect
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
     Group.IsPerfect ↥(centralizerDerived t) := by
-  haveI := alt6IsSimple
+  have := alt6IsSimple
   obtain ⟨e⟩ := harris_derived_equiv ζ
-  haveI : IsSimpleGroup ↥(centralizerDerived t) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(centralizerDerived t) := e.isSimpleGroup
   refine isPerfect_of_simple_of_nonab' ?_
   obtain ⟨a, b, hab⟩ := alt6NonAb
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
 
+omit [Finite G] in
 theorem derived_le_centralizer : centralizerDerived t ≤ centralizer ({t} : Set G) :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem card_centralizer_eq
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
@@ -122,6 +128,7 @@ theorem card_centralizer_eq
   rw [Nat.card_congr ζ.toEquiv, Nat.card_prod, natCard_mult_zmod_two,
     CFSG.QuasithinUnique.Setup.X3Aut.card_mulAut_alt6]
 
+omit [Finite G] in
 theorem commutator_mem_derived {c d : G} (hc : c ∈ centralizer ({t} : Set G))
     (hd : d ∈ centralizer ({t} : Set G)) : c * d * c⁻¹ * d⁻¹ ∈ centralizerDerived t := by
   refine ⟨⁅(⟨c, hc⟩ : ↥(centralizer ({t} : Set G))), ⟨d, hd⟩⁆, ?_, ?_⟩
@@ -129,6 +136,7 @@ theorem commutator_mem_derived {c d : G} (hc : c ∈ centralizer ({t} : Set G))
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
   · rfl
 
+omit [Finite G] in
 theorem sq_mem_derived
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6)))
@@ -146,6 +154,7 @@ theorem sq_mem_derived
   · rw [embA_apply, ← hsq]
     simp
 
+omit [Finite G] in
 theorem range_fixed_eq (t : G) :
     (S.subtype.comp (fixedSubgroup (MulAut.conjNormal t : MulAut ↥S)).subtype).range =
       S ⊓ centralizer ({t} : Set G) := by
@@ -156,6 +165,7 @@ theorem range_fixed_eq (t : G) :
   · rintro ⟨hgS, hgC⟩
     exact ⟨⟨⟨g, hgS⟩, (mem_fixedSubgroup_conjNormal_iff t ⟨g, hgS⟩).mpr hgC⟩, rfl⟩
 
+omit [Finite G] in
 theorem card_fixedSubgroup_eq (t : G) :
     Nat.card ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S)) =
       Nat.card ↥(S ⊓ centralizer ({t} : Set G)) := by
@@ -165,6 +175,7 @@ theorem card_fixedSubgroup_eq (t : G) :
   exact Nat.card_congr ((MonoidHom.ofInjective hφ).trans
     (MulEquiv.subgroupCongr (range_fixed_eq t))).toEquiv
 
+omit [Finite G] in
 theorem card_fixed_dvd
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
@@ -211,6 +222,7 @@ theorem commutator_fixed_equiv (h : Cfg G S t)
   exact ⟨((commutator ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S))).equivMapOfInjective
     _ hφ).trans ((MulEquiv.subgroupCongr hmap).trans e)⟩
 
+omit [Finite G] in
 theorem card_subgroupOf_eq (A B : Subgroup G) :
     Nat.card ↥(A.subgroupOf B) = Nat.card ↥(A ⊓ B) := by
   rw [← Subgroup.subgroupOf_map_subtype A B]
@@ -244,7 +256,7 @@ theorem outerKlein_of_card_le (h : Cfg G S t)
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6)))
     (hF : Nat.card ↥(fixedSubgroup (MulAut.conjNormal t : MulAut ↥S)) ≤ 720) :
     OuterKlein (MulAut.conjNormal t : MulAut ↥S) := by
-  haveI : (S.subgroupOf (centralizer ({t} : Set G))).Normal :=
+  have : (S.subgroupOf (centralizer ({t} : Set G))).Normal :=
     Subgroup.Normal.comap inferInstance (centralizer ({t} : Set G)).subtype
   have hKcard : Nat.card ↥(S.subgroupOf (centralizer ({t} : Set G))) ≤ 720 := by
     rw [card_subgroupOf_eq, ← card_fixedSubgroup_eq]
@@ -292,7 +304,7 @@ theorem t_not_mem_derived (h : Cfg G S t)
     (ζ : ↥(centralizer ({t} : Set G)) ≃*
       Multiplicative (ZMod 2) × MulAut (alternatingGroup (Fin 6))) :
     t ∉ centralizerDerived t := by
-  haveI := alt6IsSimple
+  have := alt6IsSimple
   rw [harris_derived_eq ζ]
   rintro ⟨b, -, hbt⟩
   have htC : t ∈ centralizer ({t} : Set G) := Subgroup.mem_centralizer_singleton_iff.mpr rfl

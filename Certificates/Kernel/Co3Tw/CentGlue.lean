@@ -141,7 +141,7 @@ theorem closed_of_normal {H : Subgroup Γ} [Finite H] (P : Sylow 3 H)
   obtain ⟨m', hm'⟩ := hb3
   have hA := mem_sylow_of_pow P hP ⟨a, ha⟩ (m := m) (Subtype.ext (by simpa using hm))
   have hB := mem_sylow_of_pow P hP ⟨b, hb⟩ (m := m') (Subtype.ext (by simpa using hm'))
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨_, (P : Subgroup H).mul_mem hA hB⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨_, (P : Subgroup H).mul_mem hA hB⟩
   exact ⟨k, by simpa using congrArg (fun z : (P : Subgroup H) => ((z : H) : Γ)) hk⟩
 
 theorem normal_sylow_of_card {H : Subgroup Γ} {e m : ℕ} (hc : Nat.card H = 3 ^ e * m)

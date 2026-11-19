@@ -22,6 +22,7 @@ private lemma pCore_two_le_pPrimeCore_aux {H : Type*} [Group H] [Finite H] {q : 
     exact ((Nat.coprime_primes Fact.out Nat.prime_two).2 hq2).pow_right n
   exact le_sSup ⟨inferInstance, hcop⟩
 
+omit [Finite Y] in
 theorem pCore_two_quot_eq_bot : CFSG.pCore 2 (Y ⧸ CFSG.pCore 2 Y) = ⊥ := by
   set N : Subgroup Y := CFSG.pCore 2 Y
   set K : Subgroup Y := (CFSG.pCore 2 (Y ⧸ N)).comap (QuotientGroup.mk' N)
@@ -49,7 +50,7 @@ theorem pCore_two_quot_eq_bot : CFSG.pCore 2 (Y ⧸ CFSG.pCore 2 Y) = ⊥ := by
 theorem pPrimeCore_quot_pCore_two (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.pPrimeCore p (Y ⧸ CFSG.pCore 2 Y) =
       (CFSG.pPrimeCore p Y).map (QuotientGroup.mk' (CFSG.pCore 2 Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup Y := CFSG.pCore 2 Y
   set X : Subgroup Y := CFSG.pPrimeCore p Y
   let π : Y →* Y ⧸ N := QuotientGroup.mk' N
@@ -89,14 +90,14 @@ theorem pRank_pPrimeCore_quot_le (hp : p.Prime) (hp2 : p ≠ 2) {r : ℕ} (hr : 
     (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (CFSG.pPrimeCore p (Y ⧸ CFSG.pCore 2 Y)) ≤
       CFSG.Open.pRank r (CFSG.pPrimeCore p Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [pPrimeCore_quot_pCore_two hp hp2]
   set X : Subgroup Y := CFSG.pPrimeCore p Y
   set N : Subgroup Y := CFSG.pCore 2 Y
   let π : Y →* Y ⧸ N := QuotientGroup.mk' N
   set M : Subgroup ↥X := N.subgroupOf X
-  haveI hMnormal : M.Normal := (CFSG.pCore_normal (p := 2) (G := Y)).subgroupOf X
+  have hMnormal : M.Normal := (CFSG.pCore_normal (p := 2) (G := Y)).subgroupOf X
   have hMp : IsPGroup 2 M := (CFSG.pCore_isPGroup (G := Y) (p := 2)).comap_subtype
   have hcopM : ¬ r ∣ Nat.card M := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hMp
@@ -136,7 +137,7 @@ theorem pRank_pPrimeCore_quot_le (hp : p.Prime) (hp2 : p ≠ 2) {r : ℕ} (hr : 
 theorem nonempty_quot_pPrimeCore_quot_mulEquiv (hp : p.Prime) (hp2 : p ≠ 2) :
     Nonempty (((Y ⧸ CFSG.pCore 2 Y) ⧸ CFSG.pPrimeCore p (Y ⧸ CFSG.pCore 2 Y)) ≃*
       (Y ⧸ CFSG.pPrimeCore p Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨(QuotientGroup.quotientMulEquivOfEq (pPrimeCore_quot_pCore_two hp hp2)).trans ?_⟩
   exact QuotientGroup.quotientQuotientEquivQuotient (CFSG.pCore 2 Y) (CFSG.pPrimeCore p Y)
     (pCore_two_le_pPrimeCore_aux hp2)
@@ -144,16 +145,16 @@ theorem nonempty_quot_pPrimeCore_quot_mulEquiv (hp : p.Prime) (hp2 : p ≠ 2) :
 theorem isSolvable_pPrimeCore_of_quot (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Group.IsSolvable ↥(CFSG.pPrimeCore p (Y ⧸ CFSG.pCore 2 Y))) :
     Group.IsSolvable ↥(CFSG.pPrimeCore p Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [pPrimeCore_quot_pCore_two hp hp2] at h
-  haveI : Group.IsSolvable ↥((CFSG.pPrimeCore p Y).map
+  have : Group.IsSolvable ↥((CFSG.pPrimeCore p Y).map
       (QuotientGroup.mk' (CFSG.pCore 2 Y))) := h
   let X : Subgroup Y := CFSG.pPrimeCore p Y
   let N : Subgroup Y := CFSG.pCore 2 Y
   let M : Subgroup ↥X := N.subgroupOf X
   have hMp : IsPGroup 2 M := (CFSG.pCore_isPGroup (G := Y) (p := 2)).comap_subtype
-  haveI hMnil : Group.IsNilpotent ↥M := IsPGroup.isNilpotent hMp
-  haveI : Group.IsSolvable ↥M := inferInstance
+  have hMnil : Group.IsNilpotent ↥M := IsPGroup.isNilpotent hMp
+  have : Group.IsSolvable ↥M := inferInstance
   let φ : ↥X →* ↥(X.map (QuotientGroup.mk' N)) :=
     (((QuotientGroup.mk' N).comp X.subtype).codRestrict (X.map (QuotientGroup.mk' N))
       fun x => Subgroup.mem_map.mpr ⟨(x : Y), x.2, rfl⟩)
@@ -170,6 +171,7 @@ theorem isSolvable_pPrimeCore_of_quot (hp : p.Prime) (hp2 : p ≠ 2)
   rw [hφker] at hx
   exact ⟨⟨x, hx⟩, rfl⟩
 
+omit [Finite Y] in
 theorem closure_pElem_quot_eq_top (hp : p.Prime) (N : Subgroup Y) [N.Normal]
     (h : closure {y : Y | ∃ k : ℕ, orderOf y = p ^ k} = ⊤) :
     closure {y : Y ⧸ N | ∃ k : ℕ, orderOf y = p ^ k} = ⊤ := by

@@ -37,7 +37,7 @@ private theorem false_of_eleven_dvd_fixed_image
     have hker : (T : Subgroup N) ≤ rho.ker := fun z hz => hn z hz
     exact SylowFixedActionCore.prime_not_dvd_range_card_of_sylow_le_ker T rho hker heleven
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzorder : orderOf z.val.val = 11 ^ e := by
     rw [Subgroup.orderOf_coe z.val,Subgroup.orderOf_coe z]
     exact (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he

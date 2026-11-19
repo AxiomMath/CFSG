@@ -44,7 +44,7 @@ theorem isSimpleChevalleyOver_three_of_fixed
     exact ⟨.PSp, 2, 1, Blueprint.LieModel.of_mulEquiv (Sol78.fusionZStarQuotOfCore e) hTL⟩
   obtain ⟨σ, -, hσ, hPF, hP, hPne, ⟨eP⟩⟩ :=
     GrSLit.exists_simple_fixed_component_image hYq β hβ hTC hT hlt
-  haveI hS : IsSimpleGroup ((Y ⧸ pPrimeCore 2 Y) ⧸ center (Y ⧸ pPrimeCore 2 Y)) := hYq.2.1
+  have hS : IsSimpleGroup ((Y ⧸ pPrimeCore 2 Y) ⧸ center (Y ⧸ pPrimeCore 2 Y)) := hYq.2.1
   have hPFC : CatLeaf.ProperFixedComponent σ _ := ⟨hσ, hPF, hP, hPne⟩
   have hPL := Blueprint.LieModel.of_mulEquiv eP hTL
   rcases hY with hodd | ⟨n, hn, -, -, ⟨θ⟩⟩ | ⟨hL, -⟩

@@ -159,7 +159,7 @@ theorem hasPLengthLeOne_of_isCoatom [IsSimpleGroup G] (hna : ¬ IsMulCommutative
         rw [← hyx]
         exact congrArg M.subtype hc
       have hpg : IsPGroup r ↥(Subgroup.map M.subtype (Subgroup.map C.subtype (S : Subgroup ↥C))) :=
-        (S.isPGroup'.map C.subtype).map M.subtype
+        (S.isPGroup.map C.subtype).map M.subtype
       have hcy := hxcyc r hr _ hpush hpg
       exact isCyclic_of_injective
         (((Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective).trans

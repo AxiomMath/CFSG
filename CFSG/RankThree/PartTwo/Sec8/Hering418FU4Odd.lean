@@ -73,7 +73,7 @@ theorem Cfg.false_of_blockData (c : Cfg L K a b)
       solvable_prime_complement_core_characterization (H := K) Nat.prime_three
     set T : Subgroup (L ⧸ aschbacherSolvableCore 3 L) := (aschbacherSolvableCore 3 K).map f
       with hT
-    haveI hTs : Group.IsSolvable T := Group.isSolvable_of_surjective (f.subgroupMap_surjective _)
+    have hTs : Group.IsSolvable T := Group.isSolvable_of_surjective (f.subgroupMap_surjective _)
     have hcomm : ⁅J, J⁆ ≤ T := by
       rw [Subgroup.commutator_le]
       intro j₁ hj₁ j₂ hj₂

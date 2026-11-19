@@ -254,8 +254,7 @@ theorem realLocalElement_statedProj_of_monomialData (h2 : (2 : K) ≠ 0)
   · rintro ⟨c, hc⟩
     have := congrFun (congrFun (congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K))
       hc) 0) 2
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_cycGL, cycMat,
-      Matrix.diagonal_apply] at this
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_cycGL, cycMat] at this
   · rw [← map_pow]
     have : (![1, -1, -1] : Fin 3 → Kˣ) ^ 2 = 1 := by
       funext i; fin_cases i <;> simp
@@ -339,7 +338,7 @@ private theorem rotGL_conj_tvGL (a b : K) :
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_rotGL, coe_rotGL_inv, coe_tvGL, coe_tvGL]
   ext i j; fin_cases i <;> fin_cases j <;>
-    simp [rotMat, rotInvMat, tvMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [rotMat, rotInvMat, tvMat, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 private theorem swapGL01_conj_rotGL : (swapGL01 : GL (Fin 3) K) * rotGL * swapGL01⁻¹ = rotGL⁻¹ := by
   apply Units.ext
@@ -364,8 +363,7 @@ theorem realLocalElement_psl_three_char_two (h2 : (2 : K) = 0) :
   · rintro ⟨c, hc⟩
     have := congrFun (congrFun (congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K))
       hc) 0) 1
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_rotGL, rotMat,
-      Matrix.diagonal_apply] at this
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_rotGL, rotMat] at this
   · rw [pow_two, tvGL_mul, add_zero, h11]
     exact Units.ext tvMat_zero
   · rw [pow_two, tvGL_mul, add_zero, h11]
@@ -374,8 +372,7 @@ theorem realLocalElement_psl_three_char_two (h2 : (2 : K) = 0) :
   · rintro ⟨c, hc⟩
     have := congrFun (congrFun (congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K))
       hc) 1) 2
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_tvGL, tvMat,
-      Matrix.diagonal_apply] at this
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, coe_tvGL, tvMat] at this
   · have h01 : (0 : K) - 1 = 1 := by rw [zero_sub]; exact hneg
     rw [rotGL_conj_tvGL, tvGL_mul, hneg, h01]
     simp

@@ -33,7 +33,7 @@ theorem Data.Hyp.not_comm_L (h : d.Hyp) : ¬ ∀ x ∈ d.L, ∀ y ∈ d.L, x * y
   rw [d.card_S] at h1
   norm_num at h1
 
-theorem Data.Hyp.even_card_L (h : d.Hyp) : Even (Nat.card d.L) := by
+theorem Data.Hyp.even_card_L (_h : d.Hyp) : Even (Nat.card d.L) := by
   have hdvd : Nat.card d.S ∣ Nat.card d.L := Subgroup.card_dvd_of_le (d.pull_le_L Ssub)
   rw [d.card_S] at hdvd
   exact even_iff_two_dvd.mpr ((dvd_pow_self 2 (by norm_num)).trans hdvd)
@@ -107,15 +107,15 @@ theorem Data.IsUnitaryFactor.card_eq {K₀ : Subgroup G} (hK : d.IsUnitaryFactor
 theorem Data.IsUnitaryFactor.not_comm {K₀ : Subgroup G} (hK : d.IsUnitaryFactor K₀) :
     ¬ ∀ x y : K₀, x * y = y * x := by
   intro hc
-  haveI : IsMulCommutative K₀ := ⟨⟨hc⟩⟩
+  have : IsMulCommutative K₀ := ⟨⟨hc⟩⟩
   have hp := Group.is_simple_iff_prime_card.mp hK.isSimpleGroup
   rw [hK.card_eq] at hp
   norm_num at hp
 
 theorem Data.IsUnitaryFactor.commutator_eq {K₀ : Subgroup G} (hK : d.IsUnitaryFactor K₀) :
     ⁅K₀, K₀⁆ = K₀ := by
-  haveI := hK.isSimpleGroup
-  haveI : (commutator ↥K₀).Normal := by
+  have := hK.isSimpleGroup
+  have : (commutator ↥K₀).Normal := by
     change (⁅(⊤ : Subgroup ↥K₀), (⊤ : Subgroup ↥K₀)⁆ : Subgroup ↥K₀).Normal
     infer_instance
   have hperf : Group.IsPerfect K₀ := by
@@ -199,8 +199,8 @@ theorem Data.diagonalHom_apply_of_mem {K₀ : Subgroup G} (h : d.Hyp)
       Swap.swapHom d.t K₀ hK.comm ⟨k, hk⟩ := by
   rw [Common.diagonalHom_apply, Swap.swapHom_apply, h.t_inv]
 
-theorem Data.conj_mem_range (h : d.Hyp) (hKU : d.KUnitary) {K₀ : Subgroup G}
-    (hK : d.IsUnitaryFactor K₀)
+theorem Data.conj_mem_range (h : d.Hyp) (_hKU : d.KUnitary) {K₀ : Subgroup G}
+    (_hK : d.IsUnitaryFactor K₀)
     (hc : ⁅d.nclL K₀, (d.nclL K₀).map (MulAut.conj d.t).toMonoidHom⁆ = ⊥) {g r : G}
     (hg : g ∈ d.L) (hr : r ∈ (Common.diagonalHom (d.nclL K₀) d.t (h.comm_inv hc)).range) :
     g * r * g⁻¹ ∈ (Common.diagonalHom (d.nclL K₀) d.t (h.comm_inv hc)).range := by
@@ -215,8 +215,8 @@ theorem Data.nclL_range_delta (h : d.Hyp) (hKU : d.KUnitary) {K₀ : Subgroup G}
     (hK : d.IsUnitaryFactor K₀)
     (hc : ⁅d.nclL K₀, (d.nclL K₀).map (MulAut.conj d.t).toMonoidHom⁆ = ⊥) :
     (Common.diagonalHom (d.nclL K₀) d.t (h.comm_inv hc)).range = d.L := by
-  haveI := h.isSimpleGroup_L
-  haveI := hK.isSimpleGroup
+  have := h.isSimpleGroup_L
+  have := hK.isSimpleGroup
   refine le_antisymm (fun y hy => ?_) (fun y hy => ?_)
   · obtain ⟨a, rfl⟩ := MonoidHom.mem_range.mp hy
     exact Data.diagonalHom_mem_L h hKU hK hc a
@@ -228,7 +228,7 @@ theorem Data.nclL_range_delta (h : d.Hyp) (hKU : d.KUnitary) {K₀ : Subgroup G}
       rw [hN, Subgroup.mem_subgroupOf]
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact Data.conj_mem_range h hKU hK hc g.2 hn
-    haveI := hnorm
+    have := hnorm
     have hne : N ≠ ⊥ := by
       intro hb
       obtain ⟨k, hk1⟩ := exists_ne (1 : K₀)

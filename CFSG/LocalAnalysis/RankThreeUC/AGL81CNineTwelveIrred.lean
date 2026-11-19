@@ -15,9 +15,9 @@ theorem card_modEq_card_fixed_mulAut {q : ℕ} (hq : q.Prime) {β : MulAut V} (h
     {B : Subgroup V} (hB : ∀ b ∈ B, β b ∈ B) :
     Nat.card B ≡ Nat.card ↥({x : V | x ∈ B ∧ β x = x} : Set V) [MOD q] := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite ↥B := Finite.of_injective (fun b : ↥B => (b : V)) (fun _ _ h => Subtype.ext h)
-  haveI : Fintype ↥B := Fintype.ofFinite ↥B
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite ↥B := Finite.of_injective (fun b : ↥B => (b : V)) (fun _ _ h => Subtype.ext h)
+  have : Fintype ↥B := Fintype.ofFinite ↥B
   let f : Function.End ↥B := fun b => ⟨β b, hB b b.2⟩
   have hpow : ∀ n : ℕ, ∀ b : ↥B, ((f ^ n) b : V) = (β ^ n) (b : V) := by
     intro n
@@ -111,7 +111,7 @@ private theorem eq_bot_or_eq_top_of_card_eq_prime_pow {p n q : ℕ} (hp : p.Prim
           (⟨x.1, hle x.2⟩ : ↥(fixedPointsSubgroup β)))
         (fun a b hab => Subtype.ext
           (congrArg (fun y : ↥(fixedPointsSubgroup β) => (y : V)) hab))
-    haveI : Nonempty ↥({x : V | x ∈ B ∧ β x = x} : Set V) := ⟨⟨1, B.one_mem, map_one β⟩⟩
+    have : Nonempty ↥({x : V | x ∈ B ∧ β x = x} : Set V) := ⟨⟨1, B.one_mem, map_one β⟩⟩
     have hpos : 1 ≤ Nat.card ↥({x : V | x ∈ B ∧ β x = x} : Set V) :=
       Nat.succ_le_of_lt Nat.card_pos
     exact le_antisymm (hCcard ▸ hsub) hpos
@@ -145,6 +145,7 @@ theorem eq_bot_or_eq_top_of_orderOf_eq_thirteen (hV : Nat.card V = 27) {β : Mul
   · intro k hk0 hk3
     interval_cases k <;> norm_num [Nat.ModEq]
 
+omit [Finite V] in
 private theorem commutatorElement_mul_left_of_mem_center {v : V}
     (hcent : ∀ u : V, ⁅u, v⁆ ∈ center V) (u w : V) :
     ⁅u * w, v⁆ = ⁅u, v⁆ * ⁅w, v⁆ := by

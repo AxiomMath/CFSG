@@ -327,8 +327,8 @@ theorem outer : forIn (m := Id) [:243] (#[idA 243], #[0], #[0], 0) (oStep mus) =
         exact (pbStep_cases h0).2.1
       have hin := inner hM hMc h hq
       refine ⟨ost MUK LK EK PLK (s + 1), ?_, rfl⟩
-      simp only [oStep, ost, st3]
-      rw [if_pos (by rw [ofN_size]; exact hqc), hMs]
+      simp only [oStep, ost]
+      rw [ite_eq_left (by rw [ofN_size]; exact hqc), hMs]
       simp only [st3] at hin
       rw [hin]
       have e : min (s + 1) 81 = min s 81 + 1 := by omega
@@ -337,11 +337,11 @@ theorem outer : forIn (m := Id) [:243] (#[idA 243], #[0], #[0], 0) (oStep mus) =
     · have e1 : min s 81 = 81 := by omega
       have e2 : min (s + 1) 81 = 81 := by omega
       refine ⟨ost MUK LK EK PLK (s + 1), ?_, rfl⟩
-      simp only [oStep, ost, st3]
-      rw [if_neg (by rw [ofN_size, e1, h81]; exact lt_irrefl 81), e1, e2]
+      simp only [oStep, ost]
+      rw [ite_eq_right (by rw [ofN_size, e1, h81]; exact lt_irrefl 81), e1, e2]
       rfl
   · have hid : idA 243 = unpack 243 8 (LK 0) := by rw [hL0]; exact idA_eq (by decide)
-    simp only [ost, st3]
+    simp only [ost]
     rw [show min 0 81 = 0 from rfl, R_zero, ofN_one, ofN_one, ofN_one, ← hid]
     have e0 : parP PLK 0 = 0 := by unfold parP; rw [hP0]; rfl
     have e1 : labP PLK 0 = 0 := by unfold labP; rw [hP0]; rfl
@@ -352,7 +352,7 @@ theorem pbBFS_eq : pbBFS mus =
     (ofN 81 fun k => unpack 243 8 (LK k), ofN 81 (parP PLK), ofN 81 (labP PLK)) := by
   have h81 := (run_facts h).2.2.2.2
   rw [pbBFS_eq_forIn, outer hMs hM hMc h]
-  simp only [ost, st3]
+  simp only
   rw [show min 243 81 = 81 from rfl, h81]
 
 end CFSG.KC.Fi22RkS

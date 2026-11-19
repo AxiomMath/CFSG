@@ -64,8 +64,8 @@ theorem d5_class_strongModel (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L}
     have hni : ¬ twistInner (componentRoots (rootCharHom a) i) ((S.ρ : _ → _)^[1]) := by
       rw [Function.iterate_one]
       exact not_twistInner_of_neg hu' (fun γ hγ => hρ γ (hΨk ▸ hγ).1) hno
-    rw [if_neg hni, if_neg (by rw [hrk, hn]; omega),
-      if_pos ⟨by rw [hrk]; omega, by rw [hrk, hn]⟩]
+    rw [ite_eq_right hni, ite_eq_right (by rw [hrk, hn]; omega),
+      ite_eq_left ⟨by rw [hrk]; omega, by rw [hrk, hn]⟩]
   have hTp : rootDiagUnit Tag.E6 a ^ 3 = 1 := by
     have h := map_pow (rootDiagUnitHom Tag.E6 L) a 3
     rw [show a ^ 3 = 1 from funext hap, map_one] at h

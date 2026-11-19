@@ -76,10 +76,10 @@ theorem characteristic_of_isQ8D8Type_of_card {X : Type} [Group X] [Finite X]
 theorem threeTenCase3Z5Sylow {X : Type} [Group X] [Finite X]
     (hX : IsExtNotation (fun A _ => Nat.card A = 5) (fun B _ => IsQ8D8Type B) X)
     (P E : Subgroup X) (d : ℕ) (hd : d.Prime) (hd2 : d ≠ 2) (hd5 : d ≠ 5)
-    (hP : CFSG.ABGLocalTools.IsSylowOf 5 P ⊤)
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 5 P ⊤)
     (hE : CFSG.ABGLocalTools.IsSylowOf d E ⊤) :
     Subgroup.normalizer (P : Set X) ⊔ Subgroup.normalizer (E : Set X) = ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hXcard : Nat.card X = 160 := natCard_of_isExtNotation_zmod_five_q8d8 hX
   have hndvd : ¬ d ∣ Nat.card X := by
     rw [hXcard]
@@ -106,7 +106,7 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
     {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2) (hd5 : d ≠ 5)
     (hγd : orderOf γ = d) : False := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hNcard : Nat.card N = 32 := natCard_of_isQ8D8Type hN
   have hCenter : Nat.card (Subgroup.center N) = 2 := natCard_center_of_isQ8D8Type hN
   have hInv : Nat.card {x : N // x * x = 1} = 12 := natCard_involutions_of_isQ8D8Type hN
@@ -192,7 +192,7 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
         rcases (Nat.dvd_prime Nat.prime_five).mp hβCdvd with h | h
         · exact absurd (orderOf_eq_one_iff.mp h) hβC1
         · exact h
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       have hmod := CFSG.Quasithin.AutQ8D8.card_modEq_fixSub βC (r := 5) (k := 1)
         (by simpa using hβCorder)
       have hfixC : Nat.card (CFSG.Quasithin.AutQ8D8.fixSub βC) = 2 := by
@@ -242,7 +242,7 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
   have hCeq : C = Subgroup.center N :=
     (Subgroup.eq_of_le_of_card_ge hCenter_le_C (by rw [hCcard, hCenter])).symm
   let T := {x : N // x * x = 1}
-  letI : MulAction (MulAut N) T :=
+  let : MulAction (MulAut N) T :=
     { smul := fun g x => ⟨g x, by
         show g x * g x = 1
         rw [← map_mul, x.2, map_one]⟩
@@ -250,8 +250,8 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
       mul_smul := fun g h x => rfl }
   let γT : Equiv.Perm T := MulAction.toPerm γ
   let γE : Function.End T := γT.toFun
-  letI : Fintype T := Fintype.ofFinite T
-  letI : DecidableEq T := Classical.decEq T
+  let : Fintype T := Fintype.ofFinite T
+  let : DecidableEq T := Classical.decEq T
   have hγpow : γ ^ d = 1 := by
     rw [← hγd]
     exact pow_orderOf_eq_one γ
@@ -287,9 +287,8 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
     have hset : Function.fixedPoints γE =
         {x : T | (x : N) ∈ CFSG.Quasithin.AutQ8D8.fixSub γ} := by
       ext x
-      simp only [Function.fixedPoints, Set.mem_setOf_eq, Function.IsFixedPt]
+      simp only [Function.fixedPoints, Set.mem_ofPred_eq, Function.IsFixedPt]
       rw [CFSG.Quasithin.AutQ8D8.mem_fixSub]
-      change (γE x = x) ↔ γ (x : N) = x
       constructor
       · intro h
         exact congrArg Subtype.val h
@@ -340,7 +339,7 @@ theorem no_order_of_commute_order_five {N : Type} [Group N] [Finite N]
 
 theorem threeTenCase3Z5FiniteInput_of_aut (hAut : ThreeTenCase3Z5AutInput) :
     ThreeTenCase3Z5FiniteInput :=
-  ⟨hAut, fun X _ _ P E d hX hd hd2 hd5 hP hE =>
+  ⟨hAut, fun _X _ _ P E d hX hd hd2 hd5 hP hE =>
     threeTenCase3Z5Sylow hX P E d hd hd2 hd5 hP hE⟩
 
 @[expose] def ThreeTenCase3A6TwoFiniteInput : Prop :=

@@ -79,7 +79,6 @@ theorem exists_mulEquiv_compl {L : Subgroup G} (hL : L ≤ c.G1) (hLE : L ⊓ c.
     exact hm.symm
   let e : ↥L ≃* ↥M24g := MulEquiv.ofBijective φL ⟨hinj, hsurj⟩
   refine ⟨e, fun l => ?_⟩
-  change (e l : Equiv.Perm (Fin 24)) = ρ.φ ⟨(l : G), hL l.2⟩
   rw [show e l = φL l from MulEquiv.ofBijective_apply φL ⟨hinj, hsurj⟩ l]
   rfl
 

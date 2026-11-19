@@ -15,6 +15,7 @@ section FieldLemma
 
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {l : ℕ}
 
+omit [Fintype F] [CharP F 2] in
 private theorem m3as_range_stable {s : ℕ} (hs2 : 2 ≤ s) {Y : AddSubgroup F}
     (hmul : ∀ c : F, c ≠ 0 → ∀ y ∈ Y, c * c⁻¹ ^ s * y ∈ Y) {φ : Fˣ →* Fˣ}
     (hφ : ∀ u : Fˣ, φ u = u ^ (-((s - 1 : ℕ) : ℤ))) :
@@ -30,6 +31,7 @@ private theorem m3as_range_stable {s : ℕ} (hs2 : 2 ≤ s) {Y : AddSubgroup F}
   rw [hpow]
   exact hmul (c : F) (Units.ne_zero c) y hy
 
+omit [CharP F 2] in
 private theorem m3as_ker_card_le {s : ℕ} (hs2 : 2 ≤ s) {φ : Fˣ →* Fˣ}
     (hφ : ∀ u : Fˣ, φ u = u ^ (-((s - 1 : ℕ) : ℤ))) :
     Nat.card φ.ker ≤ s - 1 := by
@@ -49,6 +51,7 @@ private theorem m3as_ker_card_le {s : ℕ} (hs2 : 2 ≤ s) {φ : Fˣ →* Fˣ}
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact IsCyclic.card_pow_eq_one_le (α := Fˣ) (n := s - 1) (by omega)
 
+omit [Fintype F] [CharP F 2] in
 private theorem m3as_range_card_ge {s : ℕ} (hs2 : 2 ≤ s) (hFcard : Nat.card F = s ^ 2)
     {φ : Fˣ →* Fˣ} (hker_le : Nat.card φ.ker ≤ s - 1) :
     s ≤ Nat.card φ.range := by
@@ -76,6 +79,7 @@ private theorem m3as_range_card_ge {s : ℕ} (hs2 : 2 ≤ s) (hFcard : Nat.card 
     mul_le_mul hk' hn' hn0 (by omega)
   nlinarith [heq', hmul', hs2']
 
+omit [CharP F 2] in
 theorem addSubgroup_eq_top_of_mul_sig_mem (hF : Fintype.card F = 2 ^ (2 * l))
     {Y : AddSubgroup F} (hY : Y ≠ ⊥)
     (hmul : ∀ c : F, c ≠ 0 → ∀ y ∈ Y, c * c⁻¹ ^ 2 ^ l * y ∈ Y) : Y = ⊤ := by
@@ -112,45 +116,47 @@ section OrthModel
 
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] {l : ℕ}
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem m1as_exists_t {D : Subgroup SL(2, F)} (hD : D ≤ upperSylow) :
     ∃ tOf : D → F,
-      (∀ (d : D) (h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d)) ∧
-        ∀ (d : D) (h : (d : SL(2, F)) ≠ 1), tOf d ≠ 0 := by
+      (∀ (d : D) (_h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d)) ∧
+        ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1), tOf d ≠ 0 := by
   classical
   let tOf : D → F := fun d =>
-    if h : (d : SL(2, F)) = 1 then 0
+    if _h : (d : SL(2, F)) = 1 then 0
     else Classical.choose (mem_upperSylow_iff.mp (hD d.2))
-  have htOf_eq : ∀ (d : D) (h : (d : SL(2, F)) ≠ 1),
+  have htOf_eq : ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1),
       (d : SL(2, F)) = uMat (tOf d) := by
-    intro d h
-    rw [show tOf d = Classical.choose (mem_upperSylow_iff.mp (hD d.2)) from dif_neg h]
+    intro d _h
+    rw [show tOf d = Classical.choose (mem_upperSylow_iff.mp (hD d.2)) from dite_eq_right _h]
     exact Classical.choose_spec (mem_upperSylow_iff.mp (hD d.2))
-  refine ⟨tOf, htOf_eq, fun d h ht => h ?_⟩
-  rw [htOf_eq d h, ht, uMat_zero]
+  refine ⟨tOf, htOf_eq, fun d _h ht => _h ?_⟩
+  rw [htOf_eq d _h, ht, uMat_zero]
 
 private theorem m1as_coord (hF : Fintype.card F = 2 ^ (2 * l))
     {D : Subgroup SL(2, F)} {X : ↥(hermA l F)}
     (hX : X ∈ fixedSub (hermRep l hF) D) {tOf : D → F}
-    (htOf_eq : ∀ (d : D) (h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d))
-    (htOf_ne : ∀ (d : D) (h : (d : SL(2, F)) ≠ 1), tOf d ≠ 0) :
-    ∀ (d : D) (h : (d : SL(2, F)) ≠ 1),
+    (htOf_eq : ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d))
+    (htOf_ne : ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1), tOf d ≠ 0) :
+    ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1),
       ∃ c : F, c ^ 2 ^ l = c ∧ (X : Matrix (Fin 2) (Fin 2) F) 0 1 = tOf d * c := by
-  intro d h
+  intro d _h
   have hfix : X ∈ fixedSub (hermRep l hF) (Subgroup.zpowers (uMat (tOf d))) := by
     rw [mem_fixedSub_zpowers]
-    exact (mem_fixedSub.mp hX) (uMat (tOf d)) (by rw [← htOf_eq d h]; exact d.2)
-  exact ((mem_fixedSub_zpowers_uMat_iff_K0 (hF := hF) (tOf d) (htOf_ne d h) X).mp hfix).2
+    exact (mem_fixedSub.mp hX) (uMat (tOf d)) (by rw [← htOf_eq d _h]; exact d.2)
+  exact ((mem_fixedSub_zpowers_uMat_iff_K0 (hF := hF) (tOf d) (htOf_ne d _h) X).mp hfix).2
 
+omit [Fintype F] [Algebra (ZMod 2) F] in
 private theorem m1as_injective {D : Subgroup SL(2, F)} {X : ↥(hermA l F)} {tOf cOf : D → F}
     (hX01 : (X : Matrix (Fin 2) (Fin 2) F) 0 1 ≠ 0)
-    (htOf_eq : ∀ (d : D) (h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d))
-    (hval : ∀ (d : D) (h : (d : SL(2, F)) ≠ 1),
+    (htOf_eq : ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1), (d : SL(2, F)) = uMat (tOf d))
+    (hval : ∀ (d : D) (_h : (d : SL(2, F)) ≠ 1),
       (X : Matrix (Fin 2) (Fin 2) F) 0 1 = tOf d * cOf d)
     (hzero : ∀ (d : D), (d : SL(2, F)) = 1 → cOf d = 0) :
     Function.Injective cOf := by
   have hne : ∀ (d : D), (d : SL(2, F)) ≠ 1 → cOf d ≠ 0 := by
-    intro d h hc
-    exact hX01 (by rw [hval d h, hc, mul_zero])
+    intro d _h hc
+    exact hX01 (by rw [hval d _h, hc, mul_zero])
   intro d1 d2 h12
   by_cases h1 : (d1 : SL(2, F)) = 1
   · by_cases h2 : (d2 : SL(2, F)) = 1
@@ -181,17 +187,17 @@ private theorem m1a_card_le_of_coord_ne_zero (hF : Fintype.card F = 2 ^ (2 * l))
       cOf d ^ 2 ^ l = cOf d ∧
         (X : Matrix (Fin 2) (Fin 2) F) 0 1 = tOf d * cOf d := by
     intro d h
-    rw [show cOf d = Classical.choose (hcoord d h) from dif_neg h]
+    rw [show cOf d = Classical.choose (hcoord d h) from dite_eq_right h]
     exact Classical.choose_spec (hcoord d h)
   have hcOf_one : ∀ (d : D), (d : SL(2, F)) = 1 → cOf d = 0 := by
     intro d h
-    exact dif_pos h
+    exact dite_eq_left h
   have hinj : Function.Injective cOf :=
     m1as_injective hX01 htOf_eq (fun d h => (hcOf d h).2) hcOf_one
   let f : D → {c : F // c ^ 2 ^ l = c} := fun d =>
     ⟨cOf d, by
       by_cases h : (d : SL(2, F)) = 1
-      · rw [show cOf d = 0 from dif_pos h]
+      · rw [show cOf d = 0 from dite_eq_left h]
         simp
       · exact (hcOf d h).1⟩
   have hf : Function.Injective f := fun d1 d2 h => hinj (congrArg Subtype.val h)
@@ -359,6 +365,7 @@ private theorem m1b_map_fixedSub_conj (hF : Fintype.card F = 2 ^ (2 * l)) {x : S
     _ = fixedSub (hermRep l hF) upperSylow := by
           rw [hcomp, Submodule.map_id]
 
+omit [Finite W] in
 theorem IsOrthModule.fixedSub_eq_of_card_lt (hF : Fintype.card F = 2 ^ (2 * l))
     (hρ : IsOrthModule hF ρ) {A D : Subgroup SL(2, F)} (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) (hDA : D ≤ A) (hcard : 2 ^ l < Nat.card D) :
@@ -431,7 +438,7 @@ theorem IsOrthModule.pow_mul_card_mul_card_fixedSub_le (hF : Fintype.card F = 2 
     rw [Nat.card_congr β.toEquiv, card_hermA (s := l) hl hF]
   by_cases hDle : Nat.card D ≤ 2 ^ l
   · rw [hW]
-    haveI hnt : Nontrivial ↥D := (Subgroup.bot_or_nontrivial D).resolve_left hD
+    have hnt : Nontrivial ↥D := (Subgroup.bot_or_nontrivial D).resolve_left hD
     obtain ⟨d, hd1⟩ := exists_ne (1 : ↥D)
     let S : Submodule (ZMod 2) W := fixedSub ρ (Subgroup.zpowers (d : SL(2, F)))
     have hfixz : Nat.card ↥S = 2 ^ (2 * l) :=
@@ -467,6 +474,7 @@ theorem IsOrthModule.pow_mul_card_mul_card_fixedSub_le (hF : Fintype.card F = 2 
           rw [← pow_add, ← pow_add]
           ring
 
+omit [Finite W] in
 private theorem m3c_transported_invariant
     (hF : Fintype.card F = 2 ^ (2 * l)) {A : Subgroup SL(2, F)} {j : ℕ}
     {β : W ≃+ ↥(hermA l F)}
@@ -503,6 +511,7 @@ private theorem m3c_transported_invariant
   rw [hkey]
   exact Submodule.mem_map_of_mem (Submodule.mem_map_of_mem (hU n hn u hu))
 
+omit [Finite W] in
 private theorem m3c_transported_lt
     (hF : Fintype.card F = 2 ^ (2 * l)) {A : Subgroup SL(2, F)} {j : ℕ}
     {β : W ≃+ ↥(hermA l F)}
@@ -512,7 +521,7 @@ private theorem m3c_transported_lt
     {U : Submodule (ZMod 2) W} (hlt : fixedSub ρ A < U) :
     fixedSub (hermRep l hF) upperSylow <
       (U.map (β.toAddMonoidHom.toZModLinearMap 2)).map (hermRep l hF x⁻¹) := by
-  obtain ⟨hleA, u, huU, huC⟩ := SetLike.lt_iff_le_and_exists.1 hlt
+  obtain ⟨hleA, u, huU, huC⟩ := IsConcreteLE.lt_iff_le_and_exists.1 hlt
   have hle : fixedSub (hermRep l hF) upperSylow ≤
       (U.map (β.toAddMonoidHom.toZModLinearMap 2)).map (hermRep l hF x⁻¹) := by
     intro w hw
@@ -539,10 +548,11 @@ private theorem m3c_transported_lt
         Module.End.one_apply] at h4
       exact h4
     exact huC ((fixedSub_fieldAut_mem (hF := hF) (j := j) hβ A u).mpr h3)
-  exact SetLike.lt_iff_le_and_exists.2
+  exact IsConcreteLE.lt_iff_le_and_exists.2
     ⟨hle, hermRep l hF x⁻¹ (β u),
       Submodule.mem_map_of_mem (Submodule.mem_map_of_mem huU), hnot⟩
 
+omit [Finite W] in
 theorem IsOrthModule.card_le_of_normalizer_invariant (hF : Fintype.card F = 2 ^ (2 * l))
     (hρ : IsOrthModule hF ρ) {A : Subgroup SL(2, F)} (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) {U : Submodule (ZMod 2) W}

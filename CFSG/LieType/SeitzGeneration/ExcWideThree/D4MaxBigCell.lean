@@ -259,7 +259,7 @@ theorem borel_stab_all {θ : Fin τ.rank → ℤ}
 
 theorem wordProd_stab_all {θ : Fin τ.rank → ℤ}
     (hθ : IsMaxHeightRoot τ θ) (w : List (Fin τ.rank)) :
-    ∃ (θ' : Fin τ.rank → ℤ) (hθ' : IsRoot τ θ') (ε ε' : ℤ), (ε = 1 ∨ ε = -1) ∧ (ε' = 1 ∨ ε' = -1) ∧
+    ∃ (θ' : Fin τ.rank → ℤ) (_hθ' : IsRoot τ θ') (ε ε' : ℤ), (ε = 1 ∨ ε = -1) ∧ (ε' = 1 ∨ ε' = -1) ∧
       rootNorm τ θ' = rootNorm τ θ ∧
       endHom K (wordProdD τ K w) (rootVec τ K θ) = (ε : K) • rootVec τ K θ' ∧
       ∀ c : K, wordProdD τ K w * xPar (rootOperatorFamily τ) θ c * (wordProdD τ K w)⁻¹ =
@@ -278,14 +278,14 @@ theorem wordProd_stab_all {θ : Fin τ.rank → ℤ}
     · intro c
       simp [wordProdD]
   | cons i w ih =>
-    obtain ⟨θ', hθ', ε, ε', hε, hε', hn, hv, hx⟩ := ih
-    obtain ⟨s, hs, hsv, -⟩ := weyl_step_explicit (K := K) i hθ'
-    obtain ⟨s', hs', hsx⟩ := weylElement_xPar_conj (F := rootOperatorFamily τ) (K := K) i hθ'
+    obtain ⟨θ', _hθ', ε, ε', hε, hε', hn, hv, hx⟩ := ih
+    obtain ⟨s, hs, hsv, -⟩ := weyl_step_explicit (K := K) i _hθ'
+    obtain ⟨s', hs', hsx⟩ := weylElement_xPar_conj (F := rootOperatorFamily τ) (K := K) i _hθ'
     have hw : wordProdD τ K (i :: w) =
         CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily τ)) i (1 : Kˣ) * wordProdD τ K w := by
       rw [hwe i]
       simp [wordProdD]
-    refine ⟨reflect τ i θ', IsRoot.reflect i hθ', ε * s, s' * ε', ?_, ?_, ?_, ?_, ?_⟩
+    refine ⟨reflect τ i θ', IsRoot.reflect i _hθ', ε * s, s' * ε', ?_, ?_, ?_, ?_, ?_⟩
     · rcases hε with rfl | rfl <;> rcases hs with rfl | rfl <;> norm_num
     · rcases hs' with rfl | rfl <;> rcases hε' with rfl | rfl <;> norm_num
     · rw [rootNorm_reflect]
@@ -331,7 +331,7 @@ theorem bigCell_conj_b_all {θ : Fin τ.rank → ℤ}
     apply hlam
     rw [hentry]
     have : (rootVec τ K θ') (negLabel hθ.1) = 0 := by
-      rw [rootVec_eq_single hθ', Finsupp.single_apply, if_neg]
+      rw [rootVec_eq_single hθ', Finsupp.single_apply, ite_eq_right]
       intro h
       apply hne
       have h' := h

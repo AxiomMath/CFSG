@@ -17,7 +17,7 @@ open CFSG.Goldschmidt.G3a (BorelSetup)
 section Parity
 
 theorem exists_sq_of_not_dvd_orderOf189 {Z : Type} [Group Z] [Finite Z] [IsCyclic Z] {k m : ℕ}
-    (hm : Odd m) (hZ : Nat.card Z = 2 ^ k * m) {z : Z} (hz : ¬ 2 ^ k ∣ orderOf z) :
+    (_hm : Odd m) (hZ : Nat.card Z = 2 ^ k * m) {z : Z} (hz : ¬ 2 ^ k ∣ orderOf z) :
     ∃ w : Z, w ^ 2 = z := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Z)
   have hgo : orderOf g = 2 ^ k * m := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hZ]
@@ -60,7 +60,7 @@ theorem smul_pair189 {X : Type} [Group X] {x : X} (hx3 : orderOf x = 3) {U U' : 
     intro V hV
     have h1 : θ x ∈ Subgroup.normalizer (((θ • V : Sylow 2 X) : Subgroup X) : Set X) :=
       CFSG.ComponentClassification.AschbacherToolkit.Bender.Omega.mem_normalizer_smul hV
-    haveI : Finite (Subgroup.zpowers x) :=
+    have : Finite (Subgroup.zpowers x) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hx3]; norm_num)
     have hle : Subgroup.zpowers (θ x) ≤ Subgroup.zpowers x := Subgroup.zpowers_le.mpr hθ
     have hcard : Nat.card (Subgroup.zpowers x) ≤ Nat.card (Subgroup.zpowers (θ x)) := by
@@ -120,7 +120,7 @@ theorem two_pow_dvd_orderOf_of_swap189 {X : Type} [Group X] [Finite X]
     {θ : MulAut X} (hθx : θ x = x) (hθU : θ • U = U') : 2 ^ k ∣ orderOf (Λ θ) := by
   classical
   by_contra hndvd
-  haveI : Finite Z :=
+  have : Finite Z :=
     Nat.finite_of_card_ne_zero (by rw [hZ]; exact (Nat.mul_pos (by positivity) hm.pos).ne')
   obtain ⟨W, W', hWW', hxW, hxW', hWfix⟩ := exists_fixed_pair189 hB hx3 hcard
   have hfix : ∀ V : Sylow 2 X, x ∈ Subgroup.normalizer ((V : Subgroup X) : Set X) →
@@ -193,8 +193,8 @@ theorem exists_hom_of_outShape189 {X : Type} [Group X] {k m : ℕ}
       Function.Surjective Λ ∧ Nat.card Z = 2 ^ k * m ∧ (∀ g : X, Λ (MulAut.conj g) = 1) ∧
       ∀ δ : MulAut X, Λ δ = 1 → ∃ r : ℕ, Odd r ∧ ∃ g : X, δ ^ r = MulAut.conj g := by
   obtain ⟨Dd, hn, hodd, hcyc, hcard⟩ := hOut
-  haveI := hn
-  haveI : Finite Dd := Nat.finite_of_card_ne_zero hodd.pos.ne'
+  have := hn
+  have : Finite Dd := Nat.finite_of_card_ne_zero hodd.pos.ne'
   refine ⟨Outer X ⧸ Dd, inferInstance, hcyc,
     (QuotientGroup.mk' Dd).comp
       (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner X)),

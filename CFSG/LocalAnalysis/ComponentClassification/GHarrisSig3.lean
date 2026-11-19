@@ -86,7 +86,7 @@ variable (D : GHSylow Y)
 
 theorem isCharacteristicP_Y (hC : GorensteinHaradaThmCInput) (hO : pPrimeCore 2 Y = ⊥)
     (hz : ∀ y : Y, y * D.z = D.z * y) : IsCharacteristicP 2 Y := by
-  have hSp : IsPGroup 2 (D.S : Subgroup Y) := D.S.isPGroup'
+  have hSp : IsPGroup 2 (D.S : Subgroup Y) := D.S.isPGroup
   by_cases hB : pCore 2 D.Xt = ((D.sylowXt hO hz : Sylow 2 D.Xt) : Subgroup D.Xt)
   · obtain ⟨-, -, -, hCT⟩ := D.prop38B_of hC hO hz hB
     have hTn : ((D.sylowXt hO hz : Sylow 2 D.Xt) : Subgroup D.Xt).Normal := by

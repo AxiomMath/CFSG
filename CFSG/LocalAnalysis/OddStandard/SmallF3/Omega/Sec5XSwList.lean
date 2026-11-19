@@ -168,7 +168,7 @@ theorem sw_elemList_enum :
       rwa [Nat.card_coe_set_eq] at h
     have hIio : (Set.Iio (elemList 820 tabA tabB).size).ncard =
         (elemList 820 tabA tabB).size := by
-      simpa using Nat.card_Iio (elemList 820 tabA tabB).size
+      simp
     have h1 : (f '' Set.Iio (elemList 820 tabA tabB).size).ncard = 1152 := by
       rw [Set.InjOn.ncard_image (s := Set.Iio (elemList 820 tabA tabB).size) (f := f) hinj,
         hIio, hsz']

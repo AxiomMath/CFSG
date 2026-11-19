@@ -119,7 +119,7 @@ theorem r890_lemma4a1_of_leaves (hSet : PUSetup_890) (hCore : PUJ2Core_890) (hNo
   have hR2 : IsPGroup 2 R := by
     obtain ⟨Q, hQ⟩ := hR
     rw [← hQ]
-    exact Q.isPGroup'.map _
+    exact Q.isPGroup.map _
   exact hRC.trans (hNorm G D L P J Y n cfg h869 h885 C hC (hR2.to_le hCR)
     (le_sup_left.trans hXC))
 

@@ -29,7 +29,7 @@ theorem iw_projZ_bijective {V H : Subgroup G} (hZ : Subgroup.center (Xbar V H) =
 
 theorem iw_card_natural (n : ℕ) (F : Type) [Field F] [Finite F] (hF : Nat.card F = 2) :
     Nat.card (Fin n ⊕ Fin n → F) = 2 ^ (2 * n) := by
-  simp [Nat.card_fun, Nat.card_sum, Nat.card_eq_fintype_card, hF, two_mul]
+  simp [Nat.card_fun, Nat.card_eq_fintype_card, hF, two_mul]
 
 theorem iw_relIndex [Finite G] {V H : Subgroup G} {K Q : Subgroup G} {n : ℕ} (hn : 1 ≤ n)
     (hKQ : K ≤ Q) (hKH : K ≤ H) (hQH : Q ≤ H)

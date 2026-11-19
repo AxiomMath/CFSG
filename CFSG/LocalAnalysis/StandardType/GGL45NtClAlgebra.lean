@@ -63,7 +63,7 @@ theorem semilinear_pow_eq {K : Type} [Field K] {ι : Type} [Fintype ι] [Decidab
     ∀ M ∈ spanE K E₀, σ M ^ 2 ^ b = M ^ 2 ^ a := by
   rcases isEmpty_or_nonempty ι with hι | hι
   · intro M _; exact Subsingleton.elim _ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσmem : ∀ M ∈ spanE K E₀, σ M ∈ spanE K E₀ := by
     intro M hM
     induction hM using Submodule.span_induction with
@@ -134,7 +134,7 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
     (hup : u ^ p = 1) :
     ∃ c : GL ι K, (c : Matrix ι ι K) ∈ spanE K E₀ ∧ c ^ p ^ (s - 1) = u ∧ c ^ p ^ s = 1 := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have h2 : ¬ p ∣ 2 := fun h => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h)
   have hqn : q = 2 ^ (n : ℕ) := hq ▸ hn
@@ -158,7 +158,7 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
       add_mem' := fun ha hb => Submodule.add_mem _ ha hb
       algebraMap_mem' := fun c => by
         rw [Algebra.algebraMap_eq_smul_one]; exact Submodule.smul_mem _ c h1 }
-  letI : CommRing B :=
+  let : CommRing B :=
     { (inferInstance : Ring B) with
       mul_comm := fun x y => Subtype.ext (spanE_commute E₀ hE x.2 y.2) }
   have hQ : ∀ x : B, x ^ q ^ d = x := by
@@ -169,8 +169,8 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
     apply Subtype.ext
     rw [SubmonoidClass.coe_pow, hqn, ← pow_mul]
     exact this x x.2
-  haveI : Finite B := Subtype.finite
-  haveI : IsReduced B := ⟨fun x ⟨m, hm⟩ => by
+  have : Finite B := Subtype.finite
+  have : IsReduced B := ⟨fun x ⟨m, hm⟩ => by
     have hk : ∀ k, x ^ (q ^ d) ^ k = x := by
       intro k
       induction k with
@@ -178,7 +178,7 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
       | succ k ih => rw [pow_succ, pow_mul, ih, hQ]
     have hm' : m ≤ (q ^ d) ^ m := (Nat.lt_pow_self hQ1).le
     rw [← hk m, ← Nat.sub_add_cancel hm', pow_add, hm, mul_zero]⟩
-  haveI : IsArtinianRing B := isArtinian_of_finite
+  have : IsArtinianRing B := isArtinian_of_finite
   let e := IsArtinianRing.equivPi B
   let uB : B := ⟨u, hu⟩
   have huB : uB ^ p = 1 := Subtype.ext (by
@@ -188,11 +188,11 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
   have hroot : ∀ I : MaximalSpectrum B, ∃ c : B ⧸ I.asIdeal,
       c ^ p ^ (s - 1) = Ideal.Quotient.mk I.asIdeal uB ∧ c ^ p ^ s = 1 := by
     intro I
-    haveI := I.isMaximal
-    letI : Field (B ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
-    haveI : Finite (B ⧸ I.asIdeal) :=
+    have := I.isMaximal
+    let : Field (B ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
+    have : Finite (B ⧸ I.asIdeal) :=
       Finite.of_surjective (Ideal.Quotient.mk I.asIdeal) Ideal.Quotient.mk_surjective
-    haveI : Module.Finite K (B ⧸ I.asIdeal) := Module.Finite.of_finite
+    have : Module.Finite K (B ⧸ I.asIdeal) := Module.Finite.of_finite
     refine field_root hp hs1 _ (by rw [← map_pow, huB, map_one]) fun hne => ?_
     set ū := Ideal.Quotient.mk I.asIdeal uB
     have hū : ū ^ p = 1 := by rw [← map_pow, huB, map_one]
@@ -201,7 +201,7 @@ theorem exists_pow_eq_of_pow_eq_one {K : Type} [Field K] {ι : Type} [Fintype ι
     set f := Module.finrank K (B ⧸ I.asIdeal)
     have hū0 : ū ≠ 0 := by
       rintro h; rw [h, zero_pow hp.ne_zero] at hū; exact zero_ne_one hū
-    haveI : Fintype (B ⧸ I.asIdeal) := Fintype.ofFinite _
+    have : Fintype (B ⧸ I.asIdeal) := Fintype.ofFinite _
     have hpF : p ∣ q ^ f - 1 := by
       rw [← hcard, Nat.card_eq_fintype_card, ← orderOf_eq_prime hū hne]
       exact orderOf_dvd_of_pow_eq_one (FiniteField.pow_card_sub_one_eq_one ū hū0)
@@ -284,7 +284,7 @@ theorem formAdj_formAdj {K : Type} [Field K] {ι : Type} [Fintype ι] [Decidable
   rw [hGG', Matrix.one_mul, Matrix.mul_assoc, hGG', Matrix.mul_one]
 
 theorem formAdj_eq_inv {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
-    (τ : K ≃+* K) {G : Matrix ι ι K} (hG : IsUnit G.det) {g : GL ι K}
+    (τ : K ≃+* K) {G : Matrix ι ι K} (_hG : IsUnit G.det) {g : GL ι K}
     (h : formAdj τ G (g : Matrix ι ι K) * g = 1) :
     formAdj τ G (g : Matrix ι ι K) = ((g⁻¹ : GL ι K) : Matrix ι ι K) := by
   calc formAdj τ G (g : Matrix ι ι K) = formAdj τ G (g : Matrix ι ι K) * ((g * g⁻¹ : GL ι K) :
@@ -393,7 +393,7 @@ theorem val_eq {p n a d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : n ∣ a * p)
     (hd : d = orderOf ((2 ^ n : ℕ) : ZMod p)) :
     padicValNat p ((2 ^ n) ^ d - 1) = padicValNat p ((2 ^ a) ^ (p - 1) - 1) + 1 ∧
       1 ≤ padicValNat p ((2 ^ a) ^ (p - 1) - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨m, j, rfl, rfl, hj⟩ := split_of_dvd hp hn hna
@@ -451,7 +451,7 @@ theorem power_class {p n a d s : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : n ∣
     (hd : d = orderOf ((2 ^ n : ℕ) : ZMod p)) (hs : s = padicValNat p ((2 ^ n) ^ d - 1)) :
     2 ≤ s ∧ ∃ k : ℕ, ¬ p ∣ k ∧ ∀ N : ℕ, N * 2 ^ (a * p) ≡ 2 ^ a [MOD p ^ s] →
       N ≡ 1 + p ^ (s - 1) * k [MOD p ^ s] := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨hv, hv1⟩ := val_eq hp hp2 hn hna hd
   rw [← hs] at hv
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -502,7 +502,7 @@ theorem power_class {p n a d s : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : n ∣
 theorem exists_pow_two_of_ringEquiv {K : Type} [Field K] [Fintype K] [CharP K 2]
     (σ₀ : K ≃+* K) :
     ∃ a : ℕ, ∀ c, σ₀ c = c ^ 2 ^ a := by
-  letI := ZMod.algebra K 2
+  let := ZMod.algebra K 2
   let g : K ≃ₐ[ZMod 2] K := AlgEquiv.ofRingEquiv (f := σ₀) (fun c => by
     rw [← ZMod.natCast_zmod_val c, map_natCast, map_natCast])
   obtain ⟨i, hi⟩ := FiniteField.exists_forall_apply_eq_pow (k := ZMod 2) (l := K) (p := 2) g

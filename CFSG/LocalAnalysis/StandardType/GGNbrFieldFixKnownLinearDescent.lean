@@ -17,6 +17,7 @@ private noncomputable def sigmaAlgEquiv (σ : K ≃+* K) : K ≃ₐ[fixF σ] K :
     show σ (x : K) = (x : K)
     exact (mem_fixF (σ := σ)).mp x.2
 
+omit [DecidableEq ι] [Finite K] in
 private theorem smul_eq_of_eq_smul {M : Matrix ι ι K} (hM : M ≠ 0) {a b : K}
     (h : a • M = b • M) : a = b := by
   classical
@@ -113,6 +114,7 @@ private theorem zpowers_sigmaAlgEquiv_eq_top (σ : K ≃+* K) :
   show S = ⊤
   rw [h1, IntermediateField.fixingSubgroup_bot]
 
+omit [DecidableEq ι] in
 theorem exists_descend_of_map_eq_smul_matrix (σ : K ≃+* K) {M : Matrix ι ι K} (hM : M ≠ 0)
     {c : K} (hc : c ≠ 0) (h : M.map σ = c • M) :
     ∃ (μ : K) (N : Matrix ι ι (fixF σ)), μ ≠ 0 ∧ N.map (fixF σ).subtype = μ • M := by

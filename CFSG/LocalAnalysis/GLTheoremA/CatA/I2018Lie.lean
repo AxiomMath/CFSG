@@ -21,7 +21,7 @@ theorem i2018_lie (hOdd : I2018OddB3) (hChar : I2018U38Char2) (hBT : I2018BorelT
     IsChevSimple 2 (PSimple 3 K) ∧ ¬ IsTD4 3 K ∧
       GLAMarking (PQuot 3 K) (fun lab _ _ _ _ _ => (lab.n = 1 ∧ 2 ^ 6 < card2 3 K) ∨ (lab.n = 3 ∧ 2 ^ 18 < card2 3 K)) := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 K) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK
   have hxp : IsPGroup 3 (Subgroup.zpowers x) := isPGroup_zpowers_of_pow_eq_one hx3
   have hα3 : (chevAut 3 K ⟨x, hxN⟩) ^ 3 = 1 := chevAut_pow_eq_one 3 K hxN hx3

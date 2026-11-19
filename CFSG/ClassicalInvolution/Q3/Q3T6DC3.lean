@@ -34,7 +34,7 @@ theorem KW_inf_JW : (W ⊓ K) ⊓ (W ⊓ J) = ⊥ := by
   have hKΩ : K ∈ CoreAssembly.conjClass K := CoreAssembly.mem_conjClass_self K
   have hxS : x ∈ (S : Subgroup G) := d.hWS hxW
   have hx2 : IsPGroup 2 (Subgroup.zpowers x) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hKJ : K ≠ J := fun h => d.viol.ne h.symm
   have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ hKΩ d.viol.mem hKJ hx2
     (Subgroup.zpowers_le.mpr hxK) (Subgroup.zpowers_le.mpr hxJ)

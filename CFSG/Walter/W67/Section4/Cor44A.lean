@@ -256,7 +256,7 @@ theorem coprime_card_A_index
   have hArA : Ar ≤ A := Subgroup.map_subtype_le _
   have hArcard : Nat.card Ar = r ^ (Nat.card A).factorization r := by
     rw [Subgroup.card_map_of_injective A.subtype_injective, Sylow.card_eq_multiplicity]
-  have hAr2 : IsPGroup r Ar := P.isPGroup'.map _
+  have hAr2 : IsPGroup r Ar := P.isPGroup.map _
   have hArne : Ar ≠ ⊥ := by
     intro h
     have := congrArg (fun H : Subgroup G => Nat.card H) h
@@ -311,7 +311,7 @@ theorem coprime_card_A_index
     intro x hx
     have : (⟨x, hx⟩ : R) ∈ Ar.subgroupOf R := h ▸ Subgroup.mem_top _
     exact this
-  have hnil : Group.IsNilpotent R := R.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent R := R.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyAr⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (Ar.subgroupOf R) hlt)
   have hyNAr : (y : G) ∈ Subgroup.normalizer (Ar : Set G) := by
@@ -324,7 +324,7 @@ theorem coprime_card_A_index
   have hArNV : Ar ≤ NV := fun x hx => hNV ▸ Subgroup.le_normalizer hx
   have hArn : (Ar.subgroupOf NV).Normal := normal_subgroupOf_of_le_normalizer hNVAr
   have hy2 : IsPGroup r (Subgroup.zpowers (⟨(y : G), hyNV⟩ : NV)) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup') y
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup) y
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk,
       Subgroup.orderOf_coe, hk])
   obtain ⟨Q, hQ⟩ := hy2.exists_le_sylow

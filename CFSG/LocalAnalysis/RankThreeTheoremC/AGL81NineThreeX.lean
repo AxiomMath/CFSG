@@ -21,9 +21,9 @@ theorem pRank_le_pRank_inf_centralizer_of_normal (hp : p.Prime) {R A : Subgroup 
     (hR : IsPGroup p R) (hAR : A ≤ R) (hRA : R ≤ Subgroup.normalizer (A : Set X))
     (hA : IsElemAbelian p A) (hAcard : Nat.card A = p ^ 2) :
     CFSG.Open.pRank p R ≤ CFSG.Open.pRank p (R ⊓ Subgroup.centralizer (A : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup R := A.subgroupOf R
-  haveI : D.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hAR).mpr hRA
+  have : D.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hAR).mpr hRA
   have hDel : IsElemAbelian p D := isElemAbelian_subgroupOf hA R
   have hDcard : Nat.card D = p ^ 2 := by
     rw [← hAcard]
@@ -55,9 +55,9 @@ theorem exists_plane_le_three_le_pRank_centralizer (hp : p.Prime) (hp2 : p ≠ 2
     (h3 : 3 ≤ CFSG.Open.pRank p R) :
     ∃ A : Subgroup X, A ≤ T ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       3 ≤ CFSG.Open.pRank p (R ⊓ Subgroup.centralizer (A : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup R := T.subgroupOf R
-  haveI : C.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTR).mpr hRT
+  have : C.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTR).mpr hRT
   have hCc : ¬ IsCyclic C := fun hc => hT (isCyclic_of_surjective
     (Subgroup.subgroupOfEquivOfLe hTR).toMonoidHom (Subgroup.subgroupOfEquivOfLe hTR).surjective)
   obtain ⟨D, hDC, hDn, hDcard, hDexp, hDcomm⟩ :=
@@ -91,7 +91,7 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
     Subgroup.centralizer ((⨆ (L : Subgroup X) (_ : IsComponentOf L ⊤ ∧ ¬ L ≤ X₀), L :
       Subgroup X) : Set X) ≤ X₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup X := ⨆ (L : Subgroup X) (_ : IsComponentOf L ⊤ ∧ ¬ L ≤ X₀), L with hK
   have hleK : ∀ L : Subgroup X, IsComponentOf L ⊤ → ¬ L ≤ X₀ → L ≤ K := fun L hL hLX =>
     le_iSup₂_of_le L ⟨hL, hLX⟩ le_rfl
@@ -122,8 +122,8 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
     obtain ⟨E, hER, hE, hEcard, hEw⟩ := hTwo hrank
     obtain ⟨w, hwT, hwZ, hwp⟩ : ∃ w ∈ T, (∀ r ∈ (Rb : Subgroup X), r * w = w * r) ∧
         orderOf w = p := by
-      haveI : Group.IsNilpotent (Rb : Subgroup X) := Rb.isPGroup'.isNilpotent
-      haveI : (T.subgroupOf (Rb : Subgroup X)).Normal :=
+      have : Group.IsNilpotent (Rb : Subgroup X) := Rb.isPGroup.isNilpotent
+      have : (T.subgroupOf (Rb : Subgroup X)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hRbT
       have hT1 : T.subgroupOf (Rb : Subgroup X) ≠ ⊥ := by
         intro h
@@ -135,8 +135,8 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
         exact hp.one_lt.ne hup
       have hS := Group.IsNilpotent.inf_center_ne_bot_of_normal hT1
       set S := T.subgroupOf (Rb : Subgroup X) ⊓ Subgroup.center (Rb : Subgroup X) with hSdef
-      have hSp : IsPGroup p S := Rb.isPGroup'.to_subgroup S
-      haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS
+      have hSp : IsPGroup p S := Rb.isPGroup.to_subgroup S
+      have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS
       obtain ⟨n, hn, hcn⟩ := hSp.nontrivial_iff_card.mp inferInstance
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p (G := S)
         (by rw [hcn]; exact dvd_pow_self p hn.ne')
@@ -162,10 +162,10 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
   swap
   ·
     obtain ⟨A, hAT, hA, hAcard, hA3⟩ := exists_plane_le_three_le_pRank_centralizer hp hp2
-      Rb.isPGroup' inf_le_left hRbT hTc (by omega)
+      Rb.isPGroup inf_le_left hRbT hTc (by omega)
     exact (Subgroup.centralizer_le (hAT.trans inf_le_right)).trans
       (hC A (hAT.trans inf_le_left) hA hAcard hA3)
-  haveI := hTc
+  have := hTc
   have huniq : ∀ L : Subgroup X, IsComponentOf L ⊤ → ¬ L ≤ X₀ → L = L₀ := by
     intro L hL hLX
     by_contra hne
@@ -181,7 +181,7 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
   have hL₀n : L₀.Normal := hKL₀ ▸ hKn
   have hQcyc : IsCyclic ((Rb : Subgroup X) ⊓ Subgroup.centralizer (L₀ : Set X) : Subgroup X) := by
     by_contra hnc
-    have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (Rb.isPGroup'.to_le inf_le_left) hnc
+    have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hp2 (Rb.isPGroup.to_le inf_le_left) hnc
     omega
   have huRb : ∀ r ∈ (Rb : Subgroup X), r * u * r⁻¹ ∈ Subgroup.zpowers u := fun r hr =>
     CFSG.AGLEmbedding.conj_mem_zpowers_of_isCyclic (T := T) rfl ⟨huR, huK⟩
@@ -217,7 +217,7 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
         (Subgroup.mem_sup_right (hzRb r hr))
     exact hNorm _ hAR hA hAcard
       ((by omega : 3 ≤ CFSG.Open.pRank p (Rb : Subgroup X)).trans
-        (pRank_le_pRank_inf_centralizer_of_normal hp Rb.isPGroup' hAR hRA hA hAcard))
+        (pRank_le_pRank_inf_centralizer_of_normal hp Rb.isPGroup hAR hRA hA hAcard))
   have hmemN : ∀ z c : X, c ∈ Subgroup.centralizer (L₀ : Set X) →
       c * z * c⁻¹ ∈ Subgroup.zpowers z →
       c ∈ Subgroup.normalizer ((Subgroup.zpowers u ⊔ Subgroup.zpowers z : Subgroup X) : Set X) := by
@@ -233,7 +233,7 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
   by_cases hO : CFSG.pCore p X = ⊥
   swap
   ·
-    haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p X).Normal := CFSG.pCore_normal
     obtain ⟨z, hz, hzp⟩ : ∃ z ∈ CFSG.pCore p X, orderOf z = p := by
       obtain ⟨z, hz⟩ : ∃ x : CFSG.pCore p X, orderOf x = p := by
         rcases (CFSG.pCore_isPGroup (p := p) (G := X)).card_eq_or_dvd with h1 | hdvd
@@ -248,7 +248,7 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
           (Subgroup.commutator_eq_bot_iff_le_centralizer.mp CFSG.LocalCores.fitting_layer_commute)
       exact Subgroup.le_centralizer_iff.mp
         ((CFSG.LocalCores.component_le_layer ((CFSG.isComponent_iff_open L₀).mpr hL₀)).trans hEC)
-    haveI : IsCyclic (CFSG.pCore p X) := Subgroup.isCyclic_of_le (le_inf hOR hOC)
+    have : IsCyclic (CFSG.pCore p X) := Subgroup.isCyclic_of_le (le_inf hOR hOC)
     have hzX : ∀ g : X, g * z * g⁻¹ ∈ Subgroup.zpowers z := fun g =>
       CFSG.AGLEmbedding.conj_mem_zpowers_of_isCyclic (T := CFSG.pCore p X) rfl hz
         ((inferInstance : (CFSG.pCore p X).Normal).conj_mem z hz g)
@@ -292,8 +292,8 @@ theorem centralizer_sup_components_le (hp : p.Prime) (hp2 : p ≠ 2)
           (le_centralizer_of_component_ne hJc hJ'c (Ne.symm hne') hv'J₁) d' hd').symm
       rw [← hJ'J]
       exact ⟨n, hn, rfl⟩
-    haveI := hJn
-    haveI : IsCyclic ((Rb : Subgroup X) ⊓ J : Subgroup X) :=
+    have := hJn
+    have : IsCyclic ((Rb : Subgroup X) ⊓ J : Subgroup X) :=
       Subgroup.isCyclic_of_le (inf_le_inf_left _ hJC)
     have hvN : ∀ g ∈ Subgroup.normalizer (((Rb : Subgroup X) ⊓ J : Subgroup X) : Set X),
         g * v * g⁻¹ ∈ Subgroup.zpowers v := fun g hg =>
@@ -343,7 +343,7 @@ theorem centralizer_d1KBar_le_d1X0_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R
     Subgroup.centralizer ((d1KBar p M N : Subgroup (N ⧸ primeComplementCore (G := N) p)) :
       Set (N ⧸ primeComplementCore (G := N) p)) ≤ d1X0 p M N := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p

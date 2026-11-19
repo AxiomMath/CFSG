@@ -246,7 +246,7 @@ theorem lieModel_of_catalogIs_isA2n {R : Type} [Group R] {k : ℕ} (hcat : catal
   cases d with
   | A r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     have hm := CFSG.Models.lieModel_A 2 q hv e
     have hm' := hm.toBlueprint (by decide)
     rw [hP.1, hP.2] at hm'
@@ -259,7 +259,7 @@ theorem lieModel_of_catalogIs_isU3n {R : Type} [Group R] {k : ℕ} (hcat : catal
   cases d with
   | twistedA r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     have hm := lieModel_twistedA' 2 q hv e
     have hm' := CFSG.Models.LieModel.toBlueprint (by decide) hm
     rw [hP.1, hP.2] at hm'

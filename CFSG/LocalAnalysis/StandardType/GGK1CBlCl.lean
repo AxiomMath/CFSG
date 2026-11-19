@@ -28,19 +28,19 @@ private theorem ggK1CBc_commutator_equiv {G B : Type} [Group G] [Group B] {A : S
 
 private theorem ggK1CBc_isSolvable_of_mulEquiv {G B : Type} [Group G] [Group B] {A : Subgroup G}
     (φ : ↥A ≃* B) (hB : Group.IsSolvable B) : Group.IsSolvable ↥A := by
-  haveI := hB
+  have := hB
   exact Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
 
 private theorem ggK1CBc_not_quasisimple_of_isSolvable {G : Type} [Group G] {A : Subgroup G}
     (h : Group.IsSolvable ↥A) : ¬ CFSG.IsQuasisimple ↥⁅A, A⁆ := by
-  haveI := h
+  have := h
   intro hq
   have hle : ⁅A, A⁆ ≤ A := Subgroup.commutator_le_self A
-  haveI : Group.IsSolvable ↥⁅A, A⁆ :=
+  have : Group.IsSolvable ↥⁅A, A⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥⁅A, A⁆ := hq.1
-  haveI : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥⁅A, A⁆ := hq.1
+  have : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
   exact Group.IsPerfect.not_isSolvable ↥⁅A, A⁆ inferInstance
 
 private theorem ggK1CBc_statedSL_equiv (m : ℕ) (K : Type) [Field K] :
@@ -100,14 +100,14 @@ theorem ggK1CBl_classical_sl {nf : ℕ} {K : Type} [Field K] [Finite K]
         (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.sl m)).qs = true) ∧
       (CFSG.IsQuasisimple ↥⁅A, A⁆ → ggK1CBl_Model nf K (ggK1CCo_Kind.sl m) ↥⁅A, A⁆) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rcases eq_or_ne m 1 with hm1 | hm1
   ·
     subst m
     have hsolv : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 1) K) :=
       CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_small_solvable 1 K
         (Or.inl rfl)
-    haveI : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv e hsolv
+    have : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv e hsolv
     have hnotq : ¬ CFSG.IsQuasisimple ↥⁅A, A⁆ :=
       ggK1CBc_not_quasisimple_of_isSolvable (A := A) inferInstance
     have hflag : (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.sl 1)).qs = false :=
@@ -125,7 +125,7 @@ theorem ggK1CBl_classical_sl {nf : ℕ} {K : Type} [Field K] [Finite K]
       have hsolv : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K
           (Or.inl hK2)
-      haveI : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv e hsolv
+      have : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv e hsolv
       have hnotq : ¬ CFSG.IsQuasisimple ↥⁅A, A⁆ :=
         ggK1CBc_not_quasisimple_of_isSolvable (A := A) inferInstance
       have hflag : (ggK1CCo_kindOrbit 1 (ggK1CCo_Kind.sl 2)).qs = false := by
@@ -183,7 +183,7 @@ theorem ggK1CBl_classical_sp {nf : ℕ} {K : Type} [Field K] [Finite K]
         (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.sp s)).qs = true) ∧
       (CFSG.IsQuasisimple ↥⁅A, A⁆ → ggK1CBl_Model nf K (ggK1CCo_Kind.sp s) ↥⁅A, A⁆) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨s', hs', ⟨e₀⟩⟩ :=
     CFSG.RankThree.PartOne.KCSpIsotypic.exists_mulEquiv_sesqUnitaryGroup_statedSp
       (K := K) (W := W) hB hn
@@ -197,17 +197,17 @@ theorem ggK1CBl_classical_sp {nf : ℕ} {K : Type} [Field K] [Finite K]
       subst nf
       have hK2 : Nat.card K = 2 := by simpa using hK
       have hsolvSL : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) := by
-        haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+        have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
           CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K
             (Or.inl hK2)
         exact Group.isSolvable_of_isSolvable_injective
           (f := Matrix.SpecialLinearGroup.toGL) Matrix.SpecialLinearGroup.toGL_injective
-      haveI : Group.IsSolvable (StatedSp 1 K) := by
-        haveI := hsolvSL
+      have : Group.IsSolvable (StatedSp 1 K) := by
+        have := hsolvSL
         exact Group.isSolvable_of_surjective
           (f := (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).toMonoidHom)
           (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).surjective
-      haveI : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv φ inferInstance
+      have : Group.IsSolvable ↥A := ggK1CBc_isSolvable_of_mulEquiv φ inferInstance
       have hnotq : ¬ CFSG.IsQuasisimple ↥⁅A, A⁆ :=
         ggK1CBc_not_quasisimple_of_isSolvable (A := A) inferInstance
       have hflag : (ggK1CCo_kindOrbit 1 (ggK1CCo_Kind.sp 1)).qs = false := by
@@ -277,7 +277,7 @@ theorem ggK1CBl_classical_sp {nf : ℕ} {K : Type} [Field K] [Finite K]
         ggK1CBc_kindOrbit_sp_of_ne hs1 hcorner
       refine ⟨Or.inl hq, ⟨fun _ => hflag, fun _ => hq⟩, ?_⟩
       · intro _
-        simpa only [ggK1CBl_Model, if_neg hs1, if_neg hcorner] using
+        simpa only [ggK1CBl_Model, ite_eq_right hs1, ite_eq_right hcorner] using
           (⟨eModel⟩ : Nonempty (↥⁅A, A⁆ ≃* StatedSp s K))
 
 end CFSG.StandardType

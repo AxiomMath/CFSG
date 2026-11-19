@@ -101,7 +101,7 @@ theorem false_of_cyclic_four (hGold : CFSG.CGT.Timmesfeld75.Goldschmidt1974)
   obtain ⟨-, hb, -⟩ := hGold X T (Subgroup.zpowers a) (Subgroup.zpowers_le.2 haT)
     (Subgroup.zpowers_isMulCommutative a) hsc
   set M : Subgroup X := Subgroup.normalClosure ((Subgroup.zpowers a : Subgroup X) : Set X)
-  haveI hMn : M.Normal := Subgroup.normalClosure_normal
+  have hMn : M.Normal := Subgroup.normalClosure_normal
   have haM : a ∈ M := Subgroup.le_normalClosure (Subgroup.mem_zpowers a)
   set O : Subgroup ↥M := CFSG.Open.goldschmidtOddCore ↥M with hO
   rw [zpowers_subgroupOf_eq haM, MonoidHom.map_zpowers] at hb
@@ -183,7 +183,7 @@ theorem exists_sylow_centralizer_eq {H : Type*} [Group H] [Finite H] (S : Sylow 
       t ∈ (T : Subgroup ↥(Subgroup.centralizer {w})) ↔ (t : H) ∈ (S : Subgroup H) := by
   set C := Subgroup.centralizer ({w} : Set H)
   set Q₁ := (S : Subgroup H) ⊓ C
-  have hQ₁p : IsPGroup 2 Q₁ := S.isPGroup'.to_le inf_le_left
+  have hQ₁p : IsPGroup 2 Q₁ := S.isPGroup.to_le inf_le_left
   have hQ' : IsPGroup 2 (Q₁.subgroupOf C) :=
     hQ₁p.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨T, hT⟩ := hQ'.exists_le_sylow
@@ -191,7 +191,7 @@ theorem exists_sylow_centralizer_eq {H : Type*} [Group H] [Finite H] (S : Sylow 
     (Subgroup.mem_inf.2 ⟨ht, t.2⟩))⟩⟩
   set Q := (T : Subgroup C).map C.subtype
   have hQc : Q ≤ C := Subgroup.map_subtype_le _
-  obtain ⟨k, hk, hkQ⟩ := hconj (T.isPGroup'.map C.subtype) hQc
+  obtain ⟨k, hk, hkQ⟩ := hconj (T.isPGroup.map C.subtype) hQc
   have hle : Q.map (MulAut.conj k⁻¹).toMonoidHom ≤ Q₁ := by
     rintro _ ⟨q, hq, rfl⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
@@ -240,7 +240,7 @@ theorem StrothFrame.IsD.false_of_t100_iv (hGold : CFSG.CGT.Timmesfeld75.Goldschm
       ∀ y ∈ Subgroup.zpowers ((dD.c : G) ^ 2 ^ (m - 2)), g⁻¹ * y * g ∈ (F.S : Subgroup G) →
         g⁻¹ * y * g ∈ Subgroup.zpowers ((dD.c : G) ^ 2 ^ (m - 2))) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   set c₂ := (dD.c : G) ^ 2 ^ (m - 2) with hc₂def

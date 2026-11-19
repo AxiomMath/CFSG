@@ -16,9 +16,9 @@ theorem nonempty_mulEquiv_statedSL_two_of_isL2 {X : Type} [Group X] {n : ℕ}
       Nonempty (X ≃* ↥(CFSG.Open.StatedSL 2 K)) := by
   obtain ⟨⟨-, -, -, -, -⟩, K, hField, hFinite, hK, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num : (2 : ℕ) ≠ 0) h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := by
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -41,9 +41,9 @@ theorem pCore_two_statedSL_eq_bot {K : Type} [Field K] [Finite K] [CharP K 2] :
 theorem pCore_eq_bot_of_isL2 {X : Type} [Group X] [Finite X] {n : ℕ}
     (h : IsL2 X n) : CFSG.pCore 2 X = ⊥ := by
   obtain ⟨K, hField, hFinite, hK, ⟨e⟩⟩ := nonempty_mulEquiv_statedSL_two_of_isL2 h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := by
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -100,7 +100,7 @@ theorem Hinf_top_eq_top_of_perfect {X : Type} [Group X] [Finite X]
 
 theorem kTab23b_L2_line (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
     (hL2line : IsL2 ↥H n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ 2 n)
     (hPar : L2ParabolicLeStabilizer W H n) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
@@ -123,11 +123,11 @@ theorem kTab23b_L2_line (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar = ⊤ ∧ IsL2 (Bar2 (Hinf Pstar)) n := by
   have hL2 : IsL2 ↥H n := hL2line.1
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)

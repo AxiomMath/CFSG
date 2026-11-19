@@ -210,7 +210,7 @@ theorem nconj_of_core_trivial (A : Sylow 2 X) (hAab : IsMulCommutative (A : Subg
     calc e * x = x * (x⁻¹ * e * x) := by group
       _ = x * e := by rw [this]
   obtain ⟨e, heE, hxe⟩ := hmove
-  have hE2grp : IsPGroup 2 E := A.isPGroup'.to_le hEA
+  have hE2grp : IsPGroup 2 E := A.isPGroup.to_le hEA
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hE2grp
   have hk1 : k ≠ 0 := by

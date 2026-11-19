@@ -50,7 +50,7 @@ lemma card_key_bound {K : Type} [Field K] [Finite K] {E : Type} [AddCommGroup E]
     (hnt : ∃ v ∈ V', T v ≠ v) (A : AddSubgroup E) (hA1 : ∀ a ∈ A, a ∈ W')
     (hA2 : ∀ a ∈ A, T a ∈ W') (hA3 : ∀ a ∈ A, T a = a → a ∈ V') :
     Nat.card K ^ 2 * Nat.card A ≤ Nat.card (LinearMap.range N) * Nat.card V' := by
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   obtain ⟨v0, hv0V, hv0⟩ := hnt
   have hNv0 : N v0 ≠ 0 := by
     rw [hN v0]
@@ -143,7 +143,7 @@ theorem card_range_sub_id_sq_ge
     (B : E →ₗ[K] E →ₗ[K] K) (hnd : ∀ y : E, (∀ e, B e y = 0) → y = 0)
     (T : E →ₗ[K] E) (hTB : ∀ e f, B (T e) (T f) = B e f) (hTT : ∀ e, T (T e) = e)
     (V' W' : Submodule K E) (hW' : ∀ w, w ∈ W' ↔ ∀ v ∈ V', B w v = 0)
-    (hTV : ∀ v ∈ V', T v ∈ V') (hnt : ∃ v ∈ V', T v ≠ v)
+    (_hTV : ∀ v ∈ V', T v ∈ V') (hnt : ∃ v ∈ V', T v ≠ v)
     (A₁ A₂ : AddSubgroup E) (hVA : ∀ v ∈ V', v ∈ A₁) (hVB : ∀ v ∈ V', v ∈ A₂)
     (hAW : ∀ a ∈ A₁, a ∈ W') (hBW : ∀ b ∈ A₂, b ∈ W')
     (hsum : ∀ w ∈ W', ∃ a ∈ A₁, ∃ b ∈ A₂, w = a + b)
@@ -152,7 +152,7 @@ theorem card_range_sub_id_sq_ge
     (hdual : Nat.card W' * Nat.card V' = Nat.card E) :
     Nat.card K ^ 4 * Nat.card E ≤
       (Nat.card (LinearMap.range (T - LinearMap.id)) * Nat.card V') ^ 2 := by
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   have hN : ∀ e, (T - LinearMap.id : E →ₗ[K] E) e = T e - e := fun e => rfl
   have h1 := card_key_bound B hnd T (T - LinearMap.id) hN hTB hTT V' W' hW' hnt A₁
     hAW (fun a ha => hBW _ (hTA a ha))

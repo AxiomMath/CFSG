@@ -19,7 +19,7 @@ private theorem nonLocalized_map_triD4 {X : Type*} [Group X] {J : Subgroup X} (�
   intro T hT hs hle
   refine hJ (T.map γ.symm.toMonoidHom) (fun h => hT ?_) ?_ fun j hj => ?_
   · rwa [Subgroup.map_eq_bot_iff_of_injective _ γ.symm.injective] at h
-  · haveI := hs
+  · have := hs
     exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective γ.symm.toMonoidHom T)
   · have hγj : γ j ∈ Subgroup.normalizer (T : Set X) := hle ⟨j, hj, rfl⟩
     rw [Subgroup.mem_normalizer_iff] at hγj ⊢
@@ -163,7 +163,7 @@ theorem nlWitness_triD4 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     fun hin => hinn ((CFSG.LocalAnalysis.GLTheoremA.FQ.congr_mem_range_conj e f).1 hin)
   obtain ⟨D, hD, hDs, hDn, hDNL⟩ := triD4_exists_nonLocalized_fix Nat.prime_two hn hp hp5 K'
     hcard' σ hσ (MulAut.congr e f) hβp hβout
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K' σ.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K' σ.toRingHom) :=
     Finite.of_equiv _ e.toEquiv
   refine nlWitness_of_nonLocalized e hDs hDn hDNL ?_
   intro y hy

@@ -15,6 +15,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma comm_of_conj_eq_self {a x : G} (h : a * x * a⁻¹ = x) : a * x = x * a := by
   calc a * x = (a * x * a⁻¹) * a := by group
     _ = x * a := by rw [h]
@@ -24,6 +25,7 @@ private lemma fourGrp_le_baseGrp (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
   rw [(hc.wreath.fourGrp_eq_omega).1]
   exact (Subgroup.closure_le _).mpr (fun a ha => ha.1)
 
+omit [Finite G] in
 private lemma closure_pair_eq_sup_zpowers (a b : G) :
     Subgroup.closure ({a, b} : Set G) = Subgroup.zpowers a ⊔ Subgroup.zpowers b := by
   apply le_antisymm
@@ -157,7 +159,7 @@ theorem k18_W_eq (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {V' : Subgroup G} {
       have hmem : b ∈ V' ⊓ centralizer ({lam * t} : Set G) := ⟨hb, hbc⟩
       rwa [hVfix] at hmem
     have hyz_comm : x₁ ^ 2 * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * x₁ ^ 2 := by
-      haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (l17_V_elem hc).1
+      have : IsMulCommutative ↥(fourGrp x₁ x₂) := (l17_V_elem hc).1
       have h := mul_comm' (⟨x₁ ^ 2, hyV⟩ : ↥(fourGrp x₁ x₂))
         (⟨(x₁ * x₂) ^ 2, hzV⟩ : ↥(fourGrp x₁ x₂))
       simpa using congrArg Subtype.val h
@@ -245,7 +247,7 @@ theorem k18_W_elem (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     show (x : G) * (y : G) = (y : G) * (x : G)
     have hxY : (x : G) ∈ ctxYq t tau x₁ x₂ rho := x.2.1
     have hyY : (y : G) ∈ ctxYq t tau x₁ x₂ rho := y.2.1
-    haveI : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hY.1
+    have : IsMulCommutative ↥(ctxYq t tau x₁ x₂ rho) := hY.1
     have hcomm := mul_comm' (⟨x, hxY⟩ : ↥(ctxYq t tau x₁ x₂ rho))
       (⟨y, hyY⟩ : ↥(ctxYq t tau x₁ x₂ rho))
     simpa using congrArg Subtype.val hcomm

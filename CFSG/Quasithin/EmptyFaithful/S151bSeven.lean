@@ -59,7 +59,7 @@ theorem centralizer_le_of_normal_odd151b {Q : Type*} [Group Q] [Finite Q] (P : S
   have hS'p : IsPGroup 2 S' := by
     intro z
     obtain ⟨s, hs, hz⟩ := z.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, Subtype.ext ?_⟩
     have h1 : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     calc ((z ^ 2 ^ k : S') : Q) = (z : Q) ^ 2 ^ k := rfl

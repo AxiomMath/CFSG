@@ -24,8 +24,8 @@ theorem ne_top_of_two_pow_seven_dvd_of_mulEquiv_alternatingGroup_nine {X : Type*
 theorem nonempty_mulEquiv_perm_fin_nine_of_mulEquiv_alternatingGroup {X : Type*} [Group X]
     [Finite X] (T : Subgroup X) [T.Normal] (e : ↥T ≃* alternatingGroup (Fin 9))
     (hC : centralizer (T : Set X) = ⊥) (hT : T ≠ ⊤) : Nonempty (X ≃* Perm (Fin 9)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥T := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥T := e.isSimpleGroup
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj 9
     (by norm_num) (by norm_num)
   let conjEquiv : Perm (Fin 9) ≃* MulAut (alternatingGroup (Fin 9)) :=

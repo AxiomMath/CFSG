@@ -67,7 +67,7 @@ theorem Cex16.inf_pCore_iSub16 (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     (hvO : D.ρ ⟨v, h.V_le_S.trans hF.1 hv⟩ ∈ pCoreOf 2 (D.img H)) :
     v ∈ Subgroup.centralizer (iSub16 V H : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV_le_H : V ≤ H := h.V_le_S.trans hF.1
   let aH : ↥H := ⟨v, hV_le_H hv⟩
   have ha2 : aH * aH = 1 := by
@@ -198,7 +198,7 @@ theorem Cex16.assumption131_iSub16 (h1 : W16One G) (h5 : W16Five G) (hS : Std15 
     (D : ModDataE H (iSub16 V H)) :
     Assumption131 (D.img H) (D.conjImgFam V) (D.conjImgSpace V₀ V) (mRank (D.img V)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let I : Subgroup G := iSub16 V H
   have hE : IsElemAbelian 2 I := Cex16.isElemAbelian_iSub16 h1 hS h hF
   have hI_le : I ≤ pCoreOf 2 H := Cex16.iSub16_le_pCoreOf h hF
@@ -285,7 +285,7 @@ theorem Cex16.assumption131_iSub16 (h1 : W16One G) (h5 : W16Five G) (hS : Std15 
     have hd1' : (d : G) ≠ 1 := fun h => hd1 (Subtype.ext h)
     have hdx_mem : x⁻¹ * (d : G) * x ∈ conjSubgroup ⁅I, V⁆ x := by
       rw [mem_conjSubgroup_iff]
-      simpa [mul_assoc] using hd
+      simp [mul_assoc]
     have hdx_mem_y : x⁻¹ * (d : G) * x ∈ conjSubgroup ⁅I, V⁆ y := hDconj ▸ hdx_mem
     have hdx_ne : x⁻¹ * (d : G) * x ≠ 1 := by
       intro h
@@ -498,6 +498,7 @@ theorem Cex16.assumption131_iSub16 (h1 : W16One G) (h5 : W16Five G) (hS : Std15 
       (by rw [hcomm_conj x hxH]; exact Subgroup.map_mono hcommI_V)
       le_rfl).trans (le_of_eq h2))
 
+omit [Finite G] in
 theorem Cex16.mRank_le_iSub16 (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H)
     (D : ModDataE H (iSub16 V H)) :
     ∀ B ∈ D.conjImgFam V, mRank B ≤ mRank (D.img V) := by
@@ -509,8 +510,8 @@ theorem Cex16.mRank_le_iSub16 (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H)
   simp only [mRank, card_cj]
   exact le_refl _
 
-theorem Cex16.conjImgSpace_le_fixSub_iSub16 (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hF : Fam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+theorem Cex16.conjImgSpace_le_fixSub_iSub16 (_h1 : W16One G) (_h5 : W16Five G) (_hS : Std15 G)
+    (h : Cex16 M V₀ V U S) (_hF : Fam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) :
     ∀ B ∈ D.conjImgFam V, D.conjImgSpace V₀ V B ≤ fixSub B := by
   rintro B ⟨x, hxH, rfl⟩

@@ -687,7 +687,7 @@ theorem szb_b2_card_Q {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c 
     · rintro ⟨p, rfl⟩
       exact ⟨_, _, _, rfl⟩
   rw [szb_card_param f hf hT]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem szb_b2_cast0 {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c y s t) (i j : ℤ) :
     a ^ (((i : ZMod 25).val : ℕ) : ℤ) * c ^ (((j : ZMod 25).val : ℕ) : ℤ) = a ^ i * c ^ j := by
@@ -719,7 +719,7 @@ theorem szb_b2_card_Q0 {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c
     · rintro ⟨p, rfl⟩
       exact ⟨_, _, rfl⟩
   rw [szb_card_param f hf hT]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem szb_b2_card_Z {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c y s t) :
     Nat.card (sz32Z a c) = 5 ^ 2 := by
@@ -743,7 +743,7 @@ theorem szb_b2_card_Z {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c 
     · rintro ⟨p, rfl⟩
       exact ⟨_, _, rfl⟩
   rw [szb_card_param f hf hT]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem szb_b2_card_Om {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c y s t) :
     Nat.card (sz32Om a c y) = 5 ^ 3 := by
@@ -765,7 +765,7 @@ theorem szb_b2_card_Om {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c
     · rintro ⟨p, rfl⟩
       exact ⟨_, _, _, rfl⟩
   rw [szb_card_param f hf hT]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem szb_dvd5_mul {k i : ℤ} (hk : ¬ (5 : ℤ) ∣ k) (h : (5 : ℤ) ∣ k * i) : (5 : ℤ) ∣ i := by
   have hp : Prime (5 : ℤ) := Nat.prime_iff_prime_int.mp Nat.prime_five
@@ -1083,7 +1083,7 @@ theorem szb_exists_l {k : ℤ} (k' : ℤ) (hk : ¬ (5 : ℤ) ∣ k) :
 
 theorem szb_comm_of_isMulComm {B : Subgroup X} (hB : IsMulCommutative B) {u v : X} (hu : u ∈ B)
     (hv : v ∈ B) : u * v = v * u := by
-  haveI := hB
+  have := hB
   exact congrArg Subtype.val (mul_comm' (⟨u, hu⟩ : B) ⟨v, hv⟩)
 
 theorem szb_b2_Q0_unique {Q : Subgroup X} {a c y : X} {s t : ℤ} (H : SzbB2 Q a c y s t)

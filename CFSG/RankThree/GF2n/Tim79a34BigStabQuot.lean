@@ -137,7 +137,7 @@ theorem pr_spEnd {g : StatedSp n F} (hg : g ∈ spFix Q.a) {v : Fin n ⊕ Fin n 
 @[expose] noncomputable def qEnd (g : StatedSp n F) : Module.End F (Fin m ⊕ Fin m → F) :=
   Q.e.φ.symm.toLinearMap ∘ₗ
     (Q.pr ∘ₗ spEnd g ∘ₗ Q.e.U.subtype ∘ₗ Q.e.φ.toLinearMap).codRestrict Q.e.U
-      (fun x => Q.pr_mem _)
+      (fun _x => Q.pr_mem _)
 
 theorem φ_qEnd (g : StatedSp n F) (x : Fin m ⊕ Fin m → F) :
     (Q.e.φ (Q.qEnd g x) : Fin n ⊕ Fin n → F) = Q.pr (spEnd g (Q.e.φ x)) := by
@@ -167,7 +167,7 @@ theorem qEnd_isometry {g : StatedSp n F} (hg : g ∈ spFix Q.a) (x y : Fin m ⊕
   rw [Q.pr_spEnd hg (Q.form_a_of_mem (Q.e.φ x).2), Q.pr_spEnd hg (Q.form_a_of_mem (Q.e.φ y).2)]
   have hxa : spQuotB n F (spEnd g (Q.e.φ x)) Q.a = 0 := by
     rw [spQuotB_comm, hx, neg_zero]
-  simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hx, hy,
+  simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hy,
     hxa, Q.form_a_a, spEnd_isometry]
   ring
 

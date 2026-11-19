@@ -65,7 +65,7 @@ private theorem glaPLayer_fixSubgroup_psuConj_ne_bot_of_conj_diagE
     (he : (e : F) = τ ∨ (e : F) = τ ^ 2)
     (hEq : g⁻¹ * (↑(n * k) : GL (Fin 3) F) * g = diagE e) :
     GLAPLayer 3 (fixSubgroup (psuConj h n)) ≠ ⊥ := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have he3 : (e : F) ^ 3 = 1 := val_pow_three_eq_one_of_eq_or_eq_sq hτ3 he
   have he1 : e ≠ 1 := ne_one_of_val_eq_or_eq_sq hτ3 hτ1 he
   have hgU : g ∈ unitaryIsom3 h := mem_unitaryIsom3.mpr ((mem_glPi_false h).mp hg)
@@ -109,7 +109,7 @@ private theorem psuConj_ne_one_of_conj_diagE (h : UnitaryFieldData p f F)
     {g : GL (Fin 3) F} {e : Fˣ} (he : (e : F) = τ ∨ (e : F) = τ ^ 2)
     (hEq : g⁻¹ * (↑(n * k) : GL (Fin 3) F) * g = diagE e) :
     psuConj h n ≠ 1 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   intro h1
   have he1 : e ≠ 1 := ne_one_of_val_eq_or_eq_sq hτ3 hτ1 he
   have hnot : diagE e ∉ zPi false 3 (p ^ f) F := diagE_notMem_zPi_false h hq hτ3 hτ1 he1
@@ -137,7 +137,7 @@ theorem exists_fourGroup_unitaryPSU (h : UnitaryFieldData p f F) (hq6 : p ^ f % 
       (∀ α ∈ A, Subgroup.map α.toMonoidHom T = T) ∧
       ∃ α ∈ A, ∀ t ∈ T, ∃ s ∈ T, t = α s * s⁻¹ := by
   classical
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have hp : 5 ≤ p := five_le_of_prime_of_pow_mod_six h.prime h.one_le (Or.inr hq6)
   have hq3 : 3 ∣ p ^ f + 1 := three_dvd_succ_of_mod_six_eq_five hq6
   have hq : ModThree false (p ^ f) :=

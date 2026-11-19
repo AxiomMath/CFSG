@@ -55,8 +55,8 @@ theorem eq_one_of_odd_normalized_fixed {W : Type*} [CommGroup W] [Finite W]
     (hfix : ∀ w : W, (∀ t ∈ T', t w = w) → ∀ x ∈ P, x w = w) :
     ∀ x ∈ P, ∀ w : W, x w = w := by
   classical
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype P := Fintype.ofFinite P
+  have : Fintype W := Fintype.ofFinite W
   have hPc : Odd (Fintype.card P) := by rwa [← Nat.card_eq_fintype_card]
   set D : Subgroup W := (traceOf P).ker with hD
   have hDmem : ∀ w, w ∈ D ↔ traceOf P w = 1 := fun w => MonoidHom.mem_ker
@@ -88,17 +88,17 @@ theorem eq_one_of_odd_normalized_fixed {W : Type*} [CommGroup W] [Finite W]
       exact hd₀1 (hsub.elim d₀ 1)
     have hs_eq : s = (D : Set W) \ {1} := by
       ext w
-      simp [s, Set.mem_diff, SetLike.mem_coe]
+      simp [s, SetLike.mem_coe]
     have hncard : Nat.card s = 2 ^ n - 1 := by
       have h1 : Nat.card s = s.ncard := (Nat.card_coe_set_eq s)
       have h2 : Nat.card D = (D : Set W).ncard := (Nat.card_coe_set_eq (D : Set W))
-      rw [h1, hs_eq, Set.ncard_diff_singleton_of_mem D.one_mem, ← h2, hn]
+      rw [h1, hs_eq, Set.ncard_sdiff_singleton_of_mem D.one_mem, ← h2, hn]
     have hnd : ¬ 2 ∣ Nat.card s := by
       rw [hncard]
       obtain ⟨m, hm⟩ : 2 ∣ 2 ^ n := dvd_pow_self 2 hn0
       have hpos : 0 < 2 ^ n := by positivity
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let _ : MulAction T' s :=
       { smul := fun t v => ⟨(t : MulAut W) v, hs t t.2 v v.2⟩
         one_smul := fun v => Subtype.ext rfl

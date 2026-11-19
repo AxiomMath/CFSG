@@ -16,7 +16,7 @@ open CFSG.RankThree.SubgroupLists (MitchellPartThree)
 
 theorem k318s_of_mitchell (hIII : MitchellPartThree) : UCK.K318s := by
   intro G _ _ _ hperf hO2 hsimple hrank hcent
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Group.IsPerfect G := ⟨hperf⟩
   have hXs : Group.IsSolvable (CFSG.solvableRadical G) :=
     CFSG.ABGLocalTools.solvableRadical_isSolvable
   obtain ⟨q, _, hq2, -, hl | ⟨φ, hφ, hirr, hcs⟩⟩ :=

@@ -128,8 +128,8 @@ theorem cp_klein_gen {X : Type} [Group X] {N : Subgroup X} [Finite N] (hN : N.No
   have hDtt' : ∀ d ∈ D, (t * t') * d * (t * t')⁻¹ ∈ D := fun d hd =>
     conj_mem_closure hStt' hd
   have hDleN : D ≤ N := (Subgroup.closure_le N).mpr (fun n hn => hn.1)
-  haveI : Fintype N := Fintype.ofFinite N
-  haveI : Fintype D := Fintype.ofInjective (Subgroup.inclusion hDleN)
+  have : Fintype N := Fintype.ofFinite N
+  have : Fintype D := Fintype.ofInjective (Subgroup.inclusion hDleN)
     (Subgroup.inclusion_injective hDleN)
   have hDp : IsPGroup p D := hNp.to_le hDleN
   have hDodd : Odd (Nat.card D) := by
@@ -147,13 +147,13 @@ theorem cp_klein_gen {X : Type} [Group X] {N : Subgroup X} [Finite N] (hN : N.No
       trivial
     simpa using (Subgroup.mem_subgroupOf.mp hmem)
   have hHlt : H < ⊤ := lt_top_iff_ne_top.mpr hHne
-  haveI hNil : Group.IsNilpotent ↥N := IsPGroup.isNilpotent hNp
+  have hNil : Group.IsNilpotent ↥N := IsPGroup.isNilpotent hNp
   have hHnorm : H < Subgroup.normalizer H :=
     Group.normalizerCondition_of_isNilpotent H hHlt
   obtain ⟨n₀, hn₀mem, hn₀not⟩ := IsConcreteLE.exists_of_lt hHnorm
   let P : Subgroup X := N ⊓ Subgroup.normalizer (D : Set X)
   have hPN : P ≤ N := inf_le_left
-  haveI : Fintype P := Fintype.ofInjective (Subgroup.inclusion hPN)
+  have : Fintype P := Fintype.ofInjective (Subgroup.inclusion hPN)
     (Subgroup.inclusion_injective hPN)
   have hDP : D ≤ P := le_inf hDleN Subgroup.le_normalizer
   have hDn : ∀ q ∈ P, ∀ d ∈ D, q * d * q⁻¹ ∈ D := by

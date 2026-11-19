@@ -42,7 +42,7 @@ theorem V_mulk {k : Nat} (hk : k < 8) {i j : Nat} (hi : i ∈ EL k) (hj : j ∈ 
 
 theorem S_eq (k : Nat) : S k = ↑((1 :: (EL k).map Vi).toFinset) := by
   ext y
-  simp only [S, Set.mem_setOf_eq, Finset.coe_insert, List.toFinset_cons, Finset.mem_coe,
+  simp only [S, Set.mem_ofPred_eq, Finset.coe_insert, List.toFinset_cons, Finset.mem_coe,
     List.mem_toFinset, List.mem_map, Set.mem_insert_iff]
 
 theorem S_finite (k : Nat) : (S k).Finite := by
@@ -126,7 +126,7 @@ theorem s_mem {u : Nat} (hu : u < 16) : s u ∈ E5 := by
 theorem s_ne {u : Nat} (hu0 : 0 < u) (hu : u < 16) :
     s u = Vi ((0 :: EL 5).getD u 0) := by
   unfold s
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 theorem exists_s {x : ↥hsP} (hx : x ∈ E5) : ∃ u < 16, s u = x := by
   rcases hx with rfl | ⟨i, hi, rfl⟩
@@ -163,7 +163,7 @@ theorem idx_spec {x : ↥hsP} (hx : x ∈ E5) : idx x < 16 ∧ s (idx x) = x := 
   classical
   have h := exists_s hx
   unfold idx
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 theorem idx_s {u : Nat} (hu : u < 16) : idx (s u) = u :=
@@ -214,7 +214,7 @@ theorem conj_s {t : Nat} (ht : t < 3) {u : Nat} (hu : u < 16) :
 @[expose] noncomputable def N0 : Subgroup ↥hsP :=
   Subgroup.closure ((E5 : Set ↥hsP) ∪ {y | ∃ t < 3, nG t = y})
 
-theorem E5_le_N0 : E5 ≤ N0 := fun x hx => Subgroup.subset_closure (Or.inl hx)
+theorem E5_le_N0 : E5 ≤ N0 := fun _x hx => Subgroup.subset_closure (Or.inl hx)
 
 theorem nG_mem {t : Nat} (ht : t < 3) : nG t ∈ N0 := Subgroup.subset_closure (Or.inr ⟨t, ht, rfl⟩)
 

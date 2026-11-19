@@ -35,13 +35,13 @@ private theorem p9uN7_single_eq_single_of_ne_zero {k : ℕ} {i j : Fin k} {a b :
   rw [Pi.single_eq_same, Pi.single_apply] at hi
   by_cases hij : i = j
   · subst j
-    rw [if_pos rfl] at hi
+    rw [ite_eq_left rfl] at hi
     exact ⟨rfl, hi⟩
-  · rw [if_neg hij] at hi
+  · rw [ite_eq_right hij] at hi
     exact absurd hi ha
 
 private theorem p9uN7_spMat_inj {k : ℕ} {σ τ : Equiv.Perm (Fin k)} {s t : Fin k → ZMod 3}
-    (hs : IsSign s) (ht : IsSign t) (h : spMat σ s = spMat τ t) : σ = τ ∧ s = t := by
+    (hs : IsSign s) (_ht : IsSign t) (h : spMat σ s = spMat τ t) : σ = τ ∧ s = t := by
   have hcol : ∀ j, Pi.single (M := fun _ => ZMod 3) (σ j) (s j) =
       Pi.single (M := fun _ => ZMod 3) (τ j) (t j) := by
     intro j
@@ -127,9 +127,9 @@ theorem permHom_eq_one_iff_mem_F1 (x : S.H) : S.permHom x = 1 ↔ (x : X) ∈ S.
       funext i
       by_cases hi : s i = -1
       · have hmem : i ∈ A := Finset.mem_filter.2 ⟨Finset.mem_univ i, hi⟩
-        rw [if_pos hmem, hi]
+        rw [ite_eq_left hmem, hi]
       · have hmem : i ∉ A := fun h => hi (Finset.mem_filter.1 h).2
-        rw [if_neg hmem]
+        rw [ite_eq_right hmem]
         rcases hs i with h | h
         · exact h
         · exact absurd h hi
@@ -170,14 +170,14 @@ theorem permHom_apply_eq_self_of_mulVec_single (x : S.H) {i : Fin 8}
   rw [Equiv.symm_apply_apply, Pi.single_eq_same, mul_one] at hσ
   by_cases hii : S.permHom x i = i
   · exact hii
-  · rw [Pi.single_apply, if_neg hii] at hσ
+  · rw [Pi.single_apply, ite_eq_right hii] at hσ
     exact absurd hσ (p9uN7_isSign_ne_zero hs i)
 
 theorem permHom_mem_iff_of_comm_sgn (x : S.H) {A : Finset (Fin 8)}
     (h : S.ρ x * sgn A = sgn A * S.ρ x) (l : Fin 8) : S.permHom x l ∈ A ↔ l ∈ A := by
   obtain ⟨s, hs, -, -, hA⟩ := S.permHom_spec x
   have hentry := congrFun (congrFun h (S.permHom x l)) l
-  rw [hA, sgn, Matrix.mul_diagonal, Matrix.diagonal_mul, spMat_apply, if_pos rfl] at hentry
+  rw [hA, sgn, Matrix.mul_diagonal, Matrix.diagonal_mul, spMat_apply, ite_eq_left rfl] at hentry
   have hcancel : (if S.permHom x l ∈ A then (-1 : ZMod 3) else 1) =
       (if l ∈ A then -1 else 1) := by
     have h2 : s l * (if l ∈ A then (-1 : ZMod 3) else 1) =
@@ -186,9 +186,9 @@ theorem permHom_mem_iff_of_comm_sgn (x : S.H) {A : Finset (Fin 8)}
     exact (mul_left_cancel₀ (p9uN7_isSign_ne_zero hs l) h2).symm
   by_cases hl : l ∈ A <;> by_cases hsl : S.permHom x l ∈ A
   · exact iff_of_true hsl hl
-  · rw [if_pos hl, if_neg hsl] at hcancel
+  · rw [ite_eq_left hl, ite_eq_right hsl] at hcancel
     exact absurd hcancel.symm (by decide)
-  · rw [if_neg hl, if_pos hsl] at hcancel
+  · rw [ite_eq_right hl, ite_eq_left hsl] at hcancel
     exact absurd hcancel (by decide)
   · exact iff_of_false hsl hl
 

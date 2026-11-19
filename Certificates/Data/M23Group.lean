@@ -9,7 +9,7 @@ namespace CFSG
 
 namespace M23.M23Group
 
-@[expose] abbrev Perm23 := Equiv.Perm (Fin 23)
+abbrev Perm23 := Equiv.Perm (Fin 23)
 
 @[expose] def aFun : Fin 23 → Fin 23 :=
   ![1, 0, 3, 2, 4, 5, 7, 6, 9, 8, 10, 11, 13, 12, 15, 14, 16, 17, 19, 18, 21, 20, 22]
@@ -271,13 +271,13 @@ lemma g19_eq_word : g19 = g19Word := by
 
 @[expose] def M23Gen : Subgroup Perm23 := Subgroup.closure ({a, b} : Set Perm23)
 
-@[expose] abbrev H0 := M23Gen
-@[expose] abbrev H1 : Subgroup H0 := MulAction.stabilizer H0 (0 : Fin 23)
-@[expose] abbrev H2 : Subgroup H1 := MulAction.stabilizer H1 (1 : Fin 23)
-@[expose] abbrev H3 : Subgroup H2 := MulAction.stabilizer H2 (2 : Fin 23)
-@[expose] abbrev H4 : Subgroup H3 := MulAction.stabilizer H3 (3 : Fin 23)
-@[expose] abbrev H5 : Subgroup H4 := MulAction.stabilizer H4 (4 : Fin 23)
-@[expose] abbrev H6 : Subgroup H5 := MulAction.stabilizer H5 (5 : Fin 23)
+abbrev H0 := M23Gen
+abbrev H1 : Subgroup H0 := MulAction.stabilizer H0 (0 : Fin 23)
+abbrev H2 : Subgroup H1 := MulAction.stabilizer H1 (1 : Fin 23)
+abbrev H3 : Subgroup H2 := MulAction.stabilizer H2 (2 : Fin 23)
+abbrev H4 : Subgroup H3 := MulAction.stabilizer H3 (3 : Fin 23)
+abbrev H5 : Subgroup H4 := MulAction.stabilizer H4 (4 : Fin 23)
+abbrev H6 : Subgroup H5 := MulAction.stabilizer H5 (5 : Fin 23)
 
 instance instMulActionH1 : MulAction H1 (Fin 23) := Subgroup.instMulActionSubtypeMem (S := H1)
 instance instMulActionH2 : MulAction H2 (Fin 23) := Subgroup.instMulActionSubtypeMem (S := H2)

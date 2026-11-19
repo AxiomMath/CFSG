@@ -38,7 +38,7 @@ structure Data (b : G) (J B : Subgroup G) : Prop where
 theorem Data.of_hyp [Finite G] (hK : FF79KTypeLn) (hN : FF79KTypeLnNorm) {n : ℕ}
     (hn : n = 4 ∨ n = 5) {b : G} {J : Subgroup G} (h : FF79Hyp n b J) {B : Subgroup G}
     (hB : IsSylowOf 3 B (Cen b)) : Data b J B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE, hB0, hsup, hBcen⟩ := ff79_1_3_struct hK hn h hB
   obtain ⟨hJC, hcomp, huniq⟩ := h.std
   have hJq : CFSG.IsQuasisimple ↥J :=
@@ -70,7 +70,7 @@ theorem Data.of_hyp [Finite G] (hK : FF79KTypeLn) (hN : FF79KTypeLnNorm) {n : �
     have := mem_cen_iff'.mp hg
     calc g * b * g⁻¹ = b * g * g⁻¹ := by rw [this]
       _ = b := by group
-  haveI : IsElementaryAbelian 3 ↥B := hE.1
+  have : IsElementaryAbelian 3 ↥B := hE.1
   have hab : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val ((IsMulCommutative.is_comm (M := ↥B)).comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hN' := hN G n J (B ⊓ J) hn hJq h.model inf_le_right hB0syl

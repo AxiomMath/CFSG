@@ -39,7 +39,7 @@ private theorem CFSG.elementaryAbelian_card_ge_pow_generatorRank
     {p : ℕ} [Fact p.Prime]
     (G : Type*) [Group G] [Finite G] [IsElementaryAbelian p G] :
     p ^ generatorRank G ≤ Nat.card G := by
-  letI : CommGroup G := IsMulCommutative.instCommGroup
+  let : CommGroup G := IsMulCommutative.instCommGroup
   have hcard : Nat.card G = p ^ Module.finrank (ZMod p) (Additive G) := by
     calc
       Nat.card G = Nat.card (Additive G) := (Nat.card_congr Additive.toMul).symm
@@ -55,7 +55,7 @@ public theorem CFSG.generatorRank_at_least_three_of_elementaryAbelian_card_p3
     {p : ℕ} [Fact p.Prime] {A : Type*} [Group A] [Finite A]
     [IsElementaryAbelian p A] (hA : Nat.card A = p ^ 3) :
     3 ≤ generatorRank A := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hcard_dvd : Nat.card A ∣ p ^ Group.rank A := by
     simpa using card_dvd_exponent_pow_rank' (G := A) (n := p) (fun a =>
       Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -72,15 +72,15 @@ private theorem CFSG.generatorRank_at_least_of_elementaryAbelian_subgroup_card_p
     {B : Subgroup G} [IsElementaryAbelian p B] (hBcard : Nat.card B = p ^ 3) :
     3 ≤ generatorRank G := by
   classical
-  letI : CommGroup G := IsMulCommutative.instCommGroup
+  let : CommGroup G := IsMulCommutative.instCommGroup
   by_contra hlt
   have hle_two : generatorRank G ≤ 2 := by omega
   have hmeta : IsMetacyclic G :=
     isMetacyclic_of_generatorRank_le_two_of_commutative G hle_two
   have hncyc : ¬ IsCyclic G := by
     intro hcyc
-    letI : IsCyclic G := hcyc
-    haveI : IsCyclic B := isCyclic_of_injective B.subtype B.subtype_injective
+    let : IsCyclic G := hcyc
+    have : IsCyclic B := isCyclic_of_injective B.subtype B.subtype_injective
     have hB_rank : 3 ≤ generatorRank B :=
       generatorRank_at_least_three_of_elementaryAbelian_card_p3 (p := p) (A := B) hBcard
     have hB_le_one : generatorRank B ≤ 1 := by
@@ -104,7 +104,7 @@ private theorem CFSG.scnSubgroup_contains_of_normal_elementaryAbelian_card_p3
   obtain ⟨A, hBA, hAnorm, hAcomm, hAmax⟩ :=
     exists_maximal_normal_abelian_subgroup_containing (G := R) B
       inferInstance (inferInstance : IsMulCommutative B)
-  haveI : Fact (IsPGroup p R) := ⟨hpR⟩
+  have : Fact (IsPGroup p R) := ⟨hpR⟩
   have hAself_le : Subgroup.centralizer (A : Set R) ≤ A :=
     maximal_normal_abelian_selfCentralizing_local (p := p) (A := A) hAnorm hAcomm hAmax
   have hAself : Subgroup.centralizer (A : Set R) = A := by
@@ -125,13 +125,13 @@ private theorem CFSG.scnSubgroup_contains_of_normal_elementaryAbelian_card_p3
       simpa using congrArg Subtype.val hxpow
   have hAp : IsPGroup p A := hpR.to_subgroup A
   have hArank : 3 ≤ generatorRank A := by
-    letI : IsElementaryAbelian p Bsub := hBsub_elem
-    letI : Fact (IsPGroup p A) := ⟨hAp⟩
+    let : IsElementaryAbelian p Bsub := hBsub_elem
+    let : Fact (IsPGroup p A) := ⟨hAp⟩
     exact generatorRank_at_least_of_elementaryAbelian_subgroup_card_p3
       (p := p) hpodd (G := A) (B := Bsub) hBsub_card
   have hArank' : 3 ≤ groupRank A := by
-    letI : IsMulCommutative A := hAcomm
-    letI : Fact (IsPGroup p A) := ⟨hAp⟩
+    let : IsMulCommutative A := hAcomm
+    let : Fact (IsPGroup p A) := ⟨hAp⟩
     exact hArank.trans (generatorRank_le_groupRank_of_commutative_pgroup (p := p) A)
   refine ⟨A, ?_, hBA⟩
   exact ⟨hAnorm, hAself, hArank'⟩
@@ -145,7 +145,7 @@ public theorem CFSG.quotient_centralizer_card_le_p_of_elementaryAbelian_rank_two
     (i : Q →* MulAut E) (hi : Function.Injective i) :
     Nat.card Q ≤ p := by
   classical
-  letI : MulDistribMulAction Q E := MulDistribMulAction.compHom E i
+  let : MulDistribMulAction Q E := MulDistribMulAction.compHom E i
   have hQp : IsPGroup p Q := Fact.out
   have hfix_ne_bot : fixedPointSubgroup Q E ≠ ⊥ := by
     have hEcard_dvd : p ∣ Nat.card E := by
@@ -219,9 +219,9 @@ public theorem CFSG.quotient_centralizer_card_le_p_of_elementaryAbelian_rank_two
           b • g = a⁻¹ • ((a * b * a⁻¹) • (a • g)) := by simp [mul_smul, mul_assoc]
           _ = a⁻¹ • (a • g) := by rw [hgfix]
           _ = g := by simp
-    letI : MulAction.QuotientAction Q (fixedPointSubgroup Q E) :=
+    let : MulAction.QuotientAction Q (fixedPointSubgroup Q E) :=
       quotientAction_of_isInvariant (A := Q) (G := E) (fixedPointSubgroup Q E) hfix_inv
-    letI : MulDistribMulAction Q (E ⧸ fixedPointSubgroup Q E) :=
+    let : MulDistribMulAction Q (E ⧸ fixedPointSubgroup Q E) :=
       quotientMulDistribMulAction (A := Q) (G := E) (fixedPointSubgroup Q E) hfix_inv
     have hcard_quot :
         Nat.card (E ⧸ fixedPointSubgroup Q E) = p := by
@@ -237,7 +237,7 @@ public theorem CFSG.quotient_centralizer_card_le_p_of_elementaryAbelian_rank_two
     have hquot_triv : ActsTrivially (A := Q) (G := E ⧸ fixedPointSubgroup Q E) := by
       have hcyc_quot : IsCyclic (E ⧸ fixedPointSubgroup Q E) := by
         exact isCyclic_of_prime_card hcard_quot
-      letI : IsCyclic (E ⧸ fixedPointSubgroup Q E) := hcyc_quot
+      let : IsCyclic (E ⧸ fixedPointSubgroup Q E) := hcyc_quot
       let φ : Q →* MulAut (E ⧸ fixedPointSubgroup Q E) :=
         MulDistribMulAction.toMulAut Q (E ⧸ fixedPointSubgroup Q E)
       have hQ_top : IsPGroup p (⊤ : Subgroup Q) := by
@@ -390,7 +390,7 @@ public theorem CFSG.scnSubgroup_generatorRank_at_least_three
     have hAle : A ≤ Subgroup.centralizer (A : Set R) := by
       simp [hAcent]
     exact (Subgroup.le_centralizer_iff_isMulCommutative (K := A)).1 hAle
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   have hpA : IsPGroup p A := hpR.to_subgroup A
   have hnonempty : (selfCentralizingAbelianSubgroupsAtLeast A 3 : Set (Subgroup A)).Nonempty := by
     by_contra hempty
@@ -431,7 +431,7 @@ public theorem CFSG.omega1_isElementaryAbelian_of_commutative
     {p : ℕ} [Fact p.Prime]
     (G : Type*) [Group G] [IsMulCommutative G] :
     IsElementaryAbelian p (omega₁ (G := G) (p := p)) := by
-  letI : CommGroup G := IsMulCommutative.instCommGroup
+  let : CommGroup G := IsMulCommutative.instCommGroup
   refine
     { toIsMulCommutative := by infer_instance
       exponent_dvd_p := ?_ }
@@ -456,7 +456,7 @@ private theorem CFSG.omega1_card_eq_card_quotient_frattini_of_commutative
     (G : Type*) [Group G] [Finite G] [IsMulCommutative G] [Fact (IsPGroup p G)] :
     Nat.card (omega₁ (G := G) (p := p)) = Nat.card (G ⧸ frattini G) := by
   classical
-  letI : CommGroup G := IsMulCommutative.instCommGroup
+  let : CommGroup G := IsMulCommutative.instCommGroup
   let φ : G →* G := powMonoidHom p
   have hφker : φ.ker = omega₁ (G := G) (p := p) := by
     ext x
@@ -650,7 +650,7 @@ public theorem CFSG.isElementaryAbelian_sup_of_le_centralizer'
           ((IsMulCommutative.is_comm (M := C)).comm ⟨x, hxC⟩ ⟨y, hyC⟩)
   have hsup : E ⊔ C = Subgroup.closure s := by
     simpa [s] using (Subgroup.sup_eq_closure E C)
-  letI : IsMulCommutative ↥(Subgroup.closure s) :=
+  let : IsMulCommutative ↥(Subgroup.closure s) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hcomm_s x hx y hy
   refine
     { toIsMulCommutative := by
@@ -713,16 +713,16 @@ private theorem CFSG.exists_normal_elementaryAbelian_card_p3_of_scn_three_checke
   let Ωsub : Subgroup A := omega₁ (G := A) (p := p)
   let Ω : Subgroup R := Ωsub.map A.subtype
   have hΩnorm : Ω.Normal := by
-    letI : A.Normal := hAnorm
-    letI : Ωsub.Characteristic := by
+    let : A.Normal := hAnorm
+    let : Ωsub.Characteristic := by
       simpa [Ωsub] using (omega₁_characteristic (G := A) (p := p))
     simpa [Ω] using (inferInstance : Ω.Normal)
   have hΩle : Ω ≤ A := by
     simpa [Ω] using (Subgroup.map_subtype_le Ωsub)
   have hΩsub_elem : IsElementaryAbelian p Ωsub := by
-    letI : IsMulCommutative A := hAcomm
+    let : IsMulCommutative A := hAcomm
     simpa [Ωsub] using omega1_isElementaryAbelian_of_commutative (p := p) A
-  letI : IsElementaryAbelian p Ωsub := hΩsub_elem
+  let : IsElementaryAbelian p Ωsub := hΩsub_elem
   have hΩelem : IsElementaryAbelian p Ω := by
     refine
       { toIsMulCommutative := by
@@ -743,16 +743,16 @@ private theorem CFSG.exists_normal_elementaryAbelian_card_p3_of_scn_three_checke
     calc
       ((x : Ω) : R) ^ p = (((yΩ : Ωsub) : A) : R) ^ p := by simp [hx_eq]
       _ = 1 := hy_pow_R
-  letI : IsElementaryAbelian p Ω := hΩelem
-  haveI : Fact (IsPGroup p A) := ⟨hpR.to_subgroup A⟩
+  let : IsElementaryAbelian p Ω := hΩelem
+  have : Fact (IsPGroup p A) := ⟨hpR.to_subgroup A⟩
   have hΩsub_card :
       Nat.card Ωsub = Nat.card (A ⧸ frattini A) := by
-    letI : IsMulCommutative A := hAcomm
+    let : IsMulCommutative A := hAcomm
     simpa [Ωsub] using omega1_card_eq_card_quotient_frattini_of_commutative (p := p) A
   have hquot_rank : 3 ≤ generatorRank (A ⧸ frattini A) := by
     exact hArank.trans (generatorRank_le_generatorRank_quotient_frattini (p := p) A)
   have hpow_le_quot : p ^ 3 ≤ Nat.card (A ⧸ frattini A) := by
-    letI : IsElementaryAbelian p (A ⧸ frattini A) :=
+    let : IsElementaryAbelian p (A ⧸ frattini A) :=
       isElementaryAbelian_quotient_frattini (R := A) (p := p)
     calc
       p ^ 3 ≤ p ^ generatorRank (A ⧸ frattini A) := by
@@ -777,11 +777,11 @@ private theorem CFSG.exists_normal_elementaryAbelian_card_p3_of_scn_three_checke
     rw [hk] at hpow_le_Ω
     exact
       (Nat.pow_le_pow_iff_right (Nat.Prime.one_lt (Fact.out : Nat.Prime p))).mp hpow_le_Ω
-  haveI : Fact (IsPGroup p R) := ⟨hpR⟩
+  have : Fact (IsPGroup p R) := ⟨hpR⟩
   obtain ⟨B, hBnorm, hBΩ, hBcard⟩ :=
     lemma_1_22 (G := R) p Ω hΩnorm k hk 3 hk3
   have hBelem : IsElementaryAbelian p B := by
-    letI : IsMulCommutative Ω := hΩelem.toIsMulCommutative
+    let : IsMulCommutative Ω := hΩelem.toIsMulCommutative
     refine
       { toIsMulCommutative := by
           exact
@@ -807,20 +807,20 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
     ∃ B : Subgroup R, B.Normal ∧ IsElementaryAbelian p B ∧ Nat.card B = p ^ 3 ∧ E ≤ B := by
   classical
   rcases hE with ⟨hEcard, hEelem⟩
-  letI : IsElementaryAbelian p E := hEelem
+  let : IsElementaryAbelian p E := hEelem
   obtain ⟨A, hA⟩ := lemma_5_1_a (p := p) hpodd (R := R) hpR hR
   obtain ⟨B₀, hB₀norm, hB₀elem, hB₀card, _hB₀A⟩ :=
     exists_normal_elementaryAbelian_card_p3_of_scn_three_checked
       (p := p) hpodd hpR hA
-  letI : B₀.Normal := hB₀norm
-  letI : IsElementaryAbelian p B₀ := hB₀elem
+  let : B₀.Normal := hB₀norm
+  let : IsElementaryAbelian p B₀ := hB₀elem
   let C : Subgroup R := B₀ ⊓ Subgroup.centralizer (E : Set R)
   have hCnorm : C.Normal := by
-    letI : (Subgroup.centralizer (E : Set R)).Normal := by infer_instance
+    let : (Subgroup.centralizer (E : Set R)).Normal := by infer_instance
     simpa [C] using (inferInstance : C.Normal)
   have hC_le_B₀ : C ≤ B₀ := inf_le_left
   have hCelem : IsElementaryAbelian p C := isElementaryAbelian_of_le (p := p) hC_le_B₀
-  letI : IsElementaryAbelian p C := hCelem
+  let : IsElementaryAbelian p C := hCelem
   let Csub : Subgroup B₀ := C.subgroupOf B₀
   let φ : B₀ →* MulAut E := (MulAut.conjNormal (H := E)).comp B₀.subtype
   have hker : φ.ker = Csub := by
@@ -854,7 +854,7 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
       simpa [φ, MulAut.conjNormal_apply]
         using hconj
   have hQp : IsPGroup p (B₀ ⧸ φ.ker) := (hpR.to_subgroup B₀).to_quotient (φ.ker)
-  haveI : Fact (IsPGroup p (B₀ ⧸ φ.ker)) := ⟨hQp⟩
+  have : Fact (IsPGroup p (B₀ ⧸ φ.ker)) := ⟨hQp⟩
   have hQodd : Odd (Nat.card (B₀ ⧸ φ.ker)) := by
     rcases hQp.exists_card_eq with ⟨n, hn⟩
     rw [hn]
@@ -884,13 +884,13 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
     exact hCsub_card_ge
   let D : Subgroup R := E ⊔ C
   have hDnorm : D.Normal := by
-    letI : C.Normal := hCnorm
+    let : C.Normal := hCnorm
     simpa [D] using (Subgroup.sup_normal E C)
   have hCcentE : C ≤ Subgroup.centralizer (E : Set R) := inf_le_right
   have hDelem : IsElementaryAbelian p D := by
-    letI : C.Normal := hCnorm
+    let : C.Normal := hCnorm
     simpa [D] using isElementaryAbelian_sup_of_le_centralizer (p := p) (E := E) (C := C) hCcentE
-  letI : IsElementaryAbelian p D := hDelem
+  let : IsElementaryAbelian p D := hDelem
   have hED : E ≤ D := le_sup_left
   have hD_ge : p ^ 3 ≤ Nat.card D := by
     by_contra hlt
@@ -943,12 +943,12 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
   · exact ⟨D, hDnorm, hDelem, hDcard, hED⟩
   · have hDgt : p ^ 3 < Nat.card D := lt_of_le_of_ne hD_ge <| by
       simpa [eq_comm] using hDcard
-    letI : D.Normal := hDnorm
+    let : D.Normal := hDnorm
     let q : R →* R ⧸ E := QuotientGroup.mk' E
     let Dbar : Subgroup (R ⧸ E) := D.map q
     have hDbar_norm : Dbar.Normal := by
       simpa [Dbar, q] using (QuotientGroup.map_normal E D)
-    letI : Dbar.Normal := hDbar_norm
+    let : Dbar.Normal := hDbar_norm
     have hDbar_p : IsPGroup p Dbar := (hpR.to_quotient E).to_subgroup Dbar
     have hDbar_comap : Dbar.comap q = D := by
       calc
@@ -987,7 +987,7 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
           (Nat.pow_lt_pow_iff_right (Nat.Prime.one_lt (Fact.out : Nat.Prime p))).mp <|
             by simpa [hDcard_eq] using hDgt
       omega
-    haveI : Fact (IsPGroup p (R ⧸ E)) := ⟨hpR.to_quotient E⟩
+    have : Fact (IsPGroup p (R ⧸ E)) := ⟨hpR.to_quotient E⟩
     rcases hDbar_p.exists_card_eq with ⟨m, hm⟩
     have h1le : 1 ≤ m := by
       cases m with
@@ -999,7 +999,7 @@ public theorem CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_
           exact Nat.succ_le_succ (Nat.zero_le _)
     obtain ⟨Zbar, hZbar_norm, hZbar_le_Dbar, hZbar_card⟩ :=
       lemma_1_22 (G := R ⧸ E) p Dbar hDbar_norm m hm 1 h1le
-    letI : Zbar.Normal := hZbar_norm
+    let : Zbar.Normal := hZbar_norm
     let K : Subgroup R := Zbar.comap q
     have hKnorm : K.Normal := by infer_instance
     have hE_le_K : E ≤ K := by
@@ -1037,8 +1037,8 @@ public theorem CFSG.lemma_5_1_b
   obtain ⟨B, hBnorm, hBelem, hBcard, hEB⟩ :=
     exists_normal_elementaryAbelian_card_p3_containing_rank_two_normal
       (p := p) hpodd hpR hR hE
-  letI : B.Normal := hBnorm
-  letI : IsElementaryAbelian p B := hBelem
+  let : B.Normal := hBnorm
+  let : IsElementaryAbelian p B := hBelem
   obtain ⟨A, hA, hBA⟩ :=
     scnSubgroup_contains_of_normal_elementaryAbelian_card_p3 (p := p) hpodd hpR hBcard
   exact ⟨A, hA, hEB.trans hBA⟩

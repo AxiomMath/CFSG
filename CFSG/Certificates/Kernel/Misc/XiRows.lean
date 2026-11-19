@@ -203,7 +203,7 @@ theorem rowsR_spec {HS RW AB : Nat → Nat} {X Y J PA : Nat}
   have e : Nat.add (128 * (k / 128)) (k % 128) = k := by rw [Nat.add_eq]; omega
   have hb1 : Nat.blt 0 k = true := Nat.blt_eq.mpr hk0
   have hb2 : Nat.blt k 1408 = true := Nat.blt_eq.mpr hk
-  simp only [e, letB_eq, impB_eq, andB_eq, hb1, hb2, Bool.and_self, Bool.not_true, Bool.false_or,
+  simp only [e, impB_eq, andB_eq, hb1, hb2, Bool.and_self, Bool.not_true, Bool.false_or,
     Bool.and_eq_true, allN_lqt_iff] at h2
   obtain ⟨h3, h4, h5, h6⟩ := h2
   have hR : RW k < 2 ^ (11 * 693) := by
@@ -279,11 +279,11 @@ theorem interK_spec {HS AB PB : Nat → Nat} (h : interK HS AB PB = true) :
   · rw [allN_lqt_iff] at h1
     have h3 := h1 (i - 1) (by omega)
     have e : Nat.succ (i - 1) = i := by omega
-    simp only [e, letB_eq, Nat.beq_eq, popK_land, bitK_eq_testBit, nIf_eq] at h3
+    simp only [e, Nat.beq_eq, popK_land, bitK_eq_testBit, nIf_eq] at h3
     exact h3
   · rw [allL_lqt_iff] at h2
     have h3 := h2 off (by simpa using hoff)
-    simp only [letB_eq, allN_lqt_iff] at h3
+    simp only [allN_lqt_iff] at h3
     have h4 := h3 f hf
     simp only [orB_eq, Bool.or_eq_true, bitK_eq_testBit, Nat.beq_eq, popK_land] at h4
     exact h4
@@ -300,9 +300,9 @@ theorem diamK_spec {AB : Nat → Nat} (h : ∀ k < 11, diamK AB (128 * k) 128 = 
   have e : Nat.add (128 * (v / 128)) (v % 128) = v := by rw [Nat.add_eq]; omega
   have hb1 : Nat.blt 0 v = true := Nat.blt_eq.mpr hv0
   have hb2 : Nat.blt v 1408 = true := Nat.blt_eq.mpr hv
-  simp only [e, letB_eq, impB_eq, andB_eq, hb1, hb2, bitK_eq_testBit, hn, notB_eq, Bool.and_eq_true,
+  simp only [e, impB_eq, andB_eq, hb1, hb2, bitK_eq_testBit, hn, notB_eq, Bool.and_eq_true,
     Bool.not_false, Bool.and_self, Bool.not_true, Bool.false_or, Bool.not_eq_true',
-    Bool.not_not, allN_lqt_iff] at h2
+    allN_lqt_iff] at h2
   obtain ⟨h3, h4⟩ := h2
   refine ⟨(nat_beq_eq_false_iff _ _).1 (by simpa using h3), fun w hw hw0 hw1 hw2 => ?_⟩
   have h5 := h4 w hw
@@ -363,7 +363,7 @@ theorem seenS_step {B : Nat} {AB : Nat → Nat} {Mv m : Nat} (h : seenS B AB Mv 
   by_cases hc : 0 < seenS B AB Mv i ∧
       (i = 0 ∨ Nat.land (seenS B AB Mv i) (AB (fd 11 Mv (i + 1))) ≠ 0)
   · exact hc
-  · rw [if_neg hc] at h1
+  · rw [ite_eq_right hc] at h1
     exact absurd rfl h1
 
 theorem seenS_testBit {B : Nat} {AB : Nat → Nat} {Mv m : Nat} (h : seenS B AB Mv m ≠ 0) :
@@ -382,7 +382,7 @@ theorem seenS_testBit {B : Nat} {AB : Nat → Nat} {Mv m : Nat} (h : seenS B AB 
   | succ n ih =>
     intro hn u
     have hc := seenS_step h (by omega : n < m)
-    rw [seenS_succ, if_pos hc, Nat.lor_eq, Nat.testBit_or, Bool.or_eq_true, ih (by omega) u,
+    rw [seenS_succ, ite_eq_left hc, Nat.lor_eq, Nat.testBit_or, Bool.or_eq_true, ih (by omega) u,
       show Nat.shiftLeft 1 (fd 11 Mv (n + 1)) = 2 ^ fd 11 Mv (n + 1) from Nat.one_shiftLeft _,
       Nat.testBit_two_pow, decide_eq_true_iff]
     constructor
@@ -419,7 +419,7 @@ theorem muK_spec {AB MT : Nat → Nat} (hAB : ∀ x < 1408, AB x < 2 ^ 1408)
   have e : Nat.add (128 * (v / 128)) (v % 128) = v := by rw [Nat.add_eq]; omega
   have hb1 : Nat.blt 0 v = true := Nat.blt_eq.mpr hv0
   have hb2 : Nat.blt v 1408 = true := Nat.blt_eq.mpr hv
-  simp only [e, letB_eq] at h2
+  simp only [e] at h2
   rw [seen_rec_eq, lorM_aux] at h2
   simp only [impB_eq, andB_eq, hb1, hb2, bitK_eq_testBit, hn, notB_eq, Bool.and_eq_true,
     Bool.not_false, Bool.and_self, Bool.not_true, Bool.false_or, Bool.not_eq_true', at'_eq,

@@ -26,7 +26,7 @@ private theorem uc22s2310_key (D : Data G) (Ch : Choice2011 G)
   intro p hp Q hQp hBQ
   by_contra hQne
   have hb'M : b' ∈ D.M := (c.hle.trans c.hBM) hb'
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   obtain ⟨⟨xbar, hxQ⟩, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hQne
   obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp hQp ⟨xbar, hxQ⟩
   rw [Subgroup.orderOf_mk] at hn
@@ -43,7 +43,7 @@ private theorem uc22s2310_key (D : Data G) (Ch : Choice2011 G)
   have hPks : IsPGroup r Pks := by
     refine IsPGroup.of_card (n := e) ?_
     rw [Nat.card_zpowers, Subgroup.orderOf_mk, hord]
-  haveI hNnormal : (CFSG.pCore 2 ↥D.M).Normal :=
+  have hNnormal : (CFSG.pCore 2 ↥D.M).Normal :=
     CFSG.pCore_normal (p := 2) (G := ↥D.M)
   have hNcop : Nat.Coprime r (Nat.card (CFSG.pCore 2 ↥D.M)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥D.M))
@@ -136,13 +136,13 @@ theorem s23_10_of_parts (D : Data G) (Ch : Choice2011 G)
     exact hcon ⟨p, hp, P, hP, hle⟩
   have hoddB : ∀ b ∈ c.B, Odd (orderOf b) := fun b hb =>
     uc22p21d_odd_orderOf_of_mem_calB1 c.hB hb
-  obtain ⟨b, hb, hbZ⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨b, hb, hbZ⟩ := IsConcreteLE.not_le_iff_exists.mp
     (mt Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hBZ)
   obtain ⟨b', hb', hb'Z, r, e, hr, hr2, hord⟩ :=
     CFSG.GroupTheory.exists_prime_pow_orderOf_not_mem hoddB hb hbZ
   let Fbar : Subgroup (Bar2 D.M) := CFSG.fittingSubgroup (Bar2 D.M)
   have hcycN : IsCyclic ↥(CFSG.fittingSubgroup ↥(commutator (Bar2 D.M))) := by
-    haveI : IsCyclic ↥Fbar := hcyc
+    have : IsCyclic ↥Fbar := hcyc
     have hC₁ : (CFSG.fittingSubgroup ↥(commutator (Bar2 D.M))).map
         (commutator (Bar2 D.M)).subtype =
         commutator (Bar2 D.M) ⊓ Fbar :=
@@ -161,7 +161,7 @@ theorem s23_10_of_parts (D : Data G) (Ch : Choice2011 G)
       CFSG.ABGLocalTools.IsSylowOf p P (barPreimage D.M (centE D.M)) ∧
         P ≤ Subgroup.normalizer (c.B : Set G) := by
     intro p hp
-    haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+    have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (barPreimage D.M (centE D.M))
     have hPnorm : (barImage D.M P).Normal :=
       (h2123 h1930 c.toCtx21 p hp P hP hcycN).2.2.2.1

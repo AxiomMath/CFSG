@@ -30,7 +30,7 @@ theorem up7a8_kdAltExact {n p : ℕ} (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p ≠ 
       simpa using Finset.card_le_univ ((x : Perm (Fin n)).support)
     rw [Fintype.card_fin, hm] at h
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmod := Equiv.Perm.card_compl_support_modEq (p := p) (n := 1) (σ := (x : Perm (Fin n)))
     (by rw [pow_one]; exact hσp)
   rw [hm, Fintype.card_fin] at hmod
@@ -52,15 +52,15 @@ theorem up7a8_kdAltExact {n p : ℕ} (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p ≠ 
     have h1 := Subgroup.card_dvd_of_le hIF
     rw [Nat.card_congr e.toEquiv] at h1
     exact h1.trans (by simpa using natCard_alternatingGroup_dvd_factorial (Fin m))
-  haveI : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
+  have : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
   have hm5 : 5 ≤ m := by
     by_contra hlt
-    haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
+    have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
     exact false_of_isPerfect_of_card_dvd_twentyFour
       (hIdvd.trans (factorial_dvd_twentyFour (not_le.1 hlt)))
   have hm5' : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
-  haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
+  have : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
     e.isSimpleGroup
   have hFC : (alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range ≤
       fixSubgroup (MulAut.conj x) := fun k hk =>
@@ -73,7 +73,7 @@ theorem up7a8_alt_iso_eq {m k : ℕ} (hm : 5 ≤ m) (hk : 5 ≤ k)
     (e : alternatingGroup (Fin m) ≃* alternatingGroup (Fin k)) : m = k := by
   have hc : ∀ j : ℕ, 5 ≤ j → Nat.card (alternatingGroup (Fin j)) = j.factorial / 2 := by
     intro j hj
-    haveI : Nontrivial (Fin j) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin j) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, Nat.card_fin]
   have hcard : Nat.card (alternatingGroup (Fin m)) = Nat.card (alternatingGroup (Fin k)) :=
     Nat.card_congr e.toEquiv
@@ -87,16 +87,16 @@ theorem up7a8_alt_iso_eq {m k : ℕ} (hm : 5 ≤ m) (hk : 5 ≤ k)
   exact (Nat.factorial_inj (by omega)).1 hfac
 
 theorem up7a8_odd_center {G : Type} [Group G] [Finite G] {X K : Subgroup G}
-    (hK : GLAPComponent 3 X K) : Odd (Nat.card (Subgroup.center (PQuot 3 K))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (_hK : GLAPComponent 3 X K) : Odd (Nat.card (Subgroup.center (PQuot 3 K))) := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : CFSG.pPrimeCore 3 (PQuot 3 K) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
   rw [Nat.odd_iff]
   by_contra hev
   have h2 : 2 ∣ Nat.card (Subgroup.center (PQuot 3 K)) := by
     omega
-  haveI := Fintype.ofFinite (Subgroup.center (PQuot 3 K))
+  have := Fintype.ofFinite (Subgroup.center (PQuot 3 K))
   have h2' : 2 ∣ Fintype.card (Subgroup.center (PQuot 3 K)) := by
     rw [← Nat.card_eq_fintype_card]
     exact h2

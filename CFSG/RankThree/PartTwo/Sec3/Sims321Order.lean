@@ -15,9 +15,10 @@ open Matrix
 
 variable {F : Type*} [Field F] [Fintype F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem exists_orderOf_eq_prime {n : ℕ} (hF : Fintype.card F = 2 ^ n) {r : ℕ} (hr : r.Prime)
     (hr3 : r ∣ 2 ^ (3 * n) - 1) (hrn : ¬ r ∣ 2 ^ n - 1) : ∃ y : SL(3, F), orderOf y = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hunits : Nat.card Fˣ = 2 ^ n - 1 := by
     rw [Nat.card_units, Nat.card_eq_fintype_card, hF]
   have hmul := Matrix.card_SL_mul_card_units (n := Fin 3) (R := F)
@@ -37,8 +38,8 @@ private lemma exists_fixed_of_prime {V : Type*} [AddCommGroup V] [Module F V] [F
     {r : ℕ} (hr : r.Prime) (f : V →ₗ[F] V) (hf : f ^ r = 1) (hcard : ¬ r ∣ Nat.card V - 1) :
     ∃ w : V, w ≠ 0 ∧ f w = w := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype V := Fintype.ofFinite V
   let g : Function.End V := fun x => f x
   have h1 : g ^ r ^ 1 = 1 := by
     rw [pow_one]
@@ -51,7 +52,7 @@ private lemma exists_fixed_of_prime {V : Type*} [AddCommGroup V] [Module F V] [F
   push Not at hno
   have hset : Function.fixedPoints g = {0} := by
     ext x
-    simp only [Function.mem_fixedPoints, Set.mem_singleton_iff]
+    simp only [Set.mem_singleton_iff]
     constructor
     · intro hx
       by_contra hx0
@@ -99,7 +100,7 @@ private lemma exists_nilpotent {V : Type*} [AddCommGroup V] [Module F V] [Module
     (f : V →ₗ[F] V) (hf : f ^ r = 1) (hfix : ∃ w : V, w ≠ 0 ∧ f w = w) :
     ∃ k : ℕ, (f - 1) ^ k = 0 := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   obtain ⟨k, hk, hk1⟩ := ((LinearMap.eventually_isCompl_ker_pow_range_pow (f - 1)).and
     (Filter.eventually_ge_atTop 1)).exists
   refine ⟨k, ?_⟩
@@ -179,7 +180,7 @@ private lemma exists_invariant_of_not_linearIndependent {V : Type*} [AddCommGrou
   classical
   have h2 := mem_span_of_not_linearIndependent f hv hdep
   have hvW : v ∈ Submodule.span F {v, f v} := Submodule.subset_span (by simp)
-  haveI : Module.Finite F (Submodule.span F ({v, f v} : Set V)) :=
+  have : Module.Finite F (Submodule.span F ({v, f v} : Set V)) :=
     Module.Finite.span_of_finite F (Set.toFinite _)
   refine ⟨Submodule.span F {v, f v}, hvW, ?_, ?_, ?_⟩
   · exact Submodule.one_le_finrank_iff.mpr fun h => hv (by simpa [h] using hvW)
@@ -192,6 +193,7 @@ private lemma exists_invariant_of_not_linearIndependent {V : Type*} [AddCommGrou
     exact add_mem (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
       (Submodule.smul_mem _ _ h2)
 
+omit [DecidableEq F] in
 theorem linearIndependent_of_orderOf {n : ℕ} (hF : Fintype.card F = 2 ^ n) {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) (hrn : ¬ r ∣ 2 ^ n - 1) (hr2n : ¬ r ∣ 2 ^ (2 * n) - 1)
     (y : SL(3, F)) (hy : orderOf y = r) (v : Fin 3 → F) (hv : v ≠ 0) :
@@ -223,7 +225,7 @@ theorem linearIndependent_of_orderOf {n : ℕ} (hF : Fintype.card F = 2 ^ n) {r 
     rw [map_pow, map_sub, map_one, map_zero]
     exact hk
   have hYfrob : Y ^ (2 ^ k) = 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have := add_pow_char_pow_of_commute (R := Matrix (Fin 3) (Fin 3) F) 2 k
       (Commute.one_right (Y - 1))
     rw [sub_add_cancel] at this

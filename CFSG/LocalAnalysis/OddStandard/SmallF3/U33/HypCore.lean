@@ -16,7 +16,7 @@ open scoped Pointwise
 private theorem isCyclic_comap_of_injective {A B : Type*} [Group A] [Group B]
     (f : A →* B) (hf : Function.Injective f) (Q : Subgroup B) (hQ : IsCyclic ↥Q) :
     IsCyclic ↥(Q.comap f) := by
-  haveI : IsCyclic ↥Q := hQ
+  have : IsCyclic ↥Q := hQ
   refine isCyclic_of_injective
     ((f.domRestrict (Q.comap f)).codRestrict Q (fun x => x.2)) ?_
   intro x y h
@@ -58,7 +58,7 @@ private theorem centralizer_inf_subgroupOf_aux (hC : SmallF3Cyclic G L) {t : G}
     (ht : orderOf t = 2) (htL : t ∈ Subgroup.centralizer (L : Set G)) :
     IsCyclic ↥((Subgroup.centralizer (L : Set G) ⊓ invCent t).subgroupOf (invCent t)) ∧
       IsPGroup 2 ((Subgroup.centralizer (L : Set G) ⊓ invCent t).subgroupOf (invCent t)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := invCent t
   set R : Subgroup G := Subgroup.centralizer (L : Set G) ⊓ H
   have hRH : R ≤ H := inf_le_right
@@ -67,7 +67,7 @@ private theorem centralizer_inf_subgroupOf_aux (hC : SmallF3Cyclic G L) {t : G}
     CFSG.LocalAnalysis.ComponentInitial.standard_involution_centralizer_normality
       hC.standard htL ht
   have hR'n : (R.subgroupOf H).Normal := hRn
-  haveI : (R.subgroupOf H).Normal := hR'n
+  have : (R.subgroupOf H).Normal := hR'n
   let S' : Sylow 2 ↥(R.subgroupOf H) := default
   have hS'cyc : IsCyclic (S' : Subgroup ↥(R.subgroupOf H)) :=
     isCyclic_sylow_of_equiv (Subgroup.subgroupOfEquivOfLe hRH)
@@ -77,7 +77,7 @@ private theorem centralizer_inf_subgroupOf_aux (hC : SmallF3Cyclic G L) {t : G}
   have hNbot : CFSG.pPrimeCore 2 ↥(R.subgroupOf H) = ⊥ := by
     have hHO : CFSG.oddCore ↥H = ⊥ := hC.balanced t ht
     rw [oddCore_eq_pPrimeCore_two_local] at hHO
-    haveI : (CFSG.pPrimeCore 2 ↥(R.subgroupOf H)).Characteristic := hNchar
+    have : (CFSG.pPrimeCore 2 ↥(R.subgroupOf H)).Characteristic := hNchar
     have hNmapn : ((CFSG.pPrimeCore 2 ↥(R.subgroupOf H)).map
         (R.subgroupOf H).subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
@@ -112,7 +112,7 @@ private theorem centralizer_inf_subgroupOf_aux (hC : SmallF3Cyclic G L) {t : G}
     exact Subgroup.topEquiv.isCyclic.mp htop
   · have htop : IsPGroup 2 (⊤ : Subgroup ↥(R.subgroupOf H)) := by
       rw [← hS'top]
-      exact S'.isPGroup'
+      exact S'.isPGroup
     exact htop.of_equiv Subgroup.topEquiv
 
 private theorem isCyclic_inf (hC : SmallF3Cyclic G L) {t : G}
@@ -125,7 +125,7 @@ private theorem isCyclic_inf (hC : SmallF3Cyclic G L) {t : G}
 private theorem le_twoCore (hC : SmallF3Cyclic G L) {t : G}
     (ht : orderOf t = 2) (htL : t ∈ Subgroup.centralizer (L : Set G)) :
     Subgroup.centralizer (L : Set G) ⊓ invCent t ≤ twoCore t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hR'p⟩ := centralizer_inf_subgroupOf_aux hC ht htL
   set H : Subgroup G := invCent t
   set R : Subgroup G := Subgroup.centralizer (L : Set G) ⊓ H
@@ -142,7 +142,7 @@ private theorem le_twoCore (hC : SmallF3Cyclic G L) {t : G}
 private theorem twoCore_le (hC : SmallF3Cyclic G L) {t : G}
     (ht : orderOf t = 2) (htL : t ∈ Subgroup.centralizer (L : Set G)) :
     twoCore t ≤ Subgroup.centralizer (L : Set G) ⊓ invCent t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   change (CFSG.pCore 2 ↥(invCent t)).map (invCent t).subtype ≤
     Subgroup.centralizer (L : Set G) ⊓ invCent t
   refine le_inf ?_ (Subgroup.map_subtype_le _)
@@ -181,8 +181,8 @@ theorem eq_one_or_eq_of_mem_twoCore_of_sq_eq_one (hC : SmallF3Cyclic G L) {t : G
     (ht : orderOf t = 2) (htL : t ∈ Subgroup.centralizer (L : Set G))
     {x : G} (hx : x ∈ twoCore t) (hx2 : x ^ 2 = 1) : x = 1 ∨ x = t := by
   classical
-  haveI : Fintype ↥(twoCore t) := Fintype.ofFinite _
-  haveI : IsCyclic ↥(twoCore t) := isCyclic_twoCore hC ht htL
+  have : Fintype ↥(twoCore t) := Fintype.ofFinite _
+  have : IsCyclic ↥(twoCore t) := isCyclic_twoCore hC ht htL
   have hcard : (Finset.univ.filter (fun a : ↥(twoCore t) => a ^ 2 = 1)).card ≤ 2 :=
     IsCyclic.card_pow_eq_one_le (α := ↥(twoCore t)) (n := 2) (by norm_num)
   let x' : ↥(twoCore t) := ⟨x, hx⟩

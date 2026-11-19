@@ -46,8 +46,9 @@ private theorem imgPL_facts {X H L K : Subgroup G} (hLX : L ≤ X) (hK : K ≤ H
 private noncomputable abbrev kerPL (X N : Subgroup G) : Subgroup G :=
   N ⊓ ((pCoreOf 2 (barM X N)).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥X))).map X.subtype
 
+omit [Finite G] in
 private theorem isPGroup_kerPL (X N : Subgroup G) : IsPGroup 2 (kerPL X N) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : IsPGroup 2 (pCoreOf 2 (barM X N)) := by
     rw [pCoreOf]
     exact (CFSG.pCore_isPGroup (G := ↥(barM X N)) (p := 2)).map _
@@ -56,6 +57,7 @@ private theorem isPGroup_kerPL (X N : Subgroup G) : IsPGroup 2 (kerPL X N) := by
     exact CFSG.pCore_isPGroup
   exact ((IsPGroup.comap_of_ker_isPGroup h1 _ h2).map X.subtype).to_le inf_le_right
 
+omit [Finite G] in
 private theorem le_normalizer_kerPL {X N : Subgroup G} (hNX : N ≤ X) :
     N ≤ normalizer (kerPL X N : Set G) := by
   have key : ∀ n ∈ N, ∀ g ∈ kerPL X N, n * g * n⁻¹ ∈ kerPL X N := by
@@ -85,7 +87,7 @@ private theorem le_normalizer_kerPL {X N : Subgroup G} (hNX : N ≤ X) :
 private theorem eq_of_imgPL_eq {X N K₁ K₂ : Subgroup G} (hNX : N ≤ X)
     (h₁ : IsSubnormal K₁ N) (h₂ : IsSubnormal K₂ N) (hp₁ : ⁅K₁, K₁⁆ = K₁) (hp₂ : ⁅K₂, K₂⁆ = K₂)
     (himg : imgPL X N K₁ = imgPL X N K₂) : K₁ = K₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : ∀ {A B : Subgroup G}, IsSubnormal A N → IsSubnormal B N →
       imgPL X N A ≤ imgPL X N B → A ≤ B ⊔ kerPL X N := by
     intro A B hA hB hAB x hx
@@ -123,6 +125,7 @@ private theorem eq_of_imgPL_eq {X N K₁ K₂ : Subgroup G} (hNX : N ≤ X)
   exact eq_of_perfect_of_isSubnormal (isPGroup_kerPL X N)
     (hRN.trans (le_normalizer_kerPL hNX)) hs₁ hs₂ hp₁ hp₂ le_rfl (sup_le h12 le_sup_right)
 
+omit [Finite G] in
 private theorem map_conj_self {K : Subgroup G} {t : G} (ht : t ∈ normalizer (K : Set G)) :
     K.map (MulAut.conj t).toMonoidHom = K := by
   ext y
@@ -137,6 +140,7 @@ private theorem map_conj_self {K : Subgroup G} {t : G} (ht : t ∈ normalizer (K
     · show t * (t⁻¹ * y * t) * t⁻¹ = y
       group
 
+omit [Finite G] in
 private theorem mem_normalizer_of_map_conj_eq {K : Subgroup G} {t : G}
     (h : K.map (MulAut.conj t).toMonoidHom = K) : t ∈ normalizer (K : Set G) := by
   rw [mem_normalizer_iff]
@@ -214,10 +218,10 @@ private theorem eq_of_mulEquiv_perm_prod {Q : Type*} [Group Q] {r s : ℕ}
 private theorem false_of_alt_surj {n : ℕ} (hn : 6 ≤ n)
     (g : ↥(alternatingGroup (Fin n)) →* alternatingGroup (Fin 5)) (hg : Function.Surjective g) :
     False := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
   have h := card_eq_sixty_of_isSimpleGroup g hg
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [nat_card_alternatingGroup, Nat.card_fin] at h
   have h6 : (6 : ℕ).factorial ≤ n.factorial := Nat.factorial_le hn
   have : (720 : ℕ) ≤ n.factorial := by simpa [Nat.factorial] using h6
@@ -225,7 +229,7 @@ private theorem false_of_alt_surj {n : ℕ} (hn : 6 ≤ n)
 
 private theorem eq_five_of_card_alt {s : ℕ} (hs : 5 ≤ s)
     (h : Nat.card (alternatingGroup (Fin s)) = 60) : s = 5 := by
-  haveI : Nontrivial (Fin s) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin s) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [nat_card_alternatingGroup, Nat.card_fin] at h
   by_contra hne
   have h6 : (6 : ℕ).factorial ≤ s.factorial := Nat.factorial_le (by omega)
@@ -247,14 +251,14 @@ theorem kFactBlockAFive_one_of (h93 : Asc81bNineThree) (h85 : Asc81bEightFive)
         ∀ t ∈ X, t ∈ Subgroup.normalizer (S : Set G) → t ∈ Subgroup.normalizer (L : Set G) →
           t ∈ Subgroup.normalizer (I₀ : Set G) := by
   intro G _ _ X S L I₀ hK hA hL hX hI₀ hI₀c ⟨f, hf⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLX : L ≤ X := hL.le
   have hNX : normalizer (S : Set G) ⊓ L ≤ X := inf_le_right.trans hLX
   have hI₀X : I₀ ≤ X := hI₀.le.trans hNX
   have hSy2 : ¬ IsSylowTwoOf (S ⊓ L) L := fun h =>
     hX (h85 G X S L hK hA hL.toIsTwoPrimeComponent h)
   have hI1 : I₀ ≠ ⊥ := by
-    haveI : Nontrivial ↥I₀ := hf.nontrivial
+    have : Nontrivial ↥I₀ := hf.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot I₀).mp inferInstance
   obtain ⟨hCP, hCne, hCp, hCsn, -⟩ :=
     CZeroThreePerfect.barM_facts hLX hI₀.le hI₀.subnormal hI₀c.perfect hI1
@@ -400,8 +404,8 @@ theorem kFactBlockAFive_one_of (h93 : Asc81bNineThree) (h85 : Asc81bEightFive)
       rw [Subgroup.mem_subgroupOf] at hy ⊢
       exact hy.2
     set eP := (Subgroup.subgroupOfEquivOfLe hPL').symm
-    haveI : Group.IsSolvable ↥Pb :=
-      solvable_of_solvable_injective (f := eP.toMonoidHom) eP.injective
+    have : Group.IsSolvable ↥Pb :=
+      Group.isSolvable_of_isSolvable_injective (f := eP.toMonoidHom) eP.injective
     exact hC'ne (CZeroThreePerfect.eq_bot_of_perfect_of_isSolvable hC'p)
   ·
     exfalso
@@ -475,13 +479,13 @@ theorem kFactBlockAFive_one_of (h93 : Asc81bNineThree) (h85 : Asc81bEightFive)
         obtain ⟨a6, rfl⟩ := hβ a5
         obtain ⟨a7, rfl⟩ := ε.surjective a6
         exact ⟨a7, rfl⟩
-      haveI : IsSimpleGroup (alternatingGroup (Fin (N - 2 * r))) :=
+      have : IsSimpleGroup (alternatingGroup (Fin (N - 2 * r))) :=
         alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; exact hA.1)
       have hnc : ∀ (m : ℕ), 5 ≤ m → ∃ a b : alternatingGroup (Fin m), a * b ≠ b * a := by
         intro m hm
         by_contra hc
         push Not at hc
-        haveI : Nontrivial (alternatingGroup (Fin m)) :=
+        have : Nontrivial (alternatingGroup (Fin m)) :=
           (alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; exact hm)).toNontrivial
         have hz := alternatingGroup.center_eq_bot (α := Fin m) (by rw [Nat.card_fin]; omega)
         obtain ⟨a, ha⟩ := exists_ne (1 : alternatingGroup (Fin m))

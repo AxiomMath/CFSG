@@ -21,7 +21,7 @@ theorem w2_entries_sq_one {K : Type} [Field K] (h2 : (2 : K) = 0)
       b10 * b00 + b11 * b10 = 0 ∧ b10 * b01 + b11 * b11 = 1 := by
   have hnz : a01 ≠ 0 ∨ a10 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h01, h10⟩ := hcon
     have ha00 : a00 = 1 := by
       have h : (a00 - 1) * (a00 - 1) = 0 := by
@@ -65,8 +65,8 @@ theorem w2_sq_eq_one_mat {K : Type} [Field K] [CharP K 2]
   have C01 := congrFun (congrFun hab 0) 1
   have C10 := congrFun (congrFun hab 1) 0
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq, Matrix.one_apply_ne,
-    Fin.zero_eq_one_iff, Fin.one_eq_zero_iff, ne_eq, OfNat.ofNat_ne_one, not_false_eq_true,
-    Matrix.one_apply_ne', one_ne_zero, ite_false, ite_true] at E1 E2 E3 E4 C01 C10
+    Fin.zero_eq_one_iff, ne_eq, OfNat.ofNat_ne_one, not_false_eq_true,
+    one_ne_zero] at E1 E2 E3 E4 C01 C10
   rw [Matrix.det_fin_two] at hb
   have hA : ¬ (a 0 0 = 1 ∧ a 0 1 = 0 ∧ a 1 0 = 0 ∧ a 1 1 = 1) := by
     rintro ⟨h00, h01, h10, h11⟩
@@ -79,7 +79,7 @@ theorem w2_sq_eq_one_mat {K : Type} [Field K] [CharP K 2]
     (by linear_combination E4) (by linear_combination C01) (by linear_combination C10)
     (by linear_combination hb) hA
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
     first
     | linear_combination k1
     | linear_combination k2
@@ -193,10 +193,10 @@ theorem w1_ordA_one_not_sixteen_dvd {q : ℕ} (hq : q % 8 = 3 ∨ q % 8 = 5) :
 theorem walterListLargeSylow_holds :
     WalterListLargeSylowStatement := by
   intro D _ _ hW P hP i hi hi1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : 16 ≤ Nat.card P.toSubgroup := hP
   have h16 : 16 ∣ Nat.card D := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
     have h4 : 4 ≤ n := by
       by_contra hlt
       have h8 : 2 ^ n ≤ 8 := by

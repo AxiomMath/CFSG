@@ -12,7 +12,7 @@ open CFSG.Blueprint CFSG.LieType.Ree Subgroup
 theorem uc22r3e5c_sylowMap {S M : Type*} [Group S] [Group M] [Finite S] [Finite M]
     (e : S ≃* M) (U : Sylow 2 S) :
     ∃ U' : Sylow 2 M, (U' : Subgroup M) = (U : Subgroup S).map e.toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardS : Nat.card S = Nat.card M := Nat.card_congr e.toEquiv
   exact ⟨Sylow.ofCard ((U : Subgroup S).map e.toMonoidHom) (by
     rw [Subgroup.card_map_of_injective e.injective, Sylow.card_eq_multiplicity, hcardS]),

@@ -115,7 +115,7 @@ theorem Img_sup {S S' : Subgroup G} (hS : S ≤ H) (hS' : S' ≤ H) :
   unfold Img
   rw [Subgroup.subgroupOf_sup hS hS', Subgroup.map_sup]
 
-theorem Img_conj (x : ↥H) {S : Subgroup G} (hS : S ≤ H) :
+theorem Img_conj (x : ↥H) {S : Subgroup G} (_hS : S ≤ H) :
     Img Ψ (conjSubgroup (x : G) S) = (Img Ψ S).map (MulAut.conj (Ψ x)).toMonoidHom := by
   ext y
   constructor
@@ -165,7 +165,7 @@ section SLImage
 variable (hΨ : ∀ x : ↥H, Ψ x = 1 ↔ (x : G) ∈ Q)
 include hΨ
 
-noncomputable def imgEquiv {F : Subgroup G} [(Q.subgroupOf F).Normal] (hQF : Q ≤ F) (hFH : F ≤ H) :
+noncomputable def imgEquiv {F : Subgroup G} [(Q.subgroupOf F).Normal] (_hQF : Q ≤ F) (hFH : F ≤ H) :
     (↥F ⧸ Q.subgroupOf F) ≃* ↥(Img Ψ F) := by
   let f : ↥F →* T := Ψ.comp (Subgroup.inclusion hFH)
   have hrange : f.range = Img Ψ F := by
@@ -188,10 +188,10 @@ theorem Img_sl_facts {F : Subgroup G} (hQF : Q ≤ F) (hFH : F ≤ H) {q n : ℕ
     IsSimpleGroup ↥(Img Ψ F) ∧ ¬ IsMulCommutative ↥(Img Ψ F) ∧
       Nat.card ↥(Img Ψ F) = q * (q ^ 2 - 1) := by
   obtain ⟨hN, hX⟩ := hF
-  haveI := hN
+  have := hN
   obtain ⟨hcard, hsimp, hcen⟩ := b2_sl_facts hX hq h4
   let e := imgEquiv Ψ hΨ hQF hFH
-  haveI : IsSimpleGroup ↥(Img Ψ F) := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(Img Ψ F) := e.symm.isSimpleGroup
   refine ⟨inferInstance, ?_, ?_⟩
   · intro hcomm
     have h1 : ∀ x : (↥F ⧸ Q.subgroupOf F), x = 1 := by
@@ -201,7 +201,7 @@ theorem Img_sl_facts {F : Subgroup G} (hQF : Q ≤ F) (hFH : F ≤ H) {q n : ℕ
       apply e.injective
       rw [map_mul, map_mul]
       exact hcomm.is_comm.comm _ _
-    haveI := hsimp.toNontrivial
+    have := hsimp.toNontrivial
     obtain ⟨a, ha⟩ := exists_ne (1 : (↥F ⧸ Q.subgroupOf F))
     exact ha (h1 a)
   · rw [← Nat.card_congr e.toEquiv, hcard]

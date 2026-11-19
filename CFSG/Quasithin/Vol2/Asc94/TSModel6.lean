@@ -22,7 +22,7 @@ theorem x11_eq_one {x : Hc} (hx : x ∈ NH1) : cm x 1 1 = 1 := by
   rw [cm_col0 x 1, lowleft_NH1 hxi (by decide : 2 ≤ (2 : Fin 5).val) (by decide : (1 : Fin 5).val ≤ 1),
     lowleft_NH1 hxi (by decide : 2 ≤ (3 : Fin 5).val) (by decide : (1 : Fin 5).val ≤ 1),
     lowleft_NH1 hxi (by decide : 2 ≤ (4 : Fin 5).val) (by decide : (1 : Fin 5).val ≤ 1)] at h
-  simp [Matrix.one_apply] at h
+  simp at h
   exact h.1
 
 theorem S'_det {x : Hc} (hx : x ∈ NH1) : cm x 2 2 * cm x 3 3 + cm x 2 3 * cm x 3 2 = 1 := by
@@ -33,14 +33,14 @@ theorem S'_det {x : Hc} (hx : x ∈ NH1) : cm x 2 2 * cm x 3 3 + cm x 2 3 * cm x
   simp only [Matrix.mul_apply, Fin.sum_univ_five] at h22 h23 h32 h33
   have hx1 := hx.1
   have hx2 := hx.2
-  simp [cm_col0 x, cm_row4 x⁻¹, hx1, hx2, Matrix.one_apply] at h22 h23 h32 h33
+  simp [cm_col0 x, cm_row4 x⁻¹, hx1, hx2] at h22 h23 h32 h33
   have key : ∀ a b c d e f g h : ZMod 2, a * e + b * g = 1 → a * f + b * h = 0 →
       c * e + d * g = 0 → c * f + d * h = 1 → a * d + b * c = 1 := by decide
   exact key _ _ _ _ _ _ _ _ h22 h23 h32 h33
 
 theorem eA_one_add (N : Mt) : eA (1 + N) = eA N := by
   funext k
-  fin_cases k <;> simp [eA, Matrix.one_apply]
+  fin_cases k <;> simp [eA]
 
 theorem eA_conj {x a : Hc} (hx : x ∈ NH1) (ha : a ∈ A1) :
     eA (cm (x⁻¹ * a * x)) =
@@ -66,7 +66,7 @@ theorem eA_conj {x a : Hc} (hx : x ∈ NH1) (ha : a ∈ A1) :
   have E : ∀ i j : Fin 5, (cm x * (cm a' - 1)) i j = ((cm a - 1) * cm x) i j := fun i j =>
     congrFun (congrFun hN i) j
   have P00 := cm_00 x
-  have P10 : cm x 1 0 = 0 := by rw [cm_col0]; simp [Matrix.one_apply]
+  have P10 : cm x 1 0 = 0 := by rw [cm_col0]; simp
   have P11 := x11_eq_one hx
   have hr4 : ∀ j : Fin 5, cm x 4 j = (1 : Mt) 4 j := cm_row4 x
   have hc0 : ∀ i : Fin 5, cm x i 0 = (1 : Mt) i 0 := cm_col0 x
@@ -82,8 +82,7 @@ theorem eA_conj {x a : Hc} (hx : x ∈ NH1) (ha : a ∈ A1) :
   have e13 := E 1 3
   have e14 := E 1 4
   simp only [Matrix.mul_apply, Fin.sum_univ_five] at e02 e03 e04 e12 e13 e14
-  simp [z20, z30, z40, (key 0).1, (key 0).2, (key 1).1, (key 1).2, P00, P10, P11, hr4,
-    Matrix.one_apply, hc0] at e02 e03 e04 e12 e13 e14
+  simp [z20, z30, z40, (key 0).1, (key 0).2, (key 1).1, (key 1).2, P00, P10, P11, hr4] at e02 e03 e04 e12 e13 e14
   have sz : ∀ r : ZMod 2, r - 0 = r := fun r => sub_zero r
   have aux : ∀ a b c d e : ZMod 2, a + b * c = d → c = e → a = d + b * e := by decide
   funext k

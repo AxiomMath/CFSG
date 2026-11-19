@@ -24,14 +24,17 @@ theorem matrix_eq_of_dotProduct {M N : Matrix ι ι K}
   have := h (Pi.single i 1) (Pi.single j 1)
   simpa [Matrix.mulVec_single_one] using this
 
+omit [DecidableEq ι] in
 theorem mulVec_dotProduct' (a : Matrix ι ι K) (v x : ι → K) :
     (a *ᵥ v) ⬝ᵥ x = v ⬝ᵥ (aᵀ *ᵥ x) := by
   rw [Matrix.dotProduct_mulVec, Matrix.vecMul_transpose]
 
+omit [DecidableEq ι] in
 theorem dotProduct_conj (a J : Matrix ι ι K) (v w : ι → K) :
     (a *ᵥ v) ⬝ᵥ (J *ᵥ (a *ᵥ w)) = v ⬝ᵥ ((aᵀ * J * a) *ᵥ w) := by
   rw [mulVec_dotProduct', Matrix.mulVec_mulVec, Matrix.mulVec_mulVec]
 
+omit [DecidableEq ι] in
 theorem dotProduct_ofMul (u v w : ι → K) :
     v ⬝ᵥ (Matrix.of (fun i j => u i * u j) *ᵥ w) = (u ⬝ᵥ v) * (u ⬝ᵥ w) := by
   simp only [dotProduct, Matrix.mulVec, Matrix.of_apply, Finset.sum_mul, Finset.mul_sum]
@@ -89,6 +92,7 @@ theorem polarGram_diag [CharP K 2] (Q : QuadraticForm K (ι → K)) (i : ι) :
     exact CharTwo.add_self_eq_zero _
   simpa [Matrix.mulVec_single_one, h2, eq_comm] using h
 
+omit [DecidableEq ι] in
 theorem polar_mulVec {Q : QuadraticForm K (ι → K)} {g : Matrix ι ι K}
     (hg : ∀ v, Q (g *ᵥ v) = Q v) (v w : ι → K) :
     polar Q (g *ᵥ v) (g *ᵥ w) = polar Q v w := by
@@ -485,7 +489,7 @@ theorem exists_U {V : Submodule K S.E} (hV : S.IsTS V)
     (hrange : ∀ e, β e ∈ V) (hkill : ∀ v ∈ V, β v = 0) (halt : ∀ e, S.B e (β e) = 0) :
     ∃ g ∈ S.U V, ∀ e, g e = e + β e := by
   have hβ2 : ∀ e, β (β e) = 0 := fun e => hkill _ (hrange e)
-  let g : S.E ≃ₗ[K] S.E := LinearEquiv.ofLinear (LinearMap.id + β) (LinearMap.id - β)
+  let g : S.E ≃ₗ[K] S.E := LinearEquiv.ofLinearMap (LinearMap.id + β) (LinearMap.id - β)
     (by ext e; simp [hβ2]) (by ext e; simp [hβ2])
   have hg : ∀ e, g e = e + β e := fun e => by simp [g]
   exact ⟨g, (U_iff S hV hperp g).mpr ⟨β, hrange, hkill, halt, hg⟩, hg⟩

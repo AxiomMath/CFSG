@@ -30,7 +30,7 @@ theorem ggNonsplitCoreAt_E6_sc_of_five {K : Type} [Field K] [Finite K] [CharP K 
     (hpf : (p : ℤ) ∣ (CFSG.RankThree.Chevalley.exhaustionPhi 5).eval (Nat.card K : ℤ))
     (hpC : p ∣ Nat.card ↥(adjointGroup .E6 K)) :
     ExcNonsplit.GGNonsplitCoreAt ↥(e6Data_valid.minGroup K) p := by
-  haveI : Finite ↥(e6Data_valid.minGroup K) :=
+  have : Finite ↥(e6Data_valid.minGroup K) :=
     CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' e6Data_valid
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega

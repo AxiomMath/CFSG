@@ -35,7 +35,7 @@ private theorem normOne_card_eq {K : Type*} [Field K] [Finite K]
   let f : F × F → K := fun p => (p.1 : K) + (p.2 : K) * c
   have hf_inj : Function.Injective f := by
     rintro ⟨a, b⟩ ⟨a', b'⟩ h
-    simp only [f, Subtype.coe_mk] at h
+    simp only [f] at h
     by_cases hbb : b = b'
     · have h' : (a : K) + (b : K) * c = (a' : K) + (b : K) * c := by
         rw [← hbb] at h

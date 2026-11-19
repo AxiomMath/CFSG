@@ -203,7 +203,7 @@ theorem isQuasisimple_img148_of_theta {A : Subgroup G} {c : G} {L : Subgroup G}
     (hJ : J ∈ thetaComponentsIn N) (hLJ : L ≤ J) (hGW : Sec6.GWLBalanceStatement) :
     letI := ker148_normal hN.2
     IsQuasisimple ↥(img148 A N L) := by
-  letI := ker148_normal hN.2
+  let := ker148_normal hN.2
   have hA : Late.IsE27 A := h.isE27
   have hcA : c ∈ A := h.zpowers_mem_omegaA.1 (Subgroup.mem_zpowers c)
   have hc3 : c ^ 3 = 1 := hA.1.2 c hcA
@@ -338,7 +338,7 @@ theorem type429_pCore_img148_of_theta
     (hGA : CFSG.Open.GriessAllModelsStatement) :
     letI := ker148_normal hN.2
     Main148.Type429 (↥(img148 A N L) ⧸ CFSG.pCore 2 ↥(img148 A N L)) := by
-  letI := ker148_normal hN.2
+  let := ker148_normal hN.2
   have hA : Late.IsE27 A := h.isE27
   have hcA : c ∈ A := h.zpowers_mem_omegaA.1 (Subgroup.mem_zpowers c)
   have hc3 : c ^ 3 = 1 := hA.1.2 c hcA
@@ -543,7 +543,7 @@ theorem isL3TwoPow_of_isoLThreePi_img
     (hJ : J ∈ thetaComponentsIn N) (hLJ : L ≤ J) (hGW : Sec6.GWLBalanceStatement)
     (hGA : CFSG.Open.GriessAllModelsStatement) {n : ℕ} (hn : 1 ≤ n) :
     (letI := ker148_normal hN.2; Sec4.IsoLThreePi ↥(img148 A N L) 2 n) → IsL3TwoPow L := by
-  letI := ker148_normal hN.2
+  let := ker148_normal hN.2
   intro hK2
   have hA : Late.IsE27 A := h.isE27
   have hcA : c ∈ A := h.zpowers_mem_omegaA.1 (Subgroup.mem_zpowers c)
@@ -739,8 +739,8 @@ theorem isL3TwoPow_of_isoLThreePi_img
       (QuotientGroup.quotientKerEquivRange f)).trans (MulEquiv.subgroupCongr hfrange)
   have hKqImg : IsQuasisimple ↥(img148 A N L) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eImg hLKq
-  haveI : Group.IsPerfect ↥(img148 A N L) := hKqImg.1
-  haveI : Nontrivial ↥(img148 A N L) := CFSG.LocalCores.isQuasisimple_nontrivial hKqImg
+  have : Group.IsPerfect ↥(img148 A N L) := hKqImg.1
+  have : Nontrivial ↥(img148 A N L) := CFSG.LocalCores.isQuasisimple_nontrivial hKqImg
   have hZα : Subgroup.center (↥(img148 A N L)) = ⊥ :=
     CFSG.RankThree.PartTwo.Sec4.RonanK429.center_eq_bot_of_isoLThreePi hn hK2
   have hZLK : Subgroup.center (↥L ⧸ K) = ⊥ := by
@@ -823,7 +823,7 @@ theorem lift429_cases_of_aux
       (∃ n : ℕ, 1 ≤ n ∧ Sec4.IsoLThreePi ↥(img148 A N L) 2 n ∧
         CFSG.Blueprint.ChevalleyExceptionalModel ↥(img148 A N J) .trialityD4 2 n ∧
         KFacts.InducesStdKind (img148 A N J) (alpha148 A N c hcA) .graphField)) := by
-  letI := ker148_normal hN.2
+  let := ker148_normal hN.2
   have hA : Late.IsE27 A := h.isE27
   have hc3 : c ^ 3 = 1 := hA.1.2 c hcA
   have hc1 : c ≠ 1 := by
@@ -838,13 +838,13 @@ theorem lift429_cases_of_aux
   have h3L : 3 ∣ Nat.card L := Proof1613.three_dvd_card_L h
   have hNsol : ¬ Group.IsSolvable ↥N := by
     intro hsol
-    haveI := hsol
-    haveI : Group.IsPerfect ↥L := hLperf
+    have := hsol
+    have : Group.IsPerfect ↥L := hLperf
     have hLne : L ≠ ⊥ := by
       intro hb
       rw [hb, Subgroup.card_bot] at h3L
       norm_num at h3L
-    haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
+    have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr hLne
     have hLsolN : Group.IsSolvable ↥(L.subgroupOf N) :=
       subgroup_solvable_of_solvable (H := L.subgroupOf N)
     have hLsol : Group.IsSolvable ↥L :=
@@ -948,7 +948,7 @@ private theorem lift429_of_aux
       (Nonempty (↥(img148 A N L) ≃* alternatingGroup (Fin 7)) ∧
         Nonempty (↥(img148 A N J) ≃* alternatingGroup (Fin 10))) ∨
       IsL3TwoPow L) := by
-  letI := ker148_normal hN.2
+  let := ker148_normal hN.2
   have hcA : c ∈ A := h.zpowers_mem_omegaA.1 (Subgroup.mem_zpowers c)
   rcases lift429_cases_of_aux h429 h41 hGW hGA h hN hAN hLN hJ hLJ hAJ hcA
     with h1 | h2 | h3 | h4

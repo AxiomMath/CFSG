@@ -23,14 +23,14 @@ open CFSG.QuasithinUnique.Setup.Campbell CFSG.Quasithin.F53Push
 theorem odd_order_mem_of_normal_ne_bot_alt5 {N : Subgroup ↥(alternatingGroup (Fin 5))}
     (hN : N.Normal) (hne : N ≠ ⊥) {x : ↥(alternatingGroup (Fin 5))} (_hx : Odd (orderOf x)) :
     x ∈ N := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases Subgroup.Normal.eq_bot_or_eq_top N with h | h
   · exact absurd h hne
   · rw [h]; exact Subgroup.mem_top x
 
 theorem odd_order_mem_of_normal_ne_bot_perm3 {N : Subgroup (Equiv.Perm (Fin 3))} (hN : N.Normal)
     (hne : N ≠ ⊥) {x : Equiv.Perm (Fin 3)} (hx : Odd (orderOf x)) : x ∈ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcases : ∀ σ : Equiv.Perm (Fin 3),
       σ = 1 ∨ σ = Equiv.swap 0 1 ∨ σ = Equiv.swap 0 2 ∨ σ = Equiv.swap 1 2 ∨
         σ = Equiv.swap 0 2 * Equiv.swap 0 1 ∨ σ = (Equiv.swap 0 2 * Equiv.swap 0 1) ^ 2 := by
@@ -112,6 +112,7 @@ theorem pushZ_le_pCoreOf (hchar : CharTwo X) (hP : IsSylowTwoOf P X) :
     pushZ X P ≤ pCoreOf 2 X :=
   (pushZ_le_centerOf_pCoreOf hchar hP).1.trans fun _ hx => hx.1
 
+omit [Finite G] in
 theorem isSylowTwoOf_ne_bot (hn : n = 1 ∨ n = 2) (hquot : IsL2Quot n (oTwoQuot ↥X))
     (hP : IsSylowTwoOf P X) : P ≠ ⊥ := by
   intro hbot
@@ -279,6 +280,7 @@ theorem baumannC_pushZ (hn : n = 1 ∨ n = 2) (hchar : CharTwo X) (hquot : IsL2Q
     exact baumannA5_holds G X P (pushZ X P) h he
       (hss18A5_holds G X P (pushZ X P) h he hJ) hnc
 
+omit [Finite G] in
 theorem le_normalizer_conjJoinOf_pushZ (hPX : P ≤ X)
     (hA : A ≤ Subgroup.normalizer (P : Set G)) :
     P ≤ Subgroup.normalizer (conjJoinOf A (pushZ X P) : Set G) := by
@@ -412,7 +414,7 @@ theorem noCharNormal_of_subgroupOf {Y : Type*} [Group Y] {S T : Subgroup Y} (hTS
 
 theorem finite_sup_of_le_normalizer {G : Type*} [Group G] {X P A : Subgroup G} [Finite X]
     [Finite A] (hPX : P ≤ X) (hA : A ≤ Subgroup.normalizer (P : Set G)) : Finite ↥(P ⊔ A) := by
-  haveI : Finite ↥P := Finite.of_injective (Subgroup.inclusion hPX) (Subgroup.inclusion_injective hPX)
+  have : Finite ↥P := Finite.of_injective (Subgroup.inclusion hPX) (Subgroup.inclusion_injective hPX)
   refine Finite.of_surjective
     (fun pa : ↥P × ↥A => (⟨(pa.1 : G) * (pa.2 : G), Subgroup.mul_mem_sup pa.1.2 pa.2.2⟩ :
       ↥(P ⊔ A))) ?_
@@ -440,7 +442,7 @@ section Arbitrary
 variable {G : Type} [Group G] {X P A : Subgroup G} [Finite X] [Finite A] {n : ℕ}
 
 theorem map_conj_subgroupOf_map {Y F : Type*} [Group Y] [Group F] {B : Subgroup Y}
-    (φ : ↥B →* F) (hφ : Function.Injective φ) {S : Subgroup Y} (hSB : S ≤ B)
+    (φ : ↥B →* F) (_hφ : Function.Injective φ) {S : Subgroup Y} (hSB : S ≤ B)
     (a : Y) (ha : a ∈ B) :
     ((S.map (MulAut.conj a).toMonoidHom).subgroupOf B).map φ =
       ((S.subgroupOf B).map φ).map (MulAut.conj (φ ⟨a, ha⟩)).toMonoidHom := by
@@ -469,15 +471,15 @@ theorem pushUp_odd_of_pushUpFacts (hF : PushUpFacts n) (hchar : CharTwo X)
   classical
   have hPX : P ≤ X := hP.1
   have hPcoreP : pCoreOf 2 X ≤ P := pCoreOf_le_of_isSylowTwoOf hP
-  haveI hfinPA : Finite ↥(P ⊔ A) :=
+  have hfinPA : Finite ↥(P ⊔ A) :=
     finite_sup_of_le_normalizer (X := X) (P := P) (A := A) hPX hA
   obtain ⟨F, instF, finF, f, g, hf, hg, hagree⟩ :=
     CFSG.GroupTheory.exists_finite_amalgam_embedding
       (Subgroup.inclusion hPX) (Subgroup.inclusion (le_sup_left : P ≤ P ⊔ A))
       (Subgroup.inclusion_injective hPX)
       (Subgroup.inclusion_injective (le_sup_left : P ≤ P ⊔ A))
-  letI : Group F := instF
-  letI : Finite F := finF
+  let : Group F := instF
+  let : Finite F := finF
   let X' : Subgroup F := (⊤ : Subgroup ↥X).map f
   let P' : Subgroup F := (P.subgroupOf X).map f
   let P₂ : Subgroup F := (P.subgroupOf (P ⊔ A)).map g
@@ -713,13 +715,13 @@ theorem lemmaR_of_faithful_of_pushUpFacts (hconn : Γ.Connected)
     (hxo : Odd (orderOf x))
     (hxtr : ∀ a b : V, Γ.Adj α a → Γ.Adj α b → ∃ k : ℤ, x ^ k • a = b) : False := by
   classical
-  haveI hstabβ : Finite ↥(MulAction.stabilizer G β) := hfinβ
-  haveI hstabα : Finite ↥(MulAction.stabilizer G α) := hfinα
-  haveI hWfin : Finite ↥W :=
+  have hstabβ : Finite ↥(MulAction.stabilizer G β) := hfinβ
+  have hstabα : Finite ↥(MulAction.stabilizer G α) := hfinα
+  have hWfin : Finite ↥W :=
     Finite.of_injective (Subgroup.inclusion hWβ) (Subgroup.inclusion_injective hWβ)
   let A : Subgroup G := Subgroup.zpowers x
   have hxA : x ∈ A := Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
-  haveI hAfin : Finite ↥A := by
+  have hAfin : Finite ↥A := by
     have hAle : A ≤ MulAction.stabilizer G α := by
       rw [show A = Subgroup.zpowers x from rfl]
       exact Subgroup.zpowers_le.mpr hxα

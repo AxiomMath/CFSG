@@ -161,7 +161,7 @@ theorem ggTorusRootGenAvoidKG_of_reflTorusModel {p k r : ℕ} (hp : p.Prime) (hp
         Subgroup.mem_map_of_mem _ y.2
       have hcomm : MulAut.conj (x : G) * MulAut.conj (y : G) =
           MulAut.conj (y : G) * MulAut.conj (x : G) := by
-        haveI : IsMulCommutative ↥(E.map (MulAut.conj : G →* MulAut G)) := hR.1
+        have : IsMulCommutative ↥(E.map (MulAut.conj : G →* MulAut G)) := hR.1
         exact congrArg Subtype.val (mul_comm' (⟨MulAut.conj (x : G), hx'⟩ :
           E.map (MulAut.conj : G →* MulAut G)) ⟨MulAut.conj (y : G), hy'⟩)
       calc MulAut.conj ((x : G) * (y : G))

@@ -55,7 +55,7 @@ theorem exists_fourGroupsMinus_of_even_pair (h45 : Sec4.Item4_5) (h66 : Sec6.Ite
     (h211 : Item211) (h213 : Item213) (hA : Item214EvenThetaFacts) (hK0 : Item214EvenMultOdd)
     (hB : Item214EvenTypeC) {G : Type} [Group G] [Finite G] {A E U : Subgroup G} {c : G}
     {L : Subgroup G} (hpair : Sec21Pair G A E U c L)
-    (hnotU4 : ¬ ∃ n : ℕ, 1 < n ∧ Odd n ∧ Nonempty (lBar L ≃* projSU 4 2 n))
+    (_hnotU4 : ¬ ∃ n : ℕ, 1 < n ∧ Odd n ∧ Nonempty (lBar L ≃* projSU 4 2 n))
     (hnotdec : ¬ (U ∈ fourGroupsMinus E ∧ ∀ e ∈ E, ∃ x ∈ E ⊓ Subgroup.centralizer (U : Set G),
       ∃ y ∈ E ⊓ L, e = x * y))
     (h81 : Nat.card A ≠ 3 ^ 4) (heven : Even (Nat.card (aschbacherSolvableCore 3 L)))
@@ -66,12 +66,12 @@ theorem exists_fourGroupsMinus_of_even_pair (h45 : Sec4.Item4_5) (h66 : Sec6.Ite
     ∃ U' ∈ fourGroupsMinus E, U' ≤ L := by
   have hPF := Item211LieProof.pairFacts h45 h66 hpair
   have hq := h213 G A E U c L hpair
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hθc : aschbacherSolvableCore 3 ↥L ≤ Subgroup.center ↥L := by
     obtain ⟨hTs, hTch, -⟩ := solvable_prime_complement_core_characterization (H := ↥L)
       Nat.prime_three
     have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
     exact Sec4.Census.le_of_isSolvable_of_normal inferInstance hTs
   have h3 := hpair.standing.toTheoremFourHyp.localRank_three.le
   have hThmA : (Nonempty (lBar L ≃* NativeSporadic.M22) ∨ Nonempty (lBar L ≃* NativeSporadic.HS) ∨
@@ -93,7 +93,7 @@ theorem exists_fourGroupsMinus_of_even_pair (h45 : Sec4.Item4_5) (h66 : Sec6.Ite
     intro h
     obtain ⟨-, hTch, -⟩ := solvable_prime_complement_core_characterization (H := ↥L)
       Nat.prime_three
-    haveI : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
+    have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
     exact hOdd (hK0 _ h ↥L (aschbacherSolvableCore 3 ↥L) inferInstance hθc ⟨MulEquiv.refl _⟩)
   rcases h211 G A E U c L hpair with ⟨hH, hT, hA27, hS, hS9⟩ | ⟨h, -⟩ | ⟨h | h, -⟩ |
       ⟨h | h, -⟩ | ⟨h, -⟩ | ⟨h | h, -⟩ | ⟨h7, hA27, -⟩ | ⟨⟨n, hn, he, h | h⟩, -⟩ |

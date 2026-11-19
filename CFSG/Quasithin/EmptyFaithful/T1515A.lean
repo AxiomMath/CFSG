@@ -255,7 +255,7 @@ theorem isSylowTwoOf_of_normalizer_le1516 {S H K : Subgroup G} (hS2 : IsPGroup 2
   have hPeq : S.subgroupOf H = (P : Subgroup H) := by
     by_contra hne
     have hlt : S.subgroupOf H < (P : Subgroup H) := lt_of_le_of_ne hSP hne
-    have : Group.IsNilpotent (P : Subgroup H) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (P : Subgroup H) := P.isPGroup.isNilpotent
     have hlt' : (S.subgroupOf H).subgroupOf (P : Subgroup H) < ⊤ := by
       rw [lt_top_iff_ne_top]
       intro htop
@@ -291,7 +291,7 @@ theorem isSylowTwoOf_of_normalizer_le1516 {S H K : Subgroup G} (hS2 : IsPGroup 2
         exact ⟨⟨s, hSH hs⟩, hSP hs', rfl⟩
       · rw [Subgroup.zpowers_le]
         exact ⟨(x : H), x.2, rfl⟩
-    have hQ2 : IsPGroup 2 Q := (P.isPGroup'.map H.subtype).to_le hQP
+    have hQ2 : IsPGroup 2 Q := (P.isPGroup.map H.subtype).to_le hQP
     have hQK : Q ≤ K := sup_le hK.1 (Subgroup.zpowers_le.mpr hgK)
     have hQS : Q = S := eq_of_isSylowTwoOf_of_le1516 hK hQ2 le_sup_left hQK
     have hgS : g ∈ S := hQS ▸ (Subgroup.mem_sup_right (Subgroup.mem_zpowers g))

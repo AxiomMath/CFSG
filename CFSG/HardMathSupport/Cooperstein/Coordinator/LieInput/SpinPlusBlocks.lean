@@ -88,7 +88,7 @@ theorem matDe_eq_rootMatrix (e : Equiv.Perm (Fin (n + n)))
     Matrix.single_apply, hQinj.eq_iff, RingEquiv.refl_apply, smul_eq_mul]
   have hrb : Fin.rev b ≠ a := fun h => hba (by rw [← h, Fin.rev_rev])
   have hn2 : ∀ x : F, -x = x := fun x => CharTwo.neg_eq x
-  split_ifs <;> simp_all [sub_eq_add_neg, hn2] <;> ring
+  split_ifs <;> simp_all [sub_eq_add_neg]
 
 end RootMat
 
@@ -181,9 +181,11 @@ variable {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
 
 @[expose] noncomputable def liftFun (x : X) : spinGroup (quadPlus n F) := Classical.choose (E1 x)
 
+omit [CharP F 2] in
 theorem liftFun_mem (x : X) : liftFun hn μ J E1 x ∈ leviM (plusDatum n F hn) J :=
   (Classical.choose_spec (E1 x)).1
 
+omit [CharP F 2] in
 theorem matD_liftFun (x : X) : matD n F (liftFun hn μ J E1 x) = μ x :=
   (Classical.choose_spec (E1 x)).2
 
@@ -315,6 +317,7 @@ variable {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n) {ι : Type} [
   map_one' := levMat_one _
   map_mul' := levMat_mul _ ch.idx_disj
 
+omit [CharP F 2] in
 theorem chMu_injective : Function.Injective (chMu (F := F) ch) := by
   intro g h hgh
   have key : ∀ g : Matrix.SpecialLinearGroup ι F,
@@ -450,7 +453,7 @@ theorem Dgamma_inl_succ (c : Fin n) (hc : c.val + 1 < n) :
   have hk := k.isLt
   simp only [mvec, Sum.elim_inl] at h1
   rw [Pi.single_apply]
-  split_ifs at h1 with a1 a2 a3 a4 a5 a6 <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs at h1 with a1 a2 a3 a4 <;> simp_all [Fin.ext_iff] <;> omega
 
 theorem Dgamma_flag (hn : 3 ≤ n) :
     Dgamma (Sum.inl ⟨n - 2, by omega⟩ : Fin n ⊕ Fin n) (Sum.inr ⟨n - 1, by omega⟩) =
@@ -460,7 +463,7 @@ theorem Dgamma_flag (hn : 3 ≤ n) :
   have hk := k.isLt
   simp only [mvec, Sum.elim_inl, Sum.elim_inr] at h1
   rw [Pi.single_apply]
-  split_ifs at h1 with a1 a2 a3 a4 a5 a6 <;> simp_all [Fin.ext_iff] <;> omega
+  split_ifs at h1 with a1 a2 a3 a4 <;> simp_all [Fin.ext_iff] <;> omega
 
 end SimpleDgamma
 
@@ -524,6 +527,7 @@ include h
 @[expose] noncomputable def blkMu : spinGroup (quadPlus k F) →* Matrix (Fin (n + n)) (Fin (n + n)) F :=
   (extendHom (F := F) (iotaD_injective h)).comp (matD k F)
 
+omit [CharP F 2] in
 theorem blkMu_apply (s : spinGroup (quadPlus k F)) :
     blkMu h s = extendMat (iotaD_injective h) (matD k F s) := rfl
 
@@ -566,6 +570,7 @@ theorem posEquiv_tauD (x : Fin k ⊕ Fin k) :
     posEquiv n (tauD h x) = iotaD h (posEquiv k x) := by
   simp [iotaD]
 
+omit [CharP F 2] in
 theorem blkMu_rootMatrix {x y : Fin k ⊕ Fin k} (c : F) :
     extendMat (iotaD_injective h) (rootMatrix (RingEquiv.refl F) (posEquiv k x) (posEquiv k y) c) =
       rootMatrix (RingEquiv.refl F) (posEquiv n (tauD h x)) (posEquiv n (tauD h y)) c := by

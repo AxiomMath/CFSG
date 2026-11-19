@@ -47,7 +47,7 @@ theorem lieCompCase_orthogonal (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstra
       ∃ r q, idx.1 = .twistedD r q)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ 3 = 1) :
     LieCompExport (lieIndexChar idx.1) β ∨ NoThreeComponents β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact Or.inl (lieCompExport_one hna idx he (isEmpty_mulEquiv_alternating_six hb _ he))

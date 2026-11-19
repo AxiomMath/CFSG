@@ -39,7 +39,7 @@ theorem ggNSPosPF_mul_comm_of_commutator_eq_one {K : Type} [Field K] {n : ℕ}
   (ggNSPosPF_commutator_eq_one_iff g₁ g₂).mp h
 
 theorem ggNSPosPF_exists_scalar_of_commute_SUid {K : Type} [Field K] [Finite K] [CharP K 2]
-    {f n : ℕ} (hF : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) (hn : 3 ≤ n) {N : GL (Fin n) K}
+    {f n : ℕ} (hF : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) (_hn : 3 ≤ n) {N : GL (Fin n) K}
     (hN : ∀ u : Su K 2 f n, N * (u : GL (Fin n) K) = (u : GL (Fin n) K) * N) :
     ∃ c : Kˣ, N = Matrix.GeneralLinearGroup.scalar (Fin n) c := by
   have hUFD : UnitaryFieldData 2 f K :=
@@ -267,9 +267,9 @@ private theorem ggNSPosPF_pow_conj_psi {G : Type} [Group G] {K : Type} [Field K]
 theorem ggNSPosPF_commutator_pow_prime_aux {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}
     {ψ : Su K 2 f n →* G} (h : GGNSLocalHyp p B Bs K f n ψ) {b₁ b₂ : G}
-    (hb₁ : b₁ ∈ Bs) (hb₂ : b₂ ∈ Bs) {g₁ g₂ : GL (Fin n) K}
+    (hb₁ : b₁ ∈ Bs) (_hb₂ : b₂ ∈ Bs) {g₁ g₂ : GL (Fin n) K}
     (h₁ : GGInducesUnitary (p := 2) (f := f) ψ b₁ g₁)
-    (h₂ : GGInducesUnitary (p := 2) (f := f) ψ b₂ g₂) {z : K}
+    (_h₂ : GGInducesUnitary (p := 2) (f := f) ψ b₂ g₂) {z : K}
     (hz : ((ggNSPosPF_commutator g₁ g₂ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = z • 1) :
     z ^ p = 1 := by
   have hf : 1 ≤ f := ggNSPosPF_one_le_f (K := K) h.card
@@ -291,7 +291,7 @@ theorem ggNSPosPF_commutator_pow_prime_aux {G : Type} [Group G] [Finite G] {p : 
     intro u
     apply Units.ext
     rw [Units.val_mul, Units.val_mul, hz]
-    simp [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one]
+    simp
   have hg1p_central : ∀ u : GL (Fin n) K, g₁ ^ p * u = u * g₁ ^ p := by
     intro u
     rw [hc]
@@ -333,15 +333,15 @@ theorem ggNSPosPF_commutator_pow_prime_aux {G : Type} [Group G] [Finite G] {p : 
 
 theorem ggNSPosPF_commutator_pow_n_aux {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}
-    {ψ : Su K 2 f n →* G} (h : GGNSLocalHyp p B Bs K f n ψ) {b₁ b₂ : G}
-    (hb₁ : b₁ ∈ Bs) (hb₂ : b₂ ∈ Bs) {g₁ g₂ : GL (Fin n) K}
-    (h₁ : GGInducesUnitary (p := 2) (f := f) ψ b₁ g₁)
-    (h₂ : GGInducesUnitary (p := 2) (f := f) ψ b₂ g₂) {z : K}
+    {ψ : Su K 2 f n →* G} (_h : GGNSLocalHyp p B Bs K f n ψ) {b₁ b₂ : G}
+    (_hb₁ : b₁ ∈ Bs) (_hb₂ : b₂ ∈ Bs) {g₁ g₂ : GL (Fin n) K}
+    (_h₁ : GGInducesUnitary (p := 2) (f := f) ψ b₁ g₁)
+    (_h₂ : GGInducesUnitary (p := 2) (f := f) ψ b₂ g₂) {z : K}
     (hz : ((ggNSPosPF_commutator g₁ g₂ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = z • 1) :
     z ^ n = 1 := by
   have hdetU : Matrix.GeneralLinearGroup.det (ggNSPosPF_commutator g₁ g₂) = 1 := by
     rw [ggNSPosPF_commutator]
-    simp only [map_mul, map_inv, map_one]
+    simp only [map_mul, map_inv]
     have h1 : Matrix.GeneralLinearGroup.det g₁ * Matrix.GeneralLinearGroup.det g₂ *
         (Matrix.GeneralLinearGroup.det g₁)⁻¹ * (Matrix.GeneralLinearGroup.det g₂)⁻¹ =
         (Matrix.GeneralLinearGroup.det g₁ * Matrix.GeneralLinearGroup.det g₂) *

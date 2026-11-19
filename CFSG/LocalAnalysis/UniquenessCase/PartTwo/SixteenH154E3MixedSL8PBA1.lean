@@ -29,7 +29,7 @@ theorem s16h_sl28_seven_zbar_rk_ne_two
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
     (h7 : 7 ∈ D.sig) :
     rk ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓

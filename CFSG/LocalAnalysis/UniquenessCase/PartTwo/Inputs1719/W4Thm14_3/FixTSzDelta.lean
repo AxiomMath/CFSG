@@ -74,25 +74,14 @@ theorem suzukiS_norm_mulVec (a : ℕ) {K : Type} [Field K] (h2 : (2 : K) = 0)
   rw [h1, h2', h3']
   ext i
   fin_cases i
-  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Matrix.of_apply,
-      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, Matrix.empty_val',
-      Matrix.cons_val_fin_one]
+  · simp [Matrix.cons_val_zero, Matrix.head_cons, Matrix.tail_cons]
     linear_combination (2 * z0) * h2
-  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Matrix.of_apply,
-      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, Matrix.empty_val',
-      Matrix.cons_val_fin_one]
+  · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.tail_cons]
     linear_combination (u * z0) * h2
-  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Matrix.of_apply,
-      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, Matrix.empty_val',
-      Matrix.cons_val_fin_one]
+  · simp [Matrix.cons_val_two,
+      Matrix.head_cons, Matrix.tail_cons]
     linear_combination (w * z0 + u ^ (2 ^ (a + 1) + 1) * z0) * h2
-  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Matrix.of_apply,
-      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons, Matrix.empty_val',
-      Matrix.cons_val_fin_one]
+  · simp [Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
     linear_combination (CFSG.Blueprint.suzukiN a u w * z0) * h2
 
 theorem exists_fixed_suzukiU_of_norm {W : Type} [CommGroup W]

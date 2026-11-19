@@ -156,7 +156,7 @@ theorem no_cocycle_index_four_t130 (z : Torus (Type130.k m))
 end Torus
 
 theorem t130_k_pos {m : ℕ} (hm : 3 ≤ m) (i : Fin 3) : 1 ≤ (StrothTypeIndex.t130 m hm).k i := by
-  fin_cases i <;> simp [StrothTypeIndex.k, Type130.k] <;> omega
+  fin_cases i <;> simp [StrothTypeIndex.k, Type130.k]; omega
 
 theorem rho_apply_gens_t130 {m : ℕ} (hm : 3 ≤ m) (x y w : ℤ) :
     (StrothTypeIndex.t130 m hm).action.φρ (x • 𝔥 m hm 0 + y • 𝔥 m hm 1 + w • 𝔥 m hm 2) =
@@ -281,7 +281,7 @@ theorem false_of_index_four_of_data_t130 (D : StrothTypeData B (StrothTypeIndex.
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B) (hL : D.L ≤ Subgroup.normalizer C)
     (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') : False := by
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   by_cases hcyc : IsCyclic (C ⧸ B.subgroupOf C)
   · obtain ⟨C₂, hBC₂, hC₂C, hrel₂, hL₂⟩ :=

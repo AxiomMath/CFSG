@@ -30,7 +30,7 @@ theorem nonempty_centralizerIn_P_equiv :
   obtain ⟨T, hT⟩ := CFSG.RankThree.CentralExtension.exists_sylow_le_of_index_coprime (p := 2)
     ((centralizerIn P permTwoA).subgroupOf P) (by rw [hidx]; norm_num)
   have hT₀ : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup ↥P) ⊤ :=
-    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup', T.not_dvd_index⟩
+    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup, T.not_dvd_index⟩
   obtain ⟨e⟩ := @nonempty_equiv_of_overgroup ↥P ↥CFSG.Sporadic.J2.J inferInstance inferInstance
     inferInstance inferInstance jEquivP.symm _ hT₀ j2CtxA.S j2A_sylow _ hT (j2CtxA.Y 3)
     (fun W hW hc => eq_j2Y3_of_card hW (hc.trans hZ))
@@ -51,7 +51,7 @@ theorem nonempty_centralizerIn_R_equiv :
   obtain ⟨T, hT⟩ := CFSG.RankThree.CentralExtension.exists_sylow_le_of_index_coprime (p := 2)
     ((centralizerIn R permTwoA).subgroupOf R) (by rw [hidx]; norm_num)
   have hT₀ : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup ↥R) ⊤ :=
-    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup', T.not_dvd_index⟩
+    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup, T.not_dvd_index⟩
   obtain ⟨e⟩ := nonempty_equiv_of_overgroup (MulEquiv.refl ↥R) hT₀ AJ2L.rCtx_sylow hT
     (M := AJ2L.rCtx.Y 2) fun W hW hc => by
       have hc' : Nat.card W = 3840 := hc.trans hZ

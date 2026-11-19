@@ -51,7 +51,7 @@ theorem char_eq_sum_simples
   obtain ⟨ι, S, hι, hSimple, ⟨e⟩⟩ :=
     FDRep.exists_simple_decomposition V
 
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
 
   refine ⟨ι, S, inferInstance, hSimple, ?_⟩
 
@@ -87,7 +87,7 @@ theorem character_mem_span_irreducibles
         (irreducibleCharacterSet k G) := by
   obtain ⟨ι, S, hι, hSimple, hchar⟩ :=
     char_eq_sum_simples (k := k) (G := G) V
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   rw [hchar]
   exact Submodule.sum_mem _ fun i _ =>
     Submodule.subset_span

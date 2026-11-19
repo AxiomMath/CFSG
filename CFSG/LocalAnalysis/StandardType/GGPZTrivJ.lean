@@ -245,7 +245,7 @@ theorem ggPZEndpointAt_of_perm {G : Type} [Group G] [Finite G] {J Bs : Subgroup 
     (f : Equiv.Perm (Fin (l + 1)) →* MulAut ↥Bs) (hf : ggAutomizer J Bs ≤ f.range) :
     GGPZEndpointAt (Bs := Bs) J labJ m := by
   refine ⟨l, (l + 1).factorial, 1, Equiv.Perm (Fin (l + 1)), inferInstance, inferInstance, f,
-    Or.inl ⟨by omega, rfl, by rw [if_neg (by omega)]⟩, hrk, hlm, ?_, ?_, hf⟩
+    Or.inl ⟨by omega, rfl, by rw [ite_eq_right (by omega)]⟩, hrk, hlm, ?_, ?_, hf⟩
   · rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
   · rw [CFSG.Fischer.Classification.SymPair.center_perm_eq_bot (by simp; omega), Subgroup.card_bot]
 

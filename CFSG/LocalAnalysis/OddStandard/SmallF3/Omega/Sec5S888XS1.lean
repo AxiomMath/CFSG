@@ -34,7 +34,7 @@ theorem suppTwo_mul (hS : PlaneSys V W) {i j : Fin 4} (hij : i ≠ j) {a b : X} 
       · rw [hkj]
         have hji : j ≠ i := fun h => hij h.symm
         simpa [w, hji] using hb
-      · simpa [w, hki, hkj] using Subgroup.one_mem (W k)
+      · simp [w, hki, hkj]
   have hcomm : a * b = b * a := hS.comm a (hS.le i ha) b (hS.le j hb)
   have hw_prod : w 0 * w 1 * w 2 * w 3 = a * b := by
     fin_cases i <;> fin_cases j <;> simp_all [w]
@@ -50,7 +50,7 @@ theorem suppTwo_mul (hS : PlaneSys V W) {i j : Fin 4} (hij : i ≠ j) {a b : X} 
     constructor
     · intro hk
       by_contra h
-      push_neg at h
+      push Not at h
       exact hk (by simp [w, h.1, h.2])
     · rintro (hki | hkj)
       · rw [hki]

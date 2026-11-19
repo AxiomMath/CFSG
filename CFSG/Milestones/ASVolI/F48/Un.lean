@@ -104,19 +104,19 @@ theorem burnsideF48_un_normalize (h : UnitaryFieldData p f K) {c : K} (hc0 : c �
   · have e := congrFun (congrFun hMR (.inl 1)) (.inl 1)
     rw [weylMat, burnsideF48_mul_signedPerm_apply, burnsideF48_signedPerm_mul_apply, hsymm,
       burnsideF48_un_perm_e1, burnsideF48_un_coeff_e1] at e
-    have h0 : R' (.inr (.inr 1)) (.inl 1) = 0 := hR' (by simp <;> omega)
+    have h0 : R' (.inr (.inr 1)) (.inl 1) = 0 := hR' (by simp; omega)
     rw [h0, mul_zero] at e
     exact (mul_eq_zero.1 e).resolve_right hc0
   · have e := congrFun (congrFun hMR (.inl 1)) (.inr (.inl k))
     rw [weylMat, burnsideF48_mul_signedPerm_apply, burnsideF48_signedPerm_mul_apply, hsymm,
       burnsideF48_un_perm_e1, burnsideF48_un_perm_z, burnsideF48_un_coeff_z] at e
-    have h0 : R' (.inr (.inr 1)) (.inr (.inl k)) = 0 := hR' (by simp <;> omega)
+    have h0 : R' (.inr (.inr 1)) (.inr (.inl k)) = 0 := hR' (by simp)
     rw [h0, mul_zero, mul_one] at e
     exact e
   · have e := congrFun (congrFun hMR (.inr (.inl k))) (.inl 1)
     rw [weylMat, burnsideF48_mul_signedPerm_apply, burnsideF48_signedPerm_mul_apply, hsymm,
       burnsideF48_un_perm_e1, burnsideF48_un_perm_z, burnsideF48_un_coeff_e1] at e
-    have h0 : R' (.inr (.inl k)) (.inl 1) = 0 := hR' (by simp <;> omega)
+    have h0 : R' (.inr (.inl k)) (.inl 1) = 0 := hR' (by simp; omega)
     rw [h0, mul_zero] at e
     exact (mul_eq_zero.1 e).resolve_right hc0
 
@@ -202,7 +202,7 @@ theorem burnsideF48_un_exists_gen (h : UnitaryFieldData p f K) (hq : 3 ≤ p ^ f
     ∃ g : Kˣ, (g : K) ≠ 1 ∧ (g : K) ≠ h.bar (g : K) ∧ (g : K) ^ 2 ≠ 1 ∧
       h.norm (g : K) ≠ 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hord : orderOf g = (p ^ f) ^ 2 - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, Nat.card_units, h.card, ← pow_mul, mul_comm]
@@ -268,7 +268,7 @@ theorem burnsideF48_un_posFlag_one {v : HypIndex 2 ε → K} (hv : v ∈ posFlag
       simp [fullPos] at hlt ⊢
       omega
     rw [hv a this]
-    simp [Pi.single_apply, ha]
+    simp [ha]
 
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial CFSG.LieType.Universal.SpecialLinear Matrix in
 theorem burnsideF48_un_posFlag_two_f {v : HypIndex 2 ε → K} (hv : v ∈ posFlag 2 ε K 2) (j : Fin 2) :
@@ -292,21 +292,21 @@ theorem burnsideF48_un_f0_row {h : UnitaryFieldData p f K} {g : hypSU h 2 ε} {c
     rw [this]
     simp [Pi.single_apply]
   rw [Finset.sum_eq_single (.inl 0)] at e
-  · rw [hcol, if_pos rfl] at e
+  · rw [hcol, ite_eq_left rfl] at e
     simp only [hypPartner_inl] at e
-    have e' : h.bar c * G (.inr (.inr 0)) b = 0 := e.trans (if_neg hb)
+    have e' : h.bar c * G (.inr (.inr 0)) b = 0 := e.trans (ite_eq_right hb)
     have hc0 : h.bar c ≠ 0 := by
       intro h0
       have := congrFun (congrFun hgram (.inl 0)) (.inr (.inr 0))
       rw [conjTranspose_hypGram_mul_apply h G, hypGram_apply, Finset.sum_eq_single (.inl 0)] at this
-      · rw [hcol, if_pos rfl, h0, zero_mul] at this
+      · rw [hcol, ite_eq_left rfl, h0, zero_mul] at this
         simp at this
       · intro x _ hx
-        rw [hcol, if_neg hx, map_zero, zero_mul]
+        rw [hcol, ite_eq_right hx, map_zero, zero_mul]
       · simp
     exact (mul_eq_zero.1 e').resolve_left hc0
   · intro x _ hx
-    rw [hcol, if_neg hx, map_zero, zero_mul]
+    rw [hcol, ite_eq_right hx, map_zero, zero_mul]
   · simp
 
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial CFSG.LieType.Universal.SpecialLinear Matrix in
@@ -430,13 +430,13 @@ theorem burnsideF48_unN_not_mem_stab_two (h : UnitaryFieldData p f K) (hε : ε 
     have : a ≠ .inl 1 := by
       rintro rfl
       simp [fullPos] at ha
-    simp [Pi.single_apply, this]
+    simp [this]
   have h1 := (hmem _).2 he1
   rw [burnsideF48_unN_coe] at h1
   have hn := (weylMat_mulVec_of_inr (ε := ε) h c (burnsideF48_swapSet_mem 2
     ({1} : Finset (Fin 2))) (i := 1) (j := 1) (by simp [swapSet])).1
   rw [hn, mem_posFlag] at h1
-  have h2 := h1 (.inr (.inr 1)) (by simp [fullPos] <;> omega)
+  have h2 := h1 (.inr (.inr 1)) (by simp [fullPos])
   simp at h2
   exact hc0 h2
 
@@ -521,14 +521,14 @@ theorem burnsideF48_unW_ne_mul (h : UnitaryFieldData p f K) (hε : ε ≤ 1) {c 
   have he0 : e₀ ∈ posFlag 2 ε K 1 := by
     rw [burnsideF48_un_mem_posFlag_one_iff]
     intro a ha
-    simp [he₀, Pi.single_apply, ha]
+    simp [he₀, ha]
   have he0' : e₀ ∈ posFlag 2 ε K 2 := by
     rw [mem_posFlag]
     intro a ha
     have : a ≠ .inl 0 := by
       rintro rfl
       simp [fullPos] at ha
-    simp [he₀, Pi.single_apply, this]
+    simp [he₀, this]
   have hk'e : ((k' : GL (HypIndex 2 ε) K) : Matrix (HypIndex 2 ε) (HypIndex 2 ε) K) *ᵥ e₀ ∈
       posFlag 2 ε K 1 := ((burnsideF48_un_stab_iff h hε (by norm_num)).1 hk' e₀).2 he0
   have h2 : ((k' : GL (HypIndex 2 ε) K) : Matrix (HypIndex 2 ε) (HypIndex 2 ε) K) *ᵥ e₀ ∈
@@ -745,11 +745,11 @@ theorem burnsideF48_cartanFPF_un_of_iso {κ : ChF.GLKind} {p f : ℕ} {E : Type}
       g ∈ CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.projIsoStabilizer h 2 ε
         (hypFlag h 2 ε 2)) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, w, h', hn1, hn2, hh1, hh2, hh3, hh4, hw, hQ⟩ :=
     burnsideF48_Un_cartan_proj (ε := ε) h hε hq
   obtain ⟨SU, hSU⟩ := (unitary_order_and_Sylow h (r := 2) (ε := ε) (by norm_num) hε).2.2.2.2.1
-  haveI := h.finite
+  have := h.finite
   refine burnsideF48_cartanFPF_of_data_four hyp hp hm hκ hpoly Φ
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.projIsoStabilizer h 2 ε (hypFlag h 2 ε 1))
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.projIsoStabilizer h 2 ε (hypFlag h 2 ε 2))
@@ -774,12 +774,12 @@ theorem burnsideF48_cartanFPF_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (burnsideF4h_clu_U4_Phi marking) ?_ ?_
   · intro g
     have h3 := burnsideF4h_clu_U4_parabolic marking false
-    simp only [Bool.false_eq_true, if_false] at h3
+    simp only [Bool.false_eq_true, ite_false] at h3
     show burnsideF4h_clu_U4_Phi marking g ∈ M₁.subgroupOf Gp ↔ _
     rw [h1, h3, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply]
   · intro g
     have h3 := burnsideF4h_clu_U4_parabolic marking true
-    simp only [if_true] at h3
+    simp only [ite_true] at h3
     show burnsideF4h_clu_U4_Phi marking g ∈ M₂.subgroupOf Gp ↔ _
     rw [h2, h3, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply]
 
@@ -794,28 +794,28 @@ theorem burnsideF48_cartanFPF_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
     (burnsideF4h_clu_U5_Phi marking) ?_ ?_
   · intro g
     have h3 := burnsideF4h_clu_U5_parabolic marking false
-    simp only [Bool.false_eq_true, if_false] at h3
+    simp only [Bool.false_eq_true, ite_false] at h3
     show burnsideF4h_clu_U5_Phi marking g ∈ M₁.subgroupOf Gp ↔ _
     rw [h1, h3, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply]
   · intro g
     have h3 := burnsideF4h_clu_U5_parabolic marking true
-    simp only [if_true] at h3
+    simp only [ite_true] at h3
     show burnsideF4h_clu_U5_Phi marking g ∈ M₂.subgroupOf Gp ↔ _
     rw [h2, h3, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply]
 
 theorem burnsideF48_simple_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .U4 p f Gp M₁ M₂) : IsSimpleGroup ↥Gp := by
   obtain ⟨hp, -, K, hK, hKfin, hcard, ⟨e⟩⟩ := hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hcard 4
+  have : Fact p.Prime := ⟨hp⟩
+  have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hcard 4
     (by norm_num) (by simp)
   exact e.isSimpleGroup
 
 theorem burnsideF48_simple_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .U5 p f Gp M₁ M₂) : IsSimpleGroup ↥Gp := by
   obtain ⟨hp, -, K, hK, hKfin, hcard, ⟨e⟩⟩ := hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hcard 5
+  have : Fact p.Prime := ⟨hp⟩
+  have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hcard 5
     (by norm_num) (by simp)
   exact e.isSimpleGroup
 

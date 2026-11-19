@@ -28,6 +28,7 @@ variable {G : Type} [Group G] [Finite G]
     refine ⟨c⁻¹, Z.inv_mem hc, a⁻¹, A.inv_mem ha, ?_⟩
     rw [hcomm c hc a ha, mul_inv_rev]
 
+omit [Finite G] in
 theorem sup_eq_mulSubgroup (Z A : Subgroup G) (hcomm : ∀ c ∈ Z, ∀ a ∈ A, c * a = a * c) :
     Z ⊔ A = mulSubgroup Z A hcomm := by
   refine le_antisymm (sup_le ?_ ?_) ?_
@@ -38,6 +39,7 @@ theorem sup_eq_mulSubgroup (Z A : Subgroup G) (hcomm : ∀ c ∈ Z, ∀ a ∈ A,
   · rintro x ⟨c, hc, a, ha, rfl⟩
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hc) (Subgroup.mem_sup_right ha)
 
+omit [Finite G] in
 theorem natCard_inf_mul_natCard_sup (Z A : Subgroup G)
     (hcomm : ∀ c ∈ Z, ∀ a ∈ A, c * a = a * c) :
     Nat.card ↥(Z ⊓ A) * Nat.card ↥(Z ⊔ A) = Nat.card ↥Z * Nat.card ↥A := by
@@ -89,7 +91,7 @@ theorem natCard_inf_mul_natCard_sup (Z A : Subgroup G)
 
 theorem eq_of_orderOf_eq_two_of_cyclic {P : Type} [Group P] [Finite P] [IsCyclic P] {a b : P}
     (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   have hdvd : 2 ∣ Fintype.card P := by
     rw [← ha]
     exact orderOf_dvd_card
@@ -114,7 +116,7 @@ theorem involution_eq_one_or_eq {Z : Subgroup G} (hZc : IsCyclic Z) {z : G} (hz 
     exact congrArg Subtype.val hZ'
 
 theorem mem_zpowers_of_central {A : Subgroup G} (hA : IsExtraspecialPGroup 2 A)
-    (hcardA : Nat.card A = 8) {z : G} (hzA : z ∈ A) (hz : orderOf z = 2)
+    (_hcardA : Nat.card A = 8) {z : G} (hzA : z ∈ A) (hz : orderOf z = 2)
     (hzcent : ∀ b ∈ A, z * b = b * z) {a : G} (ha : a ∈ A)
     (hacent : ∀ b ∈ A, a * b = b * a) : a ∈ Subgroup.zpowers z := by
   set zA : ↥A := ⟨z, hzA⟩ with hzAdef
@@ -141,13 +143,15 @@ theorem mem_zpowers_of_central {A : Subgroup G} (hA : IsExtraspecialPGroup 2 A)
   have := congrArg Subtype.val hn
   simpa [hzAdef] using this
 
+omit [Finite G] in
 theorem comm_of_mem_cyclic {Z : Subgroup G} (hZc : IsCyclic Z) {x y : G} (hx : x ∈ Z)
     (hy : y ∈ Z) : x * y = y * x := by
-  haveI : IsMulCommutative ↥Z := inferInstance
+  have : IsMulCommutative ↥Z := inferInstance
   have h : (⟨x, hx⟩ : ↥Z) * ⟨y, hy⟩ = ⟨y, hy⟩ * ⟨x, hx⟩ :=
     IsMulCommutative.is_comm.comm _ _
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem mem_sup_iff' {Z A : Subgroup G} (hAc : ∀ c ∈ Z, ∀ a ∈ A, c * a = a * c) {x : G} :
     x ∈ Z ⊔ A ↔ ∃ c ∈ Z, ∃ a ∈ A, x = c * a := by
   rw [sup_eq_mulSubgroup Z A hAc]
@@ -156,7 +160,7 @@ theorem mem_sup_iff' {Z A : Subgroup G} (hAc : ∀ c ∈ Z, ∀ a ∈ A, c * a =
 theorem sq_mem_zpowers_of_extraspecial {A : Subgroup G} (hA : IsExtraspecialPGroup 2 A)
     (hcardA : Nat.card A = 8) {z : G} (hzA : z ∈ A) (hz : orderOf z = 2)
     (hzcent : ∀ b ∈ A, z * b = b * z) {a : G} (ha : a ∈ A) : a ^ 2 ∈ Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, hpow, -, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hA.1
   have h1 : ((⟨a, ha⟩ : ↥A) : ↥A ⧸ frattini ↥A) ^ 2 = 1 := hpow _
   rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at h1
@@ -188,6 +192,7 @@ theorem comm_mem_zpowers_of_extraspecial {A : Subgroup G} (hA : IsExtraspecialPG
     simpa using h.symm
   exact mem_zpowers_of_central hA hcardA hzA hz hzcent hA' hcomm
 
+omit [Finite G] in
 theorem exists_noncomm_of_extraspecial {A : Subgroup G} (hA : IsExtraspecialPGroup 2 A)
     (hcardA : Nat.card A = 8) : ∃ a ∈ A, ∃ b ∈ A, a * b ≠ b * a := by
   by_contra hcon

@@ -12,10 +12,12 @@ open QuadraticMap Module
 section
 variable {K V : Type*} [Field K] [CharP K 2] [Finite K] [AddCommGroup V] [Module K V]
 
+omit [Finite K] in
 theorem char_two_cancel {a b : K} (h : a + b = 0) : a = b := by
   have := eq_neg_of_add_eq_zero_left h
   rwa [CharTwo.neg_eq] at this
 
+omit [Finite K] in
 theorem exists_fixed_decomp (σ : K ≃+* K) (hσ : ∀ x, σ x = x ^ 2)
     (T : V →ₛₗ[(σ : K →+* K)] V) (hTT : ∀ v, T (T v) = v) {ω : K} (hω : ω ^ 2 + ω = 1)
     (S : Submodule K V) (hS : ∀ v ∈ S, T v ∈ S) {v : V} (hv : v ∈ S) :

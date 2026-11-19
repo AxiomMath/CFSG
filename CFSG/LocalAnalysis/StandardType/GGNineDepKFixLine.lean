@@ -21,7 +21,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem ggSmallDepFixLineAt_three_nine (hD : GGNineDepFixLineLin) :
     @GGSmallDepFixLineAt 3 9 ⟨by norm_num⟩ := by
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro V _ _ h α r T s x hlin hdep hstab hweyl
   refine hD V h α r T s x
     ⟨hlin.p_ne_two, by norm_num, hlin.p_dvd, hlin.dim_le, hlin.pair, hlin.refl_form, hlin.finT,
@@ -55,11 +55,11 @@ theorem ggTwoNodeDepKFixLine_of_lin (hI : GGIndepFixLineLin) (hFix : GGTBFixInpu
   obtain ⟨V, iVadd, iVmod, ι, h, α, r, T, iT, s, hdim, hpair, hr, hclosK, hs, hconn, hsclos,
       hfixs, hx0, hxnot, hnt, -⟩ :=
     ggTwoNodeFrame_of_datums hFix hWA hDim hH hrow hp2 hN5 hpN hXd hLd hx
-  letI := iVadd
-  letI := iVmod
-  letI := iT
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let := iVadd
+  let := iVmod
+  let := iT
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let F : Submodule (ZMod p) V := ggLinFix (Set.range r)
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
   let vy : V := ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs))

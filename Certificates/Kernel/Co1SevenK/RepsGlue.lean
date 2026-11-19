@@ -21,7 +21,7 @@ theorem sevenRepsOK_K : TabMSeven.sevenRepsOK aR bR = true := by
   exact kReps
 
 theorem rowAt_lt {k : Nat} (hk : k < D.N) : rowAt (gDag aR bR).1 k = U (D.M k) := by
-  rw [rowAt_eq, if_pos hk]
+  rw [rowAt_eq, ite_eq_left hk]
 
 theorem rowsOrderFour_U {X : Nat} (h4 : Nat.beq (powWK X 4) idM = true)
     (h2 : (U (powWK X 2) != U idM) = true) : rowsOrderFour (U X) = true := by

@@ -310,14 +310,14 @@ theorem burnsideI25b_pCoreOf_le_sylow {p : ℕ} (P : Subgroup G) (V : Sylow p G)
     · intro hr
       have := burnsideI25b_pCoreOf_conj_mem p (P.inv_mem (hVP hv)) hr
       simpa [mul_assoc] using this
-  have hsup := hR.to_sup_of_normal_left' V.isPGroup' hnorm
+  have hsup := hR.to_sup_of_normal_left' V.isPGroup hnorm
   have := V.maximal_isPGroup.eq_of_ge hsup le_sup_right
   exact this ▸ le_sup_left
 
 theorem burnsideI25b_mem_smul_sylow {p : ℕ} (g : G) (P : Sylow p G) (x : G) :
     x ∈ ((g • P : Sylow p G) : Subgroup G) ↔ g⁻¹ * x * g ∈ (P : Subgroup G) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.smul_def, MulAut.conj_apply]
+  simp [MulAut.smul_def]
 
 theorem burnsideI25b_mem_conjugate {A : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate A g ↔ g * x * g⁻¹ ∈ A := by
@@ -326,7 +326,7 @@ theorem burnsideI25b_mem_conjugate {A : Subgroup G} {g x : G} :
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨g * x * g⁻¹, h, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, h, by simp [mul_assoc]⟩
 
 theorem burnsideI25b_conjugate_conjugate (A : Subgroup G) (x g : G) :
     CFSG.conjugate (CFSG.conjugate A x) g = CFSG.conjugate A (x * g) := by
@@ -377,7 +377,7 @@ theorem burnsideI25b_le_pCoreOf (p : ℕ) {P Q : Subgroup G} (hQP : Q ≤ P) (hQ
 theorem burnsideI25b_pElem_mem {p : ℕ} (hp : p.Prime) {B U : Subgroup G} (V : Sylow p G)
     (hV : (V : Subgroup G) = U) (hBn : B ≤ Subgroup.normalizer U) {x : G} (hx : x ∈ B)
     (k : ℕ) (hk : x ^ (p ^ k) = 1) : x ∈ U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : orderOf x ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow hp).1 hdvd
   have hQ : IsPGroup p (Subgroup.zpowers x) := by
@@ -387,7 +387,7 @@ theorem burnsideI25b_pElem_mem {p : ℕ} (hp : p.Prime) {B U : Subgroup G} (V : 
     (Subgroup.zpowers_le.2 (hBn hx))
   have hsup : IsPGroup p (U ⊔ Subgroup.zpowers x : Subgroup G) := by
     refine IsPGroup.to_sup_of_normal_left' ?_ hQ hnorm
-    rw [← hV]; exact V.isPGroup'
+    rw [← hV]; exact V.isPGroup
   have h1 : U ⊔ Subgroup.zpowers x = U := by
     have := V.maximal_isPGroup.eq_of_ge (hV ▸ hsup) (hV ▸ le_sup_left)
     rw [hV] at this
@@ -547,7 +547,7 @@ theorem burnsideI25b_weaklyClosed_of_Z [Finite G] {p : ℕ} [Fact p.Prime] (h : 
     refine ⟨U.mul_mem ha hb, ?_⟩
     have e : x⁻¹ * (a * b) * x = (x⁻¹ * a * x) * (x⁻¹ * b * x) := by group
     rw [e]; exact B.mul_mem ha' hb'
-  one_mem' := ⟨U.one_mem, by simpa using B.one_mem⟩
+  one_mem' := ⟨U.one_mem, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, ha'⟩
     refine ⟨U.inv_mem ha, ?_⟩
@@ -582,7 +582,7 @@ theorem burnsideI25b_levi_at_singleton {p : ℕ} (hp : p.Prime) (h : IsBNPair B 
         (h.mem_closure s)).1 (by omega))
     · exact h1
   have hnS : (n : WeylGroup B N) ∈ S := hns ▸ hs
-  have hUp : IsPGroup p U := hV ▸ V.isPGroup'
+  have hUp : IsPGroup p U := hV ▸ V.isPGroup
   have hnn : (n : G) * n ∈ B := burnsideI25b_mul_self_mem h hnS
   have hnN : (n : G) ∈ N := n.2
   have hH : ∀ x ∈ B ⊓ N, ∀ c ∈ burnsideI25b_stabIn B U (n : G),
@@ -941,7 +941,7 @@ variable {G : Type} [Group G] {B N : Subgroup G} [(cartan B N).Normal] {S : Set 
     have e : (n : G)⁻¹ * (a * b) * n = ((n : G)⁻¹ * a * n) * ((n : G)⁻¹ * b * n) := by group
     rw [e]
     exact B.mul_mem (ha n hn) (hb n hn)
-  one_mem' := ⟨U.one_mem, fun n hn => by simpa using B.one_mem⟩
+  one_mem' := ⟨U.one_mem, fun n hn => by simp⟩
   inv_mem' := by
     rintro a ⟨haU, ha⟩
     refine ⟨U.inv_mem haU, fun n hn => ?_⟩
@@ -1404,7 +1404,7 @@ theorem burnsideI25c_levi_of_rankOne {p : ℕ} (hp : p.Prime) (h : IsBNPair B N 
     (hBn : B ≤ Subgroup.normalizer U) (hUB : U ≤ B)
     (hBU : ∀ b ∈ B, ∃ a ∈ U, ∃ c ∈ B ⊓ N, b = a * c)
     (hR : burnsideI25b_RankOne B N U S) : burnsideI25b_Levi p B N U S :=
-  burnsideI25c_levi_of_setup ⟨h, hp, hUB, hV ▸ V.isPGroup', ⟨V, hV⟩, hBn, hBU⟩ hR
+  burnsideI25c_levi_of_setup ⟨h, hp, hUB, hV ▸ V.isPGroup, ⟨V, hV⟩, hBn, hBU⟩ hR
 
 end burnsideI25cMain
 
@@ -1441,8 +1441,8 @@ theorem burnsideI25c_weaklyClosed_of_rankOne [Finite G] {p : ℕ} (hp : p.Prime)
     {P : Subgroup G} (hP : ∃ V : Sylow p G, Subgroup.normalizer (V : Subgroup G) ≤ P)
     {T : Subgroup G} (hT : IsPGroup p T) (hRT : pCoreOf p P ≤ T) :
     IsWeaklyClosedIn (pCoreOf p P) T := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : Fact p.Prime := ⟨hp⟩
+  have : (cartan B N).Normal := hBN.normal_inter
   obtain ⟨S, hS⟩ := burnsideI2BN_exists_isBNPair (burnsideI2BN_toPre hBN)
   obtain ⟨V, hV⟩ := IsSplitBNPair.exists_sylow_normalizer hp hBN
   obtain ⟨U₀, hUB, hUn, hUp, hUi, hUN, hUH, hsat⟩ := hBN.split
@@ -1451,7 +1451,7 @@ theorem burnsideI25c_weaklyClosed_of_rankOne [Finite G] {p : ℕ} (hp : p.Prime)
   have hBnorm : B ≤ Subgroup.normalizer U₀ :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).1 hUn
   have hVB : (V : Subgroup G) ≤ B := hV ▸ Subgroup.le_normalizer
-  have hsup := hUp.to_sup_of_normal_left' V.isPGroup' (hVB.trans hBnorm)
+  have hsup := hUp.to_sup_of_normal_left' V.isPGroup (hVB.trans hBnorm)
   have h1 : U₀ ⊔ (V : Subgroup G) = U₀ := U.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have h2 : (V : Subgroup G) = U₀ := V.maximal_isPGroup.eq_of_ge hUp (h1 ▸ le_sup_right) |>.symm
   have hNU : Subgroup.normalizer (U : Subgroup G) = B := by

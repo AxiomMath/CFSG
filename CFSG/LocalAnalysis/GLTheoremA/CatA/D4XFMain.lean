@@ -37,6 +37,6 @@ theorem d4TwoFacts_of_residual (hres : D4TwoAutNormInn) {K : Type} [Group K] [Fi
     fun P S hP hPn hcard hS2 hS1 hPS => d4two_aut_norm_of_residual hres h P S hP hPn hcard hS2 hS1 hPS⟩
 
 theorem d4TwoFactsAt_of_residual (hres : D4TwoAutNormInn) : D4TwoFactsAt :=
-  fun K _ _ h => d4TwoFacts_of_residual hres h
+  fun _K _ _ h => d4TwoFacts_of_residual hres h
 
 end CFSG.LocalAnalysis.GLTheoremA.D4XF

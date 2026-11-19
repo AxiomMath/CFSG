@@ -227,7 +227,7 @@ theorem hs_Y1_unique
     rfl
   rw [hY1card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ ⊢
     interval_cases j
     · rw [hs_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -241,7 +241,7 @@ theorem hs_Y1_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, hs_card] at hZ
     norm_num at hZ
 
@@ -255,7 +255,7 @@ theorem hs_Y3_unique
     rfl
   rw [hY3card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ hZnot ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ hZnot ⊢
     interval_cases j
     · rw [hs_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -268,7 +268,7 @@ theorem hs_Y3_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, hs_card] at hZ
     norm_num at hZ
 
@@ -276,7 +276,7 @@ theorem hs_Y1_invariant
     {α : MulAut ↥(J hsData)}
     (hα : hsCtx.S.map (α : ↥(J hsData) →* ↥(J hsData)) = hsCtx.S) :
     (hsCtx.Y 1).map (α : ↥(J hsData) →* ↥(J hsData)) = hsCtx.Y 1 :=
-  map_eq_of_unique_card (hsCtx.S_le_Y 1) (fun Z hZ hc => hs_Y1_unique hZ hc) α hα
+  map_eq_of_unique_card (hsCtx.S_le_Y 1) (fun _Z hZ hc => hs_Y1_unique hZ hc) α hα
 
 theorem hs_Y3_invariant
     {α : MulAut ↥(J hsData)}
@@ -307,7 +307,7 @@ theorem hs_Y4_unique
     rfl
   rw [hY4card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ hZle ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ hZle ⊢
     interval_cases j
     · rw [hs_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -320,7 +320,7 @@ theorem hs_Y4_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, hs_card] at hZ
     norm_num at hZ
 
@@ -390,7 +390,7 @@ theorem hs_Y1_not_solvable :
 
   obtain ⟨j, hj, hHj⟩ := hs_complete H hUH
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hHj
+  · simp only [memberOrTop, ite_eq_left hj5] at hHj
     rw [hHj] at hHcard
     interval_cases j
     · rw [hs_member_card 0 (by norm_num)] at hHcard
@@ -406,7 +406,7 @@ theorem hs_Y1_not_solvable :
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hHj
+    simp only [memberOrTop, ite_eq_right (by omega)] at hHj
     rw [hHj, Subgroup.card_top, hs_card] at hHcard
     norm_num at hHcard
 
@@ -529,7 +529,7 @@ theorem k_HSRuParabolics_HS
     {Y : Type} [Group Y] [Finite Y] {K S : Subgroup Y}
     (hKN : K.Normal) (hq : CFSG.Open.IsQuasisimple ↥K)
     (hodd : Odd (Nat.card (Subgroup.center ↥K)))
-    (hcent : Subgroup.centralizer (K : Set Y) = (Subgroup.center ↥K).map K.subtype)
+    (_hcent : Subgroup.centralizer (K : Set Y) = (Subgroup.center ↥K).map K.subtype)
     (hidx : ∃ n : ℕ, K.index = 2 ^ n)
     (hspor : IsSpor (↥K ⧸ Subgroup.center ↥K) .HS)
     (hS : CFSG.Quasithin.IsSylowIn 2 S ⊤) :
@@ -693,7 +693,7 @@ theorem k_HSRuParabolics_HS
       have h3 : hsCtx.Y 3 ≤ memberOrTop 5 hsCtx.Y j := by
         rw [← hEq]
         exact le_sup_right
-      simp only [memberOrTop, if_pos hj5] at h1 h3
+      simp only [memberOrTop, ite_eq_left hj5] at h1 h3
       have hj1 : j ∈ hsIncl[1]! :=
         (hs_Y_le_iff (j := 1) (jj := j) (by norm_num) hj5).mp h1
       have hj3 : j ∈ hsIncl[3]! :=
@@ -745,7 +745,7 @@ theorem ru_Y1_unique
     rfl
   rw [hY1card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ ⊢
     interval_cases j
     · rw [ru_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -759,7 +759,7 @@ theorem ru_Y1_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, ru_card] at hZ
     norm_num at hZ
 
@@ -773,7 +773,7 @@ theorem ru_Y4_unique
     rfl
   rw [hY4card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ hZnot ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ hZnot ⊢
     interval_cases j
     · rw [ru_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -786,7 +786,7 @@ theorem ru_Y4_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, ru_card] at hZ
     norm_num at hZ
 
@@ -794,7 +794,7 @@ theorem ru_Y1_invariant
     {α : MulAut ↥(J ruData)}
     (hα : ruCtx.S.map (α : ↥(J ruData) →* ↥(J ruData)) = ruCtx.S) :
     (ruCtx.Y 1).map (α : ↥(J ruData) →* ↥(J ruData)) = ruCtx.Y 1 :=
-  map_eq_of_unique_card (ruCtx.S_le_Y 1) (fun Z hZ hc => ru_Y1_unique hZ hc) α hα
+  map_eq_of_unique_card (ruCtx.S_le_Y 1) (fun _Z hZ hc => ru_Y1_unique hZ hc) α hα
 
 theorem ru_Y4_invariant
     {α : MulAut ↥(J ruData)}
@@ -825,7 +825,7 @@ theorem ru_Y3_unique
     rfl
   rw [hY3card] at hZ
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hZ hZle ⊢
+  · simp only [memberOrTop, ite_eq_left hj5] at hZ hZle ⊢
     interval_cases j
     · rw [ru_member_card 0 (by norm_num)] at hZ
       norm_num at hZ
@@ -838,7 +838,7 @@ theorem ru_Y3_unique
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hZ
+    simp only [memberOrTop, ite_eq_right (by omega)] at hZ
     rw [Subgroup.card_top, ru_card] at hZ
     norm_num at hZ
 
@@ -906,7 +906,7 @@ theorem ru_Y1_not_solvable :
     rw [hm, hm5]
   obtain ⟨j, hj, hHj⟩ := ru_complete H hUH
   by_cases hj5 : j < 5
-  · simp only [memberOrTop, if_pos hj5] at hHj
+  · simp only [memberOrTop, ite_eq_left hj5] at hHj
     rw [hHj] at hHcard
     interval_cases j
     · rw [ru_member_card 0 (by norm_num)] at hHcard
@@ -922,7 +922,7 @@ theorem ru_Y1_not_solvable :
   · exfalso
     have hj5' : j = 5 := by omega
     subst hj5'
-    simp only [memberOrTop, if_neg (by omega)] at hHj
+    simp only [memberOrTop, ite_eq_right (by omega)] at hHj
     rw [hHj, Subgroup.card_top, ru_card] at hHcard
     norm_num at hHcard
 
@@ -930,7 +930,7 @@ theorem k_HSRuParabolics_Ru
     {Y : Type} [Group Y] [Finite Y] {K S : Subgroup Y}
     (hKN : K.Normal) (hq : CFSG.Open.IsQuasisimple ↥K)
     (hodd : Odd (Nat.card (Subgroup.center ↥K)))
-    (hcent : Subgroup.centralizer (K : Set Y) = (Subgroup.center ↥K).map K.subtype)
+    (_hcent : Subgroup.centralizer (K : Set Y) = (Subgroup.center ↥K).map K.subtype)
     (hidx : ∃ n : ℕ, K.index = 2 ^ n)
     (hspor : IsSpor (↥K ⧸ Subgroup.center ↥K) .Ru)
     (hS : CFSG.Quasithin.IsSylowIn 2 S ⊤) :
@@ -1099,7 +1099,7 @@ theorem k_HSRuParabolics_Ru
       have h3 : ruCtx.Y 4 ≤ memberOrTop 5 ruCtx.Y j := by
         rw [← hEq]
         exact le_sup_right
-      simp only [memberOrTop, if_pos hj5] at h1 h3
+      simp only [memberOrTop, ite_eq_left hj5] at h1 h3
       have hj1 : j ∈ ruIncl[1]! :=
         (ru_Y_le_iff (j := 1) (jj := j) (by norm_num) hj5).mp h1
       have hj3 : j ∈ ruIncl[4]! :=

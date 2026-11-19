@@ -132,7 +132,7 @@ theorem exists_emb_of_fixes {M : Matrix (Fin 6) (Fin 6) (ZMod 2)} (hM : IsoMat M
       M 2 p * M 5 q + M 5 p * M 2 q = KGCert.g22Form p q := by
     intro p q
     have := congrFun (congrFun hM p) q
-    simp only [IsoMat, Matrix.mul_apply, Fin.sum_univ_six, Matrix.transpose_apply] at this
+    simp only [Matrix.mul_apply, Fin.sum_univ_six, Matrix.transpose_apply] at this
     fin_cases p <;> fin_cases q <;> simp [KGCert.g22Form] at this ⊢ <;> linear_combination this
   have r01 : M 0 1 = 0 := by simpa [KGCert.g22Form, c03, c33, c13, c43, c23, c53] using I 3 1
   have r02 : M 0 2 = 0 := by simpa [KGCert.g22Form, c03, c33, c13, c43, c23, c53] using I 3 2

@@ -10,6 +10,7 @@ open CFSG.StandardType CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoFrontM_comp_false {R : Type} [Group R] {L D J : Subgroup G} {y : G} (hyD : y ∈ D)
     (hJ : IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G))) (φ : ↥L →* R)
     (hφ : φ.ker ≤ Subgroup.center ↥L) {a : ↥L}
@@ -44,7 +45,7 @@ theorem qTwoFrontM_comp_false {R : Type} [Group R] {L D J : Subgroup G} {y : G} 
     rw [Set.mem_singleton_iff] at hz
     subst hz
     exact hcomm j
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({φ a} : Set R)) := hsol
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({φ a} : Set R)) := hsol
   have hrange_solv : Group.IsSolvable ↥ψ.range :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hrange_le)
       (Subgroup.inclusion_injective hrange_le)
@@ -58,8 +59,8 @@ theorem qTwoFrontM_comp_false {R : Type} [Group R] {L D J : Subgroup G} {y : G} 
       Subgroup.inclusion hJL ((q : ↥J) * (p : ↥J))
     rw [map_mul, map_mul]
     exact (Subgroup.mem_center_iff.mp hp (Subgroup.inclusion hJL (q : ↥J))).symm
-  haveI : Group.IsSolvable ↥ψ.ker := hker_solv
-  haveI : Group.IsSolvable ↥ψ.range := hrange_solv
+  have : Group.IsSolvable ↥ψ.ker := hker_solv
+  have : Group.IsSolvable ↥ψ.range := hrange_solv
   have hker_eq : ψ.rangeRestrict.ker = ψ.ker := by
     ext j
     rw [MonoidHom.mem_ker, MonoidHom.mem_ker]
@@ -67,9 +68,9 @@ theorem qTwoFrontM_comp_false {R : Type} [Group R] {L D J : Subgroup G} {y : G} 
   have hsJ : Group.IsSolvable ↥J :=
     Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict (by
       rw [hker_eq, Subgroup.range_subtype])
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   exact (Group.IsPerfect.not_isSolvable ↥J) hsJ
 
 end CFSG.StandardType.QTwo

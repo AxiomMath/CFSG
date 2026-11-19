@@ -17,6 +17,7 @@ theorem int_dvd_of_odd_mul {α b : ℤ} (hα : Odd α) (h : (4 : ℤ) ∣ α * b
   obtain ⟨q, hq⟩ := h
   exact ⟨(2 * m + 1) * q - b * (m ^ 2 + m), by linear_combination (2 * m + 1) * hq⟩
 
+omit [Finite G] in
 theorem comm_sup_of {K Y : Subgroup G}
     (hK : ∀ c ∈ K, ∀ c' ∈ K, c * c' = c' * c) (hY : ∀ d ∈ Y, ∀ d' ∈ Y, d * d' = d' * d)
     (hKY : ∀ c ∈ K, ∀ d ∈ Y, c * d = d * c) :
@@ -32,6 +33,7 @@ theorem comm_sup_of {K Y : Subgroup G}
     _ = c' * (d' * c) * d := by rw [hKY c hc d' hd']
     _ = c' * d' * (c * d) := by group
 
+omit [Finite G] in
 theorem indep_k_y {k y : G} (hk4 : orderOf k = 4) (hy4 : orderOf y = 4)
     (hKY : Subgroup.zpowers k ⊓ Subgroup.zpowers y = ⊥) {i j : ℤ} (h : k ^ i * y ^ j = 1) :
     (4 : ℤ) ∣ i ∧ (4 : ℤ) ∣ j := by
@@ -55,7 +57,8 @@ theorem indep_k_y {k y : G} (hk4 : orderOf k = 4) (hy4 : orderOf y = 4)
     rw [hy4] at this
     exact_mod_cast this
 
-theorem conj_sq_eq {z y s : G} {T A : Subgroup G} (hsT : s ∈ T) (hsA : s ∉ A)
+omit [Finite G] in
+theorem conj_sq_eq {z y s : G} {T A : Subgroup G} (hsT : s ∈ T) (_hsA : s ∉ A)
     (hA_sub : ∀ g ∈ T, ∀ a ∈ A, g * a * g⁻¹ ∈ A)
     (hAinv : ∀ x ∈ A, x ^ 2 = 1 → x = 1 ∨ x = z ∨ x = y ^ 2 ∨ x = z * y ^ 2)
     (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hy2A : y ^ 2 ∈ A)
@@ -98,6 +101,7 @@ theorem conj_sq_eq {z y s : G} {T A : Subgroup G} (hsT : s ∈ T) (hsA : s ∉ A
         _ = y ^ 2 * f := by rw [← hf_eq]
   · exact h1
 
+omit [Finite G] in
 theorem coords_indep {z k y v : G} (hky : k * y = y * k) (hk4 : orderOf k = 4)
     (hy4 : orderOf y = 4) (hk2 : k ^ 2 = z) (hKY : Subgroup.zpowers k ⊓ Subgroup.zpowers y = ⊥)
     (hvK : v ∈ Subgroup.zpowers k ⊔ Subgroup.zpowers y) (hv2 : v ^ 2 = z * y ^ 2) :

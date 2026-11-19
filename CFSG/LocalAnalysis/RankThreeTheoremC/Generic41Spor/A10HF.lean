@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3ZT u3U0 U3LineW
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem a10_hF (hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J)
+theorem a10_hF (_hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J)
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hB : A10StageB P x J ψ)
     {U : Subgroup G} (hU : IIPlane 5 P x J U)
     (hL42i : ∀ g : G, (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ≤ U →
@@ -22,12 +22,12 @@ theorem a10_hF (hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type G 5 
       IsMulCommutative F ∧ ∀ g : G, (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ≤ F →
         (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x := by
   intro F hFp hUF hFM hrk
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := plane_S_decomp hX.sylow hX.noOuter hc
   obtain ⟨-, hTel, -⟩ := plane_T_structure hX.sylow hc
   have hSP : u3S P x = (P : Subgroup G) := le_antisymm inf_le_left (le_inf le_rfl hB.1)
-  haveI : IsMulCommutative (u3T P x J) := hTel.1
-  haveI : IsCyclic Z := hZcyc
+  have : IsMulCommutative (u3T P x J) := hTel.1
+  have : IsCyclic Z := hZcyc
   have hPab : IsMulCommutative (P : Subgroup G) := by
     rw [← hSP, ← hsup]
     exact plane_sup_comm (fun a ha b hb => (hZT b hb a ha).symm)

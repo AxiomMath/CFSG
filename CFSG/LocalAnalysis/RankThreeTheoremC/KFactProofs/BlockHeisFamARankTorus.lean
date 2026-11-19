@@ -13,7 +13,7 @@ private theorem heisARVec_mul {G : Type*} [CommGroup G] (m : ℕ) (c c' : Fin 4 
     heisARVec m (c * c') = heisARVec m c * heisARVec m c' := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · fin_cases j <;> simp [heisARVec, mul_comm, mul_left_comm, mul_assoc, mul_inv]
+  · fin_cases j <;> simp [heisARVec, mul_comm, mul_left_comm, mul_assoc]
   · simp [heisARVec]
 
 private theorem prod_heisARVec {G : Type*} [CommGroup G] (m : ℕ) (c : Fin 4 → G) :

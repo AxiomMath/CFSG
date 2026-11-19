@@ -21,7 +21,7 @@ private theorem nine3_matrixRank_eq_finrank_omegaInvSpace {ι F : Type} [Fintype
   have h : ((A : Matrix ι ι F) - 1).mulVecLin =
       (↑(toLinEquiv ι F A) : (ι → F) →ₗ[F] (ι → F)) - LinearMap.id := by
     refine LinearMap.ext fun v => ?_
-    simp [Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec, LinearMap.sub_apply,
+    simp [LinearMap.sub_apply,
       toLinEquiv_apply]
   rw [Matrix.rank, h, omegaInvSpace, omegaInvNil]
 
@@ -254,17 +254,17 @@ private theorem nine3_prop710_orthGen {ι F : Type} [Fintype ι] [DecidableEq ι
       _ = e * (hE * v * hE⁻¹) := by group
   exact ⟨d, hd_conj, hdv_ne, hd_a, hd_e⟩
 
-theorem nine3_prop710_orthPlus {k : ℕ} (hk : 2 ≤ k) {F : Type} [Field F] [Finite F]
+theorem nine3_prop710_orthPlus {k : ℕ} (_hk : 2 ≤ k) {F : Type} [Field F] [Finite F]
     (hF : ∃ n : ℕ, 1 ≤ n ∧ Nat.card F = 2 ^ n)
     {c a e a' v : ↥(CFSG.PGLModel.orthogonalPlus k F)}
     (hc : IsRankOneIn (((c : ↥(CFSG.PGLModel.orthogonalPlus k F)) : GL (Fin k ⊕ Fin k) F)))
     (h : Nine3Config c a e a' v) :
     ∃ d, IsConj c d ∧ d ≠ v ∧ d * a = a * d ∧ d * e = e * d := by
   obtain ⟨n, hn, hcard⟩ := hF
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard' : Fintype.card F = 2 ^ n := by rwa [Nat.card_eq_fintype_card] at hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hQnd : (polarBilin (quadPlus k F)).Nondegenerate :=
     nondegenerate_polarBilin_quadPlus k F
   have hcoeq : ⇑(quadPlus k F) = CFSG.PGLModel.plusQuadForm k (K := F) := by
@@ -280,7 +280,7 @@ theorem nine3_prop710_orthPlus {k : ℕ} (hk : 2 ≤ k) {F : Type} [Field F] [Fi
       CFSG.MatrixModel.isometryCore] using h
   exact nine3_prop710_orthGen hQnd hO hc h
 
-theorem nine3_prop710_orthMinus {k : ℕ} (hk : 1 ≤ k) {F : Type} [Field F] [Finite F]
+theorem nine3_prop710_orthMinus {k : ℕ} (_hk : 1 ≤ k) {F : Type} [Field F] [Finite F]
     (hF : ∃ n : ℕ, 1 ≤ n ∧ Nat.card F = 2 ^ n) {b c' : F} (hbc : ∀ t : F, t ^ 2 + b * t + c' ≠ 0)
     {c a e a' v : ↥(CFSG.PGLModel.orthogonalMinus k F b c')}
     (hc : IsRankOneIn
@@ -288,10 +288,10 @@ theorem nine3_prop710_orthMinus {k : ℕ} (hk : 1 ≤ k) {F : Type} [Field F] [F
     (h : Nine3Config c a e a' v) :
     ∃ d, IsConj c d ∧ d ≠ v ∧ d * a = a * d ∧ d * e = e * d := by
   obtain ⟨n, hn, hcard⟩ := hF
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard' : Fintype.card F = 2 ^ n := by rwa [Nat.card_eq_fintype_card] at hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hQnd : (polarBilin (quadMinus (k + 1) F b c')).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite (n := k + 1) (K := F) hbc
   have hcoeq : ⇑(quadMinus (k + 1) F b c') = CFSG.PGLModel.minusQuadForm k (K := F) b c' := by

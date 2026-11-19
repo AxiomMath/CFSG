@@ -33,6 +33,7 @@ theorem exists_normalizes_of_conj_le (hc : Ctx M Q Z C) {s : G} (hs : s ∈ M)
   refine ⟨p, hpQ, ?_⟩
   rw [conjSubgroup_mul, ← hp, ← conjSubgroup_mul, inv_mul_cancel, conjSubgroup_one]
 
+omit [Finite G] in
 theorem conj_mem_inf_QB_of_normalizes (hc : Ctx M Q Z C) {t : G} (ht : t ∈ M)
     (htC : conjSubgroup t C = C) {x : G} (hx : x ∈ Q ⊓ QB C) : t * x * t⁻¹ ∈ Q ⊓ QB C := by
   refine Subgroup.mem_inf.mpr ⟨(hc.conj_mem_Q_of_mem_M ht).1 x (Subgroup.mem_inf.mp hx).1, ?_⟩
@@ -55,6 +56,7 @@ theorem pi_conj_mem_img_inf_QB (hc : Ctx M Q Z C) {K : Type} [Field K] {γ : G �
   rw [e, pi_conj_of_mem_Q M₀ hpQ hyQ]
   exact M₀.pi_mem_img hy hyQ
 
+omit [Finite G] in
 theorem conj_le_sup_of_line (hc : Ctx M Q Z C) {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {c : M₀.E} (hline : IsLineGen M₀ C c) {s : G} (hs : s ∈ M)
     {T : M₀.E → M₀.E} (hT : ∀ x ∈ Q, M₀.π (s * x * s⁻¹) = T (M₀.π x))

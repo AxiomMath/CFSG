@@ -30,7 +30,7 @@ theorem direct_factor_of_not_isGood
       A ⊔ B = (S : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hset.le
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hset.le
   set M := Subgroup.centralizer ({x} : Set G) with hM
   have hAM : A ≤ M := fun a ha => Subgroup.mem_centralizer_singleton_iff.mpr
     (Subgroup.mem_centralizer_iff.mp (le_centralizer hset h4 hxS) a ha)
@@ -113,7 +113,7 @@ theorem direct_factor_of_not_isGood
       exact congrArg _ (Subtype.ext
         (Subgroup.mem_centralizer_iff.mp (le_centralizer hset h4 hsS) a ha))
     have hw2 : IsPGroup 2 (Subgroup.zpowers w) := by
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hsS⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hsS⟩
       refine G76.isPGroup_zpowers_of_pow_eq_one (e := k) ?_
       rw [hw, ← map_pow]
       have : (⟨s, hsM⟩ : M) ^ 2 ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)

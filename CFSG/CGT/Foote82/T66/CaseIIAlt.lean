@@ -25,7 +25,7 @@ theorem card_eq_mul_of_surjective {W M : Type*} [AddCommGroup W] [AddCommGroup M
 theorem le_six_of_card_alt_le {n : ℕ} (h : Nat.card ↥(alternatingGroup (Fin n)) ≤ 360) : n ≤ 6 := by
   by_contra hn
   push Not at hn
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have h2 : 2 * Nat.card ↥(alternatingGroup (Fin n)) = Nat.factorial n := by
     rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_fin]
   have h3 : Nat.factorial 7 ≤ Nat.factorial n := Nat.factorial_le hn
@@ -42,13 +42,14 @@ theorem L_fix_Vz {l : GLV V} (hl : l ∈ L) {w : V} (hw : w ∈ commSpace (Subgr
   have h := c.std.extremal.setup.toSetup6.lemma61 (Subgroup.mem_zpowers z)
   exact h.1 l hl w hw
 
-theorem VL_le_V₀ : commSpace L ⊤ ≤ commSpace (HH G L v) ⊤ := commSpace_mono c.L_le_H le_rfl
+omit [Finite V] c in
+theorem VL_le_V₀ : commSpace L ⊤ ≤ commSpace (HH G L v) ⊤ := commSpace_mono CFSG.CGT.Foote82.CaseII.Ctx.L_le_H le_rfl
 
 theorem finrank_V₀ (hs : CaseIISplit) : Module.finrank (ZMod 2) ↥(commSpace (HH G L v) ⊤) = 6 := by
   obtain ⟨β, hβ, -⟩ := c.exists_beta hs
   have h1 : Nat.card ↥(commSpace (HH G L v) ⊤) = 64 := by
     rw [Nat.card_congr (Equiv.ofBijective β hβ)]
-    simp [Nat.card_fun]
+    simp
   have h2 := card_eq_two_pow_finrank ↥(commSpace (HH G L v) ⊤)
   rw [h1] at h2
   have : (64 : ℕ) = 2 ^ 6 := by norm_num
@@ -74,7 +75,7 @@ theorem finrank_VL_le (hs : CaseIISplit) :
   have h1 := Submodule.finrank_sup_add_finrank_inf_eq W Z
   have h2 : Module.finrank (ZMod 2) ↥(W ⊔ Z) ≤ 6 := by
     rw [← c.finrank_V₀ hs]
-    exact Submodule.finrank_mono (sup_le c.VL_le_V₀ (c.map_V₀_le c.z_mem))
+    exact Submodule.finrank_mono (sup_le CFSG.CGT.Foote82.CaseII.Ctx.VL_le_V₀ (c.map_V₀_le c.z_mem))
   have h3 : Module.finrank (ZMod 2) ↥(W ⊓ Z) ≤ Module.finrank (ZMod 2) ↥(fixedSpace L ⊓ W) :=
     Submodule.finrank_mono fun w hw => ⟨hZfix hw.2, hw.1⟩
   omega
@@ -89,6 +90,7 @@ theorem card_VL_le (hs : CaseIISplit) :
     _ = 32 * 2 ^ Module.finrank (ZMod 2) ↥(fixedSpace L ⊓ commSpace L ⊤) := by
         rw [pow_add]; norm_num
 
+omit [Finite V] c in
 theorem card_ker_eq {M : Type*} [AddCommGroup M] (β : ↥(commSpace L ⊤) →+ M)
     (hβk : β.ker = ((fixedSpace L).comap (commSpace L ⊤).subtype).toAddSubgroup) :
     Nat.card β.ker = Nat.card ↥(fixedSpace L ⊓ commSpace L ⊤) := by
@@ -103,7 +105,7 @@ theorem card_le_of_witness (hs : CaseIISplit) {X M : Type} [Group X] [AddCommGro
     {R : X → M → M → Prop} (h : TildeVWitness L X M R) : Nat.card M ≤ 32 := by
   obtain ⟨-, -, β, hβs, hβk, -⟩ := h
   have h1 := card_eq_mul_of_surjective β hβs
-  rw [c.card_ker_eq β hβk] at h1
+  rw [Ctx.card_ker_eq β hβk] at h1
   have h2 := c.card_VL_le hs
   have hpos : 0 < Nat.card ↥(fixedSpace L ⊓ commSpace L ⊤) := Nat.card_pos
   rw [h1] at h2
@@ -129,13 +131,13 @@ theorem isAltNaturalModule (hs : CaseIISplit) : IsAltNaturalModule L 6 := by
     omega
   · exfalso
     have := c.card_le_of_witness hs h
-    simp [Nat.card_fun] at this
+    simp at this
   · exfalso
     have := c.card_le_of_witness hs h
-    simp [Nat.card_fun] at this
+    simp at this
   · exfalso
     have := c.card_le_of_witness hs h
-    simp [Nat.card_fun] at this
+    simp at this
   ·
     exfalso
     obtain ⟨-, h6⟩ := h

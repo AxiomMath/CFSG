@@ -66,7 +66,7 @@ theorem step3 [Finite X] [Finite V] (hGO : GOPair V Y) {W₁ W₂ : Subgroup V}
   have hodd₀ : Odd (MulAction.stabilizer X (fixSub V Y)).index := by
     rw [MulAction.index_stabilizer]; exact hGO.odd_ncard_omega hW₁ hW₂
   obtain ⟨S, hSX₀⟩ := exists_sylow_le_of_odd_index hodd₀
-  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup
   have hfaithS := hGO.faithful_of_isPGroup hW₁ hW₂ hSX₀ hS2
   have hcyc : IsCyclic S := (sem_consequences hGO).2 (S : Subgroup X) hSX₀ hS2 hfaithS
   obtain ⟨-, -, -, ⟨hKn, hKodd, hKindex, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hcyc

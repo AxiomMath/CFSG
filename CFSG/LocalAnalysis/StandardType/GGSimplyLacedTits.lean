@@ -55,7 +55,7 @@ private lemma titsA_self [Fintype ι] [DecidableEq ι] (M : CoxeterMatrix ι) (i
     intro k _
     by_cases hk : k = i
     · subst hk
-      simp [titsE, M.diagonal]
+      simp
     · simp [titsE, Pi.single_eq_of_ne hk]
   rw [hsum, titsE, Pi.single_eq_same]
   ring
@@ -82,7 +82,7 @@ private lemma titsA_of_two [Fintype ι] [DecidableEq ι] (M : CoxeterMatrix ι) 
     intro k _
     by_cases hk : k = j
     · subst hk
-      simp [titsE, h]
+      simp [h]
     · simp [titsE, Pi.single_eq_of_ne hk]
   rw [hsum, titsE]
   rw [Pi.single_eq_of_ne hij]
@@ -350,7 +350,7 @@ theorem ggSimplyLaced_braid {M : CoxeterMatrix ι} {i j : ι} (h : M.M i j = 3) 
 theorem ggSimplyLaced_simple_injective [Finite ι] {M : CoxeterMatrix ι} (hM : GGSimplyLaced M) :
     Function.Injective M.simple := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   intro i j hij
   by_contra hne
   have hσ : titsRefl M i = titsRefl M j := by
@@ -375,7 +375,7 @@ theorem ggSimplyLaced_simple_injective [Finite ι] {M : CoxeterMatrix ι} (hM : 
 theorem ggSimplyLaced_simple_noncomm [Finite ι] {M : CoxeterMatrix ι} (hM : GGSimplyLaced M)
     {i j : ι} (h : M.M i j = 3) : M.simple i * M.simple j ≠ M.simple j * M.simple i := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have hne : i ≠ j := by
     intro heq
     subst heq

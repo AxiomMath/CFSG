@@ -24,10 +24,10 @@ theorem exists_oddNormal {C : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hPle : Nat.card P ≤ 2 := by
-    have := hC ((P : Subgroup C).map C.subtype) (map_subtype_le _) (P.isPGroup'.map _)
+    have := hC ((P : Subgroup C).map C.subtype) (map_subtype_le _) (P.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective C.subtype_injective] at this
   have hPdvd : Nat.card P ∣ 2 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hn] at hPle ⊢
     rcases n with _ | _ | n
     · norm_num

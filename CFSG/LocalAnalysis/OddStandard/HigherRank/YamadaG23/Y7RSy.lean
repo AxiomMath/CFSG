@@ -12,6 +12,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G] {t : G} {P U : Subgroup G}
 
+omit [Finite G] in
 theorem Wr7.isPGroup_star (h : Wr7 t P U) (hP : IsPGroup 2 P) : IsPGroup 2 (wrStar t P) := by
   have ht : IsPGroup 2 (zpowers t) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
@@ -25,7 +26,7 @@ theorem Wr7.isSylowIn_star (h : Wr7 t P U) (hU : RankFacts U) (htP : t ∉ P)
     (hP : IsPGroup 2 P) {T : Subgroup G}
     (hT : IsSylowIn 2 (centralizer ({t} : Set G)) T)
     (hTe : T = wrStar t P ⊓ centralizer ({t} : Set G)) : IsSylowIn 2 ⊤ (wrStar t P) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ0p : IsPGroup 2 (wrStar t P) := Wr7.isPGroup_star h hP
   obtain ⟨Q, hQ0Q⟩ := hQ0p.exists_le_sylow
   have hQ0eqQ : wrStar t P = Q := by
@@ -35,11 +36,11 @@ theorem Wr7.isSylowIn_star (h : Wr7 t P U) (hU : RankFacts U) (htP : t ∉ P)
       intro htop
       exact hne (le_antisymm hQ0Q (Subgroup.subgroupOf_eq_top.mp htop))
     have hnc : NormalizerCondition ↥Q := by
-      haveI : Group.IsNilpotent ↥Q := Q.isPGroup'.isNilpotent
+      have : Group.IsNilpotent ↥Q := Q.isPGroup.isNilpotent
       exact Group.normalizerCondition_of_isNilpotent
     have hHnorm : (wrStar t P).subgroupOf (Q : Subgroup G) <
         normalizer ((wrStar t P).subgroupOf (Q : Subgroup G)) := hnc _ hHtop
-    obtain ⟨y, hyn, hyH⟩ := SetLike.not_le_iff_exists.mp (not_le_of_gt hHnorm)
+    obtain ⟨y, hyn, hyH⟩ := IsConcreteLE.not_le_iff_exists.mp (not_le_of_gt hHnorm)
     let x : G := (y : G)
     have hyQ : x ∈ Q := y.2
     have hxN : x ∈ normalizer ((wrStar t P : Subgroup G) : Set G) := by
@@ -68,7 +69,7 @@ theorem Wr7.isSylowIn_star (h : Wr7 t P U) (hU : RankFacts U) (htP : t ∉ P)
       (Q : Subgroup G).mul_mem ((Q : Subgroup G).inv_mem hyQ) (hQ0Q hpQ0)
     have hz : x⁻¹ * p ∈ (Q : Subgroup G) ⊓ centralizer ({t} : Set G) := ⟨hzQ, hzcent⟩
     have hQ2 : IsPGroup 2 ↥((Q : Subgroup G) ⊓ centralizer ({t} : Set G)) :=
-      Q.isPGroup'.to_le inf_le_left
+      Q.isPGroup.to_le inf_le_left
     have hTle : T ≤ (Q : Subgroup G) ⊓ centralizer ({t} : Set G) := by
       rw [hTe]
       exact inf_le_inf_right _ hQ0Q

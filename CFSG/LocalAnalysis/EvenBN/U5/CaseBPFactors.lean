@@ -19,7 +19,7 @@ variable {G : Type} [Group G]
 
 def sec52FacFst (A B E : Subgroup G) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : Subgroup G where
   carrier := {a | a ∈ A ∧ ∃ b ∈ B, a * b ∈ E}
-  one_mem' := ⟨one_mem _, 1, one_mem _, by simpa using one_mem E⟩
+  one_mem' := ⟨one_mem _, 1, one_mem _, by simp⟩
   mul_mem' := by
     rintro a a' ⟨ha, b, hb, hab⟩ ⟨ha', b', hb', hab'⟩
     refine ⟨mul_mem ha ha', b * b', mul_mem hb hb', ?_⟩

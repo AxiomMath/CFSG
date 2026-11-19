@@ -54,7 +54,7 @@ theorem centralizer_Z_ne_top : Subgroup.centralizer (t.Z : Set G) ≠ ⊤ := by
     intro g
     have hg : g ∈ Subgroup.centralizer (t.Z : Set G) := by rw [htop]; trivial
     exact (Subgroup.mem_centralizer_iff.mp hg z hz).symm
-  haveI : IsSimpleGroup G := c.standing.simple
+  have : IsSimpleGroup G := c.standing.simple
   have hcentbot : Subgroup.center G = ⊥ :=
     CFSG.SignalizerFunctorTheorem.Diagonal.center_eq_bot (T := G) c.standing.nonab
   exact t.Z_ne_bot (le_bot_iff.mp (hcenter.trans (le_of_eq hcentbot)))
@@ -166,7 +166,7 @@ private theorem le_of_normalizer_map_eq_top {p : ℕ}
     exact (QuotientGroup.eq_one_iff (N := O) (n⁻¹ * xH)).1 h1
   have hx_eq : xH = n * (n⁻¹ * xH) := (mul_inv_cancel_left n xH).symm
   have hxG : x = (n : G) * ((n⁻¹ * xH : ↥H) : G) := by
-    simpa [xH] using congrArg Subtype.val hx_eq
+    simp [xH]
   rw [hxG]
   exact c.S.M.mul_mem (hNle (Subgroup.mem_map_of_mem H.subtype hnN))
     (hOle (Subgroup.mem_map_of_mem H.subtype hmemO))
@@ -234,7 +234,7 @@ private theorem pCore_le_PX_and_fP_injective {p : ℕ} (hp : p ∈ c.sig)
   let S : Sylow 3 (CX t) := hPXp.toSylow hPXidx
   have hScoe : (S : Subgroup (CX t)) = CPX t := rfl
   have hDhat_p : IsPGroup 3 (CDhat t) := CFSG.pCore_isPGroup
-  haveI : (CDhat t).Normal := CFSG.pCore_normal
+  have : (CDhat t).Normal := CFSG.pCore_normal
   have hDhat_le : CDhat t ≤ CPX t := by
     have h := hDhat_p.le_sylow_of_normal S
     rwa [hScoe] at h
@@ -296,7 +296,7 @@ private theorem D0_setup {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p
   have hD0H_sylow' : CFSG.ABGLocalTools.IsSylowOf 3 (CD0H t) (CD0H t ⊔ CO t) := by
     rw [sup_comm]
     exact CFSG.ABGLocalTools.isSylowOf_sup_of_coprime (p := 3) hcop hD0H_p
-  haveI : (CD0P t).Normal := (CFSG.pCore_normal (p := 3) (G := CX t)).comap (CfP t)
+  have : (CD0P t).Normal := (CFSG.pCore_normal (p := 3) (G := CX t)).comap (CfP t)
   have hD0G_norm : t.P ≤ Subgroup.normalizer (CD0G t) := by
     have h := Subgroup.le_normalizer_map (H := CD0P t) t.P.subtype
     rw [Subgroup.normalizer_eq_top (CD0P t), ← MonoidHom.range_eq_map,
@@ -342,7 +342,7 @@ private theorem le_of_card_CB_eq_27 {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNor
       inf_eq_left.mpr (t.AA_le_P.trans t.le_centralizer_Z)]
   have hDhat_eq : CDhat t = (t.d.AA.subgroupOf (CH t)).map (Cpi t) := by
     rw [← hD0H_eq, hD0H_map_pi]
-  haveI : ((t.d.AA.subgroupOf (CH t)).map (Cpi t)).Normal := by
+  have : ((t.d.AA.subgroupOf (CH t)).map (Cpi t)).Normal := by
     rw [← hDhat_eq]
     exact CFSG.pCore_normal
   have hAAH_p : IsPGroup 3 (t.d.AA.subgroupOf (CH t)) :=
@@ -363,13 +363,13 @@ private theorem Z_le_CB {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
   have hB_norm : t.P ≤ Subgroup.normalizer (CB t) :=
     (le_inf (AA_le_normalizer_P t) hND0).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := t.d.AA) (K := CD0G t))
-  haveI hP3fact : Fact (IsPGroup 3 ↥t.P) := ⟨(t.isSylowOf_top hp hN).isPGroup⟩
+  have hP3fact : Fact (IsPGroup 3 ↥t.P) := ⟨(t.isSylowOf_top hp hN).isPGroup⟩
   have hBtP_normal : ((CB t).subgroupOf t.P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hB_le_P).mpr hB_norm
-  haveI : ((CB t).subgroupOf t.P).Normal := hBtP_normal
+  have : ((CB t).subgroupOf t.P).Normal := hBtP_normal
   have hBtP_card : Nat.card ↥((CB t).subgroupOf t.P) = 9 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB_le_P).toEquiv, hB9]
-  haveI : Nontrivial ↥((CB t).subgroupOf t.P) :=
+  have : Nontrivial ↥((CB t).subgroupOf t.P) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hBtP_card]; norm_num)
   obtain ⟨w, hwne, hwcenter⟩ :=
     CFSG.exists_nontrivial_center_mem_normal (N := (CB t).subgroupOf t.P) (p := 3)
@@ -392,11 +392,11 @@ private theorem Z_le_CB {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
   exact Subgroup.zpowers_le.mpr (Subgroup.mem_subgroupOf.mp w.2)
 
 private theorem exists_conj_CBhat_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
-    (hDhat : Nat.card (CDhat t) = 27) (hB9 : Nat.card (CB t) = 9)
+    (hDhat : Nat.card (CDhat t) = 27) (_hB9 : Nat.card (CB t) = 9)
     (hBhat_not_normal : ¬ (CBhat t).Normal) :
     ∃ h : ↥(CH t), (CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom ≤ CDhat t ∧
       (CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom ≠ CBhat t := by
-  haveI : (CDhat t).Normal := CFSG.pCore_normal
+  have : (CDhat t).Normal := CFSG.pCore_normal
   obtain ⟨-, -, -, hD0H_map_pi, -, -, -, hD0G_sub⟩ := D0_setup t hp hN hDhat
   have hBhat_le_Dhat : CBhat t ≤ CDhat t := by
     rw [← hD0H_map_pi, ← hD0G_sub]
@@ -483,7 +483,7 @@ private theorem map_conj_CBhat_eq {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNorma
     (hBh_le : (CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom ≤ CDhat t) :
     (CBhat t).map (MulAut.conj (Cpi t (k⁻¹ * h))).toMonoidHom =
       (CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom := by
-  haveI : (CDhat t).Normal := CFSG.pCore_normal
+  have : (CDhat t).Normal := CFSG.pCore_normal
   have hBhat_h_normalD : (((CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom).subgroupOf
       (CDhat t)).Normal := by
     have hcard : Nat.card ↥(((CBhat t).map (MulAut.conj (Cpi t h)).toMonoidHom).subgroupOf
@@ -577,7 +577,7 @@ private theorem le_of_card_CB_eq_9 {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNorm
   have hZleB : t.Z ≤ CB t := Z_le_CB t hp hN hDhat hB9
   have hyB : t.y ∈ Subgroup.normalizer (CB t) := hB_norm t.hyP
   by_cases hBhat_normal : (CBhat t).Normal
-  · haveI : (CBhat t).Normal := hBhat_normal
+  · have : (CBhat t).Normal := hBhat_normal
     have hBH_p : IsPGroup 3 ((CB t).subgroupOf (CH t)) :=
       (t.d.isElemAbelian_AA.isPGroup.to_le hB_le_AA).comap_subtype
     have hnorm := CFSG.GroupTheory.normal_coprime_quotient_normalizer (p := 3) (CO t)

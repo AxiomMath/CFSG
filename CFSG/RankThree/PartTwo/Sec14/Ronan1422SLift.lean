@@ -96,9 +96,9 @@ theorem exists_lift_normalizer148 (hA3 : IsPGroup 3 A)
     exact h3A
   have hSA3 : IsPGroup 3 (A.subgroupOf P) := hA3.comap_subtype
   have hSB3 : IsPGroup 3 (B.subgroupOf P) := hB3.comap_subtype
-  haveI : Finite (Subgroup P) :=
+  have : Finite (Subgroup P) :=
     Finite.of_injective (fun H : Subgroup P => (H : Set P)) SetLike.coe_injective
-  haveI : Finite (Sylow 3 P) :=
+  have : Finite (Sylow 3 P) :=
     Finite.of_injective (fun Q : Sylow 3 P => (Q : Subgroup P)) fun Q R h => Sylow.ext h
   obtain ⟨s, hs⟩ := MulAction.exists_smul_eq (↥P) (IsPGroup.toSylow hSA3 h3A)
     (IsPGroup.toSylow hSB3 h3B)

@@ -23,37 +23,43 @@ section Abstract
 
 variable {E : Type*} [Group E] [Finite E] [CFSG.IsElementaryAbelian 2 E]
 
+omit [Finite E] in
 theorem inv_eq_self (x : E) : x⁻¹ = x :=
   inv_eq_of_mul_eq_one_right (mul_self_eq_one_of_isElementaryAbelian_two x)
 
 @[expose] def fixSub (α : MulAut E) : Subgroup E where
   carrier := {x | α x = x}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := map_one α
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
+omit [Finite E] [IsElementaryAbelian 2 E] in
 theorem mem_fixSub {α : MulAut E} {x : E} : x ∈ fixSub α ↔ α x = x := Iff.rfl
 
 @[expose] def coboundary (α : MulAut E) : E →* E :=
   MonoidHom.mk' (fun x => x⁻¹ * α x) (inv_mul_apply_mul α)
 
+omit [Finite E] in
 theorem coboundary_apply (α : MulAut E) (x : E) : coboundary α x = x⁻¹ * α x := rfl
 
+omit [Finite E] in
 theorem ker_coboundary (α : MulAut E) : (coboundary α).ker = fixSub α := by
   ext x
   rw [MonoidHom.mem_ker, coboundary_apply, inv_mul_eq_one, eq_comm]
   rfl
 
+omit [Finite E] in
 theorem range_coboundary_le (α : MulAut E) (hα : ∀ x, α (α x) = x) :
     (coboundary α).range ≤ fixSub α := by
   rintro _ ⟨x, rfl⟩
   rw [mem_fixSub, coboundary_apply, map_mul, map_inv, hα, inv_eq_self (α x), inv_eq_self x,
     mul_comm' (α x) x]
 
+omit [Finite E] in
 theorem card_eq_card_fixSub_mul (α : MulAut E) :
     Nat.card E = Nat.card (fixSub α) * Nat.card (coboundary α).range := by
   rw [← ker_coboundary α, ← card_mul_index (coboundary α).ker, index_ker]
@@ -101,6 +107,7 @@ section Sec
 
 variable {A B : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem normal_subgroupOf (hAB : IsElemSection A B) : (B.subgroupOf A).Normal where
   conj_mem n hn g := by
     rw [mem_subgroupOf] at hn ⊢
@@ -110,6 +117,7 @@ theorem normal_subgroupOf (hAB : IsElemSection A B) : (B.subgroupOf A).Normal wh
     rw [e]
     exact h1
 
+omit [Finite Γ] in
 theorem isElementaryAbelian_section (hAB : IsElemSection A B) [(B.subgroupOf A).Normal] :
     CFSG.IsElementaryAbelian 2 (A ⧸ B.subgroupOf A) where
   is_comm := ⟨fun u v => by
@@ -123,11 +131,13 @@ theorem isElementaryAbelian_section (hAB : IsElemSection A B) [(B.subgroupOf A).
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, mem_subgroupOf, pow_two]
     exact hAB.mul_self_mem x x.2
 
+omit [Finite Γ] in
 theorem le_normalizer (hAB : IsElemSection A B) : A ≤ normalizer (B : Set Γ) :=
   (normal_subgroupOf_iff_le_normalizer hAB.le).1 (normal_subgroupOf hAB)
 
 variable {τ : Γ}
 
+omit [Finite Γ] in
 theorem eq_one_or_eq_of_mem_zpowers (hτ : τ * τ = 1) {b : Γ} (hb : b ∈ zpowers τ) :
     b = 1 ∨ b = τ := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hb
@@ -137,6 +147,7 @@ theorem eq_one_or_eq_of_mem_zpowers (hτ : τ * τ = 1) {b : Γ} (hb : b ∈ zpo
   · right
     rw [hm, zpow_add_one, zpow_mul, zpow_two, hτ, one_zpow, one_mul]
 
+omit [Finite Γ] in
 theorem mem_centralizerMod_zpowers_iff (hAB : IsElemSection A B) (hτ : τ * τ = 1)
     (hτB : τ ∈ normalizer (B : Set Γ)) {a : Γ} (ha : a ∈ A) :
     a ∈ centralizerMod B (zpowers τ) ↔ a⁻¹ * (τ * a * τ⁻¹) ∈ B := by
@@ -150,16 +161,18 @@ theorem mem_centralizerMod_zpowers_iff (hAB : IsElemSection A B) (hτ : τ * τ 
   · intro h
     refine ⟨haN, fun b hb hbN => ?_⟩
     rcases eq_one_or_eq_of_mem_zpowers hτ hb with rfl | rfl
-    · simpa using one_mem B
+    · simp
     · have h1 := (mem_normalizer_iff.1 haN _).1 (inv_mem h)
       rwa [show a * (a⁻¹ * (b * a * b⁻¹))⁻¹ * a⁻¹ = a * b * a⁻¹ * b⁻¹ by group] at h1
 
+omit [Finite Γ] in
 theorem mem_inf_centralizerMod_zpowers_iff (hAB : IsElemSection A B) (hτ : τ * τ = 1)
     (hτB : τ ∈ normalizer (B : Set Γ)) {a : Γ} :
     a ∈ A ⊓ centralizerMod B (zpowers τ) ↔ a ∈ A ∧ a⁻¹ * (τ * a * τ⁻¹) ∈ B := by
   rw [mem_inf]
   exact and_congr_right fun ha => mem_centralizerMod_zpowers_iff hAB hτ hτB ha
 
+omit [Finite Γ] in
 theorem le_inf_centralizerMod_zpowers (hAB : IsElemSection A B) (hτ : τ * τ = 1)
     (hτB : τ ∈ normalizer (B : Set Γ)) : B ≤ A ⊓ centralizerMod B (zpowers τ) := fun b hb =>
   (mem_inf_centralizerMod_zpowers_iff hAB hτ hτB).2 ⟨hAB.le hb,
@@ -171,8 +184,10 @@ section Bridge
 
 variable {A B : Subgroup Γ} {τ : Γ}
 
+omit [Finite Γ] in
 theorem card_section (A B : Subgroup Γ) : Nat.card (A ⧸ B.subgroupOf A) = B.relIndex A := rfl
 
+omit [Finite Γ] in
 theorem alpha_alpha [(B.subgroupOf A).Normal] (hτ : τ * τ = 1)
     (hτA : τ ∈ normalizer (A : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ))
     (q : A ⧸ B.subgroupOf A) :
@@ -186,6 +201,7 @@ theorem alpha_alpha [(B.subgroupOf A).Normal] (hτ : τ * τ = 1)
   calc (k : Γ) = (τ * τ) * k * (τ * τ) := by rw [hτ, one_mul, mul_one]
     _ = τ * (τ * k * τ) * τ := by group
 
+omit [Finite Γ] in
 theorem alpha_fixed_iff [(B.subgroupOf A).Normal]
     (hτA : τ ∈ normalizer (A : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ)) (k : A) :
     sectionRightConj hτA hτB (QuotientGroup.mk k) = (QuotientGroup.mk k : A ⧸ B.subgroupOf A) ↔
@@ -195,6 +211,7 @@ theorem alpha_fixed_iff [(B.subgroupOf A).Normal]
   rw [← e]
   exact mem_normalizer_iff.1 hτB _
 
+omit [Finite Γ] in
 theorem card_fixSub [(B.subgroupOf A).Normal] [CFSG.IsElementaryAbelian 2 (A ⧸ B.subgroupOf A)]
     (hAB : IsElemSection A B) (hτ : τ * τ = 1) (hτA : τ ∈ normalizer (A : Set Γ))
     (hτB : τ ∈ normalizer (B : Set Γ)) :
@@ -224,6 +241,7 @@ theorem card_fixSub [(B.subgroupOf A).Normal] [CFSG.IsElementaryAbelian 2 (A ⧸
   rw [← hrange, ← index_ker, hker]
   exact relIndex_subgroupOf hCA
 
+omit [Finite Γ] in
 theorem isFreeSection_iff [(B.subgroupOf A).Normal]
     [CFSG.IsElementaryAbelian 2 (A ⧸ B.subgroupOf A)]
     (hAB : IsElemSection A B) (hτ : τ * τ = 1) (hτA : τ ∈ normalizer (A : Set Γ))
@@ -232,6 +250,7 @@ theorem isFreeSection_iff [(B.subgroupOf A).Normal]
       Nat.card (fixSub (sectionRightConj hτA hτB)) ^ 2 := by
   rw [IsFreeSection, card_section, card_fixSub hAB hτ hτA hτB]
 
+omit [Finite Γ] in
 theorem alpha_mk [(B.subgroupOf A).Normal] (hτ : τ * τ = 1)
     (hτA : τ ∈ normalizer (A : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ)) {k : Γ} (hk : k ∈ A)
     (hk' : τ * k * τ⁻¹ ∈ A) :
@@ -246,6 +265,7 @@ section Ext
 
 variable {A A' B : Subgroup Γ} {τ : Γ}
 
+omit [Finite Γ] in
 theorem lift_sec (hAB : IsElemSection A B) (hτ : τ * τ = 1) (hτB : τ ∈ normalizer (B : Set Γ))
     (hH1 : H1ZeroSec τ A' B) (hA'A : A' ≤ A) :
     ∀ a ∈ A, a⁻¹ * (τ * a * τ⁻¹) ∈ A' → a ∈ (A ⊓ centralizerMod B (zpowers τ)) ⊔ A' := by
@@ -266,6 +286,7 @@ theorem lift_sec (hAB : IsElemSection A B) (hτ : τ * τ = 1) (hτB : τ ∈ no
   rw [e]
   exact mul_mem_sup hc hm
 
+omit [Finite Γ] in
 theorem relIndex_sup_eq {X : Subgroup Γ} (hXA : X ≤ A) (hA'A : A' ≤ A)
     (hA' : (A'.subgroupOf A).Normal) : A'.relIndex (X ⊔ A') = (A' ⊓ X).relIndex X := by
   have h := relIndex_sup_right (H := X.subgroupOf A) (K := A'.subgroupOf A)
@@ -279,6 +300,7 @@ section Maschke
 
 variable {A B J : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem mem_centralizerMod_iff_of_le (hAB : IsElemSection A B) (hJB : J ≤ normalizer (B : Set Γ))
     {a : Γ} (ha : a ∈ A) :
     a ∈ centralizerMod B J ↔ ∀ j ∈ J, a⁻¹ * (j * a * j⁻¹) ∈ B := by
@@ -294,12 +316,14 @@ theorem mem_centralizerMod_iff_of_le (hAB : IsElemSection A B) (hJB : J ≤ norm
     have h1 := (mem_normalizer_iff.1 haN _).1 (inv_mem (h b hb))
     rwa [show a * (a⁻¹ * (b * a * b⁻¹))⁻¹ * a⁻¹ = a * b * a⁻¹ * b⁻¹ by group] at h1
 
+omit [Finite Γ] in
 theorem mem_inf_centralizerMod_iff_of_le (hAB : IsElemSection A B)
     (hJB : J ≤ normalizer (B : Set Γ)) {a : Γ} :
     a ∈ A ⊓ centralizerMod B J ↔ a ∈ A ∧ ∀ j ∈ J, a⁻¹ * (j * a * j⁻¹) ∈ B := by
   rw [mem_inf]
   exact and_congr_right fun ha => mem_centralizerMod_iff_of_le hAB hJB ha
 
+omit [Finite Γ] in
 theorem sectionAction_apply_mk [(B.subgroupOf A).Normal] (hJA : J ≤ normalizer (A : Set Γ))
     (hJB : J ≤ normalizer (B : Set Γ)) (j : J) {k : Γ} (hk : k ∈ A)
     (hk' : (j : Γ) * k * (j : Γ)⁻¹ ∈ A) :
@@ -313,9 +337,9 @@ theorem maschke_section (hAB : IsElemSection A B) (hJA : J ≤ normalizer (A : S
     (hJB : J ≤ normalizer (B : Set Γ)) (hJ : Odd (Nat.card J)) :
     A = (A ⊓ centralizerMod B J) ⊔ (⁅A, J⁆ ⊔ B) ∧
       (A ⊓ centralizerMod B J) ⊓ (⁅A, J⁆ ⊔ B) = B := by
-  haveI := normal_subgroupOf hAB
-  haveI := isElementaryAbelian_section hAB
-  letI : MulDistribMulAction ↥J (A ⧸ B.subgroupOf A) :=
+  have := normal_subgroupOf hAB
+  have := isElementaryAbelian_section hAB
+  let : MulDistribMulAction ↥J (A ⧸ B.subgroupOf A) :=
     MulDistribMulAction.compHom (A ⧸ B.subgroupOf A) (sectionAction hJA hJB)
   have hcop : (Nat.card J).Coprime (Nat.card (A ⧸ B.subgroupOf A)) := by
     obtain ⟨n, hn⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 (A ⧸ B.subgroupOf A)).exists_card_eq
@@ -429,11 +453,13 @@ theorem maschke_section (hAB : IsElemSection A B) (hJA : J ≤ normalizer (A : S
     rw [hcompl.disjoint.eq_bot, mem_bot] at h1
     exact mem_subgroupOf.1 ((QuotientGroup.eq_one_iff (N := B.subgroupOf A) (⟨x, hxA⟩ : A)).1 h1)
 
+omit [Finite Γ] in
 theorem le_inf_centralizerMod_of_le (hAB : IsElemSection A B) (hJB : J ≤ normalizer (B : Set Γ)) :
     B ≤ A ⊓ centralizerMod B J := fun b hb =>
-  (mem_inf_centralizerMod_iff_of_le hAB hJB).2 ⟨hAB.le hb, fun j hj =>
+  (mem_inf_centralizerMod_iff_of_le hAB hJB).2 ⟨hAB.le hb, fun _j hj =>
     mul_mem (inv_mem hb) ((mem_normalizer_iff.1 (hJB hj) b).1 hb)⟩
 
+omit [Finite Γ] in
 theorem commutator_sup_le (hAB : IsElemSection A B) (hJA : J ≤ normalizer (A : Set Γ)) :
     ⁅A, J⁆ ⊔ B ≤ A := sup_le (Subgroup.commutator_le.2 fun a ha j hj => by
   have hja : j * a⁻¹ * j⁻¹ ∈ A := (mem_normalizer_iff.1 (hJA hj) _).1 (inv_mem ha)
@@ -441,16 +467,19 @@ theorem commutator_sup_le (hAB : IsElemSection A B) (hJA : J ≤ normalizer (A :
     simp only [commutatorElement_def]; group
   rw [he]; exact mul_mem ha hja) hAB.le
 
+omit [Finite Γ] in
 theorem isElemSection_sub {X : Subgroup Γ} (hAB : IsElemSection A B) (hBX : B ≤ X)
     (hXA : X ≤ A) : IsElemSection X B :=
   ⟨hBX, fun x hx => hAB.mul_self_mem x (hXA hx),
     fun x hx y hy => hAB.commutator_mem x (hXA hx) y (hXA hy)⟩
 
+omit [Finite Γ] in
 theorem isElemSection_quot {A' : Subgroup Γ} (hAB : IsElemSection A B) (hBA' : B ≤ A')
     (hA'A : A' ≤ A) : IsElemSection A A' :=
   ⟨hA'A, fun x hx => hBA' (hAB.mul_self_mem x hx),
     fun x hx y hy => hBA' (hAB.commutator_mem x hx y hy)⟩
 
+omit [Finite Γ] in
 theorem relIndex_eq_mul {U V : Subgroup Γ} (hAB : IsElemSection A B) (hBV : B ≤ V)
     (hUA : U ≤ A) (hVA : V ≤ A) (hsup : U ⊔ V = A) (hinf : U ⊓ V = B) :
     B.relIndex A = B.relIndex U * B.relIndex V := by
@@ -512,16 +541,16 @@ open ProductToolboxAux.Core
 theorem T1_card_le {A B : Subgroup Γ} (hAB : IsElemSection A B) {τ : Γ} (hτ : τ * τ = 1)
     (hτA : τ ∈ normalizer (A : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ)) :
     B.relIndex A ≤ (B.relIndex (A ⊓ centralizerMod B (zpowers τ))) ^ 2 := by
-  haveI := normal_subgroupOf hAB
-  haveI := isElementaryAbelian_section hAB
+  have := normal_subgroupOf hAB
+  have := isElementaryAbelian_section hAB
   rw [← card_section, ← card_fixSub hAB hτ hτA hτB]
   exact card_le_card_fixSub_sq _ (alpha_alpha hτ hτA hτB)
 
 theorem T1_h1_zero {A B : Subgroup Γ} (hAB : IsElemSection A B) {τ : Γ} (hτ : τ * τ = 1)
     (hτA : τ ∈ normalizer (A : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ))
     (hfree : IsFreeSection τ A B) : H1ZeroSec τ A B := by
-  haveI := normal_subgroupOf hAB
-  haveI := isElementaryAbelian_section hAB
+  have := normal_subgroupOf hAB
+  have := isElementaryAbelian_section hAB
   have hα := alpha_alpha hτ hτA hτB
   have hle := (card_eq_card_fixSub_sq_iff _ hα).1
     ((isFreeSection_iff hAB hτ hτA hτB).1 hfree)
@@ -548,7 +577,7 @@ theorem T1_h1_zero {A B : Subgroup Γ} (hAB : IsElemSection A B) {τ : Γ} (hτ 
   exact h1
 
 theorem T1_extension {A A' B : Subgroup Γ} (hAB : IsElemSection A B) (hA'B : B ≤ A')
-    (hAA' : A' ≤ A) {τ : Γ} (hτ : τ * τ = 1) (hτA : τ ∈ normalizer (A : Set Γ))
+    (hAA' : A' ≤ A) {τ : Γ} (hτ : τ * τ = 1) (_hτA : τ ∈ normalizer (A : Set Γ))
     (hτA' : τ ∈ normalizer (A' : Set Γ)) (hτB : τ ∈ normalizer (B : Set Γ))
     (h₁ : IsFreeSection τ A' B) (h₂ : IsFreeSection τ A A') : IsFreeSection τ A B := by
   have hA'B' : IsElemSection A' B := ⟨hA'B, fun x hx => hAB.mul_self_mem x (hAA' hx),
@@ -583,9 +612,10 @@ theorem T1_extension {A A' B : Subgroup Γ} (hAB : IsElemSection A B) (hA'B : B 
   rw [← relIndex_mul_relIndex B A' A hA'B hAA', h1, h2, hsec]
   ring
 
+omit [Finite Γ] in
 theorem T2_lift {A N : Subgroup Γ} {τ : Γ} (hτ : τ * τ = 1) (hNA : N ≤ A)
-    (hAN : A ≤ normalizer (N : Set Γ)) (hτA : τ ∈ normalizer (A : Set Γ))
-    (hτN : τ ∈ normalizer (N : Set Γ)) (hH1 : H1Zero τ N) :
+    (_hAN : A ≤ normalizer (N : Set Γ)) (_hτA : τ ∈ normalizer (A : Set Γ))
+    (_hτN : τ ∈ normalizer (N : Set Γ)) (hH1 : H1Zero τ N) :
     ∀ a ∈ A, a⁻¹ * (τ * a * τ⁻¹) ∈ N → a ∈ (A ⊓ centralizer ({τ} : Set Γ)) ⊔ N := by
   intro a ha hn
   have hτi : τ⁻¹ * τ⁻¹ = 1 := by rw [← mul_inv_rev, hτ, inv_one]
@@ -609,9 +639,10 @@ theorem T2_lift {A N : Subgroup Γ} {τ : Γ} (hτ : τ * τ = 1) (hNA : N ≤ A
   rw [e]
   exact mul_mem_sup hc hm
 
+omit [Finite Γ] in
 theorem T2_h1_zero {N M : Subgroup Γ} {τ : Γ} (hτ : τ * τ = 1) (hMN : M ≤ N)
-    (hNM : N ≤ normalizer (M : Set Γ)) (hτN : τ ∈ normalizer (N : Set Γ))
-    (hτM : τ ∈ normalizer (M : Set Γ)) (hM : H1Zero τ M) (hNM' : H1ZeroSec τ N M) :
+    (_hNM : N ≤ normalizer (M : Set Γ)) (_hτN : τ ∈ normalizer (N : Set Γ))
+    (_hτM : τ ∈ normalizer (M : Set Γ)) (hM : H1Zero τ M) (hNM' : H1ZeroSec τ N M) :
     H1Zero τ N := by
   intro n hn hn1
   have hτi : τ⁻¹ * τ⁻¹ = 1 := by rw [← mul_inv_rev, hτ, inv_one]
@@ -1445,12 +1476,13 @@ theorem NCS_le_normalizer_Q (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
 theorem NCS_le_normalizer_S₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) :
     centralizer ({t} : Set G) ⊓ normalizer ((d.S.map L.subtype : Subgroup G) : Set G) ≤
-      normalizer (yamadaS₃ d t : Set G) := fun c hc =>
+      normalizer (yamadaS₃ d t : Set G) := fun _c hc =>
   Common.mem_normalizer_inf (h.centralizer_inf_normalizer_S_le_normalizer_yamadaR₃ d hlay hc)
     (Setup.mem_normalizer_centralizer_C8 (Subgroup.mem_inf.1 (h.normalizer_yamadaS₄_le_two d hlay
       (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 (h.normalizer_yamadaR₄_le_of_layerHyp d hlay
         (h.centralizer_inf_normalizer_S_le_normalizer_yamadaR₄ d hlay hc))).1).1)).1)
 
+omit [Finite G] in
 theorem D₄_le_S₄ (d : TrialityD4Data L (2 ^ f)) : yamadaD₄ d t ≤ yamadaS₄ d t :=
   inf_le_inf_left _ (inf_le_right : yamadaD₅ d t ≤ centralizer (yamadaV₁ d t : Set G))
 
@@ -1511,6 +1543,7 @@ theorem S₃_le_S₄ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : 
     yamadaS₃ d t ≤ yamadaS₄ d t :=
   inf_le_inf_right _ (h.yamadaR₃_le_yamadaR₄_R5 d hlay)
 
+omit [Finite G] in
 theorem commutator_V₁_P (d : TrialityD4Data L (2 ^ f)) {x y : G} (hx : x ∈ yamadaV₁ d t)
     (hy : y ∈ yamadaP d t) : x * y * x⁻¹ * y⁻¹ ∈ (⊥ : Subgroup G) := by
   rw [Subgroup.mem_bot, show x * y = y * x from Subgroup.mem_centralizer_iff.1
@@ -1641,7 +1674,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
 namespace ProductToolboxAux
 
-open Core
+open _root_.CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductToolboxAux.Core
 
 theorem isFreeSection_iff_card {t : G} {A B : Subgroup G} (hAB : IsElemSection A B)
     (ht : t * t = 1) (htB : t ∈ normalizer (B : Set G)) :
@@ -1665,6 +1698,7 @@ theorem isFreeSection_iff_card {t : G} {A B : Subgroup G} (hAB : IsElemSection A
     apply Nat.eq_of_mul_eq_mul_right (Nat.mul_pos hpos hpos)
     nlinarith [h]
 
+omit [Finite G] in
 theorem h1Zero_bot (t : G) : H1Zero t ⊥ := by
   intro n hn _
   rw [mem_bot.1 hn]
@@ -1820,10 +1854,12 @@ theorem t_mem_normalizer_M₆ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
   exact Common.mem_normalizer_inf (Subgroup.le_normalizer htL₆)
     (Setup.mem_normalizer_centralizer_C8 (h.t_mem_normalizer_yamadaY₂ d))
 
+omit [Finite G] in
 theorem t_mem_normalizer_bot (t : G) : t ∈ normalizer ((⊥ : Subgroup G) : Set G) := by
   rw [normalizer_eq_top]
   exact mem_top t
 
+omit [Finite G] in
 theorem isElemSection_of_comm_sq {A B : Subgroup G} (hBA : B ≤ A)
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hsq : ∀ x ∈ A, x * x = 1) :
     IsElemSection A B where
@@ -1833,6 +1869,7 @@ theorem isElemSection_of_comm_sq {A B : Subgroup G} (hBA : B ≤ A)
     rw [hcomm x hx y hy, mul_inv_cancel_right, mul_inv_cancel]
     exact one_mem B
 
+omit [Finite G] in
 theorem isElemSection_of_isElemAbelian {A B : Subgroup G} (hBA : B ≤ A)
     (hA : IsElemAbelian 2 A) : IsElemSection A B :=
   isElemSection_of_comm_sq hBA (mul_comm_of_isMulCommutative_D4 hA.1) fun x hx => by
@@ -1896,6 +1933,7 @@ theorem isElemSection_P_M₆ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
   commutator_mem _ hx _ hy := h.yamadaF₄_le_yamadaM₆_PA d hlay
     (h.commutator_mem_yamadaF₄_of_mem_yamadaP d hlay hx hy)
 
+omit [Finite G] in
 theorem card_sup_eq_pow {A B : Subgroup G} (hB : B ≤ normalizer (A : Set G)) {q a b c e : ℕ}
     (hq : 0 < q) (hA : Nat.card A = q ^ a) (hB' : Nat.card B = q ^ b)
     (hAB : Nat.card (A ⊓ B : Subgroup G) = q ^ c) (h : a + b = c + e) :
@@ -1904,6 +1942,7 @@ theorem card_sup_eq_pow {A B : Subgroup G} (hB : B ≤ normalizer (A : Set G)) {
   rw [hA, hB', hAB, ← pow_add, h, pow_add] at h1
   exact Nat.eq_of_mul_eq_mul_right (pow_pos hq c) (h1.trans (mul_comm _ _))
 
+omit [Finite G] in
 theorem card_map_conj (H : Subgroup G) (g : G) :
     Nat.card (H.map (MulAut.conj g).toMonoidHom) = Nat.card H :=
   card_map_of_injective (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective
@@ -2071,10 +2110,12 @@ section Abstract
 
 variable {Γ : Type*} [Group Γ] [Finite Γ] {A B J E : Subgroup Γ} {τ : Γ}
 
+omit [Finite Γ] in
 theorem le_centralizerMod (hAB : IsElemSection A B) (hJB : J ≤ normalizer (B : Set Γ)) :
-    B ≤ centralizerMod B J := fun b hb =>
+    B ≤ centralizerMod B J := fun _b hb =>
   (mem_inf.1 (Core.le_inf_centralizerMod_of_le hAB hJB hb)).2
 
+omit [Finite Γ] in
 theorem mem_centralizerMod_of_commute (hAB : IsElemSection A B) (hJB : J ≤ normalizer (B : Set Γ))
     {x : Γ} (hx : x ∈ A) (hc : x ∈ centralizer (J : Set Γ)) : x ∈ centralizerMod B J := by
   rw [Core.mem_centralizerMod_iff_of_le hAB hJB hx]
@@ -2083,6 +2124,7 @@ theorem mem_centralizerMod_of_commute (hAB : IsElemSection A B) (hJB : J ≤ nor
   rw [show j * x * j⁻¹ = x by rw [h1]; group, inv_mul_cancel]
   exact one_mem B
 
+omit [Finite Γ] in
 theorem le_of_inf_centralizerMod_le (hAB : IsElemSection A B) (hτ : τ * τ = 1)
     (hτB : τ ∈ normalizer (B : Set Γ)) (hEA : E ≤ A) (hτE : ∀ x ∈ E, τ * x * τ⁻¹ ∈ E)
     (h : E ⊓ centralizerMod B (zpowers τ) ≤ B) : E ≤ B := by
@@ -2301,6 +2343,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem fix_transfer {A B : Subgroup G} {XL BL J₀ : Subgroup L} {j : L}
     (hLt : L ≤ centralizer ({t} : Set G)) (hAB : IsElemSection A B)
     (hA : A ⊓ centralizer ({t} : Set G) = XL.map L.subtype)
@@ -2325,6 +2368,7 @@ theorem fix_transfer {A B : Subgroup G} {XL BL J₀ : Subgroup L} {j : L}
   rw [← hB] at hyB
   exact hyB.1
 
+omit [Finite G] in
 theorem triv_transfer {A B : Subgroup G} {XL BL J₀ : Subgroup L}
     (hAB : IsElemSection A B)
     (hA : A ⊓ centralizer ({t} : Set G) = XL.map L.subtype)
@@ -2359,6 +2403,7 @@ theorem le_normalizer_of_le_centralizer {K J : Subgroup G}
     rw [show j * y * j⁻¹ = y by rw [mem_centralizer_iff.1 (h hy) j hj]; group]
     exact hy
 
+omit [Finite G] in
 theorem odd_card_jZeroG (d : TrialityD4Data L (2 ^ f)) : Odd (Nat.card (jZeroG d)) := by
   have h1 : Nat.card (jZeroG d) = Nat.card d.J₀ :=
     Subgroup.card_map_of_injective L.subtype_injective
@@ -2425,6 +2470,7 @@ theorem eq_sup_of_coprime (hAB : IsElemSection A B) (hJA : J ≤ normalizer (A :
     ((Core.mem_centralizerMod_iff_of_le hAB hJB hm).1 (hfix hm))
   exact mul_mem_sup hc hn
 
+omit [Finite Γ] in
 theorem card_inf_centralizer (hAB : IsElemSection A B)
     (hsup : A = (A ⊓ centralizer (J : Set Γ)) ⊔ B) :
     Nat.card (A ⊓ centralizer (J : Set Γ) : Subgroup Γ) =
@@ -2523,10 +2569,10 @@ theorem main (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : ProductHyp
     rw [hcD₅]
     exact (Nat.Coprime.pow_right f (Nat.coprime_two_right.2 hJodd)).pow_right 18
   have hsolv : Group.IsSolvable (yamadaD₅ d t) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp2 : IsPGroup 2 (yamadaD₅ d t) :=
       IsPGroup.of_card (n := f * 18) (by rw [hcD₅, ← pow_mul])
-    haveI := hp2.isNilpotent
+    have := hp2.isNilpotent
     infer_instance
   have hsupD := eq_sup_of_coprime f5.1 nD₅ nF₄ hsolv hcop c6
   have hcard := card_inf_centralizer f5.1 hsupD

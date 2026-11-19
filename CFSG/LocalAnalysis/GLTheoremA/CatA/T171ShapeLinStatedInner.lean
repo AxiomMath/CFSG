@@ -35,8 +35,8 @@ theorem innerCompNonShapeW_linear_charTwo :
     ⟨.lie ⟨.A r q, hv⟩, ⟨q, by simp, hcardq⟩, ⟨e⟩⟩
   obtain ⟨K, hK, hKfin, hKcard, θ, hact⟩ :=
     linMarking_holds G p L J A d b (r + 1) q.exponent hS hcatA
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hN2 : 2 ≤ r + 1 := by
     have h := ((TauCeti.LieTypeIndex.inStandardRange_iff _).mp
       ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1).1

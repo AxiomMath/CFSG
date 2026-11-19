@@ -25,7 +25,7 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
     by_contra hlt
     have hn0 : n = 0 := by omega
     subst hn0
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -37,7 +37,7 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
     (CFSG.ClassicalGroups.UnitaryFlag.mem_unitarySU_iff h).1
       (show z ∈ CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 n K 4 from hz)
   have h2 : (2 : K) = 0 := by
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     exact CharP.cast_eq_zero K 2
   have h3 : (3 : K) = 1 := by
     have : (3 : K) = (2 : K) + 1 := by norm_num
@@ -58,8 +58,8 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
       rw [Matrix.diagonal_apply_eq]
       change D i i = (if i = k then 1 else β)
       by_cases hik : i = k
-      · rw [if_pos hik, hik]; exact hDkk
-      · rw [if_neg hik]; exact hDii i hik
+      · rw [ite_eq_left hik, hik]; exact hDkk
+      · rw [ite_eq_right hik]; exact hDii i hik
     · rw [Matrix.diagonal_apply_ne d hij]
       exact hDdiag hij
   have htrD : D.trace = 1 + β := by
@@ -80,10 +80,10 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
     have key : ∀ i, i ≠ k → β ≠ 0 := by
       intro i hik
       have hh := congrFun (congrFun hDMdiag i) i
-      rw [Matrix.diagonal_mul, Matrix.one_apply, if_pos rfl] at hh
+      rw [Matrix.diagonal_mul, Matrix.one_apply, ite_eq_left rfl] at hh
       have hdi : d i = β := by
         change (if i = k then 1 else β) = β
-        rw [if_neg hik]
+        rw [ite_eq_right hik]
       rw [hdi] at hh
       exact left_ne_zero_of_mul (by rw [hh]; exact one_ne_zero)
     fin_cases k
@@ -96,12 +96,12 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
     by_cases hik : i = k
     · have hdi : d i = 1 := by
         change (if i = k then 1 else β) = 1
-        rw [if_pos hik]
+        rw [ite_eq_left hik]
       rw [hdi]
       exact one_ne_zero
     · have hdi : d i = β := by
         change (if i = k then 1 else β) = β
-        rw [if_neg hik]
+        rw [ite_eq_right hik]
       rw [hdi]
       exact hβ0
   have hM_eq : M = Matrix.diagonal (fun i => (d i)⁻¹) := by
@@ -109,11 +109,11 @@ theorem ggLieSU3Fixed_pow_succ_of_conj_diag {K : Type} [Field K] [Finite K] {n :
     by_cases hij : i = j
     · subst hij
       have h := congrFun (congrFun hDMdiag i) i
-      rw [Matrix.diagonal_mul, Matrix.one_apply, if_pos rfl] at h
+      rw [Matrix.diagonal_mul, Matrix.one_apply, ite_eq_left rfl] at h
       rw [Matrix.diagonal_apply_eq]
       exact ((mul_eq_one_iff_inv_eq₀ (hd_ne i)).mp h).symm
     · have h := congrFun (congrFun hDMdiag i) j
-      rw [Matrix.diagonal_mul, Matrix.one_apply, if_neg hij] at h
+      rw [Matrix.diagonal_mul, Matrix.one_apply, ite_eq_right hij] at h
       rw [Matrix.diagonal_apply_ne _ hij]
       exact (mul_eq_zero.mp h).resolve_left (hd_ne i)
   have htrM : M.trace = 1 + β⁻¹ := by

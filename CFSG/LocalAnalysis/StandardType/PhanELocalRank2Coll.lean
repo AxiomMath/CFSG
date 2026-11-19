@@ -18,6 +18,7 @@ section
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plco_blockU_a2coll (E : ℕ → Submodule K (Fin 3 → K)) (r : ℕ) :
     blockU K 3 [0, 3] E 0 r = E r := by
   show (E (3 - [0, 3].getD (0 + 1) 0 + r) ⊓ Vsub 3 ([0, 3].getD (0 + 1) 0)) ⊔
@@ -50,7 +51,7 @@ private theorem plco_mem_genSet_iff (hK : Nat.card K = (2 ^ f) ^ 2) (x : FlagK K
     · show finrank K ↥(x.E j ⊓ Vsub 3 ([0, 3].getD 1 0)) = j + [0, 3].getD 1 0 - 3
       rw [show [0, 3].getD 1 0 = 3 by decide, Vsub_self, inf_top_eq, x.dim j hj]
       omega
-  rw [genSet, Set.mem_setOf_eq]
+  rw [genSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨-, hok⟩
     have h1 := (blockOK_iff_of_far f hle hmono hfar (i := 0) (by decide)).mp
@@ -147,6 +148,7 @@ private theorem plco_inf_sgS_bot_iff (hK : Nat.card K = (2 ^ f) ^ 2)
       rw [hpIeq, sgS_inf, sgS_sgS hK m, inf_comm]
     exact hsp this
 
+omit [Finite K] [CharP K 2] in
 private theorem plco_finrank_sup_one {p z : Submodule K (Fin 3 → K)}
     (hp : finrank K p = 1) (hz : finrank K z = 1) (hne : z ≠ p) :
     finrank K ↥(p ⊔ z) = 2 := by
@@ -243,7 +245,7 @@ private theorem plco_sgS_span_add (hK : Nat.card K = (2 ^ f) ^ 2)
   rw [sgS_span_singleton hK w, hsgvw]
   exact Submodule.span_singleton_smul_eq (isUnit_iff_ne_zero.mpr hc0) w
 
-private theorem plco_exists_nonrat_point (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
+private theorem plco_exists_nonrat_point (hK : Nat.card K = (2 ^ f) ^ 2) (_hq : 4 ≤ 2 ^ f)
     {p r : Submodule K (Fin 3 → K)} (hp : finrank K p = 1) (hr : finrank K r = 2)
     (hpr : p ≤ r) (hrat : sgS K f 3 r = r) (hsp : sgS K f 3 p ≠ p) :
     ∃ z : Submodule K (Fin 3 → K), finrank K z = 1 ∧ sgS K f 3 z ≠ z ∧ ¬ z ≤ r := by

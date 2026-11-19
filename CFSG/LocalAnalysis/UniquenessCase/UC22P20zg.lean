@@ -79,7 +79,7 @@ theorem uc22pw_lift214_sel (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D)
       obtain ⟨a, ha, rfl⟩ := hA.onto x hx
       rw [← hconj htT ha, hinv a ha, uc22pwrBar_inv (hA.le ha)]
     · exact ch214_inv_of_not_powTwo D hp2 hcal.2.1 hpi hα t htT htA hinv
-  · haveI : IsCyclic ↥A := hcycA
+  · have : IsCyclic ↥A := hcycA
     have hcycE : IsCyclic ↥(Bb ⊔ Cb) :=
       isCyclic_of_surjective hA.equiv.toMonoidHom hA.equiv.surjective
     obtain ⟨hs2, hs1⟩ := hinvol hsT hsA hs
@@ -115,7 +115,7 @@ theorem uc22pw_lift214 (D : Data G) (hB : ListBNonabelian) (h1930 : H1930 D) {L 
     have hpE : p ∈ piSet (Bb ⊔ Cb) := by
       rw [hpiBC, hpi]
       exact ⟨hp, hp15.trans (uc22pwc_fifteen_dvd hp2 hn)⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Bb ⊔ Cb)) p hpE.2
     exact ⟨x, x.2, by rw [Subgroup.orderOf_coe, hx]⟩
   obtain ⟨x₃, hx₃, ho₃⟩ := hel 3 Nat.prime_three (by norm_num)

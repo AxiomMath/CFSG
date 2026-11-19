@@ -37,6 +37,7 @@ structure IsMixedFrame (Q : QuadraticForm F V) (p : ℕ) {l : ℕ} (U : Fin l �
   plane : ∃ W : Submodule F V, W ≠ ⊥ ∧ W ≤ U i ⊔ U j ∧ (∀ x ∈ W, Q x = 0) ∧
     ∀ a ∈ A, ∀ x ∈ W, (a : V ≃ₗ[F] V) x ∈ W
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsMixedFrame.le_torus (hM : IsMixedFrame Q p U ρ i j A) :
     A ≤ Subgroup.closure (Set.range ρ) := by
   rw [hM.eq_closure, Subgroup.closure_le]
@@ -44,22 +45,25 @@ theorem IsMixedFrame.le_torus (hM : IsMixedFrame Q p U ρ i j A) :
   · exact Subgroup.mul_mem _ (Subgroup.subset_closure ⟨i, rfl⟩) (Subgroup.subset_closure ⟨j, rfl⟩)
   · exact Subgroup.subset_closure ⟨k, rfl⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsMixedFrame.rho_mem (hM : IsMixedFrame Q p U ρ i j A) {k : Fin l} (hki : k ≠ i) (hkj : k ≠ j) :
     ρ k ∈ A := by
   rw [hM.eq_closure]
   exact Subgroup.subset_closure (Set.mem_insert_of_mem _ ⟨k, ⟨hki, hkj⟩, rfl⟩)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsMixedFrame.pair_mem (hM : IsMixedFrame Q p U ρ i j A) : ρ i * ρ j ∈ A := by
   rw [hM.eq_closure]
   exact Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [CharP F 2] in
 theorem eq_one_of_pow_eq_one_of_dvd_card_add_one (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1) {c : F}
     (hc : c ^ p = 1) : c = 1 := by
   by_cases hc0 : c = 0
   · rw [hc0, zero_pow hp.ne_zero] at hc
     exact (one_ne_zero hc.symm).elim
   · have hpow : c ^ (Nat.card F - 1) = 1 := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have h := FiniteField.pow_card_sub_one_eq_one c hc0
       rw [Nat.card_eq_fintype_card]
       exact h
@@ -72,13 +76,14 @@ theorem eq_one_of_pow_eq_one_of_dvd_card_add_one (hp : p.Prime) (hp2 : p ≠ 2) 
       have hsub : p ∣ (Nat.card F + 1) - (Nat.card F - 1) :=
         (Nat.dvd_sub_iff_left (by omega) hpdvd).2 hpq
       have hqpos : 1 ≤ Nat.card F := by
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         rw [Nat.card_eq_fintype_card]
         exact Fintype.card_pos_iff.2 ⟨c⟩
       have h2 : p ∣ 2 := by
         rwa [show Nat.card F + 1 - (Nat.card F - 1) = 2 by omega] at hsub
       exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h2)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux1 {P : Submodule F V} {L : V →ₗ[F] V}
     (hL : ∀ x ∈ P, L x = x) (f : Polynomial F) {x : V} (hx : x ∈ P) :
     Polynomial.aeval L f x = f.eval 1 • x := by
@@ -95,6 +100,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux1 {P : Submodule F V} {L : V �
       Module.End.mul_apply, hpow n, Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply,
       Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux2
     {m : ℕ} {U : Fin m → Submodule F V} {ρ : Fin m → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ Bb) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -133,6 +139,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux2
       exact sub_eq_zero.mp ((smul_eq_zero_iff_left hv0).1 (by rw [sub_smul, one_smul, h1, sub_self]))
     exact hv0 (hfree v hvK.2 (by rw [← hc, eq_one_of_pow_eq_one_of_dvd_card_add_one hp hp2 hpq hcp, one_smul]))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux3 {m : ℕ} {U : Fin m → Submodule F V}
     {a : ↥(orthDerived Q)} (f : Polynomial F) (j : Fin m)
     (hid : ∀ x ∈ U j, (a : V ≃ₗ[F] V) x = x)
@@ -147,6 +154,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux3 {m : ℕ} {U : Fin m → Sub
   intro y hy
   rw [IsMixedFrame.aeval_eq_zero_iff_aux1 hid f hy, hscal, zero_smul]
 
+omit [CharP F 2] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux4
     {m : ℕ} {U : Fin m → Submodule F V} {ρ : Fin m → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ Bb)
@@ -162,6 +170,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux4
   rw [hk z hz]
   exact hpow k z hz
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux5 {a : ↥(orthDerived Q)} (f : Polynomial F) :
     ∀ z, Polynomial.aeval (a : V ≃ₗ[F] V).toLinearMap f ((a : V ≃ₗ[F] V) z)
       = (a : V ≃ₗ[F] V) (Polynomial.aeval (a : V ≃ₗ[F] V).toLinearMap f z) := by
@@ -173,6 +182,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux5 {a : ↥(orthDerived Q)} (f 
   have h := congrArg (fun g : V →ₗ[F] V => g z) hcomm
   simpa [Module.End.mul_apply] using h.symm
 
+omit [CharP F 2] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux6
     {m : ℕ} {U : Fin m → Submodule F V} {ρ : Fin m → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ Bb)
@@ -214,6 +224,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux6
   rw [hbot, Submodule.mem_bot] at hyK
   exact hy0 hyK
 
+omit [CharP F 2] in
 private theorem IsMixedFrame.aeval_eq_zero_iff_aux7
     {m : ℕ} {U : Fin m → Submodule F V} {ρ : Fin m → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U ρ Bb) (hp : p.Prime) (hp2 : p ≠ 2)
@@ -229,6 +240,7 @@ private theorem IsMixedFrame.aeval_eq_zero_iff_aux7
       (IsMixedFrame.aeval_eq_zero_iff_aux4 hF ha j) (IsMixedFrame.aeval_eq_zero_iff_aux5 f)
       hfree hKne
 
+omit [CharP F 2] in
 theorem IsMixedFrame.aeval_eq_zero_iff (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {a : ↥(orthDerived Q)} (ha : a ∈ A) (f : Polynomial F) :
     (∀ x ∈ U i, Polynomial.aeval (a : V ≃ₗ[F] V).toLinearMap f x = 0) ↔
@@ -243,23 +255,26 @@ theorem IsMixedFrame.aeval_eq_zero_iff (hM : IsMixedFrame Q p U ρ i j A) (hp : 
     exact IsMixedFrame.aeval_eq_zero_iff_aux7 hM.frame hp hp2 hpq j i (hM.le_torus ha) f
       hWne (hWsup.trans (le_of_eq (sup_comm (U i) (U j)))) hWTS hWinv hker
 
+omit [CharP F 2] in
 theorem IsMixedFrame.apply_eq_iff (hM : IsMixedFrame Q p U ρ i j A) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {a : ↥(orthDerived Q)} (ha : a ∈ A) :
     (∀ x ∈ U i, (a : V ≃ₗ[F] V) x = x) ↔ ∀ x ∈ U j, (a : V ≃ₗ[F] V) x = x := by
   have h := hM.aeval_eq_zero_iff hp hp2 hpq ha (Polynomial.X - 1)
   simpa [sub_eq_zero] using h
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsMixedFrame.isElemAbelian (hM : IsMixedFrame Q p U ρ i j A) : IsElemAbelian p A := by
   have hB := hM.frame.isElemAbelian
-  haveI : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hB.1
+  have : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hB.1
   refine ⟨IsMulCommutative.of_comm fun x y => Subtype.ext ?_, fun x hx => hB.2 x (hM.le_torus hx)⟩
   exact setLike_mul_comm (hM.le_torus x.2) (hM.le_torus y.2)
 
+omit [Finite F] [CharP F 2] in
 theorem card_torus_eq (hp : p.Prime) (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) :
     Nat.card (Subgroup.closure (Set.range ρ)) = p ^ l := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hF.isElemAbelian.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hF.isElemAbelian.1
   have hcomm : ∀ i j, Commute (ρ i) (ρ j) := fun i j =>
     setLike_mul_comm
       (Subgroup.subset_closure (show ρ i ∈ Set.range ρ from ⟨i, rfl⟩))
@@ -279,10 +294,12 @@ theorem card_torus_eq (hp : p.Prime) (hF : IsPlaneFrame Q p U ρ (Subgroup.closu
 private noncomputable abbrev card_closure_pair_eq_aux1 (hU : IsPlaneSystem Q U) (k : Fin l) : V :=
   Classical.choose (exists_ne_zero_mem_of_finrank_eq_two (U k) (hU.finrank_eq k))
 
+omit [Finite F] [CharP F 2] in
 private theorem card_closure_pair_eq_aux2 (hU : IsPlaneSystem Q U) (k : Fin l) :
     card_closure_pair_eq_aux1 hU k ∈ U k :=
   (Classical.choose_spec (exists_ne_zero_mem_of_finrank_eq_two (U k) (hU.finrank_eq k))).1
 
+omit [Finite F] [CharP F 2] in
 private theorem card_closure_pair_eq_aux3 (hU : IsPlaneSystem Q U) (k : Fin l) :
     card_closure_pair_eq_aux1 hU k ≠ 0 :=
   (Classical.choose_spec (exists_ne_zero_mem_of_finrank_eq_two (U k) (hU.finrank_eq k))).2
@@ -299,6 +316,7 @@ private noncomputable abbrev card_closure_pair_eq_aux5 (hU : IsPlaneSystem Q U) 
     | none => card_closure_pair_eq_aux1 hU i
     | some ⟨k, _⟩ => card_closure_pair_eq_aux1 hU k
 
+omit [Finite F] [CharP F 2] in
 private theorem card_closure_pair_eq_aux6
     (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) (hij : i ≠ j) :
     ∀ a, (orthDerived Q).subtype (card_closure_pair_eq_aux4 ρ i j a) •
@@ -324,8 +342,9 @@ private theorem card_closure_pair_eq_aux6
     exact card_closure_pair_eq_aux3 hF.toIsPlaneSystem k
       (hF.eq_zero_of_apply_eq k _ (card_closure_pair_eq_aux2 hF.toIsPlaneSystem k) h)
 
+omit [Finite F] [CharP F 2] in
 private theorem card_closure_pair_eq_aux7
-    (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) (hij : i ≠ j) :
+    (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) (_hij : i ≠ j) :
     ∀ a b, a ≠ b →
       (orthDerived Q).subtype (card_closure_pair_eq_aux4 ρ i j b) •
         card_closure_pair_eq_aux5 hF.toIsPlaneSystem i j a =
@@ -360,6 +379,7 @@ private theorem card_closure_pair_eq_aux7
       rw [QuadraticMap.polar_comm]
       exact hF.perp ka kb hne _ (card_closure_pair_eq_aux2 hF.toIsPlaneSystem ka) y hy)
 
+omit [Finite F] [CharP F 2] in
 private theorem card_closure_pair_eq_aux8 (hp : p.Prime)
     (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) (hij : i ≠ j) :
     orderOf (ρ i * ρ j) = p := by
@@ -381,6 +401,7 @@ private theorem card_closure_pair_eq_aux8 (hp : p.Prime)
   · exact absurd (orderOf_eq_one_iff.1 h1) hne
   · exact h1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem card_closure_pair_eq_aux9 (i j : Fin l) :
     Set.range (card_closure_pair_eq_aux4 ρ i j) =
       insert (ρ i * ρ j) (ρ '' {k | k ≠ i ∧ k ≠ j}) := by
@@ -403,7 +424,7 @@ private theorem card_closure_pair_eq_aux10 {l : ℕ} {i j : Fin l} (hij : i ≠ 
     rw [Fintype.card_subtype]
     have hset : (Finset.univ.filter (fun k : Fin l => k ≠ i ∧ k ≠ j)) =
         ({i, j} : Finset (Fin l))ᶜ := by
-      ext k; simp [not_or]
+      ext k; simp
     rw [hset, Finset.card_compl, Fintype.card_fin]
     have h2 : ({i, j} : Finset (Fin l)).card = 2 := by
       rw [Finset.card_insert_of_notMem (by simpa using hij), Finset.card_singleton]
@@ -412,12 +433,13 @@ private theorem card_closure_pair_eq_aux10 {l : ℕ} {i j : Fin l} (hij : i ≠ 
   have hi := i.isLt; have hj := j.isLt
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem card_closure_pair_eq (hp : p.Prime) (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ)))
     (hij : i ≠ j) :
     Nat.card (Subgroup.closure (insert (ρ i * ρ j) (ρ '' {k | k ≠ i ∧ k ≠ j}))) = p ^ (l - 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hF.isElemAbelian.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative (Subgroup.closure (Set.range ρ)) := hF.isElemAbelian.1
   let ι := Option {k : Fin l // k ≠ i ∧ k ≠ j}
   let σ : ι ≃ Fin (Fintype.card ι) := Fintype.equivFin ι
   let e' : Fin (Fintype.card ι) → ↥(orthDerived Q) := fun a =>
@@ -458,11 +480,13 @@ theorem card_closure_pair_eq (hp : p.Prime) (hF : IsPlaneFrame Q p U ρ (Subgrou
   rw [hrange, hcardι] at hres
   exact hres.2
 
+omit [Finite F] [CharP F 2] in
 theorem IsMixedFrame.card_eq (hp : p.Prime) (hM : IsMixedFrame Q p U ρ i j A) :
     Nat.card A = p ^ (l - 1) := by
   rw [hM.eq_closure]
   exact card_closure_pair_eq hp hM.frame hM.ne
 
+omit [Finite F] in
 theorem exists_graph_plane {l : ℕ} {U : Fin l → Submodule F V} (hU : IsPlaneSystem Q U) {i j : Fin l} (hij : i ≠ j)
     {σ : V ≃ₗ[F] V} (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hσU : Submodule.map σ.toLinearMap (U i) = U j) {A' : Subgroup ↥(orthDerived Q)}
@@ -510,6 +534,7 @@ theorem exists_graph_plane {l : ℕ} {U : Fin l → Submodule F V} (hU : IsPlane
     rw [hg_apply, map_add, hequiv a ha x x.2]
     exact LinearMap.mem_range.mpr ⟨⟨(a : V ≃ₗ[F] V) (x : V), hA' a ha x x.2⟩, rfl⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_twoGroup_of_totallySingular_aux1 {W : Submodule F V}
     (hTS : ∀ x ∈ W, Q x = 0) : ∀ x ∈ W, ∀ y ∈ W, polar Q x y = 0 := by
   intro x hx y hy
@@ -518,6 +543,7 @@ private theorem exists_twoGroup_of_totallySingular_aux1 {W : Submodule F V}
   rw [QuadraticMap.map_add Q, hTS x hx, hTS y hy] at h
   simpa using h
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_twoGroup_of_totallySingular_aux2 {W : Submodule F V}
     (hTS : ∀ x ∈ W, Q x = 0) : ∀ y ∈ eichlerGroupOn Q W, y * y = 1 := by
   have hpol := exists_twoGroup_of_totallySingular_aux1 (Q := Q) (W := W) hTS
@@ -538,7 +564,7 @@ private theorem exists_twoGroup_of_totallySingular_aux2 {W : Submodule F V}
         = (eichler Q e w * eichler Q e' w' * (eichler Q e w)⁻¹) * eichler Q e w := by
           rw [mul_assoc, inv_mul_cancel, mul_one]
       _ = eichler Q e' w' * eichler Q e w := by rw [hconj]
-  haveI : IsMulCommutative (Subgroup.closure S) := Subgroup.isMulCommutative_closure hcomm_gen
+  have : IsMulCommutative (Subgroup.closure S) := Subgroup.isMulCommutative_closure hcomm_gen
   rw [hS]
   intro y hy
   induction hy using Subgroup.closure_induction with
@@ -561,6 +587,7 @@ private theorem exists_twoGroup_of_totallySingular_aux2 {W : Submodule F V}
         _ = 1 := by rw [iha, ihb, one_mul]
   | inv a _ iha => rw [inv_eq_of_mul_eq_one_right iha, iha]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_twoGroup_of_totallySingular_aux3 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {W : Submodule F V} (hW : Module.finrank F W = 2) (hTS : ∀ x ∈ W, Q x = 0) :
     ∃ y ∈ eichlerGroupOn Q W, y ≠ 1 := by
@@ -596,13 +623,13 @@ theorem exists_twoGroup_of_totallySingular (hQ : (QuadraticMap.polarBilin Q).Non
     (hTS : ∀ x ∈ W, Q x = 0) :
     ∃ T : Subgroup ↥(orthDerived Q), T ≠ ⊥ ∧ IsPGroup 2 T ∧
       ∀ g : ↥(orthDerived Q), (∀ x ∈ W, (g : V ≃ₗ[F] V) x ∈ W) → g ∈ Subgroup.normalizer (T : Set ↥(orthDerived Q)) := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥(orthDerived Q) := Finite.of_injective (fun x : ↥(orthDerived Q) => (x : V ≃ₗ[F] V))
+  have : Finite ↥(orthDerived Q) := Finite.of_injective (fun x : ↥(orthDerived Q) => (x : V ≃ₗ[F] V))
     fun a b h => Subtype.ext h
   let T : Subgroup ↥(orthDerived Q) := (eichlerGroupOn Q W).subgroupOf (orthDerived Q)
-  haveI : Finite T := Finite.of_injective (fun x : T => (x : V ≃ₗ[F] V))
+  have : Finite T := Finite.of_injective (fun x : T => (x : V ≃ₗ[F] V))
     fun a b h => Subtype.ext (Subtype.ext h)
   have hle : eichlerGroupOn Q W ≤ orthDerived Q :=
     eichlerGroupOn_le fun e _ w _ => T173U.eichler_mem_orthDerived (Q := Q) (n := l) hQ (by omega) hdim e w
@@ -618,7 +645,7 @@ theorem exists_twoGroup_of_totallySingular (hQ : (QuadraticMap.polarBilin Q).Non
       simpa using hmem
     exact hy1 (Subtype.ext_iff.mp this)
   have hT2 : IsPGroup 2 T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [IsPGroup.iff_orderOf]
     intro g
     have hgg : g * g = 1 := by
@@ -637,6 +664,7 @@ theorem exists_twoGroup_of_totallySingular (hQ : (QuadraticMap.polarBilin Q).Non
   exact Subgroup.mem_subgroupOf.2
     (T173U.conj_mem_eichlerGroupOn (W := W) (g := (g : V ≃ₗ[F] V)) hgO hgW hnE)
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_planeSystem_of_type_aux1 {V₁ : Type} [AddCommGroup V₁] [Module F V₁]
     [FiniteDimensional F V₁] {Q₁ : QuadraticForm F V₁} {r : ℕ} {W₁ : Submodule F V₁}
     {U₁ : Fin r → Submodule F W₁} (hU₁ : IsPlaneSystem (Q₁.comp W₁.subtype) U₁) :
@@ -659,7 +687,7 @@ private theorem exists_planeSystem_of_type_aux1 {V₁ : Type} [AddCommGroup V₁
         rw [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype_cent]
         exact hh
       exact congrArg (fun z : ↥(U₁ j) => (z : W₁)) h
-    simpa [hx'0] using congrArg W₁.subtype hx'0
+    simp [hx'0]
   · intro j hplus
     exact hU₁.not_isPlusType j ((isPlusType_congr (hiso j)).2 hplus)
   · intro i j hij x hx y hy
@@ -669,6 +697,7 @@ private theorem exists_planeSystem_of_type_aux1 {V₁ : Type} [AddCommGroup V₁
     rw [polar_comp_subtype_cent] at h
     exact h
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_planeSystem_of_type_aux2 {V₁ : Type} [AddCommGroup V₁] [Module F V₁]
     [FiniteDimensional F V₁] {Q₁ : QuadraticForm F V₁} {r : ℕ} {P₁ : Submodule F V₁}
     {U₁ : Fin r → Submodule F V₁} (hU₁ : IsPlaneSystem Q₁ U₁)
@@ -731,6 +760,7 @@ private theorem exists_planeSystem_of_type_aux3 {V₁ : Type} [AddCommGroup V₁
     rw [show n + 2 = (n + 1) + 1 by omega, Nat.even_add_one]
   rw [h2]; tauto
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_planeSystem_of_type_aux4 {V₁ : Type} [AddCommGroup V₁] [Module F V₁]
     [FiniteDimensional F V₁] {Q₁ : QuadraticForm F V₁} {r : ℕ} {P₁ : Submodule F V₁}
     (hc : IsCompl P₁ (polarPerp Q₁ P₁))
@@ -808,7 +838,8 @@ theorem exists_planeSystem_of_type (hQ : (QuadraticMap.polarBilin Q).Nondegenera
     (by rw [Nat.sub_add_cancel hl1]; exact hdim)
     (by rw [Nat.sub_add_cancel hl1]; exact htype)
 
-private theorem exists_rotation_of_mem_plane_aux0 (hU : IsPlaneSystem Q U) (k : Fin l) {x y : V}
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_rotation_of_mem_plane_aux0 (_hU : IsPlaneSystem Q U) (k : Fin l) {x y : V}
     (hxU : x ∈ U k) (hyU : y ∈ U k) (hx : Q x ≠ 0) (hy : Q y ≠ 0) :
     ∀ u ∈ U k, (reflect Q x * reflect Q y) u ∈ U k := by
   have hmapx : ∀ u ∈ U k, (reflect Q x) u ∈ U k := fun u hu => by
@@ -821,6 +852,7 @@ private theorem exists_rotation_of_mem_plane_aux0 (hU : IsPlaneSystem Q U) (k : 
   rw [LinearEquiv.mul_apply]
   exact hmapx _ (hmapy u hu)
 
+omit [Finite F] in
 private theorem exists_rotation_of_mem_plane_aux1 (hU : IsPlaneSystem Q U) (k : Fin l) {x y : V}
     (hxU : x ∈ U k) (hyU : y ∈ U k) (hx : Q x ≠ 0) (hy : Q y ≠ 0) (hxy : polar Q x y ≠ 0)
     {z : V} (hzU : z ∈ U k) (hz0 : z ≠ 0)
@@ -865,6 +897,7 @@ private theorem exists_rotation_of_mem_plane_aux1 (hU : IsPlaneSystem Q U) (k : 
     rw [hg_apply (g ⟨w, hw⟩), hg_apply ⟨w, hw⟩] at key
     exact key
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_rotation_of_mem_plane_aux2 {R : V ≃ₗ[F] V} (k : Fin l) {x : V}
     (hRxU : R x ∈ U k) (hsq : ∀ w ∈ U k, R (R w) = w) (hrp : R ^ p = 1) (hp : p.Prime)
     (hp2 : p ≠ 2) (hrx : R x ≠ x) : False := by
@@ -888,7 +921,7 @@ private theorem exists_rotation_of_mem_plane_aux2 {R : V ≃ₗ[F] V} (k : Fin l
   exact hrx hxfix
 
 theorem exists_rotation_of_mem_plane (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    (hdim : Module.finrank F V = 2 * l) (hl : 4 ≤ l) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
+    (_hdim : Module.finrank F V = 2 * l) (_hl : 4 ≤ l) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     (hU : IsPlaneSystem Q U) (k : Fin l) :
     ∃ r : ↥(orthDerived Q), orderOf r = p ∧ (∀ x ∈ U k, (r : V ≃ₗ[F] V) x ∈ U k) ∧
       (∀ x ∈ U k, (r : V ≃ₗ[F] V) x = x → x = 0) ∧ ∀ x ∈ polarPerp Q (U k), (r : V ≃ₗ[F] V) x = x := by
@@ -915,13 +948,15 @@ theorem exists_rotation_of_mem_plane (hQ : (QuadraticMap.polarBilin Q).Nondegene
     exact reflect_mul_reflect_apply_of_polar_eq_zero
       (mem_polarPerp_iff.mp hv x hxU) (mem_polarPerp_iff.mp hv y hyU)
 
+omit [FiniteDimensional F V] in
 private theorem exists_swapFrame_aux1 {σ : V ≃ₗ[F] V}
     (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {r : V ≃ₗ[F] V}
     (hr : r ∈ orthDerived Q) : σ * r * σ⁻¹ ∈ orthDerived Q := by
   rw [← CFSG.RankThree.PartOne.KFR4.DLe.map_conj_orthDerived Q hσ]
   exact ⟨r, hr, by simp [MulAut.conj_apply]⟩
 
-private theorem exists_swapFrame_aux2 (hU : IsPlaneSystem Q U) {σ : V ≃ₗ[F] V}
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem exists_swapFrame_aux2 (_hU : IsPlaneSystem Q U) {σ : V ≃ₗ[F] V}
     (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hσU : Submodule.map σ.toLinearMap (U i) = U j) :
     polarPerp Q (U j) ≤ Submodule.map σ.toLinearMap (polarPerp Q (U i)) := by
@@ -937,6 +972,7 @@ private def exists_swapFrame_aux3 {σ : V ≃ₗ[F] V}
     (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (r : ↥(orthDerived Q)) : ↥(orthDerived Q) :=
   ⟨σ * (r : V ≃ₗ[F] V) * σ⁻¹, exists_swapFrame_aux1 hσ r.2⟩
 
+omit [FiniteDimensional F V] in
 private theorem exists_swapFrame_aux4 (hU : IsPlaneSystem Q U) {σ : V ≃ₗ[F] V}
     (hσ : σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hσU : Submodule.map σ.toLinearMap (U i) = U j) {r : ↥(orthDerived Q)}
@@ -975,6 +1011,7 @@ private theorem exists_swapFrame_aux4 (hU : IsPlaneSystem Q U) {σ : V ≃ₗ[F]
       simpa only [LinearEquiv.mul_apply, LinearEquiv.symm_apply_apply] using hxx
     rw [← hvx, hrfree v hv hvv, map_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_swapFrame_aux5 (hU : IsPlaneSystem Q U) {a : Fin l} {g e : ↥(orthDerived Q)}
     (hgU : ∀ x ∈ U a, (g : V ≃ₗ[F] V) x = x)
     (heU : ∀ x ∈ U a, (e : V ≃ₗ[F] V) x ∈ U a)
@@ -1064,11 +1101,13 @@ theorem exists_swapFrame (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     change (σ * (r i : V ≃ₗ[F] V) * σ.symm) (σ x) = σ ((r i : V ≃ₗ[F] V) x)
     simp only [LinearEquiv.mul_apply, LinearEquiv.symm_apply_apply]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem swap_equivariant_aux1 (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ)))
     {k m : Fin l} (hkm : k ≠ m) : ∀ x ∈ U m, (ρ k : V ≃ₗ[F] V) x = x := by
   intro x hx
   exact hF.apply_of_perp k x (mem_polarPerp_iff.mpr (fun y hy => hF.perp k m hkm y hy x hx))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem swap_equivariant_aux2 :
     Subgroup.closure (insert (ρ i * ρ j) (ρ '' {k | k ≠ i ∧ k ≠ j})) ≤
       Subgroup.closure (Set.range ρ) := by
@@ -1081,6 +1120,7 @@ private theorem swap_equivariant_aux2 :
   · rcases h with ⟨k, -, rfl⟩
     exact Subgroup.subset_closure ⟨k, rfl⟩
 
+omit [CharP F 2] in
 private theorem swap_equivariant_aux3 (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ)))
     {d : ↥(orthDerived Q)} (hd : d ∈ Subgroup.closure (Set.range ρ)) (k : Fin l) :
     ∀ x ∈ U k, (d : V ≃ₗ[F] V) x ∈ U k := by
@@ -1094,6 +1134,7 @@ private theorem swap_equivariant_aux3 (hF : IsPlaneFrame Q p U ρ (Subgroup.clos
     | succ n ih => intro x hx; rw [pow_succ, LinearEquiv.mul_apply]; exact ih _ (hF.maps_to k x hx)
   exact hpow n x hx
 
+omit [CharP F 2] in
 theorem swap_equivariant {l : ℕ} {U : Fin l → Submodule F V} {ρ : Fin l → ↥(orthDerived Q)} {i j : Fin l} (hij : i ≠ j)
     (hF : IsPlaneFrame Q p U ρ (Subgroup.closure (Set.range ρ))) {σ : V ≃ₗ[F] V}
     (hσU : Submodule.map σ.toLinearMap (U i) = U j)
@@ -1116,7 +1157,6 @@ theorem swap_equivariant {l : ℕ} {U : Fin l → Submodule F V} {ρ : Fin l →
     · obtain ⟨k, hk, hkg⟩ := hg2
       rw [← hkg]
       intro x hx
-      change (ρ k : V ≃ₗ[F] V) (σ x) = σ ((ρ k : V ≃ₗ[F] V) x)
       have hσxU : (σ : V ≃ₗ[F] V) x ∈ U j :=
         hσU ▸ Submodule.mem_map.mpr ⟨x, hx, rfl⟩
       rw [swap_equivariant_aux1 hF hk.2 (σ x) hσxU, swap_equivariant_aux1 hF hk.1 x hx]
@@ -1138,6 +1178,7 @@ theorem swap_equivariant {l : ℕ} {U : Fin l → Submodule F V} {ρ : Fin l →
       exact congrArg σ (LinearEquiv.apply_symm_apply (a : V ≃ₗ[F] V) x)
     exact ((a : V ≃ₗ[F] V).symm_apply_eq).mpr h1.symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_isMixedFrame_aux1 {T : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U ρ T) (k : Fin l) (n : ℕ) :
     ∀ x ∈ U k, ((ρ k : V ≃ₗ[F] V) ^ n) x ∈ U k := by

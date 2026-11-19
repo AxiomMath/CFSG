@@ -38,14 +38,14 @@ theorem oc_of_gls3ConclusionPlus {X : Type} [Group X] [Finite X] (hO : CFSG.pPri
         Gls3ConclusionPlus X (CFSG.generalizedFitting X) (P : Subgroup X)) :
     Nat.card ↥(CFSG.pPrimeCore 3 ↥N) ≤ 2 ∧ CentralizerHasPElementOutside 3 N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgood : SEFive.Good 3 N →
       Nat.card ↥(CFSG.pPrimeCore 3 ↥N) ≤ 2 ∧ CentralizerHasPElementOutside 3 N :=
     fun h => ⟨by rw [h.1, Subgroup.card_bot]; norm_num, h.2⟩
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
   set K := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ := exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded hO hK1 hN
   have hrk : 2 ≤ CFSG.Open.pRank 3 (P : Subgroup X) := by
@@ -54,7 +54,7 @@ theorem oc_of_gls3ConclusionPlus {X : Type} [Group X] [Finite X] (hO : CFSG.pPri
   have hΓX : gammaCore 3 1 ⊤ (P : Subgroup X) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => hN.1 (top_le_iff.1 ?_)
     rw [← h]
-    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup'
+    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup
       hPN
   obtain ⟨-, hmax, hrows⟩ := hrow P hrk hΓX
   have hQN : (P : Subgroup X) ⊓ K ≤ N := inf_le_left.trans hPN

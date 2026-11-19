@@ -37,12 +37,14 @@ variable {G : Type} [Group G] [Finite G]
       (secMk _ _ a * x.1 * (secMk _ _ a)⁻¹) * (secMk _ _ a * y.1 * (secMk _ _ a)⁻¹)
     group)
 
+omit [Finite G] in
 theorem conjUt_val {Z₁ X : Subgroup G} {a : ↥(Subgroup.normalizer (Z₁ : Set G))}
     {ha : (a : G) ∈ Subgroup.normalizer (X : Set G)} (x : ↥(tildeOf Z₁ X)) :
     (conjUt a ha x).1 = secMk _ _ a * x.1 * (secMk _ _ a)⁻¹ := by
   show secMk _ _ a * x.1 * (secMk _ _ a)⁻¹ = _
   rfl
 
+omit [Finite G] in
 theorem conjUt_mul {Z₁ X : Subgroup G} {a b : ↥(Subgroup.normalizer (Z₁ : Set G))}
     {ha : (a : G) ∈ Subgroup.normalizer (X : Set G)}
     {hb : (b : G) ∈ Subgroup.normalizer (X : Set G)}

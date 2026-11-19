@@ -55,7 +55,7 @@ theorem closure_subset_of_left_closed [Finite M] (S F : Set M) (h1 : (1 : M) ∈
   have key : ∀ z ∈ F, x * z ∈ F := by
     induction hx using Subgroup.closure_induction with
     | mem s hs => exact hmul s hs
-    | one => simpa using fun z hz => hz
+    | one => simp
     | mul a b _ _ ha hb => exact fun z hz => by rw [mul_assoc]; exact ha _ (hb z hz)
     | inv a _ ha =>
       intro z hz
@@ -74,7 +74,7 @@ theorem closure_subset_of_right_closed [Finite M] (S F : Set M) (h1 : (1 : M) �
   have key : ∀ z ∈ F, z * x ∈ F := by
     induction hx using Subgroup.closure_induction with
     | mem s hs => exact hmul s hs
-    | one => simpa using fun z hz => hz
+    | one => simp
     | mul a b _ _ ha hb => exact fun z hz => by rw [← mul_assoc]; exact hb _ (ha z hz)
     | inv a _ ha =>
       intro z hz

@@ -17,14 +17,14 @@ section Single
 
 variable {f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData 2 f K}
 
-theorem u6r_single (hf : Odd f) (g : primeFormUnitary h (idGram K 6)) {μ : Kˣ}
+theorem u6r_single (_hf : Odd f) (g : primeFormUnitary h (idGram K 6)) {μ : Kˣ}
     (hg3 : (g : GL (Fin 6) K) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 6) μ)
     (hμ : ∀ a : Kˣ, a ^ 3 ≠ μ) :
     ∃ i₀ : t6psub_Idx h 6 g, (∀ i, i = i₀) ∧
       IsTypeL2 ((2 ^ f) ^ 3) ↥((t6psub_block g i₀).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K 6)) 6))) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have H : UnitaryPrimaryData h.bar (idForm h 6) (t6psub_toLin g) :=
     t6psuh_primaryData_toLin' h g.2 Nat.prime_three (by norm_num) hg3
   set x : Module.End K (Fin 6 → K) := ((t6psub_toLin g : LinearMap.GeneralLinearGroup K
@@ -58,7 +58,7 @@ theorem u6r_single (hf : Odd f) (g : primeFormUnitary h (idGram K 6)) {μ : Kˣ}
     rw [mem_primaryComponent, hpx]
     rfl
   have hmult : primaryMultiplicity x p = 2 := by
-    haveI : Fact (Irreducible p) := ⟨hpirr⟩
+    have : Fact (Irreducible p) := ⟨hpirr⟩
     have h1 := finrank_primaryComponent x (a := p)
     have h6 : Module.finrank K (primaryComponent x p) = 6 := by
       rw [hcomp, finrank_top, Module.finrank_fin_fun]

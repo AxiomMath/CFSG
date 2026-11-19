@@ -18,6 +18,7 @@ variable {K : Type} [Group K] [Finite K]
 
 section powHom
 
+omit [Finite K] in
 theorem powHom_pow_mul {x y c : K} (hc : c = y * x * y⁻¹ * x⁻¹) (hcy : Commute c y) (n : ℕ) :
     y ^ n * x = c ^ n * x * y ^ n := by
   induction n with
@@ -34,6 +35,7 @@ theorem powHom_pow_mul {x y c : K} (hc : c = y * x * y⁻¹ * x⁻¹) (hcy : Com
         rw [pow_succ' c n, pow_succ y n]
         simp only [mul_assoc]
 
+omit [Finite K] in
 theorem powHom_mul_pow {x y c : K} (hc : c = y * x * y⁻¹ * x⁻¹) (hcx : Commute c x)
     (hcy : Commute c y) (n : ℕ) : (x * y) ^ n = c ^ (n.choose 2) * x ^ n * y ^ n := by
   induction n with
@@ -55,6 +57,7 @@ theorem powHom_mul_pow {x y c : K} (hc : c = y * x * y⁻¹ * x⁻¹) (hcx : Com
 
 end powHom
 
+omit [Finite K] in
 theorem pow_mul_of_central {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) {P : Subgroup K}
     (hP' : ∀ x ∈ P, ∀ y ∈ P, ∀ w ∈ P, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     (hPf : ∀ x ∈ P, ∀ w ∈ P, w * x ^ f = x ^ f * w) {x y : K} (hx : x ∈ P) (hy : y ∈ P) :
@@ -157,6 +160,7 @@ theorem orderFive_index_sup_le (hcl : ∀ x y w : G, w * ⁅x, y⁆ = ⁅x, y⁆
     _ ≤ (Subgroup.centralizer (B : Set G)).index * Nat.card (Subgroup.center G) :=
         Nat.mul_le_mul_left _ (orderFive_index_centralizer_le hcl x)
 
+omit [Finite G] in
 theorem orderFive_sup_abelian {B : Subgroup G} (hB : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) {x : G}
     (hx : ∀ b ∈ B, b * x = x * b) :
     ∀ a ∈ B ⊔ Subgroup.zpowers x, ∀ b ∈ B ⊔ Subgroup.zpowers x, a * b = b * a := by
@@ -216,7 +220,7 @@ theorem orderFive_sup_abelian {B : Subgroup G} (hB : ∀ a ∈ B, ∀ b ∈ B, a
 
 theorem orderFive_card_sup {f : ℕ} (hf : f.Prime) {B : Subgroup G} {x : G} (hx : x ^ f = 1)
     (hxB : x ∉ B) : f * Nat.card B ≤ Nat.card (B ⊔ Subgroup.zpowers x : Subgroup G) := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hx1 : x ≠ 1 := fun h => hxB (h ▸ B.one_mem)
   have hord : orderOf x = f := orderOf_eq_prime hx hx1
   have hcard : Nat.card (Subgroup.zpowers x) = f := by rw [Nat.card_zpowers, hord]
@@ -332,7 +336,7 @@ theorem orderFive_aux {f : ℕ} (hf : f.Prime) (hexp : ∀ x : G, x ^ f = 1)
       calc (Subgroup.centralizer (B : Set G)).index * Nat.card B
           ≤ Nat.card (Subgroup.center G) ^ j * Nat.card B := Nat.mul_le_mul_right _ h2
         _ ≤ f ^ 5 := orderFive_arith hf.two_le hz (by rw [mul_comm]; exact h1) (hrank B hB)
-    · rw [SetLike.not_le_iff_exists] at hcB
+    · rw [IsConcreteLE.not_le_iff_exists] at hcB
       obtain ⟨x, hxC, hxB⟩ := hcB
       have hxc : ∀ b ∈ B, b * x = x * b := by
         intro b hb
@@ -394,6 +398,7 @@ variable {K : Type} [Group K] [Finite K]
 
 section rankFive
 
+omit [Finite K] in
 theorem rankFive_exists_powHom {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) {P : Subgroup K}
     (hP' : ∀ x ∈ P, ∀ y ∈ P, ∀ w ∈ P, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     (hPf : ∀ x ∈ P, ∀ w ∈ P, w * x ^ f = x ^ f * w) :
@@ -451,7 +456,7 @@ theorem rankFive_nsmul_eq_zero {f : ℕ} {W : Type} [AddCommGroup W] [Module (ZM
 
 end rankFive
 
-theorem finrank_le_five {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {P : Subgroup K} (hP : IsPGroup f P)
+theorem finrank_le_five {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {P : Subgroup K} (_hP : IsPGroup f P)
     (hP' : ∀ x ∈ P, ∀ y ∈ P, ∀ w ∈ P, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     (hPf : ∀ x ∈ P, ∀ w ∈ P, w * x ^ f = x ^ f * w)
     (hrank : ∀ E : Subgroup K, E ≤ P → (∀ a ∈ E, ∀ b ∈ E, a * b = b * a) →
@@ -475,7 +480,7 @@ theorem finrank_le_five {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {P : Subgroup K
     rfl
   have hle := rankFive_card_range_le Φ Ψ hrange
   have hLle : Nat.card L ≤ Nat.card Ψ.range := by
-    haveI : Finite Ψ.range := Finite.of_surjective _ Ψ.rangeRestrict_surjective
+    have : Finite Ψ.range := Finite.of_surjective _ Ψ.rangeRestrict_surjective
     let g : L → Ψ.range := fun w => ⟨Multiplicative.ofAdd (w : W), by
       obtain ⟨x, hx, hxw⟩ := hL w w.2
       exact ⟨⟨x, hx⟩, by rw [hΨ]; simp [hxw]⟩⟩
@@ -484,7 +489,7 @@ theorem finrank_le_five {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {P : Subgroup K
     have h0 : (g a : Multiplicative W) = (g b : Multiplicative W) := by rw [hab]
     have h : Multiplicative.ofAdd (a : W) = Multiplicative.ofAdd (b : W) := h0
     exact Subtype.ext (Multiplicative.ofAdd.injective h)
-  haveI : Finite W := Module.finite_of_finite (ZMod f)
+  have : Finite W := Module.finite_of_finite (ZMod f)
   have hcardL : Nat.card L = f ^ Module.finrank (ZMod f) L := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod f), Nat.card_zmod]
   have hpow : f ^ Module.finrank (ZMod f) L ≤ f ^ 5 :=
@@ -504,7 +509,7 @@ variable {K : Type} [Group K] [Finite K]
 
 theorem commutator_pow_le_frattini {f : ℕ} [Fact f.Prime] {C : Subgroup K} (hC : IsPGroup f C) :
     ((⁅C, C⁆ ⊔ Subgroup.closure {x : K | ∃ y ∈ C, x = y ^ f}).subgroupOf C) ≤ frattini ↥C := by
-  haveI : Fact (IsPGroup f ↥C) := ⟨hC⟩
+  have : Fact (IsPGroup f ↥C) := ⟨hC⟩
   have hle : (⁅C, C⁆ ⊔ Subgroup.closure {x : K | ∃ y ∈ C, x = y ^ f}) ≤
       (frattini ↥C).map C.subtype := by
     refine sup_le ?_ ?_
@@ -523,6 +528,7 @@ theorem commutator_pow_le_frattini {f : ℕ} [Fact f.Prime] {C : Subgroup K} (hC
   subst this
   exact hy
 
+omit [Finite K] in
 theorem frattini_zpow_eq_one_or {t : K} (ht2 : t ^ 2 = 1) (n : ℤ) : t ^ n = 1 ∨ t ^ n = t := by
   have hn : n = 2 * (n / 2) + n % 2 := (Int.mul_ediv_add_emod n 2).symm
   have h2 : t ^ (2 : ℤ) = 1 := by simpa using ht2
@@ -532,6 +538,7 @@ theorem frattini_zpow_eq_one_or {t : K} (ht2 : t ^ 2 = 1) (n : ℤ) : t ^ n = 1 
   · right
     rw [hn, h, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite K] in
 theorem frattini_isPGroup_zpowers {t : K} (ht2 : t ^ 2 = 1) : IsPGroup 2 (zpowers t) := by
   intro g
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp g.2
@@ -543,9 +550,9 @@ theorem frattini_isPGroup_zpowers {t : K} (ht2 : t ^ 2 = 1) : IsPGroup 2 (zpower
   simpa using congrArg (fun a => a ^ n) h2
 
 theorem eq_of_trivial_on_quotient {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {C M₀ : Subgroup K}
-    (hC : IsPGroup f C) (hM : M₀ ≤ C) (hMn : ∀ x ∈ C, ∀ m ∈ M₀, x * m * x⁻¹ ∈ M₀)
+    (hC : IsPGroup f C) (hM : M₀ ≤ C) (_hMn : ∀ x ∈ C, ∀ m ∈ M₀, x * m * x⁻¹ ∈ M₀)
     (hfr : M₀.subgroupOf C ≤ frattini ↥C) {t : K} (ht2 : t ^ 2 = 1)
-    (htC : t ∈ normalizer (C : Set K)) (htM : t ∈ normalizer (M₀ : Set K))
+    (_htC : t ∈ normalizer (C : Set K)) (htM : t ∈ normalizer (M₀ : Set K))
     (htriv : ∀ x ∈ C, x⁻¹ * (t * x * t⁻¹) ∈ M₀) : ∀ x ∈ C, t * x = x * t := by
   have hM0 : IsPGroup f M₀ := hC.to_le hM
   have hq : ¬ 2 ∣ Nat.card M₀ := by
@@ -561,7 +568,7 @@ theorem eq_of_trivial_on_quotient {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {C M�
         intro s hs
         obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hs
         rcases frattini_zpow_eq_one_or ht2 n with h | h
-        · rw [h]; simpa using M₀.one_mem
+        · rw [h]; simp
         · rw [h]; exact htriv x hx)
     exact ⟨m, hm, hfix t (mem_zpowers t)⟩
   let H : Subgroup ↥C := (centralizer ({t} : Set K)).subgroupOf C
@@ -588,6 +595,7 @@ theorem eq_of_trivial_on_quotient {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {C M�
   have := Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_subgroupOf.mp hxH)
   exact this.symm
 
+omit [Finite K] in
 theorem frattini_commute_of_commutator {x c t : K} (hct : t * c = c * t)
     (hdt : t * ⁅x, c⁆ = ⁅x, c⁆ * t) :
     c * (x⁻¹ * (t * x * t⁻¹)) = (x⁻¹ * (t * x * t⁻¹)) * c := by
@@ -608,6 +616,7 @@ theorem frattini_commute_of_commutator {x c t : K} (hct : t * c = c * t)
       _ = c := by group
   exact (mul_inv_eq_iff_eq_mul.mp h4).symm
 
+omit [Finite K] in
 theorem frattini_conj_inv {x t : K} (htt : t * t = 1) :
     t * (x⁻¹ * (t * x * t⁻¹)) * t⁻¹ = (x⁻¹ * (t * x * t⁻¹))⁻¹ := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
@@ -629,6 +638,7 @@ theorem frattini_eq_one_of_sq_eq_one {G : Type*} [Group G] {f : ℕ} [Fact f.Pri
     · have : f ∣ 2 := h ▸ dvd_pow_self f hk0.ne'
       exact hf2 ((Nat.prime_dvd_prime_iff_eq (Fact.out) Nat.prime_two).mp this)
 
+omit [Finite K] in
 theorem centralizes_of_critical {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {X : Subgroup K}
     (hX : IsPGroup f X) (C₀ : Subgroup ↥X) (hC₀ : CFSG.SectionRank.Ccomm.IsThompsonCritical C₀)
     {t : K} (ht2 : t ^ 2 = 1) (htX : t ∈ normalizer (X : Set K))
@@ -669,12 +679,14 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem critSection_mem_normalizer {H : Subgroup K} {g : K} (h1 : ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (h2 : ∀ x ∈ H, g⁻¹ * x * g ∈ H) : g ∈ normalizer (H : Set K) := by
   rw [mem_normalizer_iff]
   intro x
   exact ⟨h1 x, fun hx => by simpa [mul_assoc] using h2 _ hx⟩
 
+omit [Finite K] in
 theorem critSection_conj_mem {X : Subgroup K} {C₀ : Subgroup ↥X} (hC₀ : C₀.Characteristic) {g : K}
     (hg : g ∈ normalizer (X : Set K)) {c : K} (hc : c ∈ C₀.map X.subtype) :
     g * c * g⁻¹ ∈ C₀.map X.subtype := by
@@ -682,12 +694,14 @@ theorem critSection_conj_mem {X : Subgroup K} {C₀ : Subgroup ↥X} (hC₀ : C�
   have h := CFSG.SectionRank.Ccomm.char_apply_mem hC₀ (X.normalizerMonoidHom ⟨g, hg⟩) hc₀
   exact Subgroup.mem_map.mpr ⟨_, h, rfl⟩
 
+omit [Finite K] in
 theorem critSection_normalizes_critical {X G : Subgroup K} (hG : G ≤ normalizer (X : Set K))
     {C₀ : Subgroup ↥X} (hC₀ : C₀.Characteristic) {g : K} (hg : g ∈ G) :
     g ∈ normalizer ((C₀.map X.subtype : Subgroup K) : Set K) :=
   critSection_mem_normalizer (fun _ hx => critSection_conj_mem hC₀ (hG hg) hx)
     (fun _ hx => by simpa using critSection_conj_mem hC₀ (hG (inv_mem hg)) hx)
 
+omit [Finite K] in
 theorem critSection_M0_conj_mem {f : ℕ} {C : Subgroup K} {g : K} (hg : g ∈ normalizer (C : Set K))
     {m : K} (hm : m ∈ (⁅C, C⁆ ⊔ Subgroup.closure {x : K | ∃ y ∈ C, x = y ^ f})) :
     g * m * g⁻¹ ∈ (⁅C, C⁆ ⊔ Subgroup.closure {x : K | ∃ y ∈ C, x = y ^ f}) := by
@@ -708,6 +722,7 @@ theorem critSection_M0_conj_mem {f : ℕ} {C : Subgroup K} {g : K} (hg : g ∈ n
       exact mem_sup_right (subset_closure ⟨_, hC y hy, rfl⟩)
   exact key hm
 
+omit [Finite K] in
 theorem critSection_comm_central {X : Subgroup K} {C₀ : Subgroup ↥X}
     (hC₀ : CFSG.SectionRank.Ccomm.IsThompsonCritical C₀) {x y w : K}
     (hx : x ∈ C₀.map X.subtype) (hy : y ∈ C₀.map X.subtype) (hw : w ∈ C₀.map X.subtype) :
@@ -725,7 +740,7 @@ theorem critSection_comm_central {X : Subgroup K} {C₀ : Subgroup ↥X}
 theorem critSection_pow_central {f : ℕ} [Fact f.Prime] {X : Subgroup K} (hX : IsPGroup f X)
     {C₀ : Subgroup ↥X} (hC₀ : CFSG.SectionRank.Ccomm.IsThompsonCritical C₀) {x w : K}
     (hx : x ∈ C₀.map X.subtype) (hw : w ∈ C₀.map X.subtype) : w * x ^ f = x ^ f * w := by
-  haveI : Fact (IsPGroup f ↥C₀) := ⟨hX.to_subgroup C₀⟩
+  have : Fact (IsPGroup f ↥C₀) := ⟨hX.to_subgroup C₀⟩
   obtain ⟨x₀, hx₀, rfl⟩ := Subgroup.mem_map.mp hx
   obtain ⟨w₀, hw₀, rfl⟩ := Subgroup.mem_map.mp hw
   have h1 : (⟨x₀, hx₀⟩ : ↥C₀) ^ f ∈ frattini ↥C₀ :=
@@ -747,7 +762,7 @@ theorem exists_critical_section {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Se
       (∀ x ∈ C, ∀ y ∈ C, π (x * y) = π x + π y) ∧ (∀ x ∈ C, π x = 0 ↔ x ∈ M₀) ∧
       (∀ w : W, ∃ x ∈ C, π x = w) ∧ (∀ (g : ↥R), ∀ x ∈ C, ρ g (π x) = π (g * x * g⁻¹)) ∧
       (∃ w : W, ρ ⟨t, htR⟩ w ≠ w) := by
-  haveI : Fact f.Prime := ⟨h.hf⟩
+  have : Fact f.Prime := ⟨h.hf⟩
   obtain ⟨⟨C₀, hC₀⟩, -⟩ := CFSG.SectionRank.Ccomm.thompson_critical_subgroup (p := f) h.hX
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup K, C = C₀.map X.subtype := ⟨_, rfl⟩
   have hRX : R ≤ normalizer (X : Set K) := fun g hg => h.hSX (mem_sup_left (hRS hg))
@@ -812,6 +827,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem fixedSpace_apply_apply_t {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : ℕ} {W : Type}
     [AddCommGroup W] [Module (ZMod f) W] (ρ : Representation (ZMod f) ↥R W) (w : W) :
     ρ ⟨t, hR.t_mem⟩ (ρ ⟨t, hR.t_mem⟩ w) = w := by
@@ -822,6 +838,7 @@ theorem fixedSpace_apply_apply_t {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f :
       = (ρ ((⟨t, hR.t_mem⟩ : ↥R) * ⟨t, hR.t_mem⟩)) w := by rw [map_mul]; rfl
     _ = w := by rw [h, map_one]; rfl
 
+omit [Finite K] in
 theorem fixedSpace_comm_t {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : ℕ} {W : Type}
     [AddCommGroup W] [Module (ZMod f) W] (ρ : Representation (ZMod f) ↥R W) (g : ↥R) (w : W) :
     ρ ⟨t, hR.t_mem⟩ (ρ g w) = ρ g (ρ ⟨t, hR.t_mem⟩ w) := by
@@ -831,6 +848,7 @@ theorem fixedSpace_comm_t {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : ℕ} {
     _ = (ρ (g * ⟨t, hR.t_mem⟩)) w := by rw [h]
     _ = ρ g (ρ ⟨t, hR.t_mem⟩ w) := by rw [map_mul]; rfl
 
+omit [Finite K] in
 theorem fixedSpace_exists_sub {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : ℕ} {W : Type}
     [AddCommGroup W] [Module (ZMod f) W] (ρ : Representation (ZMod f) ↥R W)
     (hnt : ∃ w : W, ρ ⟨t, hR.t_mem⟩ w ≠ w) :
@@ -851,6 +869,7 @@ theorem fixedSpace_exists_sub {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : �
     rw [hmem] at hu ⊢
     rw [fixedSpace_comm_t hR ρ g u, hu, map_neg]
 
+omit [Finite K] in
 theorem fixedSpace_exists_restrict {R : Subgroup K} {f : ℕ} {W : Type}
     [AddCommGroup W] [Module (ZMod f) W] (ρ : Representation (ZMod f) ↥R W)
     (U : Submodule (ZMod f) W) (hU : ∀ g : ↥R, ∀ u ∈ U, ρ g u ∈ U) :
@@ -878,7 +897,7 @@ theorem exists_large_fixed_space {R : Subgroup K} {t : K} (hR : IsExt2 R t) {k :
     apply Subtype.ext
     rw [hρU]
     exact hUt u u.2
-  haveI : Nontrivial U := hUnt
+  have : Nontrivial U := hUnt
   have hdim : 2 ^ k ≤ Module.finrank (ZMod f) U := ext2_module_dim hR hk hf2 ρU hρt
   obtain ⟨y, hy, hy2, hyt⟩ := IsExt2.exists_noncentral_involution hR hk (by omega)
   obtain ⟨r, hr, hyr⟩ := IsExt2.exists_swap hR hy hyt
@@ -903,6 +922,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem rankBound_zpow_cases {y : K} (hy2 : y ^ 2 = 1) (n : ℤ) : y ^ n = 1 ∨ y ^ n = y := by
   have h2 : y ^ (2 : ℤ) = 1 := by exact_mod_cast hy2
   have hn : y ^ n = (y ^ (2 : ℤ)) ^ (n / 2) * y ^ (n % 2) := by
@@ -924,6 +944,7 @@ theorem rankBound_not_two_dvd {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {M : Subg
   have h' := Nat.Prime.dvd_of_dvd_pow Nat.prime_two h
   exact hf2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two Fact.out).mp h').symm
 
+omit [Finite K] in
 theorem rankBound_isPGroup_zpowers {y : K} (hy2 : y ^ 2 = 1) : IsPGroup 2 (zpowers y) := by
   intro g
   refine ⟨1, ?_⟩
@@ -954,7 +975,7 @@ theorem rankBound_fixed_lift {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {M₀ : Su
 theorem rank_bound {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f S X N z)
     (hrank : SmallRankInvolutionRankLE f 3 S X) {t : K} (hR : IsExt2 (RR S z) t) {k : ℕ}
     (hk : Nat.card (RR S z) = 2 ^ (1 + 2 * k)) : k ≤ 3 := by
-  haveI : Fact f.Prime := ⟨h.hf⟩
+  have : Fact f.Prime := ⟨h.hf⟩
   by_contra hk3
   have hRS : RR S z ≤ S := RR_le_S h.hzS
   obtain ⟨C, M₀, W, _, _, _, π, ρ, hCX, hM₀C, hCn, hM₀n, hcomm, hpow, hπadd, hπker, hπsurj,

@@ -24,33 +24,41 @@ section SigCenA
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem sca_sq {g : X} (hg : orderOf g = 2) : g ^ 2 = 1 := by
   rw [← hg]
   exact pow_orderOf_eq_one g
 
+omit [Finite X] in
 private theorem sca_mul_self {g : X} (hg : orderOf g = 2) : g * g = 1 := by
   rw [← sq]
   exact sca_sq hg
 
+omit [Finite X] in
 private theorem sca_comm {a b : X} (h : a ∈ cen b) : a * b = b * a :=
   Subgroup.mem_centralizer_singleton_iff.1 h
 
+omit [Finite X] in
 private theorem sca_mem_cen_symm {a b : X} (h : a ∈ cen b) : b ∈ cen a :=
   Subgroup.mem_centralizer_singleton_iff.2 (sca_comm h).symm
 
+omit [Finite X] in
 private theorem sca_conj_mem {S : Subgroup X} {c h : X} (hc : c ∈ normalizer (S : Set X))
     (hh : h ∈ S) : c * h * c⁻¹ ∈ S :=
   (Subgroup.mem_normalizer_iff.1 hc h).1 hh
 
+omit [Finite X] in
 private theorem sca_ne_one {g : X} (hg : orderOf g = 2) : g ≠ 1 := by
   rintro rfl
   rw [orderOf_one] at hg
   exact absurd hg (by norm_num)
 
+omit [Finite X] in
 private theorem sca_orderOf_two {g : X} (hg : g * g = 1) (h1 : g ≠ 1) : orderOf g = 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [sq]; exact hg) h1
 
+omit [Finite X] in
 private theorem sca_not_mem_odd {O : Subgroup X} (hO : Odd (Nat.card O)) {g : X}
     (hg : orderOf g = 2) : g ∉ O := by
   intro hgO
@@ -58,6 +66,7 @@ private theorem sca_not_mem_odd {O : Subgroup X} (hO : Odd (Nat.card O)) {g : X}
   rw [Subgroup.orderOf_mk, hg] at h1
   exact (Nat.not_even_iff_odd.mpr hO) (even_iff_two_dvd.mpr h1)
 
+omit [Finite X] in
 private theorem sca_eq_of_mul_mem_odd {O : Subgroup X} (hO : Odd (Nat.card O)) {a b : X}
     (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) (hmem : a * b ∈ O) : a = b := by
   by_contra hne
@@ -74,6 +83,7 @@ private theorem sca_eq_of_mul_mem_odd {O : Subgroup X} (hO : Odd (Nat.card O)) {
       _ = 1 := by rw [ha, hb, one_mul]
   exact sca_not_mem_odd hO (sca_orderOf_two h2 h1) hmem
 
+omit [Finite X] in
 private theorem sca_comm_of_sq {A : Subgroup X} (hA : ∀ a ∈ A, a ^ 2 = 1) {a b : X}
     (ha : a ∈ A) (hb : b ∈ A) : a * b = b * a := by
   have e : ∀ x ∈ A, x⁻¹ = x := fun x hx =>
@@ -83,6 +93,7 @@ private theorem sca_comm_of_sq {A : Subgroup X} (hA : ∀ a ∈ A, a ^ 2 = 1) {a
   have h1 : a * b = (a * b)⁻¹ := (inv_eq_of_mul_eq_one_right hab).symm
   rw [h1, mul_inv_rev, e a ha, e b hb]
 
+omit [Finite X] in
 private theorem sca_isElemAbelian_of_sq {A : Subgroup X} (hA : ∀ a ∈ A, a ^ 2 = 1) :
     CFSG.Open.IsElemAbelian 2 A :=
   ⟨⟨⟨fun c d => Subtype.ext (sca_comm_of_sq hA c.2 d.2)⟩⟩, hA⟩
@@ -91,19 +102,23 @@ private abbrev scaFour {a b : X} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b 
     Subgroup X :=
   Holt.StarLemma26.fourSubgroup ha hb hab
 
+omit [Finite X] in
 private theorem sca_four_sq {a b : X} {ha : a * a = 1} {hb : b * b = 1} {hab : a * b = b * a} :
     ∀ y ∈ scaFour ha hb hab, y ^ 2 = 1 := fun y hy => by
   rw [pow_two]
   exact Holt.StarLemma26.mul_self_of_mem_fourSubgroup hy
 
+omit [Finite X] in
 private theorem sca_four_isElemAbelian {a b : X} {ha : a * a = 1} {hb : b * b = 1}
     {hab : a * b = b * a} : CFSG.Open.IsElemAbelian 2 (scaFour ha hb hab) :=
   sca_isElemAbelian_of_sq sca_four_sq
 
+omit [Finite X] in
 private theorem sca_four_card {a b : X} {ha : a * a = 1} {hb : b * b = 1} {hab : a * b = b * a}
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hne : a ≠ b) : Nat.card (scaFour ha hb hab) = 4 :=
   Holt.StarLemma26.card_fourSubgroup ha1 hb1 hne
 
+omit [Finite X] in
 private theorem sca_four_le {a b : X} {ha : a * a = 1} {hb : b * b = 1} {hab : a * b = b * a}
     {E : Subgroup X} (haE : a ∈ E) (hbE : b ∈ E) : scaFour ha hb hab ≤ E := by
   intro y hy
@@ -113,14 +128,17 @@ private theorem sca_four_le {a b : X} {ha : a * a = 1} {hb : b * b = 1} {hab : a
   · exact hbE
   · exact E.mul_mem haE hbE
 
+omit [Finite X] in
 private theorem sca_left_mem_four {a b : X} {ha : a * a = 1} {hb : b * b = 1}
     {hab : a * b = b * a} : a ∈ scaFour ha hb hab :=
   Holt.StarLemma26.mem_fourSubgroup.2 (Or.inr (Or.inl rfl))
 
+omit [Finite X] in
 private theorem sca_right_mem_four {a b : X} {ha : a * a = 1} {hb : b * b = 1}
     {hab : a * b = b * a} : b ∈ scaFour ha hb hab :=
   Holt.StarLemma26.mem_fourSubgroup.2 (Or.inr (Or.inr (Or.inl rfl)))
 
+omit [Finite X] in
 private theorem sca_mem_zpowers {s x : X} (hs : s * s = 1) (hx : x ∈ zpowers s) :
     x = 1 ∨ x = s := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hx
@@ -133,6 +151,7 @@ private theorem sca_mem_zpowers {s x : X} (hs : s * s = 1) (hx : x ∈ zpowers s
   · right
     rw [hm, zpow_add, zpow_mul, hs2, one_zpow, one_mul, zpow_one]
 
+omit [Finite X] in
 private theorem sca_mem_normalizer_of_comm {B : Subgroup X} {s : X}
     (hsB : ∀ b ∈ B, s * b = b * s) : s ∈ normalizer (B : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -150,6 +169,7 @@ private theorem sca_mem_normalizer_of_comm {B : Subgroup X} {s : X}
     rw [← h1]
     exact hh
 
+omit [Finite X] in
 private theorem sca_sup_zpowers {B : Subgroup X} (hB : CFSG.Open.IsElemAbelian 2 B) {s : X}
     (hs : s * s = 1) (hsB : ∀ b ∈ B, s * b = b * s) :
     CFSG.Open.IsElemAbelian 2 (B ⊔ zpowers s) ∧
@@ -189,18 +209,21 @@ private theorem sca_sup_zpowers {B : Subgroup X} (hB : CFSG.Open.IsElemAbelian 2
 private abbrev scaV (B : Subgroup X) : Subgroup X :=
   ⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)
 
+omit [Finite X] in
 private theorem sca_map_map_symm (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.symm.toMonoidHom).map φ.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.toMonoidHom.comp φ.symm.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem sca_map_symm_map (φ : X ≃* X) (K : Subgroup X) :
     (K.map φ.toMonoidHom).map φ.symm.toMonoidHom = K := by
   rw [Subgroup.map_map]
   have : φ.symm.toMonoidHom.comp φ.toMonoidHom = MonoidHom.id X := by ext x; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite X] in
 private theorem sca_map_V_le (φ : X ≃* X) (B : Subgroup X) :
     (scaV B).map φ.toMonoidHom ≤ scaV (B.map φ.toMonoidHom) := by
   rw [Subgroup.map_le_iff_le_comap]
@@ -209,28 +232,33 @@ private theorem sca_map_V_le (φ : X ≃* X) (B : Subgroup X) :
   exact le_iSup_of_le (φ b) (le_iSup_of_le (Subgroup.mem_map_of_mem φ.toMonoidHom hb)
     (le_iSup_of_le (fun h => hb1 ((MulEquiv.map_eq_one_iff φ).1 h)) le_rfl))
 
+omit [Finite X] in
 private theorem sca_V_map (φ : X ≃* X) (B : Subgroup X) :
     (scaV B).map φ.toMonoidHom = scaV (B.map φ.toMonoidHom) := by
   refine le_antisymm (sca_map_V_le φ B) ?_
   have h := Subgroup.map_mono (f := φ.toMonoidHom) (sca_map_V_le φ.symm (B.map φ.toMonoidHom))
   rwa [sca_map_map_symm, sca_map_symm_map] at h
 
+omit [Finite X] in
 private theorem sca_le_V {B : Subgroup X} {b : X} (hb : b ∈ B) (hb1 : b ≠ 1) :
     oddCoreOf (cen b) ≤ scaV B :=
   le_iSup_of_le b (le_iSup_of_le hb (le_iSup_of_le hb1 le_rfl))
 
+omit [Finite X] in
 private theorem sca_isElemAbelian_map (φ : X ≃* X) {B : Subgroup X}
     (hB : CFSG.Open.IsElemAbelian 2 B) : CFSG.Open.IsElemAbelian 2 (B.map φ.toMonoidHom) := by
   refine sca_isElemAbelian_of_sq ?_
   rintro _ ⟨b, hb, rfl⟩
   rw [← map_pow, hB.2 b hb, map_one]
 
+omit [Finite X] in
 private theorem sca_V_conj {W B : Subgroup X} {g : X} (hB : scaV B = W)
     (hg : g ∈ normalizer (W : Set X)) :
     scaV (B.map (MulAut.conj g).toMonoidHom) = W := by
   rw [← sca_V_map, hB]
   exact map_conj_eq_of_mem_normalizer hg
 
+omit [Finite X] in
 private theorem sca_mem_normalizer_of_V {W B : Subgroup X} {g : X} (hB : scaV B = W)
     (hBg : scaV (B.map (MulAut.conj g).toMonoidHom) = W) : g ∈ normalizer (W : Set X) := by
   apply mem_normalizer_of_map_conj_eq
@@ -263,7 +291,7 @@ private theorem sca_exists_conj_le_of_normal {G : Type*} [Group G] [Finite G]
   let A₀ : Subgroup ↥(A ⊔ N) := A.subgroupOf (A ⊔ N)
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥A₀) := inferInstance
   let T₁ : Subgroup ↥(A ⊔ N) := (T : Subgroup ↥A₀).map A₀.subtype
-  have hT₁p : IsPGroup 2 T₁ := T.isPGroup'.map A₀.subtype
+  have hT₁p : IsPGroup 2 T₁ := T.isPGroup.map A₀.subtype
   have hT₁idx : ¬ 2 ∣ T₁.index := by
     rw [Subgroup.index_map_subtype]
     intro hd
@@ -314,6 +342,7 @@ private theorem sca_exists_conj_le {A O P : Subgroup X} (hAO : A ≤ normalizer 
   exact ⟨(o : X), Subgroup.mem_subgroupOf.1 ho, fun y hy =>
     Subgroup.mem_subgroupOf.1 (hoP ⟨y, hPD hy⟩ hy)⟩
 
+omit [Finite X] in
 private theorem sca_isPGroup {B : Subgroup X} (hB : CFSG.Open.IsElemAbelian 2 B) :
     IsPGroup 2 B := isPGroup_two_of_sq hB.2
 
@@ -455,10 +484,12 @@ private theorem sca_exists_ne_ne {B : Subgroup X} (hB4 : Nat.card B = 4) (m : X)
       _ = 2 := by rw [Set.ncard_singleton]
   omega
 
+omit [Finite X] in
 private theorem sca_K0_le {n : ℕ} (H : Subgroup X) : K0 X n H ≤ H := by
   rw [K0_eq_sSup_sec5Comp]
   exact sSup_le fun A hA => hA.1.choose_spec.2.2.1.1
 
+omit [Finite X] in
 private theorem sca_base_le_cen {n : ℕ} (t : X) : Sec6Base X n t ≤ cen t :=
   sup_le (Sec6Fus.sec6M_le n _) ((Sec6Fus.zStar_le _).trans (sca_K0_le _))
 
@@ -474,6 +505,7 @@ private theorem sca_t_mem_base {n : ℕ} {t : X} (hS : Sec6Setting X n t)
     (hA : K0 X n (cen t) ≠ ⊥) : t ∈ Sec6Base X n t :=
   Subgroup.mem_sup_right (sca_t_mem_zStar hS hA)
 
+omit [Finite X] in
 private theorem sca_iSup_subgroupOf_eq {H : Subgroup X} (S : Finset (Subgroup X))
     (hle : ∀ L ∈ S, L ≤ H) : ⨆ L ∈ S, L.subgroupOf H = (⨆ L ∈ S, L).subgroupOf H := by
   apply Subgroup.map_injective H.subtype_injective
@@ -588,22 +620,27 @@ private abbrev ScaExt (n : ℕ) (t : X) : Prop :=
     ∀ B : Subgroup X, B ≤ E → CFSG.Open.IsElemAbelian 2 B → Nat.card B = 4 →
       (⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)) = sec6Sig X n t
 
+omit [Finite X] in
 private theorem sca_le_sec6M {n : ℕ} {H M : Subgroup X} (hM : Sec6MComp X n H M) :
     M ≤ Sec6M X n H :=
   le_sSup (s := {M | Sec6MComp X n H M}) hM
 
+omit [Finite X] in
 private theorem sca_le_sec6K {n : ℕ} {H L : Subgroup X} (hL : Sec6KComp X n H L) :
     L ≤ Sec6K X n H :=
   le_sSup (s := {L | Sec6KComp X n H L}) hL
 
+omit [Finite X] in
 private theorem sca_le_K0 {n : ℕ} {H A : Subgroup X} (hA : Sec5Comp X n H A) :
     A ≤ K0 X n H := by
   rw [K0_eq_sSup_sec5Comp]
   exact le_sSup hA
 
+omit [Finite X] in
 private theorem sca_piece_le {L : Subgroup X} {y : X} : sec6Piece L y ≤ L :=
   (oTwoPrimeOf_le _).trans inf_le_left
 
+omit [Finite X] in
 private theorem sca_piece_le_cen {L : Subgroup X} {y : X} : sec6Piece L y ≤ cen y :=
   (oTwoPrimeOf_le _).trans inf_le_right
 
@@ -689,7 +726,7 @@ private theorem sca_exists_inv_cen {n : ℕ} {t : X} (hS : Sec6Setting X n t) {y
     rw [hyi]
     calc y * (y * (m : X) * y) * y = (y * y) * (m : X) * (y * y) := by group
       _ = (m : X) := by rw [hy, one_mul, mul_one]
-  haveI : Fintype ↥M := Fintype.ofFinite _
+  have : Fintype ↥M := Fintype.ofFinite _
   have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 2) (n := 1) hf2
   have hfix : Fintype.card (Function.fixedPoints f) = Nat.card ↥(M ⊓ cen y) := by
     rw [← Nat.card_eq_fintype_card]
@@ -720,6 +757,7 @@ private theorem sca_exists_inv_cen {n : ℕ} {t : X} (hS : Sec6Setting X n t) {y
   rw [Subgroup.orderOf_coe]
   exact hg
 
+omit [Finite X] in
 private theorem sca_four_mul_eq {y t : X} (hy : y * y = 1) (ht : t * t = 1)
     (hyt : y * t = t * y) (hm : y * t * (y * t) = 1) (hmt : y * t * t = t * (y * t)) :
     scaFour hy ht hyt = scaFour hm ht hmt := by
@@ -836,8 +874,8 @@ private theorem sca_N_ne_top
     rw [hVE]
     exact hodd
   intro htop
-  haveI := hS.cex.simple
-  haveI hnorm : (sec6Sig X n t).Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have := hS.cex.simple
+  have hnorm : (sec6Sig X n t).Normal := Subgroup.normalizer_eq_top_iff.1 htop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (sec6Sig X n t) with h | h
   · exact hne h
   · have htV : t ∈ sec6Sig X n t := by
@@ -914,6 +952,7 @@ private def scaComm (N : Subgroup X) (g : X) : Subgroup X where
     rw [h]
     exact sca_conj_mem (inv_mem ha) (N.inv_mem ha')
 
+omit [Finite X] in
 private theorem sca_comm_mem_of_mem {O : Subgroup X} {o g : X} (ho : o ∈ O)
     (hg : g ∈ normalizer (O : Set X)) : ⁅o, g⁆ ∈ O := by
   have : ⁅o, g⁆ = o * (g * o⁻¹ * g⁻¹) := by
@@ -922,6 +961,7 @@ private theorem sca_comm_mem_of_mem {O : Subgroup X} {o g : X} (ho : o ∈ O)
   rw [this]
   exact O.mul_mem ho (sca_conj_mem hg (O.inv_mem ho))
 
+omit [Finite X] in
 private theorem sca_centModOdd_of_cover {F R : Subgroup X} {g : X} (hRF : R ≤ F)
     (hcov : F = oddCoreOf F ⊔ R) (hgO : g ∈ normalizer (oddCoreOf F : Set X))
     (hR : ∀ r ∈ R, ⁅r, g⁆ ∈ oddCoreOf F) : CentModOdd F g := by
@@ -934,6 +974,7 @@ private theorem sca_centModOdd_of_cover {F R : Subgroup X} {g : X} (hRF : R ≤ 
     exact ha
   exact (hle ha').2
 
+omit [Finite X] in
 private theorem sca_cov {E K : Subgroup X} (hEK : E ≤ K)
     (hcov : E.subgroupOf K ⊔ pPrimeCore 2 ↥K = ⊤) : K = oddCoreOf K ⊔ E :=
   ((covers_subgroupOf_iff hEK).1 hcov).symm.trans (sup_comm _ _)
@@ -990,7 +1031,7 @@ private theorem sca_K0_le_normalizer {n : ℕ} {t : X} {L : Subgroup X}
 private theorem sca_sec6M_le_normalizer {n : ℕ} {t : X} {L : Subgroup X}
     (hL : Sec6KComp X n (cen t) L) : Sec6M X n (cen t) ≤ normalizer (L : Set X) :=
   Sec6Fus.sSup_le_normalizer (Sec6Fus.isPCompIn_of_sec6KComp hL)
-    fun J hJ => Sec6Fus.isPCompIn_of_sec6KComp (Or.inr hJ)
+    fun _J hJ => Sec6Fus.isPCompIn_of_sec6KComp (Or.inr hJ)
 
 private theorem sca_base_le_normalizer {n : ℕ} {t : X} {L : Subgroup X}
     (hL : Sec6KComp X n (cen t) L) : Sec6Base X n t ≤ normalizer (L : Set X) :=
@@ -999,7 +1040,7 @@ private theorem sca_base_le_normalizer {n : ℕ} {t : X} {L : Subgroup X}
 private theorem sca_inf_oddCoreOf_le {L A : Subgroup X} (hLA : L ≤ A) :
     L ⊓ oddCoreOf A ≤ oddCoreOf L :=
   le_oddCoreOf_of_normalized inf_le_left
-    (fun c hc => mem_normalizer_inf (le_normalizer hc) (le_normalizer_oddCoreOf A (hLA hc)))
+    (fun _c hc => mem_normalizer_inf (le_normalizer hc) (le_normalizer_oddCoreOf A (hLA hc)))
     ((odd_card_oddCoreOf A).of_dvd_nat (Subgroup.card_dvd_of_le inf_le_right))
 
 private theorem sca_zStar_le_QOf
@@ -1106,6 +1147,7 @@ private theorem sca_centModOdd_of_Q {n : ℕ} {t : X} (h61 : Sec6L61 X n t) {y :
     exact F.mul_mem hf (sca_conj_mem htF (F.inv_mem hf))
   exact sca_inf_oddCoreOf_le (sca_le_sec6K hF) ⟨h2, h1⟩
 
+omit [Finite X] in
 private theorem sca_eq_piece_of_centModOdd {n : ℕ} {t : X} (hC : Sec6CtrlAt X n t) {y : X}
     (hyMQ : y ∈ Sec6M X n (cen t) ⊔ Sec6Q X n (cen t)) (hy2 : orderOf y = 2)
     {F : Subgroup X} (hF : Sec6KComp X n (cen y) F)
@@ -1117,6 +1159,7 @@ private theorem sca_eq_piece_of_centModOdd {n : ℕ} {t : X} (hC : Sec6CtrlAt X 
   · exact ⟨L, hL, hLF, heq⟩
   · exact absurd (hFt htF) hnt
 
+omit [Finite X] in
 private theorem sca_eq_piece_of_sec5Comp
     {n : ℕ} {t : X} (hC : Sec6CtrlAt X n t) {y : X}
     (hyMQ : y ∈ Sec6M X n (cen t) ⊔ Sec6Q X n (cen t)) (hy2 : orderOf y = 2)
@@ -1238,6 +1281,7 @@ private theorem sca_oddCoreOf_le_of_cov {F K : Subgroup X} (hFK : F ≤ K)
   exact ⟨Subgroup.inclusion hFK a, (QuotientGroup.eq_one_iff (Subgroup.inclusion hFK a)).1 h2,
     rfl⟩
 
+omit [Finite X] in
 private theorem sca_centModOdd_conj {F : Subgroup X} {u o : X} (hoF : o ∈ F)
     (hu : CentModOdd F u) : CentModOdd F (o⁻¹ * u * o) := by
   intro a ha
@@ -1370,6 +1414,7 @@ private theorem sca_exists_centre_base
       (sca_centre_mem_zStar hy2 hLA (sca_base_le_QOf hLA hyB) hLF hcP hcc)
   · exact Subgroup.mem_sup_left (sca_le_sec6M hLM (sca_piece_le hcP))
 
+omit [Finite X] in
 private theorem sca_four_mul_eq' {y c : X} (hy : y * y = 1) (hc : c * c = 1)
     (hyc : y * c = c * y) (hm : y * c * (y * c) = 1) (hym : y * (y * c) = y * c * y) :
     scaFour hy hc hyc = scaFour hy hm hym := by
@@ -1433,7 +1478,7 @@ private theorem sca_good_of_centre
     {n : ℕ} {t : X} (hS : Sec6Setting X n t) (hC : Sec6CtrlAt X n t)
     (hA : K0 X n (cen t) ≠ ⊥) (hU : ScaUnp n t) (hext : ScaExt n t) {y : X}
     (hyB : y ∈ Sec6Base X n t) (hy2 : orderOf y = 2) (hyt : y ≠ t) {F : Subgroup X}
-    (hF : Sec5Comp X n (cen y) F) {c' : X} (hc'F : c' ∈ F) (hc'y : c' ∈ cen y)
+    (hF : Sec5Comp X n (cen y) F) {c' : X} (hc'F : c' ∈ F) (_hc'y : c' ∈ cen y)
     (hc'2 : orderOf c' = 2) (hc'c : CentModOdd F c') (hc'ne : c' ≠ y) (ha : y * y = 1)
     (hb : c' * c' = 1) (hab : y * c' = c' * y) : scaV (scaFour ha hb hab) = sec6Sig X n t := by
   obtain ⟨c, hcF, hcy, hcB, hc2, hcc⟩ := sca_exists_centre_base hC hyB hy2 hF
@@ -1563,6 +1608,7 @@ private theorem sca_cen_le_of_apiece
   exact sca_cen_le_of_centre hS hC hA hU hext hyB hy2 hyt hF (hLF hcP) (sca_piece_le_cen hcP)
     hc2 hcc (fun h => hyQ (h ▸ hcQ))
 
+omit [Finite X] in
 private theorem sca_mem_normalizer_oTwoPrimeOf {H : Subgroup X} {g : X}
     (hg : g ∈ normalizer (H : Set X)) : g ∈ normalizer (oTwoPrimeOf H : Set X) :=
   oTwoPrimeOf_normalizes ((Subgroup.zpowers_le).2 hg) (Subgroup.mem_zpowers g)
@@ -1777,14 +1823,17 @@ private theorem sca_count_false
     (modOddCard_Sec6M_le_iff hS.deg (cen y) (cen t)).1 (hS.choice.maxM y hy2)
   omega
 
+omit [Finite X] in
 private theorem sca_mem_pPrimeCore_iff {F : Subgroup X} (y : ↥F) :
     y ∈ pPrimeCore 2 ↥F ↔ (y : X) ∈ oddCoreOf F :=
   ⟨fun h => ⟨y, h, rfl⟩, fun ⟨z, hz, hzy⟩ => by rwa [← Subtype.ext hzy]⟩
 
+omit [Finite X] in
 private theorem sca_pi_eq_one_iff {F : Subgroup X} (y : ↥F) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) y = 1 ↔ (y : X) ∈ oddCoreOf F := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, sca_mem_pPrimeCore_iff]
 
+omit [Finite X] in
 private theorem sca_centModOdd_iff {F : Subgroup X} {c : X} (hcF : c ∈ normalizer (F : Set X)) :
     CentModOdd F c ↔ ∀ a (ha : a ∈ F),
       QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨c * a * c⁻¹, sca_conj_mem hcF ha⟩ : ↥F) =
@@ -1810,6 +1859,7 @@ private theorem sca_centModOdd_iff {F : Subgroup X} {c : X} (hcF : c ∈ normali
     rw [e]
     exact sca_conj_mem (le_normalizer_oddCoreOf F ha) h1
 
+omit [Finite X] in
 private theorem sca_pump_act {F : Subgroup X} {t f : X} (htF : t ∈ normalizer (F : Set X))
     (hfF : f ∈ F) (hft : CentModOdd F (f * t)) {a : X} (ha : a ∈ F) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨t * a * t⁻¹, sca_conj_mem htF ha⟩ : ↥F) =
@@ -1827,6 +1877,7 @@ private theorem sca_pump_act {F : Subgroup X} {t f : X} (htF : t ∈ normalizer 
   rw [← h]
   group
 
+omit [Finite X] in
 private theorem sca_pump_orderOf {F : Subgroup X} {t f : X} (ht2 : t * t = 1)
     (htF : t ∈ normalizer (F : Set X)) (hfF : f ∈ F) (hft : CentModOdd F (f * t))
     (hnt : ¬ CentModOdd F t) (hZ : center (↥F ⧸ pPrimeCore 2 ↥F) = ⊥) :
@@ -1881,6 +1932,7 @@ private theorem sca_card_eq {A B : Type} [Group A] [Group B] {n : ℕ}
     Subgroup.card_eq_card_quotient_mul_card_subgroup (center B), hA2, hB2,
     Nat.card_congr eA.toEquiv, Nat.card_congr eB.toEquiv]
 
+omit [Finite X] in
 private theorem sca_pump_comm {F : Subgroup X} {t f : X} (htF : t ∈ normalizer (F : Set X))
     (hfF : f ∈ F) (hft : CentModOdd F (f * t)) {p : X} (hpF : p ∈ F) (hpt : p ∈ cen t) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨p, hpF⟩ : ↥F) *
@@ -1973,17 +2025,17 @@ private theorem sca_isSolvable_of_oTwoPrimeOf {H : Subgroup X}
     (h : Group.IsSolvable ↥(oTwoPrimeOf H)) : Group.IsSolvable ↥H := by
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := ComponentClassification.CatalogueBPrimeJoin.primeResidual 2 ↥H with hR
-  haveI : R.Characteristic :=
+  have : R.Characteristic :=
     ComponentClassification.CatalogueBPrimeJoin.primeResidual_characteristic 2 ↥H
-  haveI : R.Normal := inferInstance
+  have : R.Normal := inferInstance
   have hRe : oTwoPrimeOf H = R.map H.subtype := oTwoPrimeOf_eq_map_primeResidual H
   have e : ↥R ≃* ↥(oTwoPrimeOf H) :=
     (Subgroup.equivMapOfInjective R H.subtype H.subtype_injective).trans
       (MulEquiv.subgroupCongr hRe.symm)
-  haveI : Group.IsSolvable ↥R := Group.isSolvable_of_isSolvable_injective
+  have : Group.IsSolvable ↥R := Group.isSolvable_of_isSolvable_injective
     (f := (e : ↥R →* ↥(oTwoPrimeOf H))) e.injective
   have hidx := ComponentClassification.CatalogueBPrimeJoin.primeResidual_coprime_index 2 ↥H
-  haveI : Group.IsSolvable (↥H ⧸ R) := by
+  have : Group.IsSolvable (↥H ⧸ R) := by
     refine CFSG.FeitThompson.isSolvable_of_odd_natCard _ ?_
     rw [← Subgroup.index]
     exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 fun hd => by
@@ -1994,15 +2046,15 @@ private theorem sca_isSolvable_of_oTwoPrimeOf {H : Subgroup X}
 private theorem sca_isSolvable_of_commutator_odd {P : Subgroup X}
     (h : Odd (Nat.card ↥⁅P, P⁆)) : Group.IsSolvable ↥P := by
   set C := commutator ↥P with hC
-  haveI : C.Normal := inferInstance
+  have : C.Normal := inferInstance
   have hmap : C.map P.subtype = ⁅P, P⁆ := by
     rw [hC, commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
   have hCodd : Odd (Nat.card ↥C) := by
     rw [← Subgroup.card_map_of_injective P.subtype_injective, hmap]
     exact h
-  haveI : Group.IsSolvable ↥C := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hCodd
-  haveI : Group.IsSolvable (↥P ⧸ C) := by
+  have : Group.IsSolvable ↥C := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hCodd
+  have : Group.IsSolvable (↥P ⧸ C) := by
     refine Group.isSolvable_of_comm fun a b => ?_
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -2158,6 +2210,7 @@ private theorem sca_exists_witness {n : ℕ} {t : X} {L : Subgroup X}
     exact one_mem _
   exact ⟨u, huL, sca_mem_zStar_of_centModOdd hL huL hcu, hu2⟩
 
+omit [Finite X] in
 private theorem sca_self_eq (L : Subgroup X) : L = oddCoreOf L ⊔ L :=
   le_antisymm le_sup_right (sup_le (oddCoreOf_le L) le_rfl)
 
@@ -2180,6 +2233,7 @@ private theorem sca_N_unpumped
     · exact (sca_false_of_types hLF heq le_rfl (sca_self_eq L) hFM.2 hLA.2).elim
     · exact hLM
 
+omit [Finite X] in
 private theorem sca_A_N_centModOdd
     {n : ℕ} {t : X} {N : Subgroup X} (hII : Sec6CtrlNAt X n t N) {F : Subgroup X}
     (hF : Sec5Comp X n N F) : CentModOdd F t := by
@@ -2195,19 +2249,19 @@ private theorem sca_A_N_centModOdd
 private theorem sca_oddN_inf_le {t : X} {N : Subgroup X} (hCt : cen t ≤ N) :
     oddCoreOf N ⊓ cen t ≤ oddCoreOf (cen t) :=
   le_oddCoreOf_of_normalized inf_le_right
-    (fun c hc => mem_normalizer_inf (le_normalizer_oddCoreOf N (hCt hc)) (le_normalizer hc))
+    (fun _c hc => mem_normalizer_inf (le_normalizer_oddCoreOf N (hCt hc)) (le_normalizer hc))
     ((odd_card_oddCoreOf N).of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left))
 
 private theorem sca_oddCt_inf_le {n : ℕ} (t : X) :
     oddCoreOf (cen t) ⊓ K0 X n (cen t) ≤ oddCoreOf (K0 X n (cen t)) :=
   le_oddCoreOf_of_normalized inf_le_right
-    (fun k hk => mem_normalizer_inf (le_normalizer_oddCoreOf _ (sca_K0_le _ hk)) (le_normalizer hk))
+    (fun _k hk => mem_normalizer_inf (le_normalizer_oddCoreOf _ (sca_K0_le _ hk)) (le_normalizer hk))
     ((odd_card_oddCoreOf _).of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left))
 
 private theorem sca_oddA_le {n : ℕ} (N : Subgroup X) :
     oddCoreOf (K0 X n N) ≤ oddCoreOf N :=
   le_oddCoreOf_of_normalized ((oddCoreOf_le _).trans (sca_K0_le N))
-    (fun c hc => mem_normalizer_oddCoreOf_of_mem_normalizer
+    (fun _c hc => mem_normalizer_oddCoreOf_of_mem_normalizer
       (mem_normalizer_of_map_conj_eq (map_conj_K0 n (Subgroup.le_normalizer hc))))
     (odd_card_oddCoreOf _)
 
@@ -2278,6 +2332,7 @@ private theorem sca_isConj
   · exact Sec6L51B.isConj_of_equiv_McL e a b ha hb
   · exact Sec6L51B.isConj_of_equiv_Ly e a b ha hb
 
+omit [Finite X] in
 private theorem sca_sq_mem_of_mul {F : Subgroup X} (hZ : center (↥F ⧸ pPrimeCore 2 ↥F) = ⊥)
     {q f : X} (hq : q ∈ QOf F) (hf : f ∈ F) (hx : q * f * (q * f) = 1) :
     f * f ∈ oddCoreOf F := by

@@ -19,18 +19,18 @@ theorem core {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [Module.Finite (ZM
     (a b c : W →ₗ[ZMod 2] W) (hai : Function.Injective a) (hbi : Function.Injective b)
     (hca : c * a = a * c) (hcb : c * b = b * c) (hba : b * a = c * (a * b))
     (hker : aeval c f = 0) (hfix : ∀ w, c w = w → w = 0) : p ∣ finrank (ZMod 2) W := by
-  haveI : Fact (Irreducible f) := ⟨hf⟩
+  have : Fact (Irreducible f) := ⟨hf⟩
   let ψ : AdjoinRoot f →ₐ[ZMod 2] Module.End (ZMod 2) W :=
     Ideal.Quotient.liftₐ (Ideal.span {f}) (aeval c) (by
       intro q hq
       obtain ⟨r, rfl⟩ := Ideal.mem_span_singleton'.mp hq
       simp [hker])
   have hψ : ∀ q : (ZMod 2)[X], ψ (AdjoinRoot.mk f q) = aeval c q := fun q => rfl
-  letI : Module (AdjoinRoot f) W := Module.compHom W ψ.toRingHom
+  let : Module (AdjoinRoot f) W := Module.compHom W ψ.toRingHom
   have hsmul : ∀ (k : AdjoinRoot f) (w : W), k • w = ψ k w := fun k w => rfl
-  haveI : IsScalarTower (ZMod 2) (AdjoinRoot f) W :=
+  have : IsScalarTower (ZMod 2) (AdjoinRoot f) W :=
     ⟨fun r k w => by simp [hsmul]⟩
-  haveI : Module.Finite (AdjoinRoot f) W := Module.Finite.of_restrictScalars_finite (ZMod 2) _ W
+  have : Module.Finite (AdjoinRoot f) W := Module.Finite.of_restrictScalars_finite (ZMod 2) _ W
   have hcomm : ∀ (x : W →ₗ[ZMod 2] W), x * c = c * x → ∀ (k : AdjoinRoot f) (w : W),
       x (ψ k w) = ψ k (x w) := by
     intro x hx k w
@@ -70,7 +70,7 @@ theorem core {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [Module.Finite (ZM
     apply hw
     apply hfix
     rw [← hωw, h, one_smul]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf ω = p := orderOf_eq_prime hωp hω1
   have hd := congrArg LinearMap.det hrel
   rw [LinearMap.det_comp, LinearMap.det_smul, LinearMap.det_comp] at hd
@@ -87,12 +87,14 @@ theorem core {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [Module.Finite (ZM
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem coe_restrict_pow (c : V →ₗ[ZMod 2] V) (U : Submodule (ZMod 2) V) (hc : ∀ x ∈ U, c x ∈ U)
     (n : ℕ) (w : U) : (((c.restrict hc) ^ n) w : V) = (c ^ n) (w : V) := by
   induction n generalizing w with
   | zero => simp
   | succ n ih => rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih]; rfl
 
+omit [Module.Finite (ZMod 2) V] in
 theorem aeval_restrict (c : V →ₗ[ZMod 2] V) (U : Submodule (ZMod 2) V) (hc : ∀ x ∈ U, c x ∈ U)
     (q : (ZMod 2)[X]) (w : U) :
     ((aeval (c.restrict hc) q w : U) : V) = aeval c q (w : V) := by
@@ -102,6 +104,7 @@ theorem aeval_restrict (c : V →ₗ[ZMod 2] V) (U : Submodule (ZMod 2) V) (hc :
     simp only [aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply,
       Submodule.coe_smul, coe_restrict_pow]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem commute_aeval {a c : V →ₗ[ZMod 2] V} (h : c * a = a * c) (q : (ZMod 2)[X]) :
     aeval c q * a = a * aeval c q := by
   have := Algebra.commute_of_mem_adjoin_singleton_of_commute
@@ -194,13 +197,13 @@ theorem dvd_of_le_ker {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (a b c : V →ₗ
         · intro x y hxy; exact Subtype.ext (hai (congrArg Subtype.val hxy))
         · intro x y hxy; exact Subtype.ext (hbi (congrArg Subtype.val hxy))
         · exact LinearMap.ext fun w => Subtype.ext (by
-            simp only [Module.End.mul_apply, LinearMap.restrict_coe_apply]
+            simp only [Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply]
             exact congrArg (fun z => z (w : V)) hca)
         · exact LinearMap.ext fun w => Subtype.ext (by
-            simp only [Module.End.mul_apply, LinearMap.restrict_coe_apply]
+            simp only [Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply]
             exact congrArg (fun z => z (w : V)) hcb)
         · exact LinearMap.ext fun w => Subtype.ext (by
-            simp only [Module.End.mul_apply, LinearMap.restrict_coe_apply]
+            simp only [Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply]
             exact congrArg (fun z => z (w : V)) hba)
         · refine LinearMap.ext fun w => Subtype.ext ?_
           rw [aeval_restrict]

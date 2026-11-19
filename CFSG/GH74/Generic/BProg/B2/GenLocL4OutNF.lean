@@ -67,14 +67,14 @@ theorem diag_eq_mul_t [Finite F] (hodd : Nat.card F % 2 = 1) (d : Fin 4 → F) (
     linear_combination l * hu + hl1
   have e1 : P2 * P2ᵀ = D1 := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hP2, hD1, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp [hP2, hD1, Matrix.mul_apply, Fin.sum_univ_four]
     · linear_combination hu
     · ring
     · ring
     · linear_combination l ^ 2 * hu + hl2
   have e2 : P1 * D1 * P1ᵀ = Matrix.diagonal d := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hP1, hD1, Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp [hP1, hD1, Matrix.mul_apply, Fin.sum_univ_four]
     · linear_combination d 0 * h1
     · ring
     · ring

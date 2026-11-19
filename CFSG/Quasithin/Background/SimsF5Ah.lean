@@ -504,7 +504,7 @@ theorem ah_line_of_M2Dot {g : GL6} (hg : g ∈ M2Dot) (i : Fin 5) :
     exact key _ hc
   have hj5 : j ≠ 5 := by
     rintro rfl
-    rw [hc2, if_neg (mono_castSucc_ne_five i), if_pos rfl] at hq
+    rw [hc2, ite_eq_right (mono_castSucc_ne_five i), ite_eq_left rfl] at hq
     exact absurd hq (by decide)
   rcases mono_fin_cases j with h | ⟨j', rfl⟩
   · exact absurd h hj5

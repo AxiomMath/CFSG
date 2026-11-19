@@ -30,7 +30,7 @@ theorem false_of_propA_setting (h1222 : Stmt12_2_2) {G : Type} [Group G] [Finite
     (hSB : ∀ S : Subgroup ↥(star H K), CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ →
       CFSG.ASVolI.burnsideAut_SolvBorel ↥(star H K) S)
     (hK3 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥(star H K))) : False := by
-  haveI : (star H K).Normal := P31A.normal_star_K F h918 hK₀
+  have : (star H K).Normal := P31A.normal_star_K F h918 hK₀
   have hX3 : CFSG.Open.pRank 3 (⊤ : Subgroup (HStar H)) ≤ 2 :=
     S126P31.pRank_hStar_le hH (S126P31.pCoreOf_ne_bot h918.toHypF98.toHypF91)
   have hT2 : IsPGroup 2 ↥(star H T) := P31A.isPGroup_star_T F hH hHK

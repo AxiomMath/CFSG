@@ -31,7 +31,7 @@ theorem map_N0 (p r : ℕ) (K : Subgroup G) (σ : MulAut ↥K) :
   rw [Subgroup.map_inf _ _ _ σ.injective, map_gLAPPrimeCore p σ, map_gLAPPrimeCore r σ]
 
 theorem n0_not_dvd {p r : ℕ} (hr : r.Prime) (K : Subgroup G) [Finite G] : ¬ r ∣ Nat.card (N0 p r K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h1 : Nat.Coprime r (Nat.card (GLAPPrimeCore r ↥K)) := CFSG.pPrimeCore_coprime_card
   have h2 : Nat.card (N0 p r K) ∣ Nat.card (GLAPPrimeCore r ↥K) :=
     Subgroup.card_dvd_of_le inf_le_right
@@ -89,7 +89,7 @@ theorem map_fixSubgroup_n0 {p r : ℕ} (hr : r.Prime) [Finite G] (K : Subgroup G
     (hy : y ∈ Subgroup.normalizer (K : Set G)) (hyr : y ^ r = 1) :
     (fixSubgroup (conjAut' K y hy)).map (QuotientGroup.mk' (N0 p r K)) =
       fixSubgroup (actN0 p r K ⟨y, hy⟩) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hFp : IsPGroup r ↥(Subgroup.zpowers (⟨y, hy⟩ : ↥(Subgroup.normalizer (K : Set G)))) := by
     have h1 : (⟨y, hy⟩ : ↥(Subgroup.normalizer (K : Set G))) ^ r = 1 :=
       Subtype.ext (by simpa using hyr)

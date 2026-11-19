@@ -15,8 +15,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem commutator_quot_le_fStarMod {K : Subgroup G} {p : ℕ} [hp : Fact p.Prime]
     (hcard : Nat.card ↥(fStarMod K) = p) (q q' : ↥K ⧸ CFSG.pCore 2 ↥K) :
     ⁅q, q'⁆ ∈ fStarMod K := by
-  haveI : IsCyclic ↥(fStarMod K) := isCyclic_of_prime_card hcard
-  haveI : (fStarMod K).Normal :=
+  have : IsCyclic ↥(fStarMod K) := isCyclic_of_prime_card hcard
+  have : (fStarMod K).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥K ⧸ CFSG.pCore 2 ↥K)).2
   have hmulAut : ∀ α β : MulAut ↥(fStarMod K), α * β = β * α := fun α β =>
     (IsCyclic.mulAutMulEquiv ↥(fStarMod K)).injective (by
@@ -36,7 +36,7 @@ theorem spl_of_prime {K T : Subgroup G} (hTK : T ≤ K)
     (hF : ∃ p : ℕ, p.Prime ∧ Nat.card ↥(fStarMod K) = p) :
     K ≤ Subgroup.normalizer ((fStarPre K ⊔ T : Subgroup G) : Set G) := by
   obtain ⟨p, hp, hcard⟩ := hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA : ∀ g ∈ K, ∀ h ∈ K, ⁅g, h⁆ ∈ fStarPre K := by
     intro g hg h hh
     refine (Subgroup.mem_map).2 ⟨⁅(⟨g, hg⟩ : ↥K), ⟨h, hh⟩⁆, ?_, rfl⟩

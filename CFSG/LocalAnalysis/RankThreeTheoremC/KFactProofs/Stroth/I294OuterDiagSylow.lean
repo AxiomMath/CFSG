@@ -11,7 +11,7 @@ open CFSG CFSG.Open Subgroup
 theorem I294Cfg.le_of_dvd_eightyOne {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal]
     {z g : Y} {D : Subgroup Y} (h : I294Cfg 3 L z g D) (hL : 81 ∣ Nat.card L) : D ≤ L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDp : IsPGroup 3 D := IsPGroup.of_card (n := 2) h.card
   obtain ⟨P, hDP⟩ := hDp.exists_le_sylow
   have hP : Nat.card P = 81 := h.card_sylow_eq_eightyOne P hDP

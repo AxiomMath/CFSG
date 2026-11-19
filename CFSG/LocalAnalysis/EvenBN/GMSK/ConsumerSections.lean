@@ -71,7 +71,7 @@ theorem exists_sylow_inf_centralizer_eq_zpowers {H : Type*} [Group H] [Finite H]
   · intro x hx
     exact ⟨⟨x, htC hx⟩, hS hx, rfl⟩
   · rw [Nat.card_zpowers, ht]
-    exact hrank _ ((map_subtype_le _).trans inf_le_left) (S.isPGroup'.map _)
+    exact hrank _ ((map_subtype_le _).trans inf_le_left) (S.isPGroup.map _)
 
 theorem stdLinearData_odd_quotient {H : Type} [Group H] [Finite H] {A : Subgroup H} {n : ℕ}
     (hn : 2 ≤ n) {k : Type} [Field k] [Fintype k] (hk : Fintype.card k = 2 ^ n)

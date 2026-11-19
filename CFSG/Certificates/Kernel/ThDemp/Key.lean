@@ -49,7 +49,7 @@ theorem spanL_cons (b : ℕ) (l : List ℕ) : spanL (b :: l) = (ZMod 2) ∙ pkVe
   rw [spanL, spanL, ← Submodule.span_insert]
   congr 1
   ext w
-  simp only [List.mem_cons, Set.mem_setOf_eq, Set.mem_insert_iff]
+  simp only [List.mem_cons, Set.mem_ofPred_eq, Set.mem_insert_iff]
   constructor
   · rintro ⟨c, hc | hc, rfl⟩
     · left

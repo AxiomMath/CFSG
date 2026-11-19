@@ -83,7 +83,7 @@ theorem rankLE2_of_sylowShape {T : Type} [Group T] [Finite T] {p a : ℕ} (hp : 
   have : Fact p.Prime := ⟨hp⟩
   have hFp : IsPGroup p F := fun g => ⟨1, Subtype.ext (by simpa using hF.2 g g.2)⟩
   obtain ⟨S, hFS⟩ := hFp.exists_le_sylow
-  obtain ⟨φ⟩ := h (S : Subgroup T) S.isPGroup' (Sylow.not_dvd_index S)
+  obtain ⟨φ⟩ := h (S : Subgroup T) S.isPGroup (Sylow.not_dvd_index S)
   have hcard : Nat.card ((F.subgroupOf S).map φ.toMonoidHom) = Nat.card F := by
     rw [Subgroup.card_map_of_injective φ.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFS).toEquiv

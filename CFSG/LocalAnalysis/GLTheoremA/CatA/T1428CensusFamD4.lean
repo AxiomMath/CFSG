@@ -20,8 +20,8 @@ theorem censusBodyD4Graph : CensusBodyD4Graph := by
   intro q hv hq2 η hmem hη3 hinn r hr hr1 J₁ J₂ J₃ hJ₁ hJ₂ hJ₃ h12 h13 h23 hL1 hL2 hL3
   classical
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFcard : Nat.card F = 2 ^ q.exponent := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 2 ^ q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,

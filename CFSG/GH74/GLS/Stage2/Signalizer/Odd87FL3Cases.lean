@@ -94,6 +94,7 @@ theorem singleInv_projectiveSL_fl3 (h2 : (2 : F) ≠ 0) :
       (QuotientGroup.quotientMulEquivOfEq (scalars_eq_center 3 F)).symm)
     (CFSG.GH74.Generic.S3.singleInv_psl h2)
 
+omit [Finite F] in
 theorem exists_equiv_tInv {K : Type} [Group K] (h2 : (2 : F) ≠ 0) (e : K ≃* projectiveSL 3 F) {y : K}
     (hy2 : y * y = 1) (hy1 : y ≠ 1) : ∃ e' : K ≃* projectiveSL 3 F, e' y = tInv := by
   have hex2 : e y * e y = 1 := by rw [← map_mul, hy2, map_one]

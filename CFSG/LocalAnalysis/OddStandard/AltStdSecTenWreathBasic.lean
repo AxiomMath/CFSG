@@ -22,10 +22,12 @@ structure WreathK (t : X) (A K : Subgroup X) : Prop where
   iso : Nonempty (K ≃* alternatingGroup (Fin 8))
   diag : (A : Set X) = {g | ∃ k ∈ K, g = k * (t * k * t⁻¹)}
 
+omit [Finite X] in
 theorem WreathK.exists_of_wreathOutcome (h : WreathOutcome t A 8) : ∃ K, WreathK t A K := by
   obtain ⟨K, hcomp, hne, hlayer, hiso, hdiag⟩ := h
   exact ⟨K, ⟨hcomp, hne, hlayer, hiso, hdiag⟩⟩
 
+omit [Finite X] in
 theorem mem_conjSub_iff {K : Subgroup X} {y : X} : y ∈ conjSub t K ↔ t⁻¹ * y * t ∈ K := by
   rw [conjSub, Subgroup.mem_map]
   constructor
@@ -39,6 +41,7 @@ theorem mem_conjSub_iff {K : Subgroup X} {y : X} : y ∈ conjSub t K ↔ t⁻¹ 
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite X] in
 theorem WreathK.comp_conjSub (hK : WreathK t A K) : CFSG.IsComponent (conjSub t K) := by
   rw [conjSub]
   exact CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj t) hK.comp
@@ -70,10 +73,12 @@ theorem WreathK.inf_eq_bot (hK : WreathK t A K) : K ⊓ conjSub t K = ⊥ := by
   have h1 : (⟨g, hgK⟩ : K) = 1 := e.injective (by rw [hbot, map_one])
   simpa using congrArg Subtype.val h1
 
+omit [Finite X] in
 theorem WreathK.le_layer (hK : WreathK t A K) : K ≤ CFSG.layer X := by
   rw [hK.layer]
   exact le_sup_left
 
+omit [Finite X] in
 theorem WreathK.conjSub_le_layer (hK : WreathK t A K) : conjSub t K ≤ CFSG.layer X := by
   rw [hK.layer]
   exact le_sup_right
@@ -115,11 +120,13 @@ theorem WreathK.eq_of_mul_eq (hK : WreathK t A K) {k l k' l' : X} (hk : k ∈ K)
     exact mul_left_cancel h
   exact ⟨hkl, hkl'⟩
 
-theorem WreathK.card_conjSub (hK : WreathK t A K) : Nat.card (conjSub t K) = Nat.card K := by
+omit [Finite X] in
+theorem WreathK.card_conjSub (_hK : WreathK t A K) : Nat.card (conjSub t K) = Nat.card K := by
   rw [conjSub]
   exact (Nat.card_congr
     (K.equivMapOfInjective (MulAut.conj t).toMonoidHom (MulAut.conj t).injective).toEquiv).symm
 
+omit [Finite X] in
 theorem WreathK.card_K (hK : WreathK t A K) : Nat.card K = 20160 := by
   obtain ⟨e⟩ := hK.iso
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]

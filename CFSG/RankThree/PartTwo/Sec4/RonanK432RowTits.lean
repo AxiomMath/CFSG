@@ -26,7 +26,7 @@ theorem titsWitData_gens_mem :
 
 theorem listRow_titsD :
     ListRow ↥titsD := by
-  haveI : Finite ↥titsD := Nat.finite_of_card_ne_zero (by rw [card_titsD]; norm_num)
+  have : Finite ↥titsD := Nat.finite_of_card_ne_zero (by rw [card_titsD]; norm_num)
   obtain ⟨P, hPD, hPcard, hP⟩ := Certificates.certificate428001.apply
     titsD titsD (titsWitData_gens_mem) (titsWitData_gens_mem)
   have hP27 : Nat.card (P.subgroupOf titsD) = 3 ^ 3 := by

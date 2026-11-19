@@ -15,11 +15,13 @@ namespace Case2Data
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 private theorem pow_pow_eq_one_of_mem_sylow (S : Sylow p Y) {a : Y} (ha : a ∈ (S : Subgroup Y)) :
     ∃ k : ℕ, a ^ (p ^ k) = 1 := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨a, ha⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨a, ha⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite Y] in
 private theorem mem_normalizer_of_pow_coprime {H : Subgroup Y} {y : Y} {n : ℕ}
     (hy : y ^ n = 1) {m : ℕ} (hm : Nat.Coprime m n) (hym : y ^ m ∈ normalizer (H : Set Y)) :
     y ∈ normalizer (H : Set Y) := by

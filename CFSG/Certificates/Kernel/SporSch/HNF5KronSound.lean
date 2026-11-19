@@ -128,7 +128,7 @@ theorem lane_krConst {v s : Nat} (hv : v < 2 ^ 16) (hs : 1 ≤ s) (t : Nat) :
     · refine Finset.sum_eq_zero fun d hd => absurd ?_ h
       obtain ⟨hd1, rfl⟩ := Finset.mem_filter.1 hd
       exact ⟨Nat.mul_mod_right _ _, by rw [Nat.mul_div_cancel_left _ hs]; exact mem_range.1 hd1⟩
-  · rw [lane_high (krConst_lt hv hs) (by omega), if_neg]
+  · rw [lane_high (krConst_lt hv hs) (by omega), ite_eq_right]
     rintro ⟨h1, h2⟩
     have := Nat.div_mul_cancel (Nat.dvd_of_mod_eq_zero h1)
     nlinarith
@@ -384,7 +384,7 @@ theorem krRow_core {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x 
           omega
       · have hn : ¬(t % 265 = 0 ∧ t / 265 < 133) := by omega
         refine (lane_high (n := 265 * 133) (lt_fiber _ _ (fun c => 265 * c) _ hp hfb) ht).trans ?_
-        rw [if_neg hn]
+        rw [ite_eq_right hn]
   have hscb : ∀ t, lane5 sc t ≤ 4 := fun t => by
     rw [hscl]
     split_ifs with h1
@@ -438,7 +438,7 @@ theorem krRow_core {Y : Nat → Nat} (hY : ∀ j < 133, canon5 (Y j) = true) {x 
   have h1 := hlanes (265 * k) (by omega)
   have c1 : 265 * k % 265 = 0 ∧ 265 * k / 265 < 133 := by omega
   have c2 : 265 * k / 265 = k := by omega
-  rw [hul, hFl, hscl, if_pos c1, if_pos c1, if_pos c1, c2, hdot k hk] at h1
+  rw [hul, hFl, hscl, ite_eq_left c1, ite_eq_left c1, ite_eq_left c1, c2, hdot k hk] at h1
   have h2 := canon5_lane hc hk
   omega
 
@@ -492,7 +492,7 @@ theorem krCanon_sound {x : Nat} (h : krCanon (krConst 65528 1) (krConst 3 1) x =
     exact absurd hp (Nat.lt_irrefl 0)
   have hM8 : ∀ t < 133, lane5 M8 t = 65528 := fun t ht => by
     have c : t % 1 = 0 ∧ t / 1 < 133 := ⟨Nat.mod_one t, by rw [Nat.div_one]; exact ht⟩
-    rw [← hM80, lane_krConst (v := 65528) (s := 1) (by norm_num) (by norm_num), if_pos c]
+    rw [← hM80, lane_krConst (v := 65528) (s := 1) (by norm_num) (by norm_num), ite_eq_left c]
   have h8 : ∀ t < 133, lane5 x t < 8 := fun t ht => by
     have := congrArg (lane5 · t) h2
     simp only [lane5_land, lane5_zero, hM8 t ht] at this

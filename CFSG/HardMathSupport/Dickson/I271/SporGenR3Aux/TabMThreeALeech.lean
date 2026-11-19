@@ -64,7 +64,7 @@ theorem ncard_fix_of_mrep {y : NativeSporadic.Co1} {R : Rows}
   have h3 : {v : Fin 24 → ZMod 2 | co1Act y v = v} =
       {v : Fin 24 → ZMod 2 | ∀ M ∈ [R], rowsMatrix 24 M *ᵥ v = v} := by
     ext v
-    simp only [Set.mem_setOf_eq, List.mem_singleton, forall_eq, Odd.co1Act_eq_mulVec, hmat]
+    simp only [Set.mem_ofPred_eq, List.mem_singleton, forall_eq, Odd.co1Act_eq_mulVec, hmat]
   rw [h3, h2]
   rfl
 

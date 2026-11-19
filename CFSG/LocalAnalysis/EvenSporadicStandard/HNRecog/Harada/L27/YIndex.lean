@@ -45,7 +45,7 @@ theorem commutator_mem_of_card_le_four {Y : Type*} [Group Y] [Finite Y] (E : Sub
     have hq := E.card_eq_card_quotient_mul_card_subgroup
     rw [hE] at hq
     omega
-  haveI : IsMulCommutative (Y ⧸ E) := isMulCommutative_of_card_le_four hcard
+  have : IsMulCommutative (Y ⧸ E) := isMulCommutative_of_card_le_four hcard
   apply (QuotientGroup.eq_one_iff (y * v * y⁻¹ * v⁻¹)).mp
   have hcomm : ∀ a b : Y ⧸ E, a * b = b * a := fun a b => IsMulCommutative.is_comm.comm a b
   simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
@@ -55,7 +55,7 @@ theorem commutator_mem_of_card_le_four {Y : Type*} [Group Y] [Finite Y] (E : Sub
 theorem index_sup_eq_two {Y : Type} [Group Y] [Finite Y] {P F : Subgroup Y} {v : Y}
     (h : FinalData Y P F v) {T₁ T₂ : Subgroup Y} (hT : TwoA5 Y T₁ T₂) (hF : F ≤ T₁ ⊔ T₂)
     (hswap : T₁.map (MulAut.conj v).toMonoidHom = T₂) : (T₁ ⊔ T₂).index = 2 := by
-  haveI hEnorm : (T₁ ⊔ T₂).Normal := by
+  have hEnorm : (T₁ ⊔ T₂).Normal := by
     have hL : CFSG.ComponentClassification.Layer.subgroup Y = T₁ ⊔ T₂ :=
       layer_eq_sup_of_two hT.comp₂ hT.comp₁ hT.only
     rw [← hL]

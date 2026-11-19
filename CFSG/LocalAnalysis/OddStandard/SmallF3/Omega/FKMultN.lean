@@ -77,20 +77,20 @@ theorem fk_spinAction_x2 (c : 𝔽₃) (v : Fin 4 ⊕ Fin 4 → 𝔽₃) :
     spinAction Q₄ ((fr 𝔽₃).longRoot ne23 true false (.ofAdd c)) v = v + c • fkN2 v := by
   funext μ
   rw [CFSG.ClassicalInvolution.ModelFacts.D4Rigid.spinAction_longRoot_apply ne23 true false c v μ]
-  rcases μ with i | i <;> fin_cases i <;> simp [fkN2_apply, idx] <;> ring
+  rcases μ with i | i <;> fin_cases i <;> simp [fkN2_apply, idx]; ring
 
 theorem fk_spinAction_x3 (c : 𝔽₃) (v : Fin 4 ⊕ Fin 4 → 𝔽₃) :
     spinAction Q₄ ((fr 𝔽₃).longRoot ne23 true true (.ofAdd c)) v = v + c • fkN3 v := by
   funext μ
   rw [CFSG.ClassicalInvolution.ModelFacts.D4Rigid.spinAction_longRoot_apply ne23 true true c v μ]
-  rcases μ with i | i <;> fin_cases i <;> simp [fkN3_apply, idx] <;> ring
+  rcases μ with i | i <;> fin_cases i <;> simp [fkN3_apply, idx]; ring
 
 theorem fkN2_mul_fkN3 (v : Fin 4 ⊕ Fin 4 → 𝔽₃) :
     fkN2 (fkN3 v) = -(v (Sum.inr 2)) • (Pi.single (Sum.inl 2) 1 : Fin 4 ⊕ Fin 4 → 𝔽₃) := by
   funext μ
   rw [fkN2_apply, fkN3_apply, fkN3_apply]
   rcases μ with i | i <;> fin_cases i <;>
-    simp [Pi.smul_apply, Pi.single_apply, smul_eq_mul] <;> ring
+    simp [Pi.smul_apply, smul_eq_mul]
 
 theorem fk_longSL2_injective {i j : Fin 4} (hij : i ≠ j) (s t : Bool) :
     Function.Injective ((fr 𝔽₃).longSL2 hij s t) := by

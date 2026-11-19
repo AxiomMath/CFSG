@@ -56,8 +56,7 @@ theorem rckCompImage_rangeRestrict_normalizerMonoidHom {K : Subgroup X} {d : X}
   have heq : (⟨d * (x : X) * d⁻¹, hx⟩ : ↥K) = K.normalizerMonoidHom ⟨d, hd⟩ x := by
     apply Subtype.ext
     exact (Subgroup.normalizerMonoidHom_apply_apply_coe K ⟨d, hd⟩ x).symm
-  simp only [MonoidHom.coe_rangeRestrict, Subgroup.normalizerMonoidHom_apply_apply_coe,
-    Subtype.coe_mk]
+  simp only [MonoidHom.coe_rangeRestrict, Subgroup.normalizerMonoidHom_apply_apply_coe]
   rw [← heq, hcomp x hx]
 
 theorem rckCompImage_map_subtype_ggFix {R : Subgroup Y} {y : Y}

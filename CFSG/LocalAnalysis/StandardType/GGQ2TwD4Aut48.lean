@@ -99,7 +99,7 @@ private theorem ggQ2_twD4_innerOn {G : Type} [Group G] {L Bs : Subgroup G} {R : 
 theorem ggQ2_twD4_automizer_ge48
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     (hcfg : GGConfig 3 B Bs x L D J) (hlab : GGInnerDiagOnLabel GGLabQTwo 3 Bs L)
-    (hcard : Nat.card ↥Bs = 3 ^ 4)
+    (_hcard : Nat.card ↥Bs = 3 ^ 4)
     (hmk : LargeEvenMarking ↥L
       (fun lab _ _ _ _ _ => lab.tag = .twD ∧ lab.rank = 4 ∧ lab.n = 1)) :
     48 ≤ Nat.card ↥(ggAutomizer L Bs) := by

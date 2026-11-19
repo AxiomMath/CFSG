@@ -15,7 +15,7 @@ set_option linter.unusedSectionVars false
 theorem closure_top_of_commute {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K]
     (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ Nat.card k)
     (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c)
-    (e : twistedFixedGroup TwistTag.E6 k (RingHom.id k)) (he1 : e ≠ 1)
+    (e : twistedFixedGroup TwistTag.E6 k (RingHom.id k)) (_he1 : e ≠ 1)
     (hcomm : ∀ i, (i = e6Index 0 ∨ i = e6Index 2 ∨ i = e6Index 4 ∨ i = e6Index 5) →
       ∀ d : K, Commute (baseChangeGL (algebraMap k K) (e : ModGL TwistTag.E6.tag k))
           (xUnit Tag.E6 K i d) ∧

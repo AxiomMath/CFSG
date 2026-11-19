@@ -34,7 +34,7 @@ theorem signalizer_le_glbPrimeCore_normalizer_zpowers_of_isPConstrained (hS : Se
     (centralizer_le (Set.singleton_subset_iff.mpr hzD)).trans
       ((centralizer_singleton_le_normalizer_zpowers z).trans hN₀M)
   exact CFSG.AGLEmbedding.signalizer_le_glbPrimeCore_of_contains hprime hodd
-    (hasPrimeConstraint_of_isPConstrained hcon) (P.isPGroup'.to_le hDP) (hDP.trans hPN₀)
+    (hasPrimeConstraint_of_isPConstrained hcon) (P.isPGroup.to_le hDP) (hDP.trans hPN₀)
     (fun y _ hyC hyo => hext.mem_of_mem_centralizer_of_isMulCommutative hS hD1 hp hDab hCD hyC
       (by rw [← hyo]; exact pow_orderOf_eq_one y)) hYN hY hDY
 

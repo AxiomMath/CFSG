@@ -251,7 +251,7 @@ theorem mem_center_of_right_eq_one (hodd : IsOddPrimePower (Nat.card F)) (D : Sy
         rw [← map_mul, ← map_mul, mem_centralizer_iff.mp hz.2 d hd]
     intro r hr d hd
     exact (mem_centralizer_iff.mp (hle hr) _ ⟨d, hd, rfl⟩).symm
-  have hlin := card_linearPart_le_two hodd D D.isPGroup' ha hb hab R hR2 hRD
+  have hlin := card_linearPart_le_two hodd D D.isPGroup ha hb hab R hR2 hRD
   have hRrange : R ≤ (SemidirectProduct.inl : PGL2 F →* PGammaL2 F).range := by
     apply sup_le
     · rw [zpowers_le]

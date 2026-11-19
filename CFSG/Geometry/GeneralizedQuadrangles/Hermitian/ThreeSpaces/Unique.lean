@@ -128,7 +128,7 @@ theorem existsUnique_cone_of_dist_two (hΓ : IsThasQuadrangle Γ c q) {a b z x :
 
 theorem existsUnique_cone_of_dist_four (hΓ : IsThasQuadrangle Γ c q) {a b z x : V}
     (ha : c a = 0) (hab : Γ.dist a b = 4) (hz : z ∈ traceSet Γ a b) (hx : c x = 0)
-    (hxT : x ∉ ptPerp Γ c {z} ∩ clSet Γ a b) (hxz : Γ.dist x z = 4) :
+    (_hxT : x ∉ ptPerp Γ c {z} ∩ clSet Γ a b) (hxz : Γ.dist x z = 4) :
     ∃! E, IsThreespace Γ c q E ∧ (ptPerp Γ c {z} ∩ clSet Γ a b) ⊆ E ∧ x ∈ E := by
   classical
   have hP : IsGeneralizedPolygon Γ 4 := hΓ.gp

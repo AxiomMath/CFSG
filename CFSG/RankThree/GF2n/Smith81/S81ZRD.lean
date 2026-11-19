@@ -31,6 +31,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def n1N : NU K := Pi.single (⟨alpha7, alpha7_mem⟩ : ↥(Phi a7)) 1
 
+omit [CharP K 2] in
 theorem tauN_n1N : tauN (n1N : NU K) = 1 := by
   simp [tauN, n1N]
 
@@ -59,7 +60,7 @@ theorem Ad_dN (c : Kˣ) :
   by_cases hδ : δ = (⟨alpha7, alpha7_mem⟩ : ↥(Phi a7))
   · subst hδ
     simp
-  · simp [Pi.single_apply, hδ]
+  · simp [hδ]
 
 @[expose] def sN (K : Type) [Field K] : Gp K := e7Data_valid.nm K nodeA
 
@@ -74,6 +75,7 @@ theorem sN_sq : sN K * sN K = 1 := by
 
 theorem sN_inv : (sN K)⁻¹ = sN K := inv_eq_of_mul_eq_one_right sN_sq
 
+omit [CharP K 2] in
 theorem hm_inv_unit (i : Fin (Tag.rank .E7)) (c : Kˣ) :
     e7Data_valid.hm K i c⁻¹ = (e7Data_valid.hm K i c)⁻¹ := by
   apply eq_inv_of_mul_eq_one_right
@@ -193,7 +195,7 @@ theorem Ad_xE_neg_coord (γ : Rt) (hγ : IsRoot .E7 γ) (hpr : pr a7 γ = 0) (n 
     exact β.2
   have h3 : (⟨δ.1 - -γ, hmem⟩ : ↥(Phi a7)) = β :=
     Subtype.ext (show δ.1 - -γ = β.1 by rw [sub_neg_eq_add, hδβ])
-  rw [dif_pos hmem, h3]
+  rw [dite_eq_left hmem, h3]
 
 theorem isRoot_cert (m : Fin 126) : IsRoot .E7 ((Tag.rootCertificate .E7).root m) := by
   have hlen : (Tag.rootCertificate .E7).roots.length = 126 := Tag.rootCertificate_length .E7

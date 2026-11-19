@@ -17,22 +17,26 @@ private abbrev a1413StrMat (x : StatedSp 2 K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 
 
 @[expose] def a1413StrSwapMat : Matrix (Fin 2) (Fin 2) K := !![0, 1; 1, 0]
 
+omit [Finite K] in
 private theorem a1413StrSwapMat_transpose : (a1413StrSwapMat (K := K))ᵀ = a1413StrSwapMat := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [a1413StrSwapMat]
 
+omit [Finite K] in
 private theorem a1413StrSwapMat_mul_self :
     a1413StrSwapMat (K := K) * a1413StrSwapMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [a1413StrSwapMat, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] in
 private theorem a1413StrSwapMat_diag2 (a b : K) :
     a1413StrSwapMat * diag2 a b * a1413StrSwapMat = diag2 b a := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [a1413StrSwapMat, diag2, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] in
 theorem a1413StrSwapMat_symplectic :
     (kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat)ᵀ * formJ 2 K *
         kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat = formJ 2 K := by
@@ -43,11 +47,13 @@ theorem a1413StrSwapMat_symplectic :
   toSp (kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat)
     a1413StrSwapMat_symplectic
 
+omit [Finite K] in
 @[simp] private theorem a1413StrCoeSwapSp :
     (((a1413StrSwapSp (K := K) : StatedSp 2 K) : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) =
       kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat := rfl
 
+omit [Finite K] in
 private theorem a1413StrSwapSp_mul_self :
     a1413StrSwapSp (K := K) * a1413StrSwapSp = 1 := by
   apply sp_ext
@@ -55,16 +61,19 @@ private theorem a1413StrSwapSp_mul_self :
     a1413StrSwapMat_mul_self, kron_one_one]
   rfl
 
+omit [Finite K] in
 private theorem a1413StrSwapSp_inv :
     (a1413StrSwapSp (K := K))⁻¹ = a1413StrSwapSp :=
   inv_eq_of_mul_eq_one_right a1413StrSwapSp_mul_self
 
 @[expose] def a1413StrSwapProj : StatedProj (StatedSp 2 K) := proj 2 K (a1413StrSwapSp (K := K))
 
+omit [Finite K] in
 private theorem a1413StrProjSwap_inv :
     (a1413StrSwapProj (K := K))⁻¹ = a1413StrSwapProj := by
   rw [a1413StrSwapProj, ← map_inv, a1413StrSwapSp_inv]
 
+omit [Finite K] in
 private theorem a1413StrSwapMat_blk (g h : Matrix (Fin 2) (Fin 2) K) :
     kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat * blk g h *
         kron (1 : Matrix (Fin 2) (Fin 2) K) a1413StrSwapMat = blk h g := by
@@ -74,6 +83,7 @@ private theorem a1413StrSwapMat_blk (g h : Matrix (Fin 2) (Fin 2) K) :
   rw [hk, blk, blk, fromBlocks_multiply, fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, a1413StrSwapMat_diag2]
 
+omit [Finite K] in
 theorem a1413StrNegOne_symplectic :
     (-1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)ᵀ * formJ 2 K * (-1) = formJ 2 K := by
   rw [transpose_neg, transpose_one, neg_mul, one_mul, mul_neg, mul_one, neg_neg]
@@ -81,15 +91,18 @@ theorem a1413StrNegOne_symplectic :
 @[expose] def a1413StrNegOneSp : StatedSp 2 K :=
   toSp (-1) a1413StrNegOne_symplectic
 
+omit [Finite K] in
 @[simp] private theorem a1413StrCoeNegOneSp :
     (((a1413StrNegOneSp (K := K) : StatedSp 2 K) : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) = -1 := rfl
 
+omit [Finite K] in
 private theorem a1413StrProjNegOneSp :
     proj 2 K (a1413StrNegOneSp (K := K)) = 1 := by
   rw [← MonoidHom.mem_ker, ker_proj, mem_spScalars_iff]
   exact Or.inr a1413StrCoeNegOneSp
 
+omit [Finite K] in
 private theorem a1413StrSwapSp_mul_T1 :
     a1413StrSwapSp (K := K) * T1 K * a1413StrSwapSp =
       a1413StrNegOneSp * T1 K := by
@@ -98,6 +111,7 @@ private theorem a1413StrSwapSp_mul_T1 :
     Units.val_mul, a1413StrCoeSwapSp, coe_T1, a1413StrCoeNegOneSp, a1413StrSwapMat_blk,
     Matrix.neg_mul, Matrix.one_mul, blk_neg (1 : Matrix (Fin 2) (Fin 2) K) (-1), neg_neg]
 
+omit [Finite K] in
 private theorem a1413StrSwapSp_mul_blkSL
     (g h : Matrix.SpecialLinearGroup (Fin 2) K) :
     a1413StrSwapSp (K := K) * blkSL K (g, h) * a1413StrSwapSp = blkSL K (h, g) := by
@@ -105,10 +119,12 @@ private theorem a1413StrSwapSp_mul_blkSL
   rw [Subgroup.coe_mul, Units.val_mul, Subgroup.coe_mul, Units.val_mul, a1413StrCoeSwapSp,
     coe_blkSL, coe_blkSL, a1413StrSwapMat_blk]
 
+omit [Finite K] in
 private theorem a1413StrProjSwap_mul_self :
     proj 2 K (a1413StrSwapSp (K := K)) * proj 2 K a1413StrSwapSp = 1 := by
   rw [← map_mul, a1413StrSwapSp_mul_self, map_one]
 
+omit [Finite K] in
 private theorem a1413StrProjSwap_mem_centralizer :
     proj 2 K (a1413StrSwapSp (K := K)) ∈
       centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K))) := by
@@ -131,26 +147,28 @@ private theorem a1413StrProjSwap_mem_centralizer :
     _ = u1 K * proj 2 K a1413StrSwapSp := by
           rw [show u1 K = proj 2 K (T1 K) from rfl, hT1]
 
+omit [Finite K] in
 private theorem a1413Str_neg_one_ne_one (h2 : (2 : K) ≠ 0) : (-1 : K) ≠ 1 := by
   intro h
   exact h2 (by linear_combination -h)
 
+omit [Finite K] in
 private theorem a1413StrSwap_T1_entry :
     (a1413StrMat (a1413StrSwapSp (K := K)) * a1413StrMat (T1 K)) (Sum.inl 0) (Sum.inl 1) =
       -1 := by
   unfold a1413StrMat
   rw [a1413StrCoeSwapSp, coe_T1, kron, blk, fromBlocks_multiply]
-  simp [diag2, a1413StrSwapMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.add_apply,
-    Matrix.one_apply]
+  simp [diag2, a1413StrSwapMat]
 
+omit [Finite K] in
 private theorem a1413StrT1_swap_entry :
     (a1413StrMat (T1 K) * a1413StrMat (a1413StrSwapSp (K := K))) (Sum.inl 0) (Sum.inl 1) =
       1 := by
   unfold a1413StrMat
   rw [coe_T1, a1413StrCoeSwapSp, blk, kron, fromBlocks_multiply]
-  simp [diag2, a1413StrSwapMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.add_apply,
-    Matrix.one_apply]
+  simp [diag2, a1413StrSwapMat]
 
+omit [Finite K] in
 private theorem a1413StrSwapSp_not_commute_T1 (h2 : (2 : K) ≠ 0) :
     a1413StrSwapSp (K := K) * T1 K ≠ T1 K * a1413StrSwapSp := by
   intro hEq
@@ -161,6 +179,7 @@ private theorem a1413StrSwapSp_not_commute_T1 (h2 : (2 : K) ≠ 0) :
   rw [a1413StrSwap_T1_entry, a1413StrT1_swap_entry] at hentry
   exact a1413Str_neg_one_ne_one h2 hentry
 
+omit [Finite K] in
 private theorem a1413StrProjSwap_notMem_X0 (h2 : (2 : K) ≠ 0) :
     proj 2 K (a1413StrSwapSp (K := K)) ∉ X0 K := by
   intro hmem
@@ -181,25 +200,30 @@ private theorem a1413StrProjSwap_notMem_X0 (h2 : (2 : K) ≠ 0) :
       rw [h, Matrix.neg_mul, Matrix.mul_neg, hcommMat]
     exact a1413StrSwapSp_not_commute_T1 h2 (sp_ext hmat)
 
+omit [Finite K] in
 private theorem a1413StrSwapProj_mem_centralizer :
     a1413StrSwapProj (K := K) ∈
       centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K))) :=
   (a1413StrProjSwap_mem_centralizer (K := K))
 
+omit [Finite K] in
 private theorem a1413StrSwapProj_notMem_X0 (h2 : (2 : K) ≠ 0) :
     a1413StrSwapProj (K := K) ∉ X0 K :=
   (a1413StrProjSwap_notMem_X0 (K := K) h2)
 
+omit [Finite K] in
 private theorem a1413StrSwapProj_mul_self :
     a1413StrSwapProj (K := K) * a1413StrSwapProj = 1 :=
   (a1413StrProjSwap_mul_self (K := K))
 
+omit [Finite K] in
 theorem a1413StrX0_eq_sup (h2 : (2 : K) ≠ 0) : X0 K = E1 K ⊔ E2 K := by
   refine le_antisymm ?_ (sup_le (E1_le_X0 h2) (E2_le_X0 h2))
   intro x hx
   obtain ⟨a, ha, b, hb, rfl⟩ := exists_mul_of_mem_X0 h2 hx
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left ha) (Subgroup.mem_sup_right hb)
 
+omit [Finite K] in
 theorem a1413Str_eq_one_or_u1_of_central_E1 (h2 : (2 : K) ≠ 0)
     {x : StatedProj (StatedSp 2 K)} (hx : x ∈ E1 K)
     (hc : ∀ y ∈ E1 K, x * y = y * x) : x = 1 ∨ x = u1 K := by
@@ -221,6 +245,7 @@ theorem a1413Str_eq_one_or_u1_of_central_E1 (h2 : (2 : K) ≠ 0)
   · right
     rw [show g = negOneSL from Subtype.ext h, u1_eq_proj_blkSL']
 
+omit [Finite K] in
 theorem a1413Str_eq_one_or_u1_of_central_E2 (h2 : (2 : K) ≠ 0)
     {x : StatedProj (StatedSp 2 K)} (hx : x ∈ E2 K)
     (hc : ∀ y ∈ E2 K, x * y = y * x) : x = 1 ∨ x = u1 K := by
@@ -242,6 +267,7 @@ theorem a1413Str_eq_one_or_u1_of_central_E2 (h2 : (2 : K) ≠ 0)
   · right
     rw [show g = negOneSL from Subtype.ext h, u1_eq_proj_blkSL]
 
+omit [Finite K] in
 theorem a1413Str_inter_E1_E2 (h2 : (2 : K) ≠ 0) :
     E1 K ⊓ E2 K = zpowers (u1 K) := by
   refine le_antisymm ?_ ?_
@@ -269,6 +295,7 @@ theorem a1413StrPerfect_X0 (h2 : (2 : K) ≠ 0) (h4 : 4 ≤ Nat.card K) :
         Subgroup.commutator_mono (E2_le_X0 h2) (E2_le_X0 h2)
       rwa [Subgroup.isPerfect_iff.mp hperf] at hle
 
+omit [Finite K] in
 theorem a1413StrConjSwap_E1 :
     (E1 K).map (MulAut.conj (a1413StrSwapProj (K := K))).toMonoidHom = E2 K := by
   ext x
@@ -289,6 +316,7 @@ theorem a1413StrConjSwap_E1 :
     unfold a1413StrSwapProj
     rw [← map_mul, ← map_mul, a1413StrSwapSp_mul_blkSL]
 
+omit [Finite K] in
 theorem a1413StrConjSwap_E2 :
     (E2 K).map (MulAut.conj (a1413StrSwapProj (K := K))).toMonoidHom = E1 K := by
   ext x
@@ -309,7 +337,8 @@ theorem a1413StrConjSwap_E2 :
     unfold a1413StrSwapProj
     rw [← map_mul, ← map_mul, a1413StrSwapSp_mul_blkSL]
 
-theorem a1413StrMem_C_or (h2 : (2 : K) ≠ 0) {g : StatedProj (StatedSp 2 K)}
+omit [Finite K] in
+theorem a1413StrMem_C_or (_h2 : (2 : K) ≠ 0) {g : StatedProj (StatedSp 2 K)}
     (hg : g ∈ centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K)))) :
     g ∈ X0 K ∨ g * a1413StrSwapProj ∈ X0 K := by
   obtain ⟨A, rfl⟩ := proj_surjective g
@@ -338,7 +367,7 @@ theorem a1413StrMem_C_or (h2 : (2 : K) ≠ 0) {g : StatedProj (StatedSp 2 K)}
     have hAanti : a1413StrMat A * a1413StrMat (T1 K) =
         -(a1413StrMat (T1 K) * a1413StrMat A) := by
       have h' := h
-      simp only [Subgroup.coe_mul, Units.val_mul, Matrix.neg_mul] at h'
+      simp only [Subgroup.coe_mul, Units.val_mul] at h'
       rw [h', neg_neg]
     refine Subgroup.mem_map.mpr ⟨A * a1413StrSwapSp, ?_, ?_⟩
     · refine mem_centralizer_singleton_iff.mpr (sp_ext ?_)
@@ -360,7 +389,8 @@ theorem a1413StrMem_C_or (h2 : (2 : K) ≠ 0) {g : StatedProj (StatedSp 2 K)}
             rw [Matrix.neg_mul, neg_neg, Matrix.mul_assoc]
     · rw [map_mul, a1413StrSwapProj]
 
-private theorem a1413StrComm_X0_left (h2 : (2 : K) ≠ 0)
+omit [Finite K] in
+private theorem a1413StrComm_X0_left (_h2 : (2 : K) ≠ 0)
     {x y : StatedProj (StatedSp 2 K)} (hx : x ∈ X0 K)
     (hy : y ∈ centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K)))) :
     ⁅x, y⁆ ∈ X0 K := by
@@ -371,6 +401,7 @@ private theorem a1413StrComm_X0_left (h2 : (2 : K) ≠ 0)
   rw [commutatorElement_def]
   simpa only [mul_assoc] using Subgroup.mul_mem _ hx hconj'
 
+omit [Finite K] in
 private theorem a1413StrComm_swap_left (h2 : (2 : K) ≠ 0)
     {y : StatedProj (StatedSp 2 K)}
     (hy : y ∈ centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K)))) :
@@ -425,6 +456,7 @@ theorem a1413StrCommutator_C_eq_X0 (h2 : (2 : K) ≠ 0) (h4 : 4 ≤ Nat.card K) 
           ((E2_le_X0 h2).trans X0_le_centralizer)
       rwa [Subgroup.isPerfect_iff.mp hperf] at hle
 
+omit [Finite K] in
 theorem a1413StrRelIndex_X0_C (h2 : (2 : K) ≠ 0) :
     (X0 K).relIndex (centralizer ({u1 K} : Set (StatedProj (StatedSp 2 K)))) = 2 := by
   rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and']
@@ -442,6 +474,7 @@ theorem a1413StrRelIndex_X0_C (h2 : (2 : K) ≠ 0) :
     rw [h_eq]
     rwa [a1413StrProjSwap_inv] at hconj
 
+omit [Finite K] in
 private theorem a1413StrExistsE1NotMemE2 (h2 : (2 : K) ≠ 0) :
     ∃ e ∈ E1 K, e ∉ E2 K := by
   let g : Matrix.SpecialLinearGroup (Fin 2) K :=
@@ -471,7 +504,8 @@ private theorem a1413StrExistsE1NotMemE2 (h2 : (2 : K) ≠ 0) :
       rw [blk_neg] at e
       exact one_ne_neg_one_mat h2 (blk_injective _ _ _ _ e).2
 
-theorem a1413StrCentralizer_X0 (h2 : (2 : K) ≠ 0) (h4 : 4 ≤ Nat.card K) :
+omit [Finite K] in
+theorem a1413StrCentralizer_X0 (h2 : (2 : K) ≠ 0) (_h4 : 4 ≤ Nat.card K) :
     centralizer (X0 K : Set (StatedProj (StatedSp 2 K))) = zpowers (u1 K) := by
   refine le_antisymm ?_ ?_
   · intro g hg

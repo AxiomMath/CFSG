@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
     ↥K →* ↥(K ⊔ A) ⧸ ker148 A K :=
   (QuotientGroup.mk' (ker148 A K)).comp (Subgroup.inclusion le_sup_left)
 
+omit [Finite G] in
 theorem ker_rho148 (A K : Subgroup G) [(ker148 A K).Normal] :
     (rho148 A K).ker = CFSG.pPrimeCore 3 ↥K := by
   ext x
@@ -28,6 +29,7 @@ theorem ker_rho148 (A K : Subgroup G) [(ker148 A K).Normal] :
     QuotientGroup.eq_one_iff, ker148, Subgroup.mem_subgroupOf, pPrimeCoreOf]
   exact Subgroup.mem_map_iff_mem K.subtype_injective
 
+omit [Finite G] in
 theorem img148_eq_map (A K X : Subgroup G) [(ker148 A K).Normal] (hXK : X ≤ K) :
     img148 A K X = (X.subgroupOf K).map (rho148 A K) := by
   ext q
@@ -58,6 +60,7 @@ theorem pu_card_map_mul_card_inf_ker {L Q : Type} [Group L] [Group Q] (S : Subgr
   rw [hr, hc, mul_comm] at h
   exact h
 
+omit [Finite G] in
 theorem card_map_mul_card_inf {K H : Subgroup G} {Q : Type} [Group Q] (ρ : ↥K →* Q)
     (hρ : ρ.ker = CFSG.pPrimeCore 3 ↥K) (hHK : H ≤ K) :
     Nat.card ↥((H.subgroupOf K).map ρ) * Nat.card ↥(H ⊓ pPrimeCoreOf 3 K) = Nat.card ↥H := by
@@ -98,6 +101,7 @@ theorem pPrimeCoreOf_eq_inf {K F : Subgroup G} (hFK : F ≤ K)
         (CFSG.RankThree.PartTwo.Sec14.coprime_card_pPrimeCoreOf 3 K)
     exact CFSG.RankThree.PartTwo.Sec14.le_pPrimeCoreOf inf_le_left hnorm hcop
 
+omit [Finite G] in
 theorem card_quotient_pPrimeCore_mul (F : Subgroup G) :
     Nat.card (↥F ⧸ CFSG.pPrimeCore 3 ↥F) * Nat.card ↥(pPrimeCoreOf 3 F) = Nat.card ↥F := by
   rw [pPrimeCoreOf, Subgroup.card_map_of_injective F.subtype_injective]
@@ -113,9 +117,9 @@ theorem inf_le_pCoreOf_two {M X : Subgroup G}
       exact hX3
     exact Subgroup.map_injective X.subtype_injective h
   obtain ⟨e⟩ := hXJ
-  haveI : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X) := e.isSimpleGroup
-  haveI : (M.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXM
+  have : IsSimpleGroup J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X) := e.isSimpleGroup
+  have : (M.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXM
   rcases normal_le_or_eq_top (CFSG.pCore 2 ↥X) CFSG.pCore_isPGroup inferInstance hX3'
     (M.subgroupOf X) with hK | hK
   · intro g hg
@@ -254,7 +258,7 @@ theorem not_dvd_card_of_case148 {Y : Type} [Group Y]
     omega
   ·
     obtain ⟨hp, ⟨φ⟩⟩ := h
-    haveI := hp
+    have := hp
     rw [Nat.card_congr φ.toEquiv, CFSG.RankThree.PartTwo.Sec15.Proof1515.card_projSL_three_seven]
     omega
 
@@ -264,7 +268,7 @@ theorem X_image_facts {K X : Subgroup G} {Q : Type} [Group Q]
     X ⊓ pPrimeCoreOf 3 K ≤ CFSG.Open.pCoreOf 2 X ∧
       Nat.card ↥((X.subgroupOf K).map ρ) * Nat.card ↥(X ⊓ pPrimeCoreOf 3 K) =
         604800 * Nat.card ↥(CFSG.Open.pCoreOf 2 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXN : X ≤ Subgroup.normalizer ((pPrimeCoreOf 3 K : Subgroup G) : Set G) :=
     hXK.trans (le_normalizer_pPrimeCoreOf 3 K)
   have hM3 : ¬ 3 ∣ Nat.card ↥(pPrimeCoreOf 3 K) :=
@@ -364,7 +368,7 @@ theorem case148_j2 {A : Subgroup G}
     intro c' L' hc' hL'
     rw [eq_of_mem_lA hch hΩ hL h3L hc' hL']
     exact hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hcases with h1 | h2 | h3 | h4 | h5 | h6 | h7
   ·
     exfalso
@@ -386,7 +390,7 @@ theorem case148_j2 {A : Subgroup G}
       · exact ((isEmpty_equiv_small_of_equiv_J2 hJL').2.2.1 hp5).false hM.some
       · exact ((isEmpty_equiv_small_of_equiv_J2 hJL').2.2.2 hp5).false hM.some
     · exfalso
-      haveI := hp
+      have := hp
       exact not_isoLThreePi_of_equiv_J2 hJL' p (f * e) hπ
     · exfalso
       rcases h2iv with h | h
@@ -413,11 +417,12 @@ theorem case148_j2 {A : Subgroup G}
     exfalso
     obtain ⟨a₁, a₂, L₁, L₂, J₁, J₂, p₁, f₁, e₁, p₂, f₂, e₂, hp₁, hp₂, ha₁, ha₂, hL₁, hL₂, -, -, -,
       -, -, -, -, -, -, -, -, hπ₁, hπ₂⟩ := h7
-    haveI := hp₁
+    have := hp₁
     exact not_isoLThreePi_of_equiv_J2 (hLJ a₁ L₁ ha₁ hL₁) p₁ (f₁ * e₁) hπ₁
 
 end Item148Binders
 
+omit [Finite G] in
 theorem pu_oPrimeResidualOf_mono {p : ℕ} {K K' : Subgroup G} (h : K ≤ K') :
     oPrimeResidualOf p K ≤ oPrimeResidualOf p K' := by
   rw [oPrimeResidualOf_eq_closure, oPrimeResidualOf_eq_closure]
@@ -451,7 +456,7 @@ theorem lemma33 {A : Subgroup G}
         CFSG.pPrimeCore 3 ↥(oPrimeResidualOf 3 (delta A (lB A) K))) = 604800 ∧
       X ⊓ pPrimeCoreOf 3 (oPrimeResidualOf 3 (delta A (lB A) K)) = CFSG.Open.pCoreOf 2 X := by
   classical
-  haveI := ker148_normal hK.2
+  have := ker148_normal hK.2
   set F := oPrimeResidualOf 3 (delta A (lB A) K) with hF
   set D := deltaZero A (lB A) K with hD
   have hDK : D ≤ K := deltaZero_le K

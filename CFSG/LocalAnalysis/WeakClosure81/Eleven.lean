@@ -60,10 +60,12 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def deltaEleven (M V : Subgroup G) : Set (Subgroup G) :=
   {U | U ∈ gammaEleven M V ∧ (E3.mQuot V U : ℕ∞) = rMV M V}
 
+omit [Finite G] in
 theorem mem_deltaEleven {M V U : Subgroup G} :
     U ∈ deltaEleven M V ↔ U ∈ gammaEleven M V ∧ (E3.mQuot V U : ℕ∞) = rMV M V :=
   Iff.rfl
 
+omit [Finite G] in
 theorem deltaEleven_subset_gammaEleven (M V : Subgroup G) :
     deltaEleven M V ⊆ gammaEleven M V := fun _ h => h.1
 
@@ -91,6 +93,7 @@ theorem exists_isMaxTwoLocalSubgroup_le {H : Subgroup G} (hH : IsTwoLocal H) :
   have hle := hmax K ((hfin.mem_toFinset).2 ⟨hK, hM'S.2.trans hM'K⟩)
   exact absurd hle (not_le.2 (Subgroup.card_lt_of_lt hlt))
 
+omit [Finite G] in
 theorem eleven_a {V Q : Subgroup G} (hQ : Q ≤ Subgroup.centralizer (V : Set G)) :
     V ≤ Subgroup.centralizer (Q : Set G) := by
   intro v hv
@@ -121,7 +124,7 @@ theorem eleven_b_char {M Q C : Subgroup G}
     (hCQ : C ≤ Q) (hCchar : (C.subgroupOf Q).Characteristic)
     (hC : C ≠ ⊥) (hC2 : IsPGroup 2 C) :
     Subgroup.normalizer (C : Set G) ≤ M := by
-  haveI : (C.subgroupOf Q).Characteristic := hCchar
+  have : (C.subgroupOf Q).Characteristic := hCchar
   have hNQ : Subgroup.normalizer (Q : Set G) ≤
       Subgroup.normalizer ((C.subgroupOf Q).map Q.subtype : Set G) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (C.subgroupOf Q)
@@ -129,11 +132,13 @@ theorem eleven_b_char {M Q C : Subgroup G}
   rw [hmap] at hNQ
   exact eleven_b huniq hC hC2 (inf_le_left.trans hNQ)
 
+omit [Finite G] in
 theorem eleven_c_normalizer {M V : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hV : V ≠ ⊥) (hV2 : IsPGroup 2 V) (hle : M ≤ Subgroup.normalizer (V : Set G)) :
     Subgroup.normalizer (V : Set G) = M :=
   hM.2 _ ⟨V, hV, hV2, rfl⟩ hle
 
+omit [Finite G] in
 theorem Opp_conjSubgroup (p : ℕ) (X : Subgroup G) (g : G) :
     Opp p (conjSubgroup X g) = conjSubgroup (Opp p X) g := by
   have h1 : conjSubgroup X g = CFSG.RankThree.PartOne.conjBy g⁻¹ X := by
@@ -149,6 +154,7 @@ theorem Opp_conjSubgroup (p : ℕ) (X : Subgroup G) (g : G) :
   rw [h1, CFSG.RankThree.PartOne.Equivariance.pElementSubgroup_conjBy]
   exact h2.symm
 
+omit [Finite G] in
 theorem eleven_c_gamma {M V U : Subgroup G} (hMnorm : M ≤ Subgroup.normalizer (V : Set G))
     (hU : U ∈ gammaEleven M V) {m : G} (hm : m ∈ M) :
     conjSubgroup U m ∈ gammaEleven M V := by
@@ -182,10 +188,11 @@ theorem eleven_e {D : Subgroup G} (hchar : IsCharTwoType G) (hD : D ≠ ⊥) (hD
     IsCharacteristicP 2 ↥(Subgroup.centralizer (D : Set G)) :=
   CFSG.CGT.PushingUpLit.T2K.isCharacteristicP_centralizer hchar hD2 hD
 
+omit [Finite G] in
 theorem centMod_bot_eq_inf_centralizer {V : Subgroup G} {m : G} :
     centMod ⊥ V m = (V ⊓ Subgroup.centralizer ({m} : Set G) : Subgroup G) := by
   ext v
-  simp only [centMod, Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_inf,
+  simp only [centMod, Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_inf,
     Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_bot]
   constructor
   · rintro ⟨hv, hm⟩
@@ -199,7 +206,7 @@ theorem eleven_d {M V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMV : M ≤ Subgroup.normalizer (V : Set G)) (hUV : U ≤ V)
     (hlt : E3.mQuot V U < mBar M ⊥ V hV) :
     Opp 2 (M ⊓ Subgroup.centralizer (U : Set G)) ≤ Subgroup.centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hV
   have hn : E3.mQuot V U < E3.mParam (Mbar M ⊥ V hV) := hlt
   unfold Opp
@@ -272,7 +279,7 @@ theorem eleven_d {M V U : Subgroup G} (hV : IsElemAbelian 2 V)
       Nat.le_of_mul_le_mul_right hchain hpos
     rw [pow_succ] at h2
     have h3 : 2 ≤ 1 :=
-      Nat.le_of_mul_le_mul_left (by simpa using h2)
+      Nat.le_of_mul_le_mul_left (by simp at h2)
         (pow_pos (a := 2) (by norm_num) (E3.mQuot V U))
     omega
 
@@ -289,7 +296,7 @@ theorem eleven_f {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMV : M ≤ Subgroup.normalizer (V : Set G))
     (hlt : rMV M V < (mBar M ⊥ V hV : ℕ∞)) :
     (deltaEleven M V).Nonempty := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne_top : rMV M V ≠ ⊤ := by
     intro h
     rw [h] at hlt
@@ -312,7 +319,7 @@ theorem eleven_f {M V : Subgroup G} (hV : IsElemAbelian 2 V)
   have hex : ∃ U : Subgroup G, U ≤ V ∧ ¬ Subgroup.centralizer (U : Set G) ≤ M ∧
       E3.mQuot V U = n := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hge : ((n + 1 : ℕ) : ℕ∞) ≤ rMV M V := by
       refine le_iInf₂ fun U hU => ?_
       have h1 : n ≤ E3.mQuot V U := hnle U hU.1 hU.2
@@ -331,6 +338,7 @@ theorem eleven_f {M V : Subgroup G} (hV : IsElemAbelian 2 V)
   · have : (E3.mQuot V U : ℕ∞) = (n : ℕ∞) := by exact_mod_cast hUeq
     exact this.trans hn
 
+omit [Finite G] in
 theorem kProper_subgroup (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (H : Subgroup G) :
     CFSG.Assembly.KProper CFSG.Assembly.InCatalog ↥H :=
   CFSG.LocalAnalysis.ComponentInitial.kProper_subgroup
@@ -338,8 +346,8 @@ theorem kProper_subgroup (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) 
 
 theorem exists_normalizer_gt_of_isPGroup {S P : Subgroup G} (hS : IsPGroup 2 S) (hP : P ≤ S)
     (hne : P ≠ S) : ∃ b ∈ S, b ∈ Subgroup.normalizer (P : Set G) ∧ b ∉ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hlt : P.subgroupOf S < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
@@ -378,7 +386,7 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
     (hQ : CFSG.RankThree.PartOne.IsSylowOf 2 Q (M ⊓ Subgroup.centralizer (V : Set G)))
     (hU : U ∈ gammaEleven M V) :
     CFSG.RankThree.PartOne.IsSylowOf 2 Q (Subgroup.centralizer (U : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hUV, hUne, hCU, hO⟩ := hU
   have hQleM : Q ≤ M := hQ.1.trans inf_le_left
   have hQleCV : Q ≤ Subgroup.centralizer (V : Set G) := hQ.1.trans inf_le_right
@@ -425,7 +433,7 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
       rw [← heq] at hnot
       exact hnot (by simpa [Subgroup.relIndex] using hdvd)
     obtain ⟨b, hbS, hbN, hbQ⟩ :=
-      exists_normalizer_gt_of_isPGroup S.isPGroup' hQS hSne
+      exists_normalizer_gt_of_isPGroup S.isPGroup hQS hSne
     have hb'N : (b : G) ∈ Subgroup.normalizer (Q : Set G) := by
       have h := Subgroup.le_normalizer_map
         (H := (Q.subgroupOf (M ⊓ Subgroup.centralizer (U : Set G)) :
@@ -439,7 +447,7 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
       exact h ⟨b, hbN, rfl⟩
     have hb'K : (b : G) ∈ M ⊓ Subgroup.centralizer (U : Set G) := b.2
     have hb'2 : IsPGroup 2 (Subgroup.zpowers (b : G)) :=
-      (S.isPGroup'.map (M ⊓ Subgroup.centralizer (U : Set G)).subtype).to_le
+      (S.isPGroup.map (M ⊓ Subgroup.centralizer (U : Set G)).subtype).to_le
         (Subgroup.zpowers_le.2 ⟨b, hbS, rfl⟩)
     have hb'K' : (b : G) ∈ M ⊓ Subgroup.centralizer (V : Set G) := by
       refine ⟨hb'K.1, ?_⟩
@@ -472,7 +480,7 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
     rw [← heq] at hnot
     exact hnot (by simpa [Subgroup.relIndex] using hdvd)
   obtain ⟨b, hbS, hbN, hbQ⟩ :=
-    exists_normalizer_gt_of_isPGroup S.isPGroup' hQS hSne
+    exists_normalizer_gt_of_isPGroup S.isPGroup hQS hSne
   have hb'N : (b : G) ∈ Subgroup.normalizer (Q : Set G) := by
     have h := Subgroup.le_normalizer_map
       (H := (Q.subgroupOf (Subgroup.centralizer (U : Set G)) :
@@ -487,7 +495,7 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
   have hb'M : (b : G) ∈ M := eleven_b huniq hQne hQ2 inf_le_left hb'N
   have hb'K : (b : G) ∈ M ⊓ Subgroup.centralizer (U : Set G) := ⟨hb'M, b.2⟩
   have hb'2 : IsPGroup 2 (Subgroup.zpowers (b : G)) :=
-    (S.isPGroup'.map (Subgroup.centralizer (U : Set G)).subtype).to_le
+    (S.isPGroup.map (Subgroup.centralizer (U : Set G)).subtype).to_le
       (Subgroup.zpowers_le.2 ⟨b, hbS, rfl⟩)
   have hP2 : IsPGroup 2 ↥(Q ⊔ Subgroup.zpowers (b : G)) :=
     hQ2.to_sup_of_normal_left' hb'2 (Subgroup.zpowers_le.2 hb'N)
@@ -502,15 +510,15 @@ theorem eleven_two_sylow {M V Q U : Subgroup G} (hV : IsElemAbelian 2 V) (hVM : 
     exact hbQ (Subgroup.mem_subgroupOf.2 hbQ')
   exact hneP (eq_of_isSylowOf_of_isPGroup_le hQK_sylow le_sup_left hPK hP2)
 
-theorem eleven_three {M V U H : Subgroup G}
-    (hH : H = Subgroup.centralizer (U : Set G))
+theorem eleven_three {M _V U H : Subgroup G}
+    (_hH : H = Subgroup.centralizer (U : Set G))
     (hKH : CFSG.Assembly.KProper CFSG.Assembly.InCatalog ↥H) (hcharH : IsCharacteristicP 2 ↥H)
     (T : Sylow 2 ↥H)
     (hcore : (characteristicCoreStar (T : Subgroup ↥H)).map H.subtype ≤ M) :
     (⊤ : Subgroup ↥H) = (⊤ ⊓ M.subgroupOf H) ⊔
       ⨆ (Y : Subgroup ↥H) (_ : Y ∈ blocksStar (T : Subgroup ↥H))
         (_ : ¬ (Y.map H.subtype) ≤ M), Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfac : (⨆ (Y : Subgroup ↥H) (_ : Y ∈ blocksStar (T : Subgroup ↥H)), Y) ⊔
       characteristicCoreStar (T : Subgroup ↥H) = ⊤ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.aschbacherLocalFactorization_proved (G := ↥H) hKH hcharH T
@@ -535,7 +543,7 @@ theorem eleven_three_uncond {M V Q U H : Subgroup G}
     (⊤ : Subgroup ↥H) = (⊤ ⊓ M.subgroupOf H) ⊔
       ⨆ (Y : Subgroup ↥H) (_ : Y ∈ blocksStar (T : Subgroup ↥H))
         (_ : ¬ (Y.map H.subtype) ≤ M), Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUne : U ≠ ⊥ := hU.2.1
   have hU2 : IsPGroup 2 U := (B2F.isPGroup_of_isElemAbelian hset.isElemAbelian).to_le hU.1
   have hQ2 : IsPGroup 2 Q := hset.sylowQ.2.1
@@ -570,7 +578,7 @@ theorem eleven_three_uncond {M V Q U H : Subgroup G}
   have hC : Subgroup.centralizer (omegaOneCenterIn Q : Set G) ⊓ H ≤ M := by
     refine (inf_le_left.trans
       (Subgroup.centralizer_le_normalizer (omegaOneCenterIn Q : Set G))).trans ?_
-    haveI : ((omegaOneCenterIn Q).subgroupOf Q).Characteristic :=
+    have : ((omegaOneCenterIn Q).subgroupOf Q).Characteristic :=
       characteristic_omegaOneCenterIn Q
     have hω0 : omegaOneCenterIn Q ≠ ⊥ := omegaOneCenterIn_ne_bot hQ2 hQne
     have hω2 : IsPGroup 2 (omegaOneCenterIn Q) := hQ2.to_le (omegaOneCenterIn_le Q)
@@ -589,7 +597,7 @@ theorem eleven_three_uncond {M V Q U H : Subgroup G}
     refine inf_le_left.trans ?_
     have hBQ : B ≤ Q := hBS.trans (inf_le_left : pushingUpS Q ≤ Q)
     have h1 : Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (pushingUpS Q : Set G) := by
-      haveI : ((pushingUpS Q).subgroupOf Q).Characteristic := characteristic_pushingUpS Q
+      have : ((pushingUpS Q).subgroupOf Q).Characteristic := characteristic_pushingUpS Q
       have hmap : ((pushingUpS Q).subgroupOf Q).map Q.subtype = pushingUpS Q :=
         Subgroup.map_subgroupOf_eq_of_le (inf_le_left : pushingUpS Q ≤ Q)
       have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -597,7 +605,7 @@ theorem eleven_three_uncond {M V Q U H : Subgroup G}
       rwa [hmap] at h
     have h2 : Subgroup.normalizer (pushingUpS Q : Set G) ≤
         Subgroup.normalizer (B : Set G) := by
-      haveI : (B.subgroupOf (pushingUpS Q)).Characteristic := hBc
+      have : (B.subgroupOf (pushingUpS Q)).Characteristic := hBc
       have hmap : (B.subgroupOf (pushingUpS Q)).map (pushingUpS Q).subtype = B :=
         Subgroup.map_subgroupOf_eq_of_le hBS
       have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -611,7 +619,7 @@ theorem eleven_three_uncond {M V Q U H : Subgroup G}
             (T' := T) hT' hQH hC hN)
       _ = M ⊓ H := Subgroup.subgroupOf_map_subtype M H
       _ ≤ M := inf_le_left
-  exact eleven_three (V := V) hH (kProper_subgroup hK H)
+  exact eleven_three (_V := V) hH (kProper_subgroup hK H)
     (by rw [hH]; exact eleven_e hset.charTwo hUne hU2) T hcore
 
 theorem mQuot_inf_le_add {V A B : Subgroup G} (hV : IsPGroup 2 V) :
@@ -621,6 +629,7 @@ theorem mQuot_inf_le_add {V A B : Subgroup G} (hV : IsPGroup 2 V) :
     ← pow_add] at h
   exact (Nat.pow_le_pow_iff_right (by norm_num)).mp h
 
+omit [Finite G] in
 theorem eleven_five {M V U : Subgroup G} (hMmax : rankThreeIsMaxTwoLocal M)
     (h114 : (∀ g ∈ M, U ⊓ conjSubgroup U g ∈ gammaEleven M V) →
       ∃ (E : Subgroup G) (L : Set (Subgroup G)), M ≤ Subgroup.normalizer (E : Set G) ∧
@@ -628,7 +637,7 @@ theorem eleven_five {M V U : Subgroup G} (hMmax : rankThreeIsMaxTwoLocal M)
         (∀ A ∈ L, ¬ A ≤ M → pCoreOf 2 A ≠ ⊥) ∧ ∃ A ∈ L, ¬ A ≤ M) :
     ∃ g ∈ M, U ⊓ conjSubgroup U g ∉ gammaEleven M V := by
   by_contra hall
-  push_neg at hall
+  push Not at hall
   obtain ⟨E, L, hEinv, hLsub, hLnormal, hLo2, A, hAL, hAM⟩ := h114 hall
   have hO2A : pCoreOf 2 A ≠ ⊥ := hLo2 A hAL hAM
   have hAE : A ≤ E := hLsub A hAL
@@ -657,7 +666,7 @@ theorem eleven_six {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMV : M ≤ Subgroup.normalizer (V : Set G))
     (h115 : ∀ U ∈ deltaEleven M V, ∃ g ∈ M, U ⊓ conjSubgroup U g ∉ gammaEleven M V) :
     (mBar M ⊥ V hV : ℕ∞) ≤ 2 * rMV M V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hV
   by_cases hlt : rMV M V < (mBar M ⊥ V hV : ℕ∞)
   · obtain ⟨U, hU⟩ := eleven_f hV hMV hlt
@@ -668,7 +677,7 @@ theorem eleven_six {M V : Subgroup G} (hV : IsElemAbelian 2 V)
       exact conjSubgroup_mono_left g hU.1.1
     have hmW : mBar M ⊥ V hV ≤ E3.mQuot V (U ⊓ conjSubgroup U g) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hO := eleven_d hV hMV hWV hcon
       have hWne : U ⊓ conjSubgroup U g ≠ ⊥ := by
         intro hbot
@@ -695,7 +704,7 @@ theorem eleven_six {M V : Subgroup G} (hV : IsElemAbelian 2 V)
               hU.2]
         _ = 2 * rMV M V := by rw [two_mul]
     exact le_trans (by exact_mod_cast hmW) h2
-  · push_neg at hlt
+  · push Not at hlt
     calc (mBar M ⊥ V hV : ℕ∞) ≤ rMV M V := hlt
       _ ≤ 2 * rMV M V := by
         rw [two_mul]

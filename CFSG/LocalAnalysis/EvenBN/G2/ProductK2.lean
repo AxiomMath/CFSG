@@ -96,7 +96,7 @@ theorem le_centralizer_comm {N U : Subgroup G} (hU : U ≤ centralizer (N : Set 
   rw [← commutator_eq_bot_iff_le_centralizer, commutator_comm]
   exact commutator_eq_bot_iff_le_centralizer.2 hU
 
-theorem commutator_conj_eq_bot {t : G} (ht : t * t = 1)
+theorem commutator_conj_eq_bot {t : G} (_ht : t * t = 1)
     {K U N : Subgroup G} (hsup : K ⊔ Kᵍ[t] = N) (hU : U ≤ centralizer (N : Set G))
     (hUt : Uᵍ[t] = U) (hcomm : ⁅K, Kᵍ[t]⁆ ≤ U) (hperf : ⁅K, K⁆ ⊔ U = K) :
     ⁅K, Kᵍ[t]⁆ = ⊥ := by
@@ -616,7 +616,7 @@ theorem K3_le_sup {s : G} (hs : s * s = 1) {X₁ P K3 P3 A Y B U : Subgroup G}
   rw [hK3]
   exact sup_le hP3V hP3sV
 
-theorem B_le_mul {s : G} (hs : s * s = 1) {X₁ P M B Y U B₁ A : Subgroup G}
+theorem B_le_mul {s : G} (_hs : s * s = 1) {X₁ P M B Y U B₁ A : Subgroup G}
     (hX₂ : X₁ ⊔ Y = (P ⊓ A) ⊔ B) (hBM : B ≤ M) (hMP : M ≤ P) (hYB : Y ≤ B)
     (hYM : ∀ y ∈ Y, ∀ m ∈ M, y * m = m * y) (hPY : P ≤ normalizer (Y : Set G))
     (hBs : Bᵍ[s] = B) (hYs : Yᵍ[s] = Y) (hYU : Y = U ⊔ Uᵍ[s]) (hUB₁ : U ≤ B₁)
@@ -744,33 +744,44 @@ variable {t : G} {Λ K1 K2 B N M Y A Z Z' K3t H : Subgroup G}
   (S : N2Data t Λ K1 K2 B N M Y A Z Z' K3t H)
 include S
 
+omit [Finite G] in
 theorem hYB : Y ≤ B := S.hBinf ▸ inf_le_left
 
+omit [Finite G] in
 theorem hBM : B ≤ M := S.hBsup ▸ le_sup_left
 
+omit [Finite G] in
 theorem hBK1 : B ≤ K1 := S.hKAB ▸ le_sup_right
 
+omit [Finite G] in
 theorem hYK1 : Y ≤ K1 := S.hYB.trans S.hBK1
 
+omit [Finite G] in
 theorem hZY : Z ≤ Y := S.hZsup ▸ le_sup_right
 
+omit [Finite G] in
 theorem hZ'Y : Z' ≤ Y := S.hZsup ▸ le_sup_left
 
+omit [Finite G] in
 theorem hAK1 : A ≤ K1 := S.hKAB ▸ le_sup_left
 
+omit [Finite G] in
 theorem hK2K1 : K2 ≤ K1 := S.hK2 ▸ commutator_self_le K1
 
+omit [Finite G] in
 theorem hAZK2 : A ⊔ Z ≤ K2 := by
   have h1 : A ⊔ Z ≤ K1 := sup_le S.hAK1 (S.hZY.trans S.hYK1)
   have := commutator_mono h1 h1
   rw [S.hAZ] at this
   rwa [← S.hK2] at this
 
+omit [Finite G] in
 theorem hZ'c : K1 ≤ centralizer (Z' : Set G) := by
   have hle : K1 ≤ A ⊔ B := S.hKAB.le
   refine hle.trans (sup_le (le_centralizer_comm S.hZ'A) fun b hb => ?_)
   exact mem_centralizer_iff.2 fun z hz => S.hYM z (S.hZ'Y hz) b (S.hBM hb)
 
+omit [Finite G] in
 theorem hK1eq : K1 = K2 ⊔ Z' := by
   have hY_le : Y ≤ K2 ⊔ Z' := by
     rw [← S.hZsup]
@@ -779,6 +790,7 @@ theorem hK1eq : K1 = K2 ⊔ Z' := by
   calc K1 = K2 ⊔ Y := S.hperf.symm
     _ ≤ K2 ⊔ Z' := sup_le le_sup_left hY_le
 
+omit [Finite G] in
 theorem perfect : ⁅K2, K2⁆ = K2 := by
   refine le_antisymm (commutator_self_le K2) ?_
   have hc : Z' ≤ centralizer ((K2 ⊔ Z' : Subgroup G) : Set G) := by
@@ -788,10 +800,13 @@ theorem perfect : ⁅K2, K2⁆ = K2 := by
   rw [← S.hK1eq] at key
   rwa [← S.hK2] at key
 
+omit [Finite G] in
 theorem hZK2 : Z ≤ K2 := S.hAZK2.trans' le_sup_right
 
+omit [Finite G] in
 theorem hAK2 : A ≤ K2 := S.hAZK2.trans' le_sup_left
 
+omit [Finite G] in
 theorem hBHZ' : ∀ b ∈ B, ∃ h ∈ H, ∃ z' ∈ Z', b = h * z' := by
   intro b hb
   obtain ⟨h, hh, y, hy, rfl⟩ := S.hBH b hb
@@ -804,6 +819,7 @@ theorem hBHZ' : ∀ b ∈ B, ∃ h ∈ H, ∃ z' ∈ Z', b = h * z' := by
   calc h * (z' * z) = h * (z * z') := by rw [this]
     _ = h * z * z' := by group
 
+omit [Finite G] in
 theorem hH_eq : H = B ⊓ centralizer (K3t : Set G) := by
   refine le_antisymm (le_inf S.hHB S.hHC) fun b hb => ?_
   obtain ⟨hbB, hbC⟩ := mem_inf.1 hb
@@ -819,14 +835,17 @@ theorem hH_eq : H = B ⊓ centralizer (K3t : Set G) := by
   rw [this, mul_one]
   exact hh
 
+omit [Finite G] in
 theorem hHn : K1 ≤ normalizer (H : Set G) := by
   intro g hg
   rw [S.hH_eq]
   exact Common.mem_normalizer_inf_centralizer
     (S.hB ▸ le_normalizer_pCoreOf K1 hg) (S.hKK3 hg)
 
+omit [Finite G] in
 theorem hAn : A ≤ normalizer (H : Set G) := S.hAK1.trans S.hHn
 
+omit [Finite G] in
 theorem hAH_inf_M : (A ⊔ H) ⊓ M = H := by
   refine le_antisymm ?_ (le_inf le_sup_right (S.hHB.trans S.hBM))
   intro x hx
@@ -844,6 +863,7 @@ theorem hAH_inf_M : (A ⊔ H) ⊓ M = H := by
   rw [ha1, mul_one]
   exact hh
 
+omit [Finite G] in
 theorem hAH_inf_Z' : (A ⊔ H) ⊓ Z' = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -854,6 +874,7 @@ theorem hAH_inf_Z' : (A ⊔ H) ⊓ Z' = ⊥ := by
   have : x ∈ Z' ⊓ Z := mem_inf.2 ⟨hx2, hxZ⟩
   rwa [S.hZinf] at this
 
+omit [Finite G] in
 theorem hK1_eq' : K1 = (A ⊔ H) ⊔ Z' := by
   have hBle : B ≤ H ⊔ Z' := fun b hb => by
     obtain ⟨h, hh, z', hz', rfl⟩ := S.hBHZ' b hb
@@ -863,6 +884,7 @@ theorem hK1_eq' : K1 = (A ⊔ H) ⊔ Z' := by
     _ ≤ (A ⊔ H) ⊔ Z' := sup_le (le_sup_left.trans le_sup_left)
         (hBle.trans (sup_le (le_sup_right.trans le_sup_left) le_sup_right))
 
+omit [Finite G] in
 theorem hK2_le : K2 ≤ A ⊔ H := by
   have hc : Z' ≤ centralizer (((A ⊔ H) ⊔ Z' : Subgroup G) : Set G) := by
     rw [← S.hK1_eq']
@@ -872,6 +894,7 @@ theorem hK2_le : K2 ≤ A ⊔ H := by
   rw [S.hK2]
   exact key.trans (commutator_self_le _)
 
+omit [Finite G] in
 theorem hK2_eq : K2 = A ⊔ H := by
   refine le_antisymm S.hK2_le (sup_le S.hAK2 fun h hh => ?_)
   have hh1 : h ∈ K2 ⊔ Z' := S.hK1eq ▸ S.hBK1 (S.hHB hh)
@@ -887,12 +910,13 @@ theorem hK2_eq : K2 = A ⊔ H := by
   rw [hz'1, mul_one]
   exact hk
 
+omit [Finite G] in
 theorem hK2_inf_M : K2 ⊓ M = H := by
   rw [S.hK2_eq]
   exact S.hAH_inf_M
 
 theorem pCore_eq : pCoreOf 2 K2 = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ ?_
   · have hK1K2 : K1 ≤ normalizer (K2 : Set G) := fun g hg =>
       S.hK2 ▸ mem_normalizer_comm_self (Subgroup.le_normalizer hg)
@@ -906,12 +930,15 @@ theorem pCore_eq : pCoreOf 2 K2 = H := by
   · refine le_pCoreOf_of_normal (S.hK2_eq ▸ le_sup_right) ?_ (S.hM2.to_le (S.hHB.trans S.hBM))
     exact (S.hK2K1).trans S.hHn
 
+omit [Finite G] in
 theorem hZ'_eq : Zᵍ[t] = Z' := by
   rw [S.hZt, conj_conj_of_mul_self S.ht]
 
+omit [Finite G] in
 theorem hMt : Mᵍ[t] = M := by
   rw [← S.hBsup, conj_sup, conj_conj_of_mul_self S.ht, sup_comm]
 
+omit [Finite G] in
 theorem N_eq : N = K2 ⊔ K2ᵍ[t] := by
   have hZ'K2t : Z' ≤ K2ᵍ[t] := by
     rw [← S.hZ'_eq]
@@ -928,6 +955,7 @@ theorem N_eq : N = K2 ⊔ K2ᵍ[t] := by
     rw [h1]
     exact sup_le le_sup_right (hZK2.trans le_sup_left)
 
+omit [Finite G] in
 theorem hNK2 : N ≤ normalizer (K2 : Set G) := by
   intro g hg
   have h1 := S.hNΛ hg
@@ -937,14 +965,18 @@ theorem hNK2 : N ≤ normalizer (K2 : Set G) := by
   rw [S.hK2]
   exact mem_normalizer_comm_self h2
 
+omit [Finite G] in
 theorem hNK2t : N ≤ normalizer ((K2ᵍ[t] : Subgroup G) : Set G) := by
   have := conj_le_normalizer_conj (g := t) S.hNK2
   rwa [S.hNt] at this
 
+omit [Finite G] in
 theorem hK2N : K2 ≤ N := S.hK2K1.trans (S.hNsup ▸ le_sup_left)
 
+omit [Finite G] in
 theorem hK2tN : K2ᵍ[t] ≤ N := (conj_mono S.hK2K1 t).trans (S.hNsup ▸ le_sup_right)
 
+omit [Finite G] in
 theorem K2_inf : K2 ⊓ K2ᵍ[t] = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -969,11 +1001,13 @@ theorem K2_inf : K2 ⊓ K2ᵍ[t] = ⊥ := by
   have : x ∈ Z' ⊓ Z := mem_inf.2 ⟨hxZ', hxZ⟩
   rwa [S.hZinf] at this
 
+omit [Finite G] in
 theorem K2_comm : ⁅K2, K2ᵍ[t]⁆ = ⊥ := by
   have := commutator_le_inf_of_normalizes S.hK2N S.hK2tN S.hNK2 S.hNK2t
   rw [S.K2_inf] at this
   exact eq_bot_iff.2 this
 
+omit [Finite G] in
 theorem H_sup : H ⊔ Hᵍ[t] = M := by
   have hBle : B ≤ H ⊔ Z' := fun b hb => by
     obtain ⟨h, hh, z', hz', rfl⟩ := S.hBHZ' b hb
@@ -990,6 +1024,7 @@ theorem H_sup : H ⊔ Hᵍ[t] = M := by
     rw [conj_sup, ← S.hZt] at h1
     exact h1.trans (sup_le le_sup_right (S.hZH.trans le_sup_left))
 
+omit [Finite G] in
 theorem H_inf : H ⊓ Hᵍ[t] = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -1021,7 +1056,7 @@ theorem mem_normalizer_factor_of_odd {K : Type} [Field K] [Finite K] {N D Λ P N
     {t : G} (hS : Sl2Pair K N D Λ (Λᵍ[t])) (hP : IsSylowOf 2 P N₂) (hPN : P ≤ N) {g : G}
     (hg₂ : g ∈ N₂) (hgP : g ∈ normalizer (P : Set G)) (hgN : g ∈ normalizer (N : Set G))
     (hgD : g ∈ normalizer (D : Set G)) : g ∈ normalizer (Λ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPM : P ≤ N₂ ⊓ normalizer (P : Set G) := le_inf hP.le Subgroup.le_normalizer
   have hMP : N₂ ⊓ normalizer (P : Set G) ≤ normalizer (P : Set G) := inf_le_right
   have hgM : g ∈ N₂ ⊓ normalizer (P : Set G) := ⟨hg₂, hgP⟩

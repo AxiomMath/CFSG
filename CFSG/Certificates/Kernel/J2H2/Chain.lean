@@ -46,9 +46,9 @@ theorem span_of {H : ℕ → ↥S → ↥S → V12} {F : ℕ → ℕ}
     have e : coordF G (F i) = ∑ j ∈ Finset.range 30, coordF g (F j) * coordF (H j) (F i) := by
       simp only [hGdef, coordF, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
     rw [e, Finset.sum_eq_single i]
-    · rw [hF i hi i hi, if_pos rfl, mul_one]
+    · rw [hF i hi i hi, ite_eq_left rfl, mul_one]
     · intro j hj hji
-      rw [hF i hi j (Finset.mem_range.1 hj), if_neg (Ne.symm hji), mul_zero]
+      rw [hF i hi j (Finset.mem_range.1 hj), ite_eq_right (Ne.symm hji), mul_zero]
     · intro h
       exact absurd (Finset.mem_range.2 hi) h
   have h0 := hE _ hd (fun x hx0 hx => by
@@ -119,7 +119,7 @@ theorem good_H (hIND : IND ⊆ Finset.range 30)
     · rw [Finset.sum_eq_single j]
       · simp only [ite_true, one_smul, cob_zero', add_zero]
       · intro i _ hij
-        simp only [if_neg hij, zero_smul]
+        simp only [ite_eq_right hij, zero_smul]
       · intro h
         exact absurd (Finset.mem_range.2 hj) h
   · obtain ⟨A, hA, b, hb⟩ := hR j hj hji
@@ -186,7 +186,7 @@ theorem psiL_sum (g : ↥P) (L : List (↥S × ↥S × ↥S × ↥S × (V12 →�
 theorem conjB_eq {g : ↥P} (B : ↥S → V12) {x y : ↥S} (h : incl y = g * incl x * g⁻¹) :
     conjB ρ g B x = ρ g⁻¹ (B y) := by
   have hx : ∃ y : ↥S, incl y = g * incl x * g⁻¹ := ⟨y, h⟩
-  rw [conjB, dif_pos hx]
+  rw [conjB, dite_eq_left hx]
   have e := hx.choose_spec.trans h.symm
   have : hx.choose = y := Subtype.ext (by
     have e' := congrArg (fun z : ↥P => (z : Perm315)) e
@@ -212,6 +212,7 @@ theorem psi_res {c : ↥P → ↥P → V12} (hc : IsNormCoc ρ c) :
   simp only [CFSG.RankThree.PartTwo.J2Residue.H2.cob, rhoS, MonoidHom.comp_apply, map_mul]
 
 omit hΦ in
+omit hL in
 theorem cob_conjB (B : ↥S → V12) {s t ps pt : ↥S} (h1 : incl ps = g * incl s * g⁻¹)
     (h2 : incl pt = g * incl t * g⁻¹) :
     cob (rhoS ρ) (conjB ρ g B) s t = ρ g⁻¹ (cob (rhoS ρ) B ps pt) := by
@@ -233,7 +234,7 @@ theorem psi_cob (B : ↥S → V12) : psiL ρ g L (cob (rhoS ρ) B) = 0 := by
   refine congrArg e.2.2.2.2 ?_
   obtain ⟨h1, h2⟩ := hL e he
   rw [cob_add, cob_neg, Pi.add_apply, Pi.add_apply, Pi.neg_apply, Pi.neg_apply,
-    cob_conjB L g hL B h1 h2, sub_eq_add_neg]
+    cob_conjB g B h1 h2, sub_eq_add_neg]
 
 end Psi
 

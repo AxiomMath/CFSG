@@ -75,7 +75,7 @@ theorem sixIso_nonempty (hel : ∀ q ∈ CFSG.Open.pCoreOf 2 M, q * q = 1) :
   have hodd : Equiv.Perm.sign (C.θ t) = -1 := by rw [htθ, Equiv.Perm.sign_swap hij]
   have hQX := D.Q_le_X hR2 hsurj hel t ht2 hodd
   obtain ⟨ψ, hψ⟩ := D.sixCox_exists_section hR2 hsurj hQ16 hx hij hπ hK h
-  have hQW := D.sixIsoA_eq_blockU hR2 hsurj hel hQX hψ
+  have hQW := CFSG.RankThree.PartTwo.Sec19.SolEven.Cfg.PiData.sixIsoA_eq_blockU hR2 hel hQX hψ
   have hZR : blockZ X = Rc X := by
     rw [C.S.R_eq_inf, hQW]
     rfl

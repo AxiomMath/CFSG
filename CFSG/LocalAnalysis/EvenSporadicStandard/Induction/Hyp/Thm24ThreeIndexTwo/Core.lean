@@ -36,8 +36,8 @@ theorem thm24ThreeUse_of_inputs (inp : Thm24ThreeSimpleInputs) (I : ArmInputs)
   intro H _ _ N hN hidx hkp A hA hcov hrk
   rcases Balance.index_eq_one_or_two hidx with h1 | h2
   · obtain rfl : N = ⊤ := Subgroup.index_eq_one.1 h1
-    haveI := hN.isSimpleGroup
-    haveI : IsSimpleGroup H := MulEquiv.isSimpleGroup (Subgroup.topEquiv (G := H)).symm
+    have := hN.isSimpleGroup
+    have : IsSimpleGroup H := MulEquiv.isSimpleGroup (Subgroup.topEquiv (G := H)).symm
     obtain ⟨a, b, hab⟩ := hN.nonabelian
     exact thm24Three_simple_of_inputs inp hs' H ⟨a.1, b.1, fun h => hab (Subtype.ext h)⟩ hkp A hA
       hcov hrk

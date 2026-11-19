@@ -66,6 +66,7 @@ theorem l2_iota (h : LitCtx Z A) (h4 : ∃ z ∈ Z, orderOf z = 4) : ∃ ι : X,
     · left; rw [hzsq, h1]
     · right; rw [hzsq, h1]
 
+omit [Finite X] in
 theorem l2_form_comm (h : LitCtx Z A) {ι : X} (hι : L2Iota Z ι) :
     ∀ a ∈ A, ∀ b ∈ A, ⁅a, b⁆ = 1 ∨ ⁅a, b⁆ = ι := by
   intro a ha b hb

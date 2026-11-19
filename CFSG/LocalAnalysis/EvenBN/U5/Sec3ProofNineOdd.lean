@@ -13,7 +13,8 @@ open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem proj_mem_centralizer_of_mem_section {D X : Subgroup G} (hX : X ≤ normalizer (D : Set G))
+omit [Finite G] in
+theorem proj_mem_centralizer_of_mem_section {D X : Subgroup G} (_hX : X ≤ normalizer (D : Set G))
     {y : G} (hyN : y ∈ normalizer (D : Set G)) (hy : ∀ x ∈ X, x⁻¹ * (y * x * y⁻¹) ∈ D) :
     proj D ⟨y, hyN⟩ ∈ centralizer ((bar D X : Subgroup (Bar D)) : Set (Bar D)) := by
   rw [mem_centralizer_iff]
@@ -46,7 +47,7 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
-theorem sec39_odd (hp : d.CaseHyp) (k : d.Know92) (he : d.Sec39e)
+theorem sec39_odd (_hp : d.CaseHyp) (_k : d.Know92) (_he : d.Sec39e)
     (hr : d.Sec39Reduced) (hl : d.Sec39Layer) :
     Odd (d.D.relIndex (centralizerSection (d.D ⊔ d.M₁) d.D)) := by
   have hMN := hr.M₁_le

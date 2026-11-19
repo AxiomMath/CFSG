@@ -65,12 +65,12 @@ include h in
 theorem elemTwo_J : ElemTwo (subW jWords) := by
   apply elemTwo_closure
   · rintro _ ⟨i, hi, rfl⟩ _ ⟨k, hk, rfl⟩
-    rw [Set.mem_setOf_eq, jWords_size] at hi hk
+    rw [Set.mem_ofPred_eq, jWords_size] at hi hk
     apply crMat_injective
     rw [map_mul, map_mul, crMat_gensW_J hi, crMat_gensW_J hk]
     exact h.comm i hi k hk
   · rintro _ ⟨i, hi, rfl⟩
-    rw [Set.mem_setOf_eq, jWords_size] at hi
+    rw [Set.mem_ofPred_eq, jWords_size] at hi
     apply crMat_injective
     rw [map_mul, map_one, crMat_gensW_J hi]
     exact h.sq i hi

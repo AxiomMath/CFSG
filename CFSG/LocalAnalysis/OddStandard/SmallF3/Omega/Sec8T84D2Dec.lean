@@ -13,6 +13,7 @@ open CFSG.EvenSporadicStandard.HSStd.Zassenhaus.A6A6
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E X1 X2 : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_centralizer_of_conj_eq {Y : Subgroup G} {x : G}
     (h : ∀ e ∈ Y, x * e * x⁻¹ = e) : x ∈ centralizer (Y : Set G) := by
   rw [mem_centralizer_iff]
@@ -23,6 +24,7 @@ private theorem mem_centralizer_of_conj_eq {Y : Subgroup G} {x : G}
       _ = e * x := by rw [h']
   exact hx.symm
 
+omit [Finite G] in
 private theorem isElemAbelian_map_subtype {Y : Subgroup G} {Y' : Subgroup ↥Y}
     (hY : CFSG.Open.IsElemAbelian 2 Y) : CFSG.Open.IsElemAbelian 2 (Y'.map Y.subtype) := by
   refine ⟨IsMulCommutative.of_comm (fun a b => ?_), fun x hx => ?_⟩
@@ -33,6 +35,7 @@ private theorem isElemAbelian_map_subtype {Y : Subgroup G} {Y' : Subgroup ↥Y}
       (hY.1.is_comm.comm ⟨(a : G), ha⟩ ⟨(b : G), hb⟩)
   · exact hY.2 x (Subgroup.map_subtype_le Y' hx)
 
+omit [Finite G] in
 private theorem sec8t84d2_faith_aux {Y : Subgroup G} {F1' F2' : Subgroup ↥E}
     (hY : Y ≤ normalizer (E : Set G)) (hsup : F1' ⊔ F2' = ⊤)
     (htriv : ∀ a ∈ autIn Y E, ∀ x ∈ F2', a x = x)
@@ -62,6 +65,7 @@ private theorem sec8t84d2_faith_aux {Y : Subgroup G} {F1' F2' : Subgroup ↥E}
   rw [ha1] at h
   simpa using h.symm
 
+omit [Finite G] in
 private theorem sec8t84d2_swap_aux {Y Y' : Subgroup G} {F1' F2' : Subgroup ↥E}
     (hY' : Y' ≤ normalizer (E : Set G)) (htN : t ∈ normalizer (E : Set G)) (htsq : t * t = 1)
     (hswap : ∀ a ∈ Y, t * a * t⁻¹ ∈ Y')
@@ -169,8 +173,8 @@ theorem sec8t84d2_dec_of_dec33 (h : Sec8T84DCtx G t E X1 X2) {E1' E2' : Subgroup
         obtain ⟨v', hv', rfl⟩ := Subgroup.mem_map.mp hv
         obtain ⟨w', hw', rfl⟩ := Subgroup.mem_map.mp hw
         obtain ⟨a, ha, hav⟩ :=
-          h33.trans1 v' hv' (fun h => hv1 (by simpa [h])) w' hw'
-            (fun h => hw1 (by simpa [h]))
+          h33.trans1 v' hv' (fun h => hv1 (by simp [h])) w' hw'
+            (fun h => hw1 (by simp [h]))
         obtain ⟨x, hx, hae⟩ := sec8t84d2_mem_autIn ha
         refine ⟨x, hx, ?_⟩
         simp only [Subgroup.coe_subtype]
@@ -179,8 +183,8 @@ theorem sec8t84d2_dec_of_dec33 (h : Sec8T84DCtx G t E X1 X2) {E1' E2' : Subgroup
         obtain ⟨v', hv', rfl⟩ := Subgroup.mem_map.mp hv
         obtain ⟨w', hw', rfl⟩ := Subgroup.mem_map.mp hw
         obtain ⟨a, ha, hav⟩ :=
-          h33.trans2 v' hv' (fun h => hv1 (by simpa [h])) w' hw'
-            (fun h => hw1 (by simpa [h]))
+          h33.trans2 v' hv' (fun h => hv1 (by simp [h])) w' hw'
+            (fun h => hw1 (by simp [h]))
         obtain ⟨x, hx, hae⟩ := sec8t84d2_mem_autIn ha
         refine ⟨x, hx, ?_⟩
         simp only [Subgroup.coe_subtype]

@@ -27,7 +27,7 @@ theorem dvd_card_quotient_center_of_perfect {Y : Type*} [Group Y] [Finite Y]
   obtain ⟨P⟩ : Nonempty (Sylow p Y) := inferInstance
   have hPZ : (P : Subgroup Y) ≤ center Y := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     have h1 : orderOf (QuotientGroup.mk' (center Y) x) ∣ p ^ k :=
       orderOf_dvd_of_pow_eq_one (by rw [← map_pow, hxk, map_one])
@@ -48,7 +48,7 @@ theorem dvd_card_quotient_center_of_perfect {Y : Type*} [Group Y] [Finite Y]
     exact Subtype.ext (mem_center_iff.mp (hPZ (f b).2) (f a))
   have hc := MonoidHom.ker_transferSylow_isComplement' P hP
   rw [← show f.ker = (MonoidHom.transferSylow P hP).ker from rfl, hker] at hc
-  have hcard := hc.card_mul
+  have hcard := hc.card_mul_card
   rw [card_top] at hcard
   have hP1 : Nat.card (P : Subgroup Y) = 1 := by
     have hpos : 0 < Nat.card Y := Nat.card_pos

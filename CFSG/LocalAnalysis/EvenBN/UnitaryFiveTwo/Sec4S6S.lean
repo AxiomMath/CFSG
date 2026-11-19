@@ -45,7 +45,7 @@ namespace Data.Hyp
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 variable (h : d.Hyp)
 
-theorem fixed_A₂_F (h : d.Hyp) {a : G} (ha : a ∈ d.A₂)
+theorem fixed_A₂_F (_h : d.Hyp) {a : G} (ha : a ∈ d.A₂)
     (hk : ∀ k ∈ d.K₂, a⁻¹ * (k * a * k⁻¹) ∈ d.F) : a ∈ d.F := by
   obtain ⟨α, hα, rfl⟩ := ha
   have key : ∀ n ∈ K₂sub, α⁻¹ * (n * α * n⁻¹) ∈ Fsub := by

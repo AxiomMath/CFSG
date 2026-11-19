@@ -225,10 +225,10 @@ include h hKU in
 theorem Data.Hyp.K₀_le_Gg
     (hBu : ∀ x ∈ Data.B₁ h hKU hf, d.u * x * d.u⁻¹ ∈ Data.B₁ h hKU hf) :
     K₀ ≤ Data.Gg h hKU hf := by
-  haveI := hf.isSimpleGroup
+  have := hf.isSimpleGroup
   have hK₃N := h.K₃_le_normalizer_Gg hKU hf hBu
   set Hs : Subgroup ↥K₀ := (Data.Gg h hKU hf).subgroupOf K₀ with hHs
-  haveI : Hs.Normal := ⟨fun n hn g => by
+  have : Hs.Normal := ⟨fun n hn g => by
     have hn' : (n : G) ∈ Data.Gg h hKU hf := Subgroup.mem_subgroupOf.1 hn
     set tg : G := d.t * (g : G) * d.t with htgdef
     have htg : tg ∈ d.tc K₀ := (h.mem_tc).2 (by rw [htgdef, h.t_conj_conj]; exact g.2)

@@ -118,14 +118,14 @@ private theorem gkh_comm_pow {G : Type*} [Group G] {x y z : G} (hzx : Commute z 
     gkh_conj_z hC9,
     ← pow_add, show 4 * C * B + 9 * A * D = 9 * A * D + 4 * B * C by ring]
 
-private theorem gkh_comm_strip_left {G : Type*} [Group G] {u v c : G} (hcu : Commute c u)
+private theorem gkh_comm_strip_left {G : Type*} [Group G] {u v c : G} (_hcu : Commute c u)
     (hcv : Commute c v) :
     ⁅u * c, v⁆ = ⁅u, v⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul, hcv.commutator_eq, mul_one]
   group
 
 private theorem gkh_comm_strip_right {G : Type*} [Group G] {u v c : G} (hcu : Commute c u)
-    (hcv : Commute c v) :
+    (_hcv : Commute c v) :
     ⁅u, v * c⁆ = ⁅u, v⁆ := by
   rw [commutatorElement_mul_right_eq_mul_conj, hcu.symm.commutator_eq, mul_one]
   group
@@ -360,7 +360,7 @@ theorem heis13_invariant_dichotomy {G : Type*} [Group G] {x y z u k : G}
   set S : Subgroup G := Subgroup.closure ({x, y} : Set G) with hSdef
   have hScard : Nat.card S = 13 ^ 3 := by rw [hSdef]; exact hS
   have hxy9 : ⁅x, y⁆ = z ^ 9 := gkh_comm_xy hzx hzy hyx hz
-  haveI hSfin : Finite S := Nat.finite_of_card_ne_zero (by rw [hScard]; norm_num)
+  have hSfin : Finite S := Nat.finite_of_card_ne_zero (by rw [hScard]; norm_num)
   have hzS : z ∈ S := by
     have hxS : x ∈ S := Subgroup.subset_closure (by simp)
     have hyS : y ∈ S := Subgroup.subset_closure (by simp)
@@ -470,14 +470,14 @@ theorem heis13_invariant_dichotomy {G : Type*} [Group G] {x y z u k : G}
       · exfalso
         have hcomm : ∀ p q : N, p * q = q * p := by
           interval_cases k0
-          · haveI : Subsingleton N := (Nat.card_eq_one_iff_unique.mp (by simpa using hk0eq)).1
+          · have : Subsingleton N := (Nat.card_eq_one_iff_unique.mp (by simpa using hk0eq)).1
             intro p q
             exact Subsingleton.elim _ _
-          · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-            haveI : IsCyclic N := isCyclic_of_prime_card (by simpa using hk0eq)
+          · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+            have : IsCyclic N := isCyclic_of_prime_card (by simpa using hk0eq)
             intro p q
             exact mul_comm' p q
-          · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+          · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
             intro p q
             exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 13)
               (by simpa using hk0eq)).is_comm.comm p q

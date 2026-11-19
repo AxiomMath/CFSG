@@ -39,7 +39,7 @@ theorem exists_invariant_subspace_of_threeGroup {d : ℕ} (hd : d.Prime)
   obtain ⟨P, hDP, hP0⟩ := CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     d 3 hd Nat.prime_three D N hD hDN ((hd.coprime_iff_not_dvd).mpr hdN) h3N
   let R : Subgroup (Module.End (ZMod 3) W)ˣ := (P : Subgroup N).map N.subtype
-  have hR : IsPGroup 3 R := P.isPGroup'.map N.subtype
+  have hR : IsPGroup 3 R := P.isPGroup.map N.subtype
   let e := LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 3) W
   let R' : Subgroup (W ≃ₗ[ZMod 3] W) := R.map e.toMonoidHom
   have hR' : IsPGroup 3 R' := hR.map e.toMonoidHom

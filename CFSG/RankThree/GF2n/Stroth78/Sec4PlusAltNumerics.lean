@@ -35,7 +35,7 @@ theorem card_Lbar_numerics_of_mulEquiv_alt8 (S : Setting z E F) {a : G} {w : ℕ
       aVec S h.mem_Q ∉ (⨆ y ∈ Y, commSpace (rhoLin S y)) →
       Lbar S a ≤ Subgroup.normalizer (Y : Set (Hbar z)) →
       Rbar S a = ⊥ ∨ Y = ⊥)
-    (h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4)
+    (_h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4)
     (e : ↥(Xsub S a) ≃* alternatingGroup (Fin 8)) :
     w ≤ 5 ∧ Nat.card ↥(Lbar S a) * Nat.card ↥(QaInterImage S (QaOf a ⊓ Q z)) = 2 ^ (2 * w) ∧
       Nat.card ↥(QaInterImage S (QaOf a ⊓ Q z)) ≤ 2 ^ w ∧
@@ -43,9 +43,9 @@ theorem card_Lbar_numerics_of_mulEquiv_alt8 (S : Setting z E F) {a : G} {w : ℕ
         16 * Nat.card ↥(Lbar S a ⊓ Subgroup.centralizer (Xsub S a : Set (Hbar z))) ∧
       Nat.card ↥(Lbar S a ⊓ Subgroup.centralizer (Xsub S a : Set (Hbar z))) ≤ 2 := by
   classical
-  letI := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
-  haveI hXn : (Xsub S a).Normal := Xsub_normal S a
+  let := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have hXn : (Xsub S a).Normal := Xsub_normal S a
   have hA : ∀ e ∈ Lbar S a, e * e = 1 := fun e he => by
     rw [← pow_two]
     exact sq_eq_one_of_mem_Lbar S h.mem_Q h.isConj he
@@ -58,7 +58,7 @@ theorem card_Lbar_numerics_of_mulEquiv_alt8 (S : Setting z E F) {a : G} {w : ℕ
       (Subgroup.card_dvd_of_le (inf_le_right : Lbar S a ⊓ C ≤ C)).trans hC6
     have h3 : ¬ 3 ∣ Nat.card ↥(Lbar S a ⊓ C) := by
       intro h3
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Lbar S a ⊓ C)) 3 h3
       have hx2 : x * x = 1 := Subtype.ext (hA x (Subgroup.mem_inf.mp x.2).1)
       have hdv : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hx2)

@@ -6,7 +6,7 @@ public import Init
 
 namespace CertificateChecks.KernelSmallSpor
 
-@[expose] def base012 : Array Nat := #[0, 1, 2]
+def base012 : Array Nat := #[0, 1, 2]
 
 end CertificateChecks.KernelSmallSpor
 

@@ -92,7 +92,7 @@ theorem compM_invariant (S : Set Vec24) (B : Mat24) (Ps FL : List Mat24) (c : Ma
       rw [h, Matrix.zero_vecMul]
   unfold compM
   by_cases h3 : q = 3 * Ps.length
-  · rw [if_pos h3, if_pos h3]
+  · rw [ite_eq_left h3, ite_eq_left h3]
     unfold codeFM
     rw [← List.toFinset_card_of_nodup (hFL.filter _), ← List.toFinset_card_of_nodup (hFL.filter _)]
     simp only [List.toFinset_filter]
@@ -125,14 +125,14 @@ theorem compM_invariant (S : Set Vec24) (B : Mat24) (Ps FL : List Mat24) (c : Ma
           _ = Matrix.vecMul u (c : Mat24) := by rw [hcc, Matrix.one_mul, h1]
       · simp only [← Matrix.mul_assoc, hcc, Matrix.one_mul]
         rw [Matrix.mul_assoc, hcc, Matrix.mul_one]
-  rw [if_neg h3, if_neg h3, hw]
+  rw [ite_eq_right h3, ite_eq_right h3, hw]
   by_cases h0 : q % 3 = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     simp only [hzero]
-  rw [if_neg h0, if_neg h0]
+  rw [ite_eq_right h0, ite_eq_right h0]
   by_cases h1 : q % 3 = 1
-  · rw [if_pos h1, if_pos h1, key]
-  rw [if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1, key]
+  rw [ite_eq_right h1, ite_eq_right h1]
   simp only [hS]
 
 end CFSG.KC.ThCent

@@ -34,7 +34,7 @@ theorem monolith_eq_of_unique [Finite X] {M : Subgroup X} (hMn : M.Normal) (hM0 
   refine le_antisymm (monolith_le hMn hM0) fun a ha => ?_
   rw [mem_monolith_iff]
   intro N hN hN0
-  haveI : Finite (Subgroup X) :=
+  have : Finite (Subgroup X) :=
     Finite.of_injective (fun H : Subgroup X => (H : Set X)) SetLike.coe_injective
   obtain ⟨N₀, hN₀N, hN₀min⟩ := exists_minimal_le_of_wellFoundedLT
     (fun N : Subgroup X => N.Normal ∧ N ≠ ⊥) N ⟨hN, hN0⟩

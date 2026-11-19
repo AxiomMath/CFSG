@@ -43,10 +43,10 @@ theorem qtwoDB19_coords_induces {Bs L : Subgroup G} {x : G} {m : ℕ}
     ∃ ω : F0ˣ, orderOf ω = 3 ∧ ∀ s : ↥Bs,
       qTwoChartTwoThree_induces ψ (s : G) (fun i => ω ^ (βL (Additive.ofMul s) i).val) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hm3 : 3 ≤ m := by omega
   have hcardu : Nat.card F0ˣ = 3 := by rw [Nat.card_units F0, hF0]
-  haveI : Fintype F0ˣ := Fintype.ofFinite F0ˣ
+  have : Fintype F0ˣ := Fintype.ofFinite F0ˣ
   have h1lt : 1 < Fintype.card F0ˣ := by
     rw [show Fintype.card F0ˣ = 3 from by rw [← Nat.card_eq_fintype_card]; exact hcardu]
     norm_num

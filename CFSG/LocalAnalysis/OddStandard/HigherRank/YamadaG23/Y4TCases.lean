@@ -20,8 +20,7 @@ private theorem y4_Sσ_eq_sup {Γ : Type} [Group Γ] (fr : Frame Γ) :
   have hset : ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} : Set Γ) =
       ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} : Set Γ) ∪ {fr.σ} := by
     ext x
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union,
-      Set.mem_empty_iff_false]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
     tauto
   change Subgroup.closure ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} : Set Γ) =
     fr.S ⊔ Subgroup.closure {fr.σ}
@@ -39,7 +38,7 @@ theorem y4_T_le_St (hH : F33Hyp s e) (hRT : s.R = s.T) : s.T ≤ s.fr.S ⊔ zpow
 theorem y4_T_le_Sgt (hH : F33Hyp s e) (hRT : s.R ≠ s.T) {g : G} (hgT : g ∈ s.T)
     (hgσ : ActsAs L g s.fr'.σ) : s.T ≤ s.fr.S ⊔ zpowers g ⊔ zpowers s.t := by
   intro x hx
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   have hxN : x ∈ normalizer (L : Set G) := s3_T_le_N s hH.hS hx
   have hgN : g ∈ normalizer (L : Set G) := s3_T_le_N s hH.hS hgT
   have hgN' : zpowers g ≤ normalizer (L : Set G) := Subgroup.zpowers_le.mpr hgN

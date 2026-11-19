@@ -23,8 +23,8 @@ theorem false_of_j1 (hE : KFactJ1Sylow) (h27 : KFactJ1L27) (hp3 : p ≠ 3)
     (c : P622KxCfg p P M x z T S L)
     (h : Nonempty (↥L ≃* (TauCeti.CFSGIndex.sporadic .J1).Group)) : False := by
   have hp := c.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp5 : 5 ≤ p := by
     have h2 := c.ne_two
     have h4 : p ≠ 4 := fun h4 => by

@@ -28,9 +28,9 @@ private theorem mem_zpowers_tau {c : G} (hc : c ∈ zpowers tau) : c = 1 ∨ c =
 
 private theorem Y_isElemAbelian : CFSG.Open.IsElemAbelian 2 (ctxYq t tau x₁ x₂ rho) :=
   ⟨IsMulCommutative.of_comm (fun a b => Subtype.ext (hg.Y_comm a a.2 b b.2)),
-    fun x hx => hg.Y_sq hx⟩
+    fun _x hx => hg.Y_sq hx⟩
 
-theorem tG_Qtau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ = a⁻¹) :
+theorem tG_Qtau (_htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ = a⁻¹) :
     ∀ g : G, ∀ u ∈ ctxQ t tau x₁ x₂ rho ⊔ zpowers tau, g * t * g⁻¹ ≠ u := by
   intro g u hu heq
   have hu2 : u * u = 1 := by
@@ -52,7 +52,7 @@ theorem tG_Qtau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ =
     have hq2 : q ^ 2 = 1 := by rw [pow_two, ← huq]; exact hu2
     have hqY : q ∈ ctxYq t tau x₁ x₂ rho := (hg.mem_Y_iff q).mpr ⟨hq, hq2⟩
     have htau_notY : tau ∉ ctxYq t tau x₁ x₂ rho :=
-      fun h => hg.tau_not_mem_Q (hg.Y_le_Q h)
+      fun h => hg.tau_not_mem_Q (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q h)
     have htau2 : tau ^ 2 = 1 := by rw [pow_two]; exact hg.tau_mul_self
     have hcommYtau : ∀ a ∈ ctxYq t tau x₁ x₂ rho, a * tau = tau * a :=
       fun a ha => (hg.tau_cent a ha).symm
@@ -78,7 +78,7 @@ theorem tG_Qtau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ =
   · have huq : u = q * tau := by rw [hqc, hctau]
     have hu_notY : u ∉ ctxYq t tau x₁ x₂ rho := by
       intro hY
-      have huQ : u ∈ ctxQ t tau x₁ x₂ rho := hg.Y_le_Q hY
+      have huQ : u ∈ ctxQ t tau x₁ x₂ rho := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q hY
       have htauQ : tau ∈ ctxQ t tau x₁ x₂ rho := by
         have h1 : tau = q⁻¹ * u := by rw [huq]; group
         have hmem : q⁻¹ * u ∈ ctxQ t tau x₁ x₂ rho := mul_mem (inv_mem hq) huQ
@@ -88,7 +88,7 @@ theorem tG_Qtau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ =
       intro a ha
       rw [huq]
       calc a * (q * tau) = (a * q) * tau := by group
-        _ = (q * a) * tau := by rw [hg.Q_comm a (hg.Y_le_Q ha) q hq]
+        _ = (q * a) * tau := by rw [hg.Q_comm a (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha) q hq]
         _ = q * (a * tau) := by group
         _ = q * (tau * a) := by rw [hg.tau_cent a ha]
         _ = (q * tau) * a := by group

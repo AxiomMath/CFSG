@@ -51,7 +51,7 @@ theorem residual {G : Type*} [Group G] [Finite G] (ambient acting intersection :
     have hlt : firstImage < secondImage := lt_of_le_of_ne hle hne
     obtain ⟨actor, hactor, houtside, hproductNormalizes⟩ :=
       TwoActionStrictEmbedding.escape ambient acting intersection firstImage secondImage hle hsecondAmbient
-        (second.isPGroup'.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizes heq hlt
+        (second.isPGroup.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizes heq hlt
     exact hnoEmbedding firstImage hfirstIntersection
       (TwoActionDisplacementEmbedding.embedding ambient acting intersection firstImage
         (hfirstIntersection.trans hintersection) hdisjoint hnormalizesAmbient hcentralizes hcentralizers actor

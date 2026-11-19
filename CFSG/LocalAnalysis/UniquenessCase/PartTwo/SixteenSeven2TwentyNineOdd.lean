@@ -9,7 +9,7 @@ public section
 
 namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
-theorem s16c167_odd_centralizes {H : Type} [Group H] {O Z : Subgroup H} (hZO : Z ≤ O)
+theorem s16c167_odd_centralizes {H : Type} [Group H] {O Z : Subgroup H} (_hZO : Z ≤ O)
     (hZodd : Odd (Nat.card ↥Z)) (hZn : ∀ y ∈ O, ∀ z ∈ Z, y * z * y⁻¹ ∈ Z)
     (hC : ∀ y ∈ O, (∀ z ∈ Z, y * z = z * y) → y ∈ Z) {x : H} {k : ℕ} (hx : x ^ (2 ^ k) = 1)
     (hxO : ∀ y ∈ O, x * y * x⁻¹ ∈ O) (hxZ : ∀ z ∈ Z, x * z = z * x) :

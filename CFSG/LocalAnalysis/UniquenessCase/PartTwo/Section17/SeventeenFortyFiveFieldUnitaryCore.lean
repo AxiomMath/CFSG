@@ -232,7 +232,7 @@ theorem primeFormP_eq_top_of_subfield_le {p f f₀ n : ℕ}
           Matrix (Fin (4 + (m + 1))) (Fin (4 + (m + 1))) K)
           (Fin.castAdd (m + 1) 0) (Fin.natAdd 4 0) = 1
         rw [coe_subfieldGL, Matrix.map_apply, coe_unitaryPermGL, permMatrix_apply',
-          if_pos (permFive_apply m)]
+          ite_eq_left (permFive_apply m)]
         rfl
       rw [hsij]
       simp only [w, Units.val_mk0, Units.val_inv_eq_inv_val, torusFive_castAdd,

@@ -125,7 +125,7 @@ theorem isSylowOf_zpowers_of_forall {M : Type*} [Group M] [Finite M] {Y : Subgro
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 Y))
   have hTle : (T : Subgroup Y).map Y.subtype ≤ zpowers s := by
     rintro _ ⟨x, hx, rfl⟩
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨x, hx⟩
     have hk' : (x : Y) ^ 2 ^ k = 1 := congrArg Subtype.val hk
     exact h x x.2 ⟨k, by simpa using congrArg Subtype.val hk'⟩
   have h1 : Nat.card T ≤ 2 := by
@@ -203,7 +203,7 @@ theorem NCV_le_normalizer_D5 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
 theorem tBar_eq (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) :
     tBar d t = NormalizerQuotient.proj (yamadaD₅ d t) ⟨t, h.t_mem_normalizer_yamadaD₅_C9 d⟩ := by
   unfold tBar
-  rw [dif_pos (h.t_mem_normalizer_yamadaD₅_C9 d)]
+  rw [dite_eq_left (h.t_mem_normalizer_yamadaD₅_C9 d)]
 
 theorem lift_centralizer_tBar (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) :
@@ -288,6 +288,7 @@ theorem D5_inf_L_le (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : h
     have := mul_mem (map_subtype_le _ h1) (inv_mem hxL)
     rwa [mul_inv_cancel_right] at this
 
+omit [Finite G] in
 theorem cLV_le_L (d : TrialityD4Data L (2 ^ f)) : cLV d ≤ L := map_subtype_le _
 
 theorem cLV_le_normalizer_D5 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
@@ -727,6 +728,7 @@ theorem pBar_eq_commutator (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
   rw [← bar_commutator hPN hJD5]
   exact hbar
 
+omit [Finite G] in
 theorem jSixBar_le_kBar (d : TrialityD4Data L (2 ^ f)) : jSixBar d t ≤ kBar d t := by
   have : d.J₆.map L.subtype ≤ cLV d := by
     rintro _ ⟨j, hj, rfl⟩

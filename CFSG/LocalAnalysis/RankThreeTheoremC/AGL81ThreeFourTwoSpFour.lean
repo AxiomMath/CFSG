@@ -26,7 +26,7 @@ theorem spFour_catalog_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group ∧
       (∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := statedClassicalModel_of_spFourIndex d hd (MulEquiv.refl _)
   obtain ⟨hfin, -, hsimple⟩ := CFSG.LieType.Simplicity.fam_classical_converse _ ⟨_, _, _, _, hS⟩
   refine ⟨hsimple, ?_, classical_model_outer_solvable hS⟩
@@ -45,12 +45,12 @@ theorem threeFourTwoSpFour_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hKY₀ : ¬ K ≤ Y₀) :
     ∃ N : Subgroup Y, N ≤ K ⊓ Y₀ ∧ IsPGroup p N ∧ K ⊓ Y₀ ≤ normalizer (N : Set Y) ∧
       centralizer (N : Set Y) ⊓ (K ⊓ Y₀) ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨eK⟩ := hKX
   obtain ⟨ψ⟩ := nonempty_mulEquiv_psp4 hp2 (statedClassicalModel_of_spFourIndex d hd eK)
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   obtain ⟨S, hS⟩ := exists_sylow_projUnipotent (K := ZMod p) p (r := 2) (by norm_num)
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow ψ S.isPGroup' S.not_dvd_index T
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow ψ S.isPGroup S.not_dvd_index T
   set ι : PSp4 p →* Y := K.subtype.comp Φ.toMonoidHom with hιdef
   have hι : Function.Injective ι := K.subtype_injective.comp Φ.injective
   have hrange : ι.range = K := by
@@ -76,7 +76,7 @@ theorem threeFourTwoSpFour_inf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hZ : center (PSp4 p) = ⊥ := by
     obtain ⟨hs, ⟨a, b, hab⟩, -⟩ := spFour_catalog_facts hp hp2 hd
     have e := ψ.symm.trans eK
-    haveI : IsSimpleGroup (PSp4 p) := (MulEquiv.isSimpleGroup_congr e).2 hs
+    have : IsSimpleGroup (PSp4 p) := (MulEquiv.isSimpleGroup_congr e).2 hs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (PSp4 p)) with h | h
     · exact h
     · refine absurd ?_ hab

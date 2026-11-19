@@ -78,7 +78,7 @@ theorem isL2_or_isU3_of_mem_calC_of_product {I K : Subgroup G} {n : ℕ} (hK : K
 
 theorem le_IOf_of_mem_calLp {D : Data G} {p : ℕ} {L K : Subgroup G} (hj : S17.jM D p = 4)
     (hK : K ∈ S17.calLp D p) : K ≤ IOf D p L := by
-  rw [IOf, if_pos hj]
+  rw [IOf, ite_eq_left hj]
   exact le_iSup₂_of_le K hK le_rfl
 
 theorem mem_calC_IOf_of_mem_calLp {D : Data G} {p : ℕ} {L K : Subgroup G}
@@ -158,7 +158,7 @@ theorem IOf_le_centralizer_V0_of_jM_four (D : Data G) {V₀ V : Subgroup G} {p :
       (Subgroup.normal_subgroupOf_iff_le_normalizer hK.1.1.le).mp (h54.2 K hK.1).1
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp
       (commutator_V0_eq_bot_of_uniqueMax h127 h.hyp125 hK.1 hKN hU)
-  rw [IOf, if_pos hj]
+  rw [IOf, ite_eq_left hj]
   exact iSup₂_le hgen
 
 theorem alt3_A_le_centralizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgroup G}

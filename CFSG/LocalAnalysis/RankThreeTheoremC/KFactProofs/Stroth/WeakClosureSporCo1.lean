@@ -72,7 +72,7 @@ theorem wcOn_seven_of_fusion {K : Type} [Group K] [Finite K] {s t : K} (hs : s ^
     {c₂ c₃ c₄ c₅ c₆ c₇ : K} (hx₂ : c₂ * (t * s ^ 1) = t * c₂) (hx₃ : c₃ * (t * s ^ 2) = t * c₃)
     (hx₄ : c₄ * (t * s ^ 3) = s * c₄) (hx₅ : c₅ * (t * s ^ 4) = s * c₅)
     (hx₆ : c₆ * (t * s ^ 5) = t * c₆) (hx₇ : c₇ * (t * s ^ 6) = s * c₇) : WCOn 7 K := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcomm : Commute s t := hst
   have cj : ∀ (g tg : K) (n : ℕ), g * (t * s ^ n) = tg * g → g * (s ^ n * t) * g⁻¹ = tg := by
     intro g tg n h
@@ -119,7 +119,7 @@ theorem wcOn_GA_seven :
 theorem wcOn_Co1_seven_aux
     [Finite CFSG.Blueprint.NativeSporadic.Co1] :
     WCOn 7 CFSG.Blueprint.NativeSporadic.Co1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact WCOn.of_mulEquiv (K := CFSG.Blueprint.NativeSporadic.Co1)
     (L := CFSG.Sporadic.Co1Schreier.GA) CFSG.Sporadic.Co1Block.co1MatEquiv wcOn_GA_seven
 
@@ -129,7 +129,7 @@ theorem wcOn_Co1_seven
 
 theorem wcOn_Co1_five_aux
     [Finite CFSG.Blueprint.NativeSporadic.Co1] : WCOn 5 CFSG.Blueprint.NativeSporadic.Co1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact WCOn.of_hasNoncommPair (hasNoncommPair_of_commData (G := CFSG.Blueprint.NativeSporadic.Co1)
     Nat.prime_five CFSG.RankThree.PartOne.KS.Co1Scal.co1Scal_rel.commData
     CFSG.RankThree.PartOne.KS.Co1Scal.co1Scal_rel.z_eq)
@@ -140,7 +140,7 @@ theorem wcOn_Co1_five [Finite (Carrier .Co1)] :
 
 theorem wcOn_Co1_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.Co1] : WCOn 3 CFSG.Blueprint.NativeSporadic.Co1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.card CFSG.Blueprint.NativeSporadic.Co1 = 4157776806543360000 :=
     CFSG.Sporadic.Co1.card_Co1
   have hf : (Nat.card CFSG.Blueprint.NativeSporadic.Co1).factorization 3 = 9 := by

@@ -15,7 +15,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem sz32_nonab_false (hS : Setting G) (hU0 : FullCoreLocal G) (hNonab : KFactNonabF5)
+theorem sz32_nonab_false (hS : Setting G) (_hU0 : FullCoreLocal G) (hNonab : KFactNonabF5)
     (hc : PointConfig IsSz32Type G 5 P M x J) {U : Subgroup G}
     (hUel : IsElemAbelian 5 U) (hUc : Nat.card U = 5 ^ 2) (hxU : x ∈ U)
     (hC : ∀ u ∈ U, u ∉ Subgroup.zpowers x → Subgroup.centralizer ({u} : Set G) ≤ M)
@@ -23,7 +23,7 @@ theorem sz32_nonab_false (hS : Setting G) (hU0 : FullCoreLocal G) (hNonab : KFac
     (hFH : IsSylowOf 5 F (Subgroup.normalizer (S : Set G))) (hUF : U ≤ F) (hFM : F ≤ M)
     (hFinfo : Sz32FInfo x U F) (hnonab : ¬ IsMulCommutative F) : False := by
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp5⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5⟩
   obtain ⟨hFcard, -, hFexp, hFcen, hFom⟩ := hFinfo.cases.resolve_left hnonab
   set H : Subgroup G := Subgroup.normalizer (S : Set G) with hH
   have hxo : orderOf x = 5 := orderOf_eq_prime hc.generic.2.1.2.2.1 hc.generic.2.1.2.1

@@ -16,7 +16,7 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.EvenSporadicStan
 
 theorem harris311_of_cat (h : CatHarrisAS) : Harris311 := by
   intro G _ _ hK hO t ht ⟨e⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hnab : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a :=
     exists_noncommute_of_center_eq_bot (alternatingGroup.center_eq_bot (by simp))
   have hR := rhyp_mulAut hnab
@@ -40,7 +40,7 @@ theorem harris311_of_cat (h : CatHarrisAS) : Harris311 := by
     let ψ : ↥S₁ ≃* alternatingGroup (Fin 6) := hs.iso.some.trans ι
     exact Or.inr (Or.inl ⟨φ.trans (MulEquiv.prodCongr ψ ψ)⟩)
   ·
-    haveI := hF.simple
+    have := hF.simple
     have hBne : (MulAut.conj :
         alternatingGroup (Fin 6) →* MulAut (alternatingGroup (Fin 6))).range.map (embA e) ≠ ⊥ := by
       intro hbot

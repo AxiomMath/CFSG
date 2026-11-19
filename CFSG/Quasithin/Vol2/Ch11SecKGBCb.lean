@@ -38,7 +38,7 @@ theorem isPGroup_commutator_bender [Finite Y] [Finite Y'] (φ : Y →* Y')
   obtain ⟨Q, rfl⟩ := exists_sylow_of_isSylowTwoOf hS
   obtain ⟨-, ⟨D, hDc, -, -, hQD⟩, -⟩ := hB Q
   have hDN : D ≤ Subgroup.normalizer ((Q : Subgroup Y') : Set Y') := hQD ▸ le_sup_right
-  refine isPGroup_commutator_comap φ hφ hZ hodd Q.isPGroup' le_rfl hDN (fun b hb => ?_)
+  refine isPGroup_commutator_comap φ hφ hZ hodd Q.isPGroup le_rfl hDN (fun b hb => ?_)
     (comap_comm_of_isCyclic φ hZ hDc)
   have hb' : b ∈ ((Q : Subgroup Y') ⊔ D : Subgroup Y') := hQD ▸ hb
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_right_le_normalizer_left _ _ hDN] at hb'

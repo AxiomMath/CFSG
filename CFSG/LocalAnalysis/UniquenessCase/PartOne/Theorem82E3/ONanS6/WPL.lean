@@ -40,7 +40,7 @@ theorem le_solvableCore_of_centralizes_pCore_three_and_components
   let π : H →* H ⧸ N := QuotientGroup.mk' N
   let X := H ⧸ N
   let WX : Subgroup X := W.map π
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWX2 : IsPGroup 2 WX := hW2.map π
   obtain ⟨hNsol, -, hNp, hNmax, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := H) Nat.prime_three
@@ -77,21 +77,21 @@ theorem le_solvableCore_of_centralizes_pCore_three_and_components
   set Ω : Subgroup ↥Z := CFSG.pCore 2 ↥Z with hΩ
   set V : Subgroup ↥F := Ω.map Z.subtype with hV
   set U : Subgroup X := V.map F.subtype with hU
-  haveI hZchar : Z.Characteristic := Subgroup.centerCharacteristic
-  haveI hΩchar : Ω.Characteristic := CFSG.pCore_characteristic
-  haveI hVchar : V.Characteristic :=
+  have hZchar : Z.Characteristic := Subgroup.centerCharacteristic
+  have hΩchar : Ω.Characteristic := CFSG.pCore_characteristic
+  have hVchar : V.Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic
-  haveI hFchar : F.Characteristic := CFSG.LocalCores.generalized_fitting_characteristic.1
-  haveI hUchar : U.Characteristic :=
+  have hFchar : F.Characteristic := CFSG.LocalCores.generalized_fitting_characteristic.1
+  have hUchar : U.Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic
   have hV2 : IsPGroup 2 V := (CFSG.pCore_isPGroup (p := 2) (G := ↥Z)).map Z.subtype
   have hU2 : IsPGroup 2 U := hV2.map F.subtype
   have hUle : U ≤ CFSG.pCore 2 X := le_sSup ⟨inferInstance, hU2⟩
   have hcore2 : CFSG.pCore 2 X = ⊥ := by
     apply le_bot_iff.mp
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 X) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 X) :=
       (CFSG.pCore_isPGroup (p := 2) (G := X)).isNilpotent
-    haveI : Group.IsSolvable ↥(CFSG.pCore 2 X) := inferInstance
+    have : Group.IsSolvable ↥(CFSG.pCore 2 X) := inferInstance
     have hmaxX := (solvable_prime_complement_core_characterization (H := X) Nat.prime_three).2.2.2.1
     exact (hmaxX (CFSG.pCore 2 X) inferInstance inferInstance
       (CFSG.GroupTheory.not_dvd_card_of_isPGroup

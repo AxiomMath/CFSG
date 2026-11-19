@@ -271,7 +271,7 @@ private lemma Dsix_not_center {K : Type*} [Field K] [CharP K 3] :
   refine TauCeti.notMem_range_scalar_diagGL (i := coord 0) (j := coord 4) ?_
   have h0 : coord 0 ∈ ({coord 0, coord 1, coord 2, coord 3} : Finset Six) := by decide
   have h4 : coord 4 ∉ ({coord 0, coord 1, coord 2, coord 3} : Finset Six) := by decide
-  rw [if_pos h0, if_neg h4]
+  rw [ite_eq_left h0, ite_eq_right h4]
   intro h
   have h2ne : (2 : K) ≠ 0 :=
     CharP.cast_ne_zero_of_ne_of_prime (R := K) (p := 3) (q := 2) Nat.prime_two (by decide)

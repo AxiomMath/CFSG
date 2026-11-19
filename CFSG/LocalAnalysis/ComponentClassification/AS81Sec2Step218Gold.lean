@@ -236,7 +236,7 @@ theorem le_normalizer_sup_oddCoreIn_sec2Z (hQO : GoldschmidtQO) (h24 : Step24) (
     have hT'eq : T' = ((Q₁.mapSurjective hρs : Sylow 2 (↥CZ ⧸ Cc)) : Subgroup (↥CZ ⧸ Cc)) := by
       rw [Sylow.coe_mapSurjective, hQ₁]
     rw [hT'eq, isSylowOf_iff]
-    refine ⟨le_top, (Q₁.mapSurjective hρs).isPGroup', ?_⟩
+    refine ⟨le_top, (Q₁.mapSurjective hρs).isPGroup, ?_⟩
     rw [relIndex_top_right]
     exact (Q₁.mapSurjective hρs).not_dvd_index
   have hQ'T' : Q' ≤ T' := map_mono fun a ha =>

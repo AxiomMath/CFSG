@@ -19,15 +19,18 @@ private theorem p622Klein_isPGroup {S : Subgroup GL32}
   obtain ⟨k, hk⟩ := h g.1 g.2
   exact ⟨k, Subtype.ext (by simpa using hk)⟩
 
+omit [Finite C] in
 private theorem p622Klein_mem_map {L S : Subgroup C} (e : ↥L ≃* GL32) {g : GL32} :
     g ∈ (S.subgroupOf L).map e.toMonoidHom ↔ ((e.symm g : ↥L) : C) ∈ S := by
   rw [Subgroup.mem_map_equiv, Subgroup.mem_subgroupOf]
 
+omit [Finite C] in
 private theorem p622Klein_card_map {L S : Subgroup C} (e : ↥L ≃* GL32) (hSL : S ≤ L) :
     Nat.card ((S.subgroupOf L).map e.toMonoidHom) = Nat.card S := by
   rw [Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSL).toEquiv
 
+omit [Finite C] in
 private theorem p622Klein_props {L S : Subgroup C} (e : ↥L ≃* GL32) (hSL : S ≤ L)
     (hS : ∀ g ∈ S, ∃ k : ℕ, g ^ 2 ^ k = 1) (hSne : S ≠ ⊥) :
     IsPGroup 2 ((S.subgroupOf L).map e.toMonoidHom) ∧
@@ -55,6 +58,7 @@ private theorem p622Klein_props {L S : Subgroup C} (e : ↥L ≃* GL32) (hSL : S
     have h1 : (⟨u, hSL hu⟩ : ↥L) = 1 := e.injective (by rw [hmem, map_one])
     exact congrArg Subtype.val h1
 
+omit [Finite C] in
 private theorem p622Klein_normalizer {L S : Subgroup C} (e : ↥L ≃* GL32) {z : C}
     (hzL : z ∈ L) (hzS : z ∈ normalizer (S : Set C)) :
     e ⟨z, hzL⟩ ∈ normalizer (((S.subgroupOf L).map e.toMonoidHom : Subgroup GL32) : Set GL32) := by
@@ -62,17 +66,18 @@ private theorem p622Klein_normalizer {L S : Subgroup C} (e : ↥L ≃* GL32) {z 
   have hl : e.symm (e ⟨z, hzL⟩ * h * (e ⟨z, hzL⟩)⁻¹) =
       ((⟨z, hzL⟩ : ↥L) * e.symm h * (⟨z, hzL⟩ : ↥L)⁻¹) := by
     simp
-  try simp only [SetLike.mem_coe]
   rw [p622Klein_mem_map e, p622Klein_mem_map e, hl]
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact mem_normalizer_iff.1 hzS _
 
+omit [Finite C] in
 private theorem p622Klein_orderOf {L : Subgroup C} (e : ↥L ≃* GL32) {z : C} (hzL : z ∈ L)
     (hz3 : orderOf z = 3) : orderOf (e ⟨z, hzL⟩) = 3 := by
   have h : orderOf (e ⟨z, hzL⟩) = orderOf (⟨z, hzL⟩ : ↥L) :=
     orderOf_injective e.toMonoidHom e.injective _
   rw [h, orderOf_mk, hz3]
 
+omit [Finite C] in
 private theorem p622Klein_card_four {L S : Subgroup C} (e : ↥L ≃* GL32) {z : C}
     (hzL : z ∈ L) (hz3 : orderOf z = 3) (hSL : S ≤ L)
     (hS : ∀ g ∈ S, ∃ k : ℕ, g ^ 2 ^ k = 1) (hSne : S ≠ ⊥) (hzS : z ∈ normalizer (S : Set C)) :
@@ -83,6 +88,7 @@ private theorem p622Klein_card_four {L S : Subgroup C} (e : ↥L ≃* GL32) {z :
   rw [← p622Klein_card_map e hSL]
   exact h
 
+omit [Finite C] in
 private theorem p622Klein_mem_normalizer {U : Subgroup C} {u : C} (hu : u ∈ U) :
     u ∈ normalizer (U : Set C) := by
   refine mem_normalizer_iff.2 fun h => ?_
@@ -92,6 +98,7 @@ private theorem p622Klein_mem_normalizer {U : Subgroup C} {u : C} (hu : u ∈ U)
   rw [key] at this
   exact this
 
+omit [Finite C] in
 private theorem p622Klein_normalizer_inf {U L : Subgroup C} [L.Normal] {g : C}
     (hgU : g ∈ normalizer (U : Set C)) : g ∈ normalizer ((U ⊓ L : Subgroup C) : Set C) := by
   refine mem_normalizer_iff.2 fun h => ?_
@@ -100,9 +107,10 @@ private theorem p622Klein_normalizer_inf {U L : Subgroup C} [L.Normal] {g : C}
     refine ⟨fun hh => Subgroup.Normal.conj_mem ‹L.Normal› h hh g, fun hh => ?_⟩
     have := Subgroup.Normal.conj_mem ‹L.Normal› _ hh g⁻¹
     rwa [show g⁻¹ * (g * h * g⁻¹) * g⁻¹⁻¹ = h by group] at this
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at hU' ⊢
+  simp only [Subgroup.mem_inf] at hU' ⊢
   exact and_congr hU' hL'
 
+omit [Finite C] in
 private theorem p622Klein_mem_of_pow {L : Subgroup C} (e : ↥L ≃* GL32) {x : C}
     (hx : x ∈ Subgroup.center C) (hx3 : orderOf x = 3)
     (hcent : centralizer (L : Set C) = zpowers x) {l u : C} (hl : l ∈ L) {i : ℤ}
@@ -264,11 +272,12 @@ private theorem p622Klein_sq {U : Subgroup C} {z : C} (hzU : z ∈ normalizer (U
   · obtain ⟨y, hyU, hzy⟩ := hnc
     exact absurd (p622Klein_comm_of_orderOf_four hzU hz3 hU4 hg h y hyU) hzy
 
+omit [Finite C] in
 private theorem p622Klein_iso {U : Subgroup C} [Nontrivial U] (h4 : Nat.card U = 4)
     (hsq : ∀ g ∈ U, g ^ 2 = 1) :
     Nonempty (↥U ≃* Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := by
   have hsq' : ∀ g : U, g ^ 2 = 1 := fun g => Subtype.ext (by simpa using hsq g.1 g.2)
-  haveI : IsKleinFour U :=
+  have : IsKleinFour U :=
     ⟨h4, (Monoid.exponent_eq_prime_iff Nat.prime_two).2 fun g hg => orderOf_eq_prime (hsq' g) hg⟩
   obtain ⟨f⟩ : Nonempty (U ≃* Multiplicative (ZMod 2 × ZMod 2)) := IsKleinFour.nonempty_mulEquiv
   exact ⟨f.trans (MulEquiv.prodMultiplicative (ZMod 2) (ZMod 2))⟩
@@ -369,7 +378,7 @@ theorem p622Exit_klein {L : Subgroup C} [L.Normal] (e : ↥L ≃* GL32) {x z : C
   have h4 : Nat.card U = 4 := by
     rw [← hUeq]
     exact h4S
-  haveI : Nontrivial U := Finite.one_lt_card_iff_nontrivial.1 (by rw [h4]; norm_num)
+  have : Nontrivial U := Finite.one_lt_card_iff_nontrivial.1 (by rw [h4]; norm_num)
   exact p622Klein_iso h4 (p622Klein_sq hzU hz3 h4 hnc)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3

@@ -156,7 +156,7 @@ theorem J2_centralizer
     p = 3 ∨ p = 5 := by
   obtain ⟨⟨z, hzP⟩, hz1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hP
   have hz1 : z ≠ 1 := fun h => hz1' (Subtype.ext h)
-  obtain ⟨k, hk⟩ := (P.isPGroup' ⟨z, hzP⟩)
+  obtain ⟨k, hk⟩ := (P.isPGroup ⟨z, hzP⟩)
   have hpz : p ∣ orderOf z := by
     rw [← Subgroup.orderOf_mk z hzP]
     have := orderOf_dvd_of_pow_eq_one hk

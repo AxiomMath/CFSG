@@ -21,7 +21,7 @@ theorem coordBlock_mem {d a c : ℕ} {x : Fin d → K} :
     x ∈ coordBlock d K a c ↔
       ∀ i : Fin d, ¬ (a ≤ (i : ℕ) ∧ (i : ℕ) < c) → x i = 0 := by
   rw [coordBlock, Submodule.mem_pi]
-  simp only [Set.mem_setOf_eq, Submodule.mem_bot]
+  simp only [Set.mem_ofPred_eq, Submodule.mem_bot]
 
 theorem coordBlock_mono {d a c a' c' : ℕ} (ha : a' ≤ a) (hc : c ≤ c') :
     coordBlock d K a c ≤ coordBlock d K a' c' := by
@@ -66,15 +66,15 @@ theorem coordBlock_sup {d a b c : ℕ} (hab : a ≤ b) (hbc : b ≤ c) :
   · rw [coordBlock_mem]
     intro i hi
     by_cases h : (i : ℕ) < b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact hx i (by omega)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
   · rw [coordBlock_mem]
     intro i hi
     by_cases h : b ≤ (i : ℕ)
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact hx i (by omega)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
 
 theorem coordBlock_inf_eq_bot {d a b c e : ℕ} (h : b ≤ c) :
     coordBlock d K a b ⊓ coordBlock d K c e = ⊥ := by
@@ -280,7 +280,7 @@ theorem aRes_flagTyp_of_finrank_lt {U : FlagVert σ m}
     (h : Module.finrank K U.1 < m + 1) : (flagTyp U : ℕ) = Module.finrank K U.1 - 1 := by
   have hmin : min (Module.finrank K U.1 - 1) m = Module.finrank K U.1 - 1 :=
     min_eq_left (by omega)
-  simp only [flagTyp, if_neg (ne_of_lt h), Fin.val_mk, hmin]
+  simp only [flagTyp, ite_eq_right (ne_of_lt h), Fin.val_mk, hmin]
 
 theorem aRes_stdSub_mono (d : ℕ) {i j : ℕ} (h : i ≤ j) :
     (stdDChamber σ d).toFlipFrame.sub i ≤ (stdDChamber σ d).toFlipFrame.sub j := by
@@ -408,13 +408,13 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
   set H := Submodule.comap (aResPhi (K := K) (m + 1)) X with hH
   have ht : a ≤ (flagTyp x.1 : ℕ) ∧ (flagTyp x.1 : ℕ) ≤ b := by
     have h := x.2.1
-    simpa only [Set.mem_setOf_eq, not_not] using h
+    simpa only [Set.mem_ofPred_eq, not_not] using h
   have hxdim : Module.finrank K X = (flagTyp x.1 : ℕ) + 1 := by
     rw [hX]
     exact FlagVert.finrank_eq_of_flagTyp (by omega)
   have hxL : X < L := by
     have hmJ : (Fin.last m) ∈ {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-      simp only [Set.mem_setOf_eq, Fin.val_last]
+      simp only [Set.mem_ofPred_eq, Fin.val_last]
       omega
     have hadj := x.2.2 (Fin.last m) hmJ
     have hdL : Module.finrank K (flagChamber E m (Fin.last m)).1 = m + 1 := by
@@ -435,7 +435,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
       exact bot_le
     · have haJ : (⟨a - 1, by omega⟩ : Fin (m + 1)) ∈
           {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       have hadj := x.2.2 ⟨a - 1, by omega⟩ haJ
       have hch : (flagChamber E m ⟨a - 1, by omega⟩).1 =
@@ -459,7 +459,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
     ·
       have haJ : (⟨a - 1, by omega⟩ : Fin (m + 1)) ∈
           {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       have hadj := x.2.2 ⟨a - 1, by omega⟩ haJ
       have hch : (flagChamber E m ⟨a - 1, by omega⟩).1 =
@@ -482,7 +482,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
   have hXTb : X < (stdDChamber σ (m + 1)).toFlipFrame.sub (b + 2) := by
     by_cases hlt : b + 2 < m
     · have hadj := x.2.2 ⟨b + 1, by omega⟩ (by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           omega)
       have hch : (flagChamber E m ⟨b + 1, by omega⟩).1 =
           (stdDChamber σ (m + 1)).toFlipFrame.sub (b + 2) := by
@@ -497,7 +497,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
       exact h
     · have hb_eq : b + 2 = m := by omega
       have hadjAlt := x.2.2 ⟨b + 1, by omega⟩ (by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           omega)
       have hb2 : (⟨b + 1, by omega⟩ : Fin (m + 1)) = ⟨m - 1, by omega⟩ := by
         apply Fin.ext
@@ -699,7 +699,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
     constructor <;> omega
   have htyp_notJ : flagTyp Xv ∉
       {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-    simp only [Set.mem_setOf_eq, not_not]
+    simp only [Set.mem_ofPred_eq, not_not]
     exact htype_mem
   have hTbm : (stdDChamber σ (m + 1)).toFlipFrame.sub (b + 2) ≤
       (stdDChamber σ (m + 1)).toFlipFrame.sub m :=
@@ -727,7 +727,7 @@ theorem aRes_isSolid_alt (hσ : ∀ x, σ (σ x) = x) :
     intro j hj
     have hja_or : (j : ℕ) < a ∨ b < (j : ℕ) := by
       have h := hj
-      simp only [Set.mem_setOf_eq] at h
+      simp only [Set.mem_ofPred_eq] at h
       omega
     by_cases hja : (j : ℕ) < a
     · have hi : (j : ℕ) + 1 < m := by omega
@@ -800,7 +800,7 @@ theorem aResStem_vert_bounds (E : QuadExt F K σ) {a b : ℕ} (hab : a ≤ b)
   set X := x.1.1 with hX
   have ht : a ≤ (flagTyp x.1 : ℕ) ∧ (flagTyp x.1 : ℕ) ≤ b := by
     have h := x.2.1
-    simpa only [Set.mem_setOf_eq, not_not] using h
+    simpa only [Set.mem_ofPred_eq, not_not] using h
   have hxdim : Module.finrank K X = (flagTyp x.1 : ℕ) + 1 := by
     rw [hX]
     exact FlagVert.finrank_eq_of_flagTyp (by omega)
@@ -810,7 +810,7 @@ theorem aResStem_vert_bounds (E : QuadExt F K σ) {a b : ℕ} (hab : a ≤ b)
       exact bot_lt_iff_ne_bot.mpr x.1.2.2.1
     · have haJ : (⟨a - 1, by omega⟩ : Fin (m + 1)) ∈
           {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       have hadj := x.2.2 ⟨a - 1, by omega⟩ haJ
       have hch : (flagChamber E m ⟨a - 1, by omega⟩).1 =
@@ -830,7 +830,7 @@ theorem aResStem_vert_bounds (E : QuadExt F K σ) {a b : ℕ} (hab : a ≤ b)
       exact h
   · by_cases hlt : b + 2 < m
     · have hadj := x.2.2 ⟨b + 1, by omega⟩ (by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           omega)
       have hch : (flagChamber E m ⟨b + 1, by omega⟩).1 =
           (stdDChamber σ (m + 1)).toFlipFrame.sub (b + 2) := by
@@ -848,7 +848,7 @@ theorem aResStem_vert_bounds (E : QuadExt F K σ) {a b : ℕ} (hab : a ≤ b)
       exact h
     · have hb_eq : b + 2 = m := by omega
       have hadjAlt := x.2.2 ⟨b + 1, by omega⟩ (by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           omega)
       have hb2 : (⟨b + 1, by omega⟩ : Fin (m + 1)) = ⟨m - 1, by omega⟩ := by
         apply Fin.ext
@@ -870,7 +870,7 @@ theorem aResStem_vert_bounds (E : QuadExt F K σ) {a b : ℕ} (hab : a ≤ b)
       have hxL : X < stdLag (m + 1) K := by
         have hmJ : (Fin.last m) ∈
             {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) ≤ b)} := by
-          simp only [Set.mem_setOf_eq, Fin.val_last]
+          simp only [Set.mem_ofPred_eq, Fin.val_last]
           omega
         have hadjL := x.2.2 (Fin.last m) hmJ
         have hdL : Module.finrank K (flagChamber E m (Fin.last m)).1 = m + 1 := by
@@ -1212,7 +1212,7 @@ theorem aResPhiAlt_range (_hσ : ∀ x, σ (σ x) = x) :
       stdE (K := K) (n := m + 1) '' {i : Fin (m + 1) | (i : ℕ) < m} := by
     congr 1
     ext i
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     omega
   rw [hset, Submodule.span_union]
   have hsub : Submodule.span K
@@ -1269,7 +1269,7 @@ theorem aResPhiAlt_coordBlock (d j : ℕ) (hj : j < d) :
 theorem aRes_flagTyp_ge_of_solid {U : FlagVert σ m}
     (h : Module.finrank K U.1 = m + 1) : m - 1 ≤ (flagTyp U : ℕ) := by
   unfold flagTyp
-  rw [if_pos h]
+  rw [ite_eq_left h]
   split_ifs <;> simp
 
 theorem aResLast_vert_props (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
@@ -1289,14 +1289,14 @@ theorem aResLast_vert_props (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
       (t : ℕ) < a ∨ t = s := fun _ => Iff.rfl
   have ht : a ≤ (flagTyp x.1 : ℕ) ∧ flagTyp x.1 ≠ s := by
     have h := x.2.1
-    simp only [Set.mem_setOf_eq, not_or, not_lt] at h
+    simp only [Set.mem_ofPred_eq, not_or, not_lt] at h
     exact h
   set X := x.1.1 with hX
   by_cases hns : (flagTyp x.1 : ℕ) + 2 ≤ m
   · have hxdim : Module.finrank K x.1.1 = (flagTyp x.1 : ℕ) + 1 :=
       FlagVert.finrank_eq_of_flagTyp hns
     have hsJ : s ∈ {u : Fin (m + 1) | (u : ℕ) < a ∨ u = s} := by
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       simp
     have hxadj := x.2.2 s hsJ
     have hchdim : Module.finrank K (flagChamber E m s).1 = m + 1 := by
@@ -1318,7 +1318,7 @@ theorem aResLast_vert_props (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
         exact bot_lt_iff_ne_bot.mpr x.1.2.2.1
       · have haJ : (⟨a - 1, by omega⟩ : Fin (m + 1)) ∈
             {u : Fin (m + 1) | (u : ℕ) < a ∨ u = s} := by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           left
           omega
         have hadj := x.2.2 ⟨a - 1, by omega⟩ haJ
@@ -1343,7 +1343,7 @@ theorem aResLast_vert_props (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
       rw [hX]
       exact FlagVert.finrank_eq_of_le_flagTyp (by omega)
     have hsJ : s ∈ {u : Fin (m + 1) | (u : ℕ) < a ∨ u = s} := by
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       simp
     have hxadj := x.2.2 s hsJ
     have hchdim : Module.finrank K (flagChamber E m s).1 = m + 1 := by
@@ -1370,7 +1370,7 @@ theorem aResLast_vert_props (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
           exact bot_le
         · have haJ : (⟨a - 1, by omega⟩ : Fin (m + 1)) ∈
               {u : Fin (m + 1) | (u : ℕ) < a ∨ u = s} := by
-            simp only [Set.mem_setOf_eq]
+            simp only [Set.mem_ofPred_eq]
             left
             omega
           have hadj := x.2.2 ⟨a - 1, by omega⟩ haJ
@@ -1642,7 +1642,7 @@ theorem aRes_finrank_map_of_injective
       intro h
       exact hWtyp_ne (h.trans hLs_type.symm)
     have htypW_notJ : flagTyp Wv ∉ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} := by
-      simp only [Set.mem_setOf_eq, not_or, not_lt]
+      simp only [Set.mem_ofPred_eq, not_or, not_lt]
       exact ⟨by omega, htypW_ne⟩
     have hadjW : ∀ j : Fin (m + 1), j ∈ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} →
         (flagGraph σ m).Adj Wv (flagChamber E m j) := by
@@ -1693,7 +1693,7 @@ theorem aRes_finrank_map_of_injective
       rw [htyp]
       omega
     have htyp_notJ : flagTyp Xv ∉ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} := by
-      simp only [Set.mem_setOf_eq, not_or, not_lt]
+      simp only [Set.mem_ofPred_eq, not_or, not_lt]
       refine ⟨htyp_mem.1, ?_⟩
       intro h
       have hs : m ≤ (s : ℕ) + 1 := hstype
@@ -1873,7 +1873,7 @@ theorem aResLastBwd_fwd (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
     rw [← hLs]
     exact hLdim
   have hsJ : s ∈ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     simp
   have hxsolid_inf : IsSolid σ x.1.1 → Module.finrank K X = m := by
     intro hxs
@@ -1937,7 +1937,7 @@ theorem aResLastBwd_fwd (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤ m)
         exact flagTyp_flagChamber E s
       have hnot : flagTyp x.1 ≠ s := by
         have hh := x.2.1
-        simp only [Set.mem_setOf_eq, not_or, not_lt] at hh
+        simp only [Set.mem_ofPred_eq, not_or, not_lt] at hh
         exact hh.2
       exact hnot htyp
     have hXflip : IsFlipflopSub σ X :=
@@ -1990,7 +1990,7 @@ theorem aResLast_nonsolid_lt (E : QuadExt F K σ) {a : ℕ} (_ha : a + 1 ≤ m)
     rw [← hLs]
     exact hLdim
   have hsJ : s ∈ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     simp
   have hxadj := z.2.2 s hsJ
   have hle := FlagVert.finrank_le z.1
@@ -2017,7 +2017,7 @@ theorem aResLast_solid_inf (E : QuadExt F K σ) {a : ℕ} (_ha : a + 1 ≤ m)
     rw [← hLs]
     exact hLdim
   have hsJ : s ∈ {t : Fin (m + 1) | (t : ℕ) < a ∨ t = s} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     simp
   have hxadj := z.2.2 s hsJ
   have hz1 : Module.finrank K z.1.1 = m + 1 := hz.2
@@ -2109,7 +2109,7 @@ theorem aRes_flagTyp_solid_cases {U : FlagVert σ m} (hm1 : 1 ≤ m)
     (h : Module.finrank K U.1 = m + 1) :
     flagTyp U = Fin.last m ∨ flagTyp U = ⟨m - 1, by omega⟩ := by
   unfold flagTyp
-  rw [if_pos h]
+  rw [ite_eq_left h]
   split_ifs
   · exact Or.inl rfl
   · exact Or.inr rfl
@@ -2125,11 +2125,11 @@ theorem aResLast_solid_flagTyp_eq (E : QuadExt F K σ) {a : ℕ} (ha : a + 1 ≤
   have hm1' : m - 1 < m + 1 := by omega
   have hxnot : flagTyp x.1 ≠ s := by
     have h := x.2.1
-    simp only [Set.mem_setOf_eq, not_or, not_lt] at h
+    simp only [Set.mem_ofPred_eq, not_or, not_lt] at h
     exact h.2
   have hynot : flagTyp y.1 ≠ s := by
     have h := y.2.1
-    simp only [Set.mem_setOf_eq, not_or, not_lt] at h
+    simp only [Set.mem_ofPred_eq, not_or, not_lt] at h
     exact h.2
   have hxc := aRes_flagTyp_solid_cases (σ := σ) hm1 hx.2
   have hyc := aRes_flagTyp_solid_cases (σ := σ) hm1 hy.2
@@ -2373,7 +2373,7 @@ theorem nonempty_residueGraph_iso_ndGraph_last (E : QuadExt F K σ) {a : ℕ} (h
   have hJ : {t : Fin (m + 1) | (t : ℕ) < a ∨ t = Fin.last m} =
       {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ (t : ℕ) + 1 ≤ m)} := by
     ext t
-    simp only [Set.mem_setOf_eq, Fin.ext_iff, Fin.val_last]
+    simp only [Set.mem_ofPred_eq, Fin.ext_iff, Fin.val_last]
     have ht : (t : ℕ) < m + 1 := t.isLt
     omega
   rw [← hJ]
@@ -2409,7 +2409,7 @@ theorem nonempty_residueGraph_iso_ndGraph_alt (E : QuadExt F K σ) {a : ℕ} (ha
   have hJ : {t : Fin (m + 1) | (t : ℕ) < a ∨ t = sm} =
       {t : Fin (m + 1) | ¬ (a ≤ (t : ℕ) ∧ ((t : ℕ) + 2 ≤ m ∨ (t : ℕ) = m))} := by
     ext t
-    simp only [Set.mem_setOf_eq, Fin.ext_iff, sm]
+    simp only [Set.mem_ofPred_eq, Fin.ext_iff, sm]
     have ht : (t : ℕ) < m + 1 := t.isLt
     omega
   rw [← hJ]

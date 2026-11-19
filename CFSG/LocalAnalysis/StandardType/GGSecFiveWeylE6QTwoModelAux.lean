@@ -286,18 +286,14 @@ theorem e6ModelForm_e6Coord (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : 
   · intro x y z _ _ _ hxz hyz
     simp only [map_add, Submodule.coe_add, LinearMap.add_apply, e6ModelForm_add_left,
       hxz, hyz, mul_add]
-    try ring_nf
   · intro x y z _ _ _ hxy hxz
-    simp only [map_add, Submodule.coe_add, LinearMap.add_apply, e6ModelForm_add_right,
+    simp only [map_add, Submodule.coe_add, e6ModelForm_add_right,
       hxy, hxz, mul_add]
+  · intro r x y _ _ hxy
+    simp only [map_smul, Submodule.coe_smul, LinearMap.smul_apply, e6ModelForm_smul_left, hxy, smul_eq_mul]
     try ring_nf
   · intro r x y _ _ hxy
-    simp only [map_smul, Submodule.coe_smul, LinearMap.smul_apply, LinearMap.add_apply,
-      e6ModelForm_smul_left, hxy, smul_eq_mul]
-    try ring_nf
-  · intro r x y _ _ hxy
-    simp only [map_smul, Submodule.coe_smul, LinearMap.smul_apply, LinearMap.add_apply,
-      e6ModelForm_smul_right, hxy, smul_eq_mul]
+    simp only [map_smul, Submodule.coe_smul, e6ModelForm_smul_right, hxy, smul_eq_mul]
     try ring_nf
 
 end CFSG.StandardType.E6QTwo

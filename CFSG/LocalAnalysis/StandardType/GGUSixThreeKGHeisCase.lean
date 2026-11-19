@@ -17,7 +17,7 @@ variable {K : Type} [Field K] {n : ℕ}
 theorem perLineOn_of_heisTriple [Finite K] (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n + 1)
     {L' : Type} [Group L'] [Finite L'] {ψ : L' →* LargeEvenProj (unitarySU 2 n K 6)}
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
-    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A)
+    {A : Subgroup (MulAut L')} (_hA : CFSG.Open.IsElemAbelian 3 A)
     (hAI : ∀ a ∈ A, ∃ x ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 n K 6))
       (LargeEvenGUSet (Fin 6) K (2 ^ n)), ∀ l : L', x (ψ l) = ψ (a l))
     (hcard : Nat.card A = 27) {x y z : GL (Fin 6) K}

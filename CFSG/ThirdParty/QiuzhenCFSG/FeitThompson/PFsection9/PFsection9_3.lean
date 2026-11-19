@@ -180,7 +180,7 @@ public theorem theorem_9_3_action_normalizes_and_solvable_sec9
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMFleM).1 hMFnormalM
   constructor
   · exact (sup_le hUM hW1M).trans hMnorm
-  · haveI : Group.IsNilpotent MF := hMFnil
+  · have : Group.IsNilpotent MF := hMFnil
     exact inferInstance
 
 public theorem ambientDerived_disjoint_W1_of_hypothesis_9_2_sec9
@@ -276,11 +276,11 @@ public theorem nat_card_MF_coprime_U_sup_W1_of_hypothesis_9_2_sec9
       le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.2 le_rfl
   have hUWcompSub : (U.subgroupOf (U ⊔ W1)).IsComplement' (W1.subgroupOf (U ⊔ W1)) := by
-    letI : (U.subgroupOf (U ⊔ W1)).Normal := hUnormalUW
+    let : (U.subgroupOf (U ⊔ W1)).Normal := hUnormalUW
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (U.subgroupOf (U ⊔ W1)) (W1.subgroupOf (U ⊔ W1)) hUWdisjSub hUWsupTop
   have hcardUW : Nat.card (U ⊔ W1 : Subgroup G) = Nat.card U * Nat.card W1 := by
-    have hmul := hUWcompSub.card_mul
+    have hmul := hUWcompSub.card_mul_card
     simpa [natCard_subgroupOf_eq U (U ⊔ W1) le_sup_left,
       natCard_subgroupOf_eq W1 (U ⊔ W1) le_sup_right] using hmul.symm
   have hMleNormMF : M ≤ Subgroup.normalizer (MF : Set G) :=
@@ -307,7 +307,7 @@ public theorem nat_card_MF_coprime_U_sup_W1_of_hypothesis_9_2_sec9
     change x ∈ D at hxD
     simpa [D, hD_eq] using hxD
   have hMFUcompSub : (MF.subgroupOf D).IsComplement' (U.subgroupOf D) := by
-    letI : (MF.subgroupOf D).Normal := hMFnormalD
+    let : (MF.subgroupOf D).Normal := hMFnormalD
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (MF.subgroupOf D) (U.subgroupOf D) hMFUdisjSub hMFUsupTop
   have hindexMF_D : (MF.subgroupOf D).index = Nat.card U := by
@@ -394,7 +394,7 @@ private theorem theorem_9_3_frobenius_action_source_core_sec9
       (by simp [S]) (by simp [S])]
     exact Subgroup.subgroupOf_eq_top.2 (by simp [S])
   have hUWcompSub : (U.subgroupOf S).IsComplement' (W1.subgroupOf S) := by
-    letI : (U.subgroupOf S).Normal := hUnormalS
+    let : (U.subgroupOf S).Normal := hUnormalS
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (U.subgroupOf S) (W1.subgroupOf S) hUWdisjSub hUWsupTop
   have hUsub_ne : U.subgroupOf S ≠ ⊥ := by
@@ -487,7 +487,7 @@ private theorem theorem_9_3_typeIIIIV_centralizer_eq_bot_of_W2_prime_sec9
     simpa [hCW1] using hxCW1
   have hCUE_eq_W2 : CUE = W2 := by
     let Csub : Subgroup W2 := CUE.subgroupOf W2
-    haveI : Fact (Nat.card W2).Prime := ⟨hW2prime⟩
+    have : Fact (Nat.card W2).Prime := ⟨hW2prime⟩
     have hCsub_ne_bot : Csub ≠ ⊥ := by
       intro hbot
       apply hCUE_ne_bot

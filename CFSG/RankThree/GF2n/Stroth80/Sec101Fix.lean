@@ -32,6 +32,7 @@ private theorem IsRootB.exists_mem_not_mem_Z (hc : Ctx M Q Z B) {E : Subgroup G}
   rw [inf_comm, (hE.ctx hc).inf_eq_bot, Subgroup.mem_bot] at hmem
   exact hx1 (Subtype.ext hmem)
 
+omit [Finite G] in
 theorem IsSaturated101.conj (hc : Ctx M Q Z B) {X : Subgroup G}
     (hsat : IsSaturated101 M Q Z B X) {g : G} (hg : g ∈ M) :
     IsSaturated101 M Q Z B (conjSubgroup g X) := by

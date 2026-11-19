@@ -28,7 +28,7 @@ theorem Ctx.inf_QB_inf_eq_of_fixed (hc : Ctx M Q Z B) {V : Subgroup G} (hZV : Z 
     (h3 : ∀ y ∈ Q ⊓ QB B, (∀ l ∈ LB M Q B, ⁅y, l⁆ ∈ Z) → y ∈ B ⊔ Z) :
     Q ⊓ QB B ⊓ V = Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ : ∃ S : Subgroup G, S = Q ⊓ QB B ⊓ V := ⟨_, rfl⟩
   rw [← hS]
   have hmemS : ∀ g : G, g ∈ S ↔ g ∈ Q ∧ g ∈ QB B ∧ g ∈ V := by
@@ -94,7 +94,7 @@ theorem Ctx.inf_QB_inf_eq_of_fixed (hc : Ctx M Q Z B) {V : Subgroup G} (hZV : Z 
       group
     rw [e, hc.LB_centralizes_Z l.2 _ hab']
     exact hab'
-  letI act : MulAction ↥(LB M Q B) (↥S ⧸ Z.subgroupOf S) :=
+  let act : MulAction ↥(LB M Q B) (↥S ⧸ Z.subgroupOf S) :=
     { smul := fun l => Quotient.map' (f l) (fun a b hab => by
         rw [QuotientGroup.leftRel_apply] at hab ⊢
         exact hf l a b hab)

@@ -118,7 +118,7 @@ theorem s13_case_five_N (h : Cfg133 A t 5) :
       exact hrkU_ne hk
     have hk_eq : k = 1 := by omega
     simp [hk, hk_eq]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcycP : IsCyclic ↥P := isCyclic_of_prime_card (p := 5) hcardP
   have hiso : IsEntireIsotypic P U := s13_isotypic_commSub h.hW hPodd
   have hUbot : U ≠ ⊥ := by

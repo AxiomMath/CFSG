@@ -14,7 +14,7 @@ theorem exists_subgroup_card_le_of_normalizer {K : Type} [Group K] [Finite K]
     (X : Subgroup K) [X.Normal] (hZ : Subgroup.center ↥X = ⊥) {s : ℕ}
     (hOut : ∀ E : Subgroup (Outer ↥X), (∀ e ∈ E, e * e = 1) → Nat.card ↥E ≤ 2 ^ s)
     (L : Subgroup K) (hL : ∀ e ∈ L, ∀ f ∈ L, e * f = f * e) (hL2 : ∀ e ∈ L, e * e = 1)
-    {r : K} (hrX : r ∈ X) (hrL : r ∈ L) (T : Subgroup K) (hTX : T ≤ X)
+    {r : K} (hrX : r ∈ X) (hrL : r ∈ L) (T : Subgroup K) (_hTX : T ≤ X)
     (hTL : ∀ t ∈ T, ∀ l ∈ L, t * l * t⁻¹ ∈ L) :
     ∃ A : Subgroup ↥X, (∀ e ∈ A, e * e = 1) ∧ (∀ e ∈ A, ∀ f ∈ A, e * f = f * e) ∧
       (⟨r, hrX⟩ : ↥X) ∈ A ∧ (∀ x ∈ A, (x : K) * r = r * x) ∧

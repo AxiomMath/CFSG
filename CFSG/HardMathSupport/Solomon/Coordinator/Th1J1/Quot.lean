@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {R K : Subgroup G} [(K.subgroupOf R).Normal]
 
+omit [Finite G] in
 private theorem relIndex_mul_card_aux {H K' : Subgroup G} (h : H ≤ K') :
     H.relIndex K' * Nat.card H = Nat.card K' := by
   have h1 : Nat.card (H.subgroupOf K') = Nat.card H :=
@@ -34,14 +35,17 @@ private theorem relIndex_mul_card_aux {H K' : Subgroup G} (h : H ≤ K') :
   rw [mul_comm]
   exact h2
 
+omit [Finite G] in
 theorem mk_mem_bar {X : Subgroup G} {r : ↥R} (hr : (r : G) ∈ X) :
     (QuotientGroup.mk' (K.subgroupOf R) r) ∈ bar R K X :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hr)
 
+omit [Finite G] in
 theorem bar_mono {X Y : Subgroup G} (h : X ≤ Y) : bar R K X ≤ bar R K Y := by
   unfold bar
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono R h)
 
+omit [Finite G] in
 theorem card_bar_dvd {X : Subgroup G} (hXR : X ≤ R) : Nat.card (bar R K X) ∣ Nat.card X := by
   have h1 : Nat.card (X.subgroupOf R) = Nat.card X :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXR).toEquiv
@@ -50,7 +54,8 @@ theorem card_bar_dvd {X : Subgroup G} (hXR : X ≤ R) : Nat.card (bar R K X) ∣
   rw [h1] at h2
   exact h2
 
-theorem card_bar {X : Subgroup G} (hXR : X ≤ R) (hKX : K ≤ X) :
+omit [Finite G] in
+theorem card_bar {X : Subgroup G} (hXR : X ≤ R) (_hKX : K ≤ X) :
     Nat.card (bar R K X) = K.relIndex X := by
   let f : ↥X →* ↥(bar R K X) :=
     MonoidHom.codRestrict ((QuotientGroup.mk' (K.subgroupOf R)).comp (Subgroup.inclusion hXR))
@@ -76,20 +81,24 @@ theorem card_bar {X : Subgroup G} (hXR : X ≤ R) (hKX : K ≤ X) :
     exact h5.trans Subgroup.index_bot
   exact h4.symm
 
+omit [Finite G] in
 theorem odd_card_bar {X : Subgroup G} (hXR : X ≤ R) (hKX : K ≤ X) (h : ¬ 2 ∣ K.relIndex X) :
     Odd (Nat.card (bar R K X)) := by
   rw [card_bar hXR hKX]
   exact Nat.odd_iff.mpr (by omega)
 
+omit [Finite G] in
 theorem isElemAbelian_bar {X : Subgroup G} (hX : IsElemAbelian 2 X) :
     IsElemAbelian 2 (bar R K X) := by
   unfold bar
   exact (hX.subgroupOf R).map _
 
+omit [Finite G] in
 theorem isPGroup_bar {X : Subgroup G} (hX : IsPGroup 2 X) : IsPGroup 2 (bar R K X) := by
   unfold bar
   exact (IsPGroup.comap_of_injective hX R.subtype Subtype.val_injective).map _
 
+omit [Finite G] in
 theorem mk_commute_iff (r s : ↥R) :
     QuotientGroup.mk' (K.subgroupOf R) r * QuotientGroup.mk' (K.subgroupOf R) s =
         QuotientGroup.mk' (K.subgroupOf R) s * QuotientGroup.mk' (K.subgroupOf R) r ↔
@@ -119,10 +128,12 @@ theorem mk_commute_iff (r s : ↥R) :
   rw [e1, e2, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq, ← hu,
     key (r * s), e3, e4, Subgroup.inv_mem_iff]
 
+omit [Finite G] in
 theorem mk_eq_one_iff (r : ↥R) : QuotientGroup.mk' (K.subgroupOf R) r = 1 ↔ (r : G) ∈ K :=
   (QuotientGroup.eq_one_iff r).trans Subgroup.mem_subgroupOf.symm
 
-theorem bar_le_normalizer {X Y : Subgroup G} (hXR : X ≤ R) (hYR : Y ≤ R)
+omit [Finite G] in
+theorem bar_le_normalizer {X Y : Subgroup G} (_hXR : X ≤ R) (_hYR : Y ≤ R)
     (h : X ≤ Subgroup.normalizer (Y : Set G)) :
     bar R K X ≤ Subgroup.normalizer (bar R K Y : Set (↥R ⧸ K.subgroupOf R)) := by
   have help : ∀ x : ↥R, (x : G) ∈ X → ∀ p ∈ bar R K Y,
@@ -159,6 +170,7 @@ theorem bar_le_normalizer {X Y : Subgroup G} (hXR : X ≤ R) (hYR : Y ≤ R)
       group
     rwa [e] at h2
 
+omit [Finite G] in
 theorem map_conj_bar {X : Subgroup G} (hXR : X ≤ R) (s : ↥R) :
     (bar R K X).map (MulAut.conj (QuotientGroup.mk' (K.subgroupOf R) s)).toMonoidHom =
       bar R K (X.map (MulAut.conj (s : G)).toMonoidHom) := by
@@ -191,10 +203,12 @@ theorem map_conj_bar {X : Subgroup G} (hXR : X ≤ R) (s : ↥R) :
     rw [← hrs]
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, map_mul, map_inv]
 
+omit [Finite G] in
 theorem barPre_le (A : Subgroup G) (E : Subgroup (↥R ⧸ K.subgroupOf R)) : barPre R K A E ≤ A := by
   unfold barPre
   exact inf_le_left
 
+omit [Finite G] in
 theorem mem_barPre_iff {A : Subgroup G} {E : Subgroup (↥R ⧸ K.subgroupOf R)} {a : G} :
     a ∈ barPre R K A E ↔ a ∈ A ∧ ∃ ha : a ∈ R, QuotientGroup.mk' (K.subgroupOf R) ⟨a, ha⟩ ∈ E := by
   unfold barPre
@@ -267,7 +281,7 @@ theorem exists_odd_pow (g : ↥R) (hg : Odd (orderOf (QuotientGroup.mk' (K.subgr
   · rw [map_pow]
     exact hcq
 
-theorem exists_odd_lift {L : Subgroup G} (hLR : L ≤ R) {q : ↥R ⧸ K.subgroupOf R}
+theorem exists_odd_lift {L : Subgroup G} (_hLR : L ≤ R) {q : ↥R ⧸ K.subgroupOf R}
     (hq : q ∈ bar R K L) (hqo : Odd (orderOf q)) :
     ∃ y : ↥R, (y : G) ∈ L ∧ Odd (orderOf (y : G)) ∧ QuotientGroup.mk' (K.subgroupOf R) y = q := by
   obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hq
@@ -278,7 +292,7 @@ theorem exists_odd_lift {L : Subgroup G} (hLR : L ≤ R) {q : ↥R ⧸ K.subgrou
   · rw [Subgroup.coe_pow]
     exact hk1
 
-theorem exists_pPow_lift {L : Subgroup G} (hLR : L ≤ R) {p : ℕ} (hp : p.Prime)
+theorem exists_pPow_lift {L : Subgroup G} (_hLR : L ≤ R) {p : ℕ} (hp : p.Prime)
     {q : ↥R ⧸ K.subgroupOf R} (hq : q ∈ bar R K L) (hqo : orderOf q = p) :
     ∃ y : ↥R, (y : G) ∈ L ∧ IsPGroup p (Subgroup.zpowers (y : G)) ∧
       QuotientGroup.mk' (K.subgroupOf R) y = q := by

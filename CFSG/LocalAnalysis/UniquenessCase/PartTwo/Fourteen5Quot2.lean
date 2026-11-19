@@ -75,7 +75,7 @@ theorem permutes_star (h : Hyp141 D L₁ L₂ X) (h1421 : Thm1421 D) (hperm : Pe
           Fourteen5.star H (X ⊓ L₁)) := by
   intro n hn
   rw [star_inf_sup_star_inf h hXH] at hn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hI3 : ¬ 3 ∣ Nat.card (rankThreePrimeCore 3 H) := (rankThreePrimeCore_facts H).2.2
   have hn' : n ∈ Fourteen5.star H (normalizer (X : Set G)) :=
     Fourteen5.normalizer_star_le hXH h.sylow.isPGroup hI3 hn
@@ -114,8 +114,8 @@ theorem cfg145 (h : Hyp141 D L₁ L₂ X) (hSg : UC6S846.SigmaStd D) (h1421 : Th
     (hPc : IsCyclic ↥P) :
     Cfg145 (Fourteen5.star H D.M) (Fourteen5.star H (X ⊓ L₁)) (Fourteen5.star H (X ⊓ L₂))
       (Fourteen5.star H P) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hXH : X ≤ H := hX3.le
   have hI3 : ¬ 3 ∣ Nat.card (rankThreePrimeCore 3 H) := (rankThreePrimeCore_facts H).2.2
   refine

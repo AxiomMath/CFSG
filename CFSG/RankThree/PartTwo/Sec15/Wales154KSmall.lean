@@ -14,7 +14,7 @@ private theorem card_centralizer_of_orderOf_eq_five {x : Perm (Fin 7)} (hx : ord
     (by rw [hx, Fintype.card_fin]; norm_num)
   have hsupp : x.support.card = 5 := by rw [← hcyc.orderOf, hx]
   rw [nat_card_centralizer, hcyc.cycleType, hsupp]
-  simp [Fintype.card_fin, Nat.factorial]
+  simp [Fintype.card_fin]
 
 private noncomputable def orb (P : Subgroup (Perm (Fin 10))) (i : Fin 10) :
     Finset (Fin 10) := by

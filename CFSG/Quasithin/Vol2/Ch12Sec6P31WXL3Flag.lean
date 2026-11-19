@@ -72,7 +72,7 @@ theorem l3b_flag_of_image {K : Type} [Field K] {β : MulAut (projectiveSL 3 K)}
 theorem l3b_borel_fix {K : Type} [Field K] [Finite K] [CharP K 2] (β : MulAut (projectiveSL 3 K))
     (hβ : (projUnitriangular 3 K).map β.toMonoidHom = projUnitriangular 3 K) :
     (projUpperTriangular 3 K).map β.toMonoidHom = projUpperTriangular 3 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← normalizer_projUnitriangular (K := K) (n := 3) 2,
     Subgroup.map_normalizer_eq_of_bijective (projUnitriangular 3 K) β.bijective, hβ]
 
@@ -136,7 +136,7 @@ theorem l3b_borel_main {K : Type} [Field K] [Finite K] [CharP K 2]
     ∃ (A : GL (Fin 3) K) (σ : K ≃+* K) (η : ℕ), η ≤ 1 ∧
       (∀ i j : Fin 3, j < i → (A : Matrix (Fin 3) (Fin 3) K) i j = 0) ∧
       α = conjAut 3 K A * fieldAut 3 K σ * ζ ^ η := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hinj, -⟩ := maximal_parabolics (K := K) 2 (n := 3) (by norm_num)
   obtain ⟨v0F1, v1F2, v1nF1, v2nF2, -⟩ := burnsideF411a_L3_vectors (K := K)
   have hne : ∀ i : Fin 3, (Pi.single i 1 : Fin 3 → K) ≠ 0 := fun i h0 => by

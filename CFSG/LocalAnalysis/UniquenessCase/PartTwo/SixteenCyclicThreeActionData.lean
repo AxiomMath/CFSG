@@ -134,11 +134,11 @@ theorem exists_cyclic_three_rank_six_s1_action_data
   obtain ⟨hsigma, hrankA, hrankJ⟩ :=
     cyclic_three_rank_six_s1_sigma_and_pRank D hx h61 h127 hS.hyp16 hc hs hcyc hrk
   have hJrank : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup J) := by
-    haveI : J.Normal := hJn
+    have : J.Normal := hJn
     exact hrankJ J hJidx
   have hnoindex : ∀ N : Subgroup A, N.Normal → N.index ≠ 3 := by
     intro N hN
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     exact cyclic_three_rank_six_s1_no_index_three
       D hx h61 h127 h638 hS.hyp16 hc hs hcyc hrk N
   have htop : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 hc hs

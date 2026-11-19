@@ -24,7 +24,7 @@ theorem exists_pow_mul_fixedSpace_eq_two (hF : Nat.card F = 2) (hV : finrank F V
     ∃ k : ℕ, finrank F ↥(fixedSpace (d * e ^ k)) = 2 ∧
       ∀ v ∈ primaryComponent (d * e ^ k : V ≃ₗ[F] V).toLinearMap (cyc3 F), e v = v := by
   classical
-  haveI := card_two_charP hF
+  have := card_two_charP hF
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hww : ∀ x : V, x + x = 0 := fun x => by rw [← two_smul F x, h2, zero_smul]
   have hc := LIT.isCompl_fixedSpace_commSpace (cast_three_ne_zero_of_card_two hF) he3

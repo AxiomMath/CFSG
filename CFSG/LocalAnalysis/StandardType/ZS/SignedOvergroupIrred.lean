@@ -35,12 +35,12 @@ private lemma sub_diagMap_sign (b : Module.Basis (Fin n) (ZMod p) U) (i : Fin n)
   by_cases hj : j = i
   · subst hj
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
-      Module.Basis.equivFun_self, if_true, Units.val_neg, Units.val_one]
+      Module.Basis.equivFun_self, ite_true, Units.val_neg, Units.val_one]
     rw [neg_one_mul, mul_one, two_mul]
     abel
   · have hji : ¬ i = j := fun h => hj h.symm
     simp only [Pi.sub_apply, Pi.smul_apply, Module.Basis.equivFun_self,
-      Units.val_one, hj, hji, if_false, one_smul, smul_zero]
+      Units.val_one, hj, hji, ite_false, one_smul, smul_zero]
     abel
 
 private lemma signChange_sub_id_apply (b : Module.Basis (Fin n) (ZMod p) U) (i : Fin n)
@@ -70,7 +70,7 @@ private lemma range_signChange_eq_span (hp : p ≠ 2)
     subst hx
     refine ⟨(-((2 : ZMod p)⁻¹)) • b i, ?_⟩
     rw [signChange_sub_id_apply, map_smul, Pi.smul_apply, Module.Basis.equivFun_self]
-    simp only [if_true, smul_eq_mul, mul_one, hcalc, one_smul]
+    simp only [ite_true, smul_eq_mul, mul_one, hcalc, one_smul]
 
 theorem irreducible_of_signed_le (hp : p ≠ 2) (b : Module.Basis (Fin n) (ZMod p) U)
     {A : Subgroup (U ≃ₗ[ZMod p] U)} (hperm : ∀ σ, permMap p b σ ∈ A)

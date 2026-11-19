@@ -17,6 +17,7 @@ structure Setup (z : G) (Z A : Subgroup G) (T : Sylow 2 G) (k : G) : Prop where
   Zk : Z = zpowers k
   sq : k ^ 2 = z
 
+omit [Finite G] in
 theorem orderOf_conj_inv (x g : G) : orderOf (g⁻¹ * x * g) = orderOf x := by
   have := orderOf_injective (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective x
   simpa [MulAut.conj_apply] using this
@@ -26,19 +27,23 @@ namespace Setup
 variable (s : Setup z Z A T k)
 include s
 
+omit [Finite G] in
 theorem ord : orderOf k = 4 := by
   have h := Nat.card_zpowers k
   rw [← s.Zk, s.ctx.hD.card_Z] at h
   exact h.symm
 
+omit [Finite G] in
 theorem ord_conj (g : G) : orderOf (g⁻¹ * k * g) = 4 := (orderOf_conj_inv k g).trans s.ord
 
+omit [Finite G] in
 theorem conj_sq (g : G) : (g⁻¹ * k * g) ^ 2 = g⁻¹ * z * g := by
   rw [← s.sq, pow_two, pow_two]
   group
 
 end Setup
 
+omit [Finite G] in
 theorem eq_or_eq_inv_of_mem_zpowers {y y' : G} (hy : orderOf y = 4) (hy' : orderOf y' = 4)
     (h : y' ∈ zpowers y) : y' = y ∨ y' = y⁻¹ := by
   obtain ⟨i, rfl⟩ := mem_zpowers_iff.mp h
@@ -324,7 +329,7 @@ theorem exists_c (hcard : Nat.card (ET (T : Subgroup G) z) = 4) {ψ : ↥(T : Su
     exact even_two
   · push Not at hex
     refine ⟨1, one_pow 2, fun g h h' => absurd (hex g h) h', ?_⟩
-    haveI : IsEmpty {X : Subgroup G // (∃ g : G, X = zpowers (g⁻¹ * k * g)) ∧
+    have : IsEmpty {X : Subgroup G // (∃ g : G, X = zpowers (g⁻¹ * k * g)) ∧
         X ≤ (T : Subgroup G) ∧ X ≠ zpowers k} :=
       ⟨fun ⟨X, ⟨g, hXg⟩, hXT, hXk⟩ => by
         obtain ⟨hg, hg'⟩ := s.adm_of_mem hXg hXT hXk

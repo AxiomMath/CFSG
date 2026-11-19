@@ -77,7 +77,7 @@ theorem balance_at_central {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact
     intro h
     have hr' : (r : G) ∈ R := Subgroup.mem_subgroupOf.1 hr
     have h1 := Subgroup.mem_normalizer_iff.1 (hRY hr') (h : G)
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact h1
   have hYH := balance_of_sylow_core hcH hczH hSpH hSmaxH hS3H hSnabH hcSH hSN hCS hR_H hR2H
     hcR_H hY_H hRY_H
@@ -176,7 +176,7 @@ theorem closure_sylow_of_central {G : Type*} [Group G] [Finite G] {p : ℕ} [hp 
     · have hsub : Subsingleton ↥(closure ({g, d} : Set G)) :=
         (Nat.card_eq_one_iff_unique.1 (by rw [hkcard, pow_zero])).1
       exact hab (Subsingleton.elim _ _)
-    · haveI := isCyclic_of_prime_card (p := p) (by rw [hkcard, pow_one])
+    · have := isCyclic_of_prime_card (p := p) (by rw [hkcard, pow_one])
       exact hab (IsMulCommutative.is_comm.comm a b)
     · exact hab ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p)
         (G := ↥(closure ({g, d} : Set G))) (by rw [hkcard])).is_comm.comm a b)

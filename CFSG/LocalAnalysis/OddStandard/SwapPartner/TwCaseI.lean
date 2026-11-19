@@ -42,12 +42,12 @@ theorem false_of_normal_abar_of_conj {X : Type*} [Group X] {t : X} {Sg V : Subgr
     rw [Subgroup.mem_center_iff]
     intro b
     exact Subtype.ext (hcenter_mem (b : X) b.2)
-  haveI : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
+  have : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (⁅Sg, Sg⁆ : Subgroup X)) with hbot | htop
   · rw [hbot, Subgroup.mem_bot] at hcenter
     exact ha1 (Subtype.ext_iff.mp hcenter)
-  · haveI hmul : IsMulCommutative (⁅Sg, Sg⁆ : Subgroup X) :=
+  · have hmul : IsMulCommutative (⁅Sg, Sg⁆ : Subgroup X) :=
       Subgroup.center_eq_top_iff.mp htop
     have hp : (Nat.card (⁅Sg, Sg⁆ : Subgroup X)).Prime :=
       Group.is_simple_iff_prime_card.mp ‹IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X)›

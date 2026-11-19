@@ -15,6 +15,7 @@ section Config
 
 variable {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
+omit [Finite G] in
 private lemma y7a_not_comm_d_t (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : d * t ≠ t * d := by
   intro hcomm
   have htdt : t * d * t⁻¹ = d := by
@@ -24,6 +25,7 @@ private lemma y7a_not_comm_d_t (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : d
   rw [y7a_tdt h] at htdt
   exact h.cfg.z_ne (mul_right_cancel (b := d) (by simpa using htdt))
 
+omit [Finite G] in
 private lemma y7a_mem_A_of_mem_V_comm_t (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {v : G}
     (hv : v ∈ V) (hvt : v * t = t * v) : v ∈ A := by
   rcases y7a_V_elems h v hv with h1 | hz | hd | hzd
@@ -85,7 +87,7 @@ theorem y7a_H_inf_M6 (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
         calc m * c.s.t * m⁻¹ = c.s.t * m * m⁻¹ := by rw [hmt]
           _ = c.s.t := by group
       rw [hconj]
-      simpa using (V1 c.e).one_mem
+      simp
     have hmY : m ∈ y7aY c := (y7a_stab_iff h hmC1).mp hstab
     have hmAV : m ∈ AV1 c.e := by
       rw [← y7a_M6_inf_Y c hH hF hP]

@@ -126,7 +126,7 @@ theorem normal_nilpotent_le_prime_cores [Finite GroupType]
       sylow.characteristic_of_normal inferInstance
     have embedded_normal := normal_of_characteristic_subgroup candidate (sylow : Subgroup candidate)
     have embedded_supported := (prime_supported_singleton_iff_pgroup prime prime_prime _).mpr
-      (sylow.isPGroup'.map candidate.subtype)
+      (sylow.isPGroup.map candidate.subtype)
     have embedded_le := (prime_set_core_contains {prime} _ embedded_normal embedded_supported).trans
       (le_iSup (fun prime : {prime : ℕ // prime.Prime} => primeSetCore {prime.val}) ⟨prime, prime_prime⟩)
     refine ⟨sylow, ?_⟩

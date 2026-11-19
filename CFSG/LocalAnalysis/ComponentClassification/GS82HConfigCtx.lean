@@ -97,7 +97,7 @@ theorem gs82HConfig_of_centralizer {X : Type} [Group X] [Finite X] {t : X} (ht :
 theorem not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q] (hQ : IsQuasisimple Q) :
     ¬ Group.IsSolvable Q := by
   obtain ⟨hperf, -, a, b, hab⟩ := hQ
-  haveI := hperf
+  have := hperf
   have : Nontrivial Q := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h

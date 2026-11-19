@@ -38,7 +38,7 @@ theorem exists_invariant_sylow_containing_of_pGroup {p q : ℕ} (hp : p.Prime) (
     (by
       intro a z hz
       exact Subgroup.le_normalizer_iff.mp hAT a a.2 z.1 hz)
-  refine ⟨(Q : Subgroup K).map K.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q : Subgroup K).map K.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_, ?_⟩
   · have h := Subgroup.map_mono (f := K.subtype) hTQ
     rwa [Subgroup.map_subgroupOf_eq_of_le hTK] at h
   · have : ((Q : Subgroup K).map K.subtype).relIndex K = (Q : Subgroup K).index := by
@@ -121,10 +121,10 @@ theorem exists_pow_two_mem_primeCore {C : Subgroup G}
     rw [Subgroup.mem_centralizer_iff]
     intro h hh
     have h1 := hcent ((Q : Subgroup ↥C).map C.subtype) (Subgroup.map_subtype_le _)
-      (Q.isPGroup'.map _) n.1 n.2 h.1 ⟨h, hh, rfl⟩
+      (Q.isPGroup.map _) n.1 n.2 h.1 ⟨h, hh, rfl⟩
     exact Subtype.ext h1
   obtain ⟨K, hKn, hK2, hKindex, -⟩ := CFSG.GroupTheory.burnside_normal_complement Q hQ
-  obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
   refine ⟨n, ?_⟩
   have hKle : K.map C.subtype ≤ GLAPPrimeCoreOf 2 C := by
     refine Subgroup.map_mono (le_sSup ⟨hKn, ?_⟩)

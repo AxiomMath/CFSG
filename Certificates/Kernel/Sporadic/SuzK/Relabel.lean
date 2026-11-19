@@ -37,7 +37,7 @@ theorem rel_pt {i : Nat} (hi : i < 22880) :
   have e : Nat.add (Nat.mul (i / 2288) 2288) (i % 2288) = i := by
     change i / 2288 * 2288 + i % 2288 = i
     omega
-  rw [Raw.Orb.strictB_eq, e, Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [Raw.Orb.strictB_eq, e, Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   unfold relAt at h'
   rw [Raw.Orb.strictB_eq, Raw.Orb.bAnd_eq, Bool.and_eq_true] at h'
   exact ⟨Nat.eq_of_beq_eq_true h'.1, Nat.eq_of_beq_eq_true h'.2⟩

@@ -56,8 +56,8 @@ end Hyp5_2_4
 theorem stmt5_2_6_tr_of_F4 (h331 : Stmt3_3_1_F4)
     (hR : L2RankOneSylowFact) (hF : RankOneListedFacts.{0}) (hF11 : StmtF11_5_2_F4)
     (hbor : Stmt5_2_6_borel_F4) (h524 : Stmt5_2_4_F4) (h510 : Stmt5_1_10_F4)
-    (h38 : Vol2Native.A38ForSQTKCat) (hU3 : FactU3Cover) (hC58 : TheoremC58)
-    (h317 : AS317Sylow) (h512 : Stmt5_1_2_F4) (hrk2 : Stmt5_2_6_L2K_rank2_F4) :
+    (h38 : Vol2Native.A38ForSQTKCat) (hU3 : FactU3Cover) (_hC58 : TheoremC58)
+    (_h317 : AS317Sylow) (_h512 : Stmt5_1_2_F4) (hrk2 : Stmt5_2_6_L2K_rank2_F4) :
     Stmt5_2_6_tr_F4 := by
   rintro G _ _ T M L V H B D L₂ n hyp ⟨hloc, hamal⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

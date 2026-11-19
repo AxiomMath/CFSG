@@ -57,7 +57,7 @@ private theorem wt_no_component_centralizing_in_C {X : Type*} [Group X] {t : X}
     (CFSG.LocalCores.isQuasisimple_nontrivial hJ.1) hJbot
 
 private theorem wt_stray_comm {X : Type*} [Group X] [Finite X] {t : X} {Sg V L M : Subgroup X}
-    (h : SwapShape t Sg V) (hL : CFSG.IsComponent L) (hM : CFSG.IsComponent M)
+    (_h : SwapShape t Sg V) (hL : CFSG.IsComponent L) (hM : CFSG.IsComponent M)
     (hAL : ⁅(⁅Sg, Sg⁆ : Subgroup X), L⁆ = ⊥)
     (hAM : ⁅(⁅Sg, Sg⁆ : Subgroup X), M⁆ ≠ ⊥) (htL : t ∈ L) :
     M ≤ centralizer ({t} : Set X) := by

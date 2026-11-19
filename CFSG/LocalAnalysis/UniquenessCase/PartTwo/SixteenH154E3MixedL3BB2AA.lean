@@ -112,7 +112,7 @@ theorem s16h_e3_l3_three_ne_bot_v1_fixed (D : Data G) {V L : Subgroup G}
   let Y : Subgroup (MulAut ↥V₁) :=
     (D.T.subgroupOf N).map (Subgroup.normalizerMonoidHom (H := V₁))
   have hYp : IsPGroup 2 Y := (D.sylowM.isPGroup.comap_subtype).map _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha1, hafix⟩ := s16h_l3_ne_one_fixed_of_pgroup hV1p hV1gt hYp
   let v : G := (a : G)
   have hvV1 : v ∈ V₁ := a.2

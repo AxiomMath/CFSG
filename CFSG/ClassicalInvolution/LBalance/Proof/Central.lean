@@ -47,7 +47,7 @@ theorem false_of_commutator_le_oddCore (hG : GlaubermanSylowFixingSolvable) (hX 
   have hFP : fittingSubgroup X ≤ pCore 2 X :=
     le_sSup ⟨hFn, CFSG.isPGroup_of_nilpotent_normal _ hFn hFnil.1 hX⟩
   set S : Subgroup X := (P : Subgroup (layer X)).map (layer X).subtype with hS
-  have hSp : IsPGroup 2 S := P.isPGroup'.map (layer X).subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map (layer X).subtype
   have hSE : S ≤ layer X := Subgroup.map_subtype_le _
   have hSF : S ≤ generalizedFitting X := hSE.trans le_sup_right
   have hSH : S ≤ H := hPz

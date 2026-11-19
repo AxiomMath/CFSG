@@ -125,9 +125,9 @@ theorem signedB6At_of_native_sp_six [Finite G] {K : Subgroup G}
       Subgroup.normalizer (K : Set G)) : GGSignedB6At Bs z := by
   obtain ⟨⟨L, hL, hFL, hfin, ζ, P, -, hζ, hPs⟩, -⟩ :=
     exists_spFrame_of_native_sp_bstar (by norm_num : 3 ≤ 6) hF e hBs hN hker hBstar
-  letI : Field L := hL
-  letI : Algebra F L := hFL
-  letI : Module.Finite F L := hfin
+  let : Field L := hL
+  let : Algebra F L := hFL
+  let : Module.Finite F L := hfin
   have hPsize : P.s = 6 := hPs
   have hdata := native_sp_torus_action_data (by norm_num : 3 ≤ 6)
     hF e hBs hN hker hBstar hNK P hζ
@@ -179,9 +179,9 @@ theorem false_of_native_sp_seven [Finite G] {K : Subgroup G}
     (hWord : Nat.card W = 2903040) : False := by
   obtain ⟨⟨L, hL, hFL, hfin, ζ, P, -, hζ, hPs⟩, -⟩ :=
     exists_spFrame_of_native_sp_bstar (by norm_num : 3 ≤ 7) hF e hBs hN hker hBstar
-  letI : Field L := hL
-  letI : Algebra F L := hFL
-  letI : Module.Finite F L := hfin
+  let : Field L := hL
+  let : Algebra F L := hFL
+  let : Module.Finite F L := hfin
   have hsize : P.s = 7 := hPs
   have hdvd := P.card_automizer_inner_torus_dvd (by norm_num : 3 ≤ 7) hF hζ
   rw [hsize] at hdvd
@@ -237,9 +237,9 @@ theorem n_eq_seven_signedB6At_of_sp_label
     n = 7 ∧ GGSignedB6At Bs z := by
   obtain ⟨a, F, hfield, hfin, hchar, e, ha, hF, hRank⟩ :=
     native_sp_equiv_of_innerDiagOnLabel hBs hcard hn hz hz1 hN hker hBstar hS hK
-  letI : Field F := hfield
-  letI : Finite F := hfin
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfin
+  let : CharP F 2 := hchar
   exact n_eq_seven_signedB6At_of_native_sp (by omega) hF e hBs hcard hn hz hz1
     hN hNK hker hBstar W hW hWord
 
@@ -352,7 +352,7 @@ theorem signedB6At_of_actor_torus_weight [Finite G] {K : Subgroup G}
       exact ⟨ofAdd (moveExp π η (toAdd v)), (hgT (toAdd v)).symm⟩
     have hgBs : g ∈ Subgroup.normalizer (Bs : Set G) := by
       rw [hsplit]
-      exact (Subgroup.normalizer_inf_normalizer_le_normalizer_sup
+      exact (Subgroup.inf_normalizer_le_normalizer_sup
         (Subgroup.zpowers z) T.range) ⟨hgZ, hgE⟩
     exact ⟨g, ⟨hgBs, hgc⟩, hgT⟩
   exact signedB6At_of_split_torus T hT hsplit hcomm hdisj hupper hlower

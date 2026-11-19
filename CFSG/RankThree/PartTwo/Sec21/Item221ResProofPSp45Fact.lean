@@ -226,7 +226,7 @@ theorem exists_involution_of_isPGroup (hK : Nat.card K = 5)
   obtain ⟨S, hFS⟩ := hF.exists_le_sylow
   obtain ⟨S₁, hS₀S₁⟩ := hS₀p.exists_le_sylow
   have hS₁card : Nat.card (S₁ : Subgroup (StatedProj (StatedSp 2 K))) ≤ 9 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₁.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₁.isPGroup
     have hdvd := Subgroup.card_subgroup_dvd_card (S₁ : Subgroup (StatedProj (StatedSp 2 K)))
     rw [hk, card_psp hK] at hdvd
     have hk2 : k ≤ 2 := by

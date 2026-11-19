@@ -81,7 +81,7 @@ public theorem proposition_11_1
     have hPV : P ≤ V := by simpa [P, V, D] using d.choice.P_le_V
     exact hPV.trans hVnormB1
   have hVnormF : V ≤ Subgroup.normalizer (F : Set X) := by
-    letI : (fittingSubgroup V).Characteristic := fittingSubgroup_characteristic
+    let : (fittingSubgroup V).Characteristic := fittingSubgroup_characteristic
     have hnorm :=
       proposition102_normalizer_le_normalizer_map_subtype_of_characteristic
         V (fittingSubgroup V)
@@ -103,7 +103,7 @@ public theorem proposition_11_1
       (by simpa [F, V, D] using h115.B_coprime_fitting.symm)
   have hFB1disj : Disjoint F B1 := by
     rw [disjoint_iff]
-    exact Subgroup.inf_eq_bot_of_coprime hFB1cop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hFB1cop))
   have hPprime : Nat.Prime (Nat.card P) := by
     rw [show Nat.card P = d.choice.p by simpa [P] using d.P_card]
     exact d.choice.p_prime

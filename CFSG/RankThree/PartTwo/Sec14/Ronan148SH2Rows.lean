@@ -18,7 +18,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ]
 section Bar
 
 theorem exists_cq_bar {L K : Subgroup Γ} (hZL : IsPGroup 3 (Subgroup.center ↥L)) (hKL : K ≤ L)
-    (hKq : IsQuasisimple ↥K) {z : Γ} (hzK : z ∈ K) (hKz : K ≤ Subgroup.centralizer {z})
+    (_hKq : IsQuasisimple ↥K) {z : Γ} (hzK : z ∈ K) (hKz : K ≤ Subgroup.centralizer {z})
     (hz3 : orderOf z = 3)
     (hO3 : inSubgroup (CFSG.pCore 3) (K ⊓ Subgroup.centralizer (K : Set Γ)) = Subgroup.zpowers z)
     (hLz : ¬ L ≤ Subgroup.centralizer {z}) :

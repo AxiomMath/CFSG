@@ -195,7 +195,7 @@ theorem exists_conj_le_frame_sylow {G : Type*} [Group G] [Finite G] {k : ℕ}
           Matrix.SpecialLinearGroup.coe_one]
       rw [Pi.pow_apply, Pi.one_apply, pow_two]
       exact hmul
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨x, hxQ⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨x, hxQ⟩
     have hm' : x ^ (p ^ m) = 1 := by
       have := congrArg Subtype.val hm
       simpa using this
@@ -233,6 +233,7 @@ theorem exists_conj_le_frame_sylow {G : Type*} [Group G] [Finite G] {k : ℕ}
     (by rw [Subgroup.card_top]; exact hcard)
   exact ⟨g, hg⟩
 
+omit [Finite K] in
 theorem map_noncommPiCoprod_le {G : Type*} [Group G] {k : ℕ} (ρ : Fin k → SL(2, K) →* G)
     (hρc : Pairwise fun i j => ∀ x y : SL(2, K), Commute (ρ i x) (ρ j y))
     (Q : Subgroup (Fin k → SL(2, K))) :

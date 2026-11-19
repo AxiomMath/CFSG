@@ -174,7 +174,7 @@ theorem exists_lift (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
       · subst ha1
         exact Subgroup.one_mem _
       have hord : orderOf a = p := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         exact orderOf_eq_prime (hP.2 a ha) ha1
       obtain ⟨x, ⟨hxa, hxo⟩, -, -⟩ := (highWitt hQ hT).2 p hp hp2 a hord
       refine ⟨x, ⟨?_, ?_⟩, hxa⟩
@@ -195,11 +195,13 @@ section Cent
 
 variable [Finite K] [FiniteDimensional K V]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem orthDerived_le_orthogonalGroup' (Q : QuadraticForm K V) :
     orthDerived Q ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
   Subgroup.commutator_le.mpr fun _ ha _ hb =>
     commutatorElement_mem_of_mem (H := TauCeti.QuadraticMap.orthogonalGroup Q) ha hb
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem centralizer_eq_subgroupOf (y : ↥(orthDerived Q)) :
     Subgroup.centralizer {y} =
       (isometryCentralizer Q (y : V ≃ₗ[K] V)).subgroupOf (orthDerived Q) := by
@@ -216,7 +218,7 @@ theorem centralizer_projT_eq (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {y : ↥(orthDerived Q)} (hy1 : y ≠ 1) (hyp : y ^ p = 1) :
     Subgroup.centralizer {projT Q y} = centralizerImage Q (y : V ≃ₗ[K] V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hπy1 : projT Q y ≠ 1 := fun h => hy1 (eq_one_of_mem_ker_of_pow hQ hT hp hp2 h hyp)
   have hord : orderOf (projT Q y) = p :=
     orderOf_eq_prime (by rw [← map_pow, hyp, map_one]) hπy1
@@ -231,7 +233,8 @@ section FixedComponent
 
 variable [Finite K] [FiniteDimensional K V] {p : ℕ} {x : V ≃ₗ[K] V}
 
-theorem projT_injOn_supportedFixedDerived (hx : OddOrderIsometry Q p x)
+omit [Finite K] [FiniteDimensional K V] in
+theorem projT_injOn_supportedFixedDerived (_hx : OddOrderIsometry Q p x)
     (hR : othersSpace x.toLinearMap (X - 1) ≠ ⊥) {a b : ↥(orthDerived Q)}
     (ha : (a : V ≃ₗ[K] V) ∈ supportedFixedDerived Q x)
     (hb : (b : V ≃ₗ[K] V) ∈ supportedFixedDerived Q x) (hab : projT Q a = projT Q b) : a = b := by

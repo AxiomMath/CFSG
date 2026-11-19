@@ -30,7 +30,7 @@ private lemma s8q_mk_eq_one_iff {V : Subgroup G}
 private lemma s8qρ_mk [Finite G] {V : Subgroup G} (hV : IsElemAb2 V 8)
     (n : ↥(normalizer (V : Set G))) :
     s8qρ hV (QuotientGroup.mk n) = V.normalizerMonoidHom n := by
-  simpa [s8qρ] using QuotientGroup.lift_mk (s8q_le_ker hV) n
+  simp [s8qρ]
 
 private lemma s8qι_mk (V : Subgroup G) (a : ↥V) :
     s8qι V a = QuotientGroup.mk (Subgroup.inclusion Subgroup.le_normalizer a) := rfl
@@ -182,7 +182,7 @@ theorem s8q_pull [Finite G] {V : Subgroup G} (hV : IsElemAb2 V 8)
   · intro g hg
     let n : ↥N := ⟨g, hg⟩
     have hn_coe : (n : G) = g := rfl
-    haveI : (s8qι V).range.Normal := s8q_range_normal hV
+    have : (s8qι V).range.Normal := s8q_range_normal hV
     have htop : mkq n ∈ K' ⊔ (s8qι V).range := by
       rw [h2]
       exact Subgroup.mem_top _

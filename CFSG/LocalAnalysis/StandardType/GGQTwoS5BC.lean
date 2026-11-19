@@ -19,39 +19,39 @@ private lemma bondNo_eq (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
       else if j.val + 1 = i.val then (if i.val = m - 1 then 2 else 1) else 0 := by
   have hji : j ≠ i := hij ∘ Eq.symm
   simp only [bondNo, CartanMatrix.B, Matrix.of_apply, Int.cast_ite]
-  simp only [if_neg hij, if_neg hji]
+  simp only [ite_eq_right hij, ite_eq_right hji]
   by_cases h1 : i.val + 1 = j.val
   · have h2 : ¬ j.val + 1 = i.val := by omega
-    simp only [if_pos h1, if_neg h2]
+    simp only [ite_eq_left h1, ite_eq_right h2]
     by_cases hj : j.val = m - 1
-    · simp only [if_pos hj]
+    · simp only [ite_eq_left hj]
       decide
-    · simp only [if_neg hj]
+    · simp only [ite_eq_right hj]
       decide
   · by_cases h2 : j.val + 1 = i.val
-    · simp only [if_neg h1, if_pos h2]
+    · simp only [ite_eq_right h1, ite_eq_left h2]
       by_cases hi : i.val = m - 1
-      · simp only [if_pos hi]
+      · simp only [ite_eq_left hi]
         decide
-      · simp only [if_neg hi]
+      · simp only [ite_eq_right hi]
         decide
-    · simp only [if_neg h1, if_neg h2]
+    · simp only [ite_eq_right h1, ite_eq_right h2]
       decide
 
 private lemma bondNo_ne_zero_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     bondNo m i j ≠ 0 ↔ i.val + 1 = j.val ∨ j.val + 1 = i.val := by
   rw [bondNo_eq m i j hij]
   by_cases h1 : i.val + 1 = j.val
-  · simp only [if_pos h1]
+  · simp only [ite_eq_left h1]
     constructor
     · intro _; exact Or.inl h1
     · intro _; split <;> decide
   · by_cases h2 : j.val + 1 = i.val
-    · simp only [if_neg h1, if_pos h2]
+    · simp only [ite_eq_right h1, ite_eq_left h2]
       constructor
       · intro _; exact Or.inr h2
       · intro _; split <;> decide
-    · simp only [if_neg h1, if_neg h2]
+    · simp only [ite_eq_right h1, ite_eq_right h2]
       simp [h1, h2]
 
 private lemma bondNo_two_iff {m : ℕ} (hm : 2 ≤ m) {i j : Fin m} (hij : i ≠ j) :
@@ -61,15 +61,15 @@ private lemma bondNo_two_iff {m : ℕ} (hm : 2 ≤ m) {i j : Fin m} (hij : i ≠
   have hjm := j.isLt
   rw [bondNo_eq m i j hij]
   by_cases h1 : i.val + 1 = j.val
-  · simp only [if_pos h1]
+  · simp only [ite_eq_left h1]
     have h2 : ¬ j.val + 1 = i.val := by omega
     by_cases hj : j.val = m - 1
-    · simp only [if_pos hj]
+    · simp only [ite_eq_left hj]
       have hi : i.val = m - 2 := by omega
       constructor
       · intro _; exact Or.inl ⟨hi, hj⟩
       · intro _; trivial
-    · simp only [if_neg hj]
+    · simp only [ite_eq_right hj]
       constructor
       · intro hh; exact absurd hh (by decide : (1 : ZMod 3) ≠ 2)
       · intro hh
@@ -77,21 +77,21 @@ private lemma bondNo_two_iff {m : ℕ} (hm : 2 ≤ m) {i j : Fin m} (hij : i ≠
         · exact absurd h hj
         · omega
   · by_cases h2 : j.val + 1 = i.val
-    · simp only [if_neg h1, if_pos h2]
+    · simp only [ite_eq_right h1, ite_eq_left h2]
       by_cases hi : i.val = m - 1
-      · simp only [if_pos hi]
+      · simp only [ite_eq_left hi]
         have hj : j.val = m - 2 := by omega
         constructor
         · intro _; exact Or.inr ⟨hi, hj⟩
         · intro _; trivial
-      · simp only [if_neg hi]
+      · simp only [ite_eq_right hi]
         constructor
         · intro hh; exact absurd hh (by decide : (1 : ZMod 3) ≠ 2)
         · intro hh
           rcases hh with ⟨h, h'⟩ | ⟨h, h'⟩
           · omega
           · exact absurd h hi
-    · simp only [if_neg h1, if_neg h2]
+    · simp only [ite_eq_right h1, ite_eq_right h2]
       constructor
       · intro hh; exact absurd hh (by decide : (0 : ZMod 3) ≠ 2)
       · intro hh
@@ -102,8 +102,8 @@ private lemma bondNo_last {m : ℕ} (hm : 2 ≤ m) :
   have hne : (⟨m - 2, by omega⟩ : Fin m) ≠ ⟨m - 1, by omega⟩ := by
     intro h; have := congrArg Fin.val h; simp at this; omega
   rw [bondNo_eq m _ _ hne]
-  rw [if_pos (by simp [Fin.val_mk]; omega)]
-  rw [if_pos (by simp)]
+  rw [ite_eq_left (by simp; omega)]
+  rw [ite_eq_left (by simp)]
 
 private lemma perm_eq_id {m : ℕ} (hm : 3 ≤ m) (P : Fin m ≃ Fin m)
     (hP : ∀ i j, bondNo m (P i) (P j) = bondNo m i j) : ∀ i, P i = i := by
@@ -183,19 +183,19 @@ private lemma perm_eq_id {m : ℕ} (hm : 3 ≤ m) (P : Fin m ≃ Fin m)
             rw [hP1'] at hadj1
             rcases hadj1 with hh | hh
             · have hv : (P ⟨k, hk⟩).val = k := by
-                simp only [Fin.val_mk] at hh
+                simp only at hh
                 omega
               exact Fin.ext hv
             · exfalso
               have hv : (P ⟨k, hk⟩).val = k + 2 := by
-                simp only [Fin.val_mk] at hh
+                simp only at hh
                 omega
               have hPk : P ⟨k, hk⟩ = ⟨k + 2, hlt2⟩ := Fin.ext hv
               have heq2 : (⟨k, hk⟩ : Fin m) = ⟨k + 2, hlt2⟩ := by
                 apply P.injective
                 rw [hPk, hP2']
               have hval := congrArg Fin.val heq2
-              simp only [Fin.val_mk] at hval
+              simp only at hval
               omega
     exact hmain (m - 1 - k) k hk rfl
   intro i

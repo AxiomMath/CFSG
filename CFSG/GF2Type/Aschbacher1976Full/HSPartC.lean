@@ -30,7 +30,7 @@ theorem two_pow_nine_dvd_card_Hz {G : Type} [Group G] [Finite G] {z : G} {Z A : 
     (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two Nat.card_pos.ne').mp
       (dvd_trans (by norm_num) hGN)
   have hT : 2 ^ 9 ∣ Nat.card ↥(T : Subgroup G) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Sylow.card_eq_multiplicity T]
     exact pow_dvd_pow 2 h9
   exact dvd_trans hT (Subgroup.card_dvd_of_le hTH)

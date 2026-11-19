@@ -15,20 +15,20 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem kOmega6MinusU4_holds : KOmega6MinusU4 := by
   intro X _ n K _ _ b c hcard hirr hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     refine Nat.one_le_iff_ne_zero.2 fun h0 => ?_
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     rw [hcard, h0, pow_zero] at h1
     exact lt_irrefl 1 h1
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := n) hcard
   obtain ⟨E, hEfield, hEU, ⟨eSU⟩⟩ :=
     CFSG.ComponentClassification.RankTwoClassical.nonempty_statedOmega_quadMinus_three_equiv
       (m := n) hcard hirr
-  letI : Field E := hEfield
-  letI : Finite E := hEU.finite
-  haveI : CharP E 2 := hEU.charP
+  let : Field E := hEfield
+  let : Finite E := hEU.finite
+  have : CharP E 2 := hEU.charP
   have hEcard : Nat.card E = (2 ^ n) ^ 2 := by
     rw [hEU.card, ← pow_mul, Nat.mul_comm]
   have hΩbot : (StatedScalars (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) K).subgroupOf

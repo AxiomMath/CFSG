@@ -96,8 +96,8 @@ theorem ys03_strongBal_amb {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.Pri
     (hS : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a)
     (hamb : catalogIs S (ambiguousChev p)) : StrongBalAt p S := by
   intro X _ _ K B hcore hcomp ⟨eK⟩ hB hBN
-  haveI := hS
-  haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+  have := hS
+  have : IsSimpleGroup ↥K := eK.isSimpleGroup
   have hncK : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eK.symm a, eK.symm b, fun h => hab (eK.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -133,7 +133,7 @@ theorem ys03_catalogIs_of_isL227 {S : Type} [Group S]
     (h : CFSG.HardMathSupport.Solomon.Coordinator.IsLTwoTwentySeven S) :
     catalogIs S (onLie (isL2 27)) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let q : TauCeti.PrimePower := ⟨3, 3, Nat.prime_three, by norm_num⟩
   have hq : q.card = 27 := by simp [q, TauCeti.PrimePower.card_def]
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
@@ -158,7 +158,7 @@ theorem kd1912Chev_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : KD1912Chev p
   · exact Or.inr hexc
   refine Or.inl ?_
   intro D hD H hH hAH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDne : D ≠ ⊥ := fun h => hp.ne_one (by
     have := hD.2.2
     rw [h, Subgroup.card_bot, pow_one] at this

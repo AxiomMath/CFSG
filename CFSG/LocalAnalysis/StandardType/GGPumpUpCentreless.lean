@@ -69,7 +69,7 @@ theorem catalogIs_u52_of_model {G : Type} [Group G] [Finite G] {V : Subgroup G}
   let _ : Fact (Nat.Prime 2) := ⟨hp⟩
   let q : PrimePower := ⟨2, 1, hp, by omega⟩
   have hv' : (LieTypeIndex.twistedA 4 q).Valid := by
-    simpa [q] using (CFSG.ClassicalModels.unitaryCatalog_index_valid 5 2 1 hV.1)
+    simp [q]
   let c := ValidLieTypeIndex.characteristic ⟨LieTypeIndex.twistedA 4 q, hv'⟩
   let ex := ValidLieTypeIndex.fieldExponent ⟨LieTypeIndex.twistedA 4 q, hv'⟩
   have hc : c = 2 := by
@@ -109,8 +109,8 @@ theorem pumpUp_not_u52 {K : Type} [Group K] [Finite K] {W Wk : Subgroup K} {ζ �
   let φ : W →* K ⧸ Subgroup.center K :=
     (QuotientGroup.mk' (Subgroup.center K)).comp W.subtype
   have hinj : Function.Injective φ := pumpUp_u52_quotient_injective h
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype (K ⧸ Subgroup.center K) := Fintype.ofFinite _
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype (K ⧸ Subgroup.center K) := Fintype.ofFinite _
   have hcard : Fintype.card W = Fintype.card (K ⧸ Subgroup.center K) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hWc, hSc]
   have hsurj : Function.Surjective φ :=

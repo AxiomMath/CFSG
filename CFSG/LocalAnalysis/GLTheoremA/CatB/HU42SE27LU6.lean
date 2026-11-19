@@ -204,8 +204,8 @@ theorem invCentOn_S6_of (hSU : SUInvCent 6) :
         simpa [hφapply] using h
       exact (QuotientGroup.eq_one_iff (x : M6)).mp h1
     exact Subgroup.mem_center_iff.mp (mem_center_of_mem_Z6 hxZ) (y : M6)
-  haveI : Group.IsNilpotent ↥U₀ := hU.isNilpotent
-  haveI : Group.IsNilpotent ↥Û := Subgroup.isNilpotent_of_ker_le_center φ hφker_center
+  have : Group.IsNilpotent ↥U₀ := hU.isNilpotent
+  have : Group.IsNilpotent ↥Û := Subgroup.isNilpotent_of_ker_le_center φ hφker_center
   obtain ⟨Q : Sylow 2 ↥Û⟩ := (inferInstance : Nonempty (Sylow 2 ↥Û))
   have hQne : (Q : Subgroup ↥Û) ≠ ⊥ := by
     have h2U0 : 2 ∣ Nat.card ↥U₀ := by
@@ -217,7 +217,7 @@ theorem invCentOn_S6_of (hSU : SUInvCent 6) :
       dvd_trans h2U0 (Subgroup.card_dvd_of_surjective (f := φ) hφsurj)
     exact Sylow.ne_bot_of_dvd_card Q h2U
   let P₂ : Subgroup M6 := (Q : Subgroup ↥Û).map Û.subtype
-  have hP2p : IsPGroup 2 P₂ := Q.isPGroup'.map Û.subtype
+  have hP2p : IsPGroup 2 P₂ := Q.isPGroup.map Û.subtype
   have hP2ne : P₂ ≠ ⊥ := by
     intro hbot
     exact hQne ((Subgroup.map_eq_bot_iff_of_injective (f := Û.subtype)
@@ -235,7 +235,7 @@ theorem invCentOn_S6_of (hSU : SUInvCent 6) :
     have hmemÛ : ê * (q : M6) * ê⁻¹ ∈ Û :=
       (Subgroup.le_normalizer_iff.mp hEnormÛ) ê hê (q : M6) q.2
     have hQnormal : (Q : Subgroup ↥Û).Normal := inferInstance
-    obtain ⟨k, hk⟩ := Q.isPGroup' (⟨q, hq⟩ : ↥(Q : Subgroup ↥Û))
+    obtain ⟨k, hk⟩ := Q.isPGroup (⟨q, hq⟩ : ↥(Q : Subgroup ↥Û))
     have hqpow : (q : M6) ^ 2 ^ k = 1 := by
       have h := congrArg (fun x : ↥(Q : Subgroup ↥Û) => (x : M6)) hk
       simpa using h

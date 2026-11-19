@@ -84,13 +84,13 @@ theorem exists_mul_central_of_mem_map {Y : Type*} [Group Y] (N : Subgroup Y) {a 
 theorem le_center_of_normal_isSolvable {Y : Type*} [Group Y] (hY : CFSG.IsQuasisimple Y)
     (N : Subgroup Y) [N.Normal] [Group.IsSolvable N] : N ≤ center Y := by
   obtain ⟨hYp, hYs, -⟩ := hY
-  haveI : Group.IsPerfect Y := hYp
-  haveI : IsSimpleGroup (Y ⧸ center Y) := hYs
-  haveI : Nontrivial Y := by
+  have : Group.IsPerfect Y := hYp
+  have : IsSimpleGroup (Y ⧸ center Y) := hYs
+  have : Nontrivial Y := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     exact not_subsingleton (Y ⧸ center Y) (QuotientGroup.mk'_surjective (center Y)).subsingleton
-  haveI : (N.map (QuotientGroup.mk' (center Y))).Normal :=
+  have : (N.map (QuotientGroup.mk' (center Y))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective (center Y))
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map (QuotientGroup.mk' (center Y))) with hbot | htop
   · intro x hx
@@ -121,8 +121,8 @@ theorem exists_quasisimple_lift_of_hom {M Q : Type*} [Group M] [Group Q] (f : M 
       (∀ y ∈ Y, (∀ k ∈ K, k * f y = f y * k) → ∀ y' ∈ Y, y' * y = y * y') ∧
       Nonempty (↥Y ⧸ center ↥Y ≃* ↥K ⧸ center ↥K) := by
   obtain ⟨hKp, hKs, a0, b0, hKab⟩ := hK
-  haveI : Group.IsPerfect K := hKp
-  haveI : IsSimpleGroup (K ⧸ center K) := hKs
+  have : Group.IsPerfect K := hKp
+  have : IsSimpleGroup (K ⧸ center K) := hKs
   obtain ⟨X, hXdef⟩ : ∃ X : Subgroup M, X = K.comap f := ⟨_, rfl⟩
   obtain ⟨Y, hYdef⟩ : ∃ Y : Subgroup M, Y = ⁅X, X⁆ := ⟨_, rfl⟩
   have hXK : X.map f = K := by
@@ -141,7 +141,7 @@ theorem exists_quasisimple_lift_of_hom {M Q : Type*} [Group M] [Group Q] (f : M 
     refine ⟨y, hy, y⁻¹ * x, hker ?_, (mul_inv_cancel_left y x).symm⟩
     rw [MonoidHom.mem_ker, map_mul, map_inv, hyx, inv_mul_cancel]
   have hYY : ⁅Y, Y⁆ = Y := commutator_commutator_eq_self hYdef hdec
-  haveI : Group.IsPerfect Y := Subgroup.isPerfect_iff.mpr hYY
+  have : Group.IsPerfect Y := Subgroup.isPerfect_iff.mpr hYY
   have hfY : ∀ g ∈ Y, f g ∈ K := fun g hg => by
     rw [← hYf]
     exact Subgroup.mem_map_of_mem f hg
@@ -206,8 +206,8 @@ theorem quasisimple_range_of_ker_le_center {Y Q : Type*} [Group Y] [Group Q]
     (hY : CFSG.IsQuasisimple Y) (f : Y →* Q) (hker : f.ker ≤ center Y) :
     CFSG.IsQuasisimple f.range ∧ Nonempty (↥f.range ⧸ center ↥f.range ≃* Y ⧸ center Y) := by
   obtain ⟨hYp, hYs, a0, b0, hab0⟩ := hY
-  haveI : Group.IsPerfect Y := hYp
-  haveI : IsSimpleGroup (Y ⧸ center Y) := hYs
+  have : Group.IsPerfect Y := hYp
+  have : IsSimpleGroup (Y ⧸ center Y) := hYs
   let ψ : Y →* f.range ⧸ center f.range :=
     (QuotientGroup.mk' (center f.range)).comp f.rangeRestrict
   have hψ : ∀ y : Y, ψ y = QuotientGroup.mk' (center f.range) (f.rangeRestrict y) :=

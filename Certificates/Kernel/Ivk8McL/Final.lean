@@ -13,7 +13,7 @@ open CFSG.KC.Enum CFSG.KC.YoshQ CFSG.KC.Ivk8N Certificates.Ivk8Two.McL Certifica
 
 theorem dims : Dims 275 9 := ⟨by decide, by decide, by decide, by decide⟩
 
-theorem arrTable_unpack {n w : Nat} (hw : w ≤ 32) (X : Nat) :
+theorem arrTable_unpack {n w : Nat} (_hw : w ≤ 32) (X : Nat) :
     arrTable n (CFSG.KS.Raw.unpack n w X) = tabN n w X := by
   apply Array.ext (by simp [arrTable, tabN])
   intro i h1 _

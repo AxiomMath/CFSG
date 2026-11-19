@@ -78,7 +78,7 @@ theorem comm_mul_central {L' : Type} [Group L'] {c d : L'} (hc : c ∈ Subgroup.
 
 theorem exists_diagModel_of_frame {L' : Type} [Group L'] [Finite L'] {K : Type} [Field K]
     [Finite K] {n d : ℕ} (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K)
-    (hd : 5 ≤ d) (hperfSU : commutator (unitarySU 2 n K d) = ⊤)
+    (_hd : 5 ≤ d) (hperfSU : commutator (unitarySU 2 n K d) = ⊤)
     {ψ : L' →* LargeEvenProj (unitarySU 2 n K d)}
     (hcov' : ∀ ψ'' : L' →* LargeEvenProj (unitarySU 2 n K d), Function.Surjective ψ'' →
       ψ''.ker = ψ.ker →
@@ -149,8 +149,8 @@ theorem exists_diagModel_of_frame {L' : Type} [Group L'] [Finite L'] {K : Type} 
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   ·
     intro a ha
     obtain ⟨xa, hxaI, hxa⟩ := hAI a ha
@@ -185,7 +185,7 @@ theorem exists_diagModel_of_frame {L' : Type} [Group L'] [Finite L'] {K : Type} 
 
 theorem exists_diagModel {L' : Type} [Group L'] [Finite L'] {K : Type} [Field K] [Finite K]
     {n d p : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hd : 5 ≤ d) (hp : p.Prime)
-    (hpq : p ∣ 2 ^ n + 1) (hpd : p ∣ d) (hcov : UnitaryCoverAt n d K)
+    (hpq : p ∣ 2 ^ n + 1) (_hpd : p ∣ d) (hcov : UnitaryCoverAt n d K)
     {ψ : L' →* LargeEvenProj (unitarySU 2 n K d)} (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
     {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian p A)
@@ -270,7 +270,7 @@ theorem noInvariantLineSCr_unitary (hU : UnitaryUniversalCover) {n d p : ℕ} {K
   obtain ⟨φ, hφs, hφker, hdiag⟩ :=
     exists_diagModel hK hn hd hp hpq hpd (hU n d K hK hd hdnd) hψ hker hperf hA hAI hcard
   have h := TableBU.unitaryFieldData_of_card hK hn
-  haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
     DFunLike.coe_injective
   refine ⟨{x | ∃ σ : Equiv.Perm (Fin d), x = φ (permSU h σ)},
     weyl_W_prop h (by omega) hφker hA.2 hdiag, fun Λ hΛA hΛp => ?_⟩

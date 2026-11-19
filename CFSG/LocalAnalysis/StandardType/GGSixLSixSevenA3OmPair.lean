@@ -23,7 +23,7 @@ theorem GGOmA3Hyp.exists_single_mem_centralizer (H : GGOmA3Hyp F E J) :
     ∃ a : Fin r, F.ι (ofAdd (Pi.single a 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)) := by
   classical
   have hr : 4 ≤ r := H.four_le
-  haveI : Nonempty (Fin r) := Fin.pos_iff_nonempty.mp (by omega)
+  have : Nonempty (Fin r) := Fin.pos_iff_nonempty.mp (by omega)
   obtain ⟨k⟩ := (inferInstance : Nonempty (Fin r))
   obtain ⟨t, htE, ht0, htk⟩ := exists_ne_zero_apply_eq_zero F H.le_A H.card_E k
   by_contra hno
@@ -36,6 +36,7 @@ theorem GGOmA3Hyp.exists_single_mem_centralizer (H : GGOmA3Hyp F E J) :
   exact ht0 (funext fun m =>
     apply_eq_zero_of_le_orbitSpace_X_sub_one F (by rw [← hX]; exact hU m (hno m)))
 
+omit [CharP K 2] in
 theorem GGOmA3Hyp.apply_eq_zero_of_pair (H : GGOmA3Hyp F E J) {a b : Fin r} (hab : a ≠ b)
     (ha : F.ι (ofAdd (Pi.single a 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)))
     (hb : F.ι (ofAdd (Pi.single b 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)))
@@ -44,11 +45,11 @@ theorem GGOmA3Hyp.apply_eq_zero_of_pair (H : GGOmA3Hyp F E J) {a b : Fin r} (hab
   classical
   by_contra hsm
   have hp : p.Prime := Fact.out
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
-  haveI : Finite E := Finite.of_injective Subtype.val fun _ _ h => Subtype.ext h
+  have : Finite E := Finite.of_injective Subtype.val fun _ _ h => Subtype.ext h
   have h1 : F.ι (ofAdd (Pi.single a 1)) ∈ E :=
     H.mem_E_of_mem_centralizer (F.mem _) ha
   have h2 : F.ι (ofAdd (Pi.single b 1)) ∈ E :=
@@ -64,6 +65,7 @@ theorem GGOmA3Hyp.apply_eq_zero_of_pair (H : GGOmA3Hyp F E J) {a b : Fin r} (hab
   rw [H.card_E] at h3
   exact absurd h3 (not_le.mpr (Nat.pow_lt_pow_right hp.one_lt (by norm_num : 2 < 3)))
 
+omit [CharP K 2] in
 theorem GGOmA3Hyp.exists_eq_of_pair (H : GGOmA3Hyp F E J) {a b : Fin r} (hab : a ≠ b)
     (ha : F.ι (ofAdd (Pi.single a 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)))
     (hb : F.ι (ofAdd (Pi.single b 1)) ∈ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)))
@@ -82,11 +84,11 @@ theorem GGOmA3Hyp.exists_pair_mem_of_pair (H : GGOmA3Hyp F E J) {a b : Fin r} (h
   classical
   have hp : p.Prime := Fact.out
   have hr : 4 ≤ r := H.four_le
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
-  haveI : Finite E :=
+  have : Finite E :=
     Finite.of_injective (fun z : E => (z : V ≃ₗ[K] V)) fun _ _ h => Subtype.ext h
   have hS : 1 < (((Finset.univ : Finset (Fin r)).erase a).erase b).card := by
     have h1 : ((Finset.univ : Finset (Fin r)).erase a).card = r - 1 := by

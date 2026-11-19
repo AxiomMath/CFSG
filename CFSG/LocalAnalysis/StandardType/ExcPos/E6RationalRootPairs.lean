@@ -22,6 +22,7 @@ open scoped CFSG.ConvolutionPoints
 
 variable {Omega : Type} [Field Omega] [IsAlgClosed Omega] [CharP Omega 2]
 
+omit [CharP Omega 2] in
 theorem rationalComponent_eq_rootSpan_inf_step_of_e6
     {p : ℕ} (S : LangSetup .E7 Omega p)
     (sigma : Omega ≃+* Omega) (hPhi : S.D.Φ = frobGL sigma)
@@ -71,6 +72,7 @@ theorem rationalComponent_eq_rootSpan_inf_step_of_e6
     exact iSup_le fun alpha => iSup_le fun _ => rootSubgroup_le_adjointGroup alpha
   rw [hcompEq, LangDatum.model, ← inf_assoc, inf_eq_left.mpr hAdj]
 
+omit [CharP Omega 2] in
 theorem map_rootSpan_pair_step_eq_of_neg
     {p : ℕ} (S : LangSetup .E7 Omega p)
     (sigma : Omega ≃+* Omega) (hPhi : S.D.Φ = frobGL sigma)
@@ -88,6 +90,7 @@ theorem map_rootSpan_pair_step_eq_of_neg
   rw [rootSpan, iSup_insert, iSup_singleton, Subgroup.map_sup, hp, hm, smul_neg,
     hwb, neg_neg, sup_comm]
 
+omit [CharP Omega 2] in
 theorem map_conj_rootSpan_pair_step_eq
     {p : ℕ} (S : LangSetup .E7 Omega p) (sigma : Omega ≃+* Omega)
     (z : ModGL .E7 Omega) {gamma : Fin Tag.E7.rank → ℤ}
@@ -133,7 +136,7 @@ theorem exists_rational_e6_root_pair_conj
       (rootSpan .E7 Omega {beta, -beta} ⊓ S.D.step.eqLocus (MonoidHom.id _)).map
         (MulAut.conj u).toMonoidHom := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Psi := componentRoots (rootCharHom a) c
   let H := rootSpan .E7 Omega Psi
   let A := rootSpan .E7 Omega {beta, -beta}

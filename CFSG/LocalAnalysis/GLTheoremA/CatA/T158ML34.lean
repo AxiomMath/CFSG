@@ -122,7 +122,7 @@ private theorem fieldOn_chev2L34_false {G : Type} [Group G] [Finite G] {p : ℕ}
       ⟨TauCeti.LieTypeIndex.A 2 q, hv⟩ (char_A_two hq) e
   have hfs : KD264Lie.fieldSize (TauCeti.LieTypeIndex.A 2 q) = 4 := hq
   have h4 : 2 ^ (canonLabel lab).n = 2 ^ 2 := by
-    rw [h2, hfs] <;> norm_num
+    rw [h2, hfs]; norm_num
   have hn : (canonLabel lab).n = 2 := Nat.pow_right_injective (le_refl 2) h4
   rcases canonLabel_n_eq_one_or_two hn with h1 | h1
   · rw [h1] at hdvd

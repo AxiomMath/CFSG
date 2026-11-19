@@ -48,8 +48,9 @@ def centInv (Y : Subgroup X) : Subgroup X where
   inv_mem' := by
     rintro a ⟨ha, ha2, hac⟩
     have : a⁻¹ = a := by rw [inv_eq_iff_mul_eq_one]; exact ha2
-    rw [Set.mem_setOf_eq, this]; exact ⟨ha, ha2, hac⟩
+    rw [Set.mem_ofPred_eq, this]; exact ⟨ha, ha2, hac⟩
 
+omit [Finite X] in
 theorem isPGroup_centInv (Y : Subgroup X) : IsPGroup 2 ↥(centInv Y) := by
   intro g
   refine ⟨1, ?_⟩

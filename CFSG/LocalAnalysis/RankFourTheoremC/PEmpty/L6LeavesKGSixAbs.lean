@@ -14,7 +14,7 @@ variable {A : Type} [Group A] [Finite A] {p : ℕ} {Kb Sb Bb Mb : Subgroup A} {z
 theorem eq_of_sq_eq_one {C : Type*} [Group C] [Finite C] [IsCyclic C] {x y : C}
     (hx : x ^ 2 = 1) (hy : y ^ 2 = 1) (hx1 : x ≠ 1) (hy1 : y ≠ 1) : x = y := by
   classical
-  haveI := Fintype.ofFinite C
+  have := Fintype.ofFinite C
   by_contra hne
   have h := IsCyclic.card_pow_eq_one_le (α := C) (n := 2) (by norm_num)
   have hsub : ({1, x, y} : Finset C) ⊆ Finset.univ.filter fun a : C => a ^ 2 = 1 := by
@@ -53,7 +53,7 @@ theorem conj_eq_of_cyclic (c : KQCfg A p Kb Sb Bb Mb z) [IsCyclic ↥Sb] {a : A}
 
 theorem eq_one_of_map_eq_one (c : KQCfg A p Kb Sb Bb Mb z) {W : Type*} [Group W] (ρ : A →* W)
     (hρ : ¬ Kb ≤ ρ.ker) {x : A} (hx : x ∈ Kb ⊔ Sb) (h : ρ x = 1) : x = 1 := by
-  haveI := c.simple
+  have := c.simple
   have hKn : ∀ k ∈ Kb, ρ k = 1 → k = 1 := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.comp Kb.subtype).ker with hbot | htop
     · intro k hk hρk
@@ -76,6 +76,7 @@ theorem eq_one_of_map_eq_one (c : KQCfg A p Kb Sb Bb Mb z) {W : Type*} [Group W]
   rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul] at h1
   exact h1
 
+omit [Finite A] in
 theorem mem_normalizer_zpowers_of_commute {a b : A} (h : b * a = a * b) :
     b ∈ normalizer (zpowers a : Set A) :=
   KGB.mem_normalizer_of_commute fun t ht => by
@@ -95,6 +96,7 @@ theorem normalizer_zpowers_le (c : KQCfg A p Kb Sb Bb Mb z) [IsCyclic ↥Sb] {a 
     have := conj_eq_of_cyclic c ha ha1 ha2 hb
     rwa [mul_inv_eq_iff_eq_mul] at this
 
+omit [Finite A] in
 theorem rankThreePrimeCore_eq_bot {Y : Subgroup A} (hY : IsSimpleGroup ↥Y) (hp : p.Prime)
     (hpY : p ∣ Nat.card ↥Y) : rankThreePrimeCore p Y = ⊥ := by
   unfold rankThreePrimeCore relPPrimeCore
@@ -113,6 +115,7 @@ theorem rankThreePrimeCore_eq_bot {Y : Subgroup A} (hY : IsSimpleGroup ↥Y) (hp
     rw [hNY'] at hcop
     exact hp.one_lt.ne' (hcop.eq_one_of_dvd hpY)
 
+omit [Finite A] in
 theorem isSimpleSection_bot {Y : Subgroup A} (hY : IsSimpleGroup ↥Y)
     (hab : ∃ x y : ↥Y, x * y ≠ y * x) : S622IsSimpleSection Y ⊥ := by
   obtain ⟨x, y, hxy⟩ := hab
@@ -149,7 +152,7 @@ theorem false_of_transv (hT : KGTransvCent) (h241 : KFact2401ThreeOmega)
     (ha1 : a ≠ 1) (ha2 : a ^ 2 = 1) (htv : IsTransvection (ρ a)) : False := by
   have hp := c.prime
   have hp5 := c.five_le
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haK : a ∉ Kb := fun h => ha1 (by
     have : a ∈ Sb ⊓ Kb := ⟨ha, h⟩
     rw [hbot, Subgroup.mem_bot] at this
@@ -182,7 +185,7 @@ theorem false_of_transv (hT : KGTransvCent) (h241 : KFact2401ThreeOmega)
   have hrel : 3 ∣ (rankThreePrimeCore p Y).relIndex Y := by
     rw [hcore, Subgroup.relIndex_bot_left]
     exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y', hy'⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 3 h3
   have hyY : (y' : A) ∈ Y := y'.2
   have hyo : orderOf (y' : A) = 3 := by rw [Subgroup.orderOf_coe]; exact hy'

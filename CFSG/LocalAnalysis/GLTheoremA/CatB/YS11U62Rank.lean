@@ -18,7 +18,7 @@ theorem card_le_81_T46
     {E : Subgroup CFSG.Fischer.T46} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQT, hQcard, hQab⟩ := Certificates.certificate211002
   let Q₀ : Subgroup CFSG.Fischer.T46 := Q.subgroupOf CFSG.Fischer.T46
   have hQ₀card : Nat.card Q₀ = 3 ^ 6 := by

@@ -17,11 +17,11 @@ open CFSG CFSG.Assembly CFSG.Open
 theorem ggForkA8NotReflInput_of_mp
     (hMp : GGInnerDiagMpInput) : GGForkA8NotReflInput := by
   intro G _ _ B Bs x L D J hcfg hinn y K hnb hlab
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hKm : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 9 2 1 :=
     statedClassicalModel_of_hasLabel_typeA (n := 8) (f := 1)
       ⟨by norm_num, by norm_num, fun h => by simp at h⟩ hlab
-  haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
+  have : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
   have hab : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
     setLike_mul_comm (s := Bs) ha hb
   have hpow : ∀ b ∈ Bs, b ^ 7 = 1 := fun b hb => hcfg.2.1.2.1.2 b hb

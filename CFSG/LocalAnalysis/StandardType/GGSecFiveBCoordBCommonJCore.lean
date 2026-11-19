@@ -68,7 +68,7 @@ theorem ggSecFiveBCoordBCommonJCoreInput_holds :
           obtain ⟨hRs, hna, θ, -, hBsN, hind⟩ := hQ
           exact ⟨K, hf, hfin, hK, hRs, hna, θ, hBsN, hind⟩
       obtain ⟨K, hKfield, hKfin, hK, hRs, hna, θ, hBsN, hind⟩ := hdata
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       have hI : LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K m))
           (LargeEvenGSpSet K m) ⊆ Set.range MulAut.conj := TableBSymp.sp_I_subset_inn
       rcases hq with hpq | ⟨hn1, hp3⟩
@@ -143,11 +143,11 @@ theorem ggSecFiveBCoordBCommonJCoreInput_holds :
               ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ
       have hrawR : LargeEvenRecipeOmegaMinus m (2 ^ nlab) Q := by
         dsimp only [LargeEvenRawDatumLegacy] at hraw
-        rw [if_neg (by omega : ¬ m + 1 = 2), if_neg (by omega : ¬ m + 1 = 3)] at hraw
+        rw [ite_eq_right (by omega : ¬ m + 1 = 2), ite_eq_right (by omega : ¬ m + 1 = 3)] at hraw
         exact hraw
       obtain ⟨K, hKfield, hKfin, hK, b, c, hirr, hQ⟩ := hrawR
       obtain ⟨hRs, hna, θ, -, hBsN, hind⟩ := hQ
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       have hI : LargeEvenInnSet (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) ⊆
           Set.range MulAut.conj := fun _ hx => hx
       rcases hq with hpq | ⟨heven, hpq⟩
@@ -220,12 +220,12 @@ theorem ggSecFiveBCoordBCommonJCoreInput_holds :
               ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ
       have hrawR : LargeEvenRecipeOmegaPlus (m + 1) 2 Q := by
         dsimp only [LargeEvenRawDatumLegacy] at hraw
-        rw [if_neg (by omega : ¬ m + 1 = 3)] at hraw
+        rw [ite_eq_right (by omega : ¬ m + 1 = 3)] at hraw
         exact hraw
       obtain ⟨K, hKfield, hKfin, hK, hQ⟩ := hrawR
       have hK2 : Nat.card K = 2 := by simpa using hK
       obtain ⟨hRs, hna, θ, -, hBsN, hind⟩ := hQ
-      haveI : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
+      have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
       have hI : LargeEvenInnSet (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K (m + 1)))) ⊆
           Set.range MulAut.conj := fun _ hx => hx
       have hme : Even m := by
@@ -287,7 +287,7 @@ theorem ggSecFiveBCoordBCommonJCoreInput_holds :
       obtain ⟨K, hKfield, hKfin, hK, hQ⟩ := hrawR
       have hK2 : Nat.card K = 2 := by simpa using hK
       obtain ⟨hRs, hna, θ, -, hBsN, hind⟩ := hQ
-      haveI : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
+      have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
       have hd : rank + 1 = 2 * m ∨ rank + 1 = 2 * m + 1 := by omega
       have hrow : GGSecFiveBNativeRow (LargeEvenProj (LargeEvenSLGroup (Fin (rank + 1)) K)) 3 m
           (fun labJ => labJ = ⟨.A, m - 1, 2⟩)
@@ -297,7 +297,7 @@ theorem ggSecFiveBCoordBCommonJCoreInput_holds :
           Set.univ ⊆ Set.range MulAut.conj := by
         refine matConjImage_gl_subset_inn (d := rank + 1) ?_
         rw [Nat.card_units, hK2]
-        simpa using Nat.coprime_one_left (rank + 1)
+        simp
       have hSD : ∀ labJ, labJ = ⟨.A, m - 1, 2⟩ →
           GGSecFiveBCoordBJDenseLabel (m + 1) 3 ⟨.A, rank, 1⟩ labJ ∨
             ((LargeEvenLieTag.A = .B ∨ LargeEvenLieTag.A = .C ∨

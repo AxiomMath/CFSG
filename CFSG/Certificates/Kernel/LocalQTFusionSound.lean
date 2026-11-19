@@ -115,10 +115,10 @@ theorem wordAB_rep (hn : n ≤ 32) {a b : Nat} {ta tb : Array Nat} (ha : NodeRep
     rw [e1, e2]
     by_cases hx : x = 0
     · subst hx
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact nodeRep_mul hn ha (wordAB_rep hn ha hb w)
     · have hb0 : Nat.beq x 0 = false := Bool.eq_false_iff.2 fun e => hx (P.beq_iff.1 e)
-      rw [if_neg hx, hb0]
+      rw [ite_eq_right hx, hb0]
       exact nodeRep_mul hn hb (wordAB_rep hn ha hb w)
 
 theorem gwsK_spec {L cs : List Nat} :

@@ -21,6 +21,7 @@ private noncomputable def barTwoEquivOTwoQuot (K : Subgroup G) :
     Bar2 K ≃* CFSG.Quasithin.oTwoQuot ↥K :=
   QuotientGroup.quotientMulEquivOfEq (CFSG.pCore_eq_open ↥K 2)
 
+omit [Finite G] in
 theorem nonempty_psl_oTwoQuot_of_isL2 {K : Subgroup G} {f : ℕ} (h : IsL2 (Bar2 K) f) :
     Nonempty (CFSG.Quasithin.oTwoQuot ↥K ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) := by
@@ -29,10 +30,12 @@ theorem nonempty_psl_oTwoQuot_of_isL2 {K : Subgroup G} {f : ℕ} (h : IsL2 (Bar2
   exact CFSG.Quasithin.H13.nonempty_equiv_psl_of_lieModel hf
     (CFSG.Blueprint.LieModel.of_mulEquiv (barTwoEquivOTwoQuot K) h)
 
+omit [Finite G] in
 theorem isRankOneField_oTwoQuot_of_isL2 {K : Subgroup G} {f : ℕ}
     (h : IsL2 (Bar2 K) f) : IsRankOneField (CFSG.Quasithin.oTwoQuot ↥K) f :=
   Or.inl (nonempty_psl_oTwoQuot_of_isL2 h)
 
+omit [Finite G] in
 theorem isRankOneField_oTwoQuot_of_isSz {K : Subgroup G} {f : ℕ}
     (h : IsSz (Bar2 K) f) : IsRankOneField (CFSG.Quasithin.oTwoQuot ↥K) f := by
   have h' : CFSG.Blueprint.LieModel (CFSG.Quasithin.oTwoQuot ↥K) .twistedB2 0 2 f :=
@@ -66,7 +69,7 @@ private theorem hyp111At_of_shape_left {D : Data G} {Ch : Choice2011 G} (c : Ctx
     {K : Subgroup G} (hK : K ∈ calC D.M) (hKn : (K.subgroupOf D.M).Normal)
     {f : ℕ} (hKf : IsL2 (Bar2 K) f ∨ IsSz (Bar2 K) f) :
     CFSG.Quasithin.Hyp111At K c.L D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : K ≤ D.M := CFSG.Open.IsSubnormal.le hK.1
   have hMleNK : D.M ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp hKn
@@ -96,7 +99,7 @@ private theorem hyp111At_of_shape_right {D : Data G} {Ch : Choice2011 G} (c : Ct
     (h1930 : H1930 D) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h208 : S20_8 D)
     {K : Subgroup G} (hDK : CFSG.Quasithin.borelOf K D.T ≤ c.N) :
     CFSG.Quasithin.Hyp111At c.L K D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLN : (c.L.subgroupOf c.N).Normal := Ctx23L.normal_L_N D Ch h4 h23 h208 h1930 c
   have hLleN : c.L ≤ c.N :=
     (le_sup_left : c.L ≤ c.L ⊔ D.T).trans (Ctx23L.sup_le_N D Ch c)
@@ -123,7 +126,7 @@ private theorem hyp111At_of_shape_right {D : Data G} {Ch : Choice2011 G} (c : Ct
 private theorem le_N_of_pCoreOf_ne_bot {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     {K : Subgroup G} (hne : CFSG.Open.pCoreOf 2 (K ⊔ c.L ⊔ D.T) ≠ ⊥) : K ≤ c.N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup G := CFSG.Open.pCoreOf 2 (K ⊔ c.L ⊔ D.T)
   have hP2 : IsPGroup 2 P := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (K ⊔ c.L ⊔ D.T)
   have hPne : P ≠ ⊥ := hne
@@ -150,12 +153,12 @@ private theorem false_of_commutator_two_pow {D : Data G} {Ch : Choice2011 G} (c 
     (hKN : K ≤ c.N) (hKCZ : K ≤ Subgroup.centralizer (D.Z : Set G))
     (hLN : (c.L.subgroupOf c.N).Normal) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hthin : F08.Thin8 K := thin8_of_isL2_or_isSz hKf
   have hrdvdK : r ∣ Nat.card K := by
     have h := Subgroup.orderOf_dvd_natCard K haK
     rwa [har] at h
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨Pr, hPrK, hPrr, g, hg, x, hx, hcomm⟩ :=
     CFSG.GroupTheory.exists_commutator_ne_one_of_perfect hK.2.1 hrdvdK
   have hgK : g ∈ K := hg.1
@@ -191,7 +194,7 @@ private theorem pCoreOf_eq_bot_of_shape {D : Data G} {Ch : Choice2011 G} (c : Ct
     {a : G} (haK : a ∈ K) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (har : orderOf a = r) :
     CFSG.Open.pCoreOf 2 (K ⊔ c.L ⊔ D.T) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   have hKN : K ≤ c.N := le_N_of_pCoreOf_ne_bot c hne
   have hKCZ : K ≤ Subgroup.centralizer (D.Z : Set G) :=
@@ -208,7 +211,7 @@ theorem Ctx23L.wbn_hyp_of_D {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (hDK : CFSG.Quasithin.borelOf K D.T ≤ c.N) :
     CFSG.Quasithin.Hyp111 K c.L D.T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hyp111At_of_shape_left c h1930 h4 h23 hK hKn hKf,
     hyp111At_of_shape_right c h1930 h4 h23 h208 hDK,
     pCoreOf_eq_bot_of_shape c h1930 h4 h23 h208 h847 hK hKf haK hr hr2 har⟩

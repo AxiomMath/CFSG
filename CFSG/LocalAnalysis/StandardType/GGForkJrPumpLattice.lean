@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section TransferHelpers
 
-theorem ggTorusTBGroup_of_marking {p r : ℕ} (hp : p.Prime) {Bs X : Subgroup G}
+theorem ggTorusTBGroup_of_marking {p r : ℕ} (_hp : p.Prime) {Bs X : Subgroup G}
     (hBs : IsElemAbelian p Bs) (hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hX : commutator X = ⊤) {R : Type} [Group R] (θ : X ⧸ Subgroup.center X ≃* R)
     {I : Set (MulAut R)} (hBsN : Bs ≤ Subgroup.normalizer (X : Set G))
@@ -110,20 +110,21 @@ theorem ggReflection_overGamma_of_induced {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   · exact ggConjAut_mem_ggAutomizer
       (H := (MulAut.conj : ↥X →* MulAut ↥X).range) ⟨⟨g, hgX⟩, rfl⟩ hn
 
-private theorem exists_lift_pi {p : ℕ} (hp : p.Prime) {Bs X : Subgroup G}
+omit [Finite G] in
+private theorem exists_lift_pi {p : ℕ} (_hp : p.Prime) {Bs X : Subgroup G}
     (hBs : IsElemAbelian p Bs) (hBsN : Bs ≤ Subgroup.normalizer (X : Set G)) {m : ℕ}
     (π₀ : (Fin m → ℤ) →+ Additive ↥(ggGamma X hBsN).range) :
     ∃ π : (Fin m → ℤ) →+ Additive ↥Bs, ∀ y : Fin m → ℤ,
       (ggGamma X hBsN).rangeRestrict (Additive.toMul (π y)) = Additive.toMul (π₀ y) := by
   classical
   let γ := ggGamma X hBsN
-  letI : CommGroup ↥Bs :=
+  let : CommGroup ↥Bs :=
     { (inferInstance : Group ↥Bs) with
       mul_comm := fun a b => Subtype.ext (TableB.IsElemAbelian.comm hBs a.2 b.2) }
   have hBc : ∀ a b : ↥Bs, a * b = b * a := fun a b => mul_comm a b
   have hBp : ∀ a : ↥Bs, a ^ p = 1 := fun a => Subtype.ext (by simpa using hBs.2 (a : G) a.2)
   have hA : IsElemAbelian p γ.range := isElemAbelian_range hBc hBp γ
-  letI : CommGroup ↥γ.range :=
+  let : CommGroup ↥γ.range :=
     { (inferInstance : Group ↥γ.range) with
       mul_comm := fun a b => Subtype.ext (TableB.IsElemAbelian.comm hA a.2 b.2) }
   have hγsurj : Function.Surjective γ.rangeRestrict := MonoidHom.rangeRestrict_surjective γ
@@ -140,8 +141,8 @@ private theorem exists_lift_pi {p : ℕ} (hp : p.Prime) {Bs X : Subgroup G}
     refine ⟨Additive.ofMul b, ?_⟩
     show Additive.ofMul (γ.rangeRestrict (Additive.toMul (Additive.ofMul b))) = w
     rw [toMul_ofMul, hb, ofMul_toMul]
-  haveI : Module.Free ℤ (Fin m → ℤ) := Module.Free.of_basis (Pi.basisFun ℤ (Fin m))
-  haveI : Module.Projective ℤ (Fin m → ℤ) := Module.Projective.of_free
+  have : Module.Free ℤ (Fin m → ℤ) := Module.Free.of_basis (Pi.basisFun ℤ (Fin m))
+  have : Module.Projective ℤ (Fin m → ℤ) := Module.Projective.of_free
   obtain ⟨h, hh⟩ := Module.projective_lifting_property addγ.toIntLinearMap π₀.toIntLinearMap hsurj
   refine ⟨h.toAddMonoidHom, fun y => ?_⟩
   have hy := congrArg (fun f : (Fin m → ℤ) →ₗ[ℤ] Additive ↥γ.range => f y) hh

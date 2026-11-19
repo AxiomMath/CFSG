@@ -29,9 +29,9 @@ theorem burnsideF4m_invCent_U4 {f : ℕ} (hf : 1 ≤ f) {D : Type} [Group D] [Fi
     (hodd : ¬ 2 ∣ (Lift.iK A hgen).range.index) : burnsideF4m_InvCent A := by
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := Un.un_model_equiv hD
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
-  haveI := Un.isSimpleGroup_unSU hF
-  haveI := Finite.of_equiv D e.symm.toEquiv
+  have : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
+  have := Un.isSimpleGroup_unSU hF
+  have := Finite.of_equiv D e.symm.toEquiv
   have S1 := Un.stdTwo_datum hF ζ hf
   obtain ⟨e', hTD, hP⟩ := BN.exists_iso_of_yam (Un.unSystem hF ζ) (Un.isSylowTwoOf_unU hF) e A
   have hU : A.TD.map e'.symm.toMonoidHom = Un.unU hF 4 :=
@@ -50,7 +50,7 @@ theorem burnsideF4m_centInput_U4 (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hodd : O
     {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamU4 marking
   rw [← h1, ← h2] at hTD

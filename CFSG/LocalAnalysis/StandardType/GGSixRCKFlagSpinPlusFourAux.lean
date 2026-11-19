@@ -48,7 +48,6 @@ private lemma rckSP4_E1_apply (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
   rcases x with i | i <;> fin_cases i <;>
     simp [rckSP4_E1, rckSP4_E, rckSP4_vec, Spin.polar_quadPlus, Spin.quadPlus_apply,
       Fin.sum_univ_two]
-  all_goals try rfl
   · linear_combination - (v (Sum.inl 0) + v (Sum.inl 1) + v (Sum.inr 0)) * h2
 
 private lemma rckSP4_E2_apply (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
@@ -70,7 +69,6 @@ private lemma rckSP4_E3_apply (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
   rcases x with i | i <;> fin_cases i <;>
     simp [rckSP4_E3, rckSP4_E, rckSP4_vec, Spin.polar_quadPlus, Spin.quadPlus_apply,
       Fin.sum_univ_two]
-  all_goals try rfl
   · linear_combination - (v (Sum.inl 0) + v (Sum.inr 0) + v (Sum.inr 1)) * h2
 
 private noncomputable def rckSP4_coord (v : Fin 2 ⊕ Fin 2 → K) : Fin 4 → K :=
@@ -92,7 +90,6 @@ private lemma rckSP4_coord_E2 (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
     simp [rckSP4_coord, rckSP4_symm_zero, rckSP4_symm_one, rckSP4_symm_two,
       rckSP4_symm_three, rckSP4_E2_apply h2, rckSP4_vec, Matrix.mulVec, dotProduct,
       Fin.sum_univ_four]
-  all_goals abel_nf
 
 private lemma rckSP4_coord_E3 (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
     rckSP4_coord (rckSP4_E3 v) = rckSP4_C3 *ᵥ rckSP4_coord v := by
@@ -101,7 +98,6 @@ private lemma rckSP4_coord_E3 (h2 : (2 : K) = 0) (v : Fin 2 ⊕ Fin 2 → K) :
     simp [rckSP4_coord, rckSP4_symm_zero, rckSP4_symm_one, rckSP4_symm_two,
       rckSP4_symm_three, rckSP4_E3_apply h2, rckSP4_vec, Matrix.mulVec, dotProduct,
       Fin.sum_univ_four]
-  all_goals abel_nf
 
 theorem rckSP4_matrix_eq_one (h2 : (2 : K) = 0) (T : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)
     (hT : T * T = 1)
@@ -148,7 +144,7 @@ theorem rckSP4_matrix_eq_one (h2 : (2 : K) = 0) (T : Matrix (Fin 2 ⊕ Fin 2) (F
   rw [h]
   simp [Matrix.one_apply, e.injective.eq_iff]
 
-private lemma rckSP4_exists_spin_E_aux (h2 : (2 : K) = 0)
+private lemma rckSP4_exists_spin_E_aux (_h2 : (2 : K) = 0)
     {u w : Fin 2 ⊕ Fin 2 → K} (hu : Spin.quadPlus 2 K u = 0)
     (huw : polar (Spin.quadPlus 2 K) u w = 0) (hw : Spin.quadPlus 2 K w = 1) :
     ∃ y : spinGroup (Spin.quadPlus 2 K), ∀ v,

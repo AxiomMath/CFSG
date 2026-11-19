@@ -78,7 +78,7 @@ theorem a6_three_klein :
 
 theorem involutions_comm_of_commutator_central {Q : Type} [Group Q] [Finite Q]
     (hZ : Nat.card (Subgroup.center Q) = 3) {g h : Q}
-    (hg : g ^ 2 = 1) (hh : h ^ 2 = 1)
+    (hg : g ^ 2 = 1) (_hh : h ^ 2 = 1)
     (hcen : g * h * g⁻¹ * h⁻¹ ∈ Subgroup.center Q) : g * h = h * g := by
   have hg' : g * g = 1 := by rw [← pow_two]; exact hg
   have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg'
@@ -297,7 +297,7 @@ theorem card_Q_eq {Q : Type} [Group Q] [Finite Q] (hZ : Nat.card (Subgroup.cente
 
 theorem exists_orderOf_prime_of_natCard {G : Type} [Group G] [Finite G] (p : ℕ) [Fact p.Prime]
     (hdvd : p ∣ Nat.card G) : ∃ x : G, orderOf x = p := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   rw [Nat.card_eq_fintype_card] at hdvd
   exact exists_prime_orderOf_dvd_card p hdvd
 
@@ -327,7 +327,7 @@ theorem exists_V_of_bot (Q : Type) [Group Q] [Finite Q] (hQ : Nat.card Q = 1080)
     rw [hbot] at hmem
     exact Subgroup.mem_bot.mp hmem
   · refine IsPGroup.iff_card.mpr ⟨1, ?_⟩
-    rw [Nat.card_zpowers, hy] <;> norm_num
+    rw [Nat.card_zpowers, hy]; norm_num
   · intro f hf v hv
     rw [Subgroup.mem_bot.mp hf, MulAut.one_apply]
     exact hv
@@ -377,11 +377,11 @@ theorem ks1012AutHyp_tripleCover (Q : Type) [Group Q] [Finite Q] (hq : CFSG.IsQu
     (F : Subgroup (MulAut Q)) (hF : CFSG.Assembly.IsElemAbelian 3 F) :
     ∃ F' ≤ F, Nat.card F ≤ 3 * Nat.card F' ∧
       ∃ V : Subgroup Q, V ≠ ⊥ ∧ IsPGroup 2 V ∧ ∀ f ∈ F', ∀ v ∈ V, f v ∈ V := by
-  haveI : Group.IsPerfect Q := hq.1
+  have : Group.IsPerfect Q := hq.1
   obtain ⟨hZ, ⟨e⟩⟩ := h
-  haveI : Finite (MulAut Q) := Finite.of_injective (fun φ : MulAut Q => φ.toEquiv)
+  have : Finite (MulAut Q) := Finite.of_injective (fun φ : MulAut Q => φ.toEquiv)
     (fun φ ψ hφψ => MulEquiv.ext (fun x => congrArg (fun σ : Q ≃ Q => σ x) hφψ))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFexp : ∀ x ∈ F, x ^ 3 = 1 := hF.2
   have hQ : Nat.card Q = 1080 := card_Q_eq hZ e
   have hFle : F ≤ (MulAut.conj : Q →* MulAut Q).range := by
@@ -404,10 +404,10 @@ theorem ks1012AutHyp_tripleCover (Q : Type) [Group Q] [Finite Q] (hq : CFSG.IsQu
   rcases hcases with rfl | rfl | rfl
   · obtain ⟨V, hV1, hV2, hV3⟩ := exists_V_of_bot Q hQ
     refine ⟨⊥, bot_le, ?_, V, hV1, hV2, hV3⟩
-    rw [Subgroup.card_bot, hn] <;> norm_num
+    rw [Subgroup.card_bot, hn]; norm_num
   · obtain ⟨V, hV1, hV2, hV3⟩ := exists_V_of_bot Q hQ
     refine ⟨⊥, bot_le, ?_, V, hV1, hV2, hV3⟩
-    rw [Subgroup.card_bot, hn] <;> norm_num
+    rw [Subgroup.card_bot, hn]; norm_num
   · have h3dvd : 3 ∣ Nat.card F := by rw [hn]; norm_num
     obtain ⟨g, hg⟩ := exists_orderOf_prime_of_natCard (G := ↥F) 3 h3dvd
     have hfF : (g : MulAut Q) ∈ F := g.2
@@ -422,7 +422,7 @@ theorem ks1012AutHyp_tripleCover (Q : Type) [Group Q] [Finite Q] (hq : CFSG.IsQu
     obtain ⟨V, hV1, hV2, hV3⟩ := exists_V_of_order_three hZ e hf3 hf1
     refine ⟨Subgroup.zpowers (g : MulAut Q), ?_, ?_, V, hV1, hV2, hV3⟩
     · exact Subgroup.zpowers_le.mpr hfF
-    · rw [hn, Nat.card_zpowers, hof] <;> norm_num
+    · rw [hn, Nat.card_zpowers, hof]; norm_num
 
 end CFSG.RankThree.PartTwo.Sec10.KS1012AutHyp
 

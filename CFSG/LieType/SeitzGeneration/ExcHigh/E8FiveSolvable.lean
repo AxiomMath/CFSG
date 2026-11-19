@@ -22,7 +22,7 @@ theorem isSolvable_comap_weylQuotient (τ : Tag) (L : Type) [Field L] (H : Subgr
         Group.IsSolvable ↥(H.comap ρ) := by
   obtain ⟨-, ⟨ρ, -, hmaps, -, -, hker⟩, -⟩ := Weyl_normalizer_quotient τ L
   refine ⟨ρ, hmaps, ?_⟩
-  haveI := isSolvable_torusGroup τ L
+  have := isSolvable_torusGroup τ L
   let incl : torusGroup τ L →* monomialSubgroup τ L :=
     Subgroup.inclusion (le_sup_left : torusGroup τ L ≤ monomialSubgroup τ L)
   have hincl : ∀ t, ρ (incl t) = 1 := fun t => by
@@ -81,7 +81,7 @@ theorem isSolvable_centralizer_of_familyStab {τ : Tag} {K : Type} [Field K] [Fi
     MonoidHom.codRestrict ((diagMap D).comp (Subgroup.subtype _)) _ hmem
   have hψ : Function.Injective ψ := fun g g' h =>
     Subtype.ext (diagMap_injective D (congrArg Subtype.val h))
-  haveI := hHs
+  have := hHs
   obtain ⟨ρ, hρmaps, hsolv⟩ := isSolvable_comap_weylQuotient τ (AlgebraicClosure K) H
   have hρψ : ∀ g, ρ (ψ g) ∈ H := by
     intro g
@@ -97,7 +97,7 @@ theorem isSolvable_centralizer_of_familyStab {τ : Tag} {K : Type} [Field K] [Fi
     exact hw
   let ψ' : Subgroup.centralizer (E₀ : Set (adjointGroup τ K)) →*
       ↥(H.comap ρ) := ψ.codRestrict (H.comap ρ) hρψ
-  haveI := hsolv
+  have := hsolv
   exact Group.isSolvable_of_isSolvable_injective (f := ψ') fun g g' h =>
     hψ (congrArg Subtype.val h)
 

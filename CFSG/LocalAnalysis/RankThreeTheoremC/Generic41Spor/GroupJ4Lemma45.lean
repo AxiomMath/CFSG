@@ -85,7 +85,7 @@ private theorem twoWitness_of_equiv_centerTrans {K K' : Type} [Group K] [Group K
     (T₀ : Sylow p K') {u₀ : K'} (hu₀ : u₀ ∈ Zin (T₀ : Subgroup K')) (hu₀1 : u₀ ≠ 1)
     (h₀ : TwoWitness u₀) :
     ∀ S : Sylow p K, ∀ u ∈ Zin (S : Subgroup K), u ≠ 1 → TwoWitness u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S₀ : Sylow p K := Sylow.mapSurjective (f := e.symm.toMonoidHom) e.symm.surjective T₀
   have hS₀ : (S₀ : Subgroup K) = (T₀ : Subgroup K').map e.symm.toMonoidHom := rfl
   have hu₀' : e.symm u₀ ∈ Zin (S₀ : Subgroup K) := by
@@ -169,7 +169,7 @@ theorem j4_witness : ∀ (K : Type) [Group K] [Finite K], IsJ4Type 11 K →
   have eKJ : K ≃* J :=
     e.trans ((CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv.some).symm.trans
       (seedEquiv j4Facts.mat))
-  haveI : Finite J := Finite.of_equiv K eKJ.toEquiv
+  have : Finite J := Finite.of_equiv K eKJ.toEquiv
   have hZ : Zin (Q11Sylow : Subgroup J) = Subgroup.zpowers qz := by
     rw [Q11Sylow_coe]
     exact center_Q11
@@ -187,8 +187,8 @@ section Step3
 theorem j4_lemma45 : Lemma45Facts IsJ4Type 11 J4Shape := by
   refine lemma45Facts_of_inner (by norm_num) (by norm_num) ?_
   intro X _ _ K hK R U₀ hUR hUe hUc hshape
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : K.Normal := hK.1
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : K.Normal := hK.1
   obtain ⟨hne, hcomm⟩ := hshape
   obtain ⟨⟨u, hu⟩, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have hu1' : u ≠ 1 := fun h => hu1 (Subtype.ext h)

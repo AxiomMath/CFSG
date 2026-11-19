@@ -84,7 +84,7 @@ theorem fieldSU4_w4 (φ : K ≃+* K) : fieldSU4 φ w4 = w4 := by
 abbrev R₃ : Subgroup SU4 := torusExt (rot3 (R := ZMod 3)) tau3 w4 w4_pow_three w4_mul_tau3
 
 theorem card_R₃ : Nat.card R₃ = 81 := by
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
   rw [card_torusExt tau3_injective w4_pow_three w4_mul_tau3 rot3_ne, Nat.card_fun, Nat.card_fin,
     Nat.card_zmod]
   norm_num
@@ -101,7 +101,7 @@ theorem w4_mem_R₃ : w4 ∈ R₃ := ⟨0, 1, by rw [ofAdd_zero, map_one, one_mu
 
 theorem central_R₃ {z : SU4} (hz : z ∈ R₃) (hc : ∀ q ∈ R₃, q * z = z * q) :
     ∃ a : ZMod 9, z = tau4 (.ofAdd fun _ => a) := by
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
   obtain ⟨v, j, rfl⟩ := hz
   obtain ⟨r, hr, hzr⟩ : ∃ r < 3, tau3 (.ofAdd v) * w4 ^ j = tau3 (.ofAdd v) * w4 ^ r :=
     ⟨j % 3, Nat.mod_lt _ (by norm_num), by rw [← pow_eq_pow_mod j w4_pow_three]⟩
@@ -172,7 +172,7 @@ theorem exists_sylow_central {α : MulAut SU4} (hα3 : α ^ 3 = 1) (hα1 : field
     (hcard : Nat.card (fixSub α) = 25920) {S : Subgroup SU4} (hSF : S ≤ fixSub α)
     (hS : Nat.card S = 81) {z : SU4} (hzS : z ∈ S) (hzc : ∀ q ∈ S, q * z = z * q) :
     ∃ Q : Sylow 3 SU4, z ∈ (Q : Subgroup SU4) ∧ ∀ q ∈ (Q : Subgroup SU4), q * z = z * q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h, hh⟩ := exists_conj_fieldSU4 hα3 hα1
   have hφ3 : fieldFactor4 α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   set F := fixSub α with hF
@@ -228,14 +228,14 @@ theorem isSimple_of_u4two {S : Type} [Group S] (h : catalogIs S S9.isU4two) : Is
   have hPS : IsSimpleGroup CFSG.GH74.Exceptional.PSp43 :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 3) 2 (by norm_num)
       (Or.inr (Or.inl ⟨by rw [Nat.card_eq_fintype_card, ZMod.card], le_rfl⟩))
-  haveI := hPS
+  have := hPS
   exact MulEquiv.isSimpleGroup eS
 
 theorem isCentralIn_of_surj {G : Type} [Group G] [Finite G] {L : Subgroup G} {M : Type} [Group M]
     [Finite M] (φ : ↥L →* M) (hφ : Function.Surjective φ) (hker : ¬ 3 ∣ Nat.card φ.ker) {y : ↥L}
     (hy : IsPGroup 3 (Subgroup.zpowers y)) (Q : Sylow 3 M) (hyQ : φ y ∈ (Q : Subgroup M))
     (hc : ∀ q ∈ (Q : Subgroup M), q * φ y = φ y * q) : IsCentralIn 3 (y : G) L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨W, hW3, hyW, hWmap, hWinj⟩ := exists_pSubgroup_lift_of_le Nat.prime_three φ hker Q.isPGroup
     (by rw [MonoidHom.range_eq_top_of_surjective φ hφ]; exact le_top) hy
     (by rw [MonoidHom.map_zpowers]; exact Subgroup.zpowers_le.2 hyQ)
@@ -381,7 +381,7 @@ theorem i307At_two_holds (G : Type) [Group G] [Finite G] (X L : Subgroup G) (b y
     (hL : GLAPComponent 3 X L) (hcat : catalogIs (PSimple 3 L) S9.isU4eight)
     (hFO : FieldOn 3 b L) (hb3 : b ^ 3 = 1) (hyc : IsCentralIn 3 y (Ipart 3 L b)) :
     IsCentralIn 3 y L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb : b ∈ Subgroup.normalizer (L : Set G) := hFO.1
   have hZ := center_pquot_eq_bot_of_u48 hL hcat
   let e := pqModelP hZ hcat
@@ -421,10 +421,10 @@ theorem i307At_two_holds (G : Type) [Group G] [Finite G] (X L : Subgroup G) (b y
   have hψk : ¬ 3 ∣ Nat.card ψ.ker :=
     restrictTo_ker (piOf L e) F hYL hπF (not_three_dvd_card_ker_piOf e)
   have hcardF' : Nat.card ↥F = 25920 := hcardF
-  haveI hsimp : IsSimpleGroup ↥F := isSimple_of_u4two hcatF
+  have hsimp : IsSimpleGroup ↥F := isSimple_of_u4two hcatF
   have hC : GLAPPrimeCore 3 ↥F = ⊥ := pPrimeCore_eq_bot_of_simple (by rw [hcardF']; norm_num)
   have hS : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup ↥F) := by
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥F) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup ↥F) := Subgroup.topEquiv.isSimpleGroup
     refine isQuasisimple_of_simple_nonabelian ?_
     intro hcomm
     have hp := (@Group.is_simple_iff_prime_card ↥(⊤ : Subgroup ↥F) _ hcomm).1 inferInstance
@@ -503,7 +503,7 @@ theorem i307At_one_holds (G : Type) [Group G] [Finite G] (X K E : Subgroup G) (z
     rw [hKcard, Nat.factorization_mul Nat.card_pos.ne' (by norm_num), Finsupp.add_apply,
       Nat.factorization_eq_zero_of_not_dvd hk2, factorization_two_25920, zero_add]
   obtain ⟨hzK, P', hP'K, hP'2, hzP', hP'c, hmax⟩ := hzc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : IsPGroup 2 (P'.subgroupOf K) := hP'2.of_equiv (Subgroup.subgroupOfEquivOfLe hP'K).symm
   have hP'card : Nat.card P' = 64 := by
     obtain ⟨R, hR⟩ := hW2.exists_le_sylow
@@ -556,7 +556,7 @@ theorem i307At_one_holds (G : Type) [Group G] [Finite G] (X K E : Subgroup G) (z
     Row49One.finite_psp43_three hzb1 hWcard hzbS hSbc hEbc hEbcard
   have haE : (a : G) ∈ E := Subgroup.mem_subgroupOf.1 ha
   have ha3 : a ^ 3 = 1 := Subtype.ext (by simpa using hEel.2 (a : G) haE)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h81 : (3 : ℕ) ^ (Nat.card CFSG.GH74.Exceptional.PSp43).factorization 3 = 81 := by
     rw [card_PSp43_eq, factorization_three_25920]; norm_num
   let SQ : Sylow 3 CFSG.GH74.Exceptional.PSp43 := Sylow.ofCard Q (by rw [hQcard, h81])

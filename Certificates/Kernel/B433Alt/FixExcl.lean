@@ -278,8 +278,8 @@ theorem mem_X {k : ℕ} (hk : k < 22) (ω : Fin 31671)
     refine not_mem_of_hub labFacts (Y := {r | (CFSG.KD.B4AX.NY.getD k 0).testBit r = true})
       (fun σ hσ r => ?_) hne' ?_ hm
     · have := stab_Y hk hσ r
-      simp only [Set.mem_setOf_eq, this]
-    · simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq, this]
+    · simp only [Set.mem_ofPred_eq]
       rw [hside]
       cases (CFSG.KD.B4AX.NY.getD k 0).testBit h.1 <;> simp
   · rw [hX, Bool.true_and, Bool.true_xor, Bool.not_eq_false'] at hne

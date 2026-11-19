@@ -29,16 +29,19 @@ variable {G : Type} [Group G] [Finite G]
     ↥X →* LGL 2 (Additive ↥(eSub V₀ X T)) :=
   CFSG.Goldschmidt.G2.conjRep (A := eSub V₀ X T) (le_normalizer_conjClosure _ _)
 
+omit [Finite G] in
 theorem eRep_apply (V₀ X T : Subgroup G) [Fact (IsElemAbelian 2 (eSub V₀ X T))] (x : ↥X)
     (v : Additive ↥(eSub V₀ X T)) :
     ((Additive.toMul (eRep V₀ X T x v) : ↥(eSub V₀ X T)) : G) =
       (x : G) * (Additive.toMul v : ↥(eSub V₀ X T)) * (x : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 theorem ker_eRep (V₀ X T : Subgroup G) [Fact (IsElemAbelian 2 (eSub V₀ X T))] :
     (eRep V₀ X T).ker = (X ⊓ centralizer (eSub V₀ X T : Set G)).subgroupOf X :=
   CFSG.Goldschmidt.G2.ker_conjRep (A := eSub V₀ X T) (le_normalizer_conjClosure _ _)
 
+omit [Finite G] in
 theorem exists_eRepBar (M V₀ X T : Subgroup G) [Fact (IsElemAbelian 2 (eSub V₀ X T))]
     (hK : kerMOf M X ≤ centralizer (eSub V₀ X T : Set G)) :
     ∃ ρ : KerQuot M X →* LGL 2 (Additive ↥(eSub V₀ X T)),

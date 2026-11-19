@@ -59,7 +59,7 @@ theorem pRank_adjoint_le_fixed_entrywise_anychar_E {p : ℕ} (hp1 : 1 < p) (τ :
   omega
 
 theorem descent_fixed_adjoint_E {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {ℓ f p : ℕ}
-    (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hp : p.Prime) (hp5 : 5 ≤ p) (hne : ℓ ≠ p) (K : Type) [Field K]
+    (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hp : p.Prime) (hp5 : 5 ≤ p) (_hne : ℓ ≠ p) (K : Type) [Field K]
     [Finite K] (hK : Nat.card K = ℓ ^ f) (α : MulAut (adjointGroup τ K)) (hαp : α ^ p = 1)
     (hα : α ∉ inner (adjointGroup τ K)) :
     p ∣ f ∧ ∃ (k : Type) (_ : Field k) (_ : Finite k), Nat.card k = ℓ ^ (f / p) ∧

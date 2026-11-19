@@ -108,7 +108,7 @@ theorem uc22s2114r3l_three_le_pRank_three (hGA : GriessAllModelsStatement) {M L 
       omega
     have h1 := uc22s2114r3l_pRank_eq_rkLin hGA hL hf2 hX Nat.prime_three (by norm_num)
     have h2 := uc22p20v_rkLin_true_one_of_not_dvd (m := 4) (z := Nat.card (center (Bar2 L)))
-      (by rw [uc22p20v_eP_three, if_pos hev]) (by norm_num)
+      (by rw [uc22p20v_eP_three, ite_eq_left hev]) (by norm_num)
     omega
   · have h1 := uc22s2114r3l_pRank_eq_rkSp hGA hL hX Nat.prime_three (by norm_num)
     have h2 := uc22p20v_rkSp_of_eS (l := 3) (uc22p20v_eS_three f)

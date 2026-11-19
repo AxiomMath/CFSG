@@ -16,8 +16,8 @@ theorem ggL45E67Config_entrywise_of_frame
     (σ : K ≃+* K) : GGL45E67Config (entrywiseAdjointAut τ σ) d := by
   classical
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hρu : ∀ i : Fin (d + 1),
       TableBExcTwo.rho K F i (uSL (1 : K)) =
         ⟨pinnedX τ K (F.root i) 1, pinnedX_mem_adjointGroup (F.root i) 1⟩ := by
@@ -53,7 +53,7 @@ theorem ggL45E67Config_entrywise_of_frame
         (Multiplicative.ofAdd (1 : ZMod 3))) = TableBExcTwo.torusGen K F i
     rw [TableBExcTwo.torusD, MonoidHom.noncommPiCoprod_mulSingle,
       TableBExcTwo.torusCoord_apply, TableBExcTwo.torusGen, toAdd_ofAdd]
-    haveI : Fact (1 < 3) := ⟨by norm_num⟩
+    have : Fact (1 < 3) := ⟨by norm_num⟩
     rw [ZMod.val_one, pow_one]
   have hfixP : ∀ {β : Fin τ.rank → ℤ} {c : K}
       (hβ : pinnedX τ K β c ∈ adjointGroup τ K),
@@ -137,10 +137,10 @@ theorem ggL45E67Config_entrywise_E6
     GGL45E67Config (entrywiseAdjointAut .E6 σ) 4 := by
   classical
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
-  haveI : NeZero Tag.E6.rank := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
+  have : NeZero Tag.E6.rank := ⟨by decide⟩
   have hUp : (parabolicRadical .E6 K TableBExc.E6Three.jE6Two).subgroupOf
       (adjointGroup .E6 K) ≠ ⊥ := by
     intro hbot

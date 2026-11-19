@@ -43,8 +43,8 @@ theorem kFactCenterCyclicGeFive_of_tables
     (hGA : CFSG.Open.GriessAllModelsStatement) (hSp : SporadicMultipliers) :
     KFactCenterCyclicGeFive := by
   intro K _ _ hq hcat p hp hp5 P hPZ hP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect K := ⟨hq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect K := ⟨hq.1⟩
   obtain ⟨i, ⟨e⟩⟩ := hcat
   cases i with
   | cyclic q hq' =>
@@ -89,6 +89,7 @@ theorem zpowers_eq_of_isCyclic_sup {c d : G} (hcyc : IsCyclic ↥(zpowers c ⊔ 
   have := congrArg (Subgroup.map Q.subtype) h
   rwa [map_subgroupOf_eq_of_le hcQ, map_subgroupOf_eq_of_le hdQ] at this
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow_prime_eq_one {g : G} (hg : g ^ p = 1) :
     IsPGroup p (zpowers g) :=
   IsPGroup.of_card_dvd_pow (n := 1) (by
@@ -119,7 +120,7 @@ theorem GL83PElementCentralizesOmegaCenterAt.of_kFact {p : ℕ} (hp5 : 5 ≤ p)
     (h : KFactCenterCyclicGeFive) : GL83PElementCentralizesOmegaCenterAt p := by
   intro X _ _ hcat K x hp _ hK hxN hxp c hcK hcc hcp
   obtain ⟨k, hxk⟩ := hxp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxK : ∀ g, g ∈ K ↔ x * g * x⁻¹ ∈ K := fun g => mem_normalizer_iff.1 hxN g
   have hxc : x * c * x⁻¹ ∈ K := (hxK c).1 hcK
   have hxK' : ∀ g ∈ K, x⁻¹ * g * x ∈ K := fun g hg => by

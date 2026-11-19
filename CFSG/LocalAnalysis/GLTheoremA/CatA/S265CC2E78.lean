@@ -79,12 +79,12 @@ theorem three_pow_seven_le_card {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup �
     obtain ⟨idx, hv⟩ := d
     cases idx with
     | E7 q =>
-      simp only [isE7TwoIdx, isE8TwoIdx, onLie, or_false, false_or] at hi
+      simp only [isE7TwoIdx, isE8TwoIdx, onLie, or_false] at hi
       obtain ⟨K, hKf, hKfin, hKcard, -, ⟨eAdj⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-      letI : Field K := hKf
-      letI : Finite K := hKfin
+      let : Field K := hKf
+      let : Finite K := hKfin
       have hK2 : Nat.card K = 2 := hKcard.trans hi
       have hcharK : CharP K 2 :=
         CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hK2]; norm_num)
@@ -95,12 +95,12 @@ theorem three_pow_seven_le_card {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup �
           CFSG.StandardType.TableBExcTwo.ggTorusLift_E7Two
       exact key 6 hlift
     | E8 q =>
-      simp only [isE7TwoIdx, isE8TwoIdx, onLie, or_false, false_or] at hi
+      simp only [isE7TwoIdx, isE8TwoIdx, onLie, false_or] at hi
       obtain ⟨K, hKf, hKfin, hKcard, -, ⟨eAdj⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-      letI : Field K := hKf
-      letI : Finite K := hKfin
+      let : Field K := hKf
+      let : Finite K := hKfin
       have hK2 : Nat.card K = 2 := hKcard.trans hi
       have hcharK : CharP K 2 :=
         CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by rw [hK2]; norm_num)
@@ -213,7 +213,7 @@ theorem false_of_te6_data {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω}
     (S9.nonempty_pSimple_equiv (p := 3) hc.prime hact.comp hKq).some.symm.trans eCatK
   set ρ : ↥B →* MulAut (TauCeti.CFSGIndex.lie d).Group :=
     KD264Lie.kd264Rho hBN eK with hρdef
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ eK.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ eK.toEquiv
   have h5 : 5 ≤ CFSG.Open.pRank 3 ρ.range := five_le_pRank_range h hS h3K eK
   have hρab : IsElemAbelian 3 ρ.range := by
     have htop : IsElemAbelian 3 (⊤ : Subgroup ↥B) := by
@@ -287,7 +287,7 @@ theorem false_of_qsnl_te6_e78 {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω}
     obtain ⟨idx, hv⟩ := d
     cases idx with
     | twistedE6 q =>
-      simp only [S9.isTE6two, onLie, or_false, false_or] at hi
+      simp only [S9.isTE6two, onLie] at hi
       exact false_of_te6_data h hKc hS rfl hi eCatK
     | _ => exact absurd hi (by simp [S9.isTE6two, onLie])
   | _ => exact absurd hi (by simp [S9.isTE6two, onLie])

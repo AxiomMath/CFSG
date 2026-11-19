@@ -35,7 +35,7 @@ theorem index_omegaProj (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (ZMod 
       Subgroup.index_top, mul_one, QuotientGroup.ker_mk']
   rw [hmap]
   by_cases hmem : piOrth Q ∈ omegaGroup hQ
-  · rw [if_pos hmem]
+  · rw [ite_eq_left hmem]
     have hle : piGroup Q ≤ omegaGroup hQ := by
       intro g hg
       rcases mem_piGroup_iff.mp hg with rfl | rfl
@@ -43,7 +43,7 @@ theorem index_omegaProj (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (ZMod 
       · exact hmem
     rw [sup_eq_left.mpr hle]
     exact index_omegaGroup hQ h2
-  · rw [if_neg hmem]
+  · rw [ite_eq_right hmem]
     have hrel : (omegaGroup hQ).relIndex (omegaGroup hQ ⊔ piGroup Q) = 2 := by
       rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and]
       refine ⟨piOrth Q, Subgroup.mem_sup_right (mem_piGroup_iff.mpr (Or.inr rfl)), hmem, ?_⟩
@@ -62,7 +62,7 @@ theorem index_omegaProj (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (ZMod 
 theorem index_omegaProj_of_odd (hQ : Q.Nondegenerate) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
     (hn : Odd (Module.finrank (ZMod 3) V)) : (omegaProj hQ).index = 2 := by
   rw [index_omegaProj hQ h2,
-    if_neg (fun hmem => (Nat.not_even_iff_odd.mpr hn)
+    ite_eq_right (fun hmem => (Nat.not_even_iff_odd.mpr hn)
       ((piOrth_mem_omegaGroup_iff hQ).mp hmem).1)]
 
 open Classical in
@@ -72,7 +72,7 @@ theorem card_omegaProj_mul (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZMod
   have hcard : Nat.card (piGroup Q ⊓ omegaGroup hQ : Subgroup (OGroup Q)) =
       if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
     by_cases hmem : piOrth Q ∈ omegaGroup hQ
-    · rw [if_pos hmem]
+    · rw [ite_eq_left hmem]
       have hle : piGroup Q ≤ omegaGroup hQ := by
         intro g hg
         rcases mem_piGroup_iff.mp hg with rfl | rfl
@@ -80,7 +80,7 @@ theorem card_omegaProj_mul (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZMod
         · exact hmem
       rw [le_antisymm inf_le_left (le_inf le_rfl hle)]
       exact card_piGroup (Q := Q) h0
-    · rw [if_neg hmem]
+    · rw [ite_eq_right hmem]
       have hbot : piGroup Q ⊓ omegaGroup hQ = ⊥ := by
         apply le_antisymm
         · intro g hg

@@ -183,9 +183,9 @@ theorem prod_aut_fix_of_forall_eq_bot {Y₁ Y₂ : Type*} [Group Y₁] [Group Y�
   have hA₂ne : A.map (MonoidHom.snd Y₁ Y₂) ≠ ⊥ := by
     rw [ne_eq, Subgroup.eq_bot_iff_card, hcard₂]
     omega
-  haveI hnt₁ : Nontrivial ↥(A.map (MonoidHom.fst Y₁ Y₂)) :=
+  have hnt₁ : Nontrivial ↥(A.map (MonoidHom.fst Y₁ Y₂)) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hA₁ne
-  haveI hnt₂ : Nontrivial ↥(A.map (MonoidHom.snd Y₁ Y₂)) :=
+  have hnt₂ : Nontrivial ↥(A.map (MonoidHom.snd Y₁ Y₂)) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hA₂ne
   obtain ⟨a₁, ha₁, ha₁ne⟩ :=
     Subgroup.exists_ne_one_of_nontrivial (A.map (MonoidHom.fst Y₁ Y₂))

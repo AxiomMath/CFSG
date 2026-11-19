@@ -45,7 +45,6 @@ theorem ggK1Dd_dvd_of_zpowers {L G : Type*} [Group L] [Finite L] [Group G] [Fini
       exact h2
     · rintro _ ⟨u, hu, rfl⟩
       refine Subgroup.mem_inf.mpr ⟨⟨u, rfl⟩, ?_⟩
-      change ψ u ∈ Subgroup.centralizer ({ψ t} : Set G)
       rw [Subgroup.mem_centralizer_singleton_iff]
       have h := Subgroup.mem_centralizer_iff.mp hu t (by rw [hA]; exact Subgroup.mem_zpowers t)
       rw [← map_mul, ← map_mul, h]
@@ -67,7 +66,7 @@ theorem ggK1Dd_core_family {K : Type} [Field K] [Finite K] [CharP K 2]
       TauCeti.QuadraticMap.orthogonalGroup Q⁆ : Subgroup (V ≃ₗ[K] V))),
       LayerCores.IsSubCoreFamily (Subgroup.centralizer (A : Set _)) S ∧
         ∀ c, p ∣ Nat.card (S c) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup (V ≃ₗ[K] V) := TauCeti.QuadraticMap.orthogonalGroup Q
   let L : Subgroup (V ≃ₗ[K] V) := ⁅O, O⁆
   have hLO : L ≤ O := Subgroup.commutator_le_self O
@@ -108,13 +107,13 @@ theorem ggK1Dd_core_family {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem ggK1D_core_dvd_plus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
-    (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (hd : d = ggMultOrd p nf)
+    (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (_hd : d = ggMultOrd p nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} {m : List ℕ}
     (hm : GGK1DMultOf p nf d r K (x : GL (Fin r ⊕ Fin r) K) m) (hx : x ^ p = 1) :
     GGK1Dvd p (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K r)))
       (MulAut.conj (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K r)) x)) := by
   classical
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hpF : p ∣ Nat.card K ^ 2 - 1 := LayerPDiv.dvd_sq_sub_one (by rw [hK]; exact hdvd)
   let Qf : QuadraticForm K (Fin r ⊕ Fin r → K) := TableBOrth.qPlusForm K r
   let O : Subgroup ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
@@ -165,15 +164,15 @@ theorem ggK1D_core_dvd_plus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem ggK1D_core_dvd_minus {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
-    (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (hd : d = ggMultOrd p nf) {b c : K}
+    (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (_hd : d = ggMultOrd p nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} {m : List ℕ}
-    (hm : GGK1DMultOf p nf d r K (x : GL (LargeEvenMinusIdx (r - 1)) K) m) (hx : x ^ p = 1) :
+    (_hm : GGK1DMultOf p nf d r K (x : GL (LargeEvenMinusIdx (r - 1)) K) m) (hx : x ^ p = 1) :
     GGK1Dvd p (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (r - 1) b c)))
       (MulAut.conj (LargeEvenProjMk
         (LargeEvenOmega (LargeEvenQMinus (r - 1) b c)) x)) := by
   classical
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hpF : p ∣ Nat.card K ^ 2 - 1 := LayerPDiv.dvd_sq_sub_one (by rw [hK]; exact hdvd)
   let Qf : QuadraticForm K (LargeEvenMinusIdx (r - 1) → K) :=
     TableBOrth.qMinusForm K (r - 1) b c

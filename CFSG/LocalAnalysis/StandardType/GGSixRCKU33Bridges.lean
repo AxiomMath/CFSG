@@ -43,12 +43,12 @@ theorem mem_centralizer_of_conj_mul_center {X : Type} [Group X] [Finite X] {L : 
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul] at ha hb ⊢
         calc g * ((a : X) * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
           _ = a * b := by rw [ha, hb]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at ha ⊢
         calc g * (a : X)⁻¹ * g⁻¹ = (g * a * g⁻¹)⁻¹ := by group
           _ = (a : X)⁻¹ := by rw [ha] }
   have hF : commutator ↥L ≤ F := by
@@ -67,7 +67,7 @@ theorem u33_glaPPrimeCore_le_center {X : Type} [Group X] [Finite X] {p : ℕ} (h
     {L : Subgroup X}
     (hLq : CFSG.Open.IsQuasisimple ↥L) (hpL : p ∣ Nat.card ↥L) :
     CFSG.Open.GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLq' : CFSG.IsQuasisimple ↥L :=
     ⟨⟨hLq.1⟩, hLq.2,
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hLq⟩
@@ -143,7 +143,7 @@ theorem center_eq_ker_chevQuotHom {X : Type} [Group X] [Finite X] {p : ℕ} (hp 
       exact h1
     have hZ : Subgroup.center ↥L = ⊤ :=
       eq_top_iff.2 (hcore ▸ u33_glaPPrimeCore_le_center hp hLq hpL)
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥L ⧸ Subgroup.center ↥L)
     obtain ⟨l, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥L) q
     exact hq ((QuotientGroup.eq_one_iff _).2 (hZ ▸ Subgroup.mem_top l))

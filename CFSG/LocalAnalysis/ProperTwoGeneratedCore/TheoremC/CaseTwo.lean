@@ -71,7 +71,7 @@ theorem highRank_dichotomy {J : Subgroup X} (hJ : CFSG.IsComponent J) (huJ : u â
   rcases zStarStep ((CFSG.isComponent_iff_open J).mp hJ).2.2
       (even_card_of_orderOf_eq_two huJ hc.order) hy
       (mem_normalizer_component hc.oddCore_eq_bot P hyc hJ) inf_le_right
-      (P.isPGroup'.to_le inf_le_left)
+      (P.isPGroup.to_le inf_le_left)
       (fun _ hRJ hR => card_le_card_sylow_inf_of_isSubnormal P hJ.2 hRJ hR)
       (fun q hq => (Subgroup.mem_centralizer_iff.mp hyc q hq.1).symm) (Subgroup.map_subtype_le _)
       (by

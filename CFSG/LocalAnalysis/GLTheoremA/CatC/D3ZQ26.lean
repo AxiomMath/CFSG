@@ -29,7 +29,7 @@ theorem PhiHom_apply (Θ : adjointGroup Tag.D4 K ≃* D4Model K) (s : D4Model K)
     PhiHom Θ s = ((Θ.symm s : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) := rfl
 
 theorem PhiHom_injective (Θ : adjointGroup Tag.D4 K ≃* D4Model K) :
-    Function.Injective (PhiHom Θ) := fun s s' h => Θ.symm.injective (Subtype.ext h)
+    Function.Injective (PhiHom Θ) := fun _s _s' h => Θ.symm.injective (Subtype.ext h)
 
 theorem PhiHom_range (Θ : adjointGroup Tag.D4 K ≃* D4Model K) :
     (PhiHom Θ).range = adjointGroup Tag.D4 K := by
@@ -57,10 +57,10 @@ theorem d3A4Levi_holds : D3A4Levi := by
   intro K _ _ n hK b t₁ t₂ hb3 hbE ht₁2 ht₂2 hcomm hne₁ hne₂ hne₁₂ hbt₁ hbt₂ A hA hAbig hfb hf1 hf2
     V hAV hV1 hVp hVb hVt₁ hVt₂ hVc hVtop hVS hVsyl
   classical
-  haveI := charP_three_of_card hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have := charP_three_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hVm : ∀ τ : MulAut (D4Model K), V.map τ.toMonoidHom = V → ∀ h, τ h ∈ V ↔ h ∈ V := by
     intro τ hτ h

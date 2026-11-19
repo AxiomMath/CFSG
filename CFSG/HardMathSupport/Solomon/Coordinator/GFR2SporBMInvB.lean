@@ -40,7 +40,7 @@ theorem false_of_isHatSix_of_inverted_B {s d : NativeSporadic.B} (hs : orderOf s
     (hd : BabyInv 0 d) (hinv : d * s * d⁻¹ = s⁻¹) {K : Subgroup NativeSporadic.B}
     (hK : CFSG.Open.IsComponentOf K (Subgroup.centralizer ({s} : Set NativeSporadic.B)))
     (h : IsHatSix ↥K) : False := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hO := gLAPPrimeCoreOf_B_eq_bot_of_inverted_by_babyInv_zero hs hd hinv
   obtain ⟨H, hH, -, hcard, hHd, hHs, hHn, hCQ⟩ := B_inverted_data hs hd hinv
   have hdd : d * d = 1 := by

@@ -38,9 +38,9 @@ theorem two_dvd_card_of_lieModel_two_classical {S : Type} [Group S] {t : StatedL
       have h1 : 1 ≤ Q ^ i := Nat.one_le_pow _ _ hQ
       have hc : ((Q ^ i : ℕ) : ℤ) = (Q : ℤ) ^ i := Nat.cast_pow Q i
       rcases Nat.even_or_odd i with hi | hi
-      · rw [if_pos hi, hi.neg_one_pow]
+      · rw [ite_eq_left hi, hi.neg_one_pow]
         omega
-      · rw [if_neg (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
+      · rw [ite_eq_right (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
         omega
     rw [h2 rfl, hconv _ _ Nat.one_le_two_pow]
     exact (CFSG.OrderReductions.OrderParity.orderTwistedA_even (m - 1) (2 ^ f)

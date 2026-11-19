@@ -238,6 +238,7 @@ theorem exists_rational_model_minus_three (hn1 : 1 ≤ n)
     b', c', he, rfl, hcard', by rw [mul_comm]; exact hK, hσV, hσk, hirr',
     ⟨(coordinateMinusWitnessEquiv K hn1 b₁ c₁ e₁).trans Θ⟩⟩
 
+omit [Finite G] in
 theorem fieldAutData_minus_three (hpair : SubfieldPairOmegaMinusThree)
     (hM : StatedClassicalModel G .POmegaMinus n ℓ f) (hp : p.Prime) (hp3 : p = 3)
     (hpℓ : p ≠ ℓ) : FieldAutData G p := by
@@ -264,6 +265,7 @@ theorem fieldAutData_minus_three (hpair : SubfieldPairOmegaMinusThree)
         fun σ hσ => absurd ⟨σ, hσ⟩ hexP, fun σ τ hσ _ _ => absurd ⟨σ, hσ⟩ hexP⟩
     exact hdata.of_mulEquiv Θ hp
 
+omit [Finite G] in
 theorem fieldAutData_of_model_three (hpair : SubfieldPairOmegaThree) {c : StatedLieTag}
     (hc : c = .POmegaOdd ∨ c = .POmegaPlus ∨ c = .POmegaMinus)
     (hM : StatedClassicalModel G c n ℓ f) (hD4 : c = .POmegaPlus → n ≠ 4) (hp : p.Prime)

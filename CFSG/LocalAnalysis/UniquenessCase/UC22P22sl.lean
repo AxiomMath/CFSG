@@ -18,7 +18,7 @@ namespace P22s
 
 theorem Jj_zero (H : Subgroup G) : CFSG.ASVolI.ChB.Jj H 0 = thompsonJ H := by
   unfold CFSG.ASVolI.ChB.Jj
-  rw [if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero, CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
+  rw [ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero, CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
 
 theorem baumOf_eq (H : Subgroup G) : CFSG.ASVolI.ChB.baumOf H = baum H := by
   unfold CFSG.ASVolI.ChB.baumOf CFSG.Quasithin.baum
@@ -36,12 +36,14 @@ theorem isSolvable_kerIn {H T M : Subgroup G} (h : MinParabolic H T M) : Group.I
     (f := (Subgroup.subgroupOfEquivOfLe h.kerIn_le_H).toMonoidHom)
     (Subgroup.subgroupOfEquivOfLe h.kerIn_le_H).surjective
 
+omit [Finite G] in
 theorem le_of_perfect_of_solvable {L Y P : Subgroup G} (hY : Group.IsSolvable ↥Y)
     (hYL : Y ≤ normalizer (L : Set G)) (hP : P ≤ L ⊔ Y) (hPp : ⁅P, P⁆ = P) : P ≤ L :=
   (CFSG.Quasithin.le_perfectCore_of_perfect hP hPp).trans
     (CFSG.Quasithin.perfectCore_le_of_sup_solvable le_sup_left
       (Subgroup.normal_subgroupOf_of_le_normalizer (sup_le Subgroup.le_normalizer hYL)) rfl hY)
 
+omit [Finite G] in
 theorem conj_mem_of_perfect {L Y : Subgroup G} (hY : Group.IsSolvable ↥Y) (hYL : Y ≤ normalizer (L : Set G))
     (hLp : ⁅L, L⁆ = L) {x : G} (hx : ∀ l ∈ L, x * l * x⁻¹ ∈ L ⊔ Y) : ∀ l ∈ L, x * l * x⁻¹ ∈ L := by
   have hP : ⁅L.map (MulAut.conj x).toMonoidHom, L.map (MulAut.conj x).toMonoidHom⁆ =
@@ -53,6 +55,7 @@ theorem conj_mem_of_perfect {L Y : Subgroup G} (hY : Group.IsSolvable ↥Y) (hYL
   intro l hl
   exact hle ⟨l, hl, rfl⟩
 
+omit [Finite G] in
 theorem le_normalizer_of_autOn {L L₀ V S : Subgroup G} (hB : Group.IsSolvable ↥(L₀ ⊓ centralizer (V : Set G)))
     (hL₀L : L₀ ≤ normalizer (L : Set G)) (hLL₀ : L ≤ L₀) (hLp : ⁅L, L⁆ = L) (hLV : L ≤ normalizer (V : Set G))
     (hSV : S ≤ normalizer (V : Set G)) (hSL₀ : S ≤ normalizer (L₀ : Set G))
@@ -96,9 +99,9 @@ theorem coe_slEquiv_symm (F : Type) [Field F] (x : ↥(StatedSL 2 F)) :
   rw [MulEquiv.symm_apply_apply]
   rfl
 
-theorem eq_one_of_central {F : Type} [Field F] [Fintype F] {e : ℕ} (hF : Fintype.card F = 2 ^ e) (he : 1 ≤ e)
+theorem eq_one_of_central {F : Type} [Field F] [Fintype F] {e : ℕ} (hF : Fintype.card F = 2 ^ e) (_he : 1 ≤ e)
     {A : ↥(StatedSL 2 F)} (hA : ∀ B : ↥(StatedSL 2 F), A * B = B * A) : A = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchp : CharP F 2 := charP_of_card_eq_prime_pow hF
   set A' : Matrix.SpecialLinearGroup (Fin 2) F := (slEquiv F).symm A with hA'
   have hcen : A' ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) := by
@@ -126,6 +129,7 @@ section Natural
 
 variable {L V : Subgroup G} {F : Type} [Field F] [Fintype F]
 
+omit [Finite G] [Fintype F] in
 theorem alpha_conj_eq (α : ↥L →* ↥(StatedSL 2 F)) (β : ↥⁅V, L⁆ →* Multiplicative (Fin 2 → F))
     (hβ : Function.Surjective β)
     (hβα : ∀ (l : ↥L) (u v : ↥⁅V, L⁆), (v : G) = l * u * l⁻¹ →
@@ -159,6 +163,7 @@ theorem alpha_conj_eq (α : ↥L →* ↥(StatedSL 2 F)) (β : ↥⁅V, L⁆ →
   have h3 := hβα l ⟨g⁻¹ * u * g, hu'⟩ ⟨_, hu''⟩ rfl
   rw [← h1, h2, h3, ← hβu]
 
+omit [Finite G] [Fintype F] in
 theorem mem_centralizer_of_trivial (α : ↥L →* ↥(StatedSL 2 F))
     (hαk : α.ker = (L ⊓ centralizer (V : Set G)).subgroupOf L)
     (β : ↥⁅V, L⁆ →* Multiplicative (Fin 2 → F)) (hβ : Function.Surjective β)
@@ -245,13 +250,13 @@ theorem le_commutator_of_inner {S : Subgroup G} {e : ℕ} (hF : Fintype.card F =
     (hSL : S ≤ normalizer (L : Set G)) (hSV : S ≤ normalizer (V : Set G))
     (hinn : ∀ b ∈ S, ∃ l ∈ L, ∀ u v : ↥⁅V, L⁆, (v : G) = (l⁻¹ * b) * u * (l⁻¹ * b)⁻¹ → β v = β u)
     (hne : ¬ S ≤ centralizer ((⁅V, L⁆ : Subgroup G) : Set G)) : L ≤ ⁅S, L⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWV : ⁅V, L⁆ ≤ V := Subgroup.le_normalizer_iff_commutator_le_left.mp hLV
   have hNL : ⁅S, L⁆ ≤ L := by
     rw [Subgroup.commutator_comm]
     exact Subgroup.le_normalizer_iff_commutator_le_left.mp hSL
   have hLN : L ≤ normalizer ((⁅S, L⁆ : Subgroup G) : Set G) := Subgroup.normalizer_commutator_ge_right S L
-  haveI hNn : ((⁅S, L⁆ : Subgroup G).subgroupOf L).Normal :=
+  have hNn : ((⁅S, L⁆ : Subgroup G).subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNL).2 hLN
   have hcentral : ∀ x : ↥L, (∀ l : ↥L, α x * α l = α l * α x) → (x : G) ∈ centralizer (V : Set G) := by
     intro x hx
@@ -341,7 +346,7 @@ theorem uc22p22sl_b610 {D : Data G} {Ch : Choice2011 G} (h204 : S20_4 D) (hH : H
       CFSG.QuasithinUnique.IsSylowTwoOf (proofS D) (⨆ l ∈ L, (proofS D).map (MulAut.conj l).toMonoidHom) ∧
       proofE D = (⁅VZ D.T (c.L0 ⊔ D.T), L⁆ ⊓ centralizer (thompsonJ D.T : Set G)) ⊔
         (proofE D ⊓ centralizer (L : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := c.L0 ⊔ D.T with hHdef
   set V₀ : Subgroup G := VZ D.T H with hV₀
   obtain ⟨hU, hJV, -, hred⟩ := uc22p22se_ffModule c hS7
@@ -364,7 +369,7 @@ theorem uc22p22sl_b610 {D : Data G} {Ch : Choice2011 G} (h204 : S20_4 D) (hH : H
   · have hle : c.L0 ⊓ centralizer (V₀ : Set G) ≤ kerIn (H ⊓ D.M) H :=
       (inf_le_inf_right _ le_sup_left).trans
         (hMP.inf_centralizer_le_kerIn hred (uc22p22se_not_le_centralizer_V0 c))
-    haveI := isSolvable_kerIn hMP
+    have := isSolvable_kerIn hMP
     have hB : Group.IsSolvable ↥(c.L0 ⊓ centralizer (V₀ : Set G)) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
     exact le_normalizer_of_autOn hB hL0L hLL0 hLp hLN

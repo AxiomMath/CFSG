@@ -34,7 +34,7 @@ theorem fz410x_fz410_fusk_normalizes_Z (D : Fz410Set t L S T x₁ x₂ lam rho t
     rw [Subgroup.mem_map] at hy
     obtain ⟨x, hx, hconj⟩ := hy
     rw [← hconj]
-    have hconj' : (MulAut.conj k⁻¹).toMonoidHom x = k⁻¹ * x * k := by simp [MulAut.conj_apply]
+    have hconj' : (MulAut.conj k⁻¹).toMonoidHom x = k⁻¹ * x * k := by simp
     rw [hconj']
     exact hCkay x hx
   have hCkaycard : Nat.card Ckay = 64 := by
@@ -112,7 +112,7 @@ theorem fz410x_fz410_fusk_normalizes_Z (D : Fz410Set t L S T x₁ x₂ lam rho t
     rw [Subgroup.mem_map] at hz
     obtain ⟨w, hw, hconj⟩ := hz
     rw [← hconj]
-    have hconj' : (MulAut.conj k⁻¹).toMonoidHom w = k⁻¹ * w * k := by simp [MulAut.conj_apply]
+    have hconj' : (MulAut.conj k⁻¹).toMonoidHom w = k⁻¹ * w * k := by simp
     rw [hconj']
     have hwR : w ∈ R := hw.1
     have hwz : w * x ^ 2 = x ^ 2 * w := by
@@ -271,7 +271,7 @@ theorem fz410x_fz410_fusk_normalizes_Z (D : Fz410Set t L S T x₁ x₂ lam rho t
     rw [hCS_eq_Ckay, Subgroup.mem_map] at hx
     obtain ⟨w, hw, hconj⟩ := hx
     rw [← hconj]
-    have hconj' : (MulAut.conj k⁻¹).toMonoidHom w = k⁻¹ * w * k := by simp [MulAut.conj_apply]
+    have hconj' : (MulAut.conj k⁻¹).toMonoidHom w = k⁻¹ * w * k := by simp
     rw [hconj']
     have hwR : w ∈ R := hw.1
     have hw2Z : w ^ 2 ∈ Z := D.facts.sqZ w hwR

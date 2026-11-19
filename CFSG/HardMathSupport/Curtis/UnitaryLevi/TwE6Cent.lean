@@ -19,8 +19,10 @@ variable (K : Type) [Field K] [Finite K] (σ : K →+* K)
   (foldEquiv : ↥(relWeylTwist TwistTag.E6) ≃* WeylGroup Tag.F4).toMonoidHom.comp
     ((psi1 K σ).codRestrict (relWeylTwist TwistTag.E6) (psi1_mem K σ))
 
+omit [Finite K] in
 theorem pi1_eq (g : ↥(N1 K σ)) : pi1 K σ g = foldEquiv ⟨psi1 K σ g, psi1_mem K σ g⟩ := rfl
 
+omit [Finite K] in
 theorem pi1_eq_one_iff (g : ↥(N1 K σ)) : pi1 K σ g = 1 ↔ psi1 K σ g = 1 := by
   rw [pi1_eq]
   constructor
@@ -31,6 +33,7 @@ theorem pi1_eq_one_iff (g : ↥(N1 K σ)) : pi1 K σ g = 1 ↔ psi1 K σ g = 1 :
     have : (⟨psi1 K σ g, psi1_mem K σ g⟩ : ↥(relWeylTwist TwistTag.E6)) = 1 := Subtype.ext h
     rw [this, map_one]
 
+omit [Finite K] in
 theorem pi1_iota0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t : Fin 4 → ↥(Cq K q)) :
     pi1 K σ (iota0 K σ hq hσ t) = 1 :=
   (pi1_eq_one_iff K σ _).2 (psi1_iota0 K σ hq hσ t)
@@ -41,6 +44,7 @@ theorem pi1_iota0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (t : Fin 4 
 theorem Afold_wordW (l : List (Fin Tag.F4.rank)) : Afold (wordW Tag.F4 l) = SM l :=
   latMat_wordW Tag.F4 l
 
+omit [Finite K] in
 theorem conj_iota0_pi1 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (g : ↥(N1 K σ))
     (t : Fin 4 → ↥(Cq K q)) :
     g * iota0 K σ hq hσ t * g⁻¹ =
@@ -78,7 +82,7 @@ theorem exists_lift_What1_pi1 (Q : Subgroup (WeylGroup Tag.F4)) (hQ : IsPGroup 3
 
 theorem exists_omega_Cq {q : ℕ} (hq : 1 < q) (hK : Nat.card K = q ^ 2) (h3 : 3 ∣ q - 1) :
     ∃ ω : ↥(Cq K q), orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : 3 ∣ Nat.card ↥(Cq K q) := by rwa [card_Cq K hq hK]
   exact exists_prime_orderOf_dvd_card' 3 this
 
@@ -199,6 +203,7 @@ theorem boundB_tw {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) (hK : Nat.c
     (fun i => pair_nine lx (ys i) hW1 (hWy i).1 hW2 (hWy i).2.1 (hWy i).2.2.1 (hWy i).2.2.2.1
       (hWy i).2.2.2.2)
 
+omit [Finite K] in
 theorem exists_What1_pi1_lift (w : WeylGroup Tag.F4) : ∃ g ∈ What1 K σ, pi1 K σ g = w := by
   obtain ⟨g, hg, hgw⟩ := exists_What1_lift K σ (foldEquiv.symm w).2
   refine ⟨g, hg, ?_⟩
@@ -211,6 +216,7 @@ theorem exists_What1_pi1_lift (w : WeylGroup Tag.F4) : ∃ g ∈ What1 K σ, pi1
   ∀ s : ↥(N1 K σ), s ∈ torusT K σ hq hσ ⊔ What1 K σ → pi1 K σ s = x → s ^ 3 = 1 →
     81 ∣ Nat.card (Subgroup.centralizer ({s} : Set ↥(N1 K σ)))
 
+omit [Finite K] in
 theorem BdTw.inv {q : ℕ} {hq : 1 < q} {hσ : ∀ c, σ c = c ^ q} {x : WeylGroup Tag.F4}
     (h : BdTw K σ hq hσ x) : BdTw K σ hq hσ x⁻¹ := by
   intro s hs hsx hs3
@@ -332,7 +338,7 @@ theorem exists_sylow_centralizer_kill_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
       Nat.card Q = 3 ^ (Nat.card ↥(graphFixedRootGroup TwistTag.E6 K σ)).factorization 3 ∧
         ∀ s ∈ Q, s ^ 3 = 1 → s ≠ 1 →
           81 ∣ Nat.card (Subgroup.centralizer ({s} : Set ↥(graphFixedRootGroup TwistTag.E6 K σ))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : 1 < ℓ ^ f := Nat.one_lt_pow (by omega) hℓ.one_lt
   have h3 : 3 ∣ ℓ ^ f - 1 := by omega
   obtain ⟨P, hP⟩ := exists_sylow_le_G K σ hℓ hf hK hσ hq3

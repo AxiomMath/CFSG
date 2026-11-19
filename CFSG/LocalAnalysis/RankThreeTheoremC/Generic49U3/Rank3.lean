@@ -63,7 +63,7 @@ theorem u3_rank3_absorb (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     ∀ H : Subgroup G, IsTwoLocal H → u3U0 P x J ≤ H → 3 ≤ CFSG.Open.pRank p H → H ≤ M := by
   intro H hH hUH hH3
   have hpp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨hTcard, hTexp, hTnc, hxJ⟩ := u3_T_structure hc
   obtain ⟨hxP, hLO, -, -⟩ := hc.generic
   obtain ⟨-, -, hxp, -, -⟩ := hLO
@@ -82,7 +82,7 @@ theorem u3_rank3_absorb (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
   have hZT : u3ZT P x J ≤ u3T P x J := fun a ha => (hZsplit a ha).1
   have hZcard : Nat.card (u3ZT P x J : Subgroup G) = p :=
     card_inf_centralizer_of_nonabelian_card_p_cube hTcard hTnc
-  haveI : Nontrivial (u3ZT P x J : Subgroup G) :=
+  have : Nontrivial (u3ZT P x J : Subgroup G) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hZcard]; exact hpp.one_lt)
   obtain ⟨c, hcZ, hc1⟩ : ∃ c : G, c ∈ u3ZT P x J ∧ c ≠ 1 := by
     obtain ⟨c', hc'1⟩ := exists_ne (1 : ↥(u3ZT P x J))
@@ -94,7 +94,7 @@ theorem u3_rank3_absorb (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     (Subgroup.mem_centralizer_iff.mp (hZsplit a ha).2 b hb).symm
   obtain ⟨t, htT, htZ⟩ : ∃ t ∈ u3T P x J, t ∉ u3ZT P x J := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hTnc
     refine ⟨⟨fun a b => ?_⟩⟩
     exact Subtype.ext (hZc a.1 (hcon a.1 a.2) b.1 b.2)

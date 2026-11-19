@@ -38,7 +38,7 @@ theorem wordP_congr {f f' : ℕ → M} {nG : ℕ} (h : ∀ g < nG, f g = f' g) :
     split
     · rfl
     · rename_i h0
-      rw [if_neg h0] at hw
+      rw [ite_eq_right h0] at hw
       obtain ⟨hl, hw⟩ := Bool.and_eq_true_iff.1 hw
       have := of_decide_eq_true hl
       rw [h _ (by omega), wordP_congr h n _ hw]
@@ -54,9 +54,9 @@ theorem matK_walkM (G : List ℕ) : ∀ n w acc, matK (Nat.rec (motive := fun _ 
     change matK (strictN (Nat.land w 15) _) = _
     rw [strictN_eq, land15, wordP]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw, hw, mul_one]
+    · rw [ite_eq_left hw, hw, mul_one]
       rfl
-    · rw [if_neg hw, beq_false hw]
+    · rw [ite_eq_right hw, beq_false hw]
       change matK (strictN _ _) = _
       rw [strictN_eq, matK_walkM G n, matK_mulWK, shr4, mul_assoc]
       rfl
@@ -94,8 +94,8 @@ theorem phiR_single (row : ℕ → ℕ) (s : ℕ) : ∀ n, phiR row n (2 ^ s) = 
     · have h' : decide (s = n) = false := decide_eq_false h
       rw [h']
       by_cases hs : s < n
-      · rw [if_pos hs, if_pos (by omega)]
-      · rw [if_neg hs, if_neg (by omega)]
+      · rw [ite_eq_left hs, ite_eq_left (by omega)]
+      · rw [ite_eq_right hs, ite_eq_right (by omega)]
 
 section Walk
 
@@ -164,9 +164,9 @@ theorem el_walkC {D : Co1RankTab.Dat} {b w gg : ℕ → G}
     change strictN (Nat.land wd 15) _ < _ ∧ el D.d b w (strictN (Nat.land wd 15) _) = _
     rw [strictN_eq, land15, wordP]
     by_cases h0 : wd % 16 = 0
-    · rw [if_pos h0, h0, mul_one]
+    · rw [ite_eq_left h0, h0, mul_one]
       exact ⟨hx, rfl⟩
-    · rw [if_neg h0] at hw ⊢
+    · rw [ite_eq_right h0] at hw ⊢
       rw [beq_false h0]
       obtain ⟨hl, hw⟩ := Bool.and_eq_true_iff.1 hw
       have := of_decide_eq_true hl
@@ -177,7 +177,6 @@ theorem el_walkC {D : Co1RankTab.Dat} {b w gg : ℕ → G}
       obtain ⟨h3, h4⟩ := el_walkC hc hsq hrel n (wd / 16) _ h1 hw
       refine ⟨h3, ?_⟩
       rw [h4]
-      change el D.d b w (stepC D x (wd % 16 - 1)) * _ = _
       rw [h2, mul_assoc]
 
 theorem cocycle_of_walks {D : Co1RankTab.Dat} {b w gg : ℕ → G}
@@ -279,7 +278,6 @@ theorem chkM_sound {D : Co1RankTab.Dat} (h : chkM D = true) :
       obtain ⟨a3, a4⟩ := bAnd_rk a2
       refine ⟨⟨recAnd_rk (p := fun t => mulWK (getM D.BS s) (getM D.BS t) =
           mulWK (getM D.BS t) (getM D.BS s)) a1 (fun t b' hb' => by
-            beta_reduce at hb'
             rw [strictB_eq', strictB_eq'] at hb'
             obtain ⟨c1, c2⟩ := bAnd_rk hb'
             exact ⟨Nat.eq_of_beq_eq_true c1, c2⟩), Nat.eq_of_beq_eq_true a3⟩, a4⟩)
@@ -292,14 +290,12 @@ theorem chkM_sound {D : Co1RankTab.Dat} (h : chkM D = true) :
       (∀ s < D.d, mulWK (getM D.WL j) (getM D.BS s) =
         mulWK (qOf D (phi D.d D.PHt j (Nat.shiftLeft 1 s))) (getM D.WL j))) h4
     (fun j b hb => by
-      beta_reduce at hb
       rw [strictB_eq'] at hb
       obtain ⟨a1, a2⟩ := bAnd_rk hb
       obtain ⟨a3, a4⟩ := bAnd_rk a2
       refine ⟨⟨recAnd_rk (p := fun g => mulWK (getM D.WL j) (getM D.G g) =
           mulWK (qOf D (Nat.shiftRight (relK D j g) 7)) (getM D.WL (Nat.land (relK D j g) 127)))
           a1 (fun g b' hb' => by
-            beta_reduce at hb'
             rw [strictB_eq'] at hb'
             obtain ⟨c1, c2⟩ := bAnd_rk hb'
             exact ⟨Nat.eq_of_beq_eq_true c1, c2⟩),
@@ -318,7 +314,6 @@ theorem chkM_sound {D : Co1RankTab.Dat} (h : chkM D = true) :
       fld(getL (Co1RankCand.getLL D.T2A (Nat.shiftRight j 3)) (Nat.land j 7), v, 1) = 1 →
       rankRC 24 24 (Nat.xor (eltM D (Nat.lor (Nat.shiftLeft j D.d) v)) oneK) = 8) h6
     (fun j b hb => by
-      beta_reduce at hb
       rw [strictB_eq'] at hb
       obtain ⟨a1, a2⟩ := bAnd_rk hb
       refine ⟨fun v hv hbit => ?_, a2⟩
@@ -385,7 +380,7 @@ theorem vecRk_inj {d x y : ℕ} (hx : x < 2 ^ d) (hy : y < 2 ^ d) (h : vecRk d x
   · have := congrFun h ⟨j, hj⟩
     simp only [vecRk] at this
     cases hx' : x.testBit j <;> cases hy' : y.testBit j <;> rw [hx', hy'] at this <;>
-      first | rfl | exact absurd this (by decide)
+      exact absurd this (by decide)
   · have hd : 2 ^ d ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hx hd), Nat.testBit_lt_two_pow (lt_of_lt_of_le hy hd)]
 
@@ -412,9 +407,9 @@ theorem nK_lt (D : Co1RankTab.Dat) (k : ℕ) : nK D k < 2 ^ D.d := by
   exact hf
 
 theorem foldr_lt (D : Co1RankTab.Dat) : ∀ L : List (ℕ × ℕ),
-    L.foldr (fun p acc => Nat.xor (Nat.shiftRight (relK D p.1 p.2) 7) acc) 0 < 2 ^ D.d
+    L.foldr (fun _p acc => Nat.xor (Nat.shiftRight (relK D _p.1 _p.2) 7) acc) 0 < 2 ^ D.d
   | [] => Nat.two_pow_pos _
-  | p :: L => Nat.xor_lt_two_pow (nK_lt D _) (foldr_lt D L)
+  | _p :: L => Nat.xor_lt_two_pow (nK_lt D _) (foldr_lt D L)
 
 theorem relN_bit (D : Co1RankTab.Dat) (t j : ℕ) (hj : j < D.d) : ∀ m,
     (relN D m).testBit (D.d * t + j) = (decide (t < m) && (nK D t).testBit j)
@@ -521,7 +516,7 @@ theorem tabOK_sound {D : Co1RankTab.Dat} (h : tabOK D = true) :
 
 theorem val_bU {D : Co1RankTab.Dat} {s : ℕ} (h : matK (getM D.BS s) * matK (getM D.BS s) = 1) :
     (bU D s : Matrix (Fin 24) (Fin 24) (ZMod 2)) = matK (getM D.BS s) := by
-  rw [bU, dif_pos h]
+  rw [bU, dite_eq_left h]
 
 @[expose] noncomputable def wU (D : Co1RankTab.Dat) (gens : ℕ → GL24) (i : ℕ) : GL24 := wordP gens 8 (getL D.CW i)
 
@@ -575,7 +570,7 @@ theorem model_of_checks {D : Co1RankTab.Dat} {gens : ℕ → GL24} (hM : chkM D 
       rw [phi_eq]
       change phiR _ D.d (1 <<< s) = _
       have hs' : s < D.d := hs
-      rw [Nat.shiftLeft_eq, one_mul, phiR_single, if_pos hs']
+      rw [Nat.shiftLeft_eq, one_mul, phiR_single, ite_eq_left hs']
     change wU D gens i * bU D s * (wU D gens i)⁻¹ = qProd (bU D) D.d
       (fld(D.PHt, Nat.mul D.d (Nat.add (Nat.mul D.d i) s), mask D.d))
     rw [e, ← hph]

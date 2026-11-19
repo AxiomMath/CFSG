@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ :
 theorem M3_O3'_Y (h : FF84Sec3 b L B b₁ b₂) (hX : Opp 3 (Cen b) = ⊥) (hZ : Subgroup.center L = ⊥) :
     Opp 3 (Cen b ⊓ Cen (b₁ * b₂)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e', he'⟩ := M0_quot h hZ
   have hL : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.mp h.hyp.quasi.1
   obtain ⟨θ, hθc, hθx, hθ1⟩ := M0_T0_conj hL e'

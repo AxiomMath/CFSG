@@ -14,13 +14,13 @@ theorem five_of_core (hI : TwoHSInterface) (hU : U35Facts) {G : Type} [Group G] 
     (hT6 : Vert TableVIFacts a z) (hT7 : Vert TableVIIFacts a z) (hGam : Vert GammaFacts a z) :
     FiveFacts a z :=
   { hCore.self with
-    five_E := fun x hx =>
+    five_E := fun _x hx =>
       isShapeFiveCubeByTwoTwo_of_orb5E hI hU h hCore hPar.self hCls.self hT4.self hT5.self hT6.self
         hT7.self hGam.self hx
-    inv_cent := fun x hx t ht htρ =>
+    inv_cent := fun _x hx _t ht htρ =>
       mem_Gxy_of_orb5E hI hU h hCore hPar.self hCls.self hT4.self hT5.self hT6.self hT7.self
         hGam.self hx ht htρ
-    klein_E := fun x hx =>
+    klein_E := fun _x hx =>
       exists_klein_of_orb5E hI hU h hCore hPar.self hCls.self hT4.self hT5.self hT6.self hT7.self
         hGam.self hx }
 

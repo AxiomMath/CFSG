@@ -16,6 +16,7 @@ section Restrict
 
 variable [FiniteDimensional F V]
 
+omit [FiniteDimensional F V] in
 theorem restrictEquiv_pow_apply (U : Submodule F V) (g : V ≃ₗ[F] V)
     (h1 : ∀ v ∈ U, g v ∈ U) (h2 : ∀ v ∈ U, g⁻¹ v ∈ U) (n : ℕ) (v : U) :
     ((restrictEquiv U g h1 h2 ^ n) v : V) = (g ^ n) (v : V) := by
@@ -25,6 +26,7 @@ theorem restrictEquiv_pow_apply (U : Submodule F V) (g : V ≃ₗ[F] V)
     rw [pow_succ, LinearEquiv.mul_apply, ih, coe_restrictEquiv, pow_succ g,
       LinearEquiv.mul_apply]
 
+omit [FiniteDimensional F V] in
 theorem restrictEquiv_inv (U : Submodule F V) (g : V ≃ₗ[F] V)
     (h1 : ∀ v ∈ U, g v ∈ U) (h2 : ∀ v ∈ U, g⁻¹ v ∈ U) :
     (restrictEquiv U g h1 h2)⁻¹ = restrictEquiv U g⁻¹ h2 h1 := by
@@ -32,6 +34,7 @@ theorem restrictEquiv_inv (U : Submodule F V) (g : V ≃ₗ[F] V)
   ext v
   simp [LinearEquiv.mul_apply, coe_restrictEquiv]
 
+omit [FiniteDimensional F V] in
 theorem restrictEquiv_mem_orthogonalGroup {Q : QuadraticForm F V} {e : V ≃ₗ[F] V}
     (he : e ∈ orthogonalGroup Q) {U : Submodule F V} (h1 : ∀ v ∈ U, e v ∈ U)
     (h2 : ∀ v ∈ U, e⁻¹ v ∈ U) :

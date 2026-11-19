@@ -52,7 +52,7 @@ theorem false_of_kZeroMax (hc : D1OneLieKZeroData p P M H R Rbar K P' H₁ S) (h
   obtain ⟨T₀⟩ : Nonempty (Sylow 2 ↥N) := inferInstance
   set T : Subgroup G := (T₀ : Subgroup ↥N).map N.subtype with hTdef
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hTidx : ¬ 2 ∣ (T.subgroupOf N).index := by
     rw [hTdef, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective N.subtype_injective]

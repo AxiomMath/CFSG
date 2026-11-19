@@ -96,6 +96,7 @@ theorem pCoreOf_two_inf_le_d1PlusCore {p : ℕ} {P : Sylow p G} {M H Q : Subgrou
       ((pCoreOf_le 2 (H ⊓ M)).trans inf_le_left)
       ((le_inf hd.le_H hd.base.1).trans (localGroup_le_normalizer_pCoreOf 2 (H ⊓ M))))
 
+omit [Finite G] in
 theorem comap_centralizer_eq_d1PlusCore_self {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} :
     (Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p))).comap
@@ -106,6 +107,7 @@ theorem comap_centralizer_eq_d1PlusCore_self {p : ℕ} {H : Subgroup G}
     MonoidHom.comp_id] at h
   exact h
 
+omit [Finite G] in
 theorem normal_subgroupOf_d1PlusCore {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} [K.Normal] :
     ((d1PlusCore p H K).subgroupOf H).Normal := by
@@ -124,7 +126,7 @@ theorem le_normalizer_of_not_card_sq_dvd (h31 : KFactThreeOne) (hSch : KFactCata
   by_contra hcon
   obtain ⟨y, hy, hyN⟩ := Set.not_subset.mp hcon
   obtain ⟨H₁, R₁, he⟩ := hd.escape
-  haveI hsimp : IsSimpleGroup G := hS.simple
+  have hsimp : IsSimpleGroup G := hS.simple
   have hHtop : H ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hd.maxH.1
   have hKne : d1KBar p M H ≠ ⊥ :=
@@ -132,11 +134,11 @@ theorem le_normalizer_of_not_card_sq_dvd (h31 : KFactThreeOne) (hSch : KFactCata
   have hKn : K.Normal := by
     rw [hd.kbar]
     exact d1KBar_normal_of_escape he hd.base hd.le_H hKne
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   set π := QuotientGroup.mk' (primeComplementCore (G := H) p) with hπ
   set C : Subgroup (H ⧸ primeComplementCore (G := H) p) :=
     Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) with hC
-  haveI hCn : C.Normal := by rw [hC]; exact Subgroup.normal_centralizer
+  have hCn : C.Normal := by rw [hC]; exact Subgroup.normal_centralizer
   set mkC := QuotientGroup.mk' C with hmkC
   set I₁ : Subgroup G := I₀.map (MulAut.conj y).toMonoidHom with hI₁
   have hI₀' : IsTwoPrimeComponent (H ⊓ L) I₀ :=
@@ -156,15 +158,15 @@ theorem le_normalizer_of_not_card_sq_dvd (h31 : KFactThreeOne) (hSch : KFactCata
     intro z hz
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hz
     exact H.mul_mem (H.mul_mem hy.1 (hI₀H ha)) (H.inv_mem hy.1)
-  haveI hperfI : Group.IsPerfect ↥I₀ := Subgroup.isPerfect_iff.mpr hI.perfect
-  haveI hperfH : Group.IsPerfect ↥(I₀.subgroupOf H) :=
+  have hperfI : Group.IsPerfect ↥I₀ := Subgroup.isPerfect_iff.mpr hI.perfect
+  have hperfH : Group.IsPerfect ↥(I₀.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hI₀H).symm.toMonoidHom)
       (MulEquiv.surjective _)
   have hI₁sub : I₁.subgroupOf H =
       (I₀.subgroupOf H).map (MulAut.conj (⟨y, hy.1⟩ : H)).toMonoidHom := by
     rw [hI₁]
     exact subgroupOf_map_conj hy.1 I₀
-  haveI hperfH₁ : Group.IsPerfect ↥(I₁.subgroupOf H) := by
+  have hperfH₁ : Group.IsPerfect ↥(I₁.subgroupOf H) := by
     rw [hI₁sub]
     exact Group.IsPerfect.map (f := (MulAut.conj (⟨y, hy.1⟩ : H)).toMonoidHom)
       (H := I₀.subgroupOf H)

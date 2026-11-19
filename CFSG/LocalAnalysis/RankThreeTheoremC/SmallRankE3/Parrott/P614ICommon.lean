@@ -60,6 +60,7 @@ theorem z_mem_K (h618 : Stage618 M H K z) : z ∈ K := h618.comp.mem (mem_zpower
 theorem z_mem_normalizer_S (hyp : Hyp P M x z H S) : z ∈ normalizer (S : Set G) :=
   B_le_normalizer_S hyp (mem_sup_right (mem_zpowers z))
 
+omit [Finite G] in
 theorem not_mem_of_isPGroup_two {Q : Subgroup G} (hQ : IsPGroup 2 Q) {w : G} (hw3 : w ^ 3 = 1)
     (hw1 : w ≠ 1) : w ∉ Q := by
   intro hw

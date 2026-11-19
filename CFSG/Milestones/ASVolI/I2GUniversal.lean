@@ -113,9 +113,11 @@ variable {V : Type} [CommGroup V] {Γ : Type} [Group Γ] [Fintype Γ] [Finite V]
   map_one' := by simp
   map_mul' f g := by simp [Finset.prod_mul_distrib]
 
+omit [Finite V] in
 theorem burnsideI23_aug_apply (σ : Γ →* MulAut V) (f : Γ → V) :
     burnsideI23_aug σ f = ∏ h : Γ, σ h (f h) := rfl
 
+omit [Finite V] in
 theorem burnsideI23_aug_shift (σ : Γ →* MulAut V) (g : Γ) (f : Γ → V) :
     burnsideI23_aug σ (burnsideI23_shift g f) = σ g (burnsideI23_aug σ f) := by
   rw [burnsideI23_aug_apply, burnsideI23_aug_apply, map_prod]
@@ -123,6 +125,7 @@ theorem burnsideI23_aug_shift (σ : Γ →* MulAut V) (g : Γ) (f : Γ → V) :
   simp only [burnsideI23_shift_apply, Equiv.coe_mulLeft]
   rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel_left]
 
+omit [Finite V] in
 theorem burnsideI23_aug_surjective (σ : Γ →* MulAut V) : Function.Surjective (burnsideI23_aug σ) := by
   classical
   intro v
@@ -178,7 +181,7 @@ variable {V : Type} [CommGroup V] {Γ : Type} [Group Γ] [Fintype Γ] [Finite V]
     ↥(burnsideI23_core (V := V) Λ) →* ↥(burnsideI23_core (V := V) Λ) where
   toFun x := ⟨burnsideI23_shift g (x : Γ → V), burnsideI23_core_inv (V := V) Λ g (x : Γ → V) x.2⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' x y := Subtype.ext (map_mul _ _ _)
+  map_mul' _x _y := Subtype.ext (map_mul _ _ _)
 
 theorem burnsideI23_actE_coe (g : Γ) (x : ↥(burnsideI23_core (V := V) Λ)) :
     ((burnsideI23_actE Λ g x : ↥(burnsideI23_core (V := V) Λ)) : Γ → V) =
@@ -231,7 +234,7 @@ theorem burnsideI23_rho_apply (hW0 : ∀ g : Γ, ∀ w ∈ W0, σ g w ∈ W0) (g
 @[expose] noncomputable def burnsideI23_augE : ↥(burnsideI23_core (V := V) Λ) →* V where
   toFun x := burnsideI23_aug σ x
   map_one' := map_one _
-  map_mul' x y := map_mul _ _ _
+  map_mul' _x _y := map_mul _ _ _
 
 @[expose] noncomputable def burnsideI23_theta (hW0 : ∀ l ∈ Λ, ∀ w ∈ W0, σ l w = w) :
     burnsideI23_U σ Λ W0 →* V :=
@@ -256,6 +259,7 @@ theorem burnsideI23_U_sq (u : burnsideI23_U σ Λ W0) (hV : ∀ v : V, v ^ 2 = 1
     funext h
     exact hV _
 
+omit [Λ.Normal] [Finite V] in
 theorem burnsideI23_map_aug_low (hcomm : Subgroup.closure
       {w : V | ∃ l ∈ Λ, ∃ v : V, w = σ l v * v⁻¹} = ⊤) (k : ℕ) :
     (burnsideI23_low (V := V) Λ k).map (burnsideI23_aug σ) = ⊤ := by
@@ -367,9 +371,9 @@ theorem burnsideI23_exists_lift {A B C : Type} [CommGroup A] [CommGroup B] [Comm
       have h := hX (Additive.toMul a)
       rw [pow_two] at h
       exact congrArg Additive.ofMul h)
-  letI : Module (ZMod 2) (Additive A) := mod2 hA
-  letI : Module (ZMod 2) (Additive B) := mod2 hB
-  letI : Module (ZMod 2) (Additive C) := mod2 hC
+  let : Module (ZMod 2) (Additive A) := mod2 hA
+  let : Module (ZMod 2) (Additive B) := mod2 hB
+  let : Module (ZMod 2) (Additive C) := mod2 hC
   let pl : Additive B →ₗ[ZMod 2] Additive C :=
     AddMonoidHom.toZModLinearMap 2 (MonoidHom.toAdditive p)
   let ql : Additive A →ₗ[ZMod 2] Additive C :=
@@ -389,9 +393,11 @@ variable {V : Type} [CommGroup V] {Γ : Type} [Group Γ] [Fintype Γ]
 @[expose] noncomputable def burnsideI23_rep (Λ : Subgroup Γ) (h : Γ) : Γ :=
   (Quotient.mk (QuotientGroup.rightRel Λ) h).out
 
+omit [Fintype Γ] in
 theorem burnsideI23_rep_mem (Λ : Subgroup Γ) (h : Γ) : h * (burnsideI23_rep Λ h)⁻¹ ∈ Λ :=
   QuotientGroup.rightRel_apply.1 (Quotient.mk_out (s := QuotientGroup.rightRel Λ) h)
 
+omit [Fintype Γ] in
 theorem burnsideI23_rep_mul (Λ : Subgroup Γ) {l : Γ} (hl : l ∈ Λ) (h : Γ) :
     burnsideI23_rep Λ (l * h) = burnsideI23_rep Λ h := by
   unfold burnsideI23_rep
@@ -401,6 +407,7 @@ theorem burnsideI23_rep_mul (Λ : Subgroup Γ) {l : Γ} (hl : l ∈ Λ) (h : Γ)
 @[expose] noncomputable def burnsideI23_lh (Λ : Subgroup Γ) (h : Γ) : ↥Λ :=
   ⟨h * (burnsideI23_rep Λ h)⁻¹, burnsideI23_rep_mem Λ h⟩
 
+omit [Fintype Γ] in
 theorem burnsideI23_lh_mul (Λ : Subgroup Γ) {l : Γ} (hl : l ∈ Λ) (h : Γ) :
     burnsideI23_lh Λ (l * h) = ⟨l, hl⟩ * burnsideI23_lh Λ h := by
   apply Subtype.ext
@@ -436,6 +443,7 @@ variable {V : Type} [CommGroup V] {Γ : Type} [Group Γ] [Fintype Γ] [Finite V]
   {V' : Type} [CommGroup V'] (σ : Γ →* MulAut V) (Λ : Subgroup Γ) [Λ.Normal] (W0 : Subgroup V)
   (ρΛ : ↥Λ →* MulAut V') (ψ'' : V' →* V ⧸ W0) (lam : V →* V')
 
+omit [Λ.Normal] [Finite V] in
 theorem burnsideI23_psi_Fmap
     (hlam : ∀ v, ψ'' (lam v) = QuotientGroup.mk v)
     (hequiv : ∀ (l : ↥Λ) (v' : V') (v : V), ψ'' v' = QuotientGroup.mk v →
@@ -452,7 +460,7 @@ theorem burnsideI23_psi_Fmap
   show σ (h * (burnsideI23_rep Λ h)⁻¹) (σ (burnsideI23_rep Λ h) (φ h)) = σ h (φ h)
   rw [← MulAut.mul_apply, ← map_mul, inv_mul_cancel_right]
 
-theorem burnsideI23_Fmap_D (hW0 : ∀ l ∈ Λ, ∀ w ∈ W0, σ l w = w)
+theorem burnsideI23_Fmap_D (_hW0 : ∀ l ∈ Λ, ∀ w ∈ W0, σ l w = w)
     (hlam : ∀ v, ψ'' (lam v) = QuotientGroup.mk v)
     (hequiv : ∀ (l : ↥Λ) (v' : V') (v : V), ψ'' v' = QuotientGroup.mk v →
       ψ'' (ρΛ l v') = QuotientGroup.mk (σ l v))
@@ -470,11 +478,12 @@ theorem burnsideI23_Fmap_D (hW0 : ∀ l ∈ Λ, ∀ w ∈ W0, σ l w = w)
     rw [hfix _ hk0 ⟨l, hl⟩, mul_inv_cancel]
   exact fun y hy => h hy
 
+omit [Λ.Normal] [Finite V] in
 theorem burnsideI23_Fmap_low
     (hlam : ∀ v, ψ'' (lam v) = QuotientGroup.mk v)
     (hequiv : ∀ (l : ↥Λ) (v' : V') (v : V), ψ'' v' = QuotientGroup.mk v →
       ψ'' (ρΛ l v') = QuotientGroup.mk (σ l v))
-    (hsurj : Function.Surjective ψ'')
+    (_hsurj : Function.Surjective ψ'')
     (hfix : ∀ w ∈ ψ''.ker, ∀ l : ↥Λ, ρΛ l w = w)
     (hgen : Subgroup.closure {w : V' | ∃ (l : ↥Λ) (v : V'), w = ρΛ l v * v⁻¹} = ⊤) (k : ℕ) :
     (burnsideI23_low (V := V) Λ k).map (burnsideI23_Fmap σ Λ ρΛ lam) = ⊤ := by
@@ -646,8 +655,8 @@ theorem burnsideI23_relUniversalLift {V : Type} [CommGroup V] [Finite V]
     (hnorm : ∀ g ∈ G, ∀ l ∈ L, g * l * g⁻¹ ∈ L) {W0 : Subgroup V}
     (hW0i : ∀ g ∈ G, ∀ w ∈ W0, g w ∈ W0) (hW0 : W0 ≤ fixV L) (hcomm : commV L = ⊤) :
     I23RelativeUniversalLift G L W0 := by
-  haveI : Fintype ↥G := Fintype.ofFinite _
-  haveI hN : (L.subgroupOf G).Normal := ⟨fun n hn h => by
+  have : Fintype ↥G := Fintype.ofFinite _
+  have hN : (L.subgroupOf G).Normal := ⟨fun n hn h => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hnorm h h.2 n hn⟩
   let σ : ↥G →* MulAut V := G.subtype

@@ -130,8 +130,8 @@ theorem quasisimple_of_e16_at [Finite G] (h222 : Item222)
       have := (Subgroup.mem_normalizer_iff.mp (hE₁X (E₁.inv_mem hg)) p).mp (hKX hp)
       simpa using this
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq
-  haveI : IsSimpleGroup (kOf A φ) := by
-    haveI := isSimpleGroup_projSL_two hn
+  have : IsSimpleGroup (kOf A φ) := by
+    have := isSimpleGroup_projSL_two hn
     exact eK.isSimpleGroup
   obtain ⟨u, v, hu1, hv1, huv, hu2, hv2⟩ := exists_two_involutions_projSL n (by omega)
   obtain ⟨-, z, -, hzK, hz3⟩ := exists_commOf_eq_zpowers_mem_kOf h222 hpair
@@ -188,7 +188,7 @@ theorem item233ComponentsOne_of_e16' (h223 : Item223Print)
       intro h hhA hh1 hfree
       have hh3 : Nat.card (Subgroup.zpowers h) = 3 := by
         rw [Nat.card_zpowers]
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact orderOf_eq_prime (by simpa using hAe.2 h hhA) hh1
       exact item233Components_at h45 h232 hpair (Subgroup.zpowers_le.mpr hhA) hh3
         (key _ (Subgroup.zpowers_le.mpr hhA) hh3 hfree)
@@ -216,7 +216,7 @@ theorem item233ComponentsOne_of_e16' (h223 : Item223Print)
       · have : q = 4 := by omega
         subst this
         norm_num at hq
-    haveI := hP.hX'simple
+    have := hP.hX'simple
     exact isQuasisimple_of_exception h44 hG hpair.mem_S hBA hB3 hBb hP.hbA hP.hb1 (hX₀b X₀ hX₀)
       hAX₀ hA27' hXX₀ hP.eX hP.hXw hP.hw2 hP.haA hP.haX hP.ha1 hP.hcover
       (fun q hq hq3 d hd hdq hdb' => by

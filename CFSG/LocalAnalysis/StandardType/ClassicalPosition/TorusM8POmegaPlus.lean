@@ -88,7 +88,7 @@ theorem ggTorus_apply_eq_zero_POmegaPlus (n : ℕ) (F : Type) [Field F]
       apply Frm.longRoot_injective hIp S T
       rw [hl] at hl1
       rw [hl1]
-      simpa [hc0] using hlong0
+      simp
     have : (1 : F) = 0 := by simpa using congrArg Multiplicative.toAdd hof
     exact one_ne_zero this
   have hu : Q (Frm.vec p T) = 0 := Frm.map_vec p T
@@ -159,8 +159,7 @@ theorem ggTorus_apply_eq_zero_POmegaPlus (n : ℕ) (F : Type) [Field F]
   have hfinal : QuadraticMap.polar (⇑Q) (Spin.spinAction Q h (Frm.vec q S)) (Frm.vec p T) * c' =
       0 := by
     have h := congrArg (fun z => QuadraticMap.polar (⇑Q) z (Frm.vec I (!S))) heq
-    simp only [QuadraticMap.polar_smul_left, Frm.polar_vec_not, huw', smul_eq_mul,
-      mul_one, smul_zero] at h
+    simp only [QuadraticMap.polar_smul_left, huw', smul_eq_mul] at h
     simpa using h
   exact (mul_eq_zero.mp hfinal).resolve_right hc'
 

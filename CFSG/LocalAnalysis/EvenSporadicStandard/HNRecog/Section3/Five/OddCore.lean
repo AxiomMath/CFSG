@@ -66,8 +66,8 @@ theorem five_odd_core (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z
   obtain ⟨N, hNK, hNn, hodd, hNinf, hNsup⟩ :=
     exists_normal_two_complement_of_klein (K := Gx ρ) (a := a) (u := z')
       haK huK ha hz' hau ha1 hz'1 hne hpadic hfix
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
   have hN5 : IsPGroup 5 ↥N := by
     rw [IsPGroup.iff_card]
     refine ⟨(Nat.card ↥N).primeFactorsList.length, ?_⟩
@@ -88,7 +88,7 @@ theorem five_odd_core (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z
         _ = a * (a * z') * z' := by rw [hza]
         _ = (a * a) * (z' * z') := by group
         _ = 1 := by rw [ha, hz', mul_one]
-  haveI : (N.subgroupOf (Gx ρ)).Normal := hNn
+  have : (N.subgroupOf (Gx ρ)).Normal := hNn
   have hT0K : Subgroup.closure ({a, z'} : Set G) ≤ Gx ρ := by
     refine (Subgroup.closure_le (Gx ρ)).mpr ?_
     intro x hx

@@ -74,7 +74,7 @@ theorem mem_Fx_conjSubgroup {ρ : G →* MulAut V} {X : Subgroup G} {g : G} {v :
   inv_mem' := fun {a} ha u hu => by
     have := ha u hu
     calc ρ a⁻¹ u = ρ a⁻¹ (ρ a u) := by rw [this]
-      _ = u := by simp [← MulAut.mul_apply, ← map_mul]
+      _ = u := by simp [← MulAut.mul_apply]
 
 @[expose] def stabV (ρ : G →* MulAut V) (U : Subgroup V) : Subgroup G where
   carrier := {g | ∀ v : V, ρ g v ∈ U ↔ v ∈ U}

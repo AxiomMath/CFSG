@@ -38,7 +38,7 @@ private theorem elemAbelian_of_comm_exp' {M : Type} [Group M] {p : ℕ} {E : Sub
   ⟨⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩, hp⟩
 
 theorem isElemAbelian_actImage_gen {G : Type} [Group G] {p : ℕ} {B J : Subgroup G}
-    (hB : IsElemAbelian p B) (hBJ : B ≤ Subgroup.normalizer (J : Set G)) :
+    (hB : IsElemAbelian p B) (_hBJ : B ≤ Subgroup.normalizer (J : Set G)) :
     IsElemAbelian p (actImage p J B) := by
   refine elemAbelian_of_comm_exp' ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩

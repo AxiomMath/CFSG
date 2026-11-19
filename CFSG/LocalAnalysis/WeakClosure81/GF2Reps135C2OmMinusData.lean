@@ -402,7 +402,7 @@ private theorem o8mNatural_heckeT_zero (hK : Nat.card K = 2) (φ : K →+* k) :
       ∑ x : D.X 0, SmallO8mCurtis.naturalRep 4 b c φ (x : _)
         (Pi.single (.inl 1) 1) :=
     Finset.sum_congr rfl fun x _ => by
-      rw [hmul, hn, o8mNatural_Weyl_highest hirrQ φ 0, if_pos rfl]
+      rw [hmul, hn, o8mNatural_Weyl_highest hirrQ φ 0, ite_eq_left rfl]
   rw [hsum]
   let f : K → D.X 0 := fun a =>
     ⟨(minusFrame 4 b c).longRoot (succ_ne_of_lt 4 (k := 0) (by norm_num)) true false (.ofAdd a),
@@ -451,7 +451,7 @@ private theorem o8mNatural_heckeT_ne (φ : K →+* k) {i : Fin 3} (hi : i ≠ 0)
       ∑ x : D.X i, SmallO8mCurtis.naturalRep 4 b c φ (x : _)
         SmallO8mCurtis.highestVec :=
     Finset.sum_congr rfl fun x _ => by
-      rw [hmul, hn, o8mNatural_Weyl_highest hirrQ φ i, if_neg hi]
+      rw [hmul, hn, o8mNatural_Weyl_highest hirrQ φ i, ite_eq_right hi]
   rw [hsum]
   have hfix : ∀ x : D.X i, SmallO8mCurtis.naturalRep 4 b c φ (x : _)
       SmallO8mCurtis.highestVec = SmallO8mCurtis.highestVec :=
@@ -472,7 +472,7 @@ private theorem o8mNatural_heckeT (hK : Nat.card K = 2) (φ : K →+* k) (i : Fi
   · subst hi
     simpa using o8mNatural_heckeT_zero hirrQ hK φ
   · have hne : (i.val : ℕ) ≠ 0 := fun h => hi (Fin.ext h)
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     exact o8mNatural_heckeT_ne hirrQ φ hi
 
 theorem isCurtisType_omMinus_two_natural (hK : Nat.card K = 2) (φ : K →+* k)

@@ -61,8 +61,6 @@ theorem subMul_smul {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     change Multiplicative.toAdd (CFSG.Quasithin.H.matAut g⁻¹ x) ∈ W at hx
     rw [mem_subMul, Submodule.mem_map]
     refine ⟨Multiplicative.toAdd (CFSG.Quasithin.H.matAut g⁻¹ x), hx, ?_⟩
-    change Matrix.mulVecLin ((g : GL ι K) : Matrix ι ι K)
-      (Multiplicative.toAdd (CFSG.Quasithin.H.matAut g⁻¹ x)) = Multiplicative.toAdd x
     rw [Matrix.mulVecLin_apply]
     change (((g : GL ι K) : Matrix ι ι K) *ᵥ
       ((g⁻¹ : GL ι K) : Matrix ι ι K) *ᵥ Multiplicative.toAdd x) =
@@ -179,10 +177,10 @@ theorem smul_set_hypH_eq (g : ↥(hypSU h 2 0)) (W : Submodule K (HypIndex 2 0 �
     letI : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
     ((hypEH h).toMonoidHom g : ↥(hypH h)) • (subMul W : Set (HypV (K := K))) =
       (hypPi h g : MulAut (HypV (K := K))) • (subMul W : Set (HypV (K := K))) := by
-  letI : MulDistribMulAction ↥(hypH h) (HypV (K := K)) :=
+  let : MulDistribMulAction ↥(hypH h) (HypV (K := K)) :=
     MulDistribMulAction.compHom _ (hypH h).subtype
-  letI : MulAction ↥(hypH h) (HypV (K := K)) := MulDistribMulAction.toMulAction
-  letI : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
+  let : MulAction ↥(hypH h) (HypV (K := K)) := MulDistribMulAction.toMulAction
+  let : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
   ext y
   rw [Set.mem_smul_set, Set.mem_smul_set]
   constructor
@@ -198,10 +196,10 @@ theorem stabilizer_subMul_hypFlag :
     letI : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
     MulAction.stabilizer ↥(hypH h) (subMul (hypFlag h 2 0 1) : Set (HypV (K := K))) =
       hypPH h := by
-  letI : MulDistribMulAction ↥(hypH h) (HypV (K := K)) :=
+  let : MulDistribMulAction ↥(hypH h) (HypV (K := K)) :=
     MulDistribMulAction.compHom _ (hypH h).subtype
-  letI : MulAction ↥(hypH h) (HypV (K := K)) := MulDistribMulAction.toMulAction
-  letI : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
+  let : MulAction ↥(hypH h) (HypV (K := K)) := MulDistribMulAction.toMulAction
+  let : MulAction ↥(hypH h) (Set (HypV (K := K))) := Set.mulActionSet
   have hact : ∀ (g : ↥(hypSU h 2 0)) (W : Submodule K (HypIndex 2 0 → K)),
       hypPi h g • subMul W = subMul (g • W) := fun g W => (subMul_smul_hypSU h g W).symm
   apply le_antisymm
@@ -441,19 +439,15 @@ theorem overgroups_hypB_conj_ambient {s : ↥(hypH h)} {A : Subgroup (MulAut (Hy
 
 
 theorem su4HypLine_holds (K : Type) [Field K] [Finite K] (a : ℕ)
-    (h : UnitaryFieldData 2 a K) (hK : Nat.card K = (2 ^ a) ^ 2) :
+    (h : UnitaryFieldData 2 a K) (_hK : Nat.card K = (2 ^ a) ^ 2) :
     SU4Line (CFSG.Quasithin.H.StdMod (HypIndex 2 0) K)
       ((CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0).map CFSG.Quasithin.H.matHom) (2 * a) := by
   change SU4Line (HypV (K := K)) (hypH h) (2 * a)
   unfold SU4Line
-  intro S
-  intro ℓ Pℓ
-  letI : MulDistribMulAction ↥S (HypV (K := K)) :=
+  intro S ℓ Pℓ
+  let : MulDistribMulAction ↥S (HypV (K := K)) :=
     MulDistribMulAction.compHom _ (S : Subgroup ↥(hypH h)).subtype
-  intro Tstar hTnorm hT2 hST
-  intro Good
-  intro hline
-  intro Pstar hmin
+  intro Tstar hTnorm hT2 hST Good hline Pstar hmin
   obtain ⟨a', hna, hSUn, hNat⟩ := hline
   have ha' : a' = a := by omega
   subst a'

@@ -15,7 +15,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.Unique
 variable {G : Type} [Group G] [Finite G]
 
 private theorem exists_isSylowOf_top_le_three {p : ℕ} [Fact p.Prime] (hS : Standing G)
-    {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
+    {M : Subgroup G} (_hM : rankThreeIsMaxTwoLocal M)
     (hpM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M ∨ p ∈ sigmaOf M) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P ⊤ ∧ P ≤ M := by
   rcases hpM with hstr | hσ
@@ -48,7 +48,7 @@ private theorem exists_isSylowOf_top_le_three {p : ℕ} [Fact p.Prime] (hS : Sta
   · obtain ⟨hpA, Q, hw⟩ := hσ
     refine ⟨(Q : Subgroup G), ?_, hw.sylow_le hS hpA⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by simpa using Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by simpa using Q.not_dvd_index⟩
 
 private theorem exists_conj_eq_of_pRank_two_three (hS : Standing G) {M : Subgroup G}
     (hM : rankThreeIsMaxTwoLocal M) (hC : CFSG.Yardstones.Mf4cdcdf2e013.TheoremCAt M) {p : ℕ}
@@ -56,7 +56,7 @@ private theorem exists_conj_eq_of_pRank_two_three (hS : Standing G) {M : Subgrou
     (hpM : CFSG.RankThree.PartOne.IsStronglyPEmbedded p M ∨ p ∈ sigmaOf M) {N : Subgroup G}
     (hN : rankThreeIsMaxTwoLocal N) (hNp : 2 ≤ CFSG.Open.pRank p N) :
     ∃ g : G, uniqueFourConj g M = N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEN, hEel, hEcard⟩ :=
     CFSG.RankThreeCoreUniqueness.Helpers.pRank_attained p N (by omega)
   have hdvd : p ^ 2 ∣ Nat.card E := by rw [hEcard]; exact pow_dvd_pow p hNp
@@ -113,7 +113,7 @@ private theorem exists_conj_eq_of_pRank_two_three (hS : Standing G) {M : Subgrou
 theorem r6_6_dataOfSetup (hS : Standing G) (hUC : rankThreeUC G) (hC : AGL81TheoremC G)
     (S : Setup G) : UC6.R6_6 (dataOfSetup hS S) := by
   intro p hp hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨?_, ?_, ?_⟩
   · intro hpM N hN hNp
     obtain ⟨hNmax, hTN⟩ := hN

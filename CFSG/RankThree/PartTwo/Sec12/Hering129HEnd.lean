@@ -28,6 +28,7 @@ variable {G : Type} [Group G] [Finite G]
       (∀ z ∈ Z, ∀ u ∈ U, z * u = u * z) ∧ Sec4.IsHeisThree U) ∧
     Nonempty (Sec4.autIn (Y ⊔ A) E ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod 3))
 
+omit [Finite G] in
 theorem typ129IIIcMinus_iff {A : Subgroup G} {c : G} {L Y : Subgroup G} {x : G} :
     Typ129IIIcMinus A c L Y x ↔ Typ129IIIcType L Y ∧ ∃ E, Typ129IIIcE A c Y x E :=
   ⟨fun ⟨h1, h2, h3, E, hE⟩ => ⟨⟨h1, h2, h3⟩, E, hE⟩,
@@ -61,6 +62,7 @@ section End
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_mem_of_center_pCore_eq_bot {x : G} {Y : Subgroup G} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hYx : Y ≤ Subgroup.centralizer ({x} : Set G))
     (hZY : Subgroup.center (Y ⧸ CFSG.pCore 2 Y) = ⊥) : x ∉ Y := by

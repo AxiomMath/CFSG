@@ -58,7 +58,7 @@ theorem overgroups_of_forall_apply_ne {Ω : Type} [Fintype Ω]
         have hm34 : m = 3 ∨ m = 4 := by omega
         rcases hm34 with hm3 | hm4
         · have h6eq : Fintype.card Ω = 6 := by omega
-          haveI : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+          have : Nontrivial Ω := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
           have h5 : 5 ≤ Fintype.card Ω := by omega
           have hcardA : Nat.card (alternatingGroup Ω) = 360 := by
             rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, h6eq]
@@ -117,7 +117,7 @@ theorem overgroups_of_forall_apply_ne {Ω : Type} [Fintype Ω]
           rcases eq_alternatingGroup_or_isE8L3 h8eq hKAlt hS hSK hKtrans with heq | hE
           · exact Or.inl (by rw [hH, heq])
           · exact Or.inr (Or.inr ⟨h8eq, hH, hE⟩)
-    · haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
+    · have : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
       let a : Ω := Classical.choice (inferInstance : Nonempty Ω)
       have hswapK : swap a (σ a) ∈ K :=
         hXK (Subgroup.mem_inf.mpr

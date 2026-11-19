@@ -170,7 +170,7 @@ lemma l05nL6_sim_orbit {news : List GGDepANPair}
     · intro k hk
       have hk0 : k = 0 := by simpa using hk
       subst hk0
-      simpa [ggTWNX_length]
+      simp [ggTWNX_length]
     · intro k hk
       have hk0 : k = 0 := by simpa using hk
       subst hk0
@@ -222,10 +222,10 @@ lemma l05nL6_S_invol {news : List GGDepANPair}
       ggTWNGen_valid (p := 3) (N := 6) (by norm_num) (by norm_num) hnews
         (g := i.val) (by have := i.isLt; simp only [Nat.reduceSub]; omega)
     have hgen : ggTWNGen 3 6 news i.val = (ggTWNH 3 6 i.val, ggTWNA 3 6 i.val) := by
-      simp only [ggTWNGen, if_pos hiv]
+      simp only [ggTWNGen, ite_eq_left hiv]
     have hdot : ggTWdot (ggTWα 3 6 i) (ggTWh 3 6 i) = 2 := by
       have h := l05nL6_dot_of_valid (q := ggTWNGen 3 6 news i.val) ⟨h1, h2, h3⟩
-      simp only [hgen, Prod.fst, Prod.snd, ggTWNH_toZ, ggTWNA_toZ] at h
+      simp only [hgen, ggTWNH_toZ, ggTWNA_toZ] at h
       exact h
     exact l05nL6_refl_invol (ggTWh 3 6 i) (ggTWα 3 6 i) hdot
   · obtain ⟨t, ht, rfl⟩ := hr

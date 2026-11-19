@@ -117,11 +117,12 @@ variable [Finite X]
       apply Subtype.ext
       simp [torus200ToCc_add, P.ev8_add])
 
+omit [Finite X] in
 theorem coe_torusHomC (y : Torus (Type200.k 1)) :
     ((Additive.toMul (P.torusHomC y) : P.C) : X) = P.ev8 (torus200ToCc y) := rfl
 
 theorem torusHomC_bijective : Function.Bijective P.torusHomC := by
-  haveI : Finite (Additive P.C) := Finite.of_equiv _ Additive.ofMul
+  have : Finite (Additive P.C) := Finite.of_equiv _ Additive.ofMul
   refine Function.Injective.bijective_of_nat_card_le ?_ ?_
   · intro y y' h
     apply torus200ToCc_injective

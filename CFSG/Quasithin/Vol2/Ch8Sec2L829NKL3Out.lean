@@ -26,8 +26,8 @@ theorem nk_l3odd_out :
   let φ : X ≃* projectiveSL 3 K :=
     (e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 K)
-  haveI : Finite X := Finite.of_equiv _ φ.symm.toEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := Finite.of_equiv _ φ.symm.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
   have hcharK : CharP K p := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 1)
@@ -54,10 +54,10 @@ theorem nk_l3odd_out :
     apply φ.injective
     rw [map_pow, map_one]
     exact hk'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hHX
   have hQS : IsSylowTwoOf (Q : Subgroup X) ⊤ := by
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [show ((Q : Subgroup X).subgroupOf ⊤).index = (Q : Subgroup X).index from
       Subgroup.relIndex_top_right _]
     exact Sylow.not_dvd_index Q
@@ -109,12 +109,12 @@ theorem nk_l3odd_out :
       apply φ.injective
       have hm := hd' a b'
       simp only [map_mul, φ.apply_symm_apply]
-      simp only [map_mul, φ.apply_symm_apply] at hm
+      simp only [map_mul] at hm
       exact hm
     · apply hconjlem b (g⁻¹ * b * g) (φ.symm (proj 3 K (x12 (1 : K)))) rfl
       apply φ.injective
       simp only [map_mul, φ.apply_symm_apply]
-      simp only [map_mul, φ.apply_symm_apply] at hw'
+      simp only [map_mul] at hw'
       exact hw'
   have hyfix : ∀ w : X, (∀ h ∈ S ⊓ centralizer (S : Set X), h * w = w * h) → y w = w := by
     intro w hw

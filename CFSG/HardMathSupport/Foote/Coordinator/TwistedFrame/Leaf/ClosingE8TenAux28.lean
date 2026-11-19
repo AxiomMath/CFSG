@@ -73,8 +73,8 @@ theorem decode (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0) {v :
     (hvQ : v ∈ Qθ Tag.E8 K)
     (hvM : ∀ β, κF D v β ≠ 0 → β ∈ mRoots ∧ (cls β = 1 ∨ cls β = 4)) :
     ∃ b, b < 2 ^ 20 ∧ κF D v = decv ω b := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set S := toSetup D ⊥ with hS
   have hq : v ∈ Qrat S.h := ΨE_Qθ D hvQ
   have hσ : S.sig (κF D v) = κF D v := S.sig_Cc hq
@@ -120,10 +120,10 @@ theorem decode (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0) {v :
     have hk : i / 2 < 10 := by omega
     have hdig' := hdig (i / 2) hk
     by_cases he : i % 2 = 0
-    · rw [if_pos he, hdig' ]
+    · rw [ite_eq_left he, hdig' ]
       have : i = 2 * (i / 2) := by omega
       rw [← hxa (i / 2) hk, ← this]
-    · rw [if_neg he, hdig', emb_f4sq hω (ha _)]
+    · rw [ite_eq_right he, hdig', emb_f4sq hω (ha _)]
       have : i = 2 * (i / 2) + 1 := by omega
       rw [← hxa (i / 2) hk, ← (hrel (i / 2) hk).1, ← this]
   · push Not at hμ
@@ -155,8 +155,8 @@ theorem exists_u0 (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0) {
       ΨE D u = pinnedX Tag.E8 D.L (nuW (2 * k)) (emb ω a) *
         pinnedX Tag.E8 D.L (nuW (2 * k + 1)) (emb ω a ^ 2) ∧
       κF D u = decv ω (a <<< (2 * k)) := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set S := toSetup D ⊥ with hS
   have hk10 : k < 10 := stdRep_lt k hk
   have ha4 : a < 4 := by
@@ -232,7 +232,7 @@ theorem N_rat (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0) {k : 
     ⁅pinnedX Tag.E8 K (highRoot Tag.E8) 1, ⁅pinnedX Tag.E8 K (-highRoot Tag.E8) 1, u₀⁆⁆ ∈ Qθ Tag.E8 K ∧
       κF D ⁅pinnedX Tag.E8 K (highRoot Tag.E8) 1, ⁅pinnedX Tag.E8 K (-highRoot Tag.E8) 1, u₀⁆⁆ =
         (t₁ * t₂) • decv ω (a <<< (2 * k)) := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
+  have hcL : CharP D.L 2 := charP_L D hK
   have hk10 : k < 10 := stdRep_lt k hk
   have ha4 : a < 4 := by
     simp only [List.mem_cons, List.mem_nil_iff, or_false] at ha

@@ -46,7 +46,7 @@ theorem modelSCr_of_good {R : Type} [Group R] (hAL : GGAbelianLift) (D : FrameDa
     (hD : D.Good) (hcov : CoverOdd R) (I : Set (MulAut R)) (hI : (D.H : Set (MulAut R)) = I) :
     GGE6ThreeModelSCr R I := by
   intro L' _ _ ψ hψ hker hperf A hA hAI h5 hsc
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZ : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hD.center
   let ρ : MulAut L' →* MulAut R := BstarDesc.descAut hψ hZ
   have hρ : ∀ a l, ρ a (ψ l) = ψ (a l) := fun a l => BstarDesc.descAut_apply hψ hZ a l
@@ -77,7 +77,7 @@ theorem modelSCr_of_good {R : Type} [Group R] (hAL : GGAbelianLift) (D : FrameDa
     obtain ⟨l, rfl⟩ := hψ' r
     rw [hρ']
     simp only [ψ', MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.mul_apply,
-      MulAut.inv_apply_self, hρ, map_mul]
+      MulAut.inv_apply_self, hρ]
   have hAle : A ≤ U63TB.presZ (U63TB.twoSub ψ'.ker hker') := fun a ha =>
     U63TB.mem_presZ_of_ker hker' fun z hz =>
       U63TB.preserves_ker (I := Set.univ) ⟨ρ' a, Set.mem_univ _, fun l => hρ' a l⟩ hz

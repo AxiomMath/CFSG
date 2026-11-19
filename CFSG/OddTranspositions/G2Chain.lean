@@ -14,6 +14,7 @@ open Config
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_centralizer_le_two {X A : Subgroup G} (e : X ≃* alternatingGroup (Fin 5))
     (hAX : A ≤ Subgroup.normalizer (X : Set G)) {x y : G} (hx : x ∈ X) (hy : y ∈ X) (hx2 : orderOf x = 2)
     (hy2 : orderOf y = 2) (hxy : orderOf (x * y) = 3)
@@ -74,7 +75,7 @@ theorem card_le_two_of_comm_of_class_gen {Q : Type*} [Group Q] [Finite Q]
   obtain ⟨c, rfl⟩ := hC
   have hCc : {g | IsConj c g} = ({c} : Set Q) := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff, isConj_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff, isConj_iff]
     constructor
     · rintro ⟨h, rfl⟩; rw [hcomm h c, mul_assoc, mul_inv_cancel, mul_one]
     · rintro rfl; exact ⟨1, by simp⟩
@@ -146,7 +147,7 @@ theorem exists_inv_mem_centralizer {A X : Subgroup G} (e : X ≃* alternatingGro
     omega
   have hA₀p : IsPGroup 2 A₀ := hA.to_le inf_le_left
   have h2 : 2 ∣ Nat.card A₀ := hA₀p.card_eq_or_dvd.resolve_left hA₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have ht2 : orderOf (t : G) = 2 := by rwa [Subgroup.orderOf_coe]
   refine ⟨t, t.2.1, ht2, fun htz => ?_, t.2.2⟩

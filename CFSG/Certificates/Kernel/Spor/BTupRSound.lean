@@ -22,13 +22,13 @@ theorem btRtK_spec {k m cnt i : Nat} {S R POS RT : Nat → Nat}
     CFSG.KS.Raw.Orb.bIf_eq] at h1
   obtain ⟨h1, h2⟩ := h1
   refine ⟨Nat.blt_eq.mp h1, fun h0 => ?_, fun h0 => ?_⟩
-  · rw [if_pos (Nat.beq_eq.mpr h0)] at h2
+  · rw [ite_eq_left (Nat.beq_eq.mpr h0)] at h2
     exact Nat.beq_eq.mp h2
   · have h0' : Nat.beq (btDep (btRec R i)) (nat_lit 0) = false := by
       cases e : Nat.beq (btDep (btRec R i)) (nat_lit 0)
       · rfl
       · exact absurd (Nat.beq_eq.mp e) h0
-    rw [h0', if_neg Bool.false_ne_true] at h2
+    rw [h0', ite_eq_right Bool.false_ne_true] at h2
     exact Nat.beq_eq.mp h2
 
 theorem btRtSl_spec {k m cnt lo len : Nat} {S R POS RT : Nat → Nat}
@@ -40,7 +40,7 @@ theorem btRtSl_spec {k m cnt lo len : Nat} {S R POS RT : Nat → Nat}
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 theorem btCzK_spec {w d kw km m cnt2 i : Nat} {Y K RT K2 IX : Nat → Nat}
@@ -54,7 +54,7 @@ theorem btCzK_spec {w d kw km m cnt2 i : Nat} {Y K RT K2 IX : Nat → Nat}
       (btKey kw km K (btPos RT m i j))) = true :=
     CFSG.KS.Raw.Orb.allN_iff.2 fun j hj =>
       CFSG.KS.Raw.Orb.allN_iff.2 fun t ht => Nat.beq_eq.mpr (hc j hj t ht)
-  rw [if_pos hall, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at h
+  rw [ite_eq_left hall, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at h
   exact ⟨Nat.blt_eq.mp h.1, Nat.beq_eq.mp h.2⟩
 
 theorem btCzSl_spec {w d kw km m cnt cnt2 lo len : Nat} {Y K RT K2 IX : Nat → Nat}
@@ -67,7 +67,7 @@ theorem btCzSl_spec {w d kw km m cnt cnt2 lo len : Nat} {Y K RT K2 IX : Nat → 
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 section Rt

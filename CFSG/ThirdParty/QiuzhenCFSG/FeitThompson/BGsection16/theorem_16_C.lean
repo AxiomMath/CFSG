@@ -35,7 +35,7 @@ public theorem CFSG.section16_exists_primeOrderSubgroup_of_ne_bot
     intro hcard
     exact hHne ((Subgroup.card_eq_one (H := H)).1 hcard)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨p, hpprime, hpdiv⟩
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   rcases exists_prime_orderOf_dvd_card' (G := H) p hpdiv with ⟨zH, hzH_order⟩
   let z : G := zH
   refine ⟨Subgroup.zpowers z, ?_⟩
@@ -207,7 +207,7 @@ public theorem CFSG.section16_normalizer_U_not_le_M
       rcases Subgroup.mem_map.mp hxP with ⟨y, _hyR, rfl⟩
       exact y.2
     have hP_ne : P ≠ ⊥ := by
-      haveI : Fact r.val.Prime := ⟨r.property⟩
+      have : Fact r.val.Prime := ⟨r.property⟩
       have hR_ne : (R : Subgroup U) ≠ ⊥ :=
         Sylow.ne_bot_of_dvd_card (G := U) R hrU
       intro hPbot
@@ -226,7 +226,7 @@ public theorem CFSG.section16_normalizer_U_not_le_M
     have hNormP_ne_top : Subgroup.normalizer (P : Set G) ≠ ⊤ := by
       intro hNormPtop
       have hPnormal : P.Normal := Subgroup.normalizer_eq_top_iff.mp hNormPtop
-      letI : IsSimpleGroup G := IsMinCE.simple
+      let : IsSimpleGroup G := IsMinCE.simple
       rcases hPnormal.eq_bot_or_eq_top with hPbot | hPtop
       · exact hP_ne hPbot
       · exact hP_ne_top hPtop
@@ -753,7 +753,7 @@ public theorem CFSG.section16_msigmaElement_card_gt_one_of_not_centralizer_le
   have hL₁_ne_L₂ : L₁ ≠ L₂ := by
     intro hEq
     exact hneq (congrArg Subtype.val hEq).symm
-  haveI : Nontrivial Ωx := ⟨L₁, L₂, hL₁_ne_L₂⟩
+  have : Nontrivial Ωx := ⟨L₁, L₂, hL₁_ne_L₂⟩
   change 1 < Nat.card Ωx
   exact Finite.one_lt_card
 
@@ -1047,12 +1047,12 @@ private theorem CFSG.section16NilpotentNormalHallIn_sup
     have hcard : Nat.card Km = Nat.card K :=
       natCard_subgroupOf_eq K M hKM
     simpa [π, subgroupPrimeSet, Km, hcard] using hp
-  haveI : Km.Normal := hKnormM
+  have : Km.Normal := hKnormM
   have hsupπ : IsPiSubgroup (G := M) π (Hm ⊔ Km) :=
     IsPiSubgroup.sup_of_normal_right hHπ hKπ
   have hSKnormM : (SK.subgroupOf M).Normal := by
-    haveI : Hm.Normal := hHnormM
-    haveI : Km.Normal := hKnormM
+    have : Hm.Normal := hHnormM
+    have : Km.Normal := hKnormM
     have hsupNorm : (Hm ⊔ Km).Normal := Subgroup.sup_normal Hm Km
     simpa [hsub_eq] using hsupNorm
   have hHleF : H ≤ section8FittingSubgroup M :=
@@ -1061,9 +1061,9 @@ private theorem CFSG.section16NilpotentNormalHallIn_sup
     section12_le_fittingSubgroupOf_of_normalIn_nilpotent hKM hKnormM hKnil
   have hSKleF : SK ≤ section8FittingSubgroup M := sup_le hHleF hKleF
   have hSKnil : Group.IsNilpotent SK := by
-    haveI : Group.IsNilpotent (section8FittingSubgroup M) :=
+    have : Group.IsNilpotent (section8FittingSubgroup M) :=
       section8FittingSubgroup_isNilpotent M
-    haveI : Group.IsNilpotent (SK.subgroupOf (section8FittingSubgroup M)) := by
+    have : Group.IsNilpotent (SK.subgroupOf (section8FittingSubgroup M)) := by
       infer_instance
     let e :=
       Subgroup.subgroupOfEquivOfLe (G := G) (H := SK)
@@ -1152,7 +1152,7 @@ private theorem CFSG.section16_mem_normal_complement_of_support_disjoint_hall
     x ∈ L := by
   classical
   let Lsub : Subgroup M := L.subgroupOf M
-  haveI : Lsub.Normal := by
+  have : Lsub.Normal := by
     simpa [Lsub] using hLnorm.2
   let q : M →* M ⧸ Lsub := QuotientGroup.mk' Lsub
   let xM : M := ⟨x, hxM⟩
@@ -1296,7 +1296,7 @@ public theorem CFSG.section16_exists_prime_order_zpower
     exact hxne (by simpa using hxbot)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨q, hqprime, hqdiv⟩
   let r : Nat.Primes := ⟨q, hqprime⟩
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨z, hz_order⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers x) q hqdiv
   refine ⟨r, z, ?_, z.property, ?_⟩
@@ -1346,7 +1346,7 @@ private theorem CFSG.section16_section15KUData_bot_of_typeF_cyclic_complement
       section12ComplementIn M (section10Msigma M) ((⊥ : Subgroup G) ⊔ E) := by
     simpa [section12ComplementToMsigma] using hcomp
   have hUcomm : IsMulCommutative E := by
-    letI : IsCyclic E := hcyc
+    let : IsCyclic E := hcyc
     infer_instance
   have hUHall :
       section12HallSubgroupIn
@@ -1406,12 +1406,12 @@ public theorem CFSG.section16_frobeniusWithCyclicComplement_of_typeF_cyclic_msig
       (U := E) hM hKU_E hEne with
     ⟨E₀, hE₀E, hExp, hFrobE₀⟩
   have hE₀cyc : IsCyclic E₀ := by
-    letI : IsCyclic E := hcyc
+    let : IsCyclic E := hcyc
     exact (Subgroup.subgroupOfEquivOfLe (H := E₀) (K := E) hE₀E).isCyclic.1
       (by infer_instance)
   have hcard_eq : Nat.card E₀ = Nat.card E := by
-    letI : IsCyclic E₀ := hE₀cyc
-    letI : IsCyclic E := hcyc
+    let : IsCyclic E₀ := hE₀cyc
+    let : IsCyclic E := hcyc
     calc
       Nat.card E₀ = Monoid.exponent E₀ := (IsCyclic.exponent_eq_card (α := E₀)).symm
       _ = Monoid.exponent E := hExp
@@ -1577,7 +1577,7 @@ public theorem CFSG.section16_hatW_subset_normalizer_eq_of_caseP
     change IsCyclic (section14Z M K)
     exact h147d.2.1
   have hWcomm : IsMulCommutative (K ⊔ Kstar : Subgroup G) := by
-    letI : IsCyclic (K ⊔ Kstar : Subgroup G) := hZcyc
+    let : IsCyclic (K ⊔ Kstar : Subgroup G) := hZcyc
     infer_instance
   have hEq := section16_hatW_subset_normalizer_eq_of_ti
     (G := G) hTI hWcomm hW0ne (by simpa [Kstar] using hW0sub)
@@ -1642,7 +1642,7 @@ public theorem CFSG.section16_hatZ_decomp_with_kstar_zpower
     change ((section14KStar M K).subgroupOf (K ⊔ section14KStar M K)).Normal
     exact Subgroup.normal_subgroupOf_sup_of_le_normalizer
       (H := K) (N := section14KStar M K) hK_norm_Kstar
-  letI : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
+  let : ((section14KStar M K).subgroupOf Z).Normal := hKstarNormal
   have htop0 : (K.subgroupOf Z) ⊔ ((section14KStar M K).subgroupOf Z) = ⊤ := by
     change
       K.subgroupOf (K ⊔ section14KStar M K) ⊔
@@ -1909,7 +1909,7 @@ private theorem CFSG.section16_A0_diff_A_subset_conjugates_hatZ
     exact haNotProd (by simpa [hNset] using haN')
   let Ksub : Subgroup M := K.subgroupOf M
   let Nsub : Subgroup M := N.subgroupOf M
-  haveI : Nsub.Normal := by
+  have : Nsub.Normal := by
     simpa [Nsub] using hNnorm.2
   let aM : M := ⟨a, haM⟩
   have htop : Ksub ⊔ Nsub = ⊤ := by

@@ -156,7 +156,6 @@ theorem coverOK_true : coverOK u43Data = true := by
     apply fmCongr
     intro a ha
     have ha' := List.mem_range.1 ha
-    beta_reduce
     rw [List.filter_map, List.map_map]
     have key : ∀ b ∈ List.range 191,
         ((fun j => eqZ (mulRaw pts[OI a]! pts[j]!) (mulRaw pts[j]! pts[OI a]!)) ∘ II) b =

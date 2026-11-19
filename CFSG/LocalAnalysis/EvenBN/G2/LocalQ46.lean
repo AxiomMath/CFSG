@@ -1405,7 +1405,7 @@ private theorem card_le_of_commutator_mem_yamadaS₅ (hW : CFSG.Walter.WalterOrd
   obtain ⟨-, -, -, -, -, -, -, hDS, hMS, -⟩ := d.inclusions
   obtain ⟨-, -, -, -, -, -, -, -, hSdef⟩ := d.yamada_defs
   have hY₂R₅ : yamadaY₂ d t ≤ yamadaR₅ d t := hF₅R₅.trans' hY₂F₅
-  haveI : ((yamadaY₂ d t).subgroupOf (yamadaR₅ d t)).Normal :=
+  have : ((yamadaY₂ d t).subgroupOf (yamadaR₅ d t)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hY₂R₅).2 hR₅Y₂
   have hres := card_le_max_of_forall_commutator_mem (H := yamadaR₅ d t) (S₀ := yamadaS₅ d t)
     (A := yamadaM₅ d t) (B := yamadaD₅ d t) (N := yamadaY₂ d t) (X := B)
@@ -1433,7 +1433,7 @@ private theorem card_le_of_commutator_mem_yamadaS₅ (hW : CFSG.Walter.WalterOrd
 
 private theorem card_le_of_commutator_mem_of_not_le (hW : CFSG.Walter.WalterOrderForm)
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d)
-    {B : Subgroup G} (hYB : yamadaY₂ d t ≤ B) (hBR : B ≤ yamadaR₅ d t)
+    {B : Subgroup G} (_hYB : yamadaY₂ d t ≤ B) (hBR : B ≤ yamadaR₅ d t)
     (hB : ∀ x ∈ B, ∀ y ∈ B, ⁅x, y⁆ ∈ yamadaY₂ d t) (hBS : ¬ B ≤ yamadaS₅ d t) :
     Nat.card B ≤ 2 * Nat.card K ^ 7 := by
   have hD := hQ.doubling
@@ -1681,7 +1681,7 @@ theorem yamada_5_46_4 (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d 
       ((yamadaS₅ d t).subgroupOf (yamadaR₅ d t)).Characteristic := by
   have hD := hQ.doubling
   obtain ⟨hNormal, hJ⟩ := yamada_5_46_3 hW h d hK hQ
-  haveI := hNormal
+  have := hNormal
   obtain ⟨hY₂F₅, hF₅M₅, hF₅D₅, hM₅S₅, hD₅S₅, hS₅R₅, hR₅F₅, hR₅S₅, hF₅R₅, hSS₅, htR₅⟩ :=
     h.yamadaS₅_basic hW d hK hQ
   obtain ⟨hMDinf, hne1, hne2⟩ := h.yamadaM₅_inf_yamadaD₅ hW d hK hQ
@@ -2017,8 +2017,8 @@ theorem yamada_5_47 (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : 
       have hmapF : A.map (MulAut.conj x).toMonoidHom ≤ yamadaF₂ d t := by
         rintro _ ⟨a, ha, rfl⟩
         exact (mem_normalizer_iff.1 hxF₂ a).1 (hAF ha)
-      haveI := hAel
-      haveI : CFSG.IsElementaryAbelian 2 (A.map (MulAut.conj x).toMonoidHom) :=
+      have := hAel
+      have : CFSG.IsElementaryAbelian 2 (A.map (MulAut.conj x).toMonoidHom) :=
         CFSG.IsElementaryAbelian.map _
       have hc2 : Nat.card (A.map (MulAut.conj x).toMonoidHom) = Nat.card K ^ 5 := by
         rw [Subgroup.card_map_of_injective (MulAut.conj x).injective, hAc]

@@ -76,8 +76,8 @@ theorem exists_psl_of_l154Lin {T : Type} [Group T] (h : catalogIs T l154Lin) :
     cases t with
     | A r q =>
       have hq : q.p = 2 := by simpa [l154Lin, onLie] using hi
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-      haveI : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
       have hr : 1 ≤ r :=
         ((TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
       refine ⟨r + 1, q.exponent, GaloisField q.p q.exponent, inferInstance, inferInstance, by omega, ?_,
@@ -90,10 +90,9 @@ theorem exists_psl_of_l154Lin {T : Type} [Group T] (h : catalogIs T l154Lin) :
 theorem famLin_of_canon {lab : GLALabel} {a m : ℕ} (h : canonLabel lab = ⟨.A, a, m⟩) : FamLin lab := by
   obtain ⟨tag, rank, n⟩ := lab
   cases tag
-  all_goals first
+  all_goals try first
     | exact Or.inl rfl
     | (simp [canonLabel] at h; done)
-    | skip
   · by_cases h3 : rank = 3
     · exact Or.inr (Or.inl ⟨rfl, h3⟩)
     · simp [canonLabel, h3] at h
@@ -179,7 +178,7 @@ theorem lin_marking_data (hLD : Y10GInnLin.LinLabelDict) {p : ℕ} (hp : p.Prime
   obtain ⟨d, m0, hd, hm0, hiff⟩ := famLin_recipe hΛ hfam
   obtain ⟨K, instF, instFin, hK, hs, hna, θ, ⟨hlt, f, hf, u, hu, hord, hindy⟩, φx, hφx, hindx⟩ :=
     (hiff _).1 hraw
-  haveI : CharP K 2 := charP_two_of_card_pow hK
+  have : CharP K 2 := charP_two_of_card_pow hK
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   obtain ⟨A, -, hA⟩ := hφx
   obtain ⟨U, -, hU⟩ := hu

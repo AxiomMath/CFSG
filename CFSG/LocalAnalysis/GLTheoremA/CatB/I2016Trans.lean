@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mk_eq_of_mem_glaPPrimeCoreOf {J : Subgroup G} {a b : ↥J}
     (h : (a : G)⁻¹ * (b : G) ∈ GLAPPrimeCoreOf 3 J) :
     (QuotientGroup.mk a : PQ 3 J) = QuotientGroup.mk b := by
@@ -31,9 +32,10 @@ theorem sigmaHom_eq_conj {J : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalize
     rw [sigmaQ_mk, MulAut.conj_apply]
     congr 1
 
+omit [Finite G] in
 theorem conj_mem_glaPPrimeCoreOf {J : Subgroup G} {l u : G} (hl : l ∈ J)
     (hu : u ∈ GLAPPrimeCoreOf 3 J) : l * u * l⁻¹ ∈ GLAPPrimeCoreOf 3 J := by
-  haveI : (CFSG.pPrimeCore 3 ↥J).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥J).Normal := CFSG.pPrimeCore_normal
   obtain ⟨n, hn, hnv⟩ := Subgroup.mem_map.1 hu
   have hc : (⟨l, hl⟩ : ↥J) * n * (⟨l, hl⟩ : ↥J)⁻¹ ∈ CFSG.pPrimeCore 3 ↥J :=
     Subgroup.Normal.conj_mem inferInstance n hn ⟨l, hl⟩
@@ -232,7 +234,7 @@ theorem mem_pPrimeCore_of_mem_glaPPrimeCoreOf {J K : Subgroup G} (hKJ : K ≤ J)
     (hx : (x : G) ∈ GLAPPrimeCoreOf 3 J) : x ∈ CFSG.pPrimeCore 3 ↥K := by
   classical
   let W : Subgroup ↥K := (GLAPPrimeCoreOf 3 J).comap K.subtype
-  haveI hWn : W.Normal := by
+  have hWn : W.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : (n : G) ∈ GLAPPrimeCoreOf 3 J := hn
     have hgJ : (g : G) ∈ J := hKJ g.2
@@ -262,8 +264,8 @@ theorem hasA6Quot_KphiQ {J K : Subgroup G} (hKJ : K ≤ J)
     ∃ (A₀ : Subgroup (PQ 3 J)) (S : Type) (_ : Group S) (f : ↥A₀ →* S),
       A₀ ≤ (KphiQ J K).range ∧ catalogIs S S8.isA6 ∧ Function.Surjective f := by
   classical
-  haveI : (CFSG.pPrimeCore 3 ↥K).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
-  haveI : (Subgroup.center (PQ 3 J)).Normal := inferInstance
+  have : (CFSG.pPrimeCore 3 ↥K).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have : (Subgroup.center (PQ 3 J)).Normal := inferInstance
   let ρ : ↥(K.comap J.subtype) →* ↥K :=
     { toFun := fun k => ⟨k.1.1, k.2⟩
       map_one' := rfl

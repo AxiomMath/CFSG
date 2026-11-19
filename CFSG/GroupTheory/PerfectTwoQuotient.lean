@@ -72,7 +72,7 @@ theorem isSylowOf_comap_of_map_eq_of_coprime_ker {L H : Type*} [Group L] [Finite
 theorem le_of_commutator_eq_self_of_le_sup_of_isPGroup {X : Type*} [Group X] [Finite X]
     {K N P : Subgroup X} [N.Normal] (hP : IsPGroup 2 P) (hK : ⁅K, K⁆ = K)
     (hKN : K ≤ N ⊔ P) : K ≤ N := by
-  haveI : ((K ⊓ N).subgroupOf K).Normal := by
+  have : ((K ⊓ N).subgroupOf K).Normal := by
     rw [Subgroup.inf_subgroupOf_left]
     exact Subgroup.normal_subgroupOf
   let D : Subgroup ↥K := (K ⊓ N).subgroupOf K
@@ -152,8 +152,7 @@ theorem fixV_eq_top_iff_le_ker {G V : Type} [Group G] [Finite G] {p : ℕ}
     exact hv x hx
   · intro h
     rw [eq_top_iff]
-    intro v _
-    intro a ha
+    intro v _ a ha
     have ha1 : ρ a = 1 := by
       rw [← MonoidHom.mem_ker]
       exact h ha

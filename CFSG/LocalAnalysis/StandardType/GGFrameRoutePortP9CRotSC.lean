@@ -21,7 +21,7 @@ private lemma P9_linearEquiv_eq_one_of_finrank_le_one
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
     (h : Module.finrank (ZMod 2) V ≤ 1) (g : V ≃ₗ[ZMod 2] V) : g = 1 := by
   by_cases hsub : Subsingleton V
-  · haveI : Subsingleton V := hsub
+  · have : Subsingleton V := hsub
     apply LinearEquiv.ext
     intro w
     change g w = w
@@ -77,7 +77,8 @@ theorem P9_rotRange_eq_of_sc (hK : Nat.card K = 4)
     exact P9rot_pow_three hK a
   exact hsc x hcomm hx3
 
-theorem P9_finrank_le_one_of_sc (hK : Nat.card K = 4) [Module.Finite (ZMod 2) V0]
+omit [Finite K] in
+theorem P9_finrank_le_one_of_sc (_hK : Nat.card K = 4) [Module.Finite (ZMod 2) V0]
     (S : Subgroup ((V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin t → K))))
     (hS : S ≤ P9rotRange K V0 t)
     (hsc : ∀ g : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] (V0 × (Fin t → K)),

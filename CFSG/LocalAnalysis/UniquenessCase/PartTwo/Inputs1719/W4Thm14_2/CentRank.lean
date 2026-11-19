@@ -25,7 +25,7 @@ theorem fixV_eq_bot_of_center (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAu
     (hZ : Subgroup.center ↥L ≠ ⊥) (hZodd : Odd (Nat.card (Subgroup.center ↥L))) :
     fixV L = ⊥ := by
   classical
-  haveI : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
+  have : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
   let Z : Subgroup ↥L := Subgroup.center ↥L
   let X : Subgroup (MulAut W) := Z.map L.subtype
   have hXodd : Odd (Nat.card X) := by
@@ -108,13 +108,13 @@ theorem pRank_le_one_of_centralizer_pow_six {Y L : Subgroup (MulAut W)} (hLY : L
     (hc : ∀ c : MulAut W, (∀ l ∈ L, c * l = l * c) → c ^ 6 = 1) :
     ∀ p : ℕ, p.Prime → 3 < p → CFSG.Open.pRank p (⊤ : Subgroup ↥Y) ≤ 1 := by
   classical
-  haveI : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
+  have : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
   intro p hp hp3
   let K : Subgroup ↥Y := L.subgroupOf Y
-  haveI : K.Normal := hLn
+  have : K.Normal := hLn
   let e : ↥K ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLY
-  haveI : Finite (MulAut ↥K) := inferInstanceAs (Finite (↥K ≃* ↥K))
-  haveI : Finite (MulAut ↥L) := inferInstanceAs (Finite (↥L ≃* ↥L))
+  have : Finite (MulAut ↥K) := inferInstanceAs (Finite (↥K ≃* ↥K))
+  have : Finite (MulAut ↥L) := inferInstanceAs (Finite (↥L ≃* ↥L))
   have hcent : CFSG.Open.pRank p (⊤ ⊓ Subgroup.centralizer (K : Set ↥Y)) = 0 := by
     rw [top_inf_eq]
     by_contra hne

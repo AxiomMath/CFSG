@@ -1070,7 +1070,7 @@ theorem cell_C3_b0 :
   intro s hs
   simp only [GGResIDisp.C3.shapes_C3_b0, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl
-  · simp only [wits_C3_b0, if_pos rfl]
+  · simp only [wits_C3_b0]
     exact hwits_C3b0c2
 theorem hsideOK_C3_b0 :
     ∀ s ∈ GGResIDisp.C3.shapes_C3_b0, ∀ w ∈ wits_C3_b0 s,
@@ -1103,17 +1103,17 @@ theorem cell_C3_b2 :
   intro s hs
   simp only [GGResIDisp.C3.shapes_C3_b2, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_C3_b2, if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c0
-  · simp only [wits_C3_b2, if_neg (by decide : ¬ (((0, -1, -2)) = ((0, -1, -1)))), if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c0w12
-  · simp only [wits_C3_b2, if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -2)))), if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c0w21
-  · simp only [wits_C3_b2, if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -2, -1)))), if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c1
-  · simp only [wits_C3_b2, if_neg (by decide : ¬ (((1, -1, -2)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((1, -1, -2)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((1, -1, -2)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((1, -1, -2)) = ((1, -1, -1)))), if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c1w12
-  · simp only [wits_C3_b2, if_neg (by decide : ¬ (((1, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((1, -2, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((1, -2, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((1, -2, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((1, -2, -1)) = ((1, -1, -2)))), if_pos rfl]
+  · simp only [wits_C3_b2]
     exact hwits_C3b2c1w21
 theorem hsideOK_C3_b2 :
     ∀ s ∈ GGResIDisp.C3.shapes_C3_b2, ∀ w ∈ wits_C3_b2 s,

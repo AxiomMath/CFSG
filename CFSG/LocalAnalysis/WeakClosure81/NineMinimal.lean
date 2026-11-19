@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 private theorem nineMinimal_sup_eq_mul {X T : Subgroup G}
     (hXT : (X : Set G) * (T : Set G) = (T : Set G) * (X : Set G)) :
     ((X ⊔ T : Subgroup G) : Set G) = (X : Set G) * (T : Set G) := by
@@ -70,8 +71,8 @@ theorem twoPTwo_of_minimal {W : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2) (hX :
     (hmin : ∀ K₀ : Subgroup G, T ≤ K₀ → K₀ < X ⊔ T → K₀ ≤ normalizer (W : Set G)) :
     TwoPTwo (X ⊔ T) T X p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := X ⊔ T
   have hXK : X ≤ K := le_sup_left
   have hTK : T ≤ K := le_sup_right
@@ -151,7 +152,7 @@ theorem TwoPTwo.exists_mul_pCoreOf_inf_normalizer {K S : Subgroup G} (h : TwoPTw
     {t : G} (ht : t ∈ S) :
     ∃ r ∈ pCoreOf 2 K, ∃ n ∈ S ⊓ normalizer (X : Set G), t = r * n := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let R : Subgroup G := pCoreOf 2 K
   let P : Subgroup G := R ⊔ X
   have hPK : P ≤ K := sup_le (CFSG.LieType.BorelTits.pCoreOf_le 2 K) h.sylowP.le

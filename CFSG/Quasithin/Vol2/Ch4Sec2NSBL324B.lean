@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L Mm I H K : Subgroup G} {m k : ℕ}
 
+omit [Finite G] in
 theorem pCoreOf_le_centralizerSection (hLM : L ≤ M) :
     pCoreOf 2 L ≤ centralizerSection M L (pCoreOf 2 L) := by
   intro o ho

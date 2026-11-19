@@ -12,7 +12,7 @@ namespace CFSG.ASVolI.ChH
 
 private theorem exists_fixedPoint_of_mul_self_eq_one {n : ℕ} (hn : Odd n)
     (σ : Equiv.Perm (Fin n)) (h : σ * σ = 1) : ∃ i, σ i = i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : σ ^ 2 ^ 1 = 1 := by rw [pow_one, pow_two]; exact h
   have hmod := Equiv.Perm.card_compl_support_modEq h2
   rw [Fintype.card_fin] at hmod

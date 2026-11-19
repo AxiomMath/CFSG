@@ -94,7 +94,7 @@ theorem y56_C2_inf_X0 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) 
         (Subgroup.mem_sup_right (Subgroup.mem_zpowers s.t))
   · have hE_C2 : s.fr.E ≤ s.C₂ := (y56_E_le_B hH).trans (y56_B_le_C2 hH)
     have hE_H : s.fr.E ≤ s.H := (y56_E_le_L s).trans (s3_L_le_H s hH.hS)
-    haveI : IsMulCommutative ↥s.fr.E :=
+    have : IsMulCommutative ↥s.fr.E :=
       IsMulCommutative.of_comm fun a b => Subtype.ext (y56_E_comm hH a a.2 b b.2)
     have hE_cent : s.fr.E ≤ Subgroup.centralizer (s.fr.E : Set G) :=
       Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance

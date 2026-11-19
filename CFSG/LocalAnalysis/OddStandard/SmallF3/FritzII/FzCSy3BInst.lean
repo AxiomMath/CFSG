@@ -73,8 +73,8 @@ private theorem fzc_sy3_c_x₂ (h : Ctx0 t L S x₁ x₂ lam rho) (hK : twoCore 
     _ = x₁ := hqx₁
 
 private theorem fzc_sy3_P_t' (h : Ctx0 t L S x₁ x₂ lam rho)
-    (hq : FzCQFacts t S x₁ x₂ lam rho) (hK : twoCore t = zpowers q) (hq4 : orderOf q = 4)
-    (hqt : q ^ 2 = t) (ht : t ∈ fzP t x₁ x₂ rho) :
+    (hq : FzCQFacts t S x₁ x₂ lam rho) (_hK : twoCore t = zpowers q) (_hq4 : orderOf q = 4)
+    (_hqt : q ^ 2 = t) (_ht : t ∈ fzP t x₁ x₂ rho) :
     ∀ p ∈ fzP t x₁ x₂ rho, p * t * p⁻¹ * t ∈ fourGrp x₁ x₂ := by
   intro p hp
   obtain ⟨f, hfZ, hpt⟩ := hq.R_act_t p (fzc_sy3_P_le_R hq hp)

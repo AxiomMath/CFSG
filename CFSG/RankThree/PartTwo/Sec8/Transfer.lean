@@ -33,7 +33,7 @@ theorem commutator_ne_top_of_transfer {p : ℕ} [Fact p.Prime] [Finite G] (P : S
   have h1 : ϕ.transfer r = 1 := by
     have hmem : r ∈ commutator G := htop ▸ Subgroup.mem_top r
     exact MonoidHom.mem_ker.mp (Abelianization.commutator_subset_ker ϕ.transfer hmem)
-  obtain ⟨n, hn⟩ := P.isPGroup' ⟨r, hr⟩
+  obtain ⟨n, hn⟩ := P.isPGroup ⟨r, hr⟩
   have hpn : ϕ ⟨r, hr⟩ ^ p ^ n = 1 := by rw [← map_pow, hn, map_one]
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow (Fact.out : p.Prime)).mp (orderOf_dvd_of_pow_eq_one hpn)
   have hj0 : j ≠ 0 := by

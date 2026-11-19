@@ -21,7 +21,7 @@ section Field
 
 theorem algebraMap_bijective :
     Function.Bijective (algebraMap (ZMod 2) (GaloisField 2 1)) := by
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num)]
     norm_num
@@ -65,12 +65,12 @@ theorem quadMinus_eq (v : Ix → GaloisField 2 1) :
     StatedQuadMinus 2 (GaloisField 2 1) 1 1 v =
       v (Sum.inl 0) * v (Sum.inr (Sum.inl 0)) + v (Sum.inr (Sum.inr 0)) ^ 2 +
         v (Sum.inr (Sum.inr 0)) * v (Sum.inr (Sum.inr 1)) + v (Sum.inr (Sum.inr 1)) ^ 2 := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp [StatedQuadMinus]
 
 theorem eK_quad (v : Ix → GaloisField 2 1) :
     eK (StatedQuadMinus 2 (GaloisField 2 1) 1 1 v) = qF (eK ∘ v) := by
   rw [quadMinus_eq]
-  simp [qF, map_add, map_mul, map_pow, map_one]
+  simp [qF, map_add, map_mul, map_pow]
 
 theorem eK_mulVec (M : Matrix (Ix) (Ix) (GaloisField 2 1))
     (v : Ix → GaloisField 2 1) :
@@ -433,7 +433,7 @@ theorem isA5Module_of_natural {H : Subgroup (GLV V)} {I : Submodule (ZMod 2) V}
     intro h h' hh
     apply omegaPerm_injective hHI hfaith φ'
     exact congrArg Subtype.val hh
-  haveI : Finite ↥H := Finite.of_equiv ↥(alternatingGroup (Fin 5)) φH.symm.toEquiv
+  have : Finite ↥H := Finite.of_equiv ↥(alternatingGroup (Fin 5)) φH.symm.toEquiv
   have hα'bij : Function.Bijective ((omegaPerm hHI φ').codRestrict
       (alternatingGroup (Fin 5)) hmemA) :=
     (Nat.bijective_iff_injective_and_card _).2 ⟨hα'inj, Nat.card_congr φH.toEquiv⟩

@@ -168,7 +168,7 @@ theorem rootCharKernel_e7T3XColumn {p : ℕ} [NeZero p] {L : Type} [Field L] {ζ
     rootCharKernel (fun i => ζ ^ (e7T3XColumn ε q i).val) =
       {α | ∃ l ∈ e7T3CertA5.rootList, α = toVec Tag.E7.rank l} := by
   ext α
-  rw [rootCharKernel, Set.mem_ofPred_eq, Set.mem_setOf_eq]
+  rw [rootCharKernel, Set.mem_ofPred_eq, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hα, h1⟩
     obtain ⟨l, hl, rfl⟩ := isRoot_iff_exists_mem.1 hα

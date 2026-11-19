@@ -50,7 +50,7 @@ private theorem exists_split_ker [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime]
 
 theorem exists_equivariant_swap [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     (Rh : Subgroup (Equiv.Perm V)) (hs : Rh ≤ semilinGroup F V) (hR : IsPGroup p Rh)
-    (A B D : Submodule F V) (hA : ∀ r ∈ Rh, ∀ v ∈ A, r v ∈ A) (hB : ∀ r ∈ Rh, ∀ v ∈ B, r v ∈ B)
+    (A B D : Submodule F V) (hA : ∀ r ∈ Rh, ∀ v ∈ A, r v ∈ A) (_hB : ∀ r ∈ Rh, ∀ v ∈ B, r v ∈ B)
     (hD : ∀ r ∈ Rh, ∀ v ∈ D, r v ∈ D) (hDB : Disjoint D B)
     (f : V →ₗ[F] V) (hfc : ∀ r ∈ Rh, ∀ v, r (f v) = f (r v)) (hfAB : ∀ v ∈ A, f v ∈ B)
     (hf0 : ∃ v ∈ A, f v ≠ 0) :
@@ -74,7 +74,7 @@ theorem exists_equivariant_swap [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime] 
 
 theorem exists_raising [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     (Rh : Subgroup (Equiv.Perm V)) (hs : Rh ≤ semilinGroup F V) (hR : IsPGroup p Rh)
-    (Fl : ℕ → Submodule F V) (hFl0 : Fl 0 = ⊥) (hmono : Monotone Fl)
+    (Fl : ℕ → Submodule F V) (hFl0 : Fl 0 = ⊥) (_hmono : Monotone Fl)
     (hinv : ∀ r ∈ Rh, ∀ k, ∀ v ∈ Fl k, r v ∈ Fl k) (W D : Submodule F V) (hFW : ∀ k, Fl k ≤ W)
     (hD : ∀ r ∈ Rh, ∀ v ∈ D, r v ∈ D) (hWD : Disjoint W D)
     (N : V →ₗ[F] V) (hN : ∀ k, ∀ v ∈ Fl (k + 1), N v ∈ Fl k)

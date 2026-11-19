@@ -24,8 +24,8 @@ theorem exists_sqModel_of_swap16 {W : Type} [CommGroup W] [Finite W] (hW : ∀ w
       (σ : ↥L₂ →* Matrix.GeneralLinearGroup (Fin 4) F),
       Nat.card F = 2 ∧ IsMatModel L₁ L₂ β ρ σ ∧ AlternatingNatural L₁ (matColSub β 0) ⊥ 5 := by
   classical
-  haveI : Nontrivial W := by
-    obtain ⟨w, -, hw⟩ := SetLike.exists_of_lt hirr.1
+  have : Nontrivial W := by
+    obtain ⟨w, -, hw⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨w, 1, by simpa using hw⟩
   have hL₁ne : L₁ ≠ ⊥ := ne_bot_of_isAlt_five ha₁
   have hgX₂₁ : g ∈ Subgroup.normalizer ((L₂ ⊔ L₁ : Subgroup (MulAut W)) : Set (MulAut W)) := by
@@ -58,8 +58,8 @@ theorem exists_sqModel_of_swap16 {W : Type} [CommGroup W] [Finite W] (hW : ∀ w
     exact hIrr.2.2.2 U (show StableUnder (L₁ ⊔ L₂) U from hU) bot_le le_top
   obtain ⟨F, hF, hFin, _, d, β, ρ, σ, _, _, _, hd, hM, _, _, _⟩ :=
     hasSqModel_swap_form hW hcomm hirr' hg hg'
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hcardW : Nat.card W = 2 ^ 16 := by
     rw [card_eq_two_pow_rk hW, hrk]
   have hcardβ : Nat.card W = Nat.card F ^ (d * d) := card_eq_card_pow_of_matEquiv β

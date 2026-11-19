@@ -23,6 +23,7 @@ theorem even_of_two_pow_mod_three {m : ℕ} (h : 2 ^ m % 3 = 1) : Even m := by
     rw [pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod] at h
     norm_num at h
 
+omit [Finite G] in
 theorem yAlphaClass_of_isRankOneType {M X T : Subgroup G} {c : G}
     (hL2m : ∀ m : ℕ, ¬ Nonempty (↥(yAlpha M X T c) ≃* projSL 2 (GaloisField 2 m)))
     (h : Sec18.IsRankOneType189 ↥(yAlpha M X T c)) :

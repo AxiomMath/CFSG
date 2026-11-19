@@ -17,9 +17,9 @@ private theorem ggSporKRestEval_getD_mem {K : Type} [Group K] (gens : List K) (H
     (h : ∀ g ∈ gens, g ∈ H) (n : ℕ) : gens.getD n 1 ∈ H := by
   rw [List.getD_eq_getElem?_getD]
   cases hg : gens[n]? with
-  | none => simpa using H.one_mem
+  | none => simp
   | some g =>
-      simp only [hg, Option.getD_some]
+      simp only [Option.getD_some]
       exact h g (List.mem_iff_getElem?.mpr ⟨n, hg⟩)
 
 private theorem ggSporKRestEval_getD_map {K G : Type} [Group K] [Group G] (f : K →* G)

@@ -48,7 +48,7 @@ private theorem nineBlock_normal (A : primeFormUnitary hF4 (idGram F4 6)) (a : F
     ↥(gramSU hF4 (idGram F4 6))) ∈
       specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a
   rw [show ((g * n * g⁻¹ : ↥(fixSubgroup (primeFormConjSU hF4 (idGram F4 6) A))) :
-      ↥(gramSU hF4 (idGram F4 6))) = g.1 * n.1 * g.1⁻¹ by simp [Subgroup.coe_mul, Subgroup.coe_inv],
+      ↥(gramSU hF4 (idGram F4 6))) = g.1 * n.1 * g.1⁻¹ by simp [Subgroup.coe_mul],
     map_mul, map_mul, map_inv]
   exact h
 
@@ -65,23 +65,23 @@ private theorem exists_nineBlock_equiv_statedProjSL2
       Nonempty (↥(nineBlock (A : GL (Fin 6) F4) (a : F4[X])) ≃*
         StatedProj (StatedSL 2 E)) := by
   have hq : 2 ≤ 2 ^ 1 := by norm_num
-  haveI : Finite F4 := hF4.finite
+  have : Finite F4 := hF4.finite
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e2⟩⟩ :=
     nonempty_specialBlock_mulEquiv_sesqSU (hK := hF4) (B := idForm hF4 6)
       (x := xOf (A : GL (Fin 6) F4)) (a := a) hself (selfDualPrimaryBlock H a hself)
   obtain ⟨e3⟩ :=
     CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl
       (by exact hmult)
-  haveI : Finite hE.fixedField := inferInstance
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite hE.fixedField := inferInstance
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Fintype.card hE.fixedField = 2 ^ (1 * (a : F4[X]).natDegree) := by
     rw [← Nat.card_eq_fintype_card]
     exact hE.card_fixedField
   have hF8 : Nat.card hE.fixedField = 8 := by
     rw [Nat.card_eq_fintype_card, hcardF, hdeg]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
   let eS := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 hE.fixedField
   let eP : StatedProj (StatedSL 2 hE.fixedField) ≃* StatedSL 2 hE.fixedField :=
     (QuotientGroup.quotientMulEquivOfEq
@@ -112,9 +112,9 @@ private theorem isSimpleGroup_nineBlock
     IsSimpleGroup ↥(nineBlock (A : GL (Fin 6) F4) (a : F4[X])) := by
   obtain ⟨E, hField, hFinite, hcard, ⟨eKP⟩⟩ :=
     exists_nineBlock_equiv_statedProjSL2 A H a hgood hself hmult hdeg
-  letI := hField
-  letI := hFinite
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 E)) :=
+  let := hField
+  let := hFinite
+  have : IsSimpleGroup (StatedProj (StatedSL 2 E)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) E le_rfl
       (Or.inr (by rw [hcard]; norm_num)) (Or.inr (by rw [hcard]; norm_num))
   exact eKP.isSimpleGroup
@@ -131,8 +131,8 @@ private theorem three_dvd_card_nineBlock
     3 ∣ Nat.card ↥(nineBlock (A : GL (Fin 6) F4) (a : F4[X])) := by
   obtain ⟨E, hField, hFinite, hcard, ⟨eKP⟩⟩ :=
     exists_nineBlock_equiv_statedProjSL2 A H a hgood hself hmult hdeg
-  letI := hField
-  letI := hFinite
+  let := hField
+  let := hFinite
   have h504 : Nat.card ↥(nineBlock (A : GL (Fin 6) F4) (a : F4[X])) = 504 := by
     rw [Nat.card_congr eKP.toEquiv,
       CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSL (K := E) (n := 2) (by norm_num),
@@ -203,7 +203,7 @@ private theorem structure_nineBlock (A : primeFormUnitary hF4 (idGram F4 6)) {c 
       ∀ x ∈ fixSubgroup (primeFormConjSU hF4 (idGram F4 6) A), x ^ 9 ∈ K := by
   obtain ⟨H, a, huniq, hself, hmult, hdeg⟩ := data_of_nine A hc hA
   have hgood : IsGoodBlock hF4 (xOf (A : GL (Fin 6) F4)) a :=
-    ⟨by omega, fun _ => by simp [hmult, hdeg]⟩
+    ⟨by omega, fun _ => by simp [hdeg]⟩
   have huniq' : ∀ b : primaryFactors ((xOf (A : GL (Fin 6) F4)) : Module.End F4
       (Fin 6 → F4)), (b : F4[X]) = (a : F4[X]) := fun b =>
     congrArg Subtype.val (huniq b)
@@ -236,7 +236,7 @@ theorem u6TwoNineSpecial_holds : U6TwoNineSpecial := by
     K.subgroupOf (fixSubgroup (primeFormConjSU hF4 (idGram F4 6) (⟨B, hB⟩ :
       primeFormUnitary hF4 (idGram F4 6))))
   have hKfixn : Kfix.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKsimple
+  have : IsSimpleGroup ↥K := hKsimple
   let T : Subgroup ↥(CenD B) := Kfix.map e.symm.toMonoidHom
   have eT : ↥T ≃* ↥K :=
     ((Subgroup.equivMapOfInjective Kfix e.symm.toMonoidHom e.symm.injective).symm).trans

@@ -55,7 +55,7 @@ theorem ggFar_aut_commute (hp2 : p ≠ 2) [Fact p.Prime] (hBs : IsElemAbelian p 
     have h : (⟨Φ₂ a, hΦ₂ a⟩ : ↥A) = ⟨Φ₂ b, hΦ₂ b⟩ := Ê.symm.injective hab
     exact hinj₂ (congrArg Subtype.val h)
   have hzero : (0 : Fin (n + 1)).castSucc ≠ (0 : Fin (n + 1)).succ := by
-    simp [Fin.ext_iff]
+    simp
   have hsw : ∀ x y : Fin (n + 1 + 1), x ≠ y → GGIsReflection p (E (Equiv.swap x y)) :=
     fun x y hxy =>
       ggIsReflection_swap_of_swap (E := E) (a := (0 : Fin (n + 1)).castSucc)

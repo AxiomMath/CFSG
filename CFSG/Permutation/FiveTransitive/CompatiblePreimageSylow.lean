@@ -45,7 +45,7 @@ private theorem exists_containing [Finite G] [Fact p.Prime]
   have hJB : J ≤ B := by
     intro j hj
     exact ⟨⟨j, hJV hj⟩, hJP hj, rfl⟩
-  have hBp : IsPGroup p B := P.isPGroup'.map (V.comap f).subtype
+  have hBp : IsPGroup p B := P.isPGroup.map (V.comap f).subtype
   have hk := kernel_eq f Q B hQker hmax (hQJ.trans hJB) hBp
   exact ⟨P, hJB, SylowPreimageNormalizer.ambient_map f hf V hV P,
     hk.1, hk.2, SylowPreimageNormalizer.normalizer_map f hf V hV P⟩

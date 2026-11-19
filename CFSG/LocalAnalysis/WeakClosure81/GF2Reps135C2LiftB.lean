@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem w135c2_lift_gen (hctx : Is135Context Y L) {t : MulAut W} (htY : t ∈ Y)
     [hN : ((Zc L).subgroupOf Y).Normal] (Tb : Finset (↥Y ⧸ (Zc L).subgroupOf Y))
     (hconj : ∀ y ∈ Tb,
@@ -28,7 +29,7 @@ theorem w135c2_lift_gen (hctx : Is135Context Y L) {t : MulAut W} (htY : t ∈ Y)
   classical
   have hLY : L ≤ Y := hctx.2.2.1
   let N : Subgroup ↥Y := (Zc L).subgroupOf Y
-  haveI hN' : N.Normal := hN
+  have hN' : N.Normal := hN
   let π : ↥Y →* (↥Y ⧸ N) := QuotientGroup.mk' N
   let S : Subgroup (↥Y ⧸ N) := (L.subgroupOf Y).map π
   let tb : ↥Y ⧸ N := π ⟨t, htY⟩
@@ -150,7 +151,7 @@ theorem w135c2_lift_gen (hctx : Is135Context Y L) {t : MulAut W} (htY : t ∈ Y)
     exact ⟨(h : MulAut W), ⟨Subgroup.mem_subgroupOf.mp hhH', hhL⟩,
       (n : MulAut W), Subgroup.mem_subgroupOf.mp hnN, hl_coe⟩
   refine ⟨T, hTcard, hTconj, ?_⟩
-  haveI : Group.IsPerfect ↥L := hctx.2.2.2.2.1.1
+  have : Group.IsPerfect ↥L := hctx.2.2.2.2.1.1
   have hLleH : L ≤ H :=
     (CFSG.ClassicalInvolution.Generic.le_of_perfect_of_le_sup_central
       (H := L) (A := H ⊓ L) (Z := Zc L) inf_le_right (w135c2_Zc_le L)
@@ -173,16 +174,16 @@ theorem w135c2_gen_of_alpha (hGS : ∀ (G : Type) [Group G] [Finite G] (S : Subg
     ∃ T : Finset (MulAut W), T.card ≤ A ∧ (∀ x ∈ T, ∃ g ∈ L, x = g * t * g⁻¹) ∧
       L ≤ Subgroup.closure (T : Set (MulAut W)) := by
   classical
-  haveI hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
+  have hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
   let N : Subgroup ↥Y := (Zc L).subgroupOf Y
-  haveI hN' : N.Normal := hZNorm
+  have hN' : N.Normal := hZNorm
   let π : ↥Y →* (↥Y ⧸ N) := QuotientGroup.mk' N
   let S : Subgroup (↥Y ⧸ N) := (L.subgroupOf Y).map π
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Finite ↥Y :=
+  have : Finite ↥Y :=
     Finite.of_injective (fun y : ↥Y => (y : MulAut W)) Subtype.coe_injective
-  haveI : Finite (↥Y ⧸ N) := inferInstance
+  have : Finite (↥Y ⧸ N) := inferInstance
   let tb : ↥Y ⧸ N := π ⟨t, htY⟩
   have ht_sq : t ^ 2 = 1 := by
     have h := pow_orderOf_eq_one t
@@ -197,7 +198,7 @@ theorem w135c2_gen_of_alpha (hGS : ∀ (G : Type) [Group G] [Finite G] (S : Subg
     have hmem : (⟨t, htY⟩ : ↥Y) ∈ N := (QuotientGroup.eq_one_iff _).mp h1
     exact w135c2_not_mem_Zc_of_order_two hctx ht2 (Subgroup.mem_subgroupOf.mp hmem)
   have hord : orderOf tb = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime htb2 htb1
   have hSnormal : S.Normal := w135c2_S_normal hctx
   have hScent : Subgroup.centralizer (S : Set (↥Y ⧸ N)) = ⊥ :=
@@ -215,16 +216,16 @@ theorem w135c2_gen_of_alpha_outer (hGS : GS03AlphaOuterGeneral) (hctx : Is135Con
     ∃ T : Finset (MulAut W), T.card ≤ gs03Bound tag n f ∧
       (∀ x ∈ T, ∃ g ∈ L, x = g * t * g⁻¹) ∧ L ≤ Subgroup.closure (T : Set (MulAut W)) := by
   classical
-  haveI hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
+  have hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
   let N : Subgroup ↥Y := (Zc L).subgroupOf Y
-  haveI hN' : N.Normal := hZNorm
+  have hN' : N.Normal := hZNorm
   let π : ↥Y →* (↥Y ⧸ N) := QuotientGroup.mk' N
   let S : Subgroup (↥Y ⧸ N) := (L.subgroupOf Y).map π
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Finite ↥Y :=
+  have : Finite ↥Y :=
     Finite.of_injective (fun y : ↥Y => (y : MulAut W)) Subtype.coe_injective
-  haveI : Finite (↥Y ⧸ N) := inferInstance
+  have : Finite (↥Y ⧸ N) := inferInstance
   let tb : ↥Y ⧸ N := π ⟨t, htY⟩
   have ht_sq : t ^ 2 = 1 := by
     have h := pow_orderOf_eq_one t
@@ -239,7 +240,7 @@ theorem w135c2_gen_of_alpha_outer (hGS : GS03AlphaOuterGeneral) (hctx : Is135Con
     have hmem : (⟨t, htY⟩ : ↥Y) ∈ N := (QuotientGroup.eq_one_iff _).mp h1
     exact w135c2_not_mem_Zc_of_order_two hctx ht2 (Subgroup.mem_subgroupOf.mp hmem)
   have hord : orderOf tb = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime htb2 htb1
   have hSnormal : S.Normal := w135c2_S_normal hctx
   have hScent : Subgroup.centralizer (S : Set (↥Y ⧸ N)) = ⊥ :=

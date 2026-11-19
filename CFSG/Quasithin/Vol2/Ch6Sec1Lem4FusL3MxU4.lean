@@ -28,7 +28,7 @@ theorem rank_statedSU {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (
   intro V hV hVel
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F :=
     ⟨hp, le_rfl, hF.trans (by ring)⟩
-  haveI : CharP F p := hU.charP
+  have : CharP F p := hU.charP
   have h2 : (2 : F) ≠ 0 := by
     intro h
     have h2' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h

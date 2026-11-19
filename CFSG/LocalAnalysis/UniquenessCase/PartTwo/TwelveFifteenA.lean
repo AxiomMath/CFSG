@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveFifteen
 
+omit [Finite G] in
 theorem mem_centralizer_sup {U W : Subgroup G} {y : G}
     (hU : y ∈ centralizer (U : Set G)) (hW : y ∈ centralizer (W : Set G)) :
     y ∈ centralizer ((U ⊔ W : Subgroup G) : Set G) := by
@@ -23,6 +24,7 @@ theorem mem_centralizer_sup {U W : Subgroup G} {y : G}
       (le_centralizer_iff.mp (zpowers_le.mpr hW))
   exact zpowers_le.mp h1
 
+omit [Finite G] in
 theorem le_normalizer_centralizer {M K : Subgroup G} (hMK : M ≤ normalizer (K : Set G)) :
     M ≤ normalizer ((centralizer (K : Set G) : Subgroup G) : Set G) := by
   have key : ∀ m ∈ normalizer (K : Set G), ∀ c ∈ centralizer (K : Set G),
@@ -42,6 +44,7 @@ theorem le_normalizer_centralizer {M K : Subgroup G} (hMK : M ≤ normalizer (K 
   have := key m⁻¹ (inv_mem (hMK hm)) _ hc
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_normalizer_inf {M A B : Subgroup G} (hA : M ≤ normalizer (A : Set G))
     (hB : M ≤ normalizer (B : Set G)) : M ≤ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   intro m hm
@@ -50,6 +53,7 @@ theorem le_normalizer_inf {M A B : Subgroup G} (hA : M ≤ normalizer (A : Set G
   simp only [mem_inf]
   rw [(mem_normalizer_iff.1 (hA hm)) z, (mem_normalizer_iff.1 (hB hm)) z]
 
+omit [Finite G] in
 theorem le_normalizer_sup {M A B : Subgroup G} (hA : M ≤ normalizer (A : Set G))
     (hB : M ≤ normalizer (B : Set G)) : M ≤ normalizer ((A ⊔ B : Subgroup G) : Set G) := by
   intro m hm
@@ -59,8 +63,8 @@ theorem le_normalizer_sup {M A B : Subgroup G} (hA : M ≤ normalizer (A : Set G
 theorem exists_index_eq_two_pow {K X : Subgroup G} (hK : K ≤ normalizer (X : Set G))
     (h : ∀ x ∈ K, Odd (orderOf x) → x ∈ centralizer (X : Set G)) :
     ∃ n : ℕ, ((centralizer (X : Set G)).subgroupOf K).index = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN : ((centralizer (X : Set G)).subgroupOf K).Normal := kerAct_normal K X hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : ((centralizer (X : Set G)).subgroupOf K).Normal := kerAct_normal K X hK
   have hP : IsPGroup 2 (↥K ⧸ (centralizer (X : Set G)).subgroupOf K) := by
     rw [IsPGroup.iff_orderOf]
     intro q
@@ -82,11 +86,12 @@ theorem exists_index_eq_two_pow {K X : Subgroup G} (hK : K ≤ normalizer (X : S
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP
   exact ⟨n, hn⟩
 
+omit [Finite G] in
 theorem mem_centralizer_of_index_eq_two_pow {K X : Subgroup G}
     (hK : K ≤ normalizer (X : Set G))
     (h : ∃ n : ℕ, ((centralizer (X : Set G)).subgroupOf K).index = 2 ^ n) {x : G} (hx : x ∈ K)
     (hodd : Odd (orderOf x)) : x ∈ centralizer (X : Set G) := by
-  haveI hN : ((centralizer (X : Set G)).subgroupOf K).Normal := kerAct_normal K X hK
+  have hN : ((centralizer (X : Set G)).subgroupOf K).Normal := kerAct_normal K X hK
   obtain ⟨n, hn⟩ := h
   have h1 : orderOf (QuotientGroup.mk ⟨x, hx⟩ :
       ↥K ⧸ (centralizer (X : Set G)).subgroupOf K) ∣ orderOf x := by
@@ -109,7 +114,7 @@ theorem mem_centralizer_of_commute {U K : Subgroup G} {x : G} (hU : IsPGroup 2 U
     (hcomm : ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ centralizer (U : Set G))
     (hfix : ∀ u ∈ U, (∀ k ∈ K, k * u = u * k) → x * u = u * x) :
     x ∈ centralizer (U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : zpowers x ≤ normalizer (U : Set G) := zpowers_le.mpr hxU
   let α : ↥(zpowers x) →* MulAut ↥U := U.normalizerMonoidHom.comp (inclusion hA)
   let β₀ : ↥K →* MulAut ↥U := U.normalizerMonoidHom.comp (inclusion hKU)
@@ -131,7 +136,7 @@ theorem mem_centralizer_of_commute {U K : Subgroup G} {x : G} (hU : IsPGroup 2 U
       refine MulEquiv.ext fun u => Subtype.ext ?_
       rw [hβ₀, MulAut.one_apply, ← hk u u.2]
       group
-  haveI : Finite ↥β₀.range := Finite.of_surjective _ β₀.rangeRestrict_surjective
+  have : Finite ↥β₀.range := Finite.of_surjective _ β₀.rangeRestrict_surjective
   have hB : IsPGroup 2 ↥β₀.range := by
     obtain ⟨n, hn⟩ := hK2
     apply IsPGroup.of_card (n := n)

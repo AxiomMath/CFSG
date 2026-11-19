@@ -91,7 +91,7 @@ theorem exists_layer_of_unitary_model {T : Type} [Group T] [Finite T] {f : ℕ}
     (hEt : ∀ c ∈ Eb, c t = t) :
     ∃ c ∈ Eb, c ∉ Subgroup.zpowers β ∧ GLAPLayer 3 (fixSubgroup β ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Finite (MulAut (primeFormP h (idGram K 3))) :=
+  have : Finite (MulAut (primeFormP h (idGram K 3))) :=
     Finite.of_injective
       (fun (g : MulAut (primeFormP h (idGram K 3))) (w : primeFormP h (idGram K 3)) => g w)
       (fun g g' hgg' => MulEquiv.ext (congrFun hgg'))

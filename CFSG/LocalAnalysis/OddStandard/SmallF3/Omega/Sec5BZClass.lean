@@ -26,23 +26,27 @@ structure Sec5B59Hyp : Prop where
 variable [Finite G] {t : G} {L S : Subgroup G} {z r : G} {B A : Subgroup G}
   {φ : (Fin 6 → ZMod 2) → G}
 
+omit [Finite G] in
 private theorem inducesTypeSome_mem_normalizer {L : Subgroup G} {s : G} {n : ℕ} {ε : ℤˣ}
     {r : ℕ} {α : ℤˣ} (h : InducesTypeSome L s n ε r α) :
     s ∈ normalizer (L : Set G) := by
   obtain ⟨V, _, _, _, Q, hQ, e, x, -, -, hind, -⟩ := h
   exact hind.1
 
+omit [Finite G] in
 private theorem normalizer_conj_mem {A : Subgroup G} {m y : G}
     (hm : m ∈ normalizer (A : Set G)) (hy : y ∈ A) : m * y * m⁻¹ ∈ A := by
   have hiff := (Subgroup.mem_normalizer_iff'' (H := A)).mp hm
   have hEq : m⁻¹ * (m * y * m⁻¹) * m = y := by group
   exact (hiff (m * y * m⁻¹)).mpr (by rw [hEq]; exact hy)
 
+omit [Finite G] in
 private theorem conjClassIn_normalizer_inv {N : Subgroup G} {z m : G} (hm : m ∈ N)
     {y : G} (hy : y ∈ conjClassIn N z) : m * y * m⁻¹ ∈ conjClassIn N z := by
   obtain ⟨n, hn, rfl⟩ := hy
   exact ⟨m * n, N.mul_mem hm hn, by group⟩
 
+omit [Finite G] in
 private theorem perm6_mul_comm (hm : Sec5Model58 t L z r A φ) (v w : Fin 6 → ZMod 2) :
     φ v * φ w = φ w * φ v := by
   calc φ v * φ w = φ (v + w) := (hm.perm.map_add v w).symm

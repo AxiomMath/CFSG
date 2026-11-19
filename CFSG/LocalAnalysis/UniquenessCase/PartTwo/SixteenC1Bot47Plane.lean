@@ -77,7 +77,7 @@ theorem s16c1_exists_three_cent_plane (D : Data G) (hkit : OmegaKit) {V L : Subg
     {P : Subgroup G} (hPV : P ≤ V) (hP : Nat.card ↥P = 4) :
     ∃ R : Subgroup G, R ≤ L ∧ IsPGroup 3 R ∧ R ≠ ⊥ ∧ R ≤ centralizer (P : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P' : Subgroup (IntMod V hV) := P.subgroupOf V
   let Ptil : Subgroup (Vtil ⊥ V hV) := P'.map (mkTil ⊥ V hV)
   have hmkTil_inj : Function.Injective (mkTil ⊥ V hV) := by
@@ -187,6 +187,7 @@ theorem s16c1_plane_mem_M (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig
   rw [hdisj] at hle
   exact hRne (le_bot_iff.mp hle)
 
+omit [Finite G] in
 private theorem s16c1_eq_one_or_eq_of_mem_zpowers {a b : G} (ha : a ^ 2 = 1)
     (hb : b ∈ Subgroup.zpowers a) : b = 1 ∨ b = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
@@ -234,7 +235,7 @@ theorem s16c1_core_bot (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = 
     ∀ h ∈ centralizer ({z} : Set G),
       ¬ uOne V z ⊓ conjSubgroup (uOne V z) h ≤ Subgroup.zpowers z → h ∈ D.M := by
   intro h hh hnot
-  rw [SetLike.not_le_iff_exists] at hnot
+  rw [IsConcreteLE.not_le_iff_exists] at hnot
   obtain ⟨w, hw, hwz⟩ := hnot
   have hwV : w ∈ V := (show uOne V z ≤ V from inf_le_left) hw.1
   have hz2 : z ^ 2 = 1 := hV.2 z hz

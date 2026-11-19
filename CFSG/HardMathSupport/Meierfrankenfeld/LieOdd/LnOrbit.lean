@@ -74,8 +74,7 @@ theorem lvMat_mul_xMat (A : Matrix (Fin m) (Fin m) K) (c : Fin m → K) :
   ext i j
   refine Fin.cases ?_ (fun i' => ?_) i <;> refine Fin.cases ?_ (fun j' => ?_) j <;>
     simp [lvMat, xMat, colV, Matrix.mul_apply, Fin.sum_univ_succ, Matrix.vecMulVec_apply,
-      Matrix.mulVec, dotProduct, Matrix.one_apply, Pi.single_apply, Fin.succ_ne_zero,
-      (Fin.succ_ne_zero _).symm]
+      Matrix.mulVec, dotProduct, Matrix.one_apply, Pi.single_apply, Fin.succ_ne_zero]
 
 @[expose] def xSL (c : Fin m → K) : Matrix.SpecialLinearGroup (Fin (m + 1)) K :=
   ⟨xMat c, xMat_det c⟩
@@ -153,7 +152,7 @@ theorem diagSL_exists {m : ℕ} (hm : 2 ≤ m) (c : K) (hc : c ≠ 0) :
   refine ⟨⟨Matrix.diagonal f, ?_⟩, ?_⟩
   · rw [Matrix.det_diagonal, Fintype.prod_eq_mul i0 i1 h01 (fun x hx => by
       simp [f, hx.1, hx.2])]
-    simp [f, h01, h01.symm, hc]
+    simp [f, h01.symm, hc]
   · ext j
     simp only [Matrix.mulVec_diagonal, f, Pi.single_apply]
     by_cases hj : j = i0 <;> simp [hj, i0]
@@ -177,7 +176,7 @@ theorem exists_SL_mulVec_eq_single {m : ℕ} (hm : 2 ≤ m)
   refine ⟨g, (c : K), c.ne_zero, ?_⟩
   rw [hc']
   ext j
-  by_cases hj : j = ⟨0, by omega⟩ <;> simp [Pi.single_apply, hj]
+  by_cases hj : j = ⟨0, by omega⟩ <;> simp [hj]
 
 theorem exists_SL_mulVec_eq {m : ℕ} (hm : 2 ≤ m)
     {x y : Fin m → K} (hx : x ≠ 0) (hy : y ≠ 0) :
@@ -189,10 +188,10 @@ theorem exists_SL_mulVec_eq {m : ℕ} (hm : 2 ≤ m)
   have hd' : (d : Matrix (Fin m) (Fin m) K) *ᵥ (Pi.single ⟨0, by omega⟩ a) =
       Pi.single ⟨0, by omega⟩ b := by
     have : (Pi.single (⟨0, by omega⟩ : Fin m) a : Fin m → K) = a • Pi.single ⟨0, by omega⟩ 1 := by
-      ext j; by_cases hj : j = ⟨0, by omega⟩ <;> simp [Pi.single_apply, hj]
+      ext j; by_cases hj : j = ⟨0, by omega⟩ <;> simp [hj]
     rw [this, Matrix.mulVec_smul, hd]
     ext j
-    by_cases hj : j = ⟨0, by omega⟩ <;> simp [Pi.single_apply, hj, ha]
+    by_cases hj : j = ⟨0, by omega⟩ <;> simp [hj]
     · field_simp
   have hy' : (g₂ : Matrix (Fin m) (Fin m) K) *ᵥ y = Pi.single ⟨0, by omega⟩ b := h₂
   have e : ((g₂⁻¹ * d * g₁ : Matrix.SpecialLinearGroup (Fin m) K) : Matrix (Fin m) (Fin m) K) *ᵥ x =
@@ -406,7 +405,7 @@ theorem uHom_range_ne_bot (hm : 1 ≤ m) : (uHom (K := K) (m := m)).range ≠ �
   rw [h, Subgroup.mem_bot, ← map_one uHom] at hc
   have := uHom_injective hc
   have h2 := congrFun (Multiplicative.toAdd.injective (this : c = 1)) ⟨0, hm⟩
-  simp [c] at h2
+  simp at h2
 
 theorem tHom_range_le_normalizer :
     (tHom (K := K) (m := m)).range ≤

@@ -139,7 +139,7 @@ theorem eq_bot_of_forall_commutator_mem_center {Lb Tb Cb : Subgroup Z}
       refine (Subgroup.card_subgroup_dvd_card (S : Subgroup (Lb ⧸ center Lb))).trans ?_
       rw [← Subgroup.index_eq_card]
       exact hidxZ
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
     have hn1 : n ≤ 1 := by
       by_contra hn1
       have h2 : r ^ 2 ∣ 336 := (pow_dvd_pow r (by omega)).trans (hn ▸ hdvd)

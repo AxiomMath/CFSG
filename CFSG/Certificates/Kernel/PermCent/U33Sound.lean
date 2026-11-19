@@ -19,7 +19,7 @@ theorem elem_eq : AS35YS.u33ElemCheck = elemC := by
   unfold AS35YS.u33ElemCheck elemC elemAt
   rw [elemsT_eq_elemsC, elemsT_eq_elemsC]
   simp only [List.all_map, List.any_map, Function.comp_def, ev_mul', ev_inv', one_eq_ev, beq_ev,
-    List.all_filter, List.any_filter, Bool.or_assoc, Bool.not_not, decide_ev_eq]
+    List.all_filter, List.any_filter, Bool.or_assoc]
 
 open S63 in
 theorem two_ev (x : CV 28) : u33Two (ev x) = twoC x := by
@@ -77,7 +77,7 @@ theorem f3_eq : checkF3 () = f3C (invsOfC (elemsC QP)) (o3OfC (elemsC QP)) := by
   unfold checkF3 elems
   rw [elemsT_eq_elemsC, invsOf_ev, o3Of_ev]
   simp only [checkF3', f3C, List.all_map, List.any_cons, List.any_nil, Function.comp_def,
-    ev_mul', one_eq_ev, beq_ev, beq_cv, bne_def']
+    ev_mul', beq_ev, beq_cv, bne_def']
 
 theorem x5_eq : checkX5 () = x5C (elemsC QP) (invsOfC (elemsC QP)) (o3OfC (elemsC QP)) := by
   unfold checkX5 elems
@@ -124,9 +124,9 @@ theorem z_eq : checkZ () = zC := by
   unfold checkZ zC zL
   rw [t0L_eq]
   conv_lhs => rw [eq_ev_cOf z0]
-  simp only [List.length_map, one_eq_ev, contains_map_ev, contains_cv, List.all_map,
+  simp only [one_eq_ev, contains_map_ev, contains_cv, List.all_map,
     Function.comp_def, ev_mul', ev_pow', beq_ev, beq_cv, bne_def', List.contains_cons,
-    List.contains_nil, List.elem_cons, List.elem_nil]
+    List.contains_nil]
 
 theorem c_eq : checkC () = cC := by
   rw [checkC_fun]
@@ -145,9 +145,8 @@ theorem e1_eq : checkE1 () = e1C := by
   unfold checkE1 e1C elems zL t0
   rw [t0L_eq]
   conv_lhs => rw [eq_ev_cOf z0, elemsT_eq_elemsC]
-  simp only [one_eq_ev, contains_map_ev, contains_cv, List.all_map, Function.comp_def, ev_mul',
-    ev_pow', beq_ev, beq_cv, bne_def', List.contains_cons, List.contains_nil, List.elem_cons,
-    List.elem_nil]
+  simp only [one_eq_ev, List.all_map, Function.comp_def, ev_mul',
+    ev_pow', beq_ev, beq_cv, bne_def', List.contains_cons, List.contains_nil]
 
 theorem sylow7_eq : ((elemsT QP).filter fun g =>
       (List.range 7).any fun i => decide (g * (pa * pb) * g⁻¹ = (pa * pb) ^ i)).length =

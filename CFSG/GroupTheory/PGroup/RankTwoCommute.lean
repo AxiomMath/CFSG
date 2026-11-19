@@ -34,7 +34,7 @@ theorem isElemAbelian_sup_zpowers_of_mem_isElemAbelian {p : ℕ} [Fact p.Prime]
     (hxy : y ∉ Subgroup.zpowers x) :
     CFSG.Open.IsElemAbelian p (Subgroup.zpowers x ⊔ Subgroup.zpowers y) ∧
       Nat.card (Subgroup.zpowers x ⊔ Subgroup.zpowers y : Subgroup H) = p ^ 2 := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcomm : ∀ a ∈ Subgroup.zpowers x, a * y = y * a := by
     intro a ha
     have haA : a ∈ A := Subgroup.zpowers_le.mpr hx ha

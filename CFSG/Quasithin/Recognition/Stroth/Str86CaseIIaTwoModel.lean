@@ -57,8 +57,8 @@ theorem binaryNaturalSU3_su3Anti_model {V : Type} [CommGroup V] [Finite V]
   classical
   obtain ⟨K, hKf, hKfin, hKcard, π, hπsurj, Φ₀, hΦ₀⟩ :=
     binaryNaturalSU3_realization (V := V) h
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) (by
       rw [← Nat.card_eq_fintype_card, hKcard, ← pow_mul, mul_comm])
   have hπinj : Function.Injective π := by
@@ -142,13 +142,13 @@ theorem str86_caseIIa_two_model
     (hk : 2 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2)
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
-    (hB2 : VBig L2) (hm : IsL2Quot m (oTwoQuot ↥L2))
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
-    (hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
-    (hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2)
+    (_hB2 : VBig L2) (_hm : IsL2Quot m (oTwoQuot ↥L2))
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
+    (_hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
+    (_hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2)
     {N : Subgroup G} (hN : IsElemAbelian 2 N)
-    (hNZ : N ≤ Z1 L1 L2 S) (hNne : N ≠ ⊥)
+    (_hNZ : N ≤ Z1 L1 L2 S) (_hNne : N ≠ ⊥)
     (hNP1 : P1 L1 L2 S ≤ Subgroup.normalizer (N : Set G))
     (hNS : S ⊓ Subgroup.centralizer (N : Set G) = Q1 L1 L2 S)
     (hNat : @BinaryNaturalSU3 ↥N (commGroupOfElemAbelian hN) (autOn (L1 ⊔ S) N) ⊤ ⊥ k) :
@@ -165,11 +165,11 @@ theorem str86_caseIIa_two_model
           Φ (Additive.ofMul n') =
             (x : Matrix (Fin 3) (Fin 3) K).mulVec (Φ (Additive.ofMul n))) := by
   classical
-  letI : CommGroup ↥N := commGroupOfElemAbelian hN
+  let : CommGroup ↥N := commGroupOfElemAbelian hN
   obtain ⟨K, hKf, hKfin, hKcard, π, hπsurj, Φ₀, hΦ₀⟩ :=
     binaryNaturalSU3_realization (V := ↥N) hNat
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) (by
       rw [← Nat.card_eq_fintype_card, hKcard, ← pow_mul, mul_comm])
   let H : Subgroup G := L1 ⊔ S
@@ -280,7 +280,7 @@ theorem str86_caseIIa_two_model
       exact CFSG.Quasithin.H.SU3.card_statedSU_two (K := K) (by omega) hKcard
     rw [show (2 ^ k) ^ 3 = 2 ^ (3 * k) by rw [← pow_mul, mul_comm]] at h2
     exact Nat.pow_right_injective (by norm_num) h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowIn 2 T (su3Anti K k) := by
     refine isSylowIn_of_card_eq hTle ?_
     rw [hcardT, hfac, ← pow_mul, mul_comm]

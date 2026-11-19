@@ -19,9 +19,9 @@ theorem K_ne_layer : K ≠ layer H := by
   intro hKL
   obtain ⟨e0⟩ := hd.K_a5
   have e : ↥(layer H) ≃* alternatingGroup (Fin 5) := (MulEquiv.subgroupCongr hKL.symm).trans e0
-  haveI := layer_normal_of_ap (H := H)
+  have := layer_normal_of_ap (H := H)
   obtain ⟨A', hA', hZA'⟩ := hd.A4
-  haveI := hA'.1
+  have := hA'.1
   have hp : IsPGroup 3 A' := IsElementaryAbelian.isPGroup 3 ↥A'
   obtain ⟨P, -, hP2, hPbot, hPstab⟩ := exists_normalized_two_subgroup e hp
   obtain ⟨T, hTA, hT, hTZ⟩ := exists_elemAb_compl hA' hZA' hd.Z_card
@@ -30,12 +30,12 @@ theorem K_ne_layer : K ≠ layer H := by
 
 theorem ap_absyl :
     ∃ S : Subgroup H, S ≤ layer H ∧ IsSylowOf 3 S (layer H) ∧ IsMulCommutative S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S0, hS0, hc⟩ := hd.absyl
-  haveI := layer_normal_of_ap (H := H)
+  have := layer_normal_of_ap (H := H)
   obtain P : Sylow 3 ↥(layer H) := Classical.arbitrary _
   set S : Subgroup H := (P : Subgroup ↥(layer H)).map (layer H).subtype with hS
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hSp : IsPGroup 3 S :=
     IsPGroup.of_card (n := k) (by rw [hS, Subgroup.card_map_of_injective
       (layer H).subtype_injective, hk])
@@ -100,7 +100,7 @@ theorem ap_inv3 : ∀ t u v : H, t ∈ layer H → orderOf t = 2 → u ∈ layer
 
 theorem ap_outer : ∀ e : H, e ∈ layer H → ¬ ∀ l ∈ layer H, β l = e * l * e⁻¹ := by
   intro e he hall
-  haveI := L_facts_simple hd
+  have := L_facts_simple hd
   have hLmul : ∀ x y : H, x ∈ layer H → y ∈ layer H → x * y * x⁻¹ ∈ layer H :=
     fun x y hx hy => (layer H).mul_mem ((layer H).mul_mem hx hy) ((layer H).inv_mem hx)
   have hβe : β e = e := by simpa using hall e he
@@ -129,7 +129,7 @@ theorem ap_outer : ∀ e : H, e ∈ layer H → ¬ ∀ l ∈ layer H, β l = e *
   by_cases he1 : e = 1
   · subst he1
     have hfix : ∀ l ∈ layer H, β l = l := fun l hl => by simpa using hall l hl
-    haveI hnor : (K.subgroupOf (layer H)).Normal := ⟨fun n hn g => by
+    have hnor : (K.subgroupOf (layer H)).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hd.K_nor g (hfix g g.2) n hn⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf (layer H)) with h | h
@@ -141,7 +141,7 @@ theorem ap_outer : ∀ e : H, e ∈ layer H → ¬ ∀ l ∈ layer H, β l = e *
       rw [this, orderOf_one] at ha3
       omega
     · exact K_ne_layer hd (le_antisymm (K_le_L hd) (Subgroup.subgroupOf_eq_top.1 h))
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have horder : orderOf e = 3 := orderOf_eq_prime he3 he1
     obtain ⟨a, haK, ha3⟩ := K_order3 hd
     refine no_fixed_pair hd (x := a) (y := e) (K_le_L hd haK) he ha3 horder (hKe a haK)

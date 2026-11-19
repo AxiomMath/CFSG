@@ -53,7 +53,7 @@ theorem pow_three_eq_one_of_mem_inf_L_of_onan
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ∀ x ∈ P ⊓ c.L, x ^ 3 = 1 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   intro x hx
@@ -97,7 +97,7 @@ private theorem inf_centralizer_map_le_center
     (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G)).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) ≤ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -136,7 +136,7 @@ private theorem center_le_inf_centralizer_map
       (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G)).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -197,7 +197,7 @@ theorem card_inf_centralizer_of_onan
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card ↥((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G)) = 3 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -275,8 +275,8 @@ private theorem preimage_center_eq_sup_pCore_inf_centralizer
       exact Subgroup.mem_map.mpr ⟨⟨z, hzL⟩, Subgroup.mem_comap.mpr hzcenter, rfl⟩
 
 private theorem preimage_center_subgroupOf_normal
-    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
+    (_hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    {P : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ((((Subgroup.center c.Lbar).comap
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L))).map c.L.subtype).subgroupOf D.M).Normal := by
   classical
@@ -317,7 +317,7 @@ private theorem isSylowIn_inf_centralizer_preimage
       (((Subgroup.center c.Lbar).comap
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L))).map c.L.subtype) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let Q : Subgroup G := P ⊓ c.L
   let Z : Subgroup G := Q ⊓ Subgroup.centralizer (Q : Set G)
@@ -353,7 +353,7 @@ theorem le_sup_normalizer_of_onan
       (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) : Subgroup G) :
         Set G)) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let Q : Subgroup G := P ⊓ c.L
   let Z : Subgroup G := Q ⊓ Subgroup.centralizer (Q : Set G)
@@ -401,7 +401,7 @@ theorem three_le_pRank_normalizer_inf_of_onan
       (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) : Subgroup G) :
         Set G) ⊓ D.M) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup G := (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype with hO
   set H : Subgroup G := Subgroup.normalizer
     (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) : Subgroup G) :

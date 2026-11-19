@@ -35,7 +35,7 @@ theorem twisted_descent_E6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : 
       rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
     rw [← hder, h1]
     exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
-  haveI hnorm : (((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).map
+  have hnorm : (((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).map
       (baseChangeGL (algebraMap K (AlgebraicClosure K)))).subgroupOf
         (CFSG.Blueprint.twistedFixedGroup TwistTag.E6 (AlgebraicClosure K) Fr)).Normal := by
     rw [hNR]
@@ -50,7 +50,7 @@ theorem twisted_descent_E6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : 
     refine ⟨1, Subtype.ext ?_⟩
     rw [Subgroup.coe_pow, pow_one, Subgroup.coe_one, ← hm, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul,
       zpow_natCast, hxp, one_zpow]
-  haveI : Finite (Subgroup.zpowers x) :=
+  have : Finite (Subgroup.zpowers x) :=
     (isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp.pos, hxp⟩).finite_zpowers
   have hle := le_of_isPGroup_of_index_eq_pow hPR hp Nat.prime_three hp3 hk hPp
   obtain ⟨u, hu, hux⟩ := Subgroup.mem_map.1 (hle (Subgroup.mem_zpowers x))
@@ -129,12 +129,12 @@ theorem twE6KillRoot_proof : ExcWideThree.TwE6KillRoot := by
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hq2 : 2 ≤ q := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases q <;> norm_num at hK <;> omega
   obtain ⟨hpr, f, hf1, hqf⟩ := exists_pow_ringChar_of_card_sq K q hK hq2
   set p := ringChar K with hp_def
-  haveI : Fact p.Prime := ⟨hpr⟩
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hpr⟩
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) p f :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hqf]

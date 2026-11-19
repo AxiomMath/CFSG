@@ -89,7 +89,7 @@ theorem treeK_spec {ng N : Nat} {E P : Nat → Nat} (h : treeK ng N E P = true) 
     f16 (P i) 0 < i ∧ f16 (P i) 1 < ng ∧ f16 (E (f16 (P i) 0)) (f16 (P i) 1) = i := by
   unfold treeK at h
   have h1 := allN_iff.1 h i hi
-  simp only [Bool.or_eq_true, Nat.beq_eq_true_eq, Bool.and_eq_true, Nat.blt_eq] at h1
+  simp only [Bool.or_eq_true, Bool.and_eq_true, Nat.blt_eq] at h1
   rcases h1 with h1 | ⟨⟨h2, h3⟩, h4⟩
   · exact absurd (Nat.eq_of_beq_eq_true h1) h0
   · exact ⟨h2, h3, Nat.eq_of_beq_eq_true h4⟩
@@ -193,7 +193,7 @@ theorem orbK_sound {A AI : Nat → Nat} {a : Fin 2 → Equiv.Perm (Fin 128)}
       Nat.card {x | ∃ g ∈ Subgroup.closure (Set.range a), x = g * R * g⁻¹} = N ∧
       ∀ i < N, T i >>> 1024 = 0 := by
   unfold orbK at h
-  simp only [Bool.and_eq_true, Nat.beq_eq_true_eq] at h
+  simp only [Bool.and_eq_true] at h
   obtain ⟨⟨⟨⟨hT0, hr⟩, hcl⟩, htree⟩, hord⟩ := h
   rw [allN_iff] at hcl
   have hT0' : T 0 = r := Nat.eq_of_beq_eq_true hT0
@@ -230,7 +230,7 @@ theorem sylK_sound {G : Nat → Nat} {ng : Nat} {p : Fin ng → Equiv.Perm (Fin 
     (∀ x, x ∈ Subgroup.closure (Set.range p) ↔ ∃ i < N, PR (L i) x) ∧
       Nat.card (Subgroup.closure (Set.range p)) = N ∧ ∀ i < N, L i >>> 1024 = 0 := by
   unfold sylK at h
-  simp only [Bool.and_eq_true, Nat.beq_eq_true_eq] at h
+  simp only [Bool.and_eq_true] at h
   obtain ⟨⟨⟨hL0, hcl⟩, htree⟩, hord⟩ := h
   rw [allN_iff] at hcl
   have hL0' : L 0 = pid := Nat.eq_of_beq_eq_true hL0

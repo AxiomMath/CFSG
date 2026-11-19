@@ -28,7 +28,6 @@ theorem diagCoverU43_card_zmod :
     Nat.card (Multiplicative (ZMod 4 × ZMod 3 × ZMod 3)) = 36 := by
   rw [Nat.card_congr Multiplicative.toAdd, Nat.card_prod, Nat.card_prod, Nat.card_zmod,
     Nat.card_zmod]
-  all_goals norm_num
 
 theorem diagCoverU43_le_nine {n k : ℕ} (hn : n = 3 ^ k) (h : n ∣ 36) : n ≤ 9 := by
   subst hn
@@ -60,7 +59,7 @@ theorem diagCoverU43_central_data {K Y : Type} [Group K] [Group.IsPerfect K] [Gr
 theorem diagCoverU43_multiplier_data :
     (∀ m : CFSG.RankThree.PerfectCover.hopfMultiplier (projSU 4 3 1), m ^ 12 = 1) ∧
       Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier (projSU 4 3 1)) = 36 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 4 3 1 :=
     ⟨Nat.prime_three, le_rfl, by norm_num, by decide⟩
   have hm : CFSG.Blueprint.LieModel (projSU 4 3 1) .PSU 4 3 1 := by
@@ -82,8 +81,8 @@ theorem coverU43CenterElem_holds :
     CoverU43CenterElem := by
   intro X _ _ hq hZ3 hne
   obtain ⟨e⟩ := hne
-  haveI : Group.IsPerfect X := by first | exact ⟨hq.1⟩ | exact hq.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect X := by exact hq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hM, hcard⟩ := diagCoverU43_multiplier_data
   obtain ⟨hpow, hdvd⟩ := diagCoverU43_central_data
     (CFSG.RankThree.PerfectCover.centralQuotientMap e)

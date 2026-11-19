@@ -29,7 +29,7 @@ theorem card_center_sl3four : Nat.card (Subgroup.center ↥sl3four) = 3 := by
   have hroot : rootsOfUnity 3 F4 = ⊤ := by
     ext u
     simp only [mem_rootsOfUnity, Subgroup.mem_top, iff_true]
-    letI : Fintype F4ˣ := Fintype.ofFinite F4ˣ
+    let : Fintype F4ˣ := Fintype.ofFinite F4ˣ
     have h := pow_card_eq_one (x := u)
     rwa [← Nat.card_eq_fintype_card, hunits] at h
   have hroots : Nat.card (rootsOfUnity 3 F4) = 3 := by
@@ -91,7 +91,7 @@ private theorem component_le (Q : Subgroup (SpecialLinearGroup (Fin 6) F2))
     (hQ : IsComponentOf Q
       (Subgroup.centralizer ({zeta5} : Set (SpecialLinearGroup (Fin 6) F2)))) :
     Q ≤ sl3four := by
-  haveI : Group.IsPerfect ↥Q := by
+  have : Group.IsPerfect ↥Q := by
     rw [Group.isPerfect_def]
     exact hQ.2.2.1
   calc

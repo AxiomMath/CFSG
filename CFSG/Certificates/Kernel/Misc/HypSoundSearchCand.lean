@@ -109,7 +109,7 @@ private theorem extK_eq_extK' (LB : Nat → Nat) (NL : Nat → List Nat) (x j S 
 private theorem extBit_eq (L e ih : Nat) : extBit L e ih = ih ||| extC L e := by
   unfold extBit extC
   simp only [Nat.shiftLeft_eq', Nat.one_shiftLeft]
-  cases h : bitK L (e / 1024) <;> simp [h]
+  cases h : bitK L (e / 1024) <;> simp
 
 private theorem extC_lt (L e : Nat) (h : e % 1024 < 693) : extC L e < 2 ^ 1386 := by
   unfold extC
@@ -215,9 +215,9 @@ private theorem foldl_set_fl : ∀ (l : List Nat), (∀ y ∈ l, y < 693) →
     have ht : ∀ y ∈ t, y < 693 := fun y hy => hl y (by simp [hy])
     rw [List.foldl_cons, List.foldl_cons]
     by_cases hc : c a = true
-    · rw [if_pos hc, if_pos hc, set_fl S a ha]
+    · rw [ite_eq_left hc, ite_eq_left hc, set_fl S a ha]
       exact ih ht c (S ||| 2 ^ a)
-    · rw [if_neg hc, if_neg hc, Nat.or_zero]
+    · rw [ite_eq_right hc, ite_eq_right hc, Nat.or_zero]
       exact ih ht c S
 
 private theorem foldl_set_fl' : ∀ (l : List Nat), (∀ y ∈ l, y < 693) →
@@ -233,9 +233,9 @@ private theorem foldl_set_fl' : ∀ (l : List Nat), (∀ y ∈ l, y < 693) →
     have ht : ∀ y ∈ t, y < 693 := fun y hy => hl y (by simp [hy])
     rw [List.foldl_cons, List.foldl_cons]
     by_cases hc : c a = true
-    · rw [if_pos hc, if_pos hc, Nat.or_zero]
+    · rw [ite_eq_left hc, ite_eq_left hc, Nat.or_zero]
       exact ih ht c S
-    · rw [if_neg hc, if_neg hc, set_fl S a ha]
+    · rw [ite_eq_right hc, ite_eq_right hc, set_fl S a ha]
       exact ih ht c (S ||| 2 ^ a)
 
 private theorem foldl_ite_congr (l : List Nat) (p q : Nat → Bool) (F0 : Flags)
@@ -284,7 +284,7 @@ private theorem any_congr_mem (l : List Nat) {p q : Nat → Bool} (h : ∀ y ∈
     rw [List.any_cons, List.any_cons, h a (by simp)]
     rw [ih fun y hy => h y (by simp [hy])]
 
-private theorem extC_testBit_low (L y g p : Nat) (hy : y < 693) (hg : g < 693)
+private theorem extC_testBit_low (L y g p : Nat) (hy : y < 693) (_hg : g < 693)
     (hp : p < 693) :
     (extC L (y + 1024 * g)).testBit p = (bitK L g && decide (y = p)) := by
   unfold extC
@@ -298,7 +298,7 @@ private theorem extC_testBit_low (L y g p : Nat) (hy : y < 693) (hg : g < 693)
   · simp [Nat.testBit_two_pow, decide_eq_false hne]
   · simp [Nat.testBit_two_pow]
 
-private theorem extC_testBit_high (L y g p : Nat) (hy : y < 693) (hg : g < 693)
+private theorem extC_testBit_high (L y g p : Nat) (hy : y < 693) (_hg : g < 693)
     (hp : p < 693) :
     (extC L (y + 1024 * g)).testBit (693 + p) = (!bitK L g && decide (y = p)) := by
   unfold extC
@@ -309,7 +309,7 @@ private theorem extC_testBit_high (L y g p : Nat) (hy : y < 693) (hg : g < 693)
   rw [hmod, hdiv]
   have hne : ¬ (y = 693 + p) := by omega
   cases h : bitK L g
-  · simp [Nat.testBit_two_pow, decide_eq_decide.mpr Nat.add_left_cancel_iff]
+  · simp [Nat.testBit_two_pow]
   · simp [Nat.testBit_two_pow, decide_eq_false hne]
 
 private noncomputable def candK' (LI : Nat → Nat) (S I : Nat) (l : List Nat) : Nat :=
@@ -362,15 +362,15 @@ private theorem candStep_testBit (LI : Nat → Nat) (S I e ih j : Nat) (hj : j <
       ih.testBit j = true := by
   simp only [letN_eq]
   cases h1 : bitK S (e % 1024)
-  · simp [h1]
+  · simp
   · cases h2 : bitK I (e % 1024)
     · dsimp only
       rw [Nat.land_eq, Nat.testBit_and, Nat.xor_eq, testBit_xor_mask _ _ hj]
-      simp [h1, h2]
+      simp
       tauto
     · dsimp only
       rw [Nat.land_eq, Nat.testBit_and]
-      simp [h1, h2]
+      simp
       tauto
 
 private theorem candK'_testBit (LI : Nat → Nat) (S I : Nat) (l : List Nat) (j : Nat)
@@ -408,7 +408,7 @@ private theorem pair_mod (y g : Nat) (hy : y < 1024) : (y + 1024 * g) % 1024 = y
 private theorem pair_div (y g : Nat) (hy : y < 1024) : (y + 1024 * g) / 1024 = g := by
   rw [Nat.add_mul_div_left y g (by norm_num), Nat.div_eq_of_lt hy, Nat.zero_add]
 
-private theorem candClause_iff (x : Nat) {I X y j : Nat} (hIX : I &&& X = 0) (hy : y < 693) :
+private theorem candClause_iff (x : Nat) {I X y j : Nat} (hIX : I &&& X = 0) (_hy : y < 693) :
     ((bitK (I ||| X) y = false) ∨
       (bitK I y = true ∧ (liAt LI (fd 10 (GI x) y)).testBit j = true) ∨
       (bitK I y = false ∧ (liAt LI (fd 10 (GI x) y)).testBit j = false))
@@ -452,16 +452,16 @@ private theorem mem_candA (hC : SearchCtx C PB LB LI GI PL NL) {I x a : Nat} (hx
     have hy' : y ∈ PL x := by simpa using hy
     have hy693 : y < 693 := ((hC.mem_PL x hx y).1 hy').1
     by_cases hit : (fl I)[y]! = true
-    · rw [if_pos hit] at h
+    · rw [ite_eq_left hit] at h
       simp only [Option.some.injEq] at h
       exact ⟨y, hy', by rwa [fl_get I hy693] at hit,
         by rw [← ((hC.gI x hx).2 y hy693).1]; exact h⟩
-    · rw [if_neg hit] at h
+    · rw [ite_eq_right hit] at h
       simp at h
   · rintro ⟨y, hy, hit, hay⟩
     have hy693 : y < 693 := ((hC.mem_PL x hx y).1 hy).1
     refine ⟨y, by simpa using hy, ?_⟩
-    rw [if_pos (by rwa [fl_get I hy693]), ((hC.gI x hx).2 y hy693).1]
+    rw [ite_eq_left (by rwa [fl_get I hy693]), ((hC.gI x hx).2 y hy693).1]
     exact congrArg some hay
 
 private theorem mem_candB (hC : SearchCtx C PB LB LI GI PL NL) {X x b : Nat} (hx : x < 693) :
@@ -474,16 +474,16 @@ private theorem mem_candB (hC : SearchCtx C PB LB LI GI PL NL) {X x b : Nat} (hx
     have hy' : y ∈ PL x := by simpa using hy
     have hy693 : y < 693 := ((hC.mem_PL x hx y).1 hy').1
     by_cases hit : (fl X)[y]! = true
-    · rw [if_pos hit] at h
+    · rw [ite_eq_left hit] at h
       simp only [Option.some.injEq] at h
       exact ⟨y, hy', by rwa [fl_get X hy693] at hit,
         by rw [← ((hC.gI x hx).2 y hy693).1]; exact h⟩
-    · rw [if_neg hit] at h
+    · rw [ite_eq_right hit] at h
       simp at h
   · rintro ⟨y, hy, hit, hay⟩
     have hy693 : y < 693 := ((hC.mem_PL x hx y).1 hy).1
     refine ⟨y, by simpa using hy, ?_⟩
-    rw [if_pos (by rwa [fl_get X hy693]), ((hC.gI x hx).2 y hy693).1]
+    rw [ite_eq_left (by rwa [fl_get X hy693]), ((hC.gI x hx).2 y hy693).1]
     exact congrArg some hay
 
 private theorem all_candA {I j : Nat} (hC : SearchCtx C PB LB LI GI PL NL) {x : Nat}

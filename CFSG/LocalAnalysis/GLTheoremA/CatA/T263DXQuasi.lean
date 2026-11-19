@@ -32,7 +32,7 @@ private theorem native_of_open {G : Type*} [Group G] (h : CFSG.Open.IsQuasisimpl
 theorem glaPPrimeCore_le_center_of_dvd (hp : p.Prime) (hJ : IsQuasisimple ↥J)
     (hdvd : p ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpJ : p ∣ Nat.card ↥J := hdvd.trans (Subgroup.card_quotient_dvd_card _)
   refine le_center_of_normal_of_isQuasisimple (open_of_native hJ) (GLAPPrimeCore.normal p ↥J)
     fun h => ?_
@@ -58,7 +58,7 @@ theorem nonempty_pSimple_equiv_of_dvd (hp : p.Prime) (hJ : IsQuasisimple ↥J)
     (hdvd : p ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     Nonempty (PSimple p J ≃* ↥J ⧸ Subgroup.center ↥J) := by
   have hO := glaPPrimeCore_le_center_of_dvd hp hJ hdvd
-  haveI : Group.IsPerfect ↥J := hJ.1
+  have : Group.IsPerfect ↥J := hJ.1
   have hcenter : (Subgroup.center ↥J).map (QuotientGroup.mk' (GLAPPrimeCore p ↥J)) =
       Subgroup.center (PQuot p J) :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel

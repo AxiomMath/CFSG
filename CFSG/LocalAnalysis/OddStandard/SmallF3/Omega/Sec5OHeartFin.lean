@@ -28,7 +28,7 @@ private instance instDecidableIsEvenVec8' (v : Fin 8 → ZMod 2) : Decidable (Is
 @[expose] def sec5oSigma (a b e f : Fin 6) : Equiv.Perm (Fin 8) :=
   (sec5oGamma e f)⁻¹ * extPerm (sec5oTau a b e f) * sec5oGamma e f
 
-theorem sec5o_gamma_mem_alt {e f : Fin 6} (hef : e ≠ f) :
+theorem sec5o_gamma_mem_alt {e f : Fin 6} (_hef : e ≠ f) :
     sec5oGamma e f ∈ alternatingGroup (Fin 8) := by
   have h1 : sec5oPt e ≠ 6 := fun h => by
     have := congrArg Fin.val h

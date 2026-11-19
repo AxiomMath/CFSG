@@ -22,9 +22,9 @@ theorem pairVec_ne_zero_and_isotropic {i j : Fin 6} (hij : i ≠ j) {c : F4} (hc
       hermStd (Pi.single i 1 + c • Pi.single j 1) (Pi.single i 1 + c • Pi.single j 1) = 0 := by
   have cube : ∀ a : F4, a ≠ 0 → a * a ^ 2 = 1 := by decide
   have two : (1 : F4) + 1 = 0 := by decide
-  have hui : (Pi.single i 1 + c • Pi.single j 1 : W) i = 1 := by simp [Pi.single_apply, hij]
+  have hui : (Pi.single i 1 + c • Pi.single j 1 : W) i = 1 := by simp [hij]
   have huj : (Pi.single i 1 + c • Pi.single j 1 : W) j = c := by
-    simp [Pi.single_apply, hij.symm]
+    simp [hij.symm]
   refine ⟨fun h => ?_, ?_⟩
   · have := congrFun h i
     rw [hui] at this
@@ -47,11 +47,11 @@ private theorem eq_smul_pair_of_orth {i j : Fin 6} (hij : i ≠ j) {c : F4} (hc 
     apply hv
     · intro h0
       have := congrFun h0 m
-      simp [Pi.single_apply, hmn] at this
+      simp [hmn] at this
     · rw [hermStd_pair_left]
-      simp [Pi.single_apply, hmn, hmn.symm, cube a ha, two]
+      simp [hmn, hmn.symm, cube a ha, two]
     · rw [hermStd_pair_left]
-      simp [Pi.single_apply, hmi, hmj, hni, hnj]
+      simp [hmi, hmj, hni, hnj]
   have h0 : ∀ n, n ≠ i → n ≠ j → v n = 0 := by
     intro n hni hnj
     obtain ⟨m, hmi, hmj, hmn⟩ := exists_index_ne_three_of_fin_six i j n
@@ -67,13 +67,13 @@ private theorem eq_smul_pair_of_orth {i j : Fin 6} (hij : i ≠ j) {c : F4} (hc 
   refine ⟨c ^ 2 * v j, funext fun k => ?_⟩
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_apply, hij, key _ _ c hc hvu]
+    simp [hij, key _ _ c hc hvu]
   · by_cases hkj : k = j
     · subst hkj
-      simp only [Pi.smul_apply, Pi.add_apply, Pi.single_apply, hki, hij.symm, if_true, if_false,
+      simp only [Pi.smul_apply, Pi.add_apply, Pi.single_apply, hki, ite_true, ite_false,
         smul_eq_mul, zero_add, mul_one]
       linear_combination (-(v k)) * cube c hc
-    · simp [Pi.single_apply, hki, hkj, h0 k hki hkj]
+    · simp [hki, hkj, h0 k hki hkj]
 
 private theorem semiVec_pair_apply_entry (A : GU0) (φ : F4 ≃+* F4) (i j : Fin 6) (c : F4)
     (k : Fin 6) : semiVec A φ (Pi.single i 1 + c • Pi.single j 1) k =
@@ -167,11 +167,11 @@ private theorem semiVec_block_diag_of_fix_pairs (A : GU0) (φ : F4 ≃+* F4)
       rw [mulVec_single_one, col_apply]
       by_cases hk : k = j
       · subst hk; simp [hβ k hj]
-      · simp [S1 j k hj hk, Pi.single_apply, hk]
+      · simp [S1 j k hj hk, hk]
     have iso := hermStd_mulVec A (Pi.single 0 1) (Pi.single j 1)
     rw [hMj, hermStd_smul_right] at iso
     simp only [hsq, mulVec_single_one, col_apply] at iso
-    simp [Pi.single_apply, hj] at iso
+    simp [hj] at iso
     rcases iso with h | h
     · exact absurd h hβ0
     · exact h

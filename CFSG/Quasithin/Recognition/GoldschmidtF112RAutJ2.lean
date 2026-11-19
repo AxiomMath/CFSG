@@ -203,12 +203,12 @@ theorem card_pCore_Y2 : Nat.card (pCore 2 ↥(AJ2L.rCtx.Y 2)) = 2 ^ 5 := by
 
 theorem pCoreOf_y2Inf_eq :
     pCoreOf 2 (J0.subgroupOf (AJ2L.rCtx.Y 2)) = pCore 2 ↥(AJ2L.rCtx.Y 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eN⟩ := nonempty_y2InfEquiv
   set N := J0.subgroupOf (AJ2L.rCtx.Y 2) with hN
-  haveI hNn : N.Normal := y2Inf_normal
+  have hNn : N.Normal := y2Inf_normal
   have hnorm : (pCoreOf 2 N).Normal := by
-    haveI : (pCore 2 ↥N).Characteristic := CFSG.LieType.BorelTits.pCore_characteristic 2
+    have : (pCore 2 ↥N).Characteristic := CFSG.LieType.BorelTits.pCore_characteristic 2
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := N) (pCore 2 ↥N)
     rw [Subgroup.normalizer_eq_top_iff.mpr hNn] at h
@@ -226,7 +226,7 @@ theorem isQ8D8_pCoreOf_Y2 : IsQ8D8 ↥(pCoreOf 2 (AJ2L.rCtx.Y 2)) := by
     ((pCore 2 ↥(AJ2L.rCtx.Y 2)).equivMapOfInjective _ (Subgroup.subtype_injective _)) h
 
 theorem quot_Y3_alt5 : Nonempty (oTwoQuot ↥(j2CtxA.Y 3) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨V, hVn, hV, ⟨eA⟩⟩, -⟩ := j2_Y3_ext
   have hle : V ≤ pCore 2 ↥(j2CtxA.Y 3) := CFSG.LieType.BorelTits.le_pCore 2 hVn (IsPGroup.of_card hV.2)
   have hc : Nat.card (pCore 2 ↥(j2CtxA.Y 3)) = 2 ^ 5 := by
@@ -237,11 +237,11 @@ theorem quot_Y3_alt5 : Nonempty (oTwoQuot ↥(j2CtxA.Y 3) ≃* alternatingGroup 
   exact ⟨(QuotientGroup.quotientMulEquivOfEq heq.symm).trans eA⟩
 
 theorem perm5_Y2 : Nonempty (oTwoQuot ↥(AJ2L.rCtx.Y 2) ≃* Equiv.Perm (Fin 5)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eN⟩ := nonempty_y2InfEquiv
   obtain ⟨eA⟩ := quot_Y3_alt5
   set N := J0.subgroupOf (AJ2L.rCtx.Y 2) with hN
-  haveI hNn : N.Normal := y2Inf_normal
+  have hNn : N.Normal := y2Inf_normal
   set Q := pCore 2 ↥(AJ2L.rCtx.Y 2) with hQ
   let g : ↥N →* ↥(AJ2L.rCtx.Y 2) ⧸ Q := (QuotientGroup.mk' Q).comp N.subtype
   have hker : g.ker = pCore 2 ↥N := by
@@ -255,7 +255,7 @@ theorem perm5_Y2 : Nonempty (oTwoQuot ↥(AJ2L.rCtx.Y 2) ≃* Equiv.Perm (Fin 5)
   let eNq : ↥(N.map (QuotientGroup.mk' Q)) ≃* alternatingGroup (Fin 5) :=
     (MulEquiv.subgroupCongr hrange.symm).trans ((QuotientGroup.quotientKerEquivRange g).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hker).trans ((@oTwoQuotCongr ↥N ↥(j2CtxA.Y 3) inferInstance inferInstance eN).trans eA)))
-  haveI : (N.map (QuotientGroup.mk' Q)).Normal := hNn.map _ (QuotientGroup.mk'_surjective Q)
+  have : (N.map (QuotientGroup.mk' Q)).Normal := hNn.map _ (QuotientGroup.mk'_surjective Q)
   refine nonempty_perm_five_of_normal_alt5 ?_ _ eNq ?_
   · have h := Subgroup.card_eq_card_quotient_mul_card_subgroup Q
     have hQc : Nat.card Q = 2 ^ 5 := card_pCore_Y2
@@ -273,7 +273,7 @@ section Main
 
 theorem y9AutJ2 : Y9AutJ2 := by
   intro G _ _ L1 L2 S hF h1 h2 hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Y, _, ⟨e⟩, T, M₁, M₂, hp, ⟨ψ1⟩, -, ⟨ψ2⟩⟩ := hA
   obtain ⟨E0⟩ : Nonempty (Y ≃* ↥R) :=
     ⟨e.trans ((H13.mulAutCongrOfMulEquiv (quasithinJ2MulEquivNative.trans nativeEquivP)).trans

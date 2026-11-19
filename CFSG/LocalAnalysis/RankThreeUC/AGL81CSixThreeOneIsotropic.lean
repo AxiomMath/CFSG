@@ -35,7 +35,7 @@ theorem orthogonal_invariant (B : LinearMap.BilinForm K V) {T : Submodule K V}
 
 theorem sub_mem_orthogonal_of_isometry (B : LinearMap.BilinForm K V) {x : (Module.End K V)ˣ}
     (hx : ∀ u v : V, B ((x : Module.End K V) u) ((x : Module.End K V) v) = B u v)
-    {T : Submodule K V} (hfix : ∀ t ∈ T, (x : Module.End K V) t = t)
+    {T : Submodule K V} (_hfix : ∀ t ∈ T, (x : Module.End K V) t = t)
     (hfixinv : ∀ t ∈ T, (((x⁻¹ : (Module.End K V)ˣ) : Module.End K V)) t = t) (w : V) :
     (x : Module.End K V) w - w ∈ B.orthogonal T := by
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -74,7 +74,7 @@ end Orthogonal
 section Nilpotent
 
 private theorem one_add_pow_eq_one_of_pow_eq_zero {R : Type*} [Ring R] {p k : ℕ} {n : R}
-    (hp : (p : R) = 0) (hprime : p.Prime) (hp2 : p ≠ 2) (hk : n ^ k = 0) (hkp : k ≤ p) :
+    (hp : (p : R) = 0) (hprime : p.Prime) (_hp2 : p ≠ 2) (hk : n ^ k = 0) (hkp : k ≤ p) :
     (1 + n) ^ p = 1 := by
   rw [(Commute.one_left n).add_pow]
   refine (Finset.sum_eq_single p ?_ ?_).trans ?_

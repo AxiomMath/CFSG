@@ -83,7 +83,7 @@ theorem smallExcRes_holds :
     have hq : q.p ^ q.exponent = 2 := by rw [← PrimePower.card_def]; exact hfs
     obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := exists_catEquiv_twistedE6 q hv
     rw [hq] at hK hσ
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
     exact fstdNoSmallInn_of_mulEquiv (e.trans eK)
       (fstdNoSmallInn_twistedE6_two σ (by rw [hK]; norm_num) hσ) α hα hα3 hα1 I hI hsmall
   | _ => rcases hd with h | h | h | h | h <;> exact h.elim

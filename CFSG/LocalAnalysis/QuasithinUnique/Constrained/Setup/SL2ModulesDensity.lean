@@ -150,7 +150,7 @@ theorem matRepE_isIrreducible {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) W
   obtain ⟨hnt, -⟩ := (isIrreducible_iff ρ).mp Fact.out
   rw [isIrreducible_iff]
   have hm : 0 < m := by
-    haveI := hnt
+    have := hnt
     simpa using Fintype.card_pos_iff.mpr (b.index_nonempty (R := EndRing ρ))
   refine ⟨⟨fun _ => 0, fun _ => 1, fun h => one_ne_zero (congrFun h ⟨0, hm⟩).symm⟩, fun N₀ hinv => ?_⟩
   by_cases hbot : N₀ = ⊥

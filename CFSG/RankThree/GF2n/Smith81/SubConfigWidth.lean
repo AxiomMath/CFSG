@@ -94,7 +94,7 @@ theorem subConfig_width_E4 (hc : Ctx M Q Z B) (h4 : CaseE4 M Q Z B t)
   obtain ⟨hQN, hQ'⟩ := card_subCfgQ_of hc hN17
   refine ⟨hQ', ?_⟩
   obtain ⟨hn, K, _, _, hK, ⟨e⟩⟩ := hR
-  haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
+  have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
   have hX := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 4)
     (by norm_num)
   obtain ⟨d, hd, hdvd⟩ := exists_card_quot_dvd_GL hc t hQN hH' hF hX e
@@ -127,7 +127,7 @@ theorem subConfig_width_E5 (hc : Ctx M Q Z B) (h5 : CaseE5 M Q Z B t)
   obtain ⟨hQN, hQ'⟩ := card_subCfgQ_of hc hN33
   refine ⟨hQ', ?_⟩
   obtain ⟨hn, K, _, _, hK, ⟨e⟩⟩ := hR
-  haveI := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
+  have := Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans hf)
   have hX := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := K) (n := 6)
     (by norm_num)
   obtain ⟨d, hd, hdvd⟩ := exists_card_quot_dvd_GL hc t hQN hH' hF hX e

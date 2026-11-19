@@ -100,14 +100,14 @@ theorem ggTBC_F4Two_comp_split {K : Type} [Field K] [Finite K] (hK : Nat.card K 
   let G := ↥(adjointGroup .F4 K)
   let N : Subgroup G := Subgroup.centralizer ({d} : Set G)
   have hJopen : CFSG.Open.IsComponentOf J N := CFSG.Assembly.isComponentOf_iff_open.mp hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G := CFSG.LieType.Chevalley.generated_group_finite .F4 K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := CFSG.LieType.Chevalley.generated_group_finite .F4 K
   obtain ⟨F, hFfield, hFfinite, hFcard, ⟨e⟩⟩ :=
     CFSG.StandardType.A6Red.ggA6F4_comp_iso_sp (K := K) hK d hd J hJopen
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hFcard]; norm_num)
   have hcenterJ : Subgroup.center ↥J = ⊥ := by
     have hcenterSp : Subgroup.center ↥(CFSG.Open.StatedSp 3 F) = ⊥ :=

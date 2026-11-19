@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem y7a_two_elt {C N : Subgroup G} (hC : N ≤ normalizer (C : Set G))
     (hN9 : ∀ ν ∈ N, ν ^ 9 ∈ C) {z : G} (hz : z ∈ N ⊔ C) {j : ℕ} (hzj : z ^ (2 ^ j) = 1) :
     z ∈ C := by

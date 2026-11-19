@@ -25,12 +25,14 @@ variable {A : Type} [Group A] [Finite A] {T : Subgroup A} [T.Normal]
 @[expose] noncomputable def L3Frame.scal : Kˣ →* A :=
   F.π.comp ((GeneralLinearGroup.scalar (Fin 2)).codRestrict ⊤ (fun _ => Subgroup.mem_top _))
 
+omit [Finite A] [T.Normal] in
 theorem L3Frame.scal_eq_one {μ : Kˣ} (h : F.scal μ = 1) : ∃ ω : Kˣ, ω ^ 3 = 1 ∧ μ = ω := by
   obtain ⟨ω, hω3, hω⟩ := F.hk _ h
   exact ⟨ω, hω3, scalar_injective hω⟩
 
 include hC hd
 
+omit [Finite A] in
 theorem scalar_mem_tightCore {b : A} (hbK : b ∈ tightCore R) {ν : Kˣ}
     (hb : F.ι b = conjAut 3 K (sigMat ν) * dualAut 3 K) (μ : Kˣ) :
     F.π ⟨GeneralLinearGroup.scalar (Fin 2) μ, Subgroup.mem_top _⟩ ∈ tightCore R := by

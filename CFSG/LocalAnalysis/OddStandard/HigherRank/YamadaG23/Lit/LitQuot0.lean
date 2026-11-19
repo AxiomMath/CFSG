@@ -45,6 +45,7 @@ private lemma relIndex_sup_eq_relIndex_inf {G : Type*} [Group G] [Finite G]
   exact Nat.mul_right_cancel
     ((Nat.card_pos_iff (α := H)).mpr ⟨⟨1, H.one_mem⟩, inferInstance⟩) key
 
+omit [Finite X] in
 theorem LitCtx.isPGroup_A (h : LitCtx Z A) : IsPGroup 2 A :=
   IsPGroup.of_card (n := 6) (by rw [h.card_A]; norm_num)
 
@@ -93,7 +94,7 @@ theorem lit_A_inf_litP (h : LitCtx Z A) : A ⊓ litP Z = Z := by
     exact ⟨h.Z_le_A hx, Subgroup.mem_sup_left hx⟩
 
 theorem lit_A_sylow_sup (h : LitCtx Z A) : ¬ 2 ∣ A.relIndex (A ⊔ litP Z) := by
-  haveI : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
+  have : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
   have hrel : A.relIndex (A ⊔ litP Z) = (A ⊓ litP Z).relIndex (litP Z) :=
     relIndex_sup_eq_relIndex_inf (H := A) (K := litP Z)
   rw [hrel, lit_A_inf_litP h]
@@ -108,6 +109,7 @@ theorem lit_A_sylow_sup (h : LitCtx Z A) : ¬ 2 ∣ A.relIndex (A ⊔ litP Z) :=
   rw [hZP]
   exact (lit_odd_card_oddCore X).not_two_dvd_nat
 
+omit [Finite X] in
 theorem lit_A_le_litC (h : LitCtx Z A) : A ≤ litC Z A := by
   intro a ha
   rw [mem_litC]
@@ -122,7 +124,7 @@ theorem lit_normalizer_inf_litP_le (h : LitCtx Z A) :
   refine ⟨hnN, fun a ha => ?_⟩
   have hAn : n * a⁻¹ * n⁻¹ ∈ A :=
     (Subgroup.mem_normalizer_iff.mp hnN (a⁻¹)).mp (inv_mem ha)
-  haveI : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
+  have : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
   have hPn : a * n * a⁻¹ ∈ litP Z := (inferInstance : (litP Z).Normal).conj_mem n hnP a
   have hmemA : ⁅a, n⁆ ∈ A := by
     have : ⁅a, n⁆ = a * (n * a⁻¹ * n⁻¹) := by simp only [commutatorElement_def]; group

@@ -21,7 +21,7 @@ open Module CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique.Setup CFSG.HardMathSup
 theorem bMat_eq_one_of_forall_eq_empty {k : Type} [Field k] {n : ℕ} {τ : Type*} [Fintype τ]
     [DecidableEq τ] {ε : τ → Finset (Fin n)} (hε : ∀ r, ε r = ∅) (h : τ → Matrix (Fin n) (Fin n) k) :
     bMat ε h = 1 := by
-  have hd : ∀ p, bdeg ε p = 0 := fun p => by rw [bdeg, hε, if_neg (Finset.notMem_empty _)]
+  have hd : ∀ p, bdeg ε p = 0 := fun p => by rw [bdeg, hε, ite_eq_right (Finset.notMem_empty _)]
   have hsub : ∀ s t : BIdx ε, s = t := fun s t => funext fun p => Subtype.ext <| by
     rw [Finset.card_eq_zero.mp ((Set.powersetCard.card_eq (s p)).trans (hd p)),
       Finset.card_eq_zero.mp ((Set.powersetCard.card_eq (t p)).trans (hd p))]

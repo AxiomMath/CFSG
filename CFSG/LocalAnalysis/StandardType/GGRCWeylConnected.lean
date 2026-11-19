@@ -76,12 +76,11 @@ private lemma l05nK7c_A_adj (n k : ℕ) (hk : k + 1 < n) :
   have hne : (⟨k, by omega⟩ : Fin n) ≠ ⟨k + 1, hk⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
   simp only [CoxeterMatrix.A, Matrix.of_apply, Fin.mk.injEq]
-  split_ifs <;> (try simp only [true_and, and_true, true_or, or_true, not_true,
-    not_false_eq_true, false_and, and_false, false_or, or_false] at *) <;> omega
+  split_ifs <;> (try simp only [or_true, not_true] at *) <;> omega
 
 private lemma l05nK7c_A_all (n : ℕ) (hn : 1 ≤ n) :
     ∀ i j : Fin n, Relation.ReflTransGen (l05nK7cAdj (CoxeterMatrix.A n)) i j := by
@@ -112,12 +111,11 @@ private lemma l05nK7c_B_adj (n k : ℕ) (hk : k + 1 < n) :
   have hne : (⟨k, by omega⟩ : Fin n) ≠ ⟨k + 1, hk⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
   simp only [CoxeterMatrix.B, Matrix.of_apply, Fin.mk.injEq]
-  split_ifs <;> (try simp only [true_and, and_true, true_or, or_true, not_true,
-    not_false_eq_true, false_and, and_false, false_or, or_false] at *) <;> omega
+  split_ifs <;> (try simp only [or_true, not_true] at *) <;> omega
 
 private lemma l05nK7c_B_all (n : ℕ) (hn : 2 ≤ n) :
     ∀ i j : Fin n, Relation.ReflTransGen (l05nK7cAdj (CoxeterMatrix.B n)) i j := by
@@ -148,14 +146,13 @@ private lemma l05nK7c_D_chain_adj (n k : ℕ) (hk : k + 3 < n) :
   have hne : (⟨k, by omega⟩ : Fin n) ≠ ⟨k + 1, by omega⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
-  rw [ggCoxeterMatrixD_apply, if_neg hne]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hne]
   have hD : CartanMatrix.D n (⟨k, by omega⟩ : Fin n) (⟨k + 1, by omega⟩ : Fin n) = -1 := by
     simp only [CartanMatrix.D, Matrix.of_apply, Fin.mk.injEq]
-    split_ifs <;> (try simp only [true_and, and_true, true_or, or_true, not_true,
-    not_false_eq_true, false_and, and_false, false_or, or_false] at *) <;> omega
+    split_ifs <;> (try simp only [true_and] at *) <;> omega
   rw [hD]
   norm_num
 
@@ -165,14 +162,13 @@ private lemma l05nK7c_D_fork_left (n : ℕ) (hn : 4 ≤ n) :
   have hne : (⟨n - 3, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
-  rw [ggCoxeterMatrixD_apply, if_neg hne]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hne]
   have hD : CartanMatrix.D n (⟨n - 3, by omega⟩ : Fin n) (⟨n - 2, by omega⟩ : Fin n) = -1 := by
     simp only [CartanMatrix.D, Matrix.of_apply, Fin.mk.injEq]
-    split_ifs <;> (try simp only [true_and, and_true, true_or, or_true, not_true,
-    not_false_eq_true, false_and, and_false, false_or, or_false] at *) <;> omega
+    split_ifs <;> (try simp only at *) <;> omega
   rw [hD]
   norm_num
 
@@ -182,14 +178,13 @@ private lemma l05nK7c_D_fork_right (n : ℕ) (hn : 4 ≤ n) :
   have hne : (⟨n - 3, by omega⟩ : Fin n) ≠ ⟨n - 1, by omega⟩ := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   refine ⟨hne, ?_⟩
-  rw [ggCoxeterMatrixD_apply, if_neg hne]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hne]
   have hD : CartanMatrix.D n (⟨n - 3, by omega⟩ : Fin n) (⟨n - 1, by omega⟩ : Fin n) = -1 := by
     simp only [CartanMatrix.D, Matrix.of_apply, Fin.mk.injEq]
-    split_ifs <;> (try simp only [true_and, and_true, true_or, or_true, not_true,
-    not_false_eq_true, false_and, and_false, false_or, or_false] at *) <;> omega
+    split_ifs <;> (try simp only at *) <;> omega
   rw [hD]
   norm_num
 

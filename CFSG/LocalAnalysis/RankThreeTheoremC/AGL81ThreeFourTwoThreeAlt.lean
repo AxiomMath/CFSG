@@ -20,10 +20,10 @@ theorem alternating_catalog_facts {n : ℕ} (hn : 5 ≤ n) :
     IsSimpleGroup (alternatingGroup (Fin n)) ∧
       (∃ a b : alternatingGroup (Fin n), a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (alternatingGroup (Fin n))) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using hn)
   refine ⟨inferInstance, nonabelian_of_simple_of_sq_dvd Nat.prime_two ?_, ?_⟩
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨m, hm⟩ := Nat.factorial_dvd_factorial (show 4 ≤ n by omega)
     have h4 : (2 : ℕ) ^ 2 = 4 := by norm_num
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin, hm, h4,
@@ -32,16 +32,16 @@ theorem alternating_catalog_facts {n : ℕ} (hn : 5 ≤ n) :
   · have h4 : Nat.card (Outer (alternatingGroup (Fin n))) ∣ 2 ^ 2 := by
       simpa using CFSG.AGLEmbedding.card_outer_alternatingGroup_dvd_four n hn
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h4
-    haveI : Finite (Outer (alternatingGroup (Fin n))) :=
+    have : Finite (Outer (alternatingGroup (Fin n))) :=
       Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-    haveI := (IsPGroup.of_card hk).isNilpotent
+    have := (IsPGroup.of_card hk).isNilpotent
     infer_instance
 
 theorem altSix_isSolvable_of_sylow_le (T : Sylow 3 (alternatingGroup (Fin 6)))
     (H : Subgroup (alternatingGroup (Fin 6))) (hTH : (T : Subgroup _) ≤ H) (hH : H ≠ ⊤) :
     Group.IsSolvable H := by
   have hK : IsAltTwoP 3 (alternatingGroup (Fin 6)) := ⟨MulEquiv.refl _⟩
-  haveI := CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe.AltSix.isSolvable_normalizer hK T
+  have := CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe.AltSix.isSolvable_normalizer hK T
   exact Group.isSolvable_of_isSolvable_injective (inclusion_injective
     (CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe.AltSix.le_normalizer_of_le hK T hTH hH))
 
@@ -60,7 +60,7 @@ private theorem card_sylow_altNine (T : Sylow 3 (alternatingGroup (Fin 9))) :
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     decide
   have hf : (Nat.card (alternatingGroup (Fin 9))).factorization 3 = 4 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [hA, Nat.factorization_def _ Nat.prime_three,
       show (181440 : ℕ) = 3 ^ 4 * 2240 by norm_num, padicValNat.mul (by norm_num) (by norm_num),
       padicValNat.prime_pow, padicValNat.eq_zero_of_not_dvd (by norm_num)]
@@ -75,7 +75,7 @@ theorem altNine_isSolvable_of_sylow_le (T : Sylow 3 (alternatingGroup (Fin 9)))
     eqPt.permCongrHom.toMonoidHom.comp (alternatingGroup (Fin 9)).subtype
   have hφ₀ : Function.Injective φ₀ := fun x y hxy =>
     Subtype.ext (eqPt.permCongrHom.injective hxy)
-  obtain ⟨g, hg⟩ := exists_conj_le_sylowT (T.isPGroup'.map φ₀)
+  obtain ⟨g, hg⟩ := exists_conj_le_sylowT (T.isPGroup.map φ₀)
   let φ : alternatingGroup (Fin 9) →* Perm Pt := (MulAut.conj g).toMonoidHom.comp φ₀
   have hφ : Function.Injective φ := (MulAut.conj g).injective.comp hφ₀
   have hφA : ∀ x, φ x ∈ alternatingGroup Pt := by
@@ -103,7 +103,7 @@ theorem altNine_isSolvable_of_sylow_le (T : Sylow 3 (alternatingGroup (Fin 9)))
     obtain ⟨y, hy, hyx⟩ := mem_map.mp (hA (hφA x))
     rw [← hφ hyx]
     exact hy
-  · haveI := isSolvable_of_le_nrm (NrmMax.le_nrm_of_not_isPreprimitive hB hτ hprim)
+  · have := isSolvable_of_le_nrm (NrmMax.le_nrm_of_not_isPreprimitive hB hτ hprim)
     exact Group.isSolvable_of_isSolvable_injective
       (f := (equivMapOfInjective H φ hφ).toMonoidHom) (equivMapOfInjective H φ hφ).injective
 

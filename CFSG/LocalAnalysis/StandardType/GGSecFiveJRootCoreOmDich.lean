@@ -146,7 +146,7 @@ theorem jcoreOm_dichotomy {n p : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     ring
   have hT := LocalAnalysis.GLTheoremA.T173S.exists_finrank_three_singular hQ hdim hn
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hrange : (spinAction (quadPlus n F)).range = orthDerived (quadPlus n F) :=
     range_spinAction_quadPlus_eq_commutator (by omega)
   let σ' : ↥(spinGroup (quadPlus n F)) →* ↥(orthDerived (quadPlus n F)) :=

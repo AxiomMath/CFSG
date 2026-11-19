@@ -14,6 +14,7 @@ section LinearAlgebra
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem line_inf_eq_bot {L M : LineOf (K := K) (V := V)} (hLM : L ≠ M) :
     L.1 ⊓ M.1 = ⊥ := by
   by_contra hne
@@ -194,8 +195,8 @@ theorem exists_injective_pair_scalar_of_le {G : Type*} [Group G]
 theorem exists_smul_one_of_commute_swap {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (hV : Module.finrank K V = 2)
     {L M : LineOf (K := K) (V := V)} (hLM : L ≠ M) {h g : V ≃ₗ[K] V}
-    (hL : lineMap h L = L) (hM : lineMap h M = M)
-    (gL : lineMap g L = M) (gM : lineMap g M = L) (hcomm : h * g = g * h) :
+    (hL : lineMap h L = L) (_hM : lineMap h M = M)
+    (gL : lineMap g L = M) (_gM : lineMap g M = L) (hcomm : h * g = g * h) :
     ∃ c : K, ∀ v : V, (h : V → V) v = c • v := by
   classical
   obtain ⟨l, hl⟩ :=
@@ -346,10 +347,10 @@ theorem sixfourteen_n2_pair_orders {W : Type} [CommGroup W] [Finite W]
       fixedSubmodule (hGaloisLinearEquiv hw2 x hx3 hfix (d : MulAut W)
         (hcommH (d : MulAut W) d.2)).toLinearMap =
         YSubmodule hw2 x hx3 hfix (by rw [hxgen]; exact Subgroup.mem_zpowers x) hYinv := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨S, hScard, hSne, hSproper, hSinv⟩ := hpair
   obtain ⟨L, M, hLM, hSeq⟩ := Set.ncard_eq_two.mp hScard
-  letI : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
+  let : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
   { smul := fun h L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L
     one_smul := by
       intro K
@@ -726,7 +727,7 @@ theorem hLinHom_injective {W : Type*} [CommGroup W] [Finite W]
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (H : Subgroup (MulAut W))
     (hcommH : ∀ h ∈ H, h * x = x * h) :
     Function.Injective (HLinHom hw2 x hx3 hfix H hcommH) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro g₁ g₂ hEq
   let dd : ↥H := g₁ * g₂⁻¹
   have hmap : HLinHom hw2 x hx3 hfix H hcommH dd = 1 := by
@@ -763,7 +764,7 @@ private theorem pair_torus_theta_ne
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
     {H : Subgroup (MulAut W)} (hcommH : ∀ h ∈ H, h * x = x * h) :
     letI := galoisModule hw2 x hx3 hfix
-    ∀ {L M : LineOf (K := GaloisField 2 2) (V := Additive W)} (hLM : L ≠ M)
+    ∀ {L M : LineOf (K := GaloisField 2 2) (V := Additive W)} (_hLM : L ≠ M)
       {H0 : Subgroup ↥H} {d : ↥H},
       (∀ h : ↥H, h ∈ H0 ↔ lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L = L ∧
         lineMap (HLinHom hw2 x hx3 hfix H hcommH h) M = M) →
@@ -772,8 +773,8 @@ private theorem pair_torus_theta_ne
       lineMap (HLinHom hw2 x hx3 hfix H hcommH d) M = L →
       d * d = 1 →
       ¬ (∀ u ∈ H0, d * u * d⁻¹ = u) := by
-  letI := galoisModule hw2 x hx3 hfix
-  intro L M hLM H0 d hH0mem hH0card hdL hdM hd2 htheta
+  let := galoisModule hw2 x hx3 hfix
+  intro L M _hLM H0 d hH0mem hH0card hdL hdM hd2 htheta
   let d0 : MulAut W := (d : MulAut W)
   have hd0H : d0 ∈ H := d.2
   have hd0comm : d0 * x = x * d0 := hcommH d0 hd0H
@@ -835,7 +836,7 @@ private theorem pair_torus_theta_ne
   have hscalar : ∀ h : ↥H0, ∃ c : GaloisField 2 2, ∀ v : Additive W,
       (hgalH h : Additive W → Additive W) v = c • v := by
     intro h
-    exact exists_smul_one_of_commute_swap hVf hLM (hgalH_L h) (hgalH_M h)
+    exact exists_smul_one_of_commute_swap hVf _hLM (hgalH_L h) (hgalH_M h)
       hgalD_L hgalD_M (hcomm_lin h)
   let c : ↥H0 → GaloisField 2 2 := fun h => Classical.choose (hscalar h)
   have hcspec : ∀ (h : ↥H0) (v : Additive W), (hgalH h) v = c h • v := fun h =>
@@ -921,7 +922,7 @@ theorem sixfourteen_n2_pair_torus {W : Type} [CommGroup W] [Finite W]
         (((w ^ 2 : ↥H0) : ↥H) : MulAut W) → w ∈ Subgroup.zpowers v) ∧
       lineMap (HLinHom hw2 x hx3 hfix H hcommH d) L = M ∧
       lineMap (HLinHom hw2 x hx3 hfix H hcommH d) M = L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨-, L, M, H0, d, hLM, hXleH0, hindex, hH0card, hH0comm, hH0mem, hdD, hd2, hdnot,
     hcover, hdL, hdM, hdfix⟩ :=
     sixfourteen_n2_pair_orders hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen hsG hs_ord2
@@ -1240,7 +1241,7 @@ theorem sixfourteen_n2_pair_X_scalar {W : Type} [CommGroup W] [Finite W]
       (∀ a : ↥H, a ∈ X.subgroupOf H → ∃ c : GaloisField 2 2, c ≠ 0 ∧
         ∀ v : Additive W,
           hGaloisLinearEquiv hw2 x hx3 hfix (a : MulAut W) (hcommH a a.2) v = c • v) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨-, L, M, H0, d, hLM, hXleH0, hindex, hH0card, hH0comm, hH0mem, hdD, hd2, hdnot,
     hcover, hdL, hdM, hdfix⟩ :=
     sixfourteen_n2_pair_orders hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen hsG hs_ord2
@@ -1325,7 +1326,7 @@ variable {W : Type*} [CommGroup W] [Finite W]
 
 private theorem eq_of_card_nine {H : Subgroup (MulAut W)} {H0 K : Subgroup ↥H} {d : ↥H}
     (hH0card : Nat.card H0 = 9) (hKcard : Nat.card K = 9)
-    (hdnot : d ∉ H0) (hcover : ∀ b : ↥H, b ∈ H0 ∨ b * d⁻¹ ∈ H0) :
+    (_hdnot : d ∉ H0) (hcover : ∀ b : ↥H, b ∈ H0 ∨ b * d⁻¹ ∈ H0) :
     K = H0 := by
   have hKle : K ≤ H0 := by
     by_contra hKle
@@ -1435,7 +1436,7 @@ theorem sixfourteen_n2_pair_S3 {W : Type} [CommGroup W] [Finite W]
       s0 * (d : MulAut W) * s0⁻¹ = (d : MulAut W) ∧
       (∀ h : MulAut W, h ∈ Subgroup.zpowers (((v : ↥H0) : ↥H) : MulAut W) ⊔
         Subgroup.zpowers (d : MulAut W) → s0 * h = h * s0) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨L, M, H0, v, d, hLM, hXleH0, hsupV, hdisj, hH0card, hH0mem, hH0comm, hvnotX, hvord,
     hdD, hd2, hdnot, hcover, hdv, hUchar, hdL, hdM⟩ :=
     sixfourteen_n2_pair_torus hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen hsG hs_ord2

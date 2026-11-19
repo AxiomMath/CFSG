@@ -24,6 +24,7 @@ private theorem w16q_le_fusionOddCore {X : Type*} [Group X] {N : Subgroup X} [N.
     (hN : Odd (Nat.card N)) : N ≤ fusionOddCore X :=
   CFSG.EvenSporadicStandard.Fin76b.le_fusionOddCore hN
 
+omit [Finite G] in
 private theorem w16q_le_normalizer_centralizer {K R : Subgroup G}
     (h : K ≤ normalizer (R : Set G)) :
     K ≤ normalizer (centralizer (R : Set G) : Set G) := by
@@ -38,6 +39,7 @@ private theorem w16q_le_normalizer_centralizer {K R : Subgroup G}
     _ = g * (c * (g⁻¹ * r * g)) * g⁻¹ := by rw [hcr]
     _ = g * c * g⁻¹ * r := by group
 
+omit [Finite G] in
 private theorem w16q_le_normalizer_fusionOddCoreOf (L : Subgroup G) :
     L ≤ normalizer (fusionOddCoreOf L : Set G) := by
   have hnormal : ((fusionOddCoreOf L).subgroupOf L).Normal := by
@@ -46,10 +48,11 @@ private theorem w16q_le_normalizer_fusionOddCoreOf (L : Subgroup G) :
     infer_instance
   exact Subgroup.le_normalizer_of_normal_subgroupOf (Subgroup.map_subtype_le _)
 
+omit [Finite G] in
 private theorem w16q_le_fusionOddCoreOf {L N : Subgroup G} (hNL : N ≤ L)
     (hNnorm : L ≤ normalizer (N : Set G)) (hodd : Odd (Nat.card N)) :
     N ≤ fusionOddCoreOf L := by
-  haveI : (N.subgroupOf L).Normal :=
+  have : (N.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNL).mpr hNnorm
   have hcard : Nat.card (N.subgroupOf L) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNL).toEquiv
@@ -60,7 +63,7 @@ private theorem w16q_le_fusionOddCoreOf {L N : Subgroup G} (hNL : N ≤ L)
 
 theorem Cfg1616.fusionOddCoreOf_eq_bot {M V₀ V U S H : Subgroup G} (c : Cfg1616 M V₀ V U S H) :
     fusionOddCoreOf H = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 U := c.cex.hyp.isPGroup.to_le c.cex.le
   have hN : CFSG.QuasithinUnique.CharTwo (normalizer (U : Set G)) :=
     c.std.charTwo _ ⟨U, c.cex.ne_bot, hU2, rfl⟩
@@ -146,7 +149,7 @@ private theorem w16q_zpowers_eq_of_card_two {Z : Type} [Group Z] [Finite Z] {Y :
 theorem inf_centralizer_iSub16_le [Finite X] (d : DichCfg M V₀ V U S H φ) {p : ℕ}
     (h : Heis2p X (SevenK.barSub (conjClosure V H) φ V) p) :
     conjClosure V H ⊓ centralizer (iSub16 V H : Set G) ≤ iSub16 V H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup G := conjClosure V H ⊓ centralizer (iSub16 V H : Set G)
   let Y : Subgroup X := SevenK.barSub (conjClosure V H) φ V
   let C' : Subgroup X := (D.subgroupOf (conjClosure V H)).map φ
@@ -212,7 +215,7 @@ theorem inf_centralizer_iSub16_le [Finite X] (d : DichCfg M V₀ V U S H φ) {p 
     exact w16q_odd_card_fusionOddCore X
   have hpodd : Odd p := (Nat.odd_pow_iff (by norm_num : 3 ≠ 0)).mp hp3odd
   have hYinfO : Y ⊓ fusionOddCore X = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [h.card_Y, h.card_O]
     exact Nat.coprime_two_left.mpr hpodd.pow
   have hcompl : Subgroup.IsComplement' Y (fusionOddCore X) :=

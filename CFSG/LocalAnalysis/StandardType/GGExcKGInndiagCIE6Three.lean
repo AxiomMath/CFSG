@@ -29,12 +29,12 @@ private theorem e6t_map_conj_one {A : Type*} [Group A] (S : Subgroup A) :
     S.map (MulAut.conj (1 : A)).toMonoidHom = S := by
   have h : (MulAut.conj (1 : A)).toMonoidHom = MonoidHom.id A := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [h, Subgroup.map_id]
 
-private theorem e6t_fixCard_one {p : ℕ} (hp : p.Prime) (R : ℕ) :
+private theorem e6t_fixCard_one {p : ℕ} (_hp : p.Prime) (R : ℕ) :
     GGFixCard p (1 : Equiv.Perm (Fin R)) = p ^ R := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   unfold GGFixCard
   have h : Nat.card {z : Fin R → ZMod p // ∀ i, z ((1 : Equiv.Perm (Fin R)) i) = z i} =
       Nat.card (Fin R → ZMod p) :=
@@ -56,9 +56,9 @@ private theorem e6t_bridge
       (∀ b, GGInnDiagU .E6 n f b → Φ b ∈ (hatAut .E6 (GaloisField 2 f)).range) ∧
       (∀ c : adjointGroup .E6 (GaloisField 2 f),
         ∃ κ ∈ (ggPsiU .E6 n f).range, Φ κ = MulAut.conj c) := by
-  haveI : Finite (ggU .E6 n f).K := ggU_finite_exc (Or.inr (Or.inl rfl)) hadm
-  haveI : Finite (GGAutU .E6 n f) := GGSFCore.finite_ggAutU
-  haveI hN : ((ggPsiU .E6 n f).range).Normal := GGSFCore.normal_range_ggPsiU .E6 n f
+  have : Finite (ggU .E6 n f).K := ggU_finite_exc (Or.inr (Or.inl rfl)) hadm
+  have : Finite (GGAutU .E6 n f) := GGSFCore.finite_ggAutU
+  have hN : ((ggPsiU .E6 n f).range).Normal := GGSFCore.normal_range_ggPsiU .E6 n f
   obtain ⟨-, hker, -, hcent⟩ := ggKnownSetting_autU hadm
   obtain ⟨χ, hχinj, hχrange, hval⟩ :=
     NoOffE6Three.exists_injective_factor_E6_comp (ggPsiU .E6 n f) hker hcent
@@ -127,7 +127,7 @@ theorem ggKGInndiagCId_E6_three
   have h3K : 3 ∣ Nat.card (GaloisField 2 f) - 1 := by
     rw [GaloisField.card 2 f hf]
     exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := GaloisField 2 f) h3K
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]

@@ -676,7 +676,7 @@ private lemma zs4f_coord_sum_apply {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) 
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hij
-    rw [if_neg (fun h : i = j => hij h.symm), mul_zero]
+    rw [ite_eq_right (fun h : i = j => hij h.symm), mul_zero]
   · intro hi; simp at hi
 
 private lemma zs4f_repr_sum_smul {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)
@@ -688,7 +688,7 @@ private lemma zs4f_repr_sum_smul {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)
   simp only [Finsupp.single_apply]
   rw [Finset.sum_eq_single i]
   · simp
-  · intro j _ hij; rw [if_neg hij]
+  · intro j _ hij; rw [ite_eq_right hij]
   · intro hi; simp at hi
 
 private theorem zs4f_eq_of_toMatrix_eq {f : Module.Basis (Fin 4) (ZMod p) U}
@@ -809,7 +809,7 @@ theorem weylEN4_le_of_diagSign_mem (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMo
     exact zs4f_pij34_diagSign_conj'
   rw [basisClosure, Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   simp only [weylEN4Mats, Set.mem_insert_iff] at hg
   rcases hg with hg3 | hgN
   · have hglin : g.toLinearMap = (P * r * P).toLinearMap :=
@@ -1029,7 +1029,7 @@ theorem weylN4_le (h : NFourData f t a b c d G)
     basisClosure f (weylN4Mats t) ≤ G := by
   rw [basisClosure, Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   simp only [weylN4Mats, Set.mem_insert_iff, Set.mem_singleton_iff] at hg
   rcases hg with h1 | h2 | h3 | h4
   · rw [zs4f_eq_of_toMatrix_eq (h1.trans h.toMatrix_a.symm)]; exact h.a_mem
@@ -1191,7 +1191,7 @@ theorem mem_weylEN4_of_commute_ab (hp : p ≠ 2) (h : NFourData f t a b c d G)
   · have hconj := toMatrix_conj_halfFormMat_one hp f hd (by rw [hxα, hα1])
     have hdxdcl : d * x * d ∈ basisClosure f (weylEN4Mats t) :=
       Subgroup.subset_closure (by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [hconj]
         simp [weylEN4Mats])
     have hxeq : d * (d * x * d) * d = x := by
@@ -1361,7 +1361,7 @@ private lemma zs4f_halfOnes_entry_ne_zero (hp : p ≠ 2) (k l : Fin 4) :
   · have hentry : (halfOnesMat 4 : Matrix (Fin 4) (Fin 4) (ZMod p)) k l =
         -((2 : ZMod p)⁻¹) := by
       simp [halfOnesMat, Matrix.sub_apply, Matrix.one_apply, Matrix.of_apply,
-        if_neg hkl]
+        ite_eq_right hkl]
     rw [hentry]
     exact neg_ne_zero.mpr h2inv
 
@@ -1383,7 +1383,7 @@ private theorem zs4f_not_monomial_of_halfOnes (hp : p ≠ 2) {y : U ≃ₗ[ZMod 
   have hkey := congrArg (fun (g : Fin 4 →₀ ZMod p) => g k) key
   rw [Finsupp.smul_apply, smul_eq_mul] at hkey
   have hsing : (Finsupp.single j (1 : ZMod p)) k = 0 := by
-    rw [Finsupp.single_apply, if_neg (show j ≠ k from fun h => hkj h.symm)]
+    rw [Finsupp.single_apply, ite_eq_right (show j ≠ k from fun h => hkj h.symm)]
   rw [hsing, mul_zero] at hkey
   rw [zs4f_repr_of_halfOnes hy 0 k] at hkey
   exact zs4f_halfOnes_entry_ne_zero hp k 0 hkey
@@ -1500,7 +1500,7 @@ private theorem zs4f_swap_le_N4 (hp : p ≠ 2) (h : NFourData f t a b c d G)
     all_goals assumption
   rw [basisClosure, Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   simp only [weylN4Mats, Set.mem_insert_iff, Set.mem_singleton_iff] at hg
   rcases hg with h1 | h2 | h3 | h4
   · have hgc : g = c := zs4f_eq_of_toMatrix_eq (h1.trans hc.symm)
@@ -1523,7 +1523,7 @@ private theorem zs4f_swap_le_EN4 (hp : p ≠ 2) (h : NFourData f t a b c d G)
   have hN := zs4f_swap_le_N4 hp h hd u hu
   rw [basisClosure, Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [weylEN4Mats, Set.mem_insert_iff] at hg
   rcases hg with h1 | hgN
   · obtain ⟨hh, hhcl, hhmat⟩ := exists_mem_basisClosure_toMatrix_eq f (S := weylEN4Mats t)
@@ -1540,7 +1540,7 @@ private theorem zs4f_swap_le_EN4 (hp : p ≠ 2) (h : NFourData f t a b c d G)
   · have hN4EN : basisClosure f (weylN4Mats t) ≤ basisClosure f (weylEN4Mats t) :=
       Subgroup.closure_mono (by
         intro y hy
-        simp only [Set.mem_setOf_eq] at hy ⊢
+        simp only [Set.mem_ofPred_eq] at hy ⊢
         exact Set.mem_insert_of_mem _ hy)
     exact (hN.trans hN4EN) (Subgroup.subset_closure hgN)
 

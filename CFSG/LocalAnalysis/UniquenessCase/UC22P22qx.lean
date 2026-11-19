@@ -11,6 +11,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qx_Q_conj {p : ℕ} {M : Subgroup G} {m q : G} (hm : m ∈ M)
     (hq : q ∈ uniqueFourPrimeCore p M) : m * q * m⁻¹ ∈ uniqueFourPrimeCore p M :=
   CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_conj_mem hq hm
@@ -129,11 +130,13 @@ theorem uc22p22qx_4a {p : ℕ} [Fact p.Prime] {M P₀ L P₁ : Subgroup G} (hP�
   rw [hmu]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hu) (Subgroup.mem_sup_right hr')
 
+omit [Finite G] in
 theorem uc22p22qx_orderOf {p : ℕ} [Fact p.Prime] {S : Subgroup G} (hS : IsPGroup p S) {a : G} (ha : a ∈ S) :
     ∃ k : ℕ, orderOf a = p ^ k := by
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 hS ⟨a, ha⟩
   exact ⟨k, by rw [← hk]; exact (Subgroup.orderOf_mk a ha).symm⟩
 
+omit [Finite G] in
 theorem uc22p22qx_pow_mul {M : Subgroup G} {u r : G} (hu : u ∈ M) (hr : r ∈ pCoreOf 2 M) :
     ∀ k : ℕ, ∃ r' ∈ pCoreOf 2 M, (u * r) ^ k = u ^ k * r' := by
   intro k
@@ -151,7 +154,7 @@ theorem uc22p22qx_4c {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {M T Dd P₁ : Sub
     (hP₁M : P₁ ≤ M) (hDM : Dd ≤ M) (hP₁ : IsPGroup p P₁) (hDodd : ∀ d ∈ Dd, Odd (orderOf d))
     (hDP : ∀ d ∈ Dd, ∀ a ∈ P₁, d * a = a * d) :
     ∀ t ∈ T, t ∈ Dd ⊔ P₁ ⊔ pCoreOf 2 M → t ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro t htT htD
   have hDn : Dd ≤ normalizer (pCoreOf 2 M : Set G) := fun d hd => uc22p22qu_M_le_normalizer_R M (hDM hd)
   have hPn : P₁ ≤ normalizer (pCoreOf 2 M : Set G) := fun a ha =>
@@ -196,7 +199,7 @@ theorem uc22p22qx_autAt (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P₀ : S
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
   have hP₀1 : P₀ ≠ ⊥ := by
     intro h

@@ -93,8 +93,8 @@ theorem exists_common_field_original_actor_model
             originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ιK t j *
             (eF a : ModGL Tag.E6 F)⁻¹) := by
   classical
-  haveI : IsAlgClosed GGL := IsAlgClosure.isAlgClosed K
-  haveI : Algebra.IsAlgebraic K GGL := IsAlgClosure.isAlgebraic
+  have : IsAlgClosed GGL := IsAlgClosure.isAlgClosed K
+  have : Algebra.IsAlgebraic K GGL := IsAlgClosure.isAlgebraic
   obtain ⟨ζΩ0, hζΩ0⟩ := IsAlgClosed.exists_pow_nat_eq (ωΩ : GGL) (by norm_num : 0 < 3)
   have hζΩ0ne : ζΩ0 ≠ 0 := by
     intro h0
@@ -107,8 +107,8 @@ theorem exists_common_field_original_actor_model
     exact hζΩ0
   obtain ⟨E, hEfin, hζE, hKE⟩ :=
     exists_finite_subfield_of_finset (K := K) (L := GGL) ({(ζΩ : GGL)} : Finset GGL)
-  letI : Field E := inferInstance
-  letI : Finite E := hEfin
+  let : Field E := inferInstance
+  let : Finite E := hEfin
   have hζE_mem : (ζΩ : GGL) ∈ E := hζE (by simp)
   have hωE_mem : (ωΩ : GGL) ∈ E := by
     have hωeq : (ωΩ : GGL) = (ζΩ : GGL) ^ 3 := by
@@ -138,15 +138,15 @@ theorem exists_common_field_original_actor_model
         subst s
         exact hy0)
       E E.subtype
-  letI : Field F1 := hF1field
-  letI : Finite F1 := hF1fin
+  let : Field F1 := hF1field
+  let : Finite F1 := hF1fin
   obtain ⟨y0F1, hy0F1mem, hy0F1base⟩ := hy0desc y0 (by simp)
   obtain ⟨F, hFfield, hFfin, hFchar, κ2, ι, hcomp2, e_k, j_k, hek, hjk, hconj, hinj⟩ :=
     CFSG.StandardType.SCFourCover.exists_actual_recipe_action_finite_descent
       (G := G) hN hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI F1 ι1
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
   let ιK : K →+* F := κ2.comp (κ1.comp ιKE)
   have hιK : ι.comp ιK = algebraMap K GGL := by
     ext x
@@ -240,7 +240,7 @@ theorem exists_common_field_original_actor_model
       hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI a j
     rw [← hseed]
     group
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨f, hfprime, hFcard⟩ := FiniteField.card F 2
   have hFcard' : Nat.card F = 2 ^ (f : ℕ) := by
     simpa [Nat.card_eq_fintype_card] using hFcard

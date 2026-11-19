@@ -284,7 +284,7 @@ theorem exists_P : ∃ P : Subgroup X, IsPGroup 2 P ∧ D.R ≤ P ∧ P ≤ L D 
   have hR' : IsPGroup 2 (D.R.subgroupOf (L D)) :=
     D.isPGroup_R.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hR'.exists_le_sylow
-  refine ⟨(Q : Subgroup (L D)).map (L D).subtype, Q.isPGroup'.map _, fun r hr => ?_,
+  refine ⟨(Q : Subgroup (L D)).map (L D).subtype, Q.isPGroup.map _, fun r hr => ?_,
     map_subtype_le _, fun hle => ?_⟩
   · exact ⟨⟨r, hRL hr⟩, hQ (show (⟨r, hRL hr⟩ : L D) ∈ D.R.subgroupOf (L D) from hr), rfl⟩
   · have h1 : (Q : Subgroup (L D)) ≤ (L₀ D).subgroupOf (L D) := fun x hx =>

@@ -157,7 +157,7 @@ theorem mem_blockLine_of_mk_mem_Vmem (h89 : PartThree.Lemma8_9)
     (hW : ¬ ∃ f n : ℕ, 2 ≤ f ∧ Nonempty (G ≃* L2Wreath f n))
     (hn3 : ¬ ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ∈ ({1, 2, 3} : Set ℕ))
     (hMZ : ¬ CFSG.solvableRadical (Halpha D hC.alpha) ≤ Subgroup.center (Halpha D hC.alpha))
-    {β ε : Set G} (hβ : β ∈ Dalpha D hC.alpha) (hε : ε ∈ Dalpha D hC.alpha)
+    {β ε : Set G} (_hβ : β ∈ Dalpha D hC.alpha) (hε : ε ∈ Dalpha D hC.alpha)
     {b e : Halpha D hC.alpha} (hb : (b : G) ∈ β) (he : (e : G) ∈ ε)
     (hv : QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) e ∈
       Vmem (imageClass hC) (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) b)) :

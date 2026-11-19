@@ -49,7 +49,7 @@ theorem zj_growth_extension {G : Type u} [Group G] [Finite G]
   have hclosureLe : closure ≤ thompsonCenterOf (sylow : Subgroup G) := by
     by_contra hnot
     obtain ⟨abelian, habSylow, hmaximum, hnotContains, hnormalized⟩ :=
-      ambient_glauberman_replacement_witness prime hprime hodd (sylow : Subgroup G) closure sylow.isPGroup'
+      ambient_glauberman_replacement_witness prime hprime hodd (sylow : Subgroup G) closure sylow.isPGroup
         hclosureSylow (hclosureNormal.subgroupOf _) hclosureClass hderivedCenter hnot
     let action : G →* MulAut closure := MulAut.conjNormal
     let actionCore := actionPrimeCore prime action

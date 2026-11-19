@@ -23,7 +23,7 @@ theorem not_smallAutomizer_tits
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) : ¬ SmallAutomizer 5 K := by
   obtain ⟨x, hv⟩ := d
   obtain rfl : x = .tits := hd
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact not_smallAutomizer_of_autWitness
     (CFSG.RankThree.PartOne.K159.autWitness_of_isoLie_tits ⟨hv, ⟨e⟩⟩)
 
@@ -40,7 +40,7 @@ theorem autWitness_reeGamma
   have hfix := CFSG.SignalizerFunctorTheorem.CatalogBridge.fixed_reeGamma_F4_eq_map
     (a := 2) (b := 0) (d := 1) (m := 2) σ hk1 (by norm_num)
   have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hk1
-  haveI : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
+  have : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
   let D := commutator (reeFixed ReeTag.F4 (fixSubfield σ) 0)
   let e₁ := ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0
   let φ := (baseChangeGL (fixSubfield σ).subtype).comp
@@ -66,7 +66,7 @@ theorem autWitness_reeGamma
 theorem not_smallAutomizer_reeFFour
     {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .reeF4 2) {S : Type} [Group S] [Finite S]
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) : ¬ SmallAutomizer 5 S := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hX := CFSG.AGLEmbedding.reeTitsModel_of_catGroup_reeF4 hd
   obtain ⟨a, K, _, _, _, -, hfa, hK, ⟨f⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hX

@@ -8,7 +8,7 @@ namespace CFSG.Quasithin.A94.L52
 
 open Matrix CFSG.CGT.M24S
 
-@[expose] def patSubT (S : Fin 5 → Fin 5 → Prop) (hlt : ∀ i j, S i j → i < j)
+@[expose] def patSubT (S : Fin 5 → Fin 5 → Prop) (_hlt : ∀ i j, S i j → i < j)
     (htr : ∀ i k j, S i k → S k j → S i j) : Subgroup Hc where
   carrier := {x | SuppIn S (cm x - 1)}
   mul_mem' := fun {x y} hx hy => by
@@ -130,7 +130,7 @@ theorem patElt_bijective : Function.Bijective (patElt hlt htr) := by
     have h2 := add_left_cancel h1
     funext p
     have := congrFun (congrFun h2 p.1.1) p.1.2
-    simp only [patN, Matrix.of_apply, dif_pos p.2] at this
+    simp only [patN, Matrix.of_apply, dite_eq_left p.2] at this
     exact this
   · rintro ⟨x, hx⟩
     set f : {p : Fin 5 × Fin 5 // S p.1 p.2} → ZMod 2 := fun p => cm x p.1.1 p.1.2 with hf
@@ -142,7 +142,7 @@ theorem patElt_bijective : Function.Bijective (patElt hlt htr) := by
     ext i j
     by_cases hij : S i j
     · have hne : i ≠ j := ne_of_lt (hlt i j hij)
-      simp [patN, hij, hf, Matrix.one_apply, hne]
+      simp [patN, hij, hf, hne]
     · have h0 := hx i j hij
       rw [Matrix.sub_apply] at h0
       have h1 := sub_eq_zero.1 h0
@@ -330,7 +330,7 @@ theorem comm_unipS_entries {x : Hc} {i j : Fin 5} (hij : i < j)
   have h3 := add_left_cancel h2
   simpa using h3
 
-theorem center_Tm {x : Hc} (hx : x ∈ Tm) (hc : ∀ y ∈ Tm, x * y = y * x) : x = 1 ∨ x = zt := by
+theorem center_Tm {x : Hc} (_hx : x ∈ Tm) (hc : ∀ y ∈ Tm, x * y = y * x) : x = 1 ∨ x = zt := by
   have key : ∀ (i j : Fin 5) (hij : i < j) (a b : Fin 5),
       (if b = j then cm x a i else 0) = (if a = i then cm x j b else 0) := fun i j hij a b =>
     comm_unipS_entries hij (hc _ (unipS_mem_Tm i j hij 1)) a b
@@ -363,7 +363,7 @@ theorem center_Tm {x : Hc} (hx : x ∈ Tm) (hc : ∀ y ∈ Tm, x * y = y * x) : 
   have hxe : cm x = 1 + Matrix.single 0 4 (cm x 0 4) := by
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [Matrix.one_apply, Matrix.single_apply, e11, e22, e33, d00, cm_44, cm_col0 x,
+      simp [e11, e22, e33, d00, cm_col0 x,
         cm_row4 x, r1, r2, r3, c1, c2, c3]
   exact eq_one_or_zt x _ hxe
 

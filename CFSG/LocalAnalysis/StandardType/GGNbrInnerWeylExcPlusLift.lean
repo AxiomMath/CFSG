@@ -26,7 +26,7 @@ theorem ggTorusLift_E7Plus {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
   TableBF4.ggTorusLift_of_mulEquiv (TableBExc.recipeEquiv .E7 K)
     (GGPlusLiftTorus.ggTorusLift_of_commutingSL2 hp hp2 hpq
       (TableBExcTwo.rho K TableBExcTwo.frameE7) (TableBExcTwo.rho_injective TableBExcTwo.frameE7)
-      (fun i j h => TableBExcTwo.commute_rho TableBExcTwo.frameE7 h))
+      (fun _i _j h => TableBExcTwo.commute_rho TableBExcTwo.frameE7 h))
 
 theorem ggTorusLift_E8Plus {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K + 1) :
@@ -34,7 +34,7 @@ theorem ggTorusLift_E8Plus {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
   TableBF4.ggTorusLift_of_mulEquiv (TableBExc.recipeEquiv .E8 K)
     (GGPlusLiftTorus.ggTorusLift_of_commutingSL2 hp hp2 hpq
       (TableBExcTwo.rho K TableBExcTwo.frameE8) (TableBExcTwo.rho_injective TableBExcTwo.frameE8)
-      (fun i j h => TableBExcTwo.commute_rho TableBExcTwo.frameE8 h))
+      (fun _i _j h => TableBExcTwo.commute_rho TableBExcTwo.frameE8 h))
 
 theorem ggTorusLift_F4Plus {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K + 1) :
@@ -42,7 +42,7 @@ theorem ggTorusLift_F4Plus {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
   TableBF4.ggTorusLift_of_mulEquiv (TableBF4.recipeEquiv K)
     (GGPlusLiftTorus.ggTorusLift_of_commutingSL2 hp hp2 hpq
       (TableBF4Two.rho K) TableBF4Two.rho_injective
-      (fun i j h => TableBF4Two.commute_rho h))
+      (fun _i _j h => TableBF4Two.commute_rho h))
 
 theorem largeEvenLabelAll_torusLift_excPlus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {lab : LargeEvenLabel}

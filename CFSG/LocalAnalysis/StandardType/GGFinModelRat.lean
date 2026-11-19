@@ -73,13 +73,13 @@ theorem ggDatumExists {τ : Tag} {f : ℕ} (hf : 1 ≤ f) (w : WeylGroup τ) :
       D.n = canonicalRep (coxeterSystem τ) GGL w := by
   classical
   let K := GaloisField 2 f
-  letI : Algebra K GGL := (ggRatEmb f).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb f).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator τ K (ℓ := 2) (f := f) hf GGL w
@@ -92,13 +92,13 @@ theorem ggDatumExistsTw {f : ℕ} (hf : 1 ≤ f) (w : WeylGroup TwistTag.E6.tag)
       D.n = canonicalRep (coxeterSystem TwistTag.E6.tag) GGL w := by
   classical
   let K := GaloisField 2 f
-  letI : Algebra K GGL := (ggRatEmb f).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb f).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator_twisted K (ℓ := 2) (f := f) hf GGL w

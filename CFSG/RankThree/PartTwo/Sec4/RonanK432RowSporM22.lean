@@ -43,7 +43,7 @@ theorem m22f_mem (p : Fin 3 × Fin 3) :
     (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
 
 theorem listRow_m22 : ListRow NativeSporadic.M22 := by
-  haveI : Finite NativeSporadic.M22 := Nat.finite_of_card_ne_zero (by rw [m22_card]; norm_num)
+  have : Finite NativeSporadic.M22 := Nat.finite_of_card_ne_zero (by rw [m22_card]; norm_num)
   obtain ⟨-, h2, h3, -, -⟩ := m22_pair_facts
   exact listRow_of_gen (x := m22x) (y := m22y) m22f (fun p => (p.1 + 1, p.2))
     (fun p => (p.1, p.2 + 1)) m22_pair_inj m22f_mem ⟨(0, 0), by simp [m22f]⟩

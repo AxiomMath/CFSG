@@ -38,9 +38,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
     rw [inv_inv, ← h1]
     group
 
-theorem TBJOmData.torusAut_top_fixed [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
-    (hQ : (polarBilin Q).Nondegenerate)
-    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0) (hA : A ≤ orthDerived Q)
+omit [Finite K] [FiniteDimensional K V] in
+theorem TBJOmData.torusAut_top_fixed [Fact p.Prime] (_hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
+    (_hQ : (polarBilin Q).Nondegenerate)
+    (_hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ v ∈ T, Q v = 0) (hA : A ≤ orthDerived Q)
     (hW : ∃ v : V, v ≠ 0 ∧ ∀ a ∈ A, a v = v) :
     Δ.torusAut hA ⊤ = signedAut r p := by
   refine le_antisymm ?_ ?_
@@ -65,7 +66,7 @@ theorem TBJOmData.torusAut_top_nf [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) :
     Δ.torusAut hA ⊤ = evenSignedAut r p := by
   classical
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   have hlower : TypeDDatum.evenSignedAut r p ≤ Δ.torusAut hA ⊤ := by
     rw [TypeDDatum.evenSignedAut, TypeDDatum.evenSignedSupportedAut]
     refine Subgroup.closure_le _ |>.mpr ?_
@@ -104,9 +105,9 @@ theorem TBJOmData.torusAut_top_nf [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData
     have hc : δ = fun i => if i ∈ Tδ then (-1 : ZMod p) else 1 := by
       funext i
       by_cases hi : i ∈ Tδ
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         exact (Finset.mem_filter.mp hi).2
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         exact (hδ i).resolve_right (by simpa [Tδ] using hi)
     rw [hc, Finset.prod_ite_mem_eq, Finset.prod_const]
     have hfilter : (Finset.univ.filter (fun i =>
@@ -150,7 +151,7 @@ theorem TBJOmData.torusAut_top_nf [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData
     by_cases hia : i = a
     · rw [hia]
       simp [u', ε', MulAut.mul_apply, hu, sgnAut_apply, haε]
-    · simp [u', ε', MulAut.mul_apply, hu, sgnAut_apply, Function.update_of_ne hia, hia]
+    · simp [u', ε', MulAut.mul_apply, hu, sgnAut_apply, hia]
   have hsupp' : Finset.univ.filter (fun i => ε' i = -1) = T.erase a := by
     ext i
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_erase, T, ε']
@@ -158,7 +159,7 @@ theorem TBJOmData.torusAut_top_nf [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData
     · rw [hia]
       simp [haε]
       exact fun h => hneg h.symm
-    · simp [Function.update_of_ne hia, hia]
+    · simp [hia]
   have hprod' : ∏ i, ε' i = 1 := by
     rw [hprod_formula ε' hε', hsupp', hcarderase, pow_mul]
     norm_num

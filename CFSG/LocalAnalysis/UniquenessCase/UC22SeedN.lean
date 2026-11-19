@@ -80,6 +80,7 @@ section TwoResidual
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G} [V.Normal] (hV : IsElemAbelian 2 V)
 
+omit [Finite G] in
 theorem autI_top_le_normalizer_autI_twoResidual :
     autI hV (⊤ : Subgroup G) ≤
       Subgroup.normalizer (autI hV (twoResidual (⊤ : Subgroup G)) : Set (MulAut (IntMod V hV))) := by
@@ -123,11 +124,11 @@ theorem exists_isSeed_of_natural {G : Type} [Group G] [Finite G] {V : Subgroup G
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (ρ : G →* SpecialLinearGroup (Fin 2) F)
       (ψ : Ecore G →* Multiplicative (Fin 2 → F)), IsSeed P ρ (Ecore G) ψ := by
   obtain ⟨hn1, F, hFld, hFin, hcard, e, β, hβs, hβk, hβe⟩ := hnat
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have hcardN : Nat.card F = 2 ^ n := by
     rw [Nat.card_eq_fintype_card]
     exact hcard
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn1 hcardN
   have hXV : ⁅V, (⊤ : Subgroup G)⁆ ≤ V := Subgroup.commutator_le_left V ⊤
   let ρ : G →* SpecialLinearGroup (Fin 2) F := e.toMonoidHom.comp (actA hV)

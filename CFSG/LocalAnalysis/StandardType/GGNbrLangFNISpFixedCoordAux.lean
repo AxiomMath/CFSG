@@ -161,7 +161,7 @@ theorem kgfniSpFix_exists_smul_of_mem_adjoin {K V : Type} [Field K] [AddCommGrou
     rw [mul_assoc, hc₂, mul_smul_comm, hc₁, smul_smul, mul_comm]
 
 theorem kgfniSpFix_avg_mul_eq_of_mul_eq {K V : Type} [Field K] [AddCommGroup V] [Module K V]
-    [CharP K 2] {A : Module.End K V} {p : ℕ} (hp : Odd p) (hA : A ^ p = 1)
+    [CharP K 2] {A : Module.End K V} {p : ℕ} (hp : Odd p) (_hA : A ^ p = 1)
     {e : Module.End K V} (he : A * e = e) :
     CFSG.RankThree.PartOne.OddIso.avg A p * e = e := by
   have hpow : ∀ i : ℕ, A ^ i * e = e := by
@@ -315,7 +315,7 @@ theorem kgfniSpFix_semMat_transpose_mul_form {K W : Type} [Field K] [AddCommGrou
     [Module K W] {ι : Type} [Fintype ι] [DecidableEq ι]
     (b : Module.Basis ι K W) (J : Matrix ι ι K) (BW : LinearMap.BilinForm K W)
     (hb : LinearMap.BilinForm.toMatrix b BW = J) (S : W ≃+ W) {σ : K ≃+* K}
-    (hS : ∀ (c : K) (v : W), S (c • v) = σ c • S v)
+    (_hS : ∀ (c : K) (v : W), S (c • v) = σ c • S v)
     (hform : ∀ x y : W, BW (S x) (S y) = σ (BW x y))
     (hJ : ∀ i j, σ (J i j) = J i j) :
     Matrix.transpose (semMat b S) * J * semMat b S = J := by

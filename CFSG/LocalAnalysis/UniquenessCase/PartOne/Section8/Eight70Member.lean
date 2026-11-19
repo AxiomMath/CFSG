@@ -58,7 +58,7 @@ private lemma eight70_not_isMulCommutative_of_alt5 {H : Subgroup G}
   have : IsMulCommutative ↥H := hcomm
   have hsimple : IsSimpleGroup ↥H := by
     obtain ⟨e⟩ := h
-    have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact e.isSimpleGroup
   have hp : (Nat.card ↥H).Prime := (Group.is_simple_iff_prime_card).mp hsimple
   rw [eight70_card_eq_sixty_of_alt5 h] at hp
@@ -151,7 +151,7 @@ private lemma eight70_normal_dichotomy {X X₁ X₂ N : Subgroup G}
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr ?_
     refine (le_inf (hX₂le.trans hNnorm) (hX₂le.trans hX₂norm)).trans ?_
     exact Subgroup.inf_normalizer_le_normalizer_inf
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hsimple₁ : IsSimpleGroup ↥X₁ := h₁.some.isSimpleGroup
   have hsimple₂ : IsSimpleGroup ↥X₂ := h₂.some.isSimpleGroup
   have hcases₁ : N ⊓ X₁ = ⊥ ∨ X₁ ≤ N := by
@@ -494,7 +494,7 @@ theorem eight70_member {D : Data G} {L X X₁ X₂ : Subgroup G} (hyp : Hyp869 D
   classical
   rcases hyp with ⟨hcase, hXL, hXQ, hnotthin⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hX₁le : X₁ ≤ X := hX₁
   have hX₂le : X₂ ≤ X := hX₂
   have hX₁norm : X ≤ Subgroup.normalizer (X₁ : Set G) :=
@@ -582,7 +582,7 @@ theorem eight70_member {D : Data G} {L X X₁ X₂ : Subgroup G} (hyp : Hyp869 D
     let N : Subgroup G := (Y ⊔ Q) ⊓ X
     have hLnormYQ : L ≤ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G) :=
       (le_inf hLnormY hQnormL).trans
-        (Subgroup.normalizer_inf_normalizer_le_normalizer_sup Y Q)
+        (inf_normalizer_le_normalizer_sup Y Q)
     have hNle : N ≤ X := inf_le_right
     have hXnormN : X ≤ Subgroup.normalizer (N : Set G) :=
       (le_inf (hXL.trans hLnormYQ) (Subgroup.le_normalizer)).trans

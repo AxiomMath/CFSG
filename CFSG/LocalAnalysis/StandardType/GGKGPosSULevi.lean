@@ -208,10 +208,10 @@ theorem toBlock_last_fixed {g : SU σ n} (hblk : IsBlk (blkLast k) (mat σ n g))
   have e2 := hsum p (Fin.rev p) (Or.inl rfl)
   have e3 := hsum (Fin.rev p) p (Or.inr rfl)
   have e4 := hsum (Fin.rev p) (Fin.rev p) (Or.inr rfl)
-  rw [if_neg hpp] at e1
-  rw [if_pos rfl] at e2
-  rw [hrr, if_pos rfl] at e3
-  rw [hrr, if_neg hpp.symm] at e4
+  rw [ite_eq_right hpp] at e1
+  rw [ite_eq_left rfl] at e2
+  rw [hrr, ite_eq_left rfl] at e3
+  rw [hrr, ite_eq_right hpp.symm] at e4
   rw [toBlock, Matrix.det_fin_two_of] at hdet
   set α := mat σ n g p p
   set β := mat σ n g p (Fin.rev p)

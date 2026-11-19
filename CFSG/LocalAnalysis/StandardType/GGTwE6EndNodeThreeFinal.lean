@@ -24,9 +24,9 @@ theorem ggTwE6EndNodeThreeRankFour_of_inputs (hRK : RootKill)
   subst hp3
   intro L' _ _ ψ hψ hker hperf A hA hAI hr h3 hlt hadm
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   rw [TwE6Delta.liftRank_three] at hr hlt
   have hAc : Nat.card A = 3 ^ 4 := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (CFSG.Open.IsElemAbelian.isPGroup hA)

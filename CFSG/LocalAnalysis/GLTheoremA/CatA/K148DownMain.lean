@@ -76,7 +76,7 @@ theorem k148_outer (hG2 : K148G2SimpleFact) (hTwo : K148TwoG2Fact) {X J I : Subg
   have hsubI : CFSG.Open.IsSubnormal I (J ⊓ Subgroup.centralizer ({d} : Set G)) := hI.2.1
   have hQI : CFSG.Open.IsQuasisimple (PQuot 3 I) := isQuasisimple_pQuot_of_glaPComponent hp3 hI
   have hnontrivI : Nontrivial (PQuot 3 I) := by
-    haveI : IsSimpleGroup (PQuot 3 I ⧸ Subgroup.center (PQuot 3 I)) := hQI.2
+    have : IsSimpleGroup (PQuot 3 I ⧸ Subgroup.center (PQuot 3 I)) := hQI.2
     exact (QuotientGroup.mk_surjective (s := Subgroup.center (PQuot 3 I))).nontrivial
   let Φ := k148Phi hIJ hdN hdI
   obtain ⟨φ, hφ⟩ := k148_quot_hom Φ (k148_phi_ker_le hIJ hdN hdI)
@@ -168,7 +168,7 @@ theorem k148_outer (hG2 : K148G2SimpleFact) (hTwo : K148TwoG2Fact) {X J I : Subg
         exact hz (by rw [hr1, map_one])
       · have eRF : ↥(k148Phi hIJ hdN hdI).range ≃* ↥(lemma102_fixSub 3 hdN) :=
           (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
-        haveI : IsSimpleGroup ↥(k148Phi hIJ hdN hdI).range := MulEquiv.isSimpleGroup eRF
+        have : IsSimpleGroup ↥(k148Phi hIJ hdN hdI).range := MulEquiv.isSimpleGroup eRF
         obtain ⟨eQ⟩ := k148_iso_of_simple φ hφ hnontrivI
         have hcard : q.card = 2 ^ q.exponent := by rw [TauCeti.PrimePower.card_def, hq2]
         have hqc : 2 < q.card := by

@@ -196,7 +196,7 @@ theorem ratClosure_eq_of_compRank_eq {Ψ : Set (Fin τ.rank → ℤ)} (h : compR
   have htop : Submodule.span ℚ ((fun γ (k : Fin τ.rank) => (γ k : ℚ)) '' Ψ) = ⊤ :=
     Submodule.eq_top_of_finrank_eq (by rw [Module.finrank_fin_fun]; exact h)
   ext γ
-  simp only [mem_ratClosure, htop, Submodule.mem_top, and_true, Set.mem_setOf_eq]
+  simp only [mem_ratClosure, htop, Submodule.mem_top, and_true, Set.mem_ofPred_eq]
 
 theorem nonClosedRootCensus_holds :
     ∀ τ : Tag, (τ = .E6 ∨ τ = .E7 ∨ τ = .E8) → ∀ Ψ : Set (Fin τ.rank → ℤ),

@@ -88,7 +88,7 @@ private theorem lift_opp_self {ρ : Q →* S} {P : Subgroup Q} {L : Subgroup S} 
     rwa [close16_opp_idem] at h
   · exact CFSG.le_pElementSubgroup_of_isPGroup Nat.prime_two (pCoreOf_isPGroup 2 P) le_sup_right
 
-omit [Finite S] in
+omit [Finite S] [Finite Q] in
 private theorem lift_normal {ρ : Q →* S} {P : Subgroup Q} {L : Subgroup S}
     (hP : ρ.ker ≤ P) (hLe : L ≤ P.map ρ) (hN : (L.subgroupOf (P.map ρ)).Normal) :
     ((Opp 2 (L.comap ρ) ⊔ pCoreOf 2 P).subgroupOf P).Normal := by
@@ -878,7 +878,7 @@ private theorem bar2_lift_block_cyclic {ρ : Q →* S} {T N : Subgroup Q} {Nbar 
     Nonempty (Bar2 N ≃* Multiplicative (ZMod 3)) := by
   have hcyc : IsCyclic (Bar2 Nbar) := (MulEquiv.isCyclic e3).mpr inferInstance
   have hcommutative : ∀ a b : Bar2 N, a * b = b * a :=
-    commutative_of_cyclic_center_quotient f hkerC
+    (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f hkerC).is_comm.comm
   have hcommbot : commutator (Bar2 N) = ⊥ :=
     (commutator_eq_bot_iff (Bar2 N)).mpr ⟨Std.Commutative.mk hcommutative⟩
   have hcardNbar : Nat.card (Bar2 Nbar) = 3 := by

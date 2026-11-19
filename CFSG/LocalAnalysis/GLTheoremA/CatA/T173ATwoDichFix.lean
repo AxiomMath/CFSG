@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.GLTheoremA.T173X
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem fixSp_mem_centralizer_iff (g : V ≃ₗ[ZMod 2] V)
     (c : ↥(Subgroup.centralizer ({g} : Set (V ≃ₗ[ZMod 2] V)))) (x : V) :
     ((c : V ≃ₗ[ZMod 2] V) x ∈ fixSp g) ↔ x ∈ fixSp g := by
@@ -42,35 +43,36 @@ private def fixRestrictHom (g : V ≃ₗ[ZMod 2] V) :
     apply Subtype.ext
     rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 @[simp]
 private theorem fixRestrictHom_apply (g : V ≃ₗ[ZMod 2] V)
     (c : ↥(Subgroup.centralizer ({g} : Set (V ≃ₗ[ZMod 2] V)))) (x : fixSp g) :
     (fixRestrictHom g c x : V) = (c : V ≃ₗ[ZMod 2] V) (x : V) := rfl
 
-theorem lin_two_layer_fixed_trivial {g : V ≃ₗ[ZMod 2] V} (hg3 : g ^ 3 = 1)
+theorem lin_two_layer_fixed_trivial {g : V ≃ₗ[ZMod 2] V} (_hg3 : g ^ 3 = 1)
     (hfix : Module.finrank (ZMod 2) (fixSp g) = 2)
     (hcomp : CFSG.Open.IsComponentOf (stdLayer g)
       (Subgroup.centralizer ({g} : Set (V ≃ₗ[ZMod 2] V)))) :
     ∀ l ∈ stdLayer g, ∀ v ∈ fixSp g, l v = v := by
   classical
-  haveI : Group.IsPerfect ↥(stdLayer g) := ⟨hcomp.2.2.1⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Group.IsPerfect ↥(stdLayer g) := ⟨hcomp.2.2.1⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hcard : Nat.card (fixSp g) ≤ 4 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hfix]
     norm_num [Nat.card_zmod]
-  haveI : Group.IsSolvable (Equiv.Perm (fixSp g)) := Equiv.Perm.isSolvable hcard
+  have : Group.IsSolvable (Equiv.Perm (fixSp g)) := Equiv.Perm.isSolvable hcard
   let f : ↥(stdLayer g) →* Equiv.Perm (fixSp g) :=
     (fixRestrictHom g).comp (Subgroup.inclusion hcomp.1)
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hbot : f.range = ⊥ := by
     have hnt : ¬ Nontrivial ↥f.range := by
       intro h
-      haveI : Nontrivial ↥f.range := h
+      have : Nontrivial ↥f.range := h
       have hsol : Group.IsSolvable ↥f.range :=
         Group.isSolvable_of_isSolvable_injective (f := (f.range).subtype)
           (f.range).subtype_injective
       exact (Group.IsPerfect.not_isSolvable f.range) hsol
-    haveI : Subsingleton ↥f.range := not_nontrivial_iff_subsingleton.mp hnt
+    have : Subsingleton ↥f.range := not_nontrivial_iff_subsingleton.mp hnt
     rw [Subgroup.eq_bot_iff_forall]
     intro x hx
     exact congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : ↥f.range) 1)

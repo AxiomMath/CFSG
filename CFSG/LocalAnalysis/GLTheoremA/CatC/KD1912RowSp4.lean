@@ -57,7 +57,7 @@ theorem odd_core_outer_sp4_eight {x : MulAut (StatedProj (StatedSp 2 F8))} (hx :
           StatedProj (StatedSp 2 F8)) (fieldAut 2 F8 σ)) from rfl,
       CFSG.HardMathSupport.Dickson.I271.fixSubgroup_congr, hfixσ]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNN : NoNormalPPrime 3 (⊤ : Subgroup ↥H₀) :=
     W2.noNormalPPrime_top_of_mulEquiv e6 W2.noNormalPPrime_three_perm_six
   have hOH : GLAPPrimeCoreOf 3 H₀ = ⊥ :=

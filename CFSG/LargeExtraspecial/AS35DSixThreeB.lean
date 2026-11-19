@@ -116,7 +116,7 @@ theorem exists_sylow : ∃ T : Sylow 2 c.N, ∀ x ∈ (T : Subgroup c.N), (x : G
   obtain ⟨T, hT⟩ := hP2.exists_le_sylow
   refine ⟨T, fun x hx => ?_⟩
   have hle : (T : Subgroup c.N).map c.N.subtype ≤ S.M := by
-    refine S.le_M_of_isPGroup_of_cqx_le c.huQ c.hu1 c.huz c.hunc (T.isPGroup'.map _) ?_
+    refine S.le_M_of_isPGroup_of_cqx_le c.huQ c.hu1 c.huz c.hunc (T.isPGroup.map _) ?_
     intro q hq
     exact ⟨⟨q, c.hPN hq⟩, hT (by rw [mem_subgroupOf]; exact hq), rfl⟩
   exact S.mem_M_iff.mp (hle ⟨x, hx, rfl⟩)

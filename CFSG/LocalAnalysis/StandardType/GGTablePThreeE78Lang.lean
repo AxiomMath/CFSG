@@ -112,10 +112,10 @@ private theorem langE78_dispatch
         by_cases htw : twistInner (componentRoots (rootCharHom a) i)
             ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
               (componentRoots (rootCharHom a) i)])
-        · left; unfold twistKind; rw [if_pos htw]
+        · left; unfold twistKind; rw [ite_eq_left htw]
         · right
           unfold twistKind
-          rw [if_neg htw]
+          rw [ite_eq_right htw]
           have hexc : ¬ ((compRank (componentRoots (rootCharHom a) i) = 6 ∧
               (componentRoots (rootCharHom a) i).ncard = 72) ∨
               (compRank (componentRoots (rootCharHom a) i) = 4 ∧
@@ -134,8 +134,8 @@ private theorem langE78_dispatch
             rw [hA.2] at htwo
             have h1r : 1 ≤ compRank (componentRoots (rootCharHom a) i) := by omega
             nlinarith [htwo, Nat.sub_add_cancel h1r]
-          rw [if_neg hexc, if_neg htwoD,
-            if_pos (show 2 ≤ compRank (componentRoots (rootCharHom a) i) ∧
+          rw [ite_eq_right hexc, ite_eq_right htwoD,
+            ite_eq_left (show 2 ≤ compRank (componentRoots (rootCharHom a) i) ∧
                 (componentRoots (rootCharHom a) i).ncard =
                   compRank (componentRoots (rootCharHom a) i) *
                     (compRank (componentRoots (rootCharHom a) i) + 1) from

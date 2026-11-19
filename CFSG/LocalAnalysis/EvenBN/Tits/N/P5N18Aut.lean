@@ -56,7 +56,7 @@ theorem eq_one_of_fixed_orderOf_five (hU : Nat.card U = 16) {q : MulAut U} (hq :
 theorem card_le_five_of_isPGroup (hU : Nat.card U = 16) (P : Subgroup (MulAut U)) (hP : IsPGroup 5 P) :
     Nat.card P ≤ 5 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨u₀, hu₀⟩ : ∃ u₀ : U, u₀ ≠ 1 := by
     by_contra h
     push Not at h
@@ -105,7 +105,7 @@ theorem card_le_five_of_isPGroup (hU : Nat.card U = 16) (P : Subgroup (MulAut U)
       exact this _
     exact hu₀ (eq_one_of_fixed_orderOf_five hU hq'ord' hq'u)
   have hcard15 : Nat.card {u : U // u ≠ 1} = 15 := by
-    haveI := Fintype.ofFinite U
+    have := Fintype.ofFinite U
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, hU]
   have hle : Nat.card P ≤ 15 := hcard15 ▸ Nat.card_le_card_of_injective _ hinj
@@ -125,7 +125,7 @@ section NoOdd
 
 variable {X : Type*} [Group X] [Finite X]
 
-theorem no_odd_normal {U K : Subgroup X} {x : X} (hU : IsElemAbelian 2 U) (hU16 : Nat.card U = 16)
+theorem no_odd_normal {U K : Subgroup X} {x : X} (_hU : IsElemAbelian 2 U) (hU16 : Nat.card U = 16)
     (hxN : x ∈ normalizer (U : Set X)) (hx5 : x ^ 5 = 1)
     (hfpf : ∀ u ∈ U, x * u * x⁻¹ = u → u = 1) (hKN : K ≤ normalizer (U : Set X)) (hxK : x ∈ K)
     (h5 : ∀ N : Subgroup (MulAut ↥U), N ≤ imgIn U K →
@@ -134,7 +134,7 @@ theorem no_odd_normal {U K : Subgroup X} {x : X} (hU : IsElemAbelian 2 U) (hU16 
     (hBn : ∀ h ∈ imgIn U (normalizer (U : Set X)), ∀ b ∈ B₀, h * b * h⁻¹ ∈ B₀)
     (hodd : Odd (Nat.card B₀)) (htr : ∀ a b : ↥U, a ≠ 1 → b ≠ 1 → ∃ g ∈ B₀, g a = b) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set B₁ := imgIn U (normalizer (U : Set X)) with hB₁
   have hxB₁ : actFun U x ∈ B₁ := actFun_mem_imgIn hxN hxN
   have hxh1 : actFun U x ≠ 1 := by
@@ -173,7 +173,7 @@ theorem no_odd_normal {U K : Subgroup X} {x : X} (hU : IsElemAbelian 2 U) (hU16 
         exact ⟨⟨g, hg⟩, hgu⟩
     have hcard : Nat.card (MulAction.orbit B₀ u₀) = 15 := by
       rw [horb]
-      haveI := Fintype.ofFinite ↥U
+      have := Fintype.ofFinite ↥U
       have : Nat.card ↥{u : ↥U | u ≠ 1} = Nat.card {u : ↥U // u ≠ 1} := rfl
       rw [this, Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
         ← Nat.card_eq_fintype_card, hU16]
@@ -185,7 +185,7 @@ theorem no_odd_normal {U K : Subgroup X} {x : X} (hU : IsElemAbelian 2 U) (hU16 
     exact ⟨Nat.card (MulAction.stabilizer B₀ u₀), by rw [← this, mul_comm]⟩
   have h5B : 5 ∣ Nat.card B₀ := (Dvd.intro 3 (by norm_num)).trans h15
   set B₀' : Subgroup ↥B₁ := B₀.subgroupOf B₁ with hB₀'
-  haveI hnorm : B₀'.Normal := ⟨fun n hn g => by
+  have hnorm : B₀'.Normal := ⟨fun n hn g => by
     have := hBn g.1 g.2 n.1 hn
     exact this⟩
   have hcardB₀' : Nat.card B₀' = Nat.card B₀ :=

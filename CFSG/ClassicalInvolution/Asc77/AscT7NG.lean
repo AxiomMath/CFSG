@@ -16,6 +16,7 @@ section Frame
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {p f : ℕ} [Fact p.Prime]
   {Ω : Set (Subgroup G)} {K K' J W : Subgroup G} {z u t : G}
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.involution_eq_of_sylow (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) (hKt : K ≤ Subgroup.centralizer ({t} : Set G))
     (hK't : K' ≤ Subgroup.centralizer ({t} : Set G)) {J₁ R₁ : Subgroup G} {t₁ : G}

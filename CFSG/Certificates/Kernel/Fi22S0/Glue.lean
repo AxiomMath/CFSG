@@ -28,10 +28,10 @@ theorem shapeOK_of {oi oj pp pj : ℕ → ℕ} {lt : ℕ → ℕ → ℕ}
   simp only [Array.size_ofFn, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
     decide_eq_true_eq, Bool.or_eq_true]
   refine ⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, fun t ht => ?_⟩, ?_⟩, fun i hi => ?_⟩
-  · first | trivial | rfl
-  · first | trivial | exact hg.2
-  · first | trivial | rfl
-  · first | trivial | rfl
+  · first | trivial
+  · first | trivial
+  · first | trivial
+  · first | trivial
   · rw [CFSG.KS.LyS0K.ofFnG (fun t => (oi (t + 3), oj (t + 3))) ht]
     exact hoi (t + 3) (by omega) (by omega)
   · have := hg.1

@@ -14,7 +14,7 @@ open CFSG.Fischer (T46)
 open CFSG.Sporadic.Schreier (evalCodes_mem)
 
 theorem u62R_mem (j : ℕ) : u62R j ∈ u62Sb :=
-  evalCodes_mem u62Sb (fun g hg => subset_closure hg) _
+  evalCodes_mem u62Sb (fun _g hg => subset_closure hg) _
 
 @[expose] def u62RepW
     (j : ℕ) : ↥u62AutW :=

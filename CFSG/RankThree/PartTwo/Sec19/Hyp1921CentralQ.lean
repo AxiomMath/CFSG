@@ -16,16 +16,19 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {A M N L : Subgroup G}
 
+omit [Finite G] in
 private theorem centralQ_le_of_isSylowOf {Q R : Subgroup G} (hQ : IsSylowOf 3 Q R) :
     Q ≤ R := by
   obtain ⟨P, rfl⟩ := hQ
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem centralQ_isPGroup_of_isSylowOf {Q R : Subgroup G} (hQ : IsSylowOf 3 Q R) :
     IsPGroup 3 Q := by
   obtain ⟨P, rfl⟩ := hQ
-  exact P.isPGroup'.map R.subtype
+  exact P.isPGroup.map R.subtype
 
+omit [Finite G] in
 private theorem centralQ_mem_iff {U : Subgroup G} {x : G} :
     x ∈ sectionCentralizer U L (CFSG.Open.pCoreOf 2 L) ↔
       x ∈ U ∧ ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ CFSG.Open.pCoreOf 2 L :=
@@ -167,7 +170,7 @@ theorem Hyp1921.isCyclic_sectionCentralizer_of (h : Hyp1921 G A M N L)
   rw [hk] at hodd
   exact (Nat.not_even_iff_odd.mpr hodd) (Nat.even_pow.mpr ⟨even_two, hk0⟩)
 
-theorem Hyp1921.mul_comm_of_mem_of (h : Hyp1921 G A M N L)
+theorem Hyp1921.mul_comm_of_mem_of (_h : Hyp1921 G A M N L)
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) {Q : Subgroup G} (hQ : IsSylowOf 3 Q N)
     (hAQ : A ≤ Q) {K : Subgroup G}
     (hK : (K : Set G) = sectionCentralizer Q L (CFSG.Open.pCoreOf 2 L)) (hKc : IsCyclic K)

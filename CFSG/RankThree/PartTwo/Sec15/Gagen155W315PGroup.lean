@@ -17,7 +17,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec14
 
 private theorem isQuasisimple_alternating_five :
     CFSG.IsQuasisimple (alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     Y4Core.isSimpleGroup_alternatingGroup 5 (by norm_num)
   exact (Y4Core.good3_of_isSimpleGroup Y4Core.alternatingGroup_five_nonabelian
     (Y4Core.three_dvd_card_alternatingGroup 5 (by norm_num))).1
@@ -53,8 +53,8 @@ private theorem inf_eq_bot_of_normal_of_not_three_dvd {T : Type*} [Group T] [Fin
     {N W : Subgroup T} [W.Normal] (hN : N.Normal) (hWq : CFSG.IsQuasisimple ↥W)
     (hW3 : 3 ∣ Nat.card W) (hZW : Nat.card (Subgroup.center ↥W) ∣ 3)
     (hN3 : ¬ 3 ∣ Nat.card N) : N ⊓ W = ⊥ := by
-  haveI : N.Normal := hN
-  haveI : (N ⊓ W).Normal := Subgroup.normal_inf_normal N W
+  have : N.Normal := hN
+  have : (N ⊓ W).Normal := Subgroup.normal_inf_normal N W
   have hMn : ((N ⊓ W).subgroupOf W).Normal := Subgroup.normal_subgroupOf
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hWq hMn with htop | hcen
   · exfalso
@@ -89,7 +89,7 @@ private theorem normal_eq_bot_of_not_three_dvd {T : Type*} [Group T] [Finite T]
   have hNU : N ⊓ U₀ = ⊥ := inf_eq_bot_of_normal_of_not_three_dvd hN hUq hU3 hZU hN3
   have hNV : N ⊓ V₀ = ⊥ := inf_eq_bot_of_normal_of_not_three_dvd hN hVq hV3 hZV hN3
   have hNZ : N ≤ Subgroup.center T := by
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hNUc : ⁅N, U₀⁆ = ⊥ := by
       rw [eq_bot_iff]
       exact (le_inf (Subgroup.commutator_le_left N U₀)
@@ -209,8 +209,8 @@ private theorem normal_eq_bot_five_five
     (MonoidHom.snd (alternatingGroup (Fin 5)) (alternatingGroup (Fin 5))).ker with hW₁
   set W₂ : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5)) :=
     (MonoidHom.fst (alternatingGroup (Fin 5)) (alternatingGroup (Fin 5))).ker with hW₂
-  haveI hW₁n : W₁.Normal := by rw [hW₁]; infer_instance
-  haveI hW₂n : W₂.Normal := by rw [hW₂]; infer_instance
+  have hW₁n : W₁.Normal := by rw [hW₁]; infer_instance
+  have hW₂n : W₂.Normal := by rw [hW₂]; infer_instance
   have hmem1 : ∀ a : alternatingGroup (Fin 5), (a, 1) ∈ W₁ := by
     intro a
     rw [hW₁]
@@ -323,8 +323,8 @@ theorem prod148_facts {T : Type} [Group T] [Finite T] [Group.IsPerfect T]
   rcases hT with hcp | hc5 | hne55
   ·
     obtain ⟨U₀, V₀, hU₀n, hV₀n, hsup, hcomm, h3, hU₀tc, hV₀tc⟩ := hcp
-    haveI : U₀.Normal := hU₀n
-    haveI : V₀.Normal := hV₀n
+    have : U₀.Normal := hU₀n
+    have : V₀.Normal := hV₀n
     have hc : ∀ u ∈ U₀, ∀ v ∈ V₀, u * v = v * u := fun u hu v hv =>
       (Subgroup.mem_centralizer_iff.mp
         (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm hu) v hv).symm
@@ -350,7 +350,7 @@ theorem prod148_facts {T : Type} [Group T] [Finite T] [Group.IsPerfect T]
     obtain ⟨εV⟩ := hV₀tc.2
     obtain ⟨hψU, hkU⟩ := Proof153Twin2.tripleCover_cover εU
     obtain ⟨hψV, hkV⟩ := Proof153Twin2.tripleCover_cover εV
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     have hloc : (V ≤ U₀ ∧ E ≤ V₀) ∨ (V ≤ V₀ ∧ E ≤ U₀) :=
       Proof153Twin2.le_or_le_of_commutator_eq_bot hsup hcomm hψU hkU
         (φ₁ := MonoidHom.id ↥U₀) Function.surjective_id hψV hkV
@@ -398,8 +398,8 @@ theorem prod148_facts {T : Type} [Group T] [Finite T] [Group.IsPerfect T]
     exact ⟨hmain.1, hmain.2, hNbot⟩
   ·
     obtain ⟨U₀, V₀, hU₀n, hV₀n, hinf, hsup, hU₀tc, ⟨eV⟩⟩ := hc5
-    haveI : U₀.Normal := hU₀n
-    haveI : V₀.Normal := hV₀n
+    have : U₀.Normal := hU₀n
+    have : V₀.Normal := hV₀n
     have hcomm : ⁅U₀, V₀⁆ = ⊥ := by
       rw [eq_bot_iff]
       exact (le_inf (Subgroup.commutator_le_left U₀ V₀)
@@ -430,8 +430,8 @@ theorem prod148_facts {T : Type} [Group T] [Finite T] [Group.IsPerfect T]
     have hkV : (eV : ↥V₀ →* alternatingGroup (Fin 5)).ker ≤ Subgroup.center ↥V₀ := by
       rw [(MonoidHom.ker_eq_bot_iff (eV : ↥V₀ →* alternatingGroup (Fin 5))).mpr eV.injective]
       exact bot_le
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       Y4Core.isSimpleGroup_alternatingGroup 5 (by norm_num)
     have hloc : (V ≤ U₀ ∧ E ≤ V₀) ∨ (V ≤ V₀ ∧ E ≤ U₀) :=
       Proof153Twin2.le_or_le_of_commutator_eq_bot hsup hcomm hψU hkU
@@ -486,7 +486,7 @@ theorem prod148_facts {T : Type} [Group T] [Finite T] [Group.IsPerfect T]
         e55.injective).mp h)
     have hcommmap : ⁅V.map e55.toMonoidHom, E.map e55.toMonoidHom⁆ = ⊥ := by
       rw [← Subgroup.map_commutator, hVE, Subgroup.map_bot]
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       Y4Core.isSimpleGroup_alternatingGroup 5 (by norm_num)
     have hpair := Proof153Twin2.pair_prod hZ5 hZ5 hVsn hEsn hVperf hEperf hVmap1 hEmap1 hcommmap
     have hNbot : ∀ N : Subgroup T, N.Normal → ¬ 3 ∣ Nat.card N → N = ⊥ := by

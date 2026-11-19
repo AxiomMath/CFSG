@@ -408,7 +408,7 @@ private theorem four_point_stabilizer_subsingleton_of_not_alternating
     Finite.one_lt_card_iff_nontrivial.mpr hM
   obtain ⟨p, hp, hpdvd⟩ :=
     Nat.exists_prime_and_dvd (n := Nat.card M) (by omega)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ :=
     exists_prime_orderOf_dvd_card' p hpdvd
   let g : Equiv.Perm X := (((u : M) : K) : P)
@@ -572,7 +572,7 @@ theorem five_point_stabilizer_card_dvd_seven_thousand_nine_hundred_twenty
         MulAction.stabilizer K (a (1 : Fin 4))) ⊓
         MulAction.stabilizer K (a (2 : Fin 4))) ⊓
         MulAction.stabilizer K (a (3 : Fin 4))
-    letI : Subsingleton M :=
+    let : Subsingleton M :=
       four_point_stabilizer_subsingleton_of_not_alternating
         X P hcard h5 hnotAlt hs
           (a 0) (a 1) (a 2) (a 3)
@@ -613,9 +613,9 @@ private theorem sylow_centralizer_card_eq_prime_of_not_alternating
     (S : Sylow p P) (hScard : Nat.card S = p) :
     Nat.card (Subgroup.centralizer (S : Set P)) = p := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   obtain ⟨u, hu⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
   have huorder : orderOf u = p := hu.trans hScard
@@ -676,7 +676,7 @@ private theorem sylow_centralizer_card_eq_prime_of_not_alternating
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcop : Nat.Coprime q p)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -760,9 +760,9 @@ theorem sylow_normalizer_constraints_of_not_alternating
       C.relIndex N * N.index * p = Nat.card P := by
   classical
   dsimp
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   let C : Subgroup P :=
     Subgroup.centralizer (S : Set P)
   let N : Subgroup P :=
@@ -807,7 +807,7 @@ theorem sylow_normalizer_constraints_of_not_alternating
         (Subgroup.centralizer_le_normalizer (S : Set P))
   have hCindex := C.index_mul_card
   rw [hCcard, ← hrel] at hCindex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   exact ⟨hrDvd,
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero,

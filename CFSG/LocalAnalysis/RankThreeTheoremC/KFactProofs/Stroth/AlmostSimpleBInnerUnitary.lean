@@ -22,10 +22,10 @@ theorem oddPCoreInClosure_unitaryCentralizer_of_squarefree {p : ℕ} (hp : p.Pri
     (hsq : Squarefree (minpoly K (x : Module.End K V))) :
     OddPCoreInClosure p ↥(unitaryCentralizer B x) := by
   classical
-  haveI : Finite K := hK.finite
-  haveI : CharP K 2 := hℓ ▸ hK.charP
+  have : Finite K := hK.finite
+  have : CharP K 2 := hℓ ▸ hK.charP
   have HA := r3e_unitary_semisimple_primary_algebra_and_full_centralizer hK B hB hBl x hx hsq
-  haveI : Finite (LinearMap.GeneralLinearGroup K V) := finite_generalLinearGroup'
+  have : Finite (LinearMap.GeneralLinearGroup K V) := finite_generalLinearGroup'
   have hfin : Finite ↥(adjointOrbits hK x) := by
     have : (adjointOrbits hK x).Finite := Set.Finite.image _ (Finset.finite_toSet _)
     exact this.to_subtype
@@ -39,9 +39,9 @@ theorem oddPCoreInClosure_unitaryCentralizer_of_squarefree {p : ℕ} (hp : p.Pri
     by_cases hself : dualPoly hK.bar a = a
     ·
       obtain ⟨hE, -, -, Hf, hHf, hHfl, -, -, φ, -⟩ := (HA.selfDual ⟨a, ha⟩ hself).unitaryForm
-      haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-      haveI : Finite (AdjoinRoot a) := Module.finite_of_finite K
-      haveI : CharP (AdjoinRoot a) 2 := charP_of_injective_ringHom (AdjoinRoot.of a).injective 2
+      have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+      have : Finite (AdjoinRoot a) := Module.finite_of_finite K
+      have : CharP (AdjoinRoot a) 2 := charP_of_injective_ringHom (AdjoinRoot.of a).injective 2
       have h1 : OddPCoreInClosure p ↥(supportedUnitary B x {a}) :=
         OddPCoreInClosure.of_mulEquiv φ.symm (oddPCoreInClosure_sesqUnitaryGroup hp hp2 hℓ hHf hHfl)
       have hset : ({a, dualPoly hK.bar a} : Set K[X]) = {a} := by
@@ -50,9 +50,9 @@ theorem oddPCoreInClosure_unitaryCentralizer_of_squarefree {p : ℕ} (hp : p.Pri
         (MulEquiv.subgroupCongr (congrArg (supportedUnitary B x) hset.symm)) h1
     ·
       obtain ⟨φ, -, -, -, -, -⟩ := (HA.paired ⟨a, ha⟩ (Ne.symm hself)).factor
-      haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-      haveI : Finite (AdjoinRoot a) := Module.finite_of_finite K
-      haveI : CharP (AdjoinRoot a) 2 := charP_of_injective_ringHom (AdjoinRoot.of a).injective 2
+      have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+      have : Finite (AdjoinRoot a) := Module.finite_of_finite K
+      have : CharP (AdjoinRoot a) 2 := charP_of_injective_ringHom (AdjoinRoot.of a).injective 2
       exact OddPCoreInClosure.of_mulEquiv φ.symm (oddPCoreInClosure_generalLinearGroup hp hp2)
 
 end Centralizer

@@ -54,8 +54,8 @@ theorem extAlignAut_inl (w : W5) :
     Mof (⊤ : Subgroup (Equiv.Perm (Fin 5))) where
   toFun x := ⟨extAlignAut (x : Mc), mem_Mof.mpr (Subgroup.mem_top _)⟩
   invFun x := ⟨extAlignAut.symm (x : Mc), mem_Mof.mpr (Subgroup.mem_top _)⟩
-  left_inv x := Subtype.ext (extAlignAut.symm_apply_apply _)
-  right_inv x := Subtype.ext (extAlignAut.apply_symm_apply _)
+  left_inv _x := Subtype.ext (extAlignAut.symm_apply_apply _)
+  right_inv _x := Subtype.ext (extAlignAut.apply_symm_apply _)
   map_mul' x y := Subtype.ext (map_mul extAlignAut (x : Mc) (y : Mc))
 
 @[expose] noncomputable def extAlignedPerm (g : ↥P2h) : Equiv.Perm (Fin 5) :=

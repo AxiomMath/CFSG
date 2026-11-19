@@ -92,8 +92,8 @@ theorem AtildeE_pow_three {x : C.E} (hx : x ∈ C.AtildeE) : x ^ 3 = 1 := by
     _ = 1 := by rw [hy3, hz3, one_mul]
 
 theorem card_AtildeE : Nat.card C.AtildeE = 243 := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
-  haveI : Finite X₀ := Finite.of_surjective C.π C.hπs
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite X₀ := Finite.of_surjective C.π C.hπs
   have h := card_comap_of_surjective C.π C.hπs thetaBar.range
   rw [C.hπk, C.card_center, card_range_thetaBar] at h
   exact h.trans (by norm_num)
@@ -168,7 +168,7 @@ theorem mem_zpowers_thetaA_iff (a : C.AtildeE) :
 
 theorem E_le_gammaU : C.E ≤ gammaU := C.hEg
 
-theorem rhoA_injective : Function.Injective C.rhoA := fun a b h =>
+theorem rhoA_injective : Function.Injective C.rhoA := fun _a _b h =>
   Subtype.ext (Subtype.ext h)
 
 theorem rhoA_mem_gammaU (a : C.AtildeE) : C.rhoA a ∈ gammaU := C.E_le_gammaU a.1.2
@@ -192,7 +192,7 @@ theorem frame_of_ectx : ∃ (g : G12) (c : Gen → Fin 6 → ZMod 3) (p : Gen �
     Function.Surjective ψ' ∧ (∀ d : D5, ψ' d = 1 ↔ (d : G12) ∈ Subgroup.zpowers theta0e) ∧
     (∀ (k : Gen) (d : D5) (h : permE (p k) * (d : G12) * (permE (p k))⁻¹ ∈ D5),
       ψ' ⟨permE (p k) * (d : G12) * (permE (p k))⁻¹, h⟩ = sg k (ψ' d)) := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
   refine frame_data (A := C.AtildeE) (fun a => Subtype.ext (C.AtildeE_pow_three a.2))
     C.card_AtildeE (ρ := C.rhoA) C.rhoA_injective C.rhoA_mem_gammaU (θ := C.thetaA) rfl C.psiE
     C.psiE_surjective (fun a => ?_) (fun k => ((C.levLift k : C.E) : G12))

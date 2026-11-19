@@ -50,9 +50,9 @@ theorem k_SpSixOutOrder_holds {K : Type} [Group K] [Finite K] {f : ℕ}
     (hK : LieModel K .PSp 3 2 f) : Nat.card (Outer K) ∣ 2 * f := by
   obtain ⟨F, hFld, hFin, hChar, hF, ⟨e⟩⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel (L := K) hK
-  letI := hFld
-  letI := hFin
-  letI := hChar
+  let := hFld
+  let := hFin
+  let := hChar
   have hf : 1 ≤ f := (hK.admissible).2.1
   have hodd : Odd (2 ^ f - 1) :=
     Nat.Even.sub_odd (Nat.one_le_two_pow) (Nat.even_pow.2 ⟨even_two, by omega⟩) odd_one

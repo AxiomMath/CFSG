@@ -72,7 +72,7 @@ theorem exists_U_fixed_weight {K : Type} [Field K] [CharP K 2]
   have hSne : S ≠ ⊥ := by
     have h := Representation.invariants_ne_bot_of_isPGroup 2 𝔇.pgroup (ρ.comp 𝔇.U.subtype)
     simpa [S] using h
-  haveI : Nontrivial S := (Submodule.nontrivial_iff_ne_bot (p := S)).mpr hSne
+  have : Nontrivial S := (Submodule.nontrivial_iff_ne_bot (p := S)).mpr hSne
   have hle : ∀ g : Kˣ × Kˣ, S ≤ S.comap ((ρ.comp 𝔇.tau) g) := by
     intro g v hv
     rw [Submodule.mem_comap]
@@ -85,7 +85,7 @@ theorem exists_U_fixed_weight {K : Type} [Field K] [CharP K 2]
   obtain ⟨x₁, hx₁⟩ := exists_weightSpace_ne_bot (K := K) (m := m) (k := k) hK τ₁
   let F₁ : Submodule k S := weightSpace τ₁ (wchar1 (K := K) k x₁)
   have hF₁ : F₁ ≠ ⊥ := hx₁
-  haveI : Nontrivial F₁ := (Submodule.nontrivial_iff_ne_bot (p := F₁)).mpr hF₁
+  have : Nontrivial F₁ := (Submodule.nontrivial_iff_ne_bot (p := F₁)).mpr hF₁
   have hle₂ : ∀ l : Kˣ, F₁ ≤ F₁.comap (τ₂ l) := by
     intro l v hv
     rw [Submodule.mem_comap]

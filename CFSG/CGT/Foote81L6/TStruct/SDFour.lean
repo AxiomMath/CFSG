@@ -45,7 +45,7 @@ theorem card_normalizer_sd_le (hN : 4 ≤ N) {V : Subgroup (SemidihedralGroup N)
     Nat.card (normalizer (V : Set (SemidihedralGroup N))) ≤ 8 := by
   classical
   have h3 : 3 ≤ N := by omega
-  haveI : Finite (SemidihedralGroup N) := presentation_finite N h3
+  have : Finite (SemidihedralGroup N) := presentation_finite N h3
   set z := element N h3 (half N) 0 with hz
   have hzc : ∀ g : SemidihedralGroup N, g * z = z * g := fun g =>
     (mem_center_iff.1 (by rw [hz, element_mem_center_iff N hN]; exact ⟨rfl, Or.inr rfl⟩) g)

@@ -49,7 +49,7 @@ theorem apply_eq_self_iff_of_supported {S : Finset (Hyperplane A p)} {x : A}
     (hx' : ∀ H' : Hyperplane A p, H' ∉ S → weightSpace ρ H'.1 ≠ ⊥ → x ∈ H'.1) (v : V) :
     ρ x v = v ↔ ∀ H ∈ S, ρ.asAlgebraHom (eps K A p (some H)) v = 0 := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   constructor
   · intro hv H hH
     refine eq_zero_of_mem_weightSpace_of_fixed ρ hp hA hpK (hx H hH) ⟨v, rfl⟩ ?_

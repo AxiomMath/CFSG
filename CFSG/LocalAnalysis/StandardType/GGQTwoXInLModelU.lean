@@ -28,7 +28,7 @@ private lemma q3u_pi_succ (n : ℕ) (j : Fin n) :
   exact ((finSuccEquiv_eq_some).mpr rfl).symm
 
 private lemma q3u_pi_last (n : ℕ) (hn : 2 ≤ n) : q3u_pi n (Fin.last n) = 1 := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let j : Fin n := ⟨n - 1, by omega⟩
   have hj : j.succ = (Fin.last n : Fin (n + 1)) := by
     apply Fin.ext
@@ -74,9 +74,9 @@ private lemma q3u_sum_single {n : ℕ} (a : Fin (n + 1)) (c : ZMod 3) :
     ∑ i, q3u_single a c i = c := by
   classical
   rw [Finset.sum_eq_single a]
-  · rw [q3u_single_apply, if_pos rfl]
+  · rw [q3u_single_apply, ite_eq_left rfl]
   · intro b _ hb
-    rw [q3u_single_apply, if_neg hb]
+    rw [q3u_single_apply, ite_eq_right hb]
   · intro ha
     exact absurd (Finset.mem_univ a) ha
 
@@ -136,10 +136,10 @@ private lemma q3u_succ_eq_castSucc_iff {n : ℕ} (i j : Fin n) :
 private lemma q3u_pairing (n : ℕ) (i j : Fin n) :
     q3u_root n i (q3u_coroot n j) = (CartanMatrix.A n i j : ZMod 3) := by
   rw [q3u_cartan_A, q3u_root_apply]
-  simp only [q3u_coroot_apply, Pi.sub_apply]
+  simp only [q3u_coroot_apply]
   simp only [Function.Injective.eq_iff (q3u_pi_injective n)]
   simp only [Fin.castSucc_inj, Fin.succ_inj, q3u_castSucc_eq_succ_iff, q3u_succ_eq_castSucc_iff]
-  split_ifs <;> (first | omega | (exfalso; omega) | norm_num)
+  split_ifs <;> (first | omega | norm_num)
 
 private noncomputable def q3u_permFun (n : ℕ) (σ : Equiv.Perm (Fin (n + 1)))
     (v : ↥(GGQTwoXInLAug n)) : ↥(GGQTwoXInLAug n) :=
@@ -165,10 +165,10 @@ private noncomputable def q3u_permLE (n : ℕ) (σ : Equiv.Perm (Fin (n + 1))) :
   invFun := q3u_permFun n σ.symm
   left_inv v := by
     apply Subtype.ext; funext i
-    simp only [q3u_permFun_apply, Equiv.symm_symm, Equiv.symm_apply_apply, Equiv.apply_symm_apply]
+    simp only [q3u_permFun_apply, Equiv.symm_symm, Equiv.symm_apply_apply]
   right_inv v := by
     apply Subtype.ext; funext i
-    simp only [q3u_permFun_apply, Equiv.symm_symm, Equiv.symm_apply_apply, Equiv.apply_symm_apply]
+    simp only [q3u_permFun_apply, Equiv.symm_symm, Equiv.apply_symm_apply]
 
 private lemma q3u_permLE_apply (n : ℕ) (σ : Equiv.Perm (Fin (n + 1)))
     (v : ↥(GGQTwoXInLAug n)) (i : Fin (n + 1)) :
@@ -184,8 +184,7 @@ private noncomputable def q3u_permHom (n : ℕ) :
     rfl
   map_mul' σ τ := by
     apply LinearEquiv.ext; intro v; apply Subtype.ext; funext i
-    simp only [q3u_permLE_apply, Equiv.Perm.mul_def, Equiv.symm_trans_apply, Equiv.trans_apply,
-      LinearEquiv.mul_apply]
+    simp only [q3u_permLE_apply, Equiv.Perm.mul_def, Equiv.symm_trans_apply, LinearEquiv.mul_apply]
 
 private lemma q3u_permLE_swap_apply (n : ℕ) (a b : Fin (n + 1))
     (v : ↥(GGQTwoXInLAug n)) (i : Fin (n + 1)) :
@@ -204,15 +203,15 @@ private lemma q3u_coord (n : ℕ) (k : Fin n) (v : ↥(GGQTwoXInLAug n)) :
     rw [Equiv.swap_apply_left]
     have hne : q3u_pi n k.castSucc ≠ q3u_pi n k.succ :=
       fun hh => (Fin.castSucc_lt_succ (i := k)).ne (q3u_pi_injective n hh)
-    rw [if_pos rfl, if_neg hne]
+    rw [ite_eq_left rfl, ite_eq_right hne]
     ring
   · rcases eq_or_ne i (q3u_pi n k.succ) with h2 | h2
     · subst h2
       have hne : q3u_pi n k.succ ≠ q3u_pi n k.castSucc :=
         fun hh => (Fin.castSucc_lt_succ (i := k)).ne (q3u_pi_injective n hh.symm)
-      rw [Equiv.swap_apply_right, if_neg hne, if_pos rfl]
+      rw [Equiv.swap_apply_right, ite_eq_right hne, ite_eq_left rfl]
       ring
-    · rw [Equiv.swap_apply_of_ne_of_ne h h2, if_neg h, if_neg h2]
+    · rw [Equiv.swap_apply_of_ne_of_ne h h2, ite_eq_right h, ite_eq_right h2]
       ring
 
 private noncomputable def q3u_permCongrHom {α β : Type*} (e : α ≃ β) :
@@ -243,7 +242,7 @@ private lemma q3u_chain_closure {m : ℕ} {α : Type*} [DecidableEq α]
       MulAction.stabilizer (Equiv.Perm α) z := by
   classical
   let p : α → Prop := fun x => x ≠ z
-  haveI : DecidablePred p := fun x => inferInstance
+  have : DecidablePred p := fun x => inferInstance
   let e : Fin (m + 1) ≃ Subtype p :=
     Equiv.ofBijective (fun j => (⟨c j, (hz (c j)).mp (Set.mem_range_self j)⟩ : Subtype p)) (by
       constructor
@@ -363,9 +362,9 @@ private lemma q3u_fixed_iff_span (n : ℕ) (hn3 : 3 ∣ n) (z : Fin (n + 1))
       rw [Submodule.coe_smul, Pi.smul_apply, hv0i, smul_eq_mul]
       by_cases hi : i = z
       · subst hi
-        rw [if_pos rfl, mul_zero, hwz]
+        rw [ite_eq_left rfl, mul_zero, hwz]
       · have hc := hconst i hi
-        rw [if_neg hi, hc]
+        rw [ite_eq_right hi, hc]
         ring
     rw [hw_eq]
     exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self v0)
@@ -382,10 +381,10 @@ private lemma q3u_fixed_iff_span (n : ℕ) (hn3 : 3 ∣ n) (z : Fin (n + 1))
     have hsz : σ.symm z = z := (Equiv.symm_apply_eq σ).mpr hσ.symm
     by_cases hi : i = z
     · subst hi
-      rw [if_pos hsz, if_pos rfl]
+      rw [ite_eq_left hsz, ite_eq_left rfl]
     · have hsi : σ.symm i ≠ z := by
         intro hh; apply hi; rw [← hσ, ← hh, Equiv.apply_symm_apply]
-      rw [if_neg hsi, if_neg hi]
+      rw [ite_eq_right hsi, ite_eq_right hi]
 
 private noncomputable def q3u_fixSub (n : ℕ) (w : ↥(GGQTwoXInLAug n)) :
     Subgroup (Equiv.Perm (Fin (n + 1))) where
@@ -433,7 +432,7 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
   classical
   have hn1 : 1 ≤ n := by omega
   have hn2 : 2 ≤ n := by omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let a : Fin n := 0
   let b : Fin n := ⟨n - 1, by omega⟩
   let s : Fin n → Equiv.Perm (Fin (n + 1)) :=
@@ -569,9 +568,7 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
           simp only [Fin.val_zero] at hv
           omega
         · simp only [s, cL]
-          congr 1 <;>
-            (apply congrArg (q3u_pi n); apply Fin.ext;
-              simp only [Fin.val_castSucc, Fin.val_succ]; omega)
+          congr 1
     rw [hset]
     exact q3u_chain_closure cL hcL 0 hzL
   have hstabK : Subgroup.closure (s '' {k : Fin n | k ≠ b}) =
@@ -586,19 +583,15 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
           omega
         refine ⟨⟨k.val, hkv⟩, ?_⟩
         simp only [s, cK]
-        congr 1 <;>
-          (apply congrArg (q3u_pi n); apply Fin.ext;
-            simp only [Fin.val_castSucc, Fin.val_succ]; omega)
+        congr 1
       · rintro ⟨j, rfl⟩
         refine ⟨⟨j.val, by omega⟩, ?_, ?_⟩
         · intro hh
           have hv := congrArg Fin.val hh
-          simp only [b, Fin.val_last] at hv
+          simp only [b] at hv
           omega
         · simp only [s, cK]
-          congr 1 <;>
-            (apply congrArg (q3u_pi n); apply Fin.ext;
-              simp only [Fin.val_castSucc, Fin.val_succ]; omega)
+          congr 1
     rw [hset]
     exact q3u_chain_closure cK hcK 1 hzK
   have hLset : {T : ↥(GGQTwoXInLAug n) ≃ₗ[ZMod 3] ↥(GGQTwoXInLAug n) |
@@ -667,9 +660,9 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
   have simple_spec : ∀ k : Fin n, ggLin (p := 3) ι (simple k) = q3u_permLE n (s k) := by
     intro k
     by_cases hk : k = 0
-    · simp only [simple, dif_pos hk]
+    · simp only [simple, dite_eq_left hk]
       exact (Classical.choose_spec (Subgroup.mem_map.mp (hmemK k (by rw [hk]; exact hb0)))).2
-    · simp only [simple, dif_neg hk]
+    · simp only [simple, dite_eq_right hk]
       exact (Classical.choose_spec (Subgroup.mem_map.mp (hmemL k hk))).2
   have himgL : ggLin (p := 3) ι '' (simple '' {k : Fin n | k ≠ 0}) =
       q3u_permHom n '' (s '' {k : Fin n | k ≠ 0}) := by
@@ -802,7 +795,7 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
     refine ⟨1, ⟨h10, ?_⟩, ?_⟩
     · rw [q3u_cartan_A]
       simp only [a]
-      rw [if_neg h01, if_pos (Or.inl (by rw [Fin.val_zero, q3u_one_val hn2]))]
+      rw [ite_eq_right h01, ite_eq_left (Or.inl (by rw [Fin.val_zero, q3u_one_val hn2]))]
       norm_num
     · intro c hc
       obtain ⟨hc0, hcA⟩ := hc
@@ -810,17 +803,17 @@ theorem ggQTwoXInL_model_unitary {G : Type} [Group G] (n : ℕ) (hn3 : 3 ∣ n) 
       simp only [a] at hc0 hcA
       by_cases hc1 : (0 : Fin n) = c
       · exact absurd hc1.symm hc0
-      · rw [if_neg hc1] at hcA
+      · rw [ite_eq_right hc1] at hcA
         by_cases hc2 : (0 : Fin n).val + 1 = c.val ∨ c.val + 1 = (0 : Fin n).val
-        · rw [if_pos hc2] at hcA
+        · rw [ite_eq_left hc2] at hcA
           have hcv : c.val = 1 := by
             rcases hc2 with hh | hh
             · simpa using hh.symm
-            · exact absurd (by simpa using hh) (Nat.succ_ne_zero c.val)
+            · exact absurd (by simp at hh) (Nat.succ_ne_zero c.val)
           apply Fin.ext
           rw [q3u_one_val hn2]
           exact hcv
-        · rw [if_neg hc2] at hcA
+        · rw [ite_eq_right hc2] at hcA
           exact absurd rfl hcA
   · refine Or.inl ⟨n, Equiv.refl _, hn1, Or.inl ?_⟩
     apply CoxeterMatrix.ext

@@ -48,7 +48,7 @@ theorem card_filter_r64 (p : Nat → Bool) :
   congr 1
   ext x
   simp only [Finset.mem_image, Finset.mem_filter, Finset.mem_univ, true_and, List.mem_toFinset,
-    List.mem_filter, r64, List.mem_range]
+    List.mem_filter, List.mem_range]
   constructor
   · rintro ⟨i, hi, rfl⟩
     exact ⟨i.2, hi⟩

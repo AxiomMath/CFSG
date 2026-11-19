@@ -75,14 +75,14 @@ theorem step1511Point_of (h148 : Item148R) (h131a : Item131a) (h134 : Item134)
       (forall_exists_isHyperplane_lB_eq_bot h134 h48 Sec4.Sporadic.rank3II_4_15) h hY.1
   obtain ⟨-, -, hAeq⟩ := Proof1511Point.facts_of_prod_of_isoLThreePi h he hiso hprod
   have hsolv := solvable_centralizer_of_mem_inf h h131a he hiso hprod
-  haveI hperf : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
+  have hperf : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     (Sec6.isQuasisimple_of_mem_thetaComponentsAt hD.mem_thetaComponentsAt).1
   obtain ⟨-, hq2ne⟩ := Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi he hiso
   have hq2 : 2 < p ^ e := by
     have hp2 : 2 ≤ p ^ e :=
       (Fact.out : p.Prime).two_le.trans (Nat.le_self_pow (by omega) p)
     omega
-  letI := ker148_normal hY.1.1.2
+  let := ker148_normal hY.1.1.2
   obtain ⟨e0⟩ : Nonempty (↥(img148 A Y (deltaZero A (lB A) Y)) ≃* ↥Y ⧸
       CFSG.pPrimeCore 3 ↥Y) := by
     rw [← hYΔ]
@@ -143,8 +143,8 @@ theorem step1511Point_of (h148 : Item148R) (h131a : Item131a) (h134 : Item134)
     exact (hfield G A c L h Y hY h5).elim
   ·
     obtain ⟨φ⟩ := h6.1
-    haveI : Nontrivial (alternatingGroup (Fin 5)) := Proof1515.nontrivial_alternatingGroup_five
-    haveI : Nontrivial CFSG.Blueprint.NativeSporadic.J2 := Proof1515.nontrivial_J2
+    have : Nontrivial (alternatingGroup (Fin 5)) := Proof1515.nontrivial_alternatingGroup_five
+    have : Nontrivial CFSG.Blueprint.NativeSporadic.J2 := Proof1515.nontrivial_J2
     exact ((Proof1515.isEmpty_mulEquiv_prod_of_isQuasisimple
       (H₁ := alternatingGroup (Fin 5)) (H₂ := CFSG.Blueprint.NativeSporadic.J2)
       hqX).false φ).elim

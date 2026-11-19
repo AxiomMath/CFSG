@@ -10,7 +10,7 @@ namespace CFSG.RankThree.GF2n.Stroth80
 open scoped commutatorElement
 
 theorem index_ge_card_of_orbit {G : Type} [Group G] [Finite G] (P C A Z : Subgroup G) (β : G)
-    (hCP : C ≤ P) (hZA : Z ≤ A) (hZn : ∀ a ∈ A, ∀ z ∈ Z, a * z * a⁻¹ ∈ Z)
+    (hCP : C ≤ P) (_hZA : Z ≤ A) (_hZn : ∀ a ∈ A, ∀ z ∈ Z, a * z * a⁻¹ ∈ Z)
     (hA : ∀ y ∈ P, ⁅β, y⁆ ∈ A)
     (hmul : ∀ y ∈ P, ∀ c ∈ P, ∃ z ∈ Z, ⁅β, y * c⁆ = ⁅β, y⁆ * ⁅β, c⁆ * z)
     (hC : ∀ c ∈ C, ⁅β, c⁆ ∈ Z)

@@ -43,6 +43,7 @@ theorem ff_invType_reflPair_opp (hQ : Q.Nondegenerate) {a b : V} (ha : Q a ≠ 0
     rw [mul_comm_reflOf_of_orth a b ha hb hab]
     exact ff_invType_reflPair hQ hb ha ((QuadraticMap.polar_comm Q b a).trans hab) hb1 h1
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k3_pair_sq {a b : V} (ha : Q a ≠ 0) (hb : Q b ≠ 0) (hab : polar Q a b = 0) :
     (reflTot Q a * reflTot Q b) * (reflTot Q a * reflTot Q b) = 1 := by
   calc (reflTot Q a * reflTot Q b) * (reflTot Q a * reflTot Q b)

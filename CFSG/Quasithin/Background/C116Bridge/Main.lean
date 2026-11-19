@@ -25,10 +25,11 @@ private theorem c116_evenWeight_one_subsingleton : Subsingleton ↥(evenWeight 1
     exact hsum
   rw [hx x, hx y]
 
+omit [Finite G] in
 private theorem c116_not_isAltType_one {L : Subgroup G} (hS : IsShort2 L) : ¬ IsAltType L 1 := by
   rintro ⟨_, -, -, β, -, hβker, -⟩
-  haveI : Subsingleton ↥(evenWeight 1) := c116_evenWeight_one_subsingleton
-  haveI : Subsingleton (Multiplicative ↥(evenWeight 1)) :=
+  have : Subsingleton ↥(evenWeight 1) := c116_evenWeight_one_subsingleton
+  have : Subsingleton (Multiplicative ↥(evenWeight 1)) :=
     ⟨fun a b => Multiplicative.toAdd.injective (Subsingleton.elim _ _)⟩
   have hker : (blockZ L).subgroupOf (blockU L) = ⊤ := by
     rw [← hβker, Subgroup.eq_top_iff']
@@ -41,6 +42,7 @@ private theorem c116_not_isAltType_one {L : Subgroup G} (hS : IsShort2 L) : ¬ I
     exact Subgroup.mem_subgroupOf.mp hmem
   exact absurd hle (not_le_of_gt hS.2.2.2.2.1)
 
+omit [Finite G] in
 theorem isChiBlock_of_isChiBlock2 {X L : Subgroup G} (h : IsChiBlock2 X L) : IsChiBlock X L := by
   refine ⟨h.1, ?_⟩
   rcases h.2 with hl | ⟨m, hm, hA⟩
@@ -54,6 +56,7 @@ theorem isChiBlock_of_isChiBlock2 {X L : Subgroup G} (h : IsChiBlock2 X L) : IsC
 theorem isSQTKTC_of_isSQTKIn {X : Subgroup G} (h : IsSQTKIn X) : IsSQTKTC X := by
   exact C1GN.isSQTKTC_iff_sqtkGroup.mpr h
 
+omit [Finite G] in
 private theorem c116_autOn_commutator {V A B : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (V : Set G)) (hB : B ≤ Subgroup.normalizer (V : Set G)) :
     autOn ⁅A, B⁆ V = ⁅autOn A V, autOn B V⁆ := by
@@ -67,6 +70,7 @@ private theorem c116_autOn_commutator {V A B : Subgroup G}
   unfold autOn
   rw [h1, Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem not_commutator_le_centralizer {X V L J : Subgroup G} (hred : IsTwoReducedIn X V)
     (hL : L ≤ X) (hJ : J ≤ X) (h : ⁅autOn L V, autOn J V⁆ ≠ ⊥) :
     ¬ ⁅L, J⁆ ≤ Subgroup.centralizer (V : Set G) := by
@@ -82,6 +86,7 @@ theorem not_commutator_le_centralizer {X V L J : Subgroup G} (hred : IsTwoReduce
   rw [← c116_autOn_commutator hLN hJN]
   exact (autI_eq_bot_iff hred.2.2.1 hcomm).mpr hle
 
+omit [Finite G] in
 theorem quasiData_of_autOn {X V L : Subgroup G} (hred : IsTwoReducedIn X V) (hL : L ≤ X)
     (h : CFSG.IsQuasisimple ↥(autOn L V)) :
     ∃ (Q : Type) (_ : Group Q) (φ : ↥L →* Q), Function.Surjective φ ∧

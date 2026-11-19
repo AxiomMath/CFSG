@@ -16,11 +16,13 @@ variable {K : Type} [Field K] [CharP K 2] {ι : Type}
 
 @[expose] def pureT (c : Fin 2 → K) (u : ι → K) : (ι → K) × (ι → K) := (c 0 • u, c 1 • u)
 
+omit [CharP K 2] in
 theorem orthTensor_id_pureT (g : Matrix (Fin 2) (Fin 2) K) (c : Fin 2 → K) (u : ι → K) :
     orthTensor g id (pureT c u) = pureT (g *ᵥ c) u := by
   simp only [orthTensor, pureT, id_eq, Matrix.mulVec, dotProduct, Fin.sum_univ_two, add_smul,
     smul_smul]
 
+omit [CharP K 2] in
 theorem exists_mulVec_ne_zero {N : Matrix (Fin 2) (Fin 2) K} (hN : N ≠ 0) :
     ∃ e : Fin 2 → K, N *ᵥ e ≠ 0 := by
   by_contra h
@@ -31,6 +33,7 @@ theorem exists_mulVec_ne_zero {N : Matrix (Fin 2) (Fin 2) K} (hN : N ≠ 0) :
   fin_cases i <;> fin_cases j <;>
     simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Pi.single_apply] using this
 
+omit [CharP K 2] in
 theorem pairTypeA_pureT {qU : QuadraticForm K (ι → K)} {c : Fin 2 → K} {u : ι → K} (hc : c ≠ 0)
     (hu : u ≠ 0) (hq : qU u = 0) : PairTypeA qU (pureT c u) := by
   refine ⟨c 0, c 1, u, ?_, hu, hq, rfl⟩
@@ -42,38 +45,46 @@ theorem pairTypeA_pureT {qU : QuadraticForm K (ι → K)} {c : Fin 2 → K} {u :
   · exact h.1
   · exact h.2
 
+omit [CharP K 2] in
 theorem mem_range_sub_one_iff {V : Type*} [AddCommGroup V] [Module K V] (X : V ≃ₗ[K] V)
     (v : V) : v ∈ LinearMap.range ((X : V →ₗ[K] V) - 1) ↔ ∃ w, X w - w = v := by
   simp [LinearMap.mem_range]
 
+omit [CharP K 2] in
 theorem orthTensor_id_comp (g g' : Matrix (Fin 2) (Fin 2) K) (p : (ι → K) × (ι → K)) :
     orthTensor g id (orthTensor g' id p) = orthTensor (g * g') id p := by
   simp only [orthTensor, id_eq, Matrix.mul_apply, Fin.sum_univ_two, smul_add, smul_smul,
     add_smul, Prod.mk.injEq]
   constructor <;> module
 
+omit [CharP K 2] in
 theorem orthTensor_add_left (g g' : Matrix (Fin 2) (Fin 2) K) (o : (ι → K) → (ι → K))
     (p : (ι → K) × (ι → K)) :
     orthTensor (g + g') o p = orthTensor g o p + orthTensor g' o p := by
   simp only [orthTensor, Matrix.add_apply, Prod.mk_add_mk, add_smul]
   congr 1 <;> abel
 
+omit [CharP K 2] in
 theorem orthTensor_smul_left (c : K) (g : Matrix (Fin 2) (Fin 2) K) (o : (ι → K) → (ι → K))
     (p : (ι → K) × (ι → K)) : orthTensor (c • g) o p = c • orthTensor g o p := by
   simp only [orthTensor, Matrix.smul_apply, smul_eq_mul, Prod.smul_mk, mul_smul, smul_add]
 
+omit [CharP K 2] in
 theorem orthTensor_zero_left (o : (ι → K) → (ι → K)) (p : (ι → K) × (ι → K)) :
     orthTensor (0 : Matrix (Fin 2) (Fin 2) K) o p = 0 := by
   simp [orthTensor]
 
+omit [CharP K 2] in
 theorem orthTensor_one_id' (p : (ι → K) × (ι → K)) :
     orthTensor (1 : Matrix (Fin 2) (Fin 2) K) id p = p := by
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
+omit [CharP K 2] in
 theorem orthTensor_one_apply' (o : (ι → K) → (ι → K)) (p : (ι → K) × (ι → K)) :
     orthTensor (1 : Matrix (Fin 2) (Fin 2) K) o p = (o p.1, o p.2) := by
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
+omit [CharP K 2] in
 theorem orthTensor_one_add (N : Matrix (Fin 2) (Fin 2) K) (p : (ι → K) × (ι → K)) :
     orthTensor (1 + N) id p = p + orthTensor N id p := by
   rw [orthTensor_add_left, orthTensor_one_id']
@@ -105,7 +116,7 @@ theorem anticomm_eq {N N' : Matrix (Fin 2) (Fin 2) K} (hN : N * N = 0) (hN' : N'
   unfold anticommScalar
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, hd, hd', add_mul, mul_add]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, hd, hd', add_mul, mul_add]
   · linear_combination (1 + N 0 0 + N' 0 0 + N 0 0 * N' 0 0) * h2
   · linear_combination (N 0 1 + N' 0 1 + N 0 0 * N' 0 1 + N 0 1 * N' 0 0) * h2
   · linear_combination (N 1 0 + N' 1 0 + N 1 0 * N' 0 0 + N 0 0 * N' 1 0) * h2
@@ -219,6 +230,7 @@ section Cases
 
 variable [Finite K] [Fintype ι] {qU : QuadraticForm K (ι → K)}
 
+omit [Finite K] [Fintype ι] [CharP K 2] in
 theorem EE_left (hsing : ∃ p : ι → K, p ≠ 0 ∧ qU p = 0) {N N' : Matrix (Fin 2) (Fin 2) K}
     (hN0 : N ≠ 0) (hM : N' * N = 0)
     (X Y : ((ι → K) × (ι → K)) ≃ₗ[K] ((ι → K) × (ι → K)))
@@ -235,6 +247,7 @@ theorem EE_left (hsing : ∃ p : ι → K, p ≠ 0 ∧ qU p = 0) {N N' : Matrix 
       Matrix.zero_mulVec]
     simp [pureT]
 
+omit [Finite K] [Fintype ι] [CharP K 2] in
 theorem EA_left {N : Matrix (Fin 2) (Fin 2) K} (hN0 : N ≠ 0) {u : ι → K} (hu0 : u ≠ 0)
     (hqu : qU u = 0) (E : (ι → K) ≃ₗ[K] (ι → K)) (hEu : E u = u)
     (X Y : ((ι → K) × (ι → K)) ≃ₗ[K] ((ι → K) × (ι → K)))
@@ -249,6 +262,7 @@ theorem EA_left {N : Matrix (Fin 2) (Fin 2) K} (hN0 : N ≠ 0) {u : ι → K} (h
   · rw [hY]
     simp [pureT, hEu]
 
+omit [Finite K] [Fintype ι] [CharP K 2] in
 theorem AE_left {N : Matrix (Fin 2) (Fin 2) K} (hNN : N * N = 0) (hN0 : N ≠ 0) {u : ι → K}
     (hu0 : u ≠ 0) (hqu : qU u = 0) (E : (ι → K) ≃ₗ[K] (ι → K)) {s : ι → K} (hs : E s - s = u)
     (X Y : ((ι → K) × (ι → K)) ≃ₗ[K] ((ι → K) × (ι → K)))

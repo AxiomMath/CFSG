@@ -11,6 +11,7 @@ open Subgroup CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma le_normalizer_of_conj {A B : Subgroup G}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b * a⁻¹ ∈ B) : A ≤ Subgroup.normalizer (B : Set G) := by
   intro a ha
@@ -20,12 +21,14 @@ private lemma le_normalizer_of_conj {A B : Subgroup G}
   have h' := h a⁻¹ (A.inv_mem ha) (a * b * a⁻¹) hb
   rwa [show a⁻¹ * (a * b * a⁻¹) * (a⁻¹)⁻¹ = b by group] at h'
 
+omit [Finite G] in
 private theorem relIndex_sup_eq_of_le_normalizer {D T : Subgroup G}
     (hT : T ≤ Subgroup.normalizer (D : Set G)) : D.relIndex (T ⊔ D) = D.relIndex T := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer hT
   have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hT
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient T D hT).toEquiv.symm
 
+omit [Finite G] in
 theorem mem_sup_of_normalizes {T C : Subgroup G} (hTC : ∀ x ∈ T, ∀ c ∈ C, x * c * x⁻¹ ∈ C) :
     ∀ y ∈ T ⊔ C, ∃ x ∈ T, ∃ c ∈ C, y = x * c := by
   intro y hy
@@ -107,6 +110,7 @@ theorem le_sup_of_sylow {X C T T₁ : Subgroup G} (hCX : C ≤ X)
   rw [heq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem relIndex_cent_two {V U : Subgroup G} {z w : G} (hz : z ∈ V) (hw : w ∈ V) (hz1 : z ≠ 1)
     (hz2 : z ^ 2 = 1) (hwz : w ≠ z)
     (hV : ∀ v ∈ V, v = 1 ∨ v = z ∨ v = w ∨ v = z * w)
@@ -186,6 +190,7 @@ theorem relIndex_cent_two {V U : Subgroup G} {z w : G} (hz : z ∈ V) (hw : w �
     · rw [hbcent] at hbw
       exact hzw_ne_w hbw.symm
 
+omit [Finite G] in
 theorem sq_mem_cent {V : Subgroup G} {z w : G} (hz : z ∈ V) (hw : w ∈ V) (hz2 : z ^ 2 = 1)
     (hV : ∀ v ∈ V, v = 1 ∨ v = z ∨ v = w ∨ v = z * w) {u : G}
     (hu : ∀ v ∈ V, u * v * u⁻¹ ∈ V) (huz : u * z * u⁻¹ = z) :

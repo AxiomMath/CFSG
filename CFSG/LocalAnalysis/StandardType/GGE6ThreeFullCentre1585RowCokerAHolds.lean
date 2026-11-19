@@ -70,7 +70,7 @@ private theorem ltrv4c1_finite_cyclic_of_gen (N : ℕ) (S : Submodule ℤ (Fin N
       refine ⟨(K : ZMod n), ?_⟩
       have hm : (∑ i : Fin N, Pi.single i (m i) : Fin N → ℤ) = m := by
         funext j
-        simpa using Fintype.sum_pi_single j m
+        simp
       have hsingle : ∀ i : Fin N, (Pi.single i (m i) : Fin N → ℤ) =
           (m i) • (Pi.single i (1 : ℤ) : Fin N → ℤ) := by
         intro i
@@ -102,7 +102,7 @@ private theorem ltrv4c1_finite_cyclic_of_gen (N : ℕ) (S : Submodule ℤ (Fin N
         simp [φ, ZMod.lift_coe, F, F']
       rw [hφK, ← hgoal]
       rfl
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   have hfin : Finite ((Fin N → ℤ) ⧸ S) := Finite.of_surjective φ hφsurj
   have hcyc : IsAddCyclic ((Fin N → ℤ) ⧸ S) := isAddCyclic_of_surjective φ hφsurj
   exact ⟨hfin, hcyc⟩
@@ -220,7 +220,7 @@ theorem nodeCokerCyclicR1_holds : NodeCokerCyclicR1 := by
     · exact ⟨0, by simpa using hz3⟩
     · exact ⟨0, by simpa using hz4⟩
     · exact ⟨0, by simpa using hz5⟩
-    · exact ⟨1, by simpa [g] using (Submodule.zero_mem S : (0 : NodeLat row') ∈ S)⟩
+    · exact ⟨1, by simp [g]⟩
   have hmain := ltrv4c1_finite_cyclic_of_gen (N := 7) S g n hn hgen hkill
   exact hmain
 
@@ -300,7 +300,7 @@ theorem nodeCokerCyclicR3_holds : NodeCokerCyclicR3 := by
     · exact ⟨0, by simpa using hz1⟩
     · exact ⟨0, by simpa using hz2⟩
     · exact ⟨0, by simpa using hz3⟩
-    · exact ⟨1, by simpa [g] using (Submodule.zero_mem S : (0 : NodeLat row') ∈ S)⟩
+    · exact ⟨1, by simp [g]⟩
     · exact ⟨0, by simpa using hz5⟩
     · exact ⟨0, by simpa using hz6⟩
   have hmain := ltrv4c1_finite_cyclic_of_gen (N := 7) S g n hn hgen hkill
@@ -404,7 +404,7 @@ theorem nodeCokerCyclicR4_holds : NodeCokerCyclicR4 := by
     · exact ⟨0, by simpa using hz2⟩
     · exact ⟨0, by simpa using hz3⟩
     · exact ⟨0, by simpa using hz4⟩
-    · exact ⟨1, by simpa [g] using (Submodule.zero_mem S : (0 : NodeLat row') ∈ S)⟩
+    · exact ⟨1, by simp [g]⟩
     · refine ⟨-2, ?_⟩
       convert hrel using 1
       simp [g, neg_smul, sub_eq_add_neg]

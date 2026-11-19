@@ -14,12 +14,13 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.Unique
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_of_forall_mem_mul_coprime {D N O P : Subgroup G} (hND : N ≤ D)
     (hNn : (N.subgroupOf D).Normal) (hOD : O ≤ D) (hcopO : Nat.Coprime 3 (Nat.card ↥O))
     (hDNO : ∀ d ∈ D, ∃ n ∈ N, ∃ u ∈ O, d = n * u) (hPD : P ≤ D)
     (hPq : CFSG.Open.IsQuasisimple ↥P) (hP3 : 3 ∣ Nat.card (↥P ⧸ Subgroup.center ↥P)) :
     P ≤ N := by
-  haveI := hNn
+  have := hNn
   let θ : ↥P →* ↥D ⧸ N.subgroupOf D :=
     (QuotientGroup.mk' (N.subgroupOf D)).comp (Subgroup.inclusion hPD)
   rcases CFSG.LocalCores.quasisimple_normal_subgroups (isQuasisimple_native' hPq)
@@ -59,7 +60,7 @@ theorem three_dvd_card_quotient_center {J : Type*} [Group J] [Finite J] (hperf :
     rcases (Nat.Prime.dvd_mul Nat.prime_three).1 h3 with h | h
     · exact absurd h hnd
     · exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center J)) 3 hZ3
   have hzo : orderOf (z : J) = 3 := by rw [Subgroup.orderOf_coe, hz]
   have hz1 := false_of_perfect_of_central_mem_abelian hperf (P := Subgroup.center J)
@@ -74,7 +75,7 @@ theorem normal_of_comm_components {C J : Subgroup G} (hJC : J ≤ C)
       o * g = g * o)
     (hD : ((J ⊔ GLAPPrimeCoreOf 3 C).subgroupOf C).Normal) : (J.subgroupOf C).Normal := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set O := GLAPPrimeCoreOf 3 C with hO
   have hOC : O ≤ C := glaPPrimeCoreOf_le C
   have hcopO : Nat.Coprime 3 (Nat.card ↥O) := coprime_card_glaPPrimeCoreOf C
@@ -206,7 +207,7 @@ theorem comm_components_of_b3S {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y}
       ∀ g ∈ M, ∀ o ∈ GLAPPrimeCoreOf 3 (K ⊓ Subgroup.centralizer ({b} : Set Y)),
         o * g = g * o := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   let α₀ : MulAut ↥K := K.normalizerMonoidHom ⟨b, hbK⟩
   have hα₀ : ∀ k : ↥K, ((α₀ k : ↥K) : Y) = b * k * b⁻¹ := fun k => rfl
   have hα₀3 : α₀ ^ 3 = 1 := by
@@ -311,7 +312,7 @@ theorem b3_chevTwo_of_semisimpleCent (hss : LieSemisimpleCent) {S : Type} [Group
     (hs : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a) (hS : IsChevTwo S)
     (β : MulAut S) (hβ : β ^ 3 = 1) :
     ⁅GLAPLayer 3 (fixSubgroup β), GLAPPrimeCoreOf 3 (fixSubgroup β)⁆ = ⊥ := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact commutator_glaPLayer_eq_bot_of_perfect_le_layer (perfectInLayer_one hnc)

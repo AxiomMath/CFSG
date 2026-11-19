@@ -53,8 +53,8 @@ theorem exists_omegaPlus_model {n k : ℕ} (hn : 4 ≤ n) (hk : 1 ≤ k) :
   have hcard : Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.D n q₀, hv⟩) = 2 ^ k := by
     rw [ValidLieTypeIndex.card_fixedField]
     simp [ValidLieTypeIndex.fieldOrder, q₀]
-  haveI : Fintype ↥(ValidLieTypeIndex.fixedField ⟨.D n q₀, hv⟩) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype ↥(ValidLieTypeIndex.fixedField ⟨.D n q₀, hv⟩) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP ↥(ValidLieTypeIndex.fixedField ⟨.D n q₀, hv⟩) 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
   have hn1 : 1 ≤ n := by omega

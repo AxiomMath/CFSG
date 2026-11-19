@@ -20,14 +20,14 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem card_GL_fin_le_two_at_two (d : ℕ) (hd : d ≤ 2) :
     Nat.card (GL (Fin d) (ZMod 2)) = 1 ∨ Nat.card (GL (Fin d) (ZMod 2)) = 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   interval_cases d
   · left
     rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
     simp
   · left
     rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
-    simp [Fin.prod_univ_one]
+    simp
   · right
     rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
     norm_num [Fin.prod_univ_two]
@@ -46,7 +46,7 @@ private theorem prime_dvd_card_GL_fin_le_two_at_two {r d : ℕ} (hr : r.Prime) (
 theorem prime_dvd_card_mulAut_of_isPGroup_two {W : Type*} [Group W] [Finite W]
     (hW : IsPGroup 2 W) (hsmall : Nat.card (W ⧸ frattini W) ≤ 4) {r : ℕ} (hr : r.Prime)
     (hdvd : r ∣ Nat.card (MulAut W)) : r = 2 ∨ r = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hcomm, hpow, -, hdata⟩ :=
     CFSG.GroupTheory.frattini_elementary_quotient hW
   obtain ⟨d, hcard, -⟩ := hdata
@@ -82,7 +82,7 @@ theorem prime_dvd_card_mulAut_of_isPGroup_two {W : Type*} [Group W] [Finite W]
 private theorem card_frattiniQuotient_le_four {W : Type*} [Group W] [Finite W]
     (hW : IsPGroup 2 W) (hcard : Nat.card W = 8) {x : W} (hx : orderOf x = 4) :
     Nat.card (W ⧸ frattini W) ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, hpow, -, ⟨d, hquot, -⟩⟩ :=
     CFSG.GroupTheory.frattini_elementary_quotient hW
   have hdle : d ≤ 3 := by
@@ -120,7 +120,7 @@ private theorem card_frattiniQuotient_le_four {W : Type*} [Group W] [Finite W]
 private theorem card_frattiniQuotient_le_nine_of_three_group {R : Type*} [Group R] [Finite R]
     (hR3 : IsPGroup 3 R) (hRcard : Nat.card R = 27)
     (hnonab : ∃ a b : R, a * b ≠ b * a) : Nat.card (R ⧸ frattini R) ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, d, hquot, -⟩ :=
     CFSG.GroupTheory.frattini_elementary_quotient hR3
   have hdle : d ≤ 3 := by
@@ -183,7 +183,7 @@ private theorem card_alternatingGroup_fin_three : Nat.card (alternatingGroup (Fi
 
 private theorem characteristic_alternatingGroup_fin_three :
     (alternatingGroup (Fin 3)).Characteristic := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR3 : IsPGroup 3 (alternatingGroup (Fin 3)) :=
     IsPGroup.of_card (n := 1) (by simpa using card_alternatingGroup_fin_three)
   have hidx : ¬ 3 ∣ (alternatingGroup (Fin 3)).index := by
@@ -202,14 +202,14 @@ private theorem characteristic_alternatingGroup_fin_three :
 
 private theorem prime_dvd_card_mulAut_perm_three {r : ℕ} (hr : r.Prime)
     (hdvd : r ∣ Nat.card (MulAut (Equiv.Perm (Fin 3)))) : r = 2 ∨ r = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQcard : Nat.card (Equiv.Perm (Fin 3)) = 6 := by
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
   have hRcard := card_alternatingGroup_fin_three
   have hR3 : IsPGroup 3 (alternatingGroup (Fin 3)) :=
     IsPGroup.of_card (n := 1) (by simpa using hRcard)
-  letI : (alternatingGroup (Fin 3)).Characteristic :=
+  let : (alternatingGroup (Fin 3)).Characteristic :=
     characteristic_alternatingGroup_fin_three
   have hRsmall : Nat.card (alternatingGroup (Fin 3) ⧸
       frattini (alternatingGroup (Fin 3))) ≤ 9 := by
@@ -257,8 +257,8 @@ private theorem exists_three_core_statedSU {K : Type} [Field K] [Finite K]
         Nat.card ↥(CFSG.Open.StatedSU 3 2 K) = 216 ∧ Nat.card R = 27 ∧
           ∃ f : ↥(CFSG.Open.StatedSU 3 2 K), f ^ 4 = 1 ∧ f ^ 2 ∉ R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q := ↥(CFSG.Open.StatedSU 3 2 K)
   let R : Subgroup Q := CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup Q)
   obtain ⟨s, d, z, f, g, -, -, -, hf4, -, -, -, hHeis, -, -, -, -, hf2, -, -, hTcard⟩ :=
@@ -286,11 +286,11 @@ private theorem prime_dvd_card_mulAut_statedSU {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 4) {r : ℕ} (hr : r.Prime)
     (hdvd : r ∣ Nat.card (MulAut ↥(CFSG.Open.StatedSU 3 2 K))) : r = 2 ∨ r = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := ↥(CFSG.Open.StatedSU 3 2 K)
   obtain ⟨R, hRchar, hR3, hRsmall, hQcard, hRcard, f, hf4, hf2R⟩ :=
     exists_three_core_statedSU hK
-  letI : R.Characteristic := hRchar
+  let : R.Characteristic := hRchar
   have hWcard : Nat.card (Q ⧸ R) = 8 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup R
     rw [hQcard, hRcard] at h
@@ -387,6 +387,6 @@ theorem commutator_mem_pCoreOf_of_isSymThreeOrSUThreeTwo {I : Subgroup G}
       simpa [QuotientGroup.mk'_apply] using hq
     exact (QuotientGroup.eq_iff_div_mem (N := N)).mp hq'
   exact Subgroup.mem_map.mpr ⟨(⟨b * x * b⁻¹, hbx⟩ : ↥I) / ⟨x, hx⟩, hmem, by
-    simp [Subgroup.coe_div, div_eq_mul_inv]⟩
+    simp [div_eq_mul_inv]⟩
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section12

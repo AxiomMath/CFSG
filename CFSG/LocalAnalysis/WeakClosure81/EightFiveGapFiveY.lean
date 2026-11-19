@@ -50,6 +50,7 @@ namespace Gap5YHyp
 
 variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {π : Y →* Perm (Fin n)} {t : Y} {b : MulAut Y}
 
+omit [Finite Y] in
 theorem two_lt (h : Gap5YHyp π t b) : 2 < n := by
   by_contra hle
   rw [not_lt] at hle
@@ -89,6 +90,7 @@ theorem two_lt (h : Gap5YHyp π t b) : 2 < n := by
       rw [map_mul, map_inv, h.b_apply] at hb
       exact mul_left_cancel hb
 
+omit [Finite Y] in
 theorem ne_three (h : Gap5YHyp π t b) : n ≠ 3 := by
   rintro rfl
   have hNnormal : ((alternatingGroup (Fin 3)).comap π).Normal := inferInstance
@@ -123,6 +125,7 @@ theorem ne_three (h : Gap5YHyp π t b) : n ≠ 3 := by
   rw [hAcard] at h1
   norm_num at h1
 
+omit [Finite Y] in
 theorem sign_eq (h : Gap5YHyp π t b) (hn : 2 ≤ n) : Perm.sign (π t) = -1 := by
   by_contra hne
   have h1 : Perm.sign (π t) = 1 := by
@@ -180,7 +183,7 @@ theorem exists_lift (h : Gap5YHyp π t b) (hn : 6 ≤ n) :
       π t * π (c * t * c⁻¹) = π (c * t * c⁻¹) * π t := by
   have hMnormal : ((Subgroup.centralizer (π.ker : Set Y)).map π).Normal :=
     (inferInstance : (Subgroup.centralizer (π.ker : Set Y)).Normal).map π h.surjective
-  haveI := hMnormal
+  have := hMnormal
   have hnt : Nontrivial ((Subgroup.centralizer (π.ker : Set Y)).map π) := by
     rw [Subgroup.nontrivial_iff_exists_ne_one]
     by_contra hcon
@@ -265,6 +268,7 @@ theorem ker_eq_bot (h : Gap5YHyp π t b) (hn : 6 ≤ n) : π.ker = ⊥ := by
     exact Subgroup.closure_mono fun y hy => h.oddTranspClass.2.1.mul_self_eq_one hy
   exact ker_eq_bot_of_closure_involutions π hcenter h.odd_ker h.surjective hinv
 
+omit [Finite Y] in
 theorem isSwap (h : Gap5YHyp π t b) (hn : 7 ≤ n) : (π t).IsSwap := by
   by_contra hns
   have hns' : ∀ i j : Fin n, i ≠ j → π t ≠ Equiv.swap i j := by

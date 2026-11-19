@@ -112,8 +112,8 @@ private theorem mc_conj_pq {g gi x y : Nat} (hg : invPair (pidn 11 4) g gi = tru
     (hx : IsPermN 11 (fd 4 x)) (hy : IsPermN 11 (fd 4 y)) :
     mc_pq (fd 4 (conjK 11 4 15 g gi x)) (fd 4 (conjK 11 4 15 g gi y)) =
       mc_pq (fd 4 x) (fd 4 y) :=
-  mc_pq_sim hx hy (invPair_perm hg).1 (fun i hi => mc_fd_conj hg x hi)
-    (fun i hi => mc_fd_conj hg y hi)
+  mc_pq_sim hx hy (invPair_perm hg).1 (fun _i hi => mc_fd_conj hg x hi)
+    (fun _i hi => mc_fd_conj hg y hi)
 
 private theorem mc_conj_inj {g gi y y' : Nat} (hg : invPair (pidn 11 4) g gi = true)
     (hy : y < 2 ^ 44) (hy' : y' < 2 ^ 44) (hyp : IsPermN 11 (fd 4 y))

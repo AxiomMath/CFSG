@@ -53,7 +53,7 @@ theorem nonempty_mulEquiv_J2_of_relators {G : Type} [Group G]
       exact ⟨presGen Sporadic.j2Presentation 1, by rw [hφ1]; exact (Subtype.ext hx).symm⟩
   obtain ⟨e⟩ : Nonempty (NativeSporadic.J2 ≃* Sporadic.j2Presentation.Group) :=
     J2.nonempty_mulEquiv
-  haveI : IsSimpleGroup Sporadic.j2Presentation.Group :=
+  have : IsSimpleGroup Sporadic.j2Presentation.Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.J2.isSimpleGroup_J2 e.symm
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]
@@ -74,9 +74,9 @@ theorem J2_facts_of_equiv {T : Type} [Group T]
     exact CFSG.Sporadic.J2.card_J2
   refine ⟨hs, hc, ?_⟩
   by_contra hab
-  push_neg at hab
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  letI : CommGroup T := { ‹Group T› with mul_comm := fun a b => hab a b }
+  push Not at hab
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  let : CommGroup T := { ‹Group T› with mul_comm := fun a b => hab a b }
   have hp := IsSimpleGroup.prime_card (α := T)
   rw [hc] at hp
   exact absurd hp (by norm_num)

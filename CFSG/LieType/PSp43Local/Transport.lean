@@ -117,7 +117,7 @@ theorem nonempty_mulEquiv_W3_of_lieModel {S : Type} [Group S]
     (h : CFSG.Blueprint.LieModel S .PSp 2 3 1) (Q : Sylow 3 S) :
     Nonempty (↥(Q : Subgroup S) ≃* W3) := by
   obtain ⟨φ⟩ := CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.psp43_equiv_of_lieModel h
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by
+  have : Finite S := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_congr φ.toEquiv, card_PSp43]
     norm_num)
   let Q' : Sylow 3 PSp43 := Sylow.mapSurjective (f := φ.toMonoidHom) φ.surjective Q
@@ -133,7 +133,7 @@ theorem nonempty_mulEquiv_W3_of_quotient_pCore_two {G : Type} [Group G] [Finite 
   have hQK : IsPGroup 3 (Q.subgroupOf K) := hQ.isPGroup.comap_subtype
   obtain ⟨e1⟩ := CFSG.GroupTheory.nonempty_mulEquiv_map_mk_of_isPGroup
     (p := 3) (N := CFSG.pCore 2 ↥K) not_three_dvd_card_pCore_two hQK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Qπ : Sylow 3 (↥K ⧸ CFSG.pCore 2 ↥K) :=
     Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K)) Qs
   have hQπ : (Qπ : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K)) =
@@ -170,9 +170,9 @@ private theorem map_normalizer_le_of_le_of_quotient_pCore_two {G : Type} [Group 
       (Subgroup.normalizer ((CFSG.Open.thompsonSubgroup Q).subgroupOf K : Set ↥K)).map
         (ψ.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥K))) := by
   let N : Subgroup ↥K := CFSG.pCore 2 ↥K
-  haveI hNnormal : N.Normal := CFSG.pCore_normal
+  have hNnormal : N.Normal := CFSG.pCore_normal
   have hN3 : ¬ 3 ∣ Nat.card N := not_three_dvd_card_pCore_two
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : ↥K →* ↥K ⧸ N := QuotientGroup.mk' N
   let φ : ↥K →* PSp43 := ψ.toMonoidHom.comp π
   have hQK : IsPGroup 3 (Q.subgroupOf K) := hQ.isPGroup.comap_subtype
@@ -231,7 +231,7 @@ private theorem false_of_map_normalizer_le {G : Type} [Group G] [Finite G]
         (ψ.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥K)))) : False := by
   let N : Subgroup ↥K := CFSG.pCore 2 ↥K
   have hN3 : ¬ 3 ∣ Nat.card N := not_three_dvd_card_pCore_two
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ψm : ↥K ⧸ N →* PSp43 := ψ.toMonoidHom
   have hψinj : Function.Injective ψm := ψ.injective
   have hψsurj : Function.Surjective ψm := ψ.surjective
@@ -318,9 +318,9 @@ private theorem exists_thompson_transport {G : Type} [Group G] [Finite G]
       φ.ker = CFSG.pCore 2 ↥K ∧
       Function.Injective (φ.comp (Q.subgroupOf K).subtype) := by
   let N : Subgroup ↥K := CFSG.pCore 2 ↥K
-  haveI hNnormal : N.Normal := CFSG.pCore_normal
+  have hNnormal : N.Normal := CFSG.pCore_normal
   have hN3 : ¬ 3 ∣ Nat.card N := not_three_dvd_card_pCore_two
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ψ⟩ := CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.psp43_equiv_of_lieModel hK
   obtain ⟨Qs, hQs⟩ := hQ.exists_sylow_eq_subgroupOf
   have hQK : IsPGroup 3 (Q.subgroupOf K) := hQ.isPGroup.comap_subtype

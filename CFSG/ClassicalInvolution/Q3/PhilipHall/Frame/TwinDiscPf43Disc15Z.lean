@@ -423,7 +423,7 @@ theorem involution_eq_of_layer (hP : Q3CL.PartIHypG Ω) (hf : TwinFrameData Ω K
     (hlayer : ∀ R' ∈ RSet Ω, R' ≤ Subgroup.centralizer ({w * v} : Set Y) →
       R' ≤ Subgroup.centralizer ({t * z} : Set Y))
     {J₁ : Subgroup Y} {t₁ : Y} (hJ₁ : J₁ ∈ omegaNbr Ω K) (ht₁ : IsUniqueInvolution J₁ t₁)
-    (hJ₁K' : J₁ ≠ K') (hJ₁J : J₁ ≠ J) : t₁ = t := by
+    (hJ₁K' : J₁ ≠ K') (_hJ₁J : J₁ ≠ J) : t₁ = t := by
   classical
   have hΩ : HypOmegaGen Ω := hP.hyp
   have hK : K ∈ Ω := hf.mem

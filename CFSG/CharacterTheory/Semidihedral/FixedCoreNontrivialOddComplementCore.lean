@@ -152,7 +152,7 @@ theorem exists_normal_complement_sylow [Finite G]
   have hPR : P ≤ R := hPB.trans hBR
   obtain ⟨Q₀, hPQ₀⟩ := (hP.comap_subtype (K := R)).exists_le_sylow
   set Q : Subgroup G := (Q₀ : Subgroup R).map R.subtype with hQdef
-  have hQp : IsPGroup ℓ Q := Q₀.isPGroup'.map R.subtype
+  have hQp : IsPGroup ℓ Q := Q₀.isPGroup.map R.subtype
   have hPQ : P ≤ Q := fun x hx => ⟨⟨x, hPR hx⟩, hPQ₀ hx, rfl⟩
   have hQR : Q ≤ R := map_subtype_le _
   have hoddR : ∀ x ∈ R, Odd (orderOf x) := fun x hx =>
@@ -233,7 +233,7 @@ theorem exists_normal_complement_sylow [Finite G]
     | H y =>
     obtain ⟨j, hj, b, hb, hjb⟩ := exists_mul_of_mem_sup h.JB_comm (hQJB (hmemQ y))
     have hyp : IsPGroup ℓ (zpowers ((y : R) : G)) := by
-      obtain ⟨n, hn⟩ := Q₀.isPGroup' y
+      obtain ⟨n, hn⟩ := Q₀.isPGroup y
       refine IsPGroup.of_card_dvd_pow (n := n) ?_
       rw [Nat.card_zpowers]
       exact orderOf_dvd_of_pow_eq_one (by
@@ -267,7 +267,7 @@ theorem odd_normal_complement [Finite G]
       obtain ⟨P₀⟩ : Nonempty (Sylow ℓ B) := inferInstance
       set P : Subgroup G := (P₀ : Subgroup B).map B.subtype with hPdef
       have hPB : P ≤ B := map_subtype_le _
-      have hP : IsPGroup ℓ P := P₀.isPGroup'.map B.subtype
+      have hP : IsPGroup ℓ P := P₀.isPGroup.map B.subtype
       have hPcard : Nat.card P = ℓ ^ (Nat.card B).factorization ℓ := by
         rw [hPdef, Subgroup.card_map_of_injective B.subtype_injective,
           Sylow.card_eq_multiplicity]

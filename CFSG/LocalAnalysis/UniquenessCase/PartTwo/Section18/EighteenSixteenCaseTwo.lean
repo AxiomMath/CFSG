@@ -150,7 +150,7 @@ theorem rk_imgTil_le_case2_s1 (D : Data G) (h61 : UC6.R6_1 D)
       have h2 : (⟨(1 : Vtil V₀ V hV), Subgroup.mem_top _⟩ :
           ↥(⊤ : Subgroup (Vtil V₀ V hV))) = 1 := Subtype.ext rfl
       rw [h1, h2, map_one, toAdd_one]
-      simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+      simp [StatedQuadMinus]
     · exact hSing x hxU hx0
   have hrk : rk ↥(imgTil V₀ V hV U) ≤ 2 * f := by
     have hWt2 : ∀ y ∈ imgTil V₀ V hV U, y * y = 1 :=
@@ -275,7 +275,7 @@ theorem rk_imgTil_le_case2_s2 (D : Data G) (h61 : UC6.R6_1 D)
           (Multiplicative.toAdd (ψ ⟨y, hy.2⟩)) = 0 := by
         rw [show (⟨y, hy.2⟩ : J0) = ⟨1, J0.one_mem⟩ from Subtype.ext hy1,
           show (⟨(1 : Vtil V₀ V hV), J0.one_mem⟩ : J0) = 1 from rfl, map_one, toAdd_one]
-        simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+        simp [StatedQuadMinus]
       exact hns hq1
     · have hx0 : x.val ∉ V₀ := by
         intro hxV0

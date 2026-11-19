@@ -90,7 +90,7 @@ theorem recOK_levelM {d : ℕ} {V : Array ℕ} {VG LK : ℕ → ℕ} (hs : Sys d
   have hedge' : ∀ h < m, ∀ j < r, ED h j < m ∧ VG (PT (ED h j)) = vm (VG (PT h)) (SM j) ∧
       (ED h j = 0 ∨ lexLtN h j (PA (ED h j)) (LB (ED h j)) = false) := fun h hh j hj => by
     have := allN_spec (allN_spec hedge h hh) j hj
-    simp only [edgeM, Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.beq_eq,
+    simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.beq_eq,
       Bool.not_eq_true'] at this
     exact ⟨this.1.1, this.1.2, this.2⟩
   have hlex : ∀ a b c e, lexLtN a b c e = true ↔ LexLt a b c e := fun a b c e => by
@@ -104,7 +104,7 @@ theorem recOK_levelM {d : ℕ} {V : Array ℕ} {VG LK : ℕ → ℕ} (hs : Sys d
   · obtain ⟨h1, -, h3⟩ := hpar' k hk hk0
     rw [hst _ (hpt' _ (by omega)).1, ← h3, hloc k hk]
   · have := allN_spec hmono k hk
-    simp only [Bool.or_eq_true, Nat.beq_eq, Bool.not_eq_true', Nat.blt_eq] at this
+    simp only [Bool.or_eq_true, Nat.beq_eq, Bool.not_eq_true'] at this
     rcases this with (h | h) | h
     · omega
     · rw [Nat.blt_eq.mpr hk1] at h
@@ -178,11 +178,11 @@ theorem rawSteps_eq {d : ℕ} {V : Array ℕ} {VG LK : ℕ → ℕ} (hs : Sys d 
   rw [e, getElem!_pos _ j (by simp; omega), List.getElem_toArray]
   by_cases hjc : j < c
   · rw [List.getElem_append_left (by simpa using hjc), List.getElem_map, List.getElem_range,
-      stepM, if_pos hjc, hS _ (hlt j hjc)]
+      stepM, ite_eq_left hjc, hS _ (hlt j hjc)]
   · rw [List.getElem_append_right (by simpa using hjc)]
     simp only [List.length_map, List.length_range, List.getElem_map, List.getElem_range]
     have hk := hlt (j - c) (by omega)
-    rw [stepM, if_neg hjc, rawInvs, getElem!_pos _ _ (by simpa using hk), Array.getElem_map,
+    rw [stepM, ite_eq_right hjc, rawInvs, getElem!_pos _ _ (by simpa using hk), Array.getElem_map,
       ← getElem!_pos S _ hk, hS _ hk, invCand_permOfMat hs.hd hs.nodup hs.lt (hSI _ hk)]
 
 theorem arr_eq_of_rep' {n : ℕ} {t u : Array ℕ} {g : Equiv.Perm (Fin n)} (ht : t.size = n)

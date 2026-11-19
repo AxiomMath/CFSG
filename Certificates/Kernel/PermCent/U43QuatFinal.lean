@@ -46,14 +46,13 @@ theorem mem_closure_q8 {n : ℕ} {r i j : Equiv.Perm (Fin n)} (hi : i * i = r) (
     simp only [q8Elems, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases ha with rfl | rfl <;>
       rcases hy with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-      simp only [q8Elems, List.mem_cons, List.not_mem_nil, or_false, mul_assoc, mul_one, one_mul,
-        ii, jj, rr, ri, rj, ji, hi, hj, hr, ri', rj', ji', true_or, or_true]
+      simp only [q8Elems, List.mem_cons, List.not_mem_nil, or_false, mul_assoc, mul_one, ii, jj, rj, ji, hi, hj, hr, rj', ji', true_or, or_true]
   | inv_mul_cancel a ha y _ hy =>
     simp only [q8Elems, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases ha with rfl | rfl <;>
       rcases hy with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
       simp only [iinv, jinv, q8Elems, List.mem_cons, List.not_mem_nil, or_false, mul_assoc,
-        mul_one, one_mul, ii, jj, rr, ri, rj, ji, hi, hj, hr, ri', rj', ji', true_or, or_true]
+        mul_one, ii, jj, ri, rj, ji, hi, hj, hr, ri', rj', ji', true_or, or_true]
 
 theorem conjSub_pair {G : Type*} [Group G] (g a b : G) :
     conjSub g (closure ({a, b} : Set G)) = closure {g * a * g⁻¹, g * b * g⁻¹} := by

@@ -81,7 +81,7 @@ private lemma l04fLN_coeff_zero_of_succ {p m : ℕ} [Fact p.Prime] {W : Type}
     have hne : i ≠ j := by intro h; have := congrArg Fin.val h; omega
     have h : CartanMatrix.A m i j = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inl hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inl hij)]
     have hz : CartanMatrix.A m i j + 1 = 0 := by rw [h]; norm_num
     have := congrArg (fun z : ℤ => (z : ZMod p)) hz
     simpa using this
@@ -91,7 +91,7 @@ private lemma l04fLN_coeff_zero_of_succ {p m : ℕ} [Fact p.Prime] {W : Type}
     have hne : i ≠ j := by intro h; have := congrArg Fin.val h; omega
     have h : CartanMatrix.A m i j = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inr hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inr hij)]
     have hz : CartanMatrix.A m i j + 1 = 0 := by rw [h]; norm_num
     have := congrArg (fun z : ℤ => (z : ZMod p)) hz
     simpa using this
@@ -101,7 +101,7 @@ private lemma l04fLN_coeff_zero_of_succ {p m : ℕ} [Fact p.Prime] {W : Type}
     intro i j hij h1 h2
     have h : CartanMatrix.A m i j = 0 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hij, if_neg (not_or.mpr ⟨h1, h2⟩)]
+      rw [ite_eq_right hij, ite_eq_right (not_or.mpr ⟨h1, h2⟩)]
     simp [h]
   have hsum : (∑ j : Fin m, c j * (CartanMatrix.A m k' j : ZMod p)) = 0 := by
     have h := congrArg (a k') hc

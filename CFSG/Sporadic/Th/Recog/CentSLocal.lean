@@ -301,7 +301,7 @@ theorem quotient_centralizer_facts {G : Type} [Group G] [Finite G]
     have h := orderOf_injective CS.subtype CS.subtype_injective š
     rw [show CS.subtype š = s from rfl, hsord] at h
     exact h.symm
-  letI : Finite X := Finite.of_surjective π hπ
+  let : Finite X := Finite.of_surjective π hπ
   have hcentral : ∀ j : X, orderOf j = 2 →
       Nonempty (↥(Subgroup.centralizer ({j} : Set X)) ≃* DihedralGroup 4) := by
     intro j hj
@@ -430,7 +430,7 @@ theorem quotient_centralizer_facts {G : Type} [Group G] [Finite G]
         Subgroup.mem_inf]
       constructor
       · intro hx
-        refine ⟨by simpa [CS] using x.2, ?_⟩
+        refine ⟨by simp [CS], ?_⟩
         exact Subgroup.mem_centralizer_singleton_iff.mpr (Subtype.ext_iff.mp hx)
       · rintro ⟨-, hx⟩
         exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp hx)

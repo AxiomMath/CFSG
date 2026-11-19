@@ -63,6 +63,7 @@ section Fix
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isSolvable_eqLocus_of_inner (hZ : Subgroup.center X = ⊥)
     (hinn : ∀ σ : MulAut X, (∃ k : ℕ, σ ^ 3 ^ k = 1) → ∃ x : X, σ = MulAut.conj x)
     (hcent : ∀ x : X, x ^ 3 = 1 → x ≠ 1 →

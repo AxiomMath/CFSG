@@ -148,7 +148,7 @@ theorem dt_adj_smul (Y : Setup Γ G) (n : ↥Y.N) (u v : Y.DtV) :
 
 private theorem dt_finite_stab (Y : Setup Γ G) (u : Y.DtV) :
     Finite (MulAction.stabilizer ↥Y.N u) := by
-  haveI : Finite (MulAction.stabilizer G u.1) := Y.hyp.finite_stab u.1
+  have : Finite (MulAction.stabilizer G u.1) := Y.hyp.finite_stab u.1
   refine Finite.of_injective (f := fun n : MulAction.stabilizer ↥Y.N u =>
     (⟨(((n : ↥Y.N) : G)), ?_⟩ : MulAction.stabilizer G u.1)) ?_
   · refine MulAction.mem_stabilizer_iff.mpr ?_
@@ -170,7 +170,7 @@ private theorem exists_conj_K_eq_K (Y : Setup Γ G) {u w : V} (huw : Γ.Adj u w)
   have hFnormal : F ≤ Subgroup.normalizer (S : Set G) := by
     have h := CFSG.LieType.BorelTits.le_normalizer_pCoreOf (G := G) 2 F
     rwa [← hS] at h
-  haveI : Finite ↥F := finite_of_le_stabilizer Y.hyp (H := F) inf_le_left
+  have : Finite ↥F := finite_of_le_stabilizer Y.hyp (H := F) inf_le_left
   have hSylow : IsSylowTwoOf S F := by
     have h := isSylowTwoOf_pCoreOf_edgeStab Y.hyp huw
     rwa [← hS, ← hF] at h
@@ -224,7 +224,7 @@ private theorem exists_conj_K_eq_K (Y : Setup Γ G) {u w : V} (huw : Γ.Adj u w)
     hSsupKg hsupK hSinfKg hSinfK
   exact ⟨n, hSF hnS, hn⟩
 
-theorem exists_normalizer_K_edge (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {u w : V}
+theorem exists_normalizer_K_edge (Y : Setup Γ G) (_H : Y.Sec5Hyp s n₀) {u w : V}
     (hu1 : Odd (Γ.dist (Y.vert 0) u)) (huK : ∀ k ∈ Y.K, k • u = u)
     (huw : Γ.Adj u w) (hwK : ∀ k ∈ Y.K, k • w = w) :
     ∃ g ∈ Y.N, g • Y.vert 1 = u ∧ g • Y.vert 0 = w := by
@@ -479,7 +479,7 @@ private theorem otherNbr_spec (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {δ : V}
 
 private theorem finite_nbrSet (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (u : Y.DtV) :
     Finite (Y.dtGraph.neighborSet u) := by
-  haveI : Finite (Γ.neighborSet u.1) := Y.hyp.finite_neighborSet u.1
+  have : Finite (Γ.neighborSet u.1) := Y.hyp.finite_neighborSet u.1
   refine Finite.of_injective
     (f := fun v : Y.dtGraph.neighborSet u =>
       (⟨Y.gate v.2, (gate_spec Y v.2).1⟩ : Γ.neighborSet u.1)) ?_
@@ -499,8 +499,8 @@ private theorem card_nbr_dtBase (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     have h := (Y.hyp.valency (Y.vert 1)).2
     rw [show nOf Γ (Y.vert 1) = Y.n 1 from rfl, H.n_one] at h
     simpa using h
-  haveI : Finite (Γ.neighborSet (Y.vert 1)) := Y.hyp.finite_neighborSet (Y.vert 1)
-  haveI : Finite (Y.dtGraph.neighborSet Y.dtBase) := finite_nbrSet Y H Y.dtBase
+  have : Finite (Γ.neighborSet (Y.vert 1)) := Y.hyp.finite_neighborSet (Y.vert 1)
+  have : Finite (Y.dtGraph.neighborSet Y.dtBase) := finite_nbrSet Y H Y.dtBase
   have hle1 : Nat.card (Y.dtGraph.neighborSet Y.dtBase) ≤
       Nat.card (Γ.neighborSet (Y.vert 1)) := by
     refine Nat.card_le_card_of_injective
@@ -551,8 +551,8 @@ theorem dt_card_nbr (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (u : Y.DtV) :
     exact hgu
   have hgN'_u : gN⁻¹ • u = Y.dtBase := by
     rw [← hgN_dtBase, inv_smul_smul]
-  haveI : Finite (Y.dtGraph.neighborSet Y.dtBase) := finite_nbrSet Y H Y.dtBase
-  haveI : Finite (Y.dtGraph.neighborSet u) := finite_nbrSet Y H u
+  have : Finite (Y.dtGraph.neighborSet Y.dtBase) := finite_nbrSet Y H Y.dtBase
+  have : Finite (Y.dtGraph.neighborSet u) := finite_nbrSet Y H u
   have hle1 : Nat.card (Y.dtGraph.neighborSet u) ≤
       Nat.card (Y.dtGraph.neighborSet Y.dtBase) := by
     refine Nat.card_le_card_of_injective
@@ -736,7 +736,7 @@ private theorem dt_connected (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
           have hpdist : Γ.dist (Y.vert 0) p = n - 2 := by omega
           exact SimpleGraph.Reachable.trans ⟨Walk.cons hadj Walk.nil⟩
             (ih (n - 2) (by omega) pv hpdist)
-  haveI : Nonempty Y.DtV := ⟨Y.dtBase⟩
+  have : Nonempty Y.DtV := ⟨Y.dtBase⟩
   exact ⟨fun u v => (key _ u rfl).trans (key _ v rfl).symm⟩
 
 private theorem adj_getVert_pred_last (Y : Setup Γ G) {u : Y.DtV} (c : Y.dtGraph.Walk u u)
@@ -944,9 +944,9 @@ def dtArc (Y : Setup Γ G) (a : ℤ) (ha : Odd a) (k : ℕ) : Arc Y.dtGraph k wh
       push_cast at this
       omega
     · have h := Y.adj (a + 2 * (i : ℤ))
-      convert h using 2 <;> push_cast <;> ring
+      convert h using 2
     · have h := Y.adj (a + 2 * (i : ℤ) + 1)
-      convert h using 2 <;> push_cast <;> ring
+      convert h using 2; push_cast; ring
   nb i _ := by
     intro h
     have := Y.vert_injective (congrArg Subtype.val h)
@@ -1018,12 +1018,12 @@ private theorem card_two_arcs_avoiding (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   have hcardC : ∀ b : {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v},
       Nat.card {c : Y.DtV // Y.dtGraph.Adj b.1 c ∧ c ≠ x} = 2 :=
     fun b => card_nbr_diff Y H b.1 x b.2.1.symm
-  haveI : Finite {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v} :=
+  have : Finite {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v} :=
     Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
-  haveI : ∀ b : {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v},
+  have : ∀ b : {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v},
       Finite {c : Y.DtV // Y.dtGraph.Adj b.1 c ∧ c ≠ x} :=
     fun b => Nat.finite_of_card_ne_zero (by rw [hcardC b]; norm_num)
-  haveI : Fintype {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v} := Fintype.ofFinite _
+  have : Fintype {b : Y.DtV // Y.dtGraph.Adj x b ∧ b ≠ v} := Fintype.ofFinite _
   rw [Nat.card_sigma]
   simp only [hcardC]
   rw [Finset.sum_const, Finset.card_univ, ← Nat.card_eq_fintype_card, hcardB]
@@ -1117,8 +1117,8 @@ theorem card_Qs_le (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) : Nat.card (Y.Qs 1) �
   let D := Sigma Cb
   have hcardA₀ : Nat.card A₀ = 2 := card_nbr_diff Y H x' Y.dtBase hdt_x'.symm
   have hcardD : Nat.card D = 4 := card_two_arcs_avoiding Y H hdt_x.symm
-  haveI : Finite A₀ := Nat.finite_of_card_ne_zero (by rw [hcardA₀]; norm_num)
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hcardD]; norm_num)
+  have : Finite A₀ := Nat.finite_of_card_ne_zero (by rw [hcardA₀]; norm_num)
+  have : Finite D := Nat.finite_of_card_ne_zero (by rw [hcardD]; norm_num)
   let toN : Y.Qs 1 → ↥Y.N := fun q => ⟨q.1, hQsN q.1 q.2⟩
   have hinj : Function.Injective (fun q : Y.Qs 1 =>
       ((⟨toN q • a₀, smul_mem_nbr_ne Y (toN q) ha₀x' ha₀

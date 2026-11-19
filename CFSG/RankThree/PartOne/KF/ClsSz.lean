@@ -45,7 +45,7 @@ theorem card_le_of_borel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (Q : Sylow 2 G
   have hEQ : E ⊓ (Q : Subgroup G) = ⊥ := by
     rw [eq_bot_iff]
     rintro x ⟨hxE, hxQ⟩
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨x, hxQ⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨x, hxQ⟩
     have hk' : orderOf x = 2 ^ k := by
       rw [← hk, ← Subgroup.orderOf_coe]
     have hdvd : 2 ^ k ∣ p := hk' ▸ orderOf_dvd_of_pow_eq_one (hEexp x hxE)

@@ -28,6 +28,7 @@ theorem uc22r899c4_exists_pow_of_isCyclic {S : Subgroup Γ} [IsCyclic S] {d : Γ
   obtain ⟨k, hk⟩ := (isOfFinOrder_of_finite s).mem_powers_iff_mem_zpowers.mpr h
   exact ⟨k, fun u hu => CFSG.GH74.Uniqueness.SU.SU1.conj_of_mem_zpowers hk.symm hu⟩
 
+omit [Finite Γ] in
 theorem uc22r899c4_conj_pow_mul {U : Subgroup Γ} {a b : Γ} {k l : ℕ}
     (ha : ∀ u ∈ U, a * u * a⁻¹ = u ^ k) (hb : ∀ u ∈ U, b * u * b⁻¹ = u ^ l) :
     ∀ u ∈ U, a * b * u * (a * b)⁻¹ = u ^ (k * l) := by
@@ -36,6 +37,7 @@ theorem uc22r899c4_conj_pow_mul {U : Subgroup Γ} {a b : Γ} {k l : ℕ}
     _ = (a * u * a⁻¹) ^ l := by rw [hb u hu, conj_pow]
     _ = u ^ (k * l) := by rw [ha u hu, ← pow_mul]
 
+omit [Finite Γ] in
 theorem uc22r899c4_conj_pow_pow {U : Subgroup Γ} {x : Γ} {k : ℕ}
     (h : ∀ u ∈ U, x * u * x⁻¹ = u ^ k) (m : ℕ) :
     ∀ u ∈ U, x ^ m * u * (x ^ m)⁻¹ = u ^ (k ^ m) := by
@@ -46,6 +48,7 @@ theorem uc22r899c4_conj_pow_pow {U : Subgroup Γ} {x : Γ} {k : ℕ}
     rw [pow_succ x m, pow_succ k m]
     exact uc22r899c4_conj_pow_mul ih h u hu
 
+omit [Finite Γ] in
 theorem uc22r899c4_conj_pow_conj {U : Subgroup Γ} {x : Γ} {k : ℕ}
     (h : ∀ u ∈ U, x * u * x⁻¹ = u ^ k) (w : Γ) :
     ∀ u ∈ U.map (MulAut.conj w).toMonoidHom, w * x * w⁻¹ * u * (w * x * w⁻¹)⁻¹ = u ^ k := by
@@ -54,6 +57,7 @@ theorem uc22r899c4_conj_pow_conj {U : Subgroup Γ} {x : Γ} {k : ℕ}
   calc w * x * w⁻¹ * (w * v * w⁻¹) * (w * x * w⁻¹)⁻¹ = w * (x * v * x⁻¹) * w⁻¹ := by group
     _ = (w * v * w⁻¹) ^ k := by rw [h v hv, conj_pow]
 
+omit [Finite Γ] in
 theorem uc22r899c4_conj_pow_sup {x a b : Γ} {k : ℕ} (hab : a * b = b * a)
     (ha : x * a * x⁻¹ = a ^ k) (hb : x * b * x⁻¹ = b ^ k) :
     ∀ u ∈ zpowers a ⊔ zpowers b, x * u * x⁻¹ = u ^ k := by
@@ -64,7 +68,7 @@ theorem uc22r899c4_conj_pow_sup {x a b : Γ} {k : ℕ} (hab : a * b = b * a)
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hu hv
     rcases hu with rfl | rfl <;> rcases hv with rfl | rfl
     exacts [Commute.refl _, hab, hab.symm, Commute.refl _]
-  haveI := Subgroup.isMulCommutative_closure hpair
+  have := Subgroup.isMulCommutative_closure hpair
   intro u hu
   rw [hcl] at hu
   induction hu using Subgroup.closure_induction with
@@ -100,6 +104,7 @@ theorem uc22r899c4_mem_powSub {U : Subgroup Γ} {x : Γ} :
     x ∈ uc22r899c4_powSub U ↔ ∃ k : ℕ, ∀ u ∈ U, x * u * x⁻¹ = u ^ k :=
   Iff.rfl
 
+omit [Finite Γ] in
 theorem uc22r899c4_le_normalizer_of_pow {B U H : Subgroup Γ}
     (hB : ∀ b ∈ B, ∃ k : ℕ, ∀ u ∈ U, b * u * b⁻¹ = u ^ k) (hHU : H ≤ U) :
     B ≤ normalizer (H : Set Γ) := by
@@ -113,6 +118,7 @@ theorem uc22r899c4_le_normalizer_of_pow {B U H : Subgroup Γ}
     rw [e, hl _ (hHU hh)]
     exact H.pow_mem hh l
 
+omit [Finite Γ] in
 theorem uc22r899c4_dvd_orderOf {p r : ℕ} (hp : p.Prime) {t h : Γ} (hto : orderOf t = r) {e : ℕ}
     (he : h * t * h⁻¹ = t ^ e) {ζ : ZMod r} (hζ : orderOf ζ = p) {m : ℕ}
     (hζe : (e : ZMod r) = ζ ^ m) (hm : ¬ p ∣ m) : p ∣ orderOf h := by

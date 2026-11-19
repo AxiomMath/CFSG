@@ -18,9 +18,9 @@ theorem inducesTypeSome_sq_mem_centralizer {L : Subgroup G} (hctr : centerIn L =
     {n : ℕ} {ε : ℤˣ} {r : ℕ} {α : ℤˣ} (h : InducesTypeSome L s n ε r α) :
     s * s ∈ centralizer (L : Set G) := by
   obtain ⟨V, hAdd, hMod, hFin, Q, _hQ, e, x, _hfin, _hsign, hvia, htype⟩ := h
-  letI := hAdd
-  letI := hMod
-  letI := hFin
+  let := hAdd
+  let := hMod
+  let := hFin
   obtain ⟨y, hyx, _hyne, t, htt, _httype, hty⟩ := htype
   have hyy : y * y = 1 := by rw [← hty, ← map_mul, htt, map_one]
   have hsq : ∀ w : ProjOrth Q, projSimAct Q x (projSimAct Q x w) = w := by
@@ -72,9 +72,9 @@ theorem innerOn_of_hyp62At [Finite G] {L : Subgroup G} (hL : IsOm6P L) (hctr : c
     (hH : Hyp62At L) {s : G} {r : ℕ} {α : ℤˣ} (h : InducesTypeSome L s 6 1 r α) :
     InnerOn L s := by
   obtain ⟨V, hAdd, hMod, hFin, Q, hQ, e, x, hfin, hsign, hvia, htype⟩ := h
-  letI := hAdd
-  letI := hMod
-  letI := hFin
+  let := hAdd
+  let := hMod
+  let := hFin
   have hcenter : Subgroup.center ↥L = ⊥ := by
     rw [eq_bot_iff]
     intro z hz

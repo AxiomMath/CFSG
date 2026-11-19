@@ -99,7 +99,7 @@ theorem blkGL_mem (h : UnitaryFieldData p f K) {A : GL (Fin 3) K}
   map_one' := Subtype.ext (Units.ext (by simp [blkGL_val, blkU_one]))
   map_mul' x y := Subtype.ext (Units.ext (by simp [blkGL_val, blkU_mul]))
 
-@[expose] def H0U (h : UnitaryFieldData p f K) : Subgroup ↥(StatedSU 7 (p ^ f) K) where
+@[expose] def H0U (_h : UnitaryFieldData p f K) : Subgroup ↥(StatedSU 7 (p ^ f) K) where
   carrier := {g | CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KA7.InH0
     ((g : GL (Fin 7) K) : Matrix (Fin 7) (Fin 7) K)}
   mul_mem' := fun {a b} ha hb => by
@@ -150,19 +150,19 @@ theorem eq_blkU_of_InH0 {g : Matrix (Fin 7) (Fin 7) K}
   obtain ⟨t, rfl⟩ : ∃ t, j = sumEq7.symm t := ⟨sumEq7 j, by simp⟩
   rcases s with a | c <;> rcases t with b | d
   · simp only [blkU, Matrix.submatrix_apply, Equiv.apply_symm_apply]
-    first | rfl | simp [Matrix.fromBlocks_apply₁₁]
+    first | rfl
   · have hij : (((sumEq7.symm (Sum.inl a) : Fin 7) : ℕ) < 3) ≠
         (((sumEq7.symm (Sum.inr d) : Fin 7) : ℕ) < 3) := by
       simp [sumEq7_symm_inl_val, sumEq7_symm_inr_val]
     rw [CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KA7.InH0_offblock hg _ _ hij]
     simp only [blkU, Matrix.submatrix_apply, Equiv.apply_symm_apply]
-    first | rfl | simp [Matrix.fromBlocks_apply₁₂]
+    first | rfl
   · have hij : (((sumEq7.symm (Sum.inr c) : Fin 7) : ℕ) < 3) ≠
         (((sumEq7.symm (Sum.inl b) : Fin 7) : ℕ) < 3) := by
       simp [sumEq7_symm_inl_val, sumEq7_symm_inr_val]
     rw [CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KA7.InH0_offblock hg _ _ hij]
     simp only [blkU, Matrix.submatrix_apply, Equiv.apply_symm_apply]
-    first | rfl | simp [Matrix.fromBlocks_apply₂₁]
+    first | rfl
   · have hc : 3 ≤ ((sumEq7.symm (Sum.inr c) : Fin 7) : ℕ) := by
       rw [sumEq7_symm_inr_val]; omega
     have hd : 3 ≤ ((sumEq7.symm (Sum.inr d) : Fin 7) : ℕ) := by
@@ -172,11 +172,11 @@ theorem eq_blkU_of_InH0 {g : Matrix (Fin 7) (Fin 7) K}
       sumEq7.symm.injective.eq_iff.trans Sum.inr_injective.eq_iff
     by_cases hcd' : c = d
     · subst hcd'
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [blkU, Matrix.submatrix_apply, Equiv.apply_symm_apply]
       exact (Matrix.one_apply_eq c).symm
     · have hne : sumEq7.symm (Sum.inr c) ≠ sumEq7.symm (Sum.inr d) := fun h' => hcd' (hcd.mp h')
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       simp only [blkU, Matrix.submatrix_apply, Equiv.apply_symm_apply]
       exact (Matrix.one_apply_ne hcd').symm
 
@@ -226,8 +226,8 @@ theorem hnq_of {p f : ℕ} (hQ : 3 ∣ p ^ f - 1) : ((3 : ℕ), p ^ f) ≠ (3, 2
 
 theorem H0U_isQuasisimple (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
     CFSG.Open.IsQuasisimple (H0U h) := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
   have hS3 := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) (p := p)
     (f := f) (n := 3) (hF_of h) le_rfl (hnq_of hQ)).1
   have hS3' : CFSG.Open.IsQuasisimple ↥(StatedSU 3 (p ^ f) K) := by
@@ -241,32 +241,28 @@ theorem H0U_isQuasisimple (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
 
 theorem cycM_mul : cycM (K := K) * cycM' = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [cycM, cycM', Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [cycM, cycM', Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem cycM'_mul : cycM' (K := K) * cycM = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [cycM, cycM', Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [cycM, cycM', Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem cycM_cube : cycM (K := K) ^ 3 = 1 := by
   rw [pow_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [cycM, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [cycM, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem cycM_map (h : UnitaryFieldData p f K) : cycM.map h.bar = cycM := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   ext i j
   fin_cases i <;> fin_cases j <;> simp [cycM, h.bar.map_zero, h.bar.map_one]
 
 theorem cycM_unitary (h : UnitaryFieldData p f K) : dagI h (cycM (K := K)) * cycM = 1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   unfold dagI
   rw [cycM_map h]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [cycM, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [cycM, Matrix.mul_apply, Fin.sum_univ_three]
 
 @[expose] def cycGL : GL (Fin 3) K := ⟨cycM, cycM', cycM_mul, cycM'_mul⟩
 
@@ -281,8 +277,8 @@ theorem cycU_pow_three (h : UnitaryFieldData p f K) : cycU h ^ 3 = 1 := by
 
 theorem cycU_not_central (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
     cycU h ∉ Subgroup.center ↥(StatedSU 3 (p ^ f) K) := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
   intro hc
   rw [(CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) (p := p)
     (f := f) (n := 3) (hF_of h) le_rfl (hnq_of hQ)).2, Subgroup.mem_subgroupOf] at hc
@@ -293,8 +289,8 @@ theorem cycU_not_central (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
 
 theorem H0U_three_dvd (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1) :
     3 ∣ Nat.card (↥(H0U h) ⧸ Subgroup.center ↥(H0U h)) := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
   rw [← CFSG.LocalAnalysis.GLTheoremA.KD264LieA4.card_quotient_center_equiv (blkEquivU h)]
   exact CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KA7.three_dvd_quot_of_noncentral (cycU h)
     (cycU_pow_three h) (cycU_not_central h hQ)

@@ -198,18 +198,15 @@ theorem c3 : chkRoots () = true := by
   · have : x * y = y * x := ((hck.mul hcl).beq_iff (hcl.mul hck)).2 h
     first
       | exact Or.inl (Or.inl this)
-      | exact Or.inl this
   · rcases bIf_or h with h | h
     · obtain ⟨ha, hb⟩ := (bAnd_iff _ _).1 h
       have : x ∈ quatL0 () ∧ y ∈ quatL0 () := ⟨(L0.mem_iff hck).2 ha, (L0.mem_iff hcl).2 hb⟩
       first
         | exact Or.inl (Or.inr this)
-        | exact Or.inr (Or.inl this)
     · obtain ⟨ha, hb⟩ := (bAnd_iff _ _).1 h
       have : x ∈ quatL1 () ∧ y ∈ quatL1 () := ⟨(L1.mem_iff hck).2 ha, (L1.mem_iff hcl).2 hb⟩
       first
         | exact Or.inr this
-        | exact Or.inr (Or.inr this)
 
 theorem c4 : chkNorm () = true := by
   unfold chkNorm
@@ -308,7 +305,6 @@ theorem c7 : chkMeet () = true := by
       exact Bool.noConfusion hin
     first
       | exact Or.inl (Or.inl this)
-      | exact Or.inl this
   · rw [hin] at h
     have h' : Bool.rec (motive := fun _ => Bool) (Nat.beq (Q0 k) M12OC.R0) true
         (Nat.beq (Q0 k) (pidn 12 4)) = true := h
@@ -316,11 +312,9 @@ theorem c7 : chkMeet () = true := by
     · have : a = 1 := (hck.beq_iff crOne).2 h
       first
         | exact Or.inl (Or.inr this)
-        | exact Or.inr (Or.inl this)
     · have : a = m12Rep1 := (hck.beq_iff crR).2 h
       first
         | exact Or.inr this
-        | exact Or.inr (Or.inr this)
 
 public theorem check55112 : chkMemC () = true ∧ chkClosed () = true ∧ chkRoots () = true ∧
     chkNorm () = true ∧ chkBeta () = true ∧ chkWit () = true ∧ chkMeet () = true :=

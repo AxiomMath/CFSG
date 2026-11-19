@@ -12,11 +12,13 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fusion_of_isSylowOf {p : ℕ} [Fact p.Prime] {S K : Subgroup G} (h : IsSylowOf p S K) :
     fusionIsSylowIn p S K := by
   obtain ⟨Q, rfl⟩ := h
   exact fusionIsSylowIn_map Q
 
+omit [Finite G] in
 theorem isSylowOf_of_fusion {p : ℕ} [Fact p.Prime] {S K : Subgroup G}
     (h : fusionIsSylowIn p S K) : IsSylowOf p S K := by
   obtain ⟨hSK, hS, hmax⟩ := h
@@ -28,6 +30,7 @@ theorem isSylowOf_of_fusion {p : ℕ} [Fact p.Prime] {S K : Subgroup G}
   · show (S.subgroupOf K).map K.subtype = S
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSK]
 
+omit [Finite G] in
 theorem map_conj_eq {O : Subgroup G} {g : G} (hg : g ∈ normalizer (O : Set G)) :
     O.map (MulAut.conj g).toMonoidHom = O := by
   ext z
@@ -53,6 +56,7 @@ theorem isSylowOf_conj {p : ℕ} [Fact p.Prime] {R O : Subgroup G} (hR : IsSylow
     rw [map_conj_eq hg] at this
     rwa [this]
 
+omit [Finite G] in
 theorem mem_map_conj_iff (S : Subgroup G) (c x : G) :
     x ∈ S.map (MulAut.conj c).toMonoidHom ↔ c⁻¹ * x * c ∈ S := by
   simp only [mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
@@ -62,6 +66,7 @@ theorem mem_map_conj_iff (S : Subgroup G) (c x : G) :
   · intro h
     exact ⟨c⁻¹ * x * c, h, by group⟩
 
+omit [Finite G] in
 theorem inf_eq_bot_of_pGroup {Q O : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 : ¬ 3 ∣ Nat.card O) :
     Q ⊓ O = ⊥ := by
   rw [eq_bot_iff]
@@ -77,6 +82,7 @@ theorem inf_eq_bot_of_pGroup {Q O : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 : ¬ 3
   rw [hk0] at hzk
   exact mem_bot.mpr (orderOf_eq_one_iff.mp (by simpa using hzk))
 
+omit [Finite G] in
 theorem card_sup_mul {A B : Subgroup G} (hAB : A ≤ normalizer (B : Set G)) (hinf : A ⊓ B = ⊥) :
     Nat.card (A ⊔ B : Subgroup G) = Nat.card A * Nat.card B := by
   have hset := Subgroup.coe_mul_of_left_le_normalizer_right A B hAB
@@ -111,7 +117,7 @@ theorem card_sup_mul {A B : Subgroup G} (hAB : A ≤ normalizer (B : Set G)) (hi
 
 theorem isSylowOf_sup {Q O : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 : ¬ 3 ∣ Nat.card O)
     (hQO : Q ≤ normalizer (O : Set G)) : IsSylowOf 3 Q (Q ⊔ O) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [isSylowOf_iff]
   refine ⟨le_sup_left, hQ3, ?_⟩
   have hbot := inf_eq_bot_of_pGroup hQ3 hO3
@@ -126,13 +132,13 @@ theorem isSylowOf_sup {Q O : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 : ¬ 3 ∣ Na
 theorem exists_invariant_sylow_two {Q O : Subgroup G} (hQ3 : IsPGroup 3 Q)
     (hO3 : ¬ 3 ∣ Nat.card O) (hQO : Q ≤ normalizer (O : Set G)) :
     ∃ R : Subgroup G, IsSylowOf 2 R O ∧ Q ≤ normalizer (R : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, -, hQS⟩ := exists_invariant_sylow_containing Nat.prime_three Nat.prime_two
     (Q := ⊥) hQ3 hO3 hQO bot_le IsPGroup.of_bot
     (by
       intro q _
       refine mem_normalizer_iff.mpr fun x => ?_
-      simp only [SetLike.mem_coe, mem_bot]
+      simp only [mem_bot]
       constructor
       · rintro rfl
         simp
@@ -147,8 +153,8 @@ theorem exists_conj_normalize {Q O R U : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 :
     (hUR : U ≤ normalizer (R : Set G)) :
     ∃ c ∈ Q ⊔ O, Q ≤ normalizer ((R.map (MulAut.conj c).toMonoidHom : Subgroup G) : Set G) ∧
       U.map (MulAut.conj c).toMonoidHom ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R₁, hR₁, hQR₁⟩ := exists_invariant_sylow_two hQ3 hO3 hQO
   obtain ⟨k, hkO, hk⟩ := hR.exists_mem_conj hR₁
   have hkQO : k ∈ Q ⊔ O := mem_sup_right hkO
@@ -200,7 +206,7 @@ theorem exists_lift_normalizing {Q O R : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 :
     {g : G} (hgO : g ∈ normalizer (O : Set G)) (hgQ : g ∈ normalizer (Q : Set G)) :
     ∃ c ∈ O ⊓ centralizer (Q : Set G), c * g ∈ normalizer (R : Set G) ∧
       ∀ q ∈ Q, (c * g) * q * (c * g)⁻¹ = g * q * g⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylowOf 2 (R.map (MulAut.conj g).toMonoidHom) O := isSylowOf_conj hR hgO
   have hQS : Q ≤ normalizer ((R.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) := by
     intro q hq
@@ -232,7 +238,7 @@ theorem exists_lift_normalizing {Q O R : Subgroup G} (hQ3 : IsPGroup 3 Q) (hO3 :
 
 theorem exists_mul_normalizer {O R : Subgroup G} (hR : IsSylowOf 2 R O) {m : G}
     (hm : m ∈ normalizer (O : Set G)) : ∃ o ∈ O, ∃ h ∈ normalizer (R : Set G), m = o * h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylowOf 2 (R.map (MulAut.conj m).toMonoidHom) O := isSylowOf_conj hR hm
   obtain ⟨k, hkO, hk⟩ := hR.exists_mem_conj hS
   refine ⟨k, hkO, k⁻¹ * m, ?_, by group⟩

@@ -60,7 +60,7 @@ private lemma false_of_psu_five {L : Type} [Group L] {p f : ℕ}
 
 theorem kFactOutThreeTwentySeven_of_k33 (h33 : UCK.K33) : KFactOutThreeTwentySeven := by
   intro L _ _ hLs hnab hcat hrank hfac φ hφ
-  haveI : IsSimpleGroup L := hLs
+  have : IsSimpleGroup L := hLs
   obtain ⟨hqsC, hZ⟩ := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab
   have hqs : CFSG.Open.IsQuasisimple L := ⟨Group.isPerfect_def.mp hqsC.1, hqsC.2.1⟩
   have hcatZ : CFSG.Open.IsCatalogGroup (L ⧸ Subgroup.center L) := by

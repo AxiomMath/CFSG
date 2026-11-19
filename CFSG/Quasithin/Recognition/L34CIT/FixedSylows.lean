@@ -54,10 +54,10 @@ private theorem sylowToA5_injective (C : Config A) [Finite A] :
 private theorem sylowToA5_bijective (C : Config A) [Finite A] :
     Function.Bijective C.sylowToA5 := by
   classical
-  haveI : Finite (Sylow 2 A) := C.finite_sylowTwo
-  haveI : Finite (Sylow 2 (alternatingGroup (Fin 5))) := finite_sylowTwo_A5
-  haveI : Fintype {P : Sylow 2 A // C.L ≤ (P : Subgroup A)} := Fintype.ofFinite _
-  haveI : Fintype (Sylow 2 (alternatingGroup (Fin 5))) := Fintype.ofFinite _
+  have : Finite (Sylow 2 A) := C.finite_sylowTwo
+  have : Finite (Sylow 2 (alternatingGroup (Fin 5))) := finite_sylowTwo_A5
+  have : Fintype {P : Sylow 2 A // C.L ≤ (P : Subgroup A)} := Fintype.ofFinite _
+  have : Fintype (Sylow 2 (alternatingGroup (Fin 5))) := Fintype.ofFinite _
   refine (Fintype.bijective_iff_injective_and_card C.sylowToA5).mpr
     ⟨C.sylowToA5_injective, ?_⟩
   have h1 : Fintype.card {P : Sylow 2 A // C.L ≤ (P : Subgroup A)} = 5 := by
@@ -75,8 +75,8 @@ theorem ncard_fixed_sylow_ge_L (C : Config A) [Finite A] {k : A} (hk : k ∈ C.K
     (hk3 : orderOf k = 3) :
     {P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P}.ncard = 2 := by
   classical
-  haveI : Finite (Sylow 2 A) := C.finite_sylowTwo
-  haveI : Finite (Sylow 2 (alternatingGroup (Fin 5))) := finite_sylowTwo_A5
+  have : Finite (Sylow 2 A) := C.finite_sylowTwo
+  have : Finite (Sylow 2 (alternatingGroup (Fin 5))) := finite_sylowTwo_A5
   let e : {P : Sylow 2 A // C.L ≤ (P : Subgroup A)} ≃
       Sylow 2 (alternatingGroup (Fin 5)) :=
     Equiv.ofBijective C.sylowToA5 C.sylowToA5_bijective
@@ -175,7 +175,7 @@ private theorem ncard_fixed_sylow_ge_conj_L (C : Config A) [Finite A] (a : A) {k
         rw [← hk3]
         exact pow_orderOf_eq_one k
       have hk'eq : k' = MulAut.conj a⁻¹ k := by
-        simp [k', MulAut.conj_apply]
+        simp [k']
       rw [hk'eq, ← map_pow, hk3pow, map_one]
     have hk'1 : k' ≠ 1 := by
       intro h
@@ -244,7 +244,7 @@ private theorem zcaseL_inter_fixed_ncard_le (C : Config A) [Finite A] {k : A}
     (hk : k ∈ normalizer (C.T : Set A)) (hk3 : orderOf k = 3) :
     (C.zcaseL ∩ {P : Sylow 2 A | k • P = P}).ncard ≤ 1 := by
   classical
-  haveI : Finite (Sylow 2 A) := C.finite_sylowTwo
+  have : Finite (Sylow 2 A) := C.finite_sylowTwo
   have hkK1 : k ∈ C.K₁ := (C.normalizer_T_le hk).1
   have hkT : k • C.T = C.T := (Sylow.smul_eq_iff_mem_normalizer).mpr hk
   have hLset : {P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P}.ncard = 2 :=
@@ -253,7 +253,7 @@ private theorem zcaseL_inter_fixed_ncard_le (C : Config A) [Finite A] {k : A}
     ⟨C.L_le, hkT⟩
   have hdiffcard : ({P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P} \
       {C.T}).ncard = 1 := by
-    rw [Set.ncard_diff_singleton_of_mem hTmem, hLset]
+    rw [Set.ncard_sdiff_singleton_of_mem hTmem, hLset]
   obtain ⟨S₁, hS₁⟩ := Set.ncard_eq_one.mp hdiffcard
   have hS₁mem : S₁ ∈ {P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P} \ {C.T} := by
     rw [hS₁]
@@ -271,7 +271,7 @@ private theorem zcaseL_inter_fixed_ncard_le (C : Config A) [Finite A] {k : A}
     ⟨C.line_le S₁, hkS₁⟩
   have hlineDiff : ({P : Sylow 2 A | C.line S₁ ≤ (P : Subgroup A) ∧ k • P = P} \
       {S₁}).ncard = 1 := by
-    rw [Set.ncard_diff_singleton_of_mem hS₁line, hlineSet]
+    rw [Set.ncard_sdiff_singleton_of_mem hS₁line, hlineSet]
   have hsub : C.zcaseL ∩ {P : Sylow 2 A | k • P = P} ⊆
       ({P : Sylow 2 A | C.line S₁ ≤ (P : Subgroup A) ∧ k • P = P} \ {S₁}) := by
     intro P hP
@@ -378,7 +378,7 @@ theorem ncard_nonopposite_fixed_le (C : Config A) [Finite A] {k : A}
     (hk : k ∈ normalizer (C.T : Set A)) (hk3 : orderOf k = 3) :
     {P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) ≠ ⊥ ∧ k • P = P}.ncard ≤ 5 := by
   classical
-  haveI : Finite (Sylow 2 A) := C.finite_sylowTwo
+  have : Finite (Sylow 2 A) := C.finite_sylowTwo
   have hkK1 : k ∈ C.K₁ := (C.normalizer_T_le hk).1
   have hkK2 : k ∈ C.K₂ := (C.normalizer_T_le hk).2
   have hkT : k • C.T = C.T := (Sylow.smul_eq_iff_mem_normalizer).mpr hk
@@ -389,13 +389,13 @@ theorem ncard_nonopposite_fixed_le (C : Config A) [Finite A] {k : A}
   have h1 : ({C.T} : Set (Sylow 2 A)).ncard = 1 := Set.ncard_singleton _
   have h2 : B.ncard = 1 := by
     show ({P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P} \ {C.T}).ncard = 1
-    rw [Set.ncard_diff_singleton_of_mem
+    rw [Set.ncard_sdiff_singleton_of_mem
         (show C.T ∈ {P : Sylow 2 A | C.L ≤ (P : Subgroup A) ∧ k • P = P} from
           ⟨C.L_le, hkT⟩),
       C.ncard_fixed_sylow_ge_L hkK1 hk3]
   have h3 : C'.ncard = 1 := by
     show ({P : Sylow 2 A | C.M ≤ (P : Subgroup A) ∧ k • P = P} \ {C.T}).ncard = 1
-    rw [Set.ncard_diff_singleton_of_mem
+    rw [Set.ncard_sdiff_singleton_of_mem
         (show C.T ∈ {P : Sylow 2 A | C.M ≤ (P : Subgroup A) ∧ k • P = P} from
           ⟨C.M_le, hkT⟩),
       C.ncard_fixed_sylow_ge_M hkK2 hk3]

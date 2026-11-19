@@ -37,52 +37,70 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W : Subgroup Ω}
 
 include c
 
+omit [Finite Ω] in
 theorem R_pGroup : IsPGroup 2 R := c.hT.to_le c.RT
 
+omit [Finite Ω] in
 theorem S_pGroup : IsPGroup 2 (baum T) := c.R_pGroup.to_le c.SR
 
+omit [Finite Ω] in
 theorem R0_le_R : burnsideC121_R0 X T ≤ R := sup_le c.SR c.QR
 
+omit [Finite Ω] in
 theorem P_le_R : burnsideC121_P X R T Y ≤ R := sup_le c.R0_le_R inf_le_left
 
+omit [Finite Ω] in
 theorem P_pGroup : IsPGroup 2 (burnsideC121_P X R T Y) := c.R_pGroup.to_le c.P_le_R
 
+omit [Finite Ω] in
 theorem R0_le_normalizer : burnsideC121_R0 X T ≤ Subgroup.normalizer (Y : Set Ω) := c.hY.inv
 
+omit [Finite Ω] in
 theorem P_le_normalizer : burnsideC121_P X R T Y ≤ Subgroup.normalizer (Y : Set Ω) :=
   sup_le c.R0_le_normalizer (inf_le_right.trans Subgroup.le_normalizer)
 
+omit [Finite Ω] in
 theorem S_le_normalizer : baum T ≤ Subgroup.normalizer (Y : Set Ω) :=
   le_sup_left.trans c.R0_le_normalizer
 
+omit [Finite Ω] in
 theorem Q_le_normalizer : pCoreOf 2 X ≤ Subgroup.normalizer (Y : Set Ω) :=
   le_sup_right.trans c.R0_le_normalizer
 
+omit [Finite Ω] c in
 theorem S_le_P : baum T ≤ burnsideC121_P X R T Y := le_sup_left.trans le_sup_left
 
+omit [Finite Ω] c in
 theorem Q_le_P : pCoreOf 2 X ≤ burnsideC121_P X R T Y := le_sup_right.trans le_sup_left
 
+omit [Finite Ω] c in
 theorem RY_le_P : R ⊓ Y ≤ burnsideC121_P X R T Y := le_sup_right
 
+omit [Finite Ω] in
 theorem P_inf_Y : burnsideC121_P X R T Y ⊓ Y = R ⊓ Y :=
-  le_antisymm (inf_le_inf_right Y c.P_le_R) (le_inf c.RY_le_P inf_le_right)
+  le_antisymm (inf_le_inf_right Y c.P_le_R) (le_inf burnsideC121_YCtx.RY_le_P inf_le_right)
 
+omit [Finite Ω] c in
 theorem Y_le_H : Y ≤ burnsideC121_H X T Y := le_sup_right
 
+omit [Finite Ω] c in
 theorem P_le_H : burnsideC121_P X R T Y ≤ burnsideC121_H X T Y :=
   sup_le le_sup_left (inf_le_right.trans le_sup_right)
 
+omit [Finite Ω] c in
 theorem H_eq : burnsideC121_H X T Y = Y ⊔ burnsideC121_P X R T Y :=
   le_antisymm (sup_le (le_sup_left.trans le_sup_right) le_sup_left)
-    (sup_le c.Y_le_H c.P_le_H)
+    (sup_le CFSG.ASVolI.burnsideC121_YCtx.Y_le_H (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)))
 
+omit [Finite Ω] in
 theorem H_le_X : burnsideC121_H X T Y ≤ X := sup_le (c.R0_le_R.trans c.RX) c.hY.le
 
+omit [Finite Ω] in
 theorem H_le_normalizer : burnsideC121_H X T Y ≤ Subgroup.normalizer (Y : Set Ω) :=
   sup_le c.R0_le_normalizer Subgroup.le_normalizer
 
 theorem P_sylow : IsSylowTwoOf (burnsideC121_P X R T Y) (burnsideC121_H X T Y) := by
-  rw [c.H_eq]
+  rw [CFSG.ASVolI.burnsideC121_YCtx.H_eq]
   refine CFSG.Quasithin.C124.L2.isSylowTwoOf_sup_of_normalizing c.P_le_normalizer c.P_pGroup ?_
   rw [c.P_inf_Y]
   exact c.hY.sylow
@@ -97,35 +115,42 @@ theorem thompsonJ_R_le_S : thompsonJ R ≤ baum T := by
   exact B6.thompsonJ_le_baum T
 
 theorem thompsonJ_P : thompsonJ (burnsideC121_P X R T Y) = thompsonJ R :=
-  (B6.thompsonJ_eq_of_le (c.thompsonJ_R_le_S.trans c.S_le_P) c.P_le_R)
+  (B6.thompsonJ_eq_of_le (c.thompsonJ_R_le_S.trans CFSG.ASVolI.burnsideC121_YCtx.S_le_P) c.P_le_R)
 
 theorem baum_P : baum (burnsideC121_P X R T Y) = baum T := by
   rw [← c.baum_R]
-  exact (baum_eq_of_le (c.baum_R ▸ c.S_le_P) c.P_le_R).symm
+  exact (baum_eq_of_le (c.baum_R ▸ CFSG.ASVolI.burnsideC121_YCtx.S_le_P) c.P_le_R).symm
 
+omit [Finite Ω] in
 theorem W_red : IsTwoReducedIn (burnsideC121_H X T Y) W := c.max.1
 
+omit [Finite Ω] in
 theorem W_le_H : W ≤ burnsideC121_H X T Y := c.W_red.1
 
+omit [Finite Ω] in
 theorem H_le_normalizer_W : burnsideC121_H X T Y ≤ Subgroup.normalizer (W : Set Ω) :=
   c.W_red.2.1
 
+omit [Finite Ω] in
 theorem W_elem : IsElemAbelian 2 W := c.W_red.2.2.1
 
+omit [Finite Ω] in
 theorem Y_le_normalizer_W : Y ≤ Subgroup.normalizer (W : Set Ω) :=
-  c.Y_le_H.trans c.H_le_normalizer_W
+  CFSG.ASVolI.burnsideC121_YCtx.Y_le_H.trans c.H_le_normalizer_W
 
+omit [Finite Ω] in
 theorem P_le_normalizer_W : burnsideC121_P X R T Y ≤ Subgroup.normalizer (W : Set Ω) :=
-  c.P_le_H.trans c.H_le_normalizer_W
+  (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)).trans c.H_le_normalizer_W
 
 theorem pCore_H_le_centralizer : pCoreOf 2 (burnsideC121_H X T Y) ≤
     Subgroup.centralizer (W : Set Ω) := C124.pCoreOf_le_centralizer c.W_red
 
+omit [Finite Ω] in
 theorem W_le_pCore_H : W ≤ pCoreOf 2 (burnsideC121_H X T Y) := C124.le_pCoreOf_of_reduced c.W_red
 
 theorem pCore_Y_le_pCore_H : pCoreOf 2 Y ≤ pCoreOf 2 (burnsideC121_H X T Y) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 Y).trans c.Y_le_H)
+  exact le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 Y).trans CFSG.ASVolI.burnsideC121_YCtx.Y_le_H)
     (c.H_le_normalizer.trans (normalizer_le_normalizer_pCoreOf 2 Y)) (pCoreOf_isPGroup 2 Y)
 
 theorem pCore_Y_le_centralizer : pCoreOf 2 Y ≤ Subgroup.centralizer (W : Set Ω) :=
@@ -133,14 +158,15 @@ theorem pCore_Y_le_centralizer : pCoreOf 2 Y ≤ Subgroup.centralizer (W : Set �
 
 theorem pCore_Y_le_RY : pCoreOf 2 Y ≤ R ⊓ Y := B6.pCoreOf_two_le_of_isSylowTwoOf c.hY.sylow
 
-theorem pCore_Y_le_P : pCoreOf 2 Y ≤ burnsideC121_P X R T Y := c.pCore_Y_le_RY.trans c.RY_le_P
+theorem pCore_Y_le_P : pCoreOf 2 Y ≤ burnsideC121_P X R T Y := c.pCore_Y_le_RY.trans burnsideC121_YCtx.RY_le_P
 
 theorem pCore_H_le_P : pCoreOf 2 (burnsideC121_H X T Y) ≤ burnsideC121_P X R T Y :=
   B6.pCoreOf_two_le_of_isSylowTwoOf c.P_sylow
 
+omit [Finite Ω] in
 theorem H_prod : ∀ x ∈ burnsideC121_H X T Y, ∃ y ∈ Y, ∃ p ∈ burnsideC121_P X R T Y, x = y * p := by
   intro x hx
-  rw [c.H_eq] at hx
+  rw [CFSG.ASVolI.burnsideC121_YCtx.H_eq] at hx
   have hx' : x ∈ ((Y ⊔ burnsideC121_P X R T Y : Subgroup Ω) : Set Ω) := hx
   rw [Subgroup.coe_mul_of_right_le_normalizer_left Y _ c.P_le_normalizer] at hx'
   obtain ⟨y, hy, p, hp, rfl⟩ := hx'

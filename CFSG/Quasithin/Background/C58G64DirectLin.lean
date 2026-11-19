@@ -16,38 +16,48 @@ section Lemmas
 
 variable [Finite V]
 
+omit [Finite V] in
 theorem commSpace_zpowers_eq_range (g : GLV V) :
     commSpace (Subgroup.zpowers g) ⊤ = LinearMap.range (dl g) :=
   commSpace_zpowers_top g
 
+omit [Finite V] in
 theorem datum_add_self (v : V) : v + v = 0 := by
   have h : (2 : ZMod 2) = 0 := rfl
   rw [← two_smul (ZMod 2) v, h, zero_smul]
 
+omit [Finite V] in
 theorem datum_neg_eq (v : V) : -v = v :=
   (eq_neg_of_add_eq_zero_right (datum_add_self v)).symm
 
+omit [Finite V] in
 theorem datum_sub_eq_add (a b : V) : a - b = a + b := by
   rw [sub_eq_add_neg, datum_neg_eq]
 
+omit [Finite V] in
 theorem datum_dl_apply (g : GLV V) (v : V) : dl g v = g v - v := rfl
 
+omit [Finite V] in
 theorem datum_inv_mul_apply (x : GLV V) (v : V) : x⁻¹ (x v) = v :=
   congrArg (fun g : GLV V => g v) (inv_mul_cancel x)
 
+omit [Finite V] in
 theorem datum_mul_inv_apply (x : GLV V) (v : V) : x (x⁻¹ v) = v :=
   congrArg (fun g : GLV V => g v) (mul_inv_cancel x)
 
+omit [Finite V] in
 theorem datum_pow_three_apply {x : GLV V} (hx : x ^ 3 = 1) (v : V) : x (x (x v)) = v := by
   have h : x * (x * x) = 1 := by rw [← pow_three]; exact hx
   exact congrArg (fun g : GLV V => g v) h
 
+omit [Finite V] in
 theorem datum_sum_dl {x : GLV V} (hx : x ^ 3 = 1) (u : V) :
     dl x u + x (dl x u) + x (x (dl x u)) = 0 := by
   have h3 := datum_pow_three_apply hx
   simp only [datum_dl_apply, map_sub, h3]
   abel
 
+omit [Finite V] in
 theorem isCompl_range_ker_dl {x : GLV V} (hx : x ^ 3 = 1) :
     IsCompl (LinearMap.range (dl x)) (LinearMap.ker (dl x)) := by
   refine ⟨?_, ?_⟩
@@ -74,6 +84,7 @@ theorem isCompl_range_ker_dl {x : GLV V} (hx : x ^ 3 = 1) :
     have h4 := Submodule.add_mem_sup h1 h2
     rwa [h3] at h4
 
+omit [Finite V] in
 theorem datum_range_dl_conj (g h : GLV V) :
     LinearMap.range (dl (g * h * g⁻¹)) = conjSub g (LinearMap.range (dl h)) := by
   ext v

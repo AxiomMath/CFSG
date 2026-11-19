@@ -50,7 +50,7 @@ theorem eq_tv_of_fixes_hyperplane
     {W : Submodule (ZMod 2) V} (hW : finrank (ZMod 2) W + 1 = finrank (ZMod 2) V)
     {φ : Dual (ZMod 2) V} (hφW : ∀ w ∈ W, φ w = 0)
     {v : V} (hv : v ∉ W) (hφv : φ v = 1)
-    {t : LinearMap.GeneralLinearGroup (ZMod 2) V} (ht2 : t * t = 1) (ht1 : t ≠ 1)
+    {t : LinearMap.GeneralLinearGroup (ZMod 2) V} (ht2 : t * t = 1) (_ht1 : t ≠ 1)
     (hfix : ∀ w ∈ W, (t : V →ₗ[ZMod 2] V) w = w) :
     ∃ (a : V) (ha : a ∈ W), t = tv φ a (hφW a ha) := by
   classical
@@ -124,12 +124,14 @@ theorem isF2Transvection_conj
       rw [h0, map_zero]
     rwa [hinv'] at h1
 
+omit [Finite G] in
 theorem imgGL_mono {N : Subgroup G} (hN : IsElemAbelian 2 N) {L₁ L₂ : Subgroup G}
     (h₁ : L₁ ≤ Subgroup.normalizer (N : Set G)) (h₂ : L₂ ≤ Subgroup.normalizer (N : Set G))
     (h : L₁ ≤ L₂) : imgGL hN L₁ h₁ ≤ imgGL hN L₂ h₂ := by
   rintro _ ⟨y, rfl⟩
   exact mem_imgGL.mpr ⟨⟨y, h y.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem imgGL_eq_map_subgroupOf {N A Y : Subgroup G} (hN : IsElemAbelian 2 N)
     (hA : A ≤ Y) (hAY : A ≤ Subgroup.normalizer (N : Set G))
     (hY : Y ≤ Subgroup.normalizer (N : Set G)) :
@@ -151,6 +153,7 @@ private theorem unitsEquiv_coe (V : Type) [AddCommGroup V] [Module (ZMod 2) V]
     ((unitsEquiv V φ : LinearMap.GeneralLinearGroup (ZMod 2) V) : V →ₗ[ZMod 2] V) =
       (φ : V →ₗ[ZMod 2] V) := rfl
 
+omit [Finite G] in
 theorem isIrreducibleOn_imgGL {N : Subgroup G} (hN : IsElemAbelian 2 N) {L : Subgroup G}
     (hL : L ≤ Subgroup.normalizer (N : Set G)) (hirr : IrrOn L N) :
     ∀ W : Submodule (ZMod 2) (Additive (VN hN)),
@@ -196,6 +199,7 @@ theorem imgGL_eq_of_frattini (c : Ctx23L D Ch) (hU : IsElemAbelian 2 D.U)
     rfl
   exact congrArg toGL hact
 
+omit [Finite G] in
 theorem card_imgGL_of_injective {N A : Subgroup G} (hN : IsElemAbelian 2 N)
     (hA : A ≤ Subgroup.normalizer (N : Set G))
     (hfaith : ∀ a : ↥A, actGL hN A hA a = 1 → a = 1) :
@@ -203,7 +207,7 @@ theorem card_imgGL_of_injective {N A : Subgroup G} (hN : IsElemAbelian 2 N)
   have hinj : Function.Injective (fun a : ↥A => actGL hN A hA a) := by
     intro a b hab
     have h1 : actGL hN A hA a * (actGL hN A hA b)⁻¹ = 1 := by
-      simpa [hab]
+      simp [hab]
     have h2 : a * b⁻¹ = 1 := hfaith (a * b⁻¹) (by rw [map_mul, map_inv]; exact h1)
     calc a = a * b⁻¹ * b := by group
       _ = b := by rw [h2, one_mul]
@@ -355,8 +359,8 @@ private theorem card_axis_imgGL (hU : IsElemAbelian 2 D.U) (hUM : D.U ≤ D.M)
 private theorem set_eq_range_of_card_eq {α β : Type} [Finite α] [Finite β]
     {s : Set β} {f : α → β} (hsub : s ⊆ Set.range f) (hinj : Function.Injective f)
     (hcard : Nat.card s = Nat.card α) : s = Set.range f := by
-  haveI : Fintype s := Fintype.ofFinite _
-  haveI : Fintype (Set.range f) := Fintype.ofFinite _
+  have : Fintype s := Fintype.ofFinite _
+  have : Fintype (Set.range f) := Fintype.ofFinite _
   refine Set.eq_of_subset_of_card_le hsub ?_
   rw [show Fintype.card ↥(Set.range f) = Nat.card ↥(Set.range f) from
         (Nat.card_eq_fintype_card).symm,
@@ -457,7 +461,7 @@ private theorem second_axis_data
     (hker : ∀ v, φ v = 0 ↔ v ∈ W)
     {m : LinearMap.GeneralLinearGroup (ZMod 2) V}
     (hmW : Submodule.map (m : V →ₗ[ZMod 2] V) W ≠ W)
-    (hWtop : W ≠ ⊤) (hfin : finrank (ZMod 2) W + 1 = finrank (ZMod 2) V) :
+    (_hWtop : W ≠ ⊤) (hfin : finrank (ZMod 2) W + 1 = finrank (ZMod 2) V) :
     ∃ (W₂ : Submodule (ZMod 2) V) (ψ : Dual (ZMod 2) V),
       W₂ = Submodule.map (m : V →ₗ[ZMod 2] V) W ∧
         ψ = φ ∘ₗ ((m⁻¹ : LinearMap.GeneralLinearGroup (ZMod 2) V) : V →ₗ[ZMod 2] V) ∧
@@ -699,15 +703,15 @@ private theorem imgGL_eq_top_of_obstruction (c : Ctx23L D Ch)
 private theorem obstruction_TI (c : Ctx23L D Ch) (hUM : D.U ≤ D.M) {g : G}
     (hO : InCalO2 1 D.M ⊥ D.U g) : D.U ⊓ conjSubgroup D.U g = ⊥ := by
   have h := c.hTI g⁻¹
-  simp only [CFSG.CGT.Timmesfeld75.conjSubgroup, CFSG.Quasithin.conjSubgroup] at h
+  simp only [CFSG.CGT.Timmesfeld75.conjSubgroup] at h
   rcases h with hbot | heq
   · exact hbot
   · exfalso
     apply hO.1.2.1
     exact (inf_eq_left.mp heq).trans (Subgroup.map_mono (f := (MulAut.conj g⁻¹).toMonoidHom) hUM)
 
-private theorem obstruction_centralizer (c : Ctx23L D Ch) (hUM : D.U ≤ D.M) {g : G}
-    (hO : InCalO2 1 D.M ⊥ D.U g) :
+private theorem obstruction_centralizer (c : Ctx23L D Ch) (_hUM : D.U ≤ D.M) {g : G}
+    (_hO : InCalO2 1 D.M ⊥ D.U g) :
     ∀ e ∈ conjSubgroup D.U g ⊓ D.M, e ≠ 1 →
       Subgroup.centralizer ({e} : Set G) ≤ conjSubgroup D.M g := by
   intro e he he1
@@ -726,7 +730,7 @@ private theorem obstruction_centralizer (c : Ctx23L D Ch) (hUM : D.U ≤ D.M) {g
     _ = g * (e * x) * g⁻¹ := by rw [hx]
     _ = g * e * g⁻¹ * (g * x * g⁻¹) := by group
 
-private theorem obstruction_K_subnormal (c : Ctx23L D Ch) (hU : IsElemAbelian 2 D.U)
+private theorem obstruction_K_subnormal (_c : Ctx23L D Ch) (hU : IsElemAbelian 2 D.U)
     (hMU : D.M ≤ Subgroup.normalizer (D.U : Set G))
     (hMtop : imgGL hU (D.M ⊓ Subgroup.normalizer (E3.wClos D.U 0 D.T : Set G))
       (inf_le_left.trans hMU) = ⊤)

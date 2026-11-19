@@ -53,9 +53,9 @@ section Model
 theorem e6Model165At_three_of_dvd (F : Type) [Field F] [Finite F] [CharP F 2]
     (n p q : ℕ) (hcard : Nat.card F = 2 ^ n) (hn : 2 ≤ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 3)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hq : q.Prime) (_hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hqdiv : q ∣ 2 ^ n - 1 ∨ n = 1 ∧ q = 3)
-    (hqZ : q ∣ Nat.card (e6Isogeny F).ker) :
+    (_hqZ : q ∣ Nat.card (e6Isogeny F).ker) :
     letI : Finite ↥(e6Data_valid.minGroup F) :=
       CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
     ∀ Ã : Subgroup ↥(e6Data_valid.minGroup F), IsElemAbelian p Ã →
@@ -65,7 +65,7 @@ theorem e6Model165At_three_of_dvd (F : Type) [Field F] [Finite F] [CharP F 2]
       3 ≤ CFSG.Open.pRank p Ã →
       Concl165Avoid ↥(e6Data_valid.minGroup F) p q Ã
         (Subgroup.center ↥(e6Data_valid.minGroup F)) := by
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
   intro Ã hAe _hASC hmax hA3
   classical

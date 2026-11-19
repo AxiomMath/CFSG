@@ -178,6 +178,7 @@ private theorem exists_conj_map_of_isSylow {x z₁ g : G} {K Y : Subgroup G}
       _ = z₁ := hc₁'
   exact ⟨k, hkx, hKeq⟩
 
+omit [Finite G] in
 private theorem conj_mem_centerIn_of_map_eq {K Y : Subgroup G} {k z : G}
     (hKeq : K.map (MulAut.conj k).toMonoidHom = Y) (hzk : z ∈ centerIn K) :
     k * z * k⁻¹ ∈ centerIn Y := by
@@ -196,7 +197,8 @@ private theorem conj_mem_centerIn_of_map_eq {K Y : Subgroup G} {k z : G}
       _ = k * (z * t) * k⁻¹ := by rw [hcomm]
       _ = (k * z * k⁻¹) * (k * t * k⁻¹) := by group
 
-private theorem mem_centerIn_of_conj_eq_z (h : Tim79a.ParrottHyp z)
+omit [Finite G] in
+private theorem mem_centerIn_of_conj_eq_z (_h : Tim79a.ParrottHyp z)
     {z₁ x k : G} (hz₁ : z₁ ∈ centerIn (J z)) (hkx : k * x * k⁻¹ = z₁)
     (hz : k * z * k⁻¹ = z) : x ∈ centerIn (J z) := by
   have hkH : k ∈ H z := by
@@ -213,6 +215,7 @@ private theorem mem_centerIn_of_conj_eq_z (h : Tim79a.ParrottHyp z)
   have := (Subgroup.mem_normalizer_iff.mp (hHN (inv_mem hkH)) z₁).mp hz₁
   simpa using this
 
+omit [Finite G] in
 private theorem x_eq_z_of_conj_eq_z1 {x z₁ k : G}
     (hkx : k * x * k⁻¹ = z₁) (hz₁' : k * z * k⁻¹ = z₁) : x = z := by
   have h2 : MulAut.conj k x = MulAut.conj k z := by

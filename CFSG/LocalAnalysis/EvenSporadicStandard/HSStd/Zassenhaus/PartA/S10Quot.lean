@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def wOf (T : G) : ↥(Cen T) := ⟨T, mem_Cen.2 rfl⟩
 
+omit [Finite G] in
 theorem wOf_central (T : G) (g : ↥(Cen T)) : g * wOf T = wOf T * g :=
   Subtype.ext (mem_Cen.1 g.2)
 
@@ -25,8 +26,10 @@ abbrev QuotT (T : G) : Type := ↥(Cen T) ⧸ zpowers (wOf T)
 
 @[expose] def mkT (T : G) : ↥(Cen T) →* QuotT T := QuotientGroup.mk' _
 
+omit [Finite G] in
 theorem mkT_surjective (T : G) : Function.Surjective (mkT T) := QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem mkT_eq_mkT_iff {T : G} (hT : T * T = 1) {g h : ↥(Cen T)} :
     mkT T g = mkT T h ↔ h = g ∨ h = g * wOf T := by
   have hw : wOf T * wOf T = 1 := Subtype.ext hT
@@ -44,11 +47,13 @@ theorem mkT_eq_mkT_iff {T : G} (hT : T * T = 1) {g h : ↥(Cen T)} :
   · rintro (h1 | h1)
     · rw [h1]; simp
     · rw [h1]
-      simpa using mem_zpowers (wOf T)
+      simp
 
+omit [Finite G] in
 theorem mkT_wOf (T : G) : mkT T (wOf T) = 1 :=
   (QuotientGroup.eq_one_iff _).2 (mem_zpowers _)
 
+omit [Finite G] in
 theorem mkT_mul_wOf (T : G) (g : ↥(Cen T)) : mkT T (g * wOf T) = mkT T g := by
   rw [map_mul, mkT_wOf, mul_one]
 
@@ -58,11 +63,13 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G] {L A : Subgroup G} {t u : G}
 
+omit [Finite G] in
 theorem FusionSetup.t_mem_Cen_tu (S : FusionSetup G L A t u) : t ∈ Cen (t * u) := by
   rw [mem_Cen]
   calc t * (t * u) = t * (u * t) := by rw [S.tu]
     _ = (t * u) * t := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem FusionSetup.u_mem_Cen_tu (S : FusionSetup G L A t u) : u ∈ Cen (t * u) := by
   rw [mem_Cen]
   calc u * (t * u) = u * (u * t) := by rw [S.tu]
@@ -70,6 +77,7 @@ theorem FusionSetup.u_mem_Cen_tu (S : FusionSetup G L A t u) : u ∈ Cen (t * u)
     _ = t * (u * u) := by rw [S.u_sq, mul_one, one_mul]
     _ = (t * u) * u := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem FusionSetup.A_mem_Cen_tu (S : FusionSetup G L A t u) {a : G} (ha : a ∈ A) :
     a ∈ Cen (t * u) := by
   rw [mem_Cen]
@@ -79,6 +87,7 @@ theorem FusionSetup.A_mem_Cen_tu (S : FusionSetup G L A t u) {a : G} (ha : a ∈
     _ = t * (u * a) := by rw [S.A_u a ha]
     _ = (t * u) * a := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem FusionSetup.tu_sq (S : FusionSetup G L A t u) : (t * u) * (t * u) = 1 := by
   calc t * u * (t * u) = t * (u * t) * u := by simp only [mul_assoc]
     _ = t * (t * u) * u := by rw [S.tu]
@@ -89,12 +98,14 @@ theorem FusionSetup.tu_sq (S : FusionSetup G L A t u) : (t * u) * (t * u) = 1 :=
   mkT (t * u) ⟨t, S.t_mem_Cen_tu⟩
 
 @[expose] def fBar (S : FusionSetup G L A t u) : ↥A →* QuotT (t * u) :=
-  (mkT (t * u)).comp (Subgroup.inclusion (fun a ha => S.A_mem_Cen_tu ha) :
+  (mkT (t * u)).comp (Subgroup.inclusion (fun _a ha => S.A_mem_Cen_tu ha) :
     ↥A →* ↥(Cen (t * u)))
 
+omit [Finite G] in
 theorem fBar_apply (S : FusionSetup G L A t u) (a : ↥A) :
     fBar S a = mkT (t * u) ⟨a, S.A_mem_Cen_tu a.2⟩ := rfl
 
+omit [Finite G] in
 theorem mkT_u (S : FusionSetup G L A t u) :
     mkT (t * u) ⟨u, S.u_mem_Cen_tu⟩ = tBar S := by
   have h : (⟨u, S.u_mem_Cen_tu⟩ : ↥(Cen (t * u))) = ⟨t, S.t_mem_Cen_tu⟩ * wOf (t * u) := by
@@ -104,11 +115,13 @@ theorem mkT_u (S : FusionSetup G L A t u) :
   rw [h, mkT_mul_wOf]
   rfl
 
+omit [Finite G] in
 theorem tBar_sq (S : FusionSetup G L A t u) : tBar S * tBar S = 1 := by
   rw [tBar, ← map_mul]
   have : (⟨t, S.t_mem_Cen_tu⟩ : ↥(Cen (t * u))) * ⟨t, S.t_mem_Cen_tu⟩ = 1 := Subtype.ext S.t_sq
   rw [this, map_one]
 
+omit [Finite G] in
 theorem fBar_injective (S : FusionSetup G L A t u) : Function.Injective (fBar S) := by
   rw [injective_iff_map_eq_one]
   intro a ha
@@ -126,6 +139,7 @@ theorem fBar_injective (S : FusionSetup G L A t u) : Function.Injective (fBar S)
     rw [this, h2]
     exact mul_mem (inv_mem (S.A_le a.2)) S.u_mem
 
+omit [Finite G] in
 theorem tBar_not_mem_range (S : FusionSetup G L A t u) (a : ↥A) : fBar S a ≠ tBar S := by
   intro h
   rw [fBar_apply, tBar, mkT_eq_mkT_iff S.tu_sq] at h
@@ -140,12 +154,14 @@ theorem tBar_not_mem_range (S : FusionSetup G L A t u) (a : ↥A) : fBar S a ≠
     have h3 := Subgroup.disjoint_def.1 S.disj (mem_zpowers u) (h2 ▸ a.2)
     exact S.u_ne h3
 
+omit [Finite G] in
 theorem fBar_comm_tBar (S : FusionSetup G L A t u) (a : ↥A) :
     fBar S a * tBar S = tBar S * fBar S a := by
   rw [fBar_apply, tBar, ← map_mul, ← map_mul]
   congr 1
   exact Subtype.ext (S.t_comm a (S.A_le a.2))
 
+omit [Finite G] in
 theorem cent_tBar_decomp (S : FusionSetup G L A t u) (hn : ¬ IsConj t u) (h : ↥(Cen (t * u)))
     (hc : mkT (t * u) h * tBar S = tBar S * mkT (t * u) h) :
     ∃ a : ↥A, mkT (t * u) h = fBar S a ∨ mkT (t * u) h = tBar S * fBar S a := by
@@ -192,6 +208,7 @@ theorem cent_tBar_decomp (S : FusionSetup G L A t u) (hn : ¬ IsConj t u) (h : �
     have : h = wOf (t * u) * ⟨a, haH⟩ := Subtype.ext hva
     rw [this, map_mul, mkT_wOf, one_mul, fBar_apply]
 
+omit [Finite G] in
 theorem exists_mulEquiv_cent (S : FusionSetup G L A t u) (hn : ¬ IsConj t u) {B : Type*}
     [Group B] (eA : ↥A ≃* B) :
     Nonempty (↥(centralizer ({tBar S} : Set (QuotT (t * u)))) ≃*

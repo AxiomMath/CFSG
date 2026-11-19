@@ -24,7 +24,7 @@ theorem isSolvable_of_isCyclic_sylow {X : Type*} [Group X] [Finite X] (P : Sylow
   have hs1 : Group.IsSolvable (CFSG.pPrimeCore 2 X) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have : (CFSG.pPrimeCore 2 X).Normal := hnormal
   have hs2 : Group.IsSolvable (X ⧸ CFSG.pPrimeCore 2 X) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hq : IsPGroup 2 (X ⧸ CFSG.pPrimeCore 2 X) :=
       IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card, hindex, hn])
     have := hq.isNilpotent

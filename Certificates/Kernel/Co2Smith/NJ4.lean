@@ -47,19 +47,19 @@ theorem njK_eq_F (k x : Nat) : KernelCo2Jc.njK k x = njKF k x := by
   unfold KernelCo2Jc.njK njKF
   by_cases h : k < 3 ∧ x < 1024
   · have hb : (Nat.blt k 3 && Nat.blt x 1024) = true := by simp [h.1, h.2]
-    rw [if_pos h, hb]
+    rw [ite_eq_left h, hb]
   · have hb : (Nat.blt k 3 && Nat.blt x 1024) = false := by
       rw [Bool.eq_false_iff]
       intro hc
       simp only [Bool.and_eq_true, Nat.blt_eq] at hc
       exact h hc
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
 
 theorem nj4_ite0 (k a b : Nat) :
     (if k = 0 then a else b) = Bool.rec (motive := fun _ => Nat) b a (Nat.beq k 0) := by
   by_cases h : k = 0
   · subst h; rfl
-  · rw [if_neg h, show Nat.beq k 0 = false from
+  · rw [ite_eq_right h, show Nat.beq k 0 = false from
       Bool.eq_false_iff.2 (fun hb => h (Nat.eq_of_beq_eq_true hb))]
 
 theorem nj4_ok : glNJ4OK = true := by

@@ -20,7 +20,7 @@ namespace Setup8
 
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
 
-theorem V_pow (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {k : ℕ} (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ k) :
+theorem V_pow (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {k : ℕ} (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ k) :
     ∀ v ∈ conjugate (Vof S K₁ W₂) h, v ^ (2 ^ k) = 1 := by
   intro v hv
   have := Basic.pow_card_of_mem hv
@@ -100,6 +100,7 @@ theorem cent_mem_A (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_recipro
   rw [hx]
   exact Subgroup.mul_mem_sup hwV₁ hvV
 
+omit [Finite G] in
 theorem mem_Vm {x : G} : x ∈ conjugate (Vof S K₁ W₂) h⁻¹ ↔ h⁻¹ * x * h ∈ Vof S K₁ W₂ := by
   rw [mem_conjugate_iff, inv_inv]
 

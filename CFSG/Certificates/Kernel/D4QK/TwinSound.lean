@@ -83,8 +83,8 @@ theorem ipL_eq (hone : oneK = idP) (X : Nat) : ∀ n p q, ipL X n p q = ipK X n 
     change Bool.rec (motive := fun _ => Nat) (ipL X n (mulWK p X) p) q (eqM p oneK) = ipK X (n + 1) p q
     rw [ipK, eqM_one hone]
     by_cases h : p % 2 ^ 576 = idP
-    · rw [if_pos h, decide_eq_true h]
-    · rw [if_neg h, decide_eq_false h]
+    · rw [ite_eq_left h, decide_eq_true h]
+    · rw [ite_eq_right h, decide_eq_false h]
       exact ipL_eq hone X n _ _
 
 theorem invPow_eqK (hone : oneK = idP) (X : Nat) :
@@ -126,11 +126,11 @@ theorem phiArr_eq (hone : oneK = idP) (hz : zA = unpackR 24 ZE)
   unfold phK
   by_cases h : j.val < 7
   · have hb : Nat.blt j.val 7 = true := by rw [Nat.blt_eq]; exact h
-    rw [if_pos h, cjA_eq hone hz hZ h7 h, hb]
+    rw [ite_eq_left h, cjA_eq hone hz hZ h7 h, hb]
   · have hb : Nat.blt j.val 7 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h
-    rw [if_neg h, cjA_eq hone hz hZ h7 (by omega), hb]
+    rw [ite_eq_right h, cjA_eq hone hz hZ h7 (by omega), hb]
     rfl
 
 end Conj
@@ -153,9 +153,9 @@ theorem relValR_eq (hone : oneK = idP) (F FI : Nat → Nat) (r : List (Fin 14 ×
       mulWK (Bool.rec (motive := fun _ => Nat) (FI a.val) (F a.val) b) x)
     rw [strictN_eq']
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [ofFn_get FI a.isLt, mulWK_eq]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [ofFn_get F a.isLt, mulWK_eq]
 
 theorem relsOK_eq (hone : oneK = idP) (F FI : Nat → Nat) (rels : List (List (Fin 14 × Bool))) :
@@ -317,9 +317,9 @@ theorem pairCheck_eq (hone : oneK = idP) (hz : zA = unpackR 24 ZE)
     obtain ⟨⟨j, hj⟩, rfl⟩ := Array.mem_ofFn.1 hy
     rw [pr2_eq hone hz hZ h7] at h2
     have hi' := h i hi
-    rw [strictB_eq', bIf_eq', if_pos h1, allN_iff'] at hi'
+    rw [strictB_eq', bIf_eq', ite_eq_left h1, allN_iff'] at hi'
     have hj' := hi' j hj
-    rw [bIf_eq', bitK_eq, key i hi j hj, if_pos h2, strictB_eq'] at hj'
+    rw [bIf_eq', bitK_eq, key i hi j hj, ite_eq_left h2, strictB_eq'] at hj'
     change CFSG.Quasithin.Background.Harris.R1.D4Vert.pairOK (ElG PK nk) (unpackR 24 (P i))
       (unpackR 24 (P j)) = true
     rw [pairOK_eq hone hz hZ h7 hy1 hy2]

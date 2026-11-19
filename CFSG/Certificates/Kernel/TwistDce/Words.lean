@@ -161,12 +161,12 @@ private theorem revLoop_prop (w n : ℕ) : ∀ m, m ≤ n → revLoop w n m < 16
     · subst h1
       have h2 : ¬ (n - 1 - (n - 1 - m) < m) := by omega
       have e : n - 1 - (n - 1 - m) = m := by omega
-      rw [if_pos rfl, if_neg (fun h => h2 h.2), if_pos ⟨by omega, by omega⟩, e, Nat.zero_or]
+      rw [ite_eq_left rfl, ite_eq_right (fun h => h2 h.2), ite_eq_left ⟨by omega, by omega⟩, e, Nat.zero_or]
     · have h3 : (j < n ∧ n - 1 - j < m + 1) ↔ (j < n ∧ n - 1 - j < m) := by omega
-      rw [if_neg h1, Nat.or_zero]
+      rw [ite_eq_right h1, Nat.or_zero]
       simp only [h3]
 
-private noncomputable def thLoop (THM w n m : ℕ) : ℕ :=
+private noncomputable def thLoop (THM w _n m : ℕ) : ℕ :=
   Nat.rec (motive := fun _ => ℕ) 0
     (fun i acc => Nat.lor acc (Nat.shiftLeft (thL THM (wAt w i)) (Nat.mul 4 i))) m
 
@@ -199,9 +199,9 @@ private theorem thLoop_prop (THM w n : ℕ) : ∀ m, m ≤ n → thLoop THM w n 
     rw [fld_or', hf j, term_field (thL_lt THM _)]
     by_cases h1 : m = j
     · subst h1
-      rw [if_pos rfl, if_neg (by omega), if_pos (by omega), Nat.zero_or]
+      rw [ite_eq_left rfl, ite_eq_right (by omega), ite_eq_left (by omega), Nat.zero_or]
     · have h3 : (j < m + 1) ↔ (j < m) := by omega
-      rw [if_neg h1, Nat.or_zero]
+      rw [ite_eq_right h1, Nat.or_zero]
       simp only [h3]
 
 private theorem inH_loop (w n : ℕ) :
@@ -260,7 +260,7 @@ private theorem evP_loop (F : ℕ → ℕ) : ∀ (n s x : ℕ),
   | succ n ih =>
     intro s x
     rw [digs_succ, List.foldl_cons]
-    simp only [Nat.rec_add_one, sN_eq] at ih ⊢
+    simp only [sN_eq] at ih ⊢
     rw [ih, land15, shr4]
 
 private theorem isOne_loop (F : ℕ → ℕ) (BS w : ℕ) : ∀ n,
@@ -356,7 +356,7 @@ theorem wRev_spec (w : ℕ) :
     have hi : i < wLen w := by simpa using hi1
     simp only [List.getElem_map, List.getElem_range, List.getElem_reverse, lst, List.length_map,
       List.length_range]
-    rw [hf i, if_pos ⟨hi, by omega⟩]
+    rw [hf i, ite_eq_left ⟨hi, by omega⟩]
 
 theorem wTh_spec (THM w : ℕ) :
     wLen (wTh THM w) = wLen w ∧ wOK (wTh THM w) = true ∧ lst (wTh THM w) = (lst w).map (thL THM) := by
@@ -373,8 +373,8 @@ theorem wTh_spec (THM w : ℕ) :
   · simp [length_lst]
   · intro i hi1 hi2
     have hi : i < wLen w := by simpa using hi1
-    simp only [List.getElem_map, List.getElem_range, lst, List.length_map, List.length_range]
-    rw [hf i, if_pos hi]
+    simp only [List.getElem_map, List.getElem_range, lst]
+    rw [hf i, ite_eq_left hi]
 
 theorem wOne_spec {c : ℕ} (hc : c < 16) : wLen (wOne c) = 1 ∧ wOK (wOne c) = true ∧ lst (wOne c) = [c] := by
   obtain ⟨h1, h2, h3⟩ := wMk_spec (n := 1) (s := c) (by norm_num) (by simpa using hc)

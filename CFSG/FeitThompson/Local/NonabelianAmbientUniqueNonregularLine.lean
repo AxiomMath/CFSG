@@ -170,7 +170,7 @@ theorem FNI_nonabelian_ambient_unique_nonregular_line
     refine ⟨Subgroup.map_subtype_le _, ?_⟩
     rw [hPdef, Subgroup.card_subtype]
     exact P'.card_eq_multiplicity
-  obtain ⟨R', hPR⟩ := (P'.isPGroup'.map E.subtype).exists_le_sylow
+  obtain ⟨R', hPR⟩ := (P'.isPGroup.map E.subtype).exists_le_sylow
   set R : Subgroup G := (R' : Subgroup G) with hRdef
   obtain ⟨Q, hQ, hQnc⟩ := hnonab
   obtain ⟨hPcomm, hRnc, hPltR, hRM, hCRA, hZall⟩ :=

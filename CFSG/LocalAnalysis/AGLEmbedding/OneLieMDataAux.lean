@@ -234,7 +234,7 @@ theorem centerOf_le_or_le_centralizer_of_torus [L.Normal] (hp2 : p ≠ 2) (Rb : 
   ·
     left
     obtain ⟨x, hxWT, hx1⟩ := (W ⊓ T).bot_or_exists_ne_one.resolve_left hWT
-    have hTp : IsPGroup p T := Rb.isPGroup'.to_le inf_le_left
+    have hTp : IsPGroup p T := Rb.isPGroup.to_le inf_le_left
     have : Group.IsNilpotent T := hTp.isNilpotent
     set H : Subgroup T := (W ⊓ T).subgroupOf T with hH
     have hHn : H.Normal := by

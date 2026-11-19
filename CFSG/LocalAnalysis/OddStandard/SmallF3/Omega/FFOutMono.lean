@@ -22,11 +22,13 @@ private noncomputable def ffOutMonoMap (Q : QuadraticForm (ZMod 3) V) :
     OGroup Q →* ProjSim Q :=
   (projOrthToProjSim Q).comp (toProj Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutMonoMap_congr {a b : OGroup Q} (h : toProj Q a = toProj Q b) :
     ffOutMonoMap Q a = ffOutMonoMap Q b := by
   change projOrthToProjSim Q (toProj Q a) = projOrthToProjSim Q (toProj Q b)
   rw [h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutMono_toProj_signChange_compl (fr : NFrame Q (Fin 6) 1)
     (K : Finset (Fin 6)) :
     toProj Q (fr.signChange Kᶜ) = toProj Q (fr.signChange K) := by
@@ -60,12 +62,14 @@ private theorem ffOutMono_omegaToSim_act (hQ : Q.Nondegenerate)
     (K : Finset (Fin 6)) : ProjSim Q :=
   projOrthToProjSim Q (toProj Q (fr.permOrth σ * fr.signChange K))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffM_one_signChange (fr : NFrame Q (Fin 6) 1) (J : Finset (Fin 6)) :
     ffM fr 1 J = ffOutMonoMap Q (fr.signChange J) := by
   change ffOutMonoMap Q (fr.permOrth 1 * fr.signChange J) =
     ffOutMonoMap Q (fr.signChange J)
   rw [fr.permOrth_one, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_mul (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.Perm (Fin 6)) (J K : Finset (Fin 6)) :
     ffM fr σ J * ffM fr τ K = ffM fr (σ * τ) (symmDiff (J.map τ⁻¹.toEmbedding) K) := by
   change ffOutMonoMap Q (fr.permOrth σ * fr.signChange J) *
@@ -74,16 +78,19 @@ theorem ffM_mul (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.Perm (Fin 6)) (J K : Fi
         fr.signChange (symmDiff (J.map τ⁻¹.toEmbedding) K))
   rw [← map_mul, ffMono_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_one (fr : NFrame Q (Fin 6) 1) : ffM fr 1 ∅ = 1 := by
   change ffOutMonoMap Q (fr.permOrth 1 * fr.signChange ∅) = 1
   rw [fr.permOrth_one, fr.signChange_empty, mul_one, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_univ (fr : NFrame Q (Fin 6) 1) : ffM fr 1 Finset.univ = 1 := by
   change ffOutMonoMap Q (fr.permOrth 1 * fr.signChange Finset.univ) = 1
   rw [fr.permOrth_one, one_mul, ← fr.piOrth_eq_signChange_univ]
   change projOrthToProjSim Q (toProj Q (piOrth Q)) = 1
   rw [toProj_piOrth, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_compl (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6)) :
     ffM fr σ Kᶜ = ffM fr σ K := by
   change ffOutMonoMap Q (fr.permOrth σ * fr.signChange Kᶜ) =
@@ -91,6 +98,7 @@ theorem ffM_compl (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6)) (K : Finse
   apply ffOutMonoMap_congr
   rw [map_mul, map_mul, ffOutMono_toProj_signChange_compl]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_eq_iff (fr : NFrame Q (Fin 6) 1) {σ τ : Equiv.Perm (Fin 6)} {J K : Finset (Fin 6)} :
     ffM fr σ J = ffM fr τ K ↔ σ = τ ∧ (J = K ∨ J = Kᶜ) := by
   constructor
@@ -117,6 +125,7 @@ theorem ffM_eq_iff (fr : NFrame Q (Fin 6) 1) {σ τ : Equiv.Perm (Fin 6)} {J K :
     · rw [hJK]
     · rw [hJK, ffM_compl]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_inv (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6)) :
     (ffM fr σ K)⁻¹ = ffM fr σ⁻¹ (K.map σ.toEmbedding) := by
   apply inv_eq_of_mul_eq_one_right
@@ -127,6 +136,7 @@ theorem ffM_inv (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6)) (K : Finset 
       rw [mul_inv_cancel, inv_inv, symmDiff_self, Finset.bot_eq_empty]
     _ = 1 := ffM_one fr
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_conj_signChange (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
     (J K : Finset (Fin 6)) :
     ffM fr σ J * ffM fr 1 K * (ffM fr σ J)⁻¹ = ffM fr 1 (K.map σ.toEmbedding) := by
@@ -135,6 +145,7 @@ theorem ffM_conj_signChange (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
     fr.permOrth_one, one_mul] at h ⊢
   exact h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_conj_perm (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.Perm (Fin 6))
     (K J : Finset (Fin 6)) :
     ∃ K' : Finset (Fin 6), ffM fr σ K * ffM fr τ J * (ffM fr σ K)⁻¹ = ffM fr (σ * τ * σ⁻¹) K' := by
@@ -142,6 +153,7 @@ theorem ffM_conj_perm (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.Perm (Fin 6))
     (symmDiff (J.map σ.toEmbedding) (K.map σ.toEmbedding)), ?_⟩
   rw [ffM_inv, mul_assoc, ffM_mul, inv_inv, ffM_mul, mul_assoc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffM_simInGStar (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6)) :
     SimInGStar (ffM fr σ K) :=
   ⟨toProj Q (fr.permOrth σ * fr.signChange K), rfl⟩

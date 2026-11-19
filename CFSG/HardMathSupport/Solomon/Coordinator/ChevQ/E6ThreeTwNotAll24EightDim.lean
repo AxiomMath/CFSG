@@ -92,7 +92,7 @@ theorem finrank_ker_rootDiag_sub_smul (a : Fin τ.rank → Kˣ) (c : K) [Finite 
       Nat.card {b : Label τ // ((rootChar a (labelWt τ b) : Kˣ) : K) = c} := by
   classical
   rw [ker_rootDiag_sub_smul]
-  haveI : Fintype ↥{b : Label τ | ((rootChar a (labelWt τ b) : Kˣ) : K) = c} :=
+  have : Fintype ↥{b : Label τ | ((rootChar a (labelWt τ b) : Kˣ) : K) = c} :=
     Fintype.ofFinite _
   rw [(Finsupp.supportedEquivFinsupp (M := K) (R := K) _).finrank_eq,
     Module.finrank_finsupp_self]

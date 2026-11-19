@@ -53,7 +53,7 @@ private lemma card_prime_power_order_le_sylow
     ⟨(q.2 : G), (hA _).mpr
       ⟨(by intro hx; exact q.2.2 (Subtype.ext hx)),
        (by
-          have hPp : IsPGroup p (q.1 : Subgroup G) := q.1.isPGroup'
+          have hPp : IsPGroup p (q.1 : Subgroup G) := q.1.isPGroup
           obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hPp) q.2
           have hkG : orderOf (q.2 : G) = p ^ k := by
             simpa [Subgroup.orderOf_coe] using hk
@@ -80,9 +80,9 @@ private lemma card_prime_power_order_le_sylow
       Nat.card {x : ↥(P : Subgroup G) // x ≠ 1} := Nat.card_sigma
   have hpair (P : Sylow p G) :
       Nat.card {x : ↥(P : Subgroup G) // x ≠ 1} = Nat.card (P : Subgroup G) - 1 := by
-    letI : Fintype (P : Subgroup G) := Fintype.ofFinite _
-    letI : Fintype {x : ↥(P : Subgroup G) // x ≠ 1} := Fintype.ofFinite _
-    letI : Fintype {x : ↥(P : Subgroup G) // x = 1} := Fintype.ofFinite _
+    let : Fintype (P : Subgroup G) := Fintype.ofFinite _
+    let : Fintype {x : ↥(P : Subgroup G) // x ≠ 1} := Fintype.ofFinite _
+    let : Fintype {x : ↥(P : Subgroup G) // x = 1} := Fintype.ofFinite _
     have h1 : Fintype.card {x : ↥(P : Subgroup G) // x = 1} = 1 := by
       rw [Fintype.card_eq_one_iff]
       refine ⟨⟨1, rfl⟩, ?_⟩
@@ -111,10 +111,10 @@ private lemma card_nonone_le_sum_powers
       (∑ P : Sylow 5 G, (Nat.card (P : Subgroup G) - 1)) +
       (∑ P : Sylow 7 G, (Nat.card (P : Subgroup G) - 1)) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fintype G := Fintype.ofFinite G
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let S : Finset G := Finset.univ.filter (fun x : G => x ≠ 1)
   let A : Finset G := S.filter (fun x : G => ∃ n : ℕ, 1 ≤ n ∧ orderOf x = 3 ^ n)
   let B : Finset G := S.filter (fun x : G => ∃ n : ℕ, 1 ≤ n ∧ orderOf x = 5 ^ n)
@@ -438,7 +438,7 @@ private lemma card_order_p_elements_eq_sylow_mul
   let f : α → β := fun q =>
     ⟨(q.2 : G), ⟨(by intro hx; exact q.2.2 (Subtype.ext hx)),
       (by
-        have hPp : IsPGroup p (q.1 : Subgroup G) := q.1.isPGroup'
+        have hPp : IsPGroup p (q.1 : Subgroup G) := q.1.isPGroup
         obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hPp) q.2
         have hkG : orderOf (q.2 : G) = p ^ k := by simpa [Subgroup.orderOf_coe] using hk
         have hdvd : orderOf (q.2 : G) ∣ Nat.card (q.1 : Subgroup G) :=
@@ -492,9 +492,9 @@ private lemma card_order_p_elements_eq_sylow_mul
   have hα : Nat.card α = ∑ P : Sylow p G, Nat.card {x : ↥(P : Subgroup G) // x ≠ 1} := Nat.card_sigma
   have hpair (P : Sylow p G) :
       Nat.card {x : ↥(P : Subgroup G) // x ≠ 1} = p - 1 := by
-    letI : Fintype (P : Subgroup G) := Fintype.ofFinite _
-    letI : Fintype {x : ↥(P : Subgroup G) // x ≠ 1} := Fintype.ofFinite _
-    letI : Fintype {x : ↥(P : Subgroup G) // x = 1} := Fintype.ofFinite _
+    let : Fintype (P : Subgroup G) := Fintype.ofFinite _
+    let : Fintype {x : ↥(P : Subgroup G) // x ≠ 1} := Fintype.ofFinite _
+    let : Fintype {x : ↥(P : Subgroup G) // x = 1} := Fintype.ofFinite _
     have h1 : Fintype.card {x : ↥(P : Subgroup G) // x = 1} = 1 := by
       rw [Fintype.card_eq_one_iff]
       refine ⟨⟨1, rfl⟩, ?_⟩
@@ -523,7 +523,7 @@ private lemma top_subgroup_centralizes_normal_prime_order_subgroup_of_coprime
     (hcop : Nat.Coprime (Nat.card G) (p - 1)) :
     (⊤ : Subgroup G) ≤ Subgroup.centralizer (N : Set G) := by
   classical
-  letI : IsCyclic N := isCyclic_of_prime_card hNcard
+  let : IsCyclic N := isCyclic_of_prime_card hNcard
   let φ : G →* MulAut N := MulAut.conjNormal (H := N)
   have hrange_dvd_G : Nat.card φ.range ∣ Nat.card G := Subgroup.card_range_dvd φ
   have hcardAut : Nat.card (MulAut N) = p - 1 := by
@@ -555,9 +555,9 @@ private lemma exists_order_three_centralizing_normal_seven
     (hNcard : Nat.card N = 7) (hGcard : Nat.card G = 63) :
     ∃ z : G, z ≠ 1 ∧ z ^ 3 = 1 ∧ z ∈ Subgroup.centralizer (N : Set G) := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : IsCyclic N := isCyclic_of_prime_card hNcard
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : IsCyclic N := isCyclic_of_prime_card hNcard
   let φ : G →* MulAut N := MulAut.conjNormal (H := N)
   have hrange_dvd_G : Nat.card φ.range ∣ 63 := by simpa [hGcard] using Subgroup.card_range_dvd φ
   have hcardAut : Nat.card (MulAut N) = 6 := by
@@ -649,7 +649,7 @@ private lemma sylow_normal_of_count_one
     {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     [Fintype (Sylow p G)] (hcount : Nat.card (Sylow p G) = 1) (P : Sylow p G) :
     (P : Subgroup G).Normal := by
-  letI : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hcount).1
+  let : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hcount).1
   exact Sylow.normal_of_subsingleton P
 
 private lemma order_mul_of_commute_coprime
@@ -675,11 +675,11 @@ private lemma factorization_35_7 : (35 : ℕ).factorization 7 = 1 := by
 private lemma card_not_35 (X : Subgroup (alternatingGroup (Fin 7)))
     (hX : Nat.card X = 35) : False := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fintype (Sylow 5 X) := Fintype.ofFinite _
-  letI : Fintype (Sylow 7 X) := Fintype.ofFinite _
+  let : Fintype X := Fintype.ofFinite X
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fintype (Sylow 5 X) := Fintype.ofFinite _
+  let : Fintype (Sylow 7 X) := Fintype.ofFinite _
   let P5 : Sylow 5 X := default
   let P7 : Sylow 7 X := default
   have h5card : Nat.card (P5 : Subgroup X) = 5 := by
@@ -708,7 +708,7 @@ private lemma card_not_35 (X : Subgroup (alternatingGroup (Fin 7)))
     interval_cases n : Nat.card (Sylow 7 X)
     all_goals try norm_num at hnmod' hndvd hnle
     all_goals try omega
-  haveI : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5count P5
+  have : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5count P5
   have hcopX : Nat.Coprime (Nat.card X) 4 := by rw [hX]; norm_num
   have hcent : (⊤ : Subgroup X) ≤ Subgroup.centralizer ((P5 : Subgroup X) : Set X) :=
     top_subgroup_centralizes_normal_prime_order_subgroup_of_coprime
@@ -761,11 +761,11 @@ private lemma factorization_63_7 : (63 : ℕ).factorization 7 = 1 := by
 private lemma card_not_45 (X : Subgroup (alternatingGroup (Fin 7)))
     (hX : Nat.card X = 45) : False := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fintype (Sylow 3 X) := Fintype.ofFinite _
-  letI : Fintype (Sylow 5 X) := Fintype.ofFinite _
+  let : Fintype X := Fintype.ofFinite X
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fintype (Sylow 3 X) := Fintype.ofFinite _
+  let : Fintype (Sylow 5 X) := Fintype.ofFinite _
   let P3 : Sylow 3 X := default
   let P5 : Sylow 5 X := default
   have h3card : Nat.card (P3 : Subgroup X) = 9 := by
@@ -794,7 +794,7 @@ private lemma card_not_45 (X : Subgroup (alternatingGroup (Fin 7)))
     interval_cases n : Nat.card (Sylow 5 X)
     all_goals try norm_num at hnmod' hndvd hnle
     all_goals try omega
-  haveI : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5count P5
+  have : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5count P5
   have hcopX : Nat.Coprime (Nat.card X) 4 := by rw [hX]; norm_num
   have hcent : (⊤ : Subgroup X) ≤ Subgroup.centralizer ((P5 : Subgroup X) : Set X) :=
     top_subgroup_centralizes_normal_prime_order_subgroup_of_coprime
@@ -819,10 +819,10 @@ private lemma card_not_45 (X : Subgroup (alternatingGroup (Fin 7)))
 private lemma card_not_63 (X : Subgroup (alternatingGroup (Fin 7)))
     (hX : Nat.card X = 63) : False := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fintype (Sylow 7 X) := Fintype.ofFinite _
+  let : Fintype X := Fintype.ofFinite X
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fintype (Sylow 7 X) := Fintype.ofFinite _
   let P7 : Sylow 7 X := default
   have h7card : Nat.card (P7 : Subgroup X) = 7 := by
     rw [Sylow.card_eq_multiplicity, hX, factorization_63_7]
@@ -837,7 +837,7 @@ private lemma card_not_63 (X : Subgroup (alternatingGroup (Fin 7)))
     interval_cases n : Nat.card (Sylow 7 X)
     all_goals try norm_num at hnmod' hndvd hnle
     all_goals try omega
-  haveI : (P7 : Subgroup X).Normal := sylow_normal_of_count_one h7count P7
+  have : (P7 : Subgroup X).Normal := sylow_normal_of_count_one h7count P7
   obtain ⟨z, hzne, hzpow, hzcent⟩ :=
     exists_order_three_centralizing_normal_seven (G := X) (N := (P7 : Subgroup X)) h7card hX
   have h7dvd : 7 ∣ Nat.card (P7 : Subgroup X) := by rw [h7card]
@@ -863,7 +863,7 @@ private lemma card_ge_one_add_order_counts
     (h7 : Nat.card {x : G // x ≠ 1 ∧ orderOf x = 7} = n7 * 6) :
     1 + n5 * 4 + n7 * 6 ≤ Nat.card G := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let S : Finset G := Finset.univ.filter (fun x : G => x ≠ 1)
   let A : Finset G := S.filter (fun x : G => orderOf x = 5)
   let B : Finset G := S.filter (fun x : G => orderOf x = 7)
@@ -919,9 +919,9 @@ private lemma exists_order_five_centralizing_normal_seven_of_card_105
     (hNcard : Nat.card N = 7) (hGcard : Nat.card G = 105) :
     ∃ z : G, z ≠ 1 ∧ orderOf z = 5 ∧ z ∈ Subgroup.centralizer (N : Set G) := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : IsCyclic N := isCyclic_of_prime_card hNcard
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : IsCyclic N := isCyclic_of_prime_card hNcard
   let φ : G →* MulAut N := MulAut.conjNormal (H := N)
   have hrange_dvd_G : Nat.card φ.range ∣ 105 := by simpa [hGcard] using Subgroup.card_range_dvd φ
   have hcardAut : Nat.card (MulAut N) = 6 := by
@@ -990,9 +990,9 @@ private lemma exists_order_seven_centralizing_normal_five_of_card_105
     (hNcard : Nat.card N = 5) (hGcard : Nat.card G = 105) :
     ∃ z : G, z ≠ 1 ∧ orderOf z = 7 ∧ z ∈ Subgroup.centralizer (N : Set G) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : IsCyclic N := isCyclic_of_prime_card hNcard
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : IsCyclic N := isCyclic_of_prime_card hNcard
   let φ : G →* MulAut N := MulAut.conjNormal (H := N)
   have hrange_dvd_G : Nat.card φ.range ∣ 105 := by simpa [hGcard] using Subgroup.card_range_dvd φ
   have hcardAut : Nat.card (MulAut N) = 4 := by
@@ -1068,11 +1068,11 @@ private lemma factorization_105_7 : (105 : ℕ).factorization 7 = 1 := by
 private lemma card_not_105 (X : Subgroup (alternatingGroup (Fin 7)))
     (hX : Nat.card X = 105) : False := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fintype (Sylow 5 X) := Fintype.ofFinite _
-  letI : Fintype (Sylow 7 X) := Fintype.ofFinite _
+  let : Fintype X := Fintype.ofFinite X
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fintype (Sylow 5 X) := Fintype.ofFinite _
+  let : Fintype (Sylow 7 X) := Fintype.ofFinite _
   let P5 : Sylow 5 X := default
   let P7 : Sylow 7 X := default
   have h5card : Nat.card (P5 : Subgroup X) = 5 := by
@@ -1104,7 +1104,7 @@ private lemma card_not_105 (X : Subgroup (alternatingGroup (Fin 7)))
     all_goals try (left; omega)
     all_goals try (right; omega)
   rcases h7cases with h7one | h7fifteen
-  · haveI : (P7 : Subgroup X).Normal := sylow_normal_of_count_one h7one P7
+  · have : (P7 : Subgroup X).Normal := sylow_normal_of_count_one h7one P7
     obtain ⟨z, hzne, hzord, hzcent⟩ :=
       exists_order_five_centralizing_normal_seven_of_card_105 (G := X) (N := (P7 : Subgroup X)) h7card hX
     have h7dvd : 7 ∣ Nat.card (P7 : Subgroup X) := by rw [h7card]
@@ -1121,7 +1121,7 @@ private lemma card_not_105 (X : Subgroup (alternatingGroup (Fin 7)))
       exact hprod
     exact no_order_35 (c : alternatingGroup (Fin 7)) hprodG
   · rcases h5cases with h5one | h5twentyone
-    · haveI : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5one P5
+    · have : (P5 : Subgroup X).Normal := sylow_normal_of_count_one h5one P5
       obtain ⟨z, hzne, hzord, hzcent⟩ :=
         exists_order_seven_centralizing_normal_five_of_card_105 (G := X) (N := (P5 : Subgroup X)) h5card hX
       have h5dvd : 5 ∣ Nat.card (P5 : Subgroup X) := by rw [h5card]
@@ -1207,13 +1207,13 @@ private lemma factorization_315_7 : (315 : ℕ).factorization 7 = 1 := by
 private lemma card_not_315 (X : Subgroup (alternatingGroup (Fin 7)))
     (hX : Nat.card X = 315) : False := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  letI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  letI : Fintype (Sylow 3 X) := Fintype.ofFinite _
-  letI : Fintype (Sylow 5 X) := Fintype.ofFinite _
-  letI : Fintype (Sylow 7 X) := Fintype.ofFinite _
+  let : Fintype X := Fintype.ofFinite X
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  let : Fintype (Sylow 3 X) := Fintype.ofFinite _
+  let : Fintype (Sylow 5 X) := Fintype.ofFinite _
+  let : Fintype (Sylow 7 X) := Fintype.ofFinite _
   let P3 : Sylow 3 X := default
   let P5 : Sylow 5 X := default
   let P7 : Sylow 7 X := default

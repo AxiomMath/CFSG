@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 private theorem s16k_fin_ne {n i j : ℕ} (hi : i < n) (hj : j < n) (h : i ≠ j) :
     (⟨i, hi⟩ : Fin n) ≠ ⟨j, hj⟩ := fun e => h (Fin.mk.inj_iff.1 e)
 
+omit [Finite K] in
 private theorem s16k_prod_update₂ {ι : Type} [Fintype ι] [DecidableEq ι] {i j : ι}
     (hij : i ≠ j) (c d : K) :
     ∏ k, Function.update (Function.update (1 : ι → K) i c) j d k = c * d := by
@@ -37,6 +38,7 @@ private noncomputable def s16k_diagGL (a : Fin n → K) (ha : ∀ i, a i ≠ 0) 
   Matrix.GeneralLinearGroup.mkOfDetNeZero (Matrix.diagonal a)
     (by rw [Matrix.det_diagonal]; exact Finset.prod_ne_zero_iff.mpr fun i _ => ha i)
 
+omit [Finite K] in
 private theorem s16k_diagGL_val (a : Fin n → K) (ha : ∀ i, a i ≠ 0) :
     ((s16k_diagGL a ha : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = Matrix.diagonal a :=
   Matrix.GeneralLinearGroup.val_mkOfDetNeZero _ _
@@ -55,12 +57,14 @@ private def s16k_stabVec (u : Fin n → K) : Subgroup (GL (Fin n) K) where
         Matrix.one_mulVec]
     rwa [ha] at h1
 
+omit [Finite K] in
 private theorem s16k_diagGL_mulVec_single {a : Fin n → K} (ha : ∀ i, a i ≠ 0) {j : Fin n}
     (haj : a j = 1) :
     ((s16k_diagGL a ha : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single j 1 =
       Pi.single j 1 := by
   rw [s16k_diagGL_val, Matrix.diagonal_mulVec_single, haj, one_mul]
 
+omit [Finite K] in
 private theorem s16k_diagGL_mulVec_add_single {a : Fin n → K} (ha : ∀ i, a i ≠ 0)
     {j k : Fin n} (haj : a j = 1) (hak : a k = 1) :
     ((s16k_diagGL a ha : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ
@@ -69,7 +73,7 @@ private theorem s16k_diagGL_mulVec_add_single {a : Fin n → K} (ha : ∀ i, a i
 
 private theorem s16k_pow_three_eq_one (hK : Nat.card K = 4) (c : K) (hc : c ≠ 0) :
     c ^ 3 = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h := FiniteField.pow_card_sub_one_eq_one c hc
   rw [← Nat.card_eq_fintype_card, hK] at h
   simpa using h
@@ -83,7 +87,7 @@ private theorem s16k_sigma_mul_self (hK : Nat.card K = 4) (c : K) (hc : c ≠ 0)
   rw [unitaryInvolution_apply, pow_one, ← pow_succ]
   exact s16k_pow_three_eq_one hK c hc
 
-private theorem s16k_sigma_fixed_eq_zero_or_one (hK : Nat.card K = 4) (x : K)
+private theorem s16k_sigma_fixed_eq_zero_or_one (_hK : Nat.card K = 4) (x : K)
     (hx : unitaryInvolution K 2 1 x = x) : x = 0 ∨ x = 1 := by
   have hx2 : x ^ 2 = x := by
     rw [unitaryInvolution_apply, pow_one] at hx
@@ -140,9 +144,9 @@ end Unitary
 
 theorem s16k_fixNc_statedSU_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     {n : ℕ} (hn : 5 ≤ n) : FixNc (StatedSU n 2 K) 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2)
       (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
@@ -192,31 +196,31 @@ theorem s16k_fixNc_statedSU_three {K : Type} [Field K] [Finite K] (hK : Nat.card
   let ay : Fin n → K := Function.update (Function.update (1 : Fin n → K) i2 ω) i4 ω⁻¹
   have hax_i2 : ax i2 = ω := by
     dsimp only [ax]
-    rw [Function.update_apply, if_neg h23, Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_right h23, Function.update_apply, ite_eq_left rfl]
   have hax_i3 : ax i3 = ω⁻¹ := by
-    dsimp only [ax]; rw [Function.update_apply, if_pos rfl]
+    dsimp only [ax]; rw [Function.update_apply, ite_eq_left rfl]
   have hax_i4 : ax i4 = 1 := by
-    dsimp only [ax]; rw [Function.update_apply, if_neg h43, Function.update_apply, if_neg h42]
+    dsimp only [ax]; rw [Function.update_apply, ite_eq_right h43, Function.update_apply, ite_eq_right h42]
     rfl
   have hax_i0 : ax i0 = 1 := by
-    dsimp only [ax]; rw [Function.update_apply, if_neg h03, Function.update_apply, if_neg h02]
+    dsimp only [ax]; rw [Function.update_apply, ite_eq_right h03, Function.update_apply, ite_eq_right h02]
     rfl
   have hax_i1 : ax i1 = 1 := by
-    dsimp only [ax]; rw [Function.update_apply, if_neg h13, Function.update_apply, if_neg h12]
+    dsimp only [ax]; rw [Function.update_apply, ite_eq_right h13, Function.update_apply, ite_eq_right h12]
     rfl
   have hay_i2 : ay i2 = ω := by
     dsimp only [ay]
-    rw [Function.update_apply, if_neg h24, Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_right h24, Function.update_apply, ite_eq_left rfl]
   have hay_i4 : ay i4 = ω⁻¹ := by
-    dsimp only [ay]; rw [Function.update_apply, if_pos rfl]
+    dsimp only [ay]; rw [Function.update_apply, ite_eq_left rfl]
   have hay_i3 : ay i3 = 1 := by
-    dsimp only [ay]; rw [Function.update_apply, if_neg h34, Function.update_apply, if_neg h32]
+    dsimp only [ay]; rw [Function.update_apply, ite_eq_right h34, Function.update_apply, ite_eq_right h32]
     rfl
   have hay_i0 : ay i0 = 1 := by
-    dsimp only [ay]; rw [Function.update_apply, if_neg h04, Function.update_apply, if_neg h02]
+    dsimp only [ay]; rw [Function.update_apply, ite_eq_right h04, Function.update_apply, ite_eq_right h02]
     rfl
   have hay_i1 : ay i1 = 1 := by
-    dsimp only [ay]; rw [Function.update_apply, if_neg h14, Function.update_apply, if_neg h12]
+    dsimp only [ay]; rw [Function.update_apply, ite_eq_right h14, Function.update_apply, ite_eq_right h12]
     rfl
   have hax0 : ∀ i, ax i ≠ 0 := by
     intro i
@@ -276,7 +280,7 @@ theorem s16k_fixNc_statedSU_three {K : Type} [Field K] [Finite K] (hK : Nat.card
   let y : GL (Fin n) K := s16k_diagGL ay hay0
   have hxSU : x ∈ SUid (unitaryInvolution K 2 1) n := s16k_diagGL_mem_SUid hax0 haxn hax_prod
   have hySU : y ∈ SUid (unitaryInvolution K 2 1) n := s16k_diagGL_mem_SUid hay0 hayn hay_prod
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     apply Units.ext
     have hcube : (ax ^ 3) = (fun _ => (1 : K)) := by
@@ -338,7 +342,7 @@ theorem s16k_fixNc_statedSU_three {K : Type} [Field K] [Finite K] (hK : Nat.card
   have hw0 : w 0 = e0 := by simp [w]
   have hw1 : w 1 = e0 + e1 := by
     simp only [w]
-    rw [if_neg (by decide : (1 : Fin 2) ≠ 0)]
+    rw [ite_eq_right (by decide : (1 : Fin 2) ≠ 0)]
   have hw : ∀ k, ∀ b ∈ B, (b : Matrix (Fin n) (Fin n) K) *ᵥ w k = w k := by
     intro k
     by_cases hk : k = 0

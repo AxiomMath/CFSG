@@ -40,12 +40,12 @@ private theorem dets : (mA hsData).det ≠ 0 ∧ (mB hsData).det ≠ 0 := by
 
 private theorem hA : MatP 20 KernelVec.HS.MA = matOf (J hsData).subtype (![a hsData, b hsData] 0) := by
   rw [show (![a hsData, b hsData] 0 : J hsData) = a hsData from rfl, matOf,
-    Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dif_pos dets.1,
+    Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dite_eq_left dets.1,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_MA]
 
 private theorem hB : MatP 20 KernelVec.HS.MB = matOf (J hsData).subtype (![a hsData, b hsData] 1) := by
   rw [show (![a hsData, b hsData] 1 : J hsData) = b hsData from rfl, matOf,
-    Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dif_pos dets.2,
+    Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dite_eq_left dets.2,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_MB]
 
 private theorem genG_eq : genG hsData = fun z => if z = 1 then a hsData else if z = -1 then

@@ -48,7 +48,7 @@ theorem ggTBJOrthLeft_rowR5O1_with_fixed_centralizer
       simp [MulAut.congr_apply, MulAut.conj_apply]⟩
   have hTB' := GGTorusTBGroup.mulEquiv (I' := Set.range (MulAut.conj :
       OrthRest.RMinus K m b c →* MulAut (OrthRest.RMinus K m b c))) e hIc' hTB
-  haveI hCP : CharP K 2 := charP_two_of_card hK
+  have hCP : CharP K 2 := charP_two_of_card hK
   let ψ₀ : ↥L →* OrthRest.RMinus K m b c := e.toMonoidHom.comp (ggQuotHom θ)
   obtain ⟨r, E, Δ, hE, σ, Θ, hψσ, hΘ, hWeyl, hW⟩ :=
     ggTBJ_om_stdModel hp hp2 hbc hm (by rw [hK]; exact hpq) ψ₀ _ hTB'
@@ -115,7 +115,7 @@ theorem ggTBJOrthLeft_chi_of_nativeModel
           (OrthTorus.rMinusEquiv K (n - 1) b c).symm g) ∧
         (∀ w, χ (Δ.τΩ hE w) = σ w) := by
   classical
-  haveI : Group.IsPerfect ↥L := ⟨hperf⟩
+  have : Group.IsPerfect ↥L := ⟨hperf⟩
   have hK : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -201,7 +201,7 @@ theorem ggTBJOrthLeft_chart_of_nativeModel
 
 theorem ggTBJOrthLeft_nativeModel_of_twD
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
-    {L D J : Subgroup G} (hcfg : GGConfig p B Bs x L D J) (hBsB : Bs = B)
+    {L D J : Subgroup G} (hcfg : GGConfig p B Bs x L D J) (_hBsB : Bs = B)
     {n f : ℕ} (hn : 4 ≤ n) (hf : 2 ≤ f)
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))} {i0 : Fin n}
     (hLB : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom = bCoordinateBlock n p i0)
@@ -259,9 +259,9 @@ theorem ggTBJOrthLeft_nativeModel_of_twD
   subst lab
   obtain ⟨K, fieldK, finiteK, b, c, hK, hbc, hQraw⟩ :=
     largeEvenRawDatum_twD_exact (n := n) (f := f) hn hraw
-  letI : Field K := fieldK
-  letI : Finite K := finiteK
-  haveI hCP : CharP K 2 := charP_two_of_card hK
+  let : Field K := fieldK
+  let : Finite K := finiteK
+  have hCP : CharP K 2 := charP_two_of_card hK
   obtain ⟨hs, hna, θ, hP⟩ := hQraw
   have hrowR5 : GGTBRowR5O1 p (⟨.twD, n, f⟩ : LargeEvenLabel) := hP.1.2
   have hN : Bs ≤ Subgroup.normalizer (L : Set G) := hP.2.1
@@ -379,7 +379,7 @@ theorem ggTBJOrthLeft_rowR5O2_with_fixed_centralizer
     e (fun φ hφ => by
       obtain ⟨g, rfl⟩ := hI φ hφ
       exact ⟨e g, by ext z; simp [MulAut.congr_apply, MulAut.conj_apply]⟩) hTB
-  haveI hCP : CharP K 2 := charP_two_of_card hK
+  have hCP : CharP K 2 := charP_two_of_card hK
   let ψ₀ : ↥L →* OrthRest.RMinus K m b c := e.toMonoidHom.comp (ggQuotHom θ)
   obtain ⟨r, E, Δ, hE, σ, Θ, hψσ, hΘ, hWeyl, hnf⟩ :=
     ggTBJ_om_stdModel_nf hp hp2 hbc hm hme (by rw [hK]; exact hpn) ψ₀ _ hTB'

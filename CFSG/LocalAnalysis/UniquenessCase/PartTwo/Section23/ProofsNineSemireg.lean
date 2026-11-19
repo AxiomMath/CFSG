@@ -12,17 +12,19 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barImage_sup_pCoreOf {M Q : Subgroup G} (hQM : Q ≤ M) :
     barImage M (pCoreOf 2 M ⊔ Q) = barImage M Q := by
   have h : barImage M (pCoreOf 2 M) = ⊥ := uc22p22u_barImage_pCore M
   unfold barImage at h ⊢
   rw [Subgroup.subgroupOf_sup (uc22p21c_pCoreOf_le M) hQM, Subgroup.map_sup, h, bot_sup_eq]
 
+omit [Finite G] in
 theorem injective_barImage_map {M Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hQM : Q ≤ M) (hQq : IsPGroup q Q) :
     Function.Injective ((uc22p21cPi M).comp (Subgroup.inclusion hQM)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdisj : Q ⊓ pCoreOf 2 M = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_ne q 2 hq2 Q (pCoreOf 2 M) hQq
       (uc22p21c_isPGroup_pCoreOf M))
@@ -43,6 +45,7 @@ theorem injective_barImage_map {M Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 
   calc x = x * y⁻¹ * y := by group
     _ = y := by rw [h4, one_mul]
 
+omit [Finite G] in
 private theorem triple_commutator_barImage {M Q : Subgroup G} {f : ↥Q →* Bar2 M}
     (hfr : (⊤ : Subgroup ↥Q).map f = barImage M Q) (hQcl : ⁅⁅Q, Q⁆, Q⁆ = ⊥) :
     ⁅⁅barImage M Q, barImage M Q⁆, barImage M Q⁆ = ⊥ := by
@@ -56,6 +59,7 @@ private theorem triple_commutator_barImage {M Q : Subgroup G} {f : ↥Q →* Bar
   rw [← hfr, ← Subgroup.map_commutator, ← Subgroup.map_commutator, htopcl,
     Subgroup.map_bot]
 
+omit [Finite G] in
 private theorem barImage_Q_props {M Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hQM : Q ≤ M) (hQq : IsPGroup q Q) (hQnc : ¬ IsCyclic Q)
     (hQexp : ∀ x ∈ Q, x ^ q = 1) (hQcl : ⁅⁅Q, Q⁆, Q⁆ = ⊥)
@@ -64,7 +68,7 @@ private theorem barImage_Q_props {M Q : Subgroup G} {q : ℕ} (hq : q.Prime) (hq
       (∀ y ∈ barImage M Q, y ^ q = 1) ∧
         ⁅⁅barImage M Q, barImage M Q⁆, barImage M Q⁆ = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let f : ↥Q →* Bar2 M := (uc22p21cPi M).comp (Subgroup.inclusion hQM)
   let Dbar : Subgroup (Bar2 M) := barImage M Q
   have hfr : (⊤ : Subgroup ↥Q).map f = Dbar := by

@@ -84,13 +84,13 @@ theorem rank_le_one_sandwich {K : Type*} [Field K] {n : ℕ} (A Y : Matrix (Fin 
   obtain ⟨a, φ, rfl⟩ := exists_vecMulVec_of_rank_le_one A hA
   ext i l
   simp only [Matrix.mul_apply, Matrix.vecMulVec_apply, Matrix.trace, Matrix.diag, Matrix.smul_apply,
-    smul_eq_mul, Finset.sum_mul, Finset.mul_sum]
+    smul_eq_mul, Finset.sum_mul]
   refine Finset.sum_congr rfl fun x _ => Finset.sum_congr rfl fun y _ => ?_
   ring
 
 theorem field_small_cases {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 2 ∨ Nat.card K = 4)
     (x : K) : x = 0 ∨ x = 1 ∨ x ^ 2 + x + 1 = 0 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card x
   rw [← Nat.card_eq_fintype_card] at h
   rcases hK with hK | hK

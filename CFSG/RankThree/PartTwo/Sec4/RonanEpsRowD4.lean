@@ -17,7 +17,7 @@ open CFSG.Assembly.RankThreeEven (projImage)
 
 theorem false_of_perfect_le_solvable {G : Type*} [Group G] {H K : Subgroup G}
     [Group.IsSolvable H] [Group.IsPerfect K] [Nontrivial K] (hKH : K ≤ H) : False := by
-  haveI : Group.IsSolvable K :=
+  have : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKH)
       (Subgroup.inclusion_injective hKH)
   exact (Group.IsPerfect.not_isSolvable K) inferInstance
@@ -62,18 +62,18 @@ theorem false_of_cfgSEps_conj_d4 {F : Type} [Field F] [Finite F] [CharP F 2] {f 
     RowV.autFix_conj_eq_centralizer z'
   have hKC := hc2.le_autFix
   rw [hfix] at hKC
-  haveI := hc2.isPerfect
-  haveI := hc2.nontrivial
+  have := hc2.isPerfect
+  have := hc2.nontrivial
   rcases hg with hS | hM
   ·
     rcases Sec11.KS11Lie6Proof.d4ThreeACent_holds F (2 ^ f) σ hF hσ h3f z' hS hz'3 hz'1 with
       hsolv | ⟨N, hNC, hcomm, hNq, x, hxN, hxc, hx1, hx3⟩
-    · haveI : Group.IsSolvable (Subgroup.centralizer
+    · have : Group.IsSolvable (Subgroup.centralizer
           ({z'} : Set (graphFixedRootGroup TwistTag.D4 F σ.toRingHom))) := hsolv
       exact false_of_perfect_le_solvable hKC
     · have hKN := le_of_isPerfect_of_commutators hKC hcomm
       have hNC' : N ≤ Sec4.autFix (MulAut.conj z') := by rw [hfix]; exact hNC
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact hc2.false_of_le_quasisimple_central hKN hNC' hNq hxN
         (fun n hn => (hxc n hn).symm) (orderOf_eq_prime hx3 hx1)
   ·
@@ -102,9 +102,9 @@ theorem noCfgSEps_trialityD4 {S : Type} [Group S] [Finite S]
   intro A σ K hc
   obtain ⟨F, _, _, hcharF, σF, hF, hσF, hσ3F, hf1, hsimp, ⟨φ⟩⟩ :=
     Res417Seven.exists_graphFixedRootGroup_of_trialityD4 hm
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 F σF.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 F σF.toRingHom) :=
     Finite.of_equiv _ φ.toEquiv
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hnaC : ∃ a b : graphFixedRootGroup TwistTag.D4 F σF.toRingHom, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     exact ⟨φ a, φ b, fun h => hab (φ.injective (by rw [map_mul, map_mul, h]))⟩
@@ -120,7 +120,7 @@ theorem noCfgSEps_trialityD4 {S : Type} [Group S] [Finite S]
     have hz1 : z ≠ 1 := fun h => hc1.ne_one (by rw [h, map_one])
     exact false_of_cfgSEps_conj_d4 hf1 hF hσF hσ3F hc1 hz3 hz1
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hεσ : Sec4.autFix σ ≃* Sec4.autFix (MulAut.congr φ σ) :=
       (Sec4.autFixCongrEquiv φ σ).symm
     by_cases hstd : Sec4.IsStdGraphFieldConj σF (MulAut.congr φ σ)
@@ -164,7 +164,7 @@ theorem noCfgSEps_trialityD4 {S : Type} [Group S] [Finite S]
             norm_num [Nat.mul_mod, Nat.pow_mod]
       obtain ⟨π, F', _, _, hPi, hq, ⟨e⟩⟩ := hPGL
       have h3 : ∃ k ∈ K, k ≠ 1 ∧ k ^ 3 = 1 := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         have hd : 3 ∣ Nat.card K :=
           (three_dvd_card_of_isTypeEpsCube (isTypeEpsCube_of_cfgSEps hc)).trans
             (Subgroup.card_quotient_dvd_card _)

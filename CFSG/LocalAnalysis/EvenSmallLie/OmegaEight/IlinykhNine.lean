@@ -410,7 +410,7 @@ theorem mem_blocksAt_none_iff (i : Fin 8) {ℓ : Finset (Option (Fin 8))} (h0 : 
     refine mem_powersetCard.mpr ⟨fun x hx => ?_, ?_⟩
     · rw [mem_eraseNone] at hx
       exact mem_erase.mpr ⟨fun hxi => hi (hxi ▸ hx), mem_univ _⟩
-    · rw [card_eraseNone_of_not_mem h0, hℓ]
+    · rw [card_eraseNone_of_notMem h0, hℓ]
   have h1 : insert none ℓ = insertNone T := by rw [insertNone_eraseNone]
   rw [h1, h.insertNone_mem_blocksAt_iff i T hT, h.blocksAt_none, mem_optBlocks]
   constructor

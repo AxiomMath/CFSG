@@ -37,7 +37,7 @@ theorem mirrorPath_p {α β α' : Geo H M} (P : CritPath α β α') {μ : Geo H 
     (hμ : μ ∈ nbrs α') (hd : dist μ β = bMin H M) (hb : 1 ≤ bMin H M) {i : ℕ} (hi : 1 ≤ i) :
     (mirrorPath P hμ hd hb).p i = P.p (bMin H M + 1 - i) := by
   show (if i = 0 then μ else P.p (bMin H M - (i - 1))) = _
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 1
   omega
 
@@ -81,7 +81,7 @@ theorem false_of_five (h4 : Claim4Spec H M S) (h5 : Claim5Spec H M S) (h6 : Clai
     (hI8 : IvBoundSpec H M S) (hH8 : FactH8) (hH11 : FactH11) (hH12 : FactH12)
     (hb : bMin H M = 5) (P : CritPath α β α') (h7 : Wnn β ≤ stab P.γ)
     {μ : Geo H M} (C' : Ctx H M S μ α' β) (P' : CritPath μ α' β) (h7' : Wnn α' ≤ stab P'.γ)
-    (hP'γ : P'.γ = P.p 2) (hP'δ : P'.δ = P.p 3) : False := by
+    (hP'γ : P'.γ = P.p 2) (_hP'δ : P'.δ = P.p 3) : False := by
   have hpγ : P.γ = P.p 4 := by show P.p (bMin H M - 1) = P.p 4; rw [hb]
   have hpδ : P.δ = P.p 3 := by show P.p (bMin H M - 2) = P.p 3; rw [hb]
   have hvγ := C.vtype_P_δ P

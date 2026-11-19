@@ -446,7 +446,7 @@ theorem mem_hyp_of_mem_O1465 {c : ℕ} (hc : c ∈ spanN Wb) (hc0 : c ≠ 0) (h 
     | false => rfl
     | true => exact absurd (beq_iff_eq.mp hh) hc0
   have h3 : (O1465.contains c) = true := List.contains_iff_mem.mpr h
-  simp only [h1, h2, h3, Bool.not_true, Bool.not_false, Bool.or_false, Bool.false_or] at hc'
+  simp only [h1, h2, h3, Bool.not_true, Bool.or_false, Bool.false_or] at hc'
   exact List.mem_flatMap.mp (List.contains_iff_mem.mp hc')
 
 theorem hypPts_length : hypPts.length = 6 := by

@@ -440,7 +440,7 @@ theorem mem_smallLayer {χ : L → ℂ} :
       ((H0 ⊔ lineFixerInf H H0 U Eline : Subgroup L) : Set L) ⊆ charValueKernel χ ∧
       χ 1 = ((q * (lineFixer H H0 U (Eline 0)).relIndex U : ℕ) : ℂ) := by
   classical
-  simp only [smallLayer, Finset.mem_filter, and_assoc]
+  simp only [smallLayer, Finset.mem_filter]
 
 theorem smallLayer_subset : smallLayer H H0 U Eline S ⊆ S := fun _ h => (mem_smallLayer.1 h).1
 
@@ -457,7 +457,7 @@ theorem mem_largeLayer {χ : L → ℂ} :
       ((H0 ⊔ lineFixerInf H H0 U Eline : Subgroup L) : Set L) ⊆ charValueKernel χ ∧
       χ 1 = ((q * (lineFixerInf H H0 U Eline).relIndex U : ℕ) : ℂ) := by
   classical
-  simp only [largeLayer, Finset.mem_filter, and_assoc]
+  simp only [largeLayer, Finset.mem_filter]
 
 theorem largeLayer_subset : largeLayer H H0 U Eline S ⊆ S := fun _ h => (mem_largeLayer.1 h).1
 
@@ -525,10 +525,12 @@ section ResConstituentsLinear
 
 variable {H H0 K : Subgroup L} [H.Normal] [H0.Normal]
 
+omit [H.Normal] in
 theorem coe_coe_subgroupOfEquivOfLe_symm (hHK : H ≤ K) (h : ↥H) :
     ((((Subgroup.subgroupOfEquivOfLe hHK).symm h : ↥(H.subgroupOf K)) : ↥K) : L) = (h : L) := by
   simp [Subgroup.subgroupOfEquivOfLe]
 
+omit [H.Normal] in
 theorem exists_monoidHom_units_of_mem_resConstituents [Finite L] (hHK : H ≤ K)
     [Fintype ↥(H.subgroupOf K)] (habel : IsMulCommutative (↥H ⧸ H0.subgroupOf H))
     {θ : ↥K → ℂ} (hθ : θ ∈ Irr ↥K)
@@ -752,7 +754,7 @@ theorem eq_zero_of_mem_scalarEqualityFamily [Fintype L] [K.Normal]
   rw [indClassFun_apply]
   refine mul_eq_zero_of_right _ (Finset.sum_eq_zero fun t _ => ?_)
   by_cases hmem : t⁻¹ * y * t ∈ K
-  · rw [dif_pos hmem]
+  · rw [dite_eq_left hmem]
     set z : ↥K := ⟨t⁻¹ * y * t, hmem⟩ with hzdef
     have hzcoe : (z : L) = t⁻¹ * y * t := rfl
     have hz1 : (z : L) ≠ 1 := by
@@ -767,7 +769,7 @@ theorem eq_zero_of_mem_scalarEqualityFamily [Fintype L] [K.Normal]
       exact hyA (by simpa [show t * (t⁻¹ * y * t) * t⁻¹ = y from by group] using h2)
     exact eq_zero_of_inf_centralizer_eq_bot hirr hdet
       (hc.inf_centralizer_subgroupOf_eq_bot hz1 hzA)
-  · rw [dif_neg hmem]
+  · rw [dite_eq_right hmem]
 
 omit hc in
 theorem scalarEqualityFamily_subset_virtualChars [Fintype L] :
@@ -852,6 +854,7 @@ theorem three_le_q : 3 ≤ q := by
   · exact hl
 
 omit hc in
+omit [H.Normal] in
 theorem eq_one_of_forall_line_apply_eq_one (hspan : ⨆ i, Eline i = ⊤)
     {lam : (↥H ⧸ H0.subgroupOf H) →* ℂˣ} (h : ∀ i, ∀ v ∈ Eline i, lam v = 1)
     (v : ↥H ⧸ H0.subgroupOf H) : lam v = 1 := by
@@ -859,7 +862,7 @@ theorem eq_one_of_forall_line_apply_eq_one (hspan : ⨆ i, Eline i = ⊤)
     hspan ▸ iSup_le fun i => fun w hw => MonoidHom.mem_ker.2 (h i w hw)
   exact MonoidHom.mem_ker.1 (hle (Subgroup.mem_top v))
 
-omit hc in
+omit hc [H.Normal] in
 theorem exists_line_apply_ne_one (hspan : ⨆ i, Eline i = ⊤)
     {lam : (↥H ⧸ H0.subgroupOf H) →* ℂˣ} {v : ↥H ⧸ H0.subgroupOf H} (hv : lam v ≠ 1) :
     ∃ i, ∃ w ∈ Eline i, lam w ≠ 1 := by
@@ -2067,9 +2070,9 @@ theorem exists_mem_irrKer_apply_one_eq_relIndex_inf_lineFixer [Fintype L] [K.Nor
 
 theorem relIndex_inf_lineFixer_eq_or [Fintype L] [K.Normal] {S : Finset (L → ℂ)}
     (hS : (S : Set (L → ℂ)) = scalarEqualityFamily K H H0 U Eline)
-    (h2a : 2 * (lineFixer H H0 U (Eline 0)).relIndex U = p - 1)
-    (hvu : (⁅U, U⁆ : Subgroup L).relIndex U = (lineFixerInf H H0 U Eline).relIndex U)
-    (hau : (lineFixer H H0 U (Eline 0)).relIndex U < (lineFixerInf H H0 U Eline).relIndex U)
+    (_h2a : 2 * (lineFixer H H0 U (Eline 0)).relIndex U = p - 1)
+    (_hvu : (⁅U, U⁆ : Subgroup L).relIndex U = (lineFixerInf H H0 U Eline).relIndex U)
+    (_hau : (lineFixer H H0 U (Eline 0)).relIndex U < (lineFixerInf H H0 U Eline).relIndex U)
     (hdeg2 : ∀ χ ∈ S, χ 1 = ((q * (lineFixer H H0 U (Eline 0)).relIndex U : ℕ) : ℂ) ∨
       χ 1 = ((q * (lineFixerInf H H0 U Eline).relIndex U : ℕ) : ℂ)) :
     ∀ i j : ZMod q, i ≠ j →

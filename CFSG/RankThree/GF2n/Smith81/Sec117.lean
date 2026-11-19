@@ -59,13 +59,14 @@ section Fin
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem exists_isMaxP {C R : Subgroup G} (hR : IsPGroup 2 R) (hRC : R ≤ C) :
     ∃ S, R ≤ S ∧ IsMaxP C S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR' : IsPGroup 2 (R.subgroupOf C) := hR.comap_of_injective C.subtype C.subtype_injective
   obtain ⟨X, hX⟩ := hR'.exists_le_sylow
   refine ⟨(X : Subgroup C).map C.subtype, fun x hx => ?_, Subgroup.map_subtype_le _,
-    X.isPGroup'.map _, fun P' hP' hle hleC => ?_⟩
+    X.isPGroup.map _, fun P' hP' hle hleC => ?_⟩
   · exact ⟨⟨x, hRC hx⟩, hX (show (⟨x, hRC hx⟩ : C) ∈ R.subgroupOf C from hx), rfl⟩
   · have hP'' : IsPGroup 2 (P'.subgroupOf C) :=
       hP'.comap_of_injective C.subtype C.subtype_injective
@@ -95,7 +96,7 @@ def IsMaxP.toSylow {C P : Subgroup G} (h : IsMaxP C P) : Sylow 2 C where
 
 theorem IsMaxP.exists_conj {C P T : Subgroup G} (hP : IsMaxP C P) (hT : IsMaxP C T) :
     ∃ c ∈ C, conjSubgroup c P = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq C hP.toSylow hT.toSylow
   refine ⟨c, c.2, ?_⟩
   have key2 : MulAut.conj c • (hP.toSylow : Subgroup C) = (hT.toSylow : Subgroup C) := by
@@ -105,7 +106,7 @@ theorem IsMaxP.exists_conj {C P T : Subgroup G} (hP : IsMaxP C P) (hT : IsMaxP C
     rw [← key2, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
     show ((MulAut.conj c)⁻¹ • x : C) ∈ P.subgroupOf C ↔ _
     rw [Subgroup.mem_subgroupOf]
-    simp [MulAut.smul_def, MulAut.conj_apply]
+    simp [MulAut.smul_def]
   have hC : ∀ x : G, (c : G)⁻¹ * x * c ∈ C → x ∈ C := by
     intro x h1
     have : x = c * ((c : G)⁻¹ * x * c) * (c : G)⁻¹ := by group
@@ -135,10 +136,12 @@ section Stroth
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem isPGroup_Q' (H : StrothHyp M Q Z) : IsPGroup 2 Q := by
   rw [H.hQ]
   exact (CFSG.RankThree.GF2n.inSubgroup_pCore_two M).1
 
+omit [Finite G] in
 theorem exists_ne_one_Z (H : StrothHyp M Q Z) : ∃ z ∈ Z, z ≠ 1 := by
   obtain ⟨⟨z, hz⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (by
     intro h
@@ -168,7 +171,7 @@ theorem exists_pow_conj (H : StrothHyp M Q Z) {k : G} (hkM' : k ∈ M)
     {z z' : G} (hz : z ∈ Z) (hz1 : z ≠ 1) (hz' : z' ∈ Z) (hz1' : z' ≠ 1) :
     ∃ i : ℕ, k ^ i * z * (k ^ i)⁻¹ = z' := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   set q := Nat.card Z with hq
   have hconjZ : ∀ (m : G), m ∈ M → ∀ v ∈ Z, m * v * m⁻¹ ∈ Z := fun m hm v hv =>
     (Subgroup.mem_normalizer_iff.mp (H.Z_normal.2 hm) v).mp hv
@@ -247,6 +250,7 @@ theorem line_of_ctx {X : Subgroup G} (hc : Ctx M Q Z X) [Finite K]
     rw [this]
     exact Subgroup.mul_mem_sup hxX h1
 
+omit [Finite G] in
 theorem exists_smul_of_perp {e₀ v : M₀.E} (he₀ : e₀ ≠ 0)
     (hv : ∀ e, M₀.B e e₀ = 0 → M₀.B v e = 0) : ∃ c : K, v = c • e₀ := by
   obtain ⟨e₁, he₁⟩ : ∃ e₁, M₀.B e₁ e₀ = 1 := by
@@ -339,10 +343,10 @@ theorem center_root_mem_Z (H : StrothHyp M Q Z) {a : G} (haQ : a ∈ Q) (haZ : a
 
 theorem exists_center_Z (H : StrothHyp M Q Z) {S : Subgroup G} (hS : IsPGroup 2 S)
     (hZS : Z ≤ S) (hSM : S ≤ M) : ∃ z ∈ Z, z ≠ 1 ∧ ∀ s ∈ S, s * z = z * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hS.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS.isNilpotent
   let N : Subgroup S := Z.subgroupOf S
-  haveI : N.Normal := ⟨fun n hn s => by
+  have : N.Normal := ⟨fun n hn s => by
     show ((s : G) * n * (s : G)⁻¹) ∈ Z
     exact (Subgroup.mem_normalizer_iff.mp (H.Z_normal.2 (hSM s.2)) n).mp hn⟩
   have hN : N ≠ ⊥ := by
@@ -367,14 +371,14 @@ theorem isMaxP_centralizer (H : StrothHyp M Q Z) {a : G} (haQ : a ∈ Q) (haZ : 
   have hPM : P ⊓ M = S := hS.2.2 _ (hP.to_le inf_le_left) (le_inf hSP hSM)
     (fun x hx => ⟨(Subgroup.mem_inf.mp hx).2, hPC (Subgroup.mem_inf.mp hx).1⟩)
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hP.isNilpotent
   have hlt' : S.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     rw [Subgroup.subgroupOf_eq_top] at htop
     exact hne (le_antisymm htop hSP)
-  obtain ⟨y, hyN, hyS⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt')
+  obtain ⟨y, hyN, hyS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt')
   have hyconj : ∀ t : P, (t : G) ∈ S ↔ (y : G) * t * (y : G)⁻¹ ∈ S := fun t =>
     Subgroup.mem_normalizer_iff.mp hyN t
   have hy1 : ∀ s ∈ S, (y : G) * s * (y : G)⁻¹ ∈ S := fun s hs =>
@@ -469,7 +473,7 @@ theorem exists_conj_sup_eq
     exact Subgroup.map_mono hLS'
   obtain ⟨K, _, _, _, γ, M₀, hD⟩ := stroth_globalModelData H
   obtain ⟨φ, hφπ, -, -⟩ := exists_actionHom_H0 H hD
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   let φ' := φ.comp (Subgroup.inclusion hS.1)
   let Λ : Subgroup (M₀.E ≃ₗ[K] M₀.E) := φ'.range
   have hΛ : IsPGroup 2 Λ := hS.2.1.of_surjective φ'.rangeRestrict φ'.rangeRestrict_surjective

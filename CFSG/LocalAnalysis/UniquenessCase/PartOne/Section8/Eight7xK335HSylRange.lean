@@ -20,6 +20,6 @@ theorem k335_isSylowOf_top {X : Type} [Group X] [Finite X] (S : Sylow 3 X) :
     CFSG.ABGLocalTools.IsSylowOf 3 (S : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.ABGLocalTools.isSylowOf_iff.mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8

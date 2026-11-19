@@ -22,7 +22,7 @@ set_option linter.unusedSectionVars false
 
 
 theorem fieldAutU_of_threeCentral_component {Q : Type} [Group Q] [Finite Q] {a : MulAut Q}
-    (hFa : FieldAutTwE6 Q a) (ha3 : a ^ 3 = 1) {z : Q} (hz : IsThreeCentral Q z) (haz : a z = z)
+    (hFa : FieldAutTwE6 Q a) (_ha3 : a ^ 3 = 1) {z : Q} (hz : IsThreeCentral Q z) (_haz : a z = z)
     {G : Type} [Group G] (hGp : Group.IsPerfect G) (p : G →* Q)
     (hker : p.ker ≤ Subgroup.center G)
     (hT : GLAPComponent 3 (Subgroup.centralizer ({z} : Set Q)) p.range) (α : MulAut G)
@@ -36,7 +36,7 @@ theorem fieldAutU_of_threeCentral_component {Q : Type} [Group Q] [Finite Q] {a :
   obtain ⟨η', m, hηc, hmc⟩ := hcompat η
   obtain ⟨ζ, hζ, hζη⟩ := exists_order_nine_unit_of_fieldAut hK' hη1 hηodd η' hηc
   obtain ⟨ω, hω⟩ := TwE6InnerAbs.exists_orderOf_three (L := L)
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   let γΓ : MulAut ↥D.S.Γ := MulAut.congr e₁ γ
   let Θ₂ : Q ≃* ↥D.S.Γ := (eC.trans e₁).trans γΓ
   have hz' := e6IsThreeCentral_map Θ₂ hz
@@ -125,13 +125,13 @@ set_option linter.unusedSectionVars false
 
 theorem e6_fieldAut_on_u3_component {X : Type} [Group X] [Finite X] {K B J : Subgroup X}
     {x y : X} (hK : IsComponentOf K ⊤) (hBel : IsElemAbelian 3 B)
-    (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hLie : IsLieQuot ↥K IsTwE6EightIndex)
+    (hBN : B ≤ Subgroup.normalizer (K : Set X)) (_hLie : IsLieQuot ↥K IsTwE6EightIndex)
     (hx : x ∈ B) (hy : y ∈ B)
     (hFx : FieldAutTwE6 (↥K ⧸ Subgroup.center ↥K) (actHom K ⟨x, hBN hx⟩))
     {z : ↥K ⧸ Subgroup.center ↥K} (hyz : actHom K ⟨y, hBN hy⟩ = MulAut.conj z)
     (hz : IsThreeCentral (↥K ⧸ Subgroup.center ↥K) z)
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set X)) J)
-    (hJL : IsLieQuot ↥J IsU3EightIndex)
+    (_hJL : IsLieQuot ↥J IsU3EightIndex)
     (hBJ : B ≤ Subgroup.normalizer (J : Set X)) :
     ∃ φ ∈ autImage (B.subgroupOf (Subgroup.centralizer ({y} : Set X)))
         (J.subgroupOf (Subgroup.centralizer ({y} : Set X))),
@@ -144,8 +144,8 @@ theorem e6_fieldAut_on_u3_component {X : Type} [Group X] [Finite X] {K B J : Sub
   have hJK : J ≤ K := hJ.1.trans inf_le_left
   have hJC : J ≤ C := hJ.1.trans inf_le_right
   have hKq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
-  haveI : Finite ↥K := Finite.of_injective _ K.subtype_injective
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) := inferInstance
+  have : Finite ↥K := Finite.of_injective _ K.subtype_injective
+  have : Finite (↥K ⧸ Subgroup.center ↥K) := inferInstance
   have hxN : x ∈ Subgroup.normalizer (K : Set X) := hBN hx
   have hyN : y ∈ Subgroup.normalizer (K : Set X) := hBN hy
   set a : MulAut (↥K ⧸ Subgroup.center ↥K) := actHom K ⟨x, hxN⟩ with ha
@@ -222,7 +222,7 @@ theorem e6_fieldAut_on_u3_component {X : Type} [Group X] [Finite X] {K B J : Sub
     rw [hyz, fixSubgroup_conj_eq_centralizer_e6] at hJ₂
     rw [hrange]
     exact hJ₂
-  haveI hJperf : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
+  have hJperf : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
   have hGp : Group.IsPerfect ↥J' :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact fieldAutU_of_threeCentral_component hFx ha3 hz haz hGp pQ hpQker hT _ hα3 hαa

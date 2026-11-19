@@ -35,8 +35,8 @@ private theorem le_dMinDeg_of_ppd {L : Type} [Group L] [Finite L] (hL : IsSimple
     {p k : ℕ} (hp : CFSG.Timmesfeld.IsPrimitivePrimeDivisor p k) (hk : 0 < k)
     (hdvd : p ∣ Nat.card L) :
     k ≤ dMinDeg L := by
-  haveI : Fact p.Prime := ⟨hp.prime⟩
-  haveI : Nontrivial L := hL.toNontrivial
+  have : Fact p.Prime := ⟨hp.prime⟩
+  have : Nontrivial L := hL.toNontrivial
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := L) p hdvd
   refine CFSG.LocalAnalysis.UniquenessCase.UC22.MinDegLow.le_dMinDeg (fun d f hf => ?_)
   have hker : f.ker = ⊥ := by
@@ -58,7 +58,7 @@ theorem dMinDeg_lower_bounds {L : Type} [Group L] [Finite L] {n : ℕ} :
     exact CFSG.LocalAnalysis.WeakClosure81.dMinDeg_eq_of_mulEquiv_sl2 hn2
       (e.trans (CFSG.Walter.psl2MulEquivSL2OfCharTwo (K := GaloisField 2 n)))
   · intro hSz
-    haveI hs : IsSimpleGroup L := uc22p22r_lieModel_isSimple_twistedB2 hSz
+    have hs : IsSimpleGroup L := uc22p22r_lieModel_isSimple_twistedB2 hSz
     have hn3 : 3 ≤ n := CFSG.LocalAnalysis.EvenBN.GMSK.three_le_of_lieModel_twistedB2 hSz
     have hcard : Nat.card L = CFSG.Open.ordSuzuki (2 ^ n) :=
       CFSG.LocalAnalysis.EvenBN.GMSK.card_eq_ordSuzuki_of_lieModel_twistedB2 hSz
@@ -78,7 +78,7 @@ theorem dMinDeg_lower_bounds {L : Type} [Group L] [Finite L] {n : ℕ} :
       exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_right hpadd ((2 ^ n) ^ 2)) (2 ^ n - 1)
     exact le_dMinDeg_of_ppd hs hp' (by omega) hdvd
   · intro hSp hn1
-    haveI hs : IsSimpleGroup L :=
+    have hs : IsSimpleGroup L :=
       uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hSp
     have hcard : Nat.card L = CFSG.Open.ordBC 2 (2 ^ n) := by
       rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (by norm_num : (2 : ℕ) ≠ 0) hSp]
@@ -94,7 +94,7 @@ theorem dMinDeg_lower_bounds {L : Type} [Group L] [Finite L] {n : ℕ} :
       exact dvd_mul_of_dvd_right (dvd_mul_of_dvd_right hp4 ((2 ^ n) ^ 2 - 1)) (2 ^ (n * 4))
     exact le_dMinDeg_of_ppd hs hp' (by omega) hdvd
   · intro hG2 hn1
-    haveI hs : IsSimpleGroup L := uc22p22r_lieModel_isSimple_G2 hG2
+    have hs : IsSimpleGroup L := uc22p22r_lieModel_isSimple_G2 hG2
     have hcard : Nat.card L = CFSG.Open.ordG2 (2 ^ n) := by
       have hce := hG2.chevalleyExceptionalModel (t := .G2) (by decide)
       simpa using CFSG.Timmesfeld.card_chevalleyExceptionalModel_two hce
@@ -109,7 +109,7 @@ theorem dMinDeg_lower_bounds {L : Type} [Group L] [Finite L] {n : ℕ} :
       exact dvd_mul_of_dvd_right (dvd_mul_of_dvd_left hp6 ((2 ^ n) ^ 2 - 1)) (2 ^ (n * 6))
     exact le_dMinDeg_of_ppd hs hp' (by omega) hdvd
   · intro hU4 hn1
-    haveI hs : IsSimpleGroup L :=
+    have hs : IsSimpleGroup L :=
       uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inl rfl)) hU4
     have hcard : Nat.card L = CFSG.Open.ordTwistedA 3 (2 ^ n) := by
       rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (by norm_num : (4 : ℕ) ≠ 0) hU4]
@@ -131,7 +131,7 @@ theorem dMinDeg_lower_bounds {L : Type} [Group L] [Finite L] {n : ℕ} :
         ((2 ^ n) ^ 6)
     exact le_dMinDeg_of_ppd hs hp' (by omega) hdvd
   · intro hU5
-    haveI hs : IsSimpleGroup L :=
+    have hs : IsSimpleGroup L :=
       uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inl rfl)) hU5
     have hcard : Nat.card L = CFSG.Open.ordTwistedA 4 (2 ^ 2) := by
       rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (by norm_num : (5 : ℕ) ≠ 0) hU5]

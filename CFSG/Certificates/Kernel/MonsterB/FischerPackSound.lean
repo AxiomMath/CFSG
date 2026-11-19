@@ -30,8 +30,8 @@ theorem fget_vecMulL (c w : Nat) : ∀ (R : List Nat) (v : Nat),
   | r :: R, v => by
     rw [List.map_cons, vecMulL_cons, vecMulL_cons, fget_xor, fget_vecMulL c w R]
     by_cases hb : v.testBit 0
-    · rw [if_pos hb, if_pos hb]
-    · rw [if_neg hb, if_neg hb, fget_zero]
+    · rw [ite_eq_left hb, ite_eq_left hb]
+    · rw [ite_eq_right hb, ite_eq_right hb, fget_zero]
 
 theorem fget_big {M w n m : Nat} (hM : M < 2 ^ (w * n)) (hm : n ≤ m) : fget M m w = 0 := by
   rw [fget_eq']

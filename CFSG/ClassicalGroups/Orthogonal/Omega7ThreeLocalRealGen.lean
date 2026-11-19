@@ -25,7 +25,7 @@ private theorem signChange_modelQuad_u {i : Fin 3} {s t a : K}
     (hst : s ^ 2 - s * t + t ^ 2 = a) :
     modelQuad K a (signChangeU i s t) = a := by
   rw [signChangeU, modelQuad_vecOf]
-  fin_cases i <;> simp [Pi.single_apply] <;> linear_combination hst
+  fin_cases i <;> simp <;> linear_combination hst
 
 private theorem signChange_modelQuad_z (a : K) :
     modelQuad K a (signChangeZ (K := K)) = a := by
@@ -37,7 +37,7 @@ private theorem signChange_modelPolar_u_vecOf (a : K) (i : Fin 3) (s t : K) (xs 
     modelPolar K a (signChangeU i s t) (vecOf K xs ys z) =
       (2 * s - t) * xs i + (2 * t - s) * ys i := by
   rw [signChangeU, modelPolar_vecOf]
-  fin_cases i <;> simp [Pi.single_apply] <;> ring
+  fin_cases i <;> simp <;> ring
 
 private theorem signChange_modelPolar_u (a : K) (i : Fin 3) (s t : K) (y : Idx → K) :
     modelPolar K a (signChangeU i s t) y =
@@ -54,7 +54,7 @@ private theorem signChangeR2_eq_inv_smul {a s t : K} (ha : a ≠ 0) :
   ext p q
   fin_cases p <;> fin_cases q <;>
     simp [signChangeR2, signChangeR2num, Matrix.smul_apply] <;>
-    field_simp [ha] <;> ring
+    field_simp [ha]
 
 private theorem signChangeR2num_mul_planeRot {s t : K} (k : ZMod 3) :
     signChangeR2num (s ^ 2 - s * t + t ^ 2) s t * planeRot K k =
@@ -90,11 +90,11 @@ private theorem signChange_modelRefl_z (F : Frame K) (x : Idx → K) :
         (-(x (.inr (.inr ())))) := by
   have hq : modelQuad K F.a (signChangeZ (K := K)) = F.a := signChange_modelQuad_z F.a
   have hp : modelPolar K F.a (signChangeZ (K := K)) x = 2 * F.a * x (.inr (.inr ())) := by
-    simp [modelPolar, signChangeZ, Fin.sum_univ_three]
+    simp [modelPolar, signChangeZ]
   funext p
   rcases p with j | j | u
-  · simp [modelRefl, hq, hp, signChangeZ]
-  · simp [modelRefl, hq, hp, signChangeZ]
+  · simp [modelRefl, signChangeZ]
+  · simp [modelRefl, signChangeZ]
   · rw [Subsingleton.elim u ()]
     rw [modelRefl, hq, hp]
     simp only [Pi.sub_apply, Pi.smul_apply, signChangeZ, vecOf_inr_inr]
@@ -118,7 +118,7 @@ private theorem signChange_modelRefl_u_inl (F : Frame K) (i : Fin 3) {s t : K}
         signChangeR2 F.a s t 0 1 * y (.inr (.inl i)) := by
   rw [modelRefl, signChange_modelQuad_u hst, signChange_modelPolar_u, Pi.sub_apply,
     Pi.smul_apply]
-  simp [signChangeU, signChangeR2, Pi.single_apply]
+  simp [signChangeU, signChangeR2]
   field_simp [F.a_ne_zero]
   ring
 
@@ -129,7 +129,7 @@ private theorem signChange_modelRefl_u_inr_inl (F : Frame K) (i : Fin 3) {s t : 
         signChangeR2 F.a s t 1 1 * y (.inr (.inl i)) := by
   rw [modelRefl, signChange_modelQuad_u hst, signChange_modelPolar_u, Pi.sub_apply,
     Pi.smul_apply]
-  simp [signChangeU, signChangeR2, Pi.single_apply]
+  simp [signChangeU, signChangeR2]
   field_simp [F.a_ne_zero]
   ring
 
@@ -138,14 +138,14 @@ private theorem signChange_modelRefl_u_inl_of_ne (F : Frame K) (i : Fin 3) {s t 
     modelRefl K F.a (signChangeU i s t) y (.inl j) = y (.inl j) := by
   rw [modelRefl, signChange_modelQuad_u hst, signChange_modelPolar_u, Pi.sub_apply,
     Pi.smul_apply, signChangeU]
-  simp [Pi.single_apply, hji]
+  simp [hji]
 
 private theorem signChange_modelRefl_u_inr_inl_of_ne (F : Frame K) (i : Fin 3) {s t : K}
     (hst : s ^ 2 - s * t + t ^ 2 = F.a) (y : Idx → K) {j : Fin 3} (hji : j ≠ i) :
     modelRefl K F.a (signChangeU i s t) y (.inr (.inl j)) = y (.inr (.inl j)) := by
   rw [modelRefl, signChange_modelQuad_u hst, signChange_modelPolar_u, Pi.sub_apply,
     Pi.smul_apply, signChangeU]
-  simp [Pi.single_apply, hji]
+  simp [hji]
 
 private theorem signChange_modelRefl_u_inr_inr (F : Frame K) (i : Fin 3) {s t : K}
     (hst : s ^ 2 - s * t + t ^ 2 = F.a) (y : Idx → K) :
@@ -195,7 +195,7 @@ private theorem signChange_refl_u_conj (F : Frame K) (i : Fin 3) {s t : K}
         signChange_modelRefl_u_plane F i hst y]
     congr 1
     congr 1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact (neg_one_mul (v i)).symm
   funext p
   rcases p with j | j | u

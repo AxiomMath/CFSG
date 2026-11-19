@@ -260,7 +260,7 @@ theorem false_of_frameA1_r (hr : 4 ≤ r) (hNo : NoQ16E4) (h4 : Thm4RBelow r n)
   rw [Set.pair_comm, hconst J' hJ' u' hu', hbot]
 
 theorem triv_or_triv_mul_gen {G : Type} [Group G] [Finite G] {Λ Q : Subgroup G} {w d : G}
-    (hw2 : w * w = 1) (hwΛ : ∀ y ∈ Λ, w * y * w⁻¹ ∈ Λ) (hQΛ : Q ≤ Λ) (hdΛ : d ∈ Λ)
+    (hw2 : w * w = 1) (hwΛ : ∀ y ∈ Λ, w * y * w⁻¹ ∈ Λ) (_hQΛ : Q ≤ Λ) (hdΛ : d ∈ Λ)
     (hd2 : d * d = 1) (hwQ : ∀ x ∈ Q, w * x = x * w)
     (hD : ∀ β : MulAut (↥Λ ⧸ classicalInvolutionOddCore ↥Λ), β * β = 1 →
       (∀ x ∈ (Q.subgroupOf Λ).map (QuotientGroup.mk' (classicalInvolutionOddCore ↥Λ)), β x = x) →

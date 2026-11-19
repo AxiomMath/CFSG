@@ -48,6 +48,7 @@ theorem exists_blockData (C : SpCover Y P r K I) (hr : 2 ≤ r) (hI : ∀ i ∈ 
   · refine eq_one_of_forall_commute_spResBlock (r - t) fun c hc => ?_
     exact resHom_commute_spResBlock hI₀ htI hmax hn hg hc
 
+omit [Finite A] [Finite K] in
 theorem exists_lift_hom (C : SpCover Y P r K I) {B : Subgroup A}
     (hBY : B ≤ Subgroup.normalizer (Y : Set A)) {Q : flagStabilizer r K I → Prop}
     (hex : ∀ b (hb : b ∈ B), ∃ g : flagStabilizer r K I,

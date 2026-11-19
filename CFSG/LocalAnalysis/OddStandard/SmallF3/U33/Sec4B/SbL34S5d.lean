@@ -11,11 +11,13 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma V_comm {B V : Subgroup G}
     (hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hVB : V ≤ B) :
     ∀ a ∈ V, ∀ b ∈ V, a * b = b * a :=
   fun a ha b hb => hBcomm a (hVB ha) b (hVB hb)
 
+omit [Finite G] in
 private lemma sigma_comm_mem {B V : Subgroup G} {σ : G}
     (hσB : ∀ b ∈ B, σ * b * σ⁻¹ ∈ B)
     (hσ2 : ∀ b ∈ B, (σ * σ) * b * (σ * σ)⁻¹ * b⁻¹ ∈ V)
@@ -35,6 +37,7 @@ private lemma sigma_comm_mem {B V : Subgroup G} {σ : G}
   rw [key]
   exact V.mul_mem hyb hsq
 
+omit [Finite G] in
 private lemma comm_mul_left {B V D : Subgroup G} {b₀ : G}
     (hDV : ∀ d ∈ D, ∀ v ∈ V, d * v = v * d)
     (hDB : ∀ d ∈ D, ∀ b ∈ B, d * b * d⁻¹ * b⁻¹ ∈ V)
@@ -46,6 +49,7 @@ private lemma comm_mul_left {B V D : Subgroup G} {b₀ : G}
   have hcomm : Commute x ⁅y, b₀⁆ := hDV x hx ⁅y, b₀⁆ hyV
   rw [commutatorElement_mul_left_eq_conj_mul, hcomm.mul_inv_cancel]
 
+omit [Finite G] in
 private lemma comm_sigma_fixed {B V D : Subgroup G} {σ b₀ : G}
     (hVBc : ∀ v ∈ V, ∀ b ∈ B, v * b = b * v)
     (hDV : ∀ d ∈ D, ∀ v ∈ V, d * v = v * d)
@@ -79,6 +83,7 @@ private lemma comm_sigma_fixed {B V D : Subgroup G} {σ b₀ : G}
         rw [conjugate_commutatorElement, hv_eq, hsb]
     _ = ⁅x, b₀⁆ := h4
 
+omit [Finite G] in
 private lemma Vf_ne {V : Subgroup G} {ρ σ : G}
     (hρ3 : ρ * ρ * ρ = 1) (hσρ : σ * ρ * σ⁻¹ = ρ⁻¹)
     (hρV : ∀ v ∈ V, ρ * v * ρ⁻¹ ∈ V)
@@ -117,7 +122,7 @@ private lemma Vf_ne {V : Subgroup G} {ρ σ : G}
   exact hne (hρv v hv)
 
 theorem exists_cent_elem (B V D : Subgroup G) (ρ σ : G)
-    (hV4 : Nat.card V = 4) (hVsq : ∀ v ∈ V, v * v = 1)
+    (hV4 : Nat.card V = 4) (_hVsq : ∀ v ∈ V, v * v = 1)
     (hVB : V ≤ B) (hB16 : Nat.card B = 16)
     (hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hBsq : ∀ b ∈ B, b * b ∈ V)
     (hVBc : ∀ v ∈ V, ∀ b ∈ B, v * b = b * v)

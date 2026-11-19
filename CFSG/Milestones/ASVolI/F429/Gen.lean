@@ -38,13 +38,13 @@ theorem burnsideF429_le_normalizer_pCore_inf [Gp.Normal] (X : Subgroup E) :
 
 theorem burnsideF429_pCore_inf_le [Finite E] [Gp.Normal] (X : Subgroup E) :
     pCoreOf 2 (Gp ⊓ X) ≤ pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 _).trans inf_le_right)
     (burnsideF429_le_normalizer_pCore_inf X) (pCoreOf_isPGroup 2 _)
 
 theorem burnsideF429_pCore_inf_Gp_le [Finite E] [Gp.Normal] (X : Subgroup E) :
     pCoreOf 2 X ⊓ Gp ≤ pCoreOf 2 (Gp ⊓ X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_pCoreOf_of_le_normalizer 2 (le_inf inf_le_right (inf_le_left.trans (pCoreOf_le 2 X)))
     ?_ ((pCoreOf_isPGroup 2 X).to_le inf_le_left)
   intro g hg
@@ -86,7 +86,7 @@ theorem burnsideF429_le_of_odd [Finite E] [Gp.Normal] (hodd : Odd Gp.index) {P :
 
 theorem burnsideF429_sbar_le_oPPrime [Finite E] {P : Subgroup E}
     (hP : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ P) : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ oPPrime 2 P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro s hs
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (pCoreOf_isPGroup 2 (Gp ⊓ (M₁ ⊓ M₂)))) ⟨s, hs⟩
   exact Subgroup.subset_closure ⟨hP hs, k, by rw [← hk, Subgroup.orderOf_mk]⟩
@@ -112,9 +112,9 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 
 theorem burnsideF429_T_inf_Gp (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : T ⊓ Gp = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (le_inf (burnsideF429_sbar_le hT)
     ((pCoreOf_le 2 _).trans inf_le_left))
   have hSyl := burnsideF429_sylowBar_inf hyp (M := M₁ ⊓ M₂) le_rfl
@@ -128,8 +128,8 @@ theorem burnsideF429_T_inf_Gp (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup
 
 theorem burnsideF429_T_eq_of_odd (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hodd : Odd Gp.index)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : T = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   rw [← burnsideF429_T_inf_Gp hyp hT]
   exact (inf_eq_left.2 (burnsideF429_le_of_odd hodd hT.2.1)).symm
 
@@ -144,9 +144,9 @@ theorem burnsideF429_C2_of_odd (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hodd : Odd 
 
 theorem burnsideF429_C4_of_odd (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hodd : Odd Gp.index) :
     burnsideF429_C4 Gp M₁ M₂ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨burnsideF429_pCore_eq_of_le (burnsideF429_le_of_odd hodd (pCoreOf_isPGroup 2 _)),
     burnsideF429_pCore_eq_of_le (burnsideF429_le_of_odd hodd (pCoreOf_isPGroup 2 _)),
     burnsideF429_pCore_eq_of_le (burnsideF429_le_of_odd hodd (pCoreOf_isPGroup 2 _))⟩
@@ -159,15 +159,15 @@ theorem burnsideF429_C6_of_odd (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hodd : Odd 
 theorem burnsideF429_ctr_of_le (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) (hZ : ctr T ≤ Gp) :
     ctr T = ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ⊓ Subgroup.centralizer (T : Set E) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_ctr_eq_of_le hT (burnsideF429_T_inf_Gp hyp hT).le hZ
 
 theorem burnsideF429_normalizer_sbar_inf (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
     Gp ⊓ Subgroup.normalizer ((pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) : Subgroup E) : Set E) ≤
       Gp ⊓ (M₁ ⊓ M₂) := by
-  haveI := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨S, hS, hB⟩, -⟩ := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   have hSB : S ≤ Gp ⊓ (M₁ ⊓ M₂) := by
     rw [hB]
@@ -182,7 +182,7 @@ theorem burnsideF429_normalizer_sbar_inf (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
 
 theorem burnsideF429_normalizer_sbar_le (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
     Subgroup.normalizer ((pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) : Subgroup E) : Set E) ≤ M₁ ⊓ M₂ := by
-  haveI := hyp.normal
+  have := hyp.normal
   intro x hx
   obtain ⟨n, hn, h, hh, rfl⟩ := hyp.split x
   have hhN := burnsideF429_le_normalizer_pCore_inf (Gp := Gp) (M₁ ⊓ M₂) hh
@@ -195,9 +195,9 @@ theorem burnsideF429_normalizer_sbar_le (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) :
 theorem burnsideF429_pCore_le_normalizer_sbar (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {M : Subgroup E}
     (hM : M₁ ⊓ M₂ ≤ M) :
     pCoreOf 2 M ≤ Subgroup.normalizer ((pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) : Subgroup E) : Set E) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set R := pCoreOf 2 M with hRdef
   have hSB : S ≤ Gp ⊓ (M₁ ⊓ M₂) := pCoreOf_le 2 _
@@ -233,9 +233,9 @@ theorem burnsideF429_C4_of_key (hyp : HypF_4_4 κ 2 f Gp M₁ M₂)
     (hkey : ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp) :
     burnsideF429_C4 Gp M₁ M₂ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have step : ∀ X : Subgroup E, pCoreOf 2 X ≤ M₁ ⊓ M₂ → Gp ⊓ (M₁ ⊓ M₂) ≤ X →
       pCoreOf 2 (Gp ⊓ X) ≤ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) → pCoreOf 2 X ≤ Gp := by
     intro X hXB hBX hXS r hr

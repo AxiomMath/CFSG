@@ -15,6 +15,7 @@ open scoped MatrixGroups
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem weyl_not_mem_borelSL : CFSG.PSL2Table.weyl (F := F) ∉ CFSG.PSL2Table.borelSL F := by
   rw [CFSG.PSL2Table.mem_borelSL_iff]
   simp [CFSG.PSL2Table.coe_weyl]
@@ -24,7 +25,7 @@ theorem not_normalizer_le_borel {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2)
     (hD : IsPGroup d D) :
     ¬ Subgroup.normalizer (D : Set (SL(2, F))) ≤ CFSG.PSL2Table.borelSL F := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   intro hnorm
   by_cases hDB : D ≤ CFSG.PSL2Table.borelSL F
   ·
@@ -98,7 +99,7 @@ theorem not_normalizer_le_borel {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2)
       have hAB1 : A * B⁻¹ = 1 := hker (A * B⁻¹) h1
       exact mul_inv_eq_one.mp hAB1
     have hcyc : IsCyclic D := isCyclic_of_injective χ hχinj
-    letI : IsCyclic D := hcyc
+    let : IsCyclic D := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := D)
     have hgord : orderOf g = Nat.card D := orderOf_eq_card_of_forall_mem_zpowers hg
     let A : SL(2, F) := (g : SL(2, F))
@@ -226,6 +227,7 @@ theorem exists_normalizer_not_mem_borel {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2)
   by_contra hxB
   exact h ⟨x, hx, hxB⟩
 
+omit [Finite F] in
 theorem card_center_SL_le_two : Nat.card (Subgroup.center (SL(2, F))) ≤ 2 := by
   classical
   let f : Subgroup.center (SL(2, F)) → Fin 2 :=

@@ -66,7 +66,7 @@ theorem sign_eq_one
       have he : f v = 1 := FixedNormalizerCyclicPreimageSylow.inside_le_kernel Q h
       rw [hvf] at he
       exact hpr (Equiv.swap_eq_one_iff.mp he)
-    have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup'.map _
+    have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup.map _
     have hvN : orderOf v = 2 := (Subgroup.orderOf_coe v).symm.trans hvorder
     have hvp : IsPGroup 2 (Subgroup.zpowers v) := IsPGroup.of_card (n := 1) (by
       rw [Nat.card_zpowers, hvN, pow_one])

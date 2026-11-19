@@ -58,7 +58,7 @@ theorem card_mulAut_le_of_outer' {G : Type*} [Group G] [Finite G] {k : ℕ}
 theorem alt_case {L : Type} [Group L] [Finite L] (hq : CFSG.Open.IsQuasisimple L)
     (hA : AltCentralQuotient L) (h7 : ¬ 7 ∣ Nat.card L)
     (haut : 3 ^ 8 ∣ Nat.card (MulAut L)) : False := by
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
   obtain ⟨n, hn, ⟨e⟩⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Alt.alt_data hA hq
   have hcard : Nat.card L = Nat.card (L ⧸ Subgroup.center L) * Nat.card (Subgroup.center L) :=
     (Subgroup.center L).card_eq_card_quotient_mul_card_subgroup
@@ -89,7 +89,7 @@ theorem spor_case (hSpM : SporadicMultipliers) (hOut : SporadicOuterLeTwo)
     (hOrd : SporadicOrdersTable) {L : Type} [Group L] [Finite L] (hq : CFSG.Open.IsQuasisimple L)
     (hS : SporCentralQuotient L) (h3 : 3 ∣ Nat.card (Subgroup.center L))
     (h7 : ¬ 7 ∣ Nat.card L) (haut : 3 ^ 8 ∣ Nat.card (MulAut L)) : False := by
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
   obtain ⟨s, ⟨e⟩⟩ := hS
   have hs := eq_of_three_dvd_sporadicMultiplierOrder
     (h3.trans (card_center_dvd_sporadicMultiplierOrder hSpM hq s e))
@@ -101,7 +101,7 @@ theorem spor_case (hSpM : SporadicMultipliers) (hOut : SporadicOuterLeTwo)
   · exact h7s (by decide +kernel)
   ·
     have hsimple : IsSimpleGroup (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group := by
-      haveI := hq.2
+      have := hq.2
       exact e.symm.isSimpleGroup
     have hnab : ∃ a b : (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group,
         a * b ≠ b * a := by
@@ -109,9 +109,9 @@ theorem spor_case (hSpM : SporadicMultipliers) (hOut : SporadicOuterLeTwo)
       refine ⟨e a, e b, fun h => hab (e.injective ?_)⟩
       rw [map_mul, map_mul]
       exact h
-    haveI : Finite (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group :=
+    have : Finite (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group :=
       Finite.of_equiv _ e.toEquiv
-    haveI : Finite (MulAut (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group) :=
+    have : Finite (MulAut (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.J3).Group) :=
       Finite.of_injective (fun f => (f : _ → _)) DFunLike.coe_injective
     have hZS := center_eq_bot_of_isSimpleGroup hnab
     have hOutS := hOut _ hsimple hnab TauCeti.SporadicName.J3 ⟨MulEquiv.refl _⟩
@@ -248,7 +248,7 @@ theorem lie_case (hGA : GriessAllModelsStatement) (hLO : LieOrderFormulasInput)
     (hL : LieCentralQuotient L) (h3 : 3 ∣ Nat.card (Subgroup.center L))
     (h7 : ¬ 7 ∣ Nat.card L) (hB : Nat.card L ∣ orderBabyMonster)
     (haut : 3 ^ 8 ∣ Nat.card (MulAut L)) : False := by
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
   obtain ⟨idx, ⟨e⟩⟩ := hL
   obtain ⟨t, n, p, f, hm⟩ := exists_lieModel idx
   have hadm : StatedLieAdmissible t n p f := hm.1

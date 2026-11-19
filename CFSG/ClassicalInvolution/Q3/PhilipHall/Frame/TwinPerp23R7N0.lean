@@ -103,7 +103,7 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
     ∃ Z : Subgroup Y, (∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a) ∧ (∀ a ∈ Z, a * a = 1) ∧
       (e : Y) ∈ Z ∧ (t : Y) ∈ Z ∧ Z ≤ C ∧ Z ≤ Subgroup.centralizer ({(u : Y)} : Set Y) ∧
       (∀ c ∈ C, ∃ o ∈ oddCoreOf C, ∃ m ∈ C ⊓ Subgroup.normalizer (Z : Set Y), c = o * m) ∧
-      (∀ a (ha : a ∈ Z), ∃ hC : a ∈ C, F7I.piC C ⟨a, hC⟩ ∈ Pb) := by
+      (∀ a (_ha : a ∈ Z), ∃ hC : a ∈ C, F7I.piC C ⟨a, hC⟩ ∈ Pb) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := F7I.piC C with hπ
   set P : Subgroup Y := (Pb.comap π).map C.subtype with hPdef
@@ -157,7 +157,7 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
     intro b
     refine ⟨1, ?_⟩
     ext
-    simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+    simp only [pow_one, Subgroup.coe_one, pow_two]
     exact sq_eq_one_of_mem_closure hXc hX2 b b.2
   set H := P ⊔ Subgroup.zpowers (u : Y) with hHdef
   have hBH : B ≤ H := by
@@ -194,18 +194,18 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
     · rintro _ ⟨c, hc, rfl⟩
       exact ⟨c, Subgroup.mem_sup_left hc, rfl⟩
     · refine (Subgroup.zpowers_le).mpr ⟨u, Subgroup.mem_sup_right (Subgroup.mem_zpowers _), rfl⟩
-  have hTPu : ∀ a (ha : a ∈ T), π ⟨a, hTC ha⟩ ∈ Pu := by
-    intro a ha
-    obtain ⟨c, hc, hca⟩ := hHPu (hT.1 ha)
-    have : c = ⟨a, hTC ha⟩ := Subtype.ext hca
+  have hTPu : ∀ a (_ha : a ∈ T), π ⟨a, hTC _ha⟩ ∈ Pu := by
+    intro a _ha
+    obtain ⟨c, hc, hca⟩ := hHPu (hT.1 _ha)
+    have : c = ⟨a, hTC _ha⟩ := Subtype.ext hca
     rw [← this]
     exact hc
   have hTab : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := by
-    intro a ha b hb
-    have h1 : π (⟨a, hTC ha⟩ * ⟨b, hTC hb⟩) = π (⟨b, hTC hb⟩ * ⟨a, hTC ha⟩) := by
+    intro a _ha b hb
+    have h1 : π (⟨a, hTC _ha⟩ * ⟨b, hTC hb⟩) = π (⟨b, hTC hb⟩ * ⟨a, hTC _ha⟩) := by
       rw [map_mul, map_mul]
-      exact hPuc _ (hTPu a ha) _ (hTPu b hb)
-    have h2 := F7I.piC_inj hT2 (T.mul_mem ha hb) (T.mul_mem hb ha) h1
+      exact hPuc _ (hTPu a _ha) _ (hTPu b hb)
+    have h2 := F7I.piC_inj hT2 (T.mul_mem _ha hb) (T.mul_mem hb _ha) h1
     exact congrArg Subtype.val h2
   have hZT : Z ≤ T := inf_le_left
   have hZ2 : IsPGroup 2 Z := hT2.to_le hZT
@@ -218,7 +218,7 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
       intro a
       refine ⟨1, ?_⟩
       ext
-      simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+      simp only [pow_one, Subgroup.coe_one, pow_two]
       exact hP2 a a.2
     obtain ⟨n, hn⟩ := hPb2.exists_card_eq
     have hidx : O.relIndex P = 2 ^ n := by
@@ -235,21 +235,21 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
     have h3 : (O ⊔ Z).relIndex P = 1 := Nat.Coprime.eq_one_of_dvd hcop h2
     exact Subgroup.relIndex_eq_one.mp h3
   have hZN : Z ≤ Subgroup.normalizer (O : Set Y) := hZC.trans (Sec7.le_normalizer_oddCoreOf C)
-  refine ⟨Z, fun a ha b hb => hTab a (hZT ha) b (hZT hb), ?_, ⟨hBT (Subgroup.subset_closure
+  refine ⟨Z, fun a _ha b hb => hTab a (hZT _ha) b (hZT hb), ?_, ⟨hBT (Subgroup.subset_closure
     (by simp [hXdef])), (memP e).mpr heP⟩, ⟨hBT (Subgroup.subset_closure (by simp [hXdef])),
     (memP t).mpr htP⟩, hZC, ?_, ?_, ?_⟩
-  · intro a ha
-    have haC := hZC ha
-    obtain ⟨c, hc, hca⟩ := (inf_le_right : Z ≤ P) ha
+  · intro a _ha
+    have haC := hZC _ha
+    obtain ⟨c, hc, hca⟩ := (inf_le_right : Z ≤ P) _ha
     have hc' : c = ⟨a, haC⟩ := Subtype.ext hca
     have h1 : π (⟨a, haC⟩ * ⟨a, haC⟩) = π 1 := by
       rw [map_mul, map_one, ← hc']
       exact hP2 _ hc
-    have h2 := F7I.piC_inj hZ2 (Z.mul_mem ha ha) Z.one_mem h1
+    have h2 := F7I.piC_inj hZ2 (Z.mul_mem _ha _ha) Z.one_mem h1
     exact congrArg Subtype.val h2
-  · intro a ha
+  · intro a _ha
     have huT : (u : Y) ∈ T := hBT (Subgroup.subset_closure (by simp [hXdef]))
-    exact Subgroup.mem_centralizer_singleton_iff.mpr (hTab _ huT a (hZT ha)).symm
+    exact Subgroup.mem_centralizer_singleton_iff.mpr (hTab _ huT a (hZT _ha)).symm
   · intro c hc
     have hcZ : conjSub c Z ≤ P := by
       rintro _ ⟨z, hz, rfl⟩
@@ -271,10 +271,10 @@ theorem exists_zdata (C : Subgroup Y) (Pb : Subgroup (↥C ⧸ classicalInvoluti
       have hnN : (o * z)⁻¹ * c ∈ Subgroup.normalizer (Z : Set Y) :=
         mem_normalizer_iff_conjSub_eq.mpr (conjSub_inv_mul_eq heq.symm)
       exact Subgroup.mul_mem _ hzN hnN
-  · intro a ha
-    refine ⟨hZC ha, ?_⟩
-    obtain ⟨c, hc, hca⟩ := (inf_le_right : Z ≤ P) ha
-    have hc' : c = ⟨a, hZC ha⟩ := Subtype.ext hca
+  · intro a _ha
+    refine ⟨hZC _ha, ?_⟩
+    obtain ⟨c, hc, hca⟩ := (inf_le_right : Z ≤ P) _ha
+    have hc' : c = ⟨a, hZC _ha⟩ := Subtype.ext hca
     rw [← hc']
     exact hc
 

@@ -256,7 +256,7 @@ theorem srel_S_le_normalizer_U (h : SRel fr) :
         rcases hz' with rfl | rfl
         · exact hh0a1
         · exact hh0b1
-    | one => simpa using Subgroup.one_mem (closure {fr.a₁, fr.b₁} : Subgroup Γ)
+    | one => simp
     | mul y z hy hz' ihy ihz =>
         rw [show fr.h₀ * (y * z) * fr.h₀⁻¹
               = (fr.h₀ * y * fr.h₀⁻¹) * (fr.h₀ * z * fr.h₀⁻¹) by group]

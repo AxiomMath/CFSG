@@ -87,9 +87,9 @@ theorem burnsideF4r_d4_ident (hyp : HypF_4_4 .D4tw 2 1 Gp M₁ M₂) (hs : IsSim
     ∃ χ : D ≃* ↥Gp, burnsideF48_img χ d4H = Gp ⊓ M₁ ∧ burnsideF48_img χ d4N = Gp ⊓ M₂ ∧
       χ d4z = φ (D4q.Loc.zC σ) := by
   classical
-  haveI : Finite E := hyp.finite
-  haveI : Finite D := finite_D
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Finite D := finite_D
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD' : IsLieOverTwo .trialityD4 0 1 ↥Gp := burnsideF48_lieModel_D4 hyp.model
   obtain ⟨ε₀⟩ := nonempty_equiv_trialityGroup8 ↥Gp hD'
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
@@ -214,7 +214,7 @@ theorem burnsideF4r_d4_zbar (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (hs :
     (χ : D ≃* ↥Gp) (hχ1 : burnsideF48_img χ d4H = Gp ⊓ M₁)
     (hχ2 : burnsideF48_img χ d4N = Gp ⊓ M₂) :
     ∃ h : ((χ d4z : ↥Gp) : E) ∈ M₁, burnsideF4d_bOne β ε ⟨_, h⟩ = z := by
-  haveI : Finite D := finite_D
+  have : Finite D := finite_D
   have hχM1 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₁ ↔ x ∈ d4H := fun x => by
     rw [burnsideF48s_d42_mem_iff χ hχ1 (χ x), MulEquiv.symm_apply_apply]
   have hχM2 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₂ ↔ x ∈ d4N := fun x => by
@@ -273,7 +273,7 @@ theorem burnsideF4r_d4_cent_top (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (
     (hzb : burnsideF4d_bOne β ε ⟨_, hz1⟩ = z) {g : D} (hgN : g ∈ d4N)
     (ht : ((χ (g * d4t * g⁻¹) : ↥Gp) : E) ∈ M₂) :
     Subgroup.centralizer ({burnsideF4d_bTwo β ε ⟨_, ht⟩} : Set M) ≤ MiTwo β ε := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hχM1 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₁ ↔ x ∈ d4H := fun x => by
     rw [burnsideF48s_d42_mem_iff χ hχ1 (χ x), MulEquiv.symm_apply_apply]
   have hχM2 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₂ ↔ x ∈ d4N := fun x => by
@@ -340,10 +340,10 @@ theorem burnsideF4r_d4_cent_ext (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (
     (hzb : burnsideF4d_bOne β ε ⟨_, hz1⟩ = z) {g : D} (hgN : g ∈ d4N)
     (ht : ((χ (g * d4t * g⁻¹) : ↥Gp) : E) ∈ M₂) :
     Subgroup.centralizer ({burnsideF4d_bTwo β ε ⟨_, ht⟩} : Set M) ≤ MiTwo β ε := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI : Finite D := finite_D
-  haveI : Gp.Normal := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have : Finite D := finite_D
+  have : Gp.Normal := hyp.amalgam.normal
   have hχM1 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₁ ↔ x ∈ d4H := fun x => by
     rw [burnsideF48s_d42_mem_iff χ hχ1 (χ x), MulEquiv.symm_apply_apply]
   have hχM2 : ∀ x : D, ((χ x : ↥Gp) : E) ∈ M₂ ↔ x ∈ d4N := fun x => by
@@ -351,7 +351,7 @@ theorem burnsideF4r_d4_cent_ext (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (
   obtain ⟨hcA, -⟩ := d4_card_aut hD'
   have hcardE := burnsideF48s_d42_card_E hcA χ hyp.amalgam.centralizer_trivial hGp
   have hinj := burnsideF48s_d42_conjHom_injective Gp χ.symm hyp.amalgam.centralizer_trivial
-  haveI : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
+  have : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
     rw [← hcardE]
     exact Nat.card_pos.ne')
   obtain ⟨cE, hcE⟩ : ∃ cE : E ≃* MulAut D, ∀ e, cE e = burnsideF48s_d42_conjHom Gp χ.symm e :=
@@ -455,8 +455,8 @@ theorem burnsideF4r_A42_D4 (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (hf : 
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .D4tw Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have hf1 : 1 ≤ f := hyp.amalgam.model.2.1
   obtain rfl : f = 1 := by omega
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
@@ -493,7 +493,7 @@ theorem burnsideF4r_A42_D4 (hyp : HypF_4_31 .D4tw f Gp M₁ M₂ β ε z) (hf : 
     · show ((φ (D4q.Loc.tC σ hσ3) * φ (D4q.Loc.tC σ hσ3) : ↥Gp) : E) = 1
       rw [← map_mul, D4q.Loc.tC_mul_self σ hσ3, map_one]
       rfl
-    · rw [if_pos rfl, hS]
+    · rw [ite_eq_left rfl, hS]
       refine ⟨φ b, ⟨b, hbS, rfl⟩, ?_⟩
       show (φ b : E) = (φ c : E) * (φ (D4q.Loc.tC σ hσ3) : E) * ((φ c : E))⁻¹
       rw [← hc]

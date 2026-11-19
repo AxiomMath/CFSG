@@ -27,7 +27,7 @@ private theorem w172_modd_eq_one_or_eq {K : Type*} [Group K] {e a : K} (he : e *
   · right
     rw [hk, h, zpow_add, zpow_mul, he2, one_zpow, one_mul, zpow_one]
 
-private theorem w172_modd_eq_of_zpowers_eq {K : Type*} [Group K] {e f : K} (he : e * e = 1)
+private theorem w172_modd_eq_of_zpowers_eq {K : Type*} [Group K] {e f : K} (_he : e * e = 1)
     (hf : f * f = 1) (he1 : e ≠ 1) (h : Subgroup.zpowers e = Subgroup.zpowers f) : e = f := by
   have hmem : e ∈ Subgroup.zpowers f := h ▸ Subgroup.mem_zpowers e
   rcases w172_modd_eq_one_or_eq hf hmem with h1 | h1

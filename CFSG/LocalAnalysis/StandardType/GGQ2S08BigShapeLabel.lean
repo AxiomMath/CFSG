@@ -43,16 +43,16 @@ private lemma ggQ2s08bs1_mem_span_xV (M : GGQ2LDatum 3 Bs L x) (v : M.V)
   let H : Subgroup (MulAut ↥Bs) :=
     { carrier := {φ | ggLin (p := 3) M.model φ v = v}
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [map_one]
         rfl
       mul_mem' := by
         intro φ ψ hφ hψ
-        simp only [Set.mem_setOf_eq] at hφ hψ ⊢
+        simp only [Set.mem_ofPred_eq] at hφ hψ ⊢
         rw [map_mul, LinearEquiv.mul_apply, hψ, hφ]
       inv_mem' := by
         intro φ hφ
-        simp only [Set.mem_setOf_eq] at hφ ⊢
+        simp only [Set.mem_ofPred_eq] at hφ ⊢
         apply (ggLin (p := 3) M.model φ).injective
         rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
         rw [hφ]

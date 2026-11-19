@@ -19,10 +19,10 @@ private theorem exists_B_eq_one {b : M₀.E} (hb0 : b ≠ 0) :
 
 private theorem FlagData.fix_of_mem_F' {d₀ : M₀.E} {Dd : Submodule K M₀.E}
     {Λd F' : Subgroup (M₀.E ≃ₗ[K] M₀.E)} (hd : FlagData M₀ d₀ Dd Λd)
-    {W : AddSubgroup M₀.E} (hF' : F' ≤ Λd) (hF'W : ∀ g ∈ F', ∀ w ∈ W, g w ∈ W)
-    (hWDd : ∀ w ∈ W, w ∈ Dd → w = 0) :
-    ∀ g ∈ F', ∀ w ∈ W, M₀.B w d₀ = 0 → g w = w :=
-  fun g hg w hw hwd => hd.fix_of_perp hWDd (hF' hg) (hF'W g hg) hw hwd
+    {W : AddSubgroup M₀.E} (hF' : F' ≤ Λd) (hF'W : ∀ g ∈ F', ∀ _w ∈ W, g _w ∈ W)
+    (hWDd : ∀ _w ∈ W, _w ∈ Dd → _w = 0) :
+    ∀ g ∈ F', ∀ _w ∈ W, M₀.B _w d₀ = 0 → g _w = _w :=
+  fun g hg _w hw hwd => hd.fix_of_perp hWDd (hF' hg) (hF'W g hg) hw hwd
 
 private theorem FlagData.fix_of_mem_E' {c₀ d₀ : M₀.E} {Dc : Submodule K M₀.E}
     {Λc E' F' : Subgroup (M₀.E ≃ₗ[K] M₀.E)} {W : AddSubgroup M₀.E}

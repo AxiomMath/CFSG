@@ -72,7 +72,7 @@ theorem perp_conj_mem_inter {a c k x : G} (hk : k ∈ Gxy a c) (hx : x ∈ orb2A
   · rw [mul_conj_eq hk2]
     simpa [hka] using isConj_conj (k := k) hx2cx
 
-theorem perp_conj_mem_sSet {a z x c k : G} (h : IsF5Type a z) (hk : k ∈ Gx a) (i : Fin 6)
+theorem perp_conj_mem_sSet {a z x c k : G} (_h : IsF5Type a z) (hk : k ∈ Gx a) (i : Fin 6)
     (hc : c ∈ sSet a z x i) : k * c * k⁻¹ ∈ sSet a z (k * x * k⁻¹) i := by
   fin_cases i <;> simp [sSet, -isConj_iff] at hc ⊢
   · obtain ⟨hbase, hAc⟩ := hc
@@ -94,7 +94,7 @@ theorem perp_conj_mem_sSet {a z x c k : G} (h : IsF5Type a z) (hk : k ∈ Gx a) 
   · obtain ⟨hbase, hp⟩ := hc
     exact ⟨conj_mem_sBase hk hbase, by rw [mul_conj_eq hk, conj_pow, hp]⟩
 
-theorem perp_self_mem_inter {a z b c : G} (h : IsF5Type a z) (hb : b ∈ orb2A a a)
+theorem perp_self_mem_inter {a z b c : G} (_h : IsF5Type a z) (hb : b ∈ orb2A a a)
     (hc : c ∈ sBase a b) : b ∈ orb2A a a ∩ orb2A a c := by
   obtain ⟨_, hbc, _⟩ := hc
   exact ⟨hb, hb.1, IsConj.trans hbc (isConj_iff.mpr ⟨c, by group⟩)⟩

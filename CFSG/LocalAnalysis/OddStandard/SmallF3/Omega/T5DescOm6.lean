@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_centralizer_of_mem_centerIn {t : G} (ht : t ∈ centerIn L) :
     t ∈ centralizer (L : Set G) := by
   obtain ⟨a, ha, haeq⟩ := Subgroup.mem_map.mp ht
@@ -104,7 +105,7 @@ theorem t5_isOm6M_descL (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 : 
     Subgroup.map_center_le_center (QuotientGroup.mk'_surjective O)
       (Subgroup.mem_map_of_mem (QuotientGroup.mk' O) htL_center)
   have hmaple : O.map f ≤ O' := by
-    haveI : O.Normal := CFSG.oddCore_normal A
+    have : O.Normal := CFSG.oddCore_normal A
     have hnormal : (O.map f).Normal := (inferInstance : O.Normal).map f hf
     have hodd : Odd (Nat.card (O.map f)) :=
       hOddO.of_dvd_nat (Subgroup.card_map_dvd (H := O) f)
@@ -177,6 +178,7 @@ theorem t5_desc_orderOf (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 : 
     exact absurd h1 hne
   · exact h2
 
+omit [Finite G] in
 theorem t5_desc_mem_normalizer (L : Subgroup G) (t : G) {s : G} (hs : s ∈ normalizer (L : Set G)) :
     descElt L t s hs ∈ normalizer (DescL L t : Set (DescG L t)) := by
   apply Subgroup.le_normalizer_map (descMk L t)

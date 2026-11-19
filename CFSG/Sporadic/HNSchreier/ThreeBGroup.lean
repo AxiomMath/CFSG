@@ -56,11 +56,13 @@ theorem cmul {v w1 w2 : C} {e1 e2 : ℕ} (h1 : v * w1 = z ^ e1 * (w1 * v))
     _ = z ^ e1 * (z ^ e2 * (w1 * (w2 * v))) := by rw [h2, zl hz e2 w1]
     _ = z ^ (e1 + e2) * (w1 * w2 * v) := by rw [zz]; simp only [mul_assoc]
 
+omit hz in
 theorem rev {u v : C} {m : ℕ} (hz3 : z ^ 3 = 1) (h : v * u = z ^ m * (u * v)) :
     u * v = z ^ (2 * m) * (v * u) := by
   have e : 2 * m + m = 3 * m := by ring
   rw [h, ← mul_assoc, ← pow_add, e, pow_mul, hz3, one_pow, one_mul]
 
+omit hz in
 theorem conj_of {v x : C} {e : ℕ} (hz3 : z ^ 3 = 1) (h : v * x = z ^ e * (x * v)) :
     x * v * x⁻¹ = z ^ (2 * e) * v := by
   have e3 : 2 * e + e = 3 * e := by ring
@@ -103,12 +105,18 @@ theorem c23 : xs c 2 * xs c 3 = z ^ 2 * (xs c 3 * xs c 2) := by rw [pow_two]; ex
 omit hz h in
 theorem cii (i : ℕ) : xs c i * xs c i = z ^ 0 * (xs c i * xs c i) := by rw [pow_zero, one_mul]
 
-theorem c10 : xs c 1 * xs c 0 = z ^ (2 * 0) * (xs c 0 * xs c 1) := rev hz (z3 h) (c01 h)
-theorem c20 : xs c 2 * xs c 0 = z ^ (2 * 1) * (xs c 0 * xs c 2) := rev hz (z3 h) (c02 h)
-theorem c30 : xs c 3 * xs c 0 = z ^ (2 * 1) * (xs c 0 * xs c 3) := rev hz (z3 h) (c03 h)
-theorem c21 : xs c 2 * xs c 1 = z ^ (2 * 0) * (xs c 1 * xs c 2) := rev hz (z3 h) (c12 h)
-theorem c31 : xs c 3 * xs c 1 = z ^ (2 * 1) * (xs c 1 * xs c 3) := rev hz (z3 h) (c13 h)
-theorem c32 : xs c 3 * xs c 2 = z ^ (2 * 2) * (xs c 2 * xs c 3) := rev hz (z3 h) (c23 h)
+omit hz in
+theorem c10 : xs c 1 * xs c 0 = z ^ (2 * 0) * (xs c 0 * xs c 1) := rev (z3 h) (c01 h)
+omit hz in
+theorem c20 : xs c 2 * xs c 0 = z ^ (2 * 1) * (xs c 0 * xs c 2) := rev (z3 h) (c02 h)
+omit hz in
+theorem c30 : xs c 3 * xs c 0 = z ^ (2 * 1) * (xs c 0 * xs c 3) := rev (z3 h) (c03 h)
+omit hz in
+theorem c21 : xs c 2 * xs c 1 = z ^ (2 * 0) * (xs c 1 * xs c 2) := rev (z3 h) (c12 h)
+omit hz in
+theorem c31 : xs c 3 * xs c 1 = z ^ (2 * 1) * (xs c 1 * xs c 3) := rev (z3 h) (c13 h)
+omit hz in
+theorem c32 : xs c 3 * xs c 2 = z ^ (2 * 2) * (xs c 2 * xs c 3) := rev (z3 h) (c23 h)
 
 omit h in
 theorem v_nf {v : C} {m0 m1 m2 m3 : ℕ} (h0 : v * xs c 0 = z ^ m0 * (xs c 0 * v))
@@ -126,10 +134,10 @@ theorem x_nf {j : ℕ} (hj : j < 4) (a b0 b1 b2 b3 : ℕ) : ∃ w : ℕ,
     xs c j * nf z c a b0 b1 b2 b3 = z ^ w * (nf z c a b0 b1 b2 b3 * xs c j) ∧
       w % 3 = [b2 + b3, b3, 2 * b0 + 2 * b3, 2 * b0 + 2 * b1 + b2].getD j 0 % 3 := by
   interval_cases j
-  · exact ⟨_, v_nf hz (cii 0) (c01 h) (c02 h) (c03 h) a b0 b1 b2 b3, by simp <;> omega⟩
-  · exact ⟨_, v_nf hz (c10 hz h) (cii 1) (c12 h) (c13 h) a b0 b1 b2 b3, by simp <;> omega⟩
-  · exact ⟨_, v_nf hz (c20 hz h) (c21 hz h) (cii 2) (c23 h) a b0 b1 b2 b3, by simp <;> omega⟩
-  · exact ⟨_, v_nf hz (c30 hz h) (c31 hz h) (c32 hz h) (cii 3) a b0 b1 b2 b3, by simp <;> omega⟩
+  · exact ⟨_, v_nf hz (cii 0) (c01 h) (c02 h) (c03 h) a b0 b1 b2 b3, by simp⟩
+  · exact ⟨_, v_nf hz (c10 h) (cii 1) (c12 h) (c13 h) a b0 b1 b2 b3, by simp⟩
+  · exact ⟨_, v_nf hz (c20 h) (c21 h) (cii 2) (c23 h) a b0 b1 b2 b3, by simp⟩
+  · exact ⟨_, v_nf hz (c30 h) (c31 h) (c32 h) (cii 3) a b0 b1 b2 b3, by simp; omega⟩
 
 theorem x_mul_nf {j : ℕ} (hj : j < 4) (a b0 b1 b2 b3 : ℕ) :
     ∃ a' b0' b1' b2' b3', xs c j * nf z c a b0 b1 b2 b3 = nf z c a' b0' b1' b2' b3' := by
@@ -139,14 +147,14 @@ theorem x_mul_nf {j : ℕ} (hj : j < 4) (a b0 b1 b2 b3 : ℕ) :
   interval_cases j
   · rw [zl hz a (xs c 0), ← mul_assoc (xs c 0) (xs c 0 ^ b0), ← pow_succ']
     exact ⟨_, _, _, _, _, rfl⟩
-  · rw [zl hz a (xs c 1), pp hz (c10 hz h) b0, ← mul_assoc (xs c 1) (xs c 1 ^ b1), ← pow_succ',
+  · rw [zl hz a (xs c 1), pp hz (c10 h) b0, ← mul_assoc (xs c 1) (xs c 1 ^ b1), ← pow_succ',
       zz]
     exact ⟨_, _, _, _, _, rfl⟩
-  · rw [zl hz a (xs c 2), pp hz (c20 hz h) b0, pp hz (c21 hz h) b1,
+  · rw [zl hz a (xs c 2), pp hz (c20 h) b0, pp hz (c21 h) b1,
       ← mul_assoc (xs c 2) (xs c 2 ^ b2), ← pow_succ']
     simp only [xl, zz]
     exact ⟨_, _, _, _, _, rfl⟩
-  · rw [zl hz a (xs c 3), pp hz (c30 hz h) b0, pp hz (c31 hz h) b1, pp hz (c32 hz h) b2,
+  · rw [zl hz a (xs c 3), pp hz (c30 h) b0, pp hz (c31 h) b1, pp hz (c32 h) b2,
       ← pow_succ']
     simp only [xl, zz]
     exact ⟨_, _, _, _, _, rfl⟩
@@ -258,7 +266,7 @@ theorem card_R : Nat.card (rR c) = 243 := by
         ⟨b3 % 3, Nat.mod_lt _ (by norm_num)⟩), ?_⟩
       exact Subtype.ext (nf_mod h a b0 b1 b2 b3).symm
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
-  simp [Nat.card_prod]
+  simp
 
 theorem center_R {g : C} (hg : g ∈ rR c) (hc : ∀ j < 4, xs c j * g = g * xs c j) :
     ∃ a : ℕ, g = z ^ a := by
@@ -291,7 +299,7 @@ theorem center_R {g : C} (hg : g ∈ rR c) (hc : ∀ j < 4, xs c j * g = g * xs 
 theorem conj_x0 {g : C} (hg : g ∈ rR c) : ∃ k : ℕ, g * xs c 0 * g⁻¹ = z ^ k * xs c 0 := by
   obtain ⟨a, b0, b1, b2, b3, rfl⟩ := (mem_R_iff hz h).1 hg
   obtain ⟨w, hw, -⟩ := x_nf hz h (j := 0) (by norm_num) a b0 b1 b2 b3
-  exact ⟨_, conj_of hz (z3 h) hw⟩
+  exact ⟨_, conj_of (z3 h) hw⟩
 
 theorem nf_ne (m m' : ℕ) : z ^ m * xs c 0 ≠ z ^ m' * (xs c 0 * (xs c 2 * xs c 2)) := by
   intro e
@@ -422,7 +430,7 @@ theorem card_H : Nat.card (closure ({a, b} : Set C)) = 8 := by
       · exact ⟨(⟨i % 4, Nat.mod_lt _ (by norm_num)⟩, true),
           Subtype.ext (by simp only [f, ↓reduceIte]; rw [← hmod i])⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
-  simp [Nat.card_prod]
+  simp
 
 include a4 ane bsq aba in
 theorem invol_H {t : C} (ht : t ∈ closure ({a, b} : Set C)) (htt : t * t = 1) (ht1 : t ≠ 1) :
@@ -452,7 +460,7 @@ theorem fact29160 : (29160 : ℕ).factorization 2 = 3 ∧ (29160 : ℕ).factoriz
     Nat.factorization_mul (by norm_num) (by norm_num), Nat.factorization_pow,
     Nat.factorization_pow, Nat.prime_two.factorization, Nat.prime_three.factorization,
     Nat.prime_five.factorization]
-  simp [Finsupp.single_apply]
+  simp
 
 open scoped Pointwise in
 theorem conj_into [Finite C] {p : ℕ} [Fact p.Prime] {Q : Subgroup C}
@@ -539,6 +547,7 @@ theorem R_le_K : rR c ≤ kK c := by
   · exact mul_mem (mul_mem (mul_mem (mul_mem (g 6 (by norm_num)) (g 1 (by norm_num)))
       (g 6 (by norm_num))) (g 4 (by norm_num))) (g 0 (by norm_num))
 
+omit hz in
 theorem mem_S [Finite C] {g : C} (hg : g ∈ sS c) :
     ∃ r ∈ rR c, ∃ k : ℕ, g = r * c 0 ^ k := by
   have step : ∀ x ∈ insert (c 0) (rR c : Set C), ∀ g : C, (∃ r ∈ rR c, ∃ k : ℕ, g = r * c 0 ^ k) →
@@ -592,7 +601,7 @@ theorem card_S [Finite C] : Nat.card (sS c) = 729 := by
       subst hr
       rfl
     · rintro ⟨g, hg⟩
-      obtain ⟨r, hr, k, rfl⟩ := mem_S hz h hg
+      obtain ⟨r, hr, k, rfl⟩ := mem_S h hg
       exact ⟨(⟨r, hr⟩, ⟨k % 3, Nat.mod_lt _ (by norm_num)⟩),
         Subtype.ext (by simp only [f]; rw [← pow_mod_of hc3])⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
@@ -689,7 +698,7 @@ theorem threeB_core [Finite C] (hC : Nat.card C = 29160) (hy : y = c 6 * c 0 * c
     intro g hg e he
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := conj_into (Q := sS c) (by rw [card_S hz h, hC, f3]; norm_num) he
-    obtain ⟨r, hr, j, hj⟩ := mem_S hz h hk
+    obtain ⟨r, hr, j, hj⟩ := mem_S h hk
     have hs := hK0 g hg k
     have hc3 : c 0 ^ 3 = 1 := pow3_of h.c0_cube
     by_cases hj3 : j % 3 = 0
@@ -767,7 +776,7 @@ theorem pw_map (f : C →* G) (c : ℕ → C) (j : ℕ) : f (pw z c j) = pw (f z
 theorem rels_of_map {y : C} {c : ℕ → C} (f : C →* G) (hf : Function.Injective f)
     (h : Rels (f z) (f y) (f ∘ c)) : Rels z y c := by
   have hqa : f (qa c) = qa (f ∘ c) := by simp [qa]
-  have hqb : f (qb c) = qb (f ∘ c) := by simp [qb, map_list_prod]
+  have hqb : f (qb c) = qb (f ∘ c) := by simp [qb]
   have hpw : (⇑f ∘ pw z c) = pw (f z) (⇑f ∘ c) := funext (pw_map f c)
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact hf (by simpa using h.z_cube)

@@ -155,15 +155,15 @@ theorem cfInner_primeTIrow_primeTIrow (h : IsPrimeCyclicTIHyp K W₁ W₂)
         = if j = k then (1 : ℂ) else 0 := by
     intro i
     rw [cfInner_sum_right, Finset.sum_eq_single_of_mem i (Finset.mem_univ i)
-      (fun l _ hli => by rw [h.cfInner_primeTIirr hσ, if_neg (by simp [Ne.symm hli])]),
+      (fun l _ hli => by rw [h.cfInner_primeTIirr hσ, ite_eq_right (by simp [Ne.symm hli])]),
       h.cfInner_primeTIirr hσ]
     by_cases hjk : j = k <;> simp [hjk]
   rw [IsPrimeCyclicTIHyp.primeTIrow_def, IsPrimeCyclicTIHyp.primeTIrow_def, cfInner_sum_left,
     Finset.sum_congr rfl fun i _ => hterm i]
   by_cases hjk : j = k
-  · rw [if_pos hjk, if_pos hjk, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,
+  · rw [ite_eq_left hjk, ite_eq_left hjk, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,
       ← Nat.card_eq_fintype_card, card_Irr_eq_card_of_isMulCommutative]
-  · rw [if_neg hjk, if_neg hjk, Finset.sum_const, smul_zero]
+  · rw [ite_eq_right hjk, ite_eq_right hjk, Finset.sum_const, smul_zero]
 
 theorem star_primeTIrow (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) (j : Irr ↥W₂)
@@ -230,20 +230,20 @@ theorem cfInner_rowEtaSum [IsMulCommutative ↥W₁]
         = if j = k then (1 : ℂ) else 0 := by
     intro i
     rw [cfInner_sum_right, Finset.sum_eq_single_of_mem i (Finset.mem_univ i) (fun l _ hli => by
-      rw [hW.cfInner_prodCharEta hω, if_neg (by
+      rw [hW.cfInner_prodCharEta hω, ite_eq_right (by
         rintro ⟨h1, -⟩
         exact hli (irrMapSubtype_injective L W₁ h1.symm))]),
       hW.cfInner_prodCharEta hω]
     by_cases hjk : j = k
     · subst hjk; simp
-    · rw [if_neg (by rintro ⟨-, h2⟩; exact hjk (irrMapSubtype_injective L W₂ h2)), if_neg hjk]
+    · rw [ite_eq_right (by rintro ⟨-, h2⟩; exact hjk (irrMapSubtype_injective L W₂ h2)), ite_eq_right hjk]
   rw [rowEtaSum_def, rowEtaSum_def, cfInner_smul_left, cfInner_smul_right, cfInner_sum_left,
     Finset.sum_congr rfl fun i _ => hterm i]
   by_cases hjk : j = k
-  · rw [if_pos hjk, if_pos hjk, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,
+  · rw [ite_eq_left hjk, ite_eq_left hjk, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,
       ← Nat.card_eq_fintype_card, card_Irr_eq_card_of_isMulCommutative]
     rcases hδ with rfl | rfl <;> norm_num
-  · rw [if_neg hjk, if_neg hjk, Finset.sum_const, smul_zero, mul_zero, mul_zero]
+  · rw [ite_eq_right hjk, ite_eq_right hjk, Finset.sum_const, smul_zero, mul_zero, mul_zero]
 
 end RowEta
 
@@ -383,17 +383,17 @@ theorem exists_isCoherentWith_primeTIrowFam [K.Normal]
     intro j k
     rw [hudef, cfInner_primeTIrow_primeTIrow h hB.isometry]
     by_cases hjk : j = k
-    · rw [if_pos hjk, if_pos (by rw [hjk])]
-    · rw [if_neg hjk, if_neg fun hc => hjk (Subtype.ext hc)]
+    · rw [ite_eq_left hjk, ite_eq_left (by rw [hjk])]
+    · rw [ite_eq_right hjk, ite_eq_right fun hc => hjk (Subtype.ext hc)]
   have hgramv : ∀ j k, cfInner (v j) (v k) = if j = k then (Nat.card ↥W₁ : ℂ) else 0 := by
     intro j k
     rw [hvdef, cfInner_rowEtaSum hW hω hB.sign]
     by_cases hjk : j = k
-    · rw [if_pos hjk, if_pos (by rw [hjk])]
-    · rw [if_neg hjk, if_neg fun hc => hjk (Subtype.ext hc)]
+    · rw [ite_eq_left hjk, ite_eq_left (by rw [hjk])]
+    · rw [ite_eq_right hjk, ite_eq_right fun hc => hjk (Subtype.ext hc)]
   have hgne : ∀ _j : {j : Irr ↥W₂ // j ≠ principalIrr ↥W₂},
       ((Nat.card ↥W₁ : ℂ)) ≠ 0 := fun _ => by
-    simpa using (Nat.card_pos (α := ↥W₁)).ne'
+    simp
   have hvmem : ∀ j, v j ∈ Submodule.span ℤ (Irr G) := fun _ =>
     rowEtaSum_mem_span_Irr hW hω δ _
   have hdeg : ∀ j, u j 1 = (Nat.card ↥W₁ : ℂ) * (d : ℂ) := fun j =>

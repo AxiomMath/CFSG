@@ -19,7 +19,7 @@ variable {X : Type} [Group X] [Finite X] {J D E : Subgroup X} {a : X}
 theorem GomiU42Data.mem_fixedSubgroup_iff (h : GomiU42Data X J D E a) (x : ↥D) :
     haveI := h.normal
     x ∈ fixedSubgroup (MulAut.conjNormal a : MulAut ↥D) ↔ (x : X) ∈ centralizer ({a} : Set X) := by
-  haveI := h.normal
+  have := h.normal
   change MulAut.conjNormal a x = x ↔ _
   rw [mem_centralizer_singleton_iff, ← Subtype.coe_inj, MulAut.conjNormal_apply]
   constructor
@@ -33,7 +33,7 @@ theorem GomiU42Data.mem_fixedSubgroup_iff (h : GomiU42Data X J D E a) (x : ↥D)
 theorem GomiU42Data.card_fixed_of_mem (h : GomiU42Data X J D E a) (ha : a ∈ D) :
     haveI := h.normal
     Nat.card ↥(fixedSubgroup (MulAut.conjNormal a : MulAut ↥D)) = 51840 := by
-  haveI := h.normal
+  have := h.normal
   have hCle : centralizer ({a} : Set X) ≤ D := by
     rw [← h.sup_eq]
     exact sup_le (zpowers_le.2 ha) h.le_D
@@ -55,7 +55,7 @@ theorem GomiU42Data.card_fixed_of_mem (h : GomiU42Data X J D E a) (ha : a ∈ D)
 theorem GomiU42Data.card_fixed_of_not_mem (h : GomiU42Data X J D E a) (ha : a ∉ D) :
     haveI := h.normal
     Nat.card ↥(fixedSubgroup (MulAut.conjNormal a : MulAut ↥D)) = 25920 := by
-  haveI := h.normal
+  have := h.normal
   have h1 : fixedSubgroup (MulAut.conjNormal a : MulAut ↥D) = J.subgroupOf D := h.eqLocus_eq ha
   rw [h1, Nat.card_congr (Subgroup.subgroupOfEquivOfLe h.lt.le).toEquiv]
   exact h.card_J
@@ -64,9 +64,9 @@ theorem GomiU42Data.u42Hyp (h : GomiU42Data X J D E a) :
     haveI := h.normal
     U42Hyp (MulAut.conjNormal a : MulAut ↥D)
       ((J.subgroupOf D).subgroupOf (fixedSubgroup (MulAut.conjNormal a : MulAut ↥D))) := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨-, -, hnormal, hinner⟩ := h.fixedRoot_conjNormal
-  haveI := h.isSimpleGroup_J
+  have := h.isSimpleGroup_J
   refine ⟨hnormal, h.fixedEquiv.isSimpleGroup, ?_, fun hσ => ?_, fun hσ => ?_⟩
   · rw [Nat.card_congr h.fixedEquiv.toEquiv]
     exact h.card_J
@@ -78,9 +78,9 @@ theorem GomiU42Data.card_fixed_quotient (h : GomiU42Data X J D E a) :
     Nat.card (((J.subgroupOf D).subgroupOf (fixedSubgroup (MulAut.conjNormal a : MulAut ↥D))) ⧸
       center ((J.subgroupOf D).subgroupOf (fixedSubgroup (MulAut.conjNormal a : MulAut ↥D)))) =
       25920 := by
-  haveI := h.normal
-  haveI := h.isSimpleGroup_J
-  haveI : IsSimpleGroup ((J.subgroupOf D).subgroupOf
+  have := h.normal
+  have := h.isSimpleGroup_J
+  have : IsSimpleGroup ((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut ↥D))) := h.fixedEquiv.isSimpleGroup
   have hnab : ∃ x y : ((J.subgroupOf D).subgroupOf
       (fixedSubgroup (MulAut.conjNormal a : MulAut ↥D))), x * y ≠ y * x := by
@@ -95,7 +95,7 @@ theorem GomiU42Data.card_fixed_quotient (h : GomiU42Data X J D E a) :
 theorem GomiU42Data.p_eq_three (hGLS : GLS3OddLieAutComponentsInput) (hO : LieOrderFormulasInput)
     (h : GomiU42Data X J D E a) {t : StatedLieTag} {n p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hadm : StatedLieAdmissible t n p f) (hm : LieModel ↥D t n p f) : p = 3 := by
-  haveI := h.normal
+  have := h.normal
   rcases hGLS ↥D t n p f hp hp2 hadm hm (MulAut.conjNormal a) h.fixedRoot_conjNormal.1 _
       h.isComponent_fixed with ⟨t', n', f', hadm', hmod'⟩ | ⟨h3, -, -, -⟩
   · obtain ⟨-, -, hfac⟩ := hO _ t' n' p f' hadm' hmod'

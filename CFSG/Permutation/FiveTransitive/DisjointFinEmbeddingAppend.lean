@@ -22,13 +22,13 @@ theorem exists_append
   have hinj : Function.Injective F := by
     intro i j he
     by_cases hi : i.val < m <;> by_cases hj : j.val < m
-    · simp only [F,dif_pos hi,dif_pos hj] at he
+    · simp only [F,dite_eq_left hi,dite_eq_left hj] at he
       exact Fin.ext (congrArg (fun t : Fin m => t.val) (e.injective he))
-    · simp only [F,dif_pos hi,dif_neg hj] at he
+    · simp only [F,dite_eq_left hi,dite_eq_right hj] at he
       exact (hdis ⟨j.val - m,by omega⟩ ⟨⟨i.val,hi⟩,he⟩).elim
-    · simp only [F,dif_neg hi,dif_pos hj] at he
+    · simp only [F,dite_eq_right hi,dite_eq_left hj] at he
       exact (hdis ⟨i.val - m,by omega⟩ ⟨⟨j.val,hj⟩,he.symm⟩).elim
-    · simp only [F,dif_neg hi,dif_neg hj] at he
+    · simp only [F,dite_eq_right hi,dite_eq_right hj] at he
       have hh := congrArg Fin.val (f.injective he)
       apply Fin.ext
       dsimp only at hh
@@ -36,11 +36,11 @@ theorem exists_append
   refine ⟨⟨F,hinj⟩,?_,?_⟩
   · intro i
     change F (i.castAdd n) = e i
-    simp only [F,Fin.val_castAdd,dif_pos i.isLt]
+    simp only [F,Fin.val_castAdd,dite_eq_left i.isLt]
   · intro j
     change F (j.natAdd m) = f j
     simp only [F,Fin.val_natAdd]
-    rw [dif_neg (by omega)]
+    rw [dite_eq_right (by omega)]
     congr 1
     apply Fin.ext
     simp

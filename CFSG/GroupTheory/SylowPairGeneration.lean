@@ -72,7 +72,7 @@ theorem sup_normalizer_eq_top_of_sylow_pair {p : ℕ} [Fact p.Prime] {A : Subgro
       (MulAut.conj (b : X)).injective, hA',
       Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective]
   have hBA : B = A := CFSG.LocalAnalysis.RankThreeUC.eq_of_card_eq_prime_of_pRank_le_one
-    (R.isPGroup'.map N.subtype)
+    (R.isPGroup.map N.subtype)
     ((CFSG.SectionRank.pRank_mono hA.one_lt le_top).trans hrank) hBRx hARx hcardB rfl
   have hhA : (b : X) * g ∈ normalizer (A : Set X) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]

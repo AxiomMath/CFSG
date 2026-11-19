@@ -24,7 +24,7 @@ theorem nine3_reflect_isConj {K V : Type*} [Field K] [AddCommGroup V] [Module K 
 
 theorem nine3_polar_eq_zero_or_smul_of_scalar_commute {K V : Type*} [Field K] [AddCommGroup V]
     [Module K V] {Q : QuadraticForm K V} (h2nsq : ∀ t : K, t * t ≠ 2)
-    {x y : V} (hx : Q x ≠ 0) (hy : Q y ≠ 0) (hxy : Q x = Q y) {lam : K} (hlam : lam ≠ 0)
+    {x y : V} (hx : Q x ≠ 0) (hy : Q y ≠ 0) (hxy : Q x = Q y) {lam : K} (_hlam : lam ≠ 0)
     (h : ∀ v, CFSG.ClassicalGroups.Orthogonal.reflect Q x
         (CFSG.ClassicalGroups.Orthogonal.reflect Q y v) =
       lam • CFSG.ClassicalGroups.Orthogonal.reflect Q y
@@ -77,7 +77,7 @@ theorem nine3_polar_eq_zero_or_smul_of_scalar_commute {K V : Type*} [Field K] [A
         rw [← h, div_eq_inv_mul, mul_comm]
 
 theorem nine3_polar_eq_zero_of_mk_commute {K : Type} [Field K] (h2nsq : ∀ t : K, t * t ≠ 2)
-    {Q : QuadraticForm K (Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K)} (hQ : (polarBilin Q).Nondegenerate)
+    {Q : QuadraticForm K (Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K)} (_hQ : (polarBilin Q).Nondegenerate)
     {x y : Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K} (hx : Q x ≠ 0) (hy : Q y ≠ 0) (hxy : Q x = Q y)
     (hnotprop : ∀ c : K, c ≠ 0 → y ≠ c • x)
     (h : Matrix.ProjGenLinGroup.mk

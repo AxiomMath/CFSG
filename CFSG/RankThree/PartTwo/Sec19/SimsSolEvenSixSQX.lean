@@ -18,7 +18,7 @@ variable {H : Type*} [Group H]
 
 theorem exists_hom_ne_one_of_mul_self_mem (N : Subgroup H) (hsq : ∀ m : H, m * m ∈ N) {g : H}
     (hg : g ∉ N) : ∃ φ : H →* Multiplicative (ZMod 2), φ g ≠ 1 := by
-  haveI : N.Normal := ⟨fun n hn m => by
+  have : N.Normal := ⟨fun n hn m => by
     have e : m * n * m⁻¹ = m * n * (m * n) * n⁻¹ * (m⁻¹ * m⁻¹) := by group
     rw [e]
     exact N.mul_mem (N.mul_mem (hsq _) (N.inv_mem hn)) (hsq _)⟩
@@ -26,13 +26,13 @@ theorem exists_hom_ne_one_of_mul_self_mem (N : Subgroup H) (hsq : ∀ m : H, m *
     induction e using QuotientGroup.induction_on with
     | H m => rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff]; exact hsq m
   have hinv : ∀ e : H ⧸ N, e⁻¹ = e := fun e => inv_eq_of_mul_eq_one_right (hE2 e)
-  letI : CommGroup (H ⧸ N) :=
+  let : CommGroup (H ⧸ N) :=
     { (inferInstance : Group (H ⧸ N)) with
       mul_comm := fun a b => by
         calc a * b = (a * b)⁻¹ := (hinv _).symm
           _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
           _ = b * a := by rw [hinv, hinv] }
-  letI : Module (ZMod 2) (Additive (H ⧸ N)) :=
+  let : Module (ZMod 2) (Additive (H ⧸ N)) :=
     AddCommGroup.zmodModule fun x => by
       rw [two_nsmul]
       exact hE2 (Additive.toMul x)
@@ -46,7 +46,7 @@ theorem exists_hom_ne_one_of_mul_self_mem (N : Subgroup H) (hsq : ∀ m : H, m *
 
 theorem hom_eq_one_of_isSimpleGroup {G : Type*} [Group G] (hs : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) (μ : G →* Multiplicative (ZMod 2)) : μ = 1 := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal μ.ker with h | h
   · obtain ⟨a, b, hab⟩ := hnab
     exact absurd ((MonoidHom.ker_eq_bot_iff μ).1 h (by rw [map_mul, map_mul, mul_comm])) hab
@@ -75,7 +75,7 @@ theorem twist_twist (hQ2 : ∀ q ∈ Q, q * q = 1) (ht2 : t * t = 1) {q : H} (hq
     q * t * q * t * t * (q * t * q * t) * t = 1 := by
   have htt : ∀ x : H, t * (t * x) = x := fun x => by rw [← mul_assoc, ht2, one_mul]
   have hqq : ∀ x : H, q * (q * x) = x := fun x => by rw [← mul_assoc, hQ2 q hq, one_mul]
-  simp only [mul_assoc, htt, hqq, ht2, hQ2 q hq, mul_one]
+  simp only [mul_assoc, htt, hqq, ht2, mul_one]
 
 theorem exists_twist_subgroup (hXn : ∀ h : H, ∀ y ∈ X, h * y * h⁻¹ ∈ X)
     (hQn : ∀ h : H, ∀ q ∈ Q, h * q * h⁻¹ ∈ Q) (hQab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)
@@ -104,7 +104,7 @@ theorem exists_twist_subgroup (hXn : ∀ h : H, ∀ y ∈ X, h * y * h⁻¹ ∈ 
       _ = q * t * q * t * (q * t * q * t * y⁻¹ * (q * t * q * t)⁻¹) := by group
 
 theorem mul_self_eq_twist (hXn : ∀ h : H, ∀ y ∈ X, h * y * h⁻¹ ∈ X)
-    (hQn : ∀ h : H, ∀ q ∈ Q, h * q * h⁻¹ ∈ Q) (hQ2 : ∀ q ∈ Q, q * q = 1) (ht2 : t * t = 1)
+    (_hQn : ∀ h : H, ∀ q ∈ Q, h * q * h⁻¹ ∈ Q) (hQ2 : ∀ q ∈ Q, q * q = 1) (ht2 : t * t = 1)
     (hdec : ∀ m : H, ∃ q ∈ Q, ∃ y ∈ X, m = q * y ∨ m = q * y * t) (m : H) :
     ∃ q ∈ Q, ∃ y ∈ X, m * m = q * t * q * t * y := by
   have ht : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
@@ -167,7 +167,7 @@ theorem exists_sylow_weaklyClosed (hR2 : Nat.card ↥(Rc X) = 2)
       rw [C.S.normalizer_Q_eq]
       exact hSM
     have h2 : IsPGroup 2 (Q ⊔ (S : Subgroup G) : Subgroup G) :=
-      (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup' hN
+      (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup hN
     rw [← S.maximal_isPGroup.eq_of_ge h2 le_sup_right]
     exact le_sup_left
   refine ⟨S, hSM, hQS, fun g hg => ?_⟩

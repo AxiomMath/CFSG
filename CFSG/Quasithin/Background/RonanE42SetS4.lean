@@ -47,12 +47,12 @@ theorem exists_level_of_lt (G : Type) [Group G] [Finite G] (V : Type) [CommGroup
     by_cases hspl : spl H
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_pos hspl]
+        simp only [bad, piece, ite_eq_left hspl]
       rw [this]
       exact card_bad_le_of_split hΩc hel hfx hT hTH hF hspl
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_neg hspl]
+        simp only [bad, piece, ite_eq_right hspl]
       rw [this]
       exact card_bad_xt_le hΩc hel hfx hT hTH hF
   have hcard : (Δf.biUnion bad).card < (Finset.range (κ + 1)).card := by
@@ -67,12 +67,12 @@ theorem exists_level_of_lt (G : Type) [Group G] [Finite G] (V : Type) [CommGroup
     by_contra hn
     exact hcn (Finset.mem_biUnion.2 ⟨H, (hmemΔ H).2 hHΔ, Finset.mem_filter.2 ⟨hc, hn⟩⟩)
   have hsplit : ∀ H ∈ Δ, spl H → H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := fun H hH hs => by
-    simpa only [piece, if_pos hs] using hmem H hH
+    simpa only [piece, ite_eq_left hs] using hmem H hH
   have hxt : ∀ H ∈ Δ, xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := by
     intro H hH
     by_cases hs : spl H
     · exact (sup_le (Subgroup.map_subtype_le _) (hΔT H hH).1).trans (hsplit H hH hs)
-    · simpa only [piece, if_neg hs] using hmem H hH
+    · simpa only [piece, ite_eq_right hs] using hmem H hH
   refine ⟨c, hcκ, hxt, hsplit, ?_⟩
   by_contra hno
   push Not at hno
@@ -297,7 +297,7 @@ theorem exists_level_of_lt_rk (G : Type) [Group G] [Finite G] (V : Type) [CommGr
     by_cases hsr : spl H ∨ rk H
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_pos hsr]
+        simp only [bad, piece, ite_eq_left hsr]
       rw [this]
       by_cases hspl : spl H
       · exact card_bad_le_of_split hΩc hel hfx hT hTH hF hspl
@@ -305,7 +305,7 @@ theorem exists_level_of_lt_rk (G : Type) [Group G] [Finite G] (V : Type) [CommGr
         exact card_bad_le_of_rank hΩc hel hfx hT hTH hF hidx hspl hrk
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_neg hsr]
+        simp only [bad, piece, ite_eq_right hsr]
       rw [this]
       exact card_bad_xt_le hΩc hel hfx hT hTH hF
   have hcard : (Δf.biUnion bad).card < (Finset.range (κ + 1)).card := by
@@ -320,12 +320,12 @@ theorem exists_level_of_lt_rk (G : Type) [Group G] [Finite G] (V : Type) [CommGr
     by_contra hn
     exact hcn (Finset.mem_biUnion.2 ⟨H, (hmemΔ H).2 hHΔ, Finset.mem_filter.2 ⟨hc, hn⟩⟩)
   have hsr : ∀ H ∈ Δ, spl H ∨ rk H → H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := fun H hH hs => by
-    simpa only [piece, if_pos hs] using hmem H hH
+    simpa only [piece, ite_eq_left hs] using hmem H hH
   have hxt : ∀ H ∈ Δ, xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := by
     intro H hH
     by_cases hs : spl H ∨ rk H
     · exact (sup_le (Subgroup.map_subtype_le _) (hΔT H hH).1).trans (hsr H hH hs)
-    · simpa only [piece, if_neg hs] using hmem H hH
+    · simpa only [piece, ite_eq_right hs] using hmem H hH
   refine ⟨c, hcκ, hxt, hsr, ?_⟩
   by_contra hno
   have hno' : ∀ H ∈ Δ, H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := by

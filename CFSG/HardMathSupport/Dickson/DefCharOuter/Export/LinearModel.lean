@@ -37,10 +37,10 @@ theorem not_dvd_card_units_of_card_eq {K : Type} [Field K] {p f : ℕ} (hp : p.P
 theorem isChevSimple_projectiveSL {r p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f)
     (hr : 2 ≤ r) {F : Type} [Field F] (hF : Nat.card F = p ^ f) :
     IsChevSimple p (projectiveSL (r + 1) F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ hp.ne_zero)
   let q : TauCeti.PrimePower := ⟨p, f, hp, hf⟩
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   have hq3 : 3 ≤ q.card := by
     have h1 : 3 ≤ p := by have := hp.two_le; omega
     have h2 : p ≤ p ^ f := Nat.le_self_pow (by omega) p
@@ -63,10 +63,10 @@ theorem outerCentData_fieldAut_of_three_le {n p f : ℕ} (hn : 3 ≤ n) (hp : p.
     (hf : 1 ≤ f) {K : Type} [Field K] (hK : Nat.card K = p ^ f) {τ : K ≃+* K}
     (hτ : orderOf τ = p) (hout : fieldAut n K τ ∉ innerAut (projectiveSL n K)) :
     OuterCentData p (fieldAut n K τ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
-  haveI : Finite (projectiveSL n K) := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : Finite (projectiveSL n K) := inferInstance
   set k : Subfield K := semilinearFixedSubfield τ with hk_def
   have hk : ∀ x, x ∈ k ↔ τ x = x := fun x => RingHom.mem_eqLocusField
   obtain ⟨hpf, hkcard⟩ := card_semilinearFixedSubfield hp hf hK hτ

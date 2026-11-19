@@ -141,7 +141,7 @@ theorem range_projHom_le {P K : Subgroup Q} (hEL : E ≤ Lb ⊔ Subgroup.central
     exact K.mul_mem (hEK e.2) (K.inv_mem (hCK hc))
   exact ⟨⟨l, hl⟩, Subgroup.mem_subgroupOf.mpr (hKP ⟨hlK, hl⟩), (projFun_eq hEL e hl hc h).symm⟩
 
-theorem not_transitive_of_separated_proj {P N : Subgroup Q} (hPL : P ≤ Lb)
+theorem not_transitive_of_separated_proj {P N : Subgroup Q} (_hPL : P ≤ Lb)
     (hEL : E ≤ Lb ⊔ Subgroup.centralizer (Lb : Set Q))
     (hNLb : N ≤ Subgroup.normalizer (Lb : Set Q)) (hNP : N ≤ Subgroup.normalizer (P : Set Q))
     (hsep : ∃ e₁ e₂ : ↥((P.subgroupOf Lb).map (QuotientGroup.mk' (Subgroup.center ↥Lb))),
@@ -197,7 +197,6 @@ theorem not_transitive_of_separated_proj {P N : Subgroup Q} (hPL : P ≤ Lb)
   have hst2 : ∀ g ∈ Jim, ψ.symm g ∈ Jim := by
     rintro _ ⟨y, hy, rfl⟩
     rw [hψ'symm]
-    change ψ' (ρ y) ∈ Jim
     rw [hψρ']
     exact ⟨_, hPn' y hy, rfl⟩
   obtain ⟨l, hl, c, hc, h⟩ := exists_mul_of_mem_sup_centralizer (hEL a₁.2)

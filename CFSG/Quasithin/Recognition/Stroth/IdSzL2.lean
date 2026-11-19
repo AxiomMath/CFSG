@@ -19,7 +19,7 @@ theorem idSzL2W_of_moufang (hM : Str83Moufang) (hO : Str83Orders) (hK : Str83Ker
   obtain ⟨hK1, hK2⟩ := hK G L1 L2 S a hF ha ⟨e⟩ hBig hL2
   have hWM := hM G L1 L2 S a hF ha ⟨e⟩ hBig hL2
   have hsimp1 : IsSimpleGroup (oTwoQuot ↥L1) := by
-    haveI := CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha
+    have := CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha
     exact e.isSimpleGroup
   have hsimp2 : IsSimpleGroup (oTwoQuot ↥L2) :=
     CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot (by omega) hm

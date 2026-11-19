@@ -12,10 +12,10 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Universa
   CFSG.LieType.Steinberg.Exceptional
 open CFSG.Open (IsElemAbelian)
 
-private theorem ktw_regime_arith (f : ℕ) (hf : f ≠ 0) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem ktw_regime_arith (f : ℕ) (_hf : f ≠ 0) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
     (hreg : ¬ GGExcRegime p f) :
     ¬ p ∣ 2 ^ f ∧ 3 < p ∧ ¬ p ∣ 2 ^ f + 1 ∧ orderOf (((2 ^ f : ℕ) : ZMod p)) ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ 2 ^ f := by
     intro h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
@@ -85,7 +85,7 @@ theorem ggExcKGRankTwE6_holds : GGExcKGRankTwE6 := by
     intro b hb
     exact ExcFrames.mem_range_of_innerDiag_twistedE6 hp hp2 hf
       (fun h => absurd h.1 (by omega)) ψ hker hcomm hcent (hEn hb) (hE.2 b hb) (hdiag b hb)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hle
   have hlt : p ^ 3 < Nat.card E := not_le.mp hle
   have hP : IsPGroup p E := fun g =>

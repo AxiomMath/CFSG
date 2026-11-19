@@ -73,7 +73,7 @@ theorem gap17_35CaseTwo_holds
       rw [← hL] at h
       exact h.symm
     have hKmem : K ∈ conjSet K Mb :=
-      ⟨1, Mb.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+      ⟨1, Mb.one_mem, by ext x; simp⟩
     have hKleH : K ≤ supConjSet K Mb :=
       le_iSup₂_of_le (f := fun X (_ : X ∈ conjSet K Mb) => X) K hKmem le_rfl
     have hconj : conjSet K Mb = {K} := by

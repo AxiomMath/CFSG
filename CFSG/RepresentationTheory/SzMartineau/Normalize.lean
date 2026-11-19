@@ -35,7 +35,7 @@ private lemma exists_coboundary_torus (hY : IsTwistedCocycle (natHom a) (twHom a
       ∀ x : (F a)ˣ, Y (torusSz a x) =
         coboundary (natHom a) (twHom a c) X₁ (torusSz a x) := by
   classical
-  haveI : Fintype (F a) := Fintype.ofFinite _
+  have : Fintype (F a) := Fintype.ofFinite _
   have hH : IsUnit (Fintype.card (F a)ˣ : Matrix (Fin 4) (Fin 4) (F a)) := by
     have hcard : Fintype.card (F a)ˣ = 2 ^ (2 * a + 1) - 1 := by
       rw [Fintype.card_units, ← Nat.card_eq_fintype_card,

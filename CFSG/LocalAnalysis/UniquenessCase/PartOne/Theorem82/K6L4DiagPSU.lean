@@ -11,6 +11,7 @@ open CFSG.Open
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem d₀_le_su {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2) (h3 : r % 3 = 2)
     (ζ : CubeRoot K) : D₀ ζ ≤ StatedSU 4 r K := by
   rintro x ⟨v, rfl⟩
@@ -43,6 +44,7 @@ theorem d₀_le_su {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2) (h3 : r % 
   funext i
   exact hd i
 
+omit [Finite K] in
 private theorem isDiag_commute {A B : Matrix (Fin 4) (Fin 4) K}
     (hA : A.IsDiag) (hB : B.IsDiag) : A * B = B * A := by
   rw [← hA.diagonal_diag, ← hB.diagonal_diag, Matrix.diagonal_mul_diagonal,
@@ -51,6 +53,7 @@ private theorem isDiag_commute {A B : Matrix (Fin 4) (Fin 4) K}
   funext i
   exact mul_comm _ _
 
+omit [Finite K] in
 private theorem exists_unitary_conj_diag_su_le {r : ℕ}
     (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r 1 K) :
     StatedSU 4 r K ≤ CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
@@ -64,6 +67,7 @@ private theorem exists_unitary_conj_diag_su_le {r : ℕ}
     exact hx
   exact ((CFSG.ClassicalGroups.UnitaryFlag.mem_unitarySU_iff h).mp hx').2
 
+omit [Finite K] in
 private theorem exists_unitary_conj_diag_su_det {r : ℕ}
     (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r 1 K)
     {P : CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
@@ -76,6 +80,7 @@ private theorem exists_unitary_conj_diag_su_det {r : ℕ}
   rw [mul_comm] at h1
   exact h1
 
+omit [Finite K] in
 private theorem conj_eq_of_diag {D Yg : GL (Fin 4) K}
     (hD : (D : Matrix (Fin 4) (Fin 4) K).IsDiag)
     (hY : (Yg : Matrix (Fin 4) (Fin 4) K).IsDiag) : D⁻¹ * Yg * D = Yg := by
@@ -84,6 +89,7 @@ private theorem conj_eq_of_diag {D Yg : GL (Fin 4) K}
     exact isDiag_commute hD hY
   rw [mul_assoc, hcomm.symm, ← mul_assoc, inv_mul_cancel, one_mul]
 
+omit [Finite K] in
 private theorem exists_unitary_conj_diag_su_Q {r : ℕ}
     (h_ufd : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r 1 K)
     (P : CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h_ufd
@@ -133,6 +139,7 @@ private theorem exists_unitary_conj_diag_su_Q {r : ℕ}
     exact hQU'
   exact hQSU
 
+omit [Finite K] in
 private theorem exists_unitary_conj_diag_su_conj {D P x Y : GL (Fin 4) K}
     (hY : Y = P⁻¹ * x * P) (hD : (D : Matrix (Fin 4) (Fin 4) K).IsDiag)
     (hYd : (Y : Matrix (Fin 4) (Fin 4) K).IsDiag) :
@@ -142,6 +149,7 @@ private theorem exists_unitary_conj_diag_su_conj {D P x Y : GL (Fin 4) K}
   rw [show (D⁻¹ * P⁻¹) * x * (P * D) = D⁻¹ * (P⁻¹ * x * P) * D by group]
   rw [conj_eq_of_diag hD hYd]
 
+omit [Finite K] in
 theorem exists_unitary_conj_diag_su {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2)
     (h3 : r % 3 = 2) (A : Subgroup (StatedSU 4 r K)) (hA : IsElemAbelian 3 A) :
     ∃ g : StatedSU 4 r K, ∀ x ∈ A,
@@ -190,8 +198,9 @@ theorem exists_unitary_conj_diag_su {r : ℕ} (hr : r.Prime) (hK : Nat.card K = 
   rw [hgoal]
   exact hYdiag
 
-private theorem conjFact_su_le {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2)
-    (h3 : r % 3 = 2) (ζ : CubeRoot K) (A : Subgroup (StatedSU 4 r K))
+omit [Finite K] in
+private theorem conjFact_su_le {r : ℕ} (_hr : r.Prime) (_hK : Nat.card K = r ^ 2)
+    (_h3 : r % 3 = 2) (ζ : CubeRoot K) (A : Subgroup (StatedSU 4 r K))
     (hA : IsElemAbelian 3 A) (g : StatedSU 4 r K)
     (hg : ∀ x ∈ A, (((g * x * g⁻¹ : StatedSU 4 r K) : GL (Fin 4) K) :
       Matrix (Fin 4) (Fin 4) K).IsDiag) :

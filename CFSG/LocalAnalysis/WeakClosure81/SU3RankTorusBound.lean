@@ -72,8 +72,8 @@ theorem two_mul_le_finrank_range_sub_of_conj {F : Type} [AddCommGroup F] [Module
       d ≤ Module.finrank (ZMod 2) ↥(fixSub B ⊓ commSub E)) :
     2 * d ≤ Module.finrank (ZMod 2) (LinearMap.range ((y : F →ₗ[ZMod 2] F) - LinearMap.id)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : FiniteDimensional (ZMod 2) F := Module.Finite.of_finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : FiniteDimensional (ZMod 2) F := Module.Finite.of_finite
   have hℓodd : Odd ℓ := hℓ.odd_of_ne_two hℓ2
   have h2ℓ : 2 ≤ ℓ := hℓ.two_le
   have hcardE_odd : Odd (Nat.card E) := by

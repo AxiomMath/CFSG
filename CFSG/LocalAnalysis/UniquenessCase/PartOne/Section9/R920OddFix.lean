@@ -21,7 +21,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 
 theorem not_isPGroup_barO3_opp (S : SliceCore D L D₃ Y H) :
     ¬ IsPGroup 3 (F09.BarO3 (Opp 3 Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   have hle : CFSG.pPrimeCore 3 ↥(Opp 3 Y) ≤ CFSG.pCore 2 ↥(Opp 3 Y) :=
     le_pCore_two_of_normal S.isSimpleGroup_bar2_opp S.three_dvd_card_bar2_opp
@@ -29,7 +29,7 @@ theorem not_isPGroup_barO3_opp (S : SliceCore D L D₃ Y H) :
   have hker : CFSG.pPrimeCore 3 ↥(Opp 3 Y) ≤
       (QuotientGroup.mk' (CFSG.pCore 2 ↥(Opp 3 Y))).ker := by
     rwa [QuotientGroup.ker_mk']
-  haveI := (h3.of_surjective (QuotientGroup.lift _ _ hker)
+  have := (h3.of_surjective (QuotientGroup.lift _ _ hker)
     (QuotientGroup.lift_surjective_of_surjective _ _
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥(Opp 3 Y))) hker)).isNilpotent
   exact S.not_isSolvable_bar2_opp inferInstance
@@ -49,8 +49,8 @@ theorem mem_of_fixed_of_inv_opp (S : Slice D L D₃ Y H q)
     (hA : (Nat.card A).Prime) (hA2 : Nat.card A ≠ 2) {t : G} (htX : t ∈ Opp 3 Y)
     (htA : ∀ a ∈ A, a * t = t * a) (htinv : ∀ u ∈ U, u * (t * u * t⁻¹) ∈ W) :
     ∀ u ∈ U, (∀ a ∈ A, a * u * a⁻¹ * u⁻¹ ∈ W) → u ∈ W := by
-  haveI : Fact (Nat.card A).Prime := ⟨hA⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.card A).Prime := ⟨hA⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWU : W ≤ U := hUW.1.le
   have hUnW : U ≤ normalizer (W : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWU).mp hUW.normal

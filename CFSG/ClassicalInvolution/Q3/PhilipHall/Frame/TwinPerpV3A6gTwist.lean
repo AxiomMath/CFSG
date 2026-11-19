@@ -101,9 +101,9 @@ theorem ph_twist [Finite Y] {P : Set (Subgroup Y)} (A : AEIdent P 8) {I D : Subg
       twistHom ψ ((pkgOf A hpI hker hD).ph g) := by
   unfold E8Pkg.ph
   by_cases h : g ∈ I
-  · simp only [dif_pos h]
+  · simp only [dite_eq_left h]
     rfl
-  · simp only [dif_neg h]
+  · simp only [dite_eq_right h]
     exact (map_one _).symm
 
 theorem twistHom_vq (ψ : Equiv.Perm (Fin 8)) (S : Finset (Fin 8)) :

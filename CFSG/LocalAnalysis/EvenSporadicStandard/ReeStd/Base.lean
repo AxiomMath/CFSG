@@ -21,7 +21,7 @@ theorem seven_dvd_card {G : Type} [Group G] [Finite G] (L : LocalSetting (G := G
 theorem base_not_sylow_local {G : Type} [Group G] [Finite G] (hW : WalterAbelian)
     (H : LocalSetting G) : 2 ∣ H.V.index := by
   by_contra hidx
-  haveI : IsSimpleGroup G := H.simple
+  have : IsSimpleGroup G := H.simple
   have hVp : IsPGroup 2 H.V := H.pgroup_V
   have hcomm : IsMulCommutative (hVp.toSylow hidx : Subgroup G) :=
     ⟨⟨fun a b => Subtype.ext (H.V_comm a.2 b.2)⟩⟩

@@ -54,12 +54,12 @@ theorem exists_triple_of_completion (hC : PhanA3Completion3) {A B C : Subgroup G
     exacts [hiA, hiB, hiC]
   have hcomm : ∀ i j : Fin 3, (i : ℕ) + 1 < j → Commutes (U i) (U j) := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     exact hAC
   have hpair : ∀ i j : Fin 3, (j : ℕ) = i + 1 →
       ∃ W, UnitaryBlockStandardPair (GaloisField 3 2) 3 1 W (U i) (U j) := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact p₁
     · exact p₂
   have hW : WeakPhanA (GaloisField 3 2) 3 1 3 (fun i => (U i).subgroupOf Gs)
@@ -187,19 +187,18 @@ theorem chainRow3U_two (h3 : OddThreeFreeInput) (hP : Q3TC.ProductP1Input3)
     · exact d.hj0
     · exact d.hj1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact d.c0
     · exact d.c1
     · exact d.cβ1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact d.pKβ
     · exact d.pβ0
     · exact d.p01
   · intro i j k hij hjk
     fin_cases i <;> fin_cases j <;> fin_cases k <;>
-      first | (exfalso; exact absurd hij (by decide)) | (exfalso; exact absurd hjk (by decide)) |
-        skip
+      try first | (exfalso; exact absurd hij (by decide)) | (exfalso; exact absurd hjk (by decide))
     · exact T₀
     · exact T₁
 

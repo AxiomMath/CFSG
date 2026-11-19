@@ -91,7 +91,7 @@ theorem s7spn_lt : ∀ (B : List ℕ) (k : ℕ), (∀ c ∈ B, c < 2 ^ k) → �
   | b :: B => s7E B ++ (s7E B).map (· ^^^ b)
 
 theorem s7E_mem : ∀ (B : List ℕ) (y : ℕ), y ∈ s7E B ↔ s7spn B y
-  | [], y => by simp [s7E, s7spn, eq_comm]
+  | [], y => by simp [s7E, s7spn]
   | b :: B, y => by
     simp only [s7E, s7spn, List.mem_append, List.mem_map, s7E_mem B]
     refine or_congr Iff.rfl ⟨?_, fun h => ⟨_, h, s7xx4 y b⟩⟩
@@ -204,7 +204,7 @@ theorem s7red_bit : ∀ (B : List ℕ) (x : ℕ), s7ech B → ∀ b ∈ B, (redB
       have hX := s7xlt x b hb0
       cases h : Nat.blt (x ^^^ b) x
       · have h' := s7blt_false h
-        simp only [cond_false]
+        simp only [Bool.cond_false]
         cases hx : x.testBit b.log2
         · rfl
         · exact absurd (hX.2 hx) h'
@@ -286,13 +286,13 @@ theorem s7step (ins : ℕ → List ℕ → List ℕ) (hins : s7InsOK ins) (S : L
   unfold s7G
   simp only
   by_cases h7 : 7 ≤ P.length
-  · rw [if_pos h7]
+  · rw [ite_eq_left h7]
     exact ⟨⟨hech, hsp, hind, hmem⟩, hl, Or.inl h7, [], by simp⟩
-  rw [if_neg h7]
+  rw [ite_eq_right h7]
   by_cases hr : redB B x = 0
-  · rw [if_pos hr]
+  · rw [ite_eq_left hr]
     exact ⟨⟨hech, hsp, hind, hmem⟩, hl, Or.inr ((hsp x).1 (s7red_eq0 hr)), [], by simp⟩
-  rw [if_neg hr]
+  rw [ite_eq_right hr]
   obtain ⟨hperm, hsort⟩ := hins (redB B x) B (s7ech_dec hech)
   have hnot : ¬ s7spn P x := fun h => s7red_ne hech hr ((hsp x).2 h)
   have hrx := s7red_spn B x
@@ -376,7 +376,7 @@ theorem s7mI_ok : s7InsOK s7mI := by
 
 theorem s7selStep : selStep = s7G insD := by
   funext st x
-  simp only [selStep, s7G, cond_eq_if, Nat.ble_eq, Nat.beq_eq]
+  simp only [selStep, s7G, Bool.cond_eq_ite, Nat.ble_eq, Nat.beq_eq]
 
 theorem s7redB_eq (B : List ℕ) (x : ℕ) :
     B.foldl (fun acc b => if acc ^^^ b < acc then acc ^^^ b else acc) x = redB B x := by
@@ -385,10 +385,10 @@ theorem s7redB_eq (B : List ℕ) (x : ℕ) :
   funext acc b
   by_cases h : acc ^^^ b < acc
   · have e : Nat.blt (Nat.xor acc b) acc = true := by simpa using h
-    rw [if_pos h, e]
+    rw [ite_eq_left h, e]
     rfl
   · have e : Nat.blt (Nat.xor acc b) acc = false := s7blt_of_not h
-    rw [if_neg h, e]
+    rw [ite_eq_right h, e]
     rfl
 
 theorem s7sel7 (L : List ℕ) : sel7 L = (L.foldl (s7G s7mI) ([], [])).2.toArray := by

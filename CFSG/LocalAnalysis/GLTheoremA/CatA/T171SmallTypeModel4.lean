@@ -18,13 +18,13 @@ open scoped commutatorElement
 
 theorem max_field {Ω : Type} [Group Ω] [Finite Ω] {B L : Subgroup Ω} {x : Ω}
     {G₀ : Type} [Group G₀] [Finite G₀] (M : S172Model L B G₀)
-    (hcfg : CFSG.LocalAnalysis.GLTheoremA.S171.Cfg Ω 3 B x L) (hLn : L.Normal)
+    (hcfg : CFSG.LocalAnalysis.GLTheoremA.S171.Cfg Ω 3 B x L) (_hLn : L.Normal)
     (hnoZ : ¬ 3 ∣ Nat.card (Subgroup.center ↥L))
     (hmax : CFSG.LocalAnalysis.GLTheoremA.S171.MaxG 3 B) :
     ∀ E : Subgroup G₀, IsElemAbelian 3 E → TwoLocal E →
       Nat.card E ≤ Nat.card M.β.range := by
   classical
-  haveI := hLn
+  have := _hLn
   have hBker := M.card_ker_β hcfg.prime hcfg.elem hcfg.mem hcfg.ne_one hcfg.cent
   have hBcard := Subgroup.card_ker_mul_card_range M.β
   rw [hBker] at hBcard
@@ -37,7 +37,7 @@ theorem max_field {Ω : Type} [Group Ω] [Finite Ω] {B L : Subgroup Ω} {x : Ω
       hcfg.prime (by simpa [M.ker_π] using hnoZ) hPmap hEel
   obtain ⟨Q, hQ1, hQ2, hRQ⟩ :=
     CFSG.RankThree.CentralCover.exists_two_subgroup_normalized_of_cover M.surj
-      (by simpa [M.ker_π] using le_rfl) hP1 hP2 (S := R) (by
+      (by simp [M.ker_π]) hP1 hP2 (S := R) (by
         intro y hy u hu
         have hyE : M.π y ∈ E := by
           rw [← hRmap]
@@ -174,12 +174,13 @@ namespace S172Model
 variable {Ω : Type} [Group Ω] [Finite Ω] {B L : Subgroup Ω}
 variable {G₀ : Type} [Group G₀] [Finite G₀]
 
+omit [Finite G₀] in
 theorem card_img_eq_prime171 (M : S172Model L B G₀) {x : Ω}
     (hcfg : CFSG.LocalAnalysis.GLTheoremA.S171.Cfg Ω 3 B x L) {D' : Subgroup Ω}
     (hD'B : D' ≤ B) (hxD' : x ∈ D') (hcard : Nat.card D' = 3 ^ 2) :
     Nat.card (M.img D') = 3 := by
   have hp := hcfg.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have h1 := M.card_img_mul_card_inf hD'B
   rw [inf_centralizer_eq_zpowers_of_cfg171 hcfg hD'B hxD', Nat.card_zpowers,
     orderOf_eq_prime (hcfg.elem.2 x hcfg.mem) hcfg.ne_one, hcard] at h1
@@ -188,13 +189,14 @@ theorem card_img_eq_prime171 (M : S172Model L B G₀) {x : Ω}
     exact h1
   omega
 
+omit [Finite G₀] in
 theorem exists_isE2_img_eq171 (M : S172Model L B G₀) {x : Ω}
     (hcfg : CFSG.LocalAnalysis.GLTheoremA.S171.Cfg Ω 3 B x L)
     {y : G₀} (hy : y ∈ M.β.range) (hy1 : y ≠ 1) (hy3 : y ^ 3 = 1) :
     ∃ D₁ : Subgroup Ω, D₁ ≤ B ∧ (∀ b ∈ B, b ∈ Subgroup.centralizer (L : Set Ω) → b ∈ D₁) ∧
       M.img D₁ = Subgroup.zpowers y ∧ IsElemAbelian 3 D₁ ∧ Nat.card D₁ = 3 ^ 2 ∧ x ∈ D₁ := by
   have hp := hcfg.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hyr : Subgroup.zpowers y ≤ M.β.range := Subgroup.zpowers_le.2 hy
   have hxD₁ : x ∈ M.preimg (Subgroup.zpowers y) :=
     M.centralizer_le_preimg _ x hcfg.mem ((hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x))
@@ -216,8 +218,8 @@ theorem smallOrd_of_glaSmall {X : Type} [Group X] [Finite X] {K : Subgroup X}
     have hsimple : IsSimpleGroup ↥K := isSimpleGroup_of_isU42 hU
     have hnc : ∃ a b : ↥K, a * b ≠ b * a := by
       by_contra h
-      push_neg at h
-      haveI : IsMulCommutative ↥K := ⟨⟨fun a b => h a b⟩⟩
+      push Not at h
+      have : IsMulCommutative ↥K := ⟨⟨fun a b => h a b⟩⟩
       have hp := IsSimpleGroup.prime_card (α := ↥K)
       have hcard := CFSG.StandardType.IOneOrthEnd.card_of_isU42 hU
       rw [hcard] at hp
@@ -247,7 +249,7 @@ theorem exists_stdAt171 {Ω : Type} [Group Ω] [Finite Ω] {B L : Subgroup Ω}
     (hstd : GLAStdSubPre 3 B x L D K) :
     ∃ d ∈ M.β.range, d ≠ 1 ∧ StdAt M.β.range d := by
   have hp := hcfg.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hDB, hDe, hDc, hxmem, hKeq, hKc, hDK⟩ := hstd
   obtain ⟨d, hd⟩ := exists_zpowers_eq_of_card_eq_prime (p := 3)
     (S172Model.card_img_eq_prime171 M hcfg hDB hxmem hDc)
@@ -271,7 +273,7 @@ theorem exists_stdAt171 {Ω : Type} [Group Ω] [Finite Ω] {B L : Subgroup Ω}
 theorem modelRed_holds : ModelRed := by
   intro Ω _ _ B x L hK hcfg hLn hmax hex hsmall hT G₀ _ _ hAut hθ hnoZ
   classical
-  haveI := hLn
+  have := hLn
   obtain ⟨D, K, hstd⟩ := hex
   obtain ⟨θ⟩ := hθ
   obtain ⟨T, hTN, hTx, hT2, hBT, hTne⟩ := hT

@@ -31,7 +31,7 @@ theorem descend332 {G : Type} [Group G] [Finite G] (hK : CFSG.Open.IsKGroup G)
   intro N
   have hN : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   obtain ⟨P, hPS⟩ := N588A.exists_sylow_of_isSylowOf_top hS
-  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup
   have hZp : IsPGroup 3 Z := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hZ3)
   have hSN : S ⊓ N = ⊥ := N588A.inf_eq_bot_of_coprime hSp hN
   have hker : ∀ x ∈ S, QuotientGroup.mk' N x = 1 → x = 1 := fun x hx h1 => by
@@ -131,7 +131,7 @@ theorem wc_normalizer {H : Type} [Group H] [Finite H] {S Z : Subgroup H} (hS : I
       Z.map (MulAut.conj g).toMonoidHom = Z := by
   intro g hg
   obtain ⟨P, hPS⟩ := N588A.exists_sylow_of_isSylowOf_top hS
-  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup
   have e : CFSG.conjugate Z g⁻¹ = Z.map (MulAut.conj g).toMonoidHom := by
     unfold CFSG.conjugate
     rw [inv_inv]

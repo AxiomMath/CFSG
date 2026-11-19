@@ -17,7 +17,7 @@ theorem perfectInLayer_sp_outer {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) 
     (hK : Nat.card K = ℓ ^ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {β : MulAut (StatedProj (StatedSp r K))} (hβ : β ^ p = 1)
     (hout : ∀ a : StatedProj (StatedSp r K), MulAut.conj a ≠ β) : PerfectInLayer β := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := K) hℓ hf hr hK
   have hodd : Odd (orderOf β) :=
     (hp.odd_of_ne_two hp2).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ)

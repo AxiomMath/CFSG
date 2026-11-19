@@ -14,9 +14,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem center_ne_bot_of_isPGroup {q : ℕ} (hq : q.Prime) {Q : Subgroup G} (hQ : IsPGroup q Q)
     (hne : Q ≠ ⊥) : Q ⊓ Subgroup.centralizer (Q : Set G) ≠ ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
-  haveI : Nontrivial (Subgroup.center ↥Q) := hQ.center_nontrivial
+  have : Fact q.Prime := ⟨hq⟩
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
+  have : Nontrivial (Subgroup.center ↥Q) := hQ.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center ↥Q)
   intro hbot
   have hmem : ((c : ↥Q) : G) ∈ Q ⊓ Subgroup.centralizer (Q : Set G) := by
@@ -33,7 +33,7 @@ theorem eq_sup_zpowers_of_card {D : Subgroup G} (hD : IsElemAbelian 3 D) (hDc : 
     {a e : G} (haD : a ∈ D) (ha1 : a ≠ 1) (heD : e ∈ D) (hea : e ∉ Subgroup.zpowers a) :
     Subgroup.zpowers a ⊔ Subgroup.zpowers e = D := by
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have he1 : e ≠ 1 := fun h => hea (h ▸ Subgroup.one_mem _)
   have hoa : orderOf a = 3 := orderOf_eq_prime (hD.2 a haD) ha1
   have hoe : orderOf e = 3 := orderOf_eq_prime (hD.2 e heD) he1
@@ -70,8 +70,8 @@ theorem eq_sup_zpowers_of_card {D : Subgroup G} (hD : IsElemAbelian 3 D) (hDc : 
 theorem commutator_core_eq_bot {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {x z : G} {Z : Subgroup G}
     (hZM : Z ≤ cx z) (hZO : Z ≤ pCoreOf q (cx x)) :
     (⁅Z, pCoreOf 2 (cx z) ⊓ cx x⁆ : Subgroup G) = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdis : Disjoint (pCoreOf q (cx x)) (pCoreOf 2 (cx z)) :=
     IsPGroup.disjoint_of_ne q 2 hq2 _ _ (CFSG.LieType.BorelTits.pCoreOf_isPGroup q (cx x))
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (cx z))
@@ -102,9 +102,9 @@ theorem exists_a_S (hc : S9Ctx G 3) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {x 
     ∃ a ∈ D, a ≠ 1 ∧ Subgroup.zpowers x ⊔ Subgroup.zpowers a = D ∧ a ∉ Subgroup.zpowers x ∧
       (⁅Z, pCoreOf 2 (cx z) ⊓ cx a⁆ : Subgroup G) ≠ ⊥ := by
   have hp3 : Nat.Prime 3 := hc.ctx.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD := hcfg.D_el
   have hDc := hcfg.D_card
   have hxD : x ∈ D := by
@@ -154,7 +154,7 @@ theorem exists_a_S (hc : S9Ctx G 3) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {x 
   refine ⟨a, haD, ha1, eq_sup_zpowers_of_card hD hDc hxD hx1 haD hax, hax, hAcomm⟩
 
 theorem twoLocalRank_le_pRank_cl {p : ℕ} (hp : p.Prime) {B X : Subgroup G} (hB : GLAIsBmax p B)
-    (hBX : B ≤ X) : GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B := by
+    (_hBX : B ≤ X) : GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B := by
   refine le_trans ?_ (CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB.1 hB.2.1)
   unfold GLATwoLocalRank CFSG.Open.twoLocalPrimeRank
   refine csSup_le' ?_
@@ -205,6 +205,7 @@ theorem orbit_contra_cl (hc : S9Ctx G 3) (h112 : I112RkAt G) {Bs D J J₁ : Subg
   have : 3 ^ 3 ≤ 3 ^ 2 := hE3.trans hw
   norm_num at this
 
+omit [Finite G] in
 theorem le_closureIn_self (J H : Subgroup G) : J ≤ closureIn J H := by
   have h : J = J.map (MulAut.conj (1 : G)).toMonoidHom := by
     rw [map_one]

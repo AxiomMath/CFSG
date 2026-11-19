@@ -28,7 +28,7 @@ theorem slpG_getD_lt : ∀ (p : List (List ℕ)) (R : List G) {i : ℕ}, i < R.l
   | [], R, i, _ => rfl
   | w :: p, R, i, hi => by
     change (slpG p _).getD i 1 = _
-    rw [slpG_getD_lt p _ (by rw [List.length_append]; omega), getD_push, if_pos hi]
+    rw [slpG_getD_lt p _ (by rw [List.length_append]; omega), getD_push, ite_eq_left hi]
 
 theorem prod_mem_of_forall (H : Subgroup G) : ∀ l : List G, (∀ x ∈ l, x ∈ H) → l.prod ∈ H
   | [], _ => H.one_mem

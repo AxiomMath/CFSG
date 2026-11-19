@@ -50,7 +50,7 @@ theorem Φ_injective : Function.Injective Φ := by
   have e01 := congrFun (congrFun hst 0) 1
   have e11 := congrFun (congrFun hst 1) 1
   simp only [symM, of_apply, cons_val', cons_val_zero, cons_val_one, empty_val',
-    cons_val_fin_one, head_cons] at e00 e01 e11
+    cons_val_fin_one] at e00 e01 e11
   exact Prod.ext rfl (Prod.ext e00 (Prod.ext e01 e11))
 
 theorem symM_one : symM (1, 0, 1) = 1 := by
@@ -86,7 +86,7 @@ theorem mem_range_Φ (M : SpMat3) (hc : M * fromBlocks 1 1 0 1 = fromBlocks 1 1 
   rw [hC, hD] at hs ⊢
   rw [fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply] at hs
   obtain ⟨-, k2, -, k4⟩ := fromBlocks_inj.mp hs
-  simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, Matrix.one_mul, Matrix.zero_mul,
+  simp only [Matrix.mul_one, Matrix.mul_zero, add_zero, Matrix.zero_mul,
     zero_add, transpose_zero, Matrix.mul_neg, Matrix.neg_mul, neg_zero] at k2 k4
   have hA : Aᵀ * A = 1 := k2
   obtain ⟨i, hi⟩ := o2_complete A hA
@@ -126,13 +126,13 @@ theorem block_facts (A S : Matrix (Fin 2) (Fin 2) (ZMod 3)) (hA : Aᵀ * A = 1) 
   · rw [fromBlocks_multiply, ← fromBlocks_one]
     congr 1
     · simp [hA']
-    · simp [Matrix.mul_neg, Matrix.mul_assoc, hA'2]
+    · simp [Matrix.mul_assoc]
     · simp
     · simp [hA']
   · rw [fromBlocks_multiply, ← fromBlocks_one]
     congr 1
     · simp [hA]
-    · simp [Matrix.neg_mul, Matrix.mul_assoc, hA2, hA]
+    · simp [Matrix.mul_assoc, hA2, hA]
     · simp
     · simp [hA]
   · rw [J4, fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]

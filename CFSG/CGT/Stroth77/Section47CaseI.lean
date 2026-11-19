@@ -11,6 +11,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Stroth47
 
+omit [Finite G] in
 theorem pow_eq_of_sq_eq_inv {c e : G} {m : ℕ} (hm : 1 ≤ m) (hoc : orderOf c = 2 ^ m)
     (he : e * e = c⁻¹) : e ^ 2 ^ m = c ^ 2 ^ (m - 1) := by
   have h0 : e ^ 2 ^ m = (e * e) ^ 2 ^ (m - 1) := by
@@ -51,7 +52,7 @@ theorem StrothFrame.IsD.false_of_t200_i {F : StrothFrame G} {D : Subgroup G} {m 
       Subgroup.zpowers e) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         IsMulCommutative X → Nat.card X = Nat.card D → X = D) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hPN : P ≤ Subgroup.normalizer (D : Set G) := by

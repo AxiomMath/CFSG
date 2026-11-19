@@ -36,7 +36,7 @@ private theorem ggKGUc_monomial_data {n r p : ℕ} {K : Type} [Field K]
     ∃ (j : Fin r → Fin r) (ε : Fin r → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
       ∀ f f' : Fin r → Multiplicative (ZMod p),
         g * ι f * g⁻¹ = ι f' → ∀ i, toAdd (f' (j i)) = ε i * toAdd (f i) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let u : Kˣ := (hζ.isUnit hp.ne_zero).unit
   have hu : (u : K) = ζ := (hζ.isUnit hp.ne_zero).unit_spec
   have huo : orderOf u = p :=
@@ -106,16 +106,16 @@ theorem ggKGUc_normalizer {n r p : ℕ} {K : Type} [Field K]
     ∃ (π : Equiv.Perm (Fin r)) (ε : Fin r → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
       ∀ f f', g * ι f * g⁻¹ = ι f' → ∀ i, toAdd (f' (π i)) = ε i * toAdd (f i) := by
   obtain ⟨j, ε, hε, hrel⟩ := ggKGUc_monomial_data h hp ζ hζ ι hι g
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hjinj : Function.Injective j := by
     intro i i' hii'
     by_contra hne
     obtain ⟨f', hf'⟩ := hg (Pi.mulSingle i (ofAdd (1 : ZMod p)))
     have h1 := hrel (Pi.mulSingle i (ofAdd (1 : ZMod p))) f' hf' i
     have h3 := hrel (Pi.mulSingle i (ofAdd (1 : ZMod p))) f' hf' i'
-    rw [SpCoord.toAdd_mulSingle i i 1, if_pos rfl, mul_one] at h1
-    rw [SpCoord.toAdd_mulSingle i i' 1, if_neg (Ne.symm hne), mul_zero] at h3
+    rw [SpCoord.toAdd_mulSingle i i 1, ite_eq_left rfl, mul_one] at h1
+    rw [SpCoord.toAdd_mulSingle i i' 1, ite_eq_right (Ne.symm hne), mul_zero] at h3
     rw [← hii'] at h3
     have h2 : ε i = 0 := h1.symm.trans h3
     rcases hε i with hh | hh

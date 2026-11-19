@@ -25,9 +25,9 @@ theorem isCyclic_outer_adjointGroup_g2_two {K : Type} [Field K] [Finite K] (hK :
     rw [QuotientGroup.eq_one_iff]
     obtain ⟨g, hg⟩ := CFSG.ASVolI.burnsideF411_g2Two_inner hK β
     exact MonoidHom.mem_range.mpr ⟨g, hg.symm⟩
-  haveI : Subsingleton (Outer (CFSG.ASVolI.ChF.G2Native.FullModel K)) :=
+  have : Subsingleton (Outer (CFSG.ASVolI.ChF.G2Native.FullModel K)) :=
     ⟨fun x y => by rw [hone x, hone y]⟩
-  haveI : Subsingleton (Outer (CFSG.Blueprint.Chevalley.adjointGroup .G2 K)) := by
+  have : Subsingleton (Outer (CFSG.Blueprint.Chevalley.adjointGroup .G2 K)) := by
     constructor
     intro x y
     apply (equivalence eF.symm).injective

@@ -20,9 +20,10 @@ namespace CentConfig
 variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X → Prop}
 
 private theorem orderOf_a_of_centConfig (h : CentConfig X a b E Fus) : orderOf a = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by simpa [pow_two] using h.a_sq) h.a_ne
 
+omit [Finite X] in
 private theorem rightComponent_ne_of_not_mem_normalizer {L : Subgroup X}
     (hmoved : a ∉ normalizer (L : Set X)) : rightComponent L a ≠ L :=
   fun hh => hmoved ((rightComponent_eq_iff_normalizer L a).mp hh)
@@ -123,7 +124,7 @@ theorem case_diagonal (h : CentConfig X a b E Fus) {L : Subgroup X} (hL : IsComp
     TransferWitness X a Fus := by
   let N : Subgroup X := normalizer (L : Set X)
   have hNindex : N.index = 2 := index_normalizer_of_diagonal h hL hmoved hdiag
-  haveI hNnormal : N.Normal := Subgroup.normal_of_index_eq_two hNindex
+  have hNnormal : N.Normal := Subgroup.normal_of_index_eq_two hNindex
   refine transferWitness_of_normal N h.a_sq hmoved ?_ ?_
   · rw [hNindex]
     norm_num

@@ -18,6 +18,7 @@ open scoped Matrix
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 theorem quotient_mk_mem_normalizer_map {H S : Subgroup G} {N : Subgroup ↥H} [N.Normal]
     (hSH : S ≤ H) {δ : G} (hδH : δ ∈ H)
     (hδS : δ ∈ Subgroup.normalizer (S : Set G)) :
@@ -32,6 +33,7 @@ theorem quotient_mk_mem_normalizer_map {H S : Subgroup G} {N : Subgroup ↥H} [N
   exact Subgroup.le_normalizer_map (QuotientGroup.mk' N)
     (Subgroup.mem_map_of_mem _ hsub)
 
+omit [Finite G] in
 theorem conj_comm_of_commutator {V Q L : Subgroup G} {k : G}
     (hkV : k ∈ Subgroup.normalizer (V : Set G))
     (hQV : Q ≤ Subgroup.centralizer (V : Set G))
@@ -176,7 +178,7 @@ theorem frobVecAddEquiv_smul {K : Type} [Field K] [Finite K] [CharP K 2] [Perfec
   rw [map_mul, iterateFrobeniusEquiv_def]
 
 theorem exists_smul_of_comm_twisted_sz {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
-    [PerfectRing K 2] (hK : Nat.card K = 2 ^ (2 * a + 1))
+    [PerfectRing K 2] (_hK : Nat.card K = 2 ^ (2 * a + 1))
     {W : Type} [AddGroup W]
     {c : ℕ} {φ : W ≃+ (Fin 4 → K)} (y : W →+ W)
     (hy : ∀ (g : ↥(suzukiGroup a K)) (w : W),
@@ -279,7 +281,6 @@ theorem card_eigenspace_suzukiD_map_pow_le {a : ℕ} {K : Type} [Field K] [Finit
     intro i
     fin_cases i <;> simp [dEnt] <;>
       first
-        | exact pow_ne_zero _ (Units.ne_zero l)
         | exact zpow_ne_zero _ (Units.ne_zero l)
   by_cases hσ : σ = 0
   · subst hσ
@@ -292,10 +293,10 @@ theorem card_eigenspace_suzukiD_map_pow_le {a : ℕ} {K : Type} [Field K] [Finit
       have hi := congrFun hv i
       rw [Matrix.mulVec_diagonal] at hi
       exact (mul_eq_zero.mp hi).resolve_left (pow_ne_zero _ (hdne0 i))
-    haveI : Subsingleton
+    have : Subsingleton
         {v : Fin 4 → K // (suzukiD a l).map (· ^ 2 ^ c) *ᵥ v = (0 : K) • v} :=
       ⟨fun a b => Subtype.ext (by rw [hzero a, hzero b])⟩
-    haveI : Nonempty
+    have : Nonempty
         {v : Fin 4 → K // (suzukiD a l).map (· ^ 2 ^ c) *ᵥ v = (0 : K) • v} :=
       ⟨⟨0, by simp⟩⟩
     rw [Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, inferInstance⟩]

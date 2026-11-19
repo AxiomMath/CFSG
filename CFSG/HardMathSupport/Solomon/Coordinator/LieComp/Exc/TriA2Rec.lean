@@ -18,7 +18,7 @@ theorem exists_hom_ker_eq_of_perfect_index_le_four {C : Type} [Group C] {Q : Sub
     (hQ : Group.IsPerfect Q) (hidx : Q.index ≤ 4) (hfin : Q.index ≠ 0) :
     ∃ π : C →* Equiv.Perm (C ⧸ Q), π.ker = Q := by
   classical
-  haveI : Finite (C ⧸ Q) := Nat.finite_of_card_ne_zero (by
+  have : Finite (C ⧸ Q) := Nat.finite_of_card_ne_zero (by
     rw [← Subgroup.index_eq_card]; exact hfin)
   have hcard : Nat.card (C ⧸ Q) ≤ 4 := by rw [← Subgroup.index_eq_card]; exact hidx
   have hsolv : Group.IsSolvable (Equiv.Perm (C ⧸ Q)) := Equiv.Perm.isSolvable hcard
@@ -34,10 +34,10 @@ theorem exists_hom_ker_eq_of_perfect_index_le_four {C : Type} [Group C] {Q : Sub
     intro x hx
     have hf : (π.comp Q.subtype).range = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥(π.comp Q.subtype).range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-      haveI : Group.IsSolvable ↥(π.comp Q.subtype).range :=
+      have : Nontrivial ↥(π.comp Q.subtype).range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+      have : Group.IsSolvable ↥(π.comp Q.subtype).range :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective _)
-      haveI : Group.IsPerfect ↥(π.comp Q.subtype).range := Group.IsPerfect.range _
+      have : Group.IsPerfect ↥(π.comp Q.subtype).range := Group.IsPerfect.range _
       exact Group.IsPerfect.not_isSolvable (↥(π.comp Q.subtype).range) inferInstance
     have hmem : (π.comp Q.subtype) ⟨x, hx⟩ ∈ (π.comp Q.subtype).range := ⟨_, rfl⟩
     rw [hf] at hmem
@@ -48,7 +48,7 @@ theorem normal_and_solvable_of_perfect_index_le_four {C : Type} [Group C] {Q : S
     (hQ : Group.IsPerfect Q) (hidx : Q.index ≤ 4) (hfin : Q.index ≠ 0) :
     ∃ _ : Q.Normal, Group.IsSolvable (C ⧸ Q) := by
   classical
-  haveI : Finite (C ⧸ Q) := Nat.finite_of_card_ne_zero (by
+  have : Finite (C ⧸ Q) := Nat.finite_of_card_ne_zero (by
     rw [← Subgroup.index_eq_card]; exact hfin)
   have hcard : Nat.card (C ⧸ Q) ≤ 4 := by rw [← Subgroup.index_eq_card]; exact hidx
   have hsolv : Group.IsSolvable (Equiv.Perm (C ⧸ Q)) := Equiv.Perm.isSolvable hcard
@@ -57,7 +57,7 @@ theorem normal_and_solvable_of_perfect_index_le_four {C : Type} [Group C] {Q : S
   refine ⟨hN, ?_⟩
   have e : (C ⧸ Q) ≃* π.range := (QuotientGroup.quotientMulEquivOfEq hπ.symm).trans
     (QuotientGroup.quotientKerEquivRange π)
-  haveI : Group.IsSolvable ↥π.range :=
+  have : Group.IsSolvable ↥π.range :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective _)
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
@@ -66,7 +66,7 @@ theorem componentFactor_sl_of_surjective {F : Type} [Field F] [Finite F] {p : �
     (hρ : Function.Surjective ρ) (hk : ρ.ker ≤ Subgroup.center SL(3, F)) :
     ComponentFactor p Q := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   subst hp
   have hFD : LieFactorData (ringChar F) SL(3, F) :=
     slFactorFacts_holds F 3 (by norm_num) (fun h => absurd h (by norm_num))
@@ -82,7 +82,7 @@ theorem compsWith_of_sl3_hom {P : (X : Type) → [Group X] → Prop}
     {C : Type} [Group C] [Finite C] (ρ : SL(3, F) →* C) (hρ : ∃ g, ρ g ≠ 1)
     (hcard : Nat.card C = Nat.card SL(3, F)) : CompsWith P C := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hquasi' : CFSG.IsQuasisimple SL(3, F) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple 3 F
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
@@ -106,8 +106,8 @@ theorem compsWith_of_sl3_hom {P : (X : Type) → [Group X] → Prop}
     nlinarith
   have hidx3 : ρ.range.index ≤ 3 := Nat.le_of_mul_le_mul_right h1 hpos
   have hidx0 : ρ.range.index ≠ 0 := Subgroup.index_ne_zero_of_finite
-  haveI : Group.IsPerfect SL(3, F) := CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsPerfect SL(3, F) := CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
   obtain ⟨hN, hsolv⟩ := normal_and_solvable_of_perfect_index_le_four inferInstance
     (by omega) hidx0
   have hkR : ρ.rangeRestrict.ker ≤ Subgroup.center SL(3, F) := by

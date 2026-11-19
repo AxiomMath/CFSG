@@ -47,7 +47,7 @@ theorem k33Models_of_index
     (i : TauCeti.CFSGIndex) {L : Type} [Group L] [Finite L]
     (hs : IsSimpleGroup L) (hna : ∃ a b : L, a * b ≠ b * a) (e : L ≃* i.Group)
     (h2 : CFSG.Open.pRank 3 (⊤ : Subgroup L) = 2) : K33Models L := by
-  haveI : Nontrivial L := hs.toNontrivial
+  have : Nontrivial L := hs.toNontrivial
   cases i with
   | cyclic p hp => exact k33Models_cyclic hp e hna
   | alternating n hn => exact k33Models_alternating hn e h2
@@ -58,7 +58,7 @@ theorem k33_holds
     : UCK.K33 := by
   intro L _ _ hq hcat hZp h2
   suffices H : K33Cover L ∨ K33Models L from H
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbr := CFSG.RankThree.PartOne.TCB.nonempty_carrier_mulEquiv_group
   by_cases h3 : 3 ∣ Nat.card (Subgroup.center L)
   · exact Or.inl (k33_threeCover_of_three_dvd
@@ -75,7 +75,7 @@ theorem k33_holds
         exact absurd (dvd_pow_self 3 (Nat.succ_ne_zero k)) h3
     obtain ⟨e0⟩ := nonempty_quotCenter_mulEquiv hZ1
     have hs : IsSimpleGroup L := (MulEquiv.isSimpleGroup_congr e0).mp hq.2
-    haveI : Nontrivial L := hs.toNontrivial
+    have : Nontrivial L := hs.toNontrivial
     have hna : ∃ a b : L, a * b ≠ b * a := by
       by_contra hall
       obtain ⟨x, hx⟩ := exists_ne (1 : L)
@@ -88,7 +88,7 @@ theorem k33_holds
       (CFSG.GH74.card_of_isSporadic_J1 ⟨MulEquiv.refl _⟩)
       CFSG.SectionRank.sporadicThreeRankWitnesses
       (fun hN => by
-        haveI : Nontrivial CFSG.Blueprint.NativeSporadic.M := hN
+        have : Nontrivial CFSG.Blueprint.NativeSporadic.M := hN
         exact CFSG.SectionRank.M_nontrivial_elementary_three_rank_four)
       i hs hna (e0.symm.trans e) h2
 

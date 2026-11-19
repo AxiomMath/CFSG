@@ -80,7 +80,7 @@ private theorem isCyclic_sylow_of_mulEquiv {S T : Type*} [Group S] [Group T] [Fi
 
 private theorem isCyclic_sylow_of_not_sq_dvd {S : Type*} [Group S] [Finite S] {r : ℕ}
     [Fact r.Prime] (h : ¬ r ^ 2 ∣ Nat.card S) (Q : Sylow r S) : IsCyclic Q := by
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hdvd : r ^ k ∣ Nat.card S := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hk1 : k ≤ 1 := by
     by_contra hk2

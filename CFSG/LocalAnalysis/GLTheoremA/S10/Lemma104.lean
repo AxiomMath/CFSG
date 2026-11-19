@@ -42,6 +42,7 @@ structure H104 (p : ℕ) (B : Subgroup G) (x : G) (L : Subgroup G) (b a : G) : P
       (p = 3 ∧ IsTD4 3 (Jpart p (Ipart p L b) a) ∧
         (∃ d ∈ Dgrp b x, NonInner 3 d (Jpart p (Ipart p L b) a)) ∧ IsG2Quot 3 (Ipart p L b)))
 
+omit [Finite G] in
 private theorem lemma104_mem_normalizer_inf {X Y : Subgroup G} {g : G}
     (hX : g ∈ Subgroup.normalizer (X : Set G)) (hY : g ∈ Subgroup.normalizer (Y : Set G)) :
     g ∈ Subgroup.normalizer ((X ⊓ Y : Subgroup G) : Set G) := by
@@ -55,6 +56,7 @@ private theorem lemma104_isQuasisimple_of_marking {Q : Type} [Group Q]
   obtain ⟨R, _, I, F, hs, -, θ, -⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   exact ⟨hK, θ.isSimpleGroup⟩
 
+omit [Finite G] in
 private theorem lemma104_closureIn_le {I A D : Subgroup G} (hID : I ≤ D)
     (hAD : A ≤ Subgroup.normalizer (D : Set G)) : closureIn I A ≤ D := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -70,7 +72,7 @@ private theorem lemma104_comp_layer {p : ℕ} (hp : p.Prime) {M : Subgroup G}
     fun K hK => glaPComponent_of_le hp hK (le_sSup hK) (sSup_le fun K' hK' => hK'.1)
   obtain ⟨K₁, hK₁⟩ : ∃ K₁ : Subgroup G, GLAPComponent p M K₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : GLAPLayer p M = ⊥ := sSup_eq_bot.2 fun K hK => (hcon K hK).elim
     obtain ⟨q₁, q₂, hne⟩ := (isQuasisimple_nontrivial hq).exists_pair_ne
     obtain ⟨g₁, rfl⟩ := QuotientGroup.mk_surjective q₁
@@ -87,15 +89,16 @@ private theorem lemma104_comp_layer {p : ℕ} (hp : p.Prime) {M : Subgroup G}
   rw [heq]
   exact hK₁
 
+omit [Finite G] in
 private theorem lemma104_card_zpowers {B : Subgroup G} {p : ℕ} (hB : IsElemAbelian p B)
     (hp : p.Prime) {u : G} (hu : u ∈ B) (hu1 : u ≠ 1) : Nat.card (Subgroup.zpowers u) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 u hu) hu1]
 
 private theorem lemma104_card_sup {B : Subgroup G} {p : ℕ} (hB : IsElemAbelian p B) (hp : p.Prime)
     {u v : G} (hu : u ∈ B) (hv : v ∈ B) (hu1 : u ≠ 1) (hvu : v ∉ Subgroup.zpowers u) :
     Nat.card ((Subgroup.zpowers u ⊔ Subgroup.zpowers v : Subgroup G)) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcu : Nat.card (Subgroup.zpowers u) = p := lemma104_card_zpowers hB hp hu hu1
   have hv1 : v ≠ 1 := fun h => hvu (h ▸ Subgroup.one_mem _)
   have hcv : Nat.card (Subgroup.zpowers v) = p := lemma104_card_zpowers hB hp hv hv1
@@ -139,13 +142,16 @@ private theorem lemma104_card_Dgrp {B : Subgroup G} {p : ℕ} (hB : IsElemAbelia
   rw [dgrp_eq_sup, sup_comm]
   exact lemma104_card_sup hB hp hxB hbB hx1 hbx
 
+omit [Finite G] in
 private theorem lemma104_dgrp_le {B : Subgroup G} {b x : G} (hb : b ∈ B) (hx : x ∈ B) :
     Dgrp b x ≤ B :=
   (Subgroup.closure_le B).2 (Set.insert_subset_iff.2 ⟨hb, Set.singleton_subset_iff.2 hx⟩)
 
+omit [Finite G] in
 private theorem lemma104_b_mem {b x : G} : b ∈ Dgrp b x :=
   Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [Finite G] in
 private theorem lemma104_x_mem {b x : G} : x ∈ Dgrp b x :=
   Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
@@ -154,8 +160,9 @@ private theorem lemma104_isKGroup_cx (hc : S10Ctx G p) {y : G} (hy : y ≠ 1) :
   isKGroup_of_isKProper hc.ctx.kProper
     (centralizer_ne_top_of_ne_one hc.ctx.simple hc.ctx.nonabelian hy)
 
+omit [Finite G] in
 private theorem lemma104_I_le {L : Subgroup G} {b : G} : Ipart p L b ≤ L ⊓ cx b :=
-  sSup_le fun K hK => hK.1
+  sSup_le fun _K hK => hK.1
 
 private theorem lemma104_I_comp_C {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
     (hc : S10Ctx G p) (h : Cfg p B x L b) : GLAPComponent p (cx x ⊓ cx b) (Ipart p L b) := by
@@ -218,7 +225,7 @@ private theorem lemma104_I_comp_J {B : Subgroup G} {x : G} {L : Subgroup G} {b a
   exact glaPComponent_of_le hp hA (le_inf (le_closureIn_self _ _) (hIA.trans inf_le_right))
     (inf_le_inf_right _ hJ)
 
-theorem B_le_N_J (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G}
+theorem B_le_N_J (_hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G}
     (h : Cfg p B x L b) (ha : a ∈ Dgrp b x) :
     B ≤ Subgroup.normalizer ((Ipart p L b : Subgroup G) : Set G) ∧
       B ≤ Subgroup.normalizer ((Jpart p (Ipart p L b) a : Subgroup G) : Set G) := by
@@ -260,9 +267,9 @@ theorem exists_complement (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgro
   · exact ⟨x, lemma104_x_mem, hxa,
       lemma104_eq_sup_of_card hBel hp hDB hDc ha lemma104_x_mem ha1 hxa⟩
 
-theorem I_comp_in_J (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgroup G} {x : G}
+theorem I_comp_in_J (hc : S10Ctx G p) (_hin : Lemma104Inputs G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} {b a x' : G} (h : Cfg p B x L b) (ha : a ∈ Dgrp b x) (ha1 : a ≠ 1)
-    (hx' : x' ∈ Dgrp b x) (hx'a : x' ∉ Subgroup.zpowers a) (hsingle : GLAPComponent p (cx a) (Jpart p (Ipart p L b) a)) :
+    (hx' : x' ∈ Dgrp b x) (hx'a : x' ∉ Subgroup.zpowers a) (_hsingle : GLAPComponent p (cx a) (Jpart p (Ipart p L b) a)) :
     GLAPComponent p (Jpart p (Ipart p L b) a ⊓ cx x') (Ipart p L b) :=
   lemma104_I_comp_J hc h ha ha1 hx' hx'a
 
@@ -316,7 +323,7 @@ theorem JGB_of_E (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgroup G} {
     exact le_sSup (glaPComponent_of_le hp hK hKM hM)
   have hK' : ∃ K', GLAPComponent p (L ⊓ cs E) K' ∧ K' ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (sSup_eq_bot.2 fun K hK => hcon K hK)
   obtain ⟨K', hK'c, hK'ne⟩ := hK'
   have hK'Y : GLAPComponent p (cx x ⊓ cs E) K' :=
@@ -431,7 +438,7 @@ theorem exists_d_field (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
     (hy : FieldOn p y (Jpart p (Ipart p L b) a)) :
     ∃ d ∈ Dgrp b x, FieldOn p d (Jpart p (Ipart p L b) a) := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hS := sstar_triple h.star
   have hDB : Dgrp b x ≤ B := (card_Dgrp hS.1.1 hc.ctx.prime h.mem hS.2.1.1 hS.2.1.2.1 h.not_mem).1
   have hBN : B ≤ Subgroup.normalizer ((Jpart p (Ipart p L b) a : Subgroup G) : Set G) :=
@@ -457,7 +464,7 @@ theorem lemma104_alpha (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
   have hG : IsGStar p B J := JGB_of_E hc hin h hH.mem hA
   have hS0 : IsS0 p B a J := ⟨hS, by
     unfold tripleLevel
-    rw [if_pos hG, hd5]⟩
+    rw [ite_eq_left hG, hd5]⟩
   have hTa : ∃ T : Subgroup G, T ≤ J ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       ¬ T ≤ GLAPPrimeCoreOf p (cx a) := by
     obtain ⟨T, hTJ, hT2, hTB, hTO⟩ := hH.hT
@@ -485,7 +492,7 @@ theorem lemma104_alpha (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
       have hR : R2TD4 3 B J := ⟨rfl, htd, y, hyB, ne_one_of_nonInner hyn, hyn⟩
       have hr3 : r2 3 B J = Nat.sqrt (card2 3 J) := by
         unfold r2
-        rw [if_pos hR]
+        rw [ite_eq_left hR]
       rw [hr3] at hr2
       obtain ⟨x', hx'D, hx'a, -⟩ := exists_complement hc h hH.mem hH.ne
       have hcomp := I_comp_in_J hc hin h hH.mem hH.ne hx'D hx'a hH.single
@@ -518,7 +525,7 @@ theorem lemma104_alpha (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
     have hnF : ¬ ∃ y ∈ B, FieldOn p y J := fun ⟨y, hyB, hyf⟩ => hy ⟨y, hyB, Or.inl hyf⟩
     have hr3 : r2 p B J = card2 p J := by
       unfold r2
-      rw [if_neg hnR, dif_neg hnF]
+      rw [ite_eq_right hnR, dite_eq_right hnF]
     rw [hr3] at hr2
     have hDB : Dgrp b x ≤ B := (card_Dgrp hBel hc.ctx.prime h.mem (sstar_triple h.star).2.1.1
       (sstar_triple h.star).2.1.2.1 h.not_mem).1
@@ -702,7 +709,7 @@ private theorem lemma104_cover_gen {I J : Subgroup G} (hp : p.Prime) (hIJ : I �
     (hcard : Nat.card (PSimple p I) = Nat.card (PSimple p J)) :
     J ≤ I ⊔ GLAPPrimeCoreOf p J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let πJ : ↥J →* PQuot p J := QuotientGroup.mk' (GLAPPrimeCore p ↥J)
   let πS : PQuot p J →* PSimple p J := QuotientGroup.mk' (Subgroup.center (PQuot p J))
   let ι : ↥I →* ↥J := Subgroup.inclusion hIJ
@@ -746,7 +753,7 @@ private theorem lemma104_cover_gen {I J : Subgroup G} (hp : p.Prime) (hIJ : I �
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left i.2) (Subgroup.mem_sup_right hcG)
 
 theorem beta_type (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G}
-    (h : Cfg p B x L b) (hU : CaseU G p B x L b) (hH : H104 p B x L b a)
+    (_h : Cfg p B x L b) (hU : CaseU G p B x L b) (hH : H104 p B x L b a)
     (hβ : catalogIs (PSimple p (Jpart p (Ipart p L b) a)) (fun i => S9.isU4two i ∨ S9.isU4eight i)) :
     catalogIs (PSimple p (Jpart p (Ipart p L b) a)) S9.isU4eight := by
   obtain ⟨j, hj, ⟨f⟩⟩ := hβ
@@ -798,7 +805,7 @@ theorem lemma104_gamma (hc : S10Ctx G p) (hin : Lemma104Inputs G p) {B : Subgrou
     catalogIs (PSimple p (Jpart p (Ipart p L b) a)) isListGamma := by
   have hp3 := hU.p3
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x', hx'D, hx'a, -⟩ := exists_complement hc h hH.mem hH.ne
   have hcomp := I_comp_in_J hc hin h hH.mem hH.ne hx'D hx'a hH.single
   have hBel : IsElemAbelian p B := (sstar_triple h.star).1.1

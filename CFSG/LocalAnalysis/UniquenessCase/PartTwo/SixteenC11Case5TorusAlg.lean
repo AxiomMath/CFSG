@@ -12,8 +12,8 @@ variable {K : Type} [Field K] [Finite K]
   {w | ∀ p ∈ P, p.1 * w.1 + p.2 * w.2 = 0}
 
 private theorem s16c11_case5_alg_charP (hK : Nat.card K = 4) : CharP K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num)
@@ -23,6 +23,7 @@ private def s16c11_case5_scalar (c : K) : K × K →+ K × K where
   map_zero' := by simp
   map_add' p q := by ext <;> simp [mul_add]
 
+omit [Finite K] in
 @[simp] private theorem s16c11_case5_scalar_apply (c : K) (q : K × K) :
     s16c11_case5_scalar c q = (c * q.1, c * q.2) := rfl
 
@@ -31,17 +32,20 @@ private def s16c11_case5_lineHom (x : K × K) : K →+ K × K where
   map_zero' := by simp
   map_add' c d := by ext <;> simp [add_mul]
 
+omit [Finite K] in
 @[simp] private theorem s16c11_case5_lineHom_apply (x : K × K) (c : K) :
     s16c11_case5_lineHom x c = (c * x.1, c * x.2) := rfl
 
 private def s16c11_case5_line (x : K × K) : AddSubgroup (K × K) :=
   (s16c11_case5_lineHom x).range
 
+omit [Finite K] in
 private theorem s16c11_case5_mem_line {x w : K × K} :
     w ∈ s16c11_case5_line x ↔ ∃ c : K, (c * x.1, c * x.2) = w := by
   rw [s16c11_case5_line, AddMonoidHom.mem_range]
   simp only [s16c11_case5_lineHom_apply]
 
+omit [Finite K] in
 private theorem s16c11_case5_lineHom_injective {x : K × K} (hx : x ≠ 0) :
     Function.Injective (s16c11_case5_lineHom x) := by
   intro c d hcd
@@ -56,12 +60,14 @@ private theorem s16c11_case5_lineHom_injective {x : K × K} (hx : x ≠ 0) :
     exact mul_right_cancel₀ hx2 h2
   · exact mul_right_cancel₀ hx1 h1
 
+omit [Finite K] in
 private theorem s16c11_case5_card_line (hK : Nat.card K = 4) {x : K × K} (hx : x ≠ 0) :
     Nat.card ↥(s16c11_case5_line x) = 4 := by
   rw [s16c11_case5_line, AddMonoidHom.range_eq_map,
     AddSubgroup.card_map_of_injective (s16c11_case5_lineHom_injective hx),
     AddSubgroup.card_top, hK]
 
+omit [Finite K] in
 private theorem s16c11_case5_card_line_dvd (hK : Nat.card K = 4) (x : K × K) :
     Nat.card ↥(s16c11_case5_line x) ∣ 4 := by
   simpa [s16c11_case5_line, hK] using
@@ -74,9 +80,11 @@ private def s16c11_case5_pairLeft (w : K × K) : K × K →+ K where
     simp only [Prod.fst_add, Prod.snd_add]
     ring
 
+omit [Finite K] in
 @[simp] private theorem s16c11_case5_pairLeft_apply (w p : K × K) :
     s16c11_case5_pairLeft w p = p.1 * w.1 + p.2 * w.2 := rfl
 
+omit [Finite K] in
 private lemma s16c11_case5_pair_self_mem_ann_zmultiples [CharP K 2] (x : K × K) :
     (x.2, x.1) ∈ s16c11_case5_ann (AddSubgroup.zmultiples x) := by
   have hker : AddSubgroup.zmultiples x ≤ (s16c11_case5_pairLeft (x.2, x.1)).ker :=
@@ -87,12 +95,14 @@ private lemma s16c11_case5_pair_self_mem_ann_zmultiples [CharP K 2] (x : K × K)
   intro p hp
   exact AddMonoidHom.mem_ker.mp (hker hp)
 
+omit [Finite K] in
 private lemma s16c11_case5_card_zmultiples [CharP K 2] {x : K × K} (hx : x ≠ 0) :
     Nat.card ↥(AddSubgroup.zmultiples x) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_zmultiples]
   exact addOrderOf_eq_prime (p := 2) (CharTwo.two_nsmul x) hx
 
+omit [Finite K] in
 private lemma s16c11_case5_ann_subset_singleton_of_det_ne_zero {x y : K × K}
     (hxy : x.1 * y.2 - x.2 * y.1 ≠ 0) {P : AddSubgroup (K × K)} (hx : x ∈ P) (hy : y ∈ P) :
     ∀ w ∈ s16c11_case5_ann P, w = 0 := by
@@ -115,6 +125,7 @@ private lemma s16c11_case5_ann_subset_singleton_of_det_ne_zero {x y : K × K}
     exact (mul_eq_zero.mp h).resolve_left hxy
   exact Prod.ext hw1 hw2
 
+omit [Finite K] in
 private lemma s16c11_case5_mem_line_of_det_eq_zero {q y : K × K} (hq : q ≠ 0)
     (hdet : q.1 * y.2 - q.2 * y.1 = 0) : y ∈ s16c11_case5_line q := by
   rw [s16c11_case5_mem_line]
@@ -138,10 +149,11 @@ private lemma s16c11_case5_mem_line_of_det_eq_zero {q y : K × K} (hq : q ≠ 0)
       rw [mul_assoc, mul_comm q.2 q.1, ← mul_assoc, div_mul_cancel₀ y.1 hq1,
         mul_comm y.2 q.1, hdet', mul_comm y.1 q.2]
 
+omit [Finite K] in
 private lemma s16c11_case5_exists_not_mem_ann {P : AddSubgroup (K × K)} (hP : P ≠ ⊥) :
     ∃ w : K × K, w ∉ s16c11_case5_ann P := by
   have hlt : (⊥ : AddSubgroup (K × K)) < P := bot_lt_iff_ne_bot.mpr hP
-  obtain ⟨p, hpP, hp_not⟩ := (SetLike.lt_iff_le_and_exists.mp hlt).2
+  obtain ⟨p, hpP, hp_not⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hlt).2
   have hp0 : p ≠ 0 := by
     intro h
     exact hp_not (by simpa [AddSubgroup.mem_bot] using h)
@@ -165,7 +177,7 @@ private lemma s16c11_case5_det_eq_zero_of_ann_eq (hK : Nat.card K = 4) {P : AddS
     ∀ x ∈ P, ∀ y ∈ P, x.1 * y.2 - x.2 * y.1 = 0 := by
   intro x hx y hy
   by_contra hdet
-  haveI : CharP K 2 := s16c11_case5_alg_charP hK
+  have : CharP K 2 := s16c11_case5_alg_charP hK
   have hx0 : x ≠ 0 := by
     rintro rfl
     exact hdet (by simp)
@@ -184,6 +196,7 @@ private lemma s16c11_case5_det_eq_zero_of_ann_eq (hK : Nat.card K = 4) {P : AddS
     exact hx0 (Prod.ext (congrArg Prod.snd h0) (congrArg Prod.fst h0))
   exact hne (hannP _ hxw)
 
+omit [Finite K] in
 theorem s16c11_case5_ann_card_ge (hK : Nat.card K = 4) {P : AddSubgroup (K × K)} (hP : P ≠ ⊥)
     (h : ∀ P' : AddSubgroup (K × K), P' ≤ P → Nat.card ↥P ≤ 2 * Nat.card ↥P' →
       s16c11_case5_ann P' = s16c11_case5_ann P) :
@@ -199,7 +212,7 @@ theorem s16c11_case5_ann_card_ge (hK : Nat.card K = 4) {P : AddSubgroup (K × K)
   have hne2 : Nat.card ↥P ≠ 2 := by
     intro h2
     have hbot : s16c11_case5_ann (⊥ : AddSubgroup (K × K)) = s16c11_case5_ann P :=
-      h ⊥ bot_le (by simp [h2, AddSubgroup.card_bot])
+      h ⊥ bot_le (by simp [h2])
     have huniv : s16c11_case5_ann P = Set.univ := by
       rw [← hbot]
       ext w
@@ -239,8 +252,8 @@ theorem s16c11_case5_ann_card_ne_eight (hK : Nat.card K = 4) {P : AddSubgroup (K
     (h : ∀ P' : AddSubgroup (K × K), P' ≤ P → Nat.card ↥P ≤ 2 * Nat.card ↥P' →
       s16c11_case5_ann P' = s16c11_case5_ann P) : False := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  letI : CharP K 2 := s16c11_case5_alg_charP hK
+  have : Fintype K := Fintype.ofFinite K
+  let : CharP K 2 := s16c11_case5_alg_charP hK
   obtain ⟨ω, hω⟩ := TauCeti.exists_sq_add_self_add_one_eq_zero_of_card_eq_four hK
   have hωsq : ω ^ 2 = ω + 1 := by
     have h : ω ^ 2 + (ω + 1) = 0 := by rw [← hω]; ring
@@ -302,7 +315,7 @@ theorem s16c11_case5_ann_card_ne_eight (hK : Nat.card K = 4) {P : AddSubgroup (K
     intro heq
     rw [← heq, hcard_line] at hcard
     norm_num at hcard
-  obtain ⟨y, hyP, hy_not⟩ := (SetLike.lt_iff_le_and_exists.mp hlt).2
+  obtain ⟨y, hyP, hy_not⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hlt).2
   have hdet : q.1 * y.2 - q.2 * y.1 ≠ 0 := fun hdet0 =>
     hy_not (s16c11_case5_mem_line_of_det_eq_zero hq_ne hdet0)
   have hannP : ∀ w ∈ s16c11_case5_ann P, w = 0 :=

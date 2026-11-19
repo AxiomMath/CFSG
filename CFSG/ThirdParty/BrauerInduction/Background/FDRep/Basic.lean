@@ -317,7 +317,7 @@ theorem isZero_iff_subsingleton (V : FDRep k G) :
     simp at hx hy
     exact hx.trans hy.symm
   · intro hsub
-    haveI : Subsingleton V := hsub
+    have : Subsingleton V := hsub
     refine IsZero.mk ?_ ?_
     · intro Y
       refine ⟨{ default := (0 : V ⟶ Y), uniq := fun f => ?_ }⟩

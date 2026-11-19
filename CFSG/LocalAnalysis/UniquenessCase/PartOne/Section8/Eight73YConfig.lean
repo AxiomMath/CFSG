@@ -61,7 +61,7 @@ theorem isStronglyPEmbedded_of_eight73Y_of_pRank (hK35w : UCK.K35w)
     (hQcard : p ^ 3 ∣ Nat.card Q) (hΓ : rankThreeGamma 1 p Q ≤ D.M) :
     IsStronglyPEmbedded p D.M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLM : L ≤ D.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hQp : IsPGroup p ↥Q := hQ.isPGroup
   have hQ2 : 2 ≤ CFSG.Open.pRank p Q := by
@@ -79,7 +79,7 @@ theorem isStronglyPEmbedded_of_eight73Y_of_pRank (hK35w : UCK.K35w)
       have hlt : p < p ^ 3 := by
         simpa using (Nat.pow_lt_pow_right hp.one_lt (by norm_num : 1 < 3))
       omega
-    haveI : Fact (IsPGroup p ↥Q) := ⟨hQp⟩
+    have : Fact (IsPGroup p ↥Q) := ⟨hQp⟩
     obtain ⟨S, -, hScard, hSelem⟩ := CFSG.lemma_4_5_a (R := ↥Q) (p := p) hp2 hncyc
     let E : Subgroup G := S.map Q.subtype
     have hEcard : Nat.card E = p ^ 2 := by
@@ -138,7 +138,7 @@ theorem isStronglyPEmbedded_of_eight73Y_lieModel (hGA : GriessAllModelsStatement
     rcases hX with hX | hX
     · exact hX.admissible.1
     · exact hX.admissible.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : ¬ p ∣ Nat.card (center (Bar2 L)) := by
     rcases hX with hX | hX
     · exact UC22.uc22s213_not_dvd_card_center_of_rank_three_odd hGA hL (.inl rfl) hp2 hX

@@ -103,7 +103,7 @@ theorem exists_two_subgroup_normalizing [Finite G] (K B : Subgroup G) (hB : IsPG
       exact Sylow.not_dvd_index Q
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp this)
   set Q₀ : Subgroup G := (Q : Subgroup ↥K).map K.subtype with hQ₀
-  have hQ₀p : IsPGroup 2 Q₀ := Q.isPGroup'.map K.subtype
+  have hQ₀p : IsPGroup 2 Q₀ := Q.isPGroup.map K.subtype
   have hQ₀K : Q₀ ≤ K := Subgroup.map_subtype_le _
   have hBQ₀ : B ≤ Q₀ := by
     have : B'.map K.subtype = B := Subgroup.map_subgroupOf_eq_of_le hBK

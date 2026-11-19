@@ -17,7 +17,7 @@ theorem ggF4H4Psl64_dvd_card_of_hasLabel {G : Type} [Group G] {J : Subgroup G} {
     (hJlab : GGHasLabel ⟨.A, 2, f⟩ (↥J ⧸ Subgroup.center ↥J)) :
     5 ∣ Nat.card ↥J ∧ 13 ∣ Nat.card ↥J ∧ 17 ∣ Nat.card ↥J := by
   obtain ⟨F', hF'field, hF'fin, hF'card, ⟨e'⟩⟩ := hJlab
-  letI := hF'field
+  let := hF'field
   have := hF'fin
   have hJqcard : Nat.card (J ⧸ Subgroup.center J) =
       Nat.card (LargeEvenProj (LargeEvenSLGroup (Fin 3) F')) :=
@@ -42,7 +42,7 @@ theorem ggF4H4Psl64_false_of_le {G : Type} [Group G] [Finite G] {J K : Subgroup 
     (hKc : Subgroup.center ↥K = ⊥) (h13J : 13 ∣ Nat.card ↥J) (h17J : 17 ∣ Nat.card ↥J)
     (h3 : 3 ∣ Nat.card ↥(Subgroup.center ↥J)) : False := by
   obtain ⟨F, hFfield, hFfin, hFcard2, ⟨eK⟩⟩ := hKlab
-  letI := hFfield
+  let := hFfield
   have := hFfin
   have hFcard : Nat.card F = 4 := by simpa using hFcard2
   let ι : J →* LargeEvenProj (LargeEvenSLGroup (Fin 6) F) :=

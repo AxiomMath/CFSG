@@ -47,6 +47,7 @@ theorem conj_x_word (i j k : ℕ) :
   simp only [mul_assoc]
 
 include hz in
+omit hzy in
 theorem y_mul_x_pow (n : ℕ) : y * x ^ n = ⁅x, y⁆ ^ (10 * n) * x ^ n * y := by
   have hzi : ⁅x, y⁆⁻¹ = ⁅x, y⁆ ^ 10 :=
     inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact hz)
@@ -61,7 +62,7 @@ include hz in
 theorem conj_y_word (i j k : ℕ) :
     y * (x ^ i * y ^ j * ⁅x, y⁆ ^ k) * y⁻¹ = x ^ i * y ^ j * ⁅x, y⁆ ^ (k + 10 * i) := by
   have h2 : y * x ^ i * y⁻¹ = ⁅x, y⁆ ^ (10 * i) * x ^ i := by
-    rw [y_mul_x_pow hzx hzy hz i, mul_inv_cancel_right]
+    rw [y_mul_x_pow hzx hz i, mul_inv_cancel_right]
   have h3 : y * ⁅x, y⁆ ^ k * y⁻¹ = ⁅x, y⁆ ^ k := by
     rw [← (hzy.pow_left k).eq, mul_inv_cancel_right]
   have hc : Commute (⁅x, y⁆ ^ (10 * i)) (x ^ i * y ^ j) :=
@@ -84,7 +85,7 @@ theorem y_pow_mul_x_pow (a b : ℕ) :
         ⁅x, y⁆ ^ (10 * a) * (x ^ a * (y * y ^ b)) * ⁅x, y⁆ ^ (b * (10 * a)) := by
       simp only [mul_assoc]
     have e : (b + 1) * (10 * a) = 10 * a + b * (10 * a) := by ring
-    rw [pow_succ', s1, y_mul_x_pow hzx hzy hz a, s2, hc.eq, e, pow_add]
+    rw [pow_succ', s1, y_mul_x_pow hzx hz a, s2, hc.eq, e, pow_add]
     simp only [mul_assoc]
 
 include hz in

@@ -22,13 +22,13 @@ theorem acompOK_s1 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge
     ACompOK 3 (sJ 0) := by
   obtain ⟨-, -, hcomm⟩ := CJ_s1_structure
   have hder := commutator_CJ_s1
-  haveI hsimple : IsSimpleGroup ↥L1J := by
+  have hsimple : IsSimpleGroup ↥L1J := by
     have := alt3_simple
     exact MulEquiv.isSimpleGroup (alt3.equivMapOfInjective iotaA iotaA_injective).symm
   have hcard : Nat.card ↥L1J = 181440 := by
     rw [show (L1J : Subgroup JH) = alt3.map iotaA from rfl,
       Subgroup.card_map_of_injective iotaA_injective, card_alt3]
-  haveI : Finite ↥L1J := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥L1J := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hLC : L1J ≤ Subgroup.centralizer ({sJ 0} : Set ↥JH) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcomm x hx)
   have hnp : ¬ (Nat.card ↥L1J).Prime := by
@@ -41,7 +41,7 @@ theorem acompOK_s1 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge
   have hk : Nat.card ↥(Subgroup.centralizer ({sJ 0} : Set ↥JH)) = Nat.card ↥L1J * 3 ^ 1 := by
     rw [show Subgroup.centralizer ({sJ 0} : Set ↥JH) = CJ (sJ 0) from rfl, card_CJ_s1, hcard]
     norm_num
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   refine acompOK_of_shapeRkAt (Good := fun T _ => ATypeOK 3 T) (Rk := fun _ _ => True)
@@ -60,7 +60,7 @@ theorem acompOK_s1 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge
 
 theorem acompOK_three_JH (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) (k : ↥JH)
     (hk3 : orderOf k = 3) : ACompOK 3 k := by
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   have hs3 : ACompOK 3 (sJ 2) :=

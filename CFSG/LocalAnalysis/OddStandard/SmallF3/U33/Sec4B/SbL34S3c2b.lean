@@ -12,7 +12,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
-private theorem mem_O_of_phi_eq_one (ha : Ctx4A t L S x₁ x₂ lam rho tau)
+private theorem mem_O_of_phi_eq_one (_ha : Ctx4A t L S x₁ x₂ lam rho tau)
     (σ : Sig4 t tau x₁ x₂) {g : G} (hg : g ∈ ctxLO t tau x₁ x₂)
     (h : σ.φ ⟨g, hg⟩ = 1) : g ∈ ctxO t tau x₁ x₂ := by
   have hker : (⟨g, hg⟩ : ↥(ctxLO t tau x₁ x₂)) ∈ σ.φ.ker := MonoidHom.mem_ker.mpr h

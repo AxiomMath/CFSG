@@ -62,7 +62,7 @@ theorem good425_suz (x : Equiv.Perm (Fin 1782)) (hx : x ∈ suzM) (hxo : orderOf
   · exact Good425.conj hk yPerm_pow he good425_suz_C
 
 theorem noCC425_suz : NoCC425 (Blueprint.NativeSporadic.Carrier .Suz) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Suz) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .Suz) :=
     Finite.of_equiv _ suzEquivM.symm.toEquiv
   exact noCC425_of_subgroupModel suzEquivM good425_suz
 
@@ -84,7 +84,7 @@ open Subgroup
 
 theorem good425_ly (k : Blueprint.NativeSporadic.Carrier .Ly) (hk : orderOf k = 3) :
     Good425 (centralizer ({k} : Set (Blueprint.NativeSporadic.Carrier .Ly))) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card Blueprint.NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)
@@ -117,7 +117,7 @@ theorem good425_ly (k : Blueprint.NativeSporadic.Carrier .Ly) (hk : orderOf k = 
   · exact hB.of_isConj h.symm
 
 theorem noCC425_ly : NoCC425 (Blueprint.NativeSporadic.Carrier .Ly) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card Blueprint.NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)

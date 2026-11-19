@@ -36,7 +36,7 @@ theorem normalizer_le_of_isPGroup_mulAut {Y : Type} [Group Y] [Finite Y] (S : Sy
     have h2 : x = a ^ 2 ^ k * x * (a ^ 2 ^ k)⁻¹ := h1
     calc x * a ^ 2 ^ k = (a ^ 2 ^ k * x * (a ^ 2 ^ k)⁻¹) * a ^ 2 ^ k := by rw [← h2]
       _ = a ^ 2 ^ k * x := by group
-  obtain ⟨j, hj⟩ := S.isPGroup' ⟨_, hC hcent⟩
+  obtain ⟨j, hj⟩ := S.isPGroup ⟨_, hC hcent⟩
   have ha2 : a ^ 2 ^ (k + j) = 1 := by
     rw [pow_add, pow_mul]
     simpa using congrArg Subtype.val hj
@@ -46,7 +46,7 @@ theorem normalizer_le_of_isPGroup_mulAut {Y : Type} [Group Y] [Finite Y] (S : Sy
   have hle : Subgroup.zpowers a ≤ Subgroup.normalizer ((S : Subgroup Y) : Set Y) :=
     (Subgroup.zpowers_le).mpr ha
   have heq := S.maximal_isPGroup.eq_of_ge
-    (IsPGroup.to_sup_of_normal_left' S.isPGroup' hK hle) le_sup_left
+    (IsPGroup.to_sup_of_normal_left' S.isPGroup hK hle) le_sup_left
   show a ∈ (S : Subgroup Y)
   rw [← heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers a)

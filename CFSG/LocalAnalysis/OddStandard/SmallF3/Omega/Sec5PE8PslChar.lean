@@ -18,7 +18,7 @@ theorem sec5pe8_restrict {Y : Type} [Group Y] [Finite Y] (J : Subgroup Y) [J.Nor
     let J' : Subgroup Y := J.map (ϕ : Y →* Y)
     have hJ'normal : J'.Normal :=
       Subgroup.Normal.map (inferInstance : J.Normal) (ϕ : Y →* Y) ϕ.surjective
-    haveI : J'.Normal := hJ'normal
+    have : J'.Normal := hJ'normal
     have hcard : Nat.card J' = Nat.card J :=
       Subgroup.card_map_of_injective (K := J) (f := (ϕ : Y →* Y)) ϕ.injective
     have hK : (J ⊓ J').subgroupOf J = ⊥ ∨ (J ⊓ J').subgroupOf J = ⊤ :=
@@ -48,12 +48,12 @@ theorem sec5pe8_restrict {Y : Type} [Group Y] [Finite Y] (J : Subgroup Y) [J.Nor
           simpa using this
         exact mul_inv_eq_one.mp (by simpa [mul_inv_rev, mul_assoc] using h1)
       have hJ'bot : J' = ⊥ := le_bot_iff.mp (hc ▸ hJ'le)
-      haveI : Nontrivial ↥J' := (MulEquiv.subgroupMap ϕ J).symm.toEquiv.nontrivial
+      have : Nontrivial ↥J' := (MulEquiv.subgroupMap ϕ J).symm.toEquiv.nontrivial
       exact (Subgroup.nontrivial_iff_ne_bot J').mp inferInstance hJ'bot
     ·
       have hle : J ≤ J' := fun x hx => (subgroupOf_eq_top.mp htop hx).2
       exact (Subgroup.eq_of_le_of_card_ge hle hcard.le).symm
-  haveI : J.Characteristic := Subgroup.characteristic_iff_map_eq.mpr hmap_gen
+  have : J.Characteristic := Subgroup.characteristic_iff_map_eq.mpr hmap_gen
   refine ⟨MulAut.characteristic J κ, ?_, ?_, ?_⟩
   · intro x
     exact MulAut.characteristic_apply_apply_coe J κ x

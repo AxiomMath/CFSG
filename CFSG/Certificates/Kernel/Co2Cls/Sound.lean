@@ -40,7 +40,7 @@ theorem recC_spec {k : Nat} (h : recC CF G NG X0 N k = true) :
     rw [iteT (Nat.beq_refl 0)] at h
     exact Nat.eq_of_beq_eq_true h
   · rw [iteF (by rw [beq_false h0]; exact Bool.false_ne_true)] at h
-    simp only [letB_eq, andK_eq, Bool.and_eq_true] at h
+    simp only [Bool.and_eq_true] at h
     exact ⟨blt_iff.1 h.1, blt_iff.1 h.2.1, Nat.eq_of_beq_eq_true h.2.2⟩
 
 theorem tree_conj (hok : ∀ k < N, recC CF G NG X0 N k = true) :

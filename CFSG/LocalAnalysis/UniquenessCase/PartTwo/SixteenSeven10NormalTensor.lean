@@ -31,14 +31,14 @@ theorem s16c1610_not_isTensorS3L2_of_normal {G N : Subgroup (MulAut W)} {m : ℕ
       φ.injective).trans (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNG).toEquiv)
   let P : Subgroup (S × Γ) := (⊥ : Subgroup S).prod (⊤ : Subgroup Γ)
   have hP_normal : P.Normal := Subgroup.prod_normal _ _
-  haveI : Nc.Normal := hNc_normal
-  haveI : P.Normal := hP_normal
+  have : Nc.Normal := hNc_normal
+  have : P.Normal := hP_normal
   let K : Subgroup (S × Γ) := Nc ⊓ P
   have hK_normal : K.Normal := inferInstance
   let KΓ : Subgroup Γ := K.map (MonoidHom.snd S Γ)
   have hKΓ_normal : KΓ.Normal := hK_normal.map _ Prod.snd_surjective
-  haveI : KΓ.Normal := hKΓ_normal
-  haveI : IsSimpleGroup Γ := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two hm
+  have : KΓ.Normal := hKΓ_normal
+  have : IsSimpleGroup Γ := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two hm
   have hcardP : Nat.card P = Nat.card Γ := by
     show Nat.card ((⊥ : Subgroup S).prod (⊤ : Subgroup Γ)) = Nat.card Γ
     rw [Nat.card_congr (Subgroup.prodEquiv (⊥ : Subgroup S) (⊤ : Subgroup Γ)).toEquiv,

@@ -17,6 +17,7 @@ section Uline
 
 variable {B : Subgroup G}
 
+omit [Finite G] in
 theorem Uline_conj_mem (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) {y : G} (hy : y ∈ Y)
     {x : G} (hx : x ∈ Uline Z B Y) : y * x * y⁻¹ ∈ Uline Z B Y := by
   have hle : Uline Z B Y ≤ (Uline Z B Y).comap (MulAut.conj y).toMonoidHom := by
@@ -38,6 +39,7 @@ theorem Uline_conj_mem (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) {y : 
   have := hle hx
   simpa [MulAut.conj_apply] using this
 
+omit [Finite G] in
 theorem conj_Uline (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) {y : G} (hy : y ∈ Y) :
     conjSubgroup y (Uline Z B Y) = Uline Z B Y := by
   ext x
@@ -50,8 +52,10 @@ theorem conj_Uline (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) {y : G} (
     have := Uline_conj_mem hc hYM (Y.inv_mem hy) h
     simpa using this
 
+omit [Finite G] in
 theorem Z_le_Uline (Z B Y : Subgroup G) : Z ≤ Uline Z B Y := le_sup_left
 
+omit [Finite G] in
 theorem B_le_Uline (Z B Y : Subgroup G) : B ≤ Uline Z B Y := by
   intro b hb
   refine Subgroup.mem_sup_right (Subgroup.mem_iSup_of_mem 1
@@ -59,6 +63,7 @@ theorem B_le_Uline (Z B Y : Subgroup G) : B ≤ Uline Z B Y := by
   rw [mem_conjSubgroup]
   simpa using hb
 
+omit [Finite G] in
 theorem Uline_le_Q (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) : Uline Z B Y ≤ Q := by
   refine sup_le hc.hyp.Z_normal.1 (iSup₂_le fun y hy => ?_)
   intro x hx

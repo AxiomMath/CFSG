@@ -18,15 +18,15 @@ namespace CFSG.Sporadic.J4Schreier
 
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 
-@[expose] def ActsBy (g : J) (C : Array ℕ) : Prop := ∀ a, g * η a * g⁻¹ = η (app11 C a)
+def ActsBy (g : J) (C : Array ℕ) : Prop := ∀ a, g * η a * g⁻¹ = η (app11 C a)
 
 irreducible_def kgen (i : ℕ) : J := signedWord x y (fiveGenWords[i]!)
 
-@[expose] def vS : J := η 4
+def vS : J := η 4
 
-@[expose] def U : Subgroup J := Subgroup.closure (Set.range fun i : Fin 4 => kgen i)
+def U : Subgroup J := Subgroup.closure (Set.range fun i : Fin 4 => kgen i)
 
-@[expose] def S0 : Subgroup J := Subgroup.closure (insert vS (Set.range fun i : Fin 4 => kgen i))
+def S0 : Subgroup J := Subgroup.closure (insert vS (Set.range fun i : Fin 4 => kgen i))
 
 theorem kgen_mem_K (i : ℕ) : kgen i ∈ K := by
   rw [kgen_def]; exact signedWord_mem_K _
@@ -38,7 +38,7 @@ theorem U_le_K : U ≤ K := by
   rintro _ ⟨i, rfl⟩
   exact kgen_mem_K i
 
-@[expose] def conjGen : Subgroup J := Subgroup.closure {m | ∃ g ∈ U, m = g * vS * g⁻¹}
+def conjGen : Subgroup J := Subgroup.closure {m | ∃ g ∈ U, m = g * vS * g⁻¹}
 
 theorem vS_mem_S0 : vS ∈ S0 := Subgroup.subset_closure (Set.mem_insert _ _)
 

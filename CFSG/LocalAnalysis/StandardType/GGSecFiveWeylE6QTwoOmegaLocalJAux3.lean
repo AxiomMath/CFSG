@@ -15,11 +15,12 @@ variable {K : Type} [Field K] [Finite K]
 variable {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
-theorem OddOrderIsometry.blockDet_self_eq (hx : OddOrderIsometry Q p x) {h : K[X]}
+omit [Finite K] in
+theorem OddOrderIsometry.blockDet_self_eq (_hx : OddOrderIsometry Q p x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hsupp : x ∈ supportedBlock Q x h) :
     blockDet Q x h ⟨x, hsupp⟩ =
       (AdjoinRoot.root h) ^ primaryMultiplicity x.toLinearMap h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   rw [blockDet_apply]
   have hfun : ((blockGL Q x h ⟨x, hsupp⟩ : BlockGL x h) :
       Module.End (AdjoinRoot h) (primaryComponent x.toLinearMap h)) =
@@ -37,7 +38,7 @@ theorem exists_pow_of_commute_of_finrank_two (hK : Nat.card K = 2)
     (hdim : finrank K U = 2) :
     ∃ j : ℕ, ∀ u ∈ U, b u = (y ^ j) u := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have h2K : (2 : K) = 0 := by simpa using CharP.cast_eq_zero K 2
   have hadd2 : ∀ z : V, z + z = 0 := by

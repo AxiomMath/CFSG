@@ -23,7 +23,7 @@ theorem foldl_idle {β : Type} (C : β → Prop) [DecidablePred C] (F : β → �
     (hb : ¬ C b) : l.foldl (fun s _ => if C s then F s else s) b = b := by
   induction l with
   | nil => rfl
-  | cons a l ih => rw [List.foldl_cons, if_neg hb]; exact ih
+  | cons a l ih => rw [List.foldl_cons, ite_eq_right hb]; exact ih
 
 theorem forIn_break_eq {β : Type} (l : List ℕ) (init : β) (f : ℕ → β → Id (ForInStep β))
     (C : β → Prop) [DecidablePred C] (F : β → β)
@@ -34,9 +34,9 @@ theorem forIn_break_eq {β : Type} (l : List ℕ) (init : β) (f : ℕ → β �
   | cons a l ih =>
     rw [List.forIn_cons, List.foldl_cons, h]
     by_cases hc : C init
-    · rw [if_pos hc, if_pos hc]
+    · rw [ite_eq_left hc, ite_eq_left hc]
       exact ih _
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       exact (foldl_idle C F l init hc).symm
 
 theorem get!_eq (b : ByteArray) (i : ℕ) : b.get! i = b[i]! := by
@@ -75,11 +75,11 @@ theorem rd8_wr8 {b : ByteArray} {i : ℕ} (hi : i < b.size) (x j : ℕ) :
 
 theorem rd8_wr8_self {b : ByteArray} {i : ℕ} (hi : i < b.size) (x : ℕ) :
     rd8 (wr8 b i x) i = x % 256 := by
-  rw [rd8_wr8 hi, if_pos rfl]
+  rw [rd8_wr8 hi, ite_eq_left rfl]
 
 theorem rd8_wr8_ne {b : ByteArray} {i j : ℕ} (hi : i < b.size) (x : ℕ) (h : i ≠ j) :
     rd8 (wr8 b i x) j = rd8 b j := by
-  rw [rd8_wr8 hi, if_neg h]
+  rw [rd8_wr8 hi, ite_eq_right h]
 
 theorem get!_set!_ne' (b : ByteArray) (i j : ℕ) (v : UInt8) (h : i ≠ j) :
     (b.set! i v).get! j = b.get! j := by
@@ -387,7 +387,7 @@ theorem kInner_core (hF : ∀ g < m, ∀ v < N, F g v < N) (hm : m ≤ 256) (hN 
   unfold kInner
   dsimp only
   by_cases h0 : rd8 lev (F k v) = 0
-  · rw [if_pos (by rw [h0]; rfl)]
+  · rw [ite_eq_left (by rw [h0]; rfl)]
     have hfl := C.found_le (fun i hi g _ => Or.inl (by omega)) (by omega)
     have hdw : kd F m seed (F k v) = kd F m seed v + 1 := by
       by_contra hne
@@ -407,8 +407,8 @@ theorem kInner_core (hF : ∀ g < m, ∀ v < N, F g v < N) (hm : m ≤ 256) (hN 
       intro u
       rw [rd8_wr8 (by rw [C.szL]; exact hwN)]
       by_cases e : u = F k v
-      · rw [if_pos e.symm, if_pos e, hlv, hdw, Nat.mod_eq_of_lt (by omega)]
-      · rw [if_neg (Ne.symm e), if_neg e]
+      · rw [ite_eq_left e.symm, ite_eq_left e, hlv, hdw, Nat.mod_eq_of_lt (by omega)]
+      · rw [ite_eq_right (Ne.symm e), ite_eq_right e]
     have Lb : ∀ u, u ≠ F k v → rd8 (wr8 lab (F k v) k) u = rd8 lab u := fun u e =>
       rd8_wr8_ne (by rw [C.szB]; exact hwN) _ (Ne.symm e)
     have Lbw : rd8 (wr8 lab (F k v) k) (F k v) = k := by
@@ -443,15 +443,15 @@ theorem kInner_core (hF : ∀ g < m, ∀ v < N, F g v < N) (hm : m ≤ 256) (hN 
       · rw [Q i hi]
         obtain ⟨a1, a2, a3⟩ := C.mem i hi
         refine ⟨a1, a2, ?_⟩
-        rw [L, if_neg (hnotin i hi)]
+        rw [L, ite_eq_right (hnotin i hi)]
         exact a3
       · rw [Qs]
-        exact ⟨hwN, hwE, by rw [L, if_pos rfl]⟩
+        exact ⟨hwN, hwE, by rw [L, ite_eq_left rfl]⟩
     · intro u hu
       rw [L] at hu
       by_cases e : u = F k v
       · exact ⟨q.size, by omega, by rw [Qs, e]⟩
-      · rw [if_neg e] at hu
+      · rw [ite_eq_right e] at hu
         obtain ⟨i, hi, rfl⟩ := C.found u hu
         exact ⟨i, by omega, Q i hi⟩
     · intro i j hij hj
@@ -508,11 +508,11 @@ theorem kInner_core (hF : ∀ g < m, ∀ v < N, F g v < N) (hm : m ≤ 256) (hN 
             rw [(C.mem i hi).2.2] at t4
             omega
           exact C.nodup 0 i hi0 hi (by rw [C.q0, kd_eq_zero (C.mem i hi).2.1 hkd])
-        rw [Pu _ hiw, Lb _ hiw, L, if_neg hpw, L, if_neg hiw]
+        rw [Pu _ hiw, Lb _ hiw, L, ite_eq_right hpw, L, ite_eq_right hiw]
         exact ⟨t1, t2, t3, t4⟩
-      · rw [Qs, Pw, Lbw, L, if_neg hvw, L, if_pos rfl, hvl, hdw]
+      · rw [Qs, Pw, Lbw, L, ite_eq_right hvw, L, ite_eq_left rfl, hvl, hdw]
         exact ⟨hvN, hk, rfl, rfl⟩
-  · rw [if_neg (by rw [beq_iff_eq]; exact h0)]
+  · rw [ite_eq_right (by rw [beq_iff_eq]; exact h0)]
     exact { C with
       closed := fun i hi g hg hP => by
         rcases hP with hP | ⟨rfl, hg'⟩
@@ -619,20 +619,20 @@ theorem kRun_fold (hF : ∀ g < m, ∀ v < N, F g v < N) (hm : m ≤ 256) (hN : 
     obtain ⟨lev, lab, par, q, qh⟩ := s
     dsimp only at C h ⊢
     by_cases hq : qh < q.size
-    · rw [if_pos hq]
+    · rw [ite_eq_left hq]
       have C' := kStep_core hF hm hN hD C hq
       have e : (kStep F m (lev, lab, par, q, qh)).2.2.2.2 = qh + 1 := rfl
       have := kRun_fold hF hm hN hD l _ (t + 1) C' (Or.inr (by rw [e]; omega))
       rw [List.length_cons, show t + (l.length + 1) = t + 1 + l.length by omega]
       exact this
-    · rw [if_neg hq]
+    · rw [ite_eq_right hq]
       have idle : ∀ l' : List ℕ, l'.foldl (fun s _ => if s.2.2.2.2 < s.2.2.2.1.size then
           kStep F m s else s) (lev, lab, par, q, qh) = (lev, lab, par, q, qh) := by
         intro l'
         induction l' with
         | nil => rfl
         | cons b l' ih =>
-          rw [List.foldl_cons, if_neg hq]
+          rw [List.foldl_cons, ite_eq_right hq]
           exact ih
       rw [idle l]
       refine ⟨C, Or.inl ?_⟩
@@ -656,8 +656,8 @@ theorem core_init (hseed : seed < N) :
     intro u
     rw [rd8_wr8 (by rw [z1]; exact hseed)]
     by_cases e : u = seed
-    · rw [if_pos e.symm, if_pos e]
-    · rw [if_neg (Ne.symm e), if_neg e, z2]
+    · rw [ite_eq_left e.symm, ite_eq_left e]
+    · rw [ite_eq_right (Ne.symm e), ite_eq_right e, z2]
   have Q : ((Array.mkEmpty N).push seed : Array ℕ) = #[seed] := rfl
   change Core F m seed N (wr8 (zeros N) seed 1) (zeros N) (zeros (4 * N)) #[seed]
     (fun i _ => i < 0) 0
@@ -668,12 +668,12 @@ theorem core_init (hseed : seed < N) :
     subst this
     refine ⟨hseed, ⟨0, RIn.root⟩, ?_⟩
     change rd8 (wr8 (zeros N) seed 1) seed = kd F m seed seed + 1
-    rw [L, if_pos rfl, kd_seed]
+    rw [L, ite_eq_left rfl, kd_seed]
   · intro u hu
     rw [L] at hu
     by_cases e : u = seed
     · exact ⟨0, by simp, by rw [e]; rfl⟩
-    · rw [if_neg e] at hu
+    · rw [ite_eq_right e] at hu
       exact absurd rfl hu
   · intro i j hij hj
     simp at hj

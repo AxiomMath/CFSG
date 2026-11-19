@@ -35,7 +35,7 @@ theorem not_co2_quotient_alternating {X : Type} [Group X] [Finite X] [IsSimpleGr
   have hshape : IsCo2Shape (Nat.card ↥(centralizer ({τ} : Set X))) :=
     isCo2Shape_of_quotient e hG
   have hX : Nat.card X = n.factorial / 2 := by
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   have hC23 : 23 ∣ Nat.card ↥(centralizer ({τ} : Set X)) :=
     dvd_trans (by norm_num : (23 : ℕ) ∣ 42305421312000) hshape.dvd

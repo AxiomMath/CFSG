@@ -18,7 +18,7 @@ theorem burnsideF429b_of_model {E : Type} [Group E] [Finite E] {Gp M₁ M₂ : S
     (hc2 : U ≤ perfectCore P₂) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₁) ∧
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   have hSB : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ Gp ⊓ (M₁ ⊓ M₂) :=
@@ -57,9 +57,9 @@ theorem burnsideF429b_G2_chart {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
         M₁.subgroupOf Gp = (H13.F431.G2.Cent.Pr K).map Ψ.toMonoidHom ∧
         M₂.subgroupOf Gp = (H13.F431.G2.Cent.Pa K).map Ψ.toMonoidHom := by
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 h
-  letI := fK
-  haveI := finK
-  haveI : CharP K 2 := burnsideF4f_charP_of_card h.model.2.1 hcard
+  let := fK
+  have := finK
+  have : CharP K 2 := burnsideF4f_charP_of_card h.model.2.1 hcard
   let Ψ : H13.F431.G2.C K ≃* ↥Gp := (H13.F431.G2.mk K).trans marking
   have hΨ : ∀ L : Subgroup (G2Native.Parent K),
       G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by
@@ -90,7 +90,7 @@ theorem burnsideF429b_c3_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
     (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₁) ∧
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨K, fK, finK, cK, hcard, Ψ, h1, h2⟩ := burnsideF429b_G2_chart hyp.toHypF_4_4g
   have hK4 : 4 ≤ Nat.card K := by
     rw [hcard]
@@ -155,7 +155,7 @@ theorem burnsideF429b_D4_chart {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
   have hσ' : ∀ c, σ c = c ^ (2 ^ f) := hσ
   have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ'
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI hCharP : CharP K 2 :=
+  have hCharP : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
   have hchar : ringChar K = 2 := ringChar.eq K 2
@@ -213,7 +213,7 @@ theorem burnsideF429b_c3_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₁) ∧
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   obtain ⟨hU0, hU1, hc0, hc1⟩ := burnsideF429b_D4_model σ hσ3 hf1 hK hσq
@@ -222,8 +222,8 @@ theorem burnsideF429b_c3_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
 theorem burnsideF429b_c8_D4tw_left {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₁) := by
-  haveI := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, -⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   obtain ⟨hU0, -, hc0, -⟩ := burnsideF429b_D4_model σ hσ3 hf1 hK hσq
@@ -254,11 +254,11 @@ theorem burnsideF429b_F4_chart {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
         M₁.subgroupOf Gp = (Pg K a ⟨1, by decide⟩).map Ψ.toMonoidHom ∧
         M₂.subgroupOf Gp = (Pg K a ⟨0, by decide⟩).map Ψ.toMonoidHom := by
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4g_chart_F4tw h
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have ha : 1 ≤ a := by omega
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hscope
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨Φ, hΦ⟩ := burnsideF4gF4Inv_exists_iso ha hK marking
   refine ⟨K, fK, finK, inferInstance, a, ha, hK, Φ, h1.trans (hΦ _ _ fun y => ?_),
     h2.trans (hΦ _ _ fun y => ?_)⟩
@@ -288,7 +288,7 @@ theorem burnsideF429b_c3_F4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₁) ∧
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨K, fK, finK, cK, a, ha, hK, Ψ, h1, h2⟩ := burnsideF429b_F4_chart hyp.toHypF_4_4g hf
   obtain ⟨hU1, hU0, hc1, hc0⟩ := burnsideF429b_F4_model ha hK
   exact burnsideF429b_of_model Ψ h1 h2 hU1 hU0 hc1 hc0

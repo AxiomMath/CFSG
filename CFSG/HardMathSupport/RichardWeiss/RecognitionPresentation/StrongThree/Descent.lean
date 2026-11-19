@@ -48,7 +48,7 @@ theorem sup_eq_top_of_stronglyEmbedded {X : Type*} [Group X] [Finite X] {K M : S
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥K) := inferInstance
   set R : Subgroup X := (S : Subgroup ↥K).map K.subtype with hR
-  have hR3 : IsPGroup 3 R := S.isPGroup'.map _
+  have hR3 : IsPGroup 3 R := S.isPGroup.map _
   have hRK : R ≤ K := Subgroup.map_subtype_le _
   have hRcard : 3 ∣ Nat.card R := by
     have h1 : Nat.card R = Nat.card S :=

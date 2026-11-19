@@ -16,19 +16,23 @@ open scoped commutatorElement
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_closure_singleton (x : Γ₁) :
     closure ({(f x)} : Set Γ₂) = (closure ({x} : Set Γ₁)).map f := by
   rw [← Set.image_singleton, ← MonoidHom.map_closure]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_closure_pair (x y : Γ₁) :
     closure ({f x, f y} : Set Γ₂) = (closure ({x, y} : Set Γ₁)).map f := by
   rw [← Set.image_pair, ← MonoidHom.map_closure]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma map_closure_triple (x y z : Γ₁) :
     closure ({f x, f y, f z} : Set Γ₂) = (closure ({x, y, z} : Set Γ₁)).map f := by
   rw [← Set.image_singleton, ← Set.image_insert_eq, ← Set.image_insert_eq,
     ← MonoidHom.map_closure]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma forall_conjSub_map_iff (hf : Function.Injective f)
     {M L : Set (Subgroup Γ₁)} {S : Subgroup Γ₁} :
     (∀ Y ∈ Subgroup.map f '' M,

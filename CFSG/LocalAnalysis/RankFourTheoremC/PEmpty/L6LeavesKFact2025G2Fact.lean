@@ -99,10 +99,10 @@ theorem exists_g2_pair_of_odd (hodd : Odd (Nat.card F)) :
       (∀ i, b i = 1 ∨ b i = -1) ∧ b ≠ 1 ∧
         (g2Mul h F).range = rootSpan .G2 F (rootCharKernel b) := by
   have hF : 2 ≤ Nat.card F := Finite.one_lt_card
-  haveI := finite_adjointGroup_G2 hF
+  have := finite_adjointGroup_G2 hF
   have h2 : 2 ∣ Nat.card ↥(adjointGroup .G2 F) :=
     (by norm_num : 2 ∣ 16).trans (sixteen_dvd_card_g2 hodd)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(adjointGroup .G2 F)) 2 h2
   have ht1 : (t : ModGL .G2 F) ≠ 1 := by
     intro h1
@@ -120,9 +120,9 @@ theorem exists_g2_pair_of_odd (hodd : Odd (Nat.card F)) :
 theorem two_le_pRank_of_dvd_card_sl2 (hodd : Odd (Nat.card F)) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hdvd : p ∣ Nat.card (SL2 F)) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup ↥(adjointGroup .G2 F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : 2 ≤ Nat.card F := Finite.one_lt_card
-  haveI := finite_adjointGroup_G2 hF
+  have := finite_adjointGroup_G2 hF
   obtain ⟨b, α, β, h, hb, hb1, hS⟩ := exists_g2_pair_of_odd hodd
   obtain ⟨A₁, hA₁⟩ := exists_prime_orderOf_dvd_card' (G := SL2 F) p hdvd
   have hSle : (g2Mul h F).range ≤ adjointGroup .G2 F := hS ▸ rootSpan_le_adjointGroup F _
@@ -165,11 +165,11 @@ theorem two_le_pRank_three_g2 (hodd : Odd (Nat.card F)) :
 
 theorem twoRankLeThree_g2 (hodd : Odd (Nat.card F)) : TwoRankLeThree ↥(adjointGroup .G2 F) := by
   intro E hE
-  haveI hEel : CFSG.IsElementaryAbelian 2 E := isElementaryAbelian_of_isElemAbelian hE
+  have hEel : CFSG.IsElementaryAbelian 2 E := isElementaryAbelian_of_isElemAbelian hE
   let eR : E ≃* E.map (adjointGroup .G2 F).subtype :=
     E.equivMapOfInjective (adjointGroup .G2 F).subtype (adjointGroup .G2 F).subtype_injective
-  haveI : Finite (E.map (adjointGroup .G2 F).subtype) := Finite.of_equiv E eR.toEquiv
-  haveI : CFSG.IsElementaryAbelian 2 (E.map (adjointGroup .G2 F).subtype) :=
+  have : Finite (E.map (adjointGroup .G2 F).subtype) := Finite.of_equiv E eR.toEquiv
+  have : CFSG.IsElementaryAbelian 2 (E.map (adjointGroup .G2 F).subtype) :=
     CFSG.IsElementaryAbelian.of_mulEquiv eR hEel
   have := (g2_elementary_two hodd (Subgroup.map_subtype_le E)).1
   rwa [← Nat.card_congr eR.toEquiv] at this
@@ -178,7 +178,7 @@ theorem noCentralInvolution_g2 (hodd : Odd (Nat.card F)) {p : ℕ} (hp : p.Prime
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup ↥(adjointGroup .G2 F)) ≤ 1) {z : ↥(adjointGroup .G2 F)}
     (hzp : orderOf z = p) : NoCentralInvolution z := by
   intro t ht2 hcomm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF2 := ringChar_ne_two_of_odd_card hodd
   have ht1 : (t : ModGL .G2 F) ≠ 1 := by
     intro h1
@@ -240,18 +240,18 @@ theorem noCentralInvolution_g2 (hodd : Odd (Nat.card F)) {p : ℕ} (hp : p.Prime
 theorem selfCentralizingEight_g2 (hodd : Odd (Nat.card F)) :
     SelfCentralizingEight ↥(adjointGroup .G2 F) := by
   intro E hE h8 g hg
-  haveI hEel : CFSG.IsElementaryAbelian 2 E := isElementaryAbelian_of_isElemAbelian hE
+  have hEel : CFSG.IsElementaryAbelian 2 E := isElementaryAbelian_of_isElemAbelian hE
   have hF2 := ringChar_ne_two_of_odd_card hodd
   let eR : E ≃* E.map (adjointGroup .G2 F).subtype :=
     E.equivMapOfInjective (adjointGroup .G2 F).subtype (adjointGroup .G2 F).subtype_injective
-  haveI : Finite (E.map (adjointGroup .G2 F).subtype) := Finite.of_equiv E eR.toEquiv
-  haveI : CFSG.IsElementaryAbelian 2 (E.map (adjointGroup .G2 F).subtype) :=
+  have : Finite (E.map (adjointGroup .G2 F).subtype) := Finite.of_equiv E eR.toEquiv
+  have : CFSG.IsElementaryAbelian 2 (E.map (adjointGroup .G2 F).subtype) :=
     CFSG.IsElementaryAbelian.of_mulEquiv eR hEel
   have hRK : E.map (adjointGroup .G2 F).subtype ≤ adjointGroup .G2 F := Subgroup.map_subtype_le E
   have hR8 : Nat.card (E.map (adjointGroup .G2 F).subtype) = 8 := by
     rw [← Nat.card_congr eR.toEquiv]
     exact h8
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨t, ht1⟩ := exists_ne (1 : E)
   have ht1' : ((t : ↥(adjointGroup .G2 F)) : ModGL .G2 F) ≠ 1 := fun h1 =>
     ht1 (Subtype.ext (Subtype.ext h1))
@@ -268,8 +268,8 @@ theorem selfCentralizingEight_g2 (hodd : Odd (Nat.card F)) :
     refine ⟨e.2, Subgroup.mem_centralizer_singleton_iff.2 ?_⟩
     exact congrArg Subtype.val (hcomm _ he _ t.2)
   obtain ⟨R₀, hR₀X, hR₀, ⟨eR₀⟩⟩ := exists_corresponding_subgroup hψ hι himg hRle
-  haveI : Finite R₀ := Finite.of_equiv _ eR₀.toEquiv
-  haveI : CFSG.IsElementaryAbelian 2 R₀ := CFSG.IsElementaryAbelian.of_mulEquiv eR₀ inferInstance
+  have : Finite R₀ := Finite.of_equiv _ eR₀.toEquiv
+  have : CFSG.IsElementaryAbelian 2 R₀ := CFSG.IsElementaryAbelian.of_mulEquiv eR₀ inferInstance
   have hR₀8 : Nat.card R₀ = 8 := by
     rw [← Nat.card_congr eR₀.toEquiv]
     exact hR8

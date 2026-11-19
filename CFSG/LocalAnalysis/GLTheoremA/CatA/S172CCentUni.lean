@@ -55,8 +55,8 @@ private theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux3 {ℓ f 
     (hk : 4 ≤ k ∨ ((k = 2 ∨ k = 3) ∧ 4 ≤ ℓ ^ f)) (hk3 : 3 ≤ k) {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ ℓ ^ f + 1) : catalogIs (PSimple p (sesqSpecialUnitaryGroup B)) (isUnA k (ℓ ^ f)) := by
   classical
-  haveI : Finite E := hE.finite
-  haveI : Finite M := Module.finite_of_finite E
+  have : Finite E := hE.finite
+  have : Finite M := Module.finite_of_finite E
   have hne : (k, ℓ ^ f) ≠ (3, 2) := by
     intro h
     rw [Prod.mk.injEq] at h
@@ -84,7 +84,7 @@ private theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux3 {ℓ f 
   let ψq : ↥(StatedSU k (ℓ ^ f) E) ⧸ Subgroup.center ↥(StatedSU k (ℓ ^ f) E) ≃*
       ↥(sesqSpecialUnitaryGroup B) ⧸ Subgroup.center ↥(sesqSpecialUnitaryGroup B) :=
     QuotientGroup.congr _ _ ψ (Subgroup.map_center_eq ψ)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hcardE : Fintype.card E = (ℓ ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hE.card, ← pow_mul, mul_comm]
   obtain ⟨q', hv, -, hq'c, ⟨χ⟩⟩ :=
@@ -98,7 +98,7 @@ private theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux4 {F : Ty
     [Finite F] (hF : 4 ≤ Nat.card F) :
     catalogIs (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) (isLnA 2 (Nat.card F)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rcases eq_or_ne (Nat.card F) 4 with h4 | h4
   · obtain ⟨e⟩ := CFSG.Adapters.CatalogueFieldBridges.nonempty_psl2_mulEquiv_alternating_five
       (k := F) (Or.inl h4)
@@ -117,7 +117,7 @@ private theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux4 {F : Ty
     let i : TauCeti.CFSGIndex := .alternating 6 (by norm_num)
     have hi : isLnA 2 (Nat.card F) i := Or.inr (Or.inr (Or.inl ⟨rfl, h9, rfl⟩))
     exact ⟨i, hi, ⟨e⟩⟩
-  · haveI : CharP F (ringChar F) := ringChar.charP F
+  · have : CharP F (ringChar F) := ringChar.charP F
     obtain ⟨n, hp, hcard⟩ := FiniteField.card F (ringChar F)
     let q : TauCeti.PrimePower := ⟨ringChar F, (n : ℕ), hp, n.pos⟩
     have hqc : q.card = Nat.card F := by
@@ -150,8 +150,8 @@ private theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux5 {ℓ f 
     (hpq : p ∣ ℓ ^ f + 1) :
     catalogIs (PSimple p (sesqSpecialUnitaryGroup B)) (isUnA 2 (ℓ ^ f)) := by
   classical
-  haveI : Finite E := hE.finite
-  haveI : Finite M := Module.finite_of_finite E
+  have : Finite E := hE.finite
+  have : Finite M := Module.finite_of_finite E
   have hq : CFSG.IsQuasisimple ↥(sesqSpecialUnitaryGroup B) :=
     CFSG.RankThree.Classical.isQuasisimple_sesqSpecialUnitaryGroup hE hBs hBl hdim hq4
   have hdvd := catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux2 hE hBs hBl hdim
@@ -174,11 +174,11 @@ theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen {ℓ f : ℕ} {E : T
     (hE : UnitaryFieldData ℓ f E) {M : Type} [AddCommGroup M] [Module E M] [FiniteDimensional E M]
     {B : M →ₛₗ[hE.bar] M →ₗ[E] E} (hBs : B.IsSymm) (hBl : B.SeparatingLeft) {k : ℕ}
     (hdim : finrank E M = k) (hk : 4 ≤ k ∨ ((k = 2 ∨ k = 3) ∧ 4 ≤ ℓ ^ f)) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) :
+    (_hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) :
     catalogIs (PSimple p (sesqSpecialUnitaryGroup B)) (isUnA k (ℓ ^ f)) := by
   classical
-  haveI : Finite E := hE.finite
-  haveI : Finite M := Module.finite_of_finite E
+  have : Finite E := hE.finite
+  have : Finite M := Module.finite_of_finite E
   by_cases hk3 : 3 ≤ k
   · exact catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA_gen_aux3 hE hBs hBl hdim hk hk3 hp hpq
   · have hk2 : k = 2 := by

@@ -146,7 +146,7 @@ theorem yosh8_model [Finite G] (hG : IsSimpleGroup G) (D : FusionData 1 k) (E : 
     refine Ay.le ?_
     rw [Ay.eq]
     exact Subgroup.subset_closure (by simp)
-  haveI : ((EG E).subgroupOf (normalizer (EG E : Set G))).Normal := Subgroup.normal_in_normalizer
+  have : ((EG E).subgroupOf (normalizer (EG E : Set G))).Normal := Subgroup.normal_in_normalizer
   have out : CentralizerQuotientOut G (cG e₀) :=
     centralizer_quotient_out (cG e₀) (normalizer (EG E : Set G)) (SG E) (EG E) (Nn e₀)
       (y0G e₀ d 1) (hElt E) hcc hc1 L7.sylow hSL hLc L7.perf hLS hO F.cE F.sq rfl

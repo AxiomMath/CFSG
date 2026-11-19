@@ -84,7 +84,7 @@ private theorem map_centralizer_eq_orthogonal (S : Setting z E F)
 
 theorem commutatorOrthogonality (S : Setting z E F) : CommutatorOrthogonality S := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   intro W hZW hWQ
   set C : Subgroup G := Subgroup.centralizer (W : Set G) ⊓ Q z with hCdef
   have hCQ : C ≤ Q z := by rw [hCdef]; exact inf_le_right
@@ -100,7 +100,7 @@ theorem commutatorOrthogonality (S : Setting z E F) : CommutatorOrthogonality S 
     have hker : ((mkQ S).comp (Subgroup.inclusion hCQ)).ker = (ZQ z).subgroupOf C := by
       ext c
       simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, MonoidHom.comp_apply,
-        mkQ, QuotientGroup.mk'_apply, Subgroup.coe_inclusion]
+        mkQ, QuotientGroup.mk'_apply]
       rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
       rw [Subgroup.coe_inclusion]
     have hrange : ((mkQ S).comp (Subgroup.inclusion hCQ)).range =
@@ -115,7 +115,7 @@ theorem commutatorOrthogonality (S : Setting z E F) : CommutatorOrthogonality S 
     have hker : ((mkQ S).comp (Subgroup.inclusion hWQ)).ker = (ZQ z).subgroupOf W := by
       ext c
       simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, MonoidHom.comp_apply,
-        mkQ, QuotientGroup.mk'_apply, Subgroup.coe_inclusion]
+        mkQ, QuotientGroup.mk'_apply]
       rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
       rw [Subgroup.coe_inclusion]
     have hrange : ((mkQ S).comp (Subgroup.inclusion hWQ)).range =

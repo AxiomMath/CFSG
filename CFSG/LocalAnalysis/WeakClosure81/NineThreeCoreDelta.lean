@@ -11,11 +11,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_conjSubgroup_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 private theorem nine3_conj_iSup₂ {ι : Type*} (S : Set ι) (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i ∈ S, B i) g = ⨆ i ∈ S, conjSubgroup (B i) g := by
   apply le_antisymm
@@ -27,6 +29,7 @@ private theorem nine3_conj_iSup₂ {ι : Type*} (S : Set ι) (B : ι → Subgrou
   · refine iSup₂_le fun i hi => ?_
     exact E3.conjSubgroup_mono_left g (le_iSup₂_of_le i hi le_rfl)
 
+omit [Finite G] in
 private theorem nine3_commutator_mem_nineI_aux {i w : G} (hi : i ∈ nineI V K) (hw : w ∈ K) :
     ⁅i, w⁆ ∈ nineI V K := by
   have hwi : w * i * w⁻¹ ∈ nineI V K := by
@@ -41,6 +44,7 @@ private theorem nine3_commutator_mem_nineI_aux {i w : G} (hi : i ∈ nineI V K) 
   rw [heq]
   exact (nineI V K).inv_mem hcomm
 
+omit [Finite G] in
 private theorem nine3_delta_mul (hI : Nine3IFacts V K S) {c : G} (hcK : c ∈ K) {x y : G}
     (hx : x ∈ nineI V K) (hy : y ∈ nineI V K) :
     ⁅x * y, c⁆ = ⁅x, c⁆ * ⁅y, c⁆ := by
@@ -53,6 +57,7 @@ private theorem nine3_delta_mul (hI : Nine3IFacts V K S) {c : G} (hcK : c ∈ K)
   rw [hconj]
   exact (CFSG.Open.IsElemAbelian.comm hI.abelian hx' hy').symm
 
+omit [Finite G] in
 private theorem nine3_delta_inv (hI : Nine3IFacts V K S) {c : G} (hcK : c ∈ K) {x : G}
     (hx : x ∈ nineI V K) : ⁅x⁻¹, c⁆ = ⁅x, c⁆⁻¹ := by
   have hx' : ⁅x, c⁆ ∈ nineI V K := nine3_commutator_mem_nineI_aux hx hcK
@@ -62,7 +67,7 @@ private theorem nine3_delta_inv (hI : Nine3IFacts V K S) {c : G} (hcK : c ∈ K)
     ((nineI V K).inv_mem hx')]
   group
 
-private theorem nine3_delta_conj (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S)
+private theorem nine3_delta_conj (_hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts V K S)
     {c : G} (hcK : c ∈ K) (hcH : ∀ h ∈ nineH V K, ⁅c, h⁆ ∈ nineI V K) {h i : G}
     (hh : h ∈ nineH V K) (hi : i ∈ nineI V K) :
     ⁅h * i * h⁻¹, c⁆ = h * ⁅i, c⁆ * h⁻¹ := by
@@ -127,7 +132,7 @@ theorem nine3_delta_zero (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFacts 
     (hcK : c ∈ K) (hcH : ∀ h ∈ nineH V K, ⁅c, h⁆ ∈ nineI V K)
     (hcJ : ∀ i ∈ nineI V K, ⁅i, c⁆ ∈ ⨆ B ∈ nineOmegaIn V K S, B ⊓ pCoreOf 2 K) :
     ∀ i ∈ nineI V K, ⁅i, c⁆ = 1 := by
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.prime⟩
   let δ : ↥(nineI V K) →* ↥(nineI V K) := nine3_deltaHom hI hcK
   let N : Subgroup G := δ.range.map (nineI V K).subtype
   have hδ_apply : ∀ i : ↥(nineI V K), ((δ i : ↥(nineI V K)) : G) = ⁅(i : G), c⁆ := fun _ => rfl

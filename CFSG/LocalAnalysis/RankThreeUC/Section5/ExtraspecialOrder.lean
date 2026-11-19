@@ -11,14 +11,14 @@ namespace Section5
 
 namespace ExtraspecialOrder
 
-open Quotient
+open _root_.CFSG.LocalAnalysis.RankThreeUC.Section5.Quotient
 
 theorem exists_width {G : Type} [Group G] [Finite G] (P : Subgroup G) (p : ℕ) [hp : Fact p.Prime]
     (hexp : Monoid.exponent ↥P = p) (hclass : ⁅⁅P, P⁆, P⁆ = ⊥)
     (hext : CFSG.IsExtraspecialPGroup p ↥P) :
     ∃ n : ℕ, Nat.card ↥P = p ^ (1 + 2 * n) := by
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hclass⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hexp⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hclass⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hexp⟩
   have hZ : Nat.card (Subgroup.center ↥P) = p := hext.2.2.2
   have hZ' : Nat.card (Multiplicative (ZMod p)) = p := by
     simp [Nat.card_eq_fintype_card]
@@ -32,7 +32,7 @@ theorem exists_width {G : Type} [Group G] [Finite G] (P : Subgroup G) (p : ℕ) 
     simp only [map_add, LinearMap.add_apply, ExtraspecialQuotientForm.form_alt, h1] at h2
     simpa using h2
   have hfin : Finite (Additive (Pbar P)) := inferInstanceAs (Finite (↥P ⧸ Subgroup.center ↥P))
-  haveI : Module.Finite (ZMod p) (Additive (Pbar P)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (Additive (Pbar P)) := Module.Finite.of_finite
   obtain ⟨n, hn⟩ := CFSG.LinearAlgebra.CoprimeActions.AlternatingFormEvenDimension.exists_half_finrank
     (ExtraspecialQuotientForm.form ζ) (fun a => ExtraspecialQuotientForm.form_alt ζ a) hnd
   have hcard : Nat.card (Additive (Pbar P)) = p ^ (2 * n) := by

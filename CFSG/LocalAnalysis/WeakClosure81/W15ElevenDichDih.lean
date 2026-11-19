@@ -20,8 +20,8 @@ private theorem b15_W15ElevenDichDih_perm_four {K I : Subgroup G} (hIK : I ≤ K
     (hI : IsElemAbelian 2 I) {x t : G} (hxK : x ∈ K) (htK : t ∈ K) (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hfix : I ⊓ centralizer ({x} : Set G) = ⊥) (htt : t * t = 1)
     (hmov : ¬ I ≤ centralizer ({t} : Set G)) : Nonempty (↥K ≃* Equiv.Perm (Fin 4)) := by
-  haveI hcommI : IsMulCommutative ↥I := hI.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hcommI : IsMulCommutative ↥I := hI.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let xK : ↥K := ⟨x, hxK⟩
   let tK : ↥K := ⟨t, htK⟩
   refine CFSG.Quasithin.Fan86.Sigma3.Klein24.nonempty_perm_four
@@ -59,7 +59,7 @@ private theorem b15_W15ElevenDichDih_perm_four {K I : Subgroup G} (hIK : I ≤ K
     exact Subtype.ext (by simpa using Subgroup.mem_bot.mp hmem)
   · ext
     simpa [tK] using htt
-  · obtain ⟨g, hgI, hgC⟩ := SetLike.not_le_iff_exists.mp hmov
+  · obtain ⟨g, hgI, hgC⟩ := IsConcreteLE.not_le_iff_exists.mp hmov
     refine ⟨⟨g, hIK hgI⟩, Subgroup.mem_subgroupOf.2 hgI, ?_⟩
     intro heq
     apply hgC
@@ -83,10 +83,10 @@ theorem s4Branch15_of_not_le
     (hA : A ∈ elemFamilyIn 2 (tSub15 M V₀ V U S))
     (hAQ : ¬ A ≤ qSub15 M V₀ V U H S) : S4Branch15 M V₀ V U S H := by
   classical
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI hNormI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : Fact p.Prime := ⟨c.prime⟩
+  have hNormI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
   let N := ↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀
-  haveI : Finite N := by dsimp only [N]; infer_instance
+  have : Finite N := by dsimp only [N]; infer_instance
   have hNp : Nat.card N = p := by
     dsimp only [N]
     exact (c.card_quot_eq_card_X hX).trans hcard
@@ -103,7 +103,7 @@ theorem s4Branch15_of_not_le
     simpa [pow_two] using c.cex.hyp.elemAbelian₀.2 v hX.mem
   have hvN : v ∈ normalizer (iHull15 V₀ U H : Set G) :=
     c.tSub15_le_normalizer_iHull15 hvT
-  obtain ⟨a, haA, haQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨a, haA, haQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have haT : a ∈ tSub15 M V₀ V U S := hAT haA
   let σ : MulAut N := ρ ⟨a, haT⟩
   let τ : MulAut N := ρ ⟨v, hvT⟩

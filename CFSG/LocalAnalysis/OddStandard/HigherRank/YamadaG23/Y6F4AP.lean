@@ -29,9 +29,9 @@ theorem y6f4a_eq_zpowers_of_cent [Finite X] {Q : Subgroup X} (hQ : IsPGroup 2 Q)
     intro h
     rw [h, orderOf_one] at hτ
     omega
-  haveI : Nontrivial ↥Q :=
+  have : Nontrivial ↥Q :=
     ⟨⟨τ, hτQ⟩, ⟨1, Q.one_mem⟩, fun h => hτ1 (by simpa using congrArg Subtype.val h)⟩
-  haveI : Nontrivial (Subgroup.center ↥Q) := IsPGroup.center_nontrivial hQ
+  have : Nontrivial (Subgroup.center ↥Q) := IsPGroup.center_nontrivial hQ
   obtain ⟨z, hz_ne⟩ := exists_ne (1 : Subgroup.center ↥Q)
   have hz_mem : (z : ↥Q) ∈ Subgroup.center ↥Q := z.2
   have hz_ne' : (z : ↥Q) ≠ 1 := fun h => hz_ne (Subtype.ext h)
@@ -62,7 +62,7 @@ theorem y6f4a_sylow_card_two [Finite X] {Z : Subgroup X} {τ : X} (hτZ : τ ∈
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hτ']; norm_num)
   obtain ⟨Sτ, hSτ⟩ := IsPGroup.exists_le_sylow hPτ
   have hQ : IsPGroup 2 ((Sτ : Subgroup ↥Z).map Z.subtype) :=
-    IsPGroup.map Sτ.isPGroup' Z.subtype
+    IsPGroup.map Sτ.isPGroup Z.subtype
   have hτmem : τ ∈ (Sτ : Subgroup ↥Z).map Z.subtype :=
     Subgroup.mem_map.mpr ⟨τ', hSτ (Subgroup.mem_zpowers τ'), rfl⟩
   have hc : ∀ x ∈ (Sτ : Subgroup ↥Z).map Z.subtype, x * τ = τ * x → x ∈ zpowers τ := by
@@ -77,9 +77,8 @@ theorem y6f4a_sylow_card_two [Finite X] {Z : Subgroup X} {τ : X} (hτZ : τ ∈
   have hmap : (Sτ : Subgroup ↥Z).map Z.subtype = zpowers τ :=
     y6f4a_eq_zpowers_of_cent hQ hτmem hτ hc
   have hcardSτ : Nat.card Sτ = 2 := by
-    change Nat.card ((Sτ : Subgroup ↥Z)) = 2
     rw [← Subgroup.card_subtype Z (Sτ : Subgroup ↥Z), hmap, Nat.card_zpowers, hτ]
-  haveI : Finite (Sylow 2 ↥Z) := Sylow.finite_of_finiteIndex Sτ
+  have : Finite (Sylow 2 ↥Z) := Sylow.finite_of_finiteIndex Sτ
   have hcard : Nat.card Sτ = Nat.card S :=
     Nat.card_congr (Sylow.equiv Sτ S).toEquiv
   rw [← hcard, hcardSτ]
@@ -107,7 +106,7 @@ theorem y6f4a_invol_conj [Finite X] {Z : Subgroup X} {τ : X} (hτZ : τ ∈ Z) 
     Subgroup.eq_of_le_of_card_ge hSτ (by rw [Nat.card_zpowers, hτ', hcSτ])
   have hSueq : zpowers u' = (Su : Subgroup ↥Z) :=
     Subgroup.eq_of_le_of_card_ge hSu (by rw [Nat.card_zpowers, hu', hcSu])
-  haveI : Finite (Sylow 2 ↥Z) := Sylow.finite_of_finiteIndex Sτ
+  have : Finite (Sylow 2 ↥Z) := Sylow.finite_of_finiteIndex Sτ
   obtain ⟨z, hz⟩ := MulAction.exists_smul_eq (M := ↥Z) Sτ Su
   have hmem : u' ∈ (z • Sτ : Sylow 2 ↥Z) := by
     rw [hz]
@@ -182,15 +181,15 @@ theorem y6f4a_perfect_le_of_solvable {D : Type*} [Group D] [Finite D] (N : Subgr
   have hker : f.ker = N := by
     rw [hf]
     exact QuotientGroup.ker_mk' N
-  haveI : Group.IsPerfect ↥B := hB
+  have : Group.IsPerfect ↥B := hB
   have hperf : Group.IsPerfect ↥(B.map f) := by
     have h := Group.IsPerfect.range (f := f.comp B.subtype)
     rwa [MonoidHom.range_comp, Subgroup.range_subtype] at h
   have hsub : Subsingleton ↥(B.map f) := by
     by_contra h
     rw [not_subsingleton_iff_nontrivial] at h
-    haveI : Nontrivial ↥(B.map f) := h
-    haveI : Group.IsPerfect ↥(B.map f) := hperf
+    have : Nontrivial ↥(B.map f) := h
+    have : Group.IsPerfect ↥(B.map f) := hperf
     exact Group.IsPerfect.not_isSolvable ↥(B.map f) inferInstance
   have hbot : B.map f = ⊥ := Subgroup.eq_bot_of_subsingleton (H := B.map f)
   rw [← hker]
@@ -199,11 +198,11 @@ theorem y6f4a_perfect_le_of_solvable {D : Type*} [Group D] [Finite D] (N : Subgr
   rw [hbot] at hbf
   exact MonoidHom.mem_ker.mpr (Subgroup.mem_bot.mp hbf)
 
-theorem y6f4a_perfect_le_of_solvable_sub [Finite X] {D A : Subgroup X} (hAD : A ≤ D)
+theorem y6f4a_perfect_le_of_solvable_sub [Finite X] {D A : Subgroup X} (_hAD : A ≤ D)
     [(A.subgroupOf D).Normal] [Group.IsSolvable (↥D ⧸ A.subgroupOf D)] {B : Subgroup X}
     (hBD : B ≤ D) (hB : Group.IsPerfect ↥B) : B ≤ A := by
   have hperf : Group.IsPerfect ↥(B.subgroupOf D) := by
-    haveI : Group.IsPerfect ↥B := hB
+    have : Group.IsPerfect ↥B := hB
     have hsurj : Function.Surjective
         ((Subgroup.subgroupOfEquivOfLe hBD).symm : ↥B → ↥(B.subgroupOf D)) :=
       fun y => ⟨(Subgroup.subgroupOfEquivOfLe hBD) y, by simp⟩

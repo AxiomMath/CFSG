@@ -20,20 +20,20 @@ variable {p n : ℕ}
 theorem heartVec_castSucc_castSucc (v : Fin (n + 1) → ZMod p) (a : Fin (n + 1)) :
     heartVec p n v (a.castSucc.castSucc) = v a := by
   simp only [heartVec, Fin.val_castSucc]
-  rw [dif_pos a.isLt]
+  rw [dite_eq_left a.isLt]
 
 @[simp]
 theorem heartVec_n_one (v : Fin (n + 1) → ZMod p) :
     heartVec p n v ((Fin.last (n + 1)).castSucc) = 0 := by
   simp only [heartVec, Fin.val_castSucc, Fin.val_last]
-  rw [dif_neg (by omega)]
+  rw [dite_eq_right (by omega)]
   simp
 
 @[simp]
 theorem heartVec_last (v : Fin (n + 1) → ZMod p) :
     heartVec p n v (Fin.last (n + 2)) = -∑ i, v i := by
   simp only [heartVec, Fin.val_last]
-  rw [dif_neg (by omega), if_neg (by omega)]
+  rw [dite_eq_right (by omega), ite_eq_right (by omega)]
 
 private theorem fin_n3_cases (ω : Fin (n + 3)) :
     (∃ a : Fin n, ω = a.castSucc.castSucc.castSucc) ∨
@@ -167,7 +167,7 @@ theorem heartVec_kRefl (hp : p ∣ n + 3) (v : Fin (n + 1) → ZMod p)
           omega)
     rw [hs, heartVec_castSucc_castSucc, heartVec_castSucc_castSucc, kRefl_apply]
     simp only [Pi.sub_apply, Pi.smul_apply, kRoot, Pi.add_apply,
-      Pi.single_eq_of_ne ha, Pi.one_apply, smul_eq_mul, mul_one]
+      Pi.single_eq_of_ne ha, Pi.one_apply, smul_eq_mul]
     ring
   · have hs : (Equiv.swap ((Fin.last n).castSucc.castSucc)
         ((Fin.last (n + 1)).castSucc)).symm
@@ -341,12 +341,12 @@ theorem heartVec_transport (hp : p ∣ n + 3)
       · by_cases hy : y = npt
         · subst hy
           exact ⟨⟨Equiv.swap npt x, Subgroup.subset_closure ⟨x, hx, rfl⟩⟩,
-            by simp [Equiv.swap_apply_left]⟩
+            by simp⟩
         · refine ⟨⟨Equiv.swap npt y * Equiv.swap npt x,
             Subgroup.mul_mem _ (Subgroup.subset_closure ⟨y, hy, rfl⟩)
               (Subgroup.subset_closure ⟨x, hx, rfl⟩)⟩, ?_⟩
           simp [Equiv.Perm.mul_apply, Equiv.swap_apply_left]
-    haveI : MulAction.IsPretransitive (Subgroup.closure star) (Fin (n + 3)) := hpre
+    have : MulAction.IsPretransitive (Subgroup.closure star) (Fin (n + 3)) := hpre
     exact closure_of_isSwap_of_isPretransitive (S := star) hswap
   have hclosure_le : Subgroup.closure star ≤ H := (Subgroup.closure_le H).mpr hstar_mem
   have hHtop : H = ⊤ := by
@@ -806,7 +806,7 @@ theorem eq_three_and_card_dvd_of_sup_eq_top [Fact p.Prime] (hp2 : p ≠ 2) (hn :
     rw [Finset.prod_pair (Ne.symm hα0)]
     rw [hcard0, hcardα]
     norm_num [Nat.factorial]
-  haveI : Fintype ↥Stab := Fintype.ofFinite _
+  have : Fintype ↥Stab := Fintype.ofFinite _
   have hstabcard : Nat.card ↥Stab = 6 * n.factorial := by
     rw [Nat.card_eq_fintype_card]
     calc Fintype.card ↥Stab

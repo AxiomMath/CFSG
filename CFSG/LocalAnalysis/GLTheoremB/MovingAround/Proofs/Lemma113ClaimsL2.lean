@@ -128,7 +128,7 @@ theorem pow_three_eq_of_fixed {φ : GaloisField 3 3 ≃+* GaloisField 3 3} (hφ 
     {x : GaloisField 3 3} (hx : φ x = x) : x ^ 3 = x := by
   have hcard : Nat.card (GaloisField 3 3 ≃+* GaloisField 3 3) = 3 :=
     CFSG.RankThree.PartTwo.KFacts.card_ringAut_galoisField_three_three
-  haveI : Finite (GaloisField 3 3 ≃+* GaloisField 3 3) :=
+  have : Finite (GaloisField 3 3 ≃+* GaloisField 3 3) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h3 : φ ^ 3 = 1 := by
     have := pow_card_eq_one' (G := GaloisField 3 3 ≃+* GaloisField 3 3) (x := φ)
@@ -175,7 +175,7 @@ theorem exists_fixed_le_three {φ : GaloisField 3 3 ≃+* GaloisField 3 3} (hφ 
 theorem exists_sq_eq_or_neg {r : GaloisField 3 3} (hr : r ≠ 0) :
     ∃ x : (GaloisField 3 3)ˣ, (x : GaloisField 3 3) ^ 2 = r ∨ (x : GaloisField 3 3) ^ 2 = -r := by
   classical
-  haveI : Fintype (GaloisField 3 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 3) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 3 3) = 27 := by
     rw [← Nat.card_eq_fintype_card, card_gf27]
     norm_num
@@ -218,7 +218,7 @@ theorem card_eq_9828 (e : Y ≃* PSL2 (GaloisField 3 3)) : Nat.card Y = 9828 := 
 
 theorem conj_injective (e : Y ≃* PSL2 (GaloisField 3 3)) :
     Function.Injective (MulAut.conj : Y →* MulAut Y) := by
-  haveI := finite_of_mulEquiv e
+  have := finite_of_mulEquiv e
   exact Lemma113d.conj_injective_of_centre_trivial (fun z hz => Lemma113c.psl2_27_centre e z hz)
 
 theorem card_comap_conj (e : Y ≃* PSL2 (GaloisField 3 3)) {U : Subgroup (MulAut Y)}
@@ -242,7 +242,7 @@ theorem not_dvd_index (e : Y ≃* PSL2 (GaloisField 3 3)) {W : Subgroup Y} (hW :
 
 theorem exists_isStd_of_card (e : Y ≃* PSL2 (GaloisField 3 3)) {W : Subgroup Y}
     (hW : Nat.card W = 27) : ∃ e' : Y ≃* L2 (GaloisField 3 3), IsStd e' W := by
-  haveI := finite_of_mulEquiv e
+  have := finite_of_mulEquiv e
   obtain ⟨c, hc, -⟩ := L2Borel.exists_isStd Nat.prime_three card_gf27 (toL2 e)
     ((isPGroup_of_card hW).toSylow (not_dvd_index e hW))
   exact ⟨_, hc⟩
@@ -364,7 +364,7 @@ theorem exists_torus_element {Y : Type} [Group Y] (e : Y ≃* PSL2 (GaloisField 
     (W : Subgroup Y) (hW : Nat.card W = 27) :
     ∃ t ∈ Subgroup.normalizer (W : Set Y), (∀ w ∈ W, (t ^ 13)⁻¹ * w * t ^ 13 = w) ∧
       (∀ j : ℕ, 0 < j → j < 13 → ∀ w ∈ W, (t ^ j)⁻¹ * w * t ^ j = w → w = 1) := by
-  haveI := finite_of_mulEquiv e
+  have := finite_of_mulEquiv e
   have hWne : W ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hW

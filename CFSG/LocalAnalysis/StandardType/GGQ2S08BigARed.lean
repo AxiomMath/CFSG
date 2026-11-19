@@ -99,8 +99,8 @@ private lemma ggQ2s08ar_inv_le_line_absurd {V : Type} [AddCommGroup V] [Module (
 theorem ggQ2s08_bigA_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] {n : ℕ} (hn : Module.finrank (ZMod 3) V = n) (h3 : 3 ∣ n) (h12 : 12 ≤ n)
     {W R : Subgroup (V ≃ₗ[ZMod 3] V)} {U : Submodule (ZMod 3) V} {xv : V}
-    (hfinU : Module.finrank (ZMod 3) U = n - 1) (hxU : xv ∈ U)
-    (hWU : ∀ w ∈ W, ∀ v, w v - v ∈ U) (hWcard : Nat.card W = n.factorial) (hWR : W ≤ R)
+    (hfinU : Module.finrank (ZMod 3) U = n - 1) (_hxU : xv ∈ U)
+    (_hWU : ∀ w ∈ W, ∀ v, w v - v ∈ U) (hWcard : Nat.card W = n.factorial) (hWR : W ≤ R)
     (hWfaith : ∀ w ∈ W, (∀ u ∈ U, w u = u) → w = 1)
     (hdich : ∀ S : Submodule (ZMod 3) V, (∀ w ∈ W, ∀ u ∈ S, w u ∈ S) →
       S ≤ Submodule.span (ZMod 3) {xv} ∨ U ≤ S)
@@ -110,12 +110,12 @@ theorem ggQ2s08_bigA_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
     (hred : ¬ ∀ S : Submodule (ZMod 3) V, (∀ a ∈ R, ∀ u ∈ S, a u ∈ S) → S = ⊥ ∨ S = ⊤) :
     False := by
   classical
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
-  haveI : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Finite (↥U ≃ₗ[ZMod 3] ↥U) :=
+  have : Finite (↥U ≃ₗ[ZMod 3] ↥U) :=
     Finite.of_injective (fun e : ↥U ≃ₗ[ZMod 3] ↥U => (e : ↥U → ↥U))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
   obtain ⟨S, hSnot⟩ := not_forall.mp hred

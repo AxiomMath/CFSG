@@ -74,7 +74,7 @@ theorem ggTwE6ThreeToralCentInput_of_rankSix (h : GGTwE6ThreeTwoLocalRankSixInpu
   let M : Subgroup (MulAut C) := LayerSixE.twInndiagAut f
   let Y' : Subgroup (MulAut C) := Y
   have hY'I : Y' ≤ M := hYI
-  haveI : Nonempty ↥M := ⟨1⟩
+  have : Nonempty ↥M := ⟨1⟩
   have hne : I.relIndex M ≠ 0 := by
     intro h0
     have h1 := Subgroup.relIndex_mul_card (H := I) (K := M)
@@ -114,7 +114,7 @@ theorem ggTwE6ThreeToralCentInput_of_rankSix (h : GGTwE6ThreeTwoLocalRankSixInpu
     exact hYel.2 g hgIY.2
   · intro y hy
     have hyY : y ∈ Y := hXY hy
-    haveI : IsMulCommutative ↥Y := hYel.1
+    have : IsMulCommutative ↥Y := hYel.1
     have h1 : (⟨g, hgIY.2⟩ : Y) * (⟨y, hyY⟩ : Y) =
         (⟨y, hyY⟩ : Y) * ⟨g, hgIY.2⟩ := mul_comm' _ _
     exact congrArg Subtype.val h1

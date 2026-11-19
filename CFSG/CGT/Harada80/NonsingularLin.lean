@@ -19,7 +19,7 @@ private theorem exists_unique_mul_of_mem_pCoreOf (S : Setting G M J m) (hE : Blo
   obtain ⟨a, ha, w, hw, rfl⟩ := exists_mul_of_mem_pCoreOf (S := S) hE hx
   refine ⟨(⟨a, ha⟩, ⟨w, hw⟩), rfl, ?_⟩
   rintro ⟨a', w'⟩ h
-  obtain ⟨h1, h2⟩ := eq_of_mul_eq S (S.blockZ_eq_bot hE.h1) ha a'.2 hw w'.2 h
+  obtain ⟨h1, h2⟩ := eq_of_mul_eq (S.blockZ_eq_bot hE.h1) ha a'.2 hw w'.2 h
   exact Prod.ext (Subtype.ext h1.symm) (Subtype.ext h2.symm)
 
 private theorem card_le_card_ker_mul_two (hZ : blockZ J = ⊥) {B : Subgroup G} (hBM : B ≤ M)
@@ -198,7 +198,7 @@ private theorem card_perp_times_W_le_card (hE : BlockCase J m) {b : ↥(blockU J
     (hb0 : S.vec b ≠ 0) {B : Subgroup G} {K : Subgroup ↥M}
     (hcard : Nat.card (pCoreOf 2 M) ≤ Nat.card B)
     (hBleK : Nat.card ↥B ≤ Nat.card ↥K * 2)
-    (hKle : Nat.card ↥K ≤
+    (_hKle : Nat.card ↥K ≤
       Nat.card {a : ↥(blockU J) // polar (quadQ m) (S.vec a) (S.vec b) = 0} *
         Nat.card ↥(blockW J)) :
     Nat.card ({a : ↥(blockU J) // polar (quadQ m) (S.vec a) (S.vec b) = 0} ×

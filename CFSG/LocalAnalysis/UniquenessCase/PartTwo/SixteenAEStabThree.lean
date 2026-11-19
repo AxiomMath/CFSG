@@ -25,7 +25,7 @@ private lemma s16ae_stab3_stab_of_map_eq {T : Type} [CommGroup T] {W : Subgroup 
 
 private lemma s16ae_stab3_card_le_two_of_isPGroup_perm {H : Subgroup (Equiv.Perm (Fin 3))}
     (hH : IsPGroup 2 H) : Nat.card H ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hH
   have hdvd : 2 ^ k ∣ 6 := by
     have h1 := Subgroup.card_subgroup_dvd_card H
@@ -45,7 +45,7 @@ theorem s16ae_card_le_two_mul_cent_of_rank_two {T : Type} [CommGroup T] [Finite 
     (hA : IsElemAbelian2 A) (hAY : ∀ a ∈ A, Y.map a.toMonoidHom = Y) :
     Nat.card A ≤ 2 * Nat.card ↥(A ⊓ centSub Y) := by
   classical
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   have hcardY : Nat.card ↥Y = 4 := by
     rw [card_eq_two_pow hT Y, hY]
     norm_num

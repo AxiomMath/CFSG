@@ -78,19 +78,19 @@ theorem genR_mat {j : ℕ}
   · rw [← Nat.eq_of_beq_eq_true (allN_spec w_GT j h10), (mat_word (codes_c4.2.2.2.1 j h10)).2,
       genR]
     rcases Nat.lt_or_ge j 9 with h9 | h9
-    · rw [if_pos h9, matR_jR, codes_c4.1 j h9, prod_scode _ (letters_c4.2.1 j h9)]
+    · rw [ite_eq_left h9, matR_jR, codes_c4.1 j h9, prod_scode _ (letters_c4.2.1 j h9)]
     · obtain rfl : j = 9 := by omega
-      rw [if_neg (by omega), if_pos rfl, matR_jR, codes_c4.2.1, List.map_append, List.prod_append,
+      rw [ite_eq_right (by omega), ite_eq_left rfl, matR_jR, codes_c4.2.1, List.map_append, List.prod_append,
         prod_seed _ letters_c4.2.2.2.1, prod_scode _ letters_c4.2.2.1]
   · obtain rfl : j = 10 := by omega
-    rw [C_mat, genR, if_neg (by omega), if_neg (by omega)]
+    rw [C_mat, genR, ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem letR_mat {c : ℕ}
     (hc : c < 22) : OM (CFSG.KD.HNPtC.GT c) = matR (letR c) := by
   rw [letR]
   rcases Nat.lt_or_ge c 11 with h | h
-  · rw [if_pos h, genR_mat h]
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_left h, genR_mat h]
+  · rw [ite_eq_right (by omega)]
     obtain ⟨j, rfl⟩ : ∃ j, c = 11 + j := ⟨c - 11, by omega⟩
     have e0 : CFSG.KC.LL.HN.mm (CFSG.KD.HNPtC.GT j) (CFSG.KD.HNPtC.GT (11 + j)) =
         CFSG.KD.OrdHN.ONE := Nat.eq_of_beq_eq_true (allN_spec inv_GT j (by omega))
@@ -183,15 +183,15 @@ theorem prep_genTabs
     PRep hnsData.n gTabsJ[j]! (permR (genR j)) := by
   rw [genR]
   rcases Nat.lt_or_ge j 9 with h9 | h9
-  · rw [if_pos h9, gTabsJ_get h9, pword_SJ (letters_c4.2.1 j h9)]
+  · rw [ite_eq_left h9, gTabsJ_get h9, pword_SJ (letters_c4.2.1 j h9)]
     exact prep_arrJ _
   rcases Nat.lt_or_ge j 10 with h10 | h10
   · obtain rfl : j = 9 := by omega
-    rw [if_neg (by omega), if_pos rfl, gTabsJ_nine, seedWordArr_arrJ, pword_SJ letters_c4.2.2.1,
+    rw [ite_eq_right (by omega), ite_eq_left rfl, gTabsJ_nine, seedWordArr_arrJ, pword_SJ letters_c4.2.2.1,
       pcomp_arrJ]
     exact prep_arrJ _
   · obtain rfl : j = 10 := by omega
-    rw [if_neg (by omega), if_neg (by omega), gTabsJ_ten]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), gTabsJ_ten]
     exact HNCTab.prep_cRec'
 
 theorem prep_genTabs_inv
@@ -206,8 +206,8 @@ theorem letR_gcode {l : ℤ}
     letR (gcode l) = if 0 < l then genR (l.toNat - 1) else (genR ((-l).toNat - 1))⁻¹ := by
   unfold letR gcode
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp, if_pos (by omega)]
-  · rw [if_neg hp, if_neg hp, if_neg (by omega), show 10 + (-l).toNat - 11 = (-l).toNat - 1 by
+  · rw [ite_eq_left hp, ite_eq_left hp, ite_eq_left (by omega)]
+  · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right (by omega), show 10 + (-l).toNat - 11 = (-l).toNat - 1 by
       omega]
 
 theorem evalWordPt_eq
@@ -226,9 +226,9 @@ theorem evalWordPt_eq
       else (Ti[(-l).toNat - 1]!)[evalWordPt T Ti w x]!) = _
     rw [ih, e, mul_smul, letR_gcode hl]
     by_cases hp : 0 < l
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       exact (hT _ (by omega) _).trans (by rw [permR_apply])
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       exact (hTi _ (by omega) _).trans (by rw [← map_inv, permR_apply])
 
 end CertificateChecks.KernelSporSch.HNPtC

@@ -207,7 +207,7 @@ private lemma omegaBlockGroup_fixed_eq_statedOmega {ι K : Type} [Fintype ι] [D
     (∃ (ι₁ : Type) (_ : Fintype ι₁) (_ : DecidableEq ι₁) (Φ₁ : QuadraticForm K (ι₁ → K)),
       (QuadraticMap.polarBilin Φ₁).Nondegenerate ∧
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃* ↥(StatedOmega ⇑Φ₁))) ∨
-    IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) := by
+    Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) := by
   obtain ⟨ι₁, hFintype₁, hDecEq₁, Q₁, -, hform, hdisj⟩ :=
     blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd hε h1
   rcases hdisj with ⟨⟨iso⟩, -⟩ | ⟨-, -, hsol, -⟩
@@ -280,7 +280,7 @@ theorem blockGroup_iso_Omega_cases {ι K : Type} [Fintype ι] [DecidableEq ι] [
     (∃ (ι₁ : Type) (_ : Fintype ι₁) (_ : DecidableEq ι₁) (Φ₁ : QuadraticForm K (ι₁ → K)),
       (QuadraticMap.polarBilin Φ₁).Nondegenerate ∧
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃* ↥(StatedOmega ⇑Φ₁))) ∨
-    IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∨
+    Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ∨
     (∃ (m : ℕ) (E : Type) (_ : Field E) (_ : Finite E) (_ : CharP E 2),
       Nonempty (↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) ≃* GL (Fin m) E)) ∨
     (∃ (m Q : ℕ) (E : Type) (_ : Field E) (_ : Finite E) (_ : CharP E 2), Nat.card E = Q ^ 2 ∧

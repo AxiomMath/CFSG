@@ -30,10 +30,10 @@ theorem ggCommonJRowOmMinusNonsplit_sc {K : Type} [Field K] [Finite K] {p m f : 
     (hcard : Nat.card T = p ^ m) :
     ∀ g : OrthRest.RMinus K m b c, (∀ x ∈ T, g * x = x * g) → g ^ p = 1 → g ∈ T := by
   classical
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro g hgc hgp
   by_contra hgT
   have hg1 : g ≠ 1 := fun h1 => hgT (h1 ▸ T.one_mem)
@@ -115,7 +115,7 @@ theorem ggCommonJRowOmMinusNonsplit_compareTorus {K : Type} [Field K] [Finite K]
     change τ f = τ₀ (eτ₀.symm ((MulEquiv.subgroupCongr hrange) (eτ f)))
     rw [MonoidHom.apply_ofInjective_symm, MulEquiv.subgroupCongr_apply]
     exact (MonoidHom.ofInjective_apply hτ).symm
-  haveI : Finite ↥τ.range := Finite.of_injective (Subtype.val) Subtype.val_injective
+  have : Finite ↥τ.range := Finite.of_injective (Subtype.val) Subtype.val_injective
   let H : Subgroup (MulAut (Fin m → Multiplicative (ZMod p))) :=
     { carrier := {u | ∃ w : OrthRest.RMinus K m b c,
           (∀ s ∈ τ.range, w * s * w⁻¹ ∈ τ.range) ∧ ∀ f, w * τ f * w⁻¹ = τ (u f)}

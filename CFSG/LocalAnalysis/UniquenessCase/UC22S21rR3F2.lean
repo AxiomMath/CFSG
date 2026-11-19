@@ -27,7 +27,7 @@ theorem false_of_not_inner (u : R3Pair D L K n p) {Ch : Choice2011 G}
     (hq7 : 7 ≤ q) (hqn : q ∣ 2 ^ n - 1) {b : G} (hb : b ∈ c.B0) (hbo : orderOf b = q)
     (hninn : ¬ ∃ x ∈ barImage D.M L, ∀ f ∈ barImage D.M L, uc22p21cPi D.M ⟨b, c.hBM hb⟩ * f *
       (uc22p21cPi D.M ⟨b, c.hBM hb⟩)⁻¹ = x * f * x⁻¹) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   obtain ⟨hcomm, hinf, -, -, -, -, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hodd := uc22p21d_odd_orderOf_of_mem_calB1 c.hB0 hb
@@ -37,7 +37,7 @@ theorem false_of_not_inner (u : R3Pair D L K n p) {Ch : Choice2011 G}
     (uc22p2214_mem_normalizer_of_odd u.symm.hc2 (c.hBM hb) hodd)
   have hβq : uc22p21cPi D.M ⟨b, c.hBM hb⟩ ^ q = 1 := by
     rw [← map_pow, show (⟨b, c.hBM hb⟩ : ↥D.M) ^ q = 1 from
-      Subtype.ext (by simpa [← hbo] using pow_orderOf_eq_one b), map_one]
+      Subtype.ext (by simp [← hbo]), map_one]
   obtain ⟨β, hβ⟩ : ∃ β, uc22p21cPi D.M ⟨b, c.hBM hb⟩ = β := ⟨_, rfl⟩
   rw [hβ] at hβL hβK hβq hninn
   have hβ1 : β ≠ 1 := fun h => hninn ⟨1, one_mem _, fun f _ => by rw [h]⟩

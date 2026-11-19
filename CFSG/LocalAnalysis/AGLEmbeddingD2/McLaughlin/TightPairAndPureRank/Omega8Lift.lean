@@ -59,7 +59,7 @@ theorem isLThreeTwo_quot_pCore_of_surj {Y₂ S : Type} [Group Y₂] [Finite Y₂
   have h2 : CFSG.pCore 2 Y₂ ≤ ψ.ker := by
     set P := (CFSG.pCore 2 Y₂).map ψ with hP
     have hPn : P.Normal := Subgroup.Normal.map CFSG.pCore_normal ψ hψ
-    haveI := hPn
+    have := hPn
     have hP2 : IsPGroup 2 P := IsPGroup.map CFSG.pCore_isPGroup ψ
     rcases hsimple.eq_bot_or_eq_top_of_normal P with h | h
     · intro y hy
@@ -161,7 +161,7 @@ theorem lift_isLThreeTwo {Xg Xs : Type} [Group Xg] [Finite Xg] [Group Xs]
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set NS : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y) := Y₃.map π with hNS
   have hNSn : NS.Normal := Subgroup.Normal.map hY₃n π hπs
-  haveI := hNSn
+  have := hNSn
   have hNSidx : ¬ 3 ∣ NS.index := fun h => hY₃idx (h.trans (Subgroup.index_map_dvd _ hπs))
   have hNStop : NS = ⊤ := by
     rcases hsimple.eq_bot_or_eq_top_of_normal NS with h | h

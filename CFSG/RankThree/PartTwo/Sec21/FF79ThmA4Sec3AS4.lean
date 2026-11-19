@@ -19,6 +19,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {b : G} {J B A P D S : Subgroup G}
 
+omit [Finite G] in
 theorem comm_calc {a w t c : G} (haw : a * w = w * a) (hc : ⁅a, t⁆ = c) (hcw : c * w = w * c)
     (hct : c * t = t * c) : ⁅⁅a, w * t⁆, w * t⁆ = 1 := by
   have e1 : ⁅a, w * t⁆ = c := by
@@ -45,14 +46,14 @@ include c
 
 theorem eq_S_of_le {T : Subgroup G} (hT : IsPGroup 3 T) (hST : S ≤ T) (hTN : T ≤ Nor A) :
     T = S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz, hz1⟩ := c.exists_z
   set Y : Subgroup G := Nor A ⊓ Cen (z : G) with hY
   have hTC : T ⊓ CenS A = c.As := (eq_of_sylowOf_three_le c.As_sylow hT.to_inf_left
     inf_le_right (le_inf (c.As_le_S.trans hST) c.As_le_cenS)).symm
   set C' : Subgroup ↥(Nor A) := (CenS A).subgroupOf (Nor A) with hC'
   set Y' : Subgroup ↥(Nor A) := Y.subgroupOf (Nor A) with hY'
-  haveI hCn : C'.Normal := by
+  have hCn : C'.Normal := by
     rw [hC', Subgroup.normal_subgroupOf_iff (cenS_le_nor A)]
     intro x n hx hn
     exact (Subgroup.mem_normalizer_iff.mp (mem_nor_cenS hn) x).mp hx
@@ -98,7 +99,7 @@ theorem eq_S_of_le {T : Subgroup G} (hT : IsPGroup 3 T) (hST : S ≤ T) (hTN : T
   exact Nat.mul_le_mul_right _ hr3
 
 theorem nor_As_of_nor_S {g : G} (hg : g ∈ Nor S) : g ∈ Nor c.As := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set As' := conjBy g c.As with hAs'
   have hAs'S : As' ≤ S := by
     rintro _ ⟨y, hy, rfl⟩

@@ -63,10 +63,9 @@ private theorem langRatCF_psi_toMul
       rootChar (Hchar (x : Fin τ.rank → ℤ) (Additive.toMul v)) δ
     rw [langRatCF_rootChar_Hchar]
     rfl
-  refine TensorProduct.induction_on (motive := fun z =>
+  refine TensorProduct.inductionOn (motive := fun z =>
       Additive.toMul (langRatCF_psi Ψ L δ z) =
-        rootChar (Additive.toMul (langRatPiT Ψ L z)) δ) z ?_ htmul ?_
-  · simpa only [TensorProduct.zero_tmul] using htmul 0 0
+        rootChar (Additive.toMul (langRatPiT Ψ L z)) δ) z htmul ?_
   · intro z1 z2 h1 h2
     rw [map_add (langRatCF_psi Ψ L δ) z1 z2, map_add (langRatPiT Ψ L) z1 z2]
     change Additive.toMul (langRatCF_psi Ψ L δ z1) * Additive.toMul (langRatCF_psi Ψ L δ z2) =
@@ -90,7 +89,7 @@ private noncomputable def langRatCF_vΛ {τ : Tag} (Ψ : Set (Fin τ.rank → �
 private theorem langRatCF_vΛ_coe {τ : Tag} (Ψ : Set (Fin τ.rank → ℤ))
     {v : Fin τ.rank → ℤ} (hv : v ∈ Submodule.span ℤ Ψ) :
     ((langRatCF_vΛ Ψ v : ↥(Submodule.span ℤ Ψ)) : Fin τ.rank → ℤ) = v := by
-  rw [langRatCF_vΛ, dif_pos hv]
+  rw [langRatCF_vΛ, dite_eq_left hv]
 
 private theorem langRatCF_list_sum_tmul {τ : Tag} (Ψ : Set (Fin τ.rank → ℤ))
     (L : Type) [Field L] (l : List (↥(Submodule.span ℤ Ψ))) (v : Additive Lˣ) :
@@ -103,7 +102,7 @@ private theorem langRatCF_list_sum_map_zero {β M : Type*} [AddCommMonoid M] (l 
     (l.map fun _ => (0 : M)).sum = 0 := by
   induction l with
   | nil => rfl
-  | cons a t ih => simp [List.map_cons, List.sum_cons, ih]
+  | cons a t ih => simp [List.map_cons, List.sum_cons]
 
 private theorem langRatCF_hx {τ : Tag} (Ψ : Set (Fin τ.rank → ℤ))
     (g : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))
@@ -165,11 +164,10 @@ private theorem langRatCF_map_eq
     rw [hR, langRatCF_list_sum_tmul, List.map_map]
     exact congrArg List.sum (List.map_congr_left fun (p : _ × _) _ =>
       langRatCF_smul_tmul_eq Ψ L (iform (x : Fin τ.rank → ℤ) p.1) (langRatCF_vΛ Ψ p.2) v)
-  refine TensorProduct.induction_on (motive := fun z =>
+  refine TensorProduct.inductionOn (motive := fun z =>
       TensorProduct.map h (LinearMap.id : Additive Lˣ →ₗ[ℤ] Additive Lˣ) z =
         (l.map fun p => langRatCF_vΛ Ψ p.2 ⊗ₜ[ℤ] langRatCF_psi Ψ L p.1 z).sum)
-    z ?_ htmul ?_
-  · simpa only [TensorProduct.zero_tmul] using htmul 0 0
+    z htmul ?_
   · intro z1 z2 h1 h2
     rw [map_add, h1, h2]
     simp only [map_add, TensorProduct.tmul_add, List.sum_map_add]

@@ -50,6 +50,7 @@ theorem pRank_top_le_of_forall (hp : p.Prime) {H : Type} [Group H] [Finite H] {m
   rw [GL83.PiGen.card_eq_pow_pRank hE]
   exact Nat.pow_le_pow_right hp.pos (h E hE)
 
+omit [Finite X] in
 theorem layer_conjSet_eq (B K : Subgroup X) : GL83.CompFam.layer (conjSet B K) = ⨆ g ∈ B, GLBConj g K := by
   apply le_antisymm
   · refine iSup₂_le fun K' hK' => ?_
@@ -119,6 +120,7 @@ theorem eq_of_card_dvd_two {G : Type*} [Group G] {Z : Subgroup G} (hZ : Nat.card
     have e2 := hy ⟨b, hb⟩ (fun h => hb1 (congrArg Subtype.val h))
     exact congrArg Subtype.val (e1.trans e2.symm)
 
+omit [Finite X] in
 theorem conj_mem_center {K : Subgroup X} {b : X} (hb : b ∈ Subgroup.normalizer (K : Set X))
     {z : ↥K} (hz : z ∈ Subgroup.center ↥K) :
     ∃ hbz : b * (z : X) * b⁻¹ ∈ K, (⟨b * z * b⁻¹, hbz⟩ : ↥K) ∈ Subgroup.center ↥K := by
@@ -134,6 +136,7 @@ theorem conj_mem_center {K : Subgroup X} {b : X} (hb : b ∈ Subgroup.normalizer
     _ = b * (z * (b⁻¹ * g * b)) * b⁻¹ := by rw [hc]
     _ = b * z * b⁻¹ * g := by group
 
+omit [Finite X] in
 theorem comm_of_center_card_dvd_two {K : Subgroup X} (hZ2 : Nat.card (Subgroup.center K) ∣ 2)
     {b : X} (hb : b ∈ Subgroup.normalizer (K : Set X)) {z : ↥K} (hz : z ∈ Subgroup.center ↥K) :
     b * (z : X) = z * b := by
@@ -176,6 +179,7 @@ theorem eq_one_of_conj_eq_mul {G : Type*} [Group G] (hp : p.Prime) (hp2 : p ≠ 
   rw [(Nat.coprime_primes hp Nat.prime_two).2 hp2, Nat.dvd_one, orderOf_eq_one_iff] at hd
   exact hd
 
+omit [Finite X] in
 theorem eq_one_of_mem_center (hp : p.Prime) {K : Subgroup X}
     (hZ : ¬ p ∣ Nat.card (Subgroup.center K)) {x : X} (hxK : x ∈ K) (hxc : ∀ y ∈ K, x * y = y * x)
     (hxp : x ^ p = 1) : x = 1 := by
@@ -192,7 +196,7 @@ theorem eq_one_of_mem_center (hp : p.Prime) {K : Subgroup X}
 theorem le_pRank_of_quot (hp : p.Prime) {K : Subgroup X} (hZ : ¬ p ∣ Nat.card (Subgroup.center K))
     {Eb : Subgroup (↥K ⧸ Subgroup.center ↥K)} (hE : IsElemAbelian p Eb) {t : ℕ}
     (ht : Nat.card Eb = p ^ t) : t ≤ CFSG.Open.pRank p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS, -, hScard⟩ :=
     CFSG.LocalAnalysis.GLTheoremB.exists_elemAbelian_lift (Subgroup.center ↥K) hZ hE
   refine CFSG.SectionRank.le_pRank hp.one_lt (Subgroup.map_subtype_le S)
@@ -273,7 +277,7 @@ theorem le_glbCore_of_alt_ne_six (hp : p.Prime) (hp2 : p ≠ 2)
     {n : ℕ} (hn6 : n ≠ 6) (hA : IsAltType n (↥K ⧸ Subgroup.center ↥K)) :
     K ≤ GLBCore p 2 B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   set m := CFSG.Open.pRank p B with hm
@@ -285,7 +289,7 @@ theorem le_glbCore_of_alt_ne_six (hp : p.Prime) (hp2 : p ≠ 2)
   push Not at hsmall
   obtain ⟨e⟩ := hA
   have hq : CFSG.Open.IsQuasisimple K := hK.2.2
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hn5 : 5 ≤ n := SchurFacts.five_le_of_isAltType hq ⟨e⟩
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e with hπ
   have hAC : Nat.card (stab B K) = Nat.card (cen B K) * Nat.card π.range :=
@@ -310,7 +314,7 @@ theorem le_glbCore_of_alt_ne_six (hp : p.Prime) (hp2 : p ≠ 2)
       (((pow_dvd_pow p (by omega)).trans hdvd).trans (by norm_num))
   have hZ2 : Nat.card (Subgroup.center K) ∣ 2 := by
     have h := SchurFacts.card_center_dvd_of_isAltType hq ⟨e⟩
-    rwa [if_neg (by omega)] at h
+    rwa [ite_eq_right (by omega)] at h
   have hZp : ¬ p ∣ Nat.card (Subgroup.center K) := fun h =>
     hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (h.trans hZ2))
   have hRA : π.range ≤ alternatingGroup (Fin n) := fun σ hσ =>
@@ -510,13 +514,13 @@ theorem card_mulAut_alt6_dvd : Nat.card (MulAut (alternatingGroup (Fin 6))) ∣ 
       have : 3 * 720 ≤ H.index * 720 := Nat.mul_le_mul_right 720 h
       omega
   rw [← hidx]
-  rcases h12 with h | h <;> rw [h] <;> norm_num
+  rcases h12 with h | h <;> rw [h]; norm_num
 
 theorem pRank_aut_le_two_of_alt6 (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Group K] [Finite K]
     (hperf : commutator K = ⊤) (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin 6)) :
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut K)) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   set ψ : MulAut K →* MulAut ↥(alternatingGroup (Fin 6)) :=
     (MulAut.congr e).toMonoidHom.comp
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K) with hψ
@@ -571,7 +575,7 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ}
 theorem nonempty_center_quot_equiv {K : Type*} [Group K] (hperf : commutator K = ⊤)
     (N : Subgroup K) [N.Normal] (hN : N ≤ Subgroup.center K) :
     Nonempty (((K ⧸ N) ⧸ Subgroup.center (K ⧸ N)) ≃* (K ⧸ Subgroup.center K)) := by
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   have hcenter : (Subgroup.center K).map (QuotientGroup.mk' N) = Subgroup.center (K ⧸ N) :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel (QuotientGroup.mk' N)
       (QuotientGroup.mk'_surjective _) (by simpa only [QuotientGroup.ker_mk'] using hN)
@@ -581,7 +585,8 @@ theorem nonempty_center_quot_equiv {K : Type*} [Group K] (hperf : commutator K =
     (by simpa using hcenter)
   exact ⟨centerEquivalence.symm.trans equivalence⟩
 
-theorem barX_top_isComponentOf (hp : p.Prime) {K : Subgroup X} (hK : IsComponentOf K ⊤)
+omit [Finite X] in
+theorem barX_top_isComponentOf (_hp : p.Prime) {K : Subgroup X} (hK : IsComponentOf K ⊤)
     (hKO : ¬ K ≤ GLAPPrimeCoreOf p (⊤ : Subgroup X)) :
     IsComponentOf (barX p ⊤ K) ⊤ ∧
       Nonempty ((↥(barX p ⊤ K) ⧸ Subgroup.center ↥(barX p ⊤ K)) ≃* (↥K ⧸ Subgroup.center ↥K)) := by
@@ -629,7 +634,7 @@ theorem barX_top_isComponentOf (hp : p.Prime) {K : Subgroup X} (hK : IsComponent
 
 theorem input23_19Chev_of_core (hres : Input23_19ChevCore) : Input23_19Chev := by
   intro X _ _ hKX p hp hp2 B hB hB4 hrk K hK hch _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set T : Subgroup X := ⊤ with hT
   have hBp : IsPGroup p B := CFSG.Open.IsElemAbelian.isPGroup hB
   have hBcard : Nat.card B = p ^ CFSG.Open.pRank p B := GL83.PiGen.card_eq_pow_pRank hB
@@ -698,7 +703,7 @@ theorem exists_complement_elem {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p
     (hB : IsElemAbelian p B) (hCB : C ≤ B) :
     ∃ B₁ : Subgroup Y, B₁ ≤ B ∧ B₁ ⊓ C = ⊥ ∧ B₁ ⊔ C = B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Set (Subgroup Y) := {H | H ≤ B ∧ H ⊓ C = ⊥}
   obtain ⟨H, ⟨hHB, hHC⟩, hmax⟩ := (Set.toFinite S).exists_maximal ⟨⊥, bot_le, bot_inf_eq _⟩
   refine ⟨H, hHB, hHC, le_antisymm (sup_le hHB hCB) fun x hx => ?_⟩
@@ -748,7 +753,7 @@ theorem isGMinusOne_of_faithful_le {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp
       B₁ ⊓ Subgroup.centralizer (K : Set Y) = ⊥ → p < Nat.card B₁ → Nat.card B₁ ≤ Nat.card A →
         Lemma1314.IsGMinusOne p B₁ K) :
     Lemma1314.IsGMinusOne p A K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKfix : ∀ A' : Subgroup Y, A' ≤ Subgroup.normalizer (K : Set Y) →
       (⨆ g ∈ A', GLBConj g K) = K := by
     intro A' hA'
@@ -815,7 +820,7 @@ theorem isGMinusOne_of_faithful_le {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp
 
 theorem input23_10_of_faith (hres : Input23_10Faith) : Lemma1314.Input23_10 := by
   intro p q hp hp5 hq hqp Y _ _ hcore K B hK hB hB3 hlie hexc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hsmall : Nat.card (stab B K) ≤ p * Nat.card (cen B K)
   · exact isGMinusOne_of_card_stab_le hp hB hK hsmall
   push Not at hsmall

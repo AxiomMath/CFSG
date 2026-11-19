@@ -62,7 +62,7 @@ theorem u3e_inf_le {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {M T R : Subgroup G} 
     CFSG.LocalAnalysis.RankThreeTheoremC.le_sup_normalizer_of_isSylowOf hXN ⟨S, rfl⟩
   have hS'M : ¬ normalizer (S' : Set G) ≤ M := fun h => hXM (hfr.trans (sup_le hNM h))
   have hYS' : Y ≤ S' := le_sup_left.trans hYWS
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map N.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map N.subtype
   have hS'0 : S' ≠ ⊥ := fun h => hY0 (le_bot_iff.mp (h ▸ hYS'))
   have hcard := hmax S' hS'0 hS'2 hRS hS'M
   have hSY : Y = S' := eq_of_le_of_card_ge hYS' hcard
@@ -99,8 +99,8 @@ theorem u3e_T_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {M R : Subgroup G} {x 
   exact gen49e_le_of_inf_le hT2 hY2 hYT he
 
 theorem u3_endgame {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {M R : Subgroup G} {x : G}
-    (hRM : R ≤ M) (hRe : IsElemAbelian p R) (hRc : Nat.card R = p ^ 2) (hxR : x ∈ R)
-    (hx1 : x ≠ 1)
+    (hRM : R ≤ M) (_hRe : IsElemAbelian p R) (hRc : Nat.card R = p ^ 2) (hxR : x ∈ R)
+    (_hx1 : x ≠ 1)
     (hodd : ∀ X : Subgroup G, IsPGroup 2 X → X ≤ rankThreePrimeCore p M →
       X ≤ Subgroup.centralizer ({x} : Set G) → X = ⊥)
     (hinv : ∀ F : Subgroup G, ¬ p ∣ Nat.card F → R ≤ Subgroup.normalizer (F : Set G) → F ≤ M)

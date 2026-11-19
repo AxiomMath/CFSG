@@ -268,19 +268,19 @@ theorem pattern_cases (hK : Fintype.card K = 2 ^ n) (ρ : Representation K (Stat
       omega
     · by_cases hJt : J = trivLabel
       · subst hJt
-        rw [if_pos rfl]
-        simp [Fin.sum_univ_three, Ne.symm (slotLabel_ne_trivLabel (Finset.singleton_nonempty a) _)]
-      rw [if_neg hJt, zero_add]
+        rw [ite_eq_left rfl]
+        simp [Ne.symm (slotLabel_ne_trivLabel (Finset.singleton_nonempty a) _)]
+      rw [ite_eq_right hJt, zero_add]
       by_cases hJs : ∃ t, J = slotLabel t {a}
       · obtain ⟨t, rfl⟩ := hJs
         rw [heq t, hm1, Finset.sum_eq_single t]
-        · rw [if_pos rfl]
+        · rw [ite_eq_left rfl]
         · intro u _ hut
-          rw [if_neg (fun h => hut (slotLabel_inj (Finset.singleton_nonempty a) h).symm)]
+          rw [ite_eq_right (fun h => hut (slotLabel_inj (Finset.singleton_nonempty a) h).symm)]
         · intro h
           exact absurd (Finset.mem_univ t) h
       · push Not at hJs
-        rw [Finset.sum_eq_zero fun t _ => if_neg (hJs t)]
+        rw [Finset.sum_eq_zero fun t _ => ite_eq_right (hJs t)]
         by_contra hne
         rcases label_of_pat_ne_zero hK ρ hdim hJ hne with h | ⟨t, b, hb, rfl⟩ | ⟨b, hb, rfl⟩
         · exact hJt h

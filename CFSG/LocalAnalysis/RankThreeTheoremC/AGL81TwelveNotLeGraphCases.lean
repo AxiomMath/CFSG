@@ -44,7 +44,7 @@ theorem graph_lie_case (hGA : GriessAllModelsStatement) (hZ : OddCenterRest) (hT
     ∃ r : ℕ, 4 ≤ r ∧ IsLieOver ↥Y (.A r) 2 1 := by
   classical
   obtain ⟨hJ's, hJ'iso⟩ := hatOf_map_conj_symThree hJP htP hJs hJiso
-  haveI : Group.IsPerfect ↥Y := ⟨hY.1⟩
+  have : Group.IsPerfect ↥Y := ⟨hY.1⟩
   have hodd : Odd (Nat.card (center ↥Y)) := ParabCensus.odd_card_center_of_pCoreOf_eq_bot hO
   have hq4 : LieField d.1 < 4 := by
     by_contra hge

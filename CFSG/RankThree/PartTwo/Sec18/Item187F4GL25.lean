@@ -544,12 +544,12 @@ private theorem exists_conj_eight {Q : Subgroup GL25} (hQ : Q ≤ SL25) (hc : Na
   have hmem : ∀ y : ↥SL25, y ∈ Q.subgroupOf SL25 ↔ m⁻¹ * y * m ∈ Q0.subgroupOf SL25 := by
     intro y
     rw [← hsub, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.smul_def, MulAut.conj_inv_apply]
+    simp [MulAut.smul_def]
   refine ⟨(m : GL25), m.2, fun x hx => ?_⟩
   have hy := hmem ⟨x, hx⟩
   simpa [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] using hy
 
-private theorem conj_normalizer_of {Q : Subgroup GL25} (hQ : Q ≤ SL25) {h : GL25} (hhSL : h ∈ SL25)
+private theorem conj_normalizer_of {Q : Subgroup GL25} (_hQ : Q ≤ SL25) {h : GL25} (hhSL : h ∈ SL25)
     (hiff : ∀ x ∈ SL25, x ∈ Q ↔ h⁻¹ * x * h ∈ Q0) {t : GL25}
     (ht : t ∈ Subgroup.normalizer (Q : Set GL25)) :
     h⁻¹ * t * h ∈ Subgroup.normalizer (Q0 : Set GL25) := by
@@ -657,10 +657,10 @@ theorem gl25_isCyclic_or_quaternion {T : Subgroup GL25} (hT : IsPGroup 2 T)
   interval_cases a
   · left
     have h1 : Nat.card T = 1 := by simpa using ha
-    haveI : Subsingleton T := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton T := (Nat.card_eq_one_iff_unique.1 h1).1
     infer_instance
   · left
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card (p := 2) (by simpa using ha)
   · left
     exact cyclic_of_card_four hle (by simpa using ha)

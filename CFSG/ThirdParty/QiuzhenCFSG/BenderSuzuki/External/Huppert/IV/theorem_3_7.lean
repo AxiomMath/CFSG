@@ -227,7 +227,7 @@ private theorem huppert_IV_3_7_sylow_quotient_equiv_center_normalizer_source
             have hZp_NT :
                 IsPGroup q ((centerIn (G := Q) (S : Subgroup Q)).subgroupOf NT) := by
               have hZp : IsPGroup q (centerIn (G := Q) (S : Subgroup Q)) :=
-                IsPGroup.to_le S.isPGroup'
+                IsPGroup.to_le S.isPGroup
                   (show centerIn (G := Q) (S : Subgroup Q) ≤ (S : Subgroup Q) from inf_le_left)
               exact hZp.of_equiv
                 (Subgroup.subgroupOfEquivOfLe
@@ -238,7 +238,7 @@ private theorem huppert_IV_3_7_sylow_quotient_equiv_center_normalizer_source
                 IsPGroup q
                   ((rightConjugate (centerIn (G := Q) (S : Subgroup Q)) g).subgroupOf NT) := by
               have hZp : IsPGroup q (centerIn (G := Q) (S : Subgroup Q)) :=
-                IsPGroup.to_le S.isPGroup'
+                IsPGroup.to_le S.isPGroup
                   (show centerIn (G := Q) (S : Subgroup Q) ≤ (S : Subgroup Q) from inf_le_left)
               have hZg_p : IsPGroup q (rightConjugate (centerIn (G := Q) (S : Subgroup Q)) g) := by
                 have hmap : IsPGroup q ((centerIn (G := Q) (S : Subgroup Q)).map
@@ -454,7 +454,7 @@ private theorem huppert_IV_3_7_sylow_quotient_equiv_center_normalizer_source
               rcases hp_image with ⟨z, hzcomm, hzval⟩
               let aN : ZN := ⟨g * s, hgs_ZN⟩
               have hzconj : aN⁻¹ * z * aN ∈ commutator ZN := by
-                haveI : (commutator ZN).Normal := inferInstance
+                have : (commutator ZN).Normal := inferInstance
                 simpa [aN, mul_assoc] using
                   ((inferInstance : (commutator ZN).Normal).conj_mem z hzcomm aN⁻¹)
               refine ⟨aN⁻¹ * z * aN, hzconj, ?_⟩
@@ -521,9 +521,9 @@ public theorem huppert_IV_3_7_second_grun
     simpa [ZN] using
       hkt_huppert_iv52_sylow_le_normalizer_centerIn (Q := Q) (q := q) S
   let SN : Sylow q ZN := S.subtype hS_le_ZN
-  letI : (hktAbelianPResidual q Q).Normal :=
+  let : (hktAbelianPResidual q Q).Normal :=
     hktAbelianPResidual_normal (Q := Q) (q := q)
-  letI : (hktAbelianPResidual q ZN).Normal :=
+  let : (hktAbelianPResidual q ZN).Normal :=
     hktAbelianPResidual_normal (Q := ZN) (q := q)
   obtain ⟨eQ⟩ :=
     (huppert_IV_3_3_sylow_abelian_residual (Q := Q) (q := q) S).2

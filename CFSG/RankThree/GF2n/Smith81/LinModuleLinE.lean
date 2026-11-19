@@ -27,7 +27,7 @@ private theorem eq_zero_of_fixed_dual_stab_std {K : Type} [Field K] {n : ℕ} (h
     have hcol : ∀ j, j ≠ i2 → (transvection i i2 (1 : K)) *ᵥ Pi.single j 1 = Pi.single j 1 := by
       intro j hj
       ext k
-      simp [transvection, Matrix.add_mulVec, Matrix.mulVec_single, Matrix.single_apply, Ne.symm hj,
+      simp [transvection, Matrix.mulVec_single, Ne.symm hj,
         Matrix.one_apply, Pi.single_apply, eq_comm]
     have h := hw g (det_transvection_of_ne i i2 hi (1 : K))
       (by
@@ -54,7 +54,7 @@ private theorem eq_zero_of_fixed_dual_stab_std {K : Type} [Field K] {n : ℕ} (h
         funext k
         by_cases hk : k = i0
         · subst hk; simp [Matrix.mulVec_diagonal, dv, h02]
-        · simp [Matrix.mulVec_diagonal, dv, Pi.single_apply, hk])
+        · simp [Matrix.mulVec_diagonal, dv, hk])
       (by
         show diagonal dv *ᵥ _ = _
         funext k
@@ -62,7 +62,7 @@ private theorem eq_zero_of_fixed_dual_stab_std {K : Type} [Field K] {n : ℕ} (h
         · subst hk
           have h10 : i1 ≠ i0 := by simp [i0, i1, Fin.ext_iff]
           simp [Matrix.mulVec_diagonal, dv, h12, h10]
-        · simp [Matrix.mulVec_diagonal, dv, Pi.single_apply, hk])
+        · simp [Matrix.mulVec_diagonal, dv, hk])
     have h2 := congrFun h i2
     simp [g, dv, Matrix.mulVec_diagonal] at h2
     by_contra hw2
@@ -94,7 +94,7 @@ private theorem exists_isUnit_cols_pair {K : Type} [Field K] {n : ℕ} (hn : 2 �
         rw [this, Fin.snoc_castSucc, hb1]
   obtain ⟨b, hb, hb0, hb1⟩ := key n hn le_rfl
   refine ⟨Matrix.of fun i j => b j i, ?_, ?_, ?_⟩
-  · exact Matrix.linearIndependent_cols_iff_isUnit.mp hb
+  · exact Matrix.linearIndependent_col_iff_isUnit.mp hb
   · rw [Matrix.mulVec_single_one]; exact hb0
   · rw [Matrix.mulVec_single_one]; exact hb1
 

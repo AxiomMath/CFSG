@@ -30,7 +30,7 @@ private def Qball2 (Y : Setup Γ G) : Subgroup G :=
 private theorem sup_perfectCore_pCoreOf_eq {G : Type*} [Group G] [Finite G]
     {H : Subgroup G} {m : ℕ} (hm : 2 ≤ m) (h : IsL2Quot m (oTwoQuot ↥H)) :
     perfectCore H ⊔ pCoreOf 2 H = H := by
-  haveI hperf : Group.IsPerfect (oTwoQuot ↥H) :=
+  have hperf : Group.IsPerfect (oTwoQuot ↥H) :=
     CFSG.Quasithin.F112R.isPerfect_of_isL2Quot hm h
   let π : ↥H →* oTwoQuot ↥H := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥H)
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -72,7 +72,7 @@ private theorem exists_pow_two_of_mem {P : Subgroup G} (hP : IsPGroup 2 P) {z : 
 
 private theorem exists_mem_Q_zero_inf_Q_one_notMem_Q_neg_one (Y : Setup Γ G)
     (H : Y.Sec5Hyp s n₀) : ∃ x ∈ Y.Q 0 ⊓ Y.Q 1, x ∉ Y.Q (-1) := by
-  haveI : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
   by_contra hcon
   push Not at hcon
   have hle : Y.Q 0 ⊓ Y.Q 1 ≤ Y.Q (-1) ⊓ Y.Q 1 :=
@@ -96,7 +96,7 @@ private theorem exists_mem_Q_zero_inf_Q_one_notMem_Q_neg_one (Y : Setup Γ G)
     have hd := Subgroup.relIndex_dvd_card (Y.Q 0 ⊓ Y.Q 1) (Y.Q 0)
     rw [h0] at hd
     have hcard0 : Nat.card ↥(Y.Q 0) = 0 := Nat.eq_zero_of_zero_dvd hd
-    haveI : Nonempty ↥(Y.Q 0) := ⟨1⟩
+    have : Nonempty ↥(Y.Q 0) := ⟨1⟩
     have hpos : 0 < Nat.card ↥(Y.Q 0) := Nat.card_pos
     omega
   have h3 : (Y.Q (-1) ⊓ Y.Q 1).relIndex (Y.Q 0) ≤
@@ -133,7 +133,7 @@ private theorem exists_adj_smul_ne_of_notMem_Q (Y : Setup Γ G) {x : G} (hxQ0 : 
 private theorem perfectCore_sup_Q_zero_eq_L_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     perfectCore ((Y.L 0).subgroupOf (Y.Gi 0)) ⊔ (Y.Q 0).subgroupOf (Y.Gi 0) =
       (Y.L 0).subgroupOf (Y.Gi 0) := by
-  haveI : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
+  have : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
   have hpc : pCoreOf 2 ((Y.L 0).subgroupOf (Y.Gi 0)) = (Y.Q 0).subgroupOf (Y.Gi 0) := by
     apply Subgroup.map_injective (Y.Gi 0).subtype_injective
     rw [CFSG.Quasithin.F6.map_pCoreOf_subgroupOf (Y.L_le_Gi 0),
@@ -174,7 +174,7 @@ private theorem exists_commutator_notMem_Qball2 (Y : Setup Γ G) (H : Y.Sec5Hyp 
   obtain ⟨w, hwadj, hwmove, hwball⟩ := exists_adj_smul_ne_of_notMem_Q Y hxQ0 hxQm1
   obtain ⟨g, hgL0, hg1⟩ := (Y.hyp.isLocL2_oTwoPrime (Y.vert 0)).trans
     (Y.vert 1) (Y.vert (-1)) (by simpa using Y.adj 0) (by simpa using (Y.adj (-1)).symm)
-  haveI hQ0norm : ((Y.Q 0).subgroupOf (Y.Gi 0)).Normal :=
+  have hQ0norm : ((Y.Q 0).subgroupOf (Y.Gi 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0))
   have hsup := perfectCore_sup_Q_zero_eq_L_zero Y H
@@ -227,21 +227,21 @@ private theorem exists_commutator_notMem_Qball2 (Y : Setup Γ G) (H : Y.Sec5Hyp 
 
 private theorem pow_le_relIndex_Qball2 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     2 ^ (2 * n₀) ≤ Y.Qball2.relIndex (Y.Q 0) := by
-  haveI : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
+  have : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
   let G0 := ↥(Y.Gi 0)
-  haveI : Finite G0 := ‹Finite ↥(Y.Gi 0)›
+  have : Finite G0 := ‹Finite ↥(Y.Gi 0)›
   let L0' : Subgroup G0 := (Y.L 0).subgroupOf (Y.Gi 0)
   let Q0' : Subgroup G0 := (Y.Q 0).subgroupOf (Y.Gi 0)
   let N2' : Subgroup G0 := Y.Qball2.subgroupOf (Y.Gi 0)
   let L' : Subgroup G0 := perfectCore L0'
-  haveI hQ0normal : Q0'.Normal :=
+  have hQ0normal : Q0'.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0))
   have hWN : N2' ≤ Q0' := Subgroup.subgroupOf_mono (Y.Gi 0) inf_le_left
   have hQ0W : Q0' ≤ Subgroup.normalizer (N2' : Set G0) :=
     (Subgroup.comap_mono (Q_zero_le_normalizer_Qball2 Y)).trans
       (Subgroup.le_normalizer_comap _)
-  haveI hWnormal : (N2'.subgroupOf Q0').Normal :=
+  have hWnormal : (N2'.subgroupOf Q0').Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ0W
   have hL'L0 : L' ≤ L0' := perfectCore_le L0'
   have hL'N : L' ≤ Subgroup.normalizer (Q0' : Set G0) :=
@@ -645,7 +645,7 @@ private theorem Zt_one_le_inf_Zt_zero_Zt_two_of_le_center (Y : Setup Γ G) (H : 
 
 private theorem four_le_card_Zt_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hne : Y.Zt 1 ≠ ⊥) : 4 ≤ Nat.card ↥(Y.Zt 1) := by
-  haveI hZt1fin : Finite ↥(Y.Zt 1) :=
+  have hZt1fin : Finite ↥(Y.Zt 1) :=
     finite_of_le_stabilizer Y.hyp
       ((Zt_le_Z Y 1).trans ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1)))
   by_contra hlt
@@ -677,13 +677,13 @@ private theorem Zt_one_eq_bot_of_ZtExt_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
     (hr : Y.IsMaxRegLen 6) (he : Y.ZtExt 0 2 2) (hW : Y.Zt 1 ≤ Y.Zt 0 ⊓ Y.Zt 2) :
     Y.Zt 1 = ⊥ := by
   by_contra hne
-  haveI hZt1fin : Finite ↥(Y.Zt 1) :=
+  have hZt1fin : Finite ↥(Y.Zt 1) :=
     finite_of_le_stabilizer Y.hyp
       ((Zt_le_Z Y 1).trans ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1)))
-  haveI hZtm1fin : Finite ↥(Y.Zt (-1)) :=
+  have hZtm1fin : Finite ↥(Y.Zt (-1)) :=
     finite_of_le_stabilizer Y.hyp
       ((Zt_le_Z Y (-1)).trans ((Y.Z_le_Q (-1)).trans (Y.Q_le_Gi (-1))))
-  haveI hQball2fin : Finite ↥Y.Qball2 :=
+  have hQball2fin : Finite ↥Y.Qball2 :=
     finite_of_le_stabilizer Y.hyp (inf_le_left.trans (Y.Q_le_Gi 0))
   have hWZ0 : Y.Zt 1 ≤ Y.Zt 0 := hW.trans inf_le_left
   have hWmZ0 : Y.Zt (-1) ≤ Y.Zt 0 := Zt_neg_one_le_Zt_zero Y hW
@@ -744,13 +744,13 @@ private theorem commutator_eq_self_of_isPGroup_two_of_inf_centralizer {K X : Sub
     (hKX : K ≤ Subgroup.normalizer (X : Set G)) (hodd : Odd (Nat.card ↥K))
     (hC : X ⊓ Subgroup.centralizer (K : Set G) = ⊥) : ⁅X, K⁆ = X := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulDistribMulAction ↥K ↥X := conjActionOfLeNormalizer K X hKX
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulDistribMulAction ↥K ↥X := conjActionOfLeNormalizer K X hKX
   obtain ⟨m, hm⟩ := hX.exists_card_eq
   have hcop : Nat.Coprime (Nat.card ↥K) (Nat.card ↥X) := by
     rw [hm]
     exact (Nat.coprime_two_right.mpr hodd).pow_right m
-  haveI : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hX
+  have : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hX
   have hsolv : Group.IsSolvable ↥X := inferInstance
   have hfix : fixedPointSubgroup ↥K ↥X = ⊥ := by
     rw [eq_bot_iff]
@@ -793,21 +793,21 @@ private theorem commutator_eq_self_of_isPGroup_two_of_inf_centralizer {K X : Sub
 
 private theorem commutator_Zt_inf_Zt_zero_eq_bot (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     {r r₀ : ℕ} (hr : Y.IsMaxRegLen r) (he : Y.ZtExt 0 r₀ r₀) (h4 : 4 ≤ r₀)
-    (hne : ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ≠ ⊥) (hrr : r ≤ 2 * r₀ + 2)
+    (_hne : ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ≠ ⊥) (hrr : r ≤ 2 * r₀ + 2)
     (hZtrGi : ∀ j : ℤ, (0 : ℤ) ≤ j → j ≤ 2 * (r₀ : ℤ) → Y.Zt (r₀ : ℤ) ≤ Y.Gi j)
     (hRZ0 : ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ≤ Y.Z 0)
     (hRZr : ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ≤ Y.Z (r₀ : ℤ))
     (hKR : Y.K ≤ Subgroup.normalizer ((⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ : Subgroup G) : Set G)) :
     ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ⊓ Y.Zt 0 = ⊥ := by
-  by_contra hne
+  by_contra _hne
   set X : Subgroup G := ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ⊓ Y.Zt 0 with hX
   have hXZ0 : X ≤ Y.Z 0 := inf_le_left.trans hRZ0
   have hXZr : X ≤ Y.Z (r₀ : ℤ) := inf_le_left.trans hRZr
   have hXZt : X ≤ Y.Zt 0 := inf_le_right
   have hX2 : IsPGroup 2 X :=
     (pCoreOf_isPGroup' (Y.Gi 0)).to_le (hXZt.trans ((Y.Zt_le_Z 0).trans (Y.Z_le_Q 0)))
-  haveI : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
-  haveI : Finite ↥X :=
+  have : Finite ↥Y.K := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
+  have : Finite ↥X :=
     finite_of_le_stabilizer Y.hyp (hXZ0.trans ((Y.Z_le_Q 0).trans (Y.Q_le_Gi 0)))
   have hXab : IsMulCommutative ↥X := by
     rw [isMulCommutative_iff]
@@ -849,7 +849,7 @@ private theorem commutator_Zt_inf_Zt_zero_eq_bot (Y : Setup Γ G) (H : Y.Sec5Hyp
     have h : X ≤ Y.K ⊓ X := le_inf hXKsub le_rfl
     rw [hbot] at h
     exact le_bot_iff.mp h
-  exact hne hXbot
+  exact _hne hXbot
 
 private theorem commutator_Zt_le_centralizer_K (Y : Setup Γ G) {r₀ : ℕ}
     (hRZ0 : ⁅Y.Zt 0, Y.Zt (r₀ : ℤ)⁆ ≤ Y.Z 0)
@@ -1094,7 +1094,7 @@ private theorem eq_third_of_adj_three (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
       exact hcd
     rw [Set.ncard_insert_of_notMem h1, Set.ncard_insert_of_notMem h2,
       Set.ncard_insert_of_notMem h3, Set.ncard_singleton]
-  haveI : Finite (Γ.neighborSet (Y.vert 1)) := Y.hyp.finite_neighborSet (Y.vert 1)
+  have : Finite (Γ.neighborSet (Y.vert 1)) := Y.hyp.finite_neighborSet (Y.vert 1)
   have hle := Set.ncard_le_ncard hsub (Set.toFinite _)
   rw [h4, ← Nat.card_coe_set_eq, hcard] at hle
   omega
@@ -1136,7 +1136,7 @@ private theorem card_map_eq_two_of_isPGroup {L : Type*} [Group L] [Finite L] {n 
 theorem relIndex_Z_zero_inf_Q_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hb : ¬ Y.Z 0 ≤ Y.Q 1) : (Y.Z 0 ⊓ Y.Q 1).relIndex (Y.Z 0) = 2 := by
   let hN := Y.hyp.isLocL2_oTwoPrime (Y.vert 1)
-  haveI : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
   have hZ0L : Y.Z 0 ≤ Y.L 1 := Z_zero_le_L_one Y
   have hker : hN.phi.ker = (Y.Q 1).subgroupOf (Y.L 1) := by
     ext x
@@ -1651,14 +1651,14 @@ private theorem Z_one_le_sup_three (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   refine iSup_le fun P => iSup_le fun hP => ?_
   intro x hx
   obtain ⟨hxP, hxQ⟩ := Subgroup.mem_inf.mp hx
-  haveI hfinGi1 : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hfinGi1 : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
   obtain ⟨c, hcG1, hcP⟩ :=
     CFSG.Quasithin.RonanF713.isSylowTwoOf_exists_conj_le_loc hSylS hP.1 hP.2.1
   have hcPsyl : IsSylowTwoOf (conjSub c Y.S) (Y.Gi 1) := by
     have h := CFSG.Quasithin.F7.isSylowTwoOf_conj hSylS c
     rwa [conjSub_eq_of_mem hcG1] at h
   have hPeq : P = conjSub c Y.S := by
-    haveI : Finite ↥(conjSub c Y.S) := finite_of_le_stabilizer Y.hyp hcPsyl.1
+    have : Finite ↥(conjSub c Y.S) := finite_of_le_stabilizer Y.hyp hcPsyl.1
     exact (CFSG.GroupTheory.eq_of_isSylowTwoOf_of_le hP hcPsyl.2.1 hcPsyl.1 hcP).symm
   rw [hPeq] at hxP
   have hxQ1 : x ∈ Y.Q 1 := hxQ
@@ -2547,7 +2547,7 @@ theorem s52_step3 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r r₀ : ℕ}
   ·
     have hW2bot : W2 = ⊥ := by
       rw [← hconjW0, h0]
-      simpa [conjSub]
+      simp [conjSub]
     have : Y.Zt 1 ≤ ⊥ := by simpa [h0, hW2bot] using hsup
     exact hne (le_antisymm this bot_le)
   ·

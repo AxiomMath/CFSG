@@ -19,10 +19,10 @@ open scoped Pointwise
   carrier := {k | ζ k = k}
   one_mem' := map_one ζ
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_autFix {K : Type} [Group K] {ζ : MulAut K} {k : K} : k ∈ autFix ζ ↔ ζ k = k := Iff.rfl
@@ -400,7 +400,7 @@ theorem pumpUpConfig_aut {Y : Type} [Group Y] [Finite Y] {K X Xk T B : Subgroup 
     have := mem_mapConj (hc.B_selfcent _ hgo hgB) (le_normalizer g.2)
     rwa [normConj_eq_conj] at this
   · intro F P hF hP hP1 hFP
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set F' := F.map K.subtype with hF'
     have hcardF : Nat.card F' = Nat.card F := card_map_of_injective K.subtype_injective
     have hle := hc.rank F' (P.map K.subtype) (hF.map _) (hP.map _)
@@ -429,7 +429,7 @@ theorem pumpUpConfig_aut {Y : Type} [Group Y] [Finite Y] {K X Xk T B : Subgroup 
         lt_of_le_of_ne le_sup_left fun h => hdF (h ▸ mem_sup_right (mem_zpowers d))
       have hpd : IsPGroup 3 (zpowers d) := IsPGroup.of_card (n := 1) (by
         rw [Nat.card_zpowers, hdo, pow_one])
-      haveI : (zpowers d).Normal := ⟨fun n hn g => by
+      have : (zpowers d).Normal := ⟨fun n hn g => by
         have hnZ : n ∈ center Y := (zpowers_le.2 hc.d_center) hn
         rw [mem_center_iff.1 hnZ g, mul_inv_cancel_right]
         exact hn⟩

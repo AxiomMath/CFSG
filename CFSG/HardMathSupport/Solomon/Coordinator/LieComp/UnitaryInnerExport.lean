@@ -356,7 +356,7 @@ theorem exists_good_primaryFactor_of_component (hq : 2 ≤ ℓ ^ f)
       T = ((specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let α : MulAut ↥(gramSU h (idGram K n)) := primeFormConjSU h (idGram K n) A
   let φ : ↥(fixSubgroup α) →* gl_centralizer x :=
     ((toLinSU h n).comp (fixSubgroup α).subtype).codRestrict (gl_centralizer x) fun g =>
@@ -366,11 +366,11 @@ theorem exists_good_primaryFactor_of_component (hq : 2 ≤ ℓ ^ f)
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥(fixSubgroup α) →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := isSolvable_pi_of_finite_index
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(fixSubgroup α) →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
@@ -385,8 +385,8 @@ theorem exists_good_primaryFactor_of_component (hq : 2 ≤ ℓ ^ f)
     fun a => (specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)
   have hFmap : ∀ a, (F a).map (toLinSU h n) = specialBlock (idForm h n) x (a.1 : K[X]) :=
     fun a => Subgroup.map_comap_eq_self (hSBle a)
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   refine components_of_centralQuotient
     (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))
     (QuotientGroup.mk'_surjective _) ?_ α (primeFormConjHom h (idGram K n) A) ?_ F ?_ ?_ ?_ ψ ?_
@@ -439,6 +439,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K}
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 private theorem specialBlock_eq_kerImage' {a : K[X]} {Ω : Type*} [Group Ω]
     (φ : orbitFactor B x a ≃* Ω) (ι : Ω →* blockGL (x : Module.End K V) a)
     (D : Ω →* (AdjoinRoot a)ˣ) (hD : ∀ w, D w = blockGLDet (x : Module.End K V) a (ι w))
@@ -535,13 +536,13 @@ theorem exists_field_factor_of_good (hq : 2 ≤ ℓ ^ f) (H : UnitaryPrimaryData
         4 ≤ Fintype.card E ∧
         Nonempty (↥(specialBlock B x (a : K[X])) ≃*
           Matrix.SpecialLinearGroup (Fin m) E)) := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have hcharE : ringChar (AdjoinRoot (a : K[X])) = ℓ :=
     (Algebra.ringChar_eq K (AdjoinRoot (a : K[X]))).symm.trans (ringChar.eq K ℓ)
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
@@ -560,13 +561,13 @@ theorem exists_field_factor_of_good (hq : 2 ≤ ℓ ^ f) (H : UnitaryPrimaryData
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
-      letI : Fintype hE.fixedField := Fintype.ofFinite _
+      have : Finite hE.fixedField := inferInstance
+      let : Fintype hE.fixedField := Fintype.ofFinite _
       have hcardF : Fintype.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := by
         rw [← Nat.card_eq_fintype_card]
         exact hE.card_fixedField
-      haveI : Fact ℓ.Prime := ⟨hK.prime⟩
-      haveI : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+      have : Fact ℓ.Prime := ⟨hK.prime⟩
+      have : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
       have hcharF : ringChar hE.fixedField = ℓ := ringChar.eq _ _
       have h4 : 4 ≤ Fintype.card hE.fixedField := by
         rw [hcardF]
@@ -615,13 +616,13 @@ private theorem exists_lieFactor_of_good (hSL : SLFactorFacts) (hSU : SUFactorFa
       (SLAltSixFacts → SUAltSixFacts → ℓ ≠ 3 →
         ¬ Nonempty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6))) ∧
       Nonempty (X ≃* ↥(specialBlock B x (a : K[X]))) := by
-  haveI : Fact ℓ.Prime := ⟨hK.prime⟩
+  have : Fact ℓ.Prime := ⟨hK.prime⟩
   rcases exists_field_factor_of_good hq H a ha with
       ⟨F, hF, hFt, hcharF, hcardF, h4, ⟨e⟩⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm, hne, ⟨e⟩⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm2, h4, ⟨e⟩⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     have hX : LieFactorData ℓ (Matrix.SpecialLinearGroup (Fin 2) F) := by
       have := hSL F 2 le_rfl (fun _ => h4)
       rwa [hcharF] at this
@@ -629,15 +630,15 @@ private theorem exists_lieFactor_of_good (hSL : SLFactorFacts) (hSU : SUFactorFa
     rintro hA6 - hℓ3 ⟨e'⟩
     obtain ⟨-, h9⟩ := hA6 F 2 le_rfl ⟨e'⟩
     exact hℓ3 (hcharF.symm.trans (ringChar_eq_three_of_card_eq_nine h9))
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hX : LieFactorData ℓ ↥(StatedSU m (ℓ ^ (f * (a : K[X]).natDegree)) E) := by
       have := hSU E m _ hcardE hm hne
       rwa [hcharE] at this
     refine ⟨↥(StatedSU m (ℓ ^ (f * (a : K[X]).natDegree)) E), inferInstance, hX, ?_, ⟨e.symm⟩⟩
     exact fun _ hSU6 _ ⟨e'⟩ => (hSU6 E m _ hcardE hm).false e'
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hX : LieFactorData ℓ (Matrix.SpecialLinearGroup (Fin m) E) := by
       have := hSL E m hm2 (fun _ => h4)
       rwa [hcharE] at this
@@ -663,8 +664,8 @@ private theorem exists_surjective_specialBlock (hq : 2 ≤ ℓ ^ f)
       Function.Surjective g ∧
         g.ker ≤ Subgroup.center ↥(specialBlock (idForm h n) x (a.1 : K[X])) := by
   classical
-  haveI := h.finite
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have := h.finite
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
   have hSle : specialBlock (idForm h n) x (a.1 : K[X]) ≤ (toLinSU h n).range := fun g hg =>
     mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq a.1 a.2 hg)
   let F : Subgroup ↥(gramSU h (idGram K n)) :=
@@ -711,15 +712,15 @@ theorem exists_field_factor_of_component_primeFormConjHom {p : ℕ} (hp : p.Prim
           ∃ g : Matrix.SpecialLinearGroup (Fin m) E →* ↥T, Function.Surjective g ∧
             g.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin m) E))) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
   have H := primaryData_toLin' h A.2 hp hpℓ hA
   obtain ⟨a, ha⟩ := exists_good_primaryFactor_of_component hq A rfl H T hT
   obtain ⟨g, hg, hker⟩ := exists_surjective_specialBlock hq H a T ha
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) := finite_gl_of_unitaryFieldData h
-  haveI : Finite ↥(specialBlock (idForm h n)
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) := finite_gl_of_unitaryFieldData h
+  have : Finite ↥(specialBlock (idForm h n)
     (Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K)) (a.1 : K[X])) := inferInstance
   have hd : 1 ≤ (a.1 : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.1.2)
@@ -728,22 +729,22 @@ theorem exists_field_factor_of_component_primeFormConjHom {p : ℕ} (hp : p.Prim
       ⟨F, hF, hFt, hcharF, hcardF, h4, ⟨e⟩⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm, hne, ⟨e⟩⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm2, h4, ⟨e⟩⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     refine Or.inl ⟨F, hF, hFt, hcharF, hcardF, h4, g.comp e.symm.toMonoidHom,
       hg.comp e.symm.surjective, ?_⟩
     rw [← MonoidHom.comap_ker]
     exact (Subgroup.comap_mono hker).trans
       (Subgroup.comap_center_le_center (f := e.symm.toMonoidHom) e.symm.injective)
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     refine Or.inr (Or.inl ⟨E, hE, hEt, m, hcharE, hcardE, hm, hne,
       g.comp e.symm.toMonoidHom, hg.comp e.symm.surjective, ?_⟩)
     rw [← MonoidHom.comap_ker]
     exact (Subgroup.comap_mono hker).trans
       (Subgroup.comap_center_le_center (f := e.symm.toMonoidHom) e.symm.injective)
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     refine Or.inr (Or.inr ⟨E, hE, hEt, m, hcharE, hcardE, hm2, h4,
       g.comp e.symm.toMonoidHom, hg.comp e.symm.surjective, ?_⟩)
     rw [← MonoidHom.comap_ker]
@@ -761,7 +762,7 @@ theorem exists_lieFactor_of_component_primeFormConjHom (hSL : SLFactorFacts)
         ¬ Nonempty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6))) ∧
       ∃ g : X →* ↥T, Function.Surjective g ∧ g.ker ≤ Subgroup.center X := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -769,8 +770,8 @@ theorem exists_lieFactor_of_component_primeFormConjHom (hSL : SLFactorFacts)
   obtain ⟨a, ha⟩ := exists_good_primaryFactor_of_component hq A rfl H T hT
   obtain ⟨X, _, hX, hnA6, ⟨e⟩⟩ := exists_lieFactor_of_good hSL hSU hq H a.1 a.2
   obtain ⟨g, hg, hker⟩ := exists_surjective_specialBlock hq H a T ha
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) := finite_gl_of_unitaryFieldData h
-  haveI : Finite ↥(specialBlock (idForm h n)
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) := finite_gl_of_unitaryFieldData h
+  have : Finite ↥(specialBlock (idForm h n)
     (Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K)) (a.1 : K[X])) := inferInstance
   refine ⟨X, inferInstance, Finite.of_equiv _ e.symm.toEquiv, hX, hnA6,
     g.comp e.toMonoidHom, hg.comp e.surjective, ?_⟩

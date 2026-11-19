@@ -78,7 +78,7 @@ theorem exists_pGroup_le_normalizer_of_finrank_theta [Finite F] (hF : Nat.card F
   have : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime (by rw [← hF, Nat.card_eq_fintype_card])
   obtain ⟨S, hS⟩ := exists_sylow_forall_stab 5 F 2 hAB
-  refine ⟨S, S.isPGroup', card_sylow_two_statedSL_five hF S, fun g hg => ?_⟩
+  refine ⟨S, S.isPGroup, card_sylow_two_statedSL_five hF S, fun g hg => ?_⟩
   obtain ⟨hA, hB⟩ := hS g hg
   have hg₁ : ρ g v₁ = v₁ := by
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.1

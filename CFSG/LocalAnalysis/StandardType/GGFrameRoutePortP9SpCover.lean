@@ -21,7 +21,7 @@ theorem six_le_rank_of_tableB_sp_two {F : Type} [Field F] [Finite F] [CharP F 2]
     {A : Subgroup (MulAut L')}
     (hTB : GGTorusTBGroup 3 r (LargeEvenProj (LargeEvenSpGroup F a)) I L' ψ A)
     (hcard : 3 ^ 6 ≤ Nat.card A) : 6 ≤ a := by
-  haveI : NeZero a := ⟨by omega⟩
+  have : NeZero a := ⟨by omega⟩
   obtain ⟨hψ, hker, hperf, hA, hAI, -, -, -⟩ := hTB
   have hAI' : ∀ α ∈ A, ∃ β : MulAut (LargeEvenProj (LargeEvenSpGroup F a)),
       ∀ l, β (ψ l) = ψ (α l) := by
@@ -102,13 +102,13 @@ theorem native_sp_equiv_of_innerDiagOnLabel
     (hS : ∀ lab, S 3 lab → (lab.tag = .B ∨ lab.tag = .C) ∧ lab.n = 1)
     (hK : GGInnerDiagOnLabel S 3 Bs K) :
     ∃ (a : ℕ) (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2)
-      (e : K ≃* StatedSp a F), 6 ≤ a ∧ Nat.card F = 2 ∧ a + 1 = n := by
+      (_e : K ≃* StatedSp a F), 6 ≤ a ∧ Nat.card F = 2 ∧ a + 1 = n := by
   obtain ⟨a, F, hfield, hfin, hchar, hNs, θ, ha, hF, hperf, hinner⟩ :=
     sp_two_data_of_innerDiagOnLabel hS hK
-  letI : Field F := hfield
-  letI : Finite F := hfin
-  letI : CharP F 2 := hchar
-  letI : NeZero a := ⟨by omega⟩
+  let : Field F := hfield
+  let : Finite F := hfin
+  let : CharP F 2 := hchar
+  let : NeZero a := ⟨by omega⟩
   have hAr := P9_Wa_card_range hBs hcard hz hz1 hN hker
   have hTB : GGTorusTBGroup 3 (n - 1) (LargeEvenProj (LargeEvenSpGroup F a))
       (Set.range (MulAut.conj : LargeEvenProj (LargeEvenSpGroup F a) →* _)) K
@@ -122,9 +122,9 @@ theorem native_sp_equiv_of_innerDiagOnLabel
     rw [hAr]
     exact Nat.pow_le_pow_right (by norm_num) (by rcases hn with rfl | rfl <;> norm_num)
   have ha6 := six_le_rank_of_tableB_sp_two ha hF hTB hA6
-  obtain ⟨e, he⟩ := native_sp_equiv_of_tableB ha hF hTB hA6
-  refine ⟨a, F, hfield, hfin, hchar, e, ha6, hF, ?_⟩
-  exact native_sp_rank_eq_of_card_bstar ha hF e hBs hcard hz hz1 hN hker hBstar
+  obtain ⟨_e, he⟩ := native_sp_equiv_of_tableB ha hF hTB hA6
+  refine ⟨a, F, hfield, hfin, hchar, _e, ha6, hF, ?_⟩
+  exact native_sp_rank_eq_of_card_bstar ha hF _e hBs hcard hz hz1 hN hker hBstar
 
 
 end CFSG.StandardType.FrameRoute

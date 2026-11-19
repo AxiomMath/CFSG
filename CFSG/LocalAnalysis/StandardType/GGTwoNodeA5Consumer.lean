@@ -38,8 +38,8 @@ theorem ggJoin_weyl_a5 (hAll : LR6A5All) {G : Type} [Group G] [Finite G] {p : �
     GGWeylReflectionGroup p (A₁ ⊔ A₂) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hcardA1 : Nat.card ↥A₁ ≤ Nat.factorial 6 :=
     ggIndep_card_A1 hp2 (by norm_num) hz ι hφ hA₁ e F
   have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V :=
@@ -124,7 +124,7 @@ theorem ggTwoNodeIndepAtL_a5_of_moving_K (hAll : LR6A5All) (hOrb : GGResCentBoun
     GGWeylReflectionGroup p (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hpN : p ∣ 6 := by rw [hp3]; norm_num
   have F := ggXDatumA_indep_frame hFix hp2 hH hx (by norm_num) hpN e hML hCL hφ hpair hAL hind
   have hA : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer ⊤ Bs :=
@@ -165,7 +165,7 @@ theorem ggTwoNodeIndepAtK_a5 (hAll : LR6A5All) (hOrbK : GGResCentBoundNbrInput)
     GGWeylReflectionGroup p (ggAutomizer K Bs ⊔ ggAutomizer L Bs) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hpN : p ∣ 6 := by rw [hp3]; norm_num
   have F := ggXDatumA_indep_frame_K hp2 hH hy hstrong (by norm_num) hpN e hMK hCK hφ hpair hAK hind
   have hA : ggAutomizer K Bs ⊔ ggAutomizer L Bs ≤ ggAutomizer ⊤ Bs :=
@@ -215,7 +215,7 @@ private lemma a5C_datum {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
     (hJlab : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J)) (hXlab : GGHasLabel labX (↥X ⧸ Subgroup.center ↥X))
     (hRowN : ggRowTwoNode 3 labJ labX) (htag : labX.tag = .A ∨ labX.tag = .twA) (hz : z ∈ X)
     (hrank : labX.rank = 5) : GGResXDatumAIndep 3 Bs X labX.rank := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hD G 3 B Bs x L D J y K hH X z hXz labJ labX hJΛ hXΛ hJlab hXlab hRowN hz with
     ⟨-, hA⟩ | ⟨hE', -⟩
   · rcases hA with hAx | ⟨hpg, -⟩

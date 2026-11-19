@@ -84,7 +84,7 @@ theorem isMulCommutative_sylow_statedProj {r : ℕ} [Fact r.Prime]
     (f := QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf H))
     (QuotientGroup.mk'_surjective _) r R
   rw [Sylow.coe_mapSurjective]
-  have h1 : IsMulCommutative ((S : Subgroup H).map H.subtype) := hGL _ (S.isPGroup'.map _)
+  have h1 : IsMulCommutative ((S : Subgroup H).map H.subtype) := hGL _ (S.isPGroup.map _)
   have h2 : IsMulCommutative (S : Subgroup H) :=
     .of_setLike_mul_comm fun a ha b hb => Subtype.ext
       (setLike_mul_comm (s := (S : Subgroup H).map H.subtype) ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩)
@@ -167,7 +167,7 @@ section Catalog
 theorem crossAbelianAt_linear {m : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.A m q).Valid) : CrossAbelianAt ⟨.A m q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ hn h2 P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmodel := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   have hg := not_dvd_gcd_psl_of_not_isLinearOrUnitaryAt hn hmodel
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hmodel
@@ -186,7 +186,7 @@ theorem crossAbelianAt_linear {m : ℕ} {q : TauCeti.PrimePower}
 theorem crossRankAt_linear {m : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.A m q).Valid) : CrossRankAt ⟨.A m q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ hn h3 y hy
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmodel := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   have hg := not_dvd_gcd_psl_of_not_isLinearOrUnitaryAt hn hmodel
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hmodel

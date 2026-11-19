@@ -56,6 +56,7 @@ theorem exists_singular_of_perp (Pa : HypPair Q) (W : AddSubgroup V) {x : V} (hx
 
 variable [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem addSubgroup_eq_bot_or_top_of_elementaryGroup_invariant
     (hQ : (polarBilin Q).Nondegenerate)
     (hP : ∃ P : Fin 2 → HypPair Q, ∀ i j, i ≠ j → (P i).Orth (P j))

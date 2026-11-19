@@ -13,10 +13,12 @@ namespace RankOneData
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   {D : RankOneData K V} {v₀ : V} {k : ℕ} {f : ℕ}
 
+omit [Fintype K] in
 private theorem X_invol_apply (t : K) (w : V) : D.X t (D.X t w) = w := by
   have h := congrArg (fun F : V ≃ₗ[K] V => F w) (D.X_mul_self t)
   exact h
 
+omit [CharP K 2] in
 private theorem Exp.X_eq_sum_apply (X : D.Exp f) (t : K) (u : V) :
     D.X t u = ∑ B : Finset (Fin f), t ^ bitSum B • X.E B u := by
   have h := congrArg (fun F : V →ₗ[K] V => F u) (X.hE t)
@@ -40,6 +42,7 @@ theorem Exp.beta_adjoint (X : D.Exp f) {β : V →ₗ[K] V →ₗ[K] K}
   exact sub_eq_zero.1 (coeff_eq_zero_of_sum_pow_eq_zero X.hf
     (fun B' => β (X.E B' u) w - β u (X.E B' w)) hsum B)
 
+omit [CharP K 2] in
 theorem Exp.X_digit (X : D.Exp f) {B' : Finset (Fin f)}
     (hB' : ∀ B, X.E B (D.s v₀) ≠ 0 ↔ B ⊆ B') {r : Fin f} (hr : r ∈ B') (t : K) :
     D.X t (X.E (B'.erase r) (D.s v₀)) =
@@ -86,12 +89,12 @@ theorem Exp.X_digit (X : D.Exp f) {B' : Finset (Fin f)}
   have h0 : t ^ bitSum (∅ : Finset (Fin f)) •
       (if Disjoint (∅ : Finset (Fin f)) (B'.erase r) then
         X.E ((∅ : Finset (Fin f)) ∪ B'.erase r) (D.s v₀) else 0) = X.E (B'.erase r) (D.s v₀) := by
-    rw [hb0, pow_zero, one_smul, if_pos (Finset.disjoint_empty_left (B'.erase r)),
+    rw [hb0, pow_zero, one_smul, ite_eq_left (Finset.disjoint_empty_left (B'.erase r)),
       Finset.empty_union]
   have h1 : t ^ bitSum ({r} : Finset (Fin f)) •
       (if Disjoint ({r} : Finset (Fin f)) (B'.erase r) then
         X.E ({r} ∪ B'.erase r) (D.s v₀) else 0) = (t ^ (2 ^ (r : ℕ))) • X.E B' (D.s v₀) := by
-    rw [hb1, if_pos hdisj, hU]
+    rw [hb1, ite_eq_left hdisj, hU]
   rw [hXz, ← Finset.sum_subset (Finset.subset_univ ({∅, {r}} : Finset (Finset (Fin f)))) hterm,
     Finset.sum_pair hne, h0, h1]
 
@@ -105,7 +108,7 @@ theorem Exp.rho_digit [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k)
 
 theorem Exp.beta_digit [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k)
     {β : V →ₗ[K] V →ₗ[K] K} (hβρ : ∀ n u w, β (D.ρ n u) (D.ρ n w) = β u w) {B' : Finset (Fin f)}
-    (hB' : ∀ B, X.E B (D.s v₀) ≠ 0 ↔ B ⊆ B') (hv' : X.E B' (D.s v₀) ∈ D.fix)
+    (_hB' : ∀ B, X.E B (D.s v₀) ≠ 0 ↔ B ⊆ B') (hv' : X.E B' (D.s v₀) ∈ D.fix)
     (hv'0 : X.E B' (D.s v₀) ≠ 0) {r : Fin f} (hr : r ∈ B') (h2 : 2 ≤ B'.card) :
     ∀ v ∈ D.fix, β v (X.E (B'.erase r) (D.s v₀)) = 0 := by
   intro v hv
@@ -118,7 +121,7 @@ theorem Exp.beta_digit [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀ k
   have hprodz : X.E B' (X.E (B'.erase r) (D.s v₀)) = 0 := by
     have h1 := congrArg (fun F : V →ₗ[K] V => F (D.s v₀)) (X.hprod B' (B'.erase r))
     simp only [Module.End.mul_apply] at h1
-    rw [h1, if_neg hdisj, LinearMap.zero_apply]
+    rw [h1, ite_eq_right hdisj, LinearMap.zero_apply]
   have hzero : β (X.E B' (D.s v₀)) (X.E (B'.erase r) (D.s v₀)) = 0 := by
     rw [X.beta_adjoint hβρ B' (D.s v₀) (X.E (B'.erase r) (D.s v₀)), hprodz, map_zero]
   have hne0 : (⟨X.E B' (D.s v₀), hv'⟩ : D.fix) ≠ 0 := by
@@ -140,6 +143,7 @@ theorem Exp.digit_mem_V1 [FiniteDimensional K V] (X : D.Exp f) (h : D.Setup v₀
   rw [X.rho_digit h hB' hr n]
   exact D.fix.smul_mem _ hv'
 
+omit [Fintype K] [CharP K 2] in
 theorem V1_stable {β : V →ₗ[K] V →ₗ[K] K} (hβa : ∀ g u w, β (D.a g u) (D.a g w) = β u w) (g : D.Pg)
     {w : V} (hw : w ∈ D.V1 β) : D.a g w ∈ D.V1 β := by
   obtain ⟨hw1, hw2⟩ := hw

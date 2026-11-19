@@ -16,6 +16,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isPGroup_subgroupOf_of_isPGroup {p : ℕ} {R : Subgroup G} (H : Subgroup G)
     (hR : IsPGroup p R) : IsPGroup p (R.subgroupOf H) := by
   intro g
@@ -23,6 +24,7 @@ private theorem isPGroup_subgroupOf_of_isPGroup {p : ℕ} {R : Subgroup G} (H : 
   refine ⟨n, Subtype.ext (Subtype.ext ?_)⟩
   simpa using congrArg Subtype.val hn
 
+omit [Finite G] in
 private theorem le_inSubgroup_pCore_of_normal {p : ℕ} {H R : Subgroup G} (hRH : R ≤ H)
     (hRn : ∀ h ∈ H, ∀ r ∈ R, h * r * h⁻¹ ∈ R) (hRp : IsPGroup p R) :
     R ≤ inSubgroup (CFSG.pCore p) H := by
@@ -35,6 +37,7 @@ private theorem le_inSubgroup_pCore_of_normal {p : ℕ} {H R : Subgroup G} (hRH 
   intro r hr
   exact Subgroup.mem_map.mpr ⟨⟨r, hRH hr⟩, hsub (Subgroup.mem_subgroupOf.mpr hr), rfl⟩
 
+omit [Finite G] in
 private theorem inSubgroup_pCore_normal (p : ℕ) (H : Subgroup G) :
     ∀ h ∈ H, ∀ r ∈ inSubgroup (CFSG.pCore p) H, h * r * h⁻¹ ∈ inSubgroup (CFSG.pCore p) H := by
   intro h hh r hr
@@ -43,6 +46,7 @@ private theorem inSubgroup_pCore_normal (p : ℕ) (H : Subgroup G) :
   · exact Subgroup.Normal.conj_mem CFSG.pCore_normal r' hr' ⟨h, hh⟩
   · simp
 
+omit [Finite G] in
 private theorem isPGroup_inSubgroup_pCore (p : ℕ) (H : Subgroup G) :
     IsPGroup p (inSubgroup (CFSG.pCore p) H) :=
   IsPGroup.map CFSG.pCore_isPGroup H.subtype
@@ -141,6 +145,7 @@ theorem comm_of_mem_normalizer_zpowers (hs : Sit M Q Z Y t) {n : G}
     calc n * t = n * t * n⁻¹ * n := by group
       _ = t * n := by rw [e]
 
+omit [Finite G] in
 private theorem conj_mem_zpowers_of_comm {t c h : G} (hc : c * t = t * c)
     (hh : h ∈ Subgroup.zpowers t) : c * h * c⁻¹ ∈ Subgroup.zpowers t := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
@@ -149,6 +154,7 @@ private theorem conj_mem_zpowers_of_comm {t c h : G} (hc : c * t = t * c)
   rw [e]
   exact Subgroup.zpow_mem_zpowers t k
 
+omit [Finite G] in
 private theorem mem_normalizer_zpowers_of_comm {t c : G} (hc : c * t = t * c) :
     c ∈ Subgroup.normalizer ((Subgroup.zpowers t : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -195,18 +201,20 @@ theorem mem_normalizer_of_comm_Y (hs : Sit M Q Z Y t) {c : G} (hc : c * t = t * 
 theorem normalizer_zpowers_le_Y (hs : Sit M Q Z Y t) :
     Subgroup.normalizer ((Subgroup.zpowers t : Subgroup G) : Set G) ≤
       Subgroup.normalizer (Y : Set G) :=
-  fun n hn => mem_normalizer_of_comm_Y hs (comm_of_mem_normalizer_zpowers hs hn)
+  fun _n hn => mem_normalizer_of_comm_Y hs (comm_of_mem_normalizer_zpowers hs hn)
 
 theorem QB_le_normalizer_zpowers_Y (hs : Sit M Q Z Y t) :
     QB Y ≤ Subgroup.normalizer ((Subgroup.zpowers t : Subgroup G) : Set G) :=
-  fun y hy => mem_normalizer_zpowers_of_comm (hs.QB_comm_X hs.mem hy).symm
+  fun _y hy => mem_normalizer_zpowers_of_comm (hs.QB_comm_X hs.mem hy).symm
 
+omit [Finite G] in
 theorem isPGroup_QB_Y (hs : Sit M Q Z Y t) : IsPGroup 2 (QB Y) := by
   obtain ⟨g, -, hQBg, -⟩ := hs.QB_eq
   rw [hQBg]
   exact IsPGroup.map (CFSG.RankThree.GF2n.Smith81.Sec117.isPGroup_Q' hs.hyp)
     (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem QB_zpowers_le_normalizer :
     QB (Subgroup.zpowers t) ≤ Subgroup.normalizer ((Subgroup.zpowers t : Subgroup G) : Set G) :=
   Subgroup.map_subtype_le _
@@ -218,7 +226,7 @@ theorem QB_zpowers_le_pCore_Y (hs : Sit M Q Z Y t) :
   have hQBN : QB Y ≤ Nt := QB_le_normalizer_zpowers_Y hs
   have hQBn : ∀ h ∈ Nt, ∀ r ∈ QB Y, h * r * h⁻¹ ∈ QB Y := fun h hh r hr =>
     hs.normalizer_QB (normalizer_zpowers_le_Y hs hh) hr
-  haveI : ((QB Y).subgroupOf Nt).Normal :=
+  have : ((QB Y).subgroupOf Nt).Normal :=
     ⟨fun a ha g => by
       rw [Subgroup.mem_subgroupOf] at ha ⊢
       simpa using hQBn (g : G) g.2 (a : G) ha⟩
@@ -346,6 +354,7 @@ section Targets
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Sec5Hyp.exists_root (hc : Ctx M Q Z B) {n : ℕ} {t : G} (h : Sec5Hyp hc n t)
     (hb : ∃ g : G, ∃ b ∈ B, g * t * g⁻¹ = b) :
     ∃ (Y : Subgroup G) (k : G), Y = conjSubgroup k Z ∧ t ∈ Y ∧ Sit M Q Z Y t := by
@@ -370,7 +379,7 @@ theorem Sec5Hyp.exists_root (hc : Ctx M Q Z B) {n : ℕ} {t : G} (h : Sec5Hyp hc
 theorem QB_le_QB_zpowers {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t) :
     QB Y ≤ QB (Subgroup.zpowers t) :=
   (le_inSubgroup_pCore_of_normal (QB_le_normalizer_zpowers_Y hs)
-    (fun h hh r hr => hs.normalizer_QB (normalizer_zpowers_le_Y hs hh) hr)
+    (fun _h hh _r hr => hs.normalizer_QB (normalizer_zpowers_le_Y hs hh) hr)
     (isPGroup_QB_Y hs)).trans (inSubgroup_pCore_two_le_gF _)
 
 theorem root_le_QB_of_le_QB_zpowers {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t)

@@ -11,17 +11,21 @@ open scoped commutatorElement
 
 variable {T : Type} [Group T] [Finite T] {ρ x : MulAut T}
 
+omit [Finite T] in
 private lemma comm_mem_center (hS : FpfSpecial T) (a b : T) : ⁅a, b⁆ ∈ center T := by
   simpa only [commutatorElement_def] using hS.comm_mem a b
 
-private lemma commutator_eq_one_of_mem_center (hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
+omit [Finite T] in
+private lemma commutator_eq_one_of_mem_center (_hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
     (b : T) : ⁅z, b⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (Subgroup.mem_center_iff.mp hz b).symm
 
-private lemma commutator_eq_one_of_mem_center' (hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
+omit [Finite T] in
+private lemma commutator_eq_one_of_mem_center' (_hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
     (b : T) : ⁅b, z⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (Subgroup.mem_center_iff.mp hz b)
 
+omit [Finite T] in
 private lemma commutator_mul_right (hS : FpfSpecial T) (a b c : T) :
     ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
   have hcomm : ⁅a, c⁆ ∈ center T := comm_mem_center hS a c
@@ -31,6 +35,7 @@ private lemma commutator_mul_right (hS : FpfSpecial T) (a b c : T) :
   calc ⁅a, b⁆ * b * ⁅a, c⁆ * b⁻¹ = ⁅a, b⁆ * (b * ⁅a, c⁆ * b⁻¹) := by group
     _ = ⁅a, b⁆ * ⁅a, c⁆ := by rw [h]
 
+omit [Finite T] in
 private lemma commutator_mul_left (hS : FpfSpecial T) (a b c : T) :
     ⁅a * b, c⁆ = ⁅b, c⁆ * ⁅a, c⁆ := by
   have hcomm : ⁅b, c⁆ ∈ center T := comm_mem_center hS b c
@@ -39,6 +44,7 @@ private lemma commutator_mul_left (hS : FpfSpecial T) (a b c : T) :
   rw [commutatorElement_mul_left_eq_conj_mul]
   calc a * ⁅b, c⁆ * a⁻¹ * ⁅a, c⁆ = ⁅b, c⁆ * ⁅a, c⁆ := by rw [h]
 
+omit [Finite T] in
 private lemma commutator_inv_right (hS : FpfSpecial T) (a b : T) :
     ⁅a, b⁻¹⁆ = ⁅a, b⁆⁻¹ := by
   have hcomm : ⁅a, b⁻¹⁆ ∈ center T := comm_mem_center hS a b⁻¹
@@ -52,23 +58,26 @@ private lemma commutator_inv_right (hS : FpfSpecial T) (a b : T) :
       _ = ⁅a, b⁆ * ⁅a, b⁻¹⁆ := by rw [h]
   exact eq_inv_of_mul_eq_one_right h2.symm
 
+omit [Finite T] in
 private lemma inv_eq_self_of_comm (hS : FpfSpecial T) (a b : T) : ⁅a, b⁆⁻¹ = ⁅a, b⁆ := by
   have hc : ⁅a, b⁆ ∈ center T := comm_mem_center hS a b
   have h2 : ⁅a, b⁆ * ⁅a, b⁆ = 1 := hS.sq_center ⁅a, b⁆ hc
   exact inv_eq_of_mul_eq_one_right h2
 
+omit [Finite T] in
 private lemma commutator_mul_center_left (hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
     (w b : T) : ⁅w * z, b⁆ = ⁅w, b⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul, commutator_eq_one_of_mem_center hS hz b,
     mul_one, mul_inv_cancel, one_mul]
 
+omit [Finite T] in
 private lemma commutator_center_mul_right (hS : FpfSpecial T) {z : T} (hz : z ∈ center T)
     (w b : T) : ⁅w, b * z⁆ = ⁅w, b⁆ := by
   rw [commutatorElement_mul_right_eq_mul_conj, commutator_eq_one_of_mem_center' hS hz w, mul_one]
   group
 
 private lemma fix_comm_rho (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
-    (hfpf : ∀ g : T, ρ g = g → g = 1) (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹)
+    (hfpf : ∀ g : T, ρ g = g → g = 1) (_hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹)
     (hF : ∀ a ∈ fixSub x, ∀ b ∈ fixSub x, a * b = b * a) {f g : T}
     (hf : f ∈ fixSub x) (hg : g ∈ fixSub x) : x ⁅f, ρ g⁆ = ⁅f, ρ g⁆ := by
   have hxf : x f = f := hf
@@ -107,6 +116,7 @@ private lemma fix_comm_rho' (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
   rw [hinv]
   exact h1
 
+omit [Finite T] in
 private lemma expand_comm (hS : FpfSpecial T)
     (hF : ∀ a ∈ fixSub x, ∀ b ∈ fixSub x, a * b = b * a)
     {f₁ f₂ g₁ g₂ : T} (hf₁ : f₁ ∈ fixSub x) (hg₁ : g₁ ∈ fixSub x)
@@ -140,7 +150,7 @@ theorem fixSub_nonabelian (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
     (hfpf : ∀ g : T, ρ g = g → g = 1) (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) :
     ∃ a ∈ fixSub x, ∃ b ∈ fixSub x, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hZleF : center T ≤ fixSub x := by
     rw [← hS.commutator_eq, _root_.commutator_def]
     exact (Subgroup.commutator_le).mpr fun a _ b _ => fix_comm hS hρ hfpf hx hxρ hcon a b

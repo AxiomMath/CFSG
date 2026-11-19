@@ -97,7 +97,7 @@ theorem eq_of_commutes_isSylow2In {K R R' : Subgroup G} (hR : IsSylow2In R K)
 omit [Finite G] in
 theorem isSylow2In_of_sylow_le (S : Sylow 2 G) {H : Subgroup G} (hSH : (S : Subgroup G) ≤ H) :
     IsSylow2In (S : Subgroup G) H :=
-  ⟨hSH, S.isPGroup', fun _ _ hV'2 hle => (S.maximal_isPGroup.eq_of_le hV'2 hle).symm⟩
+  ⟨hSH, S.isPGroup, fun _ _ hV'2 hle => (S.maximal_isPGroup.eq_of_le hV'2 hle).symm⟩
 
 theorem exists_conj_into_sylow (S : Sylow 2 G) {H : Subgroup G} (hSH : (S : Subgroup G) ≤ H)
     {x : G} (hxH : x ∈ H) (hx : IsPGroup 2 (Subgroup.zpowers x)) :

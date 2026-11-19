@@ -68,7 +68,7 @@ theorem l154_JImage_glaPComponent {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω
     (hJ : GLAPComponent p (S ⊓ Subgroup.centralizer ({x} : Set Ω)) J)
     (θ : PSimple p S ≃* C) (φx : MulAut C) (hindx : LargeEvenInduces θ (indRel p S x) φx) :
     GLAPComponent p (fixSubgroup φx) (l154JImage p S J θ) := by
-  haveI : Finite C := Finite.of_equiv _ θ.toEquiv
+  have : Finite C := Finite.of_equiv _ θ.toEquiv
   have hφx : φx = MulAut.congr θ (MI.indAut p S x hxN) := (MI.induces_indRel_iff hxN θ).1 hindx
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
   have hJ' : GLAPComponent p (S ⊓ Subgroup.centralizer ({x⁻¹} : Set Ω)) J := by

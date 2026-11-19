@@ -19,6 +19,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem conjV_mem_map_pi_iff (h : Tim79a.ParrottHyp z) {A : Subgroup G} (g : ↥(H z))
     (hgA : ∀ a : G, a ∈ A ↔ (g : G) * a * (g : G)⁻¹ ∈ A) (v : QuotientV.V z) :
     conjV h g v ∈ (A.subgroupOf (J z)).map (QuotientV.pi z) ↔
@@ -50,6 +51,7 @@ theorem conjV_mem_map_pi_iff (h : Tim79a.ParrottHyp z) {A : Subgroup G} (g : ↥
       Subgroup.mem_subgroupOf.mpr ((hgA a).mp haA), ?_⟩
     rw [conjV_pi_conj h g a.2]
 
+omit [Finite G] in
 theorem card_map_pi_mul_card_inf_centerIn {A : Subgroup G} (hA : A ≤ J z) :
     Nat.card ((A.subgroupOf (J z)).map (QuotientV.pi z)) *
       Nat.card (A ⊓ centerIn (J z) : Subgroup G) = Nat.card A := by
@@ -115,6 +117,7 @@ theorem commute_of_cube_of_mem_centerIn (h : Tim79a.ParrottHyp z) {g : ↥(H z)}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] hN in
 theorem commute_of_mem_CJ_of_mem_commutator (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) {b r : G}
     (hb : b ∈ CJ z (σ : G)) (hr : r ∈ ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆) :
     b * r = r * b := by

@@ -25,7 +25,7 @@ section Elations
 variable {F : Type} [Field F]
 
 theorem special_of_even [Finite F] [CharP F 2] {s t : GL (Fin 3) F} {a φ b ψ : Fin 3 → F}
-    (hs : IsElat s a φ) (ht : IsElat t b ψ) (hst : s * t ≠ t * s)
+    (hs : IsElat s a φ) (ht : IsElat t b ψ) (_hst : s * t ≠ t * s)
     (hev : Even (orderOf (s * t))) : φ ⬝ᵥ b = 0 ∨ ψ ⬝ᵥ a = 0 := by
   have hss : s * s = 1 := hs.mul_self
   have htt : t * t = 1 := ht.mul_self
@@ -456,12 +456,14 @@ section ElationGroups
 
 variable {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem elat_mul_elat_axis {c c' φ : Fin 3 → F} (h : φ ⬝ᵥ c' = 0) :
     (1 + vecMulVec c φ : Matrix (Fin 3) (Fin 3) F) * (1 + vecMulVec c' φ) =
       1 + vecMulVec (c + c') φ := by
   rw [mul_add, add_mul, add_mul, one_mul, mul_one, one_mul, vecMulVec_mul_vecMulVec, h, zero_smul,
     vecMulVec_zero, add_zero, add_vecMulVec, add_assoc]
 
+omit [CharP F 2] in
 theorem elat_mul_elat_center {b δ δ' : Fin 3 → F} (h : δ ⬝ᵥ b = 0) :
     (1 + vecMulVec b δ : Matrix (Fin 3) (Fin 3) F) * (1 + vecMulVec b δ') =
       1 + vecMulVec b (δ + δ') := by
@@ -542,6 +544,7 @@ theorem centerElatGroup_mul_self {D : Subgroup (GL (Fin 3) F)} {b : Fin 3 → F}
     add_zero]
   rfl
 
+omit [CharP F 2] in
 theorem conj_elat_matrix (y : GL (Fin 3) F) (c φ : Fin 3 → F) :
     (y : Matrix (Fin 3) (Fin 3) F) * (1 + vecMulVec c φ) * ((y⁻¹ : GL (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) =
@@ -676,7 +679,7 @@ theorem conj_sq_of_sylow_eight {X : Type*} [Group X] [Finite X] (hs : IsSimpleGr
       rw [this, orderOf_one] at hu
       norm_num at hu
   obtain ⟨N, hN, hNsq, huN⟩ := CFSG.Quasithin.thompson_transfer_exists_normal P hQP hindex hu hnoQ
-  haveI := hN
+  have := hN
   rcases hs.eq_bot_or_eq_top_of_normal N with h | h
   · obtain ⟨a', b', hab'⟩ := hnab
     apply hab'
@@ -987,7 +990,7 @@ theorem psl2_of_small
       Nonempty (D ⧸ Subgroup.center D ≃* CFSG.GorensteinWalter.PSL2 K') := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hKs : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq.2.1
+  have hKs : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq.2.1
   have hnabK := hDq.2.2
   set mk : D →* D ⧸ Subgroup.center D := QuotientGroup.mk' (Subgroup.center D) with hmk
   have hmk_surj : Function.Surjective mk := QuotientGroup.mk'_surjective _
@@ -1023,7 +1026,7 @@ theorem psl2_of_small
   have hC2 : IsPGroup 2 C := IsPGroup.of_card (n := 3) (by rw [hC8]; norm_num)
   obtain ⟨T, hCT⟩ := hC2.exists_le_sylow
   have hT8 : Nat.card (T : Subgroup D) = 8 := by
-    apply le_antisymm (card_le_eight_of_small hsmall T.isPGroup' (hCT hx0C) hx0sq)
+    apply le_antisymm (card_le_eight_of_small hsmall T.isPGroup (hCT hx0C) hx0sq)
     have h := Subgroup.card_dvd_of_le hCT
     rw [hC8] at h
     exact Nat.le_of_dvd Nat.card_pos h
@@ -1034,7 +1037,7 @@ theorem psl2_of_small
   have hzT : z ∈ (T : Subgroup D) := (T : Subgroup D).mul_mem hx0T hx0T
   have hTZ : ∀ g ∈ (T : Subgroup D), g ∈ Subgroup.center D → g = 1 := by
     intro g hgT hgZ
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨g, hgT⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨g, hgT⟩
     have h1 : g ^ 2 ^ k = 1 := by
       have := congrArg Subtype.val hk
       rwa [Subgroup.coe_pow, Subgroup.coe_one] at this

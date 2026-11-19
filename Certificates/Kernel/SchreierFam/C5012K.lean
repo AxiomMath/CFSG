@@ -69,7 +69,7 @@ theorem conjWalk_spec (QP : RawSchreierDatum n) (L : List (Equiv.Perm (Fin n)))
   | τ' :: rest, ws, h, τ, hτ, ho => by
     unfold conjWalk at h
     by_cases ho' : isOuterInv QP τ' = true
-    · rw [if_pos ho'] at h
+    · rw [ite_eq_left ho'] at h
       cases ws with
       | nil => exact absurd h Bool.false_ne_true
       | cons w ws' =>
@@ -81,7 +81,7 @@ theorem conjWalk_spec (QP : RawSchreierDatum n) (L : List (Equiv.Perm (Fin n)))
           · next σ hσ => exact ⟨σ, mem_of_head?_drop hσ, of_decide_eq_true h1⟩
           · exact absurd h1 Bool.false_ne_true
         · exact conjWalk_spec QP L τ0 rest ws' h.2 τ hτ ho
-    · rw [if_neg ho'] at h
+    · rw [ite_eq_right ho'] at h
       rcases List.mem_cons.1 hτ with rfl | hτ
       · exact absurd ho ho'
       · exact conjWalk_spec QP L τ0 rest ws h τ hτ ho

@@ -17,7 +17,7 @@ theorem sylow_prod_decomp {G : Type*} [Group G] [Finite G] {A B P : Subgroup G} 
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hi : A ⊓ B = ⊥) (hP : P ≤ A ⊔ B)
     (hcardP : Nat.card P = 2 ^ n) (hcardAB : Nat.card ↥(A ⊔ B) = 2 ^ n * m) (hm : Odd m) :
     ∀ x ∈ P, ∃ a ∈ P ⊓ A, ∃ b ∈ P ⊓ B, x = a * b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P' : Subgroup ↥(A ⊔ B) := P.subgroupOf (A ⊔ B) with hP'
   have hP'card : Nat.card P' = 2 ^ n :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hP).toEquiv).trans hcardP
@@ -73,11 +73,11 @@ variable (h : d.Hyp) (hKU : d.KUnitary) (hf : d.IsUnitaryFactor K₀)
 
 include h hKU in
 theorem Data.Hyp.card_P_u : Nat.card d.P = 2 ^ 20 :=
-  h.card_P (h.comm_M_V₂_mem_W hKU) (fun m hm => h.M_le_normalizer_Y hKU hm)
+  h.card_P (h.comm_M_V₂_mem_W hKU) (fun _m hm => h.M_le_normalizer_Y hKU hm)
 
 include h hKU in
 theorem Data.Hyp.P_inf_H_u : d.P ⊓ d.H = d.S :=
-  h.P_inf_H (h.comm_M_V₂_mem_W hKU) (fun m hm => h.M_le_normalizer_Y hKU hm)
+  h.P_inf_H (h.comm_M_V₂_mem_W hKU) (fun _m hm => h.M_le_normalizer_Y hKU hm)
 
 include h hKU in
 theorem Data.Hyp.exists_Q_mul_Qt {x : G} (hx : x ∈ d.P) :

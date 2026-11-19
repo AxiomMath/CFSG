@@ -53,7 +53,6 @@ theorem burnsideC1h_rankLeTwo_alt5 : RankLeTwo (alternatingGroup (Fin 5)) := by
   interval_cases p <;> first
     | (exfalso; revert hp; norm_num; done)
     | omega
-    | (exfalso; revert hd; norm_num; done)
 
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.H13.U3.GC137.SQ CFSG.SectionRank in
@@ -258,7 +257,7 @@ theorem burnsideC1h_block_eq {G : Type} [Group G] [Finite G] {X R L K : Subgroup
   have hLX : L ≤ X := le_of_mem_cComp hL
   have hN : X ≤ Subgroup.normalizer (L : Set G) := C124.le_normalizer_of_prod hR hprod hL
   have hnorm : (L.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).2 hN
-  haveI : (Subgroup.inclusion hLX).range.Normal := by
+  have : (Subgroup.inclusion hLX).range.Normal := by
     rw [Subgroup.inclusion_range]
     exact hnorm
   have hq : IsPGroup 2 (↥X ⧸ (Subgroup.inclusion hLX).range) :=
@@ -296,7 +295,7 @@ theorem burnsideC1h_block_eq {G : Type} [Group G] [Finite G] {X R L K : Subgroup
   have hnsolv : ¬ Group.IsSolvable (↥L ⧸ Q) := by
     intro hs
     have hcomm : ∀ a b : ↥L ⧸ Q, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.2 hs
-    haveI : IsMulCommutative (↥L ⧸ Q) := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative (↥L ⧸ Q) := ⟨⟨hcomm⟩⟩
     have hp := (Group.is_simple_iff_prime_card.1 hsimple)
     rw [hcardA] at hp
     exact absurd hp (by norm_num)
@@ -336,7 +335,7 @@ theorem burnsideC1h_block_eq {G : Type} [Group G] [Finite G] {X R L K : Subgroup
         have : a ∈ (K.subgroupOf L).map φ := by rw [htop]; trivial
         obtain ⟨y, hy, rfl⟩ := this
         exact ⟨⟨y, hy⟩, rfl⟩
-      exact hnsolv (solvable_of_surjective hψ)
+      exact hnsolv (Group.isSolvable_of_surjective hψ)
     have hcore : perfectCore K ≠ ⊥ := fun h => hKsolv ((isSolvable_iff_perfectCore_eq_bot K).2 h)
     have hcoreL : perfectCore K ≤ L := (perfectCore_le K).trans hKL
     have hcoreEq : perfectCore K = L := by

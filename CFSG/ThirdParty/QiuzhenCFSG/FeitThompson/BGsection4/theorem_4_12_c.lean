@@ -227,7 +227,7 @@ public theorem CFSG.theorem_4_12_c {R A : Type*} [Group R] [Finite R] [Group A] 
     let : IsCyclic C := hCcyc
     have hCcomm : IsMulCommutative C := inferInstance
     have hcomm_le : _root_.commutator R ≤ T := by
-      haveI : IsMulCommutative C := hCcomm
+      have : IsMulCommutative C := hCcomm
       exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
         (N := T) (H := C) hsupTC
     change _root_.commutator R ≤ T

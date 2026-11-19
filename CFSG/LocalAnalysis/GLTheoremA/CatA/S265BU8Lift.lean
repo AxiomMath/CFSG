@@ -19,7 +19,7 @@ theorem exists_two_lift_of_le_primeFormD {ℓ f : ℕ} {K : Type} [Field K]
         ∀ t ∈ T₂, (X : GL (Fin n) K) * t * (X : GL (Fin n) K)⁻¹ ∈ T₂ := by
   classical
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U := primeFormUnitary h (idGram K n)
   let ρ := primeFormConjHom h (idGram K n)
   let Vt : Subgroup U := V.comap ρ
@@ -31,7 +31,7 @@ theorem exists_two_lift_of_le_primeFormD {ℓ f : ℕ} {K : Type} [Field K]
     show ρ (X * g * X⁻¹) ∈ V
     rw [map_mul, map_mul, map_inv]
     exact hEV _ hX _ hg
-  haveI : Group.IsNilpotent V := hV2.isNilpotent
+  have : Group.IsNilpotent V := hV2.isNilpotent
   let ψ : Vt →* V := MonoidHom.codRestrict (ρ.comp Vt.subtype) V (fun x => x.2)
   have hψ : ψ.ker ≤ Subgroup.center Vt := by
     intro x hx
@@ -44,9 +44,9 @@ theorem exists_two_lift_of_le_primeFormD {ℓ f : ℕ} {K : Type} [Field K]
     rintro ⟨v, hv⟩
     obtain ⟨A, hA⟩ := hVD hv
     exact ⟨⟨A, show ρ A ∈ V from hA ▸ hv⟩, Subtype.ext hA⟩
-  haveI : Group.IsNilpotent Vt := Subgroup.isNilpotent_of_ker_le_center ψ hψ
+  have : Group.IsNilpotent Vt := Subgroup.isNilpotent_of_ker_le_center ψ hψ
   let e : Vt ≃* Tl := Vt.equivMapOfInjective U.subtype Subtype.val_injective
-  haveI : Group.IsNilpotent Tl := Group.nilpotent_of_mulEquiv e
+  have : Group.IsNilpotent Tl := Group.nilpotent_of_mulEquiv e
   have h2V : 2 ∣ Nat.card V := by
     rcases hV2.card_eq_or_dvd with h1 | h2
     · exact absurd (Subgroup.eq_bot_of_card_eq V h1) hV
@@ -61,7 +61,7 @@ theorem exists_two_lift_of_le_primeFormD {ℓ f : ℕ} {K : Type} [Field K]
       (fun t => hconj X hX t t.2))
     (Finite.injective_iff_bijective.mp (fun a b hab =>
       Subtype.ext ((MulAut.conj (X : GL (Fin n) K)).injective (congrArg Subtype.val hab))))
-  refine ⟨(P : Subgroup Tl).map Tl.subtype, P.isPGroup'.map _, ?_, ?_, ?_⟩
+  refine ⟨(P : Subgroup Tl).map Tl.subtype, P.isPGroup.map _, ?_, ?_, ?_⟩
   · intro hbot
     exact P.ne_bot_of_dvd_card h2Tl
       ((Subgroup.map_eq_bot_iff_of_injective _ Subtype.val_injective).mp hbot)

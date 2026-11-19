@@ -57,7 +57,7 @@ theorem sylow_two_quaternion_of_perfect_rank_one (G : Type*) [Group G] [Finite G
     ∃ exponent : ℕ, 3 ≤ exponent ∧
       Nonempty ((sylow : Subgroup G) ≃* QuaternionGroup (2 ^ (exponent - 2))) := by
   obtain hcyclic | hquaternion := rank_one_two_group_cyclic_or_quaternion
-    (sylow : Subgroup G) sylow.isPGroup' ((twoRank_subgroup_le _).trans hrank)
+    (sylow : Subgroup G) sylow.isPGroup ((twoRank_subgroup_le _).trans hrank)
   · exact False.elim (sylow_two_not_isCyclic_of_perfect G heven sylow hcyclic)
   · exact hquaternion
 

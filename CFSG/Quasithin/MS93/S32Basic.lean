@@ -167,7 +167,7 @@ theorem mem_pCoreOf_of_commutator_mem {M L T : Subgroup G} (hLM : L ≤ M)
   obtain ⟨S, hS⟩ := htp.exists_le_sylow
   set S' : Subgroup G := (S : Subgroup ↥M).map M.subtype with hS'
   have hS'M : S' ≤ M := Subgroup.map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := (S.isPGroup').map M.subtype
+  have hS'2 : IsPGroup 2 S' := (S.isPGroup).map M.subtype
   have hQS : Q ≤ S' := by
     have hQ' : (Q.subgroupOf M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (pCoreOf_le' M)).2 hQn

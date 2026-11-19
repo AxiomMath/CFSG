@@ -44,9 +44,9 @@ theorem kOmC_holds : KOmC := by
   intro W _ _ H n S Tstar hF hTnot B hBH hBodd hBfix
   obtain ⟨K, hKfield, hKfin, hKchar, b, c, hKcard, hirr, e, T, hH, hTstar, hTiso, hT2,
     hUT, hfixV⟩ := KOm.exists_minusModel hF
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   classical
   have hBle : B ≤ (StatedOmega (StatedQuadMinus 2 K b c)).map (KOm.glPull e) := by
     rw [← hH]
@@ -141,7 +141,7 @@ theorem kOmC_holds : KOmC := by
     have hpowU : g ^ (Nat.card K + 1) ∈ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) :=
       KOm.pow_card_add_one_mem_rootGroupGL (K := K) (b := b) (c := c) hirr hgiso hoddg
     have hbot : rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) ⊓ B' = ⊥ :=
-      Subgroup.inf_eq_bot_of_coprime hcop
+      (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
     have hone : g ^ (Nat.card K + 1) = 1 := by
       have hmem' : g ^ (Nat.card K + 1) ∈
           rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) ⊓ B' :=

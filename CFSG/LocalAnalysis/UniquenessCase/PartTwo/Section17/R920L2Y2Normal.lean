@@ -77,7 +77,7 @@ theorem le_normalizer_of_pRank_L9_le_one {M L K : Subgroup G} {n : ℕ} (hL : L 
     K ≤ normalizer (L : Set G) := by
   have hLM : L ≤ M := CFSG.Open.IsSubnormal.le hL.1
   have hopp : Opp 3 L = L := opp3_eq_self_of_isL2 hL.2.1 hL2
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hcenter : Subgroup.center (Bar2 L) = ⊥ :=
     UC22.uc22p21k_center_eq_bot hL.2.2
@@ -113,7 +113,7 @@ theorem normal_opp_eq_of_mem_calY2_of_calC (hB0 : KFactL2EvenThreeElts) (D : Dat
     {L Y : Subgroup G} {n : ℕ} (hL : L ∈ calC D.M) (hL2 : IsL2 (Bar2 L) (2 * n))
     (hY : Y ∈ F09.calY2_9 D) (hLY : L ≤ Y) :
     (L.subgroupOf Y).Normal ∧ Opp 3 Y = L ∧ pCoreOf 2 Y ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hNmem, hNM⟩ : ∃ N ∈ calMOf Y, N ≠ D.M := by
     by_contra h
     apply hY.2.1

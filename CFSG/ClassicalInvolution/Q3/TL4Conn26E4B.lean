@@ -179,7 +179,7 @@ theorem TightStd8R.exists_good_involution_E4_of_ne_top (hLC : TightLambdaCommR r
   have hRsyl : IsSylow2In R K := Q3CL.T3.isSylow2In_of_mem_RSet_of_le hΩ hK hs.hR.1 hs.hR.2.1
   have h8 := Sec6Gen.eight_le_of_mem_RSet hΩ hs.hR.1
   have hzR : z ∈ R := T3.mem_of_isPGroup hs.hz hs.hR.2.1 hRsyl.2.1 (by omega)
-  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup Y) := S₂.isPGroup'
+  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup Y) := S₂.isPGroup
   have hcommK : ∀ x ∈ R, x * (g⁻¹ * t * g) = g⁻¹ * t * g * x := fun x hx =>
     hs.commute_of_mem_two_subgroup_of_ne_top hLC hΛp hS₂2 (hs.hR.2.1 hx) ht1X (hRS₂ hx) hgS
   have ht1sq : (g⁻¹ * t * g) * (g⁻¹ * t * g) = 1 := by

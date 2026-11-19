@@ -604,7 +604,7 @@ include C in
 theorem false_of_simple [IsSimpleGroup X] (hnab : ∃ u v : X, u * v ≠ v * u) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := C.U_sylow
-  have hU2 : IsPGroup 2 C.U := hT ▸ T.isPGroup'
+  have hU2 : IsPGroup 2 C.U := hT ▸ T.isPGroup
   have hUidx : ¬ 2 ∣ C.U.index := hT ▸ T.not_dvd_index
   obtain ⟨y, hyU, hyW, hyn⟩ :=
     Eight.exists_mem_normalizer_not_mem hU2 (inf_le_left : C.W ≤ C.U) C.W_ne

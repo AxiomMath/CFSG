@@ -33,7 +33,7 @@ theorem not_dvd_index_inf_of_sylow {q : ℕ} [Fact q.Prime] {T D N : Subgroup G}
 theorem not_dvd_index_inf_of_sylow_top {q : ℕ} [Fact q.Prime] (T : Sylow q G) {D : Subgroup G}
     (hTD : (T : Subgroup G) ≤ Subgroup.normalizer (D : Set G)) :
     ¬ q ∣ (((T : Subgroup G) ⊓ D).subgroupOf D).index := by
-  refine not_dvd_index_inf_of_sylow le_top le_top T.isPGroup' ?_ hTD
+  refine not_dvd_index_inf_of_sylow le_top le_top T.isPGroup ?_ hTD
   change ¬ q ∣ (T : Subgroup G).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index

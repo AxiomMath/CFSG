@@ -235,7 +235,7 @@ theorem le_center_of_isSolvable [Finite Y] (hclass : ∃ d₀ : Y, E = {g | IsCo
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 N))
     have hPc : (P : Subgroup N).Characteristic := P.characteristic_of_normal inferInstance
     have hPY : ((P : Subgroup N).map N.subtype).Normal := inferInstance
-    have hP2 : IsPGroup 2 ((P : Subgroup N).map N.subtype) := P.isPGroup'.map N.subtype
+    have hP2 : IsPGroup 2 ((P : Subgroup N).map N.subtype) := P.isPGroup.map N.subtype
     have hPbot := h2 _ hPY hP2
     have hodd : Odd (Nat.card N) := by
       rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]

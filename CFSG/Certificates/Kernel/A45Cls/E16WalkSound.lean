@@ -261,7 +261,7 @@ theorem exists_t {G : Subgroup Pm} {N : ℕ} {T : ℕ → ℕ} (hG : Nat.card G 
     hf.bijective_of_nat_card_le (le_of_eq (by rw [Nat.card_fin, hG]))
   let g := Function.surjInv hb.2
   refine ⟨fun i => if h : i < N then (g ⟨i, h⟩ : Pm) else 1, fun i hi => ?_, ?_⟩
-  · simp only [dif_pos hi]
+  · simp only [dite_eq_left hi]
     refine ⟨?_, (g ⟨i, hi⟩).2⟩
     have e := Function.surjInv_eq hb.2 ⟨i, hi⟩
     have h1 := (hT _ (g ⟨i, hi⟩).2).choose_spec.2
@@ -269,7 +269,7 @@ theorem exists_t {G : Subgroup Pm} {N : ℕ} {T : ℕ → ℕ} (hG : Nat.card G 
     rw [e'] at h1
     exact h1
   · intro i hi j hj e
-    simp only [dif_pos hi, dif_pos hj] at e
+    simp only [dite_eq_left hi, dite_eq_left hj] at e
     have := congrArg f (Subtype.ext e : g ⟨i, hi⟩ = g ⟨j, hj⟩)
     have e1 := Function.surjInv_eq hb.2 ⟨i, hi⟩
     have e2 := Function.surjInv_eq hb.2 ⟨j, hj⟩
@@ -541,11 +541,9 @@ theorem Tab.node_core (W : Tab T N im posT jT E t) {ps : List ℕ} {S : ℕ → 
   · exact Finset.mem_union_left _ (hF a ha b hb)
   · obtain ⟨y, hy, rfl⟩ := Finset.mem_image.1 hb
     refine Finset.mem_union_right _ (Finset.mem_image.2 ⟨a * y, hF a ha y hy, ?_⟩)
-    change t (jJ jT d) * (a * y) = a * (t (jJ jT d) * y)
     rw [← mul_assoc, ← mul_assoc, hcomm a ha]
   · obtain ⟨y, hy, rfl⟩ := Finset.mem_image.1 ha
     refine Finset.mem_union_right _ (Finset.mem_image.2 ⟨y * b, hF y hy b hb, ?_⟩)
-    change t (jJ jT d) * (y * b) = t (jJ jT d) * y * b
     rw [mul_assoc]
   · obtain ⟨y, hy, rfl⟩ := Finset.mem_image.1 ha
     obtain ⟨z, hz, rfl⟩ := Finset.mem_image.1 hb

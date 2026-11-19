@@ -18,7 +18,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ]
 private theorem exists_orderOf_three_centralizer {D P : Subgroup Γ} (hP : IsPGroup 3 P)
     (hPD : P ≤ Subgroup.normalizer (D : Set Γ)) (h3 : 3 ∣ Nat.card D) :
     ∃ w : Γ, w ∈ D ∧ w ∈ Subgroup.centralizer (P : Set Γ) ∧ orderOf w = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := Sec6.card_inf_centralizer_modEq hP hPD
   have h3C : 3 ∣ Nat.card ↥(D ⊓ Subgroup.centralizer (P : Set Γ)) :=
     Nat.modEq_zero_iff_dvd.mp (hmod.trans (Nat.modEq_zero_iff_dvd.mpr h3))

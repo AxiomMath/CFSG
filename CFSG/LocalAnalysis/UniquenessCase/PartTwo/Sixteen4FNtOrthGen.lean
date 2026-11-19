@@ -38,13 +38,13 @@ private theorem w183NonemptyOfGen {K : Type} [Field K] {ι : Type}
   obtain ⟨v, hv⟩ := hex
   have hmem : v ∈ (∅ : Set (ι → K)) :=
     hgen ∅ (by simp [h]) (by intro a ha; exact absurd ha (by simp)) hv
-  simpa using hmem
+  simp at hmem
 
 private theorem w183StatedQuadPlus_map {K K' : Type} [Field K] [Field K'] (e : K ≃+* K')
     (r : ℕ) (v : Fin r ⊕ Fin r → K) :
     e (StatedQuadPlus r K v) =
       StatedQuadPlus r K' (w183PiEquiv e (Fin r ⊕ Fin r) v) := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, map_sum, map_mul,
+  simp only [StatedQuadPlus, map_sum, map_mul,
     w183PiEquiv_apply]
 
 private theorem w183QuadPlusPolar_map {K K' : Type} [Field K] [Field K'] (e : K ≃+* K')

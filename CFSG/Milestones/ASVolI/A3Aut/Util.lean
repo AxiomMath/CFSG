@@ -87,7 +87,7 @@ theorem burnsideAut_pinned_of_field {X M C : Type} [Group X] [Group M] [Group C]
     IsCyclic F ∧ Nat.card F ∣ Nat.card (RingAut K) ∧
       ∃ σ : RingAut K, orderOf σ = Nat.card F ∧
         ChA.HasPinnedSylowFieldAction (ε.trans Ψ) S F (P σ) := by
-  haveI : Finite (RingAut K) := Finite.of_injective _ (fun a b h => RingEquiv.ext
+  have : Finite (RingAut K) := Finite.of_injective _ (fun a b h => RingEquiv.ext
     fun x => congrFun (congrArg DFunLike.coe h) x)
   set Fm : Subgroup (MulAut M) := F.map (MulAut.congr ε).toMonoidHom with hFm
   have hinv : ∀ x : MulAut X, MulAut.congr ε.symm (MulAut.congr ε x) = x :=
@@ -101,8 +101,8 @@ theorem burnsideAut_pinned_of_field {X M C : Type} [Group X] [Group M] [Group C]
     change MulAut.congr ε (MulAut.congr ε.symm y) ∈ φ.range
     rw [hinv']
     exact hy
-  haveI : IsCyclic φ.range := isCyclic_of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : IsCyclic Fm := burnsideAut_isCyclic_of_le hFmle
+  have : IsCyclic φ.range := isCyclic_of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : IsCyclic Fm := burnsideAut_isCyclic_of_le hFmle
   have eF : ↥F ≃* ↥Fm := F.equivMapOfInjective _ (MulAut.congr ε).injective
   have hcardF : Nat.card F = Nat.card Fm := Nat.card_congr eF.toEquiv
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Fm)

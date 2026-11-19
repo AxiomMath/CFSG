@@ -49,7 +49,7 @@ theorem dvd_card_centralizer_inf_yMc
     have hg := pow_gcd_eq_one.2 ⟨hk', hv23⟩
     rw [show Nat.gcd 3 23 = 1 by norm_num, pow_one] at hg
     exact hv1 hg
-  haveI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   have hord : orderOf (yMc hG v ^ 3) = 23 := orderOf_eq_prime hpow hne
   have hT : yMc hG v ^ 3 ∈ Subgroup.centralizer ({tGriess} : Set MGriess) := by
     rw [Subgroup.mem_centralizer_singleton_iff]

@@ -127,7 +127,7 @@ theorem HaradaFacts.toHData {G : Type} [Group G] {t : G} (ht : orderOf t = 2)
       exact (Subgroup.card_map_of_injective hf).symm
     have hea₀ : CFSG.Open.IsElemAbelian 2 B₀ := by
       constructor
-      · haveI : IsMulCommutative B := hBea.1
+      · have : IsMulCommutative B := hBea.1
         exact Subgroup.comap_injective_isMulCommutative B hf
       · intro x hx
         exact hf (by rw [map_pow, hBea.2 (f x) hx, map_one])

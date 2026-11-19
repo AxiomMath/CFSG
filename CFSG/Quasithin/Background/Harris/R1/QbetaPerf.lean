@@ -9,7 +9,7 @@ namespace CFSG.Quasithin.Background.Harris.R1
 open scoped commutatorElement
 
 theorem perfect_le_of_index_le_four {G : Type*} [Group G] {K Stab : Subgroup G}
-    (hK : ⁅K, K⁆ = K) (hle : Stab ≤ K) [Finite ↥K]
+    (hK : ⁅K, K⁆ = K) (_hle : Stab ≤ K) [Finite ↥K]
     (hidx : Nat.card (↥K ⧸ Stab.subgroupOf K) ≤ 4) : K ≤ Stab := by
   set X := ↥K ⧸ Stab.subgroupOf K with hX
   let φ : ↥K →* Equiv.Perm X := MulAction.toPermHom ↥K X

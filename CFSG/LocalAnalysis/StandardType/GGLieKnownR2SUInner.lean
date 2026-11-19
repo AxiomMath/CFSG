@@ -220,12 +220,12 @@ private theorem l10su1_uForm_single {F : Type} [Field F] {σ : F ≃+* F} {n : �
     uForm σ (l10su1_basis (F := F) i) (l10su1_basis (F := F) j) =
       if j = Fin.rev i then 1 else 0 := by
   rw [uForm_eq, Finset.sum_eq_single i]
-  · rw [l10su1_basis_apply, if_pos rfl, map_one, one_mul, l10su1_basis_apply]
+  · rw [l10su1_basis_apply, ite_eq_left rfl, map_one, one_mul, l10su1_basis_apply]
     by_cases h : Fin.rev i = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   · intro a _ ha
-    rw [l10su1_basis_apply, if_neg ha, map_zero, zero_mul]
+    rw [l10su1_basis_apply, ite_eq_right ha, map_zero, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -233,7 +233,7 @@ private theorem l10su1_basis_ne_zero {F : Type} [Field F] {n : ℕ}
     (i : Fin n) : l10su1_basis (F := F) i ≠ 0 := by
   intro h
   have := congrFun h i
-  rw [l10su1_basis_apply, if_pos rfl, Pi.zero_apply] at this
+  rw [l10su1_basis_apply, ite_eq_left rfl, Pi.zero_apply] at this
   exact one_ne_zero this
 
 open CFSG.Timmesfeld.LieEmbed Matrix in
@@ -260,17 +260,16 @@ private theorem l10su1_uForm_add_single {F : Type} [Field F] [CharP F 2] {σ : F
       l10su1_basis (F := F) i + l10su1_basis (F := F) j := by simp
   rw [h0'] at h3
   rw [h3]
-  simp only [l10su1_uForm_single, hleft, hright, if_neg hi, if_neg hj, zero_mul, mul_zero,
-    add_zero, zero_add]
+  simp only [l10su1_uForm_single, hleft, hright, ite_eq_right hi, ite_eq_right hj, add_zero, zero_add]
   by_cases h : j = Fin.rev i
   · have h' : i = Fin.rev j := by
       have hh := congrArg Fin.rev h
       rw [Fin.rev_rev] at hh
       exact hh.symm
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
     exact CharTwo.add_self_eq_zero 1
   · have h' : i ≠ Fin.rev j := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
     simp
 
 open CFSG.Timmesfeld.LieEmbed Matrix in
@@ -278,14 +277,14 @@ private theorem l10su1_uForm_right_single {F : Type} [Field F] {σ : F ≃+* F} 
     (y : Fin n → F) (a : Fin n) :
     uForm σ y (l10su1_basis (F := F) a) = σ (y (Fin.rev a)) := by
   rw [uForm_eq, Finset.sum_eq_single (Fin.rev a)]
-  · rw [l10su1_basis_apply, Fin.rev_rev, if_pos rfl, mul_one]
+  · rw [l10su1_basis_apply, Fin.rev_rev, ite_eq_left rfl, mul_one]
   · intro b _ hb
     have h : Fin.rev b ≠ a := by
       intro hh
       apply hb
       have := congrArg Fin.rev hh
       rwa [Fin.rev_rev] at this
-    rw [l10su1_basis_apply, if_neg h, mul_zero]
+    rw [l10su1_basis_apply, ite_eq_right h, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -353,7 +352,7 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
   have hiso_e : ∀ i : Fin n, i ≠ Fin.rev i →
       uForm σ (l10su1_basis (F := F) i) (l10su1_basis (F := F) i) = 0 := by
     intro i hi
-    rw [l10su1_uForm_single, if_neg hi]
+    rw [l10su1_uForm_single, ite_eq_right hi]
   have hisoadd : ∀ i j : Fin n, i ≠ Fin.rev i → j ≠ Fin.rev j →
       uForm σ (l10su1_basis (F := F) i + l10su1_basis (F := F) j)
         (l10su1_basis (F := F) i + l10su1_basis (F := F) j) = 0 :=
@@ -369,8 +368,7 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
       rw [mulVec_mulVec]
       have h1' : ((B⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
           (B : Matrix (Fin n) (Fin n) F) = 1 := by
-        simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
-          (inv_mul_cancel B)
+        simp
       rw [h1', one_mulVec]
     rw [h1, mulVec_zero] at h2
     exact l10su1_basis_ne_zero i0 h2.symm
@@ -384,8 +382,8 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
       have hvne : l10su1_basis (F := F) i0 + l10su1_basis (F := F) i ≠ 0 := by
         intro h
         have h1 := congrFun h i0
-        rw [Pi.add_apply, l10su1_basis_apply, if_pos rfl, l10su1_basis_apply,
-          if_neg (Ne.symm hi01), add_zero, Pi.zero_apply] at h1
+        rw [Pi.add_apply, l10su1_basis_apply, ite_eq_left rfl, l10su1_basis_apply,
+          ite_eq_right (Ne.symm hi01), add_zero, Pi.zero_apply] at h1
         exact one_ne_zero h1
       obtain ⟨nu, hnu⟩ := hline _ (hisoadd i0 i hi0 hi) hvne
       have hsum : (B : Matrix (Fin n) (Fin n) F) *ᵥ
@@ -441,7 +439,7 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
             have := congrArg Fin.rev hka'
             rwa [Fin.rev_rev] at this
           exact (h1.symm.trans hk.symm).trans hka'
-        rw [l10su1_basis_apply, if_neg (Ne.symm hka), map_zero]
+        rw [l10su1_basis_apply, ite_eq_right (Ne.symm hka), map_zero]
       rw [h2] at h1
       have h3 : uForm σ ((B : Matrix (Fin n) (Fin n) F) *ᵥ l10su1_basis (F := F) k)
           (l10su1_basis (F := F) a) = 0 :=
@@ -454,7 +452,7 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
       intro h
       have h1 := congrFun h k
       simp only [Pi.add_apply, Pi.smul_apply, l10su1_basis_apply] at h1
-      simp only [if_true, if_neg (Ne.symm hik), if_neg (Ne.symm hrk), smul_zero, add_zero,
+      simp only [ite_true, ite_eq_right (Ne.symm hik), ite_eq_right (Ne.symm hrk), smul_zero, add_zero,
         Pi.zero_apply] at h1
       exact one_ne_zero h1
     have hisok : uForm σ (l10su1_basis (F := F) k + l10su1_basis (F := F) i0 +
@@ -464,8 +462,8 @@ private theorem l10su1_scalar_of_commute_isometry {F : Type} [Field F] [CharP F 
       rw [l10su1_uForm_add3]
       simp only [uForm_smul_left, uForm_smul_right, l10su1_uForm_single]
       rw [← hk, Fin.rev_rev]
-      simp only [hik, hrk, Ne.symm hik, Ne.symm hrk, hi0, Ne.symm hi0, if_true, if_false,
-        zero_mul, mul_zero, add_zero, zero_add, mul_one, one_mul]
+      simp only [hik, hrk, Ne.symm hik, Ne.symm hrk, hi0, Ne.symm hi0, ite_true, ite_false,
+        mul_zero, add_zero, mul_one]
       linear_combination hc + CharTwo.add_self_eq_zero (1 : F)
     obtain ⟨mu, hmu⟩ := hline _ hisok hvk
     have hsum : (B : Matrix (Fin n) (Fin n) F) *ᵥ
@@ -572,7 +570,7 @@ private theorem l10su1_uForm_pair_smul {F : Type} [Field F] {σ : F ≃+* F} {n 
       (l10su1_basis (F := F) i + c • l10su1_basis (F := F) (Fin.rev i)) = c + σ c := by
   rw [uForm_add_left, uForm_add_right, uForm_add_right, uForm_smul_left, uForm_smul_left,
     uForm_smul_right, uForm_smul_right]
-  simp only [l10su1_uForm_single, Fin.rev_rev, hi, Ne.symm hi, if_true, if_false]
+  simp only [l10su1_uForm_single, Fin.rev_rev, hi, Ne.symm hi, ite_true, ite_false]
   ring
 
 open CFSG.Timmesfeld.LieEmbed Matrix in
@@ -710,7 +708,7 @@ theorem inner_of_isometry {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     ∃ k : ↥(Unitary.SU (unitaryInvolution F 2 f) n), y = MulAut.conj k := by
   classical
   let σ : F ≃+* F := unitaryInvolution F 2 f
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ : ∀ c, σ c = c ^ 2 ^ f := by
     intro c
     change unitaryInvolution F 2 f c = c ^ 2 ^ f
@@ -757,8 +755,7 @@ theorem inner_of_isometry {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
       rwa [← suMat_apply, hx] at h'
     have hBinv : (B : Matrix (Fin n) (Fin n) F) *
         ((B⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 := by
-      simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
-        (mul_inv_cancel B)
+      simp
     have ht : uTrans σ ((B : Matrix (Fin n) (Fin n) F) *ᵥ v) 1 = uTrans σ v 1 := by
       have h1 := CFSG.Timmesfeld.LieEmbed.mul_uTrans_of_isometry (σ := σ) hBisom v 1
       have h2 : uTrans σ ((B : Matrix (Fin n) (Fin n) F) *ᵥ v) 1 *
@@ -966,7 +963,7 @@ private theorem l10su1b_center_scalar {F : Type} [Field F] [Finite F] [CharP F 2
     (hz : z ∈ Subgroup.center (SU (unitaryInvolution F 2 f) n)) :
     ∃ u : Fˣ, ((z : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) =
       Matrix.scalar (Fin n) (u : F) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.LieType.Universal.Unitary.exists_wittMatrix (p := 2) (f := f) hF n
   let e : SU (unitaryInvolution F 2 f) n ≃* SUid (unitaryInvolution F 2 f) n :=
     CFSG.LieType.Universal.Unitary.conjEquiv P hP
@@ -1009,7 +1006,7 @@ private theorem l10su1b_exists_SU_std_eigen {F : Type} [Field F] [Finite F] [Cha
         Pi.single (⟨0, by omega⟩ : Fin n) 1 =
           lam • Pi.single (⟨0, by omega⟩ : Fin n) 1 := by
   let σ : F ≃+* F := unitaryInvolution F 2 f
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hσ' : ∀ c, σ (σ c) = c := CFSG.LieType.BorelTits.unitaryInvolution_involutive hF
   have hσpow : ∀ c, σ c = c ^ 2 ^ f := by
     intro c
@@ -1052,17 +1049,17 @@ private theorem l10su1b_exists_SU_std_eigen {F : Type} [Field F] [Finite F] [Cha
     funext i
     by_cases hi : i = 0
     · subst hi
-      simp [Matrix.mulVec, Matrix.diagonal, Pi.single_apply, t]
-    · simp [Matrix.mulVec, Matrix.diagonal, Pi.single_apply, hi]
+      simp [Matrix.mulVec, Matrix.diagonal, t]
+    · simp [Matrix.mulVec, Matrix.diagonal, hi]
   ·
     let a0 : Fin n := ⟨0, by omega⟩
     let a1 : Fin n := ⟨1, by omega⟩
     let a2 : Fin n := ⟨n - 2, by omega⟩
     let a3 : Fin n := ⟨n - 1, by omega⟩
     have hr0 : Fin.rev a0 = a3 := by
-      ext; simp only [Fin.val_rev, a0, a3]; try omega
+      ext; simp only [Fin.val_rev, a0, a3]
     have hr1 : Fin.rev a1 = a2 := by
-      ext; simp only [Fin.val_rev, a1, a2]; try omega
+      ext; simp only [Fin.val_rev, a1, a2]
     have hr2 : Fin.rev a2 = a1 := by
       ext; simp only [Fin.val_rev, a1, a2]; try omega
     have hr3 : Fin.rev a3 = a0 := by
@@ -1086,16 +1083,16 @@ private theorem l10su1b_exists_SU_std_eigen {F : Type} [Field F] [Finite F] [Cha
       exact l10su1_uForm_single i j
     have hfr : CFSG.StandardType.LieKnownR2.Short.SUFrame hF n v w v' w' := by
       refine ⟨?_, ?_, ⟨?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩⟩
-      · rw [hB v w' a0 a3 rfl rfl, if_pos (by rw [hr0])]
-      · rw [hB w v' a1 a2 rfl rfl, if_pos (by rw [hr1])]
-      · rw [hB v v a0 a0 rfl rfl, if_neg (by rw [hr0]; exact hdist.2.2.1)]
-      · rw [hB w w a1 a1 rfl rfl, if_neg (by rw [hr1]; exact hdist.2.2.2.1)]
-      · rw [hB v' v' a2 a2 rfl rfl, if_neg (by rw [hr2]; exact Ne.symm hdist.2.2.2.1)]
-      · rw [hB w' w' a3 a3 rfl rfl, if_neg (by rw [hr3]; exact Ne.symm hdist.2.2.1)]
-      · rw [hB v w a0 a1 rfl rfl, if_neg (by rw [hr0]; exact hdist.2.2.2.2.1)]
-      · rw [hB v v' a0 a2 rfl rfl, if_neg (by rw [hr0]; exact hdist.2.2.2.2.2)]
-      · rw [hB w w' a1 a3 rfl rfl, if_neg (by rw [hr1]; exact Ne.symm hdist.2.2.2.2.2)]
-      · rw [hB v' w' a2 a3 rfl rfl, if_neg (by rw [hr2]; exact Ne.symm hdist.2.2.2.2.1)]
+      · rw [hB v w' a0 a3 rfl rfl, ite_eq_left (by rw [hr0])]
+      · rw [hB w v' a1 a2 rfl rfl, ite_eq_left (by rw [hr1])]
+      · rw [hB v v a0 a0 rfl rfl, ite_eq_right (by rw [hr0]; exact hdist.2.2.1)]
+      · rw [hB w w a1 a1 rfl rfl, ite_eq_right (by rw [hr1]; exact hdist.2.2.2.1)]
+      · rw [hB v' v' a2 a2 rfl rfl, ite_eq_right (by rw [hr2]; exact Ne.symm hdist.2.2.2.1)]
+      · rw [hB w' w' a3 a3 rfl rfl, ite_eq_right (by rw [hr3]; exact Ne.symm hdist.2.2.1)]
+      · rw [hB v w a0 a1 rfl rfl, ite_eq_right (by rw [hr0]; exact hdist.2.2.2.2.1)]
+      · rw [hB v v' a0 a2 rfl rfl, ite_eq_right (by rw [hr0]; exact hdist.2.2.2.2.2)]
+      · rw [hB w w' a1 a3 rfl rfl, ite_eq_right (by rw [hr1]; exact Ne.symm hdist.2.2.2.2.2)]
+      · rw [hB v' w' a2 a3 rfl rfl, ite_eq_right (by rw [hr2]; exact Ne.symm hdist.2.2.2.2.1)]
     have hv0 : v ≠ 0 := by
       intro h
       have := congrFun h a0
@@ -1180,7 +1177,7 @@ private theorem l10su1b_exists_SU_eigen {F : Type} [Field F] [Finite F] [CharP F
       omega
     change uForm σ (l10su1_basis (F := F) (⟨0, by omega⟩ : Fin n))
       (l10su1_basis (F := F) (⟨0, by omega⟩ : Fin n)) = 0
-    rw [l10su1_uForm_single, if_neg hi]
+    rw [l10su1_uForm_single, ite_eq_right hi]
   obtain ⟨g0, hg0⟩ := CFSG.Timmesfeld.Transvection.ModelRank.exists_suMat_mulVec_eq_of_iso
     (p := 2) (f := f) hF hn he00 he0iso hv0 hvv
   obtain ⟨t0, ht0⟩ := l10su1b_exists_SU_std_eigen (f := f) hF hn hlam
@@ -1219,7 +1216,7 @@ private theorem l10su1c_exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -1287,7 +1284,7 @@ private theorem l10su1_field_aut_of_div_pow {F : Type} [Field F] [Finite F] [Cha
     rw [hF, ← pow_mul]
     congr 1
     omega
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   let algφ : F ≃ₐ[ZMod 2] F :=
     AlgEquiv.ofRingEquiv (f := φ) (by
       intro x
@@ -1420,8 +1417,7 @@ private theorem l10su1c_y_mulVec {F : Type} [Field F] {n : ℕ} {σ φ : F ≃+*
     exact (map_mulVec_sigma (σ := φ) (suMat σ n g) x).symm
   have hAA : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
       (A : Matrix (Fin n) (Fin n) F) = 1 := by
-    simpa using congrArg (fun u : GL (Fin n) F => (u : Matrix (Fin n) (Fin n) F))
-      (inv_mul_cancel A)
+    simp
   have hmat : suMat σ n (y g) = (A : Matrix (Fin n) (Fin n) F) *
       ((glAut φ (g : GL (Fin n) F) : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
       ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) := by
@@ -1522,7 +1518,7 @@ private theorem l10su1_field_part {F : Type} [Field F] [Finite F] [CharP F 2] {f
       have h2 : 1 < Nat.card F := Finite.one_lt_card
       omega
     · exact hfpos
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnf' : ¬ (n = 3 ∧ 2 ^ f = 2) := by
     rintro ⟨hn3, hq⟩
     refine hnf ⟨hn3, ?_⟩
@@ -1600,8 +1596,6 @@ private theorem l10su1_field_part {F : Type} [Field F] [Finite F] [CharP F 2] {f
   have hzcalc : ((z : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) =
       uTrans σ (fun i => φ (v i)) 1 := by
     rw [hzmat]
-    change ((glAut φ (x : GL (Fin n) F) : GL (Fin n) F) :
-      Matrix (Fin n) (Fin n) F) = _
     rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.coe_glAut]
     rw [show ((x : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = uTrans σ v 1 from hxmat]
     rw [CFSG.Timmesfeld.LieEmbed.map_uTrans φ hcomm v 1, map_one]
@@ -1655,7 +1649,7 @@ private theorem l10su1_field_part {F : Type} [Field F] [Finite F] [CharP F 2] {f
         ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 := by
       have := congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
         (mul_inv_cancel A)
-      simpa using this
+      simp
     calc (A : Matrix (Fin n) (Fin n) F) * uTrans σ v 1 *
           ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)
         = uTrans σ (((A : Matrix (Fin n) (Fin n) F)) *ᵥ v) 1 * (A : Matrix (Fin n) (Fin n) F) *
@@ -1694,8 +1688,7 @@ private theorem l10su1_field_part {F : Type} [Field F] [Finite F] [CharP F 2] {f
     have h' : (A : Matrix (Fin n) (Fin n) F) *ᵥ v = 0 := by rw [hnval, h, zero_smul]
     have hAA : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
         (A : Matrix (Fin n) (Fin n) F) = 1 := by
-      simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
-        (inv_mul_cancel A)
+      simp
     calc v = (1 : Matrix (Fin n) (Fin n) F) *ᵥ v := by rw [Matrix.one_mulVec]
       _ = (((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
             (A : Matrix (Fin n) (Fin n) F)) *ᵥ v := by rw [hAA]
@@ -1826,7 +1819,7 @@ private theorem l10su1d_mul_inv_mem_pCoreOf {K : Type} [Group K] [Finite K]
     rw [eq_inv_of_mul_eq_one_left h]
     exact (pCoreOf 2 N).inv_mem hrmsq
   have hz2Z : z ^ 2 ∈ Subgroup.center K := (Subgroup.center K).pow_mem hzZ 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : z ^ 2 = 1 := l10su1d_eq_one_of_mem_inf_of_isPGroup_two_of_odd hodd
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N) hz2P hz2Z
   have hz1 : z = 1 := by
@@ -1868,20 +1861,20 @@ private theorem l10su1d_uForm_single_apply {F : Type} [Field F] {σ : F ≃+* F}
       if b = Fin.rev a then 1 else 0 := by
   rw [uForm_single_left, Pi.single_apply]
   by_cases h : b = Fin.rev a
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
 
 open CFSG.Timmesfeld.LieEmbed in
 private theorem l10su1d_uForm_single_eq_zero {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ}
     {a b : Fin n} (h : b ≠ Fin.rev a) :
     uForm σ (Pi.single a 1 : Fin n → F) (Pi.single b 1) = 0 := by
-  rw [l10su1d_uForm_single_apply, if_neg h]
+  rw [l10su1d_uForm_single_apply, ite_eq_right h]
 
 open CFSG.Timmesfeld.LieEmbed in
 private theorem l10su1d_uForm_single_eq_one {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ}
     {a b : Fin n} (h : b = Fin.rev a) :
     uForm σ (Pi.single a 1 : Fin n → F) (Pi.single b 1) = 1 := by
-  rw [l10su1d_uForm_single_apply, if_pos h]
+  rw [l10su1d_uForm_single_apply, ite_eq_left h]
 
 open CFSG.Timmesfeld.LieEmbed in
 private theorem l10su1d_uForm_expand4 {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ}
@@ -1922,7 +1915,7 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
   have hσpow : ∀ c, σ c = c ^ 2 ^ f := by
     intro c
     exact CFSG.LieType.BorelTits.unitaryInvolution_apply F 2 f c
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with hf0 | hf
     · exfalso
@@ -2009,7 +2002,7 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
         ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 := by
       have := congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
         (mul_inv_cancel A)
-      simpa using this
+      simp
     calc (A : Matrix (Fin n) (Fin n) F) * uTrans σ v 1 *
           ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)
         = uTrans σ (((A : Matrix (Fin n) (Fin n) F)) *ᵥ v) 1 *
@@ -2041,8 +2034,7 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
     have h' : (A : Matrix (Fin n) (Fin n) F) *ᵥ v = 0 := by rw [hnval, h, zero_smul]
     have hAA : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
         (A : Matrix (Fin n) (Fin n) F) = 1 := by
-      simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
-        (inv_mul_cancel A)
+      simp
     calc v = (1 : Matrix (Fin n) (Fin n) F) *ᵥ v := by rw [Matrix.one_mulVec]
       _ = (((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
             (A : Matrix (Fin n) (Fin n) F)) *ᵥ v := by rw [hAA]
@@ -2051,8 +2043,7 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
       _ = 0 := by rw [h', Matrix.mulVec_zero]
   have hAA0 : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
       (A : Matrix (Fin n) (Fin n) F) = 1 := by
-    simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F))
-      (inv_mul_cancel A)
+    simp
   have hAinv : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v = nval⁻¹ • v := by
     calc ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ v
         = ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *ᵥ
@@ -2130,14 +2121,14 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
       · rw [show v = Pi.single i 1 from rfl, hx'eq,
           CFSG.Timmesfeld.LieEmbed.uForm_single_left i (Pi.single (Fin.rev k) 1),
           Pi.single_apply]
-        exact if_neg (fun h => hki (by
+        exact ite_eq_right (fun h => hki (by
           have h2 := congrArg Fin.rev h
           rw [Fin.rev_rev, Fin.rev_rev] at h2
           exact h2.symm))
       · rw [show w = Pi.single (Fin.rev i) 1 from rfl, hx'eq,
           CFSG.Timmesfeld.LieEmbed.uForm_single_left (Fin.rev i) (Pi.single (Fin.rev k) 1),
           Fin.rev_rev, Pi.single_apply]
-        exact if_neg (fun h => hkir (by
+        exact ite_eq_right (fun h => hkir (by
           have h2 := congrArg Fin.rev h
           rw [Fin.rev_rev] at h2
           exact h2.symm))
@@ -2172,7 +2163,7 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
         funext j
         by_cases hj : j = i
         · subst hj; simp [v]
-        · simp [v, Pi.single_apply, hj]
+        · simp [v, hj]
       rw [hvphi, hnval]
     have hBx'v : uForm σ v Bx' = 0 := by
       have h := l10su1d_B_uForm hcomm hA v x'
@@ -2379,7 +2370,6 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
     have hsum' : s + σ s = 1 := hs
     first
       | (rw [hsum]; simpa using CharTwo.add_self_eq_zero (1 : F))
-      | (rw [hsum']; simpa using CharTwo.add_self_eq_zero (1 : F))
   have hxs1_iso : uForm σ xs1 xs1 = 0 := by
     rw [hxs1_def, l10su1_uForm_add3 (σ := σ) ((s + 1) • ec) ec' u0]
     simp only [uForm_smul_left, uForm_smul_right, h_ecec, h_ecec', hecu0, h_ec'ec, h_ec'ec',
@@ -2388,7 +2378,6 @@ private theorem l10su1_not_bar {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
     have hsum' : (s + 1) + σ (s + 1) = 1 := hs1
     first
       | (rw [hsum]; simpa using CharTwo.add_self_eq_zero (1 : F))
-      | (rw [hsum']; simpa using CharTwo.add_self_eq_zero (1 : F))
   have hs10 : s + 1 ≠ 0 := by
     intro h
     rw [h, map_zero, zero_add] at hs1

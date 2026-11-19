@@ -23,13 +23,13 @@ theorem uc22pwex_d4two_generators_not_commute : commutes genA genB = false := by
 theorem uc22pwex_d4two_plane :
     ∃ E : Subgroup trialityGroup8, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 := by
   obtain ⟨hle, hcard, -⟩ := sylowGroup_facts
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hP : Fact (IsPGroup 3 sylowGroup) := ⟨IsPGroup.of_card hcard⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hP : Fact (IsPGroup 3 sylowGroup) := ⟨IsPGroup.of_card hcard⟩
   have hnc : ¬ IsCyclic sylowGroup := by
     intro hcyc
     have ha : wordGL wordA ∈ sylowGroup := Subgroup.subset_closure (by simp)
     have hb : wordGL wordB ∈ sylowGroup := Subgroup.subset_closure (by simp)
-    haveI : IsMulCommutative sylowGroup :=
+    have : IsMulCommutative sylowGroup :=
       (MonoidHom.id ↥sylowGroup).isMulCommutative_of_isCyclic_of_ker_le_center (by simp)
     have hab : (⟨wordGL wordA, ha⟩ : ↥sylowGroup) * ⟨wordGL wordB, hb⟩ =
         ⟨wordGL wordB, hb⟩ * ⟨wordGL wordA, ha⟩ := IsMulCommutative.is_comm.comm _ _

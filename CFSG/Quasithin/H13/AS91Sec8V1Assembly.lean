@@ -119,7 +119,7 @@ theorem autPres_twist_G1 (β : ↥c.G1 ≃* ↥c.G1) (b : Bool)
   change autPres c.G1 (c.G3 ⊓ c.G1) ψ₀
   intro x
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
-  simp only [x.2, (ψ₀ x).2, true_and, and_true]
+  simp only [x.2, (ψ₀ x).2, and_true]
   by_cases hb : b
   · have hψ₀ : ψ₀ = β := by simp [ψ₀, hb]
     rw [hψ₀]
@@ -155,10 +155,10 @@ theorem stabTwist_apply_val (r : ResM24T c) (hU : r.U₀ = M24G.sextFin 0)
     exact MulEquiv.subgroupCongr_symm_apply c.stab_x0 _
   rw [h1]
   by_cases hB : bB
-  · rw [if_pos hB, hβformula h, if_pos hB]
-  · rw [if_neg hB]
+  · rw [ite_eq_left hB, hβformula h, ite_eq_left hB]
+  · rw [ite_eq_right hB]
     have he : (r.todd.symm (if bB then M24G.dBeta M24G.sextStab (c.phiS r hU h) else 1) : G) = 1 := by
-      rw [if_neg hB]
+      rw [ite_eq_right hB]
       simp
     rw [he, mul_one]
     rfl

@@ -120,7 +120,7 @@ theorem d4ThreeGraphFieldPlanes_of_maximal (hmax : D4TwistedSubfieldMaximal) :
   intro K _ _ hK3 E hE hEc hnoF hGF
   obtain ⟨β, hβE, g, a, σ, ε, hε, hσ3, ⟨hε0, hσ1⟩, hβ⟩ := hGF
   classical
-  haveI := hE
+  have := hE
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hℓ⟩
@@ -172,7 +172,7 @@ theorem d4ThreeGraphFieldPlanes_of_maximal (hmax : D4TwistedSubfieldMaximal) :
     intro h
     rw [h, fixedSubgroup_conj_one] at hFb
     exact hΓne hFb.symm
-  haveI := inner_normal (adjointGroup Tag.D4 K)
+  have := inner_normal (adjointGroup Tag.D4 K)
   refine closure_fixUnion_eq_top_of_kernel_escape (N := inner (adjointGroup Tag.D4 K))
     (hmax K hK3 (d4GfTwist T σ ε) hord) ?_ hβE hιE hβ1 hββ1 hι1 ⟨k, rfl⟩ hFa hFb
   intro ι' hι' hfix

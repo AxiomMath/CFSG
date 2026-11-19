@@ -204,7 +204,7 @@ private theorem three_mul_three : (3 : F25t) * 3 = -1 := by
   apply F25t.ext <;> decide
 
 theorem minus_data {A : Matrix.SpecialLinearGroup (Fin 2) F25t}
-    (hσ : Matrix.SpecialLinearGroup.map frob25t.toRingHom A = -A) (h2 : A * A = -1)
+    (_hσ : Matrix.SpecialLinearGroup.map frob25t.toRingHom A = -A) (h2 : A * A = -1)
     {B : Matrix (Fin 2) (Fin 2) (ZMod 5)}
     (hA : (A : Matrix (Fin 2) (Fin 2) F25t) = (t25 : F25t) • B.map zmodToF25t) :
     B.trace = 0 ∧ B.det = (2 : ZMod 5) := by
@@ -311,7 +311,7 @@ theorem exists_x_of_trace_det {B : Matrix (Fin 2) (Fin 2) (ZMod 5)}
     ∃ i : Fin 10,
       (t25 : F25t) • B.map zmodToF25t = (X i : Matrix (Fin 2) (Fin 2) F25t) ∨
         (t25 : F25t) • B.map zmodToF25t = -((X i : Matrix (Fin 2) (Fin 2) F25t)) := by
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   obtain ⟨a, b, c, d, rfl⟩ : ∃ a b c d : ZMod 5, B = !![a, b; c, d] :=
     ⟨B 0 0, B 0 1, B 1 0, B 1 1, Matrix.eta_fin_two B⟩
   rw [Matrix.trace_fin_two_of] at htr
@@ -341,11 +341,11 @@ theorem minus_class_mem_range_x {A : Matrix.SpecialLinearGroup (Fin 2) F25t}
     rfl
 
 private theorem X_mul_self (i : Fin 10) : X i * X i = -1 := by
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   fin_cases i <;> decide
 
 private theorem X_ne_pm_one (i : Fin 10) : X i ≠ 1 ∧ X i ≠ -1 := by
-  letI : DecidableEq F25t := f25tDecEq
+  let : DecidableEq F25t := f25tDecEq
   fin_cases i <;> decide
 
 private theorem x_ne_one (i : Fin 10) : x i ≠ 1 := by
@@ -469,7 +469,7 @@ theorem St_involutions_nontrivial :
     {q : PSL2 F25t | q ∈ St ∧ q * q = 1 ∧ q ≠ 1} = Set.range x := by
   ext q
   have hiff : (q ∈ St ∧ q * q = 1) ↔ q ∈ insert (1 : PSL2 F25t) (Set.range x) := by
-    rw [← Set.mem_setOf_eq (p := fun q : PSL2 F25t => q ∈ St ∧ q * q = 1),
+    rw [← Set.mem_ofPred_eq (p := fun q : PSL2 F25t => q ∈ St ∧ q * q = 1),
       St_involutions_eq]
   constructor
   · rintro ⟨hq, hqq, hne⟩

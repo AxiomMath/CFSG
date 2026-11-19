@@ -158,6 +158,7 @@ variable [Finite G] [Finite W] (ρ : Representation (ZMod 2) G W)
   (hUc : U = commOn ρ L ⊤) (hUUL : commOn ρ L U = U) (hU0 : U ≠ ⊥)
 
 include hUc in
+omit [Finite G] [Finite W] in
 theorem inv_normalizer {γ : G} (hγ : γ ∈ Subgroup.normalizer (L : Set G)) {u : W} (hu : u ∈ U) :
     ρ γ u ∈ U := by
   subst hUc
@@ -165,6 +166,7 @@ theorem inv_normalizer {γ : G} (hγ : γ ∈ Subgroup.normalizer (L : Set G)) {
     (le_refl _) γ hγ u hu
 
 include hUc eL hUUL hU0 in
+omit [Finite G] [Finite W] in
 theorem faithful_on {l₁ l₂ : G} (hl₁ : l₁ ∈ L) (hl₂ : l₂ ∈ L)
     (h : ∀ u ∈ U, ρ l₁ u = ρ l₂ u) : l₁ = l₂ := by
   have hLU : ∀ s ∈ L, ∀ u ∈ U, ρ s u ∈ U := fun s hs u hu =>
@@ -201,6 +203,7 @@ theorem faithful_on {l₁ l₂ : G} (hl₁ : l₁ ∈ L) (hl₂ : l₂ ∈ L)
     simp [hall ⟨a, ha⟩ u hu]
 
 include hUc eL hUUL hU0 in
+omit [Finite G] [Finite W] in
 theorem exists_theta (hSA : ∀ γ ∈ Subgroup.normalizer (L : Set G), ∃ l ∈ L, ∀ u ∈ U, ρ γ u = ρ l u)
     (S : Subgroup G) (hS : S ≤ Subgroup.normalizer (L : Set G)) :
     ∃ θ : ↥S →* ↥L, ∀ (s : S), ∀ u ∈ U, ρ (θ s : G) u = ρ (s : G) u := by
@@ -227,6 +230,7 @@ theorem exists_theta (hSA : ∀ γ ∈ Subgroup.normalizer (L : Set G), ∃ l �
     exact hc a _ hbu
 
 include eL in
+omit [Finite G] in
 theorem center_trivial_of_alt7 {z : ↥L} (hz : ∀ l : ↥L, z * l = l * z) : z = 1 := by
   have h4 : 4 ≤ Nat.card (Fin 7) := by rw [Nat.card_fin]; norm_num
   have hc : eL z ∈ Subgroup.center (alternatingGroup (Fin 7)) := by
@@ -238,6 +242,7 @@ theorem center_trivial_of_alt7 {z : ↥L} (hz : ∀ l : ↥L, z * l = l * z) : z
   exact eL.injective (by simpa using hc)
 
 include hUc eL hUUL hU0 in
+omit [Finite G] [Finite W] in
 theorem theta_eq_one_iff (S : Subgroup G) (hS : S ≤ Subgroup.normalizer (L : Set G))
     (θ : ↥S →* ↥L) (hθ : ∀ (s : S), ∀ u ∈ U, ρ (θ s : G) u = ρ (s : G) u) (s : S) :
     θ s = 1 ↔ (s : G) ∈ Subgroup.centralizer (L : Set G) := by
@@ -282,9 +287,11 @@ include hUc in
   restRep ρ U L (fun _ hs _ hu => inv_normalizer ρ hUc (Subgroup.le_normalizer hs) hu)
 
 include hUc in
+omit [Finite G] [Finite W] in
 theorem repL_apply_coe (l : L) (u : U) : ((repL ρ hUc l u : U) : W) = ρ (l : G) u := rfl
 
 include hUc eL hUUL hU0 in
+omit [Finite G] [Finite W] in
 theorem repL_injective : Function.Injective (repL ρ hUc) := by
   intro l₁ l₂ h
   apply Subtype.ext
@@ -391,6 +398,7 @@ theorem offender_in_L (HA : Alt7Hyp (alternatingGroup (Fin 7)))
   exact ⟨θ, hθ, hR1, h4, hl4, hnorm, h72, hE⟩
 
 include hUc eL hUUL hU0 in
+omit [Finite W] in
 theorem mem_of_theta_sylow
     (hSA : ∀ γ ∈ Subgroup.normalizer (L : Set G), ∃ l ∈ L, ∀ u ∈ U, ρ γ u = ρ l u)
     {T₁ : Subgroup G} (hT₁ : CFSG.QuasithinUnique.IsSylowTwoOf T₁ (Subgroup.normalizer (L : Set G)))
@@ -426,6 +434,7 @@ theorem mem_of_theta_sylow
   exact this.1
 
 include hUc eL hUUL hU0 in
+omit hUUL hU0 in
 theorem fixing_le_of_two_group (H : Alt7Hyp ↥L) (hU16 : Nat.card U = 16)
     (hfix0 : fixOn ρ L U = ⊥)
     {D R : Subgroup ↥L} (hD : IsPGroup 2 D) (hRD : R ≤ D) (hR4 : Nat.card R = 4)
@@ -449,7 +458,7 @@ theorem fixing_le_of_two_group (H : Alt7Hyp ↥L) (hU16 : Nat.card U = 16)
   set C : Subgroup ↥L := (P : Subgroup ↥L) ⊓ pst with hC
   have hRC : R ≤ C := le_inf (hRD.trans hDP) hRpst
   have hP8 : Nat.card (P : Subgroup ↥L) = 8 := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hidx := Subgroup.card_mul_index (P : Subgroup ↥L)
     have hodd : ¬ 2 ∣ (P : Subgroup ↥L).index := P.not_dvd_index
     rw [H.card_G, hn] at hidx
@@ -473,7 +482,7 @@ theorem fixing_le_of_two_group (H : Alt7Hyp ↥L) (hU16 : Nat.card U = 16)
     have hPfix : ∀ p ∈ (P : Subgroup ↥L), ∀ v ∈ ℓ, repL ρ hUc p v = v := fun p hp v hv => by
       have : p ∈ C := by rw [← hPC]; exact hp
       exact this.2 v hv
-    letI : MulAction (alternatingGroup (Fin 7)) ↥U :=
+    let : MulAction (alternatingGroup (Fin 7)) ↥U :=
       MulAction.compHom ↥U ((repL ρ hUc).comp eL.symm.toMonoidHom)
     have hsmul : ∀ (g : alternatingGroup (Fin 7)) (u : ↥U), g • u = repL ρ hUc (eL.symm g) u :=
       fun g u => rfl
@@ -485,7 +494,7 @@ theorem fixing_le_of_two_group (H : Alt7Hyp ↥L) (hU16 : Nat.card U = 16)
     obtain ⟨a, ha, b, hb, hab⟩ := Finset.one_lt_card.1 h3
     have ha0 : a ≠ 0 := Finset.ne_of_mem_erase ha
     have hb0 : b ≠ 0 := Finset.ne_of_mem_erase hb
-    have hS2 : IsPGroup 2 ((P : Subgroup ↥L).map eL.toMonoidHom) := P.isPGroup'.map _
+    have hS2 : IsPGroup 2 ((P : Subgroup ↥L).map eL.toMonoidHom) := P.isPGroup.map _
     have hSodd : ¬ 2 ∣ ((P : Subgroup ↥L).map eL.toMonoidHom).index := by
       rw [Subgroup.index_map_of_bijective eL.bijective]; exact P.not_dvd_index
     refine hab (Subtype.ext (CFSG.AGLEmbeddingD2.GN.eq_of_fixed_of_card_sixteen
@@ -517,6 +526,7 @@ theorem fixing_le_of_two_group (H : Alt7Hyp ↥L) (hU16 : Nat.card U = 16)
   exact this
 
 include hUc eL hUUL hU0 in
+omit [Finite G] [Finite W] in
 theorem centralizes_of_trivial {c : G} (hc : c ∈ Subgroup.normalizer (L : Set G))
     (hfix : ∀ u ∈ U, ρ c u = u) : c ∈ Subgroup.centralizer (L : Set G) := by
   have hfa := fun {l₁ l₂ : G} (h1 : l₁ ∈ L) (h2 : l₂ ∈ L) (h : ∀ u ∈ U, ρ l₁ u = ρ l₂ u) =>

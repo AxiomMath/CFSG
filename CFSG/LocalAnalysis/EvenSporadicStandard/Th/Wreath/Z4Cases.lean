@@ -311,7 +311,7 @@ theorem ThCyc.exists_wreath_or_F4 (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hnotK1 : ¬ (T ⊓ (normalizer (D : Set G) ⊓
       centralizer (omega1 D hD.comm : Set G)) ≤ ThCyc.K1 H W W2 hD h4) :=
     fun hle => H.false_of_inf_K_le_K1 W W2 hD F h4 hb hQ hT hg₀T hg₀M hle
-  obtain ⟨e, heTK, heK1⟩ := SetLike.not_le_iff_exists.mp hnotK1
+  obtain ⟨e, heTK, heK1⟩ := IsConcreteLE.not_le_iff_exists.mp hnotK1
   have heNV : e ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G) :=
     ⟨THyp.mem_normalizer_Q_of_mem_T H W W2 hD F h4 hb hQ hT heTK.1, heTK.2.2⟩
   have hβcases :=

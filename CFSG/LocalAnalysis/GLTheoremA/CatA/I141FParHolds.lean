@@ -21,8 +21,8 @@ section Cert
 
 theorem parityModel_holds : I141F.ParityModel := by
   intro p hp hp2 Γ _ _ H E J hHn hO hchev hE hJ
-  haveI := hHn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hHn
+  have : Fact p.Prime := ⟨hp⟩
   have hJ' := hJ
   obtain ⟨hJX, hJsn, -, -⟩ := hJ'
   have hJH : J ≤ H := hJX.trans inf_le_left
@@ -36,7 +36,7 @@ theorem parityModel_holds : I141F.ParityModel := by
   rw [← hcard]
   have hPperf := zBar_perfect hJH hperf
   by_cases hab : ∃ a b : ↥H ⧸ Subgroup.center ↥H, a * b ≠ b * a
-  · haveI hsimp : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) :=
+  · have hsimp : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) :=
       CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.isSimpleGroup_of_isChevSimple_two hchev
     have hĒ : IsElemAbelian p (E.map (conjQ H)) := I142.isElemAbelian_map_of (conjQ H) hE
     have hsn : IsSubnormal (zBar H J) (I142.centFix (E.map (conjQ H))) :=
@@ -53,7 +53,7 @@ theorem parityModel_holds : I141F.ParityModel := by
         (CFSG.LocalAnalysis.GLTheoremB.MovingAround.Lemma123.isChevTwo_of_isChevSimple_two hchev)
         p hp hp2 _ hĒ.isPGroup
     exact odd_card_of_commute_of_isSubnormal hsn hO2 (zBar_mono hQJ) hMc
-  · push_neg at hab
+  · push Not at hab
     have hbot : zBar H J = ⊥ := by
       rw [← hPperf, eq_bot_iff, Subgroup.commutator_le]
       intro a _ b _

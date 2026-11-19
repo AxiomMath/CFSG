@@ -111,10 +111,10 @@ theorem exists_equivariant_copy_of_alternatingNatural {W : Type} [CommGroup W] [
     change (f.1 ^ 2) x = (1 : ↥(G6.coreMod 5) →* W) x
     rw [pow_two, MonoidHom.mul_apply, MonoidHom.one_apply]
     simpa [pow_two] using hW (f.1 x)
-  haveI : Finite ↥H :=
+  have : Finite ↥H :=
     Finite.of_injective (fun f : ↥H => (f.1 : ↥(G6.coreMod 5) → W))
       (fun f g h => Subtype.ext (MonoidHom.ext (congrFun h)))
-  haveI : Nontrivial ↥H :=
+  have : Nontrivial ↥H :=
     ⟨⟨φ₀, hφ₀H⟩, 1, fun h => hφ₀ne (congrArg Subtype.val h)⟩
   let actFun : ↥A → ↥H → ↥H := fun a f =>
     ⟨{ toFun := fun x => (a : MulAut W) (f.1 ((G6.coreAct 5 (s a))⁻¹ x))
@@ -199,7 +199,7 @@ theorem exists_equivariant_copy_of_alternatingNatural {W : Type} [CommGroup W] [
     apply MonoidHom.ext
     intro x
     simp [actFun, MulAut.mul_apply, map_mul, mul_inv_rev]
-  letI : MulAction ↥A ↥H :=
+  let : MulAction ↥A ↥H :=
     { smul := actFun
       one_smul := h_one
       mul_smul := h_mul }

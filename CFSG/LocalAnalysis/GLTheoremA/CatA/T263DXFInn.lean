@@ -19,7 +19,7 @@ open CFSG.ComponentClassification.PerfectAutomorphisms (centerQuotientHom)
 private theorem eq_one_of_mem_range_conj {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (hpX : ¬ p ∣ Nat.card X) (hZ : Subgroup.center X = ⊥) {α : MulAut X}
     (hα : α ∈ (MulAut.conj : X →* MulAut X).range) (hαp : α ^ p = 1) : α = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, rfl⟩ := hα
   have hjp : j ^ p = 1 := by
     have hc : j ^ p ∈ Subgroup.center X := Subgroup.mem_center_iff.2 fun x => by
@@ -73,7 +73,7 @@ theorem mem_centralizer_of_isChevSimple_two
       centerQuotientHom ↥J (CFSG.GroupActions.subgroupStabRestrict J ⟨MulAut.conj w, hstab⟩) ∈
         innAutDerived (↥J ⧸ Subgroup.center ↥J)) :
     w ∈ Subgroup.centralizer (J : Set G) := by
-  haveI : Group.IsPerfect ↥J := ⟨hJ.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJ.1⟩
   have hZJ := CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hJ
   have hpow : (⟨MulAut.conj w, hstab⟩ : CFSG.GroupActions.subgroupStabAut J) ^ p = 1 := by
     apply Subtype.ext

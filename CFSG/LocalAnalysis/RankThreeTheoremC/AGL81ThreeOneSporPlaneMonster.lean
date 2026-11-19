@@ -37,7 +37,7 @@ theorem sporPlaneAt_M :
   obtain ⟨e⟩ := hK
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Y443.nonempty_mulEquiv
   have hM := CFSG.Milestones.fam_m_finiteness
-  haveI : Finite MonsterY443Derived :=
+  have : Finite MonsterY443Derived :=
     Nat.finite_of_card_ne_zero (by rw [hM]; norm_num [monsterOrder])
   have hbij : Function.Bijective CFSG.YGroups.Y443.fM :=
     CFSG.RankThree.PartOne.SPOR.fM_surjective.bijective_of_nat_card_le

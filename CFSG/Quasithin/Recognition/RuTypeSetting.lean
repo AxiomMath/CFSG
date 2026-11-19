@@ -165,7 +165,7 @@ theorem mem_S_of_centralizes {l : G} (hl : l ∈ R.L) (hc : ∀ v ∈ ruV R.L, l
 
 abbrev TL : Subgroup G := (R.T : Subgroup G) ⊓ R.L
 
-theorem TL_isPGroup : IsPGroup 2 R.TL := R.T.isPGroup'.to_le inf_le_left
+theorem TL_isPGroup : IsPGroup 2 R.TL := R.T.isPGroup.to_le inf_le_left
 
 variable [Finite G]
 
@@ -310,7 +310,7 @@ theorem one_lt_card_Z : 1 < Nat.card (ruZ R.T) := by
       rw [R.card_TL] at this
       omega
     exact Finite.one_lt_card_iff_nontrivial.mp h
-  have := (R.T.isPGroup').center_nontrivial
+  have := (R.T.isPGroup).center_nontrivial
   obtain ⟨⟨c, hc⟩, hc1⟩ := exists_ne (1 : Subgroup.center (R.T : Subgroup G))
   have hcmem : (c : G) ∈ ruZ R.T := R.mem_Z_iff.mpr ⟨c.2, fun t ht => by
     have := Subgroup.mem_center_iff.mp hc ⟨t, ht⟩
@@ -350,7 +350,7 @@ theorem card_H : Nat.card (ruH R.T) = 2 ^ 11 * 120 := by
 
 theorem T_le_L : (R.T : Subgroup G) ≤ R.L := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := R.T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := R.T.isPGroup.exists_card_eq
   have hdvd : Nat.card (R.T : Subgroup G) ∣ Nat.card (ruH R.T) := Subgroup.card_dvd_of_le R.T_le_H
   rw [hk, R.card_H] at hdvd
   have hk14 : k ≤ 14 := by

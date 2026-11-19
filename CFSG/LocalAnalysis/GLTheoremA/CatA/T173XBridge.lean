@@ -53,8 +53,8 @@ theorem exists_isOmPA_of_chevTwo (hb : CatDistinct.OrderBridge) (hOdd : Chev2Odd
     ∃ l f : ℕ, 4 ≤ l ∧ 1 ≤ f ∧ catalogIs X (isOmPA l (2 ^ f)) := by
   obtain ⟨i, hi, ⟨e⟩⟩ := hX
   rcases i with _ | ⟨n, hn⟩ | d | _
-  · exact absurd hi (by simp [onLie, T173ClassD])
-  · exact absurd hi (by simp [onLie, T173ClassD])
+  · exact absurd hi (by simp [onLie])
+  · exact absurd hi (by simp [onLie])
   · obtain ⟨dd, hv⟩ := d
     cases dd with
     | D r q =>
@@ -94,7 +94,7 @@ theorem exists_isOmPA_of_chevTwo (hb : CatDistinct.OrderBridge) (hOdd : Chev2Odd
         norm_num at hge
         omega
     | _ => exact absurd hi (by simp [onLie, T173ClassD])
-  · exact absurd hi (by simp [onLie, T173ClassD])
+  · exact absurd hi (by simp [onLie])
 
 private theorem exists_isOmMA_of_chevTwo_aux1 (n Q : ℕ) (hQ : Odd Q) :
     Q ^ (n * (n - 1)) ∣ orderTwistedD n Q := by
@@ -127,8 +127,8 @@ theorem exists_isOmMA_of_chevTwo (hb : CatDistinct.OrderBridge) (hOdd : Chev2Odd
     ∃ l f : ℕ, 4 ≤ l ∧ 1 ≤ f ∧ catalogIs X (isOmMA l (2 ^ f)) := by
   obtain ⟨i, hi, ⟨e⟩⟩ := hX
   rcases i with _ | ⟨n, hn⟩ | d | _
-  · exact absurd hi (by simp [onLie, T173ClassTD])
-  · exact absurd hi (by simp [onLie, T173ClassTD])
+  · exact absurd hi (by simp [onLie])
+  · exact absurd hi (by simp [onLie])
   · obtain ⟨dd, hv⟩ := d
     cases dd with
     | twistedD r q =>
@@ -143,7 +143,7 @@ theorem exists_isOmMA_of_chevTwo (hb : CatDistinct.OrderBridge) (hOdd : Chev2Odd
       · exfalso
         have hChevS : IsChevSimple q.p X :=
           Or.inl ⟨TauCeti.CFSGIndex.lie ⟨.twistedD r q, hv⟩, by
-            simp [onLie, TauCeti.LieTypeIndex.characteristic_D], ⟨e⟩⟩
+            simp [onLie], ⟨e⟩⟩
         have hsmall : catalogIs X chev2Small := hOdd q.p X q.prime_p hq2 hchev hChevS
         have hle : Nat.card X ≤ 25920 :=
           CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1110m.card_le_of_catalogIs_chev2Spor_d4cls
@@ -168,7 +168,7 @@ theorem exists_isOmMA_of_chevTwo (hb : CatDistinct.OrderBridge) (hOdd : Chev2Odd
         norm_num at hge
         omega
     | _ => exact absurd hi (by simp [onLie, T173ClassTD])
-  · exact absurd hi (by simp [onLie, T173ClassTD])
+  · exact absurd hi (by simp [onLie])
 
 theorem nontrivial_of_isOmPA {X : Type} [Group X] {l q : ℕ} (hl : 4 ≤ l) (h : catalogIs X (isOmPA l q)) :
     Nontrivial X := by
@@ -276,7 +276,7 @@ private theorem splits_of_isOmPA_aux3 {p l f : ℕ}
   · exact Or.inr h
 
 theorem splits_of_isOmPA (hRig : CFSG.StandardType.GGLabelRigidInput) {Ω : Type} [Group Ω] [Finite Ω]
-    {S B : Subgroup Ω} {p l f : ℕ} (hqs : CFSG.Open.IsQuasisimple ↥S) (hl : 4 ≤ l) (hf : 1 ≤ f)
+    {S B : Subgroup Ω} {p l f : ℕ} (hqs : CFSG.Open.IsQuasisimple ↥S) (hl : 4 ≤ l) (_hf : 1 ≤ f)
     (hS : catalogIs (PSimple p S) (isOmPA l (2 ^ f))) (hsplit : SplitInnerDiagMarking16 p B S) :
     p ∣ 2 ^ f - 1 ∨ (f = 1 ∧ p = 3) := by
   have hqs' : CFSG.IsQuasisimple ↥S :=
@@ -369,7 +369,7 @@ private theorem splits_of_isOmMA_aux3 {p l f : ℕ}
     norm_num
 
 theorem splits_of_isOmMA (hRig : CFSG.StandardType.GGLabelRigidInput) {Ω : Type} [Group Ω] [Finite Ω]
-    {S B : Subgroup Ω} {p l f : ℕ} (hqs : CFSG.Open.IsQuasisimple ↥S) (hl : 4 ≤ l) (hf : 1 ≤ f)
+    {S B : Subgroup Ω} {p l f : ℕ} (hqs : CFSG.Open.IsQuasisimple ↥S) (hl : 4 ≤ l) (_hf : 1 ≤ f)
     (hS : catalogIs (PSimple p S) (isOmMA l (2 ^ f))) (hsplit : SplitInnerDiagMarking16 p B S) :
     p ∣ 2 ^ f - 1 ∨ p ∣ 2 ^ f + 1 := by
   have hqs' : CFSG.IsQuasisimple ↥S :=
@@ -446,7 +446,7 @@ private theorem isPGroup_two_center_of_isOmPA_aux3 {Ω : Type} [Group Ω] [Finit
   classical
   let Z : Subgroup ↥S := Subgroup.center ↥S
   have hZ₂le : Z₂ ≤ Z := hZ₂
-  haveI : Group.IsPerfect ↥S := ⟨hqs.1⟩
+  have : Group.IsPerfect ↥S := ⟨hqs.1⟩
   let ψ : ↥S →* ↥S ⧸ Z₂ := QuotientGroup.mk' Z₂
   have hcenterL : Z.map ψ = Subgroup.center (↥S ⧸ Z₂) :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel ψ
@@ -478,10 +478,10 @@ private theorem isPGroup_two_center_of_isOmPA_aux2
   let P : Sylow 2 Z := default
   let Z₂ : Subgroup ↥S := (P : Subgroup Z).map Z.subtype
   have hZ₂le : Z₂ ≤ Z := Subgroup.map_subtype_le (P : Subgroup Z)
-  haveI : Z₂.Normal := Subgroup.normal_of_le_center hZ₂le
-  haveI : Z.Normal := Subgroup.normal_of_le_center (le_refl Z)
+  have : Z₂.Normal := Subgroup.normal_of_le_center hZ₂le
+  have : Z.Normal := Subgroup.normal_of_le_center (le_refl Z)
   let ψ : ↥S →* ↥S ⧸ Z₂ := QuotientGroup.mk' Z₂
-  haveI : Group.IsPerfect ↥S := ⟨hqs.1⟩
+  have : Group.IsPerfect ↥S := ⟨hqs.1⟩
   have hLq : CFSG.IsQuasisimple (↥S ⧸ Z₂) :=
     CFSG.LocalAnalysis.GLTheoremA.S172X.isQuasisimple_of_open
       (CFSG.ComponentClassification.Quasisimple.central_quotient hqs Z₂ hZ₂le)
@@ -489,7 +489,7 @@ private theorem isPGroup_two_center_of_isOmPA_aux2
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel ψ
       (QuotientGroup.mk'_surjective Z₂) (by rw [QuotientGroup.ker_mk']; exact hZ₂le)
   have hmodelQ : StatedClassicalModel ((↥S ⧸ Z₂) ⧸ Subgroup.center (↥S ⧸ Z₂)) .POmegaPlus l 2 f := by
-    haveI : (Z.map ψ).Normal := by rw [hcenterL]; infer_instance
+    have : (Z.map ψ).Normal := by rw [hcenterL]; infer_instance
     exact CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv
       ((QuotientGroup.congr (Z.map ψ) (Subgroup.center (↥S ⧸ Z₂)) (MulEquiv.refl _)
         (by simpa using hcenterL)).symm.trans
@@ -503,11 +503,11 @@ private theorem isPGroup_two_center_of_isOmPA_aux2
     rw [Subgroup.map_eq_bot_iff] at hmapbot
     rwa [QuotientGroup.ker_mk'] at hmapbot
   change IsPGroup 2 Z
-  exact (le_antisymm hZle hZ₂le).symm ▸ (P.isPGroup'.map Z.subtype)
+  exact (le_antisymm hZle hZ₂le).symm ▸ (P.isPGroup.map Z.subtype)
 
 theorem isPGroup_two_center_of_isOmPA
     {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
-    (hqs : CFSG.Open.IsQuasisimple ↥S) {p l f : ℕ} (hl : 4 ≤ l) (hf : 1 ≤ f)
+    (hqs : CFSG.Open.IsQuasisimple ↥S) {p l f : ℕ} (hl : 4 ≤ l) (_hf : 1 ≤ f)
     (hS : catalogIs (PSimple p S) (isOmPA l (2 ^ f))) : IsPGroup 2 (Subgroup.center ↥S) :=
   isPGroup_two_center_of_isOmPA_aux2 hqs (isPGroup_two_center_of_isOmPA_aux1 hqs hl hS)
 
@@ -566,10 +566,10 @@ private theorem isPGroup_two_center_of_isOmMA_aux2
   let P : Sylow 2 Z := default
   let Z₂ : Subgroup ↥S := (P : Subgroup Z).map Z.subtype
   have hZ₂le : Z₂ ≤ Z := Subgroup.map_subtype_le (P : Subgroup Z)
-  haveI : Z₂.Normal := Subgroup.normal_of_le_center hZ₂le
-  haveI : Z.Normal := Subgroup.normal_of_le_center (le_refl Z)
+  have : Z₂.Normal := Subgroup.normal_of_le_center hZ₂le
+  have : Z.Normal := Subgroup.normal_of_le_center (le_refl Z)
   let ψ : ↥S →* ↥S ⧸ Z₂ := QuotientGroup.mk' Z₂
-  haveI : Group.IsPerfect ↥S := ⟨hqs.1⟩
+  have : Group.IsPerfect ↥S := ⟨hqs.1⟩
   have hLq : CFSG.IsQuasisimple (↥S ⧸ Z₂) :=
     CFSG.LocalAnalysis.GLTheoremA.S172X.isQuasisimple_of_open
       (CFSG.ComponentClassification.Quasisimple.central_quotient hqs Z₂ hZ₂le)
@@ -577,7 +577,7 @@ private theorem isPGroup_two_center_of_isOmMA_aux2
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel ψ
       (QuotientGroup.mk'_surjective Z₂) (by rw [QuotientGroup.ker_mk']; exact hZ₂le)
   have hmodelQ : StatedClassicalModel ((↥S ⧸ Z₂) ⧸ Subgroup.center (↥S ⧸ Z₂)) .POmegaMinus l 2 f := by
-    haveI : (Z.map ψ).Normal := by rw [hcenterL]; infer_instance
+    have : (Z.map ψ).Normal := by rw [hcenterL]; infer_instance
     exact CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv
       ((QuotientGroup.congr (Z.map ψ) (Subgroup.center (↥S ⧸ Z₂)) (MulEquiv.refl _)
         (by simpa using hcenterL)).symm.trans
@@ -591,11 +591,11 @@ private theorem isPGroup_two_center_of_isOmMA_aux2
     rw [Subgroup.map_eq_bot_iff] at hmapbot
     rwa [QuotientGroup.ker_mk'] at hmapbot
   change IsPGroup 2 Z
-  exact (le_antisymm hZle hZ₂le).symm ▸ (P.isPGroup'.map Z.subtype)
+  exact (le_antisymm hZle hZ₂le).symm ▸ (P.isPGroup.map Z.subtype)
 
 theorem isPGroup_two_center_of_isOmMA
     {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
-    (hqs : CFSG.Open.IsQuasisimple ↥S) {p l f : ℕ} (hl : 4 ≤ l) (hf : 1 ≤ f)
+    (hqs : CFSG.Open.IsQuasisimple ↥S) {p l f : ℕ} (hl : 4 ≤ l) (_hf : 1 ≤ f)
     (hS : catalogIs (PSimple p S) (isOmMA l (2 ^ f))) : IsPGroup 2 (Subgroup.center ↥S) :=
   isPGroup_two_center_of_isOmMA_aux2 hqs (isPGroup_two_center_of_isOmMA_aux1 hqs hl hS)
 
@@ -615,8 +615,8 @@ theorem exists_model_D
   have hBin := S172B.mem_sup_centralizer_of_innerDiagMarking_plus hRig hcfg.qs hl hS
     (innerDiagMarking_of_split16 hcfg.split)
   obtain ⟨e⟩ := hθ (PSimple p S) hS
-  haveI : Nontrivial (PSimple p S) := nontrivial_of_isOmPA hl hS
-  haveI : Nontrivial ↥(CFSG.RankThree.Classical2.orthDerived Q) := e.injective.nontrivial
+  have : Nontrivial (PSimple p S) := nontrivial_of_isOmPA hl hS
+  have : Nontrivial ↥(CFSG.RankThree.Classical2.orthDerived Q) := e.injective.nontrivial
   obtain ⟨M⟩ := S172X.S172Model.nonempty_of_pSimple_equiv hcfg.normal hcfg.qs hBin e
   exact ⟨l, f, F, hFf, hFfin, hFchar, V, hVa, hVm, hVfd, Q, hl, hF, hnd, hdim, hplus,
     splits_of_isOmPA hRig hcfg.qs hl hf hS hcfg.split, isPGroup_two_center_of_isOmPA hcfg.qs hl hf hS, ⟨M⟩⟩
@@ -637,8 +637,8 @@ theorem exists_model_TD
   have hBin := S172C.mem_sup_centralizer_of_innerDiagMarking hRig hcfg.qs hl hS
     (innerDiagMarking_of_split16 hcfg.split)
   obtain ⟨e⟩ := hθ (PSimple p S) hS
-  haveI : Nontrivial (PSimple p S) := nontrivial_of_isOmMA hl hS
-  haveI : Nontrivial ↥(CFSG.RankThree.Classical2.orthDerived Q) := e.injective.nontrivial
+  have : Nontrivial (PSimple p S) := nontrivial_of_isOmMA hl hS
+  have : Nontrivial ↥(CFSG.RankThree.Classical2.orthDerived Q) := e.injective.nontrivial
   obtain ⟨M⟩ := S172X.S172Model.nonempty_of_pSimple_equiv hcfg.normal hcfg.qs hBin e
   exact ⟨l, f, F, hFf, hFfin, hFchar, V, hVa, hVm, hVfd, Q, hl, hF, hnd, hdim, hminus,
     splits_of_isOmMA hRig hcfg.qs hl hf hS hcfg.split, isPGroup_two_center_of_isOmMA hcfg.qs hl hf hS, ⟨M⟩⟩

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_mem_s13Supp_zpowers_iff {p : ℕ} {X : Subgroup (MulAut W)}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam)
     {z : MulAut W} (hz : z ∈ X) (U : s13IsoComps X) :
@@ -19,7 +20,7 @@ private theorem w16g_mem_s13Supp_zpowers_iff {p : ℕ} {X : Subgroup (MulAut W)}
       lam U (Additive.ofMul ⟨z, hz⟩) ≠ 0 := by
   have h1 : (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers z) ↔
       commSub (U : Subgroup W) (Subgroup.zpowers z) ≠ ⊥ := by
-    simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+    simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   rw [h1]
   simpa using (coord_ne_zero_iff hl ⟨z, hz⟩ U).symm
 
@@ -29,10 +30,10 @@ theorem s13_card_XSupp_lt (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (
     {B : Set (Subgroup W)} (hB : B ⊆ s13IsoComps X) (hBne : B.Nonempty) :
     Nat.card ↥(s13XSupp X B) < p ^ B.ncard := by
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := NeZero.of_pos hp.pos
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := NeZero.of_pos hp.pos
   obtain ⟨lam, hl⟩ := exists_coord hW hp hp2 hX
   let φ : ↥(s13XSupp X B) → (↥B → ZMod p) := fun x U =>
     lam ⟨U.1, hB U.2⟩ (Additive.ofMul ⟨x.1, s13XSupp_le x.2⟩)
@@ -123,7 +124,7 @@ variable {A X Q : Subgroup (MulAut W)} {t : MulAut W}
 
 private theorem w16g_odd_card_of_isElemAbelian_seven {X : Subgroup (MulAut W)}
     (hX : IsElemAbelian 7 X) : Odd (Nat.card X) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hpg : IsPGroup 7 X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 x.1 x.2)⟩
@@ -131,17 +132,20 @@ private theorem w16g_odd_card_of_isElemAbelian_seven {X : Subgroup (MulAut W)}
   rw [hm]
   exact Odd.pow (by norm_num : Odd 7)
 
+omit [Finite W] in
 private theorem w16g_map_mem_s13IsoComps' {A X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (U : ↥(s13IsoComps X)) :
     U.1.map g.toMonoidHom ∈ s13IsoComps X :=
   map_mem_s13IsoComps (hXA g hg) (by simpa using hXA g⁻¹ (A.inv_mem hg)) U.2
 
+omit [Finite W] in
 private theorem w16g_conj_map_conj (Q : Subgroup (MulAut W)) (g a : MulAut W) :
     (Q.map (MulAut.conj a).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       Q.map (MulAut.conj (g * a)).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_s13SuppGraph_adj_map {A X Q : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X)
     {U U' : ↥(s13IsoComps X)} (h : (s13SuppGraph A X Q).Adj U U') :
@@ -165,6 +169,7 @@ private theorem w16g_s13SuppGraph_adj_map {A X Q : Subgroup (MulAut W)} {g : Mul
         w16g_s13Supp_conj (hXA g hg) (by simpa using hXA g⁻¹ (A.inv_mem hg)), hsupp,
         Set.image_pair]
 
+omit [Finite W] in
 private theorem w16g_s13CompSet_image_eq {A X Q : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ A) (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X)
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
@@ -218,6 +223,7 @@ private theorem w16g_s13CompSet_image_eq {A X Q : Subgroup (MulAut W)} {g : MulA
     (fun U : Subgroup W => U.map g.toMonoidHom) '' (Subtype.val '' c.supp)
   rw [← hsupp, Set.image_image, Set.image_image]
 
+omit [Finite W] in
 private theorem w16g_s13CompSet_conj_disjoint_or_eq {A X Q : Subgroup (MulAut W)}
     (hXA : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) {g : MulAut W} (hg : g ∈ A)
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
@@ -248,7 +254,7 @@ theorem s13_seven_branch (h : HAb A X Q t 7) :
   classical
   by_cases hH0 : ∀ y ∈ X, y ≠ 1 → (s13Supp X (Subgroup.zpowers y)).ncard ≠ 1
   ·
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian_seven h.hXe
     have hQ7 : Nat.card ↥Q = 7 := h.hQ7 rfl
     have h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2 := by
@@ -278,7 +284,7 @@ theorem s13_seven_branch (h : HAb A X Q t 7) :
         exact hne01 (congrArg Subtype.val heq)
       · have hmap1 : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
           rw [show (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) from by
-            ext x; simp [MulAut.conj_apply], Subgroup.map_id]
+            ext x; simp, Subgroup.map_id]
         rw [hmap1]; exact hsuppQ
     have hU₀C : U₀ ∈ C :=
       ⟨v₀, SimpleGraph.ConnectedComponent.connectedComponentMk_mem, rfl⟩
@@ -325,7 +331,7 @@ theorem s13_seven_branch (h : HAb A X Q t 7) :
       exact iSup_subtype' (p := fun U => U ∈ C) (f := fun U (_ : U ∈ C) => U)
     have hindC : iSupIndep (fun U : ↥C => (U.1 : Subgroup W)) :=
       (sSupIndep_iff C).mp ((s13IsoComps_sSupIndep h.hW hodd).mono hCsub)
-    haveI : Fintype ↥C := Fintype.ofFinite _
+    have : Fintype ↥C := Fintype.ofFinite _
     have hrkL : rk ↥(commSub ⊤ L) = 3 * C.ncard := by
       rw [hcomm_eq, w16g_rk_iSup_eq_sum (fun w => by rw [pow_two]; exact h.hW w)
         (fun U : ↥C => (U.1 : Subgroup W)) hindC]
@@ -654,7 +660,7 @@ theorem s13_seven_branch (h : HAb A X Q t 7) :
       · exact hrk
     have hcyc : IsCyclicOrd ↥L 7 := by
       refine ⟨?_, hLcard⟩
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       exact isCyclic_of_prime_card hLcard
     have hconc : Conc4_133 A t L := by
       refine ⟨7, by norm_num, hLX.trans h.hXO, hLcomm, hind, ?_⟩

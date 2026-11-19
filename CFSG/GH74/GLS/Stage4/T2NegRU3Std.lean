@@ -75,7 +75,7 @@ theorem rstdU3 (h : UnitaryFieldData p n K) : p ≠ 2 → CFSG.GH74.GLS.IVK.Proo
   obtain ⟨hU, ⟨P, hP⟩, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
   have hUp : IsPGroup p (hypUnitriangular h 1 1) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   refine ⟨hypUnitriangular h 1 1, ?_, hUp, X0U_le_unitriangular, hypUnitriangular_le_centralizer, ?_,
     ?_, commutator_hypUnitriangular.ge, ?_, ?_⟩
   · exact (pCoreOf_eq_of_sylow P hP hypUnitriangular_le_centralizer

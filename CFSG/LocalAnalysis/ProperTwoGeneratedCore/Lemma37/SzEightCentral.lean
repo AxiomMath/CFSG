@@ -163,7 +163,7 @@ theorem false_of_szModel_of_normal
     apply sylowBar_injective hz
     rw [hudef, sylowBar_self]
     exact hs.eq_bar_of_mem_centralizer c.2 h2
-  have hT2 : IsPGroup 2 T := S.isPGroup'.to_subgroup T
+  have hT2 : IsPGroup 2 T := S.isPGroup.to_subgroup T
   let χ : T →* (sylowStar hz J : Subgroup (J ⧸ Subgroup.center J)) :=
     (φ.comp (τ.comp (Subgroup.inclusion hTt))).codRestrict _ fun c => hφ.mem_sylow _
   have hχu : χ u ≠ 1 := fun h => hφs (congrArg Subtype.val h)

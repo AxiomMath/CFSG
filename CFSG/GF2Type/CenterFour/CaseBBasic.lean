@@ -12,12 +12,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 theorem CaseB.not_mem_core (hC : Config z n) {z₁ : G}
     (hK : z₁ ∉ centralizer (centerAt z : Set G)) : z₁ ∉ coreAt z :=
   fun h => hK (hC.core_le_centralizer_center h)
 
+omit [Finite G] in
 theorem CaseB.not_mem_centralizer_center (hC : Config z n) {g : G}
-    (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
+    (_hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
     (hK : g⁻¹ * z * g ∉ centralizer (centerAt z : Set G)) :
     z ∉ centralizer (centerAt (g⁻¹ * z * g) : Set G) := by
   intro h
@@ -27,11 +29,13 @@ theorem CaseB.not_mem_centralizer_center (hC : Config z n) {g : G}
   rw [centerAt_conj z g] at hle
   exact CaseB.not_mem_core hC hK ((hC.center_le_iff g).mp hle)
 
+omit [Finite G] in
 theorem CaseB.mem (hC : Config z n) {z₁ : G} (hH : z₁ ∈ centralizer ({z} : Set G)) :
     z ∈ coreAt z ⊓ centralizer ({z₁} : Set G) :=
   ⟨hC.mem_core,
     Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_singleton_iff.mp hH).symm⟩
 
+omit [Finite G] in
 private theorem isMulCommutative_of_sq_eq_one (U : Subgroup G) (h : ∀ x ∈ U, x ^ 2 = 1) :
     IsMulCommutative U := by
   refine ⟨⟨fun a b => ?_⟩⟩

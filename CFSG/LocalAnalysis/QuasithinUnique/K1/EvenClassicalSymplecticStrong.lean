@@ -186,7 +186,7 @@ theorem noStronglyClosed_statedSp [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K)
     unique_symplectic_four_Sylow_center (K := K) (Nat.card K) rfl
   have hQ₀ : IsSylowTwoOf (unipotent 2 K) ⊤ := by
     rw [← hS]
-    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   refine noStronglyClosedElemAbelian_of_sylow _ hQ₀ fun A hW => ?_
   by_contra hne
   have hAn : ∀ a ∈ A, ∀ q ∈ unipotent 2 K, q⁻¹ * a * q ∈ A := fun a ha q hq => by

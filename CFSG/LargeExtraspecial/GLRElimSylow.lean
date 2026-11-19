@@ -20,7 +20,7 @@ theorem exists_isSylowIn_le {H P : Subgroup G} (hPH : P ≤ H) (hP : IsPGroup 2 
   have hP' : IsPGroup 2 (P.subgroupOf H) := hP.of_equiv (subgroupOfEquivOfLe hPH).symm
   obtain ⟨R, hR⟩ := hP'.exists_le_sylow
   refine ⟨(R : Subgroup H).map H.subtype, fun p hp => ⟨⟨p, hPH hp⟩, hR hp, rfl⟩,
-    ⟨fun _ ⟨r, _, hr⟩ => hr ▸ r.2, R.isPGroup'.map _, ?_⟩⟩
+    ⟨fun _ ⟨r, _, hr⟩ => hr ▸ r.2, R.isPGroup.map _, ?_⟩⟩
   rw [relIndex]
   change ¬ 2 ∣ (comap H.subtype (map H.subtype (R : Subgroup H))).index
   rw [comap_map_eq_self_of_injective H.subtype_injective]

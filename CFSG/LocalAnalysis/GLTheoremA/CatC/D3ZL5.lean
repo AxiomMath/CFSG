@@ -76,7 +76,7 @@ theorem eq_or_outer {J : Set (Fin Tag.D4.rank)}
 
 theorem torus_le_normalizer_Uk (k : Fin Tag.D4.rank) :
     torusGroup Tag.D4 K ≤ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) := fun t ht => by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨b, rfl⟩ := torusGroup_le_range ht
   refine mem_normalizer_of_forall_conj_mem (Uk K k) fun u hu => ?_
   obtain ⟨c, rfl⟩ := mem_Uk.1 hu
@@ -86,7 +86,7 @@ theorem torus_le_normalizer_Uk (k : Fin Tag.D4.rank) :
 
 theorem torus_le_normalizer_Lk (k : Fin Tag.D4.rank) :
     torusGroup Tag.D4 K ≤ Subgroup.normalizer (Lk K k : Set (ModGL Tag.D4 K)) := fun t ht => by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨b, rfl⟩ := torusGroup_le_range ht
   refine mem_normalizer_of_forall_conj_mem (Lk K k) fun u hu => ?_
   obtain ⟨X, rfl⟩ := mem_Lk.1 hu
@@ -98,7 +98,7 @@ theorem closure_le_normalizer_Uk {J : Set (Fin Tag.D4.rank)}
     (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank))) {k : Fin Tag.D4.rank} (hk : k ∈ J) :
     Subgroup.closure {x | ∃ j ∈ J, ∃ c : K, x = xUnit Tag.D4 K j c} ≤
       Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨j, hj, c, rfl⟩
   rcases eq_or_outer hJ hj hk with rfl | ⟨hjk, hjo, hko⟩
@@ -111,7 +111,7 @@ theorem closure_le_normalizer_Uk {J : Set (Fin Tag.D4.rank)}
 theorem levi_le_normalizer_Lk {J : Set (Fin Tag.D4.rank)}
     (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank))) {k : Fin Tag.D4.rank} (hk : k ∈ J) :
     parabolicLevi Tag.D4 K J ≤ Subgroup.normalizer (Lk K k : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   refine sup_le (torus_le_normalizer_Lk k) ((Subgroup.closure_le _).2 ?_)
   rintro _ ⟨j, hj, c, rfl | rfl⟩
   · rcases eq_or_outer hJ hj hk with rfl | ⟨hjk, hjo, hko⟩
@@ -270,7 +270,7 @@ theorem bar_Uk_surj (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)))
     {k : Fin Tag.D4.rank} (hk : k ∈ J) :
     ∀ y ∈ Uk K ((d4Rho ^ ε) k), ∃ x ∈ Uk K k,
       (semiDirect_levi (K := K) J).bar (phiG g a σ ε) x = y := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   let f : Uk K k → Uk K ((d4Rho ^ ε) k) := fun x =>
     ⟨(semiDirect_levi (K := K) J).bar (phiG g a σ ε) x, bar_Uk_le hJ hg hJρ hk x.2⟩
   have hinj : Function.Injective f := fun x x' hxx' =>

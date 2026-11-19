@@ -58,8 +58,8 @@ theorem exists_pair_card_odd [Finite S] {D R : Subgroup S} {ℓ : ℕ} (hℓ : �
     ∃ g : S, Odd (Nat.card (D ⊔ D.map (MulAut.conj g).toMonoidHom : Subgroup S)) ∧
       Nat.card (D ⊔ D.map (MulAut.conj g).toMonoidHom : Subgroup S) ≠ 3 ∧
       Nat.card (D ⊔ D.map (MulAut.conj g).toMonoidHom : Subgroup S) ≠ 9 := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3 : IsPGroup 3 D := IsPGroup.of_card (n := 1) (by rw [hD, pow_one])
   have hinf : D ⊓ R = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_coprime hD3 hR

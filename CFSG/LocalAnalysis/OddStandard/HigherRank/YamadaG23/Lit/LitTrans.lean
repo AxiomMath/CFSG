@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {X : Type*} [Group X] [Finite X] {Z A : Subgroup X} [Z.Normal]
 
+omit [Finite X] in
 private lemma litMap_subgroupOf_eq (h : LitCtx Z A) (g : ↥(normalizer (A : Set X))) :
     (Z.subgroupOf A).map
         ((Subgroup.normalizerMonoidHom (H := A) g : MulAut ↥A) : ↥A →* ↥A) =
@@ -48,6 +49,7 @@ private noncomputable def litQuotAction (h : LitCtx Z A) :
           QuotientGroup.congr_mk]
         simp [map_mul])
 
+omit [Finite X] in
 private lemma litQuotAction_mk (h : LitCtx Z A) (g : ↥(normalizer (A : Set X))) (a : ↥A) :
     litQuotAction h g (a : ↥A ⧸ Z.subgroupOf A) =
       ((Subgroup.normalizerMonoidHom (H := A) g a : ↥A) : ↥A ⧸ Z.subgroupOf A) := by
@@ -56,6 +58,7 @@ private lemma litQuotAction_mk (h : LitCtx Z A) (g : ↥(normalizer (A : Set X))
     (a : ↥A ⧸ Z.subgroupOf A) = _
   rw [QuotientGroup.congr_mk]
 
+omit [Finite X] in
 private lemma lit_val_conj_inv_mul (g : ↥(normalizer (A : Set X))) (a : ↥A) :
     (((Subgroup.normalizerMonoidHom (H := A) g) a)⁻¹ * a : ↥A).val =
       (g : X) * (a : X)⁻¹ * (g : X)⁻¹ * (a : X) := by
@@ -63,6 +66,7 @@ private lemma lit_val_conj_inv_mul (g : ↥(normalizer (A : Set X))) (a : ↥A) 
     Subgroup.normalizerMonoidHom_apply_apply_coe]
   group
 
+omit [Finite X] in
 private lemma litQuotAction_eq_one_iff (h : LitCtx Z A)
     (g : ↥(normalizer (A : Set X))) :
     litQuotAction h g = 1 ↔ ∀ a ∈ A, ⁅a, (g : X)⁆ ∈ Z := by

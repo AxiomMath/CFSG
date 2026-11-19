@@ -145,7 +145,7 @@ theorem exists_sylow_image (Ā : Subgroup (D ⧸ aschbacherThm5OddCore D)) {T : 
         congrArg Subtype.val hx
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
       have hodd := Subgroup.orderOf_dvd_natCard (aschbacherThm5OddCore D) h1
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') x
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) x
       rw [Subgroup.mem_bot]
       have hxo : orderOf x = orderOf (Subgroup.inclusion (preimage_le D Ā)
           (x : aschbacherThm5Preimage D Ā)) := by
@@ -186,7 +186,7 @@ theorem false_of_sylow_le (hyp : Hyp61 G D r Abar) {k l : Fin r} (hkl : k ≠ l)
     change (y : D ⧸ aschbacherThm5OddCore D) * p = p * y
     rw [hpt]
     exact hyp.hcomm k l hkl y y.2 _ ((mem_preimage_iff D _ ⟨t, htD⟩).mp (hTl htT))
-  have h8 := AschbacherToolkit.central_sylow_commutator P hPc P.isPGroup'
+  have h8 := AschbacherToolkit.central_sylow_commutator P hPc P.isPGroup
   rw [hperf.commutator_eq_top, inf_top_eq] at h8
   have hab : commutator (P : Subgroup (Abar k)) = ⊥ := by
     rw [eq_bot_iff, _root_.commutator_def, Subgroup.commutator_le]
@@ -241,7 +241,7 @@ theorem closed_in_normalizer (hin : SectionSevenInputs) (hC : Counterexample G D
     rw [hx1, mul_one, inv_mul_cancel]
     exact T₀.one_mem
   by_cases hyH : y ∈ Subgroup.normalizer (D : Set G)
-  · exact mem_union_of_conj_mem hyp hfin h01 hT₀ hT₁ S.isPGroup' hT₀S hT₁S hx hyH hxyS
+  · exact mem_union_of_conj_mem hyp hfin h01 hT₀ hT₁ S.isPGroup hT₀S hT₁S hx hyH hxyS
   exfalso
   obtain ⟨a, hxa, X, hxX, hX2⟩ : ∃ a, x ∈ aschbacherThm5Preimage D (Abar a) ∧
       ∃ X : Subgroup G, x ∈ X ∧ X ≤ aschbacherThm5Preimage D (Abar a) ∧ IsPGroup 2 X := by
@@ -312,7 +312,7 @@ theorem lemma_8_4 (hin : SectionSevenInputs) (hC : Counterexample G D r Abar) {i
   refine ⟨?_, closed_in_normalizer hin hC hfin h01 hT₀ hT₁ S hT₀S hT₁S hT₀,
     closed_in_normalizer hin hC hfin h01 hT₀ hT₁ S hT₀S hT₁S hT₁⟩
   intro x hx y hy hxy
-  exact mem_union_of_conj_mem hC.hyp hfin h01 hT₀ hT₁ S.isPGroup' hT₀S hT₁S hx
+  exact mem_union_of_conj_mem hC.hyp hfin h01 hT₀ hT₁ S.isPGroup hT₀S hT₁S hx
     (overlapClosure_le hC hT₀.le hT₁.le hT₀.isPGroup hT₁.isPGroup hy) (Subgroup.mem_inf.mp hxy).2
 
 end Fusion

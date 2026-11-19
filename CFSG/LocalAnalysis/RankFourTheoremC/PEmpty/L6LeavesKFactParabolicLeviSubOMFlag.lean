@@ -17,6 +17,7 @@ open CFSG.Open Subgroup CFSG.AGLEmbedding.LeviBlock CFSG.LocalAnalysis.Component
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
 open scoped Pointwise in
+omit [Finite K] [CharP K 2] in
 theorem orthMinus_exists_eq_orthParab {r : ℕ} (hr : 3 ≤ r) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {K₀ : Subgroup ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))}
     (hB : (tailBorel r (minusTailForm K b c)).subgroupOf
@@ -79,7 +80,7 @@ theorem orthMinus_leviSubAt_of_orthParab {r : ℕ} (hr : 3 ≤ r)
     (h : ∀ (s : ℕ) (d : Fin (s + 1) → ℕ), OrthCuts r d → ∀ p : ℕ,
       LeviAt (orthParab r (minusTailForm K b c) d) p) :
     LeviSubAt ↥(orthElementaryGroup (quadTail r (minusTailForm K b c))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hani := anisotropic_minusTailForm hirr
   have hreg := nondegenerate_minusTailForm hirr
   obtain ⟨⟨U, hU⟩, hNU, -⟩ := orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hr hani hreg

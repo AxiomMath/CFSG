@@ -252,18 +252,18 @@ theorem trace_diag_indPiMap [DecidableEq (RightCosets S)] (g : G) (q : RightCose
     ext v
     simp only [coe_comp, Function.comp_apply, proj_apply, indPiMap_apply, single_apply]
     by_cases h : Quotient.mk (QuotientGroup.rightRel S) (Quotient.out q * g) = q
-    · rw [if_pos h, h, Pi.single_eq_same]
-    · rw [if_neg h, Pi.single_eq_of_ne h]; simp
+    · rw [ite_eq_left h, h, Pi.single_eq_same]
+    · rw [ite_eq_right h, Pi.single_eq_of_ne h]; simp
   rw [hdiag]
   by_cases h : Quotient.mk (QuotientGroup.rightRel S) (Quotient.out q * g) = q
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hout : Quotient.out (Quotient.mk (QuotientGroup.rightRel S) (Quotient.out q * g))
         = Quotient.out q := by rw [h]
     have hkey : (subgroupPart S (Quotient.out q * g) : G)
         = Quotient.out q * g * (Quotient.out q)⁻¹ := by rw [subgroupPart_coe, hout]
     rw [← hkey, subgroupExtend_coe]
     rfl
-  · rw [if_neg h, map_zero]
+  · rw [ite_eq_right h, map_zero]
     refine (subgroupExtend_of_notMem _ _ ?_).symm
     intro hmem
     refine h ?_

@@ -71,8 +71,8 @@ theorem false_of_classicalModel_psl {G : Type} [Group G] [Finite G] {n f : ℕ}
     rw [map_pow, hA, ← map_pow, hβ5, map_one]
   obtain ⟨c, hc⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.exists_eq_scalar_of_conjAut_eq_one hn hA5
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP k 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
   have h5k : ((5 : ℕ) : k) ≠ 0 := fun h0 =>
     absurd ((CharP.cast_eq_zero_iff k 2 5).1 h0) (by norm_num)
   have hJ' : IsComponentOf (J.map (ψ : G →* projectiveSL n k)) (fixSubgroup (conjAut n k A)) := by

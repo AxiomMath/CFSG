@@ -118,7 +118,7 @@ theorem IsIsoOn.exists_inv {f : G → G'} (hf : IsIsoOn K K' f) :
   have hg : ∀ y ∈ K', g y ∈ K ∧ f (g y) = y := by
     intro y hy
     have h : ∃ x ∈ K, f x = y := hf.surjOn y hy
-    simp only [g, dif_pos h]
+    simp only [g, dite_eq_left h]
     exact Classical.choose_spec h
   have hgf : ∀ x ∈ K, g (f x) = x := by
     intro x hx

@@ -46,7 +46,7 @@ abbrev Rec := Nat × List Nat × List (Nat × Nat × Nat × Nat) ×
 
 @[expose] noncomputable def clearB (bs k : Nat) : Bool := Nat.beq (Nat.land (Nat.shiftRight bs k) 1) 0
 
-@[expose] noncomputable def cloK (m3 sh n : Nat) (G C : List (Nat × Nat)) :
+@[expose] noncomputable def cloK (m3 sh n : Nat) (G _C : List (Nat × Nat)) :
     List (Nat × Nat × Nat × Nat) → Nat → Nat → List (Nat × Nat) → Bool :=
   List.rec (motive := fun _ => Nat → Nat → List (Nat × Nat) → Bool) (fun _ _ _ => true)
     (fun e _ ih i cur suf =>

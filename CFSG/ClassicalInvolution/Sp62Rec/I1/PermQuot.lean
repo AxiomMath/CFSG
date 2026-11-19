@@ -27,8 +27,7 @@ theorem commutator_le_of_sup {Γ : Type*} [Group Γ] (N Zs : Subgroup Γ) [N.Nor
   rw [← QuotientGroup.eq_one_iff (N := N)]
   have h1 : (z₁ * n₁ : Γ) = z₁ * n₁ := rfl
   simp only [commutatorElement_def, QuotientGroup.mk_mul, QuotientGroup.mk_inv,
-    (QuotientGroup.eq_one_iff n₁).mpr hn₁, (QuotientGroup.eq_one_iff n₂).mpr hn₂, mul_one,
-    inv_one]
+    (QuotientGroup.eq_one_iff n₁).mpr hn₁, (QuotientGroup.eq_one_iff n₂).mpr hn₂, mul_one]
   have := hZ z₁ hz₁ z₂ hz₂
   have h2 : ((z₁ : Γ) : Γ ⧸ N) * (z₂ : Γ ⧸ N) = (z₂ : Γ ⧸ N) * (z₁ : Γ ⧸ N) := by
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, this]
@@ -172,7 +171,7 @@ theorem hom_eq_one_of_perfect_quotient {N Q A : Type*} [Group N] [Group Q] [Comm
     have hcomm : commutator Q ≤ s'.ker := by
       rw [commutator_def, Subgroup.commutator_le]
       intro a _ b _
-      simp [commutatorElement_def, MonoidHom.mem_ker, map_mul, mul_comm]
+      simp [commutatorElement_def, MonoidHom.mem_ker, map_mul]
     have htop : commutator Q = ⊤ := hQ.commutator_eq_top
     intro y
     exact MonoidHom.mem_ker.mp (hcomm (htop ▸ Subgroup.mem_top y))
@@ -189,12 +188,12 @@ theorem hom_eq_one_of_perfect_quotient {N Q A : Type*} [Group N] [Group Q] [Comm
 theorem normal_le_alternating_eq {T : Subgroup (Perm (Fin 6))} (hT : T ≤ alternatingGroup (Fin 6))
     (hn : ∀ a ∈ alternatingGroup (Fin 6), ∀ x ∈ T, a * x * a⁻¹ ∈ T) :
     T = ⊥ ∨ T = alternatingGroup (Fin 6) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hnorm : (T.subgroupOf (alternatingGroup (Fin 6))).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hn g g.2 x hx
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf (alternatingGroup (Fin 6)))
     with h | h
   · left

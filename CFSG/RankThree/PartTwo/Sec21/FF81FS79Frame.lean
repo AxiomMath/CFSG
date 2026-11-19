@@ -12,6 +12,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79 Equiv
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 theorem FS79Hyp.zpowers_t_inf_J (h : FS79Hyp b t b₁ b₂ J) : Subgroup.zpowers t ⊓ J = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨hx, hxJ⟩
@@ -27,6 +28,7 @@ noncomputable def frame (A₁ : Subgroup J6.S6) : Subgroup H := Subgroup.zpowers
 
 include S
 
+omit [Finite H] in
 theorem comm_zpowers_map (A₁ : Subgroup J6.S6) :
     ∀ a ∈ Subgroup.zpowers t, ∀ c ∈ A₁.map S.ι, Commute a c := by
   intro a ha c hc
@@ -34,6 +36,7 @@ theorem comm_zpowers_map (A₁ : Subgroup J6.S6) :
   obtain ⟨s, -, rfl⟩ := hc
   exact Commute.zpow_left (show Commute t (S.ι s) from (S.ι_comm_t s).symm) k
 
+omit [Finite H] in
 theorem mem_frame_iff (A₁ : Subgroup J6.S6) (x : H) :
     x ∈ S.frame A₁ ↔ ∃ s ∈ A₁, x = S.ι s ∨ x = t * S.ι s := by
   constructor
@@ -48,19 +51,24 @@ theorem mem_frame_iff (A₁ : Subgroup J6.S6) (x : H) :
     · exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.mem_zpowers t))
         (Subgroup.mem_sup_right ⟨s, hs, rfl⟩)
 
+omit [Finite H] in
 theorem ι_mem_frame {A₁ : Subgroup J6.S6} {s : J6.S6} (hs : s ∈ A₁) : S.ι s ∈ S.frame A₁ :=
   Subgroup.mem_sup_right ⟨s, hs, rfl⟩
 
+omit [Finite H] in
 theorem t_mem_frame (A₁ : Subgroup J6.S6) : t ∈ S.frame A₁ :=
   Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
 
+omit [Finite H] in
 theorem t_ι_mem_frame {A₁ : Subgroup J6.S6} {s : J6.S6} (hs : s ∈ A₁) :
     t * S.ι s ∈ S.frame A₁ :=
   Subgroup.mul_mem _ (S.t_mem_frame A₁) (S.ι_mem_frame hs)
 
+omit [Finite H] in
 theorem frame_mono {A₁ A₂ : Subgroup J6.S6} (h : A₁ ≤ A₂) : S.frame A₁ ≤ S.frame A₂ :=
   sup_le_sup_left (Subgroup.map_mono h) _
 
+omit [Finite H] in
 theorem card_frame (A₁ : Subgroup J6.S6) : Nat.card (S.frame A₁) = 2 * Nat.card A₁ := by
   have hdisj : Subgroup.zpowers t ⊓ A₁.map S.ι = ⊥ := by
     rw [eq_bot_iff, ← S.hyp.zpowers_t_inf_J]
@@ -71,6 +79,7 @@ theorem card_frame (A₁ : Subgroup J6.S6) : Nat.card (S.frame A₁) = 2 * Nat.c
   rw [CFSG.card_sup_eq_mul_of_commute _ _ (S.comm_zpowers_map A₁) hdisj, Nat.card_zpowers,
     S.hyp.ord_t, Subgroup.card_map_of_injective S.ι_injective]
 
+omit [Finite H] in
 theorem frame_sq {A₁ : Subgroup J6.S6} (hsq : ∀ s ∈ A₁, s * s = 1) :
     ∀ x ∈ S.frame A₁, x * x = 1 := by
   intro x hx
@@ -82,6 +91,7 @@ theorem frame_sq {A₁ : Subgroup J6.S6} (hsq : ∀ s ∈ A₁, s * s = 1) :
             _ = (t * t) * (S.ι s * S.ι s) := by group
       _ = 1 := by rw [S.hyp.t_sq, ← map_mul, hsq s hs, map_one, one_mul]
 
+omit [Finite H] in
 theorem frame_comm {A₁ : Subgroup J6.S6} (hcomm : ∀ a ∈ A₁, ∀ c ∈ A₁, a * c = c * a) :
     ∀ x ∈ S.frame A₁, ∀ y ∈ S.frame A₁, x * y = y * x := by
   intro x hx y hy
@@ -107,12 +117,14 @@ theorem frame_comm {A₁ : Subgroup J6.S6} (hcomm : ∀ a ∈ A₁, ∀ c ∈ A�
       _ = t * (S.ι r * t) * S.ι s := by rw [← S.ι_comm_t r]
       _ = t * S.ι r * (t * S.ι s) := by group
 
+omit [Finite H] in
 theorem tι_mul_self (r : J6.S6) : (t * S.ι r) * (t * S.ι r) = S.ι (r * r) := by
   calc (t * S.ι r) * (t * S.ι r) = t * (S.ι r * t) * S.ι r := by group
     _ = t * (t * S.ι r) * S.ι r := by rw [S.ι_comm_t r]
     _ = (t * t) * (S.ι r * S.ι r) := by group
     _ = S.ι (r * r) := by rw [S.hyp.t_sq, one_mul, map_mul]
 
+omit [Finite H] in
 theorem comm_of_comm {a c : H} (ha : a = 1 ∨ a = t) (hc : c = 1 ∨ c = t) {r r' : J6.S6}
     (h : (a * S.ι r) * (c * S.ι r') = (c * S.ι r') * (a * S.ι r)) : r * r' = r' * r := by
   have hac : a * c = c * a := by
@@ -166,8 +178,8 @@ theorem E16 (X : Subgroup H) (hXP : X ≤ S.frame J6.R) (hX : Nat.card X = 16)
   by_cases hXV : X ≤ S.frame J6.V1
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge hXV (by rw [hX, hVcard]))
   exfalso
-  obtain ⟨x, hxX, hxT⟩ := SetLike.not_le_iff_exists.mp hXT
-  obtain ⟨y, hyX, hyV⟩ := SetLike.not_le_iff_exists.mp hXV
+  obtain ⟨x, hxX, hxT⟩ := IsConcreteLE.not_le_iff_exists.mp hXT
+  obtain ⟨y, hyX, hyV⟩ := IsConcreteLE.not_le_iff_exists.mp hXV
   have hxV : x ∈ S.frame J6.V1 := (hmem x hxX).resolve_left hxT
   have hyT : y ∈ S.frame J6.T1 := (hmem y hyX).resolve_right hyV
   obtain ⟨r, hr, hxr⟩ := (S.mem_frame_iff J6.V1 x).mp hxV

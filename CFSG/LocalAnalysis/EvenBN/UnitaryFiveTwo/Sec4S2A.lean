@@ -37,14 +37,14 @@ namespace Data.Hyp
 
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
-theorem S_le_NHA₂ (h : d.Hyp) : d.S ≤ normalizer (d.A₂ : Set G) ⊓ d.H := fun s hs =>
+theorem S_le_NHA₂ (h : d.Hyp) : d.S ≤ normalizer (d.A₂ : Set G) ⊓ d.H := fun _s hs =>
   Subgroup.mem_inf.2 ⟨normalizer_S_le_normalizer_A₂ (d.S.le_normalizer hs),
     h.L_le_H (d.pull_le_L _ hs)⟩
 
 theorem R_le_NHA₂ (h : d.Hyp) : d.R ≤ normalizer (d.A₂ : Set G) ⊓ d.H :=
   sup_le h.S_le_NHA₂ (zpowers_le.2 h.t_mem_NHA₂)
 
-theorem NHS_le_NHA₂ (h : d.Hyp) :
+theorem NHS_le_NHA₂ (_h : d.Hyp) :
     normalizer (d.S : Set G) ⊓ d.H ≤ normalizer (d.A₂ : Set G) ⊓ d.H := fun _ hg =>
   Subgroup.mem_inf.2 ⟨normalizer_S_le_normalizer_A₂ (Subgroup.mem_inf.1 hg).1,
     (Subgroup.mem_inf.1 hg).2⟩
@@ -72,7 +72,7 @@ theorem isPGroup_R₃_sup_D₂ (h : d.Hyp) : IsPGroup 2 (d.R₃ ⊔ d.D₂ : Sub
   exact (isPGroup_oTwo _).to_sup_of_normal_right' (IsPGroup.of_card h.card_D₂)
     h.R₃_le_normalizer_D₂
 
-theorem D₃_conj_X₄_mem_Y (h : d.Hyp) {u a : G} (hu : u ∈ d.D₃) (ha : a ∈ d.X₄) :
+theorem D₃_conj_X₄_mem_Y (_h : d.Hyp) {u a : G} (hu : u ∈ d.D₃) (ha : a ∈ d.X₄) :
     u * a * u⁻¹ * a⁻¹ ∈ d.Y := by
   have huU := (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hu).2).1
   have haA : a⁻¹ ∈ d.A₁ := inv_mem (d.pull_mono X₄sub_le_A₁sub' ha)
@@ -98,8 +98,8 @@ theorem Y_le_cenMod (h : d.Hyp) : d.Y ≤ cenMod d.Y d.X₄ := fun y hy =>
     group
     exact one_mem _⟩
 
-theorem D₃_le_cenMod (h : d.Hyp) : d.D₃ ≤ cenMod d.Y d.X₄ := fun u hu =>
-  ⟨h.XC₀_le_normalizer_Y (h.D₃_le_XC₀ hu), fun a ha => h.D₃_conj_X₄_mem_Y hu ha⟩
+theorem D₃_le_cenMod (h : d.Hyp) : d.D₃ ≤ cenMod d.Y d.X₄ := fun _u hu =>
+  ⟨h.XC₀_le_normalizer_Y (h.D₃_le_XC₀ hu), fun _a ha => h.D₃_conj_X₄_mem_Y hu ha⟩
 
 theorem R₃_le_cenMod (h : d.Hyp) : d.R₃ ≤ cenMod d.Y d.X₄ := by
   rw [h.R₃_eq]

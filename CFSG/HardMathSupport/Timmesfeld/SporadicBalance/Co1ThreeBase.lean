@@ -128,7 +128,7 @@ theorem RowsRep.length_eq {gs : List Rows} {fs : List ↥GA} (h : RowsRep gs fs)
     gs.length = fs.length :=
   List.Forall₂.length_eq h
 
-@[expose] noncomputable def fnOf (fs : List ↥GA) : Fin fs.length → ↥GA := fun i => fs.get i
+noncomputable def fnOf (fs : List ↥GA) : Fin fs.length → ↥GA := fun i => fs.get i
 
 theorem eltG_eq_prod (fs : List ↥GA) (b : List ℕ) :
     eltG fs b = ((fs.zip b).map fun p => p.1 ^ p.2).prod := by
@@ -179,7 +179,7 @@ theorem fn_comm : ∀ i j, Commute (fnOf fsA i) (fnOf fsA j) := fun _ _ =>
 
 theorem fn_cube : ∀ i, fnOf fsA i ^ 3 = 1 := fun _ => hS.cube _ (List.get_mem _ _)
 
-@[expose] noncomputable def φ : Multiplicative (Fin fsA.length → ZMod 3) →* ↥GA :=
+noncomputable def φ : Multiplicative (Fin fsA.length → ZMod 3) →* ↥GA :=
   Co3T.vecProdHom (fnOf fsA) hS.fn_comm hS.fn_cube
 
 theorem φ_apply (a : Fin fsA.length → ZMod 3) :
@@ -208,7 +208,7 @@ theorem φ_injective : Function.Injective hS.φ := by
   rw [listVec_vecList, listVec_vecList] at this
   exact Multiplicative.toAdd.injective this
 
-@[expose] noncomputable def T : Subgroup ↥GA := hS.φ.range
+noncomputable def T : Subgroup ↥GA := hS.φ.range
 
 theorem T_comm : ∀ x ∈ hS.T, ∀ y ∈ hS.T, x * y = y * x := by
   rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
@@ -333,7 +333,7 @@ theorem exists_six_of_length {l : List ℕ} (h : l.length = 6) :
     simp only [List.length_cons, List.length_nil] at h <;>
     first | omega | exact ⟨_, _, _, _, _, _, rfl⟩
 
-@[expose] noncomputable def aE (i : ℕ) (hi : i < 6) : ↥GA :=
+noncomputable def aE (i : ℕ) (hi : i < 6) : ↥GA :=
   ⟨a ⟨i, hi⟩, A_le_GA (Subgroup.subset_closure (Set.mem_union_left _ (a_mem_E _)))⟩
 
 theorem aGA_eq_aE : aGA = [aE 0 (by norm_num), aE 1 (by norm_num), aE 2 (by norm_num),
@@ -355,8 +355,7 @@ theorem coe_eltG_aGA (x0 x1 x2 x3 x4 x5 : ℕ) :
 theorem eProd_eq_six (b : Fin 6 → ZMod 3) :
     eProd b = a 0 ^ (b 0).val * a 1 ^ (b 1).val * a 2 ^ (b 2).val * a 3 ^ (b 3).val *
       a 4 ^ (b 4).val * a 5 ^ (b 5).val := by
-  simp only [eProd, List.finRange_succ, List.finRange_zero, List.map_cons, List.map_map,
-    List.map_nil, List.prod_cons, List.prod_nil, mul_one, mul_assoc]
+  simp only [eProd, List.finRange_succ, List.finRange_zero, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, mul_assoc]
   rfl
 
 section E

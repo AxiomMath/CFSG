@@ -58,7 +58,7 @@ theorem not_dvd_card_ker_of_minimal (hφ : Function.Surjective φ)
   have hRN : R ≤ φ.ker := Subgroup.map_subtype_le _
   have hRcard : Nat.card R = Nat.card (P : Subgroup φ.ker) :=
     Subgroup.card_map_of_injective φ.ker.subtype_injective
-  obtain ⟨k, hk⟩ := (P.isPGroup').exists_card_eq
+  obtain ⟨k, hk⟩ := (P.isPGroup).exists_card_eq
   have hidx : ¬ ℓ ∣ R.index := by
     rw [← Subgroup.relIndex_mul_index hRN]
     have h1 : R.relIndex φ.ker = (P : Subgroup φ.ker).index := by
@@ -250,7 +250,7 @@ theorem false_of_minimal
     intro hdvd
     obtain ⟨P⟩ : Nonempty (Sylow p' φ.ker) := inferInstance
     have hRn := sylow_normal_of_minimal hφ hmin p' P
-    refine hX1 (eq_bot_of_normal_isPGroup hXp hX3 hRn (P.isPGroup'.map _) fun h => ?_)
+    refine hX1 (eq_bot_of_normal_isPGroup hXp hX3 hRn (P.isPGroup.map _) fun h => ?_)
     have h1 : Nat.card (P : Subgroup φ.ker) = 1 := by
       rw [← Subgroup.card_map_of_injective φ.ker.subtype_injective, h, Subgroup.card_bot]
     have h2 := P.dvd_card_of_dvd_card hdvd

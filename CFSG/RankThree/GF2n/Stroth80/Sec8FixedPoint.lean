@@ -28,7 +28,7 @@ theorem exists_ne_zero_fixed_of_two_pow {X M : Type*} [Group X] [AddCommGroup M]
     by_contra h0
     have hj0 : j = 0 := by omega
     rw [hj0, pow_zero] at hj
-    haveI : Subsingleton M := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hj)
+    have : Subsingleton M := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hj)
     exact ha₀ (Subsingleton.elim _ _)
   by_contra hcon
   push Not at hcon
@@ -155,7 +155,7 @@ theorem sec8_isol {R P I N : Subgroup G} {x : G} (hsec : SecHyp R P I)
         fun r hr y hy => (Subgroup.mem_normalizer_iff.mp (hzN hr) y).mp hy,
         fun r hr y hy => (Subgroup.mem_normalizer_iff.mp (hzI hr) y).mp hy⟩
     obtain ⟨Mo, iMo, iAct, κ, hκ⟩ := exists_sectionModule hsec0
-    haveI : Finite Mo := hκ.finite
+    have : Finite Mo := hκ.finite
     set g : ↥(Subgroup.zpowers x) := ⟨x, Subgroup.mem_zpowers x⟩ with hg
     have hgk : g ^ (2 ^ k) = 1 := Subtype.ext (by simpa [hg] using hxk)
     have hsurj : Function.Surjective (comm Mo g) := by

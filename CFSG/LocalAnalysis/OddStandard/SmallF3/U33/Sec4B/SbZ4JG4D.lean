@@ -29,8 +29,7 @@ private lemma z4j_mem_cent_iff {Vc Vsub : Subgroup ↥NQ} {Vh K : Subgroup (↥N
     have h := hx (v : G) hv'
     have hvx : v * x₀ = x₀ * v := Subtype.ext (by simpa using h)
     rw [← map_mul, ← map_mul, hvx]
-  · intro hx
-    intro g hg
+  · intro hx g hg
     obtain ⟨v, hv, rfl⟩ := Subgroup.mem_map.1 hg
     have h := hx.2 (z4iπ N v) (Subgroup.mem_map_of_mem (z4iπ N) hv)
     have hvx : v * x₀ = x₀ * v :=

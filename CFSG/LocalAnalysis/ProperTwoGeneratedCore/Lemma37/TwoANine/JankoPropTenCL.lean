@@ -113,7 +113,7 @@ theorem false_of_sylow
   obtain ⟨S, hS⟩ := (hX₀.comap_subtype (K := W)).exists_le_sylow
   set X' := (S : Subgroup W).map W.subtype with hX'
   have hX₀X' : X₀ ≤ X' := fun x hx => ⟨⟨x, hX₀W hx⟩, hS hx, rfl⟩
-  have hX'3 : IsPGroup 3 X' := S.isPGroup'.map _
+  have hX'3 : IsPGroup 3 X' := S.isPGroup.map _
   have hX'syl : IsSylowOf W 3 X' := ⟨S, rfl⟩
   have hQX' : Q ≤ X' := le_isSylowOf_of_le_normalizer hX'syl hQ3' hQW hWQ
   have hX'C : X' ≤ centralizer (Q : Set G) := (map_subtype_le _).trans hWC

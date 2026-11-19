@@ -96,7 +96,7 @@ theorem concl_quotN (hS2 : O2Structure) (T : Sylow 2 X) (hT : IsT (T : Subgroup 
     (hQ1 : Q ≠ ⊥) (hQT : Q ≤ T) (hQn : ∀ t ∈ T, ∀ q ∈ Q, t * q * t⁻¹ ∈ Q) :
     Concl (QuotN Q) (sylowBar T (le_nzr_of_normalizes hQn)) := by
   have hTH : (T : Subgroup X) ≤ nzr Q := le_nzr_of_normalizes hQn
-  have hQ2 : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQ2 : IsPGroup 2 Q := T.isPGroup.to_le hQT
   refine hS2 (QuotN Q) (pPrimeCore_quotient_eq_bot (G := nzr Q) Nat.prime_two)
     (pCore_quotN_ne_bot hQ1 hQ2) _ ?_
   obtain ⟨e⟩ := hT
@@ -105,7 +105,7 @@ theorem concl_quotN (hS2 : O2Structure) (T : Sylow 2 X) (hT : IsT (T : Subgroup 
     intro a b hab
     have hx : ((a : nzr Q) : X) ∈ (T : Subgroup X) := a.2
     have hy : ((b : nzr Q) : X) ∈ (T : Subgroup X) := b.2
-    exact Subtype.ext (Subtype.ext (projN_injOn T.isPGroup' hTH hx hy hab))
+    exact Subtype.ext (Subtype.ext (projN_injOn T.isPGroup hTH hx hy hab))
   let φ : T' →* T'.map (projN Q) :=
     ((projN Q).comp T'.subtype).codRestrict (T'.map (projN Q)) (fun x => ⟨x, x.2, rfl⟩)
   have hφ : Function.Bijective φ :=

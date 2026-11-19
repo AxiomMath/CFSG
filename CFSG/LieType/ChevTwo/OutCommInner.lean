@@ -27,12 +27,12 @@ theorem OutTwoNilpConcl.commutator_mem_inner {S : Type} [Group S] (h : OutTwoNil
     have hconj : δ⁻¹ * y * δ ∈ Y := (Subgroup.mem_normalizer_iff''.mp hδY y).mp hy
     simpa only [mul_assoc] using Y.mul_mem (Y.inv_mem hy) hconj
   let I : Subgroup N := (CFSG.ComponentClassification.OuterAutomorphisms.inner S).subgroupOf N
-  haveI hInormal : I.Normal :=
+  have hInormal : I.Normal :=
     Subgroup.Normal.subgroupOf (CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S) N
   have hquotodd : Odd (Nat.card (N ⧸ I)) := by
     rw [← Subgroup.index_eq_card]
     exact hodd
-  haveI : Finite (N ⧸ I) := Nat.finite_of_card_ne_zero hquotodd.pos.ne'
+  have : Finite (N ⧸ I) := Nat.finite_of_card_ne_zero hquotodd.pos.ne'
   let cN : N := ⟨y⁻¹ * δ⁻¹ * y * δ, hcN⟩
   let q : N ⧸ I := QuotientGroup.mk' I cN
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hY) ⟨y⁻¹ * δ⁻¹ * y * δ, hcY⟩

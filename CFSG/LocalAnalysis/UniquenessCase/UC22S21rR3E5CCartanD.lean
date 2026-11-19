@@ -18,8 +18,8 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 private theorem uc22r3e5c_map_barImage_inf_proj {D : Data G}
-    {L K : Subgroup G} (hL : L ∈ calC D.M) (hKC : K ∈ calC D.M) (hKne : K ≠ L)
-    (hset : conjSetOf D.M L = {L, K}) {n : ℕ} (hSz : IsSz (Bar2 L) n)
+    {L K : Subgroup G} (hL : L ∈ calC D.M) (hKC : K ∈ calC D.M) (_hKne : K ≠ L)
+    (hset : conjSetOf D.M L = {L, K}) {n : ℕ} (_hSz : IsSz (Bar2 L) n)
     {e : Bar2 (conjClosure D.M L) ≃* Bar2 L × Bar2 K}
     (heL : ∀ (x : ↥(conjClosure D.M L)) (hx : (x : G) ∈ L),
       e (QuotientGroup.mk x) = (QuotientGroup.mk (⟨(x : G), hx⟩ : ↥L), 1))
@@ -30,7 +30,7 @@ private theorem uc22r3e5c_map_barImage_inf_proj {D : Data G}
       (((barImage (conjClosure D.M L) (D.T ⊓ conjClosure D.M L)).map e.toMonoidHom).map
         (MonoidHom.snd (Bar2 L) (Bar2 K)) = barImage K (D.T ⊓ K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := conjClosure D.M L
   let P : Subgroup G := D.T ⊓ X
   let E : Subgroup (Bar2 L × Bar2 K) := (barImage X P).map e.toMonoidHom
@@ -54,7 +54,7 @@ private theorem uc22r3e5c_map_barImage_inf_proj {D : Data G}
       Subgroup.mem_map.mpr ⟨xX, Subgroup.mem_subgroupOf.mpr hxP, rfl⟩
     refine Subgroup.mem_map.mpr ⟨e (QuotientGroup.mk xX),
       Subgroup.mem_map.mpr ⟨QuotientGroup.mk xX, hz, rfl⟩, ?_⟩
-    rw [heL xX (by simpa [xX] using x.2)]
+    rw [heL xX (by simp [xX])]
     exact hmk
   have hUKle : UK ≤ E.map (MonoidHom.snd (Bar2 L) (Bar2 K)) := by
     intro u hu
@@ -66,7 +66,7 @@ private theorem uc22r3e5c_map_barImage_inf_proj {D : Data G}
       Subgroup.mem_map.mpr ⟨xX, Subgroup.mem_subgroupOf.mpr hxP, rfl⟩
     refine Subgroup.mem_map.mpr ⟨e (QuotientGroup.mk xX),
       Subgroup.mem_map.mpr ⟨QuotientGroup.mk xX, hz, rfl⟩, ?_⟩
-    rw [heK xX (by simpa [xX] using x.2)]
+    rw [heK xX (by simp [xX])]
     exact hmk
   have hSbarSyl : IsSylowTwoOf (barImage X P) ⊤ :=
     CFSG.Quasithin.H13.S126P31.isSylowTwoOf_map_mk' (Z := CFSG.pCore 2 ↥X)
@@ -92,7 +92,7 @@ theorem uc22r3e5c_map_barImage_inf_eq_prod {D : Data G}
     (barImage (conjClosure D.M L) (D.T ⊓ conjClosure D.M L)).map e.toMonoidHom =
       (barImage L (D.T ⊓ L)).prod (barImage K (D.T ⊓ K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := conjClosure D.M L
   let P : Subgroup G := D.T ⊓ X
   let E : Subgroup (Bar2 L × Bar2 K) := (barImage X P).map e.toMonoidHom

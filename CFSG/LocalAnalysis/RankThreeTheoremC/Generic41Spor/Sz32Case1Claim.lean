@@ -112,7 +112,7 @@ theorem szh3_conj_Q0_mem (hY : Sz32Case2Data Pb a c y) {h : Y}
     apply hY.facts.Q0_unique
     · rintro _ ⟨q, hq, rfl⟩
       exact (Subgroup.mem_normalizer_iff.mp hh q).mp (szh3_Q0_le hY hq)
-    · haveI := hY.facts.Q0_comm
+    · have := hY.facts.Q0_comm
       infer_instance
     · rw [Subgroup.card_map_of_injective (MulAut.conj h).injective, hY.facts.Q0_card]
   rw [← hB]
@@ -174,7 +174,7 @@ theorem szh3_Q0_le_pCore (hY : Sz32Case2Data Pb a c y) (ha : a ∈ CFSG.pCore 5 
 
 theorem szh3_mem_Q0_of_commute (hY : Sz32Case2Data Pb a c y) {v : Y} (hv : v ∈ Pb)
     (hcomm : ∀ q ∈ sz32Q0 a c, q * v = v * q) : v ∈ sz32Q0 a c := by
-  haveI hQ0 := hY.facts.Q0_comm
+  have hQ0 := hY.facts.Q0_comm
   have h1 : sz32Q0 a c ≤ Subgroup.centralizer (Subgroup.zpowers v : Set Y) := by
     intro q hq
     rw [Subgroup.mem_centralizer_iff]
@@ -208,12 +208,12 @@ theorem szh3_mem_Q0_of_commute (hY : Sz32Case2Data Pb a c y) {v : Y} (hv : v ∈
 theorem szh3_centralizer_le (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 a c).Normal) :
     Subgroup.centralizer (sz32Q0 a c : Set Y) ≤ sz32Q0 a c := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hS⟩ := hY.sylow
-  haveI hQ0 := hY.facts.Q0_comm
+  have hQ0 := hY.facts.Q0_comm
   set Q₀ := sz32Q0 a c with hQ₀
   set D := Subgroup.centralizer (Q₀ : Set Y) with hD
-  haveI hDN : D.Normal := inferInstance
+  have hDN : D.Normal := inferInstance
   have hQD : Q₀ ≤ D := Subgroup.le_centralizer Q₀
   have hPD : Pb ⊓ D = Q₀ := by
     apply le_antisymm
@@ -223,7 +223,7 @@ theorem szh3_centralizer_le (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 a c).Nor
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 5 Pb ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · rw [← hS]; exact S.isPGroup'
+    · rw [← hS]; exact S.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hS]; exact S.not_dvd_index
   have hSylD : CFSG.ABGLocalTools.IsSylowOf 5 (Pb ⊓ D) D :=
     hSyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top_iff.mpr hDN])
@@ -240,7 +240,7 @@ theorem szh3_centralizer_le (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 a c).Nor
     exact Subgroup.mem_centralizer_iff.mp n.2 (h : Y) hh'
   obtain ⟨K, hKN, hK5, -, -, hKchar, -, hKsup, -, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement P' hnorm
-  haveI : K.Characteristic := hKchar
+  have : K.Characteristic := hKchar
   have hKmap : K.map D.subtype ≤ primeComplementCore (G := Y) 5 := by
     apply normal_coprime_le_primeComplementCore
     · infer_instance
@@ -266,7 +266,7 @@ theorem szh3_mem_Z_of_pow5 (hY : Sz32Case2Data Pb a c y) {v : Y} (hv : v ∈ sz3
 theorem szh3_coprime_centralizes (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 a c).Normal)
     {k : Y} (hkZ : k ∈ Subgroup.centralizer (sz32Z a c : Set Y))
     (hk : Nat.Coprime (orderOf k) 5) : k ∈ Subgroup.centralizer (sz32Q0 a c : Set Y) := by
-  haveI hQ0 := hY.facts.Q0_comm
+  have hQ0 := hY.facts.Q0_comm
   rw [Subgroup.mem_centralizer_iff]
   intro q hq
   have hq' : k * q * k⁻¹ ∈ sz32Q0 a c := hN.conj_mem q hq k
@@ -318,14 +318,14 @@ theorem szh3_isPGroup_centralizer_Z (hY : Sz32Case2Data Pb a c y) (hN : (sz32Q0 
     (hcent : Subgroup.centralizer (sz32Q0 a c : Set Y) ≤ sz32Q0 a c) :
     IsPGroup 5 (Subgroup.centralizer (sz32Z a c : Set Y)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hS⟩ := hY.sylow
-  have hPb5 : IsPGroup 5 Pb := by rw [← hS]; exact S.isPGroup'
+  have hPb5 : IsPGroup 5 Pb := by rw [← hS]; exact S.isPGroup
   set K := Subgroup.centralizer (sz32Z a c : Set Y) with hK
   have hn : Nat.card K ≠ 0 := Nat.card_pos.ne'
   have hprime : ∀ {d : ℕ}, d.Prime → d ∣ Nat.card K → d = 5 := by
     intro d hd hdK
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K) d hdK
     by_contra hd5
     have hcop : Nat.Coprime (orderOf (x : Y)) 5 := by
@@ -356,7 +356,7 @@ theorem szh3_false_of_pCore_eq (hY : Sz32Case2Data Pb a c y)
       exact szh3_Q0_le hY (hN.conj_mem w (szh3_Z_le_Q0 hw) g)
     rw [← hmap]
     exact ⟨z, hz, rfl⟩
-  haveI := hZN
+  have := hZN
   have hKN : (Subgroup.centralizer (sz32Z a c : Set Y)).Normal := inferInstance
   have hK5 := szh3_isPGroup_centralizer_Z hY hN hcent
   have hKle : Subgroup.centralizer (sz32Z a c : Set Y) ≤ CFSG.pCore 5 Y := le_sSup ⟨hKN, hK5⟩
@@ -385,7 +385,7 @@ theorem szh3_pCore_eq_Q0 (hY : Sz32Case2Data Pb a c y) (hQR : sz32Q0 a c ≤ CFS
 
 theorem szh3_case1_claim (hY : Sz32Case2Data Pb a c y) (ha : a ∈ pCoreOf 5 (⊤ : Subgroup Y)) :
     ∀ g : Y, ∀ t ∈ Pb, g * t * g⁻¹ ∈ Pb := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have haR : a ∈ CFSG.pCore 5 Y := by rwa [pCoreOf_top_eq_pCore] at ha
   have hQR := szh3_Q0_le_pCore hY haR
   obtain ⟨S, hS⟩ := hY.sylow

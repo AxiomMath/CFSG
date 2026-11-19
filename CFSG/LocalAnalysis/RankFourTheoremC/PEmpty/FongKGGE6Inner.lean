@@ -80,7 +80,7 @@ theorem e6_inner_of_ker {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card
     omega
   have hcop : Nat.Coprime (2 ^ m) (Nat.card (Fin Tag.E6.rank → Fˣ)) :=
     Nat.Coprime.pow_left m hcop2
-  haveI : ((MulAut.conj : C6 F →* MulAut (C6 F)).range).Normal :=
+  have : ((MulAut.conj : C6 F →* MulAut (C6 F)).range).Normal :=
     kgg_conj_range_normal (C6 F)
   have hc : MulAut.conj g ∈ (MulAut.conj : C6 F →* MulAut (C6 F)).range := ⟨g, rfl⟩
   exact kgg_mem_of_quotient_coprime (MulAut (C6 F))

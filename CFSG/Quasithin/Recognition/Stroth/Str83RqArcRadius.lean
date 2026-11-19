@@ -19,6 +19,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem win_inf_of_le {a b c : ℤ} (hab : a ≤ b) (hbc : b ≤ c) :
     t.Gw b c ⊓ t.Gw a b = t.Gw a c := by
   ext x
@@ -32,6 +33,7 @@ private theorem win_inf_of_le {a b c : ℤ} (hab : a ≤ b) (hbc : b ≤ c) :
     exact ⟨fun i hi₁ hi₂ => h i (hab.trans hi₁) hi₂,
       fun i hi₁ hi₂ => h i hi₁ (hi₂.trans hbc)⟩
 
+omit [Finite G] in
 private theorem le_normalizer_map_conj_of_map_eq {H X : Subgroup G} {g : G}
     (hg : H.map (MulAut.conj g).toMonoidHom = H) (hX : H ≤ normalizer (X : Set G)) :
     H ≤ normalizer (X.map (MulAut.conj g).toMonoidHom : Set G) := by
@@ -39,6 +41,7 @@ private theorem le_normalizer_map_conj_of_map_eq {H X : Subgroup G} {g : G}
   rw [hg, Subgroup.map_equiv_normalizer_eq] at h
   exact h
 
+omit [Finite G] in
 private theorem map_conj_eq_self_of_mem_GT {z : G} (hz : z ∈ t.GT) (u w : ℤ) :
     (t.Gw u w).map (MulAut.conj z).toMonoidHom = t.Gw u w :=
   CFSG.Timmesfeld.RankOne.map_conj_of_mem
@@ -50,7 +53,7 @@ theorem exists_reflection_mem_sup
     (hXn : ¬ X ≤ t.Gv (b + 1)) (hYn : ¬ Y ≤ t.Gv (b - 1)) :
     ∃ y ∈ X ⊔ Y ⊔ t.K, y ∈ normalizer (t.K : Set G) ∧
       ∀ u w : ℤ, (t.Gw u w).map (MulAut.conj y).toMonoidHom = t.Gw (2 * b - w) (2 * b - u) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := X ⊔ Y ⊔ t.K with hNdef
   set R : Subgroup G := pCoreOf 2 (t.Gw b (b + 1)) with hRdef
   set R' : Subgroup G := pCoreOf 2 (t.Gw (b - 1) b) with hR'def
@@ -264,7 +267,7 @@ theorem exists_reflection_mem_sup
           rw [mul_inv_cancel]
           have h1 : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
             ext z
-            simp [MulAut.conj_apply]
+            simp
           rw [h1, Subgroup.map_id]
   have hzR : y_b⁻¹ * n * y_b ∈ R := by
     have hn_img : y_b * n * y_b⁻¹ ∈ R := by
@@ -283,7 +286,7 @@ theorem exists_reflection_mem_sup
       Subgroup.mem_normalizer_iff_map_conj_eq.mpr hsq_map
     have hysq_inv : (y_b * y_b)⁻¹ ∈ normalizer (R : Set G) := inv_mem hsq_norm
     have h := (Subgroup.mem_normalizer_iff.mp hysq_inv (y_b * n * y_b⁻¹)).mp hn_img
-    convert h using 1 <;> group
+    convert h using 1; group
   set z : G := y_b⁻¹ * (n * m) with hzdef
   have hz_eq : z = (y_b⁻¹ * n * y_b) * s⁻¹ := by
     rw [hzdef, hms]
@@ -291,7 +294,7 @@ theorem exists_reflection_mem_sup
   have hzGw : z ∈ t.Gw b (b + 1) := by
     rw [hz_eq]
     exact (t.Gw b (b + 1)).mul_mem
-      (SetLike.le_def.mp (pCoreOf_le 2 (t.Gw b (b + 1))) hzR)
+      (_root_.IsConcreteLE.le_iff.mp (pCoreOf_le 2 (t.Gw b (b + 1))) hzR)
       ((t.Gw b (b + 1)).inv_mem hsGw)
   have hzK : z ∈ normalizer (t.K : Set G) := by
     rw [hzdef]
@@ -315,7 +318,7 @@ theorem IsMaxArc.false_of_isFixRadius
     {a f : ℕ} (hfr : Frame L1 L2 S a f) {ε c : ℤ} {n ρ : ℕ}
     (h : t.IsMaxArc ε n) (hc : ε < c) (hρ : t.IsFixRadius c ρ)
     (hlong : (n : ℤ) < 2 * (ε + n - (c + ρ))) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := pCoreOf 2 (t.Gw ε (ε + n)) with hQdef
   have hQne : Q ≠ ⊥ := h.pCoreOf_ne_bot
   have hρ1 : 1 ≤ ρ := IsFixRadius.one_le t hfr hρ

@@ -67,6 +67,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 @[expose] def mono {K : Type} [Zero K] (σ : Equiv.Perm ι) (ε : ι → K) : Matrix ι ι K :=
   Matrix.of fun r c => if r = σ c then ε c else 0
 
+omit [Fintype ι] in
 theorem mono_apply {K : Type} [Zero K] (σ : Equiv.Perm ι) (ε : ι → K) (r c : ι) :
     mono σ ε r c = if r = σ c then ε c else 0 :=
   rfl
@@ -82,7 +83,7 @@ theorem mono_mul_diagonal_mul_transpose {K : Type} [CommRing K] (σ : Equiv.Perm
     rw [Matrix.mul_diagonal, Matrix.transpose_apply, h1, h2, Matrix.diagonal_apply]
     by_cases hrc : c = r
     · subst hrc
-      simp only [if_true]
+      simp only [ite_true]
       linear_combination d (σ c) * hε (σ c)
     · simp [hrc, Ne.symm hrc]
   · intro s _ hs
@@ -121,6 +122,7 @@ theorem mono_mul_transpose {K : Type} [CommRing K] (σ : Equiv.Perm ι)
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [Fintype ι] in
 theorem map_mono {K : Type} [Semiring K] (f : K →+* K) (σ : Equiv.Perm ι)
     (ε : ι → K) (hf : ∀ c, f (ε c) = ε c) :
     (mono σ ε).map f = mono σ ε := by

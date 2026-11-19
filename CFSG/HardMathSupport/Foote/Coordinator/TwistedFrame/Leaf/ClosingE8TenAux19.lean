@@ -22,7 +22,7 @@ section Char2
 variable {K : Type} [Field K] [Finite K] (D : LangLevi TwClass.e8Ten.tag K TwClass.e8Ten.w)
 
 theorem charP_L (hK : Nat.card K = 2) : CharP D.L 2 := by
-  haveI : CharP K 2 := E8Two.charP_two_of_card_two hK
+  have : CharP K 2 := E8Two.charP_two_of_card_two hK
   exact charP_of_injective_algebraMap (algebraMap K D.L).injective 2
 
 theorem Fr_sq (hK : Nat.card K = 2) (c : D.L) : D.Fr c = c ^ 2 := by
@@ -35,8 +35,8 @@ theorem sign_eq_one {R : Type} [Field R] [CharP R 2] {ε : R} (h : ε = 1 ∨ ε
 
 theorem mem_Qθ_of_bc (hK : Nat.card K = 2) {z : ModGL Tag.E8 K} (hz : z ∈ adjointGroup Tag.E8 K)
     (hQ : baseChangeGL (algebraMap K D.L) z ∈ Qθ Tag.E8 D.L) : z ∈ Qθ Tag.E8 K := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hFr2 : ∀ c : D.L, D.Fr c = c ^ 2 := Fr_sq D hK
   have hbij : Function.Bijective D.Fr := by
     refine ⟨D.Fr.injective, fun a => ?_⟩
@@ -119,7 +119,7 @@ theorem v_comm_R {v : ModGL Tag.E8 K} (hvQ : v ∈ Qθ Tag.E8 K)
 
 theorem conj_Agp_mem {H : Subgroup (ModGL Tag.E8 K)}
     (hXH : TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D ≤ H)
-    {v : ModGL Tag.E8 K} (hvQ : v ∈ Qθ Tag.E8 K)
+    {v : ModGL Tag.E8 K} (_hvQ : v ∈ Qθ Tag.E8 K)
     (hvB : conjSub v (Heis.Uneg Tag.E8 K) ≤ H)
     (hvR : ∀ r : ModGL Tag.E8 K, r ∈ Rθ (TwClass.e8Ten.X₁ D) → r * v = v * r)
     {x : ModGL Tag.E8 K} (hx : x ∈ Agp D) : v * x * v⁻¹ ∈ H := by

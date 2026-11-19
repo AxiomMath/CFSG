@@ -46,7 +46,6 @@ theorem betaOp_f {y : V} {ξ : Module.Dual K V} {c : ZMod p} (hξ : ∀ v, ξ (f
     have hmc : m - ((m - c).val : ZMod p) = c := by rw [ZMod.natCast_zmod_val]; ring
     rw [hmc, hξ]
   · intro k hk hkm
-    beta_reduce
     rw [hk', dual_apply_of_ne H hξ ?_, zero_smul]
     intro h
     apply hkm

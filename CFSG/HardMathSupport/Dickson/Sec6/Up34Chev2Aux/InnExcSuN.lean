@@ -100,7 +100,7 @@ theorem two_suN_center_odd {ν q : ℕ} {F : Type} [Field F] [Finite F] [CharP F
   have h2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(StatedSU ν q F)) := by
     rw [Nat.not_odd_iff_even] at hodd
     exact even_iff_two_dvd.mp hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.center ↥(StatedSU ν q F))) 2 h2
   have hx2 : x ^ 2 = 1 := by
@@ -187,18 +187,18 @@ theorem char2Hrat_suN {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
   subst hr2
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨hfin, hqsC, hc216⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-  haveI := hfin
+  have := hfin
   have hR20160 : Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) = 20160 :=
     card_eq_of_isLThreeFour hL34
   by_cases h32 : (ν, 2 ^ (e * s)) = (3, 2)
   ·
     have h216 := hc216 h32
-    haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-    haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Finite.of_injective (Subgroup.inclusion hf1) (Subgroup.inclusion_injective hf1)
     have h1 : 20160 ≤ Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
       rw [← hR20160]
@@ -234,10 +234,10 @@ theorem char2Hrat_suN {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup
         (Subgroup.center ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σQ))), hcardCL]
     obtain ⟨F, hFcard, ⟨eC⟩⟩ := two_suN_exists_equiv hr hes σQ hσc hν
-    haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥F := Nat.finite_of_card_ne_zero (by
       rw [hFcard]
       exact (pow_pos (pow_pos Nat.two_pos _) 2).ne')
-    haveI : CharP ↥F 2 := inferInstance
+    have : CharP ↥F 2 := inferInstance
     have hU : UnitaryFieldData 2 (e * s) ↥F :=
       ⟨hr, hes, by rw [hFcard, ← pow_mul, mul_comm]⟩
     have hint := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int hU (n := ν) (by omega)

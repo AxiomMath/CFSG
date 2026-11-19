@@ -145,7 +145,7 @@ include halt hnd
 theorem exists_sympBasis_zero (hdim : Module.finrank F V = 4) {u : V} (hu : u ≠ 0) :
     ∃ b : Module.Basis (Fin 4) F V,
       (∀ i j, B (b i) (b j) = if i.val + j.val = 3 then 1 else 0) ∧ b 0 = u := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   have halt' : LinearMap.IsAlt B := halt
   have hnd' : B.Nondegenerate := ⟨hnd, fun y hy => hnd y fun x => halt'.eq_iff.mp (hy x)⟩
   have hsymm : ∀ x y, B y x = B x y := fun x y => by
@@ -208,21 +208,21 @@ theorem isoAntiSp_symplTransv_zero (μ : F) (hI) :
   refine antiSp_ext (Matrix.ext fun i j => ?_)
   change mat _ i j = mat _ i j
   rw [mat_isoAntiSp_symplTransv, mat_aElt]
-  fin_cases i <;> fin_cases j <;> simp [hb, uMat, Finsupp.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [hb, uMat]
 
 theorem isoAntiSp_symplTransv_one (μ : F) (hI) :
     SimsG45.isoAntiSp B b hb ⟨symplTransv B halt (b 1) μ, hI⟩ = sElt (slUpper μ) := by
   refine antiSp_ext (Matrix.ext fun i j => ?_)
   change mat _ i j = mat _ i j
   rw [mat_isoAntiSp_symplTransv, mat_sElt]
-  fin_cases i <;> fin_cases j <;> simp [hb, sMat, slUpper, Finsupp.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [hb, sMat, slUpper]
 
 theorem isoAntiSp_symplTransv_two (μ : F) (hI) :
     SimsG45.isoAntiSp B b hb ⟨symplTransv B halt (b 2) μ, hI⟩ = sElt (slLower μ) := by
   refine antiSp_ext (Matrix.ext fun i j => ?_)
   change mat _ i j = mat _ i j
   rw [mat_isoAntiSp_symplTransv, mat_sElt]
-  fin_cases i <;> fin_cases j <;> simp [hb, sMat, slLower, Finsupp.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [hb, sMat, slLower]
 
 theorem isoAntiSp_symplTransv_zero_one (s : F) (hI) :
     SimsG45.isoAntiSp B b hb ⟨symplTransv B halt (b 0 + s • b 1) 1, hI⟩ =
@@ -231,7 +231,7 @@ theorem isoAntiSp_symplTransv_zero_one (s : F) (hI) :
   change mat _ i j = mat _ i j
   rw [mat_isoAntiSp_symplTransv, mat_mul, mat_aElt, mat_sElt]
   fin_cases i <;> fin_cases j <;>
-    simp [hb, uMat, sMat, slUpper, Finsupp.single_apply, Matrix.mul_apply, Fin.sum_univ_four] <;>
+    simp [hb, uMat, sMat, slUpper, Matrix.mul_apply, Fin.sum_univ_four];
     ring
 
 theorem isoAntiSp_symplTransv_zero_two (s : F) (hI) :
@@ -241,7 +241,7 @@ theorem isoAntiSp_symplTransv_zero_two (s : F) (hI) :
   change mat _ i j = mat _ i j
   rw [mat_isoAntiSp_symplTransv, mat_mul, mat_aElt, mat_sElt]
   fin_cases i <;> fin_cases j <;>
-    simp [hb, uMat, sMat, slLower, Finsupp.single_apply, Matrix.mul_apply, Fin.sum_univ_four] <;>
+    simp [hb, uMat, sMat, slLower, Matrix.mul_apply, Fin.sum_univ_four];
     ring
 
 theorem isoAntiSp_mem_rootC₂_iff (g : V ≃ₗ[F] V)
@@ -253,10 +253,10 @@ theorem isoAntiSp_mem_rootC₂_iff (g : V ≃ₗ[F] V)
   · rintro ⟨⟨h1, h2, h3⟩, h0⟩
     refine b.ext_elem fun i => ?_
     rw [b.repr_self]
-    fin_cases i <;> simp [h0, h1, h2, h3, Finsupp.single_apply]
+    fin_cases i <;> simp [h0, h1, h2, h3]
   · intro h
     rw [h, b.repr_self]
-    simp [Finsupp.single_apply]
+    simp
 
 end Matrices
 
@@ -312,7 +312,7 @@ section Transport
     (e : ↥I ≃* G') {X : Subgroup G} {Y : Subgroup G'} (hXI : X ≤ I)
     (hXY : ∀ (g : G) (hg : g ∈ I), g ∈ X ↔ e ⟨g, hg⟩ ∈ Y) : ↥X ≃* ↥Y where
   toFun g := ⟨e ⟨g, hXI g.2⟩, (hXY g (hXI g.2)).mp g.2⟩
-  invFun y := ⟨(e.symm y : G), (hXY _ (e.symm y).2).mpr (by simpa using y.2)⟩
+  invFun y := ⟨(e.symm y : G), (hXY _ (e.symm y).2).mpr (by simp)⟩
   left_inv g := Subtype.ext (by simp)
   right_inv y := Subtype.ext (by simp)
   map_mul' g h := Subtype.ext (by

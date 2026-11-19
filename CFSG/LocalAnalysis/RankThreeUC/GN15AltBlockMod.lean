@@ -17,7 +17,7 @@ theorem altBaumY_injective (hn : Odd n) :
   intro x y h
   by_contra hxy
   have := congrArg (fun v : evenWeight n => (v : Fin n → ZMod 2) x) h
-  simp only [altBaumY_apply, if_true, if_neg hxy] at this
+  simp only [altBaumY_apply, ite_true, ite_eq_right hxy] at this
   exact absurd this (by decide)
 
 theorem eq_one_of_evenWeightPerm_eq_self (hn : Odd n) {σ : Perm (Fin n)}

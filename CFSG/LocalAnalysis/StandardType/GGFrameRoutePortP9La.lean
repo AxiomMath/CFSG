@@ -17,6 +17,7 @@ variable {K : Type} [Field K] [Algebra (ZMod 2) K] [Finite K] {V0 : Type} [AddCo
   [Module (ZMod 2) V0] [Module.Finite (ZMod 2) V0] {t : ℕ} {V : Type*} [AddCommGroup V]
   [Module (ZMod 2) V] {E : Type*} [Group E]
 
+omit [Module.Finite (ZMod 2) V0] in
 theorem P9_La_range_eq (hK : Nat.card K = 4) (ρ : E →* (V ≃ₗ[ZMod 2] V))
     (F : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] V) (hrot : ∀ e : E, ∃ a : Fin t → Kˣ, ρ e = P9rotV F a)
     (hsc : ∀ g : V ≃ₗ[ZMod 2] V, (∀ e : E, g * ρ e = ρ e * g) → g ^ 3 = 1 → g ∈ ρ.range) :

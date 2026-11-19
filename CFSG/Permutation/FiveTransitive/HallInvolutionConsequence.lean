@@ -17,6 +17,7 @@ open Research.SharpFourDegreeCompletion
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] [Fintype X] in
 theorem smul_base_of_setwisePermHom_eq
     (e : Fin 4 ↪ X)
     (w : baseSetwiseStabilizer (G := G) e)
@@ -32,6 +33,7 @@ theorem smul_base_of_setwisePermHom_eq
       (baseRangeEquiv e i) : Set.range e) at hiVal
   simpa [baseRangeEquiv, Equiv.ofInjective_apply] using hiVal
 
+omit [Finite G] [Fintype X] in
 theorem exists_single_double_involution_lifts
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X)
@@ -83,6 +85,7 @@ theorem exists_single_double_involution_lifts
     Research.SharpFourBound.baseDoubleSwap hdImage
   exact ⟨s, d, hsTwo, hsNe, hdTwo, hsbase, hdbase⟩
 
+omit [Finite G] in
 private theorem involution_conjugate_doubleSwapLift_of_odd_stabilizer
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)
@@ -97,6 +100,7 @@ private theorem involution_conjugate_doubleSwapLift_of_odd_stabilizer
     (sameBaseInvolutionConjugacy_of_odd_pointwiseStabilizer e hodd)
     g d hgTwo hdTwo hgNe hdbase
 
+omit [Finite G] in
 theorem all_involutions_conjugate
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)
@@ -122,6 +126,7 @@ theorem all_involutions_conjugate
       rw [← hqh]
       group
 
+omit [Finite G] in
 theorem involution_fixedBy_ncard_eq_two_or_three
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)

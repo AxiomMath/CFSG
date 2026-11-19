@@ -88,7 +88,7 @@ theorem p42_swap_data {D : Data G} {L : Subgroup G} {x : G}
           (Subgroup.mem_normalizer_iff_map_conj_eq.mp (hMN hm))
       · intro hK'
         rw [Set.mem_singleton_iff.mp hK']
-        exact ⟨1, D.M.one_mem, by ext y; simp [MulAut.conj_apply]⟩
+        exact ⟨1, D.M.one_mem, by ext y; simp⟩
     rw [hsingle, Set.ncard_singleton] at hc2
     omega
   obtain ⟨t, htT, htne⟩ : ∃ t ∈ D.T, L.map (MulAut.conj t).toMonoidHom ≠ L := by
@@ -117,7 +117,7 @@ theorem orbitClosure_eq_conjClosure_of_p42 {D : Data G} {L : Subgroup G} {x : G}
       ⟨u, D.sylowM.le hu, rfl⟩ le_rfl
   · rw [hXsup]
     refine sup_le ?_ ?_
-    · exact le_iSup₂_of_le (1 : G) D.T.one_mem (le_of_eq (by ext y; simp [MulAut.conj_apply]))
+    · exact le_iSup₂_of_le (1 : G) D.T.one_mem (le_of_eq (by ext y; simp))
     · exact le_iSup₂_of_le t htT (le_of_eq htK.symm)
 
 theorem orbitClosure_imageBar2_sup_imageBar2_eq_top {D : Data G} {L : Subgroup G} {x : G}
@@ -132,7 +132,7 @@ theorem orbitClosure_imageBar2_sup_imageBar2_eq_top {D : Data G} {L : Subgroup G
     orbitClosure_eq_conjClosure_of_p42 hL hxM hXsup hne
   rw [← hXorbit]
   have hLX : L ≤ orbitClosure L D.T := le_iSup₂_of_le (1 : G) D.T.one_mem
-    (le_of_eq (by ext y; simp [MulAut.conj_apply]))
+    (le_of_eq (by ext y; simp))
   have hYH : orbitClosure L D.T ≤ orbitClosure L D.T ⊔ D.T := le_sup_left
   have hLH : L ≤ orbitClosure L D.T ⊔ D.T := hLX.trans hYH
   have hTH : D.T ≤ orbitClosure L D.T ⊔ D.T := le_sup_right
@@ -214,24 +214,24 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
     (hC : Subgroup.centralizer ((A ⊔ B : Subgroup Q) : Set Q) = ⊥)
     (hquot : IsPGroup 2 (Q ⧸ (A ⊔ B)))
     (hshapeA : IsL2 ↥A m ∨ IsSz ↥A m) (hshapeB : IsL2 ↥B m ∨ IsSz ↥B m) :
-    ∀ (Y : Subgroup Q) (hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (hXn : X.Normal)
-      (hXne : X ≠ ⊥)
-      (hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
-      (hXnc : ¬ IsMulCommutative X),
+    ∀ (Y : Subgroup Q) (_hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (_hXn : X.Normal)
+      (_hXne : X ≠ ⊥)
+      (_hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
+      (_hXnc : ¬ IsMulCommutative X),
       ∀ L : Subgroup (Q ⧸ Y), CFSG.Open.IsComponentOf L X → IsL2 ↥L m ∨ IsSz ↥L m := by
-  intro Y hY X hXn hXne hXmin hXnc L hL
+  intro Y _hY X _hXn _hXne _hXmin _hXnc L hL
   classical
-  haveI := hY
+  have := _hY
   have hYtrich : Y = ⊥ ∨ A ⊔ B ≤ Y := by
     by_cases hYbot : Y = ⊥
     · exact Or.inl hYbot
     · right
-      haveI : (A ⊔ B).Normal := hFnorm
+      have : (A ⊔ B).Normal := hFnorm
       rcases hFmin (Y ⊓ (A ⊔ B)) (Subgroup.normal_inf_normal Y (A ⊔ B))
         inf_le_right with h0 | htop
       · exfalso
         have hYA : Y ≤ Subgroup.centralizer (A : Set Q) := by
-          rcases CFSG.LocalCores.component_normal_subgroup hAc hY with hle | hc
+          rcases CFSG.LocalCores.component_normal_subgroup hAc _hY with hle | hc
           · exfalso
             have h1 : A ≤ Y ⊓ (A ⊔ B) := le_inf hle le_sup_left
             rw [h0] at h1
@@ -239,7 +239,7 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
           · rw [Subgroup.commutator_comm] at hc
             exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hc
         have hYB : Y ≤ Subgroup.centralizer (B : Set Q) := by
-          rcases CFSG.LocalCores.component_normal_subgroup hBc hY with hle | hc
+          rcases CFSG.LocalCores.component_normal_subgroup hBc _hY with hle | hc
           · exfalso
             have h1 : B ≤ Y ⊓ (A ⊔ B) := le_inf hle le_sup_right
             rw [h0] at h1
@@ -259,10 +259,10 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
     let X₀ : Subgroup Q := X.map e.toMonoidHom
     have hX₀map : X₀.map e.symm.toMonoidHom = X := by
       simp [X₀, Subgroup.map_map]
-    have hX₀n : X₀.Normal := hXn.map e.toMonoidHom e.surjective
+    have hX₀n : X₀.Normal := _hXn.map e.toMonoidHom e.surjective
     have hX₀ne : X₀ ≠ ⊥ := by
       intro h
-      apply hXne
+      apply _hXne
       have h1 := congrArg (Subgroup.map e.symm.toMonoidHom) h
       rw [hX₀map, Subgroup.map_bot] at h1
       exact h1
@@ -273,7 +273,7 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
       have hN'le : N.map e.symm.toMonoidHom ≤ X := by
         rw [← hX₀map]
         exact Subgroup.map_mono hNle
-      rcases hXmin (N.map e.symm.toMonoidHom) hN'n hN'le with h0 | htop
+      rcases _hXmin (N.map e.symm.toMonoidHom) hN'n hN'le with h0 | htop
       · left
         have h1 : N.map e.symm.toMonoidHom = (⊥ : Subgroup Q).map e.symm.toMonoidHom := by
           rw [h0, Subgroup.map_bot]
@@ -284,13 +284,13 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
         exact Subgroup.map_injective e.symm.injective h1
     have hX₀nc : ¬ IsMulCommutative X₀ := by
       intro h
-      apply hXnc
+      apply _hXnc
       have e' : ↥X ≃* ↥X₀ := X.equivMapOfInjective e.toMonoidHom e.injective
       refine ⟨⟨fun a b => ?_⟩⟩
       apply e'.injective
       rw [map_mul, map_mul]
       exact IsMulCommutative.is_comm.comm _ _
-    haveI : (A ⊔ B).Normal := hFnorm
+    have : (A ⊔ B).Normal := hFnorm
     have hFX₀n : (X₀ ⊓ (A ⊔ B)).Normal := Subgroup.normal_inf_normal X₀ (A ⊔ B)
     rcases hFmin (X₀ ⊓ (A ⊔ B)) hFX₀n inf_le_right with h0 | htop
     · exfalso
@@ -352,8 +352,8 @@ theorem shape_of_two_components {Q : Type} [Group Q] [Finite Q] {A B : Subgroup 
       exact IsPGroup.of_surjective hquot (QuotientGroup.lift (A ⊔ B)
         (QuotientGroup.mk' Y) hker) hsurj
     have hX2 : IsPGroup 2 ↥X := IsPGroup.of_injective hquotY X.subtype X.subtype_injective
-    have hcm := CFSG.Timmesfeld.Bridge.RootClosure.commute_of_minimal hX2 hXne hXmin
-    exact hXnc ⟨⟨fun a b => Subtype.ext (hcm a a.2 b b.2)⟩⟩
+    have hcm := CFSG.Timmesfeld.Bridge.RootClosure.commute_of_minimal hX2 _hXne _hXmin
+    exact _hXnc ⟨⟨fun a b => Subtype.ext (hcm a a.2 b b.2)⟩⟩
 
 theorem exists_mem_sylow_map_conj_eq_conjSubgroup {D : Data G} {L : Subgroup G} {x : G}
     (hL : L ∈ calC D.M) (hxM : x ∈ D.M)
@@ -362,6 +362,7 @@ theorem exists_mem_sylow_map_conj_eq_conjSubgroup {D : Data G} {L : Subgroup G} 
     ∃ t ∈ D.T, L.map (MulAut.conj t).toMonoidHom = CFSG.Quasithin.conjSubgroup L x :=
   (p42_swap_data hL hxM hXsup hne).2
 
+omit [Finite G] in
 theorem exists_bar2_map_of_le {H X : Subgroup G} (hXH : X ≤ H)
     (hpCore : pCoreOf 2 X = X ⊓ pCoreOf 2 H) :
     ∃ ψ : Bar2 X →* Bar2 H, Function.Injective ψ ∧
@@ -474,7 +475,7 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
   obtain ⟨eA⟩ := nonempty_bar2_image_mulEquiv_of_isSubnormal hLH hLsubH
   have hAsimple : IsSimpleGroup ↥A :=
     eA.isSimpleGroup_congr.mp (isSimpleGroup_of_isL2_or_isSz hL2)
-  haveI := hAsimple
+  have := hAsimple
   have hAq : CFSG.Open.IsQuasisimple ↥A := CFSG.Open.IsQuasisimple.of_mulEquiv eA.symm hL.2.2
   have hAno : ¬ IsMulCommutative ↥A :=
     (show Group.IsPerfect ↥A from ⟨hAq.1⟩).not_isMulCommutative
@@ -503,7 +504,7 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
     (A.equivMapOfInjective (MulAut.conj q).toMonoidHom
       (MulAut.conj q).injective).trans (MulEquiv.subgroupCongr hBconj.symm)
   have hBsimp : IsSimpleGroup ↥B := eB.symm.isSimpleGroup_congr.mpr hAsimple
-  haveI := hBsimp
+  have := hBsimp
   have hBq : CFSG.Open.IsQuasisimple ↥B := CFSG.Open.IsQuasisimple.of_mulEquiv eB.symm hAq
   have hBno : ¬ IsMulCommutative ↥B :=
     (show Group.IsPerfect ↥B from ⟨hBq.1⟩).not_isMulCommutative
@@ -544,7 +545,7 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
     intro a ha
     exact Subgroup.mem_centralizer_iff.mpr (fun b hb => (hcomm' a ha b hb).symm)
   have hinf' : A' ⊓ B' = ⊥ := by
-    haveI : IsSimpleGroup ↥A' := hA'simple
+    have : IsSimpleGroup ↥A' := hA'simple
     have hnorm : A' ≤ Subgroup.normalizer ((A' ⊓ B' : Subgroup (Bar2 X)) : Set (Bar2 X)) := by
       intro a ha
       rw [Subgroup.mem_normalizer_iff]
@@ -568,14 +569,14 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
           rw [h3]; exact hyB
     have hNsub : ((A' ⊓ B').subgroupOf A').Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hnorm
-    haveI := hNsub
+    have := hNsub
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((A' ⊓ B').subgroupOf A') with h0 | htop
     · have hd : (A' ⊓ B') ⊓ A' = ⊥ :=
         disjoint_iff.mp ((Subgroup.subgroupOf_eq_bot).mp h0)
       rwa [inf_eq_left.mpr inf_le_left] at hd
     · exfalso
       have hAle : A' ≤ B' := ((Subgroup.subgroupOf_eq_top).mp htop).trans inf_le_right
-      haveI : IsMulCommutative ↥A' := by
+      have : IsMulCommutative ↥A' := by
         refine ⟨⟨fun u v => ?_⟩⟩
         exact Subtype.ext (hcomm' (u : Bar2 X) u.2 (v : Bar2 X) (hAle v.2))
       exact hA'no this
@@ -609,8 +610,8 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
       Subgroup.subgroupOf_self, Subgroup.map_top,
       MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
   have hquotF : IsPGroup 2 (Bar2 (X ⊔ D.T) ⧸ (A ⊔ B)) := by
-    haveI : (A ⊔ B).Normal := hFnorm
-    haveI : ((A ⊔ B).subgroupOf (⊤ : Subgroup (Bar2 (X ⊔ D.T)))).Normal :=
+    have : (A ⊔ B).Normal := hFnorm
+    have : ((A ⊔ B).subgroupOf (⊤ : Subgroup (Bar2 (X ⊔ D.T)))).Normal :=
       hFnorm.subgroupOf ⊤
     have htop : IsPGroup 2 ((⊤ : Subgroup (Bar2 (X ⊔ D.T))) ⧸
         (A ⊔ B).subgroupOf ⊤) :=
@@ -696,7 +697,7 @@ theorem hasComponentShapes_bar2_sup {D : Data G} {L : Subgroup G} {x : G}
               _ = A := by
                   rw [uc22p22d_map_conj_map_conj, inv_mul_cancel]
                   ext y
-                  simp [MulAut.conj_apply],
+                  simp,
             CFSG.Goldschmidt.G310.map_conj_eq_of_normal hNn q⁻¹] at h1
           exact h1
         exact le_antisymm hNle (sup_le hAN hBN)

@@ -100,7 +100,7 @@ private theorem kitTame_isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : 
   have hq2 : 2 ≤ ℓ ^ g := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : g ≠ 0) hE.prime.one_lt
     omega
-  haveI := kitTame_finite_generalLinearGroup hE (W := W)
+  have := kitTame_finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · have hq : ¬ ((Module.finrank E W = 2 → 4 ≤ ℓ ^ g) ∧ (Module.finrank E W = 3 → 3 ≤ ℓ ^ g)) := by
       rcases hsmall with h | h
@@ -160,8 +160,8 @@ private theorem kitTame_group_heldGU {r n : ℕ} {K E : Type} [Field K] [Finite 
     CFSG.IsQuasisimple ↥(commutator (heldGU r E τ hτ)) ∨
       Group.IsSolvable (heldGU r E τ hτ) := by
   classical
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite E
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite E
   have hE : UnitaryFieldData 2 n E :=
     { prime := Nat.prime_two
       one_le := hn
@@ -176,8 +176,8 @@ private theorem kitTame_group_heldGU {r n : ℕ} {K E : Type} [Field K] [Finite 
     rw [hτQ y, hK]
     change y ^ 2 ^ n = hE.bar y
     rw [hE.bar_apply]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   let B : (Fin r → E) →ₛₗ[hE.bar] (Fin r → E) →ₗ[E] E :=
     CFSG.LinearGroups.stdHermForm hE r
   have hB : B.IsSymm := CFSG.LinearGroups.stdHermForm_isSymm hE r
@@ -202,7 +202,7 @@ private theorem kitTame_group_heldGU {r n : ℕ} {K E : Type} [Field K] [Finite 
       ¬ ((Module.finrank E (Fin r → E) = 2 → 4 ≤ 2 ^ n) ∧
         (Module.finrank E (Fin r → E) = 3 → 3 ≤ 2 ^ n))
   · right
-    haveI : Group.IsSolvable ↥(sesqUnitaryGroup B) :=
+    have : Group.IsSolvable ↥(sesqUnitaryGroup B) :=
       kitTame_isSolvable_sesqUnitaryGroup_of_small hE hB hBl hsmall
     exact Group.isSolvable_of_surjective (f := φU.symm.toMonoidHom) φU.symm.surjective
   · left

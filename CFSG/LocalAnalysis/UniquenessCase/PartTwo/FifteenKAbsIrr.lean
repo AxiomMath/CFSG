@@ -23,7 +23,7 @@ private theorem s15k_abs_two_cases {F : Type} [Field F] (hF : Nat.card F = 2) (c
     have hu : Nat.card Fˣ = 1 := by
       have h := Nat.card_units (α := F)
       omega
-    haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
+    have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 c hc) 1)
 
 private theorem s15k_abs_comm_id {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
@@ -45,8 +45,8 @@ theorem s15k_abs_endUnits_sp {W : Type} [CommGroup W] [Finite W] {H : Subgroup (
     {U : Subgroup W} {n : ℕ} (hn : 6 ≤ n) (h : NatSpn H U ⊥ n 1) :
     Z391.EndUnitsTrivial H U := by
   obtain ⟨-, F, hF, hFf, hF2, hreal⟩ := h
-  letI := hF
-  haveI : Finite F := hFf
+  let := hF
+  have : Finite F := hFf
   have hF2' : Nat.card F = 2 := by simpa using hF2
   exact s15k_abs_endUnits_of_comm
     (fun g hg v => s15k_abs_comm_id hF2' (Sum.inl ⟨0, by omega⟩) addCommutantScalar_statedSp g hg v)
@@ -56,8 +56,8 @@ theorem s15k_abs_endUnits_omegaPlus {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {U : Subgroup W} {n : ℕ} (hn : 6 ≤ n)
     (h : NatOmegaPlus H U ⊥ n 1) : Z391.EndUnitsTrivial H U := by
   obtain ⟨-, F, hF, hFf, hF2, hreal⟩ := h
-  letI := hF
-  haveI : Finite F := hFf
+  let := hF
+  have : Finite F := hFf
   have hF2' : Nat.card F = 2 := by simpa using hF2
   exact s15k_abs_endUnits_of_comm
     (fun g hg v => s15k_abs_comm_id hF2' (Sum.inl ⟨0, by omega⟩)
@@ -67,8 +67,8 @@ theorem s15k_abs_endUnits_omegaMinus {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {U : Subgroup W} {n : ℕ} (hn : 6 ≤ n)
     (h : NatOmegaMinus H U ⊥ n 1) : Z391.EndUnitsTrivial H U := by
   obtain ⟨-, F, hF, hFf, b, c, hF2, hirr, hreal⟩ := h
-  letI := hF
-  haveI : Finite F := hFf
+  let := hF
+  have : Finite F := hFf
   have hF2' : Nat.card F = 2 := by simpa using hF2
   exact s15k_abs_endUnits_of_comm
     (fun g hg v => s15k_abs_comm_id hF2' (Sum.inr (Sum.inr 0))

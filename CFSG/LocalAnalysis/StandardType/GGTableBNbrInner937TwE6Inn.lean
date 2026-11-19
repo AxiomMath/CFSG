@@ -110,14 +110,14 @@ theorem compat_le_torus₀ {K : Type} [Field K] [Finite K] {σ : K →+* K} {q :
       · apply Units.ext
         simp
       · apply Units.ext
-        simp only [Units.coe_map]
+        simp only
         simp
         have h3K : (a : K) ^ 3 = (w : K) * σ (w : K) := by
           simpa [Units.coe_map] using congrArg Units.val h3'
         field_simp
         linear_combination h3K
       · apply Units.ext
-        simp only [Units.coe_map]
+        simp only
         simp
         have haK : σ (a : K) = (a : K) := by
           simpa [Units.coe_map] using congrArg Units.val ha

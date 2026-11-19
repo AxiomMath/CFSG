@@ -37,7 +37,7 @@ theorem wfrom_skip (x : ℕ → G) (e : ℕ) :
   | 0, k, m, _ => by simp
   | a + 1, k, m, h => by
     rw [show a + 1 + m = (a + m) + 1 by omega, wfrom_succ, h k le_rfl (by omega)]
-    simp only [Bool.false_eq_true, if_false]
+    simp only [Bool.false_eq_true, ite_false]
     rw [wfrom_skip x e a (k + 1) m fun j h1 h2 => h j (by omega) (by omega),
       show k + 1 + a = k + (a + 1) by omega]
 
@@ -136,11 +136,11 @@ theorem exists_wfrom (h : PcRel x n) :
           rw [hjk]
           cases b
           · refine ⟨true, (x k)⁻¹ * y * x k, hconj' y hy, ?_⟩
-            simp only [Bool.false_eq_true, if_false, if_true, one_mul]
+            simp only [Bool.false_eq_true, ite_false, ite_true, one_mul]
             group
           · refine ⟨false, (x k * x k) * ((x k)⁻¹ * y * x k),
               Subgroup.mul_mem _ hsq (hconj' y hy), ?_⟩
-            simp only [Bool.false_eq_true, if_false, if_true, one_mul]
+            simp only [Bool.false_eq_true, ite_false, ite_true, one_mul]
             group)
     obtain ⟨b, y, hy, rfl⟩ := hS g hg
     obtain ⟨e, rfl⟩ := ih y hy
@@ -271,8 +271,8 @@ theorem wfrom_mul_xor (e e' : ℕ) :
     have hkk := hi k le_rfl (by omega)
     rw [wfrom_succ, wfrom_succ, wfrom_succ, Nat.testBit_xor, ← ih]
     cases e.testBit k <;> cases e'.testBit k <;> simp only [Bool.false_xor, Bool.xor_false,
-      Bool.true_xor, Bool.not_true, Bool.not_false, Bool.xor_self, Bool.false_eq_true,
-      if_true, if_false]
+      Bool.xor_self, Bool.false_eq_true,
+      ite_true, ite_false]
     · rw [← mul_assoc, ← hcw, mul_assoc]
     · rw [mul_assoc]
     · rw [mul_assoc, ← mul_assoc (wfrom x e (k + 1) m), ← hcw, ← mul_assoc, ← mul_assoc, hkk,

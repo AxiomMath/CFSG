@@ -25,7 +25,7 @@ noncomputable def natSecVec (β : ↥E →* Multiplicative (Fin 2 → F)) (x : G
 theorem natSecVec_of_mem (β : ↥E →* Multiplicative (Fin 2 → F)) {x : G} (hx : x ∈ E) :
     natSecVec β x = Multiplicative.toAdd (β ⟨x, hx⟩) := by
   unfold natSecVec
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 theorem natSecVec_mul (β : ↥E →* Multiplicative (Fin 2 → F)) {x y : G} (hx : x ∈ E)
     (hy : y ∈ E) : natSecVec β (x * y) = natSecVec β x + natSecVec β y := by
@@ -258,7 +258,7 @@ theorem commutator_pCoreOf_le_pCoreOf (L : Subgroup G) : ⁅pCoreOf 2 L, L⁆ �
 
 theorem exists_pow_two_pow_eq_one_of_mem_pCoreOf [Finite G] {L : Subgroup G} {y : G}
     (hy : y ∈ pCoreOf 2 L) : ∃ m : ℕ, y ^ (2 ^ m) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := pCoreOf_isPGroup 2 L ⟨y, hy⟩
   exact ⟨m, by simpa using congrArg Subtype.val hm⟩
 

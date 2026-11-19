@@ -18,7 +18,7 @@ theorem isInternal_hyperplane_fixedSubmodule_of_binary_rank_counterexample {p : 
       (fun D : ↥(Delta p P ρ) => fixedSubmodule ρ (D : Subgroup G)) := by
   have hS : Setting G p P T B := hc.oddPrimeClassTwoAction.setting
   have hpr : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   have hp2 : p ≠ 2 := by
     intro h
     have hodd := hS.odd

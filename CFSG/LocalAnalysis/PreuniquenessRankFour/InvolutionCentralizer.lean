@@ -139,16 +139,16 @@ theorem local_sylow_with_confined_normalizer_is_ambient_sylow
     ∃ ambientSylow : Sylow prime ambient,
       (ambientSylow : Subgroup ambient) = (localSylow : Subgroup localGroup).map localGroup.subtype := by
   let mapped := (localSylow : Subgroup localGroup).map localGroup.subtype
-  obtain ⟨ambientSylow, hcontained⟩ := (localSylow.isPGroup'.map localGroup.subtype).exists_le_sylow
+  obtain ⟨ambientSylow, hcontained⟩ := (localSylow.isPGroup.map localGroup.subtype).exists_le_sylow
   let subgroup := mapped.subgroupOf (ambientSylow : Subgroup ambient)
-  let : Group.IsNilpotent (ambientSylow : Subgroup ambient) := ambientSylow.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (ambientSylow : Subgroup ambient) := ambientSylow.isPGroup.isNilpotent
   have hnormalizerInside : Subgroup.normalizer (subgroup : Set (ambientSylow : Subgroup ambient)) = subgroup := by
     apply le_antisymm _ Subgroup.le_normalizer
     rw [← Subgroup.subgroupOf_normalizer_eq hcontained]
     intro member hmember
     have hmemberLocal : (member : ambient) ∈ localGroup := hnormalizer hmember
     have hlocalIntersectionGroup : IsPGroup prime
-        ((ambientSylow : Subgroup ambient).subgroupOf localGroup) := ambientSylow.isPGroup'.comap_subtype
+        ((ambientSylow : Subgroup ambient).subgroupOf localGroup) := ambientSylow.isPGroup.comap_subtype
     have hlocalContains : (localSylow : Subgroup localGroup) ≤
         (ambientSylow : Subgroup ambient).subgroupOf localGroup := by
       intro scalar hscalar
@@ -255,7 +255,7 @@ theorem involution_centralizer_with_cyclic_sylow_center_has_common_sylow
         (hcentralizer ▸ Subgroup.centralizer_le_normalizer _))
   apply local_sylow_with_confined_normalizer_is_ambient_sylow 2 localGroup sylow
   exact (normal_order_two_subgroup_with_cyclic_center_normalizer_eq mapped subgroup
-    (sylow.isPGroup'.map localGroup.subtype) hmappedCenter hsubgroupSylow hcard hnormal).trans
+    (sylow.isPGroup.map localGroup.subtype) hmappedCenter hsubgroupSylow hcard hnormal).trans
       ((order_two_subgroup_normalizer_eq_centralizer subgroup hcard).le.trans hcentralizer.le)
 
 theorem maximal_local_cyclic_critical_center_has_common_two_sylow

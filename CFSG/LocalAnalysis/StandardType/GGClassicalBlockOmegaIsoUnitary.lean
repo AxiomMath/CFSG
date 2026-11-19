@@ -329,7 +329,7 @@ private lemma ggJSo3_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : 
   apply le_antisymm
   · rw [GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq] at hA
+    rw [Set.mem_ofPred_eq] at hA
     change A ∈ primeFormUnitary h (idGram E m)
     rw [mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
@@ -340,7 +340,7 @@ private lemma ggJSo3_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : 
     simpa only [idGram, Units.val_one, Matrix.mul_one] using hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hA' := (mem_primeFormUnitary.mp hA)
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
         (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) := by
@@ -430,10 +430,10 @@ theorem exists_selfDual_supportedBlock_coordinateEquiv_hermitian
           (e g : GL (Fin m) (AdjoinRoot h)) =
             (Matrix.GeneralLinearGroup.toLin' b).symm (blockGL Q x h g) := by
   classical
-  letI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  let : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hirr := irreducible_of_mem_primaryFactors hh
-  haveI : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   obtain ⟨d, H, hdeg, hroot, hH, hadd1, hadd2, hleft, hright, hsymm⟩ :=
     hx.exists_selfDual_hermitian hp2 hh hne1 hself
   have hd : Module.finrank K (AdjoinRoot h) = 2 * d := by
@@ -511,7 +511,7 @@ theorem exists_selfDual_supportedBlock_coordinateEquiv
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) :
     letI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    ∃ (d m ℓ f : ℕ) (hU : UnitaryFieldData ℓ (f * d) (AdjoinRoot h)),
+    ∃ (d m ℓ f : ℕ) (_hU : UnitaryFieldData ℓ (f * d) (AdjoinRoot h)),
       1 ≤ d ∧
       Nat.card K = ℓ ^ f ∧
       Nat.card (AdjoinRoot h) = (Nat.card K ^ d) ^ 2 ∧
@@ -524,10 +524,10 @@ theorem exists_selfDual_supportedBlock_coordinateEquiv
         ∀ g : ↥(supportedBlock Q x h),
           (e g : GL (Fin m) (AdjoinRoot h)) =
             (Matrix.GeneralLinearGroup.toLin' b).symm (blockGL Q x h g) := by
-  obtain ⟨d, m, ℓ, f, hU, _H, _B, hd1, hq, hcard, hd, hdim, hdeg,
+  obtain ⟨d, m, ℓ, f, _hU, _H, _B, hd1, hq, hcard, hd, hdim, hdeg,
     _hBH, _htr, _hbar, b, e, _hbB, he⟩ :=
     exists_selfDual_supportedBlock_coordinateEquiv_hermitian hx hp2 hh hne1 hself
-  exact ⟨d, m, ℓ, f, hU, hd1, hq, hcard, hd, hdim, hdeg, b, e, he⟩
+  exact ⟨d, m, ℓ, f, _hU, hd1, hq, hcard, hd, hdim, hdeg, b, e, he⟩
 
 theorem exists_selfDual_supportedBlock_unitary_action
     {K V : Type} [Field K] [Fintype K]
@@ -544,7 +544,7 @@ theorem exists_selfDual_supportedBlock_unitary_action
     (hhσ : h.map (σ : K →+* K) = h) :
     letI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     ∃ (d m ℓ f : ℕ) (hU : UnitaryFieldData ℓ (f * d) (AdjoinRoot h))
-      (b : Module.Basis (Fin m) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
+      (_b : Module.Basis (Fin m) (AdjoinRoot h) (primaryComponent x.toLinearMap h))
       (e : ↥(supportedBlock Q x h) ≃*
         ↥(GUFull m (Nat.card K ^ d) (AdjoinRoot h)))
       (B : ↥(GUFull m (Nat.card K ^ d) (AdjoinRoot h)))
@@ -569,11 +569,11 @@ theorem exists_selfDual_supportedBlock_unitary_action
       τ ≠ 1 ∧
       CFSG.RankThree.PartOne.KCOrthogonal.fixedSubfieldAut K (AdjoinRoot h) d τ ≠ 1 := by
   classical
-  letI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  let : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨d, m, ℓ, f, hU, H, Bform, hd1, hq, hcard, hd, hdim, hdeg,
-    hBH, htr, hbar, b, e, hbB, he⟩ :=
+    hBH, htr, hbar, _b, e, hbB, he⟩ :=
     exists_selfDual_supportedBlock_coordinateEquiv_hermitian hx hp2 hh hne1 hself
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   let T : primaryComponent x.toLinearMap h ≃+ primaryComponent x.toLinearMap h :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.semilinRestrict (S := S) (xe := x)
       hS hSx hhσ
@@ -582,23 +582,23 @@ theorem exists_selfDual_supportedBlock_unitary_action
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.semilinRestrict_smul (S := S) (xe := x)
       hS hSx hhσ
   have hTorth : ∀ i j : Fin m,
-      Bform (T (b i)) (T (b j)) = if i = j then 1 else 0 := by
+      Bform (T (_b i)) (T (_b j)) = if i = j then 1 else 0 := by
     intro i j
-    rw [hBH (T (b i)) (T (b j))]
+    rw [hBH (T (_b i)) (T (_b j))]
     rw [CFSG.HardMathSupport.Dickson.Bal207.OrthFix.herm_semilinRestrict_finite
-      (Q := Q) hS hSx hSQ hhσ htr (b i) (b j),
-      ← hBH (b i) (b j), hbB i j]
+      (Q := Q) hS hSx hSQ hhσ htr (_b i) (_b j),
+      ← hBH (_b i) (_b j), hbB i j]
     by_cases hij : i = j <;> simp [hij]
-  have hBmat : ((semMat b T).map hU.bar)ᵀ * semMat b T = 1 :=
-    semMat_unitary b hU hbB hTorth
-  have hBmem : ((semMatUnit b T hTsmul : GL (Fin m) (AdjoinRoot h)) :
+  have hBmat : ((semMat _b T).map hU.bar)ᵀ * semMat _b T = 1 :=
+    semMat_unitary _b hU hbB hTorth
+  have hBmem : ((semMatUnit _b T hTsmul : GL (Fin m) (AdjoinRoot h)) :
       GL (Fin m) (AdjoinRoot h)) ∈ GUFull m (Nat.card K ^ d) (AdjoinRoot h) := by
     rw [ggJSo3_GUFull_eq_primeFormUnitary hU hbar]
     rw [mem_primeFormUnitary]
     rw [coe_semMatUnit]
     simpa [idGram] using hBmat
   let B : ↥(GUFull m (Nat.card K ^ d) (AdjoinRoot h)) :=
-    ⟨semMatUnit b T hTsmul, hBmem⟩
+    ⟨semMatUnit _b T hTsmul, hBmem⟩
   let τ : AdjoinRoot h ≃+* AdjoinRoot h :=
     CFSG.HardMathSupport.Dickson.Bal207.FirstClaim.extAut h σ hhσ
   have hτeq : τ = CFSG.HardMathSupport.Dickson.Bal207.FirstClaim.extAut h σ hhσ := rfl
@@ -617,7 +617,7 @@ theorem exists_selfDual_supportedBlock_unitary_action
             (primaryComponent x.toLinearMap h)) (T.symm w)) :=
       CFSG.HardMathSupport.Dickson.Bal207.OrthFix.blockGL_semilinRestrict_square
         (Q := Q) (x := x) hS hSx hhσ (g := g) (g' := g') hgg'
-    have hcoord := toLin'_symm_conj_semilin (b := b) (S := T) (τ := τ)
+    have hcoord := toLin'_symm_conj_semilin (b := _b) (S := T) (τ := τ)
       hTsmul (blockGL Q x h g) (blockGL Q x h g') hggT
     rw [he g', he g]
     simpa [B] using hcoord
@@ -633,7 +633,7 @@ theorem exists_selfDual_supportedBlock_unitary_action
   have hfixed : CFSG.RankThree.PartOne.KCOrthogonal.fixedSubfieldAut K (AdjoinRoot h) d τ ≠ 1 :=
     CFSG.RankThree.PartOne.KCOrthogonal.fixedSubfieldAut_ne_one K (AdjoinRoot h) d σ τ
       (fun c => extAut_of hhσ c) hσ
-  refine ⟨d, m, ℓ, f, hU, b, e, B, τ, hd1, hq, hcard, hd, hdim, hdeg, hbarK, hbar,
+  refine ⟨d, m, ℓ, f, hU, _b, e, B, τ, hd1, hq, hcard, hd, hdim, hdeg, hbarK, hbar,
     hτeq, ?_, hτne, hfixed⟩
   exact hsquare
 
@@ -807,7 +807,7 @@ theorem map_glBlockCentralizer_eq_supportedBlock_selfDual
       ↥(supportedBlock Φ (toLinEquiv ι K b) h) :=
   (Subgroup.equivMapOfInjective _
     ((toLinEquiv ι K).toMonoidHom.comp (StatedOmega ⇑Φ).subtype)
-    (fun x y hxy => Subtype.ext ((toLinEquiv ι K).injective hxy))).trans
+    (fun _x _y hxy => Subtype.ext ((toLinEquiv ι K).injective hxy))).trans
     (MulEquiv.subgroupCongr
       (map_glBlockCentralizer_eq_supportedBlock_selfDual Φ hΦ h8 b hx hp2 hh hae hself hne1 hεe))
 
@@ -836,7 +836,7 @@ private lemma ggJSo3_blockDegree_eq_natDegree {ι K : Type} [Fintype ι] [Decida
     (hae : Matrix.toLinAlgEquiv' e = primaryProjection (Matrix.toLin' (b : Matrix ι ι K)) a) :
     blockDegree (Algebra.adjoin K (Units.val '' ({b} : Set (GL ι K)))) e = a.natDegree := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hsq : Squarefree (minpoly K (Matrix.toLin' (b : Matrix ι ι K))) :=
     ggJSo3_squarefree_minpoly b hodd
   let bm : Matrix ι ι K := (b : Matrix ι ι K)
@@ -966,10 +966,10 @@ theorem blockGroup_iso_Omega_unitary {ι K : Type} [Fintype ι] [DecidableEq ι]
       exact primaryProjection_mem hx.squarefree_minpoly hh' v
     · intro y hy
       exact ⟨y, primaryProjection_of_mem hx.squarefree_minpoly hh' hy⟩
-  letI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+  let : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
   let E : Type := AdjoinRoot h
-  haveI : Finite E := finite_adjoinRoot_of_fact h
-  haveI : Fintype E := Fintype.ofFinite _
+  have : Finite E := finite_adjoinRoot_of_fact h
+  have : Fintype E := Fintype.ofFinite _
   obtain ⟨d, m, _ℓ, _f, _hU, hd1, _hq, hcardN, _hd, hdim, hdeg, _b, eG, _heG⟩ :=
     exists_selfDual_supportedBlock_coordinateEquiv hx hodd hh' hne1 hself
   have hcard : Fintype.card E = (Fintype.card K ^ d) ^ 2 := by

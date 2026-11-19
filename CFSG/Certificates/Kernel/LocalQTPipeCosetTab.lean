@@ -313,14 +313,14 @@ theorem om_nodes {N W : Nat} {Aa Ab par gen : Array Nat} {TF MF : Nat → Nat} {
       · have hb : Nat.beq (imgW W GNK x) 0 = true := by rw [hg]; exact beq_iff.2 hg0
         rw [hb] at hcomp
         change compK N W (MF x) (TF 0) (MF (par.getD x 0)) = true at hcomp
-        rw [if_pos hg0]
+        rw [ite_eq_left hg0]
         exact tabP_of_compK h0 tp hcomp
       · have hb : Nat.beq (imgW W GNK x) 0 = false := by
           rw [hg]
           exact Bool.eq_false_iff.2 (fun h => hg0 (beq_iff.1 h))
         rw [hb] at hcomp
         change compK N W (MF x) (TF 1) (MF (par.getD x 0)) = true at hcomp
-        rw [if_neg hg0]
+        rw [ite_eq_right hg0]
         exact tabP_of_compK h1 tp hcomp
 
 end CFSG.KC.LQT.PPC

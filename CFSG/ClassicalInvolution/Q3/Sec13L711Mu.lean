@@ -17,10 +17,12 @@ namespace Q8Omega
 variable (hΩ : Q8Omega Ω)
 include hΩ
 
+omit [Finite G] in
 theorem mem_DSet_iff {W R : Subgroup G} :
     R ∈ DSet Ω W ↔ R ∈ Ω ∧ R ≤ Subgroup.normalizer (W : Set G) :=
   and_congr_left' hΩ.mem_RSet_iff
 
+omit [Finite G] in
 theorem conjSub_mem_DSet {W R : Subgroup G} (hR : R ∈ DSet Ω W) (g : G) :
     conjSub g R ∈ DSet Ω (conjSub g W) := by
   rw [hΩ.mem_DSet_iff] at hR ⊢

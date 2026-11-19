@@ -69,7 +69,7 @@ public theorem normalizer_inf_qCoreOf_eq_self_and_centralizer_inf_qCoreOf_eq_sel
   have hQnormP : Q ≤ Subgroup.normalizer (P : Set G) := hQleH.trans hHP
   have hQnormK : Q ≤ Subgroup.normalizer (K : Set G) := by
     exact (le_inf hQnormO hQnormP).trans
-      (Subgroup.normalizer_inf_normalizer_le_normalizer_sup O P)
+      (Subgroup.inf_normalizer_le_normalizer_sup O P)
   have hQcentO : Q ≤ Subgroup.centralizer (O : Set G) := by
     intro q hq
     rw [Subgroup.mem_centralizer_iff]

@@ -32,11 +32,11 @@ theorem zBar_eq {α β : Finset (Fin 8)} (h : α.card = 4) (h' : β.card = 4)
     constructor
     · intro hx
       by_contra ha
-      rw [if_pos hx, if_neg ha] at h0
+      rw [ite_eq_left hx, ite_eq_right ha] at h0
       exact absurd h0 (by decide)
     · intro hx
       by_contra hb
-      rw [if_neg hb, if_pos hx] at h0
+      rw [ite_eq_right hb, ite_eq_left hx] at h0
       exact absurd h0 (by decide)
   · right
     refine Finset.ext fun x => ?_
@@ -47,11 +47,11 @@ theorem zBar_eq {α β : Finset (Fin 8)} (h : α.card = 4) (h' : β.card = 4)
     · intro hx
       rw [Finset.mem_compl]
       intro ha
-      rw [if_pos hx, if_pos ha] at h0
+      rw [ite_eq_left hx, ite_eq_left ha] at h0
       exact absurd h0 (by decide)
     · intro hx
       by_contra hb
-      rw [if_neg hb, if_neg (Finset.mem_compl.mp hx)] at h0
+      rw [ite_eq_right hb, ite_eq_right (Finset.mem_compl.mp hx)] at h0
       exact absurd h0 (by decide)
 
 theorem transfer {g : Wr 8} (hg : g ∈ aeSubOver agl32) {P1 P2 M1 M2 : Subgroup (AEQ 8)}

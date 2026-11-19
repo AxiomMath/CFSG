@@ -72,10 +72,10 @@ theorem b3_e3_full {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
     (hv : (LieTypeIndex.B 3 q).Valid)
     (e : Nonempty (↥K ≃* ValidLieTypeIndex.Group ⟨.B 3 q, hv⟩)) : E3Concl K₀ B z p := by
   obtain ⟨e⟩ := e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : ringChar (GaloisField q.p q.exponent) = 2 :=
     (ringChar.eq (GaloisField q.p q.exponent) q.p).trans hq2
-  haveI : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
+  have : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hq : q.card = 2 ^ q.exponent := by rw [PrimePower.card_def, hq2]
   have hcardF : Nat.card (GaloisField q.p q.exponent) = 2 ^ q.exponent := by
@@ -87,7 +87,7 @@ theorem b3_e3_full {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
       (by norm_num) e
     rw [hq2] at h1
     exact Or.inl ⟨by decide, h1⟩
-  haveI : IsSimpleGroup ↥K :=
+  have : IsSimpleGroup ↥K :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
   have hrk3 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥K) := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) eSp]

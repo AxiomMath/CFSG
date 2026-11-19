@@ -24,6 +24,7 @@ noncomputable abbrev qL (L : Subgroup G) : L →* L ⧸ aschbacherSolvableCore 3
 theorem actHom_qL (L : Subgroup G) (g : Subgroup.normalizer (L : Set G)) (l : L) :
     actHom L g (qL L l) = qL L (compAction L g l) := rfl
 
+omit [Finite G] in
 theorem coe_compAction (L : Subgroup G) (g : Subgroup.normalizer (L : Set G)) (l : L) :
     ((compAction L g l : L) : G) = (g : G) * l * (g : G)⁻¹ := rfl
 
@@ -101,7 +102,7 @@ theorem exists_invariant_lift {L E : Subgroup G}
       3 Nat.prime_three E W hE3 hW3 hEW 2 Nat.prime_two
   set T : Subgroup G := (Q : Subgroup W).map W.subtype with hT
   have hTW : T ≤ W := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := Q.isPGroup'.map W.subtype
+  have hT2 : IsPGroup 2 T := Q.isPGroup.map W.subtype
   have hTcard : Nat.card T = 4 := by
     rw [hT, Subgroup.card_map_of_injective W.subtype_injective, Sylow.card_eq_multiplicity,
       hWcard]

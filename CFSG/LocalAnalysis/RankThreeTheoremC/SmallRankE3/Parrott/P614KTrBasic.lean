@@ -190,8 +190,8 @@ theorem closure_conj_eq (hO2 : pCoreOf 2 X = ⊥) (hKX : K ≤ X) (hKn : (K.subg
     | inv x _ hx =>
       have hx' := N.inv_mem hx
       rwa [show (h * x * h⁻¹)⁻¹ = h * x⁻¹ * h⁻¹ by group] at hx'
-  haveI := hKs
-  haveI hNKn : ((N ⊓ K).subgroupOf K).Normal := by
+  have := hKs
+  have hNKn : ((N ⊓ K).subgroupOf K).Normal := by
     constructor
     intro u hu k
     rw [Subgroup.mem_subgroupOf] at hu ⊢
@@ -270,11 +270,11 @@ theorem exists_eq_of_decomposition (hO2 : pCoreOf 2 X = ⊥) (hKX : K ≤ X)
     push Not at hex
     obtain ⟨a, b, hab⟩ := hKna
     apply hab
-    haveI := hKs
+    have := hKs
     have hcen : X ≤ Subgroup.centralizer (K : Set (MulAut V)) := by
       rw [← hsupX]
       refine iSup_le fun j => ?_
-      haveI hn : ((W j ⊓ K).subgroupOf K).Normal := by
+      have hn : ((W j ⊓ K).subgroupOf K).Normal := by
         constructor
         intro u hu k
         rw [Subgroup.mem_subgroupOf] at hu ⊢

@@ -23,7 +23,7 @@ private theorem s1611e3_sixZ_ne_one : sixZ ≠ (1 : SixE6) := by
   intro h
   have h1 : (allOnes 6 : PermMod 6) = 1 := by simpa [sixZ] using congrArg Subtype.val h
   have h2 := congrFun (congrArg Multiplicative.toAdd h1) 0
-  have h3 : (1 : ZMod 2) = 0 := by simpa [allOnes] using h2
+  have h3 : (1 : ZMod 2) = 0 := by simp [allOnes] at h2
   exact one_ne_zero h3
 
 private theorem s1611e3_sixZ_sq : sixZ ^ 2 = (1 : SixE6) := by
@@ -57,9 +57,9 @@ private theorem s1611e3_resHom_injective (h : SixHyp M L L' κ e)
       (CFSG.Quasithin.H13.VolI.resHom L U hU).range ⊤ ⊥) :
     Function.Injective (CFSG.Quasithin.H13.VolI.resHom L U hU) := by
   classical
-  haveI : IsSimpleGroup ↥L := by
+  have : IsSimpleGroup ↥L := by
     obtain ⟨φ⟩ := h.isAlt
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
       alternatingGroup.isSimpleGroup (by simp)
     exact φ.isSimpleGroup
   rw [injective_iff_map_eq_one]
@@ -76,7 +76,7 @@ private theorem s1611e3_resHom_injective (h : SixHyp M L L' κ e)
     obtain ⟨ℓ', rfl⟩ := hx
     exact MonoidHom.mem_ker.1 (hker_top ▸ Subgroup.mem_top ℓ')
   obtain ⟨π, Ψ, -, hΨ⟩ := s1611e3_six_coord hreal
-  haveI : Subsingleton ↥((CFSG.Quasithin.H13.VolI.resHom L U hU).range) := by
+  have : Subsingleton ↥((CFSG.Quasithin.H13.VolI.resHom L U hU).range) := by
     rw [hH]; infer_instance
   have hπ1 : ∀ a, π a = 1 := fun a => Subsingleton.elim _ _
   obtain ⟨a, ha⟩ := s1611e3_act6_ne_one

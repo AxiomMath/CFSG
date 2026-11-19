@@ -49,7 +49,7 @@ theorem normalizer_le_of_le_inf_of_scn [Finite G] [IsSimpleGroup G]
   have hA3 : 3 ∈ elementaryAbelianRanks p ↥A := (le_elementaryAbelianPRank_iff hp.one_lt).1 hArank
   have hA2 : 2 ∈ elementaryAbelianRanks p ↥A := mem_elementaryAbelianRanks_of_le (by omega) hA3
   have hAne : A ≠ ⊥ := ne_bot_of_two_mem_elementaryAbelianRanks hp hA2
-  have hApg : IsPGroup p ↥A := P.isPGroup'.to_le hAP
+  have hApg : IsPGroup p ↥A := P.isPGroup.to_le hAP
   have hπ : subgroupPrimeSupport A = {p} :=
     subgroupPrimeSupport_eq_singleton_of_isPGroup hp hApg hAne
   have hcon : IsConstrained A :=
@@ -66,7 +66,7 @@ theorem normalizer_le_of_le_inf_of_scn [Finite G] [IsSimpleGroup G]
       hp P hAnormal hAself hA3 hq hqp hQ₁ hQ₂
   have hRP : R ≤ (P : Subgroup G) := hRPM.trans inf_le_left
   have hRM : R ≤ M := hRPM.trans inf_le_right
-  have hRpg : IsPGroup p ↥R := P.isPGroup'.to_le hRP
+  have hRpg : IsPGroup p ↥R := P.isPGroup.to_le hRP
   have hPnormA : (P : Subgroup G) ≤ normalizer (A : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAP).1 hAnormal
   have hARnormal : (A.subgroupOf R).Normal :=

@@ -52,7 +52,7 @@ private theorem hdRo7CKCoordAux_supp_card_eq_two
 
 private theorem hdRo7CKCoordAux_split
     {L : Type} [Field L] [Algebra (GaloisField 2 1) L] [Module.Finite (GaloisField 2 1) L]
-    {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (hdim : Module.finrank (GaloisField 2 1) L = 2)
+    {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (_hdim : Module.finrank (GaloisField 2 1) L = 2)
     {m : ℕ} (hm : 5 ≤ m) {E : Subgroup (StatedSp m (GaloisField 2 1))}
     (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (c : Fin F.s → ZMod 3)
     (J' : Subgroup (StatedSp m (GaloisField 2 1)))
@@ -60,7 +60,7 @@ private theorem hdRo7CKCoordAux_split
       (Subgroup.centralizer ({F.tor c} : Set (StatedSp m (GaloisField 2 1))))) :
     J' ≤ CFSG.RankThree.PartOne.spFixedFactor (F.tor c) ∨
       J' ≤ CFSG.RankThree.Classical.spSupported (F.tor c) {ChoiceTwo.phi3 (GaloisField 2 1)} := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1) (by norm_num)]
     norm_num
@@ -79,7 +79,7 @@ private theorem hdRo7CKCoordAux_split
   · rw [Subgroup.centralizer_closure]
 
 private theorem hdRo7CKCoordAux_rank_eq_of_ggLabelIso
-    {t₁ t₂ : LargeEvenLieTag} (h₁ : t₁ = .B ∨ t₁ = .C) (h₂ : t₂ = .B ∨ t₂ = .C)
+    {t₁ t₂ : LargeEvenLieTag} (h₁ : t₁ = .B ∨ t₁ = .C) (_h₂ : t₂ = .B ∨ t₂ = .C)
     {r₁ r₂ : ℕ} (h : GGLabelIso ⟨t₁, r₁, 1⟩ ⟨t₂, r₂, 1⟩) : r₁ = r₂ := by
   rcases h with h | h | h | h | h | h | h | h
   · exact congrArg LargeEvenLabel.rank h
@@ -111,7 +111,7 @@ private theorem hdRo7CKCoordAux_spFixedFactor_one_eq_top
 
 private theorem hdRo7CKCoordAux_fixed_proj_iso_zero
     {L : Type} [Field L] [Algebra (GaloisField 2 1) L] [Module.Finite (GaloisField 2 1) L]
-    {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (hdim : Module.finrank (GaloisField 2 1) L = 2)
+    {ζ : L} (_hζ : IsPrimitiveRoot ζ 3) (hdim : Module.finrank (GaloisField 2 1) L = 2)
     {m : ℕ} (hm : 5 ≤ m) {E : Subgroup (StatedSp m (GaloisField 2 1))}
     (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (c : Fin F.s → ZMod 3)
     (J' : Subgroup (StatedSp m (GaloisField 2 1)))
@@ -120,7 +120,7 @@ private theorem hdRo7CKCoordAux_fixed_proj_iso_zero
     Nonempty (↥J' ⧸ Subgroup.center ↥J' ≃*
       StatedProj (StatedSp (F.zeroSet c).card (GaloisField 2 1))) := by
   subst c
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
       (by norm_num)]
@@ -151,7 +151,7 @@ private theorem hdRo7CKCoordAux_fixed_proj_iso
       StatedProj (StatedSp (F.zeroSet c).card (GaloisField 2 1))) := by
   by_cases hc : c = 0
   · exact hdRo7CKCoordAux_fixed_proj_iso_zero hζ hdim hm F c J' heq hc
-  · haveI : NeZero m := ⟨by omega⟩
+  · have : NeZero m := ⟨by omega⟩
     have hK : Nat.card (GaloisField 2 1) = 2 := by
       rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
         (by norm_num)]
@@ -184,7 +184,7 @@ private theorem hdRo7CKCoordAux_fixed_label
 
 private theorem hdRo7CKCoordAux_fixed_eq_zero
     {L : Type} [Field L] [Algebra (GaloisField 2 1) L] [Module.Finite (GaloisField 2 1) L]
-    {ζ : L} (hζ : IsPrimitiveRoot ζ 3) (hdim : Module.finrank (GaloisField 2 1) L = 2)
+    {ζ : L} (_hζ : IsPrimitiveRoot ζ 3) (_hdim : Module.finrank (GaloisField 2 1) L = 2)
     {m : ℕ} (hm : 5 ≤ m) {E : Subgroup (StatedSp m (GaloisField 2 1))}
     (F : ChoiceTwo.SpFrame (GaloisField 2 1) m ζ E) (c : Fin F.s → ZMod 3)
     (J' : Subgroup (StatedSp m (GaloisField 2 1)))
@@ -194,7 +194,7 @@ private theorem hdRo7CKCoordAux_fixed_eq_zero
     (hc : c = 0) :
     J' = CFSG.RankThree.PartOne.spFixedFactor (F.tor c) := by
   subst c
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
       (by norm_num)]
@@ -242,7 +242,7 @@ private theorem hdRo7CKCoordAux_fixed_eq
     J' = CFSG.RankThree.PartOne.spFixedFactor (F.tor c) := by
   by_cases hc : c = 0
   · exact hdRo7CKCoordAux_fixed_eq_zero hζ hdim hm F c J' hJ' hfix hc
-  · haveI : NeZero m := ⟨by omega⟩
+  · have : NeZero m := ⟨by omega⟩
     have hK : Nat.card (GaloisField 2 1) = 2 := by
       rw [CFSG.ComponentClassification.TBLit.L34P.card_galoisField (p := 2) (n := 1)
         (by norm_num)]

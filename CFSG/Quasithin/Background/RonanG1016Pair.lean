@@ -49,8 +49,8 @@ theorem odd_orderOf_of_commutes [Finite V] {H : Subgroup (GLV V)} {J : Submodule
     Odd (orderOf u) := by
   by_contra hev
   have hev' : 2 ∣ orderOf u := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hev)
-  haveI : Finite ↥J := inferInstance
-  haveI : Finite (↥J ≃ₗ[ZMod 2] ↥J) := Finite.of_injective _ DFunLike.coe_injective
+  have : Finite ↥J := inferInstance
+  have : Finite (↥J ≃ₗ[ZMod 2] ↥J) := Finite.of_injective _ DFunLike.coe_injective
   have hpos : 0 < orderOf u := orderOf_pos u
   set w : ↥J ≃ₗ[ZMod 2] ↥J := u ^ (orderOf u / 2) with hw
   have hwo : orderOf w = 2 := orderOf_pow_orderOf_div hpos.ne' hev'

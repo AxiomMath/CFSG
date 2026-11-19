@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Alternating.Multipliers
 
 variable {P Q : Type*} [Group P] [Group Q] [Finite P]
 
+omit [Finite P] in
 theorem exists_lift_elemAbelian_two_of_central_odd_ker {f : P →* Q}
     (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center P)
     (hodd : Odd (Nat.card f.ker)) {Tbar : Subgroup Q} (hT : IsElemAbelian 2 Tbar)
@@ -29,7 +30,7 @@ theorem exists_lift_elemAbelian_two_of_central_odd_ker {f : P →* Q}
         have hb : ((b : Q)) ∈ f.range := hf b.1
         have ha2 : (a : Q) ^ 2 = 1 := hT.2 a.1 a.2
         have hb2 : (b : Q) ^ 2 = 1 := hT.2 b.1 b.2
-        haveI : IsMulCommutative ↥Tbar := hT.1
+        have : IsMulCommutative ↥Tbar := hT.1
         have hc : (a : Q) * (b : Q) = (b : Q) * (a : Q) :=
           congrArg Subtype.val (mul_comm' a b)
         have hm := sqLift_mul hker hodd ha ha2 hb hb2 hc
@@ -55,7 +56,7 @@ theorem exists_lift_elemAbelian_two_of_central_odd_ker {f : P →* Q}
     let e : ↥Tbar ≃* ↥iota.range := MonoidHom.ofInjective hfinj
     have hel : CFSG.IsElementaryAbelian 2 ↥Tbar :=
       (CFSG.Open.isElemAbelian_iff_isElementaryAbelian).mp hT
-    haveI : CFSG.IsElementaryAbelian 2 ↥iota.range :=
+    have : CFSG.IsElementaryAbelian 2 ↥iota.range :=
       CFSG.IsElementaryAbelian.of_mulEquiv e hel
     exact CFSG.Open.isElemAbelian_of_isElementaryAbelian
   ·

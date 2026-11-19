@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem r920imn_commutator_commutator_eq_bot {Q : Type*} [Group Q] {A B C : Subgroup Q}
     (hA : A.Normal) (hAC : ⁅A, C⁆ = ⊥) (hBC : ⁅B, C⁆ = B) : ⁅A, B⁆ = ⊥ := by
-  haveI := hA
+  have := hA
   rw [← hBC, eq_bot_iff, Subgroup.commutator_le]
   intro a ha x hx
   rw [Subgroup.mem_bot]
@@ -96,7 +96,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
   have hWΓ : W ≤ Γ := hWU.trans hUΓ
   have hTnormalΓ : (T.subgroupOf Γ).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTΓ).mpr (sup_le hUT hLT)
-  letI : (T.subgroupOf Γ).Normal := hTnormalΓ
+  let : (T.subgroupOf Γ).Normal := hTnormalΓ
   let π : Γ →* (Γ ⧸ T.subgroupOf Γ) := QuotientGroup.mk' _
   let B : Subgroup (Γ ⧸ T.subgroupOf Γ) := (U.subgroupOf Γ).map π
   let A : Subgroup (Γ ⧸ T.subgroupOf Γ) := (W.subgroupOf Γ).map π
@@ -107,7 +107,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWΓ).mpr (sup_le hUW hLW)
   have hBnormal : B.Normal :=
     Subgroup.Normal.map hUnormalΓ π (QuotientGroup.mk'_surjective _)
-  haveI : B.Normal := hBnormal
+  have : B.Normal := hBnormal
   have hAnormal : A.Normal :=
     Subgroup.Normal.map hWnormalΓ π (QuotientGroup.mk'_surjective _)
   have hΓtop : (U.subgroupOf Γ) ⊔ (L.subgroupOf Γ) = ⊤ := by
@@ -175,7 +175,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
   have hABle : A ≤ B := by
     dsimp only [A, B]
     exact Subgroup.map_mono (Subgroup.subgroupOf_mono Γ hWU)
-  haveI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  have : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   have hBpow : ∀ x ∈ B, x ^ r ∈ A := by
     intro x hx
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
@@ -184,7 +184,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
     refine Subgroup.mem_map_of_mem π ?_
     have h := hexp (u : G) hu'
     simpa [Subgroup.mem_subgroupOf, map_pow] using h
-  haveI : IsMulCommutative (↥B ⧸ A.subgroupOf B) := by
+  have : IsMulCommutative (↥B ⧸ A.subgroupOf B) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, commutator_eq_closure]
     refine (Subgroup.closure_le (K := A.subgroupOf B)).2 ?_
     rintro x ⟨p, q, rfl⟩
@@ -247,7 +247,7 @@ theorem exists_pow_mem_of_commutator_action {r : ℕ} [Fact r.Prime] {U W T L : 
     rw [Subgroup.commutator_le]
     intro b hb c hc
     have hb' : b ∈ P ⊔ R := by rw [hPR]; exact hb
-    haveI : R.Normal := Subgroup.normal_of_le_center (hRA.trans hAZ)
+    have : R.Normal := Subgroup.normal_of_le_center (hRA.trans hAZ)
     obtain ⟨p, hp, r, hr, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hb'
     have hrZ : r ∈ Subgroup.center (Γ ⧸ T.subgroupOf Γ) := hAZ (hRA hr)
     have hrc : ⁅r, c⁆ = 1 :=

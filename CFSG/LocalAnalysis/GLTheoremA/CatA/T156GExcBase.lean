@@ -143,8 +143,8 @@ theorem pow_mem_ggFixDer_of_coprime {p : ℕ} {R : Type} [Group R] {f : MulAut R
   exact Subgroup.zpow_mem _ hgm _
 
 theorem pow_mem_ggFixDer_of_eq {p : ℕ} {R : Type} [Group R] {f : MulAut R}
-    (h : ggFixDer f = ggFixSub f) : ∀ g ∈ ggFixSub f, g ^ p = 1 → g ∈ ggFixDer f :=
-  fun g hg _ => h ▸ hg
+    (h : ggFixDer f = ggFixSub f) : ∀ _g ∈ ggFixSub f, _g ^ p = 1 → _g ∈ ggFixDer f :=
+  fun _g hg _ => h ▸ hg
 
 theorem center_eq_bot_of_simple_noncomm {G : Type*} [Group G] [IsSimpleGroup G]
     (hna : ∃ a b : G, a * b ≠ b * a) : Subgroup.center G = ⊥ := by
@@ -171,7 +171,7 @@ theorem fixAlt_of_hasLabel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
   have hinn := MI.canonRawInn hp hp2 hlab₀ _ hcan
   refine Or.inl ⟨lab₀, hlab₀, Canonical.largeEvenRawDatum_mono ?_ hinn⟩
   rintro R' _ I' F' ⟨⟨e'⟩, hRaw⟩
-  haveI : IsSimpleGroup R' := e'.symm.isSimpleGroup
+  have : IsSimpleGroup R' := e'.symm.isSimpleGroup
   have hna' : ∃ a b : R', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     exact ⟨e' a, e' b, fun h => hab (e'.injective (by rw [map_mul, map_mul, h]))⟩

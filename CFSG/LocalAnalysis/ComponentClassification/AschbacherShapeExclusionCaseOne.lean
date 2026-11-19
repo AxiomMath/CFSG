@@ -183,7 +183,7 @@ theorem central_trivial_or [Finite G] (hs : Setting A S₀ t x ρ k) :
   · exact Or.inl hz
   · refine Or.inr fun w hwS hwc => ?_
     by_contra hw1
-    exact hz (hs.config.x_sq_mem_of_ne_one (S₀.isPGroup'.map _) hs.t_norm hwS hwc hw1)
+    exact hz (hs.config.x_sq_mem_of_ne_one (S₀.isPGroup.map _) hs.t_norm hwS hwc hw1)
 
 theorem x_sq_sq (hs : Setting A S₀ t x ρ k) : (x ^ 2) ^ 2 = 1 := by
   rw [← pow_mul]

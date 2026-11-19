@@ -18,9 +18,9 @@ theorem cntN_card (n : Nat) (f : Nat → Bool) :
   | succ n ih =>
     rw [List.range_succ, List.countP_append, ih, Finset.range_add_one, Finset.filter_insert]
     by_cases hf : f n = true
-    · rw [if_pos hf, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left hf, Finset.card_insert_of_notMem (by simp)]
       simp [hf]
-    · rw [if_neg hf]
+    · rw [ite_eq_right hf]
       simp [hf]
 
 theorem walkIK_eq {n w m nw kS T R c r : Nat} {S SI : Nat → Nat} {σ : Nat → Equiv.Perm (Fin n)}
@@ -66,7 +66,7 @@ theorem fixList_spec {n w m U cF : Nat} {F : Nat → Nat} (h : fixListK n w m U 
 theorem inK_iff {O : Nat → Nat} {c z : Nat} : inK O c z = true ↔ ∃ i < c, O i = z := by
   unfold inK
   rw [Bool.not_eq_true', Bool.eq_false_iff, ne_eq, allN_iff]
-  push_neg
+  push Not
   simp [Nat.beq_eq]
 
 end CFSG.KS.Co2Third

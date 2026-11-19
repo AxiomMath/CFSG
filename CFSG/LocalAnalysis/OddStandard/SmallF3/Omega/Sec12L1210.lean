@@ -52,7 +52,7 @@ theorem sec12_S_le_secN (hp : Asc82Pre11) {t : G} {L S : Subgroup G} {z : G}
     simp only [Subgroup.mem_inf, hsM' x, hsL x]
   exact sec12_normalizer_commutator (hctx.S_norm hs) hsML
 
-theorem sec12_relIndex_inf_eq_two {P M M₀ : Subgroup G} (hPM : P ≤ M) (hM₀ : M₀ ≤ M)
+theorem sec12_relIndex_inf_eq_two {P M M₀ : Subgroup G} (hPM : P ≤ M) (_hM₀ : M₀ ≤ M)
     (hidx : M₀.relIndex M = 2) {t : G} (htP : t ∈ P) (htM₀ : t ∉ M₀) :
     (P ⊓ M₀).relIndex P = 2 := by
   have htM : t ∈ M := hPM htP

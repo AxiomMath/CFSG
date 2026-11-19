@@ -19,7 +19,7 @@ private theorem w16q_odd_natCard_fusionOddCore (X : Type) [Group X] [Finite X] :
     congr 1
     ext K
     simp [Nat.coprime_two_left]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [h]
   exact Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -38,16 +38,16 @@ namespace Heis2p
 
 variable {X : Type} [Group X] {Y : Subgroup X} {p : ℕ}
 
-private theorem w16q_center_comm (h : Heis2p X Y p) {z n : X}
+private theorem w16q_center_comm (_h : Heis2p X Y p) {z n : X}
     (hz : z ∈ oddCoreCenter X) (hn : n ∈ fusionOddCore X) : z * n = n * z := by
   rcases Subgroup.mem_map.mp hz with ⟨w, hw, rfl⟩
   exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hw ⟨n, hn⟩)).symm
 
 private theorem w16q_commutator_eq_center [Finite X] (h : Heis2p X Y p) :
     ⁅fusionOddCore X, fusionOddCore X⁆ = oddCoreCenter X := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let N := ↥(fusionOddCore X)
-  haveI : Finite N := Finite.of_injective (fun n : N => (n : X)) Subtype.coe_injective
+  have : Finite N := Finite.of_injective (fun n : N => (n : X)) Subtype.coe_injective
   have hP : CFSG.IsExtraspecialPGroup p N :=
     CFSG.IsExtraspecial.isExtraspecialPGroup (p := p) (P := N) (hE := h.ext)
   have hcomm : commutator N = Subgroup.center N :=
@@ -92,7 +92,7 @@ private theorem w16q_conj_eq_self [Finite X] (h : Heis2p X Y p) {v y : X}
     exact hv1 (congrArg Subtype.val hh)
   exact (congrArg Subtype.val ((hy₀uniq _ h2).trans (hy₀uniq _ h1).symm)).symm
 
-private theorem w16q_commutator_center_mul [Finite X] (h : Heis2p X Y p) {x y z w : X}
+private theorem w16q_commutator_center_mul [Finite X] (_h : Heis2p X Y p) {x y z w : X}
     (hx : x ∈ fusionOddCore X) (hy : y ∈ fusionOddCore X)
     (hz : z ∈ oddCoreCenter X) (hw : w ∈ oddCoreCenter X) :
     ⁅x * z, y * w⁆ = ⁅x, y⁆ := by
@@ -260,7 +260,7 @@ theorem inv_center [Finite X] (h : Heis2p X Y p) {v : X} (hv : v ∈ Y) (hv1 : v
       rw [isConj_iff] at hac
       rcases hac with ⟨c, rfl⟩
       rcases hYmem a ha with rfl | rfl
-      · simpa using Subgroup.one_mem (Nminus ⊔ Y)
+      · simp
       · exact hconj c
     rw [h.gen] at hle
     exact top_le_iff.mp hle
@@ -335,7 +335,7 @@ theorem inv_center [Finite X] (h : Heis2p X Y p) {v : X} (hv : v ∈ Y) (hv1 : v
 
 private theorem w16q_center_card (h : Heis2p X Y p) :
     Nat.card (Subgroup.center ↥(fusionOddCore X)) = p := by
-  haveI : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
+  have : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
   exact CFSG.IsExtraspecial.center_order_p p ↥(fusionOddCore X)
 
 private theorem w16q_oddCoreCenter_card (h : Heis2p X Y p) :
@@ -345,7 +345,7 @@ private theorem w16q_oddCoreCenter_card (h : Heis2p X Y p) :
   exact w16q_center_card h
 
 theorem exponent_eq [Finite X] (h : Heis2p X Y p) : Monoid.exponent ↥(fusionOddCore X) = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hpodd : Odd p := h.prime.odd_of_ne_two (ne_two h)
   obtain ⟨y₀, hy₀ne, -⟩ := (Nat.card_eq_two_iff' (1 : Y)).1 h.card_Y
   obtain ⟨v, hv, hv1⟩ : ∃ v ∈ Y, v ≠ 1 :=
@@ -363,7 +363,7 @@ theorem exponent_eq [Finite X] (h : Heis2p X Y p) : Monoid.exponent ↥(fusionOd
   have hpow : ∀ a : ↥(fusionOddCore X), a ^ p = 1 := by
     intro a
     set A : X := (a : X) with hA
-    haveI hE : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
+    have hE : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
     have hq : IsElementaryAbelian p
         (↥(fusionOddCore X) ⧸ Subgroup.center ↥(fusionOddCore X)) :=
       CFSG.IsExtraspecial.quotient_elementary_abelian p ↥(fusionOddCore X)
@@ -403,7 +403,7 @@ theorem exponent_eq [Finite X] (h : Heis2p X Y p) : Monoid.exponent ↥(fusionOd
     exact Subtype.ext (by simpa [hA] using hAp)
   have hExp : Monoid.exponent ↥(fusionOddCore X) ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one hpow
-  haveI hnt : Nontrivial ↥(fusionOddCore X) :=
+  have hnt : Nontrivial ↥(fusionOddCore X) :=
     Finite.one_lt_card_iff_nontrivial.mp
       (by rw [h.card_O]; exact one_lt_pow' h.prime.one_lt (by norm_num))
   rcases h.prime.eq_one_or_self_of_dvd (Monoid.exponent ↥(fusionOddCore X)) hExp with h1 | hp
@@ -412,7 +412,7 @@ theorem exponent_eq [Finite X] (h : Heis2p X Y p) : Monoid.exponent ↥(fusionOd
     omega
   · exact hp
 
-private theorem w16q_map_fusionOddCore [Finite X] (h : Heis2p X Y p) (α : MulAut X) :
+private theorem w16q_map_fusionOddCore [Finite X] (_h : Heis2p X Y p) (α : MulAut X) :
     (fusionOddCore X).map α.toMonoidHom = fusionOddCore X := by
   have hle : (fusionOddCore X).map α.toMonoidHom ≤ fusionOddCore X :=
     le_sSup ⟨(fusionOddCore_normal X).map α.toMonoidHom α.surjective, by
@@ -430,7 +430,7 @@ private theorem w16q_map_fusionOddCore [Finite X] (h : Heis2p X Y p) (α : MulAu
     Subgroup.mem_map_of_mem α.toMonoidHom h1
   simpa using h2
 
-private theorem w16q_oddCoreCenter_le (h : Heis2p X Y p) :
+private theorem w16q_oddCoreCenter_le (_h : Heis2p X Y p) :
     oddCoreCenter X ≤ fusionOddCore X := by
   intro z hz
   rcases Subgroup.mem_map.mp hz with ⟨w, -, rfl⟩
@@ -523,8 +523,8 @@ theorem card_le_two [Finite X] (h : Heis2p X Y p) (E : Subgroup (MulAut X))
     (hE : IsElemAbelian 2 E) (hEY : ∀ α ∈ E, ∀ y ∈ Y, α y = y)
     (hEZ : ∀ α ∈ E, ∀ z ∈ oddCoreCenter X, α z = z) : Nat.card E ≤ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
+  have : Fact p.Prime := ⟨h.prime⟩
+  have hExt : CFSG.IsExtraspecial p ↥(fusionOddCore X) := h.ext
   have hpodd : Odd p := h.prime.odd_of_ne_two (ne_two h)
   let Q := ↥(fusionOddCore X) ⧸ Subgroup.center ↥(fusionOddCore X)
   have hQe : IsElementaryAbelian p Q :=
@@ -577,7 +577,7 @@ theorem card_le_two [Finite X] (h : Heis2p X Y p) (E : Subgroup (MulAut X))
       · rw [w16q_mem_NplusAut_iff]
         refine ⟨w16q_oddCoreCenter_le h hz, ?_⟩
         rw [hEZ α hαE z hz]
-        simpa using Subgroup.one_mem (oddCoreCenter X)
+        simp
       · rw [w16q_mem_NminusAut_iff]
         refine ⟨w16q_oddCoreCenter_le h hz, ?_⟩
         rw [hEZ α hαE z hz]
@@ -750,10 +750,10 @@ theorem card_le_two [Finite X] (h : Heis2p X Y p) (E : Subgroup (MulAut X))
         have hkb2 : kb = 2 := by omega
         have hAcard : Nat.card (w16q_NplusAut h α) = p ^ 2 := hka_eq.trans (by rw [hka2])
         have hBcard : Nat.card (w16q_NminusAut h α) = p ^ 2 := hkb_eq.trans (by rw [hkb2])
-        haveI hApgr : IsPGroup p ↥(w16q_NplusAut h α) :=
+        have hApgr : IsPGroup p ↥(w16q_NplusAut h α) :=
           (CFSG.IsExtraspecial.isPGroup p ↥(fusionOddCore X)).of_injective
             (Subgroup.inclusion hle_plus) (Subgroup.inclusion_injective hle_plus)
-        haveI hBpgr : IsPGroup p ↥(w16q_NminusAut h α) :=
+        have hBpgr : IsPGroup p ↥(w16q_NminusAut h α) :=
           (CFSG.IsExtraspecial.isPGroup p ↥(fusionOddCore X)).of_injective
             (Subgroup.inclusion hle_minus) (Subgroup.inclusion_injective hle_minus)
         have hAbel : IsMulCommutative ↥(w16q_NplusAut h α) :=
@@ -787,7 +787,7 @@ theorem card_le_two [Finite X] (h : Heis2p X Y p) (E : Subgroup (MulAut X))
           apply Subtype.ext
           rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hxab, ← hyab]
           exact Commute.mul_left (Commute.mul_right haa' hab') (Commute.mul_right hba' hbb')
-        haveI := hNab
+        have := hNab
         have hcenter : Subgroup.center ↥(fusionOddCore X) = ⊤ := Subgroup.center_eq_top
         have hcardc : Nat.card (Subgroup.center ↥(fusionOddCore X)) =
             Nat.card ↥(fusionOddCore X) := by rw [hcenter, Subgroup.card_top]
@@ -894,7 +894,7 @@ theorem w16q_two_le_of_pow_modEq_one {p k : ℕ} (hp : p.Prime) (hk : k ≠ 0)
   by_contra hk2
   have hk1 : k = 1 := by omega
   subst hk1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz : ((2 : ZMod p) ^ (p * 1)) = 1 := by
     have := (ZMod.natCast_eq_natCast_iff (2 ^ (p * 1)) 1 p).2 (by simpa using h)
     simpa using this

@@ -28,14 +28,17 @@ noncomputable abbrev KhY (K : Subgroup X) (Y : Subgroup (MulAut (Kbar K))) : Sub
       (conj_injective_of_center_bot (center_Kbar hK))).trans
     (Subgroup.subgroupOfEquivOfLe hY).symm
 
+omit [Finite X] in
 theorem thetaY_coe (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K))} (hY : Kinn K ≤ Y)
     (a : Kbar K) : (((thetaY hK hY a : ↥(KhY K Y)) : ↥Y) : MulAut (Kbar K)) = MulAut.conj a := rfl
 
+omit [Finite X] in
 theorem isSimpleGroup_KhY (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K))}
     (hY : Kinn K ≤ Y) : IsSimpleGroup ↥(KhY K Y) := by
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   exact (thetaY hK hY).symm.isSimpleGroup
 
+omit [Finite X] in
 theorem centralizer_KhY (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K))}
     (hY : Kinn K ≤ Y) :
     Subgroup.centralizer ((KhY K Y : Subgroup ↥Y) : Set ↥Y) = ⊥ := by
@@ -72,6 +75,7 @@ theorem centralizer_KhY (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K
   (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans
     (thetaY hK hY)
 
+omit [Finite X] in
 theorem iotaY_coe (hK : IsComponentOf K ⊤) (hZ : Subgroup.center ↥K = ⊥)
     {Y : Subgroup (MulAut (Kbar K))} (hY : Kinn K ≤ Y) (a : ↥K) :
     (((iotaY hK hZ hY a : ↥(KhY K Y)) : ↥Y) : MulAut (Kbar K)) =
@@ -79,6 +83,7 @@ theorem iotaY_coe (hK : IsComponentOf K ⊤) (hZ : Subgroup.center ↥K = ⊥)
   show (((thetaY hK hY (QuotientGroup.mk a) : ↥(KhY K Y)) : ↥Y) : MulAut (Kbar K)) = _
   exact thetaY_coe hK hY _
 
+omit [Finite X] in
 theorem congr_iotaY_normalizerMonoidHom (hK : IsComponentOf K ⊤) (hZ : Subgroup.center ↥K = ⊥)
     {Y : Subgroup (MulAut (Kbar K))} (hY : Kinn K ≤ Y)
     (n : ↥(Subgroup.normalizer (K : Set X))) (hn : rhoK K n ∈ Y) :
@@ -98,6 +103,7 @@ theorem congr_iotaY_normalizerMonoidHom (hK : IsComponentOf K ⊤) (hZ : Subgrou
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, iotaY_coe]
   rw [mulAut_mul_conj_mul_inv, rhoK_mk]
 
+omit [Finite X] in
 theorem KhY_nonabelian (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K))}
     (hY : Kinn K ≤ Y) : ∃ a b : ↥(KhY K Y), a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := (isQuasisimple_of_comp hK).2.2
@@ -105,6 +111,7 @@ theorem KhY_nonabelian (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K)
   rw [← map_mul, ← map_mul] at h
   exact (thetaY hK hY).injective h
 
+omit [Finite X] in
 theorem isChevTwo_KhY (hK : IsComponentOf K ⊤) {Y : Subgroup (MulAut (Kbar K))}
     (hY : Kinn K ≤ Y) (hCh : IsChevTwo (Kbar K)) : IsChevTwo ↥(KhY K Y) :=
   CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531.isChevTwo_of_mulEquiv (thetaY hK hY) hCh
@@ -115,6 +122,7 @@ section Construction
 
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
 
+omit [Finite X] in
 theorem exists_mem_centralizer_of_commute (hK : IsComponentOf K ⊤) (hZ : Subgroup.center ↥K = ⊥)
     {dN : ↥(Subgroup.normalizer (K : Set X))} {Γ : Subgroup ↥(Subgroup.normalizer (K : Set X))}
     (hΓ : Γ ≤ Subgroup.centralizer ({dN} : Set ↥(Subgroup.normalizer (K : Set X))))
@@ -180,12 +188,14 @@ noncomputable abbrev Yg (D1 : Subgroup ↥(Subgroup.normalizer (K : Set X))) :
 
 variable {K} {D1 : Subgroup ↥(Subgroup.normalizer (K : Set X))}
 
+omit [Finite X] in
 theorem Gam1_le_centralizer (hab : ∀ a ∈ D1, ∀ b ∈ D1, a * b = b * a)
     {d : ↥(Subgroup.normalizer (K : Set X))} (hd : d ∈ D1) :
     Gam1 K D1 ≤ Subgroup.centralizer ({d} : Set ↥(Subgroup.normalizer (K : Set X))) :=
   sup_le (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hd))
     (fun e he => Subgroup.mem_centralizer_singleton_iff.2 (hab e he d hd))
 
+omit [Finite X] in
 theorem Kinn_le_Yg (K : Subgroup X) (D1 : Subgroup ↥(Subgroup.normalizer (K : Set X))) :
     Kinn K ≤ Yg K D1 := by
   rintro _ ⟨a, rfl⟩
@@ -193,14 +203,17 @@ theorem Kinn_le_Yg (K : Subgroup X) (D1 : Subgroup ↥(Subgroup.normalizer (K : 
   exact ⟨⟨(k : X), Subgroup.le_normalizer k.2⟩,
     Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.2 k.2), rhoK_conj k⟩
 
+omit [Finite X] in
 theorem rho_mem_Yg_of_mem_Gam1 {m : ↥(Subgroup.normalizer (K : Set X))} (hm : m ∈ Gam1 K D1) :
     rhoK K m ∈ Yg K D1 :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_sup_right hm)
 
+omit [Finite X] in
 theorem rho_mem_Yg_of_mem {d : ↥(Subgroup.normalizer (K : Set X))} (hd : d ∈ D1) :
     rhoK K d ∈ Yg K D1 :=
   rho_mem_Yg_of_mem_Gam1 (Subgroup.mem_sup_right hd)
 
+omit [Finite X] in
 theorem rho_mem_Yg_of_centralizer {q : ↥(Subgroup.normalizer (K : Set X))}
     (hq : q ∈ Subgroup.centralizer (D1 : Set ↥(Subgroup.normalizer (K : Set X)))) :
     rhoK K q ∈ Yg K D1 :=
@@ -212,7 +225,7 @@ theorem rho_pCore_mem_Yg (hKD : Chev2KDOut) (hCore : Chev2CoreCent) (hK : IsComp
     (hd : d ∈ D1) (hdp : d ^ p = 1) {s : ↥(Subgroup.normalizer (K : Set X))}
     (hs : s ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set ↥(Subgroup.normalizer (K : Set X))))) :
     rhoK K s ∈ Yg K D1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSD : D1 ≤ Subgroup.normalizer
       ((pCoreOf 2 (Subgroup.centralizer ({d} : Set ↥(Subgroup.normalizer (K : Set X))))
         : Subgroup _) : Set ↥(Subgroup.normalizer (K : Set X))) := fun e he =>
@@ -230,7 +243,7 @@ theorem rho_pCore_subgroupOf_le (hK : IsComponentOf K ⊤) (hZ : Subgroup.center
         (rhoK K)).subgroupOf (Yg K D1) ≤
       pCoreOf 2 (Subgroup.centralizer
         ({(⟨rhoK K d, rho_mem_Yg_of_mem hd⟩ : ↥(Yg K D1))} : Set ↥(Yg K D1))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_pCoreOf_of_normal ?_ ?_ ?_
   · intro x hx
     obtain ⟨q, hq, hqx⟩ := Subgroup.mem_map.1 (Subgroup.mem_subgroupOf.1 hx)
@@ -266,9 +279,10 @@ variable (K D1) in
 noncomputable abbrev SYg : ↥(Yg K D1) → Subgroup ↥(Yg K D1) := fun y =>
   pCoreOf 2 (Subgroup.centralizer ({y} : Set ↥(Yg K D1)))
 
+omit [Finite X] in
 theorem signalizerFamilyYg {p : ℕ} (hab : ∀ a ∈ D1, ∀ b ∈ D1, a * b = b * a)
     (hDp : ∀ e ∈ D1, e ^ p = 1) : SignalizerFamily p (DYg K D1) (SYg K D1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ a ∈ DYg K D1, ∀ b ∈ DYg K D1, a * b = b * a := by
     intro a ha b hb
     obtain ⟨a', ha', ha'x⟩ := Subgroup.mem_map.1 (Subgroup.mem_subgroupOf.1 ha)
@@ -291,13 +305,13 @@ end Family
 theorem input19_20_3_of_kdout_corecent (hKD : Chev2KDOut) (hCore : Chev2CoreCent)
     (hS3 : Input19_20_3Core) (hZ1 : OmegaFourComponentCentre) : Input19_20_3 := by
   intro X _ _ p hp hp2 K hK hCh D Sd hfam n ε hn hΩ hnc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDp : ∀ x ∈ D, x ^ p = 1 := hfam.elemAbelian.2
   have hZK : Subgroup.center ↥K = ⊥ := center_eq_bot_of_omega hZ1 hK hn ε hΩ
   have hB1 : ∀ d ∈ D, d ≠ 1 →
       pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) ≤ Subgroup.normalizer (K : Set X) :=
     fun d hd _ => pCoreOf_le_normalizer_of_chev hCore hp hp2 hK hCh (hDp d hd)
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   set D1 : Subgroup ↥(Subgroup.normalizer (K : Set X)) :=
     D.subgroupOf (Subgroup.normalizer (K : Set X)) with hD1def
   have hD1p : IsPGroup p D1 := isPGroup_subgroupOf_of_exponent hDp
@@ -311,7 +325,7 @@ theorem input19_20_3_of_kdout_corecent (hKD : Chev2KDOut) (hCore : Chev2CoreCent
     Subtype.ext (by simpa using hDp (e : X) (Subgroup.mem_subgroupOf.1 he))
   have hKY : Kinn K ≤ Yg K D1 := Kinn_le_Yg K D1
   have hfamY := signalizerFamilyYg (K := K) (D1 := D1) hab hD1exp
-  haveI : (KhY K (Yg K D1)).Normal := inferInstance
+  have : (KhY K (Yg K D1)).Normal := inferInstance
   have hint := (input19_20_2CoreStrong_of hKD hCore) ↥(Yg K D1) (KhY K (Yg K D1))
     (isSimpleGroup_KhY hK hKY) (KhY_nonabelian hK hKY) (isChevTwo_KhY hK hKY hCh)
     (centralizer_KhY hK hKY) p hp hp2 (DYg K D1) (SYg K D1) hfamY

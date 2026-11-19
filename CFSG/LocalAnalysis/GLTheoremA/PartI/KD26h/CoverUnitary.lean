@@ -69,9 +69,9 @@ theorem exists_mulEquiv_su_of_cover
     ∃ φ : ↥(StatedSU p (ℓ ^ f) F) ≃* K,
       ∀ g : ↥(StatedSU p (ℓ ^ f) F),
         e (QuotientGroup.mk (φ g)) = (QuotientGroup.mk g : StatedProj (StatedSU p (ℓ ^ f) F)) := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : Finite F := h.finite
+  have : CharP F ℓ := h.charP
   have hF : Nat.card F = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hp3 : 3 ≤ p := by
     have := hp.two_le

@@ -38,7 +38,7 @@ theorem mem_commutator_of_mem_center_of_perfect (hperf : commutator G = ⊤) (P 
   have hcop : Nat.Coprime p (P : Subgroup G).index :=
     (Nat.Prime.coprime_iff_not_dvd hp.out).mpr P.not_dvd_index
   have hgcd : ((P : Subgroup G).index).gcd (orderOf (⟨z, hzP⟩ : (P : Subgroup G))) = 1 :=
-    (P.isPGroup'.orderOf_coprime hcop _).symm
+    (P.isPGroup.orderOf_coprime hcop _).symm
   exact (Subgroup.zpowers_le.mpr hpow) (mem_zpowers_pow_iff.mpr hgcd)
 
 theorem mem_commutator_sylow_of_mem_center_of_perfect (hperf : commutator G = ⊤)

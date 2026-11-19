@@ -249,7 +249,7 @@ theorem exists_twE6Component_A5
     let C := TauCeti.fixedSubgroup (φ v).toMonoidHom
     ∃ J : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom),
       CFSG.IsQuasisimple ↥J ∧ J ≤ C ∧ (J.subgroupOf C).Normal ∧
-      (∀ _ : (J.subgroupOf C).Normal, IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
+      (∀ _ : (J.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ J.subgroupOf C)) ∧
       25920 < Nat.card (↥J ⧸ Subgroup.center ↥J) ∧
       LargeEvenMarking ↥J (fun lab _ _ _ _ _ => lab = ⟨.twA, 5, 1⟩) ∧
       (∀ w : X3, (∀ j ∈ J, φ w j = j) ↔ ∃ c : ZMod 3, w = c • v) ∧

@@ -105,7 +105,7 @@ theorem exc_neg_parity {τ : Tag} {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRoot
     (hv : v ∈ Subgroup.closure {s : WeylGroup τ | ∃ γ ∈ Ψ, s = rootReflection γ})
     (hneg : ∀ γ ∈ Ψ, v • γ = -γ) : Even (compRank Ψ + Ψ.ncard / 2) := by
   classical
-  haveI : Fintype ↥Ψ := (exc_component_finite hΨ).fintype
+  have : Fintype ↥Ψ := (exc_component_finite hΨ).fintype
   obtain ⟨L, π, hL, hπ, hd⟩ := exc_det_eq_sign hΨ hv
   have h1 := exc_det_neg_element hΨ hv hneg L hL
   have h2 : Equiv.Perm.sign π = (-1) ^ (Ψ.ncard / 2) :=

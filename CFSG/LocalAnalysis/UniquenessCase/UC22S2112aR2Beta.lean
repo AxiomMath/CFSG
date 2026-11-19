@@ -22,7 +22,7 @@ theorem uc22s2112r2_two_le_pRank {M L L' X X' C : Subgroup G} {q : ℕ} (hq : q.
     (hX'el : IsElemAbelian q X') (hXc : Nat.card X = q) (hX'c : Nat.card X' = q)
     (hXC : X ≤ C) (hX'C : X' ≤ C) (hCM : C ≤ M) : 2 ≤ Open.pRank q C := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hsn, hp, hqs, hcen⟩ := UC6S846.calC_subgroupOf hL
   obtain ⟨hsn', hp', hqs', -⟩ := UC6S846.calC_subgroupOf hL'
   have hLM : L ≤ M := hL.1.le
@@ -182,7 +182,7 @@ theorem uc22s2112r2_beta (hGA : GriessAllModelsStatement) {D : Data G} {Ch : Cho
     exact hp7
   obtain ⟨D0, hD0C, hD0perf, f0, hf0⟩ := hD0 (by omega)
   obtain ⟨hS, hSns, -, hpS⟩ := uc22s2112r2_psl2_facts (k := f / r) hp2 (by omega) (by omega)
-  haveI := hS
+  have := hS
   exact uc22s2112r2_false_of_kf7 hKF7 hpσ hMs hHne hHM (by omega) (hD0C.trans hCH) hD0perf hSns
     f0 hf0 ((dvd_pow_self p (by omega)).trans hpS) (fun h5 => absurd h5 (by omega))
 

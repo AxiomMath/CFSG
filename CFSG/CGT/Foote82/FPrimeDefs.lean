@@ -22,6 +22,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   (∃ n : ℕ, 6 ≤ n ∧ IsAltNaturalModule L n) ∨ IsA7FourModule L ∨ IsOmegaPlusModule L 3 ∨
     IsOmegaMinusModule L 2 ∨ IsOmegaMinusModule L 3 ∨ IsA6Z3Module L
 
+omit [Finite V] in
 theorem IsFPrimeModule.isFModule {L : Subgroup (GLV V)} (h : IsFPrimeModule L) :
     IsFModule L := by
   rcases h with h | h | h | h | h | h

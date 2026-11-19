@@ -266,7 +266,7 @@ theorem exists_two_subgroup_normalized_of_cover {Y : Type*} [Group Y] [Finite Y]
       s * y * s⁻¹ ∈ (P : Subgroup B).map B.subtype := by
     intro s hs y hy
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.1 hy
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨b, hb⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨b, hb⟩
     have hmemB : s * (b : Y) * s⁻¹ ∈ B := by
       change φ (s * b * s⁻¹) ∈ U
       rw [map_mul, map_mul, map_inv]
@@ -277,7 +277,7 @@ theorem exists_two_subgroup_normalized_of_cover {Y : Type*} [Group Y] [Finite Y]
       simpa using this
     simp only [Subgroup.coe_pow, Subgroup.coe_one]
     rw [conj_pow, hk', mul_one, mul_inv_cancel]
-  refine ⟨(P : Subgroup B).map B.subtype, fun hR => hU1 ?_, P.isPGroup'.map B.subtype, ?_⟩
+  refine ⟨(P : Subgroup B).map B.subtype, fun hR => hU1 ?_, P.isPGroup.map B.subtype, ?_⟩
   · have hP : (P : Subgroup B) = ⊥ := by
       rw [eq_bot_iff]
       intro b hb

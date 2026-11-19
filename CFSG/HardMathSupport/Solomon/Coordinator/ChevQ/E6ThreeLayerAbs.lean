@@ -71,7 +71,7 @@ theorem closure_pair_relIndex {E : Subgroup Γ} (hE : IsElemAbelian 3 E) (hcard 
     {a b : Γ} (ha : a ∈ E) (hb : b ∈ E) (ha1 : a ≠ 1) (hb' : b ∉ Subgroup.zpowers a) :
     Subgroup.closure ({a, b} : Set Γ) ≤ E ∧
       (Subgroup.closure ({a, b} : Set Γ)).relIndex E = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEfin : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hFE : Subgroup.closure ({a, b} : Set Γ) ≤ E := by
     rw [Subgroup.closure_le]
@@ -152,7 +152,7 @@ theorem exists_notMem_closure_pair {E : Subgroup Γ} (hE : IsElemAbelian 3 E)
   omega
 
 theorem pow_mul_pow_mem_zpowers {σ ε₁ ε₂ : Γ} (h1 : ε₁ ∉ Subgroup.zpowers σ)
-    (h2 : ε₂ ∉ Subgroup.closure ({σ, ε₁} : Set Γ)) (hσ3 : σ ^ 3 = 1)
+    (h2 : ε₂ ∉ Subgroup.closure ({σ, ε₁} : Set Γ)) (_hσ3 : σ ^ 3 = 1)
     (hε₁3 : ε₁ ^ 3 = 1) (hε₂3 : ε₂ ^ 3 = 1) {a b : ℕ}
     (h : ε₁ ^ a * ε₂ ^ b ∈ Subgroup.zpowers σ) : 3 ∣ a ∧ 3 ∣ b := by
   have hcube : ∀ (x : Γ) (n : ℕ), x ^ 3 = 1 → ¬ 3 ∣ n → ∃ m : ℕ, (x ^ n) ^ m = x := by

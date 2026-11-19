@@ -144,7 +144,7 @@ private theorem kgLangCSpAux_adjoin_comm {m : ℕ} {𝕂 : Type} [Field 𝕂]
       (↑h : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂)
     rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
       hab g hg h hh]
-  haveI : IsMulCommutative (Algebra.adjoin 𝕂 ((fun g : GL (Fin m ⊕ Fin m) 𝕂 =>
+  have : IsMulCommutative (Algebra.adjoin 𝕂 ((fun g : GL (Fin m ⊕ Fin m) 𝕂 =>
       (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂)) '' (P : Set _))) :=
     Algebra.isMulCommutative_adjoin 𝕂 hpair
   intro x hx y hy
@@ -342,8 +342,8 @@ theorem kgLangC_torusInput_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     {f : MulAut (LargeEvenProj (LargeEvenSpGroup 𝕂 m))}
     (hf : f ∈ LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m))) (hfp : orderOf f = p) :
     KGLangTorusInput p J (MulAut.conj f).toMonoidHom := by
-  haveI : CharP 𝕂 2 := charP_two_of_card h𝕂
-  haveI : NeZero m := ⟨by omega⟩
+  have : CharP 𝕂 2 := charP_two_of_card h𝕂
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨σ, hσ⟩ := RecipeFieldSp.exists_fieldAut_of_mem hf
   have hσo : orderOf σ = p := by
     have h1 := orderOf_injective
@@ -386,7 +386,7 @@ theorem kgLangC_torusInput_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     apply hcinj
     rw [map_mul, map_mul]
     have hcomm : c a * c b = c b * c a := by
-      letI : IsMulCommutative E := hEelem.1
+      let : IsMulCommutative E := hEelem.1
       exact congrArg Subtype.val (mul_comm' (⟨c a, ha⟩ : E) (⟨c b, hb⟩ : E))
     exact hcomm
   have hcardPhat : Nat.card Phat = Nat.card E := by
@@ -455,7 +455,6 @@ theorem kgLangC_torusInput_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
       obtain ⟨g₀, hg₀, rfl⟩ := hg
       exact Algebra.subset_adjoin (hβP g₀ hg₀)
     · intro r
-      change β (algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r) ∈ _
       rw [show algebraMap 𝕂 (Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) r =
           Matrix.scalar (Fin m ⊕ Fin m) r from rfl, hβsc]
       exact Subalgebra.algebraMap_mem _ (σ r)
@@ -587,17 +586,14 @@ theorem kgLangC_torusInput_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
   · rintro n ⟨u, hu, rfl⟩
     refine ⟨CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u, ?_, ?_⟩
     · refine ⟨?_, ?_⟩
-      · change mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) ∈ B
-        rw [show mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) =
+      · rw [show mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) =
             (mat u).map σ from by
           change (((CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u :
             LargeEvenSpGroup 𝕂 m) : GL (Fin m ⊕ Fin m) 𝕂) :
               Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) = _
           rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.coe_fieldSp]]
         exact hβB (mat u) hu.1
-      · change mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) *
-            τ (mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u)) = 1
-        rw [show mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) =
+      · rw [show mat (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u) =
             (mat u).map σ from by
           change (((CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.fieldSp m 𝕂 σ u :
             LargeEvenSpGroup 𝕂 m) : GL (Fin m ⊕ Fin m) 𝕂) :
@@ -705,11 +701,9 @@ theorem kgLangC_torusInput_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
     refine ⟨u, ?_, rfl⟩
     refine ⟨?_, ?_⟩
-    · change mat u ∈ B
-      exact Algebra.subset_adjoin
+    · exact Algebra.subset_adjoin
         ⟨(u : GL (Fin m ⊕ Fin m) 𝕂), Subgroup.mem_map.mpr ⟨u, hu, rfl⟩, rfl⟩
-    · change mat u * τ (mat u) = 1
-      rw [show τ (mat u) = (((u⁻¹ : LargeEvenSpGroup 𝕂 m) : GL (Fin m ⊕ Fin m) 𝕂) :
+    · rw [show τ (mat u) = (((u⁻¹ : LargeEvenSpGroup 𝕂 m) : GL (Fin m ⊕ Fin m) 𝕂) :
           Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) from kgLangCSpAux_tau_eq_inv 𝕂 u]
       rw [show mat u * (((u⁻¹ : LargeEvenSpGroup 𝕂 m) : GL (Fin m ⊕ Fin m) 𝕂) :
           Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) 𝕂) = 1 from by
@@ -726,7 +720,7 @@ theorem kgLangTorusDatumCont_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m)) (LargeEvenGSpSet 𝕂 m))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m))))
     (hZ : ∀ [Finite (HopfCover (LargeEvenProj (LargeEvenSpGroup 𝕂 m)))]
-      (θ : HopfCover (LargeEvenProj (LargeEvenSpGroup 𝕂 m)) ⧸
+      (_θ : HopfCover (LargeEvenProj (LargeEvenSpGroup 𝕂 m)) ⧸
         Subgroup.center (HopfCover (LargeEvenProj (LargeEvenSpGroup 𝕂 m))) ≃*
           LargeEvenProj (LargeEvenSpGroup 𝕂 m)),
       commutator (HopfCover (LargeEvenProj (LargeEvenSpGroup 𝕂 m))) = ⊤ →
@@ -734,7 +728,7 @@ theorem kgLangTorusDatumCont_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     KGLangTorusDatumCont p (LargeEvenProj (LargeEvenSpGroup 𝕂 m))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m)) (LargeEvenGSpSet 𝕂 m))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m))) := by
-  haveI : CharP 𝕂 2 := charP_two_of_card h𝕂
+  have : CharP 𝕂 2 := charP_two_of_card h𝕂
   have hnpos : 0 < n := by
     by_contra h
     have hn0 : n = 0 := Nat.eq_zero_of_not_pos h
@@ -787,20 +781,20 @@ theorem kgLangTorusDatumCont_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m)) (LargeEvenGSpSet 𝕂 m))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m))) :=
     kgLangTorusMPart_of_inner hp hs hna hcyc hconj hinn hG1 hT (by
-      intro hfin θ hcomm
-      letI := hfin
-      exact hZ θ hcomm)
-  intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  letI := hfin
+      intro hfin _θ hcomm
+      let := hfin
+      exact hZ _θ hcomm)
+  intro hfin _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
+  let := hfin
   have hcyc' := hcyc hs hna
   obtain ⟨J, S, hJI, hJS, hN, hcycS, hpS⟩ := hcyc'
-  have hα₀J : kgInducedAut θ α₀ ∉ J := by
+  have hα₀J : kgInducedAut _θ α₀ ∉ J := by
     intro h
     exact hα₀I (hJI ▸ h)
-  have hAS : ∀ α ∈ A, kgInducedAut θ α ∈ S := by
+  have hAS : ∀ α ∈ A, kgInducedAut _θ α ∈ S := by
     intro α hα
     obtain ⟨u, huI, f, hfF, huf⟩ := hAI α hα
-    apply hpS (kgInducedAut θ α)
+    apply hpS (kgInducedAut _θ α)
     · rw [huf]
       exact Subgroup.mul_mem _
         (Subgroup.subset_closure (Set.mem_union_left
@@ -808,9 +802,9 @@ theorem kgLangTorusDatumCont_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (Subgroup.closure_mono (fun _ hx => Set.mem_union_right
           (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup 𝕂 m)) (LargeEvenGSpSet 𝕂 m)) hx) hfF)
     · exact ⟨1, by rw [pow_one, ← map_pow, hA.2 α hα, map_one]⟩
-  refine ⟨?_, hM θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
+  refine ⟨?_, hM _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
   intro α hα
-  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
+  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp _θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
   exact ⟨k, hJI ▸ hk⟩
 
 end CFSG.StandardType

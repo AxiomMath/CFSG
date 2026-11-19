@@ -90,23 +90,23 @@ theorem burnsideF411a_hypU5_inner_of_fix (h : UnitaryFieldData p f K)
   have m10 : M (.inl 1) (.inl 0) = 0 := by
     have e := congrFun (congrFun h1 (.inl 0)) (.inl 0)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have mz0 : M (.inr (.inl 0)) (.inl 0) = 0 := by
     have e := congrFun (congrFun h1 (.inr (.inl 0))) (.inl 1)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m30 : M (.inr (.inr 0)) (.inl 0) = 0 := by
     have e := congrFun (congrFun h1 (.inr (.inr 1))) (.inl 0)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m32 : M (.inr (.inr 0)) (.inr (.inr 1)) = 0 := by
     have e := congrFun (congrFun h1 (.inr (.inr 1))) (.inr (.inr 1))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have d01 : M (.inl 0) (.inl 0) = M (.inl 1) (.inl 1) := by
     have e := congrFun (congrFun h1 (.inl 0)) (.inl 1)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have d23 : M (.inr (.inr 1)) (.inr (.inr 1)) = M (.inr (.inr 0)) (.inr (.inr 0)) := by
     have e := congrFun (congrFun h1 (.inr (.inr 1))) (.inr (.inr 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_ut] at e
@@ -114,39 +114,36 @@ theorem burnsideF411a_hypU5_inner_of_fix (h : UnitaryFieldData p f K)
   have m20 : M (.inr (.inr 1)) (.inl 0) = 0 := by
     have e := congrFun (congrFun hX3 (.inl 0)) (.inl 0)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have mz1 : M (.inr (.inl 0)) (.inl 1) = 0 := by
     have e := congrFun (congrFun hX3 (.inr (.inl 0))) (.inr (.inr 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m21 : M (.inr (.inr 1)) (.inl 1) = 0 := by
     have e := congrFun (congrFun hX3 (.inl 0)) (.inl 1)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m31 : M (.inr (.inr 0)) (.inl 1) = 0 := by
     have e := congrFun (congrFun hX3 (.inl 1)) (.inl 1)
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m2z : M (.inr (.inr 1)) (.inr (.inl 0)) = 0 := by
     have e := congrFun (congrFun hX3 (.inl 0)) (.inr (.inl 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have m3z : M (.inr (.inr 0)) (.inr (.inl 0)) = 0 := by
     have e := congrFun (congrFun hX3 (.inl 1)) (.inr (.inl 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have d02 : M (.inl 0) (.inl 0) = M (.inr (.inr 1)) (.inr (.inr 1)) := by
     have e := congrFun (congrFun hX3 (.inl 0)) (.inr (.inr 1))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_C3] at e
-    first | linear_combination e | linear_combination -e
+    first | linear_combination e
   have d0z : M (.inl 0) (.inl 0) = M (.inr (.inl 0)) (.inr (.inl 0)) := by
     have e := congrFun (congrFun hY (.inl 0)) (.inr (.inl 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, burnsideF411a_CY] at e
     first
     | linear_combination e + c * m3z
-    | linear_combination -e + c * m3z
-    | linear_combination e - c * m3z
-    | linear_combination -e - c * m3z
   have hna : h.bar (M (.inl 0) (.inl 0)) * M (.inl 0) (.inl 0) = 1 := by
     have e := congrFun (congrFun hA (.inl 0)) (.inr (.inr 0))
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, m10, mz0, m20, m30] at e
@@ -163,9 +160,6 @@ theorem burnsideF411a_hypU5_inner_of_fix (h : UnitaryFieldData p f K)
     have e2 : M (.inl 0) (.inl 0) * (σ t - t) = 0 := by
       first
       | linear_combination e - t * d01
-      | linear_combination -e - t * d01
-      | linear_combination e + t * d01
-      | linear_combination -e + t * d01
     exact sub_eq_zero.mp ((mul_eq_zero.mp e2).resolve_left ha)
   have hσ : σ = 1 := RingEquiv.ext fun t => by rw [hσt t]; rfl
   subst hM

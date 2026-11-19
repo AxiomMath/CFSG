@@ -51,7 +51,7 @@ private theorem sylow_card_dvd_sixtyFour
   classical
   let _ : Fact (Nat.Prime 2) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hF := (Degree69TwoFixed.fixed_five_and_image P hcard h5 hnotAlt s hs S).1
   have hcommon : Nat.card (fixedPoints Q X) = 5 := by
     rw [← FixedNormalizerAction.fixed_eq Q]

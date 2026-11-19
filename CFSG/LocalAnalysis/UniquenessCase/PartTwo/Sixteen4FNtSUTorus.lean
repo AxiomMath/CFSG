@@ -31,7 +31,7 @@ theorem s16nt_su_sigma_apply {K : Type} [Field K] [Finite K] [CharP K 2] (c : K)
 
 theorem s16nt_su_pow_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) {c : K}
     (hc : c ≠ 0) : c ^ 3 = 1 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have := FiniteField.pow_card_sub_one_eq_one c hc
   rwa [← Nat.card_eq_fintype_card, hK] at this
 
@@ -41,7 +41,7 @@ theorem s16nt_su_norm_one {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
 
 theorem s16nt_su_exists_ne_zero_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 := by
-  haveI : Nontrivial Kˣ :=
+  have : Nontrivial Kˣ :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [Nat.card_units, hK]; omega)
   obtain ⟨u, hu⟩ := exists_ne (1 : Kˣ)
   exact ⟨u, u.ne_zero, fun h => hu (Units.ext h)⟩

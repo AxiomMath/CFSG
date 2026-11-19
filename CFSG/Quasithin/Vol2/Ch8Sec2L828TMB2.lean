@@ -36,7 +36,7 @@ private lemma mb2_eq_one_of_pow_eq_one_coprime {M : Type*} [Monoid M] {x : M} {a
 private lemma mb2_field_eq_one_of_pow_five {K : Type*} [Field K] [Finite K] {x : K} {n q : ℕ}
     (hq : Nat.card K = q) (hx : x ^ (5 ^ n) = 1) (hcop : Nat.Coprime (5 ^ n) (q - 1)) :
     x = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hx0 : x ≠ 0 := by
     rintro rfl
     rw [zero_pow (pow_ne_zero n (by norm_num : (5 : ℕ) ≠ 0))] at hx

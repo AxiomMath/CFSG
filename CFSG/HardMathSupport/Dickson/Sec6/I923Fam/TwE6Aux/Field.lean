@@ -83,7 +83,7 @@ theorem noL2Layer_fieldActor_twE6 (hO : ComponentClassification.CatLeaf.LieOrder
   obtain ⟨-, hkcard, hJC, hδord, hderived, hsimple, hnc, -⟩ :=
     twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer hℓ hd le_rfl
       (by decide) K hK κ hκ σ hσ (fixSubfieldRestrict T κ) hσ₀ ε hε
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hεne : ε ≠ 1 := fun h => by
     rw [h, fieldActor_one, orderOf_one] at hδord
     exact absurd hδord (by norm_num)
@@ -111,7 +111,7 @@ theorem noL2Layer_fieldActor_twE6 (hO : ComponentClassification.CatLeaf.LieOrder
     rw [hfix, hΓ]
     exact hderived.symm
   have e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI : IsSimpleGroup ↥J := hsimple
+  have : IsSimpleGroup ↥J := hsimple
   have hs : IsSimpleGroup ↥(J.subgroupOf C) := e1.isSimpleGroup
   have hnab : ∃ a b : ↥(J.subgroupOf C), a * b ≠ b * a := by
     by_contra hcon
@@ -125,7 +125,7 @@ theorem noL2Layer_fieldActor_twE6 (hO : ComponentClassification.CatLeaf.LieOrder
   have hcardk : Nat.card k = (ℓ ^ d) ^ 2 := by rw [hkcard, ← pow_mul, mul_comm]
   have hσ₀' : ∀ c, σ₀ c = c ^ (ℓ ^ d) := fun c => Subtype.ext (by
     rw [hσ₀ c, SubmonoidClass.coe_pow])
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have eJ : ↥J ≃* twistedE6RootGroup k σ₀ :=
     (Subgroup.equivMapOfInjective (twistedE6RootGroup k σ₀) _
       (baseChangeGL_injective (τ := TwistTag.E6.tag) k.subtype)).symm
@@ -179,8 +179,8 @@ theorem commutator_twistedE6RootGroup {P : Type} [Group P] {p f : ℕ}
     (σ : K ≃+* K) (e : twistedE6RootGroup K σ ≃* P) :
     commutator (twistedE6RootGroup K σ) = ⊤ := by
   obtain ⟨hnt, hsimple⟩ := CFSG.LieType.Simplicity.fam_2e6_simplicity P p f hE
-  haveI : IsSimpleGroup ↥(twistedE6RootGroup K σ) := e.isSimpleGroup
-  haveI : Nontrivial ↥(twistedE6RootGroup K σ) := e.toEquiv.nontrivial
+  have : IsSimpleGroup ↥(twistedE6RootGroup K σ) := e.isSimpleGroup
+  have : Nontrivial ↥(twistedE6RootGroup K σ) := e.toEquiv.nontrivial
   have hZ : Subgroup.center ↥(twistedE6RootGroup K σ) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   exact (isQuasisimple_of_simple (exists_noncomm_of_center_bot hZ)).1

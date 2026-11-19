@@ -50,7 +50,7 @@ theorem le_pCoreOf_of_commutes_mod {G : Type} [Group G] [Finite G] {K R : Subgro
       exact O.mul_mem (hnO a ha _ (hb' k hk)) (ha' k hk)
     · show (1 : G) ∈ X ∧ ∀ k ∈ K, (1 : G) * k * (1 : G)⁻¹ * k⁻¹ ∈ O
       refine ⟨X.one_mem, fun k _ => ?_⟩
-      simpa using O.one_mem
+      simp
     · rintro a ⟨ha, ha'⟩
       show a⁻¹ ∈ X ∧ ∀ k ∈ K, a⁻¹ * k * a⁻¹⁻¹ * k⁻¹ ∈ O
       refine ⟨X.inv_mem ha, fun k hk => ?_⟩

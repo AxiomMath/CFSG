@@ -25,22 +25,22 @@ theorem noL2Layer_twistedEntrywiseAut_D4_one {ℓ d : ℕ} (hℓ : ℓ.Prime) (h
     (hr : r = 1 ∨ r = 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ ((ℓ ^ d) ^ r)) :
     NoL2Layer (twistedEntrywiseAut TwistTag.D4 1 σ) := by
   classical
-  haveI := finite_adjointD4 K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have := finite_adjointD4 K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := d * 3) (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, htw, hs, hnab⟩ := triality_both_field_orientations_simple_full_ambient_fixed_group
     ℓ d hℓ hd K hK (AlgebraicClosure K) r hr σ.toRingHom hσ
     (iterateFrobenius (AlgebraicClosure K) ℓ d) (fun c => iterateFrobenius_def _ _ _)
   have hcard := (triality_both_orientations_exact_finite_order ℓ d hℓ hd K hK r hr σ.toRingHom hσ).1
-  haveI := hs
+  have := hs
   let e : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ≃*
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (CFSG.HardMathSupport.Lang.E6Descent.fixedSubgroupTwistedEntrywiseAutOneEquiv
       TwistTag.D4 σ).trans (MulEquiv.subgroupCongr htw)
-  haveI : IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hnab
   have hnab' : ∃ x y : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)), x * y ≠ y * x :=
     ⟨e.symm a, e.symm b, fun h => hab (by

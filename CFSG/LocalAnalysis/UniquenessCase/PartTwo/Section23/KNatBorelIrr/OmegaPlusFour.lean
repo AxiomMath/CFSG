@@ -15,6 +15,7 @@ section
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem dD_mem_Bsub_L27 (d : K) (hd : d ≠ 0) : dD d hd ∈ Bsub K := by
   rw [CFSG.Quasithin.S151S4.mem_Bsub]
   simp [dD]
@@ -122,7 +123,7 @@ end
 theorem hasBorelScalars_omegaPlusFour {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : 4 ≤ Nat.card K) :
     HasBorelScalars (StatedOmega (StatedQuadPlus 2 K)) (KTabC.e1P K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := exists_sylow_eq_prod_Usub (K := K) hK
   refine ⟨Sylow.mapSurjective (p := 2) (f := (omegaPlusFourEquiv hK).toMonoidHom)
     (omegaPlusFourEquiv hK).surjective T, ?_, ?_⟩

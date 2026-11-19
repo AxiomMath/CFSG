@@ -45,7 +45,7 @@ theorem zj_normalizer_refinement
     have hmap := Subgroup.map_mono (f := U.subtype) (hWqU.le_sylow_of_normal P)
     rwa [Subgroup.map_subgroupOf_eq_of_le hWU] at hmap
   have hTne : T ≠ ⊥ := fun h => hW (le_bot_iff.mp (h ▸ hWT))
-  have hTq : IsPGroup q T := P.isPGroup'.map U.subtype
+  have hTq : IsPGroup q T := P.isPGroup.map U.subtype
   have hTcomp : solvableSignalizerCompatible prime rank actor values T :=
     solvable_signalizer_compatible_of_le prime rank actor values U T hUcomp
       (Subgroup.map_subtype_le _) normalized

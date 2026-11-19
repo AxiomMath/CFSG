@@ -33,7 +33,7 @@ variable [hp : Fact p.Prime]
   h.isPGroup_subgroupOf.toSylow h.2.2
 
 theorem of_sylow [Finite G] (S : Sylow p ↥C) : SylowIn p ((S : Subgroup ↥C).map C.subtype) C := by
-  refine ⟨map_subtype_le _, S.isPGroup'.map C.subtype, ?_⟩
+  refine ⟨map_subtype_le _, S.isPGroup.map C.subtype, ?_⟩
   have : ((S : Subgroup ↥C).map C.subtype).subgroupOf C = S := by
     rw [← comap_subtype]
     exact comap_map_eq_self_of_injective C.subtype_injective _

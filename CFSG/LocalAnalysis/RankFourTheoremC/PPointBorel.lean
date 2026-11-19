@@ -36,7 +36,7 @@ theorem borel_conj_unip {F : Type} [Field F] (B : SL(2, F))
   have hdet := CFSG.PSL2Table.det_entries B
   rw [hB, mul_zero, sub_zero] at hdet
   apply CFSG.PSL2Table.SL_ext <;>
-    simp [CFSG.PSL2Table.mul_apply_SL, Matrix.adjugate_fin_two, hB]
+    simp [CFSG.PSL2Table.mul_apply_SL, hB]
   · exact hdet
   · ring
   · linear_combination hdet

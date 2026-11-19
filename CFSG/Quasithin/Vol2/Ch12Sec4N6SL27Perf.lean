@@ -129,8 +129,8 @@ theorem pCore_comm (hcomm : ⁅pCoreOf 2 (L ⊔ T), L⁆ = V) :
   obtain ⟨e⟩ := c.q3
   have hVL : (V.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.V_le_L).2 c.f.normalizes
-  haveI := hVL
-  haveI := c.isPerfect_L
+  have := hVL
+  have := c.isPerfect_L
   have hVP : V.subgroupOf L ≤ CFSG.pCore 2 ↥L := by
     rw [← CFSG.openPCoreOf_subgroupOf 2 L]
     intro x hx
@@ -169,7 +169,7 @@ theorem pCore_comm (hcomm : ⁅pCoreOf 2 (L ⊔ T), L⁆ = V) :
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     convert inv_mul_comm_mem c hcomm ha hbL using 1
     group
-  haveI := hEperf
+  have := hEperf
   have hcard : Nat.card q.ker ≤ 2 :=
     CFSG.Quasithin.Stellmacher.PU.L3YC.card_ker_le_two_of_perfect_central eGL q hq hker
   intro a ha b hb

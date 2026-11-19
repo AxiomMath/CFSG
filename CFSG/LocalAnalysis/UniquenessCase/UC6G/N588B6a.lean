@@ -99,7 +99,7 @@ theorem map_le_plane {X : Subgroup G} (hX : X ≤ m.A ⊓ m.L) :
   · rw [Subgroup.card_map_of_injective T.ψ.injective,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (hX.trans inf_le_right)).toEquiv]
 
-theorem map_normalized {X : Subgroup G} (hX : X ≤ m.A ⊓ m.L)
+theorem map_normalized {X : Subgroup G} (_hX : X ≤ m.A ⊓ m.L)
     (hXn : X.map (MulAut.conj (T.n ^ 2)).toMonoidHom = X) :
     ∀ u ∈ (X.subgroupOf m.L).map T.ψ.toMonoidHom, T.g ^ 2 * u * (T.g ^ 2)⁻¹ ∈
       (X.subgroupOf m.L).map T.ψ.toMonoidHom := by
@@ -152,7 +152,7 @@ theorem c621_of_titsSetup {m : Mz614 Dat} (T : TitsSetup m) (h620 : m.C620) (hr 
 theorem exists_titsSetup (m : Mz614 Dat) (h620 : m.C620) (hr : m.r = 5)
     (hL : IsoLie ↥m.L .tits) : Nonempty (TitsSetup m) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := titsModelEquiv ↥m.L 2 1 (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits hL)
   obtain ⟨a, b, g, ha, hb, hab, hinj, hga, hgb⟩ := tits_plane_uc6
   set S₀ := planeSub_uc6 hab ha hb with hS₀def

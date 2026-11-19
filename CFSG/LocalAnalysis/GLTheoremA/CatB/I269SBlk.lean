@@ -17,7 +17,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K]
 
-theorem i269s_X2K_ne_sub_one [Finite K] (hK : Nat.card K = 2) : (X2K : K[X]) ≠ X - 1 := by
+theorem i269s_X2K_ne_sub_one [Finite K] (_hK : Nat.card K = 2) : (X2K : K[X]) ≠ X - 1 := by
   intro h
   have hdeg : (X2K : K[X]).natDegree = 2 := by unfold X2K; compute_degree!
   have h1 : (X - 1 : K[X]).natDegree = 1 := by compute_degree!
@@ -87,11 +87,11 @@ theorem i269s_x_mem_H [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K} (hx : 
     exact hv'
   · exact absurd (by rw [h1]; exact Set.mem_singleton _) hkO
 
-theorem i269s_card_H [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K} (hx : x ^ 3 = 1)
+theorem i269s_card_H [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K} (_hx : x ^ 3 = 1)
     (blocks : SpPrimaryBlocks 2 1 3 x (proj 3 K x)) (hmem : (X2K : K[X]) ∈ primaryFactors (spEnd x))
     (hm1 : primaryMultiplicity (spEnd x) (X2K : K[X]) = 1) :
     Nat.card ↥(spSupported x ({(X2K : K[X])} : Set K[X])) = 3 := by
-  haveI : Fact (Irreducible (X2K : K[X])) := ⟨X2K_irreducible hK⟩
+  have : Fact (Irreducible (X2K : K[X])) := ⟨X2K_irreducible hK⟩
   have hne : (X2K : K[X]) ≠ X - 1 := i269s_X2K_ne_sub_one hK
   obtain ⟨d, hd2, -, -, -, -, -, -, -, hE, -, Hf, hHf, hHfl, -, -, φ, -⟩ :=
     (blocks.selfDual ⟨X2K, hmem⟩ hne reciprocal_X2K).exists_half
@@ -224,8 +224,8 @@ theorem i269s_pair_solvable [Finite K] (hK : Nat.card K = 2) {x y : StatedSp 3 K
           ∃ b ∈ spSupported x ({(X2K : K[X])} : Set K[X]), g = a * b :=
       fun g hg => i269s_mem_sup_of_commute hcomm (hcover hg)
     by_cases hFs : Group.IsSolvable ↥(spSupported x ({(X - 1 : K[X])} : Set K[X]))
-    · haveI := hFs
-      haveI := hsolvH
+    · have := hFs
+      have := hsolvH
       refine i269s_solvable_of_prod (spSupported x ({(X - 1 : K[X])} : Set K[X]))
         (spSupported x ({(X2K : K[X])} : Set K[X]))
         (Subgroup.centralizer ({x} : Set (StatedSp 3 K)) ⊓
@@ -271,9 +271,9 @@ theorem i269s_pair_solvable [Finite K] (hK : Nat.card K = 2) {x y : StatedSp 3 K
         apply hyx
         rw [heq, hycd]
         exact hdH
-      haveI hsolvP := i269s_fixed_sp4_solvable (spFixedFactor x) ⁅spFixedFactor x, spFixedFactor x⁆
+      have hsolvP := i269s_fixed_sp4_solvable (spFixedFactor x) ⁅spFixedFactor x, spFixedFactor x⁆
         hcardF hDF eD hD c hcF hc3 hc1
-      haveI := hsolvH
+      have := hsolvH
       refine i269s_solvable_of_prod (Subgroup.centralizer ({c} : Set (StatedSp 3 K)) ⊓
           spFixedFactor x)
         (spSupported x ({(X2K : K[X])} : Set K[X]))
@@ -300,7 +300,7 @@ theorem i269s_pair_solvable [Finite K] (hK : Nat.card K = 2) {x y : StatedSp 3 K
       rcases hcase with rfl | rfl
       · exact absurd hh hX1
       · rw [hO]
-    haveI := hsolvH
+    have := hsolvH
     exact isSolvable_of_le_isSolvable (inf_le_left.trans hle)
 
 end CFSG.LocalAnalysis.GLTheoremA

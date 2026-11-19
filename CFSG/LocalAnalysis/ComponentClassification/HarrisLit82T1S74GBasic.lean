@@ -155,7 +155,7 @@ theorem not_dvd_relIndex_of_center {S C : Subgroup G} {z : G}
   obtain ⟨R, hR⟩ := hS'.exists_le_sylow
   set RG := (R : Subgroup ↥C).map C.subtype with hRG
   have hRGC : RG ≤ C := map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map C.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map C.subtype
   have hSR : S ≤ RG := by
     intro x hx
     exact ⟨⟨x, hSC' hx⟩, hR (mem_subgroupOf.mpr hx), rfl⟩
@@ -163,7 +163,7 @@ theorem not_dvd_relIndex_of_center {S C : Subgroup G} {z : G}
     refine ⟨⟨1, ⟨⟨z, hSC' hzS⟩, hR (mem_subgroupOf.mpr hzS)⟩, fun h => hz1 ?_⟩⟩
     have := congrArg (fun r : (R : Subgroup ↥C) => ((r : ↥C) : G)) h
     simpa using this.symm
-  have hcnt : Nontrivial (center (R : Subgroup ↥C)) := R.isPGroup'.center_nontrivial
+  have hcnt : Nontrivial (center (R : Subgroup ↥C)) := R.isPGroup.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : center (R : Subgroup ↥C))
   have hcen : ∀ r ∈ RG, (((c : (R : Subgroup ↥C)) : ↥C) : G) * r = r * (((c : _) : ↥C) : G) := by
     rintro _ ⟨r, hr, rfl⟩

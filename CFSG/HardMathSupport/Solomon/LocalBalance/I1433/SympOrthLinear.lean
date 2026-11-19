@@ -57,7 +57,7 @@ variable {E U : Type*} [Field E] [AddCommGroup U] [Module E U] [FiniteDimensiona
 theorem three_dvd_finrank_of_heisenberg (b c : U ≃ₗ[E] U) (μ : E) (hμ : μ ^ 3 = 1) (hμ1 : μ ≠ 1)
     (h : (b : U →ₗ[E] U) ∘ₗ (c : U →ₗ[E] U) = μ • ((c : U →ₗ[E] U) ∘ₗ (b : U →ₗ[E] U))) :
     3 ∣ Module.finrank E U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdet := congrArg LinearMap.det h
   rw [LinearMap.det_comp, LinearMap.det_smul, LinearMap.det_comp] at hdet
   have hb : LinearMap.det (b : U →ₗ[E] U) ≠ 0 := by
@@ -113,8 +113,7 @@ variable {E U : Type*} [Field E] [AddCommGroup U] [Module E U]
       ext x
       have : (1 + φ v) * (1 + φ v)⁻¹ = 1 := mul_inv_cancel₀ h
       simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.id_apply,
-        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.smulRight_apply, map_sub, map_add,
-        map_smul, smul_eq_mul, Module.End.one_apply]
+        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.smulRight_apply, map_sub, map_smul, Module.End.one_apply]
       match_scalars
       · ring
       · linear_combination (-(φ x)) * this)
@@ -122,8 +121,8 @@ variable {E U : Type*} [Field E] [AddCommGroup U] [Module E U]
       ext x
       have : (1 + φ v) * (1 + φ v)⁻¹ = 1 := mul_inv_cancel₀ h
       simp only [Module.End.mul_apply, LinearMap.add_apply, LinearMap.id_apply,
-        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.smulRight_apply, map_sub, map_add,
-        map_smul, smul_eq_mul, Module.End.one_apply]
+        LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.smulRight_apply, map_add,
+        map_smul, Module.End.one_apply]
       match_scalars
       · ring
       · linear_combination (-(φ x)) * this)
@@ -182,12 +181,14 @@ theorem finrank_range_commutator_sub_one_le_two [FiniteDimensional E U]
 
 variable [Fintype ι] [DecidableEq ι]
 
+omit [Fintype ι] in
 theorem coord_basis_apply (e : Basis ι E U) (i j : ι) :
     e.coord i (e j) = if i = j then 1 else 0 := by
   by_cases h : i = j
   · subst h; simp [Basis.coord_apply, Basis.repr_self]
-  · simp [Basis.coord_apply, Basis.repr_self, Finsupp.single_apply, h, Ne.symm h]
+  · simp [Basis.coord_apply, Basis.repr_self, h]
 
+omit [Fintype ι] in
 theorem eq_smul_one_of_commute_pseudoReflections (e : Basis ι E U) {μ : E} (hμ : μ ≠ 1)
     (n : Module.End E U) (d : ι → Module.End E U)
     (hd : ∀ i x, d i x = x + ((μ - 1) * e.coord i x) • e i)
@@ -201,7 +202,7 @@ theorem eq_smul_one_of_commute_pseudoReflections (e : Basis ι E U) {μ : E} (h�
     intro i
     have h := hnd i (e i)
     rw [hd, hd, coord_basis_apply] at h
-    simp only [if_true, mul_one, map_add, map_smul] at h
+    simp only [ite_true, mul_one, map_add, map_smul] at h
     have h2 : (μ - 1) • n (e i) = ((μ - 1) * e.coord i (n (e i))) • e i := add_left_cancel h
     rw [mul_smul] at h2
     exact smul_right_injective U hμ' h2
@@ -209,7 +210,7 @@ theorem eq_smul_one_of_commute_pseudoReflections (e : Basis ι E U) {μ : E} (h�
     intro i j hij
     have h := hnt i j hij (e i)
     have hti : t i j hij (e i) = e j := by
-      rw [ht, coord_basis_apply, coord_basis_apply, if_pos rfl, if_neg (Ne.symm hij)]
+      rw [ht, coord_basis_apply, coord_basis_apply, ite_eq_left rfl, ite_eq_right (Ne.symm hij)]
       simp
     rw [hti, h1 i, map_smul, hti] at h
     have h3 : (e.coord i (n (e i))) • e j = (e.coord j (n (e j))) • e j := by
@@ -225,6 +226,7 @@ theorem eq_smul_one_of_commute_pseudoReflections (e : Basis ι E U) {μ : E} (h�
     · rw [LinearMap.smul_apply, Module.End.one_apply, h2 i₀ i (Ne.symm hi)]
       exact h1 i
 
+omit [Fintype ι] in
 theorem exists_lowRank_of_normal_nonabelian [FiniteDimensional E U] (e : Basis ι E U) {μ : E}
     (hμ : μ ≠ 1) {F N : Subgroup (LinearMap.GeneralLinearGroup E U)}
     (hnormal : ∀ f ∈ F, ∀ n ∈ N, f * n * f⁻¹ ∈ N)
@@ -240,7 +242,7 @@ theorem exists_lowRank_of_normal_nonabelian [FiniteDimensional E U] (e : Basis �
   have hA : ∃ n ∈ N, ∃ h ∈ F, ∃ (φ : U →ₗ[E] E) (v : U),
       (∀ x, (h : Module.End E U) x = x + φ x • v) ∧ n * h ≠ h * n := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨n₁, hn₁, n₂, hn₂, hne⟩ := hna
     have hscalar : ∀ n ∈ N, ∃ c : E, (n : Module.End E U) = c • 1 := by
       intro n hn
@@ -286,6 +288,7 @@ theorem exists_lowRank_of_normal_nonabelian [FiniteDimensional E U] (e : Basis �
   · have := finrank_range_commutator_sub_one_le_two n h φ v hh
     omega
 
+omit [Fintype ι] in
 theorem exists_pseudoReflection_diag [FiniteDimensional E U] (e : Basis ι E U) {μ : E}
     (hμ0 : μ ≠ 0) (i : ι) :
     ∃ d : LinearMap.GeneralLinearGroup E U,
@@ -297,9 +300,10 @@ theorem exists_pseudoReflection_diag [FiniteDimensional E U] (e : Basis ι E U) 
   · rw [pseudoReflection_apply]; simp
   · rw [pseudoReflection_apply]
     by_cases hk : k = i
-    · subst hk; simp [coord_basis_apply]; module
-    · simp [coord_basis_apply, hk, Ne.symm hk]
+    · subst hk; simp; module
+    · simp [hk, Ne.symm hk]
 
+omit [Fintype ι] in
 theorem exists_pseudoReflection_swap [FiniteDimensional E U] (e : Basis ι E U) {i j : ι}
     (hij : i ≠ j) :
     ∃ t : LinearMap.GeneralLinearGroup E U,
@@ -307,20 +311,21 @@ theorem exists_pseudoReflection_swap [FiniteDimensional E U] (e : Basis ι E U) 
       ∀ k, (t : Module.End E U) (e k) = e (Equiv.swap i j k) := by
   have h : 1 + (e.coord i - e.coord j) (e j - e i) ≠ 0 := by
     have : (1 : E) + (e.coord i - e.coord j) (e j - e i) = -1 := by
-      simp [coord_basis_apply, hij, Ne.symm hij]
+      simp [hij, Ne.symm hij]
     rw [this]; exact neg_ne_zero.mpr one_ne_zero
   refine ⟨pseudoReflection (e.coord i - e.coord j) (e j - e i) h, fun x => ?_, fun k => ?_⟩
   · rw [pseudoReflection_apply]; simp
   · rw [pseudoReflection_apply]
     by_cases hki : k = i
     · subst hki
-      simp [coord_basis_apply, hij, Ne.symm hij]
+      simp [Ne.symm hij]
     · by_cases hkj : k = j
       · subst hkj
-        simp [coord_basis_apply, hij, Ne.symm hij, Equiv.swap_apply_right]
-      · simp [coord_basis_apply, hki, hkj, Ne.symm hki, Ne.symm hkj,
+        simp [hij, Equiv.swap_apply_right]
+      · simp [Ne.symm hki, Ne.symm hkj,
           Equiv.swap_apply_of_ne_of_ne hki hkj]
 
+omit [Fintype ι] in
 theorem exists_lowRank_of_normal_nonabelian_gl [FiniteDimensional E U] (e : Basis ι E U) {μ : E}
     (hμ : μ ≠ 1) (hμ0 : μ ≠ 0) {N : Subgroup (LinearMap.GeneralLinearGroup E U)}
     (hnormal : ∀ f n, n ∈ N → f * n * f⁻¹ ∈ N)

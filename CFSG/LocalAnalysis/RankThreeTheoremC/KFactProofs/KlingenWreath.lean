@@ -123,7 +123,7 @@ theorem pow_three_eq_one_of_conj_mem (hf : WreathFacts z t) {x : H} (hx : x ∈ 
   have he := congrFun (vecElt_injective hf hcm)
   have h0 := he 0
   have hj' := he j
-  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, Ne.symm hj, hj, if_true, if_false,
+  simp only [Pi.add_apply, Pi.smul_apply, Pi.single_apply, Ne.symm hj, hj, ite_true, ite_false,
     hwc j] at h0 hj'
   have h12 : (1 : ZMod 3) + 0 = 0 + 2 := h0.trans hj'.symm
   revert h12

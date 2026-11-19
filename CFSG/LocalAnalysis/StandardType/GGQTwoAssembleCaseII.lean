@@ -15,12 +15,12 @@ open CFSG CFSG.Assembly Module QTwoLin
 
 theorem ggQ2_caseII_orbit {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (hp : p = 3)
     (hLN : GGLNoncyclicInput) {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
-    (hS : GGQTwoSetting p B Bs x L D J) {y : G} {K : Subgroup G} (hnb : GGNbr p B x D J y K)
+    (hS : GGQTwoSetting p B Bs x L D J) {y : G} {K : Subgroup G} (_hnb : GGNbr p B x D J y K)
     (M : GGQTwoModel p Bs x y D L J K) (hII : M.toLin.CaseII) : GGQ2Orbit p B Bs x D J := by
   have hxD : x ∈ D := hS.1.1.2.2.1.2.2.2.1
   have hxne : x ≠ 1 := hS.1.1.1.2.2.2.2.2.2.1.2.2.1
   have hune : (⟨x, M.hx⟩ : ↥Bs) ≠ 1 := fun h => hxne (Subtype.ext_iff.mp h)
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
   have hcard : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) M.V := by
     calc Nat.card ↥Bs = Nat.card (Additive ↥Bs) := rfl
       _ = Nat.card M.V := Nat.card_congr M.model.toEquiv

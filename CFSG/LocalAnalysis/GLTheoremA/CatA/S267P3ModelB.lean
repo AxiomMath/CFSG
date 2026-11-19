@@ -78,7 +78,7 @@ theorem concA_of_modelB (H : P3Hyp q S B) (hZ : Subgroup.center ↥S = ⊥) {X :
     (hb'φ : ∀ x, b' * φ x * b'⁻¹ = φ (ψ x)) (hM : ModelB X ψ) : S267ConcA 3 S B := by
   obtain ⟨hψ3, hψout, A, A₁, J, t, hA, hAc, hψA, h1, hA₁c, hJ, hAN, hJψ, hcent, hlay, ht1, ht2,
     hJt, hAt, hψt⟩ := hM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set B₀ := B ⊓ centModSubgroup 3 S with hB₀
   have hmapS : ∀ (K : Subgroup X), K.map φ ≤ S := fun K => by
     rw [← hφS]

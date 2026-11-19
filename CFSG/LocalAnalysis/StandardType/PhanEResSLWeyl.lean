@@ -36,11 +36,11 @@ private theorem hmbSL_signedPermMatrix_eq_permMatrix [CharP Fld 2] {n : ℕ}
       else 1) = fun _ => 1 := by
     funext a
     by_cases h0 : (a : ℕ) = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h
       · rw [h]; simp
       · rw [h]; simp [CharTwo.neg_eq]
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
   rw [LinearFlag.signedPermMatrix, hfun, Matrix.diagonal_one, Matrix.one_mul]
 
 private theorem hmbSL_signedPermutation_mul [CharP Fld 2] {m : ℕ}

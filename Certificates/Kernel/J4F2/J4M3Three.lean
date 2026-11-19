@@ -92,7 +92,7 @@ theorem chkY3_eq : chkY3 () = chkY3K (wK xWord) (wK (invWord xWord)) (wK y3Word)
     unfold qK
     by_cases hj : j < 12
     · simp only [List.getElem?_toArray, List.getElem?_map, List.getElem?_range hj, Option.map_some,
-        Option.getD_some, hj, if_true]
+        Option.getD_some, hj, ite_true]
       exact mkMul (mkMul (mkMul (pK_enc j) hX) (piK_enc j)) hXi
     · have hn : ¬ j < ((List.range 12).map fun j =>
           commRows (pRows (locMats ()) (locInvs ()) (uTab (locMats ()) (locInvs ())) j)
@@ -100,7 +100,7 @@ theorem chkY3_eq : chkY3 () = chkY3K (wK xWord) (wK (invWord xWord)) (wK y3Word)
             (wordRows (locMats ()) (locInvs ()) xWord)
             (wordRows (locMats ()) (locInvs ()) (invWord xWord))).length := by simpa using hj
       simp only [List.getElem?_toArray, List.getElem?_eq_none (Nat.le_of_not_lt hn),
-        Option.getD_none, hj, if_false]
+        Option.getD_none, hj, ite_false]
       exact mkId
   rw [mkEq (mkMul (mkMul hY hY) hY) mkId]
   congr 1

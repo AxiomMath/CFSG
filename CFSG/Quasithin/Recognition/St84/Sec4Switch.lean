@@ -26,14 +26,14 @@ private theorem le_normalizer_Z_of_le_Gi {U : Subgroup G} {i : ℤ} (h : U ≤ X
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact X.Z_normal i g (h hg)
 
-private theorem hasB_succ_of_odd (H : X.Sec4Hyp s r) {d : ℕ} (hd : X.HasB 1 d)
+private theorem hasB_succ_of_odd (_H : X.Sec4Hyp s r) {d : ℕ} (hd : X.HasB 1 d)
     (hodd : Odd (d + 1)) : X.HasB ((d : ℤ) + 1) d := by
   refine (X.hasB_iff_of_even (i := (d : ℤ) + 1) (j := 1) ?_ d).mpr hd
   obtain ⟨k, hk⟩ := hodd
   rw [show (d : ℤ) + 1 - 1 = (d : ℤ) by ring]
   exact ⟨(k : ℤ), by omega⟩
 
-private theorem hasB_two (H : X.Sec4Hyp s r) {d₀ : ℕ} (hd₀ : X.HasB 0 d₀) : X.HasB 2 d₀ := by
+private theorem hasB_two (_H : X.Sec4Hyp s r) {d₀ : ℕ} (hd₀ : X.HasB 0 d₀) : X.HasB 2 d₀ := by
   refine (X.hasB_iff_of_even (i := 2) (j := 0) ?_ d₀).mpr hd₀
   exact ⟨1, by norm_num⟩
 
@@ -73,7 +73,7 @@ private theorem Z_eq_centerOf_L_of_le_centralizer (H : X.Sec4Hyp s r) (i : ℤ)
       (Subgroup.le_centralizer_iff.mpr h))
     (X.centerOf_L_le_Z H.char i)
 
-private theorem Z_succ_sup_Q_one_eq_edgeSylow (H : X.Sec4Hyp s r) {d : ℕ}
+private theorem Z_succ_sup_Q_one_eq_edgeSylow (_H : X.Sec4Hyp s r) {d : ℕ}
     (hdZb : X.HasB ((d : ℤ) + 1) d) : X.Z ((d : ℤ) + 1) ⊔ X.Q 1 = X.edgeSylow 1 := by
   have hd1 : 1 ≤ d := X.one_le_of_hasB hdZb
   have hZb2 : IsPGroup 2 (X.Z ((d : ℤ) + 1)) :=
@@ -89,7 +89,7 @@ private theorem Z_succ_sup_Q_one_eq_edgeSylow (H : X.Sec4Hyp s r) {d : ℕ}
     le_normalizer_Z_of_le_Gi X (X.K_le_Gi _)
   exact X.sup_Q_eq_edgeSylow_of_left_gen 1 (inf_le_left.trans hKZb) hZbEdge1 hZbNotQ1
 
-private theorem add_one_le_of_Z_one_le_Z_zero (H : X.Sec4Hyp s r) {d₀ d : ℕ}
+private theorem add_one_le_of_Z_one_le_Z_zero (_H : X.Sec4Hyp s r) {d₀ d : ℕ}
     (hd₀ : X.HasB 0 d₀) (hd : X.HasB 1 d) (hZ : X.Z 1 ≤ X.Z 0) : d₀ + 1 ≤ d := by
   have h0 : X.fixSet (X.Z 0) = Set.Icc (-(d₀ : ℤ)) (d₀ : ℤ) := by
     simpa using X.fixSet_Z 0 hd₀
@@ -401,7 +401,7 @@ private theorem Ki_le_E (H : X.Sec4Hyp s r) {d₀ d : ℕ} (hd₀ : X.HasB 0 d�
   have hE_normQ : X.Z 2 ⊔ X.Z ((r : ℤ) - 2) ≤
       Subgroup.normalizer (X.Q b : Set G) :=
     hE_L.trans ((X.L_le_Gi b).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi b)))
-  haveI hEfin : Finite ↥(X.Z 2 ⊔ X.Z ((r : ℤ) - 2)) :=
+  have hEfin : Finite ↥(X.Z 2 ⊔ X.Z ((r : ℤ) - 2)) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 2 ⊔ X.Z ((r : ℤ) - 2))
       (hE_L.trans (X.L_le_Gi b))
   have hrel : (X.Z 2 ⊔ X.Z ((r : ℤ) - 2)).relIndex (X.L b) =
@@ -429,7 +429,7 @@ private theorem Ki_le_E (H : X.Sec4Hyp s r) {d₀ d : ℕ} (hd₀ : X.HasB 0 d�
     rw [X.card_Ki b]
     exact Nat.Even.sub_odd Nat.one_le_two_pow
       (even_two.pow_of_ne_zero (by have := H.two_le_n b; omega)) odd_one
-  haveI hQfin : Finite ↥(X.Q b) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi b)
+  have hQfin : Finite ↥(X.Q b) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi b)
   have hQ2 : IsPGroup 2 ↥(X.Q b) := pCoreOf_isPGroup' (X.Gi b)
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp hQ2
   have hdvd' : (X.Z 2 ⊔ X.Z ((r : ℤ) - 2)).relIndex (X.L b) ∣ 2 ^ j := by

@@ -66,7 +66,7 @@ theorem isSylowOf_T (hH : Hyp184 S U M) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ABGLocalTools.IsSylowOf 2 (S : Subgroup G) ⊤ := by
     rw [ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hSN : (S : Subgroup G) ≤ normalizer (U : Set G) := hH.normal
@@ -132,7 +132,7 @@ theorem isSylowOf_bar_S (hconf : Conf18H S M V x z) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
-  · exact (Bar.isPGroup_subgroupOf S.isPGroup' M).map _
+  · exact (Bar.isPGroup_subgroupOf S.isPGroup M).map _
   · rw [Subgroup.relIndex_top_right]
     intro hdvd
     apply S.not_dvd_index
@@ -247,7 +247,7 @@ theorem conj_mem_U (hKI3 : K.KI3) (hH : Hyp184 S U M) (hconf : Conf18H S M V x z
     (hcl : Concl189 S U M x hconf.x_mem) {g : G} (hgM : g ∈ M) (hgz : g * z = z * g) {a u : G}
     (haT : a ∈ Tsub S U) (huU : u ∈ U) (hau : g⁻¹ * a * g = u) : a ∈ U := by
   have hTM : Tsub S U ≤ M := Base.T_le_S.trans hconf.S_le
-  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup'.to_le Base.T_le_S
+  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup.to_le Base.T_le_S
   obtain ⟨n, hnM, hnN, hnπ⟩ := Bar.normalizer_lift hTp hTM hgM
     (proj_mem_normalizer hKI3 hH hconf hcl hgM hgz)
   have hmemZ := Base.mem_Zc_iff hH hconf hcl
@@ -308,7 +308,7 @@ theorem claim_A (hKI3 : K.KI3) (hH : Hyp184 S U M) (hconf : Conf18H S M V x z)
     · rw [h]; exact huc.eq
     · rw [h]; exact (hzc.mul_left huc).eq
   have hsyl := ABGLocalTools.isSylowOf_iff.1 (isSylowOf_T hH)
-  have hKp : IsPGroup 2 ↥K' := (S.isPGroup'.to_le inf_le_left).map _
+  have hKp : IsPGroup 2 ↥K' := (S.isPGroup.to_le inf_le_left).map _
   obtain ⟨c₀, hc₀, hc₀K⟩ := CFSG.GH74.GLS.Bg.Thompson.exists_conj_into_sylow (p := 2) hKcentU hKp
     hsyl.1 hsyl.2.1 hsyl.2.2
   set g := g₀ * c₀ with hg

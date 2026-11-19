@@ -71,7 +71,7 @@ theorem pkMat_initPk (g h : J) {A B : ℕ} (hA : 𝕄 g = pkMat A) (hB : 𝕄 h 
       exact hB.symm
     · have e0 : Nat.beq r 0 = false := beq_false' h0
       have e1 : Nat.beq r 1 = false := beq_false' h1
-      rw [e0, e1, if_neg h0, if_neg h1]
+      rw [e0, e1, ite_eq_right h0, ite_eq_right h1]
       exact (pkMat_one hk).trans mat_one.symm
 
 theorem pkMat_runPk : ∀ (prog : List Op), powsOK prog = true → ∀ (R : ℕ → ℕ) (RJ : ℕ → J),

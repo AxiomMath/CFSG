@@ -120,7 +120,7 @@ theorem isLongest_of_wkMatrix_eq_zero {v : WeylGroup TwistTag.E6.tag} (h : wkMat
     have hh : height (v⁻¹ • (Pi.single i 1 : Fin TwistTag.E6.tag.rank → ℤ)) = -1 := by
       unfold height
       rw [← Equiv.sum_comp TwistTag.E6.perm]
-      simp only [hk, Finset.sum_neg_distrib, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      simp only [hk, Finset.sum_neg_distrib, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     omega
   have hrev : ReversesSigns v⁻¹ := fun α hα hpos => height_smul_neg_of_forall_single hneg hα hpos
   have hrev' : ReversesSigns v := by simpa using hrev.inv
@@ -196,7 +196,7 @@ theorem exists_wkLog {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {q : ℕ}
   simp only [wkMatrix]
   push_cast
   simp only [add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [← hi, ← Finset.sum_add_distrib]
   exact Finset.sum_eq_zero fun k _ => by ring
 
@@ -210,8 +210,8 @@ open Matrix
 theorem weylKill_holds : WeylKill := by
   intro K _ _ σ q hK hσ h2 p hp hpq A hA hcard D hv
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h1 : 2 ∣ 1 := (Nat.dvd_add_right (two_dvd_of_card hK h2)).mp hpq
@@ -220,11 +220,11 @@ theorem weylKill_holds : WeylKill := by
     have h0 : ((q + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpq
     push_cast at h0
     exact eq_neg_of_add_eq_zero_left h0
-  haveI : NeZero ((p : ℕ) : K) := ⟨fun h => by
+  have : NeZero ((p : ℕ) : K) := ⟨fun h => by
     have h' := (ringChar.spec K p).1 h
     rw [h2] at h'
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h').symm⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ p :=
     ⟨_, IsPrimitiveRoot.isUnit_unit hp.ne_zero hζ0⟩
   have hlog : ∀ x ∈ A, ∃ y : Fin TwistTag.E6.tag.rank → ZMod p,

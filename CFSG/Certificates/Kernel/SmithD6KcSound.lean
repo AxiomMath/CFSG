@@ -59,12 +59,12 @@ theorem testBit_coefOf {ps : List Nat} (x : Nat) {m : Nat} (hm : m < 6) :
         arr_getElem!_eq_getD]
       have h0 := ih (by omega)
       by_cases hx : x.testBit (ps.getD n 0) = true
-      · rw [if_pos hx, Nat.testBit_or, h0, Nat.testBit_two_pow]
+      · rw [ite_eq_left hx, Nat.testBit_or, h0, Nat.testBit_two_pow]
         rcases Nat.lt_trichotomy m n with h | rfl | h
         · simp [h, show m < n + 1 by omega, show n ≠ m by omega]
         · simpa [List.getD_eq_getElem?_getD] using hx
         · simp [show ¬ m < n by omega, show ¬ m < n + 1 by omega, show n ≠ m by omega]
-      · rw [if_neg hx, h0]
+      · rw [ite_eq_right hx, h0]
         rcases Nat.lt_trichotomy m n with h | rfl | h
         · simp [h, show m < n + 1 by omega]
         · simpa [List.getD_eq_getElem?_getD] using hx

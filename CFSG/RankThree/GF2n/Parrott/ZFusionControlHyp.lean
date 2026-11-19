@@ -14,10 +14,12 @@ open CFSG CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem conj_z_eq_of_mem_H {y : G} (hy : y ∈ H z) : y * z * y⁻¹ = z := by
   rw [H_eq_centralizer, Subgroup.mem_centralizer_singleton_iff] at hy
   rw [hy, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem centerIn_H_le_centerIn_J (h : Tim79a.ParrottHyp z) :
     centerIn (H z) ≤ centerIn (J z) := by
   intro x hx
@@ -28,6 +30,7 @@ private theorem centerIn_H_le_centerIn_J (h : Tim79a.ParrottHyp z) :
   rw [← centralizer_J_eq_centerIn h]
   exact ⟨hx.1, hxC⟩
 
+omit [Finite G] in
 private theorem exists_mem_H_not_commute_centerIn_J (h : Tim79a.ParrottHyp z)
     (hne : centerIn (J z) ≠ centerIn (H z)) :
     ∃ x ∈ H z, ∃ c ∈ centerIn (J z), x * c ≠ c * x := by
@@ -133,7 +136,7 @@ theorem mem_H_of_conj_z_mem_centerIn (h : Tim79a.ParrottHyp z) {g : G}
 theorem normalizerControlsCenterJFusion_of_parrottHyp (h : Tim79a.ParrottHyp z) :
     NormalizerControlsCenterJFusion z := by
   classical
-  haveI : ((J z).subgroupOf (H z)).Normal := J_subgroupOf_normal z
+  have : ((J z).subgroupOf (H z)).Normal := J_subgroupOf_normal z
   have hz2 : orderOf z = 2 := h.1
   have hz1 : z ≠ 1 := by
     rintro rfl

@@ -33,7 +33,7 @@ theorem exists_j2_surj_of_le {L H : Subgroup G} (hHL : H ≤ L)
   have hθsolv : Group.IsSolvable ↥θ :=
     (solvable_prime_complement_core_characterization Nat.prime_three).1
   have hker_solv : Group.IsSolvable ↥ψ.ker := by
-    haveI := hθsolv
+    have := hθsolv
     rw [hker_eq]
     let g : ↥(θ.comap (Subgroup.inclusion hHL)) →* ↥θ :=
       { toFun := fun x => ⟨Subgroup.inclusion hHL x.1, x.2⟩
@@ -45,16 +45,16 @@ theorem exists_j2_surj_of_le {L H : Subgroup G} (hHL : H ≤ L)
     exact Group.isSolvable_of_isSolvable_injective (f := g) hg
   have hker_le : ψ.ker ≤ f.ker := by
     have hnormal : ((ψ.ker).map f).Normal := Subgroup.Normal.map inferInstance f hf
-    haveI := hnormal
+    have := hnormal
     have hsolv_image : Group.IsSolvable ↥((ψ.ker).map f) := by
-      haveI := hker_solv
+      have := hker_solv
       exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective f ψ.ker)
     rcases Subgroup.Normal.eq_bot_or_eq_top ((ψ.ker).map f) with hbot | htop
     · exact (Subgroup.map_eq_bot_iff _).mp hbot
     · exfalso
       have hSsolv : Group.IsSolvable S := by
         have htop' : Group.IsSolvable ↥(⊤ : Subgroup S) := htop ▸ hsolv_image
-        haveI := htop'
+        have := htop'
         exact Group.isSolvable_of_surjective
           (f := ((Subgroup.topEquiv (G := S) : ↥(⊤ : Subgroup S) ≃* S) :
             ↥(⊤ : Subgroup S) →* S)) (Subgroup.topEquiv (G := S)).surjective
@@ -84,6 +84,7 @@ theorem exists_mul_inv_mem_pPrimeCoreOf {K : Subgroup G} {c : G}
   calc y * c = (c * y * c⁻¹) * c := by rw [hfix]
     _ = c * y := by group
 
+omit [Finite G] in
 theorem inf_centralizer_le_normalizer_inf {K L : Subgroup G} {c : G}
     (hCL : Subgroup.centralizer ({c} : Set G) ≤ Subgroup.normalizer (L : Set G)) :
     K ⊓ Subgroup.centralizer ({c} : Set G) ≤
@@ -105,6 +106,7 @@ theorem inf_centralizer_le_normalizer_inf {K L : Subgroup G} {c : G}
     have h := hconj t⁻¹ (Subgroup.inv_mem _ ht) (t * x * t⁻¹) hx
     rwa [show t⁻¹ * (t * x * t⁻¹) * (t⁻¹)⁻¹ = x by group] at h⟩
 
+omit [Finite G] in
 theorem surjective_inf_of_covers {K : Subgroup G} {c : G} {S : Type} [Group S]
     (φ : ↥K ⧸ CFSG.pPrimeCore 3 ↥K ≃* S)
     (hcov : ∀ x ∈ K, ∃ t ∈ K ⊓ Subgroup.centralizer ({c} : Set G), t * x⁻¹ ∈ pPrimeCoreOf 3 K) :
@@ -177,13 +179,13 @@ theorem inf_le_pPrimeCoreOf_of_surj {K L : Subgroup G} {c : G} {S : Type} [Group
     have hEq : g * n * g⁻¹ =
         (π.comp (Subgroup.inclusion hMK)) ⟨(t : G) * (m : G) * (t : G)⁻¹, htm⟩ := by
       rw [← htg, ← hfm]
-      simp only [MonoidHom.comp_apply, Subgroup.coe_inclusion]
+      simp only [MonoidHom.comp_apply]
       rw [← map_mul, ← map_inv, ← map_mul]
       congr 1
     rw [hEq]
     exact Subgroup.mem_map_of_mem (π.comp (Subgroup.inclusion hMK))
       (x := ⟨(t : G) * (m : G) * (t : G)⁻¹, htm⟩) (Subgroup.mem_top _)
-  haveI := hN_normal
+  have := hN_normal
   rcases Subgroup.Normal.eq_bot_or_eq_top
       ((⊤ : Subgroup ↥M).map (π.comp (Subgroup.inclusion hMK))) with hbot | htop
   · intro x hx

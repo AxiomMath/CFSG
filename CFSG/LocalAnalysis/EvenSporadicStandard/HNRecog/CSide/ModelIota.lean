@@ -24,7 +24,7 @@ private theorem cSide_center_sl2_eq_bot :
   exact Subtype.ext hAr.symm
 
 private theorem cSide_isSimpleGroup_sl2 : IsSimpleGroup SL2 := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F4) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F4) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [F4.card_eq])
   let e : SL2 ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F4 :=
     ((QuotientGroup.quotientMulEquivOfEq cSide_center_sl2_eq_bot).trans
@@ -39,7 +39,7 @@ private theorem cSide_card_sl2 : Nat.card SL2 = 60 := by
   norm_num [Fin.prod_univ_two]
 
 theorem cSide_nonempty_mulEquiv_sl2 : Nonempty (A5 ≃* SL2) := by
-  haveI := cSide_isSimpleGroup_sl2
+  have := cSide_isSimpleGroup_sl2
   obtain ⟨e⟩ :=
     CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty cSide_card_sl2
   exact ⟨e.symm⟩

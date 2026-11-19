@@ -55,7 +55,7 @@ theorem exists_conj_eq_of_cover {E E₀ P : Subgroup G} (hE₀E : E₀ ≤ E)
   obtain ⟨o, ho, x₁, hx₁, rfl⟩ := hxE'
   have hx₁E : x₁ ∈ E := hE₀E hx₁
   set N : Subgroup ↥E₀ := (oddCoreOf E).subgroupOf E₀ with hN
-  haveI hNn : N.Normal := ⟨fun m hm g => by
+  have hNn : N.Normal := ⟨fun m hm g => by
     rw [hN, Subgroup.mem_subgroupOf] at hm ⊢
     exact T7R.conj_mem_oddCoreOf (hE₀E g.2) hm⟩
   have hNodd : Odd (Nat.card N) := by

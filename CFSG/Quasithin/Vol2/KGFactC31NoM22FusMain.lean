@@ -24,7 +24,7 @@ theorem no_m22_surj_of_sylowAutBound {G : Type} [Group G] [Finite G] {ℓ m : �
   obtain ⟨P, hP, hm⟩ := h
   intro hsurj
   rcases hℓ with ⟨rfl, hm5⟩ | ⟨rfl, hm4⟩
-  · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     obtain ⟨α, β, hα, hβ⟩ := m22_exists_eleven
     obtain ⟨a', ha'⟩ := hsurj α
     obtain ⟨b', hb'⟩ := hsurj β
@@ -37,7 +37,7 @@ theorem no_m22_surj_of_sylowAutBound {G : Type} [Group G] [Finite G] {ℓ m : �
       pow_eq_pow_iff_modEq.1 (by rw [pow_one]; exact hfus)
     rw [hα] at h1
     exact hm5 (five_dvd_of_three_pow_modEq_eleven h1)
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨c, d, hc, hd⟩ := m22_exists_five
     obtain ⟨c', hc'⟩ := hsurj c
     obtain ⟨d', hd'⟩ := hsurj d

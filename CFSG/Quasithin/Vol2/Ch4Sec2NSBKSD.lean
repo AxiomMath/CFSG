@@ -47,27 +47,27 @@ variable {G : Type} [Group G] {T L I K : Subgroup G} {m k n j : ℕ}
 theorem coG_of_mem (D : StdData G T L I K m k n j) (z : ↥(uZero I K)) :
     coG D (z : G) = Multiplicative.toAdd (D.β z) := by
   unfold coG
-  rw [dif_pos z.2]
+  rw [dite_eq_left z.2]
 
 theorem coG_one (D : StdData G T L I K m k n j) : coG D 1 = 0 := by
   have h1 : (1 : G) ∈ uZero I K := (uZero I K).one_mem
   have h2 : (⟨1, h1⟩ : ↥(uZero I K)) = 1 := rfl
   unfold coG
-  rw [dif_pos h1, h2, map_one, toAdd_one]
+  rw [dite_eq_left h1, h2, map_one, toAdd_one]
 
 theorem coG_mul (D : StdData G T L I K m k n j) {x y : G} (hx : x ∈ uZero I K)
     (hy : y ∈ uZero I K) : coG D (x * y) = coG D x + coG D y := by
   have hxy : x * y ∈ uZero I K := mul_mem hx hy
   have e : (⟨x * y, hxy⟩ : ↥(uZero I K)) = ⟨x, hx⟩ * ⟨y, hy⟩ := rfl
   unfold coG
-  rw [dif_pos hxy, dif_pos hx, dif_pos hy, e, map_mul, toAdd_mul]
+  rw [dite_eq_left hxy, dite_eq_left hx, dite_eq_left hy, e, map_mul, toAdd_mul]
 
 theorem coG_inv (D : StdData G T L I K m k n j) {x : G} (hx : x ∈ uZero I K) :
     coG D x⁻¹ = coG D x := by
   have hxi : x⁻¹ ∈ uZero I K := inv_mem hx
   have e : (⟨x⁻¹, hxi⟩ : ↥(uZero I K)) = (⟨x, hx⟩ : ↥(uZero I K))⁻¹ := rfl
   unfold coG
-  rw [dif_pos hxi, dif_pos hx, e, map_inv, toAdd_inv, neg_eq_self_coG]
+  rw [dite_eq_left hxi, dite_eq_left hx, e, map_inv, toAdd_inv, neg_eq_self_coG]
 
 theorem coG_injOn (D : StdData G T L I K m k n j) {x y : G} (hx : x ∈ uZero I K)
     (hy : y ∈ uZero I K) (h : coG D x = coG D y) : x = y := by

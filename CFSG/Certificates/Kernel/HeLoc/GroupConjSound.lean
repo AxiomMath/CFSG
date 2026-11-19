@@ -46,7 +46,6 @@ theorem conjPointOK_of_table {c : CFSG.Monster.B.Fischer.ArrCert} {ps : List Nat
       rcases ht i hi with h | ⟨h1, h2, h3, h4⟩
       · exact Or.inl h
       · refine Or.inr ⟨h1, by rw [hgs]; exact h2, h3, ?_⟩
-        change c.pts[i]! = compA n (conjGens n c r)[lab i]! c.pts[par i]!
         rw [(hstep _ h2 _ h1).2, h4]
   have h := enumOK_of_reach (n := n) (ps := ps) (fuel := c.pts.size + 1) (gs := conjGens n c r)
     (N := N) (U := fun i => c.pts[i]!) hN0 hval ⟨0, hN0, h0⟩

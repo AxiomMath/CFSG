@@ -297,12 +297,12 @@ theorem innerOneBalanceThree_of_mulEquiv {K K' : Type*} [Group K] [Group K'] (e 
 theorem pPrimeCore_le_center_of_quasisimple {Y : Type*} [Group Y] [Finite Y] {p : ℕ}
     (hq : CFSG.Open.IsQuasisimple Y) (hp : p.Prime) (hdvd : p ∣ Nat.card Y) :
     CFSG.pPrimeCore p Y ≤ Subgroup.center Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hperf, hsimple⟩ := hq
   obtain ⟨N, hNdef⟩ : ∃ N : Subgroup Y, N = CFSG.pPrimeCore p Y := ⟨_, rfl⟩
   rw [← hNdef]
-  haveI hNn : N.Normal := hNdef ▸ CFSG.pPrimeCore_normal
-  haveI hmapn : (N.map (QuotientGroup.mk' (Subgroup.center Y))).Normal :=
+  have hNn : N.Normal := hNdef ▸ CFSG.pPrimeCore_normal
+  have hmapn : (N.map (QuotientGroup.mk' (Subgroup.center Y))).Normal :=
     Subgroup.Normal.map hNn _ (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center Y))) with hbot | htop
   · intro x hx
@@ -498,7 +498,7 @@ theorem u1_mul_self (h2 : (2 : F) = 0) : (u1 : SL(2, F)) * u1 = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [u1, Matrix.mul_apply, Fin.sum_univ_two] <;>
+  fin_cases i <;> fin_cases j <;> simp [u1, Matrix.mul_apply, Fin.sum_univ_two];
     linear_combination h2
 
 end SL2Char2
@@ -593,8 +593,7 @@ theorem torusG_snd_one_ne_one (σ : K ≃+* K) {ω : Kˣ} (hω : ω ∈ normOne 
   obtain ⟨c00, c50, c20, c40, c02, c52, c22, c42⟩ := cartan_E6_values
   have e0 := congrFun h2 ⟨0, by decide⟩
   rw [torusTuple_eq σ.toRingHom ω 1] at e0
-  simp only [Pi.mul_apply, e6TorParam, Pi.one_apply, c00, c50, c20, c40, c02, c52, c22, c42,
-    zpow_zero, mul_one, zpow_neg, zpow_one, zpow_ofNat, pow_zero, pow_one] at e0
+  simp only [Pi.mul_apply, e6TorParam, Pi.one_apply, c00, c50, c20, c40, mul_one, zpow_neg, zpow_ofNat, pow_zero, pow_one] at e0
   rw [inv_one, mul_one] at e0
   apply hω1
   calc ω = ω ^ 3 * (ω ^ 2)⁻¹ := by group
@@ -750,7 +749,7 @@ theorem bal209TwoParabolic_holds : Bal209TwoParabolic := by
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hcard4 : Nat.card K' = 4 := by
       rw [hcard, hq2.1, hq2.2]; norm_num
-    haveI : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
+    have : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
     have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by
       have := hσ c
       rwa [hq2.1, hq2.2, pow_one] at this
@@ -866,7 +865,7 @@ theorem innerOneBalanceThree_of_bal209TwoIndex {S : Type} [Group S]
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hcard4 : Nat.card K' = 4 := by
       rw [hcard, hq2.1, hq2.2]; norm_num
-    haveI : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
+    have : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
     have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by
       have := hσ c
       rwa [hq2.1, hq2.2, pow_one] at this

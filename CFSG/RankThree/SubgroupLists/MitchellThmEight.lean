@@ -81,16 +81,16 @@ theorem toBlocks₁₁_mul_of_isBlockDiag {X Y : Matrix V₄ V₄ F} (hX : IsBlo
   carrier := {g | IsBlockDiag (g : Matrix V₄ V₄ F)}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul] at ha hb ⊢
     rw [eq_fromBlocks_of_isBlockDiag ha, eq_fromBlocks_of_isBlockDiag hb, fromBlocks_diag_mul]
     exact isBlockDiag_fromBlocks _ _
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Units.val_one]
+    simp only [Set.mem_ofPred_eq, Units.val_one]
     rw [← Matrix.fromBlocks_one]
     exact isBlockDiag_fromBlocks _ _
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h1 : (a : Matrix V₄ V₄ F) * ((a⁻¹ : GL V₄ F) : Matrix V₄ V₄ F) = 1 := by
       rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
     have h1' : ((a⁻¹ : GL V₄ F) : Matrix V₄ V₄ F) * (a : Matrix V₄ V₄ F) = 1 := by
@@ -169,6 +169,7 @@ theorem fromBlocks_diag_sub_one (A D : Matrix (Fin 2) (Fin 2) F) :
 
 variable [Finite F]
 
+omit [Finite F] in
 theorem isSqZero_of_pow_char {p : ℕ} [Fact p.Prime] [CharP F p] {h : GL V₄ F}
     (hh : h ∈ blockDiagGL F) (hp : h ^ p = 1) :
     IsSqZero h := by
@@ -197,7 +198,7 @@ theorem false_of_thm_eight_core (p : ℕ) [Fact p.Prime] [CharP F p] {G : Subgro
     (hbQ : beta * beta + Q = 1) (hbeta : beta ≠ 0) (hQ : Q ≠ 0) (heps : eps ≠ 0)
     (hord : ∀ k, 1 ≤ k → k < 6 → (lam * eps⁻¹) ^ k ≠ 1) : False := by
   classical
-  haveI : Finite PGL(Fin 2, F) :=
+  have : Finite PGL(Fin 2, F) :=
     inferInstanceAs (Finite (GL (Fin 2) F ⧸ Subgroup.center (GL (Fin 2) F)))
   set B := blockDiagGL F
   have hzB : z ∈ B := by
@@ -270,7 +271,7 @@ theorem false_of_thm_eight_core (p : ℕ) [Fact p.Prime] [CharP F p] {G : Subgro
     have hm1 := pow_orderOf_eq_one zJ
     have hmk : Matrix.ProjGenLinGroup.mk ((blockHom₁ F ⟨z, hzB⟩) ^ orderOf zJ) = 1 := by
       have := congrArg Subtype.val hm1
-      simpa [zJ, map_pow] using this
+      simp [zJ, map_pow]
     rw [Matrix.ProjGenLinGroup.mk_eq_one, Matrix.GeneralLinearGroup.center_eq_range_scalar] at hmk
     obtain ⟨u, hu⟩ := hmk
     have hmat := congrArg (fun g : GL (Fin 2) F => (g : Matrix (Fin 2) (Fin 2) F)) hu

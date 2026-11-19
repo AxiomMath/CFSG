@@ -62,7 +62,6 @@ theorem bfsAt_sound {M : Type*} [DecidableEq M] (gs : List (M → M)) (dec : ℕ
   · intro i hi k hk
     obtain ⟨h1, h2, -⟩ := (hs i hi).2.2.1 k hk
     refine ⟨h1, ?_⟩
-    change gs[k] (dec (keyAt R i)) = dec (keyAt R (C (gs.length * i + k)))
     rw [h2, hA _ (hs i hi).1 k hk]
   · intro j hj hjn
     obtain ⟨h1, h2, -⟩ := (hs j hjn).2.2.2 (by omega)
@@ -73,7 +72,6 @@ theorem bfsAt_sound {M : Type*} [DecidableEq M] (gs : List (M → M)) (dec : ℕ
       · exact h
     refine ⟨(Nat.div_lt_iff_lt_mul hpos).2 (by rw [Nat.mul_comm]; exact h1),
       Nat.mod_lt _ hpos, ?_⟩
-    change C (gs.length * (discAt R j / gs.length) + discAt R j % gs.length) = j
     rw [Nat.div_add_mod]
     exact h2
   · intro i hi k hk
@@ -81,7 +79,6 @@ theorem bfsAt_sound {M : Type*} [DecidableEq M] (gs : List (M → M)) (dec : ℕ
     rcases h3 with h3 | h3
     · exact Or.inl h3
     · right
-      change discPos gs _ _ (C (gs.length * i + k)) ≤ i * gs.length + k
       rw [hdisc, Nat.mul_comm i]
       exact h3
 

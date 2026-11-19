@@ -72,7 +72,7 @@ theorem card_planeO [Finite K] [CharP K 2] {b c : K} (hirr : ∀ s : K, s ^ 2 + 
     exact CFSG.LieType.Universal.Spin.Twisted.binary_ne_zero hirr hx
 
 private theorem odd_card_add_one [Finite K] [CharP K 2] : Odd (Nat.card K + 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hcard⟩ := FiniteField.card K 2
   have heven : Even (Nat.card K) := by
     rw [Nat.card_eq_fintype_card, hcard, even_iff_two_dvd]

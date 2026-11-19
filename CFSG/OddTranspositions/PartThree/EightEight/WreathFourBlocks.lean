@@ -253,6 +253,7 @@ theorem FibresAnticlique.of_mem_blockClass (hN : IsNormalSet D) {ρ ρ' : Set G}
   obtain ⟨g, rfl⟩ := mem_blockClass_iff.mp hρ'
   exact fibresAnticlique_cimg_w4b hN hA g
 
+omit [Finite G] in
 theorem exists_mem_Dalpha_mk_eq (hC : HypothesisC D)
     {q : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hq : q ∈ imageClass hC) :

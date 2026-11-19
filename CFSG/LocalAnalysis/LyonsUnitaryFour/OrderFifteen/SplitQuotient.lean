@@ -252,7 +252,7 @@ theorem lyons_order_fifteen_involution_centralizer_split_quotient
   have hSK1 : ∀ k : C, k ∈ K → (k : G) ∈ Sg → k = 1 := by
     intro k hk hkS
     have hodd : Odd (orderOf k) := CFSG.Adapters.odd_orderOf_of_mem_oddCore hk
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨(k : G), hkS⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨(k : G), hkS⟩
     have hdvd : orderOf k ∣ 2 ^ j := by
       apply orderOf_dvd_of_pow_eq_one
       apply Subtype.ext
@@ -280,7 +280,7 @@ theorem lyons_order_fifteen_involution_centralizer_split_quotient
     rw [Subgroup.mem_center_iff.mp (hEc ha) g, mul_inv_cancel_right]
     exact ha
   have hZCp : IsPGroup 2 ZC := by
-    have hZp : IsPGroup 2 Z := S.isPGroup'.to_le (fun w hw => hZS w hw)
+    have hZp : IsPGroup 2 Z := S.isPGroup.to_le (fun w hw => hZS w hw)
     exact hZp.of_equiv (Subgroup.subgroupOfEquivOfLe (fun w hw => hSC (hZS w hw))).symm
   have hE2 : IsPGroup 2 E := hZCp.map πK
   set πE := QuotientGroup.mk' E with hπEdef
@@ -421,7 +421,7 @@ theorem lyons_order_fifteen_involution_centralizer_split_quotient
       rintro _ ⟨s, hs, rfl⟩
       exact hA s hs
     have hQp : IsPGroup 2 (SC.map (MulAut.conj c).toMonoidHom) :=
-      (hSCs_coe ▸ SCs.isPGroup').map _
+      (hSCs_coe ▸ SCs.isPGroup).map _
     obtain ⟨v, hv, hvc⟩ := exists_conj_le_sylow_of_le SCs hSCK hQ' hQp
     set n := v * c with hndef
     have hnN : ∀ s ∈ SC, n * s * n⁻¹ ∈ SC := by
@@ -625,7 +625,7 @@ theorem lyons_order_fifteen_involution_centralizer_split_quotient
   have hhord : orderOf h = 5 := orderOf_eq_prime hh5 hh1
   have hS₀p : IsPGroup 2 S₀ := by
     rw [hS₀]
-    exact (hSCs_coe ▸ SCs.isPGroup').map πK
+    exact (hSCs_coe ▸ SCs.isPGroup).map πK
   refine ⟨odd_card_oddCore C, fun x y hxy => Subtype.ext (hπKinj _ x.2 _ y.2 hxy),
     hS₀normal, hLcard, h, hhord, ?_, ?_, hcenter, ?_, ?_, ?_, ?_⟩
   · apply Subgroup.eq_top_of_card_eq

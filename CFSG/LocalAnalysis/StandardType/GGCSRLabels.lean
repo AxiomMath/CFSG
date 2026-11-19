@@ -68,7 +68,7 @@ theorem ggCSR_twF4
     (TableBExcSmallRanks.ggTwF4RankInput_of_three TwF4SUThree.ggTwF4ThreeRankInput_holds)
     Nat.prime_three hlab ht (crsl_split_of_odd hlab (Or.inr ht))
 
-theorem ggCSR_B2der {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
+theorem ggCSR_B2der {lab : LargeEvenLabel} (_hlab : LargeEvenInLambda2 lab)
     (ht : lab.tag = .B2der) :
     LargeEvenLabelAll lab fun R _ I _ => ∀ X : Subgroup (MulAut R),
       (X : Set (MulAut R)) ⊆ I → IsElemAbelian 3 X → Nat.card X < 3 ^ 3 :=

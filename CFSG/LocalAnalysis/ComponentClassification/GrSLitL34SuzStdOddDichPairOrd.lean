@@ -151,6 +151,7 @@ private theorem l34SuzOddPair_a'_notin
       _ = 8 := by norm_num
   omega
 
+omit [Finite G] in
 private theorem l34SuzOddPair_F_card
     {u : G} {P E₁ : Subgroup G} {a a' : G}
     (hP : L34SuzOddPairData t u V P E₁ a) (ha' : a' = t * a * t⁻¹)
@@ -256,6 +257,7 @@ private theorem l34SuzOddPair_aa'_notin
       _ = 8 := by norm_num
   omega
 
+omit [Finite G] in
 private theorem l34SuzOddPair_J_card
     {u : G} {P E₁ : Subgroup G} {a a' : G}
     (hP : L34SuzOddPairData t u V P E₁ a)

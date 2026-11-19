@@ -18,7 +18,7 @@ section Prime3
 variable {Y : Type} [Group Y] [Finite Y]
 
 theorem false_of_sp62_u42 (hR : Rank23At Y) (hS : StdSubFAt Y) {K B : Subgroup Y} (h : KHyp 3 K B)
-    (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
+    (_hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < 3 ^ 3)
     (hcat : catalogIs (↥K ⧸ Subgroup.center ↥K) (fun i => S9.isSp6two i ∨ S9.isU4two i))
     (hOut : ∀ (S : Type) [Group S], catalogIs S (fun i => S9.isSp6two i ∨ S9.isU4two i) →
       ¬ 3 ∣ Nat.card (Outer S)) : False := by
@@ -116,9 +116,9 @@ theorem card_mulAut_sp62 {S : Type} [Group S] (h : catalogIs S S9.isSp6two) :
     · rw [h1, h2] at hm
       exact absurd hm.admissible.2.2.2 (by norm_num)
   obtain ⟨eS⟩ := bridge_sp6two h
-  haveI : IsSimpleGroup CFSG.Sporadic.Co2Smith.Sp62 := CFSG.Sporadic.Co2Smith.isSimpleGroup_sp62
-  haveI hsimple : IsSimpleGroup S := MulEquiv.isSimpleGroup eS
-  haveI : Finite S := Finite.of_equiv _ eS.symm.toEquiv
+  have : IsSimpleGroup CFSG.Sporadic.Co2Smith.Sp62 := CFSG.Sporadic.Co2Smith.isSimpleGroup_sp62
+  have hsimple : IsSimpleGroup S := MulEquiv.isSimpleGroup eS
+  have : Finite S := Finite.of_equiv _ eS.symm.toEquiv
   have hS : Nat.card S = 1451520 := by
     rw [Nat.card_congr eS.toEquiv, CFSG.Sporadic.Co2Smith.natCard_sp62]
   have := card_mulAut_of_simple_out hS (by norm_num) hOut

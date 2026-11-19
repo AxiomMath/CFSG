@@ -59,16 +59,16 @@ omit [Finite K] in
 private theorem three_ne_zero_of_piField {π : Bool} {p f : ℕ} {K' : Type} [Field K']
     (hK : CFSG.RankThree.PartTwo.Sec4.PiField π p f K')
     (hq : CFSG.RankThree.PartTwo.Sec4.ModThree π (p ^ f)) : (3 : K') ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hK.prime⟩
-  haveI : Finite K' := hK.finite
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fact p.Prime := ⟨hK.prime⟩
+  have : Finite K' := hK.finite
+  have : Fintype K' := Fintype.ofFinite K'
   have hcard : Fintype.card K' = p ^ (cond π f (2 * f)) := by
     rw [← Nat.card_eq_fintype_card, hK.card]
     cases π
     · change (p ^ f) ^ 2 = p ^ (2 * f)
       rw [← pow_mul, mul_comm]
     · rfl
-  haveI : CharP K' p := charP_of_card_eq_prime_pow hcard
+  have : CharP K' p := charP_of_card_eq_prime_pow hcard
   intro h
   have hp3 : p ∣ 3 := (CharP.cast_eq_zero_iff K' p 3).mp (by exact_mod_cast h)
   have hp : p = 3 := (Nat.prime_dvd_prime_iff_eq hK.prime Nat.prime_three).mp hp3
@@ -89,12 +89,12 @@ theorem fixRankTwo_gammaP (hK2 : ringChar K ≠ 2) (hK3 : ringChar K ≠ 3) (hK5
   obtain ⟨π, p, f, K', _, hPi, hpq, hq, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterHighD4Odd.d4GraphA2FixIsoOdd_holds K hK2
       hK3 hK5 B hB3 hB1
-  haveI : Finite K' := hPi.finite
+  have : Finite K' := hPi.finite
   rw [← hpq] at hq
   have h3 : (3 : K') ≠ 0 := three_ne_zero_of_piField hPi hq
   obtain ⟨τ, hτ3, hτ1⟩ : ∃ τ : K', τ ^ 3 = 1 ∧ τ ≠ 1 := by
     have hdvd := three_dvd_card_sub_one_of_piField hPi hq
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K'ˣ) 3 (by rwa [Nat.card_units])
     refine ⟨(x : K'), ?_, ?_⟩
     · rw [← Units.val_pow_eq_pow_val, ← hx, pow_orderOf_eq_one, Units.val_one]

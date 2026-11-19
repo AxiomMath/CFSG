@@ -49,7 +49,7 @@ theorem ggNbrLSideSp_components {ℓ : ℕ} {K : Type} [Field K] [Finite K]
     (CFSG.IsQuasisimple ↥⁅A₁, A₁⁆ ∧ J = ⁅A₁, A₁⁆.map (LargeEvenProjMk (LargeEvenSpGroup K ℓ))) ∨
       (CFSG.IsQuasisimple ↥⁅A₂, A₂⁆ ∧ J = ⁅A₂, A₂⁆.map (LargeEvenProjMk (LargeEvenSpGroup K ℓ))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set π : StatedSp ℓ K →* LargeEvenProj (LargeEvenSpGroup K ℓ) :=
     LargeEvenProjMk (LargeEvenSpGroup K ℓ) with hπdef
   have hsurj : Function.Surjective π := by

@@ -158,6 +158,7 @@ theorem holt6_step4 (hB : FF81Basis b L B b₁ b₂ b₃) (hLt : L ≤ Cen t₀)
   calc h * y₀⁻¹ * τ * (h * y₀⁻¹)⁻¹ = l * (c * (g * τ * g⁻¹) * c⁻¹) * l⁻¹ := by rw [hh]; group
     _ = t₀ := by rw [hg, hct, hlt]
 
+omit [Finite G] in
 theorem holt6_step5 (ht₀ : orderOf t₀ = 2) (hCtY : Cen t₀ ≤ Y)
     (hA5 : ∀ τ ∈ Y, orderOf τ = 2 → ∀ g : G, g * τ * g⁻¹ = t₀ → ∃ y ∈ Y, y * τ * y⁻¹ = t₀) :
     ∃! q : G ⧸ Y, t₀ • q = q := by
@@ -175,7 +176,7 @@ theorem holt6_step5 (ht₀ : orderOf t₀ = 2) (hCtY : Cen t₀ ≤ Y)
     rw [MulAction.Quotient.smul_mk, smul_eq_mul, QuotientGroup.eq] at hq
     have hτY : g⁻¹ * t₀ * g ∈ Y := by rwa [mul_inv_rev, ht₀inv] at hq
     have hτ2 : orderOf (g⁻¹ * t₀ * g) = 2 := by
-      rw [show g⁻¹ * t₀ * g = MulAut.conj g⁻¹ t₀ by simp [MulAut.conj_apply],
+      rw [show g⁻¹ * t₀ * g = MulAut.conj g⁻¹ t₀ by simp,
         MulEquiv.orderOf_eq]
       exact ht₀
     obtain ⟨y, hy, hyτ⟩ := hA5 _ hτY hτ2 g (by group)
@@ -205,7 +206,7 @@ theorem holt6_step6 (ht₀ : orderOf t₀ = 2) (hCtY : Cen t₀ ≤ Y)
   have ht₀S : t₀ ∈ S := by
     obtain ⟨t₀', ht₀'⟩ : ∃ t : Cen t₀, (t : G) = t₀ :=
       ⟨⟨t₀, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩, rfl⟩
-    haveI hK : (Subgroup.zpowers t₀').Normal := ⟨fun z hz g => by
+    have hK : (Subgroup.zpowers t₀').Normal := ⟨fun z hz g => by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
       have hgc : Commute g t₀' := Subtype.ext (by
         rw [Subgroup.coe_mul, Subgroup.coe_mul, ht₀']
@@ -220,7 +221,7 @@ theorem holt6_step6 (ht₀ : orderOf t₀ = 2) (hCtY : Cen t₀ ≤ Y)
     have hScard : Nat.card S = 2 ^ 24 :=
       card_eq_of_isSylowOf (isSylowOf_map_sylow P) (m := 3 ^ 4 * 5 * 7)
         (by rw [hCt]; ring) (by norm_num)
-    exact isSylowOf_of_card hSY (P.isPGroup'.map _) hScard hYc (by norm_num)
+    exact isSylowOf_of_card hSY (P.isPGroup.map _) hScard hYc (by norm_num)
   have hNS : Subgroup.normalizer (S : Set G) ≤ Cen t₀ := by
     intro g hg
     have hz₂S : g * t₀ * g⁻¹ ∈ S := (Subgroup.mem_normalizer_iff.mp hg t₀).mp ht₀S

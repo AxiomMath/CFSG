@@ -396,7 +396,7 @@ open Classical in
 
 theorem ae6HatFun_spec {h : AE6FFin} {x : MulAut ↥ae6ModelP} (hx : ae6Good h x) (n : Fin 12) :
     ae6PM h (x (ae6CycP h n)) (ae6HatFun h x n) := by
-  rw [ae6HatFun, dif_pos (hx n)]
+  rw [ae6HatFun, dite_eq_left (hx n)]
   exact (hx n).choose_spec
 
 theorem ae6HatFun_eq {h : AE6FFin} {x : MulAut ↥ae6ModelP} (hx : ae6Good h x) {n m : Fin 12}
@@ -921,7 +921,7 @@ theorem ae6_weight_one (h : AE6FFin) (y : ↥(ae6GoodSub h)) {τ : Equiv.Perm (F
     have hset : {J | J ∈ ae6ModelTwins ∧ ∃ p : ↥ae6ModelP, (p : AE6Om) ∈ J ∧ (y : MulAut ↥ae6ModelP) p ≠ p} =
         {ae6Twin b} := by
       ext J
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
       constructor
       · rintro ⟨hJ, p, hp, hne⟩
         rw [h.twins_eq] at hJ
@@ -981,7 +981,7 @@ theorem ae6ModelF_of_fin (h : AE6FFin) : AE6ModelF := by
       rw [e', map_one] at hy'τ
       rw [← hy'τ, orderOf_one] at hτ3
       norm_num at hτ3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨htw, hnc⟩ := ae6_weight_one h (y ^ 4) hy'τ hy'3 hτb hτc
     exact h3 _ (by rw [SubgroupClass.coe_pow]; exact pow_mem hyX' 4) (orderOf_eq_prime hy'3 hy'1) htw hnc
 

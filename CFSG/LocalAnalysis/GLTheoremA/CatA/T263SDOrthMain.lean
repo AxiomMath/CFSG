@@ -24,7 +24,7 @@ theorem sdo_special_data (hp : p.Prime) (hp2 : p ≠ 2) (hK3 : p = 3 → 4 ≤ N
     (hne1 : r ≠ X - 1) :
     specialBlock Q x r = ⊥ ∨ (CFSG.IsQuasisimple ↥(specialBlock Q x r) ∧
       specialBlock Q x r ≤ orthDerived Q ∧ p ∣ Nat.card ↥(specialBlock Q x r)) := by
-  haveI : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
+  have : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
   by_cases hm : 2 ≤ primaryMultiplicity x.toLinearMap r
   · exact Or.inr (specialBlock_quasisimple_le_orthDerived_dvd_card hx hp hp2 hK3 hr hne1 hm)
   · left
@@ -46,7 +46,7 @@ theorem sdo_ambient [CharP K 2] (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   obtain ⟨n, F, hn, hF, hFc, hdec, hinnF⟩ :=
     sdo_fixed_package hQ hp hp2 hK3 hx hRep B Y hB hY hBp
   set C : Subgroup (V ≃ₗ[K] V) := isometryCentralizer Q x ⊓ orthDerived Q with hC
-  haveI : Finite {r : K[X] // r ∈ Rep ∧ r ≠ X - 1} :=
+  have : Finite {r : K[X] // r ∈ Rep ∧ r ≠ X - 1} :=
     Finite.of_injective (fun r => (⟨r.1, r.2.1⟩ : ↥Rep))
       (fun a b h => Subtype.ext (by simpa using congrArg (fun z : ↥Rep => (z : K[X])) h))
   let J : ({r : K[X] // r ∈ Rep ∧ r ≠ X - 1} ⊕ Fin n) → Subgroup (V ≃ₗ[K] V) :=
@@ -113,7 +113,7 @@ theorem sdo_ambient [CharP K 2] (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     rcases i with r | k
     · intro z hz hc m hzm
       have hh := hRep.1 r.2.1
-      haveI : Fact (Irreducible r.1) := ⟨irreducible_of_mem_primaryFactors hh⟩
+      have : Fact (Irreducible r.1) := ⟨irreducible_of_mem_primaryFactors hh⟩
       by_cases hm : 2 ≤ primaryMultiplicity x.toLinearMap r.1
       · exact sdo_specialBlock_center_two hx hp hp2 hh r.2.2 hm hz hc m hzm
       · have hpos := hx.primaryMultiplicity_pos hh

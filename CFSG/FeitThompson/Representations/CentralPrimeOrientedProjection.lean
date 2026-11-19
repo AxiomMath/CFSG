@@ -608,9 +608,9 @@ theorem isOrthogonal_add_smul_coherentVal
   rw [isOrthogonal_iff, cfInner_add_left, cfInner_smul_left, hd ⟨ψ, hψ⟩,
     cfInner_coherentVal_coherentVal hYIrr hμ]
   by_cases hc : (⟨ψ, hψ⟩ : indFamLinear (P.subgroupOf L)) = ⟨η, hη⟩
-  · rw [if_pos hc, if_pos (show (⟨η, hη⟩ : indFamLinear (P.subgroupOf L)) = ⟨ψ, hψ⟩ from hc.symm)]
+  · rw [ite_eq_left hc, ite_eq_left (show (⟨η, hη⟩ : indFamLinear (P.subgroupOf L)) = ⟨ψ, hψ⟩ from hc.symm)]
     ring
-  · rw [if_neg hc, if_neg (Ne.symm hc)]
+  · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]
     ring
 
 end Pairings
@@ -738,9 +738,9 @@ theorem exists_oriented_projection [Fintype G] [Fintype ↥L]
       field_simp
       ring
     by_cases hcase : ξ = (⟨η, hη⟩ : indFamLinear (P.subgroupOf L))
-    · rw [if_pos hcase, hcase, hψ₀def] at *
+    · rw [ite_eq_left hcase, hcase, hψ₀def] at *
       exact hval
-    · rw [if_neg hcase]
+    · rw [ite_eq_right hcase]
       have hne : (ξ : ↥L → ℂ) ≠ η := fun he => hcase (Subtype.ext he)
       have hdiff := cfInner_indClassFun_coherentVal_sub h.isTI h.P_le ν hν0
         (hγZ lam hlam hlam1) hη ξ.2

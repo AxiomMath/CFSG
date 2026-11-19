@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_of_conj_mem_of_centralizes {K : Subgroup G} {c : G}
     (hc : ∀ z ∈ K, c * z = z * c) {y : G} (hy : c * y * c⁻¹ ∈ K) : y ∈ K := by
   have h1 : c * (c * y * c⁻¹) = c * y * c⁻¹ * c := hc _ hy
@@ -107,8 +108,8 @@ theorem pow_twelve_mem_centralizer {M : Subgroup G} (hM : IsElemAbelian 2 M) {e 
         group
       rw [e1] at h
       exact mem_of_conj_mem_of_centralizes (fun z hz => (hgpow i z hz).eq) h
-    haveI : Finite (↥M ⧸ (K.subgroupOf M)) := inferInstance
-    letI : Fintype (↥M ⧸ (K.subgroupOf M)) := Fintype.ofFinite _
+    have : Finite (↥M ⧸ (K.subgroupOf M)) := inferInstance
+    let : Fintype (↥M ⧸ (K.subgroupOf M)) := Fintype.ofFinite _
     have hQcard : (Finset.univ : Finset (↥M ⧸ (K.subgroupOf M))).card ≤ 4 := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       exact hidx

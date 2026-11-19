@@ -16,7 +16,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open
 theorem wcOn_McL_three_of_equiv
     {X : Type} [Group X] [Finite X]
     (e : X ⧸ Subgroup.center X ≃* CFSG.Blueprint.NativeSporadic.McL) : WCOn 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine WCOn.of_not_isMulCommutative fun P hcomm => ?_
   obtain ⟨s, hs, -, t, ht, hst⟩ :=
     CFSG.RankThree.PartTwo.Sec21.Item21Res9Proof.exists_noncentral_McL e P
@@ -24,7 +24,7 @@ theorem wcOn_McL_three_of_equiv
 
 theorem wcOn_McL_three
     [Finite (Carrier .McL)] : WCOn 3 (Carrier .McL) := by
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hcen : Subgroup.center CFSG.Blueprint.NativeSporadic.McL = ⊥ :=
     CFSG.Sporadic.HNSchreier.center_eq_bot_of_simple
@@ -42,7 +42,7 @@ theorem wcSporadicAt_McL
   rcases hmem with rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_McL_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_McL
   all_goals (exfalso; norm_num at hdvd)
 
@@ -52,7 +52,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co2T CFSG.Sporadic.Co2Cert
 
 theorem wcOn_co2P_three :
     WCOn 3 ↥CFSG.Sporadic.Co2Cert.co2P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine WCOn.of_self_centralizing (D := Tg) (IsPGroup.of_card (n := 4)
     (by rw [card_Tg]; norm_num)) ?_ factorization_card_co2P_three (by rw [card_Tg]; norm_num)
   intro x hx
@@ -66,7 +66,7 @@ theorem wcOn_co2P_three :
 theorem wcOn_Co2_three
     [Finite (Carrier .Co2)] :
     WCOn 3 (Carrier .Co2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact WCOn.of_mulEquiv co2PermEquiv wcOn_co2P_three
 
 theorem wcSporadicAt_Co2
@@ -80,7 +80,7 @@ theorem wcSporadicAt_Co2
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_Co2_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_Co2
   all_goals (exfalso; norm_num at hdvd)
 
@@ -92,7 +92,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co3T CFSG.Sporadic.Schreier
 
 theorem wcOn_co3P_three :
     WCOn 3 ↥co3P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine WCOn.of_small_centralizer (y := ⟨yPerm, yPerm_mem⟩) (Subtype.ext yPerm_pow) (f := 7)
     factorization_card_co3P_three (m := 4536) ?_ (by norm_num)
   rw [card_centralizer_subgroup co3P ⟨yPerm, yPerm_mem⟩]
@@ -101,7 +101,7 @@ theorem wcOn_co3P_three :
 theorem wcOn_Co3_three
     [Finite (Carrier .Co3)] :
     WCOn 3 (Carrier .Co3) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact WCOn.of_mulEquiv co3PermEquiv wcOn_co3P_three
 
 theorem wcSporadicAt_Co3
@@ -115,7 +115,7 @@ theorem wcSporadicAt_Co3
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_Co3_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_Co3
   all_goals (exfalso; norm_num at hdvd)
 

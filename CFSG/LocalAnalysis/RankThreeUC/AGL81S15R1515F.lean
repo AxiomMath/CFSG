@@ -79,8 +79,8 @@ theorem center_eq_bot_of_mulEquiv {S T : Type*} [Group S] [Group T] (e : S ≃* 
 theorem center_eq_bot_of_equiv_derivedCentralQuotient {S G : Type*} [Group S] [Group G]
     (hS : commutator S = ⊤) (e : S ≃* TauCeti.DerivedCentralQuotient G) :
     Subgroup.center S = ⊥ := by
-  haveI : Group.IsPerfect S := ⟨hS⟩
-  haveI : Group.IsPerfect (TauCeti.DerivedCentralQuotient G) :=
+  have : Group.IsPerfect S := ⟨hS⟩
+  have : Group.IsPerfect (TauCeti.DerivedCentralQuotient G) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   exact center_eq_bot_of_mulEquiv e
     (center_quotient_center_eq_bot_of_isPerfect_quotient (D := ↥(commutator G)) inferInstance)
@@ -88,10 +88,10 @@ theorem center_eq_bot_of_equiv_derivedCentralQuotient {S G : Type*} [Group S] [G
 end R1515F
 
 theorem centre_eq_bot_of_equiv_lie {S : Type} [Group S] [Finite S] (hS : CFSG.Open.IsQuasisimple S)
-    {d : TauCeti.ValidLieTypeIndex} {Q : TauCeti.PrimePower} (hQ : Q.p = 2)
-    (hd : d.1 = .G2 Q ∨ d.1 = .B 2 Q ∨ d.1 = .A 3 Q) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
+    {d : TauCeti.ValidLieTypeIndex} {Q : TauCeti.PrimePower} (_hQ : Q.p = 2)
+    (_hd : d.1 = .G2 Q ∨ d.1 = .B 2 Q ∨ d.1 = .A 3 Q) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     Subgroup.center S = ⊥ := by
-  clear hQ hd
+  clear _hQ _hd
   exact R1515F.center_eq_bot_of_equiv_derivedCentralQuotient hS.1 e
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

@@ -95,7 +95,7 @@ private theorem typeP_complement_coprime_card
     have hM_le_norm_MF : M ≤ Subgroup.normalizer (MF : Set G) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hMFM).1 hMFNormalM
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hcomp.1).2 (hDleM.trans hM_le_norm_MF)
-  letI : (MF.subgroupOf D).Normal := hMFNormalD
+  let : (MF.subgroupOf D).Normal := hMFNormalD
   have hcomp' : (U.subgroupOf D).IsComplement' (MF.subgroupOf D) :=
     section12ComplementIn_isComplement'_subgroupOf (M := D) (MF := MF) (U := U) hcomp
   have hMFHallD : IsHallSubgroup (subgroupPrimeSet MF) (MF.subgroupOf D) :=
@@ -145,7 +145,7 @@ private theorem subgroupCentralizerIn_le_sup_centralizerIn_complement
     typeP_complement_coprime_card (M := M) (MF := MF) (D := D) (U := U)
       hMF hDleM hcomp
   have hCsubNormal : ((subgroupCentralizerIn M MF).subgroupOf M).Normal := by
-    letI : (MF.subgroupOf M).Normal := hMFNormalM
+    let : (MF.subgroupOf M).Normal := hMFNormalM
     exact subgroupCentralizerIn_subgroupOf_normal (M := M) (MF := MF) hMFM
   intro g hgC
   let C : Subgroup G := subgroupCentralizerIn M MF
@@ -165,7 +165,7 @@ private theorem subgroupCentralizerIn_le_sup_centralizerIn_complement
   have hgSupD : gD ∈ MF.subgroupOf D ⊔ U.subgroupOf D := by
     rw [hsup_local]
     exact Subgroup.mem_top gD
-  letI : (MF.subgroupOf D).Normal := hMFNormalD
+  let : (MF.subgroupOf D).Normal := hMFNormalD
   rcases (Subgroup.mem_sup_of_normal_left (s := MF.subgroupOf D) (t := U.subgroupOf D)
       (x := gD)).1 hgSupD with ⟨hD, hhMFsubD, uD, huUsubD, hmulD⟩
   let h : G := hD
@@ -178,7 +178,7 @@ private theorem subgroupCentralizerIn_le_sup_centralizerIn_complement
     simpa [h, u, gD] using congrArg Subtype.val hmulD
   let Csub : Subgroup M := C.subgroupOf M
   let q : M →* M ⧸ Csub := QuotientGroup.mk' Csub
-  haveI : Csub.Normal := by simpa [C, Csub] using hCsubNormal
+  have : Csub.Normal := by simpa [C, Csub] using hCsubNormal
   let hM : M := ⟨h, hMFM hhMF⟩
   let uM : M := ⟨u, hUM huU⟩
   let gM : M := ⟨g, hgC.1⟩

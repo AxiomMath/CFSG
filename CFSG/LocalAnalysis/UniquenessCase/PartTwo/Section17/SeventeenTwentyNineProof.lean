@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_Opp (p : ℕ) (X : Subgroup G) :
     ((Opp p X).subgroupOf X).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer
@@ -41,6 +42,7 @@ theorem sig_eq_five_of_J2_ctx
   · exact absurd (h23 L c) (not_isSpor_He_of_isSpor_J2 (Bar2 L) hHe)
   · exact hsig
 
+omit [Finite G] in
 theorem normal_barSub_of_normal {M L V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hLM : L ≤ M) (hn : (L.subgroupOf M).Normal) :
     ((barSub V₀ V hV L).subgroupOf (barSub V₀ V hV M)).Normal := by
@@ -112,7 +114,7 @@ theorem hjSetup_of_ctx
 theorem isSylowIn_barSub_sylow (D : Data G) {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMS : D.M ≤ stabTil V₀ V) :
     IsSylowIn 2 (barSub V₀ V hV D.T) (Mbar D.M V₀ V hV) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := Mbar D.M V₀ V hV
   have hT_M : IsSylowIn 2 D.T D.M := CFSG.ABGLocalTools.isSylowOf_iff.1 D.sylowM
   obtain ⟨Q, hQ⟩ := D.sylowM
@@ -161,28 +163,33 @@ theorem jTbarB_eq_thompsonJ (D : Data G) {V₀ V : Subgroup G} (hV : IsElemAbeli
   ⟨IntMod.val ((TwelveShort.mkTilEquiv V hV).symm w),
     IntMod.val_mem ((TwelveShort.mkTilEquiv V hV).symm w)⟩
 
+omit [Finite G] in
 theorem mkTil_p29vec {V : Subgroup G} (hV : IsElemAbelian 2 V) (w : Vtil ⊥ V hV) :
     mkTil ⊥ V hV (IntMod.mk hV (p29vec V hV w)) = w := by
   have hx : IntMod.mk hV (p29vec V hV w) = (TwelveShort.mkTilEquiv V hV).symm w := rfl
   rw [hx, ← TwelveShort.mkTilEquiv_apply, MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem mkTil_mk_eq_one_iff {V : Subgroup G} (hV : IsElemAbelian 2 V) (v : V) :
     mkTil ⊥ V hV (IntMod.mk hV v) = 1 ↔ (v : G) = 1 := by
   rw [mkTil, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, mem_modNull,
     Subgroup.mem_bot]
   rfl
 
+omit [Finite G] in
 theorem mkTil_actStab_mk {V : Subgroup G} (hV : IsElemAbelian 2 V) (g : stabTil ⊥ V)
     (v : V) :
     mkTil ⊥ V hV (actStab ⊥ V hV g (IntMod.mk hV v)) =
       actTil ⊥ V hV g (mkTil ⊥ V hV (IntMod.mk hV v)) :=
   (actTil_mk ⊥ V hV g (IntMod.mk hV v)).symm
 
+omit [Finite G] in
 theorem mkTil_mk_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (fun v : V => mkTil ⊥ V hV (IntMod.mk hV v)) := by
   intro x y h
   exact (TwelveShort.mkTilEquiv V hV).injective h
 
+omit [Finite G] in
 theorem centBarLB_p29vec {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (w : Vtil ⊥ V hV) :
     centBarLB ⊥ V L hV (p29vec V hV w) =
@@ -384,11 +391,13 @@ theorem seventeen_twentynine_two
     Subgroup W :=
   ⨆ (a : MulAut W) (_ : a ∈ A) (_ : a ≠ 1), fixV (Subgroup.zpowers a)
 
+omit [Finite G] in
 theorem imgTil_mono {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {U X : Subgroup G} (h : U ≤ X) :
     imgTil V₀ V hV U ≤ imgTil V₀ V hV X :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono V h)
 
+omit [Finite G] in
 theorem fixV_actTil_eq_imgTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {a : G}
     (haS : a ∈ stabTil ⊥ V) :
     fixV (Subgroup.zpowers (actTil ⊥ V hV ⟨a, haS⟩)) =
@@ -429,7 +438,7 @@ theorem fixV_actTil_eq_imgTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {a : G}
     rw [h3]
 
 theorem gammaOneMod_le_imgTil_gammaOneABarB (D : Data G) {V A : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hAnorm : A ≤ stabTil ⊥ V) (hAM : A ≤ D.M) :
+    (hV : IsElemAbelian 2 V) (hAnorm : A ≤ stabTil ⊥ V) (_hAM : A ≤ D.M) :
     gammaOneMod (Vtil ⊥ V hV) (barSub ⊥ V hV A) ≤
       imgTil ⊥ V hV (gammaOneABarB D ⊥ V A) := by
   refine iSup_le fun a => iSup_le fun ha => iSup_le fun ha1 => ?_
@@ -457,7 +466,7 @@ theorem gammaOneABarB_le_V (D : Data G) (V₀ V A : Subgroup G) :
   iSup₂_le fun _ _ => iSup_le fun _ => inf_le_left
 
 theorem mem_commutator_of_mem_commSub_gammaOne (D : Data G) {V A : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hAM : A ≤ D.M) (hAnorm : A ≤ stabTil ⊥ V)
+    (hV : IsElemAbelian 2 V) (_hAM : A ≤ D.M) (hAnorm : A ≤ stabTil ⊥ V)
     (hΓ : gammaOneMod (Vtil ⊥ V hV) (barSub ⊥ V hV A) ≤
       imgTil ⊥ V hV (gammaOneABarB D ⊥ V A))
     {c : Vtil ⊥ V hV}

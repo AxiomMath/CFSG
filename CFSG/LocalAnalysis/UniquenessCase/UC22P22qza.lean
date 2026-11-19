@@ -20,7 +20,7 @@ theorem uc22p22qza_normalizer_le_centralizer (R : Sylow p X) (hR : IsCyclic (R :
   classical
   have hp : p.Prime := Fact.out
   intro k hk
-  haveI := hR
+  have := hR
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(R : Subgroup X))
   have hpow : ∀ y ∈ (R : Subgroup X), ∃ i : ℕ, (g : X) ^ i = y := by
     intro y hy
@@ -50,7 +50,7 @@ theorem uc22p22qza_normalizer_le_centralizer (R : Sylow p X) (hR : IsCyclic (R :
     rw [hz₀] at h2
     have h3 := Nat.modEq_iff_dvd.1 h2.symm
     simpa using h3
-  obtain ⟨a, ha⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := R.isPGroup.exists_card_eq
   have hka : k ^ (p ^ a) ∈ centralizer (R : Set X) := by
     rw [mem_centralizer_iff]
     intro y hy
@@ -80,7 +80,7 @@ theorem uc22p22qza_normalizer_le_centralizer (R : Sylow p X) (hR : IsCyclic (R :
       exact IsPGroup.of_card (n := c) (by rw [Nat.card_zpowers, hc])
     have hle : zpowers (k ^ m) ≤ normalizer ((R : Subgroup X) : Set X) := zpowers_le.2 (pow_mem hk m)
     have hsup : (R : Subgroup X) ⊔ zpowers (k ^ m) = (R : Subgroup X) :=
-      (R.is_maximal'.eq_of_le (R.isPGroup'.to_sup_of_normal_left' hpg hle) le_sup_left).symm
+      (R.maximal_isPGroup.eq_of_le (R.isPGroup.to_sup_of_normal_left' hpg hle) le_sup_left).symm
     have hmem : k ^ m ∈ (R : Subgroup X) ⊔ zpowers (k ^ m) := mem_sup_right (mem_zpowers _)
     rwa [hsup] at hmem
   have hkm' : k ^ m ∈ centralizer (R : Set X) := by
@@ -104,7 +104,7 @@ theorem uc22p22qza_mem_ker_of_coprime (R : Sylow p X)
     x ∈ (MonoidHom.transferSylow R hN).ker := by
   have hp : p.Prime := Fact.out
   rw [MonoidHom.mem_ker]
-  obtain ⟨a, ha⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := R.isPGroup.exists_card_eq
   have h1 : orderOf (MonoidHom.transferSylow R hN x) ∣ orderOf x := orderOf_map_dvd _ x
   have h2 : orderOf (MonoidHom.transferSylow R hN x) ∣ p ^ a := ha ▸ orderOf_dvd_natCard _
   have hcop : Nat.Coprime (orderOf x) (p ^ a) :=
@@ -115,9 +115,10 @@ end Burnside
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qza_comm_of_isCyclic {H : Subgroup G} (hH : IsCyclic H) {x y : G} (hx : x ∈ H)
     (hy : y ∈ H) : x * y = y * x := by
-  haveI := hH
+  have := hH
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥H)
   obtain ⟨i, hi⟩ := mem_zpowers_iff.1 (hg ⟨x, hx⟩)
   obtain ⟨j, hj⟩ := mem_zpowers_iff.1 (hg ⟨y, hy⟩)
@@ -164,7 +165,7 @@ theorem uc22p22qza_fpf_of_mem_centralizer {p : ℕ} [Fact p.Prime] {M P P₀ : S
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_left).toEquiv, Nat.card_zpowers, hup]
     have hcP : Nat.card ↥(P₀.subgroupOf (zpowers u ⊔ P₀)) = p := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe le_sup_right).toEquiv, hcard]
-    haveI := hHc
+    have := hHc
     have heq : (zpowers u).subgroupOf (zpowers u ⊔ P₀) = P₀.subgroupOf (zpowers u ⊔ P₀) :=
       IsCyclic.subgroup_eq_iff_card_eq.2 (hcu.trans hcP.symm)
     have h2 : (⟨u, mem_sup_left (mem_zpowers u)⟩ : ↥(zpowers u ⊔ P₀)) ∈
@@ -186,8 +187,8 @@ theorem uc22p22qza_fpf_of_mem_centralizer {p : ℕ} [Fact p.Prime] {M P P₀ : S
     obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow p ↥K))
     have hRc : IsCyclic (R : Subgroup ↥K) := by
       have h1 : (R : Subgroup ↥K).map K.subtype ≤ K := map_subtype_le _
-      have h2 : IsPGroup p ↥((R : Subgroup ↥K).map K.subtype) := R.isPGroup'.map _
-      haveI := hcyc _ h1 h2
+      have h2 : IsPGroup p ↥((R : Subgroup ↥K).map K.subtype) := R.isPGroup.map _
+      have := hcyc _ h1 h2
       exact isCyclic_of_surjective
         (Subgroup.equivMapOfInjective (R : Subgroup ↥K) K.subtype K.subtype_injective).symm.toMonoidHom
         (MulEquiv.surjective _)
@@ -198,7 +199,7 @@ theorem uc22p22qza_fpf_of_mem_centralizer {p : ℕ} [Fact p.Prime] {M P P₀ : S
     have hz₀c : ∀ x : ↥K, x * z₀ = z₀ * x := fun x =>
       Subtype.ext ((mem_centralizer_iff.1 x.2.1 z z.2).symm)
     have hz₀R : z₀ ∈ (R : Subgroup ↥K) := by
-      haveI hn : (zpowers z₀).Normal := ⟨fun n hn g => by
+      have hn : (zpowers z₀).Normal := ⟨fun n hn g => by
         obtain ⟨i, rfl⟩ := mem_zpowers_iff.1 hn
         have h1 : g * z₀ ^ i = z₀ ^ i * g := Commute.zpow_right (hz₀c g) i
         rw [h1, mul_inv_cancel_right]

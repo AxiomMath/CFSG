@@ -20,7 +20,7 @@ private lemma fzrAux_V_mul {G : Type*} [Group G] {s l : G}
   simp only [fzrAux_V, Set.mem_insert_iff, Set.mem_singleton_iff] at hv hw ⊢
   rcases hv with rfl | rfl | rfl | rfl <;> rcases hw with rfl | rfl | rfl | rfl <;>
     (simp only [hss, hll, hsl, h_s_ls, h_ls_s, h_ls_l, h_l_ls, h_ls_ls, one_mul, mul_one,
-      true_or, or_true, or_false, false_or])
+      true_or, or_true])
 
 private lemma fzrAux_V_inv {G : Type*} [Group G] {s l : G}
     (hss : s * s = 1) (hll : l * l = 1) (hsl : s * l = l * s) :

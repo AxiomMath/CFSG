@@ -111,11 +111,13 @@ private theorem conjV_tau_eq_self_of_fixedT (h : Tim79a.ParrottHyp z) (P : GL8)
 private noncomputable def hbCocycle (τ : ↥(H z)) (x : J z) : J z :=
   x⁻¹ * conjJ' z τ x
 
+omit hN [Finite G] in
 private theorem conjJ'_eq_mul_cocycle {τ : ↥(H z)} (x : J z) :
     conjJ' z τ x = x * hbCocycle τ x := by
   unfold hbCocycle
   group
 
+omit hN in
 private theorem hbCocycle_mem_centerIn (h : Tim79a.ParrottHyp z) (P : GL8) {τ : ↥(H z)} {x : J z}
     (hx : conjV h τ (QuotientV.pi z x) = QuotientV.pi z x) :
     (hbCocycle τ x : G) ∈ centerIn (J z) := by
@@ -126,6 +128,7 @@ private theorem hbCocycle_mem_centerIn (h : Tim79a.ParrottHyp z) (P : GL8) {τ :
   apply spinVecToV_injective h P
   rw [spinVecToV_hbadCoord h P (hbCocycle τ x).2, hpi, spinVecToV_zero]
 
+omit hN [Finite G] in
 private theorem hbConjJ'_eq_self_of_mem_centerIn {s : ↥(H z)} (hZs : conjZ z s = 1) {c : J z}
     (hc : (c : G) ∈ centerIn (J z)) : conjJ' z s c = c := by
   apply Subtype.ext
@@ -196,6 +199,7 @@ private theorem commute_tau_sigma {σ₂ τ : ↥(H z)}
           exact (show Commute (τ : G) (σ₂ : G) from h2).inv_right.eq
     _ = (((sigma1Nine (z := z) D : ↥(H z)) : G) * (σ₂ : G)⁻¹) * (τ : G) := by group
 
+omit hN [Finite G] in
 private theorem conjJ'_eq_self_of_product {τ σ : ↥(H z)} {b n : J z}
     (ha : conjJ' z τ (conjJ' z σ b) = conjJ' z σ (conjJ' z τ b)) (hn : conjJ' z τ n = n)
     (hc2 : hbCocycle τ b * hbCocycle τ b = 1)
@@ -325,6 +329,8 @@ private theorem mem_Chat_iff (h : Tim79a.ParrottHyp z) (P : GL8)
 
 private noncomputable def hbToH (x : J z) : ↥(H z) := ⟨(x : G), J_le_H (z := z) x.2⟩
 
+omit hN in
+omit [Finite G] in
 private theorem conjV_toH_eq_one (h : Tim79a.ParrottHyp z) (x : J z) :
     conjV h (hbToH (z := z) x) = 1 :=
   MonoidHom.mem_ker.mp (J_le_ker_conjV (z := z) h (Subgroup.mem_subgroupOf.mpr x.2))
@@ -334,7 +340,7 @@ private theorem mem_Qbar_of_mem_centralizer (h : Tim79a.ParrottHyp z) (P : GL8)
     {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ₂ = s2A)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ2 : τ * τ = 1)
     (hτσ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
-    (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (hyH : y ∈ H z) (hy2 : y * y = 1) {j : J z}
+    (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (hyH : y ∈ H z) (_hy2 : y * y = 1) {j : J z}
     (hyj : y = (τ : G) * (j : G)) {x : J z}
     (hx : (x : G) ∈ J z ⊓ centralizer ({y} : Set G)) :
     QuotientV.pi z x ∈ Qbar h P τ (hbadCoord h P (j : G)) := by
@@ -387,7 +393,7 @@ private theorem mem_centralizer_of_mem_Qbar (h : Tim79a.ParrottHyp z) (P : GL8)
     {σ₂ : ↥(H z)} (hq₂ : qH (z := z) D σ₂ = s2A)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ2 : τ * τ = 1)
     (hτσ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
-    (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (hyH : y ∈ H z) {j : J z}
+    (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (_hyH : y ∈ H z) {j : J z}
     (hyj : y = (τ : G) * (j : G)) {x : J z}
     (hx : QuotientV.pi z x ∈ Qbar h P τ (hbadCoord h P (j : G))) :
     (x : G) ∈ J z ⊓ centralizer ({y} : Set G) := by
@@ -418,6 +424,7 @@ private noncomputable def CJy (h : Tim79a.ParrottHyp z) (P : GL8) (τ : ↥(H z)
     Subgroup (J z) :=
   (Qbar h P τ wj).comap (QuotientV.pi z)
 
+omit hN [Finite G] in
 private theorem card_pi_ker (h : Tim79a.ParrottHyp z) :
     Nat.card (QuotientV.pi z).ker = 4 := by
   rw [QuotientV.pi_ker]
@@ -524,8 +531,8 @@ private theorem vec_add_t_eq_zero {T : Mat8} (hT : T * T = 1) {wj m : V}
 
 private theorem hbadCoord_zetaJ_eq_zero (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹) {τ : ↥(H z)}
-    (hqτ : qH (z := z) D τ = tA) (hτ2 : τ * τ = 1) {y : G} (hyH : y ∈ H z) {j : J z}
-    (hyj : y = (τ : G) * (j : G)) {m : V}
+    (hqτ : qH (z := z) D τ = tA) (_hτ2 : τ * τ = 1) {y : G} (_hyH : y ∈ H z) {j : J z}
+    (_hyj : y = (τ : G) * (j : G)) {m : V}
     (hm : hbadCoord h P (j : G) = ((rhoA tA : GL8) : Mat8) *ᵥ m + m)
     {mJ : J z} (hmJ : hbadCoord h P (mJ : G) = m) :
     hbadCoord h P ((mJ * conjJ' z τ j * conjJ' z τ mJ⁻¹ : J z) : G) = 0 := by
@@ -659,7 +666,7 @@ private theorem false_of_coord_range_t (h : Tim79a.ParrottHyp z) (P : GL8)
   rwa [hxG]
 
 private theorem exists_coord_fixed_not_orthogonal {wj : V}
-    (hwj : ((rhoA tA : GL8) : Mat8) *ᵥ wj = wj)
+    (_hwj : ((rhoA tA : GL8) : Mat8) *ᵥ wj = wj)
     (hj' : ¬ ∃ m : V, wj = ((rhoA tA : GL8) : Mat8) *ᵥ m + m) :
     ∃ k : V, ((rhoA tA : GL8) : Mat8) *ᵥ k = k ∧ b wj k ≠ 0 := by
   by_contra hcon
@@ -685,6 +692,8 @@ private theorem exists_mem_Chat_not_orthogonal (h : Tim79a.ParrottHyp z) (P : GL
 private noncomputable def comY (yH : ↥(H z)) (k : J z) : J z :=
   k * (conjJ' z yH k)⁻¹
 
+omit hN in
+omit [Finite G] in
 private theorem comY_mul_y {y : G} {k : J z} (yH : ↥(H z))
     (hy : y = (yH : G)) :
     (comY yH k : G) * y = (k : G) * y * (k : G)⁻¹ := by
@@ -747,7 +756,6 @@ private noncomputable def hbPhi (h : Tim79a.ParrottHyp z) (τ : ↥(H z)) :
   toFun v := v * conjV h τ v
   map_one' := by simp
   map_mul' v w := by
-    change v * w * conjV h τ (v * w) = (v * conjV h τ v) * (w * conjV h τ w)
     rw [map_mul]
     have hc : w * conjV h τ v = conjV h τ v * w :=
       (QuotientV.isMulCommutative_V h).is_comm.comm _ _
@@ -763,6 +771,8 @@ private noncomputable def Vt (h : Tim79a.ParrottHyp z) (τ : ↥(H z)) :
 private noncomputable def R (h : Tim79a.ParrottHyp z) (τ : ↥(H z)) : Subgroup (J z) :=
   (Vt h τ).comap (QuotientV.pi z)
 
+omit hN in
+omit [Finite G] in
 private theorem pi_comY (h : Tim79a.ParrottHyp z) {τ yH : ↥(H z)}
     (hyHτ : conjV h yH = conjV h τ) (k : J z) :
     QuotientV.pi z (comY yH k) = hbPhi h τ (QuotientV.pi z k) := by
@@ -810,12 +820,14 @@ private noncomputable def Xset (yH : ↥(H z)) : Set (J z) :=
 private def Xz1 (yH : ↥(H z)) (z₁ : G) : Set (J z) :=
   {j | ∃ x ∈ Xset (z := z) yH, (j : G) = (x : G) * z₁}
 
+omit hN [Finite G] in
 private theorem comY_mul_eq (yH : ↥(H z)) (k k' : J z) :
     comY yH (k * k') = (k * comY yH k' * k⁻¹) * comY yH k := by
   unfold comY
   rw [map_mul, mul_inv_rev]
   group
 
+omit hN [Finite G] in
 private theorem comY_conj_mem_zpowers (h : Tim79a.ParrottHyp z) (yH : ↥(H z))
     (k k' : J z) :
     ((k * comY yH k' * k⁻¹ * (comY yH k')⁻¹ : J z) : G) ∈ Subgroup.zpowers z := by
@@ -826,6 +838,8 @@ private theorem comY_conj_mem_zpowers (h : Tim79a.ParrottHyp z) (yH : ↥(H z))
       Subgroup.coe_inv, commutatorElement_def]
   rwa [heq]
 
+omit hN in
+omit [Finite G] in
 private theorem one_mem_Xset (yH : ↥(H z)) : (1 : J z) ∈ Xset (z := z) yH :=
   ⟨1, by simp [comY]⟩
 
@@ -967,12 +981,15 @@ private noncomputable def Xsub (h : Tim79a.ParrottHyp z) (P : GL8)
     have hxinv : x⁻¹ = x ^ (orderOf x - 1) := inv_eq_of_mul_eq_one_left hmul
     rwa [hxinv]
 
+omit hN [Finite G] in
 private theorem Xset_subset_R (h : Tim79a.ParrottHyp z) {τ yH : ↥(H z)}
     (hyHτ : conjV h yH = conjV h τ) :
     Xset (z := z) yH ⊆ (R h τ : Set (J z)) := by
   rintro x ⟨k, rfl⟩
   exact Subgroup.mem_comap.mpr
     (MonoidHom.mem_range.mpr ⟨QuotientV.pi z k, (pi_comY (z := z) h hyHτ k).symm⟩)
+omit hN in
+omit [Finite G] in
 private theorem z_mul_eq_mul_z (h : Tim79a.ParrottHyp z) (x : J z) :
     (⟨z, z_mem_J h⟩ : J z) * x = x * ⟨z, z_mem_J h⟩ := by
   apply Subtype.ext
@@ -1065,14 +1082,14 @@ private theorem card_R_le_two_mul_card_X (h : Tim79a.ParrottHyp z) (P : GL8)
     intro r1 r2 h12
     by_cases hx1 : (r1 : J z) ∈ Xset (z := z) ⟨y, hyH⟩
     · by_cases hx2 : (r2 : J z) ∈ Xset (z := z) ⟨y, hyH⟩
-      · simp only [f, dif_pos hx1, dif_pos hx2] at h12
+      · simp only [f, dite_eq_left hx1, dite_eq_left hx2] at h12
         exact Subtype.ext (congrArg (fun x : ↥X => (x : J z)) (Prod.mk.inj h12).1)
-      · simp only [f, dif_pos hx1, dif_neg hx2] at h12
+      · simp only [f, dite_eq_left hx1, dite_eq_right hx2] at h12
         exact absurd (Prod.mk.inj h12).2 (by simp)
     · by_cases hx2 : (r2 : J z) ∈ Xset (z := z) ⟨y, hyH⟩
-      · simp only [f, dif_neg hx1, dif_pos hx2] at h12
+      · simp only [f, dite_eq_right hx1, dite_eq_left hx2] at h12
         exact absurd (Prod.mk.inj h12).2 (by simp)
-      · simp only [f, dif_neg hx1, dif_neg hx2] at h12
+      · simp only [f, dite_eq_right hx1, dite_eq_right hx2] at h12
         have hval : Classical.choose ((hcover r1).resolve_left hx1) =
             Classical.choose ((hcover r2).resolve_left hx2) :=
           congrArg Subtype.val (Prod.mk.inj h12).1
@@ -1093,6 +1110,7 @@ private theorem card_R_le_two_mul_card_X (h : Tim79a.ParrottHyp z) (P : GL8)
 private noncomputable def NJ (B : Subgroup G) : Subgroup (J z) :=
   B.comap (J z).subtype
 
+omit [Finite G] hN in
 private theorem mem_NJ {B : Subgroup G} {x : J z} : x ∈ NJ (z := z) B ↔ (x : G) ∈ B :=
   Iff.rfl
 
@@ -1108,7 +1126,7 @@ private theorem NJ_inf_Xsub_eq_bot (h : Tim79a.ParrottHyp z) (P : GL8)
     (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (hyH : y ∈ H z) (hy2 : y * y = 1) {j : J z}
     (hyj : y = (τ : G) * (j : G)) {k₀ : J z} (hk₀ : k₀ ∈ Chat h τ)
     (horth : b (hbadCoord h P (j : G)) (hbadCoord h P (k₀ : G)) ≠ 0) (B : Subgroup G)
-    (hyB : y ∈ B) (hzB : z ∉ B)
+    (hyB : y ∈ B) (_hzB : z ∉ B)
     (hno : ¬ ∃ c ∈ J z, c * y * c⁻¹ ∈ B ∧ c * y * c⁻¹ ≠ y) :
     NJ (z := z) B ⊓ Xsub (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂ hyH hyj hk₀ horth = ⊥ := by
   apply le_antisymm _ bot_le
@@ -1196,10 +1214,11 @@ private theorem card_N0_mul_card_X_le (h : Tim79a.ParrottHyp z) (P : GL8)
       = Nat.card (↥(N0 (z := z) B h τ) × ↥X) := (Nat.card_prod _ _).symm
     _ ≤ Nat.card ↥(R h τ) := Nat.card_le_card_of_injective f hf
 
+omit hN [Finite G] in
 private theorem NJ_commute_of_mem_CJy (h : Tim79a.ParrottHyp z) (B : Subgroup G)
     {y : G}
     (hBn : ∀ c ∈ H z ⊓ centralizer ({y} : Set G), ∀ b ∈ B, c * b * c⁻¹ ∈ B)
-    (hyH : y ∈ H z) (hzB : z ∉ B) {n : J z} (hn : (n : G) ∈ B) {c : J z}
+    (_hyH : y ∈ H z) (hzB : z ∉ B) {n : J z} (hn : (n : G) ∈ B) {c : J z}
     (hcy : (c : G) ∈ Subgroup.centralizer ({y} : Set G)) :
     Commute (n : G) (c : G) := by
   have hc' : (c : G) ∈ H z ⊓ centralizer ({y} : Set G) :=
@@ -1312,12 +1331,13 @@ private theorem card_N0_le_two (h : Tim79a.ParrottHyp z) (P : GL8)
     hyH hy2 hyj hk₀ horth B hyB hzB hno
   have h2 := card_R_le_two_mul_card_X (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂
     hyH hyj hk₀ horth hz₁ hz₁z hord
-  haveI : Nonempty ↥(Xsub (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂
+  have : Nonempty ↥(Xsub (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂
       hyH hyj hk₀ horth) := ⟨⟨1, one_mem_Xset (z := z) (⟨y, hyH⟩ : ↥(H z))⟩⟩
   have hpos : 0 < Nat.card ↥(Xsub (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂
       hyH hyj hk₀ horth) := Nat.card_pos
   exact Nat.le_of_mul_le_mul_right (h1.trans h2) hpos
 
+omit hN in
 private theorem hbadCoord_mul_inv (h : Tim79a.ParrottHyp z) (P : GL8) (a b : J z) :
     hbadCoord h P ((a * b⁻¹ : J z) : G) = hbadCoord h P (a : G) + hbadCoord h P (b : G) := by
   rw [show ((a * b⁻¹ : J z) : G) = (a : G) * ((b⁻¹ : J z) : G) from rfl,
@@ -1339,8 +1359,6 @@ private theorem mem_N0_of_second (h : Tim79a.ParrottHyp z) (P : GL8)
   obtain ⟨m', hm'⟩ := hb2
   refine Subgroup.mem_inf.mpr ⟨(NJ (z := z) B).mul_mem ha ((NJ (z := z) B).inv_mem hb), ?_⟩
   refine (mem_R_iff (z := z) D h P hP hqτ (a * b⁻¹)).mpr ⟨m + m', ?_⟩
-  change hbadCoord h P ((a * b⁻¹ : J z) : G) =
-    m + m' + ((rhoA tA : GL8) : Mat8) *ᵥ (m + m')
   rw [hbadCoord_mul_inv h P a b, hm, hm', Matrix.mulVec_add]
   have hself : hbadCoord h P (j : G) + hbadCoord h P (j : G) = 0 := by
     ext i
@@ -1367,7 +1385,7 @@ private theorem N0_pair (h : Tim79a.ParrottHyp z) (P : GL8)
   have hN0card : Nat.card ↥(N0 (z := z) B h τ) ≤ 2 :=
     card_N0_le_two (z := z) (D := D) h P hP hq₂ hqτ hτ2 hτσ₁ hτσ₂ hyH hy2 hyj
       hk₀ horth B hyB hzB hno hz₁ hz₁z hord
-  haveI : Nontrivial ↥(N0 (z := z) B h τ) :=
+  have : Nontrivial ↥(N0 (z := z) B h τ) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   obtain ⟨n₀, hn₀, hn₀ne⟩ := Subgroup.exists_ne_one_of_nontrivial (N0 (z := z) B h τ)
   refine ⟨n₀, hn₀, hn₀ne, ?_⟩
@@ -1376,7 +1394,7 @@ private theorem N0_pair (h : Tim79a.ParrottHyp z) (P : GL8)
   · exact Or.inl hn1
   · right
     by_contra hne'
-    haveI : Fintype ↥(N0 (z := z) B h τ) := Fintype.ofFinite _
+    have : Fintype ↥(N0 (z := z) B h τ) := Fintype.ofFinite _
     let g : Fin 3 → ↥(N0 (z := z) B h τ) := fun i =>
       if i = 0 then ⟨1, (N0 (z := z) B h τ).one_mem⟩
       else if i = 1 then ⟨n₀, hn₀⟩ else ⟨n, hn⟩
@@ -1432,12 +1450,12 @@ private theorem NJ_coord_second (h : Tim79a.ParrottHyp z) (P : GL8)
     (hτσ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
     (hτσ₂ : τ * σ₂ = σ₂ * τ) {y : G} (hyH : y ∈ H z) (hy2 : y * y = 1) {j : J z}
     (hyj : y = (τ : G) * (j : G)) (hwj : IsFixedT (z := z) h P j) {k₀ : J z}
-    (hk₀ : k₀ ∈ Chat h τ) (horth : b (hbadCoord h P (j : G)) (hbadCoord h P (k₀ : G)) ≠ 0)
+    (_hk₀ : k₀ ∈ Chat h τ) (_horth : b (hbadCoord h P (j : G)) (hbadCoord h P (k₀ : G)) ≠ 0)
     (B : Subgroup G) (hBC : B ≤ H z ⊓ centralizer ({y} : Set G))
     (hBn : ∀ c ∈ H z ⊓ centralizer ({y} : Set G), ∀ b ∈ B, c * b * c⁻¹ ∈ B)
-    (hyB : y ∈ B) (hzB : z ∉ B)
-    (hno : ¬ ∃ c ∈ J z, c * y * c⁻¹ ∈ B ∧ c * y * c⁻¹ ≠ y) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (_hyB : y ∈ B) (hzB : z ∉ B)
+    (_hno : ¬ ∃ c ∈ J z, c * y * c⁻¹ ∈ B ∧ c * y * c⁻¹ ≠ y) {z₁ : G}
+    (_hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     {n : J z} (hn : n ∈ NJ (z := z) B) (hn0 : n ∉ N0 (z := z) B h τ) :
     ∃ m : V, hbadCoord h P (n : G) = hbadCoord h P (j : G) +
       (((rhoA tA : GL8) : Mat8) *ᵥ m + m) := by
@@ -1697,13 +1715,13 @@ private theorem card_NJ_le_four (h : Tim79a.ParrottHyp z) (P : GL8)
     have hf : Function.Injective f := by
       intro a b hab
       by_cases ha : (a : J z) ∈ N0 <;> by_cases hb : (b : J z) ∈ N0
-      · simp only [f, dif_pos ha, dif_pos hb, Prod.mk.injEq] at hab
+      · simp only [f, dite_eq_left ha, dite_eq_left hb, Prod.mk.injEq] at hab
         exact Subtype.ext (congrArg (fun x : ↥N0 => (x : J z)) hab.1)
-      · simp only [f, dif_pos ha, dif_neg hb, Prod.mk.injEq] at hab
+      · simp only [f, dite_eq_left ha, dite_eq_right hb, Prod.mk.injEq] at hab
         exact absurd hab.2 (by decide)
-      · simp only [f, dif_neg ha, dif_pos hb, Prod.mk.injEq] at hab
+      · simp only [f, dite_eq_right ha, dite_eq_left hb, Prod.mk.injEq] at hab
         exact absurd hab.2 (by decide)
-      · simp only [f, dif_neg ha, dif_neg hb, Prod.mk.injEq] at hab
+      · simp only [f, dite_eq_right ha, dite_eq_right hb, Prod.mk.injEq] at hab
         exact Subtype.ext (mul_right_cancel (congrArg (fun x : ↥N0 => (x : J z)) hab.1))
     have hle := Nat.card_le_card_of_injective f hf
     calc Nat.card ↥N ≤ Nat.card (↥N0 × Bool) := hle

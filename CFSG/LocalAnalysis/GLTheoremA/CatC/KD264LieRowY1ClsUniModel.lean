@@ -35,7 +35,7 @@ theorem frob_add_pow {p f : ℕ} [CharP K p] [Fact p.Prime] (x y : K) :
     funext j
     have h := hv (Pi.single j 1)
     simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true] at h
+      Finset.mem_univ, ite_true] at h
     show v j = 0
     exact (pow_eq_zero_iff (pow_ne_zero f (Fact.out : Nat.Prime p).ne_zero)).mp h
 
@@ -94,8 +94,8 @@ theorem not_dvd_card_statedScalars {m p f : ℕ} [Finite K] [CharP K p] [Fact p.
     (hq : ∀ c : K, c ^ 3 = 1 → c ^ (p ^ f + 1) = 1 → c = 1) :
     ¬ 3 ∣ Nat.card ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (p ^ f) K)) := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (p ^ f) K)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (p ^ f) K)) :=
     Fintype.ofFinite _
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card 3 (by rwa [Nat.card_eq_fintype_card] at h)
   have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
@@ -148,7 +148,7 @@ theorem not_dvd_card_statedScalars {m p f : ℕ} [Finite K] [CharP K p] [Fact p.
 theorem statedProj_pRank_le [Finite K] {m p f : ℕ} [CharP K p] [Fact p.Prime] (h3 : (3 : K) ≠ 0)
     (hq : ∀ c : K, c ^ 3 = 1 → c ^ (p ^ f + 1) = 1 → c = 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU m (p ^ f) K))) ≤ m / 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.pRank_quotient_eq
     ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (p ^ f) K))
     (not_dvd_card_statedScalars (m := m) hq)]

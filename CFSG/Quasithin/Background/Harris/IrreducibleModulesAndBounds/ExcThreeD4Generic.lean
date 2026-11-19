@@ -31,7 +31,7 @@ theorem false_of_cover_rank_prime {Γ A L : Subgroup (GLV V)} {m : ℕ} (h : G93
 
 theorem card_le_two_of_cyclic_sq {Q : Type*} [Group Q] [IsCyclic Q] (B : Subgroup Q)
     (hB : ∀ x ∈ B, x * x = 1) : Nat.card B ≤ 2 := by
-  haveI : IsCyclic B := inferInstance
+  have : IsCyclic B := inferInstance
   have hexp : Monoid.exponent B ∣ 2 := Monoid.exponent_dvd_of_forall_pow_eq_one fun z => by
     apply Subtype.ext
     simpa [sq] using hB z z.2
@@ -127,7 +127,7 @@ theorem exists_ppd_prime {k : ℕ} (hk : 2 ≤ k) (hk6 : k ≠ 6) :
   have hp := hpP.prime
   have hp2 : p ≠ 2 := hpP.ne_two (by omega)
   refine ⟨p, hp, hp2, ?_, hpP.dvd, hpP.2.2⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : (2 : ZMod p) ^ k = 1 :=
     (CFSG.Timmesfeld.Bang.dvd_two_pow_sub_one_iff k).1 hpP.dvd
   have hdv : orderOf (2 : ZMod p) ∣ k := orderOf_dvd_of_pow_eq_one hpow

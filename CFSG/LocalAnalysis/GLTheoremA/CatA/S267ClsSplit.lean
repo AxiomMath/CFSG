@@ -45,6 +45,7 @@ theorem blk_blk {i₀ : Option (Hyperplane A p)} (g : V →ₗ[K] V) {g' : V →
     LinearMap.comp_apply]
   abel
 
+omit [Finite A] hp hA hpK in
 theorem blk_id (i₀ : Option (Hyperplane A p)) (v : V) : blk ρ i₀ LinearMap.id v = v := by
   rw [blk_apply, LinearMap.id_apply, sub_add_cancel]
 
@@ -95,16 +96,19 @@ section Split
 variable (β : V →ₗ[K] V →ₛₗ[σ] K) (ρ : Representation K A V) [Finite A]
 variable {𝒮 : Set (V →+ V)}
 
+omit [Finite A] in
 theorem rho_rho (x y : A) (v : V) : ρ x (ρ y v) = ρ (x * y) v := by
   rw [map_mul, Module.End.mul_apply]
 
+omit [Finite A] in
 theorem rho_comp (x y : A) : ρ x ∘ₗ ρ y = ρ (x * y) := (map_mul ρ x y).symm
 
 @[expose] noncomputable def rhoEquiv (a : A) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (ρ a) (ρ a⁻¹)
+  LinearEquiv.ofLinearMap (ρ a) (ρ a⁻¹)
     (LinearMap.ext fun v => Representation.self_inv_apply ρ a v)
     (LinearMap.ext fun v => Representation.inv_self_apply ρ a v)
 
+omit [Finite A] in
 theorem exists_not_mem_hyperplane (hp : p.Prime) (H : Hyperplane A p) : ∃ x : A, x ∉ H.1 := by
   by_contra hcon
   push Not at hcon
@@ -118,17 +122,17 @@ variable (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
 include hp hA hpK
 
 @[expose] noncomputable def blkEquiv (i₀ : Option (Hyperplane A p)) (x : A) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (blk ρ i₀ (ρ x)) (blk ρ i₀ (ρ x⁻¹))
+  LinearEquiv.ofLinearMap (blk ρ i₀ (ρ x)) (blk ρ i₀ (ρ x⁻¹))
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, blk_blk ρ hp hA hpK (ρ x)
           (fun w => (apply_asAlgebraHom_comm ρ _ x⁻¹ w).symm),
         rho_comp, mul_inv_cancel, map_one]
-      exact blk_id ρ hp hA hpK i₀ v)
+      exact blk_id ρ i₀ v)
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, blk_blk ρ hp hA hpK (ρ x⁻¹)
           (fun w => (apply_asAlgebraHom_comm ρ _ x w).symm),
         rho_comp, inv_mul_cancel, map_one]
-      exact blk_id ρ hp hA hpK i₀ v)
+      exact blk_id ρ i₀ v)
 
 theorem blkEquiv_apply (i₀ : Option (Hyperplane A p)) (x : A) (v : V) :
     blkEquiv ρ hp hA hpK i₀ x v = blk ρ i₀ (ρ x) v :=
@@ -139,7 +143,7 @@ theorem blkEquiv_pow_apply (i₀ : Option (Hyperplane A p)) (x : A) (n : ℕ) (v
   induction n generalizing v with
   | zero =>
     rw [pow_zero, pow_zero, map_one]
-    exact (blk_id ρ hp hA hpK i₀ v).symm
+    exact (blk_id ρ i₀ v).symm
   | succ n ih =>
     rw [pow_succ, LinearEquiv.mul_apply, ih, blkEquiv_apply,
       blk_blk ρ hp hA hpK _ (fun w => (apply_asAlgebraHom_comm ρ _ x w).symm), pow_succ,
@@ -169,7 +173,7 @@ theorem exists_split (hmax : IsMaxElem β ρ p 𝒮) (h𝒮 : ∀ s ∈ 𝒮, �
         eps_comm_of_preserves ρ hp hA hpK s (h𝒮W s hs) (some H) v, h𝒮 s hs x])
     (fun v => by
       rw [blkEquiv_pow_apply, hA x, map_one]
-      exact blk_id ρ hp hA hpK _ v)
+      exact blk_id ρ _ v)
   refine ⟨a, fun haH => ?_, fun H' hne hH' => ?_⟩
   · obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hH
     have h1 : ρ a v = v := apply_eq_of_mem_weightSpace ρ haH hv
@@ -223,7 +227,7 @@ private theorem apply_eq_of_fix_weightSpaces (g : V ≃ₗ[K] V)
     (hgW : ∀ H : Hyperplane A p, ∀ v ∈ weightSpace ρ H.1, g v = v) (v : V) :
     g v = g (ρ.asAlgebraHom (eps K A p none) v) + (v - ρ.asAlgebraHom (eps K A p none) v) := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   have hsum := sum_eps_apply ρ hp hA hpK v
   rw [Fintype.sum_option] at hsum
   have hv : v - ρ.asAlgebraHom (eps K A p none) v =
@@ -244,7 +248,7 @@ theorem fixed_of_supported (hβ : β.SeparatingLeft) (hmax : IsMaxElem β ρ p �
     (hg𝒮 : ∀ s ∈ 𝒮, ∀ v, g (s v) = s (g v))
     (hgW : ∀ H : Hyperplane A p, ∀ v ∈ weightSpace ρ H.1, g v = v) : g = 1 := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   have hdec := apply_eq_of_fix_weightSpaces ρ hp hA hpK g hgW
   have hfix : ∀ v, g (ρ.asAlgebraHom (eps K A p none) v) ∈ fixedSpace ρ ⊤ := by
     intro v
@@ -272,6 +276,7 @@ theorem fixed_of_supported (hβ : β.SeparatingLeft) (hmax : IsMaxElem β ρ p �
   rw [hdec v, ← ha, hπ₀fix, add_sub_cancel]
 
 include hρ in
+omit hρ in
 theorem eq_rho_of_supported (hmax : IsMaxElem β ρ p 𝒮) (H : Hyperplane A p) (g : V ≃ₗ[K] V)
     (hg : ∀ x y, β (g x) (g y) = β x y) (hgp : ∀ v, (g ^ p) v = v)
     (hgA : ∀ a v, g (ρ a v) = ρ a (g v)) (hg𝒮 : ∀ s ∈ 𝒮, ∀ v, g (s v) = s (g v))

@@ -244,7 +244,7 @@ theorem d8C_not_mem_center [Nontrivial F] :
   obtain ⟨r, -, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.mp hc
   have h02 := congrFun (congrFun hr 0) 2
   change Matrix.scalar (Fin 3) r 0 2 = (1 : F) at h02
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply] at h02
+  simp [Matrix.scalar_apply] at h02
 
 end SL3
 

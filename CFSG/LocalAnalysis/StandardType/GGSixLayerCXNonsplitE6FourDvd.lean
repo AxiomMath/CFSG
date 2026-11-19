@@ -52,7 +52,7 @@ theorem e6_four_components_dvd (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fa
       apply hψinj
       rw [map_mul, map_mul]
       exact CFSG.RankThree.PartOne.KE6.phi3_torusGroup_comm _ (hreg hA a) _ (hreg hA a')
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set (adjointGroup .E6 K))) :=
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set (adjointGroup .E6 K))) :=
       Group.isSolvable_of_comm hcomm
     exact CFSG.StandardType.ExcNonsplit.not_isComponentOf_of_isSolvable hX
   ·

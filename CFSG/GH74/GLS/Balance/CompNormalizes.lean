@@ -33,7 +33,7 @@ theorem exists_sylow_of_maximal {X : Type*} [Group X] [Finite X] {E Q : Subgroup
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQE).toEquiv
   have hle : Nat.card (S : Subgroup E) ≤ Nat.card (Q.subgroupOf E) := by
     have h1 : Nat.card ((S : Subgroup E).map E.subtype) ≤ Nat.card Q :=
-      hQs _ (Subgroup.map_subtype_le _) (S.isPGroup'.map E.subtype)
+      hQs _ (Subgroup.map_subtype_le _) (S.isPGroup.map E.subtype)
     rwa [Subgroup.card_map_of_injective E.subtype_injective, ← hcardQ] at h1
   have heq : Q.subgroupOf E = S := Subgroup.eq_of_le_of_card_ge hS hle
   exact ⟨S, by rw [← heq, hmap]⟩

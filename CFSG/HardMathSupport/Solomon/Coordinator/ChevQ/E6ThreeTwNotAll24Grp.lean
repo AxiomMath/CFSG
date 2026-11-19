@@ -22,13 +22,13 @@ open scoped commutatorElement
 theorem card_zpowers_sup_zpowers {G : Type*} [Group G] {a b : G} (hab : Commute a b)
     (ha : a ≠ 1) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (hb : b ∉ Subgroup.zpowers a) :
     Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1 : b ≠ 1 := by
     rintro rfl
     exact hb (by simp)
   have ho_a : orderOf a = 3 := orderOf_eq_prime ha3 ha
   have ho_b : orderOf b = 3 := orderOf_eq_prime hb3 hb1
-  haveI : Finite (Subgroup.zpowers b) :=
+  have : Finite (Subgroup.zpowers b) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, ho_b]; norm_num)
   have hbC : b ∈ Subgroup.centralizer (Subgroup.zpowers a : Set G) := by
     rw [Subgroup.mem_centralizer_iff]

@@ -50,7 +50,7 @@ theorem exists_isCyclic_sylow_of_elementaryAbelianPRank_le_one [Finite G] (T : S
   have : Fact q.Prime := ⟨hq⟩
   obtain ⟨S⟩ : Nonempty (Sylow q ↥T) := inferInstance
   refine ⟨S, (isCyclic_map_subtype_iff _).2 ?_⟩
-  refine isCyclic_of_elementaryAbelianPRank_le_one hq hodd S.isPGroup' ?_
+  refine isCyclic_of_elementaryAbelianPRank_le_one hq hodd S.isPGroup ?_
   rwa [elementaryAbelianPRank_eq_of_natCard_eq_pow_factorization hq S.card_eq_multiplicity]
 
 end

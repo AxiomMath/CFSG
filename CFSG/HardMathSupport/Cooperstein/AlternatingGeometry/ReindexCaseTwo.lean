@@ -21,6 +21,8 @@ theorem exists_finBlockEquiv {Ω : Type*} [Fintype Ω] [DecidableEq Ω] (σ : Pe
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] in
+omit [DecidableEq Ω] in
 theorem reindex_blockFix {n : ℕ} (σ : Perm Ω) (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x, σ (σ x) = x)
     (e : Ω ≃ Fin n × Bool) (he : ∀ x, e (σ x) = ((e x).1, !(e x).2))
     {W : Subgroup (Perm Ω)} (hWF : W ≤ pairPres σ hσ1 hσ2) :
@@ -32,6 +34,7 @@ theorem reindex_blockFix {n : ℕ} (σ : Perm Ω) (hσ1 : ∀ x, σ x ≠ x) (h�
   · rw [h]; simp
   · rw [h, he]; simp
 
+omit [Fintype Ω] in
 theorem permCongr_swap_matching {n : ℕ} (σ : Perm Ω) (e : Ω ≃ Fin n × Bool)
     (he : ∀ x, e (σ x) = ((e x).1, !(e x).2)) (x : Ω) :
     e.permCongrHom (swap x (σ x)) = blockTransp (e x).1 := by
@@ -41,14 +44,16 @@ theorem permCongr_swap_matching {n : ℕ} (σ : Perm Ω) (e : Ω ≃ Fin n × Bo
   · simp [blockTransp]
   · simp [blockTransp, swap_comm]
 
+omit [Fintype Ω] in
 theorem blockTransp_mem_map_iff {n : ℕ} (σ : Perm Ω) (e : Ω ≃ Fin n × Bool)
     (he : ∀ x, e (σ x) = ((e x).1, !(e x).2)) {W : Subgroup (Perm Ω)} (x : Ω) :
     blockTransp (e x).1 ∈ W.map e.permCongrHom.toMonoidHom ↔ swap x (σ x) ∈ W := by
   rw [← permCongr_swap_matching σ e he x]
   exact Subgroup.mem_map_iff_mem (f := e.permCongrHom.toMonoidHom) e.permCongrHom.injective
 
+omit [Fintype Ω] in
 theorem reindex_hD {n : ℕ} (σ : Perm Ω) (e : Ω ≃ Fin n × Bool)
-    (he : ∀ x, e (σ x) = ((e x).1, !(e x).2)) (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x, σ (σ x) = x)
+    (he : ∀ x, e (σ x) = ((e x).1, !(e x).2)) (_hσ1 : ∀ x, σ x ≠ x) (_hσ2 : ∀ x, σ (σ x) = x)
     {W : Subgroup (Perm Ω)}
     (hD : ∀ x y, y ≠ x → y ≠ σ x → swap x (σ x) ∉ W → swap y (σ y) ∉ W →
       swap x (σ x) * swap y (σ y) ∈ W) :

@@ -106,6 +106,7 @@ theorem sdo_recipe_minus {lab : LargeEvenLabel} {r f : ℕ} (hr : 4 ≤ r)
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem sdo_kd264Rho_congr {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S : Set Ω)) {P : Type} [Group P]
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) (b : ↥B) :
     kd264Rho hBN θ b = MulAut.congr θ (kd264Rho hBN (MulEquiv.refl _) b) := by
@@ -130,6 +131,7 @@ theorem sdo_congr_conj {P P' : Type} [Group P] [Group P'] (e : P ≃* P') (g : P
   rw [MulAut.congr_apply]
   simp [MulAut.conj_apply]
 
+omit [Finite Ω] in
 theorem sdo_rho_inner {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S : Set Ω)) {R : Type} [Group R]
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* R) (b : ↥B) (r : R)
     (hφ : LargeEvenInduces θ (fun s s' : ↥S => (s' : Ω) = (b : Ω) * s * (b : Ω)⁻¹) (MulAut.conj r)) :
@@ -158,8 +160,8 @@ theorem sdFamModel_orth (hOLD : Y10GFldOrth.OrthLabelDict) (hF : FamSelOrth) :
   obtain ⟨hnf, hiff⟩ := sdo_recipe_plus hr hc
   obtain ⟨Km, instF, instFin, hKm, hs, hna, θm, hindb⟩ := (hiff _).1 hraw
   obtain ⟨hadm, K, instK, instKfin, hcard, ⟨e⟩⟩ := hM
-  haveI : CharP K 2 := Y10GField.charP_two_of_card_pow hcard
-  haveI : NeZero r := ⟨by omega⟩
+  have : CharP K 2 := Y10GField.charP_two_of_card_pow hcard
+  have : NeZero r := ⟨by omega⟩
   have hQnd := CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus r K
   have hdim : Module.finrank K (Fin r ⊕ Fin r → K) = 2 * r := by
     rw [Module.finrank_fintype_fun_eq_card]
@@ -202,7 +204,7 @@ theorem sdFamModel_twOrth (hOLD : Y10GFldOrth.OrthLabelDict) (hF : FamSelOrth) :
   obtain ⟨hnf, hiff⟩ := sdo_recipe_minus hr hc
   obtain ⟨Km, instF, instFin, hKm, bm, cm, hirrm, hs, hna, θm, hindb⟩ := (hiff _).1 hraw
   obtain ⟨hadm, K, instK, instKfin, hcard, b, c, hirr, ⟨e⟩⟩ := hM
-  haveI : CharP K 2 := Y10GField.charP_two_of_card_pow hcard
+  have : CharP K 2 := Y10GField.charP_two_of_card_pow hcard
   have hQnd := CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite r K hirr
   have hdim : Module.finrank K (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K) = 2 * r := by
     rw [Module.finrank_fintype_fun_eq_card]
@@ -223,7 +225,7 @@ theorem sdFamModel_twOrth (hOLD : Y10GFldOrth.OrthLabelDict) (hF : FamSelOrth) :
       (fun R _ I F ⟨hs, hna, θ, _⟩ => ⟨hs, hna, θ, by show lab.n = 1; rw [hnf, hf]⟩) hraw⟩
   have hFam := hF p hp hp2 K (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K)
     (CFSG.LieType.Universal.Spin.quadMinus r K b c) hQnd hT hK3
-  haveI : Nontrivial (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K) := inferInstance
+  have : Nontrivial (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K) := inferInstance
   let θ : ↥S ⧸ Subgroup.center ↥S ≃* ↥(orthDerived (CFSG.LieType.Universal.Spin.quadMinus r K b c)) :=
     (e.trans (statedProjOrthEquiv (CFSG.LieType.Universal.Spin.coe_quadMinus r K b c))).trans
       (KFR4.orthDerivedEquivProj hQnd).symm

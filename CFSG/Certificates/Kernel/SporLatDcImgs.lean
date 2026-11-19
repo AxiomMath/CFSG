@@ -68,7 +68,7 @@ private theorem mem_imgsExtra {x : List ℕ} {j q : ℕ} {M : List ℕ} :
         M = labF (wordF P.C.L k) (x.map (wordF P.C.L (pathW P.C P.D 64 q []))) := by
   unfold imgsExtra
   by_cases h : Nat.beq (oid P.D q) j = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have ho : oid P.D q = j := by rwa [Nat.beq_eq] at h
     constructor
     · intro hM
@@ -78,7 +78,7 @@ private theorem mem_imgsExtra {x : List ℕ} {j q : ℕ} {M : List ℕ} :
     · rintro ⟨-, k, hk, rfl⟩
       rw [Finset.mem_image]
       exact ⟨k, by rwa [List.mem_toFinset], rfl⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     constructor
     · intro hM
       exact absurd hM (by simp)
@@ -180,13 +180,13 @@ private theorem step_toFinset {x : List ℕ} (hx : ∀ p ∈ x, p < n) {j : ℕ}
       else U).toFinset = U.toFinset ∪ P.imgsExtra x j q := by
   cases h : Nat.beq (oid P.D q) j with
   | false =>
-    rw [Bool.cond_false, imgsExtra, if_neg (by rw [h]; exact Bool.false_ne_true),
+    rw [Bool.cond_false, imgsExtra, ite_eq_right (by rw [h]; exact Bool.false_ne_true),
       Finset.union_empty]
   | true =>
     rw [Bool.cond_true, insKs]
     cases ha : anyB (fun M => M == labF (wordF P.C.L (headL (P.D.K.getD j [])))
         (x.map (wordF P.C.L (pathW P.C P.D 64 q [])))) U with
-    | false => rw [Bool.cond_false, insK_toFinset, imgsExtra, if_pos h]
+    | false => rw [Bool.cond_false, insK_toFinset, imgsExtra, ite_eq_left h]
     | true =>
       rw [Bool.cond_true]
       have ht := List.mem_toFinset.mpr (anyB_beq_mem ha)
@@ -252,13 +252,13 @@ private theorem sortedLt_fold_imgs (x : List ℕ) (j : ℕ) :
     rw [List.foldl_cons]
     cases h : Nat.beq (oid P.D a) j with
     | true =>
-      rw [cond_true, insKs]
+      rw [_root_.Bool.cond_true, insKs]
       cases anyB (fun M => M == labF (wordF P.C.L (headL (P.D.K.getD j [])))
           (x.map (wordF P.C.L (pathW P.C P.D 64 a [])))) U with
       | true => exact sortedLt_fold_imgs x j l U hU
       | false => exact sortedLt_fold_imgs x j l _ (sortedLt_insK P.C _ _ U hU)
     | false =>
-      rw [cond_false]
+      rw [Bool.cond_false]
       exact sortedLt_fold_imgs x j l U hU
 
 theorem imgs_sortedLt (x : List ℕ) (j : ℕ) :

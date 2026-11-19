@@ -378,7 +378,7 @@ theorem eq_bot_of_field_twist {Γ : Type} [Group Γ] [Finite Γ]
       hHeq ▸ sup_le Subgroup.le_normalizer hKN₀
     have hnorm : (N₀.subgroupOf X).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hN₀X).mpr hXN
-    haveI := hXs
+    have := hXs
     rcases hnorm.eq_bot_or_eq_top with hb | ht
     · have hN₀b : N₀ = ⊥ := by
         rw [eq_bot_iff]
@@ -413,7 +413,7 @@ theorem eq_bot_of_field_twist {Γ : Type} [Group Γ] [Finite Γ]
     exact Item148Res6.mem_of_dvd_three_mul_card hKH hHN hHd (le_sup_left (a := N₀) hx) hx3
   have hnormK : (N₀.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN₀K).mpr hKN₀
-  haveI := hKs
+  have := hKs
   rcases hnormK.eq_bot_or_eq_top with hb | ht
   · have hN₀b : N₀ = ⊥ := by
       rw [eq_bot_iff]

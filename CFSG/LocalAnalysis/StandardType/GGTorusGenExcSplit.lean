@@ -52,7 +52,7 @@ theorem TableBExc.adjointGroup_inf_centralizer_torusPow_of_ne_two
   have hker : CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel a = ∅ := by
     refine Set.eq_empty_iff_forall_notMem.2 fun α hα => ?_
     obtain ⟨hαroot, hαtriv⟩ := hα
-    have hpu : ¬ IsUnit (p : ℤ) := (Nat.prime_iff_prime_int.mp hp).not_unit
+    have hpu : ¬ IsUnit (p : ℤ) := (Nat.prime_iff_prime_int.mp hp).not_isUnit
     have hnot : ¬ ∀ j, (p : ℤ) ∣ α j :=
       CFSG.HardMathSupport.C14G2Three.not_forall_dvd_of_isRoot hαroot hpu
     push Not at hnot

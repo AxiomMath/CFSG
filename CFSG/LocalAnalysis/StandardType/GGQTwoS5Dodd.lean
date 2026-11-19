@@ -15,7 +15,7 @@ private lemma ggQ2sd_D_self {m : ℕ} (i : Fin m) : CartanMatrix.D m i i = 2 := 
 private lemma ggQ2sd_D_offdiag {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     CartanMatrix.D m i j = -1 ∨ CartanMatrix.D m i j = 0 := by
   rw [CartanMatrix.D, Matrix.of_apply]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   split_ifs <;> omega
 
 private def ggQ2sd_nbr {m : ℕ} (i j : Fin m) : Prop := i ≠ j ∧ CartanMatrix.D m i j ≠ 0
@@ -23,7 +23,7 @@ private def ggQ2sd_nbr {m : ℕ} (i j : Fin m) : Prop := i ≠ j ∧ CartanMatri
 private lemma ggQ2sd_int_eq_of_cast {a b : ℤ} (ha : a = -1 ∨ a = 0) (hb : b = -1 ∨ b = 0)
     (h : (a : ZMod 3) = (b : ZMod 3)) : a = b := by
   rcases ha with h1 | h1 <;> rcases hb with h2 | h2 <;>
-    rw [h1, h2] at h ⊢ <;> simp_all <;> decide
+    rw [h1, h2] at h ⊢ <;> simp_all
 
 private lemma ggQ2sd_nbr_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     CartanMatrix.D m i j ≠ 0 ↔
@@ -32,7 +32,7 @@ private lemma ggQ2sd_nbr_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
       (i.val + 3 = m ∧ (j.val + 2 = m ∨ j.val + 1 = m)) ∨
       (j.val + 3 = m ∧ (i.val + 2 = m ∨ i.val + 1 = m)) := by
   rw [CartanMatrix.D, Matrix.of_apply]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   constructor
   · intro h
     split_ifs at h with h1 h2 h3 h4 <;> omega
@@ -98,48 +98,48 @@ private lemma ggQ2sd_nbr_three {m : ℕ} (hm : 5 ≤ m) {i a b c : Fin m}
 private lemma ggQ2sd_nbr_fork4 {m : ℕ} (hm : 5 ≤ m) :
     ggQ2sd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 4, by omega⟩ := by
   rw [ggQ2sd_nbr_iff']
-  simp only [Fin.val_mk]
+  simp only
   exact Or.inr (Or.inl ⟨by omega, by omega⟩)
 
 private lemma ggQ2sd_nbr_fork2 {m : ℕ} (hm : 5 ≤ m) :
     ggQ2sd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 2, by omega⟩ := by
   rw [ggQ2sd_nbr_iff']
-  simp only [Fin.val_mk]
+  simp only
   exact Or.inr (Or.inr (Or.inl ⟨by omega, Or.inl (by omega)⟩))
 
 private lemma ggQ2sd_nbr_fork1 {m : ℕ} (hm : 5 ≤ m) :
     ggQ2sd_nbr (⟨m - 3, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ := by
   rw [ggQ2sd_nbr_iff']
-  simp only [Fin.val_mk]
+  simp only
   exact Or.inr (Or.inr (Or.inl ⟨by omega, Or.inr (by omega)⟩))
 
 private lemma ggQ2sd_nbr_path {m : ℕ} (hm : 5 ≤ m) {k : ℕ} (hk : k + 1 ≤ m - 3)
     (hkm : k < m) :
     ggQ2sd_nbr (⟨k, hkm⟩ : Fin m) ⟨k + 1, by omega⟩ := by
   rw [ggQ2sd_nbr_iff']
-  refine Or.inl ⟨?_, ?_⟩ <;> simp only [Fin.val_mk] <;> omega
+  refine Or.inl ⟨?_, ?_⟩ <;> simp only; omega
 
 private lemma ggQ2sd_nbr_leaf2 {m : ℕ} (hm : 5 ≤ m) {j : Fin m}
     (h : ggQ2sd_nbr (⟨m - 2, by omega⟩ : Fin m) j) : j = ⟨m - 3, by omega⟩ := by
   rw [ggQ2sd_nbr_iff'] at h
-  simp only [Fin.val_mk] at h
+  simp only at h
   have hj := j.isLt
   rcases h with ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩
   · exfalso; omega
   · exfalso; omega
   · exfalso; omega
-  · exact Fin.ext (by simp only [Fin.val_mk]; omega)
+  · exact Fin.ext (by simp only; omega)
 
 private lemma ggQ2sd_nbr_leaf1 {m : ℕ} (hm : 5 ≤ m) {j : Fin m}
     (h : ggQ2sd_nbr (⟨m - 1, by omega⟩ : Fin m) j) : j = ⟨m - 3, by omega⟩ := by
   rw [ggQ2sd_nbr_iff'] at h
-  simp only [Fin.val_mk] at h
+  simp only at h
   have hj := j.isLt
   rcases h with ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩ | ⟨a, b⟩
   · exfalso; omega
   · exfalso; omega
   · exfalso; omega
-  · exact Fin.ext (by simp only [Fin.val_mk]; omega)
+  · exact Fin.ext (by simp only; omega)
 
 theorem ggQ2s5_of_Dodd (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (hodd : Odd m)
     (f : Fin m ≃ {k // k ≠ D.a}) (hf : ∀ i j, D.cartan (f i) (f j) = CartanMatrix.D m i j)
@@ -190,7 +190,7 @@ theorem ggQ2s5_of_Dodd (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (hodd : Odd m)
         have hle : k - 1 ≤ m - 3 := by omega
         have hidx : k - 1 + 1 = k := by omega
         have hfin : (⟨k, by omega⟩ : Fin m) = ⟨k - 1 + 1, by omega⟩ :=
-          Fin.ext (by simp only [Fin.val_mk]; omega)
+          Fin.ext (by simp only; omega)
         have hstep : μ' ⟨k, by omega⟩ = μ' ⟨k - 1, hkm⟩ :=
           (congrArg μ' hfin).trans
             (hedge (ggQ2sd_nbr_path hm (k := k - 1) (by omega) (by omega))).symm
@@ -202,10 +202,10 @@ theorem ggQ2s5_of_Dodd (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (hodd : Odd m)
     · have hi2 : i.val = m - 2 ∨ i.val = m - 1 := by omega
       have h0 : μ' ⟨m - 3, by omega⟩ = μ' ⟨0, by omega⟩ := hpath (m - 3) (by omega)
       rcases hi2 with h | h
-      · have hi' : i = ⟨m - 2, by omega⟩ := Fin.ext (by simp only [Fin.val_mk]; omega)
+      · have hi' : i = ⟨m - 2, by omega⟩ := Fin.ext (by simp only; omega)
         rw [hi']
         exact (hedge (ggQ2sd_nbr_symm (ggQ2sd_nbr_fork2 hm))).trans h0
-      · have hi' : i = ⟨m - 1, by omega⟩ := Fin.ext (by simp only [Fin.val_mk]; omega)
+      · have hi' : i = ⟨m - 1, by omega⟩ := Fin.ext (by simp only; omega)
         rw [hi']
         exact (hedge (ggQ2sd_nbr_symm (ggQ2sd_nbr_fork1 hm))).trans h0
   have hCeq : ∀ i j, CartanMatrix.D m (π' i) (π' j) = CartanMatrix.D m i j := by
@@ -356,8 +356,8 @@ theorem ggQ2s5_of_Dodd (D : GGQ2Lin 3) {m : ℕ} (hm : 5 ≤ m) (hodd : Odd m)
         have hx : i.val + (m - 3 - i.val) = m - 3 := by omega
         rw [hfix_all (m - 3 - i.val) hd i hx]
         rw [Equiv.swap_apply_of_ne_of_ne]
-        · intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
-        · intro hh; have := congrArg Fin.val hh; simp only [Fin.val_mk] at this; omega
+        · intro hh; have := congrArg Fin.val hh; simp only at this; omega
+        · intro hh; have := congrArg Fin.val hh; simp only at this; omega
       · have hi2 : i.val = m - 2 ∨ i.val = m - 1 := by omega
         rcases hi2 with hh | hh
         · have hi' : i = ⟨m - 2, by omega⟩ := Fin.ext (by omega)

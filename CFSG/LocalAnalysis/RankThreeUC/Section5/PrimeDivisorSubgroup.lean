@@ -42,7 +42,7 @@ theorem exists_prime_subgroup {G : Type} [Group G] [Finite G] {p : ℕ} {P T B :
   have hmem : q ∈ piOf B := by
     rw [h51.pi_eq]; exact ⟨hq, hdvd'⟩
   have hqB : q ∣ Nat.card B := hmem.2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := B) q hqB
   refine ⟨q, hq, hdvd, ?_, Subgroup.map B.subtype (Subgroup.zpowers x), ?_, ?_⟩
   · rw [binaryMultiplicativeOrder_eq_orderOf, hord, hk]

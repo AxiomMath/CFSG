@@ -21,8 +21,8 @@ theorem tri_glaPComponent_self {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {X :
     rcases CFSG.StandardType.ChevTwo.chevTwo_cases hchev with ⟨t, n, f, hm⟩ | he | h33
     · exact (CFSG.LieType.Catalog.lieModel_finite_simple _ t n 2 f hm).2.1
     · obtain ⟨e⟩ := he
-      haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI := e.isSimpleGroup
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have := e.isSimpleGroup
       infer_instance
     · exact (CFSG.LieType.Catalog.lieModel_finite_simple _ .PSU 3 3 1
         (Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], h33⟩)).2.1

@@ -15,7 +15,7 @@ namespace CommonJ
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   {R : Type} [Group R] {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {γ : ↥Bs →* R}
 
-theorem eta_x_eq_one (hcfg : GGConfig p B Bs x L D J) (hB : B = Bs) {n : ℕ}
+theorem eta_x_eq_one (hcfg : GGConfig p B Bs x L D J) (_hB : B = Bs) {n : ℕ}
     (eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))) (i0 : Fin n)
     (hA : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom = bCoordinateBlock n p i0)
     (xb : ↥Bs) (hxb : (xb : G) = x) {j : Fin n} (hj : j ≠ i0) : eta xb j = 1 := by
@@ -61,12 +61,12 @@ theorem ggCoord_iff_of_signedCoords (hcfg : GGConfig p B Bs x L D J) (hB : B = B
     have hS := hcfg.1.2.2.2.2.2.2.1
     unfold LargeEvenSStar at hS
     exact hS.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let T := γ.range.map e.toMonoidHom
-  haveI : Finite R := Finite.of_surjective θ θ.surjective
-  haveI : Finite ↥γ.range := Subtype.finite
-  haveI : Finite ↥T :=
+  have : Finite R := Finite.of_surjective θ θ.surjective
+  have : Finite ↥γ.range := Subtype.finite
+  have : Finite ↥T :=
     Finite.of_surjective
       (fun x : ↥γ.range =>
         (Subgroup.equivMapOfInjective γ.range e.toMonoidHom e.injective x : ↥T))

@@ -43,7 +43,7 @@ theorem y1431_noCfg_sz
   intro Y _ _ Â ξ J q c t n p f hadm ht hF hm q0 hq0 hqq
   obtain rfl := hF
   have hq := c.quasisimple
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   obtain ⟨hfin, hM, -⟩ := hO _ .twistedB2 n p f hadm hm
   have h3S : ¬ 3 ∣ Nat.card (Y ⧸ Subgroup.center Y) := by
     obtain ⟨-, -, hn0, hp2, hfodd, -⟩ := hadm

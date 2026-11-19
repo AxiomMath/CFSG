@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   {k : ℕ} {U : Fin k → Submodule F V} {e : Fin k → ↥(orthDerived Q)}
   {E : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem noncommProd_apply_of_eq_of_ne {ι : Type*} [DecidableEq ι] (s : Finset ι)
     (g : ι → V ≃ₗ[F] V)
     (hcomm : (s : Set ι).Pairwise fun x y => Commute (g x) (g y)) {c : ι} (hc : c ∈ s)
@@ -51,6 +52,7 @@ private theorem noncommProd_apply_of_eq_of_ne {ι : Type*} [DecidableEq ι] (s :
       rw [← LinearEquiv.mul_apply, hcomm_ac.eq, LinearEquiv.mul_apply,
         h a (Finset.mem_insert_self a s) hac]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem pow_apply_eq_of_apply_eq {g : V ≃ₗ[F] V} {x : V} (h : g x = x) (n : ℕ) :
     (g ^ n) x = x := by
   induction n with
@@ -103,6 +105,7 @@ private theorem eq_one_of_sq_eq_one_of_odd {p : ℕ} (hp : p.Prime) (hp2 : p ≠
   have hone : orderOf x = 1 := Nat.dvd_one.mp (hgcd ▸ Nat.dvd_gcd hdvd2 hdvdp)
   exact orderOf_eq_one_iff.mp hone
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_zero_of_pow_apply_eq_on_plane (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     {c : Fin k} {n : ℕ} (hn : n < p)
     (h : ∀ x ∈ U c, ((e c : V ≃ₗ[F] V) ^ n) x = x) : n = 0 := by
@@ -125,6 +128,7 @@ private theorem eq_zero_of_pow_apply_eq_on_plane (hF : IsPlaneFrame Q p U e E) (
   obtain ⟨x, hx, hx0⟩ := exists_ne_zero_mem_of_finrank_eq_two (U c) (hF.finrank_eq c)
   exact hx0 (hF.eq_zero_of_apply_eq c x hx (hefix x hx))
 
+omit [Finite F] [CharP F 2] in
 theorem exists_frameTorus (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) :
     ∃ τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q),
       Function.Injective τ ∧ τ.range = E ∧
@@ -132,7 +136,7 @@ theorem exists_frameTorus (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) :
       ∀ f c, ∀ x ∈ U c, ((τ f : ↥(orthDerived Q)) : V ≃ₗ[F] V) x =
         (((e c : ↥(orthDerived Q)) : V ≃ₗ[F] V) ^ (Multiplicative.toAdd (f c)).val) x := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpow : ∀ c, (e c) ^ p = 1 := fun c => by
     rw [← hF.orderOf_eq c]
     exact pow_orderOf_eq_one (e c)
@@ -221,6 +225,7 @@ theorem exists_frameTorus (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) :
       ofAdd_zero, Pi.one_apply]
   exact ⟨τ, hinj, hrange, hτc, hact⟩
 
+omit [Finite F] [CharP F 2] in
 theorem mem_image_fix_sgnAut (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     (τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q))
     (hτrange : τ.range = E)
@@ -230,7 +235,7 @@ theorem mem_image_fix_sgnAut (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     {a : Fin k} {x : ↥(orthDerived Q)} (hxE : x ∈ E)
     (hxa : ∀ v ∈ U a, (x : V ≃ₗ[F] V) v = v) :
     x ∈ τ '' {f | SpCoord.sgnAut a f = f} := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hxrange : x ∈ τ.range := hτrange ▸ hxE
   obtain ⟨f, rfl⟩ := MonoidHom.mem_range.mp hxrange
   refine ⟨f, ?_, rfl⟩
@@ -394,7 +399,7 @@ theorem image_fix_omPlusRefl_true_subset [NeZero p]
     rw [omPlusRefl_true] at h2
     simp only [MulAut.mul_apply, SpCoord.permAut_apply, Function.comp_apply,
       Equiv.swap_inv, Equiv.swap_apply_left, SpCoord.sgnAut_apply, Function.update_self,
-      Function.update_of_ne hab.ne, Ne.symm hab.ne] at h2
+      Function.update_of_ne hab.ne] at h2
     exact h2.symm
   have hfab' : f b = (f a)⁻¹ := by
     rw [hfab, inv_inv]

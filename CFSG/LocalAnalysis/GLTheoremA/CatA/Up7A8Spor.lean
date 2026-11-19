@@ -51,7 +51,7 @@ theorem up7a8_exists_conjAut {Q : Type} [Group Q] {K : Subgroup Q} {y : Q}
 theorem up7a8_central_inj {T : Type} [Group T] [Finite T] {H : Subgroup T} {m : ℕ} (hm : 5 ≤ m)
     (e : PQuot 3 H ≃* alternatingGroup (Fin m)) (hT : CFSG.pPrimeCore 3 T = ⊥) {x : T} (hxH : x ∈ H)
     (hxZ : x ∈ Subgroup.center T) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center (PQuot 3 H) = ⊥ := by
     rw [eq_bot_iff]
     intro q hq

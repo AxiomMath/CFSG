@@ -224,7 +224,7 @@ theorem exists_twoSubgroup_inf_card_ge [Finite G] {N C : Subgroup G} (hCN : C �
   obtain ⟨Q₁, hQ₁⟩ := hS₀'.exists_le_sylow
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq N Q₁ Q₂
   refine ⟨(Q₂ : Subgroup N).map N.subtype, ?_, Subgroup.map_subtype_le _,
-    Q₂.isPGroup'.map _, ?_⟩
+    Q₂.isPGroup.map _, ?_⟩
   · intro x hx
     exact ⟨⟨x, hXN hx⟩, hQ₂ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   · have hle : S₀.map (MulAut.conj (n : G)).toMonoidHom ≤

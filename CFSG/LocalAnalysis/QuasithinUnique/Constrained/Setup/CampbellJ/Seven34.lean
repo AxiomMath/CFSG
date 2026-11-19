@@ -28,7 +28,7 @@ variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : 
 private theorem cj_eq_of_le_centralizer_HoneJ_Seven34 {N : Subgroup G}
     (hN : N ≤ Subgroup.centralizer (Hone S : Set G)) {g : G} (hg : g ∈ Hone S) :
     cj N g = N :=
-  cj_eq_of_forall_mem fun x hx => mem_of_central_conj hN hg hx
+  cj_eq_of_forall_mem fun _x hx => mem_of_central_conj hN hg hx
 
 private def CcJ_Seven34 (S : Sylow 2 G)
     (α : MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgroup G))) (A : Subgroup G) (g : G) :
@@ -56,6 +56,7 @@ private theorem hFi_Seven34 (c : DoubleSetupJ S ρ ψ Λ α A g) :
           (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm (Fcore G)) := by rw [e]
     _ = Fcore G := aimg_aimg_symm (Fcore_le_JS c.seed)
 
+omit [Finite G] [Finite k] in
 private theorem hV'_Seven34 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm (Vmod G) ≤ CFSG.pCore 2 G := by
   have h : α.symm ∈ Λ := by
@@ -71,7 +72,7 @@ private theorem Zi_central_Seven34 (c : DoubleSetupJ S ρ ψ Λ α A g) :
 private theorem cj_Zi_Seven34 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm (Zfix S)) g =
       aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α.symm (Zfix S) :=
-  cj_eq_of_le_centralizer_HoneJ_Seven34 (fun z hz => (Zi_central_Seven34 c hz).2) c.hgH
+  cj_eq_of_le_centralizer_HoneJ_Seven34 (fun _z hz => (Zi_central_Seven34 c hz).2) c.hgH
 
 private theorem commutator_A_B0_le_F_Seven34 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     ⁅A, B0J S α A⁆ ≤ Fcore G :=

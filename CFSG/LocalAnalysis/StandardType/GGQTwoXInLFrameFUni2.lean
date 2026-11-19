@@ -200,7 +200,7 @@ private lemma delta_apply {R : Type} [Group R] {n : ℕ} {M : Type} [Field M] (c
     (E : Subgroup R) (ι : Additive ↥E ≃+ (Fin n → ZMod 3)) {e : R} (he : e ∈ E)
     (j : Fin n) : delta cU E ι e j = cU ^ (ι (Additive.ofMul ⟨e, he⟩) j).val := by
   classical
-  simp only [delta, dif_pos he]
+  simp only [delta, dite_eq_left he]
 
 private lemma diagHom_mem_normalizer {M : Type} [Field M] [Finite M] {n : ℕ}
     {τ : M ≃+* M} {hτ : ∀ y, τ (τ y) = y}

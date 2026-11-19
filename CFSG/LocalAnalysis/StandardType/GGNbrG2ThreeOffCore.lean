@@ -116,7 +116,7 @@ private lemma T3_inv {K : Type} [Field K] {u : adjointGroup Tag.G2 K} (hu : T3 u
 private lemma torusTorsion_comm
     {K : Type} [Field K] {u v : ModGL Tag.G2 K}
     (hu : u ∈ torusTorsion K 3) (hv : v ∈ torusTorsion K 3) : u * v = v * u := by
-  haveI : CFSG.IsElementaryAbelian 3 (torusTorsion K 3) :=
+  have : CFSG.IsElementaryAbelian 3 (torusTorsion K 3) :=
     CFSG.RankThree.Chevalley.isElementaryAbelian_torusTorsion 3
   exact congrArg Subtype.val (IsMulCommutative.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
 
@@ -153,14 +153,14 @@ theorem ggNbrG2Off_weyl_set
     have hn0 : n = 0 := Nat.eq_zero_of_not_pos h
     rw [hn0, pow_zero] at hK
     have h2 : 2 ≤ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       have hlt := Fintype.one_lt_card (α := K)
       rw [Nat.card_eq_fintype_card]
       omega
     omega
   have hn6 : 6 ≤ n := Nat.le_of_dvd hnpos h6
   have hchar : ringChar K ≠ 3 := by
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     rw [ringChar.eq K 2]
     norm_num
   have h4 : 4 ≤ Nat.card K := by

@@ -152,7 +152,7 @@ theorem mem_center_of_wSet (F : Q8Pre X Φ) {K K' : Subgroup X} (hK : K ∈ Φ)
     mem_normalizer_iff_conjSub_eq.mpr (hWn g)
   have hW2 : IsPGroup 2 ↥W := Asc77.Thompson.isPGroup_of_mem_WSet hW
   have hOCW : OCW W = ⊥ := by
-    haveI : (OCW W).Normal := ⟨fun y hy g => by
+    have : (OCW W).Normal := ⟨fun y hy g => by
       have h := conj_mem_conjSub (n := g) hy
       rwa [mem_normalizer_iff_conjSub_eq.mp
         (Asc77.Thompson.normalizer_le_normalizer_OCW W (hNW g))] at h⟩

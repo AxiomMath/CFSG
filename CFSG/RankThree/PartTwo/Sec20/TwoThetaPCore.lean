@@ -69,7 +69,7 @@ theorem fixes_pCore
     (e : Λ ⧸ CFSG.pCore 2 Λ ≃* projSL 3 (GaloisField 2 2)) {Y : Type} [Group Y] [Finite Y]
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hrank : CFSG.Open.pRank p (⊤ : Subgroup Y) ≤ 2)
     (φ : Λ →* MulAut Y) (g : Λ) : ∀ y ∈ CFSG.pCore p Y, φ g y = y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q := CFSG.pCore p Y with hQ
   have hQchar : ∀ g : Λ, Q.map (φ g).toMonoidHom = Q := fun g =>
     (Subgroup.characteristic_iff_map_eq.mp inferInstance) (φ g)

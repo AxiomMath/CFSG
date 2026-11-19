@@ -243,9 +243,9 @@ private lemma excPayL_conjAut_sq {G H : Type} [Group G] [Group H] [Finite G]
   simpa using hσ2 b
 
 private lemma excPayL_hyperplane_map_le {G H : Type} [Group G] [Group H] [Finite G]
-    {Bs X : Subgroup G} {p : ℕ} (hBs : IsElemAbelian p Bs)
-    {η : ↥X →* H} (hker : η.ker = Subgroup.center ↥X)
-    (hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥X)) p)
+    {Bs X : Subgroup G} {p : ℕ} (_hBs : IsElemAbelian p Bs)
+    {η : ↥X →* H} (_hker : η.ker = Subgroup.center ↥X)
+    (_hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥X)) p)
     {BY : Subgroup H} (hB : ∀ y : H, y ∈ BY ↔ ∃ x : ↥X, (x : G) ∈ Bs ∧ η x = y)
     {y : H} (hy : y ∈ Subgroup.normalizer (BY : Set H)) {x : ↥X} (hx : η x = y)
     (hxN : (x : G) ∈ Subgroup.normalizer (Bs : Set G)) :
@@ -431,8 +431,8 @@ private lemma excPayL_centralizes_hyperplane {G : Type} [Group G] {Bs X : Subgro
 
 private lemma excPayL_centralizer_map_le {G H : Type} [Group G] [Group H] [Finite G]
     {Bs X : Subgroup G} {p : ℕ} (hBs : IsElemAbelian p Bs)
-    (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
-    {η : ↥X →* H} (hη : Function.Surjective η)
+    (_hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
+    {η : ↥X →* H} (_hη : Function.Surjective η)
     (hker : η.ker = Subgroup.center ↥X)
     (hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥X)) p)
     {BY : Subgroup H} (hB : ∀ y : H, y ∈ BY ↔ ∃ x : ↥X, (x : G) ∈ Bs ∧ η x = y)
@@ -652,7 +652,7 @@ private lemma excPayL_fixed_iff {G H : Type} [Group G] [Group H]
     {Bs X : Subgroup G} {p : ℕ} (hBs : IsElemAbelian p Bs)
     {η : ↥X →* H} (hker : η.ker = Subgroup.center ↥X)
     (hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥X)) p)
-    {BY : Subgroup H} (hB : ∀ y : H, y ∈ BY ↔ ∃ x : ↥X, (x : G) ∈ Bs ∧ η x = y)
+    {BY : Subgroup H} (_hB : ∀ y : H, y ∈ BY ↔ ∃ x : ↥X, (x : G) ∈ Bs ∧ η x = y)
     {y : H} (hy : y ∈ Subgroup.normalizer (BY : Set H)) {x : ↥X} (hx : η x = y)
     (hxN : (x : G) ∈ Subgroup.normalizer (Bs : Set G))
     {eA : (X ⊓ Bs).subgroupOf Bs ≃ ↥BY}
@@ -785,7 +785,7 @@ private lemma excPayL_comm_generators {G H : Type} [Group G] [Group H]
       _ = bX * aX := one_mul _
   exact congrArg Subtype.val hzX
 
-theorem excPayL_refl_lift {G H : Type} [Group G] [Group H] [Finite G] {p : ℕ} (hp : p.Prime)
+theorem excPayL_refl_lift {G H : Type} [Group G] [Group H] [Finite G] {p : ℕ} (_hp : p.Prime)
     {Bs X : Subgroup G} (hBs : IsElemAbelian p Bs)
     (hsplit : ∀ b ∈ Bs, ∃ x ∈ X ⊓ Bs, b * x⁻¹ ∈ Subgroup.centralizer (X : Set G))
     (η : ↥X →* H) (hη : Function.Surjective η) (hker : η.ker = Subgroup.center ↥X)

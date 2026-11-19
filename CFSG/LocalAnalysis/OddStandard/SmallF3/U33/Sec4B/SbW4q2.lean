@@ -19,6 +19,7 @@ theorem w4q_t_mul_t (hc : Ctx4C t L S x₁ x₂ lam rho tau) : t * t = 1 := by
 theorem w4q_tau_mul_tau (hc : Ctx4C t L S x₁ x₂ lam rho tau) : tau * tau = 1 := by
   simpa [pow_two] using hc.l44.1
 
+omit [Finite G] in
 theorem w4q_V_le_A (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, Subgroup.closure_le]
   intro w hw
@@ -29,14 +30,17 @@ theorem w4q_V_le_A (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := 
   · exact pow_mem h₁ 2
   · exact pow_mem (mul_mem h₁ h₂) 2
 
+omit [Finite G] in
 theorem w4q_V_le_E (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x₁ x₂ := by
   rw [fourGrp, Subgroup.closure_le]
   intro w hw
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
   rcases hw with rfl | rfl <;> exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem w4q_t_mem_E (t x₁ x₂ : G) : t ∈ ctxE t x₁ x₂ := Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem w4q_E_le_X (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxE, Subgroup.closure_le]
   intro w hw
@@ -45,7 +49,7 @@ theorem w4q_E_le_X (t tau x₁ x₂ : G) : ctxE t x₁ x₂ ≤ ctxX t tau x₁ 
 
 theorem w4q_A_comm (hc : Ctx4C t L S x₁ x₂ lam rho tau) {a b : G} (ha : a ∈ baseGrp x₁ x₂)
     (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
+  have : IsMulCommutative ↥(ctxW t x₁ x₂) := hc.abelian_W
   exact congrArg Subtype.val (mul_comm' (⟨a, Subgroup.mem_sup_right ha⟩ : ↥(ctxW t x₁ x₂))
     ⟨b, Subgroup.mem_sup_right hb⟩)
 

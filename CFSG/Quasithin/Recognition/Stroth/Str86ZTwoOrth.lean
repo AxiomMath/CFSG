@@ -15,10 +15,13 @@ variable {G : Type} [Group G] [Finite G]
 
 abbrev u3H (L1 L2 S : Subgroup G) : Subgroup G := L2 ⊔ Q2 L1 L2 S
 
+omit [Finite G] in
 theorem q2_le_u3H (L1 L2 S : Subgroup G) : Q2 L1 L2 S ≤ u3H L1 L2 S := le_sup_right
 
+omit [Finite G] in
 theorem l2_le_u3H (L1 L2 S : Subgroup G) : L2 ≤ u3H L1 L2 S := le_sup_left
 
+omit [Finite G] in
 theorem u3H_le_p2 (L1 L2 S : Subgroup G) : u3H L1 L2 S ≤ P2 L1 L2 S :=
   sup_le le_sup_left (pCoreOf_le 2 (P2 L1 L2 S))
 
@@ -51,6 +54,7 @@ theorem str86_isL2Quot_u3H {L1 L2 S : Subgroup G} {n : ℕ}
   obtain ⟨e⟩ := hL2
   exact ⟨(str86_oTwoQuot_u3H_equiv hF).trans e⟩
 
+omit [Finite G] in
 theorem str86_z2_normal_u3H (L1 L2 S : Subgroup G) :
     u3H L1 L2 S ≤ Subgroup.normalizer (Z2 L1 L2 S : Set G) :=
   (u3H_le_p2 L1 L2 S).trans

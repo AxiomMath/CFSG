@@ -118,7 +118,7 @@ theorem reduced_noncentral_involution_centralizer_has_exact_odd_torus_field_comp
   have hsylow_fix : ∀ P : Sylow 2 D, ∀ σ : Sigma, ∀ g ∈ P,
       fieldAction F b m hm heven Sigma hSigma σ (g : V) = g := by
     intro P σ g hg
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨g, hg⟩
     have hgn : (g : V) ^ 2 ^ n = 1 := by
       have := congrArg (fun z : (P : Subgroup D) => ((z : D) : V)) hn
       simpa using this
@@ -208,7 +208,7 @@ theorem reduced_noncentral_involution_centralizer_has_exact_odd_torus_field_comp
     have e : Nat.card C = Nat.card (P : Subgroup D) * (Nat.card W * Nat.card Sigma) := by
       rw [hCcard, hsylow_card P, hWcard]
       ring
-    exact exists_centralizer_equiv b m hm heven hSigma hφ hb hW (P : Subgroup D) P.isPGroup'
+    exact exists_centralizer_equiv b m hm heven hSigma hφ hb hW (P : Subgroup D) P.isPGroup
       (hsylow_fix P) e.le
   have hoddC : (CFSG.oddCore C).map C.subtype = K := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 D) := inferInstance
@@ -216,7 +216,7 @@ theorem reduced_noncentral_involution_centralizer_has_exact_odd_torus_field_comp
     have hQodd : Odd (Nat.card (W ⋊[φ] Sigma)) := by
       rw [SemidirectProduct.card, hWcard]
       exact hh.mul hd
-    rw [oddCore_eq_range_inr Θ P.isPGroup' hQodd, MonoidHom.map_range, ← hK]
+    rw [oddCore_eq_range_inr Θ P.isPGroup hQodd, MonoidHom.map_range, ← hK]
     congr 1
     refine MonoidHom.ext fun x => ?_
     change ((Θ (1, x) : C) : H) = complementHom b m hm heven hSigma hφ x

@@ -45,7 +45,7 @@ theorem card_closure_z0u : Nat.card (Subgroup.closure {zH 0, zH 1 * zH 2}) = 9 :
     have e := vecElt_injective wreathFacts_zH (congrArg Subtype.val h)
     have h0 := congrFun e 0
     have h1 := congrFun e 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h0 h1
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
     exact Prod.ext h0 h1
   have hge : 9 ≤ Nat.card (Subgroup.closure {zH 0, zH 1 * zH 2}) := by
     have h := Nat.card_le_card_of_injective _ hinj
@@ -57,7 +57,7 @@ theorem card_closure_z0u : Nat.card (Subgroup.closure {zH 0, zH 1 * zH 2}) = 9 :
   rw [hk] at hdvd hge ⊢
   have hk3 : k < 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h27 : 3 ^ 3 ∣ 4608 := (pow_dvd_pow 3 h).trans hdvd
     norm_num at h27
   interval_cases k <;> simp_all
@@ -76,7 +76,7 @@ theorem conj_three_elt {l : H6} (hl : l ∈ Subgroup.centralizer {sH}) (h3 : l ^
     · exact ⟨0, by rw [h, pow_zero]⟩
     · exact ⟨1, by rw [h, pow_one]⟩
   obtain ⟨n, hn, hnE⟩ := CFSG.GH74.GLS.LU.Local.exists_conj_mem_of_sylow 3 closure_z0u_le_cen
-    (by rw [card_closure_z0u, hfac] <;> norm_num) hl hord
+    (by rw [card_closure_z0u, hfac]; norm_num) hl hord
   exact ⟨n⁻¹, inv_mem hn, by rwa [inv_inv]⟩
 
 theorem card_le_of_normal {Y : Subgroup H6} (hY : Y ≤ Subgroup.centralizer {sH})

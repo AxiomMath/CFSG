@@ -36,13 +36,13 @@ theorem central_quotient_two_quasisimple {A B : Type} [Group A] [Group B] [Finit
     (hf : Function.Surjective f) (hker : f.ker ≤ center A) (hA : HarrisLit.IsTwoQuasisimple A) :
     HarrisLit.IsTwoQuasisimple B ∧
       Nonempty (A ⧸ Open.fusionZStar A ≃* B ⧸ Open.fusionZStar B) := by
-  haveI : Finite B := Finite.of_surjective f hf
-  haveI : Group.IsPerfect A := hA.1
-  haveI : Nontrivial ((A ⧸ pPrimeCore 2 A) ⧸ center (A ⧸ pPrimeCore 2 A)) :=
+  have : Finite B := Finite.of_surjective f hf
+  have : Group.IsPerfect A := hA.1
+  have : Nontrivial ((A ⧸ pPrimeCore 2 A) ⧸ center (A ⧸ pPrimeCore 2 A)) :=
     hA.2.2.1.toNontrivial
-  haveI : Nontrivial (A ⧸ pPrimeCore 2 A) :=
+  have : Nontrivial (A ⧸ pPrimeCore 2 A) :=
     (QuotientGroup.mk'_surjective (center (A ⧸ pPrimeCore 2 A))).nontrivial
-  haveI : Nontrivial A := (QuotientGroup.mk'_surjective (pPrimeCore 2 A)).nontrivial
+  have : Nontrivial A := (QuotientGroup.mk'_surjective (pPrimeCore 2 A)).nontrivial
   have hperfB : Group.IsPerfect B := Group.IsPerfect.ofSurjective hf
   have hBnt : Nontrivial B := by
     rw [← not_subsingleton_iff_nontrivial]
@@ -53,15 +53,15 @@ theorem central_quotient_two_quasisimple {A B : Type} [Group A] [Group B] [Finit
       rw [MonoidHom.mem_ker]
       exact Subsingleton.elim (f a) 1
     have hAleZ : (⊤ : Subgroup A) ≤ center A := by rw [← hker_top]; exact hker
-    haveI : IsMulCommutative A :=
+    have : IsMulCommutative A :=
       IsMulCommutative.of_comm fun a b =>
         (Subgroup.mem_center_iff.mp (hAleZ (show a ∈ (⊤ : Subgroup A) from trivial)) b).symm
     exact false_of_nontrivial_of_subsingleton A
   have hY : pPrimeCore 2 B ≠ ⊤ := by
     intro htop
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Nontrivial B := hBnt
-    haveI : Group.IsPerfect B := hperfB
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial B := hBnt
+    have : Group.IsPerfect B := hperfB
     have hodd : Odd (Nat.card B) := by
       have h1 := Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := B))
       rwa [htop, Subgroup.card_top] at h1
@@ -71,10 +71,10 @@ theorem central_quotient_two_quasisimple {A B : Type} [Group A] [Group B] [Finit
 
 theorem pPrimeCore_eq_bot_of_isQuasisimple {K : Type} [Group K] [Finite K] (hK : IsQuasisimple K)
     (hZ : IsPGroup 2 ↥(center K)) : pPrimeCore 2 K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect K := hK.1
-  haveI : Nontrivial (K ⧸ center K) := hK.2.1.toNontrivial
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (center K)).nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect K := hK.1
+  have : Nontrivial (K ⧸ center K) := hK.2.1.toNontrivial
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (center K)).nontrivial
   have hOcenter : pPrimeCore 2 K ≤ center K := by
     let O : Subgroup K := pPrimeCore 2 K
     let Z : Subgroup K := center K
@@ -94,7 +94,7 @@ theorem pPrimeCore_eq_bot_of_isQuasisimple {K : Type} [Group K] [Finite K] (hK :
           _ = Subgroup.comap π (⊤ : Subgroup (K ⧸ Z)) := by rw [htop]
           _ = ⊤ := by simp
       have hOZ : O ⊔ Z = ⊤ := by simpa [sup_comm] using hcom
-      haveI : IsMulCommutative ↥Z := by
+      have : IsMulCommutative ↥Z := by
         change IsMulCommutative ↥(center K)
         infer_instance
       have hleO : _root_.commutator K ≤ O :=

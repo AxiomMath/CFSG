@@ -176,7 +176,7 @@ theorem index_le : (psiG swSp432_eq_one).range.FiniteIndex ∧
             rw [hn, wVal_eq hw] at this
             exact this
           by_cases he : nEven i = true
-          · rw [if_pos he]
+          · rw [ite_eq_left he]
             rintro _ ⟨c, hc, rfl⟩
             by_cases hc0 : c = 0
             · subst hc0
@@ -185,7 +185,7 @@ theorem index_le : (psiG swSp432_eq_one).range.FiniteIndex ∧
             · obtain ⟨r, -, hr⟩ := (gen_ok i i.2 c hc).2 he hc0
               have := hstab r _ hr
               simpa only [evalWord_cons, evalWord_nil, mul_one] using this
-          · rw [if_neg he]
+          · rw [ite_eq_right he]
             rintro _ ⟨c, hc, rfl⟩
             obtain ⟨r, -, hr⟩ := (gen_ok i i.2 c hc).1 (by simpa using he)
             have := hstab r _ hr
@@ -219,7 +219,7 @@ theorem index_le : (psiG swSp432_eq_one).range.FiniteIndex ∧
         by_cases he : nEven i = true
         · have ht := even_type i i.2 he
           have h0 := zero_mem_lt3 _ ht
-          have hsub : nSub i = evenSub (lt3 (nType i)) 0 := by rw [nSub, if_pos he]
+          have hsub : nSub i = evenSub (lt3 (nType i)) 0 := by rw [nSub, ite_eq_left he]
           rcases mem_evenSub_or' h0 hℓ with hE | hE
           · exact ⟨φ w, ⟨a, ha, rfl⟩, φ ℓ, ⟨ℓ, by rw [hsub]; exact hE, rfl⟩, φ z,
               ⟨z, hz, rfl⟩, by rw [map_mul, map_mul]⟩
@@ -246,18 +246,18 @@ theorem index_le : (psiG swSp432_eq_one).range.FiniteIndex ∧
             congr 1
             group
         · have hsub : nSub i = lsub (lt3 (nType i)) := by
-            rw [nSub, if_neg he]
+            rw [nSub, ite_eq_right he]
           exact ⟨φ w, ⟨a, ha, rfl⟩, φ ℓ, ⟨ℓ, by rw [hsub]; exact hℓ, rfl⟩, φ z, ⟨z, hz, rfl⟩,
             by rw [map_mul, map_mul]⟩
       tgtElt_mem := by
         rintro i _ ⟨a, ha, rfl⟩
         have h := htP i a ha
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.1
       tgt_spec := by
         rintro i _ ⟨a, ha, rfl⟩
         have h := htP i a ha
-        simp only [dif_pos h]
+        simp only [dite_eq_left h]
         exact h.choose_spec.choose_spec.2 }
   have : Finite H := Finite.of_surjective _ φ.rangeRestrict_surjective
   obtain ⟨hfi, hle⟩ := D.index_le_sum (u_mul_self _) u_conj_T (closure_H_u _)

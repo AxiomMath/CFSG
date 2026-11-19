@@ -59,6 +59,7 @@ variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y} {L₁ L�
   Subgroup.closure {g : Y | g ∈ Subgroup.normalizer (L₁ : Set Y) ∧ Nat.Coprime (orderOf g) 5} ⊔
     (L₁ ⊔ L₂)
 
+omit [Finite Y] in
 theorem sz32b_closure_normal (N : Subgroup Y) [hN : N.Normal] :
     (Subgroup.closure {g : Y | g ∈ N ∧ Nat.Coprime (orderOf g) 5}).Normal := by
   refine ⟨fun x hx g => ?_⟩
@@ -68,7 +69,7 @@ theorem sz32b_closure_normal (N : Subgroup Y) [hN : N.Normal] :
     refine ⟨hN.conj_mem x hx.1 g, ?_⟩
     have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
     simpa using this.symm ▸ hx.2
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [e]
@@ -79,9 +80,9 @@ theorem sz32b_closure_normal (N : Subgroup Y) [hN : N.Normal] :
     exact Subgroup.inv_mem _ hx
 
 theorem sz32bW_normal (h : Szh1Two Pb L₁ L₂ t) : (sz32bW L₁ L₂).Normal := by
-  haveI := sz32b_N1_normal h
-  haveI := sz32b_sup_normal h
-  haveI := sz32b_closure_normal (Subgroup.normalizer (L₁ : Set Y))
+  have := sz32b_N1_normal h
+  have := sz32b_sup_normal h
+  have := sz32b_closure_normal (Subgroup.normalizer (L₁ : Set Y))
   exact inferInstanceAs
     ((Subgroup.closure {g : Y | g ∈ Subgroup.normalizer (L₁ : Set Y) ∧ Nat.Coprime (orderOf g) 5} ⊔
       (L₁ ⊔ L₂)).Normal)
@@ -89,10 +90,12 @@ theorem sz32bW_normal (h : Szh1Two Pb L₁ L₂ t) : (sz32bW L₁ L₂).Normal :
 theorem sz32bW_le (h : Szh1Two Pb L₁ L₂ t) : sz32bW L₁ L₂ ≤ Subgroup.normalizer (L₁ : Set Y) :=
   sup_le ((Subgroup.closure_le _).2 (fun _ hg => hg.1)) (sz32b_sup_le_N1 h)
 
+omit [Finite Y] in
 theorem sz32bW_five {g : Y} (hg : g ∈ Subgroup.normalizer (L₁ : Set Y))
     (hc : Nat.Coprime (orderOf g) 5) : g ∈ sz32bW L₁ L₂ :=
   Subgroup.mem_sup_left (Subgroup.subset_closure ⟨hg, hc⟩)
 
+omit [Finite Y] in
 theorem sz32b_Q0_le_W (hs : Szh1Cyc Pb a c y L₁ L₂) : sz32Q0 a c ≤ sz32bW L₁ L₂ := by
   rw [hs.Q0]
   exact (sup_le_sup inf_le_right inf_le_right).trans le_sup_right
@@ -179,7 +182,7 @@ theorem sz32b_N1_eq_sup (hY : Sz32Case2Data Pb a c y) (h : Szh1Two Pb L₁ L₂ 
     (hs : Szh1Cyc Pb a c y L₁ L₂) :
     Subgroup.normalizer (L₁ : Set Y) = sz32bW L₁ L₂ ⊔ Subgroup.zpowers y := by
   obtain ⟨S, hS⟩ := hY.sylow
-  haveI := sz32bW_normal h
+  have := sz32bW_normal h
   have hSN : (S : Subgroup Y) ≤ Subgroup.normalizer (L₁ : Set Y) := hS ▸ sz32b_Pb_le_N1 h
   have h1 := szh1_H_eq_sup (sz32bW_le h) (fun g hg hc => sz32bW_five hg hc) S hSN
   rw [hS] at h1
@@ -194,8 +197,8 @@ theorem szh1_two_not_inverting' (hY : Sz32Case2Data Pb a c y) (hI713 : KFactI713
     {L₁ L₂ : Subgroup Y} {t : Y} (h : Szh1Two Pb L₁ L₂ t) (hs : Szh1Cyc Pb a c y L₁ L₂) :
     t * y * t⁻¹ * y⁻¹ ∉ sz32Q0 a c := by
   intro hmem
-  haveI := sz32b_N1_normal h
-  haveI := sz32bW_normal h
+  have := sz32b_N1_normal h
+  have := sz32bW_normal h
   exact szh1_final_contra hY.perf (sz32bW_le h) (fun g hg hc => sz32bW_five hg hc)
     (sz32b_N1_tt h) (sz32b_N1_split h) (sz32b_Pb_le_N1 h hY.pres.y_mem) hY.pres.y5
     (sz32b_y_not_mem_W hY hI713 h hs) (sz32b_N1_eq_sup hY h hs) (sz32b_Q0_le_W hs hmem)

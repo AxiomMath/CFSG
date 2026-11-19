@@ -26,7 +26,7 @@ theorem k9_not_isChevSimple_J2 (hb : LieOrderBridge) {T : Type} [Group T]
     ¬ CFSG.Yardstones.Md0ec50421ce4.IsChevSimple q T := by
   have hc : Nat.card T = 604800 :=
     (Nat.card_congr e.toEquiv).trans KFacts.KS14.card_nativeJ2
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   exact LocalAnalysis.GLTheoremA.I1416QRows.not_isChevSimple_of_not_lieOrder hb hc
     (fun d hd =>
       LocalAnalysis.GLTheoremA.I1416Rows.OrderDvd604800.lieOrderFormula_ne_604800 hd)
@@ -73,7 +73,7 @@ private theorem exists_component_quot_of_perfect_subnormal_le_layer {G Q : Type}
     push Not at hno
     exact bot_ne_top (hgen ⊥ fun K hK => (hno K hK).le)
   have hK₀c := (hmem K₀).1 hK₀
-  haveI hnorm : (φ K₀).Normal := by
+  have hnorm : (φ K₀).Normal := by
     rw [← Subgroup.normalizer_eq_top_iff]
     refine hgen _ fun K hK => ?_
     by_cases hKK : K = K₀
@@ -111,7 +111,7 @@ theorem exists_component_J2_of_perfect_subnormal_le_layer (hJ : K9J2Facts)
     (e : P ⧸ N ≃* Blueprint.NativeSporadic.J2) :
     ∃ E : Subgroup G, CFSG.Open.IsComponentOf E X ∧ E ≤ P ∧
       Nonempty (E ⧸ Subgroup.center E ≃* Blueprint.NativeSporadic.J2) := by
-  haveI := hJ.simple
+  have := hJ.simple
   exact exists_component_quot_of_perfect_subnormal_le_layer hJ.center hPX hsn hP hle
     (e.toMonoidHom.comp (QuotientGroup.mk' N))
     (e.surjective.comp (QuotientGroup.mk'_surjective N))
@@ -151,7 +151,7 @@ theorem goodJ2_of_layer (hJ : K9J2Facts) {S : Type} [Group S] [Finite S] {β : M
   exact (hN E hE).false e'
 
 theorem rowOfK9_of_lie (hJ : K9J2Facts) (hb : LieOrderBridge) (hLSC : LieSemisimpleCent)
-    (hLC : LieComp.LieComp) {X : Type} [Group X] (idx : TauCeti.ValidLieTypeIndex)
+    (hLC : LieComp.LieCompAll) {X : Type} [Group X] (idx : TauCeti.ValidLieTypeIndex)
     (hchar : idx.1.characteristic ≠ 3)
     (hX : Nonempty (X ≃* (TauCeti.CFSGIndex.lie idx).Group)) : RowOfK9 X := by
   intro S _ _ hs hna ⟨eS⟩ σ h3 h1

@@ -76,7 +76,7 @@ theorem Q5_sylow (hf : f = 2) :
       change x.1 * (fa5 h σ)⁻¹ = e
       rw [hxe]
       group
-    obtain ⟨k, hk⟩ := P.isPGroup' (⟨e', he'P⟩ : (P : Subgroup ↥G₁))
+    obtain ⟨k, hk⟩ := P.isPGroup (⟨e', he'P⟩ : (P : Subgroup ↥G₁))
     have hek : e ^ 2 ^ k = 1 := by
       have h1 : e' ^ 2 ^ k = 1 := congrArg Subtype.val hk
       have h2 := congrArg Subtype.val h1

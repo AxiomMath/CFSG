@@ -30,11 +30,11 @@ theorem listWCBound_of_parts (hmax : ListMaxElemAbStatement) (hout : ListOutRank
     ListWCBoundStatement := by
   intro Y _ _ T L hT0 hTL hLel hCor hList hclaim
   set S : Subgroup Y := Subgroup.normalClosure (T : Set Y) with hS
-  haveI hSn : S.Normal := Subgroup.normalClosure_normal
+  have hSn : S.Normal := Subgroup.normalClosure_normal
   set C : Subgroup Y := Subgroup.centralizer (S : Set Y) with hC
   have hTS : T ≤ S := Subgroup.le_normalClosure
   have hTel : IsElemAbelian 2 T := hCor.1
-  haveI hsimp : IsSimpleGroup ↥S := hsimple _ hList
+  have hsimp : IsSimpleGroup ↥S := hsimple _ hList
   obtain ⟨a, b, hab⟩ := hnc _ hList
   have hSC : S ⊓ C = ⊥ := by
     have hcen : Subgroup.center ↥S = ⊥ := by
@@ -161,7 +161,7 @@ theorem listWCBound_of_parts (hmax : ListMaxElemAbStatement) (hout : ListOutRank
             _ = (s * c) * (s' * c') := by group
         rw [e]
         exact L.mul_mem hsc hsc'
-      one_mem' := ⟨S.one_mem, 1, C.one_mem, by simpa using L.one_mem⟩
+      one_mem' := ⟨S.one_mem, 1, C.one_mem, by simp⟩
       inv_mem' := by
         rintro s ⟨hs, c, hc, hsc⟩
         refine ⟨S.inv_mem hs, c⁻¹, C.inv_mem hc, ?_⟩

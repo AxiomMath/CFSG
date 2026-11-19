@@ -28,7 +28,7 @@ theorem bigElemAbelianToralBar_of_finite {τ : Tag} {p M : ℕ} (hp : p.Prime) (
     exact Set.toFinite _
   obtain ⟨K₁, hK₁, -, hq, hdesc⟩ := exists_descent_subgroup (ℓ := 2) (r := p) hp2.symm
     (isAlgebraic_zmod_algebraicClosure_of_finite K 2) hA hAfin ∅ hM
-  haveI : Finite K₁ := hK₁
+  have : Finite K₁ := hK₁
   set ι := K₁.subtype
   have hA₁C : A.comap (baseChangeGL ι) ≤ adjointGroup τ K₁ := comap_le_adjointGroup ι hdesc
   have hcomm₁ : ∀ x ∈ A.comap (baseChangeGL ι), ∀ y ∈ A.comap (baseChangeGL ι),

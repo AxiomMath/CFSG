@@ -21,7 +21,7 @@ theorem ggQ2n_stdPair_le_G0 {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInp
   obtain ⟨hcfg, -, -, -, -⟩ := hHyp
   obtain ⟨hI, hBstar, hStdSub⟩ := hcfg
   have hp' : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp'⟩
+  have : Fact p.Prime := ⟨hp'⟩
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
   have hxBs : x ∈ Bs := hBstar.1 hS.2.1
   have hx1 : x ≠ 1 := hS.2.2.1
@@ -86,7 +86,7 @@ theorem ggQ2n_stdPair_le_G0 {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInp
       exact (hxZ.resolve_left hzw) htriv'
 
 private theorem ggQ2nC_hxZ {G : Type} [Group G] [Finite G] {p : ℕ} {B : Subgroup G}
-    {x u g : G} {X : Subgroup G} (hp : p.Prime) (hx1 : x ≠ 1) (hxp : x ^ p = 1)
+    {x u g : G} {X : Subgroup G} (hp : p.Prime) (hx1 : x ≠ 1) (_hxp : x ^ p = 1)
     (hgup : (g * u * g⁻¹) ^ p = 1)
     (hZ : ∀ b ∈ B, ⁅X, Subgroup.zpowers b⁆ ≤ LargeEvenPPrimeCoreOf p X →
       b ∈ Subgroup.zpowers u) (hxb : g⁻¹ * x * g ∈ B) :

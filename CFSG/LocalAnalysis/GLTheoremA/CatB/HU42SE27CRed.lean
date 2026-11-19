@@ -16,7 +16,7 @@ theorem u4Split_of_centSplitOn {G : Type} [Group G] [Finite G] (h : CentSplitOn 
     (hs : orderOf s = 3) {K : Subgroup G} (hK : K ≤ Subgroup.centralizer ({s} : Set G))
     (hKperf : Group.IsPerfect ↥K) (hU4 : HasU4Quot K) : U4Split s K := by
   obtain ⟨Y, Ygrp, hYcat, f, hf⟩ := hU4
-  letI : Group Y := Ygrp
+  let : Group Y := Ygrp
   have hYcard : Nat.card Y = 25920 := card_of_catalogIs_u4two hYcat
   have hdvd : Nat.card Y ∣ Nat.card ↥K := Subgroup.card_dvd_of_surjective hf
   have h5K : 5 ∣ Nat.card ↥K := dvd_trans (by rw [hYcard]; norm_num) hdvd
@@ -115,7 +115,7 @@ theorem CentShapeOn.of_mulEquiv {G G' : Type} [Group G] [Group G'] (e : G ≃* G
   let ψ : ↥K ≃* ↥K' := (e.subgroupMap K).trans (MulEquiv.subgroupCongr hmap)
   have hU4 : HasU4Quot K := by
     obtain ⟨Y, Ygrp, hY, f, hf⟩ := hU4'
-    letI : Group Y := Ygrp
+    let : Group Y := Ygrp
     exact ⟨Y, Ygrp, hY, f.comp (ψ : ↥K →* ↥K'), hf.comp ψ.surjective⟩
   obtain ⟨hsK, hnorm, hgen, hZ⟩ := h s hord K hK hperf hU4
   have hsymm_cent : ∀ g' : G', g' ∈ Subgroup.centralizer ({s'} : Set G') →

@@ -248,6 +248,7 @@ private theorem conj_commutatorPreimage (h34 : Stroth34Statement)
     rwa [hv']
   exact Subgroup.eq_of_le_of_card_ge hsub (by rw [card_conjSubgroup])
 
+omit [Finite G] in
 private theorem commutatorPreimage_ne_Z (hc : Ctx M Q Z B) {t : G} {T : Subgroup G}
     (hK5 : Sec97K5 M Q Z B hc t T) {τ : G} (hτT : τ ∈ T) (hτZ : τ ∉ Z) {A : Subgroup G}
     (hA : ∀ v, v ∈ A ↔ ∃ g ∈ hc.CN t, v * ⁅g, τ⁆⁻¹ ∈ Z) :

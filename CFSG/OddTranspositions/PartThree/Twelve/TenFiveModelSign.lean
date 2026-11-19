@@ -25,7 +25,7 @@ theorem detSpinorNorm_mem_closure_pair {k : ℕ} (ε π : Bool)
   · intro r hr
     obtain ⟨v, hv, hsign, rfl⟩ := exists_eq_fiveReflOf hr
     have hQv : fiveQ k ε v ≠ 0 := by rwa [fiveQ_apply]
-    letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
+    let : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
     have hsub : (⟨fiveGLIso k (fiveReflOf k ε v),
         fiveGLIso_mem_orthogonalGroup_of_mem (Subgroup.subset_closure hr)⟩ :
         TauCeti.QuadraticMap.orthogonalGroup (fiveQ k ε)) = reflO k ε v := by
@@ -81,7 +81,7 @@ theorem detSpinorNorm_mem_closure_pair {k : ℕ} (ε π : Bool)
     rw [hdet, map_inv]
     exact Subgroup.inv_mem _ ihx
 
-theorem fiveReflOf_not_mem_fiveReflectionGroup {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
+theorem fiveReflOf_not_mem_fiveReflectionGroup {k : ℕ} (_hk : 4 ≤ k) (ε π : Bool)
     {v : Fin (k + 1) → ZMod 5} (hv : fiveForm k ε v v ≠ 0)
     (hsign : IsSquare (fiveForm k ε v v) ↔ (!π) = true) :
     fiveReflOf k ε v ∉ fiveReflectionGroup k ε π := by
@@ -99,7 +99,7 @@ theorem fiveReflOf_not_mem_fiveReflectionGroup {k : ℕ} (hk : 4 ≤ k) (ε π :
         exact squareClassHom_mul_self _
   have hmemH := detSpinorNorm_mem_closure_pair (k := k) ε π hmem
   have hQv : fiveQ k ε v ≠ 0 := by rwa [fiveQ_apply]
-  letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
+  let : Invertible (fiveQ k ε v) := invertibleOfNonzero hQv
   have hsub : (⟨fiveGLIso k (fiveReflOf k ε v),
       fiveGLIso_mem_orthogonalGroup_of_mem hmem⟩ :
       TauCeti.QuadraticMap.orthogonalGroup (fiveQ k ε)) = reflO k ε v := by

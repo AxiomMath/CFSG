@@ -10,7 +10,7 @@ public section
 namespace CFSG.OddStandard.SmallF3.Omega
 
 theorem sec5pe8_small {Y : Type} [Group Y] [Finite Y] (P : Sylow 2 Y)
-    (hP : Nonempty (↥P ≃* DihedralGroup 4))
+    (_hP : Nonempty (↥P ≃* DihedralGroup 4))
     (hshape : (P : Subgroup Y) = ⊤ ∨ Nonempty (Y ≃* alternatingGroup (Fin 7)) ∨
       Nonempty (Y ≃* Equiv.Perm (Fin 4)))
     (κ : MulAut Y) (hodd : Odd (orderOf κ)) (hfix : ∀ x ∈ (P : Subgroup Y), κ x = x) :

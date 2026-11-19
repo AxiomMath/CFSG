@@ -33,7 +33,7 @@ theorem A2Cfg.normalizer_Z_le_normalizer_K0 (h36 : A36ForSQTK)
   rw [← hM'eq]
   exact hle
 
-theorem A2Cfg.TC_le_kerAct_K0 (c : A2Cfg G T M L D H K q) :
+theorem A2Cfg.TC_le_kerAct_K0 (_c : A2Cfg G T M L D H K q) :
     a2TC K T ≤ kerAct (a2K0 K T) := by
   intro x hx
   have hG2N : a2G2 K T ≤ Subgroup.normalizer (a2K0 K T : Set G) :=

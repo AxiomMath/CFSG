@@ -254,7 +254,7 @@ theorem u3_aut_data (h : UnitaryFieldData 2 n K) (hn : 2 ≤ n) (α : MulAut (hy
       (c • eOne K) i := by
     intro i
     rw [← hBe]
-    simp [eOne, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Pi.single_apply]
+    simp [eOne, Matrix.mulVec, dotProduct, Pi.single_apply]
   have hwe : (B : Matrix (HypIndex 1 1) (HypIndex 1 1) K) (.inr (.inl 0)) (.inl 0) = 0 := by
     rw [hcol]; simp [eOne]
   have hfe : (B : Matrix (HypIndex 1 1) (HypIndex 1 1) K) (.inr (.inr 0)) (.inl 0) = 0 := by
@@ -336,7 +336,7 @@ theorem u3_aut_E (h : UnitaryFieldData 2 n K) (hn : 2 ≤ n) (α : MulAut (hypSU
     (hα : (hypUnitriangular h 1 1).map α.toMonoidHom = hypUnitriangular h 1 1) :
     ∃ j : ℕ, ∀ b ∈ Subgroup.normalizer (hypUnitriangular h 1 1 : Set (hypSU h 1 1)),
       α b * (b ^ 2 ^ j)⁻¹ ∈ hypUnitriangular h 1 1 := by
-  haveI := u3_isPerfect_hypSU h hn
+  have := u3_isPerfect_hypSU h hn
   have hZ := u3_hypScalars_eq_center h hn
   have hmap : (hypScalars h 1 1).map α.toMonoidHom = hypScalars h 1 1 := by
     rw [hZ]
@@ -357,7 +357,7 @@ theorem u3_aut_E (h : UnitaryFieldData 2 n K) (hn : 2 ≤ n) (α : MulAut (hypSU
         simp
       map_mul' := fun g g' => by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, map_mul, Units.val_mul]
+        simp only [Subgroup.coe_mul, map_mul]
         group }
   have hφ : α.toMonoidHom = φ₂ := by
     apply bt_eq_of_inv_mul_mem_center

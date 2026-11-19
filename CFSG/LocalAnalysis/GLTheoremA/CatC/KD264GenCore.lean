@@ -19,6 +19,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.KD264
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem psiImage_comap {T : Type} [Group T] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hZT : Subgroup.center T = ⊥) (hin : InnerAt p T)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* T) (B : Subgroup Y)
@@ -50,7 +51,7 @@ theorem kd264_gen_core {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Prime) 
     ∃ E : Subgroup Y, E ≤ B ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 3 ∧
       GLAPLayer p (K ⊓ Subgroup.centralizer (E : Set Y)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB' : ∀ b ∈ B, b ^ p = 1 := fun b hb => hB.2 b hb
   have hZ : Subgroup.center ↥K = ⊥ := by
     have h := Subgroup.map_center_eq e.symm

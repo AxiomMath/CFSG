@@ -84,8 +84,7 @@ theorem exists_eq_tOne_pow_of_isDiag {lam : K} (hlamn : h.bar lam * lam = 1)
   fin_cases i
   · simp only [Fin.zero_eta, Matrix.diag, Pi.pow_apply, dOne, Matrix.cons_val_zero]
     rw [h00, ← hj, inv_pow, ← pow_mul, ← pow_mul, mul_comm]
-  · simp only [Fin.mk_one, Matrix.diag, Pi.pow_apply, dOne, Matrix.cons_val_one,
-      Matrix.head_cons]
+  · simp only [Fin.mk_one, Matrix.diag, Pi.pow_apply, dOne, Matrix.cons_val_one]
     exact hj.symm
   · simp only [Fin.reduceFinMk, Matrix.diag, Pi.pow_apply, dOne, Matrix.cons_val_two,
       Matrix.tail_cons, Matrix.head_cons]
@@ -96,7 +95,7 @@ theorem uU_ne_one (h2 : (2 : K) ≠ 0) : uU h ≠ 1 := by
   intro h1
   have e := congrArg (fun g : SG h => ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 1) h1
   simp only [uU, coe_diagU, diagonal_apply_eq, Subgroup.coe_one, Units.val_one,
-    one_apply_eq, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero] at e
+    one_apply_eq, Matrix.cons_val_one, Matrix.cons_val_zero] at e
   apply h2
   linear_combination -e
 
@@ -155,7 +154,7 @@ theorem glaPLayer_blockZ_ne_bot (hK0 : Nat.card (semilinearFixedSubfield σ) = (
       fin_cases i <;> fin_cases j <;> simp [swapMat]
   have hdvd : p ∣ Nat.card (↥(blockZ h hbar) ⧸ Subgroup.center ↥(blockZ h hbar)) :=
     CFSG.LocalAnalysis.GLTheoremA.H81.LinA3.dvd_card_quotient_center_of_not_commute hp hx hy
-      (diagU_blk_pow hp hp2 hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
+      (diagU_blk_pow hp hζ hζn) (diagU_blk_mul_swapBlk_ne hp hp2 hζ hζn)
   have hN : ((blockZ h hbar).subgroupOf (blockZ h hbar)).Normal := by
     rw [Subgroup.subgroupOf_self]
     infer_instance
@@ -179,7 +178,7 @@ theorem z3Data_std (hℓ : ℓ ≠ 2) (hK : Nat.card K = (ℓ ^ f) ^ 2) {σ : K 
         γ = fieldUHom h σ ^ k * MulAut.conj s) :
     Z3Data 3 (SG h) E := by
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp3⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp3⟩
   have hq5 : 5 ≤ ℓ ^ f := hq0.trans (by rw [hq]; exact Nat.le_self_pow (by norm_num) _)
   set t := tOne h hlamn with htdef
   have hlam0 : lam ≠ 0 := ne_zero_of_norm hlamn

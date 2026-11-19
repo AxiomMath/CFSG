@@ -18,6 +18,7 @@ variable {Ω : Type} [Field Ω] [CharP Ω 2]
 
 namespace TwE6B
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_centralizer_pair {Fr : Ω →+* Ω} {ω : Ωˣ} :
     twE6Block Fr ≤ Subgroup.centralizer
       ({eBar (Ω := Ω) ω, fBar (Ω := Ω) ω} : Set (ModGL Tag.E6 Ω)) := by

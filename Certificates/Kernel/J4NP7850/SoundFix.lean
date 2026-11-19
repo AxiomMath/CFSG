@@ -60,11 +60,11 @@ theorem idxP_bit (P : List Nat) (z : Nat) :
   | n + 1, i => by
     rw [xsum_succ, Nat.testBit_xor, idxP_bit P z n i]
     rcases Nat.lt_trichotomy i n with h | rfl | h
-    · split <;> simp [h, Nat.lt_succ_of_lt h, Nat.testBit_two_pow, Nat.ne_of_gt h]
-    · split <;> simp_all [Nat.testBit_two_pow]
+    · split <;> simp [h, Nat.lt_succ_of_lt h, Nat.ne_of_gt h]
+    · split <;> simp_all
     · have h1 : ¬ i < n := by omega
       have h2 : ¬ i < n + 1 := by omega
-      split <;> simp [h1, h2, Nat.testBit_two_pow, Nat.ne_of_lt h]
+      split <;> simp [h1, h2, Nat.ne_of_lt h]
 
 theorem idxP_lt (P : List Nat) (z : Nat) : idxP P z < 2 ^ 6 := by
   apply Nat.lt_pow_two_of_testBit

@@ -35,28 +35,28 @@ private def p9u5a_tup (n : ℕ) (s : Fin n → Fˣ) : Fin (n + 3) → Fˣ :=
 private lemma p9u5a_tup_mid (n : ℕ) (s : Fin n → Fˣ) (k : Fin n) :
     p9u5a_tup n s ⟨k.val, by omega⟩ = s k := by
   unfold p9u5a_tup
-  rw [dif_pos k.2]
+  rw [dite_eq_left k.2]
 
 private lemma p9u5a_tup_P (n : ℕ) (s : Fin n → Fˣ) :
     p9u5a_tup n s ⟨n, by omega⟩ = ∏ i, s i := by
   unfold p9u5a_tup
-  simp only [Fin.val_mk]
-  rw [dif_neg (by omega : ¬ (n < n))]
+  simp only
+  rw [dite_eq_right (by omega : ¬ (n < n))]
   simp
 
 private lemma p9u5a_tup_P' (n : ℕ) (s : Fin n → Fˣ) :
     p9u5a_tup n s ⟨n + 1, by omega⟩ = ∏ i, s i := by
   unfold p9u5a_tup
-  simp only [Fin.val_mk]
-  rw [dif_neg (by omega : ¬ (n + 1 < n)), if_neg (by omega : ¬ (n + 1 = n))]
+  simp only
+  rw [dite_eq_right (by omega : ¬ (n + 1 < n)), ite_eq_right (by omega : ¬ (n + 1 = n))]
   simp
 
 private lemma p9u5a_tup_last (n : ℕ) (s : Fin n → Fˣ) :
     p9u5a_tup n s ⟨n + 2, by omega⟩ = 1 := by
   unfold p9u5a_tup
-  simp only [Fin.val_mk]
-  rw [dif_neg (by omega : ¬ (n + 2 < n)), if_neg (by omega : ¬ (n + 2 = n)),
-    if_neg (by omega : ¬ (n + 2 = n + 1))]
+  simp only
+  rw [dite_eq_right (by omega : ¬ (n + 2 < n)), ite_eq_right (by omega : ¬ (n + 2 = n)),
+    ite_eq_right (by omega : ¬ (n + 2 = n + 1))]
 
 private lemma p9u5a_tup_prod (hF : Nat.card F = 4) (n : ℕ) (s : Fin n → Fˣ) :
     ∏ j : Fin (n + 3), p9u5a_tup n s j = 1 := by
@@ -248,7 +248,7 @@ theorem swap_not_scalar (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m) :
     have h'' : m - 3 = m - 3 + 1 := congrArg Fin.val h'
     omega
   have hentry := congrFun (congrFun h2 (p9u5a_i0 hm)) (p9u5a_i1 hm)
-  rw [p9u5a_permMatrix_apply, if_pos (Equiv.swap_apply_left _ _),
+  rw [p9u5a_permMatrix_apply, ite_eq_left (Equiv.swap_apply_left _ _),
     Matrix.diagonal_apply_ne _ hij] at hentry
   exact one_ne_zero hentry
 

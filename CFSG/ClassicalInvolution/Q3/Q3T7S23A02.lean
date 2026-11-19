@@ -413,13 +413,13 @@ theorem exists_decomp
     Q3CL.Thompson.mem_DSet_of_le_sylow hΩ hd.hW hWS (mem_RSet_of_isSylow2In hKΩ hR) hRS
   have hR'D : R' ∈ DSet Ω W :=
     Q3CL.Thompson.mem_DSet_of_le_sylow hΩ hd.hW hWS (mem_RSet_of_isSylow2In hK'Ω hR') hR'S
-  have h2 : IsPGroup 2 ↥(R ⊔ R') := (Sylow.isPGroup' S).to_le (sup_le hRS hR'S)
+  have h2 : IsPGroup 2 ↥(R ⊔ R') := (Sylow.isPGroup S).to_le (sup_le hRS hR'S)
   have hc : Commutes R R' :=
     hΩ.commutes_of_twin_of_isPGroup hKΩ hK'Ω hs.hne.symm hzK hzK' hR.1 hR'.1 h2
   have hQ : IsSylow2In (R ⊔ R') (K ⊔ K') :=
     Q3T8.Asc77.T7A.isSylow2In_sup_of_twin hΩ hKΩ hK'Ω hs.hne hzK hzK' hR hR' hc
 
-  have hS2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := (Sylow.isPGroup' S).to_le inf_le_left
+  have hS2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := (Sylow.isPGroup S).to_le inf_le_left
   have heq : (S : Subgroup G) ⊓ (K ⊔ K') = R ⊔ R' :=
     hQ.eq_of_le hS2 inf_le_right (le_inf (sup_le hRS hR'S) hQ.1)
   have huRR' : u ∈ R ⊔ R' := by

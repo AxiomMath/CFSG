@@ -63,7 +63,7 @@ theorem GGSecFiveE6QTwoCfg.prime_eq_three
       simpa [mul_assoc] using h'
     exact Subtype.ext h2
   have hb0p : b0 ^ p = 1 := hElem.2 b0 hb0mem
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf b0 = p := orderOf_eq_prime hb0p hb0ne
   have hrr : ∀ y : ↥Bs, r (r y) = y := by
     intro y
@@ -93,7 +93,7 @@ theorem GGSecFiveE6QTwoCfg.prime_eq_three
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hb0N
   have ha1 : ∀ y : ↥Bs, ((((1 : MulAut ↥Bs)) y : ↥Bs) : G) = b0 * y * b0⁻¹ := by
     intro y
-    simp only [MulAut.one_apply, Subgroup.coe_subtype]
+    simp only [MulAut.one_apply]
     rw [CFSG.Open.IsElemAbelian.comm hElem hb0mem y.2]
     group
   have hconj := ggRankOneIn_map_conj (X := L) (g := b0) (a := 1) ha1 r

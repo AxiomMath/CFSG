@@ -25,7 +25,7 @@ theorem perfect_star_K {F : Frame126 T L V} (h918 : HypF918 T V L F.V1 F.V5 H K)
   Group.isPerfect_def.mpr (S126P31.commutator_eq_top_of_perfect
     (perfect_of_mem_cComp (L1233.star_mem_cComp h918.K_cComp)))
 
-theorem permData_exists (T L V : Subgroup G) [IsMulCommutative ↥V] (F : Frame126 T L V)
+theorem permData_exists (T L V : Subgroup G) [IsMulCommutative ↥V] (_F : Frame126 T L V)
     (hH : Hyp126 G T L V) (hTH : T ≤ H) (hQT : pCoreOf 2 H ≤ T)
     (hD : PermData (star H T) (star H (Subgroup.normalizer (L : Set G) ⊓ H)) (star H (T ⊓ L))) :
     ∃ P : Subgroup G, P ≤ L ∧ ∃ p : ℕ, p.Prime ∧ 3 < p ∧ P ≠ ⊥ ∧ IsPGroup p ↥P ∧

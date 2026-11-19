@@ -231,6 +231,7 @@ private theorem le_normalizer_hOf_of_le_centralizer
   rw [hH₁eq]
   exact h3
 
+omit [Finite G] in
 private theorem commutator_eq_bot_of_mem_centralizer_xOf
     {M V V₁ H₁ : Subgroup G} {g x v₀ : G}
     (hR : RootHyp M V) (hv₀V : v₀ ∈ V) (hv₀1 : v₀ ≠ 1)
@@ -323,7 +324,7 @@ private theorem conjSubgroup_xV_ne_conjSubgroup_hV
     have h1 : β ∈ conjSubgroup x (conjSubgroup g V) := by rw [heq]; exact hβU'
     exact conjSubgroup_le_xOf_of_mem hxH₁ h1
   have hβCW : β ∈ Subgroup.centralizer (Tim79a.xOf (conjSubgroup g V) H₁ : Set G) := by
-    haveI : IsMulCommutative ↥(Tim79a.xOf (conjSubgroup g V) H₁) :=
+    have : IsMulCommutative ↥(Tim79a.xOf (conjSubgroup g V) H₁) :=
       (hSh₁.isElemAbelian hS₁.toRootHyp).1
     exact Subgroup.le_centralizer _ hβW
   have hβCU : β ∈ Subgroup.centralizer (conjSubgroup g V : Set G) :=
@@ -499,6 +500,7 @@ private theorem exists_involution_mem_conjSubgroup_not_conj_eq (hS : Sec5Hyp M V
     intro b hb
     exact hcomm b hb a ha
 
+omit [Finite G] in
 private theorem imgK_conjSubgroup_eq_of_sylow_fixed
     {V H P : Subgroup G} {b x : G}
     (hbH : b ∈ Subgroup.normalizer (H : Set G))
@@ -750,6 +752,7 @@ private theorem shape_of_conjSubgroup
     (mem_sigmaSet_iff (hS.conj g).toRootHyp.toHyp).mpr hH₁mem
   exact (hS.conj g).shape hβSig₁
 
+omit [Finite G] in
 private theorem hBarConj_mul_self_eq_one
     {V₁ H₁ : Subgroup G} {β : G} (hβsq : β * β = 1)
     (hβH' : β ∈ Subgroup.normalizer (H₁ : Set G))
@@ -758,8 +761,9 @@ private theorem hBarConj_mul_self_eq_one
   rw [← hBarConj_mul hβH' hβK₁ hβH' hβK₁, hBarConj_eq_one_iff]
   intro z hz
   rw [hβsq]
-  simpa using (kOf V₁ H₁).one_mem
+  simp
 
+omit [Finite G] in
 private theorem exists_mem_conj_Pc_of_sylow_image
     {M₁ V₁ H₁ : Subgroup G} {x β : G}
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V₁ H₁ ≃* SL(2, F))
@@ -769,7 +773,7 @@ private theorem exists_mem_conj_Pc_of_sylow_image
     {S : Subgroup SL(2, F)} {s : SL(2, F)} (hsS : s ∈ S)
     (hSx : S = (imgK V₁ H₁ (conjSubgroup x (Pc M₁ V₁))).map ψ.toMonoidHom)
     (hsθ : MulAut.congr ψ (hBarConj hβH' hβK₁) = MulAut.conj s) :
-    ∃ (e : G) (heP : e ∈ conjSubgroup x (Pc M₁ V₁)) (heH : e ∈ H₁),
+    ∃ (e : G) (_heP : e ∈ conjSubgroup x (Pc M₁ V₁)) (heH : e ∈ H₁),
       ψ (piK V₁ H₁ ⟨e, heH⟩) = s ∧
       hBarConj hβH' hβK₁ =
         hBarConj (Subgroup.le_normalizer heH) (le_normalizer_kOf V₁ H₁ heH) := by
@@ -777,8 +781,8 @@ private theorem exists_mem_conj_Pc_of_sylow_image
   obtain ⟨y₀, hy₀img, hy₀ψ⟩ := Subgroup.mem_map.mp hsS
   obtain ⟨e₀, he₀P, he₀pi⟩ := (mem_imgK_iff).mp hy₀img
   let e : G := (e₀ : G)
-  have heP : e ∈ conjSubgroup x (Pc M₁ V₁) := he₀P
-  have heH : e ∈ H₁ := conjSubgroup_le_of_le_of_mem hSh₁.Pc_le hxH₁ heP
+  have _heP : e ∈ conjSubgroup x (Pc M₁ V₁) := he₀P
+  have heH : e ∈ H₁ := conjSubgroup_le_of_le_of_mem hSh₁.Pc_le hxH₁ _heP
   have heq₀ : (⟨e, heH⟩ : ↥H₁) = e₀ := Subtype.ext rfl
   have hpi : ψ (piK V₁ H₁ ⟨e, heH⟩) = s := by
     rw [heq₀, he₀pi]
@@ -787,7 +791,7 @@ private theorem exists_mem_conj_Pc_of_sylow_image
       MulAut.congr ψ (hBarConj (Subgroup.le_normalizer heH)
         (le_normalizer_kOf V₁ H₁ heH)) := by
     rw [hsθ, hBarConj_of_mem heH, CFSG.mulAut_congr_conj, hpi]
-  exact ⟨e, heP, heH, hpi, (MulAut.congr ψ).injective hθe⟩
+  exact ⟨e, _heP, heH, hpi, (MulAut.congr ψ).injective hθe⟩
 
 private theorem exists_conj_mul_eq_of_hBarConj_eq_one
     {M V M₁ V₁ H₁ : Subgroup G} {g x β e : G}
@@ -1117,9 +1121,9 @@ private theorem core (hS : Sec5Hyp M V)
     exists_normalizer_and_centralizer hS hS₁ hSh₁ hUg hUh hβU' hβsq hβne hH₁eq
 
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSh₁.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   obtain ⟨S, x, hxH₁, hSx, hβxV, root_comm, hcommVx, hcase⟩ :=
     exists_sylow_data_of_shape ψ hR hS₁ hSh₁ hβU' hβ1 hβsq hβH' hβK₁ hβH₁
   rcases hcase with hinner | ⟨S', hS'exp, hS'card, hS'ne, hS'fix⟩

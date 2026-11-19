@@ -30,7 +30,7 @@ theorem of_normal {Y : Type} [Group Y] (A : Subgroup Y) [A.Normal] (hA : NoSocle
 theorem of_commute {Y : Type} [Group Y] [Finite Y] (h : ∀ a b : Y, a * b = b * a) :
     NoSocle185Factor Y := by
   intro T _ hT hcf
-  haveI := isCompositionFactor_finite hcf
+  have := isCompositionFactor_finite hcf
   obtain ⟨a, b, hab⟩ := hT.exists_not_commute
   exact hab (isCompositionFactor_commute h hcf a b)
 
@@ -40,11 +40,11 @@ theorem of_commutator {Y : Type} [Group Y] [Finite Y] (h : NoSocle185Factor ↥(
 
 theorem of_index_two {Y : Type} [Group Y] [Finite Y] (A : Subgroup Y) (hidx : A.index = 2)
     (hA : NoSocle185Factor ↥A) : NoSocle185Factor Y := by
-  haveI : A.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : A.Normal := Subgroup.normal_of_index_eq_two hidx
   refine of_normal A hA (of_commute ?_)
-  haveI : Fact (Nat.card (Y ⧸ A)).Prime :=
+  have : Fact (Nat.card (Y ⧸ A)).Prime :=
     ⟨by rw [← Subgroup.index_eq_card, hidx]; exact Nat.prime_two⟩
-  haveI : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
+  have : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
   exact fun a b => (IsCyclic.commGroup (α := Y ⧸ A)).mul_comm a b
 
 theorem of_not_dvd {Y : Type} [Group Y] [Finite Y]
@@ -60,7 +60,7 @@ end NoSocle185Factor
 
 private theorem odd_natCard_fusionOddCore' (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold fusionOddCore CFSG.pPrimeCore
     congr 1

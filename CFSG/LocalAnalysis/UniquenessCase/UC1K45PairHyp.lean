@@ -19,7 +19,7 @@ theorem quaternionGroup_two_not_isMulCommutative :
   simp only [QuaternionGroup.a_mul_xa, QuaternionGroup.xa_mul_a] at hc
   exact absurd (QuaternionGroup.xa.inj hc) (by decide)
 
-theorem uc45_T_le_ZX_of_le_wker (c : Pre45 p G D) (hle : D ≤ Wker G) :
+theorem uc45_T_le_ZX_of_le_wker (_c : Pre45 p G D) (hle : D ≤ Wker G) :
     Tof G D ≤ ZXof G := by
   show ⁅Xof G, D⁆ ≤ ZXof G
   refine Subgroup.commutator_le.mpr fun x hx d hd => ?_
@@ -124,6 +124,7 @@ theorem uc45_card_D_map (c : Pre45 p G D) :
     exact (by decide : (1 : ℕ) ≠ 3) hc3
   · exact h3
 
+omit [Finite G] in
 theorem uc45_map_conj_zpowers (d g : G) :
     (Subgroup.zpowers d).map (MulAut.conj g).toMonoidHom =
       Subgroup.zpowers (g * d * g⁻¹) := by
@@ -133,7 +134,7 @@ theorem uc45_map_conj_zpowers (d g : G) :
 theorem uc45_center_Xof_isCyclic (c : Pre45 p G D) :
     IsCyclic ↥(Subgroup.center ↥(Xof G)) := by
   have hcycZX : IsCyclic ↥(ZXof G) := by
-    haveI : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
+    have : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
     exact Subgroup.isCyclic_of_le c.ZX_le
   exact ((Subgroup.equivMapOfInjective (Subgroup.center ↥(Xof G)) (Xof G).subtype
     (Xof G).subtype_injective).isCyclic).mpr hcycZX
@@ -147,6 +148,7 @@ theorem uc45_orderOf_mk_of_zpowers (c : Pre45 p G D) {d : G}
     rfl
   rw [← Nat.card_zpowers, ← hdmap, uc45_card_D_map c]
 
+omit [Finite G] in
 theorem uc45_orderOf_mk_conj {x : G} (g : G)
     (hx : orderOf (QuotientGroup.mk x : G ⧸ Wker G) = 3) :
     orderOf (QuotientGroup.mk (g * x * g⁻¹) : G ⧸ Wker G) = 3 := by
@@ -188,7 +190,7 @@ theorem uc45_card_commutator_zpowers_conj (c : Pre45 p G D) {d : G}
     simp only [Subgroup.map_sup, hZXmap]
   rw [hsup, Subgroup.card_map_of_injective (MulAut.conj g).injective, uc45_card_TZ c]
 
-theorem uc45_sup_map_conj (c : Pre45 p G D) {d : G} (hd : Subgroup.zpowers d = D) (g : G) :
+theorem uc45_sup_map_conj (_c : Pre45 p G D) {d : G} (hd : Subgroup.zpowers d = D) (g : G) :
     D ⊔ D.map (MulAut.conj g).toMonoidHom =
       Subgroup.closure ({d, g * d * g⁻¹} : Set G) := by
   rw [← hd, uc45_map_conj_zpowers d g, Subgroup.zpowers_eq_closure,
@@ -199,7 +201,7 @@ theorem uc45_pair_shape (hPair : PairX) (c : Pre45 p G D) (N : Subgroup G) [N.No
     (hN : N = Wker G) (g : G) :
     Z3E9A5Mod2 ((D ⊔ D.map (MulAut.conj g).toMonoidHom).map (QuotientGroup.mk' N)) := by
   subst hN
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   obtain ⟨d, hd⟩ :=
     (Subgroup.isCyclic_iff_exists_zpowers_eq_top D).mp (isCyclic_of_prime_card c.card_three)
   have hdtri : orderOf (QuotientGroup.mk d : G ⧸ Wker G) = 3 :=

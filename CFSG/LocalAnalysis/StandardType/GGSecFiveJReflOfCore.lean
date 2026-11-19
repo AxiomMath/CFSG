@@ -64,7 +64,7 @@ theorem s2jn_exists_weylAction_of_mem_roots
     ∃ (w : (coxeterMatrix D.isFiniteType).Group) (i : Fin D.rank),
       γ = weylAction D.isFiniteType w (Pi.single i 1) := by
   change γ ∈ roots D.isFiniteType D.divisible at hγ
-  rw [roots, Set.mem_union, Set.mem_setOf_eq, Set.mem_setOf_eq] at hγ
+  rw [roots, Set.mem_union, Set.mem_ofPred_eq, Set.mem_ofPred_eq] at hγ
   rcases hγ with ⟨w, i, rfl⟩ | ⟨w, i, hi, rfl⟩
   · exact ⟨w, i, rfl⟩
   · rw [hdiv] at hi
@@ -126,7 +126,7 @@ theorem s2jn_ggSecFiveJReflInput'_of_core
     hC.2.2.1.2.2.2.2.2.1
   have hloc' := hloc
   obtain ⟨⟨hp, hp2, hadm, h3t⟩, ⟨hker, hrange, ht, hpf⟩, -, -⟩ := hloc
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hxp : x ^ p = 1 := hDel.2 x hDx
   have hz : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers]; exact orderOf_eq_prime hxp hxne

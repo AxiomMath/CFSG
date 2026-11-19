@@ -17,9 +17,10 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r8100b_eq_one_of_mem_pCore {M : Subgroup G} {x : ↥M} (hx : x ∈ CFSG.pCore 2 ↥M)
     {k : ℕ} (hk : Odd k) (hxk : x ^ k = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)) ⟨x, hx⟩
   have h1 : x ^ 2 ^ j = 1 := congrArg Subtype.val hj
   have hc : Nat.Coprime (2 ^ j) k := (Nat.coprime_two_left.2 hk).pow_left j
@@ -28,6 +29,7 @@ theorem uc22r8100b_eq_one_of_mem_pCore {M : Subgroup G} {x : ↥M} (hx : x ∈ C
   rw [hc.gcd_eq_one] at h2
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h2)
 
+omit [Finite G] in
 theorem uc22r8100b_barImage_le_normalizer {M P Q : Subgroup G} (h : P ≤ normalizer (Q : Set G)) :
     barImage M P ≤ normalizer (barImage M Q : Set (Bar2 M)) := by
   have key : ∀ x : ↥M, (x : G) ∈ P → ∀ z ∈ barImage M Q,
@@ -42,6 +44,7 @@ theorem uc22r8100b_barImage_le_normalizer {M P Q : Subgroup G} (h : P ≤ normal
   have h1 := key x⁻¹ (P.inv_mem hx) _ hz
   simpa [map_inv, mul_assoc] using h1
 
+omit [Finite G] in
 theorem uc22r8100b_comm_mem_pCoreOf {M : Subgroup G} {x k : ↥M}
     (h : QuotientGroup.mk' (CFSG.pCore 2 ↥M) x * QuotientGroup.mk' (CFSG.pCore 2 ↥M) k =
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) k * QuotientGroup.mk' (CFSG.pCore 2 ↥M) x) :
@@ -60,8 +63,8 @@ theorem uc22r8100b_exists_comm_lift {M K₁ K₂ A₀ : Subgroup G} {n m p q : �
     (ha₁o : orderOf a₁ = q) (ha₂o : orderOf a₂ = q) :
     ∃ A : Subgroup G, A ≤ M ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       ∀ e ∈ zpowers a₁ ⊔ zpowers a₂, ∀ a ∈ A, e * a * e⁻¹ * a⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hpo : Odd p := hp.odd_of_ne_two hp2
   have hqo : Odd q := hq.odd_of_ne_two hq2
   have hK₁M : K₁ ≤ M := uc22p22a_le_of_isSubnormal h₁.1

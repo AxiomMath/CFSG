@@ -85,7 +85,7 @@ theorem two_mul_card_subfieldFixedGroup_dvd (Q₀ : QuadraticForm k (Fin d → k
     rw [MonoidHom.mem_ker]
     apply Units.ext
     have h3 := congrArg (fun u : Kˣ => (u : K)) h1
-    simp only [Units.coe_map, MonoidHom.coe_coe, Units.val_one] at h3
+    simp only [Units.coe_map, Units.val_one] at h3
     have h4 : ((Matrix.GeneralLinearGroup.det (x : GL (Fin d) k) : kˣ) : k) = 1 :=
       Subtype.ext (by simpa using h3)
     simpa [hδ] using h4

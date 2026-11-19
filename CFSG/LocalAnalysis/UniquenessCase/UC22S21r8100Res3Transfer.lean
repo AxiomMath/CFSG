@@ -22,11 +22,11 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (Conclusion76)
 variable {G : Type} [Group G] [Finite G]
 
 theorem isL2_exists_orderOf_commute {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL2 X n)
-    {r q : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrn : r ∣ 2 ^ n - 1) (hq : q.Prime)
+    {r q : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2) (hrn : r ∣ 2 ^ n - 1) (hq : q.Prime)
     (hqn : q ∣ 2 ^ n - 1) {a : X} (ha : orderOf a = r) :
     ∃ b : X, orderOf b = q ∧ a * b = b * a := by
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   let e : X ≃* SL(2, K) := e₁.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
       (CFSG.Timmesfeld.RankOne.psl2EquivSL2 K))
@@ -40,7 +40,7 @@ theorem isL2_exists_orderOf_commute {X : Type} [Group X] [Finite X] {n : ℕ} (h
     rw [hea, hK]
     exact hrn
   obtain ⟨x, μ, hμ, hx⟩ := exists_conj_eq_diagSL hea1 heaK
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(torusSL K)) q
     (by rw [card_torusSL, hK]; exact hqn)
   have hT : ∀ s ∈ torusSL K, ∀ u ∈ torusSL K, s * u = u * s := by
@@ -148,7 +148,7 @@ theorem uc22s21r8100_sp_of_lift_prime {D : Data G}
     (hSg : UC6S846.SigmaStd D) (h614 : UC6.R6_14 D) {L : Subgroup G} (hL : L ∈ calC D.M)
     (hc2 : (conjSetOf D.M L).ncard = 2) {n : ℕ}
     (hLS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) {s r : ℕ} (hs : Odd s) (hsn : s ∣ n)
-    (hr : r.Prime) (hrs : r ∣ 2 ^ s - 1) {p : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (hpr : p ≠ r)
+    (hr : r.Prime) (hrs : r ∣ 2 ^ s - 1) {p : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (_hpr : p ≠ r)
     (h76p : Conclusion76 D.M p)
     (hlift : ∀ K₁ ∈ conjSetOf D.M L, ∀ K₂ ∈ conjSetOf D.M L, K₁ ≠ K₂ →
       ∀ a₁ a₂ : G, a₁ ∈ K₁ → a₂ ∈ K₂ → orderOf a₁ = r → orderOf a₂ = r →
@@ -158,8 +158,8 @@ theorem uc22s21r8100_sp_of_lift_prime {D : Data G}
   by_contra hnot
   have hns := UC6S846.not_solvable_of_mem_calC hL
   have hrσ : r ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22ine229_ne_two hs hrs
   obtain ⟨K₁, K₂, hne, hS⟩ := Set.ncard_eq_two.1 hc2
   have h1S : K₁ ∈ conjSetOf D.M L := by

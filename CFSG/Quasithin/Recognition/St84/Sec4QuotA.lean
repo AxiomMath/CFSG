@@ -154,12 +154,12 @@ theorem isElemAbelian_Z_of_natQuot (i : ℤ) {n : ℕ}
     exact CFSG.Open.isElemAbelian_bot 2
   have hZcard : Nat.card (X.Z i) = 2 ^ (2 * n) := by
     simpa using hZ.index
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hZGi : X.Z i ≤ X.Gi i := hZ.E_le.trans (X.L_le_Gi i)
-  haveI : Finite ↥(X.Z i) :=
+  have : Finite ↥(X.Z i) :=
     Finite.of_injective (Subgroup.inclusion hZGi) (Subgroup.inclusion_injective hZGi)
   have hZ2 : IsPGroup 2 (X.Z i) := IsPGroup.of_card (n := 2 * n) hZcard
-  haveI : Fact (IsPGroup 2 ↥(X.Z i)) := ⟨hZ2⟩
+  have : Fact (IsPGroup 2 ↥(X.Z i)) := ⟨hZ2⟩
   let P : Subgroup G := (frattini ↥(X.Z i)).map (X.Z i).subtype
   have hPle : P ≤ X.Z i := Subgroup.map_subtype_le _
   have hLN : X.L i ≤ Subgroup.normalizer (X.Z i : Set G) := fun x hx => (hZ.normal hx).1
@@ -182,12 +182,12 @@ theorem isElemAbelian_Z_of_natQuot (i : ℤ) {n : ℕ}
         rw [ht']
         exact (show Subgroup.map (X.Z i).subtype (⊤ : Subgroup ↥(X.Z i)) = X.Z i from by
           simpa using Subgroup.subgroupOf_map_subtype (H := (⊤ : Subgroup G)) (K := X.Z i)).symm
-      haveI : Finite (Subgroup ↥(X.Z i)) := by infer_instance
-      haveI : Nontrivial ↥(X.Z i) := (Subgroup.nontrivial_iff_ne_bot (X.Z i)).mpr hZbot
+      have : Finite (Subgroup ↥(X.Z i)) := by infer_instance
+      have : Nontrivial ↥(X.Z i) := (Subgroup.nontrivial_iff_ne_bot (X.Z i)).mpr hZbot
       have hgen : (⊥ : Subgroup ↥(X.Z i)) ⊔ frattini ↥(X.Z i) = ⊤ := by
         rw [htop, sup_top_eq]
       exact (bot_ne_top : (⊥ : Subgroup ↥(X.Z i)) ≠ ⊤) (frattini_nongenerating hgen)
-  haveI hElem : CFSG.IsElementaryAbelian 2 ↥(X.Z i) :=
+  have hElem : CFSG.IsElementaryAbelian 2 ↥(X.Z i) :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥(X.Z i)) (p := 2)).mp hfr_bot
   exact ⟨inferInstance, fun x hx => elemPow_eq_one_of_isElementaryAbelian x hx⟩
 

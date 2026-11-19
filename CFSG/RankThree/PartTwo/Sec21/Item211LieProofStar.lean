@@ -133,7 +133,7 @@ theorem commutator_mem_oddCore (hS : A ∈ partTwoS G) (h : PairFacts A E U c L)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hθ3)
   set S' : Subgroup G := (S : Subgroup θ).map θ.subtype with hS'
   have hS'θ : S' ≤ θ := Subgroup.map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map θ.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map θ.subtype
   have hAS : ⁅S', A⁆ = ⊥ :=
     Sec6.commutator_eq_bot_of_mem_partTwoS hS h.cA h.c1 le_rfl
       (hS'θ.trans (theta_le_theta_centralizer h.Lc)) hS'2 hSA

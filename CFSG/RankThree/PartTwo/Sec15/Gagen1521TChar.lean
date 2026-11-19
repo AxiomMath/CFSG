@@ -30,8 +30,8 @@ theorem isCharacteristicP_sup_of_ext1521 {A : Subgroup G} {c : G} {L : Subgroup 
     (hprimes : ∀ r : ℕ, r.Prime → r ∣ Nat.card ↥(P ⊔ T) → r = 2 ∨ r = p) :
     IsCharacteristicP 2 ↥(P ⊔ T) ∧ T ≠ ⊥ := by
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : Late.IsE27 A := h.toSec14Std.isE27
   have hA3 : IsPGroup 3 A := hA.isPGroup
   set P₀ : Subgroup G := CFSG.Open.pCoreOf p (P ⊔ T) with hP₀def
@@ -71,7 +71,7 @@ theorem isCharacteristicP_sup_of_ext1521 {A : Subgroup G} {c : G} {L : Subgroup 
     (isPiSubgroup_piCompl_iff Nat.prime_three P).mp hPQ.1.2.1
   have hcop3P : Nat.Coprime 3 (Nat.card P) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hnot3P
-  haveI : IsMulCommutative P := hPe.1
+  have : IsMulCommutative P := hPe.1
   have hfit : ⁅P, A⁆ ⊓ Subgroup.centralizer (A : Set G) = ⊥ :=
     CFSG.SignalizerFunctorTheorem.McBride.Near.Thm35.commutator_inf_centralizer_eq_bot
       (p := 3) Nat.prime_three hA3 hPQ.1.2.2 hcop3P

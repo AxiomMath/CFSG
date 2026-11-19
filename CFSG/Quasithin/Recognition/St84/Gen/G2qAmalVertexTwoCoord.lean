@@ -68,7 +68,7 @@ private theorem quot_mul_comm (hQ2 : ∀ x ∈ Q, x ^ 2 ∈ Z) [(Z.subgroupOf Q)
 private theorem commutator_mem_of_sq (hZc : ∀ z ∈ Z, ∀ x ∈ Q, z * x = x * z)
     (hQ2 : ∀ x ∈ Q, x ^ 2 ∈ Z) {x y : G} (hx : x ∈ Q) (hy : y ∈ Q) :
     x * y * x⁻¹ * y⁻¹ ∈ Z := by
-  haveI := normal_subgroupOf_of_central hZc
+  have := normal_subgroupOf_of_central hZc
   have h := quot_mul_comm hQ2 (QuotientGroup.mk (⟨x, hx⟩ : ↥Q))
     (QuotientGroup.mk (⟨y, hy⟩ : ↥Q))
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq,
@@ -76,7 +76,7 @@ private theorem commutator_mem_of_sq (hZc : ∀ z ∈ Z, ∀ x ∈ Q, z * x = x 
   have e : x * y * x⁻¹ * y⁻¹ = (y * x) * ((x * y)⁻¹ * (y * x))⁻¹ * (y * x)⁻¹ := by group
   rw [e]
   have hc := Z.inv_mem h
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at hc
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hc
   have hyx : y * x ∈ Q := Q.mul_mem hy hx
   rw [← hZc _ hc _ hyx, mul_inv_cancel_right]
   exact hc
@@ -87,7 +87,7 @@ private theorem mk_conjOn_eq (hZQ : Z ≤ Q) {g : G} (hg : ∀ u ∈ Q, g * u * 
     (h : g * u * g⁻¹ * (u : G)⁻¹ ∈ Z) :
     (QuotientGroup.mk (conjOn Q g hg u) : ↥Q ⧸ Z.subgroupOf Q) = QuotientGroup.mk u := by
   have e : conjOn Q g hg u = ⟨g * u * g⁻¹ * (u : G)⁻¹, hZQ h⟩ * u :=
-    Subtype.ext (by simp only [coe_conjOn, Subgroup.coe_mul, Subgroup.coe_mk]; group)
+    Subtype.ext (by simp only [coe_conjOn, Subgroup.coe_mul]; group)
   rw [e, QuotientGroup.mk_mul,
     (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr h), one_mul]
 
@@ -151,7 +151,7 @@ theorem exists_radCoord_quot [Finite G] (hF : 4 ≤ Nat.card F) (hZQ : Z ≤ Q)
       ∀ u : ↥Q, (u : G) ∈ W ↔
         Multiplicative.toAdd (γ u) 1 = 0 ∧ Multiplicative.toAdd (γ u) 2 = 0 := by
   classical
-  haveI : (Z.subgroupOf Q).Normal := normal_subgroupOf_of_central hZc
+  have : (Z.subgroupOf Q).Normal := normal_subgroupOf_of_central hZc
   set N := Z.subgroupOf Q with hNdef
   obtain ⟨β₀, hβ₀surj, hβ₀ker, hβ₀eq⟩ := hnatW
   have hNβ : N ≤ β₀.ker := by
@@ -303,7 +303,7 @@ theorem exists_radCoord_quot [Finite G] (hF : 4 ≤ Nat.card F) (hZQ : Z ≤ Q)
     · intro y y' h
       have h1 := congrArg Subtype.val h
       exact Subtype.ext h1
-  haveI : Finite (Additive (↥Q ⧸ N)) := inferInstanceAs (Finite (↥Q ⧸ N))
+  have : Finite (Additive (↥Q ⧸ N)) := inferInstanceAs (Finite (↥Q ⧸ N))
   obtain ⟨γ, hγ, hγβ⟩ := @exists_o3Coord F _ _ _ hF (Additive (↥Q ⧸ N))
     { (inferInstance : AddGroup (Additive (↥Q ⧸ N))) with
       add_comm := fun a b => quot_mul_comm hQ2 (Additive.toMul a) (Additive.toMul b) }

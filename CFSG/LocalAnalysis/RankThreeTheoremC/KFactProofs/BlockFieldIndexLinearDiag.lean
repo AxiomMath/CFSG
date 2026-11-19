@@ -84,7 +84,7 @@ end Tower
 
 theorem pCentral_comap_of_mulEquiv {p : ℕ} {Γ Γ' : Type*} [Group Γ] [Group Γ'] (ψ : Γ ≃* Γ')
     {D : Subgroup Γ'} (hD : PCentral p D) : PCentral p (D.comap ψ.toMonoidHom) := by
-  haveI := hD.1
+  have := hD.1
   refine ⟨inferInstance, fun α ⟨k, hk⟩ γ => ?_⟩
   have h1 : ψ α ^ (p ^ k) ∈ D := by
     rw [← map_pow]
@@ -292,10 +292,10 @@ theorem actsInnerly_linear_of_compat {Y : Type} [Group Y] [Finite Y] {L P : Subg
 theorem fieldIndexOn_linear
     (hGA : GriessAllModelsStatement) : FieldIndexOn (IsLieOf IdxA) := by
   intro Y _ _ L P hCP hA hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   obtain ⟨n, f, ρ, e, I, hn, hf, hρs, hker, hcompat, hI, hIne, -, hcomap⟩ :=
     ToralCensus.exists_cover_comap_eq_flagStabilizer hGA hCP hA
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hD : PCentral 3
       ((linearAutGroup n (GaloisField 2 f)).comap (MulAut.congr e).toMonoidHom) :=
     pCentral_comap_of_mulEquiv (MulAut.congr e) (linear_pCentral hn)

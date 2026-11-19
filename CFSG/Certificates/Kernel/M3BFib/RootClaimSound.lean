@@ -279,12 +279,12 @@ theorem repRK_sound {ts : List PD} {k : ℕ} (hT : GoodPD (ts.getD k oneK) ∧
     GoodPD (repRK ts k v) ∧ dK (repRK ts k v) = toD (repD k v) := by
   have hN := nfL_sound h
   by_cases hk : k = 0
-  · rw [repRK, repD, if_pos hk, if_pos hk]
+  · rw [repRK, repD, ite_eq_left hk, ite_eq_left hk]
     exact hN
-  · rw [repRK, repD, if_neg hk, if_neg hk]
+  · rw [repRK, repD, ite_eq_right hk, ite_eq_right hk]
     obtain ⟨g, e⟩ := compK_sound lpM_ok hT.1 hN.1
     refine ⟨g, ?_⟩
-    rw [e, toD_comp, hT.2, hN.2, tDk, if_neg hk]
+    rw [e, toD_comp, hT.2, hN.2, tDk, ite_eq_right hk]
 
 theorem cube_eqK {T : PD} {t : AD} (hT : GoodPD T ∧ dK T = toD t) {v : List ℕ}
     (hv : vOKB v = true) : toE (cubeE (B0 ()) t (eOf v 0)) = toEK (cubeK T (eP v)) := by

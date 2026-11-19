@@ -88,7 +88,7 @@ theorem GGSecFiveRouteCfg.center_eq_bot_of_twA5_E6_member
     (hcard : Nat.card Bs = 3 ^ 5) :
     Subgroup.center X = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconf : GGConfig 3 B Bs x L D J := hcfg.1.1
   have hNT : GGNoTransvection 3 Bs := hcfg.1.2.2.2.1
   have hG : IsCharTwoType G := hconf.1.2.2.2.1
@@ -98,8 +98,8 @@ theorem GGSecFiveRouteCfg.center_eq_bot_of_twA5_E6_member
   have hstdSub : LargeEvenStdSub 3 B x L D J := hconf.2.2
   obtain ⟨hperfX, K, hKfield, hKfinite, θ, hK4, hBsNX, hIX⟩ :=
     exists_unitaryDatum_of_innerDiagOnLabel_twA5 hlab
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨y, hnbr⟩ := hcfg.2.2.2.1.2 X hX
   have hSHat : LargeEvenSHat 3 B y X := hnbr.1
   have hBmax := hSHat.1

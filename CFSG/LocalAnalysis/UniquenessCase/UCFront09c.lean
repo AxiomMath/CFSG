@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_le_inf_of_strong3 {M H : Subgroup G} (hM : IsStronglyPEmbedded 3 M)
     (h3 : 3 ∣ Nat.card ↥(H ⊓ M)) : CFSG.Open.pRank 3 H ≤ CFSG.Open.pRank 3 (H ⊓ M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(H ⊓ M)) 3 h3
   set Q : Subgroup G := zpowers (x : G)
   have hQHM : Q ≤ H ⊓ M := zpowers_le.mpr x.2
@@ -37,7 +37,7 @@ theorem pRank_le_inf_of_strong3 {M H : Subgroup G} (hM : IsStronglyPEmbedded 3 M
   set P : Subgroup G := (S : Subgroup ↥H).map H.subtype
   have hQP : Q ≤ P := fun y hy => ⟨⟨y, (hQHM hy).1⟩, hS (Subgroup.mem_subgroupOf.2 hy), rfl⟩
   have hPM : P ≤ M := by
-    refine hM.le_of_isPGroup_inf (S.isPGroup'.map H.subtype) fun h => hQ1 (eq_bot_iff.2 ?_)
+    refine hM.le_of_isPGroup_inf (S.isPGroup.map H.subtype) fun h => hQ1 (eq_bot_iff.2 ?_)
     rw [← h]
     exact le_inf hQP (hQHM.trans inf_le_right)
   calc CFSG.Open.pRank 3 H = CFSG.Open.pRank 3 (⊤ : Subgroup ↥H) :=
@@ -63,6 +63,7 @@ theorem isSolvable_img9_of_strong3 (hG3 : Gls3StronglyThreeEmbeddedPlus)
     (CFSG.LocalAnalysis.UniquenessCase.UC6.R869S.isStronglyPEmbedded_map_quotient_pPrimeCore
       Nat.prime_three hM hHM h2)
 
+omit [Finite G] in
 theorem isSolvable_of_img9 {H X : Subgroup G} (hXH : X ≤ H)
     (himg : Group.IsSolvable ↥(img9 H X)) (hXI : Group.IsSolvable ↥(X ⊓ I9 H)) :
     Group.IsSolvable ↥X := by

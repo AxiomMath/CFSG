@@ -16,6 +16,7 @@ open CFSG.RankThree.OrthogonalInvolutions (mem_fixSpace mem_commSpace)
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fx_map_mem_commSp {t u : OGroup Q} (htu : t * u = u * t) {w : V} (hw : w ∈ commSp t) :
     (u : V ≃ₗ[ZMod 3] V) w ∈ commSp t := by
   obtain ⟨y, rfl⟩ := mem_commSpace.mp hw
@@ -24,6 +25,7 @@ theorem fx_map_mem_commSp {t u : OGroup Q} (htu : t * u = u * t) {w : V} (hw : w
   simp only [Subgroup.coe_mul, LinearEquiv.mul_apply] at h
   rw [map_sub, h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fx_map_mem_fixSp {t u : OGroup Q} (htu : t * u = u * t) {w : V} (hw : w ∈ fixSp t) :
     (u : V ≃ₗ[ZMod 3] V) w ∈ fixSp t := by
   rw [mem_fixSpace] at hw ⊢

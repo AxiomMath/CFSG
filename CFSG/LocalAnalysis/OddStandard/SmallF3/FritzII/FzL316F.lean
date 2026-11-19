@@ -18,11 +18,13 @@ private def fzlSq (H : Subgroup G) (hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b 
     have h : x * y = y * x := Subtype.ext (hcomm x x.2 y y.2)
     rw [pow_two, pow_two, pow_two, mul_assoc, ← mul_assoc y x y, ← h, mul_assoc, mul_assoc]
 
+omit [Finite G] in
 private lemma fzlSq_apply {H : Subgroup G} (hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
     (x : ↥H) : fzlSq H hcomm x = x ^ 2 := rfl
 
+omit [Finite G] in
 private lemma fzlSq_ker_eq {H K : Subgroup G}
-    (hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) (hKH : K ≤ H)
+    (hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) (_hKH : K ≤ H)
     (hKmem : ∀ x ∈ K, x ^ 2 = 1) (hKiff : ∀ x ∈ H, x ^ 2 = 1 → x ∈ K) :
     (fzlSq H hcomm).ker = K.subgroupOf H := by
   ext x
@@ -36,6 +38,7 @@ private lemma fzlSq_ker_eq {H K : Subgroup G}
     have h2 : ((x : ↥H) ^ 2 : ↥H) = 1 := Subtype.ext (by simpa using hKmem x.1 hx)
     simpa only [fzlSq_apply] using h2
 
+omit [Finite G] in
 private lemma fzlSq_ker_card {H K : Subgroup G}
     (hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) (hKH : K ≤ H)
     (hKmem : ∀ x ∈ K, x ^ 2 = 1) (hKiff : ∀ x ∈ H, x ^ 2 = 1 → x ∈ K) :
@@ -56,10 +59,12 @@ private def fzlOmega (P : Subgroup G)
     rintro a ⟨haP, ha2⟩
     exact ⟨P.inv_mem haP, by rw [inv_pow, ha2, inv_one]⟩
 
+omit [Finite G] in
 private lemma fzlOmega_mem (P : Subgroup G)
     (hcomm : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) {x : G} :
     x ∈ fzlOmega P hcomm ↔ x ∈ P ∧ x ^ 2 = 1 := Iff.rfl
 
+omit [Finite G] in
 private lemma fzlOmega_card (P : Subgroup G)
     (hcomm : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) :
     Nat.card (fzlOmega P hcomm) = Nat.card {p : G // p ∈ P ∧ p ^ 2 = 1} :=
@@ -86,9 +91,9 @@ theorem fzl_abelian_dichotomy {P E Z : Subgroup G} {rho : G}
     (hcomm : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) (hcard : Nat.card P = 64)
     (hrho3 : rho ^ 3 = 1) (hrP : ∀ p ∈ P, rho * p * rho⁻¹ ∈ P)
     (hfpf : ∀ p ∈ P, rho * p * rho⁻¹ = p → p = 1) (hZE : Z ≤ E) (hEP : E ≤ P)
-    (hcE : Nat.card E = 16) (hcZ : Nat.card Z = 4) (hE4 : ∀ e ∈ E, e ^ 4 = 1)
+    (hcE : Nat.card E = 16) (hcZ : Nat.card Z = 4) (_hE4 : ∀ e ∈ E, e ^ 4 = 1)
     (hEsq : ∀ e ∈ E, e ^ 2 ∈ Z) (hEZ : ∀ e ∈ E, e ^ 2 = 1 → e ∈ Z) (hZ2 : ∀ z ∈ Z, z ^ 2 = 1)
-    (hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E) (hPsq : ∀ p ∈ P, p ^ 2 ∈ E)
+    (_hrE : ∀ e ∈ E, rho * e * rho⁻¹ ∈ E) (hPsq : ∀ p ∈ P, p ^ 2 ∈ E)
     (hEeq : Nonempty (↥E ≃* Z4Z4)) :
     Nonempty (↥P ≃* FzZ4422) ∨
       ((∀ p ∈ P, p ^ 2 = 1 → p ∈ Z) ∧ (∀ p ∈ P, p ^ 4 = 1 → p ∈ E) ∧

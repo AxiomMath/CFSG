@@ -29,8 +29,8 @@ theorem tabInvol : plusTableInvolCheck () = true := by
   unfold plusTableInvolCheck
   simp only [CFSG.Monster.B.Co2.allLt_iff]
   intro i hi j hj
-  rw [bindE.2 i hi, unpack_getElem! (PE.G i) j, if_pos hj,
-    unpack_getElem! (PE.G i) (pg 6 (mask 6) (PE.G i) j), if_pos (rowLt hi hj)]
+  rw [bindE.2 i hi, unpack_getElem! (PE.G i) j, ite_eq_left hj,
+    unpack_getElem! (PE.G i) (pg 6 (mask 6) (PE.G i) j), ite_eq_left (rowLt hi hj)]
   have h := AI.1 (AI.1 kTabInvol i hi) j hj
   simpa using h
 
@@ -40,7 +40,7 @@ theorem tabConj : plusTableConjCheck () = true := by
   intro i hi j hj
   have h := (and_of (AI.1 (AI.1 kTabConj i hi) j hj)).2
   have hlt' := rowLt hi hj
-  rw [bindE.2 i hi, bindE.2 j hj, unpack_getElem! (PE.G i) j, if_pos hj, bindE.2 _ hlt',
+  rw [bindE.2 i hi, bindE.2 j hj, unpack_getElem! (PE.G i) j, ite_eq_left hj, bindE.2 _ hlt',
     compA_PP (gE hj) (gE hi), compA_PP (gE hi) ((gE hj).mul (gE hi)),
     eqA_PP (gE hlt') ((gE hi).mul ((gE hj).mul (gE hi)))]
   exact h

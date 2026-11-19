@@ -13,6 +13,7 @@ namespace StrothFrame.IsD
 variable {G : Type} [Group G] [Finite G] {F : StrothFrame G} {D : Subgroup G} {m : ℕ}
   {dD : StrothWeakTypeData D (StrothTypeIndex.t201 m)}
 
+omit [Finite G] in
 theorem t201_thetaT_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1)))
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (x : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT heN x = (1 + 2 ^ (m + 1) : ℤ) • x := by
@@ -33,9 +34,10 @@ theorem t201_thetaT_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1)))
     rw [t201_zsmul_vec, t201_zsmul_vec, t201_zsmul_vec, t201_add_vec, t201_add_vec]
     congr 1; funext i; fin_cases i <;> simp
   rw [hx, map_add, map_add, map_zsmul, map_zsmul, map_zsmul, hc, ha, hb]
-  simp only [t201_zsmul_vec, t201_add_vec, smul_add, t201_vec_eq_iff]
+  simp only [t201_zsmul_vec, t201_add_vec, t201_vec_eq_iff]
   refine ⟨⟨2 * a, by ring⟩, ⟨0, by ring⟩, ⟨0, by ring⟩⟩
 
+omit [Finite G] in
 theorem t201_not_mem_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1)))
     (heN : e ∈ Subgroup.normalizer (D : Set G)) : e ∉ D := by
   intro heD
@@ -44,6 +46,7 @@ theorem t201_not_mem_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1)))
   obtain ⟨-, h2, -⟩ := h1
   exact not_dvd_one_add_sub_one (by simpa using h2.neg_right)
 
+omit [Finite G] in
 theorem u_inv_mul_mul_eq_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1))) :
     dD.u⁻¹ * e * dD.u = e := by
   have hcomm : dD.u * e = e * dD.u := by
@@ -51,6 +54,7 @@ theorem u_inv_mul_mul_eq_of_rel34i {e : G} (he : Rel34i dD e (2 ^ (m + 1))) :
     simpa [mul_assoc] using this
   rw [mul_assoc, ← hcomm]; group
 
+omit [Finite G] in
 theorem false_of_conj_u_inv (hm : 1 ≤ m) {e δ : G} (he : Rel34i dD e (2 ^ (m + 1)))
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (hδ : δ ∈ D)
     (hg : dD.u⁻¹ * (e * δ) * dD.u = (e * δ)⁻¹) : False := by

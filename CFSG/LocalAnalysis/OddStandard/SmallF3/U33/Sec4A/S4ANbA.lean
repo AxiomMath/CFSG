@@ -22,6 +22,7 @@ section Quot
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem n4_ker_iff {N W : Subgroup G} {K : Type} [Group K] {φ : ↥N →* K}
     (hker : φ.ker = W.subgroupOf N) (n : ↥N) : φ n = 1 ↔ (n : G) ∈ W := by
   rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]

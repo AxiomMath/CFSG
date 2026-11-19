@@ -9,7 +9,7 @@ namespace CFSG.RankThree.GF2n.Stroth80
 theorem exists_secMod_embedding {G : Type} [Group G] {R V P W : Subgroup G}
     {U Y : Type} [AddCommGroup U] [DistribMulAction ↥R U] [AddCommGroup Y]
     [DistribMulAction ↥R Y] {κU : ↥W →* Multiplicative U} {κY : ↥P →* Multiplicative Y}
-    (hU : IsSecMod R W V U κU) (hY : IsSecMod R P V Y κY) (hVP : V ≤ P) (hPW : P ≤ W)
+    (hU : IsSecMod R W V U κU) (hY : IsSecMod R P V Y κY) (_hVP : V ≤ P) (hPW : P ≤ W)
     (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P) :
     ∃ ι : Y →+ U, Function.Injective ι ∧ (∀ (r : ↥R) (y : Y), ι (r • y) = r • ι y) ∧
       (∀ p : ↥P, ι (Multiplicative.toAdd (κY p)) =

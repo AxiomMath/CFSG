@@ -22,6 +22,7 @@ private noncomputable def sl2Congr {R S : Type} [CommRing R] [CommRing S] (e : R
   right_inv A := by ext i j; simp [Matrix.SpecialLinearGroup.map_apply_coe]
   map_mul' A B := map_mul _ A B
 
+omit [Finite K] in
 private theorem diagUnit_eq_diagGL (u : Fin 4 → Kˣ) (h01 : u 0 = u 1) (h23 : u 2 = u 3) :
     diagUnit u = CFSG.GH74.L5U5.diagGL
       (Matrix.GeneralLinearGroup.scalar (Fin 2) (u 0))
@@ -37,6 +38,7 @@ private theorem diagUnit_eq_diagGL (u : Fin 4 → Kˣ) (h01 : u 0 = u 1) (h23 : 
       CFSG.GH74.L5U5.blk4_eq_reindex, Matrix.coe_reindexAlgEquiv,
       Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, h01, h23, e0, e1, e2, e3]
 
+omit [Finite K] in
 private theorem diagGL_scalar (c : Kˣ) :
     CFSG.GH74.L5U5.diagGL (Matrix.GeneralLinearGroup.scalar (Fin 2) c)
       (Matrix.GeneralLinearGroup.scalar (Fin 2) c) =
@@ -44,14 +46,15 @@ private theorem diagGL_scalar (c : Kˣ) :
   rw [← diagUnit_eq_diagGL (fun _ => c) rfl rfl]
   rfl
 
+omit [Finite K] in
 private theorem scalar_neg_one : Matrix.GeneralLinearGroup.scalar (Fin 4) (-1 : Kˣ) =
     (-1 : GL (Fin 4) K) := by
   apply Units.ext
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.neg_apply,
-      Matrix.one_apply]
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.neg_apply]
 
+omit [Finite K] in
 private theorem diagGL_neg_one : CFSG.GH74.L5U5.diagGL (-1 : GL (Fin 2) K) (-1) =
     (-1 : GL (Fin 4) K) := by
   apply Units.ext
@@ -62,6 +65,7 @@ private theorem diagGL_neg_one : CFSG.GH74.L5U5.diagGL (-1 : GL (Fin 2) K) (-1) 
     rw [Units.val_neg, Units.val_one]
   rw [h2, h4, CFSG.GH74.L5U5.blk4_neg, CFSG.GH74.L5U5.blk4_one]
 
+omit [Finite K] in
 private theorem diagGL_mul_scalar (a b : GL (Fin 2) K) (c c' : Kˣ) :
     CFSG.GH74.L5U5.diagGL a b *
         CFSG.GH74.L5U5.diagGL (Matrix.GeneralLinearGroup.scalar (Fin 2) c)
@@ -73,6 +77,7 @@ private theorem diagGL_mul_scalar (a b : GL (Fin 2) K) (c c' : Kˣ) :
     (Matrix.GeneralLinearGroup.scalar_commute c a).symm,
     (Matrix.GeneralLinearGroup.scalar_commute c' b).symm]
 
+omit [Finite K] in
 private theorem d₁_eq_diagGL (ζ : CubeRoot K) :
     d₁ ζ = CFSG.GH74.L5U5.diagGL
       (Matrix.GeneralLinearGroup.scalar (Fin 2) (ζ.pow (1 : ZMod 3)))
@@ -93,6 +98,7 @@ private theorem d₁_eq_diagGL (ζ : CubeRoot K) :
       ∑ j, (![1, 1, -1, -1] : Fin 4 → ZMod 3) j)) from rfl, hu]
   exact diagUnit_eq_diagGL _ h01 h23
 
+omit [Finite K] in
 private theorem injective_blockEmbed {r : ℕ}
     (φ : StatedSU 2 r K × StatedSU 2 r K →* StatedSU 4 r K)
     (hφ : ∀ x, ((φ x : StatedSU 4 r K) : GL (Fin 4) K) =
@@ -103,6 +109,7 @@ private theorem injective_blockEmbed {r : ℕ}
   obtain ⟨hA, hB⟩ := CFSG.GH74.L5U5.diagGL_inj hx
   exact Prod.ext (Subtype.ext hA) (Subtype.ext hB)
 
+omit [Finite K] in
 private theorem blockEmbed_mem_eq_one_or_neg_one {r : ℕ}
     (φ : StatedSU 2 r K × StatedSU 2 r K →* StatedSU 4 r K)
     (hφ : ∀ x, ((φ x : StatedSU 4 r K) : GL (Fin 4) K) =
@@ -146,10 +153,10 @@ private theorem card_scalar_inter {r : ℕ} [Fact r.Prime] (h5 : 5 ≤ r) (hK : 
     (hneg2 : (-1 : GL (Fin 2) K) ∈ StatedSU 2 r K)
     (hneg4 : (-1 : GL (Fin 4) K) ∈ StatedSU 4 r K) :
     Nat.card ↥(φ.range ⊓ (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 r K)) = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (2 < r) := ⟨by omega⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (2 < r) := ⟨by omega⟩
   have hcardK : Fintype.card K = r ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
+  have : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
   let m2 : StatedSU 2 r K := ⟨-1, hneg2⟩
   let m4 : StatedSU 4 r K := ⟨-1, hneg4⟩
   have hx2range : m4 ∈ φ.range := by
@@ -186,6 +193,7 @@ private theorem card_scalar_inter {r : ℕ} [Fact r.Prime] (h5 : 5 ≤ r) (hK : 
       show ((g : StatedSU 4 r K) : GL (Fin 4) K) = -1
       exact h
 
+omit [Finite K] in
 private theorem blockGL_mem_SUid' {k m : ℕ} {σ : K ≃+* K} {A : GL (Fin k) K}
     (hA : A ∈ CFSG.LieType.Universal.Unitary.SUid σ k) :
     CFSG.LocalAnalysis.ComponentInitial.LinearFlag.blockGL K k m A ∈
@@ -207,6 +215,7 @@ private theorem blockGL_mem_SUid' {k m : ℕ} {σ : K ≃+* K} {A : GL (Fin k) K
         (A : Matrix (Fin k) (Fin k) K) 1 = 1
     exact h
 
+omit [Finite K] in
 private theorem blockGL_injective' {k m : ℕ} :
     Function.Injective (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.blockGL K k m) := by
   intro X Y h
@@ -219,9 +228,9 @@ private theorem blockGL_injective' {k m : ℕ} :
 
 theorem su2_equiv_sl2 {r : ℕ} [Fact r.Prime] (hK : Nat.card K = r ^ 2) :
     Nonempty (StatedSU 2 r K ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod r)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = r ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
+  have : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
   obtain ⟨e⟩ := CFSG.GH74.L5U5.nonempty_sl2_equiv_uni_H2 (F := K) (p := r) (f := 1) hF
   have hcard : Nat.card (CFSG.LieType.Steinberg.fixedSubfield K r 1) = r := by
@@ -240,9 +249,9 @@ theorem su_blockEmbed {r : ℕ} [Fact r.Prime] (h5 : 5 ≤ r) (hK : Nat.card K =
     ∃ φ : StatedSU 2 r K × StatedSU 2 r K →* StatedSU 4 r K, Function.Injective φ ∧
       (∀ x, φ x ∈ Subgroup.centralizer ({d} : Set (StatedSU 4 r K))) ∧
       Nat.card ↥(φ.range ⊓ (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 r K)) = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = r ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
+  have : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
   let M : CFSG.GH74.L5U5.ModelData K := CFSG.GH74.L5U5.ModelData.uni (p := r) (f := 1) hF
   have hH2 : M.H2 = StatedSU 2 r K := by
@@ -291,7 +300,7 @@ theorem sub8_block_su {r : ℕ} [Fact r.Prime] (h5 : 5 ≤ r) (hK : Nat.card K =
 
 theorem sub8Fact_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) : Sub8Fact (StatedSU 4 r K) ζ r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro d hd
   obtain ⟨K₁, hle, ⟨e⟩, hz⟩ := sub8_block_su h5 hK ζ d hd
   obtain ⟨hperf, hns, hcard⟩ := sl2sq_perfect hr h5 (Nat.card_zmod r) e
@@ -301,6 +310,7 @@ theorem sub8Fact_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r
   refine ⟨K₁, hle, hperf, hns, hcard, hz, fun N h1 h2 h3 h4 => ?_⟩
   exact (sl2sq_odd hr h5 (Nat.card_zmod r) e inf_le_left hZc hz N h1 h2 h3 h4).trans inf_le_right
 
+omit [Finite K] in
 private theorem blockEmbed31_mem_centralizer {r : ℕ}
     (ζ : CubeRoot K) (d : StatedSU 4 r K) (hd : (d : GL (Fin 4) K) = d₃ ζ)
     (φ : StatedSU 3 r K →* StatedSU 4 r K)
@@ -323,6 +333,7 @@ private theorem blockEmbed31_mem_centralizer {r : ℕ}
   exact CFSG.LocalAnalysis.ComponentInitial.LinearFlag.blockGL_mul_diagonal_comm
     (K := K) (k := 3) (m := 1) (X := (A : GL (Fin 3) K)) (d := fun i => (u i : K)) hconst
 
+omit [Finite K] in
 private theorem blockEmbed31_inter_scalars_eq_bot {r : ℕ}
     (φ : StatedSU 3 r K →* StatedSU 4 r K)
     (hφ : ∀ A : StatedSU 3 r K, ((φ A : StatedSU 4 r K) : GL (Fin 4) K) =
@@ -342,7 +353,6 @@ private theorem blockEmbed31_inter_scalars_eq_bot {r : ℕ}
       (M : Matrix (Fin 4) (Fin 4) K)
         (finSumFinEquiv (Sum.inr (0 : Fin 1))) (finSumFinEquiv (Sum.inr (0 : Fin 1)))) hc'
     simp only [Matrix.GeneralLinearGroup.coe_scalar,
-      CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalar_apply_finSumFinEquiv,
       CFSG.LocalAnalysis.ComponentInitial.LinearFlag.blockGL_apply_inr,
       Matrix.one_apply_eq] at hval
     simpa using hval
@@ -350,15 +360,15 @@ private theorem blockEmbed31_inter_scalars_eq_bot {r : ℕ}
   show ((x : StatedSU 4 r K) : GL (Fin 4) K) = 1
   rw [← hc, hc1, map_one]
 
-theorem sub9_block_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
+theorem sub9_block_su {r : ℕ} (hr : r.Prime) (_h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) (d : StatedSU 4 r K) (hd : (d : GL (Fin 4) K) = d₃ ζ) :
     ∃ K₃ : Subgroup (StatedSU 4 r K), K₃ ≤ Subgroup.centralizer ({d} : Set (StatedSU 4 r K)) ∧
       Nonempty (K₃ ≃* StatedSU 3 r K) ∧
       K₃ ⊓ (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 r K) = ⊥ := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = r ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
+  have : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
   let σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K r 1
   have hS3 : StatedSU 3 r K = CFSG.LieType.Universal.Unitary.SUid σ 3 := by
@@ -392,12 +402,12 @@ theorem sub9_block_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
 theorem su3_block_data {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     {K₃ : Subgroup (StatedSU 4 r K)} (e : K₃ ≃* StatedSU 3 r K) :
     ⁅K₃, K₃⁆ = K₃ ∧ IsSimpleGroup (K₃ ⧸ Subgroup.center K₃) ∧ 2 ∣ Nat.card K₃ := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = r ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
-  haveI : Fact (2 < r) := ⟨by omega⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K r := charP_of_card_eq_prime_pow (p := r) (f := 2) hcardK
+  have : Fact (2 < r) := ⟨by omega⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.IsQuasisimple ↥(StatedSU 3 r K) :=
     CFSG.Open.StatedAPI.isQuasisimple_statedSU_three_of_prime hr (by omega) K hK
   have hq3 : CFSG.IsQuasisimple ↥K₃ := CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hq
@@ -415,7 +425,7 @@ theorem su3_block_data {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K 
     · apply Units.ext
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [CFSG.Open.StatedCenterThree.diagGL, pow_two, Matrix.diagonal_mul_diagonal]
+        simp [CFSG.Open.StatedCenterThree.diagGL, pow_two]
     · intro h
       have := congrArg (fun A : GL (Fin 3) K => (A : Matrix (Fin 3) (Fin 3) K) 0 0) h
       simp [CFSG.Open.StatedCenterThree.diagGL] at this

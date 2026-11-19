@@ -20,7 +20,7 @@ variable {n : ℕ}
 theorem lineSign_isSign (k : Fin (n + 1)) : IsSign (lineSign k) := fun i => by
   by_cases hi : i = k
   · exact Or.inl (by simp [lineSign, hi])
-  · exact Or.inr (by show (if i = k then (1 : ZMod 3) else -1) = -1; rw [if_neg hi])
+  · exact Or.inr (by show (if i = k then (1 : ZMod 3) else -1) = -1; rw [ite_eq_right hi])
 
 theorem diagonal_lineSign_mul_self (k : Fin (n + 1)) :
     Matrix.diagonal (lineSign k) * Matrix.diagonal (lineSign k) = 1 := by
@@ -34,14 +34,14 @@ theorem diagonal_eq_spMat_one (s : Fin (n + 1) → ZMod 3) : Matrix.diagonal s =
   by_cases h : i = j
   · subst h
     simp [spMat_apply]
-  · simp [spMat_apply, Matrix.diagonal_apply_ne _ h, h]
+  · simp [spMat_apply, h]
 
 theorem diagonal_lineSign_mem_evenAll0 (hn : Even n) (k : Fin (n + 1)) :
     Matrix.diagonal (lineSign k) ∈ evenAll0 n := by
   refine ⟨1, lineSign k, lineSign_isSign k, ⟨rfl, ?_⟩, diagonal_eq_spMat_one _⟩
   have hrest : ∀ i ∈ Finset.univ.erase k, lineSign k i = -1 := fun i hi => by
     show (if i = k then (1 : ZMod 3) else -1) = -1
-    rw [if_neg (Finset.ne_of_mem_erase hi)]
+    rw [ite_eq_right (Finset.ne_of_mem_erase hi)]
   calc ∏ i, lineSign k i = lineSign k k * ∏ i ∈ Finset.univ.erase k, lineSign k i :=
         (Finset.mul_prod_erase _ _ (Finset.mem_univ k)).symm
     _ = 1 * (-1) ^ n := by
@@ -55,7 +55,7 @@ theorem diagonal_lineSign_mulVec_eq_self_iff (k : Fin (n + 1)) (v : Fin (n + 1) 
   constructor
   · intro h i hi
     have e := congrFun h i
-    simp only [Matrix.mulVec_diagonal, lineSign, if_neg hi, neg_one_mul] at e
+    simp only [Matrix.mulVec_diagonal, lineSign, ite_eq_right hi, neg_one_mul] at e
     exact eq_zero_of_neg_eq_self e
   · intro h
     funext i
@@ -81,16 +81,16 @@ theorem commute_tau_of_mem_evenAll0 {S : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMo
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, spMat_apply]
   by_cases h : i = σ j
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have : tauSign n (σ j) = tauSign n j := by
       simp only [tauSign]
       by_cases hj : j = 0
       · subst hj
         rw [hσ0]
       · have : σ j ≠ 0 := fun e => hj (σ.injective (e.trans hσ0.symm))
-        rw [if_neg this, if_neg hj]
+        rw [ite_eq_right this, ite_eq_right hj]
     rw [this, mul_comm]
-  · rw [if_neg h, zero_mul, mul_zero]
+  · rw [ite_eq_right h, zero_mul, mul_zero]
 
 theorem eq_diagonal_lineSign_of_mem_evenAll0 (hn : Even n)
     {S : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)} (hS : S ∈ evenAll0 n) (h2 : S * S = 1)
@@ -106,17 +106,17 @@ theorem eq_diagonal_lineSign_of_mem_evenAll0 (hn : Even n)
     · subst h
       simp
     · have hne : σ.symm i ≠ j := fun e => h (by rw [← e, Equiv.apply_symm_apply])
-      simp [Pi.single_apply, hne, h]
+      simp [hne, h]
   have hsq : ∀ j, σ (σ j) = j ∧ s (σ j) * s j = 1 := by
     intro j
     have e := congrFun (congrFun h2 (σ (σ j))) j
-    rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, if_pos rfl, Matrix.one_apply] at e
+    rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, ite_eq_left rfl, Matrix.one_apply] at e
     have hne : s (σ j) * s j ≠ 0 := by
       rcases hs (σ j) with h1 | h1 <;> rcases hs j with h3 | h3 <;> rw [h1, h3] <;> decide
     by_cases hj : σ (σ j) = j
-    · rw [if_pos hj] at e
+    · rw [ite_eq_left hj] at e
       exact ⟨hj, e⟩
-    · rw [if_neg hj] at e
+    · rw [ite_eq_right hj] at e
       exact absurd e hne
   have hsep : ∀ v₁ v₂ : Fin (n + 1) → ZMod 3, spMat σ s *ᵥ v₁ = v₁ → spMat σ s *ᵥ v₂ = v₂ →
       v₂ ≠ 0 → ∀ i, v₁ i ≠ 0 → v₂ i = 0 → False := by
@@ -161,9 +161,9 @@ theorem eq_diagonal_lineSign_of_mem_evenAll0 (hn : Even n)
         · intro h
           have := congrFun h k
           simp at this
-        · simp [Pi.single_apply, hi]
+        · simp [hi]
       · show s i = if i = k then 1 else -1
-        rw [if_neg hi]
+        rw [ite_eq_right hi]
         exact h1
   ·
     exfalso
@@ -184,7 +184,7 @@ theorem eq_diagonal_lineSign_of_mem_evenAll0 (hn : Even n)
           · intro h
             have := congrFun h k
             simp at this
-          · simp [Pi.single_apply, Ne.symm hki]
+          · simp [Ne.symm hki]
         · exact h1
       · exfalso
         have hσki : σ k ≠ i := fun e => hkj (by rw [← e, (hsq k).1])
@@ -297,7 +297,7 @@ theorem dGL_injective : Function.Injective dGL := by
   intro k l h
   by_contra hkl
   have e := congrArg (fun A : GL (Fin 7) (ZMod 3) => (A : Matrix (Fin 7) (Fin 7) (ZMod 3)) k k) h
-  simp only [coe_dGL, Matrix.diagonal_apply_eq, lineSign, if_pos rfl, if_neg hkl] at e
+  simp only [coe_dGL, Matrix.diagonal_apply_eq, lineSign, ite_eq_right hkl] at e
   exact absurd e (by decide)
 
 theorem dGL_mul_self (k : Fin 7) : dGL k * dGL k = 1 := Units.ext (diagonal_lineSign_mul_self k)
@@ -320,7 +320,7 @@ theorem dGL_commute (k l : Fin 7) : dGL k * dGL l = dGL l * dGL k := by
 theorem coe_diagU {s : Fin 7 → ZMod 3} (hs : IsSign s) :
     ((diagU s : GL (Fin 7) (ZMod 3)) : Matrix (Fin 7) (Fin 7) (ZMod 3)) = Matrix.diagonal s := by
   have h : ∀ i, s i * s i = 1 := fun i => by rcases hs i with h | h <;> rw [h] <;> decide
-  rw [diagU, dif_pos h]
+  rw [diagU, dite_eq_left h]
 
 theorem diagU_mul_self {s : Fin 7 → ZMod 3} (hs : IsSign s) : diagU s * diagU s = 1 := by
   apply Units.ext
@@ -746,7 +746,7 @@ theorem false_of_evenAll0_six (Xg : Subgroup (GL (Fin 7) (ZMod 3)))
       have e := hts i
       rw [hc1] at e
       rcases ht'.1 i with h | h <;> rcases hs'.1 i with h' | h' <;> rw [h, h'] at e ⊢ <;>
-        first | rfl | exact absurd e (by decide)
+        exact absurd e (by decide)
     have hΦsurj : Cl \ D ⊆ SV.image Φ := by
       intro σ hσ
       obtain ⟨hσCl, hσD⟩ := Finset.mem_sdiff.mp hσ

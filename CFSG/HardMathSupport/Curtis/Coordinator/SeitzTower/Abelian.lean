@@ -63,7 +63,7 @@ theorem outerComm_of_outer_comm {K : Type*} [Group K] (h : ∀ a b : Outer K, a 
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer) in
 theorem outerComm_of_isCyclic_outer {K : Type*} [Group K] (h : IsCyclic (Outer K)) :
     OuterComm K := by
-  letI := IsCyclic.commGroup (α := Outer K)
+  let := IsCyclic.commGroup (α := Outer K)
   exact outerComm_of_outer_comm fun a b => mul_comm a b
 
 open CFSG.ComponentClassification.OuterAutomorphisms (inner inner_normal) in

@@ -46,7 +46,7 @@ theorem rckTw_levi_E78
       (by rw [e7_card c hc, hc6]) h72
     refine ⟨v, ?_⟩
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7 (J := e6Nodes Tag.E7)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
   · obtain ⟨v, μ, x, c, -, hc, -, hlen, hroots, hrank, hncard⟩ :=
       exists_cand_of_class kacE8 facts_E8 e8_tree e8_adj e8_check e8_lt e8_card S hp hpL hTp i
     have hc6 : c.length = 6 := by rw [← hrank]; exact h6
@@ -56,7 +56,7 @@ theorem rckTw_levi_E78
       (by rw [e8_card c hc, hc6]) h72
     refine ⟨v, ?_⟩
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8 (J := e6Nodes Tag.E8)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
 
 theorem rckTw_isLongestRoot_of_maxHeight
     {K : Type*} [Group K] {D : UniversalRootDatum K}
@@ -120,7 +120,7 @@ theorem rckPairTwE6_holds
   have hn : (componentRoots (rootCharHom a) i).ncard = 72 := by
     by_contra hne
     simp [twistKind, hout, h6, hne] at hkind
-    split_ifs at hkind <;> exact absurd hkind (by decide)
+    split_ifs at hkind
   have hτ := rckA4_tag h6
   have hpL := rckA4_cast_ne_zero hp hp2
   have hh : 0 < h := by
@@ -168,7 +168,7 @@ theorem rckPairTwE6_holds
     show 2 ≤ (twistedE6Datum 2 h).rank
     show 2 ≤ 4
     norm_num
-  haveI hfinM : Finite (ggU .twistedE6 0 h).K :=
+  have hfinM : Finite (ggU .twistedE6 0 h).K :=
     ggU_finite_exc (Or.inr (Or.inr (Or.inr (Or.inr rfl)))) ⟨hadm, hrk⟩
   obtain ⟨hcommM, -⟩ := ggU_perfect_lieModel hadm hrk
   have hsplit := CFSG.StandardType.LieOddCover.oddCentralSplit_ggU_pos (t := .twistedE6) (n := 0)

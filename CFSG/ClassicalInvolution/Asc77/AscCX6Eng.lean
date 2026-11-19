@@ -21,23 +21,23 @@ open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 variable {G : Type} [Group G] [Finite G] {S : Sylow 2 G} {R R' : Subgroup G} {z : G}
 
 theorem exists_bad_complement_gen
-    (hz2 : z * z = 1)
+    (_hz2 : z * z = 1)
     (hzS : ∀ s ∈ (S : Subgroup G), s * z = z * s)
     (hzA : z ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
-    (hfg : ∀ {D₀ D : Subgroup G} (hDA : D ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
-        Subgroup G) : Set G)) (hD₀D : D₀ ≤ D) (hbad : z ∉ zStarOf (Subgroup.centralizer (D : Set
-        G))) (hmax : ∀ F : Subgroup G, F ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+    (hfg : ∀ {D₀ D : Subgroup G} (_hDA : D ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+        Subgroup G) : Set G)) (_hD₀D : D₀ ≤ D) (_hbad : z ∉ zStarOf (Subgroup.centralizer (D : Set
+        G))) (_hmax : ∀ F : Subgroup G, F ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
         Subgroup G) : Set G) → D₀ ≤ F → z ∉ zStarOf (Subgroup.centralizer (F : Set G)) → Nat.card F
-        ≤ Nat.card D) {x b : G} (hxA : x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
-        Subgroup G) : Set G)) (hxD : x ∉ D) (hxzD : x * z ∉ D) (hbD : b ∈ D) (hb1 : b ≠ 1) (hb2 : b
-        * b = 1) (hbx : x * b = b * x) (hbc : ∀ d ∈ D, d * b = b * d), False)
-    (hnsq : ∀ {A H : Subgroup G} (hA : IsPGroup 2 A) (hHA : H ≤ A) (hne : H ≠ A), ∃ x ∈ A, x ∉ H ∧ x
+        ≤ Nat.card D) {x b : G} (_hxA : x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+        Subgroup G) : Set G)) (_hxD : x ∉ D) (_hxzD : x * z ∉ D) (_hbD : b ∈ D) (_hb1 : b ≠ 1) (_hb2 : b
+        * b = 1) (_hbx : x * b = b * x) (_hbc : ∀ d ∈ D, d * b = b * d), False)
+    (hnsq : ∀ {A H : Subgroup G} (_hA : IsPGroup 2 A) (_hHA : H ≤ A) (_hne : H ≠ A), ∃ x ∈ A, x ∉ H ∧ x
         ∈ Subgroup.normalizer (H : Set G) ∧ x * x ∈ H)
-    (hcent : ∀ {E B : Subgroup G} (hE : IsPGroup 2 E) (hBE : B ≤ E) (hEB : E ≤ Subgroup.normalizer
-        (B : Set G)) (hB : B ≠ ⊥), ∃ b ∈ B, b ≠ 1 ∧ b * b = 1 ∧ ∀ e ∈ E, e * b = b * e)
-    (hinf : ∀ {D : Subgroup G} {z x : G} (hzc : ∀ d ∈ D, d * z = z * d) (hcover : ∀ h ∈ conjSub x D,
-        h ∈ D ∨ h * z ∈ D) (h4 : 4 ≤ Nat.card D), D ⊓ conjSub x D ≠ ⊥)
-    (hsup : ∀ {D : Subgroup G} {z : G} (hz2 : z * z = 1) (hzc : ∀ d ∈ D, d * z = z * d), ∃ H :
+    (hcent : ∀ {E B : Subgroup G} (_hE : IsPGroup 2 E) (_hBE : B ≤ E) (_hEB : E ≤ Subgroup.normalizer
+        (B : Set G)) (_hB : B ≠ ⊥), ∃ b ∈ B, b ≠ 1 ∧ b * b = 1 ∧ ∀ e ∈ E, e * b = b * e)
+    (hinf : ∀ {D : Subgroup G} {z x : G} (_hzc : ∀ d ∈ D, d * z = z * d) (_hcover : ∀ h ∈ conjSub x D,
+        h ∈ D ∨ h * z ∈ D) (_h4 : 4 ≤ Nat.card D), D ⊓ conjSub x D ≠ ⊥)
+    (hsup : ∀ {D : Subgroup G} {z : G} (_hz2 : z * z = 1) (_hzc : ∀ d ∈ D, d * z = z * d), ∃ H :
         Subgroup G, ∀ g, g ∈ H ↔ g ∈ D ∨ g * z ∈ D)
     {D₀ : Subgroup G}
     (hD₀A : D₀ ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
@@ -49,68 +49,68 @@ theorem exists_bad_complement_gen
         ∧ D₀ ≤ D ∧ z ∉ zStarOf (Subgroup.centralizer (D : Set G)) ∧ ∀ g ∈ (S : Subgroup G) ⊓
         Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G), g ∈ D ∨ g * z ∈ D := by
   classical
-  set A := (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) with hA
+  set A := (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) with _hA
   have hzi : z⁻¹ = z := by
-    calc z⁻¹ = z⁻¹ * (z * z) := by rw [hz2, mul_one]
+    calc z⁻¹ = z⁻¹ * (z * z) := by rw [_hz2, mul_one]
       _ = z := by group
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le inf_le_left
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le inf_le_left
   set 𝒟 : Set (Subgroup G) :=
     {D | D ≤ A ∧ D₀ ≤ D ∧ z ∉ zStarOf (Subgroup.centralizer (D : Set G))} with h𝒟
-  have hne : ((Set.toFinite 𝒟).toFinset).Nonempty :=
+  have _hne : ((Set.toFinite 𝒟).toFinset).Nonempty :=
     ⟨D₀, (Set.Finite.mem_toFinset _).mpr ⟨hD₀A, le_refl _, hD₀bad⟩⟩
-  obtain ⟨D, hD, hmax⟩ := ((Set.toFinite 𝒟).toFinset).exists_max_image (fun D => Nat.card D) hne
+  obtain ⟨D, hD, _hmax⟩ := ((Set.toFinite 𝒟).toFinset).exists_max_image (fun D => Nat.card D) _hne
   rw [Set.Finite.mem_toFinset] at hD
-  obtain ⟨hDA, hD₀D, hDbad⟩ := hD
+  obtain ⟨_hDA, _hD₀D, hDbad⟩ := hD
   have hmax' : ∀ F : Subgroup G, F ≤ A → D₀ ≤ F →
       z ∉ zStarOf (Subgroup.centralizer (F : Set G)) → Nat.card F ≤ Nat.card D :=
-    fun F h1 h2 h3 => hmax F ((Set.Finite.mem_toFinset _).mpr ⟨h1, h2, h3⟩)
-  refine ⟨D, hDA, hD₀D, hDbad, ?_⟩
+    fun F h1 h2 h3 => _hmax F ((Set.Finite.mem_toFinset _).mpr ⟨h1, h2, h3⟩)
+  refine ⟨D, _hDA, _hD₀D, hDbad, ?_⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨g, hgA, hgD, hgzD⟩ := hcon
-  have hzc : ∀ d ∈ D, d * z = z * d := fun d hd => hzS d (hDA hd).1
-  obtain ⟨H, hH⟩ := hsup hz2 hzc
-  have hHA : H ≤ A := by
+  have _hzc : ∀ d ∈ D, d * z = z * d := fun d hd => hzS d (_hDA hd).1
+  obtain ⟨H, hH⟩ := hsup _hz2 _hzc
+  have _hHA : H ≤ A := by
     intro h hh
     rcases (hH h).mp hh with h1 | h1
-    · exact hDA h1
-    · have : h = (h * z) * z := by rw [mul_assoc, hz2, mul_one]
+    · exact _hDA h1
+    · have : h = (h * z) * z := by rw [mul_assoc, _hz2, mul_one]
       rw [this]
-      exact A.mul_mem (hDA h1) hzA
+      exact A.mul_mem (_hDA h1) hzA
   have hzD : conjSub z D = D := by
     refine le_antisymm ?_ ?_
     · rintro _ ⟨d, hd, rfl⟩
-      have h1 : z * d * z⁻¹ = d := by rw [← hzc d hd]; group
+      have h1 : z * d * z⁻¹ = d := by rw [← _hzc d hd]; group
       simpa [h1] using hd
     · intro d hd
       refine ⟨d, hd, ?_⟩
       show z * d * z⁻¹ = d
-      rw [← hzc d hd]; group
+      rw [← _hzc d hd]; group
   have hHD : ∀ h ∈ H, conjSub h D = D := by
     intro h hh
     rcases (hH h).mp hh with h1 | h1
     · exact conjSub_eq_self_of_mem h1
-    · have e : h = (h * z) * z := by rw [mul_assoc, hz2, mul_one]
+    · have e : h = (h * z) * z := by rw [mul_assoc, _hz2, mul_one]
       rw [e, conjSub_mul, hzD, conjSub_eq_self_of_mem h1]
   have key : ∃ x ∈ A, x ∉ D ∧ x * z ∉ D ∧ ∃ B : Subgroup G, B ≤ D ∧ B ≠ ⊥ ∧
       D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z ≤ Subgroup.normalizer (B : Set G) := by
-    by_cases h4 : 4 ≤ Nat.card D
+    by_cases _h4 : 4 ≤ Nat.card D
     · have hHne : H ≠ A := by
         intro h
         rcases (hH g).mp (h ▸ hgA) with h1 | h1
         · exact hgD h1
         · exact hgzD h1
-      obtain ⟨x, hxA, hxH, hxN, hx2⟩ := hnsq hA2 hHA hHne
-      have hxD : x ∉ D := fun h => hxH ((hH x).mpr (Or.inl h))
-      have hxzD : x * z ∉ D := fun h => hxH ((hH x).mpr (Or.inr h))
+      obtain ⟨x, _hxA, hxH, hxN, hx2⟩ := hnsq hA2 _hHA hHne
+      have _hxD : x ∉ D := fun h => hxH ((hH x).mpr (Or.inl h))
+      have _hxzD : x * z ∉ D := fun h => hxH ((hH x).mpr (Or.inr h))
       have hxHH : conjSub x H = H := mem_normalizer_iff_conjSub_eq.mp hxN
       have hxiH : ∀ h ∈ H, x⁻¹ * h * x⁻¹⁻¹ ∈ H := by
         intro h hh
         have h1 : x⁻¹ * h * x⁻¹⁻¹ ∈ conjSub x⁻¹ H := Generic.conj_mem_conjSub hh
         rwa [show conjSub x⁻¹ H = H from mem_normalizer_iff_conjSub_eq.mp
           (Subgroup.inv_mem _ hxN)] at h1
-      refine ⟨x, hxA, hxD, hxzD, D ⊓ conjSub x D, inf_le_left, ?_, ?_⟩
-      · refine hinf hzc (fun h hh => ?_) h4
+      refine ⟨x, _hxA, _hxD, _hxzD, D ⊓ conjSub x D, inf_le_left, ?_, ?_⟩
+      · refine hinf _hzc (fun h hh => ?_) _h4
         have h1 : h ∈ H := by
           rw [← hxHH]
           obtain ⟨d, hd, rfl⟩ := hh
@@ -146,15 +146,15 @@ theorem exists_bad_complement_gen
           change conjSub z D ⊓ conjSub z (conjSub x D) = D ⊓ conjSub x D
           have h1 : conjSub z (conjSub x D) = conjSub x D := by
             have e : z * x = x * z := by
-              have := hzS x hxA.1
+              have := hzS x _hxA.1
               exact this.symm
             rw [← conjSub_mul, e, conjSub_mul, hzD]
           rw [hzD, h1]
         exact sup_le (sup_le hDB (Subgroup.zpowers_le.mpr hxB)) (Subgroup.zpowers_le.mpr hzB)
     ·
-      have hD₀le : Nat.card D₀ ≤ Nat.card D := Subgroup.card_le_of_le hD₀D
-      obtain ⟨x, hxA, hxD₀, hxzD₀, hxc, hx2⟩ := hsmall (by omega)
-      have hD2 : IsPGroup 2 D := hA2.to_le hDA
+      have hD₀le : Nat.card D₀ ≤ Nat.card D := Subgroup.card_le_of_le _hD₀D
+      obtain ⟨x, _hxA, hxD₀, hxzD₀, hxc, hx2⟩ := hsmall (by omega)
+      have hD2 : IsPGroup 2 D := hA2.to_le _hDA
       obtain ⟨k, hk⟩ := hD2.exists_card_eq
       have hD₀2 : IsPGroup 2 D₀ := hA2.to_le hD₀A
       obtain ⟨k₀, hk₀⟩ := hD₀2.exists_card_eq
@@ -172,9 +172,9 @@ theorem exists_bad_complement_gen
       have hcard : Nat.card D ≤ Nat.card D₀ := by
         rw [hk, hk₀]
         exact Nat.pow_le_pow_right (by norm_num) (by omega)
-      have hDeq : D₀ = D := Subgroup.eq_of_le_of_card_ge hD₀D hcard
+      have hDeq : D₀ = D := Subgroup.eq_of_le_of_card_ge _hD₀D hcard
       rw [← hDeq]
-      refine ⟨x, hxA, hxD₀, hxzD₀, D₀, le_refl _, hD₀1, ?_⟩
+      refine ⟨x, _hxA, hxD₀, hxzD₀, D₀, le_refl _, hD₀1, ?_⟩
       have hD₀N : D₀ ≤ Subgroup.normalizer (D₀ : Set G) := Subgroup.le_normalizer
       have hxN : x ∈ Subgroup.normalizer (D₀ : Set G) := by
         refine mem_normalizer_iff_conjSub_eq.mpr ?_
@@ -191,17 +191,17 @@ theorem exists_bad_complement_gen
         rw [← hDeq] at hzD
         exact mem_normalizer_iff_conjSub_eq.mpr hzD
       exact sup_le (sup_le hD₀N (Subgroup.zpowers_le.mpr hxN)) (Subgroup.zpowers_le.mpr hzN)
-  obtain ⟨x, hxA, hxD, hxzD, B, hBD, hB1, hEB⟩ := key
+  obtain ⟨x, _hxA, _hxD, _hxzD, B, hBD, hB1, _hEB⟩ := key
   have hEA : D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z ≤ A :=
-    sup_le (sup_le hDA (Subgroup.zpowers_le.mpr hxA)) (Subgroup.zpowers_le.mpr hzA)
+    sup_le (sup_le _hDA (Subgroup.zpowers_le.mpr _hxA)) (Subgroup.zpowers_le.mpr hzA)
   have hE2 : IsPGroup 2 (D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z : Subgroup G) :=
     hA2.to_le hEA
-  have hBE : B ≤ D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z :=
+  have _hBE : B ≤ D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z :=
     hBD.trans (le_sup_left.trans le_sup_left)
-  obtain ⟨b, hbB, hb1, hb2, hbc⟩ := hcent hE2 hBE hEB hB1
-  exact hfg hDA hD₀D hDbad hmax' hxA hxD hxzD (hBD hbB) hb1 hb2
-    (hbc x (Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))))
-    (fun d hd => (hbc d (Subgroup.mem_sup_left (Subgroup.mem_sup_left hd))))
+  obtain ⟨b, hbB, _hb1, _hb2, _hbc⟩ := hcent hE2 _hBE _hEB hB1
+  exact hfg _hDA _hD₀D hDbad hmax' _hxA _hxD _hxzD (hBD hbB) _hb1 _hb2
+    (_hbc x (Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))))
+    (fun d hd => (_hbc d (Subgroup.mem_sup_left (Subgroup.mem_sup_left hd))))
 
 end CX6Eng
 

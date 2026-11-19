@@ -114,6 +114,7 @@ theorem trOK_sound {r c X Y : ℕ} (h : trOK r c X Y = true) :
   simp only [ent]
   rw [← this]
 
+set_option exponentiation.threshold 539 in
 theorem relayOK_sound {X Y : ℕ} (h : relayOK X Y = true) :
     Y < 2 ^ 539 ∧ ∀ i j : Fin 7, smM Y i j = ent 12 1332 X i j := by
   unfold relayOK at h
@@ -181,9 +182,9 @@ private theorem sCount_rec (C : SConsts) (KX : ℕ → ℕ) (n b : ℕ) : ∀ t,
     show (Bool.rec (motive := fun _ => ℕ) _ _ (Nat.blt (Nat.shiftLeft b 6 + t) n)) = _
     rw [nIf_eq, hsh, Finset.range_add_one, Finset.filter_insert, fldW_leaf KX b t (by omega)]
     by_cases hlt : 64 * b + t < n
-    · rw [if_pos (blt_iff.2 hlt), if_pos hlt, Finset.sum_insert (by simp)]
+    · rw [ite_eq_left (blt_iff.2 hlt), ite_eq_left hlt, Finset.sum_insert (by simp)]
       exact Nat.add_comm _ _
-    · rw [if_neg (by rw [blt_iff]; exact hlt), if_neg hlt]
+    · rw [ite_eq_right (by rw [blt_iff]; exact hlt), ite_eq_right hlt]
 
 theorem sCountLeaf_eq {C : SConsts} {KX : ℕ → ℕ} {n b : ℕ} :
     sCountLeaf C KX n b = ∑ r ∈ (Finset.range 64).filter (fun r => 64 * b + r < n),

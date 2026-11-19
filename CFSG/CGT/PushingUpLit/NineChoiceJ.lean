@@ -98,7 +98,7 @@ theorem characteristic_subgroupOf_map_equiv (c : G ≃* G) {B S : Subgroup G}
 theorem exists_isSylowOf_ge [Finite G] {K Q : Subgroup G} (hQ : IsPGroup 2 Q) (hQK : Q ≤ K) :
     ∃ S : Subgroup G, IsSylowOf 2 S K ∧ Q ≤ S := by
   obtain ⟨S₀, hS₀⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow
-  refine ⟨(S₀ : Subgroup K).map K.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map _, ?_⟩,
+  refine ⟨(S₀ : Subgroup K).map K.subtype, ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map _, ?_⟩,
     fun x hx => ⟨⟨x, hQK hx⟩, hS₀ (show (⟨x, hQK hx⟩ : K) ∈ Q.subgroupOf K from hx), rfl⟩⟩
   have h : ((S₀ : Subgroup K).map K.subtype).subgroupOf K = (S₀ : Subgroup K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _

@@ -390,7 +390,7 @@ theorem exists_rot_unitary [Finite K] (σ : K ≃+* K) (hσσ : ∀ x, σ (σ x)
   have hνinj : ∀ i j, i ≠ j → ν i ≠ ν j := by
     intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · exact h01
     · exact h02
     · exact Ne.symm h01

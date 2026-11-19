@@ -135,7 +135,7 @@ private theorem exists_sylow_two_le {X S : Subgroup G} (hSX : S ≤ X) (hS : IsP
   refine ⟨(Q : Subgroup X).map X.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro s hs
     exact ⟨⟨s, hSX hs⟩, hQ hs, rfl⟩
-  · exact Q.isPGroup'.map X.subtype
+  · exact Q.isPGroup.map X.subtype
   · change ¬ 2 ∣ (comap X.subtype (map X.subtype (Q : Subgroup X))).index
     rw [comap_map_eq_self_of_injective X.subtype_injective]
     exact Q.not_dvd_index

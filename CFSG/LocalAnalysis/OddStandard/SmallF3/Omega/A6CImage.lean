@@ -50,7 +50,7 @@ theorem a6c_range_equiv_A6 {X Γ : Type} [Group X] [Group Γ] [Finite X] [Finite
   have h5A : 5 ∣ Nat.card φ.range := by
     rw [hAeq]
     exact ⟨72 * Nat.card ((center X).map φ), by ring⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ξ, hξ⟩ := exists_prime_orderOf_dvd_card' (G := φ.range) 5 h5A
   have hξΓ : orderOf (ξ : Γ) = 5 := by rw [Subgroup.orderOf_coe, hξ]
   have hcenter_le : center X ≤ φ.ker := by

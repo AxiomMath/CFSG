@@ -31,10 +31,10 @@ theorem exists_stdSubPre_of_component (hcfg : GGConfig p B Bs x L D J) (hB : B =
   have hψ : Function.Surjective ψ := ggQuotHom_surjective θ
   have hker : ψ.ker ≤ Subgroup.center ↥L := le_of_eq (ker_ggQuotHom θ)
   obtain ⟨hp, hBs, hxBs, hLx, -⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hcfg.1.2.2.2.2.2.2.1.2.2.1
   have hz1 : (z₁ : G) ≠ 1 := fun h =>
-    hz₁ (by simpa [h] using Subgroup.one_mem (Subgroup.zpowers x))
+    hz₁ (by simp [h])
   have hxpow : x ^ p = 1 := hBs.2 x hxBs
   have hzpow : (z₁ : G) ^ p = 1 := hBs.2 (z₁ : G) z₁.2
   have hxord : orderOf x = p := orderOf_eq_prime hxpow hx1

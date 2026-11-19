@@ -39,7 +39,7 @@ theorem kFactInputs_of_cfg (h9 : AGL81NineCompetitorQ G) (hS : Setting G) {p : �
     (hd : AGL81CfgData p P M H Q K) : KFactInputs p M H K := by
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk := hd.kbar
   subst hk
   set O := primeComplementCore (G := H) p with hOdef
@@ -48,7 +48,7 @@ theorem kFactInputs_of_cfg (h9 : AGL81NineCompetitorQ G) (hS : Setting G) {p : �
   have hne : d1KBar p M H ≠ ⊥ :=
     fun h => hd.not_le_X0 (by rw [h]; exact bot_le)
   have hkg : CFSG.Open.IsKGroup (H ⧸ O) := by
-    haveI : IsSimpleGroup G := hS.simple
+    have : IsSimpleGroup G := hS.simple
     exact (hS.kProper.isKGroup H (twoLocal_ne_top hS.nonab H hd.maxH.1)).quotient O
   have hlist := TenNineOneThree.nineThreeListGroup_of_cfg h9 hS hd
   have hnormal := d1KBar_normal_of_escape he hd.base hd.le_H hne

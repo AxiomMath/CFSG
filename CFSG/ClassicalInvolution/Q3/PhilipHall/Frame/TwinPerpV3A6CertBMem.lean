@@ -177,7 +177,7 @@ open scoped Pointwise in
 theorem exists_alternating_map (α₀ α : Finset (Fin 8)) (h₀ : α₀.card = 4) (h : α.card = 4) :
     ∃ σ ∈ alternatingGroup (Fin 8), α₀.map σ.toEmbedding = α := by
   classical
-  haveI := Set.powersetCard.isPretransitive_alternatingGroup (α := Fin 8) (n := 4)
+  have := Set.powersetCard.isPretransitive_alternatingGroup (α := Fin 8) (n := 4)
     (by simp)
   obtain ⟨σ, hσ⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 8))
     (⟨α₀, h₀⟩ : Set.powersetCard (Fin 8) 4) ⟨α, h⟩

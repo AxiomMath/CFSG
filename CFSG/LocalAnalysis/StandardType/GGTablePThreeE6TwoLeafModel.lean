@@ -36,13 +36,13 @@ theorem e6TwoLeaf_datumOn_mono {F F' : LargeEvenLieTag → Prop}
     (h : DatumOn F X A δ J) : DatumOn F' X A δ J :=
   ⟨h.1, h.2.1, h.2.2.1,
     largeEvenMarking_mono
-      (fun lab R _ I F'' θ ⟨hF, hs3, hin⟩ => ⟨hFF lab.tag hF, hs3, hin⟩) h.2.2.2⟩
+      (fun lab _R _ _I _F'' _θ ⟨hF, hs3, hin⟩ => ⟨hFF lab.tag hF, hs3, hin⟩) h.2.2.2⟩
 
 theorem e6TwoLeaf_chevE6 {R : Type} [Group R] {lab : LargeEvenLabel} {n : ℕ}
     (h : CFSG.Blueprint.ChevalleyExceptionalModel R (markTag lab) 2 n) (hl : lab.tag = .E6) :
     CFSG.Blueprint.ChevalleyExceptionalModel R .E6 2 n := by
   obtain ⟨t, r, m⟩ := lab
-  simp only [LargeEvenLabel.tag] at hl
+  simp only at hl
   subst hl
   simpa [markTag] using h
 
@@ -50,7 +50,7 @@ theorem e6TwoLeaf_chevTwE6 {R : Type} [Group R] {lab : LargeEvenLabel} {n : ℕ}
     (h : CFSG.Blueprint.ChevalleyExceptionalModel R (markTag lab) 2 n) (hl : lab.tag = .twE6) :
     CFSG.Blueprint.ChevalleyExceptionalModel R .twistedE6 2 n := by
   obtain ⟨t, r, m⟩ := lab
-  simp only [LargeEvenLabel.tag] at hl
+  simp only at hl
   subst hl
   simpa [markTag] using h
 

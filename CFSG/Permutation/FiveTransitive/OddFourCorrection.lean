@@ -23,6 +23,7 @@ variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
     Equiv.Perm (Set.range e : Set X) :=
   (baseRangeEquiv e).permCongrHom sigma
 
+omit [Finite G] [Fintype X] in
 theorem mem_baseSetwiseStabilizer_of_base_perm
     (e : Fin 4 ↪ X) (z : G) (sigma : Equiv.Perm (Fin 4))
     (hz : ∀ i, z • e i = e (sigma i)) :
@@ -39,6 +40,7 @@ theorem mem_baseSetwiseStabilizer_of_base_perm
     rw [hz]
     exact congrArg e (sigma.apply_symm_apply i)
 
+omit [Finite G] [Fintype X] in
 theorem baseSetwisePermHom_eq_rangeBasePerm
     (e : Fin 4 ↪ X) (z : G) (sigma : Equiv.Perm (Fin 4))
     (hz : ∀ i, z • e i = e (sigma i)) :
@@ -55,6 +57,7 @@ theorem baseSetwisePermHom_eq_rangeBasePerm
   simp [rangeBasePerm]
   rw [baseRangeEquiv, Equiv.ofInjective_apply]
 
+omit [Finite G] in
 private theorem eq_one_of_mem_odd_subgroup_of_sq_eq_one
     (H : Subgroup G) (hodd : Odd (Nat.card H))
     (x : G) (hx : x ∈ H) (hxTwo : x ^ 2 = 1) :
@@ -65,6 +68,7 @@ private theorem eq_one_of_mem_odd_subgroup_of_sq_eq_one
   rw [hxOrder] at hdvd
   exact hodd.not_two_dvd_nat hdvd
 
+omit [Fintype X] [Finite G] in
 theorem sameBaseInvolutionConjugacy_of_odd_pointwiseStabilizer
     (e : Fin 4 ↪ X)
     (hodd : Odd (Nat.card (MulAction.stabilizer G e))) :

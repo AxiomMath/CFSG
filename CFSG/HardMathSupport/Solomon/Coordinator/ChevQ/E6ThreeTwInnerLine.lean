@@ -29,7 +29,7 @@ theorem twLine_mem_centralizer_singleton {g x : G} :
 theorem twLine_map_conj_one (X : Subgroup G) :
     X.map (MulAut.conj (1 : G)).toMonoidHom = X := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem twLine_commute_mul {c d t : G} (hc : d = c * d * c⁻¹) (ht : t * d = d * t) :
     d * (c * t) = c * t * d := by
@@ -589,7 +589,7 @@ theorem exists_twE6ThreeA2Line (K : Type) [Field K] [Finite K] (σ : K ≃+* K) 
       (T : Subgroup (ModGL TwistTag.E6.tag K)) (n : ModGL TwistTag.E6.tag K),
       TwE6ThreeA2Line K σ h₀ L T n := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpm, hcard⟩ := FiniteField.card K (ringChar K)
   obtain ⟨p, hp⟩ : ∃ p, p = ringChar K := ⟨_, rfl⟩
   rw [← hp] at hpm hcard

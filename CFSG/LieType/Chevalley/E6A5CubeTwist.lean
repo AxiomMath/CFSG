@@ -27,7 +27,7 @@ theorem antiDiag_mul (s s' : Fin 6 → K) :
   · by_cases hij : i = j
     · subst hij
       simp [antiDiag_apply]
-    · simp [antiDiag_apply, diagonal_apply_ne _ hij, Ne.symm hij, hij]
+    · simp [antiDiag_apply, Ne.symm hij, hij]
   · intro k _ hk
     simp [antiDiag_apply, hk]
   · simp
@@ -39,11 +39,11 @@ theorem antiDiag_mul_single (s : Fin 6 → K) (a b : Fin 6) (x : K) :
   · by_cases hi : i = Fin.rev a
     · subst hi
       by_cases hj : j = b
-      · subst hj; simp [antiDiag_apply, Matrix.single_apply]
-      · simp [antiDiag_apply, Matrix.single_apply, hj]
+      · subst hj; simp [antiDiag_apply]
+      · simp [antiDiag_apply, Matrix.single_apply]
     · have h1 : ¬ a = Fin.rev i := fun h => hi (by rw [h, Fin.rev_rev])
       have h2 : ¬ Fin.rev a = i := fun h => hi h.symm
-      simp [antiDiag_apply, Matrix.single_apply, h1, h2]
+      simp [antiDiag_apply, h1, h2]
   · intro k _ hk
     simp [antiDiag_apply, hk]
   · simp
@@ -55,14 +55,14 @@ theorem single_mul_antiDiag (s : Fin 6 → K) (a b : Fin 6) (x : K) :
   · by_cases hi : i = a
     · subst hi
       by_cases hj : j = Fin.rev b
-      · subst hj; simp [antiDiag_apply, Matrix.single_apply]
+      · subst hj; simp [antiDiag_apply]
       · have hj' : ¬ Fin.rev b = j := fun h => hj h.symm
-        simp [antiDiag_apply, Matrix.single_apply, hj, hj']
+        simp [antiDiag_apply, hj, hj']
     · have hi' : ¬ a = i := fun h => hi h.symm
-      simp [antiDiag_apply, Matrix.single_apply, hi, hi']
+      simp [antiDiag_apply, hi']
   · intro k _ hk
     have hk' : ¬ b = k := fun h => hk h.symm
-    simp [Matrix.single_apply, hk']
+    simp [hk']
   · simp
 
 variable (K) in
@@ -180,12 +180,12 @@ variable (K) in
 theorem map_upAdj (t : Fin 5) (c : K) :
     SpecialLinearGroup.map σ (upAdj K t c) = upAdj K t (σ c) := by
   apply Subtype.ext
-  simp [upAdj, SpecialLinearGroup.transvection_coe, Matrix.map_add, Matrix.single]
+  simp [upAdj, SpecialLinearGroup.transvection_coe, Matrix.single]
 
 theorem map_downAdj (t : Fin 5) (c : K) :
     SpecialLinearGroup.map σ (downAdj K t c) = downAdj K t (σ c) := by
   apply Subtype.ext
-  simp [downAdj, SpecialLinearGroup.transvection_coe, Matrix.map_add, Matrix.single]
+  simp [downAdj, SpecialLinearGroup.transvection_coe, Matrix.single]
 
 theorem tauSL_upAdj (t : Fin 5) (c : K) :
     tauSL K σ (upAdj K t c) = upAdj K (Fin.rev t) (σ c) := by
@@ -211,7 +211,7 @@ theorem tauSL_smul_one {z : SpecialLinearGroup (Fin 6) K} {l : K}
   have hwm : (w : Matrix (Fin 6) (Fin 6) K) = σ l • (1 : Matrix (Fin 6) (Fin 6) K) := by
     rw [hw, SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, hz]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.smul_apply, hij]
   have hl0 : σ l ≠ 0 := by
     intro h0
     have := w.2
@@ -223,7 +223,7 @@ theorem tauSL_smul_one {z : SpecialLinearGroup (Fin 6) K} {l : K}
       rw [inv_mul_cancel]; rfl
     rw [Matrix.SpecialLinearGroup.coe_mul, hwm, Matrix.mul_smul, Matrix.mul_one] at h1
     have h2 := congrArg (fun m => (σ l)⁻¹ • m) h1
-    simp only [smul_smul, inv_mul_cancel₀ hl0, one_smul, smul_zero] at h2
+    simp only [smul_smul, inv_mul_cancel₀ hl0, one_smul] at h2
     exact h2
   change signAnti K * (((w⁻¹ : SpecialLinearGroup (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))ᵀ *
     signAntiInv K = _
@@ -269,14 +269,17 @@ theorem perm_jA (t : Fin 5) : TwistTag.E6.perm (jA t) = jA (Fin.rev t) := Fin.ex
 variable (K) in
 abbrev twistE6 : ModGL Tag.E6 K →* ModGL Tag.E6 K := twistHom TwistTag.E6 K σ
 
+omit [Finite K] in
 theorem twistE6_xUnit (i : Fin Tag.E6.rank) (c : K) :
     twistE6 K σ (xUnit Tag.E6 K i c) = xUnit Tag.E6 K (TwistTag.E6.perm i) (σ c) :=
   twistHom_xUnit TwistTag.E6 K σ i c
 
+omit [Finite K] in
 theorem twistE6_yUnit (i : Fin Tag.E6.rank) (c : K) :
     twistE6 K σ (yUnit Tag.E6 K i c) = yUnit Tag.E6 K (TwistTag.E6.perm i) (σ c) :=
   twistHom_yUnit TwistTag.E6 K σ i c
 
+omit [Finite K] in
 theorem twistE6_mem_groupA {g : ModGL Tag.E6 K} (hg : g ∈ groupA K) :
     twistE6 K σ g ∈ groupA K := by
   refine Subgroup.closure_induction (p := fun g _ => twistE6 K σ g ∈ groupA K)
@@ -302,6 +305,7 @@ variable (K) in
   MonoidHom.mk' (fun g => ⟨twistE6 K σ g, twistE6_mem_groupA σ g.2⟩) fun g h =>
     Subtype.ext (map_mul (twistE6 K σ) (g : ModGL Tag.E6 K) h)
 
+omit [Finite K] in
 theorem coe_twistA (g : groupA K) :
     ((twistA K σ g : groupA K) : ModGL Tag.E6 K) = twistE6 K σ g := rfl
 

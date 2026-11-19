@@ -21,7 +21,7 @@ variable {Q : Type*} [Group Q]
 
 private theorem exists_pow_eq_of_card_prime {G : Type*} [Group G] {p : ℕ} [hp : Fact p.Prime]
     (hG : Nat.card G = p) {g : G} (hg : g ≠ 1) (x : G) : ∃ j : ℕ, g ^ j = x := by
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; exact hp.out.ne_zero)
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; exact hp.out.ne_zero)
   have hord : orderOf g = p := by
     have hd : orderOf g ∣ p := hG ▸ orderOf_dvd_natCard g
     rcases (Nat.dvd_prime hp.out).mp hd with h | h
@@ -74,8 +74,8 @@ private theorem card_center_eq_of_card_cube {p : ℕ} [hp : Fact p.Prime] [Finit
     Nat.card (Subgroup.center Q) = p := by
   obtain ⟨a, b, hab⟩ := hnc
   have hpQ : IsPGroup p Q := IsPGroup.iff_card.mpr ⟨3, hQ⟩
-  haveI : Nontrivial Q := ⟨⟨a, 1, fun h => hab (by rw [h, one_mul, mul_one])⟩⟩
-  haveI := IsPGroup.center_nontrivial hpQ
+  have : Nontrivial Q := ⟨⟨a, 1, fun h => hab (by rw [h, one_mul, mul_one])⟩⟩
+  have := IsPGroup.center_nontrivial hpQ
   have hZ1 : 1 < Nat.card (Subgroup.center Q) :=
     Finite.one_lt_card_iff_nontrivial.mpr inferInstance
   have hdvd : Nat.card (Subgroup.center Q) ∣ p ^ 3 := by
@@ -96,7 +96,7 @@ private theorem card_center_eq_of_card_cube {p : ℕ} [hp : Fact p.Prime] [Finit
       rw [h2] at h1
       exact Nat.dvd_of_mul_dvd_mul_right (pow_pos hp.out.pos 2) h1
     have hdiv' : Nat.card (Q ⧸ Subgroup.center Q) ∣ p := hdiv
-    haveI : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_card_dvd_prime hdiv'
+    have : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_card_dvd_prime hdiv'
     exact hab ((isMulCommutative_of_isCyclic_quotient_center_self Q).is_comm.comm a b)
 
 private theorem commutator_le_center_of_card_quot {p : ℕ} [Fact p.Prime]
@@ -150,6 +150,7 @@ section Main
 
 variable [Finite H] {p : ℕ} [Fact p.Prime] {N : Subgroup H} [N.Normal]
 
+omit [Finite H] in
 private theorem commute_mk_of_comm_mem {x y : H} (h : ⁅x, y⁆ ∈ N) :
     (x : H ⧸ N) * (y : H ⧸ N) = (y : H ⧸ N) * (x : H ⧸ N) := by
   have e : ((⁅x, y⁆ : H) : H ⧸ N) = ⁅(x : H ⧸ N), (y : H ⧸ N)⁆ :=
@@ -158,6 +159,7 @@ private theorem commute_mk_of_comm_mem {x y : H} (h : ⁅x, y⁆ ∈ N) :
   rw [e, commutatorElement_eq_one_iff_mul_comm] at h1
   exact h1
 
+omit [Finite H] in
 private theorem comm_mem_of_commute_mk {x y : H}
     (h : (x : H ⧸ N) * (y : H ⧸ N) = (y : H ⧸ N) * (x : H ⧸ N)) : ⁅x, y⁆ ∈ N := by
   apply (QuotientGroup.eq_one_iff _).mp
@@ -166,12 +168,15 @@ private theorem comm_mem_of_commute_mk {x y : H}
   rw [e, commutatorElement_eq_one_iff_mul_comm]
   exact h
 
+omit [Finite H] in
 private theorem conj_mem_normal {n : H} (hn : n ∈ N) (g : H) : g * n * g⁻¹ ∈ N :=
   Subgroup.Normal.conj_mem (H := N) inferInstance n hn g
 
+omit [Finite H] [N.Normal] in
 private theorem le_Yof' : N ≤ Yof N := by
   unfold Yof; exact le_sup_right
 
+omit [Finite H] in
 private theorem commutator_le_of_index_sq (hN : N.index = p ^ 2) :
     ⁅(⊤ : Subgroup H), ⊤⁆ ≤ N := by
   have hcomm : IsMulCommutative (H ⧸ N) :=
@@ -180,6 +185,7 @@ private theorem commutator_le_of_index_sq (hN : N.index = p ^ 2) :
   intro g _ h _
   exact comm_mem_of_commute_mk (hcomm.is_comm.comm _ _)
 
+omit [Finite H] in
 private theorem mem_of_mem_Yof_of_index_sq (hN : N.index = p ^ 2) {y : H} (hy : y ∈ Yof N) :
     y ∈ N := by
   unfold Yof at hy
@@ -188,7 +194,7 @@ private theorem mem_of_mem_Yof_of_index_sq (hN : N.index = p ^ 2) {y : H} (hy : 
 private theorem cube_structure (hN : N.index = p ^ 3) (hnc : ¬ ⁅(⊤ : Subgroup H), ⊤⁆ ≤ N) :
     Yof N = (Subgroup.center (H ⧸ N)).comap (QuotientGroup.mk' N) ∧
       Nat.card (Subgroup.center (H ⧸ N)) = p := by
-  haveI : Finite (H ⧸ N) :=
+  have : Finite (H ⧸ N) :=
     Finite.of_surjective (QuotientGroup.mk : H → H ⧸ N) QuotientGroup.mk_surjective
   have hQ : Nat.card (H ⧸ N) = p ^ 3 := hN
   have hnc' : ∃ a b : H ⧸ N, a * b ≠ b * a := by
@@ -219,7 +225,7 @@ private theorem mk_mem_center_of_mem_Yof (hS : IsXiShape p N) {y : H} (hy : y �
 private theorem index_center_eq_sq (hN : N.index = p ^ 3)
     (hZ : Nat.card (Subgroup.center (H ⧸ N)) = p) :
     (Subgroup.center (H ⧸ N)).index = p ^ 2 := by
-  haveI : Finite (H ⧸ N) :=
+  have : Finite (H ⧸ N) :=
     Finite.of_surjective (QuotientGroup.mk : H → H ⧸ N) QuotientGroup.mk_surjective
   have h1 : (Subgroup.center (H ⧸ N)).index * Nat.card (Subgroup.center (H ⧸ N)) =
       Nat.card (H ⧸ N) := Subgroup.index_mul_card _
@@ -229,6 +235,7 @@ private theorem index_center_eq_sq (hN : N.index = p ^ 3)
   apply Nat.eq_of_mul_eq_mul_right (Fact.out : p.Prime).pos
   rw [h1]; ring
 
+omit [Finite H] in
 theorem Yof_eq_of_index_sq (hN : N.index = p ^ 2) : Yof N = N := by
   unfold Yof
   exact sup_eq_right.mpr (commutator_le_of_index_sq hN)
@@ -393,6 +400,7 @@ theorem invol_fix_mod (hS : IsXiShape p N) (hp2 : p ≠ 2) {α : MulAut H} (hα2
   rw [hc, mul_inv_cancel_right]
   exact hcmem
 
+omit [Finite H] [N.Normal] in
 theorem exists_inv_not_mem_Yof {α : MulAut H} (hα2 : α ^ 2 = 1) {x : H}
     (hx : α x * x⁻¹ ∉ Yof N) : ∃ y : H, y ∉ Yof N ∧ α y = y⁻¹ := by
   have h2 := mulAut_apply_apply hα2

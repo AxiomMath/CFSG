@@ -137,11 +137,11 @@ theorem isQuasisimple_of_e16 [Finite G] (h44 : Sec4.Item4_4)
   obtain ⟨hTs, -, hT3, -⟩ := solvable_prime_complement_core_characterization (H := X₀)
     Nat.prime_three
   set T := aschbacherSolvableCore 3 X₀ with hT
-  haveI : IsSimpleGroup ((X₀ ⧸ T) ⧸ Subgroup.center (X₀ ⧸ T)) := hLq.2.1
-  haveI : IsSimpleGroup (X₀ ⧸ centerPre T) := (centerPreEquiv T).isSimpleGroup
+  have : IsSimpleGroup ((X₀ ⧸ T) ⧸ Subgroup.center (X₀ ⧸ T)) := hLq.2.1
+  have : IsSimpleGroup (X₀ ⧸ centerPre T) := (centerPreEquiv T).isSimpleGroup
   have hO3 : CFSG.pCore 3 X₀ ≤ Subgroup.center X₀ := pCore_three_le_center T hT3
   let eK : K.subgroupOf X₀ ≃* K := Subgroup.subgroupOfEquivOfLe hKX₀
-  haveI : IsSimpleGroup (K.subgroupOf X₀) := eK.isSimpleGroup
+  have : IsSimpleGroup (K.subgroupOf X₀) := eK.isSimpleGroup
   let lift : ∀ {x : G}, x ∈ K → X₀ := fun {x} hx => ⟨x, hKX₀ hx⟩
   have hlift : ∀ {x : G} (hx : x ∈ K), lift hx ∈ K.subgroupOf X₀ := fun hx =>
     Subgroup.mem_subgroupOf.mpr hx

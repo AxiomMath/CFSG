@@ -23,7 +23,7 @@ private theorem qtwoDB3_m2_diag_conjTr_mul (hF0 : Nat.card F0 = 4) (c : Fin m �
         ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
       ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 1 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Fintype.card F0 = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF0
@@ -51,6 +51,7 @@ private theorem qtwoDB3_m2_diag_mem_uU (h : UnitaryFieldData 2 1 F0)
   rw [hbar]
   simpa [CFSG.LieType.Universal.Unitary.conjTr] using qtwoDB3_m2_diag_conjTr_mul hF0 c
 
+omit [Finite G] in
 theorem qtwoDB3_core (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m) {ψ : Su F0 2 1 m →* G}
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) {B T : Subgroup G} (hT2 : IsPGroup 2 T)
     (hBL : B ≤ Subgroup.normalizer (ψ.range : Set G))

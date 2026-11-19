@@ -20,7 +20,7 @@ theorem asc82E8Cent_of (hP : Asc82Tab6P) : Asc82E8Cent := by
     have h1 := hP.center_triv G K hK
     rw [centerIn] at h1
     exact (Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective).mp h1
-  haveI := ffOutFFE8Tr_finite_projSim Q
+  have := ffOutFFE8Tr_finite_projSim Q
   have hρ : Function.Injective (ffOutFFE8TrRho hQ e) := ffOutFFE8TrRho_injective hQ hz0 e
   have hrange := ffOutFFE8TrRho_range hQ e
   have hzT := ffOutFFE8TrCent_simHasType hK hQ hdim hsgn e (hEK hzE) hzI

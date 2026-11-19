@@ -69,7 +69,7 @@ theorem case_t (ha : Ctx4P t L S x₁ x₂ lam rho tau) {B : Subgroup G} {ω : G
       exact hw
     have hbV : b ∈ fourGrp x₁ x₂ := hΩ b hb hbb
     have hbp : p⁻¹ * b * p = b := by
-      have hpb : p * b = b * p := P_comm_V ha p hp b hbV
+      have hpb : p * b = b * p := P_comm_V p hp b hbV
       rw [mul_assoc, ← hpb, ← mul_assoc, inv_mul_cancel, one_mul]
     have hpt : p * t * p⁻¹ = t := by
       have ht_eq : t = p⁻¹ * b * p := by

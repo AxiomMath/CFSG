@@ -47,7 +47,7 @@ theorem Std139.lemmaE (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
       intro y hy
       exact Std139.component_commutes_X S h2 y hy x hx
   have hR : ⁅K₂, K₂⁆ = K₂ := by
-    haveI : Group.IsPerfect ↥K₂ := ⟨h2.2.2.1⟩
+    have : Group.IsPerfect ↥K₂ := ⟨h2.2.2.1⟩
     exact Subgroup.commutator_eq_self
   have hYR : StableUnder K₂ (commSub ⊤ K₁) := by
     have hK1leC : K₁ ≤ Subgroup.centralizer (K₂ : Set (MulAut W)) :=

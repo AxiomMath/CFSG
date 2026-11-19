@@ -131,7 +131,7 @@ theorem ne_bstar_of_E7
   subst hn
   have ht : t = .E7 := hmt
   obtain ⟨φ⟩ := exists_mulEquiv_adjointGroup_of_isLabel_E7' (lab := ⟨t, r, 1⟩) hlab ht hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 1) = 2 := by
     simpa using GaloisField.card 2 1 (by omega)
   have hsup := bstar_eq_sup_of_restHyp hR hN hZ (autThreePowInner_of_E7Two hKcard φ)

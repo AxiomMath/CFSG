@@ -18,37 +18,49 @@ variable (h : UnitaryFieldData p f K) (G : Matrix ι ι K)
 
 @[expose] noncomputable def hf (x y : ι → K) : K := gramForm h G x y
 
+omit [DecidableEq ι] in
 theorem hf_add_left (x x' y : ι → K) : hf h G (x + x') y = hf h G x y + hf h G x' y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_add_right (x y y' : ι → K) : hf h G x (y + y') = hf h G x y + hf h G x y' := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_smul_left (c : K) (x y : ι → K) : hf h G (c • x) y = h.bar c * hf h G x y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_smul_right (c : K) (x y : ι → K) : hf h G x (c • y) = c * hf h G x y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_neg_left (x y : ι → K) : hf h G (-x) y = -hf h G x y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_neg_right (x y : ι → K) : hf h G x (-y) = -hf h G x y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_sub_left (x x' y : ι → K) : hf h G (x - x') y = hf h G x y - hf h G x' y := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_sub_right (x y y' : ι → K) : hf h G x (y - y') = hf h G x y - hf h G x y' := by
   simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_zero_left (y : ι → K) : hf h G 0 y = 0 := by simp [hf]
 
+omit [DecidableEq ι] in
 theorem hf_zero_right (x : ι → K) : hf h G x 0 = 0 := by simp [hf]
 
+omit [DecidableEq ι] in
 theorem map_hf (hG : (G.map h.bar)ᵀ = G) (x y : ι → K) : h.bar (hf h G x y) = hf h G y x :=
   (gramForm_isSymm h hG).1 x y
 
+omit [DecidableEq ι] in
 theorem hf_self_bar (hG : (G.map h.bar)ᵀ = G) (x : ι → K) : h.bar (hf h G x x) = hf h G x x :=
   map_hf h G hG x x
 
@@ -76,6 +88,7 @@ theorem eM_mulVec (v u : ι → K) (c : K) (w : ι → K) :
   simp only [eM, Matrix.add_mulVec, Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec,
     Matrix.vecMulVec_mulVec, op_smul_eq_smul, e, mul_smul]
 
+omit [DecidableEq ι] in
 theorem hf_comm_zero (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} (hu : hf h G v u = 0) :
     hf h G u v = 0 := by
   rw [← map_hf h G hG v u, hu, map_zero]
@@ -101,15 +114,16 @@ theorem eM_mul (hG : (G.map h.bar)ᵀ = G) {v u u' : ι → K} {c c' : K} (hv : 
   have hu'v := hf_comm_zero h G hG hu'
   refine Matrix.ext_iff_mulVec.2 fun w => ?_
   rw [← Matrix.mulVec_mulVec, eM_mulVec, eM_mulVec, eM_mulVec]
-  simp only [hf_add_left, hf_add_right, hf_sub_left, hf_sub_right, hf_smul_right, hu, hu', hv,
-    huv, hu'v, mul_zero, add_zero, sub_zero, smul_add, smul_sub]
+  simp only [hf_add_left, hf_add_right, hf_sub_right, hf_smul_right, hu', hv,
+    huv, mul_zero, add_zero, sub_zero, smul_add]
   module
 
 theorem eM_congr {v u u' : ι → K} {c c' : K} (h1 : u = u') (h2 : c = c') :
     eM h G v u c = eM h G v u' c' := by
   subst h1; subst h2; rfl
 
-theorem IsQ.neg (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} {c : K} (hq : IsQ h G v u c) :
+omit [DecidableEq ι] in
+theorem IsQ.neg (_hG : (G.map h.bar)ᵀ = G) {v u : ι → K} {c : K} (hq : IsQ h G v u c) :
     IsQ h G v (-u) (h.bar c) := by
   obtain ⟨hv, hu, hc⟩ := hq
   refine ⟨hv, by rw [hf_neg_right, hu, neg_zero], ?_⟩
@@ -156,7 +170,7 @@ theorem det_eM (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} {c : K} (hq : IsQ h 
     refine Matrix.ext_iff_mulVec.2 fun w => ?_
     rw [pow_three, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, key, key, key]
     simp only [hf_add_right, hf_sub_right, hf_smul_right, hu, hv, huv, mul_zero, add_zero, sub_zero,
-      zero_sub, smul_neg, smul_smul, Matrix.zero_mulVec]
+      Matrix.zero_mulVec]
     simp
   have := det_one_add_of_pow_three (N := eM h G v u c - 1) hN
   rwa [add_sub_cancel] at this
@@ -169,6 +183,7 @@ theorem Tgl_mem (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} {c : K} (hq : IsQ h
     Tgl h G hG hq ∈ gramSU h G :=
   ⟨unitary_of_isom h G _ (eM_isom h G hG hq), det_eM h G hG hq⟩
 
+omit [DecidableEq ι] in
 theorem IsQ.mul {v u u' : ι → K} {c c' : K} (hG : (G.map h.bar)ᵀ = G) (hq : IsQ h G v u c)
     (hq' : IsQ h G v u' c') : IsQ h G v (u + u') (c + c' - hf h G u u') := by
   obtain ⟨hv, hu, hc⟩ := hq
@@ -201,7 +216,7 @@ theorem scalar_val (c : Kˣ) :
       (c : K) • (1 : Matrix ι ι K) := by
   ext i j
   by_cases hij : i = j <;>
-    simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply, Matrix.one_apply, hij]
+    simp [Matrix.GeneralLinearGroup.scalar, hij]
 
 theorem mk_ne_one_of_fixed_su {m : ℕ} (g : ↥(gramSU h G)) (hg : g ≠ 1) {w₀ : ι → K}
     (hw₀ : w₀ ≠ 0) (hfix : smat h G g *ᵥ w₀ = w₀) :
@@ -245,19 +260,20 @@ theorem Tsu_mul {v u u' : ι → K} {c c' : K} (hq : IsQ h G v u c) (hq' : IsQ h
     Tsu h G hG hq * Tsu h G hG hq' = Tsu h G hG (hq.mul h G hG hq') :=
   smat_injective h G (eM_mul h G hG hq.1 hq.2.1 hq'.2.1)
 
-omit hG in
+omit hG [DecidableEq ι] in
 theorem IsQ.zero {v : ι → K} (hv : hf h G v v = 0) : IsQ h G v 0 0 :=
   ⟨hv, hf_zero_right h G v, by simp [hf_zero_left]⟩
 
 theorem Tsu_zero {v : ι → K} (hv : hf h G v v = 0) : Tsu h G hG (IsQ.zero h G hv) = 1 :=
   smat_injective h G (eM_zero h G v)
 
-omit hG in
+omit hG [DecidableEq ι] in
 theorem IsQ.central {v : ι → K} (hv : hf h G v v = 0) {d : K} (hd : d + h.bar d = 0) :
     IsQ h G v 0 d :=
   ⟨hv, hf_zero_right h G v, by rw [hf_zero_left]; simpa using hd⟩
 
 omit hG in
+omit [DecidableEq ι] in
 theorem IsQ.addCentral {v u : ι → K} {c d : K} (hq : IsQ h G v u c) (hd : d + h.bar d = 0) :
     IsQ h G v u (c + d) := by
   obtain ⟨hv, hu, hc⟩ := hq
@@ -311,6 +327,7 @@ theorem Tsu_pow_char [hp : Fact p.Prime] (hp2 : p ≠ 2) {v u : ι → K} {c : K
 
 @[expose] noncomputable def cc (u : ι → K) : K := -(2⁻¹ * hf h G u u)
 
+omit [DecidableEq ι] in
 theorem IsQ.can (h2 : (2 : K) ≠ 0) {v u : ι → K} (hv : hf h G v v = 0) (hu : hf h G v u = 0) :
     IsQ h G v u (cc h G u) := by
   refine ⟨hv, hu, ?_⟩
@@ -331,6 +348,7 @@ theorem IsQ.can (h2 : (2 : K) ≠ 0) {v u : ι → K} (hv : hf h G v v = 0) (hu 
 
 @[expose] noncomputable def Psi (u u' : ι → K) : K := hf h G u' u - hf h G u u'
 
+omit [DecidableEq ι] in
 theorem Psi_trace (u u' : ι → K) : Psi h G u u' + h.bar (Psi h G u u') = 0 := by
   rw [Psi, map_sub, map_hf h G hG, map_hf h G hG]; ring
 

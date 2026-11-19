@@ -38,9 +38,9 @@ theorem stepNRel (n : ℕ) (gens : List (List ℕ)) (wx : List ℕ × List ℕ) 
   dsimp only
   rw [h1]
   by_cases hc : memLR b1 (mulN (gens.getD i (oneN n)) wx.2) = true
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     exact ⟨rfl, h1⟩
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     refine ⟨rfl, fun z => ?_⟩
     dsimp only
     rw [Std.HashSet.contains_insert, memLR_insLR, h1]

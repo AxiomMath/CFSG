@@ -136,7 +136,7 @@ theorem qcTransfer_card_le_two_of_sylow {F : Type*} [Group F] [Finite F] {B : Su
   obtain ⟨Sa, hSa⟩ := hzB'.exists_le_sylow
   have hSaeq : (Sa : Subgroup B).map B.subtype = zpowers a := by
     apply stepA
-    · exact Sa.isPGroup'.map B.subtype
+    · exact Sa.isPGroup.map B.subtype
     · intro x hx
       exact ⟨⟨x, hzB hx⟩, hSa (by rw [mem_subgroupOf]; exact hx), rfl⟩
     · exact map_subtype_le _

@@ -27,7 +27,7 @@ theorem openIsKGroup_sup_pGroup {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
   have hKM : K ≤ M := le_sup_left
   have hBM : B ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (K : Set G) := sup_le Subgroup.le_normalizer hBN
-  haveI hKn : (K.subgroupOf M).Normal :=
+  have hKn : (K.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMN
   set φ : ↥M →* ↥M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M) with hφ
   have hBp : IsPGroup p (B.subgroupOf M) := hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBM).symm
@@ -56,8 +56,8 @@ theorem openIsKGroup_sup_pGroup {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
       simpa using this
     have hmb : (QuotientGroup.mk m : ↥M ⧸ K.subgroupOf M) = QuotientGroup.mk b := hbm
     rw [hmb, ← QuotientGroup.mk_pow, hk', QuotientGroup.mk_one]
-  haveI : Finite (↥M ⧸ K.subgroupOf M) := inferInstance
-  haveI : Group.IsNilpotent (↥M ⧸ K.subgroupOf M) := hQp.isNilpotent
+  have : Finite (↥M ⧸ K.subgroupOf M) := inferInstance
+  have : Group.IsNilpotent (↥M ⧸ K.subgroupOf M) := hQp.isNilpotent
   have hq : CFSG.KCore.KGroupAllSimple CFSG.Assembly.InCatalog (↥M ⧸ K.subgroupOf M) :=
     CFSG.KCore.KGroupAllSimple.of_isSolvable CFSG.Assembly.inCatalog_containsAbelianSimple
       inferInstance

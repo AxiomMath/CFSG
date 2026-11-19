@@ -82,8 +82,7 @@ theorem s16c11AltAct_vec (n : ℕ) (g : ↥(alternatingGroup (Fin n))) {x : Fin 
     {hx : ∑ i, x i = 0} {hx' : ∑ i, x ((g : Equiv.Perm (Fin n))⁻¹ i) = 0} :
     S16C11AltAct n g (s16c11AltVec n x hx) =
       s16c11AltVec n (fun i => x ((g : Equiv.Perm (Fin n))⁻¹ i)) hx' := by
-  simp only [S16C11AltAct, s16c11AltVec, FFModel.IsActionModel.modAct_apply,
-    FFModel.IsActionModel.modEnd_mk]
+  simp only [S16C11AltAct, s16c11AltVec]
   rfl
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

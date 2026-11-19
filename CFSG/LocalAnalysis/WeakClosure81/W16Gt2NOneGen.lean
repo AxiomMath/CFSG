@@ -23,6 +23,7 @@ theorem exists_mem_zpowers_conj_eq {X : Type*} [Group X] {t y : X} (ht : t * t =
   rw [inv_inv]
   exact hn.symm
 
+omit [Finite G] in
 private lemma zpow_eq_one_or_self {w : G} (hw2 : w * w = 1) (k : ℤ) :
     w ^ k = 1 ∨ w ^ k = w := by
   obtain ⟨n, hn | hn⟩ := Int.even_or_odd' k
@@ -35,12 +36,14 @@ private lemma zpow_eq_one_or_self {w : G} (hw2 : w * w = 1) (k : ℤ) :
     have h2 : w ^ (2 : ℤ) = 1 := by simpa [pow_two] using hw2
     rw [h2, one_zpow, one_mul]
 
+omit [Finite G] in
 private lemma eq_self_of_ne_one_zpow {w : G} (hw2 : w * w = 1) {k : ℤ} (hk : w ^ k ≠ 1) :
     w ^ k = w := by
   rcases zpow_eq_one_or_self hw2 k with h | h
   · exact absurd h hk
   · exact h
 
+omit [Finite G] in
 private lemma zpow_eq_one_of_two {u w : G} (hu2 : u * u = 1) (hu1 : u ≠ 1)
     (hw2 : w * w = 1) {k : ℤ} (hk : u ^ k = 1) : w ^ k = 1 := by
   obtain ⟨n, hn | hn⟩ := Int.even_or_odd' k
@@ -53,6 +56,7 @@ private lemma zpow_eq_one_of_two {u w : G} (hu2 : u * u = 1) (hu1 : u ≠ 1)
     rw [h2, one_zpow, one_mul] at hk
     exact hu1 hk
 
+omit [Finite G] in
 private lemma zpow_eq_self_of_two {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) (hw1 : w ≠ 1)
     {j : ℤ} (h : w ^ j = w) : u ^ j = u := by
   obtain ⟨n, hn | hn⟩ := Int.even_or_odd' j
@@ -65,6 +69,7 @@ private lemma zpow_eq_self_of_two {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) 
     have h2 : u ^ (2 : ℤ) = 1 := by simpa [pow_two] using hu2
     rw [h2, one_zpow, one_mul]
 
+omit [Finite G] in
 private lemma mem_sup_iff_exists_mul_of_comm {P Q : Subgroup G}
     (hcomm : ∀ a ∈ P, ∀ b ∈ Q, a * b = b * a) {x : G} :
     x ∈ P ⊔ Q ↔ ∃ a ∈ P, ∃ b ∈ Q, a * b = x := by
@@ -76,6 +81,7 @@ private lemma mem_sup_iff_exists_mul_of_comm {P Q : Subgroup G}
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_left_le_normalizer_right P Q hnorm]
   exact Set.mem_mul
 
+omit [Finite G] in
 private lemma eq_of_mul_eq_mul {A₁ A₂ : Subgroup G} (hdisj : A₁ ⊓ A₂ = ⊥) {a a' w w' : G}
     (ha : a ∈ A₁) (ha' : a' ∈ A₁) (hw : w ∈ A₂) (hw' : w' ∈ A₂)
     (h : a * w = a' * w') : a = a' ∧ w = w' := by
@@ -92,6 +98,7 @@ private lemma eq_of_mul_eq_mul {A₁ A₂ : Subgroup G} (hdisj : A₁ ⊓ A₂ =
   rw [haa] at h
   exact mul_left_cancel h
 
+omit [Finite G] in
 private lemma snd_eq_zpow_of_mem_sup {A₁ A₂ : Subgroup G} (hdisj : A₁ ⊓ A₂ = ⊥)
     (hcomm : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x)
     {C : Subgroup G} (hC : C ≤ A₁) {u w a b c : G} (hu : u ∈ A₁) (hw : w ∈ A₂)
@@ -104,12 +111,14 @@ private lemma snd_eq_zpow_of_mem_sup {A₁ A₂ : Subgroup G} (hdisj : A₁ ⊓ 
     (A₂.zpow_mem hw k) h'
   exact ⟨hbb, haa⟩
 
+omit [Finite G] in
 private lemma sup_zpowers_le_sup {A₁ A₂ : Subgroup G} {C : Subgroup G} (hC : C ≤ A₁)
     {u w : G} (hu : u ∈ A₁) (hw : w ∈ A₂) : C ⊔ Subgroup.zpowers (u * w) ≤ A₁ ⊔ A₂ := by
   refine sup_le (le_trans hC le_sup_left) ?_
   rw [Subgroup.zpowers_le]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hu) (Subgroup.mem_sup_right hw)
 
+omit [Finite G] in
 private lemma sup_zpowers_inf_eq_bot {A₁ A₂ : Subgroup G} (hW : IsElemAbelian 2 (A₁ ⊔ A₂))
     (hdisj : A₁ ⊓ A₂ = ⊥)
     (hcomm : ∀ x ∈ A₁, ∀ y ∈ A₂, x * y = y * x)
@@ -145,6 +154,7 @@ private lemma sup_zpowers_inf_eq_bot {A₁ A₂ : Subgroup G} (hW : IsElemAbelia
   rw [hb]
   exact zpow_eq_one_of_two hu2 hu1 hw2 huk
 
+omit [Finite G] in
 private lemma sup_zpowers_sup_eq {A₁ A₂ : Subgroup G} {C : Subgroup G} (hC : C ≤ A₁)
     {u w : G} (hu : u ∈ A₁) (hw : w ∈ A₂) (hCsup : C ⊔ Subgroup.zpowers u = A₁) :
     (C ⊔ Subgroup.zpowers (u * w)) ⊔ A₂ = A₁ ⊔ A₂ := by
@@ -400,7 +410,7 @@ private theorem conj_eq_self_of_mem_A₁ {A₁ A₂ : Subgroup G} {z : G}
 
 theorem mem_centralizer_of_conj_eq_complements {A₁ A₂ : Subgroup G} {z : G}
     (hW : IsElemAbelian 2 (A₁ ⊔ A₂)) (h₁ : A₁ ≠ ⊥) (h₂ : A₂ ≠ ⊥) (hdisj : A₁ ⊓ A₂ = ⊥)
-    (hzW : z ∈ normalizer ((A₁ ⊔ A₂ : Subgroup G) : Set G))
+    (_hzW : z ∈ normalizer ((A₁ ⊔ A₂ : Subgroup G) : Set G))
     (hz₂ : z ∈ normalizer (A₂ : Set G))
     (hz : ∀ D : Subgroup G, D ≤ A₁ ⊔ A₂ → D ⊓ A₂ = ⊥ → D ⊔ A₂ = A₁ ⊔ A₂ →
       z ∈ normalizer (D : Set G)) :

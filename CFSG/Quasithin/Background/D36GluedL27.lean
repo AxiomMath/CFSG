@@ -262,7 +262,7 @@ theorem false_of_l27 (h : GluedSwap X A U U') (hY : ∀ y : Y, y ^ 2 = 1) (hL₀
       rw [← QuotientGroup.mk_pow, this]
       rfl
   let ρ : L3.Γ →* MulAut (Sec U (U ⊓ fixV L₀)) := (glueSecAct hL₀U hZ).comp e.symm.toMonoidHom
-  letI : MulDistribMulAction L3.Γ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ ρ
+  let : MulDistribMulAction L3.Γ (Sec U (U ⊓ fixV L₀)) := MulDistribMulAction.compHom _ ρ
   have hsmul : ∀ (g : L3.Γ) (x : Sec U (U ⊓ fixV L₀)), g • x = glueSecAct hL₀U hZ (e.symm g) x :=
     fun _ _ => rfl
   have hfix : ∀ x : Sec U (U ⊓ fixV L₀), (∀ g : L3.Γ, g • x = x) → x = 1 := fun x hx =>
@@ -328,7 +328,7 @@ theorem d36GluedDiagL27_of_L38 (hL38 : D3L38) : D36GluedDiagL27 := by
   intro W _ _ M Mp T L V t n hd A hA hQ hAU hdiag hn24 hn3 hL27 hcub hshape
   have hsw := d36_gluedSwap hL38 n hA hQ hAU
   obtain ⟨e₃⟩ := nonempty_equiv_sl3_of_isPSL hL27
-  haveI : IsSimpleGroup L3.Γ := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
+  have : IsSimpleGroup L3.Γ := CFSG.ClassicalInvolution.Q3.TL4.isSimpleGroup_sl3Two
   have hsimple : IsSimpleGroup ↥L := MulEquiv.isSimpleGroup e₃
   have hLstab : L ≤ stabSub (orbSup T V) := (d36t_L_le_Mp n).trans (d36t_Mp_le_stab_orbSup n)
   have hLU : L ≤ stabSub (commSub (orbSup T V) L) := by

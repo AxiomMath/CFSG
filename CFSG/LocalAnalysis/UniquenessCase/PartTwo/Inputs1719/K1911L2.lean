@@ -14,12 +14,12 @@ theorem eq_one_of_isL2_of_fix_of_two_pow {Y : Type} [Group Y] {n : ℕ} (hY : Is
     (hn : 3 ≤ n) {T : Subgroup Y} (hTc : IsMulCommutative T) (hT : Nat.card T = 2 ^ n - 1)
     (β : MulAut Y) (hβ : ∃ k : ℕ, orderOf β = 2 ^ k) (hfix : ∀ a ∈ T, β a = a) : β = 1 := by
   obtain ⟨F, hField, hFinite, hFcard, ⟨e⟩⟩ := K148.exists_mulEquiv_sl2_of_isL2 hY
-  letI := hField
-  letI := hFinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : DecidableEq F := Classical.decEq F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
+  let := hField
+  let := hFinite
+  have : Fintype F := Fintype.ofFinite F
+  have : DecidableEq F := Classical.decEq F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
     rw [← Nat.card_eq_fintype_card]
     exact hFcard)
   let β' : MulAut SL(2, F) := MulAut.congr e β
@@ -29,7 +29,7 @@ theorem eq_one_of_isL2_of_fix_of_two_pow {Y : Type} [Group Y] {n : ℕ} (hY : Is
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hTc' : IsMulCommutative T' := by
-    haveI : IsMulCommutative T := hTc
+    have : IsMulCommutative T := hTc
     exact Subgroup.map_isMulCommutative T e.toMonoidHom
   have hcard' : Nat.card T' = Fintype.card F - 1 := by
     rw [show T' = T.map e.toMonoidHom from rfl,

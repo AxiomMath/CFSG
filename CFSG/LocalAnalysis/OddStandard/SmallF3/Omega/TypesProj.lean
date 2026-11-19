@@ -17,6 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def piGroup (Q : QuadraticForm (ZMod 3) V) : Subgroup (OGroup Q) :=
   Subgroup.zpowers (piOrth Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_piOrth_zpow (k : ℤ) :
     piOrth Q ^ k = 1 ∨ piOrth Q ^ k = piOrth Q := by
   have h2 : piOrth Q ^ (2 : ℤ) = 1 := by
@@ -27,6 +28,7 @@ private lemma aux_piOrth_zpow (k : ℤ) :
   · right
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_piGroup_iff {g : OGroup Q} : g ∈ piGroup Q ↔ g = 1 ∨ g = piOrth Q := by
   constructor
   · intro hg
@@ -37,6 +39,7 @@ theorem mem_piGroup_iff {g : OGroup Q} : g ∈ piGroup Q ↔ g = 1 ∨ g = piOrt
     · exact (piGroup Q).one_mem
     · exact Subgroup.mem_zpowers (piOrth Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem piOrth_mem_center : piOrth Q ∈ Subgroup.center (OGroup Q) := by
   rw [Subgroup.mem_center_iff]
   intro g
@@ -95,6 +98,7 @@ private lemma aux_neg_mul_mul_pow (u : ℤˣ) (r : ℕ) :
   rw [pow_succ, mul_comm ((-1 : ℤˣ) ^ r) (-1)]
   ac_rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem toProj_piOrth : toProj Q (piOrth Q) = 1 := by
   change QuotientGroup.mk' (piGroup Q) (piOrth Q) = 1
   rw [QuotientGroup.mk'_apply]
@@ -107,6 +111,7 @@ private lemma aux_quadSign_restrict_congr {A B : Submodule (ZMod 3) V} (h : A = 
 @[expose] def HasType (x : ProjOrth Q) (r : ℕ) (α : ℤˣ) : Prop :=
   x ≠ 1 ∧ ∃ t : OGroup Q, t * t = 1 ∧ invType t = (r, α) ∧ toProj Q t = x
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem piOrth_mul_mul_self {t : OGroup Q} (htt : t * t = 1) :
     (piOrth Q * t) * (piOrth Q * t) = 1 := by
   have hc : t * piOrth Q = piOrth Q * t :=
@@ -117,6 +122,7 @@ theorem piOrth_mul_mul_self {t : OGroup Q} (htt : t * t = 1) :
     _ = (piOrth Q * piOrth Q) * (t * t) := by group
     _ = 1 := by rw [piOrth_mul_self, htt, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_piOrth_mul {t : OGroup Q} (htt : t * t = 1) : commSp (piOrth Q * t) = fixSp t := by
   ext v
   rw [mem_commSp_iff (piOrth_mul_mul_self htt), mem_fixSp_iff]
@@ -186,7 +192,7 @@ theorem invType_piOrth_mul_of_even_minus (hQ : Q.Nondegenerate) {t : OGroup Q} (
     aux_neg_one_pow_mul_sub_of_even (invDim_le t) hn, aux_neg_mul_mul_pow (invSign t) (invDim t)]
 
 private lemma aux_hasType_sub_forward (hQ : Q.Nondegenerate) {x : ProjOrth Q} {r : ℕ}
-    (hr : r ≤ Module.finrank (ZMod 3) V) {α : ℤˣ} (h : HasType x r α) :
+    (_hr : r ≤ Module.finrank (ZMod 3) V) {α : ℤˣ} (h : HasType x r α) :
     HasType x (Module.finrank (ZMod 3) V - r)
       (quadSign Q * α * (-1) ^ (r * (Module.finrank (ZMod 3) V - r))) := by
   simp only [HasType] at h ⊢
@@ -208,7 +214,7 @@ theorem hasType_iff_hasType_sub (hQ : Q.Nondegenerate) {x : ProjOrth Q} {r : ℕ
   · exact aux_hasType_sub_forward hQ hr
   · intro h
     have hf := aux_hasType_sub_forward (hQ := hQ)
-      (hr := Nat.sub_le (Module.finrank (ZMod 3) V) r)
+      (_hr := Nat.sub_le (Module.finrank (ZMod 3) V) r)
       (α := quadSign Q * α * (-1) ^ (r * (Module.finrank (ZMod 3) V - r))) h
     rw [Nat.sub_sub_self hr] at hf
     rw [show (Module.finrank (ZMod 3) V - r) * r =

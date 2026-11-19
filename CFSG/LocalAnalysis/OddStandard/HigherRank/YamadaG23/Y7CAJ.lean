@@ -20,22 +20,22 @@ theorem y7c_J_card (c : K7Abs ρ t J Q P M6 M7) : Nat.card ↥J = 168 := by
 
 theorem y7c_J_simple (c : K7Abs ρ t J Q P M6 M7) : IsSimpleGroup ↥J := by
   obtain ⟨e⟩ := c.J_iso
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   exact e.isSimpleGroup
 
 theorem y7c_J_nonabelian (c : K7Abs ρ t J Q P M6 M7) :
     ∃ a ∈ J, ∃ b ∈ J, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
-  haveI hsimple := y7c_J_simple c
-  haveI : IsMulCommutative ↥J :=
+  push Not at h
+  have hsimple := y7c_J_simple c
+  have : IsMulCommutative ↥J :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (h a.1 a.2 b.1 b.2)
   have hp : (Nat.card ↥J).Prime := Group.is_simple_iff_prime_card.mp hsimple
   rw [y7c_J_card c] at hp
   exact absurd hp (by norm_num)
 
 theorem y7c_J_perfect (c : K7Abs ρ t J Q P M6 M7) : ⁅J, J⁆ = J := by
-  haveI hsimple := y7c_J_simple c
+  have hsimple := y7c_J_simple c
   have hna : ¬ IsMulCommutative ↥J := by
     intro h
     obtain ⟨a, ha, b, hb, hab⟩ := y7c_J_nonabelian c
@@ -49,7 +49,7 @@ theorem y7c_J_perfect (c : K7Abs ρ t J Q P M6 M7) : ⁅J, J⁆ = J := by
 
 theorem y7c_J_center (c : K7Abs ρ t J Q P M6 M7) {x : Γ} (hx : x ∈ J)
     (h : ∀ y ∈ J, x * y = y * x) : x = 1 := by
-  haveI hsimple := y7c_J_simple c
+  have hsimple := y7c_J_simple c
   have hmem : (⟨x, hx⟩ : ↥J) ∈ Subgroup.center ↥J := by
     rw [Subgroup.mem_center_iff]
     intro y
@@ -64,7 +64,7 @@ theorem y7c_J_center (c : K7Abs ρ t J Q P M6 M7) {x : Γ} (hx : x ∈ J)
 
 theorem y7c_J_inf_normal (c : K7Abs ρ t J Q P M6 M7) (A : Subgroup Γ) [A.Normal] :
     J ⊓ A = ⊥ ∨ J ≤ A := by
-  haveI hsimple := y7c_J_simple c
+  have hsimple := y7c_J_simple c
   rcases hsimple.eq_bot_or_eq_top_of_normal (A.subgroupOf J) with hbot | htop
   · left
     rw [Subgroup.subgroupOf_eq_bot, disjoint_iff] at hbot
@@ -74,7 +74,7 @@ theorem y7c_J_inf_normal (c : K7Abs ρ t J Q P M6 M7) (A : Subgroup Γ) [A.Norma
 
 theorem y7c_Q_comm (c : K7Abs ρ t J Q P M6 M7) {a b : Γ} (ha : a ∈ Q) (hb : b ∈ Q) :
     a * b = b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp c.Q_two
   have hbound : n ≤ 2 := by
     have hle : 2 ^ n ≤ 2 ^ 2 := by
@@ -86,9 +86,9 @@ theorem y7c_Q_comm (c : K7Abs ρ t J Q P M6 M7) {a b : Γ} (ha : a ∈ Q) (hb : 
     have hn_cases : n = 0 ∨ n = 1 ∨ n = 2 := by omega
     rcases hn_cases with rfl | rfl | rfl
     · have h1 : Nat.card ↥Q = 1 := by rw [hn]; norm_num
-      haveI : Subsingleton ↥Q := Finite.card_le_one_iff_subsingleton.mp h1.le
+      have : Subsingleton ↥Q := Finite.card_le_one_iff_subsingleton.mp h1.le
       exact IsMulCommutative.of_comm fun x y => Subsingleton.elim (x * y) (y * x)
-    · haveI : IsCyclic ↥Q := isCyclic_of_prime_card (p := 2) (by simpa using hn)
+    · have : IsCyclic ↥Q := isCyclic_of_prime_card (p := 2) (by simpa using hn)
       exact IsCyclic.isMulCommutative
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hn
   simpa using Subtype.ext_iff.mp (hcomm.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -105,7 +105,7 @@ theorem y7c_comm_mem_J (c : K7Abs ρ t J Q P M6 M7) {x y : Γ} (hx : x * t = t *
     commutatorElement_eq_one_iff_mul_comm.mpr (c.Q_J q₂ hq₂ j₁ hj₁).symm
   rw [commutatorElement_mul_left_eq_conj_mul, commutatorElement_mul_right_eq_mul_conj,
     commutatorElement_mul_right_eq_mul_conj, hq1j2, hq1q2, hj1q2]
-  simp only [mul_assoc, mul_one, one_mul, mul_inv_cancel, inv_mul_cancel]
+  simp only [mul_assoc, mul_one, one_mul, mul_inv_cancel]
   exact Subgroup.commutator_le_self J (Subgroup.commutator_mem_commutator hj₁ hj₂)
 
 theorem y7c_perfect_le_J (c : K7Abs ρ t J Q P M6 M7) {X : Subgroup Γ} (hX : ⁅X, X⁆ = X)
@@ -125,7 +125,7 @@ theorem y7c_conjSub_J_le (c : K7Abs ρ t J Q P M6 M7) (n : Γ)
     simpa [mul_assoc] using h (n⁻¹ * x * n) hx'
 
 theorem y7c_J_exists_order7 (c : K7Abs ρ t J Q P M6 M7) : ∃ x ∈ J, x ^ 7 = 1 ∧ x ≠ 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7 : 7 ∣ Nat.card ↥J := by rw [y7c_J_card c]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 7 h7
   refine ⟨x.1, x.2, ?_, ?_⟩

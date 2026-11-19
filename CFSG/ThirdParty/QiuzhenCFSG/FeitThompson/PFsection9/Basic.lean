@@ -34,7 +34,7 @@ universe u
   section12ComplementIn UE U E ∧
     section12FrobeniusJoinWithKernel U E ∧
     UE ≤ Subgroup.normalizer (H : Set G) ∧
-    IsSolvable H ∧
+    Group.IsSolvable H ∧
     Nat.Coprime (Nat.card H) (Nat.card UE)
 
 /-- PF Hypothesis `(9.2)`.
@@ -140,8 +140,8 @@ public theorem exists_quotientCentralizerIn_normal_of_invariant_sec9
       quotientCentralizerIn MF H0 U C ∧ (C.subgroupOf U).Normal := by
   classical
   let H0MF : Subgroup MF := H0.subgroupOf MF
-  haveI : H0MF.Normal := hnormal
-  letI : MulDistribMulAction U (MF ⧸ H0MF) :=
+  have : H0MF.Normal := hnormal
+  let : MulDistribMulAction U (MF ⧸ H0MF) :=
     quotientMulDistribMulAction (A := U) (G := MF) H0MF hH0_inv_U
   let ρ : U →* MulAut (MF ⧸ H0MF) := MulDistribMulAction.toMulAut U (MF ⧸ H0MF)
   let C : Subgroup G := ρ.ker.map U.subtype
@@ -246,7 +246,7 @@ public theorem quotientBarUCardinality_relIndex_sec9
       C.relIndex U = u := by
   intro hBarU
   rcases hBarU with ⟨_hCU, hnormal, hcard⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   rw [Subgroup.relIndex, Subgroup.index_eq_card (C.subgroupOf U), hcard]
 
 public theorem quotientBarUCardinality_card_pos_sec9
@@ -257,7 +257,7 @@ public theorem quotientBarUCardinality_card_pos_sec9
       0 < u := by
   intro hBarU
   rcases hBarU with ⟨_hCU, hnormal, hcard⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   rw [← hcard]
   exact Nat.card_pos (α := U ⧸ C.subgroupOf U)
 
@@ -270,7 +270,7 @@ public theorem quotientBarUCardinality_odd_of_odd_U_sec9
         Odd u := by
   intro hBarU hUodd
   rcases hBarU with ⟨_hCU, hnormal, hcard⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   have hquot_dvd : Nat.card (U ⧸ C.subgroupOf U) ∣ Nat.card U :=
     Subgroup.card_quotient_dvd_card (C.subgroupOf U)
   have hquot_odd : Odd (Nat.card (U ⧸ C.subgroupOf U)) :=
@@ -546,7 +546,7 @@ public theorem conjugateCharacter_inducedCF_sec9
     Section1.conjugateCharacter (Section1.inducedCF H theta) =
       Section1.inducedCF H (Section1.conjugateCharacter theta) := by
   classical
-  letI := Fintype.ofFinite G
+  let := Fintype.ofFinite G
   funext g
   unfold Section1.conjugateCharacter Section1.inducedCF Section1.inducedClassFunction
   calc
@@ -888,7 +888,7 @@ public theorem section12ComplementIn_left_isComplement'_subgroupOf_sec9
     intro x hxM
     change x ∈ H ⊔ K
     simpa [← hsup] using hxM
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   exact isComplement'_of_disjoint_sup_eq_top_of_normal
     (H.subgroupOf M) (K.subgroupOf M) hdisjSub hsupTop
 
@@ -931,7 +931,7 @@ public theorem typePDefinitionData_ambientDerived_solvable_sec9
     {G : Type u} [Group G] [Finite G]
     {M MF U W1 W2 : Subgroup G}
     (hP : Section8.typePDefinitionData M MF U W1 W2) :
-    IsSolvable (ambientDerivedSubgroup M) := by
+    Group.IsSolvable (ambientDerivedSubgroup M) := by
   classical
   let D : Subgroup G := ambientDerivedSubgroup M
   rcases hP with
@@ -970,26 +970,26 @@ public theorem typePDefinitionData_ambientDerived_solvable_sec9
     change x ∈ D at hxD
     simpa [D, hcompDU.2.2.1] using hxD
   have hcompMFU : (MF.subgroupOf D).IsComplement' (U.subgroupOf D) := by
-    letI : (MF.subgroupOf D).Normal := hMFnormD
+    let : (MF.subgroupOf D).Normal := hMFnormD
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (MF.subgroupOf D) (U.subgroupOf D) hMFUdisjSub hMFUsupTop
   have hMFsub_solv : Group.IsSolvable (MF.subgroupOf D) := by
     have hMFsub_nil : Group.IsNilpotent (MF.subgroupOf D) := by
-      haveI : Group.IsNilpotent MF := hMFnil
+      have : Group.IsNilpotent MF := hMFnil
       exact Group.nilpotent_of_mulEquiv
         (Subgroup.subgroupOfEquivOfLe (by simpa [D] using hcompDU.1)).symm
-    haveI : Group.IsNilpotent (MF.subgroupOf D) := hMFsub_nil
+    have : Group.IsNilpotent (MF.subgroupOf D) := hMFsub_nil
     infer_instance
   have hquot_solv : Group.IsSolvable (D ⧸ MF.subgroupOf D) := by
     have hUsub_nil : Group.IsNilpotent (U.subgroupOf D) := by
-      haveI : Group.IsNilpotent U := hUnil
+      have : Group.IsNilpotent U := hUnil
       exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hcompDU.2.1).symm
-    haveI : Group.IsNilpotent (U.subgroupOf D) := hUsub_nil
+    have : Group.IsNilpotent (U.subgroupOf D) := hUsub_nil
     let : Group.IsSolvable (U.subgroupOf D) := by infer_instance
     exact Group.isSolvable_of_isSolvable_injective
       (f := hcompMFU.symm.QuotientMulEquiv.toMonoidHom)
       hcompMFU.symm.QuotientMulEquiv.injective
-  letI : (MF.subgroupOf D).Normal := hMFnormD
+  let : (MF.subgroupOf D).Normal := hMFnormD
   exact solvable_of_normal_and_quotient_sec9 (MF.subgroupOf D)
     hMFsub_solv hquot_solv
 
@@ -1006,7 +1006,7 @@ public theorem typePDefinitionData_W1_card_coprime_ambientDerived_sec9
   let D : Subgroup G := ambientDerivedSubgroup M
   have hDnormalM : (D.subgroupOf M).Normal := by
     simpa [D] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : (D.subgroupOf M).Normal := hDnormalM
+  let : (D.subgroupOf M).Normal := hDnormalM
   have hcompLocal : (D.subgroupOf M).IsComplement' (W1.subgroupOf M) :=
     section12ComplementIn_left_isComplement'_subgroupOf_sec9 hcompMW1
   rcases hW1hall with ⟨hW1M, hHallW1⟩
@@ -1051,7 +1051,7 @@ public theorem ambientDerived_W1_isComplement'_subgroupOf_M_of_hypothesis_9_2_se
     ⟨_hMFsource, _hW1cyc, _hW1ne, _hW1hall, hcompMW1, _hrest⟩
   have hDnormal : ((ambientDerivedSubgroup M).subgroupOf M).Normal := by
     simpa using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
+  let : ((ambientDerivedSubgroup M).subgroupOf M).Normal := hDnormal
   exact section12ComplementIn_left_isComplement'_subgroupOf_sec9 hcompMW1
 
 public theorem W2_le_M_of_hypothesis_9_2_sec9
@@ -1282,11 +1282,11 @@ public theorem HMK_index_eq_q_mul_relIndex_of_hypothesis_9_2_sec9
     change x ∈ D at hxD
     simpa [D, hD_eq] using hxD
   have hcompMFU : (MF.subgroupOf D).IsComplement' (U.subgroupOf D) := by
-    letI : (MF.subgroupOf D).Normal := hMFnormalD
+    let : (MF.subgroupOf D).Normal := hMFnormalD
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (MF.subgroupOf D) (U.subgroupOf D) hMFUdisjSub hMFUsupTop
   have hcardD : Nat.card D = Nat.card MF * Nat.card U := by
-    have h := hcompMFU.card_mul
+    have h := hcompMFU.card_mul_card
     rw [natCard_subgroupOf_eq MF D hMFleD,
       natCard_subgroupOf_eq U D hUleD] at h
     exact h.symm
@@ -1323,11 +1323,11 @@ public theorem HMK_index_eq_q_mul_relIndex_of_hypothesis_9_2_sec9
       le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.2 le_rfl
   have hcompMFK : (MF.subgroupOf HK).IsComplement' (K.subgroupOf HK) := by
-    letI : (MF.subgroupOf HK).Normal := hMFnormalHK
+    let : (MF.subgroupOf HK).Normal := hMFnormalHK
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (MF.subgroupOf HK) (K.subgroupOf HK) hdisjMFK_sub hMF_K_supTop
   have hcardHK : Nat.card HK = Nat.card MF * Nat.card K := by
-    have h := hcompMFK.card_mul
+    have h := hcompMFK.card_mul_card
     rw [natCard_subgroupOf_eq MF HK le_sup_left,
       natCard_subgroupOf_eq K HK le_sup_right] at h
     exact h.symm
@@ -1383,7 +1383,7 @@ public theorem HC_index_eq_q_mul_u_of_hypothesis_9_2_sec9
   intro h92 hBarU
   rcases hBarU with ⟨hC_le_U, hCnormalU, hUquot_card⟩
   have hrelC : C.relIndex U = u := by
-    letI : (C.subgroupOf U).Normal := hCnormalU
+    let : (C.subgroupOf U).Normal := hCnormalU
     rw [Subgroup.relIndex, Subgroup.index_eq_card (C.subgroupOf U), hUquot_card]
   rw [HMK_index_eq_q_mul_relIndex_of_hypothesis_9_2_sec9
     M MF U W1 W2 C q h92 hC_le_U, hrelC]
@@ -1844,11 +1844,11 @@ public theorem case_9_7_a_index_a_odd_sec9
   intro hcase
   rcases case_9_7_a_component_decomposition_sec9 hcase with
     ⟨hnormalH0, H, _hHcard, _hHnorm, _hInd, _hSup, hfactor, _hconj⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (H0.subgroupOf MF).Normal := hnormalH0
   have hqpos : 0 < q := (case_9_7_a_q_prime_sec9 hcase).pos
   rcases hfactor ⟨0, hqpos⟩ with
     ⟨hnormalC, ρ, _hcyc, hρcard, _haction, _hker⟩
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   have hUodd : Odd (Nat.card U) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card U)
   have hquotOdd : Odd (Nat.card (U ⧸ C.subgroupOf U)) :=
@@ -1891,9 +1891,9 @@ public theorem case_9_7_a_second_count_factor_pos_sec9
   have hqpos : 0 < q := hq.pos
   rcases hfactor ⟨0, hqpos⟩ with
     ⟨hnormalC, ρ, hcyc, hcardρ, _haction, _hker⟩
-  letI : (C.subgroupOf U).Normal := hnormalC
-  letI : IsCyclic ρ.range := hcyc
-  letI : CommGroup ρ.range := IsCyclic.commGroup
+  let : (C.subgroupOf U).Normal := hnormalC
+  let : IsCyclic ρ.range := hcyc
+  let : CommGroup ρ.range := IsCyclic.commGroup
   let f : U →* ρ.range :=
     ρ.rangeRestrict.comp (QuotientGroup.mk' (C.subgroupOf U))
   have hf_range_top : f.range = ⊤ := by

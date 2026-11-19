@@ -174,7 +174,7 @@ theorem exists_notation_of_even (hF : L2Field F) (hev : Even (Nat.card (fieldAut
       intro x hx
       exact (Commute.zpow_right (show Commute x ω from hTω x hx) v).eq
   have hPA : (T : Subgroup (MulAut K)) ⊓ innAut K ≤ A := by
-    have hT2 : IsPGroup 2 ↥((T : Subgroup (MulAut K)) ⊓ innAut K) := T.isPGroup'.to_inf_left
+    have hT2 : IsPGroup 2 ↥((T : Subgroup (MulAut K)) ⊓ innAut K) := T.isPGroup.to_inf_left
     have hle : Q ⊓ A ≤ (T : Subgroup (MulAut K)) ⊓ innAut K := inf_le_inf hQT hAK
     have hcard1 : Nat.card ↥((T : Subgroup (MulAut K)) ⊓ innAut K) ≤
         2 ^ (Nat.card K).factorization 2 := by
@@ -202,7 +202,7 @@ theorem exists_notation_of_even (hF : L2Field F) (hev : Even (Nat.card (fieldAut
     have hle' : (T : Subgroup (MulAut K)) ⊓ innDiagSub e ≤ (T : Subgroup (MulAut K)) ⊓ innAut K :=
       le_inf inf_le_left hle
     have h1 := Subgroup.card_le_of_le hle'
-    have hT2 : IsPGroup 2 ↥((T : Subgroup (MulAut K)) ⊓ innAut K) := T.isPGroup'.to_inf_left
+    have hT2 : IsPGroup 2 ↥((T : Subgroup (MulAut K)) ⊓ innAut K) := T.isPGroup.to_inf_left
     have h2 := card_le_pow_factorization 2 hT2
       (inf_le_right : (T : Subgroup (MulAut K)) ⊓ innAut K ≤ innAut K)
     rw [card_innAut e] at h2

@@ -213,6 +213,7 @@ theorem conj' {x h z : List ℕ} (hx : chW L x = true) (hh : chW L h = true) (hz
   have e' := hM.eq (chW_append_of hh hx) (chW_append_of hz hh) e
   rwa [hM.append, hM.append] at e'
 
+omit hM in
 theorem ne_one (hc : ∀ u, chW L u = true → ev u = 1 → E u [] = true) {u : List ℕ}
     (hu : chW L u = true) (h : neOK E u = true) : ev u ≠ 1 := by
   intro e
@@ -279,9 +280,9 @@ theorem mem_of_letters {y₁ y₂ : List ℕ} {M : List (List ℕ)} {nL n : ℕ}
   have hw : ev (nthW M (2 * (k / 2))) ∈ S := by
     apply Subgroup.subset_closure
     cases hb : Nat.blt (k / 2) n
-    · rw [hb, cond_false] at hj
+    · rw [hb, Bool.cond_false] at hj
       exact Or.inr (Subgroup.mem_centralizer_singleton_iff.2 (hM.comm (oM _) o₂ hj))
-    · rw [hb, cond_true] at hj
+    · rw [hb, _root_.Bool.cond_true] at hj
       exact Or.inl (Subgroup.mem_centralizer_singleton_iff.2 (hM.comm (oM _) o₁ hj))
   have hinv' := hM.eq (chW_append_of (oM _) (oM _)) (chW_nil L) hinv
   rw [hM.append, hM.nil, mul_eq_one_iff_eq_inv] at hinv'

@@ -16,13 +16,13 @@ private theorem isQuasisimple_of_isSp4 {X : Type} [Group X] {n : ℕ}
     (h : IsSp4 X n) (hn : 2 ≤ n) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hbot := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (n := 2) (K := K)
   let eΩ : StatedProj (StatedSp 2 K) ≃* StatedSp 2 K :=
@@ -35,8 +35,8 @@ private theorem isQuasisimple_of_isSp4 {X : Type} [Group X] {n : ℕ}
 private theorem isQuasisimple_of_isSLn {X : Type} [Group X] {d a : ℕ} (hd : 2 ≤ d)
     (h : IsSLn X d a) (ha : 2 ≤ a) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -48,9 +48,9 @@ private theorem isQuasisimple_of_isSLn {X : Type} [Group X] {d a : ℕ} (hd : 2 
 private theorem isQuasisimple_of_isSUn_four {X : Type} [Group X] {a : ℕ}
     (h : IsSUn X 4 a) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : ((4 : ℕ), 2 ^ a) ≠ (3, 2) := by
     intro hpair
     exact absurd (congrArg Prod.fst hpair) (by norm_num)
@@ -86,18 +86,18 @@ private theorem isQuasisimple_of_statedProj_omegaMinus {X : Type} [Group X] {m :
 private theorem isQuasisimple_of_isOmegaMinus {X : Type} [Group X] {n a : ℕ}
     (h : IsOmegaMinus X n a) (hm : 2 ≤ n / 2) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   exact isQuasisimple_of_statedProj_omegaMinus hm b c hirr e
 
 private theorem isQuasisimple_of_isOmegaPlus_six {X : Type} [Group X] {a : ℕ}
     (h : IsOmegaPlus X 6 a) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let Q : QuadraticForm K (Fin 3 ⊕ Fin 3 → K) := CFSG.LieType.Universal.Spin.quadPlus 3 K
   have hQ : ⇑Q = StatedQuadPlus 3 K :=
@@ -120,8 +120,8 @@ private theorem isQuasisimple_of_isOmegaPlus_six {X : Type} [Group X] {a : ℕ}
 private theorem isQuasisimple_of_isSpn_six {X : Type} [Group X] {a : ℕ}
     (h : IsSpn X 6 a) (ha : 2 ≤ a) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -135,9 +135,9 @@ private theorem isQuasisimple_of_isOmega8m {X : Type} [Group X] {n : ℕ}
     (h : IsOmega8m X n) : CFSG.Open.IsQuasisimple X := by
   obtain ⟨-, K, hKf, hKfin, hKcard, b, c, hirr, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   exact isQuasisimple_of_statedProj_omegaMinus (m := 4) (by norm_num) b c hirr e
 

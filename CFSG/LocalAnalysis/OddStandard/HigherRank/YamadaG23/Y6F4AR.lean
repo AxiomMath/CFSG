@@ -49,9 +49,9 @@ theorem y6f4a_target_simple_nonab (hO : LieOrderFormulasInput) {X : Type} [Group
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   refine ⟨hS, fun hc => ?_⟩
-  haveI : IsSimpleGroup X := hS
-  haveI : IsMulCommutative X := hc
-  letI : CommGroup X := { (inferInstance : Group X) with
+  have : IsSimpleGroup X := hS
+  have : IsMulCommutative X := hc
+  let : CommGroup X := { (inferInstance : Group X) with
     mul_comm := fun a b => mul_comm' a b }
   have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card (α := X)
   rcases y6f4a_card_target hO h with h1 | h1 | h1
@@ -65,7 +65,7 @@ theorem y6f4a_target_simple_nonab (hO : LieOrderFormulasInput) {X : Type} [Group
 theorem y6f4a_exists_noncomm_of_not_comm {X : Type} [Group X] (h : ¬ IsMulCommutative X) :
     ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h (IsMulCommutative.of_comm hc)
 
 theorem y6f4a_card_psl_two_four (hO : LieOrderFormulasInput) {X : Type} [Group X]

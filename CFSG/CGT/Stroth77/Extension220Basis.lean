@@ -29,7 +29,7 @@ theorem three_mul_GV_t131 (s : ℕ) :
   linarith
 
 theorem t131_k_pos (i : Fin 3) : 1 ≤ (StrothTypeIndex.t131 (s + 2) hm).k i := by
-  fin_cases i <;> simp [StrothTypeIndex.k, Type131.k] <;> omega
+  fin_cases i <;> simp [StrothTypeIndex.k, Type131.k]
 
 theorem parityTorus_rho_t131 (y : Torus (StrothTypeIndex.t131 (s + 2) hm).k) :
     parityTorus _ t131_k_pos ((StrothTypeIndex.t131 (s + 2) hm).action.φρ y) =
@@ -91,6 +91,7 @@ theorem t131_fixed_rho_t (y : Torus (StrothTypeIndex.t131 (s + 2) hm).k)
   · simp
   · simp
 
+omit [Finite S] in
 theorem t131_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t131 (s + 2) hm))
     {y : B} (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t131 (s + 2) hm).action.φρ (D.ec y) = D.ec y := by
@@ -101,6 +102,7 @@ theorem t131_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t131 (s +
       from D.t_conj y, ht]
   exact D.ec_eq_zero_iff.mp (t131_fixed_rho_t (D.ec y) hρ' ht')
 
+omit [Finite S] in
 theorem conjBy_ρ_a_t131 (D : StrothTypeData B (StrothTypeIndex.t131 (s + 2) hm)) :
     conjBy D.ρ_mem D.a = D.b := by
   apply D.ec_injective
@@ -112,6 +114,7 @@ theorem conjBy_ρ_a_t131 (D : StrothTypeData B (StrothTypeIndex.t131 (s + 2) hm)
   rw [show D.ec (conjBy D.ρ_mem D.a) = _ from h, D.ec_b]
   simp
 
+omit [Finite S] in
 theorem conj_ρ_sq_t131 (D : StrothTypeData B (StrothTypeIndex.t131 (s + 2) hm)) (hBC : B ≤ C)
     (hL : D.L ≤ Subgroup.normalizer C) {e : C} (he : e * e = ⟨D.a, hBC D.a.2⟩) :
     conjBy (hL D.ρ_mem_L) e * conjBy (hL D.ρ_mem_L) e = ⟨D.b, hBC D.b.2⟩ := by
@@ -285,6 +288,7 @@ variable (D : StrothTypeData B (StrothTypeIndex.t131 (s + 2) hm)) (hBC : B ≤ C
   (he : e * e = ⟨D.a, hBC D.a.2⟩)
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_incl_t131 (β : B) {i j l : ℤ}
     (h : D.ec β = i • gen (StrothTypeIndex.t131 (s + 2) hm).k 0 +
       j • gen (StrothTypeIndex.t131 (s + 2) hm).k 1 +
@@ -304,6 +308,7 @@ theorem E_symm_incl_t131 (β : B) {i j l : ℤ}
     ← two_zsmul, ← two_zsmul, smul_smul, smul_smul, mul_comm j 2, mul_comm l 2]
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem alpha_incl_t131 {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (β : B) {i j l : ℤ}
     (h : D.ec (conjBy hgB β) = i • gen (StrothTypeIndex.t131 (s + 2) hm).k 0 +
@@ -318,24 +323,28 @@ theorem alpha_incl_t131 {g : S} (hgC : g ∈ Subgroup.normalizer C)
   exact E_symm_incl_t131 D hBC hL E hE0 hE1 hE2 he _ h
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_c_t131 : E.symm (Additive.ofMul (⟨D.c, hBC D.c.2⟩ : C)) = (𝔤 s 0) := by
   rw [E_symm_incl_t131 D hBC hL E hE0 hE1 hE2 he D.c (i := 1) (j := 0) (l := 0)
     (by rw [D.ec_c]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_a_t131 : E.symm (Additive.ofMul (⟨D.a, hBC D.a.2⟩ : C)) = (2 : ℤ) • (𝔤 s 1) := by
   rw [E_symm_incl_t131 D hBC hL E hE0 hE1 hE2 he D.a (i := 0) (j := 1) (l := 0)
     (by rw [D.ec_a]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem E_symm_b_t131 : E.symm (Additive.ofMul (⟨D.b, hBC D.b.2⟩ : C)) = (2 : ℤ) • (𝔤 s 2) := by
   rw [E_symm_incl_t131 D hBC hL E hE0 hE1 hE2 he D.b (i := 0) (j := 0) (l := 1)
     (by rw [D.ec_b]; module)]
   module
 
 include hE0 hE1 hE2 he in
+omit [Finite S] in
 theorem transport_t131 :
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 s 0) = (Type230.action (Type230.data s)).φρ (𝔤 s 0) ∧
     conjTorusIdx4 E (hL D.ρ_mem_L) (𝔤 s 1) = (Type230.action (Type230.data s)).φρ (𝔤 s 1) ∧

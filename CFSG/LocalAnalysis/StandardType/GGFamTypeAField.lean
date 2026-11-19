@@ -28,8 +28,8 @@ theorem fam_fieldSL_rankOne
       (rationalComponentM S.ρ S.Γ χ i) := by
   obtain ⟨K, hKfield, hKfin, f, hf, hcard, hfield, _hchrK, h4, g, hgsurj, hgker⟩ :=
     fam_exists_slCover_rankOne S hρ i hr1 hn hq
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchr : ringChar L = 2 := ringChar.eq L 2
   have hfld : (2 : ℕ) ^ f = S.D.q ^ componentOrbitLength S.ρ (componentRoots χ i) := by
     rw [← hchr]; exact hfield
@@ -55,8 +55,8 @@ theorem fam_fieldSL_splitFrame
       (rationalComponentM S.ρ S.Γ χ i) := by
   obtain ⟨K, hKfield, hKfin, f, hf, hcard, hfield, _hchrK, g, hgsurj, hgker⟩ :=
     fam_exists_slCover_splitFrame S hρ i hν hψ hΨ π hπ
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchr : ringChar L = 2 := ringChar.eq L 2
   have hfld : (2 : ℕ) ^ f = S.D.q ^ componentOrbitLength S.ρ (componentRoots χ i) := by
     rw [← hchr]; exact hfield
@@ -86,8 +86,8 @@ theorem fam_fieldSL_unitaryFrame
   have hcover := fam_exists_suCover_unitaryFrame S hρ i hν hψ hΨ π hπ hq
   rw [hchr] at hcover
   obtain ⟨K, hKfield, hKfin, f, hf, hcard, hfield, _hchrK, h32, g, hgsurj, hgker⟩ := hcover
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hmain : GGCompFieldAtSL (2 ^ f)
       (rationalComponentM S.ρ S.Γ χ i) :=
     ggCompFieldAtSL_of_suCover (X := rationalComponentM S.ρ S.Γ χ i)

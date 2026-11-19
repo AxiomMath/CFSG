@@ -18,12 +18,12 @@ theorem exists_iso_Gz (h : F5Std a z) (h' : F5Std a' z') {w : G} {w' : G'} (hw :
     (hw' : IsConj z' w') : ∃ γ : G → G', IsIsoOn (Gx w) (Gx w') γ := by
   have hF : F5Std a w := h.of_isConj (IsConj.refl a) hw
   have hF' : F5Std a' w' := h'.of_isConj (IsConj.refl a') hw'
-  haveI : Finite G := h.finite
-  haveI : Finite G' := h'.finite
+  have : Finite G := h.finite
+  have : Finite G' := h'.finite
   obtain ⟨Q, hQn, hAH⟩ := hF.loc.gz9.self.aschbacher
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   obtain ⟨Q', hQ'n, hAH'⟩ := hF'.loc.gz9.self.aschbacher
-  haveI : Q'.Normal := hQ'n
+  have : Q'.Normal := hQ'n
   obtain ⟨e⟩ := CFSG.EvenSporadicStandard.HNRecog.aschbacherUniq
     ↥(Gx w) ↥(Gx w') Q Q' hAH hAH'
   obtain ⟨f, hf, _⟩ := exists_isIsoOn_of_mulEquiv e

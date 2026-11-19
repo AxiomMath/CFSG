@@ -34,7 +34,7 @@ theorem closureIn_eq_of_quot {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Fi
   have hconjB : ∀ (a : ↥S), mk a ∈ Subgroup.normalizer (modCentreImage S B : Set Q) →
       ∀ b : Ω, b ∈ B → (a : Ω) * b * (a : Ω)⁻¹ ∈ B := by
     intro a haN b hb
-    haveI : IsMulCommutative ↥B := hB.1
+    have : IsMulCommutative ↥B := hB.1
     have hBsup : (Subgroup.zpowers x).subgroupOf B ⊔ (B ⊓ S).subgroupOf B = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hxBle inf_le_left, ← hBx, Subgroup.subgroupOf_self]
     have hbB : (⟨b, hb⟩ : ↥B) ∈ (⊤ : Subgroup ↥B) := Subgroup.mem_top _
@@ -231,10 +231,10 @@ theorem lin_hc_false {Ω : Type} [Group Ω] [Finite Ω] {S B K N : Subgroup Ω}
     exact le_trans le_sup_left hnorm
   have hTn : (T.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSnorm
   have hT2sub : IsPGroup 2 (T.subgroupOf S) := hT2.comap_subtype (K := S)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (T.subgroupOf S).Normal := hTn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (T.subgroupOf S).Normal := hTn
   have hsolv : Group.IsSolvable (T.subgroupOf S) := by
-    haveI : Group.IsNilpotent (T.subgroupOf S) := hT2sub.isNilpotent
+    have : Group.IsNilpotent (T.subgroupOf S) := hT2sub.isNilpotent
     infer_instance
   have hTcent : T.subgroupOf S ≤ Subgroup.center ↥S :=
     CFSG.ComponentClassification.AschbacherTheorem5.FusionTwo.le_center_of_quasisimple

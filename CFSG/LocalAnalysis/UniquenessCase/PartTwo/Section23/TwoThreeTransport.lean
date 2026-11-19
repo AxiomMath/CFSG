@@ -20,13 +20,15 @@ noncomputable def barSubHom {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subgr
   ((actTil ⊥ A hA).comp (Subgroup.inclusion hX)).codRestrict (barSub ⊥ A hA X)
     (fun x => actTil_mem_barSub ⊥ A hA x.2 (hX x.2))
 
+omit [Finite G] in
 theorem barSubHom_apply {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subgroup G)
     (hX : X ≤ stabTil ⊥ A) (x : ↥X) :
     ((barSubHom hA X hX x : ↥(barSub ⊥ A hA X)) : MulAut (Vtil ⊥ A hA)) =
       actTil ⊥ A hA ⟨(x : G), hX x.2⟩ := by
-  simp only [barSubHom, MonoidHom.codRestrict_apply, MonoidHom.comp_apply]
+  simp only [barSubHom]
   rfl
 
+omit [Finite G] in
 theorem barSubHom_surjective {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subgroup G)
     (hX : X ≤ stabTil ⊥ A) : Function.Surjective (barSubHom hA X hX) := by
   intro φ
@@ -36,6 +38,7 @@ theorem barSubHom_surjective {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subg
   rw [barSubHom_apply, hgg]
   exact hg
 
+omit [Finite G] in
 theorem barSubHom_ker {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subgroup G)
     (hX : X ≤ stabTil ⊥ A) :
     (barSubHom hA X hX).ker = (X ⊓ Subgroup.centralizer (A : Set G)).subgroupOf X := by
@@ -63,6 +66,7 @@ theorem barSubHom_ker {A : Subgroup G} (hA : IsElemAbelian 2 A) (X : Subgroup G)
     rw [← hcomm]
     group
 
+omit [Finite G] in
 theorem barSub_commutator {A X : Subgroup G} (hA : IsElemAbelian 2 A)
     (hX : X ≤ stabTil ⊥ A) (hperf : ⁅X, X⁆ = X) :
     ⁅barSub ⊥ A hA X, barSub ⊥ A hA X⁆ = barSub ⊥ A hA X := by
@@ -116,6 +120,7 @@ theorem barSub_pCoreOf_eq_bot_of_isComponentOf {D : Data G} {Ch : Choice2011 G}
   calc (g : G) * a * (g : G)⁻¹ * a⁻¹ = a * a⁻¹ := by rw [hcomm]; group
     _ = 1 := by group
 
+omit [Finite G] in
 private theorem barSub_ne_bot_of_not_le_centralizer {A K : Subgroup G}
     (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (hfaith : ¬ K ≤ Subgroup.centralizer (A : Set G)) : barSub ⊥ A hA K ≠ ⊥ := by
@@ -156,7 +161,7 @@ theorem isComponentOf_barSub {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
 theorem isSylowIn_barSub {A S X : Subgroup G} (hA : IsElemAbelian 2 A)
     (hSX : S ≤ X) (hX : X ≤ stabTil ⊥ A) (hS : IsSylowIn 2 S X) :
     IsSylowIn 2 (barSub ⊥ A hA S) (barSub ⊥ A hA X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := barSub ⊥ A hA X
   let ψ := barSubHom hA X hX
   have hψ : Function.Surjective ψ := barSubHom_surjective hA X hX
@@ -227,6 +232,7 @@ theorem isComponentOf_barSub_of_sup_conj {D : Data G} {Ch : Choice2011 G} (c : C
   isComponentOf_barSub c h208 h1930 hA hAV hAN hK
     (not_le_centralizer_of_sup_conj c hAne hAV hAN hgen)
 
+omit [Finite G] in
 theorem lieModel_barSub_of_isSimpleGroup {A K : Subgroup G} (hA : IsElemAbelian 2 A)
     (hKstab : K ≤ stabTil ⊥ A) (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥)
     (hK1 : barSub ⊥ A hA K ≠ ⊥) (hsimple : IsSimpleGroup (Bar2 K))
@@ -252,6 +258,7 @@ theorem lieModel_barSub_of_isSimpleGroup {A K : Subgroup G} (hA : IsElemAbelian 
     exact ((QuotientGroup.quotientMulEquivOfEq hker).trans QuotientGroup.quotientBot).symm.trans e0
   exact CFSG.Blueprint.LieModel.of_mulEquiv e h
 
+omit [Finite G] in
 theorem isSL3_barSub {A K : Subgroup G} (hA : IsElemAbelian 2 A)
     (hKstab : K ≤ stabTil ⊥ A) (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥)
     (hK1 : barSub ⊥ A hA K ≠ ⊥) {n : ℕ} (h : IsSL3 (Bar2 K) n) :
@@ -259,7 +266,7 @@ theorem isSL3_barSub {A K : Subgroup G} (hA : IsElemAbelian 2 A)
   let q := barSubBar2Hom (V₀ := ⊥) hA hKstab h2
   have hq : Function.Surjective q := barSubBar2Hom_surjective hA hKstab h2
   have hnt : ∃ k : Bar2 K, q k ≠ 1 := by
-    haveI : Nontrivial ↥(barSub ⊥ A hA K) := (Subgroup.nontrivial_iff_ne_bot _).2 hK1
+    have : Nontrivial ↥(barSub ⊥ A hA K) := (Subgroup.nontrivial_iff_ne_bot _).2 hK1
     obtain ⟨g, hg⟩ := exists_ne (1 : ↥(barSub ⊥ A hA K))
     obtain ⟨k, hk⟩ := hq g
     exact ⟨k, fun h1 => hg (by rw [← hk, h1])⟩
@@ -272,6 +279,7 @@ theorem isSL3_barSub {A K : Subgroup G} (hA : IsElemAbelian 2 A)
   exact CFSG.LieType.CurtisTits.lieModel_of_mulEquiv
     (CFSG.LieType.CurtisTits.centralQuotientEquivOfIsQuasisimple hqC hq hker) h.2
 
+omit [Finite G] in
 theorem isSU3_barSub {A K : Subgroup G} (hA : IsElemAbelian 2 A)
     (hKstab : K ≤ stabTil ⊥ A) (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥)
     (hK1 : barSub ⊥ A hA K ≠ ⊥) {n : ℕ} (h : IsSU3 (Bar2 K) n) :
@@ -279,7 +287,7 @@ theorem isSU3_barSub {A K : Subgroup G} (hA : IsElemAbelian 2 A)
   let q := barSubBar2Hom (V₀ := ⊥) hA hKstab h2
   have hq : Function.Surjective q := barSubBar2Hom_surjective hA hKstab h2
   have hnt : ∃ k : Bar2 K, q k ≠ 1 := by
-    haveI : Nontrivial ↥(barSub ⊥ A hA K) := (Subgroup.nontrivial_iff_ne_bot _).2 hK1
+    have : Nontrivial ↥(barSub ⊥ A hA K) := (Subgroup.nontrivial_iff_ne_bot _).2 hK1
     obtain ⟨g, hg⟩ := exists_ne (1 : ↥(barSub ⊥ A hA K))
     obtain ⟨k, hk⟩ := hq g
     exact ⟨k, fun h1 => hg (by rw [← hk, h1])⟩

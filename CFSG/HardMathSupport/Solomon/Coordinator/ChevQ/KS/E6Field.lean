@@ -26,10 +26,10 @@ theorem exists_pow_mul_mem_of_card_le_three_mul {A : Type*} [Group A] [Finite A]
     {φ : A} (hφD : φ ∈ D) (hφI : φ ∉ I) :
     ∀ d ∈ D, ∃ i : ℕ, i < 3 ∧ φ ^ i * d ∈ I := by
   classical
-  haveI := hD.1
+  have := hD.1
   have hcomm : ∀ a b : D, a * b = b * a := fun a b => mul_comm' a b
   set N : Subgroup D := (D ⊓ I).subgroupOf D with hN
-  haveI hNn : N.Normal := ⟨fun n hn d => by rwa [show d * n * d⁻¹ = n by rw [hcomm d n]; group]⟩
+  have hNn : N.Normal := ⟨fun n hn d => by rwa [show d * n * d⁻¹ = n by rw [hcomm d n]; group]⟩
   have hNcard : Nat.card N = Nat.card ↥(D ⊓ I) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : D ⊓ I ≤ D)).toEquiv
   have hmul : Nat.card N * N.index = Nat.card D := Subgroup.card_mul_index N
@@ -58,7 +58,7 @@ theorem exists_pow_mul_mem_of_card_le_three_mul {A : Type*} [Group A] [Finite A]
     · simpa using hk'
   have hQcard : Nat.card (D ⧸ N) = 3 := by
     rw [← Subgroup.index_eq_card, hidx]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgen : Subgroup.zpowers (QuotientGroup.mk φD : D ⧸ N) = ⊤ := by
     refine zpowers_eq_top_of_prime_card hQcard ?_
     intro h
@@ -250,7 +250,7 @@ open CFSG.GH74.GLS.Stage2.Signalizer.Odd87 (innSub)
 
 theorem twE6Eight_autImage_structure {X : Type} [Group X] [Finite X] (K B : Subgroup X)
     (hKc : CFSG.Open.IsComponentOf K ⊤) (hB : IsSCp 3 ⊤ B)
-    (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hLie : IsLieQuot ↥K IsTwE6EightIndex)
+    (_hBN : B ≤ Subgroup.normalizer (K : Set X)) (hLie : IsLieQuot ↥K IsTwE6EightIndex)
     (hF : ∃ φ ∈ autImage B K, FieldAutTwE6 (↥K ⧸ Subgroup.center ↥K) φ) :
     ∃ φ ∈ autImage B K, FieldAutTwE6 (↥K ⧸ Subgroup.center ↥K) φ ∧
       φ ∉ innSub (↥K ⧸ Subgroup.center ↥K) ∧

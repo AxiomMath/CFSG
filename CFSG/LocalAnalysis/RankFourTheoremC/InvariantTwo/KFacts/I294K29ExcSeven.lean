@@ -15,11 +15,11 @@ theorem crossAtPrime_of_sylowTorus {d : TauCeti.ValidLieTypeIndex} {p : ℕ}
   crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ _ ⟨e⟩ P => by
     obtain ⟨m, hm⟩ := h hp hp5 hdp
     exact ⟨⟨fun a b => Subtype.ext
-      (mul_comm_of_sylowTorus (hm.of_mulEquiv e.symm) P.isPGroup' a.2 b.2)⟩⟩
+      (mul_comm_of_sylowTorus (hm.of_mulEquiv e.symm) P.isPGroup a.2 b.2)⟩⟩
 
 theorem dvd_sub_one_or_dvd_add_one_or_three_le {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) :
     p ∣ q - 1 ∨ p ∣ q + 1 ∨ 3 ≤ orderOf ((q : ℕ) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ q := Nat.pos_of_ne_zero (fun h => hpq (h ▸ dvd_zero p))
   have h0 := orderOf_natCast_ne_zero hp hpq
   by_cases h1 : orderOf ((q : ℕ) : ZMod p) = 1
@@ -41,11 +41,11 @@ theorem dvd_sub_one_or_dvd_add_one_or_three_le {p q : ℕ} (hp : p.Prime) (hpq :
 
 theorem orderOf_seven_eq {q : ℕ} (hq : ¬ 7 ∣ q) (h3 : 3 ≤ orderOf ((q : ℕ) : ZMod 7)) :
     orderOf ((q : ℕ) : ZMod 7) = 3 ∨ orderOf ((q : ℕ) : ZMod 7) = 6 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hq0 : ((q : ℕ) : ZMod 7) ≠ 0 := fun h => hq ((ZMod.natCast_eq_zero_iff q 7).1 h)
   have hd : orderOf ((q : ℕ) : ZMod 7) ∣ 6 := ZMod.orderOf_dvd_card_sub_one hq0
   have hle := Nat.le_of_dvd (by norm_num) hd
-  interval_cases h : orderOf ((q : ℕ) : ZMod 7) <;> simp_all <;> omega
+  interval_cases h : orderOf ((q : ℕ) : ZMod 7) <;> simp_all
 
 section Catalog
 

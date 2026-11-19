@@ -134,7 +134,7 @@ theorem r10_check_c0cols : ∀ j : Fin Tag.E8.rank,
     e8c0Word.foldr (reflect Tag.E8) (Pi.single j 1) = r10C0Col j := by
   decide +kernel
 
-theorem r10_form_solve : ∀ z0 z1 z2 z3 z4 z5 z6 z7 : ZMod 3,
+theorem r10_form_solve : ∀ z0 z1 z2 z3 z4 z5 z6 _z7 : ZMod 3,
     (-z0 - 2 * z1 - 2 * z2 - 3 * z3 - 2 * z4 - z5 = z1 ∧ z0 = z2 ∧ -z0 - z2 = z2 ∧
       z0 + z1 + z2 + z3 + z4 = z3 ∧ z4 = z5 ∧ -z4 - z5 = z5 ∧
       z0 + z1 + 2 * z2 + 3 * z3 + 3 * z4 + 2 * z5 + z6 = z6) →

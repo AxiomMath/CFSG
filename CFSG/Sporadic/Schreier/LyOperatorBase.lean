@@ -42,13 +42,13 @@ theorem mat_pow [LySeed] (g : J) (n : ℕ) : mat (g ^ n) = mat g ^ n := by
   | zero => rw [pow_zero, pow_zero, mat_one]
   | succ n ih => rw [pow_succ, pow_succ, mat_mul, ih]
 
-@[expose] def lyOrb : KOrbit := orbitData ()
+def lyOrb : KOrbit := orbitData ()
 
-@[expose, irreducible] def bpIdx : ℕ := bpStart lyOrb
+@[irreducible] def bpIdx : ℕ := bpStart lyOrb
 
 theorem bpIdx_def : bpIdx = bpStart lyOrb := by unfold bpIdx; rfl
 
-@[expose, irreducible] def bpR : Relabel := relabel nPts lyOrb.alpha lyOrb.beta bpIdx
+@[irreducible] def bpR : Relabel := relabel nPts lyOrb.alpha lyOrb.beta bpIdx
 
 theorem bpR_def : bpR = relabel nPts lyOrb.alpha lyOrb.beta bpIdx := by unfold bpR; rfl
 

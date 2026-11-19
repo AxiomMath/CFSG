@@ -53,7 +53,7 @@ theorem glaPComponent_eq_comap_of_langSetup {τ : Tag} {L : Type} [Field L] [IsA
   have hCdrange : S.Γ ⊓ Subgroup.centralizer {d} ≤ ι.range := fun x hx => by
     rw [hrange]
     exact (Subgroup.mem_inf.1 hx).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
   have hcompR : ∀ i : KernelComponent (rootCharHom a), CFSG.IsQuasisimple (R i) →
       IsComponentOf (R i) (S.Γ ⊓ Subgroup.centralizer {d}) := by
@@ -73,7 +73,7 @@ theorem glaPComponent_eq_comap_of_langSetup {τ : Tag} {L : Type} [Field L] [IsA
   obtain ⟨i₀, hi₀⟩ : ∃ i, CFSG.IsQuasisimple (R i) := by
     by_contra hcon
     push Not at hcon
-    haveI : IsEmpty {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)} :=
+    have : IsEmpty {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)} :=
       ⟨fun ⟨i, hi⟩ => hcon i hi⟩
     rw [iSup_of_empty] at h2
     exact hne ((Subgroup.map_eq_bot_iff_of_injective _ hι).1 (le_bot_iff.1 h2))
@@ -114,10 +114,10 @@ section Model
 theorem twE6InnerCompModel_holds : TwE6InnerCompModel := by
   classical
   intro K _ _ hK σ hσ s hs3 hs1 J hJ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI hcL : CharP (AlgebraicClosure K) 2 :=
+  have hcL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, a, ι, hq, hρ, hT, hap, h1, hin, hinj, hrange, hιs⟩ :=
     exists_stdSetup_of_inner hK σ hσ hs3 hs1
@@ -125,7 +125,7 @@ theorem twE6InnerCompModel_holds : TwE6InnerCompModel := by
   have hTame := langSetup_hTame_of_prime S Nat.prime_three h3 (fun h => absurd h (by decide)) hT
     hap h1
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) :=
+  have : Finite ↥(twistedE6RootGroup K σ) :=
     Finite.of_injective (fun x => (x : ModGL TwistTag.E6.tag K)) Subtype.val_injective
   have hβ : ∀ c, ι (MulAut.conj s c) = rootDiagUnit Tag.E6 a * ι c * (rootDiagUnit Tag.E6 a)⁻¹ := by
     intro c

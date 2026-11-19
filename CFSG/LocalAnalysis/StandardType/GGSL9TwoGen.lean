@@ -35,12 +35,12 @@ private noncomputable def ggF8LinHom (μ : ZMod 3 → GaloisField 2 3) :
 
 private theorem ggF8LinHom_eq_zero {δ : ZMod 3 → GaloisField 2 3}
     (hδ : ∀ x, ∑ e : ZMod 3, δ e * x ^ 2 ^ e.val = 0) : δ = 0 := by
-  letI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   let p : Polynomial (GaloisField 2 3) :=
     ∑ e : ZMod 3, Polynomial.C (δ e) * Polynomial.X ^ (2 ^ e.val)
   have hp_eval : ∀ x, p.eval x = 0 := by
     intro x
-    simp only [p, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+    simp only [p, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
       Polynomial.eval_pow, Polynomial.eval_X]
     exact hδ x
   have hpow_le : ∀ e : ZMod 3, 2 ^ e.val ≤ 4 := by
@@ -53,11 +53,11 @@ private theorem ggF8LinHom_eq_zero {δ : ZMod 3 → GaloisField 2 3}
     intro m hm
     show p.coeff m = 0
     simp only [p]
-    rw [Polynomial.finset_sum_coeff]
+    rw [Polynomial.finsetSum_coeff]
     apply Finset.sum_eq_zero
     intro e _
     rw [Polynomial.coeff_C_mul_X_pow]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have := hpow_le e
     omega
@@ -73,20 +73,20 @@ private theorem ggF8LinHom_eq_zero {δ : ZMod 3 → GaloisField 2 3}
   change δ e = 0
   rw [← hc]
   simp only [p]
-  rw [Polynomial.finset_sum_coeff]
+  rw [Polynomial.finsetSum_coeff]
   have hsingle : (∑ b : ZMod 3,
       (Polynomial.C (δ b) * Polynomial.X ^ (2 ^ b.val)).coeff (2 ^ e.val))
       = (Polynomial.C (δ e) * Polynomial.X ^ (2 ^ e.val)).coeff (2 ^ e.val) :=
     Finset.sum_eq_single e
       (fun b _ hb => by
-        rw [Polynomial.coeff_C_mul_X_pow, if_neg]
+        rw [Polynomial.coeff_C_mul_X_pow, ite_eq_right]
         exact fun h => hb (ggF8_pow_two_val_injective h).symm)
       (fun he => (he (Finset.mem_univ e)).elim)
-  rw [hsingle, Polynomial.coeff_C_mul_X_pow, if_pos rfl]
+  rw [hsingle, Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl]
 
 theorem ggF8_addMonoidHom_eq_linearized (f : GaloisField 2 3 →+ GaloisField 2 3) :
     ∃ μ : ZMod 3 → GaloisField 2 3, ∀ x, f x = ∑ e : ZMod 3, μ e * x ^ 2 ^ e.val := by
-  letI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hinj : Function.Injective ggF8LinHom := by
     intro μ ν h
     have hsub : ∀ x, ∑ e : ZMod 3, (μ - ν) e * x ^ 2 ^ e.val = 0 := by
@@ -119,10 +119,10 @@ theorem ggF8_addMonoidHom_eq_linearized (f : GaloisField 2 3 →+ GaloisField 2 
         GaloisField.finrank 2 (by norm_num), Nat.card_eq_fintype_card, ZMod.card]
       norm_num
     rw [hD, hC]
-  haveI : Finite (GaloisField 2 3 →+ GaloisField 2 3) :=
+  have : Finite (GaloisField 2 3 →+ GaloisField 2 3) :=
     Finite.of_injective (fun g : GaloisField 2 3 →+ GaloisField 2 3 =>
       (g : GaloisField 2 3 → GaloisField 2 3)) (fun g h gh => DFunLike.ext _ _ (congrFun gh))
-  haveI : Finite (ZMod 3 → GaloisField 2 3) := Pi.finite
+  have : Finite (ZMod 3 → GaloisField 2 3) := Pi.finite
   obtain ⟨μ, hμ⟩ := (Function.Injective.surjective_of_finite
     ((Finite.card_eq.mp hcard).some) hinj) f
   refine ⟨μ, fun x => ?_⟩
@@ -222,7 +222,7 @@ private theorem blockMap_eq_root (a b : Fin 3) (hab : a ≠ b) (e : ZMod 3) (μ 
 private theorem ggSL9Root_mem_J {a b : Fin 3} (hab : a ≠ b) (e : ZMod 3)
     (μ : GaloisField 2 3) : ggSL9Root a b hab e.val μ ∈ ggSL9J a b e := by
   apply Subgroup.subset_closure
-  exact Set.mem_union_left _ (Set.mem_setOf.mpr ⟨hab, μ, rfl⟩)
+  exact Set.mem_union_left _ (Set.mem_ofPred.mpr ⟨hab, μ, rfl⟩)
 
 private theorem blockMap_mem_of_J {H : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     {a b : Fin 3} (hab : a ≠ b) (hJ : ∀ e : ZMod 3, ggSL9J a b e ≤ H)
@@ -259,7 +259,7 @@ private theorem phiGL_transvection_apply' (i j : Idx) (hij : i ≠ j) (c : ZMod 
   rw [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec]
   rw [map_add]
   have hx : (Fintype.linearCombination (ZMod 2) (⇑bV)) (⇑(bV.repr v)) = v := by
-    simpa [Fintype.linearCombination_apply] using Module.Basis.sum_repr bV v
+    simp [Fintype.linearCombination_apply]
   rw [hx]
   rw [Fintype.linearCombination_apply]
   have hsingle : (∑ l, Function.update (0 : Idx → ZMod 2) i
@@ -271,7 +271,7 @@ private theorem phiGL_transvection_apply' (i j : Idx) (hij : i ≠ j) (c : ZMod 
     · intro hi
       exact (hi (Finset.mem_univ i)).elim
   rw [hsingle]
-  simp only [Function.update, dif_pos rfl]
+  simp only [Function.update]
   rw [Module.Basis.coord_apply]
   rfl
 

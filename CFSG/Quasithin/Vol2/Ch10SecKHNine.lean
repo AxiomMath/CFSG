@@ -67,7 +67,7 @@ theorem pCoreOf_le_of_le_normalizer {Y : Subgroup G} (U : Sylow 2 G)
   have hN : (U : Subgroup G) ≤ Subgroup.normalizer (pCoreOf 2 Y : Set G) :=
     hUY.trans (normalizer_le_normalizer_pCoreOf 2 Y)
   have h1 : IsPGroup 2 (↑U ⊔ pCoreOf 2 Y : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' U.isPGroup' (pCoreOf_isPGroup 2 Y) hN
+    IsPGroup.to_sup_of_normal_right' U.isPGroup (pCoreOf_isPGroup 2 Y) hN
   exact le_sup_right.trans (U.maximal_isPGroup.le_of_ge h1 le_sup_left)
 
 omit [Finite G] in
@@ -171,9 +171,9 @@ theorem exists_radical_of_card_nine (hK : Nat.card K = 2) {n : ℕ} (hn : n = 4 
     (le_sup_right : (B₂ : Subgroup (SpecialLinearGroup (Fin n) K)) ≤ D ⊔ B₂)) with hf
   have hcomm : f ⟨u, hu⟩ * f ⟨v, hv⟩ = f ⟨v, hv⟩ * f ⟨u, hu⟩ := by
     have hp1 : IsPGroup 2 ((MonoidHom.fst _ _).comp f).range :=
-      B₂.isPGroup'.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
+      B₂.isPGroup.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
     have hp2 : IsPGroup 2 ((MonoidHom.snd _ _).comp f).range :=
-      B₂.isPGroup'.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
+      B₂.isPGroup.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
     refine Prod.ext ?_ ?_
     · exact mul_comm_of_isPGroup_GL_two hK hp1 ⟨⟨u, hu⟩, rfl⟩ ⟨⟨v, hv⟩, rfl⟩
     · exact mul_comm_of_isPGroup_GL_two hK hp2 ⟨⟨u, hu⟩, rfl⟩ ⟨⟨v, hv⟩, rfl⟩

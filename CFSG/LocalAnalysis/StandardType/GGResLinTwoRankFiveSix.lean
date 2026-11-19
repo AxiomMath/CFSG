@@ -44,7 +44,7 @@ theorem GGResHyp.false_of_exact3_linTwo_rank_five_six
     (h3 : GGResLeviDatumExact3 3 Bs L J KJ ggSelAny ggTypAny ∨
       GGResLeviDatumExact3 3 Bs KJ J L ggSelAny ggTypAny) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨lab, hlab, hrank, hL⟩ := hcell
   obtain ⟨hperf, lab', hlab', hraw⟩ := hL
   let Q : LargeEvenRawCont := fun R _ I F =>
@@ -66,8 +66,8 @@ theorem GGResHyp.false_of_exact3_linTwo_rank_five_six
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hfield, hfinite, hK, hrawP⟩ := hraw
   obtain ⟨θ, hP⟩ := hrawP.2.2
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK2 : Nat.card K = 2 := by simpa using hK
   let d : ℕ := l + 1
   have hd : 6 ≤ d := by
@@ -101,7 +101,7 @@ theorem GGResHyp.false_of_exact3_linTwo_rank_five_six
     let l' : ↥L := ⟨(b : G) * (l : G) * (b : G)⁻¹, hmemL⟩
     have hrel : (l' : G) = (b⁻¹ : ↥Bs)⁻¹ * (l : G) * (b⁻¹ : ↥Bs) := by
       dsimp [l']
-      simp only [Subgroup.coe_inv, inv_inv]
+      simp only [inv_inv]
     have hind := hφind l l' hrel
     have hgl : ((ggGamma L hBsN) b) l = l' := Subtype.ext (ggGamma_coe L hBsN b l)
     change (MulAut.congr (TypeA.recipeEquiv d K) φ) (ψ l) =

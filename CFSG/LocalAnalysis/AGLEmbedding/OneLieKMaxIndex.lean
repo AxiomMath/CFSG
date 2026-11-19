@@ -135,7 +135,7 @@ theorem D1OneLieData.exists_indexP (hK : KFactOneLie) (h84 : Asc81bEightFour)
       ¬ R ≤ Subgroup.normalizer (((T₀ : Subgroup N).map N.subtype : Subgroup G) : Set G) := by
     intro T₀ hRT
     obtain ⟨hWC, hW2, hWidx⟩ := hd.map_sylowTwo_d1PlusCore (Subgroup.map_subtype_le _)
-      (T₀.isPGroup'.map _) (by
+      (T₀.isPGroup.map _) (by
         rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
         exact T₀.not_dvd_index)
     apply hno _ hWC hW2 hWidx
@@ -173,7 +173,7 @@ theorem D1OneLieData.exists_indexP (hK : KFactOneLie) (h84 : Asc81bEightFour)
   obtain ⟨T₀, hT₀⟩ := exists_index_stabilizer_eq_of_not_sq_dvd hR'p hfree hsqΩ
   set T : Subgroup G := (T₀ : Subgroup N).map N.subtype with hT
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hTidx : ¬ 2 ∣ (T.subgroupOf N).index := by
     rw [hT, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
     exact T₀.not_dvd_index

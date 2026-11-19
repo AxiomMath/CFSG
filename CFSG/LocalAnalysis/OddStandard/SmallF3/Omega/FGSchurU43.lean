@@ -122,18 +122,18 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 private theorem fg_finite_omegaGroup (hQ : Q.Nondegenerate) : Finite (omegaGroup hQ) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ he => LinearEquiv.ext (congrFun he))
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Finite.of_injective (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V)) Subtype.val_injective
   infer_instance
 
 private theorem fg_ker_omegaToProj (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1) :
     (omegaToProj hQ).ker ≤ center (omegaGroup hQ) ∧ Nat.card (omegaToProj hQ).ker = 2 := by
-  haveI := fg_finite_omegaGroup hQ
+  have := fg_finite_omegaGroup hQ
   have hpi : piOrth Q ∈ omegaGroup hQ := ff_piOrth_mem_omegaGroup_six_minus hQ hdim hs
   let p : omegaGroup hQ := ⟨piOrth Q, hpi⟩
   have hp2 : p * p = 1 := Subtype.ext (by
@@ -168,16 +168,16 @@ theorem fg_asc82SchurU43_of_index_two_unique
       ∀ N₁ N₂ : Subgroup (hopfMultiplier S), N₁.index = 2 → N₂.index = 2 → N₁ = N₂) :
     Asc82SchurU43 := by
   intro Y _ _ hY hT
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := isOmegaStar_of_lieModel_psu hT.2
-  letI := i1
-  letI := i2
-  letI := i3
-  haveI := fg_finite_omegaGroup hQ
-  haveI : Finite ↥(omegaProj hQ) :=
+  let := i1
+  let := i2
+  let := i3
+  have := fg_finite_omegaGroup hQ
+  have : Finite ↥(omegaProj hQ) :=
     Finite.of_surjective (omegaToProj hQ) (omegaToProj_surjective hQ)
-  haveI : Group.IsPerfect (omegaGroup hQ) := (isQuasisimple_omegaGroup_six_minus hQ hdim hs).1
-  haveI : Group.IsPerfect ↥(omegaProj hQ) :=
+  have : Group.IsPerfect (omegaGroup hQ) := (isQuasisimple_omegaGroup_six_minus hQ hdim hs).1
+  have : Group.IsPerfect ↥(omegaProj hQ) :=
     Group.IsPerfect.ofSurjective (omegaToProj_surjective hQ)
   let p₁ : Y →* ↥(omegaProj hQ) := e.toMonoidHom.comp (QuotientGroup.mk' (center Y))
   have hp₁ : Function.Surjective p₁ := e.surjective.comp (QuotientGroup.mk'_surjective _)

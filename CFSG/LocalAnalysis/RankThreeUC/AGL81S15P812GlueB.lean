@@ -79,7 +79,7 @@ theorem caseII_normalizer_le_of_fixes [Finite G]
   have hdA : dA ∈ (psi f).range := ⟨⟨t₁, ht₁⟩, psi_eq_dA hf ht₁ h₁⟩
   have hdB : dB ∈ (psi f).range := ⟨⟨t₂, ht₂⟩, psi_eq_dB hf ht₂ h₂⟩
   have hxi : xiK k hk ∈ (psi f).range := ⟨⟨x, hx⟩, psi_eq_xiK hf hk hx hxk⟩
-  obtain ⟨w, hwN, hwM⟩ := SetLike.not_le_iff_exists.mp hW
+  obtain ⟨w, hwN, hwM⟩ := IsConcreteLE.not_le_iff_exists.mp hW
   have hline : ∀ i, Subgroup.normalizer (Subgroup.zpowers (a i) : Set G) ≤ M →
       ∀ g : Subgroup.normalizer (A : Set G), (g : G) ∉ M →
         ¬ (∀ v ∈ cline i,

@@ -24,12 +24,12 @@ theorem kFactTenNineWCGammaL2 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ F _ _ _ h9 ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 3
   rw [← Nat.card_eq_fintype_card] at hn
   obtain ⟨Q, hQ⟩ := psl2UpperUnipotent_isSylow F hn
-  have hU : IsPGroup 3 (psl2UpperUnipotentSubgroup F) := hQ ▸ Q.isPGroup'
+  have hU : IsPGroup 3 (psl2UpperUnipotentSubgroup F) := hQ ▸ Q.isPGroup
   have hUi : ¬ 3 ∣ (psl2UpperUnipotentSubgroup F).index := hQ ▸ Q.not_dvd_index
   refine false_of_fuse_gamma_out ?_ ?_ ?_ S A hA3 Y hY hwc
   ·

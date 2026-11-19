@@ -14,7 +14,7 @@ theorem fixMaskW_lt (y : ℕ) : fixMaskW swarK y < 2 ^ 4096 := by
 
 theorem testBit_fixMaskW (y : ℕ) {v : ℕ} (hv : v < 4096) :
     (fixMaskW swarK y).testBit v = (mulVec12K y v == v) := by
-  apply testBit_fixMaskW_proved <;> assumption
+  apply testBit_fixMaskW_proved; assumption
 
 theorem allRoots_eqM {B : ℕ} {SW I : List ℕ} {b : ℕ → Bool} {Xb : ℕ} (hSW : SW = swarK)
     (hXb : Xb < 2 ^ 4096) (hb : ∀ v < 4096, Xb.testBit v = b v) :

@@ -26,9 +26,10 @@ structure NilPair (N₁ N₂ : Matrix ι ι R) : Prop where
 theorem gMat_mul {N₁ N₂ : Matrix ι ι R} (h : NilPair N₁ N₂) (s t s' t' : R) :
     gMat N₁ N₂ s t * gMat N₁ N₂ s' t' = gMat N₁ N₂ (s + s') (t + t') := by
   simp only [gMat, add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul,
-    smul_smul, h.h11, h.h12, h.h21, h.h22, smul_zero, add_zero, add_smul]
+    h.h11, h.h12, h.h21, h.h22, smul_zero, add_zero, add_smul]
   abel
 
+omit [Fintype ι] in
 theorem gMat_zero_zero (N₁ N₂ : Matrix ι ι R) : gMat N₁ N₂ 0 0 = 1 := by
   simp [gMat]
 
@@ -85,10 +86,10 @@ theorem exists_E16_gfam [Finite R] {N₁ N₂ : Matrix ι ι R} (P₁ P₂ : Add
     rw [toAdd_pow, two_nsmul, toAdd_one]
     exact Prod.ext (Subtype.ext (add_self_eq_zero_of_two h2 _))
       (Subtype.ext (add_self_eq_zero_of_two h2 _))
-  haveI : Finite P₁ := inferInstance
-  haveI : Finite P₂ := inferInstance
-  haveI : Finite (Multiplicative (P₁ × P₂)) := inferInstanceAs (Finite (P₁ × P₂))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite P₁ := inferInstance
+  have : Finite P₂ := inferInstance
+  have : Finite (Multiplicative (P₁ × P₂)) := inferInstanceAs (Finite (P₁ × P₂))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (Multiplicative (P₁ × P₂)) := fun x => ⟨1, by simpa using hsq x⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp
   have hcard : Nat.card (Multiplicative (P₁ × P₂)) = Nat.card P₁ * Nat.card P₂ := by
@@ -135,7 +136,7 @@ theorem gMat_symp {N₁ N₂ J : Matrix ι ι R} (h : NilPair N₁ N₂) (h2 : (
       Matrix.mul_smul]
   have hMM : M * M = 0 := by
     rw [hM]
-    simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, smul_smul, h.h11, h.h12,
+    simp only [add_mul, mul_add, Matrix.smul_mul, Matrix.mul_smul, h.h11, h.h12,
       h.h21, h.h22, smul_zero, add_zero]
   have hg : gMat N₁ N₂ s t = 1 + M := by
     rw [gMat, hM, add_assoc]
@@ -147,6 +148,7 @@ theorem gMat_symp {N₁ N₂ J : Matrix ι ι R} (h : NilPair N₁ N₂) (h2 : (
   rw [hg, Matrix.transpose_add, Matrix.transpose_one, step1, Matrix.mul_add, Matrix.mul_one,
     Matrix.add_mul, mul_assoc J M M, hMM, Matrix.mul_zero, add_zero, add_assoc, e2, add_zero]
 
+omit [Fintype ι] in
 theorem gMat_map {N₁ N₂ : Matrix ι ι R} (φ : R →+* R) (hf₁ : N₁.map φ = N₁)
     (hf₂ : N₂.map φ = N₂) {s t : R} (hs : φ s = s) (ht : φ t = t) :
     (gMat N₁ N₂ s t).map φ = gMat N₁ N₂ s t := by

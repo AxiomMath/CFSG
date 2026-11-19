@@ -22,7 +22,7 @@ theorem SLModel.isCharTwoSteinberg (k : Type) [Field k] [CharP k 2] (m : ℕ) :
     have hcomm := SL.commutatorFormula (m := m) (F := k) O α hα β hβ hαβ c d
     rw [hcomm]
     by_cases h : α + β ∈ (SpecialLinear.rootDatum m k).roots
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have hmem : (1, 1) ∈ expPairs (SL.Φ (m := m) (F := k)) α β := by
         refine ⟨one_pos, one_pos, ?_⟩
         erw [RootSystem.ofCartan_roots, one_smul, one_smul]
@@ -47,7 +47,7 @@ theorem SLModel.isCharTwoSteinberg (k : Type) [Field k] [CharP k 2] (m : ℕ) :
           exact CharTwo.neg_eq 1
       erw [hcast, one_smul, one_smul, one_mul]
       rfl
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hnil : O.list α β = [] := by
         rw [List.eq_nil_iff_forall_not_mem]
         intro p hp

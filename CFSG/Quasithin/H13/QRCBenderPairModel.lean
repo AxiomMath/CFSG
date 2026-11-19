@@ -177,7 +177,7 @@ theorem bender_pair_linear
   rcases hB with ⟨f, hf, ⟨e⟩⟩ | ⟨f, hf, ⟨e⟩⟩ | ⟨b, hb, ⟨e⟩⟩
   · have hcardF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
     have hM := benderData_psl2 hcardF
-    obtain ⟨e', he'S, he'N⟩ := exists_mulEquiv_map_sylow e Q.isPGroup' Q.not_dvd_index
+    obtain ⟨e', he'S, he'N⟩ := exists_mulEquiv_map_sylow e Q.isPGroup Q.not_dvd_index
       hM.isPGroup hM.not_dvd_index
     have hrel : (U ⊓ L).relIndex P = 2 ^ f - 1 := by
       rw [← hM.relIndex, ← he'N, ← he'S, relIndex_map_mulEquiv, hQ, ← hnorm,
@@ -237,7 +237,7 @@ theorem bender_pair_suzuki
     have : Finite (suzukiGroup b (GaloisField 2 (2 * b + 1))) := Finite.of_injective _
       e.symm.injective
     have hM := benderData_suzuki hb hcardF
-    obtain ⟨e', he'S, he'N⟩ := exists_mulEquiv_map_sylow e Q.isPGroup' Q.not_dvd_index
+    obtain ⟨e', he'S, he'N⟩ := exists_mulEquiv_map_sylow e Q.isPGroup Q.not_dvd_index
       hM.isPGroup hM.not_dvd_index
     have hrel : (U ⊓ L).relIndex P = 2 ^ (2 * b + 1) - 1 := by
       rw [← hM.relIndex, ← he'N, ← he'S, relIndex_map_mulEquiv, hQ, ← hnorm,

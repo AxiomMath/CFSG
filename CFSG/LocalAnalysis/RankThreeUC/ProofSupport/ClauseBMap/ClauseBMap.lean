@@ -24,8 +24,8 @@ theorem clauseB_map (e : MulAut G) {M P : Subgroup G} {p : ℕ} (h : rankThreeCl
       (rankThreeLayer (Subgroup.centralizer (P₀ : Set G))).map e.toMonoidHom := by
     rw [← hcent, CFSG.LocalAnalysis.RankThreeUC.ProofSupport.LayerNaturality.map_layer]
   refine ⟨h5, ?_, P₀.map e.toMonoidHom, Subgroup.map_mono hP₀P, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI := hsol
-    exact solvable_of_surjective
+  · have := hsol
+    exact Group.isSolvable_of_surjective
       (f := (M.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
       (M.equivMapOfInjective e.toMonoidHom e.injective).surjective
   · rw [Subgroup.card_map_of_injective e.injective]; exact hcard

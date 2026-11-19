@@ -75,7 +75,7 @@ theorem ffNoncyclicInput3_of_nodes
         (isPGroup_autI hU (hT.2.1.to_le (C1GN.baum_le T)))
     obtain ⟨B, hBM, hBN, hfac⟩ := exists_factorization_of_pairData3 hc hstr hT hNT hMN hI hcard
       hSylB hJM hdat (D := (S : Subgroup ↥(ffC M T)).map (ffC M T).subtype)
-      (Subgroup.map_subtype_le _) (S.isPGroup'.map _) hS
+      (Subgroup.map_subtype_le _) (S.isPGroup.map _) hS
     obtain ⟨hC₁1, hC₁2, hC₂1, hC₂2, hT₁, hT₂, hCM₁, -, -⟩ := hdat
     exact exists_normal_order_three_of_factorization3 ctx hstr hcon hT hNT S hS hC₁1 hC₁2 hC₂1
       hC₂2 hT₁ hT₂ hCM₁ hBM hBN hfac

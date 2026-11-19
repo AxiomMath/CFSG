@@ -125,7 +125,7 @@ theorem exists_invariant_sylow_containing_of_odd {group : Type*}
         (Subgroup.subgroupOfEquivOfLe maximal_group.le_normalizer).symm
     exact restricted_prime.le_sylow_of_normal internal
   let image := (internal : Subgroup normalizer).map normalizer.subtype
-  have image_prime : IsPGroup prime image := internal.isPGroup'.map normalizer.subtype
+  have image_prime : IsPGroup prime image := internal.isPGroup.map normalizer.subtype
   have image_invariant : image.map automorphism.toMonoidHom = image :=
     map_subtype_invariant automorphism normalizer normalizer_invariant internal internal_invariant
   have maximal_le : maximal_group ≤ image := by
@@ -215,7 +215,7 @@ theorem exists_invariant_sylow_containing_of_coprime {actor group : Type*}
         (Subgroup.subgroupOfEquivOfLe maximal_group.le_normalizer).symm
     exact restricted_prime.le_sylow_of_normal internal
   let image := (internal : Subgroup normalizer).map normalizer.subtype
-  have image_prime : IsPGroup sylow_prime image := internal.isPGroup'.map normalizer.subtype
+  have image_prime : IsPGroup sylow_prime image := internal.isPGroup.map normalizer.subtype
   have image_invariant : ∀ element : actor,
       image.map (homomorphism element).toMonoidHom = image := fun element =>
     map_subtype_invariant (homomorphism element) normalizer (normalizer_invariant element)

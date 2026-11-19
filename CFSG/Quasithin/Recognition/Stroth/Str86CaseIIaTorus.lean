@@ -26,7 +26,7 @@ def IsNaturalChiefSection (H U : Subgroup G) (m : ℕ) (Lo Hi : Subgroup G)
         Additive.ofMul (l2ChiefSectionAction hstep hE h w)) ∧
     (∀ g w, φ (ρ g w) = (g : Matrix (Fin 2) (Fin 2) (GaloisField 2 m)).mulVec (φ w))
 
-def Str86CaseIIaFixEq (L1 L2 S : Subgroup G) (m : ℕ) (Lo Hi : Subgroup G) : Prop :=
+def Str86CaseIIaFixEq (_L1 L2 S : Subgroup G) (m : ℕ) (Lo Hi : Subgroup G) : Prop :=
   ∃ A : Subgroup G, IsElemAbelian 2 A ∧ A ≤ S ∧
     (centralizerMod Lo Hi A).relIndex Hi = 2 ^ m ∧
     (A ⊓ pCoreOf 2 (L2 ⊔ S)).relIndex A = 2 ^ m
@@ -42,6 +42,7 @@ theorem isNaturalChiefSection_of_eq {H U L N A : Subgroup G} {m : ℕ} (hm2 : 2 
     l2_chiefStep_natural hm2 hL2 hV hUH hstep hnc hA hAH hstep_eq hA_eq
   exact ⟨e, ρ, φ, hcompat, hnatiso⟩
 
+omit [Finite G] in
 private theorem chiefIota_eq_of_mul_inv_mem {L N : Subgroup G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) {u v : ↥N}
     (h : (u : G) * (v : G)⁻¹ ∈ L) : Ch3z.chiefIota hNL u = Ch3z.chiefIota hNL v := by
@@ -56,22 +57,22 @@ private theorem chiefIota_eq_of_mul_inv_mem {L N : Subgroup G}
 
 theorem str86_natural_factor_torus_of_natural
     {L1 L2 S : Subgroup G} {k m : ℕ} {F : Type} [Field F] [Finite F]
-    (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    (hk : 2 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2)
-    (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
+    (_hF : F112Hyp L1 L2 S) (_hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
+    (_hk : 2 ≤ k) (_hFc : Nat.card F = (2 ^ k) ^ 2)
+    (_hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
-    (hB2 : VBig L2) (hm : IsL2Quot m (oTwoQuot ↥L2))
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
-    (hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
-    (hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2)
+    (_hB2 : VBig L2) (_hm : IsL2Quot m (oTwoQuot ↥L2))
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hIIa : L2 ⊔ Q2 L1 L2 S ≤ Subgroup.centralizer (Z2 L1 L2 S : Set G))
+    (_hZ : Z1 L1 L2 S ≤ Q2 L1 L2 S)
+    (_hc : IsChiefSeriesFrom (L2 ⊔ S) (str86U L1 L2 S) (str86U L1 L2 S) 2)
     {Lo Hi : Subgroup G} (hstep : IsChiefStep (L2 ⊔ S) (str86U L1 L2 S) Lo Hi)
-    (hnc : ¬ IsCentralStep (L2 ⊔ S) Lo Hi)
+    (_hnc : ¬ IsCentralStep (L2 ⊔ S) Lo Hi)
     (hUH : str86U L1 L2 S ≤ L2 ⊔ S)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod Lo Hi))
     (hnat : IsNaturalChiefSection (L2 ⊔ S) (str86U L1 L2 S) m Lo Hi hE hstep)
     {d : G} (hd : d ∈ (L2 ⊔ S) ⊓ Subgroup.normalizer (S : Set G)) (hdo : Odd (orderOf d))
-    (hd1 : d ≠ 1) {x : G} (hx : x ∈ Hi) (hxS : ∀ s ∈ S, s * x * s⁻¹ * x⁻¹ ∈ Lo)
+    (hd1 : d ≠ 1) {x : G} (hx : x ∈ Hi) (_hxS : ∀ s ∈ S, s * x * s⁻¹ * x⁻¹ ∈ Lo)
     (hxd : d * x * d⁻¹ * x⁻¹ ∈ Lo) : x ∈ Lo := by
   classical
   obtain ⟨e, ρ, φ, hcompat, hnatiso⟩ := hnat
@@ -82,8 +83,8 @@ theorem str86_natural_factor_torus_of_natural
     D14.le_normalizer_of_isNormalIn hstep.1
   have hHiU : Hi ≤ str86U L1 L2 S := hstep.1.1
   have hNL : Hi ≤ Subgroup.normalizer (Lo : Set G) := (hHiU.trans hUH).trans hHL
-  letI : CommGroup (Ch3z.chiefMod Lo Hi) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod Lo Hi)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod Lo Hi) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod Lo Hi)) := l2ChiefSectionModule hE
   let dH : ↥(L2 ⊔ S) := ⟨d, hdH⟩
   let q : ↥(L2 ⊔ S) →* oTwoQuot ↥(L2 ⊔ S) := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥(L2 ⊔ S))
   let ψ : ↥(L2 ⊔ S) →* SL(2, GaloisField 2 m) := e.toMonoidHom.comp q
@@ -106,7 +107,7 @@ theorem str86_natural_factor_torus_of_natural
       have := orderOf_map_dvd ψ dH
       simpa [g] using this
     have h2 : orderOf dH = orderOf d := by
-      simpa [dH] using (Subgroup.orderOf_coe dH).symm
+      simp [dH]
     exact Odd.of_dvd_nat (h2 ▸ hdo) hdvd
   by_contra hxLo
   have hwne : w ≠ 0 := by

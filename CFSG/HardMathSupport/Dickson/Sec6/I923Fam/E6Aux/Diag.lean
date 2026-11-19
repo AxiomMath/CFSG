@@ -118,7 +118,7 @@ theorem not_three_dvd_card_of_kappa [Finite K] (h : ∀ b, e6Kappa K b = 1) :
   have hK : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_pi, Finset.prod_const, Finset.card_univ, Fintype.card_fin] at hdvd
     exact Nat.prime_three.dvd_of_dvd_pow hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 hK
   have hcube : ∀ u : Kˣ, u ∈ e6Cubes K := by
     intro u
@@ -202,7 +202,7 @@ section Main
 variable (K : Type) [Field K] [Finite K]
 
 theorem commutator_adjointGroup_e6 : commutator (adjointGroup Tag.E6 K) = ⊤ := by
-  haveI : Group.IsPerfect (adjointGroup Tag.E6 K) :=
+  have : Group.IsPerfect (adjointGroup Tag.E6 K) :=
     (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 K).1
   exact Group.IsPerfect.commutator_eq_top
 

@@ -188,7 +188,7 @@ theorem exists_conj_eq_mul_zpowers [Finite G] {w c : G} (hw : orderOf w = 3) (hw
     rw [hpj]; group
   have hc'Z : c' ∈ Subgroup.zpowers w := by
     have hle : ((P : Subgroup B).map B.subtype) ⊓ C ≤ Subgroup.zpowers w :=
-      hP _ inf_le_right ((P.isPGroup'.map B.subtype).to_inf_left)
+      hP _ inf_le_right ((P.isPGroup.map B.subtype).to_inf_left)
     exact hle ⟨⟨⟨c', hCB hc'⟩, hc'P, rfl⟩, hc'⟩
   have hcos := conj_mem_coset hrC b.2 hc
   have hcos' : (p : G) * r⁻¹ ∈ C := by

@@ -32,7 +32,7 @@ theorem dvd_card_normalizer_of_spom (hK : K517_4a) {X : Type} [Group X] [Finite 
     (hbad : IsSpSix (fun Q => p ∣ Q + 1) ↥Ls ∨ IsOmegaEightMinus (fun Q => p ∣ Q + 1) ↥Ls) :
     p ∣ Nat.card (Subgroup.normalizer (T₁ : Set X)) ∧ p ∣ Nat.card (Subgroup.normalizer (T₂ : Set X)) := by
   obtain ⟨hsimple, hnab⟩ := bad1517_aux_simple_nonabelian (p := p) (S := ↥Ls) (Or.inr hbad)
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center ↥Ls = ⊥ := bad1517_aux_center_eq_bot hnab
   have key : ∃ (Q : TauCeti.PrimePower) (d : TauCeti.ValidLieTypeIndex), Q.p = 2 ∧ p ∣ Q.card + 1 ∧
       (d.1 = TauCeti.LieTypeIndex.B 3 Q ∨ d.1 = TauCeti.LieTypeIndex.twistedD 4 Q) ∧

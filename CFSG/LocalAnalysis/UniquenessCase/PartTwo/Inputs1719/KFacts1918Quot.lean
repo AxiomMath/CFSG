@@ -21,7 +21,7 @@ private lemma subgroupOf_oUpperTwo {G : Type} [Group G] [Finite G] (H : Subgroup
   set S : Set G := {x : G | x ∈ H ∧ Odd (orderOf x)} with hS
   have hpre : H.subtype ⁻¹' S = {x : ↥H | x ∈ (⊤ : Subgroup H) ∧ Odd (orderOf x)} := by
     ext x
-    simp [hS, Subgroup.orderOf_coe]
+    simp [hS]
   rw [← hpre]
   have himg : H.subtype '' (H.subtype ⁻¹' S) = S := by
     ext x
@@ -91,6 +91,7 @@ theorem opp_eq_self_of_quot (Y : Subgroup X) {S : Type} [Group S] [Finite S] (φ
     exact Subgroup.mul_mem _ ha hmemA
   exact le_antisymm hOpple (Subgroup.subgroupOf_eq_top.mp hsub_top)
 
+omit [Finite X] in
 theorem oUpperTwo_le_sup_pCoreOf_of_quot (Y₀ : Subgroup X) {S : Type} [Group S] [Finite S]
     (φ : ↥Y₀ →* S) (hφ : Function.Surjective φ) (hker : φ.ker ≤ CFSG.pCore 2 ↥Y₀)
     (hmin : ∀ N : Subgroup S, N.Normal → N ≠ ⊥ → S17.oUpperTwo (⊤ : Subgroup S) ≤ N)

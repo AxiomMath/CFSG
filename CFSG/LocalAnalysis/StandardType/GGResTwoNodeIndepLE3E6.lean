@@ -37,8 +37,8 @@ private lemma le3e6_smallA_arith {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     5 ≤ N ∧ p ∣ N ∧ N ≤ 10 ∧ ¬ p ^ 2 ∣ N := by
   have hNlt10 : N < 10 := by
     by_cases hp3 : p = 3
-    · rw [if_pos hp3] at hlt; omega
-    · rw [if_neg hp3] at hlt; omega
+    · rw [ite_eq_left hp3] at hlt; omega
+    · rw [ite_eq_right hp3] at hlt; omega
   have h5 : 5 ≤ N := by
     by_contra hcon
     have hN4 : N = 4 := by omega
@@ -54,10 +54,10 @@ private lemma le3e6_smallA_arith {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   intro h2
   have hle : p ^ 2 ≤ N := Nat.le_of_dvd (by omega) h2
   by_cases hp3 : p = 3
-  · rw [if_pos hp3] at hlt
+  · rw [ite_eq_left hp3] at hlt
     have hp9 : p ^ 2 = 9 := by rw [hp3]; norm_num
     omega
-  · rw [if_neg hp3] at hlt
+  · rw [ite_eq_right hp3] at hlt
     have hp_lt4 : p < 4 := by
       by_contra hcon
       have h4' : 4 ≤ p := by omega
@@ -83,8 +83,8 @@ private lemma le3e6_smallA_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have h4 : 4 ≤ labX.rank + 1 := by omega
     have hlt : labX.rank + 1 < (if p = 3 then 9 else 10) := by
       by_cases hp3 : p = 3
-      · rw [if_pos hp3] at hsmall ⊢; omega
-      · rw [if_neg hp3] at hsmall ⊢; omega
+      · rw [ite_eq_left hp3] at hsmall ⊢; omega
+      · rw [ite_eq_right hp3] at hsmall ⊢; omega
     exact le3e6_smallA_arith hp hp2 hdvd h4 hlt
   · have hJrank : 1 ≤ labJ.rank := by
       have h := hJΛ.2; rw [hJtag] at h; omega
@@ -93,8 +93,8 @@ private lemma le3e6_smallA_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have h4 : 4 ≤ labX.rank + 1 := by omega
     have hlt : labX.rank + 1 < (if p = 3 then 9 else 10) := by
       by_cases hp3 : p = 3
-      · rw [if_pos hp3] at hsmall ⊢; omega
-      · rw [if_neg hp3] at hsmall ⊢; omega
+      · rw [ite_eq_left hp3] at hsmall ⊢; omega
+      · rw [ite_eq_right hp3] at hsmall ⊢; omega
     exact le3e6_smallA_arith hp hp2 hdvd h4 hlt
   · exfalso
     have hE : labX.tag = .E6 := by rw [hX]

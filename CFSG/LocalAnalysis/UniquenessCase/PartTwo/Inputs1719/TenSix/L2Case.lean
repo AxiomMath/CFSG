@@ -475,7 +475,7 @@ private theorem aParam_le_two {Y L : Subgroup (MulAut W)} {K : Type} [Group K] [
     (hW : ∀ w : W, w ^ 2 = 1) : E3.aParam Y ≤ 2 := by
   classical
   by_cases hev : Even (Nat.card Y)
-  · rw [E3.aParam, if_pos hev]
+  · rw [E3.aParam, ite_eq_left hev]
     by_cases hne : {k : ℕ | 0 < k ∧ (E3.aSet k Y).Nonempty}.Nonempty
     · refine csSup_le hne ?_
       rintro k ⟨hk, A, hA⟩
@@ -551,7 +551,7 @@ private theorem aParam_eq_one {Y L : Subgroup (MulAut W)} {K : Type} [Group K] [
       rw [Set.mem_singleton_iff] at hk
       subst hk
       exact ⟨by norm_num, ⟨_, hmem⟩⟩
-  rw [E3.aParam, if_pos hEvenY, hset, csSup_singleton]
+  rw [E3.aParam, ite_eq_left hEvenY, hset, csSup_singleton]
 
 private theorem aParam_le_three_eight {Y : Subgroup (MulAut W)} {K : Type} [Group K]
     [Finite K] {F : Type} [Field F] [Finite F] (hcard8 : Nat.card F = 8) (e : K ≃* L2 F)
@@ -559,7 +559,7 @@ private theorem aParam_le_three_eight {Y : Subgroup (MulAut W)} {K : Type} [Grou
     E3.aParam Y ≤ 3 := by
   classical
   by_cases hev : Even (Nat.card Y)
-  · rw [E3.aParam, if_pos hev]
+  · rw [E3.aParam, ite_eq_left hev]
     by_cases hne : {k : ℕ | 0 < k ∧ (E3.aSet k Y).Nonempty}.Nonempty
     · refine csSup_le hne ?_
       rintro k ⟨hk, A, hA⟩

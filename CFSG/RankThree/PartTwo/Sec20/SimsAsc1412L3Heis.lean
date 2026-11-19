@@ -18,17 +18,17 @@ private theorem sum_ite_prod_five {P Z : Type*} [One P] [One Z] [Fintype P] [Fin
     (A B C : ℕ) :
     ∑ g : P × Z, (if g.1 = 1 then (if g.2 = 1 then A else B) else C) = A + 4 * B + 20 * C := by
   have h1 : ∑ y : Z, (if y = 1 then A else B) = A + 4 * B := by
-    rw [Fintype.sum_eq_add_sum_compl (1 : Z), if_pos rfl,
-      Finset.sum_congr rfl (g := fun _ => B) fun y hy => if_neg (by simpa using hy),
+    rw [Fintype.sum_eq_add_sum_compl (1 : Z), ite_eq_left rfl,
+      Finset.sum_congr rfl (g := fun _ => B) fun y hy => ite_eq_right (by simpa using hy),
       Finset.sum_const, Finset.card_compl, Finset.card_singleton, hZ, smul_eq_mul]
   have h2 : ∀ x : P, x ≠ 1 →
       ∑ y : Z, (if x = 1 then (if y = 1 then A else B) else C) = 5 * C := by
     intro x hx
-    simp only [if_neg hx, Finset.sum_const, Finset.card_univ, hZ, smul_eq_mul]
+    simp only [ite_eq_right hx, Finset.sum_const, Finset.card_univ, hZ, smul_eq_mul]
   rw [Fintype.sum_prod_type, Fintype.sum_eq_add_sum_compl (1 : P),
     Finset.sum_congr rfl fun x hx => h2 x (by simpa using hx), Finset.sum_const,
     Finset.card_compl, Finset.card_singleton, hP, smul_eq_mul]
-  simp only [if_true, h1]
+  simp only [ite_true, h1]
   ring
 
 section Fixed
@@ -59,7 +59,7 @@ private theorem exists_sum_card_fixed {G : Type*} [Group G] [Fintype G] [Finite 
     (φ : G →* MulAut U) :
     ∃ n : ℕ, ∑ g : G, Nat.card {u : U // φ g u = u} = n * Fintype.card G := by
   classical
-  letI : MulAction G U := MulAction.compHom U φ
+  let : MulAction G U := MulAction.compHom U φ
   have : Fintype U := Fintype.ofFinite U
   have : Fintype (Quotient (MulAction.orbitRel G U)) := Fintype.ofFinite _
   refine ⟨Fintype.card (Quotient (MulAction.orbitRel G U)), ?_⟩
@@ -133,7 +133,7 @@ theorem false_of_heisenberg_five_mulAut {U : Type*} [Group U] [Finite U] {k : �
     exists_card_fixed_of_orderOf_eq_prime hU z Nat.prime_five (by norm_num) hordz
   obtain ⟨cb, hcbk, hcb, hcb5⟩ :=
     exists_card_fixed_of_orderOf_eq_prime hU b Nat.prime_five (by norm_num) hordb
-  haveI : Finite (MulAut U) :=
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun σ : MulAut U => (σ : U → U)) fun x y h => MulEquiv.ext (congrFun h)
   have hcomm : ∀ (x : Subgroup.zpowers b) (y : Subgroup.zpowers z),
       Commute ((Subgroup.zpowers b).subtype x) ((Subgroup.zpowers z).subtype y) := by
@@ -145,8 +145,8 @@ theorem false_of_heisenberg_five_mulAut {U : Type*} [Group U] [Finite U] {k : �
     exact hzb.symm.zpow_zpow m n
   let φ : Subgroup.zpowers b × Subgroup.zpowers z →* MulAut U :=
     (Subgroup.zpowers b).subtype.noncommCoprod (Subgroup.zpowers z).subtype hcomm
-  letI : Fintype (Subgroup.zpowers b) := Fintype.ofFinite _
-  letI : Fintype (Subgroup.zpowers z) := Fintype.ofFinite _
+  let : Fintype (Subgroup.zpowers b) := Fintype.ofFinite _
+  let : Fintype (Subgroup.zpowers z) := Fintype.ofFinite _
   have hPc : Fintype.card (Subgroup.zpowers b) = 5 := by
     rw [Fintype.card_eq_nat_card, Nat.card_zpowers, hordb]
   have hZc : Fintype.card (Subgroup.zpowers z) = 5 := by
@@ -162,13 +162,13 @@ theorem false_of_heisenberg_five_mulAut {U : Type*} [Group U] [Finite U] {k : �
     · have hx' : (x : MulAut U) = 1 := by simp [hx]
       by_cases hy : y = 1
       · have hy' : (y : MulAut U) = 1 := by simp [hy]
-        rw [if_pos hx, if_pos hy, hφ, hx', hy', mul_one, ← hU]
+        rw [ite_eq_left hx, ite_eq_left hy, hφ, hx', hy', mul_one, ← hU]
         exact Nat.card_congr (Equiv.subtypeUnivEquiv fun u => rfl)
       · have hy' : (y : MulAut U) ≠ 1 := fun h => hy (Subtype.ext h)
-        rw [if_pos hx, if_neg hy, hφ, hx', one_mul, ← hi, ← hcz]
+        rw [ite_eq_left hx, ite_eq_right hy, hφ, hx', one_mul, ← hi, ← hcz]
         exact card_fixed_pow hz5 (not_dvd_of_pow_ne_one hz5 hi hy')
     · have hx' : (x : MulAut U) ≠ 1 := fun h => hx (Subtype.ext h)
-      rw [if_neg hx, hφ, ← hm, ← hi, card_fixed_pow_mul_pow hzdef hza hzb hb hz5
+      rw [ite_eq_right hx, hφ, ← hm, ← hi, card_fixed_pow_mul_pow hzdef hza hzb hb hz5
         (not_dvd_of_pow_ne_one hb hm hx') i, hcb]
   obtain ⟨n, hn⟩ := exists_sum_card_fixed φ
   have hcard : Fintype.card (Subgroup.zpowers b × Subgroup.zpowers z) = 25 := by

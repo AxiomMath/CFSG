@@ -18,7 +18,7 @@ open scoped commutatorElement
 private theorem prime_dvd_card_of_sq {Y : Type} [Group Y] [Finite Y] {D : Subgroup Y} {p : ℕ}
     (hp : p.Prime) (hodd : Odd p) (hsq : ∀ y : Y, y ^ 2 ∈ D) (h : p ∣ Nat.card Y) :
     p ∣ Nat.card D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Y) p h
   obtain ⟨m, hm⟩ := hodd
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
@@ -34,7 +34,7 @@ private theorem prime_dvd_card_of_sq {Y : Type} [Group Y] [Finite Y] {D : Subgro
 private theorem not_comm_of_dvd {N : Type} [Group N] [IsSimpleGroup N] (h3 : 3 ∣ Nat.card N)
     (h13 : 13 ∣ Nat.card N) : ¬ ∀ x y : N, x * y = y * x := by
   intro hc
-  letI : CommGroup N := { ‹Group N› with mul_comm := hc }
+  let : CommGroup N := { ‹Group N› with mul_comm := hc }
   have hp : (Nat.card N).Prime := IsSimpleGroup.prime_card
   have e3 := (Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp h3
   have e13 := (Nat.prime_dvd_prime_iff_eq (by norm_num : Nat.Prime 13) hp).mp h13
@@ -55,7 +55,7 @@ private theorem three_dvd_ordTwistedF4 (b : ℕ) : 3 ∣ ordTwistedF4 (2 ^ (2 * 
 private theorem centralizer_commutator_eq_bot {Y : Type} [Group Y] (hZ : Subgroup.center Y = ⊥)
     (hs : IsSimpleGroup ↥(commutator Y)) (hna : ¬ ∀ x y : ↥(commutator Y), x * y = y * x) :
     Subgroup.centralizer ((commutator Y : Subgroup Y) : Set Y) = ⊥ := by
-  haveI := hs
+  have := hs
   have hNn : (commutator Y).Normal := Subgroup.commutator_normal ⊤ ⊤
   have hZN : Subgroup.center ↥(commutator Y) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥(commutator Y)) with h0 | h0
@@ -112,10 +112,10 @@ private theorem exists_normal_simple_of_mulEquiv_reeGamma {Y : Type} [Group Y] {
     (e : Y ≃* ReeTag.F4.reeGamma k b) :
     ∃ N : Subgroup Y, N.Normal ∧ IsSimpleGroup N ∧ ¬ (∀ x y : N, x * y = y * x) ∧
       Subgroup.centralizer (N : Set Y) = ⊥ := by
-  haveI : Finite (ReeTag.F4.reeGamma k b) := by
-    haveI := CFSG.LieType.Chevalley.finite_modGL (τ := ReeTag.F4.tag) (K := k)
+  have : Finite (ReeTag.F4.reeGamma k b) := by
+    have := CFSG.LieType.Chevalley.finite_modGL (τ := ReeTag.F4.tag) (K := k)
     infer_instance
-  haveI : Finite Y := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨hs, hsq⟩ := Sec8.Hering611R.simple_commutator_reeGamma hk e
   have hZ : Subgroup.center Y = ⊥ :=
     KFacts.center_eq_bot_of_mulEquiv_of_center_eq_bot e
@@ -128,7 +128,7 @@ private theorem exists_normal_simple_of_mulEquiv_reeGamma {Y : Type} [Group Y] {
   have h13 : 13 ∣ Nat.card ↥(commutator Y) :=
     prime_dvd_card_of_sq (by norm_num) ⟨6, rfl⟩ hsq
       (by rw [hcard]; exact Sec8.Hering611R.thirteen_dvd_ordTwistedF4 b)
-  haveI := hs
+  have := hs
   have hna : ¬ ∀ x y : ↥(commutator Y), x * y = y * x := not_comm_of_dvd h3 h13
   exact ⟨commutator Y, Subgroup.commutator_normal ⊤ ⊤, hs, hna,
     centralizer_commutator_eq_bot hZ hs hna⟩

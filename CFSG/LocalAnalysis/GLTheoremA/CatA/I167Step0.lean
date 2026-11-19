@@ -10,6 +10,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA.S10
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem inf_cs_le_of_glaPComponent {p : ℕ} {B X D J : Subgroup Ω}
     (hJ : GLAPComponent p (X ⊓ cs D) J) (hDJ : D = B ⊓ cs J) : B ⊓ cs X ≤ D := by
   have hJX : J ≤ X := hJ.1.trans inf_le_left
@@ -45,6 +46,7 @@ theorem eq_sup_zpowers_of_notMem_cs {p : ℕ} {B X D : Subgroup Ω} {x : Ω} (hp
     exact absurd (hCS' ▸ hxS : x ∈ B ⊓ cs X).2 hxc
   · exact (Subgroup.eq_of_le_of_card_ge hSD (by rw [hD.2.2, hSk])).symm
 
+omit [Finite Ω] in
 theorem glaPComponent_inf_cx_of_eq_sup {p : ℕ} {B X D J : Subgroup Ω} {x : Ω}
     (hD : D = (B ⊓ cs X) ⊔ Subgroup.zpowers x) (hJ : GLAPComponent p (X ⊓ cs D) J) :
     GLAPComponent p (X ⊓ cx x) J := by
@@ -68,6 +70,7 @@ theorem glaPComponent_inf_cx_of_eq_sup {p : ℕ} {B X D J : Subgroup Ω} {x : Ω
   rw [h] at hJ
   exact hJ
 
+omit [Finite Ω] in
 theorem notMem_cs_of_fieldOn {p : ℕ} {d : Ω} {X : Subgroup Ω} (hp : p.Prime) (h : FieldOn p d X) :
     d ∉ cs X := by
   intro hc
@@ -122,8 +125,8 @@ theorem fieldOn_or_triality_of_not_innDiagOn {p : ℕ} {X : Subgroup Ω} {x : Ω
     rcases CFSG.StandardType.ChevTwo.chevTwo_cases hchev with ⟨t, n, f, hm⟩ | he | h33
     · exact (CFSG.LieType.Catalog.lieModel_finite_simple _ t n 2 f hm).2.1
     · obtain ⟨e⟩ := he
-      haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI := e.isSimpleGroup
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have := e.isSimpleGroup
       infer_instance
     · exact (CFSG.LieType.Catalog.lieModel_finite_simple _ .PSU 3 3 1
         (Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], h33⟩)).2.1

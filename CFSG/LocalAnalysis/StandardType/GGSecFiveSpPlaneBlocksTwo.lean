@@ -109,13 +109,13 @@ private theorem piExtend_mulSingle {M : Type*} [CommMonoid M] {a b : ℕ}
     · have hch : Classical.choose h = l := by
         apply hσ
         rw [Classical.choose_spec h, hi]
-      rw [if_pos hch, Pi.mulSingle_apply, if_pos hi]
+      rw [ite_eq_left hch, Pi.mulSingle_apply, ite_eq_left hi]
     · have hch : Classical.choose h ≠ l := by
         intro h'
         apply hi
         rw [← Classical.choose_spec h, h']
-      rw [if_neg hch, Pi.mulSingle_apply, if_neg hi]
-  · rw [Pi.mulSingle_apply, if_neg]
+      rw [ite_eq_right hch, Pi.mulSingle_apply, ite_eq_right hi]
+  · rw [Pi.mulSingle_apply, ite_eq_right]
     exact fun h' => h ⟨l, h'.symm⟩
 
 private theorem spPlaneTorus_piExtend {p a b : ℕ}
@@ -223,7 +223,7 @@ private theorem exists_mul_mem_ggBsCoordZeroOn_inf_range {a b : ℕ} [Fact p.Pri
   have hvsupp : ∀ j, j ∉ Set.range σ → v j = 1 := by
     intro j hj
     dsimp only [v]
-    rw [dif_neg hj]
+    rw [dite_eq_right hj]
   have hmem : SpJoin.spPlaneTorus a ζ v ∈
       (spEmbed (K := F) σ hσ).range :=
     spPlaneTorus_mem_range_spEmbed ζ hσ hvsupp
@@ -243,7 +243,7 @@ private theorem exists_mul_mem_ggBsCoordZeroOn_inf_range {a b : ℕ} [Fact p.Pri
     zetaTorus_eta hκ hBs v (σ l)
   have hv : v (σ l) = eta b (ι (σ l)) := by
     dsimp only [v]
-    rw [dif_pos ⟨l, rfl⟩]
+    rw [dite_eq_left ⟨l, rfl⟩]
   calc eta ⟨(b : G) * w⁻¹, hhB⟩ (ι (σ l))
       = eta (b * ⟨w, hwB⟩⁻¹) (ι (σ l)) := by rw [hh_eq]
     _ = eta b (ι (σ l)) * (eta ⟨w, hwB⟩ (ι (σ l)))⁻¹ := by

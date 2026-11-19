@@ -20,7 +20,7 @@ theorem exists_normalizer_conj {G : Type*} [Group G] [Finite G] {T S F : Subgrou
       ∃ h ∈ T, F.map (MulAut.conj g).toMonoidHom = F.map (MulAut.conj h).toMonoidHom) :
     ∃ n ∈ normalizer (F : Set G), ∃ h ∈ T, h⁻¹ * e * h ∈ F ∧
       n * (h⁻¹ * e * h) * n⁻¹ = x * e * x⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconj : ∀ k y : G, (MulAut.conj k).toMonoidHom y = k * y * k⁻¹ := fun k y => by
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   set P : Subgroup G := F.map (MulAut.conj x⁻¹).toMonoidHom
@@ -77,6 +77,7 @@ namespace FooteCore
 variable {G : Type} [Group G] [Finite G] {T : Sylow 2 G} {k n : ℕ}
   (D : FooteCore G (T : Subgroup G) (k + 3) n)
 
+omit [Finite G] in
 private theorem π_eq_of_mul_inv_mem {F : Subgroup G} (hFc : ∀ u ∈ F, ∀ v ∈ F, u * v = v * u)
     (y : ↥(normalizer (F : Set G))) {β : G} (hyβ : (y : G) * β⁻¹ ∈ F) :
     ∃ hβ : β ∈ normalizer (F : Set G), NBar.π F y = NBar.π F ⟨β, hβ⟩ := by
@@ -91,6 +92,7 @@ private theorem π_eq_of_mul_inv_mem {F : Subgroup G} (hFc : ∀ u ∈ F, ∀ v 
   calc (y : G) * v * (y : G)⁻¹ = ((y : G) * β⁻¹) * (β * v * β⁻¹) * ((y : G) * β⁻¹)⁻¹ := by group
     _ = β * v * β⁻¹ := by rw [hFc _ hyβ _ hβv]; group
 
+omit [Finite G] in
 private theorem mem_normalizer_inf {F X : Subgroup G} {β : G} (hβX : β ∈ X)
     (hβN : β ∈ normalizer (F : Set G)) : β ∈ normalizer ((F ⊓ X : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff]
@@ -118,19 +120,19 @@ theorem lemma6Key_core (P : Subgroup G → Prop)
     (hP : ∀ x ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁), x * x = 1 →
       ∃ E : Subgroup G, IsE64 (T : Subgroup G) E ∧ P E ∧ x ∈ E)
     {F : Subgroup G} (hF : IsE64 (T : Subgroup G) F) {x : G} (hxN : x ∈ normalizer (F : Set G))
-    (hxF : x * D.a * x⁻¹ ∈ F) (hxA : x * D.a * x⁻¹ ∉ D.A) :
+    (_hxF : x * D.a * x⁻¹ ∈ F) (hxA : x * D.a * x⁻¹ ∉ D.A) :
     (∃ x' : G, ∃ F' : Subgroup G, IsE64 (T : Subgroup G) F' ∧ P F' ∧ x' * D.a * x'⁻¹ ∈ F' ∧
       x' * D.a * x'⁻¹ ∉ D.A) ∧
     (P F → ∃ y : G, ∃ a₁ ∈ D.A, orderOf a₁ = 2 ∧ a₁ ≠ D.a ∧ y * D.a * y⁻¹ = a₁ * D.b ∧
       y * D.b * y⁻¹ = D.b) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm : 3 ≤ k + 3 := by omega
   have hF2 := hF.mul_self
   have hFc : ∀ u ∈ F, ∀ v ∈ F, u * v = v * u := fun u hu v hv =>
     TStruct.comm_of_mul_self hF2 hu hv
-  haveI : IsMulCommutative ↥F := ⟨⟨fun u v => Subtype.ext (hFc _ u.2 _ v.2)⟩⟩
-  haveI : Finite ↥F := hF.finite
+  have : IsMulCommutative ↥F := ⟨⟨fun u v => Subtype.ext (hFc _ u.2 _ v.2)⟩⟩
+  have : Finite ↥F := hF.finite
   have hV : ∀ v : ↥F, v * v = 1 := fun v => Subtype.ext (hF2 v v.2)
   have haF : D.a ∈ F := D.a_mem_E64 hF
   have hb₀F : D.b₀ ∈ F := D.b₀_mem_E64 hF

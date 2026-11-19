@@ -195,7 +195,7 @@ private theorem exists_elemAbelian_of_section {X : Subgroup G} {p : ℕ} (hp : p
       exact hne hidx
     · exact h0
   · obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p X))
-    have hPp : IsPGroup p ((S : Subgroup X).map X.subtype) := S.isPGroup'.map X.subtype
+    have hPp : IsPGroup p ((S : Subgroup X).map X.subtype) := S.isPGroup.map X.subtype
     have hPX : (S : Subgroup X).map X.subtype ≤ X := Subgroup.map_subtype_le _
     have hbot : ∀ y ∈ (S : Subgroup X).map X.subtype, y ∈ pCoreOf 2 X → y = 1 :=
       fun y hy1 hy2 => Subgroup.disjoint_def.mp

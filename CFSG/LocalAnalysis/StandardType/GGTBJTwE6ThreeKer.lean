@@ -59,10 +59,10 @@ theorem ggTwE6Three_hKer
     (hTB : GGTorusTBGroup 3 5 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) ↥X ψ₀
       (ggGamma X hN).range) :
     ∀ g : ↥(X ⊓ Subgroup.normalizer (Bs : Set G)), ggTDρA hN g = 1 → ggTDρB X Bs g = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
   obtain ⟨σ, hσ, ψ, hk, hTB'⟩ := ggTwE6Three_tbGroup_twisted hn hK hTB
   have hodd : Odd (Nat.card ψ₀.ker) := by

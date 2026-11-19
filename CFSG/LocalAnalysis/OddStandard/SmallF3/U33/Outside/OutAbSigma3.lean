@@ -11,10 +11,12 @@ open Subgroup
 
 variable {T : Type} [Group T] [Finite T] {ρ x : MulAut T}
 
+omit [Finite T] in
 private theorem rho_cube (hρ : ρ ^ 3 = 1) (g : T) : ρ (ρ (ρ g)) = g := by
   have h := congrArg (fun f : MulAut T => f g) hρ
   simpa [pow_succ, MulAut.mul_apply] using h
 
+omit [Finite T] in
 private theorem rho_inv_apply (hρ : ρ ^ 3 = 1) (g : T) : ρ⁻¹ g = ρ (ρ g) := by
   have h2 : ρ * ρ ^ 2 = 1 := by
     have h := hρ
@@ -23,10 +25,12 @@ private theorem rho_inv_apply (hρ : ρ ^ 3 = 1) (g : T) : ρ⁻¹ g = ρ (ρ g)
   have hρinv : ρ⁻¹ = ρ ^ 2 := inv_eq_of_mul_eq_one_right h2
   rw [hρinv, pow_two, MulAut.mul_apply]
 
+omit [Finite T] in
 private theorem apply_apply_self (hx : x * x = 1) (g : T) : x (x g) = g := by
   have h := congrArg (fun f : MulAut T => f g) hx
   simpa [MulAut.mul_apply] using h
 
+omit [Finite T] in
 private theorem apply_rho (hxρ : x * ρ * x⁻¹ = ρ⁻¹) (g : T) :
     x (ρ g) = ρ⁻¹ (x g) := by
   have h : x * ρ = ρ⁻¹ * x := by
@@ -35,6 +39,7 @@ private theorem apply_rho (hxρ : x * ρ * x⁻¹ = ρ⁻¹) (g : T) :
   have h' := congrArg (fun f : MulAut T => f g) h
   simpa [MulAut.mul_apply] using h'
 
+omit [Finite T] in
 private theorem mul_comm_of_mem_exp2 (N : Subgroup T) (hN2 : ∀ n ∈ N, n * n = 1)
     {a b : T} (ha : a ∈ N) (hb : b ∈ N) : a * b = b * a := by
   have hab : a * b ∈ N := mul_mem ha hb
@@ -56,8 +61,9 @@ private theorem rho_inv_eq_mul_rho (N : Subgroup T) (hN2 : ∀ n ∈ N, n * n = 
   have h2 : (b * ρ b)⁻¹ = b * ρ b := inv_eq_of_mul_eq_one_right (hN2 (b * ρ b) hbb)
   rw [rho_inv_apply hρ b, h1, h2]
 
+omit [Finite T] in
 theorem eq_one_of_fix_eq_rho (hρ : ρ ^ 3 = 1) (hfpf : ∀ g : T, ρ g = g → g = 1)
-    (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) {a b : T} (ha : x a = a) (hb : x b = b)
+    (_hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) {a b : T} (ha : x a = a) (hb : x b = b)
     (hab : a = ρ b) : a = 1 := by
   have h1 : a = ρ⁻¹ b := by
     calc a = x a := ha.symm

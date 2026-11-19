@@ -30,15 +30,15 @@ variable {K : Type*} [Field K] {W : Finset (Fin 4 → ℤ)}
   if h : a ∈ W ∧ b ∈ W then M ⟨a, h.1⟩ ⟨b, h.2⟩ else 0
 
 theorem ent_coe (M : Matrix W W K) (ψ χ : W) : ent M ψ χ = M ψ χ := by
-  rw [ent, dif_pos ⟨ψ.2, χ.2⟩]
+  rw [ent, dite_eq_left ⟨ψ.2, χ.2⟩]
 
 theorem ent_of_not_mem_left (M : Matrix W W K) {a : Fin 4 → ℤ} (b : Fin 4 → ℤ) (ha : a ∉ W) :
     ent M a b = 0 := by
-  rw [ent, dif_neg fun h => ha h.1]
+  rw [ent, dite_eq_right fun h => ha h.1]
 
 theorem ent_of_not_mem_right (M : Matrix W W K) (a : Fin 4 → ℤ) {b : Fin 4 → ℤ} (hb : b ∉ W) :
     ent M a b = 0 := by
-  rw [ent, dif_neg fun h => hb h.2]
+  rw [ent, dite_eq_right fun h => hb h.2]
 
 theorem ent_zero (a b : Fin 4 → ℤ) : ent (0 : Matrix W W K) a b = 0 := by
   unfold ent
@@ -58,9 +58,9 @@ theorem ent_rootMat_mul (β : Fin 4 → ℤ) (M : Matrix W W K) {a : Fin 4 → �
     (b : Fin 4 → ℤ) : ent (rootMat W β * M) a b = ent M (a - β) b := by
   classical
   by_cases hb : b ∈ W
-  · rw [ent, dif_pos ⟨ha, hb⟩, Matrix.mul_apply]
+  · rw [ent, dite_eq_left ⟨ha, hb⟩, Matrix.mul_apply]
     by_cases hab : a - β ∈ W
-    · rw [ent, dif_pos ⟨hab, hb⟩, Finset.sum_eq_single ⟨a - β, hab⟩]
+    · rw [ent, dite_eq_left ⟨hab, hb⟩, Finset.sum_eq_single ⟨a - β, hab⟩]
       · simp [rootMat]
       · intro φ _ hφ
         have hne : a ≠ (φ : Fin 4 → ℤ) + β := fun e => hφ (Subtype.ext (eq_sub_of_add_eq e.symm))
@@ -78,9 +78,9 @@ theorem ent_mul_rootMat (β : Fin 4 → ℤ) (M : Matrix W W K) (a : Fin 4 → �
     (hb : b ∈ W) : ent (M * rootMat W β) a b = ent M a (b + β) := by
   classical
   by_cases ha : a ∈ W
-  · rw [ent, dif_pos ⟨ha, hb⟩, Matrix.mul_apply]
+  · rw [ent, dite_eq_left ⟨ha, hb⟩, Matrix.mul_apply]
     by_cases hab : b + β ∈ W
-    · rw [ent, dif_pos ⟨ha, hab⟩, Finset.sum_eq_single ⟨b + β, hab⟩]
+    · rw [ent, dite_eq_left ⟨ha, hab⟩, Finset.sum_eq_single ⟨b + β, hab⟩]
       · simp [rootMat]
       · intro φ _ hφ
         have hne : (φ : Fin 4 → ℤ) ≠ b + β := fun e => hφ (Subtype.ext e)
@@ -301,19 +301,19 @@ theorem exists_diagonal_of_rootCocycle [Fintype K] [CharP K 2] (hq : 4 ≤ Finty
     rw [ent_rootElt_mul β 1 _ h3, ent_mul_rootElt γ 1 _ _ hχ, ent_rootElt_mul γ 1 _ h3,
       ent_mul_rootElt β 1 _ _ hχ] at e
     have n1 : ent (δ γ 1) (χ + β + γ) χ = 0 := by
-      rw [hN γ hγ, if_neg (vec_ne_of_sub_ne (by
+      rw [hN γ hγ, ite_eq_right (vec_ne_of_sub_ne (by
         rw [show χ + β + γ - (χ + γ) = β by abel]; exact hβ0 β hβ))]
     have n2 : ent (δ γ 1) (χ + β + γ - β) χ = ν γ χ := by
-      rw [show χ + β + γ - β = χ + γ by abel, hN γ hγ, if_pos rfl]
+      rw [show χ + β + γ - β = χ + γ by abel, hN γ hγ, ite_eq_left rfl]
     have n3 : ent (δ β 1) (χ + β + γ) χ = 0 := by
-      rw [hN β hβ, if_neg (vec_ne_of_sub_ne (by
+      rw [hN β hβ, ite_eq_right (vec_ne_of_sub_ne (by
         rw [show χ + β + γ - (χ + β) = γ by abel]; exact hβ0 γ hγ))]
     have n4 : ent (δ β 1) (χ + β + γ) (χ + γ) = ν β (χ + γ) := by
-      rw [hN β hβ, if_pos (by abel)]
+      rw [hN β hβ, ite_eq_left (by abel)]
     have n5 : ent (δ β 1) (χ + β + γ - γ) χ = ν β χ := by
-      rw [show χ + β + γ - γ = χ + β by abel, hN β hβ, if_pos rfl]
+      rw [show χ + β + γ - γ = χ + β by abel, hN β hβ, ite_eq_left rfl]
     have n6 : ent (δ γ 1) (χ + β + γ) (χ + β) = ν γ (χ + β) := by
-      rw [hN γ hγ, if_pos rfl]
+      rw [hN γ hγ, ite_eq_left rfl]
     rw [n1, n2, n3, n4, n5, n6] at e
     linear_combination -e
   have mini₂ := minuscule_triangle hW
@@ -326,23 +326,23 @@ theorem exists_diagonal_of_rootCocycle [Fintype K] [CharP K 2] (hq : 4 ≤ Finty
     simp only [ent_add] at e
     have l1 : ent (rootElt W β 1 * δ γ 1) (χ + β + γ) χ = 0 := by
       rw [ent_rootElt_mul β 1 _ h3, show χ + β + γ - β = χ + γ by abel,
-        ent_of_not_mem_left _ _ h2, hN γ hγ, if_neg (vec_ne_of_sub_ne (by
+        ent_of_not_mem_left _ _ h2, hN γ hγ, ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ + β + γ - (χ + γ) = β by abel]; exact hβ0 β hβ))]
       ring
     have l2 : ent (δ β 1 * rootElt W γ 1) (χ + β + γ) χ = 0 := by
       rw [ent_mul_rootElt γ 1 _ _ hχ, ent_of_not_mem_right _ _ h2, hN β hβ,
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ + β + γ - (χ + β) = γ by abel]; exact hβ0 γ hγ))]
       ring
     have t1 : ent (rootElt W (β + γ) 1 * rootElt W γ 1 * δ β 1) (χ + β + γ) χ = ν β χ := by
       rw [Matrix.mul_assoc, ent_rootElt_mul (β + γ) 1 _ h3, ent_rootElt_mul γ 1 _ h3,
         show χ + β + γ - (β + γ) = χ by abel, ent_rootElt_mul γ 1 _ hχ,
         show χ + β + γ - γ = χ + β by abel, hN β hβ, hN β hβ, hN β hβ, hN β hβ,
-        if_neg (vec_ne_of_sub_ne (by
-          rw [show χ + β + γ - (χ + β) = γ by abel]; exact hβ0 γ hγ)), if_pos rfl,
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
+          rw [show χ + β + γ - (χ + β) = γ by abel]; exact hβ0 γ hγ)), ite_eq_left rfl,
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ - (χ + β) = -β by abel]; exact neg_ne_zero.2 (hβ0 β hβ))),
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ - γ - (χ + β) = -(β + γ) by abel]; exact neg_ne_zero.2 hδ0'))]
       ring
     have t2 : ent (rootElt W (β + γ) 1 * δ γ 1 * rootElt W β 1) (χ + β + γ) χ =
@@ -350,21 +350,21 @@ theorem exists_diagonal_of_rootCocycle [Fintype K] [CharP K 2] (hq : 4 ≤ Finty
       rw [Matrix.mul_assoc, ent_rootElt_mul (β + γ) 1 _ h3,
         show χ + β + γ - (β + γ) = χ by abel, ent_mul_rootElt β 1 _ _ hχ,
         ent_mul_rootElt β 1 _ _ hχ, hN γ hγ, hN γ hγ, hN γ hγ, hN γ hγ,
-        if_neg (vec_ne_of_sub_ne (by
-          rw [show χ + β + γ - (χ + γ) = β by abel]; exact hβ0 β hβ)), if_pos rfl,
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
+          rw [show χ + β + γ - (χ + γ) = β by abel]; exact hβ0 β hβ)), ite_eq_left rfl,
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ - (χ + γ) = -γ by abel]; exact neg_ne_zero.2 (hβ0 γ hγ))),
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ - (χ + β + γ) = -(β + γ) by abel]; exact neg_ne_zero.2 hδ0'))]
       ring
     have t3 : ent (δ (β + γ) 1 * rootElt W γ 1 * rootElt W β 1) (χ + β + γ) χ =
         ν (β + γ) χ := by
       rw [ent_mul_rootElt β 1 _ _ hχ, ent_mul_rootElt γ 1 _ _ hχ, ent_mul_rootElt γ 1 _ _ h1,
         ent_of_not_mem_right _ _ h2, hN _ hβγ, hN _ hβγ, hN _ hβγ,
-        if_pos (by abel),
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_left (by abel),
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ + β + γ - (χ + β + (β + γ)) = -β by abel]; exact neg_ne_zero.2 (hβ0 β hβ))),
-        if_neg (vec_ne_of_sub_ne (by
+        ite_eq_right (vec_ne_of_sub_ne (by
           rw [show χ + β + γ - (χ + β + γ + (β + γ)) = -(β + γ) by abel];
           exact neg_ne_zero.2 hδ0'))]
       ring
@@ -392,9 +392,9 @@ theorem exists_diagonal_of_rootCocycle [Fintype K] [CharP K 2] (hq : 4 ≤ Finty
     have hlψ : l ψ = l χ + ν β χ := by
       rw [h1]
       exact hl β hβ χ χ.2 (h1 ▸ ψ.2)
-    simp only [if_pos h1, Matrix.one_apply_ne hne, hlψ, hν]
+    simp only [ite_eq_left h1, Matrix.one_apply_ne hne, hlψ, hν]
     ring
-  · simp only [if_neg h1, mul_zero, add_zero]
+  · simp only [ite_eq_right h1, mul_zero, add_zero]
     by_cases h2 : ψ = χ
     · subst h2
       rw [Matrix.one_apply_eq]

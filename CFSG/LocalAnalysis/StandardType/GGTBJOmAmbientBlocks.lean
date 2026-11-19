@@ -33,6 +33,7 @@ variable {G F V : Type} [Group G] [Finite G]
   {Q : QuadraticForm F V} {p r n : ℕ} [Fact p.Prime]
   {E : Subgroup (V ≃ₗ[F] V)} {Bs X : Subgroup G} {z : G}
 
+omit [Finite G] in
 private theorem quasisimple_image_of_orthChart
     (hQ : (polarBilin Q).Nondegenerate)
     (hdim : finrank F V = 2 * (r + 1)) (hr3 : 3 ≤ r)
@@ -108,7 +109,7 @@ theorem ggTBJOm_smallBlocks_eq_ggBlockComm
   classical
   have hr3 : 3 ≤ r := by omega
   have hr1 : 1 ≤ r := by omega
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hτΩinj : Function.Injective (Δ.τΩ hE) := by
     intro a b h
     apply Δ.τ_inj
@@ -184,7 +185,7 @@ theorem ggTBJOm_smallBlocks_eq_ggBlockComm
   let t : G := κ (Δ.τΩ hE v)
   have hof_ne : (Multiplicative.ofAdd (1 : ZMod p)) ≠ 1 := by
     intro h
-    have h10 : (1 : ZMod p) = 0 := Multiplicative.ofAdd.injective (by simpa using h)
+    have h10 : (1 : ZMod p) = 0 := Multiplicative.ofAdd.injective (by simp at h)
     exact one_ne_zero h10
   have hT_ne : ∀ (w : Fin r → Multiplicative (ZMod p)) (i : Fin r),
       w i = Multiplicative.ofAdd (1 : ZMod p) → κ (Δ.τΩ hE w) ≠ 1 := by
@@ -296,19 +297,19 @@ theorem ggTBJOm_smallBlocks_eq_ggBlockComm
   let eR : ↥(orthDerived (Q.comp (Δ.originalAnchor ⊔ S.sup Δ.F.U).subtype)) ≃*
       ↥(RΩ.map κ) := (eR0.trans eRΩ).trans eMap
   have hsimpleR : IsSimpleGroup ↥R := by
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         ↥(orthDerived (Q.comp (Δ.originalAnchor ⊔ S.sup Δ.F.U).subtype)) :=
       hsmall.2.2.1
     change IsSimpleGroup ↥(RΩ.map κ)
     exact eR.symm.isSimpleGroup
   have hperfR : Group.IsPerfect ↥R := by
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         ↥(orthDerived (Q.comp (Δ.originalAnchor ⊔ S.sup Δ.F.U).subtype)) :=
       hsmall.2.2.2.1
     change Group.IsPerfect ↥(RΩ.map κ)
     exact Group.IsPerfect.ofSurjective (f := eR.toMonoidHom) eR.surjective
-  haveI : IsSimpleGroup ↥R := hsimpleR
-  haveI : Group.IsPerfect ↥R := hperfR
+  have : IsSimpleGroup ↥R := hsimpleR
+  have : Group.IsPerfect ↥R := hperfR
   have hcenterR : Subgroup.center ↥R = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
       (Group.IsPerfect.not_isMulCommutative ↥R)
@@ -422,7 +423,7 @@ theorem ggTBJOm_smallBlocks_eq_ggBlockComm
       refine ⟨Subgroup.map_subtype_le Dκ (Subgroup.mem_map.mpr ⟨u, hu, rfl⟩), ?_⟩
       refine Subgroup.mem_centralizer_iff.mpr ?_
       intro y hy
-      rw [Set.mem_setOf_eq] at hy
+      rw [Set.mem_ofPred_eq] at hy
       obtain ⟨i, hi, rfl⟩ := hy
       exact (hcomm_i i hi).symm.eq
     have hupper : ⁅Dgl, Dgl⁆ ≤ R0 := by

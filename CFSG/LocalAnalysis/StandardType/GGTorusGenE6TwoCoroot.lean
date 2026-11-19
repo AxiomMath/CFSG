@@ -32,7 +32,7 @@ theorem exists_rootDiagUnit_mem_rationalComponent_e6Two
     ∃ b : Fin Tag.E6.rank → Lˣ,
       rootDiagUnit .E6 b ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i ∧ (∀ k, b k ^ 3 = 1) ∧
         rootDiagUnit .E6 b ≠ 1 := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow (f := 1) S (by rw [hq]; norm_num)
   have hαr : IsRoot .E6 α := (isRootComponent_componentRoots i).isRoot α hα
   have hρ : ∀ γ, IsRoot .E6 γ → S.ρ γ = wE6Two • γ :=
     fun γ hγ => S.rho_eq_smul_of_frob hFrq hΦ hn hγ

@@ -50,7 +50,7 @@ theorem sl2Diag_mul_unipotent (a : k) (ha : a ≠ 0) (t : k) :
     sl2Diag a ha * unipotent t = unipotent (a * a * t) * sl2Diag a ha := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_sl2Diag, coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two, ha] <;> field_simp
+    simp [coe_sl2Diag, coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
 theorem rootGrp_smul_le_of_normal (N : Subgroup (SpecialLinearGroup (Fin 2) k)) [N.Normal]
     {p : ℙ k (Fin 2 → k)} (g : SpecialLinearGroup (Fin 2) k) (h : rootGrp p ≤ N) :
@@ -137,7 +137,7 @@ theorem sl2_eq_one_of_forall_smul_point_eq [CharP k 2] {n : SpecialLinearGroup (
       linear_combination hdet + (1 - (n : Matrix (Fin 2) (Fin 2) k) 0 0) * h2
     exact sub_eq_zero.mp ((pow_eq_zero_iff two_ne_zero).mp hsq)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [ha, ← h00, h01, h10, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [ha, ← h00, h01, h10]
 
 theorem sl2_le_normalizer_of_rootGrp_le [Finite k] {p : ℙ k (Fin 2 → k)}
     {Y : Subgroup (SpecialLinearGroup (Fin 2) k)} (hpY : rootGrp p ≤ Y) (hY : Y ≠ ⊤) :
@@ -178,6 +178,7 @@ section SL2
 
 variable {k : Type} [Field k] [Finite k] [CharP k 2] {Q : Type} [Group Q]
 
+omit [Finite k] [CharP k 2] in
 theorem sl2_eq_top_of_map_eq_top (e : Q ≃* SpecialLinearGroup (Fin 2) k) {Y : Subgroup Q}
     (h : Y.map e.toMonoidHom = ⊤) : Y = ⊤ := by
   rw [eq_top_iff]
@@ -276,6 +277,7 @@ theorem sl2_sylow_ne_bot (e : Q ≃* SpecialLinearGroup (Fin 2) k) (P : Sylow 2 
   rw [← hp, hbot, Subgroup.map_bot] at hu
   exact hu1 (Subgroup.mem_bot.mp hu)
 
+omit [Finite k] [CharP k 2] in
 theorem sl2_not_commutative (e : Q ≃* SpecialLinearGroup (Fin 2) k) : ∃ a b : Q, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm

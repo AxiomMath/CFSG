@@ -49,7 +49,7 @@ theorem exists_prime_dvd_pow_sub_one_not_dvd {x s : ℕ} (hx : 2 ≤ x) (hxe : E
     have h1 : s ∣ (x - 1) + 1 := by rwa [Nat.sub_add_cancel (by omega)]
     exact hs.one_lt.ne' (Nat.dvd_one.1 ((Nat.dvd_add_right hsx).1 h1))
   have hsodd : Odd s := hs.odd_of_ne_two fun h2 => hsnx (h2 ▸ even_iff_two_dvd.1 hxe)
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hlte : padicValNat s (x ^ s - 1 ^ s) = padicValNat s (x - 1) + padicValNat s s :=
     padicValNat.pow_sub_pow hsodd (by omega) hsx hsnx hs.ne_zero
   rw [one_pow, padicValNat_self, ← hΦmul, padicValNat.mul hΦ0 (by omega)] at hlte

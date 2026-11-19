@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma y6b_F_comm_M3 (c : Ctx5 G L) (hF : c.Facts5) {f m : G}
     (hf : f ∈ c.s.fr.F) (hm : m ∈ M3 c.s) : f * m = m * f := by
-  haveI := y6e_M3_comm c hF
+  have := y6e_M3_comm c hF
   exact setLike_mul_comm (s := M3 c.s)
     ((le_sup_right : c.s.fr.F ≤ M3 c.s) hf) hm
 
@@ -72,7 +72,7 @@ private lemma y6b_W_conj_M3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.
     y * x * y⁻¹ = x ∨ y * x * y⁻¹ = x⁻¹ := by
   rw [y6b_mem_W c.toCtx5 hH hF hRT] at hy
   obtain ⟨e, he, m, hm, rfl⟩ := hy
-  haveI := y6e_M3_comm c.toCtx5 hF
+  have := y6e_M3_comm c.toCtx5 hF
   have hmc : Commute m x := setLike_mul_comm (s := M3 c.s) hm hx
   have hkey : e * m * x * (e * m)⁻¹ = e * x * e⁻¹ := by
     rw [show e * m * x * (e * m)⁻¹ = e * (m * x * m⁻¹) * e⁻¹ by group]
@@ -184,7 +184,7 @@ private lemma y6b_K_conj (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Fac
               (n * w * n⁻¹)⁻¹ * (n * f * n⁻¹)⁻¹ by group] at h3
         exact h3
       rw [h2]
-      haveI := y6e_M3_comm c.toCtx5 hF
+      have := y6e_M3_comm c.toCtx5 hF
       have hfinv : (n * f * n⁻¹)⁻¹ ∈ M3 c.s :=
         (M3 c.s).inv_mem ((le_sup_right : c.s.fr.F ≤ M3 c.s) hnf)
       have hxinv : (n * w * n⁻¹)⁻¹ ∈ M3 c.s := (M3 c.s).inv_mem hxM
@@ -287,7 +287,7 @@ theorem y6b_a_conj_M3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5
     have hxM : w * (v : G)⁻¹ ∈ M3 c.s :=
       (M3 c.s).mul_mem hw ((M3 c.s).inv_mem v.2)
     have hx2 : (w * (v : G)⁻¹) ^ 2 = 1 := by
-      haveI := y6e_M3_comm c.toCtx5 hF
+      have := y6e_M3_comm c.toCtx5 hF
       have hc : Commute w ((v : G)⁻¹) :=
         setLike_mul_comm (s := M3 c.s) hw ((M3 c.s).inv_mem v.2)
       rw [hc.mul_pow, inv_pow, hv2]

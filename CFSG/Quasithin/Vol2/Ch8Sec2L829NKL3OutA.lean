@@ -223,7 +223,7 @@ theorem diag_eq_of_x12 (A : Matrix (Fin 3) (Fin 3) K) (hA : A.det ≠ 0)
   simp only [coe_x12, Matrix.mul_apply, Matrix.smul_apply, smul_eq_mul, Fin.sum_univ_three,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_fin_const,
-    Matrix.cons_val_two, Matrix.tail_cons, h01, h02, h10, h12, h20, h21] at a00 a01
+    Matrix.cons_val_two, Matrix.tail_cons, h01, h02, h10, h20, h21] at a00 a01
   have hc : c = 1 := by
     have : (c - 1) * A 0 0 = 0 := by linear_combination -a00
     exact sub_eq_zero.mp ((mul_eq_zero.mp this).resolve_right hA00)
@@ -330,7 +330,7 @@ theorem torus_inner (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) [Finite K]
     rw [Units.val_mul, hAd] at hc13
     have b00 := congrFun (congrFun hc13 0) 0
     have b02 := congrFun (congrFun hc13 0) 2
-    simp [coe_x13, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal] at b00 b02
+    simp [coe_x13, Matrix.mul_apply, Matrix.diagonal] at b00 b02
     have hc13' : c13 = 1 := by
       have : (c13 - 1) * (a * a) = 0 := by linear_combination -b00
       exact sub_eq_zero.mp ((mul_eq_zero.mp this).resolve_right (mul_ne_zero ha ha))
@@ -450,7 +450,7 @@ theorem mem_EM7 : (Em7 : Matrix (Fin 3) (Fin 3) K) ∈ EM := by
 
 theorem Em0_mul_d0 : Em0 * diagonal ![(1 : K), -1, -1] = Em1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em0, Em1, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em0, Em1, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em0_mul_w : Em0 * (wMat (K := K)) = Em2 := by
   ext i j
@@ -458,7 +458,7 @@ theorem Em0_mul_w : Em0 * (wMat (K := K)) = Em2 := by
 
 theorem Em1_mul_d0 : Em1 * diagonal ![(1 : K), -1, -1] = Em0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em1, Em0, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em1, Em0, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em1_mul_w : Em1 * (wMat (K := K)) = Em3 := by
   ext i j
@@ -474,7 +474,7 @@ theorem Em2_mul_w : Em2 * (wMat (K := K)) = Em0 := by
 
 theorem Em3_mul_d0 : Em3 * diagonal ![(1 : K), -1, -1] = Em7 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em3, Em7, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em3, Em7, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em3_mul_w : Em3 * (wMat (K := K)) = Em1 := by
   ext i j
@@ -490,7 +490,7 @@ theorem Em4_mul_w : Em4 * (wMat (K := K)) = Em6 := by
 
 theorem Em5_mul_d0 : Em5 * diagonal ![(1 : K), -1, -1] = Em6 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em5, Em6, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em5, Em6, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em5_mul_w : Em5 * (wMat (K := K)) = Em7 := by
   ext i j
@@ -498,7 +498,7 @@ theorem Em5_mul_w : Em5 * (wMat (K := K)) = Em7 := by
 
 theorem Em6_mul_d0 : Em6 * diagonal ![(1 : K), -1, -1] = Em5 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em6, Em5, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em6, Em5, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em6_mul_w : Em6 * (wMat (K := K)) = Em4 := by
   ext i j
@@ -506,7 +506,7 @@ theorem Em6_mul_w : Em6 * (wMat (K := K)) = Em4 := by
 
 theorem Em7_mul_d0 : Em7 * diagonal ![(1 : K), -1, -1] = Em3 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Em7, Em3, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+  fin_cases i <;> fin_cases j <;> simp [Em7, Em3, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em7_mul_w : Em7 * (wMat (K := K)) = Em5 := by
   ext i j
@@ -530,9 +530,9 @@ theorem EM_sq {M : Matrix (Fin 3) (Fin 3) K} (hM : M ∈ EM (K := K)) :
   simp only [EM, Set.mem_insert_iff, Set.mem_singleton_iff] at hM
   rcases hM with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · left; ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Em0, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+      simp [Em0, Matrix.mul_apply, Fin.sum_univ_three]
   · left; ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Em1, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+      simp [Em1, Matrix.mul_apply, Fin.sum_univ_three]
   · left; ext i j; fin_cases i <;> fin_cases j <;>
       simp [Em2, Matrix.mul_apply, Fin.sum_univ_three, wMat]
   · right; ext i j; fin_cases i <;> fin_cases j <;>
@@ -540,11 +540,11 @@ theorem EM_sq {M : Matrix (Fin 3) (Fin 3) K} (hM : M ∈ EM (K := K)) :
   · right; ext i j; fin_cases i <;> fin_cases j <;>
       simp [Em4, Em5, Matrix.mul_apply, Fin.sum_univ_three]
   · left; ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Em5, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+      simp [Em5, Matrix.mul_apply, Fin.sum_univ_three]
   · left; ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Em6, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+      simp [Em6, Matrix.mul_apply, Fin.sum_univ_three]
   · left; ext i j; fin_cases i <;> fin_cases j <;>
-      simp [Em7, Matrix.mul_apply, Fin.sum_univ_three, wMat]
+      simp [Em7, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem Em5_mul_Em5 : (Em5 : Matrix (Fin 3) (Fin 3) K) * Em5 = 1 := by
   ext i j
@@ -651,7 +651,7 @@ theorem proj_comm_x12 {g : SpecialLinearGroup (Fin 3) K} {a e : K}
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hg, coe_x12]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal]
 
 theorem commute_tests (h2 : (2 : K) ≠ 0) (m : projectiveSL 3 K)
     (hd : m * proj 3 K (d0SL (K := K)) = proj 3 K (d0SL (K := K)) * m)

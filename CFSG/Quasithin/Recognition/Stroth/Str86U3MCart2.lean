@@ -13,6 +13,7 @@ variable {V : Type} [CommGroup V] [Finite V]
 
 noncomputable section
 
+omit [Finite V] in
 theorem binaryNaturalSU3_exists_normalizer_mod_fix {k : ℕ} (hk : 2 ≤ k)
     {L : Subgroup (MulAut V)} (hL : BinaryNaturalSU3 L ⊤ ⊥ k)
     {T : Subgroup (MulAut V)} (hTL : T ≤ L) (hT : IsPGroup 2 T)
@@ -22,8 +23,8 @@ theorem binaryNaturalSU3_exists_normalizer_mod_fix {k : ℕ} (hk : 2 ≤ k)
       ∀ w₁ w₂ : V, u w₁ ≠ w₁ → u w₂ ≠ w₂ →
         ∃ n ∈ L ⊓ Subgroup.normalizer (T : Set (MulAut V)), u (n w₁ * w₂⁻¹) = n w₁ * w₂⁻¹ := by
   obtain ⟨K, hKfield, hKfin, hKcard, π, hπ⟩ := hL
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   let Γ : Subgroup (GL (Fin 3) K) := StatedSU 3 (2 ^ k) K
   obtain ⟨e, he⟩ := H.exists_mulEquiv_of_realizesVia (Γ := Γ) hπ
   let e' : MulAut V ≃* MulAut (H.StdMod (Fin 3) K) := MulAut.congr e

@@ -17,7 +17,7 @@ theorem fixed_equiv_linear {p f : ℕ} {K : Type} [Field K] (hK : PiField true p
       s ∈ F ↔ frobGL σ (s : GL (Fin 3) K) = (s : GL (Fin 3) K)) :
     ∃ (f₀ : ℕ) (K₀ : Type) (_ : Field K₀), f = 3 * f₀ ∧ PiField true p f₀ K₀ ∧
       Nonempty (↥F ≃* slPi true 3 (p ^ f₀) K₀) := by
-  haveI := hK.finite
+  have := hK.finite
   obtain ⟨h3f, -⟩ := eq_frobenius_pow_of_orderOf_eq_three hK.prime hK.one_le
     (hK.card : Nat.card K = p ^ f) hσ
   obtain ⟨f₀, rfl⟩ := h3f
@@ -51,7 +51,7 @@ theorem fixed_equiv_linear {p f : ℕ} {K : Type} [Field K] (hK : PiField true p
   let Ψ : Matrix.SpecialLinearGroup (Fin 3) K₀ →* F :=
     ((e1.symm.toMonoidHom).comp ι).codRestrict F (fun a => by
       rw [hmem]
-      simpa using ⟨a, rfl⟩)
+      simp)
   have hΨ : Function.Bijective Ψ := by
     constructor
     · intro a b hab

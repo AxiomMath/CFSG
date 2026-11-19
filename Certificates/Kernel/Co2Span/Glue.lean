@@ -121,10 +121,10 @@ theorem enum38961 : ∀ (c : Fin 11 → ZMod 2) (θ : Fin 2 → Matrix (Fin 2) (
     intro q
     rcases Nat.mod_two_eq_zero_or_one q.1 with e | e
     · have : (⟨q.1 % 2, Nat.mod_lt _ (by norm_num)⟩ : Fin 2) = 0 := Fin.ext e
-      simp only [this, e, beq_self_eq_true, ↓reduceIte]
+      simp only [e, beq_self_eq_true, ↓reduceIte]
       exact hθ0
     · have : (⟨q.1 % 2, Nat.mod_lt _ (by norm_num)⟩ : Fin 2) = 1 := Fin.ext e
-      simp only [this, e]
+      simp only [e]
       exact hθ1
   have hlen : w12UTauWords.toList.length = 8 := rfl
   have hrel' : ∀ j < w12UTauWords.toList.length,

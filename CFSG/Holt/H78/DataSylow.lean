@@ -83,7 +83,7 @@ omit [Finite G] [Fact p.Prime] in
 private theorem fusionIsSylowIn_of_isSylowOf' {P K : Subgroup G}
     (h : CFSG.ABGLocalTools.IsSylowOf p P K) : fusionIsSylowIn p P K := by
   obtain ⟨Q, rfl⟩ := h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
   rw [← Q.maximal_isPGroup.eq_of_ge
     (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
@@ -213,7 +213,7 @@ theorem IsHoltFactor.fixSet_eq_singleton (hM : IsHoltFactor M) (hodd : Odd (Fint
     rintro _ ⟨q, hq, rfl⟩
     exact ⟨q.2, hQ hq⟩
   have hT : fusionIsSylowIn 2 T (M ⊓ stabilizer (Equiv.Perm Δ) a) := by
-    refine ⟨hTle, Q.isPGroup'.map _, fun R hRle hR hTR => ?_⟩
+    refine ⟨hTle, Q.isPGroup.map _, fun R hRle hR hTR => ?_⟩
     have hR' : IsPGroup 2 (R.subgroupOf M) := hR.comap_of_injective _ M.subtype_injective
     have hQR : (Q : Subgroup M) ≤ R.subgroupOf M := fun q hq => hTR ⟨q, hq, rfl⟩
     rw [hTdef, ← Q.maximal_isPGroup.eq_of_ge hR' hQR, Subgroup.subgroupOf_map_subtype,

@@ -200,13 +200,13 @@ open CFSG.Blueprint CFSG.LieType.Ree CFSG.QuasithinUnique.Setup.Family
 open CFSG.Quasithin.H CFSG.Quasithin.H.Sz
 
 private theorem binaryNaturalSz_index_eq
-    (a : ℕ) {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1))
+    (a : ℕ) {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2 ^ (2 * a + 1))
     {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w * w = 1)
     {L : Subgroup (MulAut W)} (hnat : BinaryNaturalSz L ⊤ ⊥ (2 * a + 1))
     {t : MulAut W} (htL : t ∈ L) (ht2 : t * t = 1) (ht1 : t ≠ 1) :
     (fixV (Subgroup.zpowers t)).index = 2 ^ (2 * (2 * a + 1)) := by
   classical
-  haveI : Fact (∀ w : W, w * w = 1) := ⟨hW⟩
+  have : Fact (∀ w : W, w * w = 1) := ⟨hW⟩
   obtain ⟨a', ha', hf', K', _, _, hK', π, hπ⟩ := hnat
   have hK'' : Nat.card K' = 2 ^ (2 * a' + 1) := by rw [← hf']; exact hK'
   let Γ : Subgroup (Matrix.GeneralLinearGroup (Fin 4) K') := suzukiGroup a' K'
@@ -314,7 +314,7 @@ private theorem isQuasisimple_subgroup_of_surjective
 private theorem autI_le_normalizer_autI
     {G : Type} [Group G] {H U C R : Subgroup G}
     (hU : CFSG.Open.IsElemAbelian 2 U)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hCH : C ≤ H) (hNR : H ≤ Subgroup.normalizer (R : Set G)) :
     CFSG.Quasithin.autI hU C ≤ Subgroup.normalizer
       (CFSG.Quasithin.autI hU R : Set (MulAut (CFSG.Quasithin.IntMod U hU))) := by
@@ -363,8 +363,8 @@ private theorem isPGroup_autI_centralizer_of_trivial
     {G : Type} [Group G] [Finite G] {H U U' : Subgroup G}
     (hU : CFSG.Open.IsElemAbelian 2 U)
     (hHU : H ≤ Subgroup.normalizer (U : Set G))
-    (hHU' : H ≤ Subgroup.normalizer (U' : Set G))
-    (hU'U : U' ≤ U)
+    (_hHU' : H ≤ Subgroup.normalizer (U' : Set G))
+    (_hU'U : U' ≤ U)
     (htriv : ∀ h ∈ H, ∀ u ∈ U, h * u * h⁻¹ * u⁻¹ ∈ U') :
     IsPGroup 2 (CFSG.Quasithin.autI hU (H ⊓ Subgroup.centralizer (U' : Set G))) := by
   classical
@@ -464,8 +464,8 @@ private theorem le_sup_of_trivial_section
   have hRnorm : L.Normal := by
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer hRH).2 ?_
     exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H
-  haveI : K.Normal := hCnorm
-  haveI : L.Normal := hRnorm
+  have : K.Normal := hCnorm
+  have : L.Normal := hRnorm
   have hSnorm : S.Normal := Subgroup.sup_normal K L
   let φ := CFSG.Quasithin.convHom hU H hHU
   have hP2 : IsPGroup 2 φ.range :=
@@ -510,7 +510,7 @@ private theorem le_sup_of_trivial_section
     have hperfR : Group.IsPerfect (↥H ⧸ L) := by
       let e : (↥H ⧸ CFSG.pCore 2 ↥H) ≃* (↥H ⧸ L) :=
         QuotientGroup.quotientMulEquivOfEq hRsub.symm
-      haveI : Group.IsPerfect (↥H ⧸ CFSG.pCore 2 ↥H) := hperf
+      have : Group.IsPerfect (↥H ⧸ CFSG.pCore 2 ↥H) := hperf
       exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) (by
         intro y
         exact e.surjective y)
@@ -522,7 +522,7 @@ private theorem le_sup_of_trivial_section
       intro y
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective S y
       exact ⟨QuotientGroup.mk' L x, rfl⟩
-    haveI : Group.IsPerfect (↥H ⧸ L) := hperfR
+    have : Group.IsPerfect (↥H ⧸ L) := hperfR
     exact Group.IsPerfect.ofSurjective (f := χ) (by
       intro y
       exact hχ y)
@@ -547,13 +547,13 @@ private theorem pCoreOf_trivial_on_section
   classical
   let W : Type := ↥U ⧸ U'.subgroupOf U
   have hUcomm : ∀ a : ↥U, ∀ b : ↥U, a * b = b * a := by
-    haveI : IsMulCommutative ↥U := hU.1
+    have : IsMulCommutative ↥U := hU.1
     intro a b
     exact (IsMulCommutative.is_comm (M := ↥U)).comm a b
   have hUnorm : (U'.subgroupOf U).Normal :=
     CFSG.Quasithin.H13.C1294.IDIrr.subgroupOf_normal_of_comm
       (fun a ha b hb => congrArg Subtype.val (hUcomm ⟨a, ha⟩ ⟨b, hb⟩))
-  haveI : (U'.subgroupOf U).Normal := hUnorm
+  have : (U'.subgroupOf U).Normal := hUnorm
   let hWcomm : CommGroup W :=
     { (inferInstance : Group W) with
       mul_comm := by
@@ -593,7 +593,7 @@ private theorem pCoreOf_trivial_on_section
         (Subgroup.mem_subgroupOf.mpr (by
           have hu : u.val * u.val = 1 := by
             simpa [pow_two] using hU.2 u.val u.2
-          simpa [hu] using U'.one_mem))
+          simp [hu]))
   have hKne : fixV P ≠ ⊥ :=
     CFSG.Quasithin.MS93.S32.fixV_ne_bot_of_isPGroup hWsq hP2
   let K : Subgroup W := fixV P
@@ -714,11 +714,11 @@ abbrev SectionW {G : Type} [Group G] (U U' : Subgroup G) : Type :=
 
 private theorem index_le_relIndex_centralizer_of_fixed
     {G : Type} [Group G] [Finite G] {H U U' V : Subgroup G} {t : G}
-    (hUV : U ≤ V) (hU'U : U' < U)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
-    (hHU' : H ≤ Subgroup.normalizer (U' : Set G))
+    (hUV : U ≤ V) (_hU'U : U' < U)
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hHU' : H ≤ Subgroup.normalizer (U' : Set G))
     [(U'.subgroupOf U).Normal]
-    (htH : t ∈ H) (K : Subgroup (SectionW U U'))
+    (_htH : t ∈ H) (K : Subgroup (SectionW U U'))
     (hKmem : ∀ u : ↥U, (QuotientGroup.mk u : SectionW U U') ∈ K ↔
       t * (u : G) * t⁻¹ * (u : G)⁻¹ ∈ U') :
     K.index ≤ (V ⊓ Subgroup.centralizer ({t} : Set G)).relIndex V := by
@@ -752,7 +752,7 @@ private theorem index_le_relIndex_centralizer_of_fixed
       calc t * u * t⁻¹ * u⁻¹ = u * t * t⁻¹ * u⁻¹ := by rw [h]
         _ = 1 := by group
     refine Subgroup.mem_map.mpr ⟨⟨u, huU⟩, ?_, rfl⟩
-    exact (hKmem ⟨u, huU⟩).2 (by simpa [hcomm] using U'.one_mem)
+    exact (hKmem ⟨u, huU⟩).2 (by simp [hcomm])
   have hstep1 : K.index ≤ (U ⊓ Subgroup.centralizer ({t} : Set G)).relIndex U := by
     rw [hKidx]
     exact Subgroup.relIndex_le_of_le_left hCUX'
@@ -1036,11 +1036,11 @@ private theorem unitary_quot_facts
     CFSG.IsQuasisimple X ∧ (∀ z ∈ Subgroup.center X, z * z = 1 → z = 1) ∧
       Nonempty (X ⧸ Subgroup.center X ≃*
         CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 2 ^ (2 * n) := by
     rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, Nat.mul_comm n 2]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcard
   have hnq : ((3 : ℕ), 2 ^ n) ≠ (3, 2) := by
     intro h
     have h2 : 2 ^ n = 2 := congrArg Prod.snd h
@@ -1066,7 +1066,7 @@ private theorem unitary_quot_facts
     have hSimple : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) F)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF 3
         (by norm_num) hnq
-    haveI := hSimple
+    have := hSimple
     have hnc := CFSG.Quasithin.F6.InspRest.exists_noncomm_statedProj
       (H := CFSG.Open.StatedSU 3 (2 ^ n) F) hSU.1 hSimple
     have hP := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnc
@@ -1142,9 +1142,9 @@ theorem sq_le_relIndex_centralizer_of_sq_mem
     rw [mul_inv_rev, hinv _ a.2, hinv _ b.2] at hab
     exact hab.symm
   have hUcomm : ∀ a b : ↥U, a * b = b * a := by
-    haveI : IsMulCommutative ↥U := hUelem.1
+    have : IsMulCommutative ↥U := hUelem.1
     exact fun a b => (IsMulCommutative.is_comm (M := ↥U)).comm a b
-  haveI : (U'.subgroupOf U).Normal :=
+  have : (U'.subgroupOf U).Normal :=
     CFSG.Quasithin.H13.C1294.IDIrr.subgroupOf_normal_of_comm
       (fun a ha b hb => congrArg Subtype.val (hUcomm ⟨a, ha⟩ ⟨b, hb⟩))
   have hUsec : ∀ a ∈ U, ∀ b ∈ U, a * b * a⁻¹ * b⁻¹ ∈ U' ∧ a * a ∈ U' := by
@@ -1175,7 +1175,7 @@ theorem sq_le_relIndex_centralizer_of_sq_mem
     | H a =>
       induction y using QuotientGroup.induction_on with
       | H b => rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hUcomm a b]
-  letI : CommGroup (SectionW U U') :=
+  let : CommGroup (SectionW U U') :=
     { (inferInstance : Group (SectionW U U')) with mul_comm := hWcomm }
   refine (hbound (SectionW U U') hsq L hperf hirr ⟨eCQ⟩ tL htL htL2 htL1).trans
     (index_le_relIndex_centralizer_of_fixed hUV hU'U hHU hHU' htH _ ?_)

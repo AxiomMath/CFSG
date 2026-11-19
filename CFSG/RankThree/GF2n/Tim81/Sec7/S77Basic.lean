@@ -20,6 +20,7 @@ abbrev gammaStab (V : Subgroup G) : Subgroup G := CFSG.Timmesfeld.ARS.stabSet (g
 
 abbrev gammaL (V : Subgroup G) : Subgroup G := ⨆ A ∈ gammaAt V, A
 
+omit [Finite G] in
 theorem omegaSet_conjSubgroup (V : Subgroup G) (g : G) :
     omegaSet (conjSubgroup g V) = omegaSet V := by
   ext U
@@ -72,6 +73,7 @@ theorem Sec6Hyp.gammaL_le_gammaStab (hS : Sec6Hyp M V) (h75 : Sec7.Stmt75 V) :
   exact (Subgroup.le_normalizer : A ≤ Subgroup.normalizer (A : Set G)).trans
     (hS.normalizer_le_gammaStab h75 hA)
 
+omit [Finite G] in
 theorem gammaStab_le_normalizer_gammaL (V : Subgroup G) :
     gammaStab V ≤ Subgroup.normalizer (gammaL V : Set G) :=
   CFSG.Timmesfeld.ARS.Sec5.stabSet_le_normalizer_gen (gammaAt V)
@@ -127,7 +129,7 @@ theorem Sec6Hyp.odd_ncard_gammaAt (hS : Sec6Hyp M V) : Odd (gammaAt V).ncard := 
   have hfix : {C ∈ gammaAt V | ∀ x ∈ Pc M V,
       C.map (MulAut.conj x).toMonoidHom = C} = {V} := by
     ext C
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hC, hfixC⟩
       exact hS.sec5.eq_of_Pc_le_normalizer (gammaAt_subset_omegaSet V hC)

@@ -100,13 +100,13 @@ theorem s9c_theta_of_card {K₀ Ks : Type} [Group K₀] [Group Ks] [Finite K₀]
     rw [← hSL]
     exact (Nat.card_congr (Equiv.subtypeEquiv (MulAut.conj P).toEquiv (fun g => Iff.rfl))).trans
       (Nat.card_congr (MonoidHom.ofInjective hJ).toEquiv.symm)
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
   have hle : ρK.range ≤ T := by
     rintro _ ⟨x, rfl⟩
     exact hran x
   have hdvd : σ.ker.index ∣ ρK.ker.index := Subgroup.index_dvd_of_le hker
   have hidxρ : ρK.ker.index = Nat.card ρK.range := Subgroup.index_ker ρK
-  haveI : Finite ρK.range := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective ρK)
+  have : Finite ρK.range := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective ρK)
   have hpos : 0 < Nat.card ρK.range := Nat.card_pos
   have hge : 168 ≤ Nat.card ρK.range := by
     have hdvd' : 168 ∣ Nat.card ρK.range := by

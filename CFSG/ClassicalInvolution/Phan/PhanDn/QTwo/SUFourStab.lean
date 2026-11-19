@@ -159,7 +159,7 @@ theorem eq_one_of_hom_Su_three {A : Type*} [Group A] (hK : Nat.card K = 4)
     have hset : ⇑e.symm.toMonoidHom '' {x : ↥(CFSG.Open.StatedSU 3 2 K) | ∃ k, x ^ 2^k = 1} =
         {x : Su K 2 1 3 | ∃ k, x ^ 2^k = 1} := by
       ext x
-      simp only [Set.mem_image, Set.mem_setOf_eq]
+      simp only [Set.mem_image, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨y, ⟨k, hk⟩, rfl⟩
         exact ⟨k, by rw [← map_pow, hk, map_one]⟩

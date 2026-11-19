@@ -37,10 +37,10 @@ theorem stronglyEmbeddedFiveZ_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent
     (hJ4 : D2HeisLocalAt (.sporadic .J4) fun q => q = 11) :
     StronglyEmbeddedFiveZ := by
   intro p hp hp5 X _ _ hX hO h2 N hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, -, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
-  haveI : (CFSG.generalizedFitting X).Normal := hKn
+  have : (CFSG.generalizedFitting X).Normal := hKn
   rcases identification_of_isStronglyPEmbedded hId hLie hCyc hp hp5 hX hO h2 hN with
     hS | ⟨d, hd, ⟨e⟩⟩ | ⟨rfl, hv, ⟨e⟩⟩
   · rcases hS with ⟨d, hd, ⟨e⟩⟩ | ⟨d, ⟨q, hqp, -, hdq⟩, ⟨e⟩⟩ | hA | ⟨rfl, -⟩ |

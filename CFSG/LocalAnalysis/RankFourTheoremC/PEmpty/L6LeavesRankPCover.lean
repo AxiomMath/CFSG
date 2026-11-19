@@ -52,7 +52,7 @@ theorem exists_sylow_le_of_cover {X : Type*} [Group X] [Finite X] (p : ℕ) [Fac
 theorem exists_ne_one_mem_inf_center {P : Type*} [Group P] [Finite P] {p : ℕ} [Fact p.Prime]
     (hP : IsPGroup p P) (K : Subgroup P) [K.Normal] (hK : K ≠ ⊥) :
     ∃ w : P, w ∈ K ∧ w ∈ center P ∧ w ^ p = 1 ∧ w ≠ 1 := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have h := Group.IsNilpotent.inf_center_ne_bot_of_normal hK
   obtain ⟨w₀, hw₀⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp h
   have hw₀K : (w₀ : P) ∈ K := (Subgroup.mem_inf.mp w₀.2).1

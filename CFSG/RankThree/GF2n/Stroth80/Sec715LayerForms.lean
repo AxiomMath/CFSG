@@ -52,6 +52,7 @@ theorem wsub_eq_orthogonal (hS : IsTensorSetup hc n M₀ ρ b) (t : G) :
     have h1 : M₀.B v e = 0 := h v ((hc.mem_VtSub hS.model t).mpr hv)
     rw [Tim79.QuadModel.B_comm, h1, neg_zero]
 
+omit [Finite G] [Finite K] in
 theorem bilin_nondegenerate_isRefl : M₀.B.Nondegenerate ∧ M₀.B.IsRefl :=
   ⟨⟨fun x hx => M₀.nondeg x hx, fun y hy => M₀.nondeg y fun f => by
       rw [Tim79.QuadModel.B_comm, hy f, neg_zero]⟩,
@@ -179,7 +180,7 @@ theorem act_eq_cscal (h310chi : Stroth310ChiStatement) (h52a : Stroth52aStatemen
     (e : M₀.E) :
     (ρ a).toAdd e = e + cscal hc ρ hs.toSec5.mem a • dmap ρ (tbar hc hs.toSec5.mem) e := by
   have h := exists_act_eq_add_smul h310chi h52a hMp hS hs hr hZ0 ha
-  rw [cscal, dif_pos h]
+  rw [cscal, dite_eq_left h]
   exact Classical.choose_spec h e
 
 theorem cscal_eq (h310chi : Stroth310ChiStatement) (hS : IsTensorSetup hc n M₀ ρ b) {n' : ℕ}
@@ -193,7 +194,7 @@ theorem cscal_eq (h310chi : Stroth310ChiStatement) (hS : IsTensorSetup hc n M₀
   have h2 : (c - Classical.choose hex) • dmap ρ (tbar hc hs.toSec5.mem) e₀ = 0 := by
     rw [sub_smul]
     exact sub_eq_zero.mpr (add_left_cancel h1)
-  rw [cscal, dif_pos hex]
+  rw [cscal, dite_eq_left hex]
   exact (sub_eq_zero.mp ((smul_eq_zero.mp h2).resolve_right he₀)).symm
 
 theorem dmap_tbar_dmap_tbar (h310chi : Stroth310ChiStatement) (h52a : Stroth52aStatement)
@@ -271,6 +272,7 @@ theorem cscal_surj (h310chi : Stroth310ChiStatement) (h52a : Stroth52aStatement)
   obtain ⟨a, ha⟩ := (hinj.bijective_of_nat_card_le (hS.card.trans hbar.symm).le).2 k
   exact ⟨a, a.2, ha⟩
 
+omit [Finite G] in
 theorem conj_eq_of_mem_bar_centre (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {a x : Mbar M Q} (ha : a ∈ bar M Q Z0)
     (hx : x ∈ bar M Q (Rt M (LB M Q B) t)) : x * a * x⁻¹ = a := by
@@ -353,7 +355,7 @@ theorem cscal_sq_mul_bilin (h310chi : Stroth310ChiStatement) (h51 : Stroth51Stat
       -M₀.B (dmap ρ g e) (dmap ρ g e') := by
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have hgH := mem_bar_H0_of_CN hg
   have hsqZ := sq_mem_bar_Z0 h51 hs hr hZ0 hg
   have hsqH : g ^ 2 ∈ bar M Q (H0 M Z) := Subgroup.pow_mem _ hgH 2
@@ -460,7 +462,7 @@ theorem cscal_sq_comb (h310chi : Stroth310ChiStatement) (h51 : Stroth51Statement
     cscal hc ρ hs.toSec5.mem (g₃ ^ 2) = k₁ ^ 2 * cscal hc ρ hs.toSec5.mem (g₁ ^ 2) +
       k₂ ^ 2 * cscal hc ρ hs.toSec5.mem (g₂ ^ 2) + k₁ * k₂ * cscal hc ρ hs.toSec5.mem ⁅g₁, g₂⁆ := by
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   obtain ⟨-, -, hg₁E⟩ := dmap_CN_facts h310chi h52a hS hs hr hg₁
   obtain ⟨-, -, hg₂E⟩ := dmap_CN_facts h310chi h52a hS hs hr hg₂
   obtain ⟨-, -, hg₃E⟩ := dmap_CN_facts h310chi h52a hS hs hr hg₃
@@ -495,16 +497,16 @@ theorem deltaLift_mem (hS : IsTensorSetup hc n M₀ ρ b) (t : G) (f : ↥(wsub 
     deltaLift hS t f ∈ bar M Q (hc.CN t) := by
   by_cases h : ∃ (g : Mbar M Q) (hg : g ∈ bar M Q (hc.CN t)),
       f = delta hS t g (mem_bar_H0_of_CN hg)
-  · rw [deltaLift, dif_pos h]
+  · rw [deltaLift, dite_eq_left h]
     exact (Classical.choose_spec h).fst
-  · rw [deltaLift, dif_neg h]
+  · rw [deltaLift, dite_eq_right h]
     exact Subgroup.one_mem _
 
 theorem dmap_deltaLift (hS : IsTensorSetup hc n M₀ ρ b) (t : G) {f : ↥(wsub hS t) →ₗ[K] M₀.E}
     (hf : ∃ (g : Mbar M Q) (hg : g ∈ bar M Q (hc.CN t)), f = delta hS t g (mem_bar_H0_of_CN hg))
     {w : M₀.E} (hw : w ∈ wsub hS t) : dmap ρ (deltaLift hS t f) w = f ⟨w, hw⟩ := by
   obtain ⟨hg, h⟩ := Classical.choose_spec hf
-  rw [deltaLift, dif_pos hf]
+  rw [deltaLift, dite_eq_left hf]
   conv_rhs => rw [h]
   rfl
 

@@ -29,7 +29,7 @@ theorem rckExc_torus_eigen_of_rho
     Nat.card A' ≤ Nat.card {z : Fin τ.rank → ZMod p //
       (modMat p N)ᵀ *ᵥ z = (Dl.q : ZMod p) • z} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_units (L := GGL) (ℓ := 2) (by norm_num) hp hp2
   have hζL : IsPrimitiveRoot (ζ : GGL) p := IsPrimitiveRoot.coe_units_iff.mpr hζ
   have hex : ∀ x : A', ∃ q : (Fin τ.rank → GGLˣ) × (Fin τ.rank → ZMod p),
@@ -49,7 +49,7 @@ theorem rckExc_torus_eigen_of_rho
       rw [hydef]
       have hconj : Dl.g0⁻¹ * (x : ModGL τ GGL) * Dl.g0 =
           (MulAut.conj Dl.g0⁻¹) (x : ModGL τ GGL) := by
-        simp [MulAut.conj_apply]
+        simp
       rw [hconj, ← map_pow, hxp, map_one]
     have hrootp : (rootDiagUnit τ a) ^ p = 1 := by rw [← ha]; exact hyp
     have hap : a ^ p = 1 := by
@@ -98,15 +98,15 @@ theorem rckExc_torus_eigen_of_rho
         rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
         exact hdvd
       have hsum2 : (∑ j, (z j).val * (Pi.single i 1 : Fin τ.rank → ℤ) j) = (z i).val := by
-        rw [Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj])
+        rw [Finset.sum_eq_single i (fun j _ hj => by simp [hj])
           (fun h => absurd (Finset.mem_univ i) h)]
-        simp [Pi.single_apply]
+        simp
       have hsum1 : (∑ j, (((Pi.single i 1 : Fin τ.rank → ℤ) j : ℤ) : ZMod p) *
           (((modMat p N)ᵀ *ᵥ z - (Dl.q : ZMod p) • z) j)) =
           ((modMat p N)ᵀ *ᵥ z - (Dl.q : ZMod p) • z) i := by
-        rw [Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj])
+        rw [Finset.sum_eq_single i (fun j _ hj => by simp [hj])
           (fun h => absurd (Finset.mem_univ i) h)]
-        simp [Pi.single_apply]
+        simp
       have hcast := cast_rootChar_exponent (p := p) N z (Pi.single i 1) Dl.q
       have hcast' : (((∑ j, ((z j).val : ℤ) * u j) - ((z i).val : ℤ) * (Dl.q : ℤ) : ℤ) :
           ZMod p) = ((modMat p N)ᵀ *ᵥ z - (Dl.q : ZMod p) • z) i := by

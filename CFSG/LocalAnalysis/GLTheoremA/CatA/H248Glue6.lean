@@ -34,7 +34,7 @@ theorem pRank_mono {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 2 ≤ p) {H H
 
 theorem quotient_quotient_map_equiv {K : Type} [Group K] (W N : Subgroup K) [W.Normal] [N.Normal]
     (hWN : W ≤ N) : Nonempty (((K ⧸ W) ⧸ N.map (QuotientGroup.mk' W)) ≃* (K ⧸ N)) := by
-  haveI : (N.map (QuotientGroup.mk' W)).Normal := Subgroup.Normal.map inferInstance _
+  have : (N.map (QuotientGroup.mk' W)).Normal := Subgroup.Normal.map inferInstance _
     (QuotientGroup.mk'_surjective W)
   let χ : K →* ((K ⧸ W) ⧸ N.map (QuotientGroup.mk' W)) :=
     (QuotientGroup.mk' (N.map (QuotientGroup.mk' W))).comp (QuotientGroup.mk' W)

@@ -76,12 +76,12 @@ private theorem bsf_aligned_zero {G : Type} [Group G] {n : ℕ} {H : Subgroup G}
   · intro s hs
     have hs0 : s = 0 := by omega
     subst hs0
-    rw [Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_left rfl]
     exact hφ
   · intro s hs hsle
     have hs0 : s = 0 := by omega
     subst hs0
-    rw [Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_left rfl]
     exact hRφ
   · intro s hs
     omega
@@ -126,14 +126,14 @@ private theorem bsf_aligned_succ {G : Type} [Group G] {n : ℕ} {H : Subgroup G}
     · rw [Function.update_of_ne (by omega)]
       exact hInj s (by omega)
     · subst heq
-      rw [Function.update_apply, if_pos rfl]
+      rw [Function.update_apply, ite_eq_left rfl]
       exact hφ.comp β.injective
   · intro s hs hsle
     rcases Nat.lt_or_eq_of_le hsle with hlt | heq
     · rw [Function.update_of_ne (by omega)]
       exact hR s hs (by omega)
     · subst heq
-      rw [Function.update_apply, if_pos rfl]
+      rw [Function.update_apply, ite_eq_left rfl]
       exact bsf_chartRanges_comp_mulEquiv hβ hRφ
   · intro s hsle
     rcases Nat.lt_or_ge (s + 1) (d + 1) with hlt | hge
@@ -141,7 +141,7 @@ private theorem bsf_aligned_succ {G : Type} [Group G] {n : ℕ} {H : Subgroup G}
       exact hAlign s (by omega)
     · have hsd : s = d := by omega
       rw [hsd]
-      rw [Function.update_of_ne (by omega : d ≠ d + 1), Function.update_apply, if_pos rfl]
+      rw [Function.update_of_ne (by omega : d ≠ d + 1), Function.update_apply, ite_eq_left rfl]
       exact hβeq
 
 private theorem bsf_exists_aligned {G : Type} [Group G] {n : ℕ} {H : Subgroup G}
@@ -206,7 +206,7 @@ private theorem bsf_theta_range {G : Type} [Group G] {n : ℕ} {U : Fin n → Su
   · have hθ : bsf_theta n Θ (i : ℕ) =
         (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
       unfold bsf_theta
-      rw [if_pos h2]
+      rw [ite_eq_left h2]
     rw [hθ, MonoidHom.range_comp, (hR (i : ℕ) h2 (by omega)).2.2.2.1]
   · have hlt : (i : ℕ) < n := i.isLt
     have h1' : (⟨n - 3 + 1, by omega⟩ : Fin n) = i := by
@@ -220,7 +220,7 @@ private theorem bsf_theta_range {G : Type} [Group G] {n : ℕ} {U : Fin n → Su
     have hθ : bsf_theta n Θ (i : ℕ) =
         (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
       unfold bsf_theta
-      rw [if_neg h2, if_pos hi]
+      rw [ite_eq_right h2, ite_eq_left hi]
     rw [hθ, MonoidHom.range_comp, (hR (n - 3) (by omega) (by omega)).2.2.2.2, h1', h2']
 
 private theorem bsf_iota_range {G : Type} [Group G] {n : ℕ} {U : Fin n → Subgroup G}
@@ -231,19 +231,19 @@ private theorem bsf_iota_range {G : Type} [Group G] {n : ℕ} {U : Fin n → Sub
     (bsf_iota n Θ (i : ℕ)).range = U i := by
   by_cases hi : (i : ℕ) + 1 < n
   · unfold bsf_iota
-    rw [if_pos hi]
+    rw [ite_eq_left hi]
     by_cases h2 : (i : ℕ) + 2 < n
     · have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
         unfold bsf_theta
-        rw [if_pos h2]
+        rw [ite_eq_left h2]
       rw [hθ, MonoidHom.comp_assoc, bsf_block430_comp_two, MonoidHom.range_comp,
         (hR (i : ℕ) h2 (by omega)).1]
     · have hin : (i : ℕ) = n - 2 := by omega
       have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
         unfold bsf_theta
-        rw [if_neg h2, if_pos hi]
+        rw [ite_eq_right h2, ite_eq_left hi]
       rw [hθ, MonoidHom.comp_assoc, bsf_block431_comp_two, MonoidHom.range_comp,
         (hR (n - 3) (by omega) (by omega)).2.1]
       have hlt : (i : ℕ) < n := i.isLt
@@ -253,11 +253,11 @@ private theorem bsf_iota_range {G : Type} [Group G] {n : ℕ} {U : Fin n → Sub
       omega
   · have hin : (i : ℕ) = n - 1 := by omega
     unfold bsf_iota
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     have hθ : bsf_theta n Θ (n - 2) =
         (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
       unfold bsf_theta
-      rw [if_neg (by omega), if_pos (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     rw [hθ, MonoidHom.comp_assoc, bsf_block431_comp_zero, MonoidHom.range_comp,
       (hR (n - 3) (by omega) (by omega)).2.2.1]
     have hlt : (i : ℕ) < n := i.isLt
@@ -277,14 +277,14 @@ private theorem bsf_right_gen {G : Type} [Group G] {n : ℕ} {Θ : ℕ → Su K 
   have h2 : (i : ℕ) + 2 < n := by omega
   have hθ : bsf_theta n Θ (i : ℕ) =
       (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-    unfold bsf_theta; rw [if_pos h2]
+    unfold bsf_theta; rw [ite_eq_left h2]
   have hθ' : bsf_theta n Θ ((i : ℕ) + 1) =
       (Θ ((i : ℕ) + 1)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-    unfold bsf_theta; rw [if_pos h3]
+    unfold bsf_theta; rw [ite_eq_left h3]
   have hι : bsf_iota n Θ ((i : ℕ) + 1) =
       (bsf_theta n Θ ((i : ℕ) + 1)).comp
         (embSUid (unitaryInvolution K 2 1) 2) := by
-    unfold bsf_iota; rw [if_pos (by omega)]
+    unfold bsf_iota; rw [ite_eq_left (by omega)]
   have hal : (Θ (i : ℕ)).comp (blockEmb K 2 1 4 2 1 (by norm_num)) =
       (Θ ((i : ℕ) + 1)).comp (blockEmb K 2 1 4 2 0 (by norm_num)) := by
     calc (Θ (i : ℕ)).comp (blockEmb K 2 1 4 2 1 (by norm_num))
@@ -324,14 +324,14 @@ private theorem bsf_right {G : Type} [Group G] {n : ℕ} {Θ : ℕ → Su K 2 1 
     · have hin : (i : ℕ) = n - 3 := by omega
       have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-        unfold bsf_theta; rw [if_pos h2]
+        unfold bsf_theta; rw [ite_eq_left h2]
       have hθ' : bsf_theta n Θ ((i : ℕ) + 1) =
           (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
-        unfold bsf_theta; rw [if_neg (by omega), if_pos (by omega)]
+        unfold bsf_theta; rw [ite_eq_right (by omega), ite_eq_left (by omega)]
       have hι : bsf_iota n Θ ((i : ℕ) + 1) =
           (bsf_theta n Θ ((i : ℕ) + 1)).comp
             (embSUid (unitaryInvolution K 2 1) 2) := by
-        unfold bsf_iota; rw [if_pos (by omega)]
+        unfold bsf_iota; rw [ite_eq_left (by omega)]
       have hL : ((Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num))).comp
             (embSUid (unitaryInvolution K 2 1) 0) =
           (Θ (i : ℕ)).comp (blockEmb K 2 1 4 2 1 (by norm_num)) := by
@@ -344,14 +344,14 @@ private theorem bsf_right {G : Type} [Group G] {n : ℕ} {Θ : ℕ → Su K 2 1 
     · have hin : (i : ℕ) = n - 2 := by omega
       have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
-        unfold bsf_theta; rw [if_neg h2, if_pos hi]
+        unfold bsf_theta; rw [ite_eq_right h2, ite_eq_left hi]
       have hθ2 : bsf_theta n Θ (n - 2) =
           (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
-        unfold bsf_theta; rw [if_neg (by omega), if_pos (by omega)]
+        unfold bsf_theta; rw [ite_eq_right (by omega), ite_eq_left (by omega)]
       have hι : bsf_iota n Θ ((i : ℕ) + 1) =
           (bsf_theta n Θ (n - 2)).comp
             (embSUid (unitaryInvolution K 2 1) 0) := by
-        unfold bsf_iota; rw [if_neg (by omega)]
+        unfold bsf_iota; rw [ite_eq_right (by omega)]
       rw [hθ, hι, hθ2]
 
 private theorem bsf_four {G : Type} [Group G] {n : ℕ} {Θ : ℕ → Su K 2 1 4 →* G}
@@ -367,22 +367,22 @@ private theorem bsf_four {G : Type} [Group G] {n : ℕ} {Θ : ℕ → Su K 2 1 4
   · refine ⟨Θ (i : ℕ), ?_, ?_⟩
     · have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-        unfold bsf_theta; rw [if_pos hi]
+        unfold bsf_theta; rw [ite_eq_left hi]
       rw [hθ]
     · have hθ : bsf_theta n Θ ((i : ℕ) + 1) =
           (Θ ((i : ℕ) + 1)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-        unfold bsf_theta; rw [if_pos h3]
+        unfold bsf_theta; rw [ite_eq_left h3]
       rw [hθ]
       exact hAlign (i : ℕ) (by omega)
   · have hin : (i : ℕ) = n - 3 := by omega
     refine ⟨Θ (n - 3), ?_, ?_⟩
     · have hθ : bsf_theta n Θ (i : ℕ) =
           (Θ (i : ℕ)).comp (blockEmb K 2 1 4 3 0 (by norm_num)) := by
-        unfold bsf_theta; rw [if_pos hi]
+        unfold bsf_theta; rw [ite_eq_left hi]
       rw [hθ, ← hin]
     · have hθ2 : bsf_theta n Θ ((i : ℕ) + 1) =
           (Θ (n - 3)).comp (blockEmb K 2 1 4 3 1 (by norm_num)) := by
-        unfold bsf_theta; rw [if_neg (by omega), if_pos (by omega)]
+        unfold bsf_theta; rw [ite_eq_right (by omega), ite_eq_left (by omega)]
       rw [hθ2]
 
 private theorem bsf_comm {G : Type} [Group G] {n : ℕ} {H : Subgroup G}
@@ -453,7 +453,7 @@ theorem QTwoWeakPhanSystem.exists_qTwoPhanFamily {G : Type} [Group G] {n : ℕ} 
       θ := fun i => bsf_theta n Θ (i : ℕ)
       left := fun i hi => by
         unfold bsf_iota
-        rw [if_pos hi]
+        rw [ite_eq_left hi]
       right := fun i hi => bsf_right hn hAlign i hi
       comm := fun i j hij a b => bsf_comm hS hn hR i j hij a b
       four := fun i hi => bsf_four hn hAlign i hi

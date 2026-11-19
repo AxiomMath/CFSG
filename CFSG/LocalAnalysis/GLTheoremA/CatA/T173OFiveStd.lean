@@ -33,7 +33,7 @@ private lemma img_le_barB : M.img D ≤ M.barB := by
   rw [S172DModel.img, S172DModel.barB]
   exact Subgroup.map_mono (Subgroup.map_le_range M.β (D.subgroupOf B))
 
-private lemma pi_mem_piImg {X : Subgroup Ω} (hX : X ≤ S) {t : ↥S} (ht : (t : Ω) ∈ X) :
+private lemma pi_mem_piImg {X : Subgroup Ω} (_hX : X ≤ S) {t : ↥S} (ht : (t : Ω) ∈ X) :
     ((M.π t : ↥G₀) : Γ) ∈ M.piImg X := by
   rw [S172DModel.piImg, Subgroup.map_map]
   exact Subgroup.mem_map_of_mem (G₀.subtype.comp M.π) (Subgroup.mem_subgroupOf.2 ht)
@@ -53,7 +53,7 @@ private theorem card_img_eq_prime [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x
     (hcfg : Cfg173 p S B N D K x) {D' : Subgroup Ω} (hD'B : D' ≤ B) (hxD' : x ∈ D')
     (hcard : Nat.card D' = p ^ 2) : Nat.card (M.img D') = p := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hD'c : D' ⊓ Subgroup.centralizer (S : Set Ω) = Subgroup.zpowers x :=
     inf_centralizer_eq_zpowers_of_cent hcfg.cent hcfg.mem hD'B hxD'
   let ρ : ↥D' →* ↥Ghat := M.β.comp (Subgroup.inclusion hD'B)
@@ -379,7 +379,7 @@ private lemma mem_centralizer_of_centralizes_piImg [Finite Ω] {p : ℕ} {N D K 
   have hKS : K ≤ S := CFSG.LocalAnalysis.GLTheoremA.T173X.K_le_of_cfg173 hcfg
   have hN : B ≤ Subgroup.normalizer (S : Set Ω) :=
     le_normalizer_of_splitInnerDiagMarking16 hcfg.split
-  haveI : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
+  have : Group.IsPerfect ↥K := ⟨hKc.2.2.1⟩
   let φ : ↥K →* ↥S :=
     { toFun := fun k => ⟨(b : Ω)⁻¹ * (k : Ω) * (b : Ω), by
         simpa using (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ (hN b.2)) (k : Ω)).mp
@@ -419,7 +419,7 @@ theorem exists_stdD [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x : Ω}
       M.barB ⊓ Subgroup.centralizer (M.piImg K : Set Γ) = Subgroup.zpowers d := by
   obtain ⟨hDB, -, hDc, hxmem, -, -, hDK⟩ := hcfg.std
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardD : Nat.card (M.img D) = p :=
     card_img_eq_prime (M := M) hcfg hDB hxmem hDc
   obtain ⟨d, hd⟩ := S172X.exists_zpowers_eq_of_card_eq_prime (p := p) hcardD

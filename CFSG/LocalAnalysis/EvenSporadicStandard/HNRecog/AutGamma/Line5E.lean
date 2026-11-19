@@ -80,7 +80,7 @@ theorem hasLine_5E [Finite G] (hL : F5Local G a z) : HasLine a z .k5E .k4B .k6A 
   obtain ⟨E⟩ := M11Emb.nonempty hL
   obtain ⟨β, ξ, η, hβ2, hβ1, hξ2, hξ1, hη2, hη1, hξβ, h5, h51, h4, h41, hxy2, hxy1, h6, h62, h63,
     h3sq⟩ := m11_triple
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hb : IsConj a (E.ι β) := E.two_A β hβ2 hβ1
   have ho5' : orderOf (β * ξ) = 5 := orderOf_eq_prime h5 h51
   have ho5 : orderOf (E.ι β * E.ι ξ) = 5 := by

@@ -63,7 +63,7 @@ theorem false_of_base (hcr : CentRank z)
     have hcQ : c ∈ (Qs : Subgroup ↥C) :=
       IsPGroup.le_sylow_of_normal hNp Qs (Subgroup.mem_zpowers c)
     set Pb : Subgroup (Xbar L1) := (Qs : Subgroup ↥C).map C.subtype with hPb
-    have hPbp : IsPGroup 2 Pb := Qs.isPGroup'.map _
+    have hPbp : IsPGroup 2 Pb := Qs.isPGroup.map _
     have hqPb : q ∈ Pb := ⟨c, hcQ, rfl⟩
     have hPbC : Pb ≤ C := by
       rintro _ ⟨g, -, rfl⟩

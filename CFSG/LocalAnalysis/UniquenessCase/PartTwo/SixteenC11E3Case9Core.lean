@@ -23,14 +23,14 @@ section Certified
 
 theorem s1611e3_case9_core_routeF_k2 {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D V₀ V L hV) (h9 : Case168_9 D V₀ V hV L)
-    (hV0 : V₀ ≠ ⊥) (hk : D.k = 2) : normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
+    (_hV0 : V₀ ≠ ⊥) (hk : D.k = 2) : normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   have h125 : Hyp125 D V₀ V := hc.setting.hyp16.hyp125
   have hp7 : 7 ∈ D.sig := by
     rw [h9.2.2.2.2]
     exact Set.mem_singleton 7
   obtain ⟨X, hXM, hTX, hbar, π, hπ, hker⟩ := s1611e3_exists_X_lift D hV h125
   obtain ⟨E, hEn, ⟨eE⟩, hEQ⟩ := s1611e3_case9_layer h9
-  haveI := hEn
+  have := hEn
   have hshape : S1611e3ShapeL3 X := s1611e3_shapeL3_of_layer π hπ hker hEQ h9.2.1 eE
   have hF : CompFactorAutInF D.k X D.T := by
     rw [hk]

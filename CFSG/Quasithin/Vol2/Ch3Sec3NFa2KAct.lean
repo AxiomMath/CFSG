@@ -231,8 +231,8 @@ theorem center_quot_eq_bot [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
     have := c.q_mod
     have := c.q_prime.two_le
     omega
-  haveI : Fact q.Prime := ⟨c.q_prime⟩
-  haveI : NeZero q := ⟨c.q_prime.ne_zero⟩
+  have : Fact q.Prime := ⟨c.q_prime⟩
+  have : NeZero q := ⟨c.q_prime.ne_zero⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod c.q_prime c.model
   have hcen : Subgroup.center (PSL(2, ZMod q)) = ⊥ :=
     L2q.center_eq_bot (Nat.card_zmod q) c.q_prime hq5
@@ -296,8 +296,8 @@ theorem A2Cfg.exists_involution
       ∀ r ∈ pCoreOf 2 H, (∀ k ∈ K, r * k * r⁻¹ * k⁻¹ ∈ pCoreOf 2 K) ∨
         (∀ k ∈ K, r * k * r⁻¹ * (a * k * a⁻¹)⁻¹ ∈ pCoreOf 2 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRN : pCoreOf 2 H ≤ Subgroup.normalizer (K : Set G) := c.R_le_normalizer_K h37 h38
   have hRT : pCoreOf 2 H ≤ T := EscapingLocal.pCoreOf_le_of_isSylowTwoOf c.sylow_H
   have hTH : T ≤ H := c.sylow_H.1

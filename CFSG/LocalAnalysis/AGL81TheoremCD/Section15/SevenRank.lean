@@ -28,7 +28,7 @@ theorem pRank_comap_toStar_le {X : Type} [Group X] [Finite X] {T : Subgroup X} {
     rw [show toStar T x = 1 from (QuotientGroup.eq_one_iff x).mpr hx]
     exact Ys.one_mem
   let C0 : Subgroup ↥Z := (gnC T).subgroupOf Z
-  haveI : C0.Normal := (inferInstance : (gnC T).Normal).subgroupOf Z
+  have : C0.Normal := (inferInstance : (gnC T).Normal).subgroupOf Z
   let φ : ↥Z →* ↥Ys :=
     ((toStar T).comp Z.subtype).codRestrict Ys (fun x => x.2)
   have hker : φ.ker = C0 := by
@@ -77,8 +77,8 @@ theorem pRank_quotient_Y0_le_two {X : Type} [Group X] [Finite X] {T T₁ T₂ : 
     (hp2 : p ≠ 2) (h₁ : CFSG.Open.pRank p (Subgroup.normalizer (T₁ : Set X)) ≤ 1)
     (h₂ : CFSG.Open.pRank p (Subgroup.normalizer (T₂ : Set X)) ≤ 1) :
     CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ Y0 T T₁ T₂)) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (Y0 T T₁ T₂).Normal := hY
+  have : Fact p.Prime := ⟨hp⟩
+  have : (Y0 T T₁ T₂).Normal := hY
   let Q := X ⧸ Y0 T T₁ T₂
   let π : X →* Q := QuotientGroup.mk' (Y0 T T₁ T₂)
   let A : Subgroup X := Subgroup.centralizer (T₁ : Set X)
@@ -124,7 +124,7 @@ theorem pRank_quotient_Y0_le_two {X : Type} [Group X] [Finite X] {T T₁ T₂ : 
   have hc₂ := exists_yComponent_dvd_aux_isCyclic hp hp2 hP₂.isPGroup hr₂
   have hRpg : IsPGroup p (P₁ ⊔ P₂ : Subgroup Q) := by
     rw [← hR]
-    exact R.isPGroup'
+    exact R.isPGroup
   have hprod : ∀ w ∈ (P₁ ⊔ P₂ : Subgroup Q), ∃ a ∈ P₁, ∃ b ∈ P₂, w = a * b := by
     intro w hw
     have hw' : w ∈ (P₁ : Set Q) * (P₂ : Set Q) := by
@@ -144,7 +144,7 @@ theorem pRank_le_pRank_Y0_add_two {X : Type} [Group X] [Finite X] {T T₁ T₂ :
     (h₂ : CFSG.Open.pRank p (Subgroup.normalizer (T₂ : Set X)) ≤ 1) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤
       CFSG.Open.pRank p (Y0 T T₁ T₂) + 2 := by
-  haveI : (Y0 T T₁ T₂).Normal := hY
+  have : (Y0 T T₁ T₂).Normal := hY
   have hq := pRank_quotient_Y0_le_two hfac hY hp hp2 h₁ h₂
   have h := CFSG.AGLEmbedding.pRank_le_pRank_inf_add_pRank_map (p := p) hp
     (Y0 T T₁ T₂) (⊤ : Subgroup X)

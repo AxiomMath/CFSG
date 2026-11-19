@@ -31,7 +31,7 @@ theorem eq_left_or_right_of_splitFour {W : Type} [AddCommGroup W] [Module K W]
     (hTq : CFSG.IsQuasisimple T)
     (hTs : CFSG.Assembly.IsSubnormal T (TauCeti.QuadraticMap.orthogonalGroup R)) :
     T = T₁ ∨ T = T₂ := by
-  haveI := CFSG.ClassicalInvolution.ModelFacts.finite_linearEquiv (F := K) (W := W)
+  have := CFSG.ClassicalInvolution.ModelFacts.finite_linearEquiv (F := K) (W := W)
   have hTA : CFSG.Assembly.IsComponentOf T (TauCeti.QuadraticMap.orthogonalGroup R) :=
     ⟨ggSubnormal_le hTs, hTs,
       (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mpr hTq⟩
@@ -119,7 +119,7 @@ theorem splitFour_zero_card (hQ : (polarBilin Q).Nondegenerate) (F : SevOm.Frame
       r - Fintype.card {j : Fin r // toAdd s j ≠ 0} := by
     simpa using Fintype.card_subtype_compl (fun j : Fin r => toAdd s j ≠ 0)
   have hkle : Fintype.card {j : Fin r // toAdd s j ≠ 0} ≤ r := by
-    simpa using Fintype.card_subtype_le (fun j : Fin r => toAdd s j ≠ 0)
+    simp
   omega
 
 

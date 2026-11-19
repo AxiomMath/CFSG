@@ -41,7 +41,7 @@ theorem z_mem_L_of_exit (hr : 4 ≤ r) {Q : Type} [Group Q] [Finite Q] {L : Subg
       show 2 ^ (r - 1) = 2 * 2 ^ (r - 2) by rw [← pow_succ']; congr 1; omega]
     exact Nat.mul_div_cancel 2 (by positivity)
   have hP : IsPGroup 2 ((sylowSet S).map (QuotientGroup.mk' (Subgroup.center Q))) :=
-    (S.isPGroup'.map _).map _
+    (S.isPGroup.map _).map _
   have hle := hcomm (Q ⧸ Subgroup.center Q) (socleOf L) inferInstance ⟨MulEquiv.refl _⟩ hTC _ hP
   have hx2 : x ^ 2 = ⁅b, x⁻¹⁆ := by
     have h0 : b * x⁻¹ * b⁻¹ = x := by
@@ -205,7 +205,7 @@ theorem exitLU_of_ident (hr : 4 ≤ r) {Q : Type} [Group Q] [Finite Q] {R : Subg
   have eL : ↥L ≃* ↥L ⧸ Subgroup.center ↥L :=
     (QuotientGroup.quotientBot (G := ↥L)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZL.symm)
   have hsimp : IsSimpleGroup ↥L := by
-    haveI := hLq.2.1
+    have := hLq.2.1
     exact eL.isSimpleGroup
   have hLperf : ⁅L, L⁆ = L := commutator_self_eq_of_perfect hLq.1
   have hcomm : SocleComm2 ↥(socleOf L) := by

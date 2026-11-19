@@ -110,7 +110,7 @@ theorem cdSel_go (m : Nat) : ∀ (bs : List Nat) (k : Nat),
     rw [cd_xorSel_cons, ← ih]
     change Nat.xor (bif bitK m k then b else 0) _ = _
     rw [e1]
-    by_cases hk : (m >>> k) % 2 = 1 <;> simp [hk] <;> rfl
+    by_cases hk : (m >>> k) % 2 = 1 <;> simp [hk]
 
 theorem cdSel_eq (bs : List Nat) (m : Nat) : cdSel bs m = xorSel bs m := by
   have h := cdSel_go m bs 0
@@ -128,13 +128,13 @@ theorem cd_ite_xor_mod (m m' b : Nat) : (if (m ^^^ m') % 2 = 1 then b else 0) =
     rw [← Nat.testBit_zero, ← Nat.testBit_zero, ← Nat.testBit_zero, Nat.testBit_xor]
   by_cases ha : m % 2 = 1 <;> by_cases hb : m' % 2 = 1
   · rw [decide_eq_true ha, decide_eq_true hb] at h'
-    rw [if_neg (of_decide_eq_false h'), if_pos ha, if_pos hb, Nat.xor_self]
+    rw [ite_eq_right (of_decide_eq_false h'), ite_eq_left ha, ite_eq_left hb, Nat.xor_self]
   · rw [decide_eq_true ha, decide_eq_false hb] at h'
-    rw [if_pos (of_decide_eq_true h'), if_pos ha, if_neg hb, Nat.xor_zero]
+    rw [ite_eq_left (of_decide_eq_true h'), ite_eq_left ha, ite_eq_right hb, Nat.xor_zero]
   · rw [decide_eq_false ha, decide_eq_true hb] at h'
-    rw [if_pos (of_decide_eq_true h'), if_neg ha, if_pos hb, Nat.zero_xor]
+    rw [ite_eq_left (of_decide_eq_true h'), ite_eq_right ha, ite_eq_left hb, Nat.zero_xor]
   · rw [decide_eq_false ha, decide_eq_false hb] at h'
-    rw [if_neg (of_decide_eq_false h'), if_neg ha, if_neg hb, Nat.xor_zero]
+    rw [ite_eq_right (of_decide_eq_false h'), ite_eq_right ha, ite_eq_right hb, Nat.xor_zero]
 
 theorem cd_xor_four (a b c d : Nat) : a ^^^ b ^^^ (c ^^^ d) = a ^^^ c ^^^ (b ^^^ d) := by
   apply Nat.eq_of_testBit_eq
@@ -238,11 +238,11 @@ theorem cdRedK_sound {TP : Nat → Nat} {W : List Nat} {L : Nat} {C S R : List N
       ∃ b < 512, ∃ r ∈ R, a ^^^ b ^^^ amK C S b = r := by
   unfold cdRedK at h
   cases hb : bitK e 0
-  · rw [hb, cond_false, Bool.and_eq_true, Bool.and_eq_true, memK_iff, Nat.beq_eq] at h
+  · rw [hb, Bool.cond_false, Bool.and_eq_true, Bool.and_eq_true, memK_iff, Nat.beq_eq] at h
     obtain ⟨⟨-, hm⟩, he⟩ := h
     exact Or.inr ⟨Nat.mod (Nat.div e 2) 512, Nat.mod_lt _ (by omega), Nat.div (Nat.div e 2) 512,
       he ▸ hm, he⟩
-  · rw [hb, cond_true, Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true'] at h
+  · rw [hb, _root_.Bool.cond_true, Bool.and_eq_true, Nat.blt_eq, Bool.not_eq_true'] at h
     exact Or.inl ⟨Nat.div e 2, h.1, Nat.ne_of_beq_eq_false h.2⟩
 
 theorem cdRedAll_sound {TP : Nat → Nat} {W : List Nat} {L : Nat} {C S R : List Nat} :
@@ -304,15 +304,15 @@ theorem cdRepK_sound {TP : Nat → Nat} {W LT : List Nat} {PL : List (List Nat)}
   simp only [Bool.and_eq_true, Nat.beq_eq, lenK_eq] at h
   obtain ⟨⟨⟨hlen, hpairs⟩, hind⟩, hcase⟩ := h
   refine ⟨hlen, hpairs, cdIndK_sound hind, fun ht => ?_, fun ht => ?_, ?_⟩
-  · rw [ht, Nat.beq_refl, cond_true, Bool.and_eq_true, cdFB_eq] at hcase
+  · rw [ht, Nat.beq_refl, _root_.Bool.cond_true, Bool.and_eq_true, cdFB_eq] at hcase
     exact hcase
   · have e10 : Nat.beq 1 0 = false := rfl
-    rw [ht, e10, cond_false, Nat.beq_refl, cond_true, Bool.and_eq_true, Nat.blt_eq,
+    rw [ht, e10, Bool.cond_false, Nat.beq_refl, _root_.Bool.cond_true, Bool.and_eq_true, Nat.blt_eq,
       List.all_eq_true] at hcase
     exact ⟨hcase.1, fun x hx => Nat.eq_of_beq_eq_true (hcase.2 x hx)⟩
   · cases h0 : Nat.beq (r.getD 2 0) 0
     · cases h1 : Nat.beq (r.getD 2 0) 1
-      · rw [h0, h1, cond_false, cond_false, Nat.beq_eq] at hcase
+      · rw [h0, h1, Bool.cond_false, Bool.cond_false, Nat.beq_eq] at hcase
         exact Or.inr (Or.inr hcase)
       · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true h1))
     · exact Or.inl (Nat.eq_of_beq_eq_true h0)
@@ -374,9 +374,9 @@ theorem uaAp_rec {T : Array Table} {W0 : Array Nat} {WL : List Nat} {TP : Nat �
           (bif bitK a n then at' 10 (TP (WL.getD n 0)) y else y) := rfl
     rw [e, uaAp, bitK_eq, hW n (by omega)]
     cases a.testBit n
-    · simp only [Bool.false_eq_true, ↓reduceIte, cond_false]
+    · simp only [Bool.false_eq_true, ↓reduceIte, Bool.cond_false]
       exact uaAp_rec hW hT a n (by omega) y hy
-    · simp only [↓reduceIte, cond_true]
+    · simp only [↓reduceIte, _root_.Bool.cond_true]
       rw [(hT n (by omega) y hy).1]
       exact uaAp_rec hW hT a n (by omega) _ (hT n (by omega) y hy).2
 
@@ -396,7 +396,7 @@ theorem invTab_loop {s : Array Nat} {B : Nat → Nat} (hs : ∀ x < 693, s[x]! <
       ∀ y < 693, ((List.range n).foldl (fun r x => r.set! s[x]! x)
         (Array.replicate 693 0))[y]! = if B y < n then B y else 0
   | 0, _ => ⟨by simp, fun y hy => by
-      rw [if_neg (Nat.not_lt_zero _), List.range_zero, List.foldl_nil,
+      rw [ite_eq_right (Nat.not_lt_zero _), List.range_zero, List.foldl_nil,
         getElem!_pos _ y (by rw [Array.size_replicate]; exact hy), Array.getElem_replicate]⟩
   | n + 1, hn => by
     obtain ⟨hsz, hget⟩ := invTab_loop hs hinj hB n (by omega)
@@ -406,14 +406,14 @@ theorem invTab_loop {s : Array Nat} {B : Nat → Nat} (hs : ∀ x < 693, s[x]! <
     rw [getElem!_pos _ y (by rw [Array.size_setIfInBounds, hsz]; exact hy),
       Array.getElem_setIfInBounds (by rw [hsz]; exact hy)]
     by_cases hsy : s[n]! = y
-    · rw [if_pos hsy]
+    · rw [ite_eq_left hsy]
       have e : B y = n := hinj _ (hB y hy).1 _ (by omega) (by rw [(hB y hy).2, hsy])
-      rw [if_pos (by omega), e]
-    · rw [if_neg hsy, ← getElem!_pos _ y (by rw [hsz]; exact hy), hget y hy]
+      rw [ite_eq_left (by omega), e]
+    · rw [ite_eq_right hsy, ← getElem!_pos _ y (by rw [hsz]; exact hy), hget y hy]
       have hne : B y ≠ n := fun e => hsy (by rw [← e, (hB y hy).2])
       by_cases hlt : B y < n
-      · rw [if_pos hlt, if_pos (by omega)]
-      · rw [if_neg hlt, if_neg (by omega)]
+      · rw [ite_eq_left hlt, ite_eq_left (by omega)]
+      · rw [ite_eq_right hlt, ite_eq_right (by omega)]
 
 theorem invTab_get {s : Array Nat} {B : Nat → Nat} (hs : ∀ x < 693, s[x]! < 693)
     (hB : ∀ y < 693, B y < 693 ∧ s[B y]! = y) {y : Nat} (hy : y < 693) : (invTab s)[y]! = B y := by
@@ -426,7 +426,7 @@ theorem invTab_get {s : Array Nat} {B : Nat → Nat} (hs : ∀ x < 693, s[x]! < 
     have := @hFi ⟨x, hx⟩ ⟨x', hx'⟩ (Fin.ext he)
     exact congrArg Fin.val this
   have h := (invTab_loop hs hinj hB 693 le_rfl).2 y hy
-  rw [if_pos (hB y hy).1] at h
+  rw [ite_eq_left (hB y hy).1] at h
   exact h
 
 theorem uaPos_get {W0 : Array Nat} {WL : List Nat} (hW : W0 = WL.toArray) (hnd : WL.Nodup)
@@ -457,7 +457,7 @@ theorem uaPos_get {W0 : Array Nat} {WL : List Nat} (hW : W0 = WL.toArray) (hnd :
         · have h1 : ¬ k < n + 1 := by omega
           simp [hkn, h1, e]
   unfold uaPos
-  rw [key 21 le_rfl, if_pos hk]
+  rw [key 21 le_rfl, ite_eq_left hk]
   rfl
 
 theorem sArrT_get {W0 s : Array Nat} {WL : List Nat} {L : Nat} {S : List Nat}

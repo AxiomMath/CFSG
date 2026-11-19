@@ -184,7 +184,6 @@ private theorem w183fin_vt_pk {L : List (List Nat)} (hL : ∀ c ∈ L, IsC c) {a
       vtK (L.map pk) (pk a) (pk b) (pk (cmul a b)) (pk t) := by
   unfold vtK
   refine any_pk fun g hg => ?_
-  beta_reduce
   rw [w183fin_comm_pk (hL g hg) ht, w183fin_normE_pk ha hb (hL g hg)]
 
 private theorem w183fin_viol_pk {L : List (List Nat)} (hL : ∀ c ∈ L, IsC c) {a b : List Nat}
@@ -201,11 +200,9 @@ private theorem w183fin_noTI_pk {L : List (List Nat)} (hL : ∀ c ∈ L, IsC c) 
   unfold noTIK
   simp only [allK_sub hIV]
   refine all_pk fun a ha => ?_
-  beta_reduce
   rw [w183fin_isInv_pk (hL a ha)]
   congr 1
   refine all_pk fun b hb => ?_
-  beta_reduce
   rw [w183fin_isInv_pk (hL b hb), beq_pk (hL a ha) (hL b hb), w183fin_comm_pk (hL a ha) (hL b hb),
     w183fin_viol_pk hL (hL a ha) (hL b hb), pk_cmul (hL a ha) (hL b hb)]
 
@@ -234,7 +231,7 @@ theorem w183fin_cosetL_spec {B : Subgroup P10} {t : P10} {tC : List Nat} (htC : 
     (∀ x : P10, x ∈ B ↔ code x ∈ w183fin_cosetL tC) ∧
       (∀ c ∈ w183fin_cosetL tC, ∃ x ∈ B, code x = c) := by
   have hpsl : A6Models.psl29 ≤ B := fun x hx => (hB x).2 ⟨1, by simp, by simpa using hx⟩
-  have htB : t ∈ B := (hB t).2 ⟨t, by simp, by simpa using Subgroup.one_mem _⟩
+  have htB : t ∈ B := (hB t).2 ⟨t, by simp, by simp⟩
   refine ⟨fun x => ⟨fun hx => ?_, fun hx => ?_⟩, fun c hc => ?_⟩
   · obtain ⟨r, hr, hxr⟩ := (hB x).1 hx
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
@@ -308,7 +305,6 @@ private theorem w183fin_g3t_pk {a b t : List Nat} (ha : IsC a) (hb : IsC b) (ht 
   unfold g3tK
   rw [← beq_iff_eq.1 pslK_pin]
   refine any_pk fun g hg => ?_
-  beta_reduce
   have hg' := isC_of_psl hg
   rw [w183fin_comm_pk hg' ht, w183fin_comm_pk hg' ha, w183fin_comm_pk hg' hb]
 
@@ -322,10 +318,8 @@ private theorem w183fin_g3_true : w183fin_g3 = true := by
     simp only [allK_sub hIV]
     rw [← autK_pin]
     refine all_pk fun a ha => ?_
-    beta_reduce
     rw [w183fin_isInv_pk (hL a ha)]
     refine congrArg (fun x => !invTK (pk a) || x) (all_pk fun b hb => ?_)
-    beta_reduce
     unfold w183fin_g3viol
     simp only [List.any_cons, List.any_nil, Bool.or_false]
     rw [w183fin_isInv_pk (hL b hb), beq_pk (hL a ha) (hL b hb),
@@ -427,11 +421,9 @@ private theorem w183fin_oddT_pk {L : List (List Nat)} (hL : ∀ c ∈ L, IsC c) 
   unfold w183fin_oddT oddK
   rw [all_filter, allK_sub hIV]
   refine all_pk fun a ha => ?_
-  beta_reduce
   rw [w183fin_isInv_pk (hL a ha)]
   congr 1
   refine any_pk fun g hg => ?_
-  beta_reduce
   have ha' := hL a ha
   have hg' := hL g hg
   have hga := isC_cmul hg' ha'

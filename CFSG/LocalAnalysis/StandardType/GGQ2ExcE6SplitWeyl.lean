@@ -126,12 +126,12 @@ theorem e6SplitWeyl_mul_self [hchar : CharP L 2] (i : ExcRaw.Root 1) :
     e6SplitWeyl L i * e6SplitWeyl L i = 1 := by
   have hγ : IsRoot .E6 (e6SplitRoot i) := isRoot_e6SplitRoot i
   by_cases hfix : ExcRaw.tabFix1.getD i.val false = true
-  · rw [e6SplitWeyl, if_pos hfix]
+  · rw [e6SplitWeyl, ite_eq_left hfix]
     exact rootSL2_WSL_mul_self (e6SplitRoot i)
   · have hfalse : ExcRaw.tabFix1.getD i.val false = false := by
       cases h : ExcRaw.tabFix1.getD i.val false <;> simp_all
     have hcomm := e6SplitWeyl_short_commute (L := L) i hfalse
-    rw [e6SplitWeyl, if_neg hfix]
+    rw [e6SplitWeyl, ite_eq_right hfix]
     calc (rootSL2 .E6 L (e6SplitRoot i) WSL *
           rootSL2 .E6 L
             (permLattice (τ := .E6) e6SplitPerm (e6SplitRoot i)) WSL) *
@@ -187,7 +187,7 @@ private theorem e6SplitWeyl_mem_model [hchar : CharP L 2] (hS : E6SplitLangTwo S
     rw [step_rootSL2_WSL_of_charTwo S hσ, hρσ]
     exact rootSL2_neg_WSL (L := L) hγ
   have hcomm := e6SplitWeyl_short_commute (L := L) i h
-  rw [e6SplitWeyl, if_neg hnt]
+  rw [e6SplitWeyl, ite_eq_right hnt]
   refine S.D.mem_model.2 ⟨?_, ?_⟩
   · exact mul_mem (rootSL2_mem_adjointGroup _ _) (rootSL2_mem_adjointGroup _ _)
   · change S.D.step (rootSL2 .E6 L (e6SplitRoot i) WSL *
@@ -207,7 +207,7 @@ theorem e6SplitWeyl_mem_Γ (hS : E6SplitLangTwo S) (i : ExcRaw.Root 1) :
   have hchar : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hγ : IsRoot .E6 (e6SplitRoot i) := isRoot_e6SplitRoot i
   by_cases hfix : ExcRaw.tabFix1.getD i.val false = true
-  · rw [e6SplitWeyl, if_pos hfix]
+  · rw [e6SplitWeyl, ite_eq_left hfix]
     have hσ : permLattice (τ := .E6) e6SplitPerm (e6SplitRoot i) = e6SplitRoot i :=
       (e6SplitRoot_fixed_iff i).2 hfix
     refine rootSL2_WSL_mem_Γ_of_rho S hτ hq hS.2.1 hγ (Or.inr ?_)
@@ -225,12 +225,12 @@ theorem e6SplitWeyl_conj_rootDiagUnit (S : LangSetup .E6 L p) (i : ExcRaw.Root 1
       rootDiagUnit .E6 (weylTuple (e6SplitRefl i) b) := by
   have hγ : IsRoot .E6 (e6SplitRoot i) := isRoot_e6SplitRoot i
   by_cases hfix : ExcRaw.tabFix1.getD i.val false = true
-  · rw [e6SplitWeyl, e6SplitRefl, if_pos hfix, if_pos hfix]
+  · rw [e6SplitWeyl, e6SplitRefl, ite_eq_left hfix, ite_eq_left hfix]
     exact rootWeylSL2_conj_rootDiagUnit S hγ b
   · have hσ : IsRoot .E6
         (permLattice (τ := .E6) e6SplitPerm (e6SplitRoot i)) :=
       isRoot_permLattice_e6SplitRoot i
-    rw [e6SplitWeyl, e6SplitRefl, if_neg hfix, if_neg hfix]
+    rw [e6SplitWeyl, e6SplitRefl, ite_eq_right hfix, ite_eq_right hfix]
     have h₁ := rootWeylSL2_conj_rootDiagUnit S hσ b
     have h₂ := rootWeylSL2_conj_rootDiagUnit S hγ
       (weylTuple (rootReflection (permLattice (τ := .E6) e6SplitPerm

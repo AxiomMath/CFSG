@@ -18,7 +18,7 @@ private theorem ggA6_transvection_fin_two_zero_one {F : Type} [Field F] (t : F) 
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.SpecialLinearGroup.transvection_coe,
-      CFSG.LieType.Steinberg.coe_sl2Upper, Matrix.single_apply]
+      CFSG.LieType.Steinberg.coe_sl2Upper]
 
 private theorem ggA6_transvection_fin_two_one_zero {F : Type} [Field F] (t : F) :
     Matrix.SpecialLinearGroup.transvection (i := (1 : Fin 2)) (j := 0) (by decide) t =
@@ -26,7 +26,7 @@ private theorem ggA6_transvection_fin_two_one_zero {F : Type} [Field F] (t : F) 
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.SpecialLinearGroup.transvection_coe,
-      CFSG.LieType.Steinberg.coe_sl2Lower, Matrix.single_apply]
+      CFSG.LieType.Steinberg.coe_sl2Lower]
 
 private theorem injective_of_ker_le_center_sl2 {F : Type} [Field F] [CharP F 2]
     {X : Type} [Group X] (ψ : Matrix.SpecialLinearGroup (Fin 2) F →* X)

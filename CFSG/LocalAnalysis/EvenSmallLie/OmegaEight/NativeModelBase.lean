@@ -120,31 +120,31 @@ theorem sylowS_size : sylowS.size = 8 := by
   rw [sylowS, size_pushWords, sylowGens_size]
   simp [sylowWords]
 
-@[expose] def omegaQ : RawSchreierDatum 360 :=
+def omegaQ : RawSchreierDatum 360 :=
   RawSchreierDatum.ofArrays 360 (by norm_num) omegaS 8 (by rw [omegaS_size]; norm_num) omegaBase
     (by decide) (wordsOf 8 omegaWords)
 
-@[expose] def autQ : RawSchreierDatum 360 :=
+def autQ : RawSchreierDatum 360 :=
   RawSchreierDatum.ofArrays 360 (by norm_num) autS 10 (by rw [autS_size]; norm_num) autBase
     (by decide) (wordsOf 10 autWords)
 
-@[expose] def omega1Q : RawSchreierDatum 120 :=
+def omega1Q : RawSchreierDatum 120 :=
   RawSchreierDatum.ofArrays 120 (by norm_num) omega1S 8 (by rw [omega1S_size]; norm_num)
     omega1Base (by decide) (wordsOf 8 omegaWords)
 
-@[expose] def sylowQ : RawSchreierDatum 360 :=
+def sylowQ : RawSchreierDatum 360 :=
   RawSchreierDatum.ofArrays 360 (by norm_num) sylowS 5 (by rw [sylowS_size]; norm_num) sylowBase
     (by decide) (wordsOf 5 sylowWords)
 
-@[expose] def omegaT : Subgroup (Equiv.Perm (Fin 360)) := omegaQ.originalSubgroup
+def omegaT : Subgroup (Equiv.Perm (Fin 360)) := omegaQ.originalSubgroup
 
-@[expose] def autT : Subgroup (Equiv.Perm (Fin 360)) := autQ.originalSubgroup
+def autT : Subgroup (Equiv.Perm (Fin 360)) := autQ.originalSubgroup
 
-@[expose] def omega1T : Subgroup (Equiv.Perm (Fin 120)) := omega1Q.originalSubgroup
+def omega1T : Subgroup (Equiv.Perm (Fin 120)) := omega1Q.originalSubgroup
 
-@[expose] def sylowT : Subgroup (Equiv.Perm (Fin 360)) := sylowQ.originalSubgroup
+def sylowT : Subgroup (Equiv.Perm (Fin 360)) := sylowQ.originalSubgroup
 
-@[expose] def gen (i : ℕ) : Equiv.Perm (Fin 360) := permOfArr 360 genArrs[i]!
+def gen (i : ℕ) : Equiv.Perm (Fin 360) := permOfArr 360 genArrs[i]!
 
 theorem extract_getElem! {S : Array (Array ℕ)} {k i : ℕ} (hi : i < k) (hk : k ≤ S.size) :
     (S.extract 0 k)[i]! = S[i]! := by
@@ -254,7 +254,7 @@ theorem mem_normalizer_of_conj_mem {G : Type*} [Group G] [Finite G] {H : Subgrou
     have : g' = g := mul_left_cancel (mul_right_cancel hgg')
     rwa [← this]
 
-@[expose] def stab0 : Subgroup (Equiv.Perm (Fin 360)) where
+def stab0 : Subgroup (Equiv.Perm (Fin 360)) where
   carrier := {g | ∀ p : Fin 360, (p : ℕ) < 120 ↔ ((g p : Fin 360) : ℕ) < 120}
   mul_mem' := fun {g h} hg hh p => (hh p).trans (hg (h p))
   one_mem' := fun _ => Iff.rfl
@@ -263,7 +263,7 @@ theorem mem_normalizer_of_conj_mem {G : Type*} [Group G] [Finite G] {H : Subgrou
     rw [show g (g⁻¹ p) = p by simp] at this
     exact this.symm
 
-@[expose] def res0Fun (g : stab0) (j : Fin 120) : Fin 120 :=
+def res0Fun (g : stab0) (j : Fin 120) : Fin 120 :=
   ⟨((g : Equiv.Perm (Fin 360)) ⟨j, by omega⟩ : ℕ), (g.2 ⟨j, by omega⟩).1 j.2⟩
 
 theorem res0Fun_val (g : stab0) (j : Fin 120) :
@@ -285,7 +285,7 @@ theorem res0Fun_inv' (g : stab0) (j : Fin 120) : res0Fun g (res0Fun g⁻¹ j) = 
   rw [e]
   simp
 
-@[expose] def res0 : stab0 →* Equiv.Perm (Fin 120) where
+def res0 : stab0 →* Equiv.Perm (Fin 120) where
   toFun g := ⟨res0Fun g, res0Fun g⁻¹, res0Fun_inv g, res0Fun_inv' g⟩
   map_one' := by
     ext j
@@ -297,7 +297,7 @@ theorem res0Fun_inv' (g : stab0) (j : Fin 120) : res0Fun g (res0Fun g⁻¹ j) = 
 theorem res0_apply_val (g : stab0) (j : Fin 120) :
     ((res0 g j : Fin 120) : ℕ) = ((g : Equiv.Perm (Fin 360)) ⟨j, by omega⟩ : ℕ) := rfl
 
-@[expose] def gen1 (i : ℕ) : Equiv.Perm (Fin 120) := permOfArr 120 (copy0Arr genArrs[i]!)
+def gen1 (i : ℕ) : Equiv.Perm (Fin 120) := permOfArr 120 (copy0Arr genArrs[i]!)
 
 theorem omega1T_eq : omega1T = Subgroup.closure {g | ∃ i < 8, gen1 i = g} := by
   rw [omega1T, omega1Q, ofArrays_originalSubgroup]
@@ -312,6 +312,6 @@ theorem omega1T_eq : omega1T = Subgroup.closure {g | ∃ i < 8, gen1 i = g} := b
 theorem copy0Arr_getElem! (t : Array ℕ) {j : ℕ} (hj : j < 120) : (copy0Arr t)[j]! = t[j]! := by
   rw [copy0Arr, getElem!_ofFn_nat _ hj]
 
-@[expose] def sgen (j : ℕ) : Equiv.Perm (Fin 360) := permOfArr 360 omegaS[j]!
+def sgen (j : ℕ) : Equiv.Perm (Fin 360) := permOfArr 360 omegaS[j]!
 
 end CFSG.EvenSmallLie.OmegaEight

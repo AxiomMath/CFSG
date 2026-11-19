@@ -23,20 +23,20 @@ theorem exists_octPolar_eq_one {y : Oct K} (hy : y ≠ 0) : ∃ z : Oct K, octPo
   · induction j using Fin.cases with
     | zero =>
       refine ⟨Pi.single (.inr 0) (y (.inl 0))⁻¹, ?_⟩
-      simp [octPolar_eq, octA, octB, octU, octW, dot3, Pi.single_apply] at hj ⊢
+      simp [octPolar_eq, octA, octB, octU, octW, dot3] at hj ⊢
       exact mul_inv_cancel₀ hj
     | succ i =>
       refine ⟨Pi.single (.inr i.succ) (-(y (.inl i.succ))⁻¹), ?_⟩
-      fin_cases i <;> simp [octPolar_eq, octA, octB, octU, octW, dot3, Pi.single_apply] at hj ⊢ <;>
+      fin_cases i <;> simp [octPolar_eq, octA, octB, octU, octW, dot3] at hj ⊢ <;>
         exact mul_inv_cancel₀ hj
   · induction j using Fin.cases with
     | zero =>
       refine ⟨Pi.single (.inl 0) (y (.inr 0))⁻¹, ?_⟩
-      simp [octPolar_eq, octA, octB, octU, octW, dot3, Pi.single_apply] at hj ⊢
+      simp [octPolar_eq, octA, octB, octU, octW, dot3] at hj ⊢
       exact inv_mul_cancel₀ hj
     | succ i =>
       refine ⟨Pi.single (.inl i.succ) (-(y (.inr i.succ))⁻¹), ?_⟩
-      fin_cases i <;> simp [octPolar_eq, octA, octB, octU, octW, dot3, Pi.single_apply] at hj ⊢ <;>
+      fin_cases i <;> simp [octPolar_eq, octA, octB, octU, octW, dot3] at hj ⊢ <;>
         exact inv_mul_cancel₀ hj
 
 theorem octPolarBil_nondegenerate : (octPolarBil (K := K)).Nondegenerate := by
@@ -84,7 +84,7 @@ private theorem octConj_ne_zero {y : Oct K} (hy : y ≠ 0) : octConj y ≠ 0 := 
 theorem range_mulRight_eq_top_of_norm_ne_zero {y : Oct K} (hy : octNorm y ≠ 0) :
     LinearMap.range (octMulBil.flip y) = ⊤ := by
   refine LinearMap.range_eq_top.mpr fun v => ⟨(octNorm y)⁻¹ • octMul v (octConj y), ?_⟩
-  simp [octMul_smul_left, octMul_mul_conj_right, hy]
+  simp [octMul_mul_conj_right, hy]
 
 theorem finrank_range_mulRight_of_norm_ne_zero {y : Oct K} (hy : octNorm y ≠ 0) :
     finrank K (LinearMap.range (octMulBil.flip y)) = 8 := by
@@ -142,7 +142,7 @@ theorem finrank_ker_mulRight_of_singular {y : Oct K} (hy0 : y ≠ 0) (hy : octNo
 theorem range_mulLeft_eq_top_of_norm_ne_zero {x : Oct K} (hx : octNorm x ≠ 0) :
     LinearMap.range (octMulBil x) = ⊤ := by
   refine LinearMap.range_eq_top.mpr fun v => ⟨(octNorm x)⁻¹ • octMul (octConj x) v, ?_⟩
-  simp [octMul_smul_right, octMul_mul_conj_left, hx]
+  simp [octMul_mul_conj_left, hx]
 
 theorem finrank_range_mulLeft_of_norm_ne_zero {x : Oct K} (hx : octNorm x ≠ 0) :
     finrank K (LinearMap.range (octMulBil x)) = 8 := by

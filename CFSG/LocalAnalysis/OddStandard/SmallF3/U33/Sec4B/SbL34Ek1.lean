@@ -33,9 +33,9 @@ theorem card_eq_six_mul_card_centralizer {G : Type} [Group G] [Finite G] (H V : 
       (by
         rw [Subgroup.card_bot, hV4]
         norm_num)
-  letI := hEadd
-  letI := hEmod
-  letI := hEfin
+  let := hEadd
+  let := hEmod
+  let := hEfin
   have hGL : Nat.card (E ≃ₗ[ZMod 2] E) = 6 := by
     rw [CFSG.GF2Type.Smith1980Orth.W4Sigma.card_linearEquiv_eq_prod hfin,
       Fin.prod_univ_two]
@@ -95,10 +95,10 @@ theorem card_eq_six_mul_card_centralizer {G : Type} [Group G] [Finite G] (H V : 
     change σ ^ 2 = (1 : G)
     rw [pow_two, hσ2]
   have hordρ : orderOf (ψ ρH) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+    have : Fact (Nat.Prime 3) := ⟨by decide⟩
     exact orderOf_eq_prime (by rw [← map_pow, hρH3, map_one]) hne_ρ
   have hordσ : orderOf (ψ σH) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+    have : Fact (Nat.Prime 2) := ⟨by decide⟩
     exact orderOf_eq_prime (by rw [← map_pow, hσH2, map_one]) hne_σ
   have hdvd3 : 3 ∣ Nat.card ψ.range := by
     have h := Subgroup.orderOf_dvd_natCard ψ.range

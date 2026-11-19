@@ -27,9 +27,9 @@ theorem lift_pgroup_sub {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T T₀ N Y A :
   have hAT : A ≤ T := hAT₀.trans hT₀T
   have hKN : K ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT₀N
   have hKY : K ≤ Subgroup.normalizer (Y : Set G) := sup_le hNY hT₀Y
-  haveI hNn : (N.subgroupOf K).Normal :=
+  have hNn : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI hYn : (Y.subgroupOf K).Normal :=
+  have hYn : (Y.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKY
   have hSylK : IsSylowIn 2 ((T ⊓ K).subgroupOf K) ⊤ := by
     rw [← E1.isSylowIn_map_of_injective K.subtype_injective,
@@ -48,7 +48,7 @@ theorem lift_pgroup_sub {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T T₀ N Y A :
     show (y : ↥K ⧸ Y.subgroupOf K) ^ p ^ k = 1
     rw [← hxy, ← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact Subgroup.mem_subgroupOf.mpr (by simpa using hk)
-  haveI hXbn : ((N.subgroupOf K).map (QuotientGroup.mk' (Y.subgroupOf K))).Normal :=
+  have hXbn : ((N.subgroupOf K).map (QuotientGroup.mk' (Y.subgroupOf K))).Normal :=
     Subgroup.Normal.map hNn _ hπs
   have hXAle : ⁅(N.subgroupOf K).map (QuotientGroup.mk' (Y.subgroupOf K)),
       (A.subgroupOf K).map (QuotientGroup.mk' (Y.subgroupOf K))⁆ ≤

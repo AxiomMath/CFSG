@@ -26,7 +26,7 @@ theorem exists_conj_mem_zpowers_of_pRank_le_one {X : Type} [Group X] [Finite X]
     (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1) (a b : X)
     (ha : orderOf a = 3) (hb : orderOf b = 3) :
     ∃ g : X, g * a * g⁻¹ ∈ Subgroup.zpowers b := by
-  haveI : Finite (Sylow 3 X) :=
+  have : Finite (Sylow 3 X) :=
     Finite.of_injective (fun P : Sylow 3 X => (P : Set X)) SetLike.coe_injective
   have hA : IsPGroup 3 (Subgroup.zpowers a) :=
     IsPGroup.of_card (n := 1) (by simp [Nat.card_zpowers, ha])
@@ -40,7 +40,7 @@ theorem exists_conj_mem_zpowers_of_pRank_le_one {X : Type} [Group X] [Finite X]
     exact (CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) le_top).trans hrk
   have hcyc : IsCyclic (Pb : Subgroup X) := by
     rcases (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification
-      Nat.prime_three Pb.isPGroup').mp hrkPb with h | ⟨h, -⟩
+      Nat.prime_three Pb.isPGroup).mp hrkPb with h | ⟨h, -⟩
     · exact h
     · norm_num at h
   have haPa : a ∈ (Pa : Subgroup X) := hPa (Subgroup.mem_zpowers a)

@@ -162,7 +162,7 @@ theorem inner_of_commute_fieldAut {K : Type} [Field K] (h : UnitaryFieldData 2 3
       uFieldAut h (by norm_num) σ * (uConjAut h (by norm_num) A * uFieldAut h (by norm_num) τ)) :
     uConjAut h (by norm_num) A ∈ innSub (StatedProj (StatedSU 6 (2 ^ 3) K)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hn1 : 1 ≤ 6 := by norm_num
   have hn3 : 3 ≤ 6 := by norm_num
   obtain ⟨c, hc'⟩ := exists_scalar_of_commute_field h hn3 hc
@@ -353,7 +353,7 @@ theorem exists_pow_mul_mem_innSub (h : UnitaryFieldData 2 3 K0) {σ : K0 ≃+* K
     (hc : ψ * uFieldAut h (by norm_num) σ = uFieldAut h (by norm_num) σ * ψ) :
     ∃ i : ℕ, ψ * (uFieldAut h (by norm_num) σ) ^ i ∈
       innSub (StatedProj (StatedSU 6 (2 ^ 3) K0)) := by
-  haveI := h.finite
+  have := h.finite
   have hn3 : 3 ≤ 6 := by norm_num
   have hq : ¬((6 : ℕ) = 3 ∧ 2 ^ 3 = 2) := by norm_num
   obtain ⟨A, τ, rfl⟩ := exists_uConjAut_mul_uFieldAut h hn3 hq ψ
@@ -464,7 +464,7 @@ theorem u6FourUField : FourUField IsU6EightIndex (FieldAutU 6) := by
   obtain ⟨φ, hφB, hφF⟩ := hF
   obtain ⟨x, hxN, hxB, rfl⟩ := mem_autImage.1 hφB
   obtain ⟨K0, fK0, h, e, σ, γ, hσ1, hodd, hγ⟩ := U6Bridge.exists_uFieldAut_of_fieldAutU6 hφF
-  haveI := h.finite
+  have := h.finite
   let Ψ : ↥(Subgroup.normalizer (K : Set X)) →*
       MulAut (StatedProj (StatedSU 6 (2 ^ 3) K0)) :=
     ((MulAut.conj γ).toMonoidHom).comp ((MulAut.congr e).toMonoidHom.comp (actHom K))
@@ -577,7 +577,7 @@ section SelHelpers
 
 theorem center_quot_eq_bot {Y : Type} [Group Y] (hY : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI := hY.2
+  have := hY.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center (Y ⧸ Subgroup.center Y)) with h | h
   · exact h
@@ -633,11 +633,11 @@ theorem normalizer_of_card_le_two_comps {X : Type} [Group X] [Finite X] {K B : S
       GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set X)) J₃ →
         J₁ = J₂ ∨ J₁ = J₃ ∨ J₂ = J₃) {J : Subgroup X}
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set X)) J) :
-    B ≤ Subgroup.normalizer (J : Set X) := fun b hb =>
+    B ≤ Subgroup.normalizer (J : Set X) := fun _b hb =>
   KSF4Kit.mem_normalizer_of_card_le_two hBel
-    (𝒥 := {J' | GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set X)) J'})
+    (𝒥 := {_J' | GLAPComponent 3 (K ⊓ Subgroup.centralizer ({y} : Set X)) _J'})
     (fun J₁ hJ₁ J₂ hJ₂ J₃ hJ₃ => h3 J₁ J₂ J₃ hJ₁ hJ₂ hJ₃)
-    (fun b' hb' J' hJ' => KSF4Kit.glaPComponent_gLBConj_centralizer (hBN hb')
+    (fun _b' hb' _J' hJ' => KSF4Kit.glaPComponent_gLBConj_centralizer (hBN hb')
       (commute_of_elemAbelian hBel hb' hyB).eq hJ') hb hJ
 
 end SelHelpers

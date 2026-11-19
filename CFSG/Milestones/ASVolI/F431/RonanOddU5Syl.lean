@@ -18,7 +18,7 @@ variable {κ : GLKind} {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
 
 theorem ronOdd5_sylow_E (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : IsSylowTwoOf T (M₁ ⊓ M₂)) : IsSylowTwoOf T ⊤ := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨hS, -⟩ := burnsideF4j_sylow_data hyp
   refine CFSG.Quasithin.H13.F431.L3.isSylowTwoOf_of_max le_top hT.2.1 fun P hP hTP _ => ?_
   have hPG : P ⊓ Gp = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) :=
@@ -40,15 +40,15 @@ theorem ronOdd5_sylow_E (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {T : Subgroup E}
         simpa [mul_assoc] using this
   exact burnsideF4j_eq_of_sylow_le hT hP hTP (hPN.trans (burnsideF4j_normalizer_S_le hyp))
 
-theorem ronOdd5_extremal (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {s : E} (hsM : s ∈ M₁ ⊓ M₂)
+theorem ronOdd5_extremal (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {s : E} (_hsM : s ∈ M₁ ⊓ M₂)
     (hs2 : s * s = 1) :
     ∃ Tb : Subgroup E, IsSylowTwoOf Tb (M₁ ⊓ M₂) ∧ ∃ fb : E, fb ∈ Tb ∧ fb * fb = 1 ∧
       (s ∉ Gp → fb ∉ Gp) ∧
       IsSylowTwoOf (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ⊓ Subgroup.centralizer ({fb} : Set E))
         (cenIn Gp fb) := by
   classical
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨T₀, hT₀c⟩ := burnsideF4j_exists_sylow (M₁ ⊓ M₂)
   have hT₀ : IsSylowTwoOf T₀ (M₁ ⊓ M₂) := hT₀c
   have hT₀E := ronOdd5_sylow_E hyp hT₀

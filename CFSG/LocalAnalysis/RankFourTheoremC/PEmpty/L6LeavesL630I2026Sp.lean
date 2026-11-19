@@ -51,10 +51,10 @@ theorem exists_hom_perm_six {X S : Subgroup G} {α β γ δ z : G} (hpres : QDPr
     ∃ ι : ↥X →* Equiv.Perm (Fin 6),
       ∀ g : ↥X, ι g = 1 → (g : G) ∈ rankThreePrimeCore 2 X ⊔ pCoreOf 2 X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTX : pCoreOf 2 X ≤ X := pCoreOf_le_self 2 X
   set D : Subgroup ↥X := (pCoreOf 2 X).subgroupOf X with hDdef
-  haveI hDn : D.Normal := pCoreOf_subgroupOf_normal 2 X
+  have hDn : D.Normal := pCoreOf_subgroupOf_normal 2 X
   have hDmem : ∀ x : ↥D, ((x : ↥X) : G) ∈ pCoreOf 2 X := fun x => x.2
   have hDmk : ∀ (t : G) (ht : t ∈ pCoreOf 2 X), (⟨t, hTX ht⟩ : ↥X) ∈ D := fun t ht => ht
   let sD : ∀ s ∈ S, ↥D := fun s hs => ⟨⟨s, hTX (hST hs)⟩, hDmk s (hST hs)⟩
@@ -115,7 +115,7 @@ theorem exists_hom_perm_six {X S : Subgroup G} {α β γ δ z : G} (hpres : QDPr
       exact Subtype.ext (Subtype.ext hpres.zz)
     · intro h
       exact hpres.z_ne (congrArg (fun y : ↥D => ((y : ↥X) : G)) h)
-  haveI hEA : IsElementaryAbelian 2 (↥D ⧸ Subgroup.center ↥D) := by
+  have hEA : IsElementaryAbelian 2 (↥D ⧸ Subgroup.center ↥D) := by
     have hcommQ : ∀ a b : ↥D ⧸ Subgroup.center ↥D, a * b = b * a := by
       intro a b
       induction a using QuotientGroup.induction_on with
@@ -188,7 +188,7 @@ theorem exists_hom_perm_six {X S : Subgroup G} {α β γ δ z : G} (hpres : QDPr
     commSignForm hzz hz'ord with hb
   have hba : b.IsAlt := commSignForm_isAlt hzz hz'ord
   have hbn : b.Nondegenerate := commSignForm_nondegenerate hzz hz'ord
-  haveI : Module.Finite (ZMod 2) (Additive (↥D ⧸ Subgroup.center ↥D)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive (↥D ⧸ Subgroup.center ↥D)) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod 2) (Additive (↥D ⧸ Subgroup.center ↥D)) = 4 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2)
       (V := Additive (↥D ⧸ Subgroup.center ↥D))

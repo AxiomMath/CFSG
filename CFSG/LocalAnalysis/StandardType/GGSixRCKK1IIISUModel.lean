@@ -20,28 +20,28 @@ private theorem rckSUm_not_two_le_n {lab : LargeEvenLabel}
     subst ht
     simp only [ggSixRCKLabelRow] at hrow
     intro h2
-    rw [if_pos h2] at hrow
+    rw [ite_eq_left h2] at hrow
     exact absurd hrow (by decide)
   · have ht : t = .twD := ht
     subst ht
     simp only [ggSixRCKLabelRow] at hrow
     intro h2
-    rw [if_pos h2] at hrow
+    rw [ite_eq_left h2] at hrow
     exact absurd hrow (by decide)
 
 private theorem rckSUm_twD_rank_eq_three {l n : ℕ}
     (hrow : ggSixRCKLabelRow (⟨.twD, l, n⟩ : LargeEvenLabel) = .III) : l = 3 := by
   simp only [ggSixRCKLabelRow] at hrow
   by_cases h2 : 2 ≤ n
-  · rw [if_pos h2] at hrow
+  · rw [ite_eq_left h2] at hrow
     exact absurd hrow (by decide)
-  · rw [if_neg h2] at hrow
+  · rw [ite_eq_right h2] at hrow
     by_cases hl2 : l = 2
-    · rw [if_pos hl2] at hrow
+    · rw [ite_eq_left hl2] at hrow
       exact absurd hrow (by decide)
     · by_cases hl3 : l = 3
       · exact hl3
-      · rw [if_neg hl2, if_neg hl3] at hrow
+      · rw [ite_eq_right hl2, ite_eq_right hl3] at hrow
         exact absurd hrow (by decide)
 
 private theorem rckSUm_markChar_two {lab : LargeEvenLabel}
@@ -124,7 +124,7 @@ private theorem rckSUm_rawDatum_imp {lab : LargeEvenLabel} (hlab : LargeEvenInLa
       ggSixRCKLabelRow] at hn hl h hQQ' hrow ⊢
     have hn2 : ¬ 2 ≤ n := by
       intro h2
-      rw [if_pos h2] at hrow
+      rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     have hl2 : l ≠ 2 := fun h2 => hn2 (hl.2 h2)
     refine recipeUnitary_imp (fun K _ _ hK I F hq => hQQ' _ I F hq ?_) h
@@ -137,16 +137,16 @@ private theorem rckSUm_rawDatum_imp {lab : LargeEvenLabel} (hlab : LargeEvenInLa
     have hn2 : ¬ 2 ≤ n := by simpa using rckSUm_not_two_le_n hrow (Or.inr rfl)
     dsimp only [LargeEvenRawDatum, MarkedModel, markTag, markRank, markChar, markDeg,
       ggSixRCKLabelRow] at hn hl h hQQ' hrow ⊢
-    rw [if_neg hn2] at hrow
+    rw [ite_eq_right hn2] at hrow
     split_ifs at h hQQ' ⊢ with h2 h3
-    · rw [if_pos h2] at hrow
+    · rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     · refine recipeUnitary_imp (fun K _ _ hK I F hq => hQQ' _ I F hq ?_) h
       refine Or.inl ⟨by decide, statedClassicalModel_unitary 4 n hK
         ⟨Nat.prime_two, hn, by omega, fun h => ?_⟩⟩
       · simp only [Prod.mk.injEq] at h
         omega
-    · rw [if_neg h2, if_neg h3] at hrow
+    · rw [ite_eq_right h2, ite_eq_right h3] at hrow
       exact absurd hrow (by decide)
 
 theorem rckK1IIISU_model

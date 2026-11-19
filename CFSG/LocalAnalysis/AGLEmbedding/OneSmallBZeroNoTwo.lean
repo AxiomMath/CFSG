@@ -64,7 +64,7 @@ theorem D1OneSmallData.twoCore_comm_mem_core_of_comp (hd : D1OneSmallData p P M 
   have hcard2 : Nat.card ((Pbar : Subgroup (D1CzQuot p z)) ⊓ KC : Subgroup _) = Nat.card T₁ := by
     rw [hcardKC, ← hT₁, Subgroup.card_map_of_injective K.subtype_injective]
   have hcard3 : Nat.card (Pbar : Subgroup (D1CzQuot p z)) = Nat.card R := by
-    rw [hPbar, card_map_mk_of_isPGroup hp _ (primeComplementCore_coprime p) T.isPGroup', ← hTR,
+    rw [hPbar, card_map_mk_of_isPGroup hp _ (primeComplementCore_coprime p) T.isPGroup, ← hTR,
       Subgroup.card_map_of_injective C.subtype_injective]
   have hcard1 : Nat.card ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
       Subgroup _) = Nat.card T₁ := by

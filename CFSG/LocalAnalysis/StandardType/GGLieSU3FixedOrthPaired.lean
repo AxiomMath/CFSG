@@ -41,12 +41,12 @@ theorem ggLieSU3Fixed_torus_paired {K : Type} [Field K] [Finite K] [CharP K 2]
     ∃ t ∈ specialBlock Q y j, (∀ x ∈ E, t * x = x * t) ∧
       ∃ u ∈ specialBlock Q y j, t * u ≠ u * t := by
   classical
-  haveI : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Fact (Irreducible j) := ⟨irreducible_of_mem_primaryFactors hj⟩
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       (fun _ _ he => LinearEquiv.ext (congrFun he))
-  haveI : Finite ↥E := Finite.of_injective (fun x : ↥E => (x : V ≃ₗ[K] V))
+  have : Finite ↥E := Finite.of_injective (fun x : ↥E => (x : V ≃ₗ[K] V))
     (fun _ _ h => Subtype.ext h)
   have hω : orderOf (AdjoinRoot.root j) = 3 := by
     obtain ⟨h0, hord⟩ := hy.orderOf_root Nat.prime_three hj hj1
@@ -269,7 +269,7 @@ theorem ggLieSU3Fixed_torus_paired {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [hδ_apply i₁, Equiv.swap_apply_right]
   have hdetδ : LinearMap.det ((δ : BlockGL y j) :
       Module.End (AdjoinRoot j) (primaryComponent y.toLinearMap j)) = 1 := by
-    haveI : CharP (AdjoinRoot j) 2 :=
+    have : CharP (AdjoinRoot j) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AdjoinRoot j)).injective 2
     have h1 : LinearMap.det ((δ : BlockGL y j) :
         Module.End (AdjoinRoot j) (primaryComponent y.toLinearMap j)) =

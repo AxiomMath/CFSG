@@ -64,12 +64,12 @@ structure CampbellHyp (X K R P : Subgroup A) : Prop where
   carrier := {g | ((g : GL32) : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec e = e}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     simp [Units.val_mul, ← Matrix.mulVec_mulVec, hb, ha]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have h : ((a⁻¹ : GL32) : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec
         (((a : GL32) : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec e) = e := by
       rw [Matrix.mulVec_mulVec, Units.inv_mul, Matrix.one_mulVec]

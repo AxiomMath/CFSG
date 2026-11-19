@@ -47,7 +47,7 @@ theorem parentConj_transport (Ψ : M ≃* M') {P H : Subgroup M} {P' H' : Subgro
     rw [← hmemH, ← map_mul, ← map_inv, ← map_mul, ← hmemH]
     exact hgN x
   · intro h₁
-    set x : H := ⟨Ψ.symm h₁, (hmemH _).2 (by simpa using h₁.2)⟩ with hx
+    set x : H := ⟨Ψ.symm h₁, (hmemH _).2 (by simp)⟩ with hx
     obtain ⟨x', hx'v, hφx⟩ := hact x
     have hx1 : (h₁ : M') = Ψ (x : M) := by simp [hx]
     refine ⟨⟨Ψ x', (hmemH _).1 x'.2⟩, ?_, ?_⟩
@@ -171,7 +171,7 @@ theorem twF4der_transport_if {a : ℕ} (ha : a = 0) {K L : Type} [Field K] [Fini
         (LargeEvenTwF4Parent a L) (LargeEvenTwF4H a L)
       else LargeEvenChevIDImage LargeEvenCartanF4 L (LargeEvenTwF4H a L)) := by
   subst ha
-  rw [if_pos rfl] at hφ ⊢
+  rw [ite_eq_left rfl] at hφ ⊢
   exact twF4der_transport (by simpa using hK) (by simpa using hL) σ hφ
 
 end TwF4

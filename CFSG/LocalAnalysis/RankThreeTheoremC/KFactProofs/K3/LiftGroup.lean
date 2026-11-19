@@ -48,7 +48,7 @@ theorem quotCenter_mulEquiv {Y : Type} [Group Y] {L₁ L₂ : Subgroup Y} (g : Y
 
 theorem exists_orderOf_eq_of_dvd_quot {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} {q : ℕ}
     (hq : q.Prime) (h : q ∣ Nat.card (↥L ⧸ Subgroup.center ↥L)) : ∃ t ∈ L, orderOf t = q := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   have hdvd : q ∣ Nat.card ↥L := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥L)]
     exact h.mul_right _
@@ -56,14 +56,14 @@ theorem exists_orderOf_eq_of_dvd_quot {Y : Type} [Group Y] [Finite Y] {L : Subgr
   exact ⟨x.1, x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
 theorem qClean_exists_noncentral {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} {q : ℕ}
-    (hq : q.Prime) (hqs : IsQuasisimple ↥L) (hcl : QClean q (↥L ⧸ Subgroup.center ↥L)) {t : Y}
+    (_hq : q.Prime) (hqs : IsQuasisimple ↥L) (hcl : QClean q (↥L ⧸ Subgroup.center ↥L)) {t : Y}
     (ht : t ∈ L) (ho : orderOf t = q) : ∃ l ∈ L, l * t ≠ t * l := by
   by_contra hcon
   have hcomm : ∀ l ∈ L, l * t = t * l := fun l hl => by
     by_contra hne
     exact hcon ⟨l, hl, hne⟩
   obtain ⟨hperf, -⟩ := hqs
-  haveI : Group.IsPerfect ↥L := hperf
+  have : Group.IsPerfect ↥L := hperf
   have hcen : (⟨t, ht⟩ : ↥L) ∈ Subgroup.center ↥L := by
     rw [Subgroup.mem_center_iff]
     intro g
@@ -146,7 +146,7 @@ theorem cz_step {W : Type} [Group W] [Finite W] {q : ℕ} (hq : q.Prime) {E : Su
     (hE : IsElemAbelian q E) {d : W} (hdc : E ≤ Subgroup.centralizer ({d} : Set W))
     (hdq : d ^ q = 1) (hd : d ∉ E) :
     IsElemAbelian q (E ⊔ zpowers d) ∧ Nat.card (E ⊔ zpowers d : Subgroup W) = q * Nat.card E := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   have hd1 : d ≠ 1 := by
     rintro rfl
     exact hd E.one_mem
@@ -316,7 +316,7 @@ theorem cover_inf_ker_eq_bot {W Y : Type} [Group W] [Finite W] [Group Y] [Finite
     (hcl : QClean q (↥L ⧸ Subgroup.center ↥L)) {P : Subgroup W} (hP : ⁅P, P⁆ = P)
     (hPL : P.map ε = L) : P ⊓ ε.ker = ⊥ := by
   classical
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
   have hmem : ∀ x : ↥P, ε (x : W) ∈ L := fun x => hPL ▸ Subgroup.mem_map_of_mem ε x.2
   let f : ↥P →* ↥L := (ε.comp P.subtype).codRestrict L hmem
   let p : ↥P →* ↥L ⧸ Subgroup.center ↥L := (QuotientGroup.mk' (Subgroup.center ↥L)).comp f
@@ -433,7 +433,7 @@ theorem exists_elemAbelian_of_cover {G Y : Type} [Group G] [Finite G] [Group Y] 
   have hk₁ := cover_inf_ker_eq_bot ε hcen' hpow' hq hqs₁ hcl₁ hP₁p hP₁
   have hk₂ := cover_inf_ker_eq_bot ε hcen' hpow' hq hqs₂ hcl₂ hP₂p hP₂
   have hk₃ := cover_inf_ker_eq_bot ε hcen' hpow' hq hqs₃ hcl₃ hP₃p hP₃
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x₁, hx₁P, hx₁e⟩ : ∃ x ∈ P₁, ε x = t₁ := by
     have : t₁ ∈ P₁.map ε := hP₁ ▸ h₁
     obtain ⟨x, hx, hxe⟩ := Subgroup.mem_map.mp this
@@ -521,7 +521,7 @@ theorem bn_conj_mem {X : Type} [Group X] (A : Subgroup X) (g : X)
   exact Subgroup.mem_map_of_mem A.subtype hφk
 
 theorem exists_normal_q_complement {X : Type} [Group X] [Finite X] {q : ℕ} [Fact q.Prime]
-    (J A R : Subgroup X) (hAJ : A ≤ J) (hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A)
+    (J A R : Subgroup X) (hAJ : A ≤ J) (_hAn : ∀ j ∈ J, ∀ a ∈ A, j * a * j⁻¹ ∈ A)
     (hRA : R ≤ A) (hRq : IsPGroup q R) (hRsyl : ¬ q ∣ R.relIndex A)
     (hRc : ∀ j ∈ J, ∀ r ∈ R, j * r = r * j) :
     ∃ C : Subgroup X, C ≤ A ∧ ¬ q ∣ Nat.card C ∧

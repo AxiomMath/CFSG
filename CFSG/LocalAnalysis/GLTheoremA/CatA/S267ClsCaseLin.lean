@@ -40,14 +40,15 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite 
 
 theorem dvd_sub_one_of_dvd_pow_sub_one (hp : p.Prime) {m : ℕ} (hm : 1 ≤ m)
     (h : p ∣ m ^ p - 1) : p ∣ m - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   rw [Nat.cast_sub (Nat.one_le_pow _ _ hm), Nat.cast_pow, ZMod.pow_card, Nat.cast_one] at h
   rwa [Nat.cast_sub hm, Nat.cast_one]
 
+omit [Finite K] in
 theorem dvd_card_sub_one_of_pow (hp : p.Prime) {c : Kˣ} (hc1 : c ≠ 1) (hcp : c ^ p = 1) :
     p ∣ Nat.card K - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← orderOf_eq_prime hcp hc1, ← Nat.card_units]
   exact orderOf_dvd_natCard c
 
@@ -67,9 +68,9 @@ theorem dvd_card_GL_two_of_plane (hp : p.Prime) {σ : K →+* K}
     apply hxm
     have h1 := congrArg (fun e : M ≃ₗ[K] M => ((e ⟨m, hm⟩ : M) : ι → K)) h
     simpa [hg, coe_resU_apply] using h1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime hgp hg1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let b := Module.finBasisOfFinrankEq K M hM
   let c : (M ≃ₗ[K] M) ≃ ((Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) :=
     { toFun := fun e => (b.equivFun.symm.trans e).trans b.equivFun
@@ -139,8 +140,8 @@ theorem concl_lin
       Nonempty (PQuot p (⊤ : Subgroup K') ≃* ↥S) ∧ GLATwoLocalRank q K' ≤ CFSG.Open.pRank p B) :
     S267ConcA p S B ∨ S267ConcBCDE p q S B := by
   classical
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP K q :=
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : CharP K q :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hq hf hK
   have hcharne : ∀ m : ℕ, m.Prime → m ≠ q → (m : K) ≠ 0 := by
     intro m hm hmq h
@@ -193,7 +194,7 @@ theorem concl_lin
       have : 2 ∣ q ^ f := hσK ▸ dvd_pow_self 2 hp.ne_zero
       exact hq2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hq).1
         (Nat.prime_two.dvd_of_dvd_pow this)).symm
-    · haveI := Fact.mk hp
+    · have := Fact.mk hp
       rw [hσK, h3, Nat.cast_pow, ZMod.pow_card]
       norm_num
   have hp3 : ∀ m : ℕ, m = 3 → q = 3 → p ≠ 3 := fun _ _ hq3' hp3' => hqp (hq3'.trans hp3'.symm)
@@ -245,7 +246,7 @@ theorem concl_lin
       ∀ H' : Hyperplane ↥Aε p, weightSpace (glRep Aε) H'.1 ≠ ⊥ →
         Module.finrank K (weightSpace (glRep Aε) H'.1) = 1 := by
     intro Aε _ hA _ hmax ⟨c, hc1, hcp, _⟩ H' hH'
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hd := dvd_card_sub_one_of_pow hp hc1 hcp
     rw [Nat.card_eq_fintype_card] at hd
     exact finrank_weightSpace_eq_one_lin (glRep Aε) hp hA hpK hmax hd H' hH'

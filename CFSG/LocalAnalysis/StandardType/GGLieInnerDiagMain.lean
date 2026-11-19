@@ -107,7 +107,7 @@ theorem ggLieInnerDiag_of_suFour
     CFSG.SeitzReduction.SymplecticPilot.center_statedSU_eq_bot_of_coprime hK hn (by norm_num)
       hcop4
   let SU := ↥(LargeEvenSUGroup (Fin 4) K (2 ^ n))
-  letI : Group SU := inferInstance
+  let : Group SU := inferInstance
   have hcenter : Subgroup.center SU = ⊥ := hcenterSU
   let e : SU ≃* LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ n)) :=
     MulEquiv.ofBijective (LargeEvenProjMk (LargeEvenSUGroup (Fin 4) K (2 ^ n)))
@@ -187,7 +187,7 @@ theorem ggLieInnerDiag_of_omegaMinus (hraw : GGRawInnFieldInput) (hiso : GGRawIn
     (hInn : GGInducedInn A θ
       (LargeEvenInnSet (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))))) :
     GGMarkingAll (K := ↥J) fun _ _ _ I' _ θ' => GGAutsInduceOn A J θ' I' := by
-  haveI : Group.IsPerfect X := ⟨hX⟩
+  have : Group.IsPerfect X := ⟨hX⟩
   have hcenter : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot X
   have hinn : ∀ a ∈ A, ∃ s : X ⧸ Subgroup.center X, ∀ x : X,
@@ -224,23 +224,23 @@ theorem ggLieInnerDiagInput_of_known
     have hr2 : 2 ≤ rank := hlab.2
     by_cases hr : rank = 3
     · subst hr
-      simp only [LargeEvenRawDatum] at hrawD
+      simp only at hrawD
       obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hrawD
       obtain ⟨-, -, θ, hP⟩ := hQK
       exact ggLieInnerDiag_of_suFour hraw hiso hX hl hK hlab.1 θ hP.2
     · by_cases hr2' : rank = 2
       · subst hr2'
-        simp only [LargeEvenRawDatum] at hrawD
+        simp only at hrawD
         obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hrawD
         obtain ⟨-, -, θ, hP⟩ := hQK
         exact (ggLieSU3Fixed_false_of_slTwo hX hl hK θ hP.2).elim
       · obtain ⟨r, rfl⟩ : ∃ r, rank = r + 4 := ⟨rank - 4, by omega⟩
-        simp only [LargeEvenRawDatum] at hrawD
+        simp only at hrawD
         obtain ⟨K, _instK, _instFinK, hK, b, c, hbc, hQK⟩ := hrawD
         obtain ⟨-, -, θ, hP⟩ := hQK
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fintype K := Fintype.ofFinite K
-        haveI : CharP K 2 :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fintype K := Fintype.ofFinite K
+        have : CharP K 2 :=
           charP_of_card_eq_prime_pow (p := 2) (f := nn)
             (by rw [← Nat.card_eq_fintype_card, hK])
         have hker : (θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))).ker =
@@ -256,7 +256,7 @@ theorem ggLieInnerDiagInput_of_known
   ·
     subst htag
     subst hrank
-    simp only [LargeEvenRawDatum] at hrawD
+    simp only at hrawD
     obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hrawD
     obtain ⟨-, -, θ, hP⟩ := hQK
     exact ggLieInnerDiag_of_suFour hraw hiso hX hl hK hlab.1 θ hP.2

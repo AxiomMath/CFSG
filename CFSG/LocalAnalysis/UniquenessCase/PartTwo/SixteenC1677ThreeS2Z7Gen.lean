@@ -62,7 +62,7 @@ private theorem s168e3_z7_free (hT : ∀ v : T, v ^ 2 = 1) {C : Subgroup (MulAut
 private theorem s168e3_z7_order_three_fix {W : Type} [CommGroup W] [Finite W]
     (hW : Nat.card W = 8) {f : MulAut W} (hf : f ^ 3 = 1) :
     ∃ u : W, u ≠ 1 ∧ f u = u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime f hf
   rw [hW] at hmod
   have hmod2 : Nat.card {x : W // f x = x} ≡ 2 [MOD 3] :=
@@ -74,7 +74,7 @@ private theorem s168e3_z7_order_three_fix {W : Type} [CommGroup W] [Finite W]
     rw [h] at hmod2
     exact absurd hmod2 (by decide)
   have hlt : 1 < Nat.card {x : W // f x = x} := by omega
-  haveI : Nontrivial {x : W // f x = x} := Finite.one_lt_card_iff_nontrivial.mp hlt
+  have : Nontrivial {x : W // f x = x} := Finite.one_lt_card_iff_nontrivial.mp hlt
   let oneSub : {x : W // f x = x} := ⟨1, map_one f⟩
   obtain ⟨u, hu⟩ := exists_ne oneSub
   exact ⟨u.1, fun h => hu (Subtype.ext h), u.2⟩
@@ -92,6 +92,7 @@ private theorem s168e3_z7_order_three_fix_stab {U : Subgroup T} (hUcard : Nat.ca
   rw [hfu] at h
   exact h.symm
 
+omit [Finite T] in
 private theorem s168e3_z7_centSub_card {E : Subgroup (MulAut T)} (hEcard : Nat.card E = 9)
     {V : Subgroup T} (hEV : E ≤ stabSub V) (hV168 : Nat.card (MulAut ↥V) = 168) :
     3 ≤ Nat.card ↥(E ⊓ centSub V) := by
@@ -117,7 +118,7 @@ private theorem s168e3_z7_exists_b {E : Subgroup (MulAut T)} (hEcard : Nat.card 
     (hV168 : Nat.card (MulAut ↥V) = 168) :
     ∃ b ∈ E ⊓ centSub V, orderOf b = 3 ∧ ∃ u ∈ U, u ≠ 1 ∧ b u = u := by
   have hk : 3 ≤ Nat.card ↥(E ⊓ centSub V) := s168e3_z7_centSub_card hEcard hEV hV168
-  haveI : Nontrivial ↥(E ⊓ centSub V) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial ↥(E ⊓ centSub V) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨b, hb1⟩ := exists_ne (1 : ↥(E ⊓ centSub V))
   have hbE : (b : MulAut T) ∈ E := b.2.1
   have hbV : (b : MulAut T) ∈ centSub V := b.2.2
@@ -135,7 +136,7 @@ private theorem s168e3_z7_orbit (hT : ∀ v : T, v ^ 2 = 1) {C : Subgroup (MulAu
     (hC : IsCyclicOrd ↥C 7) (hW : Nat.card ↥(commSub ⊤ C) = 8)
     {u : T} (hu : u ∈ commSub ⊤ C) (hu1 : u ≠ 1) :
     ∀ y ∈ commSub ⊤ C, y ≠ 1 → ∃ c ∈ C, c u = y := by
-  haveI : IsCyclic ↥C := hC.1
+  have : IsCyclic ↥C := hC.1
   have hCW : C ≤ stabSub (commSub ⊤ C) := by
     intro c hc
     apply s16n9b_mem_stabSub_of_map_eq
@@ -295,7 +296,6 @@ theorem s168e3_z7_fix (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (MulAut T)} {g
     have hlM : l ∈ M := hAgM hlC
     have hl_inv_z : l⁻¹ z = u₂ := by rw [← hlu₂, MulAut.inv_apply_self]
     have hbz : (l * b₂ * l⁻¹) z = z := by
-      change (l * b₂ * l⁻¹) z = z
       rw [MulAut.mul_apply, MulAut.mul_apply, hl_inv_z, hb₂u₂, hlu₂]
     have hby : (l * b₂ * l⁻¹) y = y := by rw [hy1]; exact map_one _
     have hb_eq : l * b₂ * l⁻¹ = (MulAut.conj l).toMonoidHom b₂ :=
@@ -312,10 +312,8 @@ theorem s168e3_z7_fix (hT : ∀ v : T, v ^ 2 = 1) {M A : Subgroup (MulAut T)} {g
     have hb₁z : b₁ z = z := hb₁.2 z hzW'
     have hl_inv_y : l⁻¹ y = u₁ := by rw [← hlu₁, MulAut.inv_apply_self]
     have hby : (l * b₁ * l⁻¹) y = y := by
-      change (l * b₁ * l⁻¹) y = y
       rw [MulAut.mul_apply, MulAut.mul_apply, hl_inv_y, hb₁u₁, hlu₁]
     have hbz : (l * b₁ * l⁻¹) z = z := by
-      change (l * b₁ * l⁻¹) z = z
       rw [MulAut.mul_apply, MulAut.mul_apply, hlinvz, hb₁z, hlz]
     have hb_eq : l * b₁ * l⁻¹ = (MulAut.conj l).toMonoidHom b₁ :=
       (MulAut.conj_apply l b₁).symm

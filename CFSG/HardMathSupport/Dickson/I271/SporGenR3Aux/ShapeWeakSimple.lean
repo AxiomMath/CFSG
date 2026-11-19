@@ -34,14 +34,14 @@ theorem strong_of_simpleCentShapeRk' {name : TauCeti.SporadicName} {p : ℕ}
     (hZ : Subgroup.center ↥K = ⊥) : IsStronglyBalancedIn p B K := by
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_of_pair hOut hBr hC.prime hC.odd hP _ hq.2
       (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eZ : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let eK : ↥K ≃* NativeSporadic.Carrier name := eZ.symm.trans (e.trans (hBr name).some.symm)
-  haveI : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup eZ.symm
+  have : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup eZ.symm
   have hshape : CentShapeRk' p Good Rk ↥K := hD ↥K eK
   refine strong_of_dichotomy_rk hGood hRk hOut hC hN ⟨e⟩ hloc hIH ?_
   intro a k hk haB hc haC
@@ -87,7 +87,7 @@ theorem simpleCentShapeRk'_M_of_gmat {p : ℕ} (hp : p.Prime)
     (h : CentShapeRk' p Good Rk Gmat) : SimpleCentShapeRk' p Good Rk .M := by
   intro T _ _ _ e
   obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
-  haveI : Finite Gmat := Finite.of_equiv T ε.toEquiv
+  have : Finite Gmat := Finite.of_equiv T ε.toEquiv
   exact CentShapeRk'.of_equiv hp hGood hRk ε.symm h
 
 theorem sporStrong_M_of_gmatShape {p : ℕ}

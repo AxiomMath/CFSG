@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3ZT u3U0 U3LineW
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem tits_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hX : TitsFacts)
+theorem tits_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G) (hX : TitsFacts)
     (hc : PointConfig IsTitsType G 5 P M x J)
     (hnorm : M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore 5 M : Subgroup G) : Set G))
     {U : Subgroup G} (hU : IIPlane 5 P x J U) :
@@ -23,7 +23,7 @@ theorem tits_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
       IsSylowOf 2 (Y ⊓ rankThreePrimeCore 5 M) (rankThreePrimeCore 5 M) →
       Subgroup.normalizer (Y : Set G) ≤ M := by
   intro Y hY2 hYM hUY hYB
-  haveI : Fact (Nat.Prime 5) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨hc.prime⟩
   obtain ⟨hTcard, hTel, hxJ⟩ := plane_T_structure hX.sylow hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   obtain ⟨hRM, hRn, hRcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 5 M
@@ -55,7 +55,7 @@ theorem tits_lemma43 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
     have htS : t ∈ Subgroup.centralizer ({x} : Set G) := (hTS ht).2
     exact Subgroup.mem_centralizer_iff.1 htS x rfl
   have hVp : IsPGroup 5 (u3T P x J ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
   have hUV : U ≤ u3T P x J ⊔ Subgroup.zpowers x :=
     mcl_le_sup_of_card hc.prime hU.elem.1 hU.card hU.card_inf hU.mem hxp hx1 hxT
   have hVc : u3T P x J ⊔ Subgroup.zpowers x ≤

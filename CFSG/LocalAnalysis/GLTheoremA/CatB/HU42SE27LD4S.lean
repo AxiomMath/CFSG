@@ -230,7 +230,7 @@ private theorem omR_ne_bot (U₀ : Subgroup ↥Om8) (hU₀ : U₀ ≠ ⊥) (hU�
     omR U₀ ≠ ⊥ := by
   classical
   have hW : omW U₀ ≠ ⊥ := omW_ne_bot U₀ hU₀
-  haveI : Nontrivial ↥(omW U₀) := Submodule.nontrivial_iff_ne_bot.mpr hW
+  have : Nontrivial ↥(omW U₀) := Submodule.nontrivial_iff_ne_bot.mpr hW
   let act : MulAction U₀ ↥(omW U₀) :=
     { smul := fun u x => (omWRep U₀ u) x
       one_smul := fun x => by
@@ -241,7 +241,7 @@ private theorem omR_ne_bot (U₀ : Subgroup ↥Om8) (hU₀ : U₀ ≠ ⊥) (hU�
         change (omWRep U₀ (u * v)) x = (omWRep U₀ u) ((omWRep U₀ v) x)
         rw [map_mul]
         rfl }
-  letI := act
+  let := act
   obtain ⟨w, hw0, hwfix⟩ := CFSG.Quasithin.H13.L827X.LBModule2.ch827_exists_fixed_ne_zero
     (W := ↥(omW U₀)) U₀ hU₀2 (fun u => by
       change (omWRep U₀ u) (0 : ↥(omW U₀)) = 0
@@ -356,10 +356,10 @@ private theorem omR0_ne_bot (U₀ : Subgroup ↥Om8) (hU₀ : U₀ ≠ ⊥) (hU�
           change (ρQ (u * v)) q = (ρQ u) ((ρQ v) q)
           rw [map_mul]
           rfl }
-    letI := qact
-    haveI : Finite (↥(omW U₀) ⧸ R') :=
+    let := qact
+    have : Finite (↥(omW U₀) ⧸ R') :=
       Finite.of_surjective (Submodule.mkQ R') (Submodule.mkQ_surjective R')
-    haveI : Nontrivial (↥(omW U₀) ⧸ R') := Submodule.Quotient.nontrivial_iff.mpr hR'top
+    have : Nontrivial (↥(omW U₀) ⧸ R') := Submodule.Quotient.nontrivial_iff.mpr hR'top
     obtain ⟨q, hq0, hqfix⟩ := CFSG.Quasithin.H13.L827X.LBModule2.ch827_exists_fixed_ne_zero
       (W := ↥(omW U₀) ⧸ R') U₀ hU₀2 (fun u => by
         change (ρQ u) (0 : ↥(omW U₀) ⧸ R') = 0

@@ -28,7 +28,7 @@ theorem orbF_mono {A B : Subgroup Γ} (hAB : A ≤ B) (q₀ : Ω) : orbF A q₀ 
 theorem card_orbF (A : Subgroup Γ) (q₀ : Ω) : (orbF A q₀).card = (stabilizer Γ q₀).relIndex A := by
   have hst : stabilizer (↥A) q₀ = (stabilizer Γ q₀).subgroupOf A := by
     ext a
-    simp [mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.smul_def]
+    simp [mem_stabilizer_iff, Subgroup.smul_def]
   have hset : ((orbF A q₀ : Finset Ω) : Set Ω) = orbit (↥A) q₀ := by
     ext q
     rw [Finset.mem_coe, mem_orbF, mem_orbit_iff]
@@ -61,7 +61,7 @@ theorem tiles_step [Finite Γ] {p : ℕ} [hp : Fact p.Prime] {A A₁ : Subgroup 
   classical
   by_cases hSt : A₁ ⊓ stabilizer Γ q₀ ≤ A
   ·
-    letI : Fintype (↥A₁ ⧸ A.subgroupOf A₁) := Fintype.ofFinite _
+    let : Fintype (↥A₁ ⧸ A.subgroupOf A₁) := Fintype.ofFinite _
     let u : ↥A₁ ⧸ A.subgroupOf A₁ → Γ := fun i => ((Quotient.out i : ↥A₁) : Γ)
     refine ⟨↥A₁ ⧸ A.subgroupOf A₁, inferInstance, u, fun M _ f => ?_⟩
     have hu : ∀ i, u i ∈ A₁ := fun i => (Quotient.out i).2

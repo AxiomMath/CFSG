@@ -35,7 +35,7 @@ section Field
 theorem noL34Layer_entrywise_e6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K] [Finite K]
     (σ : K ≃+* K) (hcard : Nat.card (fixSubfield σ) = 2 ^ d) :
     NoL34Layer (entrywiseAdjointAut Tag.E6 σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) .E6 2 d :=
     ⟨⟨Nat.prime_two, hd, rfl⟩, untwisted_adjointGroup hcard⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e6_simplicity _ 2 d hM
@@ -47,8 +47,8 @@ theorem noL34Layer_entrywise_e6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K] [F
 theorem noL34Layer_of_not_mem_e6Inndiag {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ f) {x : MulAut (adjointGroup Tag.E6 K)} (hx3 : x ^ 3 = 1)
     (hxo : x ∉ e6Inndiag K) : NoL34Layer x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   obtain ⟨σ, hσo, hpf, δ, hδ⟩ := exists_conj_entrywise_of_not_mem_e6Inndiag Nat.prime_two hf K hK
     Nat.prime_three (by norm_num) hx3 hxo
   have hd : 1 ≤ f / 3 := Nat.div_pos (Nat.le_of_dvd (by omega) hpf) (by norm_num)

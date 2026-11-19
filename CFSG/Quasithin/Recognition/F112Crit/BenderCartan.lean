@@ -172,7 +172,7 @@ theorem BenderType.isCartanQuot {K : Type*} [Group K] [Finite K]
     have hq : 3 ≤ 2 ^ n :=
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    exact hc.mem_borel_or_of_forall hq P.isPGroup' hx hy
+    exact hc.mem_borel_or_of_forall hq P.isPGroup hx hy
   two_elt := by
     intro P x g hx hg hxg k hk
     obtain ⟨t, hc⟩ := (h.exists_benderCore P)
@@ -187,7 +187,7 @@ theorem IsCartanQuot.of_surjective {K K' : Type*} [Group K] [Group K'] [Finite K
     fun P a => by
       rw [Sylow.coe_mapSurjective]
       exact ⟨fun ha => Subgroup.le_normalizer_map f ⟨a, ha, rfl⟩,
-        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup' ha⟩
+        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup ha⟩
   refine ⟨fun P x y hx hy => ?_, fun P x g hx hg hxg k hk => ?_⟩
   · have h1 := h.fix_two (P.mapSurjective hf) (f x) (f y) (fun hx' => hx ((hN P x).mpr hx'))
       (fun d' hd' hxd' => by
@@ -220,7 +220,7 @@ theorem isCartanQuot_of_listed {K : Type} [Group K] [Finite K]
     let π : StatedSU 3 (2 ^ n) F →* StatedProj (StatedSU 3 (2 ^ n) F) :=
       QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F))
     have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-    haveI : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
+    have : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
     refine IsCartanQuot.of_mulEquiv e (IsCartanQuot.of_surjective π hπ ?_ ?_
       (BenderType.isCartanQuot hB))
     · show π.ker ≤ _

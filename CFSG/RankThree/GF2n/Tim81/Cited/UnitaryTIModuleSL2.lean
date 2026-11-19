@@ -28,7 +28,7 @@ private theorem exists_natCard_commSpan_sup_eq (σ : Representation (ZMod 2) G W
     (hB : (lowerUnipotent K).map φ = B) (hqA : commSpan σ A ≤ fixSub σ A)
     (hqB : commSpan σ B ≤ fixSub σ B) (hfix : commSpan σ (A ⊔ B) ⊓ fixSub σ (A ⊔ B) = ⊥) :
     ∃ k : ℕ, Nat.card (commSpan σ (A ⊔ B)) = Nat.card K ^ (2 * k) := by
-  haveI : PerfectRing K 2 := PerfectField.toPerfectRing 2
+  have : PerfectRing K 2 := PerfectField.toPerfectRing 2
   have hrange : φ.range = A ⊔ B := by
     rw [MonoidHom.range_eq_map, ← NaturalModule.upperUnipotent_sup_lowerUnipotent,
       Subgroup.map_sup, hA, hB]
@@ -45,7 +45,7 @@ private theorem exists_natCard_commSpan_sup_eq (σ : Representation (ZMod 2) G W
       rw [← hrange]
       exact MonoidHom.mem_range.2 ⟨g, rfl⟩
     exact apply_mem_commSpan (fun t ht => mul_mem (mul_mem hg ht) (inv_mem hg)) hv
-  letI : DistribMulAction SL(2, K) N := DistribMulAction.compHom N
+  let : DistribMulAction SL(2, K) N := DistribMulAction.compHom N
     (⟨N, hinv⟩ : Subrepresentation (σ.comp φ)).toRepresentation
   have hsmul : ∀ (g : SL(2, K)) (v : N), ((g • v : N) : W) = σ (φ g) v := fun _ _ => rfl
   have hquad : ∀ (s t : K) (v : N),
@@ -129,7 +129,7 @@ private theorem hypMat_upperElt (s : fixedSubfield F 2 f) :
       longRootMatrix (0 : Fin 2) (s : F) := by
   rw [longRootMatrix, show Fin.rev (0 : Fin 2) = 1 by decide]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.hypMat, upperElt, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.hypMat, upperElt]
 
 private theorem hypMat_lowerElt (s : fixedSubfield F 2 f) :
     LieType.Steinberg.hypMat (1 : F)
@@ -137,7 +137,7 @@ private theorem hypMat_lowerElt (s : fixedSubfield F 2 f) :
       longRootMatrix (1 : Fin 2) (s : F) := by
   rw [longRootMatrix, show Fin.rev (1 : Fin 2) = 0 by decide]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.hypMat, lowerElt, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.hypMat, lowerElt]
 
 private theorem suMat_outerSL_upperElt (s : fixedSubfield F 2 f) :
     suMat (unitaryInvolution F 2 f) (m + 2) (outerSL f m (upperElt _ s)) =
@@ -182,10 +182,10 @@ theorem exists_natCard_commSpan_eq_pow {F : Type} [Field F] [Finite F] [CharP F 
     (hfix : commSpan σ (T₀ ⊔ T₁) ⊓ fixSub σ (T₀ ⊔ T₁) = ⊥)
     (hinf : commSpan σ T₀ ⊓ commSpan σ T₁ = ⊥)
     (hcard : Nat.card (commSpan σ T₀) = Nat.card (commSpan σ T₁))
-    {w : SU (unitaryInvolution F 2 f) (m + 2)} (hw : w ∈ T₀ ⊔ T₁)
+    {w : SU (unitaryInvolution F 2 f) (m + 2)} (_hw : w ∈ T₀ ⊔ T₁)
     (hwc : CFSG.Timmesfeld.ARS.conjSub T₀ w = T₁) :
     ∃ k : ℕ, Nat.card (commSpan σ T₀) = (2 ^ f) ^ k := by
-  haveI : CharP (fixedSubfield F 2 f) 2 :=
+  have : CharP (fixedSubfield F 2 f) 2 :=
     RingHom.charP (fixedSubfield F 2 f).subtype (fixedSubfield F 2 f).subtype.injective 2
   have hquad₁ : commSpan σ T₁ ≤ fixSub σ T₁ := by
     rw [← hwc, ← map_commSpan_conjSub]

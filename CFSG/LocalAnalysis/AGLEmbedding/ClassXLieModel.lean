@@ -16,10 +16,10 @@ theorem lieModel_PSL_two_of_isLin2Type {G : Type} [Group G] {L : Subgroup G} {n 
     (hn : 1 < n) (hlin : CFSG.QuasithinUnique.IsLin2Type L n) :
     CFSG.Blueprint.LieModel (↥L ⧸ CFSG.pCore 2 ↥L) .PSL 2 2 n := by
   obtain ⟨F, instF, instFinF, hFcard, α, hαs, hker, -⟩ := hlin
-  letI : Field F := instF
-  letI : Fintype F := instFinF
+  let : Field F := instF
+  let : Fintype F := instFinF
   have hF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, hFcard]
-  haveI hchar : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+  have hchar : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
   have hn2 : 2 ≤ n := hn
   have h2n : 4 ≤ 2 ^ n := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -51,7 +51,7 @@ theorem lieModel_PSL_two_two_two_of_isAltType_five {G : Type} [Group G] {L : Sub
   have hK : Nat.card K = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2) (by rw [hK]; norm_num)
   have hK' : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
   have hcardSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 60 := by

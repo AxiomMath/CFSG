@@ -33,7 +33,7 @@ private theorem kg7innd_pquot_le_center {G : Type} [Group G] {L : Subgroup G}
     obtain ⟨-, lab, hlab, hraw⟩ := hmark
     obtain ⟨S, _, I, F, _hs, hna, θ, -⟩ :=
       CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
-    haveI : Subsingleton (PQuot 3 L) := by
+    have : Subsingleton (PQuot 3 L) := by
       change Subsingleton (↥L ⧸ CFSG.Open.GLAPPrimeCore 3 ↥L)
       rw [QuotientGroup.subsingleton_iff]
       exact htop

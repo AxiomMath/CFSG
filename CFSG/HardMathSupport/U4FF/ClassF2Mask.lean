@@ -52,9 +52,9 @@ theorem bitF_or_shift (acc x i : ℕ) :
     bitF (acc ||| (1 <<< x)) i = if i = x then 1 else bitF acc i := by
   by_cases h : i = x
   · subst h
-    simp [bitF, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    simp [bitF, Nat.testBit_or, Nat.one_shiftLeft]
   · have h' : x ≠ i := fun e => h e.symm
-    simp [bitF, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow, h, h']
+    simp [bitF, Nat.testBit_or, Nat.one_shiftLeft, h, h']
 
 theorem bitF_gate (v j i a : ℕ) :
     bitF (if v.testBit j then a else 0) i = bitF a i * bitF v j := by
@@ -122,7 +122,7 @@ theorem getD_add (A B : MCols) (j : ℕ) (hA : j < A.size) (hB : j < B.size) :
   have hj : j < (A.add B).size := by
     simp only [MCols.add, Array.size_zipWith]
     omega
-  simp [MCols.add, Array.getD_eq_getD_getElem?, Array.getElem?_eq_getElem, hA, hB, hj]
+  simp [MCols.add, Array.getD_eq_getD_getElem?, hA, hB]
 
 theorem toMat_add (A B : MCols) (n m : ℕ) (hA : A.size = m) (hB : B.size = m) :
     (A.add B).toMat n m = A.toMat n m + B.toMat n m := by
@@ -139,7 +139,7 @@ theorem size_one (m : ℕ) : (MCols.one m).size = m := by
   simp [MCols.one]
 
 theorem getD_one (m j : ℕ) (hj : j < m) : (MCols.one m).getD j 0 = 1 <<< j := by
-  simp [MCols.one, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, hj]
+  simp [MCols.one, Array.getD_eq_getD_getElem?, hj]
 
 theorem toMat_one (m : ℕ) : (MCols.one m).toMat m m = 1 := by
   ext i j
@@ -207,7 +207,7 @@ theorem getD_tabR {n m : ℕ} (M : Matrix (Fin n) (Fin m) (ZMod 2)) (j : Fin m) 
     (MCols.tabR M).getD (j : ℕ) 0 = (List.finRange n).foldl
       (fun acc x => if M x j = 1 then acc ||| (1 <<< (x : ℕ)) else acc) 0 := by
   have hj : (j : ℕ) < m := j.isLt
-  simp [MCols.tabR, Array.getD_eq_getD_getElem?, Array.getElem?_eq_getElem, hj]
+  simp [MCols.tabR, Array.getD_eq_getD_getElem?, hj]
 
 theorem toMat_tabR {n m : ℕ} (M : Matrix (Fin n) (Fin m) (ZMod 2)) :
     (MCols.tabR M).toMat n m = M := by

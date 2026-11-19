@@ -119,7 +119,7 @@ theorem ivk_1_2f : IVK_1_2f := by
     have ha : padicValNat 2 m + 2 ≤ n := by
       rw [hnfac]
       exact (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two hKpos.ne').mp hdvd
-    have hR2 : IsPGroup 2 ↥N.R := N.T.isPGroup'.to_le (inf_le_left : N.R ≤ (N.T : Subgroup (MulAut K)))
+    have hR2 : IsPGroup 2 ↥N.R := N.T.isPGroup.to_le (inf_le_left : N.R ≤ (N.T : Subgroup (MulAut K)))
     obtain ⟨j, hj⟩ := hR2.exists_card_eq
     have hRdvd : Nat.card N.R ∣ Nat.card (fieldAutSub e) :=
       Subgroup.card_dvd_of_le (inf_le_right : N.R ≤ fieldAutSub e)

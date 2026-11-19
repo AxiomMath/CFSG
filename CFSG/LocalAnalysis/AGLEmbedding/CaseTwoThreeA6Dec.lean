@@ -92,7 +92,7 @@ theorem exists_dec_of_sylow {X : Type} [Group X] [Finite X] {A : Subgroup X}
     {y : X} (hy : y ∈ (S : Subgroup X)) :
     ∃ l ∈ (S : Subgroup X) ⊓ A, l⁻¹ * y ∈ Subgroup.centralizer (A : Set X) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy⟩
   have hy3 : y ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨l, hlA, hl3, hlc⟩ := exists_pElt_of_pElt_mem_sup Nat.prime_three (hSin y hy) ⟨k, hy3⟩
   refine ⟨l, ⟨?_, hlA⟩, hlc⟩
@@ -116,7 +116,7 @@ theorem exists_dec_of_sylow {X : Type} [Group X] [Finite X] {A : Subgroup X}
   have hlp : IsPGroup 3 (Subgroup.zpowers l) := by
     obtain ⟨j, hj⟩ := hl3
     exact isPGroup_zpowers_of_pow_eq_one hj
-  have hTp : IsPGroup 3 T := S.isPGroup'.to_le inf_le_left
+  have hTp : IsPGroup 3 T := S.isPGroup.to_le inf_le_left
   have hV : IsPGroup 3 (T ⊔ Subgroup.zpowers l : Subgroup X) :=
     IsPGroup.to_sup_of_normal_left' hTp hlp (Subgroup.zpowers_le.mpr hlT)
   have hVA : T ⊔ Subgroup.zpowers l ≤ A := sup_le inf_le_right (Subgroup.zpowers_le.mpr hlA)

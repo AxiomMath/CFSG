@@ -86,12 +86,12 @@ theorem exists_sylow_eq {D P : Subgroup G}
   obtain ⟨T, hPT⟩ := hP2.exists_le_sylow
   refine ⟨T, ?_⟩
   let N := Subgroup.normalizer (P : Set G) ⊓ (T : Subgroup G)
-  have hN2 : IsPGroup 2 N := T.isPGroup'.to_le inf_le_right
+  have hN2 : IsPGroup 2 N := T.isPGroup.to_le inf_le_right
   have hPN : P ≤ N := le_inf P.le_normalizer hPT
   obtain ⟨z, hzP, hz2, hNz⟩ := exists_involution_centralized hP hPN inf_le_left hN2
   have hND : N ≤ D := hNz.trans (hD z (hPD hzP) hz2)
   have hNP : N = P := (Subgroup.eq_of_le_of_card_ge hPN (hmax N hN2 hND)).symm
-  have : Group.IsNilpotent T := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent T := T.isPGroup.isNilpotent
   have hself : Subgroup.normalizer ((P.subgroupOf T : Subgroup T) : Set T) = P.subgroupOf T := by
     rw [← Subgroup.subgroupOf_normalizer_eq hPT]
     ext x

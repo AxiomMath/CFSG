@@ -17,8 +17,8 @@ theorem cSideFacts_centQ_inv_base :
         Nat.card {q : C // q ∈ Q ∧ ⁅q, t⁆ ∈ centerOf Q} = 2 ^ 5 := by
   intro C _ Q _ hE hI t ht2 ht1 htL
   have hC : CSide.WeakHyp C Q := CSide.WeakHyp.of_cIrreducible hE hI
-  haveI : Finite C := hC.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite C := hC.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC.isExtraspecialPGroup
   obtain ⟨S⟩ := hC.nonempty_setup
   exact CSide.CSideSetup.card_comm_of_inner hC S

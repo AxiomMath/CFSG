@@ -41,7 +41,7 @@ theorem fzr_chain {S H : Subgroup G} (hS : IsPGroup 2 S) (hHS : H ≤ S)
     ∃ M : Subgroup G, H ≤ M ∧ M ≤ S ∧ M.relIndex S ≤ 2 ∧ H.relIndex M ≤ 2 := by
   by_cases h2 : H.relIndex S ≤ 2
   · exact ⟨S, hHS, le_rfl, by rw [Subgroup.relIndex_self]; norm_num, h2⟩
-  · push_neg at h2
+  · push Not at h2
     have hne : H ≠ S := by
       intro hEq
       rw [hEq, Subgroup.relIndex_self] at h2
@@ -52,13 +52,13 @@ theorem fzr_chain {S H : Subgroup G} (hS : IsPGroup 2 S) (hHS : H ≤ S)
     rw [hMrel] at hmul
     omega
 
-theorem fzr_mul_mem_iff {S M : Subgroup G} (hMS : M ≤ S) (h : M.relIndex S ≤ 2) {a b : G}
+theorem fzr_mul_mem_iff {S M : Subgroup G} (_hMS : M ≤ S) (h : M.relIndex S ≤ 2) {a b : G}
     (ha : a ∈ S) (hb : b ∈ S) : a * b ∈ M ↔ (a ∈ M ↔ b ∈ M) := by
   by_cases h1 : M.relIndex S = 1
   · rw [Subgroup.relIndex_eq_one] at h1
     exact ⟨fun _ => ⟨fun _ => h1 hb, fun _ => h1 ha⟩, fun _ => h1 (S.mul_mem ha hb)⟩
   · have hpos : M.relIndex S ≠ 0 := by
-      haveI : M.IsFiniteRelIndex S :=
+      have : M.IsFiniteRelIndex S :=
         Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
       exact Subgroup.relIndex_ne_zero
     have h2 : M.relIndex S = 2 := by omega

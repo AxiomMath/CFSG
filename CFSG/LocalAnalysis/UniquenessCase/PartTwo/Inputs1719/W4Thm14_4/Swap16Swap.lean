@@ -22,6 +22,7 @@ variable {W : Type} [CommGroup W] [Finite W] {L₁ L₂ : Subgroup (MulAut W)} {
   [Finite F] {β : W ≃* Multiplicative (Matrix (Fin 4) (Fin 4) F)}
   {ρ : ↥L₁ →* Matrix.GeneralLinearGroup (Fin 4) F} {σ : ↥L₂ →* Matrix.GeneralLinearGroup (Fin 4) F}
 
+omit [Finite W] [Finite F] in
 theorem exists_perm_column_of_congr_form (hM : IsMatModel L₁ L₂ β ρ σ)
     (hO : AlternatingNatural L₁ (matColSub β 0) ⊥ 5) :
     ∃ (ε : ↥(matColSub β 0) ≃* ↥(G6.coreMod 5))
@@ -38,7 +39,7 @@ theorem exists_perm_column_of_congr_form (hM : IsMatModel L₁ L₂ β ρ σ)
     intro hbot
     have hsub : ∀ g : ↥L₁, ρ g = 1 := by
       intro g
-      haveI : Subsingleton ↥L₁ := by rw [hbot]; infer_instance
+      have : Subsingleton ↥L₁ := by rw [hbot]; infer_instance
       have hg1 : g = 1 := Subsingleton.elim g 1
       rw [hg1, map_one]
     let W₀ : AddSubgroup (Fin 4 → F) :=
@@ -66,7 +67,7 @@ theorem exists_perm_column_of_congr_form (hM : IsMatModel L₁ L₂ β ρ σ)
       intro h
       have h1 : (Pi.single (1 : Fin 4) (1 : F) : Fin 4 → F) 1 = (0 : Fin 4 → F) 1 := by
         rw [h]
-      simpa using h1
+      simp at h1
     have he₀not : (Pi.single (0 : Fin 4) (1 : F)) ∉ W₀ := by
       show (Pi.single (0 : Fin 4) (1 : F) : Fin 4 → F) 0 ≠ 0
       simp
@@ -75,7 +76,7 @@ theorem exists_perm_column_of_congr_form (hM : IsMatModel L₁ L₂ β ρ σ)
       exact he₁ne (AddSubgroup.mem_bot.mp he₁mem)
     · exact he₀not (by rw [h]; exact AddSubgroup.mem_top _)
   obtain ⟨π, ε, hπsurj, hHU, hεπ⟩ := s15_T7_exists_iso hO
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (α := Fin 5) (by norm_num)
   have hπker : π.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with h | h
@@ -421,12 +422,14 @@ private theorem pact_eq_of_coreAct_eq {x : Fin 5 → ZMod 2} (hx : isEven x)
   exact congrArg Subtype.val
     ((Function.LeftInverse.injective s15_T7_toEven_ofEven) h)
 
+omit [Finite W] in
 private theorem map_conj_mulAut_of_mul {H : Subgroup (MulAut W)} (x y : MulAut W) :
     H.map (MulAut.conj (x * y)).toMonoidHom =
       (H.map (MulAut.conj y).toMonoidHom).map (MulAut.conj x).toMonoidHom := by
   rw [Subgroup.map_map]
   congr 1
 
+omit [Finite W] in
 private theorem mul_mem_inf_normalizer_of_not_mem_normalizer
     {A : Subgroup (MulAut W)} {t a : MulAut W}
     (hcomm : ∀ x ∈ L₁, ∀ y ∈ L₂, x * y = y * x) (ha₁ : IsAlt ↥L₁ 5) (ha₂ : IsAlt ↥L₂ 5)

@@ -101,7 +101,7 @@ theorem FF81Sec5.relIndex_H : (CenS (A₁sub b b₁ b₂ b₃)).relIndex (H₅�
   obtain ⟨g, hgH, hg⟩ := h5.gens hKF
   set H := H₅₂ b b₁ b₂ b₃ s₀ with hHdef
   classical
-  letI : MulAction H (S52.Tup G) :=
+  let : MulAction H (S52.Tup G) :=
     { smul := fun h x i => (h : G) * x i * (h : G)⁻¹
       one_smul := fun x => funext fun i => by
         show ((1 : H) : G) * x i * ((1 : H) : G)⁻¹ = x i
@@ -110,7 +110,7 @@ theorem FF81Sec5.relIndex_H : (CenS (A₁sub b b₁ b₂ b₃)).relIndex (H₅�
         show ((h * k : H) : G) * x i * ((h * k : H) : G)⁻¹ =
           (h : G) * ((k : G) * x i * (k : G)⁻¹) * (h : G)⁻¹
         rw [Subgroup.coe_mul]; group }
-  haveI : Finite (S52.Tup G) := inferInstanceAs (Finite (Fin 3 → G))
+  have : Finite (S52.Tup G) := inferInstanceAs (Finite (Fin 3 → G))
   have hsmul : ∀ (h : H) (x : S52.Tup G) i,
       (h • x : Fin 3 → G) i = (h : G) * (x : Fin 3 → G) i * (h : G)⁻¹ :=
     fun _ _ _ => rfl
@@ -221,7 +221,7 @@ end Gens
 
 theorem ff81_5_2 (hKF : KF_Sp6Levi) : FF81_5_2 := by
   intro G _ _ b L B b₁ b₂ b₃ t₀ s₀ h5 _ _
-  refine ⟨h5.nor_A₁_eq hKF, h5.A₁_le_H hKF, h5.relIndex_H hKF, fun h hh x hx => ?_,
+  refine ⟨h5.nor_A₁_eq hKF, h5.A₁_le_H, h5.relIndex_H hKF, fun h hh x hx => ?_,
     fun W hW hE => h5.hyperplane hKF hW hE⟩
   obtain ⟨e0', e1', e2'⟩ := h5.ε_uv
   obtain ⟨i, rfl⟩ : ∃ i, x = h5.ε (S52.uv i) := by

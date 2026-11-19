@@ -33,7 +33,7 @@ end Inputs
 section Main
 
 theorem isPGroup_quaternion (k : ℕ) : IsPGroup 2 (QuaternionGroup (2 ^ k)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine IsPGroup.of_card (n := k + 2) ?_
   rw [Nat.card_eq_fintype_card, QuaternionGroup.card]
   ring

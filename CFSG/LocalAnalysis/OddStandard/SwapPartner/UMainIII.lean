@@ -35,16 +35,16 @@ theorem exists_stdHyp_of_caseIII {G : Type} [Group G] [Finite G] {L : Subgroup G
     (hc : CFSG.IsComponent K) (hAK : ⁅Sg, Sg⁆ ≤ K) (hne : ⁅Sg, Sg⁆ ≠ K) :
     ∃ K' : Subgroup G, CFSG.EvenSporadicStandard.StdHyp G K' ∧
       IsSporadic (↥K' ⧸ center ↥K') .HS := by
-  haveI : IsSimpleGroup G := h.std.simple
+  have : IsSimpleGroup G := h.std.simple
   have hx : (z * ι τ₀) * (z * ι τ₀) = 1 := F.d8.x_sq
   have hx1 : z * ι τ₀ ≠ 1 := F.d8.x_ne
   have hAx : Agrp ι ≤ centralizer ({z * ι τ₀} : Set G) := Agrp_le_centralizer_of_frame F
   have hA : Group.IsPerfect ↥(Agrp ι) := isPerfect_Agrp F
-  haveI hKc : K.Characteristic := by
+  have hKc : K.Characteristic := by
     rw [hK]
     exact CFSG.LocalCores.layer_characteristic
-  haveI hKn : K.Normal := inferInstance
-  haveI hKperf : Group.IsPerfect K := hc.1.1
+  have hKn : K.Normal := inferInstance
+  have hKperf : Group.IsPerfect K := hc.1.1
   have h4 : ∀ U : Subgroup (TwoSec (z * ι τ₀)), IsPGroup 2 U →
       U ≤ centralizer ((⁅Sg, Sg⁆ : Subgroup (TwoSec (z * ι τ₀))) :
         Set (TwoSec (z * ι τ₀))) → Nat.card U ≤ 4 := by

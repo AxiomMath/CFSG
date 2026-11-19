@@ -179,11 +179,10 @@ theorem mem_triple_of_klein {G : Type*} [Group G] {u c z₁ z₂ : G} (hc : c ^ 
   · exact absurd h₁ h₁1
   · exact .inl h₁
   all_goals rcases h₂ with h₂ | h₂ | h₂ | h₂
-  all_goals first
+  all_goals try first
     | exact absurd h₂ h₂1
     | exact .inr (.inl h₂)
     | exact absurd (h₁.trans h₂.symm) h12
-    | skip
   · refine .inr (.inr ?_)
     rw [h₁, h₂]
     calc c * (u * c) = c * (c * u) := by rw [huc]

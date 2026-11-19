@@ -105,7 +105,7 @@ theorem not_dvd_card_of_centralizes {W : Subgroup G} {x : G} (hxW : x ∈ W) {r 
     intro m hm
     rw [MulAction.mem_stabilizer_iff]
     change (zpowers x).map (MulAut.conj (m : G)).toMonoidHom = zpowers x
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨m, hm⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨m, hm⟩
     have hk' : orderOf (m : G) = r ^ k := by
       have h1 : orderOf m = orderOf (⟨m, hm⟩ : S) := Subgroup.orderOf_coe (⟨m, hm⟩ : S)
       rw [Subgroup.orderOf_coe, h1]

@@ -12,9 +12,9 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
 
 private theorem ggOmW6b_field_card {K : Type} [Field K] [Finite K] [CharP K 2] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
-  exact ⟨(n : ℕ), PNat.one_le n, by rw [Nat.card_eq_fintype_card, hn]⟩
+  exact ⟨(n : ℕ), (fun (n : ℕ+) => (one_le : 1 ≤ n)) n, by rw [Nat.card_eq_fintype_card, hn]⟩
 
 private theorem ggOmW6b_outTwoPartLeTwo_of_card_two {K : Type} [Field K] [Finite K] [CharP K 2]
     {n : ℕ} (hn4 : 4 ≤ n) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -131,7 +131,6 @@ private theorem ggOmW6b_graph_clauses {K : Type} [Field K] [Finite K] [CharP K 2
       apply Subtype.ext
       first
         | simpa using (Subgroup.mem_centralizer_singleton_iff.mp hg.1)
-        | simpa using (Subgroup.mem_centralizer_singleton_iff.mp hg.1).symm
     have hcomm := ggGraphInv_conjBy_commute (Qm n hn4 b c) α s hconj g' (hfix g' hg')
     simpa [g'] using hcomm
   exact ggGraphInv_three_conclusions_of_transvection (Qm n hn4 b c) hnd h8

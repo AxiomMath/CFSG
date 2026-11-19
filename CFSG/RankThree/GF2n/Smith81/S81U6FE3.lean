@@ -12,7 +12,7 @@ open CFSG.RankThree.GF2n.Smith81.A5Cube Matrix CFSG.LieType.Universal.Unitary
 
 variable {K : Type*} [Field K] {σ : K ≃+* K}
 
-theorem conj_tvMat {n : ℕ} (hσ : ∀ c, σ (σ c) = c) (g : SUid σ n) (a : Fin n → K) (c : K) :
+theorem conj_tvMat {n : ℕ} (_hσ : ∀ c, σ (σ c) = c) (g : SUid σ n) (a : Fin n → K) (c : K) :
     ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * tvMat σ a c *
         (((g : GL (Fin n) K)⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
       tvMat σ ((g : GL (Fin n) K).val.mulVec a) c := by

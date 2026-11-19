@@ -80,7 +80,7 @@ theorem hasCleanFullClassBMember_of_lieModel_f4
       ⟨Nat.prime_three, le_rfl, rfl⟩ Q h
   obtain ⟨Ψ, hker, hrange, -⟩ := Q3V.exists_psi_C3_F4_three Q3V.v6Collapse_proved
   have hX := blockData_statedSp hGA hK3 (by norm_num : 2 ≤ 3)
-  haveI : Group.IsPerfect ↥(StatedSp 3 (GaloisField 3 1)) := hX.quasisimple.1
+  have : Group.IsPerfect ↥(StatedSp 3 (GaloisField 3 1)) := hX.quasisimple.1
   obtain ⟨d, hdmat, hd1, hdmem, hdcomm⟩ := exists_dtheta_f4 (F := GaloisField 3 1) hF
   have hN : Ψ.range.map (adjointGroup .F4 (GaloisField 3 1)).subtype =
       Subgroup.closure (leviGens .F4 (GaloisField 3 1) JF4) := by

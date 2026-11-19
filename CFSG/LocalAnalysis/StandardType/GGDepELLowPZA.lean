@@ -39,7 +39,7 @@ private lemma l05nPA_sub_inv {S S' : Set (Module.End (ZMod 3) (GGDepAE 3 6))}
     (hS : ∀ s ∈ S, s * s = 1) (hsub : S' ⊆ Submonoid.closure S) :
     ∀ g ∈ Submonoid.closure S', ∃ g' ∈ Submonoid.closure S', g * g' = 1 ∧ g' * g = 1 := by
   let M := Module.End (ZMod 3) (GGDepAE 3 6)
-  haveI : Finite M :=
+  have : Finite M :=
     Finite.of_injective (fun f : M => (f : GGDepAE 3 6 → GGDepAE 3 6)) LinearMap.coe_injective
   have hinv : ∀ g ∈ Submonoid.closure S, ∃ g' ∈ Submonoid.closure S, g * g' = 1 ∧ g' * g = 1 :=
     l05nDA_inv_mem (T := S) (fun t ht =>
@@ -71,7 +71,7 @@ theorem ggDepEL_card_dvd {S S' : Set (Module.End (ZMod 3) (GGDepAE 3 6))}
     (hS : ∀ s ∈ S, s * s = 1) (hsub : S' ⊆ Submonoid.closure S) :
     Nat.card ↥(Submonoid.closure S') ∣ Nat.card ↥(Submonoid.closure S) := by
   let M := Module.End (ZMod 3) (GGDepAE 3 6)
-  haveI : Finite M :=
+  have : Finite M :=
     Finite.of_injective (fun f : M => (f : GGDepAE 3 6 → GGDepAE 3 6)) LinearMap.coe_injective
   have hinv : ∀ g ∈ Submonoid.closure S, ∃ g' ∈ Submonoid.closure S, g * g' = 1 ∧ g' * g = 1 :=
     l05nDA_inv_mem (T := S) (fun t ht =>
@@ -134,7 +134,7 @@ theorem ggDepEL_center_of_card {S S' : Set (Module.End (ZMod 3) (GGDepAE 3 6))}
     (a : Module.End (ZMod 3) (GGDepAE 3 6)) (hcomm : ∀ t ∈ S', a * t = t * a) :
     ∀ g ∈ Submonoid.closure S, a * g = g * a := by
   let M := Module.End (ZMod 3) (GGDepAE 3 6)
-  haveI : Finite M :=
+  have : Finite M :=
     Finite.of_injective (fun f : M => (f : GGDepAE 3 6 → GGDepAE 3 6)) LinearMap.coe_injective
   have hle : Submonoid.closure S' ≤ Submonoid.closure S := Submonoid.closure_le.mpr hsub
   have hset : (Submonoid.closure S' : Set M) = (Submonoid.closure S : Set M) :=

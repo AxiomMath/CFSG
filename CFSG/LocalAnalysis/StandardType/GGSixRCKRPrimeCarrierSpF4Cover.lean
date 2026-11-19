@@ -182,6 +182,7 @@ private theorem sp_norm_conj {G : Type*} [Group G] {F : G →* G} {s : ℕ} [NeZ
           rw [hm_comm.eq.symm]
           group
 
+omit [Algebra (ZMod 2) L] [Algebra.IsAlgebraic (ZMod 2) L] in
 theorem sp_exists_hom_act_of_frame
     {p₀ : ℕ} (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → Lˣ}
     (hT : rootDiagUnit Tag.F4 a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
@@ -211,7 +212,7 @@ theorem sp_exists_hom_act_of_frame
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hs0' : 0 < s := hs0
   obtain ⟨σQ, z, hσc, hzZ, hnorm, hz⟩ := exists_untwistT_Z S hT i hs0' hinner
   have hσeq : ∀ c, σQ c = c ^ (2 ^ (h * s)) := fun c => by rw [hσc, hq, ← pow_mul]
@@ -249,7 +250,7 @@ theorem sp_exists_hom_act_of_frame
           exact le_rfl
         refine ⟨1, fun X => ?_⟩
         have hcomm := Subgroup.mem_centralizer_iff.1 (h1 (h2 ⟨X, rfl⟩)) g hg
-        simp only [map_one, mul_one, inv_one]
+        simp only [mul_one, inv_one]
         rw [hcomm]
         group
   have hzA : ∀ y ∈ P.A, z * y * z⁻¹ ∈ P.A := by
@@ -380,11 +381,11 @@ theorem sp_exists_hom_act_of_frame
       omega
     · exact hh
   have hkspos : 0 < h * s := Nat.mul_pos hpos hs0'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := 2) (n := h * s)
     hkspos σQ hσeq
-  haveI : Fintype ↥K := Fintype.ofFinite ↥K
-  haveI : CharP ↥K 2 := Subfield.charP K 2
+  have : Fintype ↥K := Fintype.ofFinite ↥K
+  have : CharP ↥K 2 := Subfield.charP K 2
   have hcenterK : Subgroup.center ↥(StatedSp n ↥K) = ⊥ :=
     CFSG.SeitzReduction.SymplecticPilot.center_statedSp_eq_bot (K := ↥K) n
   have hperfHyp : (∃ t : Finset ↥K, t.card = 4) ∨
@@ -456,6 +457,7 @@ theorem sp_exists_hom_act_of_frame
     · intro X g hg
       simpa [ι, K] using hact X g hg
 
+omit [Algebra (ZMod 2) L] [Algebra.IsAlgebraic (ZMod 2) L] in
 theorem sp_exists_cover_torusConj_of_frame
     {p₀ : ℕ} (S : LangSetup Tag.F4 L p₀) {a : Fin Tag.F4.rank → Lˣ}
     (hT : rootDiagUnit Tag.F4 a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
@@ -485,7 +487,7 @@ theorem sp_exists_cover_torusConj_of_frame
     refine Nat.pos_of_ne_zero fun h0 => ?_
     rw [hq, h0, pow_zero] at hqr
     exact (Nat.one_lt_pow he.ne' hr.one_lt).ne hqr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hfin, hcard⟩ := finite_card_fixSubfield (L := L) (r := 2)
     (Nat.mul_pos hh hs0) σQ hσQ
   exact ⟨σQ, hfin, by rw [hcard, hq, ← pow_mul], f, hfrange, hfinj, fun b hb =>

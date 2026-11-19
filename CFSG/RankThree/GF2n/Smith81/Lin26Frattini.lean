@@ -49,7 +49,7 @@ private theorem frattini_aux {M A P : Subgroup G} {p : ℕ} [hp : Fact p.Prime]
   have key : ∀ z : ↥A, (a⁻¹ * z * a : ↥A) ∈ P.subgroupOf A ↔ z ∈ P2.subgroupOf A := by
     intro z
     rw [← ha', Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_apply, hS1]
+    simp [hS1]
   rw [Subgroup.mem_set_normalizer_iff]
   intro y
   have hconj : (↑a)⁻¹ * m * y * ((↑a)⁻¹ * m)⁻¹ = (a : G)⁻¹ * (m * y * m⁻¹) * a := by group
@@ -79,7 +79,7 @@ theorem exists_compl_mem_of_frattini {M Q A : Subgroup G} {p : ℕ} [Fact p.Prim
     ∃ K : Subgroup G, K ≤ M ∧ K ⊓ Q = ⊥ ∧ K ⊔ Q = M ∧ x ∈ K := by
   classical
   have hQA' : A ≤ Subgroup.normalizer (Q : Set G) := hAM.trans hQn
-  haveI hN : (Q.subgroupOf A).Normal :=
+  have hN : (Q.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQA).mpr hQA'
   set C : Subgroup G := A ⊓ Subgroup.centralizer {x} with hC
   have hCA : C ≤ A := inf_le_left
@@ -136,9 +136,9 @@ theorem exists_compl_mem_of_frattini {M Q A : Subgroup G} {p : ℕ} [Fact p.Prim
   let P : Subgroup G := (S : Subgroup ↥C).map C.subtype
   have hPC : P ≤ C := Subgroup.map_subtype_le _
   have hPA : P ≤ A := hPC.trans hCA
-  have hPp : IsPGroup p P := S.isPGroup'.map C.subtype
+  have hPp : IsPGroup p P := S.isPGroup.map C.subtype
   have hcP : Nat.card P = Nat.card S := Subgroup.card_map_of_injective C.subtype_injective
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hnk : n ≤ k := by
     have h1 : p ^ n ∣ p ^ k * (S : Subgroup ↥C).index := by
       rw [← hk, Subgroup.card_mul_index]; exact hpn_dvd

@@ -45,7 +45,7 @@ private lemma qtwoDB11_dSign_dPerm_swap (m : ℕ) {a b i j : Fin m}
       rcases hk with h | h
       · exact Or.inl (by rw [h, hfixa])
       · exact Or.inr (by rw [h, hfixb])
-    rw [if_pos hk, if_pos hk']
+    rw [ite_eq_left hk, ite_eq_left hk']
   · have hk' : ¬ (Equiv.swap i j k = a ∨ Equiv.swap i j k = b) := by
       rintro (h | h)
       · exact hk (Or.inl (by
@@ -54,7 +54,7 @@ private lemma qtwoDB11_dSign_dPerm_swap (m : ℕ) {a b i j : Fin m}
       · exact hk (Or.inr (by
           have := congrArg (Equiv.swap i j) h
           rwa [Equiv.swap_apply_self, hfixb] at this))
-    rw [if_neg hk, if_neg hk']
+    rw [ite_eq_right hk, ite_eq_right hk']
 
 private lemma qtwoDB11_dSign_dPerm_swap_apply (m : ℕ) {a b i j : Fin m}
     (hai : a ≠ i) (haj : a ≠ j) (hbi : b ≠ i) (hbj : b ≠ j) (v : DVec m) :
@@ -148,9 +148,9 @@ private lemma qtwoDB11_coordBlockSU_le_iSup_three {K : Type} [Field K] [Finite K
 private lemma qtwoDB11_coordBlockSU_eq_iSup_three {K : Type} [Field K] [Finite K] [CharP K 2]
     {N : ℕ} (hK : Nat.card K = 4) {T : Finset (Fin N)} (hT : 3 ≤ T.card) :
     coordBlockSU K 2 1 T =
-      ⨆ (A : Finset (Fin N)) (_ : A ⊆ T) (_ : A.card = 3), coordBlockSU K 2 1 A :=
+      ⨆ (_A : Finset (Fin N)) (_ : _A ⊆ T) (_ : _A.card = 3), coordBlockSU K 2 1 _A :=
   le_antisymm (qtwoDB11_coordBlockSU_le_iSup_three hK hT)
-    (iSup_le fun A => iSup_le fun hA => iSup_le fun _ => qTwoS34_coordBlockSU_mono hA)
+    (iSup_le fun _A => iSup_le fun hA => iSup_le fun _ => qTwoS34_coordBlockSU_mono hA)
 
 theorem ggQTwoDUnit_shared_three (hEA : GGQTwoEdgeAmbientInput) {p : ℕ} {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {ι : Type} {M : CoxeterMatrix ι}
@@ -159,9 +159,9 @@ theorem ggQTwoDUnit_shared_three (hEA : GGQTwoEdgeAmbientInput) {p : ℕ} {B Bs 
     {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {ψ : Su F0 2 1 m →* G}
     {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} (hbase : QTwoUnitBase p B Bs x L ψ ε)
     {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ} (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω)
-    {a b : Fin m} (hab : a ≠ b) {α : MulAut ↥Bs}
+    {a b : Fin m} (_hab : a ≠ b) {α : MulAut ↥Bs}
     (hα : ∀ s : ↥Bs, βL (Additive.ofMul (α s)) = dSign m a b (βL (Additive.ofMul s))) {g : G}
-    (hgN : g ∈ Subgroup.normalizer (Bs : Set G))
+    (_hgN : g ∈ Subgroup.normalizer (Bs : Set G))
     (hg : ∀ s : ↥Bs, ((α s : ↥Bs) : G) = g * (s : G) * g⁻¹) {T : Finset (Fin m)}
     (hT : T.card = 3) (haT : a ∉ T) (hbT : b ∉ T) :
     ((coordBlockSU F0 2 1 T).map ψ).map (MulAut.conj g).toMonoidHom =

@@ -46,7 +46,7 @@ theorem conjClosure_le {D : Data G} {L L' : Subgroup G} (c : Ctx1768 D L L') :
     conjClosure D.M L ≤ D.M :=
   TwelveTwentyThree.conjClosure_le c.hL.1.le
 
-theorem le_normalizer {D : Data G} {L L' : Subgroup G} (c : Ctx1768 D L L') :
+theorem le_normalizer {D : Data G} {L L' : Subgroup G} (_c : Ctx1768 D L L') :
     D.M ≤ normalizer (conjClosure D.M L : Set G) :=
   TwelveTwentyThree.le_normalizer_conjClosure D.M L
 
@@ -61,7 +61,7 @@ theorem perfect {D : Data G} {L L' : Subgroup G} (c : Ctx1768 D L L') :
 theorem isA5xA5_bar2 {D : Data G} {L L' : Subgroup G} (c : Ctx1768 D L L') :
     IsA5xA5 (Bar2 (conjClosure D.M L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X := conjClosure D.M L
   have hXsup : X = L ⊔ L' := c.hX
   have hLX : L ≤ X := le_sup_left.trans hXsup.symm.le
@@ -85,8 +85,8 @@ theorem isA5xA5_bar2 {D : Data G} {L L' : Subgroup G} (c : Ctx1768 D L L') :
   let B : Subgroup (Bar2 X) := barImage X L'
   have hAn : A.Normal := s13_barImage_normal hLnorm
   have hBn : B.Normal := s13_barImage_normal hL'norm
-  haveI : A.Normal := hAn
-  haveI : B.Normal := hBn
+  have : A.Normal := hAn
+  have : B.Normal := hBn
   have hjoin : A ⊔ B = ⊤ := by
     have h1 : A ⊔ B = barImage X (L ⊔ L') := (s13_barImage_sup hLX hL'X).symm
     rw [h1, ← hXsup, s13_barImage_self]

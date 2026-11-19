@@ -136,7 +136,7 @@ private theorem ggInvolCentTyped_range_of_top {U X : Type} [Group U] [Group X]
 private theorem ggInvolCentTyped_top_siegDiag {n : ℕ} {F : Type} [Field F] [Finite F]
     [CharP F 2] (i : Fin n) :
     GGInvolCentTyped (⊤ : Subgroup (StatedSp n F)) (siegDiag F i 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by have := i.isLt; omega⟩
   have hL : IsChevTwoLayered ↥(complSp F i) :=
     (isChevTwoLayered_statedSp m F).of_mulEquiv (complSpEquiv (K := F) i).symm
@@ -147,7 +147,7 @@ private theorem ggInvolCentTyped_top_siegDiag {n : ℕ} {F : Type} [Field F] [Fi
 private theorem ggInvolCentTyped_top_short_two {F : Type} [Field F] [Finite F] [CharP F 2]
     {i j : Fin 2} (hij : i ≠ j) :
     GGInvolCentTyped (⊤ : Subgroup (StatedSp 2 F)) (twoCentralElt 2 i j (0 : F) 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hC : Subgroup.centralizer ({twoCentralElt 2 i j (0 : F) 1} :
       Set (StatedSp 2 F)) = wRadical F i j ⊔ (shortBlock F hij).range := by
     refine le_antisymm ?_ (sup_le (wRadical_le_centralizer_twoCentralElt 0 1) ?_)
@@ -172,7 +172,7 @@ private theorem ggInvolCentTyped_top_short {F : Type} [Field F] [Finite F] [Char
     (n : ℕ) :
     GGInvolCentTyped (⊤ : Subgroup (StatedSp (n + 3) F))
       (twoCentralElt (n + 3) 1 2 (0 : F) 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h12 := one_ne_two_fin (n := n)
   set S : Subgroup (StatedSp (n + 3) F) := (shortBlock F h12).range with hS
   set T : Subgroup (StatedSp (n + 3) F) := spCompl12 F n with hT

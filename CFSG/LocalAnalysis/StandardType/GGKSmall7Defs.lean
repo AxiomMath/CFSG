@@ -23,7 +23,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
     (∀ i w, ggLin (p := 3) ι (φE i) w = w - aE i w • hE i) ∧
     (∀ i, GGIsReflection 3 (φD i)) ∧ (∀ i, GGIsReflection 3 (φE i)) ∧
     (∀ i j, aD i (hD j) = (CartanMatrix.D 6 i j : ZMod 3)) ∧
-    (∀ i j, aE i (hE j) = (CartanMatrix.E₆ i j : ZMod 3)) ∧
+    (∀ i j, aE i (hE j) = ((CartanMatrix.E 6) i j : ZMod 3)) ∧
     ggAutomizer L Bs = Subgroup.closure (Set.range φD) ∧
     ggAutomizer K Bs = Subgroup.closure (Set.range φE) ∧
     Nat.card ↥(ggAutomizer L Bs) = 23040

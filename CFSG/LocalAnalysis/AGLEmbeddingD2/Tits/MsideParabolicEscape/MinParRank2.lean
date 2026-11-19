@@ -80,15 +80,18 @@ structure TwoCell (U H : Subgroup S) (n : S) (P : Subgroup S) : Prop where
 
 variable {U H : Subgroup S} {n : S} {P : Subgroup S}
 
+omit [Finite S] in
 theorem TwoCell.mem_conj_normalizer (h : TwoCell U H n P) {h₁ : S} (hh : h₁ ∈ H) :
     n⁻¹ * h₁ * n ∈ H := by
   have := (Subgroup.mem_normalizer_iff.1 h.hn (n⁻¹ * h₁ * n)).2 (by simpa [mul_assoc] using hh)
   exact this
 
+omit [Finite S] in
 theorem TwoCell.conj_mem (h : TwoCell U H n P) {h₁ : S} (hh : h₁ ∈ H) {u : S} (hu : u ∈ U) :
     h₁ * u * h₁⁻¹ ∈ U :=
   (Subgroup.mem_normalizer_iff.1 (h.hHU hh) u).1 hu
 
+omit [Finite S] in
 theorem TwoCell.mem_mul (h : TwoCell U H n P) {b : S} (hb : b ∈ H ⊔ U) :
     ∃ u ∈ U, ∃ h₁ ∈ H, b = u * h₁ := by
   have : b ∈ ((U ⊔ H : Subgroup S) : Set S) := by rwa [sup_comm]
@@ -96,6 +99,7 @@ theorem TwoCell.mem_mul (h : TwoCell U H n P) {b : S} (hb : b ∈ H ⊔ U) :
   obtain ⟨u, hu, h₁, hh, rfl⟩ := this
   exact ⟨u, hu, h₁, hh, rfl⟩
 
+omit [Finite S] in
 theorem TwoCell.mem_mul' (h : TwoCell U H n P) {b : S} (hb : b ∈ H ⊔ U) :
     ∃ h₁ ∈ H, ∃ u ∈ U, b = h₁ * u := by
   have : b ∈ ((H ⊔ U : Subgroup S) : Set S) := hb
@@ -103,6 +107,7 @@ theorem TwoCell.mem_mul' (h : TwoCell U H n P) {b : S} (hb : b ∈ H ⊔ U) :
   obtain ⟨h₁, hh, u, hu, rfl⟩ := this
   exact ⟨h₁, hh, u, hu, rfl⟩
 
+omit [Finite S] in
 theorem TwoCell.conj_conj_mem (h : TwoCell U H n P) {h₁ : S} (hh : h₁ ∈ H) {u : S} (hu : u ∈ U) :
     h₁ * (n * u * n⁻¹) * h₁⁻¹ ∈ U.map (MulAut.conj n).toMonoidHom := by
   have hh' := h.mem_conj_normalizer hh
@@ -110,6 +115,7 @@ theorem TwoCell.conj_conj_mem (h : TwoCell U H n P) {h₁ : S} (hh : h₁ ∈ H)
   show n * ((n⁻¹ * h₁ * n) * u * (n⁻¹ * h₁ * n)⁻¹) * n⁻¹ = h₁ * (n * u * n⁻¹) * h₁⁻¹
   group
 
+omit [Finite S] in
 theorem TwoCell.conj_le (h : TwoCell U H n P) {X : Subgroup S} (hUX : U ≤ X) (hXP : X ≤ P)
     (hXB : ¬ X ≤ H ⊔ U) : U.map (MulAut.conj n).toMonoidHom ≤ X := by
   obtain ⟨g, hgX, hgB⟩ := Set.not_subset.1 hXB
@@ -166,7 +172,7 @@ theorem TwoCell.ov (h : TwoCell U H n P) (hU : IsSylowTwoOf U ⊤) {X : Subgroup
     (hXP : X ≤ P) (hXB : ¬ X ≤ H ⊔ U) : pElementSubgroup 2 P ≤ X :=
   (h.pElement_le hU).trans (sup_le hUX (h.conj_le hUX hXP hXB))
 
-theorem TwoCell.not_conj_le (h : TwoCell U H n P) (hU : IsSylowTwoOf U ⊤)
+theorem TwoCell.not_conj_le (_h : TwoCell U H n P) (hU : IsSylowTwoOf U ⊤)
     (hNB : Subgroup.normalizer (U : Set S) = H ⊔ U) (hnB : n ∉ H ⊔ U) :
     ¬ U.map (MulAut.conj n).toMonoidHom ≤ H ⊔ U := by
   intro hle
@@ -215,6 +221,7 @@ theorem TwoCell.gen (h : TwoCell U H n P) (hU : IsSylowTwoOf U ⊤)
     exact hU''.trans le_sup_right
   · exact e.ge
 
+omit [Finite S] in
 theorem hover_of_minimal {B U P₁ P₂ : Subgroup S} (hUB : U ≤ B)
     (lt₁ : B < P₁) (lt₂ : B < P₂)
     (atom₁ : ∀ Q : Subgroup S, B ≤ Q → Q ≤ P₁ → Q = B ∨ Q = P₁)

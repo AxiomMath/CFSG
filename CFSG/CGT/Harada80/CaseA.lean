@@ -227,7 +227,7 @@ theorem isTI_vOmega (hA : CaseA S) : CFSG.CGT.Timmesfeld75.IsTI (vOmega M) := by
   by_cases hbot : vOmega M ⊓ CFSG.CGT.Timmesfeld75.conjSubgroup g (vOmega M) = ⊥
   · exact Or.inl hbot
   · right
-    haveI : Nontrivial ↥(vOmega M ⊓ CFSG.CGT.Timmesfeld75.conjSubgroup g (vOmega M)) :=
+    have : Nontrivial ↥(vOmega M ⊓ CFSG.CGT.Timmesfeld75.conjSubgroup g (vOmega M)) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hbot
     obtain ⟨x, hxmem, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial
       (H := vOmega M ⊓ CFSG.CGT.Timmesfeld75.conjSubgroup g (vOmega M))

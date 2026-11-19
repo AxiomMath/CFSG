@@ -96,7 +96,7 @@ theorem l33_mem_centralizer_zeta (α : MulAut L33P)
     (A * D * A⁻¹ * D⁻¹) (1 : ZMod 3 ≃+* ZMod 3) (by rw [map_one, mul_one]; exact hconj1)
   have hdetB : GeneralLinearGroup.det (A * D * A⁻¹ * D⁻¹) = 1 := by
     simp only [map_mul, map_inv]
-    simp [mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_comm, mul_left_comm]
   have hc3 : c ^ 3 = 1 := by
     have h := congrArg (GeneralLinearGroup.det) hc
     simpa [hdetB] using h
@@ -162,10 +162,9 @@ theorem l33_mem_centralizer_zeta (α : MulAut L33P)
     change M i j = (GeneralLinearGroup.scalar (Fin 3) d * l33Blk N :
       Matrix (Fin 3) (Fin 3) (ZMod 3)) i j
     fin_cases i <;> fin_cases j <;>
-      simp [M, N, N₀, d, l33Blk, Units.coe_map, hNcoe, bM,
-        Matrix.GeneralLinearGroup.coe_scalar, Matrix.smul_apply, Matrix.mul_apply,
-        Matrix.scalar_apply, Matrix.diagonal_apply, Fin.sum_univ_three, Fin.sum_univ_two,
-        hM02, hM12, hM20, hM21, hdval, hdmul, hdinvmul, mul_assoc] <;>
+      simp [M, N, N₀, d, l33Blk, Units.coe_map, bM,
+        Matrix.GeneralLinearGroup.coe_scalar, Matrix.mul_apply,
+        Matrix.scalar_apply, Matrix.diagonal_apply, hM02, hM12, hM20, hM21] <;>
       field_simp [hA22A]
   refine ⟨N, ε, hε, ?_⟩
   rw [hα, hAeq, map_mul, conjAut_scalar, one_mul]

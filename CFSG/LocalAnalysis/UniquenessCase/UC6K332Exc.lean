@@ -82,7 +82,7 @@ theorem sylowCenterLeCommutator_J2 :
     intro hcomm
     obtain ⟨a, b, -, -, -, hab, -, -, hP, -⟩ := CFSG.SectionRank.J2_sylow3_cubic_witness
     obtain ⟨T₀, hT₀⟩ := (IsPGroup.of_card hP).exists_le_sylow
-    haveI : Finite (Sylow 3 CFSG.Blueprint.NativeSporadic.J2) := Sylow.finite_of_finiteIndex T
+    have : Finite (Sylow 3 CFSG.Blueprint.NativeSporadic.J2) := Sylow.finite_of_finiteIndex T
     have ha : a ∈ (T₀ : Subgroup CFSG.Blueprint.NativeSporadic.J2) :=
       hT₀ (Subgroup.subset_closure (Set.mem_insert _ _))
     have hb : b ∈ (T₀ : Subgroup CFSG.Blueprint.NativeSporadic.J2) :=
@@ -95,7 +95,7 @@ theorem sylowCenterLeCommutator_J2 :
     exact hab (commutatorElement_eq_one_iff_mul_comm.mpr h2)
   have hZ : Nat.card (Subgroup.center ↥(T : Subgroup CFSG.Blueprint.NativeSporadic.J2)) = 3 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.card_center_of_nonabelian_card_p_cube hcard hnc
-  exact center_le_commutator_of_card_center_eq_prime T.isPGroup' hnc hZ hxc
+  exact center_le_commutator_of_card_center_eq_prime T.isPGroup hnc hZ hxc
 
 theorem sylowCenterLeCommutator_of_mulEquiv_J2
     {X : Type} [Group X] [Finite X]
@@ -109,7 +109,7 @@ private theorem mem_conjugate_iff {G : Type} [Group G] {H : Subgroup G} {g x : G
   · rintro ⟨h, hh, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hh
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 private theorem le_normalizer_of_isWeaklyClosedIn {G : Type} [Group G] {S Z : Subgroup G}
     (hZS : Z ≤ S) (hwc : IsWeaklyClosedIn Z S) : S ≤ Subgroup.normalizer (Z : Set G) := by
@@ -128,8 +128,8 @@ private theorem le_normalizer_of_isWeaklyClosedIn {G : Type} [Group G] {S Z : Su
 private theorem le_centralizer_of_le_normalizer {G : Type} [Group G] [Finite G] {S Z : Subgroup G}
     (hSp : IsPGroup 3 S) (hZS : Z ≤ S) (hN : S ≤ Subgroup.normalizer (Z : Set G))
     (hcard : Nat.card Z = 3) : Z ≤ Subgroup.centralizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent S := hSp.isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent S := hSp.isNilpotent
   have hZcard : Nat.card (Z.subgroupOf S) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZS).toEquiv, hcard]
   have hnormal : (Z.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
@@ -167,7 +167,7 @@ theorem false_of_sylowCenterLeCommutator {G : Type} [Group G] [Finite G] {S Z H 
     [H.Normal] (hS : IsSylowOf 3 S ⊤) (hZS : Z ≤ S) (hZH : Z ≤ H) (hZ : Nat.card Z = 3)
     (hwc : IsWeaklyClosedIn Z S) (hdisj : Disjoint (Z.subgroupOf S) (commutator ↥S))
     (h : SylowCenterLeCommutator ↥H) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSH : IsSylowOf 3 (S ⊓ H) H :=
     hS.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top (H := H)).ge
   obtain ⟨Q, hQ⟩ := hSH.exists_sylow_eq_subgroupOf

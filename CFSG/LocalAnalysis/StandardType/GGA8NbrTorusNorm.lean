@@ -105,7 +105,7 @@ private theorem a8tn_vecMul_a8MonK3 (π : Equiv.Perm (Fin 3)) (k : Fin 3 → ZMo
         have h : π b ≠ i := fun hh => hb (Equiv.injective π (by rw [hh, Equiv.apply_symm_apply]))
         simp [h])
       (fun h => absurd (Finset.mem_univ _) h)]
-  simp [Equiv.symm_apply_apply]
+  simp
 
 private theorem a8tn_mon_conj (π : Equiv.Perm (Fin 3)) (k : Fin 3 → ZMod 3)
     (f : Fin 3 → ZMod 7) :
@@ -130,11 +130,11 @@ private def a8tn_MH (j : Fin 3) : Subgroup (Multiplicative (Fin 3 → ZMod 7)) w
   one_mem' := by simp [toAdd_one]
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [toAdd_mul, Pi.add_apply, hx, hy, add_zero]
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [toAdd_inv, Pi.neg_apply, hx, neg_zero]
 
 private theorem a8tn_mem_MH (j : Fin 3) (x : Multiplicative (Fin 3 → ZMod 7)) :

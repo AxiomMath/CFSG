@@ -24,7 +24,7 @@ theorem neighborSet_commonNeighbor_subset_spanUnion_of_trans
     (hxV : x ∈ Γ.neighborSet (commonNeighbor hP h2x))
     (hy1L : Γ.Adj L y1) (hy2M : Γ.Adj M y2) (h2y : Γ.dist y1 y2 = 2)
     (hyV : y ∈ Γ.neighborSet (commonNeighbor hP h2y))
-    (hxL : ¬ Γ.Adj L x) (hxM : ¬ Γ.Adj M x)
+    (_hxL : ¬ Γ.Adj L x) (_hxM : ¬ Γ.Adj M x)
     (hyL : ¬ Γ.Adj L y) (hyM : ¬ Γ.Adj M y)
     (hxy : Γ.dist x y = 2) (h1 : 1 < p) (hx1y1 : x1 ≠ y1) :
     Γ.neighborSet (commonNeighbor hP hxy) ⊆ spanUnion hP L M := by
@@ -303,6 +303,7 @@ theorem neighborSet_commonNeighbor_subset_spanUnion_of_mem_right
   rw [spanUnion_comm hP L M]
   exact h
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem isHyp_or_isTrans_of_mem_ne
     (hP : IsGeneralizedPolygon Γ 4) {L M a : V} (ha : a ∈ spanUnion hP L M)
     (haL : ¬ Γ.Adj L a) (haM : ¬ Γ.Adj M a) :
@@ -324,7 +325,7 @@ private theorem isHyp_or_isTrans_of_mem_ne
       refine ⟨x, y, h2, hxL, hyM, ?_⟩
       rwa [spanOrLine_of_dist_eq_two hP h2] at haS
     · have hnil : spanOrLine hP x y = ∅ := by
-        rw [spanOrLine, if_neg h4, dif_neg h2]
+        rw [spanOrLine, ite_eq_right h4, dite_eq_right h2]
       rw [hnil] at haS
       exact haS.elim
 
@@ -469,13 +470,13 @@ private theorem exists_opposite_lines
         have h1 : c v = 1 := (hdc0 v).mp h
         rw [hc0] at h1
         exact absurd h1 (by decide)
-      rw [hdeg v, if_pos hc0, if_neg hdc0']
+      rw [hdeg v, ite_eq_left hc0, ite_eq_right hdc0']
     · have hc1 : c v = 1 := by
         rcases hfin (c v) with h | h
         · exact absurd h hc0
         · exact h
       have hdc0' : dc v = 0 := (hdc0 v).mpr hc1
-      rw [hdeg v, if_neg hc0, if_pos hdc0']
+      rw [hdeg v, ite_eq_right hc0, ite_eq_left hdc0']
   have hs : 0 < s := by
     have := two_le_s hP hT c hdeg
     omega
@@ -524,7 +525,7 @@ theorem isFullSubquadrangle_spanUnion
     (hLC : ∀ V : V, c V = 1 →
       2 ≤ (Γ.neighborSet V ∩ spanUnion hP L M).ncard →
       Γ.neighborSet V ⊆ spanUnion hP L M)
-    (h1 : 1 < p) (h2 : p < t) :
+    (_h1 : 1 < p) (_h2 : p < t) :
     IsFullSubquadrangle c (spanUnion hP L M) p := by
   classical
   let P : Set V := spanUnion hP L M
@@ -615,14 +616,14 @@ theorem trichotomy
   have hdeg' : ∀ v : S, G.degree v = if c' v = 0 then p + 1 else s + 1 := by
     intro v
     by_cases hv : c' v = 0
-    · rw [if_pos hv]
+    · rw [ite_eq_left hv]
       have hvP : v.1 ∈ P' := by
         rcases mem_subquadrangleSet.mp v.2 with h | h
         · exact h
         · have hv0 : c v.1 = 0 := hv
           exact absurd (h.1.symm.trans hv0) (by decide)
       simpa using degree_subquadrangleGraph_of_mem_point c hF hvP
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       have hv1 : c v.1 = 1 := by
         have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
         rcases hfin (c v.1) with h | h

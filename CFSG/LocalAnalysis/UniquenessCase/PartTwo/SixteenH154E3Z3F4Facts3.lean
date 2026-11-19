@@ -13,9 +13,9 @@ open CFSG.LinearAlgebra CFSG.ComponentClassification.CatalogueBOrthogonalSemilin
 theorem s16h_e3_z3_no_order_nine {g : Matrix.GeneralLinearGroup (Fin 3) OmegaField}
     (hdet : (g : Matrix (Fin 3) (Fin 3) OmegaField).det = 1) : orderOf g ≠ 9 := by
   intro hord
-  haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
-  haveI : Finite OmegaField := Module.finite_of_finite (ZMod 2)
-  haveI : Fintype OmegaField := Fintype.ofFinite OmegaField
+  have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := Module.finite_of_finite (ZMod 2)
+  have : Fintype OmegaField := Fintype.ofFinite OmegaField
   have hF : Fintype.card OmegaField = 4 := by
     rw [← Nat.card_eq_fintype_card, s16h_e3_z3_card_omegaField_eq_four]
   have hg9 : g ^ 9 = 1 := by rw [← hord]; exact pow_orderOf_eq_one g

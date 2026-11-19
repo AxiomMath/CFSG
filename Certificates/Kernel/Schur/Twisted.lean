@@ -175,7 +175,7 @@ theorem lift_zf (w : List (Fin 6 × Bool)) :
   rw [lift_mk_eq_sword, substK_eq, sword_subst]
   rfl
 
-theorem bound_core (hne : ∃ i, e i = true)
+theorem bound_core (_hne : ∃ i, e i = true)
     (hc : ∀ r ∈ CFSG.KC.SchurC.crels (e 0) (e 1) (e 2) (e 3) (e 4), sword (yy e) r = 1)
     (hne' : e 0 = true ∨ e 1 = true ∨ e 2 = true ∨ e 3 = true ∨ e 4 = true) :
     Finite (PG (2 + 1) (epsRels U T5 e)) ∧ Nat.card (PG (2 + 1) (epsRels U T5 e)) ≤ 244823040 := by

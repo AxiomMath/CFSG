@@ -233,7 +233,7 @@ theorem pairing (D : TIPairData M V P A E Y Aj) [Finite G] :
   have hBTI : ∀ m ∈ M, conjSubgroup m (conjSubgroup h (Aj y)) ⊓ conjSubgroup h (Aj y) ≠ ⊥ →
       conjSubgroup m (conjSubgroup h (Aj y)) = conjSubgroup h (Aj y) :=
     fun m hm hne' => D.conj_Aj_TI hh hy hyV hm hne'
-  obtain ⟨b₁, hb₁B, hb₁L⟩ := SetLike.not_le_iff_exists.1 hBL
+  obtain ⟨b₁, hb₁B, hb₁L⟩ := IsConcreteLE.not_le_iff_exists.1 hBL
   have hb₁P := hBP hb₁B
   obtain ⟨y', hy', α₁, hα₁, hne1⟩ : ∃ y' ∈ Y, ∃ α₁ ∈ Aj y', b₁ * α₁ ≠ α₁ * b₁ := by
     by_contra hc
@@ -329,7 +329,7 @@ theorem tiEnd (D : TIPairData M V P A E Y Aj) [Finite G]
           rw [commutatorElement_eq_one_iff_mul_comm.2 (hcent b hb).symm, one_mul]
     rw [h1]
     exact D.Ajcomm y' hy' b (hBP hb) α hα
-  obtain ⟨b₁, hb₁B, hb₁L⟩ := SetLike.not_le_iff_exists.1 hBL
+  obtain ⟨b₁, hb₁B, hb₁L⟩ := IsConcreteLE.not_le_iff_exists.1 hBL
   exact ⟨b₁, hBP hb₁B, hb₁L, fun x hx => key x hx b₁ hb₁B⟩
 
 end TIPairData
@@ -368,7 +368,7 @@ theorem card_le_of_summand (D : TIPairData M V P A E Y Aj) [Finite G] {A₁ S₁
   obtain ⟨B, ⟨h, hh, y, hy, hB⟩, hBP, hBL, hBV, hBTI, -⟩ := D.pairing
   have hBcard : Nat.card B = Nat.card A := by
     rw [hB, tiPair_card_conj, D.Ajcard y hy]
-  obtain ⟨b₁, hb₁B, hb₁L⟩ := SetLike.not_le_iff_exists.1 hBL
+  obtain ⟨b₁, hb₁B, hb₁L⟩ := IsConcreteLE.not_le_iff_exists.1 hBL
   obtain ⟨f, hf, hne⟩ : ∃ f ∈ S₁, b₁ * f ≠ f * b₁ := by
     by_contra hc
     push Not at hc

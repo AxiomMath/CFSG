@@ -127,7 +127,7 @@ theorem step1422SIQR_of
     exact Subgroup.le_normalizer_map (Subgroup.normalizer (S : Set G)).subtype ⟨_, h1, rfl⟩
   have hcfg : Cfg A c L R S (J₀.map (Subgroup.normalizer (S : Set G)).subtype) :=
     ⟨hpt, hRmem, hSmem, ⟨J₀, hJ₀, rfl⟩, hKJ, hAJ⟩
-  haveI := hcfg.ker_normal
+  have := hcfg.ker_normal
   rcases hcfg.type431 h431 hCL with hJA6 | hJ3' | hJ6 | hJ9 | hJ48
   · obtain ⟨ψ⟩ := hJA6
     exact ⟨S, hcfg.mem_star hA6 ψ (fun S' hS' hSS' => hSmax.2 hS' hSS'), hRS,

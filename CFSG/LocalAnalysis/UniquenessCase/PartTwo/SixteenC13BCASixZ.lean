@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16c13bcA_six_z (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hc : Counterex16 D ⊥ V L hV) (hs : s15 D.M ⊥ V hV L = 2)
-    {Z : Subgroup (MulAut (Vtil ⊥ V hV))} (hZM : Z ≤ Mbar D.M ⊥ V hV) (hZc : Nat.card Z = 3)
+    {Z : Subgroup (MulAut (Vtil ⊥ V hV))} (_hZM : Z ≤ Mbar D.M ⊥ V hV) (hZc : Nat.card Z = 3)
     (hZn : ∀ m ∈ Mbar D.M ⊥ V hV, ∀ x ∈ Z, m * x * m⁻¹ ∈ Z)
     (hLp : _root_.commutator ↥(lBar ⊥ V hV L) = ⊤) {J₀ J₁ : Subgroup (Vtil ⊥ V hV)}
     (hsup : J₀ ⊔ J₁ = wTil ⊥ V hV L) :
@@ -23,7 +23,7 @@ theorem s16c13bcA_six_z (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 V}
   classical
   have hH : Hyp151 D ⊥ V L := hc.setting.hyp151
   have hLM : lBar ⊥ V hV L ≤ Mbar D.M ⊥ V hV := barSub_mono ⊥ V hV hH.le
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥Z) 3 (by rw [hZc])
   have hzo : orderOf (z : MulAut (Vtil ⊥ V hV)) = 3 := by
     rw [Subgroup.orderOf_coe]
@@ -63,7 +63,7 @@ theorem s16c13bcA_six_z (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2 V}
       exact le_sup_left
     · rw [h1, ← s16c13bcA_wTil_map_conj ⊥ V hV L g]
       exact le_sup_right
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZc]; norm_num)
   have hZz : Subgroup.zpowers (z : MulAut (Vtil ⊥ V hV)) = Z := by
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 z.2) ?_
     rw [Nat.card_zpowers, hzo, hZc]

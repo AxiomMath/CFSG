@@ -23,8 +23,8 @@ private theorem quotient_data_of_stronglyPEmbedded {X : Type} [Group X] [Finite 
     IsStronglyPEmbedded p (N.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))) ∧
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ CFSG.pPrimeCore p X)) ∧
       CFSG.pPrimeCore p (X ⧸ CFSG.pPrimeCore p X) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
   have hY := CFSG.LocalAnalysis.UniquenessCase.UCK.pPrimeCore_le_of_stronglyPEmbedded hN h2
   have hcop : ¬ p ∣ Nat.card (CFSG.pPrimeCore p X) :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
@@ -36,9 +36,9 @@ private theorem pow_three_dvd_card_pElementSubgroup_quotient {X : Type} [Group X
     {p : ℕ} (hp : p.Prime) (h3 : p ^ 3 ∣ Nat.card X) :
     p ^ 3 ∣ Nat.card ↥(Opp p (⊤ : Subgroup (X ⧸ CFSG.pPrimeCore p X))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup X := CFSG.pPrimeCore p X
-  haveI hOnorm : O.Normal := by
+  have hOnorm : O.Normal := by
     dsimp [O]
     infer_instance
   have hcop : ¬ p ∣ Nat.card O := by
@@ -56,7 +56,7 @@ private theorem pow_three_dvd_card_pElementSubgroup_quotient {X : Type} [Group X
     S.pow_dvd_card_of_pow_dvd_card (n := 3) hdvd
   have hSle : (S : Subgroup (X ⧸ O)) ≤ Opp p (⊤ : Subgroup (X ⧸ O)) := by
     rw [Opp]
-    exact CFSG.le_pElementSubgroup_of_isPGroup hp S.isPGroup' le_top
+    exact CFSG.le_pElementSubgroup_of_isPGroup hp S.isPGroup le_top
   exact hSdvd.trans (Subgroup.card_dvd_of_le hSle)
 
 theorem isPSolvable_of_stronglyPEmbedded_of_pow_three_dvd
@@ -66,9 +66,9 @@ theorem isPSolvable_of_stronglyPEmbedded_of_pow_three_dvd
     (h2 : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) (h3 : p ^ 3 ∣ Nat.card X) :
     CFSG.HallHigman.IsPSolvable p ↥N := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup X := CFSG.pPrimeCore p X
-  haveI hOnorm : O.Normal := by
+  have hOnorm : O.Normal := by
     dsimp [O]
     infer_instance
   let Nbar : Subgroup (X ⧸ O) := N.map (QuotientGroup.mk' O)
@@ -121,7 +121,7 @@ private theorem eq_one_of_forall_commutator_mem_of_pPrimeCore_eq_bot
     (hK : ¬ p ∣ Nat.card K) {x : X} (hxN : x ∈ N)
     (hxp : ∃ k : ℕ, x ^ p ^ k = 1) (hx : ∀ n ∈ N, ⁅n, x⁆ ∈ K) : x = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Pχ, hPχsyl, hPχN⟩ := hN.exists_isSylowOf_le
   have hNindex : ¬ p ∣ N.index := by
     intro hd
@@ -135,7 +135,7 @@ private theorem eq_one_of_forall_commutator_mem_of_pPrimeCore_eq_bot
     exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
   obtain ⟨P₀N, hP₀N⟩ := hxNp.exists_le_sylow
   let P₀ : Subgroup X := (P₀N : Subgroup ↥N).map N.subtype
-  have hP0p : IsPGroup p P₀ := P₀N.isPGroup'.map N.subtype
+  have hP0p : IsPGroup p P₀ := P₀N.isPGroup.map N.subtype
   have hP0leN : P₀ ≤ N := Subgroup.map_subtype_le _
   have hxP0N : (⟨x, hxN⟩ : ↥N) ∈ (P₀N : Subgroup ↥N) :=
     hP₀N (Subgroup.mem_zpowers (⟨x, hxN⟩ : ↥N))
@@ -192,9 +192,9 @@ theorem eq_one_of_forall_commutator_mem_of_stronglyPEmbedded
     (hK : ¬ p ∣ Nat.card K) {x : X} (hxN : x ∈ N) (hxp : ∃ k : ℕ, x ^ p ^ k = 1)
     (hx : ∀ n ∈ N, ⁅n, x⁆ ∈ K) : x = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup X := CFSG.pPrimeCore p X
-  haveI hOnorm : O.Normal := by
+  have hOnorm : O.Normal := by
     dsimp [O]
     infer_instance
   have hdata := quotient_data_of_stronglyPEmbedded hp hN h2

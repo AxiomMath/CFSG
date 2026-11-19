@@ -55,6 +55,7 @@ private lemma frobSL_eq_slFieldAut (x : SL(3, F)) :
     CFSG.ComponentClassification.CatalogueBHigherLinearField.slFieldEquiv_entry]
   simp [graphFieldFrob_apply]
 
+omit [Fintype F] [CharP F 2] in
 private lemma tauSL_eq_slGraphAut (x : SL(3, F)) :
     X7a.tauSL F x = CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut 3 F x := by
   apply Subtype.ext
@@ -77,6 +78,7 @@ private lemma graphFieldHom_eq_stdAut (hF : Fintype.card F = 2 ^ 2) {j : ℕ} (h
     CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut_field_commute]
   rfl
 
+omit [Fintype F] [Finite U] in
 private lemma mulAut_comp_self_eq_id {j : ℕ}
     (ρ : Representation (ZMod 2) SL(3, F) U)
     (hker : ∀ x : SL(3, F), ρ x = 1 → x ∈ LinearFlag.scalars 3 F)
@@ -86,7 +88,7 @@ private lemma mulAut_comp_self_eq_id {j : ℕ}
     (hstd : ∀ x : SL(3, F), X7Sec.graphFieldHom A j x = al x) :
     ∀ x : SL(3, F), al (al x) = x := by
   classical
-  haveI : Group.IsPerfect (SL(3, F)) :=
+  have : Group.IsPerfect (SL(3, F)) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (K := F) (n := 3) le_rfl
   have hint : ∀ x : SL(3, F), X7a.Intertwines ρ a x (al x) := by
     intro x u
@@ -184,9 +186,11 @@ private def graphFieldDiagMat (ω : F) : Matrix (Fin 3) (Fin 3) F :=
   !![1, 0, 0; 0, ω, 0; 0, 0, ω ^ 2]
 private def graphFieldPermMat : Matrix (Fin 3) (Fin 3) F := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
 
+omit [Fintype F] [CharP F 2] in
 private lemma graphFieldDiagMat_det (ω : F) (hω3 : ω ^ 3 = 1) : (graphFieldDiagMat ω).det = 1 := by
   simp [graphFieldDiagMat, Matrix.det_fin_three]
   linear_combination hω3
+omit [Fintype F] [CharP F 2] in
 private lemma pMat_det : (graphFieldPermMat (F := F)).det = 1 := by
   simp [graphFieldPermMat, Matrix.det_fin_three]
 
@@ -194,6 +198,7 @@ private def graphFieldDiag (ω : F) (hω3 : ω ^ 3 = 1) : SL(3, F) :=
   ⟨graphFieldDiagMat ω, graphFieldDiagMat_det ω hω3⟩
 private def graphFieldPerm : SL(3, F) := ⟨graphFieldPermMat, pMat_det⟩
 
+omit [Fintype F] in
 private lemma d0_pow_three (ω : F) (hω3 : ω ^ 3 = 1) : (graphFieldDiag ω hω3) ^ 3 = 1 := by
   apply Subtype.ext
   show ((graphFieldDiag ω hω3 : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) ^ 3 = 1
@@ -202,6 +207,7 @@ private lemma d0_pow_three (ω : F) (hω3 : ω ^ 3 = 1) : (graphFieldDiag ω hω
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [graphFieldDiagMat, pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
+omit [Fintype F] [CharP F 2] in
 private lemma p0_pow_three : (graphFieldPerm (F := F)) ^ 3 = 1 := by
   apply Subtype.ext
   show ((graphFieldPerm (F := F) : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) ^ 3 = 1
@@ -216,12 +222,14 @@ private def zHeis (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) : SL(3, F) :=
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_mk0, hω3, Units.val_one])
 
+omit [Fintype F] [CharP F 2] in
 private lemma zHeis_central (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) :
     ∀ g : SL(3, F), Commute g (zHeis ω hω0 hω3) := by
   intro g
   exact Subgroup.mem_center_iff.mp
     (LinearFlag.scalars_le_center 3 F (LinearFlag.scalarElement_mem_scalars _ _)) g
 
+omit [Fintype F] in
 private lemma p0_conj_d0 (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) :
     graphFieldPerm⁻¹ * graphFieldDiag ω hω3 * graphFieldPerm =
       zHeis ω hω0 hω3 * graphFieldDiag ω hω3 := by
@@ -237,8 +245,9 @@ private lemma p0_conj_d0 (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) :
   fin_cases i <;> fin_cases j <;>
     simp [graphFieldDiag, graphFieldPerm, graphFieldDiagMat, graphFieldPermMat, zHeis,
       LinearFlag.coe_scalarElement, Units.val_mk0, pow_succ,
-      Matrix.mul_apply, Fin.sum_univ_three] <;> grind
+      Matrix.mul_apply, Fin.sum_univ_three]; grind
 
+omit [Fintype F] in
 private lemma commutator_d0_p0 (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) :
     ⁅graphFieldDiag ω hω3, graphFieldPerm⁆ = zHeis ω hω0 hω3 := by
   have hconj := p0_conj_d0 ω hω0 hω3
@@ -253,6 +262,7 @@ private lemma commutator_d0_p0 (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1) :
   rw [commutatorElement_def, hdp]
   group
 
+omit [Fintype F] in
 private lemma d0_mul_p0_pow_three (ω : F) (hω3 : ω ^ 3 = 1) :
     (graphFieldDiag ω hω3 * graphFieldPerm) ^ 3 = 1 := by
   apply Subtype.ext
@@ -263,6 +273,7 @@ private lemma d0_mul_p0_pow_three (ω : F) (hω3 : ω ^ 3 = 1) :
     simp [graphFieldDiag, graphFieldPerm, graphFieldDiagMat, graphFieldPermMat, pow_succ,
       Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
+omit [Fintype F] in
 private lemma d0_mul_p0_inv_pow_three (ω : F) (hω3 : ω ^ 3 = 1) :
     (graphFieldDiag ω hω3 * graphFieldPerm⁻¹) ^ 3 = 1 := by
   have hp_inv : (graphFieldPerm (F := F))⁻¹ = graphFieldPerm * graphFieldPerm := by
@@ -277,6 +288,7 @@ private lemma d0_mul_p0_inv_pow_three (ω : F) (hω3 : ω ^ 3 = 1) :
     simp [graphFieldDiag, graphFieldPerm, graphFieldDiagMat, graphFieldPermMat, pow_succ,
       Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
+omit [Fintype F] in
 private lemma cubeRel_d0_p0 (ω : F) (hω3 : ω ^ 3 = 1) :
     CubeRel (graphFieldDiag ω hω3) graphFieldPerm :=
   ⟨d0_pow_three ω hω3, p0_pow_three, d0_mul_p0_pow_three ω hω3,
@@ -298,8 +310,7 @@ private lemma slGraphFieldAut_d0 (ω : F) (hω3 : ω ^ 3 = 1) :
     Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [graphFieldDiag, graphFieldDiagMat, graphFieldFrob_apply, Matrix.transpose_apply,
-      Matrix.mul_apply, Fin.sum_univ_three] <;> grind
+    simp [graphFieldDiag, graphFieldDiagMat, graphFieldFrob_apply, Matrix.transpose_apply] <;> grind
 
 private lemma slGraphFieldAut_p0 :
     CFSG.ComponentClassification.CatalogueBGraphField.slGraphFieldAut 3 F graphFieldFrob
@@ -317,21 +328,24 @@ private lemma slGraphFieldAut_p0 :
     Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [graphFieldPerm, graphFieldPermMat, graphFieldFrob_apply, Matrix.transpose_apply,
-      Matrix.mul_apply, Fin.sum_univ_three]
+    simp [graphFieldPerm, graphFieldPermMat, graphFieldFrob_apply, Matrix.transpose_apply]
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 theorem repEquiv_one (ρ : Representation (ZMod 2) SL(3, F) U) :
     X7a.repEquiv ρ (1 : SL(3, F)) = 1 :=
   X7b.repLinEquiv_one ρ
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 theorem repEquiv_mul (ρ : Representation (ZMod 2) SL(3, F) U) (x y : SL(3, F)) :
     X7a.repEquiv ρ (x * y) = X7a.repEquiv ρ x * X7a.repEquiv ρ y :=
   X7b.repLinEquiv_mul ρ x y
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 theorem repEquiv_inv (ρ : Representation (ZMod 2) SL(3, F) U) (x : SL(3, F)) :
     X7a.repEquiv ρ x⁻¹ = (X7a.repEquiv ρ x)⁻¹ :=
   X7b.repLinEquiv_inv ρ x
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 theorem conj_repEquiv_of_intertwines (ρ : Representation (ZMod 2) SL(3, F) U)
     {a : U ≃ₗ[ZMod 2] U} (ha2 : a * a = 1) {x y : SL(3, F)}
     (h : X7a.Intertwines ρ a x y) :
@@ -345,6 +359,7 @@ theorem conj_repEquiv_of_intertwines (ρ : Representation (ZMod 2) SL(3, F) U)
   change a (ρ x (a u)) = ρ y u
   rw [h1, h2]
 
+omit [Fintype F] [CharP F 2] in
 private lemma zHeis_ne_one (ω : F) (hω0 : ω ≠ 0) (hω3 : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) : zHeis ω hω0 hω3 ≠ 1 := by
   intro h
@@ -388,14 +403,13 @@ theorem six_dvd_rank_of_graphField (hF : Fintype.card F = 2 ^ 2)
     rw [show al = K * G * K⁻¹ from hαβ]
     change K (G (K⁻¹ (K (graphFieldDiag ω hω3)))) = K (graphFieldDiag ω hω3)
     rw [show K⁻¹ (K (graphFieldDiag ω hω3)) = graphFieldDiag ω hω3 from by
-      simpa [MulAut.mul_apply] using
-        congrArg (fun e : MulAut (SL(3, F)) => e (graphFieldDiag ω hω3)) hKinv]
+      simp]
     rw [slGraphFieldAut_d0]
   have hfix_p : al p = p := by
     rw [show al = K * G * K⁻¹ from hαβ]
     change K (G (K⁻¹ (K graphFieldPerm))) = K graphFieldPerm
     rw [show K⁻¹ (K graphFieldPerm) = graphFieldPerm from by
-      simpa [MulAut.mul_apply] using congrArg (fun e : MulAut (SL(3, F)) => e graphFieldPerm) hKinv]
+      simp]
     rw [slGraphFieldAut_p0]
   have hfix_d' : X7Sec.graphFieldHom A j d = d := by rw [hstd d, hfix_d]
   have hfix_p' : X7Sec.graphFieldHom A j p = p := by rw [hstd p, hfix_p]

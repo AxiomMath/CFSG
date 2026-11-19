@@ -24,7 +24,7 @@ theorem exists_block_split_scalar (hsq : Squarefree (minpoly K (x : Module.End K
     ∃ s ∈ linearSpecialBlock x h, ∃ c ∈ gl_centralizer x,
       (∀ m ∈ linearSpecialBlock x h, c * m = m * c) ∧ g = s * c := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   let Γ := glCentralizerEquivPi hsq
   let hb : primaryFactors (x : Module.End K V) := ⟨h, hh⟩
   let g0 : gl_centralizer x := ⟨g, hg⟩

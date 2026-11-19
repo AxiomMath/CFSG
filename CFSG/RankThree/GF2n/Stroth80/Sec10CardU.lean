@@ -16,6 +16,7 @@ section Model
 
 variable {K : Type} [Field K] {γ : G → K}
 
+omit [Finite G] in
 theorem card_Wt_mul_card_eq_of_gammaReg [Finite K] (M₀ : Tim79.QuadModel Q Z K γ)
     (R : Tim79.GammaReg Q Z γ) {X : Subgroup G} (hXQ : X ≤ Q) (hZX : Z ≤ X)
     (hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img X → c • e ∈ M₀.img X) :
@@ -66,7 +67,7 @@ theorem Ctx.card_Wt_mul_card_Vt (hc : Ctx M Q Z B) (t : G) :
     Nat.card ↥(Wt Q (Vt M (LB M Q B) B Z t)) * Nat.card ↥(Vt M (LB M Q B) B Z t) =
       Nat.card Q * Nat.card Z := by
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : Finite K := hfin
+  have : Finite K := hfin
   exact card_Wt_mul_card_eq_of_gammaReg M₀ hD.reg (hc.Vt_le_Q t) le_sup_left
     fun c e he => hc.smul_mem_img_Vt hD t c he
 
@@ -90,7 +91,7 @@ theorem Good103.card_Ut_eq (h34 : Stroth34Statement) (h311a : Stroth311aStatemen
       group
     rw [hconj]
     exact T.mul_mem (show ⁅u, x⁆ ∈ T from Subgroup.mem_sup_right hcomm) hx
-  haveI : ((Tt Q Z V t).subgroupOf (Ut Q Z t)).Normal :=
+  have : ((Tt Q Z V t).subgroupOf (Ut Q Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hUN
   have hchi : IsChiIso Q (Rt M (LB M Q B) t) W U T t :=
     hc.isChiIso_Wt_Ut_Tt ht.1.mem_LB hVT.le

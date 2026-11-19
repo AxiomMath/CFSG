@@ -24,8 +24,8 @@ theorem pRank_le_one_of_isSL3Four
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 1 := by
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     nonempty_mulEquiv_statedSL_of_isSL3Four h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hcard : Nat.card X = 60480 := by
     rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL,
       CFSG.RankThree.PartTwo.KFacts.L34.card_specialLinearGroup hKcard]
@@ -58,7 +58,7 @@ theorem pRank_le_one_of_isSL3Four
   · norm_num at hsq
 
 theorem pRank_X_le_two
-    (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
+    (_hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hnot : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 S.M)
     {L L' : Subgroup G} (hL : L ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.calC S.M)
     (hset : CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf S.M L = {L, L'})
@@ -66,7 +66,7 @@ theorem pRank_X_le_two
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L)) :
     CFSG.Open.pRank S.p (CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L) ≤ 2 := by
   classical
-  haveI : Fact S.p.Prime := ⟨S.hp.1.1⟩
+  have : Fact S.p.Prime := ⟨S.hp.1.1⟩
   have h3β : 3 ∉ CFSG.Open.uniqueFourBeta G :=
     three_not_mem_uniqueFourBeta_of_not_strong hU S hMS hnot
   have hp5 : 5 ≤ S.p := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.five_le_of_mem_uniqueFourSigma S.hp h3β
@@ -140,7 +140,7 @@ theorem pRank_X_le_two
     have hKN : Kbar ≤ Subgroup.normalizer (B : Set (Bar2 S.M)) := by
       rw [hK_eq]
       exact sup_le hA_NB hB_NB
-    haveI : (B.subgroupOf Kbar).Normal :=
+    have : (B.subgroupOf Kbar).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hBK).mpr hKN
     have hAcenter : Nat.card (Subgroup.center ↥A) = 3 := by
       obtain ⟨eA⟩ := uc22p22l_barImage_equiv hL
@@ -174,7 +174,7 @@ theorem pRank_X_le_two
         have hkcoe : (k : Bar2 S.M) = a * b := hkab.symm
         have hcommab : a * b = b * a := hcomm a ha b hb
         have hcommab' : a * b⁻¹ = b⁻¹ * a := (show Commute a b from hcommab).inv_right.eq
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [hkcoe]
         calc a * (a * b)⁻¹ = a * (b⁻¹ * a⁻¹) := by group
           _ = (a * b⁻¹) * a⁻¹ := by group

@@ -12,8 +12,7 @@ open CFSG.Assembly
 
 theorem ggR4AmbExcl_E78 (hM11 : GGE78TwoLocalRankSix) :
     GGR4AmbExcl fun lab => lab.tag = .E7 ∨ lab.tag = .E8 := by
-  intro G _ _ B Bs x L D J hCfg hInner hCard
-  intro _ Γ _ _ C V _ _ ι φ h α _ _ _ hmark
+  intro G _ _ B Bs x L D J hCfg hInner hCard _ Γ _ _ C V _ _ ι φ h α _ _ _ hmark
   obtain ⟨hperf, lab, hlab, hraw⟩ := hmark
   have hlabel : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L) :=
     largeEvenRawDatum_mono (fun R _ I F hq => by
@@ -23,7 +22,7 @@ theorem ggR4AmbExcl_E78 (hM11 : GGE78TwoLocalRankSix) :
     GGDichotomy.rawDatum_elim_const (largeEvenRawDatum_mono (fun R _ I F hq => by
       obtain ⟨-, -, θ, hθ⟩ := hq
       exact hθ.1) hraw)
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have h6 : 6 ≤ LargeEvenTwoLocalRank 3 ↥L := hM11 ↥L lab hlab hT hlabel
   have hle : LargeEvenTwoLocalRank 3 ↥L ≤ LargeEvenTwoLocalRank 3 G :=
     CFSG.LocalAnalysis.GLTheoremB.glaTwoLocalRank_subgroup_le (by norm_num) L

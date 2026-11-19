@@ -120,7 +120,7 @@ private theorem ggL45E67Torus_conj_injective {K : Type*} [Group K] {R : Type} [G
     Function.Injective (MulAut.conj : R →* MulAut R) := by
   have hcenter : ∀ r : R, (∀ s : R, s * r = r * s) → r = 1 := by
     intro r hr
-    haveI : Group.IsPerfect K := ⟨hK⟩
+    have : Group.IsPerfect K := ⟨hK⟩
     have hbot : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
       Group.IsPerfect.center_quotient_center_eq_bot K
     have hmem : θ.symm r ∈ Subgroup.center (K ⧸ Subgroup.center K) := by
@@ -181,9 +181,9 @@ private theorem ggL45E67Torus_finite_ratPoints {τ : Tag} {L : Type} [Field L]
     {R : Type} [Group R] (Θ : H →* MulAut R) (hΘ : Function.Injective Θ)
     {K : Type} [Group K] [Finite K] (θ : K ⧸ Subgroup.center K ≃* R) :
     Finite ↥(ratPoints F₀) := by
-  haveI hRfin : Finite R := Finite.of_surjective θ θ.surjective
-  haveI hAutfin : Finite (MulAut R) := TableBSymp.finite_mulAut
-  haveI hHfin : Finite H := Finite.of_injective Θ hΘ
+  have hRfin : Finite R := Finite.of_surjective θ θ.surjective
+  have hAutfin : Finite (MulAut R) := TableBSymp.finite_mulAut
+  have hHfin : Finite H := Finite.of_injective Θ hΘ
   refine Finite.of_injective (fun x : ratPoints F₀ =>
     (⟨x.1, ?_⟩ : H)) (fun x y hxy => Subtype.ext (congrArg (fun z : H => (z : ModGL τ L)) hxy))
   rw [hH]
@@ -221,7 +221,7 @@ private theorem ggL45E67Torus_mem_adjointGroup
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ}
     {F₀ : ModGL τ L →* ModGL τ L} (hF₀ : IsSteinbergEnd τ L (2 ^ e) F₀) :
     ∀ g ∈ adjointGroup τ L, F₀ g ∈ adjointGroup τ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Fr, hFr, P, hP, hΦ⟩ := hF₀
   have hFr' : Fr = iterateFrobenius L 2 e := by
     ext c
@@ -806,7 +806,7 @@ private theorem ggL45E67Torus_centralizer
     (hcard : 3 ^ 4 ≤ Nat.card A) {a : A → Fin τ.rank → Lˣ}
     (ha : ∀ x, rootDiagUnit τ (a x) = x) (hker : familyKernel a = ∅) :
     adjointGroup τ L ⊓ Subgroup.centralizer (A : Set (ModGL τ L)) = torusGroup τ L := by
-  haveI : Finite A := (Nat.card_ne_zero.mp (by omega : Nat.card A ≠ 0)).2
+  have : Finite A := (Nat.card_ne_zero.mp (by omega : Nat.card A ≠ 0)).2
   have hexp : ∀ i j, a i j ^ 3 = 1 := ggL45E67Torus_family_exp hEab ha
   have hcardClos : 3 ^ 4 ≤ Nat.card (Subgroup.closure (Set.range a)) := by
     rw [ggL45E67Torus_card_closure ha]; exact hcard

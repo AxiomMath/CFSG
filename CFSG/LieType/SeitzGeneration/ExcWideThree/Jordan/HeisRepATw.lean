@@ -118,15 +118,15 @@ end HeisA
 theorem twE6HeisFrameFixedEltA_holds : TwE6HeisFrameFixedEltA := by
   intro ℓ f hℓ hℓ3 hf K _ _ hK σ hσ E hd hE hcard F hA
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
   have h3 : ¬ 3 ∣ ℓ ^ f := fun h => hℓ3
     ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hℓ).1 (Nat.prime_three.dvd_of_dvd_pow h)).symm
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   set L := AlgebraicClosure K with hL
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set ι : K →+* L := algebraMap K L with hι
   have hpq : Nat.Coprime 3 (ℓ ^ f) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h3
   have hFrEq : F.Fr = iterateFrobenius L ℓ f := RingHom.ext fun c => by

@@ -92,12 +92,12 @@ section E29
 theorem ind_add_eq_zero_iff {n : ℕ} (δ γ : Finset (Fin n)) (i : Fin n) :
     ind δ i + ind γ i = 0 ↔ (i ∈ δ ↔ i ∈ γ) := by
   unfold ind
-  by_cases h1 : i ∈ δ <;> by_cases h2 : i ∈ γ <;> simp [h1, h2] <;> decide
+  by_cases h1 : i ∈ δ <;> by_cases h2 : i ∈ γ <;> simp [h1, h2]; decide
 
 theorem ind_add_eq_one_iff {n : ℕ} (δ γ : Finset (Fin n)) (i : Fin n) :
     ind δ i + ind γ i = 1 ↔ (i ∈ δ ↔ i ∉ γ) := by
   unfold ind
-  by_cases h1 : i ∈ δ <;> by_cases h2 : i ∈ γ <;> simp [h1, h2] <;> decide
+  by_cases h1 : i ∈ δ <;> by_cases h2 : i ∈ γ <;> simp [h1, h2]
 
 open CFSG.ClassicalInvolution.Q3.AE in
 theorem zBar_eq_eight {δ γ : Finset (Fin 8)} (hδ : δ.card = 4) (hγ : γ.card = 4)

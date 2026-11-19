@@ -29,7 +29,7 @@ theorem a6InnerStructure_holds
       ∀ (b d : G) (Lb : Subgroup G), IsLBConfig A B b d Lb →
       YB ≤ pPrimeCoreOf 3 (Subgroup.centralizer (B : Set G)) ⊔ lB A B →
       letI := ker148_normal hY.2
-      ∀ J ∈ thetaComponentsIn Y, YB ≤ J → ∀ hAJ : A ≤ Subgroup.normalizer (J : Set G),
+      ∀ J ∈ thetaComponentsIn Y, YB ≤ J → ∀ _hAJ : A ≤ Subgroup.normalizer (J : Set G),
       ∀ Yd ∈ thetaComponentsIn (Y ⊓ Subgroup.centralizer ({d} : Set G)), YB ≤ Yd → Yd ≤ J →
         A ≤ Subgroup.normalizer (Yd : Set G) →
         YdType148 d Yd → d ∈ Late.sectionCentralizer A J (pPrimeCoreOf 3 Y) →
@@ -355,7 +355,7 @@ theorem a6InnerStructure_holds
   · exact Or.inr (Or.inl hZ5)
   · exfalso
     obtain ⟨e⟩ := nonempty_img148_deltaZero_centPre148_equiv hY.2 hAJ hJY hJc h3Jα (lB A)
-    letI := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
+    let := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
     rcases h36 with h3' | h6'
     ·
       by_cases hXJ : Xα = img148 A Y J

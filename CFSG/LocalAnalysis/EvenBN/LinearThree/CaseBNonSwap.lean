@@ -114,7 +114,6 @@ theorem card_actRange_inf_le (e : A ≃* projectiveSL 3 K) {E : Subgroup G}
     have hx2 : x * x = 1 := Subtype.ext (hE2 x x.2)
     apply hinj
     rw [map_mul, map_one]
-    change MulAut.conj a * MulAut.conj a = 1
     rw [← hx, ← map_mul, hx2, map_one]
   rw [← hmap, Subgroup.card_map_of_injective hinj]
   exact card_le_sq_of_mul_self hF2

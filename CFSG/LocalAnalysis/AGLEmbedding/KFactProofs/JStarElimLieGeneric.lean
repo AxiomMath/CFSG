@@ -151,7 +151,7 @@ theorem JStarElimDataOf.exists_inner_copy {L₀ T : Type} [Group L₀] [Finite L
   have hinj := conj_injective_of_center_eq_bot hZ
   have hNcard : Nat.card (inner L₀) = Nat.card L₀ :=
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
-  have hE : IsPGroup p E := U.isPGroup'.of_equiv e.symm
+  have hE : IsPGroup p E := U.isPGroup.of_equiv e.symm
   have hmain := card_mul_pow_dvd_of_isPGroup (N := inner L₀) (S := E) (B := B) (s := s) hE
     (by rw [hNcard]; exact hs) fun S' hS' hS'p => hpA S' (hS'.trans (sup_le hEA hInn)) hS'p
   let f : E →* T := (U : Subgroup T).subtype.comp e.toMonoidHom

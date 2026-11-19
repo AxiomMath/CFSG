@@ -281,7 +281,7 @@ theorem langRatB_aut_split
   have hΦ' : ∀ X : SL(ν, L),
       Φ' X = B⁻¹ * Matrix.SpecialLinearGroup.map σQ.toRingHom X * B := by
     intro X
-    simp [Φ', e1, MulAut.conj_apply]
+    simp [Φ', e1]
   have hBtransv' : ∀ (a b : Fin ν) (hab : a ≠ b) (u : L),
       B⁻¹ * Matrix.SpecialLinearGroup.transvection hab u * B =
         Matrix.SpecialLinearGroup.transvection (π.injective.ne hab) ((β a b : L) * u) := by

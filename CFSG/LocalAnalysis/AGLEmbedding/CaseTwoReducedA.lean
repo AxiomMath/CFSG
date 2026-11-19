@@ -98,7 +98,7 @@ theorem ReducedNongeneration.inf_normalizer_zpowers_le_of_aut
   have hRL := h.sylow_le_normalizer_component hL
   have h2 := pRank_le_pRank_inf_centralizer_add_pRank_mulAut hp hRL
   have h4 := hA L hL (hcyc L hL)
-  obtain ⟨z, ⟨hzR, hzC⟩, hz, hzZ⟩ := exists_commute_mem_inf_centralizer Rb.isPGroup' hRL
+  obtain ⟨z, ⟨hzR, hzC⟩, hz, hzZ⟩ := exists_commute_mem_inf_centralizer Rb.isPGroup hRL
     fun hbot => by
       rw [hbot, pRank_bot_eq_zero hp] at h2
       omega
@@ -213,7 +213,7 @@ theorem ReducedNongeneration.isCaseTwoGroup_of_not_le_of_aut
   have h1 := h.pRank_inf_centralizer_le_one_of_not_le hL hLY₀
   have h2 := pRank_le_pRank_inf_centralizer_add_pRank_mulAut hp hRL
   have h4 := hA L hL (hcyc L hL)
-  obtain ⟨z, ⟨hzR, hzC⟩, hz, hzZ⟩ := exists_commute_mem_inf_centralizer Rb.isPGroup' hRL
+  obtain ⟨z, ⟨hzR, hzC⟩, hz, hzZ⟩ := exists_commute_mem_inf_centralizer Rb.isPGroup hRL
     fun hbot => by
       rw [hbot, pRank_bot_eq_zero hp] at h2
       omega

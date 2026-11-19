@@ -14,7 +14,7 @@ open Finset
 theorem ind_symmDiff (S T : Finset (Fin 8)) (z : Fin 8) :
     ind (symmDiff S T) z = ind S z + ind T z := by
   unfold ind
-  by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp [hS, hT, Finset.mem_symmDiff] <;> decide
+  by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp [hS, hT, Finset.mem_symmDiff]; decide
 
 theorem ind_univ (z : Fin 8) : ind Finset.univ z = 1 := by
   simp [ind]
@@ -83,7 +83,7 @@ theorem vq_eq_iff {S T : Finset (Fin 8)} : vq S = vq T ↔ T = S ∨ T = Sᶜ :=
       ext z
       have := h2 z
       unfold ind at this
-      by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp_all <;> revert this <;> decide
+      by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp_all
     · right
       rw [hinv, ofVec_mul'] at h1
       have h2 : ∀ z, ind S z + ind T z = 1 := fun z => by
@@ -92,7 +92,7 @@ theorem vq_eq_iff {S T : Finset (Fin 8)} : vq S = vq T ↔ T = S ∨ T = Sᶜ :=
       ext z
       have := h2 z
       unfold ind at this
-      by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp_all <;> revert this <;> decide
+      by_cases hS : z ∈ S <;> by_cases hT : z ∈ T <;> simp_all
   · rintro (rfl | rfl)
     · rfl
     · exact (vq_compl S).symm

@@ -124,7 +124,7 @@ private theorem sConjTree' {C : SConsts} (hC : sConstsOK C = true) {G Z P L : â„
         rw [Nat.add_comm, Nat.add_mul_div_left _ _ (by omega), Nat.div_eq_of_lt hj, Nat.zero_add]
       have hmd : (n * i + j) % n = j := by
         rw [Nat.add_comm, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hj]
-      simp only [Nat.div_eq, Nat.mod_eq] at hb
+      simp only at hb
       change Bool.rec (motive := fun _ => Bool) true
         (Bool.rec (motive := fun _ => Bool) true false (Nat.beq (Z ((n * i + j) / n)) (Z ((n * i + j) % n))))
         (Nat.blt ((n * i + j) / n) ((n * i + j) % n)) = true at hb

@@ -21,6 +21,7 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] def twoNatVec (w : Fin 2 → K) (x : Fin 4 → K) : StdMod (Fin 2 × Fin 4) K :=
   Multiplicative.ofAdd fun p => w p.1 * x p.2
 
+omit [Finite K] in
 theorem twoNatVec_mem_lineSub {u w : Fin 2 → K} {x : Fin 4 → K} (hx : x ≠ 0) :
     twoNatVec w x ∈ lineSub (ι := Fin 4) u ↔ w ∈ Submodule.span K {u} := by
   obtain ⟨i₀, hi₀⟩ := Function.ne_iff.mp hx
@@ -47,6 +48,7 @@ theorem twoNatVec_mem_lineSub {u w : Fin 2 → K} {x : Fin 4 → K} (hx : x ≠ 
     simp only [Pi.smul_apply, smul_eq_mul]
     ring
 
+omit [Finite K] in
 theorem exists_not_mem_span_singleton_two {u : Fin 2 → K} (hu : u ≠ 0) :
     ∃ w : Fin 2 → K, w ∉ Submodule.span K {u} ∧
       u 1 * w 0 - u 0 * w 1 ≠ 0 := by
@@ -74,6 +76,7 @@ theorem exists_not_mem_span_singleton_two {u : Fin 2 → K} (hu : u ≠ 0) :
       simp at h1'
     · exact absurd hu0 h0
 
+omit [Finite K] in
 theorem exists_kronGL_of_fix_lineSub {A' : MulAut (StdMod (Fin 4) K)} {σ : K ≃+* K}
     {B : GL (Fin 2) K} {a : MulAut (StdMod (Fin 2 × Fin 4) K)}
     (hA' : IsSemilinear A' σ)
@@ -164,7 +167,7 @@ theorem exists_kronGL_of_fix_lineSub {A' : MulAut (StdMod (Fin 4) K)} {σ : K �
         rw [Pi.basisFun_apply]
         rfl
       rw [h1, hAe i]
-      simp [Pi.basisFun_apply, smul_eq_mul]
+      simp [Pi.basisFun_apply]
     have hx := congrArg (fun g : (Fin 4 → K) →ₗ[K] (Fin 4 → K) => g x) hf
     show toAddMap A' x = c • x
     exact hx
@@ -177,7 +180,7 @@ theorem exists_kronGL_of_fix_lineSub {A' : MulAut (StdMod (Fin 4) K)} {σ : K �
     rw [Finset.sum_eq_single j]
     · simp [mul_comm]
     · intro b _ hb
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply, hb]
+      simp [hb]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   have haB : a = matAut (kronGL (ι := Fin 4) (K := K) 2 B') := by
@@ -233,13 +236,14 @@ theorem exists_kronGL_of_fix_lineSub {A' : MulAut (StdMod (Fin 4) K)} {σ : K �
   simp only [lineEmb_toAdd, toAdd_ofAdd, Pi.single_eq_same, mul_one, toAddMap_one] at h3
   simpa using h3
 
+omit [Finite K] in
 theorem mem_centSub_of_trivial_quot {A' : MulAut (StdMod (Fin 4) K)} {σ : K ≃+* K}
     {B : GL (Fin 2) K} {a : MulAut (StdMod (Fin 2 × Fin 4) K)}
     (hA' : IsSemilinear A' σ)
     (h : ∀ (v : Fin 2 × Fin 4 → K) (p : Fin 2 × Fin 4),
       toAddMap a v p = toAddMap A' (fun i => ∑ j, (B : Matrix (Fin 2) (Fin 2) K) p.1 j *
         v (j, i)) p.2)
-    (haσ : IsSemilinear a σ) (ha2 : a ^ 2 = 1) (hchar : CharP K 2) {u : Fin 2 → K} (hu : u ≠ 0)
+    (_haσ : IsSemilinear a σ) (ha2 : a ^ 2 = 1) (hchar : CharP K 2) {u : Fin 2 → K} (hu : u ≠ 0)
     (hfixJ : ∀ x, a (lineEmb (ι := Fin 4) u x) ∈ lineSub u)
     (hquot : ∀ v, ∃ j ∈ lineSub u,
       Multiplicative.toAdd (a v) = Multiplicative.toAdd j + Multiplicative.toAdd v) :
@@ -352,10 +356,10 @@ theorem mem_centSub_of_trivial_quot {A' : MulAut (StdMod (Fin 4) K)} {σ : K ≃
   have hA'e0 : A' (Multiplicative.ofAdd (Pi.single 0 (1 : K))) ≠ 1 := by
     intro h0
     have h' : Multiplicative.ofAdd (Pi.single 0 (1 : K) : Fin 4 → K) = 1 :=
-      A'.injective (by simpa using h0)
+      A'.injective (by simp at h0)
     have h2 : (Pi.single (0 : Fin 4) (1 : K) : Fin 4 → K) = 0 := by
       have := congrArg Multiplicative.toAdd h'
-      simpa using this
+      simp at this
     have := congrFun h2 0
     simp at this
   have hlam : lam ≠ 0 := by
@@ -396,7 +400,7 @@ theorem mem_centSub_of_trivial_quot {A' : MulAut (StdMod (Fin 4) K)} {σ : K ≃
     rw [hsigma] at h1
     exact (twoNatVec_mem_lineSub (u := u) (w := Bu)
       (x := Multiplicative.toAdd (A' (Multiplicative.ofAdd (Pi.single 0 (1 : K)))))
-      (by simpa [toAddMap] using hA'e0)).mp (by
+      (by simp)).mp (by
         change lineEmb (ι := Fin 4) (fun j => ((B : Matrix (Fin 2) (Fin 2) K) *ᵥ u) j)
           (A' (Multiplicative.ofAdd (Pi.single 0 (1 : K)))) ∈ lineSub u
         exact h1)
@@ -412,7 +416,7 @@ theorem mem_centSub_of_trivial_quot {A' : MulAut (StdMod (Fin 4) K)} {σ : K ≃
     intro d y
     apply Multiplicative.toAdd.injective
     funext p
-    simp [lineEmb_toAdd, Pi.smul_apply, smul_eq_mul, mul_assoc, mul_comm, mul_left_comm]
+    simp [lineEmb_toAdd, Pi.smul_apply, smul_eq_mul, mul_assoc, mul_left_comm]
   have hact : ∀ x : StdMod (Fin 4) K,
       a (lineEmb (ι := Fin 4) u x) = lineEmb (ι := Fin 4) u ((c * lam⁻¹) • x) := by
     intro x
@@ -530,6 +534,7 @@ theorem two_mul_card_fixV_le_card_inf_mul_index {W : Type} [CommGroup W] [Finite
     _ = Nat.card ↥(C ⊓ J) * Nat.card (W ⧸ J) := by rw [hMJ]
     _ = Nat.card ↥(C ⊓ J) * J.index := by rw [hJidx]
 
+omit [Finite K] in
 theorem fixV_kronGL_involution_le_lineSub {u : Fin 2 → K} (hu : u ≠ 0)
     {B : GL (Fin 2) K} (hBu : (B : Matrix (Fin 2) (Fin 2) K) *ᵥ u = u) (hB1 : B ≠ 1) :
     fixV (Subgroup.zpowers (matAut (kronGL (ι := Fin 4) (K := K) 2 B))) ≤
@@ -539,11 +544,11 @@ theorem fixV_kronGL_involution_le_lineSub {u : Fin 2 → K} (hu : u ≠ 0)
     { toFun := fun x => (B : Matrix (Fin 2) (Fin 2) K) *ᵥ x - x
       map_add' := by
         intro x y
-        simp only [Matrix.mulVec_add, Pi.add_apply, Pi.sub_apply]
+        simp only [Matrix.mulVec_add]
         abel
       map_smul' := by
         intro c x
-        simp only [Matrix.mulVec_smul, Pi.smul_apply, Pi.sub_apply, smul_sub,
+        simp only [Matrix.mulVec_smul, smul_sub,
           RingHom.id_apply] }
   have hd_ne : d ≠ 0 := by
     intro hd
@@ -569,7 +574,7 @@ theorem fixV_kronGL_involution_le_lineSub {u : Fin 2 → K} (hu : u ≠ 0)
     omega
   have hu_ker : u ∈ LinearMap.ker d := by
     show d u = 0
-    simp only [d, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.sub_apply, LinearMap.id_apply]
+    simp only [d, LinearMap.coe_mk, AddHom.coe_mk]
     rw [hBu, sub_self]
   have hspan_le : Submodule.span K ({u} : Set (Fin 2 → K)) ≤ LinearMap.ker d := by
     rw [Submodule.span_singleton_le_iff_mem u (LinearMap.ker d)]
@@ -587,7 +592,7 @@ theorem fixV_kronGL_involution_le_lineSub {u : Fin 2 → K} (hu : u ≠ 0)
     intro x hx
     have hxker : x ∈ LinearMap.ker d := by
       show d x = 0
-      simp only [d, LinearMap.coe_mk, AddHom.coe_mk, LinearMap.sub_apply, LinearMap.id_apply]
+      simp only [d, LinearMap.coe_mk, AddHom.coe_mk]
       rw [hx, sub_self]
     rw [hker_eq] at hxker
     exact hxker
@@ -768,7 +773,7 @@ theorem card_range_mul_card_fixV_lineSub {u : Fin 2 → K} (hu : u ≠ 0) (hchar
     _ = Nat.card ↥J := hcardJ.symm
 
 theorem not_isFFModule_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
-    (hsq : ∀ w : W, w ^ 2 = 1) {X Y : Subgroup (MulAut W)}
+    (_hsq : ∀ w : W, w ^ 2 = 1) {X Y : Subgroup (MulAut W)}
     (hYN : Y ≤ Subgroup.normalizer (X : Set (MulAut W)))
     (hK : Nat.card K = (2 ^ 2) ^ 2)
     {π : ↥(StatedSU 4 (2 ^ 2) K) →* ↥X}
@@ -828,7 +833,7 @@ theorem not_isFFModule_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
       exists_of_mem_normalizer_diag (k := 2) hΓ (hYmap (hAmY ha))
     exact ⟨A', σ, B, hA'semi, haσ, hform⟩
   have hAm2 : IsPGroup 2 ↥Am := E3.isPGroup_of_isElemAbelian2 hAmel
-  obtain ⟨u, hu, hufix⟩ := @exists_fixed_lineSub (Fin 4) _ _ K _ _ hchar Am hAm2
+  obtain ⟨u, hu, hufix⟩ := @exists_fixed_lineSub (Fin 4) _ K _ _ hchar Am hAm2
     (fun a ha => by
       obtain ⟨A', σ, B, hA', -, hform⟩ := hformA a ha
       exact ⟨A', σ, B, hA', hform⟩)
@@ -845,7 +850,7 @@ theorem not_isFFModule_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
     rw [Finset.sum_eq_single p1]
     · simp
     · intro b _ hb
-      simp [Matrix.one_apply, Ne.symm hb]
+      simp [Ne.symm hb]
     · intro hp
       exact (hp (Finset.mem_univ _)).elim
   have hXJnat : ∀ x ∈ natImage (diagSub 2 Γ), ∀ w ∈ J, x w ∈ J := by
@@ -884,7 +889,7 @@ theorem not_isFFModule_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
     have h1 := Subgroup.card_ker_mul_card_range (actOnSub hAmJ)
     have hker : (actOnSub hAmJ).ker = A₁.subgroupOf Am := by
       ext a
-      simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf, mem_centSub]
+      simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
       constructor
       · intro h
         refine ⟨a.2, ?_⟩
@@ -1024,6 +1029,7 @@ theorem not_isFFModule_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
     have hle := le_trans hAmcard h2
     exact (not_lt_of_ge hle) hineq
 
+omit [Finite K] in
 theorem toAddMap_diagGL_of_colSub {x : Fin 4 → K} {γ : GL (Fin 4) K} {c : K}
     (hc : (γ : Matrix (Fin 4) (Fin 4) K) *ᵥ x = c • x)
     {v : StdMod (Fin 2 × Fin 4) K} (hv : v ∈ colSub (K ∙ x)) :
@@ -1050,6 +1056,7 @@ theorem toAddMap_diagGL_of_colSub {x : Fin 4 → K} {γ : GL (Fin 4) K} {c : K}
     rintro a ⟨c, hc⟩
     exact ⟨-c, by rw [toAdd_inv, hc, neg_smul]⟩
 
+omit [Finite K] in
 theorem twoNatKLine_ne_bot {v : StdMod (Fin 2 × Fin 4) K} (hv : v ≠ 1) : twoNatKLine v ≠ ⊥ := by
   intro h
   have hmem : v ∈ twoNatKLine v := ⟨1, by simp⟩
@@ -1057,7 +1064,7 @@ theorem twoNatKLine_ne_bot {v : StdMod (Fin 2 × Fin 4) K} (hv : v ≠ 1) : twoN
   exact hv hmem
 
 theorem exists_Z_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
-    (hsq : ∀ w : W, w ^ 2 = 1) {X Y : Subgroup (MulAut W)} (hXY : X ≤ Y)
+    (_hsq : ∀ w : W, w ^ 2 = 1) {X Y : Subgroup (MulAut W)} (_hXY : X ≤ Y)
     (hYN : Y ≤ Subgroup.normalizer (X : Set (MulAut W)))
     (hK : Nat.card K = (2 ^ 2) ^ 2)
     {π : ↥(StatedSU 4 (2 ^ 2) K) →* ↥X}
@@ -1114,7 +1121,7 @@ theorem exists_Z_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
   have hCmem : twoNatVec (fun i : Fin 2 => if i = 0 then (1 : K) else 0) x ∈ C := by
     intro j
     fin_cases j
-    · simpa [twoNatVec, C] using Submodule.subset_span (Set.mem_singleton x)
+    · simp [twoNatVec]
     · convert Submodule.zero_mem (K ∙ x) using 1
       funext i
       simp [twoNatVec]
@@ -1231,7 +1238,7 @@ theorem exists_Z_of_sumOfNatVia_su4 {W : Type} [CommGroup W] [Finite W]
   have hcomp : (MulAut.congr e.symm).toMonoidHom.comp (MulAut.congr e).toMonoidHom =
       MonoidHom.id (MulAut W) := by
     ext a w
-    simp [congrHom_apply]
+    simp
   refine ⟨Z₀.map e.symm.toMonoidHom, ?_, ?_, ?_⟩
   · rw [ne_eq, Subgroup.map_eq_bot_iff_of_injective Z₀ e.symm.injective]
     exact hZ₀ne

@@ -57,10 +57,10 @@ theorem m42_V4g {L : Subgroup G} (hL : M42A5 L) {b : G} (hb : b ∈ L) (hb3 : or
   have hbu : b * u' * b⁻¹ = v' := by simpa using congrArg Subtype.val e1
   have hbv : b * v' * b⁻¹ = u' * v' := by simpa using congrArg Subtype.val e2
   have hou : orderOf u' = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hu'2) hu'1
   have hov : orderOf v' = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hv'2) hv'1
   have hint : Subgroup.zpowers u' ⊓ Subgroup.zpowers v' = ⊥ := by
     rw [eq_bot_iff]
@@ -80,9 +80,9 @@ theorem m42_sym_false' (hN : FF79LemmaN) (hQ : FF84.LemmaQ)
     {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h : FF79Sec4 b J B b₁ b₂)
     {H K L X : Subgroup G} (hC1 : Subgroup.zpowers (b₁ * b₂) ⊔ H = Cen (b₁ * b₂))
     (S : M42Sit (b₁ * b₂) b (b₁ ^ 2 * b₂) H K L X) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup ↥K := S.Λiso.simple
-  haveI : IsSimpleGroup ↥L := S.Δiso.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup ↥K := S.Λiso.simple
+  have : IsSimpleGroup ↥L := S.Δiso.simple
   set β := b₁ * b₂ with hβdef
   set γ := b₁ ^ 2 * b₂ with hγdef
   obtain ⟨u, v, huL, hvL, hu2, hv2, hu1, hv1, huv, hcuv, hbu, hbv, hU4⟩ :=
@@ -326,7 +326,7 @@ theorem m42_sym_false' (hN : FF79LemmaN) (hQ : FF84.LemmaQ)
     have e : ψ' * (ψ'⁻¹ * x * ψ') * ψ'⁻¹ = x := by group
     rwa [e] at this
   have hVU : V ≤ U := by
-    haveI : (((⊥ : Subgroup G).subgroupOf K)).Normal := by
+    have : (((⊥ : Subgroup G).subgroupOf K)).Normal := by
       rw [Subgroup.bot_subgroupOf]; infer_instance
     let e : ↥K ⧸ ((⊥ : Subgroup G).subgroupOf K) ≃* ↥K :=
       (QuotientGroup.quotientMulEquivOfEq (Subgroup.bot_subgroupOf K)).trans

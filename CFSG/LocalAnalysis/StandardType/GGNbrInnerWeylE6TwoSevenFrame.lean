@@ -18,9 +18,9 @@ section Main
 
 theorem ggSCNoLine_adjoint_E6_two_seven {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     (r : ℕ) : GGSCNoLine 7 r (adjointGroup .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
-  haveI : Finite (adjointGroup .E6 K) := inferInstance
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (adjointGroup .E6 K) := inferInstance
   obtain ⟨s, m, hs, hm, hZ⟩ := exists_order_seven_frobenius_sl3 hK
   obtain ⟨ρ, hρ, hc, hmove⟩ := exists_sl3_frame_E6 (K := K)
   refine ggSCNoLine_of_sylowTorus_frameGen (N := 3) Nat.prime_seven (by norm_num) (2 : ZMod 7)

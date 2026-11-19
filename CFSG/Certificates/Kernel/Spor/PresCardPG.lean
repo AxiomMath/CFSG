@@ -57,13 +57,13 @@ private theorem siftA_mem_aux {n : ℕ} {K : Subgroup (Equiv.Perm (Fin n))} {lev
   | zero =>
     intro l hl g G hg h
     have hlt : ¬ l < levels.size := by omega
-    rw [siftA, dif_neg hlt] at h
+    rw [siftA, dite_eq_right hlt] at h
     rw [eq_of_eqA hg rep_idA h]
     exact one_mem _
   | succ d ih =>
     intro l hl g G hg h
     have hlt : l < levels.size := by omega
-    rw [siftA, dif_pos hlt] at h
+    rw [siftA, dite_eq_left hlt] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq] at h
     obtain ⟨hk, h⟩ := h
     obtain ⟨T, hTK, -, hr2⟩ := hT l hlt _ hk

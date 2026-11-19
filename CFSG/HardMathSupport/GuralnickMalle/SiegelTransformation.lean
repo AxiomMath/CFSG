@@ -19,10 +19,12 @@ variable (K : Type*) [Field K] [CharP K 2]
 
 @[expose] def exTau : ExSpace K ≃ₗ[K] ExSpace K := LinearEquiv.prodComm K (K × K) (K × K)
 
+omit [CharP K 2] in
 @[simp] theorem exTau_apply (x : ExSpace K) : exTau K x = (x.2, x.1) := rfl
 
 @[expose] def exDiag : (K × K) →ₗ[K] ExSpace K := LinearMap.prod LinearMap.id LinearMap.id
 
+omit [CharP K 2] in
 @[simp] theorem exDiag_apply (u : K × K) : exDiag K u = (u, u) := rfl
 
 end Counterexample
@@ -33,14 +35,15 @@ noncomputable def siegelLin (Qf : QuadraticForm K E) (a b : E) (c : K) : E →�
   LinearMap.id + (c • (QuadraticMap.polarBilin Qf).flip b).smulRight a +
     (c • (QuadraticMap.polarBilin Qf).flip a).smulRight b
 
+omit [CharP K 2] in
 theorem siegelLin_apply (Qf : QuadraticForm K E) (a b : E) (c : K) (x : E) :
     siegelLin Qf a b c x = x + c • (QuadraticMap.polarBilin Qf x b • a) +
       c • (QuadraticMap.polarBilin Qf x a • b) := by
   simp only [siegelLin, LinearMap.add_apply, LinearMap.smulRight_apply,
-    LinearMap.smul_apply, LinearMap.id_apply, BilinForm.flip_apply,
-    QuadraticMap.polarBilin_apply_apply, smul_smul]
+    LinearMap.smul_apply, LinearMap.id_apply, QuadraticMap.polarBilin_apply_apply, smul_smul]
   abel
 
+omit [CharP K 2] in
 @[simp] theorem siegelLin_zero (Qf : QuadraticForm K E) (a b : E) :
     siegelLin Qf a b 0 = LinearMap.id := by
   ext x

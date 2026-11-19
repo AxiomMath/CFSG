@@ -361,6 +361,7 @@ private theorem exists_conjSub_eq_of_mem_sigmaSet
   have hPΓ₂ := P_preserves_gamma2 hS (Γ₂ := Γ₂) hΓ₂ hL hMΓ
   exact gamma2_contradiction hS h60 hΓ₁ hΓ₂ hL hVΓ hGam2Sig hPΓ₂ hcomm₁₂ hcenter
 
+omit [Finite G] in
 private theorem same_commuting_set_conj
     {Γ : Set (Subgroup G)} {L : Subgroup G} {A B : Subgroup G} {g : G}
     (hΓL : ∀ C ∈ Γ, C ≤ L) (hAL : A ≤ L) (hBL : B ≤ L) (hAeq : A = conjSubgroup g V)
@@ -474,6 +475,7 @@ private theorem pointsDetermined_restrict
       _ = A := hAeq.symm
   exact (CFSG.Timmesfeld.ARS.subgroupOf_inj_of_le hAL hBL).mpr hBAeq.symm
 
+omit [Finite G] in
 private theorem conj_map_injective
     {f n : ℕ} {Φ : ↥(StatedSp n (GaloisField 2 f)) →* G} (hΦinj : Function.Injective Φ)
     (x : ↥(StatedSp n (GaloisField 2 f))) :
@@ -487,6 +489,7 @@ private theorem conj_map_injective
   exact Subgroup.map_injective (f := (MulAut.conj x).toMonoidHom)
     (MulAut.conj x).injective h''
 
+omit [Finite G] in
 private theorem sp_image_eq
     {f n : ℕ}
     {Φ : ↥(StatedSp n (GaloisField 2 f)) →* G} (hΦinj : Function.Injective Φ)
@@ -564,6 +567,7 @@ private theorem sp_image_eq
         inv_mul_cancel] at h
       simpa using h
 
+omit [Finite G] in
 private theorem card_sp_conj_commuting_eq
     {f n : ℕ}
     {Φ : ↥(StatedSp n (GaloisField 2 f)) →* G} (hΦinj : Function.Injective Φ)
@@ -642,6 +646,7 @@ private theorem restrict_conj_ne_mul
     exact Subtype.ext (by
       simpa [pow_two] using hB_elem.2 (x : G) hxB')
 
+omit [Finite G] in
 private theorem restrict_rel_gen
     {Γ : Set (Subgroup G)} {L : Subgroup G}
     (hL : L = ⨆ A ∈ Γ, A)
@@ -699,6 +704,7 @@ private theorem isRootClass_restrict
   obtain ⟨h4, h5⟩ := restrict_rel_gen hL hpair
   exact { conj_class := h1, ne_bot := h2, mul_self := h3, rel := h4, gen := h5 }
 
+omit [Finite G] in
 private theorem noSpecial_restrict
     {Γ : Set (Subgroup G)} {L : Subgroup G}
     (hRoot : IsRootClass (restrict Γ L))
@@ -876,7 +882,7 @@ theorem Sec6Hyp.recog (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V)
   have hf2 : 2 ≤ f := by
     have h4' : 4 ≤ 2 ^ f := by rw [← hcardV]; exact h4
     by_contra h
-    interval_cases f <;> norm_num at h4'
+    interval_cases f; norm_num at h4'
   rcases hcon with ⟨n, hn, Φ, hΦinj, -, hmem⟩ | ⟨m, hm, Φ, hker, hrange, hmem⟩
   · exact (sp_branch_false hS h60 hVΓ hSigΓ hcomm hf1 hcardV hn hΦinj hmem).elim
   · refine ⟨f, hf2, hcardV, m, hm, Φ, hker, ?_, ?_⟩
@@ -946,7 +952,7 @@ private theorem V_inf_generalizedFitting_ne_bot
     rw [Subgroup.subgroupOf_eq_bot] at hbot
     rw [inf_comm]
     exact disjoint_iff.mp hbot
-  haveI : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
   obtain ⟨y, hy1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥(T : Subgroup G)) hSne)
   have hyF : ((y : ↥(T : Subgroup G)) : G) ∈ generalizedFitting G :=
@@ -960,7 +966,7 @@ private theorem V_inf_generalizedFitting_ne_bot
     exact congrArg Subtype.val
       (Subgroup.mem_center_iff.mp y.2.2 ⟨t, ht⟩)
   have hyV : ((y : ↥(T : Subgroup G)) : G) ∈ V :=
-    hR.toHyp.center_sylow_le hTM T.isPGroup' hQT ⟨hyT, hyC⟩
+    hR.toHyp.center_sylow_le hTM T.isPGroup hQT ⟨hyT, hyC⟩
   intro hbot
   have hmem : ((y : ↥(T : Subgroup G)) : G) ∈ V ⊓ generalizedFitting G :=
     Subgroup.mem_inf.mpr ⟨hyV, hyF⟩
@@ -999,7 +1005,7 @@ private theorem V_le_generalizedFitting
     rw [conjSubgroup_inf, hconjF, ← hUg] at hconj
     exact hconj
   let H : Subgroup G := U ⊔ U'
-  haveI : IsSimpleGroup ↥H := hL2.isSimpleGroup hU4
+  have : IsSimpleGroup ↥H := hL2.isSimpleGroup hU4
   have hHF : H ⊓ generalizedFitting G ≠ ⊥ := by
     intro hbot
     apply hUinfF
@@ -1037,8 +1043,8 @@ theorem Sec6Hyp.normalClosure_eq (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V) :
   let F := generalizedFitting G
   have hFnormal : F.Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
-  haveI : IsSimpleGroup ↥F := hsimple.1
-  haveI : F.Normal := hFnormal
+  have : IsSimpleGroup ↥F := hsimple.1
+  have : F.Normal := hFnormal
   have hVF : V ≤ F := V_le_generalizedFitting hS h60
   have hNleF : Subgroup.normalClosure (V : Set G) ≤ F :=
     Subgroup.normalClosure_le_normal (fun v hv => hVF hv)
@@ -1046,7 +1052,7 @@ theorem Sec6Hyp.normalClosure_eq (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V) :
     intro hbot
     have hVle : V ≤ Subgroup.normalClosure (V : Set G) := Subgroup.subset_normalClosure
     exact hR.toHyp.ne_bot (le_bot_iff.mp (hVle.trans (le_of_eq hbot)))
-  haveI : ((Subgroup.normalClosure (V : Set G)).subgroupOf F).Normal :=
+  have : ((Subgroup.normalClosure (V : Set G)).subgroupOf F).Normal :=
     Subgroup.Normal.subgroupOf
       (inferInstance : (Subgroup.normalClosure (V : Set G)).Normal) F
   have hNsubne : (Subgroup.normalClosure (V : Set G)).subgroupOf F ≠ ⊥ := by

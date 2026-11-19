@@ -202,7 +202,7 @@ theorem inv_diffZ {X : Subgroup G} (hHX : g23H m ≤ normalizer (X : Set G)) {k 
     x ∈ (X : Set G) \ ((frameOf m).Z : Set G) ↔
       k * x * k⁻¹ ∈ (X : Set G) \ ((frameOf m).Z : Set G) := by
   have hn := mem_normalizer_iff.mp (hHX hk) x
-  simp only [Set.mem_diff, SetLike.mem_coe]
+  simp only [Set.mem_sdiff, SetLike.mem_coe]
   rw [← hn, ← conj_Z m hk]
 
 theorem orbit_Q {X : Subgroup G} {TX K V W E : ℕ → ℕ} {a : ℕ}
@@ -276,7 +276,7 @@ theorem orbit_Q {X : Subgroup G} {TX K V W E : ℕ → ℕ} {a : ℕ}
       · rw [hb] at hx
         exact hWnZ q hq x (by rw [hb]; exact hx) (by rw [enc_unique m.inj hx hizE]; exact mem_zpowers _))
     (by rw [Finset.card_pair hiz0.symm])
-  refine orbit_of_rec m htab Set.diff_subset ha (by norm_num) (fun q hq => T0_mem_of m (hKE' q hq).1)
+  refine orbit_of_rec m htab Set.sdiff_subset ha (by norm_num) (fun q hq => T0_mem_of m (hKE' q hq).1)
     (fun q hq => uE1_mem_Z_of m (hKE' q hq).2) (fun q hq => eqK_at e1 (by norm_num) q hq)
     (fun q hq => eqK_at e2 (by norm_num) q hq) (ltK_at lV (by norm_num)) (ltK_at lW (by norm_num))
     ?_ ?_ (fun k hk x => inv_diffZ m hHX (T0_le_H m hk) x) ?_
@@ -352,7 +352,7 @@ theorem inv_O3 {k : G} (hk : k ∈ g23H m) (x : G) :
   have hA := mem_normalizer_iff.mp (H_norm_A m hk) x
   have h1 := mem_normalizer_iff.mp (H_norm_Q1 m hk) x
   have h2 := mem_normalizer_iff.mp (H_norm_Q2 m hk) x
-  simp only [Set.mem_diff, Set.mem_union, SetLike.mem_coe]
+  simp only [Set.mem_sdiff, Set.mem_union, SetLike.mem_coe]
   rw [← hA, ← h1, ← h2]
 
 theorem Q1_le_A : closure {(frameOf m).a₁, (frameOf m).b₁} ≤ (frameOf m).A := by
@@ -497,7 +497,7 @@ theorem orbit3 : IsOrbitMod (T0 m) (frameOf m).Z (((frameOf m).A : Set G) \
   have hZA := Z_le_of m (z_mem_A m)
   have hZ1 := Z_le_of m (z_mem_Q1 m)
   have hZ2 := Z_le_of m (z_mem_Q2 m)
-  refine orbit_of_rec m htA Set.diff_subset (by norm_num) (by norm_num)
+  refine orbit_of_rec m htA Set.sdiff_subset (by norm_num) (by norm_num)
     (fun q hq => T0_mem_of m (hKE' q hq).1) (fun q hq => uE1_mem_Z_of m (hKE' q hq).2)
     (fun q hq => eqK_at e1 (by norm_num) q hq) (fun q hq => eqK_at e2 (by norm_num) q hq)
     (ltK_at lV (by norm_num)) (ltK_at lW (by norm_num)) ?_ ?_
@@ -521,6 +521,7 @@ theorem orbit3 : IsOrbitMod (T0 m) (frameOf m).Z (((frameOf m).A : Set G) \
     · exact hx.2 (Or.inl (by rw [e]; exact mul_mem h (inv_mem (hZ1 hζ))))
     · exact hx.2 (Or.inr (by rw [e]; exact mul_mem h (inv_mem (hZ2 hζ))))
 
+omit [Finite G] in
 theorem cube_closure_pair {a b : G} (hc : Commute a b) (ha : a ^ 3 = 1) (hb : b ^ 3 = 1) :
     ∀ x ∈ closure ({a, b} : Set G), x ^ 3 = 1 := by
   have hc1 : ∀ x ∈ closure ({a, b} : Set G), Commute x a ∧ Commute x b := by
@@ -600,7 +601,7 @@ theorem T0_card : 9 ≤ Nat.card (T0 m) := by
   rwa [Nat.card_prod, Nat.card_fin] at this
 
 theorem T0_sylow : IsSylowIn 3 (g23H m) (T0 m) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := T0_pgroup m
   have h9 := T0_card m
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hp
@@ -633,7 +634,7 @@ theorem A_orbits : ∀ T : Subgroup G, IsSylowIn 3 (g23H m) T →
     IsOrbitMod T (frameOf m).Z ((frameOf m).A \
       ((closure {(frameOf m).a₁, (frameOf m).b₁} : Set G) ∪
         (closure {(frameOf m).a₂, (frameOf m).b₂} : Set G))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact forall_isSylowIn_of_one (T0_sylow m) ⟨orbit1 m, orbit2 m, orbit3 m⟩ fun g hg _ =>
     ⟨isOrbitMod_conj (H_norm_Z m hg) (inv_diffZ m (H_norm_Q1 m) hg) (orbit1 m),
       isOrbitMod_conj (H_norm_Z m hg) (inv_diffZ m (H_norm_Q2 m) hg) (orbit2 m),

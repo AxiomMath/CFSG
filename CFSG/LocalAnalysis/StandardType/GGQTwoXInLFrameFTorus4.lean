@@ -199,7 +199,7 @@ lemma frame_col_support {n : ℕ} {M : Type} [Field M] [Finite M]
         (((B : GL (Fin n) M) : Matrix (Fin n) (Fin n) M) k i) := by
     simpa [Matrix.mul_diagonal, Matrix.diagonal_mul, frameT_val, ti] using
       congrFun (congrFun hmat k) i
-  rw [if_neg hk, one_mul] at hEq
+  rw [ite_eq_right hk, one_mul] at hEq
   have hzero : (((B : GL (Fin n) M) : Matrix (Fin n) (Fin n) M) k i) *
       ((c : M) - 1) = 0 := by
     rw [mul_sub, mul_one]

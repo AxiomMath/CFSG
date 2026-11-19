@@ -14,6 +14,7 @@ variable {K : Type*} [Field K] [CharP K 2] {V : Type*} [AddCommGroup V] [Module 
 @[expose] def conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) : Subgroup (V ≃ₗ[K] V) :=
   E.map (MulAut.conj h).toMonoidHom
 
+omit [CharP K 2] in
 theorem mem_conjSubgroup_iff {h s : V ≃ₗ[K] V} {E : Subgroup (V ≃ₗ[K] V)} :
     s ∈ conjSubgroup h E ↔ h⁻¹ * s * h ∈ E := by
   constructor
@@ -22,10 +23,12 @@ theorem mem_conjSubgroup_iff {h s : V ≃ₗ[K] V} {E : Subgroup (V ≃ₗ[K] V)
   · intro hs
     exact ⟨h⁻¹ * s * h, hs, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [CharP K 2] in
 theorem mul_mem_conjSubgroup {h x : V ≃ₗ[K] V} {E : Subgroup (V ≃ₗ[K] V)} (hx : x ∈ E) :
     h * x * h⁻¹ ∈ conjSubgroup h E :=
   ⟨x, hx, by simp [MulAut.conj_apply]⟩
 
+omit [CharP K 2] in
 theorem movedSpace_conj (h s : V ≃ₗ[K] V) :
     movedSpace (h * s * h⁻¹) = (movedSpace s).map (h : V →ₗ[K] V) := by
   ext y
@@ -39,6 +42,7 @@ theorem movedSpace_conj (h s : V ≃ₗ[K] V) :
     refine ⟨h x, ?_⟩
     simp
 
+omit [CharP K 2] in
 theorem axes_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) :
     axes (conjSubgroup h E) = Submodule.map (h : V →ₗ[K] V) '' axes E := by
   ext A
@@ -61,10 +65,12 @@ theorem axes_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) :
     rw [this, h1]
     simp
 
+omit [CharP K 2] in
 theorem mem_axisInf_iff {E : Subgroup (V ≃ₗ[K] V)} {x : V} :
     x ∈ axisInf E ↔ ∀ A ∈ axes E, x ∈ A := by
   simp [axisInf, Submodule.mem_iInf]
 
+omit [CharP K 2] in
 theorem axisInf_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) :
     axisInf (conjSubgroup h E) = (axisInf E).map (h : V →ₗ[K] V) := by
   ext x
@@ -80,6 +86,7 @@ theorem axisInf_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) 
   · rintro ⟨y, hy, rfl⟩ A hA
     exact Submodule.mem_map_of_mem (mem_axisInf_iff.mp hy A hA)
 
+omit [CharP K 2] in
 theorem commutatorSpace_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) :
     commutatorSpace (conjSubgroup h E) = (commutatorSpace E).map (h : V →ₗ[K] V) := by
   refine le_antisymm (commutatorSpace_le_of_forall_axes_le fun B hB => ?_) ?_
@@ -91,6 +98,7 @@ theorem commutatorSpace_conjSubgroup (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ
     rw [← Submodule.map_le_iff_le_comap]
     exact le_commutatorSpace_of_mem_axes (by rw [axes_conjSubgroup]; exact ⟨A, hA, rfl⟩)
 
+omit [CharP K 2] in
 theorem exists_le_map_iff (h : V ≃ₗ[K] V) (n : ℕ) (𝓕 : Set (Submodule K V)) :
     (∃ P : Submodule K V, finrank K P = n ∧ ∀ A ∈ Submodule.map (h : V →ₗ[K] V) '' 𝓕, P ≤ A) ↔
       ∃ P : Submodule K V, finrank K P = n ∧ ∀ A ∈ 𝓕, P ≤ A := by
@@ -104,6 +112,7 @@ theorem exists_le_map_iff (h : V ≃ₗ[K] V) (n : ℕ) (𝓕 : Set (Submodule K
     exact ⟨P.map (h : V →ₗ[K] V), by rw [LinearEquiv.finrank_map_eq, hP1],
       fun A ⟨B, hB, hBA⟩ => hBA ▸ Submodule.map_mono (hP B hB)⟩
 
+omit [CharP K 2] in
 theorem exists_map_le_iff (h : V ≃ₗ[K] V) (n : ℕ) (𝓕 : Set (Submodule K V)) :
     (∃ U : Submodule K V, finrank K U = n ∧ ∀ A ∈ Submodule.map (h : V →ₗ[K] V) '' 𝓕, A ≤ U) ↔
       ∃ U : Submodule K V, finrank K U = n ∧ ∀ A ∈ 𝓕, A ≤ U := by
@@ -117,11 +126,13 @@ theorem exists_map_le_iff (h : V ≃ₗ[K] V) (n : ℕ) (𝓕 : Set (Submodule K
     exact ⟨U.map (h : V →ₗ[K] V), by rw [LinearEquiv.finrank_map_eq, hU1],
       fun A ⟨B, hB, hBA⟩ => hBA ▸ Submodule.map_mono (hU B hB)⟩
 
+omit [CharP K 2] in
 theorem conc_conjSubgroup_iff (h : V ≃ₗ[K] V) (E : Subgroup (V ≃ₗ[K] V)) :
     Conc (conjSubgroup h E) ↔ Conc E := by
   unfold Conc
   rw [axes_conjSubgroup, exists_le_map_iff, exists_map_le_iff]
 
+omit [CharP K 2] in
 theorem isLongRootElement_conj_iff {h : V ≃ₗ[K] V} (hh : ∀ v, Qf (h v) = Qf v)
     {s : V ≃ₗ[K] V} : IsLongRootElement Qf (h * s * h⁻¹) ↔ IsLongRootElement Qf s := by
   have hg : h ∈ TauCeti.QuadraticMap.orthogonalGroup Qf :=

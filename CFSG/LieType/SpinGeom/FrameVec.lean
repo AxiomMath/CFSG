@@ -75,8 +75,8 @@ theorem frameE_zero_eq : frameE K 0 = frameVec K 1 0 0 0 := by
   apply vec_ext
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k
-    · rw [coordX_frameVec_zero, coordX_frameE, if_pos rfl]
-    · rw [coordX_frameVec_succ, coordX_frameE, if_neg (Fin.succ_ne_zero l).symm]
+    · rw [coordX_frameVec_zero, coordX_frameE, ite_eq_left rfl]
+    · rw [coordX_frameVec_succ, coordX_frameE, ite_eq_right (Fin.succ_ne_zero l).symm]
       rfl
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k

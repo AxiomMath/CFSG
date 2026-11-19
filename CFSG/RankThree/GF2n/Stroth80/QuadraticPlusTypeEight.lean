@@ -38,7 +38,7 @@ theorem nondegenerate_polarBilin_of_model {H : Type} [Group H] {QF V : Subgroup 
 theorem quadraticPlusType_of_dickson (hD : DicksonOmegaPlusFourStatement) :
     QuadraticPlusTypeStatement := by
   intro H _ K _ _ QF V γ M₀ Γ hchar hfin hΓO hΓiso
-  haveI := hchar
+  have := hchar
   have hQ := nondegenerate_polarBilin_of_model M₀
   have hdim : Module.finrank K M₀.E = 2 * 4 := hfin
   rcases exists_isometry_quadPlus_or_quadMinus M₀.toQuadraticForm hQ (by norm_num) hdim with

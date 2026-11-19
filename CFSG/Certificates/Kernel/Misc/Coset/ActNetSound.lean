@@ -50,9 +50,9 @@ theorem invC_eq (c : ℕ) : invC c = if c % 2 = 0 then c + 1 else c - 1 := by
   have h2 : Nat.land c 1 = c % 2 := Nat.and_one_is_mod c
   rw [h2]
   rcases Nat.mod_two_eq_zero_or_one c with h | h
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     rfl
-  · rw [h, if_neg (by norm_num)]
+  · rw [h, ite_eq_right (by norm_num)]
     rfl
 
 theorem invRels_eq : ∀ rels : List (List ℕ), invRels rels = rels.map (fun r => r.map invC)
@@ -113,11 +113,11 @@ theorem wF_walk (hL : ∀ x < N, LetOK A m N x)
       · omega
     rw [List.map_cons, walk_cons]
     simp only [wF]
-    rw [if_pos hic, ih, hb _ hic _ hy', invC_eq]
+    rw [ite_eq_left hic, ih, hb _ hic _ hy', invC_eq]
     obtain ⟨g, rfl | rfl⟩ : ∃ g, c = g + g ∨ c = g + g + 1 := ⟨c / 2, by omega⟩
-    · rw [if_pos (by omega)]
+    · rw [ite_eq_left (by omega)]
       exact ((hL y hy).2 g (by omega)).1
-    · rw [if_neg (by omega), show g + g + 1 - 1 = g + g by omega]
+    · rw [ite_eq_right (by omega), show g + g + 1 - 1 = g + g by omega]
       exact ((hL y hy).2 g (by omega)).2
 
 theorem pointOK_all_of {rels : List (List ℕ)} (hk : k ≤ 32) (hN : N ≤ 2 ^ k)

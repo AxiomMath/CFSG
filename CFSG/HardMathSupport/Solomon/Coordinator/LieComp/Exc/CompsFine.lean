@@ -99,7 +99,7 @@ theorem compsWith_of_perfectResidual {P : (X : Type) → [Group X] → Prop} {C 
     (hPJ : P ↥(CFSG.perfectResidual C)) : CompsWith P C := by
   intro K hK
   have hRn : (CFSG.perfectResidual C).Normal := by
-    haveI := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := C)
+    have := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := C)
     infer_instance
   have hRc : IsComponentOf (CFSG.perfectResidual C) ⊤ :=
     ⟨le_top, IsSubnormal.step le_top ((Subgroup.normal_subgroupOf_iff le_top).2
@@ -123,8 +123,8 @@ theorem compsWith_of_isSolvable {P : (X : Type) → [Group X] → Prop} {C : Typ
   intro K hK
   exfalso
   obtain ⟨hp, hs⟩ := hK.2.2
-  haveI := hs.toNontrivial
-  haveI : Nontrivial ↥K := (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
+  have := hs.toNontrivial
+  have : Nontrivial ↥K := (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
   exact absurd hp (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥K))
 
 theorem compsFine_of_isSolvable {q : ℕ} {C : Type} [Group C] [Group.IsSolvable C] :
@@ -147,12 +147,12 @@ theorem eq_bot_or_top_of_isSubnormal' {S : Type*} [Group S] [IsSimpleGroup S] {L
       have hN : H.Normal := by
         rw [Subgroup.normal_subgroupOf_iff hle] at hnormal
         exact ⟨fun x hx g => hnormal x g hx (Subgroup.mem_top g)⟩
-      haveI := hN
+      have := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
 theorem compsWith_of_simple {P : (X : Type) → [Group X] → Prop}
     (hP : IsComponentProperty P) {C : Type} [Group C] [Finite C]
-    [IsSimpleGroup C] (hnc : ∃ a b : C, a * b ≠ b * a) (hPJ : P C) : CompsWith P C := by
+    [IsSimpleGroup C] (_hnc : ∃ a b : C, a * b ≠ b * a) (hPJ : P C) : CompsWith P C := by
   intro K hK
   have hKtop : K = ⊤ := by
     rcases eq_bot_or_top_of_isSubnormal' hK.2.1 with h | h
@@ -205,7 +205,7 @@ theorem compsFine_of_commutator {q : ℕ} {C : Type} [Group C] [Finite C]
 theorem le_of_perfect_of_solvable_quotient {C : Type} [Group C] {J P : Subgroup C} [J.Normal]
     (hsol : Group.IsSolvable (C ⧸ J)) (hP : ⁅P, P⁆ = P) : P ≤ J := by
   intro x hx
-  haveI := hsol
+  have := hsol
   have h := LieSemisimple.map_eq_one_of_perfect (G := C) (C := ⊤) (P := P) le_top hP
     ((QuotientGroup.mk' J).comp (Subgroup.topEquiv : ↥(⊤ : Subgroup C) ≃* C).toMonoidHom) x hx
   exact (QuotientGroup.eq_one_iff x).1 h

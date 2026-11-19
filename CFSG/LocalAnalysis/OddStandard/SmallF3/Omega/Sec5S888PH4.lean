@@ -119,7 +119,7 @@ theorem planeW_perm [Finite H] {T : Subgroup H} (hS : PlaneSetup z K α)
         rw [CFSG.conjugate, Subgroup.mem_map]
         exact ⟨u, huK, by simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]⟩
       rwa [hj] at hmem
-  · simp only [map_mul, map_inv, inv_inv]
+  · simp only [map_mul, map_inv]
 
 theorem planeV_le_map [Finite H] {T : Subgroup H} (hP : PocketHyp z K T) (α : H →* X) :
     planeV hP.quad α ≤ T.map α :=

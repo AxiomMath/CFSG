@@ -211,7 +211,7 @@ theorem card_le_two_of_isPGroup_of_card_eq_four {Q : Type*} [Group Q] [Finite Q]
       ← Nat.card_eq_fintype_card, hQ]
   have hfin : Finite (MulAut Q) := Finite.of_injective g hginj
   have hperm : Nat.card (Equiv.Perm {u : Q // u ≠ 1}) = 6 := by
-    haveI : Fintype {u : Q // u ≠ 1} := Fintype.ofFinite _
+    have : Fintype {u : Q // u ≠ 1} := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, ← Nat.card_eq_fintype_card, h3]
     decide
   have hdvd : Nat.card R ∣ 6 := by
@@ -424,7 +424,7 @@ theorem commutator_mem_centerIn_of_quaternion_quotient [Finite G] {T N : Subgrou
       rw [← Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥N), hidx, hZcard]
     exact Nat.eq_of_mul_eq_mul_right hZpos' h1
   have hQcomm : ∀ a b : ↥N ⧸ Subgroup.center ↥N, a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (by rw [hQ]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hQ]; norm_num)).is_comm.comm
   have hZchar : (Subgroup.center ↥N).Characteristic := Subgroup.centerCharacteristic
   let Φ₀ : ↥T →* MulAut ↥N :=
     (Subgroup.normalizerMonoidHom N).comp (Subgroup.inclusion hTnorm)

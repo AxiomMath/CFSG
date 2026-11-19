@@ -55,7 +55,7 @@ theorem burnsideF411a_swap_of_graph {E : Type} [Group E] [Finite E] {p : ℕ} [F
     (hζ1 : ((Gp ⊓ M₁).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₂).subgroupOf Gp)
     (hζ2 : ((Gp ⊓ M₂).subgroupOf Gp).map ζ.toMonoidHom = (Gp ⊓ M₁).subgroupOf Gp) :
     burnsideF411_Swap M₁ M₂ := by
-  haveI := hN
+  have := hN
   have hM₁ := burnsideF411_eq_normalizer hN hsplit hP
   have hsplit' : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₂ ⊓ M₁, e = n * h := fun e => by
     obtain ⟨n, hn, h, hh, rfl⟩ := hsplit e

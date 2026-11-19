@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {M L : Subgroup (MulAut W)} {Z : Subgroup W}
 
+omit [Finite W] in
 theorem SevenCfg.exists_conj_ne (h : SevenCfg M L Z) :
     ∃ Y ∈ conjSubs M Z, ∃ l ∈ L, ∃ y ∈ Y, l y ≠ y := by
   by_contra hcon
@@ -23,6 +24,7 @@ theorem SevenCfg.exists_conj_ne (h : SevenCfg M L Z) :
   rw [hbot, Subgroup.card_bot] at hcard
   omega
 
+omit [Finite W] in
 private theorem s16c167_ne_map_of_normalizer {g : MulAut W}
     (hg : g ∈ normalizer (L : Set (MulAut W))) {Y : Subgroup W}
     (hY : ∃ l ∈ L, ∃ y ∈ Y, l y ≠ y) : ∃ l ∈ L, ∃ y ∈ Y.map g.toMonoidHom, l y ≠ y := by
@@ -55,7 +57,7 @@ private theorem s16c167_block (h : SevenCfg M L Z) (π : Equiv.Perm ↥(conjSubs
     have hcard : Nat.card ↥(conjSubs M Z) = 4 := by
       rw [Nat.card_coe_set_eq]
       exact h.ncard
-    haveI : Finite ↥(conjSubs M Z) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    have : Finite ↥(conjSubs M Z) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     have hsub : π '' {Y : ↥(conjSubs M Z) | ∃ l ∈ L, ∃ y ∈ (Y : Subgroup W), l y ≠ y} ⊆
         {Y : ↥(conjSubs M Z) | ∃ l ∈ L, ∃ y ∈ (Y : Subgroup W), l y ≠ y} := by
       rintro _ ⟨Y, hY, rfl⟩
@@ -103,7 +105,7 @@ theorem SevenCfg.exists_ne_of_mem (h : SevenCfg M L Z) {Y : Subgroup W} (hY : Y 
       have hYY : (⟨Y', hY'⟩ : ↥(conjSubs M Z)) = Y₁ := hmem
       exact hcon ⟨y', by rw [← hYY]; exact hy', hne⟩
     have hcard8 : Nat.card ↥(Y₁ : Subgroup W) = 8 := h.card_of_mem hY₁mem
-    haveI : Nontrivial ↥(Y₁ : Subgroup W) :=
+    have : Nontrivial ↥(Y₁ : Subgroup W) :=
       (Finite.one_lt_card_iff_nontrivial (α := ↥(Y₁ : Subgroup W))).1 (by omega)
     obtain ⟨y₁, hy₁⟩ : ∃ y : ↥(Y₁ : Subgroup W), y ≠ 1 := exists_ne 1
     let f : ↥L → ↥(Y₁ : Subgroup W) := fun l =>
@@ -112,8 +114,8 @@ theorem SevenCfg.exists_ne_of_mem (h : SevenCfg M L Z) {Y : Subgroup W} (hY : Y 
         have hmem : (l : MulAut W) (y₁ : W) ∈ (Y₁ : Subgroup W).map (l : MulAut W).toMonoidHom :=
           Subgroup.mem_map.2 ⟨y₁, y₁.2, rfl⟩
         rwa [hm] at hmem⟩
-    haveI : Finite ↥(Y₁ : Subgroup W) := Nat.finite_of_card_ne_zero (by rw [hcard8]; norm_num)
-    haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [h.card_L]; norm_num)
+    have : Finite ↥(Y₁ : Subgroup W) := Nat.finite_of_card_ne_zero (by rw [hcard8]; norm_num)
+    have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [h.card_L]; norm_num)
     have hnotinj : ¬ Function.Injective f := fun hinj => by
       have hle := Nat.card_le_card_of_injective f hinj
       rw [hcard8, h.card_L] at hle

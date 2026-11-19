@@ -85,7 +85,7 @@ theorem borelCentralizerTrivial_statedSp_two (hK : 4 ≤ Nat.card K) :
     unique_symplectic_four_Sylow_center (K := K) (Nat.card K) rfl
   have h0 : IsSylowTwoOf (unipotent 2 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   refine borelCentralizerTrivial_of_core h0 ?_
   rw [SymplecticHigher.normalizer_unipotent (r := 2) (K := K)]
   exact core_all_statedSp_two hK

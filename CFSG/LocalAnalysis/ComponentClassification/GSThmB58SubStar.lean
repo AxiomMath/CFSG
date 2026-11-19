@@ -64,6 +64,7 @@ theorem normalizer_eq_centralizer_of_card_two {E : Subgroup G} (hE : Nat.card E 
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem orderOf_eq_two_of_card_two {E : Subgroup G} (hE : Nat.card E = 2) {e : G}
     (he : e ∈ E) (he1 : e ≠ 1) : orderOf e = 2 := by
   have h1 := orderOf_dvd_natCard (⟨e, he⟩ : ↥E)
@@ -494,7 +495,7 @@ theorem isoCorr_subStar (hc : h.SecCond y)
       h.secMk y g ∈ h.secImage y h.P := fun g hg =>
     mem_map_of_mem _ (show g ∈ h.P.subgroupOf (h.secG0 y) from hg)
   have hxPS : hc.subX ∈ h.subS y ⊓ coreActionKernel (h.subJ y) := by
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact hPS ⟨y, hc.y_mem_G0⟩ hc.mem_P
   have hxP : hc.subX ∈ P' := inf_le_inf_right _ hSS' hxPS
   have hxT : hc.subX ∉ P' ⊓ N := by
@@ -509,7 +510,7 @@ theorem isoCorr_subStar (hc : h.SecCond y)
     obtain ⟨k, hk⟩ := h2
     omega
   have haPS : hc.subA ∈ h.subS y ⊓ coreActionKernel (h.subJ y) := by
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     exact hPS ⟨h.a, hc.a_mem_G0⟩ h.a_mem_P
   have haP : hc.subA ∈ P' := inf_le_inf_right _ hSS' haPS
   have hSN : S' ≤ normalizer (P' : Set ↥(h.secSubImg y)) := fun s hs =>

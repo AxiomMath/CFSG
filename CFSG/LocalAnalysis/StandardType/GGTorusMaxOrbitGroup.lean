@@ -59,7 +59,7 @@ theorem tmOrb_refl7_refl7 (i : Fin 7) (x : Fin 7 → ZMod 3) :
   have h3 : (3 : ZMod 3) = 0 := rfl
   funext k
   simp only [tmOrb_refl7, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_add, Finset.sum_add_distrib,
-    Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, hii]
+    Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hii]
   split_ifs with hk
   · subst hk
     linear_combination (∑ j, tmOrb_negCart7 j k * x j) * h3
@@ -69,7 +69,7 @@ theorem tmOrb_pair7 (i : Fin 7) (c x : Fin 7 → ZMod 3) :
     ∑ k, c k * tmOrb_refl7 i x k = ∑ k, tmOrb_dual7 i c k * x k := by
   simp only [tmOrb_refl7, tmOrb_dual7, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_add, add_mul,
     Finset.sum_add_distrib, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   congr 1
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_
@@ -117,7 +117,7 @@ theorem tmOrb_refl8_refl8 (i : Fin 8) (x : Fin 8 → ZMod 3) :
   have h3 : (3 : ZMod 3) = 0 := rfl
   funext k
   simp only [tmOrb_refl8, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_add, Finset.sum_add_distrib,
-    Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, hii]
+    Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hii]
   split_ifs with hk
   · subst hk
     linear_combination (∑ j, tmOrb_negCart8 j k * x j) * h3
@@ -127,7 +127,7 @@ theorem tmOrb_pair8 (i : Fin 8) (c x : Fin 8 → ZMod 3) :
     ∑ k, c k * tmOrb_refl8 i x k = ∑ k, tmOrb_dual8 i c k * x k := by
   simp only [tmOrb_refl8, tmOrb_dual8, Pi.add_apply, Pi.smul_apply, smul_eq_mul, mul_add, add_mul,
     Finset.sum_add_distrib, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   congr 1
   rw [Finset.mul_sum]
   refine Finset.sum_congr rfl fun j _ => ?_

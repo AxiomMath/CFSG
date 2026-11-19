@@ -20,7 +20,7 @@ theorem f1_of_f2_klein {G : Type} [Group G] [Finite G] {I E : Subgroup G} {b : G
     (hK : KleinFour3 I) (W : Subgroup G) (hW : IsPGroup 2 W) (hW0 : W ≠ ⊥) (hWI : W ≤ I)
     (hWb : W ≤ Subgroup.centralizer ({b} : Set G))
     (hN : E ⊓ I ≤ Subgroup.normalizer (W : Set G)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ w ∈ W, b * w * b⁻¹ = w := fun w hw => by
     have h : b * w = w * b := Subgroup.mem_centralizer_iff.1 (hWb hw) b rfl
     rw [h]
@@ -104,7 +104,7 @@ theorem f1_of_f2_klein {G : Type} [Group G] [Finite G] {I E : Subgroup G} {b : G
   by_cases hEU : E ≤ Subgroup.centralizer (U : Set G)
   · have hF : U = ⊥ := hF2 U hU2 hUI (inf_le_left.trans hEU)
     exact hUne hF
-  · obtain ⟨g, hgE, hgU⟩ := SetLike.not_le_iff_exists.1 hEU
+  · obtain ⟨g, hgE, hgU⟩ := IsConcreteLE.not_le_iff_exists.1 hEU
     obtain ⟨u, huU, hu⟩ : ∃ u ∈ U, g * u * g⁻¹ ≠ u := by
       by_contra hcon
       push Not at hcon
@@ -168,7 +168,7 @@ theorem smallF1_of_f2_klein (S : Type) [Group S] [Finite S] (E : Subgroup (MulAu
     (hF2 : SmallF2 S E)
     (hK : KleinFour3 (CFSG.ComponentClassification.OuterAutomorphisms.inner S)) :
     SmallF1 S E := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   intro b hbE hbI W hW hW0 hWI hWb hN
   exact f1_of_f2_klein hE hEcard hE0 hbE hbI hF2 hK W hW hW0 hWI hWb hN
 

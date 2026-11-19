@@ -38,10 +38,10 @@ private theorem signedEltSC_projectiveSL_seven :
 theorem ggKGComponentDatum_projectiveSL_seven :
     GGKGComponentDatum 3 3 (projectiveSL 7 (ZMod 2)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨Nat.prime_three.ne_zero⟩
-  haveI : Nonempty (ZMod 2) := ⟨0⟩
-  haveI : Fintype (ZMod 2) := Fintype.ofFinite (ZMod 2)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨Nat.prime_three.ne_zero⟩
+  have : Nonempty (ZMod 2) := ⟨0⟩
+  have : Fintype (ZMod 2) := Fintype.ofFinite (ZMod 2)
   intro E hE h3 _ hsc
   have hZ : Subgroup.center (projectiveSL 7 (ZMod 2)) = ⊥ :=
     SlNsRootGen.center_projectiveSL_eq_bot_charTwo
@@ -64,7 +64,7 @@ theorem ggKGComponentDatum_projectiveSL_seven :
     decide
   have hpK0 : (3 : ZMod 2) ≠ 0 := by decide
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := ZMod 2) (p := 3) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ 3 = 1 :=
     (CoordSL.root_isPrimitiveRoot (K := ZMod 2) hp hpK0 hgd).pow_eq_one
   have hC : (rootMat g).det = 1 := CoordSL.det_rootMat (K := ZMod 2) hp hpK' hpK0 hgd

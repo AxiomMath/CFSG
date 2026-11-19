@@ -22,7 +22,7 @@ theorem closure_xt : Subgroup.closure xt = ⊤ := by
     fun i j h hc => Subgroup.subset_closure (Or.inr ⟨i, j, h, hc, rfl⟩)
   refine eq_top_of_elem_mem fun i j h => ?_
   fin_cases i <;> fin_cases j <;>
-    first | exact absurd rfl h | exact hd _ _ _ (by decide) | skip
+    try first | exact absurd rfl h | exact hd _ _ _ (by decide)
   · exact elem_mem_of_conj hw (i' := 1) (j' := 4) (h' := by decide) (by decide +kernel)
       (hd _ _ _ (by decide))
   · exact elem_mem_of_conj hw (i' := 2) (j' := 4) (h' := by decide) (by decide +kernel)
@@ -75,7 +75,7 @@ theorem closure_xu : Subgroup.closure xu = ⊤ := by
     fun i j h hi hj => Subgroup.subset_closure (Or.inr ⟨i, j, h, hi, hj, rfl⟩)
   refine eq_top_of_elem_mem fun i j h => ?_
   fin_cases i <;> fin_cases j <;>
-    first | exact absurd rfl h | exact hd _ _ _ (by decide) (by decide) | skip
+    try first | exact absurd rfl h | exact hd _ _ _ (by decide) (by decide)
   · exact elem_mem_of_conj hw₂ (i' := 0) (j' := 4) (h' := by decide) (by decide +kernel)
       (hd _ _ _ (by decide) (by decide))
   · exact elem_mem_of_conj hw₁ (i' := 1) (j' := 3) (h' := by decide) (by decide +kernel)

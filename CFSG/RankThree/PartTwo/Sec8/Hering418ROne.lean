@@ -99,8 +99,8 @@ theorem not_nine_dvd_orderOf_of_isOfFinOrder {F : Type*} [Field F] [CharP F 3]
 theorem noNineDvd_quot_of_oneRes {X : Type} [Group X] [Finite X] (hX : IsList46OneRes X) :
     NoNineDvd (X ⧸ Subgroup.center X) := by
   obtain ⟨e, he, h3e, ⟨φ⟩⟩ := hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (projSL 2 (GaloisField 3 e)) := Finite.of_equiv X φ.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (projSL 2 (GaloisField 3 e)) := Finite.of_equiv X φ.toEquiv
   intro x hx
   obtain ⟨x0, rfl⟩ := QuotientGroup.mk_surjective x
   have h1 : 9 ∣ orderOf x0 := hx.trans (orderOf_map_dvd (QuotientGroup.mk' _) x0)
@@ -111,7 +111,7 @@ section Final
 
 
 theorem kF418ModelOn_oneRes : KF418ModelOn (fun X _ => IsList46OneRes X) :=
-  kF418ModelOn_of_no_nine (fun _ _ n hn hq ht => hasNineQuot_of_isType418 hn hq ht)
+  kF418ModelOn_of_no_nine (fun _ _ _n hn hq ht => hasNineQuot_of_isType418 hn hq ht)
     (fun _ _ _ _ hX => noNineDvd_quot_of_oneRes hX)
 
 end Final

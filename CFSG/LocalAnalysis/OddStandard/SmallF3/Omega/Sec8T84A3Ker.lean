@@ -20,10 +20,12 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z g : G}
     ↥(L.subgroupOf (normalizer (B : Set G))) →* MulAut ↥B :=
   B.normalizerMonoidHom.comp (L.subgroupOf (normalizer (B : Set G))).subtype
 
+omit [Finite G] in
 theorem fHom_range (L B : Subgroup G) : (fHom L B).range = autIn L B := by
   unfold fHom autIn
   rw [MonoidHom.range_comp, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem fHom_apply_coe (L B : Subgroup G) (m : ↥(L.subgroupOf (normalizer (B : Set G))))
     (x : ↥B) : ((fHom L B m x : ↥B) : G) =
       ((m : ↥(normalizer (B : Set G))) : G) * x * ((m : ↥(normalizer (B : Set G))) : G)⁻¹ :=
@@ -57,6 +59,7 @@ theorem ker_g_le (hctx : Sec8Ctx G t L S z g B) (h : Sec8T84L1 G t L S z g B K L
   rw [fHom_apply_coe]
   simpa using h1.symm
 
+omit [Finite G] in
 theorem exists_mul_of_comm {H K : Subgroup G} (hHK : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) {x : G}
     (hx : x ∈ H ⊔ K) : ∃ a ∈ H, ∃ b ∈ K, x = a * b :=
   sec4_mem_sup_of_commute hHK hx

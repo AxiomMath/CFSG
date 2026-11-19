@@ -31,7 +31,7 @@ private lemma q2cSpN_add_sq {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
 
 open scoped IsMulCommutative in
 private lemma q2cSpN_formAdj_eq_mul_self {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ}
-    (hF : Fintype.card F = 2) (b : GL (Fin n ⊕ Fin n) F) (hb : b ∈ StatedSp n F)
+    (hF : Fintype.card F = 2) (b : GL (Fin n ⊕ Fin n) F) (_hb : b ∈ StatedSp n F)
     (hb3 : b ^ 3 = 1) {G : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F} (hG : IsUnit G.det)
     (hS : ∀ s ∈ ({b} : Set (GL (Fin n ⊕ Fin n) F)),
       ∀ s' ∈ ({b} : Set (GL (Fin n ⊕ Fin n) F)), Commute s s')
@@ -52,8 +52,8 @@ private lemma q2cSpN_formAdj_eq_mul_self {F : Type} [Field F] [Fintype F] [CharP
         (u : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS u hu v hv).eq
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommS
-  letI : CommSemiring A := inferInstance
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommS
+  let : CommSemiring A := inferInstance
   have hcommA : ∀ p ∈ A, ∀ q ∈ A, p * q = q * p := by
     intro p hp q hq
     have h := mul_comm (⟨p, hp⟩ : A) (⟨q, hq⟩ : A)
@@ -153,15 +153,15 @@ theorem q2cSp_statedSp_nonsplit_component_psl {F : Type} [Field F] [Finite F] [C
     (hne : Nonempty (↥C ⧸ Subgroup.center ↥C ≃*
       LargeEvenProj (LargeEvenSLGroup (Fin d) K))) : False := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP K 2 := charP_two_of_card hK
   have hF' : Fintype.card F = 2 := by rwa [← Nat.card_eq_fintype_card]
   let b : GL (Fin ℓ ⊕ Fin ℓ) F := (s : GL (Fin ℓ ⊕ Fin ℓ) F)
   have hb : b ∈ StatedSp ℓ F := s.2
   have hb3 : b ^ 3 = 1 := by
     change (s : GL (Fin ℓ ⊕ Fin ℓ) F) ^ 3 = 1
     simpa using congrArg Subtype.val hs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder : orderOf s = 3 := orderOf_eq_prime hs hs1
   have hodd : Odd (orderOf b) := by
     change Odd (orderOf (s : GL (Fin ℓ ⊕ Fin ℓ) F))

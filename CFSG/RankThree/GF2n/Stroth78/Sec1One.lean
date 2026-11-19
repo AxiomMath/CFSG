@@ -36,7 +36,7 @@ theorem exists_naturalSeries_psp (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3
         ((φ x : GL (Fin m ⊕ Fin m) (ZMod 2)) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) (ZMod 2))
           *ᵥ π v) ∧
       (∀ u ∈ Q₂, ∀ v ∈ Q₂, QuadraticMap.polar (qS S) u v = spForm m (ZMod 2) (π u) (π v)) := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   exact CFSG.LargeExtraspecial.A2Mod.exists_naturalSeries_psp (rootClass_Xsub S h h217 h34)
     (a2Action_Xsub S a) hm hX
 
@@ -60,7 +60,7 @@ theorem exists_natural_pOmegaPlus (S : Setting z E F) {a : G} {w : ℕ} (h : Sec
           *ᵥ π v) ∧
       (∀ v ∈ CFSG.LargeExtraspecial.A2Mod.commSpaceOf (rhoX S a) ⊤,
         StatedQuadPlus m (ZMod 2) (π v) = qS S v) := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   exact CFSG.LargeExtraspecial.A2Mod.exists_natural_pOmegaPlus (rootClass_Xsub S h h217 h34)
     (a2Action_Xsub S a) hm hX
 
@@ -85,7 +85,7 @@ theorem exists_natural_pOmegaMinus (S : Setting z E F) {a : G} {w : ℕ} (h : Se
             (ZMod 2)) *ᵥ π v) ∧
       (∀ v ∈ CFSG.LargeExtraspecial.A2Mod.commSpaceOf (rhoX S a) ⊤,
         StatedQuadMinus m (ZMod 2) 1 1 (π v) = qS S v) := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   exact CFSG.LargeExtraspecial.A2Mod.exists_natural_pOmegaMinus (rootClass_Xsub S h h217 h34)
     (a2Action_Xsub S a) hm hX
 

@@ -45,7 +45,7 @@ theorem exists_dihedral_pair {F : Type} [Field F] [Finite F] (h2 : (2 : F) ≠ 0
     exact ha ⟨0, by simp⟩
   obtain ⟨E, _, _, ⟨basis⟩⟩ := exists_quadratic_extension' F (Units.mk0 a ha0)
     (fun ⟨y, hy⟩ => ha ⟨y, by simpa using congrArg Units.val hy⟩)
-  haveI : Finite E := finite_of_basis F E basis
+  have : Finite E := finite_of_basis F E basis
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' ℓ (G := normOne F E)
     (by rw [card_normOne F E basis]; exact hdvd)
   obtain ⟨z, hz⟩ := exists_norm_eq F E basis (-1)

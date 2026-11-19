@@ -79,7 +79,6 @@ theorem card_alt_gt (n : ℕ) (hn : 5 ≤ n) : 24 < Nat.card (alternatingGroup (
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
   have h5 : 120 ≤ n.factorial := by
     have h := Nat.factorial_le hn
-    norm_num at h
     exact h
   omega
 

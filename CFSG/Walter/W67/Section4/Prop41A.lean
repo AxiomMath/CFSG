@@ -97,7 +97,7 @@ theorem false_of_perfect_of_le_centralizer {X : Type} [Group X] [Finite X]
   have hidx : D.index = Nat.card (P : Subgroup X) := hcomp.symm.index_eq_card
   have hodd : Odd D.index := by
     rw [hidx]
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hk]
     exact (Nat.Prime.odd_of_ne_two Fact.out hℓ).pow
   have htop := eq_top_of_odd_index_of_perfect hperf hodd
@@ -163,7 +163,7 @@ theorem exists_sylow_mem_normalizer_of_two {X : Type} [Group X] [Finite X] {ℓ 
   obtain ⟨R₀⟩ : Nonempty (Sylow ℓ X) := inferInstance
   have hR₀M : (R₀ : Subgroup X) ≤ M := fun x hx => by
     apply mem_of_index_two_of_odd hMidx
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R₀.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R₀.isPGroup) ⟨x, hx⟩
     rw [Subgroup.orderOf_mk] at hk
     rw [hk]
     exact (Nat.Prime.odd_of_ne_two Fact.out hℓ).pow

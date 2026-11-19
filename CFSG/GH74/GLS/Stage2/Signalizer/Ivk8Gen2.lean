@@ -67,7 +67,7 @@ theorem exists_two_element_not_center {A : Type*} [Group A] {L : Subgroup A} [Fi
   have hPz : (P : Subgroup ↥L) ≤ center ↥L := by
     intro t ht
     by_contra hnc
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨t, ht⟩
     exact hcon t hnc k (by simpa using hk)
   have h1 : (center ↥L).index ∣ (P : Subgroup ↥L).index := Subgroup.index_dvd_of_le hPz
   have h2 : ¬ 2 ∣ (P : Subgroup ↥L).index := P.not_dvd_index

@@ -172,7 +172,7 @@ theorem els_take : els.take CFSG.KD.Co1K105.C.ns = (List.range 15).map fun l => 
   rw [← List.map_take, List.take_range, show min 15 17 = 15 from rfl]
   refine List.map_congr_left fun l hl => ?_
   show qHom.rangeRestrict (xL l) = qHom.rangeRestrict (chiC (gC l))
-  rw [xL, if_pos (List.mem_range.1 hl)]
+  rw [xL, ite_eq_left (List.mem_range.1 hl)]
 
 theorem card_S : Nat.card (Subgroup.closure {x | x ∈ els.take CFSG.KD.Co1K105.C.ns}) =
     2 ^ CFSG.KD.Co1K105.C.k := by
@@ -180,7 +180,7 @@ theorem card_S : Nat.card (Subgroup.closure {x | x ∈ els.take CFSG.KD.Co1K105.
     rw [els_take, MonoidHom.map_closure, Set.image_image]
     congr 1
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_map, List.mem_range, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_range, Set.mem_image]
   rw [e, card_map_psi, show CFSG.KD.Co1K105.C.k = 20 from rfl]
 
 theorem isSylowTwoOf_S :

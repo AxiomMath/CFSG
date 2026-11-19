@@ -34,7 +34,7 @@ theorem fixE6_derived_fixed {K : Type} [Field K] [Finite K] (σ : K ≃+* K) :
       (fixedFieldImage Tag.E6 σ).subgroupOf (adjointGroup Tag.E6 K) := by
   obtain ⟨-, -, -, hJΓ, -, hNorm, hAb⟩ :=
     Chevalley_coordinate_field_fixed_normal_subgroup Tag.E6 K σ
-  haveI : ((fixedFieldImage Tag.E6 σ).subgroupOf (entrywiseFixedGroup Tag.E6 σ)).Normal := hNorm
+  have : ((fixedFieldImage Tag.E6 σ).subgroupOf (entrywiseFixedGroup Tag.E6 σ)).Normal := hNorm
   have hcomm : ∀ x ∈ entrywiseFixedGroup Tag.E6 σ, ∀ y ∈ entrywiseFixedGroup Tag.E6 σ,
       ⁅x, y⁆ ∈ fixedFieldImage Tag.E6 σ := by
     intro x hx y hy
@@ -59,11 +59,11 @@ theorem fixE6_derived_fixed {K : Type} [Field K] [Finite K] (σ : K ≃+* K) :
       fixedFieldImage Tag.E6 σ :=
     Subgroup.commutator_le.2 hcomm
   have hq := CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 ↥(fixSubfield σ)
-  haveI : Group.IsPerfect (adjointGroup Tag.E6 ↥(fixSubfield σ)) := hq.1
+  have : Group.IsPerfect (adjointGroup Tag.E6 ↥(fixSubfield σ)) := hq.1
   have hJperf : Group.IsPerfect ↥(fixedFieldImage Tag.E6 σ) :=
     Group.IsPerfect.ofSurjective (f := (fixedFieldImageEquiv (τ := Tag.E6) σ).toMonoidHom)
       (fixedFieldImageEquiv (τ := Tag.E6) σ).surjective
-  haveI : Group.IsPerfect ↥(fixedFieldImage Tag.E6 σ) := hJperf
+  have : Group.IsPerfect ↥(fixedFieldImage Tag.E6 σ) := hJperf
   have hJJ : ⁅fixedFieldImage Tag.E6 σ, fixedFieldImage Tag.E6 σ⁆ = fixedFieldImage Tag.E6 σ :=
     Subgroup.isPerfect_iff.1 hJperf
   have hJA : fixedFieldImage Tag.E6 σ ≤ adjointGroup Tag.E6 K := fun x hx =>
@@ -98,7 +98,7 @@ theorem E6DerOn.of_eq {K : Type} [Field K] {S S' : (Fin Tag.E6.rank → ℤ) →
   hS ▸ h
 
 theorem fixE6all_model {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
-    (hK : Nat.card K = 2 ^ n) {p : ℕ} (hp : 0 < p) : E6DerOn K (IsRoot Tag.E6) n p := by
+    (hK : Nat.card K = 2 ^ n) {p : ℕ} (_hp : 0 < p) : E6DerOn K (IsRoot Tag.E6) n p := by
   suffices h : ∀ H : Subgroup (MarkChev.GLS (IsRoot Tag.E6) K), H = adjointGroup Tag.E6 K →
       ∀ f ∈ RecipeFieldExcInn.markFieldImage (IsRoot Tag.E6) K H, orderOf f = p →
         ∃ (k : Type) (_ : Field k) (_ : Finite k), Nat.card k = 2 ^ (n / p) ∧
@@ -176,7 +176,7 @@ theorem fixGapE6_holds : FixGapE6 := by
   intro n p K _ _ hn hK hp _ _ f hf hord
   obtain ⟨hpn, k, hkF, hkfin, hk, ⟨E⟩⟩ := fixE6all_fixGroup hn hK hp hf hord
   have hq := CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 k
-  haveI : Group.IsPerfect ↥(adjointGroup Tag.E6 k) := hq.1
+  have : Group.IsPerfect ↥(adjointGroup Tag.E6 k) := hq.1
   have hZ : Subgroup.center (adjointGroup Tag.E6 k) = ⊥ := center_adjointGroup_eq_bot
   refine ⟨hpn, LargeEvenCenterQuot (adjointGroup Tag.E6 k), inferInstance,
     (⟨.E6, 0, n / p⟩ : LargeEvenLabel), hq.2.1, hq.2.2,

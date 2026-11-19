@@ -132,7 +132,7 @@ theorem fusion_facts
     rwa [hCT] at this
   have hSgS : IsSylowOf 2 (Sg : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, Sg.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Sg.not_dvd_index⟩
+    exact ⟨le_top, Sg.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Sg.not_dvd_index⟩
   obtain ⟨m, hm⟩ := exists_conj_of_isSylowOf h.sylowS hSgS
   have hxS : x ∈ S := hTS h.x_mem_T
   have hxg : m⁻¹ * x * m ∈ (Sg : Subgroup G) := (hm _).2 (by
@@ -196,7 +196,7 @@ theorem fusion_facts
     isSylowOf_of_card le_top (by rw [Subgroup.card_top]; exact hcardS₁)
   have hS'Syl : IsSylowOf 2 (S' : Subgroup (alternatingGroup (Fin (n + 4)))) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, S'.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S'.not_dvd_index⟩
+    exact ⟨le_top, S'.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S'.not_dvd_index⟩
   obtain ⟨k, hk⟩ := exists_conj_of_isSylowOf hS'Syl hS₁Syl
   set x₁ : alternatingGroup (Fin (n + 4)) := k⁻¹ * x'' * k with hx₁
   set y₁ : alternatingGroup (Fin (n + 4)) := k⁻¹ * y'' * k with hy₁

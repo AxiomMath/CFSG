@@ -16,8 +16,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {R L N : Subgroup (LGL 2 V)}
 
 private theorem w183K3Cover_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 private theorem w183K3Cover_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group B]
     (e : A ≃* B) (h : CFSG.Open.IsQuasisimple B) : CFSG.Open.IsQuasisimple A := by
@@ -29,6 +29,7 @@ private theorem w183K3Cover_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [G
     (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).isSimpleGroup⟩
 
+omit [Finite V] in
 private theorem w183K3Cover_sq_eq_one (v : Multiplicative V) : v ^ 2 = 1 := by
   have h : (v ^ 2).toAdd = 0 := by
     rw [toAdd_pow, two_nsmul, ZModModule.add_self]
@@ -43,8 +44,8 @@ theorem br3_cover_core (h65o : Asch6_5Odd) (c : QuasiCore R L N)
     (hq : CFSG.Quasithin.G11.commSpace A (CFSG.SignalizerFunctorTheorem.Quadratic.commSub A) = ⊥) :
     False := by
   classical
-  haveI : Finite (LGL 2 V) := w183K3Cover_finite_lgl
-  haveI : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
+  have : Finite (LGL 2 V) := w183K3Cover_finite_lgl
+  have : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
   let Y₀ : Type := ↥L ⧸ Subgroup.center ↥L
   have hsub : IsSubnormal (L.subgroupOf R) ⊤ := by
     refine IsSubnormal.step le_top ?_ (IsSubnormal.refl ⊤)

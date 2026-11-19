@@ -104,8 +104,8 @@ theorem secEquiv {X M S N K0 : Subgroup G} (hMN : M ≤ N) (hSN : S ≤ N) (hNMS
       (e : ↥M ⧸ K0.subgroupOf M ≃* ↥N ⧸ S.subgroupOf N), XEquivariant X e := by
   subst hK0
   have hcM : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a := fun a ha b hb => hcN a (hMN ha) b (hMN hb)
-  haveI hMn : ((M ⊓ S).subgroupOf M).Normal := subgroupOf_normal_of_comm hcM
-  haveI hSn : (S.subgroupOf N).Normal := subgroupOf_normal_of_comm hcN
+  have hMn : ((M ⊓ S).subgroupOf M).Normal := subgroupOf_normal_of_comm hcM
+  have hSn : (S.subgroupOf N).Normal := subgroupOf_normal_of_comm hcN
   let φ : ↥M →* ↥N ⧸ S.subgroupOf N :=
     (QuotientGroup.mk' (S.subgroupOf N)).comp (Subgroup.inclusion hMN)
   have hφapply : ∀ m : ↥M, φ m = ((Subgroup.inclusion hMN m : ↥N) : ↥N ⧸ S.subgroupOf N) :=

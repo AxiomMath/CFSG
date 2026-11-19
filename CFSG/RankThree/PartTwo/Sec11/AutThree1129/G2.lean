@@ -66,9 +66,9 @@ theorem not_eighty_one_dvd (Q f : ℕ) (hQ : ¬ 3 ∣ Q) (hf : ¬ 3 ∣ f)
 theorem exists_prime_pow_card_field (K : Type) [Field K] [Finite K] :
     ∃ p n : ℕ, p.Prime ∧ ringChar K = p ∧ Nat.card K = p ^ n := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
-  haveI := hchar
+  have := hchar
   refine ⟨p, (n : ℕ), hp, ringChar.eq K p, ?_⟩
   rw [Nat.card_eq_fintype_card, hcard]
 
@@ -169,13 +169,13 @@ theorem card_le_27_adjointGroup_g2 {K : Type} [Field K] [Finite K] (hK3 : ringCh
     apply Nat.finite_of_card_ne_zero
     rw [hMul]
     exact Nat.mul_ne_zero hord hn0
-  haveI := hfin
+  have := hfin
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hP
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h4 : 4 ≤ m := by
     by_contra h4
-    push_neg at h4
+    push Not at h4
     have h27 : 3 ^ m ≤ 27 :=
       (Nat.pow_le_pow_right (by norm_num) (by omega : m ≤ 3)).trans (by norm_num)
     omega

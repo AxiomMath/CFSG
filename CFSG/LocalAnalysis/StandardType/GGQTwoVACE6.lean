@@ -602,7 +602,7 @@ theorem ggQTwoE6_exists_z_in_D {G : Type} [Group G] [Finite G] {B Bs : Subgroup 
       rw [Nat.card_zpowers, orderOf_eq_prime hx3 hx1]
     have h2 : Nat.card D ≤ 3 := by rw [← h1]; exact Subgroup.card_le_of_le hle
     omega
-  exact SetLike.exists_of_lt hxlt
+  exact _root_.IsConcreteLE.exists_of_lt hxlt
 
 theorem ggQTwoE6_centralizer_D_eq {G : Type} [Group G] {x z : G} {D : Subgroup G}
     (hxD : x ∈ D) (hzD : z ∈ D)

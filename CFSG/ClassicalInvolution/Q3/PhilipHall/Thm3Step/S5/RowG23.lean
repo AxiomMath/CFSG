@@ -196,7 +196,7 @@ theorem g23_threeCyc {i j : H3} (hi : i ∈ S2H) (hj : j ∈ S2H)
 
 theorem g23_conj_mem_S2H (H : Subgroup H3) (hH : IsPGroup 2 H) :
     ∃ g : H3, ∀ x ∈ H, g⁻¹ * x * g ∈ S2H := by
-  haveI : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
+  have : Finite H3 := Nat.finite_of_card_ne_zero (by rw [card_R3]; norm_num)
   refine exists_conj_mem_of_isPGroup (IsPGroup.of_card (n := 6) (by rw [card_S2H]; norm_num))
     ?_ hH
   have h := Subgroup.card_mul_index S2H
@@ -219,7 +219,7 @@ theorem S5Hyp.commutator_eq_top_of_g23 (h : S5Hyp Φ K Q)
 theorem eq_bot_of_g23_cover (hQc : Q ≤ Subgroup.center G) (hQ2 : IsPGroup 2 Q)
     (hperf : commutator G = ⊤) (π : G →* ↥(adjointGroup .G2 (ZMod 3)))
     (hπs : Function.Surjective π) (hπk : π.ker = Q) : Q = ⊥ := by
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Group.IsPerfect G := ⟨hperf⟩
   obtain ⟨c, hc3, hle⟩ := LieType.Steinberg.CentralExt.FieldThree.g2_three_ker_le_zpowers
     (K := ZMod 3) (by simp) hπs (by rw [hπk]; exact hQc)
   rw [eq_bot_iff]

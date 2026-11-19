@@ -23,10 +23,10 @@ private theorem isMulCommutative_of_card_le_two {Q : Type*} [Group Q] [Finite Q]
     have := Nat.card_pos (α := Q)
     omega
   rcases h1 with h1 | h1
-  · haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 h1).1
+  · have : Subsingleton Q := (Nat.card_eq_one_iff_unique.1 h1).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic Q := isCyclic_of_prime_card (p := 2) h1
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic Q := isCyclic_of_prime_card (p := 2) h1
     infer_instance
 
 private theorem commutator_mem_of_card_le {G : Type*} [Group G] [Finite G] {C Q : Subgroup G}
@@ -278,12 +278,12 @@ theorem sporNoPumpup_Ly
     (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) : SporNoPumpup .Ly := by
   have e0 : (TauCeti.CFSGIndex.sporadic .Ly).Group ≃* NativeSporadic.Carrier .Ly :=
     (hbr .Ly).some.symm
-  haveI : Finite (NativeSporadic.Carrier .Ly) :=
+  have : Finite (NativeSporadic.Carrier .Ly) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card NativeSporadic.Ly ≠ 0
       rw [CFSG.Sporadic.Ly.card_Ly]
       norm_num)
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Ly).Group := Finite.of_equiv _ e0.symm.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic .Ly).Group := Finite.of_equiv _ e0.symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [Nat.card_congr e0.toEquiv]
     show Nat.card NativeSporadic.Ly = sporOrd .Ly

@@ -189,8 +189,8 @@ theorem fl_of_type_E {E₁ : Subgroup G12} (hcard : Nat.card E₁ = 9797760) (hR
     simp only [Equiv.apply_symm_apply] at h6
     simp only [chStd, ind]
     by_cases h : ((i : Fin 6) : ℕ) < 3
-    · rw [if_pos h, if_pos (h6.2 h)]
-    · rw [if_neg h, if_neg (fun hm => h (h6.1 hm))]
+    · rw [ite_eq_left h, ite_eq_left (h6.2 h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hm => h (h6.1 hm))]
   have hd' : y'⁻¹ * diagE chStd * y' ∈ D5 := by
     have : y'⁻¹ * diagE chStd * y' = permE σ * (y⁻¹ * diagE ind * y) * (permE σ)⁻¹ := by
       rw [hchstd, hy']; group

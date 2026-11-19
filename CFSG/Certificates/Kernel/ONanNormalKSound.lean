@@ -157,7 +157,6 @@ theorem closed_of_gens {G : Type*} [Group G] [Finite G] (L : Set G) (A : Set G)
         have e : a ^ (orderOf a - 1) = a⁻¹ := eq_inv_of_mul_eq_one_left (by
           rw [← pow_succ, Nat.sub_add_cancel ho, pow_orderOf_eq_one])
         intro x hx
-        change x * a⁻¹ ∈ L
         rw [← e]
         exact hp _ x hx }
   have hle : Subgroup.closure A ≤ T := (Subgroup.closure_le T).2 fun a ha => hA a ha

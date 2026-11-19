@@ -204,7 +204,7 @@ theorem e189_ae5_quot_fixes (h7 : E18_7Q8) (c : MinCexQ8 Ω K S R W H) {z t k : 
   have hRY2 : IsPGroup 2 ↥(R.subgroupOf Y) :=
     hRM₀.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm
   obtain ⟨PY, hPY⟩ := hRY2.exists_le_sylow
-  have hPY2 : IsPGroup 2 ↥(PY.map Y.subtype) := PY.isPGroup'.map Y.subtype
+  have hPY2 : IsPGroup 2 ↥(PY.map Y.subtype) := PY.isPGroup.map Y.subtype
   obtain ⟨S₂, hS₂⟩ := hPY2.exists_le_sylow
   have hPYS₂ : ∀ y ∈ (PY : Subgroup ↥Y), (y : G) ∈ (S₂ : Subgroup G) := fun y hy =>
     hS₂ ⟨y, hy, rfl⟩
@@ -273,7 +273,7 @@ theorem e189_ae5_quot_fixes (h7 : E18_7Q8) (c : MinCexQ8 Ω K S R W H) {z t k : 
       exact hN₀odd.of_dvd_nat (by simpa using Subgroup.orderOf_dvd_natCard N₀ hnN)
     have h1 : (eY : G) = 1 :=
       e189_eq_one_of_isPGroup_of_odd
-        (S₂.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hW₂S heW))) hodd
+        (S₂.isPGroup.to_le (Subgroup.zpowers_le.mpr (hW₂S heW))) hodd
     rw [heG] at h1
     exact (inv_mul_eq_one.mp h1).symm
   have hy₀sq : y₀ * y₀ = z := by

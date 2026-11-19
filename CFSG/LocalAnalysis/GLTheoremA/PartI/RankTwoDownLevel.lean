@@ -22,7 +22,7 @@ theorem rtd_isSimple_nonab_statedProj_two {F : Type} [Field F] [Finite F] (h4 : 
     IsSimpleGroup (StatedProj (StatedSL 2 F)) ∧
       ∃ a b : StatedProj (StatedSL 2 F), a * b ≠ b * a := by
   have e := CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   refine ⟨e.symm.isSimpleGroup, ?_⟩
   have hq : CFSG.Open.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) F) :=
@@ -81,7 +81,7 @@ private theorem rtd_two_pow_mod_three_odd {e : ℕ} (he : Odd e) : 2 ^ e % 3 = 2
   rw [hk, pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod]
   norm_num
 
-private theorem rtd_prime_eq_two_of_even_pow {p e : ℕ} (hp : p.Prime) (he : 0 < e)
+private theorem rtd_prime_eq_two_of_even_pow {p e : ℕ} (hp : p.Prime) (_he : 0 < e)
     (h : (p ^ e) % 2 = 0) : p = 2 := by
   have h2 : 2 ∣ p ^ e := Nat.dvd_of_mod_eq_zero h
   exact ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1

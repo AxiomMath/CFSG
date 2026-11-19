@@ -14,6 +14,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 theorem mem_closure_bt_iff {b t : H} (htb : t * b * t⁻¹ = b⁻¹) (ht2 : t * t = 1) {y : H}
     (hy : y ∈ Subgroup.closure ({b, t} : Set H)) : ∃ i : ℤ, y = b ^ i ∨ y = b ^ i * t := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
@@ -62,6 +63,7 @@ theorem mem_closure_bt_iff {b t : H} (htb : t * b * t⁻¹ = b⁻¹) (ht2 : t * 
   exact hle hy
 
 
+omit [Finite H] in
 theorem FS79Hyp.Y_comm_J (h : FS79Hyp b t b₁ b₂ J) {y j : H}
     (hy : y ∈ Subgroup.closure ({b, t} : Set H)) (hj : j ∈ J) : y * j = j * y := by
   have hle : Subgroup.closure ({b, t} : Set H) ≤ Subgroup.centralizer (J : Set H) := by
@@ -74,9 +76,11 @@ theorem FS79Hyp.Y_comm_J (h : FS79Hyp b t b₁ b₂ J) {y j : H}
         Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_t hj)
   exact (Subgroup.mem_centralizer_iff.mp (hle hy) j hj).symm
 
+omit [Finite H] in
 theorem mem_Nor_self (b : H) : b ∈ Nor (Subgroup.zpowers b) :=
   Subgroup.le_normalizer (Subgroup.mem_zpowers b)
 
+omit [Finite H] in
 theorem FS79Hyp.t_mem_Nor (h : FS79Hyp b t b₁ b₂ J) : t ∈ Nor (Subgroup.zpowers b) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   have hmap : (Subgroup.zpowers b).map (MulAut.conj t) = Subgroup.zpowers b := by
@@ -86,6 +90,7 @@ theorem FS79Hyp.t_mem_Nor (h : FS79Hyp b t b₁ b₂ J) : t ∈ Nor (Subgroup.zp
     rw [hconj, Subgroup.zpowers_inv]
   exact hmap
 
+omit [Finite H] in
 theorem FS79Hyp.Y_le_Nor (h : FS79Hyp b t b₁ b₂ J) :
     Subgroup.closure ({b, t} : Set H) ≤ Nor (Subgroup.zpowers b) := by
   rw [Subgroup.closure_le]
@@ -94,9 +99,11 @@ theorem FS79Hyp.Y_le_Nor (h : FS79Hyp b t b₁ b₂ J) :
   · exact mem_Nor_self _
   · exact h.t_mem_Nor
 
+omit [Finite H] in
 theorem FS79Hyp.J_le_Nor (h : FS79Hyp b t b₁ b₂ J) : J ≤ Nor (Subgroup.zpowers b) :=
-  fun x hx => h.cen_le_nor (h.J_le_cen_b hx)
+  fun _x hx => h.cen_le_nor (h.J_le_cen_b hx)
 
+omit [Finite H] in
 theorem FS79Hyp.eq_bot_of_normal_in_J (h : FS79Hyp b t b₁ b₂ J) {X : Subgroup H} (hXJ : X ≤ J)
     (hXn : ∀ j ∈ J, ∀ x ∈ X, j * x * j⁻¹ ∈ X) (hX : ¬ 360 ∣ Nat.card X) : X = ⊥ := by
   classical
@@ -106,7 +113,7 @@ theorem FS79Hyp.eq_bot_of_normal_in_J (h : FS79Hyp b t b₁ b₂ J) {X : Subgrou
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hXn (g : H) g.2 (x : H) hx⟩
   let N : Subgroup (Equiv.Perm (Fin 6)) := Xj.map e.toMonoidHom
-  haveI hNn : N.Normal := Subgroup.Normal.map hXjn e.toMonoidHom e.surjective
+  have hNn : N.Normal := Subgroup.Normal.map hXjn e.toMonoidHom e.surjective
   have hcardN : Nat.card N = Nat.card X := by
     rw [Subgroup.card_map_of_injective e.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXJ).toEquiv
@@ -128,6 +135,7 @@ theorem FS79Hyp.eq_bot_of_normal_in_J (h : FS79Hyp b t b₁ b₂ J) {X : Subgrou
     rw [h360, hcardN] at hdvd
     exact hX hdvd
 
+omit [Finite H] in
 theorem FS79Hyp.eq_one_of_comm_J (h : FS79Hyp b t b₁ b₂ J) {j : H} (hj : j ∈ J)
     (hc : ∀ j' ∈ J, j * j' = j' * j) : j = 1 := by
   obtain ⟨e⟩ := h.J_perm
@@ -148,7 +156,7 @@ theorem FS79Hyp.eq_one_of_comm_J (h : FS79Hyp b t b₁ b₂ J) {j : H} (hj : j �
 
 theorem Opp_eq_one_of_pow_three {Y : Subgroup H} {x : H} (hx : x ∈ Opp 3 Y) (h3 : x ^ 3 = 1) :
     x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (Opp 3 Y)) := L14.Opp_coprime 3 Y
   have h1 : orderOf (⟨x, hx⟩ : ↥(Opp 3 Y)) ∣ 3 :=
     orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using h3))
@@ -160,7 +168,7 @@ theorem Opp_eq_one_of_pow_three {Y : Subgroup H} {x : H} (hx : x ∈ Opp 3 Y) (h
 theorem FS79Hyp.K_comm_J (h : FS79Hyp b t b₁ b₂ J) {k j : H}
     (hk : k ∈ Opp 3 (Nor (Subgroup.zpowers b))) (hj : j ∈ J) : k * j = j * k := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K : Subgroup H := Opp 3 (Nor (Subgroup.zpowers b)) with hK
   have hKN : K ≤ Nor (Subgroup.zpowers b) := L14.Opp_le 3 _
   have hX : J ⊓ K = ⊥ := by
@@ -250,10 +258,12 @@ theorem FS79Hyp.K_inf_M0 (h : FS79Hyp b t b₁ b₂ J) :
   simpa using hyK
 
 
+omit [Finite H] in
 theorem FS79Hyp.M0_le_Nor (h : FS79Hyp b t b₁ b₂ J) :
     Subgroup.closure ({b, t} : Set H) ⊔ J ≤ Nor (Subgroup.zpowers b) :=
   sup_le h.Y_le_Nor h.J_le_Nor
 
+omit [Finite H] in
 theorem FS79Hyp.exists_rho (h : FS79Hyp b t b₁ b₂ J) {n : H} (hn : n ∈ Nor (Subgroup.zpowers b)) :
     ∃ m ∈ Subgroup.closure ({b, t} : Set H) ⊔ J,
       n * m⁻¹ ∈ Opp 3 (Nor (Subgroup.zpowers b)) := by
@@ -280,11 +290,12 @@ open _root_.Classical in
 noncomputable def FS79Hyp.rho (h : FS79Hyp b t b₁ b₂ J) (n : H) : H :=
   if hn : n ∈ Nor (Subgroup.zpowers b) then Classical.choose (h.exists_rho hn) else 1
 
+omit [Finite H] in
 theorem FS79Hyp.rho_spec (h : FS79Hyp b t b₁ b₂ J) {n : H} (hn : n ∈ Nor (Subgroup.zpowers b)) :
     h.rho n ∈ Subgroup.closure ({b, t} : Set H) ⊔ J ∧
       n * (h.rho n)⁻¹ ∈ Opp 3 (Nor (Subgroup.zpowers b)) := by
   unfold FS79Hyp.rho
-  rw [dif_pos hn]
+  rw [dite_eq_left hn]
   exact Classical.choose_spec (h.exists_rho hn)
 
 theorem FS79Hyp.rho_eq (h : FS79Hyp b t b₁ b₂ J) {n m : H} (hn : n ∈ Nor (Subgroup.zpowers b))
@@ -305,6 +316,7 @@ theorem FS79Hyp.rho_of_mem_K (h : FS79Hyp b t b₁ b₂ J) {k : H}
     (hk : k ∈ Opp 3 (Nor (Subgroup.zpowers b))) : h.rho k = 1 :=
   h.rho_eq (L14.Opp_le 3 _ hk) (Subgroup.one_mem _) (by simpa using hk)
 
+omit [Finite H] in
 theorem FS79Hyp.mem_K_of_rho_eq_one (h : FS79Hyp b t b₁ b₂ J) {n : H}
     (hn : n ∈ Nor (Subgroup.zpowers b)) (h1 : h.rho n = 1) :
     n ∈ Opp 3 (Nor (Subgroup.zpowers b)) := by

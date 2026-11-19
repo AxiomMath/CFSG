@@ -22,8 +22,8 @@ theorem exists_mul_mem_inf_centralizer_of_coprime [Finite G] {L Q H : Subgroup G
   have hHX : H ≤ X := le_sup_right
   have hXQ : X ≤ Subgroup.normalizer (Q : Set G) :=
     sup_le Subgroup.le_normalizer hHQ
-  have hQHinf : Q ⊓ H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop.symm
-  have hHinfQ : H ⊓ Q = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hQHinf : Q ⊓ H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop.symm))
+  have hHinfQ : H ⊓ Q = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hKX : K ≤ X := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨h, hh, hx⟩
@@ -49,7 +49,7 @@ theorem exists_mul_mem_inf_centralizer_of_coprime [Finite G] {L Q H : Subgroup G
     have heq : h = (h * l * h⁻¹ * l⁻¹) * (l * h * l⁻¹) := by group
     rw [heq]
     exact (Q ⊔ K).mul_mem (Subgroup.mem_sup_left hQmem) (Subgroup.mem_sup_right hKmem)
-  haveI hN : (Q.subgroupOf X).Normal :=
+  have hN : (Q.subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hXQ
   have hHcompX : (Q.subgroupOf X).IsComplement' (H.subgroupOf X) := by
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
@@ -136,7 +136,7 @@ theorem exists_mul_mem_inf_centralizer_of_coprime [Finite G] {L Q H : Subgroup G
       group
     have he : n * h * n⁻¹ =
         ((q : X) : G)⁻¹ * ((MulAut.conj l) h) * ((q : X) : G) := by
-      simp only [n, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+      simp only [n, MulAut.conj_apply]
       group
     rw [he, hEq']
     exact hh'

@@ -44,11 +44,11 @@ theorem quasi_layer_le_pair {H : Type} [Group H] [Finite H]
     rw [ha, pow_two] at h
     exact h
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
-  haveI : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
   obtain ⟨K, hK, hJK⟩ : ∃ K : Subgroup H, CFSG.IsComponent K ∧ ¬ J ≤ centralizer (K : Set H) := by
     by_contra hcon
-    push_neg at hcon
-    haveI : Nontrivial J := CFSG.LocalCores.isQuasisimple_nontrivial hJq'
+    push Not at hcon
+    have : Nontrivial J := CFSG.LocalCores.isQuasisimple_nontrivial hJq'
     obtain ⟨j, hj⟩ := exists_ne (1 : J)
     apply hj
     have hlay : CFSG.layer H ≤ centralizer (J : Set H) := by
@@ -118,7 +118,7 @@ theorem quasi_layer_le_pair {H : Type} [Group H] [Finite H]
       intro w hw
       have hw' : a⁻¹ * w * a ∈ W := by
         have := haW w hw
-        rwa [hainv] at this ⊢
+        rw [hainv] at this ⊢; assumption
       have hc := mem_centralizer_iff.1 hy.1 _ hw'
       calc w * (a * y * a⁻¹) = a * ((a⁻¹ * w * a) * y) * a⁻¹ := by group
         _ = a * (y * (a⁻¹ * w * a)) * a⁻¹ := by rw [hc]

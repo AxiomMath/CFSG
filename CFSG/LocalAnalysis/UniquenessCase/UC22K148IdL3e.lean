@@ -53,8 +53,8 @@ theorem imgGL_le_of_transportGL [Finite V] {L B : Subgroup G} [IsSimpleGroup ↥
     (eL : ↥L ≃* GL (Fin 3) (ZMod 2)) (hBN : B ≤ Subgroup.normalizer (L : Set G)) :
     imgGL ρ (L ⊔ B) (commOn ρ L ⊤) hinv B ≤ imgGL ρ (L ⊔ B) (commOn ρ L ⊤) hinv L := by
   obtain ⟨eV, -, hsimp, -⟩ := exists_eV_of_transportGL hT eL
-  haveI := hsimp
-  haveI : FiniteDimensional (ZMod 2) ↥(commOn ρ L ⊤) := Module.Finite.of_finite
+  have := hsimp
+  have : FiniteDimensional (ZMod 2) ↥(commOn ρ L ⊤) := Module.Finite.of_finite
   exact le_of_offender_of_cen eV hT.center hT.commU hT.elem
     (inner_imgGL hinv le_sup_left fun g hg => exists_inner_of_mem_normalizer hT eL (hBN hg)) hT.cen hT.off
 
@@ -88,12 +88,12 @@ theorem module_shape_GL3 [Finite E] (eV : ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fi
           (Module.Dual (ZMod 2) (Fin 3 → ZMod 2) ≃ₗ[ZMod 2] Module.Dual (ZMod 2) (Fin 3 → ZMod 2)),
         ∀ g f, eD g f = dualRep (Fin 3 → ZMod 2) g f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : FiniteDimensional (ZMod 2) E := Module.Finite.of_finite
-  haveI : Finite ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : FiniteDimensional (ZMod 2) E := Module.Finite.of_finite
+  have : Finite ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2)) :=
     Finite.of_injective (fun f : (Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2) =>
       (f : (Fin 3 → ZMod 2) → (Fin 3 → ZMod 2))) DFunLike.coe_injective
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     apply hT1
@@ -120,8 +120,8 @@ theorem module_shape_GL3 [Finite E] (eV : ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fi
   have hTpcard : Nat.card ↥Tp = Nat.card ↥T := by
     rw [hTp, Subgroup.card_map_of_injective (f := eV.symm.toMonoidHom) eV.symm.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
-  haveI := hTe
-  haveI : CFSG.IsElementaryAbelian 2 ↥(T.subgroupOf 𝓛) := CFSG.IsElementaryAbelian.subgroupOf hTL
+  have := hTe
+  have : CFSG.IsElementaryAbelian 2 ↥(T.subgroupOf 𝓛) := CFSG.IsElementaryAbelian.subgroupOf hTL
   have hTpe : CFSG.IsElementaryAbelian 2 ↥Tp := by
     rw [hTp]
     exact CFSG.IsElementaryAbelian.map _
@@ -129,7 +129,7 @@ theorem module_shape_GL3 [Finite E] (eV : ((Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fi
     intro h
     apply hT1
     rw [← Subgroup.card_eq_one, ← hTpcard, h, Subgroup.card_bot]
-  haveI := hTpe
+  have := hTpe
   obtain ⟨r, hr⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 ↥Tp).exists_card_eq
   have hoff' : finrank (ZMod 2) E -
       finrank (ZMod 2) ↥(Representation.invariants ((repGL3 eV).comp Tp.subtype)) ≤ r := by
@@ -200,8 +200,8 @@ theorem exists_eq_apply_of_transportGL [Finite G] [Finite V] {L B : Subgroup G} 
     ∀ s ∈ S, ∃ l ∈ L, ∀ u ∈ commOn ρ L ⊤, ρ s u = ρ l u := by
   classical
   obtain ⟨eV, -, hsimp, -⟩ := exists_eV_of_transportGL hT eL
-  haveI := hsimp
-  haveI : FiniteDimensional (ZMod 2) ↥(commOn ρ L ⊤) := Module.Finite.of_finite
+  have := hsimp
+  have : FiniteDimensional (ZMod 2) ↥(commOn ρ L ⊤) := Module.Finite.of_finite
   have hUN : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (Subgroup.normalizer (L : Set G)) (commOn ρ L ⊤) := isInvariant_commOn_top le_rfl
   have hcongr : imgGL ρ (Subgroup.normalizer (L : Set G)) (commOn ρ L ⊤) hUN L =
       imgGL ρ (L ⊔ B) (commOn ρ L ⊤) hinv L :=
@@ -262,7 +262,7 @@ theorem l3_component_identification [Finite G] [Finite V] (hρ : Function.Inject
         (commOn ρ L ⊤ ⊓ fixSub ρ L = ⊥ ∧
           SecSum (fun A B => NatL3 ρ L A B) 2 (commOn ρ L ⊤) ⊥)) ∧
       ∀ g ∈ hP ρ, ∃ l ∈ L, ∀ u ∈ commOn ρ L ⊤, ρ g u = ρ l u := by
-  haveI : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  have : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   obtain ⟨eL⟩ := nonempty_equiv_GL32_of_isL2Odd_seven hX
   obtain ⟨B, hinv, hBA, -, -, -, -, hT⟩ := exists_transportGL hρ hL inferInstance hA hLA
   have hBN : B ≤ Subgroup.normalizer (L : Set G) := hBA.trans (le_normalizer_of_mem_calP hρ hL hA)

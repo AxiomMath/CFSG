@@ -32,7 +32,7 @@ theorem sec5pe8s_aut_eq_one_of_perm_four {Y : Type} [Group Y] (P : Sylow 2 Y)
     (e : Y ≃* Equiv.Perm (Fin 4)) (κ : MulAut Y) (hodd : Odd (orderOf κ))
     (hfix : ∀ x ∈ (P : Subgroup Y), κ x = x) : κ = 1 := by
   classical
-  haveI : Fintype Y := Fintype.ofEquiv (Equiv.Perm (Fin 4)) e.toEquiv.symm
+  have : Fintype Y := Fintype.ofEquiv (Equiv.Perm (Fin 4)) e.toEquiv.symm
   obtain ⟨ρ, hρ⟩ := CFSG.Quasithin.HSType.perm_four_aut_inner (e.symm.trans (κ.trans e))
   let l : Y := e.symm ρ
   have hl : ∀ x : Y, κ x = l * x * l⁻¹ := by

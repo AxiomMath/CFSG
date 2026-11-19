@@ -69,6 +69,7 @@ theorem lab_53 : labD eD eltE 53 = (sElt eD 1)⁻¹ := by
   rw [decD_53, show 53 % 32 = 21 by norm_num, show (21 : ℕ) = eT from rfl, hctx.L.at_tI,
     hctx.t_eq, sElt_mul eD (by norm_num) (by norm_num), show dMul 1 2 = 3 by decide, sElt_three]
 
+omit hctx in
 theorem lab_E {c : ℕ} (hc : c < 32) : labD eD eltE c = eltE c := by
   show sElt eD (decD c) * eltE (c % 32) = _
   rw [decD_lt32 c hc, sElt_zero, one_mul, Nat.mod_eq_of_lt hc]
@@ -96,10 +97,10 @@ theorem lab_mem_E {c : ℕ} (hc : c < 128) : labD eD eltE c ∈ E ↔ c < 32 := 
   constructor
   · intro hcE
     obtain ⟨k, hk, hke⟩ := hctx.L.surj _ hcE
-    have h1 : labD eD eltE k = labD eD eltE c := by rw [hctx.lab_E hk, hke]
+    have h1 : labD eD eltE k = labD eD eltE c := by rw [CFSG.EvenSporadicStandard.Fin76b.W16.DECtx.lab_E hk, hke]
     exact hctx.lab_inj0 (hk.trans (by norm_num)) hc h1 ▸ hk
   · intro hc'
-    rw [hctx.lab_E hc']
+    rw [CFSG.EvenSporadicStandard.Fin76b.W16.DECtx.lab_E hc']
     exact hctx.L.mem c hc'
 
 

@@ -114,7 +114,7 @@ theorem ph_t_eq {J : Subgroup Y} (hJ : J ∈ twinSet Ω[R] K) {α : Finset (Fin 
 
 include C in
 theorem kk_ne {J J' : Subgroup Y} (hJ : J ∈ twinSet Ω[R] K) (hJ' : J' ∈ twinSet Ω[R] K) (hne : J ≠ J')
-    {k k' : Y} (hk : k ∈ J) (hk' : k' ∈ J') (hk2 : k * k = t) (hk'2 : k' * k' = t) :
+    {k k' : Y} (hk : k ∈ J) (hk' : k' ∈ J') (_hk2 : k * k = t) (hk'2 : k' * k' = t) :
     k * k' ≠ 1 ∧ k * k' ≠ t := by
   have hz := C.uniq hJ
   have key : k' ∉ J := by

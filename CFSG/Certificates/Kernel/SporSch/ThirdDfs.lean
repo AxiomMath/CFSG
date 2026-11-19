@@ -80,20 +80,20 @@ theorem card_cosetX : ∀ (f j : ℕ), j + f = 13 → ∀ (p : Equiv.Perm (Fin 2
     ·
       have h0 : tsz j = 1 := h2
       rw [cover_cosetX h hj13, h0, Finset.range_one, Finset.singleton_biUnion,
-        if_pos ((test0_iff h hp hj13).1 h3)]
+        ite_eq_left ((test0_iff h hp hj13).1 h3)]
       rfl
     ·
       have h0 : tsz j = 1 := h2
       rw [cover_cosetX h hj13, h0, Finset.range_one, Finset.singleton_biUnion,
-        if_neg (fun ht => h3 ((test0_iff h hp hj13).2 ht)), thT_zeroH h hj13, mul_one]
+        ite_eq_right (fun ht => h3 ((test0_iff h hp hj13).2 ht)), thT_zeroH h hj13, mul_one]
       exact card_cosetX f (j + 1) (by omega) p pA hp
     ·
       rw [foldl_cond_sum, cover_cosetX h hj13, Finset.card_biUnion (disj_cosetX h hj13 p)]
       refine Finset.sum_congr rfl fun k hk => ?_
       have hk' : k < tsz j := Finset.mem_range.1 hk
       by_cases ht : j < 12 ∧ locU ((p * thT j k) (bpt j)) ≠ (p * thT j k) (bpt j)
-      · rw [if_pos ht, if_pos ((test_iff h hp hj13 hk').2 ht), Finset.card_empty]
-      · rw [if_neg ht, if_neg (fun ht' => ht ((test_iff h hp hj13 hk').1 ht'))]
+      · rw [ite_eq_left ht, ite_eq_left ((test_iff h hp hj13 hk').2 ht), Finset.card_empty]
+      · rw [ite_eq_right ht, ite_eq_right (fun ht' => ht ((test_iff h hp hj13 hk').1 ht'))]
         exact card_cosetX f (j + 1) (by omega) _ _ (rep_compA hp (rep_thTH h hj13 hk'))
 
 theorem dfsCnt_eq_card (hu1 : locU ≠ 1) :

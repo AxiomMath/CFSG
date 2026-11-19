@@ -15,7 +15,6 @@ variable {P : Type} [Group P]
     intro a b ha hb
     change α (a * b) = a * b
     rw [map_mul]
-    change α a * α b = a * b
     rw [show α a = a from ha, show α b = b from hb]
   one_mem' := map_one α
   inv_mem' := by

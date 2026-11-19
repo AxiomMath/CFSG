@@ -34,7 +34,7 @@ private theorem kgLangCOmMAux_swap_transpose {𝕂 : Type} [Field 𝕂] {m : ℕ
 private theorem kgLangCOmMAux_swap_mul {𝕂 : Type} [Field 𝕂] {m : ℕ} :
     kgLangCOmMAux_swap (𝕂 := 𝕂) (m := m) * kgLangCOmMAux_swap = 1 := by
   rw [kgLangCOmMAux_swap, Matrix.fromBlocks_multiply]
-  simp only [mul_zero, zero_mul, add_zero, mul_one, one_mul, zero_add]
+  simp only [mul_zero, add_zero, mul_one, zero_add]
   rw [Matrix.fromBlocks_one]
 
 private def kgLangCOmMAux_tail {𝕂 : Type} [Field 𝕂] (b : 𝕂) : Matrix (Fin 2) (Fin 2) 𝕂 := !![0, b; b, 0]
@@ -87,14 +87,14 @@ private theorem kgLangCOmMAux_J_mul_Jinv {𝕂 : Type} [Field 𝕂] {m : ℕ} {b
   rw [kgLangCOmMAux_J, kgLangCOmMAux_Jinv, Matrix.fromBlocks_multiply]
   rw [kgLangCOmMAux_swap_mul, kgLangCOmMAux_tail_mul_tailInv (𝕂 := 𝕂) hb,
     ← Matrix.fromBlocks_one]
-  congr 1 <;> simp [mul_zero, zero_mul, add_zero, zero_add]
+  simp [add_zero, zero_add]
 
 private theorem kgLangCOmMAux_Jinv_mul_J {𝕂 : Type} [Field 𝕂] {m : ℕ} {b : 𝕂} (hb : b ≠ 0) :
     kgLangCOmMAux_Jinv (𝕂 := 𝕂) (m := m) b * kgLangCOmMAux_J b = 1 := by
   rw [kgLangCOmMAux_J, kgLangCOmMAux_Jinv, Matrix.fromBlocks_multiply]
   rw [kgLangCOmMAux_swap_mul, kgLangCOmMAux_tailInv_mul_tail (𝕂 := 𝕂) hb,
     ← Matrix.fromBlocks_one]
-  congr 1 <;> simp [mul_zero, zero_mul, add_zero, zero_add]
+  simp [add_zero, zero_add]
 
 private theorem kgLangCOmMAux_polar_basis {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] (b c : 𝕂) (i j : LargeEvenMinusIdx m) :
     QuadraticMap.polar (TableBOrth.qMinusForm 𝕂 m b c) (Pi.single i (1:𝕂)) (Pi.single j 1) =
@@ -106,8 +106,8 @@ private theorem kgLangCOmMAux_polar_basis {𝕂 : Type} [Field 𝕂] {m : ℕ} [
   all_goals
     simp [kgLangCOmMAux_J, kgLangCOmMAux_swap, kgLangCOmMAux_tail, LargeEvenQMinus,
       Matrix.fromBlocks, Matrix.of_apply, Matrix.one_apply, Pi.single_apply, eq_comm,
-      Finset.sum_ite_eq', Finset.mem_univ] <;>
-    first | ring1 | (ring_nf <;> simp [CharTwo.two_eq_zero])
+      Finset.mem_univ]; try
+    first | ring1 | (ring_nf; simp [CharTwo.two_eq_zero])
 
 private theorem kgLangCOmMAux_polar_toMatrix {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] (b c : 𝕂) :
     (LinearMap.BilinForm.toMatrix (Pi.basisFun 𝕂 (LargeEvenMinusIdx m)))
@@ -303,28 +303,28 @@ private theorem kgLangCOmMAux_tail_mul_tailinv {𝕂 : Type} [Field 𝕂] [CharP
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    field_simp <;> ring_nf <;> simp [CharTwo.two_eq_zero]
+    field_simp; ring_nf; simp [CharTwo.two_eq_zero]
 
 private theorem kgLangCOmMAux_tailinv_mul_tail {𝕂 : Type} [Field 𝕂] [CharP 𝕂 2] [Finite 𝕂] {a d : 𝕂} (hd : d ≠ 0) :
     (!![1, a * d⁻¹; 0, d⁻¹] : Matrix (Fin 2) (Fin 2) 𝕂) * !![1, a; 0, d] = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    field_simp <;> ring_nf <;> simp [CharTwo.two_eq_zero]
+    field_simp; ring_nf; simp [CharTwo.two_eq_zero]
 
 private theorem kgLangCOmMAux_frobBlock_mul_Ainv {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] [Finite 𝕂] {b c : 𝕂} (hb : b ≠ 0) (k : ℕ) :
     LargeEvenFrobBlock m b c k * kgLangCOmMAux_Ainv b c k = 1 := by
   rw [kgLangCOmMAux_frobBlock_eq, kgLangCOmMAux_Ainv, Matrix.fromBlocks_multiply]
   rw [kgLangCOmMAux_tail_mul_tailinv (kgLangCOmMAux_tailSeq_snd_ne_zero hb k),
     ← Matrix.fromBlocks_one]
-  congr 1 <;> simp [mul_zero, zero_mul, add_zero, zero_add]
+  simp [add_zero, zero_add]
 
 private theorem kgLangCOmMAux_Ainv_mul_frobBlock {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] [Finite 𝕂] {b c : 𝕂} (hb : b ≠ 0) (k : ℕ) :
     kgLangCOmMAux_Ainv b c k * LargeEvenFrobBlock m b c k = 1 := by
   rw [kgLangCOmMAux_frobBlock_eq, kgLangCOmMAux_Ainv, Matrix.fromBlocks_multiply]
   rw [kgLangCOmMAux_tailinv_mul_tail (kgLangCOmMAux_tailSeq_snd_ne_zero hb k),
     ← Matrix.fromBlocks_one]
-  congr 1 <;> simp [mul_zero, zero_mul, add_zero, zero_add]
+  simp [add_zero, zero_add]
 
 private noncomputable def kgLangCOmMAux_conjHom {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] [Finite 𝕂]
     (A Ainv : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂)
@@ -354,7 +354,7 @@ private theorem kgLangCOmMAux_beta_apply {𝕂 : Type} [Field 𝕂] {m : ℕ} [C
         RingHom.mapMatrix ((frobeniusEquiv 𝕂 2 ^ k : 𝕂 ≃+* 𝕂) : 𝕂 →+* 𝕂) x *
         kgLangCOmMAux_Ainv b c k := rfl
 
-private theorem kgLangCOmMAux_beta_map_eq {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] [Finite 𝕂] (b c : 𝕂) (hb : b ≠ 0) (k : ℕ)
+private theorem kgLangCOmMAux_beta_map_eq {𝕂 : Type} [Field 𝕂] {m : ℕ} [CharP 𝕂 2] [Finite 𝕂] (b _c : 𝕂) (_hb : b ≠ 0) (k : ℕ)
     (x : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) :
     RingHom.mapMatrix ((frobeniusEquiv 𝕂 2 ^ k : 𝕂 ≃+* 𝕂) : 𝕂 →+* 𝕂) x =
       x.map (fun t : 𝕂 => t ^ 2 ^ k) := by
@@ -373,7 +373,7 @@ private theorem kgLangCOmMAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Deci
     ∀ x ∈ Algebra.adjoin 𝕂 ((fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _)),
       IsNilpotent x → x = 0 := by
   rcases isEmpty_or_nonempty ι with hι | hι
-  · haveI := hι
+  · have := hι
     exact ⟨fun x _ y _ => Subsingleton.elim _ _, fun x _ _ => Subsingleton.elim _ _⟩
   · set s : Set (Matrix ι ι 𝕂) :=
       (fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _) with hs
@@ -386,21 +386,21 @@ private theorem kgLangCOmMAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Deci
       rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
         hab g hg h hh]
     have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-      haveI : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
+      have : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
       intro x hx y hy
       have hcommS : ∀ a b : S, a * b = b * a :=
         isMulCommutative_iff.mp (inferInstance : IsMulCommutative S)
       simpa using congrArg Subtype.val (hcommS ⟨x, hx⟩ ⟨y, hy⟩)
     refine ⟨hcomm, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
-    letI : Fintype 𝕂 := Fintype.ofFinite 𝕂
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
+    let : Fintype 𝕂 := Fintype.ofFinite 𝕂
     let f := Module.finrank (ZMod 2) 𝕂
     let m := Nat.card P
     let k := f * Nat.totient m
     have hcard : 2 ^ f = Nat.card 𝕂 := FiniteField.pow_finrank_eq_natCard 2 𝕂
     have hm_pos : 0 < m := by
-      haveI : Nonempty P := ⟨⟨1, one_mem P⟩⟩
+      have : Nonempty P := ⟨⟨1, one_mem P⟩⟩
       change 0 < Nat.card P
       exact Nat.card_pos
     have hf_pos : 0 < f := by
@@ -702,7 +702,7 @@ private theorem kgLangCOmMAux_beta_facts {m : ℕ} (hm : 3 ≤ m) {𝕂 : Type} 
         (n := m + 1) (b := b) (c := c) (by omega) hbc k u (S u)).1 ?_
       have h1 : (frob ^ k) (Θ (LargeEvenProjMk _ u)) = Θ (LargeEvenProjMk _ (S u)) := by
         rw [← hfk, MulAut.congr_apply]
-        simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, Equiv.symm_apply_apply]
+        simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
         exact congrArg Θ (hSe u).symm
       rw [← hfrob, ← hΘ]
       exact h1
@@ -861,7 +861,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
     apply hcAinj
     rw [map_mul, map_mul]
     have hcomm : cA a * cA b = cA b * cA a := by
-      letI : IsMulCommutative E := hEelem.1
+      let : IsMulCommutative E := hEelem.1
       exact congrArg Subtype.val (mul_comm' (⟨cA a, ha⟩ : E) (⟨cA b, hb⟩ : E))
     exact hcomm
   have hcardPhat : Nat.card Phat = Nat.card E := by
@@ -885,7 +885,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
       (g : Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂)) '' (P : Set _)) with hB
   have hBcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x :=
     (kgLangCOmMAux_adjoin_comm_reduced P hPab hPodd).1
-  haveI : IsReduced B :=
+  have : IsReduced B :=
     ⟨fun x hx => Subtype.ext
       ((kgLangCOmMAux_adjoin_comm_reduced P hPab hPodd).2 x x.2 (hx.map B.val))⟩
   have hcompat : ∀ u : LargeEvenOmega (LargeEvenQMinus m b c),
@@ -922,7 +922,6 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
       obtain ⟨g₀, hg₀, rfl⟩ := hg
       exact Algebra.subset_adjoin (hβP g₀ hg₀)
     · intro r
-      change β (algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r) ∈ _
       rw [show algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r =
           Matrix.scalar (LargeEvenMinusIdx m) r from rfl, hβsc]
       exact Subalgebra.algebraMap_mem _ _
@@ -945,8 +944,6 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
       rw [hβiter_mat p u, hSp]
       simp
     · intro r
-      change (⇑β)^[p] (algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r) =
-        algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r
       rw [show algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r =
           Matrix.scalar (LargeEvenMinusIdx m) r from rfl, hβiter_scalar p r, hσp]
       simp
@@ -985,7 +982,6 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
             GL (LargeEvenMinusIdx m) 𝕂)),
           Subgroup.mem_map.mpr ⟨u⁻¹, Phat.inv_mem hu, rfl⟩, rfl⟩
     · intro r
-      change tau (algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r) ∈ _
       rw [show algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r =
           Matrix.scalar (LargeEvenMinusIdx m) r from rfl, htau,
         kgLangCOmMAux_tau_scalar (𝕂 := 𝕂) (m := m) hb r]
@@ -1055,8 +1051,6 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
       obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hg₀
       exact hτβ_gen u
     · intro r
-      change tau (β (algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r)) =
-        β (tau (algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r))
       rw [show algebraMap 𝕂 (Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) 𝕂) r =
           Matrix.scalar (LargeEvenMinusIdx m) r from rfl]
       have hL : tau (β (Matrix.scalar (LargeEvenMinusIdx m) r)) =
@@ -1079,7 +1073,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
         rw [hτmul x hx y hy, map_mul]
       rw [h1, h2, hx', hy']
   have hσord : orderOf σ = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine orderOf_eq_prime hσp ?_
     intro hσ1
     obtain ⟨σ₀, hσ₀_apply, hσ₀_ord, -⟩ :=
@@ -1160,7 +1154,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
     rw [← Nat.not_even_iff_odd]
     intro heven
     have hdvd : 2 ∣ Nat.card Ugl := even_iff_two_dvd.mp heven
-    letI : Fintype Ugl := Fintype.ofFinite Ugl
+    let : Fintype Ugl := Fintype.ofFinite Ugl
     rw [Nat.card_eq_fintype_card] at hdvd
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 2 hdvd
     have hx2U : (x : Ugl) ^ 2 = 1 := by simpa [hx] using pow_orderOf_eq_one x
@@ -1245,7 +1239,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
         · simpa [Pi.single_apply] using h
         · intro j _ hji
           have hne : e i ≠ e j := fun hc => hji (he hc.symm)
-          simp [Pi.single_apply, hne]
+          simp [hne]
         · intro hi
           exact absurd (Finset.mem_univ i) hi
       refine ⟨Submodule.span 𝕂 (Set.range (fun i : Fin 3 =>
@@ -1259,7 +1253,7 @@ private theorem kgLangCOmMAux_postE {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m 
             exact fun i => by
               change Pi.single (e k) 1 (Sum.inl (Sum.inr i)) = 0
               rw [Pi.single_apply]
-              exact if_neg (fun h => Sum.inr_ne_inl (Sum.inl_injective h))
+              exact ite_eq_right (fun h => Sum.inr_ne_inl (Sum.inl_injective h))
           · intro i; simp
           · intro a b _ _ ha hb i
             simp [Pi.add_apply, ha i, hb i]
@@ -1402,7 +1396,7 @@ theorem kgLangC_torusInput_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     (hfp : orderOf f = p) :
     KGLangTorusInput p J (MulAut.conj f).toMonoidHom := by
   classical
-  haveI : CharP 𝕂 2 := charP_two_of_card h𝕂
+  have : CharP 𝕂 2 := charP_two_of_card h𝕂
   have hn1 : 1 ≤ n := by
     by_contra h
     have hn0 : n = 0 := Nat.eq_zero_of_not_pos (by omega)
@@ -1410,19 +1404,19 @@ theorem kgLangC_torusInput_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     rw [h𝕂, hn0, pow_zero] at h1
     omega
   have hb : b ≠ 0 := CFSG.RankThree.PartOne.AUTSL.ne_zero_of_irreducible_tail b c hbc
-  haveI hsS : IsSimpleGroup
+  have hsS : IsSimpleGroup
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus
       (n := m + 1) (K := 𝕂) (by omega) hbc
   have hs : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     (omegaMinusProjEquiv (m + 1) b c).isSimpleGroup
-  haveI : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c)) :=
+  have : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c)) :=
     CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus
       (n := m + 1) (K := 𝕂) (b := b) (c := c) (by omega) hbc
-  haveI : Group.IsPerfect
+  have : Group.IsPerfect
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c))) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     Group.IsPerfect.ofSurjective
       (f := (omegaMinusProjEquiv (m + 1) b c).symm.toMonoidHom)
       (omegaMinusProjEquiv (m + 1) b c).symm.surjective
@@ -1489,13 +1483,13 @@ theorem kgLangC_torusInput_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
     hβmul tau htau E hEelem hEfix
 
 theorem kgLangTorusDatumCont_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m n : ℕ} (hm : 3 ≤ m)
-    (hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n) (b c : 𝕂)
+    (_hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n) (b c : 𝕂)
     (hbc : ∀ s : 𝕂, s ^ 2 + b * s + c ≠ 0)
     (hcyc : GGRawFieldCycW p (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))
       (LargeEvenInnSet _)
       (LargeEvenPhiQ m b c (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus m b c)))))
     (hZ : ∀ [Finite (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))))]
-      (θ : HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) ⧸
+      (_θ : HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) ⧸
         Subgroup.center (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))) ≃*
           LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))),
       commutator (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))) = ⊤ →
@@ -1503,14 +1497,14 @@ theorem kgLangTorusDatumCont_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (Nat.card (Subgroup.center (HopfCover (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))))) p) :
     KGLangTorusDatumCont p (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) (LargeEvenInnSet _)
       (LargeEvenPhiQ m b c (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus m b c)))) := by
-  haveI : CharP 𝕂 2 := charP_two_of_card h𝕂
+  have : CharP 𝕂 2 := charP_two_of_card h𝕂
   have hn1 : 1 ≤ n := by
     by_contra h
     have hn0 : n = 0 := Nat.eq_zero_of_not_pos (by omega)
     have h1 : 1 < Nat.card 𝕂 := Finite.one_lt_card
     rw [h𝕂, hn0, pow_zero] at h1
     omega
-  haveI hsS : IsSimpleGroup
+  have hsS : IsSimpleGroup
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus
       (n := m + 1) (K := 𝕂) (by omega) hbc
@@ -1518,13 +1512,13 @@ theorem kgLangTorusDatumCont_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (omegaMinusProjEquiv (m + 1) b c).isSimpleGroup
   have hna : ∃ a b : LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)),
       a * b ≠ b * a := by
-    haveI : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c)) :=
+    have : Group.IsPerfect (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c)) :=
       CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus
         (n := m + 1) (K := 𝕂) (b := b) (c := c) (by omega) hbc
-    haveI hperfS : Group.IsPerfect
+    have hperfS : Group.IsPerfect
         (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) 𝕂 b c))) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI hperfR : Group.IsPerfect
+    have hperfR : Group.IsPerfect
         (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
       Group.IsPerfect.ofSurjective
         (f := (omegaMinusProjEquiv (m + 1) b c).symm.toMonoidHom)
@@ -1556,20 +1550,20 @@ theorem kgLangTorusDatumCont_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (LargeEvenInnSet _)
       (LargeEvenPhiQ m b c (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus m b c)))) :=
     kgLangTorusMPart_of_inner hp hs hna hcyc hconj hinn hG1 hT (by
-      intro hfin θ hcomm
-      letI := hfin
-      exact hZ θ hcomm)
-  intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  letI := hfin
+      intro hfin _θ hcomm
+      let := hfin
+      exact hZ _θ hcomm)
+  intro hfin _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
+  let := hfin
   have hcyc' := hcyc hs hna
   obtain ⟨J, S, hJI, hJS, hN, hcycS, hpS⟩ := hcyc'
-  have hα₀J : kgInducedAut θ α₀ ∉ J := by
+  have hα₀J : kgInducedAut _θ α₀ ∉ J := by
     intro h
     exact hα₀I (hJI ▸ h)
-  have hAS : ∀ α ∈ A, kgInducedAut θ α ∈ S := by
+  have hAS : ∀ α ∈ A, kgInducedAut _θ α ∈ S := by
     intro α hα
     obtain ⟨u, huI, f, hfF, huf⟩ := hAI α hα
-    apply hpS (kgInducedAut θ α)
+    apply hpS (kgInducedAut _θ α)
     · rw [huf]
       exact Subgroup.mul_mem _
         (Subgroup.subset_closure (Set.mem_union_left
@@ -1578,9 +1572,9 @@ theorem kgLangTorusDatumCont_omegaMinus {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (Subgroup.closure_mono (fun _ hx => Set.mem_union_right
           (LargeEvenInnSet (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))) hx) hfF)
     · exact ⟨1, by rw [pow_one, ← map_pow, hA.2 α hα, map_one]⟩
-  refine ⟨?_, hM θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
+  refine ⟨?_, hM _θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I⟩
   intro α hα
-  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
+  obtain ⟨k, hk⟩ := kgLangLT1_decomp hp _θ hJS hN hcycS hA hAS hα₀ hα₀J α hα
   exact ⟨k, hJI ▸ hk⟩
 
 end CFSG.StandardType

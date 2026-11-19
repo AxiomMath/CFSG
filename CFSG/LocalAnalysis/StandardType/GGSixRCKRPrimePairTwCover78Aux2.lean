@@ -45,6 +45,6 @@ theorem rckTw78_lang_pt
         h := by
     simpa only [frobTwistGL_apply] using hlang g
   rw [hnq]
-  convert h1 using 1 <;> group
+  convert h1 using 1
 
 end CFSG.StandardType.RCKRP

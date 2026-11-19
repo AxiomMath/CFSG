@@ -16,22 +16,22 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16c1610_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem s16c1610_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem s16c1610_dParam_le_mParam {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {A X : Subgroup (MulAut W)} {p : ℕ} (hp : p = 3 ∨ p = 7)
-    (hXA : X ≤ A) (hXn : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hXp : Nat.card X = p)
+    (_hXA : X ≤ A) (hXn : ∀ g ∈ A, ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hXp : Nat.card X = p)
     (hfix : fixV X = ⊥) (hrk : 2 * dParam p ≤ rk W) : dParam p ≤ E3.mParam A := by
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card hXp
+  have : Fact p.Prime := ⟨hpp⟩
+  have : IsCyclic X := isCyclic_of_prime_card hXp
   obtain ⟨⟨a, haX⟩, hgen⟩ := IsCyclic.exists_generator (α := X)
   have ha : orderOf a = p := by
     have h1 : orderOf (⟨a, haX⟩ : X) = Nat.card X := orderOf_eq_card_of_forall_mem_zpowers hgen
@@ -84,6 +84,7 @@ theorem s16c1610_dParam_le_mParam {W : Type} [CommGroup W] [Finite W]
     exact (mem_fixV_zpowers t x).mp (h (Subgroup.mem_top x))
   · rwa [hq] at h
 
+omit [Finite G] in
 private lemma s16c1610_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) :=
   fun _ _ hxy =>

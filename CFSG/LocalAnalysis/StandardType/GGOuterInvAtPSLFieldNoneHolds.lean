@@ -124,7 +124,7 @@ private theorem ggPSLAh_sigma_eq_one_of_fixed {n : ℕ} {K : Type} [Field K] [Ch
   have hσeq : ∀ t, σ t = t := by
     intro t
     have h := congrFun (congrFun (hzero t) i) j
-    simp only [Matrix.smul_apply, Pi.zero_apply] at h
+    simp only [Matrix.smul_apply] at h
     have h2 : σ t - t = 0 := by
       rcases mul_eq_zero.1 h with h3 | h3
       · exact h3
@@ -280,7 +280,7 @@ private theorem ggPSLS1_minpoly_squarefree {n : ℕ} {K : Type} [Field K] [CharP
 
 private theorem ggPSLS1_matrix_comm_of_le_one {F : Type} [Field F] {m : ℕ} (hm : m ≤ 1)
     (A Bm : Matrix (Fin m) (Fin m) F) : A * Bm = Bm * A := by
-  haveI : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.mpr hm
+  have : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.mpr hm
   ext i j
   rw [Matrix.mul_apply, Matrix.mul_apply]
   exact Finset.sum_congr rfl fun k _ => by
@@ -335,7 +335,7 @@ private theorem ggPSLS1_exists_sq_zero_of_two_le_mult {n : ℕ} {K : Type} [Fiel
       simpa using this
     have h2 : (1 : AdjoinRoot (a : K[X])) = 0 := by
       rw [hEa] at h1'
-      simpa [Matrix.single_apply] using h1'
+      simp at h1'
     exact one_ne_zero h2
   have hE2 : E * E = 0 := by
     rw [hE]
@@ -566,12 +566,12 @@ theorem psl_solvable_of_commutant_comm {n : ℕ} {K : Type} [Field K]
       X * (B : Matrix (Fin n) (Fin n) K) = (B : Matrix (Fin n) (Fin n) K) * X →
       Y * (B : Matrix (Fin n) (Fin n) K) = (B : Matrix (Fin n) (Fin n) K) * Y → X * Y = Y * X)
     (L : Subgroup (projectiveSL n K)) (hL : ∀ g ∈ L, conjAut n K B g = g) :
-    IsSolvable L := by
+    Group.IsSolvable L := by
   let L' : Subgroup (SpecialLinearGroup (Fin n) K) := L.comap (proj n K)
   let φ : L' →* Subgroup.center (SpecialLinearGroup (Fin n) K) := ggPSLS2_zHom B L hL
-  haveI : Group.IsSolvable φ.ker := ggPSLS2_ker_isSolvable B L hL hcomm
-  haveI : Group.IsSolvable φ.range := ggPSLS2_range_isSolvable B L hL
-  haveI : Group.IsSolvable L' :=
+  have : Group.IsSolvable φ.ker := ggPSLS2_ker_isSolvable B L hL hcomm
+  have : Group.IsSolvable φ.range := ggPSLS2_range_isSolvable B L hL
+  have : Group.IsSolvable L' :=
     Group.isSolvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict
       (by rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype])
   let f : L' →* L := MonoidHom.codRestrict ((proj n K).comp L'.subtype) L (fun x => x.2)

@@ -14,10 +14,12 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem sec5b_orderOf_conj_inv (x g : G) : orderOf (g⁻¹ * x * g) = orderOf x := by
   have h := MulEquiv.orderOf_eq (MulAut.conj g⁻¹) x
   simpa [MulAut.conj_apply] using h
 
+omit [Finite G] in
 private lemma sec5b_mem_sup_zpowers {r : G} {B : Subgroup G}
     (hrN : zpowers r ≤ Subgroup.normalizer (B : Set G)) {x : G}
     (hx : x ∈ zpowers r ⊔ B) : ∃ n : ℤ, ∃ b ∈ B, x = r ^ n * b := by
@@ -29,6 +31,7 @@ private lemma sec5b_mem_sup_zpowers {r : G} {B : Subgroup G}
   obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact ⟨n, b, hb, by rw [← hyb, ← hn]⟩
 
+omit [Finite G] in
 private lemma sec5b_elemAbelian_sup_zpowers {r : G} {B : Subgroup G}
     (hr2 : r * r = 1) (hBr : ∀ b ∈ B, r * b = b * r)
     (hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a)
@@ -96,6 +99,7 @@ theorem sec5b_card_t_mem {t : G} {L S : Subgroup G} {z r : G} {B A : Subgroup G}
     exact le_sup_right
   exact ⟨hBcard ▸ Subgroup.card_le_of_le hBA, hBA h.B_split.1⟩
 
+omit [Finite G] in
 theorem sec5b_z_mem_A {t z : G} {A : Subgroup G} (hcard : 32 ≤ Nat.card A)
     (h : Case59Two t z A) : z ∈ A := by
   by_contra hz

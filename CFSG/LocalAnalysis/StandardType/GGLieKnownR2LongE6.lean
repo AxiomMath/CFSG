@@ -54,7 +54,7 @@ private theorem l10se6c_map_highestRootRadical
   have hiff : γ ∈ {γ | γ ∈ (e6Datum K).roots ∧ 0 < rootForm (e6Datum K) γ (highRoot .E6)} ↔
       γ ∈ {γ | γ ∈ (adjDatum (rootOperatorFamily .E6) K).roots ∧
         0 < rootForm (adjDatum (rootOperatorFamily .E6) K) γ (highRoot .E6)} := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
   exact iSup_congr_Prop hiff fun h =>
     CFSG.ClassicalInvolution.ModelFacts.map_e6Isogeny_rootGroup (k := K)
       ((l10se6c_mem_roots (K := K)).1 h.1)
@@ -64,7 +64,7 @@ private theorem l10se6c_C2
     pCoreOf 2 (Subgroup.normalizer (((e6Datum K).rootGroup (highRoot .E6) :
         Subgroup ↥(e6Data_valid.minGroup K)) : Set ↥(e6Data_valid.minGroup K))) ≤
       highestRootRadical (e6Datum K) (highRoot .E6) := by
-  haveI : Finite ↥(e6Data_valid.minGroup K) :=
+  have : Finite ↥(e6Data_valid.minGroup K) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid K
   have hθ : IsRoot .E6 (highRoot .E6) := isRoot_highRoot .E6
   have hodd : Odd (Nat.card (e6Isogeny K).ker) := by

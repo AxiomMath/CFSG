@@ -60,7 +60,7 @@ theorem exists_card_inf_centralizer {P : Subgroup A} {z : A}
 theorem mem_of_central_of_prime_order {C D : Subgroup A} (hDC : D ≤ C) {r : ℕ} (hr : r.Prime)
     {z : A} (hzC : z ∈ C) (hzr : orderOf z = r) (hcent : ∀ c ∈ C, c * z = z * c)
     (hdvd : ∀ k : ℕ, r ^ k ∣ Nat.card C → r ^ k ∣ Nat.card D) : z ∈ D := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hC0 : Nat.card C ≠ 0 := Nat.card_pos.ne'
   have hD0 : Nat.card D ≠ 0 := Nat.card_pos.ne'
   obtain ⟨S⟩ : Nonempty (Sylow r ↥D) := inferInstance
@@ -111,7 +111,7 @@ theorem center_eq_bot_of_card_not_prime {X : Type} [Group X] [Finite X] [IsSimpl
   · exfalso
     have hcomm : ∀ a c : X, a * c = c * a := fun a c =>
       Subgroup.mem_center_iff.1 (hc ▸ mem_top c) a
-    letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+    let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
     exact h IsSimpleGroup.prime_card
 
 theorem isQuasisimple_of_card_not_prime {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
@@ -126,7 +126,7 @@ theorem isQuasisimple_of_card_not_prime {X : Type} [Group X] [Finite X] [IsSimpl
         rw [← Subgroup.mem_bot, ← hc]
         exact Subgroup.commutator_mem_commutator (mem_top a) (mem_top c)
       exact commutatorElement_eq_one_iff_mul_comm.1 h1
-    letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+    let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
     exact h IsSimpleGroup.prime_card
   · exact hc
 

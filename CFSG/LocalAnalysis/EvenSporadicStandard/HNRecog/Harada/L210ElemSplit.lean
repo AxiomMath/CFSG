@@ -52,11 +52,12 @@ private theorem isComplement'_of_isCompl_of_isMulCommutative
     obtain ⟨b, hb, c, hc, hbc⟩ := hg
     exact ⟨(⟨b, hb⟩, ⟨c, hc⟩), hbc⟩
 
+omit [Finite X] in
 theorem exists_complement_of_isElemAbelian {E F : Subgroup X} (hE : IsElemAbelian 2 E)
     (hF : F ≤ E) :
     ∃ D : Subgroup X, D ≤ E ∧ D ⊓ F = ⊥ ∧ Nat.card D * Nat.card F = Nat.card E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hEA : IsElementaryAbelian 2 E :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hEA : IsElementaryAbelian 2 E :=
     { is_comm := hE.1.is_comm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by simpa using hE.2 x x.2) }

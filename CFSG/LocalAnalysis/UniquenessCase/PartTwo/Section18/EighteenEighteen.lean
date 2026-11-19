@@ -56,7 +56,7 @@ theorem inf_conjSubgroup_eq_bot_of_r18_15 {D : Data G} (hSg : UC6S846.SigmaStd D
     rw [e, hu]
     group
   obtain ⟨hpp, hpd⟩ := h15 _ huV hu1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(D.M ⊓ centralizer ({g * w * g⁻¹} : Set G))) p hpd
   have hyM : (y : G) ∈ D.M := y.2.1
@@ -77,7 +77,7 @@ theorem inf_conjSubgroup_eq_bot_of_r18_15 {D : Data G} (hSg : UC6S846.SigmaStd D
   have hy'M : g⁻¹ * (y : G) * g ∈ D.M := h.hyp125.centralizer_le_of_mem_V₀ hw₀ hw1 hy'C
   have hord : orderOf (g⁻¹ * (y : G) * g) = p := by
     have e : g⁻¹ * (y : G) * g = MulAut.conj g⁻¹ (y : G) := by
-      simp [MulAut.conj_apply]
+      simp
     rw [e, MulEquiv.orderOf_eq, Subgroup.orderOf_coe, hy]
   have hdvd : p ∣ Nat.card (D.M ⊓ conjSubgroup D.M g : Subgroup G) := by
     have := Subgroup.orderOf_dvd_natCard (D.M ⊓ conjSubgroup D.M g)

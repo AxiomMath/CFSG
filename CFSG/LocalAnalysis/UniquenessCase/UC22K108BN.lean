@@ -40,15 +40,15 @@ variable {S : Type} [Group S] [Finite S]
 theorem uc22k108bn_normalizer_eq {p : ℕ} (hp : p.Prime) {B N U : Subgroup S}
     (hBN : IsSplitBNPair p B N) (hUB : U ≤ B) (hUn : (U.subgroupOf B).Normal)
     (hUp : IsPGroup p U) (hUi : ¬ p ∣ U.index) : normalizer (U : Set S) = B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U₀, hU₀⟩ := hBN.exists_sylow_normalizer hp
   have hBU : B ≤ normalizer (U : Set S) := (normal_subgroupOf_iff_le_normalizer hUB).1 hUn
   have h₀ : (U₀ : Subgroup S) ≤ normalizer (U : Set S) :=
     (Subgroup.le_normalizer.trans hU₀.le).trans hBU
   have hsup : (U₀ : Subgroup S) ⊔ U = U₀ :=
-    (U₀.maximal_isPGroup.eq_of_le (U₀.isPGroup'.to_sup_of_normal_right' hUp h₀) le_sup_left).symm
+    (U₀.maximal_isPGroup.eq_of_le (U₀.isPGroup.to_sup_of_normal_right' hUp h₀) le_sup_left).symm
   have hU : (U₀ : Subgroup S) = U :=
-    ((hUp.toSylow hUi).maximal_isPGroup.eq_of_le U₀.isPGroup' (le_sup_right.trans hsup.le)).symm
+    ((hUp.toSylow hUi).maximal_isPGroup.eq_of_le U₀.isPGroup (le_sup_right.trans hsup.le)).symm
   rw [← hU]
   exact hU₀
 
@@ -56,7 +56,7 @@ theorem uc22k108bn_exists_cartan {B N : Subgroup S} (hBN : IsSplitBNPair 2 B N) 
     (hT : IsSylowTwoOf T ⊤) (hXT : X ≤ normalizer (T : Set S)) (hX : Odd (Nat.card X)) :
     ∃ H' : Subgroup S, X ≤ H' ∧ H' ≤ normalizer (T : Set S) ∧ Odd (Nat.card H') ∧
       T ⊔ normalizer (H' : Set S) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hUB, hUn, hUp, hUi, hUN, hUH, -⟩ := hBN.split
   set H : Subgroup S := B ⊓ N with hHdef
   have hNU : normalizer (U : Set S) = B :=

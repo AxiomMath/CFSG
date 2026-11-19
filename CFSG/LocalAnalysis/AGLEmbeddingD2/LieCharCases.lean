@@ -27,7 +27,7 @@ theorem D2AlmostSimple.lieChar_cases (hrank : KFactLieCharRank) (hL3 : KFactLinT
         omega
       · exact ⟨q, hqp, Or.inl ⟨h2, hd⟩⟩
     · exfalso
-      refine h.not_le (h.le_of_glbCore_eq_top (R.subtype hRK).isPGroup' ?_
+      refine h.not_le (h.le_of_glbCore_eq_top (R.subtype hRK).isPGroup ?_
         (hL3 K d ⟨e⟩ p h.prime h.ne_two ⟨q, hqp, hq1, hd⟩ (R.subtype hRK)))
       rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hRK]
     · exact ⟨q, hqp, Or.inr ⟨hq1, hd⟩⟩

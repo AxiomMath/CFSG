@@ -81,17 +81,20 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sq_eq_inv {a : G} (h : a ^ 3 = 1) : a ^ 2 = a⁻¹ :=
   eq_inv_of_mul_eq_one_left (by rw [← pow_succ]; exact h)
 
 noncomputable def cX (X : Subgroup G) (g : G) : ℕ :=
   Nat.card (X ⊓ centralizer ({g} : Set G) : Subgroup G)
 
+omit [Finite G] in
 theorem centralizer_inv_eq (a : G) : centralizer ({a⁻¹} : Set G) = centralizer ({a} : Set G) := by
   ext z
   simp only [mem_centralizer_singleton_iff]
   exact (Commute.inv_right_iff (a := z) (b := a))
 
+omit [Finite G] in
 theorem cX_sq (X : Subgroup G) {a : G} (h : a ^ 3 = 1) : cX X (a ^ 2) = cX X a := by
   rw [cX, cX, sq_eq_inv h, centralizer_inv_eq]
 
@@ -133,6 +136,7 @@ theorem burnside_cX {E X : Subgroup G} [Fintype E] (hEX : E ≤ normalizer (X : 
   simp only [h1] at hburn
   rw [hburn, Nat.card_eq_fintype_card]
 
+omit [Finite G] in
 theorem pair_bijective {a b : G} (hab : a * b = b * a) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hind : zpowers a ⊓ zpowers b = ⊥) :
     Function.Bijective (fun p : Fin 3 × Fin 3 =>
@@ -185,6 +189,7 @@ theorem pair_bijective {a b : G} (hab : a * b = b * a) (ha3 : a ^ 3 = 1) (hb3 : 
     simp only
     rw [hm, hn]
 
+omit [Finite G] in
 theorem centralizer_one_inf (X : Subgroup G) : cX X 1 = Nat.card X := by
   rw [cX]
   have : X ⊓ centralizer ({(1 : G)} : Set G) = X :=
@@ -265,7 +270,7 @@ theorem fourth_line_centralizes {X : Subgroup G} {a b : G}
     omega
   set E : Subgroup G := zpowers a ⊔ zpowers b with hE
   have hEX : E ≤ normalizer (X : Set G) := sup_le (zpowers_le.mpr haX) (zpowers_le.mpr hbX)
-  haveI : Fintype E := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite _
   obtain ⟨N, hN⟩ := burnside_cX hEX
   have hψ := pair_bijective hab ha3 hb3 ha1 hb1 hind
   have hE9 : Nat.card E = 9 := by
@@ -422,22 +427,22 @@ variable {M O}
 theorem bar_mul {g h : G} (hg : g ∈ M) (hh : h ∈ M) :
     bar M O (g * h) = bar M O g * bar M O h := by
   unfold bar
-  rw [dif_pos hg, dif_pos hh, dif_pos (M.mul_mem hg hh)]
+  rw [dite_eq_left hg, dite_eq_left hh, dite_eq_left (M.mul_mem hg hh)]
   rfl
 
 theorem bar_one : bar M O (1 : G) = 1 := by
   unfold bar
-  rw [dif_pos M.one_mem]
+  rw [dite_eq_left M.one_mem]
   rfl
 
 theorem bar_inv {g : G} (hg : g ∈ M) : bar M O g⁻¹ = (bar M O g)⁻¹ := by
   unfold bar
-  rw [dif_pos hg, dif_pos (M.inv_mem hg)]
+  rw [dite_eq_left hg, dite_eq_left (M.inv_mem hg)]
   rfl
 
 theorem bar_zpow {g : G} (hg : g ∈ M) (n : ℤ) : bar M O (g ^ n) = (bar M O g) ^ n := by
   unfold bar
-  rw [dif_pos hg, dif_pos (M.zpow_mem hg n)]
+  rw [dite_eq_left hg, dite_eq_left (M.zpow_mem hg n)]
   rfl
 
 theorem bar_pow {g : G} (hg : g ∈ M) (n : ℕ) : bar M O (g ^ n) = (bar M O g) ^ n := by
@@ -446,7 +451,7 @@ theorem bar_pow {g : G} (hg : g ∈ M) (n : ℕ) : bar M O (g ^ n) = (bar M O g)
 
 theorem bar_eq_one_iff {g : G} (hg : g ∈ M) : bar M O g = 1 ↔ g ∈ O := by
   unfold bar
-  rw [dif_pos hg, QuotientGroup.eq_one_iff, mem_subgroupOf]
+  rw [dite_eq_left hg, QuotientGroup.eq_one_iff, mem_subgroupOf]
 
 theorem bar_eq_iff {g h : G} (hg : g ∈ M) (hh : h ∈ M) :
     bar M O g = bar M O h ↔ g⁻¹ * h ∈ O := by
@@ -656,38 +661,47 @@ variable {x e₂ e₃ : G} (h : VITriple x e₂ e₃)
 
 include h
 
+omit [Finite G] in
 theorem T_le_cent : zpowers e₂ ⊔ zpowers e₃ ≤ centralizer ({x} : Set G) :=
   sup_le (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr h.comm_x₂.symm))
     (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr h.comm_x₃.symm))
 
+omit [Finite G] in
 theorem x_T : ∀ a ∈ zpowers x, ∀ b ∈ zpowers e₂ ⊔ zpowers e₃, a * b = b * a := by
   intro a ha b hb
   obtain ⟨i, rfl⟩ := mem_zpowers_iff.mp ha
   exact (Commute.zpow_left (mem_centralizer_singleton_iff.mp (h.T_le_cent hb)).symm i).eq
 
+omit [Finite G] in
 theorem T_comm_gen : ∀ a ∈ zpowers e₂, ∀ b ∈ zpowers e₃, a * b = b * a := by
   intro a ha b hb
   obtain ⟨i, rfl⟩ := mem_zpowers_iff.mp ha
   obtain ⟨j, rfl⟩ := mem_zpowers_iff.mp hb
   exact (((show Commute e₂ e₃ from h.comm_23).zpow_zpow i j)).eq
 
+omit [Finite G] in
 theorem T_el : IsElemAbelian 3 (zpowers e₂ ⊔ zpowers e₃) :=
   isElemAbelian_sup (isElemAbelian_zpowers h.e₂_pow) (isElemAbelian_zpowers h.e₃_pow) h.T_comm_gen
 
+omit [Finite G] in
 theorem Q_el : IsElemAbelian 3 (Qf x e₂ e₃) :=
   isElemAbelian_sup (isElemAbelian_zpowers h.x_pow) h.T_el h.x_T
 
+omit [Finite G] in
 theorem Q_comm : ∀ a ∈ Qf x e₂ e₃, ∀ b ∈ Qf x e₂ e₃, a * b = b * a := fun a ha b hb => by
   have := h.Q_el.1
   exact setLike_mul_comm ha hb
 
+omit [Finite G] in
 theorem Q_exp : ∀ q ∈ Qf x e₂ e₃, q ^ 3 = 1 := h.Q_el.2
 
+omit [Finite G] in
 theorem x_nmem_T : x ∉ zpowers e₂ ⊔ zpowers e₃ := fun hx => by
   have : x ∈ (zpowers e₂ ⊔ zpowers e₃) ⊓ zpowers x := ⟨hx, mem_zpowers x⟩
   rw [h.ind_x] at this
   exact h.x_ne (mem_bot.mp this)
 
+omit [Finite G] in
 theorem e₃_nmem : e₃ ∉ zpowers e₂ := fun he => by
   have : e₃ ∈ zpowers e₂ ⊓ zpowers e₃ := ⟨he, mem_zpowers e₃⟩
   rw [h.ind_23] at this
@@ -773,7 +787,7 @@ include h
 theorem e₃_eq : e₃ = (t * t) * x * (t * t)⁻¹ := by
   rw [← h.t_e₂, ← h.t_x]; group
 
-theorem conj_mem_lines {y q g : G} (hy : y ∈ M)
+theorem conj_mem_lines {y q g : G} (_hy : y ∈ M)
     (hyN : y ∈ normalizer ((Qf x e₂ e₃ ⊔ O : Subgroup G) : Set G)) (hq : q = g * x * g⁻¹)
     (hqQ : q ∈ Qf x e₂ e₃) :
     ∃ q' ∈ Qf x e₂ e₃, ∃ o ∈ O, y * q * y⁻¹ = q' * o ∧
@@ -1168,7 +1182,7 @@ theorem false_of_small {Y : Subgroup G} (hY2 : IsPGroup 2 Y) (hYM : Y ≤ M)
     (hwY : e₂ * e₃ ∈ normalizer (Y : Set G))
     (hsmall : ∀ Y₀ : Subgroup G, Y₀ ≤ Y → Y₀ ≠ ⊥ → (Y₀.subgroupOf Y).Characteristic →
       CFSG.Open.pRank 3 (normalizer (Y₀ : Set G) ⊓ M) < 3) : False := by
-  haveI : (O.subgroupOf M).Normal :=
+  have : (O.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.O_le).mpr h.O_norm
   have hp2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxQ : x ∈ Qf x e₂ e₃ := mem_sup_left (mem_zpowers x)
@@ -1395,6 +1409,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem abelian27_unique {P : Subgroup G}
     (e : P ≃* (Multiplicative (ZMod 3) ≀ᵣ Multiplicative (ZMod 3))) {A B : Subgroup G}
     (hAP : A ≤ P) (hBP : B ≤ P) (hA : IsMulCommutative A) (hB : IsMulCommutative B)
@@ -1678,6 +1693,7 @@ theorem rot_arith {a b : ℤ} (ha : ¬ (3 : ℤ) ∣ a) (hab : (3 : ℤ) ∣ b *
   have : a % 3 = 1 ∨ a % 3 = 2 := by omega
   rcases this with h1 | h1 <;> rw [h1] at h0 <;> omega
 
+omit [Finite G] in
 theorem vi_rotation {D J : Subgroup G} {x e₂ e₃ t ρ : G} (he₂D : e₂ ∈ D) (he₃D : e₃ ∈ D)
     (hDJ : D ≤ J) (hxJ' : ∀ b : ℤ, x ^ b ∈ J → x ^ b = 1)
     (hlines : ∀ g : G, g * x * g⁻¹ ∈ D → g * x * g⁻¹ ∈ zpowers x ∨ g * x * g⁻¹ ∈ zpowers e₂ ∨
@@ -1772,7 +1788,7 @@ theorem exists_conj_into_P {P : Sylow 3 G} {O K₁ : Subgroup G}
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set W : Subgroup G := (P : Subgroup G) ⊔ O with hW
   have hPsylW : IsSylowOf 3 (P : Subgroup G) W :=
-    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup', fun hdvd => P.not_dvd_index
+    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup, fun hdvd => P.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le le_sup_left))⟩
   obtain ⟨Q, hQ⟩ := (hK₁p.comap_subtype (K := W)).exists_le_sylow
   set T : Subgroup G := (Q : Subgroup W).map W.subtype with hT
@@ -1877,7 +1893,7 @@ section Plane
 variable {G : Type} [Group G] [Finite G]
 
 theorem vi_plane_inV {P : Sylow 3 G} {x e₂ e₃ : G} {J : Subgroup G} (hT : VITriple x e₂ e₃)
-    (hxJ : x ∉ J) (hxP : x ∈ (P : Subgroup G)) (he₂D : e₂ ∈ (P : Subgroup G) ⊓ J)
+    (_hxJ : x ∉ J) (hxP : x ∈ (P : Subgroup G)) (he₂D : e₂ ∈ (P : Subgroup G) ⊓ J)
     (he₃D : e₃ ∈ (P : Subgroup G) ⊓ J) (hJC : J ≤ centralizer ({x} : Set G))
     (hlines : ∀ g : G, g * x * g⁻¹ ∈ (P : Subgroup G) ⊓ centralizer ({x} : Set G) →
       g * x * g⁻¹ ∈ zpowers x ∨ g * x * g⁻¹ ∈ zpowers e₂ ∨ g * x * g⁻¹ ∈ zpowers e₃) :
@@ -1999,7 +2015,7 @@ theorem a6vi_frame (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G)
     rw [this]; norm_num
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hp hM).1
   obtain ⟨t, e₂, e₃, htP, he₂, he₃, ht3x, he₂D, he₃D, he₂3, he₃3, he₂1, he₃1, hc2x, hc3x, hc23,
-    hind23, hindx, hlines⟩ := vi_lines P.isPGroup' hP81 hxP hx1 hx3 hxJ hQab hQc27 hDcard hfus
+    hind23, hindx, hlines⟩ := vi_lines P.isPGroup hP81 hxP hx1 hx3 hxJ hQab hQc27 hDcard hfus
   have hxJ' : ∀ b : ℤ, x ^ b ∈ J → x ^ b = 1 := by
     intro b hb
     by_contra hb1

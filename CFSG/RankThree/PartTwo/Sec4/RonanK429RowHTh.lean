@@ -25,12 +25,12 @@ section Certs
 
 
 theorem good429_th_S : Good429 (Subgroup.centralizer ({thS} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr =>
     (Census.CoverCenterThreeRest.lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨-, hsimp, -, hcard⟩ := leaf_closure_of_six thEps hε hne
-  haveI := hsimp
+  have := hsimp
   have hEC : Subgroup.closure (Set.range thEps) ≤ Subgroup.centralizer ({thS} : Set ↥J) := by
     rw [Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩
@@ -49,7 +49,7 @@ theorem good429_th_S : Good429 (Subgroup.centralizer ({thS} : Set ↥J)) := by
 theorem good429_th_ZU :
     Good429 (Subgroup.centralizer ({thZ} : Set ↥J)) ∧
       Good429 (Subgroup.centralizer ({thU} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   refine ⟨good429_of_card_dvd (M := 472392) (B := 78) ?_ (by norm_num) (by norm_num) (by decide),
     good429_of_card (B := 57) RonanK432.th_card_centralizer_U (by norm_num) (by decide)⟩
   exact CFSG.HardMathSupport.Dickson.I271.card_centralizer_zJ_dvd
@@ -61,7 +61,7 @@ theorem th_reps_pow_three : thS ^ 3 = 1 ∧ thZ ^ 3 = 1 ∧ thU ^ 3 = 1 := by
 
 theorem good429_th (x : ↥J) (hx : orderOf x = 3) :
     Good429 (Subgroup.centralizer ({x} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   obtain ⟨k, c, hc, e, he, rfl⟩ := th_census x hx
   obtain ⟨hs3, hz3, hu3⟩ := th_reps_pow_three
   have key : ∀ y : ↥J, y ^ 3 = 1 → Good429 (Subgroup.centralizer ({y} : Set ↥J)) →

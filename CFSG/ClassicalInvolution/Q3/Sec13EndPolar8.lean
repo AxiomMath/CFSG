@@ -139,6 +139,7 @@ namespace Cfg9
 variable [Finite V] {B : V → V → ZMod 2} {S : Set V} {A : Subgroup V}
   {e : A →* Multiplicative (Fin 6 → ZMod 2)} {u : V} {a : ℕ}
 
+omit [Finite V] in
 private theorem p8a_B_u (h : Cfg9 B S A e u a) (x : A) : B u x = 0 := by
   have h1 : B u (x : V) = dot6 (fun _ => 1) (e x).toAdd := by
     have h0 := h.e_form ⟨u, h.mem⟩ x
@@ -148,6 +149,7 @@ private theorem p8a_B_u (h : Cfg9 B S A e u a) (x : A) : B u x = 0 := by
   rw [h1]
   simpa [dot6] using h2
 
+omit [Finite V] in
 private theorem p8a_mem_iff (h : Cfg9 B S A e u a) (x : A) :
     (x : V) ∈ S ↔ wt6 (e x).toAdd = 4 := by
   constructor
@@ -159,6 +161,7 @@ private theorem p8a_mem_iff (h : Cfg9 B S A e u a) (x : A) :
   · intro hw
     exact ((h.perp_u x).mpr ⟨x, rfl, hw⟩).1
 
+omit [Finite V] in
 private theorem p8a_exists_mem (h : Cfg9 B S A e u a) {α : Finset (Fin 6)} (hα : α.card = 4) :
     ∃ x : A, (e x).toAdd = ind6 α := by
   have hr : Multiplicative.ofAdd (ind6 α) ∈ e.range := by
@@ -167,11 +170,13 @@ private theorem p8a_exists_mem (h : Cfg9 B S A e u a) {α : Finset (Fin 6)} (hα
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.mp hr
   exact ⟨x, by rw [hx, toAdd_ofAdd]⟩
 
+omit [Finite V] in
 private theorem p8a_B_iff (h : Cfg9 B S A e u a) (x y : A) :
     B x y = 0 ↔ (p8aSupp e x ∩ p8aSupp e y).card % 2 = 0 := by
   rw [h.e_form x y, ← p8a_ind_supp x, ← p8a_ind_supp y, p8a_dot_ind,
     ZMod.natCast_eq_zero_iff_even, Nat.even_iff]
 
+omit [Finite V] in
 private theorem p8a_count (h : Cfg9 B S A e u a) (Q : Finset (Fin 6) → Prop) :
     {x : A | (x : V) ∈ S ∧ Q (p8aSupp e x)}.ncard =
       {α : Finset (Fin 6) | α.card = 4 ∧ Q α}.ncard := by
@@ -191,6 +196,7 @@ private theorem p8a_count (h : Cfg9 B S A e u a) (Q : Finset (Fin 6) → Prop) :
     · rw [p8a_supp_of_ind hx]
       exact hQ
 
+omit [Finite V] in
 private theorem p8a_vec (h : Cfg9 B S A e u a) (b : V) :
     ∃ v : Fin 6 → ZMod 2, ∀ x : A, B b x = dot6 v (e x).toAdd := by
   have hy : ∀ i : Fin 5, ∃ x : A, e x = Multiplicative.ofAdd (ind6 {i.castSucc, 5}) := by
@@ -203,7 +209,7 @@ private theorem p8a_vec (h : Cfg9 B S A e u a) (b : V) :
       (∀ i : Fin 5, v i.castSucc = B b (y i)) ∧ v 5 = 0 := by
     refine ⟨fun j => ∑ i : Fin 5, if i.castSucc = j then B b (y i) else 0, fun i => ?_, ?_⟩
     · simp [Fin.castSucc_inj]
-    · exact Finset.sum_eq_zero (fun i _ => if_neg (p8a_castSucc_ne i))
+    · exact Finset.sum_eq_zero (fun i _ => ite_eq_right (p8a_castSucc_ne i))
   refine ⟨v, fun x => ?_⟩
   have hgen : ∀ T : Finset (Fin 5), (e x).toAdd = ∑ i ∈ T, ind6 {i.castSucc, 5} →
       B b x = ∑ i ∈ T, B b (y i) := by
@@ -222,6 +228,7 @@ private theorem p8a_vec (h : Cfg9 B S A e u a) (b : V) :
   intro i _
   rw [p8a_dot_pair, hv1 i, hv5, add_zero]
 
+omit [Finite V] in
 private theorem p8a_sum_of_u (h : Cfg9 B S A e u a) {b : V} {v : Fin 6 → ZMod 2}
     (hv : ∀ x : A, B b x = dot6 v (e x).toAdd) : B b u = ∑ j, v j := by
   have h1 : B b u = dot6 v (e ⟨u, h.mem⟩).toAdd := hv ⟨u, h.mem⟩
@@ -229,6 +236,7 @@ private theorem p8a_sum_of_u (h : Cfg9 B S A e u a) {b : V} {v : Fin 6 → ZMod 
   rw [h1]
   simp [dot6]
 
+omit [Finite V] in
 private theorem p8a_card_T (h : Cfg9 B S A e u a) {b : V} {v : Fin 6 → ZMod 2}
     (hv : ∀ x : A, B b x = dot6 v (e x).toAdd) :
     {x : A | (x : V) ∈ S ∧ B x b = 0}.ncard =
@@ -237,12 +245,13 @@ private theorem p8a_card_T (h : Cfg9 B S A e u a) {b : V} {v : Fin 6 → ZMod 2}
   have hset : {x : A | (x : V) ∈ S ∧ B x b = 0} =
       {x : A | (x : V) ∈ S ∧ dot6 v (ind6 (p8aSupp e x)) = 0} := by
     ext x
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [h.symp.symm (x : V) b, hv x, p8a_ind_supp x]
   rw [hset]
   exact (p8a_count h (fun α => dot6 v (ind6 α) = 0)).trans
     (p8a_ncard_filter (fun α => α.card = 4 ∧ dot6 v (ind6 α) = 0))
 
+omit [Finite V] in
 theorem exists_far (h : Cfg9 B S A e u a) : ∃ b, b ∈ far B S u := by
   have hu1 : u ≠ 1 := by
     intro hu
@@ -411,7 +420,7 @@ theorem card_far_eq (h : Cfg9 B S A e u a) : (far B S u).ncard = 20 := by
     have hset : {y : A | (y : V) ∈ S ∧ B x0 y = 0} =
         {y : A | (y : V) ∈ S ∧ (p8aSupp e x0 ∩ p8aSupp e y).card % 2 = 0} := by
       ext y
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [p8a_B_iff h x0 y]
     rw [hset]
     exact (p8a_count h (fun α => (p8aSupp e x0 ∩ α).card % 2 = 0)).trans
@@ -427,7 +436,7 @@ theorem card_far_eq (h : Cfg9 B S A e u a) : (far B S u).ncard = 20 := by
       ({p : V | p ∈ S ∧ B x0 p = 0} \ {p : V | p ∈ S ∧ B u p = 0 ∧ B x0 p = 0}) ∪
       ({p : V | p ∈ S ∧ B (u * x0) p = 0} \ {p : V | p ∈ S ∧ B u p = 0 ∧ B x0 p = 0}) := by
     ext p
-    simp only [far, Set.mem_union, Set.mem_diff, Set.mem_setOf_eq]
+    simp only [far, Set.mem_union, Set.mem_sdiff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hpS, hpu⟩
       rcases p8a_zmod2_cases (B x0 p) with h0 | h1
@@ -503,6 +512,7 @@ private theorem p8b_dot_one_even (w : Fin 6 → ZMod 2) (hw : ∑ i, w i = 0) :
     dot6 (fun _ => 1) w = 0 := by
   simpa [dot6] using hw
 
+omit [Finite V] in
 private theorem p8b_B_u (h : Cfg9 B S A e u a) (x : A) : B u x = 0 := by
   have h1 := h.e_form ⟨u, h.mem⟩ x
   rw [h.e_u] at h1
@@ -511,6 +521,7 @@ private theorem p8b_B_u (h : Cfg9 B S A e u a) (x : A) : B u x = 0 := by
     simpa [dot6] using hx
   exact h1.trans hdot
 
+omit [Finite V] in
 private theorem p8b_wt_of_S (h : Cfg9 B S A e u a) {x : A} (hx : (x : V) ∈ S) :
     wt6 (e x).toAdd = 4 := by
   obtain ⟨y, hy, hw⟩ := (h.perp_u (x : V)).mp ⟨hx, p8b_B_u h x⟩
@@ -518,6 +529,7 @@ private theorem p8b_wt_of_S (h : Cfg9 B S A e u a) {x : A} (hx : (x : V) ∈ S) 
   subst hyx
   exact hw
 
+omit [Finite V] in
 private theorem p8b_exists_four (h : Cfg9 B S A e u a) (α : Finset (Fin 6))
     (hα : α.card = 4) : ∃ x : A, (x : V) ∈ S ∧ (e x).toAdd = ind6 α := by
   obtain ⟨x, hx⟩ := (MonoidHom.mem_range).mp
@@ -526,6 +538,7 @@ private theorem p8b_exists_four (h : Cfg9 B S A e u a) (α : Finset (Fin 6))
   have hw : wt6 (e x).toAdd = 4 := by rw [hx', p8b_wt_ind, hα]
   exact ⟨x, ((h.perp_u (x : V)).mpr ⟨x, rfl, hw⟩).1, hx'⟩
 
+omit [Finite V] in
 private theorem p8b_radical (h : Cfg9 B S A e u a) {x : A} (hx : ∀ y : A, B x y = 0) :
     (e x).toAdd = 0 ∨ (e x).toAdd = fun _ => 1 := by
   refine p8b_rad6 (e x).toAdd (fun y hy => ?_)
@@ -534,10 +547,12 @@ private theorem p8b_radical (h : Cfg9 B S A e u a) {x : A} (hx : ∀ y : A, B x 
   rw [h.e_form x z, hz] at hBz
   exact hBz
 
+omit [Finite V] in
 private theorem p8b_self_mem {b : V} (hb : b ∈ far B S u) :
     b ∈ fibre B S A u b :=
   ⟨hb.1, hb.2, fun _ => rfl⟩
 
+omit [Finite V] in
 private theorem p8b_mul_fibre (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x : V) ∈ S)
     (hx : B x b = 0) {p : V} (hp : p ∈ fibre B S A u (b * x)) :
     p * x ∈ fibre B S A u b := by
@@ -556,6 +571,7 @@ private theorem p8b_mul_fibre (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x :
   · rw [h.symp.mul_left, hpy y, h.symp.mul_left]
     exact p8b_z2 _ _
 
+omit [Finite V] in
 private theorem p8b_fibre_mul' (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x : V) ∈ S)
     (hx : B x b = 0) {q : V} (hq : q ∈ fibre B S A u b) :
     q * x ∈ fibre B S A u (b * x) := by
@@ -573,6 +589,7 @@ private theorem p8b_fibre_mul' (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x 
   · rw [h.symp.mul_right, hqu, p8b_B_u h x, add_zero]
   · rw [h.symp.mul_left, h.symp.mul_left, hqy y]
 
+omit [Finite V] in
 private theorem p8b_fibre_mul_eq (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x : V) ∈ S)
     (hx : B x b = 0) :
     fibre B S A u (b * x) = (fun p => p * (x : V)) '' fibre B S A u b := by
@@ -585,13 +602,15 @@ private theorem p8b_fibre_mul_eq (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (
   · rintro ⟨q, hq, rfl⟩
     exact p8b_fibre_mul' h hxS hx hq
 
+omit [Finite V] in
 private theorem p8b_ncard_fibre_mul (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x : V) ∈ S)
     (hx : B x b = 0) :
     (fibre B S A u (b * x)).ncard = (fibre B S A u b).ncard := by
   rw [p8b_fibre_mul_eq h hxS hx, Set.ncard_image_of_injective _ (mul_left_injective (x : V))]
 
+omit [Finite V] in
 private theorem p8b_disj_self (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x : V) ∈ S)
-    (hx : B x b = 0) : Disjoint (fibre B S A u b) (fibre B S A u (b * x)) := by
+    (_hx : B x b = 0) : Disjoint (fibre B S A u b) (fibre B S A u (b * x)) := by
   rw [Set.disjoint_left]
   intro p hp hp'
   obtain ⟨_, _, hpy⟩ := hp
@@ -609,8 +628,9 @@ private theorem p8b_disj_self (h : Cfg9 B S A e u a) {b : V} {x : A} (hxS : (x :
   · rw [h1, p8b_wt_one] at hw
     exact absurd hw (by decide)
 
+omit [Finite V] in
 private theorem p8b_disj_pair (h : Cfg9 B S A e u a) {b : V} {x x' : A}
-    (hxS : (x : V) ∈ S) (hx'S : (x' : V) ∈ S) (hx : B x b = 0) (hx' : B x' b = 0)
+    (hxS : (x : V) ∈ S) (hx'S : (x' : V) ∈ S) (_hx : B x b = 0) (_hx' : B x' b = 0)
     (hne : x ≠ x') :
     Disjoint (fibre B S A u (b * x)) (fibre B S A u (b * x')) := by
   rw [Set.disjoint_left]
@@ -726,6 +746,7 @@ theorem card_fibre_eq_two (h : Cfg9 B S A e u a) {b : V} (hb : b ∈ far B S u) 
   rw [← hsplit, hFt, hFb, hbi] at hu
   omega
 
+omit [CommGroup V] [Finite V] in
 private theorem p8b_two_elems {s : Set V} (hs : s.ncard = 2) {x y z w : V}
     (hx : x ∈ s) (hy : y ∈ s) (hz : z ∈ s) (hw : w ∈ s) (hxy : x ≠ y) (hzw : z ≠ w) :
     (x = z ∧ y = w) ∨ (x = w ∧ y = z) := by
@@ -734,11 +755,12 @@ private theorem p8b_two_elems {s : Set V} (hs : s.ncard = 2) {x y z w : V}
   rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;>
     rcases hz with rfl | rfl <;> rcases hw with rfl | rfl <;> simp_all
 
+omit [Finite V] in
 private theorem p8b_fibre_eq_of_mem {p q : V} (hq : q ∈ fibre B S A u p) :
     fibre B S A u q = fibre B S A u p := by
   obtain ⟨_, _, hqy⟩ := hq
   ext r
-  simp only [fibre, Set.mem_setOf_eq]
+  simp only [fibre, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1, h2, fun y => (h3 y).trans (hqy y)⟩
@@ -758,6 +780,7 @@ private theorem p8b_partner (h : Cfg9 B S A e u a) {b : V} (hb : b ∈ far B S u
     · rw [hs]; simp
     · rw [h1]; exact hpq
 
+omit [Finite V] in
 private theorem p8b_far_mul (h : Cfg9 B S A e u a) {b : V} (hb : b ∈ far B S u) {x : A}
     (hxS : (x : V) ∈ S) (hx : B x b = 0) : b * x ∈ far B S u := by
   have hbx : b ≠ (x : V) := by
@@ -806,12 +829,14 @@ theorem exists_const_prod (h : Cfg9 B S A e u a) :
 
 private theorem p8b_z2_one : ∀ c : ZMod 2, c ≠ 0 → c = 1 := by decide
 
+omit [CommGroup V] [Finite V] in
 private theorem p8b_mem_two {s : Set V} (hs : s.ncard = 2) {x y p : V} (hx : x ∈ s)
     (hy : y ∈ s) (hxy : x ≠ y) (hp : p ∈ s) : p = x ∨ p = y := by
   obtain ⟨q, r, hqr, rfl⟩ := Set.ncard_eq_two.mp hs
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy hp
   rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> rcases hp with rfl | rfl <;> simp_all
 
+omit [Finite V] in
 private theorem p8b_card_A (h : Cfg9 B S A e u a) : Nat.card A ≤ 32 := by
   have hmem : ∀ x : A, ∑ i, (e x).toAdd i = 0 := fun x =>
     (h.e_range (e x)).mp (MonoidHom.mem_range.mpr ⟨x, rfl⟩)
@@ -913,6 +938,7 @@ private theorem p8b_sum3 (v₁ v₂ v₃ : Fin 6 → ZMod 2) :
 
 private theorem p8b_one_ne_zero : (fun _ : Fin 6 => (1 : ZMod 2)) ≠ 0 := by decide
 
+omit [Finite V] in
 private theorem p8b_u_ne_one (h : Cfg9 B S A e u a) : u ≠ 1 := by
   intro h1
   have h2 := h.e_u
@@ -922,11 +948,13 @@ private theorem p8b_u_ne_one (h : Cfg9 B S A e u a) : u ≠ 1 := by
   have h5 : (0 : Fin 6 → ZMod 2) = fun _ => 1 := h4
   exact p8b_one_ne_zero h5.symm
 
+omit [Finite V] in
 private theorem p8b_B_one (h : Cfg9 B S A e u a) (y : A) : B 1 y = 0 := by
   have h1 := h.symp.mul_left 1 1 (y : V)
   rw [mul_one] at h1
   exact p8b_z2_self _ h1
 
+omit [Finite V] in
 private theorem p8b_rad_A (h : Cfg9 B S A e u a) {z : Fin 6 → ZMod 2}
     (hz : ∀ y : A, dot6 z (e y).toAdd = 0) : z = 0 ∨ z = fun _ => 1 := by
   refine p8b_rad6 z (fun y' hy' => ?_)
@@ -955,6 +983,7 @@ private theorem p8b_parity (h : Cfg9 B S A e u a) {b₀ : V} (hb₀ : b₀ ∈ f
   rw [p8b_sum3, p8b_wt3_sum v₀ hv₀, hsum x, hsum x'] at hs
   exact absurd hs (by decide)
 
+omit [Finite V] in
 private theorem p8b_cancel_A (h : Cfg9 B S A e u a) {x x' : A} {r r' : V}
     (hr : ∀ y : A, B r y = 0) (hr' : ∀ y : A, B r' y = 0)
     (hx0 : (e x).toAdd 0 = 0) (hx0' : (e x').toAdd 0 = 0)
@@ -1077,11 +1106,11 @@ theorem ker_le (h : Cfg9 B S A e u a) :
     ∀ x : V, (∀ y : A, B x y = 0) → x = 1 ∨ x = u := by
   classical
   intro x hx
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   obtain ⟨b₀, hb₀⟩ := exists_far h
   have hR := p8b_R_card h hb₀
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h3 : 2 < (Finset.univ.filter (fun r : V => ∀ y : A, B r y = 0)).card := by
     rw [Finset.two_lt_card_iff]
     refine ⟨1, x, u, ?_, ?_, ?_, ?_, ?_, hcon.2⟩

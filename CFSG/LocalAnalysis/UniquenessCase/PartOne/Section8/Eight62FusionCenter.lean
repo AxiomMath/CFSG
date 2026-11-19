@@ -18,7 +18,7 @@ theorem exists_mem_conj_of_map_conj_le_of_center
     (hZU : Z ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M)
     {g : G} (hX : X ≤ P) (hg : X.map (MulAut.conj g⁻¹).toMonoidHom ≤ P) :
     ∃ m ∈ M, X.map (MulAut.conj g⁻¹).toMonoidHom = X.map (MulAut.conj m⁻¹).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Xg : Subgroup G := X.map (MulAut.conj g⁻¹).toMonoidHom
   let H : Subgroup G := Subgroup.centralizer (Xg : Set G)
   have hZcomm : ∀ z ∈ Z, ∀ p ∈ P, z * p = p * z := by
@@ -50,7 +50,7 @@ theorem exists_mem_conj_of_map_conj_le_of_center
           rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left inf_le_right]
       _ ≤ (Qh : Subgroup H).map H.subtype := Subgroup.map_mono hCHQh
   have hZQ : Z ≤ Q := hZCH.trans hCQ
-  have hQ3 : IsPGroup 3 Q := Qh.isPGroup'.map H.subtype
+  have hQ3 : IsPGroup 3 Q := Qh.isPGroup.map H.subtype
   have hQM : Q ≤ M :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.le_of_mem_uniqueSet_of_isPGroup
       hmax hZU hZQ hQ3
@@ -67,7 +67,7 @@ theorem exists_mem_conj_of_map_conj_le_of_center
   have hcomp : (MulAut.conj c⁻¹).toMonoidHom.comp (MulAut.conj g⁻¹).toMonoidHom =
       (MulAut.conj (g * c)⁻¹).toMonoidHom := by
     ext z
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have hZgcM : Z.map (MulAut.conj (g * c)⁻¹).toMonoidHom ≤ M := by
     have h1 : (Z.map (MulAut.conj g⁻¹).toMonoidHom).map
         (MulAut.conj c⁻¹).toMonoidHom ≤ M := hZgcQ.trans hQM

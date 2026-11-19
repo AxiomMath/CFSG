@@ -19,8 +19,8 @@ private theorem smallA1_s3 {G : Type*} [Group G] (V : Subgroup G) (hV : Nat.card
     {u v : G} (hu : u ∈ V) (hv : v ∈ V) (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) (hv2 : v ^ 2 = 1)
     (huv3 : (u * v) ^ 3 = 1) (huv1 : u * v ≠ 1) :
     Nat.card V = 6 ∧ ∀ z ∈ V, (∀ x ∈ ⁅V, V⁆, Commute z x) → (∃ n : ℕ, z ^ 2 ^ n = 1) → z = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hu_ord : orderOf u = 2 := orderOf_eq_prime hu2 hu1
   have huv_ord : orderOf (u * v) = 3 := orderOf_eq_prime huv3 huv1
   have h2 : 2 ∣ Nat.card V := by
@@ -66,7 +66,7 @@ private theorem smallA1_s3 {G : Type*} [Group G] (V : Subgroup G) (hV : Nat.card
   have hzw : orderOf (z * ⁅u, v⁆) = 6 := by
     rw [hcomm.orderOf_mul_eq_mul_orderOf_of_coprime (by rw [hzo, hw_ord]; norm_num), hzo, hw_ord]
   have hzwV : z * ⁅u, v⁆ ∈ V := V.mul_mem hz (Subgroup.commutator_le_self V hwV)
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcyc : IsCyclic V :=
     isCyclic_of_orderOf_eq_card (⟨z * ⁅u, v⁆, hzwV⟩ : V)
       (by rw [Subgroup.orderOf_mk, hzw, hcard])
@@ -92,12 +92,12 @@ private theorem smallA1_sl2 {F : Type} [Field F] [CharP F 2] (hF : ∀ c : F, c 
   have hV : ((vSL (1 : F) : SL2 F) : Matrix (Fin 2) (Fin 2) F) = !![1, 0; 1, 1] := rfl
   have hx3 : ∀ x : SL2 F, x ^ 3 = x * x * x := fun x => by rw [pow_succ, pow_succ, pow_one]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI : Finite F := Finite.of_surjective (fun b : Bool => bif b then (1 : F) else 0)
+  · have : Finite F := Finite.of_surjective (fun b : Bool => bif b then (1 : F) else 0)
       (fun c => by
         rcases hF c with rfl | rfl
         · exact ⟨false, rfl⟩
         · exact ⟨true, rfl⟩)
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hc : Fintype.card F = 2 := by
       rw [← Finset.card_univ]
       have : (Finset.univ : Finset F) = {0, 1} := by
@@ -230,8 +230,8 @@ private theorem smallA1_main {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : r
       ∀ z ∈ twoClosure S i, (∀ x ∈ ⁅twoClosure S i, twoClosure S i⁆, Commute z x) →
         (∃ n : ℕ, z ^ 2 ^ n = 1) → z = 1 := by
   classical
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
-  haveI hL2 : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
+  have hL2 : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨hs0, hs, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)
@@ -306,7 +306,7 @@ private theorem smallA1_main {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : r
         rw [hγ, S.frob.neg_eq, h, smul_neg, rootReflection_smul_self hαr]
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i (s := 1) Nat.one_pos hinner
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ, hq2, pow_one]
-  haveI hcharF : CharP (fixSubfield σ) 2 :=
+  have hcharF : CharP (fixSubfield σ) 2 :=
     RingHom.charP (fixSubfield σ).subtype (fixSubfield σ).subtype.injective 2
   have hF : ∀ c : fixSubfield σ, c = 0 ∨ c = 1 := by
     intro c

@@ -40,7 +40,7 @@ theorem y7b_cover_gen (c : Ctx7 G L) (hb : B5Std c) {k : G} (hkN : k ∈ normIn 
     have hx7 : k ^ i * u * (k ^ i)⁻¹ ∈ X7 c.s := hYX7 hxY
     have hxcomm : ⁅k ^ i * u * (k ^ i)⁻¹, c.s.t⁆ = k ^ i * ⁅u, c.s.t⁆ * (k ^ i)⁻¹ :=
       y7b_comm_conj_of_mem_H c hkiH u
-    haveI := y7b_M3_normal_BM c hb
+    have := y7b_M3_normal_BM c hb
     obtain ⟨θ, hθ, -⟩ := y7b_exists_theta c hb
     let u1 : ↥(y7bBM c.s) :=
       ⟨k ^ i * ⁅u, c.s.t⁆ * (k ^ i)⁻¹,

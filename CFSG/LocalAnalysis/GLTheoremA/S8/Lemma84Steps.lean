@@ -23,7 +23,7 @@ theorem step1 (h1016 : I1016ONAt G) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr
       (⁅T, B⁆ : Subgroup G) = T ∧ ¬ T ≤ GLAPPrimeCoreOf p L)
     (hON : catalogIs (PSimple p L) (sporIs .ONan)) :
     p = 3 ∧ GLATwoLocalRank 3 G = 4 ∧ x ∉ L ∧ Nat.card (B ⊓ L : Subgroup G) = 3 ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hTL, hT2, hBT, -, hTO⟩ := hT
   have hFe : IsElemAbelian p (B ⊓ L) := CFSG.LocalAnalysis.GLTheoremA.isElemAbelian_mono hB.1 inf_le_left
   have hFT : B ⊓ L ≤ Subgroup.normalizer (T : Set G) := inf_le_left.trans hBT
@@ -79,7 +79,7 @@ theorem step1 (h1016 : I1016ONAt G) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr
 theorem center_trivial {p : ℕ} (hp : p.Prime) {L : Subgroup G} {x : G} (hxp : x ^ p = 1) (hx1 : x ≠ 1)
     (hL : GLAPComponent p (cx x) L) (hcyc : CycModSylow p L) (hxL : x ∉ L) :
     Nat.card (Subgroup.center (PQuot p L)) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hO : GLAPPrimeCore p (PQuot p L) = ⊥ := glaPPrimeCore_quotient_eq_bot hp
   have hpZ : p ∣ Nat.card (Subgroup.center (PQuot p L)) := by
@@ -160,7 +160,7 @@ theorem center_trivial {p : ℕ} (hp : p.Prime) {L : Subgroup G} {x : G} (hxp : 
 
 theorem inf_zpowers_eq_bot {L : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) (hxL : x ∉ L) :
     L ⊓ Subgroup.zpowers x = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hdvd : Nat.card (L ⊓ Subgroup.zpowers x : Subgroup G) ∣ 3 := by
@@ -181,7 +181,7 @@ theorem E_facts {B L D₀ : Subgroup G} {x : G} (hB : IsElemAbelian 3 B) (hxB : 
       L ⊓ Subgroup.centralizer ((D₀ ⊔ Subgroup.zpowers x : Subgroup G) : Set G) =
         L ⊓ Subgroup.centralizer (D₀ : Set G) ∧
       ∀ e ∈ D₀ ⊔ Subgroup.zpowers x, ∃ d ∈ D₀, ∃ i : ℕ, e = d * x ^ i := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := hB.2 x hxB
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -370,6 +370,7 @@ theorem three_A6_quot (ha6 : A6FactsAt G) {X D J₁ J₂ J₃ : Subgroup G}
     intro t _
     exact (Subgroup.mem_center_iff.1 (hDZ hd) t)
 
+omit [Finite G] in
 theorem le_normalizer_of_le_centralizer {F E : Subgroup G} (h : F ≤ Subgroup.centralizer (E : Set G)) :
     E ≤ Subgroup.normalizer (F : Set G) := by
   intro e he
@@ -409,7 +410,7 @@ theorem x_not_mem_D (hlb : LBalanceAt G 3) {x : G} {L D D₀ I J : Subgroup G} (
     (hUa : ∀ d ∈ D₀, d ≠ 1 → UniqA6 (L ⊓ cx d)) (hIc : Nat.card (PQuot 3 I) = 360) (hIJ : I ≤ J)
     (hJ : GLAPComponent 3 (Subgroup.centralizer (D : Set G)) J)
     (hlt : ¬ J ≤ I ⊔ GLAPPrimeCoreOf 3 J) : x ∉ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hxD
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   obtain ⟨d', hd'D, hd'x⟩ : ∃ d' ∈ D, d' ∉ Subgroup.zpowers x := by
@@ -448,7 +449,7 @@ theorem W_1430 (h106 : I106T1430At G) {X J D E : Subgroup G} (hJ : GLAPComponent
     (hD : IsElemAbelian 3 D) (hDc : Nat.card D = 3 ^ 2) (hDE : D ≤ E) (hE : IsElemAbelian 3 E)
     (hJD : J ≤ Subgroup.centralizer (D : Set G)) (hEJ : E ≤ Subgroup.normalizer (J : Set G)) :
     ∃ W : Subgroup G, W ≤ J ⊔ E ∧ IsElemAbelian 3 W ∧ Nat.card W = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ha, hb⟩ := h106 X J hJ hT.1
   have hDcent : ∀ d ∈ D, CentMod 3 J d := fun d hd => centMod_of_comm fun j hj =>
     Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_iff.1 (hJD hj) d hd).symm
@@ -504,7 +505,7 @@ theorem Ka_comp (hlb : LBalanceAt G 3) {x a d₀ : G} {L K D₀ I : Subgroup G}
     (hLuniq : ∀ J' : Subgroup G, GLAPComponent 3 (cx x) J' → J' = L)
     (hD₀x : D₀ ≤ cx x) (hD₀ : IsPGroup 3 D₀) (ha3 : a ^ 3 = 1) (hax : a ∈ cx x)
     (hLa : L ⊓ cx a = L ⊓ cx d₀) (hUa : UniqA6 (L ⊓ cx d₀))
-    (hK : GLAPComponent 3 (cx a) K) (hxK : x ∈ Subgroup.normalizer (K : Set G))
+    (hK : GLAPComponent 3 (cx a) K) (_hxK : x ∈ Subgroup.normalizer (K : Set G))
     (hD₀K : D₀ ≤ Subgroup.normalizer (K : Set G))
     (hI : GLAPComponent 3 ((K ⊓ cx x) ⊓ Subgroup.centralizer (D₀ : Set G)) I) :
     ∃ Ia : Subgroup G, GLAPComponent 3 (K ⊓ cx x) Ia ∧ IsTypeWithCenter 3 Ia isA6 1 := by
@@ -532,7 +533,7 @@ theorem A_facts {B L H : Subgroup G} {x : G} (hB : IsElemAbelian 3 B) (hxB : x �
     IsElemAbelian 3 (H ⊔ Subgroup.zpowers x) ∧
       Nat.card (H ⊔ Subgroup.zpowers x : Subgroup G) = 3 ^ 5 ∧ B ≤ H ⊔ Subgroup.zpowers x ∧
       H ⊔ Subgroup.zpowers x ≤ cx x ∧ (H ⊔ Subgroup.zpowers x) ⊓ L = H ∧ x ∉ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := hB.2 x hxB
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -670,6 +671,7 @@ theorem cen_rank_le (hk : KFactsAt G) {X K : Subgroup G} (hK : GLAPComponent 3 X
   have h3 : 3 ^ 3 * 9 ≤ 3 ^ 3 * Nat.card Q := Nat.mul_le_mul_left _ hQ9
   omega
 
+omit [Finite G] in
 theorem exists_centMod_mul_of_inducesInnerMod {p : ℕ} {J : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (J : Set G)) (h : InducesInnerMod p J g) :
     ∃ c ∈ centModSubgroup p J, ∃ l ∈ J, g = c * l := by
@@ -684,12 +686,13 @@ theorem exists_centMod_mul_of_inducesInnerMod {p : ℕ} {J : Subgroup G} {g : G}
     rw [h3]; exact Subgroup.inv_mem _ h2
 
 open scoped Pointwise in
+omit [Finite G] in
 theorem sup_pow_comm_mem {p : ℕ} {A K : Subgroup G} (hA : IsElemAbelian p A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     (∀ q ∈ A ⊔ K, q ^ p ∈ K) ∧ ∀ q ∈ A ⊔ K, ∀ q' ∈ A ⊔ K, ⁅q, q'⁆ ∈ K := by
   have hKN : K ≤ A ⊔ K := le_sup_right
   have hNn : A ⊔ K ≤ Subgroup.normalizer (K : Set G) := sup_le hAK Subgroup.le_normalizer
-  haveI hKnorm : (K.subgroupOf (A ⊔ K)).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKN).2 hNn
+  have hKnorm : (K.subgroupOf (A ⊔ K)).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKN).2 hNn
   have hrep : ∀ q ∈ A ⊔ K, ∃ a ∈ A, ∃ k ∈ K, q = a * k := by
     intro q hq
     have hq' : q ∈ ((A : Set G) * (K : Set G)) := by
@@ -730,7 +733,7 @@ theorem A_index_le (hk : KFactsAt G) {X K A : Subgroup G} (hK : GLAPComponent 3 
     (hA : IsElemAbelian 3 A) (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hcen : ∀ Q : Subgroup G, IsElemAbelian 3 Q → (∀ q ∈ Q, CentMod 3 K q) → Nat.card Q ≤ 3) :
     Nat.card A ≤ 3 * Nat.card (A ⊓ K : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKN : K ≤ A ⊔ K := le_sup_right
   have hAN : A ≤ A ⊔ K := le_sup_left
   have hNn : A ⊔ K ≤ Subgroup.normalizer (K : Set G) := sup_le hAK Subgroup.le_normalizer
@@ -825,7 +828,7 @@ theorem A_split (hk : KFactsAt G) {X K A : Subgroup G} {a : G} (hK : GLAPCompone
     (ha1 : a ≠ 1) (haK : CentMod 3 K a) (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hcen : ∀ Q : Subgroup G, IsElemAbelian 3 Q → (∀ q ∈ Q, CentMod 3 K q) → Nat.card Q ≤ 3) :
     Nat.card (A ⊓ K : Subgroup G) = 3 ^ 4 ∧ A ≤ (A ⊓ K) ⊔ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx := A_index_le hk hK hKt hA hAK hcen
   have hAK4 : Nat.card (A ⊓ K : Subgroup G) ≤ 3 ^ 4 :=
     (hk X K hK hKt).2.1 _ inf_le_right (CFSG.LocalAnalysis.GLTheoremA.isElemAbelian_mono hA inf_le_left)

@@ -21,7 +21,7 @@ theorem input15338CenterRank_of_catalogStep (hcat : CatalogStepFact) : Input1533
     exact z.2
   have hZ₂n : Z₂.Normal := Subgroup.normal_of_le_center hZ₂c
   have hZ₂p : IsPGroup 2 ↥Z₂ :=
-    IsPGroup.of_equiv S.isPGroup'
+    IsPGroup.of_equiv S.isPGroup
       (Subgroup.equivMapOfInjective _ _ (Subgroup.subtype_injective _))
   let π : C →* C ⧸ Z₂ := QuotientGroup.mk' Z₂
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z₂

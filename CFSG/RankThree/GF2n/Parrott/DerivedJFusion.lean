@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem mem_conjugate_iff_derivedJ {R : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate R g ↔ g * x * g⁻¹ ∈ R := by
   unfold CFSG.conjugate
@@ -32,12 +33,14 @@ private theorem mem_conjugate_iff_derivedJ {R : Subgroup G} {g x : G} :
     simp only [MulAut.conj_apply]
     group
 
+omit [Finite G] in
 private theorem conjugate_conjugate_derivedJ (R : Subgroup G) (a b : G) :
     CFSG.conjugate (CFSG.conjugate R a) b = CFSG.conjugate R (a * b) := by
   ext x
   rw [mem_conjugate_iff_derivedJ, mem_conjugate_iff_derivedJ, mem_conjugate_iff_derivedJ]
   rw [show a * b * x * (a * b)⁻¹ = a * (b * x * b⁻¹) * a⁻¹ by group]
 
+omit [Finite G] in
 private theorem conjugate_eq_self_of_mem_centralizer_derivedJ {Q : Subgroup G} {c : G}
     (hc : c ∈ Subgroup.centralizer (Q : Set G)) : CFSG.conjugate Q c = Q := by
   have hc' : ∀ q ∈ Q, q * c = c * q := fun q hq => Subgroup.mem_centralizer_iff.mp hc q hq
@@ -77,6 +80,7 @@ private theorem exists_mem_conj_mem_of_isSylowOf_derivedJ {C S W : Subgroup G}
   refine ⟨k⁻¹, C.inv_mem hkC, fun w hw => ?_⟩
   simpa using (hk w).mp (hWP' hw)
 
+omit [Finite G] in
 private theorem conj_z_eq_self_of_mem_J_derivedJ (h : Tim79a.ParrottHyp z)
     (hJ : ∀ j ∈ J z, orderOf j = 2 → j ∉ Subgroup.zpowers z → ¬ IsConj z j)
     {m : G} (hm : m * z * m⁻¹ ∈ J z) : m * z * m⁻¹ = z := by

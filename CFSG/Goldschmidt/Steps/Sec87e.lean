@@ -34,9 +34,9 @@ theorem le_commutator (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
   have hDS : D ≤ S := commutator_self_le _
   have hSD : (S : Subgroup G) ≤ Subgroup.normalizer (D : Set G) := fun s hs =>
     mem_normalizer_commutator (Subgroup.le_normalizer hs)
-  have hne := inf_center_ne_bot' S.isPGroup' hDS hSD (commutator_sylow_ne_bot hS)
+  have hne := inf_center_ne_bot' S.isPGroup hDS hSD (commutator_sylow_ne_bot hS)
   obtain ⟨w, ⟨hwD, hwZ⟩, hw1, hw2⟩ :=
-    exists_involution (S.isPGroup'.to_le (inf_le_left.trans hDS)) hne
+    exists_involution (S.isPGroup.to_le (inf_le_left.trans hDS)) hne
   have hwA : w ∈ A := by
     rw [hΩ]
     exact Subgroup.subset_closure ⟨hwZ, hw2⟩

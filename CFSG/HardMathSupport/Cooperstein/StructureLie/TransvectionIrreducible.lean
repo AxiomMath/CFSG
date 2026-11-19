@@ -181,6 +181,7 @@ theorem comm_of_mem_s {W₁ W₂ : Subgroup G} (h1 : W₁ ≤ V) (hn1 : M ≤ no
   have hM : M ≤ T := h.gen.trans (sup_le (sup_le hL (zpowers_le.mpr hsT)) hC)
   exact fun g hg w hw => (hM hg).2 w hw
 
+omit h in
 theorem mem_Z {v : G} (hv : v ∈ V) : ⁅v, s⁆ ∈ (⁅V, zpowers s⁆ : Subgroup G) :=
   commutator_mem_commutator hv (mem_zpowers s)
 
@@ -206,7 +207,7 @@ theorem s_fix_Z {z : G} (hz : z ∈ (⁅V, zpowers s⁆ : Subgroup G)) : s * z *
   
 
 theorem s_sq {v : G} (hv : v ∈ V) : s * (s * v * s⁻¹) * s⁻¹ = v := by
-  have hz := h.mem_Z (s := s) hv
+  have hz := CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (s := s) hv
   set z := ⁅v, s⁆ with hzdef
   have hz2 : z * z = 1 := by
     have := pow_card_eq_one' (G := ↥(⁅V, zpowers s⁆ : Subgroup G)) (x := ⟨z, hz⟩)
@@ -220,6 +221,7 @@ theorem s_sq {v : G} (hv : v ∈ V) : s * (s * v * s⁻¹) * s⁻¹ = v := by
     _ = (z * z)⁻¹ * v := by group
     _ = v := by rw [hz2]; group
 
+omit h in
 theorem comm_s_mem {X : Subgroup G} (hX : s ∈ normalizer (X : Set G)) {x : G} (hx : x ∈ X) :
     ⁅x, s⁆ ∈ X := by
   have e : ⁅x, s⁆ = x * (s * x * s⁻¹)⁻¹ := by simp only [commutatorElement_def]; group
@@ -277,7 +279,7 @@ theorem dichotomy {X : Subgroup G} (hXU : X ≤ ⁅V, L⁆) (hX : M ≤ normaliz
     (⁅V, L⁆ : Subgroup G) ≤ X ∨ X ≤ centralizer (M : Set G) := by
   rcases h.Z_le_or X with hZ | hZ
   · left
-    have key := h.comm_of_mem_s h.U_le_V h.normU hX (fun w hw => hZ (h.mem_Z (h.U_le_V hw)))
+    have key := h.comm_of_mem_s h.U_le_V h.normU hX (fun w hw => hZ (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (h.U_le_V hw)))
     have : (⁅⁅V, L⁆, L⁆ : Subgroup G) ≤ X :=
       commutator_le.mpr fun u hu l hl => key l (h.le hl) u hu
     exact h.comm_comm_ge.trans this
@@ -287,7 +289,7 @@ theorem dichotomy {X : Subgroup G} (hXU : X ≤ ⁅V, L⁆) (hX : M ≤ normaliz
         rw [Subgroup.mem_bot.mp hx]; simp
     have key := h.comm_of_mem_s (hXU.trans h.U_le_V) hX hbot (fun x hx => by
       rw [← hZ]
-      exact ⟨h.mem_Z ((hXU.trans h.U_le_V) hx), h.comm_s_mem (hX h.mem) hx⟩)
+      exact ⟨CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z ((hXU.trans h.U_le_V) hx), CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.comm_s_mem (hX h.mem) hx⟩)
     intro x hx
     rw [mem_centralizer_iff]
     intro g hg
@@ -324,6 +326,7 @@ theorem comm_s_mul {a b : G} (ha : a ∈ V) (hb : b ∈ V) (hs : s ∈ M) :
   calc ⁅b, s⁆ * a * a⁻¹ * ⁅a, s⁆ = ⁅b, s⁆ * ⁅a, s⁆ := by group
     _ = ⁅a, s⁆ * ⁅b, s⁆ := hcm.symm
 
+omit h in
 theorem comm_mul_l {a b l : G} : ⁅a * b, l⁆ = a * ⁅b, l⁆ * a⁻¹ * ⁅a, l⁆ := by
   simp only [commutatorElement_def]; group
 
@@ -418,7 +421,7 @@ theorem irred {W : Subgroup G} (hCW : (⁅V, L⁆ ⊓ centralizer (L : Set G) : 
                   _ = ((l * x * l⁻¹) * l⁻¹) * l := by rw [hc]
                   _ = l * x * l⁻¹ := by group
               rw [← this]
-            · exact h.Z_eq_of_ne_one (h.mem_Z (hWV hx)) (h.mem_Z (hWV hx'W)) ha hb
+            · exact h.Z_eq_of_ne_one (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (hWV hx)) (CFSG.HardMathSupport.Cooperstein.StructureLie.TransvIrr.Setting.mem_Z (hWV hx'W)) ha hb
         have hmul := h.comm_s_mul (hWV hyW) (hWV hx'W) h.mem
         rw [hyx, hxx'] at hmul
         have h1 : ⁅⁅x, l⁆, s⁆ = 1 := by simpa using hmul.symm
@@ -442,7 +445,7 @@ theorem irred {W : Subgroup G} (hCW : (⁅V, L⁆ ⊓ centralizer (L : Set G) : 
         have hq' : q ∈ ((W ⊔ W' : Subgroup G) : Set G) := hq
         rw [hco] at hq'
         obtain ⟨w, hw, w', hw', rfl⟩ := hq'
-        rw [h.comm_mul_l]
+        rw [Setting.comm_mul_l]
         have h1 := hWcomm w hw l hl
         have h2 := hW'comm w' hw' l hl
         have hVc : ⁅w', l⁆ ∈ V := h.U_le_V h2.1

@@ -14,7 +14,7 @@ variable {K : Type} [Field K]
 theorem permGL_mem_SL {n : ℕ} {σ : Perm (Fin n)} (h : Perm.sign σ = 1) :
     permGL n K σ ∈ StatedSL n K := by
   refine Subgroup.subset_closure ?_
-  rw [Set.mem_setOf_eq, det_permGL, h]
+  rw [Set.mem_ofPred_eq, det_permGL, h]
   simp
 
 theorem permGL_mem_SU {n q : ℕ} (hq : q ≠ 0) {σ : Perm (Fin n)} (h : Perm.sign σ = 1) :

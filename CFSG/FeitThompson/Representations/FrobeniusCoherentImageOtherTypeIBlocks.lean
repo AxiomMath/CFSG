@@ -49,10 +49,10 @@ theorem sigSignalizer_eq_sigmaSignalizerOn [Finite G] (M : Subgroup G) :
   funext a
   by_cases ha : a ∈ sigmaCore M ∧ a ≠ 1
   · have ha' : a ∈ (sigmaCore M : Set G) \ {1} := ⟨ha.1, ha.2⟩
-    rw [sigSignalizer, signalizerOn_of_mem ha', Prep09.sigmaSignalizerOn, if_pos ha]
+    rw [sigSignalizer, signalizerOn_of_mem ha', Prep09.sigmaSignalizerOn, ite_eq_left ha]
     rfl
   · have ha' : a ∉ (sigmaCore M : Set G) \ {1} := fun h => ha ⟨h.1, h.2⟩
-    rw [sigSignalizer, signalizerOn_of_notMem ha', Prep09.sigmaSignalizerOn, if_neg ha]
+    rw [sigSignalizer, signalizerOn_of_notMem ha', Prep09.sigmaSignalizerOn, ite_eq_right ha]
 
 theorem fixedSet_eq_coreFixedSet (M : Subgroup G) :
     fixedSet M (hallCoreOf M) = Prep09.coreFixedSet (Prep09.hallCoreIn M) M := by
@@ -375,9 +375,9 @@ theorem coherentImage_mem_signedRootBlock {N : Subgroup G} [Fintype G] [Fintype 
     rw [← hηeq, ← hνtau ⟨ζ - star ζ, hg⟩ hg1, hνiso ⟨ζ - star ζ, hg⟩ ⟨ζ, hζ⟩]
     change cfInner (ζ - star ζ) ζ = 1
     rw [cfInner_sub_left, cfInner_self_of_mem_Irr hζIrr,
-      cfInner_eq_ite_of_mem_Irr (star_mem_Irr hζIrr) hζIrr, if_neg hζne, sub_zero]
+      cfInner_eq_ite_of_mem_Irr (star_mem_Irr hζIrr) hζIrr, ite_eq_right hζne, sub_zero]
   have horth : cfInner η (star η) = 0 := by
-    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, if_neg fun hc => hηne hc.symm]
+    rw [cfInner_eq_ite_of_mem_Irr hηIrr hstarIrr, ite_eq_right fun hc => hηne hc.symm]
   exact signedPair_subset_signedRootBlock _ (self_mem_irrConstituents_of_mem_Irr hζIrr)
     (mem_signedPair.2 (eq_or_eq_neg_of_cfInner_sub_eq_one (Irr_subset_signedIrr hηIrr)
       (Irr_subset_signedIrr hstarIrr) hΨsi horth hsub))
@@ -425,7 +425,7 @@ theorem cfIP_coherentImage_eq_zero_of_mem_block
     {G : Type u} [Group G] [Finite G] (hG : Prep05.IsMinimalSimpleOdd G)
     {M N : Subgroup G} (hM : IsCoatom M) (hN : IsCoatom N)
     (hIM : IsTypeI M) (hIN : IsTypeI N)
-    {E : Subgroup G} (hEN : E ≤ N) (hEbot : E ≠ ⊥)
+    {E : Subgroup G} (hEN : E ≤ N) (_hEbot : E ≠ ⊥)
     (hsemi : FreeCore.IsInternalSemidirectProduct N (hallCoreOf N) E)
     (hfree : IsFixedPointFreeOn (hallCoreOf N) E)
     (hnotFrob : ¬ ∃ D : Subgroup G, D ≤ M ∧
@@ -443,8 +443,8 @@ theorem cfIP_coherentImage_eq_zero_of_mem_block
       ∀ θ ∈ hallIndFam M, ∀ χ ∈ Irr ↥M, ¬ kerContains (hallCoreOf M) M χ →
         0 < cfIP θ χ → cfIP Ψ (η χ) = 0 ∧ cfIP Ψ (-(cconj (η χ))) = 0 := by
   have _ : Fintype G := Fintype.ofFinite G
-  letI instM : Fintype ↥M := Fintype.ofFinite ↥M
-  letI instN : Fintype ↥N := Fintype.ofFinite ↥N
+  let instM : Fintype ↥M := Fintype.ofFinite ↥M
+  let instN : Fintype ↥N := Fintype.ofFinite ↥N
   obtain ⟨UM, VM, hMsetup⟩ := exists_isFTTypeOneLocalSetup h₄ hG hM hIM
   obtain ⟨UN, VN, hNsetup⟩ := exists_isFTTypeOneLocalSetup h₄ hG hN hIN
   have hdisj := disjoint_totalDadeSupport_of_not_exists_free_complement h₁ h₂ h₃ hG hM hN hIM hIN

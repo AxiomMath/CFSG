@@ -91,6 +91,7 @@ theorem threeNineConclusion_of_threeNineHyp (h39 : ThreeNine) {X : Type} [Group 
     h.rank_le h.elem h.card_E h.d_prime h.d_ne_two h.d_ne h.sylow h.D_ne_bot h.lt h.gammaE
     h.gammaD h.normQ
 
+omit [Finite G] in
 theorem starImg_le_normalizer_kStar (p : ℕ) (M H : Subgroup G) :
     starImg p H M ≤ Subgroup.normalizer (kStar p M H : Set (StarGroup p H)) := by
   have hnorm : M.subgroupOf H ≤

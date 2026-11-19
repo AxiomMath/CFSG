@@ -87,7 +87,7 @@ theorem rckTp_map_fixSubfield
 
 theorem rckRet_tw_pair
     {h : ℕ} (hh : 0 < h) {p₁ : ℕ} (SK : LangSetup Tag.E6 GGL p₁)
-    (hSKΦ : SK.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h)) (hSKq : SK.D.q = 2 ^ h) :
+    (hSKΦ : SK.D.Φ = twistHom TwistTag.E6 GGL (ggFrobT h)) (_hSKq : SK.D.q = 2 ^ h) :
     ∃ γ₀ : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 γ₀ ∧
       ((rootSubgroup Tag.E6 GGL γ₀).map (MulAut.conj SK.D.g0⁻¹).toMonoidHom).map SK.D.step =
         (rootSubgroup Tag.E6 GGL γ₀).map (MulAut.conj SK.D.g0⁻¹).toMonoidHom ∧
@@ -104,7 +104,7 @@ theorem rckRet_tw_pair
         (rootSubgroup Tag.E6 GGL (-γ₀)).map (MulAut.conj SK.D.g0⁻¹).toMonoidHom ⊓
           SK.D.step.eqLocus (MonoidHom.id _) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ h := hh
   let σ : GGL ≃+* GGL := by
     refine RingEquiv.ofBijective (ggFrobT h) ⟨(iterateFrobenius GGL 2 h).injective, ?_⟩

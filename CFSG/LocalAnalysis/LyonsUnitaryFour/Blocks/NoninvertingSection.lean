@@ -151,7 +151,7 @@ theorem central_involutions_no_inversion {G : Type*} [Group G] [Finite G] (P : S
   intro hinv
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht
   have hxp : IsPGroup 2 (Subgroup.zpowers x) := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     apply IsPGroup.of_card_dvd_pow (n := k)
     rw [Nat.card_zpowers]
     apply orderOf_dvd_of_pow_eq_one
@@ -231,7 +231,7 @@ theorem central_sylow_involutions_weighted_block_zero {G : Type*} [Group G] [Fin
       apply hx
       rw [← mul_inv_rev] at h
       exact inv_eq_one.mp h
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨(x : G)⁻¹, hxinv⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨(x : G)⁻¹, hxinv⟩
     have hord : orderOf (x : G)⁻¹ ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       have := congrArg Subtype.val hk

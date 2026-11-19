@@ -128,7 +128,7 @@ theorem isLocallyBalancedAbs_two_three (h : UnitaryFieldData ℓ f K) (hq : ℓ 
     refine not_all_fixed_dim hq hn3 Ahat hAel hAcard ?_
     intro x hx hx1
     have hx3 : x ^ 3 = 1 := by
-      haveI := hAel
+      have := hAel
       exact CFSG.elemPow_eq_one_of_isElementaryAbelian (A := Ahat) x hx
     have hy3 : (liftUnitary x) ^ 3 = 1 := by
       apply Subtype.ext

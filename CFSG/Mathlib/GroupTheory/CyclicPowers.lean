@@ -16,7 +16,7 @@ theorem exists_pow_eq_of_pow_card_div_eq_one {G : Type*} [Group G] [Finite G]
     (hu : u ^ (Nat.card G / n) = 1) : ∃ v : G, v ^ n = u := by
   classical
   obtain ⟨g, hg⟩ := exists_zpow_surjective G
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hgen : ∀ x : G, x ∈ Subgroup.zpowers g := by
     intro x
     obtain ⟨k, hk⟩ := hg x

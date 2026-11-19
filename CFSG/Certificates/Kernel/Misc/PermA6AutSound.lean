@@ -36,12 +36,12 @@ theorem pathK_eq (henc : ClosEnc enc mul8 one8) {gx gy : H} (hx : xC = enc gx) (
   | zero =>
     intro k hk hle e he
     obtain rfl : k = 0 := by omega
-    rw [hone e hk he, map_one, henc.enc_one] <;> rfl
+    rw [hone e hk he, map_one, henc.enc_one]; rfl
   | succ fuel ih =>
     intro k hk hle e he
     cases k with
     | zero =>
-      rw [hone e hk he, map_one, henc.enc_one] <;> rfl
+      rw [hone e hk he, map_one, henc.enc_one]; rfl
     | succ k =>
       have h : P.letB (PA (k + 1)) (fun r => P.letB (Nat.land r (nat_lit 16777215)) fun p =>
           P.letB (Nat.shiftRight r (nat_lit 24)) fun l => andB (Nat.blt p (k + 1))
@@ -92,7 +92,7 @@ theorem witOK_sound (henc : ClosEnc enc mul8 one8) {N : ℕ} {E PA : ℕ → ℕ
     right
     simp only [ordOK, P.andB_iff, P.notB_iff, P.beq_iff, ← henc.enc_mul, ← henc.enc_one,
       henc.inj.eq_iff] at hord
-    simp only [P.letB_eq, P.andB_iff, P.blt_iff] at hsyl
+    simp only [P.andB_iff, P.blt_iff] at hsyl
     obtain ⟨hia, hib, hs⟩ := hsyl
     obtain ⟨a, ha⟩ := hex _ hia
     obtain ⟨b, hb⟩ := hex _ hib

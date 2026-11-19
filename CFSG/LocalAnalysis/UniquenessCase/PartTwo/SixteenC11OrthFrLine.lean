@@ -274,7 +274,7 @@ theorem s16c11_fr_K_index {m : ℕ} (hm : m = 3 ∨ m = 4) :
     ((s16c11FrK m).subgroupOf (s16c11FrP m)).index = 6 := by
   classical
   let V := S16C11FrVec m
-  letI : MulAction ↥(s16c11FrP m) V :=
+  let : MulAction ↥(s16c11FrP m) V :=
     { smul := fun g w => ((((g : ↥(s16c11FrP m)) : ↥(S16C11FrO m)) :
         Matrix.GeneralLinearGroup (S16C11FrIdx m) (ZMod 2)) :
         Matrix (S16C11FrIdx m) (S16C11FrIdx m) (ZMod 2)) *ᵥ w

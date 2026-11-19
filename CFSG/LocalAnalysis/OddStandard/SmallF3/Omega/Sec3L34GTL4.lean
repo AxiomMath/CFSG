@@ -50,7 +50,7 @@ theorem l34g_not_mem_closure_odd_of_cover {X : Type} [Group X] [Finite X]
     (hk : ∀ P : Subgroup X, IsPGroup 2 P → P ≤ ρ.ker → Nat.card P ≤ 2) :
     ζ ∉ Subgroup.closure {x : X | Odd (orderOf x)} := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hζsq : ζ * ζ = 1 := by
     have h := pow_orderOf_eq_one ζ
     rw [hζ2] at h
@@ -86,7 +86,7 @@ theorem l34g_not_mem_closure_odd_of_cover {X : Type} [Group X] [Finite X]
     exact congrArg Subtype.val (h1.trans h2.symm)
   have hZ2pg : IsPGroup 2 Z := IsPGroup.of_card (n := 1) (by rw [hZcard]; norm_num)
   obtain ⟨P, hZP⟩ := IsPGroup.exists_le_sylow hZ2pg
-  have hPp : IsPGroup 2 (P.map R.subtype) := P.isPGroup'.map R.subtype
+  have hPp : IsPGroup 2 (P.map R.subtype) := P.isPGroup.map R.subtype
   have hPle : P.map R.subtype ≤ ρ.ker := by
     rintro y ⟨p, -, rfl⟩
     exact p.2
@@ -108,7 +108,7 @@ theorem l34g_not_mem_closure_odd_of_cover {X : Type} [Group X] [Finite X]
   have hcop : Nat.Coprime (Nat.card Z) Z.index := by
     rw [hZcard]
     exact Nat.coprime_two_left.mpr hZidx_odd
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZc
+  have : Z.Normal := Subgroup.normal_of_le_center hZc
   obtain ⟨H', hH'⟩ := Subgroup.exists_right_complement'_of_coprime (N := Z) hcop
   have hH'card : Nat.card H' = Z.index := by
     have h1 : Nat.card Z * Nat.card H' = Nat.card R := hH'.card_mul_card
@@ -176,7 +176,7 @@ theorem l34g_not_mem_closure_odd_of_cover {X : Type} [Group X] [Finite X]
         rw [← hqoX, ← mul_assoc, hζsq, one_mul]
       rw [hzr]
       exact hoH
-  haveI : H.Normal := hHnorm
+  have : H.Normal := hHnorm
   let ρ' : X ⧸ H →* Matrix.SpecialLinearGroup (Fin 2) (ZMod 3) :=
     QuotientGroup.lift H ρ (by intro x hx; exact ((hHmem x).mp hx).1)
   have hρ' : Function.Surjective ρ' := by

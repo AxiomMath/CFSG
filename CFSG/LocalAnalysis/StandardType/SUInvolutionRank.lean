@@ -84,7 +84,7 @@ private lemma ggInvUNil_two_apply_corner0 (m : ℕ) (a : Fin (m + 4)) :
       apply ha
       have h0 : (corner0 m : ℕ) = 0 := rfl
       omega
-    rw [if_neg hc]
+    rw [ite_eq_right hc]
     simp [ha, corner3, Fin.ext_iff]
 
 omit [CharP F 2] in
@@ -101,14 +101,14 @@ private lemma ggInvUNil_two_apply_corner1 (m : ℕ) (a : Fin (m + 4)) :
       apply ha
       have h1 : (corner1 m : ℕ) = 1 := rfl
       omega
-    rw [if_neg hc]
+    rw [ite_eq_right hc]
     simp [ha, corner2, Fin.ext_iff]
 
 omit [CharP F 2] in
 private lemma ggInvUNil_two_apply_other (m : ℕ) (a : Fin (m + 4)) {b : Fin (m + 4)}
     (hb0 : (b : ℕ) ≠ 0) (hb1 : (b : ℕ) ≠ 1) :
     ggInvUNil (m + 4) 2 F a b = 0 := by
-  rw [ggInvUNil_apply, if_neg]
+  rw [ggInvUNil_apply, ite_eq_right]
   intro hh
   omega
 
@@ -165,7 +165,7 @@ private lemma ggInvUNil_one_apply (m : ℕ) (a b : Fin (m + 4)) :
         have h0 : (corner0 m : ℕ) = 0 := rfl
         omega
       have h1 : ¬ (a = corner3 m) := fun h => ha (by rw [h]; rfl)
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       simp [ha, corner0, corner3, Fin.ext_iff]
   · have hc : ¬ ((b : ℕ) < 1 ∧ (a : ℕ) + b + 1 = m + 4 ∧ (b : ℕ) < a) := by
       intro hh
@@ -173,7 +173,7 @@ private lemma ggInvUNil_one_apply (m : ℕ) (a b : Fin (m + 4)) :
     have h1 : ¬ (a = corner3 m ∧ b = corner0 m) := by
       intro hh
       exact hb (by rw [hh.2]; rfl)
-    rw [if_neg hc]
+    rw [ite_eq_right hc]
     simp [h1]
 
 omit [CharP F 2] in
@@ -193,15 +193,15 @@ private lemma ggInvUNil_apply_rev {l : ℕ} (h : 2 * l ≤ n) {a x : Fin n}
   rw [ggInvUNil_apply]
   by_cases hx : x = Fin.rev a
   · subst hx
-    rw [if_pos ⟨ha, by simp only [Fin.val_rev]; omega,
-      by simp only [Fin.val_rev]; omega⟩, if_pos rfl]
+    rw [ite_eq_left ⟨ha, by simp only [Fin.val_rev]; omega,
+      by simp only [Fin.val_rev]; omega⟩, ite_eq_left rfl]
   · have hneg : ¬ ((a : ℕ) < l ∧ (x : ℕ) + a + 1 = n ∧ (a : ℕ) < x) := by
       intro hc
       exact hx (Fin.ext (by
         have := hc.2.1
         simp only [Fin.val_rev]
         omega))
-    rw [if_neg hneg, if_neg hx]
+    rw [ite_eq_right hneg, ite_eq_right hx]
 
 omit [CharP F 2] in
 private lemma ggInvUNil_apply_rev_row {l : ℕ} (h : 2 * l ≤ n) {b y : Fin n}
@@ -216,14 +216,14 @@ private lemma ggInvUNil_apply_rev_row {l : ℕ} (h : 2 * l ≤ n) {b y : Fin n}
     have hlt : ((Fin.rev b : Fin n) : ℕ) < b := by
       simp only [Fin.val_rev] at hb ⊢
       omega
-    rw [if_pos ⟨hb, hsum, hlt⟩, if_pos rfl]
+    rw [ite_eq_left ⟨hb, hsum, hlt⟩, ite_eq_left rfl]
   · have hneg : ¬ ((y : ℕ) < l ∧ (b : ℕ) + y + 1 = n ∧ (y : ℕ) < b) := by
       intro hc
       exact hy (Fin.ext (by
         have := hc.2.1
         simp only [Fin.val_rev]
         omega))
-    rw [if_neg hneg, if_neg hy]
+    rw [ite_eq_right hneg, ite_eq_right hy]
 
 omit [CharP F 2] in
 private lemma ggInvUNil_mul_single {l : ℕ} (h : 2 * l ≤ n) (a b : Fin n) (c : F) :
@@ -234,20 +234,20 @@ private lemma ggInvUNil_mul_single {l : ℕ} (h : 2 * l ≤ n) (a b : Fin n) (c 
   · subst hy
     rw [Matrix.mul_single_apply_same]
     by_cases ha : (a : ℕ) < l
-    · rw [if_pos ha]
+    · rw [ite_eq_left ha]
       by_cases hx : x = Fin.rev a
       · subst hx
-        rw [ggInvUNil_apply_rev h ha, if_pos rfl, Matrix.single_apply_same, one_mul]
-      · rw [ggInvUNil_apply_rev h ha, if_neg hx, zero_mul, Matrix.single_apply,
-          if_neg (fun hh => hx hh.1.symm)]
-    · rw [if_neg ha, Matrix.zero_apply]
+        rw [ggInvUNil_apply_rev h ha, ite_eq_left rfl, Matrix.single_apply_same, one_mul]
+      · rw [ggInvUNil_apply_rev h ha, ite_eq_right hx, zero_mul, Matrix.single_apply,
+          ite_eq_right (fun hh => hx hh.1.symm)]
+    · rw [ite_eq_right ha, Matrix.zero_apply]
       have hneg : ¬ ((a : ℕ) < l ∧ (x : ℕ) + a + 1 = n ∧ (a : ℕ) < x) :=
         fun hh => ha hh.1
-      rw [ggInvUNil_apply, if_neg hneg, zero_mul]
+      rw [ggInvUNil_apply, ite_eq_right hneg, zero_mul]
   · rw [Matrix.mul_single_apply_of_ne c a b x y hy]
     by_cases ha : (a : ℕ) < l
-    · rw [if_pos ha, Matrix.single_apply, if_neg (fun hh => hy hh.2.symm)]
-    · rw [if_neg ha, Matrix.zero_apply]
+    · rw [ite_eq_left ha, Matrix.single_apply, ite_eq_right (fun hh => hy hh.2.symm)]
+    · rw [ite_eq_right ha, Matrix.zero_apply]
 
 omit [CharP F 2] in
 private lemma single_mul_ggInvUNil {l : ℕ} (h : 2 * l ≤ n) (a b : Fin n) (c : F) :
@@ -258,24 +258,24 @@ private lemma single_mul_ggInvUNil {l : ℕ} (h : 2 * l ≤ n) (a b : Fin n) (c 
   · subst hx
     rw [Matrix.single_mul_apply_same]
     by_cases hb : ((Fin.rev b : Fin n) : ℕ) < l
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       by_cases hy : y = Fin.rev b
       · subst hy
-        rw [ggInvUNil_apply_rev_row h hb, if_pos rfl, Matrix.single_apply_same, mul_one]
-      · rw [ggInvUNil_apply_rev_row h hb, if_neg hy, mul_zero, Matrix.single_apply,
-          if_neg (fun hh => hy hh.2.symm)]
-    · rw [if_neg hb, Matrix.zero_apply]
+        rw [ggInvUNil_apply_rev_row h hb, ite_eq_left rfl, Matrix.single_apply_same, mul_one]
+      · rw [ggInvUNil_apply_rev_row h hb, ite_eq_right hy, mul_zero, Matrix.single_apply,
+          ite_eq_right (fun hh => hy hh.2.symm)]
+    · rw [ite_eq_right hb, Matrix.zero_apply]
       have hneg : ¬ ((y : ℕ) < l ∧ (b : ℕ) + y + 1 = n ∧ (y : ℕ) < b) := by
         intro hc
         exact hb (by
           have := hc.2.1
           simp only [Fin.val_rev]
           omega)
-      rw [ggInvUNil_apply, if_neg hneg, mul_zero]
+      rw [ggInvUNil_apply, ite_eq_right hneg, mul_zero]
   · rw [Matrix.single_mul_apply_of_ne c a b x y hx (ggInvUNil n l F)]
     by_cases hb : ((Fin.rev b : Fin n) : ℕ) < l
-    · rw [if_pos hb, Matrix.single_apply, if_neg (fun hh => hx hh.1.symm)]
-    · rw [if_neg hb, Matrix.zero_apply]
+    · rw [ite_eq_left hb, Matrix.single_apply, ite_eq_right (fun hh => hx hh.1.symm)]
+    · rw [ite_eq_right hb, Matrix.zero_apply]
 
 private lemma rev_corner2 (m : ℕ) : Fin.rev (corner2 m) = corner1 m := by
   rw [← rev_corner1 m, Fin.rev_rev]
@@ -300,7 +300,7 @@ private lemma ggInvUNil_mul_ggInvUNil_two (m : ℕ) {l : ℕ} (_hl : 2 ≤ l) (h
     ggInvUNil_mul_single h2l]
   have h3 : ¬ ((corner3 m : ℕ) < l) := by simp [corner3] ; omega
   have h2 : ¬ ((corner2 m : ℕ) < l) := by simp [corner2] ; omega
-  rw [if_neg h3, if_neg h2, add_zero]
+  rw [ite_eq_right h3, ite_eq_right h2, add_zero]
 
 omit [CharP F 2] in
 private lemma ggInvUNil_two_mul_ggInvUNil (m : ℕ) {l : ℕ} (_hl : 2 ≤ l) (h2l : 2 * l ≤ m + 4) :
@@ -311,7 +311,7 @@ private lemma ggInvUNil_two_mul_ggInvUNil (m : ℕ) {l : ℕ} (_hl : 2 ≤ l) (h
     rw [rev_corner0]; simp [corner3]; omega
   have h2 : ¬ (((Fin.rev (corner1 m) : Fin (m + 4)) : ℕ) < l) := by
     rw [rev_corner1]; simp [corner2]; omega
-  rw [if_neg h3, if_neg h2, add_zero]
+  rw [ite_eq_right h3, ite_eq_right h2, add_zero]
 
 omit [CharP F 2] in
 private lemma nilSplit_mul_self (m : ℕ) {l : ℕ} (hl : 2 ≤ l) (h2l : 2 * l ≤ m + 4) :
@@ -330,22 +330,22 @@ private lemma nilSplit_mul_single_corner (m : ℕ) {l : ℕ} (hl : 2 ≤ l) (h2l
       ggInvUNil_mul_single (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h0l : (corner0 m : ℕ) < l := by simp [corner0] ; omega
     have h02 : (corner0 m : ℕ) < 2 := by simp [corner0]
-    rw [if_pos h0l, if_pos h02, sub_self]
+    rw [ite_eq_left h0l, ite_eq_left h02, sub_self]
   · rw [nilSplit, Matrix.sub_mul, ggInvUNil_mul_single h2l,
       ggInvUNil_mul_single (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h1l : (corner1 m : ℕ) < l := by simp [corner1] ; omega
     have h12 : (corner1 m : ℕ) < 2 := by simp [corner1]
-    rw [if_pos h1l, if_pos h12, sub_self]
+    rw [ite_eq_left h1l, ite_eq_left h12, sub_self]
   · rw [nilSplit, Matrix.sub_mul, ggInvUNil_mul_single h2l,
       ggInvUNil_mul_single (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h2l' : ¬ ((corner2 m : ℕ) < l) := by simp [corner2] ; omega
     have h22 : ¬ ((corner2 m : ℕ) < 2) := by simp [corner2]
-    rw [if_neg h2l', if_neg h22, sub_zero]
+    rw [ite_eq_right h2l', ite_eq_right h22, sub_zero]
   · rw [nilSplit, Matrix.sub_mul, ggInvUNil_mul_single h2l,
       ggInvUNil_mul_single (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h3l : ¬ ((corner3 m : ℕ) < l) := by simp [corner3] ; omega
     have h32 : ¬ ((corner3 m : ℕ) < 2) := by simp [corner3]
-    rw [if_neg h3l, if_neg h32, sub_zero]
+    rw [ite_eq_right h3l, ite_eq_right h32, sub_zero]
 
 omit [CharP F 2] in
 private lemma single_mul_nilSplit_corner (m : ℕ) {l : ℕ} (hl : 2 ≤ l) (h2l : 2 * l ≤ m + 4)
@@ -359,28 +359,28 @@ private lemma single_mul_nilSplit_corner (m : ℕ) {l : ℕ} (hl : 2 ≤ l) (h2l
       rw [rev_corner0]; simp [corner3]; omega
     have h32 : ¬ (((Fin.rev (corner0 m) : Fin (m + 4)) : ℕ) < 2) := by
       rw [rev_corner0]; simp [corner3]
-    rw [if_neg h3l, if_neg h32, sub_zero]
+    rw [ite_eq_right h3l, ite_eq_right h32, sub_zero]
   · rw [nilSplit, Matrix.mul_sub, single_mul_ggInvUNil h2l,
       single_mul_ggInvUNil (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h2l' : ¬ (((Fin.rev (corner1 m) : Fin (m + 4)) : ℕ) < l) := by
       rw [rev_corner1]; simp [corner2]; omega
     have h22 : ¬ (((Fin.rev (corner1 m) : Fin (m + 4)) : ℕ) < 2) := by
       rw [rev_corner1]; simp [corner2]
-    rw [if_neg h2l', if_neg h22, sub_zero]
+    rw [ite_eq_right h2l', ite_eq_right h22, sub_zero]
   · rw [nilSplit, Matrix.mul_sub, single_mul_ggInvUNil h2l,
       single_mul_ggInvUNil (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h1l : (((Fin.rev (corner2 m) : Fin (m + 4)) : ℕ) < l) := by
       rw [rev_corner2]; simp [corner1]; omega
     have h12 : (((Fin.rev (corner2 m) : Fin (m + 4)) : ℕ) < 2) := by
       rw [rev_corner2]; simp [corner1]
-    rw [if_pos h1l, if_pos h12, sub_self]
+    rw [ite_eq_left h1l, ite_eq_left h12, sub_self]
   · rw [nilSplit, Matrix.mul_sub, single_mul_ggInvUNil h2l,
       single_mul_ggInvUNil (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
     have h0l : (((Fin.rev (corner3 m) : Fin (m + 4)) : ℕ) < l) := by
       rw [rev_corner3]; simp [corner0]; omega
     have h02 : (((Fin.rev (corner3 m) : Fin (m + 4)) : ℕ) < 2) := by
       rw [rev_corner3]; simp [corner0]
-    rw [if_pos h0l, if_pos h02, sub_self]
+    rw [ite_eq_left h0l, ite_eq_left h02, sub_self]
 
 omit [CharP F 2] in
 private lemma nilSplit_apply_eq_zero_of_corner_col (m l : ℕ) (hl : 2 ≤ l)
@@ -549,7 +549,7 @@ private lemma cornerG_mul_ggInvUNil_two (m : ℕ) (F : Type) [Field F] [CharP F 
     rw [rev_corner1]; simp [corner2]
   have h3 : (((Fin.rev (corner3 m) : Fin (m + 4)) : ℕ) < 2) := by
     rw [rev_corner3]; simp [corner0]
-  rw [if_neg h1, if_pos h3, rev_corner3, add_zero]
+  rw [ite_eq_right h1, ite_eq_left h3, rev_corner3, add_zero]
 
 private lemma ggInvUNil_two_mul_cornerG (m : ℕ) (F : Type) [Field F] [CharP F 2] :
     ggInvUNil (m + 4) 2 F * cornerG m F =
@@ -559,7 +559,7 @@ private lemma ggInvUNil_two_mul_cornerG (m : ℕ) (F : Type) [Field F] [CharP F 
     ggInvUNil_mul_single (F := F) (n := m + 4) (l := 2) (by omega : 2 * 2 ≤ m + 4)]
   have h0 : (corner0 m : ℕ) < 2 := by simp [corner0]
   have h2 : ¬ ((corner2 m : ℕ) < 2) := by simp [corner2]
-  rw [if_pos h0, rev_corner0, if_neg h2, add_zero]
+  rw [ite_eq_left h0, rev_corner0, ite_eq_right h2, add_zero]
 
 private lemma cornerE20_mul_cornerG (m : ℕ) (F : Type) [Field F] :
     single (corner2 m) (corner0 m) 1 * cornerG m F =
@@ -748,7 +748,7 @@ private lemma diagonal_mul_single_mul_diagonal_inv (m : ℕ) (F : Type) [Field F
   · rcases h with ⟨rfl, rfl⟩
     simp
   · have h' : ¬ (a = x ∧ b = y) := fun hh => h ⟨hh.1.symm, hh.2.symm⟩
-    rw [Matrix.single_apply, Matrix.single_apply, if_neg h', if_neg h']
+    rw [Matrix.single_apply, Matrix.single_apply, ite_eq_right h', ite_eq_right h']
     simp
 
 private lemma diagonal_mul_cornerX_mul_diagonal_inv (m : ℕ) (F : Type) [Field F]

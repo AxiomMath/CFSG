@@ -22,7 +22,7 @@ private lemma pslGraphArith_factor_ge_one {ι : Type} (q : ℕ) (kind d : ι →
     (hII : kind r = 1 → Even (d r)) :
     1 ≤ (if kind r = 1 then q ^ (d r / 2) - 1 else q ^ d r - 1) := by
   by_cases h : kind r = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hdr : 1 ≤ d r := hd
     obtain ⟨k, hk⟩ := hII h
     have hkpos : k ≠ 0 := by omega
@@ -34,7 +34,7 @@ private lemma pslGraphArith_factor_ge_one {ι : Type} (q : ℕ) (kind d : ι →
       calc 2 ≤ q := hq
         _ ≤ q ^ k := Nat.le_self_pow hkpos q
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hdr : 1 ≤ d r := hd
     have hpow : 2 ≤ q ^ d r := by
       calc 2 ≤ q := hq
@@ -46,7 +46,7 @@ private lemma pslGraphArith_factor_ge_q_sub_one {ι : Type} (q : ℕ) (kind d : 
     (hII : kind r = 1 → Even (d r)) :
     q - 1 ≤ (if kind r = 1 then q ^ (d r / 2) - 1 else q ^ d r - 1) := by
   by_cases h : kind r = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hdr : 1 ≤ d r := hd
     obtain ⟨k, hk⟩ := hII h
     have hkpos : k ≠ 0 := by omega
@@ -57,7 +57,7 @@ private lemma pslGraphArith_factor_ge_q_sub_one {ι : Type} (q : ℕ) (kind d : 
       rw [hdiv]
       exact Nat.le_self_pow hkpos q
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hdr : 1 ≤ d r := hd
     have hpow : q ≤ q ^ d r := Nat.le_self_pow (by omega : d r ≠ 0) q
     omega
@@ -99,7 +99,7 @@ theorem pslGraph_arith {ι : Type} (q n f : ℕ) (hq : q = 2 ^ f) (hf : 1 ≤ f)
   by_cases hqeq : q = 2
   · have hρr0 : 3 ≤ ρ r0 := by
       dsimp [ρ]
-      rw [if_neg (by omega : kind r0 ≠ 1)]
+      rw [ite_eq_right (by omega : kind r0 ≠ 1)]
       omega
     have hle : ρ r0 ≤ ∏ r ∈ R, ρ r := Finset.single_le_prod hρ_one hr0R
     have hrhs : (q - 1) * Nat.gcd n (q - 1) = 1 := by
@@ -114,7 +114,7 @@ theorem pslGraph_arith {ι : Type} (q n f : ℕ) (hq : q = 2 ^ f) (hf : 1 ≤ f)
       omega
     have hρr0 : ρ r0 = q ^ d r0 - 1 := by
       dsimp [ρ]
-      rw [if_neg (by omega : kind r0 ≠ 1)]
+      rw [ite_eq_right (by omega : kind r0 ≠ 1)]
     have hρr0_ge : q - 1 ≤ ρ r0 := hρ_ge r0 hr0R
     have hρr1_ge : q - 1 ≤ ρ r1 := hρ_ge r1 hr1R
     have hsplit0 : (∏ r ∈ R.erase r0, ρ r) * ρ r0 = ∏ r ∈ R, ρ r :=
@@ -212,7 +212,7 @@ theorem pslGraph_arith {ι : Type} (q n f : ℕ) (hq : q = 2 ^ f) (hf : 1 ≤ f)
       · have hfac : q ^ (d r1 / 2) - 1 = q - 1 := by
           have h := hρr1_eq
           dsimp [ρ] at h
-          rw [if_pos hk1] at h
+          rw [ite_eq_left hk1] at h
           exact h
         have hx1 : 1 ≤ d r1 / 2 := by
           obtain ⟨k, hk⟩ := hII r1 hr1R hk1
@@ -235,7 +235,7 @@ theorem pslGraph_arith {ι : Type} (q n f : ℕ) (hq : q = 2 ^ f) (hf : 1 ≤ f)
       · have hfac : q ^ d r1 - 1 = q - 1 := by
           have h := hρr1_eq
           dsimp [ρ] at h
-          rw [if_neg (by omega : kind r1 ≠ 1)] at h
+          rw [ite_eq_right (by omega : kind r1 ≠ 1)] at h
           exact h
         have hd1 : d r1 = 1 :=
           pslGraphArith_pow_eq_of_sub_one_eq (by omega : 1 < q) (hd r1 hr1R) hfac
@@ -274,7 +274,7 @@ theorem pslGraph_arith {ι : Type} (q n f : ℕ) (hq : q = 2 ^ f) (hf : 1 ≤ f)
 
 private lemma pslGraphNormII_theta_order {F : Type} [Field F] (θ : F ≃+* F)
     (hθ2 : θ * θ = 1) (hθ1 : θ ≠ 1) : orderOf θ = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by simpa [pow_two] using hθ2) hθ1
 
 private lemma pslGraphNormII_card_range_pow {G : Type} [CommGroup G] [Finite G] [IsCyclic G]
@@ -330,10 +330,10 @@ theorem pslGraph_norm_card_II {F : Type} [Field F] [Finite F] (θ : F ≃+* F) (
     rw [h, horder]
     dsimp only [Q, K]
     ring
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
   let θA : F ≃ₐ[K] F :=
     AlgEquiv.ofRingEquiv (f := θ) (fun x => by
       have hx : (⟨θ, Subgroup.mem_zpowers θ⟩ : Subgroup.zpowers θ) • (x : F) = (x : F) :=
@@ -364,7 +364,7 @@ theorem pslGraph_norm_card_II {F : Type} [Field F] [Finite F] (θ : F ≃+* F) (
     exact congrArg (fun e : F ≃ₐ[K] F => e x) h
   have hφA1 : φA ≠ 1 := by
     intro hφ1
-    haveI : IsCyclic Fˣ := inferInstance
+    have : IsCyclic Fˣ := inferInstance
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Fˣ)
     have hgQ : g ^ Q = g := by
       apply Units.ext
@@ -392,10 +392,10 @@ theorem pslGraph_norm_card_II {F : Type} [Field F] [Finite F] (θ : F ≃+* F) (
       exact Nat.mul_le_mul_right _ (by omega : 2 ≤ Q + 1)
     omega
   have hθφ : θA = φA := by
-    haveI : IsCyclic (F ≃ₐ[K] F) := inferInstance
-    haveI : Finite (F ≃ₐ[K] F) :=
+    have : IsCyclic (F ≃ₐ[K] F) := inferInstance
+    have : Finite (F ≃ₐ[K] F) :=
       Finite.of_injective (fun e : F ≃ₐ[K] F => (e : F → F)) DFunLike.coe_injective
-    haveI : Fintype (F ≃ₐ[K] F) := Fintype.ofFinite _
+    have : Fintype (F ≃ₐ[K] F) := Fintype.ofFinite _
     by_contra hne
     have hle := IsCyclic.card_pow_eq_one_le (α := F ≃ₐ[K] F) (n := 2) (by norm_num)
     have hsub : ({1, θA, φA} : Finset (F ≃ₐ[K] F)) ⊆
@@ -419,7 +419,7 @@ theorem pslGraph_norm_card_II {F : Type} [Field F] [Finite F] (θ : F ≃+* F) (
     rw [hx, hφx]
   refine ⟨Q, hcard, ?_⟩
   rw [pslGraphNormII_card_norm_range θ Q hθpow]
-  haveI : IsCyclic Fˣ := inferInstance
+  have : IsCyclic Fˣ := inferInstance
   have hQQ : Q * Q - 1 = (Q - 1) * (Q + 1) := by
     have h := Nat.pow_two_sub_pow_two Q 1
     simpa [pow_two, one_pow, mul_comm] using h

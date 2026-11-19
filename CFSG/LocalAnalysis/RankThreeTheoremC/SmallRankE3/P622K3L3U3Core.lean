@@ -142,13 +142,13 @@ private theorem not_mem_map_center (F : Type) [Field F] {A : Type} [Group A]
 
 theorem l3u3_exists_section {A : Type} [Group A] [Finite A] (L : Subgroup A) (z : A)
     {F₀ : Type} [Field F₀] [Finite F₀] (h5 : 5 ≤ Nat.card F₀) (hp2 : ringChar F₀ ≠ 2)
-    (hp3 : ringChar F₀ ≠ 3)
+    (_hp3 : ringChar F₀ ≠ 3)
     (ι : SL(2, F₀) →* ↥L) (hι : Function.Injective ι)
     (hconj : ∀ a b : ↥L, orderOf a = 3 → orderOf b = 3 → ∃ g : ↥L, g * a * g⁻¹ ∈ Subgroup.zpowers b)
     (hzL : z ∈ L) (hz3 : orderOf z = 3) :
     ∃ K₀ N : Subgroup A, K₀ ≤ L ∧ z ∈ K₀ ∧ z ∉ N ∧
       S622IsSimpleSection K₀ N ∧ N ≠ ⊥ ∧ IsPGroup 2 N ∧ K₀ ≤ Subgroup.centralizer (N : Set A) := by
-  clear hp3
+  clear _hp3
   obtain ⟨b, hbz⟩ : ∃ b : ↥L, (b : A) = z := ⟨⟨z, hzL⟩, rfl⟩
   have hb : orderOf b = 3 := by
     rw [← Subgroup.orderOf_coe, hbz]

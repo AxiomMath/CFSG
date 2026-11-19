@@ -87,7 +87,7 @@ theorem fixes_iff (k : ℕ) {t : List ℕ} (ht : ∀ j < 6, t.getD j 0 < 72) :
       rw [getD_range_map _ _ (Finset.mem_range.1 hi)]]
     simp only [ZMod.natCast_mod, Nat.cast_add, beq_iff_eq, Nat.cast_ite, Nat.cast_ofNat,
       Nat.cast_zero, mul_add, Finset.sum_add_distrib, mul_ite, mul_zero, Finset.sum_ite_eq',
-      Finset.sum_ite_eq, Finset.mem_range, hj, if_true]
+      Finset.mem_range, hj, ite_true]
     exact key _ _
   constructor
   · intro h j hj'

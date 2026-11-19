@@ -30,11 +30,11 @@ theorem ggQ2s08_stab_embed_all
     Nat.card ↥(ggAutomizer ⊤ Bs ⊓ MulAction.stabilizer (MulAut ↥Bs) (⟨x, hx⟩ : ↥Bs)) ≤
       Nat.card ↥(ggHL ι φ h α) := by
   classical
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Finite (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) :=
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) :=
     Finite.of_surjective (Submodule.Quotient.mk (p := Submodule.span (ZMod 3) {M.xV}))
       (Submodule.Quotient.mk_surjective _)
-  haveI : Finite ((M.V ⧸ Submodule.span (ZMod 3) {M.xV}) ≃ₗ[ZMod 3]
+  have : Finite ((M.V ⧸ Submodule.span (ZMod 3) {M.xV}) ≃ₗ[ZMod 3]
       (M.V ⧸ Submodule.span (ZMod 3) {M.xV})) :=
     Finite.of_injective (fun e => (e : (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) →
       (M.V ⧸ Submodule.span (ZMod 3) {M.xV})))

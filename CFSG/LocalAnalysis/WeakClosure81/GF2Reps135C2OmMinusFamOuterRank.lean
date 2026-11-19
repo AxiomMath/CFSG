@@ -24,7 +24,7 @@ private theorem omfor_finrank_conj {G k U : Type} [Group G] [Field k] [AddCommGr
     (h : ∀ v, σ g (f v) = f' (σ g v)) :
     Module.finrank k (LinearMap.range (f' - 1)) = Module.finrank k (LinearMap.range (f - 1)) :=
   CFSG.HardMathSupport.GuralnickMalle.finrank_range_sub_one_eq_of_intertwines
-    (LinearEquiv.ofLinear (σ g) (σ g⁻¹) (LinearMap.ext fun v => σ.self_inv_apply g v)
+    (LinearEquiv.ofLinearMap (σ g) (σ g⁻¹) (LinearMap.ext fun v => σ.self_inv_apply g v)
       (LinearMap.ext fun v => σ.inv_self_apply g v)) f f' h
 
 private theorem omfor_finrank_range_sub_le {k U : Type} [Field k] [AddCommGroup U] [Module k U]

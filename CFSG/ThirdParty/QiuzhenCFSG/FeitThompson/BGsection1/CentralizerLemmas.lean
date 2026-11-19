@@ -458,7 +458,7 @@ public theorem CFSG.centralizer_sylow_subgroup_le_op_p_prime_p_of_solvable
     simpa [M] using (pPrimeCore_coprime_card (G := G) (p := p))
   have hTG_p : IsPGroup p (↥TG) := by
     simpa [TG] using
-      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup' (Op_p'p p G).subtype)
+      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup (Op_p'p p G).subtype)
   have hTG_le_op : TG ≤ Op_p'p p G := by
     simpa [TG] using
       (Subgroup.map_subtype_le (H := Op_p'p p G) (K := (T : Subgroup (Op_p'p p G))))

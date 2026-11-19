@@ -26,7 +26,7 @@ theorem card_barOf_V_eq_two_or_four_le :
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hne : Nat.card (barOf V H V) ≠ 1 := by
     intro h1
-    obtain ⟨d, hdV, hdW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+    obtain ⟨d, hdV, hdW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
     have hdH : d ∈ H := hc.V_le_H hdV
     have hd1 : piBar V H ⟨d, hdH⟩ ≠ 1 := fun h => hdW ((piBar_eq_one_iff _).1 h)
     have hdm : piBar V H ⟨d, hdH⟩ ∈ barOf V H V := mem_barOf_iff.mpr ⟨_, hdV, rfl⟩
@@ -56,7 +56,7 @@ theorem sup_eq_H_of_noncommute
     P ⊔ Subgroup.closure {(e' : G)} = H := by
   set K : Subgroup G := P ⊔ Subgroup.closure {(e' : G)} with hK
   have he'K : (e' : G) ∈ K := Subgroup.mem_sup_right (Subgroup.subset_closure rfl)
-  have hKH : K ≤ H := sup_le hc.PleH ((Subgroup.closure_le _).2 (by simpa using e'.2))
+  have hKH : K ≤ H := sup_le hc.PleH ((Subgroup.closure_le _).2 (by simp))
   by_contra hKne
   have hKlt : K < H := lt_of_le_of_ne hKH hKne
   have hPK : P ≤ K := le_sup_left
@@ -100,12 +100,12 @@ theorem sup_eq_H_of_noncommute
     Subtype.ext (by simpa using hc2)
   have hc3 := congrArg (piBar V H) hc2'
   simp only [map_mul, map_inv, hu₀v] at hc3
-  have heX : piBar V H e' ∈ barOf V H (xOf V H) := hc.dbarOf_subset_barOf_xOf he
+  have heX : piBar V H e' ∈ barOf V H (xOf V H) := CFSG.RankThree.GF2n.Tim79a.MinCex.dbarOf_subset_barOf_xOf he
   have hvX : v ∈ barOf V H (xOf V H) := barOf_V_le V H hv
   set e : Xbar V H := ⟨piBar V H e', heX⟩ with he_def
   set v' : Xbar V H := ⟨v, hvX⟩ with hv'_def
   have heD : e ∈ Dy V H := he
-  have hv'D : v' ∈ Dy V H := hc.barOf_V_subset_dbarOf hv hv1
+  have hv'D : v' ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hv hv1
   have he2 : e * e = 1 := by
     rw [← sq]
     have := hc.Dy_root.1 e heD

@@ -29,7 +29,7 @@ theorem Ctx.not_le_QB_of_natural {R V : Subgroup G} (hc : Ctx M Q Z B)
   classical
   intro hVQB
   obtain ⟨hVR, hnorm, ψ, hψ⟩ := hsec
-  haveI := hnorm
+  have := hnorm
   let D : AddSubgroup (ι → K) :=
     { carrier := {x | ∃ b : ↥V, (b : G) ∈ (B ⊔ Z : Subgroup G) ∧ secVec ψ b = x}
       zero_mem' := ⟨1, (B ⊔ Z).one_mem, (secVec_eq_zero_iff ψ 1).mpr Z.one_mem⟩

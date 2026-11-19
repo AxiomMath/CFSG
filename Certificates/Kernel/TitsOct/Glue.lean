@@ -317,7 +317,6 @@ theorem localData_at {a b0 d k cnt nG LAY PAR ORD PA LB PS : ℕ} {A : ℕ → �
     exact ⟨g, hg, by rw [e, ofCode_vCode]⟩
   ·
     rw [hL.dist_eq]
-    change layAt LAY (vCode (ofCode b0)) = 8
     rw [vCode_ofCode hb0]
     exact hb8
   ·
@@ -509,8 +508,7 @@ theorem poly : IsGenPolygon octGraph 8 := by
     ⟨Sum.inl 0, _, ofCode 87, h0, ?_⟩ (fun i => ofCode (CYC.getD (i % 16) 0)) ?_ ?_ ?_ ?_
   · intro x y h
     cases x <;> cases y <;> first | exact h.elim | simp
-  · change layAt LAY0 (vCode (ofCode 87)) = 8
-    rw [vCode_ofCode (by norm_num)]
+  · rw [vCode_ofCode (by norm_num)]
     exact (farK_sound far).1
   · intro i
     have hi := Nat.mod_lt i (show 0 < 16 by norm_num)

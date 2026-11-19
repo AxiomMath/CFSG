@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
+omit [Finite G] in
 lemma mulAut_eq_one_of_forall_mul_inv_mem_center {L : Subgroup G}
     (hperf : commutator ↥L = ⊤) (φ : MulAut ↥L)
     (h : ∀ x : ↥L, φ x * x⁻¹ ∈ Subgroup.center ↥L) : φ = 1 := by
@@ -64,6 +65,7 @@ theorem not_mem_of_isPGroup_two_center {L : Subgroup G} {b : G}
   refine false_of_isPGroup_two_of_orderOf_eq_three hZ2 (z := z) ?_
   rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk, hb]
 
+omit [Finite G] in
 theorem card_inf_Bstar_L (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
@@ -109,6 +111,7 @@ theorem card_inf_Bstar_L (hK : Nat.card K = 4) {Bs L : Subgroup G}
     _ = Nat.card (USixTwo.torU K) := Nat.card_congr (Equiv.ofBijective φ hφ)
     _ = 3 ^ 4 := USixTwo.card_torU hK
 
+omit [Finite G] in
 theorem zpowers_inf_Bstar_inf_L_eq_bot {Bs L : Subgroup G} {b : G}
     (hb : orderOf b = 3) (hbL : b ∉ L) :
     Subgroup.zpowers b ⊓ (Bs ⊓ L) = ⊥ := by
@@ -161,7 +164,7 @@ theorem Bstar_eq_zpowers_sup_inf (hK : Nat.card K = 4) {Bs L : Subgroup G} {b : 
       calc y * b * y⁻¹ = b * y * y⁻¹ := by rw [hcomm]
         _ = b := by group
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-    simpa [CFSG.GroupTheory.map_conj_zpowers, hyb]
+    simp [hyb]
   have hdisj : Disjoint (Subgroup.zpowers b) (Bs ⊓ L) :=
     disjoint_iff.mpr (zpowers_inf_Bstar_inf_L_eq_bot hb (not_mem_of_isPGroup_two_center hZ2 hb hbC))
   have hcard' := CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
@@ -186,7 +189,7 @@ theorem exists_mul_eq_of_mem_Bstar (hK : Nat.card K = 4) {Bs L : Subgroup G} {b 
     {x : G} (hx : x ∈ Bs) :
     ∃ p ∈ Subgroup.zpowers b, ∃ y ∈ Bs ⊓ L, p * y = x := by
   classical
-  haveI hcomm : IsMulCommutative ↥Bs := hBs.1
+  have hcomm : IsMulCommutative ↥Bs := hBs.1
   let A : Subgroup ↥Bs := (Subgroup.zpowers b).subgroupOf Bs
   let B : Subgroup ↥Bs := (Bs ⊓ L).subgroupOf Bs
   have hBsEq : Bs = Subgroup.zpowers b ⊔ (Bs ⊓ L) :=
@@ -204,6 +207,7 @@ theorem exists_mul_eq_of_mem_Bstar (hK : Nat.card K = 4) {Bs L : Subgroup G} {b 
   · have := congrArg Subtype.val hay
     simpa using this
 
+omit [Finite G] in
 theorem centralizer_Bstar_le_centralizer_b {Bs : Subgroup G} {b : G} (hbBs : b ∈ Bs) :
     Subgroup.centralizer (Bs : Set G) ≤ Subgroup.centralizer ({b} : Set G) :=
   Subgroup.centralizer_le (by
@@ -212,6 +216,7 @@ theorem centralizer_Bstar_le_centralizer_b {Bs : Subgroup G} {b : G} (hbBs : b �
     subst hx
     exact hbBs)
 
+omit [Finite G] in
 theorem centralizer_b_le_normalizer {b : G} {L : Subgroup G}
     (hLb : L ≤ Subgroup.centralizer {b})
     (hN : (L.subgroupOf (Subgroup.centralizer {b})).Normal) :
@@ -242,6 +247,7 @@ lemma eq_or_inv_of_orderOf_eq_three_of_mem_zpowers {H : Type*} [Group H] [Finite
       exact hy3
     exact eq_inv_of_mul_eq_one_right h1
 
+omit [Finite G] in
 theorem normalizerMonoidHom_pow_three_eq_one (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤)
@@ -356,7 +362,7 @@ theorem relPPrimeCore_inf_subgroupOf_le_center (hK : Nat.card K = 4) {b : G} {L 
       norm_num
     exact h1.trans (Subgroup.card_subgroup_dvd_card (USixTwo.torU K))
   have hQbot : Q.map π = ⊥ := by
-    haveI : IsSimpleGroup R :=
+    have : IsSimpleGroup R :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1
         (by rw [hK]; norm_num) 6 (by norm_num) (by norm_num)
     rcases Subgroup.Normal.eq_bot_or_eq_top (Q.map π) with h | h

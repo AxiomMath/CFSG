@@ -46,11 +46,11 @@ theorem ggNbrLSideOrth_selfDual_type {K : Type} [Field K] [Finite K] {V : Type} 
       CFSG.Blueprint.LieModel (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h))
         t m 2 k := by
   classical
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     rw [← hchar]
     exact ringChar.charP K
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hf' : Nat.card K = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -85,12 +85,12 @@ theorem ggNbrLSideOrth_selfDual_type {K : Type} [Field K] [Finite K] {V : Type} 
   ·
     have hm_eq : m = 2 := by omega
     rw [hm_eq] at φ
-    haveI : CharP (AdjoinRoot h) 2 := by
+    have : CharP (AdjoinRoot h) 2 := by
       have h2 : ringChar (AdjoinRoot h) = 2 :=
         (Algebra.ringChar_eq K (AdjoinRoot h)).symm.trans hchar
       rw [← h2]
       exact ringChar.charP (AdjoinRoot h)
-    haveI : Finite (AdjoinRoot h) := by
+    have : Finite (AdjoinRoot h) := by
       have hmod : Module.Finite K (AdjoinRoot h) :=
         (AdjoinRoot.powerBasis (Fact.out : Irreducible h).ne_zero).finite
       exact Module.finite_of_finite K

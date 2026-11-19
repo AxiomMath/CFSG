@@ -35,8 +35,8 @@ theorem twE6FixOn_isRoot {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n
     TwE6FixOn K (IsRoot TwistTag.E6.tag) n p := by
   intro H hH f hf hord
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK2)
   set σ : K ≃+* K := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by

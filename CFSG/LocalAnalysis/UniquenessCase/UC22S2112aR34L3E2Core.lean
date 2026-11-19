@@ -151,9 +151,9 @@ private theorem uc22s2112r34_l3E2_normalizes {X : Type} [Group X] [Finite X]
   exact hEq.symm
 
 private theorem uc22s2112r34_l3E2_inner_on {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
-    (t : StatedLieTag) (n p f : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hadm : StatedLieAdmissible t n p f) (hX : LieModel X t n p f)
-    (hA1 : ¬ (t = .PSL ∧ n = 2)) (hRee : t ≠ .twistedG2)
+    (t : StatedLieTag) (n p f : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hadm : StatedLieAdmissible t n p f) (_hX : LieModel X t n p f)
+    (_hA1 : ¬ (t = .PSL ∧ n = 2)) (_hRee : t ≠ .twistedG2)
     {K R : Subgroup X} (hK : IsFundamentalOver (p ^ f) K) (hRK : R ≤ K) {x : X}
     (hxN : x ∈ normalizer (K : Set X)) (hxo : Odd (orderOf x))
     (hxc : x ∈ centralizer (R : Set X)) :

@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W]
   [FiniteDimensional K W] {Q₀ : QuadraticForm K W} {Ĝ : Type} [Group Ĝ]
 
 theorem pencil_glue_false {s : ℕ} (hs : 2 ≤ s) (hq : Nat.card K = 2 ^ s) (hmin : IsMinus Q₀ 2)
-    (N : Type) [CommGroup N] [Finite N] (ν : N →* Ĝ) (hν : Function.Injective ν)
+    (N : Type) [CommGroup N] [Finite N] (ν : N →* Ĝ) (_hν : Function.Injective ν)
     (ε : Multiplicative W →* Ĝ) (hε : Function.Injective ε)
     (hN2 : ∀ n : N, n * n = 1) (hNcard : Nat.card N = Nat.card K)
     (hcomm : ∀ (n : N) (w : Multiplicative W), ν n * ε w = ε w * ν n)
@@ -39,7 +39,7 @@ theorem pencil_glue_false {s : ℕ} (hs : 2 ≤ s) (hq : Nat.card K = 2 ^ s) (hm
           ε (Multiplicative.ofAdd ((c * a) • w)))
     (hnontriv : ∃ h ∈ Hh, conjSubgroup h ν.range ≠ ν.range) : False := by
   classical
-  haveI : Finite W := Module.finite_of_finite K
+  have : Finite W := Module.finite_of_finite K
   let Φ : N × Multiplicative W →* Ĝ := MonoidHom.mk' (fun p => ν p.1 * ε p.2) (fun p q => by
     simp only [Prod.fst_mul, Prod.snd_mul, map_mul]
     calc ν p.1 * ν q.1 * (ε p.2 * ε q.2) = ν p.1 * (ν q.1 * ε p.2) * ε q.2 := by
@@ -258,7 +258,7 @@ theorem pencil_glue_false' [Finite Ĝ] {s : ℕ} (hs : 2 ≤ s) (hq : Nat.card K
         ∀ a : K, h * ε (Multiplicative.ofAdd (a • w)) * h⁻¹ =
           ε (Multiplicative.ofAdd ((c * a) • w)))
     (hnontriv : ∃ h ∈ Hh, conjSubgroup h N0 ≠ N0) : False := by
-  letI : CommGroup ↥N0 :=
+  let : CommGroup ↥N0 :=
     { (inferInstance : Group ↥N0) with mul_comm := fun a b => Subtype.ext (hN0comm a a.2 b b.2) }
   have hr : N0.subtype.range = N0 := Subgroup.range_subtype N0
   refine pencil_glue_false hs hq hmin ↥N0 N0.subtype N0.subtype_injective ε hε

@@ -24,10 +24,10 @@ theorem psu_small_four_one
     (hm : LieModel X .PSU 4 3 1) (σ : MulAut X) (hσ : orderOf σ = 2)
     {D : Subgroup ↥(fixedSubgroup σ)} (hA : A6Hyp σ D) : A6SmallConcl .PSU 4 1 σ D := by
   obtain ⟨e₀⟩ := CFSG.LieType.Multipliers.U43.nonempty_mulEquiv_X₀ hm
-  haveI : IsSimpleGroup CFSG.LieType.Multipliers.U43.X₀ := psu_isSimpleGroup_X₀
-  haveI : IsSimpleGroup X := e₀.isSimpleGroup
+  have : IsSimpleGroup CFSG.LieType.Multipliers.U43.X₀ := psu_isSimpleGroup_X₀
+  have : IsSimpleGroup X := e₀.isSimpleGroup
   have hc : Subgroup.center X = ⊥ := psu_center_bot_of_simple_of_nonab hA.psu_not_comm
-  haveI : ((MulAut.conj : X →* MulAut X).range).Normal := psu_conj_range_normal
+  have : ((MulAut.conj : X →* MulAut X).range).Normal := psu_conj_range_normal
   let θ : (MulAut.conj : X →* MulAut X).range ≃* ↥CFSG.EvenSporadicStandard.M24Std.CU43.P :=
     (MonoidHom.ofInjective (psu_conj_injective hc)).symm.trans
       (e₀.trans CFSG.EvenSporadicStandard.M24Std.CU43.psiEquiv)

@@ -153,6 +153,7 @@ theorem exists_mem_inf_eq_sup_of_omegaPlus {Bs L : Subgroup G} {x : G}
       rw [hcard9, hDcard]
       norm_num
   exact ⟨e, heD, heL, he1, hDgen⟩
+omit [Finite G] [Finite K] in
 theorem exists_lift_mem_inf_centralizer_qMap {Bs L : Subgroup G} {x e : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
@@ -214,6 +215,7 @@ theorem exists_lift_mem_inf_centralizer_qMap {Bs L : Subgroup G} {x e : G}
     · rw [Subgroup.zpowers_le]
       exact Subgroup.mem_centralizer_singleton_iff.mpr hle.symm
   exact Subgroup.mem_centralizer_singleton_iff.mp (hcentD hd)
+omit [Finite G] [Finite K] in
 theorem map_subgroupOf_inf_centralizer_eq_centralizer_qMap {Bs L : Subgroup G} {x e : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
@@ -244,9 +246,9 @@ theorem isComponentOf_map_of_isPGroup_ker {X Y : Type} [Group X] [Group Y] [Fini
     (h : CFSG.Open.IsComponentOf L K) :
     CFSG.Open.IsComponentOf (L.map f) (K.map f) := by
   obtain ⟨hLK, hsub, hq⟩ := h
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
-  haveI : Nontrivial (L ⧸ Subgroup.center L) := hq.2.toNontrivial
-  haveI : Nontrivial L := (QuotientGroup.mk'_surjective (Subgroup.center L)).nontrivial
+  have : Group.IsPerfect L := ⟨hq.1⟩
+  have : Nontrivial (L ⧸ Subgroup.center L) := hq.2.toNontrivial
+  have : Nontrivial L := (QuotientGroup.mk'_surjective (Subgroup.center L)).nontrivial
   have hqnative : CFSG.IsQuasisimple L :=
     ⟨⟨hq.1⟩, hq.2, by
       have hnc := Group.IsPerfect.not_isMulCommutative (G := L ⧸ Subgroup.center L)
@@ -398,7 +400,7 @@ theorem eq_sup_of_mem_inf_of_card {Bs L : Subgroup G} {x e : G} {D : Subgroup G}
     norm_num
 theorem isComponentOf_map_qMap {Bs L : Subgroup G} {x : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
-    (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4) (hx1 : x ≠ 1)
+    (_hcard : Nat.card Bs = 3 ^ 5) (_hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4) (hx1 : x ≠ 1)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
     {D J : Subgroup G} (hDB : D ≤ Bs) (hDcard : Nat.card D = 3 ^ 2) (hxD : x ∈ D)

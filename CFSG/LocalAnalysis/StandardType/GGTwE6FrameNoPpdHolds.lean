@@ -24,7 +24,7 @@ private lemma no_ppd_dvd {r e f ℓ : ℕ} (hr : r.Prime) (he : e = 12 ∨ e = 1
     (hf : 1 ≤ f) (ho : orderOf (2 : ZMod r) = e * f)
     (hℓ1 : 1 ≤ ℓ) (hℓ10 : ℓ ≤ 10) (hℓ9 : ℓ ≠ 9) :
     ¬ (r : ℤ) ∣ (-(2 ^ f : ℤ)) ^ ℓ - 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h2ne : (2 : ZMod r) ≠ 0 := by
     intro h0
     rw [h0, orderOf_zero] at ho
@@ -88,7 +88,7 @@ private lemma no_ppd_dvd {r e f ℓ : ℕ} (hr : r.Prime) (he : e = 12 ∨ e = 1
       have hp23 : p = 2 ∨ p = 3 := by
         have hle : p ≤ 12 := Nat.le_of_dvd (by norm_num) hpd
         have hp2 : 2 ≤ p := hp.two_le
-        interval_cases p <;> (norm_num at hp <;> try norm_num at hpd)
+        interval_cases p <;> (norm_num at hp; try norm_num at hpd)
         · exact Or.inl rfl
         · exact Or.inr rfl
       rcases hp23 with rfl | rfl
@@ -136,7 +136,7 @@ theorem ggTwE6FrameNoPpdInput_holds :
     GGTwE6FrameNoPpdInput := by
   intro f hf h3 M' S hInn hSM hSI hSel hmax α hαS hα1 r hex z hz hαz
   obtain ⟨e, he, hppd⟩ := hex
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
@@ -147,9 +147,9 @@ theorem ggTwE6FrameNoPpdInput_holds :
   let Ω := AlgebraicClosure K
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 f
   have hFr : ∀ c : Ω, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
-  haveI : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hcard : 3 ^ 5 ≤ Nat.card S :=
     three_pow_five_le_card_of_maximal (f := f) h3 hInn hmax
   have hSI' : S ≤ (RecipeExcLang.twConj K σ).range := by
@@ -272,7 +272,7 @@ theorem ggTwE6FrameNoPpdInput_holds :
     exact hppd.1.ne_one hz.symm
   have he12 : e = 12 ∨ e = 18 := by
     simpa [ggOutdiagExpsTwE6] using he
-  haveI : Fact r.Prime := ⟨hppd.1⟩
+  have : Fact r.Prime := ⟨hppd.1⟩
   have h12 : 12 ≤ e * f := by
     rcases he12 with rfl | rfl <;> nlinarith [hf]
   have h2ne : (2 : ZMod r) ≠ 0 := by

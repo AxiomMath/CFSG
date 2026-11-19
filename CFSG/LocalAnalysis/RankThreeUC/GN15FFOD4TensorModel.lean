@@ -415,7 +415,7 @@ private lemma frameElt_mulVec_single (x x' : Fin 4 ⊕ Fin 4) :
   rw [frameElt_mulVec_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : a = x'
   · subst h; simp
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private lemma frameElt_add_mulVec_single (x1 x2 x1' x2' : Fin 4 ⊕ Fin 4) (h : x1 ≠ x2) :
     (((frameElt (K := K) x1 x1' + frameElt (K := K) x2 x2') :
@@ -556,7 +556,7 @@ private theorem eta_pinnedX_fix {α : Fin Tag.D4.rank → ℤ} (hα : α ∈ roo
       apply hval
       subst hj
       simp [lv, ht, hij]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
   have h2 : polar (quadPlus 4 K) (plusVec 4 K (1 : Fin 4) true) (plusVec 4 K i s) = 0 := by
     rw [polar_quadPlus_plusVec]
     by_cases hc : (1 : Fin 4) = i ∧ true = !s
@@ -567,7 +567,7 @@ private theorem eta_pinnedX_fix {α : Fin Tag.D4.rank → ℤ} (hα : α ∈ roo
       subst hi
       have hj : j ≠ 1 := fun h => hij (by rw [h])
       simp [lv, hs, hj]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
   have h := eta_pinnedX_apply (β := α) hα hij hstd c (plusVec 4 K (1 : Fin 4) true)
   refine h.trans ?_
   rw [h1, h2]
@@ -643,7 +643,7 @@ private theorem natMat_posUnipotent_col {u : adjointGroup .D4 K}
       rw [Pi.single_eq_of_ne hb, mul_zero]
     · intro hnot
       exact absurd (Finset.mem_univ _) hnot
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have h := congrFun (mem_fixer hu) j
     rw [Matrix.mulVec, dotProduct] at h
     rw [Finset.sum_eq_single (Sum.inl (1 : Fin 4))] at h
@@ -1093,9 +1093,9 @@ private theorem natMat_dC_ne_single {i : Fin 4} (hi : i ≠ 0) (z : Kˣ)
     natMat K (dC .D4 K i z) j (Sum.inl 1) = if j = Sum.inl 1 then (1 : K) else 0 := by
   by_cases hj : j = Sum.inl 1
   · subst hj
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact natMat_dC_ne_diag hi z
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     exact natMat_dC_ne_col hi z j hj
 
 private theorem tensorD4_dC_ne {S : Finset ℕ} {i : Fin 4} (hi : i ≠ 0) (z : Kˣ) :
@@ -1147,7 +1147,7 @@ private theorem natMat_col_of_mulVec_e1 {g : adjointGroup .D4 K}
       rw [Pi.single_eq_of_ne hb, mul_zero]
     · intro hnot
       exact absurd (Finset.mem_univ _) hnot
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     have h := congrFun hg j
     rw [Matrix.mulVec, dotProduct] at h
     rw [Finset.sum_eq_single (Sum.inl (1 : Fin 4))] at h
@@ -1252,7 +1252,7 @@ private theorem sum_pow_algebraMap_eq [Fintype K] [DecidableEq K] {n a : ℕ}
     (hK : Fintype.card K = 2 ^ n) (ha : a < 2 ^ n) :
     ∑ c : K, (algebraMap K k c) ^ a = if a = 2 ^ n - 1 then 1 else 0 := by
   by_cases h : a = 2 ^ n - 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have ha0 : a ≠ 0 := by
       have h1 : 1 < 2 ^ n := by rw [← hK]; exact Fintype.one_lt_card
       omega
@@ -1277,8 +1277,8 @@ private theorem sum_pow_algebraMap_eq [Fintype K] [DecidableEq K] {n a : ℕ}
       exact Finset.sum_congr rfl fun x _ => (map_pow (algebraMap K k) (x : K) a).symm
     have hdvd : Fintype.card K - 1 ∣ a := by
       simp [hK, h]
-    rw [h2, FiniteField.sum_pow_units K a, if_pos hdvd, map_neg, map_one, CharTwo.neg_eq]
-  · rw [if_neg h]
+    rw [h2, FiniteField.sum_pow_units K a, ite_eq_left hdvd, map_neg, map_one, CharTwo.neg_eq]
+  · rw [ite_eq_right h]
     have hlt : a < Fintype.card K - 1 := by
       rw [hK]
       omega
@@ -1357,7 +1357,7 @@ theorem isChevType_tensorD4 {hw : ∃ w₁ : WeylGroup Tag.D4, ∀ α : Fin Tag.
           rw [hd]
           have h1 : 1 < 2 ^ n := by rw [← hKF]; exact Fintype.one_lt_card
           omega
-        rw [sum_pow_algebraMap_eq (K := K) (k := k) hKF hdlt, if_pos hd] at hcoord
+        rw [sum_pow_algebraMap_eq (K := K) (k := k) hKF hdlt, ite_eq_left hd] at hcoord
         exact one_ne_zero hcoord
       · have hlt : (∑ b ∈ S, 2 ^ b) < 2 ^ n := Nat.geomSum_lt (le_refl 2) hS
         have hle : (∑ b ∈ S, 2 ^ b) ≤ 2 ^ n - 1 := by omega
@@ -1383,7 +1383,7 @@ theorem isChevType_tensorD4 {hw : ∃ w₁ : WeylGroup Tag.D4, ∀ α : Fin Tag.
           have hsum0 : ∑ t : Kˣ, (algebraMap K k (t : K)) ^ (∑ b ∈ S, 2 ^ b) = 0 := by
             simp only [← map_pow]
             rw [← map_sum]
-            rw [FiniteField.sum_pow_units K (∑ b ∈ S, 2 ^ b), if_neg hdvd, map_zero]
+            rw [FiniteField.sum_pow_units K (∑ b ∈ S, 2 ^ b), ite_eq_right hdvd, map_zero]
           have hsum1 : ∑ t : Kˣ, (algebraMap K k (t : K)) ^ (∑ b ∈ S, 2 ^ b) =
               ((Fintype.card K - 1 : ℕ) : k) := by
             simp only [hall, Finset.sum_const, Finset.card_univ, Fintype.card_units]

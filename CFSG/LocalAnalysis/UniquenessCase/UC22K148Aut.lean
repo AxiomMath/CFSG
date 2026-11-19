@@ -142,14 +142,16 @@ theorem s0_ne_one : s0 K ≠ 1 := by
   simp [glMat_s0, s0Mat] at h1
 
 theorem orderOf_s0 : orderOf (s0 K) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime s0_pow_three s0_ne_one
 
+omit [CharP K 2] in
 theorem s0Mat_mulVec (v : Fin 4 → K) :
     (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v = ![v 3, v 1, v 2, v 0 + v 3] := by
   ext i
   fin_cases i <;> simp [s0Mat, Matrix.mulVec, dotProduct, Fin.sum_univ_four]
 
+omit [CharP K 2] in
 theorem fix_s0 {v : Fin 4 → K} (hv : (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v = v) :
     v 0 = 0 ∧ v 3 = 0 := by
   rw [s0Mat_mulVec] at hv
@@ -158,6 +160,7 @@ theorem fix_s0 {v : Fin 4 → K} (hv : (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v
   have h4 : v 0 = 0 := by linear_combination h3
   exact ⟨h4, h0.trans h4⟩
 
+omit [CharP K 2] in
 theorem card_fix_s0 :
     Nat.card {v : Fin 4 → K // (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v = v} = Nat.card K ^ 2 := by
   let f : {v : Fin 4 → K // (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v = v} ≃ K × K :=
@@ -178,7 +181,7 @@ theorem minorMap_s0Mat : minorMap (s0Mat : Matrix (Fin 4) (Fin 4) K) =
   ext A B
   fin_cases A <;> fin_cases B <;>
     simp [minorMap_apply, minorIdx_zero, minorIdx_one, minorIdx_two, minorIdx_three, s0Mat,
-      CharTwo.sub_eq_add, CharTwo.neg_eq]
+      CharTwo.sub_eq_add]
 
 theorem minorMap_s0Mat_mulVec (v : Fin 4 → K) :
     minorMap (s0Mat : Matrix (Fin 4) (Fin 4) K) *ᵥ v = ![v 2, v 3, v 0 + v 2, v 1 + v 3] := by
@@ -216,6 +219,7 @@ theorem card_fix_minorMap_s0Mat :
     show glMat P *ᵥ (glMat P⁻¹ *ᵥ v) = v
     rw [Matrix.mulVec_mulVec, P.mul_inv, Matrix.one_mulVec]
 
+omit [CharP K 2] in
 theorem card_fix_conj (P M : GL (Fin 4) K) :
     Nat.card {v : Fin 4 → K // glMat (P * M * P⁻¹) *ᵥ v = v} =
       Nat.card {v : Fin 4 → K // glMat M *ᵥ v = v} := by
@@ -260,9 +264,9 @@ theorem card_fix_pow_s0 (m : ℕ) :
     Nat.card {v : Fin 4 → K // glMat ((minorAut K ^ m) (s0 K) : GL (Fin 4) K) *ᵥ v = v} =
       if Even m then Nat.card K ^ 2 else 1 := by
   rcases Nat.even_or_odd' m with ⟨k, rfl | rfl⟩
-  · rw [minorAut_pow_two_mul_s0, if_pos (even_two_mul k), glMat_s0]
+  · rw [minorAut_pow_two_mul_s0, ite_eq_left (even_two_mul k), glMat_s0]
     exact card_fix_s0
-  · rw [minorAut_pow_two_mul_add_one_s0, if_neg (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)),
+  · rw [minorAut_pow_two_mul_add_one_s0, ite_eq_right (Nat.not_even_iff_odd.mpr (odd_two_mul_add_one k)),
       glMat_minorAut, glMat_s0]
     exact card_fix_minorMap_s0Mat
 
@@ -283,9 +287,9 @@ theorem card_fix_ne_aux {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) (i : 
     exact Nat.one_lt_two_pow (by omega)
   have hK2 : Nat.card K ^ 2 ≠ 1 := (Nat.one_lt_pow two_ne_zero hK1).ne'
   rcases Nat.even_or_odd i with hev | hodd
-  · rw [if_pos hev, if_neg (by simpa [Nat.even_add_one] using hev)]
+  · rw [ite_eq_left hev, ite_eq_right (by simpa [Nat.even_add_one] using hev)]
     exact hK2
-  · rw [if_neg (Nat.not_even_iff_odd.mpr hodd), if_pos (by simpa [Nat.even_add_one] using hodd)]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.mpr hodd), ite_eq_left (by simpa [Nat.even_add_one] using hodd)]
     exact hK2.symm
 
 end S0

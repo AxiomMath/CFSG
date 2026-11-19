@@ -57,7 +57,7 @@ theorem D1OneSmallData.d1LiftX_le_of_squeeze (hOrb : KFactSmallOrbits)
   have hcxB : c⁻¹ * x ∈ H ⊓ M := ⟨hNU ⟨hcxM, hcN⟩, hcxM⟩
   have hR3 : IsPGroup p R := hd.cfg.ext.isPGroup
   have hxp : IsPGroup p ↥(Subgroup.zpowers x) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxP)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr hxP)
   have hX3 : IsPGroup p ↥(Subgroup.zpowers x ⊔ R) :=
     hxp.to_sup_of_normal_right' hR3 (Subgroup.zpowers_le.mpr hxN)
   have hBC : H ⊓ M ≤ Subgroup.normalizer (C₀ : Set G) := inf_le_right.trans hMC

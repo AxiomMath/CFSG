@@ -42,7 +42,7 @@ theorem exists_complement_of_central_three [Finite Γ] {y : Γ} (hy : y ∈ cent
     rw [hZcard] at this
     have h9' : Nat.card (P : Subgroup Γ) = 9 := hPcard
     omega
-  obtain ⟨x, hxP, hxZ⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨x, hxP, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   have hord : orderOf x = 3 := by
     have hdvd : orderOf x ∣ 9 := by
       have := Subgroup.orderOf_dvd_natCard (P : Subgroup Γ) hxP

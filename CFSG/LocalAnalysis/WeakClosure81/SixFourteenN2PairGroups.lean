@@ -335,9 +335,9 @@ theorem exists_mulEquiv_perm3_closure {K : Type*} [Group K] {x s : K}
     rw [hsx] at h1
     have := congrArg (fun t => t * x⁻¹) h1
     simpa [pow_two, mul_assoc] using this
-  haveI : Finite ↥A := by
+  have : Finite ↥A := by
     by_contra hfin
-    haveI : Infinite ↥A := not_finite_iff_infinite.mp hfin
+    have : Infinite ↥A := not_finite_iff_infinite.mp hfin
     have h0 : Nat.card ↥A = 0 := Nat.card_eq_zero_of_infinite
     omega
   obtain ⟨ψ⟩ := CFSG.Quasithin.SBd.nonempty_mulEquiv_perm_three_of_card_six hcard hnc

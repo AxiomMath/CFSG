@@ -53,7 +53,7 @@ theorem pairTEquiv_apply (h : PairCore H B T U) (h' : PairCore H' B' T' U')
     (hT : ∀ b : ↥B, (b : G) ∈ T ↔ ((lam b : ↥B') : G') ∈ T') (t : ↥(T.subgroupOf H)) :
     (((pairTEquiv h h' lam hT t : ↥(T'.subgroupOf H')) : ↥H') : G') =
       ((lam ⟨((t : ↥H) : G), h.T_le_B t.2⟩ : ↥B') : G') := by
-  simp only [pairTEquiv, MulEquiv.trans_apply, restrictEquiv_apply]
+  simp only [pairTEquiv, MulEquiv.trans_apply]
   rfl
 
 theorem exists_pair_action_lift [Finite G] [Finite G']
@@ -69,8 +69,8 @@ theorem exists_pair_action_lift [Finite G] [Finite G']
   let f' := nuHom h'.U_normal e'
   have hz : z ∈ Subgroup.center ↥H := zH_mem_center h e
   have hz' : z' ∈ Subgroup.center ↥H' := zH_mem_center h' e'
-  letI : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center z hz
-  letI : (Subgroup.zpowers z').Normal := normal_zpowers_of_mem_center z' hz'
+  let : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center z hz
+  let : (Subgroup.zpowers z').Normal := normal_zpowers_of_mem_center z' hz'
   have hk : f.ker = Subgroup.zpowers z := by
     ext x
     exact nu_eq_one_iff_mem_zpowers h h.U_normal e x

@@ -63,6 +63,7 @@ theorem uc22r3e5_normalizerMonoidHom_mem_range_of_mem_innerOn {Q : Type} [Group 
   rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
   exact (hgy x x.2).symm
 
+omit [Finite G] in
 theorem uc22r3e5_barImage_map_conj {M L : Subgroup G} {m : ↥M} :
     barImage M (L.map (MulAut.conj (m : G)).toMonoidHom) =
       (barImage M L).map (MulAut.conj (uc22p21cPi M m)).toMonoidHom := by
@@ -96,6 +97,7 @@ theorem uc22r3e5_barImage_map_conj {M L : Subgroup G} {m : ↥M} :
       rw [MulAut.conj_apply, ← map_inv, ← map_mul, ← map_mul]
       exact congrArg (uc22p21cPi M) (Subtype.ext rfl)
 
+omit [Finite G] in
 theorem uc22r3e5_conjSetOf_barImage {M L : Subgroup G} :
     conjSetOf (⊤ : Subgroup (Bar2 M)) (barImage M L) = barImage M '' conjSetOf M L := by
   ext P
@@ -108,6 +110,7 @@ theorem uc22r3e5_conjSetOf_barImage {M L : Subgroup G} :
     exact ⟨uc22p21cPi M ⟨m, hm⟩, Subgroup.mem_top _,
       (uc22r3e5_barImage_map_conj (M := M) (L := L) (m := ⟨m, hm⟩))⟩
 
+omit [Finite G] in
 theorem uc22r3e5_conjSetOf_barImage_L {M L K : Subgroup G}
     (hset : conjSetOf M L = {L, K}) :
     conjSetOf (⊤ : Subgroup (Bar2 M)) (barImage M L) = {barImage M L, barImage M K} := by
@@ -115,6 +118,7 @@ theorem uc22r3e5_conjSetOf_barImage_L {M L K : Subgroup G}
   ext P
   simp
 
+omit [Finite G] in
 theorem uc22r3e5_conjSetOf_barImage_K {M L K : Subgroup G}
     (hset : conjSetOf M L = {L, K}) :
     conjSetOf (⊤ : Subgroup (Bar2 M)) (barImage M K) = {barImage M L, barImage M K} := by
@@ -123,6 +127,7 @@ theorem uc22r3e5_conjSetOf_barImage_K {M L K : Subgroup G}
   ext P
   simp
 
+omit [Finite G] in
 theorem uc22r3e5_map_conj_pair_L {M L K : Subgroup G}
     (hset : conjSetOf M L = {L, K}) (g : Bar2 M) :
     (barImage M L).map (MulAut.conj g).toMonoidHom = barImage M L ∨
@@ -132,6 +137,7 @@ theorem uc22r3e5_map_conj_pair_L {M L K : Subgroup G}
   rw [uc22r3e5_conjSetOf_barImage_L hset] at h
   simpa using h
 
+omit [Finite G] in
 theorem uc22r3e5_map_conj_pair_K {M L K : Subgroup G}
     (hset : conjSetOf M L = {L, K}) (g : Bar2 M) :
     (barImage M K).map (MulAut.conj g).toMonoidHom = barImage M L ∨
@@ -162,6 +168,7 @@ theorem uc22r3e5_innerOn_conj_mem {Q : Type} [Group Q] {F Z : Subgroup Q} {n g :
     _ = g * (z * (g⁻¹ * x * g) * z⁻¹) * g⁻¹ := by rw [h1]
     _ = (g * z * g⁻¹) * x * (g * z * g⁻¹)⁻¹ := by group
 
+omit [Finite G] in
 theorem uc22r3e5_pairKernel_normal {M L K : Subgroup G}
     (hset : conjSetOf M L = {L, K}) :
     (uc22r3e5_innerOn (barImage M L) ⊓ uc22r3e5_innerOn (barImage M K)).Normal := by
@@ -224,6 +231,7 @@ theorem uc22r3e5_perm_pair {Q : Type} [Group Q] {F₀ F₁ : Subgroup Q}
   · exact Or.inr ⟨h₀, h₁⟩
   · exact absurd (hinj (h₀.trans h₁.symm)) hne
 
+omit [Finite G] in
 theorem uc22r3e5_pair_perm {M L K : Subgroup G} (hset : conjSetOf M L = {L, K}) :
     ∀ g : Bar2 M,
       ((barImage M L).map (MulAut.conj g).toMonoidHom = barImage M L ∧
@@ -448,7 +456,7 @@ theorem uc22r3e5_isSolvable_normalizer_sylow {X : Type} [Group X] [Finite X]
     exact Nat.odd_iff.2 (by omega)
   have : Group.IsSolvable ↥(((Q : Subgroup X)).subgroupOf NQ) :=
     CFSG.GorensteinWalter.isSolvable_of_isPGroup
-      (Q.isPGroup'.comap_of_injective NQ.subtype NQ.subtype_injective)
+      (Q.isPGroup.comap_of_injective NQ.subtype NQ.subtype_injective)
   have : Group.IsSolvable (↥NQ ⧸ ((Q : Subgroup X)).subgroupOf NQ) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   exact Group.isSolvable_of_ker_le_range (((Q : Subgroup X)).subgroupOf NQ).subtype
@@ -509,6 +517,7 @@ private theorem uc22r3e5_exists_solvable_normalizer {M : Subgroup G} {T : Subgro
     exact ⟨(barImage M T).mul_mem ((barImage M T).mul_mem ht hs.1) ((barImage M T).inv_mem ht),
       hF.conj_mem s hs.2 t⟩
 
+omit [Finite G] in
 private theorem uc22r3e5_card_dvd_barPreimage (M : Subgroup G) (N : Subgroup (Bar2 M)) :
     Nat.card ↥N ∣ Nat.card ↥(barPreimage M N) := by
   let ι : ↥(barPreimage M N) →* ↥M := Subgroup.inclusion (uc22p21c_barPreimage_le M N)
@@ -531,6 +540,7 @@ private theorem uc22r3e5_card_dvd_barPreimage (M : Subgroup G) (N : Subgroup (Ba
     ← Subgroup.index_ker (f := φ)]
   exact Subgroup.index_dvd_card _
 
+omit [Finite G] in
 private theorem uc22r3e5_mem_of_sup_eq_top {M : Subgroup G} {F N : Subgroup (Bar2 M)}
     [hF : F.Normal] (hsup : N ⊔ F = ⊤) {p : ℕ} (hpp : p.Prime) {x : Bar2 M}
     (hxp : x ^ p = 1) (hpN : ¬ p ∣ Nat.card ↥N) : x ∈ F := by

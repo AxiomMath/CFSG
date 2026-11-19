@@ -25,7 +25,7 @@ theorem treeGauge_eq_of_ne_root {ι : Type*} [DecidableEq ι] (c : ι → ι →
     (hi : i ≠ root) :
     treeGauge c par root depth hdepth i =
       -(treeGauge c par root depth hdepth (par i)) * c i (par i) := by
-  rw [treeGauge.eq_1, dif_neg hi]
+  rw [treeGauge.eq_1, dite_eq_right hi]
 
 theorem treeGauge_eq_one_or_neg_one {ι : Type*} [DecidableEq ι] (A c : ι → ι → ℤ) (par : ι → ι)
     (root : ι) (depth : ι → ℕ) (hdepth : ∀ i, i ≠ root → depth (par i) < depth i)

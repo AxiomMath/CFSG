@@ -32,7 +32,7 @@ theorem k37G_isQuasisimple_open {K E S : Subgroup X} (h : K37Setting X K E S) :
 
 theorem k37G_le_normalizer {K E S : Subgroup X} (h : K37Setting X K E S) :
     E ≤ Subgroup.normalizer (K : Set X) := by
-  haveI := h.normal
+  have := h.normal
   rw [Subgroup.normalizer_eq_top_iff.2 h.normal]
   exact le_top
 

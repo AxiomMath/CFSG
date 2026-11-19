@@ -81,7 +81,7 @@ theorem exists_pairing_eq_one_and_ne_zero_ne_one {K N : Type*} [Field K]
 
 theorem add_of_add_of_form_ne_zero {K N V : Type*} [Field K] [Finite K] [CharP K 2]
     [AddCommGroup N] [Module K N] [FiniteDimensional K N] [AddCommGroup V] [Module K V]
-    {B : LinearMap.BilinForm K N} (hB : B.IsAlt) (hBnd : B.Nondegenerate)
+    {B : LinearMap.BilinForm K N} (_hB : B.IsAlt) (hBnd : B.Nondegenerate)
     (hq : 4 ≤ Nat.card K) (F : N → V) (h0 : F 0 = 0)
     (hadd : ∀ x y, B x y ≠ 0 → F (x + y) = F x + F y) (x y : N) :
     F (x + y) = F x + F y := by

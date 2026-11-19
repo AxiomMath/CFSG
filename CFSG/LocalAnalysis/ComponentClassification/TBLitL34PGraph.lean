@@ -61,7 +61,7 @@ theorem false_of_graph
   set ψ := imageHom hLK q with hψ
   have hψC : ∀ s, ψ s ∈ C₃ := fun s => range_imageHom_le hLK hβN hLβ hqS hβ ⟨s, rfl⟩
   have hW : IsPGroup 2 (((Q : Subgroup ↥L).map ψ).subgroupOf C₃) :=
-    ((Q.isPGroup').map ψ).comap_subtype
+    ((Q.isPGroup).map ψ).comap_subtype
   obtain ⟨P, hWP⟩ := hW.exists_le_sylow
   have hZ0card : Nat.card (Z0.subgroupOf C₃) = 2 ^ (Nat.card ↥C₃).factorization 2 := by
     rw [card_C₃, factorization_sixty_two,
@@ -106,7 +106,7 @@ theorem false_of_graph
     have hQxK : Qx ≤ K := by
       rintro _ ⟨u, -, rfl⟩
       exact hLK u.2
-    have hQx2 : IsPGroup 2 Qx := (Q.isPGroup').map L.subtype
+    have hQx2 : IsPGroup 2 Qx := (Q.isPGroup).map L.subtype
     have hmem : ((s * t * s⁻¹ * t⁻¹ : ↥L) : X) ∈ Qx :=
       ⟨_, (Q : Subgroup ↥L).mul_mem ((Q : Subgroup ↥L).mul_mem
         ((Q : Subgroup ↥L).mul_mem hs ht) ((Q : Subgroup ↥L).inv_mem hs))

@@ -41,10 +41,10 @@ theorem rank_nsMat_sub_one (ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r) (C : Matr
       · by_cases hij : i = j
         · have hCi : C ^ k j = 1 := hij ▸ h0 i hiT
           simp [hN, SLNS.nsCore, Matrix.blockDiagonal_apply, Matrix.one_apply, hij, hCi]
-        · simp [hN, SLNS.nsCore, Matrix.blockDiagonal_apply, Matrix.one_apply, hij]
-      · simp [hN, SLNS.nsCore, Matrix.one_apply]
+        · simp [hN, SLNS.nsCore, Matrix.blockDiagonal_apply, hij]
+      · simp [hN, SLNS.nsCore]
     · rcases y with y | y
-      · simp [hN, SLNS.nsCore, Matrix.one_apply]
+      · simp [hN, SLNS.nsCore]
       · simp [hN, SLNS.nsCore, Matrix.one_apply]
   ·
     set g : Fin e × {i // i ∈ T} → (Fin e × Fin s) ⊕ Fin r := fun p => Sum.inl (p.1, p.2.1)
@@ -55,7 +55,7 @@ theorem rank_nsMat_sub_one (ε : Fin n ≃ (Fin e × Fin s) ⊕ Fin r) (C : Matr
       · subst hij
         simp [hg, hN, SLNS.nsCore, Matrix.blockDiagonal_apply, Matrix.one_apply]
       · have hij' : i.1 ≠ j.1 := fun h => hij (Subtype.ext h)
-        simp [hg, hN, SLNS.nsCore, Matrix.blockDiagonal_apply, Matrix.one_apply, hij, hij']
+        simp [hg, hN, SLNS.nsCore, Matrix.blockDiagonal_apply, hij, hij']
     have hdet : (Matrix.blockDiagonal fun i : {i // i ∈ T} => C ^ k i.1 - 1).det ≠ 0 := by
       rw [Matrix.det_blockDiagonal]
       refine Finset.prod_ne_zero_iff.mpr fun i _ => ?_

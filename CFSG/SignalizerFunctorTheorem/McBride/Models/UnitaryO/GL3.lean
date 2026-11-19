@@ -58,7 +58,7 @@ theorem isMulCommutative_of_isPGroup_of_not_dvd_index {r : ℕ} [Fact r.Prime]
     (hP : IsPGroup r P) : IsMulCommutative P := by
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow r A))
-  have hT' : IsPGroup r ((T : Subgroup A).map A.subtype) := T.isPGroup'.map A.subtype
+  have hT' : IsPGroup r ((T : Subgroup A).map A.subtype) := T.isPGroup.map A.subtype
   have hidx : ¬ r ∣ ((T : Subgroup A).map A.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Fact.out T.not_dvd_index hA

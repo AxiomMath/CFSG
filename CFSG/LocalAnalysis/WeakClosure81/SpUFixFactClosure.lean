@@ -17,7 +17,7 @@ theorem le_of_mem_rootSpan [Finite L] (G : SpUFixGeom L R F V) {Sy : Subgroup L}
     (hSy : ∃ P : Sylow 2 L, (P : Subgroup L) = Sy) {s : V} (hs : s ∈ G.rootSpan Sy)
     (hs0 : s ≠ 0) : G.X s ≤ Sy := by
   obtain ⟨P, rfl⟩ := hSy
-  have hSy2 : IsPGroup 2 (P : Subgroup L) := P.isPGroup'
+  have hSy2 : IsPGroup 2 (P : Subgroup L) := P.isPGroup
   let T : Set L := {x | ∃ v ∈ G.rootSpan (P : Subgroup L), v ≠ 0 ∧ x ∈ G.X v}
   let E : Subgroup L := Subgroup.closure T
   have hgen_comm : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x := by

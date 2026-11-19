@@ -78,7 +78,7 @@ theorem pump_tail_g4 {X : Type} [Group X] [Finite X] (hX : Gen4 X)
     intro P
     let P' : Subgroup X :=
       (((P : Subgroup ↥(fixSub (zpowers y))).map (fixSub (zpowers y)).subtype)).map J.subtype
-    have hP'2 : IsPGroup 2 ↥P' := (P.isPGroup'.map (fixSub (zpowers y)).subtype).map J.subtype
+    have hP'2 : IsPGroup 2 ↥P' := (P.isPGroup.map (fixSub (zpowers y)).subtype).map J.subtype
     have hP'c : P' ≤ centralizer ({x'} : Set X) := by
       rintro _ ⟨_, ⟨p, hp, rfl⟩, rfl⟩
       rw [Subgroup.mem_centralizer_singleton_iff]

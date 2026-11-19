@@ -43,6 +43,7 @@ open Matrix CFSG.Open CFSG.CGT.Timmesfeld75
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 private lemma exists_pow_eq_one_ne_one {q : ℕ} (hK : Nat.card K = q ^ 2) (hq : 2 ≤ q) :
     ∃ a : K, a ^ (q + 1) = 1 ∧ a ≠ 1 := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
@@ -90,10 +91,11 @@ private def permGL (σ : Equiv.Perm (Fin 3)) : GL (Fin 3) K :=
     rw [Matrix.det_permutation]
     rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h
     · rw [h]
-      simpa using (one_ne_zero : (1 : K) ≠ 0)
+      simp
     · rw [h]
-      simpa using (neg_ne_zero.mpr (one_ne_zero : (1 : K) ≠ 0)))
+      simp)
 
+omit [Finite K] [CharP K 2] in
 private lemma diag1_mem_statedSU {q : ℕ} (hq : 2 ≤ q) {a : K} (ha : a ≠ 0)
     (haq : a ^ (q + 1) = 1) : diag1 a ha ∈ StatedSU 3 q K := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -106,8 +108,9 @@ private lemma diag1_mem_statedSU {q : ℕ} (hq : 2 ≤ q) {a : K} (ha : a ≠ 0)
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.diagonal,
-        Fin.sum_univ_three, ← pow_succ, haq, inv_pow, hq0]
+        ← pow_succ, haq, inv_pow, hq0]
 
+omit [Finite K] [CharP K 2] in
 private lemma diag2_mem_statedSU {q : ℕ} (hq : 2 ≤ q) {a : K} (ha : a ≠ 0)
     (haq : a ^ (q + 1) = 1) : diag2 a ha ∈ StatedSU 3 q K := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -120,8 +123,9 @@ private lemma diag2_mem_statedSU {q : ℕ} (hq : 2 ≤ q) {a : K} (ha : a ≠ 0)
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.diagonal,
-        Fin.sum_univ_three, ← pow_succ, haq, inv_pow, hq0]
+        ← pow_succ, haq, inv_pow, hq0]
 
+omit [Finite K] in
 private lemma permGL_mem_statedSU {q : ℕ} (hq : 2 ≤ q) (σ : Equiv.Perm (Fin 3)) :
     permGL (K := K) σ ∈ StatedSU 3 q K := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -140,26 +144,28 @@ private lemma permGL_mem_statedSU {q : ℕ} (hq : 2 ≤ q) (σ : Equiv.Perm (Fin
       Matrix.permMatrix_one]
 
 
+omit [Finite K] [CharP K 2] in
 private lemma diag1_mulVec (a : K) (ha : a ≠ 0) (u : Fin 3 → K) :
     (diag1 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ u =
       fun i => ![a, a⁻¹, (1 : K)] i * u i := by
   ext i
   simp [diag1, Matrix.mulVec_diagonal]
 
+omit [Finite K] [CharP K 2] in
 private lemma diag2_mulVec (a : K) (ha : a ≠ 0) (u : Fin 3 → K) :
     (diag2 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ u =
       fun i => ![a, (1 : K), a⁻¹] i * u i := by
   ext i
   simp [diag2, Matrix.mulVec_diagonal]
 
+omit [Finite K] in
 private lemma diag_sub_formula {a : K} (ha : a ≠ 0) (u : Fin 3 → K) :
     (diag1 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ
         ((diag2 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ u) -
       (diag1 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ u -
       (diag2 a ha : Matrix (Fin 3) (Fin 3) K) *ᵥ u + u =
       ((a + 1) ^ 2 * u 0) • (Pi.single 0 (1 : K)) := by
-  simp only [diag1_mulVec, diag2_mulVec, Pi.sub_apply, Pi.add_apply, Pi.smul_apply,
-    Pi.single_apply, smul_eq_mul]
+  simp only [diag1_mulVec, diag2_mulVec]
   ext i
   fin_cases i <;> simp
   · have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -179,7 +185,7 @@ private theorem single_zero_mem_of_statedSU_invariant {q : ℕ}
   have ha0 : a ≠ 0 := by
     intro h
     rw [h] at haq
-    simp [show q + 1 ≠ 0 by omega] at haq
+    simp at haq
   have hD1 := diag1_mem_statedSU hq ha0 haq
   have hD2 := diag2_mem_statedSU hq ha0 haq
   obtain ⟨j, hj⟩ : ∃ j, u j ≠ 0 := by
@@ -220,6 +226,7 @@ private theorem single_zero_mem_of_statedSU_invariant {q : ℕ}
     rwa [smul_smul, inv_mul_cancel₀ hc, one_smul] at h
   exact he0
 
+omit [Finite K] in
 private theorem single_mem_of_statedSU_invariant {q : ℕ} (hq : 2 ≤ q)
     (U : Submodule K (Fin 3 → K))
     (hU : ∀ x ∈ StatedSU 3 q K, ∀ u ∈ U,
@@ -237,11 +244,11 @@ private theorem single_mem_of_statedSU_invariant {q : ℕ} (hq : 2 ≤ q)
   rw [Matrix.permMatrix_mulVec]
   by_cases hk : k = i
   · subst hk
-    simp [τ, Pi.single_apply, Equiv.swap_apply_def]
+    simp [τ]
   · by_cases hk0 : k = 0
     · subst hk0
-      simp [τ, Pi.single_apply, Equiv.swap_apply_def, Ne.symm hk]
-    · simp [τ, Pi.single_apply, Equiv.swap_apply_def, hk, hk0]
+      simp [τ, Ne.symm hk]
+    · simp [τ, Equiv.swap_apply_def, hk, hk0]
 
 theorem eq_bot_or_eq_top_of_statedSU_invariant {q : ℕ} (hK : Nat.card K = q ^ 2)
     (hq : 2 ≤ q) (U : Submodule K (Fin 3 → K))
@@ -259,6 +266,7 @@ theorem eq_bot_or_eq_top_of_statedSU_invariant {q : ℕ} (hK : Nat.card K = q ^ 
     simpa [Pi.basisFun_apply] using hall i
 
 
+omit [Finite K] [CharP K 2] in
 theorem eq_bot_or_eq_top_of_statedSL_invariant (U : Submodule K (Fin 3 → K))
     (hU : ∀ x ∈ StatedSL 3 K, ∀ u ∈ U,
       (x : Matrix (Fin 3) (Fin 3) K) *ᵥ u ∈ U) :
@@ -279,6 +287,7 @@ theorem eq_bot_or_eq_top_of_statedSL_invariant (U : Submodule K (Fin 3 → K))
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 private theorem exists_stabilizer_of_quotient_data {H : Subgroup (GL (Fin 3) K)}
     (Z : Subgroup H)
     (hZscalar : ∀ z ∈ Z, ∃ c : K,
@@ -405,7 +414,7 @@ private theorem kiInsp_statedProj_SL (T : Subgroup (StatedProj (StatedSL 3 K)))
   kiInsp_of_quotient (H := StatedSL 3 K)
     (fun U hU => eq_bot_or_eq_top_of_statedSL_invariant U hU)
     (fun z hz => CFSG.Quasithin.EmptyFaithfulMultiple.F618Comp.pow_three_eq_one_of_scalar
-      (fun A hA => CFSG.Open.StatedAPI.det_of_mem_statedSL hA) z hz)
+      (fun _A hA => CFSG.Open.StatedAPI.det_of_mem_statedSL hA) z hz)
     T hT g
 
 private theorem kiInsp_statedProj_SU {q : ℕ} (hq : 2 ≤ q) (hK : Nat.card K = q ^ 2)
@@ -415,7 +424,7 @@ private theorem kiInsp_statedProj_SU {q : ℕ} (hq : 2 ≤ q) (hK : Nat.card K =
   kiInsp_of_quotient (H := StatedSU 3 q K)
     (fun U hU => eq_bot_or_eq_top_of_statedSU_invariant hK hq U hU)
     (fun z hz => CFSG.Quasithin.EmptyFaithfulMultiple.F618Comp.pow_three_eq_one_of_scalar
-      (fun A hA => CFSG.Open.StatedAPI.det_of_mem_statedSU hA) z hz)
+      (fun _A hA => CFSG.Open.StatedAPI.det_of_mem_statedSU hA) z hz)
     T hT g
 
 theorem kiInsp_PSL3 {L : Type} [Group L] {s : ℕ}
@@ -423,13 +432,13 @@ theorem kiInsp_PSL3 {L : Type} [Group L] {s : ℕ}
     (T : Subgroup L) (hT : Assembly.IsElemAbelian 2 T) (g : L) :
     T ⊔ CFSG.CGT.Timmesfeld75.conjSubgroup g T ≠ ⊤ := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hL
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hchar : CharP K 2 := by
     have := Fintype.ofFinite K
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := s) (by rw [← Nat.card_eq_fintype_card, hKcard])
-  letI := hchar
+  let := hchar
   let T' : Subgroup (StatedProj (StatedSL 3 K)) := T.map e.toMonoidHom
   have hT' : Assembly.IsElemAbelian 2 T' := hT.map e.toMonoidHom
   have hmain := kiInsp_statedProj_SL (K := K) T' hT' (e g)
@@ -446,8 +455,8 @@ theorem kiInsp_PSU3 {L : Type} [Group L] {s : ℕ}
     (T : Subgroup L) (hT : Assembly.IsElemAbelian 2 T) (g : L) :
     T ⊔ CFSG.CGT.Timmesfeld75.conjSubgroup g T ≠ ⊤ := by
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hL
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hchar : CharP K 2 := by
     have := Fintype.ofFinite K
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -455,7 +464,7 @@ theorem kiInsp_PSU3 {L : Type} [Group L] {s : ℕ}
     rw [← Nat.card_eq_fintype_card, hKcard]
     calc (2 ^ s) ^ 2 = 2 ^ (s * 2) := by rw [pow_mul]
       _ = 2 ^ (2 * s) := by rw [Nat.mul_comm]
-  letI := hchar
+  let := hchar
   have h2 : 2 ≤ Nat.card K := Finite.one_lt_card
   rw [hKcard] at h2
   have hcard2 : (2 : ℤ) ≤ ((2 ^ s : ℕ) : ℤ) ^ 2 := by exact_mod_cast h2

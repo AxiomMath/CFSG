@@ -18,10 +18,10 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Lifts CFSG.Monster.Visible
 
 private theorem zmod2_cases : ∀ t : ZMod 2, t = 0 ∨ t = 1 := by decide
 
-@[expose] def sW :
+def sW :
     Wv v0 := pairW 2 3 offPair23 0
 
-@[expose] def Uplane :
+def Uplane :
     Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) {wFr, sW}
 
 theorem sW_ne_zero :
@@ -84,15 +84,15 @@ theorem finrank_Uplane :
   rw [range_wFr_sW, Fintype.card_fin] at h
   exact h
 
-@[expose] def uBasis :
+def uBasis :
     Module.Basis (Fin 2) (ZMod 2) Uplane :=
   (Module.Basis.span linearIndependent_wFr_sW).map
     (LinearEquiv.ofEq _ _ (by rw [range_wFr_sW]; rfl))
 
-@[expose] def NU :
+def NU :
     Subgroup (Kstab v0) := wSetStab Uplane
 
-@[expose] def CU :
+def CU :
     Subgroup (Kstab v0) := wFix (Uplane : Set (Wv v0))
 
 theorem mem_NU_of
@@ -124,7 +124,7 @@ theorem CU_le_NU :
 theorem CU_le_Mfr :
     CU ≤ Mfr := fun _ hk => (mem_wFix.1 hk) wFr wFr_mem_Uplane
 
-@[expose] def Cboth : Submodule (ZMod 2) (Fin 24 → ZMod 2) := Ceq ⊓ coordEq 2 3
+def Cboth : Submodule (ZMod 2) (Fin 24 → ZMod 2) := Ceq ⊓ coordEq 2 3
 
 theorem mem_Cboth {x : Fin 24 → ZMod 2} : x ∈ Cboth ↔ x ∈ C ∧ x 0 = x 1 ∧ x 2 = x 3 := by
   rw [Cboth, Submodule.mem_inf, mem_Ceq, mem_coordEq, and_assoc]
@@ -244,7 +244,7 @@ theorem mem_CU_iff
     rw [e, monomial_sW_eq_iff hk']
     exact ⟨hp, (mem_Cboth.1 ha).2.2⟩
 
-@[expose] def cbothForm : Ceq →ₗ[ZMod 2] ZMod 2 :=
+def cbothForm : Ceq →ₗ[ZMod 2] ZMod 2 :=
   ((LinearMap.proj 2 : (Fin 24 → ZMod 2) →ₗ[ZMod 2] ZMod 2) - LinearMap.proj 3).comp Ceq.subtype
 
 theorem B07_mem_Ceq : B 0 + B 7 ∈ Ceq :=
@@ -271,13 +271,13 @@ theorem finrank_Cboth : Module.finrank (ZMod 2) Cboth = 10 := by
   have e := (Submodule.comapSubtypeEquivOfLe (p := Cboth) (q := Ceq) inf_le_left).finrank_eq
   omega
 
-@[expose] def sgnC : C := ⟨B 0 + B 7, C.add_mem (B_mem_C 0) (B_mem_C 7)⟩
+def sgnC : C := ⟨B 0 + B 7, C.add_mem (B_mem_C 0) (B_mem_C 7)⟩
 
 theorem sgnK_mem :
     (QuotientGroup.mk (gO sgnC * PO 1) : OLq) ∈ Kstab v0 :=
   (mk_mem_Kstab_iff_monomial _ _).2 ⟨Ppair.one_mem, B07_mem_Ceq⟩
 
-@[expose] def sgnK :
+def sgnK :
     Kstab v0 := ⟨_, sgnK_mem⟩
 
 theorem sgnK_mem_Mfr :
@@ -297,7 +297,7 @@ theorem sgnK_mem_NU :
   mem_NU_of (by rw [sgnK_wFr]; exact wFr_mem_Uplane)
     (by rw [sgnK_sW]; exact Uplane.add_mem wFr_mem_Uplane sW_mem_Uplane)
 
-@[expose] def resEnd
+def resEnd
     (k : NU) : Module.End (ZMod 2) Uplane :=
   (wAct v0 ((k : Kstab v0)⁻¹)).restrict fun x hx => (NU.inv_mem k.2) x hx
 
@@ -317,13 +317,13 @@ theorem resEnd_one :
   rw [coe_resEnd, Module.End.one_apply, OneMemClass.coe_one, inv_one, wAct_one,
     Module.End.one_apply]
 
-@[expose] def resEndHom :
+def resEndHom :
     NU →* Module.End (ZMod 2) Uplane where
   toFun := resEnd
   map_one' := resEnd_one
   map_mul' := resEnd_mul
 
-@[expose] def resU :
+def resU :
     NU →* (Module.End (ZMod 2) Uplane)ˣ := resEndHom.toHomUnits
 
 theorem coe_resU_apply
@@ -362,7 +362,7 @@ theorem ker_resU :
   · intro h x hx
     exact (fix_inv_iff _ x).2 (mem_wFix.1 h x hx)
 
-@[expose] def glUEquiv :
+def glUEquiv :
     (Module.End (ZMod 2) Uplane)ˣ ≃* GL (Fin 2) (ZMod 2) :=
   Units.mapEquiv (LinearMap.toMatrixAlgEquiv uBasis).toMulEquiv
 
@@ -381,7 +381,7 @@ theorem coe_resU_inv_apply
   congr 1
   rw [Subgroup.coe_inv, inv_inv]
 
-@[expose] def sgnN :
+def sgnN :
     NU := ⟨sgnK, sgnK_mem_NU⟩
 
 theorem T1_ne_one :
@@ -458,12 +458,12 @@ theorem map_CU :
   · intro hx
     exact ⟨⟨x, monoSub_cbothFtwo_le_Kstab hx⟩, (mem_CU_iff _).2 hx, rfl⟩
 
-@[expose] noncomputable def nuwEquivMono :
+noncomputable def nuwEquivMono :
     ↥(NU ⊓ Mfr) ≃* monoSub ceqFtwoHyp :=
   ((NU ⊓ Mfr).equivMapOfInjective (Kstab v0).subtype Subtype.val_injective).trans
     (MulEquiv.subgroupCongr map_NUw)
 
-@[expose] noncomputable def cuEquivMono :
+noncomputable def cuEquivMono :
     CU ≃* monoSub cbothFtwoHyp :=
   (CU.equivMapOfInjective (Kstab v0).subtype Subtype.val_injective).trans
     (MulEquiv.subgroupCongr map_CU)
@@ -484,7 +484,7 @@ theorem alpha_monoProj_surjective : Function.Surjective (alpha.comp (monoProj cb
   rw [MonoidHom.coe_comp]
   exact alpha_surjective.comp (monoProj_surjective cbothFtwoHyp)
 
-@[expose] noncomputable def betaCU :
+noncomputable def betaCU :
     CU →* Equiv.Perm (Fin 5) :=
   (alpha.comp (monoProj cbothFtwoHyp)).comp cuEquivMono.toMonoidHom
 
@@ -515,7 +515,7 @@ theorem natCard_pCore_CU :
     Nat.card (CFSG.pCore 2 CU) = 2 ^ 14 := by
   rw [← ker_betaCU, natCard_ker_betaCU]
 
-@[expose] noncomputable def cuQuotEquiv :
+noncomputable def cuQuotEquiv :
     CU ⧸ CFSG.pCore 2 CU ≃* Equiv.Perm (Fin 5) :=
   (QuotientGroup.quotientMulEquivOfEq ker_betaCU.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective betaCU betaCU_surjective)

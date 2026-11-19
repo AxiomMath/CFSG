@@ -46,7 +46,7 @@ theorem closure_stabilizer_eq_top_of_schreier
     (hS : Subgroup.closure (Set.range S) = ⊤)
     (p : X) (t : X → G)
     (htp : t p = 1)
-    (ht : ∀ x ∈ MulAction.orbit G p, t x • p = x)
+    (_ht : ∀ x ∈ MulAction.orbit G p, t x • p = x)
     (T : Fin n → MulAction.stabilizer G p)
     (hsch : ∀ x ∈ MulAction.orbit G p, ∀ i,
       (t (S i • x))⁻¹ * S i * t x ∈
@@ -73,18 +73,18 @@ theorem closure_stabilizer_eq_top_of_schreier
         exact hsch x hx i)
       (by
         intro x hx
-        simpa using K.one_mem)
+        simp)
       (fun g h _ _ hg hh x hx => by
         have hhx := hh x hx
         have hgx := hg (h • x) (orbit_smul h hx)
         have := K.mul_mem hgx hhx
-        convert this using 1 <;> simp only [mul_smul] <;> group)
+        convert this using 1; simp only [mul_smul]; group)
       (fun g _ hg x hx => by
         have hy : g⁻¹ • x ∈ MulAction.orbit G p := orbit_smul g⁻¹ hx
         have hgy := hg (g⁻¹ • x) hy
         have := K.inv_mem hgy
-        convert this using 1 <;>
-          simp only [smul_smul, mul_inv_cancel, one_smul, mul_inv_rev, inv_inv] <;>
+        convert this using 1;
+          simp only [smul_smul, mul_inv_cancel, one_smul, mul_inv_rev, inv_inv];
           group)
       hg
   apply top_unique

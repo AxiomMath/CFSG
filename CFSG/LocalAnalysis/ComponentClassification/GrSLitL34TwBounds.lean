@@ -17,6 +17,7 @@ open CFSG Subgroup CFSG.ComponentClassification.UnbalancedLayer
 variable {G : Type} [Group G] [Finite G] {a x : G} {J S' W K T : Subgroup G} {t : G}
   {ρ : ↥(normalizer (W : Set G)) →* WrE}
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_of_mul_self {a : G} (ha2 : a * a = 1) :
     IsPGroup 2 (zpowers a) := by
   rintro ⟨h, n, rfl⟩
@@ -24,6 +25,7 @@ private theorem isPGroup_zpowers_of_mul_self {a : G} (ha2 : a * a = 1) :
   simp only [pow_one, Subgroup.coe_pow, OneMemClass.coe_one]
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, pow_two, ha2, one_zpow]
 
+omit [Finite G] in
 private theorem mem_normalizer_zpowers_of_comm (u v : G) (huv : u * v = v * u) :
     u ∈ normalizer ((zpowers v : Subgroup G) : Set G) := by
   have h1 : Commute u v := huv
@@ -45,6 +47,7 @@ private theorem mem_normalizer_zpowers_of_comm (u v : G) (huv : u * v = v * u) :
         _ = v ^ k := h2
     rw [this]; exact zpow_mem (mem_zpowers v) k
 
+omit [Finite G] in
 private theorem isPGroup_sup_two {P : Subgroup G} {a y : G} (hP : IsPGroup 2 P)
     (ha2 : a * a = 1) (hy2 : y * y = 1) (hPa : P ≤ centralizer ({a} : Set G))
     (hPy : P ≤ centralizer ({y} : Set G)) (hay : a * y = y * a) :
@@ -142,7 +145,7 @@ private theorem core (hMax : MaximalTwoComponentInput)
     have hpM : (p : G) ∈ normalizer (W : Set G) := hPM p.2
     have hphi : ((MulAut.conj c⁻¹).toMonoidHom.comp (ρ.comp (Subgroup.inclusion hPM))) p =
         c⁻¹ * ρ ⟨p, hpM⟩ * c := by
-      simp [MulAut.conj_apply]
+      simp
       rfl
     rw [hphi]
     refine mem_inf.mpr ⟨mem_inf.mpr ⟨hconj ⟨p, hpM⟩ hpP', ?_⟩, ?_⟩
@@ -212,7 +215,7 @@ theorem cent_bounds
     have hcomm : ρ ⟨a, haM⟩ * ρ y = ρ y * ρ ⟨a, haM⟩ := by
       rw [← map_mul, ← map_mul]
       exact congrArg ρ (Subtype.ext hya.symm)
-    haveI : Group.IsSolvable ↥C₀ := solvable_centralizer_pair haA hyU
+    have : Group.IsSolvable ↥C₀ := solvable_centralizer_pair haA hyU
       (hρ.mem_wrR _) (hρ.mem_wrR _) hcomm
     let f₀ : ↥H →* WrE := ρ.comp (Subgroup.inclusion hHM)
     have hf₀ : ∀ z, f₀ z ∈ C₀ := by

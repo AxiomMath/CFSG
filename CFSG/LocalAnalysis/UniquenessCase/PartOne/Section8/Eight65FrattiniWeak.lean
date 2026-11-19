@@ -193,7 +193,7 @@ theorem le_normalizer_of_isWeaklyClosedIn_normalizer {G : Type} [Group G] [Finit
   have hH'top : R.subgroupOf P < ⊤ := by
     refine lt_of_le_of_ne le_top (fun h => ?_)
     exact lt_irrefl R (lt_of_lt_of_le hRP (Subgroup.subgroupOf_eq_top.mp h))
-  obtain ⟨g', hg'N, hg'H⟩ := SetLike.exists_of_lt (hnc' _ hH'top)
+  obtain ⟨g', hg'N, hg'H⟩ := _root_.IsConcreteLE.exists_of_lt (hnc' _ hH'top)
   have hgR : ∀ z ∈ Z, (g' : G) * z * (g' : G)⁻¹ ∈ R := by
     intro z hz
     have hzP : z ∈ P := hZP hz

@@ -18,6 +18,7 @@ namespace DeltaSetup
 variable {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.alpha)} {S : Sylow 2 G}
   {U : Subgroup G}
 
+omit [Finite G] in
 theorem conj_mem_D2 (hU : DeltaSetup hC T S U) {z : G} (hzU : z ∈ U) (hz1 : z ≠ 1) (g : G) :
     g * hC.d * g⁻¹ ∈ D ∧ g * (hC.d * z) * g⁻¹ ∈ D ∧
       g * hC.d * g⁻¹ ≠ g * (hC.d * z) * g⁻¹ ∧

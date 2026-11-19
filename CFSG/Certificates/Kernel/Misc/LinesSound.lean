@@ -74,9 +74,9 @@ private theorem lineTabG_get {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} (H
   have e2 : (x * 693 + y) % 693 = y := by omega
   simp only [e1, e2, hP x hx y hy]
   by_cases h : relB PB x y = true
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact lineFG_eq H hx hy
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 theorem lines_sound {U : Array Nat} {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat}
     {PL : Nat → List Nat} (hU : U = UL.toArray) (hp : ptsK UL UP = true)

@@ -38,7 +38,7 @@ private lemma l937z_suu_scalar_step {K : Type} [Field K] {n q : ℕ} (hn : 1 ≤
     ext i j
     by_cases h : i = j
     · subst h; simp
-    · simp [Matrix.diagonal_apply, h]
+    · simp [h]
   rw [hmap, Matrix.scalar_apply, Matrix.scalar_apply, Matrix.diagonal_transpose,
     Matrix.diagonal_mul_diagonal] at h1
   let i : Fin n := ⟨0, hn⟩
@@ -190,7 +190,7 @@ private lemma l937z_suu_pCoreOf_centralizer_eq_bot_of_normal {G : Type*} [Group 
     have h := hS.subgroupOf CG
     convert h using 1
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   have hle : pCoreOf 2 (CG ⊓ S) ≤ pCoreOf 2 CG :=
     l937z_suu_pCoreOf_le_of_normal inf_le_left hN
   have hbot : pCoreOf 2 (CG ⊓ S) = ⊥ := by
@@ -204,7 +204,7 @@ private lemma l937z_suu_exists_unitaryFieldData {K : Type} [Field K] [Finite K] 
     (hK : Nat.card K = q ^ 2) :
     ∃ (p d : ℕ) (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p d K),
       ∀ x : K, h.bar x = x ^ q := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hp, hcardF⟩ := FiniteField.card K (ringChar K)
   let m' : ℕ := m
   have hcardF' : Fintype.card K = (ringChar K) ^ m' := by simpa [m'] using hcardF
@@ -213,7 +213,7 @@ private lemma l937z_suu_exists_unitaryFieldData {K : Type} [Field K] [Finite K] 
   have hsq : q ^ 2 = (ringChar K) ^ m' := hK.symm.trans hcard
   obtain ⟨d, hmd, hq⟩ :=
     CFSG.GroupTheory.CoprimeActionSupport.PrimePowerSquareRoot.exists_exponent hp hsq
-  have hmpos : 0 < m' := by simpa [m'] using m.pos
+  have hmpos : 0 < m' := by simp [m']
   have hd : 1 ≤ d := by omega
   refine ⟨ringChar K, d, ⟨hp, hd, by rw [hcard, hmd]⟩, ?_⟩
   intro x
@@ -228,7 +228,7 @@ private lemma l937z_suu_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q
   apply le_antisymm
   · rw [GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq] at hA
+    rw [Set.mem_ofPred_eq] at hA
     change A ∈ CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
       (CFSG.RankThree.PartOne.KCUnitaryModel.idGram E m)
     rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.mem_primeFormUnitary]
@@ -240,7 +240,7 @@ private lemma l937z_suu_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q
       Matrix.mul_one] using hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hA' := (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.mem_primeFormUnitary.mp hA)
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
         (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) := by
@@ -308,17 +308,17 @@ theorem pCoreSevenTrivial_StatedSU {K : Type} [Field K] [Finite K] [CharP K 2] (
   intro x hx7
   by_cases hn : n = 0
   · subst hn
-    haveI : Subsingleton ↥(StatedSU 0 q K) :=
+    have : Subsingleton ↥(StatedSU 0 q K) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     have h1 : orderOf x = 1 := orderOf_eq_one_iff.mpr (Subsingleton.elim x 1)
     omega
   · have hn1 : 1 ≤ n := Nat.one_le_iff_ne_zero.mpr hn
     obtain ⟨k, hkField, hkFinite, hkCharP, hkcard, t, ht, ⟨ψ⟩⟩ :=
       exists_guFull_equiv_centralizer_statedSp q n hn1 hK
-    letI : Field k := hkField
-    letI : Finite k := hkFinite
-    letI : CharP k 2 := hkCharP
-    haveI : Fintype k := Fintype.ofFinite k
+    let : Field k := hkField
+    let : Finite k := hkFinite
+    let : CharP k 2 := hkCharP
+    have : Fintype k := Fintype.ofFinite k
     let x' : GL (Fin n) K := (x : GL (Fin n) K)
     have hx' : x' ∈ GUFull n q K := statedSU_le_guFull n q x.2
     let xGU : ↥(GUFull n q K) := ⟨x', hx'⟩
@@ -348,7 +348,7 @@ theorem pCoreSevenTrivial_StatedSU {K : Type} [Field K] [Finite K] [CharP K 2] (
       rwa [Subgroup.mem_centralizer_singleton_iff] at hmem
     have hq1 : 1 < q + 1 := by
       have h2 : 2 ≤ Nat.card K := by
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         have h := Fintype.one_lt_card (α := K)
         rw [Nat.card_eq_fintype_card]
         omega
@@ -433,11 +433,11 @@ theorem card_statedScalars_subgroupOf_statedSU_dvd {K : Type} [Field K] [Finite 
     rw [hbot]
     have hbotZ : (⊥ : Subgroup (GL (Fin 0) K)).subgroupOf (StatedSU 0 q K) = ⊥ := by
       ext x
-      simp [Subgroup.mem_subgroupOf]
+      simp
     rw [hbotZ, Subgroup.card_bot]
     exact one_dvd _
   · have hn1 : 1 ≤ n := Nat.one_le_iff_ne_zero.mpr hn
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨m, hp, hcardF⟩ := FiniteField.card K (ringChar K)
     let m' : ℕ := m
     have hcardF' : Fintype.card K = (ringChar K) ^ m' := by simpa [m'] using hcardF
@@ -446,7 +446,7 @@ theorem card_statedScalars_subgroupOf_statedSU_dvd {K : Type} [Field K] [Finite 
     have hsq : q ^ 2 = (ringChar K) ^ m' := hK.symm.trans hcard
     obtain ⟨d, hmd, hq⟩ :=
       CFSG.GroupTheory.CoprimeActionSupport.PrimePowerSquareRoot.exists_exponent hp hsq
-    have hmpos : 0 < m' := by simpa [m'] using m.pos
+    have hmpos : 0 < m' := by simp [m']
     have hd : 1 ≤ d := by omega
     let h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData (ringChar K) d K :=
       ⟨hp, hd, by rw [hcard, hmd]⟩
@@ -489,7 +489,7 @@ theorem card_statedScalars_subgroupOf_statedSU_dvd {K : Type} [Field K] [Finite 
 theorem lieZRow_PSU {K : Type} [Field K] [Finite K] [CharP K 2] (n q : ℕ)
     (hK : Nat.card K = q ^ 2) (h7 : Nat.Coprime 7 (q + 1)) :
     LieZRow (StatedProj (StatedSU n q K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hZ : Nat.Coprime 14
       (Nat.card ↥((StatedScalars (Fin n) K).subgroupOf (StatedSU n q K))) := by
     have hdiv := card_statedScalars_subgroupOf_statedSU_dvd n q hK

@@ -125,7 +125,7 @@ theorem exists_gen {X : Type} [Group X] [Finite X] (K : Subgroup X) [K.Normal]
     (hcard : ∀ T : Subgroup (MulAut ↥K), IsPGroup 2 T → T ⊓ inner ↥K = ⊥ → Nat.card T ≤ 2) :
     ∃ s d₀ : X, sigmaFam D Sd = Subgroup.zpowers s ∧ s ≠ 1 ∧ s ^ 2 = 1 ∧ s ∉ K ∧ d₀ ∈ D ∧
       d₀ ≠ 1 ∧ s ∈ pCoreOf 2 (Subgroup.centralizer ({d₀} : Set X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hρ := rhoK_injective K hcent
   have hSdS : ∀ d ∈ D, d ≠ 1 → Sd d ≤ sigmaFam D Sd := fun d hd hd1 =>
     le_iSup_of_le d (le_iSup_of_le hd (le_iSup_of_le hd1 le_rfl))
@@ -385,7 +385,7 @@ theorem assembly_of_iso (hQ : GoodQ Q) {ε : Bool} {n : ℕ}
     (hsP : s ∈ pCoreOf 2 (Subgroup.centralizer ({d₀} : Set X))) :
     (∃ e : ↥K ≃* ↥(StatedOmega Q), Nat.card (inducedAutGroup S K) = 2 ∧
       ActsLikeTransvection Q S K e) ∧ HasFixedPointFreeOrder ε n p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set θ : X →* MulAut ↥(StatedOmega Q) := (MulAut.congr e₀).toMonoidHom.comp (rhoK K) with hθ
   have hθinj : Function.Injective θ :=
     (MulAut.congr e₀).injective.comp (rhoK_injective K hcent)
@@ -482,7 +482,7 @@ theorem input19_20_3_assembly
   | true =>
     obtain ⟨e₀⟩ := hK
     rcases (show n = 1 ∨ n = 3 ∨ (2 ≤ n ∧ n ≠ 3) by omega) with rfl | rfl | ⟨hn2, hn3⟩
-    · haveI := hs
+    · have := hs
       exact absurd e₀.symm.isSimpleGroup not_isSimpleGroup_statedOmega_plus_two
     · exact OrthAssembly.assembly_of_iso (goodQ_plus (by norm_num)) h2'
         (fun g hg hgΩ a ha => commute_plusEight hg hgΩ a ha)

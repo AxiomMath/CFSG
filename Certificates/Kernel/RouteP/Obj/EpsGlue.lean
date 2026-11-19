@@ -22,7 +22,7 @@ theorem ptT_eq {r x : Nat} (hr : r < 58) (hx : x < 920808) : ptT r x = (gO r ⟨
   rw [gT_apply (lokO (by simp; omega))]
   unfold ptT eL
   beta_reduce
-  rw [if_pos hx, CFSG.KS.Fi24NetPt.ptR_eq, kvB_eq]
+  rw [ite_eq_left hx, CFSG.KS.Fi24NetPt.ptR_eq, kvB_eq]
   rfl
 
 theorem epsK_eq {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]! (gO r)) {p : Nat} (hp : p < 920808) :
@@ -40,7 +40,7 @@ theorem epsK_eq {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]! (gO r
     · subst h0
       refine ⟨epsPt_zero tabs p, ?_⟩
       unfold epsK
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hp
     · have hk0 : 0 < k := Nat.pos_of_ne_zero h0
       have hl := sub_lowBit_lt hk0
@@ -48,7 +48,7 @@ theorem epsK_eq {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]! (gO r
       have hlb := lowBit_lt k
       have hr : epsReg (lowBit k) < 58 := by unfold epsReg; omega
       have e3 : epsK (f + 1) k p = ptT (epsReg (lowBit k)) (epsK f (k - 1 <<< lowBit k) p) := by
-        rw [epsK.eq_2, if_neg h0]
+        rw [epsK.eq_2, ite_eq_right h0]
       have h := hR _ hr (epsK f (k - 1 <<< lowBit k) p) e2
       rw [idx_of_lt _ e2, Perm.smul_def] at h
       have e4 : epsPt tabs p k = (gO (epsReg (lowBit k)) ⟨_, e2⟩).val := by

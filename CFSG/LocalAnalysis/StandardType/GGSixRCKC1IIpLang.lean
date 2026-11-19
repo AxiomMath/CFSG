@@ -69,7 +69,7 @@ theorem rckExc_lang_component_core
       (rw [h] at hG2; exact absurd hG2 (by simp [langTag]))
   have hΦ : IsSteinbergEnd (langTag t) GGL (2 ^ f) (ggPhi t f) :=
     isSteinbergEnd_ggPhi ht f
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   have hfinΦ : Finite ↥(ratPoints (ggPhi t f)) :=
     finite_ratPoints (q := 2 ^ f)
       (Nat.one_lt_pow (n := f) (by omega) (by norm_num : (1 : ℕ) < 2))
@@ -85,7 +85,7 @@ theorem rckExc_lang_component_core
   have hmodel : (ratPoints (ggPhi t f)).map c = D'.model := htransport.1
   have hEtorusD : E.map c ≤ D'.torus := htransport.2
   have hfinD : Finite ↥D'.model := by
-    haveI : Finite ↥(ratPoints (ggPhi t f)) := hfinΦ
+    have : Finite ↥(ratPoints (ggPhi t f)) := hfinΦ
     have hsurj : Function.Surjective (fun x : ↥(ratPoints (ggPhi t f)) =>
         (⟨c x, Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩⟩ :
           ↥((ratPoints (ggPhi t f)).map c))) := by

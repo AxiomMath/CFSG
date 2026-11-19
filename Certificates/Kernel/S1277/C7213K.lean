@@ -108,7 +108,7 @@ theorem invCK_eq (c : ℕ) : invCK c = invC c := by
   · subst h2; rfl
   · by_cases h3 : c = 3
     · subst h3; rfl
-    · rw [beq_false_ofK h2, beq_false_ofK h3, if_neg h2, if_neg h3]
+    · rw [beq_false_ofK h2, beq_false_ofK h3, ite_eq_right h2, ite_eq_right h3]
 
 theorem pnK_eq (v : ℕ) : pnK v = pn v := by
   unfold pnK pn
@@ -119,12 +119,12 @@ theorem pnK_eq (v : ℕ) : pnK v = pn v := by
   rw [e1, e2, e3]
   by_cases h1 : v &&& 3 = 0
   · have b1 : Nat.beq (v &&& 3) 0 = true := Nat.beq_eq_true_eq _ _ ▸ h1
-    rw [b1, if_neg (fun h => h h1)]
+    rw [b1, ite_eq_right (fun h => h h1)]
     by_cases h2 : (v >>> 2) &&& 3 = 0
     · have b2 : Nat.beq ((v >>> 2) &&& 3) 0 = true := Nat.beq_eq_true_eq _ _ ▸ h2
-      rw [b2, if_neg (fun h => h h2)]
-    · rw [beq_false_ofK h2, if_pos h2]
-  · rw [beq_false_ofK h1, if_pos h1]
+      rw [b2, ite_eq_right (fun h => h h2)]
+    · rw [beq_false_ofK h2, ite_eq_left h2]
+  · rw [beq_false_ofK h1, ite_eq_left h1]
 
 theorem beqBK (a b : ℕ) : Nat.beq a b = (a == b) := by
   cases h : Nat.beq a b <;> cases h' : (a == b) <;> simp_all [Nat.beq_eq]

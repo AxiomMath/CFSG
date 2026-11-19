@@ -31,6 +31,7 @@ private def plh_fixSub (V₀ : Submodule (ZMod 2) V) : Subgroup (V ≃ₗ[ZMod 2
     rw [h]
     simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma plh_extEquiv_fix {V₀ W : Submodule (ZMod 2) V} (hPW : IsCompl V₀ W)
     (g : ↥W ≃ₗ[ZMod 2] ↥W) {x : V} (hx : x ∈ V₀) : extEquiv hPW g x = x := by
   have h : x = x + (0 : V) := (add_zero x).symm

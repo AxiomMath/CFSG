@@ -64,7 +64,7 @@ theorem L3Inputs.of_isConj {X : Type*} [Group X] {s t : X} (hst : IsConj s t)
 
 theorem l3Inputs_of_not_dvd {X : Type*} [Group X] [Finite X] {t : X}
     (h : ¬ 3 ^ 3 ∣ Nat.card (Subgroup.centralizer ({t} : Set X))) : L3Inputs t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   constructor
   · intro F hF hFab
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hFab.isPGroup

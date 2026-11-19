@@ -17,8 +17,8 @@ private theorem y7c_order7_fpf_aux {F : Subgroup G} (hF : Nat.card F = 8) {x : G
     (hx : x ^ 7 = 1) (hn : ∀ f ∈ F, x * f * x⁻¹ ∈ F) (hnc : ∃ f ∈ F, x * f * x⁻¹ ≠ f)
     {f : G} (hf : f ∈ F) (hfx : x * f * x⁻¹ = f) : f = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Fintype ↥F := Fintype.ofFinite ↥F
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fintype ↥F := Fintype.ofFinite ↥F
   let g : Function.End ↥F := fun y => ⟨x * (y : G) * x⁻¹, hn (y : G) y.2⟩
   have hg_apply : ∀ y : ↥F, (g y : G) = x * (y : G) * x⁻¹ := fun _ => rfl
   have hiter : ∀ n : ℕ, ∀ y : ↥F, ((g^[n]) y : G) = x ^ n * (y : G) * (x ^ n)⁻¹ := by
@@ -82,6 +82,7 @@ private theorem y7c_order7_fpf_aux {F : Subgroup G} (hF : Nat.card F = 8) {x : G
     omega
   omega
 
+omit [Finite G] in
 private theorem y7c_commutator_self_le (A : Subgroup G) : ⁅A, A⁆ ≤ A := by
   rw [Subgroup.commutator_le]
   intro g₁ h₁ g₂ h₂
@@ -92,15 +93,15 @@ theorem y7c_JF_le_L (s : Setting3 G L) : JF s ≤ L := by
   rw [JF]
   exact (y7c_commutator_self_le (normIn L s.fr.F)).trans inf_le_left
 
-theorem y7c_JF_comm_t (s : Setting3 G L) : ∀ j ∈ JF s, j * s.t = s.t * j :=
-  fun j hj => s3_comm_t_of_mem_L s (y7c_JF_le_L s hj)
+theorem y7c_JF_comm_t (s : Setting3 G L) : ∀ _j ∈ JF s, _j * s.t = s.t * _j :=
+  fun _j hj => s3_comm_t_of_mem_L s (y7c_JF_le_L s hj)
 
 theorem y7c_JF_le_K7 (s : Setting3 G L) : JF s ≤ K7 s := by
   rw [K7]
   refine le_trans ?_ (le_iSup₂_of_le (1 : G) (Subgroup.one_mem _) le_rfl)
   intro j hj
   rw [conjSub, Subgroup.mem_map]
-  exact ⟨j, Subgroup.mem_sup_left hj, by simp [MulAut.conj_apply]⟩
+  exact ⟨j, Subgroup.mem_sup_left hj, by simp⟩
 
 theorem y7c_JF_norm_F (s : Setting3 G L) : ∀ x ∈ JF s, ∀ f ∈ s.fr.F, x * f * x⁻¹ ∈ s.fr.F := by
   intro x hx f hf
@@ -120,7 +121,7 @@ theorem y7c_card_JF {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
 theorem y7c_exists_order7 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     ∃ x ∈ JF s, x ^ 7 = 1 ∧ x ≠ 1 := by
   have h7 : 7 ∣ Nat.card ↥(JF s) := by rw [y7c_card_JF hH]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(JF s)) 7 h7
   refine ⟨(x : G), x.2, ?_, ?_⟩
   · have h : x ^ 7 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
@@ -133,7 +134,7 @@ theorem y7c_exists_order7 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s
 theorem y7c_order7_not_cent {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {x : G}
     (hx : x ∈ JF s) (hx7 : x ^ 7 = 1) (hx1 : x ≠ 1) : ∃ f ∈ s.fr.F, x * f * x⁻¹ ≠ f := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hxL : x ∈ L := y7c_JF_le_L s hx
   have h1 : ∀ f ∈ s.fr.F, x * f = f * x := by
     intro f hf
@@ -175,7 +176,7 @@ theorem y7c_centIn_M3_JF (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     have h2 : x * m = m * x := Subgroup.mem_centralizer_iff.mp hmCent x hxJ
     rw [h2, mul_assoc, mul_inv_cancel, mul_one]
   obtain ⟨hNsub, hP⟩ := (y54_fact c hH).1.2.2.2
-  letI := hNsub
+  let := hNsub
   obtain ⟨φ, hφ⟩ := hP
   let m₀ : ↥(M3 c.s) := ⟨m, hmM3⟩
   have heq := hφ x hxN m₀ m₀ hxm.symm

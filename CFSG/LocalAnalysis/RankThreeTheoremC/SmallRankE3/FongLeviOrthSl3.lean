@@ -17,10 +17,10 @@ theorem orth8_orthogonal_zero_eq_one {F : Type} [Field F] [Finite F] [CharP F 2]
     (hpq : ¬ p ∣ Nat.card F ^ 2 - 1) {m : ℕ} (hm : m = 0)
     {y : ↥(TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm F b c)))}
     (hy : y ^ p = 1) : y = 1 := by
-  haveI : Finite (((Fin m ⊕ Fin m → F) × (Fin 2 → F)) ≃ₗ[F]
+  have : Finite (((Fin m ⊕ Fin m → F) × (Fin 2 → F)) ≃ₗ[F]
       ((Fin m ⊕ Fin m → F) × (Fin 2 → F))) := finite_orthLinearEquiv
   subst hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hy1
   have hord : orderOf y = p := orderOf_eq_prime hy hy1
   have hdvd : p ∣ Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup
@@ -85,9 +85,9 @@ theorem orth8_levi_sl3 {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     LeviSurj p (orthParab 3 (minusTailForm F b c) d) z
       (Matrix.SpecialLinearGroup (Fin 3) F ⧸
         Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) := by
-  haveI : Finite (((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F)) ≃ₗ[F]
+  have : Finite (((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F)) ≃ₗ[F]
       ((Fin 3 ⊕ Fin 3 → F) × (Fin 2 → F))) := finite_orthLinearEquiv
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) := inferInstance
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) := inferInstance
   have hp2 : p ≠ 2 := by omega
   have hnd : ¬ p ∣ Nat.card F - 1 := fong_not_dvd_card_sub_one hpq
   have h0 : 3 - d (Fin.last s) = 0 := by omega

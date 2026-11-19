@@ -63,9 +63,9 @@ theorem noNormalPPrime_centralizer_map {p : ℕ} (π : G →* P) (hπ : Function
   have hZNt : Z ≤ Nt := fun z hz => by
     rw [hNt, Subgroup.mem_comap, MonoidHom.mem_ker.1 hz]
     exact N.one_mem
-  haveI hZnormal : Z.Normal := π.normal_ker
+  have hZnormal : Z.Normal := π.normal_ker
   set Z' : Subgroup Nt := Z.subgroupOf Nt with hZ'
-  haveI : Z'.Normal := Subgroup.Normal.subgroupOf hZnormal Nt
+  have : Z'.Normal := Subgroup.Normal.subgroupOf hZnormal Nt
   set m := Nat.card N with hm
   have hidx : Z'.index = m := by
     have h1 : Z.relIndex Nt = Nat.card (Nt.map π) := Subgroup.relIndex_ker π (K := Nt)
@@ -287,7 +287,7 @@ theorem pow_eq_one_of_eigen_scalar_pow {m : ℕ} (hm0 : m ≠ 0) (hm : (m : K) �
 
 theorem exists_primitiveRoot_two_pow_add_one (h : UnitaryFieldData 2 f K) :
     ∃ ω : K, IsPrimitiveRoot ω (2 ^ f + 1) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
   have hcard : Nat.card Kˣ = (2 ^ f + 1) * (2 ^ f - 1) := by
     rw [Nat.card_units, h.card, two_mul, pow_add]
@@ -453,7 +453,7 @@ variable {K0 : Type} [Field K0]
 theorem pow_nine_of_proj_pow_three (h : UnitaryFieldData 2 3 K0) {g : StatedSU 6 (2 ^ 3) K0}
     (hg : (projH (StatedSU 6 (2 ^ 3) K0) g) ^ 3 = 1) : g ^ 9 = 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hker : (projH (StatedSU 6 (2 ^ 3) K0)).ker = unitaryScalars h 6 :=
     (QuotientGroup.ker_mk' _).trans (unitaryScalars_eq h (n := 6) (by norm_num)).symm
   have hcard : Nat.card (unitaryScalars h 6) = 3 := by
@@ -475,8 +475,8 @@ theorem torus_commute_of_fixed (h : UnitaryFieldData 2 3 K0) {b₁ b₂ : Fin 6 
       (projH _ T) = projH _ T) :
     ((A : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) * (torusMat h b₁ b₂ c).map φ =
       torusMat h b₁ b₂ c * ((A : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) := by
-  haveI := h.finite
-  haveI := h.charP
+  have := h.finite
+  have := h.charP
   by_cases hc1 : (c : K0) = 1
   · have h1 : torusMat h b₁ b₂ c = 1 := by rw [hc1]; exact torusMat_one h b₁ b₂
     rw [h1]
@@ -546,7 +546,7 @@ theorem uConjAut_mem_innSub_of_sq (h : UnitaryFieldData 2 3 K0) (A : uU h 6)
     (hA : uConjAut h (by norm_num : 1 ≤ 6) A ^ 2 = 1) :
     uConjAut h (by norm_num : 1 ≤ 6) A ∈ innSub (StatedProj (StatedSU 6 (2 ^ 3) K0)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   set e := uTransport h (by norm_num : 1 ≤ 6) with he
   set x : MulAut (primeFormP h ((1 : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0)) :=
     primeFormConjHom h ((1 : GL (Fin 6) K0) : Matrix (Fin 6) (Fin 6) K0) A with hx
@@ -596,12 +596,12 @@ theorem u6_outer_sq_eq_one (h : UnitaryFieldData 2 3 K0)
   exact orderOf_dvd_iff_pow_eq_one.1 h2
 
 theorem u6_core_centralizer_eq_bot (h : UnitaryFieldData 2 3 K0)
-    {s : StatedProj (StatedSU 6 (2 ^ 3) K0)} (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
+    {s : StatedProj (StatedSU 6 (2 ^ 3) K0)} (hs3 : s ^ 3 = 1) (_hs1 : s ≠ 1) :
     GLAPPrimeCoreOf 3 (Subgroup.centralizer ({s} : Set (StatedProj (StatedSU 6 (2 ^ 3) K0)))) =
       ⊥ := by
   classical
-  haveI := h.finite
-  clear hs1
+  have := h.finite
+  clear _hs1
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective s
   set π : StatedSU 6 (2 ^ 3) K0 →* StatedProj (StatedSU 6 (2 ^ 3) K0) := projH _ with hπ
   have hker : π.ker = unitaryScalars h 6 :=
@@ -625,19 +625,19 @@ theorem u6_core_centralizer_eq_bot (h : UnitaryFieldData 2 3 K0)
   exact W2.core_eq_bot_of_noNormalPPrime Nat.prime_three hN'
 
 theorem u6_exists_moved_of_outer (h : UnitaryFieldData 2 3 K0)
-    {s : StatedProj (StatedSU 6 (2 ^ 3) K0)} (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
+    {s : StatedProj (StatedSU 6 (2 ^ 3) K0)} (hs3 : s ^ 3 = 1) (_hs1 : s ≠ 1)
     {τ : MulAut (StatedProj (StatedSU 6 (2 ^ 3) K0))} (hτ : τ ^ 2 = 1)
     (hτi : τ ∉ innSub (StatedProj (StatedSU 6 (2 ^ 3) K0))) :
     ∃ t : StatedProj (StatedSU 6 (2 ^ 3) K0), s * t = t * s ∧ τ t ≠ t := by
   classical
-  haveI := h.finite
-  clear hs1
+  have := h.finite
+  clear _hs1
   by_contra hno
   push Not at hno
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective s
   have hg9 : g ^ (2 ^ 3 + 1) = 1 := pow_nine_of_proj_pow_three h hs3
   obtain ⟨ω, hω⟩ := exists_primitiveRoot_two_pow_add_one h
-  haveI : NeZero (2 ^ 3 + 1) := ⟨by norm_num⟩
+  have : NeZero (2 ^ 3 + 1) := ⟨by norm_num⟩
   let X : primeFormUnitary h (idGram K0 6) := ⟨(g : GL (Fin 6) K0), statedSU_le_uU h g.2⟩
   have hX : X ^ (2 ^ 3 + 1) = 1 := by
     apply Subtype.ext
@@ -663,7 +663,7 @@ theorem u6_exists_moved_of_outer (h : UnitaryFieldData 2 3 K0)
     have hfix := hno _ hcomm
     rw [hτ'] at hfix
     exact torus_commute_of_fixed h hp A φ hc (T := Tsu) rfl hfix
-  have h01 : (⟨0, by norm_num⟩ : Fin 6) ≠ ⟨1, by norm_num⟩ := by simp [Fin.ext_iff]
+  have h01 : (⟨0, by norm_num⟩ : Fin 6) ≠ ⟨1, by norm_num⟩ := by simp
   have h02 : (⟨0, by norm_num⟩ : Fin 6) ≠ ⟨2, by norm_num⟩ := by simp [Fin.ext_iff]
   have h12 : (⟨1, by norm_num⟩ : Fin 6) ≠ ⟨2, by norm_num⟩ := by simp [Fin.ext_iff]
   have hφ : φ = RingEquiv.refl K0 :=
@@ -693,8 +693,8 @@ theorem u6_fieldCoreAt (h : UnitaryFieldData 2 3 K0) {σ : K0 ≃+* K0} (hσ : o
 theorem u6_innerOneBalanceThree (h : UnitaryFieldData 2 3 K0) :
     InnerOneBalanceThree (StatedProj (StatedSU 6 (2 ^ 3) K0)) := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcen : Subgroup.center (StatedProj (StatedSU 6 (2 ^ 3) K0)) = ⊥ :=
     ka_center_bot_pu (p := 2) (f := 3) (by rw [h.card]; norm_num) (by norm_num) (by norm_num)
   have hinj : Function.Injective (MulAut.conj : StatedProj (StatedSU 6 (2 ^ 3) K0) →*

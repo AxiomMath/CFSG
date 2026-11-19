@@ -54,7 +54,7 @@ open Classical in
 @[expose] noncomputable def rhoG (y : G) : GL2 × GL2 :=
   if h : y ∈ S.N then S.rho ⟨y, h⟩ else 1
 
-theorem rhoG_of_mem {y : G} (h : y ∈ S.N) : S.rhoG y = S.rho ⟨y, h⟩ := dif_pos h
+theorem rhoG_of_mem {y : G} (h : y ∈ S.N) : S.rhoG y = S.rho ⟨y, h⟩ := dite_eq_left h
 
 end HeSetup
 

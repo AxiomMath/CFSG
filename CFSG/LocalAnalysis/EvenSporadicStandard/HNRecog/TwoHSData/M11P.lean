@@ -49,7 +49,7 @@ theorem exists_conj_eq_m11M (hP : Nat.card ↥P1408 = 177408000) {E_P : Subgroup
     (hE : ∀ x : ↥P1408, x ∈ E_P ↔ (x : Equiv.Perm (Fin 1408)) ∈ blocks1408)
     (M : Subgroup ↥P1408) (hM : TwoHSData.IsM11Like ↥M) :
     ∃ g : ↥P1408, M = m11M.map (MulAut.conj g).toMonoidHom := by
-  haveI := hEn
+  have := hEn
   obtain ⟨-, -, -, -, -, -, -, -, hBn, hZ₁n⟩ := twoHSBasic_spec
   obtain ⟨hconj, hz, haz⟩ := m11_classes hP
   have hn1 : pN1 * pY0 * pN1⁻¹ ∈ zpowers pY0 := by
@@ -58,8 +58,8 @@ theorem exists_conj_eq_m11M (hP : Nat.card ↥P1408 = 177408000) {E_P : Subgroup
     exact pow_mem (mem_zpowers pY0) 7
   have hsyl : ∀ t : ↥P1408, orderOf t = 11 → ∃ x : ↥P1408, x⁻¹ * t * x ∈ zpowers pY0 := by
     intro t ht
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-    haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
     have hS : Nat.card (zpowers pY0) = 11 ^ (Nat.card (⊤ : Subgroup ↥P1408)).factorization 11 := by
       rw [Nat.card_zpowers, orderOf_pY0, Subgroup.card_top, hP, factorization_card_P1408_eleven,
         pow_one]
@@ -109,7 +109,7 @@ theorem m11_centralizer_five_P (hP : Nat.card ↥P1408 = 177408000)
     (hE : ∀ x : ↥P1408, x ∈ E_P ↔ (x : Equiv.Perm (Fin 1408)) ∈ blocks1408)
     (M : Subgroup ↥P1408) (hM : IsSporadic ↥M .M11) (ρ : ↥P1408) (hρM : ρ ∈ M)
     (hρ : orderOf ρ = 5) : IsShapeCentralizerFiveB ↥(centralizer ({ρ} : Set ↥P1408)) := by
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   obtain ⟨e⟩ := nonempty_mulEquiv_m11K
   have hNat : TwoHSData.IsM11Like (Carrier .M11) := isM11Like_m11K.of_mulEquiv e
   obtain ⟨f⟩ := hM

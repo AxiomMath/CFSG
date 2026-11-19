@@ -225,7 +225,7 @@ theorem exists_nonabelian_of_sq_cube (hA : Nat.card A ≤ p ^ 3) {X : Subgroup (
   obtain ⟨P₀⟩ : Nonempty (Sylow s Et) := inferInstance
   set P : Subgroup X := (P₀ : Subgroup Et).map Et.subtype with hP
   have hPEt : P ≤ Et := Subgroup.map_subtype_le _
-  have hPs : IsPGroup s P := P₀.isPGroup'.map _
+  have hPs : IsPGroup s P := P₀.isPGroup.map _
   have hPc : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := hab P hPs hPEt
   let πE : Et →* E := (π.comp Et.subtype).codRestrict E fun y => y.2
   have hπE : Function.Surjective πE := by

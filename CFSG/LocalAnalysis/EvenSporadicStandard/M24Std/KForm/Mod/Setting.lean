@@ -149,8 +149,8 @@ theorem eq_one_or_eq_t [Finite G] (h : ModData t B₀ ψ) {c : G}
 theorem le_zpowers_of_normal_two [Finite G] (h : ModData t B₀ ψ)
     {P : Subgroup ↥(centralizer ({t} : Set G))} [P.Normal] (hP : IsPGroup 2 P) :
     ∀ p ∈ P, (p : G) ∈ zpowers t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite B := Finite.of_surjective (phi ψ) (phi_surjective h)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite B := Finite.of_surjective (phi ψ) (phi_surjective h)
   let N : Subgroup B := P.map (phi ψ)
   have hNnormal : N.Normal := (inferInstance : P.Normal).map (phi ψ) (phi_surjective h)
   have hNpgroup : IsPGroup 2 N := hP.map (phi ψ)

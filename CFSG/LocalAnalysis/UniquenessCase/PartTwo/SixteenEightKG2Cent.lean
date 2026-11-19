@@ -40,9 +40,9 @@ theorem s16k_centralizer_g2_trivial {Q : Type} [CommGroup Q] {L' : Subgroup (Mul
 theorem s16k_b42TypeU33_of_g2 (hU : S16kG2IsU33) {Q : Type} [CommGroup Q]
     {L' : Subgroup (MulAut Q)} (h : G2NaturalDerived L' ⊤ ⊥ 1) : B42TypeU33 ↥L' := by
   obtain ⟨K, hKfield, hKfin, hc, π, hπ⟩ := h
-  letI := hKfield
-  letI := hKfin
-  haveI hchar : CharP K 2 := FFC.charP_two_of_card_pow hc
+  let := hKfield
+  let := hKfin
+  have hchar : CharP K 2 := FFC.charP_two_of_card_pow hc
   have hc2 : Nat.card K = 2 := by rw [hc, pow_one]
   have hΓ : ⁅quasithinG2 K, quasithinG2 K⁆ ≤ quasithinG2 K := by
     rw [Subgroup.commutator_le]

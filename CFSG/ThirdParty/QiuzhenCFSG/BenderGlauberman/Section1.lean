@@ -177,6 +177,7 @@ public lemma sum_monoidHom_ne_one {A : Type u} [Group A] [Fintype A] (χ : A →
     ring
   exact (mul_eq_zero.mp h0).resolve_left (sub_ne_zero.mpr hc)
 
+omit [Fintype G] in
 /-- From `⁅H0,H0⁆ ≤ U` to the quotient-commutativity condition on `H0/U`. -/
 public lemma commutator_le_quotient_comm (H0 U : Subgroup G)
     (hcomm : ⁅H0, H0⁆ ≤ U) : ∀ x y : ↥H0, (x * y) / (y * x) ∈ U.subgroupOf H0 := by
@@ -308,7 +309,7 @@ public lemma dual_sum_zero (H0 U : Subgroup G) [Fintype ↥(LambdaHom H0 U)]
     change LambdaChar b.1 * ν = ν at hb
     have h : LambdaChar (a * b).1 = LambdaChar a.1 * LambdaChar b.1 := by
       ext x
-      simp [LambdaChar, map_mul]
+      simp [LambdaChar]
     rw [h, mul_assoc, hb]
     exact ha
   inv_mem' := by
@@ -317,7 +318,7 @@ public lemma dual_sum_zero (H0 U : Subgroup G) [Fintype ↥(LambdaHom H0 U)]
     change LambdaChar a.1 * ν = ν at ha
     have h : LambdaChar (a⁻¹).1 = (LambdaChar a.1)⁻¹ := by
       ext x
-      simp [LambdaChar, map_inv, Units.val_inv]
+      simp [LambdaChar]
     rw [h]
     calc
       (LambdaChar a.1)⁻¹ * ν = (LambdaChar a.1)⁻¹ * (LambdaChar a.1 * ν) := by
@@ -349,7 +350,7 @@ public lemma orbit_fiber_card (H0 U : Subgroup G) [Fintype ↥(LambdaHom H0 U)]
         calc
           LambdaChar (l₀⁻¹ * l).1 * ν = (LambdaChar l₀.1)⁻¹ * LambdaChar l.1 * ν := by
                 funext x
-                simp [LambdaChar, map_mul, map_inv, Units.val_inv]
+                simp [LambdaChar]
           _ = (LambdaChar l₀.1)⁻¹ * (LambdaChar l.1 * ν) := by rw [mul_assoc]
           _ = (LambdaChar l₀.1)⁻¹ * μ := by rw [hl]
           _ = (LambdaChar l₀.1)⁻¹ * (LambdaChar l₀.1 * ν) := by rw [← hfl₀]
@@ -370,7 +371,7 @@ public lemma orbit_fiber_card (H0 U : Subgroup G) [Fintype ↥(LambdaHom H0 U)]
           calc
             LambdaChar (l₀ * s).1 * ν = LambdaChar l₀.1 * LambdaChar s.1 * ν := by
                   funext x
-                  simp [LambdaChar, map_mul]
+                  simp [LambdaChar]
             _ = LambdaChar l₀.1 * (LambdaChar s.1 * ν) := by rw [mul_assoc]
             _ = LambdaChar l₀.1 * ν := by rw [hs]
             _ = μ := hfl₀
@@ -391,7 +392,7 @@ public lemma orbit_map_injective_of_stab_one (H0 U : Subgroup G)
     calc
       LambdaChar (b⁻¹ * a).1 * ν = (LambdaChar b.1)⁻¹ * (LambdaChar a.1 * ν) := by
             funext x
-            simp [LambdaChar, map_mul, map_inv, Units.val_inv, mul_assoc]
+            simp [LambdaChar, mul_assoc]
       _ = (LambdaChar b.1)⁻¹ * (LambdaChar b.1 * ν) := by rw [hab]
       _ = ν := by
             rw [← mul_assoc]
@@ -492,7 +493,6 @@ public theorem lemma_1_7_i (H0 U : Subgroup G) [Fintype ↥(LambdaHom H0 U)]
     have hnon : (Finset.univ.filter (fun s : LambdaHom H0 U => LambdaChar s.1 * ν = ν)).Nonempty := by
       refine ⟨1, ?_⟩
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-      change LambdaChar (1 : ↥(LambdaHom H0 U)).1 * ν = ν
       have h1 : LambdaChar (1 : ↥(LambdaHom H0 U)).1 = (1 : ClassFunction (↥H0)) := by
         ext x
         simp [LambdaChar]
@@ -703,7 +703,7 @@ Lemma 1.7(i); the `e_ν`-sum regroups to `Σⱼ (χ, (νⱼ − λ₂νⱼ)*)_G 
 -/
 
 /-- From `|H0 : U| = 2` we get an element of `H0` outside `U`. -/
-private lemma exists_not_mem_of_index_two (H0 U : Subgroup G) (hK : (U.subgroupOf H0).Normal)
+private lemma exists_not_mem_of_index_two (H0 U : Subgroup G) (_hK : (U.subgroupOf H0).Normal)
     (hindex : (U.subgroupOf H0).index = 2) : ∃ x : ↥H0, x ∉ U.subgroupOf H0 := by
   classical
   let K := U.subgroupOf H0
@@ -713,7 +713,7 @@ private lemma exists_not_mem_of_index_two (H0 U : Subgroup G) (hK : (U.subgroupO
     rw [this] at hindex
     norm_num at hindex
   by_contra h
-  push_neg at h
+  push Not at h
   exact hKtop ((Subgroup.eq_top_iff' K).mpr h)
 
 /-- A chosen element of `H0 \ U` (witness of `exists_not_mem_of_index_two`). -/
@@ -747,7 +747,7 @@ private lemma lambda2_separates (H0 U : Subgroup G) (hK : (U.subgroupOf H0).Norm
     (witnessIndexTwo_spec H0 U hK hindex))
 
 /-- The quotient `H0/U` has exactly `2` elements. -/
-private lemma card_quotient_of_index_two (H0 U : Subgroup G) (hK : (U.subgroupOf H0).Normal)
+private lemma card_quotient_of_index_two (H0 U : Subgroup G) (_hK : (U.subgroupOf H0).Normal)
     (hindex : (U.subgroupOf H0).index = 2) :
     Fintype.card (↥H0 ⧸ U.subgroupOf H0) = 2 := by
   classical
@@ -812,9 +812,10 @@ private lemma quotient_dichotomy_of_index_two (H0 U : Subgroup G) (hK : (U.subgr
     · exfalso
       exact h1w (hwb.trans h1b.symm).symm
 
+omit [Fintype G] in
 /-- Elements of `ΛHom H0 U` agree on quotients that are equal modulo `U`. -/
 private lemma lambdaHom_eq_of_quotient_eq (H0 U : Subgroup G) (hK : (U.subgroupOf H0).Normal)
-    (hindex : (U.subgroupOf H0).index = 2) (l : LambdaHom H0 U) (x y : ↥H0)
+    (_hindex : (U.subgroupOf H0).index = 2) (l : LambdaHom H0 U) (x y : ↥H0)
     (hq : QuotientGroup.mk' (U.subgroupOf H0) x = QuotientGroup.mk' (U.subgroupOf H0) y) :
     l.1 x = l.1 y := by
   classical

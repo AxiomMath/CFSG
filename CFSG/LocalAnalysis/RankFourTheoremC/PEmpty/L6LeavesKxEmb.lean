@@ -29,6 +29,7 @@ theorem kx_exists_mem_normalizer_not_mem_of_lt {p : ℕ} [Fact p.Prime] {A T : S
     exact hxN
   exact Subgroup.mem_subgroupOf.mp hxsub
 
+omit [Finite G] in
 theorem dvd_card_of_isPGroup_ne_bot {f : ℕ} [Fact f.Prime] {E : Subgroup G} (hE : IsPGroup f E)
     (h1 : E ≠ ⊥) : f ∣ Nat.card E :=
   hE.card_eq_or_dvd.resolve_left fun h => h1 (Subgroup.card_eq_one.mp h)
@@ -48,6 +49,7 @@ theorem normalizer_le_of_stronglyEmbedded_sub {f : ℕ} [Fact f.Prime] {M E S₀
   normalizer_le_of_stronglyEmbedded hs (hS₀E.trans (le_of_stronglyEmbedded_of_inf_ne_bot hs hE hEM))
     (dvd_card_of_isPGroup_ne_bot (hE.to_le hS₀E) hS₀)
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {f : ℕ} [Fact f.Prime] {L X : Subgroup G} (hXL : X ≤ L)
     (hX : IsPGroup f X) : ∃ E : Subgroup G, CFSG.ABGLocalTools.IsSylowOf f E L ∧ X ≤ E := by
   have hX' : IsPGroup f (X.subgroupOf L) := hX.comap_subtype
@@ -56,10 +58,11 @@ theorem exists_isSylowOf_ge {f : ℕ} [Fact f.Prime] {L X : Subgroup G} (hXL : X
   rw [← Subgroup.map_subgroupOf_eq_of_le hXL]
   exact Subgroup.map_mono hQ
 
+omit [Finite G] in
 theorem dvd_relIndex_of_mem_sdiff {p : ℕ} [Fact p.Prime] {H N : Subgroup G}
     (hs : S622IsSimpleSection H N) {z : G} (hzH : z ∈ H) (hzN : z ∉ N) (hzp : z ^ p = 1) :
     p ∣ N.relIndex H := by
-  haveI hNn : (N.subgroupOf H).Normal := hs.2.1
+  have hNn : (N.subgroupOf H).Normal := hs.2.1
   set z' : ↥H := ⟨z, hzH⟩ with hz'
   have hq1 : (QuotientGroup.mk z' : ↥H ⧸ N.subgroupOf H) ≠ 1 := by
     intro h
@@ -83,7 +86,7 @@ theorem stronglyEmbedded (hL613 : L613) (c : KxCfg p P M x z T S L) {H N : Subgr
     (hHL : H ≤ L) (hHM : H ≤ M) (hs : S622IsSimpleSection H N) (hzH : z ∈ H) (hzN : z ∉ N)
     {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) (hfd : f ∣ N.relIndex H) :
     GLBStronglyEmbedded f M := by
-  haveI : Fact p.Prime := ⟨c.conf.config.prime⟩
+  have : Fact p.Prime := ⟨c.conf.config.prime⟩
   have hS := c.conf.config.situation
   have hx := c.conf.config.point
   have hz := c.conf.config.central

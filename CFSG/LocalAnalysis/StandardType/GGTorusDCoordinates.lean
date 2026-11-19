@@ -81,7 +81,7 @@ theorem rootCoordinates_of_add_one_lt (hN : 4 ≤ N) (a : Fin N → μ) {i : Fin
     rw [Finset.prod_eq_single t]
     · simp
     · intro b _ hb
-      simp [Pi.single_apply, hb, Ne.symm hb]
+      simp [hb]
     · simp
   rw [hprod, Finset.prod_inv_distrib, hprod]
 
@@ -95,7 +95,7 @@ theorem rootCoordinates_of_not_add_one_lt (hN : 4 ≤ N) (a : Fin N → μ) {i :
     rw [Finset.prod_eq_single t]
     · simp
     · intro b _ hb
-      simp [Pi.single_apply, hb, Ne.symm hb]
+      simp [hb]
     · simp
   rw [hprod, hprod]
 
@@ -113,7 +113,7 @@ theorem simpleReflection_eq_mul_corTuple (hN : 4 ≤ N) (i : Fin N)
       a * (corTuple (Matrix.of (typeDSimpleRoot N hN)) i (rootCoordinates hN a i))⁻¹ := by
   funext k
   by_cases hi : i.val + 1 < N
-  · rw [simpleReflection, dif_pos hi, SpCoord.permAut_apply,
+  · rw [simpleReflection, dite_eq_left hi, SpCoord.permAut_apply,
       rootCoordinates_of_add_one_lt hN a hi]
     simp only [Function.comp_apply, Equiv.swap_inv, Pi.mul_apply, Pi.inv_apply,
       corTuple_apply, Matrix.of_apply, typeDSimpleRoot_of_add_one_lt hN hi,
@@ -121,16 +121,16 @@ theorem simpleReflection_eq_mul_corTuple (hN : 4 ≤ N) (i : Fin N)
     by_cases hki : k = i
     · subst k
       have hnext : (⟨i.val + 1, hi⟩ : Fin N) ≠ i := Fin.ne_of_val_ne (by simp)
-      simp only [Equiv.swap_apply_left, if_true, if_neg hnext.symm]
+      simp only [Equiv.swap_apply_left, ite_true, ite_eq_right hnext.symm]
       simp only [sub_zero, zpow_one]
-      simp [mul_comm, mul_left_comm, mul_assoc]
+      simp [mul_comm]
     · by_cases hkn : k = (⟨i.val + 1, hi⟩ : Fin N)
       · subst k
         have hnext : i ≠ (⟨i.val + 1, hi⟩ : Fin N) := Fin.ne_of_val_ne (by simp)
-        simp only [Equiv.swap_apply_right, if_neg hnext, if_true, zero_sub, zpow_neg_one]
-        simp [hnext, Ne.symm hnext, mul_comm, mul_left_comm, mul_assoc]
-      · simp [Equiv.swap_apply_of_ne_of_ne hki hkn, hki, hkn, Ne.symm hki, Ne.symm hkn]
-  · rw [simpleReflection, dif_neg hi, rootCoordinates_of_not_add_one_lt hN a hi]
+        simp only [Equiv.swap_apply_right, ite_true]
+        simp [Ne.symm hnext, mul_comm, mul_left_comm]
+      · simp [Equiv.swap_apply_of_ne_of_ne hki hkn, hki, hkn]
+  · rw [simpleReflection, dite_eq_right hi, rootCoordinates_of_not_add_one_lt hN a hi]
     simp only [MulAut.mul_apply, SpCoord.sgnAut_apply, SpCoord.permAut_apply,
       Function.comp_apply, Equiv.swap_inv, Function.update_apply, Pi.mul_apply, Pi.inv_apply,
       corTuple_apply, Matrix.of_apply, typeDSimpleRoot_of_not_add_one_lt hN hi,
@@ -139,16 +139,15 @@ theorem simpleReflection_eq_mul_corTuple (hN : 4 ≤ N) (i : Fin N)
       Fin.ne_of_val_ne (by simp; omega)
     by_cases hk2 : k = (⟨N - 2, by omega⟩ : Fin N)
     · subst k
-      simp only [if_true, if_neg hlast, if_neg hlast.symm, Equiv.swap_apply_left,
+      simp only [ite_true, ite_eq_right hlast, Equiv.swap_apply_left,
         add_zero, zpow_one]
-      simp [mul_comm, mul_left_comm, mul_assoc]
+      simp [mul_comm, mul_assoc]
     · by_cases hk1 : k = (⟨N - 1, by omega⟩ : Fin N)
       · subst k
-        simp only [if_true, if_neg hlast, if_neg hlast.symm, Equiv.swap_apply_right,
+        simp only [ite_true, ite_eq_right hlast, ite_eq_right hlast.symm, Equiv.swap_apply_right,
           zero_add, zpow_one]
-        simp [mul_comm, mul_left_comm, mul_assoc]
-      · simp [hk2, hk1, Ne.symm hk2, Ne.symm hk1,
-          Equiv.swap_apply_of_ne_of_ne hk2 hk1]
+        simp [mul_comm, mul_assoc]
+      · simp [hk2, hk1, Equiv.swap_apply_of_ne_of_ne hk2 hk1]
 
 theorem rootCoordinates_corTuple (hN : 4 ≤ N) (j : Fin N) (z : μ) :
     rootCoordinates hN (corTuple (Matrix.of (typeDSimpleRoot N hN)) j z) =

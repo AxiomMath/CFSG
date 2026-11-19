@@ -159,7 +159,7 @@ theorem fromG_toG {X : Subgroup Γ} (hX : X ≤ L') : τ.fromG (τ.toG X) = X :=
       exact ⟨h, hX hh, hh, rfl⟩
     · simp
 
-theorem toG_mono_iff {X Y : Subgroup Γ} (hX : X ≤ L') (hY : Y ≤ L') :
+theorem toG_mono_iff {X Y : Subgroup Γ} (hX : X ≤ L') (_hY : Y ≤ L') :
     τ.toG X ≤ τ.toG Y ↔ X ≤ Y := by
   constructor
   · intro h x hx
@@ -210,7 +210,7 @@ theorem card_toG {X : Subgroup Γ} (hX : X ≤ L') : Nat.card (τ.toG X) = Nat.c
 theorem coe_toGEquiv {X : Subgroup Γ} (hX : X ≤ L') (x : ↥X) :
     ((τ.toGEquiv hX x : ↥(τ.toG X)) : G) = ((τ.φ ⟨x.1, hX x.2⟩ : ↥L) : G) := rfl
 
-private theorem toGEquiv_mem_toG {X E : Subgroup Γ} (hX : X ≤ L') (hE : E ≤ L') (x : ↥X) :
+private theorem toGEquiv_mem_toG {X E : Subgroup Γ} (hX : X ≤ L') (_hE : E ≤ L') (x : ↥X) :
     (τ.toGEquiv hX x).1 ∈ τ.toG E ↔ x.1 ∈ E := by
   rw [coe_toGEquiv]
   rw [mem_toG]
@@ -286,7 +286,7 @@ theorem pCoreOf_toG (p : ℕ) {M : Subgroup Γ} (hM : M ≤ L') :
       (by rw [Subgroup.ker_subtype]; exact bot_le)
   rw [toG_eq_map, toG_eq_map, pCoreOf_map_injective p _ hψ, h2]
 
-theorem isElemAbelian_toG {p : ℕ} {E : Subgroup Γ} (hE : E ≤ L') (h : IsElemAbelian p E) :
+theorem isElemAbelian_toG {p : ℕ} {E : Subgroup Γ} (_hE : E ≤ L') (h : IsElemAbelian p E) :
     IsElemAbelian p (τ.toG E) := by
   rw [toG_eq_map]
   exact CFSG.Open.IsElemAbelian.map (CFSG.Open.IsElemAbelian.subgroupOf h L') _
@@ -306,7 +306,7 @@ theorem isExtOf_toG {X E : Subgroup Γ} (hX : X ≤ L') {Q : Type*} [Group Q]
 theorem isExtHatOf_toG {X E : Subgroup Γ} (hX : X ≤ L') {S : Type} [Group S]
     (h : IsExtHatOf X E S) : IsExtHatOf (τ.toG X) (τ.toG E) S := by
   obtain ⟨hEX, Q, hQ, f, hf, hker, hHat⟩ := h
-  letI : Group Q := hQ
+  let : Group Q := hQ
   have hE : E ≤ L' := le_trans hEX hX
   refine ⟨(τ.toG_mono_iff hE hX).mpr hEX, Q, hQ, f.comp (τ.toGEquiv hX).symm.toMonoidHom,
     hf.comp (τ.toGEquiv hX).symm.surjective, ?_, hHat⟩

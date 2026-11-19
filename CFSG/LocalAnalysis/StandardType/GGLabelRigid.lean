@@ -64,11 +64,11 @@ private theorem labelRigid_sz_nonabelian {a : ℕ} (ha : 1 ≤ a)
   have hna : ∃ g h : suzukiGroup a K, g * h ≠ h * g := by
     by_contra h
     push Not at h
-    haveI : Nontrivial (suzukiGroup a K) := hsimple.2.1
-    haveI : Group.IsPerfect (suzukiGroup a K) := hperfect.2
-    haveI : IsMulCommutative (suzukiGroup a K) := ⟨Std.Commutative.mk h⟩
+    have : Nontrivial (suzukiGroup a K) := hsimple.2.1
+    have : Group.IsPerfect (suzukiGroup a K) := hperfect.2
+    have : IsMulCommutative (suzukiGroup a K) := ⟨Std.Commutative.mk h⟩
     exact not_subsingleton (suzukiGroup a K) Group.IsPerfect.subsingleton_of_isMulCommutative
-  haveI : IsSimpleGroup (suzukiGroup a K) := hsimple.2.2
+  have : IsSimpleGroup (suzukiGroup a K) := hsimple.2.2
   have hq : ∃ x y : LargeEvenCenterQuot (suzukiGroup a K), x * y ≠ y * x :=
     labelRigid_centerQuot_nonabelian hna
   obtain ⟨e⟩ := nonempty_centerQuot_congr (largeEvenSzGroup_eq a K)
@@ -96,7 +96,7 @@ private theorem labelRigid_g2der_nonabelian
         intro a b
         by_contra h
         exact hnab ⟨a, b, h⟩
-      haveI : IsMulCommutative ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
+      have : IsMulCommutative ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
         IsMulCommutative.of_comm hcomm
       have hp : (Nat.card ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆).Prime :=
         Group.is_simple_iff_prime_card.mp hsimple
@@ -276,7 +276,7 @@ private theorem labelRigid_cls_exc {X : Type} [Group X] {lab lab' : LargeEvenLab
     (first
       | (simp [CFSG.StandardType.markTag] at hs; done)
       | (by_cases h2 : r₁ = 2 <;> by_cases h3 : r₁ = 3 <;>
-          simp [CFSG.StandardType.markTag, h2, h3] at hs <;> done))
+          simp [CFSG.StandardType.markTag, h2, h3] at hs))
 
 private theorem labelRigid_exc_exc {X : Type} [Group X] {lab lab' : LargeEvenLabel}
     (hl : LargeEvenInLambda2 lab) (hl' : LargeEvenInLambda2 lab') (hE : IsExcLab lab)
@@ -319,7 +319,7 @@ private theorem labelRigid_iso_of_params {lab lab' : LargeEvenLabel}
     rcases hc' with rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [markTag, markRank, markDeg, LargeEvenInLambda2, GGLabelIso,
       LargeEvenLabel.mk.injEq] at hs hr hd hl hl' ⊢ <;>
-    (try split_ifs at hs hr hd ⊢) <;> simp_all <;> omega
+    (try split_ifs at hs hr hd ⊢) <;> simp_all
 
 private theorem labelRigid_iso_of_cls {X : Type} [Group X] {lab lab' : LargeEvenLabel}
     (hl : LargeEvenInLambda2 lab) (hl' : LargeEvenInLambda2 lab') (hc : IsClsLab lab)

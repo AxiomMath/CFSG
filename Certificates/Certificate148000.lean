@@ -28,7 +28,7 @@ open CertificateChecks
 open CFSG.Sporadic.ON CFSG.Sporadic.ON.Native in
 open CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.L37 in
 open CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.L3Seven in
-theorem certificate148000 :     ∀ k < 9, ∃ w : Fin nPts, ∀ t ∈ LSub 0 k, phiJ t • w = w :=
-  fun k hk => KernelSpor.ONL37.l37_fix hk
+theorem certificate148000 :     ∀ _k < 9, ∃ w : Fin nPts, ∀ t ∈ LSub 0 _k, phiJ t • w = w :=
+  fun _k hk => KernelSpor.ONL37.l37_fix hk
 
 end Certificates

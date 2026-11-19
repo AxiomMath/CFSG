@@ -37,7 +37,7 @@ theorem mem_of_card_sq_of_central {G : Type*} [Group G] [Finite G] {p : ℕ} [hp
     (hG : Nat.card G = p ^ 3) {z : G} (hz : z ∈ Subgroup.center G)
     (hnc : ¬ ∀ a b : G, a * b = b * a) {R : Subgroup G} (hR : Nat.card R = p ^ 2) : z ∈ R := by
   by_contra hzR
-  have hRc : ∀ a b : R, a * b = b * a := IsPGroup.commutative_of_card_eq_prime_sq hR
+  have hRc : ∀ a b : R, a * b = b * a := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hR).is_comm.comm
   set H : Subgroup G := Subgroup.closure ((R : Set G) ∪ {z}) with hH
   have hRH : R ≤ H := fun x hx => Subgroup.subset_closure (Or.inl hx)
   have hzH : z ∈ H := Subgroup.subset_closure (Or.inr rfl)
@@ -204,10 +204,10 @@ theorem treeOK_card_le {n : ℕ} {gs : Array (Array ℕ)} {ps : List ℕ} {c : A
       rw [(hfrep i i.2).apply hp', (hfrep j j.2).apply hp', hij']
     have hgi : (c.pts.toList.map (keyA n ps))[(i : ℕ)]'(by rw [hlen]; exact i.2) =
         keyA n ps c.pts[(i : ℕ)]! := by
-      simp [getElem!_pos c.pts i i.2]
+      simp
     have hgj : (c.pts.toList.map (keyA n ps))[(j : ℕ)]'(by rw [hlen]; exact j.2) =
         keyA n ps c.pts[(j : ℕ)]! := by
-      simp [getElem!_pos c.pts j j.2]
+      simp
     exact Fin.ext ((List.Nodup.getElem_inj_iff hnd).1 (hgi.trans (hkey.trans hgj.symm)))
   have := Nat.card_le_card_of_injective _ hinj
   rwa [Nat.card_eq_fintype_card, Fintype.card_fin] at this
@@ -215,7 +215,7 @@ theorem treeOK_card_le {n : ℕ} {gs : Array (Array ℕ)} {ps : List ℕ} {c : A
 theorem permsA_two {n : ℕ} {gs : Array (Array ℕ)} (h : gs.size = 2) :
     permsA n gs = {permOfArr n gs[0]!, permOfArr n gs[1]!} := by
   ext x
-  simp only [permsA, h, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, h, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
@@ -251,7 +251,7 @@ theorem pair_sound {c : Array ℕ} {X : Equiv.Perm (Fin 2300)} (hc : Rep 2300 c 
         (eqA_iff (rep_powArr hrep 5) rep_idA).1 hpw
       have h1 : permOfArr 2300 gs[i]! ≠ 1 := fun h' =>
         absurd ((eqA_iff hrep rep_idA).2 h') (by rw [hne]; exact Bool.false_ne_true)
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact orderOf_eq_prime h5 h1
   obtain ⟨-, hP0, hc0, ho0⟩ := hone 0 (by norm_num)
   obtain ⟨-, hP1, hc1, ho1⟩ := hone 1 (by norm_num)
@@ -267,7 +267,7 @@ section CertFive
 
 theorem x0_mem_of_card_25 {R : Subgroup (Equiv.Perm (Fin 2300))} (hRQ : R ≤ co2FiveQ)
     (hR : Nat.card R = 25) : co2FiveLine 0 ∈ R := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcomm : ∀ g ∈ co2FiveQ, g * co2FiveLine 0 = co2FiveLine 0 * g := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1
       (co2FiveC0_le_centralizer (co2FiveA_le_C0 (co2FiveA_eq_Q ▸ hg)))
@@ -314,7 +314,7 @@ theorem not_dvd_card_centralizer {s : Equiv.Perm (Fin 2300)} (hs : s ∈ co2P)
     (hs3 : orderOf s = 3) :
     ¬ 25 ∣ Nat.card ↥(Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 2300))) ⊓ co2P) := by
   intro h25
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C := Subgroup.centralizer ({s} : Set (Equiv.Perm (Fin 2300))) ⊓ co2P with hC
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥C) 5 (n := 2)
     (by simpa using h25)
@@ -431,7 +431,7 @@ theorem co2P_fiveGen {s : Equiv.Perm (Fin 2300)} (hs : s ∈ co2P)
         (Subgroup.closure ({a, b} : Set (Equiv.Perm (Fin 2300)))).map
           (MulAut.conj n⁻¹).toMonoidHom := by
       rw [MonoidHom.map_closure, Set.image_pair]
-      simp [MulAut.conj_apply]
+      simp
     rw [hcl, Subgroup.card_map_of_injective (MulAut.conj n⁻¹).injective]
     exact hbig
 
@@ -483,7 +483,7 @@ theorem sporNoPumpup_Co2
     SporNoPumpup .Co2 := by
   have e0 : (TauCeti.CFSGIndex.sporadic .Co2).Group ≃* NativeSporadic.Co2 := (hbr .Co2).some.symm
   let φS : (TauCeti.CFSGIndex.sporadic .Co2).Group ≃* ↥co2P := e0.trans co2PermEquiv
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Co2).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Co2).Group :=
     Finite.of_equiv ↥co2P φS.symm.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [Nat.card_congr φS.toEquiv, card_co2P]

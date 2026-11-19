@@ -35,7 +35,7 @@ private theorem le_normalizer_relCent {E Z A : Subgroup G}
       (Subgroup.mem_normalizer_iff.mp (hZ hl) _).mp h1
     have heq : l * ⁅c, l⁻¹ * a * l⁆ * l⁻¹ = ⁅l * c * l⁻¹, a⁆ := by
       rw [conjugate_commutatorElement]
-      congr 1 <;> group
+      congr 1; group
     rwa [heq] at h2
   intro l hl
   rw [Subgroup.mem_normalizer_iff]
@@ -297,7 +297,7 @@ private theorem L_Kst_le_Q (j : ℤ)
 theorem Kst_ne_bot (hc : CharTwoStab (V := V) (G := G)) (hn0 : 2 ≤ X.n 0)
     (hs : IsSingularity Γ G s) (hodd : Odd s) (h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
-    {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) : X.Kst ≠ ⊥ := by
+    {m : ℕ} (_hreg : X.IsMaxReg 0 (2 * (m : ℤ))) : X.Kst ≠ ⊥ := by
   have hK : ∀ a ∈ X.K, ∀ b ∈ X.K, a * b = b * a :=
     fun a ha b hb => X.mul_comm_of_mem_K hc hn0 hs hodd h5 hX hGT ha hb
   have hcard := X.card_K_eq_mul hK 1
@@ -705,7 +705,7 @@ private theorem L_zero_Kst_le_Q_zero (h : Ctx X s) {m : ℕ} (hreg : X.IsMaxReg 
 
 private theorem L_one_Kst_le_Q_one :
     ⁅X.L 1, X.Kst⁆ ≤ X.Q 1 :=
-  X.L_Kst_le_Q 1 fun k hk => (X.mem_Kst.mp hk).2
+  X.L_Kst_le_Q 1 fun _k hk => (X.mem_Kst.mp hk).2
 
 private theorem Kst_eq_bot (h : Ctx X s) {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ)))
     (hV2 : ⁅X.QT, X.Q 2⁆ ⊔ X.Z 2 = X.V2) : X.Kst = ⊥ := by
@@ -761,8 +761,8 @@ theorem sec6_false_of_exists_two_le {G : Type} [Group G] [MulAction G V]
       simpa using hv
   exact sec6_false hc X hmax hs hodd h5 hX hGT
 
-theorem sec6_false' {G : Type} [Group G] [MulAction G V] (h : Hyp30 Γ G)
-    (hc : CharTwoStab (V := V) (G := G)) (hn : ∀ v : V, nOf Γ v = 1 ∨ nOf Γ v = 2)
+theorem sec6_false' {G : Type} [Group G] [MulAction G V] (_h : Hyp30 Γ G)
+    (hc : CharTwoStab (V := V) (G := G)) (_hn : ∀ v : V, nOf Γ v = 1 ∨ nOf Γ v = 2)
     (h11 : ∃ v : V, nOf Γ v = 2) (X : Setup Γ G) (hs : IsSingularity Γ G s) (hodd : Odd s)
     (h5 : 5 ≤ s) (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s)
     (hGT : Even (Nat.card X.GT)) : False := by

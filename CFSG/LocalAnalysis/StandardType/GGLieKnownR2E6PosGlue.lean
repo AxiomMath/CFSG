@@ -20,7 +20,7 @@ private theorem l10se6g_eq_bot_of_le_odd {G : Type} [Group G] {S N : Subgroup G}
   have h1 : x ^ 2 ^ k = 1 := by
     have h := congrArg Subtype.val hk
     simpa using h
-  haveI : Finite N :=
+  have : Finite N :=
     Nat.finite_of_card_ne_zero (fun h0 => by rw [h0] at hN; exact Nat.not_odd_zero hN)
   have hdN : orderOf x ∣ Nat.card N := by
     have h := orderOf_dvd_natCard (⟨x, hSN hx⟩ : N)

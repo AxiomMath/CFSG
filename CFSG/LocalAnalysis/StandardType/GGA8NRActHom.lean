@@ -234,7 +234,7 @@ private theorem a8nr_inducing_mul_spec {G : Type} [Group G] {Bs K : Subgroup G}
       (φ : MulAut ↥Bs) * (ψ : MulAut ↥Bs) from rfl, MulAut.mul_apply,
     a8nr_inducing_spec (Bs := Bs) (K := K) φ ((ψ : MulAut ↥Bs) b),
     a8nr_inducing_spec (Bs := Bs) (K := K) ψ b]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_mul]
   group
 
 private theorem a8nr_actAut_mul {G : Type} [Group G] {Bs K : Subgroup G}

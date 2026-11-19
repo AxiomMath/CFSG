@@ -19,12 +19,12 @@ theorem psl_two_two_mem_graphTuples {n f : ℕ}
   omega
 
 theorem a6_psl_pureGraph (hO : LieOrderFormulasInput) {n f : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 3 ^ f) (hn : 3 ≤ n) (hadm : StatedLieAdmissible .PSL n 3 f)
-    (hm : LieModel (ProjectiveSpecialLinearGroup (Fin n) K) .PSL n 3 f) (A : GL (Fin n) K)
+    (hK : Nat.card K = 3 ^ f) (hn : 3 ≤ n) (_hadm : StatedLieAdmissible .PSL n 3 f)
+    (_hm : LieModel (ProjectiveSpecialLinearGroup (Fin n) K) .PSL n 3 f) (A : GL (Fin n) K)
     (hσ : orderOf (pureGraphAction n K A) = 2)
     (D : Subgroup ↥(fixedSubgroup (pureGraphAction n K A)))
     (hD : A6Hyp (pureGraphAction n K A) D) : A6Shape .PSL n f := by
-  clear hadm hm
+  clear _hadm _hm
   obtain ⟨hDc, hDZ⟩ := hD.component
   obtain ⟨t, n', e', hT, hadm', hmodel⟩ :=
     CatLeafProof.X10Lin.graph_psl_component_models Nat.prime_three (by norm_num) hK hn A hσ hDc

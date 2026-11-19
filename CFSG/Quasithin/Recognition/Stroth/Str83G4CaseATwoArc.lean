@@ -65,7 +65,7 @@ private theorem caseA_mem_Qy_γ₀_of_fixes_two_nbrs {a : ℕ}
   have hmγ₁ : mA • f112Gamma1 L1 L2 S ≠ f112Gamma1 L1 L2 S := by
     intro hm
     have h1 : (k * mA) • f112Gamma1 L1 L2 S = w₂ := by
-      have hkm : k * mA = k' := by simp [mA, mul_assoc]
+      have hkm : k * mA = k' := by simp [mA]
       rw [hkm, hk'γ]
     have h2 : (k * mA) • f112Gamma1 L1 L2 S = w₁ := by
       rw [mul_smul, hm, hkγ]
@@ -107,7 +107,7 @@ private theorem caseA_mem_Qy_γ₀_of_fixes_two_nbrs {a : ℕ}
     exact hmγ₁ ((f112_smul_γ₁_eq_iff hF mA hmAγ₀).mpr hc)
   have hord_t : orderOf t = orderOf g := by
     have hhA_eq : hA = (MulAut.conj k⁻¹) (hW : f112Acting L1 L2 S) := by
-      simp [hA, MulAut.conj_apply]
+      simp [hA]
     calc orderOf t
         = orderOf (f112StabEquiv0 L1 L2 S hW' : ↥(L1 ⊔ bigB L1 L2 S)) := by
           rw [show t = ((f112StabEquiv0 L1 L2 S hW' :
@@ -210,7 +210,7 @@ private theorem caseA_mem_Qy_γ₁_of_fixes_two_nbrs {a : ℕ}
   have hmγ₀ : mA • f112Gamma0 L1 L2 S ≠ f112Gamma0 L1 L2 S := by
     intro hm
     have h1 : (k * mA) • f112Gamma0 L1 L2 S = w₂ := by
-      have hkm : k * mA = k' := by simp [mA, mul_assoc]
+      have hkm : k * mA = k' := by simp [mA]
       rw [hkm, hk'γ]
     have h2 : (k * mA) • f112Gamma0 L1 L2 S = w₁ := by
       rw [mul_smul, hm, hkγ]
@@ -252,7 +252,7 @@ private theorem caseA_mem_Qy_γ₁_of_fixes_two_nbrs {a : ℕ}
     exact hmγ₀ ((f112_smul_γ₀_eq_iff hF mA hmAγ₁).mpr hc)
   have hord_t : orderOf t = orderOf g := by
     have hhA_eq : hA = (MulAut.conj k⁻¹) (hW : f112Acting L1 L2 S) := by
-      simp [hA, MulAut.conj_apply]
+      simp [hA]
     calc orderOf t
         = orderOf (f112StabEquiv1 L1 L2 S hW' : ↥(L2 ⊔ bigB L1 L2 S)) := by
           rw [show t = ((f112StabEquiv1 L1 L2 S hW' :
@@ -363,7 +363,7 @@ theorem caseA_mem_Qy_of_fixes_two_nbrs {a : ℕ}
       have hconj : (u : (f112Amalgam L1 L2 S).Ghat)⁻¹ * g *
           (u : (f112Amalgam L1 L2 S).Ghat) =
           (MulAut.conj (u : (f112Amalgam L1 L2 S).Ghat)⁻¹) g := by
-        simp [MulAut.conj_apply]
+        simp
       rw [hconj, (MulAut.conj (u : (f112Amalgam L1 L2 S).Ghat)⁻¹).orderOf_eq, hk]
     have hg'Q : (u : (f112Amalgam L1 L2 S).Ghat)⁻¹ * g *
         (u : (f112Amalgam L1 L2 S).Ghat) ∈ CosetGeom.Qy (f112Gamma0 L1 L2 S) :=
@@ -424,7 +424,7 @@ theorem caseA_mem_Qy_of_fixes_two_nbrs {a : ℕ}
       have hconj : (u : (f112Amalgam L1 L2 S).Ghat)⁻¹ * g *
           (u : (f112Amalgam L1 L2 S).Ghat) =
           (MulAut.conj (u : (f112Amalgam L1 L2 S).Ghat)⁻¹) g := by
-        simp [MulAut.conj_apply]
+        simp
       rw [hconj, (MulAut.conj (u : (f112Amalgam L1 L2 S).Ghat)⁻¹).orderOf_eq, hk]
     have hg'Q : (u : (f112Amalgam L1 L2 S).Ghat)⁻¹ * g *
         (u : (f112Amalgam L1 L2 S).Ghat) ∈ CosetGeom.Qy (f112Gamma1 L1 L2 S) :=

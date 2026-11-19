@@ -30,7 +30,7 @@ theorem card_sylConj (SL : Sylow 3 (blockParabolic M (pCoreOf 2 H) L))
 omit [Finite G] in
 theorem isPGroup_sylConj (SL : Sylow 3 (blockParabolic M (pCoreOf 2 H) L))
     (g : ↥M ⧸ CFSG.pCore 2 ↥M) : IsPGroup 3 (sylConj M H L SL g) :=
-  (SL.isPGroup'.map _).map _
+  (SL.isPGroup.map _).map _
 
 omit [Finite G] in
 theorem sylConj_le_blk (SL : Sylow 3 (blockParabolic M (pCoreOf 2 H) L)) {k : G}
@@ -77,7 +77,7 @@ theorem Sp48Ctx.sup_sylConj (c : Sp48Ctx P M H R X U A L)
   refine ⟨sup_le hB (c.sylConj_le_barPi SL hk), ?_, hcard⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := hB3.exists_card_eq
-  obtain ⟨f, hf⟩ := SL.isPGroup'.exists_card_eq
+  obtain ⟨f, hf⟩ := SL.isPGroup.exists_card_eq
   exact IsPGroup.of_card (n := a + f) (by rw [hcard, ha, hf, pow_add])
 
 end Lower

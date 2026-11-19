@@ -111,6 +111,7 @@ theorem isNatSzSection_of_native_sub {X : Type} [AddCommGroup X] [Module (ZMod 2
     congr 1
     rw [Matrix.mul_assoc (J * _) J J, hJJ, Matrix.mul_one]
 
+omit [Finite V] in
 theorem isNatSzSection_secLift (ρ : G →* LGL 2 V) (N : Subgroup G) {n : ℕ}
     {W₁ W₂ : Submodule (ZMod 2) V} (hW : W₂ ≤ W₁) (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁)
     (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) {U : Submodule (ZMod 2) (SecMod W₁ W₂)}
@@ -175,7 +176,7 @@ theorem isSumNatSection_of_fpf_sz (hMart : CFSG.RankThree.GF2n.MartineauSzInput)
       (CFSG.LieType.BorelTits.suzukiGroup_eq_glaSzGroup a K)).trans
       (CFSG.ShultStronglyClosedTI.glaSzEquivNative a ha hcard))
   let X := SecMod W₁ W₂
-  haveI : Finite X :=
+  have : Finite X :=
     Finite.of_surjective (Submodule.Quotient.mk (p := W₂.comap W₁.subtype))
       (Submodule.Quotient.mk_surjective (W₂.comap W₁.subtype))
   let σ : G →* LGL 2 X := sectionRep ρ W₁ W₂ h₁ h₂

@@ -45,8 +45,7 @@ theorem nineCoeff_tmul (φ : P →ₗ[ZMod 2] ZMod 2) (a : P) (b : Q) :
 theorem nine_rec {u w : P} {φ₀ φ₁ : P →ₗ[ZMod 2] ZMod 2}
     (hdec : ∀ a : P, a = φ₁ a • u + φ₀ a • w) (z : P ⊗[ZMod 2] Q) :
     z = u ⊗ₜ[ZMod 2] nineCoeff φ₁ z + w ⊗ₜ[ZMod 2] nineCoeff φ₀ z := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul a b =>
     have ha := hdec a
     rw [nineCoeff_tmul, nineCoeff_tmul]
@@ -70,15 +69,13 @@ theorem nine_fix_eq_zero_of_coeff {u w : P} {φ₀ φ₁ : P →ₗ[ZMod 2] ZMod
   have hC : ∀ z : P ⊗[ZMod 2] Q,
       nineCoeff φ₀ (TensorProduct.map S τ z) = τ (nineCoeff φ₀ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => simp [nineCoeff_tmul, hS0, map_smul]
     | add x x' hx hx' => simp only [map_add, hx, hx']
   have hD' : ∀ z : P ⊗[ZMod 2] Q,
       nineCoeff φ₁ (TensorProduct.map S τ z) = τ (nineCoeff φ₀ z + nineCoeff φ₁ z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
       simp only [TensorProduct.map_tmul, nineCoeff_tmul, hS1, add_smul, map_add, map_smul]
       abel
@@ -105,16 +102,14 @@ theorem nine_fix_eq_zero_cycle {u w : P} {φ₀ φ₁ : P →ₗ[ZMod 2] ZMod 2}
   have hC : ∀ z : P ⊗[ZMod 2] Q,
       nineCoeff φ₀ (TensorProduct.map S LinearMap.id z) = nineCoeff φ₁ z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b => simp [nineCoeff_tmul, hS0]
     | add x x' hx hx' => simp only [map_add, hx, hx']
   have hD : ∀ z : P ⊗[ZMod 2] Q,
       nineCoeff φ₁ (TensorProduct.map S LinearMap.id z) =
         nineCoeff φ₀ z + nineCoeff φ₁ z := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
+    induction z using TensorProduct.inductionOn with
     | tmul a b =>
       simp only [TensorProduct.map_tmul, LinearMap.id_apply, nineCoeff_tmul, hS1, add_smul]
       abel

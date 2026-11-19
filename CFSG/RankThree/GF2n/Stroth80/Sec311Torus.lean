@@ -16,7 +16,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem torus_finish (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t : G}
+theorem torus_finish (_h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t : G}
     (hs : Sec5Hyp hc n t) {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (h : GlobalModelData M Q Z γ M₀)
     {hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img (Vt M (LB M Q B) B Z t) →

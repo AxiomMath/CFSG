@@ -63,7 +63,7 @@ theorem a_mem : P.a ∈ P.C := by rw [P.hC]; exact Subgroup.subset_closure (by s
 theorem b_mem : P.b ∈ P.C := by rw [P.hC]; exact Subgroup.subset_closure (by simp)
 
 theorem comm {g h : X} (hg : g ∈ P.C) (hh : h ∈ P.C) : g * h = h * g := by
-  haveI := P.hCc
+  have := P.hCc
   exact setLike_mul_comm hg hh
 
 theorem a_pow_eight : P.a ^ 8 = 1 := by

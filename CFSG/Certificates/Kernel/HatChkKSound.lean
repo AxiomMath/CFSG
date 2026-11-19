@@ -63,7 +63,7 @@ theorem greedyCoverL_eq (n : ℕ) (ps : List ℕ) (P₁ P₂ : Array (Array ℕ)
     split
     · rw [forIn_id _ (gIn (fun i j => cmA n P₁[i]! P₁[j]!) i)]
       · simp only [pure_bind]
-        split <;> rename_i hc <;> simp only [hc, ↓reduceIte]
+        split <;> rename_i hc <;> simp only
       · intro k s
         unfold gIn
         rw [Array.all_toList]

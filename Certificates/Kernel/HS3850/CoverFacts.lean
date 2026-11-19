@@ -184,7 +184,7 @@ theorem b_of {k r : Nat}
     perm_of (cent_tab hr) cR cRI iR,
     conjEq_of (fours_tab hk) (conj_tab hk) (cent_tab hr) cL cLI iL cR cRI iR cC cCI iC hq⟩
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.EvenSporadicStandard.TwoHS CFSG.EvenSporadicStandard.HSStd in
 theorem facts25552 :
     (coverNInvOK = true ∧ coverXNeOK = true ∧ coverXSqOK = true ∧ coverComm2OK = true ∧

@@ -35,7 +35,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.Fendel CFSG.KC.Child3
     lexLtK (PA p) (LB p) (PA (Nat.succ p)) (LB (Nat.succ p)), true))
 
 @[expose] noncomputable def cdPosK (E GP GIP TB : Nat → Nat) (CS OFF : List Nat)
-    (CI M PA LB CC CV K MI : Nat → Nat) (N p : Nat) : Bool :=
+    (CI M PA LB CC CV K MI : Nat → Nat) (_N p : Nat) : Bool :=
   strictB (CI p) (fun c => strictB (lget OFF c) (fun o => strictB (lget CS c) (fun s =>
   strictB (Nat.sub p o) (fun k => strictB (M p) (fun m =>
   bAnd(Nat.blt c CS.length, bAnd(Nat.ble o p, bAnd(Nat.blt k s, bAnd(Nat.blt m 4608,
@@ -44,7 +44,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.Fendel CFSG.KC.Child3
   bAnd(lexPos PA LB s k p,
     allN 3 (fun i => cloPos E GP GIP M PA LB K o s k m p i)))))))))))))
 
-@[expose] noncomputable def cdMemK (TB : Nat → Nat) (CS OFF : List Nat) (CI M MI : Nat → Nat)
+@[expose] noncomputable def cdMemK (TB : Nat → Nat) (_CS OFF : List Nat) (CI M MI : Nat → Nat)
     (N j : Nat) : Bool :=
   bIf(Nat.beq (TB j) 1, strictB (MI j) (fun p => bAnd(Nat.blt p N, bAnd(Nat.beq (M p) j,
     Nat.ble (M (lget OFF (CI p))) j))), true)
@@ -52,7 +52,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.Fendel CFSG.KC.Child3
 @[expose] noncomputable def ckF (CI MI : Nat → Nat) (N j : Nat) : Nat :=
   nIf(Nat.blt (MI j) N, CI (MI j), 0)
 
-@[expose] noncomputable def ciF (CS OFF : List Nat) (CI CV MI : Nat → Nat) (N j : Nat) : Nat :=
+@[expose] noncomputable def ciF (_CS OFF : List Nat) (CI CV MI : Nat → Nat) (N j : Nat) : Nat :=
   nIf(Nat.blt (MI j) N, nIf(Nat.beq (lget OFF (CI (MI j))) (MI j), 0, CV (MI j)), 0)
 
 @[expose] noncomputable def zcK (A Z EA X : Nat) : Nat :=

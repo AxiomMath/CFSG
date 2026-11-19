@@ -179,7 +179,7 @@ theorem transCenter_plane {k : Subfield K} {H : Subgroup (StatedSp r K)}
     exact hl.smul x
   refine (hl.smul x).add (hr.smul y) ?_
   simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, spForm_lr, ↓reduceIte, mul_one]
-  first | exact mul_ne_zero hx hy | exact mul_ne_zero hy hx
+  exact mul_ne_zero hy hx
 
 theorem transCenter_pair' {k : Subfield K} {H : Subgroup (StatedSp r K)}
     (hrat : ∀ v₀ : Fin r ⊕ Fin r → k, v₀ ≠ 0 → TransCenter H (ratVec v₀)) {i j : Fin r}

@@ -68,7 +68,7 @@ private theorem isSolvable_centralizer_projectiveSL
     (hout : α ∉ (MulAut.conj : projectiveSL 3 K →* MulAut (projectiveSL 3 K)).range)
     (hcentral : ∀ β : MulAut (projectiveSL 3 K),
       β * α * β⁻¹ * α⁻¹ ∈ (MulAut.conj : projectiveSL 3 K →* MulAut (projectiveSL 3 K)).range) :
-    IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut (projectiveSL 3 K)))) := by
+    Group.IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut (projectiveSL 3 K)))) := by
   classical
   have := LinearFieldFour.finite_of_card_eq_four hK
   have := LinearFieldFour.charP_two_of_card_eq_four hK
@@ -179,7 +179,7 @@ theorem card_outer_psl_three_four {L : Type} [Group L]
 theorem isSolvable_centralizer_of_graphField_psl_three_four {L : Type} [Group L]
     (hL : CFSG.Blueprint.LieModel L .PSL 3 2 2) (α : MulAut L) (hα : α ^ 2 = 1)
     (hout : α ∉ inner L) (hcentral : ∀ β : MulAut L, β * α * β⁻¹ * α⁻¹ ∈ inner L) :
-    IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut L))) := by
+    Group.IsSolvable ↥(Subgroup.centralizer ({α} : Set (MulAut L))) := by
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have : Finite K := LinearFieldFour.finite_of_card_eq_four hK4

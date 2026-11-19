@@ -18,24 +18,24 @@ open Subgroup
 private theorem wccm_isPerfect_of_lieModel_PSL3 {M : Type} [Group M]
     (h : CFSG.Blueprint.LieModel M .PSL 3 2 2) : Group.IsPerfect M := by
   obtain ⟨-, K, hKfield, hKfin, -, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : Group.IsPerfect (CFSG.Open.StatedSL 3 K) :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : Group.IsPerfect (CFSG.Open.StatedSL 3 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K
-  haveI : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) := inferInstance
+  have : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) := inferInstance
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem wccm_isPerfect_of_lieModel_PSp2 {M : Type} [Group M]
     (h : CFSG.Blueprint.LieModel M .PSp 2 2 2) : Group.IsPerfect M := by
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have h4 : ∃ s : Finset K, s.card = 4 := by
     refine ⟨Finset.univ, ?_⟩
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hKcard]
     norm_num
-  haveI : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
+  have : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.symplectic_projective_perfect 2 K (Or.inl h4)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -46,15 +46,15 @@ private theorem wccm_borelRankTwoTop_of_rankTwo (M : Type) [Group M] [Finite M]
       CFSG.LocalAnalysis.UniquenessCase.UC22.uc22pdiag_TwoClasses M (V : Subgroup M)) :
     BorelRankTwoTop M := by
   intro S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let V : Sylow 2 M := hS.isPGroup.toSylow (by
     have h := hS.not_dvd_relIndex
     rwa [Subgroup.relIndex_top_right] at h)
   have hV : (V : Subgroup M) = S := IsPGroup.toSylow_coe _ _
-  haveI : Group.IsPerfect M := hperf
-  haveI : Group.IsPerfect (↥(⊤ : Subgroup M)) := inferInstance
-  haveI : IsSimpleGroup M := hsimple
-  haveI : IsSimpleGroup (↥(⊤ : Subgroup M)) :=
+  have : Group.IsPerfect M := hperf
+  have : Group.IsPerfect (↥(⊤ : Subgroup M)) := inferInstance
+  have : IsSimpleGroup M := hsimple
+  have : IsSimpleGroup (↥(⊤ : Subgroup M)) :=
     (Subgroup.topEquiv : ↥(⊤ : Subgroup M) ≃* M).isSimpleGroup
   have hcenter : Subgroup.center (↥(⊤ : Subgroup M)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

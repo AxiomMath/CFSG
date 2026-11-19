@@ -152,7 +152,7 @@ theorem d4_normal_form {S : Type} [Group S] [Finite S] (hcen : Subgroup.center S
   obtain ⟨-, -, -, hEq⟩ := hQ0
   subst hEq
   dsimp only [CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (by norm_num)] at hraw
+  rw [ite_eq_right (by norm_num)] at hraw
   obtain ⟨K, hKF, hKfin, hK, hsR, hnaR, θ, -⟩ := hraw
   let eS : S ≃* S ⧸ Subgroup.center S :=
     ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm

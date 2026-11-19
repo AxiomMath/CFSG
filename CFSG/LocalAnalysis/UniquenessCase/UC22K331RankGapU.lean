@@ -22,8 +22,8 @@ theorem three_le_pRank_centralizer_psu_of_six_le {q : ℕ} {K : Type} [Field K] 
     3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer ({x} : Set (StatedProj (StatedSU n q K)))) := by
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   obtain ⟨r, f, hr, hchar, rfl⟩ := CrossUni.exists_prime_pow_of_card_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   have hn1 : 1 ≤ n := by omega
   obtain ⟨g, hg3, rfl⟩ := exists_lift_pow_three (H := StatedSU n (r ^ f) K) (N := r ^ f + 1)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h3q1)
@@ -98,7 +98,7 @@ theorem k331Idx_twistedA_of_five_le {r : ℕ} {q : PrimePower}
     have := Subgroup.card_subgroup_dvd_card E
     rw [hE] at this
     exact (dvd_pow_self 3 (by norm_num)).trans this
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hx' : orderOf (eK x) = 3 := by rw [MulEquiv.orderOf_eq]; exact hx
   have h3q : ¬ 3 ∣ q.p ^ q.exponent := by rw [← hq]; omega

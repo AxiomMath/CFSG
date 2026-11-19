@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem not_dvd_card_of_ne_zero {ℓ : ℕ} (hℓ : ℓ.Prime) (hK : (ℓ : K) ≠ 0) :
     ¬ ℓ ∣ Nat.card K := by
   intro hdvd
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   rw [← Nat.card_eq_fintype_card] at hn
   rw [hn] at hdvd
@@ -64,7 +64,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem psl2_isSimple (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) :
     IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact four_le_card h2 h3)
   exact (CFSG.LinearGroups.linear_projective_simple (K := K) (n := 2) le_rfl
@@ -72,7 +72,7 @@ theorem psl2_isSimple (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) :
 
 theorem psl2_isPerfect (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) :
     Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact four_le_card h2 h3)
   exact CFSG.LinearGroups.linear_projective_perfect (K := K) (n := 2) le_rfl (Or.inr ⟨s, hs⟩)
@@ -250,14 +250,14 @@ theorem three_component {U : Type} [AddCommGroup U] [Module K U] [FiniteDimensio
     obtain ⟨m, hm, rfl⟩ := Subgroup.mem_map.mp hn
     have key := hNQ ⟨g, hg⟩ m hm
     exact Subgroup.mem_map.mpr ⟨_, key, by simp⟩
-  · haveI := psl2_isSimple h2 h3
+  · have := psl2_isSimple h2 h3
     exact Φ.isSimpleGroup
-  · haveI := psl2_isPerfect h2 h3
+  · have := psl2_isPerfect h2 h3
     exact Group.IsPerfect.ofSurjective (f := Φ.symm.toMonoidHom) Φ.symm.surjective
-  · haveI := (psl2_isSimple h2 h3).toNontrivial
-    haveI : Nontrivial (NQ.map (TauCeti.QuadraticMap.orthogonalGroup Q).subtype) :=
+  · have := (psl2_isSimple h2 h3).toNontrivial
+    have : Nontrivial (NQ.map (TauCeti.QuadraticMap.orthogonalGroup Q).subtype) :=
       Φ.toEquiv.nontrivial
-    haveI := psl2_isPerfect h2 h3
+    have := psl2_isPerfect h2 h3
     exact not_comm_of_perfect (Group.IsPerfect.ofSurjective (f := Φ.symm.toMonoidHom)
       Φ.symm.surjective)
   · rw [Nat.card_congr Φ.toEquiv]

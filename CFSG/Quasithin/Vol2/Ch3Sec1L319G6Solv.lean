@@ -62,6 +62,7 @@ section Blocks
 variable {V : Type} [CommGroup V] [Finite V] {X T M : Subgroup (MulAut V)}
   {𝓗 : Finset (Subgroup (MulAut V))}
 
+omit [Finite V] in
 theorem symBlk_natBlock_false {M₀ H : Subgroup (MulAut V)} {m e : ℕ} (hS : SymBlk M₀ H m) (he : 2 ≤ e)
     (hN : NatBlockData H (commV H) e) : False := by
   obtain ⟨hm3, -, θ, -⟩ := hS
@@ -82,6 +83,7 @@ theorem symBlk_natBlock_false {M₀ H : Subgroup (MulAut V)} {m e : ℕ} (hS : S
     Equiv.Perm.sign_swap hne] at h1
   exact absurd h1 (by decide)
 
+omit [Finite V] in
 theorem BlkCtx.nat_eq_borel (h : BlkCtx X T M 𝓗) {H : Subgroup (MulAut V)} (hH : H ∈ 𝓗) {e : ℕ}
     (he : 2 ≤ e) (hN : NatBlockData H (commV H) e) :
     M ⊓ H = H ⊓ Subgroup.normalizer ((T ⊓ H : Subgroup (MulAut V)) : Set (MulAut V)) := by
@@ -213,7 +215,7 @@ theorem BlkCtx.isSolvable_of_block (h : BlkCtx X T M 𝓗) {H₀ : Subgroup (Mul
     have hle : M ⊓ ffJ X ≤ ⨆ H ∈ 𝓗, M ⊓ H := by
       rw [h.ffJ_eq]
       exact hstep2 𝓗 le_rfl
-    haveI := hstep3 𝓗 le_rfl
+    have := hstep3 𝓗 le_rfl
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have htwo : ∀ m ∈ X, ∃ k : ℕ, m ^ 2 ^ k ∈ ffJ X :=
@@ -233,7 +235,7 @@ theorem BlkCtx.isSolvable_of_block (h : BlkCtx X T M 𝓗) {H₀ : Subgroup (Mul
       refine ⟨?_, (hJn x).mpr hx2⟩
       have := M.mul_mem (M.mul_mem (M.inv_mem hm) hx1) hm
       simpa [mul_assoc] using this
-  haveI := hnorm
+  have := hnorm
   have hsolvD : Group.IsSolvable ↥((M ⊓ ffJ X : Subgroup (MulAut V)).subgroupOf M) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left :
       (M ⊓ ffJ X : Subgroup (MulAut V)) ≤ M)).symm.toMonoidHom)
@@ -247,9 +249,9 @@ theorem BlkCtx.isSolvable_of_block (h : BlkCtx X T M 𝓗) {H₀ : Subgroup (Mul
       refine ⟨k, ?_⟩
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
       exact ⟨M.pow_mem m.2 _, hk⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable (↥M ⧸ (M ⊓ ffJ X : Subgroup (MulAut V)).subgroupOf M) := by
-    haveI := hpgrp.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable (↥M ⧸ (M ⊓ ffJ X : Subgroup (MulAut V)).subgroupOf M) := by
+    have := hpgrp.isNilpotent
     infer_instance
   exact Group.isSolvable_of_subgroup_quotient ((M ⊓ ffJ X : Subgroup (MulAut V)).subgroupOf M)
 

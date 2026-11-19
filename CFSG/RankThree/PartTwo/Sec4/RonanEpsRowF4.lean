@@ -38,7 +38,7 @@ theorem exists_noncomm_of_simple_card {X : Type} [Group X] [IsSimpleGroup X]
     (h2 : 2 ∣ Nat.card X) (hlt : 2 < Nat.card X) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  haveI : IsMulCommutative X := ⟨⟨fun a b => hcomm a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => hcomm a b⟩⟩
   have hp : (Nat.card X).Prime := Group.is_simple_iff_prime_card.mp ‹IsSimpleGroup X›
   rcases hp.eq_one_or_self_of_dvd 2 h2 with h | h <;> omega
 
@@ -135,7 +135,7 @@ theorem noCfgSEps_reeGamma {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.pr
       CFSG.HardMathSupport.Lang.Coordinator.largeRee_fixed_data_of_odd hK Nat.prime_three
         (by norm_num) p.right hβ
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP (fixSubfield p.right) ReeTag.F4.prime := by
+    have : CharP (fixSubfield p.right) ReeTag.F4.prime := by
       have := Fintype.ofFinite (fixSubfield p.right)
       exact charP_of_card_eq_prime_pow (f := 2 * b + 1)
         (by rw [← Nat.card_eq_fintype_card, hkcard]; rfl)
@@ -162,9 +162,9 @@ theorem noCfgSEps_reeGamma {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.pr
       exact not_isTypeEpsCube_of_dvd (B := 3) (by norm_num) hdvd (by norm_num)
         (by decide +kernel) (by decide +kernel) (isTypeEpsCube_of_cfgSEps hc)
     ·
-      haveI hCs : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield p.right) b) :=
+      have hCs : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield p.right) b) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hkcard
-      haveI hCs' : IsSimpleGroup (Sec4.autFix σ) := eσ.isSimpleGroup
+      have hCs' : IsSimpleGroup (Sec4.autFix σ) := eσ.isSimpleGroup
       have h8 : 8 ≤ 2 ^ (2 * b + 1) := by
         calc 8 = 2 ^ 3 := by norm_num
           _ ≤ 2 ^ (2 * b + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -185,7 +185,7 @@ theorem noCfgSEps_reeGamma {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.pr
 theorem noCfgSEps_of_reeGamma {S : Type} [Group S] [Finite S] {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] {a : ℕ} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (τ : S ≃* ReeTag.F4.reeGamma K a) : NoCfgSEps S := by
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Finite.of_equiv S τ.toEquiv
+  have : Finite (ReeTag.F4.reeGamma K a) := Finite.of_equiv S τ.toEquiv
   exact (noCfgSEps_reeGamma ha hK).of_mulEquiv τ
 
 theorem rowSEpsOf_seven_F4 : ∀ (m : ℕ) (hm : (TauCeti.LieTypeIndex.reeF4 m).Valid),

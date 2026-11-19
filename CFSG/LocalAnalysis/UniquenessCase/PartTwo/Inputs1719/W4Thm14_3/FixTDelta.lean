@@ -148,22 +148,26 @@ section Delta
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem coe_statedSLEquivSL_symm (x : SL(2, K)) :
     (((H13.A5.statedSLEquivSL 2 K).symm x : ↥(StatedSL 2 K)) : GL (Fin 2) K) =
       (x : GL (Fin 2) K) := rfl
 
+omit [CharP K 2] in
 private theorem mulVec_uElt (s l : K) :
     ((uElt s : SL(2, K)) : Matrix (Fin 2) (Fin 2) K).mulVec
         (![l, 0] : Fin 2 → K) = ![l, 0] := by
   rw [uElt_mulVec]
   simp
 
+omit [CharP K 2] in
 private theorem mulVec_dElt (z : Kˣ) (l : K) :
     ((dElt z : SL(2, K)) : Matrix (Fin 2) (Fin 2) K).mulVec
         (![l, 0] : Fin 2 → K) = ![((z : K) * l), 0] := by
   ext i
   fin_cases i <;> simp [dElt, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
+omit [CharP K 2] in
 private theorem natAct_uElt_one (s l : K) :
     natAct (StatedSL 2 K) ((H13.A5.statedSLEquivSL 2 K).symm (uElt s))
         (Multiplicative.ofAdd (![l, 0] : Fin 2 → K)) = Multiplicative.ofAdd ![l, 0] := by
@@ -171,6 +175,7 @@ private theorem natAct_uElt_one (s l : K) :
   rw [coe_statedSLEquivSL_symm, Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   exact mulVec_uElt s l
 
+omit [CharP K 2] in
 private theorem natAct_dElt_one (z : Kˣ) (l : K) :
     natAct (StatedSL 2 K) ((H13.A5.statedSLEquivSL 2 K).symm (dElt z))
         (Multiplicative.ofAdd (![l, 0] : Fin 2 → K)) =

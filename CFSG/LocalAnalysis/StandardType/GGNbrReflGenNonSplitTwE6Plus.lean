@@ -23,11 +23,11 @@ theorem excPlusFrameModelOn_twE6Plus
     (hK : Nat.card K = (2 ^ f) ^ 2) (σ : K →+* K) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     GGExcPlusFrameModelOn TwistTag.E6.tag p 5 (graphFixedRootGroup TwistTag.E6 K σ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * f) (by rw [hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * f) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K := iterateFrobenius (AlgebraicClosure K) 2 f
   have hFr : ∀ c, Fr c = c ^ (2 ^ f) := fun c => iterateFrobenius_def 2 f c
@@ -106,7 +106,7 @@ theorem ggTorusReflGenW_twE6Plus
     GGTorusReflGenW p 5 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK (iterateFrobenius K 2 n)
     (fun c => iterateFrobenius_def 2 n c)
   exact ggTorusReflGenW_of_excPlusModel hp hp2

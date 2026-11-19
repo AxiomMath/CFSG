@@ -153,7 +153,7 @@ theorem FlagData.key (hΛ : FlagData M₀ b W Λ) (hf₀ : M₀.B f₀ b = 1)
         have h1 := hΛ.psi_comm hf₀ hT hT' hy''
         have h2 := hTy ⟨T' y'' - y'', hΛ.flag2 T' hT' y'' hy''⟩
         have h3 := hT'u ⟨T y'' - y'', hΛ.flag2 T hT y'' hy''⟩
-        simp only [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.flip_apply] at h3
+        simp only [LinearMap.comp_apply, Submodule.subtype_apply] at h3
         rw [h1, h3] at h2
         have h2' : M₀.B (T y'' - y'') u = M₀.B (T' y'' - y'') y := h2
         obtain ⟨c', hc'⟩ := Submodule.mem_span_singleton.mp (hF T' hT')
@@ -191,7 +191,7 @@ theorem FlagData.card_ΛS [Finite K] (hΛ : FlagData M₀ b W Λ)
     (ΛS : Subgroup (M₀.E ≃ₗ[K] M₀.E))
     (hΛS : ∀ T, T ∈ ΛS ↔ T ∈ Λ ∧ ∀ y, M₀.B y b = 0 → T y - y ∈ Submodule.span K {b}) :
     ∃ d : ℕ, Nat.card ΛS = Nat.card K ^ d ∧ Module.finrank K F = n + d := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hsurj := hΛ.psi_surj hinj hf₀ hHom0 hcard
   have hWF : W ≤ F := fun d hd =>
     (hF d).mpr ⟨hΛ.B_eq_zero hd hΛ.hbW, fun T hT => by

@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23a_bridgeo_preTil_mono {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {S T : Subgroup (Vtil (⊥ : Subgroup G) V hV)} (h : S ≤ T) :
     preTil (⊥ : Subgroup G) V hV S ≤ preTil (⊥ : Subgroup G) V hV T := by

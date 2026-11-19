@@ -82,7 +82,7 @@ theorem three_seven {x s : J} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) (hs : orderOf s 
       rwa [card_fixS_conj t x] at this
 
 theorem pow_seven_eq_one {g : J} (hg : g ^ 49 = 1) : g ^ 7 = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   by_contra hne
   have h7 : (g ^ 7) ^ 7 = 1 := by rw [← pow_mul]; exact hg
   have hord : orderOf (g ^ 7) = 7 := orderOf_eq_prime h7 hne

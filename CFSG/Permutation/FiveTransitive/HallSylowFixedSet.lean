@@ -13,6 +13,7 @@ open Research.HallSylowNormalizer
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 private theorem fixedPoints_eq_exceptional_or_three
     {p : ℕ} [Fact p.Prime]
     (A P : Subgroup G)
@@ -89,6 +90,7 @@ private theorem fixedPoints_eq_exceptional_or_three
       Set.eq_of_subset_of_ncard_le hrangeF (by omega)
     exact ⟨hpEq, hEseven, hrangeEq.symm⟩
 
+omit [Finite G] in
 theorem ambientSylow_fixedPoints_eq_exceptional_or_three
     {p : ℕ} [Fact p.Prime]
     (e : Fin 4 ↪ X)
@@ -110,7 +112,7 @@ theorem ambientSylow_fixedPoints_eq_exceptional_or_three
   classical
   dsimp only
   have hA : IsPGroup p (ambientSylow e Q) := by
-    exact Q.isPGroup'.map (MulAction.stabilizer G e).subtype
+    exact Q.isPGroup.map (MulAction.stabilizer G e).subtype
   have hbase : ∀ i, e i ∈
       MulAction.fixedPoints (ambientSylow e Q) X := by
     intro i

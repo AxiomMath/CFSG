@@ -35,6 +35,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
   {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
 
+omit [Finite G] in
 theorem inZClass_of_isConj {z c : G} (hz : z ∈ Z) (hz1 : z ≠ 1) (h : IsConj z c) :
     InZClass Z c := by
   obtain ⟨g, hg⟩ := isConj_iff.mp h
@@ -49,6 +50,7 @@ theorem isConj_of_inZClass {M Q Z : Subgroup G} (H : StrothHyp M Q Z) {z c : G} 
 def ActsAs (φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)) (x : G) (g : GL (Fin 6) K) : Prop :=
   ∃ hxL : x ∈ Lgen M (LB M Q B), φ ⟨x, hxL⟩ = rhoEquiv K g
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.mul {x y : G} {g h : GL (Fin 6) K} (hx : ActsAs φ x g) (hy : ActsAs φ y h) :
     ActsAs φ (x * y) (g * h) := by
   obtain ⟨hxL, hx⟩ := hx
@@ -58,30 +60,36 @@ theorem ActsAs.mul {x y : G} {g h : GL (Fin 6) K} (hx : ActsAs φ x g) (hy : Act
       ⟨x, hxL⟩ * ⟨y, hyL⟩ := rfl
   rw [this, map_mul, hx, hy, map_mul]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.inv {x : G} {g : GL (Fin 6) K} (hx : ActsAs φ x g) : ActsAs φ x⁻¹ g⁻¹ := by
   obtain ⟨hxL, hx⟩ := hx
   refine ⟨(Lgen M (LB M Q B)).inv_mem hxL, ?_⟩
   have : (⟨x⁻¹, (Lgen M (LB M Q B)).inv_mem hxL⟩ : Lgen M (LB M Q B)) = (⟨x, hxL⟩)⁻¹ := rfl
   rw [this, map_inv, hx, map_inv]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.one : ActsAs φ (1 : G) (1 : GL (Fin 6) K) :=
   ⟨(Lgen M (LB M Q B)).one_mem, by
     have : (⟨1, (Lgen M (LB M Q B)).one_mem⟩ : Lgen M (LB M Q B)) = 1 := rfl
     rw [this, map_one, map_one]⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.conj {x y : G} {g h : GL (Fin 6) K} (hx : ActsAs φ x g) (hy : ActsAs φ y h) :
     ActsAs φ (y * x * y⁻¹) (h * g * h⁻¹) := (hy.mul hx).mul hy.inv
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.mem_Lgen {x : G} {g : GL (Fin 6) K} (hx : ActsAs φ x g) :
     x ∈ Lgen M (LB M Q B) := by
   obtain ⟨h, -⟩ := hx
   exact h
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.phi {x : G} {g : GL (Fin 6) K} (hx : ActsAs φ x g)
     (hxL : x ∈ Lgen M (LB M Q B)) : φ ⟨x, hxL⟩ = rhoEquiv K g := by
   obtain ⟨_, h⟩ := hx
   exact h
 
+omit [Finite K] [Finite G] [CharP K 2] in
 theorem E3LDat.actsAs (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {y : G} (hyc : IsConj z y) (hyM : y ∈ M)
     (hyQ : y ∉ Q) : ∃ g : GL (Fin 6) K, IsTransvec K g ∧ ActsAs φ y g := by
   obtain ⟨s, hsq, g, hg, hφs⟩ := Dt.fe2 y hyc hyM hyQ

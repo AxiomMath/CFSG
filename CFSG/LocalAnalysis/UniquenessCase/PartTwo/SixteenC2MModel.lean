@@ -238,7 +238,7 @@ private theorem s16c2m_model_core {W : Type} [CommGroup W] (hW : ∀ w : W, w ^ 
         _ = ζ' (v : W) * ((v₂ : W) * ζ' (v₂ : W)) := by rw [hv₂]
         _ = (v₂ : W) * ζ' ((v : W) * (v₂ : W)) := by
             rw [map_mul]
-            simp only [mul_assoc, mul_comm, mul_left_comm]
+            simp only [mul_left_comm]
     have h2 : (⟨x, hx⟩ : ↥J) = v₂ ∧ (1 : ↥J) = v * v₂ := by
       apply s16c2m_pair_unique hd
       show x * ζ' ((1 : ↥J) : W) = (v₂ : W) * ζ' ((v : W) * (v₂ : W))

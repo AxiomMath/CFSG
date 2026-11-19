@@ -14,8 +14,8 @@ variable {K : Type} [Field K] {Y : Set (Matrix (Fin 2) (Fin 2) K × SpecialLinea
 @[expose] def TwistClosed.proj (hY : TwistClosed Y) : Subgroup (SpecialLinearGroup (Fin 2) K) where
   carrier := {A | ∃ X, (X, A) ∈ Y}
   one_mem' := ⟨0, hY.one_mem⟩
-  mul_mem' := fun ⟨X, hX⟩ ⟨X', hX'⟩ => ⟨_, hY.mul_mem hX hX'⟩
-  inv_mem' := fun ⟨X, hX⟩ => ⟨_, hY.inv_mem hX⟩
+  mul_mem' := fun ⟨_X, hX⟩ ⟨_X', hX'⟩ => ⟨_, hY.mul_mem hX hX'⟩
+  inv_mem' := fun ⟨_X, hX⟩ => ⟨_, hY.inv_mem hX⟩
 
 theorem TwistClosed.mem_proj (hY : TwistClosed Y) {A : SpecialLinearGroup (Fin 2) K} :
     A ∈ hY.proj ↔ ∃ X, (X, A) ∈ Y := Iff.rfl
@@ -138,7 +138,7 @@ private theorem line_full_of_mem (hY : TwistClosed Y) (hproj : hY.proj = ⊤)
   have e : (u2 t : Matrix (Fin 2) (Fin 2) K) * W - W = !![t * W 1 0, t * W 1 1; 0, 0] := by
     ext i j
     rw [Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, u2_coe]
-    fin_cases i <;> fin_cases j <;> simp <;> ring
+    fin_cases i <;> fin_cases j <;> simp
   rw [e] at h1
   exact h1
 
@@ -150,18 +150,18 @@ theorem root_line_of_kernel (hY : TwistClosed Y) (hproj : hY.proj = ⊤)
         (1 : SpecialLinearGroup (Fin 2) K)) ∈ Y := by
   by_cases hcase : X₀ 1 0 ≠ 0 ∨ X₀ 1 1 ≠ 0
   · exact ⟨X₀ 1 0, X₀ 1 1, hcase, fun t => line_full_of_mem hY hproj hker t⟩
-  · push_neg at hcase
+  · push Not at hcase
     obtain ⟨h10, h11⟩ := hcase
     have hrow : X₀ 0 0 ≠ 0 ∨ X₀ 0 1 ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hX₀
       ext i j
       fin_cases i <;> fin_cases j <;> simp [hcon.1, hcon.2, h10, h11]
     have e2 : (l2 (1 : K) : Matrix (Fin 2) (Fin 2) K) * X₀ - X₀ = !![0, 0; X₀ 0 0, X₀ 0 1] := by
       ext i j
       rw [Matrix.sub_apply, Matrix.mul_apply, Fin.sum_univ_two, l2_coe]
-      fin_cases i <;> fin_cases j <;> simp [h10, h11] <;> ring
+      fin_cases i <;> fin_cases j <;> simp [h10, h11]
     have hW : ((!![0, 0; X₀ 0 0, X₀ 0 1] : Matrix (Fin 2) (Fin 2) K),
         (1 : SpecialLinearGroup (Fin 2) K)) ∈ Y := by
       rw [← e2]

@@ -162,7 +162,7 @@ theorem ggL48Homocyclic_of_irreducible {p : ℕ} (hp1 : 1 < p) {U₁ B₁ A : Su
 
 theorem card_nsmul_eq_zero_zmod {p s : ℕ} (hp : p.Prime) (hs : 1 ≤ s) :
     Nat.card {z : ZMod (p ^ s) // p • z = 0} = p := by
-  haveI : NeZero (p ^ s) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ s) := ⟨pow_ne_zero _ hp.ne_zero⟩
   have hps : p ^ s = p * p ^ (s - 1) := by rw [← pow_succ']; congr 1; omega
   set a : ZMod (p ^ s) := ((p ^ (s - 1) : ℕ) : ZMod (p ^ s)) with ha
   have h0 : p • a = 0 := by
@@ -193,8 +193,8 @@ theorem exists_homocyclic_model [Finite G] {p : ℕ} (hp : p.Prime) {U : Subgrou
     {B : Subgroup G} (hB : ∀ u, u ∈ B ↔ u ∈ U ∧ u ^ p = 1) (hcard : Nat.card B = p ^ m) :
     Nonempty (Additive U ≃+ (Fin m → ZMod (p ^ s))) := by
   classical
-  letI : CommGroup U := { (inferInstance : Group U) with mul_comm := hab.is_comm.comm }
-  haveI : Finite (Additive U) := inferInstanceAs (Finite U)
+  let : CommGroup U := { (inferInstance : Group U) with mul_comm := hab.is_comm.comm }
+  have : Finite (Additive U) := inferInstanceAs (Finite U)
   obtain ⟨ι, _, n, hn, ⟨f⟩⟩ := AddCommGroup.equiv_directSum_zmod_of_finite' (Additive U)
   set F : Additive U ≃+ ((i : ι) → ZMod (n i)) :=
     f.trans (DirectSum.linearEquivFunOnFintype ℤ ι (fun i => ZMod (n i))).toAddEquiv with hF
@@ -286,7 +286,7 @@ theorem exists_monoidHom_of_irreducible [Finite G] {p : ℕ} {B Bs : Subgroup G}
     (hpm : ¬ p ∣ m) :
     ∃ ψ : Subgroup.normalizer (U₁ : Set G) →* Multiplicative (ZMod p), ψ ≠ 1 := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : ∀ b ∈ Bs, b ^ p = 1 := hS.1.1.2.1.2.1.2
   have hxBs : x ∈ Bs := by
     rw [hS.2.2.1.2]; exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)

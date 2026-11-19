@@ -148,7 +148,7 @@ theorem exists_scalarWitness_of_conj
       ↥(graphFixedRootGroup TwistTag.E6 K θ.toRingHom) →*
         MulAut ↥(graphFixedRootGroup TwistTag.E6 K θ.toRingHom)) = A) :
     ∃ wt : GGTorusTorWit m 6 ↥(graphFixedRootGroup TwistTag.E6 K θ.toRingHom) A,
-      wt.Holds CartanMatrix.E₆ CoxeterMatrix.E₆ ∧
+      wt.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆ ∧
       ∀ (k : Fin Tag.E6.rank) (s : Fin Tag.E6.rank → ZMod p),
         wt.n k * ι₁ (Multiplicative.ofAdd s) * (wt.n k)⁻¹ =
           ι₁ (Multiplicative.ofAdd (TableBExc.torusAct Tag.E6 p (simple Tag.E6 k) s)) := by
@@ -281,16 +281,16 @@ theorem ggTwE6_leviFrame
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hf1 : 1 ≤ n := by omega
   have h3E : p ^ 3 ≤ Nat.card E := le_trans (Nat.pow_le_pow_right hp.pos (by norm_num)) h5E
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := inferInstance
+  have : IsAlgClosed (AlgebraicClosure K) := inferInstance
   obtain ⟨θ, hθq, hθo, -⟩ := finite_graph_field_parameter_fields TwistTag.E6 Nat.prime_two hf1 K hK
   have hθσ : θ = σ := RingEquiv.ext fun c => (hθq c).trans (hσ c).symm
   subst hθσ

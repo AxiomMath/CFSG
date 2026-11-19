@@ -154,6 +154,7 @@ theorem CaseAFacts.UH_le_VH (facts : CaseAFacts G T M L D H K q) :
       ((CFSG.Quasithin.oTwoUpper_le H).trans (c.nf.HLT.trans (sup_le hLV hTV)))
   exact conjClosure_mono hVp le_rfl
 
+omit [Finite G] in
 theorem E7Pair.Dγ_eq {Z U TC G2 R : Subgroup G} {g : G} (h : E7Pair Z U TC G2 R g) :
     centralizerMod Z (conjSub g U) U = conjSub g U ⊓ TC := by
   rw [← h.e5b]
@@ -172,6 +173,7 @@ theorem mIdx_pos_of_lt' {X Y : Subgroup G} (hX : IsPGroup 2 X) (hlt : Y < X) : 0
     exact absurd (Subgroup.relIndex_eq_one.mp h1) (not_le_of_gt hlt)
   · exact h0
 
+omit [Finite G] in
 theorem lt_of_mIdx_pos {X Y : Subgroup G} (hYX : Y ≤ X) (hpos : 0 < mIdx X Y) : Y < X := by
   refine lt_of_le_of_ne hYX fun heq => ?_
   subst heq

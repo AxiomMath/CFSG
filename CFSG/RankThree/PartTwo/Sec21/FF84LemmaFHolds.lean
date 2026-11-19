@@ -51,9 +51,9 @@ theorem exists_normal_elemAbelian_of_pGroup {Γ : Type} [Group Γ] [Finite Γ] (
         _ = q * (g * n * g⁻¹) := by group
   ·
     intro hE
-    haveI : Nontrivial Q := by
+    have : Nontrivial Q := by
       rw [Subgroup.nontrivial_iff_ne_bot]; exact hQ1
-    haveI : Nontrivial (Subgroup.center Q) := hQ.center_nontrivial
+    have : Nontrivial (Subgroup.center Q) := hQ.center_nontrivial
     have hcen : IsPGroup 2 (Subgroup.center Q) :=
       hQ.of_injective (Subgroup.center Q).subtype Subtype.val_injective
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hcen
@@ -84,7 +84,7 @@ theorem exists_normal_elemAbelian_of_pGroup {Γ : Type} [Group Γ] [Finite Γ] (
 theorem lemmaF_holds : LemmaF := by
   intro G _ _ J Z X N _ y hZJ hZ2 hsimple hcard hyJ hord hX2 hNX hNnorm hJX hJN hfpf
   by_contra hXN
-  rw [SetLike.le_def] at hXN
+  rw [_root_.IsConcreteLE.le_iff] at hXN
   push Not at hXN
   obtain ⟨x0, hx0X, hx0N⟩ := hXN
   set W : Subgroup G := Nor X ⊓ Nor N with hW
@@ -118,7 +118,7 @@ theorem lemmaF_holds : LemmaF := by
   have hπker : ∀ w : ↥W, π w = 1 ↔ (w : G) ∈ N := fun w => by
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   set Q : Subgroup (↥W ⧸ N.subgroupOf W) := (X.subgroupOf W).map π with hQdef
-  haveI hQn : Q.Normal := Subgroup.Normal.map hX1 π hπ
+  have hQn : Q.Normal := Subgroup.Normal.map hX1 π hπ
   have hQ2 : IsPGroup 2 Q := by
     have h1 : IsPGroup 2 (X.subgroupOf W) :=
       hX2.of_equiv (Subgroup.subgroupOfEquivOfLe hXW).symm
@@ -132,10 +132,10 @@ theorem lemmaF_holds : LemmaF := by
     rw [hQ, Subgroup.mem_bot, hπker] at hmem
     exact hx0N hmem
   obtain ⟨E, hEn, hE1, hEQ, hE2, hEc⟩ := exists_normal_elemAbelian_of_pGroup Q hQ2 hQ1
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun a b => Subtype.ext (hEc a a.2 b b.2) }
   let φ : ↥J →* MulAut ↥E := MulAut.conjNormal.comp (π.comp (Subgroup.inclusion hJW))
-  letI : MulDistribMulAction ↥J ↥E := MulDistribMulAction.compHom ↥E φ
+  let : MulDistribMulAction ↥J ↥E := MulDistribMulAction.compHom ↥E φ
   have hsm : ∀ (j : ↥J) (e : ↥E), ((j • e : ↥E) : ↥W ⧸ N.subgroupOf W) =
       π (Subgroup.inclusion hJW j) * e * (π (Subgroup.inclusion hJW j))⁻¹ := by
     intro j e
@@ -144,7 +144,7 @@ theorem lemmaF_holds : LemmaF := by
   have hy3' : y ^ 3 = 1 := hord ▸ pow_orderOf_eq_one y
   have hZ : IsPGroup 2 (Z.subgroupOf J) :=
     hZ2.of_equiv (Subgroup.subgroupOfEquivOfLe hZJ).symm
-  haveI := hsimple
+  have := hsimple
   have hall : ∀ e : ↥E, e = 1 :=
     eq_one_of_simple168_quotient (J := ↥J) (Z.subgroupOf J) hZ hcard (E := ↥E)
       (fun e => Subtype.ext (hE2 e e.2)) (y := ⟨y, hyJ⟩)

@@ -105,10 +105,10 @@ theorem Hyp.mem_of_conj_mem_sylow_involution (h : Hyp S A₁ A₂) (h12 : ¬ A�
     rcases ha with ha | ha
     · exact ⟨A₁ ⊓ Subgroup.centralizer ({a} : Set G), fun x hx => Or.inl hx.1,
         inf_le_inf_right _ h.le_one,
-        four_le_card_inf_centralizer (S.isPGroup'.to_le h.le_one) h.rank_one ha ha2⟩
+        four_le_card_inf_centralizer (S.isPGroup.to_le h.le_one) h.rank_one ha ha2⟩
     · exact ⟨A₂ ⊓ Subgroup.centralizer ({a} : Set G), fun x hx => Or.inr hx.1,
         inf_le_inf_right _ h.le_two,
-        four_le_card_inf_centralizer (S.isPGroup'.to_le h.le_two) h.rank_two ha ha2⟩
+        four_le_card_inf_centralizer (S.isPGroup.to_le h.le_two) h.rank_two ha ha2⟩
   obtain ⟨k, hk, hSyl, hconj⟩ :=
     h.exists_conj_sylow_inf hSH hXS (h.fixesOnly_of_card h12 h21 hXU hX4)
   have hbU := hconj a ha (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
@@ -134,7 +134,7 @@ theorem Hyp.mem_of_conj_mem_sylow (h : Hyp S A₁ A₂) (h12 : ¬ A₁ ≤ A₂)
     rcases ha with ha | ha
     · exact h.le_one ha
     · exact h.le_two ha
-  obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup' haS
+  obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup haS
   have hdvd : orderOf a ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
   have hm1 : 1 ≤ m := by
@@ -180,7 +180,7 @@ theorem Hyp.fixesOnly_of_mem_union (h : Hyp S A₁ A₂) (h12 : ¬ A₁ ≤ A₂
     · exact h.le_one hb
     · exact h.le_two hb
   have hp : IsPGroup 2 (Subgroup.zpowers (g⁻¹ * b * g)) := by
-    obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup' hbS
+    obtain ⟨n, hn⟩ := exists_pow_two_pow_eq_one S.isPGroup hbS
     have hord : orderOf (g⁻¹ * b * g) = orderOf b := by
       rw [← MulAut.conj_inv_apply, MulEquiv.orderOf_eq]
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hn)

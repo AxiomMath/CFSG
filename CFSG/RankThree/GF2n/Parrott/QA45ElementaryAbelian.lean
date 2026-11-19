@@ -118,7 +118,7 @@ private theorem eq_four_of_le_sylowTwo {E : Subgroup A45}
     rw [← hlcl, MonoidHom.map_closure]
     congr 1
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Subgroup.coe_subtype]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Subgroup.coe_subtype]
     rw [hperm.mem_iff]
     simp [lp]
   have hspan : ∀ y ∈ E, (y : P45) ∈ prodSpan l' := fun y hy =>

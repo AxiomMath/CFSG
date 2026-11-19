@@ -229,6 +229,7 @@ open CFSG.StandardType.F4ExplicitPos.BaseChange
 
 variable {K L : Type} [Field K] [Field L] [Algebra K L] [Finite K]
 
+omit [Finite K] in
 theorem algebraMap_injective_of_field : Function.Injective (algebraMap K L) :=
   FaithfulSMul.algebraMap_injective K L
 
@@ -236,12 +237,14 @@ noncomputable def jF4
     : adjointGroup .F4 K →* adjointGroup .F4 L :=
   CFSG.StandardType.F4ExplicitPos.BaseChange.j (τ := .F4) (algebraMap K L)
 
+omit [Finite K] in
 theorem jF4_apply
     (u : adjointGroup .F4 K) :
     ((jF4 u : adjointGroup .F4 L) : ModGL .F4 L) =
       bcGL (τ := .F4) (algebraMap K L) (u : ModGL .F4 K) :=
   rfl
 
+omit [Finite K] in
 theorem jF4_injective
     : Function.Injective (jF4 : adjointGroup .F4 K →* adjointGroup .F4 L) :=
   CFSG.StandardType.F4ExplicitPos.BaseChange.j_injective (τ := .F4) (algebraMap K L)
@@ -253,6 +256,7 @@ noncomputable def frobF4
   ((bcGL (τ := .F4) Fr).comp (adjointGroup .F4 L).subtype).codRestrict
     (adjointGroup .F4 L) (fun g => bcGL_mem_adjointGroup (τ := .F4) Fr g.2)
 
+omit [Field K] [Algebra K L] [Finite K] in
 theorem frobF4_apply_coe
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (g : adjointGroup .F4 L) :
@@ -296,6 +300,7 @@ noncomputable def iotaF4
     (hcenter : Subgroup.center (adjointGroup .F4 K) = ⊥) : G0 →* adjointGroup .F4 L :=
   (jF4).comp (eF4 ψ G0 hG0 hker hcenter).symm.toMonoidHom
 
+omit [Finite K] [Finite X] in
 theorem iotaF4_apply
     (ψ : adjointGroup .F4 K →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))
@@ -314,6 +319,7 @@ noncomputable def thetaF4
   (jF4).comp
     (betaF4 ψ G0 B1 hG0 hker hcenter hBN hinner)
 
+omit [Finite K] [Finite X] in
 theorem iotaF4_e
     (ψ : adjointGroup .F4 K →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
     (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))

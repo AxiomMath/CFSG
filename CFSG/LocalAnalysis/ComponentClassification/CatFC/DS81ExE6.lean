@@ -31,7 +31,7 @@ theorem thetaTorusHom_eq_rootDiagUnit (ε : Kˣ) :
   by_cases h : i = e6Idx 1
   · subst h
     simp
-  · simp [Pi.mulSingle_apply, Pi.single_apply, h]
+  · simp [h]
 
 theorem rootDiagUnit_theta_mem_adjointGroup (h2 : (2 : K) = 0) (ε : Kˣ) :
     rootDiagUnit .E6 (fun i => ε ^ (Pi.single (e6Idx 1) (1 : ℤ) : Fin Tag.E6.rank → ℤ) i) ∈
@@ -43,7 +43,7 @@ theorem rootDiagUnit_theta_mem_adjointGroup (h2 : (2 : K) = 0) (ε : Kˣ) :
 theorem e6_exists_order_eightynine_commute [Finite K] [CharP K 2] {ε : Kˣ}
     (hε : orderOf ε = 89) :
     ∀ y ∈ (e6Reps (K := K)), ∃ z : adjointGroup .E6 K, orderOf z = 89 ∧ Commute z y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have h2 : (2 : K) = 0 := by simpa using CharP.cast_eq_zero K 2
   have hmem := rootDiagUnit_theta_mem_adjointGroup h2 ε
   have h0 : ∀ β ∈ frame₁ ++ frame₂ ++ frame₃, β (e6Idx 1) = 0 := by decide
@@ -74,11 +74,11 @@ theorem lie23To89At_E6 : Lie23To89At .E6 := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hM.chevalleyExceptionalModel (by decide)
   have hK2 : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hadm.2.1 hcard
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   have h11 : 11 ∣ f := eleven_dvd_of_twentythree_dvd_card (by simp) hadm hM
     (dvd_trans h23 (Subgroup.card_subgroup_dvd_card _))
   obtain ⟨ε, hε⟩ := exists_unit_orderOf_eightynine_of_card hcard h11
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover (e.trans (adjointQuotientEquiv .E6 K))
     classesCover_e6Reps (e6_exists_order_eightynine_commute hε) hτ
 

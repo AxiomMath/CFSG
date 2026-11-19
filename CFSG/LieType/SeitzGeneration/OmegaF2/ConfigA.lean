@@ -70,7 +70,7 @@ theorem pairDet_dual_eq_zero [CharP K 2] {c₁ c₂ : Fin d → K}
 
 theorem exists_rational_plane_pairDet_ne [CharP K 2] (hext : IsExtension k Q₀ Q)
     (hnd : (polarBilin Q).Nondegenerate) (htail : TailAnisotropic S) {c₁ c₂ : Fin d → K}
-    (hc₁ : Q c₁ = 0) (hc₂ : Q c₂ = 0) (hc₁₂ : polar Q c₁ c₂ = 0)
+    (hc₁ : Q c₁ = 0) (_hc₂ : Q c₂ = 0) (_hc₁₂ : polar Q c₁ c₂ = 0)
     (hind : LinearIndependent K ![c₁, c₂]) :
     ∃ x y : Fin d → K, IsRat k x ∧ IsRat k y ∧ Q x = 0 ∧ Q y = 0 ∧ polar Q x y = 0 ∧
       pairDet Q c₁ c₂ x y ≠ 0 := by

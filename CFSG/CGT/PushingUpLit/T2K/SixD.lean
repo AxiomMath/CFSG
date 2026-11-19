@@ -87,7 +87,7 @@ theorem goldschmidtSimpleType_of_simple (hGold : Goldschmidt1974) {X : Type} [Gr
     · exfalso
       have hodd := odd_card_goldschmidtOddCore ↥M
       rw [h0, Subgroup.card_top, hcardM] at hodd
-      have hAp : IsPGroup 2 ↥A := S.isPGroup'.to_le hAS
+      have hAp : IsPGroup 2 ↥A := S.isPGroup.to_le hAS
       have hne : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hA1
       obtain ⟨m, hm, hcard⟩ := hAp.nontrivial_iff_card.mp hne
       have h2 : 2 ∣ Nat.card X :=
@@ -199,7 +199,7 @@ theorem print64D1_of_goldschmidt (hGold : Goldschmidt1974) : Print64D1 := by
   have hQp : IsPGroup 2 ↥(QOf L M) := fun x => ⟨1, Subtype.ext (by simpa using hQab.2 x x.2)⟩
   have hQ1 : QOf L M ≠ ⊥ := bot_lt_iff_ne_bot.1 (hD.lt_Q hs)
   obtain ⟨S, hQS⟩ := hQp.exists_le_sylow
-  have hSM : (S : Subgroup G) ≤ M := T2Hyp.two_le_M hs S.isPGroup' hQS
+  have hSM : (S : Subgroup G) ≤ M := T2Hyp.two_le_M hs S.isPGroup hQS
   have hAab : IsMulCommutative (QOf L M) :=
     ⟨⟨fun a b => Subtype.ext (isElemAbelian_comm' hQab a.2 b.2)⟩⟩
   have hcl : ∀ a ∈ QOf L M, ∀ g : G, g⁻¹ * a * g ∈ (S : Subgroup G) →

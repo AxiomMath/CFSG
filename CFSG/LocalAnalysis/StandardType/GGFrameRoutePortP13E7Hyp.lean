@@ -106,20 +106,20 @@ theorem p13e7_polarV_coord_coord
     intro i j
     by_cases h : i = j
     · subst h
-      simp only [if_true]
+      simp only [ite_true]
       rw [← polar_qForm, e7LiftP11_polarV_redV]
       rw [TableBExcTwo.iform_self_eq_two_of_isRoot frameE7.symm_one (frameE7.isRoot i)]
       norm_num
-    · rw [if_neg h, ← polar_qForm, e7LiftP11_polarV_redV, frameE7.orth i j h]
+    · rw [ite_eq_right h, ← polar_qForm, e7LiftP11_polarV_redV, frameE7.orth i j h]
       norm_num
   calc
     ∑ i, u i * ∑ j, v j * polarV (redV (frameE7.root i)) (redV (frameE7.root j))
         = ∑ i, u i * (v i * 2) := by
           refine Finset.sum_congr rfl fun i _ => ?_
           rw [Finset.sum_eq_single i]
-          · rw [hxij i i, if_pos rfl]
+          · rw [hxij i i, ite_eq_left rfl]
           · intro j _ hj
-            rw [hxij i j, if_neg (Ne.symm hj)]
+            rw [hxij i j, ite_eq_right (Ne.symm hj)]
             simp
           · intro hi; simp at hi
     _ = 2 * ∑ i, u i * v i := by
@@ -325,7 +325,7 @@ theorem p13e7_exists_hyp {F : Subgroup (adjointGroup .E7 K)} (hF : F ≤ (tE K f
     refine ⟨Pi.single i (c / lam i), ?_⟩
     simp only [f, AddMonoidHom.mk'_apply, dotZ3, Pi.single_apply]
     rw [Finset.sum_eq_single i]
-    · rw [if_pos rfl, div_mul_cancel₀]
+    · rw [ite_eq_left rfl, div_mul_cancel₀]
       exact hi
     · intro j _ hj
       simp [hj]
@@ -384,7 +384,7 @@ theorem p13e7_famKernel {L : Type} [Field L] {ω : Lˣ} (hω : orderOf ω = 3) (
     {ψ : V} (hψ : ψ ≠ 0) :
     famKernel (p13e7Fam ω hω3 ψ) = {α | IsRoot Tag.E7 α ∧ (redV α = ψ ∨ redV α = -ψ)} := by
   ext α
-  simp only [famKernel, p13e7Fam, Set.mem_setOf_eq]
+  simp only [famKernel, p13e7Fam, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hα, hker⟩
     have horth : ∀ s : V, polarV ψ s = 0 → polarV (redV α) s = 0 := by
@@ -418,7 +418,7 @@ theorem p13e7_famStabilizer {L : Type} [Field L] {ω : Lˣ} (hω : orderOf ω = 
     (hω3 : ω ^ 3 = 1) (ψ : V) :
     famStabilizer (p13e7Fam ω hω3 ψ) = {w | ∀ x : V, polarV ψ x = 0 → rhoEquiv w x = x} := by
   ext w
-  simp only [famStabilizer, p13e7Fam, rootCharStabilizer, Set.mem_setOf_eq]
+  simp only [famStabilizer, p13e7Fam, rootCharStabilizer, Set.mem_ofPred_eq]
   constructor
   · intro h s hs
     have h1 : ∀ y : V, polarV (rhoEquiv w y) (rhoEquiv w s) = polarV (rhoEquiv w y) s := by

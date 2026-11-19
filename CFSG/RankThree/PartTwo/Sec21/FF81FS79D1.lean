@@ -77,20 +77,23 @@ include S
 
 noncomputable def S345sub : Subgroup H := J6.S345.map S.ι
 
+omit [Finite H] in
 theorem S345sub_le_J : S.S345sub ≤ J := by
   rintro _ ⟨σ, -, rfl⟩
   exact S.ι_mem σ
 
+omit [Finite H] in
 theorem S345sub_iso : Nonempty (↥S.S345sub ≃* Perm (Fin 3)) := by
   obtain ⟨e⟩ := J6.S345_iso
   exact ⟨(Subgroup.equivMapOfInjective J6.S345 S.ι S.ι_injective).symm.trans e⟩
 
+omit [Finite H] in
 theorem frame_D1 (hctl : CtlEq b b₂) :
     Ctl34.Frame b b₁ b₂ J b₁ (S.ι J6.e1) b₂ S.S345sub where
-  w_mem := S.b₁_mem_B₁
+  w_mem := CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁
   w_ne := S.b₁_ne_one
   w3 := S.b₁_pow_three
-  c_mem := S.b₂_mem_B₁
+  c_mem := CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁
   c_ne := S.b₂_ne_one
   c3 := S.b₂_pow_three
   B₁_le := by
@@ -153,7 +156,7 @@ theorem frame_D1 (hctl : CtlEq b b₂) :
     rw [e]
     obtain ⟨p, -, hp⟩ := Finset.mem_image.mp hE
     rw [← hp, map_mul, map_pow, map_pow, S.ι_c₁, S.ι_c₂]
-    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ S.b₁_mem_B₁ _) (Subgroup.pow_mem _ S.b₂_mem_B₁ _)
+    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ _) (Subgroup.pow_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁ _)
   ctl_c := hctl
 
 end Std

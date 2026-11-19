@@ -13,7 +13,7 @@ theorem sec10D_odd_lift {X : Type} [Group X] [Finite X] {c : X} (hc1 : c ≠ 1) 
     [N.Normal] (hN : Odd (Nat.card N)) :
     ∃ Y : Subgroup X, Y.Normal ∧ Odd (Nat.card Y) ∧
       ∀ x : X, (x : X ⧸ zpowers c) ∈ N → ∃ y ∈ Y, x = y ∨ x = c * y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : X →* X ⧸ zpowers c := QuotientGroup.mk' (zpowers c)
   let M : Subgroup X := N.comap π
   have hMn : M.Normal := Subgroup.Normal.comap inferInstance π
@@ -40,7 +40,7 @@ theorem sec10D_odd_lift {X : Type} [Group X] [Finite X] {c : X} (hc1 : c ≠ 1) 
   let c' : ↥M := ⟨c, hcM⟩
   have hc'c : ∀ m : ↥M, m * c' = c' * m := fun m => Subtype.ext (hcc m)
   have hc'sq : c' * c' = 1 := Subtype.ext hc2
-  haveI hnorm : (zpowers c').Normal := by
+  have hnorm : (zpowers c').Normal := by
     refine ⟨fun n hn m => ?_⟩
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     have hcomm : Commute m (c' ^ i) := (show Commute m c' from hc'c m).zpow_right i
@@ -67,7 +67,7 @@ theorem sec10D_odd_lift {X : Type} [Group X] [Finite X] {c : X} (hc1 : c ≠ 1) 
     exact Subgroup.mem_sup_of_normal_left.mp this
   have hdisj : Disjoint (zpowers c') Y' := hY'.disjoint
   have hcardY' : Nat.card Y' = Nat.card N := by
-    have h := hY'.card_mul
+    have h := hY'.card_mul_card
     rw [hcardZ, hcardM] at h
     exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 2) h
   let Y : Subgroup X := Y'.map M.subtype
@@ -84,7 +84,7 @@ theorem sec10D_odd_lift {X : Type} [Group X] [Finite X] {c : X} (hc1 : c ≠ 1) 
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
     have hk : (⟨p, hpM⟩ : ↥M) ^ orderOf p = 1 := by
       apply Subtype.ext
-      simpa using pow_orderOf_eq_one p
+      simp
     rw [← hab] at hk
     have hcomm : Commute (c' ^ i) b := ((show Commute b c' from hc'c b).zpow_right i).symm
     rw [hcomm.mul_pow] at hk

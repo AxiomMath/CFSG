@@ -42,7 +42,7 @@ theorem isPerfect_sl2_of_card_four (hk : Nat.card k = 4) :
 theorem isCyclic_sylow_of_card_sixty {H : Type*} [Group H] (hH : Nat.card H = 60) {r : ℕ}
     [hr : Fact r.Prime] (hr2 : r ≠ 2) (S : Sylow r H) : IsCyclic S := by
   have : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 S.isPGroup
   have hdvd : r ^ n ∣ 60 := hn ▸ hH ▸ Subgroup.card_subgroup_dvd_card (S : Subgroup H)
   have hn1 : n ≤ 1 := by
     by_contra hn2

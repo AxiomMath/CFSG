@@ -11,7 +11,7 @@ open Module CFSG.StandardType.HdRo7C
 
 lemma basis_smul_ne_of_ne {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {n : ℕ}
     (b : Module.Basis (Fin n) (ZMod 3) V) {i j : Fin n} {c d : ZMod 3}
-    (hc : c ≠ 0) (hd : d ≠ 0) (h : c • b i = d • b j) : i = j := by
+    (hc : c ≠ 0) (_hd : d ≠ 0) (h : c • b i = d • b j) : i = j := by
   by_contra hij
   have hrepr := congrArg b.repr h
   simp only [map_smul, Module.Basis.repr_self] at hrepr

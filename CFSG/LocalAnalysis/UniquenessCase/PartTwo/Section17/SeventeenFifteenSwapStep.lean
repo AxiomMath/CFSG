@@ -69,7 +69,7 @@ theorem gap17_15_swapOrbit_of {D : Data G} {L : Subgroup G}
   refine ⟨fun u hu => ?_, t₀⁻¹, D.T.inv_mem ht₀, ?_, ?_⟩
   · rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, NTL17, Subgroup.mem_inf]
+    simp only [NTL17, Subgroup.mem_inf]
     have hT : x ∈ D.T ↔ u * x * u⁻¹ ∈ D.T := by
       constructor
       · intro hx
@@ -667,7 +667,7 @@ theorem gap17_15_barImage_normal (hK : K_L27PermutesS3) (hC : Ctx17_6 D V₀ V L
             QuotientGroup.mk ⟨t, hTH htT⟩ * QuotientGroup.mk ⟨t⁻¹ * s, hσH⟩ := by
           have h1 : (⟨s, hTH hs⟩ : ↥H) = ⟨t, hTH htT⟩ * ⟨t⁻¹ * s, hσH⟩ := by
             ext
-            simpa using hs_eq
+            simp
           change (QuotientGroup.mk' (CFSG.pCore 2 ↥H)) ⟨s, hTH hs⟩ =
             (QuotientGroup.mk' (CFSG.pCore 2 ↥H)) ⟨t, hTH htT⟩ *
               (QuotientGroup.mk' (CFSG.pCore 2 ↥H)) ⟨t⁻¹ * s, hσH⟩

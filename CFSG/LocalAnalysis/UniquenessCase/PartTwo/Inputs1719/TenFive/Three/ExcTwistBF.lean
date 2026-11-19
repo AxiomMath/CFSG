@@ -209,20 +209,20 @@ private lemma exists_orbit_scalars {k : Type*} [Field k] [IsAlgClosed k] [CharP 
       _ = 1 := by rw [hi4]; norm_num
   have hd₀8 : d₀ ^ 8 = sε * sθε := by
     by_cases h : hfun d₁ = 0
-    · simp only [d₀, if_pos h]
+    · simp only [d₀, ite_eq_left h]
       rw [show (i * d₁) ^ 8 = i ^ 8 * d₁ ^ 8 by rw [mul_pow]]
       rw [hi8, one_mul, hd₁]
-    · simp only [d₀, if_neg h]
+    · simp only [d₀, ite_eq_right h]
       exact hd₁
   have hd₀_ne : d₀ ≠ 0 := by
     by_cases h : hfun d₁ = 0
-    · simp only [d₀, if_pos h]
+    · simp only [d₀, ite_eq_left h]
       exact mul_ne_zero hi_ne hd₁_ne
-    · simp only [d₀, if_neg h]
+    · simp only [d₀, ite_eq_right h]
       exact hd₁_ne
   have hh₀ : hfun d₀ ≠ 0 := by
     by_cases h : hfun d₁ = 0
-    · simp only [d₀, if_pos h]
+    · simp only [d₀, ite_eq_left h]
       have hzero : N₁ * sε * c₀ * d₁ ^ 3 + N₂ * sδ * c₀ ^ 3 * d₁ = 0 := by
         simpa only [hfun] using h
       have hcalc : hfun (i * d₁) = 2 * i * N₂ * sδ * c₀ ^ 3 * d₁ := by
@@ -239,7 +239,7 @@ private lemma exists_orbit_scalars {k : Type*} [Field k] [IsAlgClosed k] [CharP 
       rw [hcalc]
       exact prod_ne_zero_six two_ne_zero_of_charP_three hi_ne hN₂ (sign_ne_zero hsδ)
         (pow_ne_zero 3 hc₀_ne) hd₁_ne
-    · simp only [d₀, if_neg h]
+    · simp only [d₀, ite_eq_right h]
       exact h
   have hd₀9' : (d₀ ^ 3) ^ 3 = d₀ * (sε * sθε) := by
     rw [← pow_mul, show 3 * 3 = 9 from rfl, show d₀ ^ 9 = d₀ * (sε * sθε) from by

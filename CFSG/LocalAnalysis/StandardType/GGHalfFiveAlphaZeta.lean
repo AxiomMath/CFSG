@@ -40,10 +40,10 @@ theorem alpha_zeta5 {α : MulAut (SpecialLinearGroup (Fin 6) F2)}
     have hmem : omegaBlock 3 (⟨2, by omega⟩ : Fin 3) ∈ slOn 4 {j : Fin 4 | 2 ≤ j.val} := by
       apply omegaBlock_mem_slOn
       · show 2 ≤ (((⟨2, by omega⟩ : Fin 3).castSucc : Fin 4)).val
-        simp only [Fin.val_castSucc, Fin.val_mk]
+        simp only [Fin.val_castSucc]
         omega
       · show 2 ≤ (((⟨2, by omega⟩ : Fin 3).succ : Fin 4)).val
-        simp only [Fin.val_succ, Fin.val_mk]
+        simp only [Fin.val_succ]
         omega
     have hl := alpha_lower h (omegaBlock 3 (⟨2, by omega⟩ : Fin 3)) hmem
     rw [slUpper2Hom_omegaBlock, slLower2Hom_omegaBlock] at hl

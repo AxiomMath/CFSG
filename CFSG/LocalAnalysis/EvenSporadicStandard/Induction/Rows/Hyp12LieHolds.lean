@@ -31,7 +31,7 @@ section Cat
 
 theorem sol78Hyp12LieCat_holds : Sol78Hyp12LieCat :=
   sol78Hyp12LieCat_of_inputs CFSG.SeitzReduction.gls3OddLieAutComponentsInput
-    (fun T _ hT u hu B => involutionCentralizersComponentFree_of_evenLieType hT u hu B)
+    (fun _T _ hT u hu B => involutionCentralizersComponentFree_of_evenLieType hT u hu B)
     CFSG.ComponentClassification.CatLeafProof.evenLieOuterTwoComponentsInput_holds
     CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput
     CFSG.ComponentClassification.GSThmB.QPUSpor.card_carrier_eq_sporOrder

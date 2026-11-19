@@ -13,6 +13,7 @@ section
 
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2] {W : Type*} [AddCommGroup W] [Module K W]
 
+omit [Fintype K] [CharP K 2] in
 private theorem pow_apply_of_mem_eigenspace (g : End K W) {μ : K} {w : W} (hw : g w = μ • w)
     (j : ℕ) : (g ^ j) w = μ ^ j • w := by
   induction j with
@@ -20,6 +21,7 @@ private theorem pow_apply_of_mem_eigenspace (g : End K W) {μ : K} {w : W} (hw :
   | succ j ih =>
     rw [pow_succ', Module.End.mul_apply, ih, map_smul, hw, smul_smul, pow_succ]
 
+omit [Fintype K] [CharP K 2] in
 private theorem restrict_pow_apply (g : End K W) (W₁ : Submodule K W)
     (hg : ∀ w ∈ W₁, g w ∈ W₁) (j : ℕ) (w : W₁) :
     (((g.restrict hg) ^ j) w : W) = (g ^ j) (w : W) := by
@@ -184,7 +186,7 @@ theorem eigen_frobenius [Module.Finite K W] (hW : Module.finrank K W = 3)
         (fun μ => ⟨hv₁E μ, hv₁0 μ⟩)
     have hcard₁ : Fintype.card Λ = Module.finrank K W := by
       rw [Fintype.card_coe, h3, hW]
-    haveI : Nonempty Λ := by
+    have : Nonempty Λ := by
       obtain ⟨x, hx⟩ := Finset.card_pos.mp (by rw [h3]; norm_num : 0 < Λ.card)
       exact ⟨⟨x, hx⟩⟩
     have hspan := hli₁.span_eq_top_of_card_eq_finrank hcard₁

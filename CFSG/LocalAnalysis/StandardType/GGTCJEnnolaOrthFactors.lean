@@ -60,8 +60,8 @@ private theorem six_minus_equiv {F : Type} [Field F] [Finite F] [CharP F 2] {W :
   obtain ⟨E, _, _, D, ψ, hψ⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.exists_evenMinus_model R hR (n := 3) (by norm_num)
       (by omega) hts
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := F)
-  haveI := D.finite_E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := F)
+  have := D.finite_E
   let e1 : R.IsometryEquiv (CFSG.RankThree.PartOne.KCOrthogonal.evenNormTailForm D.N 2) :=
     { toLinearEquiv := ψ
       map_app' := fun w => hψ w }
@@ -87,7 +87,7 @@ private theorem large_model {F : Type} [Field F] [Finite F] [CharP F 2] {W : Typ
     Subgroup.center ↥(orthDerived R) = ⊥ ∧
       (StatedClassicalModel ↥(orthDerived R) .POmegaPlus s 2 f ∨
         StatedClassicalModel ↥(orthDerived R) .POmegaMinus s 2 f) := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := F) (M := W) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := F) (M := W) (by omega)
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
     · rw [h0, pow_zero] at hF
@@ -189,7 +189,7 @@ theorem specialBlock_selfDual_ennola {K : Type} [Field K] [Finite K] [CharP K 2]
   · obtain ⟨E, _, _, hE, ⟨e⟩⟩ :=
       CFSG.StandardType.SevOmSmall.exists_specialBlock_equiv_SL2 hx hp hp2 hpq hh hne1 hm
     exact Or.inl ⟨E, inferInstance, inferInstance, hE, ⟨e⟩⟩
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hself : h = reciprocalPolynomial h :=
     (CFSG.RankThree.PartOne.K159.reciprocalPolynomial_eq_of_dvd_card_add_one hx hpq hh).symm
   have hdeg :=
@@ -197,9 +197,9 @@ theorem specialBlock_selfDual_ennola {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨d, ℓ, f, hU, B, hd, -, hKℓ, hBs, hBl, hrange⟩ :=
     CFSG.StandardType.SevOmSmall.selfDual_unitary hx hp hp2 hh hne1 hself
   obtain rfl : d = 1 := by omega
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
   let e₁ : ↥(specialBlock Q x h) ≃*
       ↥(CFSG.LocalAnalysis.ComponentInitial.sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans

@@ -92,7 +92,7 @@ theorem map_fixSubgroup_eq (β : MulAut Q) (hβ : β ^ 3 = 1) :
       simp only [pow_one, Equiv.Perm.coe_pow, Function.iterate_succ, Function.iterate_zero,
         Function.comp_apply, id_eq, Equiv.Perm.one_apply]
       exact congrArg Subtype.val (hσ3 o)
-    haveI : Fintype (GLAPPrimeCore 3 Q) := Fintype.ofFinite _
+    have : Fintype (GLAPPrimeCore 3 Q) := Fintype.ofFinite _
     have hndvd' : ¬ 3 ∣ Fintype.card (GLAPPrimeCore 3 Q) := by
       rwa [Nat.card_eq_fintype_card] at hndvd
     obtain ⟨a, ha⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1) hndvd' hτ
@@ -101,7 +101,7 @@ theorem map_fixSubgroup_eq (β : MulAut Q) (hβ : β ^ 3 = 1) :
       have : σ a = a := ha
       rw [this]
     · rw [QuotientGroup.mk'_apply]
-      exact (QuotientGroup.eq.2 (by simpa using a.2)).symm
+      exact (QuotientGroup.eq.2 (by simp)).symm
 
 noncomputable def centerBar {K : Type} [Group K] (σ : MulAut K) : MulAut (K ⧸ Subgroup.center K) :=
   QuotientGroup.congr (Subgroup.center K) (Subgroup.center K) σ (Subgroup.map_center_eq σ)
@@ -129,7 +129,7 @@ theorem transfer_pSimple {J : Subgroup Q} (β : MulAut Q) (hβ : β ^ 3 = 1)
     ∃ (β' : MulAut (PQ Q ⧸ Subgroup.center (PQ Q))) (J' : Subgroup (PQ Q ⧸ Subgroup.center (PQ Q))),
       β' ^ 3 = 1 ∧ GLAPComponent 3 (fixSubgroup β') J' ∧ Nonempty (PSimple 3 J ≃* PSimple 3 J') := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 Q)) := CFSG.pPrimeCore_coprime_card
   have hker : Nat.Coprime 3
       (Nat.card ↥(fixSubgroup β ⊓ (QuotientGroup.mk' (GLAPPrimeCore 3 Q) : Q →* PQ Q).ker)) := by

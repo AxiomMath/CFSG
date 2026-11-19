@@ -15,7 +15,7 @@ open CFSG.Blueprint
 theorem burnsideA315s_mem_of_allInner {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B)
     (hall : ∀ α : MulAut ↥L, ∃ l : ↥L, α = MulAut.conj l) (g : G) : g ∈ L := by
-  haveI := burnsideA315x_normal h
+  have := burnsideA315x_normal h
   obtain ⟨l, hl⟩ := hall (MulAut.conjNormal (H := L) g)
   have hc : (l : G)⁻¹ * g ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -72,8 +72,8 @@ theorem burnsideA315s_false_of {X : Type} [Group X] {G : Type} [Group G] {L T B 
 theorem burnsideA315s_case4_J1
     {G : Type} [Group G] {L T B : Subgroup G} (h : CFSG.Quasithin.A315Hyp L T B)
     (e : ↥L ≃* NativeSporadic.Carrier .J1) : CFSG.Quasithin.A315Case4 L T B := by
-  haveI := h.sqtk.finite
-  haveI := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have := burnsideA315x_normal h
   have hall := burnsideA315s_allInner_J1 e
   have hGL : ∀ g : G, g ∈ L := burnsideA315s_mem_of_allInner h hall
   obtain ⟨hBL, hcfg⟩ := burnsideA315x_config_of_hyp h fun α _ => hall α
@@ -103,7 +103,7 @@ theorem burnsideA315s_case4_J1
 theorem burnsideA315s_sporadicFact :
     CFSG.Quasithin.A315SporadicFact := by
   intro G _ L T B h hL
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   obtain ⟨s, hs, ⟨e⟩⟩ := hL
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact (burnsideA315s_false_of h e (burnsideA315s_oddInner_M11 e)

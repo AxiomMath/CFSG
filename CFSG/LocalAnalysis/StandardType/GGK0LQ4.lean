@@ -31,8 +31,9 @@ private noncomputable def lk0xlq4_fullFactor_equiv_rationalSpan
   rw [fullFactor, Subgroup.map_comap_eq]
   exact inf_eq_right.mpr hle
 
+omit [CharP Omega 2] in
 theorem k0_fullFactor_a12
-    (hlab : LargeEvenInLambda2 lab) (hpair : GGKacExcPair lab p)
+    (_hlab : LargeEvenInLambda2 lab) (hpair : GGKacExcPair lab p)
     (hAlg : ∀ c : Omega, ∃ n : ℕ, 0 < n ∧ c ^ (2 ^ n) = c)
     (A : K0LangMark Omega lab p R I phi) (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     (hj : A.row.D.orbits[j].lab = ⟨.A, 1, 1⟩) (hqs : A.row.D.orbits[j].qs = false) :

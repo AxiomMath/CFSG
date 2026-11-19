@@ -200,7 +200,7 @@ private theorem a6Mod_not_iso {i j : Fin 4} (h : i ≠ j) : ¬ (a6Mod i).Iso (a6
 private theorem a6Mod_complete (N : FMod ↥(alternatingGroup (Fin 6))) (hN : N.IsIrred) :
     ∃ i, N.Iso (a6Mod i) := by
   obtain ⟨hnt, hS⟩ := hN
-  haveI := hnt
+  have := hnt
   exact CFSG.Quasithin.RonanG51.a6_complete N.ρ hS
 
 private theorem stMod_isSteinberg : IsSteinbergModule stMod :=

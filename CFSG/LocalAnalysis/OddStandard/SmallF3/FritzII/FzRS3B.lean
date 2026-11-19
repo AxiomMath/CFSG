@@ -107,6 +107,7 @@ theorem fzr_fpf_section {M N : Subgroup G} {rho : G} (hM : IsPGroup 2 M) (hNM : 
   have hmN : m⁻¹ ∈ N := by rw [hc₀1, mul_one] at hc₀N; exact hc₀N
   simpa using N.inv_mem hmN
 
+omit [Finite G] in
 theorem fzr_regular_section {M N : Subgroup G} {rho y : G}
     (hcomm : ∀ a ∈ M, ∀ b ∈ M, ⁅a, b⁆ ∈ N) (hsq : ∀ a ∈ M, a ^ 2 ∈ N)
     (hrM : ∀ x ∈ M, rho * x * rho⁻¹ ∈ M) (hrN : ∀ x ∈ N, rho * x * rho⁻¹ ∈ N)

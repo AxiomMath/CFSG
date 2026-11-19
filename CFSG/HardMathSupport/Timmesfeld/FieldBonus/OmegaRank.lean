@@ -263,7 +263,7 @@ theorem notMem_range_frame4 (a b : Fin m → ι) (ha : Function.Injective a)
   constructor <;>
   · rintro ⟨k, hk⟩
     fin_cases k <;>
-      simp [frame4, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, h0, h1, h0.symm, h1.symm] at hk
+      simp [frame4, ha.eq_iff, hb.eq_iff, hab, (hab _ _).symm, h0.symm, h1.symm] at hk
 
 theorem hq_of_sum (a b : Fin m → ι) (ha : Function.Injective a) (hb : Function.Injective b)
     (hab : ∀ i j, a i ≠ b j) (i0 i1 : Fin m) (hne : i0 ≠ i1) (Q R : (ι → K) → K)

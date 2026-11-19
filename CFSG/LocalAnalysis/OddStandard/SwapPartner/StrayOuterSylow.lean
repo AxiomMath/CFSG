@@ -14,7 +14,7 @@ theorem exists_sylow_index_two {G : Type*} [Group G] [Finite G] {L : Subgroup G}
     (ha : a ^ 2 = 1) (haN : a ∈ normalizer (L : Set G)) (haL : a ∉ L) :
     ∃ Ts : Subgroup G, IsPGroup 2 Ts ∧ a ∈ Ts ∧ Ts ≤ zpowers a ⊔ L ∧
       (Ts ⊓ L).relIndex Ts = 2 ∧ Nat.card ↥(Ts ⊓ L) = 2 ^ (Nat.card ↥L).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup G := zpowers a ⊔ L
   have haM : a ∈ M := Subgroup.mem_sup_left (Subgroup.mem_zpowers a)
   have hcardM : Nat.card ↥M = 2 * Nat.card ↥L := by
@@ -54,7 +54,7 @@ theorem exists_sylow_index_two {G : Type*} [Group G] [Finite G] {L : Subgroup G}
       show Nat.card ↥((P : Subgroup ↥M).map M.subtype) = 2 ^ (Nat.card ↥M).factorization 2
       rw [hmap, Sylow.card_eq_multiplicity P]
     have hLne : Nat.card ↥L ≠ 0 := by
-      haveI : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
+      have : Nonempty ↥L := ⟨⟨1, L.one_mem⟩⟩
       exact Nat.card_pos.ne'
     have hfac : (Nat.card ↥M).factorization 2 = (Nat.card ↥L).factorization 2 + 1 := by
       rw [hcardM, Nat.factorization_mul (by norm_num) hLne, Finsupp.add_apply,
@@ -68,6 +68,6 @@ theorem exists_sylow_index_two {G : Type*} [Group G] [Finite G] {L : Subgroup G}
       rw [hrel] at hcardrel
       rw [hcardrel, hTscard]
     exact Nat.mul_left_cancel (by norm_num) h2
-  exact ⟨Ts, P.isPGroup'.map M.subtype, haTs, hTsM, hrel, hfinal⟩
+  exact ⟨Ts, P.isPGroup.map M.subtype, haTs, hTsM, hrel, hfinal⟩
 
 end CFSG.OddStandard.AltStdSec.SwapPartner

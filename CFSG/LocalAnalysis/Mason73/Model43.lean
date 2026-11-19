@@ -223,7 +223,7 @@ theorem w1T_not_mem_T2T (hn : 3 ≤ n) : w1T (n := n) hn ∉ T2T (by omega) := f
 theorem w1T_mem_T1T (hn : 3 ≤ n) : w1T (n := n) hn ∈ T1T (by omega) := by
   refine ⟨A_le_Q1T (w1T_mem_A hn), MonoidHom.mem_ker.2 ?_⟩
   rw [w1T, xParity_el]
-  simp only [wv, hv, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Nat.cast_one,
+  simp only [wv, hv, Matrix.cons_val_zero, Matrix.cons_val_one, Nat.cast_one,
     Nat.cast_zero, mul_one, mul_zero, add_zero]
   rw [show ss n + hh n + ss n = 2 * ss n + hh n by ring, map_add, map_mul, red2_two, zero_mul,
     zero_add, red2_hh (by omega), ofAdd_zero]
@@ -251,7 +251,7 @@ theorem x1T_mem_commutator_T2T (hn : 3 ≤ n) :
   rw [pv_s01, pv_s23]
   refine isConst_of_forall_eq (-zL4 n) fun i => ?_
   fin_cases i <;>
-    simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, OneMemClass.coe_one, pv_one, hv,
+    simp only [Pi.sub_apply, Pi.add_apply, OneMemClass.coe_one, pv_one, hv,
       Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply, Nat.cast_one, Nat.cast_zero,
       mul_one, mul_zero, v1, v2, χx1, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk] <;>
     first
@@ -260,7 +260,7 @@ theorem x1T_mem_commutator_T2T (hn : 3 ≤ n) :
 
 theorem mem_closure_r_of_mem_T2T (hn : 3 ≤ n) {g : L4Model n} (hg : g ∈ T2T (by omega))
     (hπ : piT g = 1) : g ∈ closure {r1T n, r2T n} := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   obtain ⟨e, π, h, rfl⟩ := exists_eq_el g
   rw [piT_el] at hπ
   subst hπ

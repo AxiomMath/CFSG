@@ -25,7 +25,7 @@ theorem I294Large.not_dvd_card_ker_statedSp {r : ℕ} (hr : r.Prime) (h5 : 5 ≤
     ¬ r ∣ Nat.card (QuotientGroup.mk'
       ((StatedScalars (Fin n ⊕ Fin n) F).subgroupOf (StatedSp n F))).ker := by
   intro hdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hx2 : x ^ 2 = 1 := by
     apply Subtype.ext
@@ -38,8 +38,8 @@ theorem I294Large.not_dvd_card_ker_statedSp {r : ℕ} (hr : r.Prime) (h5 : 5 ≤
 
 theorem i294LargeModelPSp_holds : I294LargeModelPSp := by
   intro r hr h5 F _ _ hrF n hn hS
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype F := Fintype.ofFinite F
   have hrF' : ¬ r ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hodd : Odd r := hr.odd_of_ne_two (by omega)
   have hSp : I294Large.CommOrRank r (StatedSp n F) :=

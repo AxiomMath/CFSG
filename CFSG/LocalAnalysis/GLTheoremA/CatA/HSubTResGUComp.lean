@@ -51,7 +51,7 @@ theorem natCard_statedProj_statedSU_four {E : Type} [Field E] [Finite E] (hE : N
 
 theorem isSimpleGroup_statedProj_statedSU_four {E : Type} [Field E] [Finite E] (hE : Nat.card E = 4) :
     IsSimpleGroup (StatedProj (StatedSU 4 2 E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU E 2 1 (hE.trans (by norm_num)) 4
     (by norm_num) (by norm_num)
 
@@ -60,7 +60,7 @@ theorem gu4_center_eq_bot_of_simple {X : Type} [Group X] [IsSimpleGroup X]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
-    haveI := hq.2
+    have := hq.2
     have hsub : Subsingleton (X ⧸ Subgroup.center X) := by
       rw [h]
       exact QuotientGroup.subsingleton_quotient_top
@@ -74,7 +74,7 @@ theorem resGU_comp_four {E : Type} [Field E] [Finite E] (hE : Nat.card E = 4)
     catalogIs (↥K ⧸ Subgroup.center ↥K) CFSG.LocalAnalysis.GLTheoremA.S9.isU4two ∧
       Nat.card ↥K = 25920 ∧ Subgroup.center ↥K = ⊥ := by
   subst hn
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hE' : Fintype.card E = 4 := by rw [← Nat.card_eq_fintype_card]; exact hE
   obtain ⟨φ, hφ⟩ : ∃ φ : G →* GL (Fin 4) E,
       ∀ x : G, φ x = ((e x : heldGU 4 E τ hτ) : GL (Fin 4) E) :=
@@ -129,9 +129,9 @@ theorem resGU_comp_four {E : Type} [Field E] [Finite E] (hE : Nat.card E = 4)
   obtain ⟨eKS⟩ : Nonempty (↥K ≃* ↥(StatedSU 4 2 E)) :=
     ⟨(MulEquiv.subgroupCongr hKeq).trans (eT.trans (MulEquiv.subgroupCongr hSUeq))⟩
   obtain ⟨eP⟩ := statedProj_equiv_statedSU_four hE'
-  haveI : IsSimpleGroup (StatedProj (StatedSU 4 2 E)) := isSimpleGroup_statedProj_statedSU_four hE
-  haveI : IsSimpleGroup ↥(StatedSU 4 2 E) := eP.symm.isSimpleGroup
-  haveI : IsSimpleGroup ↥K := eKS.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSU 4 2 E)) := isSimpleGroup_statedProj_statedSU_four hE
+  have : IsSimpleGroup ↥(StatedSU 4 2 E) := eP.symm.isSimpleGroup
+  have : IsSimpleGroup ↥K := eKS.isSimpleGroup
   have hcen : Subgroup.center ↥K = ⊥ := gu4_center_eq_bot_of_simple hK.2.2
   have hcard : Nat.card ↥K = 25920 := by
     rw [Nat.card_congr eKS.toEquiv, ← Nat.card_congr eP.toEquiv]

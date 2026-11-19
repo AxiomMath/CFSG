@@ -23,16 +23,20 @@ section Pts
 variable {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K] [Finite K]
   {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K} {u u' : Fin m ⊕ Fin m → K}
 
+omit [Finite G] in
 theorem Sec8Pts.spNat (h : Sec8Pts hc t r m K φ u u') : SpNat hc t :=
   ⟨K, inferInstance, inferInstance, h.card, m, h.two_le, φ, h.range, h.ker, h.act⟩
 
+omit [Finite G] in
 theorem Sec8Pts.u_ne_zero (h : Sec8Pts hc t r m K φ u u') : u ≠ 0 := fun h0 =>
   h.uu' (by simp [h0])
 
+omit [Finite G] in
 theorem Sec8Pts.charP (h : Sec8Pts hc t r m K φ u u') : CharP K 2 := by
   obtain ⟨e, -, he, -⟩ := hc.hyp.cp
   exact charP_two_of_card_eq_two_pow (h.card.trans he)
 
+omit [Finite G] in
 theorem Sec8Pts.naturalRep (h : Sec8Pts hc t r m K φ u u') :
     NaturalRep (ι := Fin m ⊕ Fin m) K (StatedSp m K) (Rt M (LB M Q B) t)
       (Vt M (LB M Q B) B Z t) Z (hc.CN t) :=
@@ -78,7 +82,7 @@ theorem sec83_count_A (h53 : Stroth53Statement) (hInv : Sec8InvStatement)
       Nat.card ↥(Sec8W1 M Q Z B t r) =
         Nat.card ↥(Sec8V1 M Q Z B t r) * Nat.card Z ^ (a * 2 ^ m) := by
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
@@ -96,7 +100,7 @@ theorem sec83_count_A (h53 : Stroth53Statement) (hInv : Sec8InvStatement)
   have hinv := hInv G M Q Z B hc n t h8 r hr
   have hV := hpts.card_V
   obtain ⟨-, hN, -⟩ := hpts.act
-  haveI := hN
+  have := hN
   have hchi := card_mul_card_of_isChiIso he (inf_le_left : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q)
     (sec39_Z_le_Vt : Z ≤ Vt M (LB M Q B) B Z t)
   have hLeR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) hs.mem

@@ -34,6 +34,7 @@ theorem uc22s217rj_le_opp {M L : Subgroup G} (hL : L ∈ calC M) (hs : IsSimpleG
     (show orderOf z ∣ r ^ 1 by rw [pow_one]; exact orderOf_dvd_of_pow_eq_one hz.2)
   exact ⟨k, hk⟩
 
+omit [Finite G] in
 theorem uc22s217rj_eq_one_of_mem_centralizer {M X : Subgroup G} (hX : X ∈ calC M)
     (hZ : center (Bar2 X) = ⊥) {q : Bar2 M} (hq : q ∈ barImage M X)
     (hqc : q ∈ centralizer (barImage M X : Set (Bar2 M))) : q = 1 := by
@@ -49,7 +50,7 @@ theorem uc22s217rj_eq_one_of_mem_centralizer {M X : Subgroup G} (hX : X ∈ calC
 
 theorem uc22s217rj_one_le_pRank {Q : Type} [Group Q] [Finite Q] {H : Subgroup Q} {r : ℕ}
     (hr : r.Prime) (h : r ∣ Nat.card H) : 1 ≤ CFSG.Open.pRank r H := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) r h
   have hx' : orderOf (x : Q) = r := (Subgroup.orderOf_coe x).trans hx
   exact UC6S846.le_pRank' hr (zpowers_le.2 x.2)
@@ -61,7 +62,7 @@ theorem uc22s217rj_exists_inner {M X : Subgroup G} (hX : X ∈ calC M) (hJ : IsJ
     ∃ a ∈ barImage M X, a⁻¹ * uc22p21cPi M ⟨y, hyM⟩ ∈ centralizer (barImage M X : Set (Bar2 M)) ∧
       a ^ n = 1 := by
   obtain ⟨-, hsimple, hinn⟩ := kJ1_holds (Bar2 X) hJ
-  haveI := hsimple
+  have := hsimple
   have hZ : center (Bar2 X) = ⊥ := uc22p21k_center_eq_bot hX.2.2
   have hinj : Function.Injective (MulAut.conj : Bar2 X →* MulAut (Bar2 X)) := by
     rw [injective_iff_map_eq_one]
@@ -151,7 +152,7 @@ theorem uc22s217rj_mk_mem_sup {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K �
     rw [show c = a * b by rw [← h1, mul_inv_cancel_left]]
     exact mul_mem_sup ha hb
   exfalso
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp7).1 (orderOf_dvd_of_pow_eq_one hz7)
   have hj0 : j ≠ 0 := by
     rintro rfl
@@ -165,10 +166,10 @@ theorem uc22s217rj_mk_mem_sup {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K �
   have hWK : zpowers w ≤ centralizer (barImage M K : Set (Bar2 M)) :=
     zpowers_le.2 (hw ▸ pow_mem hzK _)
   have hZL : center (Bar2 L) = ⊥ := by
-    haveI := (kJ1_holds _ hJL).2.1
+    have := (kJ1_holds _ hJL).2.1
     exact uc22p21k_center_eq_bot hL.2.2
   have hZK : center (Bar2 K) = ⊥ := by
-    haveI := (kJ1_holds _ hJK).2.1
+    have := (kJ1_holds _ hJK).2.1
     exact uc22p21k_center_eq_bot hK.2.2
   have hKW := CFSG.Quasithin.pRank_add_le_pRank_sup hp7 (A := barImage M K) (B := zpowers w)
     (fun x hx q hq => mem_centralizer_iff.1 (hWK hq) x hx)

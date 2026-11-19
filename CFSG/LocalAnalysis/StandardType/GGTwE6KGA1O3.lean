@@ -154,7 +154,7 @@ theorem exists_conj_eq_map_conj_of_commute {f : ℕ} (hf : 1 ≤ f)
         dsimp [k]
         rw [GaloisField.card 2 f (by omega)]
       obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-      letI : Algebra k (GaloisField 2 (2 * f)) := ι.toAlgebra
+      let : Algebra k (GaloisField 2 (2 * f)) := ι.toAlgebra
       exact o3_etaAut_fixed_of_xiAut_fixed hf hk hK (frobQ 2 f) hσ x hfix
   rw [← coe_etaAut (frobQ 2 f) (apply_apply_eq hK hσ) x, hgoal]
 

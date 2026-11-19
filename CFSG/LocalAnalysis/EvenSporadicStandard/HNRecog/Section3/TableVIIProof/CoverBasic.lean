@@ -29,7 +29,7 @@ theorem tableVII_card_of_shape (hY : IsNonsplitDoubleCoverOfS5 Y) : Nat.card Y =
 theorem tableVII_cover_of_shape (hY : IsNonsplitDoubleCoverOfS5 Y) {w : Y}
     (hw : w ∈ Subgroup.center Y) (hw1 : w ≠ 1) : ∃ π : Y →* Perm (Fin 5), TableVIICover Y w π := by
   obtain ⟨Z, hZn, hZcard, ⟨e⟩, hZc⟩ := hY
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   let π : Y →* Perm (Fin 5) := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hπsurj : Function.Surjective π :=
     e.surjective.comp (QuotientGroup.mk'_surjective Z)
@@ -59,7 +59,7 @@ theorem tableVII_cover_of_shape (hY : IsNonsplitDoubleCoverOfS5 Y) {w : Y}
     have h := pow_orderOf_eq_one w
     rwa [hw2] at h
   have hZp : Subgroup.zpowers w = Z := by
-    haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+    have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hwZ) ?_
     simp [hZcard, Nat.card_zpowers, hw2]
   have hZeq : Z = Subgroup.zpowers w := hZp.symm

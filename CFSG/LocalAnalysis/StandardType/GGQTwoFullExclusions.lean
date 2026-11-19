@@ -27,8 +27,8 @@ theorem index_le_three_pow_five_of_E6_marking {G : Type} [Group G] [Finite G]
   have htagM : labM.tag = .E6 := by rw [hlabEq]; exact htag
   rw [LargeEvenRawDatumLegacy, htagM] at hrawM
   obtain ⟨K, hfield, hfinite, hK, hQ⟩ := hrawM
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hK2 : Nat.card K = 2 := by rw [hK, hn1]; norm_num
   obtain ⟨-, -, θ, -, hN, -⟩ := hQ
   let θ' : L ⧸ Subgroup.center L ≃* TableBExc.RecipeGroup .E6 K := θ

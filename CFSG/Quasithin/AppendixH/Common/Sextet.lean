@@ -16,7 +16,7 @@ private theorem card_smul_finset_eq (g : S24) (S : Finset (Finset (Fin 24))) :
     (g • S).card = S.card := by
   refine le_antisymm Finset.card_smul_finset_le ?_
   have := Finset.card_smul_finset_le (a := g⁻¹) (s := g • S)
-  simpa using this
+  simp
 
 private theorem isOctad_map_iff {g : S24} (hg : g ∈ M24g) (O : Finset (Fin 24)) :
     IsOctad (O.map g.toEmbedding) ↔ IsOctad O := by
@@ -65,7 +65,7 @@ private theorem hammingNorm_eY_mul_inv (A B : Finset (Fin 24)) :
       Multiplicative.toAdd (eY A * (eY B)⁻¹) i ≠ 0) = (A \ B) ∪ (B \ A) := by
     ext i
     by_cases hA : i ∈ A <;> by_cases hB : i ∈ B <;>
-      simp [toAdd_eY, hA, hB, toAdd_mul, toAdd_inv] <;> decide
+      simp [toAdd_eY, hA, hB, toAdd_mul, toAdd_inv]; decide
   have hdisj : Disjoint (A \ B) (B \ A) := by
     rw [Finset.disjoint_left]
     intro i hi hi'

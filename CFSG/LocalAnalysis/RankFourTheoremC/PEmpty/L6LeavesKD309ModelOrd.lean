@@ -64,7 +64,7 @@ section Orders
 variable {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal] [Group.IsPerfect ↥L]
   {eP : (↥L ⧸ center ↥L) ≃* P'} [Finite K]
 
-theorem factorization_card_eq (hp : p.Prime) (hAut : AutHyps (thetaP L eP) M) :
+theorem factorization_card_eq (_hp : p.Prime) (hAut : AutHyps (thetaP L eP) M) :
     (Nat.card Y).factorization p + (Nat.card M.c.ker).factorization p =
       (Nat.card (centralizer (L : Set Y))).factorization p +
         (Nat.card M.𝔾).factorization p := by
@@ -79,10 +79,10 @@ theorem factorization_card_eq (hp : p.Prime) (hAut : AutHyps (thetaP L eP) M) :
     have := hAut.D_idx
     rwa [Subgroup.index_comap] at this
   have h4 := Subgroup.card_ker_mul_card_range M.c
-  haveI : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
-  haveI : Finite (GL (Fin p) K) := inferInstance
-  haveI : Finite M.𝔾 := inferInstance
-  haveI : Finite M.c.range := Finite.of_surjective M.c.rangeRestrict M.c.rangeRestrict_surjective
+  have : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
+  have : Finite (GL (Fin p) K) := inferInstance
+  have : Finite M.𝔾 := inferInstance
+  have : Finite M.c.range := Finite.of_surjective M.c.rangeRestrict M.c.rangeRestrict_surjective
   have hY0 : Nat.card θ.ker ≠ 0 := Nat.card_pos.ne'
   have hR0 : Nat.card θ.range ≠ 0 := Nat.card_pos.ne'
   have hI0 : M.c.range.relIndex θ.range ≠ 0 := left_ne_zero_of_mul (h2 ▸ hR0)
@@ -109,7 +109,7 @@ theorem card_sylow_eq (hp : p.Prime) (hAut : AutHyps (thetaP L eP) M)
     (hGL : (Nat.card M.𝔾).factorization p = p * a + 1)
     (hker : (Nat.card M.c.ker).factorization p = a) :
     Nat.card (S : Subgroup Y) = Nat.card (centralizer (L : Set Y)) * p ^ ((p - 1) * a + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := factorization_card_eq M hp hAut (L := L) (eP := eP)
   obtain ⟨k, hk⟩ := hCp.exists_card_eq
   have hk' : (Nat.card (centralizer (L : Set Y))).factorization p = k := by

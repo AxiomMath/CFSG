@@ -11,7 +11,7 @@ open Subgroup
 
 theorem card_sylow_seven_of_dvd_168 {K : Type*} [Group K] [Finite K] (hd : Nat.card K ∣ 168)
     (h7 : 7 ∣ Nat.card K) (P : Sylow 7 K) : Nat.card P = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hpos : 0 < (Nat.card K).factorization 7 :=
     Nat.Prime.factorization_pos_of_dvd Fact.out Nat.card_pos.ne' h7
   have hdvd : 7 ^ (Nat.card K).factorization 7 ∣ 168 := (Nat.ordProj_dvd _ _).trans hd
@@ -26,7 +26,7 @@ theorem card_sylow_seven_of_dvd_168 {K : Type*} [Group K] [Finite K] (hd : Nat.c
 theorem card_normalizer_of_card_seven_simple168 {G : Type*} [Group G] [Finite G]
     [IsSimpleGroup G] (hG : Nat.card G = 168) (Q : Subgroup G) (hQ : Nat.card Q = 7) :
     Nat.card (normalizer (Q : Set G)) = 21 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hfac : (Nat.card G).factorization 7 = 1 := by rw [hG]; decide +kernel
   let S : Sylow 7 G := Sylow.ofCard Q (by rw [hQ, hfac]; norm_num)
   have hS : (S : Subgroup G) = Q := Sylow.coe_ofCard _ _
@@ -63,9 +63,9 @@ theorem card_normalizer_of_card_seven_simple168 {G : Type*} [Group G] [Finite G]
 theorem card_sylow_seven_ne_one_simple168 {G : Type*} [Group G] [Finite G] [IsSimpleGroup G]
     (hG : Nat.card G = 168) {X : Subgroup G} (h14 : 14 ∣ Nat.card X) :
     Nat.card (Sylow 7 X) ≠ 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   intro h1
-  haveI : Subsingleton (Sylow 7 X) := (Nat.card_eq_one_iff_unique.mp h1).1
+  have : Subsingleton (Sylow 7 X) := (Nat.card_eq_one_iff_unique.mp h1).1
   let P : Sylow 7 X := default
   have hPn : (P : Subgroup X).Normal := Sylow.normal_of_subsingleton P
   have hd : Nat.card X ∣ 168 := hG ▸ Subgroup.card_subgroup_dvd_card X
@@ -85,7 +85,7 @@ theorem card_sylow_seven_ne_one_simple168 {G : Type*} [Group G] [Finite G] [IsSi
 
 theorem eq_top_of_dvd_fourteen_simple168 {G : Type*} [Group G] [Finite G] [hs : IsSimpleGroup G]
     (hG : Nat.card G = 168) {X : Subgroup G} (h14 : 14 ∣ Nat.card X) : X = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hd : Nat.card X ∣ 168 := hG ▸ Subgroup.card_subgroup_dvd_card X
   obtain ⟨k, hk⟩ := id h14
   have hk12 : k ∣ 12 := by

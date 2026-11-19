@@ -115,7 +115,7 @@ private theorem image_gen0 :
     gen0 '' {l | l < (r0Gens ()).size} = insert aNC (Set.range fun i : Fin 6 => rC (i : ℕ)) := by
   rw [r0Gens_size]
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_range]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_range]
   constructor
   · rintro ⟨l, hl, rfl⟩
     by_cases h0 : l = 0
@@ -131,7 +131,7 @@ private theorem image_gen0 :
 
 private theorem mem_R0S_of_contains {Y : Native.Rows} {y : NativeSporadic.Co1} (hY : NRep Y y)
     (h : (r0Set ()).contains Y = true) : y ∈ R0S := by
-  haveI := CFSG.Sporadic.Co1.Module.finite_co1
+  have := CFSG.Sporadic.Co1.Module.finite_co1
   obtain ⟨f, hf, -, heq⟩ := CFSG.Sporadic.Co1.Module.TwoB.gtOK_closure_eq chkR0_parts.1 gen0
     nrep_gen0
   unfold r0Set at h
@@ -198,7 +198,7 @@ theorem mem_rowR0_iff {Y : Native.Rows} {y : NativeSporadic.Co1} (hY : NRep Y y)
   ⟨contains_of_mem hY hv, fun h => R0S_le (mem_R0S_of_contains hY h)⟩
 
 theorem card_rowR0 : Nat.card (rowR0Of dC co1R) = 2 ^ 7 := by
-  haveI := CFSG.Sporadic.Co1.Module.finite_co1
+  have := CFSG.Sporadic.Co1.Module.finite_co1
   have h := CFSG.Sporadic.Co1.Module.TwoB.gtOK_card chkR0_parts.1 gen0 nrep_gen0
   rw [image_gen0, chkR0_parts.2.1] at h
   rw [rowR0Of_eq]
@@ -228,9 +228,9 @@ private theorem comm_of_rows {Ri Rj Ra : Native.Rows} {xi xj a : NativeSporadic.
   rw [eq_of_nrep (hi.mul hj) hrep]
   rcases ExtraspecialNF.zmod_two_cases b with h0 | h1
   · subst h0
-    rw [if_neg (by decide), ZMod.val_zero, pow_zero]
+    rw [ite_eq_right (by decide), ZMod.val_zero, pow_zero]
   · subst h1
-    rw [if_pos rfl, ExtraspecialNF.val_one_two, pow_one]
+    rw [ite_eq_left rfl, ExtraspecialNF.val_one_two, pow_one]
 
 private theorem rC_comm_rC (i j : Fin 6) :
     rC i * rC j = rC j * rC i * aNC ^ (cR i j).val :=

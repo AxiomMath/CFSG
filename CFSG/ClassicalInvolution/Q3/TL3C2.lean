@@ -35,7 +35,7 @@ theorem etaSpan_le {η : Set (Subgroup G)} {H : Subgroup G} (h : ∀ U ∈ η, U
 omit [Finite G] in
 theorem etaSpan_isPGroup {η : Set (Subgroup G)} (hη : η ∈ etaG Ω) : IsPGroup 2 (etaSpan η) := by
   obtain ⟨S, hS, -⟩ := hη
-  exact S.isPGroup'.to_le (etaSpan_le fun U hU => (hS.1 hU).2)
+  exact S.isPGroup.to_le (etaSpan_le fun U hU => (hS.1 hU).2)
 
 theorem etaSpan_comm (hΩ : HypOmegaGen Ω) {η : Set (Subgroup G)} (hη : η ∈ etaG Ω) :
     ∀ x ∈ etaSpan η, ∀ y ∈ etaSpan η, x * y = y * x := by

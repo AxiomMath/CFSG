@@ -75,8 +75,8 @@ theorem isPerfect_specialLinearGroup
   · exact CFSG.LinearGroups.special_linear_isPerfect (by omega) (Or.inl (by omega))
   · subst m
     have hcard : 4 ≤ Nat.card E := hmE rfl
-    haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-    letI : Fintype E := Fintype.ofFinite E
+    have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+    let : Fintype E := Fintype.ofFinite E
     have h4 : ∃ s : Finset E, s.card = 4 := by
       have h : 4 ≤ (Finset.univ : Finset E).card := by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -103,8 +103,8 @@ theorem linShape_iso
     (hm : 2 ≤ m) (hmE : m = 2 → 4 ≤ Nat.card E)
     (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center _) :
     Nonempty (J ⧸ Subgroup.center J ≃* PSLg m E) := by
-  haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hperfJ
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) :=
+  have : Group.IsPerfect ↥J := Group.IsPerfect.mk hperfJ
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) :=
     isPerfect_specialLinearGroup m E hm hmE
   have hproj : ∀ x : X, proj θ x = 1 → x ∈ Subgroup.center X := by
     intro x hx

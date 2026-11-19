@@ -77,10 +77,10 @@ theorem as_F_6_3 : F_6_3 := by
   have h := hyp.triple
   have hQT : CFSG.pCore 2 D ≤ G₁ ⊓ G₂ := h.pCore_le_inf
   refine ⟨?_, ?_⟩
-  · rw [Set.mem_setOf_eq]
+  · rw [Set.mem_ofPred_eq]
     exact ⟨hQT, inferInstance, inferInstance⟩
   · intro N hN
-    rw [Set.mem_setOf_eq] at hN
+    rw [Set.mem_ofPred_eq] at hN
     obtain ⟨hNT, hN₁, hN₂⟩ := hN
     have hG₁ : G₁ ≤ Subgroup.normalizer (N : Set D) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (hNT.trans inf_le_left)).mp hN₁
@@ -467,7 +467,7 @@ private theorem f615_isSectionOf {E D : Type} [Group E] [Group D] {φ : E →* D
     rw [hsub]
     infer_instance
   refine ⟨K.comap φ, N.map (K.comap φ).subtype, hn', ?_⟩
-  haveI : ((N.map (K.comap φ).subtype).subgroupOf (K.comap φ)).Normal := hn'
+  have : ((N.map (K.comap φ).subtype).subgroupOf (K.comap φ)).Normal := hn'
   exact ⟨(QuotientGroup.quotientKerEquivOfSurjective _ (f615Hom_surjective hφ K)).symm.trans
     (QuotientGroup.quotientMulEquivOfEq hsub).symm⟩
 
@@ -510,10 +510,10 @@ private theorem f615_sqtk_component
     (hE : CFSG.SectionRank.IsSQTKCat E) (φ : E →* D) (hφ : Function.Surjective φ)
     (K : Subgroup D) (hK : CFSG.IsComponent K) :
     CFSG.Milestones.SQTKSimpleList (↥K ⧸ Subgroup.center ↥K) := by
-  haveI hKs : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have hKs : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   have hKn : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a := hK.1.2.2
   let hiso := QuotientGroup.quotientKerEquivOfSurjective (f615Hom φ K) (f615Hom_surjective hφ K)
-  haveI hsimple : IsSimpleGroup (↥(K.comap φ) ⧸ (f615Hom φ K).ker) := hiso.isSimpleGroup
+  have hsimple : IsSimpleGroup (↥(K.comap φ) ⧸ (f615Hom φ K).ker) := hiso.isSimpleGroup
   have hnonab : ∃ a b : ↥(K.comap φ) ⧸ (f615Hom φ K).ker, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hKn
     refine ⟨hiso.symm a, hiso.symm b, fun h => hab ?_⟩
@@ -528,7 +528,7 @@ private theorem f615_theoremB
     (hE : CFSG.Open.evenRank E ≤ 2) (hK : CFSG.SectionRank.IsKGroupCat E)
     (φ : E →* D) (hφ : Function.Surjective φ) (K : Subgroup D) (hKc : CFSG.IsComponent K) :
     CFSG.ASVolI.ChA.TheoremBList (↥K ⧸ Subgroup.center ↥K) := by
-  haveI hKs : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
+  have hKs : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
   have hKn : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a := hKc.1.2.2
   have hsec := f615_isSectionOf hφ K
   have hgfl : CFSG.Open.genFittingLayer (↥K ⧸ Subgroup.center ↥K) = ⊤ := by
@@ -591,7 +591,7 @@ private theorem f615_theoremB
     ·
       exfalso
       let ρ : ↥H →* ↥H ⧸ Subgroup.center ↥H := QuotientGroup.mk' (Subgroup.center ↥H)
-      haveI hS'simple : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := eS.symm.isSimpleGroup
+      have hS'simple : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := eS.symm.isSimpleGroup
       have himg : ∀ C : Subgroup E, CFSG.Open.IsComponentOf C H →
           (C.subgroupOf H).map ρ = ⊤ := by
         intro C hC
@@ -618,7 +618,7 @@ private theorem f615_theoremB
             obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
             obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
             exact QuotientGroup.eq.mpr (hcen _)
-          haveI := hC.2.2.2
+          have := hC.2.2.2
           obtain ⟨a, b, hab⟩ := exists_pair_ne (↥C ⧸ Subgroup.center ↥C)
           exact hab (hsub a b)
         · exact h
@@ -708,7 +708,7 @@ private theorem f6_17_evenRank_le_two
   obtain ⟨H, N, hN, ⟨f⟩⟩ := CFSG.Quasithin.RonanF615.exists_isSection_mulEquiv
     (e.symm.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pPrimeCore 3 E)))
     (e.symm.surjective.comp (QuotientGroup.mk'_surjective _)) K
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a := hK.1.2.2
   have hsec : ChA.IsSectionOf (↥K ⧸ Subgroup.center ↥K) E := ⟨H, N, hN, ⟨f⟩⟩
   obtain ⟨hA, -⟩ := as_A_2_1 E hQT hKE _ hsec

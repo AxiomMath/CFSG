@@ -67,8 +67,9 @@ section Bridge
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gfr2_central_of_subnormal {K J : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K)
-    (hJK : J ≤ K) (hsn : IsSubnormal J K) (hne : J ≠ K) : ∀ x ∈ J, ∀ k ∈ K, x * k = k * x := by
+    (_hJK : J ≤ K) (hsn : IsSubnormal J K) (hne : J ≠ K) : ∀ x ∈ J, ∀ k ∈ K, x * k = k * x := by
   obtain ⟨N, hJN, hNK, hNne, hNn, -⟩ := isSubnormal_exists_normal hsn hne
   have := hNn
   rcases on25_normal_le_center_or_top hq (N.subgroupOf K) with hc | htop

@@ -121,8 +121,8 @@ theorem mat3_pad {X Z : ℕ} (h : padOK X Z = true) (i j : Fin 781) :
   unfold mat3
   rw [a, b]
   by_cases hij : i.val < 253 ∧ j.val < 253
-  · rw [dif_pos hij, decide_eq_true hij, Bool.true_and, Bool.true_and]
-  · rw [dif_neg hij, decide_eq_false hij, Bool.false_and, Bool.false_and]
+  · rw [dite_eq_left hij, decide_eq_true hij, Bool.true_and, Bool.true_and]
+  · rw [dite_eq_right hij, decide_eq_false hij, Bool.false_and, Bool.false_and]
     rfl
 
 theorem add_tbl : ∀ x1 x2 y1 y2 : Bool, (x1 && x2) = false → (y1 && y2) = false →

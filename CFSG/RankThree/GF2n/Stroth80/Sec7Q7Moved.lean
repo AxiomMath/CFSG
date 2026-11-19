@@ -171,7 +171,7 @@ theorem Ctx.conj_sup_inf_QB_le_Z (h34 : Stroth34Statement) (hRoot : Stroth310Roo
   classical
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ ψ hψ
   obtain ⟨u, -, -, hBiff, hW, -, hpts⟩ :=
     hc.omega_points_core h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ hker ψ hψ hsing
@@ -230,8 +230,8 @@ theorem sec7_conj_sup_inf_QB_le_Z (h34 : Stroth34Statement) (hRoot : Stroth310Ro
       exact hs.notPlus4 ⟨K, fK, finK, hK, hnat⟩
     have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm3, hnat⟩⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : CharP K 2 := sec7ctr_charP hc hK
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     exact hc.conj_sup_inf_QB_le_Z h34 hRoot hs5 hnatSO hK (ElemMatrixIso.plus hm3)
@@ -239,8 +239,8 @@ theorem sec7_conj_sup_inf_QB_le_Z (h34 : Stroth34Statement) (hRoot : Stroth310Ro
       hr hpl
   · have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : CharP K 2 := sec7ctr_charP hc hK
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega
@@ -255,17 +255,17 @@ section RootInvariant
 open CFSG.ClassicalGroups.Orthogonal QuadraticMap
 
 theorem submodule_le_perp_or_eq_top {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
-    {Q' : QuadraticForm K (ι → K)} (hQ : (polarBilin Q').Nondegenerate) {u : ι → K}
-    (hu : Q' u = 0) (hu0 : u ≠ 0)
+    {Q' : QuadraticForm K (ι → K)} (_hQ : (polarBilin Q').Nondegenerate) {u : ι → K}
+    (hu : Q' u = 0) (_hu0 : u ≠ 0)
     (h4 : ∃ w₁ w₂ : ι → K, polar Q' u w₁ = 0 ∧ polar Q' u w₂ = 0 ∧ polar Q' w₁ w₂ ≠ 0)
     (S : Submodule K (ι → K))
     (hS : ∀ w : ι → K, polar Q' u w = 0 → ∀ s ∈ S, eichler Q' u w s ∈ S) :
     (∀ s ∈ S, polar Q' s u = 0) ∨ S = ⊤ := by
-  clear hQ hu0
+  clear _hQ _hu0
   by_cases hperp : ∀ s ∈ S, polar Q' s u = 0
   · exact Or.inl hperp
   right
-  push_neg at hperp
+  push Not at hperp
   obtain ⟨s, hsS, hsu⟩ := hperp
   have key : ∀ w : ι → K, polar Q' u w = 0 →
       polar Q' s u • w - (polar Q' s w + Q' w * polar Q' s u) • u ∈ S := by
@@ -526,7 +526,7 @@ theorem Ctx.kernel_omega (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
   classical
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ ψ hψ
   obtain ⟨u, hQu, hu0, -, hW, hL, -⟩ :=
     hc.omega_points_core h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ hker ψ hψ hsing
@@ -548,7 +548,7 @@ theorem Ctx.kernel_omega (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
         exact ⟨k₁ * k₂, (conjSubgroup g (Vt M (LB M Q B) B Z t)).mul_mem hk₁ hk₂,
           (secVec_mul ψ k₁ k₂)⟩
       zero_mem' := ⟨1, (conjSubgroup g (Vt M (LB M Q B) B Z t)).one_mem,
-        (secVec_eq_zero_iff ψ 1).mpr (by simpa using Z.one_mem)⟩
+        (secVec_eq_zero_iff ψ 1).mpr (by simp)⟩
       smul_mem' := by
         rintro c _ ⟨k, hk, rfl⟩
         obtain ⟨w, hw, hπ⟩ := hc.exists_smul_mem_inf_conj hglob hg (θ.symm c)
@@ -616,8 +616,8 @@ theorem sec7Q7Kernel_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       exact hs.notPlus4 ⟨K, fK, finK, hK, hnat⟩
     have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm3, hnat⟩⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : CharP K 2 := sec7ctr_charP hc hK
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     exact hc.kernel_omega h34 hRoot hs5 hnatSO hK (ElemMatrixIso.plus hm3)
@@ -625,8 +625,8 @@ theorem sec7Q7Kernel_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       hg hgN
   · have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-    haveI : CharP K 2 := sec7ctr_charP hc hK
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : CharP K 2 := sec7ctr_charP hc hK
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega

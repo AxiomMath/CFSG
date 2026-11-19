@@ -342,7 +342,7 @@ theorem piB_mem : piB ∈ K0base := mem_K0base_of_contains repT_piB fusePi_spec.
 
 theorem fuse_exists_conj_mem_sylS0 {s : S24} (hs : s ∈ M24g) (hs2 : s * s = 1) :
     ∃ τ ∈ M24g, τ * s * τ⁻¹ ∈ sylS0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS0p : IsPGroup 2 sylS0G := IsPGroup.of_card card_sylS0G
   have hidx : sylS0G.index = 239085 := by
     have h := sylS0G.card_mul_index

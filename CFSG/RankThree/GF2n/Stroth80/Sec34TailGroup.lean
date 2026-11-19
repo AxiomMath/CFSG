@@ -130,9 +130,10 @@ private theorem Ctx.exists_conj_not_le_sup (hc : Ctx M Q Z B) :
   apply hc.not_commutative_genB
   have hle : (⨆ (m : G) (_ : m ∈ M), conjSubgroup m B) ≤ Q ⊓ QB B :=
     iSup₂_le fun m hm => (hcon m hm).trans (sup_comm B Z ▸ hc.ZB_le_inf)
-  haveI : IsMulCommutative ↥(Q ⊓ QB B) := hc.inf_QB_elemAbelian.1
+  have : IsMulCommutative ↥(Q ⊓ QB B) := hc.inf_QB_elemAbelian.1
   exact fun x hx y hy => setLike_mul_comm (hle hx) (hle hy)
 
+omit [Finite G] in
 private theorem Ctx.conj_le_of_commute (hc : Ctx M Q Z B)
     (horth : ∀ m ∈ M, (∀ x ∈ conjSubgroup m B, ∀ y ∈ B, x * y = y * x) →
       conjSubgroup m B ≤ B ⊔ Z)
@@ -164,6 +165,7 @@ section Glue
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] in
 private theorem img_le_of_le_sup_Z (h : GlobalModelData M Q Z γ M₀) {C D : Subgroup G}
     (hC : C ≤ Q) (hDC : D ≤ C ⊔ Z) : M₀.img D ≤ M₀.img C := by
   have hle : C ⊔ Z ≤ M₀.lift (M₀.img C) := by
@@ -174,6 +176,7 @@ private theorem img_le_of_le_sup_Z (h : GlobalModelData M Q Z γ M₀) {C D : Su
   rintro _ ⟨x, hxD, -, rfl⟩
   exact (hle (hDC hxD)).2
 
+omit [Finite K] in
 private theorem Ctx.sing_fixed_aux (hc : Ctx M Q Z B) (hw : Width Q Z 3)
     (hno : NoA2 Q Z (LB M Q B)) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
@@ -197,6 +200,7 @@ private theorem Ctx.sing_fixed_aux (hc : Ctx M Q Z B) (hw : Width Q Z 3)
     exact hc.no_involution_CQt hw (by norm_num) hno ⟨x, hxC, hnot, hx2⟩
   exact (hB _).mp (img_le_of_le_sup_Z h hc.le le_rfl (M₀.pi_mem_img hxBZ hxQ))
 
+omit [Finite K] in
 private theorem Ctx.mem_range_of_Spure (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {b : M₀.E} (hb0 : b ≠ 0) (hbs : M₀.Qf b = 0)
     (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
@@ -210,7 +214,8 @@ private theorem Ctx.mem_range_of_Spure (hc : Ctx M Q Z B) (h : GlobalModelData M
   push Not at hcon
   exact hT1 (LinearEquiv.ext hcon)
 
-private theorem Ctx.conj_LB_eq_of_fix_line (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
+omit [Finite K] in
+private theorem Ctx.conj_LB_eq_of_fix_line (hc : Ctx M Q Z B) (_h : GlobalModelData M Q Z γ M₀)
     {b : M₀.E} (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
     {a : G} (haM : a ∈ M) {T : M₀.E →ₗ[K] M₀.E}
     (hT : ∀ x ∈ Q, M₀.π (a * x * a⁻¹) = T (M₀.π x)) {μ : K} (hTb : T b = μ • b) :
@@ -226,6 +231,7 @@ private theorem Ctx.conj_LB_eq_of_fix_line (hc : Ctx M Q Z B) (h : GlobalModelDa
     exact (hB _).mpr ⟨_, rfl⟩
   exact (M₀.mem_img_iff le_sup_left hyQ).mp (M₀.img_mono le_sup_right hπ)
 
+omit [Finite K] in
 private theorem Ctx.conj_mem_range_LB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {b : M₀.E} (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
@@ -254,6 +260,7 @@ private theorem Ctx.conj_mem_range_LB (hc : Ctx M Q Z B) (h : GlobalModelData M 
   rw [← map_inv, ← map_mul, ← map_mul]
   congr 1
 
+omit [Finite K] in
 private theorem Ctx.card_range_LB (hc : Ctx M Q Z B) (hw : Width Q Z 3)
     (hno : NoA2 Q Z (LB M Q B)) (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)} (hφker : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q)
@@ -304,6 +311,7 @@ private theorem Ctx.exists_tsing_aux (hc : Ctx M Q Z B) (hw : Width Q Z 3)
   rw [hcardU, h2] at h1
   exact Nat.pow_right_injective hK h1
 
+omit [Finite K] in
 private theorem Ctx.exists_moves_aux (hc : Ctx M Q Z B) (hw : Width Q Z 3)
     (hno : NoA2 Q Z (LB M Q B)) (hS : hc.Spure = LB M Q B)
     (horth : ∀ m ∈ M, (∀ x ∈ conjSubgroup m B, ∀ y ∈ B, x * y = y * x) →
@@ -355,6 +363,7 @@ private theorem Ctx.exists_moves_aux (hc : Ctx M Q Z B) (hw : Width Q Z 3)
     hc'.mem_range_of_Spure h hb'0 hb's hB' hcent' htS (hφπ ⟨_, htH⟩) (hφiso _) hT1
   exact not_smul_of_mem_range (T := (φ ⟨_, htH⟩ : M₀.E →ₗ[K] M₀.E)) (hφiso _) hbb' hTb' hb'R hμ
 
+omit [Finite K] in
 private theorem Ctx.orth_aux (hc : Ctx M Q Z B)
     (horth : ∀ m ∈ M, (∀ x ∈ conjSubgroup m B, ∀ y ∈ B, x * y = y * x) →
       conjSubgroup m B ≤ B ⊔ Z)
@@ -384,6 +393,8 @@ private theorem Ctx.orth_aux (hc : Ctx M Q Z B)
   obtain ⟨r, hr⟩ := (hB₁ _).mp (hle hp')
   exact hnp (r * s₁⁻¹) (by rw [hr, smul_smul, mul_assoc, inv_mul_cancel₀ hs₁, mul_one])
 
+omit [Finite K] in
+omit [Finite G] in
 private theorem Ctx.conj_mem_img_aux (hc : Ctx M Q Z B) {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (a : H0 M Z) {m : G} {p : M₀.E} (hp : p ∈ M₀.img (conjSubgroup m B)) :
@@ -396,8 +407,10 @@ private theorem Ctx.conj_mem_img_aux (hc : Ctx M Q Z B) {φ : ↥(H0 M Z) →* (
     show (a : G)⁻¹ * ((a : G) * x * (a : G)⁻¹) * (a : G) = x by group]
   exact hxB
 
+omit [Finite K] in
+omit [Finite G] in
 private theorem Ctx.span_aux (hc : Ctx M Q Z B) (hgen : GenByB M Q B)
-    (h : GlobalModelData M Q Z γ M₀) :
+    (_h : GlobalModelData M Q Z γ M₀) :
     Submodule.span K {p : M₀.E | p ≠ 0 ∧ ∃ m ∈ M, p ∈ M₀.img (conjSubgroup m B)} = ⊤ := by
   set P := {p : M₀.E | p ≠ 0 ∧ ∃ m ∈ M, p ∈ M₀.img (conjSubgroup m B)}
   have hle : (⨆ (m : G) (_ : m ∈ M), conjSubgroup m B) ≤

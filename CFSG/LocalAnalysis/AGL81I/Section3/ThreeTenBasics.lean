@@ -37,6 +37,7 @@ section ResidualNormal
 
 variable {H : Type} [Group H] [Finite H] {p : ℕ}
 
+omit [Finite H] in
 theorem normal_of_oPPrimeHull_eq {I : Subgroup H}
     (hI : I = oPPrimeHull p (⊤ : Subgroup H)) : I.Normal := by
   rw [hI]

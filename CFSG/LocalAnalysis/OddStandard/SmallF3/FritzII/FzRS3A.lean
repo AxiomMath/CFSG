@@ -14,12 +14,14 @@ variable {G : Type} [Group G] [Finite G]
 private def fzrPhi (Y : Subgroup G) : Subgroup G :=
   ⁅Y, Y⁆ ⊔ Subgroup.closure ((fun a : G => a ^ 2) '' (Y : Set G))
 
+omit [Finite G] in
 private theorem fzrPhi_le (Y : Subgroup G) : fzrPhi Y ≤ Y := by
   refine sup_le (Subgroup.commutator_le_self Y) ?_
   rw [Subgroup.closure_le]
   rintro _ ⟨a, ha, rfl⟩
   exact Y.pow_mem ha 2
 
+omit [Finite G] in
 private theorem fzrPhi_conj_mem {Y : Subgroup G} {g : G}
     (hY : ∀ x ∈ Y, g * x * g⁻¹ ∈ Y) :
     ∀ x ∈ fzrPhi Y, g * x * g⁻¹ ∈ fzrPhi Y := by
@@ -54,7 +56,7 @@ private theorem commutator_mem_of_index_two {K : Type*} [Group K] {H : Subgroup 
 
 private theorem fzrPhi_lt {Y : Subgroup G} (hY : IsPGroup 2 Y) (hne : Y ≠ ⊥) :
     fzrPhi Y < Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hlt : (1 : ℕ) < Nat.card Y := (Subgroup.one_lt_card_iff_ne_bot Y).mpr hne
   obtain ⟨m, hm⟩ := hY.exists_card_eq
   have hm0 : m ≠ 0 := by
@@ -62,10 +64,10 @@ private theorem fzrPhi_lt {Y : Subgroup G} (hY : IsPGroup 2 Y) (hne : Y ≠ ⊥)
     rw [pow_zero] at hm
     exact absurd hm hlt.ne'
   have hdvd : 2 ∣ Nat.card Y := hm ▸ dvd_pow_self 2 hm0
-  haveI : Group.IsNilpotent ↥Y := IsPGroup.isNilpotent (p := 2) hY
+  have : Group.IsNilpotent ↥Y := IsPGroup.isNilpotent (p := 2) hY
   obtain ⟨H, hHidx, hHnorm⟩ :=
     Group.IsNilpotent.exists_normal_index_eq_of_dvd_card (G := Y) (k := 2) hdvd
-  haveI : H.Normal := hHnorm
+  have : H.Normal := hHnorm
   refine lt_of_le_of_lt ?_ (lt_of_le_of_ne (Subgroup.map_subtype_le (H := Y) H) ?_)
   · refine sup_le ?_ ?_
     · rw [Subgroup.commutator_le]
@@ -88,6 +90,7 @@ private theorem fzrPhi_lt {Y : Subgroup G} (hY : IsPGroup 2 Y) (hne : Y ≠ ⊥)
     rw [hHtop, Subgroup.index_top] at hHidx
     omega
 
+omit [Finite G] in
 private theorem fzrPhi_iterate_le (Y : Subgroup G) (k : ℕ) :
     (fzrPhi^[k]) Y ≤ Y := by
   induction k with

@@ -138,17 +138,17 @@ private theorem theorem4b_section7_nontrivial_pCore_quotient_action
       isInvariant_of_characteristic _
     ¬ ActsTrivially (A := A) (G := pCore p (H ⧸ K)) := by
   dsimp only
-  letI : Group.IsSolvable H := hsolv
+  let : Group.IsSolvable H := hsolv
   let K : Subgroup H := pPrimeCore p H
-  letI : IsInvariant A H K := isInvariant_of_characteristic K
-  letI : MulDistribMulAction A (H ⧸ K) :=
+  let : IsInvariant A H K := isInvariant_of_characteristic K
+  let : MulDistribMulAction A (H ⧸ K) :=
     quotientMulDistribMulAction (A := A) (G := H) K
       (isInvariant_of_characteristic K)
-  letI : IsInvariant A (H ⧸ K) (pCore p (H ⧸ K)) :=
+  let : IsInvariant A (H ⧸ K) (pCore p (H ⧸ K)) :=
     isInvariant_of_characteristic _
   intro htrivP
   have hsolvQ : Group.IsSolvable (H ⧸ K) := by
-    letI : Group.IsSolvable H := hsolv
+    let : Group.IsSolvable H := hsolv
     exact Group.isSolvable_of_surjective
       (f := QuotientGroup.mk' K) (QuotientGroup.mk'_surjective K)
   have hcoreQ : pPrimeCore p (H ⧸ K) = ⊥ := by
@@ -221,16 +221,16 @@ private theorem theorem4b_section7_p_dvd_commutator_card
         p ∣ Nat.card (⁅A, (S : Subgroup E).map E.subtype⁆ : Subgroup X) := by
   classical
   dsimp only
-  letI : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
+  let : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
   let H : Subgroup E := commutatorAction (A := A) (G := E)
-  letI : H.Normal := commutatorAction_normal
-  letI : IsInvariant A E H := commutatorAction_isInvariant
+  let : H.Normal := commutatorAction_normal
+  let : IsInvariant A E H := commutatorAction_isInvariant
   let K : Subgroup H := pPrimeCore p H
-  letI : IsInvariant A H K := isInvariant_of_characteristic K
-  letI : MulDistribMulAction A (H ⧸ K) :=
+  let : IsInvariant A H K := isInvariant_of_characteristic K
+  let : MulDistribMulAction A (H ⧸ K) :=
     quotientMulDistribMulAction (A := A) (G := H) K
       (isInvariant_of_characteristic K)
-  letI : IsInvariant A (H ⧸ K) (pCore p (H ⧸ K)) :=
+  let : IsInvariant A (H ⧸ K) (pCore p (H ⧸ K)) :=
     isInvariant_of_characteristic _
   intro hnontriv S
   let qH : H →* H ⧸ K := QuotientGroup.mk' K
@@ -242,7 +242,7 @@ private theorem theorem4b_section7_p_dvd_commutator_card
     (Tbar : Subgroup (H ⧸ K)) ⊔ pCore p (H ⧸ K)
   have hsupP : IsPGroup p U := by
     dsimp [U]
-    exact IsPGroup.to_sup_of_normal_right Tbar.isPGroup'
+    exact IsPGroup.to_sup_of_normal_right Tbar.isPGroup
       (pCore_isPGroup (G := H ⧸ K) (p := p))
   have hsupEq : U = (Tbar : Subgroup (H ⧸ K)) :=
     Tbar.maximal_isPGroup.eq_of_ge hsupP (by
@@ -335,7 +335,7 @@ private theorem theorem4b_section7_p_dvd_commutator_card
   have hp_card_comm : p ∣ Nat.card C := by
     apply dvd_trans hp_order_cX
     have horder : orderOf (c : X) = orderOf cComm := by
-      simpa [cComm] using (Subgroup.orderOf_coe cComm)
+      simp [cComm]
     rw [horder]
     exact orderOf_dvd_natCard cComm
   simpa only [C, Subgroup.commutator_comm] using hp_card_comm
@@ -362,21 +362,21 @@ private theorem theorem4b_section7_nontrivial_pCore_quotient_action_of_secondSta
     ∃ a : A, ∃ q : pCore d.data.p (H ⧸ K), a • q ≠ q := by
   classical
   dsimp only
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let E : Subgroup X := theorem4bSection7E M d.data.z s.beta
   let A : Subgroup X := Subgroup.zpowers d.data.z
   have hA_norm_E : A ≤ Subgroup.normalizer (E : Set X) := by
     rw [Subgroup.zpowers_le]
     exact s.hzNormE
-  letI : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
+  let : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
   let H : Subgroup E := commutatorAction (A := A) (G := E)
-  letI : IsInvariant A E H := commutatorAction_isInvariant
+  let : IsInvariant A E H := commutatorAction_isInvariant
   let K : Subgroup H := pPrimeCore d.data.p H
-  letI : IsInvariant A H K := isInvariant_of_characteristic K
-  letI : MulDistribMulAction A (H ⧸ K) :=
+  let : IsInvariant A H K := isInvariant_of_characteristic K
+  let : MulDistribMulAction A (H ⧸ K) :=
     quotientMulDistribMulAction (A := A) (G := H) K
       (isInvariant_of_characteristic K)
-  letI : IsInvariant A (H ⧸ K) (pCore d.data.p (H ⧸ K)) :=
+  let : IsInvariant A (H ⧸ K) (pCore d.data.p (H ⧸ K)) :=
     isInvariant_of_characteristic _
   have horder : orderOf d.data.z = 2 :=
     (orderOf_eq_prime_iff).2 ⟨d.data.hz.sq_eq_one, d.data.hz.ne_one⟩
@@ -385,7 +385,7 @@ private theorem theorem4b_section7_nontrivial_pCore_quotient_action_of_secondSta
   have hcopAE : Nat.Coprime (Nat.card A) (Nat.card E) := by
     rw [hAcard]
     exact s.hEodd.coprime_two_left
-  letI : Group.IsSolvable E := s.hEsolv
+  let : Group.IsSolvable E := s.hEsolv
   have hHsolv : Group.IsSolvable H := by infer_instance
   have hcopAH : Nat.Coprime (Nat.card A) (Nat.card H) :=
     Nat.Coprime.of_dvd_right (by
@@ -451,22 +451,22 @@ public theorem theorem4b_section7_sevenD
       d.data.p ∣
         Nat.card (⁅Subgroup.zpowers d.data.z, S⁆ : Subgroup X) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   intro S hSsyl
   let E : Subgroup X := theorem4bSection7E M d.data.z s.beta
   let A : Subgroup X := Subgroup.zpowers d.data.z
   have hA_norm_E : A ≤ Subgroup.normalizer (E : Set X) := by
     rw [Subgroup.zpowers_le]
     exact s.hzNormE
-  letI : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
+  let : Subgroup.Normalizes A E := ⟨hA_norm_E⟩
   let H : Subgroup E := commutatorAction (A := A) (G := E)
-  letI : IsInvariant A E H := commutatorAction_isInvariant
+  let : IsInvariant A E H := commutatorAction_isInvariant
   let K : Subgroup H := pPrimeCore d.data.p H
-  letI : IsInvariant A H K := isInvariant_of_characteristic K
-  letI : MulDistribMulAction A (H ⧸ K) :=
+  let : IsInvariant A H K := isInvariant_of_characteristic K
+  let : MulDistribMulAction A (H ⧸ K) :=
     quotientMulDistribMulAction (A := A) (G := H) K
       (isInvariant_of_characteristic K)
-  letI : IsInvariant A (H ⧸ K) (pCore d.data.p (H ⧸ K)) :=
+  let : IsInvariant A (H ⧸ K) (pCore d.data.p (H ⧸ K)) :=
     isInvariant_of_characteristic _
   have hnontriv :
       ∃ a : A, ∃ q : pCore d.data.p (H ⧸ K), a • q ≠ q := by
@@ -506,7 +506,7 @@ private theorem theorem4bIsSylowSubgroupOf_isPGroup_final
     {P E : Subgroup X}
     (hP : theorem4bIsSylowSubgroupOf p P E) : IsPGroup p P := by
   rcases hP with ⟨PE, rfl⟩
-  exact PE.isPGroup'.map E.subtype
+  exact PE.isPGroup.map E.subtype
 
 private theorem theorem4bIsSylowSubgroupOf_le_final
     {X : Type u} [Group X] {p : ℕ} {P E : Subgroup X}
@@ -524,7 +524,7 @@ private theorem theorem4bIsSylowSubgroupOf_of_le_final
     (hPE : P ≤ E) (hED : E ≤ D) :
     theorem4bIsSylowSubgroupOf p P E := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PD, hP⟩
   let ED : Subgroup D := E.subgroupOf D
   have hPDle : (PD : Subgroup D) ≤ ED := by
@@ -633,7 +633,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_exists_maximal_admissibleQ
   let A := Theorem4bSection7AdmissibleQ d s
   obtain ⟨a₀⟩ := hM.theorem4b_section7_admissibleQ_nonempty hT2 d s
   let S := {Q : Subgroup X // ∃ a : A, Q = a.Q}
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   let q₀ : S := ⟨a₀.Q, ⟨a₀, rfl⟩⟩
   have hnonempty : (Finset.univ : Finset S).Nonempty := by
     exact ⟨q₀, by simp⟩
@@ -657,7 +657,7 @@ private theorem theorem4b_section7_factorization_lt_normalizerIn_of_not_sylow
     (Nat.card P).factorization p <
       (Nat.card ((D ⊓ Subgroup.normalizer (P : Set X)) : Subgroup X)).factorization p := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let PD : Subgroup D := P.subgroupOf D
   have hPDp : IsPGroup p PD :=
     hPp.of_equiv (Subgroup.subgroupOfEquivOfLe hPD).symm
@@ -716,7 +716,7 @@ private theorem theorem4b_section7_normalizerIn_card_eq_of_sylow
     Nat.card ((D ⊓ Subgroup.normalizer (P : Set X)) : Subgroup X) =
       Nat.card ((D ⊓ Subgroup.normalizer (Q : Set X)) : Subgroup X) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsylow with ⟨P₀, hP⟩
   rcases hQsylow with ⟨Q₀, hQ⟩
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq E P₀ Q₀
@@ -763,7 +763,7 @@ private theorem theorem4bIsSylowSubgroupOf_of_subgroup_card_eq_final
     (hPsyl : theorem4bIsSylowSubgroupOf p P E)
     (hQE : Q ≤ E) (hcard : Nat.card Q = Nat.card P) :
     theorem4bIsSylowSubgroupOf p Q E := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PE, hP⟩
   have hPcard : Nat.card P = p ^ (Nat.card E).factorization p := by
     rw [hP, Subgroup.card_map_of_injective E.subtype_injective]
@@ -783,7 +783,7 @@ private theorem theorem4bIsSylowSubgroupOf_card_eq_final
     (hPsyl : theorem4bIsSylowSubgroupOf p P E)
     (hQsyl : theorem4bIsSylowSubgroupOf p Q E) :
     Nat.card P = Nat.card Q := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨PE, hP⟩
   rcases hQsyl with ⟨QE, hQ⟩
   rw [hP, hQ, Subgroup.card_map_of_injective E.subtype_injective,
@@ -823,7 +823,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_maximalQ_normalizer_chain
         (Nat.card (theorem4bSection7NormalizerInD M s.beta a.Q)).factorization
           d.data.p := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let D : Subgroup X := theorem4bSection7D M s.beta
   let E : Subgroup X := theorem4bSection7E M d.data.z s.beta
   have hED : E ≤ D := by
@@ -948,7 +948,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_maximalQData
     (s : Theorem4bSection7SecondStage d) :
     Nonempty (Theorem4bSection7MaximalQData d s) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   obtain ⟨a₀, a, hinit, hmax, hP₀notD, hP₁notD, hgrowth, hscore⟩ :=
     hM.theorem4b_section7_maximalQ_normalizer_chain
       hX d hrank hT2 hinduction s
@@ -1033,7 +1033,7 @@ private theorem theorem4b_mem_normalizer_oddCore_sup_of_factorization
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hforward : ∀ x : G, x ∈ H → u * x * u⁻¹ ∈ H := by
     intro x hx
     rcases Subgroup.mem_sup_of_normal_left.mp hx with
@@ -1081,7 +1081,7 @@ private theorem theorem4b_mem_normalizer_oddCore_sup_of_factorization
     have htwice := hforward (u * x * u⁻¹) hx
     have huInv : u⁻¹ = u := by
       apply mul_left_cancel (a := u)
-      simpa [← pow_two, hu.sq_eq_one]
+      simp [← pow_two, hu.sq_eq_one]
     rw [huInv] at htwice
     have huu : u * u = 1 := by simpa [pow_two] using hu.sq_eq_one
     have hEq : u * (u * x * u) * u = x := by
@@ -1099,14 +1099,14 @@ private theorem theorem4b_odd_card_oddCore_sup_sylow
     (B : Sylow p G) :
     Odd (Nat.card (pPrimeCore 2 G ⊔ (B : Subgroup G) : Subgroup G)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact p.Prime := ⟨hp⟩
   let O : Subgroup G := pPrimeCore 2 G
   let H : Subgroup G := O ⊔ (B : Subgroup G)
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hOcop : Nat.Coprime 2 (Nat.card O) := by
     simpa [O] using pPrimeCore_coprime_card (p := 2) (G := G)
   have hBodd : Odd (Nat.card (B : Subgroup G)) := by
@@ -1170,7 +1170,7 @@ public theorem exists_invariant_sylow_containing_of_pPrimeCore_sup_centralizer_e
       P ≤ (S : Subgroup G) ∧
         u ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨B, hPB⟩ := hPp.exists_le_sylow
   let H : Subgroup G := pPrimeCore 2 G ⊔ (B : Subgroup G)
   have hBH : (B : Subgroup G) ≤ H := le_sup_right
@@ -1220,9 +1220,9 @@ private theorem theorem4b_lemma710_factorization_subgroup
   have hOnormal : O.Normal := by
     dsimp [O]
     exact pPrimeCore_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   have hOMnormal : OM.Normal := by infer_instance
-  letI : OM.Normal := hOMnormal
+  let : OM.Normal := hOMnormal
   have hOMmapLe : OM.map M.subtype ≤ O := by
     rw [Subgroup.map_le_iff_le_comap]
   have hOMcard : Nat.card OM ∣ Nat.card O := by
@@ -1269,7 +1269,7 @@ private theorem theorem4b_lemma710_card_le_sylow_of_isPGroup
     (hPp : IsPGroup p P) (hPE : P ≤ E)
     (hQsyl : theorem4bIsSylowSubgroupOf p Q E) :
     Nat.card P ≤ Nat.card Q := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let PE : Subgroup E := P.subgroupOf E
   have hPEp : IsPGroup p PE :=
     hPp.of_equiv (Subgroup.subgroupOfEquivOfLe hPE).symm
@@ -1369,7 +1369,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma710
     ¬ ∀ u : N, IsInvolution u →
       pPrimeCore 2 N ⊔ Subgroup.centralizer ({u} : Set N) = ⊤ := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let a := q.chosen
   let N : Subgroup X := Subgroup.normalizer (a.Q : Set X)
   let NA : Subgroup N := M.comap N.subtype
@@ -1411,7 +1411,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma710
   let PstarN : Subgroup N := (Pstar : Subgroup NA).map NA.subtype
   let PstarX : Subgroup X := PstarN.map N.subtype
   have hPstarNp : IsPGroup d.data.p PstarN :=
-    Pstar.isPGroup'.map NA.subtype
+    Pstar.isPGroup.map NA.subtype
   have hPstarXp : IsPGroup d.data.p PstarX :=
     hPstarNp.map N.subtype
   have hPstarNNA : PstarN ≤ NA := by
@@ -1657,7 +1657,7 @@ private theorem theorem4b_twoRank_involutionCore_of_twoRank
   have hEcore : E ≤ involutionCore G := by
     intro x hx
     by_cases hx1 : x = 1
-    · simpa [hx1]
+    · simp [hx1]
     rw [involutionCore_eq_closure]
     apply Subgroup.subset_closure
     refine ⟨hx1, ?_⟩
@@ -2044,8 +2044,8 @@ public instance theorem4bSection7M2Quotient_characteristic
     (theorem4bSection7M2Quotient M Q).Characteristic := by
   let G := (theorem4bSection7M1 M Q) ⧸ (theorem4bSection7O1 M Q)
   let P := pCore 2 G
-  haveI : P.Characteristic := pCore_characteristic
-  haveI : (omega₁ (G := P) (p := 2)).Characteristic :=
+  have : P.Characteristic := pCore_characteristic
+  have : (omega₁ (G := P) (p := 2)).Characteristic :=
     omega₁_characteristic P
   have hchar : ((omega₁ (G := P) (p := 2)).map P.subtype).Characteristic :=
     characteristic_map_subtype_of_characteristic P
@@ -2066,7 +2066,7 @@ private theorem theorem4b_quotient_characteristic_comap_map_mulEquiv
     (e : G ≃* G) (hN : N.map e.toMonoidHom = N) :
     (U.comap (QuotientGroup.mk' N)).map e.toMonoidHom =
       U.comap (QuotientGroup.mk' N) := by
-  letI : (N.map e.toMonoidHom).Normal :=
+  let : (N.map e.toMonoidHom).Normal :=
     Subgroup.Normal.map (inferInstance : N.Normal) e.toMonoidHom e.surjective
   let eQ : (G ⧸ N) ≃* (G ⧸ N) :=
     (quotientMulEquivOfMulEquiv e N).trans
@@ -2173,7 +2173,7 @@ private theorem theorem4b_section7_quotient_sup_isPGroup
   let Rsub : Subgroup H := R.subgroupOf H
   have hBH : B ≤ H := le_sup_left
   have hRH : R ≤ H := le_sup_right
-  letI : Bsub.Normal := by
+  let : Bsub.Normal := by
     dsimp [Bsub, H]
     infer_instance
   have hsup : Bsub ⊔ Rsub = ⊤ := by
@@ -2217,13 +2217,13 @@ private theorem theorem4b_section7_pPrimeCore_sup_eq
       (pPrimeCore p B).map B.subtype := by
   classical
   let H : Subgroup G := B ⊔ R
-  have hBH : B ≤ H := by simpa [H] using (le_sup_left : B ≤ B ⊔ R)
+  have hBH : B ≤ H := by simp [H]
   have hHnormB : H ≤ Subgroup.normalizer (B : Set G) := by
     simpa [H] using (sup_le Subgroup.le_normalizer hRnorm)
   have hBnorm : (B.subgroupOf H).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hBH).2
     exact hHnormB
-  letI : (B.subgroupOf H).Normal := hBnorm
+  let : (B.subgroupOf H).Normal := hBnorm
   have hquotP : IsPGroup p (↥H ⧸ B.subgroupOf H) := by
     simpa [H] using theorem4b_section7_quotient_sup_isPGroup B R hRp
   let qH : H →* H ⧸ B.subgroupOf H := QuotientGroup.mk' (B.subgroupOf H)
@@ -2251,12 +2251,12 @@ private theorem theorem4b_section7_pPrimeCore_sup_eq
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
     change (y : G) ∈ B
     exact hOHleB hy
-  haveI : OH.Characteristic := pPrimeCore_characteristic
+  have : OH.Characteristic := pPrimeCore_characteristic
   have hHnormOHX : H ≤ Subgroup.normalizer (OHX : Set G) := by
     exact Subgroup.le_normalizer.trans
       (section8_normalizer_map_subtype_le_of_characteristic
         (H := H) (K := OH))
-  haveI : (OHX.subgroupOf B).Normal := by
+  have : (OHX.subgroupOf B).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hOHXleB).2
     exact hBH.trans hHnormOHX
   have hOHXcop : Nat.Coprime p (Nat.card OHX) := by
@@ -2272,12 +2272,12 @@ private theorem theorem4b_section7_pPrimeCore_sup_eq
     exact hBH (by
       rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
       exact y.property)
-  haveI : (pPrimeCore p B).Characteristic := pPrimeCore_characteristic
+  have : (pPrimeCore p B).Characteristic := pPrimeCore_characteristic
   have hHnormOBX : H ≤ Subgroup.normalizer (OBX : Set G) := by
     exact hHnormB.trans
       (section8_normalizer_map_subtype_le_of_characteristic
         (H := B) (K := pPrimeCore p B))
-  haveI : (OBX.subgroupOf H).Normal := by
+  have : (OBX.subgroupOf H).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hOBXleH).2
     exact hHnormOBX
   have hOBXcop : Nat.Coprime p (Nat.card OBX) := by
@@ -2301,7 +2301,7 @@ private theorem theorem4b_section7_inf_pPrimeCore_le_pPrimeCore_map
   let OA : Subgroup G := (pPrimeCore p A).map A.subtype
   let K : Subgroup G := OA ⊓ B
   have hKleB : K ≤ B := inf_le_right
-  haveI : (pPrimeCore p A).Characteristic := pPrimeCore_characteristic
+  have : (pPrimeCore p A).Characteristic := pPrimeCore_characteristic
   have hAnormOA : A ≤ Subgroup.normalizer (OA : Set G) := by
     exact Subgroup.le_normalizer.trans
       (section8_normalizer_map_subtype_le_of_characteristic
@@ -2310,7 +2310,7 @@ private theorem theorem4b_section7_inf_pPrimeCore_le_pPrimeCore_map
     intro b hb
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨hAnormOA (hBA hb), Subgroup.le_normalizer hb⟩
-  haveI : (K.subgroupOf B).Normal := by
+  have : (K.subgroupOf B).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hKleB).2
     exact hBnormK
   have hOAcop : Nat.Coprime p (Nat.card OA) := by
@@ -2336,15 +2336,15 @@ private theorem theorem4b_section7_theta_eq_pPrimeCore_of_odd
   let PX : Subgroup G := (pPrimeCore p A).map A.subtype
   let O : Subgroup G := corollary64OddCore A
   let T : Subgroup G := corollary64Theta p A
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPXleA : PX ≤ A := by
     simpa [PX] using (Subgroup.map_subtype_le (pPrimeCore p A))
-  haveI : (pPrimeCore p A).Characteristic := pPrimeCore_characteristic
+  have : (pPrimeCore p A).Characteristic := pPrimeCore_characteristic
   have hAnormPX : A ≤ Subgroup.normalizer (PX : Set G) := by
     exact Subgroup.le_normalizer.trans
       (section8_normalizer_map_subtype_le_of_characteristic
         (H := A) (K := pPrimeCore p A))
-  haveI : (PX.subgroupOf A).Normal := by
+  have : (PX.subgroupOf A).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hPXleA).2
     exact hAnormPX
   have hPXcop : Nat.Coprime p (Nat.card PX) := by
@@ -2363,13 +2363,13 @@ private theorem theorem4b_section7_theta_eq_pPrimeCore_of_odd
       (Subgroup.map_subtype_le (twoPrimeCore A))
   have hOnormPX : O ≤ Subgroup.normalizer (PX : Set G) :=
     hOleA.trans hAnormPX
-  haveI : (PX.subgroupOf O).Normal := by
+  have : (PX.subgroupOf O).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hPXleO).2
     exact hOnormPX
   have hPXleT : PX ≤ T := by
     simpa [T, corollary64Theta] using
       (subgroupOf_le_pPrimeCore_map (p := p) hPXleO hPXcop)
-  haveI : (twoPrimeCore A).Characteristic := by
+  have : (twoPrimeCore A).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := A))
   have hAnormO : A ≤ Subgroup.normalizer (O : Set G) := by
@@ -2377,7 +2377,7 @@ private theorem theorem4b_section7_theta_eq_pPrimeCore_of_odd
       (Subgroup.le_normalizer.trans
         (section8_normalizer_map_subtype_le_of_characteristic
           (H := A) (K := twoPrimeCore A)))
-  haveI : (pPrimeCore p O).Characteristic := pPrimeCore_characteristic
+  have : (pPrimeCore p O).Characteristic := pPrimeCore_characteristic
   have hNormOnormT : Subgroup.normalizer (O : Set G) ≤
       Subgroup.normalizer (T : Set G) := by
     simpa [T, corollary64Theta] using
@@ -2389,7 +2389,7 @@ private theorem theorem4b_section7_theta_eq_pPrimeCore_of_odd
     simpa [T, O, corollary64Theta] using
       (Subgroup.map_subtype_le (pPrimeCore p O))
   have hTleA : T ≤ A := hTleO.trans hOleA
-  haveI : (T.subgroupOf A).Normal := by
+  have : (T.subgroupOf A).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hTleA).2
     exact hAnormT
   have hTcop : Nat.Coprime p (Nat.card T) := by
@@ -2511,7 +2511,7 @@ public theorem theorem4b_section7_R_le_normalizer_M2
       _ = r * (iA x : X) * r⁻¹ := by
         exact Subgroup.normalizerMonoidHom_apply_apply_coe AX rAX (iA x)
       _ = r * (((x : A) : N0) : X) * r⁻¹ := by rfl
-  haveI : (twoPrimeCore N0).Characteristic := by
+  have : (twoPrimeCore N0).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := N0))
   have hcoreMap :
@@ -2534,7 +2534,7 @@ public theorem theorem4b_section7_R_le_normalizer_M2
   have hO1map : O1.map eA.toMonoidHom = O1 := by
     apply Subgroup.eq_of_le_of_card_ge hO1le
     rw [Subgroup.card_map_of_injective eA.injective]
-  letI : U.Characteristic := by
+  let : U.Characteristic := by
     dsimp [U]
     infer_instance
   have hA2map : A2.map eA.toMonoidHom = A2 := by
@@ -2599,7 +2599,7 @@ private theorem theorem4b_section7_z_mem_M2_of_core_quotient
     exact Subgroup.subset_closure hzA
   have hzCbar : qA zA ∈ Cbar := by
     exact Subgroup.mem_map_of_mem qA hzCore
-  letI : Cbar.Normal := by
+  let : Cbar.Normal := by
     dsimp [Cbar, qA]
     exact (inferInstance : (involutionCore A).Normal).map
       (QuotientGroup.mk' O1) (QuotientGroup.mk'_surjective O1)
@@ -2775,10 +2775,8 @@ public theorem IsStronglyEmbedded.theorem4b_section7_z_mem_M2
         (QuotientGroup.mk' (theorem4bSection7O1 M a.Q))) := by
     apply theorem4b_section7_M1_core_quotient_isPGroup
       M a.Q hinduction hN0proper
-    · change IsStronglyEmbedded (theorem4bSection7M1 M a.Q)
-      exact hM1strong
-    · change TwoRankAtLeastTwo (theorem4bSection7M1 M a.Q)
-      exact hrankM1
+    · exact hM1strong
+    · exact hrankM1
   simpa [a] using theorem4b_section7_z_mem_M2_of_core_quotient
     M a.Q d.data.z hzN0 d.data.hzM d.data.hz hcoreQuot
 
@@ -2819,7 +2817,7 @@ public theorem theorem4b_section7_z_not_mem_pPrimeCore_M2Hat
       (pPrimeCore d.data.p (theorem4bSection7M2Hat q)).map
         (theorem4bSection7M2Hat q).subtype := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let H : Subgroup X := theorem4bSection7M2Hat q
   let O : Subgroup H := pPrimeCore d.data.p H
   let OX : Subgroup X := O.map H.subtype
@@ -2828,10 +2826,8 @@ public theorem theorem4b_section7_z_not_mem_pPrimeCore_M2Hat
   intro hzO
   have hP₁H : q.chosen.P₁ ≤ H := by
     exact q.hP₁R.trans (by
-      simpa [H, theorem4bSection7M2Hat, theorem4bSection7R] using
-        (le_sup_right : q.R ≤
-          theorem4bSection7M2InX M q.chosen.Q ⊔ q.R))
-  haveI : O.Characteristic := by
+      simp [H, theorem4bSection7M2Hat, theorem4bSection7R])
+  have : O.Characteristic := by
     dsimp [O]
     infer_instance
   have hHnormO : H ≤ Subgroup.normalizer (OX : Set X) := by
@@ -2874,7 +2870,7 @@ public theorem theorem4b_section7_pPrimeCore_M2Hat_eq_M2
       (pPrimeCore d.data.p
           (theorem4bSection7M2InX M q.chosen.Q)).map
         (theorem4bSection7M2InX M q.chosen.Q).subtype := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   let R : Subgroup X := q.R
   have hRnorm : R ≤ Subgroup.normalizer (B : Set X) := by
@@ -2890,8 +2886,8 @@ public theorem theorem4b_section7_pPrimeCore_M2Hat_eq_M2
         (theorem4bSection7M2InX M q.chosen.Q)).map
       (theorem4bSection7M2InX M q.chosen.Q).subtype
   convert theorem4b_section7_pPrimeCore_sup_eq
-      (theorem4bSection7M2InX M q.chosen.Q) q.R hRnorm hRp using 1 <;>
-    ext x <;> rfl
+      (theorem4bSection7M2InX M q.chosen.Q) q.R hRnorm hRp using 1;
+    ext x; rfl
 
 public theorem theorem4b_section7_z_not_mem_pPrimeCore_M2
     {X : Type*} [Group X] [Finite X] {M : Subgroup X}
@@ -2923,7 +2919,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_z_not_mem_pPrimeCore_M1
       (pPrimeCore d.data.p
           (theorem4bSection7M1InX M q.chosen.Q)).map
         (theorem4bSection7M1InX M q.chosen.Q).subtype := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let A : Subgroup X := theorem4bSection7M1InX M q.chosen.Q
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   have hBA : B ≤ A := by
@@ -2955,7 +2951,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M1_odd
     Odd (Nat.card
       (pPrimeCore d.data.p (theorem4bSection7M1 M q.chosen.Q))) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let N0 : Subgroup X := theorem4bSection7NCore q.chosen.Q
   let A : Subgroup N0 := theorem4bSection7M1 M q.chosen.Q
   let AX : Subgroup X := theorem4bSection7M1InX M q.chosen.Q
@@ -2998,7 +2994,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M1_odd
     Nat.not_odd_iff_even.mp hodd
   have htwo : 2 ∣ Nat.card (pPrimeCore d.data.p A) :=
     even_iff_two_dvd.mp heven
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup A := pPrimeCore d.data.p A
   obtain ⟨u, huOrder⟩ :=
     exists_prime_orderOf_dvd_card' (G := P) 2 (by simpa [P] using htwo)
@@ -3036,11 +3032,11 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M2_odd
     (q : Theorem4bSection7MaximalQData d s) :
     Odd (Nat.card
       (pPrimeCore d.data.p (theorem4bSection7M2 M q.chosen.Q))) := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let A : Subgroup (theorem4bSection7NCore q.chosen.Q) :=
     theorem4bSection7M1 M q.chosen.Q
   let B : Subgroup A := theorem4bSection7M2 M q.chosen.Q
-  letI : B.Normal := by
+  let : B.Normal := by
     simpa [B, A] using theorem4bSection7M2_normal M q.chosen.Q
   have hAodd : Odd (Nat.card (pPrimeCore d.data.p A)) := by
     simpa [A] using hM.theorem4b_section7_pPrimeCore_M1_odd
@@ -3073,7 +3069,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M1_eq_theta
         (theorem4bSection7M1InX M q.chosen.Q).subtype =
       corollary64Theta d.data.p
         (theorem4bSection7M1InX M q.chosen.Q) := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let N0 : Subgroup X := theorem4bSection7NCore q.chosen.Q
   let A : Subgroup N0 := theorem4bSection7M1 M q.chosen.Q
   let AX : Subgroup X := theorem4bSection7M1InX M q.chosen.Q
@@ -3113,7 +3109,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M2_eq_theta
         (theorem4bSection7M2InX M q.chosen.Q).subtype =
       corollary64Theta d.data.p
         (theorem4bSection7M2InX M q.chosen.Q) := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let N0 : Subgroup X := theorem4bSection7NCore q.chosen.Q
   let A : Subgroup N0 := theorem4bSection7M1 M q.chosen.Q
   let B : Subgroup A := theorem4bSection7M2 M q.chosen.Q
@@ -3157,7 +3153,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_pPrimeCore_M2Hat_eq_theta
     (pPrimeCore d.data.p (theorem4bSection7M2Hat q)).map
         (theorem4bSection7M2Hat q).subtype =
       corollary64Theta d.data.p (theorem4bSection7M2Hat q) := by
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let H : Subgroup X := theorem4bSection7M2Hat q
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   have hcoreEq : (pPrimeCore d.data.p H).map H.subtype =
@@ -3189,24 +3185,24 @@ private theorem theorem4b_zj_factorization_of_normal
           (corollary64Z ⟨p, hp⟩ (P : Subgroup G) : Set G) =
       ⊤ := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let J : Subgroup G := thompsonCenter (G := G) (P : Subgroup G)
   let O : Subgroup G := pPrimeCore p G
   let K : Subgroup G := J ⊔ O
   let Z : Subgroup G := corollary64Z ⟨p, hp⟩ (P : Subgroup G)
-  haveI : O.Normal := by
+  have : O.Normal := by
     dsimp [O]
     infer_instance
-  haveI : K.Normal := by
+  have : K.Normal := by
     simpa [K, J, O] using hnorm
   have hJP : J ≤ (P : Subgroup G) := by
     simpa [J] using thompsonCenter_le (G := G) (P : Subgroup G)
   have hPOcop : Nat.Coprime (Nat.card (P : Subgroup G)) (Nat.card O) := by
-    rcases P.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases P.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact (pPrimeCore_coprime_card (G := G) (p := p)).pow_left n
   have hPO : (P : Subgroup G) ⊓ O = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime hPOcop
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hPOcop))
   have hPK : (P : Subgroup G) ⊓ K = J := by
     apply le_antisymm
     · intro x hx
@@ -3238,7 +3234,7 @@ private theorem theorem4b_zj_factorization_of_normal
       (Sylow.normalizer_sup_eq_top (G := G) (N := K) PK)
   have hnormJZ : Subgroup.normalizer (J : Set G) ≤
       Subgroup.normalizer (Z : Set G) := by
-    haveI : (omega₁ (G := J) (p := p)).Characteristic :=
+    have : (omega₁ (G := J) (p := p)).Characteristic :=
       omega₁_characteristic (G := J) (p := p)
     simpa [J, Z, corollary64Z] using
       (section8_normalizer_map_subtype_le_of_characteristic
@@ -3267,7 +3263,7 @@ private theorem theorem4b_zj_factorization_of_constrained_stable
         Subgroup.normalizer
           (corollary64Z ⟨p, hp⟩ (P : Subgroup G) : Set G) =
       ⊤ := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   apply theorem4b_zj_factorization_of_normal hp P
   exact G_theorem_8_2_11 p hpodd hOp_ne hconstrained hstable P
 
@@ -3285,7 +3281,7 @@ private theorem theorem4b_section7_exists_sylow_normal_le
       theorem4bIsSylowSubgroupOf p P K ∧ P ≤ S := by
   classical
   let KH : Subgroup H := K.subgroupOf H
-  letI : KH.Normal := by
+  let : KH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2
     exact hHnormK
   rcases hSsyl with ⟨SH, hSeq⟩
@@ -3323,7 +3319,7 @@ private theorem theorem4b_section7_sylow_le_of_quotient_coprime
   classical
   let q : G →* G ⧸ N := QuotientGroup.mk' N
   let Pbar : Subgroup (G ⧸ N) := (P : Subgroup G).map q
-  have hPbarp : IsPGroup p Pbar := P.isPGroup'.map q
+  have hPbarp : IsPGroup p Pbar := P.isPGroup.map q
   have hPbarcop : Nat.Coprime p (Nat.card Pbar) :=
     Nat.Coprime.of_dvd_right (Subgroup.card_subgroup_dvd_card Pbar) hcop
   have hPbarCard : Nat.card Pbar = 1 := by
@@ -3350,9 +3346,9 @@ private theorem theorem4b_section7_sylow_of_normal_quotient_coprime
     (hcop : Nat.Coprime p (Nat.card (H ⧸ N.subgroupOf H))) :
     theorem4bIsSylowSubgroupOf p P H := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let NH : Subgroup H := N.subgroupOf H
-  letI : NH.Normal := by
+  let : NH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).2
     exact hHnormN
   rcases hPsyl with ⟨PN, hPeq⟩
@@ -3498,7 +3494,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
     theorem4bIsSylowSubgroupOf d.data.p
       (theorem4bSection7R q) (theorem4bSection7M2Hat q) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let Q : Subgroup X := q.chosen.Q
   let E : Subgroup X := theorem4bSection7E M d.data.z s.beta
   let N0 : Subgroup X := theorem4bSection7NCore Q
@@ -3521,7 +3517,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
     simpa [P1, R, theorem4bSection7R] using q.hP₁R
   have hRnormN0 : R ≤ Subgroup.normalizer (N0 : Set X) := by
     simpa [R, N0, Q] using theorem4b_section7_R_le_normalizer_NCore q
-  haveI : (twoPrimeCore N0).Characteristic := by
+  have : (twoPrimeCore N0).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := N0))
   have hNormN0normOX : Subgroup.normalizer (N0 : Set X) ≤
@@ -3555,7 +3551,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
     Subgroup.le_normalizer.trans hNormN0normOX
   have hBnormOX : B ≤ Subgroup.normalizer (OX : Set X) :=
     hBleN0.trans hN0normOX
-  letI : (OX.subgroupOf B).Normal := by
+  let : (OX.subgroupOf B).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hOXB).2
     exact hBnormOX
   have hO1B0 : O1 ≤ B0 := by
@@ -3565,7 +3561,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
       (QuotientGroup.eq_one_iff (N := O1) (x := a)).2 ha
     rw [haOne]
     exact U.one_mem
-  letI : (O1.subgroupOf B0).Normal := by
+  let : (O1.subgroupOf B0).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hO1B0).2
     rw [Subgroup.normalizer_eq_top_iff.mpr
       (inferInstance : O1.Normal)]
@@ -3646,7 +3642,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
         B ⊔ R ≤ Subgroup.normalizer (B : Set X))
   let BH : Subgroup H := B.subgroupOf H
   let RH : Subgroup H := R.subgroupOf H
-  letI : BH.Normal := by
+  let : BH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hBH).2
     exact hHnormB
   have hRp : IsPGroup d.data.p R := by
@@ -3666,7 +3662,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_R_isSylow_M2Hat
   let K : Subgroup X := Sx ⊓ B
   have hP0B : P0 ≤ B := theorem4bIsSylowSubgroupOf_le_final hP0sylB
   have hP0K : P0 ≤ K := le_inf (hP0R.trans hRSx) hP0B
-  have hSxp : IsPGroup d.data.p Sx := S.isPGroup'.map H.subtype
+  have hSxp : IsPGroup d.data.p Sx := S.isPGroup.map H.subtype
   let KS : Subgroup Sx := K.subgroupOf Sx
   have hKSp : IsPGroup d.data.p KS := hSxp.to_subgroup KS
   let eKS : KS ≃* K := Subgroup.subgroupOfEquivOfLe inf_le_left
@@ -3756,7 +3752,7 @@ private theorem theorem4b_section7_M2_hasAbelianSylow
     HasAbelianSylow 2
       (theorem4bSection7M2InX M q.chosen.Q) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup X := q.chosen.Q
   let N0 : Subgroup X := theorem4bSection7NCore Q
   let A : Subgroup N0 := theorem4bSection7M1 M Q
@@ -3782,7 +3778,7 @@ private theorem theorem4b_section7_M2_hasAbelianSylow
       (QuotientGroup.eq_one_iff (N := O1) (x := a)).2 ha
     rw [haOne]
     exact U.one_mem
-  haveI : (O1.subgroupOf B0).Normal := by
+  have : (O1.subgroupOf B0).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hO1B0).2
     rw [Subgroup.normalizer_eq_top_iff.mpr
       (inferInstance : O1.Normal)]
@@ -3794,7 +3790,7 @@ private theorem theorem4b_section7_M2_hasAbelianSylow
   let eQuot : B0 ⧸ O1.subgroupOf B0 ≃* B0.map qA :=
     quotientSubgroupRangeEquiv B0 O1
   have hquotComm : IsMulCommutative (B0 ⧸ O1.subgroupOf B0) := by
-    letI : IsMulCommutative (B0.map qA) := by
+    let : IsMulCommutative (B0.map qA) := by
       rw [hB0map]
       exact hUcomm
     refine ⟨⟨?_⟩⟩
@@ -3825,8 +3821,8 @@ private theorem theorem4b_section7_M2Hat_hasAbelianSylow
     (q : Theorem4bSection7MaximalQData d s) :
     HasAbelianSylow 2 (theorem4bSection7M2Hat q) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let Q : Subgroup X := q.chosen.Q
   have hQeq : Q = q.chosen.Q := rfl
   cases hQeq
@@ -3847,7 +3843,7 @@ private theorem theorem4b_section7_M2Hat_hasAbelianSylow
         (theorem4bSection7M2InX M q.chosen.Q : Set X)
     exact sup_le Subgroup.le_normalizer hRnormB
   let BH : Subgroup H := B.subgroupOf H
-  letI : BH.Normal := by
+  let : BH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hBH).2
     exact hHnormB
   have hBabel : HasAbelianSylow 2 B := by
@@ -3858,7 +3854,7 @@ private theorem theorem4b_section7_M2Hat_hasAbelianSylow
   have hRp : IsPGroup d.data.p R := by
     change IsPGroup d.data.p q.R
     exact theorem4bIsSylowSubgroupOf_isPGroup_final q.hRsylow
-  haveI : (B.subgroupOf (B ⊔ R)).Normal := by
+  have : (B.subgroupOf (B ⊔ R)).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2
     exact sup_le Subgroup.le_normalizer hRnormB
   have hquotP : IsPGroup d.data.p (H ⧸ BH) := by
@@ -3880,7 +3876,7 @@ private theorem theorem4b_section7_M2_solvable
     {X : Type*} [Group X] [Finite X] (M Q : Subgroup X) :
     Group.IsSolvable (theorem4bSection7M2InX M Q) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N0 : Subgroup X := theorem4bSection7NCore Q
   let A : Subgroup N0 := theorem4bSection7M1 M Q
   let O1 : Subgroup A := theorem4bSection7O1 M Q
@@ -3900,7 +3896,7 @@ private theorem theorem4b_section7_M2_solvable
       Odd.of_dvd_nat hcoreOdd (Subgroup.card_dvd_of_le hO1le)
     rw [Subgroup.card_map_of_injective A.subtype_injective] at hmapOdd
     exact hmapOdd
-  letI : Group.IsSolvable O1 := odd_order_theorem O1 hO1odd
+  let : Group.IsSolvable O1 := odd_order_theorem O1 hO1odd
   have hO1B0 : O1 ≤ B0 := by
     intro a ha
     change QuotientGroup.mk' O1 a ∈ U
@@ -3924,7 +3920,7 @@ private theorem theorem4b_section7_M2_solvable
       rw [hB0map]
       exact hU2
     exact hRange2.of_equiv eQuot.symm
-  haveI : (O1.subgroupOf B0).Normal := by
+  have : (O1.subgroupOf B0).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hO1B0).2
     rw [Subgroup.normalizer_eq_top_iff.mpr
       (inferInstance : O1.Normal)]
@@ -3933,14 +3929,14 @@ private theorem theorem4b_section7_M2_solvable
     let eO : O1.subgroupOf B0 ≃* O1 :=
       Subgroup.subgroupOfEquivOfLe hO1B0
     exact Group.isSolvable_of_isSolvable_injective (f := eO.toMonoidHom) eO.injective
-  letI : Group.IsSolvable (O1.subgroupOf B0) := hO1subSolv
-  letI : Group.IsSolvable (B0 ⧸ O1.subgroupOf B0) := by
+  let : Group.IsSolvable (O1.subgroupOf B0) := hO1subSolv
+  let : Group.IsSolvable (B0 ⧸ O1.subgroupOf B0) := by
     have hnil := hquot0.isNilpotent
-    letI : Group.IsNilpotent (B0 ⧸ O1.subgroupOf B0) := hnil
+    let : Group.IsNilpotent (B0 ⧸ O1.subgroupOf B0) := hnil
     infer_instance
   have hB0solv : Group.IsSolvable B0 :=
     isSolvable_of_normal_subgroup_and_quotient (O1.subgroupOf B0)
-  letI : Group.IsSolvable B0 := hB0solv
+  let : Group.IsSolvable B0 := hB0solv
   let e1 : B0 ≃* B0.map A.subtype :=
     Subgroup.equivMapOfInjective B0 A.subtype A.subtype_injective
   let e2 : B0.map A.subtype ≃* B :=
@@ -3959,7 +3955,7 @@ private theorem theorem4b_section7_M2Hat_solvable
     (q : Theorem4bSection7MaximalQData d s) :
     Group.IsSolvable (theorem4bSection7M2Hat q) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let Q : Subgroup X := q.chosen.Q
   have hQeq : Q = q.chosen.Q := rfl
   cases hQeq
@@ -3980,19 +3976,19 @@ private theorem theorem4b_section7_M2Hat_solvable
         (theorem4bSection7M2InX M q.chosen.Q : Set X)
     exact sup_le Subgroup.le_normalizer hRnormB
   let BH : Subgroup H := B.subgroupOf H
-  letI : BH.Normal := by
+  let : BH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hBH).2
     exact hHnormB
   have hBsolv : Group.IsSolvable B := theorem4b_section7_M2_solvable M Q
-  letI : Group.IsSolvable B := hBsolv
+  let : Group.IsSolvable B := hBsolv
   have hBHsolv : Group.IsSolvable BH := by
     let eB : BH ≃* B := Subgroup.subgroupOfEquivOfLe hBH
     exact Group.isSolvable_of_isSolvable_injective (f := eB.toMonoidHom) eB.injective
-  letI : Group.IsSolvable BH := hBHsolv
+  let : Group.IsSolvable BH := hBHsolv
   have hRp : IsPGroup d.data.p R := by
     change IsPGroup d.data.p q.R
     exact theorem4bIsSylowSubgroupOf_isPGroup_final q.hRsylow
-  haveI : (B.subgroupOf (B ⊔ R)).Normal := by
+  have : (B.subgroupOf (B ⊔ R)).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2
     exact sup_le Subgroup.le_normalizer hRnormB
   have hquotP : IsPGroup d.data.p (H ⧸ BH) := by
@@ -4002,9 +3998,9 @@ private theorem theorem4b_section7_M2Hat_solvable
           (theorem4bSection7M2InX M q.chosen.Q ⊔ q.R))
     exact theorem4b_section7_quotient_sup_isPGroup
       (theorem4bSection7M2InX M q.chosen.Q) q.R hRp
-  letI : Group.IsSolvable (H ⧸ BH) := by
+  let : Group.IsSolvable (H ⧸ BH) := by
     have hnil := hquotP.isNilpotent
-    letI : Group.IsNilpotent (H ⧸ BH) := hnil
+    let : Group.IsNilpotent (H ⧸ BH) := hnil
     infer_instance
   change Group.IsSolvable H
   exact isSolvable_of_normal_subgroup_and_quotient BH
@@ -4219,7 +4215,7 @@ private theorem theorem4b_intersect_factorization
     (hfactor : O ⊔ N = H) (hOnorm : O.Normal)
     (hOB : O ≤ B) (hBH : B ≤ H) :
     B = O ⊔ (B ⊓ N) := by
-  letI : O.Normal := hOnorm
+  let : O.Normal := hOnorm
   apply le_antisymm
   · intro x hxB
     have hxSup : x ∈ O ⊔ N := by
@@ -4246,7 +4242,7 @@ private theorem theorem4b_section7_Q_le_R
     (q : Theorem4bSection7MaximalQData d s) :
     q.chosen.Q ≤ q.R := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let Q : Subgroup X := q.chosen.Q
   let D : Subgroup X := theorem4bSection7D M s.beta
   let NDQ : Subgroup X := theorem4bSection7NormalizerInD M s.beta Q
@@ -4255,7 +4251,7 @@ private theorem theorem4b_section7_Q_le_R
   have hQNDQ : Q ≤ NDQ := le_inf hQD Subgroup.le_normalizer
   have hNDQnormQ : NDQ ≤ Subgroup.normalizer (Q : Set X) := inf_le_right
   let QN : Subgroup NDQ := Q.subgroupOf NDQ
-  letI : QN.Normal := by
+  let : QN.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hQNDQ).2
     exact hNDQnormQ
   have hQNp : IsPGroup d.data.p QN :=
@@ -4265,7 +4261,7 @@ private theorem theorem4b_section7_Q_le_R
   change q.R = (RN : Subgroup NDQ).map NDQ.subtype at hReq
   have hsupP : IsPGroup d.data.p
       (↥((RN : Subgroup NDQ) ⊔ QN)) :=
-    IsPGroup.to_sup_of_normal_right RN.isPGroup' hQNp
+    IsPGroup.to_sup_of_normal_right RN.isPGroup hQNp
   have hsupEq : (RN : Subgroup NDQ) ⊔ QN = (RN : Subgroup NDQ) :=
     RN.maximal_isPGroup.eq_of_ge hsupP le_sup_left
   have hQNleRN : QN ≤ RN := by
@@ -4288,7 +4284,7 @@ private theorem theorem4b_section7_pCore_M2Hat_ne_bot
     (q : Theorem4bSection7MaximalQData d s) :
     pCore d.data.p (theorem4bSection7M2Hat q) ≠ ⊥ := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let Q : Subgroup X := q.chosen.Q
   have hQeq : Q = q.chosen.Q := rfl
   cases hQeq
@@ -4323,7 +4319,7 @@ private theorem theorem4b_section7_pCore_M2Hat_ne_bot
     change (B ⊔ q.R) ≤ N
     exact sup_le hBN hRN
   let QH : Subgroup H := Q.subgroupOf H
-  letI : QH.Normal := by
+  let : QH.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).2
     exact hHN
   have hQHp : IsPGroup d.data.p QH :=
@@ -4362,7 +4358,7 @@ public theorem IsStronglyEmbedded.theorem4b_section7_M2Hat_factorization_of_pSta
       ⊤ := by
   classical
   dsimp only
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let H : Subgroup X := theorem4bSection7M2Hat q
   let R : Subgroup X := q.R
   obtain ⟨P, hRP⟩ :=
@@ -4434,7 +4430,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma711_of_pStable
         (theorem4bSection7M2InX M q.chosen.Q ⊓
           Subgroup.normalizer (theorem4bSection7Z q : Set X)) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let H : Subgroup X := theorem4bSection7M2Hat q
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   let O : Subgroup H := pPrimeCore d.data.p H
@@ -4445,9 +4441,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma711_of_pStable
       hM.theorem4b_section7_M2Hat_factorization_of_pStable
         hX d hrank hT2 hinduction s q hstable
   have hBH : B ≤ H := by
-    simpa [B, H, theorem4bSection7M2Hat] using
-      (le_sup_left : theorem4bSection7M2InX M q.chosen.Q ≤
-        theorem4bSection7M2InX M q.chosen.Q ⊔ theorem4bSection7R q)
+    simp [B, H, theorem4bSection7M2Hat]
   have hcoreEq : O.map H.subtype =
       (pPrimeCore d.data.p B).map B.subtype := by
     simpa [O, H, B] using
@@ -4524,7 +4518,7 @@ public theorem IsStronglyEmbedded.theorem4b_lemma711
         (theorem4bSection7M2InX M q.chosen.Q ⊓
           Subgroup.normalizer (theorem4bSection7Z q : Set X)) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let H : Subgroup X := theorem4bSection7M2Hat q
   have hstable : PStableGroup' (G := H) d.data.p :=
     pStableGroup'_of_solvable_abelianSylowTwo
@@ -4549,7 +4543,7 @@ private theorem factorization_two_subgroupOf_eq_of_eq_sup_odd_normal
   classical
   let TB : Subgroup B := T.subgroupOf B
   let NB : Subgroup B := N.subgroupOf B
-  haveI : TB.Normal := by
+  have : TB.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hTB).2
     exact hBnormT
   have hsupB : TB ⊔ NB = ⊤ := by
@@ -4625,12 +4619,12 @@ private theorem theorem4b_exists_conjugate_normalized_of_eq_sup_odd_normal
     ∃ x : G, x ∈ T ∧
       z ∈ Subgroup.normalizer (K.conjBy x : Set G) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := B ⊓ Subgroup.normalizer (K : Set G)
   have hNB : N ≤ B := inf_le_left
   let TB : Subgroup B := T.subgroupOf B
   let NB : Subgroup B := N.subgroupOf B
-  haveI : TB.Normal := by
+  have : TB.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hTB).2
     exact hBnormT
   have hsupB : TB ⊔ NB = ⊤ := by
@@ -4712,7 +4706,7 @@ private theorem odd_subgroup_le_of_quotient_isPGroup_two
     T ≤ O := by
   classical
   let OB : Subgroup B := O.subgroupOf B
-  letI : OB.Normal := by
+  let : OB.Normal := by
     change (O.subgroupOf B).Normal
     infer_instance
   let TB : Subgroup B := T.subgroupOf B
@@ -4755,7 +4749,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_exists_theta_conjugate_nor
       d.data.z ∈ Subgroup.normalizer
         ((theorem4bSection7Z q).conjBy x : Set X) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   let T : Subgroup X := corollary64Theta d.data.p B
   let Z : Subgroup X := theorem4bSection7Z q
@@ -4797,7 +4791,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_theta_M2_le_oddCore
       (twoPrimeCore (theorem4bSection7NCore q.chosen.Q)).map
         (theorem4bSection7NCore q.chosen.Q).subtype := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup X := q.chosen.Q
   let N0 : Subgroup X := theorem4bSection7NCore Q
   let A : Subgroup N0 := theorem4bSection7M1 M Q
@@ -4814,7 +4808,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_theta_M2_le_oddCore
   have hBleN0 : B ≤ N0 := by
     change ((B0.map A.subtype).map N0.subtype : Subgroup X) ≤ N0
     exact Subgroup.map_subtype_le _
-  haveI : (twoPrimeCore N0).Characteristic := by
+  have : (twoPrimeCore N0).Characteristic := by
     simpa [twoPrimeCore] using
       (pPrimeCore_characteristic (p := 2) (G := N0))
   have hNormN0normOX : Subgroup.normalizer (N0 : Set X) ≤
@@ -4826,7 +4820,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_theta_M2_le_oddCore
     Subgroup.le_normalizer.trans hNormN0normOX
   have hBnormOX : B ≤ Subgroup.normalizer (OX : Set X) :=
     hBleN0.trans hN0normOX
-  letI : (OX.subgroupOf B).Normal := by
+  let : (OX.subgroupOf B).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hOXB).2
     exact hBnormOX
   have hO1B0 : O1 ≤ B0 := by
@@ -4836,7 +4830,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_theta_M2_le_oddCore
       (QuotientGroup.eq_one_iff (N := O1) (x := a)).2 ha
     rw [haOne]
     exact U.one_mem
-  letI : (O1.subgroupOf B0).Normal := by
+  let : (O1.subgroupOf B0).Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hO1B0).2
     rw [Subgroup.normalizer_eq_top_iff.mpr
       (inferInstance : O1.Normal)]
@@ -4929,7 +4923,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_conjugated_admissibleQ
         a.P₁ = q.chosen.P₁.conjBy x ∧
         a.t = (MulAut.conj x) q.chosen.t := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let B : Subgroup X := theorem4bSection7M2InX M q.chosen.Q
   let T : Subgroup X := corollary64Theta d.data.p B
   let D : Subgroup X := theorem4bSection7D M s.beta
@@ -5124,7 +5118,7 @@ private theorem IsStronglyEmbedded.theorem4b_section7_final_sylow
         ((theorem4bSection7R q).conjBy x)
         (theorem4bSection7D M s.beta) := by
   classical
-  letI : Fact d.data.p.Prime := ⟨d.data.hp⟩
+  let : Fact d.data.p.Prime := ⟨d.data.hp⟩
   let D : Subgroup X := theorem4bSection7D M s.beta
   let E : Subgroup X := theorem4bSection7E M d.data.z s.beta
   let R : Subgroup X := q.R

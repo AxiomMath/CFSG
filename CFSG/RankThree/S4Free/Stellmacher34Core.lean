@@ -40,10 +40,10 @@ theorem not_isPGroup_suzuki (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     ¬ IsPGroup 2 (suzukiGroup a K) := by
   intro h
   obtain ⟨hfin, -, hs⟩ := CFSG.LieType.Ree.suzuki_simple ha hK
-  haveI := hfin
-  haveI := hs
+  have := hfin
+  have := hs
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.isNilpotent
+  have := h.isNilpotent
   obtain ⟨x, y, hxy⟩ := exists_mul_ne_suzuki ha hK
   exact hxy ((IsSimpleGroup.comm_iff_isSolvable).2 inferInstance x y)
 
@@ -115,6 +115,7 @@ noncomputable abbrev sylowT (h : SzCfg T W R φ) : Sylow 2 Λ :=
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   h.isPGroup_T.toSylow h.not_dvd_index
 
+omit [Finite Λ] in
 theorem coe_sylowT (h : SzCfg T W R φ) : (h.sylowT : Subgroup Λ) = T :=
   haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   IsPGroup.toSylow_coe _ _
@@ -124,36 +125,45 @@ theorem oTwo_le_T (h : SzCfg T W R φ) : oTwo Λ ≤ T := by
   rw [← h.coe_sylowT]
   exact (Stell.oTwo_isPGroup Λ).le_sylow_of_normal h.sylowT
 
+omit [Finite Λ] in
 theorem normal_R (h : SzCfg T W R φ) : R.Normal := h.ker_eq ▸ φ.normal_ker
 
+omit [Finite Λ] in
 theorem exists_not_mem (h : SzCfg T W R φ) : ∃ x : Λ, x ∉ normalizer (W : Set Λ) := by
   by_contra hx
   push Not at hx
   exact h.normalizer_ne_top (eq_top_iff.mpr fun x _ => hx x)
 
+omit [Finite Λ] in
 theorem comm_W (h : SzCfg T W R φ) {v w : Λ} (hv : v ∈ W) (hw : w ∈ W) : v * w = w * v :=
   congrArg Subtype.val (h.elemAb.1.is_comm.comm ⟨v, hv⟩ ⟨w, hw⟩)
 
+omit [Finite Λ] in
 theorem sq_W (h : SzCfg T W R φ) {w : Λ} (hw : w ∈ W) : w ^ 2 = 1 := h.elemAb.2 w hw
 
+omit [Finite Λ] in
 theorem map_conj_le_of_normal {Q : Subgroup Λ} [Q.Normal] {V : Subgroup Λ} (hVQ : V ≤ Q)
     (x : Λ) : V.map (MulAut.conj x).toMonoidHom ≤ Q := by
   rintro _ ⟨v, hv, rfl⟩
   exact (inferInstance : Q.Normal).conj_mem v (hVQ hv) x
 
+omit [Finite Λ] in
 theorem eq_top_of_le (h : SzCfg T W R φ) {Q : Subgroup Λ} [Q.Normal] (hWQ : W ≤ Q) : Q = ⊤ := by
   obtain ⟨x, hx⟩ := h.exists_not_mem
   rw [eq_top_iff, ← h.sup_conj x hx]
   exact sup_le hWQ (map_conj_le_of_normal hWQ x)
 
 
+omit [Finite Λ] in
 theorem not_isPGroup (h : SzCfg T W R φ) : ¬ IsPGroup 2 Λ := fun h2 =>
   not_isPGroup_suzuki h.one_le h.card_K (h2.of_surjective φ h.surjective)
 
+omit [Finite Λ] in
 theorem ne_top_of_isPGroup (h : SzCfg T W R φ) {Q : Subgroup Λ} (hQ : IsPGroup 2 Q) : Q ≠ ⊤ := by
   rintro rfl
   exact h.not_isPGroup (hQ.of_equiv Subgroup.topEquiv)
 
+omit [Finite Λ] in
 theorem R_ne_top (h : SzCfg T W R φ) : R ≠ ⊤ := by
   intro hR
   obtain ⟨-, hnt, -⟩ := CFSG.LieType.Ree.suzuki_simple h.one_le h.card_K
@@ -165,6 +175,7 @@ theorem R_ne_top (h : SzCfg T W R φ) : R ≠ ⊤ := by
 theorem not_le_oTwo (h : SzCfg T W R φ) : ¬ W ≤ oTwo Λ := fun hWO =>
   h.ne_top_of_isPGroup (Stell.oTwo_isPGroup Λ) (h.eq_top_of_le hWO)
 
+omit [Finite Λ] in
 theorem normalizer_le (h : SzCfg T W R φ) :
     normalizer (T : Set Λ) ≤ normalizer (W : Set Λ) := by
   intro y hy
@@ -177,6 +188,7 @@ theorem normalizer_le (h : SzCfg T W R φ) :
   rw [hsup] at hle
   exact h.ne_top_of_isPGroup h.isPGroup_T (top_le_iff.mp hle)
 
+omit [Finite Λ] in
 theorem ker_le_normalizer (h : SzCfg T W R φ) : R ≤ normalizer (W : Set Λ) := by
   intro r hr
   by_contra hrW
@@ -196,6 +208,7 @@ theorem ker_le_normalizer (h : SzCfg T W R φ) : R ≤ normalizer (W : Set Λ) :
   obtain ⟨w, hw, rfl⟩ := hy
   exact hxy (by rw [← map_mul, ← map_mul, h.comm_W hv hw])
 
+omit [Finite Λ] in
 theorem mem_oTwo_of_pow_eq_one (h : SzCfg T W R φ) {g : Λ} (hgR : g ∈ R) {k : ℕ}
     (hg : g ^ 2 ^ k = 1) : g ∈ oTwo Λ := by
   set ψ := QuotientGroup.mk' (oTwo Λ) with hψ
@@ -212,6 +225,7 @@ theorem mem_oTwo_of_pow_eq_one (h : SzCfg T W R φ) {g : Λ} (hgR : g ∈ R) {k 
   have h6 : ψ g = 1 := congrArg Subtype.val h5
   rwa [hψ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h6
 
+omit [Finite Λ] in
 theorem inf_ker_le_oTwo (h : SzCfg T W R φ) : W ⊓ R ≤ oTwo Λ := fun w hw =>
   h.mem_oTwo_of_pow_eq_one hw.2 (k := 1) (by rw [pow_one]; exact h.sq_W hw.1)
 

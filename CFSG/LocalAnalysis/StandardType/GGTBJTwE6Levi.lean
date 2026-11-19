@@ -102,8 +102,8 @@ theorem ggTBJ_twE6_levi_side
   obtain ⟨V, hAdd, hMod, ι, φ, h, α, f, hlin, hrefl, hpair, hf, hclos, hφ, -⟩ :=
     TypeBDatum.exists_E6_datum_of_sectionFrameAut hp2 hp3 hBs ΘB (X.subtype.comp sf)
       (hAut X le_rfl) ρ hρinj hρact hW
-  letI : AddCommGroup V := hAdd
-  letI : Module (ZMod p) V := hMod
+  let : AddCommGroup V := hAdd
+  let : Module (ZMod p) V := hMod
   have hAnnSect : ∀ x : Fin Tag.E6.rank → ZMod p,
       (∀ γ ∈ Ψ, ∑ j, (γ j : ZMod p) * x j = 0) →
       ∀ z ∈ J.subgroupOf X, sf (fun j => Multiplicative.ofAdd (x j)) * z =
@@ -170,7 +170,7 @@ theorem ggTBJ_twE6_levi_side
       fun j : {j : Fin 6 // j ∉ Sd} => (f u : MulAut Bs) * φ j.1 * (f u : MulAut Bs)⁻¹) :=
     hJrange.trans (congrArg (fun z : {j : Fin 6 // j ∉ Sd} → MulAut Bs =>
       Subgroup.closure (Set.range z)) (funext hgen))
-  have hCeq : Tag.cartan .E6 = CartanMatrix.E₆ := by
+  have hCeq : Tag.cartan .E6 = (CartanMatrix.E 6) := by
     rw [show Tag.cartan .E6 = Tag.cartanE 6 from rfl, cartanE_eq]
   have hpair' : ∀ j k, α j (h k) = (Tag.cartan .E6 j k : ZMod p) := by
     simpa only [hCeq] using hpair

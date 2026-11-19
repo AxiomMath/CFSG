@@ -67,7 +67,7 @@ theorem m5b_prod (b : List ℕ) :
         stEqN 4 (CFSG.KD.M5BL.runCB b c (S (f20 c (nat_lit 3)))) (S (f20 c (nat_lit 4))) := by
   intro S c h
   unfold CFSG.KD.M5BL.chkBL chunkOKNL
-  rw [h] <;> rfl
+  rw [h]; rfl
 
 open Lean in
 macro "kd_m5b% " pre:ident b:term:max : term => do

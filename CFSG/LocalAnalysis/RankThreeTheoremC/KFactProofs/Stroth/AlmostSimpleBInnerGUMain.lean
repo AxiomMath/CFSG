@@ -16,8 +16,8 @@ variable {ℓ f : ℕ} {E : Type} [Field E] {hE : UnitaryFieldData ℓ f E}
 theorem oddPCoreInClosure_sesqUnitaryGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hℓ : ℓ = 2)
     (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) :
     OddPCoreInClosure p ↥(sesqUnitaryGroup Hf) := by
-  haveI : Finite ↥(sesqUnitaryGroup Hf) := finite_sesqUnitaryGroup'
-  haveI : CharP E 2 := hℓ ▸ hE.charP
+  have : Finite ↥(sesqUnitaryGroup Hf) := finite_sesqUnitaryGroup'
+  have : CharP E 2 := hℓ ▸ hE.charP
   have hf1 := hE.one_le
   have hq2 : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by omega : f ≠ 0) hE.prime.one_lt
@@ -70,7 +70,7 @@ theorem oddPCoreInClosure_sesqUnitaryGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠
             · exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow h)
           subst hp3
           refine OddPCoreInClosure.of_odd_core fun K hK hKcop => ?_
-          haveI := hK
+          have := hK
           have hKdvd : Nat.card K ∣ 2 ^ 3 * 3 ^ 4 := by
             have := h648 ▸ Subgroup.card_subgroup_dvd_card K
             simpa using this
@@ -85,7 +85,7 @@ theorem oddPCoreInClosure_sesqUnitaryGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠
         · exact OddPCoreInClosure.of_not_dvd hp (by rw [h648]; simpa using hp648)
       ·
         set Q := (sesqSpecialUnitaryGroup Hf).subgroupOf (sesqUnitaryGroup Hf) with hQ
-        haveI : Q.Normal := normal_special_subgroupOf hHf hHfl (by omega)
+        have : Q.Normal := normal_special_subgroupOf hHf hHfl (by omega)
         have hq : (Module.finrank E W = 2 → 4 ≤ ℓ ^ f) ∧ (Module.finrank E W = 3 → 3 ≤ ℓ ^ f) := by
           refine ⟨fun h2 => ?_, fun h3 => ?_⟩
           · have hne : ℓ ^ f ≠ 2 := fun h => hexc2 ⟨h2, h⟩

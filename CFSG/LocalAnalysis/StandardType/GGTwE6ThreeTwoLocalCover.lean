@@ -27,9 +27,9 @@ theorem le_ker_of_isPGroup_two {n : ℕ} (hn : 1 ≤ n)
     {U : Subgroup L'} (hU2 : IsPGroup 2 U)
     (hAU : ∀ a ∈ A, ∀ u ∈ U, a u ∈ U) : U ≤ ψ₀.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let Fr := iterateFrobenius (AlgebraicClosure K) 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
@@ -67,8 +67,8 @@ theorem le_ker_of_isPGroup_two_recipe {n : ℕ} (hn : 1 ≤ n)
     {U : Subgroup L'} (hU2 : IsPGroup 2 U) (hAU : ∀ a ∈ A, ∀ u ∈ U, a u ∈ U) :
     U ≤ ψ.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
   let σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨(iterateFrobenius K 2 n).injective,
       Finite.surjective_of_injective (iterateFrobenius K 2 n).injective⟩

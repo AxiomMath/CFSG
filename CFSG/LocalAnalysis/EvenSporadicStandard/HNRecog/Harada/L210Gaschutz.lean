@@ -37,11 +37,11 @@ private lemma card_sup_of_normal_inf_eq_bot {G : Type*} [Group G] {K D : Subgrou
   exact hcard.symm
 
 theorem exists_complement_of_two_sylow_complement {Γ : Type*} [Group Γ] [Finite Γ]
-    {K D : Subgroup Γ} [K.Normal] [IsMulCommutative K] (hK : IsPGroup 2 K) (hD : IsPGroup 2 D)
+    {K D : Subgroup Γ} [K.Normal] [IsMulCommutative K] (hK : IsPGroup 2 K) (_hD : IsPGroup 2 D)
     (hKD : K ⊓ D = ⊥)
     (hcard : Nat.card K * Nat.card D = 2 ^ (Nat.card Γ).factorization 2) :
     ∃ C : Subgroup Γ, K ⊓ C = ⊥ ∧ K ⊔ C = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard_sup : Nat.card ↥(K ⊔ D) = 2 ^ (Nat.card Γ).factorization 2 :=
     (card_sup_of_normal_inf_eq_bot hKD).trans hcard
   let P : Sylow 2 Γ := Sylow.ofCard (K ⊔ D) hcard_sup

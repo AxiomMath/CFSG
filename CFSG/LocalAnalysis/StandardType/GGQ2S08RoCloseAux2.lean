@@ -52,7 +52,7 @@ theorem ggQ2s08r4_repr_model_x
   rw [ggQ2s08r4_model_x M f hf]
   have hsum : (∑ j, f j) = ∑ j, ggQ2s08r4_basis M f hf j :=
     Finset.sum_congr rfl fun j _ => (ggQ2s08r4_basis_apply M f hf j).symm
-  rw [hsum, map_sum, Finsupp.finset_sum_apply]
+  rw [hsum, map_sum, _root_.Finsupp.finsetSum_apply]
   simp only [Module.Basis.repr_self, Finsupp.single_apply]
   rw [Finset.sum_ite_eq']
   simp

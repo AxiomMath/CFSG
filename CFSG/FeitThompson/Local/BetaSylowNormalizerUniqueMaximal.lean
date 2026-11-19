@@ -40,7 +40,7 @@ theorem not_isCyclic_inf_normalizer_of_mem_betaPrimes [Finite G] (hp : p ∈ bet
   have hQP : Q = (P : Subgroup G) := by
     by_contra hne
     have hlt : Q < (P : Subgroup G) := lt_of_le_of_ne inf_le_left hne
-    exact absurd (lt_inf_normalizer_of_lt hpp P.isPGroup' hlt) (not_lt_of_ge hkey)
+    exact absurd (lt_inf_normalizer_of_lt hpp P.isPGroup hlt) (not_lt_of_ge hkey)
   exact not_isPNarrow_of_mem_betaPrimes hp P (isPNarrow_of_isCyclic hpp (hQP ▸ hcyc))
 
 theorem exists_isUniqueMaximalOvergroup_inf_normalizer_of_mem_betaPrimes [Finite G]
@@ -49,7 +49,7 @@ theorem exists_isUniqueMaximalOvergroup_inf_normalizer_of_mem_betaPrimes [Finite
     (P : Sylow p G) (hXP : X ≤ (P : Subgroup G)) :
     ∃ M : Subgroup G, IsUniqueMaximalOvergroup ((P : Subgroup G) ⊓ normalizer (X : Set G)) M :=
   exists_isUniqueMaximalOvergroup_of_not_isCyclic_of_mem_betaPrimes hna hodd hsolv hp
-    (P.isPGroup'.to_le inf_le_left)
+    (P.isPGroup.to_le inf_le_left)
     (not_isCyclic_inf_normalizer_of_mem_betaPrimes hp P hXP)
 
 theorem existsUnique_isCoatom_ge_inf_normalizer_of_mem_betaPrimes [Finite G] [IsSimpleGroup G]

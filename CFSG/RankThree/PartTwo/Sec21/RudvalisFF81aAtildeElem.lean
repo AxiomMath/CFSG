@@ -102,7 +102,7 @@ section Quotient
 variable {G : Type*} [Group G] {Ah M B : Subgroup G} {a t : Fin 3 → G}
 
 theorem mem_of_quotient (hBA : B ≤ Ah) (haA : ∀ i, a i ∈ Ah)
-    (hMn : ∀ x ∈ Ah, ∀ y ∈ M, x * y * x⁻¹ ∈ M) (hMA : M ≤ Ah)
+    (hMn : ∀ x ∈ Ah, ∀ y ∈ M, x * y * x⁻¹ ∈ M) (_hMA : M ≤ Ah)
     (hBc : ∀ z ∈ B, ∀ x ∈ Ah, z * x * z⁻¹ * x⁻¹ ∈ M) (hB3 : ∀ z ∈ B, z ^ 3 ∈ M)
     (hcomm : ∀ x ∈ Ah, ∀ y ∈ Ah, ∃ z ∈ B, z⁻¹ * (x * y * x⁻¹ * y⁻¹) ∈ M)
     (hcube : ∀ i, ∃ z ∈ B, z⁻¹ * a i ^ 3 ∈ M)
@@ -113,7 +113,7 @@ theorem mem_of_quotient (hBA : B ≤ Ah) (haA : ∀ i, a i ∈ Ah)
     (htij : ∀ i j, i ≠ j → ∃ z ∈ B, z⁻¹ * (t i * a j * (t i)⁻¹ * (a j)⁻¹) ∈ M) :
     (∀ x ∈ Ah, ∀ y ∈ Ah, x * y * x⁻¹ * y⁻¹ ∈ M) ∧ ∀ x ∈ Ah, x ^ 3 ∈ M := by
   set M' : Subgroup ↥Ah := M.subgroupOf Ah with hM'def
-  haveI hN : M'.Normal := ⟨fun n hn g => by
+  have hN : M'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hMn g g.2 n hn⟩
   let π : ↥Ah →* ↥Ah ⧸ M' := QuotientGroup.mk' M'

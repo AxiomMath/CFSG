@@ -291,7 +291,7 @@ theorem memClassFun_comp {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) {f : Y
   simpa using congrArg e hu
 
 theorem mulComm_of_isCyclic {H : Type*} [Group H] (h : IsCyclic H) (a b : H) : a * b = b * a := by
-  letI := h.commGroup
+  let := h.commGroup
   exact mul_comm a b
 
 theorem classFunTop {H : Type*} [Group H] (h : IsCyclic H) : classFun H = ⊤ := by
@@ -344,6 +344,7 @@ theorem indTop_congr_sub {K K' : Subgroup G} (h : K = K') (θ : ↥K' → ℂ) :
     J → I → (↥(B ⊔ A) → ℂ) :=
   fun j i z => w i j (MulEquiv.subgroupCongr (sup_comm B A) z)
 
+omit [Fintype G] in
 theorem wR_apply {A B : Subgroup G} {I J : Type u} (w : I → J → (↥(A ⊔ B) → ℂ))
     (j : J) (i : I) (z : ↥(B ⊔ A)) (z' : ↥(A ⊔ B)) (h : (z' : G) = (z : G)) :
     wR w j i z = w i j z' := by
@@ -351,6 +352,7 @@ theorem wR_apply {A B : Subgroup G} {I J : Type u} (w : I → J → (↥(A ⊔ B
     Subtype.ext (by simpa using h.symm)
   rw [wR, he]
 
+omit [Fintype G] in
 theorem isProductCharFamily_wR {A B : Subgroup G} {I J : Type u} {α : I → (↥A → ℂ)}
     {β : J → (↥B → ℂ)} {w : I → J → (↥(A ⊔ B) → ℂ)}
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
@@ -366,13 +368,16 @@ theorem isProductCharFamily_wR {A B : Subgroup G} {I J : Type u} {α : I → (�
     (↥(B ⊔ A) → ℂ) →ₗ[ℂ] (G → ℂ) :=
   ω.comp (LinearMap.funLeft ℂ ℂ (MulEquiv.subgroupCongr (sup_comm A B)))
 
+omit [Fintype G] in
 theorem omegaR_apply {A B : Subgroup G} (ω : (↥(A ⊔ B) → ℂ) →ₗ[ℂ] (G → ℂ))
     (f : ↥(B ⊔ A) → ℂ) : omegaR ω f = ω (f ∘ (MulEquiv.subgroupCongr (sup_comm A B))) := rfl
 
+omit [Fintype G] in
 theorem omegaR_wR {A B : Subgroup G} (ω : (↥(A ⊔ B) → ℂ) →ₗ[ℂ] (G → ℂ)) {I J : Type u}
     (w : I → J → (↥(A ⊔ B) → ℂ)) (j : J) (i : I) :
     omegaR ω (wR w j i) = ω (w i j) := rfl
 
+omit [Fintype G] in
 theorem cyclicTIset_comm (A B : Subgroup G) : cyclicTIset B A = cyclicTIset A B := by
   ext z
   rw [mem_cyclicTIset, mem_cyclicTIset, sup_comm]
@@ -407,6 +412,7 @@ theorem isOmegaMap_omegaR {A B : Subgroup G} {ω : (↥(A ⊔ B) → ℂ) →ₗ
   (MulEquiv.subgroupCongr (Subgroup.subgroupOf_sup h2 h1).symm).trans
     (Subgroup.subgroupOfEquivOfLe (sup_le h2 h1))
 
+omit [Fintype G] in
 theorem coe_supEq (h2 : W₂ ≤ T) (h1 : W₁ ≤ T) (z : ↥(W₂.subgroupOf T ⊔ W₁.subgroupOf T)) :
     ((supEq h2 h1 z : ↥(W₂ ⊔ W₁)) : G) = ((z : ↥T) : G) := by
   simp [supEq, Subgroup.subgroupOfEquivOfLe]
@@ -423,6 +429,7 @@ theorem coe_supEq (h2 : W₂ ≤ T) (h1 : W₁ ≤ T) (z : ↥(W₂.subgroupOf T
   ((classFun ↥T).subtype).comp (τ.comp ((pullCF h2 h1).comp
     ((LinearEquiv.ofTop _ (classFunTop hcyc)).symm.toLinearMap)))
 
+omit [Fintype G] in
 theorem sigmaT_apply (h2 : W₂ ≤ T) (h1 : W₁ ≤ T) (hcyc : IsCyclic ↥(W₂ ⊔ W₁))
     (τ : ↥(classFun ↥(W₂.subgroupOf T ⊔ W₁.subgroupOf T)) →ₗ[ℂ] ↥(classFun ↥T))
     (f : ↥(W₂ ⊔ W₁) → ℂ) :
@@ -477,14 +484,17 @@ theorem isSigmaMap_sigmaT (h2 : W₂ ≤ T) (h1 : W₁ ≤ T) (hcyc : IsCyclic �
   ⟨(a : ↥A → ℂ) ∘ (Subgroup.subgroupOfEquivOfLe hA),
     CFSG.FeitThompson.Proofs.irr_comp_mulEquiv a.2 _⟩
 
+omit [Fintype G] in
 theorem coe_irrSub {A : Subgroup G} (hA : A ≤ T) (a : Irr ↥A) (y : ↥(A.subgroupOf T)) :
     ((irrSub hA a : Irr ↥(A.subgroupOf T)) : ↥(A.subgroupOf T) → ℂ) y
       = (a : ↥A → ℂ) (Subgroup.subgroupOfEquivOfLe hA y) := rfl
 
+omit [Fintype G] in
 theorem coe_subgroupOfEquivOfLe {A : Subgroup G} (hA : A ≤ T) (y : ↥(A.subgroupOf T)) :
     ((Subgroup.subgroupOfEquivOfLe hA y : ↥A) : G) = ((y : ↥T) : G) := by
   simp [Subgroup.subgroupOfEquivOfLe]
 
+omit [Fintype G] in
 theorem pullCF_prodChar (h2 : W₂ ≤ T) (h1 : W₁ ≤ T) (hcyc : IsCyclic ↥(W₂ ⊔ W₁))
     (hWsub : IsCyclicTIPair (W₂.subgroupOf T ⊔ W₁.subgroupOf T)
       (W₂.subgroupOf T) (W₁.subgroupOf T))

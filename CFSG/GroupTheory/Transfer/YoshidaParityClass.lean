@@ -15,6 +15,7 @@ namespace CFSG.GroupTheory
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_conj_preimage_eq (t : G) (S : Set G) :
     Nat.card {g : G // g⁻¹ * t * g ∈ S} =
       Nat.card (Subgroup.centralizer ({t} : Set G)) *
@@ -71,6 +72,7 @@ theorem card_conj_preimage_eq (t : G) (S : Set G) :
   rw [← Nat.card_coe_set_eq T, ← Nat.card_prod]
   exact (Nat.card_congr (Equiv.ofBijective Ψ ⟨hinj, hsurj⟩)).symm
 
+omit [Finite G] in
 theorem card_orbit_centralizer_quotient (H : Subgroup G) (t g : G) :
     Nat.card (MulAction.orbit ↥(Subgroup.centralizer ({t} : Set G)) ((g : G ⧸ H))) =
       (H ⊓ Subgroup.centralizer ({g⁻¹ * t * g} : Set G)).relIndex

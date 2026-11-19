@@ -32,9 +32,9 @@ theorem a8j4_not_thirteen_dvd_centerQuotient {G : Type} [Group G] {K : Subgroup 
     (hKm : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 9 2 1) :
     ¬ 13 ∣ Nat.card (K ⧸ Subgroup.center K) := by
   obtain ⟨-, K', hfield, hfinite, hcard, ⟨e⟩⟩ := hKm
-  letI : Field K' := hfield
-  letI : Finite K' := hfinite
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Field K' := hfield
+  let : Finite K' := hfinite
+  let : Fintype K' := Fintype.ofFinite K'
   have hq : Fintype.card K' = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -63,7 +63,7 @@ private theorem a8j4_block_not_le_K {G : Type} [Group G]
     (hKm : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 9 2 1)
     (hle : Φ.range ≤ K) : False := by
   subst hm
-  haveI : CharP (GaloisField 2 3) 2 := inferInstance
+  have : CharP (GaloisField 2 3) 2 := inferInstance
   have hcenterSp : Subgroup.center (StatedSp 2 (GaloisField 2 3)) = ⊥ := by
     rw [CFSG.LieType.Universal.Symplectic.center_eq,
       CFSG.LieType.SteinbergBR.EvenSp.statedScalars_subgroupOf_statedSp (n := 2) (by norm_num)]

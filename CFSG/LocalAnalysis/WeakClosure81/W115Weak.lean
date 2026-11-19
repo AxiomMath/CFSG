@@ -50,7 +50,7 @@ theorem w4Lem11_5Weak_holds :
     have hfix : fixV L = ⊥ := w115_fixV_eq_bot_of_isIrrOn hirr hL1
     unfold E3.mParam
     by_cases hEven : Even (Nat.card Y)
-    · rw [if_pos hEven]
+    · rw [ite_eq_left hEven]
       refine le_csInf ?_ ?_
       · obtain ⟨t, hto⟩ :=
           exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
@@ -61,7 +61,7 @@ theorem w4Lem11_5Weak_holds :
           (fun i => ((b i : ↥L) : MulAut W) * t * ((b i : ↥L) : MulAut W)⁻¹)
           (fun i => ⟨_, rfl⟩) hb
         omega
-    · rw [if_neg hEven]
+    · rw [ite_eq_right hEven]
       omega
 
 end CFSG.LocalAnalysis.WeakClosure81.W115

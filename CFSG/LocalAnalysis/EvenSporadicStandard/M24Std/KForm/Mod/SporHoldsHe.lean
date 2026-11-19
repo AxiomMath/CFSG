@@ -15,7 +15,7 @@ theorem card_dvd_three_of_odd_normal_heOuterC
   obtain ⟨-, hqs, hrel⟩ := ctbh_outer_centralizer_derived_quasisimple
   set D : Subgroup ↥heOuterC := heOuterD.subgroupOf heOuterC with hDdef
   have hidx : D.index = 2 := hrel
-  haveI hDn : D.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hDn : D.Normal := Subgroup.normal_of_index_eq_two hidx
   have hND : N ≤ D := by
     intro x hx
     have hc : Nat.card (↥heOuterC ⧸ D) = 2 := by
@@ -38,7 +38,7 @@ theorem card_dvd_three_of_odd_normal_heOuterC
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe heOuterD_le_C).symm hqs
   have hcardD : Nat.card ↥D = 7560 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe heOuterD_le_C).toEquiv, card_heOuterD]
-  haveI : (N.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
+  have : (N.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
   have hcardN : Nat.card (N.subgroupOf D) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hND).toEquiv
   have hne : N.subgroupOf D ≠ ⊤ := by
@@ -73,7 +73,7 @@ theorem he_false_of_odd_normal
     (e : S ≃* NativeSporadic.He) {σ : MulAut S} (hσ : orderOf σ = 2)
     {N : Subgroup ↥(fixedSubgroup σ)} [N.Normal] (hodd : Odd (Nat.card N))
     (hdvd : Nat.card (↥(fixedSubgroup σ) ⧸ N) ∣ 1440) : False := by
-  haveI := hS
+  have := hS
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup N
   have hcop : Nat.Coprime 2 (Nat.card N) := Nat.coprime_two_left.2 hodd
   by_cases hin : σ ∈ (MulAut.conj : S →* MulAut S).range
@@ -93,7 +93,7 @@ theorem he_false_of_odd_normal
     have h7 := h6.trans hdvd
     norm_num at h7
   · obtain ⟨f⟩ := nonempty_fixedSubgroup_equiv_heOuterC e hσ hin
-    haveI : (N.map f.toMonoidHom).Normal := Subgroup.Normal.map inferInstance _ f.surjective
+    have : (N.map f.toMonoidHom).Normal := Subgroup.Normal.map inferInstance _ f.surjective
     have hcard : Nat.card (N.map f.toMonoidHom) = Nat.card N :=
       Subgroup.card_map_of_injective f.injective
     have h3 : Nat.card N ∣ 3 := by

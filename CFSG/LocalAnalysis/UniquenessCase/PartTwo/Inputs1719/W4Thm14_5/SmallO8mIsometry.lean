@@ -313,7 +313,7 @@ theorem exists_conjugate_inverted (hx : V ≃ₗ[K] V) (hxQ : OddOrderIsometry Q
       rintro h; obtain ⟨w, hw, hwQ⟩ := hrnon; exact hwQ (h w hw)
     have hsnot : ¬ ∀ w ∈ LinearMap.range (s.toLinearMap - 1), Q w = 0 := by
       rintro h; obtain ⟨w, hw, hwQ⟩ := hsnon; exact hwQ (h w hw)
-    simp only [hrnot, hsnot, if_false]
+    simp only [hrnot, hsnot, ite_false]
   obtain ⟨g, hg, hgs⟩ :=
     (CFSG.RankThree.OrthogonalInvolutions.isConj_iff_suzukiLetter_eq
       (CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_nondegenerate_of_separating K hxQ.regular)
@@ -592,7 +592,7 @@ variable {K : Type u} {V : Type v} [Field K] [Finite K] [CharP K 2]
   [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V}
   {p : ℕ} {x : V ≃ₗ[K] V}
 
-omit [Finite K] [CharP K 2] in
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem isCompl_fixed_range (hx : OddOrderIsometry Q p x) (hp : Odd p) :
     IsCompl (LinearMap.ker (x.toLinearMap - 1)) (LinearMap.range (x.toLinearMap - 1)) := by
   exact CFSG.LocalAnalysis.RankThreeUC.ProofSupport.OddOrderMovedSubspace.complementary
@@ -612,7 +612,7 @@ theorem polar_fixed_range (hx : OddOrderIsometry Q p x) {u v : V}
   rw [polar_sub_right, polar_comm Q u (x w), hx.polar_apply,
     hxiu, polar_comm Q w u, sub_self]
 
-omit [Finite K] [CharP K 2] in
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem nondegenerate_range (hx : OddOrderIsometry Q p x) (hp : Odd p) :
     (Q.comp (LinearMap.range (x.toLinearMap - 1)).subtype).polarBilin.Nondegenerate := by
   apply CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_nondegenerate_of_separating K
@@ -638,7 +638,7 @@ omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem movedEquiv_apply (v : LinearMap.range (x.toLinearMap - 1)) :
     (movedEquiv x v : V) = x v := rfl
 
-omit [Finite K] [CharP K 2] in
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem movedEquiv_fixed_eq_zero (hx : OddOrderIsometry Q p x) (hp : Odd p)
     (v : LinearMap.range (x.toLinearMap - 1)) (hv : movedEquiv x v = v) : v = 0 := by
   apply Subtype.ext
@@ -646,7 +646,7 @@ theorem movedEquiv_fixed_eq_zero (hx : OddOrderIsometry Q p x) (hp : Odd p)
   change x v - v = 0
   exact sub_eq_zero.mpr (congrArg Subtype.val hv)
 
-omit [Finite K] [CharP K 2] in
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem movedEquiv_oddOrderIsometry (hx : OddOrderIsometry Q p x) (hp : Odd p) :
     OddOrderIsometry (Q.comp (LinearMap.range (x.toLinearMap - 1)).subtype) p (movedEquiv x) := by
   refine ⟨?_, ?_, hx.cast_ne_zero, ?_⟩

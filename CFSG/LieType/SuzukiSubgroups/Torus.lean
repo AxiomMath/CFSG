@@ -26,10 +26,10 @@ private theorem four_eq_or_eq_of_three_fixed {α : Type} [Finite α] {p : α →
     (hbc : b ≠ c) : a = b ∨ a = c := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hlt : 2 < Nat.card {x : α // p x} := by
-    haveI : Finite {x : α // p x} := Subtype.finite
-    haveI : Fintype {x : α // p x} := Fintype.ofFinite _
+    have : Finite {x : α // p x} := Subtype.finite
+    have : Fintype {x : α // p x} := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.two_lt_card_iff]
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, ⟨c, hc⟩,
       fun he => h.1 (congrArg Subtype.val he),
@@ -52,7 +52,7 @@ private theorem four_normalizer_case (hH : CFSG.Quasithin.IsSz n H)
     rw [hKcard]
     have h := Nat.pow_le_pow_of_le (a := 2) (by norm_num) hn3
     omega
-  haveI : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp h1lt
+  have : Nontrivial K := Finite.one_lt_card_iff_nontrivial.mp h1lt
   obtain ⟨k, hk1⟩ := exists_ne (1 : K)
   have hkK : (k : H) ∈ CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂ := k.2
   have hkQ : (k : H) • Q = Q :=
@@ -128,7 +128,7 @@ private theorem oddTorus_three_fixed {X : Type} [Group X] [Finite X] {q : ℕ}
     (T : CFSG.GroupTheory.SuzukiTorusData X q) {k : X} (hk : k ≠ 1)
     {P Q R : Sylow 2 X} (hP : k • P = P) (hQ : k • Q = Q) (hR : k • R = R)
     (hPQ : P ≠ Q) (hPR : P ≠ R) (hQR : Q ≠ R) : False := by
-  haveI : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+  have : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
   have hle := T.fixes_le_two k hk
   have h3 : 3 ≤ Nat.card {S : Sylow 2 X // k • S = S} := by
     let f : Fin 3 → {S : Sylow 2 X // k • S = S} :=
@@ -251,7 +251,7 @@ private theorem oddTorus_no_smul {X : Type} [Group X]
   have hpow8 : 8 ≤ 2 ^ n := oddTorus_two_pow_ge_eight hH
   have hKgt : 1 < Nat.card ↥(CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂) := by
     rw [hKcard]; omega
-  haveI : Nontrivial ↥(CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂) :=
+  have : Nontrivial ↥(CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂) :=
     Finite.one_lt_card_iff_nontrivial.mp hKgt
   obtain ⟨k, hkne⟩ := exists_ne (1 : ↥(CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂))
   have hkH : (k : X) ≠ 1 := fun h1 => hkne (Subtype.ext h1)
@@ -301,7 +301,7 @@ private theorem oddTorus_dvd_orbit_sub_one {X : Type} [Group X] [Finite X] {n : 
     Nat.card ↥(CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂) ∣
       Nat.card (MulAction.orbit W Q₁) - 1 := by
   classical
-  haveI : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+  have : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
   let O : Set (Sylow 2 X) := MulAction.orbit W Q₁
   have hQ₁O : Q₁ ∈ O := MulAction.mem_orbit_self Q₁
   let K : Subgroup X := CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂
@@ -310,7 +310,7 @@ private theorem oddTorus_dvd_orbit_sub_one {X : Type} [Group X] [Finite X] {n : 
   have hKQ2 : K ≤ Subgroup.normalizer ((Q₂ : Subgroup X) : Set X) :=
     CFSG.GroupTheory.SuzukiTorusData.torus_le_normalizer_right
   let α := ↥(O \ {Q₁})
-  letI : MulAction K α :=
+  let : MulAction K α :=
     { smul := fun k P =>
         ⟨k • (P : Sylow 2 X), by
           constructor
@@ -350,7 +350,7 @@ private theorem oddTorus_dvd_orbit_sub_one {X : Type} [Group X] [Finite X] {n : 
         (Sylow.smul_eq_iff_mem_normalizer.mpr (hKQ1 k.2))
         (Sylow.smul_eq_iff_mem_normalizer.mpr (hKQ2 k.2))
         hkfix hne (Ne.symm hPne) hPQ₂.symm
-    simpa [hk1]
+    simp [hk1]
   have hdvd : Nat.card K ∣ Nat.card α :=
     CFSG.UnitaryThreeRecognition.card_dvd_of_stabilizer_eq_bot hfree
   have hα : Nat.card α = Nat.card O - 1 := by
@@ -404,8 +404,8 @@ private theorem oddTorus_w_dvd_card_sylow {X : Type} [Group X]
     {Q₁ Q₂ : Sylow 2 X} (hne : Q₁ ≠ Q₂) {W : Subgroup X}
     (hKW : CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂ ≤ W) (hW : Odd (Nat.card W)) :
     Nat.card (MulAction.orbit W Q₁) ∣ (2 ^ n) ^ 2 + 1 := by
-  haveI : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
-  haveI : Fintype (MulAction.orbitRel.Quotient W (Sylow 2 X)) := Fintype.ofFinite _
+  have : Finite (Sylow 2 X) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+  have : Fintype (MulAction.orbitRel.Quotient W (Sylow 2 X)) := Fintype.ofFinite _
   have hcard : Nat.card (Sylow 2 X) =
       ∑ ω : MulAction.orbitRel.Quotient W (Sylow 2 X),
         Nat.card (MulAction.orbit W ω.out) := by
@@ -485,7 +485,7 @@ private theorem oddTorus_arith {q w : ℕ} (hq : Even q) (hq4 : 4 ≤ q) (hw : 0
     simpa using hqeven.add_one
   have heven : Even (q ^ 2 + 1) := by
     rw [hc, hc2]
-    simpa [Nat.mul_comm] using even_two_mul w
+    simp
   exact (Nat.not_even_iff_odd.mpr hodd) heven
 
 theorem eq_torus_of_odd_card {n : ℕ} {H : Type} [Group H]
@@ -496,11 +496,11 @@ theorem eq_torus_of_odd_card {n : ℕ} {H : Type} [Group H]
     (hW : Odd (Nat.card W)) :
     W = normalizer ((Q₁ : Subgroup H) : Set H) ⊓ normalizer ((Q₂ : Subgroup H) : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : CFSG.GroupTheory.SuzukiTorusData H (2 ^ n) :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.szPointActionFacts_holds H n
       (CFSG.GH74.Filter.lieModel_of_suzuki hH)
-  haveI : Finite (Sylow 2 H) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+  have : Finite (Sylow 2 H) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
   have hKW : CFSG.GroupTheory.SuzukiTorusData.torus Q₁ Q₂ ≤ W := hK
   obtain ⟨hWQ1, -⟩ := oddTorus_stabilizer_eq_torus hH T hne hKW hW
   have hQ₂ : Q₂ ∉ MulAction.orbit W Q₁ := by
@@ -513,7 +513,7 @@ theorem eq_torus_of_odd_card {n : ℕ} {H : Type} [Group H]
   have hdiv2 : Nat.card (MulAction.orbit W Q₁) ∣ (2 ^ n) ^ 2 + 1 :=
     oddTorus_w_dvd_card_sylow hH T hne hKW hW
   have hwpos : 0 < Nat.card (MulAction.orbit W Q₁) := by
-    haveI : Nonempty (MulAction.orbit W Q₁) := ⟨⟨Q₁, MulAction.mem_orbit_self Q₁⟩⟩
+    have : Nonempty (MulAction.orbit W Q₁) := ⟨⟨Q₁, MulAction.mem_orbit_self Q₁⟩⟩
     exact Nat.card_pos
   have hEven : Even (2 ^ n) := oddTorus_even_two_pow hH
   have h4 : 4 ≤ 2 ^ n := by have := oddTorus_two_pow_ge_eight hH; omega
@@ -643,7 +643,7 @@ theorem exists_normal_odd_of_not_four {n : ℕ} {H : Type}
     (h4 : ∀ E : Subgroup H, E ≤ Y → IsElemAbelian 2 E → Nat.card E ≠ 4) :
     ∃ W : Subgroup H, W ≤ Y ∧ (∀ g ∈ Y, ∀ w ∈ W, g * w * g⁻¹ ∈ W) ∧ Odd (Nat.card W) ∧
       ∀ g ∈ Y, Odd (orderOf g) → g ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY : ¬ CFSG.BenderSuzuki.PFchapter1section1.TwoRankAtLeastTwo ↥Y := by
     rintro ⟨E', hcard, hsq⟩
     let E : Subgroup H := E'.map Y.subtype
@@ -667,7 +667,7 @@ theorem exists_normal_odd_of_not_four {n : ℕ} {H : Type}
     hcyc | ⟨r, hr3, ⟨eQ⟩⟩
   · obtain ⟨-, -, -, ⟨hKnorm, hKodd, hKindex, -⟩, -⟩ :=
       CFSG.cyclic_sylow_normal_odd_complement S hcyc
-    haveI : (pPrimeCore 2 ↥Y).Normal := hKnorm
+    have : (pPrimeCore 2 ↥Y).Normal := hKnorm
     refine ⟨(pPrimeCore 2 ↥Y).map Y.subtype, ?_, ?_, ?_, ?_⟩
     · rintro - ⟨x, -, rfl⟩
       exact x.2
@@ -692,7 +692,7 @@ theorem exists_normal_odd_of_not_four {n : ℕ} {H : Type}
         simpa [q] using h
       have hquotcard : Nat.card (↥Y ⧸ pPrimeCore 2 ↥Y) = Nat.card (S : Subgroup ↥Y) := by
         rw [← Subgroup.index_eq_card, hKindex]
-      obtain ⟨m, hm⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨m, hm⟩ := S.isPGroup.exists_card_eq
       have hdvd : orderOf q ∣ 2 ^ m := by
         rw [← hm, ← hquotcard]
         exact orderOf_dvd_natCard q

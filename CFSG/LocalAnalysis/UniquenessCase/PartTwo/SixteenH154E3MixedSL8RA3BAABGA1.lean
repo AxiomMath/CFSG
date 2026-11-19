@@ -12,28 +12,28 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl28_C_TZ_split
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
-    (h7 : 7 ∈ D.sig)
+    (_h7 : 7 ∈ D.sig)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     (T : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)))
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (Mbar D.M ⊥ V h.hyp151.isElemAbelian)) :
@@ -44,7 +44,7 @@ theorem s16h_sl28_C_TZ_split
       T ≤ centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hV := h.hyp151.isElemAbelian
   let W := Vtil ⊥ V hV
   let Mb : Subgroup (MulAut W) := Mbar D.M ⊥ V hV
@@ -86,7 +86,7 @@ theorem s16h_sl28_C_TZ_split
               (MulAut.conj (((g : Mb) : MulAut W))).toMonoidHom
           rw [Subgroup.map_map]
           congr 1 }
-    letI : MulAction Mb (Subgroup (MulAut W)) := act
+    let : MulAction Mb (Subgroup (MulAut W)) := act
     have hstab : MulAction.stabilizer Mb A = N.subgroupOf Mb := by
       ext g
       rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf]

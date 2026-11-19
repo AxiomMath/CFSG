@@ -86,7 +86,7 @@ theorem ggTBJSpC_invSwapAut_sq {u w : Fin m} (huw : u ≠ w) :
     · rw [ite_eq_left hiw, ggTBJSpC_invSwapAut_apply huw, ite_eq_left rfl, inv_inv, hiw]
     · rw [ite_eq_right hiw, ggTBJSpC_invSwapAut_apply huw, ite_eq_right hiu, ite_eq_right hiw]
 
-theorem ggTBJSpC_permAut_swap_eq_self_iff {u w : Fin m} (huw : u ≠ w)
+theorem ggTBJSpC_permAut_swap_eq_self_iff {u w : Fin m} (_huw : u ≠ w)
     (f : Fin m → Multiplicative (ZMod p)) :
     SpCoord.permAut (Equiv.swap u w) f = f ↔ f u = f w := by
   constructor
@@ -189,7 +189,7 @@ theorem ggTBJSpC_reflAut_apply_of_ne {t : Fin m → α} {u w x : Fin m} (huw : u
   · rw [ggTBJSpC_reflAut_apply_mixed h, ggTBJSpC_invSwapAut_apply huw, ite_eq_right hux,
       ite_eq_right hwx]
 
-theorem ggTBJSpC_reflAut_apply_right_same {t : Fin m → α} {u w : Fin m} (huw : u ≠ w)
+theorem ggTBJSpC_reflAut_apply_right_same {t : Fin m → α} {u w : Fin m} (_huw : u ≠ w)
     (h : t u = t w) (f : Fin m → Multiplicative (ZMod p)) :
     ggTBJSpC_reflAut p m t u w f w = f u := by
   rw [ggTBJSpC_reflAut_apply_same h, SpCoord.permAut_apply, Function.comp_apply,
@@ -201,7 +201,7 @@ theorem ggTBJSpC_reflAut_apply_right_mixed {t : Fin m → α} {u w : Fin m} (huw
   rw [ggTBJSpC_reflAut_apply_mixed h, ggTBJSpC_invSwapAut_apply huw, ite_eq_right (Ne.symm huw),
     ite_eq_left rfl]
 
-theorem ggTBJSpC_reflAut_apply_left_same {t : Fin m → α} {u w : Fin m} (huw : u ≠ w)
+theorem ggTBJSpC_reflAut_apply_left_same {t : Fin m → α} {u w : Fin m} (_huw : u ≠ w)
     (h : t u = t w) (f : Fin m → Multiplicative (ZMod p)) :
     ggTBJSpC_reflAut p m t u w f u = f w := by
   rw [ggTBJSpC_reflAut_apply_same h, SpCoord.permAut_apply, Function.comp_apply,

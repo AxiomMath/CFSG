@@ -31,7 +31,7 @@ theorem SG.linModel_of_innLabel {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subg
     · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
       exact ⟨r + 1, fun _ => rfl, fun h' => absurd h' (by decide), hraw⟩
     · dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-      rw [if_pos rfl] at hraw
+      rw [ite_eq_left rfl] at hraw
       exact ⟨4, fun h' => absurd h' (by decide), fun _ => rfl, hraw⟩
   refine ⟨d, F, inferInstance, inferInstance, Φ.trans (CFSG.StandardType.TypeA.recipeEquiv d F),
     hF, hdA, hdD, fun b hb hbN => ?_⟩

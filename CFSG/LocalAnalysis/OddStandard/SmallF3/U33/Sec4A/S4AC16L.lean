@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private theorem c16_conj_comm_eq {r f : G} (h : r * t = t * r) :
     ⁅r * f * r⁻¹, t⁆ = r * ⁅f, t⁆ * r⁻¹ := by
   have hcomm : Commute r t := h

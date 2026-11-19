@@ -110,7 +110,7 @@ theorem conj_fix {M : Subgroup G} {σ : G} (hσc : ∀ m ∈ M, σ * m = m * σ)
 theorem comm_mod_exists [Finite G] {M : Subgroup G} (hM : Nat.card ↥M = 27) {σ : G}
     (hσM : σ ∈ M) (hσc : ∀ m ∈ M, σ * m = m * σ) (hσ3 : orderOf σ = 3) :
     ∀ x ∈ M, ∀ y ∈ M, ∃ c ∈ Subgroup.zpowers σ, x * y = y * x * c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzM : Subgroup.zpowers σ ≤ M := Subgroup.zpowers_le.mpr hσM
   set N : Subgroup ↥M := (Subgroup.zpowers σ).subgroupOf M with hNdef
   have hNn : N.Normal := by
@@ -130,7 +130,7 @@ theorem comm_mod_exists [Finite G] {M : Subgroup G} (hM : Nat.card ↥M = 27) {�
   have hidx9 : N.index = 9 := by omega
   have hq : Nat.card (↥M ⧸ N) = 3 ^ 2 := by
     rw [← Subgroup.index_eq_card, hidx9]; norm_num
-  haveI : IsMulCommutative (↥M ⧸ N) := IsPGroup.isMulCommutative_of_card_eq_prime_sq hq
+  have : IsMulCommutative (↥M ⧸ N) := IsPGroup.isMulCommutative_of_card_eq_prime_sq hq
   intro x hx y hy
   have hc : ((⟨x, hx⟩ : ↥M) : ↥M ⧸ N) * ((⟨y, hy⟩ : ↥M) : ↥M ⧸ N) =
       ((⟨y, hy⟩ : ↥M) : ↥M ⧸ N) * ((⟨x, hx⟩ : ↥M) : ↥M ⧸ N) :=
@@ -208,8 +208,8 @@ theorem inv_mod_of_involution [Finite G] {M : Subgroup G} (hM : Nat.card ↥M = 
   exact hy_mem
 
 theorem centralize_of_trivial [Finite G] {M : Subgroup G} {σ τ z : G} (hσ3 : σ ^ 3 = 1)
-    (hστ : σ * τ = τ * σ) (hzσ : z * σ = σ * z) (hzτ : z * τ = τ * z) (hz2 : z * z = 1)
-    (hσc : ∀ m ∈ M, σ * m = m * σ) (hzM : ∀ m ∈ M, z * m * z⁻¹ ∈ M)
+    (hστ : σ * τ = τ * σ) (hzσ : z * σ = σ * z) (hzτ : z * τ = τ * z) (_hz2 : z * z = 1)
+    (hσc : ∀ m ∈ M, σ * m = m * σ) (_hzM : ∀ m ∈ M, z * m * z⁻¹ ∈ M)
     (hinv : ∀ x ∈ M, z * x * z⁻¹ * x ∈ Subgroup.zpowers σ)
     (hTV : ∀ y ∈ M, τ * y * τ⁻¹ * y⁻¹ ∈ Subgroup.zpowers σ) :
     ∀ y ∈ M, τ * y = y * τ := by
@@ -274,9 +274,9 @@ theorem center_le_zpowers [Finite G] {M : Subgroup G} (hM : Nat.card ↥M = 27) 
   intro g hgM hg
   by_contra hgσ
   obtain ⟨x0, hx0, y0, hy0, hxy0⟩ := hnon
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Z, hZ⟩ : ∃ Z : Subgroup ↥M, Z = Subgroup.center ↥M := ⟨_, rfl⟩
-  haveI hZn : Z.Normal := by rw [hZ]; exact inferInstance
+  have hZn : Z.Normal := by rw [hZ]; exact inferInstance
   have hσZ : (⟨σ, hσM⟩ : ↥M) ∈ Z := by
     rw [hZ, Subgroup.mem_center_iff]
     intro h
@@ -315,7 +315,7 @@ theorem center_le_zpowers [Finite G] {M : Subgroup G} (hM : Nat.card ↥M = 27) 
     rw [hZi, hM] at hidx
     have hq : Nat.card (↥M ⧸ Z) = 3 := by
       rw [← Subgroup.index_eq_card]; omega
-    haveI : IsCyclic (↥M ⧸ Z) := isCyclic_of_prime_card hq
+    have : IsCyclic (↥M ⧸ Z) := isCyclic_of_prime_card hq
     have hker : (QuotientGroup.mk' Z).ker ≤ Subgroup.center ↥M := by
       rw [QuotientGroup.ker_mk', hZ]
     have hcomm : ∀ a b : ↥M, a * b = b * a := fun a b =>
@@ -428,7 +428,7 @@ theorem not_pow5_dvd [Finite G] {A : Subgroup G} {σ : G} (hA : Nat.card ↥A = 
     (hC : Nat.card ↥(Subgroup.centralizer ({σ} : Set G)) = 648) :
     ¬ 3 ^ 5 ∣ Nat.card G := by
   intro h5
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA' : Nat.card ↥A = 3 ^ 4 := by rw [hA]; norm_num
   have hdvd : 3 ^ 5 ∣ Nat.card ↥(Subgroup.normalizer (A : Set G)) :=
     Sylow.prime_pow_dvd_card_normalizer (n := 4) h5 hA'
@@ -496,9 +496,9 @@ theorem vertex_comm [Finite G] {σ τ z t : G} {M N : Subgroup G}
     (hτo : orderOf τ = 3) (hστ : σ * τ = τ * σ) (hzσ : z * σ = σ * z) (hzτ : z * τ = τ * z)
     (hz2 : z * z = 1) (htσ : t * σ * t⁻¹ = σ⁻¹) (hfour : ¬ IsConj σ τ) :
     ∀ x ∈ M, ∀ y ∈ M, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨x0, hx0, y0, hy0, hxy0⟩ := hcon
   have hnon : ∃ x ∈ M, ∃ y ∈ M, x * y ≠ y * x := ⟨x0, hx0, y0, hy0, hxy0⟩
   have hinv := inv_mod_of_involution hM hσM hσc hσo hz2 hzσ hzM hMz
@@ -768,7 +768,7 @@ theorem comm_of_word {a b : G} (h : a⁻¹ * b⁻¹ * a * b = 1) : a * b = b * a
 
 theorem sq_eq_one_of_card_two {I : Subgroup G} [Finite G] (hI : Nat.card ↥I = 2) {w : G}
     (hw : w ∈ I) (hw1 : w ≠ 1) : w * w = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := orderOf_dvd_natCard (⟨w, hw⟩ : ↥I)
   rw [hI, Subgroup.orderOf_mk] at h
   rcases (Nat.dvd_prime Nat.prime_two).mp h with h2 | h2
@@ -787,7 +787,7 @@ theorem side_facts [Finite G] {H L X : Subgroup G} {e : Fin 6 → G} {x y : G}
     (v : VertexCore e H x L X) (hzH : ∀ g : G, g ∈ H ↔ zOf e * g = g * zOf e)
     (hxH : x ∈ H) (hyL : y ∈ L) (hy1 : y ≠ 1) (hxy : x * y = y * x)
     (hLc : Nat.card ↥L = 24) (hXc : Nat.card ↥X = 27)
-    (hXy : Nat.card ↥(X ⊓ Subgroup.centralizer ({y} : Set G)) = 9) :
+    (_hXy : Nat.card ↥(X ⊓ Subgroup.centralizer ({y} : Set G)) = 9) :
     x ∈ X ∧ (∀ m ∈ X, x * m = m * x) ∧ (∀ m ∈ X, zOf e * m * (zOf e)⁻¹ ∈ X) ∧
       (∀ m ∈ X, zOf e * m = m * zOf e → m ∈ Subgroup.zpowers x) ∧
       (∀ m ∈ X, e 4 * m * (e 4)⁻¹ ∈ X) ∧ y ∈ Subgroup.normalizer (X : Set G) ∧ y ∉ X ∧
@@ -849,8 +849,8 @@ end Generic
 
 theorem leafB27Abelian : LeafB27Abelian := by
   intro G _ _ T H H₁ H₂ M e M₁ M₂ Pb Np Nm h hF _hO hL hPb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hone : G23One H H₁ H₂ := h.ctx.one
   have hrel : SatisfiesWords g23WordsH e := h.lets.rels
   have hgen : Subgroup.closure (Set.range fun i : Fin 5 => e i.castSucc) = H := h.lets.gen

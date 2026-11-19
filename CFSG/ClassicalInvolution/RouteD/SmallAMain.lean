@@ -47,7 +47,7 @@ theorem exists_chain_three (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq : 5 ≤
     · exact hN.1
     · exact (nd.mem 2 (by omega)).1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact nd.commK 0 (by omega)
     · exact commutes_K_of_ne c.hm c.hodd hΩ hex hK hz hP1 c.d hN hNK
     · exact nd.commK 2 (by omega)
@@ -55,7 +55,7 @@ theorem exists_chain_three (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq : 5 ≤
     · exact hlast
     · exact nd.far 0 (by omega) 2 (by omega) (by omega)
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact ⟨W1, hW1⟩
     · exact ⟨W2, hW2⟩
     · exact ⟨W3, hW3⟩
@@ -102,7 +102,7 @@ theorem exists_chain_four (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq : 5 ≤ 
     · exact (nd.mem 2 (by omega)).1
     · exact (nd.mem 3 (by omega)).1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact nd.commK 0 (by omega)
     · exact nd.commK 1 (by omega)
     · exact nd.commK 2 (by omega)
@@ -114,7 +114,7 @@ theorem exists_chain_four (hMFZ : FundNoncentral p) (hp2 : p ≠ 2) (hq : 5 ≤ 
     · exact nd.far 0 (by omega) 3 (by omega) (by omega)
     · exact nd.far 1 (by omega) 3 (by omega) (by omega)
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact ⟨W1, hW1⟩
     · exact ⟨W2, hW2⟩
     · exact nd.pair 0 (by omega)

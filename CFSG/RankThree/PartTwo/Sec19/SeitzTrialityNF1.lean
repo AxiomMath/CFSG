@@ -12,7 +12,7 @@ namespace CFSG.RankThree.PartTwo.Sec19
 theorem card_le_of_forall_pow_eq_self (F : Type) [Field F] [Finite F] (m : ℕ) (hm : 2 ≤ m)
     (h : ∀ c : F, c ^ m = c) : Nat.card F ≤ m := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hdeg : (Polynomial.X ^ m - Polynomial.X : Polynomial F).natDegree = m := by
     rw [Polynomial.natDegree_sub_eq_left_of_natDegree_lt
       (by simp only [Polynomial.natDegree_X, Polynomial.natDegree_X_pow]; omega),
@@ -35,7 +35,7 @@ theorem mem_of_cube_eq_one_cyclic {G : Type} [Group G] [Finite G] [IsCyclic G] (
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hσ2 : σ ^ 2 ≠ 1) (ψ : G) (hψ : ψ ^ 3 = 1) :
     ψ = 1 ∨ ψ = σ ∨ ψ = σ ^ 2 := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hle : (Finset.univ.filter fun a : G => a ^ 3 = 1).card ≤ 3 :=
     IsCyclic.card_pow_eq_one_le (by norm_num)
   have hsub : ({1, σ, σ ^ 2} : Finset G) ⊆ Finset.univ.filter fun a : G => a ^ 3 = 1 := by
@@ -72,7 +72,7 @@ theorem nf1_pow_apply {X : Type} [Field X] (σ : X ≃+* X) (q : ℕ) (hq : ∀ 
 theorem nf1_sigma_pow_three {X : Type} [Field X] [Finite X] (σ : X ≃+* X) (n : ℕ)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) : σ ^ 3 = 1 := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   refine RingEquiv.ext fun c => ?_
   show (σ ^ 3) c = c
   rw [nf1_pow_apply σ (2 ^ n) hσ 3 c, ← hX, Nat.card_eq_fintype_card]
@@ -126,7 +126,7 @@ theorem nf1_closure_pair_eq {G : Type} [Group G] (E : Subgroup G) [Finite E]
   have hle : Subgroup.closure ({a, b} : Set G) ≤ E := by
     rw [Subgroup.closure_le, Set.insert_subset_iff, Set.singleton_subset_iff]
     exact ⟨ha, hb⟩
-  haveI : Finite (Subgroup.closure ({a, b} : Set G)) :=
+  have : Finite (Subgroup.closure ({a, b} : Set G)) :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   have hdvd : Nat.card (Subgroup.closure ({a, b} : Set G)) ∣ 3 ^ 2 := by
     rw [← hE]
@@ -187,12 +187,12 @@ theorem outer_plane_shape (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 
   classical
   obtain ⟨-, hdec, ⟨Θ, hΘ, -, hker, -⟩, hcyc, hcard3, -, hZ, -⟩ :=
     even_triality_exact_automorphism_normal_form hn X hX σ hσ
-  haveI : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
   have hσ3 : σ ^ 3 = 1 := nf1_sigma_pow_three σ n hX hσ
   have hσ1 : σ ≠ 1 := nf1_sigma_ne_one σ n hn hX hσ
   have hσ2 : σ ^ 2 ≠ 1 := nf1_sq_ne_one σ hσ3 hσ1
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hsc : (Finset.univ : Finset E).card = 3 ^ 2 := by
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hcard]
   have hlt : ({1, σ, σ ^ 2} : Finset (X ≃+* X)).card < (Finset.univ : Finset E).card := by
@@ -223,7 +223,7 @@ theorem outer_plane_shape (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 
   have hx3 : x ^ 3 = 1 := nf1_conj_injective hZ (by rw [map_pow, hx, hγ3, map_one])
   have hx1 : x ≠ 1 := fun h => hcx1 (by rw [h, map_one])
   obtain ⟨β, hβE, hβout⟩ : ∃ β ∈ E, ∀ g : C0 σ, β ≠ MulAut.conj g := by
-    push_neg at hout
+    push Not at hout
     exact hout
   have hβ3 : β ^ 3 = 1 := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 3) (A := E) β hβE
   have hβΘ3 : Θ β ^ 3 = 1 := by rw [← map_pow Θ, hβ3, map_one]

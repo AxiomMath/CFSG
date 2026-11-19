@@ -212,7 +212,7 @@ theorem card_le_32 [Finite G] (hT : quasithinIsSylowTwo T) (hM : quasithinIsMaxT
     rw [h3]
     exact hn⟩
   have hES : E.E₀.subgroupOf E.CE ≤ (S : Subgroup ↥E.CE) := hE'.le_sylow_of_normal S
-  have hP₁p : IsPGroup 2 ((S : Subgroup ↥E.CE).map E.CE.subtype) := S.isPGroup'.map _
+  have hP₁p : IsPGroup 2 ((S : Subgroup ↥E.CE).map E.CE.subtype) := S.isPGroup.map _
   have hP₁C : (S : Subgroup ↥E.CE).map E.CE.subtype ≤ E.CE := Subgroup.map_subtype_le _
   have hP₁E : E.E₀ ≤ (S : Subgroup ↥E.CE).map E.CE.subtype := fun x hx =>
     ⟨⟨x, E.E₀_le_CE hx⟩, hES (Subgroup.mem_subgroupOf.2 hx), rfl⟩
@@ -256,7 +256,7 @@ theorem not_two_dvd_relIndex_S₀ [Finite G] (hT : quasithinIsSylowTwo T)
     calc 64 = 2 ^ 6 := by norm_num
       _ ≤ 2 ^ (Nat.card E.CE).factorization 2 := Nat.pow_le_pow_right (by norm_num) h6
   have hle := E.card_le_32 hT hM (P := (S : Subgroup ↥E.CE).map E.CE.subtype)
-    (S.isPGroup'.map _) (Subgroup.map_subtype_le _)
+    (S.isPGroup.map _) (Subgroup.map_subtype_le _)
   rw [Subgroup.card_map_of_injective E.CE.subtype_injective] at hle
   omega
 

@@ -66,7 +66,7 @@ public theorem firstCase_klein_centralizer_sylow_normalizer_le_Hhat
     exact (Nat.card_congr
       (Subgroup.equivMapOfInjective (Q : Subgroup C) C.subtype
         C.subtype_injective).toEquiv).symm
-  have hQGp : IsPGroup 2 QG := Q.isPGroup'.map C.subtype
+  have hQGp : IsPGroup 2 QG := Q.isPGroup.map C.subtype
   obtain ⟨P, hQGP⟩ := hQGp.exists_le_sylow
   have hVleQG : V ≤ QG := by
     intro v hv
@@ -93,7 +93,7 @@ public theorem firstCase_klein_centralizer_sylow_normalizer_le_Hhat
         omega) eP hCent
     exact ⟨Q, by simpa [V, QG] using hVleQG, by simpa [QG] using hnorm⟩
   · have hQcard4 : Nat.card QG = 4 := by
-      have hQpow := Q.isPGroup'.exists_card_eq
+      have hQpow := Q.isPGroup.exists_card_eq
       rcases hQpow with ⟨n, hn⟩
       have hnG : Nat.card QG = 2 ^ n := hQGcard.trans hn
       have hVd : Nat.card V ∣ Nat.card QG := Subgroup.card_dvd_of_le hVleQG

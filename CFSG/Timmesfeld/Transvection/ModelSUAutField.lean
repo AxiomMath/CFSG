@@ -167,7 +167,7 @@ theorem ringEquiv_eq_refl_of_isotropic_eigen [CharP F 2] (hσ : ∀ c, σ (σ c)
     have hv₂P : e + y • f' + c • g + f' ∈ perpPair σ a d :=
       (perpPair σ a d).add_mem hv₁P hfP
     have hv₁f : uForm σ (e + y • f' + c • g) f' = 1 := by
-      simp only [uForm_add_left, uForm_smul_left, hef, hff, hgf, mul_zero, mul_one, add_zero]
+      simp only [uForm_add_left, uForm_smul_left, hef, hff, hgf, mul_zero, add_zero]
     have hfv₁ : uForm σ f' (e + y • f' + c • g) = 1 := by
       rw [← uForm_conj σ hσ, hv₁f, map_one]
     have hgv₁ : uForm σ g (e + y • f' + c • g) = c * uForm σ g g := by

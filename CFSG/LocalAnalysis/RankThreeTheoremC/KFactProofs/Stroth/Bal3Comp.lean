@@ -18,7 +18,7 @@ theorem exists_mem_inf_center_of_normalizing (hp : p.Prime) {P N : Subgroup X}
     ∃ y ∈ N, orderOf y = p ∧ y ∈ centralizer (P : Set X) := by
   have : Fact p.Prime := ⟨hp⟩
   let N' : Subgroup P := N.subgroupOf P
-  haveI : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hnorm
+  have : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hnorm
   have hN' : N' ≠ ⊥ := by
     intro h
     apply hN
@@ -81,9 +81,9 @@ theorem RedConfig.pRank_top (h : RedConfig p P z D) :
 theorem RedConfig.mem_pCore (h : RedConfig p P z D) (hQ : CFSG.pCore p X ≠ ⊥) :
     z ∈ CFSG.pCore p X := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal
-  refine mem_of_normalizing_ne_bot hp P.isPGroup' hQ
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal
+  refine mem_of_normalizing_ne_bot hp P.isPGroup hQ
     (CFSG.pCore_isPGroup.le_sylow_of_normal P) ?_ h.ord h.unique
   rw [normalizer_eq_top]
   exact le_top
@@ -92,7 +92,7 @@ theorem RedConfig.le_normalizer_component (h : RedConfig p P z D) (hz : z ∈ CF
     {K : Subgroup X} (hK : IsComponentOf K ⊤) : (P : Subgroup X) ≤ normalizer (K : Set X) := by
   have hp := h.prime
   have hp3 : 2 < p := lt_of_le_of_ne hp.two_le (Ne.symm h.ne_two)
-  refine le_normalizer_of_card_components_le hp (m := 2) hp3 ?_ P.isPGroup' hK
+  refine le_normalizer_of_card_components_le hp (m := 2) hp3 ?_ P.isPGroup hK
   intro S hS
   have hzp : z ^ p = 1 := h.ord ▸ pow_orderOf_eq_one z
   have hA : IsElemAbelian p (zpowers z) := isElemAbelian_zpowers hzp
@@ -106,7 +106,7 @@ theorem RedConfig.le_normalizer_component (h : RedConfig p P z D) (hz : z ∈ CF
 theorem RedConfig.mem_component (h : RedConfig p P z D) {K : Subgroup X} (hK : IsComponentOf K ⊤)
     (hnorm : (P : Subgroup X) ≤ normalizer (K : Set X)) : z ∈ K := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, htRK, ht, -⟩ := exists_mem_sylow_inf_component hp h.ne_two h.core P hK
   have hN : (P : Subgroup X) ⊓ K ≠ ⊥ := by
     intro hbot
@@ -116,7 +116,7 @@ theorem RedConfig.mem_component (h : RedConfig p P z D) {K : Subgroup X} (hK : I
       exact this
     rw [ht1, orderOf_one] at ht
     exact hp.one_lt.ne ht
-  have hz := mem_of_normalizing_ne_bot hp P.isPGroup' hN inf_le_left
+  have hz := mem_of_normalizing_ne_bot hp P.isPGroup hN inf_le_left
     ((le_inf le_normalizer hnorm).trans inf_normalizer_le_normalizer_inf) h.ord h.unique
   exact hz.2
 

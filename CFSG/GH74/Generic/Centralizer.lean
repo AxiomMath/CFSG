@@ -35,7 +35,7 @@ theorem exists_two_subgroup_card_ge_four {Q : Type*} [Group Q] [Finite Q] (hQ : 
   by_contra hcon
   push Not at hcon
   obtain ⟨S⟩ : Nonempty (Sylow 2 Q) := inferInstance
-  have hS : Nat.card S ≤ 2 := card_le_two_of_isPGroup S.isPGroup' (hcon (S : Subgroup Q) S.isPGroup')
+  have hS : Nat.card S ≤ 2 := card_le_two_of_isPGroup S.isPGroup (hcon (S : Subgroup Q) S.isPGroup)
   have hScyc : IsCyclic ↥(S : Subgroup Q) := isCyclic_of_card_le_two hS
   obtain ⟨-, -, -, ⟨hnormal, hodd, hindex, -⟩, -⟩ := cyclic_sylow_normal_odd_complement S hScyc
   set N := pPrimeCore 2 Q with hN
@@ -130,7 +130,7 @@ theorem centralizer_eq_zpowers [Finite X] {K : Subgroup X} (hK : IsComponent K) 
       intro h
       exact hz1 (by simpa [z'] using congrArg Subtype.val h)
     have h3 : Nat.card S ≤ 2 := by
-      have hmap : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup'.map C.subtype
+      have hmap : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
       have hle : (S : Subgroup ↥C).map C.subtype ≤ centralizer (K : Set X) := by
         rintro _ ⟨c, -, rfl⟩
         exact c.2

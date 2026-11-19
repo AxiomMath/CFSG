@@ -13,13 +13,13 @@ namespace CFSG.RankThree.PartTwo.Sec4.Item434U38
 variable {H : Type*} [Group H] [Finite H] {Ω : Type*} [Finite Ω] [MulAction H Ω]
 
 theorem factorization_3024_three : (3024 : ℕ).factorization 3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.factorization_def _ Nat.prime_three,
     show (3024 : ℕ) = 3 ^ 3 * 112 by norm_num, padicValNat.mul (by norm_num) (by norm_num),
     padicValNat.prime_pow, padicValNat.eq_zero_of_not_dvd (by norm_num)]
 
 theorem factorization_378_two : (378 : ℕ).factorization 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.factorization_def _ Nat.prime_two, show (378 : ℕ) = 2 * 189 by norm_num,
     padicValNat.mul (by norm_num) (by norm_num), padicValNat_self,
     padicValNat.eq_zero_of_not_dvd (by norm_num)]
@@ -28,7 +28,7 @@ theorem no_E27_of_card_3024 {C : Subgroup H} (hC : Nat.card C = 3024)
     {y : H} (hyC : y ∈ C) (hy : orderOf y = 9)
     {E : Subgroup H} (hE : IsElemAbelian 3 E) (hE27 : Nat.card E = 27) : ¬ E ≤ C := by
   intro hEC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardE' : Nat.card (E.subgroupOf C) = 27 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEC).toEquiv, hE27]
   let Q : Sylow 3 C := Sylow.ofCard (E.subgroupOf C)
@@ -60,7 +60,7 @@ theorem no_E27_of_card_3024 {C : Subgroup H} (hC : Nat.card C = 3024)
 
 theorem eq_of_mem_zpowers_involution {G : Type*} [Group G] {s x : G} (hs2 : s ^ 2 = 1)
     (hs1 : s ≠ 1) (hx : x ∈ Subgroup.zpowers s) (hx1 : x ≠ 1) : x = s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf s = 2 := orderOf_eq_prime hs2 hs1
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
   have hk : s ^ (k % 2) = s ^ k := by
@@ -76,7 +76,7 @@ theorem eq_of_mem_zpowers_involution {G : Type*} [Group G] {s x : G} (hs2 : s ^ 
 theorem conj_of_involution_378 {G : Type*} [Group G] [Finite G] (hG : Nat.card G = 378)
     {s u : G} (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) :
     ∃ c : G, c * s * c⁻¹ = u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hos : orderOf s = 2 := orderOf_eq_prime hs2 hs1
   have hou : orderOf u = 2 := orderOf_eq_prime hu2 hu1
   let P : Sylow 2 G := Sylow.ofCard (Subgroup.zpowers s)
@@ -100,6 +100,7 @@ theorem conj_of_involution_378 {G : Type*} [Group G] [Finite G] (hG : Nat.card G
   rw [MulAut.conj_apply] at h3
   exact h3
 
+omit [Finite H] in
 theorem card_fix_odd (hΩ : Nat.card Ω = 513) {V : Subgroup H} (hV : IsPGroup 2 V) :
     Odd (Nat.card {p : Ω // ∀ v ∈ V, v • p = p}) := by
   have hmod := hV.card_modEq_card_fixedPoints Ω
@@ -110,6 +111,7 @@ theorem card_fix_odd (hΩ : Nat.card Ω = 513) {V : Subgroup H} (hV : IsPGroup 2
   unfold Nat.ModEq at hmod
   exact Nat.odd_iff.mpr (by omega)
 
+omit [Finite H] [Finite Ω] in
 theorem smul_fix_mem {V E : Subgroup H} (hEV : E ≤ Subgroup.normalizer (V : Set H)) (e : E)
     {p : Ω} (hp : ∀ v ∈ V, v • p = p) : ∀ v ∈ V, v • ((e : H) • p) = (e : H) • p := by
   intro v hv
@@ -124,11 +126,12 @@ abbrev fixActC {V E : Subgroup H} (hEV : E ≤ Subgroup.normalizer (V : Set H)) 
   one_smul p := Subtype.ext (one_smul H p.1)
   mul_smul e f p := Subtype.ext (mul_smul (e : H) (f : H) p.1)
 
+omit [Finite H] in
 theorem exists_common_fixed {V E : Subgroup H} (hEV : E ≤ Subgroup.normalizer (V : Set H))
     (hE3 : IsPGroup 3 E) (h : ¬ 3 ∣ Nat.card {p : Ω // ∀ v ∈ V, v • p = p}) :
     ∃ p : Ω, (∀ v ∈ V, v • p = p) ∧ ∀ e ∈ E, e • p = p := by
-  letI := fixActC (Ω := Ω) hEV
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let := fixActC (Ω := Ω) hEV
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := hE3.card_modEq_card_fixedPoints {p : Ω // ∀ v ∈ V, v • p = p}
   have hne : Nat.card (MulAction.fixedPoints E {p : Ω // ∀ v ∈ V, v • p = p}) ≠ 0 := by
     intro h0
@@ -139,6 +142,7 @@ theorem exists_common_fixed {V E : Subgroup H} (hEV : E ≤ Subgroup.normalizer 
   have h1 := congrArg Subtype.val (hp ⟨e, he⟩)
   exact h1
 
+omit [Finite H] in
 theorem exists_two_fixed (hΩ : Nat.card Ω = 513)
     (hA : ∀ (E : Subgroup H), IsElemAbelian 3 E → Nat.card E = 27 → ∀ ω : Ω, ¬ ∀ e ∈ E, e • ω = ω)
     {V E : Subgroup H} (hVp : IsPGroup 2 V) (hEV : E ≤ Subgroup.normalizer (V : Set H))
@@ -149,7 +153,7 @@ theorem exists_two_fixed (hΩ : Nat.card Ω = 513)
     by_contra h
     obtain ⟨p, _, hpE⟩ := exists_common_fixed hEV hE.isPGroup h
     exact hA E hE hE27 p hpE
-  haveI : Nontrivial {p : Ω // ∀ v ∈ V, v • p = p} :=
+  have : Nontrivial {p : Ω // ∀ v ∈ V, v • p = p} :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨x, y, hxy⟩ := exists_pair_ne {p : Ω // ∀ v ∈ V, v • p = p}
   exact ⟨x.1, y.1, fun h => hxy (Subtype.ext h), fun v hv => ⟨x.2 v hv, y.2 v hv⟩⟩
@@ -189,6 +193,7 @@ theorem card_eq_two_of_fix2 (hH : Nat.card H = 99283968)
     rw [hn, h0, pow_zero]
   · rw [hn, h1, pow_one]
 
+omit [Finite H] in
 theorem card_pairStab_378 (hH : Nat.card H = 99283968)
     (h2 : ∀ a b a' b' : Ω, a ≠ b → a' ≠ b' → ∃ g : H, g • a = a' ∧ g • b = b')
     (hΩ : Nat.card Ω = 513) {a b : Ω} (hab : a ≠ b) :
@@ -257,7 +262,7 @@ theorem no_E27_normalizes_two
     {V E : Subgroup H} (hV : IsElemAbelian 2 V) (hV1 : V ≠ ⊥)
     (hE : IsElemAbelian 3 E) (hE27 : Nat.card E = 27)
     (hEV : E ≤ Subgroup.normalizer (V : Set H)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVp : IsPGroup 2 V := hV.isPGroup
   obtain ⟨a, b, hab, hfix⟩ := exists_two_fixed hΩ hA hVp hEV hE hE27
   have hV2 : Nat.card V = 2 := card_eq_two_of_fix2 hH h2 hΩ hVp hV1 hab hfix
@@ -296,7 +301,7 @@ theorem no_E27_normalizes_two
     intro x hx
     obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.mp hx
     have hcj : (MulAut.conj k⁻¹).toMonoidHom e = k⁻¹ * e * k := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     have hcomm : t * e = e * t := (hEcomm e he).symm
     rw [Subgroup.mem_centralizer_iff]
     intro s hs

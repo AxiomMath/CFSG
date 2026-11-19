@@ -46,10 +46,10 @@ theorem L210_exists_base_complement (h : L28Hyp A w ψ) {D : Subgroup X}
   let D' : Subgroup N := D.subgroupOf N
   let base : Subgroup A5WrTwo := commutator A5WrTwo
   have hkerK : ψ.ker = K := h.ker
-  haveI hAcomm : IsMulCommutative A := h.elemAb.1
-  haveI hDcomm : IsMulCommutative D := hDe.1
-  haveI hKcomm : IsMulCommutative K := inferInstance
-  haveI hKN : K.Normal := inferInstance
+  have hAcomm : IsMulCommutative A := h.elemAb.1
+  have hDcomm : IsMulCommutative D := hDe.1
+  have hKcomm : IsMulCommutative K := inferInstance
+  have hKN : K.Normal := inferInstance
   have hKcard : Nat.card K = 256 := by
     change Nat.card (A.subgroupOf N) = 256
     rw [l210A_natCard_subgroupOf (Subgroup.le_normalizer : A ≤ N), h.card]
@@ -135,8 +135,8 @@ theorem L210_exists_base_complement (h : L28Hyp A w ψ) {D : Subgroup X}
     have hmem : (x : N) ∈ K ⊓ D' := ⟨hxK, hxD⟩
     rw [hKD', Subgroup.mem_bot] at hmem
     exact Subtype.ext hmem
-  haveI hK'norm : K'.Normal := inferInstance
-  haveI hK'comm : IsMulCommutative K' := inferInstance
+  have hK'norm : K'.Normal := inferInstance
+  have hK'comm : IsMulCommutative K' := inferInstance
   have hK'card : Nat.card K' = 2 ^ 8 := by
     change Nat.card (K.subgroupOf N') = 2 ^ 8
     rw [l210A_natCard_subgroupOf hKN', hKcard]

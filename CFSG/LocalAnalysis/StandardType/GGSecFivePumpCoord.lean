@@ -90,12 +90,12 @@ theorem ggDk_exists_coord {G : Type} [Group G] {p : ℕ} (hp : p.Prime) (hp2 : p
         θ (Additive.ofMul b) - (∑ a, θ (Additive.ofMul b) a * (η a : ZMod p)) •
           fun a => (η a : ZMod p) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk2 : 2 ≤ k := by omega
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite ↥Bs := Nat.finite_of_card_ne_zero (by rw [hcard]; exact (pow_pos hp.pos k).ne')
-  haveI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite ↥Bs := Nat.finite_of_card_ne_zero (by rw [hcard]; exact (pow_pos hp.pos k).ne')
+  have : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod p) V = k := by
     have h1 : Nat.card Bs = p ^ Module.finrank (ZMod p) V := by
       rw [card_eq_of_ggLin ι, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),

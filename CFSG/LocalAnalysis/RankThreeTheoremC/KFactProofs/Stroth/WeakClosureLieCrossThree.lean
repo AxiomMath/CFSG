@@ -100,7 +100,7 @@ private theorem wcC3_normalizerMovesLines_of_fusion {K : Type} [Group K] [Finite
 private theorem wcC3_wcOn_three {K : Type} [Group K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime]
     (hf : 1 ≤ f) (hiso : CFSG.RankThree.PartTwo.Sec4.IsoLThreePi K ℓ f)
     (h91 : ℓ ^ f % 9 ≠ 1) (h98 : ℓ ^ f % 9 ≠ 8) : WCOn 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₀⟩ : Nonempty (Sylow 3 K) := inferInstance
   refine WCOn.of_normalizerMovesLines P₀ fun _ _ => ?_
   exact wcC3_normalizerMovesLines_of_fusion fun x hx hx1 =>
@@ -146,7 +146,7 @@ private theorem wcC3_nonempty_mulEquiv_projSU {K : Type} [Group K] {ℓ f : ℕ}
 theorem wcOn_cross_psl_three {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
     (h : CFSG.Open.StatedClassicalModel K .PSL 3 ℓ f) (hq : ℓ ^ f % 9 = 4 ∨ ℓ ^ f % 9 = 7) :
     WCOn 3 K := by
-  haveI : Fact ℓ.Prime := ⟨h.1.1⟩
+  have : Fact ℓ.Prime := ⟨h.1.1⟩
   obtain ⟨e⟩ := wcC3_nonempty_mulEquiv_projSL h
   have hiso : CFSG.RankThree.PartTwo.Sec4.IsoLThreePi K ℓ f := Or.inl ⟨by omega, ⟨e⟩⟩
   exact wcC3_wcOn_three h.1.2.1 hiso (by omega) (by omega)
@@ -154,7 +154,7 @@ theorem wcOn_cross_psl_three {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
 theorem wcOn_cross_psu_three {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
     (h : CFSG.Open.StatedClassicalModel K .PSU 3 ℓ f) (hq : ℓ ^ f % 9 = 2 ∨ ℓ ^ f % 9 = 5) :
     WCOn 3 K := by
-  haveI : Fact ℓ.Prime := ⟨h.1.1⟩
+  have : Fact ℓ.Prime := ⟨h.1.1⟩
   obtain ⟨e⟩ := wcC3_nonempty_mulEquiv_projSU h
   have hiso : CFSG.RankThree.PartTwo.Sec4.IsoLThreePi K ℓ f := Or.inr ⟨by omega, ⟨e⟩⟩
   exact wcC3_wcOn_three h.1.2.1 hiso (by omega) (by omega)

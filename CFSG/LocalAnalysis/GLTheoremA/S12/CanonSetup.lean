@@ -28,6 +28,7 @@ section Rank
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_sup_zpowers_of_card {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) {k : ℕ} (hk : Nat.card E = p ^ k) {z : G} (hzp : z ^ p = 1)
     (hzE : z ∉ E) (hz : ∀ e ∈ E, e * z = z * e) :
@@ -66,7 +67,7 @@ theorem card_mul_le_of_normalizes {p : ℕ} (hp : p.Prime) {x : G} {L E U : Subg
     (hU2 : IsPGroup 2 U) (hUL : U ≤ L) (hE : IsElemAbelian p E)
     (hEU : E ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card E * p ≤ p ^ GLATwoLocalRank p G * Nat.card ↥(E ⊓ Subgroup.centralizer (L : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxC : x ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
     intro l hl
@@ -163,7 +164,7 @@ theorem K_le_L (h : CanonCfg G p B x L D K y J) : K ≤ L := h.K_comp.1.trans in
 
 theorem y_notMem_zpowers_x (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
     y ∉ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hy
   have hle : D ≤ Subgroup.zpowers x := by
     rw [h.D_closure, Subgroup.closure_le]
@@ -177,7 +178,7 @@ theorem y_notMem_zpowers_x (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
 
 theorem x_notMem_zpowers_y (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
     x ∉ Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hx
   have hle : D ≤ Subgroup.zpowers y := by
     rw [h.D_closure, Subgroup.closure_le]
@@ -191,12 +192,12 @@ theorem x_notMem_zpowers_y (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
 
 theorem card_zpowers_y (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
     Nat.card (Subgroup.zpowers y) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.card_zpowers, orderOf_eq_prime (h.elem.2 y h.yB) h.y_ne_one]
 
 theorem card_zpowers_x (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
     Nat.card (Subgroup.zpowers x) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.card_zpowers, orderOf_eq_prime (h.elem.2 x h.xB) h.x_ne_one]
 
 theorem x_pow (h : CanonCfg G p B x L D K y J) : x ^ p = 1 := h.elem.2 x h.xB
@@ -240,12 +241,14 @@ theorem x_notMem_centralizer_J (hp : p.Prime) (h : CanonCfg G p B x L D K y J) :
   rw [h.inf_centralizer_J] at this
   exact h.x_notMem_zpowers_y hp this
 
+omit [Finite G] in
 theorem mem_centralizer_of_le_centralizer {a : G} {M : Subgroup G}
     (hM : M ≤ Subgroup.centralizer ({a} : Set G)) : a ∈ Subgroup.centralizer (M : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro m hm
   exact Subgroup.mem_centralizer_singleton_iff.mp (hM hm)
 
+omit [Finite G] in
 theorem card_le_of_isCyclic_exp {S : Subgroup G} (hp : 0 < p) (hc : IsCyclic S)
     (he : ∀ y ∈ S, y ^ p = 1) : Nat.card S ≤ p := by
   obtain ⟨e, he'⟩ := hc.exists_generator
@@ -338,6 +341,7 @@ theorem B_le_normalizer_K (h : CanonCfg G p B x L D K y J) :
 
 end CanonCfg
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot_of_center {E J : Subgroup G} (hEJ : E ≤ J) (hZ : Subgroup.center ↥J = ⊥) :
     E ⊓ Subgroup.centralizer (J : Set G) = ⊥ := by
   rw [eq_bot_iff]

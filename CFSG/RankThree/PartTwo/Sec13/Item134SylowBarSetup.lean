@@ -217,7 +217,7 @@ theorem exists_sylowData (H : Base A c L d K) : ∃ S : Subgroup G, SylowData A 
     norm_num)
   obtain ⟨S', hS'⟩ := hEp.exists_le_sylow
   set S := (S' : Subgroup ↥L).map L.subtype with hSdef
-  have hSp : IsPGroup 3 S := S'.isPGroup'.map _
+  have hSp : IsPGroup 3 S := S'.isPGroup.map _
   have hES : E ≤ S := fun x hx => ⟨⟨x, hx.2⟩, hS' (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hSL : S ≤ L := Subgroup.map_subtype_le _
   have hmemS : ∀ {x : G} (hx : x ∈ S), (⟨x, hSL hx⟩ : ↥L) ∈ (S' : Subgroup ↥L) := by
@@ -225,7 +225,7 @@ theorem exists_sylowData (H : Base A c L d K) : ∃ S : Subgroup G, SylowData A 
     exact hy
   have hdS : d ∈ S := hES ⟨H.mem_A, hdL⟩
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
-  have hinj : Set.InjOn π (S' : Set ↥L) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup'
+  have hinj : Set.InjOn π (S' : Set ↥L) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup
   set Sb : Sylow 3 (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     S'.mapSurjective (QuotientGroup.mk'_surjective _) with hSbdef
   have hSb : (Sb : Subgroup _) = (S' : Subgroup ↥L).map π := Sylow.coe_mapSurjective _ _

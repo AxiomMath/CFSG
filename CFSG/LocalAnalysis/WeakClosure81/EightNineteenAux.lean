@@ -17,7 +17,7 @@ theorem inf_centralizer_ne_bot_of_two_groups {A W : Subgroup G} (hA : IsPGroup 2
   have hR2 : IsPGroup 2 R := hA.to_sup_of_normal_right' hW hAW
   have hWR : W ≤ R := le_sup_right
   have hRN : R ≤ normalizer (W : Set G) := sup_le hAW (Subgroup.le_normalizer (H := W))
-  haveI hNormal : (W.subgroupOf R).Normal :=
+  have hNormal : (W.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWR).mpr hRN
   have hWne' : W.subgroupOf R ≠ ⊥ := by
     intro hbot
@@ -25,7 +25,7 @@ theorem inf_centralizer_ne_bot_of_two_groups {A W : Subgroup G} (hA : IsPGroup 2
     have h := congrArg (Subgroup.map R.subtype) hbot
     rw [Subgroup.map_subgroupOf_eq_of_le hWR, Subgroup.map_bot] at h
     exact h
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥R) (H := W.subgroupOf R) hWne'
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZ
   have hzW : ((z : ↥R) : G) ∈ W := Subgroup.mem_subgroupOf.mp z.2.1
@@ -77,7 +77,7 @@ theorem Sit813.k_le_H (h : Sit813 V H T i A L K) : K ≤ H :=
 theorem Sit813.T_le_H (h : Sit813 V H T i A L K) : T ≤ H :=
   (isSylowIn_of_isCalH h.calH0.1 h.minCex.hyp.sylow).le
 
-theorem Sit813.le_normalizer_eGrp (h : Sit813 V H T i A L K) :
+theorem Sit813.le_normalizer_eGrp (_h : Sit813 V H T i A L K) :
     H ≤ normalizer (eGrp H T : Set G) :=
   le_normalizer_conjClosure _ _
 
@@ -107,6 +107,7 @@ theorem Sit813.uGrp_le_pCoreOf (h : Sit813 V H T i A L K) : uGrp V K ≤ pCoreOf
   have hnorm := (CFSG.LieType.BorelTits.le_normalizer_pCoreOf (r := 2) H) (h.k_le_H hk)
   exact (Subgroup.mem_normalizer_iff.mp hnorm v).1 (hVO hv)
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer_of_mem_normalizer_set {K : Subgroup G} {t : G}
     (ht : t ∈ normalizer (K : Set G)) : t ∈ normalizer (centralizer (K : Set G) : Set G) := by
   have key : ∀ s ∈ normalizer (K : Set G), ∀ x ∈ centralizer (K : Set G),
@@ -178,6 +179,7 @@ theorem Sit813.inf_normalizer_le_sup (h : Sit813 V H T i A L K) {X : Subgroup G}
     interval_cases m <;> omega
   exact Subgroup.relIndex_eq_one.mp hm1
 
+omit [Finite G] in
 theorem mem_zpowers_involution_iff_eq_one_or_eq {w : G} (hw2 : w * w = 1) (x : G) :
     x ∈ Subgroup.zpowers w ↔ x = 1 ∨ x = w := by
   constructor
@@ -218,7 +220,7 @@ theorem Sit813.centralizes_of_fixed (h : Sit813 V H T i A L K) {w : G} (hw1 : w 
       refine Subgroup.mem_normalizer_fintype fun n hn => ?_
       have hgw : g * w * g⁻¹ = w := by rw [hg]; group
       rcases (hmemW _).mp hn with rfl | rfl
-      · simpa using W.one_mem
+      · simp
       · rw [hgw]
         exact hn
   have hK₁ : K ⊓ normalizer (W : Set G) = K ⊓ normalizer (V : Set G) := by

@@ -30,7 +30,7 @@ private theorem s16c11_case5_scal_eq_rangeB (K : Type) [Field K] :
       x = lr (Units.map (Matrix.scalar (Fin 2) (α := K)).toMonoidHom c) 1} =
       Set.range (s16c11_case5_scalHomB K) := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_range, s16c11_case5_scalHomB]
+    simp only [Set.mem_ofPred_eq, Set.mem_range, s16c11_case5_scalHomB]
     constructor
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
     · rintro ⟨c, hc⟩; exact ⟨c, hc.symm⟩
@@ -189,11 +189,11 @@ theorem s16c11_case5_core_of_natOmegaPlus {W : Type} [CommGroup W] {Lb Y : Subgr
       P ≤ Subgroup.normalizer ((⨆ A ∈ 𝒮, A : Subgroup (MulAut W)) : Set (MulAut W)) := by
   classical
   obtain ⟨K, hKf, hKfin, β, hKcard, hL⟩ := s16c11_case5_tensor h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK : Nat.card K = 4 := hKcard
-  haveI : CharP K 2 := s16c11_case5_charP hK
-  haveI : Finite W := Finite.of_equiv (VM K) β.symm
+  have : CharP K 2 := s16c11_case5_charP hK
+  have : Finite W := Finite.of_equiv (VM K) β.symm
   have hWVM : ∀ x : VM K, x ^ 2 = 1 := fun x => s16c11_case5_sq_eq_one_VM K x
   have hW : ∀ w : W, w ^ 2 = 1 := by
     intro w

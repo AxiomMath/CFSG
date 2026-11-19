@@ -56,8 +56,8 @@ section Cyc
 theorem szh1_pRank_le_one_of_cyclic_sylow {L : Type} [Group L] [Finite L] (S : Sylow 5 L)
     (hS : IsCyclic (S : Subgroup L)) : CFSG.Open.pRank 5 (⊤ : Subgroup L) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fintype (S : Subgroup L) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fintype (S : Subgroup L) := Fintype.ofFinite _
   refine CFSG.SectionRank.pRank_le (by norm_num) ?_
   intro E _ hE
   have hEp : IsPGroup 5 E := fun x => ⟨1, by
@@ -122,17 +122,18 @@ section Out
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem szh1_simple_data (hcat : CFSG.AGLEmbedding.CatalogSimpleSections Y) {L : Subgroup Y}
     (hL : IsComponentOf L ⊤) (hz : Subgroup.center ↥L = ⊥) :
     IsSimpleGroup ↥L ∧ (∃ a b : ↥L, a * b ≠ b * a) ∧ IsCatalogGroup ↥L := by
   obtain ⟨-, -, hperf, hq⟩ := hL
   let e : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq hz).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq
-  haveI hsimple : IsSimpleGroup ↥L := e.symm.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq
+  have hsimple : IsSimpleGroup ↥L := e.symm.isSimpleGroup
   have hnon : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : commutator ↥L ≤ ⊥ := by
       show ⁅(⊤ : Subgroup ↥L), ⊤⁆ ≤ ⊥
       refine Subgroup.commutator_le.2 ?_
@@ -144,7 +145,7 @@ theorem szh1_simple_data (hcat : CFSG.AGLEmbedding.CatalogSimpleSections Y) {L :
     exact ha (Subgroup.mem_bot.1 (hbot (Subgroup.mem_top a)))
   refine ⟨hsimple, hnon, ?_⟩
   let e' : ↥L ≃* ↥L ⧸ (⊥ : Subgroup ↥L) := (QuotientGroup.quotientBot (G := ↥L)).symm
-  haveI hs' : IsSimpleGroup (↥L ⧸ (⊥ : Subgroup ↥L)) := e'.symm.isSimpleGroup
+  have hs' : IsSimpleGroup (↥L ⧸ (⊥ : Subgroup ↥L)) := e'.symm.isSimpleGroup
   have hn' : ∃ a b : ↥L ⧸ (⊥ : Subgroup ↥L), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnon
     refine ⟨e' a, e' b, fun h => hab (e'.injective ?_)⟩
@@ -162,7 +163,7 @@ theorem szh1_inner_of_mem_O5 (hI713 : KFactI713Out) {H L A : Subgroup Y}
     ∃ l ∈ L, ∀ x ∈ L, y * x * y⁻¹ = l * x * l⁻¹ := by
   obtain ⟨ψ, hψ⟩ := szh1o_exists_hom hHL
   obtain ⟨-, N, hN, hN5, k, hk⟩ := hI713 5 (by norm_num) (by norm_num) ↥L hs hn hc hr
-  haveI := hN
+  have := hN
   let Θ : H →* Outer ↥L ⧸ N := (QuotientGroup.mk' N).comp ψ
   have hcop : ∀ g : H, Nat.Coprime (orderOf (g : Y)) 5 → Θ g = 1 := by
     intro g hg

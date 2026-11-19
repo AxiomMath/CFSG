@@ -181,7 +181,6 @@ theorem offDiag_eq_zero_of_comm_y {l : Kˣ} (hl1 : (l : K) ≠ 1) (hl2 : (l : K)
     | exact hl'.symm
     | exact hl1.symm
     | exact hl'
-    | exact hl1
     | exact fun h => hl1 (by rw [h, Units.val_one])
 
 theorem mk_eq_of_comm {l : Kˣ} (hl1 : (l : K) ≠ 1) (hl2 : (l : K) ^ 2 ≠ 1)

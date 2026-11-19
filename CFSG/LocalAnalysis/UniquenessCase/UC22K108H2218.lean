@@ -29,7 +29,7 @@ theorem uc22p22r_false_of_fixed_H207 (D : Data G) (hK : F10.K108H207) (h201 : S2
     (hAv : A ≤ centralizer ({v} : Set G)) (hA1 : A ≠ ⊥) (hAp : IsPGroup p A) (hAe : ∀ a ∈ A, a ^ p = 1)
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAT : Permutes A D.T)
     (hAr : CFSG.Open.pRank p A ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ1 : Subgroup.zpowers v ≠ ⊥ := by
     intro h
     exact hv1 (by simpa using (Subgroup.zpowers_eq_bot).1 h)
@@ -93,8 +93,8 @@ theorem uc22p22r_s22_18_of_k108H207 (D : Data G) (Ch : Choice2011 G) (hK : F10.K
   by_contra hne
   classical
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKC : K ∈ calC D.M := hK2213.1
   have hKM : K ≤ D.M := uc22p22a_le_of_isSubnormal hKC.1
   have htM : t ∈ D.M := D.sylowM.le htT
@@ -102,7 +102,7 @@ theorem uc22p22r_s22_18_of_k108H207 (D : Data G) (Ch : Choice2011 G) (hK : F10.K
     htK (((Subgroup.normal_subgroupOf_iff_le_normalizer hKM).1 hn) htM)
   set Kb := mbarImage D.M c.V K with hKbdef
   have hL2 : IsL2 ↥Kb n := h15 h1930 c p hp K n hK2213
-  haveI hKbs : IsSimpleGroup ↥Kb := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have hKbs : IsSimpleGroup ↥Kb := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have hZK := uc22p22g_center_bot hL2
   have hnt : Kb ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>

@@ -13,6 +13,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {Y T L₁ L₂ : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 theorem Br3TwoComp.comm_X_mem (h : Br3TwoComp Y T L₁ L₂) {a b : LGL 2 V}
     (ha : a ∈ Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V)))
     (hb : b ∈ Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) :
@@ -77,6 +78,7 @@ theorem Br3TwoComp.comm_X_mem (h : Br3TwoComp Y T L₁ L₂) {a b : LGL 2 V}
   rw [← hc_def]
   exact h.mem_kStar_of_cent hcY hc₁ hc₂
 
+omit [Finite V] in
 private theorem w183K3SideB_orderOf_odd_of_mem_quasiCentre {L : Subgroup (LGL 2 V)}
     (hodd : Odd (Nat.card ↥(Subgroup.center ↥L))) {z : LGL 2 V} (hz : z ∈ quasiCentre L) :
     Odd (orderOf z) := by

@@ -68,7 +68,7 @@ private theorem pow_card_sub_one_mem_adjointGroup {τ : Tag} {K : Type} [Field K
     {w : ModGL τ K} (hw : w ∈ inndiagGroup τ K) :
     w ^ (Nat.card K - 1) ∈ adjointGroup τ K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨b, j, hj, rfl⟩ := hw
   have key : ∀ n : ℕ, ∃ j' ∈ adjointGroup τ K,
       (rootDiagUnit τ b * j) ^ n = rootDiagUnit τ b ^ n * j' := by
@@ -90,14 +90,14 @@ private theorem pow_card_sub_one_mem_adjointGroup {τ : Tag} {K : Type} [Field K
   rw [hn, hd, one_mul]
   exact hj'
 
-theorem exists_inndiag_pow_eq_one {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {K : Type}
+theorem exists_inndiag_pow_eq_one {τ : Tag} (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {K : Type}
     [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (β : MulAut ↥(adjointGroup τ K)) (hβ : β ^ p = 1)
     {h : ModGL τ K} (hh : h ∈ inndiagGroup τ K)
     (hβh : ∀ c : adjointGroup τ K, (β c : ModGL τ K) = h * c * h⁻¹) :
     ∃ h' ∈ inndiagGroup τ K, (∀ c : adjointGroup τ K, (β c : ModGL τ K) = h' * c * h'⁻¹) ∧
       h' ^ p = 1 := by
   classical
-  clear hτ
+  clear _hτ
   have hpow : ∀ w : ModGL τ K, (∀ c : adjointGroup τ K, (β c : ModGL τ K) = w * c * w⁻¹) →
       ∀ (n : ℕ) (c : adjointGroup τ K), ((β ^ n) c : ModGL τ K) = w ^ n * c * (w ^ n)⁻¹ := by
     intro w hw n

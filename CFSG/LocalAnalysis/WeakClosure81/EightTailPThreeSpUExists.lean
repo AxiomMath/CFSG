@@ -29,9 +29,9 @@ private theorem wc85ex_center_eq_bot_of_mulEquiv {A B : Type} [Group A] [Group B
 private theorem wc85ex_center_eq_bot_of_isSpGp {L : Type} [Group L] {m n : ℕ}
     (hL : IsSpGp L m n) : Subgroup.center L = ⊥ := by
   obtain ⟨k, -, F, hFld, hFin, hFcard, ⟨e⟩⟩ := hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hFcard)
   have hcenter : Subgroup.center (↥(StatedSp k F)) = ⊥ := by
     rw [CFSG.LieType.Universal.Symplectic.center_eq,
@@ -44,7 +44,7 @@ private theorem wc85ex_center_eq_bot_of_isPSUGp {L : Type} [Group L] {m n : ℕ}
   obtain ⟨-, hn1, hm3, hne⟩ := hadm
   obtain ⟨⟨-, -, -, -⟩, K, hKf, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm3' : 3 ≤ m := by omega
   have hsimple : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hKcard m hm3' hne
@@ -53,12 +53,12 @@ private theorem wc85ex_center_eq_bot_of_isPSUGp {L : Type} [Group L] {m n : ℕ}
   have hperfSU : Group.IsPerfect (StatedSU m (2 ^ n) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := n) hKcard (n := m) hm3' hne
   have hperf : Group.IsPerfect (StatedProj (StatedSU m (2 ^ n) K)) := by
-    haveI := hperfSU
+    have := hperfSU
     exact Group.IsPerfect.ofSurjective
       (f := QuotientGroup.mk' ((StatedScalars (Fin m) K).subgroupOf (StatedSU m (2 ^ n) K)))
       (QuotientGroup.mk'_surjective _)
-  haveI := hntriv
-  haveI := hperf
+  have := hntriv
+  have := hperf
   have hcenterP : Subgroup.center (StatedProj (StatedSU m (2 ^ n) K)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (StatedProj (StatedSU m (2 ^ n) K))) with h | h
@@ -226,7 +226,7 @@ theorem exists_rootData (hLie : SpPSULieFacts) (hRU : UnitaryRootCommutatorRank)
         IsUnitaryRootGroup X m n (barSub (kGenIn V H) φ V))) :
     ∃ (S : Type) (_ : Group S) (_ : Finite S) (ψ : ↥(kGenIn V H) →* S) (ρ : ↥H →* MulAut S)
       (R Sy : Subgroup S) (e : ℕ), RootData V H T S ψ ρ R Sy e := by
-  haveI : Finite X := d.finite
+  have : Finite X := d.finite
   obtain ⟨ρX, hρX⟩ := wc85ex_exists_action_H d.hyp83 d.eq_sup d.bar
   have hρXcenter : ∀ (u : ↥H) (x : X),
       (QuotientGroup.mk' (Subgroup.center X)) x = 1 →

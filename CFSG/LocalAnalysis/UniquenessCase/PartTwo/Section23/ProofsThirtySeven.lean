@@ -18,9 +18,9 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem IsInnerCartanOnL.exists_mem_orderOf_eq {K A L T : Subgroup G} {m r : ℕ}
-    (hA : IsInnerCartanOnL A K L T m) (hm1 : m ≠ 0)
+    (hA : IsInnerCartanOnL A K L T m) (_hm1 : m ≠ 0)
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ m - 1) : ∃ a ∈ A, orderOf a = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hAcard : Nat.card A = 2 ^ m - 1 := hA.2.2.1
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) r (by rw [hAcard]; exact hrdvd)
   exact ⟨a, a.2, by rw [Subgroup.orderOf_coe]; exact ha⟩
@@ -28,7 +28,7 @@ theorem IsInnerCartanOnL.exists_mem_orderOf_eq {K A L T : Subgroup G} {m r : ℕ
 theorem Ctx23L.exists_mem_B0_orderOf_eq {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (h1930 : H1930 D) (h52 : S23_5_2 D Ch) {m r : ℕ} (hmdvd : m ∣ CFSG.Open.pRank 2 D.Z)
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ m - 1) : ∃ b ∈ c.B0, orderOf b = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hmn : CFSG.Open.pRank 2 D.Z ∣ c.n := by
     rcases h52 h1930 c with h | ⟨-, -, h⟩
     · rw [← h]
@@ -47,7 +47,7 @@ theorem Ctx23L.inf_zpowers_eq_bot_of_le_centralizer {D : Data G} {Ch : Choice201
     (c : Ctx23L D Ch) (h1930 : H1930 D) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
     {K A : Subgroup G} (hAK : A ≤ K) (hKCZ : K ≤ Subgroup.centralizer (D.Z : Set G))
     {a b : G} (haA : a ∈ A) (hbB0 : b ∈ c.B0) {r : ℕ} (hr : r.Prime)
-    (har : orderOf a = r) (hbr : orderOf b = r) :
+    (_har : orderOf a = r) (hbr : orderOf b = r) :
     Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -106,7 +106,7 @@ theorem Ctx23L.cartan_conclusion_of_isL2_four {D : Data G} {Ch : Choice2011 G}
       ⁅CFSG.Quasithin.opResidual 3 c.B, K⁆ ≤ CFSG.Open.pCoreOf 2 K := by
   have h5 : CFSG.Blueprint.LieModel (Bar2 K) .PSL 2 5 1 :=
     CFSG.ComponentClassification.CatLeafProof.X10CNE.lieModel_psl_two_five_of_four hK4
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hK4
   have hcenter : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hK.2.2
   obtain ⟨e⟩ : Nonempty (BarInf K ≃* Bar2 K) :=

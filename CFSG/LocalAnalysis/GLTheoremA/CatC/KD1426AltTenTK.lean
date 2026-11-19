@@ -13,6 +13,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD1426AltTenTK
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem lift_T {K B : Subgroup Y} (hK : K.Normal) (hB : CFSG.Open.IsElemAbelian 3 B)
     (π : ↥K ≃* alternatingGroup (Fin 10))
     (ψ : ↥B →* alternatingGroup (Fin 10))

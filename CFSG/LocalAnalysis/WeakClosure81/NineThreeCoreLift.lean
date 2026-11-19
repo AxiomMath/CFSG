@@ -45,7 +45,7 @@ theorem nine3_exists_lift (hc : Nine3Choice V T A K S X p g x)
   have hjK : j ∈ K := hc.core.S_le_K hjS
   obtain ⟨ρ, hρ⟩ := nine3_exists_fibreAct hc
   have hm : 0 < Nat.card ↥(nineOmegaIn V K S) := by
-    haveI : Nonempty ↥(nineOmegaIn V K S) := ⟨⟨A, hc.core.A_mem_nineOmegaIn⟩⟩
+    have : Nonempty ↥(nineOmegaIn V K S) := ⟨⟨A, hc.core.A_mem_nineOmegaIn⟩⟩
     exact Nat.card_pos
   have hfr : Nine3OddFrame 3 (Nat.card ↥(nineOmegaIn V K S))
       (nine3Pi V K ρ hρ.le_ker) (Nine3Dbar V K) := nine3_oddFrame hc hI hρ
@@ -75,7 +75,7 @@ theorem nine3_exists_lift (hc : Nine3Choice V T A K S X p g x)
     have hphi := hφ_val u h' rfl
     rw [← hdu, hphi, QuotientGroup.eq, Subgroup.mem_subgroupOf]
     have hcoe : ((h' : G)⁻¹ * (u : G)) = ⁅j, (u : G)⁻¹⁆ := by
-      simp only [h', Subgroup.coe_mk, commutatorElement_def]
+      simp only [h', commutatorElement_def]
       group
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv, hcoe] using hcommI
   obtain ⟨s, hs, hsconj⟩ := nine3OddFrame_aut_eq_conj hfr hm 0 hφinj hφD hfix
@@ -121,7 +121,7 @@ theorem nine3_exists_lift (hc : Nine3Choice V T A K S X p g x)
       rw [h2, hz_eq']
       have hz1 : (z * hbar * z⁻¹ : ↥(nineH V K)) = b1 := by
         apply Subtype.ext
-        simp only [b1, hbar, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+        simp only [b1, hbar, Subgroup.coe_mul, Subgroup.coe_inv]
       calc (QuotientGroup.mk z : Nine3Hbar V K) * QuotientGroup.mk hbar *
             (QuotientGroup.mk z)⁻¹
           = QuotientGroup.mk (z * hbar * z⁻¹) := by
@@ -143,8 +143,7 @@ theorem nine3_exists_lift (hc : Nine3Choice V T A K S X p g x)
         exact hmemI)
     rw [show ⁅(z : G)⁻¹ * j, h⁆ =
         (z : G)⁻¹ * ((j1 * b1⁻¹ : ↥(nineH V K)) : G) * (z : G) by
-      simp only [j1, b1, hbar, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-        commutatorElement_def]
+      simp only [j1, b1, Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
       group]
     exact hconjI
   let J : Subgroup G := ⨆ B ∈ nineOmegaIn V K S, B ⊓ pCoreOf 2 K

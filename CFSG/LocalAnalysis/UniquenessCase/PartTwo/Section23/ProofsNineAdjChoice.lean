@@ -215,7 +215,7 @@ private theorem adjP_normalizer (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       Subgroup.normalizer
         ((adjP c hV d hKM hKL : Subgroup ↥(c.H hV)) : Set ↥(c.H hV)) := by
   rw [← range_comp_inclusion_eq_map c hV hKL]
-  haveI hNf : ((adjN c d hKM).map
+  have hNf : ((adjN c d hKM).map
       ((c.phiL hV).comp (Subgroup.inclusion hKL)).rangeRestrict).Normal :=
     (adjN_normal c d hKM).map _
       (MonoidHom.rangeRestrict_surjective _)
@@ -248,7 +248,7 @@ private theorem adjR_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n)
     (hKL : Hinf (D.M ⊓ c.L) ≤ c.L) :
     Group.IsSolvable ↥(adjR c hV hKL) := by
-  haveI : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
+  have : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
   dsimp only [adjR]
   let g : ↥(((c.phiL hV).comp (Subgroup.inclusion hKL)).ker) →*
       ↥(c.phiL hV).ker :=
@@ -273,8 +273,8 @@ theorem not_barImage_le_ker_or_of_generate (c : Ctx23L D Ch) (hV : IsElemAbelian
     (hnot : ¬ barImage D.M (Hinf (D.M ⊓ c.L)) ≤ d.rep.ker) (hK : KOrdNatural)
     {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n)
     {X₁ X₂ : Subgroup ↥(c.H hV)}
-    (hX₁ : X₁ ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
-    (hX₂ : X₂ ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
+    (_hX₁ : X₁ ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
+    (_hX₂ : X₂ ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
     (hgen : ∀ N ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV),
       ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) ≤
         Subgroup.normalizer (N : Set ↥(c.H hV)) → X₁ ≤ N → X₂ ≤ N →
@@ -306,7 +306,7 @@ theorem not_barImage_le_ker_or_of_generate (c : Ctx23L D Ch) (hV : IsElemAbelian
   have htop := adj_sup_ker_eq_top c hV d hKM hKL hP_eq
   have hKperfect : Group.IsPerfect ↥(Hinf (D.M ⊓ c.L)) :=
     Subgroup.isPerfect_iff.mpr (by simpa using c.Hinf_inf_L_perfect)
-  haveI : (adjN c d hKM).Normal := adjN_normal c d hKM
+  have : (adjN c d hKM).Normal := adjN_normal c d hKM
   have hNtop : adjN c d hKM = ⊤ :=
     CFSG.LieType.TitsSimplicity.eq_top_of_sup_eq_top (B := adjR c hV hKL)
       (M := adjN c d hKM) hKperfect (adjR_isSolvable c hV hK hnat hKL) htop

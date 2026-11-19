@@ -110,7 +110,7 @@ private theorem main_lie_case
     (hA3 : p ^ 3 ≤ Nat.card A) :
     4 ≤ CFSG.Open.pRank q Q ∧
       CFSG.HardMathSupport.Solomon.Coordinator.coreIn q 3 Q ⊤ = ⊤ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqZ : ¬ q ∣ Nat.card (Subgroup.center H) := by
     intro hqZ
     have hcase := GL83.I243.CoverList.lie_case hGA hH hq hq2 hqZ d e
@@ -184,10 +184,9 @@ theorem coreFact_of_parts (hGA : CFSG.Open.GriessAllModelsStatement)
       CFSG.AGLEmbedding.IsDIndex d ∨ CFSG.AGLEmbedding.IsTwistedDIndex d ∨
       CFSG.AGLEmbedding.IsExceptionalIndex d)
     (hRank : CoreRankFour) (hExcl : CorePrimeExcl) (hVac : CoreSmallVac) : CoreFact := by
-  intro p q hp hp2 hq hq2 hqp H
-  intro gH fH hH hChev hnotR1 hA _hnotU3 Q hQ hQcard
-  letI : Group H := gH
-  letI : Finite H := fH
+  intro p q hp hp2 hq hq2 hqp H gH fH hH hChev hnotR1 hA _hnotU3 Q hQ hQcard
+  let : Group H := gH
+  let : Finite H := fH
   obtain ⟨A, hAab, hA3⟩ := hA
   set S : Type := H ⧸ Subgroup.center H with hS
   have hChev' : IsChevSimple q S := hChev

@@ -103,9 +103,9 @@ theorem exists_generator
     have hpne : p ≠ 1 := hp.ne_one
     exact hpne hr.symm
   have hScard := TwoPrimeCycleSubgroup.card_eq_prime p f hp hp13 hf P hcard h5 hnotAlt
-    (S : Subgroup P) S.isPGroup' hSne
+    (S : Subgroup P) S.isPGroup hSne
   have hSfixed := TwoPrimeCycleSubgroup.fixed_card p f hp hp13 hf P hcard h5 hnotAlt
-    (S : Subgroup P) S.isPGroup' hSne
+    (S : Subgroup P) S.isPGroup hSne
   have heq : zpowers r = (S : Subgroup P) := Subgroup.eq_of_le_of_card_ge hRS (by
     rw [Nat.card_zpowers,hr,hScard])
   refine ⟨r,hr,TwoPrimeCycleSubgroup.order_prime_cycle_type p f hp hp13 hf P hcard h5 hnotAlt r hr,?_,?_⟩

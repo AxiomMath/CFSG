@@ -75,7 +75,7 @@ private theorem isTransvec_of_mem_Sone {s : SL(6, ZMod 2)} (hs : s ∈ Sone) (h1
     by_cases hi : i = 0
     · subst hi; simp [Matrix.sub_apply, Matrix.vecMulVec_apply]
     · have h2 : (Pi.single (0 : Fin 6) (1 : ZMod 2) : Fin 6 → ZMod 2) i = 0 := by
-        rw [Pi.single_apply, if_neg hi]
+        rw [Pi.single_apply, ite_eq_right hi]
       rw [Matrix.sub_apply, Matrix.vecMulVec_apply, h2, hrest i j hi, Matrix.one_apply]
       by_cases hij : i = j <;> simp [hij]
   rw [hmat]
@@ -100,7 +100,7 @@ private theorem isTransvec_of_mem_Ssix {s : SL(6, ZMod 2)} (hs : s ∈ Ssix) (h1
     by_cases hj : j = 5
     · subst hj; simp [Matrix.sub_apply, Matrix.vecMulVec_apply]
     · have h2 : (Pi.single (5 : Fin 6) (1 : ZMod 2) : Fin 6 → ZMod 2) j = 0 := by
-        rw [Pi.single_apply, if_neg hj]
+        rw [Pi.single_apply, ite_eq_right hj]
       rw [Matrix.sub_apply, Matrix.vecMulVec_apply, h2, hrest i j hj, Matrix.one_apply]
       by_cases hij : i = j <;> simp [hij]
   rw [hmat]
@@ -142,9 +142,9 @@ private theorem mem_Sone_or_mem_Ssix_of_isTransvec {s : SL(6, ZMod 2)} (hs : s �
       have hi5ne : i ≠ (5 : Fin 6) := fun h => by
         have := congrArg Fin.val h; simp at this; omega
       have h0j : (s : Matrix (Fin 6) (Fin 6) (ZMod 2)) 0 j = p 0 * q j := by
-        rw [hs_ij 0 j, Matrix.one_apply, if_neg hj0, zero_add]
+        rw [hs_ij 0 j, Matrix.one_apply, ite_eq_right hj0, zero_add]
       have hi5 : (s : Matrix (Fin 6) (Fin 6) (ZMod 2)) i 5 = p i * q 5 := by
-        rw [hs_ij i 5, Matrix.one_apply, if_neg hi5ne, zero_add]
+        rw [hs_ij i 5, Matrix.one_apply, ite_eq_right hi5ne, zero_add]
       have hp0 : p 0 ≠ 0 := fun hh => huj (by rw [h0j, hh, zero_mul])
       have hqj : q j ≠ 0 := fun hh => huj (by rw [h0j, hh, mul_zero])
       have hpi : p i ≠ 0 := fun hh => hvi (by rw [hi5, hh, zero_mul])

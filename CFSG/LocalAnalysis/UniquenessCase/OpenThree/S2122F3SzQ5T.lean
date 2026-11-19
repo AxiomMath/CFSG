@@ -136,7 +136,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s21_22R3F3SzQ5T_dataOfSetup
     (hS : Standing G) (hUC : CFSG.Open.rankThreeUC G)
-    (hC : AGL81TheoremC G) (S : Setup G) (hMS : S.InMSigma) :
+    (hC : AGL81TheoremC G) (S : Setup G) (_hMS : S.InMSigma) :
     S21_22R3F3SzQ5T (PartTwo.Three.dataOfSetup hS S) (fun _ _ => True) := by
   have h66 := PartTwo.Three.r6_6_dataOfSetup hS hUC hC S
   have h201 := s20_1_124 _ h66 listBNonabelian

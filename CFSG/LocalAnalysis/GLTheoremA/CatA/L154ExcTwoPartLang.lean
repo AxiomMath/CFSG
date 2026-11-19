@@ -178,8 +178,8 @@ theorem l154_twoPart_untw_lang {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup 
   obtain ⟨τ, K, _, _, e, k, θ, φx, φy, h, T, hτ, hchar, he, hK, hT, hperf, -, hhp, hfix, hhL,
     hk, hφx, hφy, hindx, hindy⟩ :=
     excUntw_marking_data Nat.prime_three (by norm_num) hQ hxp hyp hxy hInn hF
-  haveI := hchar
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
+  have := hchar
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv _ θ.toEquiv
   have hh1 : h ≠ 1 := by
     rintro rfl
     exact hcm (l154_centMod_of_conj_one hqS hxN θ φx hφx hindx)
@@ -216,8 +216,8 @@ theorem l154_twoPart_twE6_lang {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup 
   have hxN := l154_mem_normalizer_of_normal hSn x
   obtain ⟨K, _, _, e, k, σ₀, θ, φx, φy, h, T, hchar, he, hK, hσ₀, hT, hh, hhp, hfix, hk, hφx,
     hφy, hindx, hindy⟩ := excTwE6_marking_data Nat.prime_three (by norm_num) hQ hxp hyp hxy hInn hF
-  haveI := hchar
-  haveI : Finite ↥(twistedE6RootGroup K σ₀) := Finite.of_equiv _ θ.toEquiv
+  have := hchar
+  have : Finite ↥(twistedE6RootGroup K σ₀) := Finite.of_equiv _ θ.toEquiv
   have hh1 : h ≠ 1 := by
     rintro rfl
     exact hcm (l154_centMod_of_conj_one hqS hxN θ φx hφx hindx)

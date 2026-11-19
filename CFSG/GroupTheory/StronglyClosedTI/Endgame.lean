@@ -34,6 +34,7 @@ private noncomputable def conjHom (Y : Subgroup G) : G →* MulAut (GoldQuot Y) 
   MonoidHom.mk' (conjQuot (normalClosure_normal (s := (Y : Set G))))
     (conjQuot_mul (normalClosure_normal (s := (Y : Set G))))
 
+omit [Finite G] in
 private theorem isMulCommutative_of_mul_self {Y : Subgroup G} (hY2 : ∀ y ∈ Y, y * y = 1) :
     IsMulCommutative Y := by
   refine ⟨⟨fun a b => ?_⟩⟩
@@ -45,7 +46,7 @@ private theorem isMulCommutative_of_mul_self {Y : Subgroup G} (hY2 : ∀ y ∈ Y
 private theorem oddImage_normal_odd (Y : Subgroup G) :
     (oddImage Y).Normal ∧ Odd (Nat.card (oddImage Y)) := by
   constructor
-  · haveI : (goldschmidtOddCore ↥(normalClosure (Y : Set G))).Characteristic := by
+  · have : (goldschmidtOddCore ↥(normalClosure (Y : Set G))).Characteristic := by
       rw [Subgroup.characteristic_iff_map_eq]
       intro φ
       exact oddCore_map_mulEquiv' φ
@@ -96,7 +97,7 @@ private theorem center_goldQuot_eq_bot {Y : Subgroup G} (hP : CFSG.pCore 2 (Gold
 
 private theorem nontrivial_goldQuot {Y : Subgroup G} (hY2 : ∀ y ∈ Y, y * y = 1)
     (hY4 : 4 ≤ Nat.card Y) : Nontrivial (GoldQuot Y) := by
-  haveI : Nontrivial Y := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Y := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨⟨y, hy⟩, hy1⟩ := exists_ne (1 : Y)
   have hyM : y ∈ normalClosure (Y : Set G) := subset_normalClosure hy
   refine nontrivial_of_ne
@@ -115,6 +116,7 @@ private theorem nontrivial_goldQuot {Y : Subgroup G} (hY2 : ∀ y ∈ Y, y * y =
   rw [hcop, Nat.dvd_one, orderOf_eq_one_iff] at h1
   exact hy1 (Subtype.ext (by simpa using congrArg Subtype.val h1))
 
+omit [Finite G] in
 private theorem goldImage_mul_self {Y : Subgroup G} (hY2 : ∀ y ∈ Y, y * y = 1) :
     ∀ a ∈ goldImage Y, a * a = 1 := by
   rintro _ ⟨y, hy, rfl⟩
@@ -171,7 +173,7 @@ private theorem goldQuot_simple (hGold : GoldschmidtTheoremA) (hO2 : CFSG.pCore 
   have hP := pCore_goldQuot_eq_bot hO2 hY2 hY4 hTI
   have hZ := center_goldQuot_eq_bot hP
   obtain ⟨hL, ⟨T, hT⟩, hK⟩ := gold_facts hGold S hYS hY2 hsc hP
-  haveI := nontrivial_goldQuot hY2 hY4
+  have := nontrivial_goldQuot hY2 hY4
   have htop := isComponent_top hL hZ (oddCore_goldQuot Y) T (goldImage_mul_self hY2) hT
     (goldImage_TI hY2 hY4 hTI)
   obtain ⟨e⟩ := nonempty_mulEquiv_quotient_center_top hZ

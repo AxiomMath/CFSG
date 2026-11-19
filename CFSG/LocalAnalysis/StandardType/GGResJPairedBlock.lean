@@ -365,6 +365,7 @@ theorem psi_ker_le_center
   rw [hcomp, CFSG.GroupTheory.ker_conj_eq_center,
     CFSG.LocalCores.comap_center_eq_of_perfect hperf φ hφ hker]
 
+omit [Finite G] [CharP K 2] in
 theorem eq_of_conj_phi_eq
     (hφc : ∀ x, φ x ∈ Subgroup.center ↥J →
       x ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K))
@@ -1480,6 +1481,7 @@ theorem card_gamma_nine_of_GGResHyp
   rw [hsub]
   simpa using h
 
+omit [Fact (Nat.Prime 3)] in
 theorem exists_actual_oppositeLinear_cover_of_marking_of_sections
     {B : Subgroup G} {x : G} {L D : Subgroup G} {y : G} {Ksub : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y Ksub)
@@ -1510,10 +1512,10 @@ theorem exists_actual_oppositeLinear_cover_of_marking_of_sections
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, _hsimple, _hna, θ, _hEq, _hBsN, hAI⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : CharP F 2 := by
+    have : Fintype F := Fintype.ofFinite F
     refine charP_of_card_eq_prime_pow (p := 2) (f := f) ?_
     rwa [← Nat.card_eq_fintype_card]
   let d : ℕ := r + 1
@@ -1563,7 +1565,7 @@ theorem exists_actual_oppositeLinear_cover_of_marking_of_sections
       intro l
       have hrel : ((a l : ↥J) : G) =
           ((b : ↥Bs) : G)⁻¹⁻¹ * (l : G) * ((b : ↥Bs) : G)⁻¹ := by
-        simp [a, bN, normalizerMonoidHom_coe]
+        simp [a, bN]
       have hstep : φb (θ (QuotientGroup.mk l)) = θ (QuotientGroup.mk (a l)) :=
         hφbind l (a l) hrel
       calc
@@ -1598,6 +1600,7 @@ theorem exists_actual_oppositeLinear_cover_of_marking_of_sections
     exact ⟨θ'⟩
   exact ⟨F, hFfield, hFfinite, inferInstance, hFcard, hFsign, φ, hφsurj, hkerφ, hYact, hHas⟩
 
+omit [Fact (Nat.Prime 3)] in
 theorem exists_actual_oppositeLinear_cover_of_marking
     {B : Subgroup G} {x : G} {L D : Subgroup G} {y : G} {Ksub : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y Ksub)
@@ -1745,10 +1748,10 @@ theorem _root_.CFSG.StandardType.GGResHyp.actual_J_not_oppositeLinear_for_A3
     obtain ⟨-, -, θ', -⟩ := hQ'
     exact ⟨θ'⟩
   obtain ⟨E, hEa, hEcard⟩ := GGResHyp.exists_coroot_quotient_of_A3 hH hD
-  haveI : Group.IsPerfect ↥J := ⟨hperfJ⟩
+  have : Group.IsPerfect ↥J := ⟨hperfJ⟩
   have h3rank : 3 ≤ rank :=
     ggSmallThreeRank_linear_rank_three_of_elemAbelian (H := ↥J)
-      (lab := ⟨.A, rank, n⟩) hΛ hHas hEa (by simpa [hEcard]) (Or.inl rfl)
+      (lab := ⟨.A, rank, n⟩) hΛ hHas hEa (by simp [hEcard]) (Or.inl rfl)
   have hrank5 : 5 ≤ rank := by
     by_contra h
     have hrankle : rank ≤ 4 := by omega
@@ -1767,7 +1770,7 @@ theorem _root_.CFSG.StandardType.GGResHyp.actual_J_not_oppositeLinear_for_A3
       (lab := ⟨.A, rank, n⟩) (Or.inl ⟨rfl, le_trans (by norm_num : 2 ≤ 3) h3rank⟩) hpe
     exact not_ggHasLabel_of_elemAbelian_of_labelAll_bound
       (H := ↥J) (lab := ⟨.A, rank, n⟩)
-      hHas hall hEa (by simpa [hEcard])
+      hHas hall hEa (by simp [hEcard])
   have hMarkLab : GGInnerDiagOnLabel
       (fun _ l => l = (⟨.A, rank, n⟩ : LargeEvenLabel)) 3 Bs J := by
     refine ⟨hperfJ, ⟨.A, rank, n⟩, hΛ, ?_⟩
@@ -1778,9 +1781,9 @@ theorem _root_.CFSG.StandardType.GGResHyp.actual_J_not_oppositeLinear_for_A3
   obtain ⟨F, hFfield, hFfinite, hFchar, hFcard, hFsign, φ, hφsurj, hkerφ, hYact, _hHas'⟩ :=
     CFSG.StandardType.ResJPairedBlock.ActualA.exists_actual_oppositeLinear_cover_of_marking
       (hH := hH) (hMark := hMarkLab) (h3f := h3n) (h5 := by omega)
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   exact CFSG.StandardType.ResJPairedBlock.ActualA.not_lineJDatum_A3_of_GGResHyp_of_paired_gl_action
     (K := F) (n := rank + 1) hH φ hφsurj hkerφ (by omega) hFsign hYact hD
 
@@ -1796,12 +1799,14 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   {n : ℕ} {G : Type} [Group G] [Finite G]
   {J Bs : Subgroup G}
 
+omit [CharP K 2] in
 private theorem not_three_dvd_center_specialLinear
     (hn3 : 3 ≤ n) (hpK : ¬ 3 ∣ Nat.card K - 1) :
     ¬ 3 ∣ Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K)) := by
   intro h
   exact hpK (h.trans (card_center_specialLinear_dvd (K := K) (d := n) (by omega)))
 
+omit [CharP K 2] in
 theorem not_three_dvd_center_J_of_pairedCover
     (φ : Matrix.SpecialLinearGroup (Fin n) K →* ↥J)
     (hφ : Function.Surjective φ)
@@ -1828,8 +1833,8 @@ theorem not_three_dvd_center_J_of_pairedCover
 
 theorem three_dvd_card_add_one_exact
     (hpK : ¬ 3 ∣ Nat.card K - 1) : 3 ∣ Nat.card K + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hsplit : 3 ∣ 2 ^ (m : ℕ) - 1 ∨ 3 ∣ 2 ^ (m : ℕ) + 1 := by
     have h1 : 1 ≤ 2 ^ (m : ℕ) := Nat.one_le_two_pow
@@ -1842,6 +1847,7 @@ theorem three_dvd_card_add_one_exact
   · exact absurd (by simpa [hm] using h) hpK
   · simpa [hm] using h
 
+omit [Finite G] in
 private theorem signedEltSC_J_of_pairedCover_exact
     (φ : Matrix.SpecialLinearGroup (Fin n) K →* ↥J)
     (hφ : Function.Surjective φ)
@@ -1857,6 +1863,7 @@ private theorem signedEltSC_J_of_pairedCover_exact
   exact ggKGLn_signedEltSC_of_centralQuotient Nat.prime_three φ hφ hker
     (not_three_dvd_center_specialLinear hn3 hpK) hSL
 
+omit [Finite G] in
 theorem weylAut_eq_automizer_of_weyl
     {A : Subgroup (MulAut ↥J)}
     (hW : ∀ n : ↥J, MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut ↥J)) →
@@ -1916,7 +1923,7 @@ theorem exact_automizer_of_frame
     signedEltSC_J_of_pairedCover_exact (J := J) φ hφ hker hn3 hpK
   have hSignedR : GGTorusSignedEltSC 3 R :=
     ggKGLn_signedEltSC_of_centralQuotient Nat.prime_three qZ hqZ hkerZ hcpJ hSignedJ
-  haveI : Group.IsPerfect ↥J := ⟨hJperf⟩
+  have : Group.IsPerfect ↥J := ⟨hJperf⟩
   have hZR : Subgroup.center R = ⊥ := by
     dsimp [R]
     exact Group.IsPerfect.center_quotient_center_eq_bot ↥J
@@ -1940,7 +1947,7 @@ theorem exact_automizer_of_frame
     MulEquiv.ofBijective F hFbij
   have hcardA : Nat.card ↥A = 3 ^ s := by
     rw [← Nat.card_congr Θframe.toEquiv]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hA : IsElemAbelian 3 A :=
     isElemAbelian_gammaRange (hN := hN) (φ := φ) (A₀ := A₀) (ε := ε)
       (hC := hC) (hCp := hCp) hframeA
@@ -1965,7 +1972,7 @@ theorem exact_automizer_of_frame
       (L' := ↥J) hqZ hkerZ hJperf hcpJ hA hAI h3 hsc
   have hcardAk : Nat.card ↥A = 3 ^ k := by
     rw [← Nat.card_congr Θ.toEquiv]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hpow : 3 ^ k = 3 ^ s := by rw [← hcardAk, hcardA]
   have hks : k = s := Nat.pow_right_injective (by norm_num : 2 ≤ 3) hpow
   subst k
@@ -2018,7 +2025,7 @@ theorem not_lineJDatum_A2_of_actual_oppositeLinear_cover
           ((φ (CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation n F Y h) : ↥J) : G))
     (hCardA : 9 ≤ Nat.card (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hZ : Nat.card ↥(Bs ⊓ J ⊓ Subgroup.centralizer (J : Set G)) ≤ 3 := by
     let E : Subgroup G := Bs ⊓ J ⊓ Subgroup.centralizer (J : Set G)
@@ -2055,7 +2062,7 @@ theorem not_lineJDatum_A2_of_actual_oppositeLinear_cover
     change Nat.card E ≤ 3
     omega
   obtain ⟨g, hg, hgd⟩ := LineL2.exists_irreducible_factor_cyclotomic_three F
-  letI : Fact (Irreducible g) := ⟨hg⟩
+  let : Fact (Irreducible g) := ⟨hg⟩
   have hp3 : ((3 : ℕ) : F) ≠ 0 :=
     TableBSymp.natCast_ne_zero_of_charTwo Nat.prime_three (by norm_num)
   have hC : (CoordSL.rootMat g).det = 1 :=
@@ -2081,9 +2088,9 @@ theorem actual_J_not_opposite_linear_for_A2_highDegree
   obtain ⟨F, hFfield, hFfinite, hFchar, _hFcard, hFsign, φ, hφsurj, hkerφ, hYact, _hHas⟩ :=
     exists_actual_oppositeLinear_cover_of_marking (hH := hH) (hMark := hMark)
       (h3f := h3n) (h5 := h5)
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   have hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hCardA : 9 ≤ Nat.card (ggGamma J hN).range := card_gamma_nine_of_GGResHyp hN hH
   exact not_lineJDatum_A2_of_actual_oppositeLinear_cover hH hD φ hφsurj hkerφ
@@ -2114,9 +2121,9 @@ theorem actual_J_not_opposite_linear_for_A2_degree4_gt_two
           rw [hFcard] at h3
           have h2dvd : 2 ∣ 2 ^ n := dvd_pow_self 2 (by omega)
           omega)
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   have hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hCardA : 9 ≤ Nat.card (ggGamma J hN).range := card_gamma_nine_of_GGResHyp hN hH
   exact not_lineJDatum_A2_of_actual_oppositeLinear_cover hH hD φ hφsurj hkerφ
@@ -2130,7 +2137,7 @@ theorem rank_ge_three_of_oppositeLinear_of_marking
       (fun _ lab => lab = (⟨.A, rank, n⟩ : LargeEvenLabel)) 3 Bs J)
     (h3n : 3 ∣ 2 ^ n + 1) : 3 ≤ rank := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hrank3
   have hrankle : rank ≤ 2 := by omega
   obtain ⟨hJperf, lab, hΛ, hraw⟩ := hMark
@@ -2140,10 +2147,10 @@ theorem rank_ge_three_of_oppositeLinear_of_marking
   dsimp only [LargeEvenInLambda2] at hΛ
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hraw
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rw [← Nat.card_eq_fintype_card]
     exact hKcard
@@ -2293,7 +2300,7 @@ private theorem exists_alt8_and_center_two_of_A3_one
     {Bs : Subgroup G} {J : Subgroup G}
     (hMark : GGInnerDiagOnLabel
       (fun _ lab => lab = (⟨.A, 3, 1⟩ : LargeEvenLabel)) 3 Bs J) :
-    ∃ eJ : (↥J ⧸ Subgroup.center ↥J) ≃* alternatingGroup (Fin 8),
+    ∃ _eJ : (↥J ⧸ Subgroup.center ↥J) ≃* alternatingGroup (Fin 8),
       IsPGroup 2 (Subgroup.center ↥J) := by
   classical
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
@@ -2322,7 +2329,7 @@ private theorem exists_alt8_and_center_two_of_A3_one
       (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess A8).toEquiv]
     exact hcardH
   have hcommA8 : commutator A8 = ⊤ := by
-    haveI : Group.IsPerfect A8 :=
+    have : Group.IsPerfect A8 :=
       ⟨commutator_alternatingGroup_eq_top (by norm_num)⟩
     exact Group.IsPerfect.commutator_eq_top
   have hTwo : CFSG.OddTranspositions.PartThree.CentralKernelTwoGroup A8 :=
@@ -2354,7 +2361,7 @@ private theorem center_le_twoCenter_of_isPGroup_two
     have hk' : orderOf c = 2 ^ k := by
       rw [← Subgroup.orderOf_mk c hc]
       exact hk
-    haveI : Fintype ↥J := Fintype.ofFinite _
+    have : Fintype ↥J := Fintype.ofFinite _
     have hdvdJ : orderOf c ∣ Nat.card ↥J := by
       simpa only [Nat.card_eq_fintype_card] using
         orderOf_dvd_card (G := ↥J) (x := c)
@@ -2382,7 +2389,7 @@ theorem actual_J_not_opposite_linear_for_A2_qTwo
     (hMark : GGInnerDiagOnLabel
       (fun _ lab => lab = (⟨.A, 3, 1⟩ : LargeEvenLabel)) 3 Bs J) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eJ, hZ2⟩ := exists_alt8_and_center_two_of_A3_one hMark
   let N : Subgroup G := Subgroup.normalizer (J : Set G)
   have hN : Bs ≤ N := GGResHyp.Bs_le_normalizer_J hH
@@ -2417,7 +2424,7 @@ theorem actual_J_not_opposite_linear_for_A2_qTwo
     CFSG.Quasithin.H13.Lem8.center_eq_bot_of_mulEquiv eJbar
       (CFSG.Quasithin.H13.Lem8.center_alternatingGroup_eq_bot (by norm_num))
   have hNbar : Bbar ≤ Subgroup.normalizer (Jbar : Set (RedGrp J)) := by
-    haveI : Jbar.Normal := redL_normal (L := J)
+    have : Jbar.Normal := redL_normal (L := J)
     intro z _
     rw [Subgroup.normalizer_eq_top Jbar]
     exact Subgroup.mem_top z
@@ -2578,6 +2585,7 @@ theorem actual_J_not_opposite_linear_for_A2_qTwo
   exact hndvd h3AInn
 
 
+omit [Finite G] in
 private theorem exists_exactMarking_of_A_marking
     {Bs : Subgroup G} {J : Subgroup G}
     (hMark : GGInnerDiagOnLabel
@@ -2844,7 +2852,7 @@ theorem ggResLineJLabelInput_A3 :
         ggResLineJLabel .A3 lab ∧ GGHasLabel lab (J ⧸ Subgroup.center J) := by
   intro G _instG _finG p B Bs x L D J y K hH hFact hp hD
   subst hp
-  letI : Fact (Nat.Prime 3) := hFact
+  let : Fact (Nat.Prime 3) := hFact
   obtain ⟨lab0, hΛ0, hHas0, hMark0⟩ := GGResHyp.exists_J_compatible_marking hH
   exact exists_lineJLabel_A3_of_actual_label hH hD lab0 hΛ0 hHas0 hMark0
 

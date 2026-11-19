@@ -55,7 +55,7 @@ theorem card_inf_centralizer_mul_card_le [Finite F] [CharP F 2]
     Nat.card ↥(lowRad σ m ⊓ Subgroup.centralizer {g}) * Nat.card F ≤
       Nat.card ↥(lowRad σ m) := by
   classical
-  haveI : Finite (SU σ m) :=
+  have : Finite (SU σ m) :=
     Finite.of_injective (mat σ m) (mat_injective (σ := σ) (n := m))
   have hP : lowPart σ m g * lowPart σ m g = 1 := lowPart_mul_self_eq_one hσ hgN hgg
   have hP1 : lowPart σ m g ≠ 1 := lowPart_ne_one hgN hne

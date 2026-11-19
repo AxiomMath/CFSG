@@ -68,7 +68,7 @@ theorem flOf_injective : Function.Injective flOf := by
   exact ZMod.val_injective 5 (by exact_mod_cast h1)
 
 theorem flOf_zero : flOf (0 : Fin 4 → ZMod 5) = List.replicate 4 0 := by
-  simp [flOf, List.ofFn_const]
+  simp [flOf]
 
 theorem pivot5_lt_four (f : Fin 4 → ZMod 5) : pivot5 (flOf f) < 4 := by
   unfold pivot5
@@ -88,7 +88,7 @@ theorem val_keyV (f g : Fin 4 → ZMod 5) (i : Fin 4) :
   have h : keyV f g i =
       ((((g i).val : ℤ) - ((g (pv f)).val : ℤ) * ((f i).val : ℤ) : ℤ) : ZMod 5) := by
     simp [keyV]
-  rw [h, ZMod.val_intCast] <;> rfl
+  rw [h, ZMod.val_intCast]; rfl
 
 theorem key5_flOf (f g : Fin 4 → ZMod 5) : key5 (flOf f) (flOf g) = flOf (keyV f g) := by
   refine List.ext_getElem (by simp [key5, length_flOf]) fun k h1 h2 => ?_
@@ -123,7 +123,7 @@ theorem rr5_ofFn8 (v : Fin 8 → ℤ) : rr5 (List.ofFn v) = flOf (rrv v) := by
   refine hL.trans ?_
   rw [getElem_flOf]
   show _ = ((rrv v ⟨k, hk⟩).val : ℤ)
-  rw [hrrv, ZMod.val_intCast] <;> rfl
+  rw [hrrv, ZMod.val_intCast]; rfl
 
 theorem rr5_ofFn (v : Fin Tag.E8.rank → ℤ) : rr5 (List.ofFn v) = flOf (rrv v) := rr5_ofFn8 v
 

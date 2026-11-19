@@ -109,7 +109,7 @@ theorem duadV_mulTabF {a : Array Nat} (ha : DuadV a) (b : Array Nat) : DuadV (mu
   · rw [h]
     omega
 
-theorem duad_entry_lt {y : Array Nat} (hy : DuadV y) {i : Nat} (hi : i < 24) :
+theorem duad_entry_lt {y : Array Nat} (hy : DuadV y) {i : Nat} (_hi : i < 24) :
     y.toList.getD i 0 < 24 := by
   rcases duad_getD_mem_or y.toList i 0 with h | h
   · exact hy.2 _ h

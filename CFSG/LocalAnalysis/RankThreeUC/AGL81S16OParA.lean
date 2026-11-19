@@ -14,12 +14,14 @@ section ParA
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] [CharP F 2] in
 theorem RadHyp.f_apply {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh : RadHyp b c h) (x : OW F)
     (i : Fin (3 - 1)) : gv h x (Sum.inr (Sum.inl i)) = x (Sum.inr (Sum.inl i)) := by
   have := hh.trivV x i
   simp only [Pi.sub_apply] at this
   exact sub_eq_zero.mp this
 
+omit [Finite F] [CharP F 2] in
 theorem RadHyp.n_apply {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh : RadHyp b c h) (z : OW F)
     (hz : ∀ i : Fin (3 - 1), z (Sum.inr (Sum.inl i)) = 0) (j : Fin 2) :
     gv h z (Sum.inr (Sum.inr j)) = z (Sum.inr (Sum.inr j)) := by
@@ -27,12 +29,14 @@ theorem RadHyp.n_apply {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh : 
   simp only [Pi.sub_apply] at this
   exact sub_eq_zero.mp this
 
+omit [Finite F] [CharP F 2] in
 theorem radHyp_one : RadHyp b c (1 : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) where
   iso v := by rw [gv_one]
   fixE i := gv_one _
   trivV x i := by rw [gv_one, sub_self]; rfl
   trivZ z _ j := by rw [gv_one, sub_self]; rfl
 
+omit [Finite F] [CharP F 2] in
 theorem radHyp_mul {g h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : RadHyp b c g)
     (hh : RadHyp b c h) : RadHyp b c (g * h) where
   iso v := by rw [gv_mul, hg.iso, hh.iso]
@@ -48,6 +52,7 @@ theorem radHyp_mul {g h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : Ra
     rw [gv_mul]
     linear_combination h1 + h2
 
+omit [Finite F] [CharP F 2] in
 theorem radHyp_inv {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : RadHyp b c g) :
     RadHyp b c g⁻¹ where
   iso v := by
@@ -82,9 +87,11 @@ theorem radHyp_inv {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : RadH
   one_mem' := radHyp_one
   inv_mem' := fun {_} hg => radHyp_inv hg
 
+omit [Finite F] [CharP F 2] in
 theorem mem_RadGrp {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} :
     g ∈ RadGrp b c ↔ RadHyp b c g := Iff.rfl
 
+omit [Finite F] [CharP F 2] in
 theorem RadHyp.fix_of_inY {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh : RadHyp b c h)
     {y : OW F} (hf : ∀ i : Fin (3 - 1), y (Sum.inr (Sum.inl i)) = 0)
     (hn : ∀ j : Fin 2, y (Sum.inr (Sum.inr j)) = 0) : gv h y = y := by
@@ -95,6 +102,7 @@ theorem RadHyp.fix_of_inY {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh
   rw [hf idx0, hf idx1, hn 0, hn 1]
   simp only [zero_smul, add_zero]
 
+omit [Finite F] in
 theorem rad_pow_four {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : RadHyp b c g) :
     g * g * g * g = 1 := by
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -120,6 +128,7 @@ theorem rad_pow_four {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hg : Ra
       _ = x := by rw [hdbl b', add_zero]
   rw [e3, e4]
 
+omit [Finite F] in
 theorem RadGrp_isPGroup : IsPGroup 2 ↥(RadGrp b c) := fun q => ⟨2, Subtype.ext (by
   have h4 : (q : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) ^ (2 ^ 2) = q * q * q * q := by
     norm_num [pow_succ, mul_assoc]
@@ -127,6 +136,7 @@ theorem RadGrp_isPGroup : IsPGroup 2 ↥(RadGrp b c) := fun q => ⟨2, Subtype.e
   rw [h4]
   exact rad_pow_four q.2)⟩
 
+omit [Finite F] [CharP F 2] in
 theorem iso_preserves_Z {ξ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hξ : ∀ v : OW F, quadMinus 3 F b c (gv ξ v) = quadMinus 3 F b c v)
     (hY' : ∀ i : Fin (3 - 1), ∃ s t : F, gv ξ⁻¹ (eV F i) = s • eV F idx0 + t • eV F idx1)
@@ -140,6 +150,7 @@ theorem iso_preserves_Z {ξ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     polar_e_right, hz idx0, hz idx1]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem iso_preserves_Y {ξ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hY : ∀ i : Fin (3 - 1), ∃ s t : F, gv ξ (eV F i) = s • eV F idx0 + t • eV F idx1)
     {y : OW F} (hf : ∀ i : Fin (3 - 1), y (Sum.inr (Sum.inl i)) = 0)
@@ -162,6 +173,7 @@ theorem iso_preserves_Y {ξ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
   · simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, eV_inr, mul_zero, add_zero]
   · simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, eV_inr, mul_zero, add_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem rad_conj_mem {ξ g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hξ : ∀ v : OW F, quadMinus 3 F b c (gv ξ v) = quadMinus 3 F b c v)
     (hY : ∀ i : Fin (3 - 1), ∃ s t : F, gv ξ (eV F i) = s • eV F idx0 + t • eV F idx1)

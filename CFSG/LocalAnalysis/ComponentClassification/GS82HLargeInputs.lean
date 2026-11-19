@@ -90,7 +90,7 @@ theorem gs82LargeStatement_of_inputs (hD' : GS82PumpInputs.TheoremDPrime)
     GS82LargeStatement := by
   intro X _ _ hamb r e hr hr2 he hq t K R T w h
   obtain ⟨hsimple, hnonab, hKP, hcat, -, -⟩ := hamb
-  haveI := hsimple
+  have := hsimple
   have hKg : ∀ v : X, orderOf v = 2 → SectionRank.IsKGroupCat ↥(centralizer ({v} : Set X)) :=
     fun v hv => isKGroupCat_of_ne_top' hKP (Helpers.centralizer_ne_top_of_involution X hnonab v hv)
   have hTypK : TypChev r ↥K :=

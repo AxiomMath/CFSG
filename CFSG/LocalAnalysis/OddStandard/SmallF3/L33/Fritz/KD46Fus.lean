@@ -235,7 +235,7 @@ theorem card_TE_eq_two_pow {yi : X} (hyi : yi = S.y ∨ yi = S.x * S.y) :
     (A.isPGroup_T.to_le (TE_le_T S)).comap_of_injective _ (subtype_injective _)
   obtain ⟨P, hP⟩ := hTp.exists_le_sylow
   set Q : Subgroup X := (P : Subgroup N).map N.subtype with hQ
-  have hQp : IsPGroup 2 Q := P.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := P.isPGroup.map _
   have hTQ : S.TE ≤ Q := fun a ha => ⟨⟨a, hTN ha⟩, hP ha, rfl⟩
   have hQN : Q ≤ N := map_subtype_le _
   have heq := eq_TE_of_le S hyi hQp hTQ hQN

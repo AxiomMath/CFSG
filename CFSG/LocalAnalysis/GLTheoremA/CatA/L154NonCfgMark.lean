@@ -40,8 +40,8 @@ theorem l154_notCfg_of_good {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Larg
     cases tg <;>
     simp [markTag, markRank, markChar, L154OutdiagCfg] at ht hn hc hcfg
   · exact h2 (by rw [show l = 1 by omega] at hcfg; exact hcfg.1)
-  all_goals first | omega | (by_cases h3 : l = 3 <;> by_cases h2' : l = 2 <;>
-    simp_all [markTag, markRank])
+  all_goals (by_cases h3 : l = 3 <;> by_cases h2' : l = 2 <;>
+    simp_all)
 
 theorem canon_marking_and_labelAll_simple_on {X : Type*} [Group X] {P : LargeEvenMarkProp X}
     {S : LargeEvenLabel → Prop} {P' : LargeEvenRawCont}
@@ -87,7 +87,7 @@ theorem l154_marking_of_nonCfgModel {X : Type} [Group X] (hX : CFSG.IsQuasisimpl
     intro _ _ _ _ _ _ h
     exact h.2
   · obtain ⟨e⟩ := h6
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.1
     have h2 := canon_marking_and_labelAll_simple_on (P' := fun R _ I _ => GGOutdiagPrime p R I)
       (S := fun lab => lab.tag = .B2der)
       (fun lab hlab hb => l154_outdiagPrime hp hp2 hlab (by

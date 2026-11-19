@@ -88,6 +88,7 @@ theorem supportedTorusHom_conj_twisted (hsym : τ.symmetrizer = 1) {Fr : Ω →+
   rw [hcoe, hcoe'] at key
   exact key
 
+omit [Fintype ↑J] [DecidableEq ↑J] in
 theorem supportedTorusHom_mem_rootSpan (c : J → Ωˣ) :
     supportedTorusHom τ Ω J c ∈ rootSpan τ Ω (parabolicRoots τ J) := by
   have h := supportedTorus_le_subsystemGroup (K := Ω) (τ := τ) J (supportedTorusHom_mem J c)
@@ -188,7 +189,7 @@ section Center
 
 variable {τ : Tag} {Ω : Type} [Field Ω] {J : Set (Fin τ.rank)} [Fintype J] [DecidableEq J]
 
-theorem zpow_det_eq_one_of_mem_center_rootSpan (hsym : τ.symmetrizer = 1) {z : ModGL τ Ω}
+theorem zpow_det_eq_one_of_mem_center_rootSpan (_hsym : τ.symmetrizer = 1) {z : ModGL τ Ω}
     (hzQ : z ∈ rootSpan τ Ω (parabolicRoots τ J))
     (hzC : z ∈ Subgroup.centralizer (rootSpan τ Ω (parabolicRoots τ J) : Set (ModGL τ Ω))) :
     z ^ (cartanBlock τ J).det = 1 := by

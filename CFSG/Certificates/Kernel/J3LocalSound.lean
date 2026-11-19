@@ -29,7 +29,7 @@ theorem testBit_orN_pw (c : Nat → Bool) (k : Nat) : ∀ n,
     · subst hk
       cases c k <;> simp
     · have : k < n + 1 ↔ k < n := by omega
-      cases c n <;> simp [Nat.testBit_two_pow, Ne.symm hk, this]
+      cases c n <;> simp [Ne.symm hk, this]
 
 theorem testBit_tcol (X j k : Nat) :
     (tcol X j).testBit k = (decide (k < 80) && X.testBit (80 * k + j)) := by
@@ -81,7 +81,7 @@ theorem vmF_unit_aux (d M t : Nat) : ∀ k, Nat.rec (motive := fun _ => Nat) 0
       simp [htk, this]
 
 theorem vmF_unit {d t : Nat} (M : Nat) (ht : t < d) : vmF d M (2 ^ t) = rowF d M t := by
-  rw [CFSG.KC.F2W.vmF_rec, vmF_unit_aux, if_pos ht]
+  rw [CFSG.KC.F2W.vmF_rec, vmF_unit_aux, ite_eq_left ht]
 
 theorem vne_fr (u w : Nat) : (ops2fr 80).vne u w = !Nat.beq (u % 2 ^ 80) (w % 2 ^ 80) :=
   vne_eq 80 u w

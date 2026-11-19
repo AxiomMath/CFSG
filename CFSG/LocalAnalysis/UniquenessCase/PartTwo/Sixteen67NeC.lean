@@ -62,8 +62,8 @@ theorem exists_ne_one_le_centralizer_of_relIndex_le_two {A P H : Subgroup G} (hH
     have hHlt : Nat.card H < Nat.card A := by
       have : 2 * Nat.card H < 2 * Nat.card A := by rwa [hcardP]
       omega
-    haveI : Fintype A := Fintype.ofFinite A
-    haveI : Fintype H := Fintype.ofFinite H
+    have : Fintype A := Fintype.ofFinite A
+    have : Fintype H := Fintype.ofFinite H
     have hcard' : Fintype.card H < Fintype.card A := by
       simpa only [Nat.card_eq_fintype_card] using hHlt
     obtain ⟨a₁, a₂, hne, heq⟩ := Fintype.exists_ne_map_eq_of_card_lt ψ hcard'
@@ -143,8 +143,8 @@ theorem le_U_of_not_mem_cTilde (h : Cfg1667Ne M V₀ V W₁ W₂) (hg : InCalO 1
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hw₁le, hw₂le⟩ := hcon
-  obtain ⟨w₁, hw₁W₁, hw₁U⟩ := SetLike.not_le_iff_exists.mp hw₁le
-  obtain ⟨w₂, hw₂W₂, hw₂U⟩ := SetLike.not_le_iff_exists.mp hw₂le
+  obtain ⟨w₁, hw₁W₁, hw₁U⟩ := IsConcreteLE.not_le_iff_exists.mp hw₁le
+  obtain ⟨w₂, hw₂W₂, hw₂U⟩ := IsConcreteLE.not_le_iff_exists.mp hw₂le
   apply hb
   rw [CFSG.LocalAnalysis.WeakClosure81.FourteenTwo.mem_cTilde_iff_comm]
   obtain ⟨hfix₁, hfix₂⟩ := conj_eq_of_mem_centralizer h hg hbM hbU

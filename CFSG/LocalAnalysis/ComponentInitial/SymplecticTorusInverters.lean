@@ -19,7 +19,7 @@ theorem sl2W_conj_eq_inv_of_transpose {g : SpecialLinearGroup (Fin 2) k}
     (sl2W : SpecialLinearGroup (Fin 2) k) * g * sl2W⁻¹ = g⁻¹ := by
   refine Matrix.SpecialLinearGroup.ext _ _ fun i j => ?_
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv,
-    coe_sl2W, coe_sl2W_inv]
+    coe_sl2W]
   rw [Matrix.adjugate_fin_two_of, Matrix.adjugate_fin_two]
   have h10 : (g : Matrix (Fin 2) (Fin 2) k) 1 0 = (g : Matrix (Fin 2) (Fin 2) k) 0 1 := by
     have := congrFun (congrFun hg 0) 1
@@ -85,7 +85,7 @@ theorem pi_zpowers_eq_closure (m : ℕ) (ζ : kˣ) :
     rw [← hn]
     have hsingle : (Pi.mulSingle i (ζ ^ n) : Fin m → kˣ) = (Pi.mulSingle i ζ) ^ n := by
       funext j
-      by_cases hj : j = i <;> simp [Pi.mulSingle_apply, hj]
+      by_cases hj : j = i <;> simp [hj]
     rw [hsingle]
     exact Subgroup.zpow_mem
       (K := Subgroup.closure (Set.range fun i : Fin m => Pi.mulSingle i ζ))
@@ -106,7 +106,7 @@ theorem pi_ite_zpowers_eq_closure (m : ℕ) (ζ : kˣ) (s : Finset (Fin m)) :
       intro i hi
       have h : t i ∈ (if i ∈ s then Subgroup.zpowers ζ else ⊥ : Subgroup kˣ) :=
         (Subgroup.mem_pi Set.univ).mp ht i (Set.mem_univ i)
-      rw [if_neg hi] at h
+      rw [ite_eq_right hi] at h
       exact Subgroup.mem_bot.mp h
     have hprod : t = ∏ i ∈ s, (Pi.mulSingle (M := fun _ : Fin m => kˣ) i (t i)) := by
       refine (Finset.univ_prod_mulSingle (M := fun _ : Fin m => kˣ) t).symm.trans ?_
@@ -117,13 +117,13 @@ theorem pi_ite_zpowers_eq_closure (m : ℕ) (ζ : kˣ) (s : Finset (Fin m)) :
     have ht_i : t i ∈ Subgroup.zpowers ζ := by
       have h : t i ∈ (if i ∈ s then Subgroup.zpowers ζ else ⊥ : Subgroup kˣ) :=
         (Subgroup.mem_pi Set.univ).mp ht i (Set.mem_univ i)
-      rwa [if_pos hi] at h
+      rwa [ite_eq_left hi] at h
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp ht_i
     rw [← hn]
     have hpow : (Pi.mulSingle (M := fun _ : Fin m => kˣ) i (ζ ^ n)) =
         (Pi.mulSingle (M := fun _ : Fin m => kˣ) i ζ) ^ n := by
       funext j
-      by_cases hj : j = i <;> simp [Pi.mulSingle_apply, hj]
+      by_cases hj : j = i <;> simp [hj]
     rw [hpow]
     exact Subgroup.zpow_mem
       (K := Subgroup.closure (Set.range fun i : {i : Fin m // i ∈ s} =>
@@ -139,12 +139,12 @@ theorem pi_ite_zpowers_eq_closure (m : ℕ) (ζ : kˣ) (s : Finset (Fin m)) :
     intro j _
     by_cases hji : j = i
     · subst hji
-      rw [if_pos hi, Pi.mulSingle_eq_same]
+      rw [ite_eq_left hi, Pi.mulSingle_eq_same]
       exact Subgroup.mem_zpowers ζ
     · by_cases hjs : j ∈ s
-      · rw [if_pos hjs, Pi.mulSingle_eq_of_ne hji]
+      · rw [ite_eq_left hjs, Pi.mulSingle_eq_of_ne hji]
         exact Subgroup.one_mem _
-      · rw [if_neg hjs, Pi.mulSingle_eq_of_ne hji]
+      · rw [ite_eq_right hjs, Pi.mulSingle_eq_of_ne hji]
         exact Subgroup.mem_bot.mpr rfl
 
 theorem card_pi_ite_zpowers (m : ℕ) (ζ : kˣ) (s : Finset (Fin m)) :
@@ -181,12 +181,12 @@ theorem pow_eq_one_of_mem_map_pi_ite_zpowers {m : ℕ} {ζ : kˣ} {r : ℕ} (hζ
     · have hmem : t i ∈ Subgroup.zpowers ζ := by
         have h : t i ∈ (if i ∈ s then Subgroup.zpowers ζ else ⊥ : Subgroup kˣ) :=
           (Subgroup.mem_pi Set.univ).mp ht i (Set.mem_univ i)
-        rwa [if_pos hi] at h
+        rwa [ite_eq_left hi] at h
       exact orderOf_dvd_iff_pow_eq_one.mp ((orderOf_dvd_of_mem_zpowers hmem).trans
         (by rw [hζ]))
     · have h : t i ∈ (if i ∈ s then Subgroup.zpowers ζ else ⊥ : Subgroup kˣ) :=
         (Subgroup.mem_pi Set.univ).mp ht i (Set.mem_univ i)
-      rw [if_neg hi] at h
+      rw [ite_eq_right hi] at h
       rw [Subgroup.mem_bot.mp h, one_pow]
   rw [← map_pow, htpow, map_one]
 

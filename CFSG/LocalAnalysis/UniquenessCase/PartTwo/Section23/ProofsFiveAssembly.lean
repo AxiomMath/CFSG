@@ -42,7 +42,7 @@ theorem s23_5_3_of (D : Data G) (Ch : Choice2011 G) (hline : S23_5_line D Ch) (h
     · intro hp
       refine ⟨?_, hp⟩
       rw [hpi]
-      simp only [etaSet, Set.mem_setOf_eq]
+      simp only [etaSet, Set.mem_ofPred_eq]
       refine ⟨hp.1, ?_⟩
       rw [hcn, CFSG.Timmesfeld.IsPrimitivePrimeDivisor.two_pow_two_mul_sub_one]
       exact dvd_mul_of_dvd_right hp.2 _

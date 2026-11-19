@@ -55,18 +55,18 @@ theorem outerHeisInner_of_fixedOrder (hLie : LieOrderFormulasInput)
         · rcases hS with hab | hle
           · exact CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.InnerAction.n1PSL_holds K n ℓ f
               (hmodel.statedClassicalModel (by decide)) p hp hp2 hpn hpq (fun h => by omega) S
-              S.isPGroup' S.not_dvd_index hab
+              S.isPGroup S.not_dvd_index hab
           · have := four_le_factorization_of_dvd_lieOrderDivisor hp h5 hq2 hN hd
             omega
         · rcases hS with hab | hle
           · exact CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.InnerAction.n1PSU_holds K n ℓ f
               (hmodel.statedClassicalModel (by decide)) p hp hp2 hpn hpq (fun h => by omega) S
-              S.isPGroup' S.not_dvd_index hab
+              S.isPGroup S.not_dvd_index hab
           · have := four_le_factorization_of_dvd_lieOrderDivisor hp h5 hq2 hN hd
             omega
       have hD4 : ¬ (t = .POmegaPlus ∧ n = 4 ∧ p = 3) := fun h => by omega
       have hT3 : ¬ (t = .trialityD4 ∧ p = 3) := fun h => by omega
-      exact mem_inner_of_lie_model_cyc hLie hb hadm hmodel ht hp hp2 hpK hdiv hD4 hT3 S.isPGroup'
+      exact mem_inner_of_lie_model_cyc hLie hb hadm hmodel ht hp hp2 hpK hdiv hD4 hT3 S.isPGroup
         S.not_dvd_index hαp hαS
   · have hbr := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
     obtain ⟨e'⟩ := hbr s

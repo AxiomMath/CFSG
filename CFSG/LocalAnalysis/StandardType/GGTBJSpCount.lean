@@ -87,7 +87,7 @@ theorem ggTBJ_card_fixingJ_eq_nbr_of_bstar_eq
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :
     Nat.card ↥(ggFixingJ K J (ggGamma K hN).range) = p := by
   obtain ⟨hp, hBs, _hx, _hLx, _hBs4⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyOrder : orderOf y = p :=
     orderOf_eq_prime (hBs.2 y (hcfg.2.1.1 hnb.1.2.1)) hnb.1.2.2.1
   have hCK : Nat.card ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) = p := by
@@ -108,7 +108,7 @@ theorem ggTBJ_card_fixingJ_mul_le_nbr_of_bstar_eq
     p ^ 2 * Nat.card ↥(ggFixingJ K J (ggGamma K hN).range) ≤
       Nat.card ↥(ggGamma K hN).range := by
   obtain ⟨hp, hBs, _hx, _hLx, hBs4⟩ := hcfg.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyOrder : orderOf y = p :=
     orderOf_eq_prime (hBs.2 y (hcfg.2.1.1 hnb.1.2.1)) hnb.1.2.2.1
   have hCK : Nat.card ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) = p := by

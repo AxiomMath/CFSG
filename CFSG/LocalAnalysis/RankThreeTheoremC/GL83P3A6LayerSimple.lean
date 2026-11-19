@@ -21,7 +21,7 @@ include hd
 theorem diag_ne_one : x * e₂ * e₃ ≠ 1 := by
   have hf := hd.frame
   intro h1
-  rw [← hf.qel_diag, ← Tri.qel_zero hf.toVITriple] at h1
+  rw [← hf.qel_diag, ← Tri.qel_zero] at h1
   have := hf.qel_inj h1
   revert this
   decide
@@ -31,7 +31,7 @@ theorem diag_mem_of_component {L : Subgroup X} (hL : IsComponentOf L ⊤)
   have hf := hd.frame
   have htL := hd.t_mem_normalizer_of_component hL hQL
   have := hf.diag_mem_of_t_invariant (W := Qf x e₂ e₃ ⊓ L) inf_le_left hQL
-    (fun w hw => mem_inf.mpr ⟨hf.conj_mem_of_mem_normalizer hf.t_mem_normalizer (mem_inf.mp hw).1,
+    (fun w hw => mem_inf.mpr ⟨CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer hf.t_mem_normalizer (mem_inf.mp hw).1,
       (mem_normalizer_iff.mp htL w).mp (mem_inf.mp hw).2⟩)
   exact (mem_inf.mp this).2
 
@@ -54,7 +54,7 @@ theorem exists_simple :
       obtain ⟨q, hq, hq1⟩ := ((Qf x e₂ e₃ ⊓ L).bot_or_exists_ne_one).resolve_left hQL
       intro hb
       have hmem : ρ * q * ρ⁻¹ ∈ Qf x e₂ e₃ ⊓ L' :=
-        mem_inf.mpr ⟨hf.conj_mem_of_mem_normalizer hρN (mem_inf.mp hq).1,
+        mem_inf.mpr ⟨CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer hρN (mem_inf.mp hq).1,
           ⟨q, (mem_inf.mp hq).2, rfl⟩⟩
       rw [hb, mem_bot] at hmem
       apply hq1
@@ -69,7 +69,7 @@ theorem exists_simple :
     exact hd.diag_ne_one hmem
   have hinv : ∀ g ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X),
       g ∈ normalizer (L : Set X) → ∀ w ∈ Qf x e₂ e₃ ⊓ L, g * w * g⁻¹ ∈ Qf x e₂ e₃ ⊓ L :=
-    fun g hg hgL w hw => mem_inf.mpr ⟨hf.conj_mem_of_mem_normalizer hg (mem_inf.mp hw).1,
+    fun g hg hgL w hw => mem_inf.mpr ⟨CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer hg (mem_inf.mp hw).1,
       (mem_normalizer_iff.mp hgL w).mp (mem_inf.mp hw).2⟩
   have hQle : Qf x e₂ e₃ ≤ L := by
     rcases hf.eq_bot_or_eq_of_invariant (W := Qf x e₂ e₃ ⊓ L) inf_le_left
@@ -97,7 +97,7 @@ theorem exists_simple :
     have hdvd : Nat.card (Qf x e₂ e₃ ⊔ Q' : Subgroup X) ∣ Nat.card X :=
       Subgroup.card_subgroup_dvd_card _
     rw [hcard, hf.Q_card, hQ'c] at hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hidx : ¬ 3 ∣ P.index := by
       have h := (isSylowOf_iff.mp hd.sylow).2.2
       rwa [Subgroup.relIndex_top_right] at h
@@ -111,7 +111,7 @@ theorem exists_simple :
     refine ⟨fun n hn g => ?_⟩
     rw [← hkey g]
     exact ⟨n, hn, rfl⟩
-  haveI := hLn
+  have := hLn
   refine ⟨L, hLn, RadicalFreeLayer.component_simple hfree L hL, ?_, ?_, hQle,
     fun N hN hne => hd.component_le hL N hN hne⟩
   · by_contra hcom

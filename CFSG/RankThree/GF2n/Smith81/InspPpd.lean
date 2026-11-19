@@ -24,7 +24,7 @@ theorem ppd_dvd_of_dvd_two_pow_mul (hp : IsPrimitivePrimeDivisor p E)
 theorem ppd_exists_of_dvd_prod (hp : IsPrimitivePrimeDivisor p E)
     (hE : 0 < E) {s : Finset ℕ} {c : ℕ → ℕ} (h : p ∣ ∏ i ∈ s, ((2 ^ f) ^ c i - 1)) :
     ∃ i ∈ s, E ∣ f * c i := by
-  obtain ⟨i, hi, hd⟩ := (Prime.dvd_finset_prod_iff hp.prime.prime _).mp h
+  obtain ⟨i, hi, hd⟩ := (Prime.dvd_finsetProd_iff hp.prime.prime _).mp h
   exact ⟨i, hi, (PrimDiv.dvd_pow_sub_one_iff hp hE f (c i)).mp hd⟩
 
 theorem sub_one_dvd_pow_sub_one' (q a : ℕ) : q - 1 ∣ q ^ a - 1 :=

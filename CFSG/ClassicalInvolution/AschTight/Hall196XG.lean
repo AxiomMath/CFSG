@@ -49,7 +49,7 @@ theorem hasDihedralSylowTwo_of_isSylow2In {H : Type} [Group H] [Finite H] {D : S
     CFSG.GorensteinWalter.HasDihedralSylowTwo H := by
   intro S'
   have hS' : IsSylow2In (S' : Subgroup H) ⊤ :=
-    ⟨le_top, S'.isPGroup', fun V' _ hV'2 hle => S'.maximal_isPGroup.eq_of_ge hV'2 hle⟩
+    ⟨le_top, S'.isPGroup, fun V' _ hV'2 hle => S'.maximal_isPGroup.eq_of_ge hV'2 hle⟩
   obtain ⟨g, -, hg⟩ := exists_conjSub_eq_of_isSylow2In hD hS'
   let e₁ : D ≃* conjSub g D :=
     Subgroup.equivMapOfInjective D (MulAut.conj g).toMonoidHom (MulAut.conj g).injective

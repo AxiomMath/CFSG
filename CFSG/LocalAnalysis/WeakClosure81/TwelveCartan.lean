@@ -24,7 +24,7 @@ theorem le_sylow_of_le_normalizer {G : Type} [Group G] [Finite G] {S : Sylow 2 G
     {X : Subgroup G} (hX : IsPGroup 2 X) (hXN : X ≤ normalizer (S : Set G)) :
     X ≤ (S : Subgroup G) := by
   have hsup : IsPGroup 2 (((S : Subgroup G) ⊔ X : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_left' S.isPGroup' hX hXN
+    IsPGroup.to_sup_of_normal_left' S.isPGroup hX hXN
   have htop : (((S : Subgroup G) ⊔ X : Subgroup G)) = (S : Subgroup G) :=
     S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   rw [← htop]
@@ -200,7 +200,7 @@ theorem rankOne_exists_cartan
     by_contra hs1
     have hspos : orderOf s ≠ 0 := (orderOf_pos s).ne'
     obtain ⟨k, hk⟩ :=
-      (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp S.isPGroup' ⟨s, hsS⟩
+      (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp S.isPGroup ⟨s, hsS⟩
     have hk' : orderOf s = 2 ^ k := by simpa using hk
     have hk0 : k ≠ 0 := by
       intro hk0

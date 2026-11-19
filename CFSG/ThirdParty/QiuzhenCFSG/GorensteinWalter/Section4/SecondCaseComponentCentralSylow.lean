@@ -37,9 +37,9 @@ private lemma exists_order_two_center_of_sylow_ne_bot
   have hPnt : Nontrivial P :=
     (Subgroup.nontrivial_iff_ne_bot (P : Subgroup G)).mpr hP
   have hCentPG : IsPGroup 2 (Subgroup.center P) :=
-    P.isPGroup'.to_subgroup (Subgroup.center P)
+    P.isPGroup.to_subgroup (Subgroup.center P)
   have hCentNt : Nontrivial (Subgroup.center P) :=
-    IsPGroup.center_nontrivial P.isPGroup'
+    IsPGroup.center_nontrivial P.isPGroup
   have hCard : 2 ∣ Nat.card (Subgroup.center P) := by
     obtain ⟨n, hn0, hn⟩ := (IsPGroup.nontrivial_iff_card hCentPG).mp hCentNt
     exact hn.symm ▸ dvd_pow_self 2 (ne_of_gt hn0)

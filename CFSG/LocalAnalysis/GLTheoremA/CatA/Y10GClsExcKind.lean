@@ -43,7 +43,7 @@ section Certificates
 theorem clsExc_of_fieldClosed
     (hcl : ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab → FamExc lab →
       CFSG.StandardType.Canonical.LargeEvenLabelAll lab
-        (fun R _ _ F => ∀ f ∈ Subgroup.closure F, f ∈ F)) :
+        (fun _R _ _ F => ∀ f ∈ Subgroup.closure F, f ∈ F)) :
     ClsExc := by
   intro S _ _ p α labK hfam hp hp2 _ hlab hα
   have hΛ : LargeEvenInLambda2 labK := by
@@ -59,7 +59,7 @@ theorem clsExc_of_fieldClosed
   refine innDiagKind_or_fieldKind_of_guard hlab hα ?_
   refine MI.CAll.mono ?_
     (MI.CAll.and (hcl labK hΛ hfam) (FP.canonOddAut hp hp2 hΛ hD))
-  rintro R _ I F ⟨hF, hodd⟩ hs hna φ hφ
+  rintro _R _ I F ⟨hF, hodd⟩ hs hna φ hφ
   obtain ⟨u, hu, f, hf, rfl⟩ := hodd hs hna φ hφ
   exact Or.inr ⟨u, hu, f, hF f hf, rfl⟩
 

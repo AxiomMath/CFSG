@@ -252,7 +252,7 @@ private noncomputable def l6f3_setup {p N : ℕ} [Fact p.Prime] {V : Type} [AddC
       omega
     have hAi : CartanMatrix.A (N - 1) i j = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inl hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inl hij)]
     rw [hAi]
     norm_num
   have hA_succ' : ∀ i j : Fin (N - 1), i.val + 1 = j.val →
@@ -264,7 +264,7 @@ private noncomputable def l6f3_setup {p N : ℕ} [Fact p.Prime] {V : Type} [AddC
       omega
     have hAi : CartanMatrix.A (N - 1) j i = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inr hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inr hij)]
     rw [hAi]
     norm_num
   have hedge : ∀ i j : Fin (N - 1), i.val + 1 = j.val → R (Sum.inl i) (Sum.inl j) := by

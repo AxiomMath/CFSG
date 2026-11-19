@@ -17,7 +17,7 @@ theorem ggQ2_A_label (n : ℕ) (i j : Fin n) :
       (if i = j then 1
         else if (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) then 3 else 2) := by
   rw [CoxeterMatrix.A]
-  simp only [CoxeterMatrix.M, Matrix.of_apply]
+  simp only [Matrix.of_apply]
   split_ifs <;> omega
 
 theorem ggQ2_reindex_trans {B B' B'' : Type*} (M : CoxeterMatrix B) (e : B ≃ B')
@@ -34,7 +34,7 @@ theorem ggQ2_A_rev (n : ℕ) :
   by_cases hij : i = j
   · subst hij; simp
   · have hre : Fin.rev i ≠ Fin.rev j := fun h => hij (Fin.rev_injective h)
-    rw [if_neg hij, if_neg hre]
+    rw [ite_eq_right hij, ite_eq_right hre]
     congr 1
     apply propext
     constructor <;> intro h <;>
@@ -44,7 +44,7 @@ theorem ggQ2_A_leaf_reverse (D : GGQ2Lin 3) {n : ℕ} (hn : 1 ≤ n) (e : Fin n 
     (hA : D.coxeter = (CoxeterMatrix.A n).reindex e) (ha : D.a = e ⟨n - 1, by omega⟩) :
     ∃ e' : Fin n ≃ D.ι, D.coxeter = (CoxeterMatrix.A n).reindex e' ∧
       D.a = e' ⟨0, by omega⟩ := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   refine ⟨Fin.revPerm.trans e, ?_, ?_⟩
   · rw [hA, ← ggQ2_reindex_trans (CoxeterMatrix.A n) Fin.revPerm e, ggQ2_A_rev]
   · rw [ha, Equiv.trans_apply, Fin.revPerm_apply]
@@ -187,7 +187,7 @@ private lemma ggQ2xAH_aroot_lam1_classify {m : ℕ} [NeZero m] {v : GGBCV m}
     have hjne : j ≠ 0 := fun hj => hij (hi.trans hj.symm)
     have h : v 0 = a := by
       rw [hvij, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, hi]
-      simp [Pi.single_apply, hjne]
+      simp [hjne]
     rw [hv0] at h
     exact ha h.symm
   have hj0 : j ≠ 0 := by
@@ -195,7 +195,7 @@ private lemma ggQ2xAH_aroot_lam1_classify {m : ℕ} [NeZero m] {v : GGBCV m}
     have hine : i ≠ 0 := fun hi => hij (hi.trans hj.symm)
     have h : v 0 = b := by
       rw [hvij, Pi.add_apply, Pi.smul_apply, Pi.smul_apply, hj]
-      simp [Pi.single_apply, hine]
+      simp [hine]
     rw [hv0] at h
     exact hb h.symm
   have hb_eq : b = -a := (neg_eq_of_add_eq_zero_right hab).symm
@@ -267,7 +267,7 @@ theorem ggQ2_A_refl_perm_root (m : ℕ) [NeZero m] (c : GGBCV m) (hc : c ⬝ᵥ 
   · rw [hc_eq, ggQ2xAH_wt_smul _ (inv_ne_zero hlam_ne), ggQ2x_wt_sub_single _ _ hk]
   · rw [hc_eq, Pi.smul_apply, smul_eq_mul]
     have hz : (Pi.single (σ k) 1 - Pi.single k 1 : GGBCV m) 0 = 0 := by
-      simp [Pi.sub_apply, Pi.single_apply, hσk0, hk0]
+      simp [Pi.sub_apply, hσk0, hk0]
     rw [hz, mul_zero]
 
 private lemma ggQ2xAH_refl_sum {n : ℕ} (z : GGBCV n) (hz : z ⬝ᵥ z ≠ 0)

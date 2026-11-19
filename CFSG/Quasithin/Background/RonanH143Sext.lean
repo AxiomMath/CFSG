@@ -54,7 +54,7 @@ theorem hammingNorm_eSet_mul_inv (A B : Finset (Fin 24)) :
       Multiplicative.toAdd (eSetR A * (eSetR B)⁻¹) i ≠ 0) = (A \ B) ∪ (B \ A) := by
     ext i
     by_cases hA : i ∈ A <;> by_cases hB : i ∈ B <;>
-      simp [toAdd_eSet, hA, hB, toAdd_mul, toAdd_inv] <;> decide
+      simp [toAdd_eSet, hA, hB, toAdd_mul, toAdd_inv]; decide
   have hdisj : Disjoint (A \ B) (B \ A) := by
     rw [Finset.disjoint_left]
     intro i hi hi'

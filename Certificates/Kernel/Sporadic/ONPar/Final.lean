@@ -290,12 +290,12 @@ theorem rg_get {j : Nat} (hj : j < 3) : onpRGens[j]! = unpack 120 7 (ONPO.G j) :
     ← getElem!_pos _ j hj', mb_tab hj, uinv, hu, conj_unpack c2 (hm j hj).2.1 c3]
   exact congrArg (unpack 120 7) (og_parts.2.2 j hj).1.symm
 
-theorem rgi_parts : (∀ k < 3, onpRGensInv[k]! = unpack 120 7 (ONPO.GI k)) ∧
+theorem rgi_parts : (∀ _k < 3, onpRGensInv[_k]! = unpack 120 7 (ONPO.GI _k)) ∧
     invsOK 120 onpRGens onpRGensInv = true :=
-  CFSG.KC.L34KSnd.invsOK_of_pcomp (G := ONPO.G) (GI := ONPO.GI) rg_size (fun k hk => rg_get hk)
-    fun k hk => ⟨(og_parts.2.2 k hk).2.1, (og_parts.2.2 k hk).2.2.1,
-      CFSG.KC.L34KSnd.pcomp_inv_of_pcomp (og_parts.2.2 k hk).2.2.1 (og_parts.2.2 k hk).2.1
-        (og_parts.2.2 k hk).2.2.2⟩
+  CFSG.KC.L34KSnd.invsOK_of_pcomp (G := ONPO.G) (GI := ONPO.GI) rg_size (fun _k hk => rg_get hk)
+    fun _k hk => ⟨(og_parts.2.2 _k hk).2.1, (og_parts.2.2 _k hk).2.2.1,
+      CFSG.KC.L34KSnd.pcomp_inv_of_pcomp (og_parts.2.2 _k hk).2.2.1 (og_parts.2.2 _k hk).2.1
+        (og_parts.2.2 _k hk).2.2.2⟩
 
 theorem rg_gens : GensOK 120 7 ONPO.k ONPO.G onpRGens := by
   refine ⟨by rw [rg_size, og_parts.1], fun j hj => ?_⟩

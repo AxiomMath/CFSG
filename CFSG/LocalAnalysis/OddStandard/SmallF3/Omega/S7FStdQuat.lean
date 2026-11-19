@@ -29,7 +29,7 @@ theorem s7f_quaternion_of_rank_le_one {P : Type*} [Group P] [Finite P]
     · exact congrArg Subtype.val hab
     · intro h
       exact hne (Subtype.ext (Subtype.ext h))
-  rcases rank_one_two_cyclic_or_quaternion S.isPGroup' hno with h | ⟨e, he, ⟨φ⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion S.isPGroup hno with h | ⟨e, he, ⟨φ⟩⟩
   · exact absurd h hS
   · refine ⟨e + 2, by omega, ⟨?_⟩⟩
     rw [Nat.add_sub_cancel]

@@ -31,7 +31,7 @@ variable {S : Type*} [Group S] [Finite S]
 
 theorem exists_ne_one_pow_three_of_card {E : Subgroup S} (hE3 : ∀ a ∈ E, a ^ 3 = 1)
     (hE9 : Nat.card E = 9) : ∃ k ∈ E, k ≠ 1 ∧ k ^ 3 = 1 := by
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hE9]
     norm_num
   obtain ⟨k, hk⟩ := exists_ne (1 : E)
@@ -106,7 +106,7 @@ theorem padicValNat_ordG2_two_pow {n : ℕ} (hn : 1 ≤ n) :
 theorem card_eq_of_isSimpleGroup_surj {Y Q : Type*} [Group Y] [Group Q] [IsSimpleGroup Y]
     (π : Y →* Q) (hπ : Function.Surjective π) (hQ : 1 < Nat.card Q) :
     Nat.card Y = Nat.card Q := by
-  haveI : π.ker.Normal := MonoidHom.normal_ker π
+  have : π.ker.Normal := MonoidHom.normal_ker π
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with h | h
   · exact Nat.card_congr (Equiv.ofBijective π ⟨(MonoidHom.ker_eq_bot_iff π).mp h, hπ⟩)
   · exfalso
@@ -173,9 +173,9 @@ theorem false_of_g2_cover {k : Type} [Field k] [Finite k] {n : ℕ} (hk : Nat.ca
       rw [hk]
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    haveI : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_isPerfect .G2 k
+    have : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_isPerfect .G2 k
       (CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card k hk3)
-    haveI hCs : IsSimpleGroup C := eC.isSimpleGroup
+    have hCs : IsSimpleGroup C := eC.isSimpleGroup
     rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hCs hsub with h | h
     ·
       have hY1 : Y = ⊥ := by
@@ -196,7 +196,7 @@ theorem false_of_g2_cover {k : Type} [Field k] [Finite k] {n : ℕ} (hk : Nat.ca
           exact Subgroup.mem_top _
         exact this
       have eY : Y ≃* C := MulEquiv.subgroupCongr hYeq
-      haveI : IsSimpleGroup Y := eY.isSimpleGroup
+      have : IsSimpleGroup Y := eY.isSimpleGroup
       have hcY := card_eq_of_isSimpleGroup_surj π hπ hU1
       have hv := padicValNat_ordG2_two_pow hn
       rw [← hcardC, ← Nat.card_congr eY.toEquiv, hcY, hU] at hv

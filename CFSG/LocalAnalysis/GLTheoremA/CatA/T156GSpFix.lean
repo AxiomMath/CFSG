@@ -68,15 +68,15 @@ theorem exists_fixGeom' [Finite K] [CharP K 2] [NeZero m] (hm : 2 ≤ m) {n p : 
     apply hne ⟨hm2, ?_⟩
     rw [hcard] at hk2
     exact Nat.pow_right_injective (le_refl 2) (by simpa using hk2))
-  haveI := hS
-  haveI := hS₀
-  haveI := hP₀
+  have := hS
+  have := hS₀
+  have := hP₀
   have hι : Function.Injective (subfieldInj (r := m) σ) := subfieldInj_injective σ
   have hrange : (subfieldInj (r := m) σ).range = ggFixSub (fieldAut m K σ) := by
     rw [range_subfieldInj, ← spFixedGroup_fieldAut_eq_range hodd hσp]
     exact Subgroup.ext fun x => Iff.rfl
   have hder : ggFixDer (fieldAut m K σ) = (subfieldInj (r := m) σ).range := by
-    haveI : Group.IsPerfect (subfieldInj (r := m) σ).range :=
+    have : Group.IsPerfect (subfieldInj (r := m) σ).range :=
       Group.IsPerfect.range (subfieldInj (r := m) σ)
     calc ggFixDer (fieldAut m K σ)
         = ⁅(subfieldInj (r := m) σ).range, (subfieldInj (r := m) σ).range⁆ := by
@@ -87,7 +87,7 @@ theorem exists_fixGeom' [Finite K] [CharP K 2] [NeZero m] (hm : 2 ≤ m) {n p : 
   have hna₀ : ∃ a b : StatedProj (StatedSp m (descentField σ)), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative (StatedProj (StatedSp m (descentField σ))) :=
+    have : IsMulCommutative (StatedProj (StatedSp m (descentField σ))) :=
       isMulCommutative_iff.mpr hcon
     exact Group.IsPerfect.not_isMulCommutative (StatedProj (StatedSp m (descentField σ))) ‹_›
   have key : ∀ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K m))
@@ -146,7 +146,7 @@ theorem exists_raw_b2der [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨-, hcard⟩ := card_descentField Nat.prime_two hp.one_lt.le hK hσ
   have hk2 : Nat.card (descentField σ) = 2 := by rw [hcard, Nat.div_self hp.pos, pow_one]
-  haveI := hS
+  have := hS
   have hle : ⁅LargeEvenSpGroup (descentField σ) 2, LargeEvenSpGroup (descentField σ) 2⁆ ≤
       LargeEvenSpGroup (descentField σ) 2 :=
     Subgroup.commutator_le_self _
@@ -215,7 +215,7 @@ theorem exists_raw_b2der [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : 
     ((commutator _).equivMapOfInjective e₃.toMonoidHom e₃.injective).trans
       (MulEquiv.subgroupCongr hmap₃)
   let e₅ := (e₁.trans e₂).trans e₄
-  haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+  have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
   have hS₀ : IsSimpleGroup
       (LargeEvenProj ⁅LargeEvenSpGroup (descentField σ) 2, LargeEvenSpGroup (descentField σ) 2⁆) :=
     MulEquiv.isSimpleGroup e₅

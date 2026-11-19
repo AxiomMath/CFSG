@@ -31,12 +31,12 @@ private theorem clogIter_spec (n k : Nat) :
       rw [Nat.shiftLeft_eq, Nat.one_mul]
     rw [clogIter_succ, hshift, nIf_eq]
     by_cases h : Nat.blt (2 ^ clogIter n k) n = true
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       rw [Nat.blt_eq] at h
       rcases hcase with hc | hc
       · omega
       · exact ⟨by omega, Or.inr (by omega)⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       rw [Nat.blt_eq] at h
       exact ⟨by omega, Or.inl (Nat.not_lt.mp h)⟩
 
@@ -75,9 +75,9 @@ theorem pmkT_eq {n w : Nat} {f : Nat → Nat} (hf : ∀ i < n, f i < 2 ^ w) (d l
       intro i _
       show (if lo + i < n then f (lo + i) else 0) < 2 ^ w
       by_cases h : lo + i < n
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact hf _ h
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact Nat.two_pow_pos w
     have hB : enc w (fun i => if lo + 2 ^ d + i < n then f (lo + 2 ^ d + i) else 0) (2 ^ d)
         = enc w (fun i => if lo + (2 ^ d + i) < n then f (lo + (2 ^ d + i)) else 0) (2 ^ d) := by
@@ -98,7 +98,7 @@ theorem pmk_eq {n w : Nat} {f : Nat → Nat} (hn : n ≤ 2 ^ 24) (hf : ∀ i < n
     intro i hi _
     have hni : ¬ (0 + i < n) := by omega
     show (if 0 + i < n then f (0 + i) else 0) = 0
-    rw [if_neg hni]
+    rw [ite_eq_right hni]
   have h1 : pmk n w f = pmkT n w f (clog n) 0 := by
     unfold pmk
     exact strictN_eq _ _

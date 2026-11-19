@@ -238,9 +238,9 @@ theorem lE_memK {inn : Bool} {c : ℕ} (h : letOK SPA (GO 0) inn c = true)
     unfold lE letE
     have ht2 : Nat.shiftRight c 10 = 0 ∨ Nat.shiftRight c 10 = 1 := by omega
     rcases ht2 with ht | ht
-    · rw [if_pos ht]
+    · rw [ite_eq_left ht]
       exact hek
-    · rw [if_neg (by omega), if_pos ht]
+    · rw [ite_eq_right (by omega), ite_eq_left ht]
       exact K.inv_mem hek
   · exact hPK (lE_memP ha)
 
@@ -263,7 +263,7 @@ theorem conj_memP_iff {g x : Equiv.Perm (Fin 3850)} (hg : g ∈ hsR) (hx : x ∈
   have hi : g⁻¹ ∈ hsP ↔ g ∈ hsP := ⟨fun h => by simpa using hsP.inv_mem h, hsP.inv_mem⟩
   rw [hi]
   by_cases h1 : g ∈ hsP <;> by_cases h2 : x ∈ hsP <;> simp only [h1, h2, iff_true, iff_false,
-    true_iff, false_iff, not_true_eq_false, not_false_eq_true]
+    not_true_eq_false]
 
 theorem e_memC {inn : Bool} {k : ℕ} (hk : k < 1024) (hinn : inn = true → parK SPA (GO 0) 9 k = 0)
     {C : Subgroup (Equiv.Perm (Fin 3850))} (hPC : hsS ⊓ hsP ≤ C) (hSC : inn = false → hsS ≤ C) :
@@ -337,7 +337,7 @@ theorem hsP_le_of_slot {inn₀ : Bool} {s X L : ℕ}
       have hok := wordOK_spec hYw i hi
       generalize fd 12 Y (i + 1) = tok at hok ⊢
       by_cases hlt : tok < 1024
-      · have e1 : tokEl tok = e tok := if_pos hlt
+      · have e1 : tokEl tok = e tok := ite_eq_left hlt
         rw [e1, tokE_lo hlt]
         exact ⟨evH_small hlt, e_memC hlt (tokOK_lo hok hlt) hPC hSC, e_memR hlt⟩
       · obtain ⟨-, him, ha, hbit⟩ := tokOK_hi hok hlt
@@ -346,7 +346,7 @@ theorem hsP_le_of_slot {inn₀ : Bool} {s X L : ℕ}
           at hw
         have e1 : tokEl tok = wA W * ι (Nat.land tok 255) * (wA W)⁻¹ := by
           change (if tok < 1024 then _ else _) = _
-          rw [if_neg hlt, hWd]
+          rw [ite_eq_right hlt, hWd]
         have hka := (ii_parts ha).1
         have hgR : wA W ∈ hsR := wC_memK hw HS72.P_le_R fun _ => le_rfl
         rw [e1, tokE_hi hlt, hWd]

@@ -149,7 +149,7 @@ theorem map_overgroup_of_central {Y X : Type*} [Group Y] [Group X] [Finite Y] {�
   · have hS : ((S.mapSurjective hρ : Sylow 2 X) : Subgroup X) = (S : Subgroup Y).map ρ := by
       rw [Sylow.coe_mapSurjective]
     rw [← hS]
-    refine ⟨le_top, (S.mapSurjective hρ).isPGroup', ?_⟩
+    refine ⟨le_top, (S.mapSurjective hρ).isPGroup, ?_⟩
     rw [show (((S.mapSurjective hρ : Sylow 2 X) : Subgroup X).subgroupOf ⊤).index =
       ((S.mapSurjective hρ : Sylow 2 X) : Subgroup X).index from Subgroup.relIndex_top_right _]
     exact (S.mapSurjective hρ).not_dvd_index

@@ -13,7 +13,7 @@ open CFSG.ComponentClassification.AschbacherTheorem5.DeltaLocal
 variable {G : Type} [Group G]
 
 theorem fzJt_dict {t x₁ x₂ lam : G} {T₂ : Subgroup G} {a₁₂ a₂₂ a₃₂ : G}
-    (hs : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (ht : t ^ 2 = 1) (h1 : t * x₁ = x₁ * t)
+    (hs : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (ht : t ^ 2 = 1) (_h1 : t * x₁ = x₁ * t)
     (h2 : t * x₂ = x₂ * t) :
     ∃ π : Model →* G, FzfDict t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂ π ∧
       ∀ q : Q8, π (⟨(1, 1, q), 1⟩ : Model) = q8Hom hs.quat₃ q := by

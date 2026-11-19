@@ -170,7 +170,7 @@ theorem isCyclic_sylow_restrict {L : Subgroup G} (hLN : L ≤ N)
     intro a b hab
     have h1 := congrArg (fun x : ↥(coreActionKernel L) => (x : G)) hab
     exact Subtype.ext (Subtype.ext h1)
-  have hP2 : IsPGroup 2 ((P : Subgroup _).map φ) := P.isPGroup'.map φ
+  have hP2 : IsPGroup 2 ((P : Subgroup _).map φ) := P.isPGroup.map φ
   obtain ⟨R, hR⟩ := hP2.exists_le_sylow
   have : IsCyclic (R : Subgroup ↥(coreActionKernel L)) := hcyc R
   have hc : IsCyclic ↥(((P : Subgroup _).map φ).subgroupOf (R : Subgroup _)) := inferInstance

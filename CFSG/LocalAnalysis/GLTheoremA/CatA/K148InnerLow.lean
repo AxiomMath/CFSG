@@ -48,9 +48,9 @@ theorem dvd_centralizer_of_mem_short {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field 
     (2 ^ f) ^ 3 ∣ Nat.card (Subgroup.centralizer
       ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK3 : Nat.card K = 2 ^ (f * 3) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
   by_cases hev : f % 2 = 0
@@ -65,7 +65,7 @@ theorem dvd_centralizer_of_mem_short {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field 
   · obtain ⟨c, R, hcR, hRC, -, U, hU, ⟨e⟩⟩ :=
       CFSG.RankThree.PartTwo.Sec21.Item219LieProof.d4_threeA_model_unitary_two Nat.prime_two hf
         (by norm_num) (two_pow_mod_three_of_odd (by omega)) hK hσ hzS hz3 hz1
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     have hUcard := CFSG.RankThree.PartTwo.Sec4.E27.card_subgroup_unitarySet (ℓ := 2) (f := f) hf U hU
     have hR : (2 ^ f) ^ 3 ∣ Nat.card R := by

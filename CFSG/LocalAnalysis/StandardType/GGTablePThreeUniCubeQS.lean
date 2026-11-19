@@ -30,16 +30,16 @@ private theorem mem_LargeEvenGUSet_of_isHermIsometry {K : Type} [Field K] {q n :
   rw [h]
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.one_apply, Pi.single_apply]
-  · simp [Matrix.one_apply, Pi.single_apply, hij, Ne.symm hij, hq0]
+    simp [Pi.single_apply]
+  · simp [Pi.single_apply, hij, Ne.symm hij, hq0]
 
 private theorem not_isQuasisimple_of_isSolvable_centerQuot {Q P : Type} [Group Q] [Group P]
     (e : Q ⧸ Subgroup.center Q ≃* P) (hsolv : Group.IsSolvable P)
     (hqs : CFSG.Assembly.IsQuasisimple Q) : False := by
-  haveI : Group.IsSolvable P := hsolv
-  haveI hQ : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
+  have : Group.IsSolvable P := hsolv
+  have hQ : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hqs.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hqs.2
   have hcomm : IsMulCommutative (Q ⧸ Subgroup.center Q) :=
     ⟨⟨(IsSimpleGroup.comm_iff_isSolvable (G := Q ⧸ Subgroup.center Q)).mpr hQ⟩⟩
   have hle : commutator Q ≤ Subgroup.center Q :=
@@ -63,13 +63,13 @@ private theorem subsingleton_largeEvenSU_of_le_one {K : Type} [Field K] {f k : �
 private theorem isSolvable_largeEvenProj_su_two_two {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 4) :
     Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin 2) K 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card ↥(LargeEvenSUGroup (Fin 2) K 2) = 6 := by
     rw [CFSG.Assembly.largeEvenSUGroup_eq_statedSU]
     have h := CFSG.RankThree.SubgroupLists.card_statedSU_two (K := K) (r := 2) (f := 1)
       (by rw [hK]; norm_num)
     simpa using h
-  haveI : Group.IsSolvable ↥(LargeEvenSUGroup (Fin 2) K 2) :=
+  have : Group.IsSolvable ↥(LargeEvenSUGroup (Fin 2) K 2) :=
     CFSG.Quasithin.isSolvable_of_card_six hcard
   exact Group.isSolvable_of_surjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
 
@@ -124,11 +124,11 @@ theorem uni_cube_eigBlock_quasisimple_iff {K : Type} [Field K] [Finite K] [CharP
       simpa only [CubeBlockQS] using hnot
     obtain ⟨e⟩ := uni_cube_eigBlock_centerQuot hK hq3 hn hd hd3 hμ
     by_cases hk1 : Module.finrank K (cubeEigen d μ) ≤ 1
-    · haveI : Subsingleton ↥(LargeEvenSUGroup
+    · have : Subsingleton ↥(LargeEvenSUGroup
           (Fin (Module.finrank K (cubeEigen d μ))) K q) := by
         rw [hq]
         exact subsingleton_largeEvenSU_of_le_one hU hk1
-      haveI : Group.IsSolvable ↥(LargeEvenSUGroup
+      have : Group.IsSolvable ↥(LargeEvenSUGroup
           (Fin (Module.finrank K (cubeEigen d μ))) K q) := inferInstance
       have hsolv : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup
           (Fin (Module.finrank K (cubeEigen d μ))) K q)) :=

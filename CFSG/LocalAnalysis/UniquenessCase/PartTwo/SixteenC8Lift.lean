@@ -89,7 +89,7 @@ theorem c8_relIndex_barSub_le {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} (v�
   have hdvd : (C'.map f).relIndex (Y'.map f) ∣ C'.relIndex Y' := c8_relIndex_map_dvd f C' Y'
   have hpos : C'.relIndex Y' ≠ 0 := by
     rw [hidx]
-    haveI : Finite (↥Y ⧸ (Y ⊓ centralizer ({v₀.val} : Set G)).subgroupOf Y) :=
+    have : Finite (↥Y ⧸ (Y ⊓ centralizer ({v₀.val} : Set G)).subgroupOf Y) :=
       Quotient.finite _
     exact Subgroup.index_ne_zero_of_finite
   change (C'.map f).relIndex (Y'.map f) ≤ Nat.card V₀
@@ -106,7 +106,7 @@ theorem c8_barSub_inf_centralizer_eq (D : Data G) {V₀ V L : Subgroup G} {hV : 
     barSub V₀ V hV (L ⊓ centralizer ({v₀.val} : Set G)) =
       ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV v₀) := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   set P : Subgroup (MulAut (Vtil V₀ V hV)) :=
     ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV v₀) with hPdef
   let w : Vtil V₀ V hV := mkTil V₀ V hV v₀
@@ -182,7 +182,7 @@ theorem c8_barSub_inf_centralizer_eq (D : Data G) {V₀ V L : Subgroup G} {hV : 
     barSub_mono (V₀ := V₀) (V := V) (hV := hV)
       (inf_le_inf (show Y ≤ L from inf_le_left) le_rfl)
   have hne : (barSub V₀ V hV (Y ⊓ centralizer ({v₀.val} : Set G))).relIndex P ≠ 0 := by
-    haveI : Finite (↥P ⧸
+    have : Finite (↥P ⧸
         (barSub V₀ V hV (Y ⊓ centralizer ({v₀.val} : Set G))).subgroupOf P) :=
       Quotient.finite _
     exact Subgroup.index_ne_zero_of_finite
@@ -203,7 +203,7 @@ theorem c8_barSub_inf_centralizer_eq (D : Data G) {V₀ V L : Subgroup G} {hV : 
   have hperfP : ⁅P, P⁆ = P := by
     rw [hPdef]
     exact hperf
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   exact le_antisymm hsub
     (CFSG.Quasithin.Background.Harris.R1.perfect_le_of_index_le_four
       (K := P) (Stab := barSub V₀ V hV (L ⊓ centralizer ({v₀.val} : Set G)))

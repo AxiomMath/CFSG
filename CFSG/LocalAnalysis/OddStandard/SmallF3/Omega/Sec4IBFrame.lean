@@ -19,6 +19,7 @@ structure Sec4IFrame (Q : QuadraticForm (ZMod 3) V) where
   neg : ∀ i, Q (b i) = -1
   orth : ∀ i j, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem Sec4IFrame.map_eq (fr : Sec4IFrame Q) (x : V) : Q x = -∑ i, (fr.b.repr x i) ^ 2 := by
   have hortho : (QuadraticMap.associated (R := ZMod 3) Q).IsOrthoᵢ fr.b := by
     intro i j hij
@@ -36,6 +37,7 @@ theorem Sec4IFrame.map_eq (fr : Sec4IFrame Q) (x : V) : Q x = -∑ i, (fr.b.repr
   rw [fr.neg i, smul_eq_mul, Module.Basis.equivFun_apply, _root_.sq]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem linearIndependent_of_polar {ι : Type} [Fintype ι] (v : ι → V)
     (h0 : ∀ i j, i ≠ j → QuadraticMap.polar Q (v i) (v j) = 0)
     (h1 : ∀ i, QuadraticMap.polar Q (v i) (v i) ≠ 0) : LinearIndependent (ZMod 3) v := by

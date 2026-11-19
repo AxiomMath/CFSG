@@ -22,7 +22,7 @@ theorem map_rhoL_le_inner {M L : Subgroup G} (hN : M ≤ normalizer (L : Set G))
     (A.subgroupOf (normalizer (L : Set G))).map (rhoL L) ≤
       (MulAut.conj : Bar2 L →* MulAut (Bar2 L)).range := by
   obtain ⟨Nsub, hNn, -, hcyc, hcube, hEven⟩ := UCK.u3OutShape (Bar2 L) n hX
-  haveI := hNn
+  have := hNn
   have hgen := closure_pPrime_map (rhoL L) _ (closure_pPrime_subgroupOf hN (p := p) hOp)
   have hp3 : p ≠ 3 ∨ Nsub ≤ (MulAut.conj : Bar2 L →* MulAut (Bar2 L)).range := by
     by_cases h3 : p = 3
@@ -51,14 +51,14 @@ theorem exists_sub_fixing_sylow (hgr : CFSG.Open.GriessAllModelsStatement) {M L 
       ∃ Sb : Sylow q (Bar2 L), ∀ b (hb : b ∈ normalizer (L : Set G)), b ∈ B₁ →
         ∀ s ∈ (Sb : Subgroup (Bar2 L)), rhoL L ⟨b, hb⟩ s ∈ (Sb : Subgroup (Bar2 L)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBN : B ≤ normalizer (L : Set G) := hBM.trans hN
   by_cases hpn : p ∣ 2 ^ n + 1
   · have hndvd := UCK.u3SylCount_of_griess hgr (Bar2 L) n hX q p hq hq3 hqn hp hp2 hpn
-    letI : MulDistribMulAction ↥B (Bar2 L) :=
+    let : MulDistribMulAction ↥B (Bar2 L) :=
       MulDistribMulAction.compHom _ ((rhoL L).comp (Subgroup.inclusion hBN))
-    letI : MulAction ↥B (Sylow q (Bar2 L)) := Sylow.pointwiseMulAction
+    let : MulAction ↥B (Sylow q (Bar2 L)) := Sylow.pointwiseMulAction
     obtain ⟨Sb, hSb⟩ := hBel.isPGroup.nonempty_fixed_point_of_prime_not_dvd_card _ hndvd
     refine ⟨B, le_rfl, by rw [hBcard]; exact Nat.pow_le_pow_right hp.pos (by omega), Or.inl rfl,
       Sb, ?_⟩
@@ -119,8 +119,8 @@ theorem exists_lift_normalized {L B₁ : Subgroup G} (hB₁N : B₁ ≤ normaliz
       (S.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = Sb ∧
       B₁ ≤ normalizer (S : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hker : IsPGroup 2 π.ker := by
     rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
@@ -157,7 +157,7 @@ theorem exists_lift_normalized {L B₁ : Subgroup G} (hB₁N : B₁ ≤ normaliz
         Subgroup.orderOf_coe, hy]
     have hy'p : y' ^ p = 1 := hoy ▸ pow_orderOf_eq_one y'
     have hπy : π y' = 1 := by
-      obtain ⟨k, hk⟩ := Sb.isPGroup' ⟨π y', hy'⟩
+      obtain ⟨k, hk⟩ := Sb.isPGroup ⟨π y', hy'⟩
       have hk' : (π y') ^ (q ^ k) = 1 := by simpa using congrArg Subtype.val hk
       have hp' : (π y') ^ p = 1 := by rw [← map_pow, hy'p, map_one]
       exact (pow_eq_one_iff_of_coprime
@@ -172,7 +172,7 @@ theorem exists_lift_normalized {L B₁ : Subgroup G} (hB₁N : B₁ ≤ normaliz
   set S : Subgroup G := (T : Subgroup ↥Y).map Y.subtype with hSdef
   have hSY : S ≤ Y := Subgroup.map_subtype_le _
   have hSL : S ≤ L := hSY.trans (Subgroup.map_subtype_le _)
-  have hSq : IsPGroup q S := T.isPGroup'.map _
+  have hSq : IsPGroup q S := T.isPGroup.map _
   set SL : Subgroup ↥L := S.subgroupOf L with hSLdef
   have hSLq : IsPGroup q SL := hSq.comap_subtype
   have hSLdisj : Disjoint SL π.ker := by
@@ -185,7 +185,7 @@ theorem exists_lift_normalized {L B₁ : Subgroup G} (hB₁N : B₁ ≤ normaliz
     rw [card_map_of_disjoint_ker π SL hSLdisj, hSLdef,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSL).toEquiv, hSdef,
       Subgroup.card_map_of_injective Y.subtype_injective, T.card_eq_multiplicity]
-    obtain ⟨a, ha⟩ := Sb.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := Sb.isPGroup.exists_card_eq
     have hdvd : Nat.card (Sb : Subgroup (Bar2 L)) ∣ Nat.card Y := by
       rw [hYdef, Subgroup.card_map_of_injective L.subtype_injective]
       conv_lhs => rw [← Subgroup.map_comap_eq_self_of_surjective hπsurj (Sb : Subgroup (Bar2 L))]
@@ -208,10 +208,10 @@ theorem exists_omega_normalized (hgr : CFSG.Open.GriessAllModelsStatement) {L : 
     ∃ E : Subgroup G, E ≤ S ∧ IsElemAbelian q E ∧ Nat.card E = q ^ 2 ∧
       normalizer (S : Set G) ≤ normalizer (E : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   obtain ⟨Eb, hEbS, hEbel, hEbcard, hEbΩ⟩ :=
-    UCK.u3SylOmega_of_griess hgr (Bar2 L) n hX q hq hq3 hqn Sb Sb.isPGroup' Sb.not_dvd_index
+    UCK.u3SylOmega_of_griess hgr (Bar2 L) n hX q hq hq3 hqn Sb Sb.isPGroup Sb.not_dvd_index
   set π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hπdef
   have hker : IsPGroup 2 π.ker := by
     rw [hπdef, QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
@@ -260,7 +260,7 @@ theorem exists_omega_normalized (hgr : CFSG.Open.GriessAllModelsStatement) {L : 
   have := key b⁻¹ (inv_mem hb) _ hx
   simpa [mul_assoc] using this
 
-theorem keyLemma4 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} (hLM : L ≤ M)
+theorem keyLemma4 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} (_hLM : L ≤ M)
     (hN : M ≤ normalizer (L : Set G)) {n : ℕ} (hX : IsSU3 (Bar2 L) n) {q p : ℕ} (hq : q.Prime)
     (hq3 : 3 < q) (hqn : q ∣ 2 ^ n + 1) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ≠ q)
     (hOp : UC22.F10.OpRes p M = M) (hrank : 4 ≤ Open.pRank p M) :
@@ -271,8 +271,8 @@ theorem keyLemma4 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} 
       ∃ Sb : Subgroup (Bar2 L), IsPGroup q Sb ∧ ¬ q ∣ Sb.index ∧
         (S.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = Sb := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   obtain ⟨B, hBM, hBel, hBcard⟩ := exists_elemAbelian_card_of_le_pRank hp hrank
   obtain ⟨B₁, hB₁B, hB₁card, -, Sb, hSb⟩ :=
@@ -285,7 +285,7 @@ theorem keyLemma4 (hgr : CFSG.Open.GriessAllModelsStatement) {M L : Subgroup G} 
     rw [hj] at hB₁card
     exact (Nat.pow_le_pow_iff_right hp.one_lt).1 hB₁card
   have hrk := le_pRank' hp (le_inf (hB₁B.trans hBM) (hB₁S.trans hNE)) (hBel.mono hB₁B) hj
-  exact ⟨S, E, hSL, hSq, hSmax, hES, hEel, hEcard, by omega, Sb, Sb.isPGroup', Sb.not_dvd_index,
+  exact ⟨S, E, hSL, hSq, hSmax, hES, hEel, hEcard, by omega, Sb, Sb.isPGroup, Sb.not_dvd_index,
     hSmap⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.UC6S846

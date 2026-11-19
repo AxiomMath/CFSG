@@ -75,13 +75,13 @@ private theorem a11ri_permSL_three_ne_one :
 private theorem a11ri_trAt_three_01 :
     trAt 3 (0 : Fin 12) 1 = permSL 8 (Equiv.swap (0 : Fin 9) (1 : Fin 9)) := by
   simp only [trAt, a11ri_swapBlocks_three, Equiv.Perm.one_apply]
-  rw [dif_pos (by decide : (0 : Fin 12).val < 9 ∧ (1 : Fin 12).val < 9 ∧ (0 : Fin 12) ≠ 1)]
+  rw [dite_eq_left (by decide : (0 : Fin 12).val < 9 ∧ (1 : Fin 12).val < 9 ∧ (0 : Fin 12) ≠ 1)]
   rfl
 
 private theorem a11ri_trAt_three_12 :
     trAt 3 (1 : Fin 12) 2 = permSL 8 (Equiv.swap (1 : Fin 9) (2 : Fin 9)) := by
   simp only [trAt, a11ri_swapBlocks_three, Equiv.Perm.one_apply]
-  rw [dif_pos (by decide : (1 : Fin 12).val < 9 ∧ (2 : Fin 12).val < 9 ∧ (1 : Fin 12) ≠ 2)]
+  rw [dite_eq_left (by decide : (1 : Fin 12).val < 9 ∧ (2 : Fin 12).val < 9 ∧ (1 : Fin 12) ≠ 2)]
   rfl
 
 theorem a11RhoInjInput_holds :

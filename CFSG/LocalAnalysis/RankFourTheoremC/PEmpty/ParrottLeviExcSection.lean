@@ -22,7 +22,7 @@ theorem s622IsSimpleSection_center_of_isQuasisimple {Y : Subgroup X}
     (hY : CFSG.IsQuasisimple ↥Y) :
     S622IsSimpleSection Y ((Subgroup.center ↥Y).map Y.subtype) := by
   obtain ⟨-, hsimple, a, b, hab⟩ := hY
-  haveI := hsimple
+  have := hsimple
   have hsub := subgroupOf_map_subtype_eq_self Y (Subgroup.center ↥Y)
   refine ⟨Subgroup.map_subtype_le _, ?_, ?_, ?_, ?_⟩
   · rw [hsub]
@@ -38,9 +38,9 @@ theorem s622IsSimpleSection_center_of_isQuasisimple {Y : Subgroup X}
       rwa [← Subtype.ext hza]
     rw [(QuotientGroup.eq_one_iff a').2 ha', one_mul, mul_one]
   · intro N hDN hNY hNnorm
-    haveI : (N.subgroupOf Y).Normal := hNnorm
+    have : (N.subgroupOf Y).Normal := hNnorm
     have hZM : Subgroup.center ↥Y ≤ N.subgroupOf Y := fun z hz => hDN ⟨z, hz, rfl⟩
-    haveI : ((N.subgroupOf Y).map (QuotientGroup.mk' (Subgroup.center ↥Y))).Normal :=
+    have : ((N.subgroupOf Y).map (QuotientGroup.mk' (Subgroup.center ↥Y))).Normal :=
       Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     have hM : N.subgroupOf Y =
         ((N.subgroupOf Y).map (QuotientGroup.mk' (Subgroup.center ↥Y))).comap
@@ -81,8 +81,8 @@ theorem not_dvd_card_center_subsystemGroup [Finite K] {C : Set (Fin τ.rank)} {p
     (hp : p.Prime) (hpK : ¬ p ∣ Nat.card Kˣ) :
     ¬ p ∣ Nat.card (Subgroup.center ↥(subsystemGroup τ K C)) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hdvd
   apply hpK
   have hzT : ((z : ↥(subsystemGroup τ K C)) : ModGL τ K) ∈ subsystemTorus τ K C :=

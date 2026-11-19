@@ -54,7 +54,7 @@ theorem PumpUpAut.false_of_sym3_lift {K : Type} [Group K] {W Wk : Subgroup K}
       group
     rw [hgz, (hzb.inv_right.pow_right 2).mul_pow, hz3]
     group
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf g = 3 := orderOf_eq_prime hg3 (fun h1 => hm1 (by rw [← hπg, h1, map_one]))
   have hζfin : IsOfFinOrder ζ := isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, h.ζ_cube⟩
   have hpow : ∀ (n : ℕ) (x : K), ζ x = x → (ζ ^ n) x = x := by

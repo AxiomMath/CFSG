@@ -51,7 +51,7 @@ private theorem three_seven_not_dvd_nativeParabolic {I : Set (Fin 4)} (hI : I �
     exact hI (Set.eq_univ_iff_forall.2 h)
   have hle : nativeParabolic I ≤ nativeParabolic (Set.univ \ {m}) :=
     nativeParabolic_mono fun i hi => by
-      simp only [Set.mem_diff, Set.mem_univ, true_and, Set.mem_singleton_iff]
+      simp only [Set.mem_sdiff, Set.mem_univ, true_and, Set.mem_singleton_iff]
       intro h
       exact hm (h ▸ hi)
   have hdvd : Nat.card (nativeParabolic I) ∣ Nat.card (nativeParabolic (Set.univ \ {m})) :=

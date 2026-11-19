@@ -21,8 +21,8 @@ theorem noSig_xE_of_sl33
       Nat.card R = 13 ^ 2 → gw thirteenX ∈ R →
       Y ≤ Subgroup.centralizer ({gw thirteenX} : Set Gmat) →
       ¬ 13 ∣ Nat.card Y → R ≤ Subgroup.normalizer (Y : Set Gmat) → Y = ⊥ := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hG : CFSG.Monster.Generated.Gmat = CFSG.Monster.Griess.AutO :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.gmat_eq_griess
   let φ : CFSG.Monster.Generated.Gmat ≃* CFSG.Monster.Existence.MGriess :=

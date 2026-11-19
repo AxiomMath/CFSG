@@ -36,6 +36,7 @@ theorem relIndex_two_pow_of_le_normalizer {X C H : Subgroup G} (hXH : X ≤ H) (
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
   exact ⟨m, hm⟩
 
+omit [Finite G] in
 theorem le_of_relIndex_odd {X E C : Subgroup G} (hXE : X ≤ E) (hodd : Odd (E.relIndex C))
     {m : ℕ} (hm : X.relIndex C = 2 ^ m) : C ≤ E := by
   have hmul : X.relIndex C = (X ⊓ C).relIndex (E ⊓ C) * E.relIndex C := by
@@ -54,6 +55,7 @@ section Hall
 
 variable {H T : Subgroup G}
 
+omit [Finite G] in
 private theorem card_subgroupOf_of_le' (hTH : T ≤ H) : Nat.card (T.subgroupOf H) = Nat.card T :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTH).toEquiv
 
@@ -67,7 +69,7 @@ private theorem coprime_of_normal_two (hTH : T ≤ H) (hT : IsPGroup 2 T)
 theorem exists_hall_of_normal_two (hTH : T ≤ H) (hHT : H ≤ normalizer (T : Set G))
     (hT : IsPGroup 2 T) (hodd : Odd (T.relIndex H)) :
     ∃ X : Subgroup G, X ≤ H ∧ Nat.card X = T.relIndex H := by
-  haveI : (T.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hTH).mpr hHT
+  have : (T.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hTH).mpr hHT
   obtain ⟨K, hK⟩ := Subgroup.exists_right_complement'_of_coprime
     (coprime_of_normal_two hTH hT hodd)
   refine ⟨K.map H.subtype, map_subtype_le K, ?_⟩
@@ -83,7 +85,7 @@ theorem exists_conj_hall_of_normal_two (hTH : T ≤ H) (hHT : H ≤ normalizer (
     (hT : IsPGroup 2 T) (hodd : Odd (T.relIndex H)) {X Y : Subgroup G} (hXH : X ≤ H)
     (hYH : Y ≤ H) (hX : Nat.card X = T.relIndex H) (hY : Nat.card Y = T.relIndex H) :
     ∃ c ∈ H, ∀ y : G, y ∈ Y ↔ c⁻¹ * y * c ∈ X := by
-  haveI hN : (T.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hTH).mpr hHT
+  have hN : (T.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hTH).mpr hHT
   have hcop := coprime_of_normal_two hTH hT hodd
   have hcard : ∀ {W : Subgroup G}, W ≤ H → Nat.card W = T.relIndex H →
       (T.subgroupOf H).IsComplement' (W.subgroupOf H) := by

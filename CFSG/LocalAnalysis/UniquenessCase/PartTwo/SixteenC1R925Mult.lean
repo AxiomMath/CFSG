@@ -35,7 +35,7 @@ private theorem r925_card_psl_three_five :
 theorem l35_central_trivial (hGA : CFSG.Open.GriessAllModelsStatement) {E : Type} [Group E]
     [Finite E] (W : Subgroup E) [W.Normal] (hW : W ≤ Subgroup.center E)
     (hE : commutator E = ⊤) (hq : IsL3Five (E ⧸ W)) : W = ⊥ := by
-  haveI : Group.IsPerfect E := ⟨hE⟩
+  have : Group.IsPerfect E := ⟨hE⟩
   let q : E →* E ⧸ W := QuotientGroup.mk' W
   have hqsurj : Function.Surjective q := QuotientGroup.mk'_surjective W
   have hkerq : q.ker = W := QuotientGroup.ker_mk' W
@@ -61,7 +61,7 @@ theorem l35_central_trivial (hGA : CFSG.Open.GriessAllModelsStatement) {E : Type
 theorem a5_central_card_le_two {E : Type} [Group E] [Finite E]
     (W : Subgroup E) [W.Normal] (hW : W ≤ Subgroup.center E) (hE : commutator E = ⊤)
     (hq : IsAlt (E ⧸ W) 5) : Nat.card W ≤ 2 := by
-  haveI : Group.IsPerfect E := ⟨hE⟩
+  have : Group.IsPerfect E := ⟨hE⟩
   obtain ⟨e⟩ := hq
   let q : E →* alternatingGroup (Fin 5) := e.toMonoidHom.comp (QuotientGroup.mk' W)
   have hqsurj : Function.Surjective q := e.surjective.comp (QuotientGroup.mk'_surjective W)

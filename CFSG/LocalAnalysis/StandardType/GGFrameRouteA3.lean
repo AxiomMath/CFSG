@@ -82,7 +82,7 @@ theorem twoLocalPrimeRank_centralizer_eq_of_local {G : Type} [Group G] [Finite G
     twoLocalPrimeRank 3 (Subgroup.centralizer ({y} : Set G)) = twoLocalPrimeRank 3 G := by
   unfold LargeEvenIsBmax LargeEvenTwoLocalRank at hB
   obtain ⟨hBab, hBcard, -⟩ := hB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder_y : orderOf y = 3 := orderOf_eq_prime (hBab.2 y hy) hy1
   have hm : twoLocalPrimeRank 3 G = r + 1 := by
     have hp : (3 : ℕ) ^ (r + 1) = 3 ^ twoLocalPrimeRank 3 G := hcard ▸ hBcard
@@ -220,7 +220,7 @@ theorem exists_twoLocal_three_of_twD7 {G : Type} [Group G] [Finite G] {K : Subgr
   obtain ⟨rfl, rfl, rfl⟩ := hP
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   obtain ⟨K', hField, hFiniteK, hcardK, b, c, hirr, hQ⟩ := hraw
-  haveI : CharP K' 2 :=
+  have : CharP K' 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two le_rfl hcardK
   obtain ⟨U_R, E_R, hUR_ne, hUR_p, hER_norm, hER_ab, hER_card⟩ :=

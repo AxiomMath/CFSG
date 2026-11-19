@@ -30,9 +30,9 @@ theorem nsQFourRow_uniOrd {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
   have hU : GGMemberUnitary p Bs L := hrow
   obtain ⟨K, hKfield, hKfin, hKchar, f, n, ψ, hKcard, hn4, hker, hrange, hpf, hpos, hlab⟩ :=
     ggMemberUnitary_position hcfg (Or.inl rfl) hU
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨ε, hεrefl, hεlevi⟩ := hpos
   obtain ⟨bb, hnb, hlabL⟩ := hlab
   have hf1 : 1 ≤ f := by
@@ -66,7 +66,7 @@ theorem nsQFourRow_uniOrd {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
   have hblockMap_inj : Function.Injective blockMap := blockEmb_injective (by omega)
   have hφinj : Function.Injective (blockMap.comp eSL.toMonoidHom) :=
     hblockMap_inj.comp eSL.injective
-  haveI : CharP (fixedSubfield K 2 f) 2 := inferInstance
+  have : CharP (fixedSubfield K 2 f) 2 := inferInstance
   let θ : Matrix.SpecialLinearGroup (Fin 2) (fixedSubfield K 2 f) →* G :=
     ψ.comp (blockMap.comp eSL.toMonoidHom)
   have hθinj : Function.Injective θ :=

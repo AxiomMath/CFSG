@@ -42,7 +42,7 @@ theorem card_langCube_inf_inner :
   have hY := TwE6DD2.isElemAbelian_langCube (n := 1) le_rfl hK σ hσ Fr hFr g
   have hcard : Nat.card ↥Y = 3 ^ 6 :=
     TwE6DD2.card_langCube (n := 1) le_rfl hK σ hσ Fr hFr h3 hg hgn
-  letI : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨ρ, h, hρ, hh, _, hinv, hlarge⟩ :=
     TwE6DD2.reflData_langCube (n := 1) le_rfl hK σ hσ h3 Fr hFr hg hgn
   have hhI : ∀ i, h i ∈ I := fun i =>
@@ -66,7 +66,7 @@ theorem card_langCube_inf_inner :
   have hklo : 5 ≤ k := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).mp hlo
   have hkhi : k < 6 := (Nat.pow_lt_pow_iff_right (by norm_num : 1 < 3)).mp hlt
   have hkeq : k = 5 := by omega
-  simpa only [Y, I, hk, hkeq]
+  simp only [Y, I, hk, hkeq]
 
 include hg hgn in
 theorem eq_langCube_inf_inner_of_card {S : Subgroup

@@ -20,7 +20,7 @@ theorem prop41
     (h : TwHyp G a x J S' W K T t) (hρ : TwModel (normalizer (W : Set G)) K t ρ)
     (hC : ConcX (imgT T (normalizer (W : Set G)) ρ)) {y d : ↥(normalizer (W : Set G))}
     (hy2 : y * y = 1) (hyU : IsUU (ρ y)) (hya : (y : G) * a = a * (y : G))
-    (hdT : (d : G) ∈ T) (hd2 : d * d = 1) (hdD : IsD (ρ d))
+    (_hdT : (d : G) ∈ T) (hd2 : d * d = 1) (hdD : IsD (ρ d))
     (hdZ : ∀ z ∈ T, z * (d : G) = (d : G) * z) (g : G) : g⁻¹ * (y : G) * g ≠ (d : G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hg

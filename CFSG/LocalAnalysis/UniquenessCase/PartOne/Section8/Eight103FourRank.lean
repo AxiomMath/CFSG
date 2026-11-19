@@ -57,6 +57,7 @@ private theorem card_comap_of_le_range {F H : Type*} [Group F] [Finite F] [Group
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hkerle).toEquiv] at hψ
   exact hψ.symm
 
+omit [Finite G] in
 private theorem le_centralizer_of_fix_bar2 {L S C : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hSL : S ≤ L) (hSq : IsPGroup q S) (hCN : C ≤ normalizer (L : Set G))
     (hCS : C ≤ normalizer (S : Set G))

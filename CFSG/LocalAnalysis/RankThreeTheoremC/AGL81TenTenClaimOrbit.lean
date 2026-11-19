@@ -20,9 +20,11 @@ namespace TenTenClaimOrbit
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem oUpperTwo_mono {A B : Subgroup G} (h : A ≤ B) : oUpperTwo A ≤ oUpperTwo B :=
   closure_mono fun _ hx => ⟨h hx.1, hx.2⟩
 
+omit [Finite G] in
 theorem subgroupOf_map_restrictAut {X J : Subgroup G} {q : G}
     (hX : X.map (MulAut.conj q).toMonoidHom = X) (hJ : J ≤ X) :
     (J.subgroupOf X).map (CZeroOrbit.restrictAut (MulAut.conj q) X hX).toMonoidHom =
@@ -37,6 +39,7 @@ theorem subgroupOf_map_restrictAut {X J : Subgroup G} {q : G}
     refine ⟨⟨y, hJ hy⟩, mem_subgroupOf.mpr hy, Subtype.ext ?_⟩
     exact hyx
 
+omit [Finite G] in
 theorem nonempty_quotEquiv_barM {X I : Subgroup G} (hIX : I ≤ X)
     (hker : ∀ g ∈ I, g ∈ pCoreOf 2 X ↔ g ∈ pCoreOf 2 I) :
     Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* ↥(barM X I)) := by
@@ -73,8 +76,8 @@ theorem rank_of_cZero_orbit {X I₀ : Subgroup G} (hI₀ : I₀ ∈ cZero X)
     (hmove : (oUpperTwo I₀).map (MulAut.conj q).toMonoidHom ≠ oUpperTwo I₀) :
     2 ≤ CFSG.Open.pRank 3 X ∧ (5 ≤ p → 4 ≤ CFSG.Open.pRank 3 X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup ↥X := CFSG.pCore 2 ↥X with hNdef
   set π := QuotientGroup.mk' N with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective N
@@ -223,7 +226,7 @@ open TenTenClaim in
 theorem agl81TenTenClaimCfg_of_orbit (h1031 : AGL81TenThreeOneAt G) (h98 : AGL81NineEightFour G) :
     AGL81TenTenClaimCfg G := by
   intro hS p P M H Q K hd L hL hNL I₀ hI₀
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := oUpperTwo I₀ with hIdef
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp : p.Prime := he.prime

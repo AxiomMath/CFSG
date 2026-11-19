@@ -61,10 +61,10 @@ theorem stronglyEmbeddedFive_of_kFacts (hId : CFSG.AGLEmbedding.KFactSmallIdent)
     (hJ4out : Nat.card (Outer (TauCeti.CFSGIndex.sporadic .J4).Group) = 1) :
     StronglyEmbeddedFive := by
   intro p hp hp5 X _ _ hX hO h2 N hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hKs, -, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting X) := hKs
-  haveI : (CFSG.generalizedFitting X).Normal := hKn
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting X) := hKs
+  have : (CFSG.generalizedFitting X).Normal := hKn
   rcases identification_of_isStronglyPEmbedded hId hLie hCyc hp hp5 hX hO h2 hN with
     hS | ⟨d, hd, ⟨e⟩⟩ | ⟨rfl, hSz⟩
   · rcases hS with ⟨d, hd, ⟨e⟩⟩ | ⟨d, ⟨q, hqp, -, hdq⟩, ⟨e⟩⟩ | hA | ⟨rfl, -⟩ |

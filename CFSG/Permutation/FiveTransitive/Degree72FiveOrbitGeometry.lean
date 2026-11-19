@@ -42,7 +42,7 @@ theorem exterior_orbit_card_five
   let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
   let _ : Fact (Nat.Prime 11) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   obtain ⟨g,hg⟩ := exists_eleven P hcard h5 hnotAlt s hs S hF12
   let B := NormalizerOrbitFamily.Family (X := X) Q 25
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 25

@@ -16,6 +16,7 @@ section Coboundary
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {E : Type} [Field E] [Algebra F E]
   [CharP E 2]
 
+omit [Fintype F] [CharP F 2] in
 private theorem tmatE_uElt_col_top (J : Finset ℕ) (t : F) (x : J → Fin 2) :
     tmatE E (fun i : J => (i : ℕ)) (uElt t) x (fun _ => 1) =
       algebraMap F E t ^ aexp (fun i : J => (i : ℕ)) (fun i => 1 - x i) := by
@@ -41,8 +42,10 @@ private theorem aexp_one (J : Finset ℕ) :
   rw [← Finset.sum_attach J (fun i => 2 ^ i)]
   simp
 
+omit [Fintype F] [CharP F 2] in
 private theorem utriElt_eq_uElt (s : F) : CFSG.CGT.Timmesfeld75.utriElt s = uElt s := rfl
 
+omit [Fintype F] [CharP F 2] in
 theorem frobTensor_uElt_apply_single_top (J : Finset ℕ) (t : F) (κ : E) (x : J → Fin 2) :
     frobTensor F E J (uElt t) (Pi.single (fun _ => 1) κ) x =
       algebraMap F E t ^ aexp (fun i : J => (i : ℕ)) (fun i => 1 - x i) * κ := by
@@ -53,6 +56,7 @@ theorem frobTensor_uElt_apply_single_top (J : Finset ℕ) (t : F) (κ : E) (x : 
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [CharP F 2] in
 theorem uElt_cocycle_eq_steinberg {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F = 2 ^ n)
     (c' : SL(2, F) → (Finset.range n → Fin 2) → E)
     (hc' : ∀ g h, c' (g * h) = c' g + frobTensor F E (Finset.range n) g (c' h))
@@ -115,7 +119,7 @@ theorem uElt_cocycle_eq_steinberg {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F 
         exact ⟨0, by simp [J]; omega⟩
       simp only [Pi.zero_apply, map_zero, zero_pow hm.ne', zero_mul]
     · rw [hmono t ht (fun _ => 0)]
-      simp only [Pi.zero_apply, sub_zero]
+      simp only [sub_zero]
       rw [aexp_one J]
   have hpoly : ∀ s : F, ∑ y : J → Fin 2,
       (if y = (fun _ => 1) then κ (fun _ => 1) else κ (fun _ => 0) - κ y) *
@@ -155,14 +159,14 @@ theorem uElt_cocycle_eq_steinberg {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F 
       rw [← Finset.sum_erase_add Finset.univ _ (Finset.mem_univ (fun _ => 1))]
       rw [← Finset.sum_erase_add Finset.univ (fun y => (κ (fun _ => 0) - κ y) *
         (algebraMap F E s) ^ aexp e y) (Finset.mem_univ (fun _ => 1))]
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hcongr : ∑ y ∈ Finset.univ.erase (fun _ => 1),
           (if y = (fun _ => 1) then κ (fun _ => 1) else κ (fun _ => 0) - κ y) *
             (algebraMap F E s) ^ aexp e y
           = ∑ y ∈ Finset.univ.erase (fun _ => 1),
             (κ (fun _ => 0) - κ y) * (algebraMap F E s) ^ aexp e y := by
         refine Finset.sum_congr rfl fun y hy => ?_
-        rw [if_neg (Finset.ne_of_mem_erase hy)]
+        rw [ite_eq_right (Finset.ne_of_mem_erase hy)]
       rw [hcongr]
       have h2 : κ (fun _ => 1) * (algebraMap F E s) ^ aexp e (fun _ => 1) +
           κ (fun _ => 1) * (algebraMap F E s) ^ aexp e (fun _ => 1) = 0 :=
@@ -177,7 +181,7 @@ theorem uElt_cocycle_eq_steinberg {n : ℕ} (hn : 1 ≤ n) (hF : Fintype.card F 
   have hcy : ∀ y : J → Fin 2, y ≠ (fun _ => 1) → κ y = κ (fun _ => 0) := by
     intro y hy
     have h := hcoef y
-    rw [if_neg hy, sub_eq_zero] at h
+    rw [ite_eq_right hy, sub_eq_zero] at h
     exact h.symm
   refine ⟨Pi.single (fun _ => 1) (κ (fun _ => 0)), fun t => ?_⟩
   funext x

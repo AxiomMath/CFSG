@@ -42,7 +42,7 @@ theorem psp_pRank_fixed {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
   have hβE : β ∈ spSemilinearAutGroup n F := mem_of_pow_eq_one_of_index_dvd_two hidx hp hp2 hβp
   by_cases hD : β ∈ spLinearAutGroup n F
   · exfalso
-    haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal
+    have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal
       (StatedProj (StatedSp n F))
     exact hβout (mem_of_pow_eq_one_of_relIndex_dvd_two
       (H := CFSG.ComponentClassification.OuterAutomorphisms.inner (StatedProj (StatedSp n F)))

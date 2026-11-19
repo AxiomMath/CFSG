@@ -73,7 +73,7 @@ theorem bound_E6 (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group K]
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group) :
     5 + CFSG.Open.pRank 3 (Subgroup.center K) ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
   have hne : 3 ≠ q.p := three_ne_char (Or.inl h3)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   by_cases hZ : 3 ∣ Nat.card (Subgroup.center K)
   · have hX : CFSG.Models.LieModel (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group .E6 0 q.p q.exponent :=
@@ -100,7 +100,7 @@ theorem bound_twistedE6 (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [G
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group) :
     5 + CFSG.Open.pRank 3 (Subgroup.center K) ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
   have hne : 3 ≠ q.p := three_ne_char (Or.inr h3)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   by_cases hZ : 3 ∣ Nat.card (Subgroup.center K)
   · have hX : CFSG.Models.LieModel (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group .twistedE6 0

@@ -245,8 +245,8 @@ theorem rankTwoExceptionalEvenStandardNF :
     exact excAt_of_belowNF hII h4 h32 h83 h814 g2FourOddCenter suzL34DiagInput h81 hP A
       hBelow hH hO hT
 
-theorem rankTwoExceptionalEvenStandard_of_open (hBender : RankTwoBenderStandard)
-    (hL3 : RankTwoL3EvenStandard) (h6 : RankTwoClassicalEvenStandard) :
+theorem rankTwoExceptionalEvenStandard_of_open (_hBender : RankTwoBenderStandard)
+    (_hL3 : RankTwoL3EvenStandard) (_h6 : RankTwoClassicalEvenStandard) :
     RankTwoExceptionalEvenStandard := by
   intro G _ _ A hH hO hT
   exact rankTwoExceptionalEvenStandardNF (G := G) (A := A) hH.toNF hO hT

@@ -83,8 +83,8 @@ theorem deltaImage_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X D K : Subgroup
     Lemma123.DeltaImage p X D K ≤
       localDeltaTwoIn (innerAut (barOf p K) ⊔ Lemma123.DeltaImage p X D K) (autBar p D K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hN
   set W : Subgroup (MulAut (barOf p K)) := Lemma123.DeltaImage p X D K with hW
   set I : Subgroup (MulAut (barOf p K)) := innerAut (barOf p K) with hI
@@ -324,7 +324,7 @@ theorem deltaImage_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X D K : Subgroup
   have hCB : Cδ ≤ Subgroup.normalizer (B : Set _) := by
     intro c hc
     obtain ⟨hcH, hcC⟩ := Subgroup.mem_inf.1 hc
-    haveI : I.Normal := Lemma123.innerAut_normal (barOf p K)
+    have : I.Normal := Lemma123.innerAut_normal (barOf p K)
     have hcm : c ∈ ((I : Subgroup (MulAut (barOf p K))) : Set (MulAut (barOf p K))) *
         ((W : Subgroup (MulAut (barOf p K))) : Set (MulAut (barOf p K))) := by
       rw [← Subgroup.normal_mul]
@@ -354,7 +354,7 @@ variable {Y Y' : Type*} [Group Y] [Group Y']
 
 theorem map_pCoreOf_le [Finite Y] (f : Y →* Y') (S : Subgroup Y) :
     (pCoreOf 2 S).map f ≤ pCoreOf 2 (S.map f) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     (Subgroup.map_mono (CFSG.LieType.BorelTits.pCoreOf_le 2 S))
     (Lemma123.map_le_normalizer_map f (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 S))
@@ -413,12 +413,12 @@ theorem isWeaklyLocallyOTwoBalanced_of_map [Finite Y] [Finite Y'] {p k : ℕ} (f
 theorem isLocallyOTwoBalancedWrtP_of_map [Finite Y] [Finite Y'] {p k : ℕ} (f : MulAut Y →* MulAut Y')
     (hf : Function.Injective f) (hinn : innerAut Y' ≤ (innerAut Y).map f)
     (h : IsLocallyOTwoBalancedWrtP p k Y') : IsLocallyOTwoBalancedWrtP p k Y :=
-  fun A hA => isLocallyOTwoBalanced_of_map f hf hinn (h _ (CFSG.SectionRank.isElemAbelian_map hA f))
+  fun _A hA => isLocallyOTwoBalanced_of_map f hf hinn (h _ (CFSG.SectionRank.isElemAbelian_map hA f))
 
 theorem isWeaklyLocallyOTwoBalancedWrtP_of_map [Finite Y] [Finite Y'] {p k : ℕ}
     (f : MulAut Y →* MulAut Y') (hf : Function.Injective f) (hinn : innerAut Y' ≤ (innerAut Y).map f)
     (h : IsWeaklyLocallyOTwoBalancedWrtP p k Y') : IsWeaklyLocallyOTwoBalancedWrtP p k Y :=
-  fun A hA => isWeaklyLocallyOTwoBalanced_of_map f hf hinn
+  fun _A hA => isWeaklyLocallyOTwoBalanced_of_map f hf hinn
     (h _ (CFSG.SectionRank.isElemAbelian_map hA f))
 
 theorem congr_conj (e : Y ≃* Y') (y : Y) : MulAut.congr e (MulAut.conj y) = MulAut.conj (e y) := by
@@ -520,7 +520,7 @@ theorem pCoreOf_ne_bot_of_four {M : Type*} [Group M] [Finite M] (ψ : ↥(altern
     (h4 : Fintype.card {i // σ i = i} = 4) :
     pCoreOf 2 (ψ.range ⊓ Subgroup.centralizer ({ψ ⟨σ, hσ⟩} : Set M)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : α → Prop := fun i => σ i = i with hP
   set L : Subgroup (Perm α) := AltFacts3.altOn P with hL
   have hLA : L ≤ alternatingGroup α := AltFacts3.altOn_le P
@@ -529,7 +529,7 @@ theorem pCoreOf_ne_bot_of_four {M : Type*} [Group M] [Finite M] (ψ : ↥(altern
   set T : Subgroup M := T₀.map ψ with hT
   have hT₀ : T₀ ≠ ⊥ := by
     have hcard : Nat.card {i // P i} = 4 := by rw [Nat.card_eq_fintype_card]; exact h4
-    haveI := alternatingGroup.normal_kleinFour hcard
+    have := alternatingGroup.normal_kleinFour hcard
     have hV2 : IsPGroup 2 ↥(alternatingGroup.kleinFour {i // P i}) := by
       refine IsPGroup.of_card (n := 2) ?_
       rw [alternatingGroup.kleinFour_card_of_card_eq_four hcard]
@@ -602,7 +602,7 @@ theorem not_balanced_of_four {Y : Type*} [Group Y] [Finite Y] {n p : ℕ} (hp : 
     (hσ : σ ∈ alternatingGroup (Fin n)) (hσp : σ ^ p = 1) (hσ1 : σ ≠ 1)
     (h4 : Fintype.card {i // σ i = i} = 4) : ¬ IsLocallyOTwoBalancedWrtP p 1 Y := by
   intro hbal
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ψ : ↥(alternatingGroup (Fin n)) →* MulAut Y := (innerHom Y).comp θ.symm.toMonoidHom with hψ
   have hψi : Function.Injective ψ := (innerHom_injective Y).comp θ.symm.injective
   have hψr : ψ.range = innerAut Y := by
@@ -635,6 +635,7 @@ open Equiv Equiv.Perm
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [DecidableEq α] in
 theorem pow_eq_one_of_mem_uSub {σ u : Perm α} {p : ℕ} (hσ : σ ^ p = 1) (hu : u ∈ Claims126.uSub σ) :
     u ^ p = 1 := by
   ext x
@@ -652,9 +653,11 @@ theorem uSub_le_alternatingGroup {σ : Perm α} {p : ℕ} (hp : p.Prime) (hp2 : 
   · rw [h1, (hp.odd_of_ne_two hp2).neg_one_pow] at h
     exact absurd h (by decide)
 
+omit [DecidableEq α] in
 theorem isPGroup_uSub_p {σ : Perm α} {p : ℕ} (hσ : σ ^ p = 1) : IsPGroup p ↥(Claims126.uSub σ) :=
   fun u => ⟨1, Subtype.ext (by simpa using pow_eq_one_of_mem_uSub hσ u.2)⟩
 
+omit [Fintype α] [DecidableEq α] in
 theorem apply_eq_of_pow_two {σ x : Perm α} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hσ : σ ^ p = 1)
     (hxσ : x * σ = σ * x) {e : ℕ} (hxe : x ^ (2 ^ e) = 1) {y : α} (hy : σ y ≠ y) {k : ℕ}
     (hk : x y = (σ ^ k) y) : x y = y := by
@@ -691,8 +694,8 @@ theorem pCoreOf_eq_bot_of_card_fix {σ : Perm α} {p : ℕ} (hp : p.Prime) (hp2 
     (h2 : Fintype.card {i // σ i = i} ≠ 2) (h4 : Fintype.card {i // σ i = i} ≠ 4) :
     pCoreOf 2 (H ⊓ Subgroup.centralizer ({σ} : Set (Perm α))) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S : Subgroup (Perm α) := H ⊓ Subgroup.centralizer ({σ} : Set (Perm α)) with hS
   set T : Subgroup (Perm α) := pCoreOf 2 S with hT
   have hTS : T ≤ S := CFSG.LieType.BorelTits.pCoreOf_le 2 S
@@ -772,7 +775,7 @@ theorem pCoreOf_eq_bot_of_card_fix {σ : Perm α} {p : ℕ} (hp : p.Prime) (hp2 
   ·
     have hLc : Nat.card ↥L = 3 := by
       rw [← Nat.card_congr (AltFacts3.altOnEquiv P).toEquiv]
-      haveI : Nontrivial {i // P i} := ⟨⟨⟨i, hi⟩, ⟨i', hi'F⟩, fun h => hii' (congrArg Subtype.val h)⟩⟩
+      have : Nontrivial {i // P i} := ⟨⟨⟨i, hi⟩, ⟨i', hi'F⟩, fun h => hii' (congrArg Subtype.val h)⟩⟩
       rw [nat_card_alternatingGroup, hcardP, hr3]
       rfl
     have hTL1 : T ⊓ L = ⊥ := by
@@ -839,9 +842,9 @@ theorem pCoreOf_eq_bot_of_card_fix {σ : Perm α} {p : ℕ} (hp : p.Prime) (hp2 
     exact hxi (by rw [hi', hx1, Perm.one_apply])
   ·
     have hTL1 : T ⊓ L = ⊥ := by
-      haveI : IsSimpleGroup ↥(alternatingGroup {i // P i}) :=
+      have : IsSimpleGroup ↥(alternatingGroup {i // P i}) :=
         alternatingGroup.isSimpleGroup (by rw [hcardP]; exact hr5)
-      haveI : IsSimpleGroup ↥L := (AltFacts3.altOnEquiv P).isSimpleGroup_congr.1 inferInstance
+      have : IsSimpleGroup ↥L := (AltFacts3.altOnEquiv P).isSimpleGroup_congr.1 inferInstance
       have hN : ((T ⊓ L).subgroupOf L).Normal := by
         refine ⟨fun y hy l => ?_⟩
         rw [Subgroup.mem_subgroupOf] at hy ⊢
@@ -927,7 +930,7 @@ theorem pCoreOf_ne_bot_of_two {M : Type} [Group M] [Finite M] (ψ : Perm α →*
     (hψ : Function.Injective ψ) {σ : Perm α} (h2 : Fintype.card {i // σ i = i} = 2) :
     pCoreOf 2 (ψ.range ⊓ Subgroup.centralizer ({ψ σ} : Set M)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : (Finset.univ.filter fun i => σ i = i).card = 2 := by
     rw [← Fintype.card_subtype]; exact h2
   obtain ⟨a, b, hab, hFab⟩ := Finset.card_eq_two.1 hF
@@ -1003,7 +1006,7 @@ theorem not_balanced_of_core {Y : Type*} [Group Y] [Finite Y] {p : ℕ} (hp : p.
 
 theorem not_balanced_alt_of_mod {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn5 : 5 ≤ n)
     (h : n % p = 2 ∨ n % p = 4 % p) : ¬ IsLocallyOTwoBalancedWrtP p 1 ↥(alternatingGroup (Fin n)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   rcases h with h2 | h4
   · have hdm := Nat.div_add_mod n p
@@ -1038,7 +1041,7 @@ theorem not_balanced_alt_of_mod {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn5 
 theorem balanced_alt_of_not_mod {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn5 : 5 ≤ n) (h6 : n ≠ 6)
     (h : ¬ (n % p = 2 ∨ n % p = 4 % p)) : IsLocallyOTwoBalancedWrtP p 1 ↥(alternatingGroup (Fin n)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   let Φ : Perm (Fin n) ≃* MulAut ↥(alternatingGroup (Fin n)) :=
     MulEquiv.ofBijective (MulAut.conjNormal (H := alternatingGroup (Fin n)))
@@ -1112,9 +1115,9 @@ theorem balanced_alt6_of_not_dvd {p : ℕ} (hp1440 : ¬ p ∣ 1440) :
 
 theorem balanced_alt6_three : IsLocallyOTwoBalancedWrtP 3 1 ↥(alternatingGroup (Fin 6)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 3 (MulAut ↥(alternatingGroup (Fin 6)))) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 3 (MulAut ↥(alternatingGroup (Fin 6)))) :=
     Finite.of_injective (fun P : Sylow 3 (MulAut ↥(alternatingGroup (Fin 6))) =>
       (P : Set (MulAut ↥(alternatingGroup (Fin 6))))) (fun P Q h => SetLike.coe_injective h)
   intro A hA D hD H hH hDH
@@ -1138,7 +1141,7 @@ theorem balanced_alt6_three : IsLocallyOTwoBalancedWrtP 3 1 ↥(alternatingGroup
   have hS0eq : (S0 : Subgroup (MulAut ↥(alternatingGroup (Fin 6)))) = H0 := by
     refine (Subgroup.eq_of_le_of_card_ge hH0S0 ?_).symm
     rw [hH0c]
-    exact Nat.le_of_dvd (by norm_num) (card_dvd_nine_of_isPGroup S0.isPGroup')
+    exact Nat.le_of_dvd (by norm_num) (card_dvd_nine_of_isPGroup S0.isPGroup)
   have hH0e : ∀ h ∈ H0, h ^ 3 = 1 ∧ h ∈ innerAut ↥(alternatingGroup (Fin 6)) := by
     rintro _ ⟨f, hf, rfl⟩
     exact ⟨by rw [← map_pow, isElemAbelian_F06.2 f hf, map_one], ⟨f, rfl⟩⟩
@@ -1165,7 +1168,7 @@ theorem balanced_alt6_three : IsLocallyOTwoBalancedWrtP 3 1 ↥(alternatingGroup
     obtain ⟨h, hh, rfl⟩ := hQmem q hq
     exact hInn.conj_mem _ (hH0e h hh).2 g
   have hQel : IsElemAbelian 3 (Q : Subgroup (MulAut ↥(alternatingGroup (Fin 6)))) := by
-    refine ⟨⟨⟨fun a b => IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hQc]; norm_num) a b⟩⟩,
+    refine ⟨⟨⟨fun a b => (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hQc]; norm_num)).is_comm.comm a b⟩⟩,
       fun q hq => ?_⟩
     obtain ⟨h, hh, rfl⟩ := hQmem q hq
     rw [conj_pow, (hH0e h hh).1, mul_one, mul_inv_cancel]
@@ -1187,8 +1190,8 @@ theorem balanced_alt6_three : IsLocallyOTwoBalancedWrtP 3 1 ↥(alternatingGroup
 
 theorem not_balanced_alt6_five : ¬ IsLocallyOTwoBalancedWrtP 5 1 ↥(alternatingGroup (Fin 6)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set G6 := MulAut ↥(alternatingGroup (Fin 6)) with hG6
   set x : Perm (Fin 6) := c[(0 : Fin 6), 1, 2, 3, 4] with hx
   have hxA : x ∈ alternatingGroup (Fin 6) := by rw [Perm.mem_alternatingGroup]; decide
@@ -1356,8 +1359,8 @@ open CFSG.Yardstones.Md0ec50421ce4 (IsChevSimple onLie ambiguousChev)
 
 theorem pCoreOf_two_le_glaPPrimeCoreOf {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (X : Subgroup M) : pCoreOf 2 X ≤ GLAPPrimeCoreOf p X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine sec11_le_glaPPrimeCoreOf (CFSG.LieType.BorelTits.pCoreOf_le 2 X) ?_ ?_
   · intro h hh n hn
     exact (Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X hh) n).1 hn
@@ -1381,8 +1384,8 @@ theorem input19_6_4_of (hCore : CFSG.HardMathSupport.Timmesfeld.Coordinator.DefC
     (hOut : Input19_6_4Outer) (hAmb : Input19_6_4Amb) : Lemma123.Input19_6_4 := by
   intro p hp hp2 Y _ _ hq hO hchev B hB hnb
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   have hnab : ∃ a b : Y ⧸ Subgroup.center Y, a * b ≠ b * a := Prop1116Design.not_isCommutative_barQuot Y hq
   set f : MulAut Y →* MulAut (Y ⧸ Subgroup.center Y) := Lemma123.autQ Y with hf
   have hfi : Function.Injective f := Lemma123.autQ_injective hq.1
@@ -1473,7 +1476,7 @@ theorem input19_17_2_of (h : Input19_17_2S) : Lemma123.Input19_17_2 := by
 
 theorem center_quot_eq_bot {Y : Type} [Group Y] (hq : CFSG.Open.IsQuasisimple Y) :
     Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   rcases (Subgroup.center (Y ⧸ Subgroup.center Y)).normal_of_characteristic.eq_bot_or_eq_top with h | h
   · exact h
   · exfalso

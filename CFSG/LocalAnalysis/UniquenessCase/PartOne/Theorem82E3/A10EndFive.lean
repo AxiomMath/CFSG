@@ -28,7 +28,7 @@ private lemma fixedPoints_zpowers_eq_inf_centralizer {X : Type*} [Group X] [Fini
     MulAction.fixedPoints (Subgroup.zpowers f) ↥Q =
       ((Q ⊓ Subgroup.centralizer (Subgroup.zpowers f : Set X)).subgroupOf Q : Set ↥Q) := by
   classical
-  letI : Subgroup.Normalizes (Subgroup.zpowers f) Q := ⟨Fact.out⟩
+  let : Subgroup.Normalizes (Subgroup.zpowers f) Q := ⟨Fact.out⟩
   ext x
   rw [MulAction.mem_fixedPoints]
   constructor
@@ -62,11 +62,11 @@ private lemma card_inf_centralizer_zpowers {X : Type*} [Group X] [Finite X]
     (hfQ : Subgroup.zpowers f ≤ Subgroup.normalizer (Q : Set X)) (hQ : Nat.card Q = 27) :
     Nat.card ↥(Q ⊓ Subgroup.centralizer (Subgroup.zpowers f : Set X)) = 27 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hA5 : IsPGroup 5 (Subgroup.zpowers f) :=
     IsPGroup.of_card (n := 1) (by rw [hf]; norm_num)
-  haveI : Fact (Subgroup.zpowers f ≤ Subgroup.normalizer (Q : Set X)) := ⟨hfQ⟩
-  letI : Subgroup.Normalizes (Subgroup.zpowers f) Q := ⟨hfQ⟩
+  have : Fact (Subgroup.zpowers f ≤ Subgroup.normalizer (Q : Set X)) := ⟨hfQ⟩
+  let : Subgroup.Normalizes (Subgroup.zpowers f) Q := ⟨hfQ⟩
   have hCsub := fixedPoints_zpowers_eq_inf_centralizer (Q := Q) (f := f)
   have hcard : Nat.card ↥(MulAction.fixedPoints (Subgroup.zpowers f) ↥Q) =
       Nat.card ↥(Q ⊓ Subgroup.centralizer (Subgroup.zpowers f : Set X)) := by
@@ -102,7 +102,7 @@ theorem mem_centralizer_of_orderOf_eq_five {X : Type*} [Group X] [Finite X] {Q :
     (hfQ : f ∈ Subgroup.normalizer (Q : Set X)) : f ∈ Subgroup.centralizer (Q : Set X) := by
   classical
   have hA : Nat.card (Subgroup.zpowers f) = 5 := by rw [Nat.card_zpowers, hf]
-  haveI : Fact (Subgroup.zpowers f ≤ Subgroup.normalizer (Q : Set X)) :=
+  have : Fact (Subgroup.zpowers f ≤ Subgroup.normalizer (Q : Set X)) :=
     ⟨Subgroup.zpowers_le.mpr hfQ⟩
   have htop := inf_centralizer_zpowers_eq_of_card_eq_27 hA (Subgroup.zpowers_le.mpr hfQ) hQ
   rw [Subgroup.mem_centralizer_iff]
@@ -187,8 +187,8 @@ private lemma center_le_commutator_zwr :
 private lemma commutator_le_of_card_eq_27 {Q : Subgroup (UC326.ZWr 1)} {c : UC326.ZWr 1}
     (hQ : Nat.card Q = 27) (hsup : Q ⊔ Subgroup.zpowers c = ⊤) :
     commutator (UC326.ZWr 1) ≤ Q := by
-  haveI : Q.Normal := normal_of_card_eq_27 hQ
-  haveI : IsMulCommutative ↥(Subgroup.zpowers c) := inferInstance
+  have : Q.Normal := normal_of_card_eq_27 hQ
+  have : IsMulCommutative ↥(Subgroup.zpowers c) := inferInstance
   exact @Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (UC326.ZWr 1) _ Q _
     (Subgroup.zpowers c) hsup (Subgroup.zpowers_isMulCommutative c)
 
@@ -227,7 +227,7 @@ private lemma sylow_inf_centralizer_le_of_card_eq_27 {X : Type*} [Group X] [Fini
     (hQ : Nat.card Q = 27) (hQleS : Q ≤ (S : Subgroup X))
     (hC : C = Subgroup.centralizer (Q : Set X)) : (S : Subgroup X) ⊓ C ≤ Q := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro x hx
   obtain ⟨hxS, hxC⟩ := Subgroup.mem_inf.mp hx
   have hxCQ : x ∈ Subgroup.centralizer (Q : Set X) := by rw [← hC]; exact hxC
@@ -261,7 +261,7 @@ private lemma isSylowOf_inf_of_normal {X : Type*} [Group X] [Finite X] {S : Sylo
     CFSG.ABGLocalTools.IsSylowOf 3 ((S : Subgroup X) ⊓ C) C := by
   have hS_sylow_top : CFSG.ABGLocalTools.IsSylowOf 3 (S : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by simpa using S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by simpa using S.not_dvd_index⟩
   exact CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hS_sylow_top le_top
     (by rw [Subgroup.normalizer_eq_top_iff.mpr hCnormal])
 
@@ -298,7 +298,7 @@ private lemma eq_inf_of_isSylowOf_inf_of_pPrimeCore_eq_bot {X : Type*} [Group X]
     exact le_top
   obtain ⟨K, hKnormal, hKnot3, hKidx, -, hKchar, hKcomp, hKsup, hKinf, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement P hPcent
-  haveI : K.Characteristic := hKchar
+  have : K.Characteristic := hKchar
   have hKle : (K.map C.subtype) ≤ CFSG.pPrimeCore 3 X := by
     refine le_sSup ⟨?_, ?_⟩
     · exact ConjAct.normal_of_characteristic_of_normal
@@ -322,15 +322,15 @@ theorem not_five_dvd_card {X : Type} [Group X] [Finite X] (h3' : CFSG.pPrimeCore
     (S : Sylow 3 X) (e : ↥(S : Subgroup X) ≃* UC326.ZWr 1)
     (hO : Nat.card (CFSG.pCore 3 X) = 27) : ¬ 5 ∣ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let Q : Subgroup X := CFSG.pCore 3 X
   have hQcard : Nat.card Q = 27 := hO
   have hQnormal : Q.Normal := CFSG.pCore_normal
   have hQleS : Q ≤ (S : Subgroup X) := CFSG.Glauberman.pCore_le_sylow S
   let C : Subgroup X := Subgroup.centralizer (Q : Set X)
   have hCnormal : C.Normal := by
-    haveI : Q.Normal := hQnormal
+    have : Q.Normal := hQnormal
     exact Subgroup.normal_centralizer
   have hSC : (S : Subgroup X) ⊓ C ≤ Q :=
     sylow_inf_centralizer_le_of_card_eq_27 e hQcard hQleS rfl
@@ -357,8 +357,8 @@ private lemma le_relPPrimeCore_of_isSylowOf_inf {G : Type} [Group G] [Finite G]
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 5 R (H ⊓ M)) :
     R ≤ CFSG.Open.relPPrimeCore 3 H := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hRleHM : R ≤ H ⊓ M := hR.le
   have hRleH : R ≤ H := hRleHM.trans inf_le_left
   have hR5 : IsPGroup 5 R := hR.isPGroup
@@ -367,7 +367,7 @@ private lemma le_relPPrimeCore_of_isSylowOf_inf {G : Type} [Group G] [Finite G]
     (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_eq_map
       Nat.prime_three H).symm
   have hOHnormal : OH.Normal := CFSG.pPrimeCore_normal
-  haveI : OH.Normal := hOHnormal
+  have : OH.Normal := hOHnormal
   have himg_triv : (R.subgroupOf H).map (QuotientGroup.mk' OH) = ⊥ := by
     have hRsub5 : IsPGroup 5 (R.subgroupOf H) := hR5.comap_subtype
     have himg5 : IsPGroup 5 ((R.subgroupOf H).map (QuotientGroup.mk' OH)) := hRsub5.map _
@@ -400,7 +400,7 @@ private lemma isSylowOf_relPPrimeCore_of_isSylowOf_inf {G : Type} [Group G] [Fin
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 5 R (H ⊓ M)) (hRne : R ≠ ⊥) :
     CFSG.ABGLocalTools.IsSylowOf 5 R (CFSG.Open.relPPrimeCore 3 H) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let O : Subgroup G := CFSG.Open.relPPrimeCore 3 H
   have hOleH : O ≤ H :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le H
@@ -423,13 +423,13 @@ private lemma frattini_sup_eq_top {G : Type} [Group G] [Finite G] {H : Subgroup 
     (hRsyl : CFSG.ABGLocalTools.IsSylowOf 5 R (CFSG.Open.relPPrimeCore 3 H)) :
     Subgroup.normalizer ((R.subgroupOf H : Subgroup ↥H) : Set ↥H) ⊔ OH = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hOleH : CFSG.Open.relPPrimeCore 3 H ≤ H :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le H
   have hRleH : R ≤ H := hRsyl.le.trans hOleH
   have hRsubH_map : (R.subgroupOf H).map H.subtype = R :=
     Subgroup.map_subgroupOf_eq_of_le hRleH
-  haveI : OH.Normal := hOHnormal
+  have : OH.Normal := hOHnormal
   have hRsylOH : CFSG.ABGLocalTools.IsSylowOf 5 (R.subgroupOf H) OH := by
     refine (CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (K := H)).mp ?_
     rw [hRsubH_map, hOHmap]
@@ -448,7 +448,7 @@ private lemma le_sup_of_frattini {G : Type} [Group G] [Finite G] {M H : Subgroup
     (hfr : Subgroup.normalizer ((R.subgroupOf H : Subgroup ↥H) : Set ↥H) ⊔ OH = ⊤) :
     H ≤ (H ⊓ M) ⊔ CFSG.Open.relPPrimeCore 3 H := by
   classical
-  haveI : OH.Normal := hOHnormal
+  have : OH.Normal := hOHnormal
   intro x hx
   let h : ↥H := ⟨x, hx⟩
   have hmem : h ∈ Subgroup.normalizer ((R.subgroupOf H : Subgroup ↥H) : Set ↥H) ⊔ OH := by
@@ -478,8 +478,8 @@ theorem le_sup_relPPrimeCore_of_five {G : Type} [Group G] [Finite G] {M H : Subg
     (hq : ¬ 5 ∣ Nat.card (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) :
     H ≤ (H ⊓ M) ⊔ CFSG.Open.relPPrimeCore 3 H := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf (p := 5) (G := G) (H ⊓ M)
   have hRne : R ≠ ⊥ := by
     obtain ⟨Q, hQeq⟩ := hR.exists_sylow_eq_subgroupOf
@@ -508,7 +508,7 @@ private lemma card_range_le_twentyfive (F : A10Frame c) {E : Subgroup G} (hE_le 
     (hE : CFSG.Open.IsElemAbelian 5 E) :
     Nat.card ↥(((c.a10Hom F.iso).comp (Subgroup.inclusion hE_le)).range) ≤ 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let f : ↥E →* Equiv.Perm (Fin 10) := (c.a10Hom F.iso).comp (Subgroup.inclusion hE_le)
   change Nat.card ↥f.range ≤ 25
   have hf5 : IsPGroup 5 ↥f.range :=
@@ -538,7 +538,7 @@ private lemma card_range_le_twentyfive (F : A10Frame c) {E : Subgroup G} (hE_le 
 private lemma five_dvd_card_ker_a10Hom (F : A10Frame c)
     (h5 : 3 ≤ CFSG.Open.pRank 5 D.M) : 5 ∣ Nat.card ((c.a10Hom F.iso).ker) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨E, hE_le, hE_ab, hE_card⟩ :=
     CFSG.SectionRank.exists_pRank (p := 5) (by norm_num) D.M
   have hE5 : IsPGroup 5 E := hE_ab.isPGroup
@@ -579,7 +579,7 @@ private lemma five_dvd_card_ker_a10Hom (F : A10Frame c)
 
 private lemma five_dvd_card_of_sylow_five {K : Type*} [Group K] [Finite K] (R : Sylow 5 K)
     (hRne : (R : Subgroup K) ≠ ⊥) : 5 ∣ Nat.card ↥R := by
-  obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
     apply hRne
@@ -589,7 +589,7 @@ private lemma five_dvd_card_of_sylow_five {K : Type*} [Group K] [Finite K] (R : 
   rw [hk']
   exact dvd_pow_self 5 hk0
 
-private lemma commutator_mem_L (F : A10Frame c) {K : Subgroup ↥D.M} {BM : Subgroup ↥D.M}
+private lemma commutator_mem_L (_F : A10Frame c) {K : Subgroup ↥D.M} {BM : Subgroup ↥D.M}
     {b : ↥BM} {r : ↥K} [MulDistribMulAction ↥BM ↥K]
     (hbL : ((b : ↥D.M) : G) ∈ c.L)
     (hsmul : ∀ (b : ↥BM) (r : ↥K),
@@ -611,7 +611,7 @@ private lemma commutator_mem_L (F : A10Frame c) {K : Subgroup ↥D.M} {BM : Subg
     have h3 : (((r * (b • r)⁻¹ : ↥K)) : G) =
         (((r : ↥K) : ↥D.M) : G) * ((((b • r : ↥K) : ↥D.M) : G))⁻¹ := by
       have := congrArg (fun z : ↥D.M => (z : G)) h1
-      simpa using this
+      simp
     have h4 : ((((b • r : ↥K) : ↥D.M) : G)) =
         ((b : ↥D.M) : G) * (((r : ↥K) : ↥D.M) : G) * ((b : ↥D.M) : G)⁻¹ :=
       congrArg (fun z : ↥D.M => (z : G)) (hsmul b r)
@@ -629,7 +629,7 @@ private lemma commutator_mem_pCore (F : A10Frame c)
     (hsmul : ∀ (b : ↥BM) (r : ↥K),
       ((b • r : ↥K) : ↥D.M) = (b : ↥D.M) * (r : ↥D.M) * (b : ↥D.M)⁻¹) :
     (((r * (b • r)⁻¹ : ↥K)) : G) ∈ (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype := by
-  have hL := commutator_mem_L (F := F) (b := b) (r := r) hbL hsmul
+  have hL := commutator_mem_L (_F := F) (b := b) (r := r) hbL hsmul
   refine hker _ hL ?_
   have hMeq : (⟨(((r * (b • r)⁻¹ : ↥K)) : G), c.hyp81.1 hL⟩ : ↥D.M) =
       ((r * (b • r)⁻¹ : ↥K)) := Subtype.ext rfl
@@ -642,7 +642,7 @@ private lemma commutator_mem_pCore (F : A10Frame c)
 private lemma commute_of_invariant_sylow (F : A10Frame c)
     (hker : ∀ x (hx : x ∈ c.L), c.a10Hom F.iso ⟨x, c.hyp81.1 hx⟩ = 1 →
       x ∈ (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype)
-    {K : Subgroup ↥D.M} (hKnormal : K.Normal) (hK : K = (c.a10Hom F.iso).ker)
+    {K : Subgroup ↥D.M} (_hKnormal : K.Normal) (hK : K = (c.a10Hom F.iso).ker)
     {BM : Subgroup ↥D.M} {R : Sylow 5 ↥K} [MulDistribMulAction ↥BM ↥K]
     (hbL : ∀ b : ↥BM, ((b : ↥D.M) : G) ∈ c.L)
     (hsmul : ∀ (b : ↥BM) (r : ↥K),
@@ -652,7 +652,7 @@ private lemma commute_of_invariant_sylow (F : A10Frame c)
     {b : ↥BM} {r : ↥K} (hr : r ∈ R) :
     ((r : ↥K) : ↥D.M) * (b : ↥D.M) = (b : ↥D.M) * ((r : ↥K) : ↥D.M) := by
   classical
-  haveI : K.Normal := hKnormal
+  have : K.Normal := _hKnormal
   have hinv : (b • r) ∈ R := hRinv b r hr
   let cK : ↥K := r * (b • r)⁻¹
   have hcK_R : cK ∈ R := R.mul_mem hr (R.inv_mem hinv)
@@ -722,8 +722,8 @@ theorem five_dvd_card_centralizer_inf (F : A10Frame c)
     (h5 : 3 ≤ CFSG.Open.pRank 5 D.M) {B : Subgroup G} (hBL : B ≤ c.L) (hB : IsPGroup 3 B) :
     5 ∣ Nat.card (Subgroup.centralizer (B : Set G) ⊓ D.M : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let K : Subgroup ↥D.M := (c.a10Hom F.iso).ker
   have hKnormal : K.Normal := MonoidHom.normal_ker _
   have hK3' : Nat.Coprime (Nat.card K) 3 :=
@@ -735,9 +735,9 @@ theorem five_dvd_card_centralizer_inf (F : A10Frame c)
   have hBM3 : IsPGroup 3 ↥BM := hB.comap_subtype
   have hbL : ∀ b : ↥BM, ((b : ↥D.M) : G) ∈ c.L :=
     fun b => hBL (Subgroup.mem_subgroupOf.mp b.2)
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   let φ : ↥BM →* MulAut ↥K := (MulAut.conjNormal (H := K)).comp BM.subtype
-  letI : MulDistribMulAction ↥BM ↥K := MulDistribMulAction.compHom ↥K φ
+  let : MulDistribMulAction ↥BM ↥K := MulDistribMulAction.compHom ↥K φ
   obtain ⟨R, hRinv⟩ :=
     CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_exists_invariant_sylow
       (G := ↥K) (A := ↥BM) 3 5 hBM3 hKnot3
@@ -748,7 +748,7 @@ theorem five_dvd_card_centralizer_inf (F : A10Frame c)
     rw [MulAut.conjNormal_apply]
     rfl
   have hRG5 : IsPGroup 5 ((R : Subgroup ↥K).map (D.M.subtype.comp K.subtype)) :=
-    R.isPGroup'.map _
+    R.isPGroup.map _
   have hRGle := invariant_sylow_le_centralizer F hker hKnormal rfl hBL rfl hbL hsmul hRinv hRG5
   have hRne : (R : Subgroup ↥K) ≠ ⊥ := Sylow.ne_bot_of_dvd_card (p := 5) R hK5
   have hRcard5 : 5 ∣ Nat.card ↥R := five_dvd_card_of_sylow_five R hRne

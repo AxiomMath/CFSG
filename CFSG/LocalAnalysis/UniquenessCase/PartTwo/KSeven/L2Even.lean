@@ -22,7 +22,7 @@ theorem exists_involution_inverting_of_orderOf_three {F : Type} [Field F] [CharP
 private theorem ksl2e_exists_zpowers_eq_of_card_three {H : Type*} [Group H] [Finite H]
     (O : Subgroup H) (hO : Nat.card O = 3) :
     ∃ θ : H, orderOf θ = 3 ∧ O = zpowers θ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO1 : O ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hO
@@ -44,8 +44,8 @@ theorem normalizer_sup_eq_top_of_sl2_even {F : Type} [Field F] [Fintype F] {m : 
     (hF : Fintype.card F = 2 ^ m) (hm : 0 < m) {z : SL(2, F)} (hz : orderOf z = 3)
     {T : Subgroup SL(2, F)} (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) :
     normalizer ((zpowers z : Subgroup SL(2, F)) : Set SL(2, F)) ⊔ T = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := m) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := m) hF
   set N : Subgroup SL(2, F) :=
     Subgroup.normalizer ((zpowers z : Subgroup SL(2, F)) : Set SL(2, F)) with hN
   rcases CFSG.QuasithinUnique.Lin2.dicksonLite hF hm hT (le_sup_right : T ≤ N ⊔ T) with
@@ -107,8 +107,8 @@ theorem normalizer_sup_sylow_two_eq_top {J : Type} [Group J] [Finite J] {F : Typ
     [Fintype F] {m : ℕ} (hF : Fintype.card F = 2 ^ m) (hm : 0 < m) (e : J ≃* SL(2, F))
     (h3 : 3 ∣ Nat.card J) (h9 : ¬ 9 ∣ Nat.card J) (Z : Sylow 3 J) (T : Sylow 2 J) :
     normalizer ((Z : Subgroup J) : Set J) ⊔ (T : Subgroup J) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJpos : Nat.card J ≠ 0 := Nat.card_pos.ne'
   have hfac_pos : 0 < Nat.factorization (Nat.card J) 3 :=
     Nat.Prime.factorization_pos_of_dvd Nat.prime_three hJpos h3
@@ -128,7 +128,7 @@ theorem normalizer_sup_sylow_two_eq_top {J : Type} [Group J] [Finite J] {F : Typ
   let T' : Subgroup SL(2, F) := (T : Subgroup J).map e.toMonoidHom
   have hT' : CFSG.QuasithinUnique.IsSylowTwoOf T' ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
-    · exact (T.isPGroup').map e.toMonoidHom
+    · exact (T.isPGroup).map e.toMonoidHom
     · have h1 : (T'.subgroupOf ⊤).index = (T : Subgroup J).index := by
         change T'.relIndex ⊤ = (T : Subgroup J).index
         rw [Subgroup.relIndex_top_right]

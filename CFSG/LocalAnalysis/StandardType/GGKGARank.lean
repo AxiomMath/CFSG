@@ -142,8 +142,6 @@ theorem kga_selfCent_split {K : Type} [Field K] [Finite K] [CharP K 2] {m p : �
           _ = D * P⁻¹ := by rw [hPinv]
       have hcommD : spTorusGL hζ f * D = D * spTorusGL hζ f := by
         rw [TableBSymp.spTorusGL_apply]
-        change TauCeti.diagGL (pairedUnits fun i => zmodPowHom hζ (f i)) * D =
-          D * TauCeti.diagGL (pairedUnits fun i => zmodPowHom hζ (f i))
         rw [show D = TauCeti.diagGL (pairedUnits fun i => u i a₂) from rfl,
           ← map_mul, ← map_mul, mul_comm]
       have hGL : (g : GL (Fin m ⊕ Fin m) K) * (e₁ : GL (Fin m ⊕ Fin m) K) =

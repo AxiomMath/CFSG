@@ -27,7 +27,7 @@ theorem fixed_pCore_le_center {K : Type} [Group K] [Finite K] (S : Subgroup K) [
   let P : Subgroup C := (CFSG.pCore 2 T).map T.subtype
   have hPp : IsPGroup 2 P :=
     IsPGroup.map (CFSG.pCore_isPGroup (p := 2) (G := ↥T)) T.subtype
-  haveI hPn : P.Normal := by
+  have hPn : P.Normal := by
     dsimp only [P]
     exact ConjAct.normal_of_characteristic_of_normal
   have hz : ((eF.toMonoidHom y : ↥(fixedSubgroup (MulAut.conjNormal (H := S) z))) : K) ∈

@@ -20,7 +20,7 @@ theorem prime_dvd_255 (F : Ctx V u H Bv) {Q : Subgroup (MulAut V)} (hQ : Q ≠ �
     exact Subtype.ext (by simpa using hexp g g.2)⟩
   have hmod := hP.card_modEq_card_fixedPoints V
   have hfp : Nat.card (MulAction.fixedPoints Q V) = 1 := by
-    haveI : Unique (MulAction.fixedPoints Q V) :=
+    have : Unique (MulAction.fixedPoints Q V) :=
       { default := ⟨1, fun q => map_one (q : MulAut V)⟩
         uniq := fun x => Subtype.ext (fixed_eq_one F hQ hodd hQn x (fun q hq => x.2 ⟨q, hq⟩)) }
     exact Nat.card_unique

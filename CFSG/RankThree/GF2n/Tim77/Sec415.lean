@@ -79,14 +79,14 @@ theorem sec415_normalClosure_le_closure [Finite G] {A Abar S₀ B : Subgroup G}
     | inv x _ hx =>
       rw [show g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ by group]
       exact inv_mem hx
-  haveI := hnorm
+  have := hnorm
   have hA0A : Section3.A0 A Abar ≤ A := by
     rw [h.a0_eq]
     exact inf_le_left
   refine Subgroup.normalClosure_le_normal ?_
   intro a ha
   by_cases ha0 : a ∈ Section3.A0 A Abar
-  · obtain ⟨a₁, ha₁A, ha₁0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hA0A h.a0_ne)
+  · obtain ⟨a₁, ha₁A, ha₁0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hA0A h.a0_ne)
     have e : a = a₁⁻¹ * (a₁ * a) := by group
     rw [e]
     have h1 : a₁⁻¹ ∈ Sec415E A Abar := by
@@ -207,8 +207,8 @@ theorem sec415_not_solvable {A Abar : Subgroup G} {b : G} [(Sec415N0 A Abar).Nor
     ¬ Group.IsSolvable (↥(Subgroup.normalClosure (A : Set G)) ⧸ sec415N A Abar) := by
   intro hsol
   apply hK
-  haveI : IsMulCommutative ↥(sec415N A Abar) := (sec415_elemAbelian_subgroupOf hN0el).1
-  haveI hWs : Group.IsSolvable ↥(Subgroup.normalClosure (A : Set G)) :=
+  have : IsMulCommutative ↥(sec415N A Abar) := (sec415_elemAbelian_subgroupOf hN0el).1
+  have hWs : Group.IsSolvable ↥(Subgroup.normalClosure (A : Set G)) :=
     (Group.isSolvable_iff_subgroup_quotient (sec415N A Abar)).mpr ⟨inferInstance, hsol⟩
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.subgroupOfEquivOfLe hKW).symm.toMonoidHom)
@@ -224,7 +224,7 @@ theorem sec415_of
   obtain ⟨hcls, -, -, -⟩ := h415b G A Abar S₀ B hctx hq hH
   have hO2 : ⁅pCore 2 ↥(Subgroup.normalClosure (A : Set G)), ⊤⁆ ≤ sec415N A Abar :=
     h415c G A Abar S₀ B hctx hq hH
-  haveI := hN0n
+  have := hN0n
   have hAW : A ≤ Subgroup.normalClosure (A : Set G) := Subgroup.le_normalClosure
   obtain ⟨g₀, hg₀⟩ := hctx.exists_abar_eq
   have hAbarW : Abar ≤ Subgroup.normalClosure (A : Set G) := by

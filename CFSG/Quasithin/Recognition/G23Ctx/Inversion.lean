@@ -44,7 +44,7 @@ theorem Inner.mul {X : Subgroup G} {u v : G} (hu : Inner X u) (hv : Inner X v)
 private def conjAut (X : Subgroup G) (w : G) (hw : ∀ x, x ∈ X ↔ w * x * w⁻¹ ∈ X) :
     ↥X ≃* ↥X where
   toFun x := ⟨w * x * w⁻¹, (hw x).mp x.2⟩
-  invFun x := ⟨w⁻¹ * x * w, (hw _).mpr (by simpa [mul_assoc] using x.2)⟩
+  invFun x := ⟨w⁻¹ * x * w, (hw _).mpr (by simp [mul_assoc])⟩
   left_inv x := Subtype.ext (by simp [mul_assoc])
   right_inv x := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
@@ -72,7 +72,7 @@ theorem inner_or_inverts₂ (hH : G23One H H₁ H₂) {w : G} (hw : w ∈ H) :
     Inner H₂ w ∨ (Inverts H₂ w ∧ ∃ q ∈ H₂, q ^ 4 = 1 ∧ w * q * w⁻¹ ≠ q) :=
   inner_or_inverts₁ (g23One_symm hH) hw
 
-theorem not_inner_of_inverts₁ (hH : G23One H H₁ H₂) {w : G} (hw : w ∈ H)
+theorem not_inner_of_inverts₁ (hH : G23One H H₁ H₂) {w : G} (_hw : w ∈ H)
     (h : Inverts H₁ w) : ¬ Inner H₁ w := by
   rintro ⟨s, hs, hsx⟩
   obtain ⟨x, hx⟩ := sl23_inner_not_inverts hH.iso_one ⟨s, hs⟩
@@ -157,7 +157,7 @@ theorem comp_ne (hH : G23One H H₁ H₂) {z : G} (hz : IsZ H₁ H₂ z) {u u₁
   exact ⟨fun h => key (Or.inl h), fun h => key (Or.inr h)⟩
 
 theorem comp_ne_comp (hH : G23One H H₁ H₂) {z : G} (hz : IsZ H₁ H₂ z) {a₁ a₂ b₁ b₂ : G}
-    (ha₁ : a₁ ∈ H₁) (ha₂ : a₂ ∈ H₂) (hb₁ : b₁ ∈ H₁) (hb₂ : b₂ ∈ H₂) (hb₁4 : b₁ ^ 4 = 1)
+    (_ha₁ : a₁ ∈ H₁) (ha₂ : a₂ ∈ H₂) (hb₁ : b₁ ∈ H₁) (hb₂ : b₂ ∈ H₂) (hb₁4 : b₁ ^ 4 = 1)
     (hab2 : (a₁ * a₂ * (b₁ * b₂)) * (a₁ * a₂ * (b₁ * b₂)) = 1)
     (hab1 : a₁ * a₂ * (b₁ * b₂) ≠ 1) (habz : a₁ * a₂ * (b₁ * b₂) ≠ z) :
     a₁ ≠ b₁ ∧ a₁ ≠ b₁ * z := by

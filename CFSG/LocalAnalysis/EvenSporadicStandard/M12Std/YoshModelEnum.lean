@@ -67,7 +67,7 @@ theorem forall_mem_img_enum (E : NEmb e₀ d α k) {gens L : Array Table}
   exact hL.forall_mem (Q := fun g => φ (ψ E g)) H g hg
 
 theorem exists_entry_of_mem_img (E : NEmb e₀ d α k) {gens L : Array Table}
-    (hL : EnumSpec 16 gens L) (hK : tsub gens ≤ NG α k) {y : G} (hy : y ∈ img E (tsub gens)) :
+    (hL : EnumSpec 16 gens L) (_hK : tsub gens ≤ NG α k) {y : G} (hy : y ∈ img E (tsub gens)) :
     ∃ T ∈ L, y = ψ E (tablePerm 16 T) ∧ Rep 16 T (tablePerm 16 T) ∧ tablePerm 16 T ∈ NG α k := by
   obtain ⟨g, hg, hgK, rfl⟩ := (mem_img' E).1 hy
   obtain ⟨T, hT, hrep⟩ := hL.exists_entry hgK

@@ -34,7 +34,7 @@ theorem Env.sl2_of_cent (I : Inputs) (e : Env hc n t m X)
   obtain ⟨ι, _, _, K, _, _, _, Q', X', E, φ, _, ψ, u, hK, hX, hgeom, hmod⟩ :=
     e.exists_model_scalar I
   obtain ⟨Φ, a, hΦ, hsnd0, hfst0⟩ := hmod.exists_chart I e h63b hgeom hK hX hD hg₀M hne
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     have h1 := hgeom.dim
     rw [Module.finrank_fintype_fun_eq_card] at h1
     exact Fintype.card_pos_iff.mp (by have := e.hm; omega)
@@ -247,7 +247,7 @@ theorem Env.sl2_of_cent (I : Inputs) (e : Env hc n t m X)
       rw [SL2Grp.sl2_coe_t10]
       ext i j
       fin_cases i <;> fin_cases j <;> simp [h00, h10, h11, h01]
-  haveI hNorm : (Q.subgroupOf (Lgen M (hc.CN t))).Normal := by
+  have hNorm : (Q.subgroupOf (Lgen M (hc.CN t))).Normal := by
     rw [← hkerS]
     exact MonoidHom.normal_ker ρS
   exact ⟨hNorm, K, inferInstance, inferInstance, hK, ⟨((QuotientGroup.quotientMulEquivOfEq

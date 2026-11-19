@@ -15,6 +15,7 @@ section Conj
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem centralizer_conj_eq_map (g z : X) :
     Subgroup.centralizer ({g * z * g⁻¹} : Set X) =
       (Subgroup.centralizer ({z} : Set X)).map (MulAut.conj g).toMonoidHom := by
@@ -34,6 +35,7 @@ theorem centralizer_conj_eq_map (g z : X) :
       _ = g * (z * y) * g⁻¹ := by rw [hy]
       _ = g * z * g⁻¹ * (g * y * g⁻¹) := by group
 
+omit [Finite X] in
 theorem resCent_top_conj (g z : X) :
     resCent (⊤ : Subgroup X) (g * z * g⁻¹) =
       (resCent (⊤ : Subgroup X) z).map (MulAut.conj g).toMonoidHom := by
@@ -46,23 +48,27 @@ noncomputable def resCentConjEquiv (g z : X) :
     (MulAut.conj g).injective).trans
     (MulEquiv.subgroupCongr (resCent_top_conj g z).symm)
 
+omit [Finite X] in
 theorem mem_resCent_self_conj {g z : X} (h : z ∈ resCent (⊤ : Subgroup X) z) :
     g * z * g⁻¹ ∈ resCent (⊤ : Subgroup X) (g * z * g⁻¹) := by
   rw [resCent_top_conj]
   exact ⟨z, h, rfl⟩
 
+omit [Finite X] in
 theorem isThreeA_conj {z : X} {m : ℕ} (h : IsThreeA z m) (g : X) : IsThreeA (g * z * g⁻¹) m := by
   obtain ⟨h3, hz, hsl⟩ := h
   refine ⟨?_, mem_resCent_self_conj hz, isSLThreePiAt_congr (resCentConjEquiv g z) hsl⟩
   have := (MulAut.conj g).orderOf_eq z
   simpa [MulAut.conj_apply, h3] using this
 
+omit [Finite X] in
 theorem isThreeB_conj {z : X} {s : ℕ} (h : IsThreeB z s) (g : X) : IsThreeB (g * z * g⁻¹) s := by
   obtain ⟨h3, F, hF, hFf, hFc, ⟨e⟩⟩ := h
   refine ⟨?_, F, hF, hFf, hFc, ⟨(resCentConjEquiv g z).symm.trans e⟩⟩
   have := (MulAut.conj g).orderOf_eq z
   simpa [MulAut.conj_apply, h3] using this
 
+omit [Finite X] in
 theorem conj_mem_resCent_iff (g z w : X) :
     g * w * g⁻¹ ∈ resCent (⊤ : Subgroup X) (g * z * g⁻¹) ↔ w ∈ resCent (⊤ : Subgroup X) z := by
   rw [resCent_top_conj, Subgroup.mem_map]
@@ -73,9 +79,11 @@ theorem conj_mem_resCent_iff (g z w : X) :
   · intro h
     exact ⟨w, h, rfl⟩
 
+omit [Finite X] in
 theorem orderOf_conj_eq (g z : X) : orderOf (g * z * g⁻¹) = orderOf z := by
   simpa [MulAut.conj_apply] using (MulAut.conj g).orderOf_eq z
 
+omit [Finite X] in
 theorem mem_centralizer_of_mem_resCent {z w : X} (h : w ∈ resCent (⊤ : Subgroup X) z) :
     w * z = z * w := by
   have := (resCent_le ⊤ z) h
@@ -92,7 +100,7 @@ theorem not_isThreeA_and_isThreeB {z : X} {m s : ℕ} (hA : IsThreeA z m) (hB : 
   have hc3 : Nat.card (Subgroup.center ↥(resCent (⊤ : Subgroup X) z)) = 3 :=
     card_center_eq_three_of_isSLThreePi ⟨m, hA.2.2⟩
   obtain ⟨-, F, hF, hFfin, -, ⟨e⟩⟩ := hB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥(resCent (⊤ : Subgroup X) z)) 3
       (by rw [hc3])
@@ -224,7 +232,7 @@ theorem M_le_resCent {z : X} (hz : z ∈ S) : M ≤ resCent (⊤ : Subgroup X) z
   intro b hb
   exact Subgroup.mem_centralizer_singleton_iff.mpr (hM.comm z hz b hb).symm
 
-theorem clause_a {z t : X} (hz : IsThreeA z r.card) (ht : IsThreeB t s)
+theorem clause_a {z t : X} (_hz : IsThreeA z r.card) (ht : IsThreeB t s)
     (hzt : z ∈ resCent (⊤ : Subgroup X) t) : t ∈ resCent (⊤ : Subgroup X) z := by
   obtain ⟨h, hh⟩ := hM.exists_conj_mem_M ht
   have hh3 : orderOf (h * t * h⁻¹) = 3 := by rw [orderOf_conj_eq]; exact ht.1
@@ -307,6 +315,7 @@ section Transport
 
 variable {X X' : Type} [Group X] [Group X'] [Finite X] [Finite X']
 
+omit [Finite X] [Finite X'] in
 theorem centralizer_map_equiv_eq (e : X ≃* X') (z : X) :
     Subgroup.centralizer ({e z} : Set X') =
       (Subgroup.centralizer ({z} : Set X)).map e.toMonoidHom := by
@@ -324,6 +333,7 @@ theorem centralizer_map_equiv_eq (e : X ≃* X') (z : X) :
     simp only [MulEquiv.coe_toMonoidHom]
     rw [← map_mul, ← map_mul, hy]
 
+omit [Finite X] [Finite X'] in
 theorem resCent_top_map (e : X ≃* X') (z : X) :
     resCent (⊤ : Subgroup X') (e z) = (resCent (⊤ : Subgroup X) z).map e.toMonoidHom := by
   unfold resCent
@@ -334,6 +344,7 @@ noncomputable def resCentMapEquiv (e : X ≃* X') (z : X) :
   ((resCent (⊤ : Subgroup X) z).equivMapOfInjective e.toMonoidHom e.injective).trans
     (MulEquiv.subgroupCongr (resCent_top_map e z).symm)
 
+omit [Finite X] [Finite X'] in
 theorem isThreeA_map (e : X ≃* X') {z : X} {m : ℕ} (h : IsThreeA z m) : IsThreeA (e z) m := by
   obtain ⟨h3, hz, hsl⟩ := h
   refine ⟨by rw [MulEquiv.orderOf_eq]; exact h3, ?_, isSLThreePiAt_congr (resCentMapEquiv e z) hsl⟩

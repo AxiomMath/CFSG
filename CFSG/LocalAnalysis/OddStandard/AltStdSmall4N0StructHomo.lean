@@ -18,7 +18,7 @@ theorem nonempty_z4cube {T : Subgroup G} (hT : Nat.card T = 64)
       i = 0 ∧ j = 0 ∧ k = 0) :
     Nonempty (T ≃* Multiplicative (Fin 3 → ZMod 4)) := by
   have : Finite T := Nat.finite_of_card_ne_zero (by rw [hT]; norm_num)
-  letI : CommGroup T :=
+  let : CommGroup T :=
     { (inferInstance : Group T) with
       mul_comm := fun x y => Subtype.ext (hab x x.2 y y.2) }
   set A : T := ⟨a, ha⟩
@@ -65,6 +65,7 @@ variable [Finite G] {Q : Subgroup G} {θ : L ≃* alternatingGroup (Fin n)} {z :
 
 include c hF
 
+omit hF in
 theorem card_of_bz {X : Subgroup G} (hX : X ≤ D0 θ hn z)
     (htr : ∀ j, ∃ x ∈ X, bz z x = eps θ hn j) :
     Nat.card X = Nat.card (X ⊓ centralizer ({z} : Set G) : Subgroup G) * 8 := by
@@ -98,6 +99,7 @@ variable {P O : Subgroup G} {s : G} (hS : SetupData θ hn z P O s) {T : Subgroup
 
 include hS hT
 
+omit hF hS in
 theorem TData.inf_cent : (T ⊓ centralizer ({z} : Set G) : Subgroup G) = E θ hn := by
   ext x
   rw [Subgroup.mem_inf, mem_centralizer_singleton_iff]
@@ -108,21 +110,24 @@ theorem TData.inf_cent : (T ⊓ centralizer ({z} : Set G) : Subgroup G) = E θ h
     obtain ⟨i, rfl⟩ := (mem_E_iff θ hn x).1 hx
     exact ⟨hT.E_le (eps_mem_E θ hn i), eps_comm_z hn c i⟩
 
+omit hF in
 theorem TData.card_eq : Nat.card T = 64 := by
-  rw [card_of_bz hn c hF (hT.le_D0 hn c hF hS) hT.trans, hT.inf_cent hn c hF hS, card_E]
+  rw [card_of_bz hn c (hT.le_D0 hn hS) hT.trans, hT.inf_cent hn c, card_E]
 
+omit hF in
 theorem TData.sq_mem_E {t : G} (ht : t ∈ T) : t * t ∈ E θ hn := by
   apply hT.cent _ (mul_mem ht ht)
-  rw [← bz_eq_one_iff, bz_mul hn c (hT.le_D0 hn c hF hS ht) (hT.le_D0 hn c hF hS ht)]
-  obtain ⟨i, hi⟩ := (mem_E_iff θ hn _).1 (bz_mem_E hn c (P_le_N0 hn c hS (hT.le_P ht)))
+  rw [← bz_eq_one_iff, bz_mul hn c (hT.le_D0 hn hS ht) (hT.le_D0 hn hS ht)]
+  obtain ⟨i, hi⟩ := (mem_E_iff θ hn _).1 (bz_mem_E hn c (P_le_N0 hn hS (hT.le_P ht)))
   rw [hi, eps_mul_self]
 
+omit hF hS hT in
 theorem bz_pow {x : G} (hx : x ∈ D0 θ hn z) (k : ℕ) : bz z (x ^ k) = bz z x ^ k := by
   induction k with
   | zero => simp [bz]
   | succ k ih => rw [pow_succ, bz_mul hn c (pow_mem hx k) hx, ih, pow_succ]
 
-omit c hF hS hT in
+omit c hF hS hT [Finite G] in
 theorem eps_pow (x : Fin 8) (k : ℕ) :
     eps θ hn x ^ k = eps θ hn (if k % 2 = 1 then x else 0) := by
   induction k with
@@ -132,15 +137,15 @@ theorem eps_pow (x : Fin 8) (k : ℕ) :
     congr 1
     rcases Nat.mod_two_eq_zero_or_one k with h | h
     · have h' : (k + 1) % 2 = 1 := by omega
-      rw [if_neg (by omega), if_pos h']
+      rw [ite_eq_right (by omega), ite_eq_left h']
       exact (by decide : ∀ y : Fin 8, (0 : Fin 8) ^^^ y = y) x
     · have h' : (k + 1) % 2 = 0 := by omega
-      rw [if_pos h, if_neg (by omega)]
+      rw [ite_eq_left h, ite_eq_right (by omega)]
       exact (by decide : ∀ y : Fin 8, y ^^^ y = 0) x
 
 theorem TData.homo : Nonempty (T ≃* Multiplicative (Fin 6 → ZMod 2)) ∨
     Nonempty (T ≃* Multiplicative (Fin 3 → ZMod 4)) := by
-  obtain ⟨t₀, ht₀, hgen⟩ := hT.exists_gens hn c hF hS
+  obtain ⟨t₀, ht₀, hgen⟩ := hT.exists_gens hn hS
   set tk : ℕ → G := fun k => s ^ k * t₀ * (s ^ k)⁻¹ with htk
   have htkT : ∀ k, tk k ∈ T := fun k => (hgen k).1
   have hbk : ∀ k, bz z (tk k) = eps θ hn ((mPerm ^ k) 1) := fun k => (hgen k).2
@@ -150,18 +155,18 @@ theorem TData.homo : Nonempty (T ≃* Multiplicative (Fin 6 → ZMod 2)) ∨
   have hb2 : bz z (tk 2) = eps θ hn 4 := by rw [hbk]; exact congrArg _ (hm 2)
   have hcomm : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x := fun x hx y hy =>
     hT.comm hn c hF hS hx hy
-  obtain ⟨a₀, ha₀⟩ := (mem_E_iff θ hn _).1 (hT.sq_mem_E hn c hF hS (htkT 0))
+  obtain ⟨a₀, ha₀⟩ := (mem_E_iff θ hn _).1 (hT.sq_mem_E hn c hS (htkT 0))
   have hsq : ∀ k, tk k * tk k = eps θ hn ((mPerm ^ k) a₀) := by
     intro k
-    rw [← s_pow_conj_eps hn c hS k, ← ha₀]
+    rw [← s_pow_conj_eps hn hS k, ← ha₀]
     simp only [htk]
     group
-  have hT64 := hT.card_eq hn c hF hS
+  have hT64 := hT.card_eq hn c hS
   by_cases ha : a₀ = 0
   ·
     left
-    have hgenT := forall_of_gen hn c (hT.le_D0 hn c hF hS) (fun x hx => hT.E_le hx)
-      (fun x hx y hy h => hT.inv_mul_mem_E hn c hF hS hx hy h) (htkT 0) (htkT 1) (htkT 2)
+    have hgenT := forall_of_gen hn c (hT.le_D0 hn hS) (fun x hx => hT.E_le hx)
+      (fun x hx y hy h => hT.inv_mul_mem_E hn c hS hx hy h) (htkT 0) (htkT 1) (htkT 2)
       hb0 hb1 hb2
     have h2 : ∀ t ∈ T, t * t = 1 := by
       refine hgenT (fun t => t * t = 1) (fun e he => ?_) (fun x hx y hy h1 h2 => ?_) ?_ ?_ ?_
@@ -192,11 +197,11 @@ theorem TData.homo : Nonempty (T ≃* Multiplicative (Fin 6 → ZMod 2)) ∨
     have hsq' : ∀ k, tk k ^ 2 = eps θ hn ((mPerm ^ k) a₀) := fun k => by rw [sq, hsq]
     refine nonempty_z4cube hT64 hcomm (htkT 0) (htkT 1) (htkT 2) (h4 0) (h4 1) (h4 2) ?_
     intro i j k hi hj hk h1
-    have hD : ∀ k, tk k ∈ D0 θ hn z := fun k => hT.le_D0 hn c hF hS (htkT k)
+    have hD : ∀ k, tk k ∈ D0 θ hn z := fun k => hT.le_D0 hn hS (htkT k)
     have hbz : bz z (tk 0 ^ i * tk 1 ^ j * tk 2 ^ k) = 1 := by rw [h1]; simp [bz]
     rw [bz_mul hn c (mul_mem (pow_mem (hD 0) i) (pow_mem (hD 1) j)) (pow_mem (hD 2) k),
-      bz_mul hn c (pow_mem (hD 0) i) (pow_mem (hD 1) j), bz_pow hn c hF hS hT (hD 0),
-      bz_pow hn c hF hS hT (hD 1), bz_pow hn c hF hS hT (hD 2), hb0, hb1, hb2, eps_pow,
+      bz_mul hn c (pow_mem (hD 0) i) (pow_mem (hD 1) j), bz_pow hn c (hD 0),
+      bz_pow hn c (hD 1), bz_pow hn c (hD 2), hb0, hb1, hb2, eps_pow,
       eps_pow, eps_pow, eps_mul, eps_mul, eps_eq_one_iff] at hbz
     have hpar : ∀ p q r : Fin 2, (((if p.val = 1 then (1 : Fin 8) else 0) ^^^
         (if q.val = 1 then 2 else 0)) ^^^ (if r.val = 1 then 4 else 0)) = 0 →

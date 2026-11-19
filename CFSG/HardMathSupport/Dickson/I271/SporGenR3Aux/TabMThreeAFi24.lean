@@ -18,7 +18,7 @@ open CFSG.Certificates.CosetEnumeration (evalWord evalWord_nil evalWord_cons eva
 @[expose] noncomputable def kmGen (i : ℕ) : Fi24AutomorphismGroup :=
   if h : i < 12 then PresentedGroup.of ⟨i, h⟩ else 1
 
-theorem kmGen_of_lt {i : ℕ} (h : i < 12) : kmGen i = PresentedGroup.of ⟨i, h⟩ := dif_pos h
+theorem kmGen_of_lt {i : ℕ} (h : i < 12) : kmGen i = PresentedGroup.of ⟨i, h⟩ := dite_eq_left h
 
 theorem kmGen_mul_self (i : ℕ) : kmGen i * kmGen i = 1 := by
   unfold kmGen
@@ -166,7 +166,7 @@ theorem kmEquiv_symm_kmJ
       presGen TauCeti.Sporadic.fi24PrimePresentation i := by
     rw [MulEquiv.symm_apply_eq]
     exact (presHom_presGen _ _ kmJ_rels hg).symm
-  rw [kmEquiv, MulEquiv.symm_trans_apply, MulEquiv.symm_symm, h1, presGen, dif_pos hg,
+  rw [kmEquiv, MulEquiv.symm_trans_apply, MulEquiv.symm_symm, h1, presGen, dite_eq_left hg,
     kmGen_of_lt (by norm_num), kmGen_of_lt (by omega)]
   exact TauCeti.Sporadic.coe_fi24PrimeGroupMulEquivCommutator_of ⟨i, hi⟩
 

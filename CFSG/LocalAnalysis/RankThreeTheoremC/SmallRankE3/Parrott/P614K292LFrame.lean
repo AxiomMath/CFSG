@@ -43,7 +43,7 @@ theorem exists_mulVec_eq_smul_of_commute {b : Fin 3 → Fin 3 → K} (hb : IsUni
     by_cases hk : k = i
     · subst hk
       simp
-    · simp [Pi.single_apply, hk, hak k hk]
+    · simp [hk, hak k hk]
   refine ⟨a i, ?_⟩
   rw [← hPa, ← colMat_mulVec_single]
   exact congrArg (colMat b *ᵥ ·) ha

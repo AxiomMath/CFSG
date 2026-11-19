@@ -64,7 +64,7 @@ theorem e7_quad_zmod_identity (y : Fin 7 → ZMod 4) :
   change (∑ x : Fin 7, ∑ i : Fin 7, y x * (e7InverseMod4 x i * y i)) =
       3 * (y 1 ^ 2 + y 4 ^ 2 + y 6 ^ 2) + 2 * (y 1 * y 4 + y 1 * y 6 + y 4 * y 6)
   simp only [e7InverseMod4, Fin.sum_univ_succ, Fin.sum_univ_zero, Matrix.of_apply,
-    Matrix.cons_val', Matrix.head_val', Matrix.tail_val', Matrix.cons_val_zero,
+    Matrix.cons_val', Matrix.cons_val_zero,
     Matrix.cons_val_succ]
   norm_num
   have h4 : (4 : ZMod 4) = 0 := by decide

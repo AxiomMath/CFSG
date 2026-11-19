@@ -43,7 +43,7 @@ variable {G : Type} [Group G]
 @[expose] def IsNormalE32In (S A : Subgroup G) : Prop :=
   A ≤ S ∧ IsElemAb2 A 5 ∧ (A.subgroupOf S).Normal
 
-@[expose] abbrev WrZ2 (X : Type) [Group X] : Type :=
+abbrev WrZ2 (X : Type) [Group X] : Type :=
   RegularWreathProduct X (Multiplicative (ZMod 2))
 
 @[expose] def IsPermModuleMod {n : ℕ} (P : (Fin n → ZMod 2) → Prop) (N : Set (Fin n → ZMod 2))

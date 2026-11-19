@@ -104,7 +104,7 @@ theorem lift_mk_eq_one_of_letters
   classical
   let y' : Fin 12 → ↥L := fun i => if hi : p i then ⟨yamakiSp i, hp i hi⟩ else 1
   have hy' : ∀ l (hl : l ∈ r), y' l.1 = ⟨yamakiSp l.1, hp _ (hr l hl)⟩ :=
-    fun l hl => dif_pos (hr l hl)
+    fun l hl => dite_eq_left (hr l hl)
   have h3 : (L.subtype (FreeGroup.lift y' (FreeGroup.mk r)) : StatedSp 3 (ZMod 2)) = 1 := by
     rw [map_lift_apply]
     have hl : ∀ l ∈ r, (L.subtype ∘ y') l.1 = yamakiSp l.1 := fun l hl =>
@@ -224,11 +224,11 @@ variable (ν : ↥N ≃* ↥N0) (θ : ↥H ≃* ↥Hhat)
 
 theorem yamakiPre_eleven :
     yamakiPre ν θ 11 = θ.symm ⟨yamakiSp 11, yamakiSp_mem_Hhat (Or.inr (Or.inr rfl))⟩ :=
-  dif_pos rfl
+  dite_eq_left rfl
 
 theorem yamakiPre_of_ne {i : Fin 12} (hi : i ≠ 11) :
     yamakiPre ν θ i = ν.symm ⟨yamakiSp i, yamakiSp_mem_N0_of_ne hi⟩ :=
-  dif_neg hi
+  dite_eq_right hi
 
 theorem yamakiPre_mem_N {i : Fin 12} (hi : i ≠ 11) : yamakiPre ν θ i ∈ N := by
   rw [yamakiPre_of_ne ν θ hi]
@@ -389,7 +389,7 @@ theorem le_closure_range_yamakiPre_left :
     subst hgi
     have h11 : i ≠ 11 := by
       rintro rfl
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       revert hi
       decide
     exact Subgroup.mem_comap.mpr (Subgroup.subset_closure ⟨i, yamakiPre_of_ne ν θ h11⟩)
@@ -413,7 +413,7 @@ theorem le_closure_range_yamakiPre_right
     subst hgi
     have h9 : i ≠ 9 := by
       rintro rfl
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       revert hi
       decide
     exact Subgroup.mem_comap.mpr
@@ -486,7 +486,7 @@ theorem exists_mulEquiv_sup
       intro i hi
       have h11 : i ≠ 11 := by
         rintro rfl
-        simp only [Set.mem_setOf_eq] at hi
+        simp only [Set.mem_ofPred_eq] at hi
         revert hi
         decide
       exact hgen (Subgroup.inclusion le_sup_left (ν.symm ⟨yamakiSp i, yamakiSp_mem_N0_of_ne h11⟩))
@@ -501,7 +501,7 @@ theorem exists_mulEquiv_sup
       intro i hi
       have h9 : i ≠ 9 := by
         rintro rfl
-        simp only [Set.mem_setOf_eq] at hi
+        simp only [Set.mem_ofPred_eq] at hi
         revert hi
         decide
       exact hgen

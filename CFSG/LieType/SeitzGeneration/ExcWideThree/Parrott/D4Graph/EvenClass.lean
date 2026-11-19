@@ -38,6 +38,7 @@ theorem exactNormalAut_eq_conj_of_charTwo (h2 : ringChar K = 2) (a : Fin Tag.D4.
   rw [hid]
   simp [MulAut.conj_apply]
 
+omit [Finite K] in
 theorem gammaP_inv (B : SL2 K) :
     (gammaP K B)⁻¹ = MulAut.conj (sl2At K ⟨2, by decide⟩ B⁻¹) * d4Graph K 2 := by
   have h12 : (d4Graph K 1)⁻¹ = d4Graph K 2 := by
@@ -46,16 +47,19 @@ theorem gammaP_inv (B : SL2 K) :
   have hρ : (d4Rho ^ 2) (⟨2, by decide⟩ : Fin Tag.D4.rank) = ⟨2, by decide⟩ := by decide
   rw [gammaP, mul_inv_rev, h12, ← map_inv, ← map_inv, mul_conj_eq, d4Graph_sl2At, hρ]
 
+omit [Finite K] in
 theorem d4Graph_two_two (y : ↥(adjointGroup Tag.D4 K)) :
     d4Graph K 2 (d4Graph K 2 y) = d4Graph K 1 y := by
   rw [← MulAut.mul_apply, ← CFSG.LieType.SeitzGeneration.ExcWideThree.d4Graph_add,
     ← CFSG.LieType.SeitzGeneration.ExcWideThree.d4Graph_mod_three]
 
+omit [Finite K] in
 theorem d4Graph_two_one (y : ↥(adjointGroup Tag.D4 K)) :
     d4Graph K 2 (d4Graph K 1 y) = y := by
   rw [← MulAut.mul_apply, ← CFSG.LieType.SeitzGeneration.ExcWideThree.d4Graph_add,
     CFSG.LieType.SeitzGeneration.ExcWideThree.d4Graph_three, MulAut.one_apply]
 
+omit [Finite K] in
 theorem conj_d4Graph_two_pow_three (x : ↥(adjointGroup Tag.D4 K)) :
     (MulAut.conj x * d4Graph K 2) ^ 3 =
       MulAut.conj (x * d4Graph K 2 x * d4Graph K 1 x) := by
@@ -88,12 +92,14 @@ theorem conj_injective_D4 :
   rw [hZ] at hgc
   exact hgc
 
+omit [Finite K] in
 theorem sl2At_two_eq_d4TrialityY0 :
     (sl2At K ⟨2, by decide⟩ (uSL 1 * vSL 1) : ModGL Tag.D4 K) =
       CFSG.RankThree.PartTwo.Sec8.d4TrialityY0 K := by
   rw [map_mul, Subgroup.coe_mul, coe_sl2At, coe_sl2At, simpleRootSL2_uSL, simpleRootSL2_vSL]
   rfl
 
+omit [Finite K] in
 theorem uSL_mul_vSL_pow_three [CharP K 2] : (uSL (1 : K) * vSL 1) ^ 3 = 1 := by
   have h2 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   have e : (((uSL (1 : K) * vSL 1) ^ 3 : SL2 K) : Matrix (Fin 2) (Fin 2) K) =
@@ -106,6 +112,7 @@ theorem uSL_mul_vSL_pow_three [CharP K 2] : (uSL (1 : K) * vSL 1) ^ 3 = 1 := by
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, h2]
 
+omit [Finite K] in
 theorem uSL_mul_vSL_ne_one : uSL (1 : K) * vSL 1 ≠ 1 := by
   intro h
   have := congrArg (fun A : SL2 K => (A : Matrix (Fin 2) (Fin 2) K) 0 1) h

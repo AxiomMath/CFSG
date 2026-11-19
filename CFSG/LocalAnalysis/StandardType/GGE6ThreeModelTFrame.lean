@@ -20,10 +20,11 @@ variable {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hK : Nat.card
   [IsAlgClosure K Ω] (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
 
 include hn hK hσ in
+omit hn [Finite K] hK hσ in
 theorem tFrame_center : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) = ⊥ := by
   exact center_graphFixedRootGroup_eq_bot σ.surjective
 
-theorem tFrame_faithful (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
+theorem tFrame_faithful (_h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (_hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.Faithful := by
   intro x y hxy
@@ -56,7 +57,7 @@ theorem tFrame_faithful (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLan
   exact Multiplicative.ext hxy'
 
 theorem tFrame_torus (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
-    (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
+    (_hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.TorusOK := by
   have hcommT : ∀ s ∈ D.Tor, ∀ t ∈ D.Tor, s * t = t * s := by
     intro s hs t ht
@@ -139,10 +140,6 @@ theorem tFrame_torus (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang F
       (t : ModGL TwistTag.E6.tag K)
     rw [RecipeExcLang.coe_twConj]
     apply baseChangeGL_injective (algebraMap K Ω)
-    change baseChangeGL (algebraMap K Ω)
-        ((w : ModGL TwistTag.E6.tag K) * (t : ModGL TwistTag.E6.tag K) *
-          (w : ModGL TwistTag.E6.tag K)⁻¹) =
-      baseChangeGL (algebraMap K Ω) (t : ModGL TwistTag.E6.tag K)
     rw [map_mul, map_mul, map_inv, hbcw, hbaseT]
     have hcomm : rootDiagUnit Tag.E6 (zetaVec ζ hζ x) * s =
         s * rootDiagUnit Tag.E6 (zetaVec ζ hζ x) :=
@@ -159,7 +156,7 @@ theorem torusElt_mem_Cgrp (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsL
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) (i : Fin Tag.E6.rank) (s : Ωˣ) (hs : s ^ (2 ^ n + 1) = 1) :
     g * torusElt Tag.E6 Ω i s * g⁻¹ ∈ TwistedDiag.Cgrp K σ.toRingHom Ω := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   set b : Fin Tag.E6.rank → Ωˣ := Pi.mulSingle i s⁻¹ with hb
   have hbq : ∀ j, b j ^ (2 ^ n + 1) = 1 := by
     intro j
@@ -211,13 +208,13 @@ theorem torusElt_mem_Cgrp (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsL
   rwa [hident] at htarget
 
 theorem tFrame_inner_point (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
-    (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
+    (_hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) :
     ∀ v ∈ NoOffRest.hypE6, ∃ r ∈ D.Tor, r ^ 3 = 1 ∧ MulAut.conj r = D.ad v ∧
       baseChangeGL (algebraMap K Ω) (r : ModGL TwistTag.E6.tag K) =
         g * rootDiagUnit Tag.E6 (zetaVec ζ hζ v) * g⁻¹ := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   intro v hv
   obtain ⟨y, hy⟩ := CFSG.StandardType.NoOffE6Three.zetaVec_eq_cartanChar_of_mem_hyp ζ hζ hv
   have hd_eq : rootDiagUnit Tag.E6 (zetaVec ζ hζ v) =
@@ -295,7 +292,7 @@ theorem tFrame_inner (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang F
     tFrame_inner_point hn hK σ hσ Fr hFr h3 hL hζ hζo hD v hv
   exact ⟨r, hr, hr3, hrconj⟩
 
-private theorem langCube_le_diag_range {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ}
+private theorem langCube_le_diag_range {g : ModGL Tag.E6 Ω} (_hL : IsLang Fr g) {ζ : Ωˣ}
     (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
     {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) :
@@ -333,7 +330,7 @@ theorem tFrame_shape (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang F
       exact hmem
     exact langCube_le_diag_range hn hK σ hσ Fr hFr hL hζ hζo hD hxβ
 
-theorem tFrame_norm (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
+theorem tFrame_norm (_h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.NormOK := by
   intro r S _ hS

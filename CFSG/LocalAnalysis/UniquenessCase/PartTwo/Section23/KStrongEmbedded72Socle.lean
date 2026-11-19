@@ -26,16 +26,16 @@ theorem eq_inner_of_normal_simple_subgroup_mulAut {S : Type} [Group S] [Finite S
       exact hab ((Subgroup.mem_center_iff.mp hamem b).symm)
   have hKnormal : K.Normal := hKn
   have hInormal : (innerAut S).Normal := innerAut_normal
-  haveI := hKnormal
-  haveI := hInormal
+  have := hKnormal
+  have := hInormal
   have hKsimple : IsSimpleGroup ↥K := hKs
-  haveI := hKsimple
+  have := hKsimple
   have hIsimple : IsSimpleGroup ↥(innerAut S) := (innerAutEquiv hZ).symm.isSimpleGroup
-  haveI := hIsimple
+  have := hIsimple
   have hIne : innerAut S ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot _).mp inferInstance
   have hKI_normal : ((K ⊓ innerAut S).subgroupOf (innerAut S)).Normal :=
     (Subgroup.normal_inf_normal K (innerAut S)).subgroupOf (innerAut S)
-  haveI := hKI_normal
+  have := hKI_normal
   have hcases : K ⊓ innerAut S = ⊥ ∨ innerAut S ≤ K := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((K ⊓ innerAut S).subgroupOf (innerAut S)) with hbot | htop
@@ -70,7 +70,7 @@ theorem eq_inner_of_normal_simple_subgroup_mulAut {S : Type} [Group S] [Finite S
     exact (Subgroup.nontrivial_iff_ne_bot K).mp inferInstance hKbot
   ·
     have hI_normal : ((innerAut S).subgroupOf K).Normal := hInormal.subgroupOf K
-    haveI := hI_normal
+    have := hI_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((innerAut S).subgroupOf K) with hbot | htop
     · exfalso
       have hdisj : Disjoint (innerAut S) K := Subgroup.subgroupOf_eq_bot.mp hbot

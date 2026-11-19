@@ -30,9 +30,9 @@ theorem plane3_testBit (r : Nat) :
     rw [plane3_cons, Nat.testBit_two_pow_mul_add _ (cond_lt _)]
     rcases u with _ | u
     · have h0 : 0 < (x :: xs).length := by simp
-      rw [if_pos (by omega), List.getD_cons_zero, decide_eq_true h0, Bool.true_and]
+      rw [ite_eq_left (by omega), List.getD_cons_zero, decide_eq_true h0, Bool.true_and]
       cases Nat.beq (x % 3) r <;> rfl
-    · rw [if_neg (by omega), Nat.add_sub_cancel, plane3_testBit r xs u]
+    · rw [ite_eq_right (by omega), Nat.add_sub_cancel, plane3_testBit r xs u]
       simp only [List.getD_cons_succ, List.length_cons, Nat.add_lt_add_iff_right]
 
 theorem plane3_lt (r : Nat) (A : List Nat) : plane3 r A < 2 ^ A.length :=
@@ -71,11 +71,11 @@ theorem pk3_sound {d N : Nat} (hN : N = d * d) {A : List Nat} (hA : A.length ≤
     have := Nat.mul_le_mul_left (2 ^ N) (Nat.succ_le_of_lt h2)
     rw [Nat.mul_succ] at this
     omega
-  · rw [hb, if_neg (by omega), Nat.add_sub_cancel_left, plane3_testBit]
+  · rw [hb, ite_eq_right (by omega), Nat.add_sub_cancel_left, plane3_testBit]
     rw [hb] at ht
     by_cases htN : t < N
-    · rw [if_pos htN, plane3_testBit] at ht
-      simp only [Bool.and_eq_true, decide_eq_true_eq, Nat.beq_eq_true_eq] at ht
+    · rw [ite_eq_left htN, plane3_testBit] at ht
+      simp only [Bool.and_eq_true, decide_eq_true_eq] at ht
       simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not]
       right
       cases h : (A.getD t 0 % 3).beq 2
@@ -88,7 +88,7 @@ theorem pk3_sound {d N : Nat} (hN : N = d * d) {A : List Nat} (hA : A.length ≤
   · funext i j
     have hidx : d * i.val + j.val < N := hN ▸ idx_lt3 i.isLt j.isLt
     unfold mat3 toMatL
-    rw [hb, hb, if_pos hidx, if_neg (by omega), Nat.add_sub_cancel_left, plane3_testBit,
+    rw [hb, hb, ite_eq_left hidx, ite_eq_right (by omega), Nat.add_sub_cancel_left, plane3_testBit,
       plane3_testBit]
     by_cases hl : d * i.val + j.val < A.length
     · rw [decide_eq_true hl, Bool.true_and, Bool.true_and, bv_mod]

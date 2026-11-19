@@ -17,7 +17,7 @@ theorem toLin_mem_sesqUnitaryGroup_iff {n : ℕ} (h : UnitaryFieldData r f K)
     Matrix.GeneralLinearGroup.toLin g ∈ sesqUnitaryGroup (gramForm h G) ↔
       g ∈ primeFormUnitary h G := by
   rw [mem_sesqUnitaryGroup, mem_primeFormUnitary, ← gramForm_isometry_iff]
-  simp only [Matrix.GeneralLinearGroup.coe_toLin, Matrix.toLin'_apply, Matrix.mulVecLin_apply]
+  simp only [Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVecLin_apply]
 
 theorem card_primeFormUnitary_eq {n : ℕ} (h : UnitaryFieldData r f K)
     (G : Matrix (Fin n) (Fin n) K) :
@@ -41,17 +41,17 @@ theorem cast_uFactor {q : ℕ} (hq : 1 ≤ q) (i : ℕ) :
     ((uFactor q i : ℕ) : ℤ) = (q : ℤ) ^ i - (-1) ^ i := by
   unfold uFactor
   by_cases hi : Even i
-  · rw [if_pos hi, hi.neg_one_pow, Nat.cast_sub (Nat.one_le_pow _ _ hq)]
+  · rw [ite_eq_left hi, hi.neg_one_pow, Nat.cast_sub (Nat.one_le_pow _ _ hq)]
     push_cast
     ring
-  · rw [if_neg hi, (Nat.not_even_iff_odd.1 hi).neg_one_pow]
+  · rw [ite_eq_right hi, (Nat.not_even_iff_odd.1 hi).neg_one_pow]
     push_cast
     ring
 
 theorem factorization_uFactor {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 2 ≤ q)
     (hpq : p ∣ q + 1) {i : ℕ} (hi : i ≠ 0) :
     (uFactor q i).factorization p = (q + 1).factorization p + i.factorization p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hpq0 : ¬ p ∣ q := by
     intro h1
@@ -61,7 +61,7 @@ theorem factorization_uFactor {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 2
   rw [Nat.factorization_def _ hp, Nat.factorization_def _ hp, Nat.factorization_def _ hp]
   unfold uFactor
   by_cases hev : Even i
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     obtain ⟨m, hm⟩ := hev
     have hm0 : m ≠ 0 := by omega
     have h2m : i = 2 * m := by omega
@@ -84,7 +84,7 @@ theorem factorization_uFactor {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 2
       padicValNat.eq_zero_of_not_dvd hpq1, zero_add, h2m,
       padicValNat.mul (by norm_num) hm0, padicValNat.eq_zero_of_not_dvd
         (fun h1 => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 h1)), zero_add]
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     have hio : Odd i := Nat.not_even_iff_odd.1 hev
     have hlte := padicValNat.pow_add_pow (p := p) hodd (x := q) (y := 1) hpq hpq0 hio
     rwa [one_pow] at hlte
@@ -138,7 +138,7 @@ theorem factorization_card_primeFormUnitary {p : ℕ} (hp : p.Prime) (hp2 : p �
       linarith
   have hpow0 : (r ^ f) ^ (p * (p - 1) / 2) ≠ 0 := pow_ne_zero _ (by omega)
   rw [hnat, Nat.factorization_mul hpow0 (Finset.prod_ne_zero_iff.2 hne), Finsupp.add_apply,
-    Nat.factorization_pow, Finsupp.smul_apply, Nat.factorization_prod hne, Finsupp.coe_finset_sum,
+    Nat.factorization_pow, Finsupp.smul_apply, Nat.factorization_prod hne, _root_.Finsupp.coe_finsetSum,
     Finset.sum_apply]
   have hz : (r ^ f).factorization p = 0 := Nat.factorization_eq_zero_of_not_dvd hpq0
   rw [hz, smul_zero, zero_add]

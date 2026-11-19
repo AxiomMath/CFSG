@@ -129,7 +129,7 @@ theorem factorization_card_adjointGroup_E8_five_four
     (Nat.card (adjointGroup .E8 K)).factorization 5 =
       ((((cyclotomic 4 ℤ) ^ 4).eval (Nat.card K : ℤ)).natAbs).factorization 5 + 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set q : ℕ := Nat.card K with hqdef
   have hq5 : orderOf (q : ZMod 5) = 4 := by rw [hqdef]; exact hq
   have hq2 : 2 ≤ q := by
@@ -140,7 +140,7 @@ theorem factorization_card_adjointGroup_E8_five_four
     exact CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_E8
   have hR1 : ¬ (5 : ℤ) ∣ (1 : ℤ[X]).eval (q : ℤ) := by
     intro h
-    exact (by norm_num : ¬ (5 : ℤ) ∣ 1) (by simpa using h)
+    exact (by norm_num : ¬ (5 : ℤ) ∣ 1) (by simp at h)
   have hRpow : 5 ^ ((((cyclotomic 4 ℤ) ^ 4).eval (q : ℤ)).natAbs.factorization 5)
       = 5 ^ (4 * (q ^ 4 - 1).factorization 5) := by
     have hR := ordProj_cyclotomic_pow_mul_eval (p := 5) (q := q) (e := 4) (m := 4)
@@ -191,7 +191,7 @@ private lemma ggB2b_q_minpoly_rat {ι : Type*} [Fintype ι] [DecidableEq ι] [No
     (Polynomial.cyclotomic.monic d ℚ)).symm
 
 private lemma ggB2b_q_charpoly_dvd_pow_rat {ι : Type*} [Fintype ι] [DecidableEq ι] {d m : ℕ}
-    (hd : 0 < d) (hcard : Fintype.card ι = 2 * m)
+    (_hd : 0 < d) (hcard : Fintype.card ι = 2 * m)
     (Mq : Matrix ι ι ℚ) (hmin : minpoly ℚ Mq = cyclotomic d ℚ) :
     Mq.charpoly ∣ (cyclotomic d ℚ) ^ (2 * m) := by
   let Mc : Matrix ι ι ℂ := Mq.map (algebraMap ℚ ℂ)
@@ -273,9 +273,9 @@ private theorem ggB2b1_charpoly_eq_cyclotomic_pow {ι : Type} [Fintype ι] [Deci
     M.charpoly = (cyclotomic d ℤ) ^ m := by
   rcases Nat.eq_zero_or_pos m with hm | hm
   · subst hm
-    haveI : IsEmpty ι := Fintype.card_eq_zero_iff.mp (by simpa using hcard)
+    have : IsEmpty ι := Fintype.card_eq_zero_iff.mp (by simpa using hcard)
     simp [Matrix.charpoly_isEmpty]
-  · haveI : Nonempty ι := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
+  · have : Nonempty ι := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
     have hd := ggB2b_q_d_pos hdeg
     have hmin := ggB2b_q_minpoly_rat hd M h
     have hrat := ggB2b_q_charpoly_eq_rat hdeg hcard (M.map (Int.castRingHom ℚ)) hmin
@@ -517,7 +517,7 @@ private lemma ggB2b_aeval_four : aeval (weylMatrix ggB2b_w4) (cyclotomic 4 ℤ) 
   have hcyc : cyclotomic 4 ℤ = (X : ℤ[X]) ^ 2 + 1 := by
     rw [show (4 : ℕ) = 2 ^ (1 + 1) by norm_num,
       Polynomial.cyclotomic_prime_pow_eq_geom_sum (R := ℤ) (p := 2) (n := 1) Nat.prime_two]
-    simp only [Finset.sum_range_succ, Finset.sum_range_one, pow_zero, pow_one]
+    simp only [Finset.sum_range_succ, pow_zero, pow_one]
     ring
   rw [ggB2b_w4_matrix, hcyc]
   simpa [add_comm] using ggB2b_M4_quad
@@ -705,19 +705,19 @@ private lemma ggB2c_cyclotomic_four_int :
     (cyclotomic 4 ℤ : ℤ[X]) = (X : ℤ[X]) ^ 2 + 1 := by
   rw [show (4 : ℕ) = 2 ^ (1 + 1) by norm_num,
     Polynomial.cyclotomic_prime_pow_eq_geom_sum (R := ℤ) (p := 2) (n := 1) Nat.prime_two]
-  simp only [Finset.sum_range_succ, Finset.sum_range_one, pow_zero, pow_one]
+  simp only [Finset.sum_range_succ, pow_zero, pow_one]
   ring
 
 private lemma ggB2c_cyclotomic_five_rat :
     (cyclotomic 5 ℚ : ℚ[X]) = X ^ 4 + X ^ 3 + X ^ 2 + X + 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Polynomial.cyclotomic_prime ℚ 5]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, pow_zero]
   ring
 
 private lemma ggB2c_cyclotomic_five_int :
     (cyclotomic 5 ℤ : ℤ[X]) = X ^ 4 + X ^ 3 + X ^ 2 + X + 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Polynomial.cyclotomic_prime ℤ 5]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, pow_zero]
   ring
@@ -771,7 +771,7 @@ private lemma ggB2c_sq_eq_neg_one_of_charpoly_four {ι : Type*} [Fintype ι] [De
       (X ^ 4 + 4 * X ^ 2 + 7) * (X ^ 4 - 1) := by ring
   have hx4 : M ^ 4 - 1 = 0 := by rw [h4]; exact sub_self 1
   have hrel := congrArg (Polynomial.aeval M) hpoly
-  simp only [map_sub, map_mul, map_pow, map_add, map_ofNat, map_natCast, map_one,
+  simp only [map_sub, map_mul, map_pow, map_add, map_ofNat, map_one,
     Polynomial.aeval_X] at hrel
   rw [hA4', hx4, mul_zero, zero_sub] at hrel
   have h8 : (8 : Matrix ι ι ℤ) * (M ^ 2 + 1) = 0 := neg_eq_zero.mp hrel
@@ -973,7 +973,7 @@ private lemma ggB2c_Phi5_eq_zero_int {V N : Matrix (Fin Tag.E8.rank) (Fin Tag.E8
   have hNq : (N.map (Int.castRingHom ℚ)) ^ 2 = -1 := by
     rw [← Matrix.map_pow, hN]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.neg_apply, Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.neg_apply, hij]
   have hV5q : (V.map (Int.castRingHom ℚ)) ^ 5 = 1 := by
     rw [← Matrix.map_pow, hV5]
     ext i j
@@ -1198,15 +1198,14 @@ private lemma ggB2c_map_mulVec {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ)
     (x : Fin n → ℤ) :
     (ggB2c_mod M) *ᵥ (fun i => (x i : ZMod 5)) = fun i => ((M *ᵥ x) i : ZMod 5) := by
   ext i
-  simp only [ggB2c_mod, Matrix.map_apply, Matrix.mulVec, dotProduct, map_sum, map_mul,
-    Int.cast_sum, Int.cast_mul]
+  simp only [ggB2c_mod, Matrix.map_apply, Matrix.mulVec, dotProduct, Int.cast_sum, Int.cast_mul]
   rfl
 
 private lemma ggB2c_map_U4 {n : ℕ} (U E : Matrix (Fin n) (Fin n) ℤ)
     (hU4 : U ^ 4 = -(5 * E)) : (ggB2c_mod U) ^ 4 = 0 := by
   have h5 : ((5 : Matrix (Fin n) (Fin n) ℤ).map (Int.castRingHom (ZMod 5))) = 0 := by
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.ofNat_apply, hij] <;> decide
+    by_cases hij : i = j <;> simp [Matrix.ofNat_apply, hij]; decide
   change (U.map (Int.castRingHom (ZMod 5))) ^ 4 = 0
   rw [← Matrix.map_pow, hU4]
   have hmap : ((-(5 * E)).map (Int.castRingHom (ZMod 5))) = 0 := by
@@ -1243,13 +1242,13 @@ private lemma ggB2c_Einv_spec_gen {n : ℕ} (U E : Matrix (Fin n) (Fin n) ℤ)
     have hmap := ggB2c_aeval_mapMatrix (Int.castRingHom (ZMod 5)) U
       (1 + 2 * X + 2 * X ^ 2 + X ^ 3 : ℤ[X])
     have h1 : Polynomial.aeval U (1 + 2 * X + 2 * X ^ 2 + X ^ 3 : ℤ[X]) = E := by
-      rw [hE]; simp [Polynomial.aeval_X, map_ofNat, map_natCast]
+      rw [hE]; simp [Polynomial.aeval_X, map_ofNat]
     have h2 : (1 + 2 * X + 2 * X ^ 2 + X ^ 3 : ℤ[X]).map
         (Int.castRingHom (ZMod 5)) = 1 + q := by
       simp [q]; ring
     rw [h1, h2] at hmap
     have h3 : Polynomial.aeval u (1 + q) = 1 + ν := by
-      simp [ν, Polynomial.aeval_X]
+      simp [ν]
     rw [show U.map (Int.castRingHom (ZMod 5)) = u from rfl, h3] at hmap
     exact hmap.symm
   have hp1q : p * (1 + q) = 1 - q ^ 4 := by
@@ -1258,7 +1257,7 @@ private lemma ggB2c_Einv_spec_gen {n : ℕ} (U E : Matrix (Fin n) (Fin n) ℤ)
     calc Polynomial.aeval u p * (1 + ν) = 1 - ν ^ 4 := by
           have h := congrArg (Polynomial.aeval u) hp1q
           simp only [Polynomial.aeval_mul, Polynomial.aeval_add, Polynomial.aeval_sub,
-            Polynomial.aeval_one, Polynomial.aeval_X, map_pow] at h
+            Polynomial.aeval_one, map_pow] at h
           exact h
       _ = 1 - 0 := by rw [hν4]
       _ = 1 := by abel
@@ -1467,8 +1466,6 @@ private lemma ggB2c_fl_ker_le_range_gen {n : ℕ}
       rfl
   refine ⟨⟨Matrix.toLin' Pmat y, hπVl y⟩, ?_⟩
   apply Subtype.ext
-  change (((Ut.restrict hUv) ^ 3) ⟨Matrix.toLin' Pmat y, hπVl y⟩ :
-    Fin n → ZMod 5) = ((x : ↥Vl) : Fin n → ZMod 5)
   rw [hrestr]
   calc (Ut ^ 3) ((Matrix.toLin' Pmat) y) = (Ut ^ 3 * Matrix.toLin' Pmat) y := rfl
     _ = (Matrix.toLin' Pmat * Ut ^ 3) y := by rw [hπUt3]
@@ -1546,7 +1543,7 @@ private theorem ggB2c_rootMultiplicity_pow {R : Type*} [CommRing R] [IsDomain R]
     (P : R[X]) (hP : P ≠ 0) (a : R) (m : ℕ) :
     (P ^ m).rootMultiplicity a = m * P.rootMultiplicity a := by
   induction m with
-  | zero => simpa using Polynomial.rootMultiplicity_C (1 : R) a
+  | zero => simp
   | succ n ih =>
       rw [pow_succ, Polynomial.rootMultiplicity_mul (mul_ne_zero (pow_ne_zero n hP) hP), ih,
         Nat.succ_mul]
@@ -1560,7 +1557,7 @@ private theorem ggB2c_charpoly_modMat_transpose {τ : Tag} (p : ℕ)
 private theorem ggB2c_cyclotomic_rootMultiplicity_le_one {p d q : ℕ} (hp : p.Prime)
     (hq : orderOf (q : ZMod p) = d) :
     (cyclotomic d (ZMod p)).rootMultiplicity (q : ZMod p) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases eq_or_ne d 0 with rfl | hd
   · rw [Polynomial.cyclotomic_zero, ← Polynomial.C_1, Polynomial.rootMultiplicity_C]
     exact Nat.zero_le 1
@@ -1577,7 +1574,7 @@ private theorem ggB2c_cyclotomic_rootMultiplicity_le_one {p d q : ℕ} (hp : p.P
       have := Nat.le_of_dvd hp1 hdvd
       omega
     have hNe : NeZero (d : ZMod p) := ⟨fun h => hpd ((ZMod.natCast_eq_zero_iff d p).1 h)⟩
-    haveI : NeZero (d : ZMod p) := hNe
+    have : NeZero (d : ZMod p) := hNe
     have hsep := Polynomial.separable_cyclotomic d (ZMod p)
     have hroot : IsRoot (cyclotomic d (ZMod p)) (q : ZMod p) :=
       Polynomial.isRoot_cyclotomic_iff.mpr hpr
@@ -1620,7 +1617,7 @@ private lemma ggB2c_fix_card_le_gen {n : ℕ}
     (hNmat2 : Nmat ^ 2 = -1) (hNtU : Nmat * Umat = Umat * Nmat)
     (hUmat : Umat = ggB2c_mod U)
     (hU4 : U ^ 4 = -(5 * E)) (hE : E = 1 + 2 * U + 2 * U ^ 2 + U ^ 3)
-    (hcard : Nat.card {z : Fin n → ZMod 5 // Nmat *ᵥ z = l • z} ≤ 5 ^ 4)
+    (_hcard : Nat.card {z : Fin n → ZMod 5 // Nmat *ᵥ z = l • z} ≤ 5 ^ 4)
     (hroot : ((Nmat - l • 1).charpoly).rootMultiplicity 0 ≤ 4) :
     Nat.card {z : Fin n → ZMod 5 // Nmat *ᵥ z = l • z ∧ Umat *ᵥ z = 0} ≤ 5 ^ 2 := by
   obtain ⟨Ut, hUt⟩ : ∃ Ut : Module.End (ZMod 5) (Fin n → ZMod 5),
@@ -1697,10 +1694,10 @@ theorem card_fixed_eigenspace_le_of_commute_order_five
     rw [modMat, ← Matrix.transpose_map, ← Matrix.map_pow, ggB2c_transpose_sq w hw]
     ext i j
     by_cases hij : i = j
-    · simp [Matrix.map_apply, Matrix.neg_apply, Matrix.one_apply, hij, map_neg, map_one]
-      <;> decide
-    · simp [Matrix.map_apply, Matrix.neg_apply, Matrix.one_apply, hij, map_neg, map_one]
-      <;> decide
+    · simp [Matrix.map_apply, Matrix.neg_apply, hij]
+
+    · simp [Matrix.map_apply, Matrix.neg_apply, hij]
+
   have hcommN : (modMat 5 (weylMatrix w))ᵀ * (modMat 5 (weylMatrix v))ᵀ =
       (modMat 5 (weylMatrix v))ᵀ * (modMat 5 (weylMatrix w))ᵀ := by
     have h := congrArg (fun M : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) ℤ => modMat 5 M)
@@ -1811,7 +1808,7 @@ private lemma ggB2d_conj_inv_mem {τ : Tag} {L : Type} [Field L]
     intro s hs
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.1 hs
     exact hnA a ha
-  haveI : Finite (A.map (rootDiagUnitHom τ L)) := hSfin
+  have : Finite (A.map (rootDiagUnitHom τ L)) := hSfin
   have hinj : Function.Injective fun s : A.map (rootDiagUnitHom τ L) =>
       (⟨n * s.1 * n⁻¹, hfwd s.1 s.2⟩ : A.map (rootDiagUnitHom τ L)) := by
     intro s t h
@@ -1898,8 +1895,8 @@ private lemma ggB2d_conj_le_torusGroup {τ : Tag} {L : Type} [Field L] [IsAlgClo
     calc d * (n * t * n⁻¹) * d⁻¹ = (n * t * n⁻¹) * d * d⁻¹ := by rw [hdg]
       _ = n * t * n⁻¹ := by group
   intro t ht
-  haveI : Finite (ggB2d_weylQuotient τ L) := ggB2d_monomialSubgroup_quotient_finite
-  haveI : Nonempty (ggB2d_weylQuotient τ L) := ⟨1⟩
+  have : Finite (ggB2d_weylQuotient τ L) := ggB2d_monomialSubgroup_quotient_finite
+  have : Nonempty (ggB2d_weylQuotient τ L) := ⟨1⟩
   obtain ⟨s, hs, hspow⟩ := ggB2d_torusGroup_divisible (N := Nat.card (ggB2d_weylQuotient τ L))
     Nat.card_pos ht
   have hsC : n * s * n⁻¹ ∈
@@ -1998,7 +1995,7 @@ private theorem ggB2g_entrywiseHom_baseChangeGL_fixed
     (y : ModGL τ K) :
     Units.map (entrywiseHom Fr) (baseChangeGL ι y) = baseChangeGL ι y := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hpow : ∀ c : K, c ^ Nat.card K = c := fun c => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -2044,7 +2041,7 @@ theorem excFiveFour_le_of_toral_normal_subgroup
       D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E8 K) * D.g0 = t) :
     E ≤ Q := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   let rho : adjointGroup .E8 K →* ModGL .E8 (AlgebraicClosure K) :=
     (MulAut.conj D.g0⁻¹).toMonoidHom.comp
@@ -2053,7 +2050,7 @@ theorem excFiveFour_le_of_toral_normal_subgroup
       rho x = D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E8 K) *
         D.g0 := by
     intro x
-    simp [rho, MulAut.conj_apply]
+    simp [rho]
   have hrho_mem : ∀ x : adjointGroup .E8 K, rho x ∈ adjointGroup .E8 (AlgebraicClosure K) := by
     intro x
     rw [hrho_apply]
@@ -2283,7 +2280,7 @@ theorem excFiveFour_le_of_toral_normal_subgroup
     dsimp only [v₂]
     rw [← map_pow, hx5, map_one]
   have hv₂ord : orderOf v₂ = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime hv₂pow hv₂ne
   have hv₂action : ∀ z ∈ torusGroup .E8 (AlgebraicClosure K),
       rho y * z * (rho y)⁻¹ =
@@ -2381,8 +2378,8 @@ theorem excFiveFour_le_of_toral_normal_subgroup
       · exact (expTuple_mem_fixedCharTuples_iff (p := 5) hζ (weylMatrix w) Fr hFr z).mp
           (by rw [hz]; exact ha)
       · have hcommE : y * x.1 = x.1 * y := by
-          haveI : IsMulCommutative ↥E := hE.1
-          letI : CommMagma ↥E := IsMulCommutative.instCommMagma
+          have : IsMulCommutative ↥E := hE.1
+          let : CommMagma ↥E := IsMulCommutative.instCommMagma
           exact congrArg (fun w : ↥E => (w : adjointGroup .E8 K))
             (mul_comm (⟨y, hyE⟩ : ↥E) (⟨x.1, x.2.1⟩ : ↥E))
         have hcommxy : rho y * rho x.1 * (rho y)⁻¹ = rho x.1 := by
@@ -2447,7 +2444,7 @@ private theorem ggB2f_entrywiseHom_baseChangeGL_fixed
     (hFr : ∀ c, Fr c = c ^ Nat.card K) {τ : Tag} (y : ModGL τ K) :
     Units.map (entrywiseHom Fr) (baseChangeGL ι y) = baseChangeGL ι y := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hpow : ∀ c : K, c ^ Nat.card K = c := fun c => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -2461,9 +2458,9 @@ theorem excFiveFourToral
     (K : Type) [Field K] : ExcFiveFourToral K := by
   intro hfin hchar hq E hE hEcard
   classical
-  haveI : Finite K := hfin
-  haveI : CharP K 2 := hchar
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite K := hfin
+  have : CharP K 2 := hchar
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨w, hshape, hN8⟩ := exists_regular_weyl_E8_four_pairing_ne_zero
   obtain ⟨hw4, M₀, hM₀, hchar₀⟩ := hshape.2.2 ⟨rfl, Or.inr (Or.inl rfl)⟩
   have hMweyl : M₀ = weylMatrix w := ggB2f_weylMatrix_eq_of_mulVec hM₀
@@ -2489,8 +2486,8 @@ theorem excFiveFourToral
   obtain ⟨Fr, hFr, g0, hg0C, hg0lang, hconj⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_langFrame_untwisted 1
       (Or.inr (Or.inr ⟨rfl, rfl⟩)) K Nat.prime_five (by norm_num) w hM hn0 hpow hev hord
-  haveI : Finite (ModGL .E8 K) := finite_modGL
-  haveI : Finite (adjointGroup .E8 K) := inferInstance
+  have : Finite (ModGL .E8 K) := finite_modGL
+  have : Finite (adjointGroup .E8 K) := inferInstance
   have hE5 : IsPGroup 5 ↥E := fun g => ⟨1, by
     apply Subtype.ext
     have h := hE.2 (g : adjointGroup .E8 K) g.2
@@ -2501,7 +2498,7 @@ theorem excFiveFourToral
     have h := Sylow.card_eq_multiplicity P
     simpa using h
   obtain ⟨c, Q, hQP, hPle, hQconj⟩ :=
-    hconj (P : Subgroup (adjointGroup .E8 K)) P.isPGroup'
+    hconj (P : Subgroup (adjointGroup .E8 K)) P.isPGroup
   let bc : adjointGroup .E8 K →* ModGL .E8 (AlgebraicClosure K) :=
     (baseChangeGL (algebraMap K (AlgebraicClosure K))).comp (adjointGroup .E8 K).subtype
   have hbcC : bc c ∈ adjointGroup .E8 (AlgebraicClosure K) :=
@@ -2579,14 +2576,14 @@ theorem excFiveFourToral
     have hmem : (⟨y, hy⟩ : ↥P₀) * (⟨x, hQP hx⟩ : ↥P₀) * (⟨y, hy⟩ : ↥P₀)⁻¹ ∈ Qp :=
       hQpNormal.conj_mem (⟨x, hQP hx⟩ : ↥P₀) hx (⟨y, hy⟩ : ↥P₀)
     exact Subgroup.mem_subgroupOf.1 hmem
-  haveI : Finite ↥D.torus := by
+  have : Finite ↥D.torus := by
     have h := CFSG.HardMathSupport.Curtis.NaturalModuleCensus.ExcCross.finite_twistedTorusOf_gen
       (K := K) (L := AlgebraicClosure K) (τ := .E8) Fr w (M := weylMatrix w) hM hFr hn0 hpow
     simpa only [LangDatum.torus] using h
   have hTne0 : Nat.card ↥D.torus ≠ 0 := Nat.card_ne_zero.mpr ⟨⟨1, one_mem _⟩, inferInstance⟩
   have hQ5 : IsPGroup 5 ↥Q := by
     intro g
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨(g : adjointGroup .E8 K), hQP g.2⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨(g : adjointGroup .E8 K), hQP g.2⟩
     refine ⟨k, ?_⟩
     apply Subtype.ext
     simpa using congrArg Subtype.val hk
@@ -2643,7 +2640,7 @@ theorem excFiveFourToral
   have hT5 : ∀ t ∈ D.torus, t ^ 5 = 1 → ∃ x ∈ Q,
       D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E8 K) * D.g0 = t := by
     intro t htT ht5
-    haveI : IsMulCommutative ↥D.torus :=
+    have : IsMulCommutative ↥D.torus :=
       CFSG.HardMathSupport.Curtis.NaturalModuleCensus.ExcCross.isMulCommutative_twistedTorusOf_gen
         (L := AlgebraicClosure K) (τ := .E8) Fr w (M := weylMatrix w) hM
     let tt : ↥D.torus := ⟨t, htT⟩

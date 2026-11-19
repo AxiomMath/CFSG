@@ -32,7 +32,7 @@ theorem e8mNoIndep_sound (cf : ℕ → ℕ → Bool) :
     · exact lt_of_le_of_lt (card_le_length_of_forall_mem hSP) hP
     by_cases hd : (e8mPick cf P).2 = 0
     · simp [hk, hP, hd] at h
-    rw [if_neg hk, if_neg hP, if_neg hd, Bool.and_eq_true] at h
+    rw [ite_eq_right hk, ite_eq_right hP, ite_eq_right hd, Bool.and_eq_true] at h
     obtain ⟨hA, hB⟩ := h
     obtain ⟨v, hv⟩ : ∃ v, v = (e8mPick cf P).1 := ⟨_, rfl⟩
     rw [← hv] at hA hB

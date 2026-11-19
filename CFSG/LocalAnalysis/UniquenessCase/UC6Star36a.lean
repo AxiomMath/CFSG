@@ -15,6 +15,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_normalizer_subtype_le_uc6 {H : Subgroup G} (Q : Subgroup ↥H) :
     (Subgroup.normalizer (Q : Set ↥H)).map H.subtype ≤
       Subgroup.normalizer (Q.map H.subtype : Set G) := by
@@ -71,7 +72,7 @@ theorem mem_beta_of_twoLocalPrimeRank (H : Subgroup G) {q : ℕ} (hq : q.Prime) 
 theorem exists_sigma_ge (hU : uniqueFourUnique G) {q : ℕ} (hq : q ∈ uniqueFourBeta G)
     {X : Subgroup G} (hX : IsPGroup q X) :
     ∃ N : Subgroup G, uniqueFourIsMaxTwoLocal N ∧ q ∈ uniqueFourSigma N ∧ X ≤ N := by
-  haveI : Fact q.Prime := ⟨hq.1⟩
+  have : Fact q.Prime := ⟨hq.1⟩
   obtain ⟨N₀, hN₀, hqN₀⟩ := exists_maxLocal_mem_sigma hq
   obtain ⟨P, hPN₀, -⟩ := exists_sylow_le_of_sigma hU hN₀ hqN₀
   obtain ⟨g, hg⟩ := exists_le_uniqueFourConj_sylow hX P

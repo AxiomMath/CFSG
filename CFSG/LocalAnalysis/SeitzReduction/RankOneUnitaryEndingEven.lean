@@ -18,7 +18,7 @@ theorem exists_le_maximal_pGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [Fac
     ∃ P : Subgroup G, IsPGroup p P ∧ Q ≤ P ∧ P ≤ N ∧
       ∀ K : Subgroup G, IsPGroup p K → P ≤ K → K ≤ N → K ≤ P := by
   obtain ⟨R, hR⟩ := (hQ.comap_subtype (K := N)).exists_le_sylow
-  refine ⟨(R : Subgroup N).map N.subtype, R.isPGroup'.map N.subtype, ?_, map_subtype_le _, ?_⟩
+  refine ⟨(R : Subgroup N).map N.subtype, R.isPGroup.map N.subtype, ?_, map_subtype_le _, ?_⟩
   · intro x hx
     exact ⟨⟨x, hQN hx⟩, hR (show (⟨x, hQN hx⟩ : N) ∈ Q.comap N.subtype from hx), rfl⟩
   · intro K hK hPK hKN

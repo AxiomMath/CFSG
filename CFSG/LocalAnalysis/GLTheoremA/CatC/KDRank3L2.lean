@@ -90,6 +90,7 @@ theorem psl2_range_mul_mem_inner (hK : IsOddPrimePower (Nat.card K)) {x y : MulA
   obtain ⟨m, hm⟩ := hgh
   exact ⟨m, by rw [← map_mul, ← hm, pglAction_toPGL]⟩
 
+omit [Field K] [Finite K] in
 theorem exists_eps (hodd : Odd (Nat.card K)) :
     ∃ ε : ℤ, (Nat.card K : ℤ) ≡ ε [ZMOD 4] ∧ (ε = 1 ∨ ε = -1) := by
   obtain ⟨k, hk⟩ := hodd
@@ -117,12 +118,12 @@ theorem centralizer_involution (hK : IsOddPrimePower (Nat.card K)) {v : PSL2 K}
       _ ≤ r ^ f := Nat.pow_le_pow_right (by omega) hf
   rcases hε1 with rfl | rfl <;> omega
 
-theorem not_commute_of_orderOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKp : p ∣ Nat.card K)
+theorem not_commute_of_orderOf {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hKp : p ∣ Nat.card K)
     (hK : IsOddPrimePower (Nat.card K)) {v c : PSL2 K} (hv : orderOf v = 2) (hc : orderOf c = p) :
     v * c ≠ c * v := by
   intro hcomm
   obtain ⟨m, ε, hm0, hε1, hm2, ⟨e⟩⟩ := centralizer_involution hK hv
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   have hcard : Nat.card (Subgroup.centralizer ({v} : Set (PSL2 K))) = 2 * m := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, DihedralGroup.card]
   have hcmem : c ∈ Subgroup.centralizer ({v} : Set (PSL2 K)) :=
@@ -150,7 +151,7 @@ theorem card_le_four_of_sq (hK : IsOddPrimePower (Nat.card K)) (V : Subgroup (PS
   have hv1' : v ≠ 1 := fun h => hv1 (Subtype.ext h)
   have hv2 : orderOf v = 2 := orderOf_eq_prime (by rw [sq]; exact hV v hvV) hv1'
   obtain ⟨m, ε, hm0, hε1, hm2, ⟨e⟩⟩ := centralizer_involution hK hv2
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   have hVC : V ≤ Subgroup.centralizer ({v} : Set (PSL2 K)) := by
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -177,10 +178,10 @@ theorem psl2_no_twoSubgroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKp : p �
     (hAc : Nat.card A = p ^ 2) (hT : IsPGroup 2 T)
     (hN : A ≤ Subgroup.normalizer (T : Set (PSL2 K))) : T = ⊥ := by
   by_contra hT1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
-  haveI : Nontrivial (Subgroup.center ↥T) := hT.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Nontrivial (Subgroup.center ↥T) := hT.center_nontrivial
   have hZp : IsPGroup 2 (Subgroup.center ↥T) := hT.to_subgroup _
   have h2dvd : 2 ∣ Nat.card (Subgroup.center ↥T) := by
     rcases hZp.card_eq_or_dvd with h | h
@@ -237,8 +238,8 @@ theorem psl2_no_twoSubgroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKp : p �
     rw [hAc]
     have : 3 ≤ p := by have := hp.two_le; omega
     nlinarith
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype A := Fintype.ofFinite A
+  have : Fintype V := Fintype.ofFinite V
   obtain ⟨u, w, huw, hf⟩ := Fintype.exists_ne_map_eq_of_card_lt
     (fun u : A => (⟨(u : PSL2 K) * v * (u : PSL2 K)⁻¹, hinv u u.2 v hvV⟩ : V))
     (by rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card])
@@ -265,6 +266,7 @@ open CFSG.GorensteinWalter (psl2UpperUnipotentSubgroup mem_psl2UpperUnipotentSub
   psl2QuotientMap sl2UpperUnipotent sl2UpperUnipotent_mul sl2UpperUnipotent_zero
   psl2UpperUnipotentSubgroup_card)
 
+omit [Finite K] in
 theorem isElemAbelian_psl2Upper {p : ℕ} [Fact p.Prime] [CharP K p] :
     IsElemAbelian p (psl2UpperUnipotentSubgroup K) := by
   refine ⟨⟨⟨fun x y => Subtype.ext (psl2Upper_mul_comm x.2 y.2)⟩⟩, fun x hx => ?_⟩
@@ -282,9 +284,9 @@ theorem isElemAbelian_psl2Upper {p : ℕ} [Fact p.Prime] [CharP K p] :
 
 theorem exists_elemAbelian_sixth {p f : ℕ} (hp : p.Prime) (hKcard : Nat.card K = p ^ f)
     (hf : 6 ≤ f) : ∃ P : Subgroup (PSL2 K), IsElemAbelian p P ∧ Nat.card P = p ^ 6 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := by
-    haveI := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hKcard])
   have hU := isElemAbelian_psl2Upper (K := K) (p := p)
   obtain ⟨P, hPcard, -, hPU⟩ := Sylow.exists_subgroup_card_pow_prime_le_le hp
@@ -313,7 +315,7 @@ theorem rank3Concl_psl2 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKcard : Nat
   have hKp : p ∣ Nat.card K := by rw [hKcard]; exact dvd_pow_self p (by omega)
   refine ⟨exists_elemAbelian_sixth hp hKcard hf, ?_⟩
   intro T hT hN hc
-  haveI : (inner (PSL2 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : (inner (PSL2 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hTI : T ≤ inner (PSL2 K) :=
     le_of_commutator_eq_self (D := (pglAction K).range) psl2_comm_mem_range
       (fun x hx y hy hxI hyI => psl2_range_mul_mem_inner hK hx hy hxI hyI) hN hc
@@ -343,7 +345,7 @@ theorem rank3Concl_psl2 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hKcard : Nat
     rw [Subgroup.mem_normalizer_iff]
     intro h
     have := Subgroup.mem_normalizer_iff.1 (hN huE) (conj h)
-    simp only [SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv]
+    simp only [Subgroup.mem_comap, map_mul, map_inv]
     exact this
   have hbot := psl2_no_twoSubgroup hp hp2 hKp hK hAel hAcard hT' hAN
   rw [eq_bot_iff]

@@ -18,6 +18,7 @@ section Levels
 
 variable {ρ : G →* MulAut V} {T : Subgroup G} {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem normalizer_le_stabV (hΩ : ∀ A ∈ Ω, ∀ g : G, conjSubgroup A g ∈ Ω) (c : ℕ) :
     Subgroup.normalizer (T : Set G) ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := fun _ hg =>
   mem_stabV_Fx_of_conj (conjSubgroup_Wcl_eq hΩ c (conjSubgroup_eq_iff_mem_normalizer.2 hg))

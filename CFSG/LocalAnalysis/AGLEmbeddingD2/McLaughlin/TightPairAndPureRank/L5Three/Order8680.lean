@@ -45,7 +45,7 @@ theorem not_card_eq_8680 (H : Subgroup G52) : Nat.card H ≠ 2 ^ 3 * 5 * 7 * 31 
   have hdisj : Disjoint {x : H | orderOf x = 31} {x : H | orderOf x = 7} := by
     rw [Set.disjoint_left]
     intro x h31' h7'
-    simp only [Set.mem_setOf_eq] at h31' h7'
+    simp only [Set.mem_ofPred_eq] at h31' h7'
     rw [h31'] at h7'
     norm_num at h7'
   have hU := Set.ncard_union_eq hdisj

@@ -51,7 +51,7 @@ theorem exists_std_sylow : ∃ S₀ : Subgroup ↥hsP, IsPGroup 2 S₀ ∧ ¬ 2 
   have hTe : (T : Subgroup ↥hsP) = hsT0.subgroupOf hsP := Sylow.coe_ofCard _ _
   refine ⟨hsT0.subgroupOf hsP, ?_, ?_, fun x hx => ?_⟩
   · rw [← hTe]
-    exact T.isPGroup'
+    exact T.isPGroup
   · rw [← hTe]
     exact T.not_dvd_index
   · have hx' : (x : Equiv.Perm (Fin 3850)) ∈ hsT0 := hx

@@ -55,8 +55,8 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       rw [List.mem_map] at hx
       obtain ⟨k, _, rfl⟩ := hx
       by_cases hk : k < p - 1
-      · simp only [g, dif_pos hk]; exact ZMod.val_lt _
-      · simp only [g, dif_neg hk]; omega
+      · simp only [g, dite_eq_left hk]; exact ZMod.val_lt _
+      · simp only [g, dite_eq_right hk]; omega
     have hc : cvec ∈ allVecsP p (p - 1) := by
       rw [pxe_mem_allVecsP p (p - 1)]
       refine ⟨by simp [cvec, List.length_ofFn], ?_⟩
@@ -76,7 +76,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
             (if outs.head? = some k.val then fr.getD 0 0 else fr.getD 1 0) := by
           simp [vv, hb]
         rw [hv, pxe_vv_out p s hp hs g k.val k.isLt hout]
-        simp only [g, dif_pos k.isLt, ZMod.natCast_zmod_val]
+        simp only [g, dite_eq_left k.isLt, ZMod.natCast_zmod_val]
       · have hik : s ≤ k.val ∧ k.val < s + (p - 3) := by
           simpa only [inJ, Bool.and_eq_true, decide_eq_true_eq] using hb
         have hv : vv k.val = (if k.val - s = o.1 then o.2.2 else 0) := by
@@ -105,19 +105,19 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       intro j hj
       rw [List.mem_range] at hj
       cases hb : inJ j
-      · simp only [hb, Bool.not_false, Bool.true_or]
+      · simp only [Bool.not_false, Bool.true_or]
       · have hik : s ≤ j ∧ j < s + (p - 3) := by
           simpa only [inJ, Bool.and_eq_true, decide_eq_true_eq] using hb
         have hpin_lt : (if j - s = o.1 then o.2.1 else 0) < p := by
           by_cases hsub : j - s = o.1
-          · simp only [if_pos hsub]; exact pxe_opt_lt1 p p hp rfl o ho
-          · simp only [if_neg hsub]; omega
+          · simp only [ite_eq_left hsub]; exact pxe_opt_lt1 p p hp rfl o ho
+          · simp only [ite_eq_right hsub]; omega
         have heq : dotP p (cartanRowP p p j) cvec =
             (if j - s = o.1 then o.2.1 else 0) :=
           pxe_nat_eq_of_cast_eq p _ _ hpin_lt (by
             conv_lhs => rw [← ZMod.natCast_mod]
             exact (hdot_alpha ⟨j, hj⟩).trans (hH ⟨j, hj⟩ hik.1 hik.2))
-        simp only [hb, Bool.not_true, Bool.false_or, beq_iff_eq]
+        simp only [Bool.not_true, Bool.false_or, beq_iff_eq]
         exact heq
     have hφx : φ x = 0 := by funext i; exact (hφ x i).trans (hF.x_ker i)
     have hrf : Module.finrank (ZMod p) (LinearMap.range φ) = p - 1 := by omega
@@ -214,7 +214,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
         · rw [hj]; simpa using hlast
         · have hjval : j.val < p - 1 := by
             by_contra hge
-            exact hj (Fin.ext (by simp only [last, Fin.val_mk]; omega))
+            exact hj (Fin.ext (by simp only [last]; omega))
           have hh := congrFun hcrzero ⟨j.val, hjval⟩
           simpa [cr, embed] using hh
       exact sub_eq_zero.mp hdiff
@@ -237,7 +237,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
         rw [Pi.single_eq_of_ne]
         intro hh
         have hv := congrArg Fin.val hh
-        simp only [embed, last, Fin.val_mk] at hv
+        simp only [embed, last] at hv
         omega
       have hψh : ψ (Pi.single (embed i) (1 : ZMod p)) = h i := by
         rw [hψapp, hlast0, zero_smul, zero_add, Finset.sum_eq_single i]
@@ -264,10 +264,10 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       funext j
       simp only [Pi.smul_apply, smul_eq_mul, Pt.vec, x']
       by_cases hj : j.val < p - 1
-      · rw [dif_pos hj, List.getD_append _ _ _ _ (by simpa using hj),
+      · rw [dite_eq_left hj, List.getD_append _ _ _ _ (by simpa using hj),
           pxe_getD_map_range' (fun k => k + 1) 0 ⟨j.val, hj⟩, hm0eq]
         rw [← mul_assoc, inv_mul_cancel₀ hm0, one_mul]
-      · rw [dif_neg hj, List.getD_append_right _ _ _ _ (by simp only [List.length_map, List.length_range]; omega)]
+      · rw [dite_eq_right hj, List.getD_append_right _ _ _ _ (by simp only [List.length_map, List.length_range]; omega)]
         simp
     have hδ0 : ∀ i : Fin (p - 1), δ0 i = ((if (i : ℕ) = 0 then 1 else 0 : ℕ) : ZMod p) := by
       intro i
@@ -276,7 +276,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
         rw [hi]; simp [δ0]
       · have hi : i ≠ (⟨0, by omega⟩ : Fin (p - 1)) :=
           fun hh => h (by simpa using congrArg Fin.val hh)
-        rw [if_neg h]
+        rw [ite_eq_right h]
         simpa using Pi.single_eq_of_ne hi 1
     have hget_frame : ∀ i : Fin (p - 1),
         (⟨p, p, p - 1, gens, x', posBound p p⟩ : Pt).gens.getD i ⟨[], []⟩ =
@@ -327,7 +327,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       calc α i w = α i (ψ (e w)) := congrArg (α i) (hdecomp w)
         _ = (e w) last * δ0 i + ∑ k : Fin (p - 1), (e w) (embed k) * α i (h k) := by
             rw [hψapp, map_add, map_smul, map_sum]
-            simp only [map_smul, Pi.smul_apply, smul_eq_mul]
+            simp only [map_smul, smul_eq_mul]
             rw [he2i i]
         _ = (∑ k : Fin (p - 1), ((cartanRowP p p i).getD k.val 0 : ZMod p) * (e w) (embed k))
               + ((if (i : ℕ) = 0 then 1 else 0 : ℕ) : ZMod p) * (e w) last := by
@@ -351,9 +351,9 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       funext j
       simp only [Pt.vec]
       by_cases hj : j.val < p - 1
-      · rw [dif_pos hj, List.getD_append _ _ _ _ (by simpa [cvec, List.length_ofFn] using hj),
+      · rw [dite_eq_left hj, List.getD_append _ _ _ _ (by simpa [cvec, List.length_ofFn] using hj),
           pxe_cvec_getD p cc ⟨j.val, hj⟩, ZMod.natCast_zmod_val]
-      · rw [dif_neg hj, List.getD_append_right _ _ _ _ (by simp [cvec, List.length_ofFn]; omega)]
+      · rw [dite_eq_right hj, List.getD_append_right _ _ _ _ (by simp [cvec, List.length_ofFn]; omega)]
         simp
     have hdot_last : ∀ w : V,
         (⟨p, p, p - 1, gens, x', posBound p p⟩ : Pt).dot
@@ -384,7 +384,7 @@ lemma pxe_model_true (p : ℕ) [Fact p.Prime] (hp : p = 5 ∨ p = 7)
       calc αa w = αa (ψ (e w)) := congrArg αa (hdecomp w)
         _ = (e w) last * αa e2 + ∑ k : Fin (p - 1), (e w) (embed k) * αa (h k) := by
             rw [hψapp, map_add, map_smul, map_sum]
-            simp only [map_smul, Pi.smul_apply, smul_eq_mul]
+            simp only [map_smul, smul_eq_mul]
         _ = ∑ k : Fin (p - 1), ((vv k.val : ℕ) : ZMod p) * (e w) (embed k)
               + 0 * (e w) last := by
             rw [he2a, mul_zero, zero_add, zero_mul, add_zero]

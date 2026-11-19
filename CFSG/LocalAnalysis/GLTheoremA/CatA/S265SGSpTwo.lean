@@ -87,7 +87,7 @@ theorem SG.false_of_comp_sp_two {ℓ : ℕ} (hℓ : ℓ = 3 ∨ ℓ = 4) {s : St
           nat_card_alternatingGroup, Nat.card_fin]
         decide
       · obtain ⟨E, _, hE, W, _, _, _, Hf, hsymm, hsep, hfr, ⟨eA⟩⟩ := hc.unitary
-        haveI := (HSubT.guBlockFacts_holds E hE W Hf hsymm hsep).1 (by omega)
+        have := (HSubT.guBlockFacts_holds E hE W Hf hsymm hsep).1 (by omega)
         have hLC' : IsComponentOf L (A₁ ⊔ A₀) := by rw [sup_comm]; exact hLC
         exact HSubT.not_isComponentOf_of_solvable
           (Group.isSolvable_of_surjective (f := eA.symm.toMonoidHom) eA.symm.surjective)

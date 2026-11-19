@@ -20,7 +20,7 @@ theorem isPGroup_star {X : Subgroup G} (hX : IsPGroup 2 X) (hXH : X ≤ H) :
     IsPGroup 2 (star H X) :=
   (hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXH).symm).map _
 
-theorem star_le_normalizer_star {X Y : Subgroup G} (hXH : X ≤ H) (hYH : Y ≤ H)
+theorem star_le_normalizer_star {X Y : Subgroup G} (_hXH : X ≤ H) (_hYH : Y ≤ H)
     (hYX : Y ≤ Subgroup.normalizer (X : Set G)) :
     star H Y ≤ Subgroup.normalizer (star H X : Set (HStar H)) := by
   rintro _ ⟨y, hy, rfl⟩
@@ -142,7 +142,7 @@ theorem case3_of (h1222 : Stmt12_2_2) (h1228 : Stmt12_2_8) (h1229 : Lemma12_6_29
   set Ms := star H (Subgroup.normalizer (L : Set G) ⊓ H) with hMs
   set Bs := star H (Li L F.V1 ⊔ T) with hBs
   set Rs := star H (Ri T L F.V1) with hRs
-  haveI hKsn : Ks.Normal := normal_star hKn
+  have hKsn : Ks.Normal := normal_star hKn
   have hKM' : Ms ⊓ Ks = Ks ⊓ Subgroup.normalizer ((Ts ⊓ Ks : Subgroup (HStar H)) :
       Set (HStar H)) := hKM
   have hsup : Ks ⊔ Bs = ⊤ := by

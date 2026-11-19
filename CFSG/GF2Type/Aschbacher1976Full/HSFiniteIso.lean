@@ -104,7 +104,7 @@ theorem range_eq_or_top {H : Subgroup (Perm (Fin 5))} (h : alternatingGroup (Fin
   by_cases hle : H ≤ alternatingGroup (Fin 5)
   · exact Or.inl (le_antisymm hle h)
   · right
-    obtain ⟨x, hxH, hxA⟩ := SetLike.not_le_iff_exists.1 hle
+    obtain ⟨x, hxH, hxA⟩ := IsConcreteLE.not_le_iff_exists.1 hle
     rw [Equiv.Perm.mem_alternatingGroup] at hxA
     have hx : Equiv.Perm.sign x = -1 := by
       rcases Int.units_eq_one_or (Equiv.Perm.sign x) with h1 | h1

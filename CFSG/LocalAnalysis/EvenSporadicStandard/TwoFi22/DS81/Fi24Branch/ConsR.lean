@@ -13,8 +13,10 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 theorem Rg_le_Cz (c : Core1 E t z) : Rg t z ≤ Cz z := (Rg_le_Jg t z).trans c.jr.J_le_C
 
+omit [Finite G] in
 theorem center_Rg_map (c : Core1 E t z) :
     (center ↥(Rg t z)).map (Rg t z).subtype = zpowers z := by
   ext x

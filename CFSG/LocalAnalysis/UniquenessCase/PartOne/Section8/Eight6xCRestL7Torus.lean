@@ -539,7 +539,7 @@ theorem exists_torusCoords {L : Type} [Field L] [IsAlgClosed L]
   have h3pow : ((3 ^ (a + 1) : ℕ) : L) ≠ 0 := by
     rw [Nat.cast_pow]
     exact pow_ne_zero _ h3
-  obtain ⟨ζ1L, hζ1L⟩ := @HasEnoughRootsOfUnity.exists_primitiveRoot L _ (3 ^ (a + 1))
+  obtain ⟨ζ1L, hζ1L⟩ := @HasEnoughRootsOfUnity.exists_isPrimitiveRoot L _ (3 ^ (a + 1))
     (@IsSepClosed.hasEnoughRootsOfUnity L _ (3 ^ (a + 1)) ⟨h3pow⟩
       (inferInstance : IsSepClosed L))
   let ζ1 : Lˣ := Units.mk0 ζ1L (hζ1L.ne_zero (by norm_num))
@@ -693,7 +693,7 @@ theorem exists_moved_by_yElt {L : Type} [Field L] [IsAlgClosed L]
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Lˣ, IsPrimitiveRoot ζ 3 := by
     have : NeZero ((3 : ℕ) : L) := ⟨by simpa using h3⟩
     have : NeZero (3 : ℕ) := .of_neZero_natCast L
-    obtain ⟨z, hz⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+    obtain ⟨z, hz⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
     exact ⟨(hz.isUnit (by norm_num)).unit, hz.isUnit_unit (by norm_num)⟩
   have hζord : orderOf ζ = 3 := (IsPrimitiveRoot.iff_orderOf).1 hζ
   let x : Fin TwistTag.D4.tag.rank → ZMod 3 := Pi.single 2 1

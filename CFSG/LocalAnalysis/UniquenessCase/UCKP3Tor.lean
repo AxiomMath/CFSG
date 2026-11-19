@@ -42,7 +42,7 @@ theorem yCoverPlus_of_sylow_cover {G : Type} [Group G] [Finite G] (P : Sylow 3 G
     (hfe : f0 ∉ Subgroup.zpowers e0) (hge : g0 * e0 = e0 * g0) (hgf : g0 * f0 = f0⁻¹ * g0)
     (hcov : ∀ z ∈ P, orderOf z = 3 → ∃ u : G, ∃ a b : ℕ, u * z * u⁻¹ = e0 ^ a * f0 ^ b) :
     YCoverPlus G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro t ht
   have hzp : IsPGroup 3 (Subgroup.zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht]; norm_num)
@@ -146,7 +146,7 @@ theorem toral_exists_sylow {pts : Array (Array ℕ)} {Q : Subgroup (Equiv.Perm (
     intro s hs
     rw [heq]
     simpa [Sfin] using hs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSX : S ≤ X' := inf_le_right
   let P0 : Subgroup ↥X' := S.subgroupOf X'
   have hP0 : Nat.card P0 = 3 ^ 4 := by
@@ -233,7 +233,7 @@ theorem toral_cover_spec {Pl hl E0 : List (Array ℕ)} (h : coverAll (uTab Pl E0
 theorem toral_orderOf_three {x : Array ℕ} {X : Equiv.Perm (Fin 513)} (hx : Rep 513 x X)
     (hX : X ∈ X') (hc : cubeOne x = true) (hid : isIdA x = false) :
     orderOf (⟨X, hX⟩ : ↥X') = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · apply Subtype.ext
     exact toral_pow_three_of_cubeOne hx hc

@@ -33,13 +33,13 @@ theorem bitF_xorSel (m r : ℕ) (g : ℕ → ℕ) (j : ℕ) :
   | zero => simp [xorSel, bitF]
   | succ m ih =>
     rw [xorSel_succ, Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last]
+    simp only [Fin.val_castSucc, Fin.val_last]
     rw [← ih]
     cases hr : r.testBit m
     · have h0 : bitF r m = 0 := by simp [bitF, hr]
-      simp only [cond_false, h0, zero_mul, add_zero]
+      simp only [Bool.cond_false, h0, zero_mul, add_zero]
     · have h1 : bitF r m = 1 := by simp [bitF, hr]
-      simp only [cond_true, bitF_xor, h1, one_mul]
+      simp only [_root_.Bool.cond_true, bitF_xor, h1, one_mul]
 
 theorem bitF_kronRow (a b j₁ j₂ : ℕ) (h₁ : j₁ < 10) (h₂ : j₂ < 10) :
     bitF (kronRow a b) (10 * j₁ + j₂) = bitF a j₁ * bitF b j₂ := by
@@ -54,7 +54,7 @@ theorem bitF_kronRow (a b j₁ j₂ : ℕ) (h₁ : j₁ < 10) (h₂ : j₂ < 10)
     have hb : bitF ((b % 2 ^ 10) <<< (10 * (l : ℕ))) (10 * j₁ + j₂) = 0 := by
       unfold bitF
       rw [Nat.testBit_shiftLeft, Nat.testBit_mod_two_pow]
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hc
       simp only [Bool.and_eq_true, decide_eq_true_eq] at hc
       obtain ⟨hc₁, hc₂, -⟩ := hc

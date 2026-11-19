@@ -65,7 +65,7 @@ theorem IsMaxFrame.exists_conjSub_eq_of_mem_frameResidue (h : TransvectionHyp H 
     {X : Subgroup H} (hX : X ∈ frameResidue Δ P Q k) :
     ∃ g ∈ residueGroup Δ P Q k, conjSub (P k) g = X := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   by_cases hsmall : IsSmallFrame Δ P Q k
   · have hle : X ≤ P k ⊔ Q k :=
       (isSmallFrame_iff hF.toIsFrame).1 hsmall X hX

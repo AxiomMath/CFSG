@@ -34,7 +34,7 @@ theorem ggTwE6A5LAt_symplectic_five {lab : LargeEvenLabel} (hlab : LargeEvenInLa
       rfl
     refine not_three_mul_ordTwistedA_five_dvd_ordBC_five hg hgn h3n ?_
     rw [← hcard]
-    haveI := hfin
+    have := hfin
     exact three_mul_ordTwistedA_five_dvd_card_of_conj hR hna hs3 hs1 hJ₁.1 hmark
 
 theorem ggTwE6A5LAt_twD_five {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
@@ -58,7 +58,7 @@ theorem ggTwE6A5LAt_twD_five {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 l
     (statedClassicalModel_omegaMinus 5 g hK b c hbc ⟨Nat.prime_two, hg, by norm_num⟩)).2.2.2.2 rfl
   refine not_three_mul_ordTwistedA_five_dvd_ordTwistedD_five hg hgn h3n ?_
   rw [← hcard]
-  haveI := hfin
+  have := hfin
   exact three_mul_ordTwistedA_five_dvd_card_of_conj hR hna hs3 hs1 hJ₁.1 hmark
 
 end CFSG.StandardType.SCFourCover

@@ -62,22 +62,22 @@ theorem aschbacherHJRepresentationStatement_holds :
     (CFSG.Quasithin.H13.NQBlock.unitsToMulAut_injective
       (W := Fin n → ZMod 2)).comp hρL
   let L : Subgroup (MulAut V) := ρA.range
-  haveI hJ2simple : IsSimpleGroup NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI hLsimple : IsSimpleGroup ↥L :=
+  have hJ2simple : IsSimpleGroup NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have hLsimple : IsSimpleGroup ↥L :=
     MulEquiv.isSimpleGroup (MonoidHom.ofInjective hρA).symm
   have hcardL : Nat.card ↥L = 604800 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hρA).toEquiv]
     exact CFSG.Sporadic.J2.card_J2
   have hnc : ¬ IsMulCommutative ↥L := by
     intro hc
-    haveI : IsMulCommutative ↥L := hc
+    have : IsMulCommutative ↥L := hc
     have hprime : (Nat.card ↥L).Prime := Group.is_simple_iff_prime_card.mp inferInstance
     rw [hcardL] at hprime
     norm_num at hprime
   have hperf : Group.IsPerfect ↥L :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have hKp : ⁅L, L⁆ = L := by
-    haveI : Group.IsPerfect ↥L := hperf
+    have : Group.IsPerfect ↥L := hperf
     exact Subgroup.commutator_eq_self
   have hnoncent : NonCent L ⊤ ⊥ := by
     obtain ⟨k, hk1⟩ := exists_ne (1 : ↥L)

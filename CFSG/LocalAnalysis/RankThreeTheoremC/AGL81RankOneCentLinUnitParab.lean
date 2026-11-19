@@ -42,7 +42,7 @@ theorem three_dvd_card_center_quotient {Q : Type} [Group Q] [Finite Q] {A : Subg
     [A.Normal] (hA2 : IsPGroup 2 ↥A)
     (hmap : Subgroup.center (Q ⧸ A) = (Subgroup.center Q).map (QuotientGroup.mk' A))
     (h3 : 3 ∣ Nat.card ↥(Subgroup.center Q)) : 3 ∣ Nat.card ↥(Subgroup.center (Q ⧸ A)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ζ : ↥(Subgroup.center Q) →* ↥(Subgroup.center (Q ⧸ A)) :=
     ((QuotientGroup.mk' A).comp (Subgroup.center Q).subtype).codRestrict
       (Subgroup.center (Q ⧸ A)) (fun z => hmap ▸ ⟨z.1, z.2, rfl⟩) with hζ
@@ -109,10 +109,10 @@ theorem solvNormalCentral_parabolic_of_quasisimple (hGA : CFSG.Open.GriessAllMod
     (h3 : 3 ∣ Nat.card ↥(Subgroup.center ↥Y)) (hPar : IsParabolicTwo Y P) :
     SolvNormalCentral (↥P ⧸ CFSG.pCore 2 ↥P) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYc : CFSG.IsQuasisimple ↥Y := isQuasisimple_of_open hY
   set Z2 : Subgroup ↥Y := twoPart (Subgroup.center ↥Y) le_rfl with hZ2
-  haveI hZ2n : Z2.Normal := Subgroup.normal_of_le_center twoPart_le_center
+  have hZ2n : Z2.Normal := Subgroup.normal_of_le_center twoPart_le_center
   obtain ⟨hqq, hcomap, hmap⟩ := quasisimple_central_quotient hYc (A := Z2) twoPart_le_center
   have hq₁ : CFSG.Open.IsQuasisimple (↥Y ⧸ Z2) := isQuasisimple_to_open hqq
   have hodd₁ : Odd (Nat.card ↥(Subgroup.center (↥Y ⧸ Z2))) :=

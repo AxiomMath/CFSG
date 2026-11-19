@@ -91,7 +91,7 @@ theorem node05_J_part (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G} (hz : d.S
     (hj : j ∈ d.s56J) (h : ∀ q ∈ d.s56V, j * q * j⁻¹ * q⁻¹ ∈ d.E) : j ∈ d.E := by
   let H : Subgroup G :=
     { carrier := {j | j ∈ d.s56J ∧ ∀ q ∈ d.s56V, j * q * j⁻¹ * q⁻¹ ∈ d.E}
-      one_mem' := ⟨one_mem _, fun q _ => by simpa using one_mem d.E⟩
+      one_mem' := ⟨one_mem _, fun q _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨ha, haV⟩ ⟨hb, hbV⟩
         refine ⟨mul_mem ha hb, fun q hq => ?_⟩
@@ -143,7 +143,7 @@ theorem node05_V_part (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G} (hz : d.S
     (hv : v ∈ d.s56V) (h : ∀ j ∈ d.s56J, j * v * j⁻¹ * v⁻¹ ∈ d.E) : v ∈ d.E ⊔ zpowers z₀ := by
   let W : Subgroup G :=
     { carrier := {v | v ∈ d.s56V ∧ ∀ j ∈ d.s56J, j * v * j⁻¹ * v⁻¹ ∈ d.E}
-      one_mem' := ⟨one_mem _, fun j _ => by simpa using one_mem d.E⟩
+      one_mem' := ⟨one_mem _, fun j _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨ha, haJ⟩ ⟨hb, hbJ⟩
         refine ⟨mul_mem ha hb, fun j hj => ?_⟩

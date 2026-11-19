@@ -61,7 +61,7 @@ theorem stroth_2_1_ii_of_hom (φ : X →* GL (Fin m ⊕ Fin m) K) (hφ : φ.rang
     intro x hx a
     rw [ker_toGsp] at hx
     exact hker x hx a
-  letI : DistribMulAction (Gsp (spForm m K)) M :=
+  let : DistribMulAction (Gsp (spForm m K)) M :=
     descendAction (toGsp φ hφ) (toGsp_surjective φ hφ) hk
   have e1 : fixedSub M ((Lsp (spForm m K) spForm_isAlt u : Subgroup (Gsp (spForm m K))) :
       Set (Gsp (spForm m K))) = fixedSub M (L₁ : Set X) :=
@@ -90,7 +90,7 @@ theorem stroth_2_2_of_hom (φ : X →* GL (Fin m ⊕ Fin m) K) (hφ : φ.range =
     rw [ker_toGsp] at hx
     exact hker x hx a
   have hΦ := toGsp_surjective φ hφ
-  letI : DistribMulAction (Gsp (spForm m K)) M := descendAction (toGsp φ hφ) hΦ hk
+  let : DistribMulAction (Gsp (spForm m K)) M := descendAction (toGsp φ hφ) hΦ hk
   have hsm : ∀ (x : X) (a : M), toGsp φ hφ x • a = x • a := fun x a =>
     descendAction_smul (toGsp φ hφ) hΦ hk x a
   refine stroth_2_2 spForm_isAlt spForm_nondegenerate hK (by rw [finrank_spSpace]; omega) h2 ι hι

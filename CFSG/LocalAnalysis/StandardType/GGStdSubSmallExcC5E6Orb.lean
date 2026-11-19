@@ -48,6 +48,7 @@ section Weyl
 variable
   {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem nE6Two_mem_normalizer (h2 : (2 : K) = 0) (i : Fin 4) :
     nE6Two i ∈ Subgroup.normalizer
       (((torusE6Two (K := K) h2).range : Subgroup (adjointGroup .E6 K)) :
@@ -77,6 +78,7 @@ theorem sE6Two_mem_normalizer (h2 : (2 : K) = 0) :
         Set (adjointGroup .E6 K)),
     g * torusE6Two h2 (.ofAdd b) * g⁻¹ = torusE6Two h2 (.ofAdd v)
 
+omit [CharP K 2] in
 theorem inOrbit_sgn (h2 : (2 : K) = 0) {b : Fin 4 → ZMod 3} (i : Fin 4) {v : Fin 4 → ZMod 3}
     (h : InOrbit h2 b (sgnE6 i v)) : InOrbit h2 b v := by
   obtain ⟨g, hg, hgv⟩ := h

@@ -36,7 +36,7 @@ theorem E187C.part1_core_of {g : G} (hc : ConjInvariant Ω) (hSH : (S : Subgroup
     (hR'S : R' ≤ (S : Subgroup G)) {z : G} (hz : IsUniqueInvolution K z) (hzW : z ∈ W)
     (hP : ∀ x : G, x * z * x⁻¹ ∈ H → x ∈ H) {a t : G} (ha2 : a * a = 1)
     (haH : Subgroup.centralizer ({a} : Set G) ≤ H) (hgH : g ∉ H) (hat : t = g * a * g⁻¹)
-    (htS : t ∈ (S : Subgroup G))
+    (_htS : t ∈ (S : Subgroup G))
     (hCS : ∀ x ∈ (S : Subgroup G), t * x = x * t → x ∈ conjSub g (S : Subgroup G))
     (hWg : ∀ s ∈ conjSub g (S : Subgroup G), conjSub s (conjSub g W) = conjSub g W)
     (habel : ∀ x ∈ conjSub g W, ∀ y ∈ conjSub g W, x * y = y * x)
@@ -74,7 +74,7 @@ theorem E187C.part1_core_of {g : G} (hc : ConjInvariant Ω) (hSH : (S : Subgroup
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact hcomm.symm
     exact hgH (hP g (hbH this))
-  have hBp : IsPGroup 2 B := S.isPGroup'.to_le hBS
+  have hBp : IsPGroup 2 B := S.isPGroup.to_le hBS
   obtain ⟨E, u, v, hEdef, hEW, hEsq, huE, hvE, hu1, hv1, huv, hbu, hbv⟩ :=
     exists_pair_in_E hBp hBb hB8 habel hBW₁ hz₁W hz₁2 hz₁1 hbz
   have hK₁ : conjSub g K ∈ Ω := hc g K hK
@@ -135,7 +135,7 @@ theorem E187C.part1_core_of {g : G} (hc : ConjInvariant Ω) (hSH : (S : Subgroup
     have := hEsq g' (hUE g'.2)
     simpa [pow_two] using this⟩
   obtain ⟨h₀, hh₀H, hUh₀⟩ := exists_conj_sylow_ge hSH hUp hUH
-  have hS'2 : IsPGroup 2 (conjSub h₀ (S : Subgroup G)) := isPGroup_conjSub h₀ S.isPGroup'
+  have hS'2 : IsPGroup 2 (conjSub h₀ (S : Subgroup G)) := isPGroup_conjSub h₀ S.isPGroup
   set Δ : Set (Subgroup G) := {X | X ∈ RSet Ω ∧ X ≤ conjSub h₀ (S : Subgroup G)} with hΔ
   have hΔinv : ∀ X ∈ Δ, ∀ s ∈ conjSub h₀ (S : Subgroup G), conjSub s X ∈ Δ := by
     intro X hX s hs

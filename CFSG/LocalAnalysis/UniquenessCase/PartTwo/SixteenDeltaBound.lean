@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16b_exists_pow_involution (V₀ V : Subgroup G) {t : G} {k : ℕ}
     (hk : orderOf t = 2 ^ k) (hct : ¬ CentralizesMod V₀ V t) :
     ∃ i : ℕ, ¬ CentralizesMod V₀ V (t ^ 2 ^ i) ∧ CentralizesMod V₀ V (t ^ 2 ^ i * t ^ 2 ^ i) := by
@@ -35,7 +36,7 @@ private theorem s16b_exists_pow_involution (V₀ V : Subgroup G) {t : G} {k : �
 
 theorem succ_le_deltaN_of_mBarGT (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V₀ V) {n : ℕ}
     (hn : MBarGT D.M V₀ V n) (m : ℕ) : ((n + 1 : ℕ) : ℕ∞) ≤ deltaN m D.M V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV : IsElemAbelian 2 V := h.isElemAbelian
   have hV2 : IsPGroup 2 V := hV.isPGroup
   have hVM : V ≤ D.M := h.pairFacts.le_M
@@ -44,7 +45,7 @@ theorem succ_le_deltaN_of_mBarGT (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 
   obtain ⟨hUV, t, ⟨htM, htC⟩, ⟨k, hk⟩, W, hWV, -, hUW, hWt, hP⟩ := hU
   by_cases hct : CentralizesMod V₀ V t
   · exfalso
-    obtain ⟨w, hwW, hwt⟩ := SetLike.not_le_iff_exists.1 hWt
+    obtain ⟨w, hwW, hwt⟩ := IsConcreteLE.not_le_iff_exists.1 hWt
     have hwM : w ∈ D.M := hVM (hWV hwW)
     have hz1 : w⁻¹ * t⁻¹ * w * t ≠ 1 := by
       intro hz

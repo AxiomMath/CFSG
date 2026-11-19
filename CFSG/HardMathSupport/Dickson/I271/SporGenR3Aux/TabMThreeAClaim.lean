@@ -23,8 +23,8 @@ theorem tGriess_mul_refT_three_mem_range
 
 theorem ker_yMc_le
     (hG : Gmat = AutO) : (yMc hG).ker ≤ yJ.ker := by
-  haveI := CFSG.Sporadic.Fi24.isSimpleGroup_J
-  haveI := card_ker_yJ_le.1
+  have := CFSG.Sporadic.Fi24.isSimpleGroup_J
+  have := card_ker_yJ_le.1
   have hmem := tGriess_mul_refT_three_mem_range hG
   have hne : tGriess * refT hG 3 ≠ 1 := by
     intro h

@@ -61,7 +61,7 @@ theorem properHull_original_sylow_theta_prime_contradiction
   let V := (CFSG.oddCore E).map E.subtype
   let U := (P : Subgroup V).map V.subtype
   let X := ⁅U, Subgroup.zpowers z⁆
-  have hUp : IsPGroup p U := P.isPGroup'.map V.subtype
+  have hUp : IsPGroup p U := P.isPGroup.map V.subtype
   have hUodd : Odd (Nat.card U) := by
     obtain ⟨n, hn⟩ := hUp.exists_card_eq
     rw [hn]

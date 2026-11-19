@@ -88,7 +88,7 @@ theorem a6_alpha_comp (c' a' : V6) (hsym : ∀ i j, a' i = a' j ↔ c' i = c' j)
   have hspec : c' (Classical.choose hex) = c' i := Classical.choose_spec hex
   have ha : a' (Classical.choose hex) = a' i := (hsym _ _).mpr hspec
   show a' i = α (c' i)
-  simp only [α, dif_pos hex]
+  simp only [α, dite_eq_left hex]
   exact ha.symm
 
 theorem a6_swap_dot (i j : Fin 6) (hij : i ≠ j) :

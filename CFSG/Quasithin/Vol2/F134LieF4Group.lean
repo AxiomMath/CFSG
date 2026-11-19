@@ -43,7 +43,7 @@ theorem normalizer_le_of_isSylowOf {S U Q : Subgroup Y} (hS : IsSylowOf p S Q)
 
 theorem isSylowOf_of_sylow (S : Sylow p Y) {Q : Subgroup Y} (hSQ : (S : Subgroup Y) ≤ Q) :
     IsSylowOf p (S : Subgroup Y) Q := by
-  have hS : IsSylowOf p (S : Subgroup Y) ⊤ := isSylowOf_iff.2 ⟨le_top, S.isPGroup', by
+  have hS : IsSylowOf p (S : Subgroup Y) ⊤ := isSylowOf_iff.2 ⟨le_top, S.isPGroup, by
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index⟩
   exact hS.of_le hSQ le_top

@@ -141,13 +141,13 @@ theorem simpleRootSL2_tv {F : Type} [Field F] (k : Fin TwistTag.E6.tag.rank) (c 
     rw [CFSG.Timmesfeld.tv_of_ne (show (0 : Fin 2) ≠ 1 by decide),
       Matrix.SpecialLinearGroup.transvection_coe, CFSG.LieType.Chevalley.coe_uSL]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp
   have h10 : (CFSG.Timmesfeld.tv (n := 2) 1 0 c) = CFSG.LieType.Chevalley.vSL c := by
     apply Subtype.ext
     rw [CFSG.Timmesfeld.tv_of_ne (show (1 : Fin 2) ≠ 0 by decide),
       Matrix.SpecialLinearGroup.transvection_coe, CFSG.LieType.Chevalley.coe_vSL]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp
   refine ⟨?_, ?_⟩
   · rw [h01]
     exact CFSG.LieType.Chevalley.simpleRootSL2_uSL k c

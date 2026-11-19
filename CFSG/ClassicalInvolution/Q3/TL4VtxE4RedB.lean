@@ -70,6 +70,7 @@ theorem centQuotGen_e4 (hd : TightDatum R S t) (hc : TightCls Y R S t) (hO2 : ¬
   PhilipHall.QuaternionBridge.centQuotGen_of_tight hd hc.1 le_rfl
     (isPGroup_center_of_oddFree hc.2.2) (not_mem_center_of_not_tightInO2 hd.order hO2)
 
+omit [Finite Y] in
 theorem quotFamily_e4 :
     quotFamily (CoreAssembly.conjClass (tightCore R)) (Subgroup.center Y) =
       CoreAssembly.conjClass ((tightCore R).map (QuotientGroup.mk' (Subgroup.center Y))) :=

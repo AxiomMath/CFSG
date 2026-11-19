@@ -539,7 +539,7 @@ private noncomputable abbrev bmdual_D0 (r r' : ℕ) (F : Type) [Zero F] [One F] 
       (0 : Matrix (Fin r) (Fin r') F) (0 : Matrix (Fin r') (Fin r) F)
       (0 : Matrix (Fin r') (Fin r') F))
 
-private noncomputable def bmdual_blockMat (n f r r' : ℕ)
+private noncomputable def bmdual_blockMat (_n f r r' : ℕ)
     (x : Matrix.SpecialLinearGroup (Fin r) (GaloisField 2 f)) :
     Matrix (Fin r ⊕ (Fin r ⊕ Fin r')) (Fin r ⊕ (Fin r ⊕ Fin r')) (GaloisField 2 f) :=
   Matrix.fromBlocks (x : Matrix (Fin r) (Fin r) (GaloisField 2 f))
@@ -718,12 +718,10 @@ private theorem bmdual_adapted_Pe_form_11 (n f r : ℕ)
   have h := congrFun (congrFun hWeIso a) a'
   simp only [Matrix.zero_apply] at h
   rw [show bmdualG r (GaloisField 2 f) (Sum.inl a) (Sum.inl a') = 0 from by
-    simp [bmdualG, Matrix.fromBlocks, Spin.polar_quadPlus, Pi.single_apply, Finset.sum_ite_eq',
-        Matrix.one_apply,
-      Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, eq_comm]]
+    simp [bmdualG, Spin.polar_quadPlus, Pi.single_apply, Sum.inl_injective.eq_iff, eq_comm]]
   rw [← h]
   simp only [bmdual_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inl]
 
 private theorem bmdual_adapted_Pe_form_12 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -734,12 +732,11 @@ private theorem bmdual_adapted_Pe_form_12 (n f r : ℕ)
   have h := congrFun (congrFun hdual a) b
   rw [show bmdualG r (GaloisField 2 f) (Sum.inl a) (Sum.inr b) =
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f)) a b from by
-    simp [bmdualG, Matrix.fromBlocks, Spin.polar_quadPlus, Pi.single_apply, Finset.sum_ite_eq',
-        Matrix.one_apply,
+    simp [bmdualG, Spin.polar_quadPlus, Pi.single_apply, Matrix.one_apply,
       Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, eq_comm]]
   rw [← h]
   simp only [bmdual_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
 
 private theorem bmdual_adapted_Pe_form_21 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -754,14 +751,10 @@ private theorem bmdual_adapted_Pe_form_21 (n f r : ℕ)
   have h' := congrFun (congrFun htrans b) a
   have hR : bmdualG r (GaloisField 2 f) (Sum.inr b) (Sum.inl a) =
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f)) b a := by
-    simp [bmdualG, Matrix.fromBlocks, Matrix.neg_apply, Matrix.one_apply, CharTwo.neg_eq,
-      Spin.polar_quadPlus, Pi.single_apply, Finset.sum_ite_eq, ite_mul, zero_mul,
-      Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, eq_comm]
+    simp [bmdualG, Matrix.one_apply, Spin.polar_quadPlus, Pi.single_apply, Finset.sum_ite_eq, Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, eq_comm]
   rw [hR, ← h']
   simp only [bmdual_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr, Pi.single_apply,
-    Finset.sum_ite_eq, ite_mul, zero_mul, Matrix.one_apply, Sum.inl_injective.eq_iff,
-    Sum.inr_injective.eq_iff, eq_comm]
+    Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
 
 private theorem bmdual_adapted_Pe_form_22 (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -772,12 +765,10 @@ private theorem bmdual_adapted_Pe_form_22 (n f r : ℕ)
   have h := congrFun (congrFun hWsIso b) b'
   simp only [Matrix.zero_apply] at h
   rw [show bmdualG r (GaloisField 2 f) (Sum.inr b) (Sum.inr b') = 0 from by
-    simp [bmdualG, Matrix.fromBlocks, Spin.polar_quadPlus, Pi.single_apply, Finset.sum_ite_eq',
-        Matrix.one_apply,
-      Sum.inl_injective.eq_iff, Sum.inr_injective.eq_iff, eq_comm]]
+    simp [bmdualG, Spin.polar_quadPlus, Pi.single_apply, Sum.inr_injective.eq_iff, eq_comm]]
   rw [← h]
   simp only [bmdual_blockCols, Matrix.of_apply, Matrix.mul_apply, Matrix.transpose_apply,
-    Finset.sum_apply, Fintype.sum_sum_type, Sum.elim_inl, Sum.elim_inr]
+    Fintype.sum_sum_type, Sum.elim_inr]
 
 private theorem bmdual_adapted_Pe_form (n f r : ℕ)
     (We Ws : Matrix (Fin n ⊕ Fin n) (Fin r) (GaloisField 2 f))
@@ -824,7 +815,7 @@ private theorem bmdual_adapted_Pe_diag (n f r : ℕ)
           rcases k with c | d
           · have hca : c ≠ a := fun h => hk (by rw [h])
             simp [bmdual_blockCols, Matrix.of_apply, Sum.elim_inl, Matrix.fromBlocks,
-              Matrix.one_apply, hca]
+              hca]
           · simp [bmdual_blockCols, Matrix.of_apply, Sum.elim_inr, Matrix.fromBlocks])]
         simp [bmdual_blockCols, Matrix.fromBlocks]
       rw [hR]
@@ -876,7 +867,7 @@ private theorem bmdual_adapted_Pe_diag (n f r : ℕ)
           · simp [bmdual_blockCols, Matrix.of_apply, Sum.elim_inl, Matrix.fromBlocks]
           · have hdb : d ≠ b := fun h => hk (by rw [h])
             simp [bmdual_blockCols, Matrix.of_apply, Sum.elim_inr, Matrix.fromBlocks,
-              Matrix.one_apply, hdb])]
+              hdb])]
         simp [bmdual_blockCols, Matrix.fromBlocks]
       rw [hR]
       simp only [bmdual_blockCols, Matrix.of_apply, Sum.elim_inr]
@@ -909,7 +900,7 @@ private theorem bmdual_adapted_Pe_eps (n f r : ℕ)
     rw [Matrix.fromBlocks_add]
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp [Matrix.fromBlocks, Matrix.one_apply, Matrix.add_apply]]
+      simp [Matrix.fromBlocks, Matrix.one_apply]]
   rw [Matrix.mul_one]
 
 private theorem bmdual_e_mul_Ws_zero (n f r : ℕ)
@@ -984,7 +975,7 @@ private theorem bmdual_exists_basis_range_e_span
             (b k : Fin n ⊕ Fin n → GaloisField 2 f)) =
           ((∑ k, b.repr ⟨Matrix.mulVec e x, ⟨x, rfl⟩⟩ k • b k : W) :
             Fin n ⊕ Fin n → GaloisField 2 f) := by
-        simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply]
+        simp only [Submodule.coe_sum, Submodule.coe_smul]
       rw [h'']
       exact h'
     trans (∑ k, b.repr ⟨Matrix.mulVec e x, ⟨x, rfl⟩⟩ k •
@@ -1283,14 +1274,14 @@ private theorem bmdual_Pe_quad
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))) d1 = d1 := by
     funext j; rcases j with a | b <;>
       simp [Matrix.mulVec, dotProduct, Matrix.fromBlocks, d1, c1, Matrix.one_apply,
-        Finset.sum_ite_eq', Finset.sum_ite_eq]
+        Finset.sum_ite_eq]
   have hD2 : Matrix.mulVec (Matrix.fromBlocks (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))) d2 = d2 := by
     funext j; rcases j with a | b <;>
       simp [Matrix.mulVec, dotProduct, Matrix.fromBlocks, d2, c2, Matrix.one_apply,
-        Finset.sum_ite_eq', Finset.sum_ite_eq]
+        Finset.sum_ite_eq]
   have hQ1 : bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe d1) = 0 := by
     have hfix : Matrix.mulVec e (Matrix.mulVec Pe d1) = Matrix.mulVec Pe d1 := by
       rw [Matrix.mulVec_mulVec, hPee, ← Matrix.mulVec_mulVec, hD1]
@@ -1306,7 +1297,7 @@ private theorem bmdual_Pe_quad
       rw [bmdual_polar_eq_dot, bmdual_polar_eq_dot]
       rw [bmdual_dot_mulVec_conj Pe (bmdualG n (GaloisField 2 f)) d1 d2, hPeG]
     rw [hiso, Spin.polar_quadPlus]
-    simp [d1, d2, c1, c2, mul_comm]
+    simp [d1, d2, c1, c2]
   have hPec : Matrix.mulVec Pe c = Matrix.mulVec Pe d1 + Matrix.mulVec Pe d2 := by
     rw [hc, Matrix.mulVec_add]
   rw [hPec, QuadraticMap.map_add (bmdualQ n (GaloisField 2 f)), hQ1, hQ2, hB]
@@ -1335,7 +1326,7 @@ private theorem bmdual_Pe_finrank
         (Matrix.mulVec (bmdualG r (GaloisField 2 f))⁻¹ (Pi.single j 1))
       rw [hPeG] at h
       rw [hsub] at h
-      simp only [Matrix.mulVec_zero, zero_dotProduct] at h
+      simp only [zero_dotProduct] at h
       have h1 : Matrix.mulVec (bmdualG r (GaloisField 2 f))
           (Matrix.mulVec (bmdualG r (GaloisField 2 f))⁻¹ (Pi.single j 1)) =
           Pi.single j 1 := by
@@ -1407,7 +1398,7 @@ private theorem bmdual_complement_plusType
         (Matrix.mulVec (bmdualG r (GaloisField 2 f))⁻¹ (Pi.single j 1))
       rw [hPeG] at h
       rw [hsub] at h
-      simp only [Matrix.mulVec_zero, zero_dotProduct] at h
+      simp only [zero_dotProduct] at h
       have h1 : Matrix.mulVec (bmdualG r (GaloisField 2 f))
           (Matrix.mulVec (bmdualG r (GaloisField 2 f))⁻¹ (Pi.single j 1)) = Pi.single j 1 := by
         rw [Matrix.mulVec_mulVec, Matrix.mul_nonsing_inv _ hG, Matrix.one_mulVec]
@@ -1613,7 +1604,7 @@ private theorem bmdual_compl_isometry_data
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType
       ((bmdualQ n (GaloisField 2 f)).comp
         (LinearMap.range (Matrix.mulVecLin (1 - bmdualeps n f e))).subtype)) :
-    ∃ (s : ℕ) (iso : QuadraticMap.IsometryEquiv
+    ∃ (s : ℕ) (_iso : QuadraticMap.IsometryEquiv
         ((bmdualQ n (GaloisField 2 f)).comp
           (LinearMap.range (Matrix.mulVecLin (1 - bmdualeps n f e))).subtype)
         (Spin.quadPlus s (GaloisField 2 f))),
@@ -1627,9 +1618,9 @@ private theorem bmdual_compl_isometry_data
   have hUfin : Module.finrank (GaloisField 2 f)
       (LinearMap.range (Matrix.mulVecLin (1 - bmdualeps n f e))) =
       2 * Module.finrank (GaloisField 2 f) W' := hW'dim.symm
-  obtain ⟨iso⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus
+  obtain ⟨_iso⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_quadPlus
     (n := Module.finrank (GaloisField 2 f) W') hUnd hUfin hplus'
-  exact ⟨Module.finrank (GaloisField 2 f) W', iso, hUfin⟩
+  exact ⟨Module.finrank (GaloisField 2 f) W', _iso, hUfin⟩
 
 private noncomputable def bmdual_compl_Bc
     (n f : ℕ) {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
@@ -1678,7 +1669,7 @@ private theorem bmdual_compl_Bc_gram
   have hBc : ∀ c, Matrix.mulVec Bc c = fmap c := by
     intro c
     have hc : (∑ j, c j • Pi.single j 1 : Fin s ⊕ Fin s → GaloisField 2 f) = c := by
-      funext i; simp [Pi.single_apply, Finset.sum_ite_eq']
+      funext i; simp [Pi.single_apply]
     have hfc : fmap c = ∑ j, c j • fmap (Pi.single j 1) := by
       conv_lhs => rw [← hc]
       rw [map_sum]
@@ -1733,7 +1724,7 @@ private theorem bmdual_compl_Bc_fix
   have hBc : ∀ c, Matrix.mulVec Bc c = fmap c := by
     intro c
     have hc : (∑ j, c j • Pi.single j 1 : Fin s ⊕ Fin s → GaloisField 2 f) = c := by
-      funext i; simp [Pi.single_apply, Finset.sum_ite_eq']
+      funext i; simp [Pi.single_apply]
     have hfc : fmap c = ∑ j, c j • fmap (Pi.single j 1) := by
       conv_lhs => rw [← hc]
       rw [map_sum]
@@ -1863,9 +1854,9 @@ private theorem bmdual_blocks_orthogonal
     (Bc : Matrix (bmdualι n) (Fin s ⊕ Fin s) (GaloisField 2 f))
     (hPeε : bmdualeps n f e * Pe = Pe)
     (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
-    (hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
       Matrix.mulVec (bmdualeps n f e) x ∈ LinearMap.range (Matrix.mulVecLin Pe))
-    (hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
       Matrix.mulVec (1 - bmdualeps n f e) x ∈ LinearMap.range (Matrix.mulVecLin Bc))
     (hεadj : Matrix.transpose (bmdualeps n f e) * bmdualG n (GaloisField 2 f) =
       bmdualG n (GaloisField 2 f) * bmdualeps n f e) :
@@ -1896,14 +1887,14 @@ private theorem bmdual_blocks_orthogonal
 private theorem bmdual_adapted_complement
     (n f r : ℕ) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
+    (_he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
     (hquad : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec e x) = 0)
     (hquad' : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec (bmdualestar n f e) x) = 0)
-    (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0)
+    (_horth : e * bmdualestar n f e = 0) (_horth' : bmdualestar n f e * e = 0)
     (heps : IsIdempotentElem (bmdualeps n f e))
-    (hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
+    (_hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
     (hPeε : bmdualeps n f e * Pe = Pe)
@@ -1998,33 +1989,33 @@ private theorem bmdual_glueCols_quad
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (Bc : Matrix (bmdualι n) (Fin s ⊕ Fin s) (GaloisField 2 f))
-    (hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
+    (_hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
     (hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe c) =
         Spin.quadPlus r (GaloisField 2 f) c)
-    (hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
+    (_hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
     (hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Bc c) =
         Spin.quadPlus s (GaloisField 2 f) c)
     (horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
-    (hPeε : bmdualeps n f e * Pe = Pe) (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
-    (hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
+    (_hPeε : bmdualeps n f e * Pe = Pe) (_hBcε : (1 - bmdualeps n f e) * Bc = Bc)
+    (_hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
+    (_hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin r ⊕ Fin r → GaloisField 2 f,
         Matrix.mulVec Pe c = Matrix.mulVec (bmdualeps n f e) x)
-    (hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin s ⊕ Fin s → GaloisField 2 f,
         Matrix.mulVec Bc c = Matrix.mulVec (1 - bmdualeps n f e) x)
-    (hrs : r + s = n) (hε : bmdualeps n f e ≠ 0)
-    (hee : e * e = e) (horth_e : e * bmdualestar n f e = 0) :
+    (_hrs : r + s = n) (_hε : bmdualeps n f e ≠ 0)
+    (_hee : e * e = e) (_horth_e : e * bmdualestar n f e = 0) :
     ∀ (c : Fin r ⊕ Fin r → GaloisField 2 f) (d : Fin s ⊕ Fin s → GaloisField 2 f),
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe c + Matrix.mulVec Bc d) =
         Spin.quadPlus r (GaloisField 2 f) c + Spin.quadPlus s (GaloisField 2 f) d := by
@@ -2042,21 +2033,21 @@ private theorem bmdual_glueCols_span
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (Bc : Matrix (bmdualι n) (Fin s ⊕ Fin s) (GaloisField 2 f))
-    (hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
-    (hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
+    (_hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
+    (_hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe c) =
         Spin.quadPlus r (GaloisField 2 f) c)
-    (hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
-    (hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
+    (_hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
+    (_hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Bc c) =
         Spin.quadPlus s (GaloisField 2 f) c)
-    (horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
-    (hPeε : bmdualeps n f e * Pe = Pe) (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
-    (hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
+    (_horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
+    (_hPeε : bmdualeps n f e * Pe = Pe) (_hBcε : (1 - bmdualeps n f e) * Bc = Bc)
+    (_hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
+    (_hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
@@ -2067,8 +2058,8 @@ private theorem bmdual_glueCols_span
     (hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin s ⊕ Fin s → GaloisField 2 f,
         Matrix.mulVec Bc c = Matrix.mulVec (1 - bmdualeps n f e) x)
-    (hrs : r + s = n) (hε : bmdualeps n f e ≠ 0)
-    (hee : e * e = e) (horth_e : e * bmdualestar n f e = 0) :
+    (_hrs : r + s = n) (_hε : bmdualeps n f e ≠ 0)
+    (_hee : e * e = e) (_horth_e : e * bmdualestar n f e = 0) :
     ∀ x : bmdualι n → GaloisField 2 f,
       ∃ (c : Fin r ⊕ Fin r → GaloisField 2 f) (d : Fin s ⊕ Fin s → GaloisField 2 f),
         Matrix.mulVec Pe c + Matrix.mulVec Bc d = x := by
@@ -2147,32 +2138,32 @@ private theorem bmdual_e_mul_Bc
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (Bc : Matrix (bmdualι n) (Fin s ⊕ Fin s) (GaloisField 2 f))
-    (hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
-    (hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
+    (_hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
+    (_hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe c) =
         Spin.quadPlus r (GaloisField 2 f) c)
-    (hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
-    (hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
+    (_hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
+    (_hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Bc c) =
         Spin.quadPlus s (GaloisField 2 f) c)
-    (horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
-    (hPeε : bmdualeps n f e * Pe = Pe) (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
-    (hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
+    (_horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
+    (_hPeε : bmdualeps n f e * Pe = Pe) (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
+    (_hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
+    (_hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin r ⊕ Fin r → GaloisField 2 f,
         Matrix.mulVec Pe c = Matrix.mulVec (bmdualeps n f e) x)
-    (hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin s ⊕ Fin s → GaloisField 2 f,
         Matrix.mulVec Bc c = Matrix.mulVec (1 - bmdualeps n f e) x)
-    (hrs : r + s = n) (hε : bmdualeps n f e ≠ 0)
+    (_hrs : r + s = n) (_hε : bmdualeps n f e ≠ 0)
     (hee : e * e = e) (horth_e : e * bmdualestar n f e = 0) :
     e * Bc = 0 := by
   have hepsBc : bmdualeps n f e * Bc = 0 := by
@@ -2254,11 +2245,11 @@ private theorem bmdual_glueCols_e_mul
         i (Sum.inl (Sum.inl a)) =
         bmdual_glueCols n f r s Pe Bc i (Sum.inl (Sum.inl a)) := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmdual_glueCols, Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply,
-        Fintype.sum_sum_type, Finset.sum_ite_eq]
+      simp [bmdual_glueCols, Matrix.fromBlocks, Matrix.one_apply,
+        Fintype.sum_sum_type]
     rw [hL, hD, hPee]
     simp [bmdual_glueCols, Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply,
-      Fintype.sum_sum_type, Finset.sum_ite_eq]
+      Fintype.sum_sum_type]
   · have hL : (e * bmdual_glueCols n f r s Pe Bc) i (Sum.inl (Sum.inr a)) =
         (e * Pe) i (Sum.inr a) := by
       simp [bmdual_glueCols, Matrix.mul_apply]
@@ -2272,9 +2263,9 @@ private theorem bmdual_glueCols_e_mul
         (0 : Matrix (Fin s ⊕ Fin s) (Fin s ⊕ Fin s) (GaloisField 2 f)))
         i (Sum.inl (Sum.inr a)) = 0 := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmdual_glueCols, Matrix.fromBlocks, Matrix.mul_apply]
+      simp [bmdual_glueCols, Matrix.fromBlocks]
     rw [hL, hD, hPee]
-    simp [Matrix.fromBlocks, Matrix.mul_apply, Matrix.one_apply, Matrix.zero_apply,
+    simp [Matrix.fromBlocks, Matrix.mul_apply, Matrix.zero_apply,
       Fintype.sum_sum_type]
   · have hL : (e * bmdual_glueCols n f r s Pe Bc) i (Sum.inr a) = (e * Bc) i a := by
       simp [bmdual_glueCols, Matrix.mul_apply]
@@ -2288,7 +2279,7 @@ private theorem bmdual_glueCols_e_mul
         (0 : Matrix (Fin s ⊕ Fin s) (Fin s ⊕ Fin s) (GaloisField 2 f)))
         i (Sum.inr a) = 0 := by
       rw [Matrix.mul_apply, Fintype.sum_sum_type]
-      simp [bmdual_glueCols, Matrix.fromBlocks, Matrix.mul_apply]
+      simp [bmdual_glueCols, Matrix.fromBlocks]
     rw [hL, hD, heBc]
     simp
 
@@ -2446,13 +2437,13 @@ private theorem bmdual_glue_basis_P_inv
   have hinj : Function.Injective (Matrix.mulVecLin (bmdual_glueP n f r s Pe Bc gidx)) :=
     (LinearMap.injective_iff_surjective_of_finrank_eq_finrank rfl).mpr hsurj
   have hunit : IsUnit (bmdual_glueP n f r s Pe Bc gidx) :=
-    (Matrix.linearIndependent_cols_iff_isUnit).mp (Matrix.mulVec_injective_iff.mp hinj)
+    (Matrix.linearIndependent_col_iff_isUnit).mp (Matrix.mulVec_injective_iff.mp hinj)
   have hunitdet : IsUnit (bmdual_glueP n f r s Pe Bc gidx).det := by
     rw [← Matrix.isUnit_iff_isUnit_det]; exact hunit
   exact ⟨Matrix.mul_nonsing_inv _ hunitdet, Matrix.nonsing_inv_mul _ hunitdet⟩
 
 private theorem bmdual_glue_r_pos
-    (n f r s : ℕ)
+    (n f r _s : ℕ)
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
@@ -2506,7 +2497,7 @@ private theorem bmdual_glueCast_D0_apply
     · exact h3 c
   rw [key i, key j]
   rcases i with a | (a | c) <;> rcases j with b | (b | d) <;>
-    simp [bmdual_D0, Matrix.fromBlocks, Matrix.fromBlocks_zero, Matrix.one_apply, finCongr]
+    simp [bmdual_D0, Matrix.fromBlocks, Matrix.one_apply, finCongr]
 
 private theorem bmdual_glueCast_D0_base
     (f r s : ℕ) (hr' : r - 1 + 1 = r) :
@@ -2577,7 +2568,7 @@ private theorem bmdual_glueGidx_isometry
           (fun b : Fin s ⊕ Fin s => v ((bmdual_glueGidx r s n hrs) (Sum.inr b))) := by
   intro v
   subst hrs
-  simp only [bmdualQ, Spin.quadPlus_apply, Fintype.sum_sum_type, bmdual_glueGidx_inl_inl,
+  simp only [bmdualQ, Spin.quadPlus_apply, bmdual_glueGidx_inl_inl,
     bmdual_glueGidx_inl_inr, bmdual_glueGidx_inr_inl, bmdual_glueGidx_inr_inr, finCongr_refl,
     Equiv.refl_apply, Equiv.trans_apply, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right]
   rw [Fin.sum_univ_add]
@@ -2717,7 +2708,7 @@ private theorem bmdual_blockMat_mulVec
   ext i
   rcases i with k | (k | k) <;>
     simp [bmdual_blockMat, Matrix.fromBlocks, Matrix.mulVec, dotProduct, Fintype.sum_sum_type,
-      Sum.elim_inl, Sum.elim_inr, Pi.add_apply, Matrix.one_apply, Finset.sum_ite_eq]
+      Sum.elim_inl, Sum.elim_inr, Matrix.one_apply, Finset.sum_ite_eq]
 
 private theorem bmdual_reindex_mulVec {m n : Type*} [Fintype m] [Fintype n] {F : Type}
     [Semiring F] (e : m ≃ n) (A : Matrix m m F) (v : n → F) :
@@ -2793,7 +2784,7 @@ private theorem bmdual_glue_eidx0_quad
         (fun a : Fin r => y (Sum.inr (Sum.inl a))) := by
     funext a
     rcases a with a | a <;>
-      simp [Function.comp_apply, Equiv.trans_apply, Equiv.symm_apply_apply,
+      simp [Function.comp_apply, Equiv.symm_apply_apply,
         bmdual_glueSplit_symm_inl_inl, bmdual_glueSplit_symm_inl_inr]
   have hfun2 : (fun b : Fin s ⊕ Fin s =>
         (y ∘ ((bmdual_glueSplit r s).trans (bmdual_glueGidx r s n hrs)).symm)
@@ -2824,7 +2815,7 @@ private theorem bmdual_glue_block_hQ
       y ∘ (cast.trans eidx0).symm = (y ∘ cast.symm) ∘ eidx0.symm := by
     intro y
     funext i
-    simp [Function.comp_apply, Equiv.symm_trans, Equiv.trans_apply]
+    simp [Function.comp_apply, Equiv.symm_trans]
   have hcomp : (Sum.elim c (Sum.elim d e') ∘ cast.symm) =
       Sum.elim (c ∘ (finCongr hr').symm) (Sum.elim (d ∘ (finCongr hr').symm) e') := by
     funext i
@@ -2935,7 +2926,7 @@ private theorem bmdual_glueSplit_apply (r s : ℕ) :
       Sum.inr ((finCongr (two_mul s)).trans finSumFinEquiv.symm a)) := by
   refine ⟨?_, ?_, ?_⟩ <;> intro a <;> simp [bmdual_glueSplit, Equiv.sumAssoc, Equiv.sumCongr]
 
-private theorem bmdual_glue_eidx_inl (n f r s : ℕ) (hrs : r + s = n)
+private theorem bmdual_glue_eidx_inl (n _f r s : ℕ) (hrs : r + s = n)
     (hr' : r - 1 + 1 = r) (a : Fin (r - 1 + 1)) :
     ((bmdual_glueCast r s hr').trans
         ((bmdual_glueSplit r s).trans (bmdual_glueGidx r s n hrs))) (Sum.inl a) =
@@ -2944,7 +2935,7 @@ private theorem bmdual_glue_eidx_inl (n f r s : ℕ) (hrs : r + s = n)
   obtain ⟨g1, -, -⟩ := bmdual_glueSplit_apply r s
   rw [Equiv.trans_apply, Equiv.trans_apply, h1, g1, bmdual_glueGidx_inl_inl]
 
-private theorem bmdual_glue_eidx_inr_inl (n f r s : ℕ) (hrs : r + s = n)
+private theorem bmdual_glue_eidx_inr_inl (n _f r s : ℕ) (hrs : r + s = n)
     (hr' : r - 1 + 1 = r) (a : Fin (r - 1 + 1)) :
     ((bmdual_glueCast r s hr').trans
         ((bmdual_glueSplit r s).trans (bmdual_glueGidx r s n hrs))) (Sum.inr (Sum.inl a)) =
@@ -2953,7 +2944,7 @@ private theorem bmdual_glue_eidx_inr_inl (n f r s : ℕ) (hrs : r + s = n)
   obtain ⟨-, g2, -⟩ := bmdual_glueSplit_apply r s
   rw [Equiv.trans_apply, Equiv.trans_apply, h2, g2, bmdual_glueGidx_inl_inr]
 
-private theorem bmdual_glue_eidx_inr_inr (n f r s : ℕ) (hrs : r + s = n)
+private theorem bmdual_glue_eidx_inr_inr (n _f r s : ℕ) (hrs : r + s = n)
     (hr' : r - 1 + 1 = r) (a : Fin (2 * s)) :
     ((bmdual_glueCast r s hr').trans
         ((bmdual_glueSplit r s).trans (bmdual_glueGidx r s n hrs))) (Sum.inr (Sum.inr a)) =
@@ -2976,7 +2967,7 @@ private theorem bmdual_G_apply_inl_inl (n f : ℕ) (a b : Fin n) :
   change QuadraticMap.polar (Spin.quadPlus n (GaloisField 2 f))
     (Pi.single (Sum.inl a) 1) (Pi.single (Sum.inl b) 1) = 0
   rw [Spin.polar_quadPlus_single_inl]
-  simp [Pi.single_apply]
+  simp
 
 private theorem bmdual_G_apply_inl_inr (n f : ℕ) (a b : Fin n) :
     bmdualG n (GaloisField 2 f) (Sum.inl a) (Sum.inr b) =
@@ -2987,7 +2978,7 @@ private theorem bmdual_G_apply_inl_inr (n f : ℕ) (a b : Fin n) :
   change QuadraticMap.polar (Spin.quadPlus n (GaloisField 2 f))
     (Pi.single (Sum.inl a) 1) (Pi.single (Sum.inr b) 1) = if a = b then 1 else 0
   rw [Spin.polar_quadPlus_single_inr]
-  by_cases h : a = b <;> simp [Pi.single_apply, h, eq_comm]
+  by_cases h : a = b <;> simp [h, eq_comm]
 
 private theorem bmdual_G_apply_inr_inl (n f : ℕ) (a b : Fin n) :
     bmdualG n (GaloisField 2 f) (Sum.inr a) (Sum.inl b) =
@@ -2998,7 +2989,7 @@ private theorem bmdual_G_apply_inr_inl (n f : ℕ) (a b : Fin n) :
   change QuadraticMap.polar (Spin.quadPlus n (GaloisField 2 f))
     (Pi.single (Sum.inr a) 1) (Pi.single (Sum.inl b) 1) = if a = b then 1 else 0
   rw [Spin.polar_quadPlus_single_inl]
-  by_cases h : a = b <;> simp [Pi.single_apply, h, eq_comm]
+  by_cases h : a = b <;> simp [h, eq_comm]
 
 private theorem bmdual_G_apply_inr_inr (n f : ℕ) (a b : Fin n) :
     bmdualG n (GaloisField 2 f) (Sum.inr a) (Sum.inr b) = 0 := by
@@ -3008,7 +2999,7 @@ private theorem bmdual_G_apply_inr_inr (n f : ℕ) (a b : Fin n) :
   change QuadraticMap.polar (Spin.quadPlus n (GaloisField 2 f))
     (Pi.single (Sum.inr a) 1) (Pi.single (Sum.inr b) 1) = 0
   rw [Spin.polar_quadPlus_single_inr]
-  simp [Pi.single_apply]
+  simp
 
 private theorem bmdual_glue_formBlock_eq (n f r s : ℕ) (hrs : r + s = n)
     (hr' : r - 1 + 1 = r) :
@@ -3028,40 +3019,40 @@ private theorem bmdual_glue_formBlock_eq (n f r s : ℕ) (hrs : r + s = n)
   all_goals simp only [Sum.elim_inl, Sum.elim_inr, bmdual_G_apply_inl_inl, bmdual_G_apply_inl_inr,
     bmdual_G_apply_inr_inl, bmdual_G_apply_inr_inr]
   all_goals by_cases h : j = j' <;>
-    simp [h, (finSumFinEquiv.trans (finCongr hrs)).injective.eq_iff]
+    simp [h]
 
 private theorem bmdual_glue_formStandard
     (n f r s : ℕ)
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (Pe : Matrix (bmdualι n) (Fin r ⊕ Fin r) (GaloisField 2 f))
     (Bc : Matrix (bmdualι n) (Fin s ⊕ Fin s) (GaloisField 2 f))
-    (hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
-    (hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
+    (_hPeG : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Pe = bmdualG r (GaloisField 2 f))
+    (_hPeQ : ∀ c : Fin r ⊕ Fin r → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Pe c) =
         Spin.quadPlus r (GaloisField 2 f) c)
-    (hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
-    (hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
+    (_hBcG : Matrix.transpose Bc * bmdualG n (GaloisField 2 f) * Bc = bmdualG s (GaloisField 2 f))
+    (_hBcQ : ∀ c : Fin s ⊕ Fin s → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec Bc c) =
         Spin.quadPlus s (GaloisField 2 f) c)
-    (horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
-    (hPeε : bmdualeps n f e * Pe = Pe) (hBcε : (1 - bmdualeps n f e) * Bc = Bc)
-    (hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
+    (_horthPB : Matrix.transpose Pe * bmdualG n (GaloisField 2 f) * Bc = 0)
+    (_hPeε : bmdualeps n f e * Pe = Pe) (_hBcε : (1 - bmdualeps n f e) * Bc = Bc)
+    (_hPee : e * Pe = Pe * Matrix.fromBlocks (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
+    (_hPees : bmdualestar n f e * Pe = Pe * Matrix.fromBlocks
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (0 : Matrix (Fin r) (Fin r) (GaloisField 2 f))
       (1 : Matrix (Fin r) (Fin r) (GaloisField 2 f)))
-    (hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hPeSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin r ⊕ Fin r → GaloisField 2 f,
         Matrix.mulVec Pe c = Matrix.mulVec (bmdualeps n f e) x)
-    (hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hBcSpan : ∀ x : bmdualι n → GaloisField 2 f,
       ∃ c : Fin s ⊕ Fin s → GaloisField 2 f,
         Matrix.mulVec Bc c = Matrix.mulVec (1 - bmdualeps n f e) x)
-    (hrs : r + s = n) (hε : bmdualeps n f e ≠ 0)
-    (hee : e * e = e) (horth_e : e * bmdualestar n f e = 0)
+    (hrs : r + s = n) (_hε : bmdualeps n f e ≠ 0)
+    (_hee : e * e = e) (_horth_e : e * bmdualestar n f e = 0)
     (hr' : r - 1 + 1 = r) :
     bmdual_IsFormStandard n f (r - 1) (2 * s)
       ((bmdual_glueCast r s hr').trans
@@ -3084,7 +3075,7 @@ private theorem bmdual_glue_formStandard
           intro hc
           exact h ((finCongr hr').injective (Sum.inl.inj
             ((finSumFinEquiv.trans (finCongr hrs)).injective hc)))
-        simp [h, hP]
+        simp [h]
     · rw [bmdual_glue_eidx_inl n f r s hrs hr' a,
         bmdual_glue_eidx_inr_inr n f r s hrs hr' c']
       generalize hd : (finCongr (two_mul s)).trans finSumFinEquiv.symm c' = dd
@@ -3097,9 +3088,8 @@ private theorem bmdual_glue_formStandard
           intro hc
           have h1 := (finSumFinEquiv.trans (finCongr hrs)).injective hc
           simp at h1
-        rw [if_neg hP]
-        simp [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-            Matrix.fromBlocks_apply₂₂, bmdual_J12, bmdual_J21]
+        rw [ite_eq_right hP]
+        simp [Matrix.fromBlocks_apply₁₂, bmdual_J12, bmdual_J21]
     · rw [bmdual_glue_eidx_inr_inl n f r s hrs hr' b, bmdual_glue_eidx_inl n f r s hrs hr' a',
         bmdual_G_apply_inr_inl]
       simp only [Matrix.fromBlocks_apply₂₁, bmdual_J21, Matrix.of_apply]
@@ -3110,7 +3100,7 @@ private theorem bmdual_glue_formStandard
           intro hc
           exact h ((finCongr hr').injective (Sum.inl.inj
             ((finSumFinEquiv.trans (finCongr hrs)).injective hc)))
-        simp [h, hP]
+        simp [h]
     · rw [bmdual_glue_eidx_inr_inl n f r s hrs hr' b, bmdual_glue_eidx_inr_inl n f r s hrs hr' b',
         bmdual_G_apply_inr_inr]
       simp [Matrix.fromBlocks_apply₂₂]
@@ -3124,9 +3114,8 @@ private theorem bmdual_glue_formStandard
           intro hc
           have h1 := (finSumFinEquiv.trans (finCongr hrs)).injective hc
           simp at h1
-        rw [if_neg hP]
-        simp [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-            Matrix.fromBlocks_apply₂₂, bmdual_J12, bmdual_J21]
+        rw [ite_eq_right hP]
+        simp [Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂, bmdual_J12, bmdual_J21]
       · rw [Sum.elim_inr, bmdual_G_apply_inr_inr]
         simp [Matrix.fromBlocks_apply₂₂]
     · rw [bmdual_glue_eidx_inr_inr n f r s hrs hr' c, bmdual_glue_eidx_inl n f r s hrs hr' a']
@@ -3140,9 +3129,9 @@ private theorem bmdual_glue_formStandard
           intro hc
           have h1 := (finSumFinEquiv.trans (finCongr hrs)).injective hc
           simp at h1
-        rw [if_neg hP]
-        simp [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-            Matrix.fromBlocks_apply₂₂, bmdual_J12, bmdual_J21]
+        rw [ite_eq_right hP]
+        simp [Matrix.fromBlocks_apply₂₁,
+            bmdual_J12, bmdual_J21]
     · rw [bmdual_glue_eidx_inr_inr n f r s hrs hr' c, bmdual_glue_eidx_inr_inl n f r s hrs hr' b']
       generalize hd : (finCongr (two_mul s)).trans finSumFinEquiv.symm c = dd
       rcases dd with j | j
@@ -3152,8 +3141,8 @@ private theorem bmdual_glue_formStandard
           intro hc
           have h1 := (finSumFinEquiv.trans (finCongr hrs)).injective hc
           simp at h1
-        rw [if_neg hP]
-        simp [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
+        rw [ite_eq_right hP]
+        simp [Matrix.fromBlocks_apply₂₁,
             Matrix.fromBlocks_apply₂₂, bmdual_J12, bmdual_J21]
       · rw [Sum.elim_inr, bmdual_G_apply_inr_inr]
         simp [Matrix.fromBlocks_apply₂₂]
@@ -3200,10 +3189,10 @@ private theorem bmdual_glue_standard_basis
     (hee : e * e = e) (horth_e : e * bmdualestar n f e = 0) :
     ∃ (R r' : ℕ) (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
       (P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f))
-      (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-      (hP : ∀ v : bmdualι n → GaloisField 2 f,
+      (_hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
+      (_hP : ∀ v : bmdualι n → GaloisField 2 f,
         bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
-      (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
+      (_hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
         (w : bmdualι n → GaloisField 2 f),
         bmdualQ n (GaloisField 2 f) (Matrix.mulVec
           (Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x)) w) =
@@ -3212,13 +3201,13 @@ private theorem bmdual_glue_standard_basis
       0 ≤ R ∧ Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e := by
   have hr : 1 ≤ r := bmdual_glue_r_pos n f r s Pe hPeSpan hε
   have hr' : r - 1 + 1 = r := Nat.sub_add_cancel hr
-  obtain ⟨P, Pinv, hPP, hPinvP, hP, hconv⟩ :=
+  obtain ⟨P, Pinv, _hPP, _hPinvP, _hP, hconv⟩ :=
     bmdual_glue_basis_P n f r s Pe Bc hPeG hPeQ hBcG hBcQ horthPB hPeε hBcε hPee hPees hPeSpan
       hBcSpan hrs hε hee horth_e
   refine ⟨r - 1, 2 * s,
     (bmdual_glueCast r s hr').trans
       ((bmdual_glueSplit r s).trans (bmdual_glueGidx r s n hrs)),
-    P, Pinv, hPP, hPinvP, hP, ?_, ?_, Nat.zero_le (r - 1), ?_⟩
+    P, Pinv, _hPP, _hPinvP, _hP, ?_, ?_, Nat.zero_le (r - 1), ?_⟩
   · intro x w
     exact bmdual_glue_block_isometry n f (r - 1) (2 * s)
       ((bmdual_glueCast r s hr').trans
@@ -3243,10 +3232,10 @@ private theorem bmdual_explicit_data
     (hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e)) :
     ∃ (R r' : ℕ) (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
       (P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f))
-      (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-      (hP : ∀ v : bmdualι n → GaloisField 2 f,
+      (_hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
+      (_hP : ∀ v : bmdualι n → GaloisField 2 f,
         bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
-      (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
+      (_hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
         (w : bmdualι n → GaloisField 2 f),
         bmdualQ n (GaloisField 2 f) (Matrix.mulVec
           (Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x)) w) =
@@ -3454,12 +3443,10 @@ private theorem bmdual_rank_fromBlocks_zero {m n : Type*} [Fintype m] [Fintype n
       constructor
       · refine ⟨v ∘ Sum.inl, ?_⟩
         rw [Matrix.mulVecLin_apply, Matrix.mulVecLin_apply]
-        congr 1
         funext i
         simp [hB, Matrix.fromBlocks, Matrix.mulVec, dotProduct, Fintype.sum_sum_type]
       · refine ⟨v ∘ Sum.inr, ?_⟩
         rw [Matrix.mulVecLin_apply, Matrix.mulVecLin_apply]
-        congr 1
         funext j
         simp [hB, Matrix.fromBlocks, Matrix.mulVec, dotProduct, Fintype.sum_sum_type]
     · rintro ⟨hu, hw⟩
@@ -3495,7 +3482,7 @@ private theorem bmdual_finrank_commSpace_toLinEquiv {ι : Type} [Fintype ι] [De
       ((A : Matrix ι ι F) - 1).mulVecLin := by
     apply LinearMap.ext
     intro v
-    simp [Matrix.sub_mulVec]
+    simp
   rw [h1, h2, Matrix.range_mulVecLin, Matrix.rank_eq_finrank_span_cols]
 
 private theorem bmdual_rank_sub_one_conj (n f : ℕ)
@@ -3932,7 +3919,7 @@ private theorem bmdual_eq_scalar_of_commute_sl (r f : ℕ)
   refine ⟨l, ?_⟩
   rw [← hl]
   ext i j
-  by_cases hij : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+  by_cases hij : i = j <;> simp [Matrix.scalar_apply, hij]
 
 private theorem bmdual_transpose_fromBlocks' {m n m' n' : Type*} {F : Type}
     (A : Matrix m m' F) (B : Matrix m n' F) (C : Matrix n m' F) (D : Matrix n n' F) :
@@ -3956,7 +3943,7 @@ private theorem bmdual_eq_zero_of_transpose_mul_eq_rect
       Matrix.transpose (g : Matrix (Fin r) (Fin r) (GaloisField 2 f)) * B = B) :
     B = 0 := by
   ext i l
-  haveI : 1 < Fintype.card (Fin r) := by rw [Fintype.card_fin]; omega
+  have : 1 < Fintype.card (Fin r) := by rw [Fintype.card_fin]; omega
   obtain ⟨j, hji⟩ : ∃ j : Fin r, j ≠ i := Fintype.exists_ne_of_one_lt_card this i
   have hij : i ≠ j := hji.symm
   let E : Matrix (Fin r) (Fin r) (GaloisField 2 f) := Matrix.single j i 1
@@ -4029,7 +4016,7 @@ private theorem bmdual_block12_mul_eq
             (GaloisField 2 f)) : Matrix (Fin (R + 1)) (Fin (R + 1)) (GaloisField 2 f))) a b := by
       simp only [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.fromBlocks_apply₁₁,
         Matrix.fromBlocks_apply₂₁, Matrix.of_apply, Matrix.zero_apply, mul_zero,
-        Finset.sum_const_zero, zero_add, add_zero]
+        Finset.sum_const_zero, add_zero]
     rw [← hkey]
     simpa only [Matrix.of_apply] using hh
   · ext a c
@@ -4046,10 +4033,10 @@ private theorem bmdual_block12_mul_eq
       rw [Matrix.mul_apply]
       rw [Fintype.sum_eq_single (Sum.inr c) (fun k hk => by
         rcases k with i | c'
-        · simp only [Matrix.fromBlocks_apply₁₂, Matrix.of_apply, Matrix.zero_apply, mul_zero]
+        · simp only [Matrix.fromBlocks_apply₁₂, Matrix.zero_apply, mul_zero]
         · have hne : c' ≠ c := fun hh' => hk (by rw [hh'])
-          simp only [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, hne, if_false, mul_zero])]
-      simp only [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, if_true, mul_one,
+          simp only [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, hne, ite_false, mul_zero])]
+      simp only [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, ite_true, mul_one,
         Matrix.of_apply, Matrix.mul_apply]
     rw [← hkey]
     simpa only [Matrix.of_apply] using hh
@@ -4058,7 +4045,7 @@ private theorem bmdual_formStandard_pair
     (n f : ℕ) {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
+    (hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
     (hP : ∀ v : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
     (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
@@ -4069,10 +4056,10 @@ private theorem bmdual_formStandard_pair
     (hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
     (hquad : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec e x) = 0)
-    (hquad' : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hquad' : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec (bmdualestar n f e) x) = 0)
-    (heps : IsIdempotentElem (bmdualeps n f e))
-    (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0) (hR : 1 ≤ R) :
+    (_heps : IsIdempotentElem (bmdualeps n f e))
+    (_horth : e * bmdualestar n f e = 0) (_horth' : bmdualestar n f e * e = 0) (hR : 1 ≤ R) :
     ∃ lam : GaloisField 2 f, lam ≠ 0 ∧
       Matrix.toBlocks₁₂ (Matrix.reindex eidx.symm eidx.symm (bmdualG n (GaloisField 2 f))) =
         bmdual_J12 f R r' lam := by
@@ -4183,22 +4170,20 @@ private theorem bmdual_formStandard_pair
       · have hi : i = eidx (Sum.inl a') := by rw [← h, Equiv.apply_symm_apply]
         subst i
         simp only [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₁₁,
-          Matrix.one_apply, Equiv.apply_symm_apply, Equiv.symm_apply_apply]
+          Matrix.one_apply, Equiv.symm_apply_apply]
         by_cases ha : a' = a <;> simp [ha]
       · have hi : i = eidx (Sum.inr (Sum.inl b')) := by rw [← h, Equiv.apply_symm_apply]
         subst i
         have hne : eidx (Sum.inr (Sum.inl b')) ≠ eidx (Sum.inl a) := by
           intro he
           exact absurd (eidx.injective he) (by simp)
-        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply,
-          Pi.single_eq_of_ne hne]
+        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply]
       · have hi : i = eidx (Sum.inr (Sum.inr c')) := by rw [← h, Equiv.apply_symm_apply]
         subst i
         have hne : eidx (Sum.inr (Sum.inr c')) ≠ eidx (Sum.inl a) := by
           intro he
           exact absurd (eidx.injective he) (by simp)
-        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply,
-          Pi.single_eq_of_ne hne]
+        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply]
     · intro j hj
       rw [Pi.single_eq_of_ne hj, mul_zero]
   have hQofR0 : ∀ w : bmdualι n → GaloisField 2 f,
@@ -4263,7 +4248,7 @@ private theorem bmdual_block11_eq_zero
     (n f : ℕ) {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
+    (hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
     (hP : ∀ v : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
     (hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
@@ -4286,22 +4271,20 @@ private theorem bmdual_block11_eq_zero
       · have hi : i = eidx (Sum.inl a') := by rw [← h, Equiv.apply_symm_apply]
         subst i
         simp only [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₁₁,
-          Matrix.one_apply, Equiv.apply_symm_apply, Equiv.symm_apply_apply]
+          Matrix.one_apply, Equiv.symm_apply_apply]
         by_cases ha : a' = a <;> simp [ha]
       · have hi : i = eidx (Sum.inr (Sum.inl b')) := by rw [← h, Equiv.apply_symm_apply]
         subst i
         have hne : eidx (Sum.inr (Sum.inl b')) ≠ eidx (Sum.inl a) := by
           intro he
           exact absurd (eidx.injective he) (by simp)
-        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply,
-          Pi.single_eq_of_ne hne]
+        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply]
       · have hi : i = eidx (Sum.inr (Sum.inr c')) := by rw [← h, Equiv.apply_symm_apply]
         subst i
         have hne : eidx (Sum.inr (Sum.inr c')) ≠ eidx (Sum.inl a) := by
           intro he
           exact absurd (eidx.injective he) (by simp)
-        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply,
-          Pi.single_eq_of_ne hne]
+        simp [Matrix.submatrix_apply, bmdual_D0, Matrix.fromBlocks_apply₂₁, Matrix.zero_apply]
     · intro j hj
       rw [Pi.single_eq_of_ne hj, mul_zero]
   have hQofR0 : ∀ w : bmdualι n → GaloisField 2 f,
@@ -4438,10 +4421,10 @@ private theorem bmdual_formStandard_diag
     (hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
     (hquad : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec e x) = 0)
-    (hquad' : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hquad' : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec (bmdualestar n f e) x) = 0)
-    (heps : IsIdempotentElem (bmdualeps n f e))
-    (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0)
+    (_heps : IsIdempotentElem (bmdualeps n f e))
+    (horth : e * bmdualestar n f e = 0) (_horth' : bmdualestar n f e * e = 0)
     (lam : GaloisField 2 f)
     (hpair : Matrix.toBlocks₁₂ (Matrix.reindex eidx.symm eidx.symm (bmdualG n (GaloisField 2 f))) =
       bmdual_J12 f R r' lam)
@@ -4476,7 +4459,6 @@ private theorem bmdual_formStandard_diag
     ext j a
     change G' (Sum.inr j) (Sum.inl a) = bmdual_J21 f R r' lam j a
     rw [hsymm]
-    change G' (Sum.inl a) (Sum.inr j) = bmdual_J21 f R r' lam j a
     rw [show G' (Sum.inl a) (Sum.inr j) = Matrix.toBlocks₁₂ G' a j from rfl, hpair]
     rcases j with b | c <;> simp [bmdual_J12, bmdual_J21, eq_comm]
   have hconj : ∀ x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f),
@@ -4558,7 +4540,7 @@ private theorem bmdual_formStandard_diag
     have h := hD0Z
     rw [hD0eq, ← Matrix.fromBlocks_toBlocks (G'⁻¹)] at h
     rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply] at h
-    simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
+    simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, Matrix.mul_one,
       Matrix.one_mul] at h
     have h0 : (0 : Matrix (Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r'))
         (Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r')) (GaloisField 2 f)) =
@@ -4586,12 +4568,12 @@ private theorem bmdual_formStandard_diag
           (Sum.inl b) (Sum.inl a') = if b = a' then 1 else 0 from by
         simp [Matrix.one_apply]] at h
       by_cases hba : b = a'
-      · rw [if_pos hba] at h
+      · rw [ite_eq_left hba] at h
         have hz : G'⁻¹ (Sum.inr (Sum.inl b)) (Sum.inl a') = lam⁻¹ := by
           have hh := congrArg (fun t => lam⁻¹ * t) h
           rwa [← mul_assoc, inv_mul_cancel₀ hlam, one_mul, mul_one] at hh
         simpa [hba] using hz
-      · rw [if_neg hba] at h
+      · rw [ite_eq_right hba] at h
         have hz : G'⁻¹ (Sum.inr (Sum.inl b)) (Sum.inl a') = 0 :=
           (mul_eq_zero.mp h).resolve_left hlam
         simpa [hba] using hz
@@ -4603,7 +4585,7 @@ private theorem bmdual_formStandard_diag
         rw [show G' (Sum.inl b) (Sum.inr (Sum.inl b'')) =
             Matrix.toBlocks₁₂ G' b (Sum.inl b'') from rfl, hpair]
         simp only [bmdual_J12, Matrix.of_apply]
-        rw [if_neg (Ne.symm hb'')]
+        rw [ite_eq_right (Ne.symm hb'')]
         simp
       · rw [show G' (Sum.inl b) (Sum.inr (Sum.inr c)) =
             Matrix.toBlocks₁₂ G' b (Sum.inr c) from rfl, hpair]
@@ -4613,17 +4595,17 @@ private theorem bmdual_formStandard_diag
     intro b a'
     have h := congrFun (congrFun hG'Z (Sum.inr (Sum.inl b))) (Sum.inl a')
     rw [Matrix.mul_apply, Fintype.sum_eq_single (Sum.inr (Sum.inl a'))] at h
-    · rw [hZ21 a' a', if_pos rfl,
+    · rw [hZ21 a' a', ite_eq_left rfl,
         show (1 : Matrix (Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r'))
           (Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r')) (GaloisField 2 f))
-          (Sum.inr (Sum.inl b)) (Sum.inl a') = 0 from by simp [Matrix.one_apply]] at h
+          (Sum.inr (Sum.inl b)) (Sum.inl a') = 0 from by simp] at h
       exact (mul_eq_zero.mp h).resolve_right (inv_ne_zero hlam)
     · intro k hk
       rcases k with a'' | (b'' | c)
       · rw [hZ11 a'' a']
         simp
       · have hba : b'' ≠ a' := fun hh => hk (by rw [hh])
-        rw [hZ21 b'' a', if_neg hba]
+        rw [hZ21 b'' a', ite_eq_right hba]
         simp
       · rw [hD12e b c]
         simp
@@ -4913,7 +4895,7 @@ private theorem bmdual_block_diag_outer (R r' : ℕ) {F : Type} [Field F]
   have h' := h
   rw [bmdual_D0_eq R r' F, ← Matrix.fromBlocks_toBlocks A] at h'
   rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply] at h'
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
+  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, Matrix.mul_one,
     Matrix.one_mul] at h'
   rw [Matrix.fromBlocks_inj] at h'
   obtain ⟨-, h12, h21, -⟩ := h'
@@ -4938,8 +4920,7 @@ private theorem bmdual_block_diag_inner (R r' : ℕ) {F : Type} [Field F]
   have h' := h
   rw [← Matrix.fromBlocks_toBlocks D] at h'
   rw [Matrix.fromBlocks_multiply] at h'
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-    Matrix.one_mul] at h'
+  simp only [Matrix.mul_zero, add_zero, zero_add, Matrix.mul_one] at h'
   rw [Matrix.fromBlocks_inj] at h'
   obtain ⟨-, h12, -, h22⟩ := h'
   have h12' : Matrix.toBlocks₁₂ D = 0 := h12
@@ -5023,21 +5004,21 @@ private theorem bmdual_estar_conj_noH
     (n f : ℕ) {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
+    (hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
     (hP : ∀ v : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
-    (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
+    (_hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
       (w : bmdualι n → GaloisField 2 f),
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec
         (Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x)) w) =
         bmdualQ n (GaloisField 2 f) w)
     (hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
-    (hquad : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hquad : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec e x) = 0)
-    (hquad' : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hquad' : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec (bmdualestar n f e) x) = 0)
-    (heps : IsIdempotentElem (bmdualeps n f e))
-    (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0)
+    (_heps : IsIdempotentElem (bmdualeps n f e))
+    (_horth : e * bmdualestar n f e = 0) (_horth' : bmdualestar n f e * e = 0)
     (hform : bmdual_IsFormStandard n f R r' eidx) :
     Pinv * Matrix.reindex eidx eidx (bmdual_D0s (R + 1) r' (GaloisField 2 f)) * P =
       bmdualestar n f e := by
@@ -5078,11 +5059,11 @@ private theorem bmdual_estar_conj_noH
     ext a j
     rcases j with b | c
     · rw [Matrix.mul_apply, Fintype.sum_eq_single (Sum.inl b)]
-      · simp [bmdual_J12, Matrix.fromBlocks, Matrix.one_apply]
+      · simp [bmdual_J12, Matrix.fromBlocks]
       · intro k hk
         rcases k with b' | c'
         · have hb' : b' ≠ b := fun h => hk (by rw [h])
-          simp [bmdual_J12, Matrix.fromBlocks, Matrix.one_apply, hb']
+          simp [bmdual_J12, Matrix.fromBlocks, hb']
         · simp [bmdual_J12, Matrix.fromBlocks]
     · rw [Matrix.mul_apply]
       apply Finset.sum_eq_zero
@@ -5210,7 +5191,7 @@ private theorem bmdual_eps_conj_noH
     ext i j
     rcases i with a | (b | c) <;> rcases j with a' | (b' | c') <;>
       simp [bmdual_D1, bmdual_D0, bmdual_D0s, Matrix.fromBlocks, Matrix.one_apply,
-        sub_eq_add_neg, add_comm, add_left_comm, add_assoc]
+        sub_eq_add_neg, add_comm]
   have hre : Matrix.reindex eidx eidx (bmdual_D1 (R + 1) r' (GaloisField 2 f)) =
       (1 : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)) -
         Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) -
@@ -5254,14 +5235,14 @@ private theorem bmdual_conj_sandwich (n f : ℕ)
     hPP, Matrix.one_mul, Matrix.mul_one]
 
 private theorem bmdual_block_of_mem
-    (n f : ℕ) (hn : 3 ≤ n) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (n f : ℕ) (_hn : 3 ≤ n) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
-    (hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
-    (hgen : bmdual_scalarAction n f S e)
+    (_hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
+    (_hgen : bmdual_scalarAction n f S e)
     {J' : Subgroup ↥(spinGroup (bmdualQ n (GaloisField 2 f)))}
-    (hJe : IsComponentOf J' (bmdualrange n f S e))
+    (_hJe : IsComponentOf J' (bmdualrange n f S e))
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
@@ -5578,36 +5559,36 @@ private theorem bmdual_range_le_embedHom
         simp
 
 private theorem bmdual_component_sl2_card_quot
-    (n f : ℕ) (hn : 3 ≤ n) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (n f : ℕ) (_hn : 3 ≤ n) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
-    (hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
-    (hgen : bmdual_scalarAction n f S e)
+    (_he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
+    (_hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
+    (_hgen : bmdual_scalarAction n f S e)
     {J' : Subgroup ↥(spinGroup (bmdualQ n (GaloisField 2 f)))}
     (hJe : IsComponentOf J' (bmdualrange n f S e))
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
-    (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-    (hP : ∀ v : bmdualι n → GaloisField 2 f,
+    (_hPP : P * Pinv = 1) (_hPinvP : Pinv * P = 1)
+    (_hP : ∀ v : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
-    (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
+    (_hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
       (w : bmdualι n → GaloisField 2 f),
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec
         (Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x)) w) =
         bmdualQ n (GaloisField 2 f) w)
-    (hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
-    (hquad : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hconv : Pinv * Matrix.reindex eidx eidx (bmdual_D0 (R + 1) r' (GaloisField 2 f)) * P = e)
+    (_hquad : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec e x) = 0)
-    (hquad' : ∀ x : bmdualι n → GaloisField 2 f,
+    (_hquad' : ∀ x : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec (bmdualestar n f e) x) = 0)
-    (heps : IsIdempotentElem (bmdualeps n f e))
-    (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0) :
+    (_heps : IsIdempotentElem (bmdualeps n f e))
+    (_horth : e * bmdualestar n f e = 0) (_horth' : bmdualestar n f e * e = 0) :
     60 ≤ Nat.card (J' ⧸ Subgroup.center J') := by
-  haveI : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
+  have : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
     Finite.of_injective (bmdualJ n (GaloisField 2 f))
       (bmdual_spinMatrix_injective n (GaloisField 2 f))
-  haveI : Finite ↥J' := Subtype.finite
+  have : Finite ↥J' := Subtype.finite
   have hq : CFSG.IsQuasisimple J' :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff J').2.1.mpr hJe.2.2
   exact CFSG.Quasithin.S146zW.sw_sixty_le_card_quot hq
@@ -5641,10 +5622,10 @@ private theorem bmdual_component_sl2_card_le
     (hR : R + 1 = 2) :
     Nat.card (J' ⧸ Subgroup.center J') ≤ Nat.card (Matrix.SpecialLinearGroup (Fin 2)
       (GaloisField 2 f)) := by
-  haveI : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
+  have : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
     Finite.of_injective (bmdualJ n (GaloisField 2 f))
       (bmdual_spinMatrix_injective n (GaloisField 2 f))
-  haveI : Finite ↥J' := Subtype.finite
+  have : Finite ↥J' := Subtype.finite
   have hcomp : J' ≤ (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).range :=
     le_trans hJe.1 (bmdual_range_le_embedHom n f hn S hS he hestar hgen hJe eidx hPP hPinvP hP
       hblock hconv hquad hquad' heps horth horth'
@@ -5745,7 +5726,7 @@ private theorem bmdual_component_sl2_card
     bmdual_component_sl2_card_field n f hn S hS he hestar hgen hJe eidx hPP hPinvP hP hblock
       hconv hquad hquad' heps horth horth' hR
   classical
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset (GaloisField 2 f)))
     (n := 4) (by simpa [Finset.card_univ, Nat.card_eq_fintype_card] using h4)
   exact ⟨s, hs⟩
@@ -5780,7 +5761,7 @@ private theorem bmdual_component_perfectSL
   rcases lt_or_ge (R + 1) 3 with hlt | hge
   · have hcases : R + 1 = 1 ∨ R + 1 = 2 := by omega
     rcases hcases with hR1 | hR2
-    · haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+    · have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
       exact Group.IsPerfect.mk (Subsingleton.elim _ _)
     · obtain ⟨s, hs⟩ := bmdual_component_sl2_card n f hn S hS he hestar hgen hJe eidx hPP hPinvP
         hP hblock hconv hquad hquad' heps horth horth' hR2
@@ -5794,7 +5775,7 @@ private theorem bmdual_D1_eq_sub (r r' : ℕ) (F : Type) [Field F] :
   ext i j
   rcases i with a | (b | c) <;> rcases j with a' | (b' | c') <;>
     simp [bmdual_D1, bmdual_D0, bmdual_D0s, Matrix.fromBlocks, Matrix.one_apply, sub_eq_add_neg,
-      add_comm, add_left_comm, add_assoc]
+      add_comm]
 
 private theorem bmdual_embedGL_coe (n f R r' : ℕ)
     (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
@@ -5848,8 +5829,7 @@ private theorem bmdual_D1_mul_blockMat (n f r r' : ℕ)
   rw [Matrix.fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-    Matrix.one_mul]
+  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one]
 
 private theorem bmdual_blockMat_mul_D1 (n f r r' : ℕ)
     (x : Matrix.SpecialLinearGroup (Fin r) (GaloisField 2 f)) :
@@ -5859,8 +5839,7 @@ private theorem bmdual_blockMat_mul_D1 (n f r r' : ℕ)
   rw [Matrix.fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-    Matrix.one_mul]
+  simp only [Matrix.mul_zero, add_zero, zero_add, Matrix.mul_one]
 
 private theorem bmdual_embedGL_fixes_compl (n f R r' : ℕ)
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
@@ -5889,9 +5868,6 @@ private theorem bmdual_embedGL_fixes_compl (n f R r' : ℕ)
   rw [← bmdual_eps_conj_noH n f eidx hPP hPinvP hP hblock hconv hquad hquad' heps horth horth'
     hform]
   rw [bmdual_embedGL_coe n f R r' eidx hPP hPinvP x]
-  change (Pinv * Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x) * P) *
-      (Pinv * Matrix.reindex eidx eidx (bmdual_D1 (R + 1) r' (GaloisField 2 f)) * P) =
-      Pinv * Matrix.reindex eidx eidx (bmdual_D1 (R + 1) r' (GaloisField 2 f)) * P
   rw [bmdual_conj_mul n f P Pinv hPP, ← bmdual_reindex_mul,
     bmdual_blockMat_mul_D1 n f (R + 1) r' x]
 
@@ -6097,7 +6073,7 @@ private theorem bmdual_embedHom_range_le_centralizer
     (hestar : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) (bmdualestar n f e))
     (hgen : bmdual_scalarAction n f S e)
     {J' : Subgroup ↥(spinGroup (bmdualQ n (GaloisField 2 f)))}
-    (hJe : IsComponentOf J' (bmdualrange n f S e))
+    (_hJe : IsComponentOf J' (bmdualrange n f S e))
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
@@ -6163,10 +6139,10 @@ private theorem bmdual_embedHom_range_le
     (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0)
     (hform : bmdual_IsFormStandard n f R r' eidx) :
     (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).range ≤ bmdualrange n f S e := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f)) :=
     bmdual_component_perfectSL n f hn S hS he hestar hgen hJe eidx hPP hPinvP hP hblock hconv
       hquad hquad' heps horth horth'
-  haveI : Group.IsPerfect (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).range :=
+  have : Group.IsPerfect (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).range :=
     Group.IsPerfect.ofSurjective
       (f := (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).rangeRestrict)
       (bmdual_embedHom n f R r' hn eidx P Pinv hPP hPinvP hP hblock).rangeRestrict_surjective
@@ -6274,7 +6250,7 @@ private theorem bmdual_component_range_quasisimple
   have hRpos : 1 ≤ R := by
     by_contra hR0
     have hR1 : R + 1 = 1 := by omega
-    haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+    have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
     have hbot : bmdualrange n f S e = ⊥ := by
       rw [hRg, MonoidHom.range_eq_bot_iff]
       ext x
@@ -6282,9 +6258,9 @@ private theorem bmdual_component_range_quasisimple
       simp
     have hJ'bot : J' = ⊥ := le_bot_iff.mp (hbot ▸ hJe.1)
     have hntJ' : Nontrivial ↥J' := by
-      haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
+      have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
       exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-    haveI : Nontrivial ↥J' := hntJ'
+    have : Nontrivial ↥J' := hntJ'
     exact not_subsingleton ↥J' (by rw [hJ'bot]; infer_instance)
   rw [hRg]
   refine CFSG.LocalAnalysis.GLTheoremA.S11.y10xF_qs_of_mulEquiv
@@ -6330,7 +6306,7 @@ private theorem bmdual_component_range_le
     (horth : e * bmdualestar n f e = 0) (horth' : bmdualestar n f e * e = 0)
     (hform : bmdual_IsFormStandard n f R r' eidx) :
     bmdualrange n f S e ≤ J' := by
-  haveI : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
+  have : Finite ↥(spinGroup (bmdualQ n (GaloisField 2 f))) :=
     Finite.of_injective (bmdualJ n (GaloisField 2 f))
       (bmdual_spinMatrix_injective n (GaloisField 2 f))
   have hMq : CFSG.Open.IsQuasisimple ↥J' := hJe.2.2
@@ -6373,7 +6349,7 @@ private theorem bmdual_component_rank_pos
     hconv hquad hquad' heps horth horth' hform
   by_contra hR0
   have hR1 : R + 1 = 1 := by omega
-  haveI : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
+  have : Subsingleton (Fin (R + 1)) := Fin.subsingleton_iff_le_one.mpr (by omega)
   have hbot : bmdualrange n f S e = ⊥ := by
     rw [hEq, MonoidHom.range_eq_bot_iff]
     ext x
@@ -6381,14 +6357,14 @@ private theorem bmdual_component_rank_pos
     simp
   have hJ'bot : J' = ⊥ := le_bot_iff.mp (hbot ▸ hJe.1)
   have hntJ' : Nontrivial ↥J' := by
-    haveI : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
+    have : Nontrivial (↥J' ⧸ Subgroup.center ↥J') := hJe.2.2.2.toNontrivial
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J'))
-  haveI : Nontrivial ↥J' := hntJ'
+  have : Nontrivial ↥J' := hntJ'
   exact not_subsingleton ↥J' (by rw [hJ'bot]; infer_instance)
 
 private theorem bmdual_component_eq_range
     (n f : ℕ) (hn : 3 ≤ n) (S : Set (GL (bmdualι n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ (bmdualJ n (GaloisField 2 f)).range)
+    (_hSU : ∀ s ∈ S, s ∈ (bmdualJ n (GaloisField 2 f)).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {e : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (bmdualA n (GaloisField 2 f) S) e)
@@ -6555,8 +6531,7 @@ private theorem bmdual_blockMat_transvection
   simp only [Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_single, CharTwo.neg_eq]
   ext p q
   rcases p with a | (b | d) <;> rcases q with a' | (b' | d') <;>
-    simp [Matrix.fromBlocks, Matrix.fromBlocks_add, Matrix.fromBlocks_smul, Matrix.fromBlocks_one,
-      Matrix.fromBlocks_zero, Matrix.single_apply, Matrix.smul_apply, Matrix.one_apply,
+    simp [Matrix.fromBlocks, Matrix.single_apply, Matrix.one_apply,
       Matrix.add_apply, Matrix.zero_apply]
 
 private theorem bmdual_conj_add (n f : ℕ)
@@ -6673,12 +6648,12 @@ private theorem bmdual_G_mulVec_single_inl (n f R r' : ℕ)
   by_cases h : eidx.symm k = Sum.inr (Sum.inl a)
   · have hk : k = eidx (Sum.inr (Sum.inl a)) := by
       rw [← h, Equiv.apply_symm_apply]
-    rw [if_pos h, hk]
+    rw [ite_eq_left h, hk]
     simp
   · have hk : k ≠ eidx (Sum.inr (Sum.inl a)) := by
       intro h'
       exact h (by rw [h', Equiv.symm_apply_apply])
-    rw [if_neg h, Pi.single_eq_of_ne hk]
+    rw [ite_eq_right h, Pi.single_eq_of_ne hk]
     simp
 
 private theorem bmdual_G_mulVec_single_inr (n f R r' : ℕ)
@@ -6695,12 +6670,12 @@ private theorem bmdual_G_mulVec_single_inr (n f R r' : ℕ)
   by_cases h : eidx.symm k = Sum.inl a
   · have hk : k = eidx (Sum.inl a) := by
       rw [← h, Equiv.apply_symm_apply]
-    rw [if_pos h, hk]
+    rw [ite_eq_left h, hk]
     simp
   · have hk : k ≠ eidx (Sum.inl a) := by
       intro h'
       exact h (by rw [h', Equiv.symm_apply_apply])
-    rw [if_neg h, Pi.single_eq_of_ne hk]
+    rw [ite_eq_right h, Pi.single_eq_of_ne hk]
     simp
 
 private theorem bmdual_mulVec_vecMulVec (n f : ℕ)
@@ -6708,7 +6683,7 @@ private theorem bmdual_mulVec_vecMulVec (n f : ℕ)
     Matrix.mulVec (Matrix.vecMulVec u v) w = (v ⬝ᵥ w) • u := by
   funext i
   rw [Matrix.vecMulVec_mulVec]
-  simp [op_smul_eq_mul, mul_comm]
+  simp [mul_comm]
 
 private theorem bmdual_conj_vecMulVec (n f : ℕ)
     (P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f))
@@ -6731,7 +6706,7 @@ private theorem bmdual_reindex_single (n f R r' : ℕ)
       Matrix.vecMulVec (Pi.single (eidx p) 1) (Pi.single (eidx q) 1) := by
   ext r s
   simp only [Matrix.reindex_apply, Matrix.submatrix_apply, Matrix.single_apply,
-    Matrix.vecMulVec_apply, Pi.single_apply, Equiv.symm_apply_eq]
+    Matrix.vecMulVec_apply, Pi.single_apply]
   split_ifs <;> simp_all
 
 private theorem bmdual_reindex_fromBlocks_single (n f R r' : ℕ)
@@ -7378,7 +7353,7 @@ private theorem bmdual_rank_one_eq_vecMulVec {m n : Type*} [Fintype m] [Fintype 
     exact ⟨0, 0, by ext i j; simp [Matrix.vecMulVec]⟩
   · obtain ⟨i, hi⟩ : ∃ i, A.row i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hA0 (by ext k l; simpa using congrFun (h k) l)
     have hrank : A.rank = Module.finrank F (Submodule.span F (Set.range A.row)) :=
       Matrix.rank_eq_finrank_span_row A
@@ -7421,26 +7396,26 @@ private theorem bmdual_det_one_add_vecMulVec (R f : ℕ)
   rw [bmdual_vecMulVec_eq_replicate]
   rw [Matrix.det_one_add_mul_comm (Matrix.replicateCol (Fin 1) v)
       (Matrix.replicateRow (Fin 1) φ), Matrix.det_unique]
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.mul_apply, Matrix.replicateCol,
+  simp [Matrix.add_apply, Matrix.mul_apply, Matrix.replicateCol,
     Matrix.replicateRow, dotProduct]
 
 private theorem bmdual_siegel_gen_rank_one
-    (n f : ℕ) (hn : 3 ≤ n)
+    (n f : ℕ) (_hn : 3 ≤ n)
     {R r' : ℕ} (eidx : Fin (R + 1) ⊕ (Fin (R + 1) ⊕ Fin r') ≃ bmdualι n)
     {P Pinv : Matrix (bmdualι n) (bmdualι n) (GaloisField 2 f)}
     (hPP : P * Pinv = 1) (hPinvP : Pinv * P = 1)
-    (hP : ∀ v : bmdualι n → GaloisField 2 f,
+    (_hP : ∀ v : bmdualι n → GaloisField 2 f,
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec P v) = bmdualQ n (GaloisField 2 f) v)
-    (hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
+    (_hblock : ∀ (x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f))
       (w : bmdualι n → GaloisField 2 f),
       bmdualQ n (GaloisField 2 f) (Matrix.mulVec
         (Matrix.reindex eidx eidx (bmdual_blockMat n f (R + 1) r' x)) w) =
         bmdualQ n (GaloisField 2 f) w)
-    (hform : bmdual_IsFormStandard n f R r' eidx)
+    (_hform : bmdual_IsFormStandard n f R r' eidx)
     {a₁ a₂ : bmdualι n → GaloisField 2 f}
-    (hQa₁ : bmdualQ n (GaloisField 2 f) a₁ = 0)
-    (hQa₂ : bmdualQ n (GaloisField 2 f) a₂ = 0)
-    (horth : QuadraticMap.polar (bmdualQ n (GaloisField 2 f)) a₁ a₂ = 0)
+    (_hQa₁ : bmdualQ n (GaloisField 2 f) a₁ = 0)
+    (_hQa₂ : bmdualQ n (GaloisField 2 f) a₂ = 0)
+    (_horth : QuadraticMap.polar (bmdualQ n (GaloisField 2 f)) a₁ a₂ = 0)
     (ha₂ : a₂ ≠ 0)
     (hli : LinearIndependent (GaloisField 2 f) ![a₁, a₂])
     {x : Matrix.SpecialLinearGroup (Fin (R + 1)) (GaloisField 2 f)}
@@ -7461,7 +7436,7 @@ private theorem bmdual_siegel_gen_rank_one
     rw [hτdef] at hτ0
     obtain ⟨i, hi⟩ : ∃ i, a₂ i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact ha₂ (funext h)
     have hrel : a₂ i • Matrix.mulVec (bmdualG n (GaloisField 2 f)) a₁ +
         a₁ i • Matrix.mulVec (bmdualG n (GaloisField 2 f)) a₂ = 0 := by
@@ -7956,7 +7931,7 @@ private theorem bmdual_map_conj_matTransvGroup_ge (R' f : ℕ)
   rintro h ⟨c, hc⟩
   refine Subgroup.subset_closure ⟨(MulAut.conj (Matrix.SpecialLinearGroup.toGL g))⁻¹ h,
     ⟨c, ?_⟩, by
-      simp only [MulEquiv.coe_toMonoidHom, zpow_neg_one, MulEquiv.inv_apply]
+      simp only [MulEquiv.coe_toMonoidHom]
       exact MulEquiv.apply_symm_apply _ _⟩
   rw [bmdual_coe_conj_toGL_inv R' f g h, hc, Matrix.mul_add, Matrix.mul_one, Matrix.mul_smul,
     Matrix.add_mul, Matrix.smul_mul,
@@ -7989,7 +7964,7 @@ private theorem bmdual_exists_sl_map_vec (R' f : ℕ)
     ∃ g : Matrix.SpecialLinearGroup (Fin R') (GaloisField 2 f), ∃ c : GaloisField 2 f,
       c ≠ 0 ∧
       Matrix.mulVec (g : Matrix (Fin R') (Fin R') (GaloisField 2 f)) v₁ = c • v₂ := by
-  haveI : NeZero R' := ⟨fun h => hv₁ (by subst h; exact Subsingleton.elim _ _)⟩
+  have : NeZero R' := ⟨fun h => hv₁ (by subst h; exact Subsingleton.elim _ _)⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq
     (M := Matrix.SpecialLinearGroup (Fin R') (GaloisField 2 f))
     (Projectivization.mk (GaloisField 2 f) v₁ hv₁)
@@ -8076,7 +8051,7 @@ private theorem bmdual_transpose_vecMulVec_phi (R' f : ℕ) (j : Fin R')
     Matrix.one_mulVec, Matrix.vecMulVec_mulVec,
     show φ ⬝ᵥ (Pi.single j (1 : GaloisField 2 f) : Fin R' → GaloisField 2 f) = φ j from by
       rw [dotProduct_comm]; exact bmdual_single_dotProduct_vec R' f j φ]
-  simp only [add_right_inj, op_smul_eq_smul]
+  simp only [op_smul_eq_smul]
 
 private theorem bmdual_mulVec_vecMulVec_phi (R' f : ℕ) (hR : 1 ≤ R')
     (φ w : Fin R' → GaloisField 2 f) (h : w (⟨0, by omega⟩ : Fin R') = 0) :
@@ -8202,12 +8177,12 @@ private theorem bmdual_diagVec_apply_two (R' f : ℕ) (hR3 : 3 ≤ R') (c : Galo
   have h20 : (⟨2, by omega⟩ : Fin R') ≠ ⟨0, by omega⟩ := by
     intro hh
     have hh' := Fin.ext_iff.mp hh
-    simp only [Fin.val_mk] at hh'
+    simp only at hh'
     omega
   have h21 : (⟨2, by omega⟩ : Fin R') ≠ ⟨1, by omega⟩ := by
     intro hh
     have hh' := Fin.ext_iff.mp hh
-    simp only [Fin.val_mk] at hh'
+    simp only at hh'
     omega
   simp [bmdual_diagVec, h20, h21]
 
@@ -8617,7 +8592,7 @@ private theorem bmdual_exists_sl_map_pair (R' f : ℕ)
     exact h3
   · exfalso
     have hle : R' ≤ 1 := by omega
-    haveI : Subsingleton (Fin R') :=
+    have : Subsingleton (Fin R') :=
       ⟨fun a b => Fin.ext (by have ha := a.isLt; have hb := b.isLt; omega)⟩
     obtain ⟨i, hi⟩ := bmdual_exists_coord_ne_zero R' f v₁ hv₁
     obtain ⟨j, hj⟩ := bmdual_exists_coord_ne_zero R' f φ₁ hφ₁
@@ -8649,11 +8624,11 @@ private theorem bmdual_map_conj_comap {G H : Type*} [Group G] [Group H]
       = Subgroup.comap f (Subgroup.map (MulAut.conj (f g)).toMonoidHom L) := by
   have hconj : ∀ y : G, f (MulAut.conj g y) = MulAut.conj (f g) (f y) := by
     intro y
-    simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, inv_inv, mul_assoc]
+    simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]
   have hconj_inv : ∀ y : G, f (MulAut.conj g⁻¹ y) = (MulAut.conj (f g))⁻¹ (f y) := by
     intro y
     rw [MulAut.conj_apply, MulAut.conj_inv_apply]
-    simp [map_mul, map_inv, mul_inv_rev, inv_inv, mul_assoc]
+    simp [map_mul, map_inv, inv_inv, mul_assoc]
   have hconj_inv' : ∀ y : G, (MulAut.conj (f g))⁻¹ (f y) = f (MulAut.conj g⁻¹ y) :=
     fun y => (hconj_inv y).symm
   ext x
@@ -8678,11 +8653,11 @@ private theorem bmdual_map_conj_comp {G H : Type*} [Group G] [Group H]
   · rintro ⟨k, hk, rfl⟩
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hk
     exact Subgroup.mem_map.mpr ⟨f a, Subgroup.mem_map.mpr ⟨a, ha, rfl⟩, by
-      simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, mul_assoc]⟩
+      simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]⟩
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.mp hy
     exact Subgroup.mem_map.mpr ⟨MulAut.conj g k, Subgroup.mem_map.mpr ⟨k, hk, rfl⟩, by
-      simp [MulAut.conj_apply, map_mul, map_inv, mul_inv_rev, mul_assoc]⟩
+      simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]⟩
 
 private theorem bmdual_map_conj_map_comap {G H : Type*} [Group G] [Group H]
     (f : G →* H) (g : G) (K : Subgroup G) :
@@ -9006,9 +8981,9 @@ private theorem bmdualx_block_rank_eq (n f R r' : ℕ)
     bmdualx_rank_conj_eq f hPP hPinvP, bmdualx_rank_reindex_D0 n f R r' eidx]
 
 theorem exists_blockModel_dualPair_POmegaPlus_explicit
-    (k f : ℕ) (hf : 1 ≤ f) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (k f : ℕ) (_hf : 1 ≤ f) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hpair : formAdj (RingHom.id (GaloisField 2 f))
@@ -9081,9 +9056,9 @@ theorem exists_blockModel_dualPair_POmegaPlus_explicit
         (bmdual_modelHom_surjective f R f (RingEquiv.refl (GaloisField 2 f)))]
 
 theorem exists_blockModelClosure_dualPair_POmegaPlus_explicit
-    (k f : ℕ) (hf : 1 ≤ f) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
+    (k f : ℕ) (_hf : 1 ≤ f) (S : Set (GL (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)))
     (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadPlus (k + 3) (GaloisField 2 f))).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin (k + 3) ⊕ Fin (k + 3)) (Fin (k + 3) ⊕ Fin (k + 3)) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hpair : formAdj (RingHom.id (GaloisField 2 f))

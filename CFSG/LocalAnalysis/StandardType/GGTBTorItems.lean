@@ -312,7 +312,7 @@ theorem GGTorusTorWit.pairing {p m N : ℕ} {L' : Type} [Group L'] [Finite L']
       ggZetaP_exists_pow hp hm0 hpm _
         (by rw [← ggTor_alpha_pow _ _ (hαmul k) _ (hAT a.2), hA.2 _ a.2,
           ggTor_alpha_one _ _ (hαmul k)])
-    simp only [αb, dif_pos hex]
+    simp only [αb, dite_eq_left hex]
     rw [ZMod.val_natCast, ggZetaP_pow_mod hpm]
     exact hex.choose_spec
   refine ⟨αb, hroot, fun i j hj => ?_, fun k a => ?_⟩

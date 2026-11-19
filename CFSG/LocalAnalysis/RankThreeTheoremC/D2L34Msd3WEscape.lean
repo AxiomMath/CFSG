@@ -166,7 +166,7 @@ theorem D2L34BetaConf3.exists_escape_of_good (hc : D2L34BetaConf3 d P M A H R Rb
   obtain ⟨T, hXT⟩ := hXp.exists_le_sylow
   set E₀ : Subgroup G := (T : Subgroup N₁).map N₁.subtype with hE₀
   have hXE₀ : X ≤ E₀ := fun x hx => ⟨⟨x, hXN₁ hx⟩, hXT (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hE₀p : IsPGroup 3 E₀ := T.isPGroup'.map N₁.subtype
+  have hE₀p : IsPGroup 3 E₀ := T.isPGroup.map N₁.subtype
   have hX2 : 2 ≤ CFSG.Open.pRank 3 X :=
     two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num) hX hXc
   have hE₀M : E₀ ≤ M := le_of_pGroup_of_normRankTwo hN hE₀p hXE₀ hXM hX2

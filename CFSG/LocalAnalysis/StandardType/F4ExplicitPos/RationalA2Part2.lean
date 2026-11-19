@@ -110,7 +110,7 @@ theorem unitary_full_intertwining {ℓ f : ℕ} {k : Type} [Field k] {Ω : Type}
   simp only [hHs, hτGdef, MonoidHom.comp_apply]
 
 theorem unitary_full_intertwining_diagonal_algClosed {f : ℕ} {Ω : Type} [Field Ω]
-    [IsAlgClosed Ω] {n : ℕ} (hf : 1 ≤ f) (hn : 3 ≤ n) (σ : Ω →+* Ω)
+    [IsAlgClosed Ω] {n : ℕ} (_hf : 1 ≤ f) (hn : 3 ≤ n) (σ : Ω →+* Ω)
     (hσc : ∀ c, σ c = c ^ 2 ^ f) (Φ : SL(n, Ω) ≃* SL(n, Ω))
     (b : Fin n → Fin n → Ωˣ)
     (hΦ : ∀ (i j : Fin n) (hij : i ≠ j) (t : Ω),

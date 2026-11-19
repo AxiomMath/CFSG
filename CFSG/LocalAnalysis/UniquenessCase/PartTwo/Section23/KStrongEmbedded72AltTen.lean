@@ -15,8 +15,8 @@ theorem isAlt_five_of_sectionsOrder60 {Y S : Type} [Group Y] [Finite Y]
     (hperf : ⁅(⊤ : Subgroup Y), (⊤ : Subgroup Y)⁆ = ⊤)
     (h60 : CFSG.AGLEmbedding.A15Local.Sect.SectionsOrder60 Y)
     (f : Y →* S) (hf : Function.Surjective f) : IsAlt S 5 := by
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
-  haveI : Group.IsPerfect S := Group.IsPerfect.ofSurjective (f := f) hf
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect S := Group.IsPerfect.ofSurjective (f := f) hf
   have hna : ∃ a b : S, a * b ≠ b * a := by
     by_contra h
     have hcomm : ∀ a b : S, a * b = b * a := fun a b =>

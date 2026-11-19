@@ -49,7 +49,7 @@ theorem odd_kernel_normalizer_rank_and_noncentral_action_transfer
     rw [Subgroup.map_subgroupOf_eq_of_le hRQ] at hQmap
     exact Subgroup.le_normalizer.trans hQmap
   have hAN : A ≤ N := hAQ.trans hQN
-  have hAp : IsPGroup p A := Q.isPGroup'.to_le hAQ
+  have hAp : IsPGroup p A := Q.isPGroup.to_le hAQ
   have hzA : z ∈ Subgroup.normalizer (A : Set G) :=
     primeComplementGrowth_mem_normalizer_of_conjugate_eq A z hAz
   obtain ⟨w, hw, hsN, hsA, hsnoncentral, hs⟩ :=

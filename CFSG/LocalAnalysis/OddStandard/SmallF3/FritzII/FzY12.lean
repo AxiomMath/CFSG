@@ -48,7 +48,7 @@ theorem centralizer_le_normalizer_fzCClosure (z : G) (R : Subgroup G) :
     | mem y hy =>
       obtain ⟨g, hg, a, ha, rfl⟩ := hy
       exact subset_closure ⟨d * g, mul_mem hd hg, a, ha, by group⟩
-    | one => simpa using one_mem _
+    | one => simp
     | mul y w _ _ hy hw =>
       have : d * (y * w) * d⁻¹ = (d * y * d⁻¹) * (d * w * d⁻¹) := by group
       rw [this]; exact mul_mem hy hw
@@ -85,7 +85,7 @@ theorem fz_oddLie_or_mathieu_of_quaternion (hCIT : ClassicalInvolutionTheoremMod
   let eRJ : ↥(R.subgroupOf J) ≃* R := Subgroup.subgroupOfEquivOfLe hle
   have hRJ2 : IsPGroup 2 ↥(R.subgroupOf J) := IsPGroup.of_card (n := 3) (by
     rw [Nat.card_congr eRJ.toEquiv, hcard])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 J := hRJ2.toSylow (by simpa [Subgroup.relIndex] using hsyl)
   have hSeq : (S : Subgroup J) = R.subgroupOf J := IsPGroup.toSylow_coe _ _
   let eS : (S : Subgroup J) ≃* QuaternionGroup (2 ^ (3 - 2)) :=

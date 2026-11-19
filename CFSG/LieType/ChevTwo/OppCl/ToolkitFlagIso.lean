@@ -56,7 +56,7 @@ theorem isoSeq_inv_aux (Φ : ReflForm F V) (ρ : H →* Module.End F V) (Q : Sub
     unfold isoNext at hv ⊢
     exact ⟨hA v hv.1, perp_semiIso_inv Φ hΦ hB v hv.2⟩
 
-theorem isoFlag_inv (Φ : ReflForm F V) (ρ : H →* Module.End F V) (hρ : IsIsometric Φ ρ)
+theorem isoFlag_inv (Φ : ReflForm F V) (ρ : H →* Module.End F V) (_hρ : IsIsometric Φ ρ)
     (r : Equiv.Perm V) (hr : r ∈ semilinGroup F V) (hΦ : SemiIso Φ r) (Q : Subgroup H)
     (h1 : NormQ ρ r Q) (h2 : NormQ ρ r⁻¹ Q) :
     ∀ k, ∀ v ∈ isoFlag Φ ρ Q k, r v ∈ isoFlag Φ ρ Q k := by

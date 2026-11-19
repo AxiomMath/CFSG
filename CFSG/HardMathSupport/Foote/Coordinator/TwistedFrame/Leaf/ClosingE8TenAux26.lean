@@ -22,9 +22,13 @@ theorem two_eq_zero_L : (2 : L) = 0 := CharP.cast_eq_zero L 2
 @[expose] def emb (ω : L) (x : ℕ) : L :=
   if x = 1 then 1 else if x = 2 then ω else if x = 3 then ω + 1 else 0
 
+omit [CharP L 2] in
 @[simp] theorem emb_zero (ω : L) : emb ω 0 = 0 := by simp [emb]
+omit [CharP L 2] in
 @[simp] theorem emb_one (ω : L) : emb ω 1 = 1 := by simp [emb]
+omit [CharP L 2] in
 @[simp] theorem emb_two (ω : L) : emb ω 2 = ω := by simp [emb]
+omit [CharP L 2] in
 @[simp] theorem emb_three (ω : L) : emb ω 3 = ω + 1 := by simp [emb]
 
 theorem char2_aux {ω : L} (hω : ω ^ 2 + ω + 1 = 0) :
@@ -37,16 +41,13 @@ theorem char2_aux {ω : L} (hω : ω ^ 2 + ω + 1 = 0) :
 theorem emb_xor {ω : L} {x y : ℕ} (hx : x < 4) (hy : y < 4) :
     emb ω (x ^^^ y) = emb ω x + emb ω y := by
   have h2 := two_eq_zero_L (L := L)
-  interval_cases x <;> interval_cases y <;> simp [emb] <;> ring_nf <;> simp [h2] <;>
-    first | done | ring1 | linear_combination (-1 : L) * h2 | linear_combination (-ω) * h2 |
-      linear_combination (1 : L) * h2 | linear_combination ω * h2
+  interval_cases x <;> interval_cases y <;> simp [emb] <;> ring_nf <;> simp [h2]
 
 theorem emb_f4mulW {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {x : ℕ} (hx : x < 4) :
     emb ω (f4mulW x) = ω * emb ω x := by
   obtain ⟨h2, h3, h4, hω2, hω3⟩ := char2_aux hω
-  interval_cases x <;> simp [emb, f4mulW] <;> ring_nf <;> simp [h2, h3, hω2] <;>
-    first | done | ring1 | linear_combination (-1 : L) * h2 | linear_combination (-ω) * h2 |
-      linear_combination (1 : L) * h2 | linear_combination ω * h2
+  interval_cases x <;> simp [emb, f4mulW] <;> ring_nf <;> simp [hω2] <;>
+    first | done | ring1 | linear_combination (-1 : L) * h2 | linear_combination (-ω) * h2
 
 theorem emb_f4mul {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {sc : ℕ} (hsc : sc = 1 ∨ sc = 2) {y : ℕ}
     (hy : y < 4) : emb ω (f4mul sc y) = emb ω sc * emb ω y := by
@@ -58,10 +59,10 @@ theorem emb_f4mul {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {sc : ℕ} (hsc : sc = 1 
 theorem emb_f4sq {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {x : ℕ} (hx : x < 4) :
     emb ω (f4sq x) = emb ω x ^ 2 := by
   obtain ⟨h2, h3, h4, hω2, hω3⟩ := char2_aux hω
-  interval_cases x <;> simp [emb, f4sq] <;> ring_nf <;> simp [h2, h3, hω2] <;>
-    first | done | ring1 | linear_combination (-1 : L) * h2 | linear_combination (-ω) * h2 |
-      linear_combination (1 : L) * h2 | linear_combination ω * h2
+  interval_cases x <;> simp [emb, f4sq] <;> ring_nf <;> simp [h2, hω2] <;>
+    first | done | ring1 | linear_combination (-1 : L) * h2
 
+omit [CharP L 2] in
 theorem omega_ne_zero {ω : L} (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 0 := by
   rintro rfl
   simp at hω
@@ -81,6 +82,7 @@ theorem emb_eq_zero {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {x : ℕ} (hx : x < 4) 
   · exact absurd (by simpa using h) (omega_ne_zero hω)
   · exact absurd (by simpa using h) (omega_add_one_ne_zero hω)
 
+omit [CharP L 2] in
 theorem quad_pow4 {z : L} (hz : z ^ 2 + z + 1 = 0) : z ^ 4 = z := by
   linear_combination z * (z - 1) * hz
 
@@ -117,6 +119,7 @@ variable {L : Type} [Field L] [CharP L 2]
 @[expose] def decvX (ω : L) (Xs : List ℕ) : Fn L :=
   ∑ i ∈ Finset.range 20, (Pi.single (nuW i) (emb ω (Xs.getD i 0)) : Fn L)
 
+omit [CharP L 2] in
 theorem decvX_apply_nuW (ω : L) (Xs : List ℕ) {i : ℕ} (hi : i < 20) :
     decvX ω Xs (nuW i) = emb ω (Xs.getD i 0) := by
   unfold decvX
@@ -126,19 +129,20 @@ theorem decvX_apply_nuW (ω : L) (Xs : List ℕ) {i : ℕ} (hi : i < 20) :
     have hj' : j < 20 := Finset.mem_range.1 hj
     have : nuW j ≠ nuW i := fun h =>
       hji (nuW_inj j (List.mem_range.2 hj') i (List.mem_range.2 hi) h)
-    simp [Pi.single_apply, Ne.symm this]
+    simp [Ne.symm this]
   · intro h
     exact absurd (Finset.mem_range.2 hi) h
 
+omit [CharP L 2] in
 theorem decvX_apply_out (ω : L) (Xs : List ℕ) {μ : Fin Tag.E8.rank → ℤ} (h : ∀ j < 20, nuW j ≠ μ) :
     decvX ω Xs μ = 0 := by
   unfold decvX
   rw [Finset.sum_apply]
   apply Finset.sum_eq_zero
   intro j hj
-  simp [Pi.single_apply, Ne.symm (h j (Finset.mem_range.1 hj))]
+  simp [Ne.symm (h j (Finset.mem_range.1 hj))]
 
-theorem decvX_add {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {Xs Ys Zs : List ℕ}
+theorem decvX_add {ω : L} (_hω : ω ^ 2 + ω + 1 = 0) {Xs Ys Zs : List ℕ}
     (h : ∀ i < 20, Zs.getD i 0 = Xs.getD i 0 ^^^ Ys.getD i 0)
     (hX : ∀ i, Xs.getD i 0 < 4) (hY : ∀ i, Ys.getD i 0 < 4) :
     decvX ω Zs = decvX ω Xs + decvX ω Ys := by
@@ -147,6 +151,7 @@ theorem decvX_add {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {Xs Ys Zs : List ℕ}
   refine Finset.sum_congr rfl fun i hi => ?_
   rw [h i (Finset.mem_range.1 hi), emb_xor (ω := ω) (hX i) (hY i), Pi.single_add]
 
+omit [CharP L 2] in
 theorem decvX_ext (ω : L) {Xs Ys : List ℕ} (h : ∀ i < 20, Xs.getD i 0 = Ys.getD i 0) :
     decvX ω Xs = decvX ω Ys := by
   unfold decvX
@@ -164,6 +169,7 @@ theorem decv_zero {ω : L} (hω : ω ^ 2 + ω + 1 = 0) : decv ω 0 = 0 := by
   rw [Nat.xor_zero] at h
   simpa using h
 
+omit [CharP L 2] in
 theorem decv_apply_nuW (ω : L) {b i : ℕ} (hi : i < 20) :
     decv ω b (nuW i) = emb ω ((expandV b).getD i 0) := decvX_apply_nuW ω _ hi
 
@@ -195,7 +201,7 @@ theorem decv_pair {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {k a : ℕ} (hk : k < 10)
   · push Not at hμ
     rw [decv, decvX_apply_out ω _ hμ]
     simp only [Pi.add_apply, Pi.single_apply]
-    rw [if_neg (Ne.symm (hμ _ h1)), if_neg (Ne.symm (hμ _ h2))]
+    rw [ite_eq_right (Ne.symm (hμ _ h1)), ite_eq_right (Ne.symm (hμ _ h2))]
     simp
 
 end Dec
@@ -218,10 +224,10 @@ theorem aE8_char2 {γ μ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinset Tag
     (hμ : μ ∈ deg1Roots) :
     (aE8 γ μ : L) = if γ + μ ∈ rootFinset Tag.E8 then 1 else 0 := by
   by_cases h : γ + μ ∈ rootFinset Tag.E8
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h1 := (adm_aE8 γ hγ hγ0 μ hμ).1 h
     rcases abs_eq (zero_le_one' ℤ) |>.1 h1 with h1 | h1 <;> rw [h1] <;> simp [CharTwo.neg_eq]
-  · rw [if_neg h, (adm_aE8 γ hγ hγ0 μ hμ).2 h]
+  · rw [ite_eq_right h, (adm_aE8 γ hγ hγ0 μ hμ).2 h]
     simp
 
 theorem factor_lemma {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {t q : ℕ} (ht : t < 4) (hq : q < 3)
@@ -241,15 +247,15 @@ theorem factor_lemma {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {t q : ℕ} (ht : t < 
     · have hs : (srcT ((triples.getD t []).getD q [])).getD i 20 < 20 := hlt
       have hs' : nuW ((srcT ((triples.getD t []).getD q [])).getD i 20) + trRoot t q = nuW i := hadd
       set s := (srcT ((triples.getD t []).getD q [])).getD i 20 with hsdef
-      rw [if_pos hs, emb_xor (hX i) (f4mul_lt sc _ (hX s)), emb_f4mul hω hsc (hX s)]
+      rw [ite_eq_left hs, emb_xor (hX i) (f4mul_lt sc _ (hX s)), emb_f4mul hω hsc (hX s)]
       have e1 : nuW i - trRoot t q = nuW s := (eq_sub_of_add_eq hs').symm
       rw [e1, decvX_apply_nuW ω Xs hs, aE8_char2 hγ.1 hγ.2 (nuW_deg1 hs),
-        if_pos (by rw [add_comm, hs']; exact nuW_root hi)]
+        ite_eq_left (by rw [add_comm, hs']; exact nuW_root hi)]
       ring
     · have h20' : ¬ (srcT ((triples.getD t []).getD q [])).getD i 20 < 20 := by
         have : (srcT ((triples.getD t []).getD q [])).getD i 20 = 20 := h20
         omega
-      rw [if_neg h20', Nat.xor_zero]
+      rw [ite_eq_right h20', Nat.xor_zero]
       rw [decvX_apply_out ω Xs (μ := nuW i - trRoot t q) (fun j hj h => hnone j (List.mem_range.2 hj)
         (by rw [h]; abel))]
       ring
@@ -262,7 +268,7 @@ theorem factor_lemma {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {t q : ℕ} (ht : t < 
       · exfalso
         obtain ⟨i, hi, hie⟩ := hcl j (List.mem_range.2 hj) (by rwa [add_comm])
         exact hμ i (List.mem_range.1 hi) (by rw [hie, hjμ])
-      · rw [hjeq.symm, aE8_char2 hγ.1 hγ.2 (nuW_deg1 hj), if_neg hroot]
+      · rw [hjeq.symm, aE8_char2 hγ.1 hγ.2 (nuW_deg1 hj), ite_eq_right hroot]
         ring
     · push Not at h2
       rw [decvX_apply_out ω Xs h2]
@@ -282,11 +288,11 @@ variable {L : Type} [Field L] [CharP L 2]
     actOp aE8 (trRoot (g % 4) 2) (emb ω 2) ∘ₗ actOp aE8 (trRoot (g % 4) 1) (emb ω 1) ∘ₗ
       actOp aE8 (trRoot (g % 4) 0) (emb ω 1)
 
-theorem genOp_decvX {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {g : ℕ} (hg : g < 8) {Xs : List ℕ}
+theorem genOp_decvX {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {g : ℕ} (_hg : g < 8) {Xs : List ℕ}
     (hX : ∀ i, Xs.getD i 0 < 4) : genOp ω g (decvX ω Xs) = decvX ω (modelGen g Xs) := by
   unfold genOp modelGen genFac
   by_cases hg4 : g < 4
-  · simp only [if_pos hg4, Nat.mod_eq_of_lt hg4, List.foldr_cons, List.foldr_nil]
+  · simp only [ite_eq_left hg4, Nat.mod_eq_of_lt hg4, List.foldr_cons, List.foldr_nil]
     rw [LinearMap.comp_apply, LinearMap.comp_apply,
       factor_lemma hω hg4 (by norm_num : 2 < 3) (Or.inr rfl) hX,
       factor_lemma hω hg4 (by norm_num : 1 < 3) (Or.inl rfl)
@@ -294,7 +300,7 @@ theorem genOp_decvX {ω : L} (hω : ω ^ 2 + ω + 1 = 0) {g : ℕ} (hg : g < 8) 
       factor_lemma hω hg4 (by norm_num : 0 < 3) (Or.inl rfl)
         (modelFactor_lt _ _ _ (modelFactor_lt _ _ _ hX))]
   · have hm : g % 4 < 4 := Nat.mod_lt _ (by norm_num)
-    simp only [if_neg hg4, List.foldr_cons, List.foldr_nil]
+    simp only [ite_eq_right hg4, List.foldr_cons, List.foldr_nil]
     rw [LinearMap.comp_apply, LinearMap.comp_apply,
       factor_lemma hω hm (by norm_num : 0 < 3) (Or.inl rfl) hX,
       factor_lemma hω hm (by norm_num : 1 < 3) (Or.inl rfl)

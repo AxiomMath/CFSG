@@ -17,7 +17,7 @@ theorem bridge_B2_three {S : Type} [Group S] (q : TauCeti.PrimePower)
   have hm := CFSG.QuasithinUnique.SQTK.statedClassicalModel_typeB2 q hv e
   rw [hpe.1, hpe.2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card (ZMod 3) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card]
     simpa using hK

@@ -42,7 +42,7 @@ theorem gh23_mem_of_join_closed {G : Type*} [Group G] [Finite G] (𝓜 : Set (Su
     (A : Subgroup G) (hjoin : ∀ K ∈ 𝓜, ∀ σ ∈ A, K ⊔ Subgroup.zpowers σ ∈ 𝓜) {H : Subgroup G}
     (hH : H ≤ A) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓜) (h0 : K₀ ≤ H) : H ∈ 𝓜 := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have key : ∀ t : Finset G, ((t : Set G) ⊆ (H : Set G)) →
       K₀ ⊔ Subgroup.closure (t : Set G) ∈ 𝓜 := by
     intro t

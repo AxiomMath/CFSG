@@ -144,7 +144,7 @@ private theorem ggQ2s08g1_inf_pcore_le {G : Type} [Group G] {p : ℕ} {Y X O : S
 theorem ggQ2s08_cross_commutes {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {H X X' Bs : Subgroup G} (hX : LargeEvenPComponent p H X) (hX' : LargeEvenPComponent p H X')
     (hne : X ≠ X') (hBp : ∀ b ∈ Bs, b ^ p = 1) (hBH : Bs ≤ H)
-    (hBX : Bs ≤ Subgroup.normalizer (X : Set G)) (hBX' : Bs ≤ Subgroup.normalizer (X' : Set G))
+    (_hBX : Bs ≤ Subgroup.normalizer (X : Set G)) (hBX' : Bs ≤ Subgroup.normalizer (X' : Set G))
     {n : G} (hnX : n ∈ X) (hnN : n ∈ Subgroup.normalizer (Bs : Set G)) :
     (∀ z ∈ Bs, ⁅X, Subgroup.zpowers z⁆ ≤ LargeEvenPPrimeCoreOf p X → n * z * n⁻¹ = z) ∧
       ∀ b ∈ Bs, ⁅n, b⁆ ∈ Bs ∧ ⁅X', Subgroup.zpowers ⁅n, b⁆⁆ ≤ LargeEvenPPrimeCoreOf p X' := by

@@ -40,7 +40,7 @@ theorem s16k_finrank_two_of_nofix {K : Type} [Field K] [Finite K] (hK : Nat.card
     (hnofix : ∀ u ∈ U, (g : Matrix (Fin n) (Fin n) K) *ᵥ u = u → u = 0) :
     2 ≤ Module.finrank K U := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : (Fin n → K) ≃ₗ[K] (Fin n → K) :=
     (Matrix.GeneralLinearGroup.toLin g).toLinearEquiv
   have hf_apply : ∀ v : Fin n → K, f v = (g : Matrix (Fin n) (Fin n) K) *ᵥ v := by
@@ -98,12 +98,12 @@ theorem s16k_finrank_two_of_nofix {K : Type} [Field K] [Finite K] (hK : Nat.card
     have h3 : (g : Matrix (Fin n) (Fin n) K) *ᵥ u₀ = u₀ := by rwa [hf_apply] at h1
     exact hu₀ (hnofix u₀ hu₀U h3)
   have horder : orderOf gU = p := orderOf_eq_prime hgU_pow hgU_ne
-  haveI : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
+  have : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
   have hcardz : Nat.card ↥(Subgroup.zpowers gU) = p := by
     rw [Nat.card_zpowers, horder]
-  haveI hGp : IsPGroup p ↥(Subgroup.zpowers gU) :=
+  have hGp : IsPGroup p ↥(Subgroup.zpowers gU) :=
     IsPGroup.of_card (n := 1) (by rw [hcardz, pow_one])
-  letI : MulAction ↥(Subgroup.zpowers gU) U :=
+  let : MulAction ↥(Subgroup.zpowers gU) U :=
     MulAction.compHom U (Subgroup.subtype (Subgroup.zpowers gU))
   have hfixset : Nat.card ↥(MulAction.fixedPoints ↥(Subgroup.zpowers gU) U) = 1 := by
     refine Nat.card_eq_one_iff_unique.mpr ⟨⟨fun a b => Subtype.ext ?_⟩, ⟨⟨(0 : U), ?_⟩⟩⟩
@@ -150,8 +150,8 @@ theorem s16k_exists_herm_eq_zero_of_two_le_finrank {K : Type*} [Field K]
     (U : Submodule K (Fin n → K)) (hU : 2 ≤ Module.finrank K U) :
     ∃ u ∈ U, u ≠ 0 ∧ herm σ u u = 0 := by
   classical
-  haveI : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
-  haveI : Module.Free K U := Module.Free.of_divisionRing K U
+  have : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
+  have : Module.Free K U := Module.Free.of_divisionRing K U
   obtain ⟨c, hcU, hc0⟩ : ∃ c ∈ U, c ≠ 0 := by
     obtain ⟨x, hx⟩ := Module.finrank_pos_iff_exists_ne_zero.mp (by omega : 0 < Module.finrank K U)
     exact ⟨x.1, x.2, fun h => hx (Subtype.ext h)⟩
@@ -207,7 +207,7 @@ theorem s16k_exists_herm_ne_zero_of_fixed {K : Type*} [Field K] [Finite K]
     ∃ w : Fin n → K, herm σ w w ≠ 0 ∧
       ∀ b ∈ B, (b : Matrix (Fin n) (Fin n) K) *ᵥ w = w := by
   classical
-  haveI : Fintype ↥B := Fintype.ofFinite ↥B
+  have : Fintype ↥B := Fintype.ofFinite ↥B
   let M : ↥B → (Fin n → K) →ₗ[K] (Fin n → K) := fun b =>
     Matrix.mulVecLin ((b : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K)
   have hM_apply : ∀ (b : ↥B) (v : Fin n → K),

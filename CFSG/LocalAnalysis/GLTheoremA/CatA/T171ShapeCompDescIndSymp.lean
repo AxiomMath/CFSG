@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 
 theorem sympComponentDescent_inv_holds :
-    ∀ {G : Type} [Group G] [Finite G] (p : ℕ) (L J A : Subgroup G) (d b : G) (m n : ℕ)
+    ∀ {G : Type} [Group G] [Finite G] (p : ℕ) (L J A : Subgroup G) (d b : G) (m _n : ℕ)
       (K : Type) [Field K] [Finite K] (x y : StatedSp m K)
       (θ : ↥L ⧸ Subgroup.center ↥L ≃* StatedProj (StatedSp m K)),
       (hS : Setup p L J A d b) →
@@ -29,7 +29,7 @@ theorem sympComponentDescent_inv_holds :
           MulAut.congr e (CFSG.LocalAnalysis.GLTheoremA.MI.indAut p J b hS.b_norm) =
             CFSG.LocalAnalysis.GLTheoremA.MI.indAut p ((J.subgroupOf L).map (piCenterQuot θ))
               (proj m K y)⁻¹ (Subgroup.inv_mem _ hN) := by
-  intro G _ _ p L J A d b m n K _ _ x y θ hS _hd hind hN
+  intro G _ _ p L J A d b m _n K _ _ x y θ hS _hd hind hN
   exact componentDescentIndAut_inv_holds p L J A d b θ (proj m K y) hS hind hN
 
 theorem sympComponentDescent_holds : SympComponentDescent :=

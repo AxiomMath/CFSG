@@ -175,7 +175,7 @@ private theorem decEq_snd (m i j : ℕ) :
         w12UIota (w12UDecU.getD (m * 20 + i * 2 + j) 0) ++
         [(16, w12UDecEps.getD (m * 20 + i * 2 + j) 0)] ++
         (w12UDecP.getD (m * 20 + i * 2 + j) []).map fun q => (17 + q.1 % 5, q.2) := by
-    simp only [w12UDecEq, Array.getElem!_eq_getD] <;> rfl
+    simp only [w12UDecEq, Array.getElem!_eq_getD]; rfl
   rw [e1, evalE_append, evalE_append, evalE_append, ← iotaE_apply]
   simp only [evalE_cons, evalE_nil, pow_one, mul_one]
 

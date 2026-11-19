@@ -57,7 +57,7 @@ theorem exists_mulEquiv_extend_of_mul_self_eq_one
     {G G' : Type*} [Group G] [Group G'] [Finite G] [Finite G']
     {N C : Subgroup G} {N' C' : Subgroup G'} (hCN : C ≤ N) (hCN' : C' ≤ N')
     (hnorm : ∀ n ∈ N, ∀ c ∈ C, n * c * n⁻¹ ∈ C) (hnorm' : ∀ n ∈ N', ∀ c ∈ C', n * c * n⁻¹ ∈ C')
-    {t : G} {t' : G'} (htC : t ∉ C) (htC' : t' ∉ C') (htt : t * t = 1) (htt' : t' * t' = 1)
+    {t : G} {t' : G'} (htC : t ∉ C) (htC' : t' ∉ C') (htt : t * t = 1) (_htt' : t' * t' = 1)
     (hsup : N = C ⊔ Subgroup.zpowers t) (hsup' : N' = C' ⊔ Subgroup.zpowers t')
     (hcent : ∀ g ∈ N, (∀ c ∈ C, g * c = c * g) → g ∈ C)
     (hcent' : ∀ g ∈ N', (∀ c ∈ C', g * c = c * g) → g ∈ C')
@@ -127,7 +127,7 @@ theorem exists_mulEquiv_extend_of_mul_self_eq_one
     rw [conjHom_apply, MulAut.mul_apply, MulAut.conj_apply]
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hβ_apply x]
-    simp only [m, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [m]
     group
   have hconj_sq : conjHom C N hNnorm ⟨t, htN⟩ * conjHom C N hNnorm ⟨t, htN⟩ = 1 := by
     rw [← map_mul]
@@ -261,7 +261,7 @@ theorem exists_mulEquiv_extend_of_mul_self_eq_one
       rw [hα_eq, MulAut.mul_apply, MulAut.conj_apply]
       simp only [Subgroup.coe_mul, Subgroup.coe_inv, hβ_apply]
     rw [h1]
-    simp only [m, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [m]
     group
   have hθ_val (q : ↥C) :
       (θ ((conjHom C N hNnorm ⟨t, htN⟩) q) : G') = m * (θ q : G') * m⁻¹ := by

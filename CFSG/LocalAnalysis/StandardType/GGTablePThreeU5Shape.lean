@@ -115,7 +115,7 @@ section Certificates
 theorem uni5_shape
     {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1)
-    {d : GL (Fin 5) K} (hd : d ∈ CFSG.Open.StatedSU 5 q K) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
+    {d : GL (Fin 5) K} (hd : d ∈ CFSG.Open.StatedSU 5 q K) (hd3 : d ^ 3 = 1) (_hd1 : d ≠ 1)
     {δ' : MulAut (PSUg 5 K q)} (hδ : IsConjBy d δ')
     {J' : Subgroup (PSUg 5 K q)} (hJc : IsComponentOf J' (ggAutFixedSubgroup δ'))
     (huniq : ∀ Q : Subgroup (PSUg 5 K q), IsComponentOf Q (ggAutFixedSubgroup δ') → Q = J')
@@ -210,7 +210,7 @@ theorem uni5_shape
           .PSU (Module.finrank K (cubeEigen d α)) 2 f :=
         CFSG.RankThree.PartOne.lieModel_of_scm_psu hscmX
       obtain ⟨e⟩ := hiso
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       obtain ⟨p, hchar, n, hp, hcard'⟩ := FiniteField.card' (K := F)
       have hcard'' : Nat.card F = p ^ (n : ℕ) := by
         rw [Nat.card_eq_fintype_card, hcard']
@@ -255,7 +255,7 @@ theorem uni5_shape
           (by rintro ⟨h, -⟩; exact absurd h (by decide))
           (by rintro ⟨h, -⟩; exact absurd h (by decide))
           (by rintro ⟨-, -, h, -⟩; exact absurd h (by decide))
-      haveI : CharP F 2 := by rw [← hp2]; exact hchar
+      have : CharP F 2 := by rw [← hp2]; exact hchar
       obtain ⟨f', hf', hq'pow⟩ := ToralCensus.exists_eq_two_pow_of_card_eq_sq hF
       rw [hq'pow] at hF hq' e
       have hF'' : Nat.card F = (2 ^ f') ^ 2 := hF

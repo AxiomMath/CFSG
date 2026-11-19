@@ -18,19 +18,22 @@ open CFSG.ComponentClassification.RankTwoClassical.URigid
 
 variable {m n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private lemma borel86_un_one_le_of_ne_zero {u : Fin m → F} (hu : u ≠ 0) : 1 ≤ m := by
   obtain ⟨j, _⟩ := Function.ne_iff.mp hu
   exact Fin.pos_iff_nonempty.mpr ⟨j⟩
 
+omit [Finite F] in
 private lemma borel86_un_W_ne_zero (h : UnitaryFieldData 2 n F) {u : Fin m → F}
     (hu : u ≠ 0) : vecMulVec u (h.bar ∘ u) ≠ 0 := by
   obtain ⟨j, hj⟩ := Function.ne_iff.mp hu
   simp only [Pi.zero_apply] at hj
   intro h0
   have hentry := congrFun (congrFun h0 j) j
-  simp only [vecMulVec_apply, Function.comp_apply, Pi.zero_apply] at hentry
+  simp only [vecMulVec_apply, Function.comp_apply] at hentry
   exact mul_ne_zero hj (fun hb0 => hj (h.bar_eq_zero_iff.mp hb0)) hentry
 
+omit [Finite F] in
 private lemma borel86_un_one_add_smul_sq [CharP F 2] (b : F) {W : Matrix (Fin n) (Fin n) F}
     (hW2 : W * W = 0) : (1 + b • W) * (1 + b • W) = 1 := by
   have h1 : (1 + b • W) * (1 + b • W) =
@@ -46,6 +49,7 @@ private lemma borel86_un_inv_val (h : UnitaryFieldData 2 n F) (S : StatedSU m (2
   Units.inv_eq_of_mul_eq_one_right
     (mul_eq_one_comm.mp (adjM_mul_self_of_mem_statedSU h.bar_bar h.bar_apply S.2))
 
+omit [Finite F] in
 private lemma borel86_un_conj_W (h : UnitaryFieldData 2 n F) (S : StatedSU m (2 ^ n) F)
     (a : Fin m → F) :
     (S : GL (Fin m) F).val * vecMulVec a (h.bar ∘ a) * adjM h.bar (S : GL (Fin m) F).val =
@@ -64,6 +68,7 @@ private lemma borel86_un_conj_W (h : UnitaryFieldData 2 n F) (S : StatedSU m (2 
         funext i
         exact (RingHom.map_mulVec h.bar (S : GL (Fin m) F).val a i).symm
 
+omit [Finite F] in
 private lemma borel86_un_commute_SU_iff (h : UnitaryFieldData 2 n F) {u : Fin m → F}
     {b : F} (hb0 : b ≠ 0) {N : StatedSU m (2 ^ n) F}
     (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u))
@@ -88,14 +93,15 @@ private lemma borel86_un_commute_SU_iff (h : UnitaryFieldData 2 n F) {u : Fin m 
     rw [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul, Matrix.mul_smul,
       Matrix.smul_mul, hW]
 
+omit [Finite F] in
 private lemma borel86_un_mk_commute_iff (h : UnitaryFieldData 2 n F) {u : Fin m → F}
-    (hu : u ≠ 0) (huu : hform h.bar u u = 0) {b : F} (hb0 : b ≠ 0)
+    (hu : u ≠ 0) (huu : hform h.bar u u = 0) {b : F} (_hb0 : b ≠ 0)
     {N : StatedSU m (2 ^ n) F}
     (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u))
     (Y : StatedSU m (2 ^ n) F) :
     (QuotientGroup.mk Y : StatedProj (StatedSU m (2 ^ n) F)) * QuotientGroup.mk N =
         QuotientGroup.mk N * QuotientGroup.mk Y ↔ Y * N = N * Y := by
-  haveI := h.charP
+  have := h.charP
   have hm1 : 1 ≤ m := borel86_un_one_le_of_ne_zero hu
   have hNN : N * N = 1 :=
     mul_self_eq_one_of_val hN (borel86_un_one_add_smul_sq b (vecMulVec_mul_self h huu))
@@ -105,12 +111,13 @@ private lemma borel86_un_mk_commute_iff (h : UnitaryFieldData 2 n F) {u : Fin m 
   · intro hY
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hY]
 
+omit [Finite F] in
 theorem borel86_un_exists_eq_mk (h : UnitaryFieldData 2 n F)
     {t₀ : StatedProj (StatedSU m (2 ^ n) F)} (ht : IsUnitaryTransvectionIn m n t₀) :
     ∃ (a : Fin m → F) (c : F) (N₀ : StatedSU m (2 ^ n) F), a ≠ 0 ∧ hform h.bar a a = 0 ∧
       c ≠ 0 ∧ h.bar c = c ∧ (N₀ : GL (Fin m) F).val = 1 + c • vecMulVec a (h.bar ∘ a) ∧
       (QuotientGroup.mk N₀ : StatedProj (StatedSU m (2 ^ n) F)) = t₀ := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨g, hgt, hr⟩ := ht
   let M : GL (Fin m) F := (g : GL (Fin m) F)
   obtain ⟨p, φ, hpφ⟩ :=
@@ -142,6 +149,7 @@ theorem borel86_un_exists_eq_mk (h : UnitaryFieldData 2 n F)
   refine ⟨a, c, g, ha, haa, hc0, hc, ?_, hgt⟩
   rw [← hac, add_comm, sub_add_cancel]
 
+omit [Finite F] in
 theorem borel86_un_ne_one (h : UnitaryFieldData 2 n F) {t₀ : StatedProj (StatedSU m (2 ^ n) F)}
     (ht : IsUnitaryTransvectionIn m n t₀) : t₀ ≠ 1 := by
   intro ht1
@@ -173,7 +181,7 @@ theorem borel86_un_exists_conj (h : UnitaryFieldData 2 n F) (hm : 3 ≤ m) {a u 
     (hN₀ : (N₀ : GL (Fin m) F).val = 1 + c • vecMulVec a (h.bar ∘ a))
     (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u)) :
     ∃ S : StatedSU m (2 ^ n) F, S * N₀ * S⁻¹ = N := by
-  haveI := h.charP
+  have := h.charP
   have hbc : h.bar (b / c) = b / c := by rw [map_div₀, hb, hc]
   obtain ⟨μ, hμ⟩ := h.normHom_surjective ⟨b / c, h.mem_fixedField.2 hbc⟩
   have hμ' : μ * h.bar μ = b / c := by
@@ -204,6 +212,7 @@ theorem borel86_un_exists_conj (h : UnitaryFieldData 2 n F) (hm : 3 ≤ m) {a u 
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hN₀, hN]
   exact hmain
 
+omit [Finite F] in
 theorem borel86_un_commute_mk_iff (h : UnitaryFieldData 2 n F) {u : Fin m → F} (hu : u ≠ 0)
     (huu : hform h.bar u u = 0) {b b' : F} (hb0 : b ≠ 0) (hb0' : b' ≠ 0)
     {N N' : StatedSU m (2 ^ n) F}
@@ -217,12 +226,13 @@ theorem borel86_un_commute_mk_iff (h : UnitaryFieldData 2 n F) {u : Fin m → F}
     borel86_un_mk_commute_iff h hu huu hb0' hN' Y]
   rw [borel86_un_commute_SU_iff h hb0 hN Y, borel86_un_commute_SU_iff h hb0' hN' Y]
 
+omit [Finite F] in
 theorem borel86_un_mk_ne_mk (h : UnitaryFieldData 2 n F) {u : Fin m → F} (hu : u ≠ 0)
     (huu : hform h.bar u u = 0) {b b' : F} (hbb : b ≠ b') {N N' : StatedSU m (2 ^ n) F}
     (hN : (N : GL (Fin m) F).val = 1 + b • vecMulVec u (h.bar ∘ u))
     (hN' : (N' : GL (Fin m) F).val = 1 + b' • vecMulVec u (h.bar ∘ u)) :
     (QuotientGroup.mk N : StatedProj (StatedSU m (2 ^ n) F)) ≠ QuotientGroup.mk N' := by
-  haveI := h.charP
+  have := h.charP
   have hm1 : 1 ≤ m := borel86_un_one_le_of_ne_zero hu
   have hNN : N * N = 1 :=
     mul_self_eq_one_of_val hN (borel86_un_one_add_smul_sq b (vecMulVec_mul_self h huu))
@@ -240,6 +250,7 @@ theorem borel86_un_mk_ne_mk (h : UnitaryFieldData 2 n F) {u : Fin m → F} (hu :
       (hsub.trans (smul_zero (b - b')).symm)
   exact absurd hW0 (borel86_un_W_ne_zero h hu)
 
+omit [Finite F] in
 theorem borel86_un_exists_fixed_ne (h : UnitaryFieldData 2 n F) (hn : 1 < n) :
     ∃ d : F, d ≠ 0 ∧ d ≠ 1 ∧ h.bar d = d := by
   have hn2 : 2 ≤ n := hn
@@ -268,7 +279,7 @@ theorem borel86_un_exists_conj_ne (h : UnitaryFieldData 2 n F) (hn : 1 < n) (hm 
     {t₀ : StatedProj (StatedSU m (2 ^ n) F)} (ht : IsUnitaryTransvectionIn m n t₀) :
     ∃ d₀ t₁ : StatedProj (StatedSU m (2 ^ n) F), d₀ * t₀ * d₀⁻¹ = t₁ ∧ t₁ ≠ t₀ ∧
       ∀ y : StatedProj (StatedSU m (2 ^ n) F), y * t₀ = t₀ * y ↔ y * t₁ = t₁ * y := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨a, c, N₀, ha, haa, hc0, hc, hN₀, hmk⟩ := borel86_un_exists_eq_mk h ht
   obtain ⟨d, hd0, hd1, hd⟩ := borel86_un_exists_fixed_ne h hn
   have hb0 : c * d ≠ 0 := mul_ne_zero hc0 hd0

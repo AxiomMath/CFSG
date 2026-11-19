@@ -267,7 +267,7 @@ theorem nonabelian_simple_Sylow_count_minimum [Finite G] (hs : IsSimpleGroup G)
       have : 1 < p ^ a := Nat.one_lt_pow (by omega) hp.one_lt
       omega
     · have hpg : IsPGroup p G := by
-        have := P.isPGroup'
+        have := P.isPGroup
         rw [hP] at this
         exact this.of_equiv Subgroup.topEquiv
       have : Nontrivial G := hs.toNontrivial

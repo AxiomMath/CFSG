@@ -49,7 +49,7 @@ theorem center_eq_zpowers_zeta {X : Type*} [Group X] [Finite X] {k : Fin 6 → X
 theorem center_le_F0 {X : Type*} [Group X] [Finite X] {k : Fin 6 → X} (h : J3Pkg k)
     (hZ : Nat.card (center X) = 3) : center X ≤ F0 k := by
   rw [center_eq_zpowers_zeta h hZ, zpowers_le]
-  exact h.xB_mem_F0 3
+  exact CFSG.AGLEmbeddingD2.Wilson.NormalizerAction.J3Pkg.xB_mem_F0 3
 
 theorem cover_core {X L : Type*} [Group X] [Finite X] [Group L]
     (π : X →* L) (hπ : Function.Surjective π) (hker : π.ker = center X)

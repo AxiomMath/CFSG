@@ -23,10 +23,12 @@ theorem AlphaCtx.ne_one {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G}
   (catalogIs (PSimple 3 K) (isU6n n) ∧ Nat.card B = 3 ^ 3 * Nat.card ↥(B ⊓ centModSubgroup 3 K)) ∨
     (catalogIs (PSimple 3 K) (isTE6n n) ∧ Nat.card B = 3 ^ 4 * Nat.card ↥(B ⊓ centModSubgroup 3 K))
 
+omit [Finite G] in
 theorem KyCardTy.type {B K : Subgroup G} {n : ℕ} (h : KyCardTy B K n) :
     catalogIs (PSimple 3 K) (isU6n n) ∨ catalogIs (PSimple 3 K) (isTE6n n) :=
   h.imp (fun h => h.1) (fun h => h.1)
 
+omit [Finite G] in
 theorem Ky_le_cx {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G} {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hd : AlphaData p B x L b a E₀ F y E K) :
     Kf p K (Subgroup.zpowers y) ≤ cx y := by
@@ -78,12 +80,14 @@ theorem alpha_B_norm (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G} 
     rw [hS.1.2.1]
     exact Nat.pow_le_pow_right (by norm_num) hrk) hn hn1 hty
 
+omit [Finite G] in
 theorem not_essential_y {B : Subgroup G} {y : G}
     (h6 : ∀ T : Subgroup G, T ≤ cx y → IsPGroup 2 T → B ≤ Subgroup.normalizer (T : Set G) →
       (⁅T, B⁆ : Subgroup G) = ⊥) : ¬ IsEssential 3 B y := by
   rintro ⟨-, -, T, hTc, hT2, hTB, hne, -⟩
   exact hne (h6 T hTc hT2 hTB)
 
+omit [Finite G] in
 theorem normalizes_of_inYK {y : G} {K B' : Subgroup G} (hK : K ≤ cx y) (hY : InYK y K B') :
     B' ≤ Subgroup.normalizer (K : Set G) := by
   intro g hg
@@ -93,6 +97,7 @@ theorem normalizes_of_inYK {y : G} {K B' : Subgroup G} (hK : K ≤ cx y) (hY : I
       (Subgroup.mem_centralizer_singleton_iff.1 (hK hz)))
   exact Subgroup.mul_mem _ (zpow_mem hyN i) (Subgroup.le_normalizer hk)
 
+omit [Finite G] in
 theorem inducesInner_of_inYK {y : G} {K : Subgroup G} (hK : K ≤ cx y) {g : G} {i : ℤ} {k : G} (hk : k ∈ K)
     (hg : g = y ^ i * k) : InducesInnerMod p K g := by
   refine ⟨k, hk, fun z hz => ?_⟩
@@ -121,7 +126,6 @@ theorem caseAlphaEnd_chev2 {S : Type} [Group S] {n : ℕ}
       obtain ⟨d, hv⟩ := j
       simp only [isU6n, onLie] at hi
       simp only [onLie]
-      change d.characteristic = 2
       split at hi
       · rename_i q
         rw [TauCeti.LieTypeIndex.characteristic_twistedA]
@@ -137,16 +141,16 @@ theorem caseAlphaEnd_chev2 {S : Type} [Group S] {n : ℕ}
       obtain ⟨d, hv⟩ := j
       simp only [isTE6n, onLie] at hi
       simp only [onLie]
-      change d.characteristic = 2
       split at hi
       · rename_i q
         rw [TauCeti.LieTypeIndex.characteristic_twistedE6]
         exact hi.1
       · exact absurd hi id
 
+omit [Finite G] in
 theorem caseAlphaEnd_card_le_three {H : Subgroup G} (hH : IsCyclic ↥H)
     (hexp : IsElemAbelian 3 H) : Nat.card H ≤ 3 := by
-  haveI := hH
+  have := hH
   have h1 : Monoid.exponent ↥H ∣ 3 := Monoid.exponent_dvd_of_forall_pow_eq_one fun g => by
     apply Subtype.ext
     simpa using hexp.2 g.1 g.2
@@ -156,7 +160,7 @@ theorem caseAlphaEnd_card_le_three {H : Subgroup G} (hH : IsCyclic ↥H)
 
 theorem caseAlphaEnd_bstar_T_of_cycMod (hin : I1312At G 3) {B' K : Subgroup G} {y : G}
     (hKc : GLAPComponent 3 (cx y) K) (hchev : IsChevSimple 2 (PSimple 3 K))
-    (hcm : CycModSylow 3 K) (hyB' : y ∈ B') (hY : InYK y K B') (hel : IsElemAbelian 3 B')
+    (hcm : CycModSylow 3 K) (_hyB' : y ∈ B') (hY : InYK y K B') (hel : IsElemAbelian 3 B')
     (hbig : 27 ≤ Nat.card B') {T₀ : Subgroup G} (hT₀K : T₀ ≤ K) (hT₀2 : IsPGroup 2 T₀)
     (hT₀O : ¬ T₀ ≤ GLAPPrimeCoreOf 3 K) (hT₀B : B' ≤ Subgroup.normalizer (T₀ : Set G)) :
     ∃ T : Subgroup G, T ≤ K ∧ IsPGroup 2 T ∧ B' ≤ Subgroup.normalizer (T : Set G) ∧
@@ -202,6 +206,7 @@ theorem caseAlphaEnd_bstar_T_of_cycMod (hin : I1312At G 3) {B' K : Subgroup G} {
     rw [h8] at this
     omega
 
+omit [Finite G] in
 theorem caseAlphaEnd_sup_zpowers_el {K E : Subgroup G} {y : G} (hKN : K ≤ cx y) (hy3 : y ^ 3 = 1)
     (hEK : E ≤ K) (hEel : IsElemAbelian 3 E) :
     y ∈ (Subgroup.zpowers y ⊔ E : Subgroup G) ∧ InYK y K (Subgroup.zpowers y ⊔ E) ∧
@@ -268,7 +273,7 @@ theorem caseAlphaEnd_sup_zpowers {K E : Subgroup G} {y : G} (hKN : K ≤ cx y) (
       IsElemAbelian 3 (Subgroup.zpowers y ⊔ E : Subgroup G) ∧
       Nat.card (Subgroup.zpowers y ⊔ E : Subgroup G) = 3 * Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hyB', hInYK, hel⟩ := caseAlphaEnd_sup_zpowers_el hKN hy3 hEK hEel
   have hcomm : ∀ e ∈ E, Commute y e := fun e he =>
     (Subgroup.mem_centralizer_singleton_iff.1 (hKN (hEK he))).symm
@@ -302,7 +307,7 @@ theorem caseAlphaEnd_card_centMod {B K : Subgroup G} {y : G} (hB : IsElemAbelian
     (hy1 : y ≠ 1) (hKN : K ≤ cx y) (hcyc : IsCyclic ↥(B ⊓ centModSubgroup 3 K)) :
     Nat.card ↥(B ⊓ centModSubgroup 3 K) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : y ^ 3 = 1 := hB.2 y hyB
   have hyC : y ∈ B ⊓ centModSubgroup 3 K := by
     refine ⟨hyB, mem_centModSubgroup.2 ⟨?_, fun l hl => ?_⟩⟩
@@ -322,6 +327,7 @@ theorem caseAlphaEnd_card_centMod {B K : Subgroup G} {y : G} (hB : IsElemAbelian
     exact h1
   omega
 
+omit [Finite G] in
 theorem caseAlphaEnd_card_ty {B K : Subgroup G} {n : ℕ} (hty : KyCardTy B K n)
     (hC : Nat.card ↥(B ⊓ centModSubgroup 3 K) = 3) :
     (catalogIs (PSimple 3 K) (isU6n n) ∧ Nat.card B = 3 ^ 3 * 3) ∨
@@ -334,7 +340,7 @@ theorem caseAlphaEnd_card_ty {B K : Subgroup G} {n : ℕ} (hty : KyCardTy B K n)
 theorem alpha_center_ne_bot_of_mem {K : Subgroup G} {y : G} (hKN : K ≤ cx y) (hyK : y ∈ K) (hy1 : y ≠ 1)
     (hy3 : y ^ 3 = 1) : Subgroup.center (PQuot 3 K) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hbot
   have hc : (QuotientGroup.mk (⟨y, hyK⟩ : ↥K) : PQuot 3 K) ∈ Subgroup.center (PQuot 3 K) := by
     rw [Subgroup.mem_center_iff]
@@ -359,7 +365,7 @@ theorem caseAlphaEnd_bstar_of_not_mem (hin : I1015twoAt G) {B K : Subgroup G} {y
       Nat.card B' = Nat.card B ∧ T₀ ≤ K ∧ IsPGroup 2 T₀ ∧
       ¬ T₀ ≤ GLAPPrimeCoreOf 3 K ∧ B' ≤ Subgroup.normalizer (T₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : y ^ 3 = 1 := hB.2 y hyB
   have hKN : K ≤ cx y := hKc.1
   have hcases := caseAlphaEnd_card_ty hty (caseAlphaEnd_card_centMod hB hyB hy1 hKN hcyc)
@@ -388,7 +394,7 @@ theorem caseAlphaEnd_bstar_of_mem (hin : I1015coverAt G) {B K : Subgroup G} {y :
       Nat.card B' = Nat.card B ∧ T₀ ≤ K ∧ IsPGroup 2 T₀ ∧
       ¬ T₀ ≤ GLAPPrimeCoreOf 3 K ∧ B' ≤ Subgroup.normalizer (T₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : y ^ 3 = 1 := hB.2 y hyB
   have hKN : K ≤ cx y := hKc.1
   have hcases := caseAlphaEnd_card_ty hty (caseAlphaEnd_card_centMod hB hyB hy1 hKN hcyc)
@@ -438,10 +444,12 @@ section CBAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem cb_conj_mem {O : Subgroup G} {g x : G} (hg : g ∈ Subgroup.normalizer (O : Set G))
     (hx : x ∈ O) : g * x * g⁻¹ ∈ O :=
   (Subgroup.mem_normalizer_iff.1 hg x).1 hx
 
+omit [Finite G] in
 private theorem cb_mem_sup_of_comm {P Q : Subgroup G} (hPQ : ∀ p ∈ P, ∀ q ∈ Q, p * q = q * p) {x : G}
     (hx : x ∈ P ⊔ Q) : ∃ p ∈ P, ∃ q ∈ Q, x = p * q := by
   let S : Subgroup G :=
@@ -465,6 +473,7 @@ private theorem cb_mem_sup_of_comm {P Q : Subgroup G} (hPQ : ∀ p ∈ P, ∀ q 
   obtain ⟨p, hp, q, hq, h⟩ := (sup_le hP hQ : P ⊔ Q ≤ S) hx
   exact ⟨p, hp, q, hq, h⟩
 
+omit [Finite G] in
 private theorem cb_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
     (hH : H ≤ Subgroup.normalizer (Z : Set G)) : closureIn I H ≤ Z := by
   unfold closureIn
@@ -472,10 +481,12 @@ private theorem cb_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
   rintro _ ⟨i, hi, rfl⟩
   exact (Subgroup.mem_normalizer_iff.1 (hH hh) i).1 (hI hi)
 
+omit [Finite G] in
 private theorem cb_Kf_le_cs {K F : Subgroup G} (hK : K ≤ Subgroup.centralizer (F : Set G)) :
     closureIn K (GLAPLayer 3 (Subgroup.centralizer (F : Set G))) ≤ Subgroup.centralizer (F : Set G) :=
   cb_closureIn_le hK (fun _ hg => Subgroup.le_normalizer (layer_le 3 _ hg))
 
+omit [Finite G] in
 private theorem cb_le_normalizer_of_comm {H S : Subgroup G}
     (h : ∀ g ∈ H, ∀ s ∈ S, g * s = s * g) : H ≤ Subgroup.normalizer (S : Set G) := by
   intro g hg
@@ -496,7 +507,7 @@ private theorem cb_le_normalizer_of_comm {H S : Subgroup G}
 
 private theorem cb_nine_le_of_not_cyclic {H : Subgroup G} (hel : IsElemAbelian 3 H)
     (hnc : ¬ IsCyclic ↥H) : 9 ≤ Nat.card H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hel
   by_contra hlt
   push Not at hlt
@@ -510,20 +521,23 @@ private theorem cb_nine_le_of_not_cyclic {H : Subgroup G} (hel : IsElemAbelian 3
   apply hnc
   interval_cases c
   · have h1 : Nat.card ↥H = 1 := by simpa using hc
-    haveI : Subsingleton ↥H := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton ↥H := (Nat.card_eq_one_iff_unique.1 h1).1
     exact isCyclic_of_subsingleton
-  · haveI : Fact (Nat.card ↥H).Prime := ⟨by rw [hc]; norm_num⟩
+  · have : Fact (Nat.card ↥H).Prime := ⟨by rw [hc]; norm_num⟩
     exact isCyclic_of_prime_card (by rw [hc])
 
+omit [Finite G] in
 private theorem cb_not_dvd_of_le {P N : Subgroup G} (hPN : P ≤ N) (hN : ¬ 3 ∣ Nat.card N) :
     ¬ 3 ∣ Nat.card P :=
   fun h => hN (h.trans (Subgroup.card_dvd_of_le hPN))
 
+omit [Finite G] in
 private theorem cb_le_core {L P : Subgroup G} (hPL : P ≤ L)
     (hLP : L ≤ Subgroup.normalizer (P : Set G)) (hP : ¬ 3 ∣ Nat.card P) :
     P ≤ GLAPPrimeCoreOf 3 L :=
   le_glaPPrimeCoreOf_of_le_normalizer hPL hLP ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hP)
 
+omit [Finite G] in
 private theorem cb_normalizes_inf {L Y : Subgroup G} (hLY : L ≤ Y) :
     L ≤ Subgroup.normalizer ((L ⊓ GLAPPrimeCoreOf 3 Y : Subgroup G) : Set G) := by
   intro m hm
@@ -546,6 +560,7 @@ private theorem cb_normalizes_inf {L Y : Subgroup G} (hLY : L ≤ Y) :
     · rw [hkL']
       exact hkN'
 
+omit [Finite G] in
 private theorem cb_inducesInner {L : Subgroup G} {g : G}
     (h : ∀ m ∈ L, ⁅m, g⁻¹⁆ ∈ GLAPPrimeCoreOf 3 L) : InducesInnerMod 3 L g := by
   unfold InducesInnerMod
@@ -555,6 +570,7 @@ private theorem cb_inducesInner {L : Subgroup G} {g : G}
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem cb_mem_core_iff {K : Subgroup G} (w : ↥K) :
     w ∈ GLAPPrimeCore 3 ↥K ↔ ((w : ↥K) : G) ∈ GLAPPrimeCoreOf 3 K := by
   constructor
@@ -564,6 +580,7 @@ private theorem cb_mem_core_iff {K : Subgroup G} (w : ↥K) :
     have : u = w := Subtype.ext huw
     rwa [this] at hu
 
+omit [Finite G] in
 private theorem cb_barX_eq_bot_of_le {X T : Subgroup G} (h : T ≤ GLAPPrimeCoreOf 3 X) :
     barX 3 X T = ⊥ := by
   rw [eq_bot_iff]
@@ -572,6 +589,7 @@ private theorem cb_barX_eq_bot_of_le {X T : Subgroup G} (h : T ≤ GLAPPrimeCore
   have htO : ((t : ↥X) : G) ∈ GLAPPrimeCoreOf 3 X := h (Subgroup.mem_subgroupOf.1 ht)
   exact (QuotientGroup.eq_one_iff _).2 ((cb_mem_core_iff t).2 htO)
 
+omit [Finite G] in
 private theorem cb_le_core_of_barX_eq_bot {X T : Subgroup G} (hTX : T ≤ X) (h : barX 3 X T = ⊥) :
     T ≤ GLAPPrimeCoreOf 3 X := by
   intro t ht
@@ -580,6 +598,7 @@ private theorem cb_le_core_of_barX_eq_bot {X T : Subgroup G} (hTX : T ≤ X) (h 
   rw [h, Subgroup.mem_bot] at hmem
   exact (cb_mem_core_iff ⟨t, hTX ht⟩).1 ((QuotientGroup.eq_one_iff _).1 hmem)
 
+omit [Finite G] in
 private theorem cb_mem_normalizer_inf {L S : Subgroup G} {g : G}
     (h1 : g ∈ Subgroup.normalizer (L : Set G)) (h2 : g ∈ Subgroup.normalizer (S : Set G)) :
     g ∈ Subgroup.normalizer ((L ⊓ S : Subgroup G) : Set G) := by
@@ -591,7 +610,7 @@ private theorem cb_mem_normalizer_inf {L S : Subgroup G} {g : G}
 private theorem cb_cover_of_centMod {p : ℕ} (hp : p.Prime) {L A : Subgroup G} (ha : IsPGroup p A)
     (hA : A ≤ centModSubgroup p L) : (L ⊓ Subgroup.centralizer (A : Set G)) ⊔ GLAPPrimeCoreOf p L = L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p L with hO
   apply le_antisymm (sup_le inf_le_left (Subgroup.map_subtype_le _))
   intro l hl
@@ -606,7 +625,7 @@ private theorem cb_cover_of_centMod {p : ℕ} (hp : p.Prime) {L A : Subgroup G} 
       group
     rw [h3]
     exact O.mul_mem h1 h2
-  letI act : MulAction A O :=
+  let act : MulAction A O :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), hmem g g.2 o o.2 ⟩
       one_smul := fun o => Subtype.ext (show l⁻¹ * (((1 : A) : G) * (l * (o : G)) *
           ((1 : A) : G)⁻¹) = (o : G) by simp)
@@ -631,19 +650,20 @@ private theorem cb_cover_of_centMod {p : ℕ} (hp : p.Prime) {L A : Subgroup G} 
   rw [hl']
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left ⟨hyL, hyC⟩) (Subgroup.mem_sup_right (O.inv_mem o.2))
 
+omit [Finite G] in
 private theorem cb_mem_GLBConj {K : Subgroup G} {c k : G} (hk : k ∈ K) : c⁻¹ * k * c ∈ GLBConj c K :=
-  Subgroup.mem_map.2 ⟨k, hk, by simp [MulAut.conj_apply]⟩
+  Subgroup.mem_map.2 ⟨k, hk, by simp⟩
 
 end CBAux
 
-theorem alpha_layer_EC (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
+theorem alpha_layer_EC (_hc : S10Ctx G 3) (_hin : AlphaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b a : G} (h : Cfg 3 B x L b) {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hd : AlphaData 3 B x L b a E₀ F y E K)
     (hBN : B ≤ Subgroup.normalizer ((Kf 3 K (Subgroup.zpowers y) : Subgroup G) : Set G))
     {C : Subgroup G} (hCB : C ≤ B) (hCc : ∀ g ∈ C, CentMod 3 (Kf 3 K (Subgroup.zpowers y)) g) :
     GLAPLayer 3 (L ⊓ cs (E ⊔ C)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have hB : IsElemAbelian 3 B := B_el h
   have hcommB : ∀ g ∈ B, ∀ g' ∈ B, g * g' = g' * g :=
@@ -676,15 +696,15 @@ theorem alpha_layer_EC (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G
     have hnt := isQuasisimple_nontrivial hKc.2.2.1.2.2
     exact ((Subgroup.nontrivial_iff_ne_bot _).1 hnt) hbot
   have hCX : ∀ c ∈ C, c ∈ Subgroup.normalizer (X : Set G) := by
-    intro c hc
-    have hcB : c ∈ B := hCB hc
+    intro c _hc
+    have hcB : c ∈ B := hCB _hc
     have hcE : c ∈ Subgroup.centralizer (E : Set G) :=
       Subgroup.mem_centralizer_iff.2 (fun e he => (hcommB c hcB e (hEB he)).symm)
     exact cb_mem_normalizer_inf (hNL hcB) (Subgroup.le_normalizer hcE)
   have hKeq : ∀ c ∈ C, GLBConj c K = K := by
-    intro c hc
-    have hcX := hCX c hc
-    have hcY : c ∈ Subgroup.normalizer (Y : Set G) := hBN (hCB hc)
+    intro c _hc
+    have hcX := hCX c _hc
+    have hcY : c ∈ Subgroup.normalizer (Y : Set G) := hBN (hCB _hc)
     have hKCc : GLAPComponent 3 X (GLBConj c K) := by
       have h1 := glaPComponent_gLBConj hKc c
       rwa [mem_normalizer_iff_gLBConj_eq.1 hcX] at h1
@@ -707,7 +727,7 @@ theorem alpha_layer_EC (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G
     have hdecomp : ∀ k ∈ K, ∃ k' ∈ GLBConj c K, ∃ n ∈ GLAPPrimeCoreOf 3 Y, k = k' * n := by
       intro k hk
       have hn1 : ⁅k⁻¹, c⁆ ∈ GLAPPrimeCoreOf 3 Y :=
-        (mem_centModSubgroup.1 (centMod_iff.1 (hCc c hc))).2 k⁻¹ (Y.inv_mem (hKY hk))
+        (mem_centModSubgroup.1 (centMod_iff.1 (hCc c _hc))).2 k⁻¹ (Y.inv_mem (hKY hk))
       have hcinv : c⁻¹ ∈ Subgroup.normalizer (GLAPPrimeCoreOf 3 Y : Set G) :=
         normalizer_le_normalizer_glaPPrimeCoreOf 3 Y (Subgroup.inv_mem _ hcY)
       refine ⟨c⁻¹ * k * c, cb_mem_GLBConj hk, c⁻¹ * ⁅k⁻¹, c⁆ * c⁻¹⁻¹,
@@ -749,11 +769,11 @@ theorem alpha_layer_EC (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G
     · exact hNY h4
     · exact hT3 h4
   have hCK : ∀ c ∈ C, c ∈ centModSubgroup 3 K := by
-    intro c hc
-    have hNK : c ∈ Subgroup.normalizer (K : Set G) := mem_normalizer_iff_gLBConj_eq.2 (hKeq c hc)
+    intro c _hc
+    have hNK : c ∈ Subgroup.normalizer (K : Set G) := mem_normalizer_iff_gLBConj_eq.2 (hKeq c _hc)
     refine mem_centModSubgroup.2 ⟨hNK, fun l hl => ?_⟩
     have hlc : ⁅l, c⁆ ∈ K ⊓ GLAPPrimeCoreOf 3 Y := by
-      refine ⟨?_, (mem_centModSubgroup.1 (centMod_iff.1 (hCc c hc))).2 l (hKY hl)⟩
+      refine ⟨?_, (mem_centModSubgroup.1 (centMod_iff.1 (hCc c _hc))).2 l (hKY hl)⟩
       rw [commutatorElement_def]
       have e : l * c * l⁻¹ * c⁻¹ = l * (c * l⁻¹ * c⁻¹) := by group
       rw [e]
@@ -770,7 +790,7 @@ theorem alpha_layer_EC (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G
     have h1 : ⁅l, e⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 (hcomm' e he l hl).symm
     rw [h1]
     exact (GLAPPrimeCoreOf 3 K).one_mem
-  have hAK : E ⊔ C ≤ centModSubgroup 3 K := sup_le hEK (fun c hc => hCK c hc)
+  have hAK : E ⊔ C ≤ centModSubgroup 3 K := sup_le hEK (fun c _hc => hCK c _hc)
   have hAel : IsElemAbelian 3 (E ⊔ C : Subgroup G) := isElemAbelian_mono hB (sup_le hEB hCB)
   have hAp : IsPGroup 3 (E ⊔ C : Subgroup G) := isPGroup_of_isElemAbelian hAel
   have hcov := cb_cover_of_centMod hp hAp hAK
@@ -813,7 +833,7 @@ theorem alpha_CB_cyclic (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup 
     (hBN : B ≤ Subgroup.normalizer ((Kf 3 K (Subgroup.zpowers y) : Subgroup G) : Set G)) :
     IsCyclic ↥(B ⊓ centModSubgroup 3 (Kf 3 K (Subgroup.zpowers y))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haut := hin.l105.l104.lemma102.aut
   have hS := sstar_triple h.star
   have hbmax : GLAIsBmax 3 B := hS.1
@@ -1115,6 +1135,7 @@ section EnlargeAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem enl_conj_mem {O : Subgroup G} {g x : G} (hg : g ∈ Subgroup.normalizer (O : Set G))
     (hx : x ∈ O) : g * x * g⁻¹ ∈ O :=
   (Subgroup.mem_normalizer_iff.1 hg x).1 hx
@@ -1146,15 +1167,17 @@ private def enlS (O E F : Subgroup G) (hE : ∀ e ∈ E, e ∈ Subgroup.normaliz
     simp only [commutatorElement_def]
     group
 
+omit [Finite G] in
 private theorem mem_enlS_iff {O E F : Subgroup G} {hE : ∀ e ∈ E, e ∈ Subgroup.normalizer (O : Set G)}
     {hF : ∀ f ∈ F, f ∈ Subgroup.normalizer (O : Set G)} {hc : ∀ f ∈ F, ∀ e ∈ E, ⁅f, e⁆ ∈ O} {x : G} :
     x ∈ enlS O E F hE hF hc ↔ ∃ o ∈ O, ∃ e ∈ E, ∃ f ∈ F, x = o * e * f :=
   Iff.rfl
 
+omit [Finite G] in
 private theorem enlS_mul_eq {O E F : Subgroup G} (hE : ∀ e ∈ E, e ∈ Subgroup.normalizer (O : Set G))
     (hF : ∀ f ∈ F, f ∈ Subgroup.normalizer (O : Set G)) (hc : ∀ f ∈ F, ∀ e ∈ E, ⁅f, e⁆ ∈ O)
     {o e f o' e' f' : G} (ho : o ∈ O) (he : e ∈ E) (hf : f ∈ F) (ho' : o' ∈ O) (he' : e' ∈ E)
-    (hf' : f' ∈ F) : ∃ o₀ ∈ O, o * e * f * (o' * e' * f') = o₀ * (e * e') * (f * f') := by
+    (_hf' : f' ∈ F) : ∃ o₀ ∈ O, o * e * f * (o' * e' * f') = o₀ * (e * e') * (f * f') := by
   have hX : f * o' * f⁻¹ ∈ O := enl_conj_mem (hF f hf) ho'
   have hY : e * (f * o' * f⁻¹ * ⁅f, e'⁆) * e⁻¹ ∈ O :=
     enl_conj_mem (hE e he) (O.mul_mem hX (hc f hf e' he'))
@@ -1162,6 +1185,7 @@ private theorem enlS_mul_eq {O E F : Subgroup G} (hE : ∀ e ∈ E, e ∈ Subgro
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem enlS_comm_mem {O E F : Subgroup G} {hE : ∀ e ∈ E, e ∈ Subgroup.normalizer (O : Set G)}
     {hF : ∀ f ∈ F, f ∈ Subgroup.normalizer (O : Set G)} {hc : ∀ f ∈ F, ∀ e ∈ E, ⁅f, e⁆ ∈ O}
     (hEel : IsElemAbelian 3 E) (hFel : IsElemAbelian 3 F) {x y : G}
@@ -1181,6 +1205,7 @@ private theorem enlS_comm_mem {O E F : Subgroup G} {hE : ∀ e ∈ E, e ∈ Subg
   rw [h3]
   exact O.mul_mem ho₁ (O.inv_mem ho₂)
 
+omit [Finite G] in
 private theorem enlS_pow_three_mem {O E F : Subgroup G} {hE : ∀ e ∈ E, e ∈ Subgroup.normalizer (O : Set G)}
     {hF : ∀ f ∈ F, f ∈ Subgroup.normalizer (O : Set G)} {hc : ∀ f ∈ F, ∀ e ∈ E, ⁅f, e⁆ ∈ O}
     (hEel : IsElemAbelian 3 E) (hFel : IsElemAbelian 3 F) {x : G} (hx : x ∈ enlS O E F hE hF hc) :
@@ -1197,6 +1222,7 @@ private theorem enlS_pow_three_mem {O E F : Subgroup G} {hE : ∀ e ∈ E, e ∈
   rw [hx3, he3, hf3, mul_one, mul_one]
   exact ho₁
 
+omit [Finite G] in
 private theorem enl_conj_OE {O E K : Subgroup G} (hK : ∀ k ∈ K, k ∈ Subgroup.normalizer (O : Set G))
     (hcomm : ∀ l ∈ K, ∀ e ∈ E, ⁅l, e⁆ ∈ O) {g o e : G} (hg : g ∈ K) (ho : o ∈ O) (he : e ∈ E) :
     ∃ o₀ ∈ O, ∃ e₀ ∈ E, g * (o * e) * g⁻¹ = o₀ * e₀ := by
@@ -1204,6 +1230,7 @@ private theorem enl_conj_OE {O E K : Subgroup G} (hK : ∀ k ∈ K, k ∈ Subgro
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 private theorem enl_le_normalizer_of_conj {M Γ : Subgroup G}
     (hΓ : ∀ g ∈ Γ, ∀ x ∈ M, g * x * g⁻¹ ∈ M) : Γ ≤ Subgroup.normalizer (M : Set G) := by
   intro g hg
@@ -1229,6 +1256,7 @@ private theorem enl_inf_bot {O E : Subgroup G} (hO : ¬ 3 ∣ Nat.card O) (hE : 
   apply Subgroup.eq_bot_of_card_eq
   rw [hj, hj0, pow_zero]
 
+omit [Finite G] in
 private theorem enl_mem_core_iff {K : Subgroup G} (w : ↥K) :
     w ∈ GLAPPrimeCore 3 ↥K ↔ ((w : ↥K) : G) ∈ GLAPPrimeCoreOf 3 K := by
   constructor
@@ -1238,7 +1266,7 @@ private theorem enl_mem_core_iff {K : Subgroup G} (w : ↥K) :
     have : u = w := Subtype.ext huw
     rwa [this] at hu
 
-private theorem enl_card_le {K H : Subgroup G} (hHK : H ≤ K) (hOH : GLAPPrimeCoreOf 3 K ≤ H)
+private theorem enl_card_le {K H : Subgroup G} (hHK : H ≤ K) (_hOH : GLAPPrimeCoreOf 3 K ≤ H)
     (hcent : ∀ x ∈ K, ∀ h ∈ H, ⁅x, h⁆ ∈ GLAPPrimeCoreOf 3 K) :
     Nat.card H ≤ Nat.card (GLAPPrimeCoreOf 3 K) * Nat.card (Subgroup.center (PQuot 3 K)) := by
   classical
@@ -1298,8 +1326,8 @@ theorem alpha_enlarge {K E₁ T₀ E : Subgroup G} (hE₁K : E₁ ≤ K) (hE₁e
     ∃ A U : Subgroup G, IsElemAbelian 3 A ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧ A ≤ Subgroup.normalizer (U : Set G) ∧
       Nat.card E * Nat.card E₁ ≤ Nat.card A * Nat.card (Subgroup.center (PQuot 3 K)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOcop : ¬ 3 ∣ Nat.card (GLAPPrimeCoreOf 3 K) := not_dvd_card_glaPPrimeCoreOf Nat.prime_three K
   have hOK : GLAPPrimeCoreOf 3 K ≤ K := Subgroup.map_subtype_le _
   have hKN : ∀ k ∈ K, k ∈ Subgroup.normalizer (GLAPPrimeCoreOf 3 K : Set G) := fun k hk =>
@@ -1590,14 +1618,14 @@ theorem alpha_cycMod (hin : AlphaInputs G 3) {B : Subgroup G} {x : G} {L : Subgr
     (hcyc : IsCyclic ↥(B ⊓ centModSubgroup 3 (Kf 3 K (Subgroup.zpowers y)))) :
     CycModSylow 3 (Kf 3 K (Subgroup.zpowers y)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := sstar_triple h.star
   have hyB : y ∈ B := hd.E₀_B (hd.F_E₀ hd.y_F)
   have hcases := caseAlphaEnd_card_ty hty (caseAlphaEnd_card_centMod (B_el h) hyB hd.y_ne hky.Ky_comp.1 hcyc)
   have hrk : Nat.card B = 3 ^ GLATwoLocalRank 3 G := hS.1.2.1
   intro S hSc hS3
   by_contra hnc
-  haveI : Fact (IsPGroup 3 S) := ⟨hS3⟩
+  have : Fact (IsPGroup 3 S) := ⟨hS3⟩
   obtain ⟨S₁, -, hS₁card, hS₁el⟩ := CFSG.lemma_4_5_a (R := ↥S) (p := 3) (by norm_num) hnc
   have hSm : CFSG.IsElementaryAbelian 3 (S₁.map S.subtype) := CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S₁.map S.subtype) = 3 ^ 2 := by
@@ -1641,7 +1669,7 @@ theorem alpha_cycMod (hin : AlphaInputs G 3) {B : Subgroup G} {x : G} {L : Subgr
 
 theorem alpha_Bstar_T (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b a : G} (h : Cfg 3 B x L b) {E₀ F : Subgroup G} {y : G}
-    {E K : Subgroup G} (hd : AlphaData 3 B x L b a E₀ F y E K) (hky : AlphaKy 3 x a y K)
+    {E K : Subgroup G} (_hd : AlphaData 3 B x L b a E₀ F y E K) (hky : AlphaKy 3 x a y K)
     {B' T₀ : Subgroup G} (hyB' : y ∈ B') (hY : InYK y (Kf 3 K (Subgroup.zpowers y)) B')
     (hel : IsElemAbelian 3 B') (hcard : Nat.card B' = Nat.card B)
     (hT₀K : T₀ ≤ Kf 3 K (Subgroup.zpowers y)) (hT₀2 : IsPGroup 2 T₀)
@@ -1706,7 +1734,7 @@ theorem caseAlpha (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x 
     exact ⟨E', hE'B, hE'el, hE'card, by rwa [closureIn_eq_self hB'N]⟩
   have hS0 : IsS0 3 B' y (Kf 3 K (Subgroup.zpowers y)) := ⟨hSt, by
     unfold tripleLevel
-    rw [if_pos hG, hd5]⟩
+    rw [ite_eq_left hG, hd5]⟩
   have hSStar : IsSStarMax 3 B' y (Kf 3 K (Subgroup.zpowers y)) :=
     ⟨hc.stage4o.2.2.2.2.1 B' y _ hS0 hcm, hcm⟩
   have hq := (hc.stage9.1 B' y _ hSStar).1

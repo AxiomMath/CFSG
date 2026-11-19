@@ -14,13 +14,13 @@ variable {X : Type*} [Group X] [Finite X]
 
 theorem exists_mem_normalizer_of_lt {T P : Subgroup X} (hP : IsPGroup 2 P) (hTP : T < P) :
     ∃ n ∈ P, n ∉ T ∧ ∀ x ∈ T, n * x * n⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hlt : T.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => ?_
     exact absurd hTP (not_lt_of_ge (subgroupOf_eq_top.mp h))
   have h2 := Group.normalizerCondition_of_isNilpotent (G := P) (T.subgroupOf P) hlt
-  obtain ⟨n, hn, hn'⟩ := SetLike.exists_of_lt h2
+  obtain ⟨n, hn, hn'⟩ := IsConcreteLE.exists_of_lt h2
   refine ⟨n, n.2, hn', fun x hx => ?_⟩
   have hxP : x ∈ P := hTP.le hx
   exact (mem_normalizer_iff.mp hn ⟨x, hxP⟩).mp hx
@@ -30,12 +30,12 @@ theorem isSylowOf_top_of_fusion {T : Subgroup X} (hT : IsPGroup 2 T) {t : X} (ht
       Nat.card (centralizer ({t} : Set X)) = Nat.card (T ⊓ centralizer ({t} : Set X) : Subgroup X) * m)
     (hfus : ∀ g : X, g * t * g⁻¹ ∈ T → ∃ τ ∈ T, g * t * g⁻¹ = τ * t * τ⁻¹) :
     IsSylowOf 2 T ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   have hPT : (P : Subgroup X) ≤ T := by
     by_contra hnle
     have hlt : T < (P : Subgroup X) := lt_of_le_of_ne hTP (fun h => hnle (h ▸ le_refl _))
-    obtain ⟨n, hnP, hnT, hnorm⟩ := exists_mem_normalizer_of_lt P.isPGroup' hlt
+    obtain ⟨n, hnP, hnT, hnorm⟩ := exists_mem_normalizer_of_lt P.isPGroup hlt
     obtain ⟨τ, hτT, hτ⟩ := hfus n (hnorm t htT)
     have hcn : τ⁻¹ * n ∈ centralizer ({t} : Set X) := by
       rw [mem_centralizer_singleton_iff]
@@ -52,7 +52,7 @@ theorem isSylowOf_top_of_fusion {T : Subgroup X} (hT : IsPGroup 2 T) {t : X} (ht
       inf_le_inf_right _ hTP
     obtain ⟨m, hmodd, hm⟩ := hC
     have hBpg : IsPGroup 2 ((P : Subgroup X) ⊓ centralizer ({t} : Set X) : Subgroup X) :=
-      P.isPGroup'.to_inf_left
+      P.isPGroup.to_inf_left
     have hApg : IsPGroup 2 (T ⊓ centralizer ({t} : Set X) : Subgroup X) := hT.to_inf_left
     obtain ⟨b, hb⟩ := (IsPGroup.iff_card).mp hBpg
     obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp hApg
@@ -80,21 +80,21 @@ theorem isSylowOf_top_of_fusion {T : Subgroup X} (hT : IsPGroup 2 T) {t : X} (ht
 
 theorem isMulCommutative_of_index_two {P : Type*} [Group P] (N : Subgroup P) [N.Normal]
     (h : N.index = 2) : IsMulCommutative (P ⧸ N) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : Nat.card (P ⧸ N) = 2 := h
-  haveI : IsCyclic (P ⧸ N) := isCyclic_of_prime_card hc
+  have : IsCyclic (P ⧸ N) := isCyclic_of_prime_card hc
   infer_instance
 
 theorem not_mem_commutator_of_fusion {P : Sylow 2 X} {U : Subgroup X} {t : X}
-    (hUP : U ≤ (P : Subgroup X)) (hUn : (U.subgroupOf (P : Subgroup X)).Normal)
+    (_hUP : U ≤ (P : Subgroup X)) (hUn : (U.subgroupOf (P : Subgroup X)).Normal)
     (hidx : (U.subgroupOf (P : Subgroup X)).index = 2) (htP : t ∈ (P : Subgroup X))
     (ht2 : t * t = 1) (htU : t ∉ U)
     (hfus : ∀ g : X, g * t * g⁻¹ ∈ (P : Subgroup X) → g * t * g⁻¹ ∉ U) :
     t ∉ commutator X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup (P : Subgroup X) := U.subgroupOf (P : Subgroup X) with hN
-  haveI : N.Normal := hUn
-  haveI : IsMulCommutative ((P : Subgroup X) ⧸ N) := isMulCommutative_of_index_two N hidx
+  have : N.Normal := hUn
+  have : IsMulCommutative ((P : Subgroup X) ⧸ N) := isMulCommutative_of_index_two N hidx
   set x : (P : Subgroup X) := ⟨t, htP⟩ with hx
   have hxN : x ∉ N := fun h => htU h
   have hfus' : ∀ (k : ℕ) (g : X) (h : g⁻¹ * (x : X) ^ k * g ∈ (P : Subgroup X)),
@@ -139,10 +139,10 @@ theorem isSylowOf_commutator_of_fusion {P : Sylow 2 X} {U : Subgroup X} {t : X}
     (hUP : U ≤ (P : Subgroup X)) (hidx : (U.subgroupOf (P : Subgroup X)).index = 2)
     (htP : t ∈ (P : Subgroup X)) (htc : t ∉ commutator X) (hUc : U ≤ commutator X) :
     IsSylowOf 2 U (commutator X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsSylowOf 2 (P : Subgroup X) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, P.isPGroup', by rw [relIndex_top_right]; exact P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, by rw [relIndex_top_right]; exact P.not_dvd_index⟩
   have h1 := hP.inf_of_le_normalizer (N := commutator X) le_top
     (by rw [normalizer_eq_top])
   have h2 : (P : Subgroup X) ⊓ commutator X = U := by

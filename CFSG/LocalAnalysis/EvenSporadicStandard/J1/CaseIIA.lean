@@ -33,7 +33,7 @@ theorem exists_sylow_N (hS : 2 ∣ S.index) :
       Nat.Prime.factorization_pow Nat.prime_two]
     simp [Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 2 ∣ 21)]
   refine ⟨(Q : Subgroup (normalizer (S : Set G))).map (normalizer (S : Set G)).subtype,
-    Q.isPGroup'.map _, fun s hs => ⟨⟨s, le_normalizer hs⟩, hQ hs, rfl⟩, ?_, ?_⟩
+    Q.isPGroup.map _, fun s hs => ⟨⟨s, le_normalizer hs⟩, hQ hs, rfl⟩, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
   · rw [Subgroup.card_map_of_injective (normalizer (S : Set G)).subtype_injective, hQcard, hk]

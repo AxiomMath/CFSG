@@ -35,10 +35,10 @@ theorem negPhi_conj_baseChangeGL
 theorem card_NFix_eqpN [IsAlgClosure K L]
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card K) :
     Nat.card (NFix (eqpN L) Fr) = (Nat.card K + 1) ^ 4 * (Nat.card K - 1) ^ 2 * 1152 := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hq : 2 ≤ Nat.card K := Finite.one_lt_card
   have hq1 : 1 ≤ Nat.card K := by omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq0 : (Nat.card K : L) = 0 := by
     rw [Nat.card_eq_fintype_card, ← map_natCast (algebraMap K L) (Fintype.card K),
       FiniteField.cast_card_eq_zero K, map_zero]
@@ -66,14 +66,14 @@ theorem exists_nfixEmb [IsAlgClosure K L]
         g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL .E6 K) * g0 ∈ monomialSubgroup .E6 L →
           x ∈ ι.range := by
   classical
-  haveI hNF : Finite (NFix (eqpN L) Fr) := finite_NFix_eqpN Fr hFr
+  have hNF : Finite (NFix (eqpN L) Fr) := finite_NFix_eqpN Fr hFr
   let c : ModGL .E6 L →* ModGL .E6 L := (MulAut.conj g0).toMonoidHom
   have hc : Function.Injective c := (MulAut.conj g0).injective
   have hc_apply : ∀ x, c x = g0 * x * g0⁻¹ := fun x => rfl
   let X : Subgroup (ModGL .E6 L) := (NFix (eqpN L) Fr).map c
   have hXfin : Finite X :=
     Finite.of_surjective (c.subgroupMap _) (c.subgroupMap_surjective _)
-  haveI : Finite X := hXfin
+  have : Finite X := hXfin
   have hXC : X ≤ adjointGroup .E6 L := by
     rintro _ ⟨x, hx, rfl⟩
     exact mul_mem (mul_mem hg0C (monomialSubgroup_le_adjointGroup' hx.1)) (inv_mem hg0C)
@@ -166,7 +166,7 @@ theorem exists_sylow_le_nfixEmb_range [IsAlgClosure K L]
     (hFr : ∀ c, Fr c = c ^ Nat.card K) (ι : NFix (eqpN L) Fr →* adjointGroup .E6 K)
     (hι : Function.Injective ι) :
     ∃ P : Sylow 3 (adjointGroup .E6 K), (P : Subgroup (adjointGroup .E6 K)) ≤ ι.range := by
-  haveI := generated_group_finite .E6 K
+  have := generated_group_finite .E6 K
   refine CFSG.HardMathSupport.Curtis.UnitaryLevi.exists_sylow_three_le_of_factorization_eq
     ι.range ?_
   rw [← Nat.card_congr (MonoidHom.ofInjective hι).toEquiv, card_NFix_eqpN Fr hFr,

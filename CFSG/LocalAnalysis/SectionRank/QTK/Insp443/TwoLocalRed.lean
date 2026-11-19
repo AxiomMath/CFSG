@@ -24,6 +24,7 @@ theorem KConfig.le_and_normalizer_of_inner {L V MK Y : Subgroup A} (h : KConfig 
         (hN (Subgroup.mem_normalizer_iff_map_conj_eq.mpr hσV)))
   exact ⟨h.le_normalizer.trans hN, hYM.trans h.MK_le_normalizer⟩
 
+omit [Finite A] in
 theorem le_and_normalizer_of_map_conj {L X : Subgroup A} (x : A)
     (hLY : L ≤ X.map (MulAut.conj x).toMonoidHom)
     (hYL : X.map (MulAut.conj x).toMonoidHom ≤ Subgroup.normalizer (L : Set A)) :
@@ -42,6 +43,7 @@ theorem le_and_normalizer_of_map_conj {L X : Subgroup A} (x : A)
   · rw [← hback, ← Subgroup.map_normalizer_eq_of_bijective L (MulAut.conj x⁻¹).bijective]
     exact Subgroup.map_mono hYL
 
+omit [Finite A] in
 theorem pCoreOf_map_conj_ne_bot {X : Subgroup A} (x : A) (hX : pCoreOf 2 X ≠ ⊥) :
     pCoreOf 2 (X.map (MulAut.conj x).toMonoidHom) ≠ ⊥ := by
   rw [CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv 2 (MulAut.conj x) X]

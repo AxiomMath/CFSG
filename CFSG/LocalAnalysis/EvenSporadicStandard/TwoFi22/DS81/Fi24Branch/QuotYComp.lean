@@ -28,11 +28,11 @@ theorem card_components_Qt_le (hC : CCore c) (hR : RData c R) :
   exact card_components_le (pPrimeCore_Qt_eq_bot hC) (pCore_Qt_eq_bot hC)
     (bar_R_selfCentAbelian hC hR) (le_of_eq (bar_R_card hR))
 
-theorem bar_Y_normalizes_components (hC : CCore c) (hR : RData c R) (hJ : JData c t R J)
+theorem bar_Y_normalizes_components (hC : CCore c) (hR : RData c R) (_hJ : JData c t R J)
     (hK : KDataC c t R J K O Y) (hF : U42Facts) :
     ∀ K' : Subgroup c.Qt, CFSG.IsComponent K' → ∀ y ∈ c.bar Y, ∀ k ∈ K', y * k * y⁻¹ ∈ K' := by
   obtain ⟨X, hXgrp, π, hπsurj, hπker, hX⟩ := hK.quot
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   let ψ : ↥K →* c.Qt := c.qmap.comp K.subtype
   let Y' : Subgroup ↥K := Y.subgroupOf K
   have hperm : ∀ n : ℕ, n ≤ 26 → ∀ φ : X →* Equiv.Perm (Fin n),
@@ -73,10 +73,10 @@ theorem bar_Y_hlat1 (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R J K
     (bar_O_le_bar_R hK) (bar_V_le_bar_O hK) (card_bar_V hK) (bar_Y_normalizes_V hK)
     (bar_Y_comm_R_mem_bar_O hR hJ hK) (bar_lattice hK) hM hMn hMc
 
-theorem bar_Y_hlat2 (hR : RData c R) (hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
+theorem bar_Y_hlat2 (hR : RData c R) (_hJ : JData c t R J) (hK : KDataC c t R J K O Y) :
     ∃ y ∈ c.bar Y, ∃ r ∈ c.bar R, y * r ≠ r * y := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact not_centralizes_of_lattice (Yb := c.bar Y) (Rb := c.bar R) (Ob := c.bar O)
     (Vb := c.bar (closure {t, c.z}))
     (bar_O_le_bar_R hK)

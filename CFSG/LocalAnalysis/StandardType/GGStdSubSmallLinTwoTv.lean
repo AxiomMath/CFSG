@@ -57,7 +57,7 @@ theorem nsSL_mul_theta_tv (hζ : AdjoinRoot.root g ^ 3 = 1) (k : Fin s → ℕ) 
   · by_cases hbj : j = b
     · subst hai
       subst hbj
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       have h3 : (AdjoinRoot.root g ^ 2) ^ k j * AdjoinRoot.root g ^ k j = 1 := by
         rw [← mul_pow, show AdjoinRoot.root g ^ 2 * AdjoinRoot.root g = AdjoinRoot.root g ^ 3 by
           ring, hζ, one_pow]
@@ -103,10 +103,12 @@ variable [CharP K 2] {G : Type} [Group G] (φ : Matrix.SpecialLinearGroup (Fin n
     Multiplicative (AdjoinRoot g) →* G :=
   φ.comp ((theta g ε).comp (trHom h))
 
+omit [CharP K 2] in
 theorem rootHom_apply {i j : Fin s} (h : i ≠ j) (x : Multiplicative (AdjoinRoot g)) :
     rootHom ε φ h x = φ (theta g ε (Matrix.SpecialLinearGroup.transvection h (toAdd x))) :=
   rfl
 
+omit [CharP K 2] in
 theorem rootHom_injective (hφ : Function.Injective φ) {i j : Fin s} (h : i ≠ j) :
     Function.Injective (rootHom ε φ h) :=
   hφ.comp ((theta_injective g ε).comp (trHom_injective h))
@@ -121,6 +123,7 @@ theorem rootHom_sq {i j : Fin s} (h : i ≠ j) (x : Multiplicative (AdjoinRoot g
     rw [← two_mul, this, zero_mul]
   rw [this, map_one]
 
+omit [CharP K 2] in
 theorem rootHom_conj {ψ : Matrix.SpecialLinearGroup (Fin n) K →* G}
     {A₀ : Matrix.SpecialLinearGroup (Fin n) K} {hCp : rootMat g ^ 3 = 1}
     (hζ : AdjoinRoot.root g ^ 3 = 1) (t : Fin s → ZMod 3) {i j : Fin s} (h : i ≠ j)

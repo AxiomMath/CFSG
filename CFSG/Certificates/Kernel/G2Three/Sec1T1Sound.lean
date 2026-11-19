@@ -77,8 +77,8 @@ theorem cntMK_spec (X A B C : ℕ → ℕ) {k n hi : ℕ} (hn : n ≤ 64 * hi) :
           (Nat.beq y (MULP (B s) x)))
     · have hp : ¬ ∀ s < k, MULP x (A s) = MULP (B s) x ∨ MULP x (A s) = MULP (C s) x :=
         fun h => absurd (key.2 h) (by rw [e]; decide)
-      exact (if_neg hp).symm
-    · exact (if_pos (key.1 e)).symm
+      exact (ite_eq_right hp).symm
+    · exact (ite_eq_left (key.1 e)).symm
   rw [Finset.card_filter]
   unfold cntMK
   rw [CFSG.Certificates.Co1D.sumBelow_spec _ hn]

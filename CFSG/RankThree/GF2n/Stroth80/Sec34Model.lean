@@ -34,6 +34,7 @@ theorem comm_zpowers_le_of_conj {a : G} (ha : ∀ x ∈ Q, a * x * a⁻¹ ∈ Q)
   rw [show ⁅x, z⁆ = x * (z * x⁻¹ * z⁻¹) by rw [commutatorElement_def]; group]
   exact Q.mul_mem hx h1
 
+omit [Finite K] in
 theorem mem_img_comm_zpowers_sup_iff (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ)
     {a : G} (T : M₀.E ≃ₗ[K] M₀.E) (ha : ∀ x ∈ Q, a * x * a⁻¹ ∈ Q)
     (ha' : ∀ x ∈ Q, a⁻¹ * x * a ∈ Q) (hT : ∀ x ∈ Q, M₀.π (a * x * a⁻¹) = T (M₀.π x))
@@ -52,6 +53,7 @@ theorem mem_img_comm_zpowers_sup_iff (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim7
     exact (hle hx).2
   · exact fun h => M₀.img_mono le_sup_left h
 
+omit [Finite K] in
 theorem card_comm_zpowers_sup (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ)
     {a : G} (T : M₀.E ≃ₗ[K] M₀.E) (ha : ∀ x ∈ Q, a * x * a⁻¹ ∈ Q)
     (ha' : ∀ x ∈ Q, a⁻¹ * x * a ∈ Q) (hT : ∀ x ∈ Q, M₀.π (a * x * a⁻¹) = T (M₀.π x)) :
@@ -68,6 +70,7 @@ theorem card_comm_zpowers_sup (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.Gamma
   congr 1
   exact Module.natCard_eq_pow_finrank
 
+omit [Finite K] in
 theorem isElemAbelian_comm_zpowers_iff (M₀ : Tim79.QuadModel Q Z K γ) (R : Tim79.GammaReg Q Z γ)
     {a : G} (T : M₀.E ≃ₗ[K] M₀.E) (ha : ∀ x ∈ Q, a * x * a⁻¹ ∈ Q)
     (ha' : ∀ x ∈ Q, a⁻¹ * x * a ∈ Q) (hT : ∀ x ∈ Q, M₀.π (a * x * a⁻¹) = T (M₀.π x)) :
@@ -94,7 +97,7 @@ theorem card_le_sq_of_eichler_group (M₀ : Tim79.QuadModel QF V K γ)
       (∀ v ∈ LinearMap.range ((T : M₀.E →ₗ[K] M₀.E) - 1), M₀.Qf v = 0) → T = 1) :
     Nat.card Λ ≤ Nat.card K ^ 2 := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hxx : ∀ x : M₀.E, x + x = 0 := fun x => by rw [← two_smul K x, h2, zero_smul]
   obtain ⟨f, hfb⟩ : ∃ f : M₀.E, M₀.B f b = 1 := by
@@ -449,8 +452,8 @@ theorem exists_submodule_of_card_eq [Finite K] (M₀ : Tim79.QuadModel QF V K γ
     ∃ W : Submodule K M₀.E, (∀ v, v ∈ W ↔ v ∈ U) ∧
       ∀ v, (∀ u ∈ W, M₀.B v u = 0) → v ∈ W := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   set W : Submodule K M₀.E := Submodule.span K (U : Set M₀.E) with hWdef
   have hUW : ∀ u ∈ U, u ∈ W := fun u hu => Submodule.subset_span (SetLike.mem_coe.2 hu)
   have hWs : ∀ x ∈ W, M₀.Qf x = 0 := by

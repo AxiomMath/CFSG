@@ -177,7 +177,7 @@ theorem exists_ne_one_ker_two {H : Type*} [Group H] (hH : Nat.card H = 27) (χ�
     (h₁ : ∀ h, χ₁ h ^ 3 = 1) (h₂ : ∀ h, χ₂ h ^ 3 = 1) :
     ∃ h : H, h ≠ 1 ∧ χ₁ h = 1 ∧ χ₂ h = 1 := by
   classical
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
   let ψ : H →* Kˣ × Kˣ := χ₁.prod χ₂
   have hle9 : Nat.card ψ.range ≤ 9 := by
     set S : Finset K := (Polynomial.nthRoots 3 (1 : K)).toFinset with hSdef
@@ -207,7 +207,7 @@ theorem exists_ne_one_ker_two {H : Type*} [Group H] (hH : Nat.card H = 27) (χ�
         congrArg (fun z : ↥S × ↥S => ((z.2 : ↥S) : K)) hxy
       exact Prod.ext (Units.ext h1) (Units.ext h2)
     calc Nat.card ψ.range ≤ Nat.card (↥S × ↥S) := Nat.card_le_card_of_injective f hf
-      _ = S.card * S.card := by simp [Nat.card_prod]
+      _ = S.card * S.card := by simp
       _ ≤ 3 * 3 := Nat.mul_le_mul hS hS
       _ = 9 := by norm_num
   have hcard : Nat.card ψ.ker * Nat.card ψ.range = 27 := by

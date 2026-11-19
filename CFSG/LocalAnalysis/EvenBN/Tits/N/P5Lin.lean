@@ -15,11 +15,11 @@ variable {W : Type*} [Group W]
 @[expose] def fixSub (j : MulAut W) : Subgroup W where
   carrier := {w | j w = w}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := map_one j
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_fixSub {j : MulAut W} {w : W} : w ∈ fixSub j ↔ j w = w := Iff.rfl
@@ -71,12 +71,14 @@ theorem commImg_eq_range_twistHom (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w 
 
 variable [Finite W]
 
+omit [Finite W] in
 theorem card_fixSub_mul_card_commImg (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w : W, w * w = 1)
     (j : MulAut W) :
     Nat.card (fixSub j) * Nat.card (CFSG.LocalAnalysis.EvenBN.Tits.N.commImg j) = Nat.card W := by
   rw [commImg_eq_range_twistHom hc h2 j, ← ker_twistHom hc h2 j]
   exact Subgroup.card_ker_mul_card_range (twistHom hc j)
 
+omit [Finite W] in
 theorem commImg_le_fixSub (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w : W, w * w = 1) {j : MulAut W}
     (hj : j * j = 1) : CFSG.LocalAnalysis.EvenBN.Tits.N.commImg j ≤ fixSub j := by
   rw [commImg_eq_range_twistHom hc h2 j]
@@ -92,10 +94,11 @@ theorem card_le_sq_fixSub (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w : W, w *
     _ ≤ Nat.card (fixSub j) * Nat.card (fixSub j) := Nat.mul_le_mul_left _ hle
     _ = Nat.card (fixSub j) ^ 2 := (sq _).symm
 
+omit [Finite W] in
 theorem card_fixSub_sq_of_inverts (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w : W, w * w = 1)
     {x d : MulAut W} (hd : d * d = 1) (hx5 : x ^ 5 = 1) (hfpf : ∀ w : W, x w = w → w = 1)
     (hdx : d * x * d⁻¹ = x⁻¹) : Nat.card (fixSub d) ^ 2 = Nat.card W := by
-  letI : CommGroup W := { ‹Group W› with mul_comm := hc }
+  let : CommGroup W := { ‹Group W› with mul_comm := hc }
   have hx4 : x⁻¹ = x ^ 4 :=
     inv_eq_of_mul_eq_one_right (by rw [← pow_succ']; exact hx5)
   have e1 : d * x = x ^ 4 * d := by rw [← hx4]; exact mul_inv_eq_iff_eq_mul.1 hdx
@@ -128,12 +131,12 @@ theorem card_fixSub_sq_of_inverts (hc : ∀ a b : W, a * b = b * a) (h2 : ∀ w 
     have hN : c * x c * x (x c) * x (x (x c)) * x (x (x (x c))) = 1 := by
       apply hfpf
       simp only [map_mul, p5]
-      simp only [mul_assoc, mul_comm, mul_left_comm]
+      simp only [mul_comm, mul_left_comm]
     refine ⟨x c * x (x c), ?_⟩
     rw [twistHom_apply, map_mul, h1, h2']
     have hc1 : c * (x c * x (x c) * (x (x (x (x c))) * x (x (x c)))) = 1 := by
       rw [← hN]
-      simp only [mul_assoc, mul_comm, mul_left_comm]
+      simp only [mul_comm, mul_left_comm]
     have hc2 := eq_inv_of_mul_eq_one_right hc1
     rw [hc2]
     exact inv_eq_of_mul_eq_one_right (h2 c)

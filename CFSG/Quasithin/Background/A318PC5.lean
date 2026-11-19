@@ -55,7 +55,7 @@ theorem centralizer_le_S (hK : PiField π p f K) (hq : ModThree π (p ^ f))
   obtain ⟨P, hZP⟩ := hZ''p.exists_le_sylow
   have hPZ : (P : Subgroup ↥C) ≤ Z'' := by
     intro g hg
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨g, hg⟩
     have hk' : orderOf ((g : ↥C) : X) = 3 ^ k := by
       rw [Subgroup.orderOf_coe]
       have := Subgroup.orderOf_coe (⟨g, hg⟩ : (P : Subgroup ↥C))

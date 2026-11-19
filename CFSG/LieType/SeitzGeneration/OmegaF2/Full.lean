@@ -72,9 +72,7 @@ theorem radical_vector_perp {x y z : V} (hx : Q x = 0) (hy : Q y = 0) (hz : Q z 
   have hxx : polar Q x x = 0 := polar_self_eq_zero hx
   have hyy : polar Q y y = 0 := polar_self_eq_zero hy
   refine ⟨?_, ?_, ?_⟩
-  · simp only [QuadraticMap.map_add, map_smul_eq_sq, polar_add_left, polar_add_right,
-      polar_smul_left_eq, polar_smul_right_eq, hx, hy, hz, hxy, hzx, hzy, hxx, hyy, hyx,
-      mul_zero, zero_add, add_zero]
+  · simp only [QuadraticMap.map_add, map_smul_eq_sq, polar_add_left, polar_smul_left_eq, polar_smul_right_eq, hx, hy, hz, hxy, hzx, hzy, mul_zero, add_zero]
   · simp only [polar_add_left, polar_smul_left_eq, hzx, hxx, hyx, mul_zero, add_zero]
   · simp only [polar_add_left, polar_smul_left_eq, hzy, hxy, hyy, mul_zero, add_zero]
 

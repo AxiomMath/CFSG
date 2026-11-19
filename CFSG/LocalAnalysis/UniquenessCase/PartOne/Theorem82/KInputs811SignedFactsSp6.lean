@@ -25,7 +25,7 @@ theorem sp6K6rFacts_holds : Sp6K6rFacts := by
   refine ⟨c₀ (isCubeRootBlock_cubeRootBlockStd h3), ?_, ?_⟩
   · exact c₀_signedCoords (isCubeRootBlock_cubeRootBlockStd h3)
   · intro r hr hc h5
-    haveI := hc
+    have := hc
     unfold ModelK6rRank
     refine ⟨⟨?_, ?_, ?_⟩, ?_, ?_⟩
     · exact two_le_pRank_centralizer_c₀_weight_one hr (isCubeRootBlock_cubeRootBlockStd h3)

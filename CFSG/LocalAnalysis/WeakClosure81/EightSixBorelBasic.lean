@@ -14,9 +14,11 @@ variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G} {S : Type} [Group 
 
 namespace Borel86Data
 
+omit [Finite G] in
 theorem kGenIn_le (hD : Borel86Data V H T S ψ ρ t₀) : kGenIn V H ≤ H :=
   kGenIn_le_H hD.hyp.le_H
 
+omit [Finite G] in
 theorem rho_eq_conj (hD : Borel86Data V H T S ψ ρ t₀) (y : ↥H) (k : ↥(kGenIn V H))
     (hyk : (y : G) = k) : ρ y = MulAut.conj (ψ k) := by
   ext s
@@ -29,6 +31,7 @@ theorem rho_eq_conj (hD : Borel86Data V H T S ψ ρ t₀) (y : ↥H) (k : ↥(kG
   ext
   simp [hyk]
 
+omit [Finite G] in
 theorem exists_mem_not_mem (hD : Borel86Data V H T S ψ ρ t₀) :
     ∃ v ∈ V, v ∉ eCentSet V H T := by
   by_contra hcon
@@ -39,6 +42,7 @@ theorem exists_mem_not_mem (hD : Borel86Data V H T S ψ ρ t₀) :
   rw [rankBarV, inf_eq_left.mpr hle, E3.mQuot_self] at h1
   exact absurd h1 (by norm_num)
 
+omit [Finite G] in
 theorem rho_apply_eq_of_mem_normalizer (hD : Borel86Data V H T S ψ ρ t₀) (y : ↥H)
     (hy : (y : G) ∈ Subgroup.normalizer (V : Set G)) : ρ y t₀ = t₀ := by
   obtain ⟨v, hv, hvE⟩ := hD.exists_mem_not_mem

@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace FourteenFive
 
+omit [Finite G] in
 theorem mem_zpowers_iff_of_mul_self_eq_one {v x : G} (hv : v * v = 1) :
     x ∈ zpowers v ↔ x = 1 ∨ x = v := by
   constructor
@@ -33,6 +34,7 @@ theorem mem_zpowers_iff_of_mul_self_eq_one {v x : G} (hv : v * v = 1) :
     · rw [hx]
       exact Subgroup.mem_zpowers v
 
+omit [Finite G] in
 theorem mem_sup_zpowers_iff {V E : Subgroup G} (hV : IsElemAbelian 2 V) (hE : E ≤ V)
     {v₂ : G} (hv₂ : v₂ ∈ V) {x : G} :
     x ∈ E ⊔ zpowers v₂ ↔ ∃ e ∈ E, x = e ∨ x = e * v₂ := by
@@ -80,6 +82,7 @@ theorem mem_sup_zpowers_iff {V E : Subgroup G} (hV : IsElemAbelian 2 V) (hE : E 
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_left he)
         (Subgroup.mem_sup_right (Subgroup.mem_zpowers v₂))
 
+omit [Finite G] in
 theorem sup_zpowers_inf_eq {V V₀ E : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
     (hE : E ≤ V) (hV₀E : V₀ ⊓ E = ⊥) {v₂ : G} (hv₂ : v₂ ∈ V₀) :
     (E ⊔ zpowers v₂) ⊓ V₀ = zpowers v₂ := by
@@ -105,6 +108,7 @@ theorem sup_zpowers_inf_eq {V V₀ E : Subgroup G} (hV : IsElemAbelian 2 V) (hV�
       exact Subgroup.mem_zpowers v₂
   · exact le_inf le_sup_right (Subgroup.zpowers_le.2 hv₂)
 
+omit [Finite G] in
 theorem mem_sup_inf_iff {V V₀ E E' : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
     (hE : E ≤ V) (hV₀E : V₀ ⊓ E = ⊥) {e : G} (he : e ∈ E) :
     e ∈ V₀ ⊔ (E ⊓ E') ↔ e ∈ E' := by
@@ -130,6 +134,7 @@ theorem mem_sup_inf_iff {V V₀ E E' : Subgroup G} (hV : IsElemAbelian 2 V) (hV�
   · intro hx
     exact Subgroup.mem_sup_right ⟨he, hx⟩
 
+omit [Finite G] in
 theorem relIndex_sup_inf_eq_two {V V₀ E E' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀ : V₀ ≤ V) (hE : E ≤ V) (hV₀E : V₀ ⊓ E = ⊥) (hsup : V₀ ⊔ E = V) {v₂ : G}
     (hv₂ : v₂ ∈ V₀) (hEE' : ∀ e ∈ E, e ∉ E' → e * v₂ ∈ E') {e₀ : G} (he₀ : e₀ ∈ E)

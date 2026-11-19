@@ -23,7 +23,7 @@ theorem not_isPlusType_and_anisotropic_of_finrank_eq_four [Fintype ↥(orthImage
     (hB : ∀ a : ↥(orthImage Ã), ∀ u v : V,
       polarBilin Q ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = polarBilin Q u v)
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
-    {D E G : Hyperplane (orthImage Ã) p} (hDE : D ≠ E) (hGD : G ≠ D) (hGE : G ≠ E)
+    {D E G : Hyperplane (orthImage Ã) p} (_hDE : D ≠ E) (_hGD : G ≠ D) (_hGE : G ≠ E)
     (hGne : blockSpace (orthImage Ã) G.1 ≠ ⊥)
     {Zv : Submodule F V}
     (hZvdim : Module.finrank F ↥Zv =
@@ -134,10 +134,11 @@ theorem not_isPlusType_and_anisotropic_of_finrank_eq_four [Fintype ↥(orthImage
     exact hnotplus_of_four h4 ⟨U, by rw [hU, h4], h⟩
   exact ⟨hnotplus_of_four, hns_of_four⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem ne_one_of_restriction [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
-    {D E G : Hyperplane (orthImage Ã) p} (hGD : G ≠ D) (hGne : blockSpace (orthImage Ã) G.1 ≠ ⊥)
+    {D _E G : Hyperplane (orthImage Ã) p} (_hGD : G ≠ D) (hGne : blockSpace (orthImage Ã) G.1 ≠ ⊥)
     {xE' : ↥(fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D)) ≃ₗ[F]
       ↥(fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D))}
     (hVG_le_Zmap : blockSpace (orthImage Ã) G.1 ≤
@@ -174,7 +175,7 @@ theorem mem_orthDerived_of_odd_of_dim
     (hns : Module.finrank F W = 4 → ∀ U : Submodule F W, Module.finrank F U = 2 →
       ∃ u ∈ U, Q u ≠ 0) :
     x ∈ orthDerived Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxord : orderOf x = p := orderOf_eq_prime hx.pow_eq_one hxne
   have hodd : Odd (orderOf x) := by
     rw [hxord]; exact hp.odd_of_ne_two hp2

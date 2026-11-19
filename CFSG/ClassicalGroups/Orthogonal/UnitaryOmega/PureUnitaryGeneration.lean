@@ -121,9 +121,9 @@ theorem orthDerived_Qn_three_eq_su_sup_conj
       _ = CFSG.RankThree.Classical2.orthDerived (Qn E 3) := hφΩ
   have hHΩ : H ≤ CFSG.RankThree.Classical2.orthDerived (Qn E 3) := sup_le hUΩ hConjΩ
   have hΩH : CFSG.RankThree.Classical2.orthDerived (Qn E 3) ≤ H := by
-    haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-    haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-    haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+    have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+    have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+    have : FiniteDimensional F K := finiteDimensional_of_quadExt E
     apply orthDerived_le_of_reflect
       (Q := Qn E 3) (hQ := Qn_polarBilin_nondegenerate E 3)
       (h6 := by norm_num [finrank_Qn E 3])
@@ -171,7 +171,7 @@ private theorem suEndN_blockEmb3_succEmb_three
       blockMat_mulVec_of_not_mem (i := 1) (k := 3) _ _ (by norm_num)]
     rw [coordExt_apply, Function.extend_apply' _ _ _ (by
       rintro ⟨i, hi⟩
-      exact Fin.succ_ne_zero i (by simpa [Fin.succEmb] using hi))]
+      exact Fin.succ_ne_zero i (by simp [Fin.succEmb] at hi))]
   · obtain ⟨i, rfl⟩ := Fin.exists_succ_eq_of_ne_zero hj0
     rw [suEndN_apply, smul_def, coe_coe_blockEmb3]
     rw [show (Fin.succ i : Fin 4) = blockIdx 1 (by norm_num : 1 + 3 ≤ 4) i by
@@ -259,7 +259,7 @@ theorem stdFamilyΩ_right_edge_range_sup
     rw [show (2 : Fin 4) = Fin.castSucc (⟨2, by norm_num⟩ : Fin 3) from rfl,
       stdTheta_castSucc]
     unfold stdThetaAt
-    rw [dif_pos (by norm_num : (1 : Fin 4).val + 1 = (⟨2, by norm_num⟩ : Fin 3).val)]
+    rw [dite_eq_left (by norm_num : (1 : Fin 4).val + 1 = (⟨2, by norm_num⟩ : Fin 3).val)]
     rfl
   have hθ13_std :
       (S.θ 1 3).range.map J.subtype = (stdForkTheta E 3 le_rfl).range := by

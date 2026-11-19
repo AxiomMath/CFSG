@@ -46,7 +46,7 @@ variable [IsSimpleGroup G] (d : OriginalData G)
 theorem not_sylowTwoQuotient_of_strict_overgroup (hc : d.CanonicalNormalizers)
     (H : Subgroup G) (hCH : d.C < H) : ¬ HasSylowTwoQuotient H := by
   rintro ⟨T, ⟨e⟩⟩
-  have htwo : IsPGroup 2 (H ⧸ Assembly.oddCore H) := T.isPGroup'.of_equiv e.symm
+  have htwo : IsPGroup 2 (H ⧸ Assembly.oddCore H) := T.isPGroup.of_equiv e.symm
   exact hCH.ne' (d.eq_centralizer_of_two_quotient hc H hCH.le htwo)
 
 theorem strict_overgroup_quotients (hc : d.CanonicalNormalizers)

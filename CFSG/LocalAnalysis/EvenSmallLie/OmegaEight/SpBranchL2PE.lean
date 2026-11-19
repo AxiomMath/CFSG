@@ -144,7 +144,7 @@ theorem pEps_of {t : G} (htS : t ∈ S) {i : ℕ} (hti : (e ⟨t, htS⟩).code =
       _ = 32 := by norm_num)
   have hm := hmask b hb32
   rw [hvec, htK'] at hm
-  simp only [Bool.or_eq_true, beq_iff_eq, hb0, Bool.false_eq_true, false_or,
+  simp only [hb0, Bool.false_eq_true, false_or,
     List.contains_iff_mem] at hm
   rw [hI, hO]
   exact hm

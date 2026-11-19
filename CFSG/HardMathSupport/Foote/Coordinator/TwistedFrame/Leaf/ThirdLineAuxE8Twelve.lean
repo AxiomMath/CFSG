@@ -25,7 +25,7 @@ theorem ncard_classSetL_le (rows : List LineRow) (j : ℕ) :
   have h : classSetL rows j =
       (fun l => toVec Tag.E8.rank l) '' {l | l ∈ lineClassRoots rows j} := by
     ext α
-    simp only [classSetL, Set.mem_setOf_eq, Set.mem_image]
+    simp only [classSetL, Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨l, hl, rfl⟩
       exact ⟨l, hl, rfl⟩
@@ -193,10 +193,10 @@ theorem twThirdLine_e8Twelve_aux (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [
 theorem twThirdLine_e8Twelve (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) (hord : orderOf ((Nat.card K : ℕ) : ZMod p) = 12) : TwThirdLine .E8 K p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := fun h => by
     rw [h, orderOf_zero] at hord
     omega

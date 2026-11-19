@@ -29,14 +29,14 @@ theorem isSimpleGroup_Gsp [CharP K 2] [FiniteDimensional K N] (hq : 4 ≤ Nat.ca
   have hQ := CFSG.RankThree.PartOne.KCSpIsotypic.isQuasisimple_sesqUnitaryGroup_of_alt hBN hBNnd
     hdim (Or.inl hq)
   rw [← CFSG.RankThree.PartOne.KCSpIsotypic.bilinIsometryGroup_eq_sesqUnitaryGroup] at hQ
-  haveI : IsSimpleGroup (Gsp BN ⧸ Subgroup.center (Gsp BN)) := hQ.2.1
+  have : IsSimpleGroup (Gsp BN ⧸ Subgroup.center (Gsp BN)) := hQ.2.1
   exact ((QuotientGroup.quotientMulEquivOfEq (center_Gsp_eq_bot hBN hBNnd)).trans
     QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem injective_of_apply_Tsp_ne_one [CharP K 2] [FiniteDimensional K N] (hq : 4 ≤ Nat.card K)
     (hBN : BN.IsAlt) (hBNnd : BN.Nondegenerate) (hdim : 2 ≤ finrank K N) {H : Type*} [Group H]
     (ρ : Gsp BN →* H) {v : N} {c : K} (h : ρ (Tsp hBN v c) ≠ 1) : Function.Injective ρ := by
-  haveI := isSimpleGroup_Gsp hq hBN hBNnd hdim
+  have := isSimpleGroup_Gsp hq hBN hBNnd hdim
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρ.ker with hker | hker
   · exact (MonoidHom.ker_eq_bot_iff ρ).mp hker
   · exact absurd (MonoidHom.mem_ker.mp (hker ▸ Subgroup.mem_top (Tsp hBN v c))) h

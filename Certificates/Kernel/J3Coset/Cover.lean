@@ -32,6 +32,7 @@ variable {J : Type} [Group J] [Finite J] [MulAction J (Fin nn)] {g : ℕ → J}
 variable (hg : Acts g)
 include hg
 
+omit [Finite J] in
 theorem word_ne' (w v : List ℕ) (hw : ∀ c ∈ w, c < 8) (hv : ∀ c ∈ v, c < 8)
     (h : (!baseEq tb beta0 w v) = true) : ev g w ≠ ev g v := by
   intro e

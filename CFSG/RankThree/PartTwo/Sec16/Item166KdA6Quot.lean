@@ -27,7 +27,7 @@ theorem exists_alternatingGroup_quotient_lB
         (x : G) ∈ CFSG.Open.pCoreOf 2 (lB A (Subgroup.closure {c, d})) ⊔
           Subgroup.zpowers d := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTC : Sec4.IsTripleCover
       (↥(lB A (Subgroup.closure {c, d})) ⧸ CFSG.pCore 2 ↥(lB A (Subgroup.closure {c, d})))
       (alternatingGroup (Fin 6)) :=

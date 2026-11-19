@@ -119,7 +119,7 @@ theorem ne_two_mul_of_fixed_zero (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) (h5 :
 
 theorem d4TrialityCentRank_holds : D4TrialityCentRank := by
   intro K _ _ r f hr hr2 hr3 hK t ht3 htE A hA hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hlt
   push Not at hlt
   have hf : 1 ≤ f := one_le_of_card_field hK

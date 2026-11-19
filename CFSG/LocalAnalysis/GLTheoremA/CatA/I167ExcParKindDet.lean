@@ -49,7 +49,7 @@ private theorem exc_det_neg_element_aux1 {τ : Tag} (x : Fin τ.rank → ℚ) :
     x = ∑ i, x i • excToQ (Pi.single i 1 : Fin τ.rank → ℤ) := by
   have hbase : (∑ i, (Pi.single i (x i) : Fin τ.rank → ℚ)) = x := by
     funext j
-    simpa using Finset.sum_pi_single j (fun i => x i) Finset.univ
+    simp
   have hsingle : (∑ i, x i • (Pi.single i 1 : Fin τ.rank → ℚ)) =
       ∑ i, (Pi.single i (x i) : Fin τ.rank → ℚ) :=
     Finset.sum_congr rfl fun i _ => by

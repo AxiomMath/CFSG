@@ -101,7 +101,7 @@ theorem qTwoFrontM_centralizer_solvable {K : Type} [Field K] [Finite K] (hK : Na
     refine ⟨⟨g, hmem⟩, ?_⟩
     apply Subtype.ext
     exact hg
-  haveI : Group.IsSolvable ↥(ggFix δ) := hsol
+  have : Group.IsSolvable ↥(ggFix δ) := hsol
   exact Group.isSolvable_of_surjective (f := f) hsurj
 
 end CFSG.StandardType.QTwo

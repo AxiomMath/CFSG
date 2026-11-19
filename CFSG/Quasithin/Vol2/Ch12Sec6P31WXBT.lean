@@ -36,7 +36,7 @@ variable {Y : Type} [Group Y] {X U : Subgroup Y} {G : Type} [Group G]
 theorem bt_sylow_iso [Finite G] (hU : IsSylowTwoOf U X) (e₀ : ↥X ≃* G) {R : Subgroup G}
     (hR : IsSylowTwoOf R ⊤) :
     ∃ e : ↥X ≃* G, (U.subgroupOf X).map e.toMonoidHom = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylowTwoOf (U.subgroupOf X) ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
     · exact hU.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hU.1).symm
@@ -189,7 +189,7 @@ theorem bt_solv
       (hUA (Subgroup.mem_subgroupOf.mp hx)))
   have hA's : Group.IsSolvable ↥A' := by
     have e1 : ↥(A.subgroupOf X) ≃* ↥A := Subgroup.subgroupOfEquivOfLe hAX
-    haveI : Group.IsSolvable ↥(A.subgroupOf X) :=
+    have : Group.IsSolvable ↥(A.subgroupOf X) :=
       Group.isSolvable_of_surjective (f := e1.symm.toMonoidHom) e1.symm.surjective
     have e2 : ↥(A.subgroupOf X) ≃* ↥A' := (A.subgroupOf X).equivMapOfInjective _ e.injective
     exact Group.isSolvable_of_surjective (f := e2.toMonoidHom) e2.surjective
@@ -201,6 +201,7 @@ theorem bt_solv
     exact Subgroup.mem_inf.mpr ⟨haX, (Subgroup.mem_inf.mp hb).2⟩
 
 include hU e he in
+omit hU in
 theorem bt_conj [Finite G] (r : Y)
     (hr : r ∈ Subgroup.normalizer (X : Set Y) ⊓ Subgroup.normalizer (U : Set Y)) :
     ∃ α : MulAut G, UG.map α.toMonoidHom = UG ∧

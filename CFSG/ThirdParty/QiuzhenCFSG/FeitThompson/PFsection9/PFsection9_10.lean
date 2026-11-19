@@ -249,7 +249,7 @@ private theorem theorem_9_10_MF_U_complement_in_join_sec9
     rw [← Subgroup.subgroupOf_sup (A := MF) (A' := U) (B := MF ⊔ U)
       le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.2 le_rfl
-  letI : (MF.subgroupOf (MF ⊔ U)).Normal := hMFnormalS
+  let : (MF.subgroupOf (MF ⊔ U)).Normal := hMFnormalS
   exact isComplement'_of_disjoint_sup_eq_top_of_normal
     (MF.subgroupOf (MF ⊔ U)) (U.subgroupOf (MF ⊔ U))
     hMFUdisjSub hMFUsupTop
@@ -267,7 +267,7 @@ private theorem theorem_9_10_quotient_frobenius_formal_facts_sec9
           (QuotientGroup.mk' (H0.subgroupOf (MF ⊔ U)))
         Kbar.Normal ∧ Kbar.IsComplement' Rbar ∧ Kbar ≠ ⊥ ∧ Rbar ≠ ⊥ := by
   intro hcase hnormal
-  letI : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
+  let : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
   rcases hcase with
     ⟨h92, hH0MF, _hCentIn, _hpprime, _hqprime, hpdata, _hcard,
       _hcentBy, _hcyclicQuot, _hirr, _hfield, _hcop, _hdiv⟩
@@ -365,7 +365,7 @@ private theorem theorem_9_10_quotient_complement_centralizer_source_core_sec9
           x ≠ 1 → elementCentralizerIn Kbar (x :
             ↥(MF ⊔ U) ⧸ H0.subgroupOf (MF ⊔ U)) = ⊥ := by
   intro hcase hnormal
-  letI : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
+  let : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
   dsimp only
   intro x hx
   rw [Subgroup.eq_bot_iff_forall]
@@ -377,10 +377,10 @@ private theorem theorem_9_10_quotient_complement_centralizer_source_core_sec9
     ⟨hnH0MF, hnC, _hW1normU, _hCinv, F, fieldInst, fintypeInst, Ustar,
       _hFcard, _hUstarCard, _hUstarCyc, _hspan, φH, φU, _φW, hUact,
       _hWact⟩
-  letI : Field F := fieldInst
-  letI : Fintype F := fintypeInst
-  letI : (H0.subgroupOf MF).Normal := hnH0MF
-  letI : (C.subgroupOf U).Normal := hnC
+  let : Field F := fieldInst
+  let : Fintype F := fintypeInst
+  let : (H0.subgroupOf MF).Normal := hnH0MF
+  let : (C.subgroupOf U).Normal := hnC
   let Sg : Subgroup G := MF ⊔ U
   let N : Subgroup Sg := H0.subgroupOf Sg
   let K : Subgroup Sg := MF.subgroupOf Sg
@@ -532,7 +532,7 @@ public theorem theorem_9_10_quotient_frobenius_of_C_eq_bot_sec9
   let hnormal : (H0.subgroupOf (MF ⊔ U)).Normal :=
     theorem_9_10_H0_normal_in_MF_sup_U_sec9 M MF U W1 W2 H0 C p q u hcase
   refine ⟨case_9_7_b_H0_le_MF_sec9 hcase, hnormal, ?_⟩
-  letI : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
+  let : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
   let Kbar := (MF.subgroupOf (MF ⊔ U)).map
     (QuotientGroup.mk' (H0.subgroupOf (MF ⊔ U)))
   let Rbar := (U.subgroupOf (MF ⊔ U)).map
@@ -566,7 +566,7 @@ private theorem theorem_9_10_quotient_frobenius_disjoint_source_core_sec9
             ∀ g,
               g ∉ Rbar → Disjoint Rbar (Rbar.conjBy g) := by
   intro hcase hchar hno hnormal
-  letI : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
+  let : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
   let Kbar := (MF.subgroupOf (MF ⊔ U)).map
     (QuotientGroup.mk' (H0.subgroupOf (MF ⊔ U)))
   let Rbar := (U.subgroupOf (MF ⊔ U)).map
@@ -602,7 +602,7 @@ private theorem theorem_9_10_quotient_frobenius_group_source_core_sec9
               ((U.subgroupOf (MF ⊔ U)).map
                 (QuotientGroup.mk' (H0.subgroupOf (MF ⊔ U)))) := by
   intro hcase hchar hno hnormal
-  letI : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
+  let : (H0.subgroupOf (MF ⊔ U)).Normal := hnormal
   let Kbar := (MF.subgroupOf (MF ⊔ U)).map
     (QuotientGroup.mk' (H0.subgroupOf (MF ⊔ U)))
   let Rbar := (U.subgroupOf (MF ⊔ U)).map
@@ -678,7 +678,7 @@ public theorem theorem_9_10_typeII_frobenius_source_core_sec9
       p q u SH0 SH0C SH0Cprime hcaseB hchar hno).1
   have hSylow : ∀ r : Nat.Primes, ∀ P : Sylow r.val U, IsCyclic (P : Subgroup U) := by
     intro _r P
-    haveI : IsCyclic U := hUcyc
+    have : IsCyclic U := hUcyc
     exact Subgroup.isCyclic_of_le (H := (P : Subgroup U)) (H' := ⊤) le_top
   have h82 := Section8.theorem_8_2_b (ambientDerivedSubgroup M) MF U U1 U0
   exact (h82 hF).mpr hSylow

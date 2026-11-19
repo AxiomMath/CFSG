@@ -59,7 +59,7 @@ private theorem s16c1_perpHom_card {W : Type*} [CommGroup W] [Finite W] {Q : W �
     have hmem : f y ∈ f.range := ⟨y, rfl⟩
     rw [hbot] at hmem
     exact hy1 (Subgroup.mem_bot.mp hmem)
-  haveI : Fact (Nat.card (Multiplicative (ZMod 2))).Prime := ⟨by rw [hcardM]; norm_num⟩
+  have : Fact (Nat.card (Multiplicative (ZMod 2))).Prime := ⟨by rw [hcardM]; norm_num⟩
   have hrange_top : f.range = ⊤ := by
     rcases f.range.eq_bot_or_eq_top_of_prime_card with h | h
     · exact absurd h hrange_ne
@@ -71,7 +71,7 @@ private theorem s16c1_perpHom_card {W : Type*} [CommGroup W] [Finite W] {Q : W �
   omega
 
 theorem s16c1_perp_le_of_stable {W : Type*} [CommGroup W] [Finite W] {Q : W → ZMod 2}
-    (hQ : IsNondegQuadF2 Q) (hW : ∀ w : W, w * w = 1) (hW64 : Nat.card W = 64)
+    (hQ : IsNondegQuadF2 Q) (_hW : ∀ w : W, w * w = 1) (hW64 : Nat.card W = 64)
     {C : Subgroup (MulAut W)} (hCQ : QuadInvariant Q C) {z : W} (hz1 : z ≠ 1)
     (hzC : ∀ φ ∈ C, φ z = z)
     (hIrr : ∀ S : Subgroup W, StableUnder C S →

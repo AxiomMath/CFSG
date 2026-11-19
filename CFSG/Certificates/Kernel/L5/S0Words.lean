@@ -41,7 +41,6 @@ theorem wBfsRound_map_ev (gs : List (CV 16)) (tab : List (CV 16 × List ℕ)) :
   unfold wBfsRound wBfsRoundG
   rw [List.foldl_map]
   refine List.foldl_hom (List.map evP) fun acc pw => ?_
-  beta_reduce
   have hm : (gs.map ev).mapIdx (fun i g => (nrm ((evP pw).1 * g), (evP pw).2 ++ [i])) =
       (gs.mapIdx fun i g => (pw.1 * g, pw.2 ++ [i])).map evP := by
     apply List.ext_getElem (by simp)
@@ -49,7 +48,6 @@ theorem wBfsRound_map_ev (gs : List (CV 16)) (tab : List (CV 16 × List ℕ)) :
     simp only [List.getElem_mapIdx, List.getElem_map, evP, nrm_eq, ev_mul']
   rw [hm, List.foldl_map]
   refine List.foldl_hom (List.map evP) fun acc2 qw => ?_
-  beta_reduce
   simp only [List.any_map, Function.comp_def, evP, beq_ev, beq_cv]
   cases acc2.any (fun e => decide (e.1 = qw.1)) <;> simp [evP]
 

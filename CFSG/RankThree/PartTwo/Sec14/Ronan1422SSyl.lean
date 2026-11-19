@@ -45,6 +45,7 @@ theorem mem_A_of_centralizes (h : Pt A c L) {z : G} (hzA : ∀ a ∈ A, a * z = 
 
 end Pt
 
+omit [Finite G] in
 theorem mem_sup_of_forall_commute {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x)
     {z : G} : z ∈ H ⊔ K ↔ ∃ x ∈ H, ∃ y ∈ K, x * y = z := by
   refine ⟨fun hz => ?_, fun ⟨x, hx, y, hy, e⟩ => by
@@ -77,7 +78,7 @@ theorem mul_inv_eq_inv_mul_of_mul_eq {a b : G} (h : a * b = b * a) : a * b⁻¹ 
 omit [Finite G] in
 theorem conj_eq_of_pow_prime_pow {c g : G} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) {k : ℕ}
     (hgk : g ^ 3 ^ k = 1) (hgc : g * c * g⁻¹ ∈ Subgroup.zpowers c) : g * c * g⁻¹ = c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hcyc : ∀ t ∈ Subgroup.zpowers c, t = 1 ∨ t = c ∨ t = c⁻¹ := by
     intro t ht
@@ -135,11 +136,11 @@ theorem conj_eq_of_pow_prime_pow {c g : G} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) {k 
 theorem exists_mem_normalizer_not_mem {p : ℕ} [Fact p.Prime] {Q A : Subgroup G}
     (hQ : IsPGroup p Q) (hAQ : A ≤ Q) (hne : A ≠ Q) :
     ∃ x ∈ Q, x ∈ Subgroup.normalizer (A : Set G) ∧ x ∉ A := by
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hsub : A.subgroupOf Q < ⊤ := lt_top_iff_ne_top.mpr fun htop =>
     hne (le_antisymm hAQ (Subgroup.subgroupOf_eq_top.mp htop))
   have hnc : NormalizerCondition Q := Group.normalizerCondition_of_isNilpotent
-  obtain ⟨x0, hx0N, hx0A⟩ := SetLike.exists_of_lt (hnc _ hsub)
+  obtain ⟨x0, hx0N, hx0A⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hsub)
   refine ⟨(x0 : G), x0.2, ?_, fun hx => hx0A (Subgroup.mem_subgroupOf.mpr hx)⟩
   rw [Subgroup.mem_normalizer_iff]
   intro g
@@ -156,6 +157,7 @@ theorem exists_mem_normalizer_not_mem {p : ℕ} [Fact p.Prime] {Q A : Subgroup G
       rw [e]
       exact Q.mul_mem (Q.mul_mem (Q.inv_mem x0.2) (hAQ hxg)) x0.2
 
+omit [Finite G] in
 theorem map_conj_mul_map (X : Subgroup G) (a b : G) :
     X.map (MulAut.conj (a * b)).toMonoidHom =
       (X.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom := by
@@ -222,7 +224,7 @@ theorem map_subtype_conj_subgroupOf {X : Subgroup G} (hX : X ≤ L) (l : L) :
     rfl
   rw [hcomp, ← Subgroup.map_map, Subgroup.map_subgroupOf_eq_of_le hX]
 
-theorem map_normalizerMonoidHom_subgroupOf {B : Subgroup G} (hBL : B ≤ L) {u : G}
+theorem map_normalizerMonoidHom_subgroupOf {B : Subgroup G} (_hBL : B ≤ L) {u : G}
     (hu : u ∈ Subgroup.normalizer (L : Set G)) (hB : B.map (MulAut.conj u).toMonoidHom = B) :
     (B.subgroupOf L).map (L.normalizerMonoidHom ⟨u, hu⟩).toMonoidHom = B.subgroupOf L := by
   apply Subgroup.eq_of_le_of_card_ge
@@ -339,9 +341,9 @@ theorem exists_factor (h : Pt A c L) {x : G} (hxL : x ∈ Subgroup.normalizer (L
 
 theorem center_eq_bot (h : Pt A c L) : Subgroup.center L = ⊥ := by
   obtain ⟨e⟩ := h.m22
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
     CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have : IsSimpleGroup L := e.isSimpleGroup
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center L) with hbot | htop
   · exact hbot
   · exfalso
@@ -434,7 +436,7 @@ theorem cube_mem_zpowers (h : Pt A c L) {y : G} (hyA : ∀ a ∈ A, a * y = y * 
 theorem eq_of_isPGroup_three (h : Pt A c L) {Q : Subgroup G} (hQ : IsPGroup 3 Q) (hAQ : A ≤ Q)
     (hQN : Q ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) : Q = A := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc3 : c ^ 3 = 1 := h.pow_three_of_mem h.mem_A
   have hcard : Nat.card (Subgroup.zpowers c) = 3 :=
     (zpowers_mem_omegaA_iff.mp h.std.zpowers_mem_omegaA).2.1
@@ -455,7 +457,7 @@ theorem eq_of_isPGroup_three (h : Pt A c L) {Q : Subgroup G} (hQ : IsPGroup 3 Q)
   have hxB : x ∈ Subgroup.normalizer ((A ⊓ L : Subgroup G) : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro g
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr (Subgroup.mem_normalizer_iff.mp hxN g) (Subgroup.mem_normalizer_iff.mp hxL g)
   have hxBc : ∀ b ∈ A ⊓ L, x * b = b * x := fun b hb =>
     mul_inv_eq_iff_eq_mul.mp (h.fix_of_pow hxL hxk hxB b hb)
@@ -545,7 +547,7 @@ theorem eq_of_isPGroup_three (h : Pt A c L) {Q : Subgroup G} (hQ : IsPGroup 3 Q)
   have conjZ : ∀ (t : G) (n : ℤ), (w * t * w⁻¹) ^ n = w * t ^ n * w⁻¹ := by
     intro t n
     have := map_zpow (MulAut.conj w) t n
-    simpa [MulAut.conj_apply] using this.symm
+    simp
   obtain ⟨y', hy'def⟩ : ∃ y' : G, y' = w * y * w⁻¹ := ⟨_, rfl⟩
   have hy'A : ∀ a ∈ A, a * y' = y' * a := by
     intro a ha
@@ -738,7 +740,7 @@ theorem exists_conj_eq (h : Pt A c L) {g : G} (hgL : g ∈ Subgroup.normalizer (
     exact (Subgroup.mem_normalizer_iff.mp hgL b).mp hb.2
   have hBgcard : Nat.card ((A ⊓ L).map (MulAut.conj g).toMonoidHom) = 9 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, h.card_B]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := h.m22
   have hfac : (Nat.card L).factorization 3 = 2 := by
     rw [Nat.card_congr e.toEquiv, CFSG.RankThree.Asc83Table.M22.factorization_card]

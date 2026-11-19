@@ -54,7 +54,7 @@ theorem exists_marked_y322_of_check
     have hc8 : c < 8 := hl c hc
     show y322Img s c = conjPt ks[c]!
     unfold y322Img
-    rw [dif_pos hc8]
+    rw [dite_eq_left hc8]
   · refine ⟨0, 1, fun hcomm => ?_⟩
     have hA := rep_starWordTab_dTable [ks[0]!, ks[1]!]
     have hB := rep_starWordTab_dTable [ks[1]!, ks[0]!]
@@ -87,9 +87,9 @@ theorem exists_fi23_refl_embedding :
       constructor
       · rintro ⟨c, hc, rfl⟩
         have hc8 : c < 8 := hc
-        exact ⟨⟨c, hc8⟩, by simp only [y322Img, dif_pos hc8]⟩
+        exact ⟨⟨c, hc8⟩, by simp only [y322Img, dite_eq_left hc8]⟩
       · rintro ⟨i, rfl⟩
-        exact ⟨i.val, i.2, by simp only [y322Img, dif_pos i.2]⟩
+        exact ⟨i.val, i.2, by simp only [y322Img, dite_eq_left i.2]⟩
     rw [range_yModelHom, himg]
   have hnc : ∃ a ∈ f.range, ∃ b ∈ f.range, a * b ≠ b * a := by
     obtain ⟨i, j, h⟩ := hsnc
@@ -138,7 +138,7 @@ theorem exists_fi23_refl_embedding :
     rw [← hπgen, hκcomp]
     change yModelHom (y322Img s) hsrel (yGen 3 2 2 i.val) = s i
     rw [yModelHom_yGen (by simp [ngen])]
-    simp only [y322Img, dif_pos i.2]
+    simp only [y322Img, dite_eq_left i.2]
   refine ⟨κ, hκ, 0, ?_⟩
   rw [hκgen]
   exact hsD 0

@@ -13,6 +13,7 @@ namespace S4A
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sq_mem_centralizer_of_four_le_card_fixed {A : Subgroup G} (hA : ∀ a ∈ A, a * a = 1)
     (hcard : Nat.card A = 8) {g : G} (hg : g ∈ normalizer (A : Set G))
     (hC : 4 ≤ Nat.card (A ⊓ centralizer ({g} : Set G) : Subgroup G)) :
@@ -83,6 +84,7 @@ theorem sq_mem_centralizer_of_four_le_card_fixed {A : Subgroup G} (hA : ∀ a �
     calc a₀ * (g * g) = (g * (g * a₀ * g⁻¹) * g⁻¹) * (g * g) := by rw [h1]
       _ = g * g * a₀ := by group
 
+omit [Finite G] in
 theorem card_le_two_mul_inf_of_sq_dihedral {V W B : Subgroup G} (hBV : B ≤ V)
     (φ : ↥V →* DihedralGroup 4) (hker : φ.ker = W.subgroupOf V)
     (hsq : ∀ b ∈ B, ∃ v ∈ V, b = v * v) :

@@ -253,7 +253,7 @@ theorem AS_card : Nat.card AS = 243 := by
         refine ⟨Multiplicative.ofAdd (Pi.single j 1), ?_⟩
         rw [hcoe]
         have : Fact (1 < 3) := ⟨by norm_num⟩
-        fin_cases j <;> simp [ph, Pi.single_apply, ZMod.val_one]
+        fin_cases j <;> simp [ph, ZMod.val_one]
       | one => exact ⟨1, congrArg Subtype.val (map_one ψ)⟩
       | mul x y _ _ ihx ihy =>
         obtain ⟨e, he⟩ := ihx

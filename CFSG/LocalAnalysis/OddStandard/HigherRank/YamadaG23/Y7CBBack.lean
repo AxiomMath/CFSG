@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
-private theorem y7c_conjSub_K7 (c : Ctx7 G L) (hb : B7Std c) {x : G} (hx : x ∈ y7cX c.s) :
+private theorem y7c_conjSub_K7 (c : Ctx7 G L) (_hb : B7Std c) {x : G} (hx : x ∈ y7cX c.s) :
     conjSub x (K7 c.s) = K7 c.s := by
   have key : ∀ y : G, (conjSub y (JF c.s ⊔ M3 c.s)).map (MulAut.conj x).toMonoidHom
       = conjSub (x * y) (JF c.s ⊔ M3 c.s) := by
@@ -33,7 +33,7 @@ private theorem y7c_conjSub_K7 (c : Ctx7 G L) (hb : B7Std c) {x : G} (hx : x ∈
 theorem y7c_K7_eq_pre (c : Ctx7 G L) (hb : B7Std c) :
     K7 c.s = y7cPre c.s (Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s))) := by
   let N : Subgroup (y7cGam c.s) := Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s))
-  haveI hNn : N.Normal := Subgroup.normalClosure_normal
+  have hNn : N.Normal := Subgroup.normalClosure_normal
   let H : Subgroup G := JF c.s ⊔ M3 c.s
   have hHX : H ≤ y7cX c.s := sup_le (y7c_JF_le_X c hb) (y7c_M3_le_X c.s)
   have hHM : M3 c.s ≤ H := le_sup_right
@@ -66,7 +66,7 @@ theorem y7c_K7_eq_pre (c : Ctx7 G L) (hb : B7Std c) :
     refine le_trans ?_ (le_iSup₂_of_le (1 : G) (Subgroup.one_mem (y7cX c.s)) le_rfl)
     intro m hm
     rw [conjSub, Subgroup.mem_map]
-    exact ⟨m, Subgroup.mem_sup_right hm, by simp [MulAut.conj_apply]⟩
+    exact ⟨m, Subgroup.mem_sup_right hm, by simp⟩
   have hJleKbar : y7cJC c ≤ y7cImg c.s (K7 c.s) :=
     y7cImg_mono c.s (y7c_JF_le_K7 c.s)
   have hKbar_normal : (y7cImg c.s (K7 c.s)).Normal := by
@@ -107,7 +107,7 @@ theorem y7c_K7_norm (c : Ctx7 G L) (hb : B7Std c) :
     rw [hsub]
     simp only [map_mul, map_inv]
   rw [h1]
-  haveI hNn : (Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s))).Normal :=
+  have hNn : (Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s))).Normal :=
     Subgroup.normalClosure_normal
   exact hNn.conj_mem _ hkπ _
 
@@ -134,7 +134,7 @@ theorem y7c_secProp_pre {A : Type} [Group A] (s : Setting3 G L) (Y : Subgroup (y
     apply Subtype.ext
     have hval : ((φ ⟨(x : G), hxY⟩ : ↥Y) : y7cGam s)
         = y7cPi s ⟨(x : G), y7cPre_le_X s Y hxY⟩ := by
-      simp only [φ, MonoidHom.codRestrict_apply, MonoidHom.comp_apply]
+      simp only [φ]
       congr 1
     rw [hval]
     rw [show (⟨(x : G), y7cPre_le_X s Y hxY⟩ : ↥(y7cX s)) = x from Subtype.ext rfl]
@@ -143,7 +143,7 @@ theorem y7c_secProp_pre {A : Type} [Group A] (s : Setting3 G L) (Y : Subgroup (y
     ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subtype.ext_iff, Subgroup.coe_one]
     have hval : ((φ x : ↥Y) : y7cGam s) = y7cPi s ⟨(x : G), y7cPre_le_X s Y x.2⟩ := by
-      simp only [φ, MonoidHom.codRestrict_apply, MonoidHom.comp_apply]
+      simp only [φ]
       congr 1
     rw [hval, y7cPi_eq_one_iff]
   obtain ⟨e⟩ := hY
@@ -185,7 +185,7 @@ theorem y7c_isCompPre_pre (c : Ctx7 G L) (hb : B7Std c) {Y : Subgroup (y7cGam c.
 theorem y7c_sylow_pre (c : Ctx7 G L) (hb : B7Std c)
     (hS : IsSylowIn 2 (Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s))) (y7cPC c)) :
     IsSylowIn 2 (K7 c.s) (P7 c.e) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPreP : y7cPre c.s (y7cImg c.s (P7 c.e)) = P7 c.e :=
     y7cPre_img c.s (y7c_P7_le_X c hb) (y7c_M3_le_P7 c hb)
   have hPK : P7 c.e ≤ K7 c.s := by

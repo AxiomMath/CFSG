@@ -32,7 +32,7 @@ theorem NoncyclicDatum.conj {S : Type} [Group S] {β' : MulAut S} (h : Noncyclic
       simp only [MulAut.mul_apply] at this
       rw [this, hinv]
     refine ⟨γ⁻¹ c * r * (γ⁻¹ c)⁻¹, hnorm _ hc' r hr, ?_⟩
-    simp [hinv]
+    simp
   · intro z hz
     have hz' : γ⁻¹ z ∈ Subgroup.center S := by
       rw [Subgroup.mem_center_iff]
@@ -41,7 +41,7 @@ theorem NoncyclicDatum.conj {S : Type} [Group S] {β' : MulAut S} (h : Noncyclic
       apply γ.injective
       simp only [map_mul, hinv]
       rw [this]
-    exact ⟨γ⁻¹ z, hZR hz', by simp [hinv]⟩
+    exact ⟨γ⁻¹ z, hZR hz', by simp⟩
   · rw [Subgroup.card_map_of_injective γ.injective]
     exact h9
 

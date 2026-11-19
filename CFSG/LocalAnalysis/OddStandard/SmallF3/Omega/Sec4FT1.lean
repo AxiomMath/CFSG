@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B P : Subgroup G}
   {x : G} {φ : (Fin 7 → ZMod 2) → G}
 
+omit [Finite G] in
 theorem sec4F_T1_cases {P : Subgroup G} {x : G} (hx : x ∈ normalizer (P : Set G))
     (hx2 : x * x ∈ P) {g : G} (hg : g ∈ P ⊔ zpowers x) : g ∈ P ∨ ∃ p ∈ P, g = x * p := by
   have hxinv : ∀ q ∈ P, x⁻¹ * q * x ∈ P := by

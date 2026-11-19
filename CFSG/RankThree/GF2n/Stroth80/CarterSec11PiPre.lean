@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G]
   {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
   {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [(Q.subgroupOf M).Normal] in
 theorem Z_le_Q_of_ctx (hc : Ctx M Q Z B) : Z ≤ Q := by
   rw [hc.hyp.hZ, cen_eq]
   exact inf_le_left
@@ -48,7 +49,7 @@ theorem piPre_cmComm_eq_sup_comm [Finite K]
       exact ⟨commutator_le_Q hc hc',
         (mem_cmComm_iff hc hD φ hφπ (M₀.π c)).mpr ⟨c, hc', rfl⟩⟩
 
-theorem Ctx.conjSubgroup_piPre_eq (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
+theorem Ctx.conjSubgroup_piPre_eq (hc : Ctx M Q Z B) (_hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
       M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -79,6 +80,7 @@ theorem Ctx.conjSubgroup_piPre_eq (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z
     have h := hstep s⁻¹ x hx
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem piPre_top : piPre M₀ (⊤ : Submodule K M₀.E) = Q := by
   ext x
   constructor

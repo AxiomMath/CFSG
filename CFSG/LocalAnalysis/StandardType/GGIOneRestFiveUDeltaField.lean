@@ -6,7 +6,7 @@ public section
 
 namespace CFSG.StandardType.IOneUDelta
 
-theorem pow_eq_zero_of_lt_two_mul {n b : ℕ} (hn : 1 ≤ n) (hb : b < 2 * n)
+theorem pow_eq_zero_of_lt_two_mul {n b : ℕ} (_hn : 1 ≤ n) (hb : b < 2 * n)
     (hb1 : (2 : ZMod (2 ^ n + 1)) ^ b = 1) : b = 0 := by
   have hneg : (2 : ZMod (2 ^ n + 1)) ^ n = -1 := by
     have h0 : ((2 ^ n + 1 : ℕ) : ZMod (2 ^ n + 1)) = 0 := ZMod.natCast_self _
@@ -88,7 +88,7 @@ theorem exists_orderOf_eq_succ {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1
 theorem fieldAut_eq_id_of_fix {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) (τ : K ≃+* K)
     (hτ : ∀ x : K, x ^ (2 ^ n + 1) = 1 → τ x = x) : ∀ x : K, τ x = x := by
-  letI : Algebra (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toAlgebra
+  let : Algebra (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toAlgebra
   have hcomm : ∀ x : ZMod 2, τ (algebraMap (ZMod 2) K x) = algebraMap (ZMod 2) K x := by
     intro x
     have h := RingHom.ext_zmod ((τ : K →+* K).comp (algebraMap (ZMod 2) K))
@@ -126,7 +126,7 @@ theorem fieldAut_eq_id_of_fix {K : Type} [Field K] [Finite K] [CharP K 2] {n : �
   obtain ⟨m, hm⟩ := two_mul_dvd_of_dvd_two_pow_sub_one hn hdvd
   have hpc : ∀ y : K, y ^ Nat.card K = y := by
     intro y
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card y
   have hpm : ∀ k : ℕ, ∀ y : K, y ^ (Nat.card K ^ k) = y := by

@@ -32,7 +32,7 @@ theorem szQuot_zero_isSolvable {K : Type} [Field K] [Finite K] (hK : Nat.card K 
     have hc : Nat.card (suzukiGroup 0 K) = 20 := by
       rw [CFSG.LieType.Ree.suzuki_order hK]
       norm_num
-    haveI : Finite (suzukiGroup 0 K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+    have : Finite (suzukiGroup 0 K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
     exact CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_of_natCard (p := 2) (q := 5) (a := 2)
       (b := 1) Nat.prime_two (by norm_num) (by norm_num) (by rw [hc]; norm_num)
   unfold LargeEvenCenterQuot
@@ -52,7 +52,7 @@ theorem fixGapTwB2_holds : FixGapTwB2 := by
   · rcases Nat.eq_zero_or_pos (((2 * a + 1) / p - 1) / 2) with hb0 | hb1
     · left
       rw [hb0] at hk e
-      haveI := szQuot_zero_isSolvable hk
+      have := szQuot_zero_isSolvable hk
       exact isSolvable_ggFixSub_of_subfieldGrp hD
         (CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_of_mulEquiv e)
     · right

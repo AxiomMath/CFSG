@@ -46,7 +46,7 @@ theorem finrank_fixSub_bcRep_le {K k G W : Type*} [Field K] [Field k] [Algebra K
     rw [Representation.mem_invariants]
     exact ⟨fun h g => h g.1 g.2, fun h g hg => h ⟨g, hg⟩⟩
   rw [h1, h2]
-  haveI : Finite ↥A := inferInstance
+  have : Finite ↥A := inferInstance
   exact CFSG.HardMathSupport.Meierfrankenfeld.Proving.E7Curtis.finrank_invariants_bcRep_le
     (K := K) (k := k) (ρ.comp A.subtype)
 
@@ -260,7 +260,7 @@ theorem e6Surv27_core {k : Type} [Field k] [CharP k 2] [inst₀ : Algebra K k] {
       if i = s then (@algebraMap K k _ _ inst₀ (u : K)) ^ (2 ^ b) else 1) :
     Module.finrank k V = 27 ∧ ∀ A : Subgroup ↥(e6Data_valid.minGroup K), (∀ a ∈ A, a ^ 2 = 1) →
       A ≠ ⊥ → Nat.card A * Nat.card K ^ Module.finrank k ↥(fixSub ρ A) < Nat.card K ^ 27 := by
-  letI alg : Algebra K k := ((algebraMap K k).comp (frobEquiv K b).toRingHom).toAlgebra
+  let alg : Algebra K k := ((algebraMap K k).comp (frobEquiv K b).toRingHom).toAlgebra
   have key : ∀ u : K, algebraMap K k u = (@algebraMap K k _ _ inst₀ u) ^ (2 ^ b) := fun u => by
     show @algebraMap K k _ _ inst₀ (frobEquiv K b u) = _
     rw [frobEquiv_apply, map_pow]
@@ -273,8 +273,8 @@ theorem e6Surv27_core {k : Type} [Field k] [CharP k 2] [inst₀ : Algebra K k] {
     intro i u
     rw [e6Chi27_hm, key]
     by_cases h : i = e6n0
-    · rw [if_pos h, if_pos h, zpow_one]
-    · rw [if_neg h, if_neg h, zpow_zero]
+    · rw [ite_eq_left h, ite_eq_left h, zpow_one]
+    · rw [ite_eq_right h, ite_eq_right h, zpow_zero]
       simp
   have key5 : ∀ (i : Fin TwistTag.E6.tag.rank) (u : Kˣ),
       (if i = Min.e6n5 then (@algebraMap K k _ _ inst₀ (u : K)) ^ (2 ^ b) else 1) =
@@ -282,8 +282,8 @@ theorem e6Surv27_core {k : Type} [Field k] [CharP k 2] [inst₀ : Algebra K k] {
     intro i u
     rw [Min.e6Chi27s_hm, key]
     by_cases h : i = Min.e6n5
-    · rw [if_pos h, if_pos h, zpow_one]
-    · rw [if_neg h, if_neg h, zpow_zero]
+    · rw [ite_eq_left h, ite_eq_left h, zpow_one]
+    · rw [ite_eq_right h, ite_eq_right h, zpow_zero]
       simp
   rcases hs with rfl | rfl
   · subst hJ

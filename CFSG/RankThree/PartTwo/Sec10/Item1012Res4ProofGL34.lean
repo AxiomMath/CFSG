@@ -67,7 +67,7 @@ theorem ks_inSubgroup_le_SLsub (H : Subgroup (Matrix.GeneralLinearGroup (Fin 3) 
 theorem ks_le_inSubgroup_of_isPerfect {G : Type} [Group G] (H K : Subgroup G) (hKH : K ≤ H)
     [Group.IsPerfect K] : K ≤ CFSG.inSubgroup perfectResidual H := by
   intro g hg
-  haveI : Group.IsPerfect (K.subgroupOf H) :=
+  have : Group.IsPerfect (K.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKH).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKH).symm.surjective
   have hle := ks_le_perfectResidual (K.subgroupOf H)
@@ -81,7 +81,7 @@ theorem ks_SLsub_eq :
 
 theorem ks_isPerfect_SLsub :
     Group.IsPerfect ↥CFSG.RankThree.PartTwo.Sec10.KS1012GL34.SLsub := by
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedSL 3 CFSG.Fischer.F4) :=
+  have : Group.IsPerfect ↥(CFSG.Open.StatedSL 3 CFSG.Fischer.F4) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) CFSG.Fischer.F4
   exact Group.IsPerfect.ofSurjective
     (f := (MulEquiv.subgroupCongr ks_SLsub_eq).symm.toMonoidHom)
@@ -95,7 +95,7 @@ theorem ks_isSLThreePiAt_of_mulEquiv {X : Type} [Group X]
     Or.inl ⟨Nat.card_eq_fintype_card.trans CFSG.Fischer.F4.card, by norm_num, ⟨e⟩⟩⟩
 
 theorem ks_normalizer_map {G N : Type*} [Group G] [Group N] (ρ : G →* N)
-    (hρ : Function.Injective ρ) (K : Subgroup G) {g : G}
+    (_hρ : Function.Injective ρ) (K : Subgroup G) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     ρ g ∈ Subgroup.normalizer ((K.map ρ : Subgroup N) : Set N) := by
   rw [Subgroup.mem_normalizer_iff] at hg ⊢
@@ -195,7 +195,7 @@ theorem ks1012GL34_core
   ·
     have hSLle : CFSG.RankThree.PartTwo.Sec10.KS1012GL34.SLsub ≤ ρ.range :=
       fun g hg => hcl_le (hSL g hg)
-    haveI := ks_isPerfect_SLsub
+    have := ks_isPerfect_SLsub
     have hKeq : CFSG.inSubgroup perfectResidual ρ.range =
         CFSG.RankThree.PartTwo.Sec10.KS1012GL34.SLsub :=
       le_antisymm (ks_inSubgroup_le_SLsub ρ.range)
@@ -207,7 +207,7 @@ theorem ks1012GL34_core
     have hPle : CFSG.RankThree.PartTwo.Sec10.KS1012GL34.P i ≤ ρ.range := by
       rw [← hPi]
       exact hcl_le
-    haveI := hPperf i
+    have := hPperf i
     have hPK := ks_le_inSubgroup_of_isPerfect ρ.range _ hPle
     have hKS := ks_inSubgroup_le_SLsub ρ.range
     obtain ⟨eI⟩ := ks_inSubgroup_equiv Y ρ hρ

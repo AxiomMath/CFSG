@@ -28,7 +28,7 @@ theorem false_of_lin_unitaryThree {KC : Type} [Group KC] [Finite KC] {n : ℕ}
   exact Core.false_of_lin_unitaryThree kFactUnitarySylowStructure hn hd e hL TL T' hET φ
 
 theorem even_of_lin_altSix {KC : Type} [Group KC] [Finite KC] {n : ℕ}
-    {d : TauCeti.ValidLieTypeIndex} (hn : 1 ≤ n) (hd : IsLinTwoIndex 3 n d)
+    {d : TauCeti.ValidLieTypeIndex} (_hn : 1 ≤ n) (hd : IsLinTwoIndex 3 n d)
     (he : Nonempty (KC ≃* CatGroup d)) {W : Subgroup KC} {L : Type} [Group L] [Finite L]
     (hL : IsAltTwoP 3 L) (f : ↥W →* L) (hf : Function.Surjective f) : Even n := by
   obtain ⟨e⟩ := he

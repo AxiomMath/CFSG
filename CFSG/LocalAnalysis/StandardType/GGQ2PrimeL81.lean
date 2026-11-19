@@ -56,7 +56,7 @@ theorem lemma81Input_holds :
   obtain ⟨hset, hev, -, -, hALA, -, hW5, hW⟩ := hctx
   obtain ⟨hyp, hbstar, hBs_card, hBs_norm, hmodel⟩ := hset
   obtain ⟨-, -, -, hcomp, hcyc, hperf, -, -⟩ := ggThmIHyp_unpack hyp
-  haveI : Group.IsPerfect L := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect L := Group.isPerfect_def.2 hperf
   have hBab : IsElemAbelian 3 Bs := hbstar.2.1
   set ν := (outerAction L).comp (inclusion hBs_norm) with hν
   have hα3 : ∀ b : Bs, normalizerMonoidHom L (inclusion hBs_norm b) ^ 3 = 1 := fun b => by

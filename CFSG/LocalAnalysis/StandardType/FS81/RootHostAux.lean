@@ -39,12 +39,12 @@ theorem commutator_sup_zpowers_le_of_centralizer {G : Type} [Group G] {x : G} {L
   let K : Subgroup G := Subgroup.zpowers x ⊔ L
   have hzpN : Subgroup.zpowers x ≤ Subgroup.normalizer (L : Set G) :=
     zpowers_le_normalizer_of_le_centralizer hL
-  haveI hNnormal : (L.subgroupOf K).Normal :=
+  have hNnormal : (L.subgroupOf K).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := Subgroup.zpowers x) (N := L) hzpN
   have htop : L.subgroupOf K ⊔ (Subgroup.zpowers x).subgroupOf K = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (A := L) (A' := Subgroup.zpowers x) (B := K)
       le_sup_right le_sup_left, sup_comm, Subgroup.subgroupOf_self]
-  haveI : IsMulCommutative ((Subgroup.zpowers x).subgroupOf K) := inferInstance
+  have : IsMulCommutative ((Subgroup.zpowers x).subgroupOf K) := inferInstance
   have hcomm : _root_.commutator ↥K ≤ L.subgroupOf K :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := L.subgroupOf K)
       (H := (Subgroup.zpowers x).subgroupOf K) htop
@@ -56,9 +56,9 @@ theorem commutator_sup_zpowers_le_of_centralizer {G : Type} [Group G] {x : G} {L
         exact le_sup_right
 
 theorem isPerfect_of_isSimpleGroup_of_center_eq_bot {G : Type} [Group G] [IsSimpleGroup G]
-    (hZ : Subgroup.center G = ⊥) [Nontrivial G] : Group.IsPerfect G := by
+    (hZ : Subgroup.center G = ⊥) : Group.IsPerfect G := by
   rw [Group.isPerfect_def]
-  haveI : (commutator G).Normal := by
+  have : (commutator G).Normal := by
     rw [show commutator G = ⁅(⊤ : Subgroup G), ⊤⁆ from rfl]
     infer_instance
   rcases Subgroup.Normal.eq_bot_or_eq_top (commutator G) with hbot | htop
@@ -74,7 +74,7 @@ theorem le_closure_cube_of_simple {G : Type} [Group G] [Finite G] (P : Subgroup 
   let T : Set G := {y : G | y ∈ P ∧ y ^ 3 = 1}
   let S : Subgroup G := Subgroup.closure T
   have hSP : S ≤ P := (Subgroup.closure_le _).mpr (fun y hy => hy.1)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hne : S.subgroupOf P ≠ ⊥ := by
     obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := ↥P) 3 h3
     intro hbot
@@ -98,14 +98,14 @@ theorem le_closure_cube_of_simple {G : Type} [Group G] [Finite G] (P : Subgroup 
         refine Subgroup.subset_closure ⟨P.mul_mem (P.mul_mem hk hy.1) (P.inv_mem hk), ?_⟩
         rw [conj_pow, hy.2]
         group
-    | one => simpa using S.one_mem
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [show k * (x * y) * k⁻¹ = (k * x * k⁻¹) * (k * y * k⁻¹) by group]
         exact S.mul_mem ihx ihy
     | inv x hx ih =>
         rw [show k * x⁻¹ * k⁻¹ = (k * x * k⁻¹)⁻¹ by group]
         exact S.inv_mem ih
-  haveI : (S.subgroupOf P).Normal := hnorm
+  have : (S.subgroupOf P).Normal := hnorm
   rcases Subgroup.Normal.eq_bot_or_eq_top (S.subgroupOf P) with hbot | htop
   · exact absurd hbot hne
   · exact Subgroup.subgroupOf_eq_top.mp htop

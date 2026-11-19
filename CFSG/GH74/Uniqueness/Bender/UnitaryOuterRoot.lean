@@ -19,7 +19,7 @@ theorem BenderType.sq_mem_rootCenter_unitary
     {x : K} (hx : x ∈ (Q : Subgroup K)) : x * x ∈ rootCenter (Q : Subgroup K) := by
   classical
   obtain ⟨t, hc⟩ := h.exists_benderCore Q
-  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup
   let N : Subgroup K :=
     Subgroup.closure (↑(rootCenter (Q : Subgroup K)) ∪ {x | ∃ y ∈ (Q : Subgroup K), x = y * y})
   have hZN : rootCenter (Q : Subgroup K) ≤ N := fun z hz => Subgroup.subset_closure (Or.inl hz)
@@ -105,7 +105,7 @@ theorem BenderType.fixed_iff_rootCenter_unitary
     intro y hyQ hyα
     have hsq : ∀ w ∈ (Q : Subgroup K) ⊓ autFixed α, w * w = 1 := by
       rintro w ⟨hwQ, hwL⟩
-      obtain ⟨k, hk⟩ := Q.isPGroup' ⟨w, hwQ⟩
+      obtain ⟨k, hk⟩ := Q.isPGroup ⟨w, hwQ⟩
       have hk' : w ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have hk'' : (⟨w, hwL⟩ : autFixed α) ^ 2 ^ k = 1 := Subtype.ext (by simpa using hk')
       exact congrArg Subtype.val (BenderType.sq_eq_one_of_two_pow_linear hL hk'')

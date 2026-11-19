@@ -57,7 +57,6 @@ public theorem firstCaseRootLayerTwo_card
         rw [e.symm_apply_apply]
         exact q.2⟩
       invFun := fun V => ⟨e.symm V.1, by
-        change e.symm V.1 ≠ _ ∧ _
         exact V.2⟩
       left_inv := by intro q; apply Subtype.ext; simp
       right_inv := by intro V; apply Subtype.ext; simp }
@@ -80,7 +79,6 @@ public theorem firstCaseRootLayerFour_card
         rw [e.symm_apply_apply]
         exact q.2⟩
       invFun := fun V => ⟨e.symm V.1, by
-        change e.symm V.1 ≠ _ ∧ _
         exact V.2⟩
       left_inv := by intro q; apply Subtype.ext; simp
       right_inv := by intro V; apply Subtype.ext; simp }
@@ -247,8 +245,8 @@ private def rootTwo_incidence_equiv
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (hfirst : FirstCase c)
     {V W : UConjugates c}
-    (hV : V ∈ firstCaseRootLayerTwo hmin c hfirst)
-    (hW : W ∈ firstCaseRootLayerTwo hmin c hfirst)
+    (_hV : V ∈ firstCaseRootLayerTwo hmin c hfirst)
+    (_hW : W ∈ firstCaseRootLayerTwo hmin c hfirst)
     (h : c.Hhat) (hVW : (h : G) • V = W) :
     {X : lineNeighborSet c // (commutingGraph c).Adj X.1 V} ≃
       {X : lineNeighborSet c // (commutingGraph c).Adj X.1 W} := by

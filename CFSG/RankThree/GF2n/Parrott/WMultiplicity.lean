@@ -50,8 +50,8 @@ abbrev Wc :
 theorem Wc_sq_add_Wc_add_one :
     Wc (z := z) (D := D) h * Wc (z := z) (D := D) h +
         Wc (z := z) (D := D) h + 1 = 0 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   simpa only [Wc, sigma1O3H, rhoO3H_apply] using rhoO3H_omega (z := z) (D := D) h
 
 abbrev Wf4Module :
@@ -65,11 +65,12 @@ instance instModuleF4WsubModule :
 
 omit
   hN in
+omit [Finite G] in
 theorem conjVLinearMap_comm_of_commute {x y : ↥(H z)} (hcomm : Commute x y) :
     conjVLinearMap h x * conjVLinearMap h y =
       conjVLinearMap h y * conjVLinearMap h x := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   simp only [Module.End.mul_apply, conjVLinearMap_apply, toMul_ofMul]
   set w : QuotientV.V z := Additive.toMul v
@@ -84,8 +85,8 @@ theorem conjVLinearMap_mem_WsubModule_of_commute (x : ↥(H z))
     (hcomm : Commute (sigma1Nine (z := z) D) x) :
     ∀ v ∈ WsubModule (z := z) (D := D) h,
       conjVLinearMap h x v ∈ WsubModule (z := z) (D := D) h := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   intro v hv
   have hcommV : conjV h x * conjV h (sigma1Nine (z := z) D) =
       conjV h (sigma1Nine (z := z) D) * conjV h x := (hcomm.symm.map (conjV h)).eq
@@ -114,8 +115,8 @@ theorem Wsigma2Map_comp_Wc (σ₂ : ↥(H z))
     (Wsigma2Map (z := z) (D := D) h σ₂ hcomm).comp (Wc (z := z) (D := D) h) =
       (Wc (z := z) (D := D) h).comp
         (Wsigma2Map (z := z) (D := D) h σ₂ hcomm) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   apply LinearMap.ext
   intro v
   apply Subtype.ext
@@ -145,8 +146,8 @@ theorem fixW_eq_bot_of_centralizerJ_eq (σ₂ : ↥(H z))
     (hσ2ord : orderOf σ₂ = 3)
     (hEq : centralizerJ (sigma1Nine (z := z) D) = centralizerJ σ₂) :
     fixW (z := z) (D := D) h σ₂ = ⊥ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hle : Fsub (z := z) (sigma1Nine (z := z) D) ≤ autFixedSubgroup (conjV h σ₂) := by
     intro v hv
     rw [mem_autFixedSubgroup]

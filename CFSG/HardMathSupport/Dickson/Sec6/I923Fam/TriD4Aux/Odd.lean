@@ -34,7 +34,7 @@ theorem noL2Layer_cocycle_q1 (hA2 : TriD4A2NoL2) {p f : ℕ} (hp : p.Prime) (hp2
     (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (hg : normSeq (fieldActor (t := TwistTag.D4) σ σ) g 3 = 1) :
     NoL2Layer (MulAut.conj g * fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   obtain ⟨y, n, hn, hyn⟩ := d4MonoNF p f hp hp2 hp3 hf hq K hK σ hσ g hg
   refine noL2Layer_of_conj_eq y hyn ?_
   have hZ : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
@@ -69,7 +69,7 @@ theorem noL2Layer_outer_q2 (hA2 : TriD4A2NoL2) {p f : ℕ} (hp : p.Prime) (hp2 :
     (hφ : φ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     NoL2Layer φ := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hZ : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hψ3 := d4_fieldActor_pow_three K hK σ hσ

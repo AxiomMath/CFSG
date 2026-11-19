@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
 private theorem aux_center_RPlus_eq_bot (hK : Nat.card K = 2) :
     Subgroup.center (OrthRest.RPlus K 4) = ⊥ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   obtain ⟨hbij, hZ⟩ := OrthRest.spinPlus_bij (K := K) (n := 4) (by norm_num)
   let e : ↥(spinGroup (CFSG.LieType.Universal.Spin.quadPlus 4 K)) ≃*
@@ -36,6 +36,7 @@ private theorem aux_center_RPlus_eq_bot (hK : Nat.card K = 2) :
   rw [hx, map_one]
   exact one_mem _
 
+omit [Finite G] in
 private theorem aux_exists_innerHom (hK : Nat.card K = 2) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (hperf : commutator ↥L = ⊤)
@@ -110,6 +111,7 @@ private theorem aux_exists_innerHom (hK : Nat.card K = 2) {Bs L : Subgroup G}
       rw [hχconj b, hb, map_one]
   rw [h1, ← Subgroup.mem_subgroupOf, ← hβker, MonoidHom.mem_ker]
 
+omit [Finite G] in
 theorem E6QTwo.card_le_three_pow_five_of_omegaPlus (hK : Nat.card K = 2)
     {Bs L : Subgroup G} {x : G} (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs)
@@ -119,7 +121,7 @@ theorem E6QTwo.card_le_three_pow_five_of_omegaPlus (hK : Nat.card K = 2)
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :
     Nat.card Bs ≤ 3 ^ 5 := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   obtain ⟨χ, hχker, -⟩ := aux_exists_innerHom hK θ hperf hBsN hI
   have hχea : IsElemAbelian 3 χ.range := by
@@ -158,9 +160,9 @@ theorem E6QTwo.card_inf_eq_of_omegaPlus (hK : Nat.card K = 2)
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :
     Nat.card ↥(Bs ⊓ L) = 3 ^ 4 := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨χ, hχker, hχconj⟩ := aux_exists_innerHom hK θ hperf hBsN hI
   have hxBL : x ∈ Bs ⊓ Subgroup.centralizer (L : Set G) := by
     rw [hBL]; exact Subgroup.mem_zpowers x

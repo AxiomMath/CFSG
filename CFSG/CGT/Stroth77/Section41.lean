@@ -79,7 +79,7 @@ theorem eq_sup_closure (h : F.IsD D dD)
         Subgroup.closure {dD.uv, dD.t, dD.u} := by
   have hV8 : Nat.card (omegaIn 1 D) = 8 := by rw [h.omegaIn_one_eq]; exact F.card_omegaIn_one_A
   rw [inf_eq_left.mpr hSN]
-  exact (card_map_eq_eight_and_eq_sup F.S.isPGroup'
+  exact (card_map_eq_eight_and_eq_sup F.S.isPGroup
     (isElemAbelian_omegaIn_one (comm_of_torus dD.e)) hV8
     (hSN.trans (normalizer_le_normalizer_omegaIn D)) (h.uv_eq ▸ F.uv_mem_S) (h.t_eq ▸ F.t_mem_S)
     (h.u_eq ▸ F.u_mem_S) dD.uv_comm_u dD.t_u h.uv_not_mem_centralizer_omegaIn).2

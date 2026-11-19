@@ -57,7 +57,7 @@ theorem noCfgS429_l72
 theorem eight_SL7 :
     RowSOf429 (projSL 7 (GaloisField 2 1)) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_l72 hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429F

@@ -46,7 +46,7 @@ theorem exists_forall_sylow_mulEquiv_wreath_of_isWreathThree {G : Type*} [Group 
     (hord : (Nat.card H).factorization 3 = 3 * (Nat.card S).factorization 3 + 1) :
     ∃ n : ℕ, 1 ≤ n ∧ Nat.card S = 3 ^ n ∧ ∀ Q : Sylow 3 H,
       Nonempty (↥Q ≃* (Multiplicative (ZMod (3 ^ n)) ≀ᵣ Multiplicative (ZMod 3))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn1, hSn, ⟨e⟩⟩ := exists_mulEquiv_regularWreathProduct h hy
   have hP : base S y ⊔ Subgroup.zpowers y ≤ H := base_sup_zpowers_le hS hyH
   have hcardP : Nat.card ↥(base S y ⊔ Subgroup.zpowers y) = 3 ^ (3 * n + 1) :=

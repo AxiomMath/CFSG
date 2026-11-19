@@ -61,7 +61,7 @@ theorem semilinImpl_of_mod_center (hd : 3 ≤ d) {K : Type} [Group K]
     {π : LargeEvenSLGroup (Fin d) k →* K} {α : MulAut K} {g : GL (Fin d) k} {σ : k ≃+* k}
     (h : ∀ y : LargeEvenSLGroup (Fin d) k,
       ((α (π y))⁻¹ * π (semiSL g σ y)) ∈ Subgroup.center K) : SemilinImpl π α g σ := by
-  haveI hperf : Group.IsPerfect (LargeEvenSLGroup (Fin d) k) :=
+  have hperf : Group.IsPerfect (LargeEvenSLGroup (Fin d) k) :=
     (Subgroup.isPerfect_iff (H := LargeEvenSLGroup (Fin d) k)).mpr
       (LinearFieldFix.commutator_slGroup hd)
   let χ : LargeEvenSLGroup (Fin d) k →* K :=
@@ -177,7 +177,7 @@ theorem exists_semilin_of_pElt [Finite k] (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime
     congr 1
     apply Subtype.ext
     rw [coe_slConjugation, TypeA.coe_slKerEquiv, hh']
-    simp only [SpecialLinearGroup.map_apply_coe, TypeA.coe_slKerEquiv, semi_apply, Units.val_mul]
+    simp only [SpecialLinearGroup.map_apply_coe, TypeA.coe_slKerEquiv, Units.val_mul]
     rfl
 
 end CFSG.StandardType.GGL45TA

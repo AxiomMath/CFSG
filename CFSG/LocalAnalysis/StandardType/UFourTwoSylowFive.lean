@@ -50,7 +50,7 @@ theorem isSolvable_of_le_V0
   have hdvd : Nat.card Y ∣ 2 ^ 6 * 3 ^ 4 * 5 := hcardV ▸ Subgroup.card_dvd_of_le hV
   refine CFSG.StandardType.SylowOvergroup.isSolvable_of_coprime hdvd ?_
   refine Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_five).2 fun h5 => ?_)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hx5 : (y : H6) ^ 5 = 1 := by
     have h := pow_orderOf_eq_one y
@@ -76,7 +76,7 @@ open CFSG.AGLEmbedding.KFactProofs.Sp62Local CFSG.RankThree.PartTwo.Census.Carri
 theorem isSolvable_of_not_dvd_index_V0
     {X : Subgroup ↥V0} (hX : X ≠ ⊤) (h3 : ¬ 3 ∣ X.index) :
     Group.IsSolvable ↥X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : T0 ≤ V0 := T0_le_V0
   have hcardP : Nat.card (T0.subgroupOf V0) = 3 ^ 4 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hT).toEquiv, card_T0]

@@ -14,6 +14,7 @@ section Model
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem transvection_pow_char (p : ℕ) [CharP F p] {i j : Fin 3} (hij : i ≠ j) (c : F) :
     SpecialLinearGroup.transvection hij c ^ p = 1 := by
   have h : ∀ n : ℕ, SpecialLinearGroup.transvection hij c ^ n =
@@ -136,7 +137,7 @@ theorem narrowGamma_eq_top_linThree {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨x, hv⟩ := d
   change x = _ at hdq
   subst hdq
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨f⟩ := hK
   let e : TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩ ≃*
       projectiveSL 3 (GaloisField q.p q.exponent) :=

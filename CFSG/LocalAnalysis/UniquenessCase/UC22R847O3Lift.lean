@@ -67,8 +67,8 @@ theorem exists_involution_of_fixed_invPair {K : Subgroup G} {p q : ℕ} (hp : p.
     ∃ Q' : Subgroup G, Q' ≤ Q ∧ Nat.card Q ≤ p * Nat.card Q' ∧ ∃ x ∈ K, orderOf x = q ∧
       ∃ t ∈ K ⊓ normalizer ((zpowers x : Subgroup G) : Set G), orderOf t = 2 ∧
         ∀ u ∈ Q', u * x = x * u ∧ u * t = t * u := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQ'Q : Q₀.map Q.subtype ≤ Q := map_subtype_le _
   have hQ'p : IsPGroup p (Q₀.map Q.subtype) := hQ.isPGroup.to_le hQ'Q
   have hcard : Nat.card Q ≤ p * Nat.card (Q₀.map Q.subtype) := by

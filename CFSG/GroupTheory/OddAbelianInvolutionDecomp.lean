@@ -9,7 +9,7 @@ namespace CFSG
 theorem exists_fixed_add_antiFixed {A : Type*} [AddCommGroup A] [Finite A]
     (hodd : Odd (Nat.card A)) (t : A ≃+ A) (ht2 : t + t = 0) (y : A) :
     ∃ b a : A, t b = b ∧ t a = -a ∧ y = b + a := by
-  haveI : Nonempty A := ⟨0⟩
+  have : Nonempty A := ⟨0⟩
   have hcop : (Nat.card A).Coprime 2 := Nat.coprime_two_right.mpr hodd
   have hbij : Function.Bijective (fun a : A => 2 • a) := hcop.nsmul_right_bijective
   let half : A → A := Function.invFun (fun a : A => 2 • a)
@@ -72,7 +72,7 @@ theorem exists_fixed_add_antiFixed {A : Type*} [AddCommGroup A] [Finite A]
 
 theorem exists_fixed_mul_fixed_of_fixedPointFree {A : Type*} [AddCommGroup A] [Finite A]
     (hodd : Odd (Nat.card A)) (τ t : A ≃+ A) (hτ2 : τ + τ = 0) (ht2 : t + t = 0)
-    (hcomm : τ + t = t + τ) (hτfree : ∀ y : A, τ y = y → y = 0) (y : A) :
+    (_hcomm : τ + t = t + τ) (hτfree : ∀ y : A, τ y = y → y = 0) (y : A) :
     ∃ a b : A, (τ + t) a = a ∧ t b = b ∧ y = a + b := by
   obtain ⟨b, a, htb, hta, hba⟩ := exists_fixed_add_antiFixed hodd t ht2 y
   have hττ : ∀ z : A, τ (τ z) = z := by

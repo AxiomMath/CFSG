@@ -14,8 +14,8 @@ theorem i294CrossModelPSU67_holds : I294CrossModelPSU67 := by
   intro q K _ _ hK h3q h3q1 n hn x hx
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   obtain ⟨r, f, hr, hchar, rfl⟩ := CrossUni.exists_prime_pow_of_card_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   have hn1 : 1 ≤ n := by omega
   have hn6 : 6 ≤ n := by omega
   obtain ⟨g, hg3, rfl⟩ := exists_lift_pow_three (H := StatedSU n (r ^ f) K) (N := r ^ f + 1)

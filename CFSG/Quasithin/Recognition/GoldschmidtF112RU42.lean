@@ -21,11 +21,13 @@ open CFSG.Quasithin.H13.F431.U42 U42F431
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem parabolic_le_normalizer_right {L1 L2 S : Subgroup G} (h : Hyp111 L1 L2 S) :
     L2 ⊔ bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set G) := by
   refine sup_le Subgroup.le_normalizer (sup_le (sup_le h.h2.borel_le ?_) h.h2.normalizes)
   exact (inf_le_left : borelOf L2 S ≤ L2).trans Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem card_eq_of_VA5 {L : Subgroup G} (h : VA5 L) :
     Nat.card L = 60 * Nat.card (pCoreOf 2 L) := by
   have h60 : Nat.card (oTwoQuot ↥L) = 60 := by
@@ -43,7 +45,7 @@ theorem y9U42_plain {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
         centerOf S ≤ Subgroup.centralizer (L1 : Set G)) ∧
       IsSpecialPow 2 (2 ^ 1) 2 ↥(pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) ∧
       IsBlock2 L2 L2 ∧ IsOmega4MinusType L2 1 ∧ IsAltType L2 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := hF.1
   have hN2 := parabolic_le_normalizer_right hH
   have hL2P : L2 ≤ L2 ⊔ bigB L1 L2 S := le_sup_left
@@ -77,7 +79,7 @@ theorem y9U42_plain {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
     nlinarith
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
     (show L2.relIndex P ∣ 2 ^ 4 from ⟨_, hr16.symm⟩)
-  haveI : (L2.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN2
+  have : (L2.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN2
   have hq : IsPGroup 2 (P ⧸ L2.subgroupOf P) := IsPGroup.of_card (n := k) hk
   have hperf : ⁅P, P⁆ = P := perfect_of_mulEquiv φ2 CFSG.Quasithin.F112R.U42M.perfect_P2
   have hLeq : L2 = P := eq_of_perfect_of_pGroup_quotient hL2P hq hperf
@@ -105,10 +107,10 @@ theorem y9U42_plain {L1 L2 S : Subgroup G} (hF : F112Hyp L1 L2 S) (h2 : VA5 L2)
     exact hH.h2.charTwo
   have hSP : S ≤ P := hP ▸ (le_sup_right.trans le_sup_right)
   subst hLeq
-  haveI : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
-  haveI : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
-  haveI : DSLeaf LeafM3 := ⟨leafM3⟩
-  haveI : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
+  have : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
+  have : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
+  have : DSLeaf LeafM3 := ⟨leafM3⟩
+  have : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
   refine ⟨?_, ?_, Gold14610.isBlock2_of_short (leafShort2OfA5 h2 hct hE hO16) le_rfl Subgroup.le_normalizer,
     leafOmega4MinusOfOrth h2 hct hE hO16 hNat, leafAlt5OfOrth h2 hct hE hO16 hNat⟩
   · intro hz z hz'

@@ -25,9 +25,9 @@ theorem card_le_two {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddComm
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     Nat.card (((Z P T B).subgroupOf (K P T B)).map
       (beta p P T B H (QInvariant.invariant hc hH))) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   set hinv := QInvariant.invariant hc hH
   set β := beta p P T B H hinv
   set Z' := (Z P T B).subgroupOf (K P T B)

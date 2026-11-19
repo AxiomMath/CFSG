@@ -29,7 +29,7 @@ theorem thm4TwinEdgelessModelR_of_classUnique {r n : ℕ} (hr : 4 ≤ r) (h4 : N
   obtain ⟨Y, _, _, ι, R, S, t, hι, hT₀, hd, hcl, -, -, hnO, -, hcard⟩ :=
     hc.exists_embSec hr hJΔ hJW hWs hWg htw hedge
   have hLs := hc.exists_edgeless_section hr h4 hT hB hG hLΔ
-  haveI := hc.normal
+  have := hc.normal
   have hTs := isSimpleGroup_socle hc.isComp.1 hc.centralizerEq
   have hTab := exists_ne_comm_socle hc.isComp.1 hc.centralizerEq
   have hTC := centralizer_socle_eq_bot hc.isComp.1 hc.centralizerEq

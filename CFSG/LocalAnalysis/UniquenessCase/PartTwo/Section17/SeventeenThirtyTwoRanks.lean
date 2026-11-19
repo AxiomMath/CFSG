@@ -138,7 +138,7 @@ theorem pRank_eq_three_of_is3D4 {D : Data G} (hSg : UC6S846.SigmaStd D) (h76 : F
   have hmC : pRank p (F08.CentOverO2 D.M L) = 1 := by omega
   exact ⟨hmM, hmL, hmC⟩
 
-theorem pRank_le_two_of_not_mem_sig {D : Data G} (hSg : UC6S846.SigmaStd D)
+theorem pRank_le_two_of_not_mem_sig {D : Data G} (_hSg : UC6S846.SigmaStd D)
     (h13 : SigmaRankThree13 D) {p : ℕ} (hp : p ∈ D.sig) (hp3 : CFSG.Open.pRank p D.M = 3)
     {r : ℕ} (hr : r.Prime) (hr7 : 7 ≤ r) (hrsig : r ∉ D.sig) :
     CFSG.Open.pRank r D.M ≤ 2 := by

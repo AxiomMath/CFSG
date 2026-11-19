@@ -101,7 +101,7 @@ theorem exists_sylow_le_normalizer {U V : Subgroup G} (hU : IsPGroup 2 U)
     have h3 : 1 ≡ 0 [MOD 2] := h1.symm.trans h2
     exact absurd h3 (by decide)
   obtain ⟨P₀, hP₀⟩ := hU.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 V) hcard
-  refine ⟨(P₀ : Subgroup V).map V.subtype, map_subtype_le _, P₀.isPGroup'.map _,
+  refine ⟨(P₀ : Subgroup V).map V.subtype, map_subtype_le _, P₀.isPGroup.map _,
     fun hV => ?_, ?_⟩
   · rw [card_map_of_injective V.subtype_injective]
     have h1 : 2 ^ 1 ∣ Nat.card (P₀ : Subgroup V) :=

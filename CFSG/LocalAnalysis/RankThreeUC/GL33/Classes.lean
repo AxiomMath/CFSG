@@ -74,10 +74,10 @@ theorem eq_one_of_act {x : G} (h : ∀ v, act x v = v) : x = 1 := by
   carrier := {v | ∀ x ∈ X, act x v = v}
   zero_mem' := fun x _ => act_zero x
   add_mem' {v w} hv hw x hx := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [act_add, hv x hx, hw x hx]
   neg_mem' {v} hv x hx := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [act_neg, hv x hx]
 
 @[expose] def comA (X : Subgroup G) : AddSubgroup V :=
@@ -142,10 +142,10 @@ theorem three_nsmul_V (v : V) : 3 • v = 0 := by
   carrier := {x | act x w = w}
   one_mem' := act_one w
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [act_mul, hb, ha]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     calc act a⁻¹ w = act a⁻¹ (act a w) := by rw [ha]
       _ = w := act_inv_act a w
 
@@ -153,10 +153,10 @@ theorem three_nsmul_V (v : V) : 3 • v = 0 := by
   carrier := {x | f ᵥ* (x : Matrix (Fin 3) (Fin 3) (ZMod 3)) = f}
   one_mem' := by simp
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Units.val_mul] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul] at *
     rw [← Matrix.vecMul_vecMul, ha, hb]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     calc f ᵥ* ((a⁻¹ : G) : Matrix (Fin 3) (Fin 3) (ZMod 3))
         = (f ᵥ* (a : Matrix (Fin 3) (Fin 3) (ZMod 3))) ᵥ* ((a⁻¹ : G) : Matrix _ _ _) := by
           rw [ha]
@@ -167,11 +167,11 @@ theorem three_nsmul_V (v : V) : 3 • v = 0 := by
   carrier := {x | act x w = w ∨ act x w = -w}
   one_mem' := Or.inl (act_one w)
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rcases hb with hb | hb <;> rcases ha with ha | ha <;>
       simp [act_mul, hb, ha, act_neg]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rcases ha with ha | ha
     · left
       calc act a⁻¹ w = act a⁻¹ (act a w) := by rw [ha]
@@ -247,7 +247,7 @@ theorem act_single_of_monoC {c : ℕ} (hc : Good c) (hm : monoC c = true) (j : F
     subst hi
     simp
   · have hi : i ≠ ⟨i₀, hi₀3⟩ := fun e => h (congrArg Fin.val e)
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     have := (hmem i i.2).not.2 h
     push Not at this
     rw [this, Nat.cast_zero]

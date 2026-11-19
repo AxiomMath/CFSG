@@ -21,7 +21,7 @@ theorem psp4_card_ne {q N : ℕ} (h5 : 5 ≤ q) (hq : q % 8 = 3 ∨ q % 8 = 5)
       have h1 : 324 ≤ q ^ 2 := by nlinarith
       have h2 : 18 * 323 ≤ q * (q ^ 2 - 1) := Nat.mul_le_mul (by omega) (by omega)
       omega
-    rcases hN with rfl | rfl <;> interval_cases q <;> first | omega | simp_all
+    rcases hN with rfl | rfl <;> interval_cases q <;> first | omega
   · have h1 : 25 ≤ q ^ 2 := by nlinarith
     have h2 : 625 ≤ (q ^ 2) ^ 2 := by nlinarith
     have h3 : 25 * 624 ≤ q ^ 2 * ((q ^ 2) ^ 2 - 1) := Nat.mul_le_mul h1 (by omega)
@@ -52,9 +52,10 @@ namespace Red
 variable {J L : Subgroup G} {H : Type} [Group H] [Finite H] (r : Red J L H)
 include r
 
+omit [Finite G] [Finite H] in
 theorem not_central_involution {w : H} (hw : w ∈ r.Lb) (hwo : orderOf w = 2)
     (hwc : ∀ y ∈ r.Lb, y * w = w * y) : False := by
-  haveI := r.simpleL
+  have := r.simpleL
   have hc : r.eL ⟨w, hw⟩ ∈ center ↥L := by
     rw [mem_center_iff]
     intro g
@@ -66,12 +67,13 @@ theorem not_central_involution {w : H} (hw : w ∈ r.Lb) (hwo : orderOf w = 2)
   rw [h1, orderOf_one] at hwo
   exact absurd hwo (by norm_num)
 
+omit [Finite G] in
 theorem psp4_row (hk : Nonempty (↥L ≃* alternatingGroup (Fin 6)) ∨
       Nonempty (↥L ≃* alternatingGroup (Fin 7)))
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f) (hq : p ^ f % 8 = 3 ∨ p ^ f % 8 = 5)
     (hL : CFSG.Blueprint.LieModel ↥(generalizedFitting H) .PSp 2 p f) :
     CFSG.Blueprint.LieModel (↥J ⧸ center ↥J) .PSp 2 3 1 := by
-  haveI := r.simple
+  have := r.simple
   have hcardL : Nat.card ↥r.Lb = 360 ∨ Nat.card ↥r.Lb = 2520 := by
     rw [Nat.card_congr r.eL.toEquiv]
     exact card_of_alt_six_or_seven hk
@@ -115,7 +117,7 @@ theorem reduce_b'
     Nonempty (↥J ≃* alternatingGroup (Fin 8)) ∨ Nonempty (↥J ≃* alternatingGroup (Fin 9)) ∨
       CFSG.Blueprint.LieModel (↥J ⧸ center ↥J) .PSp 2 3 1 := by
   obtain ⟨H, _, _, ⟨r⟩⟩ := h.exists_red
-  haveI := r.simple
+  have := r.simple
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA8 : ∀ T : Sylow 2 ↥(generalizedFitting H),
       CFSG.GH74.Uniqueness.SU.SU5.IsA8Type ↥(T : Subgroup ↥(generalizedFitting H)) := by
@@ -168,7 +170,7 @@ theorem reduce_a'
     Nonempty (↥J ≃* alternatingGroup (Fin 10)) ∨ Nonempty (↥J ≃* alternatingGroup (Fin 11)) ∨
       CFSG.Blueprint.LieModel (↥J ⧸ center ↥J) .PSL 4 3 1 := by
   obtain ⟨H, _, _, ⟨r⟩⟩ := h.exists_red
-  haveI := r.simple
+  have := r.simple
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : ∀ T : Sylow 2 ↥(generalizedFitting H),
       IsA10Type ↥(T : Subgroup ↥(generalizedFitting H)) := by

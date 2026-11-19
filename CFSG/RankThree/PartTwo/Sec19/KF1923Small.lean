@@ -80,7 +80,7 @@ theorem kf4_holds : KF4 := by
   · have hK : Nat.card (GaloisField 2 n) % 3 = 2 := by
       rw [GaloisField.card 2 n hn.pos.ne']
       exact CFSG.RankThree.PartTwo.Sec20.two_pow_mod_three_of_odd hn
-    haveI : Finite (GaloisField 2 n) :=
+    have : Finite (GaloisField 2 n) :=
       Nat.finite_of_card_ne_zero (by rw [GaloisField.card 2 n hn.pos.ne']; positivity)
     obtain ⟨-, x₀, _y₀, hαx₀, -, hx₀3, hx₀1, -⟩ :=
       CFSG.RankThree.PartTwo.KFacts.fixedData_of_mulEquiv_projSL hK e α hα3 hin
@@ -103,10 +103,10 @@ theorem kf6_holds : KF6 := by
   have hAut : Nat.card (MulAut X) = 241920 := by
     rw [Nat.card_congr (MulAut.congr hψ).toEquiv,
       CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hk]
-  haveI : Finite (MulAut X) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Finite (MulAut X) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   have hno : ∀ q : ℕ, q.Prime → 5 ≤ q → ¬ q ∣ Nat.card H := by
     intro q hq hq5 hdvd
-    haveI := Fact.mk hq
+    have := Fact.mk hq
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hdvd
     have hxp : x ^ q = 1 := by
       rw [← hx]

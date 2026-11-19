@@ -29,13 +29,13 @@ private lemma s1614_rp_exists_fix_pointwise {W : Type} [CommGroup W] [Finite W]
     (hEX : ∀ e ∈ E, X.map e.toMonoidHom = X) {a : W} (ha : a ∈ X) (ha1 : a ≠ 1) :
     ∃ h ∈ E, h ≠ 1 ∧ ∀ x ∈ X, h x = x := by
   classical
-  haveI : Fintype ↥E := Fintype.ofFinite _
-  haveI : Fintype ↥X := Fintype.ofFinite _
-  haveI : Nontrivial ↥X := by
+  have : Fintype ↥E := Fintype.ofFinite _
+  have : Fintype ↥X := Fintype.ofFinite _
+  have : Nontrivial ↥X := by
     rw [← Fintype.one_lt_card_iff_nontrivial, Fintype.card_eq_nat_card, hX]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : IsKleinFour ↥X := by
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : IsKleinFour ↥X := by
     refine ⟨hX, ?_⟩
     rw [Monoid.exponent_eq_prime_iff (show Nat.Prime 2 by norm_num)]
     intro g hg
@@ -115,8 +115,8 @@ theorem s1614_row2_pick {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x *
     ∃ z ∈ S, z ≠ 1 ∧ ∃ B : Subgroup (MulAut W), B ≤ Mb ∧ IsPGroup 3 ↥B ∧ ¬ IsCyclic ↥B ∧
       z ∈ fixV B := by
   classical
-  haveI : Fintype ↥E := Fintype.ofFinite _
-  haveI : Fintype ↥X := Fintype.ofFinite _
+  have : Fintype ↥E := Fintype.ofFinite _
+  have : Fintype ↥X := Fintype.ofFinite _
   have hW' : ∀ x : W, x ^ 2 = 1 := fun x => by rw [pow_two]; exact hW x
   have hEall : ∀ a : ↥E, a ^ 3 = 1 := fun a => by
     apply Subtype.ext
@@ -323,7 +323,7 @@ theorem s1614_row2_pick {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x *
     have ha₀2B : a₀ ^ 2 ∈ B := B.pow_mem ha₀B 2
     have hhB : h ∈ B := Subgroup.subset_closure (by simp)
     have h1B : (1 : MulAut W) ∈ B := B.one_mem
-    haveI : Fintype ↥B := Fintype.ofFinite _
+    have : Fintype ↥B := Fintype.ofFinite _
     have hBnc : ¬ IsCyclic ↥B := by
       apply s1614_rp_not_isCyclic_of_finset
         (s := ({⟨1, h1B⟩, ⟨a₀, ha₀B⟩, ⟨a₀ ^ 2, ha₀2B⟩, ⟨h, hhB⟩} : Finset ↥B))

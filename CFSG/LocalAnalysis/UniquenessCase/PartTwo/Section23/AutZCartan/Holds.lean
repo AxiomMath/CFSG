@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem odd_relIndex_centralizer (D : Data G) :
     Odd ((D.M ⊓ Subgroup.centralizer (D.Z : Set G)).relIndex D.M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT_CGZ : D.T ≤ Subgroup.centralizer (D.Z : Set G) :=
     Subgroup.le_centralizer_iff.mp fun z hz =>
       (Subgroup.mem_inf.mp
@@ -82,15 +82,15 @@ theorem autZCartan_of (D : Data G) (Ch : Choice2011 G) (h2 : S23_2_natural D Ch)
     obtain ⟨hUZ, -, hMN⟩ := h4 h1930 c
     simpa [hUZ] using hMN
   have hodd := odd_relIndex_centralizer D
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   obtain ⟨h, hh, htr⟩ := AutZC.kLineTransitive_holds (c.W hV) (c.H hV)

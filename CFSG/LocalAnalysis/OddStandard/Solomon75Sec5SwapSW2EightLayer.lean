@@ -19,6 +19,7 @@ section EightLayer
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))}
 
+omit [Finite X] in
 private theorem bcdLayer_mem_oddCoreOf_iff_subtype {C : Subgroup X} (x : ↥C) :
     (x : X) ∈ oddCoreOf C ↔ x ∈ pPrimeCore 2 ↥C :=
   ⟨fun h => (mem_oddCoreOf_iff.1 h).2, fun h => mem_oddCoreOf_iff.2 ⟨x.2, h⟩⟩
@@ -56,6 +57,7 @@ private theorem bcdLayer_comm_gen {Q : Type*} [Group Q] {Λ P : Subgroup Q} {g :
     rintro _ ⟨x, hx, rfl⟩
     exact hV x hx
 
+omit [Finite X] in
 private theorem bcdLayer_mk_comm_mem {C W : Subgroup X} {t : X} (htC : t ∈ C) {c : ↥C}
     (hV : ∃ w ∈ W, ⁅(c : X), t⁆ * w⁻¹ ∈ oddCoreOf C) :
     ⁅QuotientGroup.mk' (pPrimeCore 2 ↥C) c, QuotientGroup.mk' (pPrimeCore 2 ↥C) ⟨t, htC⟩⁆ ∈

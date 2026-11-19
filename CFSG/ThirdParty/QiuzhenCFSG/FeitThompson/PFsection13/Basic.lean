@@ -78,7 +78,7 @@ public theorem fittingPunctured_subset_typePFAZeroSet_of_typePDefinitionData
   have hxSupM : xM ∈ MF.subgroupOf M ⊔ C.subgroupOf M := by
     rw [hsupM]
     exact hxF
-  letI : (MF.subgroupOf M).Normal := hMFNormalM
+  let : (MF.subgroupOf M).Normal := hMFNormalM
   rcases (Subgroup.mem_sup_of_normal_left (s := MF.subgroupOf M)
       (t := C.subgroupOf M) (x := xM)).1 hxSupM with
     ⟨mM, hmMFsub, cM, hcCsub, hmulM⟩
@@ -149,7 +149,7 @@ public theorem exists_nonkernelInducedFamily
   classical
   rcases Theory.Character.irreducible_characters_form_basis (G := H.subgroupOf M) with
     ⟨ι, hι, χ, hχ, _b, _hb⟩
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   let ψ : ι → Section1.ClassFunction (H.subgroupOf M) :=
     fun i => Section1.ofConjClassFunction (χ i)
   let S : Finset (Section1.ClassFunction M) :=

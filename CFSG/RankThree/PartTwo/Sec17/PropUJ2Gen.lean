@@ -17,7 +17,7 @@ theorem card_zpowers_sup_eq_nine {G : Type} [Group G] [Finite G] {e₁ e₂ : G}
     (h1 : e₁ * (e₁ * e₁) = 1) (h2 : e₂ * (e₂ * e₂) = 1) (hc : e₁ * e₂ = e₂ * e₁) (hne1 : e₁ ≠ 1)
     (hne2 : e₂ ≠ 1) (hne12 : e₂ ≠ e₁) (hne12' : e₂ ≠ e₁ * e₁) :
     Nat.card ↥(Subgroup.zpowers e₁ ⊔ Subgroup.zpowers e₂) = 9 := by
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : Commute e₁ e₂ := hc
   have hpow1 : e₁ ^ 3 = 1 := by rw [pow_three]; exact h1
   have hpow2 : e₂ ^ 3 = 1 := by rw [pow_three]; exact h2

@@ -147,7 +147,7 @@ theorem pair_card {L M : List Nat} (hL : ∀ a ∈ L, a < 82944) (hM : ∀ a ∈
         List.mem_map_of_mem (getD_mem (Nat.mod_lt _ hM0))⟩, hP⟩
   rw [e, Finset.card_image_of_injOn]
   intro c hc c' hc' hcc
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hc hc'
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hc hc'
   simp only [hf, Prod.mk.injEq] at hcc
   have h1 := dc_inj hg hG (hL _ (getD_mem (hdiv c hc.1))) (hL _ (getD_mem (hdiv c' hc'.1))) hcc.1
   have h2 := dc_inj hg hG (hM _ (getD_mem (Nat.mod_lt c hM0)))
@@ -197,13 +197,13 @@ theorem wl_eq {IL S INV W : List Nat} (hil : ilOK G IL = true) (hs : slOK G S = 
   have hb := congrArg (fun p => Nat.testBit p c) hWm
   rw [ind_testBit, tb_land, ind_testBit, tb_xor, Dmask_tb, allT_testBit hc, Bool.xor_true] at hb
   have hinv : isInv (dcG G c) = true ↔ c ∈ IL := by
-    rw [← mem_map_dc hg hG (incIL hg hG hil) hc, ← il_eq hg hG hil]
+    rw [← mem_map_dc hg hG (incIL hil) hc, ← il_eq hg hG hil]
     change _ ↔ dcG G c ∈ codes.filter isInv
     rw [List.mem_filter]
     exact ⟨fun h => ⟨mem_codes hg hG hc, h⟩, fun h => h.2⟩
   have hdlm : List.contains dlC (dcG G c) = decide (c ∈ laneT :: S) := by
     rw [Bool.eq_iff_iff, List.contains_iff_mem, dl_eq hg hG hs hi, decide_eq_true_iff]
-    exact mem_map_dc hg hG (incD hg hG hs) hc
+    exact mem_map_dc hg hG (incD hs) hc
   rw [Bool.and_eq_true, hdlm, hinv, ← decide_eq_true_iff (p := c ∈ W), hb]
   by_cases h1 : c ∈ laneT :: S <;> by_cases h2 : c ∈ IL <;> simp [h1, h2]
 
@@ -214,10 +214,10 @@ theorem nzOK_spec {IL S INV W : List Nat} (hil : ilOK G IL = true) (hs : slOK G 
     (((List.toFinset dlC) ×ˢ wl.toFinset).filter fun p => tau0 ∈ zpowL (mulC p.1 p.2)).card =
       1188 := by
   unfold nzOK at h
-  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq, and'_eq,
+  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq,
     Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨hW, hWm⟩, h72, hcnt⟩ := h
-  have hD := incD hg hG hs
+  have hD := incD hs
   have hWb := incB_lt hW
   have hDl : (laneT :: S).length = 37 := by simp [hS]
   have hW0 : 0 < W.length := by omega
@@ -293,9 +293,9 @@ theorem nwOK_spec {IL S INV W V0 LN CM : List Nat} (hil : ilOK G IL = true)
     (h : nwOK G S W V0 LN = true) :
     (((lineIn dlC t0c).toFinset ×ˢ (wl.filter (commB t0c)).toFinset).filter
       fun p => mulC tau0 t0c ∈ zpowL (mulC p.1 p.2)).card = 3 := by
-  have hSb := incS hg hG hs
+  have hSb := incS hs
   unfold nzOK at hz
-  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq, and'_eq,
+  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq,
     Bool.and_eq_true, Nat.beq_eq] at hz
   obtain ⟨⟨hW, hWm⟩, -, -⟩ := hz
   have hWb := incB_lt hW
@@ -309,7 +309,7 @@ theorem nwOK_spec {IL S INV W V0 LN CM : List Nat} (hil : ilOK G IL = true)
   simp only [Nat.mul_zero, List.drop_zero, List.getElem_cons_zero] at hp hℓ h5 hℓn
   rw [← h0] at hp
   unfold nwOK at h
-  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq, and'_eq,
+  simp only [frc_eqL, lanesK_eq, bindP_eq, mulK_frc, lenR_eq, Nat.mul_eq,
     Bool.and_eq_true, Nat.beq_eq, take5_eq] at h
   change incB 82944 V0 = true ∧ _ ∧ _ at h
   obtain ⟨hV0, hVm, hcnt⟩ := h
@@ -385,8 +385,8 @@ theorem swapOK_spec {IL S LN CM : List Nat} (hil : ilOK G IL = true) (hs : slOK 
       (il.toFinset.filter fun v => mulC v p = mulC p' v).card = 16 ∧
         ∀ q ∈ sl, q ≠ p → q ≠ p' → mulC p q = mulC q p → ∀ v ∈ il,
           mulC v p = mulC p' v → mulC v q ≠ mulC q v := by
-  have hSb := incS hg hG hs
-  have hILb := incIL hg hG hil
+  have hSb := incS hs
+  have hILb := incIL hil
   have hcm := cm_spec hg hG hs hS hl
   have hiln : il.Nodup := List.Nodup.filter _ (codes_nodup hg hG)
   have hile := il_eq hg hG hil
@@ -407,8 +407,7 @@ theorem swapOK_spec {IL S LN CM : List Nat} (hil : ilOK G IL = true) (hs : slOK 
     exact hcomm
   obtain ⟨hic', hf⟩ := allI2_spec h i hi
   have hf2 := allI_spec hf j hj
-  simp only [or'_eq, Bool.or_eq_true, Nat.beq_eq, mulK_frc, frc_eqL, and'_eq,
-    Bool.and_eq_true] at hf2
+  simp only [Bool.or_eq_true, Nat.beq_eq, mulK_frc, Bool.and_eq_true] at hf2
   rcases hf2 with e | e | ⟨hcnt, hqa⟩
   · exact absurd e hij
   · exact absurd (bitN_zero (by rw [e]; rfl)) (by rw [hbj]; decide)
@@ -439,7 +438,7 @@ theorem swapOK_spec {IL S LN CM : List Nat} (hil : ilOK G IL = true) (hs : slOK 
     have ef : il.toFinset.filter (fun v => mulC v (dcG G S[i]) = mulC (dcG G S[j]) v) =
         (il.filter fun v => decide (mulC v (dcG G S[i]) = mulC (dcG G S[j]) v)).toFinset := by
       ext v
-      simp [List.mem_filter]
+      simp
     rw [ef, List.toFinset_card_of_nodup (hiln.filter _), hile,
       List.filter_map, List.length_map, ← hcnt, ← filter_getD_length]
     refine congrArg List.length (List.filter_congr fun c hc => ?_)
@@ -461,7 +460,7 @@ theorem swapOK_spec {IL S LN CM : List Nat} (hil : ilOK G IL = true) (hs : slOK 
       rw [hrow k hk, beq_iff_eq]
       exact hpq
     have hq2 := allI_spec hqa k hk
-    simp only [or'_eq, Bool.or_eq_true, Nat.beq_eq] at hq2
+    simp only [Bool.or_eq_true, Nat.beq_eq] at hq2
     rcases hq2 with e | e | e | e
     · exact absurd e hki
     · exact absurd e hkj

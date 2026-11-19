@@ -172,7 +172,7 @@ private theorem levIdx_eqG {n s nb : Nat} {S : Array (Array Nat)} {base : Array 
     exact this.2.1
   · have := ht t (by omega)
     simp only [bAnd_iff] at this
-    rw [bIf_v, if_pos (Nat.blt_eq.mpr htl)] at this
+    rw [bIf_v, ite_eq_left (Nat.blt_eq.mpr htl)] at this
     exact Nat.blt_eq.mp this.2.2
   · rw [← cntB_eq]
     exact Nat.eq_of_beq_eq_true h2
@@ -203,9 +203,9 @@ theorem fullChainG_of_checks {n m s nb chunks : Nat} {S : Array (Array Nat)} {ba
     unfold stepX
     rw [nIf_v]
     by_cases hjl : j < LEN i
-    · rw [if_pos (Nat.blt_eq.mpr hjl)]
+    · rw [ite_eq_left (Nat.blt_eq.mpr hjl)]
       exact (hF _ (hlt j hjl) x hx).2.1
-    · rw [if_neg (by simpa using hjl)]
+    · rw [ite_eq_right (by simpa using hjl)]
       have hjs : j - LEN i < LEN i := by omega
       exact (hF _ (hlt _ hjs) x hx).2.2.1
   have hst : ∀ i < nb, (allSteps S (pinvs n S) base)[i]!.size = Nat.mul 2 (LEN i) ∧
@@ -222,11 +222,11 @@ theorem fullChainG_of_checks {n m s nb chunks : Nat} {S : Array (Array Nat)} {ba
     unfold stepX
     rw [nIf_v]
     by_cases hjl : j < LEN i
-    · rw [if_pos (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
+    · rw [ite_eq_left (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
         Array.getElem_append_left (by simp; exact hjl)]
       simp only [List.getElem_toArray, List.getElem_map, List.getElem_range]
       exact (hF _ (hlt j hjl) x hx).1
-    · rw [if_neg (by simpa using hjl), getElem!_pos _ j (by simp; omega),
+    · rw [ite_eq_right (by simpa using hjl), getElem!_pos _ j (by simp; omega),
         Array.getElem_append_right (by simp; omega)]
       simp only [List.getElem_toArray, List.getElem_map, List.getElem_range, List.size_toArray,
         List.length_map, List.length_range]
@@ -242,12 +242,12 @@ theorem fullChainG_of_checks {n m s nb chunks : Nat} {S : Array (Array Nat)} {ba
     unfold levInvSteps invX
     rw [hl, nIf_v]
     by_cases hjl : j < LEN i
-    · rw [if_pos (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
+    · rw [ite_eq_left (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
         Array.getElem_append_left (by simp; exact hjl)]
       simp only [List.getElem_toArray, List.getElem_map, List.getElem_range]
       rw [hSi _ (hlt j hjl) x hx]
       exact ⟨rfl, (hF _ (hlt j hjl) x hx).2.2.1⟩
-    · rw [if_neg (by simpa using hjl), getElem!_pos _ j (by simp; omega),
+    · rw [ite_eq_right (by simpa using hjl), getElem!_pos _ j (by simp; omega),
         Array.getElem_append_right (by simp; omega)]
       simp only [List.getElem_toArray, List.getElem_map, List.getElem_range, List.size_toArray,
         List.length_map, List.length_range]
@@ -446,7 +446,7 @@ theorem fullChainG_of_checks {n m s nb chunks : Nat} {S : Array (Array Nat)} {ba
     have ht := allN_spec hterm j hj
     rw [bIf_v] at ht
     by_cases hfx : fixesK F B nb j = true
-    · rw [if_pos hfx] at ht
+    · rw [ite_eq_left hfx] at ht
       rw [hfx, Bool.not_true, Bool.false_or]
       unfold peq
       rw [allBelowN_iff']

@@ -14,22 +14,26 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec9n_priv_B_le_A : B ≤ Asub9 t t₀ B := by
   rw [Asub9]
   exact le_sup_right
 
+omit [Finite G] in
 private theorem sec9n_priv_A8_le_A : (zpowers t ⊔ B : Subgroup G) ≤ Asub9 t t₀ B := by
   rw [Asub9]
   exact sup_le (le_sup_left.trans le_sup_left) le_sup_right
 
+omit [Finite G] in
 private theorem sec9n_priv_t_mem_A : t ∈ Asub9 t t₀ B :=
   sec9n_priv_A8_le_A (Subgroup.mem_sup_left (Subgroup.mem_zpowers t))
 
+omit [Finite G] in
 private theorem sec9n_priv_t0_mem_A : t₀ ∈ Asub9 t t₀ B := by
   rw [Asub9]
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers t₀))
 
-private theorem sec9n_priv_centMod_conj_mem_sup (hctx : Sec9Ctx G t L S z g B t₀) {x : G}
+private theorem sec9n_priv_centMod_conj_mem_sup (_hctx : Sec9Ctx G t L S z g B t₀) {x : G}
     (hx : x ∈ centMod (Asub9 t t₀ B) B) {y : G} (hy : y ∈ zpowers t ⊔ B) :
     x * y * x⁻¹ ∈ zpowers t ⊔ B := by
   obtain ⟨-, hx'⟩ := hx
@@ -74,6 +78,7 @@ private theorem sec9n_priv_coset_mul_inv_mem (hctx : Sec9Ctx G t L S z g B t₀)
   rw [heq]
   exact B.mul_mem he (B.inv_mem he')
 
+omit [Finite G] in
 private theorem sec9n_priv_conj_mul (p q u : G) :
     (p⁻¹ * q) * u * (p⁻¹ * q)⁻¹ * u⁻¹ =
       p⁻¹ * ((q * u * q⁻¹ * u⁻¹) * (p * u * p⁻¹ * u⁻¹)⁻¹) * p := by
@@ -125,7 +130,7 @@ theorem sec9n_commutator_mem (hT : Asc82Tab9M) (hctx : Sec9Ctx G t L S z g B t�
 theorem sec9n_mem_centMod_iff (hctx : Sec9Ctx G t L S z g B t₀)
     (hM : ConjTwoTransOn (normalizer ((zpowers t ⊔ B : Subgroup G) : Set G)) (cosetSet t B))
     {p : G} (hpM : p ∈ normalizer ((zpowers t ⊔ B : Subgroup G) : Set G))
-    (hpA : p ∈ normalizer (Asub9 t t₀ B : Set G)) :
+    (_hpA : p ∈ normalizer (Asub9 t t₀ B : Set G)) :
     p ∈ centMod (Asub9 t t₀ B) B ↔ p * t₀ * p⁻¹ * t₀⁻¹ ∈ B := by
   constructor
   · intro hp

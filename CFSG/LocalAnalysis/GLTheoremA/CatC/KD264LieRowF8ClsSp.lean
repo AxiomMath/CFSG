@@ -20,8 +20,8 @@ theorem sp_rank_bound {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K] [Finite K] (
         CFSG.Open.pRank 3 E + 1 ≤ CFSG.Open.pRank 3 A)
     (hnot : ¬ A ≤ innAutDerived (StatedProj (StatedSp n K))) : n ≤ 3 := by
   classical
-  haveI hchar : CharP K 2 := charP_two_of_card_eight hK
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  have hchar : CharP K 2 := charP_two_of_card_eight hK
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨ι, hιinj, hιfix, -⟩ := exists_descent_sp hn hK b (hA.2 b hbA)
     (fun h => hbout (inner_le_innAutDerived _ h))
   obtain ⟨stdIso⟩ := exists_stdIso n

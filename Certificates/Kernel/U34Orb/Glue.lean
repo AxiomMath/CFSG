@@ -59,7 +59,7 @@ theorem eq_top_of_le {H : Subgroup (unitarySU 2 2 GF16 3)} (h : 62400 ≤ Nat.ca
 
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.GH74.KGroups CFSG.LieType.SeitzGeneration.HeisSmall
   CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719 in
-open Certificates in
+open _root_.CFSG.Certificates in
 theorem gen_holds :
     (∀ H : Subgroup (unitarySU 2 2 GF16 3),
       (∃ g ∈ H, ofMat ((g : GL (Fin 3) GF16) : Matrix (Fin 3) (Fin 3) GF16) = d1Mat) →

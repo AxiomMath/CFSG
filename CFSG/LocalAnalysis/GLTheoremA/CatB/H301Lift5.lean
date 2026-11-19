@@ -28,7 +28,7 @@ theorem centralizer_zpowers_sup (a b : G) :
       cx a ⊓ cx b := by
   rw [Subgroup.sup_eq_closure, Subgroup.centralizer_closure, Set.union_def]
   ext g
-  simp only [Subgroup.mem_centralizer_iff, Subgroup.mem_inf, Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [Subgroup.mem_centralizer_iff, Subgroup.mem_inf, Set.mem_ofPred_eq, SetLike.mem_coe]
   constructor
   · intro h
     exact ⟨Subgroup.mem_centralizer_singleton_iff.2 (h a (Or.inl (Subgroup.mem_zpowers a))).symm,
@@ -73,15 +73,18 @@ section Images
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_map_subtype' {L : Subgroup G} (A : Subgroup ↥L) :
     (A.map L.subtype).subgroupOf L = A :=
   Subgroup.comap_map_eq_self_of_injective L.subtype_injective A
 
+omit [Finite G] in
 theorem lImg_map_subtype (p : ℕ) {L : Subgroup G} (A : Subgroup ↥L) :
     lImg p L (A.map L.subtype) = A.map (pQuotHom p L) := by
   unfold lImg
   rw [subgroupOf_map_subtype']
 
+omit [Finite G] in
 theorem lImg_sup (p : ℕ) {L A B : Subgroup G} (hA : A ≤ L) (hB : B ≤ L) :
     lImg p L (A ⊔ B) = lImg p L A ⊔ lImg p L B := by
   unfold lImg
@@ -91,6 +94,7 @@ theorem lImg_sup (p : ℕ) {L A B : Subgroup G} (hA : A ≤ L) (hB : B ≤ L) :
   rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hA, Subgroup.map_subgroupOf_eq_of_le hB,
     Subgroup.map_subgroupOf_eq_of_le (sup_le hA hB)]
 
+omit [Finite G] in
 theorem centralizer_subgroupOf' {L S : Subgroup G} (hS : S ≤ L) :
     (Subgroup.centralizer (S : Set G)).subgroupOf L =
       Subgroup.centralizer ((S.subgroupOf L : Subgroup ↥L) : Set ↥L) := by
@@ -164,6 +168,7 @@ section Six
 
 variable {H M : Type} [Group H] [Finite H] [Group M]
 
+omit [Finite H] in
 theorem map_inf_centralizer_self (π : H →* M) {S : Subgroup H}
     (hSinj : Function.Injective (π.comp S.subtype)) :
     (S ⊓ Subgroup.centralizer (S : Set H)).map π =
@@ -191,6 +196,7 @@ theorem map_inf_centralizer_self (π : H →* M) {S : Subgroup H}
       hSinj (by simpa using h1)
     exact congrArg Subtype.val h2
 
+omit [Finite H] in
 theorem le_centralizer_of_map_le (π : H →* M) (hk2 : ¬ 2 ∣ Nat.card π.ker) {S F : Subgroup H}
     (hS : IsPGroup 2 S) (hSinj : Function.Injective (π.comp S.subtype)) {z : H} (hzS : z ∈ S)
     (hFS : F ≤ Subgroup.normalizer (S : Set H)) (hzF : z ∈ Subgroup.normalizer (F : Set H))
@@ -244,7 +250,7 @@ theorem le_centralizer_of_map_le (π : H →* M) (hk2 : ¬ 2 ∣ Nat.card π.ker
 theorem le_glaPLayer_of_map_le {p : ℕ} (hp : p.Prime) (π : H →* M)
     (hkp : ¬ p ∣ Nat.card π.ker) {F Y : Subgroup H} (hF : S10.PPrimePerfect p F) (hFY : F ≤ Y)
     (hmap : F.map π ≤ (GLAPLayer p Y).map π) : F ≤ GLAPLayer p Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEY : GLAPLayer p Y ≤ Y := glaPLayer_le_self' Y
   have hYE : Y ≤ Subgroup.normalizer (GLAPLayer p Y : Set H) :=
     HardMathSupport.Solomon.UniquenessMaximal.Sec7.le_normalizer_glaPLayer p Y

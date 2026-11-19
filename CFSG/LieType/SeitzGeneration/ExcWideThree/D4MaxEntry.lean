@@ -31,7 +31,7 @@ theorem exists_weyl_move_sl (hSL : SimplyLacedData τ)
     (hw : ∀ i : Fin τ.rank,
       CFSG.LieType.Steinberg.weylElement (xPar (rootOperatorFamily τ)) i (1 : Kˣ) ∈ R)
     {β γ : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (hγ : IsRoot τ γ)
-    (hn : rootNorm τ β = rootNorm τ γ) :
+    (_hn : rootNorm τ β = rootNorm τ γ) :
     ∃ r ∈ R, ∃ ε : ℤ, (ε = 1 ∨ ε = -1) ∧ endHom K r (rootVec τ K β) = (ε : K) • rootVec τ K γ ∧
       ∀ z : RootModule τ K, (endHom K r z) (rootLabel hγ) = (ε : K) * z (rootLabel hβ) := by
   obtain ⟨j, hj, mj⟩ := exists_simple_move hw hβ
@@ -257,7 +257,7 @@ theorem eq_one_of_sub_mem_vanishSub_sl (hSL : SimplyLacedData τ) [Finite K]
       rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, map_sub, this]
     rw [e]
     exact hinv h _ (hy _)⟩
-  haveI := hSL.simple K
+  have := hSL.simple K
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · have hxN : x ∈ N := hx
     rw [h] at hxN
@@ -277,7 +277,7 @@ theorem eq_one_of_sub_mem_vanishSub_sl (hSL : SimplyLacedData τ) [Finite K]
         simp only [height, Pi.neg_apply, Finset.sum_neg_distrib] at h3'
         simp only [height] at this
         omega
-      simp [Finsupp.single_apply, hne]
+      simp [hne]
     simpa [hv] using h2
 
 theorem mem_subfieldGroup_of_entries_sl (hSL : SimplyLacedData τ) [Finite K]

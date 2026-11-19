@@ -143,7 +143,7 @@ theorem closure_two_pow_eq_top_of_isPerfect {H : Type*} [Group H] [Finite H] [Gr
     Subgroup.closure {x : H | ∃ n : ℕ, x ^ (2 ^ n) = 1} = ⊤ := by
   classical
   set N := Subgroup.closure {x : H | ∃ n : ℕ, x ^ (2 ^ n) = 1} with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     constructor
     intro n hn g
     induction hn using Subgroup.closure_induction with
@@ -165,7 +165,7 @@ theorem closure_two_pow_eq_top_of_isPerfect {H : Type*} [Group H] [Finite H] [Gr
     rw [Nat.odd_iff]
     by_contra h2
     have h2' : 2 ∣ Nat.card (H ⧸ N) := by omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 h2'
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
     obtain ⟨k, m, hm, hom⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos x).ne'
@@ -177,9 +177,9 @@ theorem closure_two_pow_eq_top_of_isPerfect {H : Type*} [Group H] [Finite H] [Gr
     have h3 := orderOf_dvd_of_pow_eq_one hym
     rw [hy] at h3
     exact (Nat.not_even_iff_odd.2 hm) (even_iff_two_dvd.2 h3)
-  haveI : Group.IsSolvable (H ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable (H ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   by_contra hne
-  haveI : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
+  have : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
   exact Group.IsPerfect.not_isSolvable (H ⧸ N) inferInstance
 
 theorem map_le_uniClosure_of_cover {H G : Type*} [Group H] [Group G] [Finite H] {p r : ℕ}
@@ -320,15 +320,15 @@ theorem twE6ThreeUniNative_of_subfield (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f)
     (hE₀c : Nat.card E₀ = p ^ 2) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : p.Prime := hpF.out
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 2 * f) (by omega) (by rw [hK, ← pow_mul, mul_comm])
   have hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
     intro c
     rw [hσ, ← hk, ← map_pow]
     congr 1
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   have hp' : p ∣ Nat.card k ^ 2 + Nat.card k + 1 := by
@@ -492,15 +492,15 @@ theorem twE6FourUniNative_of_subfield (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f) 
     (hE₀c : Nat.card E₀ = p ^ 2) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : p.Prime := hpF.out
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 2 * f) (by omega) (by rw [hK, ← pow_mul, mul_comm])
   have hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
     intro c
     rw [hσ, ← hk, ← map_pow]
     congr 1
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   have hp' : p ∣ Nat.card k ^ 2 + 1 := by

@@ -49,7 +49,7 @@ theorem isI4PlusIn_top_of_lieModel_psl33 {Y : Type} [Group Y] [Finite Y]
 
 theorem exists_involution_of_lieModel_psl33 {Y : Type} [Group Y] [Finite Y]
     (h : LieModel Y .PSL 3 3 1) : ∃ z : Y, orderOf z = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card Y = 5616 := by
     rw [(CFSG.ClassicalInvolution.card_statedClassicalModel_of_ne_two (G := Y)
       (show (3 : ℕ) ≠ 2 by norm_num) (h.statedClassicalModel_of_ne_zero (by norm_num))).1 rfl]

@@ -43,7 +43,7 @@ theorem nontrivial_of_onLie_isLnEps {S : Type} [Group S] {m q : ℕ} {ε : Bool}
       exact nontrivial_of_lie_A r qq hv e
     | twistedA r qq =>
       exact nontrivial_of_lie_twistedA r qq hv e
-    | _ => simp [onLie, isLnEps] at hi; (try cases ε <;> simp [isLnEps] at hi)
+    | _ => simp [onLie, isLnEps] at hi
 
 theorem nontrivial_of_isAltN {S : Type} [Group S] {n : ℕ} {i : TauCeti.CFSGIndex} (hi : isAltN n i)
     (e : S ≃* i.Group) : Nontrivial S := by
@@ -76,6 +76,7 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nontrivial_pSimple_of_type172 {p : ℕ} {L K J K₁ KE : Subgroup G} (h : Type172 p L K J K₁ KE) :
     Nontrivial (PSimple p KE) := by
   rcases h with ⟨hp3, n, -, -, -, -, -, hKE⟩ | ⟨hp3, n, -, -, -, -, -, hKE⟩ | ⟨n, k, -, -, -, -, -, -, -, hKE⟩
@@ -85,6 +86,7 @@ theorem nontrivial_pSimple_of_type172 {p : ℕ} {L K J K₁ KE : Subgroup G} (h 
     exact nontrivial_of_catalogIs_isUnA hKE
   · exact nontrivial_of_catalogIs_isUnA hKE
 
+omit [Finite G] in
 theorem dvd_card_of_nontrivial_pSimple {p : ℕ} (hp : p.Prime) {X : Subgroup G} (h : Nontrivial (PSimple p X)) :
     p ∣ Nat.card X := by
   by_contra hndvd
@@ -102,6 +104,7 @@ theorem dvd_card_of_nontrivial_pSimple {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     QuotientGroup.eq.2 (htop (Subgroup.mem_top _))
   rw [hq]
 
+omit [Finite G] in
 theorem exists_pComponent_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (hne : GLAPLayer p X ≠ ⊥) :
     ∃ P : Subgroup G, GLAPComponent p X P := by
   by_contra hcon
@@ -112,6 +115,7 @@ theorem exists_pComponent_of_layer_ne_bot {p : ℕ} {X : Subgroup G} (hne : GLAP
   unfold GLAPLayer
   rw [this, sSup_empty]
 
+omit [Finite G] in
 theorem cs_sup_eq (D D₁ : Subgroup G) : cs (D ⊔ D₁) = cs D₁ ⊓ cs D := by
   apply le_antisymm
   · intro g hg

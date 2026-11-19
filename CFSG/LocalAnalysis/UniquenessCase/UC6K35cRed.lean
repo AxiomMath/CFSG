@@ -36,7 +36,7 @@ theorem isPSolvable_of_normal_sylow {G : Type} [Group G] [Finite G] {M P : Subgr
     (hP : CFSG.ABGLocalTools.IsSylowOf p P M) (hM : M = normalizer (P : Set G)) :
     IsPSolvable p ↥M := by
   obtain ⟨hPM, hPp, hidx⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).1 hP
-  haveI : (P.subgroupOf M).Normal :=
+  have : (P.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPM).2 hM.le
   refine PSolvableClosure.isPSolvable_of_normal (P.subgroupOf M)
     (isPSolvable_of_isPGroup (hPp.comap_subtype (K := M))) (isPSolvable_of_not_dvd_card ?_)
@@ -85,7 +85,7 @@ theorem quotient_of_stronglyPEmbedded {N : Subgroup X} (hN : IsStronglyPEmbedded
     IsStronglyPEmbedded p (N.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))) ∧
       2 < CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ CFSG.pPrimeCore p X)) ∧
       CFSG.pPrimeCore p (X ⧸ CFSG.pPrimeCore p X) = ⊥ := by
-  haveI : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
   have hY := pPrimeCore_le_of_stronglyPEmbedded hN h2.le
   have hcop : ¬ p ∣ Nat.card (CFSG.pPrimeCore p X) :=
     (Nat.Prime.coprime_iff_not_dvd hp.out).1 CFSG.pPrimeCore_coprime_card
@@ -95,7 +95,7 @@ theorem quotient_of_stronglyPEmbedded {N : Subgroup X} (hN : IsStronglyPEmbedded
 
 theorem isPSolvable_of_quotient_pPrimeCore {N : Subgroup X} (hYN : CFSG.pPrimeCore p X ≤ N)
     (h : IsPSolvable p ↥(N.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)))) : IsPSolvable p ↥N := by
-  haveI : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p X).Normal := CFSG.pPrimeCore_normal
   refine isPSolvable_of_map (QuotientGroup.mk' (CFSG.pPrimeCore p X)) N ?_ h
   refine isPSolvable_of_not_dvd_card ?_
   rw [QuotientGroup.ker_mk', inf_of_le_right hYN]

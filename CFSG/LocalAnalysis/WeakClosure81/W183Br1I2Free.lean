@@ -37,8 +37,8 @@ theorem br1_I2_member_free (hfin : FinG3) {Y L₁ L₂ T A : Subgroup (LGL 2 V)}
     · rw [hF, mOf_bot] at hm₂
       omega
     exfalso
-    haveI := htwo.simple₁
-    haveI := htwo.simple₂
+    have := htwo.simple₁
+    have := htwo.simple₂
     refine h.false_of_two_kernels hA htwo.le₁ htwo.le₂ htwo.nonab₁ htwo.nonab₂ htwo.comm
       (fun a ha l hl => (Subgroup.mem_normalizer_iff.mp (hAn₁ ha) l).mp hl)
       (fun a ha l hl => (Subgroup.mem_normalizer_iff.mp (hAn₂ ha) l).mp hl) rfl rfl hD hF ?_

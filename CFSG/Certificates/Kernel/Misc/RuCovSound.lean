@@ -108,7 +108,7 @@ theorem cjEq_sound {R H T : Nat} {h τ : Equiv.Perm (Fin 4060)} (hH : PRep 4060 
   rw [e3, e]
   simp [Equiv.Perm.mul_apply]
 
-theorem fixC_eq {P : Nat} {g : Equiv.Perm (Fin 4060)} (hP : PRep 4060 12 P g) :
+theorem fixC_eq {P : Nat} {g : Equiv.Perm (Fin 4060)} (_hP : PRep 4060 12 P g) :
     fixC P = (CFSG.Certificates.Native.fixedList 4060 (unpack 4060 12 P)).length := by
   unfold fixC CFSG.Certificates.Native.fixedList
   refine congrArg List.length (List.filter_congr fun i hi => ?_)

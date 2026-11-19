@@ -24,8 +24,8 @@ section G2
 theorem exists_primePower_card_field {k : Type} [Field k] [Finite k] {ℓ : ℕ} (hℓ : ringChar k = ℓ) :
     ∃ q : TauCeti.PrimePower, q.p = ℓ ∧ Nat.card k = q.card := by
   classical
-  haveI : Fintype k := Fintype.ofFinite _
-  haveI : CharP k ℓ := hℓ ▸ ringChar.charP k
+  have : Fintype k := Fintype.ofFinite _
+  have : CharP k ℓ := hℓ ▸ ringChar.charP k
   obtain ⟨n, hp, hcard⟩ := FiniteField.card k ℓ
   exact ⟨⟨ℓ, n, hp, n.pos⟩, rfl, by
     rw [Nat.card_eq_fintype_card, hcard, TauCeti.PrimePower.card_def]⟩
@@ -33,8 +33,8 @@ theorem exists_primePower_card_field {k : Type} [Field k] [Finite k] {ℓ : ℕ}
 theorem compsFine_adjointGroup_G2 {k : Type} [Field k] [Finite k] {ℓ : ℕ} (hℓ : ringChar k = ℓ) :
     CompsFine ℓ ↥(adjointGroup .G2 k) := by
   classical
-  haveI : Finite (ModGL .G2 k) := finite_modGL
-  haveI : Finite ↥(adjointGroup .G2 k) := Subtype.finite
+  have : Finite (ModGL .G2 k) := finite_modGL
+  have : Finite ↥(adjointGroup .G2 k) := Subtype.finite
   by_cases hk2 : Nat.card k = 2
   · obtain ⟨hDs, hDcard⟩ := ExcCopy.g2Two_derived_exc hk2
     obtain ⟨q, hqp, hqcard⟩ := exists_primePower_card_field hℓ
@@ -45,7 +45,7 @@ theorem compsFine_adjointGroup_G2 {k : Type} [Field k] [Finite k] {ℓ : ℕ} (h
       exact (Nat.prime_dvd_prime_iff_eq (hqp ▸ q.prime_p) Nat.prime_two).1
         (by rw [← h1]; exact dvd_pow_self _ q.exponent_pos.ne')
     subst hℓ2
-    haveI := hDs
+    have := hDs
     have hDnc : ∃ a b : ↥(commutator ↥(adjointGroup .G2 k)), a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
@@ -79,7 +79,7 @@ theorem compsFine_adjointGroup_G2 {k : Type} [Field k] [Finite k] {ℓ : ℕ} (h
       ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eq
     have hchev := isChevSimple_of_lie (q := ℓ) ⟨.G2 q, hv⟩
       (by rw [TauCeti.LieTypeIndex.characteristic_G2]; exact hqp) eX
-    haveI := hs
+    have := hs
     exact compsFine_of_simple hnc hchev
       ⟨fun f => (isEmpty_cat_alt6 ⟨.G2 q, hv⟩ (Or.inl rfl)).false (eX.symm.trans f)⟩
 
@@ -112,11 +112,11 @@ theorem compsFine_projImage_glPi_of_cover {π : Bool} {p f : ℕ} (hK : Sec4.PiF
     (hA6 : IsEmpty ((X ⧸ Subgroup.center X) ≃* alternatingGroup (Fin 6))) :
     CompsFine p ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  have := hK.finite
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _)
       (QuotientGroup.mk'_surjective _)
-  haveI : Finite ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := Subtype.finite
+  have : Finite ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := Subtype.finite
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hSP : projImage (Sec4.slPi π 3 (p ^ f) K) ≤ projImage (Sec4.glPi π 3 (p ^ f) K) :=
     Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
@@ -127,7 +127,7 @@ theorem compsFine_projImage_glPi_of_cover {π : Bool} {p f : ℕ} (hK : Sec4.PiF
   have hperfS : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
   have hsS := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
-  haveI := hsS
+  have := hsS
   have hqS : CFSG.IsQuasisimple ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
       (Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperfS)).1
@@ -148,10 +148,10 @@ theorem compsFine_projImage_glPi {π : Bool} {p f : ℕ} (hK : Sec4.PiField π p
     (hπ2 : π = true → 2 < p ^ f) :
     CompsFine p ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
   have hp := hK.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hq2 : 2 < p ^ f
   · let g₀ : ↥(Sec4.slPi π 3 (p ^ f) K) →* ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _).subgroupMap (Sec4.slPi π 3 (p ^ f) K)
@@ -199,7 +199,7 @@ theorem compsFine_projImage_glPi {π : Bool} {p f : ℕ} (hK : Sec4.PiField π p
       have h3 : p ≤ p ^ f := Nat.le_self_pow (by have := hK.one_le; omega) p
       omega
     cases π
-    · haveI := Sec13.isSolvable_projImage_glPi_two hK h2
+    · have := Sec13.isSolvable_projImage_glPi_two hK h2
       exact compsFine_of_isSolvable
     · exact absurd (hπ2 rfl) hq2
 

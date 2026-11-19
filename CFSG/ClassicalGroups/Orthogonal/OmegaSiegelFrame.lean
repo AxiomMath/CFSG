@@ -157,11 +157,11 @@ private theorem dual_pairs {n : ℕ} (Pn : ℕ → HypPair Q)
   by_cases hac : a = c
   · subst hac
     cases b <;> cases d <;> simp only [Prod.mk.injEq, and_false,
-      Bool.false_eq_true, if_true, if_false, HypPair.polar_ef, HypPair.polar_fe,
+      Bool.false_eq_true, ite_true, ite_false, HypPair.polar_ef, HypPair.polar_fe,
       polar_self_char_two, Bool.true_eq_false]
   · have ho := hPo a c a.isLt c.isLt (fun h => hac (Fin.ext h))
-    cases b <;> cases d <;> simp only [Prod.mk.injEq, hac, false_and, and_false, if_false,
-      ho.ee, ho.ef, ho.fe, ho.ff, Bool.false_eq_true, Bool.true_eq_false, if_true]
+    cases b <;> cases d <;> simp only [Prod.mk.injEq, hac, false_and, and_false, ite_false,
+      ho.ee, ho.ef, ho.fe, ho.ff, Bool.false_eq_true, Bool.true_eq_false, ite_true]
 
 private theorem isListFrame_of_basis {ι : Type*} [Fintype ι] [DecidableEq ι] {e f p p' : N}
     {w : ℕ → N} {k j₁ : ℕ} (he : Q e = 0) (hf : Q f = 0) (hp : Q p = 0) (hp' : Q p' = 0)
@@ -431,16 +431,16 @@ private theorem minus_dual {n : ℕ} (Pn : ℕ → HypPair Q)
   · cases b <;> cases d
     · show polar Q u ((polar Q u v)⁻¹ • v) =
         if (Sum.inr false : (Fin n × Bool) ⊕ Bool) = Sum.inr false then 1 else 0
-      rw [if_pos rfl, polar_smul_right, smul_eq_mul, inv_mul_cancel₀ hpuv]
+      rw [ite_eq_left rfl, polar_smul_right, smul_eq_mul, inv_mul_cancel₀ hpuv]
     · show polar Q u ((polar Q u v)⁻¹ • u) =
         if (Sum.inr false : (Fin n × Bool) ⊕ Bool) = Sum.inr true then 1 else 0
-      rw [if_neg (by simp), polar_smul_right, polar_self_char_two, smul_zero]
+      rw [ite_eq_right (by simp), polar_smul_right, polar_self_char_two, smul_zero]
     · show polar Q v ((polar Q u v)⁻¹ • v) =
         if (Sum.inr true : (Fin n × Bool) ⊕ Bool) = Sum.inr false then 1 else 0
-      rw [if_neg (by simp), polar_smul_right, polar_self_char_two, smul_zero]
+      rw [ite_eq_right (by simp), polar_smul_right, polar_self_char_two, smul_zero]
     · show polar Q v ((polar Q u v)⁻¹ • u) =
         if (Sum.inr true : (Fin n × Bool) ⊕ Bool) = Sum.inr true then 1 else 0
-      rw [if_pos rfl, polar_smul_right, polar_comm Q v u, smul_eq_mul, inv_mul_cancel₀ hpuv]
+      rw [ite_eq_left rfl, polar_smul_right, polar_comm Q v u, smul_eq_mul, inv_mul_cancel₀ hpuv]
 
 omit [FiniteDimensional K N] in
 private theorem minus_list_props {m : ℕ} (hm : 5 ≤ m) {Pn : ℕ → HypPair Q}

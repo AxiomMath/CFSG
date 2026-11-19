@@ -107,7 +107,7 @@ variable {Q' : Type} [Group Q'] [Finite Q'] {T D C : Subgroup Q'} {𝒟 : Set (S
 
 theorem reduced_quot_of_semiFam [D.Normal] [C.Normal] (hC : C = Subgroup.centralizer (D : Set Q'))
     (hT : IsSylowIn 2 T ⊤) (hsf : SemiFam 𝒟) (hD : sSup 𝒟 = D) (hQ : D ⊔ T = ⊤)
-    (hne : 𝒟.Nonempty) (hconj : ∀ S ∈ 𝒟, ∀ t ∈ T, A1b.conjSub t S ∈ 𝒟)
+    (hne : 𝒟.Nonempty) (_hconj : ∀ S ∈ 𝒟, ∀ t ∈ T, A1b.conjSub t S ∈ 𝒟)
     (htr : ∀ S ∈ 𝒟, ∀ S' ∈ 𝒟, ∃ t ∈ T, A1b.conjSub t S = S') :
     E111Reduced (Q' ⧸ C) (D.map (QuotientGroup.mk' C)) (T.map (QuotientGroup.mk' C)) := by
   set π := QuotientGroup.mk' C with hπ
@@ -135,7 +135,7 @@ theorem reduced_quot_of_semiFam [D.Normal] [C.Normal] (hC : C = Subgroup.central
     intro N' hN'n hN'D
     set Ñ : Subgroup Q' := N'.comap π ⊓ D with hÑ
     have hÑn : Ñ.Normal := by
-      haveI : (N'.comap π).Normal := Subgroup.normal_comap π
+      have : (N'.comap π).Normal := Subgroup.normal_comap π
       exact Subgroup.normal_inf_normal _ _
     by_cases hÑbot : Ñ = ⊥
     · left

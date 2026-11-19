@@ -22,6 +22,7 @@ theorem component_le_or_commute {K N : Subgroup Q} (hK : Open.IsComponentOf K �
     K ≤ N ∨ ⁅K, N⁆ = ⊥ :=
   CFSG.LocalCores.component_normal_subgroup ((CFSG.isComponent_iff_open K).2 hK) hN
 
+omit [Finite Q] in
 theorem not_le_centralizer_of_isQuasisimple {K : Subgroup Q} (hK : Open.IsQuasisimple K) :
     ¬ K ≤ Subgroup.centralizer (K : Set Q) := by
   intro h
@@ -36,6 +37,7 @@ theorem not_le_centralizer_of_isQuasisimple {K : Subgroup Q} (hK : Open.IsQuasis
     exact Subtype.ext ((Subgroup.mem_centralizer_iff.mp (h z.2)) g g.2)
   rw [hz a, hz b]
 
+omit [Finite Q] in
 theorem ne_bot_of_isComponentOf {K : Subgroup Q} (hK : Open.IsComponentOf K ⊤) : K ≠ ⊥ := by
   intro hbot
   have hs : Subsingleton K := by

@@ -42,7 +42,7 @@ structure Core3Parts : Prop where
 
 theorem card_le_card_mulAut {S : Type} [Group S] [Finite S] (hZ : Subgroup.center S = ⊥) :
     Nat.card S ≤ Nat.card (MulAut S) := by
-  haveI : Finite (MulAut S) := inferInstance
+  have : Finite (MulAut S) := inferInstance
   refine Nat.card_le_card_of_injective (MulAut.conj : S →* MulAut S) ?_
   rw [injective_iff_map_eq_one]
   intro x hx
@@ -236,7 +236,7 @@ theorem i137LieCore3_of_parts (h : Core3Parts) : I137LieCore3 := by
       · exact Or.inr h2
       · exfalso
         unfold fullCoverLevel at hlev
-        rw [if_neg h1, if_neg h2] at hlev
+        rw [ite_eq_right h1, ite_eq_right h2] at hlev
         split_ifs at hlev <;> omega
   rcases h12 with ⟨-, h3⟩ | ⟨hKq, hc⟩
   · exact h.small _ hsimp hnab (card_lt_of_chev23 _ hch h3 hZ)

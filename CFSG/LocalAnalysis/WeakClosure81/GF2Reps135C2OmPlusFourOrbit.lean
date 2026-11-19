@@ -330,7 +330,7 @@ private theorem w183_pair_23
 
 theorem exists_four_orbit_omPlus_four_node_one
     {x : (coxeterMatrix (isFiniteType_cartanD 4)).Group} {π : Equiv.Perm (Fin 4)}
-    {s : Fin 4 → ℤ} (hxr : OmRealizes 4 x π s) (hs : SpIsSign s) (hprod : ∏ a, s a = 1)
+    {s : Fin 4 → ℤ} (hxr : OmRealizes 4 x π s) (hs : SpIsSign s) (_hprod : ∏ a, s a = 1)
     (hx : (π ⟨0, by omega⟩ = ⟨0, by omega⟩ ∧ s ⟨0, by omega⟩ = -1) ∨
       (π ⟨0, by omega⟩ = ⟨1, by omega⟩ ∧ π ⟨1, by omega⟩ = ⟨0, by omega⟩ ∧
         s ⟨0, by omega⟩ = s ⟨1, by omega⟩)) :
@@ -350,7 +350,7 @@ theorem exists_four_orbit_omPlus_four_node_one
 theorem exists_four_orbit_omPlus_four_pair {i j : Fin 4} (hij : i ≠ j) (hi : i.val ≠ 1)
     (hj : j.val ≠ 1)
     {x : (coxeterMatrix (isFiniteType_cartanD 4)).Group} {π : Equiv.Perm (Fin 4)}
-    {s : Fin 4 → ℤ} (hxr : OmRealizes 4 x π s) (hs : SpIsSign s) (hprod : ∏ a, s a = 1)
+    {s : Fin 4 → ℤ} (hxr : OmRealizes 4 x π s) (hs : SpIsSign s) (_hprod : ∏ a, s a = 1)
     (hx : (π ⟨0, by omega⟩ = ⟨0, by omega⟩ ∧ s ⟨0, by omega⟩ = -1) ∨
       (π ⟨0, by omega⟩ = ⟨1, by omega⟩ ∧ π ⟨1, by omega⟩ = ⟨0, by omega⟩ ∧
         s ⟨0, by omega⟩ = s ⟨1, by omega⟩)) :

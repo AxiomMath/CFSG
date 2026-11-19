@@ -50,7 +50,7 @@ theorem innerOn_of_model (hM : Asc82E16Model) {L F : Subgroup G} {hQ : Q.Nondege
   have hcard : Nat.card Fbar = Nat.card ↥F :=
     (Nat.card_congr (MonoidHom.ofInjective hΨinj).toEquiv).symm
   have hFbar : IsElemAb2 Fbar 4 := by
-    haveI : IsMulCommutative ↥F := hF.1.1
+    have : IsMulCommutative ↥F := hF.1.1
     refine ⟨⟨Subgroup.range_isMulCommutative Ψ, ?_⟩, ?_⟩
     · intro x hx
       obtain ⟨g, rfl⟩ := MonoidHom.mem_range.mp hx

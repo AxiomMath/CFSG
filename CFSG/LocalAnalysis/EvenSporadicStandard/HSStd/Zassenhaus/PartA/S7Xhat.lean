@@ -32,6 +32,7 @@ section Action
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem ker_conjNormal_eq (N : Subgroup X) [N.Normal] :
     (MulAut.conjNormal : X →* MulAut N).ker = centralizer (N : Set X) := by
   ext x
@@ -39,16 +40,16 @@ theorem ker_conjNormal_eq (N : Subgroup X) [N.Normal] :
   constructor
   · intro h n hn
     have h1 := congrArg (fun f : MulAut N => ((f ⟨n, hn⟩ : N) : X)) h
-    simp only [MulAut.conjNormal_val, MulAut.one_apply] at h1
+    simp only [MulAut.one_apply] at h1
     exact (mul_inv_eq_iff_eq_mul.1 h1).symm
   · intro h
     ext ⟨n, hn⟩
-    simp only [MulAut.conjNormal_val, MulAut.one_apply]
+    simp only [MulAut.one_apply]
     exact mul_inv_eq_iff_eq_mul.2 (h n hn).symm
 
 theorem card_dvd_card_centralizer_mul (N : Subgroup X) [N.Normal] :
     Nat.card X ∣ Nat.card (centralizer (N : Set X)) * Nat.card (MulAut N) := by
-  haveI : Finite (MulAut N) :=
+  have : Finite (MulAut N) :=
     Finite.of_injective (fun f : MulAut N => (f : N → N)) DFunLike.coe_injective
   have hker := ker_conjNormal_eq N
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -73,7 +74,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem card_eq_two_of_cent_le (hO : Open.fusionOddCore X = ⊥) {t : X} (ht : orderOf t = 2)
     (B : Subgroup X) [B.Normal] (htB : t ∈ B)
     (hcent : ∀ b ∈ B, b * t = t * b → b = 1 ∨ b = t) : Nat.card B = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set t' : B := ⟨t, htB⟩ with ht'
   have ht'2 : orderOf t' = 2 := by rw [← ht, ← Subgroup.orderOf_coe]
   have hCB : ∀ b : B, b * t' = t' * b → b = 1 ∨ b = t' := by
@@ -92,9 +93,9 @@ theorem card_eq_two_of_cent_le (hO : Open.fusionOddCore X = ⊥) {t : X} (ht : o
   obtain ⟨S, hS⟩ := hP.exists_le_sylow
   have ht'S : t' ∈ S := hS (mem_zpowers t')
   have hSle : ∀ s ∈ S, s = 1 ∨ s = t' := by
-    have hSp : IsPGroup 2 S := S.isPGroup'
-    haveI : Nontrivial S := ⟨⟨⟨t', ht'S⟩, 1, fun h => ht'ne (congrArg Subtype.val h)⟩⟩
-    haveI : Nontrivial (center S) := hSp.center_nontrivial
+    have hSp : IsPGroup 2 S := S.isPGroup
+    have : Nontrivial S := ⟨⟨⟨t', ht'S⟩, 1, fun h => ht'ne (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial (center S) := hSp.center_nontrivial
     have hZp : IsPGroup 2 (center S) := hSp.to_subgroup _
     have h2dvd : 2 ∣ Nat.card (center S) := by
       obtain ⟨n, hn⟩ := hZp.exists_card_eq
@@ -139,7 +140,7 @@ theorem card_eq_two_of_cent_le (hO : Open.fusionOddCore X = ⊥) {t : X} (ht : o
   have hcompl := IsCyclic.isComplement' (P := S) hminFac hcyc
   set K : Subgroup B := (MonoidHom.transferSylow S (hcyc.normalizer_le_centralizer hminFac)).ker
     with hK
-  haveI hKn : K.Normal := MonoidHom.normal_ker _
+  have hKn : K.Normal := MonoidHom.normal_ker _
   have hKodd : ¬ 2 ∣ Nat.card K :=
     MonoidHom.not_dvd_card_ker_transferSylow S (hcyc.normalizer_le_centralizer hminFac)
   have hKcard : Nat.card K * 2 = Nat.card B := by
@@ -148,7 +149,7 @@ theorem card_eq_two_of_cent_le (hO : Open.fusionOddCore X = ⊥) {t : X} (ht : o
     exact this
   set φ := MonoidHom.transferSylow S (hcyc.normalizer_le_centralizer hminFac) with hφ
   let K' : Subgroup X := K.map B.subtype
-  haveI hK'n : K'.Normal := by
+  have hK'n : K'.Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨k, hk, rfl⟩ := hn
     have hgB : g * (k : X) * g⁻¹ ∈ B := (‹B.Normal›).conj_mem (k : X) k.2 g
@@ -206,6 +207,7 @@ section Lhat
 
 variable {X : Type} [Group X] [Finite X] {t : X}
 
+omit [Finite X] in
 theorem map_commutator_lam
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) :
     (_root_.commutator ↥(centralizer ({t} : Set X))).map e.toMonoidHom =
@@ -213,6 +215,7 @@ theorem map_commutator_lam
   rw [_root_.commutator_def, Subgroup.map_commutator,
     Subgroup.map_top_of_surjective e.toMonoidHom e.surjective, ← _root_.commutator_def]
 
+omit [Finite X] in
 theorem commutator_lam_perfect
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) :
     ⁅_root_.commutator ↥(centralizer ({t} : Set X)),
@@ -222,16 +225,18 @@ theorem commutator_lam_perfect
   rw [Subgroup.map_commutator, map_commutator_lam e, commutator_prod_alt6,
     ← Subgroup.map_commutator, innA6_perfect]
 
+omit [Finite X] in
 theorem lhat_perfect
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) :
     ⁅centralizerDerived t, centralizerDerived t⁆ = centralizerDerived t := by
   unfold centralizerDerived
   rw [← Subgroup.map_commutator, commutator_lam_perfect e]
 
+omit [Finite X] in
 theorem lhat_equiv
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) :
     Nonempty (↥(centralizerDerived t) ≃* A6) := by
-  haveI := isSimple_alt6
+  have := isSimple_alt6
   have f1 : ↥(centralizerDerived t) ≃* ↥(_root_.commutator ↥(centralizer ({t} : Set X))) :=
     (Subgroup.equivMapOfInjective (_root_.commutator ↥(centralizer ({t} : Set X)))
       (centralizer ({t} : Set X)).subtype (centralizer ({t} : Set X)).subtype_injective).symm
@@ -248,6 +253,7 @@ theorem lhat_equiv
     (MonoidHom.ofInjective (conj_injective_of_simple alt6_nonabelian)).symm
   exact ⟨(((f1.trans f2).trans f3).trans f4).trans f5⟩
 
+omit [Finite X] in
 theorem perfect_le_derived {H : Subgroup X} (hH : H ≤ centralizer ({t} : Set X))
     (hp : ⁅H, H⁆ = H) : H ≤ centralizerDerived t := by
   calc H = ⁅H, H⁆ := hp.symm
@@ -258,6 +264,7 @@ theorem perfect_le_derived {H : Subgroup X} (hH : H ≤ centralizer ({t} : Set X
       rw [_root_.commutator_def]
       exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
 
+omit [Finite X] in
 theorem normalClosure_eq_derived_of_le
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6)
     (hle : normalClosureOf (centralizerDerived t) ≤ centralizer ({t} : Set X)) :
@@ -298,7 +305,7 @@ theorem harris_cases
           Nat.card ↥(centralizer ({y, c, t * c * t⁻¹, k, t * k * t⁻¹} : Set X)) = 3)) := by
   obtain ⟨N, hNdef⟩ : ∃ N : Subgroup X, N = normalClosureOf (centralizerDerived t) := ⟨_, rfl⟩
   rw [← hNdef]
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     rw [hNdef]; unfold normalClosureOf; infer_instance
   have hLN : centralizerDerived t ≤ N := by
     rw [hNdef]; exact Subgroup.subset_normalClosure

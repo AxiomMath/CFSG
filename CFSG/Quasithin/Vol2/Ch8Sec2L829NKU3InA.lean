@@ -10,7 +10,7 @@ open CFSG.Open CFSG.SectionRank.ClassicalEven Matrix
 
 theorem charP_two_of_natCard_eq {K : Type} [Field K] [Finite K] {n : ℕ}
     (h : Nat.card K = (2 ^ n) ^ 2) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨k, hp, hk⟩ := FiniteField.card K (ringChar K)
   have h2 : ringChar K ^ (k : ℕ) = 2 ^ (2 * n) := by
     rw [← hk, ← Nat.card_eq_fintype_card, h, ← pow_mul, mul_comm]
@@ -31,7 +31,7 @@ variable {K : Type} [Field K]
 theorem u3SwapMat_mul_self : u3SwapMat * u3SwapMat = (1 : Matrix (Fin 3) (Fin 3) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [u3SwapMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    simp [u3SwapMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 @[expose] def u3SwapU : GL (Fin 3) K :=
   Units.mk u3SwapMat u3SwapMat u3SwapMat_mul_self u3SwapMat_mul_self
@@ -50,7 +50,7 @@ theorem u3SwapMat_unitary [CharP K 2] {q : ℕ} (hq : q ≠ 0) :
     ((u3SwapMat : Matrix (Fin 3) (Fin 3) K).map (fun x => x ^ q))ᵀ * u3SwapMat = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [u3SwapMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply, zero_pow hq]
+    simp [u3SwapMat, Matrix.mul_apply, Fin.sum_univ_three, zero_pow hq]
 
 theorem u3SwapU_mem [CharP K 2] {q : ℕ} (hq : q ≠ 0) :
     (u3SwapU : GL (Fin 3) K) ∈ StatedSU 3 q K :=
@@ -84,6 +84,7 @@ section Proj
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem u3_exists_unit_order {q : ℕ} (hq : 16 ≤ q) (hK : Nat.card K = q ^ 2) :
     ∃ l : Kˣ, orderOf l = q + 1 := by
   have hcard : Nat.card Kˣ = (q + 1) * (q - 1) := by

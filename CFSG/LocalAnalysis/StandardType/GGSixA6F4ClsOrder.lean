@@ -175,7 +175,7 @@ private theorem ggA6F4_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
 
 theorem ggA6F4_not_five
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {G : Type} [Group G] [Finite G]
-    (e : G ≃* ↥(adjointGroup .F4 K)) {D J : Subgroup G} (hD : IsElemAbelian 5 D)
+    (e : G ≃* ↥(adjointGroup .F4 K)) {D J : Subgroup G} (_hD : IsElemAbelian 5 D)
     (hDc : Nat.card D = 5 ^ 2) (hJ : Nonempty (↥J ≃* alternatingGroup (Fin 6)))
     (hDJ : D ≤ Subgroup.centralizer (J : Set G)) : False := by
   have hG : Nat.card G = 3311126603366400 := by

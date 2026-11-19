@@ -76,7 +76,7 @@ theorem card_lt_two_pow_of_abelian {Q : Type*} [Group Q] [Finite Q] {a b : Q}
     (hD : IsPGroup 2 (Subgroup.closure ({a, b} : Set Q))) (hab : a * b ≠ b * a)
     {E : Subgroup Q} (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE2 : IsPGroup 2 E) :
     Nat.card E < 2 ^ (Nat.card Q).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hEP⟩ := hE2.exists_le_sylow
   obtain ⟨P', hDP'⟩ := hD.exists_le_sylow
   have hP : Nat.card P = 2 ^ (Nat.card Q).factorization 2 := P.card_eq_multiplicity
@@ -219,7 +219,7 @@ private theorem eq_one_of_sq_eq_one_of_mem_center {z : SpecialLinearGroup (Fin 3
 
 private theorem odd_card_center_sl3 [Finite F] :
     Odd (Nat.card (Subgroup.center (SpecialLinearGroup (Fin 3) F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center (SpecialLinearGroup (Fin 3) F)) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
@@ -233,7 +233,7 @@ private theorem odd_card_center_sl3 [Finite F] :
 
 private theorem card_sl3_four [Finite F] (hF : Nat.card F = 4) :
     Nat.card (SpecialLinearGroup (Fin 3) F) = 60480 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hq : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hF
   rw [Matrix.card_SL_field, hq, Fin.prod_univ_three]
   norm_num
@@ -243,9 +243,9 @@ end SL
 theorem card_le_thirtyTwo_of_isElemAbelian_psl3 {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) (E : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 3) F))
     (hE : IsElemAbelian 2 E) : Nat.card E ≤ 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h11 : (1 : F) + 1 = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have h4 : ((Fintype.card F : ℕ) : F) = 0 := Nat.cast_card_eq_zero F
     have hq : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hF
     rw [hq] at h4
@@ -361,7 +361,7 @@ theorem twoRank_lt_six_of_A_two_four {J : Type} [Group J] [Finite J]
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) (hq : q.card = 4)
     (e : J ⧸ Subgroup.center J ≃* TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩) :
     twoRank J < 6 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let φ : J ⧸ Subgroup.center J ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (GaloisField q.p q.exponent) :=
     e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)

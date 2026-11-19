@@ -22,7 +22,7 @@ private theorem fullOK_of_pfullOK {n w : Nat} (G : SP.Good n w) {inX : Array Nat
   have hyc : ∀ x ∈ (nd.facs.map (NFacP.val n w nd.basis)).toArray.toList,
       canon1 n w x = true := by
     intro x hx
-    simp only [List.toList_toArray, List.mem_map] at hx
+    simp only [List.mem_map] at hx
     obtain ⟨f, -, rfl⟩ := hx
     exact SP.pc_canon G _ _
   have hys : ((nd.facs.map (NFacP.toMain n w)).map (NFac.val n (nd.basis.map (unpackP n w)))).toArray =

@@ -74,17 +74,17 @@ theorem exists_spSiegel_of_mem_rootGroup {m : ℕ}
     exact Even.neg (even_two_mul _)
   · refine ⟨Pi.single (Sum.inr j) 1, Pi.single (Sum.inl i) 1, ?_, ?_⟩
     · rw [spB_eq_spBilin, spForm_apply_single_inl]
-      simp [Pi.single_apply, Ne.symm hij]
+      simp [Ne.symm hij]
     · intro v
       have h := spEquiv_elt_difference i j hij (1 : GaloisField 2 1)
       rw [show spAct (SpExtras.elt (.difference i j hij) 1) v =
           (spEquiv (SpExtras.elt (.difference i j hij) 1)).app v from rfl, h]
       rw [lineElt_app spForm_isAlt (by
         rw [spForm_apply_single_inr]
-        simp [Pi.single_apply, hij])]
+        simp [hij])]
       rw [spB_symm (m := m) (Pi.single (Sum.inl i) 1) v,
         spB_symm (m := m) (Pi.single (Sum.inr j) 1) v]
-      simpa only [spB_eq_spBilin]
+      simp only [spB_eq_spBilin]
   · refine ⟨Pi.single (Sum.inl j) 1, Pi.single (Sum.inl i) 1, ?_, ?_⟩
     · rw [spB_eq_spBilin, spForm_apply_single_inl]
       simp
@@ -97,7 +97,7 @@ theorem exists_spSiegel_of_mem_rootGroup {m : ℕ}
         simp)]
       rw [spB_symm (m := m) (Pi.single (Sum.inl i) 1) v,
         spB_symm (m := m) (Pi.single (Sum.inl j) 1) v]
-      simpa only [spB_eq_spBilin]
+      simp only [spB_eq_spBilin]
   · refine ⟨Pi.single (Sum.inr j) 1, Pi.single (Sum.inr i) 1, ?_, ?_⟩
     · rw [spB_eq_spBilin, spForm_apply_single_inr]
       simp
@@ -110,7 +110,7 @@ theorem exists_spSiegel_of_mem_rootGroup {m : ℕ}
         simp)]
       rw [spB_symm (m := m) (Pi.single (Sum.inr i) 1) v,
         spB_symm (m := m) (Pi.single (Sum.inr j) 1) v]
-      simpa only [spB_eq_spBilin]
+      simp only [spB_eq_spBilin]
 
 private theorem rckPSp_collinear_one {m : ℕ} (hm : 2 ≤ m)
     {β : Fin m → ℤ}

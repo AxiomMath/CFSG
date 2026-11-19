@@ -34,11 +34,12 @@ private theorem card_inf_X_le_sq_mul_card_CN (h34 : Stroth34Statement) (hc : Ctx
     _ ≤ Nat.card Z ^ 2 * Nat.card ↥(hc.CN t) :=
         Nat.mul_le_mul_left _ (Subgroup.card_le_of_le inf_le_right)
 
+omit [Finite G] in
 private theorem card_Rt_eq (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) :
     Nat.card ↥(Rt M (LB M Q B) t) =
       Nat.card ↥(hc.CN t) * (Nat.card Z * (Nat.card Z ^ 2 - 1)) ^ 2 := by
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hs.plus4
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
@@ -50,6 +51,7 @@ private theorem card_Rt_eq (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc
   rw [h2] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem card_Rt_mul_card_Q_eq {t : G}
     {X Y : Subgroup G} (hsplit : Split95 M Q Z B t X Y) :
     Nat.card ↥(Rt M (LB M Q B) t) * Nat.card ↥Q = Nat.card ↥X * Nat.card ↥Y := by
@@ -67,7 +69,8 @@ private theorem card_Rt_mul_card_Q_eq {t : G}
   rw [sup_comm, inf_comm, hXY, hXYQ] at h
   exact h.trans (mul_comm (Nat.card ↥Y) (Nat.card ↥X))
 
-private theorem card_Y_eq (hc : Ctx M Q Z B) {n : ℕ} {t : G} {X Y : Subgroup G}
+omit [Finite G] in
+private theorem card_Y_eq (hc : Ctx M Q Z B) {_n : ℕ} {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) :
     Nat.card ↥Y = Nat.card Z * (Nat.card Z ^ 2 - 1) * Nat.card ↥Q := by
   obtain ⟨⟨-, -, hQY, -⟩, hYsl, -⟩ := hsplit
@@ -83,7 +86,7 @@ private theorem card_X_eq (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc 
   have hmul : Nat.card ↥X * Nat.card ↥Y =
       (Nat.card ↥(hc.CN t) * (Nat.card Z * (Nat.card Z ^ 2 - 1))) * Nat.card ↥Y := by
     rw [← card_Rt_mul_card_Q_eq hsplit,
-      card_Rt_eq (n := n) (t := t) hc hs, card_Y_eq (n := n) (t := t) hc hsplit]
+      card_Rt_eq (n := n) (t := t) hc hs, card_Y_eq (_n := n) (t := t) hc hsplit]
     ring
   exact Nat.eq_of_mul_eq_mul_right (Nat.card_pos (α := ↥Y)) hmul
 
@@ -138,6 +141,7 @@ theorem card_sup_lt_Rt (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t
       _ < Nat.card ↥(Rt M (LB M Q B) t) * Nat.card ↥Q := hlt
   exact Nat.lt_of_mul_lt_mul_right h2
 
+omit [Finite G] in
 theorem Split95.conjSubgroup_eq_self_of_mem_Rt {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) :
     ∀ ρ ∈ Rt M (LB M Q B) t, conjSubgroup ρ Y = Y := by
@@ -182,6 +186,7 @@ private theorem mem_LB_inf_X_of_mem_centre (h34 : Stroth34Statement) (h311a : St
     exact Q.mul_mem hq haQ
   exact hnZ (hc.Q_le_centre hs.toSec5.mem hZ0 hnnQ)
 
+omit [Finite G] in
 private theorem Rt_le_of_mem_centre (hc : Ctx M Q Z B) {t s r : G}
     (hr : Sec7A hc t r) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) (hcen : Centre95 hc t Z0)
@@ -243,6 +248,7 @@ private theorem Vt_eq_of_mem_centre (h34 : Stroth34Statement) (hc : Ctx M Q Z B)
   rw [hV.1]
   simpa [Ut] using hcen.2.2 s hs0 hsQ
 
+omit [Finite G] in
 private theorem conjSubgroup_Rt_of_mem_Q (hc : Ctx M Q Z B) {g s nn : G} (hg : g ∈ M) (hsM : s ∈ M)
     (hq : nn * (g * s * g⁻¹)⁻¹ ∈ Q) :
     conjSubgroup g (Rt M (LB M Q B) s) = Rt M (LB M Q B) nn := by
@@ -259,6 +265,7 @@ private theorem conjSubgroup_Rt_of_mem_Q (hc : Ctx M Q Z B) {g s nn : G} (hg : g
   rw [conjSubgroup_Rt_eq hg s]
   exact h.symm
 
+omit [Finite G] in
 private theorem conjSubgroup_Vt_of_mem_Q (hc : Ctx M Q Z B) {g s nn : G} (hg : g ∈ M) (hsM : s ∈ M)
     (hq : nn * (g * s * g⁻¹)⁻¹ ∈ Q) :
     conjSubgroup g (Vt M (LB M Q B) B Z s) = Vt M (LB M Q B) B Z nn := by

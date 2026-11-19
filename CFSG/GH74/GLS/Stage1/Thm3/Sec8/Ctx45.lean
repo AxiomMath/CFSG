@@ -122,7 +122,7 @@ theorem Y_equiv_SL34 (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_recip
       (by rw [hxo]; norm_num) hy'2 hrel
     have hbot : (zpowers (x ^ 3)).subgroupOf (zpowers x ⊔ zpowers y') = ⊥ := by
       rw [hx3, Subgroup.zpowers_one_eq_bot, Subgroup.bot_subgroupOf]
-    haveI := hNorm
+    have := hNorm
     have e' : ↥(zpowers x ⊔ zpowers y') ≃* Equiv.Perm (Fin 3) :=
       ((QuotientGroup.quotientBot (G := ↥(zpowers x ⊔ zpowers y'))).symm.trans
         (QuotientGroup.quotientMulEquivOfEq hbot.symm)).trans e

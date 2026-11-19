@@ -39,7 +39,7 @@ theorem eq_of_supp_subset_of_hammingNorm_le {e f : Fin 24 → ZMod 2}
   have := congrFun h1 i
   simp only [Pi.add_apply, Pi.zero_apply] at this
   rcases zmod2_cases (e i) with h2 | h2 <;> rcases zmod2_cases (f i) with h3 | h3 <;>
-    rw [h2, h3] at this ⊢ <;> first | rfl | exact absurd this (by decide)
+    rw [h2, h3] at this ⊢ <;> (exact absurd this (by decide))
 
 theorem mul_eq_zero_iff_supp {d z : Fin 24 → ZMod 2} : d * z = 0 ↔ ∀ i, z i ≠ 0 → d i = 0 := by
   constructor
@@ -307,7 +307,7 @@ private theorem bijective_of_sum_chi {S : Type*} [Fintype S] [DecidableEq S]
           have := congrFun hx k
           simp only [Pi.add_apply, Pi.zero_apply] at this
           rcases zmod2_cases (lab i k) with h1 | h1 <;> rcases zmod2_cases (x k) with h2 | h2 <;>
-            rw [h1, h2] at this ⊢ <;> first | rfl | exact absurd this (by decide)
+            rw [h1, h2] at this ⊢ <;> (exact absurd this (by decide))
         · rintro rfl
           funext k
           simp only [Pi.add_apply, Pi.zero_apply]

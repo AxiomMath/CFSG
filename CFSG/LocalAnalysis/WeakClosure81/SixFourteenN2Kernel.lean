@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 open CFSG.Quasithin CFSG.Open
 
 theorem eq_smul_one_of_fixes_all_lines {K V : Type*} [Field K] [AddCommGroup V]
-    [Module K V] [FiniteDimensional K V] (hfin : Module.finrank K V = 2)
+    [Module K V] [FiniteDimensional K V] (_hfin : Module.finrank K V = 2)
     (g : V ≃ₗ[K] V) (h : ∀ L : LineOf (K := K) (V := V), lineMap g L = L) :
     ∃ c : K, ∀ v : V, g v = c • v := by
   classical
@@ -43,8 +43,8 @@ theorem x_fixes_all_lines_of_transitive {W : Type*} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
     {G X H : Subgroup (MulAut W)}
-    (hH : H = G ⊓ Subgroup.centralizer (X : Set (MulAut W)))
-    (hxgen : X = Subgroup.zpowers x)
+    (_hH : H = G ⊓ Subgroup.centralizer (X : Set (MulAut W)))
+    (_hxgen : X = Subgroup.zpowers x)
     (hcommH : ∀ h ∈ H, h * x = x * h)
     (htrans : letI := galoisModule hw2 x hx3 hfix;
       ∀ L M : LineOf (K := GaloisField 2 2) (V := Additive W),
@@ -52,7 +52,7 @@ theorem x_fixes_all_lines_of_transitive {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     ∀ L : LineOf (K := GaloisField 2 2) (V := Additive W),
       lineMap (hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)) L = L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let gx := hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)
   let S : Set (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
     {L | lineMap gx L = L}
@@ -60,7 +60,7 @@ theorem x_fixes_all_lines_of_transitive {W : Type*} [CommGroup W] [Finite W]
     card_f4Line hw2 x hx3 hfix hW
   have hScard : S.ncard = 2 ∨ S.ncard = 5 :=
     x_line_fixed_eq_two_or_five hw2 x hx3 hfix hW
-  haveI : Finite (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
+  have : Finite (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard5]; norm_num)
   have hline_trans : ∀ (e f : Additive W ≃ₗ[GaloisField 2 2] Additive W)
       (L : LineOf (K := GaloisField 2 2) (V := Additive W)),
@@ -155,7 +155,7 @@ theorem X_fixes_all_lines_of_transitive {W : Type*} [CommGroup W] [Finite W]
         obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp ha'
         rw [← hk]
         exact (Commute.zpow_self (a := x) (n := k)).eq)) L = L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let gx := hGaloisLinearEquiv hw2 x hx3 hfix x (by rfl)
   have hxfix : ∀ L : LineOf (K := GaloisField 2 2) (V := Additive W),
       lineMap gx L = L :=
@@ -253,7 +253,7 @@ theorem X_scalar_of_transitive {W : Type*} [CommGroup W] [Finite W]
         obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp ha'
         rw [← hk]
         exact (Commute.zpow_self (a := x) (n := k)).eq) v = c • v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro a ha
   refine eq_smul_one_of_fixes_all_lines
     (finrank_galoisModule hw2 x hx3 hfix hW)

@@ -29,6 +29,7 @@ private theorem n924x_derInf_subgroupOf_map {L P X : Subgroup G} (hPL : P ≤ L)
   exact SignalizerFunctorTheorem.Nonsolvable.map_perfectResidual_map
     (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) (P.subgroupOf L)
 
+omit [Finite G] in
 private theorem n924x_isL2_bar2_subgroupOf_map {L X : Subgroup G} {n : ℕ} (hXL : X ≤ L)
     (hL2 : IsL2 (Bar2 X) (2 * n)) :
     IsL2 (Bar2 ((X.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) (2 * n) := by
@@ -98,7 +99,7 @@ theorem le_parabolic_of_pRank_le_one {L P X J : Subgroup G} {n : ℕ} (hn : 1 < 
   · exfalso
     have hker3 : ¬ 3 ∣ Nat.card π.ker := by
       rw [show π.ker = CFSG.pCore 2 ↥L from QuotientGroup.ker_mk' _]
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
       rw [hk]
       intro h

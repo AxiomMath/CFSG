@@ -26,7 +26,7 @@ theorem s16c1G_isSym_of_faithful {X : Type} [Group X] [Finite X] {Y : Type} [Fin
 theorem s16c1G_isE16A5_congr {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
     (h : IsE16A5 X) : IsE16A5 Y := by
   obtain ⟨N, hN, hel, ⟨hQ⟩⟩ := h
-  haveI : (N.map e.toMonoidHom).Normal := hN.map e.toMonoidHom e.surjective
+  have : (N.map e.toMonoidHom).Normal := hN.map e.toMonoidHom e.surjective
   refine ⟨N.map e.toMonoidHom, inferInstance, ?_, ?_⟩
   · obtain ⟨φ⟩ := hel
     exact ⟨(N.equivMapOfInjective e.toMonoidHom e.injective).symm.trans φ⟩

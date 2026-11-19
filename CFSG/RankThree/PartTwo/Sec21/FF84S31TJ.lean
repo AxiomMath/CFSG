@@ -68,7 +68,7 @@ theorem lemmaF_via [Finite G] (hF : LemmaF) (P : PreTheta L θ)
       rwa [← this]
     · intro hx
       exact ⟨x, hx, rfl⟩
-  haveI hZn : (Z.subgroupOf J).Normal := by
+  have hZn : (Z.subgroupOf J).Normal := by
     rw [hZsub]
     exact φ.normal_ker
   have hZ2 : IsPGroup 2 Z := by
@@ -96,7 +96,7 @@ theorem lemmaF_via [Finite G] (hF : LemmaF) (P : PreTheta L θ)
   let e : (↥J ⧸ Z.subgroupOf J) ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ' hsurj)
-  haveI := hK
+  have := hK
   have hs : IsSimpleGroup (↥J ⧸ Z.subgroupOf J) := e.isSimpleGroup
   have hc : Nat.card (↥J ⧸ Z.subgroupOf J) = 168 := by
     rw [Nat.card_congr e.toEquiv]
@@ -114,6 +114,7 @@ theorem isSylowOf_ofABG {p : ℕ} [Fact p.Prime] {P H : Subgroup G}
   obtain ⟨a, b, c⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 h
   exact ⟨a, b, (Nat.Prime.coprime_iff_not_dvd Fact.out).2 c⟩
 
+omit [Finite G] in
 theorem mem_Nor_Op (p : ℕ) {H : Subgroup G} {g : G} (hg : g ∈ Nor H) : g ∈ Nor (Op p H) := by
   rw [Subgroup.mem_normalizer_iff]
   intro y
@@ -121,14 +122,15 @@ theorem mem_Nor_Op (p : ℕ) {H : Subgroup G} {g : G} (hg : g ∈ Nor H) : g ∈
   have := Op_conj_mem p (Subgroup.inv_mem _ hg) hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem V_le_Vstar {V : Subgroup G} (hV2 : IsPGroup 2 V) : V ≤ Op 2 (Nor V) :=
   le_Op_of_normal 2 (Nor V) V Subgroup.le_normalizer hV2
-    (fun n hn m hm => (Subgroup.mem_normalizer_iff.1 hn m).1 hm)
+    (fun _n hn m hm => (Subgroup.mem_normalizer_iff.1 hn m).1 hm)
 
 theorem Z_Vstar_eq (hF : LemmaF) (hA7 : A7TauStmt) (hA8 : A8TJStmt)
     (hZ : Nat.card (Subgroup.center L) ∣ 2) (h : FF84Sec3 b L B b₁ b₂) (V : Subgroup G)
     (hV : IsSylowOf 2 V (Opp 3 (Cen b))) : Op 2 (Nor V) = V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, H⟩ := exists_theta h hZ
   have P : PreTheta L θ := H.toPreTheta
   obtain ⟨T, K, hTA, hKA, -, -, hKs, hKc, hm₁, -⟩ := hA8
@@ -163,7 +165,7 @@ theorem Z_Vstar_eq (hF : LemmaF) (hA7 : A7TauStmt) (hA8 : A8TJStmt)
 theorem Z_odd (hF : LemmaF) (hA7 : A7TauStmt) (hA8 : A8TJStmt)
     (hZ : Nat.card (Subgroup.center L) ∣ 2) (h : FF84Sec3 b L B b₁ b₂) :
     Odd (Nat.card (Opp 3 (Cen b))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have heven : 2 ∣ Nat.card (Opp 3 (Cen b)) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)

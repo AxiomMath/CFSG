@@ -484,7 +484,7 @@ theorem order96_cyclic_orderThree_normalizer_extremal_data
   have hCcard : Nat.card C = 2160 := by
     rw [hCentEq]
     exact hC₁card
-  letI : IsCyclic R := by
+  let : IsCyclic R := by
     dsimp only [R]
     infer_instance
   have hAutCard : Nat.card (MulAut R) = 2 := by
@@ -517,7 +517,7 @@ theorem order96_cyclic_orderThree_normalizer_extremal_data
   have hpretrans :=
     order96_orderThree_support_conjugation_pretransitive
       X P hcard h5 hnotAlt s hs hHcard
-  letI :
+  let :
       MulAction.IsPretransitive
         (ConjAct P)
         (OrderPrimeSupportElements X P 3 18) :=
@@ -571,7 +571,7 @@ theorem order96_cyclic_orderThree_normalizer_extremal_data
       Subgroup.relIndex_eq_one.mp hrOne
     exact hqNotCentralizer
       (hNleC hqNormalizer)
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrPos : 0 < C.relIndex N :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

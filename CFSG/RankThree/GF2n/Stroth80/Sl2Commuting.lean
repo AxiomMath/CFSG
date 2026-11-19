@@ -63,22 +63,22 @@ theorem trivial_of_irreducible_commuting {G H : Type} [Group G] [Group H] {M : T
       show a (b x) = a 0
       rw [map_zero]
       exact h0 x
-  haveI : Nontrivial C := ⟨⟨1, 0, fun h1 => hne (congrArg Subtype.val h1)⟩⟩
-  haveI : NoZeroDivisors C := ⟨fun {a b} hab => by
+  have : Nontrivial C := ⟨⟨1, 0, fun h1 => hne (congrArg Subtype.val h1)⟩⟩
+  have : NoZeroDivisors C := ⟨fun {a b} hab => by
     have hab' : a.1 * b.1 = 0 := congrArg Subtype.val hab
     rcases hdom a.1 b.1 a.2 b.2 hab' with h | h
     · exact Or.inl (Subtype.ext h)
     · exact Or.inr (Subtype.ext h)⟩
-  haveI : IsDomain C := NoZeroDivisors.to_isDomain C
-  haveI : Finite C := by
+  have : IsDomain C := NoZeroDivisors.to_isDomain C
+  have : Finite C := by
     have : Finite (AddMonoid.End M) :=
       Finite.of_injective (fun f : AddMonoid.End M => (f : M → M)) DFunLike.coe_injective
     infer_instance
   have hmulC : ∀ a b : C, a * b = b * a := by
     classical
-    letI : Fintype C := Fintype.ofFinite C
-    letI : DivisionRing C := Fintype.divisionRingOfIsDomain C
-    letI : Field C := littleWedderburn C
+    let : Fintype C := Fintype.ofFinite C
+    let : DivisionRing C := Fintype.divisionRingOfIsDomain C
+    let : Field C := littleWedderburn C
     intro a b
     exact mul_comm a b
   have hρ : ∀ h, ρ₂ h ∈ C := fun h =>

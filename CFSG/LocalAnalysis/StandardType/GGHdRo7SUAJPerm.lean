@@ -130,8 +130,8 @@ theorem hdRo7SUAJPerm_transposition_of_linRefl {p : ℕ} [Fact p.Prime] {V : Typ
       CFSG.QuasithinUnique.Setup.X7.permMat (ZMod p) σ - 1 := by
     ext i j
     simp [LinearMap.toMatrix_apply, Module.Basis.equiv_apply,
-      CFSG.QuasithinUnique.Setup.X7.permMat, LinearMap.sub_apply, Matrix.sub_apply,
-      Matrix.one_apply, Finsupp.single_apply, Pi.single_apply, sub_eq_add_neg, eq_comm]
+      CFSG.QuasithinUnique.Setup.X7.permMat, Matrix.sub_apply,
+      Matrix.one_apply, Finsupp.single_apply, sub_eq_add_neg, eq_comm]
   have hrank' : (CFSG.QuasithinUnique.Setup.X7.permMat (ZMod p) σ - 1).rank = 1 := by
     rw [← hmat]
     rw [Matrix.rank_eq_finrank_range_toLin (A := LinearMap.toMatrix b b
@@ -231,7 +231,7 @@ theorem hdRo7SUAJPerm_model_card_le {G : Type} [Group G] [Finite G] {p : ℕ} [F
     (hperm : ∀ g, g ∈ (ggAutomizer X Bs).map (ggLin (p := p) ι) ↔ SUPerm p b g)
     {Λ : Type} [Fintype Λ] {M : CoxeterMatrix Λ} (φ : Λ → MulAut ↥Bs)
     (f : M.Group ≃* ↥(ggAutomizer X Bs))
-    (hf : ∀ i, (f (M.simple i) : MulAut ↥Bs) = φ i)
+    (_hf : ∀ i, (f (M.simple i) : MulAut ↥Bs) = φ i)
     (hgenX : ggAutomizer X Bs = Subgroup.closure (Set.range φ))
     (hrefl : ∀ i, GGIsReflection p (φ i)) (hm7 : 7 ≤ m) :
     m ≤ Nat.card Λ + 1 := by

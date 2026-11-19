@@ -574,7 +574,7 @@ private theorem k891list897_Rbar_extra {G : Type} [Group G] [Finite G] (D : Data
       rw [CFSG.natCard_subgroupOf_eq R (R891Y (R891H L S) (R891Z L S) Ys) hRY, hm]⟩
   have hRO : R.subgroupOf (R891Y (R891H L S) (R891Z L S) Ys) ⊓
       CFSG.pPrimeCore 3 ↥(R891Y (R891H L S) (R891Z L S) Ys) = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hRp
     rw [hm]
     exact (CFSG.pPrimeCore_coprime_card (p := 3)

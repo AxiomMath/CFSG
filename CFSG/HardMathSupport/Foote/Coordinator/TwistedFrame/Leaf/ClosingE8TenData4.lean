@@ -84,7 +84,7 @@ theorem PairData.of_P {β₀ β₁ : Fin Tag.E8.rank → ℤ} (h1 : PairDataP1 �
 
 theorem pairP1_P2 : PairDataP1 vS1 vU1 := by
   unfold PairDataP1
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairP2_P2 : PairDataP2 vS1 vU1 := by
@@ -94,12 +94,12 @@ theorem pairP2_P2 : PairDataP2 vS1 vU1 := by
 
 theorem pairP3_P2 : PairDataP3 vS1 vU1 := by
   unfold PairDataP3
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairP4_P2 : PairDataP4 vS1 vU1 := by
   unfold PairDataP4
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairData_P2 : PairData vS1 vU1 :=
@@ -107,7 +107,7 @@ theorem pairData_P2 : PairData vS1 vU1 :=
 
 theorem pairP1_P4 : PairDataP1 vS3 vU3 := by
   unfold PairDataP1
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairP2_P4 : PairDataP2 vS3 vU3 := by
@@ -117,12 +117,12 @@ theorem pairP2_P4 : PairDataP2 vS3 vU3 := by
 
 theorem pairP3_P4 : PairDataP3 vS3 vU3 := by
   unfold PairDataP3
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairP4_P4 : PairDataP4 vS3 vU3 := by
   unfold PairDataP4
-  simp only [sRoots1, rootFinset_E8_eq]
+  simp only [rootFinset_E8_eq]
   decide +kernel
 
 theorem pairData_P4 : PairData vS3 vU3 :=

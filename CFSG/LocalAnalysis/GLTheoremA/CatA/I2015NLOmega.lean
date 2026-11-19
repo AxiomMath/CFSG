@@ -82,7 +82,7 @@ theorem omegaPlus_nlWitness [Finite K] (hm : 4 ≤ m)
   have hd : 0 < 2 * m := by omega
   obtain ⟨hs, hna⟩ := matrix_simple_nonabelian hd hnd₀ hT₀
   have hsJ : IsSimpleGroup ↥(subfieldDerivedImage (fixF σ) hext) := by
-    haveI := hs
+    have := hs
     exact (inclEquiv (fixF σ) hext hd).symm.isSimpleGroup
   have hnaJ : ∃ x y : ↥(subfieldDerivedImage (fixF σ) hext), x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := hna
@@ -114,7 +114,7 @@ theorem i2015NLOnOmegaPlus_holds : I2015NLOnOmegaPlus := by
   subst ht
   intro Q hQ
   have hr3 : r ≠ 3 := by omega
-  simp only [CFSG.Assembly.LargeEvenRawDatum, hr3, if_false] at hQ ⊢
+  simp only [CFSG.Assembly.LargeEvenRawDatum, hr3, ite_false] at hQ ⊢
   obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
   exact ⟨K, hF, hfin, hK, hQ', fun _ _ _ f hf _ _ _ => omegaPlus_nlWitness (by omega) hf⟩
 

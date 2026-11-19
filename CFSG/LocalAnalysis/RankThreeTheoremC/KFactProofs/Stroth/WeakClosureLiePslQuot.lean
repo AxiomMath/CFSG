@@ -88,7 +88,7 @@ theorem wcOn_of_range_cyclic [Fact p.Prime] {A : Type} [Group A] [IsCyclic A] (�
     (hΨ : Function.Injective Ψ) (hcard : Nat.card A = p ^ (Nat.card K).factorization p) :
     WCOn p K := by
   refine wcOn_of_range Ψ hΨ hcard fun _ hrank => ?_
-  haveI : IsCyclic Ψ.range := isCyclic_of_surjective Ψ.rangeRestrict Ψ.rangeRestrict_surjective
+  have : IsCyclic Ψ.range := isCyclic_of_surjective Ψ.rangeRestrict Ψ.rangeRestrict_surjective
   have := pRank_le_one_of_isCyclic (p := p) (H := Ψ.range) Fact.out inferInstance
   omega
 
@@ -222,7 +222,7 @@ theorem factorization_card_projSL [Fact p.Prime] (hp2 : p ≠ 2) [Finite F] [NeZ
         (Nat.card F - 1).factorization p =
       CrossNum.crossA p (Nat.card F) * (n / CrossNum.crossE p (Nat.card F)) +
         padicValNat p ((n / CrossNum.crossE p (Nat.card F)).factorial) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hq : 1 < Nat.card F := Finite.one_lt_card
   have hodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp2
   have hpq' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]

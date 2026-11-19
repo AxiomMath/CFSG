@@ -30,9 +30,9 @@ theorem exists_faithful_image {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G]
       (∀ g : Subgroup.normalizer (P : Set G), f g = 1 ↔ ∀ x ∈ P, (g : G) * x * (g : G)⁻¹ = x) := by
   classical
   have hcommP : ∀ a b : ↥P, a * b = b * a := fun a b => hEA.1.is_comm.comm a b
-  letI : CommGroup ↥P := { (inferInstance : Group ↥P) with mul_comm := hcommP }
+  let : CommGroup ↥P := { (inferInstance : Group ↥P) with mul_comm := hcommP }
   have hexp : ∀ x : ↥P, x ^ p = 1 := fun x => Subtype.ext (hEA.2 x x.2)
-  letI : Module (ZMod p) (Additive ↥P) := CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.moduleOf hexp
+  let : Module (ZMod p) (Additive ↥P) := CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.moduleOf hexp
   let F := AlgebraicClosure (ZMod p)
   let c : Representation (ZMod p) (Subgroup.normalizer (P : Set G)) (Additive ↥P) :=
     { toFun := fun g => AddMonoidHom.toZModLinearMap p
@@ -63,7 +63,7 @@ theorem exists_faithful_image {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G]
   have hsurj : Function.Surjective
       (CFSG.LinearAlgebra.CoprimeActions.RepresentationFaithfulImageVocabulary.toImage τ0) :=
     CFSG.LinearAlgebra.CoprimeActions.RepresentationFaithfulImageVocabulary.toImage_surjective τ0
-  haveI : Finite (CFSG.LinearAlgebra.CoprimeActions.RepresentationFaithfulImageVocabulary.imageGroup τ0) :=
+  have : Finite (CFSG.LinearAlgebra.CoprimeActions.RepresentationFaithfulImageVocabulary.imageGroup τ0) :=
     Finite.of_surjective _ hsurj
   let ι : Additive ↥P →+ F ⊗[ZMod p] Additive ↥P :=
     (TensorProduct.mk (ZMod p) F (Additive ↥P) 1).toAddMonoidHom
@@ -83,8 +83,7 @@ theorem exists_faithful_image {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G]
   · rw [Module.finrank_baseChange, hfr]
   · rw [eq_top_iff]
     intro w _
-    induction w using TensorProduct.induction_on with
-    | zero => exact Submodule.zero_mem _
+    induction w using TensorProduct.inductionOn with
     | tmul k a =>
       have : k ⊗ₜ[ZMod p] a = k • ι a := by
         show _ = k • ((1 : F) ⊗ₜ[ZMod p] a)

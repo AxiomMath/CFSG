@@ -109,7 +109,7 @@ theorem oPrimeResidual_eq_top_of_isPerfect (X : Type*) [Group X] [Finite X] [Gro
     obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
     have hP : (P : Subgroup X) ≤ oPrimeResidual 2 X := by
       intro x hx
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       refine Subgroup.subset_closure ⟨k, ?_⟩
       simpa using congrArg Subtype.val hk
     have hdvd : (oPrimeResidual 2 X).index ∣ (P : Subgroup X).index :=

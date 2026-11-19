@@ -37,7 +37,7 @@ theorem ggTwE6Three_hKer_one
     (hTB : GGTorusTBGroup 3 5 (TwE6Delta.RecipeR K 1) (TwE6Delta.RecipeI K 1) ↥X ψ₀
       (ggGamma X hN).range) :
     ∀ g : ↥(X ⊓ Subgroup.normalizer (Bs : Set G)), ggTDρA hN g = 1 → ggTDρB X Bs g = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw⟩ :=
     TwE6ThreeLang.ggTorusTorW_recipe_twE6_three (n := 1) le_rfl hK (by norm_num)
       ↥X ψ₀ (ggGamma X hN).range hTB

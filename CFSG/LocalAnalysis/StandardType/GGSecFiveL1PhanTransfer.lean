@@ -26,6 +26,7 @@ section Local
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ggL1_card_eq {F : Type} [Field F] [Finite F] {θ : SL(2, F) →* G}
     (hθinj : Function.Injective θ) {S : Subgroup G} (hθrange : θ.range = S) :
     Nat.card ↥S = Nat.card F * (Nat.card F ^ 2 - 1) := by
@@ -34,7 +35,7 @@ private theorem ggL1_card_eq {F : Type} [Field F] [Finite F] {θ : SL(2, F) →*
 
 private theorem ggL1_four_le_card {F : Type} [Field F] [Finite F] [CharP F 2]
     (h6 : Nat.card F * (Nat.card F ^ 2 - 1) ≠ 6) : 4 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn] at h6 ⊢
   rcases Nat.lt_or_ge (n : ℕ) 2 with h | h
@@ -44,13 +45,16 @@ private theorem ggL1_four_le_card {F : Type} [Field F] [Finite F] [CharP F 2]
   · calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (n : ℕ) := Nat.pow_le_pow_right (by norm_num) h
 
+omit [Finite G] in
 private theorem ggL1_perfect_of_quasisimple {S : Subgroup G} (hq : CFSG.Assembly.IsQuasisimple ↥S) :
     ⁅S, S⁆ = S := by
   rw [← Subgroup.map_subtype_commutator, hq.1, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 private theorem ggL1_hyperplane_le (Bs : Subgroup G) (r : MulAut ↥Bs) : ggHyperplane Bs r ≤ Bs :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem ggL1_fixes_of_le_centralizer {Bs X : Subgroup G} {y : G} (hy : y ∈ Bs)
     (hXy : X ≤ Subgroup.centralizer ({y} : Set G)) {φ : MulAut ↥Bs}
     (hφ : φ ∈ ggAutomizer X Bs) : y ∈ ggHyperplane Bs φ := by
@@ -74,7 +78,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {
 theorem ggL1_seed_of_concl (ha₀ : GGLNoncyclicInput)
     (hsolv : Group.IsSolvable ↥(Subgroup.centralizer (Bs : Set G)))
     (hOutL : CFSG.Quasithin.OutSolvable ↥L)
-    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (hns : ¬ GGSplitLie p L)
+    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (_hns : ¬ GGSplitLie p L)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e)
     (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
@@ -114,10 +118,10 @@ theorem ggL1_seed_of_concl (ha₀ : GGLNoncyclicInput)
       Subgroup.centralizer (Bs : Set G) := by
     rw [SecFiveL1Solv.commonKernel hHBs hBsHL]
     exact inf_le_right
-  haveI := hsolv
+  have := hsolv
   have hsolv' : Group.IsSolvable ↥(Subgroup.centralizer (L : Set G) ⊓
       Subgroup.centralizer (ggHyperplane Bs r : Set G)) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hker)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hker)
   exact ggRankOnePerf_eq_of_solvable_pieces hSperf hpi hsolv'
 
 theorem ggL1_seed (hRk1 : GGSecFiveRk1PhanInput) (ha₀ : GGLNoncyclicInput)
@@ -186,7 +190,7 @@ private theorem ggL1_absorb_nbr_aux
         (MulAut.conj g).injective).symm hP₀q
   have hcard₀ : Nat.card ↥(ggRankOneIn L Bs r₀) = Nat.card F₀ * (Nat.card F₀ ^ 2 - 1) :=
     ggL1_card_eq hinj₀ hrange₀
-  haveI := hchar₀
+  have := hchar₀
   have h4₀ : 4 ≤ Nat.card F₀ := ggL1_four_le_card (hcard₀ ▸ h6₀)
   have h60 : 60 ≤ Nat.card ↥(ggRankOnePerf Bs r) := by
     have h1 : Nat.card ↥(ggRankOnePerf Bs r) = Nat.card ↥(ggRankOnePerf Bs r₀) := by
@@ -231,16 +235,16 @@ private theorem ggL1_absorb_nbr_aux
   exact ⟨ggRankOnePerf_le_rankOneIn_of_subnormal hXS hMZ hPq hnX huP hnu, hPq, h60⟩
 
 theorem ggL1_absorb_nbr
-    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (hns : ¬ GGSplitLie p L)
+    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (_hns : ¬ GGSplitLie p L)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e)
     (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
-    {r₀ : MulAut ↥Bs} (hr₀A : r₀ ∈ ggAutomizer L Bs) (hr₀C : r₀ ∈ ggCoxRefl M e)
+    {r₀ : MulAut ↥Bs} (_hr₀A : r₀ ∈ ggAutomizer L Bs) (hr₀C : r₀ ∈ ggCoxRefl M e)
     (h6₀ : Nat.card ↥(ggRankOneIn L Bs r₀) ≠ 6)
     (hseed : ggRankOnePerf Bs r₀ = ggRankOneIn L Bs r₀)
     {X : Subgroup G} (hX : X = L ∨ ∃ y : G, GGNbr p B x D J y X) {r : MulAut ↥Bs}
     (hrA : r ∈ ggAutomizer X Bs) (hrC : r ∈ ggCoxRefl M e) (hRkL : GGRk1Concl p Bs L r₀)
-    {n : G} (hnS : n ∈ ggRankOneIn X Bs r) (hnN : n ∈ Subgroup.normalizer (Bs : Set G))
+    {n : G} (hnS : n ∈ ggRankOneIn X Bs r) (_hnN : n ∈ Subgroup.normalizer (Bs : Set G))
     (hnact : ∀ b : ↥Bs, ((r b : ↥Bs) : G) = n * b * n⁻¹) :
     ggRankOnePerf Bs r ≤ ggRankOneIn X Bs r ∧
       CFSG.Assembly.IsQuasisimple ↥(ggRankOnePerf Bs r) := by
@@ -249,16 +253,16 @@ theorem ggL1_absorb_nbr
   exact ⟨hPS, hPq⟩
 
 theorem ggL1_absorb_nbr_card_ge_sixty
-    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (hns : ¬ GGSplitLie p L)
+    (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (_hns : ¬ GGSplitLie p L)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e)
     (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
-    {r₀ : MulAut ↥Bs} (hr₀A : r₀ ∈ ggAutomizer L Bs) (hr₀C : r₀ ∈ ggCoxRefl M e)
+    {r₀ : MulAut ↥Bs} (_hr₀A : r₀ ∈ ggAutomizer L Bs) (hr₀C : r₀ ∈ ggCoxRefl M e)
     (h6₀ : Nat.card ↥(ggRankOneIn L Bs r₀) ≠ 6)
     (hseed : ggRankOnePerf Bs r₀ = ggRankOneIn L Bs r₀)
     {X : Subgroup G} (hX : X = L ∨ ∃ y : G, GGNbr p B x D J y X) {r : MulAut ↥Bs}
     (hrA : r ∈ ggAutomizer X Bs) (hrC : r ∈ ggCoxRefl M e) (hRkL : GGRk1Concl p Bs L r₀)
-    {n : G} (hnS : n ∈ ggRankOneIn X Bs r) (hnN : n ∈ Subgroup.normalizer (Bs : Set G))
+    {n : G} (hnS : n ∈ ggRankOneIn X Bs r) (_hnN : n ∈ Subgroup.normalizer (Bs : Set G))
     (hnact : ∀ b : ↥Bs, ((r b : ↥Bs) : G) = n * b * n⁻¹) :
     60 ≤ Nat.card ↥(ggRankOneIn X Bs r) := by
   obtain ⟨hPS, -, h60⟩ :=

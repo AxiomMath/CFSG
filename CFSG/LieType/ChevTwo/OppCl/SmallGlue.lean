@@ -12,7 +12,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner Outer)
 theorem exists_mem_orderOf_of_isPGroup_ne_bot {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {H : Subgroup G} (hH : IsPGroup p H) (hne : H ≠ ⊥) :
     ∃ x ∈ H, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hH
   have h1 : 1 < Nat.card H := (Subgroup.one_lt_card_iff_ne_bot H).2 hne
   have hn0 : n ≠ 0 := by
@@ -79,8 +79,8 @@ theorem oppositeFixed_of_u33_facts {K : Type} [Group K] [Finite K] [Finite (MulA
     have h2 : Nat.card (Outer K) = 2 := by omega
     rw [h2]
   intro p hp hp2 R hR Q hQ0 hQ2 _hcore hnorm _hQR hCent
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRbot : R ≠ ⊥ := by
     rintro rfl
     apply hnorm
@@ -170,7 +170,7 @@ theorem oppositeFixed_of_u33_facts {K : Type} [Group K] [Finite K] [Finite (MulA
       exact hE y (orderOf_dvd_iff_pow_eq_one.1 hd27)
     have hPgrp : IsPGroup 3 P := hR.comap_of_injective MulAut.conj hinj
     have hPne : P ≠ ⊥ := fun h => hg1 (Subgroup.mem_bot.1 (h ▸ hgP))
-    haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+    have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
     have hcne : Subgroup.center ↥P ≠ ⊥ :=
       (Subgroup.nontrivial_iff_ne_bot _).1 (IsPGroup.center_nontrivial hPgrp)
     obtain ⟨z, hzP, hz3, hz1, hzcomm⟩ :

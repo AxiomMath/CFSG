@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Group.Defs
 public import Mathlib.Algebra.Group.Subgroup.Basic
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 import Mathlib.GroupTheory.OrderOfElement
 public import Mathlib.GroupTheory.PGroup
 import Mathlib.GroupTheory.Sylow
@@ -92,7 +92,7 @@ public theorem CFSG.omega₁_map_subtype_ne_bot {G : Type*} [Group G] [Finite G]
     [Fact p.Prime] (hp_dvd : p ∣ Nat.card (↥M)) :
     (omega₁ (G := (↥M)) (p := p)).map M.subtype ≠ ⊥ := by
   classical
-  letI : Fintype (↥M) := Fintype.ofFinite (↥M)
+  let : Fintype (↥M) := Fintype.ofFinite (↥M)
   have hp_dvd' : p ∣ Fintype.card (↥M) := by
     simpa [Nat.card_eq_fintype_card] using hp_dvd
   obtain ⟨x, hx_order⟩ := _root_.exists_prime_orderOf_dvd_card (G := (↥M)) p hp_dvd'

@@ -25,6 +25,7 @@ namespace Cfg161
 
 variable {M V₀ V U : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem comm_mem_V₀_of_mem_sup {M V₀ U : Subgroup G} (hUN : U ≤ normalizer (V₀ : Set G))
     (hM₀ : M ≤ normalizer (V₀ : Set G)) {a d : G} (haM : a ∈ M)
     (haU : a ∈ centralizer (U : Set G)) (hd : d ∈ U ⊔ V₀) :
@@ -89,6 +90,7 @@ theorem le_conjSubgroup (h152 : Thm152 G) (c : Cfg161 M V₀ V U g) :
   intro x hx
   exact Subgroup.mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 hx).2
 
+omit [Finite G] in
 theorem not_mem (c : Cfg161 M V₀ V U g) : g ∉ M := by
   intro hg
   apply c.not_comm

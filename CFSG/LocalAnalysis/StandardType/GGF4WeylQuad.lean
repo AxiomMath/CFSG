@@ -261,7 +261,7 @@ private theorem chkB3_of_fB3 {x0 x1 x2 : Nat} (h0 : x0 < 24) (h1 : x1 < 24) (h2 
   rw [(ordT_spec x0 h0 x3 h3).1, (ordT_spec x1 h1 x3 h3).1, (ordT_spec x2 h2 x3 h3).2.2]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     rw [evalG_wordsB h0 h1 h2 h3]
     have c23 := (cjT_spec x2 h2 x3 h3).1
     have c123 := (cjT_spec x1 h1 _ c23).1
@@ -277,7 +277,7 @@ private theorem chkB2_of_fB2 {x0 x1 : Nat} (h0 : x0 < 24) (h1 : x1 < 24)
   rw [(ordT_spec x0 h0 x2 h2).1, (ordT_spec x1 h1 x2 h2).2.1]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     exact chkB3_of_fB3 h0 h1 h2 hq
   · rfl
 
@@ -290,7 +290,7 @@ private theorem chkB1_of_fB1 {x0 : Nat} (h0 : x0 < 24) (h : fB1 x0 = true) :
   rw [(ordT_spec x0 h0 x1 h1).2.1]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     exact chkB2_of_fB2 h0 h1 hq
   · rfl
 
@@ -364,7 +364,7 @@ private theorem chkD3_of_fD3 {x0 x1 x2 : Nat} (h0 : x0 < 24) (h1 : x1 < 24) (h2 
   rw [(ordT_spec x0 h0 x3 h3).1, (ordT_spec x2 h2 x3 h3).1, (ordT_spec x1 h1 x3 h3).2.1]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     rw [evalG_wordsD h0 h1 h2 h3]
     have c31 := (cjT_spec x3 h3 x1 h1).1
     have c231 := (cjT_spec x2 h2 _ c31).1
@@ -381,7 +381,7 @@ private theorem chkD2_of_fD2 {x0 x1 : Nat} (h0 : x0 < 24) (h1 : x1 < 24)
   rw [(ordT_spec x0 h0 x2 h2).1, (ordT_spec x1 h1 x2 h2).2.1]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     exact chkD3_of_fD3 h0 h1 h2 hq
   · rfl
 
@@ -394,7 +394,7 @@ private theorem chkD1_of_fD1 {x0 : Nat} (h0 : x0 < 24) (h : fD1 x0 = true) :
   rw [(ordT_spec x0 h0 x1 h1).2.1]
   split
   · next hc =>
-    rw [if_pos hc] at hq
+    rw [ite_eq_left hc] at hq
     exact chkD2_of_fD2 h0 h1 hq
   · rfl
 

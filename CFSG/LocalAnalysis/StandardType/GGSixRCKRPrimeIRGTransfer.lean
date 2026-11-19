@@ -32,7 +32,7 @@ theorem irg_transfer
     rcases htD with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> trivial
   have hfin : Finite (ggU t n g).K :=
     CFSG.StandardType.LieKnownR2.OddCenter.finite_ggU htD hadm
-  haveI := hfin
+  have := hfin
   have hodd : Odd (Nat.card (Subgroup.center (ggU t n g).K)) :=
     CFSG.StandardType.LieKnownR2.OddCenter.odd_card_center_ggU htD hadm
   have hperf : commutator (ggU t n g).K = ⊤ := by

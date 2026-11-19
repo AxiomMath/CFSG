@@ -48,7 +48,7 @@ private theorem kernelRoots_torV
     rw [orderOf_one] at hω
     omega
   ext α
-  simp only [kernelRoots_rootCharHom, Set.mem_setOf_eq]
+  simp only [kernelRoots_rootCharHom, Set.mem_ofPred_eq]
   exact and_congr_right fun _ => rootChar_torV_eq_one_iff h3 h1 x α
 
 private theorem ncard_kernelRoots_eq_e6KerCount
@@ -58,7 +58,7 @@ private theorem ncard_kernelRoots_eq_e6KerCount
   rw [e6KerCount, ← Set.ncard_coe_finset]
   congr 1
   ext α
-  simp only [Set.mem_setOf_eq, Finset.coe_filter, mem_rootFinset]
+  simp only [Set.mem_ofPred_eq, Finset.coe_filter, mem_rootFinset]
 
 private theorem exists_inner_of_ncard_thirty
     {L : Type} [Field L] {ω : Lˣ} (hω : orderOf ω = 3)

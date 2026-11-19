@@ -54,12 +54,12 @@ theorem four_mul_le_of_commute [Finite G] [Finite V] (ρ : Representation (ZMod 
     (hSp : IsSp4 ↥L n) {t : G} (ht1 : t ≠ 1) (hc : ∀ x ∈ L, t * x = x * t) :
     4 * n ≤ Module.finrank (ZMod 2) (LinearMap.range ((ρ t : V →ₗ[ZMod 2] V) - 1)) := by
   obtain ⟨hn, K, _, _, _, hK, ⟨e⟩⟩ := K148.exists_antiSp_of_isSp4 hSp
-  haveI : IsSimpleGroup ↥L := K148.isSimpleGroup_of_isSp4 hSp
+  have : IsSimpleGroup ↥L := K148.isSimpleGroup_of_isSp4 hSp
   obtain ⟨ℓ, hppd⟩ :=
     CFSG.Timmesfeld.exists_isPrimitivePrimeDivisor (k := 4 * n) (by omega) (by omega)
   have hℓ : ℓ.Prime := hppd.prime
   have hℓ2 : ℓ ≠ 2 := hppd.ne_two (by omega)
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hord : 4 * n ≤ orderOf (2 : ZMod ℓ) := by
     have h2pow : (2 : ZMod ℓ) ^ (4 * n) = 1 :=
       (CFSG.Timmesfeld.Bang.dvd_two_pow_sub_one_iff (4 * n)).mp hppd.dvd
@@ -85,7 +85,7 @@ theorem four_mul_le_of_commute [Finite G] [Finite V] (ρ : Representation (ZMod 
     push Not at hcon
     let N : Subgroup ↥L := (Excl147.ptStab ρ W).comap L.subtype
     have hmemN : ∀ y : ↥L, y ∈ N ↔ ∀ w ∈ W, ρ (y : G) w = w := fun y => Iff.rfl
-    haveI hN : N.Normal := ⟨fun a ha b => (hmemN _).2 fun w hw => by
+    have hN : N.Normal := ⟨fun a ha b => (hmemN _).2 fun w hw => by
       have hb' : ρ ((b : G)⁻¹) w ∈ W := hWinv _ (inv_mem b.2) w hw
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_mul, Module.End.mul_apply,
         Module.End.mul_apply, (hmemN a).1 ha _ hb', Representation.self_inv_apply]⟩

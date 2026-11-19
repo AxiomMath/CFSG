@@ -25,7 +25,7 @@ theorem irgU_ringEquiv_commute_unitaryInvolution {F : Type} [Field F] [Finite F]
     (p f : ℕ) [Fact p.Prime] [CharP F p] (φ : F ≃+* F) (c : F) :
     φ (CFSG.LieType.BorelTits.unitaryInvolution F p f c) =
       CFSG.LieType.BorelTits.unitaryInvolution F p f (φ c) := by
-  simp [CFSG.LieType.BorelTits.unitaryInvolution_apply, iterateFrobenius_def, map_pow]
+  simp [iterateFrobenius_def, map_pow]
 
 theorem irgU_map_longRootMatrix {F : Type} [Field F] {n : ℕ} (φ : F ≃+* F) (i : Fin n) (c : F) :
     (longRootMatrix i c).map φ = longRootMatrix i (φ c) := by

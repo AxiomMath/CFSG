@@ -380,7 +380,7 @@ private theorem e16n_eq_vec_of_comm_zBar (hn5 : 5 ≤ n) (x : AE.AEQ n)
         (fun m => (if m = i then (1 : ZMod 2) else 0) + (if m = j then 1 else 0)) := by
       funext m
       by_cases hmi : m = i <;> by_cases hmj : m = j <;> by_cases hmT : m ∈ T <;>
-        simp [e16n_ind, Finset.mem_insert, hmi, hmj, hmT, hiT, hjT, hij, Ne.symm hij] <;> decide
+        simp [e16n_ind, Finset.mem_insert, hmi, hmj, hmT, hiT, hjT, hij, Ne.symm hij]; decide
     have h := C.add_mem (hind (insert i T) hα) (hind (insert j T) hβ)
     rw [hsum] at h
     exact h
@@ -397,9 +397,9 @@ private theorem e16n_eq_vec_of_comm_zBar (hn5 : 5 ≤ n) (x : AE.AEQ n)
     funext m
     by_cases hm : m = i₀
     · subst hm
-      simp [Finset.sum_apply, Finset.sum_mul, mul_add, Finset.sum_add_distrib, hsum]
-    · simp [Finset.sum_apply, mul_add, Finset.sum_add_distrib, mul_ite, hm,
-        Finset.sum_ite_eq', Finset.mem_erase]
+      simp [Finset.sum_apply, mul_add, Finset.sum_add_distrib, hsum]
+    · simp [Finset.sum_apply, mul_ite, hm,
+        Finset.mem_erase]
   have hev : ∀ f : Fin n → ZMod 2, ∑ i, f i = 0 →
       x * AE.mkQ n (AE.Wr.ofVec f) = AE.mkQ n (AE.Wr.ofVec f) * x := by
     intro f hf
@@ -410,6 +410,7 @@ private theorem e16n_eq_vec_of_comm_zBar (hn5 : 5 ≤ n) (x : AE.AEQ n)
   obtain ⟨v, hv⟩ := AE.eq_vec_of_comm_vectors hn5 hev
   exact ⟨v, hv⟩
 
+omit [Finite G] in
 private theorem e16n_exists_noncomm {Δ : Set (Subgroup G)} (hΩ : HypOmegaGen Δ)
     (h2 : ∀ L ∈ Δ, IsPGroup 2 L) {L : Subgroup G} (hL : L ∈ Δ) :
     ∃ h ∈ L, ∃ w ∈ L, h * w ≠ w * h := by
@@ -420,6 +421,7 @@ private theorem e16n_exists_noncomm {Δ : Set (Subgroup G)} (hΩ : HypOmegaGen �
   push Not at hcon
   exact hnc ⟨⟨fun a b => Subtype.ext (hcon a.1 a.2 b.1 b.2)⟩⟩
 
+omit [Finite G] in
 private theorem e16n_le_of_noncentral {L' N : Subgroup G}
     (hex : ∃ h ∈ L', ∃ w ∈ L', h * w ≠ w * h)
     (hnc : ∀ v ∈ L', (∃ w ∈ L', v * w ≠ w * v) → v ∈ N) : L' ≤ N := by
@@ -451,6 +453,7 @@ private theorem e16n_commutes {Δ : Set (Subgroup G)} (hΩ : HypOmegaGen Δ)
   exact Q3CP.l67Gen G Δ hΩ S L (TC.mem_RSet_of_isPGroup hL hL2) L'
     (TC.mem_RSet_of_isPGroup hL' hL'2) (le_sup_right.trans hS) (le_sup_left.trans hS) hne
 
+omit [Finite G] in
 private theorem e16n_map_comm {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) {L L' : Subgroup G}
     (hcomm : Commutes L L') {x y : AE.AEQ n}
     (hx : x ∈ (L.subgroupOf (pSpan P)).map I.φ) (hy : y ∈ (L'.subgroupOf (pSpan P)).map I.φ) :
@@ -461,6 +464,7 @@ private theorem e16n_map_comm {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n)
   congr 1
   exact Subtype.ext (hcomm a.1 (Subgroup.mem_subgroupOf.mp ha) b.1 (Subgroup.mem_subgroupOf.mp hb))
 
+omit [Finite G] in
 private theorem e16n_decomp {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) {L L' : Subgroup G}
     (hL' : L' ∈ P)
     (he : (L.subgroupOf (pSpan P)).map I.φ = (L'.subgroupOf (pSpan P)).map I.φ) :
@@ -477,7 +481,7 @@ private theorem e16n_decomp {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) {
   refine ⟨(y : G), Subgroup.mem_subgroupOf.mp hy, (y : G)⁻¹ * l', ?_, ?_⟩
   · intro u hu
     have := congrArg Subtype.val (hcz ⟨u, hu⟩)
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk] at this
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at this
     exact this.symm
   · rw [mul_inv_cancel_left]
 
@@ -635,6 +639,7 @@ private theorem e16n_eq_one_of_map_eq_one {Δ P : Set (Subgroup G)} {n : ℕ} (h
     Subtype.ext htz.symm
   exact e16n_involution_map_ne_one hΩ h2 hPΔ I hn5 hn7 hL hz (by rw [hXeq, htker])
 
+omit [Finite G] in
 private theorem e16n_conj_mem {P : Set (Subgroup G)} {a : G} (hperm : ∀ L ∈ P, conjSub a L ∈ P) :
     ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P := by
   intro y hy
@@ -644,6 +649,7 @@ private theorem e16n_conj_mem {P : Set (Subgroup G)} {a : G} (hperm : ∀ L ∈ 
     exact le_pSpan (hperm L hL) (conj_mem_conjSub hw)
   exact hle hy
 
+omit [Finite G] in
 private theorem e16n_center_le_ker {P : Set (Subgroup G)} {n : ℕ} (hn5 : 5 ≤ n) (I : AEIdent P n) :
     Subgroup.center (pSpan P) ≤ I.φ.ker := by
   intro z hz
@@ -668,6 +674,7 @@ private def e16n_conjEquiv {P : Set (Subgroup G)} {a : G}
     ext
     simp [mul_assoc]
 
+omit [Finite G] in
 private theorem e16n_map_conjEquiv {P : Set (Subgroup G)} {a : G}
     (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P) (ha' : ∀ y ∈ pSpan P, a⁻¹ * y * a⁻¹⁻¹ ∈ pSpan P)
     (L : Subgroup G) :
@@ -694,6 +701,7 @@ private theorem e16n_map_conjEquiv {P : Set (Subgroup G)} {a : G}
     show a * (a⁻¹ * (w : G) * a⁻¹⁻¹) * a⁻¹ = w
     group
 
+omit [Finite G] in
 private theorem e16n_exists_conj {P : Set (Subgroup G)} {n : ℕ}
     (hn5 : 5 ≤ n) (hn7 : n ≤ 7) (I : AEIdent P n) {a : G}
     (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P) (ha' : ∀ y ∈ pSpan P, a⁻¹ * y * a⁻¹⁻¹ ∈ pSpan P)
@@ -755,6 +763,7 @@ private def e16n_IsConj {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) (a : 
   ∀ (y : G) (hy : y ∈ pSpan P) (hy' : a * y * a⁻¹ ∈ pSpan P),
     I.φ ⟨a * y * a⁻¹, hy'⟩ = x * I.φ ⟨y, hy⟩ * x⁻¹
 
+omit [Finite G] in
 private theorem e16n_eq_of_isConj {P : Set (Subgroup G)} {n : ℕ} (hn5 : 5 ≤ n) (I : AEIdent P n)
     {a : G} (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P) {x x' : AE.AEQ n}
     (h : e16n_IsConj I a x) (h' : e16n_IsConj I a x') : x = x' := by
@@ -773,6 +782,7 @@ private theorem e16n_eq_of_isConj {P : Set (Subgroup G)} {n : ℕ} (hn5 : 5 ≤ 
       _ = I.φ w * (x'⁻¹ * x) := by group
   exact (inv_mul_eq_one.mp hc).symm
 
+omit [Finite G] in
 private theorem e16n_one_isConj {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) :
     e16n_IsConj I 1 (1 : AE.AEQ n) := by
   intro y hy hy'
@@ -780,6 +790,7 @@ private theorem e16n_one_isConj {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P 
   rw [e]
   simp
 
+omit [Finite G] in
 private theorem e16n_mul_isConj {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n) {a b : G}
     (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P) (hb : ∀ y ∈ pSpan P, b * y * b⁻¹ ∈ pSpan P)
     {x x' : AE.AEQ n} (h : e16n_IsConj I a x) (h' : e16n_IsConj I b x') :
@@ -790,6 +801,7 @@ private theorem e16n_mul_isConj {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P 
   rw [e, h (b * y * b⁻¹) (hb y hy) (ha _ (hb y hy)), h' y hy (hb y hy)]
   group
 
+omit [Finite G] in
 private theorem e16n_isConj_one_of_centralizes {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n)
     {a : G} (hc : ∀ y ∈ pSpan P, a * y = y * a) : e16n_IsConj I a 1 := by
   intro y hy hy'
@@ -809,6 +821,7 @@ private theorem e16n_sum_eq_zero_of_const {n : ℕ} (α : Finset (Fin n)) (hα :
   have h4 : ∀ c : ZMod 2, (4 : ℕ) • c = 0 := by decide
   exact h4 _
 
+omit [Finite G] in
 private theorem e16n_normalizes_of_conjSub_eq {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n)
     {a : G} {x : AE.AEQ n} (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P)
     (h : e16n_IsConj I a x) {L : Subgroup G} (hL : conjSub a L = L) {α : Finset (Fin n)}
@@ -824,9 +837,10 @@ private theorem e16n_normalizes_of_conjSub_eq {P : Set (Subgroup G)} {n : ℕ} (
     exact h1
   exact ⟨⟨a * u.1 * a⁻¹, ha _ u.2⟩, Subgroup.mem_subgroupOf.mpr hmem, rfl⟩
 
+omit [Finite G] in
 private theorem e16n_commute_of_centralizes {P : Set (Subgroup G)} {n : ℕ} (I : AEIdent P n)
     {a : G} {x : AE.AEQ n} (ha : ∀ y ∈ pSpan P, a * y * a⁻¹ ∈ pSpan P)
-    (h : e16n_IsConj I a x) {L : Subgroup G} (hL : L ∈ P) {α : Finset (Fin n)}
+    (h : e16n_IsConj I a x) {L : Subgroup G} (_hL : L ∈ P) {α : Finset (Fin n)}
     {hα : α.card = 4} {b : Bool} (hLα : (L.subgroupOf (pSpan P)).map I.φ = AE.memBar α hα b)
     (hc : ∀ l ∈ L, a * l = l * a) : ∀ g ∈ AE.memBar α hα b, x * g = g * x := by
   rintro g hg
@@ -955,8 +969,8 @@ private theorem e16n_vec_sq {n : ℕ} (v : Fin n → ZMod 2) :
 
 theorem exists_vecHom_of_aeIdent (hΩ : HypOmegaGen Δ)
     (h2 : ∀ L ∈ Δ, IsPGroup 2 L) (hPΔ : P ⊆ Δ)
-    (hinv : ∀ L ∈ P, ∀ x ∈ pSpan P, conjSub x L ∈ P) (hn5 : 5 ≤ n) (hn7 : n ≤ 7)
-    (I : AEIdent P n) (hk : IsPGroup 2 I.φ.ker) (A : Subgroup G)
+    (_hinv : ∀ L ∈ P, ∀ x ∈ pSpan P, conjSub x L ∈ P) (hn5 : 5 ≤ n) (hn7 : n ≤ 7)
+    (I : AEIdent P n) (_hk : IsPGroup 2 I.φ.ker) (A : Subgroup G)
     (hA : ∀ d ∈ A, (∀ L ∈ P, conjSub d L ∈ P) ∧
       ∀ L ∈ P, ∀ r : G, IsUniqueInvolution L r → d * r = r * d) :
     ∃ f : A →* AE.AEQ n,
@@ -1071,6 +1085,7 @@ private theorem e16n_zBar_sq {n : ℕ} {α : Finset (Fin n)} (h h' : α.card = 4
   unfold AE.zBar
   rw [← map_mul, hz0, map_one]
 
+omit [Finite G] in
 private theorem e16n_mem_normalizer_of_centralizes {L : Subgroup G} {g : G}
     (hg : ∀ k ∈ L, g * k = k * g) : g ∈ Subgroup.normalizer (L : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1213,7 +1228,7 @@ theorem eq_of_dSet_subset_centMembers
   have hJ₂n : conjSub g₂ K₂ ∉ omegaNbr Ω K₂ :=
     h.notMem_omegaNbr_of_notMem_twinSet h9 hK₂Ω hJ₂notTwin
   obtain ⟨-, -, hcJ, hnJ, -, -⟩ := pair_structure h hK₂Ω hJ₂star hJ₂n
-  haveI := hcJ
+  have := hcJ
   obtain ⟨xg, hxg⟩ := IsCyclic.exists_ofOrder_eq_natCard
     (α := ↥(conjSub g₂ K₂ ⊓ Subgroup.normalizer (K₂ : Set G)))
   rw [hnJ] at hxg

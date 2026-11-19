@@ -20,23 +20,23 @@ open CFSG.StandardType.ClassicalPosition CFSG.StandardType.ClassicalBlocks
 
 
 @[expose] def Q2OmegaPlusBlockChoice : Prop :=
-  ∀ (d : ℕ) (hd4 : 4 ≤ d) (F : Type) [Field F] [Fintype F] [CharP F 2]
-    (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hpd : p ∣ d) (hpF : p ∣ Nat.card F - 1)
+  ∀ (d : ℕ) (_hd4 : 4 ≤ d) (F : Type) [Field F] [Fintype F] [CharP F 2]
+    (p : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2) (_hpd : p ∣ d) (_hpF : p ∣ Nat.card F - 1)
     (Φ : QuadraticForm F (Fin d ⊕ Fin d → F))
-    (hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate)
-    (hΦcoe : ⇑Φ = LargeEvenQPlus F d)
-    (s : ↥(StatedOmega ⇑Φ)) (hsord : orderOf s = p)
+    (_hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate)
+    (_hΦcoe : ⇑Φ = LargeEvenQPlus F d)
+    (s : ↥(StatedOmega ⇑Φ)) (_hsord : orderOf s = p)
     (C : Subgroup ↥(StatedOmega ⇑Φ))
-    (hC : CFSG.Open.IsComponentOf C (Subgroup.centralizer ({s} : Set ↥(StatedOmega ⇑Φ))))
-    (K : Type) [Field K] [Finite K] (hKcard : Nat.card K = Nat.card F)
-    (ξ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)),
+    (_hC : CFSG.Open.IsComponentOf C (Subgroup.centralizer ({s} : Set ↥(StatedOmega ⇑Φ))))
+    (K : Type) [Field K] [Finite K] (_hKcard : Nat.card K = Nat.card F)
+    (_ξ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)),
     ∃ (ε : Matrix (Fin d ⊕ Fin d) (Fin d ⊕ Fin d) F)
-      (hε : IsPrimAdjIdemIn (RingHom.id F)
+      (_hε : IsPrimAdjIdemIn (RingHom.id F)
         (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin Φ))
         (Algebra.adjoin F (Units.val '' ({(s : GL (Fin d ⊕ Fin d) F)} :
           Set (GL (Fin d ⊕ Fin d) F)))) ε)
       (m : ℕ) (E : Type) (_ : Field E) (_ : Finite E) (_ : CharP E 2)
-      (e : ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype
+      (_e : ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype
         ({(s : GL (Fin d ⊕ Fin d) F)} : Set (GL (Fin d ⊕ Fin d) F)) ε) ≃* GL (Fin m) E),
       CFSG.Open.IsComponentOf C (glBlockCentralizer (StatedOmega ⇑Φ).subtype
         ({(s : GL (Fin d ⊕ Fin d) F)} : Set (GL (Fin d ⊕ Fin d) F)) ε) ∧
@@ -78,10 +78,10 @@ theorem q2Plus_actor_mem {G : Type} [Group G] {Bs L : Subgroup G}
 
 theorem q2_orthogonalPlus_high_of_blockChoice (hsel : Q2OmegaPlusBlockChoice)
     (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (hcfg : GGConfig p B Bs x L D J) (hInner : GGInnerDiagOn Bs L)
+    (L D J : Subgroup G) (hcfg : GGConfig p B Bs x L D J) (_hInner : GGInnerDiagOn Bs L)
     (hN : Bs ≤ Subgroup.normalizer (J : Set G)) (d : ℕ) (K : Type) [Field K] [Finite K]
     (θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K))
-    (hpd : p ∣ d) (hpq : p ∣ Nat.card K - 1)
+    (hpd : p ∣ d) (_hpq : p ∣ Nat.card K - 1)
     (hplus : GGInnerDiagOnLab
       (fun p lab => q2RowFits .orthogonalPlus p d (Nat.card K) lab) p Bs L)
     (h4 : 4 ≤ d) :
@@ -93,21 +93,21 @@ theorem q2_orthogonalPlus_high_of_blockChoice (hsel : Q2OmegaPlusBlockChoice)
   obtain ⟨hperfL, lab, hlab, hraw⟩ := hplus
   rcases lab with ⟨tag, rank, n⟩
   obtain ⟨R0, hR0, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R0 := hR0
+  let : Group R0 := hR0
   obtain ⟨-, -, θ0, hP0⟩ := hQ0
   have htag : tag = .D := hP0.1.2.2.2.2.1
   subst tag
   have hrank : rank = d := hP0.1.2.2.2.2.2.1
   subst rank
   dsimp only [LargeEvenRawDatum, CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
-  rw [if_neg (by omega : ¬ d = 3)] at hraw
+  rw [ite_eq_right (by omega : ¬ d = 3)] at hraw
   unfold LargeEvenRecipeOmegaPlus at hraw
   obtain ⟨F, hFfield, hFfin, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
   have hcharF : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
-  letI : CharP F 2 := hcharF
+  let : CharP F 2 := hcharF
   let Φ : QuadraticForm F (Fin d ⊕ Fin d → F) :=
     (TableBOrth.qPlusForm F d).copy (LargeEvenQPlus F d)
       (TableBOrth.coe_qPlusForm d).symm
@@ -141,8 +141,8 @@ theorem q2_orthogonalPlus_high_of_blockChoice (hsel : Q2OmegaPlusBlockChoice)
   let A : Subgroup (MulAut (LargeEvenProj (LargeEvenOmega ⇑Φ))) :=
     (ggGamma L hNL).range.map (ggInducedAut θL)
   have hAcomm : IsMulCommutative ↥A := by
-    haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
-    haveI : IsMulCommutative ↥(ggGamma L hNL).range := inferInstance
+    have : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
+    have : IsMulCommutative ↥(ggGamma L hNL).range := inferInstance
     exact Subgroup.map_isMulCommutative (H := (ggGamma L hNL).range) (ggInducedAut θL)
   have hAI : ∀ a ∈ A, a ∈ LargeEvenInnSet (LargeEvenProj (LargeEvenOmega ⇑Φ)) := by
     intro a ha
@@ -243,9 +243,9 @@ theorem q2_orthogonalPlus_high_of_blockChoice (hsel : Q2OmegaPlusBlockChoice)
   obtain ⟨ε, hε, m, E, hEfield, hEfin, hEchar, eε, hCε, hmd, hEcard⟩ :=
     hsel d h4 F p hp hp2 hpd hpF Φ hΦ hΦcoe s hsord C hC K
       (hKcard.trans hFcard.symm) ξ
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
   have hCεA : CFSG.Assembly.IsComponentOf C
       (glBlockCentralizer (LargeEvenOmega ⇑Φ).subtype
         ({(s : GL (Fin d ⊕ Fin d) F)} : Set (GL (Fin d ⊕ Fin d) F)) ε) :=
@@ -266,14 +266,14 @@ theorem q2_orthogonalPlus_high_of_blockChoice (hsel : Q2OmegaPlusBlockChoice)
     rw [← hcent_eq]
     rw [Subgroup.mem_centralizer_singleton_iff]
     obtain ⟨a, rfl⟩ := hx
-    haveI : IsMulCommutative ↥AΩ := hσcomm
+    have : IsMulCommutative ↥AΩ := hσcomm
     have hc : (⟨σ a, ⟨a, rfl⟩⟩ : ↥AΩ) * ⟨s, ⟨⟨v, hvA⟩, rfl⟩⟩ =
         ⟨s, ⟨⟨v, hvA⟩, rfl⟩⟩ * ⟨σ a, ⟨a, rfl⟩⟩ := mul_comm' _ _
     exact congrArg Subtype.val hc
   let ρσ : ↥AΩ →* GL (Fin m) E := ρ.comp (Subgroup.inclusion hAΩCc)
   let Gsub : Subgroup (GL (Fin m) E) := ρσ.range
   have hGcomm : IsMulCommutative ↥Gsub := by
-    haveI : IsMulCommutative ↥AΩ := hσcomm
+    have : IsMulCommutative ↥AΩ := hσcomm
     exact inferInstance
   have hm2 : 2 ≤ m := by omega
   let V : Subgroup (GL (Fin m) E) :=
@@ -411,7 +411,7 @@ private theorem three_le_d_of_plus_marking
   obtain ⟨-, lab, hlabΛ, hraw⟩ := hrow
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨R0, hR0, I0, F0, hcont0⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R0 := hR0
+  let : Group R0 := hR0
   obtain ⟨-, -, -, hfit0, -, -, -⟩ := hcont0
   exact (q2RowFits_orthogonalPlus_parameters hlabΛ hfit0).2.2.1
 

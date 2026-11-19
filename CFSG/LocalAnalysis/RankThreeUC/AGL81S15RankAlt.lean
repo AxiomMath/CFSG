@@ -16,8 +16,8 @@ theorem lieOddRankAlt_holds : LieOddRankAlt := by
   intro K _ _ hq n hn ⟨e⟩ r hr hr2
   have hq' : CFSG.IsQuasisimple K :=
     ((CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1).2 hq
-  haveI : Group.IsPerfect K := hq'.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Group.IsPerfect K := hq'.1
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hZ : r ∣ Nat.card (Subgroup.center K)
   · obtain ⟨rfl, hn67⟩ := (CFSG.HardMathSupport.Timmesfeld.Tables.Alt.center_facts hn e hr hr2).2 hZ
     have hπ := centralQuotientMap_surjective e

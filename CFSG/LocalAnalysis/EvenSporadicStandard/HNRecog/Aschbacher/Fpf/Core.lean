@@ -57,9 +57,9 @@ theorem irreducible_of_fixedFree (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 :
     have h := pow_orderOf_eq_one a₀
     rwa [orderOf_a₀] at h
   have hp1 : ((a₀, 1) : A5 × A5) ^ 5 = 1 := by
-    ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha0]
+    ext <;> simp [ha0]
   have hq1 : ((1, a₀) : A5 × A5) ^ 5 = 1 := by
-    ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha0]
+    ext <;> simp [ha0]
   have hα5 : (ρ (a₀, 1)) ^ 5 = 1 := by rw [← map_pow, hp1, map_one]
   have hβ5 : (ρ (1, a₀)) ^ 5 = 1 := by rw [← map_pow, hq1, map_one]
   have hαβ : ρ (1, a₀) * ρ (a₀, 1) = ρ (a₀, 1) * ρ (1, a₀) := by
@@ -72,7 +72,7 @@ theorem irreducible_of_fixedFree (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 :
     have h54 : (a₀ : A5) ^ 4 * a₀ = 1 := by rw [← pow_succ]; exact ha0
     have ha4 : (a₀ : A5) ^ 4 = a₀⁻¹ := eq_inv_of_mul_eq_one_left h54
     have key : ((1, n₀) : A5 × A5) * (1, a₀) * (1, n₀)⁻¹ = (1, a₀) ^ 4 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, n₀_mul_a₀_mul_inv, ha4]
+      ext <;> simp [n₀_mul_a₀_mul_inv, ha4]
     have hrel : ((1, n₀) : A5 × A5) * (1, a₀) = (1, a₀) ^ 4 * (1, n₀) := by
       rw [← key]; group
     simpa only [map_mul, map_pow] using congrArg ρ hrel

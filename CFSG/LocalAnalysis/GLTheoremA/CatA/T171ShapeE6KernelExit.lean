@@ -71,12 +71,12 @@ theorem e6_lieModel_alternative (hD4 : InnerD4FixedPointsPerfect) {L : Type} [Fi
           (componentRoots (rootCharHom a) i)])
     ·
       have hspec := outer_componentOrbitLength_spec S hT i
-      haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
+      have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) :=
         ⟨Nat.pos_iff_ne_zero.mp hspec.1⟩
       have hZ := center_eq_bot_of_compRank_four_ncard_24 (L := L) i hD.1 hD.2
       have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
         unfold twistKind
-        rw [if_pos hinner]
+        rw [ite_eq_left hinner]
       have hinn := centerQuotientHom_mem_inner_twoDExcRankFour S hT i hspec.2.1 hspec.2.2 hZ
         (hD4 S hT i hkind hD.1 hD.2) hyZ hyF hyStab
       obtain ⟨t, n, f, ht, hm⟩ := tagLie_rationalComponent_E6 S hp hT hap h1 i hQS
@@ -94,7 +94,7 @@ theorem e6_lieModel_alternative (hD4 : InnerD4FixedPointsPerfect) {L : Type} [Fi
 
 theorem e6ToralKernelExit_of (hD4 : InnerD4FixedPointsPerfect) : E6ToralKernelExit := by
   intro n K _ _ _ hn hK h3 wd wb hwd3 hwd1 hwb3 w g0 hg0 hF htorus Kc hKc hnorm D hinn
-  haveI : Finite (TableBExc.RecipeGroup Tag.E6 K) := TableBExc.finite_recipeGroup Tag.E6 K
+  have : Finite (TableBExc.RecipeGroup Tag.E6 K) := TableBExc.finite_recipeGroup Tag.E6 K
   obtain ⟨t, m, f, hLM, htits, hsz, hcase⟩ :=
     e6_lieModel_alternative hD4 D.S D.hT D.hap D.h1 D.i D.hQS D.hyZ D.hyF D.hyStab
   exact innDiagOn_map_conj_of_action (TableBExc.center_recipeGroup_eq_bot Tag.E6 K)
@@ -102,11 +102,11 @@ theorem e6ToralKernelExit_of (hD4 : InnerD4FixedPointsPerfect) : E6ToralKernelEx
 
 theorem twE6ToralKernelExit_of (hD4 : InnerD4FixedPointsPerfect) : TwE6ToralKernelExit := by
   intro n K _ _ hn hKcard h3 σ hσ ε wd wb hwd3 hwd1 hwb3 Fr hFr g hg hn0 htorus Kc hKc hnorm D hinn
-  haveI hcharK : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by
+  have hcharK : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by
     rw [hKcard, pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hKcard
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hKcard
   obtain ⟨t, m, f, hLM, htits, hsz, hcase⟩ :=
     e6_lieModel_alternative hD4 D.S D.hT D.hap D.h1 D.i D.hQS D.hyZ D.hyF D.hyStab
   exact innDiagOn_map_conj_of_action (TwE6Delta.center_recipeR_eq_bot hn hKcard)

@@ -21,12 +21,13 @@ section Model
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_mem_of_card {p : ℕ} [Fact p.Prime] {A Z : Subgroup G}
     (hA : Nat.card A = p ^ 3) (hZ : Nat.card Z = p) (hZA : Z ≤ A)
     (hZc : ∀ a ∈ A, ∀ c ∈ Z, a * c = c * a) {w b : G} (hw : w ∈ A) (hb : b ∈ A) :
     w * b * w⁻¹ * b⁻¹ ∈ Z := by
   set N : Subgroup A := Z.subgroupOf A with hNdef
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     rw [hNdef, mem_subgroupOf] at hn ⊢
     have e : ((g * n * g⁻¹ : A) : G) = n := by
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hZc g g.2 n hn,
@@ -55,7 +56,7 @@ theorem kFactNineThreeNoTwoAt_of_autModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     (hZA : centralizer (A : Set G) ⊓ C ≤ A)
     (hP2 : ¬ 2 ^ (p * orderOf (2 : ZMod p)) ∣ Nat.card P) {i : TauCeti.CFSGIndex}
     (hM : Nonempty (P ≃* i.Group)) : KFactNineThreeNoTwoAt p i := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z : Subgroup G := centralizer (A : Set G) ⊓ C
   have hCx : ∀ g ∈ C, g * x = x * g := fun g hg => by
     rw [hC] at hg

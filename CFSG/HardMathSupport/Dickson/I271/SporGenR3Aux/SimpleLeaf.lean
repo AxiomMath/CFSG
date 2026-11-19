@@ -45,7 +45,7 @@ variable [Finite Q]
 
 theorem glaPPrimeCore_eq_bot_of_simple {p : ℕ} (hp : p.Prime) {J : Type} [Group J] [Finite J]
     [IsSimpleGroup J] (hpJ : p ∣ Nat.card J) : GLAPPrimeCore p J = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p J)) :=
     CFSG.pPrimeCore_coprime_card (p := p) (G := J)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p J) with h | h
@@ -130,7 +130,7 @@ theorem shapeRkAt_of_subgroup_data {p : ℕ} (hp : p.Prime)
     {k : ℕ} (hk : Nat.card ↥(Subgroup.centralizer ({(x : G)} : Set G) ⊓ P) = Nat.card ↥L * p ^ k)
     (hG : Good ↥L) (hR : Rk ↥L) : ShapeRkAt p Good Rk x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Finite ↥L := Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
+  have : Finite ↥L := Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
   let C' : Subgroup ↥P := Subgroup.centralizer ({x} : Set ↥P)
   let L' : Subgroup ↥P := L.comap P.subtype
   have hmapC : C'.map P.subtype = Subgroup.centralizer ({(x : G)} : Set G) ⊓ P := by
@@ -150,7 +150,7 @@ theorem shapeRkAt_of_subgroup_data {p : ℕ} (hp : p.Prime)
       exact ⟨g, g.2, rfl⟩
     have := hLn _ hgC _ he
     exact this
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L' := Subgroup.map_subgroupOf_eq_of_le hL'C
   have eL : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLP
   have eE : ↥(E.map C'.subtype) ≃* ↥L := (MulEquiv.subgroupCongr hEmap).trans eL
@@ -167,16 +167,16 @@ theorem shapeRkAt_of_subgroup_data {p : ℕ} (hp : p.Prime)
       rw [← Subgroup.card_map_of_injective C'.subtype_injective, hEmap]
       exact Nat.card_congr eL.toEquiv
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup E
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine IsPGroup.of_card (n := k) ?_
     have hpos : 0 < Nat.card ↥L := Nat.card_pos
     rw [hcardC, hcardE] at h1
     exact Nat.eq_of_mul_eq_mul_left hpos (by rw [mul_comm (Nat.card ↥L) _, ← h1])
   have hZE : Subgroup.center ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact center_eq_bot_of_simple_nonab hnabE
   have hcoreE : GLAPPrimeCore p ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact glaPPrimeCore_eq_bot_of_simple hp hpE
   refine shapeRkAt_of_normal_pindex hp E hsE hnabE hpE hq ?_ ?_
   · exact hGood ↥L _ ((pSimpleEquivSelf (E.map C'.subtype) hcoreE hZE).trans eE).symm hG

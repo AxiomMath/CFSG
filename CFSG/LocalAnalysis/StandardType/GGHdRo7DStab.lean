@@ -124,10 +124,10 @@ private lemma hdRo7DStabAux_orth_noncyclic {G : Type} [Group G] [Finite G]
   have hl2 : l ≠ 2 := by omega
   rcases htag with rfl | rfl
   · dsimp only [LargeEvenRawDatum] at hR
-    rw [if_neg hl3] at hR
+    rw [ite_eq_right hl3] at hR
     exact hdRo7DStabAux_orth_noncyclic_plus h5 hR
   · dsimp only [LargeEvenRawDatum] at hR
-    rw [if_neg hl2, if_neg hl3] at hR
+    rw [ite_eq_right hl2, ite_eq_right hl3] at hR
     exact hdRo7DStabAux_orth_noncyclic_minus h5 hR
 
 private lemma hdRo7DStabAux_row_noncyclic {G : Type} [Group G] [Finite G]

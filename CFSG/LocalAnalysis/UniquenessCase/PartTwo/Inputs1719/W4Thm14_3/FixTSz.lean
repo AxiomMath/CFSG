@@ -25,23 +25,23 @@ theorem exists_borelMoves_of_isSz {W : Type} [CommGroup W]
   classical
   obtain ⟨a, K, hKfield, hKfin, hKchar, hK, π, M, hMadd, hMmod, hMfin, ρ, β,
     hirr, hnt, hβs, hβk, hβe, c, hc, hnc⟩ := exists_szSection_data hW hL hJ hJC
-  letI : Field K := hKfield
-  letI : Fintype K := hKfin
-  letI : CharP K 2 := hKchar
-  letI : AddCommGroup M := hMadd
-  letI : Module (ZMod 2) M := hMmod
-  letI : Finite M := hMfin
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  let : Field K := hKfield
+  let : Fintype K := hKfin
+  let : CharP K 2 := hKchar
+  let : AddCommGroup M := hMadd
+  let : Module (ZMod 2) M := hMmod
+  let : Finite M := hMfin
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hJinv : ∀ h : ↥L, ∀ u ∈ J, (h : MulAut W) u ∈ J :=
     fun h u hu => hJ.2.2.1 h h.2 u hu
   obtain ⟨d, -, -, hdesc⟩ := B45Sz.sz_descent hK hnt
   have : Module.Finite (EndRing ρ) M := Module.Finite.of_finite
   let b := Module.finBasis (EndRing ρ) M
   obtain ⟨E, hEfield, hEfin, hEchar, ιK, ιD, A, hAne, hAΩ, hΦ, -, -⟩ := hdesc b
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
-  letI : Algebra K E := ιK.toAlgebra
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
+  let : Algebra K E := ιK.toAlgebra
   obtain ⟨Φ⟩ := hΦ
   by_cases hΩ : A = B45Sz.szOmega a
   · subst hΩ

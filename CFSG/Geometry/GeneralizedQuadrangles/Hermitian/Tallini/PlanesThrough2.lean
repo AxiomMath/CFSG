@@ -23,7 +23,7 @@ section TangentNonabs
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
-theorem ncard_inter_ovoid_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+theorem ncard_inter_ovoid_ptPerp (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {X : Set V}
     (hO : IsOvoid Γ c X) {y : V} (hy : c y = 0) (hyX : y ∉ X) :
@@ -89,7 +89,7 @@ theorem ncard_inter_ovoid_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick 
     exact hzf.symm
   have hcard : S.card = t + 1 := by
     rw [← Finset.card_bij f hfmem hfinj hfsurj]
-    rw [show Lines = Γ.neighborFinset y from rfl, card_neighborFinset_eq_degree, hdeg y, if_pos hy]
+    rw [show Lines = Γ.neighborFinset y from rfl, card_neighborFinset_eq_degree, hdeg y, ite_eq_left hy]
   have hcoe : ((S : Set V)) = X ∩ ptPerp Γ c {y} := by
     ext z
     change z ∈ S ↔ z ∈ X ∩ ptPerp Γ c {y}
@@ -820,13 +820,14 @@ section PlanesMeet
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem IsStarPlane.nonempty {c : Γ.Coloring (Fin 2)} {X : Set V}
     (hX : IsStarPlane Γ c X) : X.Nonempty := by
   obtain ⟨x, hx, -⟩ := hX.2
   exact ⟨x, hx⟩
 
 theorem exists_adj_of_color_zero (hT : IsThick Γ) {c : Γ.Coloring (Fin 2)} {u : V}
-    (hu : c u = 0) : ∃ L, Γ.Adj u L := by
+    (_hu : c u = 0) : ∃ L, Γ.Adj u L := by
   have hpos : 0 < (Γ.neighborFinset u).card := by
     rw [card_neighborFinset_eq_degree]
     have := hT u

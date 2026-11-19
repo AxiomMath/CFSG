@@ -36,7 +36,7 @@ theorem uc22s217l2_false_of_not_isPowTwo (D : Data G) (Ch : Choice2011 G)
     (h3 : 2 ≤ CFSG.Open.pRank 3 (conjClosure D.M L)) : False := by
   classical
   obtain ⟨s, r, hs, hsn, hr, hrs, -⟩ := uc22s217u3b_exists_sr (uc22p2213a_n_ne_zero D c) hc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr5 : 5 ≤ r := UC6S898.prime_ne_two_three_of_dvd hr hs hrs
   have hr2 : r ≠ 2 := by omega
   obtain ⟨j, rfl⟩ := hn

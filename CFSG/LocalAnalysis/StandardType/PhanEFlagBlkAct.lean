@@ -261,11 +261,13 @@ section Sigma
 
 variable [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFBA_blkOut_apply (b : ℕ) (v : Fin n → K) (t : Fin (blockSize d b)) :
     blkOut n d b v t =
       if h : d.getD b 0 + t.val < n then v ⟨d.getD b 0 + t.val, h⟩ else 0 :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFBA_blkIn_apply (b : ℕ) (w : Fin (blockSize d b) → K) (k : Fin n) :
     blkIn n d b w k =
       if h : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0 then
@@ -277,8 +279,8 @@ theorem sgv_blkIn {b : ℕ} (w : Fin (blockSize d b) → K) :
   funext k
   simp only [sgv_apply, q2cFBA_blkIn_apply]
   by_cases h : d.getD b 0 ≤ k.val ∧ k.val < d.getD (b + 1) 0
-  · rw [dif_pos h, dif_pos h]
-  · rw [dif_neg h, dif_neg h, map_zero]
+  · rw [dite_eq_left h, dite_eq_left h]
+  · rw [dite_eq_right h, dite_eq_right h, map_zero]
 
 private theorem q2cFBA_hermLin_apply (lo hi : ℕ) (u v : Fin n → K) :
     hermLin K f n lo hi u v =
@@ -297,7 +299,7 @@ private theorem q2cFBA_hermLin_blkOut (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d
       (if 0 ≤ t.val ∧ t.val < blockSize d b then
         sg K f (blkOut n d b u t) * blkOut n d b v t else 0))
       = ∑ t : Fin (blockSize d b), sg K f (blkOut n d b u t) * blkOut n d b v t := by
-    exact Finset.sum_congr rfl fun t _ => by rw [if_pos ⟨Nat.zero_le _, t.isLt⟩]
+    exact Finset.sum_congr rfl fun t _ => by rw [ite_eq_left ⟨Nat.zero_le _, t.isLt⟩]
   rw [hR, ← Finset.sum_filter]
   have hab : d.getD b 0 ≤ d.getD (b + 1) 0 := le_of_lt (hd.strict b hb)
   have hc : d.getD (b + 1) 0 ≤ n := q2cFPt_le_last hd hb
@@ -340,12 +342,12 @@ private theorem q2cFBA_hermLin_blkOut (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d
     have hbu : (blkOut n d b u) (hii a ha) = u a := by
       dsimp only [hii]
       rw [q2cFBA_blkOut_apply,
-        dif_pos (show d.getD b 0 + (a.val - d.getD b 0) < n by omega)]
+        dite_eq_left (show d.getD b 0 + (a.val - d.getD b 0) < n by omega)]
       exact congrArg u (Fin.ext (Nat.add_sub_of_le h1))
     have hbv : (blkOut n d b v) (hii a ha) = v a := by
       dsimp only [hii]
       rw [q2cFBA_blkOut_apply,
-        dif_pos (show d.getD b 0 + (a.val - d.getD b 0) < n by omega)]
+        dite_eq_left (show d.getD b 0 + (a.val - d.getD b 0) < n by omega)]
       exact congrArg v (Fin.ext (Nat.add_sub_of_le h1))
     rw [hbu, hbv]
 

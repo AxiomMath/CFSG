@@ -28,8 +28,8 @@ theorem s1614_transport {W : Type} [CommGroup W] [Finite W] {D : FFModel} [Finit
   unfold S1614Hyp2iiiMod
   intro J₀ hJ₀ hcard
   rcases hR with ⟨π, hπs, -, hkerle, hJinv, -, hsec, hkerI, β, hβs, hβk, hβe⟩
-  haveI : Nonempty ↥J₀ := ⟨1⟩
-  haveI : Nonempty ↥D.ker := ⟨1⟩
+  have : Nonempty ↥J₀ := ⟨1⟩
+  have : Nonempty ↥D.ker := ⟨1⟩
   have hβinj : Function.Injective β := by
     rw [injective_iff_map_eq_one β]
     intro u hu
@@ -198,7 +198,7 @@ theorem s1614_transport {W : Type} [CommGroup W] [Finite W] {D : FFModel} [Finit
     exact hE9
   have hEHab : IsElemAbelian 3 (E.map ρ) := by
     refine ⟨?_, ?_⟩
-    · haveI : IsMulCommutative ↥E := hEab.1
+    · have : IsMulCommutative ↥E := hEab.1
       infer_instance
     · intro x hx
       rcases Subgroup.mem_map.1 hx with ⟨e, he, rfl⟩

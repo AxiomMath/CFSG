@@ -16,8 +16,8 @@ theorem haradaHNRecognitionKP_of_halves (hHarada : HaradaHalf) (hSegev : SegevUn
     (hHN.isF5Centralizer_of_component z₀ hz₀ hK)
   obtain ⟨z', hz', hQ⟩ := hHarada G hKP z hz E hE
   obtain ⟨a, b, hab⟩ := hHN.isF5Type
-  haveI := hHN.finite
-  haveI := hHN.isSimpleGroup
+  have := hHN.finite
+  have := hHN.isSimpleGroup
   exact hSegev G (Carrier .HN) z z' a b ⟨hz, hz', ⟨_, hE⟩, hQ⟩ hab
 
 end CFSG.EvenSporadicStandard.HNRecog

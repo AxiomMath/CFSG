@@ -90,7 +90,7 @@ theorem stroth_4_3_he_holds :
   stroth_4_3_he_of_core
     (@fun _ _ _ _ _ dD _ hm _ huv ht hu hc ha hb hee =>
       ⟨dD.ii_h1 hm huv ht hu hc ha hb hee, dD.ii_h2 hm huv ht hu hc ha hb hee,
-        dD.ii_h4 hm huv ht hu hc ha hb hee, (dD.iiAction huv ht hu hc ha hb hee).mul_self_mem_or,
+        dD.ii_h4 hm, (dD.iiAction huv ht hu hc ha hb hee).mul_self_mem_or,
         dD.ii_h6' hm huv ht hu hc ha hb hee, dD.ii_h7 hm huv ht hu hc ha hb hee,
         dD.ii_h8 hm huv ht hu hc ha hb hee, dD.ii_h9 hm huv ht hu hc ha hb hee⟩)
     (@fun _ _ _ _ _ dD _ hm _ huv ht hu hc ha hb hee =>

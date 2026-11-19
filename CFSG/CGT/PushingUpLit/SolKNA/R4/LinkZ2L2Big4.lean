@@ -227,6 +227,7 @@ theorem Z2SetR.conjSub_Λu_swap (hs : Z2SetR r n R S t J u R₀ T₀ P) {c : Y}
       linkLayer R t := by
   rw [conjSub_linkLayerAt hs.large.datum.hypOmegaGen.conjInvariant, hs.conjSub_J_swap hc, hc]
 
+omit [Finite Y] in
 theorem conj_eq_of_comm {c x : Y} (h : c * x = x * c) : c * x * c⁻¹ = x := by
   rw [h, mul_inv_cancel_right]
 
@@ -253,10 +254,12 @@ theorem Z2SetR.swap_of_not_mem (hs : Z2SetR r n R S t J u R₀ T₀ P) {b : Y}
   · exact absurd (hs.mem_edgeCent_iff.mpr ⟨hbP, h1⟩) hbA
   · exact h1
 
+omit [Finite Y] in
 theorem inv_conj_of_conj {b x y : Y} (h : b * x * b⁻¹ = y) : b⁻¹ * y * b⁻¹⁻¹ = x := by
   rw [← h]
   group
 
+omit [Finite Y] in
 theorem conj_pow' (g b : Y) (k : ℕ) : (g⁻¹ * b * g) ^ k = g⁻¹ * b ^ k * g := by
   have h := conj_pow (a := g⁻¹) (b := b) (i := k)
   rwa [inv_inv] at h
@@ -301,6 +304,7 @@ theorem Z2SetR.eq_tu_of_conj_mem_E (hs : Z2SetR r n R S t J u R₀ T₀ P) {g : 
   · exact absurd (by rw [inv_inv]; exact h') (hs.tu_not_conj_u g⁻¹)
   · exact h'
 
+omit [Finite Y] in
 theorem mem_centralizer_of_conj_eq {g a : Y} (h : g⁻¹ * a * g = a) :
     g⁻¹ ∈ Subgroup.centralizer ({a} : Set Y) := by
   rw [Subgroup.mem_centralizer_singleton_iff]

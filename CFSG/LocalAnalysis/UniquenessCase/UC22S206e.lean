@@ -85,8 +85,8 @@ theorem uc22s206e_six {Γ : Type*} [Group Γ] [FiniteDimensional F V] (h2 : (2 :
     (hgE : g ∈ normalizer (E : Set Γ)) (hfix : ∀ e ∈ E, g * e * g⁻¹ = e → e = 1) :
     6 ≤ Module.finrank F (LinearMap.range (P g - 1)) := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hE.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hEsq : ∀ a ∈ E, a * a = 1 := fun a ha => by rw [← pow_two]; exact hE.2 a ha
@@ -97,7 +97,7 @@ theorem uc22s206e_six {Γ : Type*} [Group Γ] [FiniteDimensional F V] (h2 : (2 :
   have hPinv : ∀ (a : Γ) (x : V), P a⁻¹ (P a x) = x := fun a x => by
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
   obtain ⟨e₀, he₀, he₀1⟩ : ∃ e₀ ∈ E, e₀ ≠ 1 := by
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by rw [hE8]; norm_num)
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by rw [hE8]; norm_num)
     obtain ⟨a, ha⟩ := exists_ne (1 : E)
     exact ⟨a, a.2, fun h => ha (Subtype.ext h)⟩
   obtain ⟨v, hv⟩ : ∃ v, P e₀ v ≠ v := by
@@ -172,7 +172,7 @@ theorem uc22s206e_six {Γ : Type*} [Group Γ] [FiniteDimensional F V] (h2 : (2 :
           have h3 := hPinv a w
           rwa [ha.2] at h3⟩ }
     have hDE : D ≤ E := fun b hb => hb.1
-    haveI : Finite D := Finite.of_injective _ (inclusion_injective hDE)
+    have : Finite D := Finite.of_injective _ (inclusion_injective hDE)
     have hD2 : IsPGroup 2 D := by
       intro x
       refine ⟨1, Subtype.ext ?_⟩

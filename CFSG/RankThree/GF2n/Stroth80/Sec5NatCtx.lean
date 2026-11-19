@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.Z_central (hc : Ctx M Q Z B) {z x : G} (hz : z ∈ Z) (hx : x ∈ Q) : x * z = z * x := by
   have hz' : z ∈ Q ⊓ Subgroup.centralizer (Q : Set G) := by
     rw [← cen_eq, ← hc.hyp.hZ]

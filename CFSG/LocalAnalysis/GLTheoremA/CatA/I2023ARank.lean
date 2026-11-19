@@ -22,13 +22,16 @@ structure TD4Rank (S : Type) [Group S] [Finite S] : Prop where
     ↥A →* MulAut (PQuot 3 L) :=
   (rho L).comp (Subgroup.inclusion hA)
 
+omit [Finite G] in
 theorem rhoSub_apply (L A : Subgroup G) (hA : A ≤ Subgroup.normalizer (L : Set G)) (a : ↥A) :
     rhoSub L A hA a = rho L ⟨(a : G), hA a.2⟩ := rfl
 
+omit [Finite G] in
 theorem mem_ker_rhoSub (L A : Subgroup G) (hA : A ≤ Subgroup.normalizer (L : Set G)) (a : ↥A) :
     a ∈ (rhoSub L A hA).ker ↔ (a : G) ∈ centModSubgroup 3 L := by
   rw [MonoidHom.mem_ker, rhoSub_apply, rho_eq_one_iff]
 
+omit [Finite G] in
 theorem isElemAbelian_range {A : Subgroup G} {M : Type*} [Group M] (hA : IsElemAbelian 3 A)
     (f : ↥A →* M) : IsElemAbelian 3 f.range := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -44,6 +47,7 @@ theorem isElemAbelian_range {A : Subgroup G} {M : Type*} [Group M] (hA : IsElemA
     have : a ^ 3 = 1 := Subtype.ext (hA.2 (a : G) a.2)
     rw [this, map_one]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hEF : E ≤ F) (hF : IsElemAbelian p F) :
     IsElemAbelian p E := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => hF.2 x (hEF hx)⟩
@@ -51,6 +55,7 @@ theorem isElemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hEF : E ≤ F) (hF : I
   have h := hF.1.is_comm.comm (⟨(x : G), hEF x.2⟩ : F) ⟨(y : G), hEF y.2⟩
   exact congrArg (fun z : ↥F => (z : G)) h
 
+omit [Finite G] in
 theorem card_ker_le_three {L : Subgroup G} (hCyc : CycModSylow 3 L) {A : Subgroup G}
     (hAL : A ≤ Subgroup.normalizer (L : Set G)) (hA : IsElemAbelian 3 A) :
     Nat.card (rhoSub L A hAL).ker ≤ 3 := by
@@ -67,6 +72,7 @@ theorem card_ker_le_three {L : Subgroup G} (hCyc : CycModSylow 3 L) {A : Subgrou
   have h3 := card_le_of_isCyclic_of_pow Nat.prime_three hcyc (fun d hd => hKel.2 d hd)
   rwa [hK, Subgroup.card_map_of_injective A.subtype_injective] at h3
 
+omit [Finite G] in
 theorem card_eq_range_mul_ker (L A : Subgroup G) (hA : A ≤ Subgroup.normalizer (L : Set G)) :
     Nat.card A = Nat.card (rhoSub L A hA).range * Nat.card (rhoSub L A hA).ker := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (rhoSub L A hA).ker

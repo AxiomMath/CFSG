@@ -172,15 +172,15 @@ end Blocks
 
 theorem minusBlock_one : minusBlock (1 : Matrix V₄ V₄ K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [minusBlock, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [minusBlock]
 
 theorem plusBlock_sub_one (M : Matrix V₄ V₄ K) : plusBlock (M - 1) = plusBlock M - 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [plusBlock, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [plusBlock]
 
 theorem minusBlock_sub_one (M : Matrix V₄ V₄ K) : minusBlock (M - 1) = minusBlock M - 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [minusBlock, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [minusBlock]
 
 theorem tStdMat_eq_cliffMat : (tStdMat : Matrix V₄ V₄ K) = cliffMat 1 0 0 0 0 := by
   ext i j

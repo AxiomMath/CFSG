@@ -20,6 +20,7 @@ namespace HS9
       LB M Q P = LB M Q B ∨
         ∃ ε ∈ LB M Q B, LB M Q P = conjSubgroup ε (LB M Q (conjSubgroup h B))
 
+omit [Finite G] in
 theorem line_orbit_of_geom (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M) (hline : LineGeom M Q Z B h) :
     ∀ x ∈ LB M Q B ⊔ LB M Q (conjSubgroup h B),
       conjSubgroup x (LB M Q B) = LB M Q B ∨

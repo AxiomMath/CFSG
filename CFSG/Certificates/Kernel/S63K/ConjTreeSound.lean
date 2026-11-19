@@ -149,19 +149,19 @@ theorem row_clos (h : ℕ) : ∀ k l c, bfsRowK (stepK G) P PAR LAB W ng h k l c
     rw [bfsRowK_succ] at hne ⊢
     split at hne
     · rename_i hw
-      rw [if_pos hw]
+      rw [ite_eq_left hw]
       split at hne
       · rename_i hp
-        rw [if_pos hp]
+        rw [ite_eq_left hp]
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · exact ⟨Nat.lt_of_lt_of_le hw (bfsRowK_mono h _ _ _ hne), hp⟩
         · exact ih _ _ hne j (by omega) (by omega)
       · exact absurd rfl hne
     · rename_i hw
-      rw [if_neg hw]
+      rw [ite_eq_right hw]
       split at hne
       · rename_i hp
-        rw [if_pos hp]
+        rw [ite_eq_left hp]
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · rw [hp.1]
           exact ⟨Nat.lt_of_lt_of_le (Nat.lt_succ_self c) (bfsRowK_mono h _ _ _ hne), hp.2.1⟩
@@ -181,17 +181,17 @@ theorem run_clos (cap : ℕ) : ∀ fuel h c, bfsRunK (stepK G) P PAR LAB W ng ca
     rw [bfsRunK_succ] at hne hcap hlt ⊢
     split at hne
     · rename_i hc
-      rw [if_pos hc] at hcap hlt ⊢
+      rw [ite_eq_left hc] at hcap hlt ⊢
       split at hne
       · exact absurd rfl hne
       · rename_i hr
-        rw [if_neg hr] at hcap hlt ⊢
+        rw [ite_eq_right hr] at hcap hlt ⊢
         rcases Nat.eq_or_lt_of_le hh' with rfl | hh'
         · obtain ⟨h1, h2⟩ := row_clos _ ng 0 c hr l (Nat.zero_le _) (by omega)
           exact ⟨Nat.lt_of_lt_of_le h1 (bfsRunK_mono cap fuel _ _ hne), h2⟩
         · exact ih _ _ hne hcap h' hh' hlt l hl
     · rename_i hc
-      rw [if_neg hc] at hcap hlt
+      rw [ite_eq_right hc] at hcap hlt
       exact absurd ⟨by omega, hcap⟩ hc
 
 theorem closOK_of_bfsK {R : ℕ} (h : bfsK (stepK G) P PAR LAB W S ng (N + 1) N R = true) :

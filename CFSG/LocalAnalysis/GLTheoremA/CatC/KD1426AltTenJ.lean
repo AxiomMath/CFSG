@@ -25,7 +25,7 @@ theorem J_pSimple {K : Subgroup Y} (π : ↥K ≃* alternatingGroup (Fin 10))
       Nat.card ↥J = 2520 := by
   classical
   subst hJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨RF⟩ := nonempty_altFix_equiv (σ : Equiv.Perm (Fin 10)) (m := 7) (by rw [hσc])
   have hFπ : ((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom).map π.toMonoidHom =
       altFix (σ : Equiv.Perm (Fin 10)) :=
@@ -39,11 +39,11 @@ theorem J_pSimple {K : Subgroup Y} (π : ↥K ≃* alternatingGroup (Fin 10))
       (MulEquiv.subgroupCongr hFπ)
   let eJA7 : ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) ≃*
       alternatingGroup (Fin 7) := (e1.symm.trans e2).trans RF
-  haveI : Finite ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) :=
+  have : Finite ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) :=
     Finite.of_injective eJA7 eJA7.injective
   have hA7simple : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
-  haveI : IsSimpleGroup ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) :=
+  have : IsSimpleGroup ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) :=
     eJA7.isSimpleGroup
   have hJc : Nat.card ↥((((altFix (σ : Equiv.Perm (Fin 10))).comap π.toMonoidHom)).map K.subtype) =
       2520 := by

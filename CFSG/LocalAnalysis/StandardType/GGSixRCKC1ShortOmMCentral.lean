@@ -72,7 +72,7 @@ theorem rckSOmM_pCore_le [Finite K] [CharP K 2] (hirr : ∀ t : K, t ^ 2 + b * t
   · intro h
     have h1 := polar_minusVec_minusVec m b c i i s (!s)
     have h2 : i = i ∧ s = !!s := ⟨rfl, by rw [Bool.not_not]⟩
-    rw [if_pos h2, h, polar_zero_left] at h1
+    rw [ite_eq_left h2, h, polar_zero_left] at h1
     exact zero_ne_one h1
   · rw [quadMinus_planeVec']
     exact planeNorm_ne_zero hirr hp

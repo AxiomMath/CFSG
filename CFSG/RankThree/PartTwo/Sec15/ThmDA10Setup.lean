@@ -23,7 +23,7 @@ theorem commutator_zpowers_le_of_forall {Y O : Subgroup G} {a : G}
   have hpow : ∀ n : ℕ, ∀ y ∈ Y, ⁅y, a ^ n⁆ ∈ O := by
     intro n
     induction n with
-    | zero => intro y hy; simpa using O.one_mem
+    | zero => intro y hy; simp
     | succ n ih =>
       intro y hy
       have h' : ⁅y, a ^ (n + 1)⁆ = ⁅y, a⁆ * (a * ⁅y, a ^ n⁆ * a⁻¹) := by
@@ -41,11 +41,13 @@ section Psi
     ↥Y →* alternatingGroup (Fin 10) :=
   e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥Y))
 
+omit [Finite G] in
 theorem psiOf_surjective (Y : Subgroup G)
     (e : ↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10)) :
     Function.Surjective (psiOf Y e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem psiOf_eq_one_iff (Y : Subgroup G)
     (e : ↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10)) (y : ↥Y) :
     psiOf Y e y = 1 ↔ y ∈ CFSG.pPrimeCore 3 ↥Y := by
@@ -60,6 +62,7 @@ theorem psiOf_eq_one_iff (Y : Subgroup G)
     show e (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥Y) y) = 1
     rw [this, map_one]
 
+omit [Finite G] in
 theorem psiOf_injective_quot (Y : Subgroup G)
     (e : ↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10)) {x y : ↥Y}
     (h : psiOf Y e x = psiOf Y e y) :
@@ -98,7 +101,7 @@ theorem a_le_of_faithful_a10 {A : Subgroup G} {c : G} {L : Subgroup G} (hR : Sec
     (hiso : Nonempty (↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10))) : A ≤ Y := by
   obtain ⟨e⟩ := hiso
   have hAY : A ≤ Subgroup.normalizer (Y : Set G) := hY.1.1.2
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   obtain ⟨e'⟩ := nonempty_img148_equiv hAY
   have hF := hR.toSec14Std.toSec13Data.mem_partTwoF
   have hAab : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
@@ -106,7 +109,7 @@ theorem a_le_of_faithful_a10 {A : Subgroup G} {c : G} {L : Subgroup G} (hR : Sec
   have hA3 : ∀ x ∈ A, x ^ 3 = 1 := fun x hx => hR.isElemAbelian.2 x hx
   have hAM : A ≤ Y ⊔ A := le_sup_right
   have hYM : Y ≤ Y ⊔ A := le_sup_left
-  haveI hYn : (Y.subgroupOf (Y ⊔ A)).Normal :=
+  have hYn : (Y.subgroupOf (Y ⊔ A)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (sup_le Subgroup.le_normalizer hAY)
   have hN : ¬ 3 ∣ Nat.card (ker148 A Y) := by

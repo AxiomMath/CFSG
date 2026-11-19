@@ -37,13 +37,13 @@ private theorem spConf_e_ne_zero {e f : Fin k ⊕ Fin k → F} (hef : spForm k F
     e ≠ 0 := by
   intro h
   rw [h] at hef
-  simpa using hef
+  simp at hef
 
 private theorem spConf_f_ne_zero {e f : Fin k ⊕ Fin k → F} (hef : spForm k F e f = 1) :
     f ≠ 0 := by
   intro h
   rw [h] at hef
-  simpa using hef
+  simp at hef
 
 private theorem spConf_form_e_cef {e f : Fin k ⊕ Fin k → F} {c : F}
     (hef : spForm k F e f = 1) : spForm k F e (c • e + f) = 1 := by

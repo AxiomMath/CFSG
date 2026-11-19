@@ -97,7 +97,7 @@ theorem Sec7A.inv (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t r : 
   have hinvM : r⁻¹ ∈ M := M.inv_mem hrM
   refine ⟨(Rt M (LB M Q B) t).inv_mem hrR, ?_, ?_⟩
   · obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-    haveI := hn
+    have := hn
     let ρ : ↥(Rt M (LB M Q B) t) := ⟨r, hrR⟩
     have h1 := (HS9.hypPlane_iff_polar91 h34 hs P ρ).mp hr.plane
     refine (HS9.hypPlane_iff_polar91 h34 hs P ρ⁻¹).mpr ?_
@@ -204,7 +204,7 @@ theorem mem_Z0_of_fix_perp (Pk : GlobalModelAction M Q Z K γ M₀) (h91 : Step9
       ⟨e.1, ⟨(hTmem e.1).mpr (M₀.img_mono (inf_le_inf_right _ hVQ) e.2),
         (hVsub_mem e.1).mpr (M₀.img_mono inf_le_left e.2)⟩⟩
     have hι : Function.Injective ι := fun e e' h => Subtype.ext (congrArg (fun z => z.1) h)
-    haveI : Finite ↥(T ⊓ Vsub) := Module.finite_of_finite K
+    have : Finite ↥(T ⊓ Vsub) := Module.finite_of_finite K
     have h1 := Nat.card_le_card_of_injective ι hι
     rw [hcard3, Module.natCard_eq_pow_finrank (K := K) (V := ↥(T ⊓ Vsub))] at h1
     exact (Nat.pow_le_pow_iff_right hK2).mp h1

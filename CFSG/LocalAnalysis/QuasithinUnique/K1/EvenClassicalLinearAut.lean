@@ -295,7 +295,7 @@ theorem sylowCentralizingAutInner_projectiveSL [Finite K] [CharP K 2] (hn : 3 �
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 hn1
   have hQ₀ : IsSylowTwoOf (projUnitriangular n K) ⊤ := by
     rw [← hS]
-    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   refine sylowCentralizingAutInner_of_sylow _ hQ₀ fun β hβ => ?_
   exact inner_of_fixes_unitriangular hn β fun u hu => hβ _ (Subgroup.mem_map_of_mem _ hu)
 

@@ -245,7 +245,7 @@ theorem card_le_of_statedProj_three {K : Type} [Field K] [Finite K] (hqK : (3 : 
   have hmap : P'.map π = D := map_sylow_comap π hπ hDp P
   have hP'fin : Finite P' := inferInstance
   have hP'p : IsPGroup 3 P' :=
-    (P.isPGroup').of_equiv
+    (P.isPGroup).of_equiv
       ((P : Subgroup (D.comap π)).equivMapOfInjective _ (D.comap π).subtype_injective)
   let ρ : P' →* GL (Fin 3) K := M.subtype.comp P'.subtype
   have hρ : Function.Injective ρ := M.subtype_injective.comp P'.subtype_injective

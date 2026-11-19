@@ -149,7 +149,7 @@ theorem noDatum_of_stated_psl_three_four (F : Type) [Group F]
         simp [n]
       have hsn : (n : G) = ((s : ↥R') : G) := hι_injective hn
       have hsN : (((s : ↥R') : G)) ∈ N := hsn ▸ n.2
-      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S0.isPGroup' s
+      obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S0.isPGroup s
       by_contra hs1
       have hk0 : k ≠ 0 := by
         rintro rfl

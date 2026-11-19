@@ -46,11 +46,13 @@ private def centralizingModPCore (K S : Subgroup G)
     rw [e] at h1
     simpa using inv_mem h1
 
+omit [Finite G] in
 private theorem centralizingModPCore_le {K S : Subgroup G}
     (hSK : S ≤ Subgroup.normalizer (K : Set G)) :
     centralizingModPCore K S hSK ≤ K ⊔ S :=
   fun _ hy => hy.1
 
+omit [Finite G] in
 private theorem inf_centralizingModPCore_le {K S : Subgroup G}
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (hZ : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥) :
@@ -240,6 +242,7 @@ theorem commutator_mem_pCoreOf_sup {K S : Subgroup G} (hS : IsPGroup 2 S)
   exact mem_pCoreOf_sup_of_commutator_mem hS hSK hZ hz
     (commutator_centralizes_mod_pCoreOf hSK hbK hbN hb hx)
 
+omit [Finite G] in
 theorem eq_one_of_mem_two_group_of_mem_elemAbelian_three {H K' : Subgroup G}
     (h2 : IsPGroup 2 H) (h3 : CFSG.Assembly.IsElemAbelian 3 K') {x : G}
     (hxH : x ∈ H) (hxK : x ∈ K') : x = 1 := by
@@ -251,10 +254,11 @@ theorem eq_one_of_mem_two_group_of_mem_elemAbelian_three {H K' : Subgroup G}
   rw [Nat.Coprime.gcd_eq_one (Nat.Coprime.pow_left m (by decide : Nat.Coprime 2 3))] at ho
   exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp ho)
 
+omit [Finite G] in
 theorem a7Rep_eq_one_of_mem_pCoreOf_sup {K T : Subgroup G}
-    (hTK : T ≤ Subgroup.normalizer (K : Set G))
+    (_hTK : T ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7)) {x : G}
-    (hx : x ∈ K ⊔ T) (hxN : x ∈ Subgroup.normalizer (K : Set G))
+    (_hx : x ∈ K ⊔ T) (hxN : x ∈ Subgroup.normalizer (K : Set G))
     (hxQ : x ∈ CFSG.Open.pCoreOf 2 (K ⊔ T)) :
     CFSG.RankThree.PartTwo.KFacts.KP2.a7Rep K φ ⟨x, hxN⟩ = 1 := by
   rw [CFSG.RankThree.PartTwo.KFacts.KP2.a7Rep_eq_one_iff]
@@ -417,6 +421,7 @@ theorem card_map_a7Rep_inf {A K : Subgroup G}
   rw [← hcard]
   exact hD
 
+omit [Finite G] in
 theorem exists_a7Rep_eq_of_mem_alternating {K : Subgroup G}
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
     {v : Equiv.Perm (Fin 7)} (hv : v ∈ alternatingGroup (Fin 7)) :
@@ -436,6 +441,7 @@ private def pushUpPreimage (K T : Subgroup G)
     (V : Subgroup (Equiv.Perm (Fin 7))) : Subgroup G :=
   (V.comap (ρ.comp (Subgroup.inclusion hKTN))).map (K ⊔ T).subtype
 
+omit [Finite G] in
 private theorem mem_pushUpPreimage {K T : Subgroup G}
     {hKTN : K ⊔ T ≤ Subgroup.normalizer (K : Set G)}
     {ρ : ↥(Subgroup.normalizer (K : Set G)) →* Equiv.Perm (Fin 7)}
@@ -451,6 +457,7 @@ private theorem mem_pushUpPreimage {K T : Subgroup G}
   · intro h
     exact Subgroup.mem_map.mpr ⟨⟨x, hx⟩, by rwa [Subgroup.mem_comap], rfl⟩
 
+omit [Finite G] in
 private theorem pushUpPreimage_le {K T : Subgroup G}
     {hKTN : K ⊔ T ≤ Subgroup.normalizer (K : Set G)}
     {ρ : ↥(Subgroup.normalizer (K : Set G)) →* Equiv.Perm (Fin 7)}
@@ -474,11 +481,12 @@ private theorem le_pCoreOf_sup_of_map_a7Rep_eq_bot {A : Subgroup G} {K T : Subgr
   exact (a7Rep_eq_one_iff_mem_pCoreOf_sup (isPGroup_of_mem_scriptQPi Nat.prime_two hT.prop)
     hT.prop.1.2 hZ φ (Subgroup.mem_sup_right ht) (hT.prop.1.2 ht)).mp hmem
 
+omit [Finite G] in
 private theorem isPGroup_pushUpPreimage {K T : Subgroup G}
     {hKTN : K ⊔ T ≤ Subgroup.normalizer (K : Set G)}
     {ρ : ↥(Subgroup.normalizer (K : Set G)) →* Equiv.Perm (Fin 7)}
     {V : Subgroup (Equiv.Perm (Fin 7))}
-    (hker : ∀ (x : G) (hx : x ∈ K ⊔ T) (hxN : x ∈ Subgroup.normalizer (K : Set G)),
+    (hker : ∀ (x : G) (_hx : x ∈ K ⊔ T) (hxN : x ∈ Subgroup.normalizer (K : Set G)),
       ρ ⟨x, hxN⟩ = 1 ↔ x ∈ CFSG.Open.pCoreOf 2 (K ⊔ T))
     (hQ2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 (K ⊔ T)))
     (hQle : CFSG.Open.pCoreOf 2 (K ⊔ T) ≤ K ⊔ T)
@@ -490,9 +498,9 @@ private theorem isPGroup_pushUpPreimage {K T : Subgroup G}
     (ρ.comp (Subgroup.inclusion hKTN)).comp (Subgroup.inclusion hWle)
   have hfker : f.ker ≤ ((CFSG.Open.pCoreOf 2 (K ⊔ T)).subgroupOf (K ⊔ T)).comap
       (Subgroup.inclusion hWle) := by
-    intro x hx
+    intro x _hx
     rw [Subgroup.mem_comap]
-    have hx1 : f x = 1 := hx
+    have hx1 : f x = 1 := _hx
     have hx1' : ρ ⟨((x : ↥W) : G), hKTN (hWle x.2)⟩ = 1 := hx1
     exact (hker _ (hWle x.2) (hKTN (hWle x.2))).mp hx1'
   have hQsub2 : IsPGroup 2 ((CFSG.Open.pCoreOf 2 (K ⊔ T)).subgroupOf (K ⊔ T)) :=
@@ -512,6 +520,7 @@ private theorem isPGroup_pushUpPreimage {K T : Subgroup G}
     htop ▸ hV2.comap_of_ker_isPGroup f hfker2
   exact htop2.of_equiv Subgroup.topEquiv
 
+omit [Finite G] in
 private theorem pushUpPreimage_le_normalizer {K T : Subgroup G}
     {hKTN : K ⊔ T ≤ Subgroup.normalizer (K : Set G)}
     {ρ : ↥(Subgroup.normalizer (K : Set G)) →* Equiv.Perm (Fin 7)}
@@ -519,6 +528,7 @@ private theorem pushUpPreimage_le_normalizer {K T : Subgroup G}
     pushUpPreimage K T hKTN ρ V ≤ Subgroup.normalizer (K : Set G) :=
   (pushUpPreimage_le V).trans hKTN
 
+omit [Finite G] in
 private theorem pushUpPreimage_le_normalizer_T {K T : Subgroup G}
     {hKTN : K ⊔ T ≤ Subgroup.normalizer (K : Set G)}
     {ρ : ↥(Subgroup.normalizer (K : Set G)) →* Equiv.Perm (Fin 7)}
@@ -926,6 +936,7 @@ private theorem inf_pCoreOf_eq_of_a7 {K T : Subgroup G}
         (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K))
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) K))
 
+omit [Finite G] in
 private theorem ker_quotientMap {K T : Subgroup G}
     (hKQ : K ⊓ CFSG.Open.pCoreOf 2 (K ⊔ T) = CFSG.Open.pCoreOf 2 K) :
     (quotientMap K T).ker = CFSG.pCore 2 ↥K := by
@@ -950,6 +961,7 @@ private theorem ker_quotientMap {K T : Subgroup G}
     exact (CFSG.mem_openPCoreOf_iff (p := 2) (H := K ⊔ T)
       (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ T) x)).mp (by simpa using hxQ)
 
+omit [Finite G] in
 private theorem surjective_quotientMap {K T : Subgroup G}
     (hTeq : K ⊔ T = K ⊔ CFSG.Open.pCoreOf 2 (K ⊔ T))
     (hKNQ : K ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (K ⊔ T) : Set G)) :

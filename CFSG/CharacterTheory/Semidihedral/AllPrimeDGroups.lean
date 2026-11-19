@@ -461,7 +461,7 @@ private theorem qdd_le_oddCoreIn_of_isSolvable (hn : 4 ≤ n) (S : Sylow 2 G)
         exact hbot.symm
       rw [hbot', Subgroup.index_bot]
       exact hAeven
-    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup H) := Q.isPGroup.isNilpotent
     have hnorm : ((derivedSeries H k).subgroupOf (Q : Subgroup H)).Normal :=
       Subgroup.normal_subgroupOf
     obtain ⟨⟨y, hyB, hyZ⟩, hy1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp
@@ -476,7 +476,7 @@ private theorem qdd_le_oddCoreIn_of_isSolvable (hn : 4 ≤ n) (S : Sylow 2 G)
         exact congrArg (fun q : (Q : Subgroup H) => ((q : H) : G)) h
       have hy2 : IsPGroup 2 (Subgroup.zpowers ((y : H) : G)) := by
         have hQ2 : IsPGroup 2 (((Q : Subgroup H).map H.subtype : Subgroup G)) :=
-          Q.isPGroup'.map H.subtype
+          Q.isPGroup.map H.subtype
         exact hQ2.to_le (Subgroup.zpowers_le.mpr ⟨y, y.2, rfl⟩)
       exact qdd_le_of_le_centralizer hn S f V hy2 (Subgroup.zpowers_le.mpr hyC)
         (Subgroup.mem_zpowers _)
@@ -566,7 +566,7 @@ private theorem qdd_sylow_of_normalizer_le (hn : 4 ≤ n) (S : Sylow 2 G)
   obtain ⟨P, hVP⟩ := hV2.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hVP⟩
   by_contra hnot
-  have hP2 : IsPGroup 2 ((P : Subgroup X).map X.subtype) := P.isPGroup'.map X.subtype
+  have hP2 : IsPGroup 2 ((P : Subgroup X).map X.subtype) := P.isPGroup.map X.subtype
   have hVP' : V < (P : Subgroup X).map X.subtype := by
     refine lt_of_le_of_ne (fun v hv => ⟨⟨v, hVX hv⟩, hVP hv, rfl⟩) ?_
     intro heq
@@ -721,7 +721,7 @@ private theorem qdd_three_dvd_automizerIndex_of_isQDGroup (hn : 4 ≤ n) (S : Sy
     have hu2 : IsPGroup 2 (Subgroup.zpowers
         (Wreathed.wreathModelHom Q e (Wreathed.Original.a (2 ^ m)) : G)) := by
       have hQ2 : IsPGroup 2 (((Q : Subgroup H).map H.subtype : Subgroup G)) :=
-        Q.isPGroup'.map H.subtype
+        Q.isPGroup.map H.subtype
       exact hQ2.to_le (Subgroup.zpowers_le.mpr ⟨_, huZ.1, rfl⟩)
     have huV := qdd_le_of_le_centralizer hn S f V hu2 (Subgroup.zpowers_le.mpr huC)
       (Subgroup.mem_zpowers _)
@@ -823,7 +823,7 @@ theorem frontier_normal_contains_three {G : Type} [Group G] [Finite G] [IsSimple
       obtain ⟨Q, hTQ⟩ := hT2.exists_le_sylow
       have h16 := qdd_sixteen_le_card_sylow hQD Q
       have h8 := qdd_card_le_eight hn S fS hHX hTX P hPV (Subgroup.map_subtype_le _)
-        (Q.isPGroup'.map H.subtype) (fun v hv => ⟨⟨v, hTH hv⟩, hTQ hv, rfl⟩)
+        (Q.isPGroup.map H.subtype) (fun v hv => ⟨⟨v, hTH hv⟩, hTQ hv, rfl⟩)
       rw [Subgroup.card_map_of_injective H.subtype_injective] at h8
       omega
     · exact hns (qdd_isSolvable_of_normalizer_le hn S fS hXH hHX hTX hcon)

@@ -120,7 +120,7 @@ theorem hS_mul_diagTau {τ : K} (hτ : τ ^ 3 = 1) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [hS, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination (-1 : K) * hτ | linear_combination (-τ) * hτ
+    first | linear_combination (-1 : K) * hτ | linear_combination (-τ) * hτ
 
 theorem torusHom_tau_pow {τ : K} (hτ : τ ^ 3 = 1) {τu : Kˣ} (hτu : (τu : K) = τ) (i j : ℕ) :
     torusHom (τu ^ i, τu ^ j) =

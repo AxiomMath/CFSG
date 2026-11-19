@@ -133,6 +133,7 @@ theorem sec7_D1_comm_mem (h71 : Stroth71Statement) (h310chi : Stroth310ChiStatem
   rw [e]
   exact h3
 
+omit [Finite G] in
 theorem sec7_comm_mul_inv_mem_Z (hc : Ctx M Q Z B) {a b v : G} (ha : a ∈ M) (hb : b ∈ M)
     (hav : ⁅a, v⁆ ∈ Z) (hbv : ⁅b, v⁆ ∈ Z) : ⁅a * b⁻¹, v⁆ ∈ Z := by
   have hZn : ∀ m ∈ M, ∀ z ∈ Z, m * z * m⁻¹ ∈ Z := fun m hm z hz =>
@@ -154,7 +155,7 @@ theorem step77FromOneComm_of_inputs (h34 : Stroth34Statement) (h71 : Stroth71Sta
     (hZcard : Sec7ZCardStatement) (h52a : Stroth52aStatement) (hA : Sec7AExistsStatement) :
     Step77FromOneCommStatement := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 hV y hy
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0

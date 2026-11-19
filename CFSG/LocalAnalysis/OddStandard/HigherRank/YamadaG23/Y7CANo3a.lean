@@ -21,7 +21,6 @@ theorem y7c_seven_cube_of_indep {A : Type} [Group A] [Finite A] {u₁ u₂ u₃ 
         | exact h12 | exact h12.symm
         | exact h13 | exact h13.symm
         | exact h23 | exact h23.symm
-        | exact Commute.refl _
   have hcomm : Pairwise fun i j : Fin 3 =>
       ∀ x y : Multiplicative ℤ,
         Commute ((fun k => zpowersHom A (u k)) i x) ((fun k => zpowersHom A (u k)) j y) :=
@@ -56,7 +55,7 @@ theorem y7c_seven_cube_of_indep {A : Type} [Group A] [Finite A] {u₁ u₂ u₃ 
     refine ⟨fun i => Multiplicative.ofAdd ((x.toAdd i).val : ℤ), ?_⟩
     apply Multiplicative.ext
     funext i
-    simp [hπ_apply, ZMod.natCast_zmod_val]
+    simp [hπ_apply]
   have hker : φ.ker ≤ π.ker := by
     intro g hg
     change φ g = 1 at hg
@@ -78,7 +77,7 @@ theorem y7c_seven_cube_of_indep {A : Type} [Group A] [Finite A] {u₁ u₂ u₃ 
   have hpi : π.ker.index = 7 ^ 3 := by
     rw [Subgroup.index_ker π, MonoidHom.range_eq_top.mpr hsurj, Subgroup.card_top]
     rw [← Nat.card_congr (Multiplicative.ofAdd (α := Fin 3 → ZMod 7))]
-    simp [Nat.card_fun]
+    simp
   have hmain := Subgroup.index_dvd_of_le hker
   rw [hpi, Subgroup.index_ker φ] at hmain
   exact dvd_trans hmain (Subgroup.card_subgroup_dvd_card φ.range)

@@ -8,6 +8,7 @@ open Subgroup CFSG.LocalAnalysis.WeakClosure81.OddCentral
 section
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem le_center_of_comm {N : Subgroup Y} [hN : N.Normal] {d₀ : Y}
     (hgen : normalClosure ({d₀} : Set Y) = ⊤) (h : ∀ x ∈ N, d₀ * x = x * d₀) :
     N ≤ center Y := by
@@ -29,6 +30,7 @@ theorem le_center_of_comm {N : Subgroup Y} [hN : N.Normal] {d₀ : Y}
   intro g
   exact (mem_centralizer_iff.mp (hcl (mem_top g)) x hx).symm
 
+omit [Finite Y] in
 theorem commute_of_comm_mem {P Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P)
     (hPodd : Odd (Nat.card P)) {e x : Y} (he : e * e = 1) (h : e * x * e⁻¹ * x⁻¹ ∈ Z₀) :
     e * x = x * e := by
@@ -49,6 +51,7 @@ theorem commute_of_comm_mem {P Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) (hZP
   calc e * x = z * x * e := by rw [← hex]; group
     _ = x * e := by rw [hz1, one_mul]
 
+omit [Finite Y] in
 theorem max_of_min {P : Subgroup Y} {d : Fin 3 → Y} (hgen : normalClosure ({d 0} : Set Y) = ⊤)
     (hmin : ∀ N : Subgroup Y, N.Normal → N < P → ∀ i, ∀ x ∈ N, d i * x = x * d i) :
     ∀ N : Subgroup Y, N.Normal → P ⊓ center Y ≤ N → N ≤ P → N = P ⊓ center Y ∨ N = P := by
@@ -60,6 +63,7 @@ theorem max_of_min {P : Subgroup Y} {d : Fin 3 → Y} (hgen : normalClosure ({d 
     have hc := le_center_of_comm hgen (hmin N hN hlt 0)
     exact le_antisymm (le_inf hNP hc) hZN
 
+omit [Finite Y] in
 theorem comm_c_of_comm {P Z₀ R : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Normal] {d : Fin 3 → Y}
     (hS : ∀ i, ∀ r ∈ R, ∀ a ∈ P,
       (d i * r * (d i)⁻¹ * r⁻¹) * a * (d i * r * (d i)⁻¹ * r⁻¹)⁻¹ * a⁻¹ ∈ Z₀) :
@@ -84,7 +88,8 @@ theorem comm_c_of_comm {P Z₀ R : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Norm
     rw [e]; group
   exact (hπ _).mp hc x hx
 
-theorem exists_mul_centralizer {R : Subgroup Y} [hRn : R.Normal] (hRodd : Odd (Nat.card R))
+omit [Finite Y] in
+theorem exists_mul_centralizer {R : Subgroup Y} [_hRn : R.Normal] (hRodd : Odd (Nat.card R))
     {c : Y} (hc2 : c * c = 1) (hcR : ∀ g : Y, c⁻¹ * (g * c * g⁻¹) ∈ R) :
     ∀ y : Y, ∃ r ∈ R, ∃ g : Y, g * c * g⁻¹ = c ∧ y = r * g := by
   intro y
@@ -125,6 +130,7 @@ theorem exists_mul_centralizer {R : Subgroup Y} [hRn : R.Normal] (hRodd : Odd (N
   calc r⁻¹ * y * c * (r⁻¹ * y)⁻¹ = r⁻¹ * (y * c * y⁻¹) * r := by group
     _ = c := by rw [← hrc]; group
 
+omit [Finite Y] in
 theorem invSet_nontrivial {P Z₀ : Subgroup Y} [hPn : P.Normal] [hZn : Z₀.Normal]
     (hZc : Z₀ ≤ center Y) (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀)
     (hPodd : Odd (Nat.card P)) {d : Fin 3 → Y} (hd : ∀ i, d i * d i = 1)

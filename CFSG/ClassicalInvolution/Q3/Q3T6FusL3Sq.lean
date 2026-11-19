@@ -79,7 +79,7 @@ theorem invol_eq_or_of_mem_USet3 {U : Subgroup G} (hU : U ∈ USet (CoreAssembly
   · obtain ⟨J₂, hJ₂, hRJ₂, -, -⟩ := mem_RSet_iff.mp h
     obtain ⟨j, hj⟩ := Sec6Gen.exists_uniqueInvolution hΩ hJ₂
     obtain ⟨-, -, -, -, -, -, -, -, h4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ hU
-    have huU : u ∈ U := S1911.mem_of_le_member hu hUJ (S.isPGroup'.to_le hUS) (by omega)
+    have huU : u ∈ U := S1911.mem_of_le_member hu hUJ (S.isPGroup.to_le hUS) (by omega)
     have hju : u = j := (hj.unique u (hRJ₂ (Subgroup.mem_sup_left huU)) hu.sq).resolve_left
       hu.ne_one
     exact hF.invol_eq_or hη hinv hWη hV₀η hJ₂ (le_sup_right.trans hRJ₂) (hju ▸ hj)
@@ -127,7 +127,7 @@ theorem exists_conj_eq_of_comm3 {x : G} (hx : x ∈ S19B.sec19BPrime K S W L) {J
       refine ⟨(Subgroup.mem_normalizer_iff.mp hxJ y).mpr hyJ, ?_⟩
       have h := Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hxz) hyz) hxz
       simpa [mul_assoc] using h
-  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hNH : J ⊓ Subgroup.centralizer ({z} : Set G) ⊔ Subgroup.zpowers x ≤
       Subgroup.normalizer ((J ⊓ Subgroup.centralizer ({z} : Set G) : Subgroup G) : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hxH)

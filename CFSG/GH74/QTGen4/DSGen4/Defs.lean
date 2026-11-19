@@ -37,7 +37,7 @@ variable {G : Type} [Group G]
 
 @[expose] def dsCentMod (P L Q : Subgroup G) : Subgroup G where
   carrier := {p | p ∈ P ∧ p ∈ Subgroup.normalizer (Q : Set G) ∧ ∀ l ∈ L, ⁅p, l⁆ ∈ Q}
-  one_mem' := ⟨P.one_mem, Subgroup.one_mem _, fun l _ => by simpa using Q.one_mem⟩
+  one_mem' := ⟨P.one_mem, Subgroup.one_mem _, fun l _ => by simp⟩
   mul_mem' := by
     rintro p p' ⟨hp, hpN, hpc⟩ ⟨hp', hp'N, hp'c⟩
     refine ⟨P.mul_mem hp hp', Subgroup.mul_mem _ hpN hp'N, fun l hl => ?_⟩

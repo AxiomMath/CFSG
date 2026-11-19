@@ -26,7 +26,7 @@ theorem exists_pow_mem_supportedFixedDerived_of_fixedSpace_eq_six
         (x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K))).subgroupOf
         (CFSG.RankThree.Classical2.orthDerived (TableBOrth.qPlusForm K 4)) := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   let Q : QuadraticForm K (Fin 4 ⊕ Fin 4 → K) := TableBOrth.qPlusForm K 4
   let xV : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K) := x'
@@ -43,7 +43,7 @@ theorem exists_pow_mem_supportedFixedDerived_of_fixedSpace_eq_six
   have hmem' : (X ^ 2 + X + 1 : K[X]) ∈
       primaryFactors (x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)).toLinearMap := by
     simpa [xV] using hmem
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨irreducible_of_mem_primaryFactors hmem'⟩
   have hs3 : s = 3 := by rw [hs] at h6; omega
   have hsm' : s + primaryMultiplicity xV.toLinearMap (X ^ 2 + X + 1) = 4 := by

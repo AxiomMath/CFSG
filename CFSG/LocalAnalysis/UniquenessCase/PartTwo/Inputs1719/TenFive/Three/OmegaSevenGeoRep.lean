@@ -15,12 +15,12 @@ open CFSG.LieType.Universal.Spin CFSG.ClassicalGroups.Orthogonal CFSG.Open Quadr
   CFSG.ComponentClassification.CatalogueBHigherLinearField
 
 private theorem omSevenGR_card_idx : Fintype.card OmegaSevenIdx = 7 := by
-  simp [OmegaSevenIdx, Fintype.card_sum, Fintype.card_fin, Fintype.card_unit]
+  simp [OmegaSevenIdx, Fintype.card_sum, Fintype.card_fin]
 
 private theorem omSevenGR_ringEquiv_eq_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
     (φ : K ≃+* K) : φ = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardF : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hcard : Fintype.card K = Fintype.card (ZMod 3) := by rw [hcardF, ZMod.card]
   let e : K ≃+* ZMod 3 := FiniteField.ringEquivOfCardEq hcard
@@ -28,7 +28,7 @@ private theorem omSevenGR_ringEquiv_eq_one {K : Type} [Field K] [Finite K] (hK :
   apply RingEquiv.ext
   intro x
   have h := congrArg (fun g : ZMod 3 ≃+* ZMod 3 => g (e x)) hψ
-  simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply, RingEquiv.refl_apply] at h
+  simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply] at h
   exact e.injective h
 
 private theorem omSevenGR_det_conj {K : Type} [Field K]
@@ -42,7 +42,7 @@ private theorem omSevenGR_det_conj {K : Type} [Field K]
 
 private theorem omSevenGR_two_ne_zero {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3) :
     (2 : K) ≠ 0 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   intro hc
   have hdvd : ringChar K ∣ 2 := ringChar.dvd hc
   have hc2 : ringChar K = 2 := by
@@ -63,7 +63,7 @@ theorem exists_isometry_of_involution {K : Type} [Field K] [Finite K] (hK : Nat.
             A * (x : Matrix.GeneralLinearGroup OmegaSevenIdx K) * A⁻¹ ∧
           σ (QuotientGroup.mk x) = QuotientGroup.mk y := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h2 : (2 : K) ≠ 0 := omSevenGR_two_ne_zero hK
   have hadm : StatedLieAdmissible .POmegaOdd 3 3 1 :=
@@ -217,7 +217,7 @@ theorem exists_isometry_of_involution {K : Type} [Field K] [Finite K] (hK : Nat.
     intro hc0
     have hM0 : M = 0 := by rw [hc, hc0, zero_smul]
     have h1 : M (1 : OmegaSevenIdx → K) = 0 := by rw [hM0]; rfl
-    have h2 : (1 : OmegaSevenIdx → K) = 0 := L.injective (by simpa [M] using h1)
+    have h2 : (1 : OmegaSevenIdx → K) = 0 := L.injective (by simp [M] at h1)
     exact one_ne_zero h2
   let u : Kˣ := Units.mk0 c hc0
   have hBscalar : B = Matrix.GeneralLinearGroup.scalar OmegaSevenIdx u := by

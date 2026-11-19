@@ -87,14 +87,14 @@ private lemma toMatrix_RW {e : Module.Basis (Fin 4) (ZMod p) U}
       (if r = c then (1 : ZMod p) else 0) -
         (if r = i then (Kz i c : ZMod p) else 0) by simp [Mzp, Matrix.one_apply]]
   by_cases hrc : r = c
-  · simp only [if_pos hrc]
+  · simp only [ite_eq_left hrc]
     by_cases hri : r = i
-    · simp only [if_pos hri, mul_one]
-    · simp only [if_neg hri, mul_zero]
-  · simp only [if_neg hrc]
+    · simp only [ite_eq_left hri, mul_one]
+    · simp only [ite_eq_right hri, mul_zero]
+  · simp only [ite_eq_right hrc]
     by_cases hri : r = i
-    · simp only [if_pos hri, mul_one]
-    · simp only [if_neg hri, mul_zero]
+    · simp only [ite_eq_left hri, mul_one]
+    · simp only [ite_eq_right hri, mul_zero]
 
 private lemma toMatrix_wordW {e : Module.Basis (Fin 4) (ZMod p) U}
     {φ : Fin 4 → Module.Dual (ZMod p) U} (hφ : ∀ i, φ i (e i) = 2)

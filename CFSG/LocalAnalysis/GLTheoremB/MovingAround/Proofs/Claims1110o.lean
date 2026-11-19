@@ -98,7 +98,7 @@ theorem exists_langSetup_component_E8Two {K : Type} [Field K] [Finite K] (hK : N
   obtain ⟨h, hh, hβh, hh5, hh1⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.ExcUntw.exists_inndiag_of_mem_innAutDerived_E
       (Or.inr (Or.inr rfl)) Nat.prime_five β hβmem hβ5 hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hKpow : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]

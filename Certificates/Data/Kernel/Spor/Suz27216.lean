@@ -49,7 +49,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.SporSch CFSG.KS.Mathieu CFSG.KS.Pr
 @[expose] noncomputable def code3 (p0 p1 p2 : Nat) : Nat :=
   Nat.lor p0 (Nat.lor (Nat.shiftLeft p1 (nat_lit 11)) (Nat.shiftLeft p2 (nat_lit 22)))
 
-@[expose] noncomputable def cent2 (n w : Nat) (LR TR TRI G : Nat → Nat) (k : Nat) (SV F2 : List Nat)
+@[expose] noncomputable def cent2 (n w : Nat) (LR TR _TRI G : Nat → Nat) (k : Nat) (SV F2 : List Nat)
     (A AI B BI p0 p1 : Nat) : Bool :=
   strictB (Nat.mul n w) (fun nw =>
   List.rec (motive := fun _ => Bool) true (fun q _ ih =>

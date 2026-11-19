@@ -66,9 +66,9 @@ theorem brec_true {P : Nat → Prop} {c : Bool} {e t : Nat} (hc : c = true) (ht 
   exact ht
 
 theorem foldr_pres {P : Nat → Prop} {f : Nat → Nat → Nat} :
-    ∀ {l : List Nat}, (∀ i ∈ l, ∀ s, P s → P (f i s)) → ∀ s, P s → P (l.foldr f s)
+    ∀ {_l : List Nat}, (∀ i ∈ _l, ∀ s, P s → P (f i s)) → ∀ s, P s → P (_l.foldr f s)
   | [], _, _, hs => hs
-  | a :: l, hf, s, hs => hf a List.mem_cons_self _
+  | a :: _l, hf, s, hs => hf a List.mem_cons_self _
       (foldr_pres (fun i hi => hf i (List.mem_cons_of_mem a hi)) s hs)
 
 theorem foldr_mem {P : Nat → Prop} {f : Nat → Nat → Nat} {k : Nat} :

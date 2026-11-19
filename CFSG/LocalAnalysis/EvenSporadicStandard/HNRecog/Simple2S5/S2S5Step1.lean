@@ -30,7 +30,7 @@ theorem step1 {G : Type*} [Group G] [Finite G] {P Q : Subgroup G} (hQP : Q ≤ P
       show (g * k * g⁻¹ : ↥S) ∈ K
       rw [Subgroup.mem_subgroupOf]
       simpa using h
-    haveI : K.Normal := hKnormal
+    have : K.Normal := hKnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hKbot | hKtop
     · exfalso
       have hKcard : Nat.card K = 1 := Subgroup.card_eq_one.mpr hKbot
@@ -65,7 +65,7 @@ theorem step1 {G : Type*} [Group G] [Finite G] {P Q : Subgroup G} (hQP : Q ≤ P
       have hcoe : ((g * k * g⁻¹ : ↥S) : G) = (g : G) * (k : G) * (g : G)⁻¹ := rfl
       rw [hcoe, hconj]
       exact hkA
-    haveI : L.Normal := hLnormal
+    have : L.Normal := hLnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L with hLbot | hLtop
     · have hd : Disjoint (Subgroup.zpowers a) S := Subgroup.subgroupOf_eq_bot.mp hLbot
       exact disjoint_iff.mp (disjoint_comm.mp hd)
@@ -100,7 +100,7 @@ theorem step1 {G : Type*} [Group G] [Finite G] {P Q : Subgroup G} (hQP : Q ≤ P
           = (q.1 : G)⁻¹ * ((p.1 : G) * (p.2 : G)) * (p.2 : G)⁻¹ := by
             simp [mul_assoc]
         _ = (q.1 : G)⁻¹ * ((q.1 : G) * (q.2 : G)) * (p.2 : G)⁻¹ := by rw [hval]
-        _ = (q.2 : G) * (p.2 : G)⁻¹ := by simp [mul_assoc]
+        _ = (q.2 : G) * (p.2 : G)⁻¹ := by simp
     have hmemS : (q.1 : G)⁻¹ * (p.1 : G) ∈ S :=
       S.mul_mem (S.inv_mem q.1.2) p.1.2
     have hmemA : (q.1 : G)⁻¹ * (p.1 : G) ∈ Subgroup.zpowers a := by

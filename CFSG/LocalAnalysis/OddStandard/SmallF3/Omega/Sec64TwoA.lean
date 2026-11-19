@@ -74,9 +74,9 @@ theorem Sec64Cfg.norm_U {T H : Subgroup G} {x y : G} (c : Sec64Cfg T H x y)
 theorem sec64_unique_inv [Finite G] {U : Subgroup G} (hU : IsCyclic ↥U) {a b : G} (ha : a ∈ U)
     (hb : b ∈ U) (ha2 : orderOf a = 2) (hb2 : orderOf b = 2) : a = b := by
   classical
-  haveI : IsCyclic ↥U := hU
-  haveI : Finite ↥U := Subtype.finite
-  haveI : Fintype ↥U := Fintype.ofFinite ↥U
+  have : IsCyclic ↥U := hU
+  have : Finite ↥U := Subtype.finite
+  have : Fintype ↥U := Fintype.ofFinite ↥U
   have ha2' : (⟨a, ha⟩ : ↥U) ^ 2 = 1 := by
     apply Subtype.ext
     have h : a ^ 2 = 1 := by simpa [ha2] using pow_orderOf_eq_one a
@@ -113,7 +113,7 @@ theorem sec64_unique_inv [Finite G] {U : Subgroup G} (hU : IsCyclic ↥U) {a b :
 theorem sec64_two_le_pRank [Finite G] {T : Subgroup G} {x y : G} (hx : orderOf x = 2)
     (hy : orderOf y = 2) (hxy : x * y = y * x) (hne : x ≠ y) (hxT : x ∈ T) (hyT : y ∈ T) :
     2 ≤ CFSG.Open.pRank 2 T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy_not : y ∉ Subgroup.zpowers x := by
     intro hyz
     exact hne (sec64_unique_inv (U := Subgroup.zpowers x) (Subgroup.isCyclic_zpowers x)

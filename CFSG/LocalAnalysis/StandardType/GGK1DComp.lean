@@ -75,13 +75,13 @@ theorem ggK1DCo_component_eq {p nf d : ℕ} {tw : Bool} {r : ℕ} {K : Type} [Fi
       CFSG.IsQuasisimple ↥⁅F.A q.1 q.2, F.A q.1 q.2⁆ ∧
         J = ⁅F.A q.1 q.2, F.A q.1 q.2⁆ := by
   classical
-  haveI : Finite (LargeEvenProj (LargeEvenOmega Q)) := inferInstance
+  have : Finite (LargeEvenProj (LargeEvenOmega Q)) := inferInstance
   have hJ' : CFSG.Open.IsComponentOf J
       (fixSubgroup (MulAut.conj (LargeEvenProjMk (LargeEvenOmega Q) x))) := by
     rw [← ggK1Dc_ggFixSub_eq_fixSubgroup]
     exact (CFSG.Assembly.isComponentOf_iff_open).mp hJ
-  haveI : Fintype F.blkIdx := F.fintype
-  haveI : Finite (Σ i, Fin (F.blk i).length) := Finite.of_fintype _
+  have : Fintype F.blkIdx := F.fintype
+  have : Finite (Σ i, Fin (F.blk i).length) := Finite.of_fintype _
   have hmain :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.components_conj_of_orbit_family
       (X := LargeEvenProj (LargeEvenOmega Q)) (T := LargeEvenProj (LargeEvenOmega Q))
@@ -126,7 +126,7 @@ theorem ggK1DCo_component_inj {p nf d : ℕ} {tw : Bool} {r : ℕ} {K : Type} [F
     {x : ↥(LargeEvenOmega Q)} {m : List ℕ} (F : ggK1DCo_Family p nf d tw r m K Q x)
     {q q' : Σ i, Fin (F.blk i).length}
     (hq : CFSG.IsQuasisimple ↥⁅F.A q.1 q.2, F.A q.1 q.2⁆)
-    (hq' : CFSG.IsQuasisimple ↥⁅F.A q'.1 q'.2, F.A q'.1 q'.2⁆)
+    (_hq' : CFSG.IsQuasisimple ↥⁅F.A q'.1 q'.2, F.A q'.1 q'.2⁆)
     (h : ⁅F.A q.1 q.2, F.A q.1 q.2⁆ = ⁅F.A q'.1 q'.2, F.A q'.1 q'.2⁆) : q = q' := by
   classical
   by_contra hne

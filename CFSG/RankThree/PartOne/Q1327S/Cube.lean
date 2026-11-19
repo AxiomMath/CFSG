@@ -52,7 +52,7 @@ theorem false_of_noncomm_cube {p : ℕ} (hp : p.Prime) {Ē : Subgroup Q}
   have hPEcard : Nat.card PE = p ^ 3 := by
     rw [Sylow.card_eq_multiplicity, hfac]
   have hPEc : (PE : Subgroup Q) ≤ Subgroup.centralizer (Ē : Set Q) :=
-    hcen PE PE.isPGroup' hEPE
+    hcen PE PE.isPGroup hEPE
   set Z : Subgroup PE := Ē.subgroupOf PE with hZ
   have hZc : Z ≤ Subgroup.center PE := by
     intro z hz

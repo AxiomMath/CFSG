@@ -41,7 +41,7 @@ private theorem eq_of_ggLabelIso_of_g2 {labG lab : LargeEvenLabel}
     rcases hP' with h5 | h5 <;> simp_all
 
 theorem kg5a_exc
-    {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤)
+    {X : Type} [Group X] [Finite X] (_hX : commutator X = ⊤)
     {A : Subgroup (MulAut X)} {δ : MulAut X} {J : Subgroup X}
     (hD : DatumOn (fun t => t = .E6 ∨ t = .twE6 ∨ t = .E7 ∨ t = .E8) X A δ J) :
     ¬ LargeEvenMarking J (fun lab _ _ _ _ _ => GGLabelG2 lab) := by

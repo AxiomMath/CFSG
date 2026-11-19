@@ -650,9 +650,9 @@ theorem f1LeafAlt_holds : CoverLeafAltFor F1Concl := by
   have hzQ : Nat.card (center Q) = 2 := card_center_of_cover hquasi hz h2 (by omega) eQ
   have hGr : Nat.card (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) = 2 :=
     card_griess_alt (by omega)
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (alternatingGroup (Fin (m + 2)))) :=
     Nat.finite_of_card_ne_zero (by rw [hGr]; norm_num)
-  haveI := finite_E hm
+  have := finite_E hm
   obtain ⟨e⟩ := (RankThree.PerfectCover.hopf_central_cover_consequences
     (alternatingGroup (Fin (m + 2)))).2 (fun S => card_sylow_of_card_two hGr S) Q (E (m + 2))
     hquasi (isQuasisimple_E hm) hzQ (card_center_E hm) ⟨eQ⟩ (quotCenter_E hm)

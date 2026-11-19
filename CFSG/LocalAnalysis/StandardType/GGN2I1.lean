@@ -95,8 +95,8 @@ theorem ggI1PairRankOn_n2 :
   subst hlab
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeOmegaPlus] at hraw
   obtain ⟨k, hkfield, hkfin, hkcard, hQR⟩ := hraw
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
+  let : Field k := hkfield
+  let : Finite k := hkfin
   let R : Type := LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k 4))
   have hQR' : IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
       ∃ θ : L ⧸ Subgroup.center L ≃* R,
@@ -104,8 +104,8 @@ theorem ggI1PairRankOn_n2 :
   obtain ⟨hsimple, hnonab, θ, hind⟩ := hQR'
   let R₀ := L ⧸ Subgroup.center L
   let q : L →* R₀ := QuotientGroup.mk' (Subgroup.center L)
-  haveI : Group.IsPerfect L := ⟨hperf⟩
-  haveI : Finite R₀ := Finite.of_surjective q (QuotientGroup.mk'_surjective _)
+  have : Group.IsPerfect L := ⟨hperf⟩
+  have : Finite R₀ := Finite.of_surjective q (QuotientGroup.mk'_surjective _)
   have hZR₀ : Subgroup.center R₀ = ⊥ := by
     change Subgroup.center (L ⧸ Subgroup.center L) = ⊥
     exact Group.IsPerfect.center_quotient_center_eq_bot (G := L)

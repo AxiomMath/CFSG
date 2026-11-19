@@ -26,7 +26,7 @@ theorem s16c1_G47_lemmaR {Hs F : Type} [Group Hs] [Finite Hs] [Group F] [Finite 
       (∀ x ∈ Xs, c * x = x * c) → ∀ e : F, ρ c (ρ u e * e) = ρ u e * e) : False := by
   classical
   obtain ⟨q, P, hq, hPN, hPn, hP, hPnt⟩ := s16c1_G47_fit hN hodd hu2 hnN
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hPne : P ≠ ⊥ := by
     rintro rfl
     obtain ⟨n, hn, hne⟩ := hPnt

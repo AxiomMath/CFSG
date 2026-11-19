@@ -58,7 +58,7 @@ theorem letter_inv_smul_ab (k s : ℕ) :
     rw [CFSG.KS.SporSch.J4B.vec_enc J4Real.hK J4InvP.pB.1.1, J4InvP.pB.1.2]
     rfl
   · have e : letter a b (codeL (k + 3)) = b⁻¹ := by simp [letter, codeL]
-    rw [e, inv_smul_toRow (rep_invP hb), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [e, inv_smul_toRow (rep_invP hb), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     change toRow (toVecD 112 (CFSG.Sporadic.SmallF2.Native.vecMulN 112 Bn.2 s)) = _
     rw [CFSG.KS.SporSch.J4B.vec_enc J4Real.hK J4InvP.pB.2.1, J4InvP.pB.2.2]
 

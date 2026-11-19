@@ -39,7 +39,7 @@ private lemma ksind_commutator_le_of_le {J : Type} [Group J] {F K : Subgroup J}
   exact K.mul_mem (K.mul_mem (K.mul_mem (h ha) (h hb)) (K.inv_mem (h ha))) (K.inv_mem (h hb))
 
 private lemma ksind_map_fixedBy_zpowers_le {J : Type} [Group J]
-    {W : Subgroup (MulAut J)} {v : MulAut J} (hvW : v ∈ W)
+    {W : Subgroup (MulAut J)} {v : MulAut J} (_hvW : v ∈ W)
     (hcomm : ∀ w ∈ W, w * v = v * w) (w : W) :
     (fixedBy (Subgroup.zpowers v)).map ((w : MulAut J) : J →* J) ≤
       fixedBy (Subgroup.zpowers v) := by
@@ -98,7 +98,7 @@ theorem sevenFree_of_prime_step (Good : ∀ (J : Type) [Group J], Prop)
       IsPGroup 7 W → Nat.card W = 7 → ∀ Z : Sylow 3 J,
       (∀ w ∈ W, ∀ z ∈ (Z : Subgroup J), w z = z) → StepConcl Good W (Z : Subgroup J))
     (J : Type) [Group J] (hJ : Good J) : SevenFree J := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let Q : ℕ → Prop := fun n => ∀ (J : Type) [Group J], Good J →
     ∀ W : Subgroup (MulAut J), IsPGroup 7 W → Nat.card W = n → W ≠ ⊥ →
       ∀ Z : Sylow 3 J, (∀ w ∈ W, ∀ z ∈ (Z : Subgroup J), w z = z) →
@@ -108,12 +108,12 @@ theorem sevenFree_of_prime_step (Good : ∀ (J : Type) [Group J], Prop)
     induction n using Nat.strong_induction_on with
     | _ n ih =>
       intro J _ hJ W hW hcard hWne Z hZ
-      haveI hJfin : Finite J := (hGood J hJ).1
-      haveI hAutFin : Finite (MulAut J) := MulEquiv.finite_left
+      have hJfin : Finite J := (hGood J hJ).1
+      have hAutFin : Finite (MulAut J) := MulEquiv.finite_left
       have hWnt : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).mpr hWne
-      haveI := hWnt
+      have := hWnt
       have hcenter_nt : Nontrivial (Subgroup.center ↥W) := hW.center_nontrivial
-      haveI := hcenter_nt
+      have := hcenter_nt
       have hcenter_p : IsPGroup 7 ↥(Subgroup.center ↥W) :=
         hW.to_subgroup (Subgroup.center ↥W)
       have h7dvd : 7 ∣ Nat.card ↥(Subgroup.center ↥W) := by

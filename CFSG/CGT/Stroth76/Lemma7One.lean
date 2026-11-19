@@ -67,11 +67,15 @@ section Main
 
 variable {G : Type*} [Group G] [Finite G] (K : Config G)
 
+omit [Finite G] in
 theorem tElt_x_inv : tElt K ((0, 3, 0), 0) = K.x⁻¹ := by rw [tElt_ev, K.ev_030]
+omit [Finite G] in
 theorem tElt_y_inv : tElt K ((0, 0, 3), 0) = K.y⁻¹ := by
   rw [tElt_ev, K.y_inv_eq]
   simp [Config.ev, show (3 : ZMod 4).val = 3 from rfl]
+omit [Finite G] in
 theorem tElt_xyuv' : tElt K ((0, 1, 1), (1, 0, 0)) = K.x * K.y * K.uv := tElt_xyuvC K
+omit [Finite G] in
 theorem tElt_xinv_t : tElt K ((0, 3, 0), (0, 1, 0)) = K.x⁻¹ * K.t := by
   rw [show ((0, 3, 0), (0, 1, 0)) = tmul ((0, 3, 0), 0) (0, (0, 1, 0)) from rfl, tElt_mul,
     tElt_x_inv, tElt_gen_t]
@@ -97,6 +101,7 @@ theorem tElt_xinv_t : tElt K ((0, 3, 0), (0, 1, 0)) = K.x⁻¹ * K.t := by
   hz := by rw [tElt_zero, ← pow_two, hs2]
   hsT := hsT
 
+omit [Finite G] in
 theorem s_not_mem_T {s : G} (hsx : s⁻¹ * K.x * s = K.x⁻¹) (hsy : s⁻¹ * K.y * s = K.y⁻¹) :
     s ∉ Tsub K := by
   intro hs
@@ -140,10 +145,12 @@ variable {K}
     rw [h1, h0, hr, zero_add] at h2
     exact h2.symm
 
+omit [Finite G] in
 theorem charSub_le (D : IdxTwo K) (hD) (χ) (hχ) : charSub D hD χ hχ ≤ D.Ssub := by
   rintro _ ⟨r, -, rfl⟩
   exact D.sElt_mem r
 
+omit [Finite G] in
 theorem card_charSub (D : IdxTwo K) (hD) (χ : Sc → ZMod 2) (hχ) [DecidablePred (fun r => χ r = 0)] :
     Nat.card (charSub D hD χ hχ) = Fintype.card {r : Sc // χ r = 0} := by
   rw [← Nat.card_eq_fintype_card]
@@ -155,11 +162,13 @@ theorem card_charSub (D : IdxTwo K) (hD) (χ : Sc → ZMod 2) (hχ) [DecidablePr
   · rintro ⟨g, r, hr, rfl⟩
     exact ⟨⟨r, hr⟩, rfl⟩
 
+omit [Finite G] in
 theorem not_mem_charSub (D : IdxTwo K) (hD) (χ) (hχ) {r : Sc} (hr : χ r ≠ 0) :
     D.sElt r ∉ charSub D hD χ hχ := by
   rintro ⟨r', hr', he⟩
   exact hr (D.sElt_injective he ▸ hr')
 
+omit [Finite G] in
 theorem isConj_of_mem_tab (D : IdxTwo K) (hD : ∀ a b, D.smul a b = sm2 a b)
     {tab : List (Sc × Sc × Sc)} {targets : List Sc} (hchk : checkTab tab targets = true)
     {e : Sc × Sc × Sc} (he : e ∈ tab) :

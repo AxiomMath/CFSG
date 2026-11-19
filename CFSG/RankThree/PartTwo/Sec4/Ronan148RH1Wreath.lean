@@ -33,7 +33,7 @@ theorem e27Move_of_wreath (hf : WreathFacts T tw) (hW : Nat.card (wreathW T tw) 
     (hmv : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → ∃ n ∈ Subgroup.normalizer (baseA T : Set X),
       n ∉ Subgroup.normalizer ((Subgroup.zpowers (vecElt T v) : Subgroup X) : Set X)) :
     E27Move X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine e27Move_of_rep (E₀ := baseA T) (fun A hA hA27 => ?_) (fun s hs hs1 => ?_)
   · obtain ⟨g, hg⟩ := Item434AltPerm.exists_le_map_conj_of_card (P₀ := wreathW T tw)
       (by rw [hW, h3]; norm_num) (CFSG.RankThree.PartTwo.Sec5.isPGroup_of_isElemAbelian hA)

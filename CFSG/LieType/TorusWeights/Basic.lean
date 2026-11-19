@@ -136,7 +136,7 @@ private theorem prod_ite_eq_one {α : Type*} [DecidableEq α] (f : Fin n → α)
       push Not at h
       exact hf (funext h)
     obtain ⟨k, hk⟩ := hex
-    rw [if_neg hf, Finset.prod_eq_zero (Finset.mem_univ k)]
+    rw [ite_eq_right hf, Finset.prod_eq_zero (Finset.mem_univ k)]
     simp [hk]
 
 theorem sum_units_pow (i : ℕ) :
@@ -173,7 +173,7 @@ private theorem sum_zmod_pow_val (u : Kˣ) :
       rw [Fin.sum_univ_eq_sum_range (fun e => (u : K) ^ e) (Nat.card Kˣ), geom_sum_mul, hN,
         sub_self]
     rcases mul_eq_zero.mp hgeom with h' | h'
-    · rw [h', if_neg hu]
+    · rw [h', ite_eq_right hu]
     · exact absurd (Units.ext (sub_eq_zero.mp h')) hu
 
 theorem sum_wtChar (a : Fin n → ZMod (Nat.card Kˣ)) :
@@ -258,8 +258,8 @@ theorem wtProj_of_mem {a b : Fin n → ZMod (Nat.card Kˣ)} {x : X}
   simp only [hterm, ← Finset.sum_smul, sum_wtChar]
   have hcond : b - a = 0 ↔ a = b := by rw [sub_eq_zero, eq_comm]
   by_cases hab : a = b
-  · rw [if_pos (hcond.mpr hab), if_pos hab, one_smul]
-  · rw [if_neg (fun h => hab (hcond.mp h)), if_neg hab, zero_smul]
+  · rw [ite_eq_left (hcond.mpr hab), ite_eq_left hab, one_smul]
+  · rw [ite_eq_right (fun h => hab (hcond.mp h)), ite_eq_right hab, zero_smul]
 
 theorem sum_wtProj (x : X) :
     (∑ a : Fin n → ZMod (Nat.card Kˣ), wtProj h ρ a x) = x := by

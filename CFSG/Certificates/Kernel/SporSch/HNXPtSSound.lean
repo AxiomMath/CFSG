@@ -232,6 +232,7 @@ theorem mulC_pkS {CM3 M A G : Nat} (hc : constsOK CM3 M = true) {a : Nat → Nat
   unfold mulC
   rw [hrec, hRM, hU, hL, hH, hR]
 
+set_option exponentiation.threshold 399 in
 theorem fixAt_iff {T : Nat → Nat} {CM3 M V : Nat} (hc : constsOK CM3 M = true)
     (hV : CFSG.KS.Ord.Canon 5 133 13 V) (i : Nat) :
     fixAt T 464 CM3 M (trM V) i = true ↔ ordMat 5 133 13 1729 V *ᵥ xvec T i = 0 := by
@@ -240,8 +241,8 @@ theorem fixAt_iff {T : Nat → Nat} {CM3 M V : Nat} (hc : constsOK CM3 M = true)
     exact Nat.eq_of_beq_eq_true ((CFSG.KS.bAnd_iff _ _).1 hc).2
   have hA : Nat.land (getRec T 464 i) M =
       ∑ r ∈ Finset.range 64, (if r = 0 then xv T i else 0) * 2 ^ (1729 * r) := by
-    rw [Finset.sum_eq_single 0 (fun r _ hr => by rw [if_neg hr, Nat.zero_mul])
-      (fun h => absurd (Finset.mem_range.2 (by omega)) h), if_pos rfl, Nat.mul_zero, Nat.pow_zero,
+    rw [Finset.sum_eq_single 0 (fun r _ hr => by rw [ite_eq_right hr, Nat.zero_mul])
+      (fun h => absurd (Finset.mem_range.2 (by omega)) h), ite_eq_left rfl, Nat.mul_zero, Nat.pow_zero,
       Nat.mul_one, hM]
     change getRec T 464 i &&& ((1 <<< 399) - 1) = _
     rw [Nat.shiftLeft_eq, Nat.one_mul, Nat.and_two_pow_sub_one_eq_mod]
@@ -258,7 +259,7 @@ theorem fixAt_iff {T : Nat → Nat} {CM3 M V : Nat} (hc : constsOK CM3 M = true)
     have e := h l (Finset.mem_range.2 (by omega))
     rw [Nat.mul_eq_zero] at e
     rcases e with e | e
-    · rw [Nat.div_eq_of_lt hl, Nat.mod_eq_of_lt hl, if_pos (by omega)] at e
+    · rw [Nat.div_eq_of_lt hl, Nat.mod_eq_of_lt hl, ite_eq_left (by omega)] at e
       simp only [↓reduceIte] at e
       exact e
     · exact absurd e (by positivity)
@@ -382,9 +383,9 @@ theorem sk_term (y : Nat) (f : Bool) (P : Prop) [Decidable P] (h1 : f = true ↔
       (Bool.rec (motive := fun _ => Nat) (nat_lit 0) (nat_lit 1) f) (Nat.beq y (nat_lit 0)) =
       if P then 1 else 0 := by
   by_cases hP : P
-  · rw [if_pos hP, h2 hP, h1.2 hP]
+  · rw [ite_eq_left hP, h2 hP, h1.2 hP]
     rfl
-  · rw [if_neg hP]
+  · rw [ite_eq_right hP]
     cases hf : f
     · cases Nat.beq y 0 <;> rfl
     · exact absurd (h1.1 hf) hP
@@ -450,7 +451,7 @@ theorem pre_zero {T : Nat → Nat} {CM3 M V SC SD : Nat} (hc : constsOK CM3 M = 
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun k hk => ?_
     simp_rw [mul_ite, mul_zero]
-    rw [Finset.sum_ite_eq (range 133) (jt g k), if_pos (Finset.mem_range.2
+    rw [Finset.sum_ite_eq (range 133) (jt g k), ite_eq_left (Finset.mem_range.2
       (hD2 g (Finset.mem_range.1 hg) k (Finset.mem_range.1 hk)))]
   have e2 : ((∑ g ∈ range NG, ∑ k ∈ range (cnt g), xe T i (jt g k) * w g k s : ℕ) : ZMod 5) = 0 := by
     rw [e1, Nat.cast_sum, Finset.sum_congr rfl fun j hj => by
@@ -574,7 +575,7 @@ theorem sLane_zeroV {T : Nat → Nat} {W J GO b r LW Q NG N SL SH CMS : Nat} (hr
   · rw [decide_eq_true hq, Bool.true_and, Nat.testBit_div_two_pow,
       show q + 208 * r = 13 * (16 * r + q / 13) + q % 13 by omega, FY _ _ (Nat.mod_lt _ (by norm_num))]
     beta_reduce
-    rw [if_pos (by omega), show (16 * r + q / 13) / 16 = r by omega,
+    rw [ite_eq_left (by omega), show (16 * r + q / 13) / 16 = r by omega,
       show (16 * r + q / 13) % 16 = q / 13 by omega, hz _ (by omega), Nat.zero_testBit]
   · rw [decide_eq_false hq, Bool.false_and]
 
@@ -620,8 +621,8 @@ theorem sk_nIf (a j w : Nat) :
   · have hne : a ≠ j := fun e => by
       rw [e, Nat.beq_refl] at hb
       cases hb
-    rw [if_neg hne]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+    rw [ite_eq_right hne]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 theorem sColSum_eq (W J GO s j : Nat) : sColSum W J GO s j =
     ∑ g ∈ range 2, ∑ k ∈ range (fldW GO (8 * (g + 1)) 8 - fldW GO (8 * g) 8),
@@ -647,6 +648,7 @@ theorem sPreOK_parts {CM3 V W J GO SC SD : Nat} (h : sPreOK CM3 V W J GO SC SD =
       Nat.beq (mulC CM3 SC V) SD = true :=
   sk_and4 h
 
+set_option exponentiation.threshold 110656 in
 theorem sLane_of_ok {T : Nat → Nat} {CM3 M V W J GO SC SD : Nat} (hc : constsOK CM3 M = true)
     (hV : Canon 5 133 13 V) (h : sPreOK CM3 V W J GO SC SD = true) (b : Nat) :
     ∀ r < hnxC b, ordMat 5 133 13 1729 V *ᵥ xvec T (64 * b + r) = 0 → sLane T W J GO b r = 0 := by

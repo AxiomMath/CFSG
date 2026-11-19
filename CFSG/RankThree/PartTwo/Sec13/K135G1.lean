@@ -26,8 +26,8 @@ theorem exists_invariant_two_subgroup_of_central {I S : Type*} [Group I] [Finite
     (f : MulAut I) (fb : MulAut S) (hf : ∀ x, π (f x) = fb (π x))
     (V' : Subgroup S) (hV'1 : V' ≠ ⊥) (hV'2 : IsPGroup 2 V') (hinv : ∀ s ∈ V', fb s ∈ V') :
     ∃ T : Subgroup I, T ≠ ⊥ ∧ IsPGroup 2 T ∧ T.map f.toMonoidHom = T := by
-  haveI : Finite S := Finite.of_surjective π hπ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup I := V'.comap π
   have hfK : K.map f.toMonoidHom ≤ K := by
     rintro _ ⟨x, hx, rfl⟩
@@ -49,8 +49,8 @@ theorem exists_invariant_two_subgroup_of_central {I S : Type*} [Group I] [Finite
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp h2) y)
-  haveI : Group.IsNilpotent V' := hV'2.isNilpotent
-  haveI : Group.IsNilpotent K := Subgroup.isNilpotent_of_ker_le_center φ hφker
+  have : Group.IsNilpotent V' := hV'2.isNilpotent
+  have : Group.IsNilpotent K := Subgroup.isNilpotent_of_ker_le_center φ hφker
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   have hV'card : 2 ∣ Nat.card V' := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hV'2
@@ -73,7 +73,7 @@ theorem exists_invariant_two_subgroup_of_central {I S : Type*} [Group I] [Finite
       (Nat.prime_two.dvd_iff_one_le_factorization hKne).1 hKcard
     have h2 : 2 ^ 1 ≤ 2 ^ (Nat.card K).factorization 2 := Nat.pow_le_pow_right (by norm_num) h1
     omega
-  · exact P.isPGroup'.map K.subtype
+  · exact P.isPGroup.map K.subtype
   · have hchar : (P : Subgroup K).Characteristic := Sylow.characteristic_of_normal P inferInstance
     let fK : K ≃* K := (f.subgroupMap K).trans (MulEquiv.subgroupCongr hK)
     have h1 : (P : Subgroup K).map fK.toMonoidHom = P :=

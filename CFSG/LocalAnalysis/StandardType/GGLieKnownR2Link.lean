@@ -92,21 +92,21 @@ theorem cvec_conj_param
   · obtain ⟨n, hn, hjn⟩ := List.mem_iff_getElem.1 ((hdeg1 _).2 h1)
     let j0 : Fin d := ⟨n, hlen ▸ hn⟩
     have hj0 : L1.getD j0 0 = ν - γ := by rw [getD_eq_getElem' hn, hjn]
-    rw [if_pos ⟨h1, (CoordAux.mem_Deg1.1 hνD).1⟩, Finset.sum_eq_single j0]
-    · rw [if_pos (by rw [hj0]; abel), one_mul, hj0]
+    rw [ite_eq_left ⟨h1, (CoordAux.mem_Deg1.1 hνD).1⟩, Finset.sum_eq_single j0]
+    · rw [ite_eq_left (by rw [hj0]; abel), one_mul, hj0]
     · intro j _ hj
-      rw [if_neg, zero_mul]
+      rw [ite_eq_right, zero_mul]
       intro he
       apply hj
       have e1 : L1.getD j 0 = L1.getD j0 0 := by rw [hj0, he]; abel
       rw [getD_eq_getElem' (hlen ▸ j.2), getD_eq_getElem' hn] at e1
       exact Fin.ext ((hnd.getElem_inj_iff).1 e1)
     · simp
-  · rw [if_neg (fun h => h1 h.1)]
+  · rw [ite_eq_right (fun h => h1 h.1)]
     symm
     rw [Finset.sum_eq_zero, mul_zero]
     intro j _
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     intro he
     apply h1
     have : L1.getD j 0 = ν - γ := by rw [he]; abel
@@ -165,7 +165,7 @@ theorem eq_zero_of_mulVec_two_pow {K : Type} [Field K] [CharP K 2] {d : ℕ}
     (hv : (W ^ 2 ^ k).mulVec v = v) : v = 0 := by
   rcases Nat.eq_zero_or_pos d with rfl | hd
   · exact Subsingleton.elim _ _
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hBc : B * (W + 1) = 1 := mul_eq_one_comm.mp hB
   have hcomm : Commute (W + 1) B := hB.trans hBc.symm
   have hfrob : (W + 1) ^ 2 ^ k = W ^ 2 ^ k + 1 := by
@@ -189,7 +189,7 @@ theorem exists_odd_fpf_of_conj
     ∃ h ∈ Pθ τ K ⊓ S, Odd (orderOf h) ∧
       ∀ q ∈ Qθ τ K, h * q * h⁻¹ * q⁻¹ ∈ Uθ τ K → q ∈ Uθ τ K := by
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hs := heisCoord_spec τ K
   have h0ne : orderOf h0 ≠ 0 := (orderOf_pos h0).ne'
   obtain ⟨k, m, hm, hkm⟩ := Nat.exists_eq_two_pow_mul_odd h0ne

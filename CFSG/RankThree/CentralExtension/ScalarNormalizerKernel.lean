@@ -44,7 +44,7 @@ theorem pKernel_eq_bot_of_normalized_complement [Finite E] [Group.IsPerfect E] {
     change (QuotientGroup.mk (π.subgroupComap H (inclusion hTL t)) : H ⧸ Q.subgroupOf H) = 1 ↔ _
     rw [QuotientGroup.eq_one_iff, mem_subgroupOf]
     rfl
-  have : IsCyclic f.range := isCyclic_range_of_isPGroup T.isPGroup' hcyc f
+  have : IsCyclic f.range := isCyclic_range_of_isPGroup T.isPGroup hcyc f
   exact eq_bot_of_complement_of_cyclic_quotient hC hCp hCU hCD T
     (fun g hg d hd => hLD g (hTL hg) d hd) f (fun t ht => (hf t).1 ht)
     (fun t ht => (hf t).2 (hDU ht))

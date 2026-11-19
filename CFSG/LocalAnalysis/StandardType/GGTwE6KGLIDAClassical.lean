@@ -26,7 +26,7 @@ theorem ggInndiagOnCompAt_classical {lab : LargeEvenLabel} (hlab : LargeEvenInLa
   rcases htag with rfl | rfl | ⟨rfl, hr⟩ | ⟨rfl, hr⟩
   · dsimp only [LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hQ hrank ⊢
     obtain ⟨K, _, _, hK, hQK⟩ := hQ
-    haveI := CFSG.StandardType.charP_two_of_card hK
+    have := CFSG.StandardType.charP_two_of_card hK
     exact ⟨K, inferInstance, inferInstance, hK, hQK,
       fun hR hna hfin s t _ hs3 hs1 ht3 hst hsI htI _ J₁ hJ₁ hM =>
         ggInndiagOnCompBody_of_comps
@@ -35,7 +35,7 @@ theorem ggInndiagOnCompAt_classical {lab : LargeEvenLabel} (hlab : LargeEvenInLa
           hsI htI J₁ hJ₁ hM⟩
   · dsimp only [LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hQ hrank ⊢
     obtain ⟨K, _, _, hK, hQK⟩ := hQ
-    haveI := CFSG.StandardType.charP_two_of_card hK
+    have := CFSG.StandardType.charP_two_of_card hK
     exact ⟨K, inferInstance, inferInstance, hK, hQK,
       fun hR hna hfin s t _ hs3 hs1 ht3 hst hsI htI _ J₁ hJ₁ hM =>
         ggInndiagOnCompBody_of_comps
@@ -43,7 +43,7 @@ theorem ggInndiagOnCompAt_classical {lab : LargeEvenLabel} (hlab : LargeEvenInLa
           hR hna hfin (ggInnerOrUnitaryOnComps_statedSp hK h3 hrank.1) s t hs3 hs1 ht3 hst
           hsI htI J₁ hJ₁ hM⟩
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega)] at hQ ⊢
+    rw [ite_eq_right (by omega)] at hQ ⊢
     dsimp only [LargeEvenRecipeOmegaPlus] at hQ ⊢
     obtain ⟨K, _, _, hK, hQK⟩ := hQ
     exact ⟨K, inferInstance, inferInstance, hK, hQK,
@@ -51,7 +51,7 @@ theorem ggInndiagOnCompAt_classical {lab : LargeEvenLabel} (hlab : LargeEvenInLa
         ggInndiagOnCompBody_of_comps subset_rfl hR hna hfin
           (ggInnerOrUnitaryOnComps_omegaPlus hK h3 hr) s t hs3 hs1 ht3 hst hsI htI J₁ hJ₁ hM⟩
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega), if_neg (by omega)] at hQ ⊢
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)] at hQ ⊢
     dsimp only [LargeEvenRecipeOmegaMinus] at hQ ⊢
     obtain ⟨K, _, _, hK, b, c, hbc, hQK⟩ := hQ
     exact ⟨K, inferInstance, inferInstance, hK, b, c, hbc, hQK,

@@ -33,7 +33,7 @@ theorem ystar_eq_bot_of_gnShape_of_alt_five {Y : Type} [Group Y] [Finite Y]
     exact absurd (Or.inr hquot) hrk
   · have hn2 : 2 ≤ n := by
       rcases hn with rfl | ⟨h8, -⟩ <;> omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn2
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn2
     have hcardn : Nat.card (alternatingGroup (Fin n)) =
         Nat.card (alternatingGroup (Fin 5)) :=
       (Nat.card_congr e'.toEquiv).symm.trans (Nat.card_congr e.toEquiv)

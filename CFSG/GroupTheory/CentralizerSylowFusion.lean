@@ -46,7 +46,7 @@ theorem isSylowOf_of_forall_pElement_normalizer_le {p : ℕ} [Fact p.Prime] {T H
     rw [← Subgroup.map_subgroupOf_eq_of_le hTM]
     exact Subgroup.map_mono hTS
   have hSgM : Sg ≤ M := Subgroup.map_subtype_le _
-  have hSgp : IsPGroup p Sg := S.isPGroup'.map M.subtype
+  have hSgp : IsPGroup p Sg := S.isPGroup.map M.subtype
   have hSyl : IsSylowOf p Sg M := ⟨S, rfl⟩
   have hT' : IsSylowOf p T (H ⊓ Sg) :=
     hT.of_le (le_inf (hT.le.trans inf_le_left) hTSg) (inf_le_inf_left H hSgM)

@@ -76,7 +76,7 @@ theorem bender_G {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G} {B S : Subgrou
   have hS'cop : Nat.Coprime p (Nat.card (S.subgroupOf C)) := by
     have hcard : Nat.card (S.subgroupOf C) = Nat.card S :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSx).toEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hS2
     rw [hcard, hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
@@ -109,7 +109,7 @@ theorem delta_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : GLADeltaZer
     refine le_iInf₂ (fun d hd => le_iInf fun hd1 => ?_)
     exact hSC d (hDD₀ hd) hd1
   have hS_even : 2 ∣ Nat.card S := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hS2
     have hn0 : n ≠ 0 := by
       rintro rfl
@@ -125,11 +125,12 @@ theorem delta_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΔ : GLADeltaZer
       (even_iff_two_dvd.2 (hS_even.trans (Subgroup.card_dvd_of_le hle)))
   · have hp5 : 5 ≤ p := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases p <;> simp_all <;> exact absurd hp (by norm_num)
     exact (Nat.not_even_iff_odd.2 (h5 hp5))
       (even_iff_two_dvd.2 (hS_even.trans (Subgroup.card_dvd_of_le hSΔ)))
 
+omit [Finite G] in
 theorem mem_normalizer_inf_cen {K D B : Subgroup G} {b : G} (hB : IsMulCommutative B)
     (hDB : D ≤ B) (hb : b ∈ B) (hbK : b ∈ Subgroup.normalizer (K : Set G)) :
     b ∈ Subgroup.normalizer ((K ⊓ Subgroup.centralizer (D : Set G) : Subgroup G) : Set G) := by
@@ -150,7 +151,7 @@ theorem two_core_cen_props {p : ℕ} {B D₀ N : Subgroup G} (hBN : B ≤ N) (hB
     IsPGroup 2 ↥(pCoreOf 2 N ⊓ Subgroup.centralizer (D₀ : Set G)) ∧
       B ≤ Subgroup.normalizer ((pCoreOf 2 N ⊓ Subgroup.centralizer (D₀ : Set G) : Subgroup G) :
         Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥(pCoreOf 2 N) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N
   refine ⟨IsPGroup.to_le hT2 inf_le_left, fun b hb => ?_⟩
   have hbN : b ∈ Subgroup.normalizer ((pCoreOf 2 N : Subgroup G) : Set G) :=
@@ -161,7 +162,7 @@ theorem comm_two_group {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B R : Subgroup 
     (hB : IsElemAbelian p B) (hR2 : IsPGroup 2 R) (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
     (⁅B, R⁆ : Subgroup G) ≤ R ∧ B ≤ Subgroup.normalizer ((⁅B, R⁆ : Subgroup G) : Set G) ∧
       (⁅B, (⁅B, R⁆ : Subgroup G)⁆ : Subgroup G) = ⁅B, R⁆ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : (⁅B, R⁆ : Subgroup G) ≤ R := by
     rw [Subgroup.commutator_le]
     intro b hb r hr
@@ -179,19 +180,20 @@ theorem comm_two_group {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B R : Subgroup 
     rw [h, hbB, hbR]
   have hcop : Nat.Coprime (Nat.card B) (Nat.card R) := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 (isPGroup_of_isElemAbelian hB)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR2
     rw [hm, hn]
     exact Nat.Coprime.pow m n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   refine ⟨h1, h2, ?_⟩
-  haveI : Group.IsNilpotent R := hR2.isNilpotent
-  haveI : Group.IsSolvable R := inferInstance
+  have : Group.IsNilpotent R := hR2.isNilpotent
+  have : Group.IsSolvable R := inferInstance
   have h3 := GL83.commutator_double_eq_self B R hBR hcop inferInstance
   calc (⁅B, (⁅B, R⁆ : Subgroup G)⁆ : Subgroup G) = ⁅B, ⁅R, B⁆⁆ := by rw [Subgroup.commutator_comm B R]
     _ = ⁅⁅R, B⁆, B⁆ := Subgroup.commutator_comm _ _
     _ = ⁅R, B⁆ := h3
     _ = ⁅B, R⁆ := Subgroup.commutator_comm _ _
 
+omit [Finite G] in
 private theorem isElemAbelian_sup_zpowers' {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E)
     {z : G} (hzp : z ^ p = 1) (hz : ∀ e ∈ E, e * z = z * e) :
     IsElemAbelian p (E ⊔ Subgroup.zpowers z) := by
@@ -251,8 +253,8 @@ theorem isSC_iff_maximal {H : Type} [Group H] {p : ℕ} (hp : p.Prime) {B : Subg
     have hEB := hmax (B ⊔ Subgroup.zpowers g) hE le_sup_left
     exact hEB ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers g)
 
-theorem i326 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B D : Subgroup G} (hB : GLAIsBmax p B)
-    (hDB : D ≤ B) (hD : D ≠ ⊥)
+theorem i326 {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {B D : Subgroup G} (hB : GLAIsBmax p B)
+    (hDB : D ≤ B) (_hD : D ≠ ⊥)
     (heven : Even (Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer (D : Set G))))) :
     IsSC p B := by
   refine ⟨hB.1, ?_⟩
@@ -291,6 +293,7 @@ theorem i326_holds {G : Type} [Group G] [Finite G] (p : ℕ) :
       Even (Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer (D : Set G)))) → IsSC p B :=
   fun hp hp2 _ _ hB hDB hD heven => i326 hp hp2 hB hDB hD heven
 
+omit [Finite G] in
 theorem iSup_eq_of_transitive {𝒞 : Set (Subgroup G)} {D B : Subgroup G} (hDB : D ≤ B)
     (hB : ∀ L ∈ 𝒞, B ≤ Subgroup.normalizer (L : Set G))
     (htr : ∀ L ∈ 𝒞, ∀ L' ∈ 𝒞, ∃ e ∈ D, GLBConj e L = L') :

@@ -220,7 +220,7 @@ theorem q_pow_mod_three_of_neg_a2
       (S.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[s] γ = -(w • γ))
     {γ₁ γ₂ : Fin τ.rank → ℤ} (hP : Up34Exc.IsA2Pair τ γ₁ γ₂)
     (hΨ : componentRoots (rootCharHom a) i = {γ₁, γ₂, γ₁ + γ₂, -γ₁, -γ₂, -(γ₁ + γ₂)})
-    {ω : Lˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) {ε : ℤ} (hε : ε = 1 ∨ ε = -1)
+    {ω : Lˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) {ε : ℤ} (_hε : ε = 1 ∨ ε = -1)
     (hglue : ∀ j, a j = ω ^ (ε * Up34Exc.a2Exp τ γ₁ γ₂ j)) (ha1 : ∃ j, a j ≠ 1) :
     (S.D.q ^ s) % 3 = 2 := by
   obtain ⟨hγ₁, hγ₂, -, -⟩ := hP

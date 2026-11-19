@@ -31,7 +31,7 @@ theorem exists_gPath_of_isGLSPath {l : List V}
       tail := fun i hi => by
         have h1 : min i (l.length - 1) = l.length - 1 := min_eq_right hi
         have h2 : min (l.length - 1) (l.length - 1) = l.length - 1 := min_self _
-        simp [h1, h2] }
+        simp [h1] }
   refine ⟨p, ?_, ?_⟩
   · intro i hi heq
     have h1 : p i = f i := by
@@ -193,7 +193,7 @@ private def prepend (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0)) :
     · subst hi0
       simpa using h
     · obtain ⟨j, rfl⟩ : ∃ j, i = j + 1 := ⟨i - 1, by omega⟩
-      simp only [Nat.succ_ne_zero, if_false, Nat.succ_sub_one]
+      simp only [Nat.succ_ne_zero, ite_false, Nat.succ_sub_one]
       exact p.adj j (by omega)
   tail i hi := by
     have hi0 : i ≠ 0 := by omega
@@ -206,7 +206,7 @@ private def prepend (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0)) :
 @[simp] private theorem prepend_succ (y : V) {n : ℕ} (p : GPath Γ n)
     (h : Γ.Adj y (p 0)) (i : ℕ) : prepend y p h (i + 1) = p i := by
   show (if i + 1 = 0 then y else p (i + 1 - 1)) = p i
-  rw [if_neg (by omega), show i + 1 - 1 = i by omega]
+  rw [ite_eq_right (by omega), show i + 1 - 1 = i by omega]
 
 private theorem prepend_noBack (y : V) {n : ℕ} (p : GPath Γ n) (h : Γ.Adj y (p 0))
     (hp : p.NoBack) (hy : y ≠ p 1) : (prepend y p h).NoBack := by
@@ -391,10 +391,10 @@ private theorem isFull_of_dist_eq {m : ℕ} (hP : IsGenPolygon Γ m) (hm : 3 ≤
   have hrgeo : r.IsGeodesic :=
     GPath.isGeodesic_of_noBack hP.connected hcol hP.uniqueGeod ((m - 2) + 1)
       (by omega) r hrnoBack
-  have hr0 : r 0 = y := by simpa [r] using prepend_zero y qt _
+  have hr0 : r 0 = y := by simp [r]
   have hrlast : r ((m - 2) + 1) = q (m - 2) := by
     have h : r ((m - 2) + 1) = qt (m - 2) := by
-      simpa [r] using prepend_succ y qt (by rw [hqt0]; exact ha) (m - 2)
+      simp [r]
     rw [h, hqtlast]
   have hga_y : Γ.Adj y (g a) := by
     have := (hg y a).mpr ha
@@ -415,10 +415,10 @@ private theorem isFull_of_dist_eq {m : ℕ} (hP : IsGenPolygon Γ m) (hm : 3 ≤
   have hr'geo : r'.IsGeodesic :=
     GPath.isGeodesic_of_noBack hP.connected hcol hP.uniqueGeod ((m - 2) + 1)
       (by omega) r' hr'noBack
-  have hr'0 : r' 0 = y := by simpa [r'] using prepend_zero y qt' _
+  have hr'0 : r' 0 = y := by simp [r']
   have hr'last : r' ((m - 2) + 1) = q (m - 2) := by
     have h : r' ((m - 2) + 1) = qt' (m - 2) := by
-      simpa [r'] using prepend_succ y qt' (by rw [hqt'0]; exact hga_y) (m - 2)
+      simp [r']
     rw [h, hqt'last]
   have heqr : r = r' :=
     hP.uniqueGeod ((m - 2) + 1) r r' hrgeo hr'geo
@@ -426,10 +426,10 @@ private theorem isFull_of_dist_eq {m : ℕ} (hP : IsGenPolygon Γ m) (hm : 3 ≤
   have h1 := congrArg (fun P : GPath Γ ((m - 2) + 1) => P 1) heqr
   have hr1 : r 1 = a := by
     have h := prepend_succ y qt (by rw [hqt0]; exact ha) 0
-    simpa [r, hqt0] using h
+    simp [r, hqt0]
   have hr'1 : r' 1 = g a := by
     have h := prepend_succ y qt' (by rw [hqt'0]; exact hga_y) 0
-    simpa [r', hqt'0] using h
+    simp [r', hqt'0]
   rw [hr1, hr'1] at h1
   exact h1.symm
 

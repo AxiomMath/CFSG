@@ -36,7 +36,7 @@ theorem uc22r899c4_exists_frattini3 {p q : ℕ} (hp : p.Prime) (hq : q.Prime)
     (hA₀N : ∀ i, A₀ ≤ normalizer (K i : Set Γ)) :
     ∃ d : Γ, orderOf d = p ∧
       ∀ i, d ∈ normalizer (K i : Set Γ) ∧ d ∈ normalizer (S i : Set Γ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKK : ∀ i j, K i ≤ normalizer (K j : Set Γ) := by
     intro i j
     by_cases hij : i = j

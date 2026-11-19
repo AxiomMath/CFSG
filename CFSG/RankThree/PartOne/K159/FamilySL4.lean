@@ -507,7 +507,7 @@ theorem exists_noncomm_radical_flag {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨T, hT⟩ := exists_sylow_unitriangular (K := K) 2 (by norm_num : 1 ≤ 4)
   have hT2 : IsPGroup 2 ↥(unitriangular 4 K) := by
     rw [← hT]
-    exact T.isPGroup'
+    exact T.isPGroup
   obtain ⟨lam, u, huT, hXu⟩ := eq_smul_unitriangular_of_commute_radical x hcon
   have hxp : x ^ p = 1 := by
     rw [← hx]

@@ -33,6 +33,7 @@ theorem exists_elemAbelian_ge_of_le_pRank_gen {p : ℕ} {Q : Subgroup G} {k : �
   obtain ⟨E, hEQ, hEel, hEc⟩ := Nat.sSup_mem hne hbdd
   exact ⟨E, hEQ, hEel, _, h, hEc⟩
 
+omit [Finite G] in
 theorem exists_mul_zpow_of_mem_sup {T : Subgroup G} {x : G} (hxT : ∀ t ∈ T, x * t = t * x) :
     ∀ v ∈ T ⊔ zpowers x, ∃ t ∈ T, ∃ k : ℤ, v = t * x ^ k := by
   let D : Subgroup G :=
@@ -67,7 +68,7 @@ theorem three_le_pRank_of_mul_heis {p : ℕ} (hp : p.Prime) {T A B S : Subgroup 
     (hAS : A ≤ S) (hBS : B ≤ S) (hxA : x ∈ A) (hxB : x ∈ B)
     (hAB : ∀ s ∈ S, ∃ a ∈ A, ∃ b ∈ B, s = a * b) (hint : A ⊓ B ⊓ T ≠ ⊥) :
     3 ≤ CFSG.Open.pRank p A ∨ 3 ≤ CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTS : T ≤ S := hSdef ▸ le_sup_left
   have hxS : x ∈ S := hSdef ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
   have hdec : ∀ s ∈ S, ∃ t ∈ T, ∃ k : ℤ, s = t * x ^ k := by

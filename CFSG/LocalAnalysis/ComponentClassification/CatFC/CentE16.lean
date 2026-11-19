@@ -24,7 +24,7 @@ theorem catE16_holds : CFSG.EvenSporadicStandard.HSStd.Zassenhaus.CatE16 :=
     (fun s => by
       by_cases hM : s = .M
       · subst hM
-        rw [AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card]
+        rw [AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card]
         norm_num [AGLEmbedding.sporOrd, sporOrder, sporFactors]
       · exact GSThmB.QPUSpor.card_carrier_eq_sporOrder s hM)
     Sporadic.Schreier.at_m11_image_pair_count.2.2.2.2.1

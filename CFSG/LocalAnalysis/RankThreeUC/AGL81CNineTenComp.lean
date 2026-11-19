@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Sub
 theorem isSylowOf_starImg (hp : p.Prime) {S B : Subgroup G} (hBH : B ≤ H)
     (hS : CFSG.ABGLocalTools.IsSylowOf p S B) :
     CFSG.ABGLocalTools.IsSylowOf p (starImg p H S) (starImg p H B) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   obtain ⟨Q, hQ⟩ := hS
   let ι : ↥B →* ↥H := Subgroup.inclusion hBH
@@ -72,7 +72,7 @@ theorem isPClosedMod_component (h713 : SevenOneThree) (h5 : NineTenFivePClosed)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hp3le : 3 ≤ p := by
     have h2 : 2 ≤ p := h.prime.two_le
     exact lt_of_le_of_ne h2 (Ne.symm h.ne_two)
@@ -131,7 +131,7 @@ theorem isPClosedMod_layer_sup_centralizer (h713 : SevenOneThree) (h5 : NineTenF
     (hN : ¬ p ∣ (compNormalizer (StarGroup p H)).index) :
     IsPClosedMod p (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.LocalAnalysis.RankThreeUC.AGL81C.isPClosedMod_layer_sup_centralizer
     (fun C hC => h.isPClosedMod_component h713 h5 hH2 hp hC) hN
 
@@ -142,7 +142,7 @@ theorem isSylowOf_starImg_top (h : NineSetting G M p Q H E k)
 
 private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
     relPPrimeCore p C = (primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -165,7 +165,7 @@ private theorem relPPrimeCore_eq_map' (hp : p.Prime) (C : Subgroup G) :
 theorem normalizer_starImg_le (h : NineSetting G M p Q H E k) {S : Subgroup G} (hSH : S ≤ H)
     (hS : IsPGroup p S) (hN : normalizer (S : Set G) ≤ M) :
     normalizer (starImg p H S : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   let S' : Subgroup ↥H := S.subgroupOf H
@@ -296,7 +296,7 @@ theorem not_dvd_index_compNormalizer (h : NineSetting G M p Q H E k)
     (hQ : CFSG.ABGLocalTools.IsSylowOf p Q H)
     (hQN : starImg p H Q ≤ compNormalizer (StarGroup p H)) :
     ¬ p ∣ (compNormalizer (StarGroup p H)).index := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact not_dvd_index_of_isSylowOf_le (h.isSylowOf_starImg_top hQ) hQN
 
 theorem le_inf_sup_starImg (h713 : SevenOneThree) (h5 : NineTenFivePClosed)
@@ -306,18 +306,18 @@ theorem le_inf_sup_starImg (h713 : SevenOneThree) (h5 : NineTenFivePClosed)
     (hSM : normalizer (S : Set (StarGroup p H)) ≤ starImg p H M) :
     B ≤ (B ⊓ (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)))) ⊔ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set U : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H) ⊔
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) with hUdef
   have hpc : IsPClosedMod p U := by
     rw [hUdef]
     exact h.isPClosedMod_layer_sup_centralizer h713 h5 hH2 hp hN
-  haveI hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
-  haveI hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
+  have hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+  have hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
     inferInstance
-  haveI hUn : U.Normal := by rw [hUdef]; infer_instance
+  have hUn : U.Normal := by rw [hUdef]; infer_instance
   have hU' : IsPClosedMod p ((B ⊓ U).subgroupOf B) := by
     rw [Subgroup.inf_subgroupOf_left]
     exact IsPClosedMod.comap hpc B.subtype
@@ -332,19 +332,19 @@ theorem le_inf_sup_starImg_of_le (h713 : SevenOneThree) (h5 : NineTenFivePClosed
     (hSM : normalizer (S : Set (StarGroup p H)) ≤ starImg p H M) :
     B ≤ (B ⊓ (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)))) ⊔ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set U : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H) ⊔
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) with hUdef
   have hU'N : IsPClosedMod p (U.subgroupOf (compNormalizer (StarGroup p H))) := by
     rw [hUdef]
     exact isPClosedMod_layer_sup_centralizer_subgroupOf
       (fun C hC => h.isPClosedMod_component h713 h5 hH2 hp hC)
-  haveI hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
-  haveI hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
+  have hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+  have hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
     inferInstance
-  haveI hUn : U.Normal := by rw [hUdef]; infer_instance
+  have hUn : U.Normal := by rw [hUdef]; infer_instance
   have hU' : IsPClosedMod p ((B ⊓ U).subgroupOf B) := by
     rw [Subgroup.inf_subgroupOf_left,
       ← Subgroup.comap_inclusion_subgroupOf hB U]

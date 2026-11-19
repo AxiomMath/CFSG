@@ -114,7 +114,7 @@ theorem FF81Basis.cen_inf_cenS_eq (hB : FF81Basis b L B b₁ b₂ b₃) (h0 : Op
     intro g _
     refine Subgroup.mem_centralizer_iff.mpr fun h hh => ?_
     have hp := hpow h (by
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨h, hh⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨h, hh⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩)
     exact Subtype.ext (hcentral h h.2 g g.2 hp)
   set φ := MonoidHom.transferSylow P hPc
@@ -129,7 +129,7 @@ theorem FF81Basis.cen_inf_cenS_eq (hB : FF81Basis b L B b₁ b₂ b₃) (h0 : Op
       exact Nat.Coprime.coprime_dvd_right (orderOf_dvd_natCard _) hcop
     · intro hd
       have hpd : orderOf (φ d) ∣ orderOf d := orderOf_map_dvd φ d
-      obtain ⟨k, hk⟩ := P.isPGroup' (φ d)
+      obtain ⟨k, hk⟩ := P.isPGroup (φ d)
       have hpk : orderOf (φ d) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
       have hc : Nat.Coprime (orderOf (φ d)) (orderOf d) :=
         (Nat.Coprime.pow_left k hd).coprime_dvd_left hpk
@@ -175,7 +175,7 @@ theorem FF81Basis.cen_inf_cenS_eq (hB : FF81Basis b L B b₁ b₂ b₃) (h0 : Op
     rw [hNbot, Subgroup.mem_bot] at this
     exact Subgroup.mem_bot.mpr (Subtype.ext (by simpa using congrArg Subtype.val this))
   have hDp : IsPGroup 3 D :=
-    P.isPGroup'.of_injective φ ((MonoidHom.ker_eq_bot_iff φ).mp hkerbot)
+    P.isPGroup.of_injective φ ((MonoidHom.ker_eq_bot_iff φ).mp hkerbot)
   refine le_antisymm (fun y hy => h3 y hy (hpow ⟨y, hy⟩ (hDp ⟨y, hy⟩))) ((Subgroup.zpowers_le).mpr hbD)
 
 theorem FF81Basis.cenS_eq (hB : FF81Basis b L B b₁ b₂ b₃) (h0 : Opp 3 (Cen b) = ⊥) :

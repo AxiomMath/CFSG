@@ -13,6 +13,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G} {m : ℕ}
   {V VT : Type} [Group V] [Group VT]
 
+omit [Finite G] in
 theorem qTwoLMFrameC_direct_pos (F : QTwoFrame m V VT Bs L x)
     (hsplit : ∀ b ∈ Bs, ∃ t ∈ Bs ⊓ L, ∃ k : ℕ, b = t * x ^ k)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
@@ -57,8 +58,8 @@ theorem qTwoLMFrameC_fix_card_le (F : QTwoFrame m V VT Bs L x)
     (hr : ∀ v : VT, ((r ⟨((F.thetaT v : ↥(Bs ⊓ L)) : G), (F.thetaT v).2.1⟩ : ↥Bs) : G) =
       ((F.thetaT (ψ v) : ↥(Bs ⊓ L)) : G)) :
     Nat.card {b : ↥Bs // r b = b} ≤ 3 * Nat.card {v : VT // ψ v = v} := by
-  haveI : Finite ↥(Bs ⊓ L) := Subtype.finite
-  haveI : Finite VT :=
+  have : Finite ↥(Bs ⊓ L) := Subtype.finite
+  have : Finite VT :=
     Finite.of_injective (F.thetaT : VT → ↥(Bs ⊓ L)) F.thetaT.injective
   let f : {v : VT // ψ v = v} × Fin 3 → ↥Bs := fun p =>
     ⟨((F.thetaT p.1.1 : ↥(Bs ⊓ L)) : G) * x ^ (p.2 : ℕ),

@@ -95,9 +95,8 @@ theorem four_le_pRank_of_cover (φ : L →* X) (hφ : Function.Surjective φ)
   have hSpair : ∀ x y : L, φ x ∈ S → φ y ∈ S → φ x ≠ φ y → x * y = y * x := by
     intro x y hx hy hne
     rcases hx with hx | hx | hx <;> rcases hy with hy | hy | hy
-    all_goals first
+    all_goals try first
       | exact absurd (hx.trans hy.symm) hne
-      | skip
     ·
       exact (hpair c₀₁.symm h₀ (conj_eq_self_of s₁) (conj_eq_inv_of s₀ h₀) hy hx).symm
     ·

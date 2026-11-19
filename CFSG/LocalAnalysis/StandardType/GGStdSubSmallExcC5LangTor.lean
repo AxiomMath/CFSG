@@ -30,7 +30,7 @@ theorem omega_cube (hω : (ω : AlgebraicClosure K) ^ 2 + ω + 1 = 0) : ω ^ 3 =
   Units.ext (by rw [Units.val_pow_eq_pow_val, Units.val_one]; exact pow_three_of_sq_add hω)
 
 theorem omega_orderOf (hω : (ω : AlgebraicClosure K) ^ 2 + ω + 1 = 0) : orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (omega_cube hω) fun h => ?_
   have h1 : (1 : AlgebraicClosure K) ^ 2 + 1 + 1 = 0 := by simpa [h] using hω
   have h2 : (2 : AlgebraicClosure K) = 0 := CharTwo.two_eq_zero

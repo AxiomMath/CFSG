@@ -14,6 +14,7 @@ namespace S11sCtx
 variable {G : Type} [Group G] [Finite G] {t z : G} {K1 K2 T R : Subgroup G}
   {ρ : ↥R →* MulAut ↥(K1 ⊔ K2)} {a x : G} (c : S11sCtx t z K1 K2 T R ρ a x)
 
+omit [Finite G] in
 private theorem s11s_zpowers_involution_eq {u y : G} (hu : u * u = 1)
     (hy : y ∈ Subgroup.zpowers u) : y = 1 ∨ y = u := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
@@ -24,28 +25,35 @@ private theorem s11s_zpowers_involution_eq {u y : G} (hu : u * u = 1)
 
 include c
 
+omit [Finite G] in
 theorem z_K1 : z ∈ K1 := by
   exact twoCoreIn_le_self K1 c.q8.z_mem1
 
+omit [Finite G] in
 theorem z_K2 : z ∈ K2 := by
   exact twoCoreIn_le_self K2 c.q8.z_mem2
 
+omit [Finite G] in
 theorem Q1_le_Q : twoCoreIn K1 ≤ secQ K1 K2 := by
   rw [c.Q_eq]; exact le_sup_left
 
+omit [Finite G] in
 theorem Q2_le_Q : twoCoreIn K2 ≤ secQ K1 K2 := by
   rw [c.Q_eq]; exact le_sup_right
 
+omit [Finite G] c in
 theorem D_comm_Q {d q : G} (hd : d ∈ secD K1 K2 R) (hq : q ∈ secQ K1 K2) : d * q = q * d := by
   exact (Subgroup.mem_centralizer_iff.mp hd.1 q hq).symm
 
+omit [Finite G] in
 theorem z_comm_D {d : G} (hd : d ∈ secD K1 K2 R) : z * d = d * z := by
-  exact (c.D_comm_Q hd (c.Q1_le_Q c.q8.z_mem1)).symm
+  exact (S11sCtx.D_comm_Q hd (c.Q1_le_Q c.q8.z_mem1)).symm
 
 theorem T_N0 {g : G} (hg : g ∈ T) {n : G} (hn : n ∈ oddCoreIn (secK0 t z)) :
     g * n * g⁻¹ ∈ oddCoreIn (secK0 t z) := by
   exact sec11_conj_mem_oddCoreIn (c.T_N hg) hn
 
+omit [Finite G] in
 theorem rho_Q (y : ↥R) (κ : ↥(K1 ⊔ K2)) (hκ : (κ : G) ∈ secQ K1 K2) :
     ((ρ y κ : ↥(K1 ⊔ K2)) : G) = (y : G) * κ * (y : G)⁻¹ := by
   have hκK : (κ : G) ∈ K1 ⊔ K2 := c.set.split.Q_le hκ
@@ -69,6 +77,7 @@ theorem rho_K (y : ↥R) (hyK : (y : G) ∈ K1 ⊔ K2) :
     ρ y = MulAut.conj (⟨(y : G), hyK⟩ : ↥(K1 ⊔ K2)) := by
   exact c.rho.conj_of_mem c.set.split hyK
 
+omit [Finite G] in
 theorem rho_keep {Ki : Subgroup G} (hKi : Ki ≤ K1 ⊔ K2) (y : ↥R)
     (hy : (y : G) ∈ normalizer ((Ki ⊔ oddCoreIn (secK0 t z) : Subgroup G) : Set G)) :
     ∀ κ ∈ Ki.subgroupOf (K1 ⊔ K2), ρ y κ ∈ Ki.subgroupOf (K1 ⊔ K2) := by
@@ -97,6 +106,7 @@ theorem rho_keep {Ki : Subgroup G} (hKi : Ki ≤ K1 ⊔ K2) (y : ↥R)
   rw [haen, hn1, mul_one]
   exact ha'
 
+omit [Finite G] in
 theorem rho_outer {Ki : Subgroup G} (hKi : Ki ≤ K1 ⊔ K2) (y : ↥R)
     (hyN : ∀ n ∈ oddCoreIn (secK0 t z), (y : G) * n * (y : G)⁻¹ ∈ oddCoreIn (secK0 t z))
     (hy : IsOuterOn (y : G) (Ki ⊔ oddCoreIn (secK0 t z)) (oddCoreIn (secK0 t z))) :
@@ -180,6 +190,7 @@ theorem rho_a21 (ha : a ∈ R) :
   rw [h]
   exact c.a_swap' (κ : G) hκ
 
+omit [Finite G] in
 theorem rho_a_sq (ha : a ∈ R) : ρ ⟨a, ha⟩ * ρ ⟨a, ha⟩ = 1 := by
   rw [← map_mul]
   have h : (⟨a, ha⟩ : ↥R) * ⟨a, ha⟩ = 1 := by
@@ -187,6 +198,7 @@ theorem rho_a_sq (ha : a ∈ R) : ρ ⟨a, ha⟩ * ρ ⟨a, ha⟩ = 1 := by
     simpa using c.a_sq
   rw [h, map_one]
 
+omit [Finite G] in
 theorem embA_mem_Q1 {q : SL23} (hq : q ^ 4 = 1) :
     ((c.pair.embA q : ↥(K1 ⊔ K2)) : G) ∈ twoCoreIn K1 := by
   refine c.Q1_pow _ (c.pair.embA_mem q) ?_
@@ -194,6 +206,7 @@ theorem embA_mem_Q1 {q : SL23} (hq : q ^ 4 = 1) :
     rw [← map_pow, hq, map_one]
   simpa using congrArg Subtype.val h4
 
+omit [Finite G] in
 theorem embB_mem_Q2 {q : SL23} (hq : q ^ 4 = 1) :
     ((c.pair.embB q : ↥(K1 ⊔ K2)) : G) ∈ twoCoreIn K2 := by
   refine c.Q2_pow _ (c.pair.embB_mem q) ?_
@@ -201,6 +214,7 @@ theorem embB_mem_Q2 {q : SL23} (hq : q ^ 4 = 1) :
     rw [← map_pow, hq, map_one]
   simpa using congrArg Subtype.val h4
 
+omit [Finite G] in
 theorem embB_neg_one : ((c.pair.embB (-1) : ↥(K1 ⊔ K2)) : G) = z := by
   have hw2 : (⟨z, c.set.split.z_mem⟩ : ↥(K1 ⊔ K2)) * ⟨z, c.set.split.z_mem⟩ = 1 := by
     apply Subtype.ext
@@ -211,6 +225,7 @@ theorem embB_neg_one : ((c.pair.embB (-1) : ↥(K1 ⊔ K2)) : G) = z := by
   have h := c.pair.s11s_embB_neg_one (w := ⟨z, c.set.split.z_mem⟩) c.z_K2 hw2 hw1
   simpa using congrArg Subtype.val h
 
+omit [Finite G] in
 theorem sq_eq_z1 {g : G} (hg : g ∈ twoCoreIn K1) (hgz : g ∉ zpowers z) : g * g = z := by
   have hmem : g * g ∈ zpowers z := (c.q8.elem1 g hg g hg).2
   rcases s11s_zpowers_involution_eq c.q8.z_sq hmem with h | h

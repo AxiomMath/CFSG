@@ -44,17 +44,17 @@ theorem three_main (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
       exact hv0notI (by rw [heq]; exact hv0range)
     have hlt : I < P.φ.range := lt_of_le_of_ne hIrange hne
     obtain ⟨D, c, hD, hn, hdU, hActs⟩ := exists_kFrame hM
-    haveI : Finite V := c.finite
-    haveI : Finite ↥(P.φ.range) := Subtype.finite
+    have : Finite V := c.finite
+    have : Finite ↥(P.φ.range) := Subtype.finite
     have hcardlt : Nat.card ↥I < Nat.card ↥(P.φ.range) := Subgroup.card_lt_of_lt hlt
     have hcardI : Nat.card ↥I = 2 ^ rk ↥I := card_eq_two_pow c.sq_eq_one I
     have hcardR : Nat.card ↥(P.φ.range) = 2 ^ 5 := by
-      rw [P.range_eq_fixV hM, kLayer_card_fixV hM, if_pos hd22]
+      rw [P.range_eq_fixV hM, kLayer_card_fixV hM, ite_eq_left hd22]
     have hpow : 2 ^ rk ↥I < 2 ^ 5 := by
       rw [← hcardI, ← hcardR]
       exact hcardlt
     have hrk : rk ↥I < 5 := (Nat.pow_lt_pow_iff_right (by norm_num : (1 : ℕ) < 2)).mp hpow
-    rw [if_neg (by omega : d ≠ 24)]
+    rw [ite_eq_right (by omega : d ≠ 24)]
     omega
   ·
     let J : Subgroup (Multiplicative (Fin 6 → ZMod 2)) := I.comap P.φ
@@ -68,7 +68,7 @@ theorem three_main (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
         have hxI : P.φ x ∈ I := hx
         exact havoid (P.φ x) hxI (by rw [hxeq]; exact P.isO2Vec hM hpq (Or.inl h24))
       have hle : rk ↥J ≤ 3 := rk_le_three_of_avoid hJavoid
-      rw [hrk, if_pos h24]
+      rw [hrk, ite_eq_left h24]
       exact hle
     · have hJavoid : ∀ x ∈ J, ∀ q : Fin 8, q ≠ 0 →
           x ≠ Multiplicative.ofAdd (evPair 0 q) := by
@@ -79,7 +79,7 @@ theorem three_main (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
               exact P.isO2Vec hM (p := 0) (q := q) (Ne.symm hq)
                 (Or.inr (Or.inl ⟨h23, rfl⟩)))
       have hle : rk ↥J ≤ 4 := rk_le_four_of_avoid_zero hJavoid
-      rw [hrk, if_neg (by omega : d ≠ 24)]
+      rw [hrk, ite_eq_right (by omega : d ≠ 24)]
       exact hle
     · exact absurd h22 hd22
 

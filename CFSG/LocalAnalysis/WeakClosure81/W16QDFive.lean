@@ -338,7 +338,7 @@ theorem two_le_of_fixedPointFree [Finite X] (d : DichCfg M V₀ V U S H φ) {p :
       ⟨a.1.2, hcomm⟩
     rw [hfp k₀ hφk₀Z hφk₀1] at hmem
     exact hne (Subgroup.mem_bot.mp hmem)
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hmod :=
     CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime σ hσp
   have hfixcard : Nat.card {x : ↥(conjClosure V₀ H) // σ x = x} = 1 :=

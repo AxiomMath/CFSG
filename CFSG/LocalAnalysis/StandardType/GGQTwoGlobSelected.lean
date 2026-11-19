@@ -34,7 +34,7 @@ theorem qTwoGlobSel_factorial_dvd_card_Abar
     (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J Kset)
     {N : ℕ} (hN1 : 1 ≤ N)
     (hA : GGWeylOfType 3 (CoxeterMatrix.A (N - 1)) (ggAutomizerJoin L Bs Kset))
-    (hD : GGSecFiveBarData 3 B Bs x L D J ι U Abar ρ) :
+    (_hD : GGSecFiveBarData 3 B Bs x L D J ι U Abar ρ) :
     N.factorial ∣ Nat.card Abar := by
   have hle : ggAutomizerJoin L Bs Kset ≤ ggAInf 3 B Bs x L D J :=
     qTwoGlobSel_join_le_ggAInf hcfg

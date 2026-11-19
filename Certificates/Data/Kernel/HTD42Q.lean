@@ -44,9 +44,9 @@ open CFSG.KC.D4PlaneP
     (fun e _ r => Bool.rec (motive := fun _ => Bool) false r (witY G (mulQ (e, 0) x))) L
 
 @[expose] noncomputable def planeQ (u v : Nat) : Bool :=
-  Bool.and' (cube1P u) <| Bool.and' (cube1P v) <| Bool.and' (commP u v) <|
-    Bool.and' (Bool.not' (Nat.beq u oneP)) <| Bool.and' (Bool.not' (Nat.beq v oneP)) <|
-      Bool.and' (Bool.not' (Nat.beq v u)) (Bool.not' (Nat.beq v (mulP u u)))
+  _root_.Bool.and (cube1P u) <| _root_.Bool.and (cube1P v) <| _root_.Bool.and (commP u v) <|
+    _root_.Bool.and (not (Nat.beq u oneP)) <| _root_.Bool.and (not (Nat.beq v oneP)) <|
+      _root_.Bool.and (not (Nat.beq v u)) (not (Nat.beq v (mulP u u)))
 
 @[expose] noncomputable def planesQ (G : List (Nat × Nat)) : Bool :=
   List.rec (motive := fun _ => Bool) true

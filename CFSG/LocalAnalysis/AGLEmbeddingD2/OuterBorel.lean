@@ -415,7 +415,7 @@ theorem not_dvd_card_outer_of_borel [Finite U] {p : ℕ} [hp : Fact p.Prime]
     ext x
     simp only [MulAut.mul_apply, hιapp, map_mul, map_inv, MulAut.apply_inv_self]
   set PI := (R : Subgroup U).map ι with hPIdef
-  have hPIp : IsPGroup p PI := R.isPGroup'.map ι
+  have hPIp : IsPGroup p PI := R.isPGroup.map ι
   obtain ⟨S, hS⟩ := hPIp.exists_le_sylow
   have hcardPI : Nat.card PI = Nat.card (R : Subgroup U) :=
     Subgroup.card_map_of_injective hι
@@ -446,7 +446,7 @@ theorem not_dvd_card_outer_of_borel [Finite U] {p : ℕ} [hp : Fact p.Prime]
     rw [h1, h2, h3] at h5
     have h6 := Nat.pow_right_injective hp.out.two_le h5
     omega
-  have hSp : IsPGroup p (S : Subgroup (MulAut U)) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup (MulAut U)) := S.isPGroup
   have : Group.IsNilpotent (S : Subgroup (MulAut U)) := hSp.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := (S : Subgroup (MulAut U)))
   have hHlt : PI.subgroupOf S < ⊤ := by
@@ -518,7 +518,7 @@ theorem not_dvd_card_outer_of_borel [Finite U] {p : ℕ} [hp : Fact p.Prime]
   obtain ⟨r₁, hr₁, k, hk⟩ := exists_mul_pow_of_mem_sup htN (hN ▸ hβN t htN)
   have hcop : ∀ r ∈ (R : Subgroup U), r ∈ Subgroup.zpowers t → r = 1 := by
     intro r hr hrt
-    obtain ⟨j, hj⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨j, hj⟩ := R.isPGroup ⟨r, hr⟩
     have h1 : orderOf r ∣ p ^ j := orderOf_dvd_of_pow_eq_one (congrArg Subtype.val hj)
     have h2 : orderOf r ∣ orderOf t := orderOf_dvd_of_mem_zpowers hrt
     have h3 : Nat.Coprime (p ^ j) (orderOf t) := hpt.pow_left j
@@ -574,7 +574,7 @@ theorem not_dvd_card_outer_of_borel [Finite U] {p : ℕ} [hp : Fact p.Prime]
       (hS (Subgroup.mem_map_of_mem ι hr))) hβS
   obtain ⟨e', he'⟩ := hSp ⟨β', hβ'S⟩
   have hβ'e : β' ^ (p ^ e') = 1 := congrArg Subtype.val he'
-  have hfixR := eq_of_fix_of_irreducible R.isPGroup' hZ hZc hcard htN hirr β' hβ'R hβ't hβ'e
+  have hfixR := eq_of_fix_of_irreducible R.isPGroup hZ hZc hcard htN hirr β' hβ'R hβ't hβ'e
   have hfixN : ∀ n ∈ N, β' n = n := by
     intro n hn
     obtain ⟨r'', hr'', c, rfl⟩ := exists_mul_pow_of_mem_sup htN (hN ▸ hn)

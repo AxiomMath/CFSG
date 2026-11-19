@@ -266,7 +266,7 @@ theorem l154_outer_hI (hf : 1 ≤ f)
   classical
   have hZ := exceptional_fixed_center_trivial TwistTag.E6 (K2 L 2 f) (theta2Equiv L f)
   obtain ⟨w, hw⟩ := excTwE6_exists_twConj_of_mem_markID (theta2Equiv L f) hφ
-  haveI : CharP (AlgebraicClosure (K2 L 2 f)) 2 :=
+  have : CharP (AlgebraicClosure (K2 L 2 f)) 2 :=
     charP_of_injective_algebraMap (algebraMap (K2 L 2 f)
       (AlgebraicClosure (K2 L 2 f))).injective 2
   obtain ⟨b, hb, c, hc, hwbc⟩ : ∃ b : Fin Tag.E6.rank → (K2 L 2 f)ˣ,

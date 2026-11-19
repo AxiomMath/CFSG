@@ -27,7 +27,7 @@ theorem s16h_sl4_fpf_of_card_four {Z : Subgroup G} {d : G} (hZcard : Nat.card �
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hmap_eq
   have hle : Subgroup.zpowers d ≤ Subgroup.normalizer (Z : Set G) :=
     Subgroup.zpowers_le.mpr hdN
-  letI : MulAction (Subgroup.zpowers d) ↥Z :=
+  let : MulAction (Subgroup.zpowers d) ↥Z :=
     MulAction.compHom _ (Subgroup.inclusion hle)
   have h3grp : IsPGroup 3 (Subgroup.zpowers d) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hd3, pow_one])
@@ -79,7 +79,7 @@ theorem s16h_sl4_fpf_of_card_four {Z : Subgroup G} {d : G} (hZcard : Nat.card �
     rw [MulAction.mem_fixedBy]
     rw [MulAction.compHom_smul_def]
     exact smul_one _
-  haveI : Subsingleton ↥(MulAction.fixedBy ↥Z
+  have : Subsingleton ↥(MulAction.fixedBy ↥Z
       (⟨d, Subgroup.mem_zpowers d⟩ : Subgroup.zpowers d)) :=
     (Finite.card_le_one_iff_subsingleton (α := ↥(MulAction.fixedBy ↥Z
       (⟨d, Subgroup.mem_zpowers d⟩ : Subgroup.zpowers d)))).mp (by rw [hn1])

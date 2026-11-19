@@ -32,7 +32,7 @@ theorem Frame3.sum_Sz' (F : Frame3 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z
     exact ⟨hA.1, ha1, hU2 a haU ha1⟩
   have h3 := F.not_Δ3_sub_Sz
   have hsum := F.ncard_Sz_eq_sum hdich
-  rw [Fin.sum_univ_seven, if_pos h0, if_pos h1, if_pos h2, if_neg h3] at hsum
+  rw [Fin.sum_univ_seven, ite_eq_left h0, ite_eq_left h1, ite_eq_left h2, ite_eq_right h3] at hsum
   have c0 : (F.Δ 0).ncard = 1 := by simpa using F.Δ_card 0
   have c1 : (F.Δ 1).ncard = 6 := by simpa using F.Δ_card 1
   have c2 : (F.Δ 2).ncard = 2 := by simpa using F.Δ_card 2
@@ -66,14 +66,14 @@ theorem s40_2_card (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
   rcases hn with h | h | h | h
   · exact Or.inl h
   · exfalso
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     refine Frame2.not_prime_dvd_card_normalizer F.toFrame2 11 (by norm_num)
       (hcong_of' 11 (by decide)) ?_
     rw [hcard, h]
     exact Dvd.dvd.mul_right (by norm_num : 11 ∣ 33) _
   · exact Or.inr h
   · exfalso
-    haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
     refine Frame2.not_prime_dvd_card_normalizer F.toFrame2 19 (by norm_num)
       (hcong_of' 19 (by decide)) ?_
     rw [hcard, h]

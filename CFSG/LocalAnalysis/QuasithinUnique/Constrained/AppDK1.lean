@@ -139,7 +139,6 @@ theorem lab_inj : Function.Injective (klabel y₁ z₁ y₂ z₂) := by
   fin_cases i <;> fin_cases j <;> simp only [klabel, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val] at hij ⊢ <;>
     first
-    | rfl
     | exact absurd hij ‹_›
     | exact absurd hij.symm ‹_›
 

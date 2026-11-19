@@ -94,7 +94,7 @@ theorem mem_zeroDeletionSupport {m : ℕ} {v : Vm R E m.succ} :
         obtain ⟨e, rfl⟩ := mem_coordPlane.mp hb
         have hi0 : i ≠ 0 := Finset.ne_of_mem_erase hi
         rw [LinearMap.mem_ker]
-        simp [T, hi0]
+        simp [hi0]
       have hbT : b ∈ T := hle hb
       simpa [T] using hbT
     simp [ha2, hb2]
@@ -124,12 +124,12 @@ theorem mem_zeroDeletionSupport {m : ℕ} {v : Vm R E m.succ} :
           · subst hj
             simp [S, hv]
           · rw [Finset.sum_eq_single j]
-            · simp [hj]
+            · simp
             · intro k hk hkj
               rw [Pi.single_eq_of_ne (Ne.symm hkj)]
             · intro hnot
               exact (hnot (Finset.mem_erase.mpr ⟨hj, Finset.mem_univ j⟩)).elim
-        simp only [Prod.snd_add, Pi.zero_apply, zero_add]
+        simp only [Prod.snd_add, zero_add]
         rw [hsnd]
         exact funext hsum_point
 
@@ -174,7 +174,7 @@ theorem range_insertZero (m : ℕ) :
         (insertZero_injective m)).trans
       (LinearEquiv.ofEq _ _ (range_insertZero (QR := QR) (QE := QE) m))
   map_app' v := by
-    simpa using (insertZero (QR := QR) (QE := QE) m).map_app v
+    simp
 
 theorem deletionIsometry_apply (m : ℕ) (v : Vm R E m) :
     (((deletionIsometry (QR := QR) (QE := QE) m) v :
@@ -188,7 +188,7 @@ theorem deletionIsometry_apply (m : ℕ) (v : Vm R E m) :
       (insertZero_injective (QR := QR) (QE := QE) m)) v) :
         zeroDeletionSupport (K := K) (R := R) (E := E) m) : Vm R E m.succ) =
     insertZero (QR := QR) (QE := QE) m v
-  simp only [LinearEquiv.coe_ofEq_apply, LinearEquiv.ofInjective_apply, Submodule.coe_subtype]
+  simp only [LinearEquiv.coe_ofEq_apply, LinearEquiv.ofInjective_apply]
   rfl
 
 theorem deletionSource_nondegenerate (m : ℕ)
@@ -327,8 +327,7 @@ private theorem map_subgroupOf_subgroupOfEquivOfLe_symm
     refine ⟨⟨(y : G), hyH⟩, Subgroup.mem_subgroupOf.mpr hyL, ?_⟩
     apply Subtype.ext
     apply Subtype.ext
-    simpa using (Subgroup.subgroupOfEquivOfLe_symm_apply_coe_coe h
-      (⟨(y : G), hyH⟩ : H))
+    simp
 
 private theorem map_subgroupOf_congrOfMapEq
     {G H : Type*} [Group G] [Group H] (e : G ≃* H)
@@ -494,7 +493,7 @@ theorem originalDeletionGroupEquiv_map_supportedDerived (m : ℕ)
     [FiniteDimensional K Vo] [FiniteDimensional K R] [FiniteDimensional K E]
     (ψ : Vo ≃ₗ[K] R × (Fin m → E))
     (hψ : ∀ v : Vo, Qo v = QR (ψ v).1 + ∑ i, QE ((ψ v).2 i))
-    (hQo : (polarBilin Qo).Nondegenerate)
+    (_hQo : (polarBilin Qo).Nondegenerate)
     (hQR : (polarBilin QR).Nondegenerate) (hQE : (polarBilin QE).Nondegenerate)
     (T : Finset (Fin m)) :
     ((supportedDerived Qo (coordSupport ψ T)).subgroupOf (orthDerived Qo)).map
@@ -628,6 +627,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [Module F V] [FiniteDimensional F V] {p r : ℕ} {A : Subgroup (V ≃ₗ[F] V)}
   {Q : QuadraticForm F V}
 
+omit [Finite F] [CharP F 2] in
 private theorem hypPlane_isPlusType :
     IsPlusType (CFSG.Timmesfeld.ClassicalOrders.hypPlane F) := by
   have h : CFSG.Timmesfeld.ClassicalOrders.hypPlane F =

@@ -18,7 +18,7 @@ theorem exists_deficiency (hGA : ComponentClassification.TBLit.GriessMultipliers
       ordProj[2] (Nat.card ↥(center (K ⧸ pPrimeCore 2 K))) ≠
         ordProj[2] (Nat.card (griessHopfMultiplier
           ((K ⧸ pPrimeCore 2 K) ⧸ center (K ⧸ pPrimeCore 2 K)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD : ¬ (∀ n r : ℕ, 0 < n → 0 < r →
       (Blueprint.LieModel (K ⧸ fusionZStar K) .PSL (2 * n) 3 r ∨
         Blueprint.LieModel (K ⧸ fusionZStar K) .PSU (2 * n) 3 r) →

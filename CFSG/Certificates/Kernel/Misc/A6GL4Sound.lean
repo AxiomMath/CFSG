@@ -12,7 +12,7 @@ namespace CFSG.KC.Misc.A6GL4
 open Matrix CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4
 open CFSG.KC.Misc.Clos (ClosEnc ExactList)
 open Certificates.A5GL42 (Mat4 ofCode)
-open Certificates.GL4 (GL4)
+open Certificates.GL4Sub (GL4)
 open Certificates.Asc82NormA6
 
 theorem rel_map {M N : Type*} [Monoid M] [Monoid N] (f : M →* N) (hf : Function.Injective f)
@@ -49,7 +49,7 @@ theorem code4_cols (c0 c1 c2 c3 : ℕ) :
       Mat4) = spread c0 + 2 * spread c1 + 4 * spread c2 + 8 * spread c3 := by
   simp only [code4, Fin.sum_univ_four, Matrix.of_apply, ZMod.val_natCast, Nat.mod_mod,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
-    Matrix.head_cons, Fin.val_zero, Fin.val_one, Fin.val_two, spread]
+    Fin.val_zero, Fin.val_one, Fin.val_two, spread]
   norm_num
   ring
 
@@ -253,7 +253,7 @@ private noncomputable def uW (R : ℕ → ℕ) (k : ℕ) : GL4 := u4 (R (2 * k))
 
 theorem djB_sound {X Y n : ℕ} {K : Subgroup GL4} (hK : ExactList enc4 K 360 HE)
     (hs : ∀ i < 360, CFSG.KC.Misc.Clos.sortAt 360 HE HS i = true) (h : djB HE HS R X Y n = true)
-    {x y : GL4} (hx : enc4 x = X) (hy : enc4 y = Y) (hxK : x ∈ K) (hyK : y ∈ K) :
+    {x y : GL4} (hx : enc4 x = X) (hy : enc4 y = Y) (_hxK : x ∈ K) (_hyK : y ∈ K) :
     ∃ c : ℕ → GL4, ∀ l < n, ∀ k < l,
       (c l)⁻¹ * c k * x * ((c l)⁻¹ * c k)⁻¹ ∉ K ∨ (c l)⁻¹ * c k * y * ((c l)⁻¹ * c k)⁻¹ ∉ K := by
   unfold djB at h

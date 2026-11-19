@@ -158,7 +158,7 @@ theorem sec715Cm_secHyp (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n 
         rcases hx with hx | hx
         · exact ⟨(Subgroup.mem_inf.mp hx).1, hc.sq_mem_Q_of_mem_LB (Subgroup.mem_inf.mp hx).2⟩
         · exact ⟨(Subgroup.mem_inf.mp hx).1, hsqA x (Subgroup.mem_inf.mp hx).2⟩
-      | one => exact ⟨Zn.one_mem, by simpa using Q.one_mem⟩
+      | one => exact ⟨Zn.one_mem, by simp⟩
       | mul x y _ _ ihx ihy =>
         refine ⟨Zn.mul_mem ihx.1 ihy.1, ?_⟩
         have hxM : x ∈ M := hRM (hCNR (hZnN ihx.1))

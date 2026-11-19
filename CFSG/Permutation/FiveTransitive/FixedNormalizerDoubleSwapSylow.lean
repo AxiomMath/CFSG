@@ -40,7 +40,7 @@ theorem exists_sylow
   have hy2 : y ^ 2 = 1 := hyN ▸ pow_orderOf_eq_one y
   obtain ⟨e, he⟩ := SevenDoubleSwapEmbedding.exists_embedding hseven (f y)
     (by rw [← map_pow, hy2, map_one]) ((FixedNormalizerLocalCard.fixed_card Q y).trans hlocal)
-  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup.map _
   have hyp : IsPGroup 2 (Subgroup.zpowers y) := IsPGroup.of_card (n := 1) (by
     rw [Nat.card_zpowers, hyN, pow_one])
   let R := Inside Q ⊔ Subgroup.zpowers y

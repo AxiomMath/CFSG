@@ -125,7 +125,7 @@ public theorem secondCase_a7_fitting_isPGroup_three
   have hQRdisj : Disjoint (Q : Subgroup c.FU) (R : Subgroup c.FU) :=
     IsPGroup.disjoint_of_ne q 3 hq3
       (Q : Subgroup c.FU) (R : Subgroup c.FU)
-      Q.isPGroup' R.isPGroup'
+      Q.isPGroup R.isPGroup
   have hQRcomm : ⁅(Q : Subgroup c.FU), (R : Subgroup c.FU)⁆ = ⊥ := by
     apply le_bot_iff.mp
     exact (Subgroup.commutator_le_inf

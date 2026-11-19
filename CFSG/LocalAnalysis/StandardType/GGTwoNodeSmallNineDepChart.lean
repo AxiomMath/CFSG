@@ -94,7 +94,7 @@ private lemma pk2_sum_castSucc {n : ℕ} (c : Fin n → ZMod 3) (j : Fin (n + 1)
       = if h : (j : ℕ) < n then c ⟨j, h⟩ else 0 := by
   classical
   by_cases hj : (j : ℕ) < n
-  · rw [dif_pos hj]
+  · rw [dite_eq_left hj]
     have hmain : (∑ k : Fin n, c k * (if j = k.castSucc then (1 : ZMod 3) else 0))
         = c ⟨j, hj⟩ * (if j = (⟨j, hj⟩ : Fin n).castSucc then (1 : ZMod 3) else 0) :=
       Finset.sum_eq_single (⟨j, hj⟩ : Fin n) (fun b _ hb => by
@@ -105,7 +105,7 @@ private lemma pk2_sum_castSucc {n : ℕ} (c : Fin n → ZMod 3) (j : Fin (n + 1)
     rw [hmain]
     have hjc : (⟨j, hj⟩ : Fin n).castSucc = j := Fin.ext rfl
     simp [hjc]
-  · rw [dif_neg hj]
+  · rw [dite_eq_right hj]
     refine Finset.sum_eq_zero fun b _ => ?_
     have hne : ¬ (j = b.castSucc) := by
       intro h; exact hj (by rw [h]; exact b.isLt)
@@ -116,7 +116,7 @@ private lemma pk2_sum_castSucc9 (c : Fin 7 → ZMod 3) (j : Fin 9) :
       = if h : (j : ℕ) < 7 then c ⟨j, h⟩ else 0 := by
   classical
   by_cases hj : (j : ℕ) < 7
-  · rw [dif_pos hj]
+  · rw [dite_eq_left hj]
     have hmain : (∑ k : Fin 7, c k * (if j = k.castSucc.castSucc then (1 : ZMod 3) else 0))
         = c ⟨j, hj⟩
           * (if j = ((⟨j, hj⟩ : Fin 7).castSucc.castSucc) then (1 : ZMod 3) else 0) :=
@@ -127,8 +127,8 @@ private lemma pk2_sum_castSucc9 (c : Fin 7 → ZMod 3) (j : Fin 9) :
         simp [hne]) (fun h => absurd (Finset.mem_univ _) h)
     rw [hmain]
     have hjc : ((⟨j, hj⟩ : Fin 7).castSucc.castSucc : Fin 9) = j := Fin.ext rfl
-    simp [hjc]
-  · rw [dif_neg hj]
+    simp
+  · rw [dite_eq_right hj]
     refine Finset.sum_eq_zero fun b _ => ?_
     have hne : ¬ (j = b.castSucc.castSucc) := by
       intro h; exact hj (by rw [h]; exact b.isLt)
@@ -174,8 +174,8 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (hV : Module.finrank (ZMod 3) V ≤ 9) (h : Fin 8 → V) (α : Fin 8 → Module.Dual (ZMod 3) V)
     (x : V) (hF : CFSG.StandardType.GGDepAFrame 3 9 h α x) :
     ∃ (D : ℕ) (u : Fin 8 → ZMod 3), (D = 8 ∨ D = 9) ∧ Nonempty (NineDepChart D h α x u) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Module.Finite (ZMod 3) V := pk2_finite α x hF.x_ne hF.x_ker hF.fix
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Module.Finite (ZMod 3) V := pk2_finite α x hF.x_ne hF.x_ker hF.fix
   obtain ⟨hrel, hxH, hHfin⟩ := CFSG.StandardType.ggDepA_relation (p := 3) (N := 9) hF
   have hHfin' : Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) = 7 := by
     rw [show 9 - 2 = 7 by norm_num] at hHfin
@@ -243,9 +243,9 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         simp only [Pi.smul_apply, smul_eq_mul, Pi.single_apply]
         rw [pk2_sum_castSucc, pk2_hvec8_last_val]
         by_cases hj : (j : ℕ) < 7
-        · rw [dif_pos hj, if_pos hj]
+        · rw [dite_eq_left hj, ite_eq_left hj]
           exact pk2_cast_mod3 ((j : ℕ) + 1)
-        · rw [dif_neg hj, if_neg hj]
+        · rw [dite_eq_right hj, ite_eq_right hj]
           simp
       · intro i'
         have hhi : h i'.castSucc = b i'.castSucc := by
@@ -269,14 +269,14 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
           rw [show (alpha8 i).getD j'.castSucc 0 = cl i.val j'.val from pk2_alpha8_getD i j']
           exact pk2_cartan_cast i j'.castSucc
       have hw : w = ∑ j : Fin 8, b.equivFun w j • b j := by
-        simpa [Module.Basis.equivFun_apply] using (b.sum_repr w).symm
+        simp [Module.Basis.equivFun_apply]
       conv_lhs => rw [hw]
       rw [map_sum]
       simp only [map_smul, smul_eq_mul]
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [hbα j]
       have hj : ¬ (j.val = 8) := by have := j.isLt; omega
-      rw [if_neg hj, add_zero, mul_comm]
+      rw [ite_eq_right hj, add_zero, mul_comm]
   ·
     have hcard9 : Fintype.card (Fin 9) = Module.finrank (ZMod 3) V := by simp [h9]
     have hbfull_fin : Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range bfull)) = 8 := by
@@ -317,9 +317,9 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         simp only [Pi.smul_apply, smul_eq_mul, Pi.single_apply]
         rw [pk2_sum_castSucc9, pk2_hvec8_last_val9]
         by_cases hj : (j : ℕ) < 7
-        · rw [dif_pos hj, if_pos hj]
+        · rw [dite_eq_left hj, ite_eq_left hj]
           exact pk2_cast_mod3 ((j : ℕ) + 1)
-        · rw [dif_neg hj, if_neg hj]
+        · rw [dite_eq_right hj, ite_eq_right hj]
           simp
       · intro i'
         have hhi : h i'.castSucc = b' i'.castSucc.castSucc := by
@@ -340,11 +340,11 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         refine Fin.lastCases ?_ ?_ j
         · rw [hb'_apply (Fin.last 8), hb'full_last]
           rw [show (alpha8 i).getD (Fin.last 8) 0 = 0 from pk2_alpha8_getD8 i,
-            if_pos (by decide)]
+            ite_eq_left (by decide)]
           simp
         · intro j'
           rw [hb'_apply j'.castSucc, hb'full_castSucc j']
-          rw [if_neg (by rw [Fin.val_castSucc]; exact ne_of_lt j'.isLt)]
+          rw [ite_eq_right (by rw [Fin.val_castSucc]; exact ne_of_lt j'.isLt)]
           refine Fin.lastCases ?_ ?_ j'
           · rw [hbfull_last, hF.x_ker i]
             rw [show (alpha8 i).getD ((Fin.last 7).castSucc : Fin 9) 0 = 0 from
@@ -357,7 +357,7 @@ theorem ninedep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
             rw [add_zero]
             exact pk2_cartan_cast i j''.castSucc
       have hw : w = ∑ j : Fin 9, b'.equivFun w j • b' j := by
-        simpa [Module.Basis.equivFun_apply] using (b'.sum_repr w).symm
+        simp [Module.Basis.equivFun_apply]
       conv_lhs => rw [hw]
       rw [map_sum]
       simp only [map_smul, smul_eq_mul]

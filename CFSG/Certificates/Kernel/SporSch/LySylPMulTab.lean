@@ -97,7 +97,7 @@ private theorem tbl_get {MT : Nat → Nat} {n i j : Nat} (hi : i < n) (hj : j < 
   rw [ofFn_getP (fun i => Array.ofFn (n := n) fun j => tmK MT i j.val) hi,
     ofFn_getP (fun j => tmK MT i j) hj]
 
-theorem _root_.CFSG.KS.SporSch.LySylP.MulTab.mulTab_sound {n : Nat} {MT W PL : Nat → Nat} (hn0 : 0 < n) (hn : n ≤ 256)
+theorem _root_.CFSG.KS.SporSch.LySylP.MulTab.mulTab_sound {n : Nat} {MT W PL : Nat → Nat} (hn0 : 0 < n) (_hn : n ≤ 256)
     (hpl : ∀ j < n, plOK W PL n j = true) (hrow : ∀ i < n, rowOK MT W PL n i = true) :
     mulTabOf n (Array.ofFn (n := n) fun i => parK PL i.val) (Array.ofFn (n := n) fun i => labK PL i.val)
         (Array.ofFn (n := 6) fun k => Array.ofFn (n := n) fun h => lamK W k.val h.val) = TBL MT n ∧
@@ -166,8 +166,7 @@ theorem _root_.CFSG.KS.SporSch.LySylP.MulTab.mulTab_sound {n : Nat} {MT W PL : N
     · simp [TBL]
     · intro i hi
       simp only [TBL, Array.size_ofFn] at hi
-      simp only [TBL, Array.getElem_ofFn, Array.size_ofFn, Array.all_eq_true, decide_eq_true_eq,
-        true_and]
+      simp only [TBL, Array.getElem_ofFn, Array.size_ofFn, true_and]
       intro x hx
       exact hlt i hi x hx
     · refine allIn_of fun j _ hj => ?_

@@ -13,9 +13,11 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8t84a1_t_mem_A : t ∈ Asub8 t B := by
   exact Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
 
+omit [Finite G] in
 theorem sec8t84a1_B_le_A : B ≤ Asub8 t B := by
   exact le_sup_right
 
@@ -34,6 +36,7 @@ theorem sec8t84a1_A_elem (hctx : Sec8Ctx G t L S z g B) : IsElemAb2 (Asub8 t B) 
   rw [Asub8, sup_comm]
   exact ⟨hAel, by rw [hAcard, hctx.B_e16.2]; norm_num⟩
 
+omit [Finite G] in
 theorem sec8t84a1_A_le_N : Asub8 t B ≤ Nsub8 t B := by
   exact Subgroup.le_normalizer
 

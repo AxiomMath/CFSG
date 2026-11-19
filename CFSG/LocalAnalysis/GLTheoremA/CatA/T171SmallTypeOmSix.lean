@@ -24,6 +24,7 @@ open QuadraticMap Module CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_minusPair_of_minus_dim_two {W : Submodule (ZMod 2) V}
     (hQ : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate)
     (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType (Q.comp W.subtype))
@@ -50,7 +51,7 @@ theorem exists_minusPair_of_minus_dim_two {W : Submodule (ZMod 2) V}
     · exact h1
   have hex : ∃ b ∈ W, polar Q a b = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ W, polar Q a y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q a y) with h0 | h1
@@ -117,6 +118,7 @@ open QuadraticMap Module CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eichler_swap_add {u v : V} (hu : Q u = 0) (hv : Q v = 0) (huv : polar Q u v = 0) :
     eichler Q v (u + v) = eichler Q u v := by
   have h1 : Q (u + v) = 0 := by
@@ -127,7 +129,7 @@ theorem eichler_swap_add {u v : V} (hu : Q u = 0) (hv : Q v = 0) (huv : polar Q 
     simp
   refine LinearEquiv.ext fun x => ?_
   rw [eichler_apply hv h2, eichler_apply hu huv]
-  simp only [h1, hv, zero_mul, add_zero, QuadraticMap.map_zero]
+  simp only [h1, hv, zero_mul, add_zero]
   rw [polar_add_right]
   rw [sub_eq_add_neg, sub_eq_add_neg, ZModModule.neg_eq_self, ZModModule.neg_eq_self]
   linear_combination (norm := module) (polar Q x v) • (vec_add_self v)
@@ -148,6 +150,7 @@ open QuadraticMap Module CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem rot_fixes_of_pairPerp {p q : V × V} (hp : MinusPair Q p.1 p.2) (h : PairPerp Q p q) :
     rot Q p.1 p.2 q.1 = q.1 ∧ rot Q p.1 p.2 q.2 = q.2 := by
   refine ⟨rot_apply_of_perp hp ?_ ?_, rot_apply_of_perp hp ?_ ?_⟩
@@ -207,7 +210,7 @@ theorem exists_twoLocal_three_pow_five_six (hQ : (QuadraticMap.polarBilin Q).Non
     have h2 : polar Q (a 0) v = 1 := by
       dsimp only [v]
       rw [polar_add_right, (hp 0).ab, h01.2.1, add_zero]
-    simp only [h1, h2, hvQ, zero_mul, add_zero, zero_smul, zero_add, one_smul]
+    simp only [h1, h2, hvQ, zero_mul, add_zero, zero_smul, one_smul]
     rw [sub_eq_add_neg, ZModModule.neg_eq_self]
     dsimp only [u]
     linear_combination (norm := module) (vec_add_self (a 0))
@@ -257,7 +260,7 @@ theorem exists_twoLocal_three_pow_five_six (hQ : (QuadraticMap.polarBilin Q).Non
     exact congrArg Subtype.val (hT.1.is_comm.comm ⟨gen i, hgenT i⟩ ⟨gen j, hgenT j⟩)
   have hg0u : ((gen 0 : ↥(orthDerived Q)) : V ≃ₗ[ZMod 2] V) u = v := by
     dsimp only [gen, u, v]
-    rw [dif_pos rfl, Subgroup.coe_mul, LinearEquiv.mul_apply]
+    rw [dite_eq_left rfl, Subgroup.coe_mul, LinearEquiv.mul_apply]
     have h0 : (rotOrthDerived Q (hp 0) : V ≃ₗ[ZMod 2] V) = rot Q (a 0) (b 0) := rfl
     have h1 : (rotOrthDerived Q (hp 1) : V ≃ₗ[ZMod 2] V) = rot Q (a 1) (b 1) := rfl
     rw [h0, h1]
@@ -270,7 +273,7 @@ theorem exists_twoLocal_three_pow_five_six (hQ : (QuadraticMap.polarBilin Q).Non
     rw [map_add, hfix0, hmov1, map_add, hmov0, hfix1]
   have hg0v : ((gen 0 : ↥(orthDerived Q)) : V ≃ₗ[ZMod 2] V) v = u + v := by
     dsimp only [gen, u, v]
-    rw [dif_pos rfl, Subgroup.coe_mul, LinearEquiv.mul_apply]
+    rw [dite_eq_left rfl, Subgroup.coe_mul, LinearEquiv.mul_apply]
     have h0 : (rotOrthDerived Q (hp 0) : V ≃ₗ[ZMod 2] V) = rot Q (a 0) (b 0) := rfl
     have h1 : (rotOrthDerived Q (hp 1) : V ≃ₗ[ZMod 2] V) = rot Q (a 1) (b 1) := rfl
     rw [h0, h1]
@@ -305,7 +308,7 @@ theorem exists_twoLocal_three_pow_five_six (hQ : (QuadraticMap.polarBilin Q).Non
       exact hvu h1.symm
     · have hgi : gen i = rotOrthDerived Q (hp (Fin.succ i)) := by
         dsimp only [gen]
-        rw [dif_neg hi]
+        rw [dite_eq_right hi]
       rw [hgi]
       intro h
       have h' : rot Q (a (Fin.succ i)) (b (Fin.succ i)) = 1 := by
@@ -316,13 +319,13 @@ theorem exists_twoLocal_three_pow_five_six (hQ : (QuadraticMap.polarBilin Q).Non
     refine orderOf_eq_prime ?_ (hgen_ne_one i)
     have h := hT.2 (gen i) (hgenT i)
     exact Subtype.ext (by simpa using congrArg Subtype.val h)
-  have hpt0 : pt 0 = u := by dsimp only [pt]; rw [dif_pos rfl]
+  have hpt0 : pt 0 = u := by dsimp only [pt]; rw [dite_eq_left rfl]
   have hgen0 : gen 0 = rotOrthDerived Q (hp 0) * rotOrthDerived Q (hp 1) := by
-    dsimp only [gen]; rw [dif_pos rfl]
+    dsimp only [gen]; rw [dite_eq_left rfl]
   have hpt_succ : ∀ i : Fin 5, i ≠ 0 → pt i = a (Fin.succ i) := by
-    intro i hi; dsimp only [pt]; rw [dif_neg hi]
+    intro i hi; dsimp only [pt]; rw [dite_eq_right hi]
   have hgen_succ : ∀ i : Fin 5, i ≠ 0 → gen i = rotOrthDerived Q (hp (Fin.succ i)) := by
-    intro i hi; dsimp only [gen]; rw [dif_neg hi]
+    intro i hi; dsimp only [gen]; rw [dite_eq_right hi]
   have hmove : ∀ i, ((gen i : ↥(orthDerived Q)) : V ≃ₗ[ZMod 2] V) (pt i) ≠ pt i := by
     intro i
     by_cases hi : i = 0

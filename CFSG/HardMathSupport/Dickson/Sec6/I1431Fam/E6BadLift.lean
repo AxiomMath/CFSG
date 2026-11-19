@@ -17,13 +17,13 @@ theorem exists_hom_lift_of_hopf_card {P S Y : Type} [Group P] [Finite P] [Group.
     (q : Y →* S) (hq : Function.Surjective q) (hqker : q.ker ≤ Subgroup.center Y) :
     ∃ ρ : P →* Y, ∀ g, q (ρ g) = θ g := by
   classical
-  haveI : Group.IsPerfect S := Group.IsPerfect.ofSurjective hθ
+  have : Group.IsPerfect S := Group.IsPerfect.ofSurjective hθ
   obtain ⟨-, h, hph, -, hhs, hmap, eM, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier θ hθ hθker
   set M := hopfMultiplier S with hMdef
   set N := (h.comp M.subtype).ker with hN
-  haveI : Finite M := Nat.finite_of_card_ne_zero hM0
-  haveI : Finite N := inferInstance
+  have : Finite M := Nat.finite_of_card_ne_zero hM0
+  have : Finite N := inferInstance
   have hsplit : Nat.card M = Nat.card (M ⧸ N) * Nat.card N := by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup (N)
     exact this
@@ -66,10 +66,10 @@ theorem exists_twoSubgroup_of_lift {Y S : Type} [Group Y] [Finite Y] [Group S] [
     (hE : E.map π ≤ Subgroup.normalizer (U : Set S)) :
     ∃ V : Subgroup Y, V ≠ ⊥ ∧ IsPGroup 2 V ∧ E ≤ Subgroup.normalizer (V : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hπZ : ∀ y, π y = 1 → y ∈ Subgroup.center Y := fun y hy => hker (MonoidHom.mem_ker.2 hy)
   set Ut : Subgroup Y := U.comap π with hUt
-  haveI hUnil : Group.IsNilpotent U := hU2.isNilpotent
+  have hUnil : Group.IsNilpotent U := hU2.isNilpotent
   have hnil : Group.IsNilpotent Ut := by
     refine Subgroup.isNilpotent_of_ker_le_center
       ((π.comp Ut.subtype).codRestrict U (fun x => x.2)) ?_
@@ -78,13 +78,13 @@ theorem exists_twoSubgroup_of_lift {Y S : Type} [Group Y] [Finite Y] [Group S] [
     have h2 := Subgroup.mem_center_iff.1 (hπZ _ h1)
     exact Subgroup.mem_center_iff.2 fun g => Subtype.ext (h2 (g : Y))
   obtain ⟨P⟩ : Nonempty (Sylow 2 Ut) := inferInstance
-  haveI : (P : Subgroup Ut).Normal := inferInstance
-  haveI : Unique (Sylow 2 Ut) := Sylow.unique_of_normal P inferInstance
+  have : (P : Subgroup Ut).Normal := inferInstance
+  have : Unique (Sylow 2 Ut) := Sylow.unique_of_normal P inferInstance
   have hPiff : ∀ x : Ut, x ∈ (P : Subgroup Ut) ↔ ∃ k : ℕ, x ^ (2 ^ k) = 1 := by
     intro x
     constructor
     · intro hx
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       exact ⟨k, congrArg Subtype.val hk⟩
     · rintro ⟨k, hk⟩
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -103,7 +103,7 @@ theorem exists_twoSubgroup_of_lift {Y S : Type} [Group Y] [Finite Y] [Group S] [
       exact ⟨x.2, k, by simpa using congrArg Subtype.val hk⟩
     · rintro ⟨hy, k, hk⟩
       exact ⟨⟨y, hy⟩, (hPiff ⟨y, hy⟩).2 ⟨k, Subtype.ext (by simpa using hk)⟩, rfl⟩
-  have hU₂p : IsPGroup 2 U₂ := P.isPGroup'.map Ut.subtype
+  have hU₂p : IsPGroup 2 U₂ := P.isPGroup.map Ut.subtype
   have hdvd : Nat.card U ∣ Nat.card Ut := by
     have h1 := Subgroup.card_map_dvd (H := Ut) π
     rwa [Subgroup.map_comap_eq_self_of_surjective hπ] at h1
@@ -197,10 +197,10 @@ theorem exists_elemAbelian_three_lift {H P : Type} [Group H] [Finite H] [Group P
     {E : Subgroup P} (hE : IsElemAbelian 3 E) :
     ∃ R : Subgroup H, IsElemAbelian 3 R ∧ R.map h = E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFinP : Finite P := Finite.of_surjective h hs
   set Et : Subgroup H := E.comap h with hEt
-  haveI hEnil : Group.IsNilpotent E := (IsElemAbelian.isPGroup hE).isNilpotent
+  have hEnil : Group.IsNilpotent E := (IsElemAbelian.isPGroup hE).isNilpotent
   have hnil : Group.IsNilpotent Et := by
     refine Subgroup.isNilpotent_of_ker_le_center ((h.comp Et.subtype).codRestrict E
       (fun x => x.2)) ?_
@@ -210,7 +210,7 @@ theorem exists_elemAbelian_three_lift {H P : Type} [Group H] [Finite H] [Group P
     exact Subgroup.mem_center_iff.2 fun g => Subtype.ext (h2' (g : H))
   obtain ⟨R⟩ : Nonempty (Sylow 3 Et) := inferInstance
   set R' : Subgroup H := (R : Subgroup Et).map Et.subtype with hR'
-  have hR'3 : IsPGroup 3 R' := R.isPGroup'.map Et.subtype
+  have hR'3 : IsPGroup 3 R' := R.isPGroup.map Et.subtype
   have hR'Et : ∀ r ∈ R', h r ∈ E := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
@@ -277,16 +277,16 @@ theorem exists_elemAbelian_lift_of_hopf_two_power {P S Y : Type} [Group P] [Fini
     {E : Subgroup P} (hE : IsElemAbelian 3 E) :
     ∃ R : Subgroup Y, IsElemAbelian 3 R ∧ R.map q = E.map θ := by
   classical
-  haveI : Group.IsPerfect S := Group.IsPerfect.ofSurjective hθ
+  have : Group.IsPerfect S := Group.IsPerfect.ofSurjective hθ
   obtain ⟨-, h, hph, -, hhs, hmap, eM, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier θ hθ hθker
   obtain ⟨k, hk⟩ := hM
-  haveI : Finite (hopfMultiplier S) := Nat.finite_of_card_ne_zero hM0
+  have : Finite (hopfMultiplier S) := Nat.finite_of_card_ne_zero hM0
   have hsurj : Function.Surjective (hopfCoverMap S) := hopfCoverMap_surjective
   have hrange : (hopfCoverMap S).range = ⊤ := MonoidHom.range_eq_top.2 hsurj
   have hcard1 := Subgroup.card_ker_mul_card_range (hopfCoverMap S)
   rw [hrange, Subgroup.card_top] at hcard1
-  haveI : Finite (HopfCover S) := by
+  have : Finite (HopfCover S) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [← hcard1]
     exact mul_ne_zero hM0 Nat.card_pos.ne'

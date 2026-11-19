@@ -94,8 +94,8 @@ private theorem ggHalfKGCE6_cent_eq_of_mem_zpowers {G : Type*} [Group G] [Finite
 private theorem ggHalfKGCE6_exists_conj_zpowers
     (t y : EC) (ht : orderOf t = 31) (hy : orderOf y = 31) :
     ∃ g : EC, MulAut.conj g y ∈ Subgroup.zpowers t := by
-  haveI : Finite EC := finite_EC
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Finite EC := finite_EC
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hPy : IsPGroup 31 ↥(Subgroup.zpowers y) :=
     IsPGroup.of_card (show Nat.card ↥(Subgroup.zpowers y) = 31 ^ 1 by
       rw [Nat.card_zpowers, hy]; norm_num)
@@ -126,7 +126,7 @@ private theorem ggHalfKGCE6_exists_conj_zpowers
   let Pt : Sylow 31 EC := hPt.toSylow hPt2
   have hPtcoe : (Pt : Subgroup EC) = Subgroup.zpowers t :=
     Subgroup.ext fun _ => IsPGroup.mem_toSylow hPt hPt2
-  haveI : MulAction.IsPretransitive EC (Sylow 31 EC) := Sylow.isPretransitive_of_finite
+  have : MulAction.IsPretransitive EC (Sylow 31 EC) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := EC) Py Pt
   refine ⟨g, ?_⟩
   have hmem := Subgroup.smul_mem_pointwise_smul y (MulAut.conj g) (Py : Subgroup EC)
@@ -176,12 +176,12 @@ private theorem ggHalfKGCE6_isSolvable_cent_of_order31
     have hst : Commute s t :=
       Subgroup.mem_centralizer_singleton_iff.1 (hS_le_cent_t hs)
     exact (hst.zpow_right k).symm
-  haveI : (A.subgroupOf G').Normal := by
+  have : (A.subgroupOf G').Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hAG', hG']
     exact sup_le Subgroup.le_normalizer
       (hS_cent_A.trans (Subgroup.centralizer_le_normalizer (A : Set EC)))
-  haveI : IsMulCommutative ↥A := by rw [hA]; exact Subgroup.zpowers_isMulCommutative t
-  haveI : Group.IsSolvable ↥(A.subgroupOf G') :=
+  have : IsMulCommutative ↥A := by rw [hA]; exact Subgroup.zpowers_isMulCommutative t
+  have : Group.IsSolvable ↥(A.subgroupOf G') :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hAG').toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hAG').injective
@@ -191,7 +191,7 @@ private theorem ggHalfKGCE6_isSolvable_cent_of_order31
     have h := Subgroup.index_mul_card (A.subgroupOf G')
     rw [hcardA', hcardG] at h
     omega
-  haveI : Group.IsSolvable (G' ⧸ A.subgroupOf G') := by
+  have : Group.IsSolvable (G' ⧸ A.subgroupOf G') := by
     refine CFSG.GroupTheory.groups_order_below_sixty_solvable ?_
     rw [← Subgroup.index_eq_card, hidx]
     norm_num
@@ -207,7 +207,7 @@ private theorem ggHalfKGCE6_cent_solvable
     Group.IsSolvable ↥(Subgroup.centralizer ({y} : Set EC)) := by
   obtain ⟨c, hc⟩ := ggHalfKGCE6_cent_eq_conj e6TwoT31 y orderOf_e6TwoT31 hy
   rw [hc]
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({e6TwoT31} : Set EC)) :=
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({e6TwoT31} : Set EC)) :=
     ggHalfKGCE6_cent_t31_solvable
   let e := Subgroup.equivMapOfInjective (Subgroup.centralizer ({e6TwoT31} : Set EC))
     (MulAut.conj c).toMonoidHom (MulEquiv.injective _)
@@ -216,7 +216,7 @@ private theorem ggHalfKGCE6_cent_solvable
 theorem ggKGCCentSolv_E6 :
     GGKGCCentSolv CFSG.StandardType.GGSixE6Two.EC 7 := by
   intro J k hJ hk3 hkne hkJcent
-  haveI : Finite EC := finite_EC
+  have : Finite EC := finite_EC
   obtain ⟨e⟩ := hJ
   have hcardJ : Nat.card ↥J =
       Nat.card (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 1)) := by
@@ -230,8 +230,8 @@ theorem ggKGCCentSolv_E6 :
   have h31 : 31 ∣ Nat.card ↥J := by
     rw [hcardJ, hcardSL]
     exact thirtyOne_dvd_ordA
-  haveI : Finite ↥J := inferInstance
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Finite ↥J := inferInstance
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' 31 h31
   let ye : EC := y
   have hye : orderOf ye = 31 := by
@@ -241,7 +241,7 @@ theorem ggKGCCentSolv_E6 :
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.1 hx ye y.2).symm
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({ye} : Set EC)) :=
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({ye} : Set EC)) :=
     ggHalfKGCE6_cent_solvable ye hye
   exact Group.isSolvable_of_isSolvable_injective
     (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)

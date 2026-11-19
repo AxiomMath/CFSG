@@ -52,9 +52,9 @@ private theorem cinvT_code (σ : P10) : cinvT (code σ) = code σ⁻¹ := by
   rw [code_length]
   exact (Setup.X3Aut.code_inv σ).symm
 
-private theorem isC_Ka : ∀ c ∈ Ka, IsC c := fun c hc => isC_of_psl (List.mem_filter.1 hc).1
+private theorem isC_Ka : ∀ _c ∈ Ka, IsC _c := fun _c hc => isC_of_psl (List.mem_filter.1 hc).1
 
-private theorem isC_Kb : ∀ c ∈ Kb, IsC c := fun c hc => isC_of_psl (List.mem_filter.1 hc).1
+private theorem isC_Kb : ∀ _c ∈ Kb, IsC _c := fun _c hc => isC_of_psl (List.mem_filter.1 hc).1
 
 private theorem Ka_map : Ka.map pk = KaK := by
   have hV : ∀ c ∈ Va, IsC c := fun c hc => isC_of_psl (List.contains_iff_mem.1

@@ -266,25 +266,25 @@ theorem isSubcoherent_of_weighted {G : Type u} [Group G] [Fintype G]
     exact (htau f hf1 f hf1 hf2 hf2).2.2.1
   · intro χ hχ r hr
     have hχ' := (hmem χ).1 hχ
-    rw [dif_pos (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
+    rw [dite_eq_left (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
     exact mem_virtualCharSpan_of_mem_virtualChars ((hR χ hχ').2.1 hr)
   · intro χ hχ r hr
     have hχ' := (hmem χ).1 hχ
-    rw [dif_pos (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
-    rw [charInner_eq_cfInner, (hR χ hχ').2.2.1 r hr r hr, if_pos rfl]
+    rw [dite_eq_left (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
+    rw [charInner_eq_cfInner, (hR χ hχ').2.2.1 r hr r hr, ite_eq_left rfl]
   · intro χ hχ r hr s hs hne
     have hχ' := (hmem χ).1 hχ
-    rw [dif_pos (hR χ hχ').1, Set.Finite.mem_toFinset] at hr hs
-    rw [charInner_eq_cfInner, (hR χ hχ').2.2.1 r hr s hs, if_neg hne]
+    rw [dite_eq_left (hR χ hχ').1, Set.Finite.mem_toFinset] at hr hs
+    rw [charInner_eq_cfInner, (hR χ hχ').2.2.1 r hr s hs, ite_eq_right hne]
   · intro χ hχ
     have hχ' := (hmem χ).1 hχ
     have hfinR := (hR χ hχ').1
-    rw [(hR χ hχ').2.2.2, dif_pos hfinR, ← finsum_mem_coe_finset, hfinR.coe_toFinset]
+    rw [(hR χ hχ').2.2.2, dite_eq_left hfinR, ← finsum_mem_coe_finset, hfinR.coe_toFinset]
   · intro χ hχ ψ hψ hne1 hne2 r hr s hs
     have hχ' := (hmem χ).1 hχ
     have hψ' := (hmem ψ).1 hψ
-    rw [dif_pos (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
-    rw [dif_pos (hR ψ hψ').1, Set.Finite.mem_toFinset] at hs
+    rw [dite_eq_left (hR χ hχ').1, Set.Finite.mem_toFinset] at hr
+    rw [dite_eq_left (hR ψ hψ').1, Set.Finite.mem_toFinset] at hs
     rw [charInner_eq_cfInner]
     exact hRR χ hχ' ψ hψ' hne1 hne2 r hr s hs
 

@@ -28,7 +28,7 @@ private theorem lk0xpa2b_node_eq
     {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
     (hpair : GGKacExcPair lab p)
     (ρ : MarkedRationalKacRealization Omega lab p R I phi)
-    (b : Fin ρ.tau.rank → Omegaˣ) (hb : ∀ i, b i ^ p = 1)
+    (b : Fin ρ.tau.rank → Omegaˣ) (_hb : ∀ i, b i ^ p = 1)
     (t : Fin ρ.row.diagram.marks.length → ZMod p)
     (ht : ∀ i, rootChar b (ρ.nodeMap (Pi.single i 1)) = ρ.zeta ^ (t i).val)
     (hinv : ∀ i, t (ρ.row.nodePerm i) = t i) :
@@ -42,10 +42,10 @@ private theorem lk0xpa2b_node_eq
       ρ.zeta ^ (t i).val := by
     rw [ht (ρ.row.nodePerm i), hinv i]
   by_cases hd : ρ.row.d = 1
-  · have heps : ρ.epsilon = 1 := by rw [ρ.epsilon_eq, if_pos hd]
+  · have heps : ρ.epsilon = 1 := by rw [ρ.epsilon_eq, ite_eq_left hd]
     have hdvd : p ∣ 2 ^ lab.n - 1 := by
       by_contra hc
-      have h2 : ρ.row.d = 2 := by rw [ρ.row.d_eq, if_neg hc]
+      have h2 : ρ.row.d = 2 := by rw [ρ.row.d_eq, ite_eq_right hc]
       omega
     have hzq : ρ.zeta ^ (2 ^ lab.n) = ρ.zeta := by
       obtain ⟨k, hk⟩ := hdvd
@@ -67,10 +67,10 @@ private theorem lk0xpa2b_node_eq
         _ = ρ.zeta ^ (t i).val := by rw [hzq]
     rw [heps, one_smul] at hchar
     rw [hchar, hrhs, hbnode]
-  · have heps : ρ.epsilon = -1 := by rw [ρ.epsilon_eq, if_neg hd]
+  · have heps : ρ.epsilon = -1 := by rw [ρ.epsilon_eq, ite_eq_right hd]
     have hdvd : p ∣ 2 ^ lab.n + 1 := by
       rcases hpair.2.2.1 with h | h
-      · exact absurd (by rw [ρ.row.d_eq, if_pos h]) hd
+      · exact absurd (by rw [ρ.row.d_eq, ite_eq_left h]) hd
       · exact h
     have hzq : ρ.zeta ^ (2 ^ lab.n) = ρ.zeta⁻¹ := by
       obtain ⟨k, hk⟩ := hdvd

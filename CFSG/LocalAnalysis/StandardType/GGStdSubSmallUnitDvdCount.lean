@@ -76,7 +76,7 @@ variable {K : Type} [Field K] [Finite K] {n d p : ℕ} {L' : Type} [Group L']
 
 theorem exists_torus (hM : Model φ) (hK : Nat.card K = (2 ^ n) ^ 2) (hp : p.Prime)
     (hpq : p ∣ 2 ^ n + 1) {S : Finset (Fin d)} {k₀ : Fin d} (hk₀ : k₀ ∉ S)
-    (r : Fin d → Fin d) (hr : ∀ k ∈ S, r k ∈ S) :
+    (r : Fin d → Fin d) (_hr : ∀ k ∈ S, r k ∈ S) :
     ∃ E : Subgroup L', p ^ ((S.image r).card - 1) ≤ Nat.card E ∧
       ∀ e ∈ E, ∃ (g : ↥(unitarySU 2 n K d)) (τ : Fin d → Kˣ), φ g = e ∧
         (g : GL (Fin d) K) = diagHom d τ ∧ (∀ k, τ k ^ p = 1) ∧ (∀ k, k ∉ S → τ k = 1) ∧
@@ -169,6 +169,7 @@ theorem exists_torus (hM : Model φ) (hK : Nat.card K = (2 ^ n) ^ 2) (hp : p.Pri
   · rintro _ ⟨x, rfl⟩
     exact ⟨θ x, ext₀ x, rfl, hθ x, hext_pow x, hext_off x, hext_tie x⟩
 
+omit [Finite K] in
 theorem isElemAbelian_torus {E : Subgroup L'}
     (hdesc : ∀ e ∈ E, ∃ (g : ↥(unitarySU 2 n K d)) (τ : Fin d → Kˣ), φ g = e ∧
       (g : GL (Fin d) K) = diagHom d τ ∧ ∀ k, τ k ^ p = 1) :
@@ -192,6 +193,7 @@ theorem isElemAbelian_torus {E : Subgroup L'}
       rfl
     rw [← hg, ← map_pow, h1, map_one]
 
+omit [Finite K] in
 theorem fix_of_torus {E : Subgroup L'} {a : MulAut L'} {σ : Fin d → Kˣ} (ha : ActsU φ a σ)
     (hdesc : ∀ e ∈ E, ∃ (g : ↥(unitarySU 2 n K d)) (τ : Fin d → Kˣ), φ g = e ∧
       (g : GL (Fin d) K) = diagHom d τ) : ∀ e ∈ E, a e = e := by

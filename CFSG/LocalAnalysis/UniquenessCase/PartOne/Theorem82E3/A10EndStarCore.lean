@@ -97,7 +97,7 @@ private theorem balance_quotient_pPrimeCore {X : Type} [Group X] [Finite X] {A :
       (Subgroup.card_dvd_of_le (inf_le_left : W₀ ≤ Wq.comap π)) hcopComap).symm
   have hW₀C : W₀ ≤ C := inf_le_right
   have hW₀Y : W₀ ≤ CFSG.Open.relPPrimeCore 3 C :=
-    hbal a haA ha1 W₀ (by simpa [W₀, C] using hW₀C) (by simpa [W₀] using hAW₀) hcopW₀
+    hbal a haA ha1 W₀ (by simp [W₀, C]) (by simpa [W₀] using hAW₀) hcopW₀
   rw [← hW₀map]
   refine (Subgroup.map_mono hW₀Y).trans ?_
   rw [CoprimeImage.relPPrimeCore_map_of_coprime_ker π hker C, hCmap']

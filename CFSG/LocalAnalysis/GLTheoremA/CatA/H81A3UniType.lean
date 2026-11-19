@@ -121,26 +121,26 @@ include hK hq hp hp2 hμ hpq
 
 theorem glaPPrimeCore_JU_le_center :
     GLAPPrimeCore p ↥(JU h) ≤ Subgroup.center ↥(JU h) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple
-    (isQuasisimple_JU hp hp2 hμ hpq hK hq) (GLAPPrimeCore.normal p _) fun htop => ?_
+    (isQuasisimple_JU hK hq) (GLAPPrimeCore.normal p _) fun htop => ?_
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥(JU h))) := CFSG.pPrimeCore_coprime_card
   rw [htop, Subgroup.card_top] at hcop
   have hdvd : p ∣ Nat.card ↥(JU h) :=
-    (dvd_card_JU hp hp2 hμ hpq hK hq).trans (Subgroup.card_quotient_dvd_card _)
+    (dvd_card_JU hp hp2 hμ hpq).trans (Subgroup.card_quotient_dvd_card _)
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 hcop hdvd
 
 theorem nonempty_pSimple_JU_equiv :
     Nonempty (PSimple p (JU h) ≃*
       ↥(StatedSU 3 (ℓ ^ f) K) ⧸ Subgroup.center ↥(StatedSU 3 (ℓ ^ f) K)) := by
   obtain ⟨e₁⟩ := center_quot_equiv_of_surjective
-    (isQuasisimple_JU hp hp2 hμ hpq hK hq).1 (QuotientGroup.mk' (GLAPPrimeCore p ↥(JU h)))
+    (isQuasisimple_JU hK hq).1 (QuotientGroup.mk' (GLAPPrimeCore p ↥(JU h)))
     (QuotientGroup.mk'_surjective _) (by
       rw [QuotientGroup.ker_mk']
       exact glaPPrimeCore_JU_le_center hK hq hp hp2 hμ hpq)
   exact ⟨e₁.trans (QuotientGroup.congr _ _ (juEquivStatedSU hK) (Subgroup.map_center_eq _))⟩
 
-omit hK hq in
+omit hK hq [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 private theorem prod_c3 (h3 : p = 3) : ∏ i, (![1, μ, μ, μ] : Fin 4 → K) i = 1 := by
   rw [Fin.prod_univ_four]
   show 1 * μ * μ * μ = 1
@@ -148,14 +148,15 @@ private theorem prod_c3 (h3 : p = 3) : ∏ i, (![1, μ, μ, μ] : Fin 4 → K) i
   subst h3
   exact hμ.pow_eq_one
 
-omit hK hq in
-private theorem pow_c3 (h3 : p = 3) (i : Fin 4) : (![1, μ, μ, μ] : Fin 4 → K) i ^ p = 1 := by
+omit hK hq [Finite K] [Fact ℓ.Prime] [CharP K ℓ] hp hp2 hpq in
+private theorem pow_c3 (_h3 : p = 3) (i : Fin 4) : (![1, μ, μ, μ] : Fin 4 → K) i ^ p = 1 := by
   fin_cases i <;> simp [hμ.pow_eq_one]
 
+omit hK hq [Fact ℓ.Prime] [CharP K ℓ] in
 theorem center_pQuot_JU_ne_bot (h3 : p = 3) :
     Subgroup.center (PQuot p (JU h)) ≠ ⊥ := by
   have hcp := prod_c3 hp hp2 hμ hpq h3
-  have hcn := norm_of_pow (h := h) hpq (pow_c3 hp hp2 hμ hpq h3)
+  have hcn := norm_of_pow (h := h) hpq (pow_c3 hμ h3)
   have hcJ : ∀ i ∈ blockJ, ∀ j ∈ blockJ,
       (![1, μ, μ, μ] : Fin 4 → K) i = (![1, μ, μ, μ] : Fin 4 → K) j := by
     intro i hi j hj
@@ -178,7 +179,7 @@ theorem center_pQuot_JU_ne_bot (h3 : p = 3) :
   have hxp : x ^ p = 1 := by
     apply Subtype.ext
     simp only [hx, SubgroupClass.coe_pow, OneMemClass.coe_one]
-    rw [← map_pow, diagU_pow_eq_one (pow_c3 hp hp2 hμ hpq h3), map_one]
+    rw [← map_pow, diagU_pow_eq_one (pow_c3 hμ h3), map_one]
   have hx1 : x ≠ 1 := by
     intro h1
     have h2 := congrArg Subtype.val h1
@@ -188,8 +189,8 @@ theorem center_pQuot_JU_ne_bot (h3 : p = 3) :
       (fun g : ↥(SG h) => ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) 1 1) h3'
     simp only [coe_diagU, diagonal_apply_eq, OneMemClass.coe_one, Units.val_one,
       one_apply_eq] at h4
-    exact ne_one_of_root hp hp2 hμ h4
-  haveI : Fact p.Prime := ⟨hp⟩
+    exact ne_one_of_root hp hμ h4
+  have : Fact p.Prime := ⟨hp⟩
   intro hbot
   have hxim : (QuotientGroup.mk x : PQuot p (JU h)) ∈ Subgroup.center (PQuot p (JU h)) :=
     Subgroup.map_center_le_center (f := QuotientGroup.mk' (GLAPPrimeCore p ↥(JU h)))
@@ -206,7 +207,7 @@ theorem center_pQuot_JU_ne_bot (h3 : p = 3) :
 
 theorem isSL3Type_JU : IsSL3Type p ℓ (JU h) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Fintype.card K = (ℓ ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]
   obtain ⟨q', hv, hq'p, -, ⟨e₂⟩⟩ :=
     CFSG.Adapters.CatalogueFieldBridges.exists_twistedA_mulEquiv_centerQuotient_statedSU
@@ -217,7 +218,7 @@ theorem isSL3Type_JU : IsSL3Type p ℓ (JU h) := by
         omega)
   obtain ⟨e₁⟩ := nonempty_pSimple_JU_equiv hK hq hp hp2 hμ hpq
   refine ⟨q', by rw [hq'p, ringChar.eq K ℓ], Or.inr ⟨.lie ⟨.twistedA (3 - 1) q', hv⟩, rfl,
-    ⟨e₁.trans e₂⟩⟩, fun h3 => center_pQuot_JU_ne_bot hK hq hp hp2 hμ hpq h3⟩
+    ⟨e₁.trans e₂⟩⟩, fun h3 => center_pQuot_JU_ne_bot hp hp2 hμ hpq h3⟩
 
 end Root
 

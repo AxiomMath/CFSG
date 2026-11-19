@@ -40,7 +40,7 @@ theorem lieSOut_triD4W (hD : LieSOutTypeW T tm tf tN) : TypeOuterAt T Pc FamTriD
       · exact absurd h (by decide)
     obtain ⟨K, _, _, σ, hK, hσ, ⟨e'⟩⟩ := exists_graphFixed_of_chevalleyExceptional hexc
     rw [hq2] at hK hσ
-    haveI := finite_graphFixedRootGroup_D4 σ
+    have := finite_graphFixedRootGroup_D4 σ
     have hβ3 : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hβ : MulAut.congr e' α ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
         MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range := by

@@ -126,11 +126,11 @@ theorem noX27Simple_f4Even
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U⟩ : Nonempty (Sylow 2 ↥L) := inferInstance
   have hU : CFSG.QuasithinUnique.IsSylowTwoOf (U : Subgroup ↥L) ⊤ :=
-    ⟨le_top, U.isPGroup', by
+    ⟨le_top, U.isPGroup, by
       have := U.not_dvd_index
       rwa [← Subgroup.relIndex_top_right] at this⟩
   refine false_of_borel_data_x27 hcfg h27 (MulEquiv.refl ↥L) (U := (U : Subgroup ↥L))
-    (B := Subgroup.normalizer ((U : Subgroup ↥L) : Set ↥L)) U.isPGroup' U.not_dvd_index
+    (B := Subgroup.normalizer ((U : Subgroup ↥L) : Set ↥L)) U.isPGroup U.not_dvd_index
     (fun H hUH hH => le_normalizer_of_card_eq27 hL hU hUH hH) ?_
   intro x hx y hy
   exact F4.commutator_mem_of_isSylowTwoOf hL hU hx hy

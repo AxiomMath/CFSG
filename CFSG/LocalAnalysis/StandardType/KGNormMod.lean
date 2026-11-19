@@ -21,7 +21,7 @@ private lemma prod_range_const_eq_pow {G : Type*} [Monoid G] (p : ℕ) (t : G) :
     intro x hx
     rcases List.mem_map.mp hx with ⟨i, -, rfl⟩
     rfl)
-  simpa [List.length_map, List.length_range] using h
+  simp [List.length_range]
 
 private lemma pow_inv_prod_range_mem {G : Type*} [CommGroup G] (Φ : MulAut G) (Y : Subgroup G)
     (hYΦ : ∀ y : G, Φ y ∈ Y ↔ y ∈ Y) (p : ℕ) (t : G) (ht : t⁻¹ * Φ t ∈ Y) :
@@ -29,7 +29,7 @@ private lemma pow_inv_prod_range_mem {G : Type*} [CommGroup G] (Φ : MulAut G) (
   have step : ∀ i : ℕ, t⁻¹ * (Φ ^ i) t ∈ Y := by
     intro i
     induction i with
-    | zero => simpa using Y.one_mem
+    | zero => simp
     | succ i ih =>
       have h : t⁻¹ * (Φ ^ (i + 1)) t = (t⁻¹ * Φ t) * Φ (t⁻¹ * (Φ ^ i) t) := by
         rw [pow_succ', MulAut.mul_apply]
@@ -45,17 +45,17 @@ private lemma pow_inv_prod_range_mem {G : Type*} [CommGroup G] (Φ : MulAut G) (
 
 theorem exists_norm_mod_of_fixed_mod {p : ℕ} (hp : p.Prime) {C : Type} [Group C] [Finite C]
     (M Y : Subgroup C) (hM : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) (β : MulAut C)
-    (hMβ : ∀ t : C, β t ∈ M ↔ t ∈ M) (hYM : Y ≤ M) (hYβ : ∀ t : C, β t ∈ Y ↔ t ∈ Y)
+    (hMβ : ∀ t : C, β t ∈ M ↔ t ∈ M) (_hYM : Y ≤ M) (hYβ : ∀ t : C, β t ∈ Y ↔ t ∈ Y)
     (hYp : Nat.Coprime (Nat.card Y) p)
     (hnorm : ∀ t ∈ M, β t = t →
       ∃ s ∈ M, t = ((List.range p).map fun i => (β ^ i) s).prod)
     (x : C) (hx : x ∈ M) (hxY : x⁻¹ * β x ∈ Y) :
     ∃ s ∈ M, x * (((List.range p).map fun i => (β ^ i) s).prod)⁻¹ ∈ Y := by
-  letI : CommGroup M :=
+  let : CommGroup M :=
     CommGroup.mk (fun a b => Subtype.ext (hM a a.2 b b.2))
   let Φ : MulAut M :=
     { toFun := fun s => ⟨β (s : C), (hMβ (s : C)).mpr s.2⟩
-      invFun := fun s => ⟨β⁻¹ (s : C), (hMβ (β⁻¹ (s : C))).mp (by simpa using s.2)⟩
+      invFun := fun s => ⟨β⁻¹ (s : C), (hMβ (β⁻¹ (s : C))).mp (by simp)⟩
       left_inv := fun s => Subtype.ext (by simp)
       right_inv := fun s => Subtype.ext (by simp)
       map_mul' := fun s t => Subtype.ext (by simp [Subgroup.coe_mul]) }

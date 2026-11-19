@@ -18,7 +18,7 @@ theorem isCyclic_sylow_of_pRank_le_one {K : Type} [Group K] [Finite K] {p : ℕ}
     (hp2 : p ≠ 2) (h : Open.pRank p (⊤ : Subgroup K) ≤ 1) (T : Sylow p K) :
     IsCyclic (T : Subgroup K) := by
   have : Fact p.Prime := ⟨hp⟩
-  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup⟩
   by_contra hnc
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hE : IsElemAbelian p (E.map (T : Subgroup K).subtype) :=

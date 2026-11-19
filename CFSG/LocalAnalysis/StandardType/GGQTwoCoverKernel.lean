@@ -50,7 +50,7 @@ theorem pPrimeCore_complement_of_central_quotient
     rw [hle]
     exact hdec.trans (sup_le_sup hOpP le_rfl)
   have hdisj : Disjoint K (P : Subgroup C) := by
-    obtain ⟨n, hn⟩ := (P.isPGroup' : IsPGroup p (P : Subgroup C)).exists_card_eq
+    obtain ⟨n, hn⟩ := (P.isPGroup : IsPGroup p (P : Subgroup C)).exists_card_eq
     apply disjoint_of_coprime_natCard
     rw [hn]
     exact ((CFSG.pPrimeCore_coprime_card (p := p) (G := C)).pow_left n).symm
@@ -130,7 +130,7 @@ theorem central_core_complement_data
     exact hKcop
   have hSp : IsPGroup p S :=
     IsPGroup.to_sup_of_normal_right' (CFSG.Open.IsElemAbelian.isPGroup hB)
-      (P.isPGroup'.map C.subtype) hPnorm
+      (P.isPGroup.map C.subtype) hPnorm
   have hKsupS : K ⊔ S = V := by
     calc
       K ⊔ S = K ⊔ (Bs ⊔ Pg) := rfl
@@ -141,8 +141,7 @@ theorem central_core_complement_data
       _ = V := rfl
   have hKSdisj : K ⊓ S = ⊥ := by
     obtain ⟨n, hn⟩ := hSp.exists_card_eq
-    exact Subgroup.inf_eq_bot_of_coprime
-      (by simpa [hn] using (hKcopY.symm).pow_right n)
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by simpa [hn] using (hKcopY.symm).pow_right n)))
   have hKnormalY : K.Normal := Subgroup.normalizer_eq_top_iff.mp (eq_top_iff.mpr hKnorm)
   have hK'normal : (K.subgroupOf V).Normal := hKnormalY.subgroupOf V
   let f : S.subgroupOf V →* (V ⧸ K.subgroupOf V) :=

@@ -30,20 +30,23 @@ private noncomputable def twA5E2Param {ζu : Fˣ} : Fin 3 → Subgroup.zpowers �
 private noncomputable def twA5E3Param {ζu : Fˣ} : Fin 3 → Subgroup.zpowers ζu :=
   ![1, 1, ⟨ζu, Subgroup.mem_zpowers ζu⟩]
 
+omit [Finite F] in
 private theorem twA5Vec_twA5EParam_e2 :
     twA5Vec (fun i => ((twA5EParam (twA5E2Param (ζu := ζu)) i : Fˣ) : F)) =
       (fun i : Fin 6 => if i ∈ ({0, 1, 2, 3} : Finset (Fin 6)) then (ζu : F)
         else ((ζu : F) ^ 2)⁻¹) := by
   funext i
-  fin_cases i <;> simp [twA5Vec, twA5EParam, twA5E2Param] <;> field_simp
+  fin_cases i <;> simp [twA5Vec, twA5EParam, twA5E2Param]; field_simp
 
+omit [Finite F] in
 private theorem twA5Vec_twA5EParam_e3 :
     twA5Vec (fun i => ((twA5EParam (twA5E3Param (ζu := ζu)) i : Fˣ) : F)) =
       (fun i : Fin 6 => if i ∈ ({0, 1, 4, 5} : Finset (Fin 6)) then (ζu : F)
         else ((ζu : F) ^ 2)⁻¹) := by
   funext i
-  fin_cases i <;> simp [twA5Vec, twA5EParam, twA5E3Param] <;> field_simp
+  fin_cases i <;> simp [twA5Vec, twA5EParam, twA5E3Param]; field_simp
 
+omit [Finite F] in
 private theorem twA5_zeta_ne_inv_sq {ζu : Fˣ} (hζo : orderOf ζu = q) (hq3 : ¬ q ∣ 3) :
     (ζu : F) ≠ ((ζu : F) ^ 2)⁻¹ := by
   intro heq
@@ -56,6 +59,7 @@ private theorem twA5_zeta_ne_inv_sq {ζu : Fˣ} (hζo : orderOf ζu = q) (hq3 : 
   rw [hζo] at hdvd
   exact hq3 hdvd
 
+omit [Finite F] in
 private theorem centralizer_twA5E2 (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q)
     (hq3 : ¬ q ∣ 3) :
     Subgroup.centralizer
@@ -71,6 +75,7 @@ private theorem centralizer_twA5E2 (hζ : h.norm (ζu : F) = 1) (hζo : orderOf 
     (twA5Vec_prod h fun i => norm_eq_one_of_mem_zpowers h hζ
       (twA5EParam (twA5E2Param (ζu := ζu)) i).2)
 
+omit [Finite F] in
 private theorem centralizer_twA5E3 (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q)
     (hq3 : ¬ q ∣ 3) :
     Subgroup.centralizer
@@ -86,6 +91,7 @@ private theorem centralizer_twA5E3 (hζ : h.norm (ζu : F) = 1) (hζo : orderOf 
     (twA5Vec_prod h fun i => norm_eq_one_of_mem_zpowers h hζ
       (twA5EParam (twA5E3Param (ζu := ζu)) i).2)
 
+omit [Finite F] in
 theorem diagSU_commute_unitaryBlock_of_eq_on {I : Finset (Fin 6)} {d : Fin 6 → F}
     (hd : ∀ i, h.norm (d i) = 1) (hdet : ∏ i, d i = 1) (hc : ∀ i ∈ I, d i = d 0)
     {B : unitarySU 2 n F 6} (hB : B ∈ unitaryBlock h I) :
@@ -116,6 +122,7 @@ theorem diagSU_commute_unitaryBlock_of_eq_on {I : Finset (Fin 6)} {d : Fin 6 →
         simpa [Matrix.one_apply, hij] using h1
       rw [h0, zero_mul, mul_zero]
 
+omit [Finite F] in
 private theorem unitaryBlock_pair_le_centralizer_twA5E (hζ : h.norm (ζu : F) = 1) :
     (unitaryBlock h ({0, 1} : Finset (Fin 6))).map (unitaryProj h 6) ≤
       Subgroup.centralizer (twA5E h hζ : Set (unitaryPSU h 6)) := by
@@ -213,7 +220,7 @@ theorem twA5E_layer_ne_bot (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q)
       exact Subgroup.mem_centralizer_singleton_iff.mpr hcomm
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_inf.mpr ⟨hA2, hA3⟩)
 
-theorem twA5_eight (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
+theorem twA5_eight (hζ : h.norm (ζu : F) = 1) (_hζo : orderOf ζu = q) :
     twA5B h hζ ⊓ blockSU h suFiveIndex ⊓
       Subgroup.centralizer
         (((unitaryLineRadical h).map (unitaryProj h 6) : Subgroup (unitaryPSU h 6)) :

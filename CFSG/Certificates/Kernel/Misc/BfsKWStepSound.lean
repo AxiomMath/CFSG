@@ -68,12 +68,12 @@ theorem next_countW (R : ℕ → ℕ) {o k i : ℕ} (hk : 0 < k) :
   unfold recCW
   by_cases hlt : i % k + 1 < k
   · obtain ⟨h1, h2⟩ := (succ_divmodW hk).1 hlt
-    rw [Nat.blt_eq.mpr hlt, cond_true]
+    rw [Nat.blt_eq.mpr hlt, _root_.Bool.cond_true]
     change _ = recFW R o (4 + (i + 1) % k) ((i + 1) / k)
     rw [h1, h2]
     rfl
   · obtain ⟨h1, h2⟩ := (succ_divmodW hk).2 hlt
-    rw [Bool.eq_false_iff.2 fun hb => hlt (Nat.blt_eq.mp hb), cond_false]
+    rw [Bool.eq_false_iff.2 fun hb => hlt (Nat.blt_eq.mp hb), Bool.cond_false]
     change _ = recFW R o (4 + (i + 1) % k) ((i + 1) / k)
     rw [h1, h2]
 

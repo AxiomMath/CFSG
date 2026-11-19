@@ -41,9 +41,9 @@ noncomputable def normalizerQuotientUnipotentEquiv {K : Type} [Field K] :
 theorem k_Sp4CartanRank_holds : K_Sp4CartanRank := by
   intro Y _ _ n hY hq S hS
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eP⟩⟩ := hY.statedClassicalModel (by decide)
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hn2 : 2 ≤ n := by
     rcases Nat.lt_or_ge n 2 with h | h
     · interval_cases n <;> simp at hq
@@ -52,8 +52,8 @@ theorem k_Sp4CartanRank_holds : K_Sp4CartanRank := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card, hKcard])
   let eYSp : Y ≃* StatedSp 2 K :=
     eP.trans (CFSG.Quasithin.Vol2.Ch10.SecC.C10KH.projEquivSp (F := K)).symm
@@ -189,7 +189,7 @@ theorem k_Sp4CartanRank_holds : K_Sp4CartanRank := by
           left_inv := fun a => Subtype.ext (e.symm_apply_apply a.1)
           right_inv := fun b => Subtype.ext (e.apply_symm_apply b.1) }
     obtain ⟨hp, ho⟩ := pRank_and_card_Omega1p_of_comm hcomm hr hkA
-    haveI : Fact (Nat.Prime r) := ⟨hr⟩
+    have : Fact (Nat.Prime r) := ⟨hr⟩
     have hp' : CFSG.pRank r (⊤ : Subgroup (normalizerQuotient S)) = 2 := by
       rw [CFSG.SectionRank.pRank_eq_open_pRank_top, CFSG.Quasithin.pRank_top_subtype]
       exact hp

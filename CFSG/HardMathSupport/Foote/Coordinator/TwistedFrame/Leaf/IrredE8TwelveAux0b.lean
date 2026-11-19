@@ -54,11 +54,11 @@ theorem sum_coeff_eq_zero {L : Type} [Field L] [IsAlgClosed L] {N : ℕ} (hN : 2
     have := hlt i
     omega
   have hz : P = 0 := poly_eq_zero_of_eval hN hNL hε hdeg fun x hx => by
-    simp only [hP, eval_finset_sum, eval_mul, eval_C, eval_pow, eval_X]
+    simp only [hP, eval_finsetSum, eval_mul, eval_C, eval_pow, eval_X]
     exact h x hx
   intro i
   have h1 : P.coeff (e i) = c i := by
-    simp only [hP, finset_sum_coeff, coeff_C_mul_X_pow]
+    simp only [hP, finsetSum_coeff, coeff_C_mul_X_pow]
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hji

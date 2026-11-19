@@ -19,6 +19,7 @@ namespace S36
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_op_two_of_normalizes {S Q : Subgroup G} (hQS : Q ≤ S)
     (hN : ∀ s ∈ S, ∀ q ∈ Q, s * q * s⁻¹ ∈ Q) (hp : IsPGroup 2 Q) : Q ≤ Op 2 S := by
   intro q hq
@@ -30,11 +31,14 @@ theorem le_op_two_of_normalizes {S Q : Subgroup G} (hQS : Q ≤ S)
   have hle : Q.subgroupOf S ≤ CFSG.pCore 2 ↥S := le_sSup ⟨hnorm, hp'⟩
   exact ⟨⟨q, hQS hq⟩, hle (Subgroup.mem_subgroupOf.mpr hq), rfl⟩
 
+omit [Finite G] in
 theorem op_two_le' (K : Subgroup G) : Op 2 K ≤ K := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem isPGroup_op_two (K : Subgroup G) : IsPGroup 2 (Op 2 K) :=
   CFSG.pCore_isPGroup.map K.subtype
 
+omit [Finite G] in
 theorem conj_mem_op_two_of_mem_nor {K : Subgroup G} {g o : G} (hg : g ∈ Nor K)
     (ho : o ∈ Op 2 K) : g * o * g⁻¹ ∈ Op 2 K := by
   have hON := CFSG.pCore_normal (p := 2) (G := ↥K)
@@ -53,6 +57,7 @@ theorem conj_mem_op_two_of_mem_nor {K : Subgroup G} {g o : G} (hg : g ∈ Nor K)
       exact this
   exact hle ⟨o, ho, rfl⟩
 
+omit [Finite G] in
 theorem mem_cenS_pair {p q y : G} :
     y ∈ CenS (Subgroup.closure {p, q}) ↔ y * p = p * y ∧ y * q = q * y := by
   rw [CenS, Subgroup.centralizer_closure, Subgroup.mem_centralizer_iff]
@@ -63,23 +68,27 @@ theorem mem_cenS_pair {p q y : G} :
     · exact hp.symm
     · exact hq.symm
 
+omit [Finite G] in
 theorem commute_conj {g x y : G} (h : x * y = y * x) :
     (g * x * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * x * g⁻¹) := by
   simp only [mul_assoc, inv_mul_cancel_left]
   rw [← mul_assoc x, h, mul_assoc]
 
+omit [Finite G] in
 theorem commute_of_conj {g x y : G}
     (h : (g * x * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * x * g⁻¹)) : x * y = y * x :=
   calc x * y = g⁻¹ * ((g * x * g⁻¹) * (g * y * g⁻¹)) * g := by group
     _ = g⁻¹ * ((g * y * g⁻¹) * (g * x * g⁻¹)) * g := by rw [h]
     _ = y * x := by group
 
+omit [Finite G] in
 theorem commute_conj_inv {g h z : G} (H : h * (g * z * g⁻¹) = (g * z * g⁻¹) * h) :
     (g⁻¹ * h * g) * z = z * (g⁻¹ * h * g) :=
   calc (g⁻¹ * h * g) * z = g⁻¹ * (h * (g * z * g⁻¹)) * g := by group
     _ = g⁻¹ * ((g * z * g⁻¹) * h) * g := by rw [H]
     _ = z * (g⁻¹ * h * g) := by group
 
+omit [Finite G] in
 theorem orderOf_conj'' (g k : G) : orderOf (g * k * g⁻¹) = orderOf k :=
   orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective k
 

@@ -21,11 +21,11 @@ private lemma N_apply (a : GL (Fin 4) K) (i j : Fin 4) :
 
 private lemma N_apply_of_ne {a : GL (Fin 4) K} {i j : Fin 4} (h : i ≠ j) :
     N a i j = (a : Matrix (Fin 4) (Fin 4) K) i j := by
-  rw [N_apply, if_neg h, sub_zero]
+  rw [N_apply, ite_eq_right h, sub_zero]
 
 private lemma N_diag (a : GL (Fin 4) K) (i : Fin 4) :
     N a i i = (a : Matrix (Fin 4) (Fin 4) K) i i - 1 := by
-  rw [N_apply, if_pos rfl]
+  rw [N_apply, ite_eq_left rfl]
 
 private lemma N_eq_zero_of_le {a : GL (Fin 4) K}
     (hU : (a : Matrix (Fin 4) (Fin 4) K).IsUpperTriangular)

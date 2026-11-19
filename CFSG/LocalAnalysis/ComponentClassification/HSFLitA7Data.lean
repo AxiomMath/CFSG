@@ -145,7 +145,7 @@ theorem _root_.CFSG.ComponentClassification.HSFLit.exists_mem_normalizer_not_mem
     refine lt_top_iff_ne_top.mpr fun htop => hne S (le_antisymm (fun g hg => ?_) hS)
     have h1 : (⟨g, hg⟩ : Q) ∈ P.subgroupOf Q := by rw [htop]; exact mem_top _
     exact h1
-  have : Group.IsNilpotent Q := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Q := S.isPGroup.isNilpotent
   obtain ⟨w, hwN, hwP⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨w, ?_, hwP, ?_⟩
@@ -162,7 +162,7 @@ theorem _root_.CFSG.ComponentClassification.HSFLit.exists_mem_normalizer_not_mem
         have h2 := mul_mem (mul_mem (inv_mem w.2) h1) w.2
         rw [show (w : G)⁻¹ * ((w : G) * g * (w : G)⁻¹) * (w : G) = g by group] at h2
         exact absurd h2 hgS
-  · refine S.isPGroup'.to_le (sup_le hS ?_)
+  · refine S.isPGroup.to_le (sup_le hS ?_)
     rw [zpowers_le]
     exact w.2
 

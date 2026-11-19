@@ -34,7 +34,7 @@ theorem eq_bot_of_abelian_stronglyClosed {G : Type*} [Group G] [Finite G] (P Q :
     · intro hx
       refine ⟨c⁻¹ * x * c, hx, ?_⟩
       simp [MulAut.conj_apply, mul_assoc]
-  have hQ2 : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup
   have hAn : ∀ a ∈ A, ∀ q ∈ (Q : Subgroup G), q⁻¹ * a * q ∈ A := fun a ha q hq =>
     hsc a ha q (mul_mem (mul_mem (inv_mem hq) (hAQ ha)) hq)
   obtain ⟨a₀, ha₀A, ha₀1, ha₀c⟩ : ∃ a ∈ A, a ≠ 1 ∧ ∀ q ∈ (Q : Subgroup G), q * a = a * q := by

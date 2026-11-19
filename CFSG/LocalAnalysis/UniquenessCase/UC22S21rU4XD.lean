@@ -139,7 +139,7 @@ theorem odd_n (u : U4X D L K n) {Ch : Choice2011 G}
   have h3B : 3 ∣ Nat.card c.B0 := by
     have h : 3 ∈ piSet c.B0 := by rw [c.hpi]; exact ⟨Nat.prime_three, h3⟩
     exact h.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) 3 h3B
   have hbo : orderOf (b : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hb
   rcases u.hLS with ⟨h3n, -⟩ | ⟨h5, -⟩
@@ -193,7 +193,7 @@ theorem exists_r (u : U4X D L K n) {Ch : Choice2011 G}
   have hpB : p ∣ Nat.card c.B0 := by
     have h : p ∈ piSet c.B0 := by rw [c.hpi]; exact ⟨hp, hpd⟩
     exact h.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b, hbo⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) p hpB
   have hbo' : orderOf (b : G) = p := by rw [Subgroup.orderOf_coe]; exact hbo
   exact ⟨b, b.2, hbo'.trans (u.eq_r hSg h869 h1930 c b.2 hp hbo')⟩

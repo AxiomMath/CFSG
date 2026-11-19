@@ -29,10 +29,10 @@ theorem zpowers_sq_eq_zpowers_of_cube_eq_one {G : Type*} [Group G] {x : G} (hx :
 theorem zpowers_eq_of_mem_zpowers_of_cube_eq_one {G : Type*} [Group G] {x y : G}
     (hx : x ^ 3 = 1) (hx1 : x ≠ 1) (hy : y ^ 3 = 1) (hy1 : y ≠ 1)
     (hyx : y ∈ Subgroup.zpowers x) : Subgroup.zpowers y = Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : orderOf x = 3 := orderOf_eq_prime (p := 3) hx hx1
   have hy3 : orderOf y = 3 := orderOf_eq_prime (p := 3) hy hy1
-  haveI : Finite ↥(Subgroup.zpowers x) :=
+  have : Finite ↥(Subgroup.zpowers x) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hx3]; norm_num)
   refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hyx) ?_
   simp [Nat.card_zpowers, hx3, hy3]
@@ -40,9 +40,9 @@ theorem zpowers_eq_of_mem_zpowers_of_cube_eq_one {G : Type*} [Group G] {x y : G}
 theorem exists_generators {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x)
     (hexp : ∀ x : H, x ^ 3 = 1) (hcard : Nat.card H = 9) :
     ∃ a b : H, a ≠ 1 ∧ b ∉ Subgroup.zpowers a ∧ ∀ x : H, ∃ i j : ℕ, x = a ^ i * b ^ j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup H := { ‹Group H› with mul_comm := hcomm }
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup H := { ‹Group H› with mul_comm := hcomm }
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hnt : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨a, ha⟩ := exists_ne (1 : H)
   have ha3 : orderOf a = 3 := orderOf_eq_prime (p := 3) (hexp a) ha
@@ -102,8 +102,8 @@ theorem exists_generators {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y 
 
 theorem card_line {H : Type*} [Group H] (hexp : ∀ x : H, x ^ 3 = 1) {a b : H} (ha : a ≠ 1)
     (hb : b ∉ Subgroup.zpowers a) (k : Fin 4) : Nat.card (line a b k) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hb1 : b ≠ 1 := fun h => hb (by simpa [h] using Subgroup.one_mem (Subgroup.zpowers a))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hb1 : b ≠ 1 := fun h => hb (by simp [h])
   have hab1 : a * b ≠ 1 := by
     intro h
     apply hb
@@ -129,9 +129,9 @@ theorem card_line {H : Type*} [Group H] (hexp : ∀ x : H, x ^ 3 = 1) {a b : H} 
 theorem line_injective {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x)
     (hexp : ∀ x : H, x ^ 3 = 1) {a b : H} (ha : a ≠ 1) (hb : b ∉ Subgroup.zpowers a) :
     Function.Injective (line a b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup H := { ‹Group H› with mul_comm := hcomm }
-  have hb1 : b ≠ 1 := fun h => hb (by simpa [h] using Subgroup.one_mem (Subgroup.zpowers a))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup H := { ‹Group H› with mul_comm := hcomm }
+  have hb1 : b ≠ 1 := fun h => hb (by simp [h])
   have ho_a : orderOf a = 3 := orderOf_eq_prime (p := 3) (hexp a) ha
   have ha_not_mem_b : a ∉ Subgroup.zpowers b := by
     intro hab
@@ -170,37 +170,37 @@ theorem line_injective {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x
       (Subgroup.inv_mem _ (Subgroup.pow_mem _ (Subgroup.mem_zpowers b) 2))
   have h01 : line a b 0 ≠ line a b 1 := by
     intro h
-    have hmem : b ∈ line a b 0 := by rw [h]; simpa [line] using Subgroup.mem_zpowers b
+    have hmem : b ∈ line a b 0 := by rw [h]; simp [line]
     exact hb (by simpa [line] using hmem)
   have h02 : line a b 0 ≠ line a b 2 := by
     intro h
     have hmem : a * b ∈ line a b 0 := by
-      rw [h]; simpa [line] using Subgroup.mem_zpowers (a * b)
+      rw [h]; simp [line]
     exact hab_not_mem_a (by simpa [line] using hmem)
   have h03 : line a b 0 ≠ line a b 3 := by
     intro h
     have hmem : a * b ^ 2 ∈ line a b 0 := by
-      rw [h]; simpa [line] using Subgroup.mem_zpowers (a * b ^ 2)
+      rw [h]; simp [line]
     exact hab2_not_mem_a (by simpa [line] using hmem)
   have h12 : line a b 1 ≠ line a b 2 := by
     intro h
     have hmem : a * b ∈ line a b 1 := by
-      rw [h]; simpa [line] using Subgroup.mem_zpowers (a * b)
+      rw [h]; simp [line]
     exact hab_not_mem_b (by simpa [line] using hmem)
   have h13 : line a b 1 ≠ line a b 3 := by
     intro h
     have hmem : a * b ^ 2 ∈ line a b 1 := by
-      rw [h]; simpa [line] using Subgroup.mem_zpowers (a * b ^ 2)
+      rw [h]; simp [line]
     exact hab2_not_mem_b (by simpa [line] using hmem)
   have h23 : line a b 2 ≠ line a b 3 := by
     intro h
     have hmem : a * b ^ 2 ∈ line a b 2 := by
-      rw [h]; simpa [line] using Subgroup.mem_zpowers (a * b ^ 2)
+      rw [h]; simp [line]
     have hmem' : a * b ^ 2 ∈ Subgroup.zpowers (a * b) := by simpa [line] using hmem
     have hbmem : b ∈ Subgroup.zpowers (a * b) := by
       have hb_eq : b = (a * b ^ 2) * (a * b)⁻¹ := by
         rw [mul_inv, pow_two]
-        simp [mul_assoc, mul_comm, mul_left_comm]
+        simp [mul_assoc]
       have hmem'' : (a * b ^ 2) * (a * b)⁻¹ ∈ Subgroup.zpowers (a * b) :=
         Subgroup.mul_mem (Subgroup.zpowers (a * b)) hmem'
           (Subgroup.inv_mem (Subgroup.zpowers (a * b)) (Subgroup.mem_zpowers (a * b)))
@@ -225,9 +225,9 @@ theorem exists_line_eq {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x
     (hexp : ∀ x : H, x ^ 3 = 1) {a b : H}
     (hgen : ∀ x : H, ∃ i j : ℕ, x = a ^ i * b ^ j) {M : Subgroup H} (hM : Nat.card M = 3) :
     ∃ k, M = line a b k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup H := { ‹Group H› with mul_comm := hcomm }
-  haveI : Finite M := Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup H := { ‹Group H› with mul_comm := hcomm }
+  have : Finite M := Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
   have hMne : M ≠ ⊥ :=
     (Subgroup.one_lt_card_iff_ne_bot M).mp (by rw [hM]; norm_num)
   obtain ⟨m, hm1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hMne
@@ -281,7 +281,7 @@ theorem exists_line_eq {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x
     simp [line]
 
 theorem line_facts {H : Type*} [Group H] (hcomm : ∀ x y : H, x * y = y * x)
-    (hexp : ∀ x : H, x ^ 3 = 1) (hcard : Nat.card H = 9) {a b : H} (ha : a ≠ 1)
+    (hexp : ∀ x : H, x ^ 3 = 1) (_hcard : Nat.card H = 9) {a b : H} (ha : a ≠ 1)
     (hb : b ∉ Subgroup.zpowers a) (hgen : ∀ x : H, ∃ i j : ℕ, x = a ^ i * b ^ j) :
     (∀ k, Nat.card (line a b k) = 3) ∧ Function.Injective (line a b) ∧
       ∀ M : Subgroup H, Nat.card M = 3 → ∃ k, M = line a b k :=

@@ -297,8 +297,8 @@ theorem hasStrothType_t201_of_images [Finite S]
 @[expose] def HasType200Or201AdjustedBasis
     (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hL : D.L ≤ Subgroup.normalizer C) (e f : C)
-    (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
-    (E : TorusBasisEquivFour D hBC e f) : Prop :=
+    (_he : e * e = ⟨D.a, hBC D.a.2⟩) (_hf : f * f = ⟨D.b, hBC D.b.2⟩)
+    (_E : TorusBasisEquivFour D hBC e f) : Prop :=
   ∃ z w : C, z * z = 1 ∧ w * w = 1 ∧
     ∃ E' : TorusBasisEquivFour D hBC (e * z) (f * w),
       Type200Images D hBC hL (e * z) (f * w) E' ∨
@@ -330,7 +330,7 @@ theorem hasStrothType_t200_or_t201_of_images [Finite S]
 
 theorem sq_mem_B_of_torusBasisFour
     [Finite S] [hN : (B.subgroupOf C).Normal]
-    (D : StrothTypeData B (StrothTypeIndex.t100 m))
+    (_D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)
     (hncyc : ¬ IsCyclic (C ⧸ B.subgroupOf C)) {e f : C} :

@@ -101,7 +101,7 @@ theorem exists_a9DataCore_of (hL : KFactA9Local) {G : Type} [Group G] [Finite G]
         (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e₀.symm).toEquiv]
       exact not_dvd_card_outer_alternatingGroup 9 (by norm_num) 3 hp (by norm_num)
     intro x hx
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨x, hx⟩
     have hxk : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hmem := mem_sup_centralizer_of_pow hp hOut hxk
     rwa [hC, sup_bot_eq] at hmem

@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B : Subgroup G}
 
+omit [Finite G] in
 private theorem sq_comm_of_inv {n x : G} (h : n * x * n⁻¹ = x⁻¹) : n ^ 2 * x = x * n ^ 2 := by
   have hc : n ^ 2 * x * (n ^ 2)⁻¹ = x := by
     have e : n ^ 2 * x * (n ^ 2)⁻¹ = n * (n * x * n⁻¹) * n⁻¹ := by
@@ -19,6 +20,7 @@ private theorem sq_comm_of_inv {n x : G} (h : n * x * n⁻¹ = x⁻¹) : n ^ 2 *
     rw [e2, h, inv_inv]
   exact mul_inv_eq_iff_eq_mul.1 hc
 
+omit [Finite G] in
 private theorem sq_comm_of_fix {n x : G} (h : n * x * n⁻¹ = x) : n ^ 2 * x = x * n ^ 2 := by
   have hc : n ^ 2 * x * (n ^ 2)⁻¹ = x := by
     have e : n ^ 2 * x * (n ^ 2)⁻¹ = n * (n * x * n⁻¹) * n⁻¹ := by
@@ -30,7 +32,7 @@ theorem exists_inverting_involution (hs : FF84Sec3 b L B b₁ b₂) (hCB : CenS 
     ∃ t : G, orderOf t = 2 ∧ t * b * t⁻¹ = b⁻¹ ∧ t * b₁ * t⁻¹ = b₁ ∧ t * b₂ * t⁻¹ = b₂ ∧
       t ∈ Nor B := by
   obtain ⟨n, hnN, hnb, hnb₁, hnb₂⟩ := hs.mono.2.2.2.1
-  haveI : IsElementaryAbelian 3 B := hs.mono.1.1
+  have : IsElementaryAbelian 3 B := hs.mono.1.1
   have hsqB : n ^ 2 ∈ CenS B := by
     have hc : Subgroup.closure ({b, b₁, b₂} : Set G) ≤ Subgroup.centralizer ({n ^ 2} : Set G) := by
       refine (Subgroup.closure_le _).2 ?_
@@ -74,7 +76,7 @@ theorem exists_inverting_involution (hs : FF84Sec3 b L B b₁ b₂) (hCB : CenS 
     have hdvd : orderOf b ∣ 2 := orderOf_dvd_of_pow_eq_one hsq
     rw [hs.hyp.ord] at hdvd
     norm_num at hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht_ord : orderOf (n ^ 3) = 2 := orderOf_eq_prime ht2 ht_ne
   have ht_N : n ^ 3 ∈ Nor B := (Nor B).pow_mem hnN 3
   exact ⟨n ^ 3, ht_ord, ht_b, ht_b₁, ht_b₂, ht_N⟩

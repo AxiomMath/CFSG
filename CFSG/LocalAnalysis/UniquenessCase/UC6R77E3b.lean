@@ -94,7 +94,7 @@ theorem rankThreeGamma_le_of_elemAbelian_cube {p r : ℕ} [hp : Fact p.Prime] [h
     have hj3' : j = 3 := by omega
     have hpr1 : p ∣ r - 1 := by
       by_contra hpr1
-      haveI := isCyclic_of_mulAut_three hpr hpr1 hX hXcard hAel.isPGroup
+      have := isCyclic_of_mulAut_three hpr hpr1 hX hXcard hAel.isPGroup
       have h := card_le_of_isCyclic hp.out.pos fun x : φ.range =>
         Subtype.ext (by simpa using hAel.2 x x.2)
       rw [hj, hj3'] at h
@@ -229,7 +229,7 @@ theorem rankThreeGamma_le_of_isCyclic_center {p r : ℕ} [hp : Fact p.Prime] [hr
   have habX' : ⁅a, b⁆ ∈ (⁅X, X⁆ : Subgroup G) := commutator_mem_commutator ha hb
   have habne : ⁅a, b⁆ ≠ 1 := fun h => hab (commutatorElement_eq_one_iff_mul_comm.mp h)
   have hZcard : Nat.card Z = r := by
-    haveI := hZ
+    have := hZ
     have hle : Nat.card Z ≤ r := card_le_of_isCyclic hr.out.pos fun x =>
       Subtype.ext (by simpa using hexp x (hZX x.2))
     obtain ⟨k, hk⟩ := (hX.to_le hZX).exists_card_eq

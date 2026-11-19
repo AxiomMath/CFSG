@@ -214,7 +214,7 @@ theorem exists_frame_commute_of_commLifts {n : ℕ} (hn : 1 ≤ n) (h3 : 3 ∣ 2
               (MulAut.conj C).toMonoidHom,
             B x * B y = B y * B x := by
   classical
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
@@ -222,7 +222,7 @@ theorem exists_frame_commute_of_commLifts {n : ℕ} (hn : 1 ≤ n) (h3 : 3 ∣ 2
     rw [ringChar.eq K 2]
     norm_num
   obtain ⟨D⟩ := d4t2pl_nonempty_lineLangIota K σ (2 ^ n) hK3 hσ hK hq2 h hh1 hh3
-  haveI : CharP (AlgebraicClosure K) 2 := by
+  have : CharP (AlgebraicClosure K) 2 := by
     have hc := D.hchar
     rwa [ringChar.eq K 2] at hc
   have hSq : D.S.D.q = 2 ^ n := D.hSq.trans D.hqe.symm
@@ -342,12 +342,12 @@ private theorem map_conjSLn_witt_eq_fix {Ω : Type} [Field Ω] [IsAlgClosed Ω] 
       (conjSLn (Matrix.GeneralLinearGroup.map F.subtype P6)) =
       fixSubgroup (stdUnitaryEquiv (ν := 6) σQ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
   have hF2 : (2 : F) = 0 := by
     rw [← map_eq_zero_iff F.subtype F.subtype.injective, map_ofNat]
     exact CharP.cast_eq_zero Ω 2
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
   obtain ⟨F', hF'card, eFix, heFix⟩ :=
     two_suN_exists_equiv_link (ν := 6) Nat.prime_two hf σQ hσQ (by norm_num)
   have hF'eq : F' = F := Subfield.ext fun a =>
@@ -666,7 +666,7 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
     {A L : Subgroup H} {x : H} (hxA : x ∈ A) (hx3 : orderOf x = 3)
     (hAe : CFSG.Open.IsElemAbelian 3 A)
     {c : twistedE6InndiagGL F σ} {Q : SL2 k} {m : ℕ}
-    (hQ : orderOf Q = Nat.card k + 1) (hQm : Q ^ m ≠ 1)
+    (hQ : orderOf Q = Nat.card k + 1) (_hQm : Q ^ m ≠ 1)
     (hcx : (c : ModGL TwistTag.E6.tag F) * ι₀ x * (c : ModGL TwistTag.E6.tag F)⁻¹ =
       (thetaSL2 F).comp (Matrix.SpecialLinearGroup.map (algebraMap k F)) (Q ^ m))
     (hL : L.map ((MulAut.conj (c : ModGL TwistTag.E6.tag F)).toMonoidHom.comp ι₀) =
@@ -682,7 +682,7 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
               ((MulAut.conj (c : ModGL TwistTag.E6.tag F)).toMonoidHom.comp ι₀))
         let X : Subgroup (ModGL TwistTag.E6.tag Ω) := A.map ι
         let ψ : SL(6, Ω) →* ModGL TwistTag.E6.tag Ω := realize (CharP.cast_eq_zero Ω 2)
-        let β : Fin 5 → Fin Tag.E6.rank → ℤ := fun i => Pi.single (pathIdx i) (1 : ℤ)
+        let _β : Fin 5 → Fin Tag.E6.rank → ℤ := fun i => Pi.single (pathIdx i) (1 : ℤ)
         X ≤ torusGroup Tag.E6 Ω ⊔ ψ.range ∧
           L.map ι = (su6Levi σ.toRingHom).map (baseChangeGL F.subtype) ∧
           (∀ Y : SL(6, Ω),
@@ -704,15 +704,15 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
               ∀ s, θ (QuotientGroup.mk (Φ s)) =
                 LargeEvenProjMk (LargeEvenSUGroup (Fin 6) F (2 ^ f)) s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have hk2 : (2 : k) = 0 := E6GraphHighestRoot.two_eq_zero_of_card hf hk
-  haveI : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hk2
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hk2
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
   have hF2 : (2 : F) = 0 := by
     rw [← map_eq_zero_iff F.subtype F.subtype.injective, map_ofNat]
     exact CharP.cast_eq_zero Ω 2
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
   have h2Ω : (2 : Ω) = 0 := CharP.cast_eq_zero Ω 2
   obtain ⟨l, P2, hl1, hlq, hP⟩ :=
     exists_inv_mul_map_mul_eq_HSL_of_finrank (finrank_eq_two hf hk hFcard) hQ
@@ -770,7 +770,7 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
     (l := l) hl2 hP hB hFl
   have hcomp : σQ.toRingHom.comp F.subtype = F.subtype.comp σ.toRingHom := by
     ext x
-    simp [hσQ, hσ, map_pow]
+    simp [hσQ, hσ]
   have haΩ : Matrix.SpecialLinearGroup.map σQ.toRingHom P2Ω =
       P2Ω * Matrix.SpecialLinearGroup.map F.subtype (nSL a) := by
     have hmap := congrArg (Matrix.SpecialLinearGroup.map F.subtype) ha
@@ -1091,7 +1091,7 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
         intro h
         have h0 : (0 : Ω) = F.subtype (u : F) := by simpa [h] using hv
         have hu : F.subtype (u : F) ≠ 0 := by
-          simpa using F.subtype.injective.ne (Units.ne_zero u)
+          simp
         exact hu h0.symm
       refine ⟨Units.mk0 v hv0, Units.ext ?_⟩
       simpa [Units.val_pow_eq_pow_val, Units.mk0_val] using hv
@@ -1152,11 +1152,7 @@ theorem exists_standardSU6Frame_of_original_data {Ω : Type} [Field Ω] [IsAlgCl
         toralCentralizer TwistTag.E6.tag Ω (CFSG.SeitzReduction.EPilot.highDiag TwistTag.E6.tag ζΩ) := by
       refine mem_toralCentralizer.2 ⟨?_, ?_⟩
       · exact mul_mem (mul_mem (inv_mem hn_adj) hbga_adj) hn_adj
-      · change rootDiagUnit (K := Ω) TwistTag.E6.tag (CFSG.SeitzReduction.EPilot.highDiag TwistTag.E6.tag ζΩ) *
-          (n⁻¹ * b ((c : ModGL TwistTag.E6.tag F) * ι₀ a *
-            (c : ModGL TwistTag.E6.tag F)⁻¹) * n) *
-          (rootDiagUnit (K := Ω) TwistTag.E6.tag (CFSG.SeitzReduction.EPilot.highDiag TwistTag.E6.tag ζΩ))⁻¹ = _
-        rw [hcomm.symm.eq, mul_inv_cancel_right]
+      · rw [hcomm.symm.eq, mul_inv_cancel_right]
     have hrootSpan : rootSpan Tag.E6 Ω (CFSG.SeitzReduction.EPilot.perpRoots .E6) ≤ ψ.range := by
       rw [show ψ.range = subsystemGroup Tag.E6 Ω setA from range_realize h2Ω]
       exact rootSpan_perpRoots_le_subsystemGroup
@@ -1246,19 +1242,19 @@ theorem naturalSU3_cover_range_eq_of_projective_eq
   have hFcard : Nat.card F = (2 ^ f) ^ 2 := by
     rw [hF.card, mul_comm, pow_mul]
   have hperf : Group.IsPerfect (StatedSU 3 (2 ^ f) F) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite F := hF.finite
-    haveI : CharP F 2 := hF.charP
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite F := hF.finite
+    have : CharP F 2 := hF.charP
     exact CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := f) hFcard
       (by norm_num : 3 ≤ 3) (by
         intro h
         have h2 : 2 ^ f = 2 := by simpa using congrArg Prod.snd h
         omega)
   have hΨperfect : Group.IsPerfect Ψ3.range := by
-    haveI : Group.IsPerfect (StatedSU 3 (2 ^ f) F) := hperf
+    have : Group.IsPerfect (StatedSU 3 (2 ^ f) F) := hperf
     exact Group.IsPerfect.range (f := Ψ3)
   have hΨcomm : ⁅Ψ3.range, Ψ3.range⁆ = Ψ3.range := by
-    haveI : Group.IsPerfect Ψ3.range := hΨperfect
+    have : Group.IsPerfect Ψ3.range := hΨperfect
     exact Subgroup.commutator_eq_self
   have hrange_jS : jS.range = j.range.map κ6.symm.toMonoidHom := by
     calc
@@ -1491,9 +1487,9 @@ theorem exists_thetaTorusHom_of_mem_centralizer_su6Levi
     ∃ t : Ωˣ, n⁻¹ * baseChangeGL bc rF * n = thetaTorusHom Ω t ∧
       (rF ^ 3 = 1 → t ^ 3 = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : CharP F 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hFcard
   have hF2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have h2Ω : (2 : Ω) = 0 := CharP.cast_eq_zero Ω 2
@@ -1600,10 +1596,10 @@ theorem exists_corootResidualTorus_of_original_data {Ω : Type} [Field Ω] [Char
   let rF : ModGL TwistTag.E6.tag F := j r
   have hι_apply : ∀ h : H, ι h = n⁻¹ * b (j h) * n := by
     intro h
-    simp [ι, MulAut.conj_apply, inv_inv]
+    simp [ι]
   have hιW_apply : ∀ h : H, ιW h = ψS⁻¹ * ι h * ψS := by
     intro h
-    simp [ιW, MulAut.conj_apply, inv_inv]
+    simp [ιW]
   have hxI' : n⁻¹ * b (j x) * n = thetaTorusHom Ω ζ := by
     rw [← hι_apply x]
     simpa only [ι, b, j] using hxI
@@ -1718,7 +1714,7 @@ theorem conj_rootDiagUnit_cubic_original_e
     (MulAut.conj ψT⁻¹).toMonoidHom.comp ιW
   have hιT_apply : ∀ h : H, ιT h = ψT⁻¹ * ιW h * ψT := by
     intro h
-    simp [ιT, ψT, MulAut.conj_apply, inv_inv]
+    simp [ιT, ψT]
   have hψT_mem : ψT ∈ subsystemGroup TwistTag.E6.tag Ω setA := by
     rw [show ψT = realize h2 T from rfl, ← range_realize h2]
     exact ⟨T, rfl⟩
@@ -1777,7 +1773,7 @@ theorem conj_rootDiagUnit_cubic_original_e
     rw [hdiag]
     congr 1
     funext k
-    fin_cases k <;> simp [χ, Pi.mulSingle_apply] <;> rfl
+    fin_cases k <;> simp [χ] <;> rfl
   have hDpow_aux : ∀ n : ℕ, D ^ n = rootDiagUnit TwistTag.E6.tag (χ ^ n) := by
     intro n
     induction n with
@@ -2040,7 +2036,7 @@ private lemma block_conj_formula {E : Type} [Field E] {n r : ℕ}
 
 private lemma naturalSU3_block_iota
     {E F : Type} [Field E] [Finite E] [CharP E 2] {f : ℕ}
-    (hE : Nat.card E = (2 ^ f) ^ 2)
+    (_hE : Nat.card E = (2 ^ f) ^ 2)
     [Field F] [Finite F] [CharP F 2] (hFcard : Nat.card F = (2 ^ f) ^ 2)
     (hF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f F)
     (τ : E ≃+* F)
@@ -2316,8 +2312,8 @@ private lemma naturalSU3_cover_range_kernel
       LargeEvenProjMk (LargeEvenSUGroup (Fin 6) F (2 ^ f)) s) :
     Φ6.range = ⊤ ∧ Φ6.ker ≤ Subgroup.center (StatedSU 6 (2 ^ f) F) := by
   classical
-  haveI : Finite F := hF.finite
-  haveI : CharP F 2 := hF.charP
+  have : Finite F := hF.finite
+  have : CharP F 2 := hF.charP
   have hFcard : Nat.card F = (2 ^ f) ^ 2 := hF.card_eq_sq
   let κ6 : StatedSU 6 (2 ^ f) F ≃* gramSU hF
       (CFSG.RankThree.PartOne.KCUnitaryModel.idGram F 6) :=
@@ -2367,16 +2363,16 @@ private lemma naturalSU3_cover_range_kernel
       ← MonoidHom.range_eq_map q6,
       MonoidHom.range_eq_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
   have hPcomm : ⁅Φ6.range, Φ6.range⁆ = Φ6.range := by
-    haveI : Group.IsPerfect ↥(Φ6.range) := by
-      haveI : Group.IsPerfect (StatedSU 6 (2 ^ f) F) := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsPerfect ↥(Φ6.range) := by
+      have : Group.IsPerfect (StatedSU 6 (2 ^ f) F) := by
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := f) hFcard
           (by norm_num : 3 ≤ 6) (by intro h; have := congrArg Prod.fst h; norm_num at this)
       exact Group.IsPerfect.range (f := Φ6)
     exact Subgroup.commutator_eq_self
   have htopcomm : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = (⊤ : Subgroup L) := by
-    haveI : Group.IsPerfect L := hLperfect
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup L) :=
+    have : Group.IsPerfect L := hLperfect
+    have : Group.IsPerfect ↥(⊤ : Subgroup L) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := L)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := L)).symm.surjective
     exact Subgroup.commutator_eq_self
@@ -2385,7 +2381,7 @@ private lemma naturalSU3_cover_range_kernel
     rw [hPmap, ← MonoidHom.range_eq_map π,
       MonoidHom.range_eq_top_of_surjective _ hπsurj]
   refine ⟨hrangeTop, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkerproj : (LargeEvenProjMk (LargeEvenSUGroup (Fin 6) F (2 ^ f))).ker =
       (StatedScalars (Fin 6) F).subgroupOf (StatedSU 6 (2 ^ f) F) := by
     rw [LargeEvenProjMk, QuotientGroup.ker_mk']
@@ -2453,7 +2449,7 @@ theorem naturalSU3_whole_pair_in_original_cover
         Rm = ggRootSub (ggU .PSU 6 f).D phiL (-β) r := by
   classical
   have hFcard : Nat.card F = (2 ^ f) ^ 2 := hF.card_eq_sq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ : GaloisField 2 (2 * f) ≃+* GaloisField 2 (2 * f) :=
     unitaryInvolution (GaloisField 2 (2 * f)) 2 f
   let hE : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 :=
@@ -2529,8 +2525,8 @@ theorem naturalSU3_whole_pair_in_original_cover
       _ ≤ Subgroup.center (ggU .PSU 6 f).K :=
         Subgroup.comap_center_le_center (f := e6.toMonoidHom) e6.injective
   have hJperfect : ⁅J.subgroupOf L, J.subgroupOf L⁆ = J.subgroupOf L := by
-    haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ.1
-    haveI : Group.IsPerfect ↥(J.subgroupOf L) :=
+    have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJ.1
+    have : Group.IsPerfect ↥(J.subgroupOf L) :=
       Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hJL).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hJL).symm.surjective
@@ -2575,12 +2571,10 @@ theorem naturalSU3_whole_pair_in_original_cover
   obtain ⟨β3, u3, hβ3, hlong3, hR3, hRm3⟩ :=
     hIRG phiJ₀ hnorm hphiJ₀range hphiJ₀ker
   have hβ3' : β3 ∈ (CFSG.LieType.Universal.Unitary.rootDatum hE 3).roots := by
-    change β3 ∈ (CFSG.LieType.Universal.Unitary.rootDatum hE 3).roots
     exact hβ3
   have hlong3' : GGLongRoot (CFSG.LieType.Universal.Unitary.rootDatum hE 3) β3 := by
     rcases hlong3 with h | h
-    · change GGLongRoot (CFSG.LieType.Universal.Unitary.rootDatum hE 3) β3
-      exact h
+    · exact h
     · obtain ⟨hbad, -⟩ := h
       simp at hbad
   have hR3' : R = ggRootSub (CFSG.LieType.Universal.Unitary.rootDatum hE 3) phiJ₀ β3 u3 := hR3

@@ -39,7 +39,7 @@ theorem l3_transport {n : ℕ} {Y : Type} [Group Y] [Finite Y] {X U : Subgroup Y
     exact hcardN
   · intro hev h3 r hr hc p hp hp5 hpn
     obtain ⟨c, hcB, hcU, hc3, hrc⟩ := hc
-    obtain ⟨α, hαU, hαx⟩ := bt_conj hU e he r hr
+    obtain ⟨α, hαU, hαx⟩ := bt_conj e he r hr
     have hcX : c ∈ X := (Subgroup.mem_inf.mp hcB).1
     have hcN : c ∈ Subgroup.normalizer (U : Set Y) := (Subgroup.mem_inf.mp hcB).2
     have hrX : r * c * r⁻¹ ∈ X := (Subgroup.mem_normalizer_iff.mp hr.1 c).1 hcX

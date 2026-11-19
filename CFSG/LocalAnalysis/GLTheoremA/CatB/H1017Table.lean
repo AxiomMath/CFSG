@@ -18,7 +18,7 @@ theorem elemAbelian_card_le_sq_of_cubic {X : Type} [Group X] [Finite X] {p : ℕ
     (h4 : ¬ p ^ 4 ∣ Nat.card X) {x y : X} (hz : ⁅x, y⁆ ≠ 1)
     (hcard : Nat.card (Subgroup.closure ({x, y} : Set X)) = p ^ 3)
     (E : Subgroup X) (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (isPGroup_of_elemAbelian hE)
   rw [hm]
   refine Nat.pow_le_pow_right hp.pos ?_
@@ -83,7 +83,7 @@ theorem twoRankLe_two_of_order (hOrd : SporadicOrdersTable) {s : TauCeti.Sporadi
   simp only [S8.sporIs] at hi
   subst hi
   have hK : Nat.card K = sporOrd s := (Nat.card_congr e.toEquiv).trans (hOrd s)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact glaTwoLocalRank_le_of_card_le hp fun R E _ _ _ hE => by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (isPGroup_of_elemAbelian hE)
     rw [hm]

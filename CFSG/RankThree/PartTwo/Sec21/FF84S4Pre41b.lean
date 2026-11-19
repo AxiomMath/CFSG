@@ -17,7 +17,7 @@ theorem J₁_sylow (h : FF84Sec4 b L B K b₁ b₂) {D₀ J₁ J₂ : Subgroup G
     (hP₂J₂ : Subgroup.zpowers b₂ ≤ J₂) (hJO : J₁ ⊓ J₂ ≤ Opp 3 D₀)
     (hsyl : IsSylowOf 3 (Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G)) D₀) :
     IsSylowOf 3 (Subgroup.zpowers (b * b₁ ^ 2)) J₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U := Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G) with hU
   set P₁ := Subgroup.zpowers (b * b₁ ^ 2) with hP₁
   have hsup : P₁ ⊔ Subgroup.zpowers b₂ = U := zpowers_sup_eq _ _
@@ -56,7 +56,7 @@ theorem D₀_decomp (h : FF84Sec4 b L B K b₁ b₂) (hA : A8Model L)
     (hJO : J₁ ⊓ J₂ ≤ Opp 3 D₀)
     (hsyl : IsSylowOf 3 (Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G)) D₀) :
     ∀ x ∈ D₀, ∃ o ∈ Opp 3 D₀, ∃ n ∈ D₀ ⊓ Nor (Subgroup.zpowers (b * b₁ ^ 2)), x = o * n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSyl := J₁_sylow h hJ₁ hn₁ hP₁J₁ hP₂J₂ hJO hsyl
   have hcard : Nat.card (Subgroup.zpowers (b * b₁ ^ 2)) = 3 := by
     rw [Nat.card_zpowers, orderOf_bb₁sq h]
@@ -69,6 +69,7 @@ theorem D₀_decomp (h : FF84Sec4 b L B K b₁ b₂) (hA : A8Model L)
   obtain ⟨hnD, hnN⟩ := Subgroup.mem_inf.1 hn
   exact Subgroup.mem_inf.2 ⟨mul_mem (hJ₁ hn'J) hnD, mul_mem hn'N hnN⟩
 
+omit [Finite G] in
 theorem nor_zpowers {n g : G} (hn : n * g = g * n) : n ∈ Nor (Subgroup.zpowers g) := by
   have key : ∀ m : G, m * g = g * m → ∀ z ∈ Subgroup.zpowers g, m * z * m⁻¹ ∈ Subgroup.zpowers g := by
     intro m hm z hz
@@ -83,6 +84,7 @@ theorem nor_zpowers {n g : G} (hn : n * g = g * n) : n ∈ Nor (Subgroup.zpowers
   have e : n⁻¹ * (n * z * n⁻¹) * n⁻¹⁻¹ = z := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem nor_sup {A A' : Subgroup G} : Nor A ⊓ Nor A' ≤ Nor (A ⊔ A') := by
   intro n hn
   have hmap : ∀ m ∈ Nor A ⊓ Nor A', ∀ z ∈ A ⊔ A', m * z * m⁻¹ ∈ A ⊔ A' := by
@@ -125,7 +127,7 @@ theorem E_eq (h : FF84Sec4 b L B K b₁ b₂) :
     exact mul_mem (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
 theorem B_le_nor_P₁ (h : FF84Sec4 b L B K b₁ b₂) :
-    B ≤ Nor (Subgroup.zpowers (b * b₁ ^ 2)) := fun y hy =>
+    B ≤ Nor (Subgroup.zpowers (b * b₁ ^ 2)) := fun _y hy =>
   nor_zpowers (comm_of_mem h hy (bb₁sq_mem h)).eq
 
 theorem nor_P₁_le_nor_E (h : FF84Sec4 b L B K b₁ b₂) :
@@ -134,6 +136,7 @@ theorem nor_P₁_le_nor_E (h : FF84Sec4 b L B K b₁ b₂) :
   rw [E_eq h]
   exact nor_sup ⟨nor_zpowers (Subgroup.mem_centralizer_singleton_iff.1 hn1), hn2⟩
 
+omit [Finite G] in
 theorem exists_mul_of_index_three {D D₀ N : Subgroup G} (hDD : D₀ ≤ D)
     (hn : ∀ g ∈ D, ∀ x ∈ D₀, g * x * g⁻¹ ∈ D₀) (hND : N ≤ D) (h3 : D₀.relIndex D = 3)
     (hNnot : ¬ N ≤ D₀) : ∀ d ∈ D, ∃ d₀ ∈ D₀, ∃ n ∈ N, d = d₀ * n := by
@@ -164,7 +167,7 @@ theorem exists_mul_of_index_three {D D₀ N : Subgroup G} (hDD : D₀ ≤ D)
 
 theorem B_not_le_D₀ (h : FF84Sec4 b L B K b₁ b₂) {D₀ : Subgroup G}
     (hsyl : IsSylowOf 3 (Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G)) D₀) : ¬ B ≤ D₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hBD
   have hBU : B ≤ Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G) :=
     le_of_isSylowOf hsyl hBD (isPGroup_B h) (U_le_B h)

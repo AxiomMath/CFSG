@@ -103,7 +103,7 @@ theorem CaseBGen.Z_le_Gi (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) {k : 
   rwa [show i + (k - i) = k by ring] at h
 
 theorem CaseBGen.Z_le_S (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) : X.Z i ≤ X.S := by
-  haveI : Finite ↥(X.Gi 0 ⊓ X.Gi (0 + 1)) :=
+  have : Finite ↥(X.Gi 0 ⊓ X.Gi (0 + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi (0 + 1)) inf_le_left
   have h0 : X.Z i ≤ X.Gi 0 := B.Z_le_Gi hi (by rcases hi with rfl | rfl <;> decide)
   have h1 : X.Z i ≤ X.Gi (0 + 1) := B.Z_le_Gi hi (by rcases hi with rfl | rfl <;> decide)

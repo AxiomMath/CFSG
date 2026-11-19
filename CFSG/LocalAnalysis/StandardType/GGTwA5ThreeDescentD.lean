@@ -445,8 +445,8 @@ private theorem twd_c15b {L' R : Type} [Group L'] [Finite L'] [Group R]
     {A : Subgroup (MulAut L')} (hAle : A ≤ U63TB.presZ (U63TB.twoSub ψ.ker hker))
     (w₁ : GGTorusTorWit 3 N (L' ⧸ U63TB.twoSub ψ.ker hker)
       (U63TB.redSub hker hAle).range) :
-    ∀ τ ∈ twd_T hker hAle w₁, ∀ t ∈ twd_Tsc hker hAle w₁, τ t = t :=
-  fun τ hτ t ht => ((twd_mem_Tsc hker hAle w₁).mp ht).2 τ hτ
+    ∀ τ ∈ twd_T hker hAle w₁, ∀ _t ∈ twd_Tsc hker hAle w₁, τ _t = _t :=
+  fun τ hτ _t ht => ((twd_mem_Tsc hker hAle w₁).mp ht).2 τ hτ
 
 private theorem twd_c15c {L' R : Type} [Group L'] [Finite L'] [Group R]
     {N : ℕ} {C : Matrix (Fin N) (Fin N) ℤ} {M : CoxeterMatrix (Fin N)}

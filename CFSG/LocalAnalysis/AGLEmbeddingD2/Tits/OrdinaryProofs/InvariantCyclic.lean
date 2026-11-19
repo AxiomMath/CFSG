@@ -135,7 +135,7 @@ theorem exists_coset_fixed [Finite G] (c : G) (Y D P : Subgroup G) (hDY : D ≤ 
   obtain ⟨d, hd, hde⟩ := hmem
   exact ⟨d, hd, hde.symm⟩
 
-theorem conj_mem_zpowers_sup (g z : G) (D : Subgroup G) (S : Subgroup G) (hg : g ∈ S)
+theorem conj_mem_zpowers_sup (g z : G) (D : Subgroup G) (S : Subgroup G) (_hg : g ∈ S)
     (hD : ∀ d ∈ D, g * d * g⁻¹ ∈ D) (hz : g * z * g⁻¹ ∈ Subgroup.zpowers z ⊔ D) :
     ∀ n ∈ Subgroup.zpowers z ⊔ D, g * n * g⁻¹ ∈ Subgroup.zpowers z ⊔ D := by
   intro n hn
@@ -176,7 +176,7 @@ theorem cover_three [Finite G] (W N₀ : Subgroup G) (hWN : W ≤ Subgroup.norma
     (h3 : N₀.relIndex W = 3)
     (c : G) (hcW : c ∈ W) (hcN : c ∉ N₀) (w : G) (hw : w ∈ W) :
     w ∈ N₀ ∨ (∃ m ∈ N₀, w = c * m) ∨ (∃ m ∈ N₀, w = c⁻¹ * m) := by
-  haveI : (N₀.subgroupOf W).Normal := ⟨fun n hn g => by
+  have : (N₀.subgroupOf W).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := (Subgroup.mem_normalizer_iff.mp (hWN g.2) n).mp hn
     simpa using this⟩
@@ -252,7 +252,7 @@ theorem subgroupOf_normal_of_le {W N₀ : Subgroup G}
 theorem cube_mem_of_relIndex [Finite G] {W N₀ : Subgroup G}
     (hWN : W ≤ Subgroup.normalizer (N₀ : Set G)) (h3 : N₀.relIndex W = 3)
     {w : G} (hw : w ∈ W) : w ^ 3 ∈ N₀ := by
-  haveI := subgroupOf_normal_of_le hWN
+  have := subgroupOf_normal_of_le hWN
   have hcard : Nat.card (↥W ⧸ N₀.subgroupOf W) = 3 := h3
   have hd : orderOf (QuotientGroup.mk (⟨w, hw⟩ : W) : ↥W ⧸ N₀.subgroupOf W) ∣ 3 := by
     rw [← hcard]; exact orderOf_dvd_natCard _
@@ -267,7 +267,7 @@ theorem cube_mem_of_relIndex [Finite G] {W N₀ : Subgroup G}
 def centW (W N₀ S : Subgroup G) (hWN : W ≤ Subgroup.normalizer (N₀ : Set G))
     (hSN : S ≤ Subgroup.normalizer (N₀ : Set G)) : Subgroup G where
   carrier := {g | g ∈ S ∧ ∀ w ∈ W, g * w * g⁻¹ * w⁻¹ ∈ N₀}
-  one_mem' := ⟨S.one_mem, fun w _ => by simpa using N₀.one_mem⟩
+  one_mem' := ⟨S.one_mem, fun w _ => by simp⟩
   mul_mem' := by
     rintro g h ⟨hg, hgw⟩ ⟨hh, hhw⟩
     refine ⟨S.mul_mem hg hh, fun w hw => ?_⟩
@@ -389,7 +389,7 @@ theorem pow_relIndex_mem [Finite G] {W D : Subgroup G}
     (hWD : W ≤ Subgroup.normalizer (D : Set G)) {w : G} (hw : w ∈ W) :
     w ^ D.relIndex W ∈ D := by
   have hd : D.relIndex W = Nat.card (↥W ⧸ D.subgroupOf W) := rfl
-  haveI := subgroupOf_normal_of_le hWD
+  have := subgroupOf_normal_of_le hWD
   have hdiv : orderOf (QuotientGroup.mk (⟨w, hw⟩ : W) : ↥W ⧸ D.subgroupOf W) ∣ D.relIndex W := by
     rw [hd]; exact orderOf_dvd_natCard _
   exact (mk_pow_eq_one_iff hw (D.relIndex W)).mp (orderOf_dvd_iff_pow_eq_one.mp hdiv)
@@ -397,7 +397,7 @@ theorem pow_relIndex_mem [Finite G] {W D : Subgroup G}
 theorem mem_of_pow_not_dvd_three [Finite G] {W N₀ : Subgroup G}
     (hWN : W ≤ Subgroup.normalizer (N₀ : Set G)) (h3 : N₀.relIndex W = 3)
     {x : G} (hx : x ∈ W) {r : ℕ} (hr : ¬ 3 ∣ r) (hxr : x ^ r ∈ N₀) : x ∈ N₀ := by
-  haveI := subgroupOf_normal_of_le hWN
+  have := subgroupOf_normal_of_le hWN
   have hq3 := (mk_pow_eq_one_iff hx 3).mpr (cube_mem_of_relIndex hWN h3 hx)
   have hqr := (mk_pow_eq_one_iff hx r).mpr hxr
   have hg : (QuotientGroup.mk (⟨x, hx⟩ : W) : ↥W ⧸ N₀.subgroupOf W) ^ (r.gcd 3) = 1 :=
@@ -571,7 +571,7 @@ theorem exists_invariant_cyclic_supplement [Finite G] {W N₀ D S : Subgroup G}
       S ≤ Subgroup.normalizer ((Subgroup.zpowers z ⊔ D : Subgroup G) : Set G) := by
   obtain ⟨c, hcW, hcN⟩ : ∃ c ∈ W, c ∉ N₀ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : N₀.relIndex W = 1 :=
       Subgroup.relIndex_eq_one.mpr (fun c hc => hcon c hc)
     omega
@@ -583,7 +583,7 @@ theorem exists_invariant_cyclic_supplement [Finite G] {W N₀ D S : Subgroup G}
     intro g hg
     obtain ⟨d, hd, e⟩ := hfix g (hall g hg)
     exact Or.inl ⟨d, hd, e⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨s, hs, hsn⟩ := hall
     have huW : s * (c * y) * s⁻¹ ∈ W := conj_mem_of_mem_normalizer (hSW hs) haW
     have hxW : c * y * (s * (c * y) * s⁻¹)⁻¹ ∈ W := W.mul_mem haW (W.inv_mem huW)

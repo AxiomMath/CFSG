@@ -18,9 +18,9 @@ private theorem central_of_mem_normal_solvable {Q : Type} [Group Q] {K R : Subgr
   have hperf : Group.IsPerfect K := by
     obtain ⟨hp, -, -⟩ := hK
     exact hp
-  haveI : Group.IsPerfect K := hperf
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
-  haveI : Group.IsSolvable R := hRs
+  have : Group.IsPerfect K := hperf
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
+  have : Group.IsSolvable R := hRs
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hK
       (inferInstance : (R.subgroupOf K).Normal) with htop | hle
   · exfalso
@@ -67,7 +67,7 @@ theorem K0Setting.le_thetaQuotCentralizer (h45 : Sec4.Item4_5) (h : K0Setting G 
   refine (le_thetaQuotCentralizer_iff_imM_commute hK hBM hBn).2 ?_
   intro x hx y hy
   have hRM : (Sec4.oTwoP 3 M).map M.subtype ≤ M := Subgroup.map_subtype_le _
-  haveI : (imM M ((Sec4.oTwoP 3 M).map M.subtype)).Normal :=
+  have : (imM M ((Sec4.oTwoP 3 M).map M.subtype)).Normal :=
     normal_imM hRM (le_normalizer_oTwoP_map M)
   exact commute_of_normalizer_of_mem_normal_solvable (imM_isQuasisimple hK)
     (isSolvable_imM (M := M) (isSolvable_oTwoP M))

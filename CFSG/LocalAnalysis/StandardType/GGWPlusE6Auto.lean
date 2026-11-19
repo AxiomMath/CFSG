@@ -73,7 +73,7 @@ theorem GGE6ThreeData.exists_automizer_hom
         apply Equiv.ext
         intro v
         exact hpoint v
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact NoOffRest.adPerm_injective (τ := Tag.E6) (p := 3) (by norm_num) hperm
     ·
       have hpoint : ∀ v : Fin 6 → ZMod 3, v ∈ NoOffRest.hypE6 →

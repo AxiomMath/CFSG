@@ -120,7 +120,7 @@ theorem exists_sylow_isSylowOf_inf (h : GL83Generic5CaseIIHyp p L U x) {K : Subg
   have hSK := hSsyl.inf_of_le_normalizer le_normalizer le_rfl
   have hQK : (Q : Subgroup Y) ⊓ K = (S : Subgroup (normalizer (K : Set Y))).map
       (normalizer (K : Set Y)).subtype ⊓ K :=
-    hSK.eq_of_le (inf_le_inf_right K hQ) inf_le_right (Q.isPGroup'.to_le inf_le_left)
+    hSK.eq_of_le (inf_le_inf_right K hQ) inf_le_right (Q.isPGroup.to_le inf_le_left)
   refine ⟨Q, hQ (hES (mem_sup_right (mem_zpowers x))), (le_sup_left.trans hES).trans hQ, ?_⟩
   rw [hQK]
   exact hSK

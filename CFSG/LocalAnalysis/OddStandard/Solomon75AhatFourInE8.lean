@@ -55,9 +55,9 @@ theorem sylow_image_max (C : CoverSetup n K) (T : Sylow 2 K) {S' : Subgroup (Per
 theorem sylow_image_data (C : CoverSetup n K) (T : Sylow 2 K) :
     (T : Subgroup K).map C.ρ ≤ alternatingGroup (Fin n) ∧
       IsPGroup 2 ((T : Subgroup K).map C.ρ) ∧
-      ∀ S' : Subgroup (Perm (Fin n)), S' ≤ alternatingGroup (Fin n) → IsPGroup 2 S' →
-        (T : Subgroup K).map C.ρ ≤ S' → S' = (T : Subgroup K).map C.ρ :=
-  ⟨map_le_alt C _, T.isPGroup'.map C.ρ, fun S' hA h2 hle => sylow_image_max C T hA h2 hle⟩
+      ∀ _S' : Subgroup (Perm (Fin n)), _S' ≤ alternatingGroup (Fin n) → IsPGroup 2 _S' →
+        (T : Subgroup K).map C.ρ ≤ _S' → _S' = (T : Subgroup K).map C.ρ :=
+  ⟨map_le_alt C _, T.isPGroup.map C.ρ, fun _S' hA h2 hle => sylow_image_max C T hA h2 hle⟩
 
 theorem ρ_involutive (C : CoverSetup n K) {y : K} (hy : y * y = 1) :
     ∀ w, C.ρ y (C.ρ y w) = w := by

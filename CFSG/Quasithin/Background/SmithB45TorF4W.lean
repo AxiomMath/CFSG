@@ -425,7 +425,7 @@ theorem le_card_twTorsion [IsAlgClosed L] {w : WeylGroup ReeTag.F4.tag} {p : ℕ
     ((CharP.cast_eq_zero_iff L 2 p).1 h0)).symm
   have : NeZero (p : L) := ⟨hp0⟩
   have : NeZero p := ⟨hp.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   have hcard := hζ.card_rootsOfUnity
   have hmem : ∀ z, Φ z ∈ twTorsion F w p := fun z => by
     refine ⟨hΦT ⟨z, rfl⟩, hΦF ⟨z, rfl⟩, ?_⟩

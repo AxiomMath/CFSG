@@ -92,7 +92,7 @@ theorem cen_SL6 : ∀ k : SL(6, ZMod 2), (∀ i, k * W6.T i = W6.T i * k) → �
   have hcross : ∀ (i : Fin 3) (m j : Fin 6), blkOf6 j = i → blkOf6 m ≠ i → K m j = 0 := by
     intro i m j hj hm
     have h := congrFun (congrFun (hdiag i) m) j
-    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl6_eq, compl6_eq, if_pos hj, if_neg hm] at h
+    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl6_eq, compl6_eq, ite_eq_left hj, ite_eq_right hm] at h
     simpa using h
   have hcol : ∀ i : Fin 3, K.col (blkIdx6 i 1) = (tv6 i).mulVec (K.col (blkIdx6 i 0)) := by
     intro i
@@ -378,7 +378,7 @@ theorem cen_SL7 : ∀ k : SL(7, ZMod 2), (∀ i, k * W7.T i = W7.T i * k) → �
       blkOf7 m ≠ Fin.castSucc i → K m j = 0 := by
     intro i m j hj hm
     have h := congrFun (congrFun (hdiag i) m) j
-    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl7_eq, compl7_eq, if_pos hj, if_neg hm] at h
+    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl7_eq, compl7_eq, ite_eq_left hj, ite_eq_right hm] at h
     simpa using h
   have hcol : ∀ i : Fin 3, K.col (blkIdx7 i 1) = (tv7 i).mulVec (K.col (blkIdx7 i 0)) := by
     intro i
@@ -389,8 +389,8 @@ theorem cen_SL7 : ∀ k : SL(7, ZMod 2), (∀ i, k * W7.T i = W7.T i * k) → �
   have hz : ∀ (i : Fin 3) (m : Fin 7), blkOf7 m = Fin.castSucc i → K m 6 = 0 := by
     intro i m hm
     have h := congrFun (congrFun (hdiag i) m) 6
-    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl7_eq, compl7_eq, if_pos hm,
-      if_neg (blkOf7_six i)] at h
+    rw [Matrix.diagonal_mul, Matrix.mul_diagonal, compl7_eq, compl7_eq, ite_eq_left hm,
+      ite_eq_right (blkOf7_six i)] at h
     simpa using h.symm
   have hmem : ∀ m : Fin 7, m ≠ 6 → ∃ i : Fin 3, blkOf7 m = Fin.castSucc i := by
     decide

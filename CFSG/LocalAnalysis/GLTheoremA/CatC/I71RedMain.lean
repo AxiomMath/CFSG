@@ -16,7 +16,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 open CFSG.ComponentClassification.Helpers (quasisimple_central_quotient_nonabelian)
 
 private theorem i71_D4_of_isD4 (d : TauCeti.LieTypeIndex) (hd : d.Valid) (h : isD4ThreePowThree d) :
-    ∃ (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q).Valid),
+    ∃ (q : TauCeti.PrimePower) (_hv : (TauCeti.LieTypeIndex.D 4 q).Valid),
       d = TauCeti.LieTypeIndex.D 4 q ∧ q.p = 3 ∧ 3 ∣ q.exponent := by
   cases d with
   | D n q =>

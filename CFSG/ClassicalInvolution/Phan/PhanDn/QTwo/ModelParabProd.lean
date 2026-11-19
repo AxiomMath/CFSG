@@ -30,7 +30,7 @@ theorem qTwo_chain_rot_mul_fork_rot (m : ℕ) (hm : 3 ≤ m) :
   have hab : (⟨m - 1, by omega⟩ : Fin (m + 1)) ≠ Fin.last m := by
     intro h
     have := congrArg Fin.val h
-    simp only [Fin.val_mk, Fin.val_last] at this
+    simp only [Fin.val_last] at this
     omega
   have hneg : (-1 : K) = 1 := by
     have htwo : (1 : K) + 1 = 0 := by
@@ -57,7 +57,7 @@ theorem qTwo_chain_rot_mul_fork_rot (m : ℕ) (hm : 3 ≤ m) :
   rw [stdChainIota_apply_of_not_mem]
   · rw [stdForkIota_apply_of_not_mem E hm _ _ hda' hdb']
     simp [tauAt_apply, hda, hdb]
-  · simp only [Fin.val_mk]
+  · simp only
     omega
 
 theorem qTwo_doubleTau_mem_levi (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
@@ -116,9 +116,9 @@ theorem qTwoParab_preserves_twoTail_prefix (m : ℕ) (hm : 3 ≤ m)
   have hne : (⟨m - 2, by omega⟩ : Fin (m + 1)) ≠ Fin.last m := by
     intro heq
     have := congrArg Fin.val heq
-    simp only [Fin.val_mk, Fin.val_last] at this
+    simp only [Fin.val_last] at this
     omega
-  rw [stdDChamber_elt_eq_sub_coordSpan hne (by simp only [Fin.val_mk]; omega)] at h
+  rw [stdDChamber_elt_eq_sub_coordSpan hne (by simp only; omega)] at h
   simpa only [Fin.val_mk, show m - 2 + 1 = m - 1 by omega] using h
 
 theorem qTwo_doubleTau_mem_parab (m : ℕ) (hm : 3 ≤ m) {C : Set (Fin (m + 1))}
@@ -133,13 +133,13 @@ theorem qTwo_doubleTau_mem_parab (m : ℕ) (hm : 3 ≤ m) {C : Set (Fin (m + 1))
     · rw [(bc_tauAt E (m + 1) k (stdE i)).1]
       by_cases hj : j = k
       · subst j
-        simp [stdE_inl, stdE_inr, hik, Ne.symm hik]
-      · simp [stdE_inl, stdE_inr, hj]
+        simp [stdE_inl, stdE_inr, Ne.symm hik]
+      · simp [stdE_inl, hj]
     · rw [(bc_tauAt E (m + 1) k (stdE i)).2]
       by_cases hj : j = k
       · subst j
-        simp [stdE_inl, stdE_inr, hik, Ne.symm hik]
-      · simp [stdE_inl, stdE_inr, hj]
+        simp [stdE_inl, stdE_inr, Ne.symm hik]
+      · simp [stdE_inr, hj]
   rw [mem_qTwoParab]
   intro j hj
   have hja : j ≠ (⟨m - 1, by omega⟩ : Fin (m + 1)) := fun h => hj (h.symm ▸ ha)
@@ -203,7 +203,7 @@ theorem qTwoParab_prod (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m) {C : Set (
         m - 2 ≤ i.val := by
       intro i hi
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hi
-      rcases hi with rfl | rfl | rfl <;> simp only [Fin.val_mk, Fin.val_last] <;> omega
+      rcases hi with rfl | rfl | rfl <;> simp only [Fin.val_last] <;> omega
     obtain ⟨t, ht, hfix⟩ := qTwoParab_remove_prefix E hK m hm (m - 2) (by omega) hmin hx
     exact ⟨t, ht, t⁻¹ * x, qTwo_supported_three_mem_levi_fork E hK m hm hfix, by group⟩
   have linear_case {y : ↥(CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))}
@@ -213,10 +213,10 @@ theorem qTwoParab_prod (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m) {C : Set (
           a • (y : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) w) :
       ∃ t ∈ ⨆ i, qTwoTor E m hm i,
         ∃ l ∈ (qTwoStdFamily E hK m hm).levi C, y = t * l := by
-    have hsmall := qTwoShape_mono hC (Set.diff_subset (t := {Fin.last m}))
+    have hsmall := qTwoShape_mono hC (Set.sdiff_subset (t := {Fin.last m}))
     obtain ⟨t, ht, l, hl, hyl⟩ := (qTwoParab_prod_of_last_not_mem E hK m hm) hsmall (by simp)
       (qTwoParab_mem_diff_last_of_isKLinear E hy hlin)
-    exact ⟨t, ht, l, (qTwoStdFamily E hK m hm).levi_mono Set.diff_subset hl, hyl⟩
+    exact ⟨t, ht, l, (qTwoStdFamily E hK m hm).levi_mono Set.sdiff_subset hl, hyl⟩
   rcases qTwo_twoTail_correction E hK m hm (qTwoParab_preserves_twoTail_prefix E m hm hc hx) with hlin | hlin
   · exact linear_case hx hlin
   obtain ⟨d, hdL, hd⟩ := qTwo_doubleTau_mem_levi E hK m hm ha hb

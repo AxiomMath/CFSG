@@ -154,17 +154,21 @@ local notation "Z" => StatedProj (StatedSp 2 F)
 noncomputable abbrev sp4Equiv : StatedProj (StatedSp 2 F) ≃* StatedSp 2 F :=
   CFSG.SeitzReduction.OmegaPilot.spProjEquivCharTwo F 2
 
+omit [Finite F] in
 theorem sp4Equiv_proj (g : StatedSp 2 F) : sp4Equiv (proj 2 F g) = g := rfl
 
+omit [Finite F] in
 theorem sp4Equiv_symm (g : StatedSp 2 F) : (sp4Equiv (F := F)).symm g = proj 2 F g := by
   apply sp4Equiv.injective
   rw [MulEquiv.apply_symm_apply, sp4Equiv_proj]
 
+omit [Finite F] in
 theorem proj_injective_sp4 : Function.Injective (proj 2 F : StatedSp 2 F →* Z) := by
   intro a b h
   have := congrArg (sp4Equiv (F := F)) h
   rwa [sp4Equiv_proj, sp4Equiv_proj] at this
 
+omit [Finite F] in
 theorem conj_injective_sp4 : Function.Injective (MulAut.conj : Z →* MulAut Z) :=
   conj_injective_of_mulEquiv (sp4Equiv (F := F))
     (CFSG.SeitzReduction.SymplecticPilot.center_statedSp_eq_bot 2)
@@ -189,7 +193,7 @@ theorem eInvFour_sp4_inner (h3 : 3 ∣ Nat.card F - 1) {Ē : Subgroup (MulAut Z)
   classical
   obtain ⟨ω, hω, hω1⟩ := exists_primitive_cube_root h3
   have hinj := conj_injective_sp4 (F := F)
-  haveI : Finite Ē := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Ē := Nat.finite_of_card_ne_zero (by omega)
   have : Nontrivial Ē := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨⟨σ₀, hσ₀E⟩, hne⟩ := exists_ne (1 : Ē)
   have hσ₀1 : σ₀ ≠ 1 := fun h => hne (Subtype.ext h)
@@ -240,8 +244,8 @@ theorem eInvFour_sp4_fixing (h3 : 3 ∣ Nat.card F - 1) {σ : F ≃+* F} (hσ : 
     {Ē : Subgroup (MulAut Z)} (hE3 : IsElemAbelian 3 Ē) (hE9 : Nat.card Ē = 9)
     (hσE : fieldAut 2 F σ ∈ Ē) : EInvFour Z Ē := by
   classical
-  haveI := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv F
-  haveI : Finite (F ≃+* F) := Finite.of_injective (fun τ : F ≃+* F => (τ : F → F))
+  have := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv F
+  have : Finite (F ≃+* F) := Finite.of_injective (fun τ : F ≃+* F => (τ : F → F))
     (fun a b h => RingEquiv.ext (fun x => congrFun h x))
   have hinj := conj_injective_sp4 (F := F)
   have hfaith : ∀ γ : F ≃+* F, fieldAut 2 F γ ∈ (MulAut.conj : Z →* MulAut Z).range → γ = 1 :=
@@ -298,7 +302,7 @@ theorem eInvFour_sp4_fixing (h3 : 3 ∣ Nat.card F - 1) {σ : F ≃+* F} (hσ : 
 theorem eInvFour_sp4_outer (h3 : 3 ∣ Nat.card F - 1) {Ē : Subgroup (MulAut Z)}
     (hE3 : IsElemAbelian 3 Ē) (hE9 : Nat.card Ē = 9)
     (hout : ¬ Ē ≤ (MulAut.conj : Z →* MulAut Z).range) : EInvFour Z Ē := by
-  obtain ⟨a, haE, haI⟩ := SetLike.not_le_iff_exists.mp hout
+  obtain ⟨a, haE, haI⟩ := IsConcreteLE.not_le_iff_exists.mp hout
   have ha3 : a ^ 3 = 1 := hE3.2 a haE
   have hD : a ∉ (conjAut 2 F).range := by
     rintro ⟨A, rfl⟩

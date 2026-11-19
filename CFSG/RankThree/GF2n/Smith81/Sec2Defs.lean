@@ -50,16 +50,19 @@ theorem IsZConjugate.eq_of_mem (H : StrothHyp M Q Z) {X Y : Subgroup G} (hX : Is
   obtain ⟨g', rfl⟩ := hY
   exact conjSubgroup_eq_of_mem_ne_one H ha haX haY
 
+omit [Finite G] in
 theorem isPGroup_Q' (H : StrothHyp M Q Z) : IsPGroup 2 Q := by
   rw [H.hQ]
   exact (inSubgroup_pCore_two M).1
 
+omit [Finite G] in
 theorem IsZConjugate.QB_eq (H : StrothHyp M Q Z) {X : Subgroup G} (hX : IsZConjugate Z X) :
     ∃ g : G, X = conjSubgroup g Z ∧ QB X = conjSubgroup g Q ∧
       Subgroup.normalizer (X : Set G) = conjSubgroup g M := by
   obtain ⟨g, rfl⟩ := hX
   exact ⟨g, rfl, QB_conj_eq H g, normalizer_conj_eq H g⟩
 
+omit [Finite G] in
 theorem IsZConjugate.le_QB_self (H : StrothHyp M Q Z) {X : Subgroup G} (hX : IsZConjugate Z X) :
     X ≤ QB X := by
   obtain ⟨g, rfl, hQ, -⟩ := hX.QB_eq H
@@ -79,6 +82,7 @@ theorem IsZConjugate.mem_normalizer_of_commute (H : StrothHyp M Q Z) {A : Subgro
   obtain ⟨g, rfl⟩ := hA
   exact Tim77.mem_normalizer_of_commute_of_isTI (isTI_conjSubgroup H.ti g) haA ha1 hc.eq
 
+omit [Finite G] in
 theorem IsZConjugate.conj_mem_QB (H : StrothHyp M Q Z) {X : Subgroup G} (hX : IsZConjugate Z X)
     {c q : G} (hc : c ∈ Subgroup.normalizer (X : Set G)) (hq : q ∈ QB X) :
     c * q * c⁻¹ ∈ QB X := by
@@ -90,6 +94,7 @@ theorem IsZConjugate.conj_mem_QB (H : StrothHyp M Q Z) {X : Subgroup G} (hX : Is
   rw [e]
   exact h1
 
+omit [Finite G] in
 theorem IsZConjugate.isPGroup_QB (H : StrothHyp M Q Z) {X : Subgroup G} (hX : IsZConjugate Z X) :
     IsPGroup 2 (QB X) := by
   obtain ⟨g, -, hQ, -⟩ := hX.QB_eq H
@@ -153,11 +158,13 @@ theorem mul_self_eq_one_of_isConj_Z (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z)
   calc c * z * c⁻¹ * (c * z * c⁻¹) = c * (z * z) * c⁻¹ := by group
     _ = 1 := by rw [hzz]; group
 
+omit [Finite G] in
 theorem ne_one_of_isConj_Z {z : G} (hz1 : z ≠ 1) {d : G} (hd : IsConj z d) : d ≠ 1 := by
   intro h
   rw [h] at hd
   exact hz1 (isConj_one_left.mp hd)
 
+omit [Finite G] in
 theorem IsZConjugate.card_eq {X : Subgroup G} (hX : IsZConjugate Z X) :
     Nat.card X = Nat.card Z := by
   obtain ⟨g, rfl⟩ := hX

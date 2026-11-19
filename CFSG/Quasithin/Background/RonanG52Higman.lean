@@ -22,10 +22,10 @@ theorem projective_asModule_of_higman {k G V : Type} [Field k] [Group G] [Fintyp
     Module.Projective (MonoidAlgebra k G) ρ.asModule := by
   apply Module.Projective.of_lifting_property
   intro M N _ _ _ _ f g hf
-  letI : Module k M := Module.compHom M (algebraMap k (MonoidAlgebra k G))
-  letI : Module k N := Module.compHom N (algebraMap k (MonoidAlgebra k G))
-  haveI : IsScalarTower k (MonoidAlgebra k G) M := IsScalarTower.of_compHom k _ M
-  haveI : IsScalarTower k (MonoidAlgebra k G) N := IsScalarTower.of_compHom k _ N
+  let : Module k M := Module.compHom M (algebraMap k (MonoidAlgebra k G))
+  let : Module k N := Module.compHom N (algebraMap k (MonoidAlgebra k G))
+  have : IsScalarTower k (MonoidAlgebra k G) M := IsScalarTower.of_compHom k _ M
+  have : IsScalarTower k (MonoidAlgebra k G) N := IsScalarTower.of_compHom k _ N
   obtain ⟨h₀, hh₀⟩ :=
     Module.projective_lifting_property (f.restrictScalars k) (g.restrictScalars k) hf
   have key : ∀ y : ρ.asModule, f (h₀ y) = g y := fun y => LinearMap.congr_fun hh₀ y

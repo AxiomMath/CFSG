@@ -40,7 +40,7 @@ abbrev starMod_w31 {G : Type} [Group G] (H K : Subgroup G) : Type :=
 
 @[expose] def NoPermL_w31 : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (T L V : Subgroup G) [IsMulCommutative ↥V]
-    (F : Frame126 T L V), Hyp126 G T L V → V ⊓ Subgroup.centralizer (L : Set G) = ⊥ →
+    (_F : Frame126 T L V), Hyp126 G T L V → V ⊓ Subgroup.centralizer (L : Set G) = ⊥ →
       ∀ P : Subgroup G, P ≤ L → ∀ p : ℕ, p.Prime → 3 < p → IsPGroup p ↥P →
         (P : Set G) * (T : Set G) = (T : Set G) * (P : Set G) → P = ⊥
 

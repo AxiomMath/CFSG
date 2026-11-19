@@ -200,7 +200,7 @@ private theorem exists_invariant_sylow_containing_fixed_core
       (MulAut.conj c.t).toMonoidHom =
       qCoreOf c.U p ⊓ Subgroup.centralizer ({s} : Set G)
     rw [Subgroup.map_inf _ _ _ (MulAut.conj c.t).injective]
-    simpa [htNormQ, htNormC]
+    simp [htNormQ, htNormC]
   rcases BenderSuzuki.theorem4b_exists_invariant_sylow_containing
     (D := D) (P := X) (z := c.t) (p := p)
     (odd_card_oddCoreOf (Subgroup.centralizer ({s} : Set G)))
@@ -231,7 +231,7 @@ private theorem invariant_sylow_not_le_H
   intro hPleH
   rcases hPsyl with ⟨Q, hQeq⟩
   have hQp : IsPGroup p (Q : Subgroup (oddCoreOf (Subgroup.centralizer ({s} : Set G)))) :=
-    Q.isPGroup'
+    Q.isPGroup
   have hPp : IsPGroup p P := by
     rw [hQeq]
     exact hQp.map (oddCoreOf (Subgroup.centralizer ({s} : Set G))).subtype
@@ -324,7 +324,7 @@ subgroup `X`. -/
 private theorem commutator_t_normalizer_fixed_core_ne_bot
     {G : Type u} [Group G] [Finite G]
     (c : CentralizerSetup G)
-    {s : G} (hs : c.IsReflection s)
+    {s : G} (_hs : c.IsReflection s)
     {p : ℕ} (hp : p.Prime) (hpodd : Odd p)
     (P : Subgroup G) (hPp : IsPGroup p P)
     (hXP : centralizerIn (qCoreOf c.U p) s ≤ P)
@@ -360,7 +360,7 @@ private theorem commutator_t_normalizer_fixed_core_ne_bot
     rcases hPp.exists_card_eq with ⟨n, hn⟩
     rw [hQcard, hn]
     exact (hpodd.pow).coprime_two_left
-  have hsolv : IsSolvable P := by
+  have hsolv : Group.IsSolvable P := by
     let : Fact p.Prime := ⟨hp⟩
     exact isSolvable_of_isPGroup hPp
   have hQnotCent : ¬ Q ≤ Subgroup.centralizer (P : Set G) := by
@@ -377,9 +377,9 @@ private theorem commutator_t_normalizer_fixed_core_ne_bot
 `P` and `X`, while `s` centralizes `P` and normalizes `X`. -/
 private theorem t_s_normalize_normalizer_in_sylow
     {G : Type u} [Group G] [Finite G]
-    (c : CentralizerSetup G) {s : G} (hs : c.IsReflection s)
+    (c : CentralizerSetup G) {s : G} (_hs : c.IsReflection s)
     {P X : Subgroup G}
-    (hXP : X ≤ P)
+    (_hXP : X ≤ P)
     (hsP : s ∈ Subgroup.centralizer (P : Set G))
     (hsX : s ∈ Subgroup.normalizer (X : Set G))
     (htP : c.t ∈ Subgroup.normalizer (P : Set G))
@@ -518,7 +518,7 @@ private theorem commutator_eq_bot_of_normal_subgroupOf_disjoint
     rw [Subgroup.map_subgroupOf_eq_of_le (le_sup_left : W ≤ W ⊔ K)]
     rw [Subgroup.map_subgroupOf_eq_of_le (le_sup_right : K ≤ W ⊔ K)]
   have hmapbot : (⁅W', K'⁆).map H.subtype = ⊥ := by
-    simpa [hcomm'] using (Subgroup.map_bot H.subtype)
+    simp [hcomm']
   exact hmap.symm.trans hmapbot
 
 /-- An odd-order subgroup of the centralizer of a reflection in `D₆` is
@@ -708,7 +708,7 @@ private theorem normalizer_fixed_core_not_le_Hhat
     rcases hPsyl with ⟨Q, hQeq⟩
     have hQp : IsPGroup p
         (Q : Subgroup (oddCoreOf (Subgroup.centralizer ({s} : Set G)))) :=
-      Q.isPGroup'
+      Q.isPGroup
     rw [hQeq]
     exact hQp.map (oddCoreOf (Subgroup.centralizer ({s} : Set G))).subtype
   have hPodd : Nat.Coprime 2 (Nat.card P) := by
@@ -845,7 +845,7 @@ private theorem normalizer_fixed_core_not_le_Hhat
             exact hts ▸ c.t_mem_S0
           by_cases hx1 : xW = 1
           · have hx1' : x = 1 := congrArg Subtype.val hx1
-            simpa [hx1'] using (Subgroup.closure ({c.t, s} : Set G)).one_mem
+            simp [hx1']
           by_cases hxt : xW = tW
           · have hx : x = c.t := congrArg Subtype.val hxt
             exact Subgroup.subset_closure (by simp [hx])
@@ -912,7 +912,7 @@ private theorem normalizer_fixed_core_not_le_Hhat
         rw [h26.1]
         exact odd_card_oddCoreOf c.Hhat
       have hUdisjS : Disjoint c.U (c.S : Subgroup G) := by
-        rcases (c.S.isPGroup').exists_card_eq with ⟨n, hn⟩
+        rcases (c.S.isPGroup).exists_card_eq with ⟨n, hn⟩
         have hUcop : Nat.Coprime (Nat.card c.U) (Nat.card (c.S : Subgroup G)) := by
           rw [hn]
           exact (Nat.coprime_two_right.mpr hUodd).pow_right n
@@ -953,7 +953,7 @@ private theorem normalizer_fixed_core_not_le_Hhat
           rw [hss, map_one]
         change (e.toMonoidHom sbar) ^ 2 = 1
         rw [← map_pow]
-        simpa [hsbar2]
+        simp [hsbar2]
       have hrne : r ≠ 1 := by
         intro hr1
         apply hsbar_ne_one
@@ -1457,7 +1457,7 @@ private theorem orderOf_half_quarter_rotation_dihedral_two_pow
       rw [← Nat.cast_mul, hn, ZMod.natCast_self]
     have hzero : i * 4 = 0 := by
       rw [mul_comm, h4]
-    simpa [hzero]
+    simp [hzero]
   have hpow2ne : x ^ 2 ≠ 1 := by
     intro h2
     dsimp [x] at h2
@@ -1492,7 +1492,7 @@ private theorem orderOf_half_quarter_rotation_dihedral_two_pow
     intro h
     apply hpow2ne
     -- x = 1 → x^2 = 1
-    simpa [h]
+    simp [h]
   have hord_pos : 0 < orderOf x := orderOf_pos x
   have hord_le : orderOf x ≤ 4 := Nat.le_of_dvd (by norm_num : 0 < 4) hdvd4
   have hord_cases : orderOf x = 1 ∨ orderOf x = 2 ∨ orderOf x = 3 ∨ orderOf x = 4 := by
@@ -1586,7 +1586,7 @@ private theorem lemma27Hypothesis_of_maximal_containing_normalizer
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) {s : G} (hs : c.IsReflection s)
-    {p : ℕ} (hp : p.Prime) (hpodd : Odd p)
+    {p : ℕ} (hp : p.Prime) (_hpodd : Odd p)
     (M : Subgroup G) (hMmax : IsCoatom M)
     (hXne : centralizerIn (qCoreOf c.U p) s ≠ ⊥)
     (hNleM : Subgroup.normalizer
@@ -1635,7 +1635,7 @@ private theorem lemma27Hypothesis_of_maximal_containing_normalizer
       ⟨c.S0_le_S c.t_mem_S0, htM⟩ ⟨hs.1, hsM⟩
   let : IsKleinFour V := hVklein
   have hVp : IsPGroup 2 V :=
-    IsPGroup.of_card (G := V) (n := 2) (by simpa [hVklein.card_four])
+    IsPGroup.of_card (G := V) (n := 2) (by simp)
   have hnoncyclic : ∀ P : Sylow 2 (↥M), ¬ IsCyclic P := by
     intro P
     by_contra hPcyc
@@ -1750,8 +1750,8 @@ normalizer `N_G(X)` is a proper subgroup. -/
 private theorem normalizer_fixed_core_ne_top
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
-    (c : CentralizerSetup G) {s : G} (hs : c.IsReflection s)
-    {p : ℕ} (hp : p.Prime)
+    (c : CentralizerSetup G) {s : G} (_hs : c.IsReflection s)
+    {p : ℕ} (_hp : p.Prime)
     (hXne : centralizerIn (qCoreOf c.U p) s ≠ ⊥) :
     Subgroup.normalizer (centralizerIn (qCoreOf c.U p) s : Set G) ≠ ⊤ := by
   classical
@@ -1812,7 +1812,7 @@ private theorem fixed_core_bot_or_top
         rcases hPsyl with ⟨Q, hQeq⟩
         have hQp : IsPGroup p
             (Q : Subgroup (oddCoreOf (Subgroup.centralizer ({s} : Set G)))) :=
-          Q.isPGroup'
+          Q.isPGroup
         rw [hQeq]
         exact hQp.map (oddCoreOf (Subgroup.centralizer ({s} : Set G))).subtype
       have hPnotCent : ¬ P ≤ c.H :=
@@ -1932,7 +1932,7 @@ inverts that core elementwise. -/
 private theorem inverted_qCore_eq_qCore_of_centralizer_bot
     {G : Type u} [Group G] [Finite G]
     (c : CentralizerSetup G) {s : G} (hs : c.IsReflection s)
-    {p : ℕ} (hp : p.Prime) (hpodd : Odd p)
+    {p : ℕ} (_hp : p.Prime) (_hpodd : Odd p)
     (hbot : centralizerIn (qCoreOf c.U p) s = ⊥) :
     invertedElements (qCoreOf c.U p) s = (qCoreOf c.U p : Set G) := by
   classical
@@ -2121,14 +2121,14 @@ private theorem inverted_U_le_FU
   intro u hu
   have hcent :=
     mem_centralizer_FU_of_mem_invertedElements hmin c hs hnotSecond hu.1 hu.2
-  have hUsolv : IsSolvable (↥c.U) :=
+  have hUsolv : Group.IsSolvable (↥c.U) :=
     odd_order_theorem (↥c.U) (card_U_odd c)
   exact fact_1_2_centralizer_fitting_le_fitting c.U hUsolv ⟨hu.1, hcent⟩
 
 /-- `O_q(F(A)) ≤ O_q(A)`. -/
 private theorem qCoreOf_fittingSubgroupOf_le_qCoreOf
     {G : Type u} [Group G] [Finite G]
-    (A : Subgroup G) (q : ℕ) (hq : q.Prime) :
+    (A : Subgroup G) (q : ℕ) (_hq : q.Prime) :
     qCoreOf (fittingSubgroupOf A) q ≤ qCoreOf A q := by
   let F : Subgroup G := fittingSubgroupOf A
   have hQF : qCoreOf F q ≤ F := qCoreOf_le F q
@@ -2509,7 +2509,7 @@ private theorem qCoreOf_ne_bot_of_prime_dvd_of_nilpotent
   have hPne : (P : Subgroup (↥X)) ≠ ⊥ := Sylow.ne_bot_of_dvd_card P hpdvd
   have hPnorm : (P : Subgroup (↥X)).Normal := hXnil.sylow_normal p P
   have hPleCore : (P : Subgroup (↥X)) ≤ pCore p (↥X) :=
-    le_sSup ⟨hPnorm, P.isPGroup'⟩
+    le_sSup ⟨hPnorm, P.isPGroup⟩
   intro hbot
   have hcorebot : pCore p (↥X) = ⊥ := by
     apply (Subgroup.map_eq_bot_iff_of_injective (H := pCore p (↥X))

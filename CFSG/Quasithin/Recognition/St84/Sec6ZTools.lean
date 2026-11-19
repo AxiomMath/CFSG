@@ -177,7 +177,7 @@ theorem L_exists_Q_mul_normalizer (k : ℤ) {R : Subgroup G}
     (hcomm : ⁅X.L k, R⁆ ≤ X.Q k) :
     ∀ l ∈ X.L k, ∃ q ∈ X.Q k, ∃ m ∈ Subgroup.normalizer (R : Set G), q * m = l := by
   classical
-  haveI : Finite ↥(X.Gi k) := X.hyp.finite_stab (X.vert k)
+  have : Finite ↥(X.Gi k) := X.hyp.finite_stab (X.vert k)
   intro l hl
   have hQG : X.Q k ≤ X.Gi k := X.Q_le_Gi k
   have hQnorm : X.L k ≤ Subgroup.normalizer (X.Q k : Set G) :=
@@ -221,7 +221,7 @@ theorem L_exists_Q_mul_normalizer (k : ℤ) {R : Subgroup G}
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     exact hconjF
   have hF_le_G : R ⊔ X.Q k ≤ X.Gi k := sup_le hRG hQG
-  haveI : Finite ↥(R ⊔ X.Q k) :=
+  have : Finite ↥(R ⊔ X.Q k) :=
     finite_of_le_stabilizer X.hyp (H := R ⊔ X.Q k) hF_le_G
   have hdisj : R ⊓ X.Q k = ⊥ :=
     inf_eq_bot_of_odd_of_isPGroup (A := R) (B := X.Q k) hodd (pCoreOf_isPGroup' (X.Gi k))
@@ -232,7 +232,7 @@ theorem L_exists_Q_mul_normalizer (k : ℤ) {R : Subgroup G}
     rw [CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer (X.Q k) R hRnorm
       (by rw [disjoint_iff, inf_comm]; exact hdisj)]
     rw [mul_comm]
-  haveI : Finite ↥(X.Q k) := finite_of_le_stabilizer X.hyp (H := X.Q k) hQG
+  have : Finite ↥(X.Q k) := finite_of_le_stabilizer X.hyp (H := X.Q k) hQG
   have hrel : (X.Q k).relIndex (R ⊔ X.Q k) = Nat.card ↥R := by
     have h := Subgroup.relIndex_mul_card (H := X.Q k) (K := R ⊔ X.Q k)
     rw [inf_eq_left.mpr (le_sup_right : X.Q k ≤ R ⊔ X.Q k)] at h
@@ -361,7 +361,7 @@ theorem exists_mem_pCoreOf_conjSub_Ki_zero_eq (y₀ : G) (hy₀L : y₀ ∈ X.L 
     ∃ n ∈ pCoreOf 2 (X.Gi 0 ⊓ X.Gi (-1)),
       conjSub y₀ (X.Ki 0) = conjSub n⁻¹ (X.Ki 0) := by
   classical
-  haveI : Finite ↥(X.Gi 0 ⊓ X.Gi (-1)) :=
+  have : Finite ↥(X.Gi 0 ⊓ X.Gi (-1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi (-1)) inf_le_left
   obtain ⟨hHsup, hHinf⟩ := X.Ki_zero_complement_neg_one
   obtain ⟨hconj_sup, hconj_inf⟩ := X.Ki_zero_conj_complement y₀ hy₀L hy₀
@@ -370,7 +370,7 @@ theorem exists_mem_pCoreOf_conjSub_Ki_zero_eq (y₀ : G) (hy₀L : y₀ ∈ X.L 
   have hF_le : F ≤ X.Gi 0 ⊓ X.Gi (-1) := by
     rw [hF]
     exact le_inf (inf_le_left.trans (X.L_le_Gi 0)) inf_le_right
-  haveI : Finite ↥F := finite_of_le_stabilizer X.hyp (α := X.vert 0) (H := F)
+  have : Finite ↥F := finite_of_le_stabilizer X.hyp (α := X.vert 0) (H := F)
     (hF_le.trans inf_le_left)
   have hSF : S ≤ F := by
     rw [hF]
@@ -398,7 +398,7 @@ theorem exists_mem_pCoreOf_conjSub_Ki_zero_eq (y₀ : G) (hy₀L : y₀ ∈ X.L 
 theorem exists_normalizer_Ki_move :
     ∃ y ∈ X.L 0 ⊓ Subgroup.normalizer (X.Ki 0 : Set G), y • X.vert 1 = X.vert (-1) := by
   classical
-  haveI : Finite ↥(X.Gi 0 ⊓ X.Gi (-1)) :=
+  have : Finite ↥(X.Gi 0 ⊓ X.Gi (-1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi (-1)) inf_le_left
   obtain ⟨y₀, hy₀L, hy₀⟩ := (X.hyp.isLocL2_oTwoPrime (X.vert 0)).trans
     (X.vert 1) (X.vert (-1)) (X.adj 0) (by

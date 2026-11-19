@@ -186,6 +186,7 @@ section Generic
 variable {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime] [CharP F q]
   {V : Type} [AddCommGroup V] [Module F V] [Finite V] {H : Type} [Group H] [Finite H]
 
+omit [Finite F] [Finite H] in
 theorem exists_moving_elem (Φ : ReflForm F V) (ρ : H →* Module.End F V)
     (Z : Subgroup H) (hZsc : ∀ z ∈ Z, ∃ c : F, ∀ v, ρ z v = c • v)
     (ε : F) (hε : ε ≠ 0) (Sing : V → Prop) (hE : EA1ε Φ Sing ρ ε)
@@ -222,6 +223,7 @@ theorem exists_moving_elem (Φ : ReflForm F V) (ρ : H →* Module.End F V)
     have h6 := Submodule.smul_mem (Submodule.span F {x₁}) (ε * Φ.β y' x₁)⁻¹ h5
     rwa [smul_smul, inv_mul_cancel₀ (mul_ne_zero hε hβ0), one_smul] at h6
 
+omit [Finite F] [Finite H] in
 theorem map_subspStab_ne_top (Φ : ReflForm F V) (ρ : H →* Module.End F V)
     (Z : Subgroup H) [Z.Normal] (hZsc : ∀ z ∈ Z, ∃ c : F, ∀ v, ρ z v = c • v)
     (ε : F) (hε : ε ≠ 0) (Sing : V → Prop) (hE : EA1ε Φ Sing ρ ε)
@@ -235,6 +237,7 @@ theorem map_subspStab_ne_top (Φ : ReflForm F V) (ρ : H →* Module.End F V)
   obtain ⟨s, hs, hsg⟩ := hmem
   exact hg's s hs _ (QuotientGroup.eq.1 hsg) (by group)
 
+omit [Finite H] in
 theorem twoParabolics_of_form (Φ : ReflForm F V) (ρ : H →* Module.End F V)
     (hρ : Function.Injective ρ) (hiso : IsIsometric Φ ρ)
     (Z : Subgroup H) [Z.Normal] (hZsc : ∀ z ∈ Z, ∃ c : F, ∀ v, ρ z v = c • v)

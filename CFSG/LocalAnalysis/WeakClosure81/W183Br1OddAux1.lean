@@ -24,7 +24,7 @@ private theorem w183odd_quasisimple_of_simple {X : Type} [Group X]
   refine ⟨?_, ?_⟩
   · rcases hs.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
-      haveI := (commutator_eq_bot_iff X).mp h
+      have := (commutator_eq_bot_iff X).mp h
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (mul_comm a b)
     · exact h
@@ -36,7 +36,7 @@ theorem w183odd_component_cover_of_simple {W : Type} [Group W] {Y L : Subgroup W
     (hLY : L ≤ Y) (hLn : (L.subgroupOf Y).Normal)
     (hsimple : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a) :
     CFSG.Open.IsComponentOf (L.subgroupOf Y) ⊤ ∧ CoverOf ↥(L.subgroupOf Y) ↥L := by
-  haveI := hsimple
+  have := hsimple
   have hqL : CFSG.Open.IsQuasisimple ↥L := w183odd_quasisimple_of_simple hsimple hnab
   have hqL' : CFSG.Open.IsQuasisimple ↥(L.subgroupOf Y) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY) hqL
@@ -57,7 +57,7 @@ theorem w183odd_component_cover_of_simple {W : Type} [Group W] {Y L : Subgroup W
       QuotientGroup.quotientBot).trans (Subgroup.subgroupOfEquivOfLe hLY)
 
 theorem w183odd_index_eq_pow_mOf {A D : Subgroup (LGL 2 V)} (hel : IsElemAbelian 2 A)
-    (hDA : D ≤ A) : (D.subgroupOf A).index = 2 ^ mOf A D := by
+    (_hDA : D ≤ A) : (D.subgroupOf A).index = 2 ^ mOf A D := by
   obtain ⟨n, hn⟩ := IsPGroup.index hel.isPGroup (D.subgroupOf A)
   have hmOf : mOf A D = n := by
     unfold mOf

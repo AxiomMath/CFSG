@@ -20,8 +20,8 @@ theorem ggCoxRefl_mul_orderOf_le_three {G : Type} [Group G] [Finite G] {Bs : Sub
     (hM : GGIsWeylMatrix M) (hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3) {r r' : MulAut ↥Bs}
     (hr : r ∈ ggCoxRefl M e) (hr' : r' ∈ ggCoxRefl M e) :
     (r * r') ^ 2 = 1 ∨ (r * r') ^ 3 = 1 := by
-  haveI : Finite ι := ggIsWeylMatrix_finite hM
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := ggIsWeylMatrix_finite hM
+  have : Fintype ι := Fintype.ofFinite ι
   classical
   obtain ⟨C, hC, -, rfl⟩ := ggWeylCartan hM hle3
   obtain ⟨w, i, rfl⟩ := hr

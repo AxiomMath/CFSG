@@ -45,7 +45,7 @@ theorem false_of_benderBorel {q k : ℕ} (hB : fusionBenderBorel X q k) {U Y : S
   have hDN : D ≤ N := le_sup_right.trans hND.le
   have hQsolv : Group.IsSolvable ↥((Q : Subgroup X).subgroupOf N) := by
     have hp : IsPGroup 2 ((Q : Subgroup X).subgroupOf N) :=
-      Q.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hQN).symm
+      Q.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hQN).symm
     have := hp.isNilpotent
     infer_instance
   have hsup : ((Q : Subgroup X).subgroupOf N) ⊔ D.subgroupOf N = ⊤ := by

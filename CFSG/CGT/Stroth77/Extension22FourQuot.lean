@@ -8,6 +8,7 @@ namespace CFSG.CGT.Stroth77
 
 variable {S : Type*} [Group S] [Finite S] {B C S' : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem fourB_eq_bot_of_m_zero {D : StrothTypeData B (StrothTypeIndex.t100 0)} :
     fourB D = ⊥ := by
   rw [eq_bot_iff]
@@ -77,6 +78,7 @@ theorem phiR_fixed_eq_zero_of_m_zero {x : Torus (Type100.k 0)}
     exact hc2
   rw [h0, h1z, h2z, zero_add, zero_add]
 
+omit [Finite S] in
 theorem t100_fixed_rho_t_mod_four_of_mem_zero
     {D : StrothTypeData B (StrothTypeIndex.t100 0)} {y : B}
     (hρ : conjBy D.ρ_mem y * y⁻¹ ∈ fourB D) :
@@ -102,14 +104,14 @@ theorem not_isCyclic_quotient_four {m : ℕ}
     letI : (B.subgroupOf C).Normal :=
       Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
     ¬ IsCyclic (C ⧸ B.subgroupOf C) := by
-  letI : (B.subgroupOf C).Normal :=
+  let : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   intro hcycQ
   classical
   let D := hB.data
   have hcomm : ∀ x y : C, x * y = y * x :=
     comm_of_le_centralizer_of_cyclic_quotient hBC hC hcycQ
-  letI : CommGroup C := { mul_comm := hcomm }
+  let : CommGroup C := { mul_comm := hcomm }
   obtain ⟨q₀, hq₀⟩ := hcycQ.exists_generator
   obtain ⟨z, hzq⟩ := QuotientGroup.mk'_surjective (B.subgroupOf C) q₀
   let q : C ⧸ B.subgroupOf C := QuotientGroup.mk' (B.subgroupOf C) z
@@ -298,7 +300,7 @@ theorem not_isCyclic_quotient_four {m : ℕ}
         _ = yC * (yC * cC ^ (-2 : ℤ))⁻¹ := by rw [hz4C, hsC4]
         _ = cC ^ 2 := by
             have hcinv : (cC ^ (-2 : ℤ))⁻¹ = cC ^ 2 := by
-              simpa using (zpow_neg cC (-2 : ℤ)).symm
+              simp
             rw [mul_inv_rev, hcinv]
             calc yC * (cC ^ 2 * yC⁻¹) = (yC * cC ^ 2) * yC⁻¹ := by rw [mul_assoc]
               _ = (cC ^ 2 * yC) * yC⁻¹ := by rw [mul_comm yC (cC ^ 2)]

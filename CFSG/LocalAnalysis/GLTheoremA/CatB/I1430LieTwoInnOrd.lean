@@ -28,9 +28,9 @@ private theorem ordTwistedA_eq_orderTwistedA' (n Q : ℕ) (hQ : 1 ≤ Q) :
   have h1 : 1 ≤ Q ^ i := Nat.one_le_pow _ _ hQ
   have hc : ((Q ^ i : ℕ) : ℤ) = (Q : ℤ) ^ i := Nat.cast_pow Q i
   rcases Nat.even_or_odd i with hi | hi
-  · rw [if_pos hi, hi.neg_one_pow]
+  · rw [ite_eq_left hi, hi.neg_one_pow]
     omega
-  · rw [if_neg (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
     omega
 
 theorem not_mem_evenOrders_360 : (360 : ℕ) ∉ evenOrdersExceptUnitarySp4 := by

@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369q_mem_stabSub_of_stable {U : Subgroup W} {X : Subgroup (MulAut W)}
     (h : StableUnder X U) {x : MulAut W} (hx : x ∈ X) : x ∈ stabSub U := by
   rw [mem_stabSub]
@@ -23,6 +24,7 @@ private theorem w1369q_mem_stabSub_of_stable {U : Subgroup W} {X : Subgroup (Mul
     simpa using h1
   · exact h x hx u
 
+omit [Finite W] in
 private theorem w1369q_resHom_mem_stabSub {U Z : Subgroup W} {X : Subgroup (MulAut W)}
     (hZ : StableUnder X Z) (hU : StableUnder X U) {x : MulAut W} (hx : x ∈ X) :
     resHom U ⟨x, w1369q_mem_stabSub_of_stable hU hx⟩ ∈ stabSub (Z.subgroupOf U) := by
@@ -35,6 +37,7 @@ private theorem w1369q_resHom_mem_stabSub {U Z : Subgroup W} {X : Subgroup (MulA
   · intro hz
     exact hZ x hx (z : W) hz
 
+omit [Finite W] in
 private theorem w1369q_quotHom_eq_one_iff {U Z : Subgroup W} {x : MulAut W}
     (hxU : x ∈ stabSub U) (hxZ : resHom U ⟨x, hxU⟩ ∈ stabSub (Z.subgroupOf U)) :
     quotHom (Z.subgroupOf U) ⟨resHom U ⟨x, hxU⟩, hxZ⟩ = 1 ↔
@@ -52,6 +55,7 @@ private theorem w1369q_quotHom_eq_one_iff {U Z : Subgroup W} {x : MulAut W}
       rw [MulAut.one_apply, quotHom_mk, QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf]
       simpa [resHom_apply, div_eq_mul_inv] using h u
 
+omit [Finite W] in
 private theorem w1369q_mem_secSub_iff {U Z : Subgroup W} {Λ : Subgroup (MulAut W)}
     (hU : StableUnder Λ U) (hZ : StableUnder Λ Z) {φ : MulAut (Sect U Z)} :
     φ ∈ secSub U Z Λ ↔ ∃ (x : MulAut W) (hx : x ∈ Λ),
@@ -98,6 +102,7 @@ theorem w1369_mem_secSub_iff {U C : Subgroup W} {A : Subgroup (MulAut W)} (hA : 
   · rintro ⟨a, ha, rfl⟩
     exact w1369_secAut_mem_secSub hA ha
 
+omit [Finite W] in
 theorem w1369_C_le_pre {U C : Subgroup W} (hCU : C ≤ U) (N : Subgroup (Sect U C)) :
     C ≤ w1369_pre U C N := by
   intro c hc
@@ -111,7 +116,8 @@ theorem w1369_C_le_pre {U C : Subgroup W} (hCU : C ≤ U) (N : Subgroup (Sect U 
   rw [h1]
   exact N.one_mem
 
-theorem w1369_secSub_eq_bot_iff {U C : Subgroup W} (hCU : C ≤ U) {X : Subgroup (MulAut W)}
+omit [Finite W] in
+theorem w1369_secSub_eq_bot_iff {U C : Subgroup W} (_hCU : C ≤ U) {X : Subgroup (MulAut W)}
     (hX : StabPair X U C) :
     secSub U C X = ⊥ ↔ ∀ x ∈ X, ∀ u ∈ U, x u * u⁻¹ ∈ C := by
   have hU : StableUnder X U := fun x hx => (hX x hx).1
@@ -136,7 +142,8 @@ theorem w1369_secSub_eq_bot_iff {U C : Subgroup W} (hCU : C ≤ U) {X : Subgroup
     intro u
     exact h x hx (u : W) u.2
 
-theorem w1369_im_card {U C M : Subgroup W} (hCM : C ≤ M) (hMU : M ≤ U) :
+omit [Finite W] in
+theorem w1369_im_card {U C M : Subgroup W} (_hCM : C ≤ M) (hMU : M ≤ U) :
     Nat.card (w1369_im U C M) = Nat.card (Sect M C) := by
   let φ : ↥M →* Sect U C := (QuotientGroup.mk' (C.subgroupOf U)).comp (Subgroup.inclusion hMU)
   have hker : φ.ker = C.subgroupOf M := by
@@ -202,6 +209,7 @@ theorem w1369_irr_transfer {U C : Subgroup W} {Λ : Subgroup (MulAut W)} (hΛ : 
     · right
       rw [← w1369_im_pre U C J', h]
 
+omit [Finite W] in
 theorem w1369_secSub_bot (U C : Subgroup W) :
     secSub U C (⊥ : Subgroup (MulAut W)) = ⊥ := by
   simp [secSub, CFSG.Quasithin.autSec, CFSG.Quasithin.autQuot, CFSG.Quasithin.autSub,

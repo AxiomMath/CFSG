@@ -51,12 +51,12 @@ theorem mt_dig {X : ℕ} {CT : ℕ → ℕ} {c0 w r : ℕ} {id : Bool}
   rw [← lo_testBit X _ hp, ← hi_testBit]
   by_cases hi : i.val < r
   · obtain ⟨a, b⟩ := hrows i.val hi j.val j.isLt
-    rw [a, b, if_pos hi]
+    rw [a, b, ite_eq_left hi]
     apply bv_val
     rw [digV_eq]
     split_ifs <;> omega
   · obtain ⟨a, b⟩ := hzero i.val (by omega) i.isLt j.val j.isLt
-    rw [a, b, if_neg hi]
+    rw [a, b, ite_eq_right hi]
     rfl
 
 theorem dig_entry {s : String} {cs : List Char} {CT : ℕ → ℕ} {len t : ℕ} (hcs : s = String.ofList cs)
@@ -119,8 +119,8 @@ theorem digRows_join {X : ℕ} {CT : ℕ → ℕ} {c0 w : ℕ} {id : Bool}
 theorem F_mt : Mt F = matW 781 781 (matF ()) := by
   ext i j
   rw [mt_dig (r := 781) (digRows_join f0' f1' f2' f3') (fun i h1 h2 => absurd h2 (by omega)),
-    if_pos i.isLt, matW_apply, rowW_matF_val i.isLt j.isLt, digV_eq, if_neg (by omega),
-    if_pos (by omega), Nat.sub_zero,
+    ite_eq_left i.isLt, matW_apply, rowW_matF_val i.isLt j.isLt, digV_eq, ite_eq_right (by omega),
+    ite_eq_left (by omega), Nat.sub_zero,
     dig_entry FA.eq form_digits (by rw [FA_len]; omega)]
 
 theorem Rr_mt : Mt Rr = matW 781 781 (initRows ()) := by
@@ -128,27 +128,27 @@ theorem Rr_mt : Mt Rr = matW 781 781 (initRows ()) := by
   rw [mt_dig (r := 253) (fun i hi => digRowsOK_spec rr' (by norm_num) i (Nat.zero_le _) (by omega))
     (fun i h1 h2 j hj => zeroFromOK_spec rz' _ (by omega)), matW_apply]
   by_cases hi : i.val < 253
-  · rw [if_pos hi, CFSG.KC.Fi24FixS.rowW_initRows_val hi j.isLt, digV_eq]
+  · rw [ite_eq_left hi, CFSG.KC.Fi24FixS.rowW_initRows_val hi j.isLt, digV_eq]
     by_cases hj : j.val < 253
-    · rw [if_pos hj, if_pos hj]
+    · rw [ite_eq_left hj, ite_eq_left hj]
       by_cases e : i.val = j.val
-      · rw [if_pos ⟨rfl, e⟩, if_pos e.symm]
-      · rw [if_neg (fun h => e h.2), if_neg (Ne.symm e)]
-    · rw [if_neg hj, if_neg hj, if_pos (by omega)]
+      · rw [ite_eq_left ⟨rfl, e⟩, ite_eq_left e.symm]
+      · rw [ite_eq_right (fun h => e h.2), ite_eq_right (Ne.symm e)]
+    · rw [ite_eq_right hj, ite_eq_right hj, ite_eq_left (by omega)]
       rw [dig_entry CFSG.KD.Fi24Fix.IA.eq CFSG.KD.Fi24Fix.init_digits (by rw [IA_len]; omega)]
-  · rw [if_neg hi, CFSG.Sporadic.Fi24.Native.zeroFrom_initRows_rows _ (by omega)]
+  · rw [ite_eq_right hi, CFSG.Sporadic.Fi24.Native.zeroFrom_initRows_rows _ (by omega)]
 
 theorem Q_mt : Mt Q = matW 781 781 (basisRows ()) := by
   ext i j
   rw [mt_dig (r := 253) (fun i hi => digRowsOK_spec qd' (by norm_num) i (Nat.zero_le _) (by omega))
     (fun i h1 h2 j hj => zeroFromOK_spec qz' _ (by omega)), matW_apply]
   by_cases hi : i.val < 253
-  · rw [if_pos hi, rowW_basisRows_val hi, digV_eq, if_neg (by omega)]
+  · rw [ite_eq_left hi, rowW_basisRows_val hi, digV_eq, ite_eq_right (by omega)]
     by_cases hj : j.val < 253
-    · rw [if_pos hj, if_pos (by omega), Nat.sub_zero,
+    · rw [ite_eq_left hj, ite_eq_left (by omega), Nat.sub_zero,
         dig_entry QA.eq basis_digits (by rw [QA_len]; omega)]
-    · rw [if_neg hj, if_neg (by omega)]; rfl
-  · rw [if_neg hi, rowW_ge (by rw [basisRows_size]; omega), W.val_zero]
+    · rw [ite_eq_right hj, ite_eq_right (by omega)]; rfl
+  · rw [ite_eq_right hi, rowW_ge (by rw [basisRows_size]; omega), W.val_zero]
 
 theorem Rt_mt : Mt CFSG.KD.Fi24Fix.R = (matW 781 781 (initRows ())).transpose := by
   obtain ⟨hlen, hCT⟩ := CFSG.KC.Fi24FixS.digitsOK_spec _ 0 CFSG.KD.Fi24Fix.init_digits
@@ -161,18 +161,16 @@ theorem Rt_mt : Mt CFSG.KD.Fi24Fix.R = (matW 781 781 (initRows ())).transpose :=
   change bv (CFSG.KD.Fi24Fix.R.testBit (781 * j.val + i.val))
     (CFSG.KD.Fi24Fix.R.testBit (609961 + (781 * j.val + i.val))) = _
   rw [← lo_testBit _ _ hp, ← hi_testBit]
-  change bv ((Nat.land CFSG.KD.Fi24Fix.R CFSG.KD.BrFi24.LO).testBit _)
-    ((Nat.shiftRight CFSG.KD.Fi24Fix.R 609961).testBit _) = _
   change bv (CFSG.KD.Fi24Fix.R1.testBit _) (CFSG.KD.Fi24Fix.R2.testBit _) = _
   by_cases hi : i.val < 253
   · rw [CFSG.KC.Fi24FixS.rowW_initRows_val hi j.isLt]
     by_cases hj : j.val < 253
     · obtain ⟨a, b⟩ := (hrow j j.isLt i i.isLt).1 hj
-      rw [a, b, if_pos hj]
+      rw [a, b, ite_eq_left hj]
       by_cases e : i.val = j.val
       · simp [e, bv]
       · simp [e, Ne.symm e, bv]
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       have hj' : j.val - 253 < 528 := by omega
       obtain ⟨a, b⟩ := hcol (j.val - 253) hj' i hi
       have e1 : 781 * (253 + (j.val - 253)) + i.val = 781 * j.val + i.val := by omega

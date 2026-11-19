@@ -19,14 +19,14 @@ theorem IsNatSecOf.of_mulEquiv {F : Type*} [Field F] {L E N : Subgroup G}
   obtain ⟨β, hβsurj, hβker, hβconj⟩ := h
   let f : ↥E' →* G := L.subtype.comp (e.symm.toMonoidHom.comp (Subgroup.inclusion hE'))
   let φ : ↥E' →* ↥E := f.codRestrict E fun x =>
-    (hEe (e.symm (Subgroup.inclusion hE' x))).mpr (by simpa using x.2)
+    (hEe (e.symm (Subgroup.inclusion hE' x))).mpr (by simp)
   have hφ_val : ∀ x : ↥E',
       ((φ x : ↥E) : G) = ((e.symm (Subgroup.inclusion hE' x) : ↥L) : G) :=
     fun _ => rfl
   have hφ_surj : Function.Surjective φ := by
     intro y
     refine ⟨⟨e (Subgroup.inclusion hE y), (hEe (Subgroup.inclusion hE y)).mp ?_⟩, ?_⟩
-    · simpa using y.2
+    · simp
     · apply Subtype.ext
       change ((e.symm (e (Subgroup.inclusion hE y)) : ↥L) : G) = (y : G)
       simp

@@ -12,6 +12,7 @@ open QuadraticMap CFSG.ClassicalGroups.Unitary
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {σ : K ≃+* K}
 
+omit [Finite K] in
 private theorem isFlipflopSub_sup_disjoint_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {n : ℕ} {p q r : Submodule K (Fin n ⊕ Fin n → K)}
     (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q) (hr : IsFlipflopPt σ r)
@@ -33,6 +34,7 @@ private theorem isFlipflopSub_sup_disjoint_of_flipColl_triangle (hσ : IsUnitary
     (sup_le (FlipColl.le_flipOrth_of_card_four hσ hK hrp' hp hr)
       (FlipColl.le_flipOrth_of_card_four hσ hK hqr hq hr))
 
+omit [Finite K] in
 theorem isFlipflopSub_sup_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {n : ℕ} {p q r : Submodule K (Fin n ⊕ Fin n → K)}
     (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q) (hr : IsFlipflopPt σ r)
@@ -40,6 +42,7 @@ theorem isFlipflopSub_sup_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
     IsFlipflopSub σ ((p ⊔ q) ⊔ r) :=
   (isFlipflopSub_sup_disjoint_of_flipColl_triangle hσ hK hp hq hr hpq hqr hrp).1
 
+omit [Finite K] in
 theorem finrank_sup_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {n : ℕ} {p q r : Submodule K (Fin n ⊕ Fin n → K)}
     (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q) (hr : IsFlipflopPt σ r)
@@ -55,6 +58,7 @@ theorem finrank_sup_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
   rw [hinf, finrank_bot, add_zero, (hpq.isFlipLine hp hq).2, hr_fin] at hdim
   omega
 
+omit [Finite K] in
 theorem isFlipflopSub_finrank_exists_solid_sup_of_flipColl_triangle
     (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
     {p q r : Submodule K (Fin 4 ⊕ Fin 4 → K)}
@@ -69,6 +73,7 @@ theorem isFlipflopSub_finrank_exists_solid_sup_of_flipColl_triangle
     IsFlipflopSub.exists_solid_le (n := 4) hσ hY_sub hY_lt
   exact ⟨hY_sub, hY_fin, S, hS, hYS⟩
 
+omit [Finite K] in
 theorem exists_solid_contains_of_flipColl_triangle (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {p q r : Submodule K (Fin 4 ⊕ Fin 4 → K)}
     (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q) (hr : IsFlipflopPt σ r)

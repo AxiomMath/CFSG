@@ -26,6 +26,7 @@ theorem isCyclic_centralizer (e : X ≃* PSL2 (GaloisField 2 6)) {y : X} (hy1 : 
     Item434SmallTwoOther.L264.card_gf64 e hy3 hy1
     fun u hu => (Subgroup.mem_centralizer_singleton_iff.mp hu).symm
 
+omit [Finite X] in
 theorem card_autFix_outer (e : X ≃* PSL2 (GaloisField 2 6))
     {α : MulAut X} (h3 : α ^ 3 = 1) (hα : α ∉ (MulAut.conj : X →* MulAut X).range) :
     Nat.card (Sec4.autFix α) = 60 := by
@@ -41,6 +42,7 @@ theorem card_autFix_outer (e : X ≃* PSL2 (GaloisField 2 6))
     Subgroup.card_map_of_injective e.injective] at h60
   exact h60
 
+omit [Finite X] in
 theorem card_le_nine (e : X ≃* PSL2 (GaloisField 2 6)) {E : Subgroup (MulAut X)}
     (hE : ∀ α ∈ E, α ^ 3 = 1) :
     Nat.card E ≤ 9 ∧ (9 ≤ Nat.card E →
@@ -81,6 +83,7 @@ theorem card_le_nine (e : X ≃* PSL2 (GaloisField 2 6)) {E : Subgroup (MulAut X
       rw [← hαc] at hinn
       exact (CFSG.RankThree.PartTwo.KFacts.isInnerAut_congr e α).mp hinn
 
+omit [Finite X] in
 theorem nine_dvd_card_centralizer (e : X ≃* PSL2 (GaloisField 2 6)) {y : X} (hy3 : y ^ 3 = 1) :
     9 ∣ Nat.card (Subgroup.centralizer ({y} : Set X)) := by
   obtain ⟨R, hR9, hRy⟩ := Item434SmallTwoOther.L264.exists_sylow_commute
@@ -100,7 +103,7 @@ end Facts
 theorem mem_zpowers_of_pow_eq_one {C : Type*} [Group C] [Finite C] [IsCyclic C] {g z : C} {n : ℕ}
     (hn : 0 < n) (hg : orderOf g = n) (hz : z ^ n = 1) : z ∈ Subgroup.zpowers g := by
   classical
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   have hle := IsCyclic.card_pow_eq_one_le (α := C) hn
   set T : Finset C := Finset.univ.filter (fun a => a ∈ Subgroup.zpowers g)
   set U : Finset C := Finset.univ.filter (fun a => a ^ n = 1)
@@ -125,7 +128,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem zpowers_inf_eq_bot {x : G} {H : Subgroup G} (hx3 : x ^ 3 = 1) (hxH : x ∉ H) :
     Subgroup.zpowers x ⊓ H = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   rintro z ⟨hz1, hz2⟩
   rw [Subgroup.mem_bot]
@@ -144,7 +147,7 @@ theorem zpowers_inf_eq_bot {x : G} {H : Subgroup G} (hx3 : x ^ 3 = 1) (hxH : x �
 theorem exists_nine_le {W : Subgroup G} (hWe : CFSG.Assembly.IsElemAbelian 3 W)
     (hgt : 3 < Nat.card W) :
     ∃ W' : Subgroup G, W' ≤ W ∧ CFSG.Assembly.IsElemAbelian 3 W' ∧ Nat.card W' = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWpg : IsPGroup 3 W := fun g => ⟨1, Subtype.ext (by simpa using hWe.2 g g.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hWpg
   have hk2 : 2 ≤ k := by
@@ -161,6 +164,7 @@ theorem exists_nine_le {W : Subgroup G} (hWe : CFSG.Assembly.IsElemAbelian 3 W)
   rw [Subgroup.card_map_of_injective W.subtype_injective, hW₀]
   norm_num
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_of_commute {g t : G} (h : t * g = g * t) :
     g ∈ Subgroup.normalizer ((Subgroup.zpowers t : Subgroup G) : Set G) := by
   refine Subgroup.centralizer_le_normalizer ((Subgroup.zpowers t : Subgroup G) : Set G)
@@ -182,7 +186,7 @@ theorem false_of_partTwo_ext (hEF : partTwoE G = partTwoF G) {E : Subgroup G}
   have hinf : E ⊓ Subgroup.zpowers f = ⊥ := by
     rw [inf_comm]
     exact zpowers_inf_eq_bot hf3 hfE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBc : Nat.card ↥(E ⊔ Subgroup.zpowers f) = 81 := by
     have h := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute E (Subgroup.zpowers f) hc).1
     rw [hinf, Subgroup.card_bot, mul_one, hE.2.1, Nat.card_zpowers, orderOf_eq_prime hf3 hf1] at h
@@ -209,7 +213,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem mem_zpowers_of_mem_zpowers_three {x d : G} (hd3 : d ^ 3 = 1)
     (hx : x ∈ Subgroup.zpowers d) (hx1 : x ≠ 1) : d ∈ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hd3, one_zpow]
@@ -223,6 +227,7 @@ theorem mem_zpowers_of_mem_zpowers_three {x d : G} (hd3 : d ^ 3 = 1)
       rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime hx3 hx1, orderOf_eq_prime hd3 hd1])
   exact heq ▸ Subgroup.mem_zpowers d
 
+omit [Finite G] in
 theorem conj_pow_eq_of_forall {L : Subgroup G} {x y : G} (hyL : y ∈ L)
     (h : ∀ l ∈ L, x * l * x⁻¹ = y * l * y⁻¹) (n : ℕ) :
     ∀ l ∈ L, x ^ n * l * (x ^ n)⁻¹ = y ^ n * l * (y ^ n)⁻¹ := by
@@ -244,7 +249,7 @@ theorem false_of_l264 (hEF : partTwoE G = partTwoF G)
     (hLd : ¬ L ≤ Subgroup.centralizer {d}) {t f : G} (htL : t ∈ L) (ht2 : orderOf t = 2)
     (htd : t * d = d * t) (hfL : f ∈ L) (hf3 : f ^ 3 = 1) (hf1 : f ≠ 1) (hfd : f * d = d * f)
     (hinner : ∀ y ∈ L, ¬ ∀ l ∈ L, d * l * d⁻¹ = y * l * y⁻¹) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 : d ^ 3 = 1 := hA.1.2 d hdA
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hA.1.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -486,7 +491,7 @@ theorem false_of_l264 (hEF : partTwoE G = partTwoF G)
   have ht0'3 : t0' ^ 3 = 1 := Subtype.ext (by simpa using ht03)
   have ht0'1 : t0' ≠ 1 := fun h => ht01 (congrArg Subtype.val h)
   set C : Subgroup L := Subgroup.centralizer ({t0'} : Set L) with hCdef
-  haveI hCcyc : IsCyclic C := isCyclic_centralizer eL ht0'1 ht0'3
+  have hCcyc : IsCyclic C := isCyclic_centralizer eL ht0'1 ht0'3
   have h9C : 9 ∣ Nat.card C := nine_dvd_card_centralizer eL ht0'3
   obtain ⟨c0, hc0⟩ := IsCyclic.exists_generator (α := C)
   have hoc0 : orderOf c0 = Nat.card C := orderOf_eq_card_of_forall_mem_zpowers hc0
@@ -663,9 +668,9 @@ theorem row427_l264
       have h1 := (IsCyclic.isMulCommutative
         (α := Subgroup.centralizer ({⟨y, hyL⟩} : Set L))).is_comm.comm ⟨_, haC⟩ ⟨_, hbC⟩
       exact congrArg (fun z : Subgroup.centralizer ({⟨y, hyL⟩} : Set L) => ((z : L) : G)) h1
-    haveI : Group.IsPerfect K' := hK'q.1
-    haveI : Nontrivial K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'q
-    haveI : IsMulCommutative K' := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
+    have : Group.IsPerfect K' := hK'q.1
+    have : Nontrivial K' := CFSG.LocalCores.isQuasisimple_nontrivial hK'q
+    have : IsMulCommutative K' := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
     exact Group.IsPerfect.not_isMulCommutative K' inferInstance
   have hd3 : d ^ 3 = 1 := hA.1.2 d hdA
   have hinner : ∀ y ∈ L, ¬ ∀ l ∈ L, d * l * d⁻¹ = y * l * y⁻¹ := by
@@ -701,8 +706,8 @@ theorem row427_l264
       obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
       rw [ha]
       exact Dvd.intro _ rfl
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 2 (dvd_trans (by norm_num) h60)
     obtain ⟨f₀, hf₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 3 (dvd_trans (by norm_num) h60)
     have hf3 : (f₀ : G) ^ 3 = 1 := by

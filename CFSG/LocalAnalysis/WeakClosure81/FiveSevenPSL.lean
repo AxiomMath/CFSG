@@ -28,7 +28,7 @@ theorem exists_isNaturalPSL2_ge_of_regular {Δ : Type*} [Finite Δ] {m : ℕ} (h
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm1
   have hΔ1 : 1 < Nat.card Δ := by rw [hcard]; omega
-  haveI : Nontrivial Δ := Finite.one_lt_card_iff_nontrivial.mp hΔ1
+  have : Nontrivial Δ := Finite.one_lt_card_iff_nontrivial.mp hΔ1
   obtain ⟨β₀, hβ₀⟩ := exists_ne α
   have hmemA : ∀ a : ↥A, (a : Perm Δ) β₀ ≠ α := by
     intro a ha
@@ -59,13 +59,13 @@ theorem exists_isNaturalPSL2_ge_of_regular {Δ : Type*} [Finite Δ] {m : ℕ} (h
   let K₀ : Subgroup (Perm Δ₀) :=
     (MulAction.toPermHom (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) Δ₀).range
   have hK₀ : IsNaturalPSL2 K₀ m := IsNaturalPSL2.range_toPermHom m
-  haveI : Finite Δ₀ := hK₀.finite
+  have : Finite Δ₀ := hK₀.finite
   have hΔ₀card : Nat.card Δ₀ = 2 ^ m + 1 := hK₀.card_eq_two_pow_add_one hm
   have hΔ₀pos : 0 < Nat.card Δ₀ := by rw [hΔ₀card]; omega
-  haveI : Nonempty Δ₀ := Finite.card_pos_iff.mp hΔ₀pos
+  have : Nonempty Δ₀ := Finite.card_pos_iff.mp hΔ₀pos
   let a₀ : Δ₀ := Classical.arbitrary Δ₀
   have hΔ₀1 : 1 < Nat.card Δ₀ := by rw [hΔ₀card]; omega
-  haveI : Nontrivial Δ₀ := Finite.one_lt_card_iff_nontrivial.mp hΔ₀1
+  have : Nontrivial Δ₀ := Finite.one_lt_card_iff_nontrivial.mp hΔ₀1
   obtain ⟨b₀, hb₀⟩ := exists_ne a₀
   let U₀ : Subgroup ↥K₀ := unipotentRadical ↥K₀ a₀
   have hUfix : ∀ u : ↥U₀, u • a₀ = a₀ := by

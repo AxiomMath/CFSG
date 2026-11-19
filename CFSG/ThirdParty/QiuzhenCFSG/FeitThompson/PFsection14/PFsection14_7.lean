@@ -62,7 +62,7 @@ public theorem section14_theorem_14_7_actor_dvd_group_card_sub_one
     Nat.card A ∣ Nat.card E - 1 := by
   classical
   let α := {e : E // e ≠ 1}
-  letI : MulAction A α :=
+  let : MulAction A α :=
     { smul := fun a e => ⟨a • (e : E), by
         intro h
         apply e.2
@@ -93,8 +93,8 @@ public theorem section14_theorem_14_7_actor_dvd_group_card_sub_one
     exact e.2 (hfree a ha_ne (e : E) hfix)
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card E - 1 := by
-    letI : Fintype E := Fintype.ofFinite E
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype E := Fintype.ofFinite E
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {e : E // e ≠ 1} = Fintype.card E - 1
     simp
@@ -156,7 +156,7 @@ public theorem section14_theorem_14_7_fixedPointFree_u_divisibility_source_bridg
       (hfrob := hfrobLH) (A := W2.conjBy y) (Ω := U)
       hW2y_le_L hW2y_not_H hUH hW2y_norm_U with
     ⟨hUAction, hUfree⟩
-  letI : MulDistribMulAction (W2.conjBy y) U := hUAction
+  let : MulDistribMulAction (W2.conjBy y) U := hUAction
   have hdivCard : Nat.card (W2.conjBy y) ∣ Nat.card U - 1 :=
     section14_theorem_14_7_actor_dvd_group_card_sub_one hUfree
   have hc_one : c = 1 :=

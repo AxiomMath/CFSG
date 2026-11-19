@@ -90,7 +90,6 @@ private theorem key2_arith (a b c d e f : Nat) :
     a + 512 * (b + 512 * (c + 512 * (d + 512 * (e + 512 * (f + 512 * 0))))) =
       (a + 512 * (b + 512 * (c + 512 * 0))).add
         (Nat.mul 134217728 (d + 512 * (e + 512 * (f + 512 * 0)))) := by
-  change _ = Nat.add _ (Nat.mul 134217728 _)
   simp only [Nat.add_eq, Nat.mul_eq]
   ring
 

@@ -30,8 +30,8 @@ theorem rkLin_true_eq {m Q r j A B : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2) (h
         padicValNat r (Q - 1) ≤ padicValNat r m then 1 else 0) := by
   classical
   unfold rkLin
-  rw [if_pos (by simpa using (eP_eq_one_iff hQ).2 hrQ)]
-  simp only [if_true]
+  rw [ite_eq_left (by simpa using (eP_eq_one_iff hQ).2 hrQ)]
+  simp only [ite_true]
   exact congrArg (m - 1 - ·) (if_congr (drop_iff hr2 hrm hA hB hAB) rfl rfl)
 
 theorem rkLin_false_eq {m Q r j A B : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2)
@@ -41,8 +41,8 @@ theorem rkLin_false_eq {m Q r j A B : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2)
         padicValNat r (Q + 1) ≤ padicValNat r m then 1 else 0) := by
   classical
   unfold rkLin
-  rw [if_pos (by simpa using eM_eq_one_iff.2 hrQ)]
-  simp only [Bool.false_eq_true, if_false]
+  rw [ite_eq_left (by simpa using eM_eq_one_iff.2 hrQ)]
+  simp only [Bool.false_eq_true, ite_false]
   exact congrArg (m - 1 - ·) (if_congr (drop_iff hr2 hrm hA hB hAB) rfl rfl)
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

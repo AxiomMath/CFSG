@@ -25,7 +25,7 @@ private theorem nmh_diagonal_commute {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZM
   have hsj : s j ≠ 0 := by rcases hs j with h | h <;> rw [h] <;> decide
   have hc := congrFun (congrFun h (σ j)) j
   simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, spMat_apply] at hc
-  simp only [if_true] at hc
+  simp only [ite_true] at hc
   rw [mul_comm (d (σ j)) (s j)] at hc
   exact (mul_left_cancel₀ hsj hc).symm
 
@@ -115,9 +115,9 @@ private theorem nmh_F_max {X : Type} [Group X] [Finite X] (S : N7MSetup X)
       intro q hq
       have : (⟨q, hq⟩ : Q) ∈ F' := by rw [h]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this)
-  haveI : Group.IsNilpotent Q := IsPGroup.isNilpotent hQp
+  have : Group.IsNilpotent Q := IsPGroup.isNilpotent hQp
   have hnc : NormalizerCondition Q := Group.normalizerCondition_of_isNilpotent
-  obtain ⟨-, n, hn, hnnot⟩ := SetLike.lt_iff_le_and_exists.mp (hnc F' hF'_lt_top)
+  obtain ⟨-, n, hn, hnnot⟩ := IsConcreteLE.lt_iff_le_and_exists.mp (hnc F' hF'_lt_top)
   have hn1_notin : (n : X) ∉ S.Fgrp := fun h => hnnot (Subgroup.mem_subgroupOf.mpr h)
   have hnormX : (n : X) ∈ Subgroup.normalizer S.Fgrp := by
     rw [Subgroup.mem_normalizer_iff]

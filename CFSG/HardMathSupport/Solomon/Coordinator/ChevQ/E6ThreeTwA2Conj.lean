@@ -50,12 +50,12 @@ theorem tw_exists_lang_datum_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
           g * baseChangeGL (algebraMap K (AlgebraicClosure K))
             (rootDiagUnit Tag.E6 (e6LineChar ω)) * g⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   obtain rfl : Fr = iterateFrobenius (AlgebraicClosure K) p f :=
     RingHom.ext fun c => by rw [hFr, iterateFrobenius_def]
@@ -145,12 +145,12 @@ theorem tw_exists_conj_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
       (LinearMap.ker ((y : Module.End K (RootModule TwistTag.E6.tag K)) - 1)) = 24) :
     ∃ g ∈ twistedE6RootGroup K σ, g * x * g⁻¹ = y := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   obtain ⟨Fr, hFr⟩ : ∃ Fr : AlgebraicClosure K →+* AlgebraicClosure K, ∀ c, Fr c = c ^ (p ^ f) :=
     ⟨iterateFrobenius _ p f, fun c => by rw [iterateFrobenius_def]⟩
@@ -226,7 +226,7 @@ theorem tw_exists_conj_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
 theorem twE6ThreeA2Conj_holds : TwE6ThreeA2ConjStmt := by
   intro K _ _ σ q _ hσ hKq h3 _ x hx y hy hx3 hy3 hxd hyd
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpn, hcard⟩ := FiniteField.card K (ringChar K)
   obtain ⟨p, hp⟩ : ∃ p, p = ringChar K := ⟨_, rfl⟩
   rw [← hp] at hpn hcard
@@ -240,7 +240,7 @@ theorem twE6ThreeA2Conj_holds : TwE6ThreeA2ConjStmt := by
     · rw [h, pow_zero] at h3
       omega
     · exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3K : 3 ∣ Nat.card Kˣ := by
     have h1 : (p ^ m) ^ 2 % 3 = 1 := by
       rw [Nat.pow_mod, hq3]

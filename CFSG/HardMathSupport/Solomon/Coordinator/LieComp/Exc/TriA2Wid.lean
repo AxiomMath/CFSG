@@ -124,16 +124,16 @@ theorem f2_id (c : K) :
   have h3 := frame_d3 H
   apply triple_eq
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul]
+    simp only [Units.val_one]
     field_simp
     linear_combination (-c) * h3
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul]
+    simp only [Units.val_one, map_mul]
     rw [frame_sm1 H]
     field_simp
     linear_combination σ c * h3
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul]
+    simp only [Units.val_one, map_mul]
     rw [frame_sm2 H]
     field_simp
 
@@ -148,7 +148,7 @@ theorem f3_id (c : K) :
   have h3 := frame_d3 H
   apply triple_eq
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
+    simp only [Units.val_neg, Units.val_one, Units.val_inv_eq_inv_val]
     field_simp
     linear_combination (-c) * h3
   · rw [frame_mu2 H, frame_mu1 H]
@@ -172,16 +172,16 @@ theorem f4_id (c : K) :
   have h3 := frame_d3 H
   apply triple_eq
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
+    simp only [Units.val_one, Units.val_inv_eq_inv_val]
     field_simp
     linear_combination c * h3
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
+    simp only [Units.val_one, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
     rw [frame_sm1 H]
     field_simp
     linear_combination (-σ c) * h3
   · rw [frame_mu2 H, frame_mu1 H]
-    simp only [Units.val_neg, Units.val_one, map_neg, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
+    simp only [Units.val_one, map_mul, Units.val_inv_eq_inv_val, map_inv₀]
     rw [frame_sm2 H]
     field_simp
 

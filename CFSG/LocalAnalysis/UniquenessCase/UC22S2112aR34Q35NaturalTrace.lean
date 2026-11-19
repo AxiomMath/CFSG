@@ -308,9 +308,9 @@ private lemma chi_spec {u : GL ι K} {M : Matrix ι ι K}
   classical
   unfold chi
   by_cases hM : (u : Matrix ι ι K) * M * (↑(u⁻¹) : Matrix ι ι K) = M
-  · rw [if_pos hM]
+  · rw [ite_eq_left hM]
     exact ⟨Or.inl rfl, by rw [hM, one_smul]⟩
-  · rw [if_neg hM]
+  · rw [ite_eq_right hM]
     refine ⟨Or.inr rfl, ?_⟩
     rcases h with h1 | h2
     · exact absurd h1 hM

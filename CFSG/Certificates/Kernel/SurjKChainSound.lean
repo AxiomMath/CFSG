@@ -113,13 +113,13 @@ theorem wordChecks_of_real (hP : VPts d n p) {S : Spec} {G : Array Table} {LMf :
     intro z hz0 hzm
     unfold imgF imgLetter
     have hb : Nat.blt 0 z.natAbs = true := by simp [Nat.blt_eq]; omega
-    simp only [rec_ifN', hb, cond_true]
+    simp only [rec_ifN', hb]
     by_cases h : 0 < z
     · have e : (z - 1).toNat = z.natAbs - 1 := by omega
-      simp only [h, decide_true, cond_true, if_true, e]
+      simp only [h, decide_true, _root_.Bool.cond_true, ite_true, e]
       exact hRI _ (by omega)
     · have e : (-z - 1).toNat = z.natAbs - 1 := by omega
-      simp only [h, decide_false, cond_false, if_false, e]
+      simp only [h, decide_false, Bool.cond_false, ite_false, e]
       exact (hIv _ (by omega)).1
   have hrels : ∀ r ∈ S.rels, (∀ l ∈ r, l.1 < S.m) ∧
       wordRF d (imgF Ims ImsI) (r.map letterOf) = idF d := by

@@ -39,8 +39,8 @@ theorem exists_mulEquiv_adjointGroup_F4_of_label {K : Type} [Group K] [Finite K]
   obtain ⟨-, F, hF, hFin, hcard, ⟨e0⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.F4 ∈ chevalleyExceptionalTags)
   refine ⟨F, hF, hFin, hcard, ?_⟩
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   let χ : CFSG.Blueprint.AdjointQuotient .F4 F ≃* adjointGroup .F4 F :=
     (QuotientGroup.quotientMulEquivOfEq
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .F4) (K := F))).trans
@@ -60,8 +60,8 @@ theorem i166On_famF4_of_transport_of_model (hModel : F4ModelAt)
   obtain ⟨ht, hn, hpd⟩ := hfam
   obtain ⟨F, hF, hFin, hcard, ⟨e⟩⟩ :=
     exists_mulEquiv_adjointGroup_F4_of_label hK ht hn
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   exact htr e (hModel F lab.n p hcard hn hp hp2 hpd)
 
 end Certs

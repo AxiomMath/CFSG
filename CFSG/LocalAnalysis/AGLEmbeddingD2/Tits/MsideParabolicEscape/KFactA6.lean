@@ -86,7 +86,7 @@ theorem a6_case
     (S : Subgroup (MulAut N)) (hS : IsSylowTwoOf S Y) :
     ∃ P : Subgroup (MulAut N), P ≤ innSub N ∧ Nat.card P = 3 ∧
       (S : Set (MulAut N)) * P = (P : Set (MulAut N)) * S := by
-  haveI : Finite (MulAut N) := inferInstance
+  have : Finite (MulAut N) := inferInstance
   have hne : (innSub N).relIndex Y ≠ 0 := by
     have h := Subgroup.relIndex_mul_card (H := innSub N) (K := Y)
     intro h0

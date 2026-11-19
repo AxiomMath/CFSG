@@ -15,9 +15,9 @@ open CFSG.Open CFSG.Assembly.LowTwoRank
 theorem nonempty_mulEquiv_psl_zmod {Kb : Type} [Group Kb] {q : ℕ} (hq : q.Prime)
     (h : StatedClassicalModel Kb .PSL 2 q 1) : Nonempty (Kb ≃* PSL(2, ZMod q)) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card (ZMod q) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hK, pow_one]
   let φ : K ≃+* ZMod q := FiniteField.ringEquivOfCardEq hcard
@@ -28,15 +28,15 @@ theorem isSimpleGroup_of_psl_two_model {Kb : Type} [Group Kb] {q : ℕ} (hq5 : 5
     (h : StatedClassicalModel Kb .PSL 2 q 1) : IsSimpleGroup Kb := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
   have hK' : Nat.card K = q := by rw [hK, pow_one]
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K le_rfl
       (Or.inr (by rw [hK']; omega)) (Or.inr (by rw [hK']; omega))
   exact e.isSimpleGroup
 
 theorem card_psl_two_zmod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     Nat.card PSL(2, ZMod q) = q * (q ^ 2 - 1) / 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hodd : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card (ZMod q)) := by
     rw [Nat.card_zmod]
     exact ⟨q, 1, hq, hq.odd_of_ne_two hq2, le_rfl, (pow_one q).symm⟩
@@ -81,7 +81,7 @@ theorem subgroup_eq_top_of_mem {G : Type} [Group G] [IsSimpleGroup G] {a b c : G
     obtain ⟨p, hp, hpy⟩ := Subgroup.mem_map.mp hy
     exact ⟨p.1, by rw [← hpy]; exact hp⟩
   let N₂ : Subgroup G := N.comap (MonoidHom.inr G G)
-  haveI : N₂.Normal := by
+  have : N₂.Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨h, hh⟩ := hsnd g
     have hn' : (1, n) ∈ N := hn
@@ -124,7 +124,7 @@ theorem exists_involution_triple (hA : PslConjStmt) (hB : PslGenStmt) {q : ℕ} 
     ∃ j₁ j₂ j₃ : Kb, orderOf j₁ = 2 ∧ orderOf j₂ = 2 ∧ orderOf j₃ = 2 ∧
       IsConj i j₁ ∧ IsConj i j₂ ∧ IsConj i j₃ ∧
       Subgroup.closure ({j₁, j₂, j₃} : Set Kb) = ⊤ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨i₁, i₂, i₃, h₁, h₂, h₃, hgen⟩ := hB q hq5
   have hi' : orderOf (e i) = 2 := by rw [MulEquiv.orderOf_eq]; exact hi
   have c₁ : IsConj (e i) i₁ := hA q (by omega) _ _ hi' h₁

@@ -44,6 +44,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 theorem exists_conj_mem_cosets_of_involution {x : G} (hxH : x ∈ H z) (hxJ : x ∉ J z)
     (hx2 : orderOf x = 2) :
     ∃ k ∈ H z, cosetJ (z := z) (tH D) (k * x * k⁻¹) ∨
@@ -90,6 +91,7 @@ theorem exists_conj_mem_cosets_of_involution {x : G} (hxH : x ∈ H z) (hxJ : x 
       (by rw [map_mul, qH_uH, qH_vH]; exact h4)
     exact ⟨k, hk, Or.inr (Or.inr (Or.inl hc))⟩
 
+omit [Finite G] in
 theorem no_conj_z_out_of_cosets (_h : Tim79a.ParrottHyp z)
     (ht : ∀ x : G, cosetJ (z := z) (tH D) x → orderOf x = 2 → ∀ g : G, g * z * g⁻¹ ≠ x)
     (htu : ∀ x : G, cosetJ (z := z) (tH D * uH D) x → orderOf x = 2 →

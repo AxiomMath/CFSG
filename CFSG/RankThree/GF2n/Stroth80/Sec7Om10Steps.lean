@@ -22,7 +22,7 @@ theorem card_Wt (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨hVU, hWQ1⟩ := stroth310Chi_of_34 h34 G M Q Z B hc n t hs.toSec5 (Or.inr hs.omegaNat)
   have hUt : Nat.card Q * Nat.card Z = Nat.card ↥(Q1 hc t) * Nat.card ↥(Ut Q Z t) := by
-    haveI : (Z.subgroupOf (Ut Q Z t)).Normal :=
+    have : (Z.subgroupOf (Ut Q Z t)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Ut_le_Q (hc.LB_le_M ht) hv)))
     exact card_mul_card_of_isChiIso (hc.isChiIso_Q1_Ut ht) (fun x hx => hx.1)
@@ -133,7 +133,7 @@ theorem pair_facts (hPair : Step71VanishPairStatement) (h52b : Stroth52bStatemen
       exact Nat.one_lt_pow (by norm_num) (by omega)
     have hV0 : 0 < Nat.card ↥(Vt M (LB M Q B) B Z t) := Nat.card_pos
     nlinarith
-  obtain ⟨a, haA, haV⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hVA (Ne.symm hAV))
+  obtain ⟨a, haA, haV⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hVA (Ne.symm hAV))
   have hZQ : ∀ q ∈ Q, ∀ q' ∈ Q, ⁅q, q'⁆ ∈ Vt M (LB M Q B) B Z t := fun q hq q' hq' =>
     sec39_Z_le_Vt (CFSG.RankThree.GF2n.Smith81.comm_mem_Z hc.hyp hq hq')
   have hxQ : ∀ q ∈ Q, x * q * x⁻¹ ∈ Q := fun q hq =>

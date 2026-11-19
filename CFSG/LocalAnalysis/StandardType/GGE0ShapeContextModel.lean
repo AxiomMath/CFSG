@@ -36,9 +36,9 @@ theorem context_kernel_data
         (realizedSubgroup R (contextImage (ggG0 3 B x L D J) J)) a := by
   obtain ⟨Ω, hF, hA, h2, I, R, a, halg, hG1, hBs, hT, hsplit, htw, hD, heq, htoral⟩ :=
     context_toral_data hctx s1 hshape
-  letI := hF
-  letI := hA
-  letI := h2
+  let := hF
+  let := hA
+  let := h2
   refine ⟨Ω, hF, hA, h2, I, R, a, halg, hG1, hBs, hD, heq, ⟨htoral, ?_⟩⟩
   rcases hshape with ⟨rfl, hdiv⟩ | ⟨rfl, -⟩
   · exact Or.inl (split_context_rank hctx s1 hdiv R hBs)
@@ -66,9 +66,9 @@ theorem context_to_model
       RigidToralPlane (realizedSubgroup R (contextImage (ggG0 3 B x L D J) D)) := by
   obtain ⟨Ω, hF, hA, h2, I, R, a, halg, hG1, hBs, hD, heq, hkc⟩ :=
     context_kernel_data hctx s1 hshape
-  letI := hF
-  letI := hA
-  letI := h2
+  let := hF
+  let := hA
+  let := h2
   have hlarge : 6 < (familyKernel a).ncard := KernelContext.large hkc
   have hpwg : PairWeylGood a :=
     pairWeylGood_of_large_kernel a hkc.pair_exp

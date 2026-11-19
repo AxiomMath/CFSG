@@ -34,8 +34,8 @@ theorem heisPsi_apply (x : V) :
 
 theorem polar_heisPsi_left (x y : V) :
     polar Q (heisPsi Q g e d x) y = - polar Q x (heisPsi Q g e d y) := by
-  simp only [heisPsi, Fin.sum_univ_three, LinearMap.add_apply, map_add, polar_add_left,
-    polar_add_right, polar_skewPair_left, smul_add]
+  simp only [heisPsi, Fin.sum_univ_three, LinearMap.add_apply, polar_add_left,
+    polar_add_right, polar_skewPair_left]
   abel
 
 theorem heisPsi_map_apply (h : HeisData Q g e d) (x : V) :
@@ -79,19 +79,19 @@ private theorem heisPsi_orbit_d_zero (h : HeisData Q g e d) :
     rw [show polar Q d e = 0 by rw [polar_comm]; exact h.orth_ed 0 0,
       show polar Q d (g e) = 0 by rw [polar_comm]; simpa using h.orth_ed 1 0,
       show polar Q d ((g ^ 2) e) = 0 by rw [polar_comm]; simpa using h.orth_ed 2 0]
-    have hdd0 : polar Q d d = (2 : K) * Q d := by simpa using h.orth_dd 0 0
+    have hdd0 : polar Q d d = (2 : K) * Q d := by simp
     have hdd1 : polar Q d (g d) = (-1 : K) * Q d := by
       have h' := h.orth_dd 0 1
       simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, LinearEquiv.coe_one, id_eq] at h'
-      rw [if_neg (show (0 : Fin 3) ≠ 1 by decide)] at h'
+      rw [ite_eq_right (show (0 : Fin 3) ≠ 1 by decide)] at h'
       simpa using h'
     have hdd2 : polar Q d ((g ^ 2) d) = (-1 : K) * Q d := by
       have h' := h.orth_dd 0 2
       simp only [Fin.val_zero, Fin.val_two, pow_zero, LinearEquiv.coe_one, id_eq] at h'
-      rw [if_neg (show (0 : Fin 3) ≠ 2 by decide)] at h'
+      rw [ite_eq_right (show (0 : Fin 3) ≠ 2 by decide)] at h'
       simpa using h'
     rw [hdd0, hdd1, hdd2]
-    simp only [zero_smul, zero_sub, sub_zero]
+    simp only [zero_smul, zero_sub]
     linear_combination (norm := module) hs
 
 private theorem heisPsi_orbit_d_one (h : HeisData Q g e d) :
@@ -107,20 +107,20 @@ private theorem heisPsi_orbit_d_one (h : HeisData Q g e d) :
       rw [polar_comm]
       have h' := h.orth_dd 0 1
       simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, LinearEquiv.coe_one, id_eq] at h'
-      rw [if_neg (show (0 : Fin 3) ≠ 1 by decide)] at h'
+      rw [ite_eq_right (show (0 : Fin 3) ≠ 1 by decide)] at h'
       simpa using h'
     have hdd1 : polar Q (g d) (g d) = (2 : K) * Q d := by
       have h' := h.orth_dd 1 1
       simp only [Fin.val_one, pow_one] at h'
-      rw [if_true] at h'
+      rw [ite_true] at h'
       simpa using h'
     have hdd2 : polar Q (g d) ((g ^ 2) d) = (-1 : K) * Q d := by
       have h' := h.orth_dd 1 2
       simp only [Fin.val_one, Fin.val_two, pow_one] at h'
-      rw [if_neg (show (1 : Fin 3) ≠ 2 by decide)] at h'
+      rw [ite_eq_right (show (1 : Fin 3) ≠ 2 by decide)] at h'
       simpa using h'
     rw [hdd0, hdd1, hdd2]
-    simp only [zero_smul, zero_sub, sub_zero]
+    simp only [zero_smul, zero_sub]
     linear_combination (norm := module) hs
 
 private theorem heisPsi_orbit_d_two (h : HeisData Q g e d) :
@@ -136,21 +136,21 @@ private theorem heisPsi_orbit_d_two (h : HeisData Q g e d) :
       rw [polar_comm]
       have h' := h.orth_dd 0 2
       simp only [Fin.val_zero, Fin.val_two, pow_zero, LinearEquiv.coe_one, id_eq] at h'
-      rw [if_neg (show (0 : Fin 3) ≠ 2 by decide)] at h'
+      rw [ite_eq_right (show (0 : Fin 3) ≠ 2 by decide)] at h'
       simpa using h'
     have hdd1 : polar Q ((g ^ 2) d) (g d) = (-1 : K) * Q d := by
       rw [polar_comm]
       have h' := h.orth_dd 1 2
       simp only [Fin.val_one, Fin.val_two, pow_one] at h'
-      rw [if_neg (show (1 : Fin 3) ≠ 2 by decide)] at h'
+      rw [ite_eq_right (show (1 : Fin 3) ≠ 2 by decide)] at h'
       simpa using h'
     have hdd2 : polar Q ((g ^ 2) d) ((g ^ 2) d) = (2 : K) * Q d := by
       have h' := h.orth_dd 2 2
       simp only [Fin.val_two] at h'
-      rw [if_true] at h'
+      rw [ite_true] at h'
       simpa using h'
     rw [hdd0, hdd1, hdd2]
-    simp only [zero_smul, zero_sub, sub_zero]
+    simp only [zero_smul, zero_sub]
     linear_combination (norm := module) hs
 
 theorem heisPsi_orbit_d (h : HeisData Q g e d) (i : Fin 3) :
@@ -262,8 +262,7 @@ theorem heisPsi_skewPair (h : HeisData Q g e d) (x : V) :
     heisPsi Q g e d (skewPair Q e (g e) x) = 0 := by
   have h0 : heisPsi Q g e d e = 0 := by simpa using heisPsi_orbit_e h 0
   have h1 : heisPsi Q g e d (g e) = 0 := by simpa using heisPsi_orbit_e h 1
-  simp only [skewPair_apply, map_sub, map_smul, Fin.val_zero, Fin.val_one, pow_zero, pow_one,
-    LinearEquiv.coe_one, id_eq]
+  simp only [skewPair_apply, map_sub, map_smul]
   rw [h0, h1]
   simp
 

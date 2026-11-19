@@ -98,9 +98,9 @@ theorem recMax_spec (g : ℕ → ℕ) : ∀ n,
 theorem nIf_blt_eq (m i v : ℕ) : nIf(Nat.blt i m, v, 0) = if i < m then v else 0 := by
   cases hb : Nat.blt i m
   · have : ¬ i < m := fun h => by rw [← Nat.blt_eq] at h; rw [h] at hb; exact absurd hb (by decide)
-    simp only [this, if_false]
+    simp only [this, ite_false]
   · have : i < m := by rw [← Nat.blt_eq]; exact hb
-    simp only [this, if_true]
+    simp only [this, ite_true]
 
 theorem maxBelow_spec {m hi : ℕ} (f : ℕ → ℕ) (hm : m ≤ 64 * hi) :
     (∀ i < m, f i ≤ maxBelow m hi f) ∧ (maxBelow m hi f = 0 ∨ ∃ i < m, f i = maxBelow m hi f) := by
@@ -122,16 +122,16 @@ theorem maxBelow_spec {m hi : ℕ} (f : ℕ → ℕ) (hm : m ≤ 64 * hi) :
     exact this
   refine ⟨fun i hi' => ?_, ?_⟩
   · have := (hin (i / 64)).1 (i % 64) (Nat.mod_lt _ (by decide))
-    rw [Nat.div_add_mod, if_pos hi'] at this
+    rw [Nat.div_add_mod, ite_eq_left hi'] at this
     exact this.trans (o1 _ (by omega))
   · rcases o2 with o2 | ⟨h, hh, o2⟩
     · exact Or.inl o2
     · rcases (hin h).2 with h3 | ⟨l, hl, h3⟩
       · exact Or.inl (o2 ▸ h3)
       · by_cases hc : 64 * h + l < m
-        · rw [if_pos hc] at h3
+        · rw [ite_eq_left hc] at h3
           exact Or.inr ⟨_, hc, h3.trans o2⟩
-        · rw [if_neg hc] at h3
+        · rw [ite_eq_right hc] at h3
           exact Or.inl (o2 ▸ h3.symm)
 
 theorem allBelow_iff {m hi : ℕ} {f : ℕ → Bool} (hm : m ≤ 64 * hi) :
@@ -155,6 +155,7 @@ theorem subM_eq (X Y : ℕ) : subM X Y = true ↔ Nat.land X Y = X := by
 theorem testBit_lt128 {x : ℕ} (hx : x < 2 ^ 128) {i : ℕ} (hi : 128 ≤ i) : x.testBit i = false :=
   Nat.testBit_eq_false_of_lt (lt_of_lt_of_le hx (Nat.pow_le_pow_right (by decide) hi))
 
+omit [Group G] in
 theorem subM_iff_subset (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {X Y : ℕ}
     (hX : X < 2 ^ 128) : subM X Y = true ↔ mset elt X ⊆ mset elt Y := by
   rw [subM_eq]
@@ -193,6 +194,7 @@ theorem imgR_lt (r H : ℕ) : imgR r H < 2 ^ 128 :=
     obtain ⟨j, -, -, rfl⟩ := (recMask_bit (hasB H) (atR r) i 128).1 hi
     exact atR_lt _ _
 
+omit [Group G] in
 theorem mset_eq_iff_of_lt (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) {X Y : ℕ}
     (hX : X < 2 ^ 128) (hY : Y < 2 ^ 128) : mset elt X = mset elt Y ↔ X = Y := by
   refine ⟨fun h => ?_, fun h => h ▸ rfl⟩
@@ -203,11 +205,13 @@ theorem mset_eq_iff_of_lt (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i 
     _ = Nat.land Y X := Nat.land_comm X Y
     _ = Y := h2
 
+omit [Group G] in
 theorem RepM.finite {m : ℕ} {X : Set G} (h : RepM elt m X) : X.Finite :=
   ((Set.finite_Iio 128).image elt).subset fun x hx => by
     obtain ⟨i, hi, rfl⟩ := h.2 x hx
     exact ⟨i, hi, rfl⟩
 
+omit [Group G] in
 theorem RepM.eq {m : ℕ} {X Y : Set G} (hX : RepM elt m X) (hY : RepM elt m Y) : X = Y := by
   rw [hX.eq_mset, hY.eq_mset]
 
@@ -381,7 +385,7 @@ theorem rgK_spec {L RG m : ℕ} (h : rgK L RG m = true) (hm : m ≤ 448) :
 
 theorem outB_spec {H g : ℕ} (h : outB H g = true) :
     ∃ t < Nat.land g 7, hasB H (genAt g t) = false := by
-  obtain ⟨t, ht, h⟩ := recOr_of (fun t => Bool.not' (hasB H (genAt g t))) _ h
+  obtain ⟨t, ht, h⟩ := recOr_of (fun t => not (hasB H (genAt g t))) _ h
   rw [not'_eq, Bool.not_eq_true'] at h
   exact ⟨t, ht, h⟩
 
@@ -541,7 +545,7 @@ theorem eaMaxK_sound {L m Xm Nm k1 k2 : ℕ} {G₀ X N K₁ K₂ : Subgroup G} (
     (hNb : Nm < 2 ^ 128) (h : eaMaxK Q L m Xm Nm k1 k2 = true)
     (hK₁ : RepM elt (entL L k1) (K₁ : Set G)) (hK₂ : RepM elt (entL L k2) (K₂ : Set G)) :
     ∀ K : Subgroup G, IsMaxSq N X K ↔ K = K₁ ∨ K = K₂ := by
-  change bAnd(Bool.not' (Nat.beq k1 k2), Nat.beq (maxIdx L (secC Q L m Xm Nm) m)
+  change bAnd(not (Nat.beq k1 k2), Nat.beq (maxIdx L (secC Q L m Xm Nm) m)
     (Nat.lor (Nat.shiftLeft 1 k1) (Nat.shiftLeft 1 k2))) = true at h
   rw [bAnd_eq, Bool.and_eq_true] at h
   have hbit : ∀ j, hasB (maxIdx L (secC Q L m Xm Nm) m) j = true ↔ j = k1 ∨ j = k2 := by
@@ -595,7 +599,7 @@ theorem jC_bit {L RG m X N : ℕ} (hm : m ≤ 448) (k : ℕ) :
   rw [orBelow_single_bit _ k hm]
   simp only [bAnd_eq, Bool.and_eq_true]
 
-theorem jC_sound {L RG m Xm Nm : ℕ} {G₀ X N : Subgroup G} (hL : LatOK elt L m G₀) (hm : m ≤ 448)
+theorem jC_sound {L RG m Xm Nm : ℕ} {G₀ X N : Subgroup G} (_hL : LatOK elt L m G₀) (hm : m ≤ 448)
     (hgen : ∀ k < m, ∀ K : Subgroup G, RepM elt (entL L k) (K : Set G) →
       K = Subgroup.closure (rgSet elt RG k))
     (hX : RepM elt Xm (X : Set G)) (hN : RepM elt Nm (N : Set G)) (hNb : Nm < 2 ^ 128)
@@ -639,7 +643,7 @@ theorem recCount_eq (c : ℕ → Bool) : ∀ n,
     rw [recCount_eq c n]
     cases hb : c n
     · rfl
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [Finset.card_insert_of_notMem (by simp)]
 
 theorem omN_eq (K N : ℕ) :
@@ -647,7 +651,7 @@ theorem omN_eq (K N : ℕ) :
   have e : {x | x ∈ mset elt K ∧ x * x ∈ mset elt N} =
       elt '' ↑((Finset.range 128).filter fun i => bAnd(hasB K i, hasB N (atR Q i)) = true) := by
     ext g
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, Finset.mem_range, Set.mem_image, bAnd_eq,
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, Finset.mem_range, Set.mem_image, bAnd_eq,
       Bool.and_eq_true]
     constructor
     · rintro ⟨⟨i, hi, hb, rfl⟩, hsq⟩
@@ -661,7 +665,7 @@ theorem omN_eq (K N : ℕ) :
   rw [e, Set.InjOn.ncard_image, Set.ncard_coe_finset]
   · exact recCount_eq (fun i => bAnd(hasB K i, hasB N (atR Q i))) 128
   · intro i hi j hj he
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hi hj
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hi hj
     exact hR.inj i hi.1 j hj.1 he
 
 end Sections
@@ -688,24 +692,24 @@ theorem unionMax_sound {L m Cm : ℕ} (hm : m ≤ 448) (𝒜 : Set (Subgroup G))
     · intro he B hB
       obtain ⟨j, hj, hBj⟩ := hcomp B hB
       have := mx1 j hj
-      rw [hval, if_pos ((hCm j hj).2 ⟨B, hB, hBj⟩), hs j hj B hBj] at this
+      rw [hval, ite_eq_left ((hCm j hj).2 ⟨B, hB, hBj⟩), hs j hj B hBj] at this
       omega
     · intro hmax
       have h1 := mx1 k hk
-      rw [hval, if_pos hAc] at h1
+      rw [hval, ite_eq_left hAc] at h1
       rcases mx2 with h0 | ⟨j, hj, hjv⟩
       · omega
       · rw [hval] at hjv
         by_cases hjc : hasB Cm j = true
-        · rw [if_pos hjc] at hjv
+        · rw [ite_eq_left hjc] at hjv
           obtain ⟨B, hB, hBj⟩ := (hCm j hj).1 hjc
           have := hmax B hB
           rw [← hs j hj B hBj, hjv, ← hsA] at this
           omega
-        · rw [if_neg hjc] at hjv
+        · rw [ite_eq_right hjc] at hjv
           omega
   ext x
-  simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop]
+  simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop]
   constructor
   · rintro ⟨i, hi, hb, rfl⟩
     rw [hasB_eq, orBelow_bit _ _ (by omega)] at hb

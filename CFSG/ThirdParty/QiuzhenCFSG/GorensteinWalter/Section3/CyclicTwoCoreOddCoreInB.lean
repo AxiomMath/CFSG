@@ -102,7 +102,7 @@ public theorem firstCase_cyclic_a7_S_layer_data
     rw [Subgroup.mem_bot]
     have hxS : x ∈ (SM : Subgroup M) := (Subgroup.mem_inf.mp hx).1
     have hxO : x ∈ O0 := (Subgroup.mem_inf.mp hx).2
-    rcases SM.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases SM.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hdvd : orderOf x ∣ 2 ^ n := by
       have hd : orderOf x ∣ Nat.card (SM : Subgroup M) :=
         Subgroup.orderOf_dvd_natCard (SM : Subgroup M) hxS
@@ -207,7 +207,7 @@ public theorem firstCase_cyclic_a7_S_layer_data
     have hxK : x ∈ (E0 ⊓ O0).subgroupOf E0 := (Subgroup.mem_inf.mp hx).2
     have hxO : (x : M) ∈ O0 :=
       (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hxK)).2
-    rcases PE.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases PE.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hdvd : orderOf x ∣ 2 ^ n := by
       have hd : orderOf x ∣ Nat.card (PE : Subgroup E0) :=
         Subgroup.orderOf_dvd_natCard (PE : Subgroup E0) hxP
@@ -243,7 +243,7 @@ public theorem firstCase_cyclic_a7_S_layer_data
       (f := E0.subtype) E0.subtype_injective
     rwa [hcardPE] at h
   have hPEM_p : IsPGroup 2 PEM :=
-    (PE.isPGroup' : IsPGroup 2 (PE : Subgroup E0)).map E0.subtype
+    (PE.isPGroup : IsPGroup 2 (PE : Subgroup E0)).map E0.subtype
   obtain ⟨QM, hQMle⟩ := IsPGroup.exists_le_sylow (p := 2) hPEM_p
   have hPEM_eq_QM : PEM = (QM : Subgroup M) := by
     apply le_antisymm hQMle
@@ -317,7 +317,7 @@ public theorem firstCase_cyclic_oddCore_le_B_of_a7_layer
     rw [hcard]
     exact Nat.coprime_two_left.mp
       (pPrimeCore_coprime_card (p := 2) (G := ↥M))
-  have hOsolv : IsSolvable O := odd_order_theorem O hOodd
+  have hOsolv : Group.IsSolvable O := odd_order_theorem O hOodd
   have hOnorm : IsNormalIn O M := by
     refine ⟨hOleM, ?_⟩
     intro m hm o ho
@@ -360,7 +360,7 @@ public theorem firstCase_cyclic_oddCore_le_B_of_a7_layer
       (by simpa [od.d.S_eq] using hs)
   exact oddCore_le_centralizer_U_of_H_eq_US
     od.d.bg.U od.d.bg.S od.d.bg.H od.d.bg.B O
-    od.d.bg.H_eq_US (bg_U_normal_in_H od.d.bg) od.d.bg.S.isPGroup'
+    od.d.bg.H_eq_US (bg_U_normal_in_H od.d.bg) od.d.bg.S.isPGroup
     (BenderGlauberman.S_le_H od.d.bg)
     (B_eq_centralizer_U od.d.bg) hOleH hOodd hOcentSbg
 

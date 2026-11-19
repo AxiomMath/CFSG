@@ -70,8 +70,8 @@ theorem land_two_pow (x t : Nat) : decide (x &&& 2 ^ t ≠ 0) = x.testBit t := b
     rw [Nat.testBit_and, Nat.testBit_two_pow]
     by_cases hi : t = i
     · subst hi
-      cases x.testBit t <;> simp [Nat.testBit_two_pow]
-    · split <;> simp [hi, Nat.testBit_two_pow]
+      cases x.testBit t <;> simp
+    · split <;> simp [hi]
   rw [e]
   cases x.testBit t <;> simp
 
@@ -353,7 +353,7 @@ theorem flagAt_full {gens : List Nat} {P0 : Nat} {P Pi R : List Nat}
     rw [hc] at h4
     change strictB (parF (R.getD k 0)) _ = true at h4
     rw [strictB_eq, strictB_eq, andB_eq, andB_eq, andB_eq] at h4
-    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, getL_zero_eq] at h4
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h4
     exact ⟨h4.1, h4.2.1, h4.2.2.1, h4.2.2.2⟩
 
 theorem card_le_mul {α : Type*} (H S : Subgroup G) [Finite S] (f : G → α)

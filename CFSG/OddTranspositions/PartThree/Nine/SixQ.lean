@@ -101,7 +101,7 @@ theorem lemma9_6Q : Lemma9_6Q := by
       exact absurd (Group.isSolvable_of_surjective he) not_isSolvable_psl_two_zmod_seven
   have h2 : IsPGroup 2 (Subgroup.centralizer ((fun v : G => hC.d * v) '' (U : Set G))) := by
     rw [hcent]
-    exact T.isPGroup'.map _
+    exact T.isPGroup.map _
   exact ⟨_, isRegularCore_comap_translationGroup φ hφ htr h2⟩
 
 end CFSG.OddTranspositions.PartThree.Nine

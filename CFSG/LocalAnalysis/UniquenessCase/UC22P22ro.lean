@@ -18,7 +18,7 @@ theorem uc22p22r_pRank_map_le {G' : Type} [Group G'] [Finite G'] {p : ℕ} (hp :
     {A : Subgroup G} (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     CFSG.Open.pRank p (A.map f) ≤ CFSG.Open.pRank p A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEA, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (A.map f)
   set P : Subgroup G := A ⊓ E.comap f with hPdef
   have hPc : ∀ a b : ↥P, a * b = b * a := fun a b => Subtype.ext (hA a a.2.1 b b.2.1)
@@ -86,6 +86,7 @@ end Rank
 
 section Odd
 
+omit [Finite G] in
 theorem uc22p22r_mem_of_two_power_odd {K B : Subgroup G} {m : ℕ} (hm : Odd m)
     (hBK : B ≤ normalizer (K : Set G)) (hBm : ∀ u ∈ B, u ^ m = 1) {k u t : G} (hk : k ∈ K) (hu : u ∈ B)
     (htku : t = k * u) (ht : ∃ a : ℕ, t ^ 2 ^ a = 1) : t ∈ K := by
@@ -116,6 +117,7 @@ theorem uc22p22r_mem_of_two_power_odd {K B : Subgroup G} {m : ℕ} (hm : Odd m)
   rw [htku]
   exact K.mul_mem hk huK
 
+omit [Finite G] in
 theorem uc22p22r_permutes_inf_odd {K B T : Subgroup G} {m : ℕ} (hm : Odd m)
     (hBm : ∀ u ∈ B, u ^ m = 1) (hBK : B ≤ normalizer (K : Set G)) (hT : IsPGroup 2 T)
     (hBT : Permutes B T) : Permutes B (T ⊓ K) := by
@@ -161,6 +163,7 @@ section Hall
 
 variable {K B : Subgroup G} (hBK : B ≤ normalizer (K : Set G))
 
+omit [Finite G] in
 theorem uc22p22rImg_eq_map (A : Subgroup G) :
     uc22p22rImg hBK A = (A.subgroupOf (K ⊔ B)).map (uc22p22rPi K B hBK) := by
   ext g
@@ -243,10 +246,10 @@ theorem uc22p22r_rho_ne_one_of_le {M : Subgroup G} {x : G} {q : ℕ} (hq : q.Pri
 theorem uc22p22r_sylow_img_odd {T' : Subgroup G} (hBo : Odd (Nat.card B))
     (hT' : CFSG.ABGLocalTools.IsSylowOf 2 T' K) :
     CFSG.ABGLocalTools.IsSylowOf 2 (uc22p22rImg hBK T') ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT'K := hT'.le
   have hKN : K ≤ K ⊔ B := le_sup_left
-  haveI : (K.subgroupOf (K ⊔ B)).Normal :=
+  have : (K.subgroupOf (K ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKN).2 (uc22p22r_sup_le_normalizer hBK)
   have hsurj : Function.Surjective ((QuotientGroup.mk' (K.subgroupOf (K ⊔ B))).comp
       (Subgroup.inclusion (le_sup_right : B ≤ K ⊔ B))) := by

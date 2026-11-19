@@ -48,7 +48,7 @@ theorem r95_index_hbar {D : Data G} {Y H : Subgroup G} (hYH : Y ≤ H)
     rw [Subgroup.map_sup] at h2
     rw [hLb, hV]
     exact h2
-  haveI : Lb.Normal := hLbN
+  have : Lb.Normal := hLbN
   have hVindex : V.index = V.relIndex Lb := by
     rw [← Subgroup.relIndex_top_right (H := V), ← hsupV]
     exact CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal Lb V

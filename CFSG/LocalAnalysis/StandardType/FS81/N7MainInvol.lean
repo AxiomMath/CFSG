@@ -16,8 +16,8 @@ private theorem nmh_spMat_one_eq_nmSgn (s : Fin 8 → ZMod 3) (hs : IsSign s) :
   congr 1
   funext i
   by_cases h : i ∈ Finset.univ.filter (fun j => s j = -1)
-  · rw [if_pos h]; exact (Finset.mem_filter.mp h).2
-  · rw [if_neg h]
+  · rw [ite_eq_left h]; exact (Finset.mem_filter.mp h).2
+  · rw [ite_eq_right h]
     rcases hs i with hh | hh
     · exact hh
     · exact absurd (by simpa using hh) h
@@ -31,7 +31,7 @@ private theorem nmh_exists_y_diag {s : Fin 8 → ZMod 3} (hs : IsSign s)
   set A : Finset (Fin 8) := Finset.univ.filter (fun j => s j = -1) with hA
   have hMeq : spMat (1 : Equiv.Perm (Fin 8)) s = nmSgn A := nmh_spMat_one_eq_nmSgn s hs
   have hAF : nmhAF (1 : Equiv.Perm (Fin 8)) s = A := by
-    ext j; simp [nmhAF, hA, and_comm]
+    ext j; simp [nmhAF, hA]
   have hfixall : Finset.univ.filter (fun j => (1 : Equiv.Perm (Fin 8)) j = j)
       = Finset.univ := by ext j; simp
   have hAcard : A.card = 6 := by
@@ -72,7 +72,7 @@ private theorem nmh_exists_y_diag {s : Fin 8 → ZMod 3} (hs : IsSign s)
       ⟨Equiv.swap_apply_of_ne_of_ne (Ne.symm hp'0) (Ne.symm hq'0), by simp⟩, rfl⟩
   · exact spMat_mul_self _ _ (Equiv.swap_mul_self p' q') (by intro m; simp)
   · rw [spMat_mul, spMat_mul]
-    simp only [Pi.one_apply, mul_one, one_mul]
+    simp only [mul_one, one_mul]
     congr 1
     funext m
     exact (hsj m).symm
@@ -83,10 +83,10 @@ private theorem nmh_exists_y_diag {s : Fin 8 → ZMod 3} (hs : IsSign s)
     have hvi : ∀ k, k ∉ A → v k = 0 := by
       intro k hk
       have h := congrFun hv k
-      simp only [hMeq, nmSgn_mulVec, if_neg hk] at h
+      simp only [hMeq, nmSgn_mulVec, ite_eq_right hk] at h
       exact nmh_eq_zero_of_neg_eq_self h
     rw [spMat_mulVec]
-    simp only [Pi.one_apply, one_mul, Equiv.symm_swap]
+    simp only [one_mul, Equiv.symm_swap]
     by_cases hip : i = p'
     · rw [hip]
       rw [Equiv.swap_apply_left, hvi q' hq'A, hvi p' hp'A]
@@ -145,7 +145,7 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
     · exact Or.inl rfl
   have hprod_u : (∏ m, u m) = 1 := by
     have hset : Finset.univ.filter (fun m : Fin 8 => m = a ∨ m = σ a) = {a, σ a} := by
-      ext m; simp [eq_comm, or_comm]
+      ext m; simp [eq_comm]
     dsimp only [u]
     rw [Finset.prod_ite, Finset.prod_const, Finset.prod_const_one, mul_one]
     rw [hset, Finset.card_pair_eq_two_iff.mpr (Ne.symm hne)]
@@ -155,12 +155,12 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
     by_cases hm : m = a ∨ m = σ a
     · have hm' := (hpair m).mpr hm
       dsimp only [u]
-      rw [if_pos hm', if_pos hm]
+      rw [ite_eq_left hm', ite_eq_left hm]
       rcases hs a with h | h <;> rw [h] <;> decide
     · have hm' : ¬ (Equiv.swap a (σ a) m = a ∨ Equiv.swap a (σ a) m = σ a) :=
         fun h => hm ((hpair m).mp h)
       dsimp only [u]
-      rw [if_neg hm', if_neg hm, one_mul]
+      rw [ite_eq_right hm', ite_eq_right hm, one_mul]
   have hτσ : Equiv.swap a (σ a) * σ = σ * Equiv.swap a (σ a) := by
     ext m
     by_cases hm : m = a ∨ m = σ a
@@ -187,12 +187,12 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
       · rw [h]
         rw [Equiv.swap_apply_left]
         dsimp only [u]
-        rw [if_pos (Or.inr rfl), if_pos (Or.inl rfl), hsa]
+        rw [ite_eq_left (Or.inr rfl), ite_eq_left (Or.inl rfl), hsa]
         ring
       · rw [h]
         rw [hσ a, Equiv.swap_apply_right]
         dsimp only [u]
-        rw [if_pos (Or.inl rfl), if_pos (Or.inr rfl), hsa]
+        rw [ite_eq_left (Or.inl rfl), ite_eq_left (Or.inr rfl), hsa]
         ring
     · have hσm : ¬ (σ m = a ∨ σ m = σ a) := by
         rintro (h | h)
@@ -203,7 +203,7 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
         · exact fun h => hm (Or.inl h)
         · exact fun h => hm (Or.inr h)
       dsimp only [u]
-      rw [if_neg hσm, if_neg hm, one_mul, mul_one, hmτ]
+      rw [ite_eq_right hσm, ite_eq_right hm, one_mul, mul_one, hmτ]
   refine ⟨spMat (Equiv.swap a (σ a)) u, ?_, ?_, ?_, ?_, ?_⟩
   · refine ⟨Equiv.swap a (σ a), u, hsu,
       ⟨Equiv.swap_apply_of_ne_of_ne (Ne.symm ha0) (Ne.symm hsa0), hprod_u⟩, rfl⟩
@@ -228,11 +228,11 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
     by_cases hm : m = a ∨ m = σ a
     · rcases hm with h | h
       · rw [h]
-        rw [Equiv.swap_apply_left, if_pos (Or.inr rfl)]
+        rw [Equiv.swap_apply_left, ite_eq_left (Or.inr rfl)]
         rw [hvm a]
         exact nmh_neg_mul_neg (hs a)
       · rw [h]
-        rw [Equiv.swap_apply_right, if_pos (Or.inl rfl)]
+        rw [Equiv.swap_apply_right, ite_eq_left (Or.inl rfl)]
         rw [hvm a]
         exact neg_mul (s a) (v a)
     · have hm' : ¬ (Equiv.swap a (σ a) m = a ∨ Equiv.swap a (σ a) m = σ a) :=
@@ -241,7 +241,7 @@ private theorem nmh_exists_y_cycle {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod
         rw [Equiv.swap_apply_of_ne_of_ne]
         · exact fun h => hm (Or.inl h)
         · exact fun h => hm (Or.inr h)
-      rw [hmτ, if_neg hm, one_mul]
+      rw [hmτ, ite_eq_right hm, one_mul]
 
 theorem nm_klein {M : Matrix (Fin 8) (Fin 8) (ZMod 3)} (hM : M ∈ evenAll0 7) (h2 : M * M = 1)
     (h9 : nmFixCount M = 9) (hE : M ∉ nmE6) :

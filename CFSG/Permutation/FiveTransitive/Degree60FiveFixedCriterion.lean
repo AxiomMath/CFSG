@@ -112,7 +112,7 @@ theorem multiply_of_tuple_sylow_fixed_card
   intro s hs
   obtain ⟨a, ha⟩ := BaseSylowConjugacy.exists_embedding_range X k s hs
   obtain ⟨S, hS⟩ := hlocal a
-  refine ⟨ambientSylow a S, S.isPGroup'.map (stabilizer G a).subtype, ?_⟩
+  refine ⟨ambientSylow a S, S.isPGroup.map (stabilizer G a).subtype, ?_⟩
   have hsub : s ⊆ fixedPoints (ambientSylow a S) X := by
     rw [← ha]
     exact range_subset_fixed a S

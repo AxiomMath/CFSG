@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def Mset (J : Subgroup G) (R' : Subgroup (PQ 3 J)) : Subgroup G :=
   (R'.comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J))).map J.subtype
 
+omit [Finite G] in
 theorem mem_Mset {J : Subgroup G} {R' : Subgroup (PQ 3 J)} {h : G} :
     h ∈ Mset J R' ↔ ∃ hJ : h ∈ J, (QuotientGroup.mk ⟨h, hJ⟩ : PQ 3 J) ∈ R' := by
   constructor
@@ -94,12 +95,12 @@ theorem exists_lift_two (J : Subgroup G) {R' : Subgroup (PQ 3 J)} (hR1 : R' ≠ 
     ∃ W : Subgroup G, W ≤ J ∧ IsPGroup 2 W ∧ ¬ W ≤ GLAPPrimeCoreOf 3 J ∧
       W ⊔ GLAPPrimeCoreOf 3 J = Mset J R' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNn : (CFSG.pPrimeCore 3 ↥J).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNn : (CFSG.pPrimeCore 3 ↥J).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
   set N : Subgroup ↥J := CFSG.pPrimeCore 3 ↥J with hN
   set mkJ : ↥J →* PQ 3 J := QuotientGroup.mk' N with hmkJ
   set M : Subgroup ↥J := R'.comap mkJ with hM
-  haveI : (N.subgroupOf M).Normal := inferInstance
+  have : (N.subgroupOf M).Normal := inferInstance
   let φM : ↥M →* ↥R' := MonoidHom.codRestrict (mkJ.comp M.subtype) R' (fun m => m.2)
   have hφM : Function.Surjective φM := by
     intro r

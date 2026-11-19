@@ -98,7 +98,7 @@ private theorem hmbRF_map_leviM (hφL : ∀ i, (rankOne D.rootGroup i).map F.φ 
   exact (hφL i).trans (rankOne_le_leviM ⟨i, hi, rfl⟩)
 
 include hext hw₀ hsq in
-theorem exists_frame (hred : D.divisible = ∅)
+theorem exists_frame (_hred : D.divisible = ∅)
     (hφL : ∀ i, (rankOne D.rootGroup i).map F.φ ≤ rankOne D.rootGroup (F.op i))
     (J : Set (Fin D.rank)) (a : K ⧸ borel D H) :
     ∃ (g : K) (v : W) (I : Set (Fin D.rank)) (π : Fin D.rank → Fin D.rank) (t₀ l₀ : K),
@@ -119,10 +119,10 @@ theorem exists_frame (hred : D.divisible = ∅)
     fun w => hw₀.length_mul_left (q2nPE_mem_parabolic_univ w)
   have hn₀ : ∀ g : K, g⁻¹ * (nrep hct w₀ * F.φ (nrep hct w₀)) * g ∈ borel D H := by
     intro g
-    rw [nrep_mul_phi_self hct F hext hw₀ hsq]
+    rw [nrep_mul_phi_self hct F hw₀ hsq]
     simp
   have ht : Gate.IsFlipInvolution (cs) (stdδ hct) w₀ (stdFlip F (nrep hct w₀)) :=
-    ⟨stdFlip_invol F hext hw₀ (nrep hct w₀) hn₀,
+    ⟨stdFlip_invol F (nrep hct w₀) hn₀,
       stdFlip_δ hct F hext hw₀ (nrep hct w₀)⟩
   let t : K ⧸ borel D H → K ⧸ borel D H := stdFlip F (nrep hct w₀)
   let x₁ : K ⧸ borel D H := resProj (cs) (stdδ hct) J a (t a)

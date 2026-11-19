@@ -180,7 +180,7 @@ theorem map_conjNormal_sylow_le (hTI : KSylowTI p K) (U : Sylow p K)
     (hV : (E.map (MulAut.conjNormal (H := K))).comap MulAut.conj ≠ ⊥) {g : X}
     (hg : g ∈ Subgroup.normalizer (E : Set X)) :
     (U : Subgroup K).map (MulAut.conjNormal g).toMonoidHom ≤ U := by
-  obtain ⟨W, hW⟩ := (U.isPGroup'.map (MulAut.conjNormal g).toMonoidHom).exists_le_sylow
+  obtain ⟨W, hW⟩ := (U.isPGroup.map (MulAut.conjNormal g).toMonoidHom).exists_le_sylow
   have hVW : (E.map (MulAut.conjNormal (H := K))).comap MulAut.conj ≤ W := by
     intro v hv
     refine hW ⟨MulAut.conjNormal g⁻¹ v, hVU (conjNormal_apply_mem_comap (inv_mem hg) hv), ?_⟩
@@ -262,7 +262,7 @@ theorem false_of_rankOneLieAutFacts {X : Type} [Group X] [Finite X] {p : ℕ} [F
   obtain ⟨g, hg, hgρ⟩ := Subgroup.mem_map.mp h1
   have hgU := conjNormal_mem_of_mem_secondDerived hTI hBor U hVU hV
     (secondDerived_mono le_top hg)
-  obtain ⟨k, hk⟩ := U.isPGroup'.map (MulAut.conj : K →* MulAut K) ⟨_, hgU⟩
+  obtain ⟨k, hk⟩ := U.isPGroup.map (MulAut.conj : K →* MulAut K) ⟨_, hgU⟩
   have hk' : MulAut.conjNormal (H := K) ((g ^ p ^ k : Subgroup.normalizer (E : Set X)) : X) =
       1 := by
     rw [Subgroup.coe_pow, map_pow]

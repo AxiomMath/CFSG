@@ -128,7 +128,7 @@ theorem pb_eq_sup {σ τ z : G} {P Pb M L : Subgroup G} (hPgen : P = Subgroup.cl
     (hPPb : P ≤ Pb)
     (hMC : IsCentComplement (Subgroup.centralizer ({τ} : Set G)) L M)
     (hM3 : IsPGroup 3 M)
-    (hσL : σ ∈ L) (hzL : z ∈ L)
+    (hσL : σ ∈ L) (_hzL : z ∈ L)
     (hcentL : ∀ l ∈ L, l * σ = σ * l → l ∈ Subgroup.zpowers σ ⊔ Subgroup.zpowers z)
     (hz : z * z = 1) (hστ : σ * τ = τ * σ) (hσz : σ * z = z * σ) (hzτ : z * τ = τ * z) :
     Pb = (M ⊓ Subgroup.centralizer {σ}) ⊔ Subgroup.zpowers σ := by

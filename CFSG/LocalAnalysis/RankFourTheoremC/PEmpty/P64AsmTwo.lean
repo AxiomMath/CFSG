@@ -18,7 +18,7 @@ theorem exists_conj_of_map_eq {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.
     (h₁ : IsPGroup p K₁) (h₂ : IsPGroup p K₂)
     (h : K₁.map (QuotientGroup.mk' O) = K₂.map (QuotientGroup.mk' O)) :
     ∃ c : G, c ∈ K₂ ⊔ O ∧ K₁.map (MulAut.conj c).toMonoidHom = K₂ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK₁X : K₁ ≤ K₂ ⊔ O := by
     intro a ha
     have hmem : QuotientGroup.mk' O a ∈ K₂.map (QuotientGroup.mk' O) :=
@@ -120,7 +120,7 @@ theorem XBar.weak_closed (hp : p.Prime) {X Q B : Subgroup A} (hQX : Q ≤ X) (hQ
     ∀ w ∈ (Qb : Subgroup (XBar p X)), orderOf w = p →
       (∀ q ∈ (Qb : Subgroup (XBar p X)), q * w = w * q) → ∀ g : XBar p X,
         g * w * g⁻¹ ∈ (B.subgroupOf X).map (XBar.mk p X) → g * w * g⁻¹ ∈ zpowers w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro w hwQ hwo hwc g hg
   have hQ'p : IsPGroup p (Q.subgroupOf X) := hQp.comap_subtype
   have hinj := injOn_mk_of_isPGroup hp (primeComplementCore (G := ↥X) p) (XBar.coprime p X) hQ'p
@@ -226,7 +226,7 @@ theorem XBar.cyclic_center (hp : p.Prime) {X Q : Subgroup A} (hQX : Q ≤ X) (hQ
     MulEquiv.ofBijective _ hbij
   let e : ↥Q ≃* ↥(Qb : Subgroup (XBar p X)) :=
     ((Subgroup.subgroupOfEquivOfLe hQX).symm.trans e₂).trans (MulEquiv.subgroupCongr hQb.symm)
-  haveI := hcyc
+  have := hcyc
   exact isCyclic_of_surjective (Subgroup.centerCongr e).toMonoidHom
     (Subgroup.centerCongr e).surjective
 
@@ -241,6 +241,7 @@ theorem XBar.rank_top (hp : p.Prime) {X : Subgroup A} (hX : Open.pRank p X ≤ 2
     rw [← pRank_map_subtype hp.one_lt, Subgroup.map_top, Subgroup.range_subtype]
   exact h1.trans (h2 ▸ hX)
 
+omit [Finite A] in
 theorem XBar.normalizer_map {X H W : Subgroup A} (hHW : H ≤ normalizer (W : Set A)) :
     (H.subgroupOf X).map (XBar.mk p X) ≤
       normalizer (((W.subgroupOf X).map (XBar.mk p X) : Subgroup (XBar p X)) :
@@ -251,6 +252,7 @@ theorem XBar.normalizer_map {X H W : Subgroup A} (hHW : H ≤ normalizer (W : Se
   intro w
   exact (mem_normalizer_iff.mp (hHW hh)) (w : A)
 
+omit [Finite A] in
 theorem XBar.coprime_map {X W : Subgroup A} (hWX : W ≤ X)
     (hcop : Nat.Coprime (Nat.card W) (2 * p)) :
     Nat.Coprime (Nat.card ((W.subgroupOf X).map (XBar.mk p X))) (2 * p) := by
@@ -280,7 +282,7 @@ theorem kFactP65RankTwo_of_kdata (hI713 : GL83.I_7_13_1) (hChevP : KDI278ChevP)
     (hSporC : KDI278SporC) (hI204 : KDL64I204U3) : KFactP65RankTwo := by
   intro A _ _ p X Q B U hp hp5 hX hrk hQX hQp hQs hZc hBQ hBel hBc hUQ hUel hUc hBU hw
     ⟨Y, hYX, hYne, hΓU, hΓ2⟩ W hWX hBUW hcop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBX : B ≤ X := hBQ.trans hQX
   have hUX : U ≤ X := hUQ.trans hQX
   have hXY : ¬ X ≤ Y := fun h => hYne (le_antisymm hYX h)

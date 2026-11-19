@@ -347,7 +347,7 @@ theorem exists_conj_eq_mul_longRoot_plus_four_of_residual (hset : SeitzSetting G
   have hOut := isSolvable_outer_of_mulEquiv_plus (by norm_num) hf hK e
   have hB : IsPGroup 2 (((S : Subgroup G).subgroupOf (normalizer (L : Set G))).map
       (E6Pilot.normalizerAut e)) :=
-    (S.isPGroup'.comap_of_injective _ (normalizer (L : Set G)).subtype_injective).map _
+    (S.isPGroup.comap_of_injective _ (normalizer (L : Set G)).subtype_injective).map _
   obtain ⟨δ, hδ⟩ := conjIntoIn_plusFour hf hK _ hB
   have hSE : ∀ (s : G) (hs : s ∈ (S : Subgroup G)),
       E6Pilot.normalizerAut (e.trans δ) ⟨s, hCN (hSt hs)⟩ ∈

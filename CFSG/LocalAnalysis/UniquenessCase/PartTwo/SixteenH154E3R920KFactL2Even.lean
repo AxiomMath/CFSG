@@ -30,7 +30,7 @@ theorem kFactL28_L2_even {Q : Type} [Group Q] [Finite Q] {f : ℕ}
     Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥X)
   have h3X : 3 ∣ Nat.card ↥X :=
     dvd_trans (by rw [hcard504]; norm_num) hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 h3X
   let A : Subgroup Q := (Subgroup.zpowers x).map X.subtype
   have hAX : A ≤ X := by

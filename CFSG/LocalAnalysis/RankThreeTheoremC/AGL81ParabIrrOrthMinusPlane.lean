@@ -17,6 +17,7 @@ section Cyclic
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Finite K] [CharP K 2] in
 theorem omega_apply_coord {g : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)} (hg : IsOmegaTwisted b c g 0)
     (w : Fin 2 → K) :
     g w 0 = g (Pi.single 0 1) 0 * w 0 + g (Pi.single 0 1) 1 * (c * w 1) ∧
@@ -34,16 +35,19 @@ open Polynomial in
 @[expose] noncomputable def omegaPoly (b c : K) : K[X] := X ^ 2 + C b * X + C c
 
 open Polynomial in
+omit [Finite K] [CharP K 2] in
 theorem omegaPoly_monic : (omegaPoly b c).Monic := by
   unfold omegaPoly
   monicity!
 
 open Polynomial in
+omit [Finite K] [CharP K 2] in
 theorem omegaPoly_natDegree : (omegaPoly b c).natDegree = 2 := by
   unfold omegaPoly
   compute_degree!
 
 open Polynomial in
+omit [Finite K] [CharP K 2] in
 theorem omegaPoly_irreducible (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Irreducible (omegaPoly b c) := by
   rw [omegaPoly_monic.irreducible_iff_roots_eq_zero_of_degree_le_three
@@ -56,8 +60,8 @@ theorem omegaPoly_irreducible (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
 
 theorem isCyclic_omegaRotations (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     IsCyclic ↥(omegaRotations b c) := by
-  haveI : Fact (Irreducible (omegaPoly b c)) := ⟨omegaPoly_irreducible hirr⟩
-  haveI : Finite ((Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) := finite_orthLinearEquiv
+  have : Fact (Irreducible (omegaPoly b c)) := ⟨omegaPoly_irreducible hirr⟩
+  have : Finite ((Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) := finite_orthLinearEquiv
   let ω : AdjoinRoot (omegaPoly b c) := AdjoinRoot.root (omegaPoly b c)
   have h0 : ω ^ 2 + algebraMap K (AdjoinRoot (omegaPoly b c)) b * ω +
       algebraMap K (AdjoinRoot (omegaPoly b c)) c = 0 := by
@@ -137,6 +141,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r : ℕ} {t : �
 local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
 
 include hm0 in
+omit [Finite K] [CharP K 2] in
 theorem pmHom_eq_one_iff {g : 𝕍 ≃ₗ[K] 𝕍} (hg : g ∈ G0 (K := K) (r := r) ht) :
     pmHom ht hm0 ⟨g, hg⟩ = 1 ↔ TrivRes ht g := by
   constructor

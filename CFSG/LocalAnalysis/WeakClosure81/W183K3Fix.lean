@@ -13,6 +13,7 @@ open W183K3
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem w183k3_fixSub_le_of_not_centralizes {L Y : Subgroup (LGL 2 V)}
     (hL : CFSG.Open.IsQuasisimple ↥L)
     (hY : ∀ y ∈ Y, ∀ x ∈ L, y * x * y⁻¹ ∈ L) (hnc : ∃ y ∈ Y, ∃ x ∈ L, x * y ≠ y * x)
@@ -65,6 +66,7 @@ theorem w183k3_fixSub_le_of_not_centralizes {L Y : Subgroup (LGL 2 V)}
     have hlK : l ∈ K := htop ▸ hl
     exact hlK.2 p hp
 
+omit [Finite V] in
 theorem w183k3_fixSub_le_of_not_central {L X : Subgroup (LGL 2 V)}
     (hL : CFSG.Open.IsQuasisimple ↥L) (hXL : X ≤ L) (hX : ¬ X ≤ quasiCentre L)
     {P : Submodule (ZMod 2) V} (hP : ∀ l ∈ L, ∀ p ∈ P, l p ∈ P) (hfix : P ≤ fixSub X) :
@@ -96,6 +98,7 @@ theorem w183k3_fixSub_le_of_not_central {L X : Subgroup (LGL 2 V)}
     have hlK : l ∈ K := htop ▸ hl
     exact hlK.2 p hp
 
+omit [Finite V] in
 theorem w183k3_commSpace_le_of_not_central {L X : Subgroup (LGL 2 V)}
     (hL : CFSG.Open.IsQuasisimple ↥L) (hXL : X ≤ L) (hX : ¬ X ≤ quasiCentre L)
     {P : Submodule (ZMod 2) V} (hP : ∀ l ∈ L, ∀ p ∈ P, l p ∈ P) (hcomm : commSpace X ⊤ ≤ P) :

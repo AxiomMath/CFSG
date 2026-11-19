@@ -26,6 +26,7 @@ private theorem add_self_eq_zero_V6 (x : V6) : x + x = 0 := by
   funext i
   exact CharTwo.add_self_eq_zero (x i)
 
+omit [Finite G] in
 theorem mem_zpowers_of_order_five (h : Setting25 G t z z₁ ι zv R0 F)
     (hn : n ∈ normalizer (ι.range : Set G)) (hnz : n * z₁ * n⁻¹ = z) {f : G}
     (hf : f ∈ Fconj n F) (hf5 : orderOf f = 5) {x : G} (hxC : x ∈ Cgrp ι zv)

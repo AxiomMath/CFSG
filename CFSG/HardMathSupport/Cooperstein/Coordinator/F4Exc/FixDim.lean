@@ -45,7 +45,7 @@ theorem mem_fixK {T : ι → Matrix Idx Idx F} {v : Idx → k} :
 theorem ker_phiF (T : ι → Matrix Idx Idx F) : LinearMap.ker (phiF T) = fixF T := by
   ext v
   simp only [LinearMap.mem_ker, fixF, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · intro h i
     funext c
@@ -58,7 +58,7 @@ theorem ker_phiF (T : ι → Matrix Idx Idx F) : LinearMap.ker (phiF T) = fixF T
 theorem ker_phiK (T : ι → Matrix Idx Idx F) : LinearMap.ker (phiK (k := k) T) = fixK T := by
   ext v
   simp only [LinearMap.mem_ker, fixK, Submodule.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · intro h i
     funext c

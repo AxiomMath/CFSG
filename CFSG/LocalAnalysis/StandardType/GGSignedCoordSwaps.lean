@@ -108,13 +108,13 @@ private theorem toAdd_diagAut_conj_permAut_swap_apply (d : Fin n → ZMod p)
   rw [diagAut_inv, MulAut.mul_apply, MulAut.mul_apply, diagAut_apply, permAut_apply,
     Function.comp_apply, Equiv.swap_inv, diagAut_apply, toAdd_ofAdd, toAdd_ofAdd]
   by_cases hia : i = a
-  · rw [hia, if_pos rfl, Equiv.swap_apply_left]
+  · rw [hia, ite_eq_left rfl, Equiv.swap_apply_left]
     ring
-  · rw [if_neg hia]
+  · rw [ite_eq_right hia]
     by_cases hib : i = b
-    · rw [hib, if_pos rfl, Equiv.swap_apply_right]
+    · rw [hib, ite_eq_left rfl, Equiv.swap_apply_right]
       ring
-    · rw [if_neg hib, Equiv.swap_apply_of_ne_of_ne hia hib, ← mul_assoc, hd i, one_mul]
+    · rw [ite_eq_right hib, Equiv.swap_apply_of_ne_of_ne hia hib, ← mul_assoc, hd i, one_mul]
 
 private theorem diagAut_conj_permAut_swap_eq_of_mul_eq_one (d : Fin n → ZMod p)
     (hd : ∀ i, d i * d i = 1) {a b : Fin n} (hab : a ≠ b) (hs : d a * d b = 1) :
@@ -125,12 +125,12 @@ private theorem diagAut_conj_permAut_swap_eq_of_mul_eq_one (d : Fin n → ZMod p
     Function.comp_apply, Equiv.swap_inv]
   by_cases hia : i = a
   · rw [hia, Equiv.swap_apply_left]
-    simp only [if_true, hs, one_mul]
+    simp only [ite_true, hs, one_mul]
   · by_cases hib : i = b
     · rw [hib, Equiv.swap_apply_right]
-      simp only [if_true, if_neg (Ne.symm hab), hs, one_mul]
+      simp only [ite_true, ite_eq_right (Ne.symm hab), hs, one_mul]
     · rw [Equiv.swap_apply_of_ne_of_ne hia hib]
-      simp only [if_neg hia, if_neg hib]
+      simp only [ite_eq_right hia, ite_eq_right hib]
 
 private theorem diagAut_conj_permAut_swap_eq_of_mul_eq_neg_one (d : Fin n → ZMod p)
     (hd : ∀ i, d i * d i = 1) {a b : Fin n} (hab : a ≠ b) (hs : d a * d b = -1) :
@@ -141,13 +141,13 @@ private theorem diagAut_conj_permAut_swap_eq_of_mul_eq_neg_one (d : Fin n → ZM
     negTrans_apply (p := p) a b hab f i]
   by_cases hia : i = a
   · rw [hia]
-    simp only [if_true, hs, toAdd_inv]
+    simp only [ite_true, hs, toAdd_inv]
     ring
   · by_cases hib : i = b
     · rw [hib]
-      simp only [if_true, if_neg (Ne.symm hab), hs, toAdd_inv]
+      simp only [ite_true, ite_eq_right (Ne.symm hab), hs, toAdd_inv]
       ring
-    · simp only [if_neg hia, if_neg hib]
+    · simp only [ite_eq_right hia, ite_eq_right hib]
 
 private theorem toAdd_diagAut_conj_negTrans_apply (d : Fin n → ZMod p)
     (hd : ∀ i, d i * d i = 1) {a b : Fin n} (hab : a ≠ b)
@@ -162,13 +162,13 @@ private theorem toAdd_diagAut_conj_negTrans_apply (d : Fin n → ZMod p)
   · rw [hia]
     simp [negTrans_apply (p := p) a b hab, toAdd_inv, diagAut_apply]
     ring_nf
-  · rw [if_neg hia]
+  · rw [ite_eq_right hia]
     by_cases hib : i = b
     · rw [hib]
       simp [negTrans_apply (p := p) a b hab, toAdd_inv, diagAut_apply, Ne.symm hab]
       ring_nf
-    · rw [negTrans_apply (p := p) a b hab, if_neg hia, if_neg hib, diagAut_apply,
-        toAdd_ofAdd, if_neg hib, ← mul_assoc, hd i, one_mul]
+    · rw [negTrans_apply (p := p) a b hab, ite_eq_right hia, ite_eq_right hib, diagAut_apply,
+        toAdd_ofAdd, ite_eq_right hib, ← mul_assoc, hd i, one_mul]
 
 private theorem diagAut_conj_negTrans_eq_of_mul_eq_one (d : Fin n → ZMod p)
     (hd : ∀ i, d i * d i = 1) {a b : Fin n} (hab : a ≠ b) (hs : d a * d b = 1) :
@@ -180,13 +180,13 @@ private theorem diagAut_conj_negTrans_eq_of_mul_eq_one (d : Fin n → ZMod p)
     negTrans_apply (p := p) a b hab f i]
   by_cases hia : i = a
   · rw [hia]
-    simp only [if_true, hs, toAdd_inv]
+    simp only [ite_true, hs, toAdd_inv]
     ring
   · by_cases hib : i = b
     · rw [hib]
-      simp only [if_true, if_neg (Ne.symm hab), hs, toAdd_inv]
+      simp only [ite_true, ite_eq_right (Ne.symm hab), hs, toAdd_inv]
       ring
-    · simp only [if_neg hia, if_neg hib]
+    · simp only [ite_eq_right hia, ite_eq_right hib]
 
 private theorem diagAut_conj_negTrans_eq_of_mul_eq_neg_one (d : Fin n → ZMod p)
     (hd : ∀ i, d i * d i = 1) {a b : Fin n} (hab : a ≠ b) (hs : d a * d b = -1) :
@@ -197,12 +197,12 @@ private theorem diagAut_conj_negTrans_eq_of_mul_eq_neg_one (d : Fin n → ZMod p
   rw [toAdd_diagAut_conj_negTrans_apply d hd hab f i, permAut_apply, Function.comp_apply,
     Equiv.swap_inv]
   by_cases hia : i = a
-  · simp only [hia, Equiv.swap_apply_left, if_true, hs]
+  · simp only [hia, Equiv.swap_apply_left, ite_true, hs]
     ring
   · by_cases hib : i = b
-    · simp only [hib, Equiv.swap_apply_right, if_true, if_neg (Ne.symm hab), hs]
+    · simp only [hib, Equiv.swap_apply_right, ite_true, ite_eq_right (Ne.symm hab), hs]
       ring
-    · simp only [Equiv.swap_apply_of_ne_of_ne hia hib, if_neg hia, if_neg hib]
+    · simp only [Equiv.swap_apply_of_ne_of_ne hia hib, ite_eq_right hia, ite_eq_right hib]
 
 private theorem exists_diagAut_signs_of_mem_closure
     {u : MulAut (Fin n → Multiplicative (ZMod p))}
@@ -316,8 +316,8 @@ private theorem card_fix_map_conj_aPermutationOn (hp : p.Prime) (I : Finset (Fin
   have : NeZero p := ⟨hp.ne_zero⟩
   rw [card_fix_map_conj_eq]
   by_cases hI : I.Nonempty
-  · rw [if_pos hI, card_fix_aPermutationOn hI]
-  · rw [if_neg hI]
+  · rw [ite_eq_left hI, card_fix_aPermutationOn hI]
+  · rw [ite_eq_right hI]
     have hIempty : I = ∅ := Finset.not_nonempty_iff_eq_empty.mp hI
     subst hIempty
     have hbot : aPermutationOn n p (∅ : Finset (Fin n)) = ⊥ := by
@@ -379,17 +379,17 @@ private theorem signedTransposition_mul_ne_mul (hp : p.Prime) {a b c : Fin n}
     rw [MulAut.mul_apply]
     rcases hvf with hv1 | hv1
     · rw [hv1, signedTransposition_fix_mulSingle (Ne.symm hac) (Ne.symm hbc) hu 1,
-        toAdd_mulSingle, if_neg hbc]
+        toAdd_mulSingle, ite_eq_right hbc]
     · rw [hv1, signedTransposition_fix_mulSingle (Ne.symm hac) (Ne.symm hbc) hu (-1),
-        toAdd_mulSingle, if_neg hbc]
+        toAdd_mulSingle, ite_eq_right hbc]
   have hright : toAdd ((v * u) (Pi.mulSingle a (ofAdd 1)) b) ≠ 0 := by
     rw [MulAut.mul_apply]
     rcases huf with hu1 | hu1
     · rw [hu1, signedTransposition_fix_mulSingle (Ne.symm hab) hbc hv 1,
-        toAdd_mulSingle, if_pos rfl]
+        toAdd_mulSingle, ite_eq_left rfl]
       exact h1
     · rw [hu1, signedTransposition_fix_mulSingle (Ne.symm hab) hbc hv (-1),
-        toAdd_mulSingle, if_pos rfl]
+        toAdd_mulSingle, ite_eq_left rfl]
       exact hm1
   have hcoord : toAdd ((u * v) (Pi.mulSingle a (ofAdd 1)) b) =
       toAdd ((v * u) (Pi.mulSingle a (ofAdd 1)) b) :=
@@ -507,11 +507,11 @@ theorem IsSignedBlockOn.le_card_add_two (hp : p.Prime) (hp2 : p ≠ 2) {I : Fins
     omega
   · rw [card_fix_map_conj_aPermutationOn hp I d hd] at hfix
     by_cases hI : I.Nonempty
-    · rw [if_pos hI] at hfix
+    · rw [ite_eq_left hI] at hfix
       have hle : n - I.card + 1 ≤ 2 := (Nat.pow_le_pow_iff_right hp.one_lt).mp hfix
       have hcard : I.card ≤ n := by simpa using Finset.card_le_univ I
       omega
-    · rw [if_neg hI] at hfix
+    · rw [ite_eq_right hI] at hfix
       have hle : n ≤ 2 := (Nat.pow_le_pow_iff_right hp.one_lt).mp hfix
       omega
 
@@ -522,11 +522,11 @@ theorem le_card_add_one_of_map_conj_aPermutationOn (hp : p.Prime) (hn : 3 ≤ n)
     n ≤ I.card + 1 := by
   rw [card_fix_map_conj_aPermutationOn hp I d hd] at hfix
   by_cases hI : I.Nonempty
-  · rw [if_pos hI] at hfix
+  · rw [ite_eq_left hI] at hfix
     have hle : n - I.card + 1 ≤ 2 := (Nat.pow_le_pow_iff_right hp.one_lt).mp hfix
     have hcard : I.card ≤ n := by simpa using Finset.card_le_univ I
     omega
-  · rw [if_neg hI] at hfix
+  · rw [ite_eq_right hI] at hfix
     have hle : n ≤ 2 := (Nat.pow_le_pow_iff_right hp.one_lt).mp hfix
     omega
 

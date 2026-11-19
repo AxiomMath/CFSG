@@ -299,7 +299,7 @@ theorem split_top (y d : Nat) (hy : y < 2 ^ (d + 1)) :
     cases y.testBit d <;> simp [hi, this]
   · by_cases h2 : d = i
     · subst h2
-      cases h : y.testBit d <;> simp [h]
+      cases h : y.testBit d <;> simp
     · have hi' : d + 1 ≤ i := by omega
       have : y.testBit i = false :=
         Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hy (Nat.pow_le_pow_right (by omega) hi'))
@@ -713,6 +713,7 @@ theorem Bd_innerK {d : Nat} (hd : d < 2 ^ 23) :
   rw [e]
   exact Aux.Bd_pack fun i _ => qmul_lt _ _
 
+omit hg hb in
 theorem Bd_sgnImg {Q s : Nat} {q : List Nat} (hq : q.length = 22) (hQ : bindL Q 22 q = true) :
     PkAut (sgnImg Q s) ((List.range 22).map fun i => signedImg q s i).toArray := by
   have hl : ∀ i < 22, signedImg q s i = fget Q i 22 ||| (((s >>> i) &&& 1) <<< 22) := by

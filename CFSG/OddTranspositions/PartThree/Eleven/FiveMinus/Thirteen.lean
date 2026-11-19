@@ -34,10 +34,10 @@ private lemma le_eigenspace_one_of_finrank_le_three {V : Type*} [AddCommGroup V]
     {W : Submodule (ZMod 5) V} (hCW : ∀ x ∈ W, C x ∈ W)
     (hk : Module.finrank (ZMod 5) W ≤ 3) : W ≤ C.eigenspace 1 := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
-  haveI : Finite W := Finite.of_injective (Subtype.val : W → V) Subtype.val_injective
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Fintype ↥(W ⊓ C.eigenspace 1) := Fintype.ofFinite ↥(W ⊓ C.eigenspace 1)
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Finite W := Finite.of_injective (Subtype.val : W → V) Subtype.val_injective
+  have : Fintype W := Fintype.ofFinite W
+  have : Fintype ↥(W ⊓ C.eigenspace 1) := Fintype.ofFinite ↥(W ⊓ C.eigenspace 1)
   let g : W → W := fun y => ⟨C y.1, hCW y.1 y.2⟩
   let gE : Function.End W := g
   have hgpow : ∀ n (y : W), ((g^[n]) y : V) = (C ^ n) y.1 := by
@@ -93,7 +93,7 @@ theorem eq_one_or_eq_neg_one_or_exists_eigenline_of_commute {t c : GL (Fin 5) (Z
       ∃ w : Fin 5 → ZMod 5, w ≠ 0 ∧
         ∀ x, (t : Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ x = x ↔ ∃ a : ZMod 5, x = a • w := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let V : Type := Fin 5 → ZMod 5
   let E : V ≃ₗ[ZMod 5] V := LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 5) V
     (Matrix.GeneralLinearGroup.toLin t)

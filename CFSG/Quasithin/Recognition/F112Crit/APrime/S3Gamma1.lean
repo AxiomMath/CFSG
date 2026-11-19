@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {G₀ G₁ G₂ T L : Subgroup G}
 
 private theorem T_card_and_relIndex (hA : AmalgamS3 G₀ G₁ G₂ T L) :
     Nat.card ↥T = 2 * Nat.card ↥(pCoreOf 2 L) ∧ T.relIndex L = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hA.vS3
   have hcard : Nat.card ↥L = Nat.card (oTwoQuot ↥L) * Nat.card ↥(pCoreOf 2 L) := by
     have h : Nat.card ↥(pCoreOf 2 L) = Nat.card ↥(pCore 2 ↥L) :=
@@ -53,9 +53,11 @@ private theorem T_card_and_relIndex (hA : AmalgamS3 G₀ G₁ G₂ T L) :
   rw [hcardL] at hmul
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hmul
 
+omit [Finite G] in
 theorem AmalgamS3.T_le_L (hA : AmalgamS3 G₀ G₁ G₂ T L) : T ≤ L :=
   hA.inf_eq ▸ inf_le_left
 
+omit [Finite G] in
 theorem AmalgamS3.isSylowTwoOf_L (hA : AmalgamS3 G₀ G₁ G₂ T L) : IsSylowTwoOf T L :=
   isSylowTwoOf_mono_right hA.hyp.sylow₂ (hA.T_le_L) hA.le
 
@@ -92,6 +94,7 @@ theorem AmalgamS3.relIndex_inf_G₂ (hA : AmalgamS3 G₀ G₁ G₂ T L) :
       exact ⟨⟨hx1, (hA.hyp.T_le hxT).2⟩, hxL⟩
   rw [hinf, hTrel]
 
+omit [Finite G] in
 theorem AmalgamS3.inf_le_normalizer_T (hA : AmalgamS3 G₀ G₁ G₂ T L) :
     G₁ ⊓ G₂ ≤ Subgroup.normalizer (T : Set G) := by
   have hL : G₁ ⊓ G₂ ≤ Subgroup.normalizer (L : Set G) :=
@@ -145,6 +148,7 @@ private theorem pCoreOf_le_conjSub_T (hA : AmalgamS3 G₀ G₁ G₂ T L) {g : G}
   rw [← hQ]
   exact conjSub_mono g hA.pCoreOf_le_T
 
+omit [Finite G] in
 private theorem conjSub_T_le_G₂ (hA : AmalgamS3 G₀ G₁ G₂ T L) {g : G} (hg : g ∈ G₂) :
     conjSub g T ≤ G₂ := by
   have h : conjSub g T ≤ conjSub g G₂ := conjSub_mono g hA.hyp.sylow₂.1
@@ -212,6 +216,7 @@ private theorem ncard_nbrs_γ₁ (hA : AmalgamS3 G₀ G₁ G₂ T L) :
   rw [← Subgroup.inf_relIndex_right G₁ G₂]
   exact hA.relIndex_inf_G₂
 
+omit [Finite G] in
 private theorem neighbour_repr (hA : AmalgamS3 G₀ G₁ G₂ T L) {ε : CosetGeom G₀ G₁ G₂}
     (hε : ε ∈ nbrs (γ₁ G₀ G₁ G₂)) :
     ∃ k : ↥G₀, (k : G) ∈ G₂ ∧ ε = k • (γ₀ G₀ G₁ G₂) := by
@@ -221,6 +226,7 @@ private theorem neighbour_repr (hA : AmalgamS3 G₀ G₁ G₂ T L) {ε : CosetGe
   refine ⟨k, ?_, hkε.symm⟩
   rwa [stab_γ₁ hA.hyp.le₂] at hk
 
+omit [Finite G] in
 private theorem inf_stab_eq_conjSub (hA : AmalgamS3 G₀ G₁ G₂ T L) {k : ↥G₀}
     (hk : (k : G) ∈ G₂) :
     stab (γ₁ G₀ G₁ G₂) ⊓ stab (k • γ₀ G₀ G₁ G₂) = conjSub (k : G) (G₁ ⊓ G₂) := by

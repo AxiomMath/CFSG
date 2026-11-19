@@ -139,6 +139,7 @@ theorem commute_of_conjSub_eq3 {L : Subgroup G} {w t : G} (hL : IsClassicalMembe
   have := involution_unique3 hL hcl
   exact (mul_inv_eq_iff_eq_mul.mp this.symm : t * w = w * t)
 
+omit [Finite G] in
 theorem Nodes3.locImg_eq {m : ℕ} {K : Subgroup G} {z : G} {c : ACtx3 m Ω K z} (nd : Nodes3 c)
     {a : ℕ} (ha : a < m) :
     locImg Ω z (nd.j a) = (blockSL2 (GaloisField 3 1) m ⟨a, ha⟩).range.map c.d.ψ := by

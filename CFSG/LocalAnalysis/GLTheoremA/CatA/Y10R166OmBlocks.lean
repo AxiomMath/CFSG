@@ -76,7 +76,7 @@ theorem centralizer_pairTorus_singleton {K : Type} [Field K] [Finite K] [CharP K
       (Subgroup.mem_sup_left hx_mem) (Subgroup.mem_sup_right hy_mem)
   · rw [sup_le_iff]
     constructor
-    · haveI : IsMulCommutative ↥(pairTorus (K := K) k) := (isCyclic_pairTorus k).isMulCommutative
+    · have : IsMulCommutative ↥(pairTorus (K := K) k) := (isCyclic_pairTorus k).isMulCommutative
       refine (Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance).trans
         (Subgroup.centralizer_le ?_)
       intro z hz
@@ -156,7 +156,7 @@ theorem omegaLeviGL_four_le_statedOmega {F : Type} [Field F] [Finite F] [CharP F
     exact hle hmem
 
 theorem centralizer_siegelTorus_singleton {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hF : 4 ≤ Nat.card F) {s : Fˣ} (hs : s * s ≠ 1) :
+    (_hF : 4 ≤ Nat.card F) {s : Fˣ} (hs : s * s ≠ 1) :
     Subgroup.centralizer
         ({⟨diagOmega F 4 (fun _ => s),
             CFSG.SeitzReduction.F4Pilot.diagOmega_mem_statedOmega _⟩} :

@@ -135,8 +135,8 @@ theorem s16k_pRank_mbar_le_two (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : n 
   have hn2 : 2 ≤ n := by rcases hn with rfl | rfl <;> norm_num
   obtain ⟨Q, hQc, hQf, q, ρ, hqsurj, hqker, hρinj, hρeq, hQsq, -, -⟩ :=
     s16k_exists_quot_map h
-  letI := hQc
-  letI := hQf
+  let := hQc
+  let := hQf
   let H := lBar V₀ V hV L
   let Z := fixV H
   let A := Mbar D.M V₀ V hV
@@ -335,7 +335,7 @@ theorem s16k_pRank_mbar_le_two (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : n 
       (fun x : ↥Q₁ => Subtype.ext (hQsq (x : Q)))
       (fun x : ↥Q₂ => Subtype.ext (hQsq (x : Q)))
       hirr₁ hirr₂ hC₁ hC₂ ρdiag hρdiag hp hp2
-    rw [if_neg hp3] at hcent
+    rw [ite_eq_right hp3] at hcent
     let e := s16kProdEquiv hinf hsup'
     have hcongr : ∀ l : ↥ρ.range, (MulAut.congr e) (ρdiag l) = (l : MulAut Q) := by
       intro l

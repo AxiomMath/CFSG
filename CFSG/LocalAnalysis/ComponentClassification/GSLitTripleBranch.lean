@@ -43,7 +43,7 @@ theorem sylow_cyclic_or_quaternion_of_pRank_eq_one {G : Type*} [Group G] [Finite
     have h2 := UnbalancedGS.RankSmallSources.two_le_pRank_of_commuting ha hb
       (congrArg Subtype.val hab) hne'
     omega
-  rcases DisconnectedInvolutionGraph.Helpers.rank_one_two_cyclic_or_quaternion P.isPGroup'
+  rcases DisconnectedInvolutionGraph.Helpers.rank_one_two_cyclic_or_quaternion P.isPGroup
     hrank with hc | ⟨k, hk, ⟨φ⟩⟩
   · exact Or.inl hc
   · refine Or.inr ⟨k + 2, by omega, ⟨?_⟩⟩

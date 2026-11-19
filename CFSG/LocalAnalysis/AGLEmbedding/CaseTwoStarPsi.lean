@@ -46,7 +46,7 @@ theorem D1CaseTwoDataAt.extremal_of_normalizer_le (hd : D1CaseTwoDataAt p P M H 
     hd.cfg.ext.weakCore_le hrank
   have hTR : Nat.card ((T : Subgroup Hs).map Hs.subtype) ≤ Nat.card R :=
     hd.cfg.ext.extremal Hs hHs.1 hHsM hrank _ (le_inf (Subgroup.map_subtype_le _) hTM)
-      (T.isPGroup'.map _)
+      (T.isPGroup.map _)
   obtain ⟨TR, hTRle⟩ := (hd.cfg.ext.isPGroup.comap_subtype (K := Hs)).exists_le_sylow
   have hRTR : R ≤ (TR : Subgroup Hs).map Hs.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hRHs]

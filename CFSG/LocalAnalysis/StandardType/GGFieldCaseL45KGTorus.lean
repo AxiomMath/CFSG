@@ -71,6 +71,7 @@ theorem GGL45Config.kg_package
     (hD4 G 3 B Bs x L D J X B₂ d y K U U₁ hcfg rfl (largeEvenMarking_mono
       (fun lab' _ _ _ _ _ heq => by subst heq; exact ⟨ht, hr⟩) hmk)))
 
+omit [Finite G] in
 theorem ggL45IsPElt_coe {S : Subgroup G} (h : S) : GGL45IsPElt p h ↔ GGL45IsPElt p (h : G) := by
   constructor
   · rintro ⟨k, hk⟩
@@ -172,6 +173,7 @@ theorem GGL45Config.kg_S_mem
   have haU : (a : G) ∈ U := hQ ▸ (le_sup_right : Sg ≤ U ⊔ Sg) ⟨a.2, ha⟩
   exact (hiff a haU (Subgroup.le_normalizer a.2)).mpr (by rw [ggLAut_mk_self K θ a]; exact hinn _)
 
+omit [Finite G] in
 theorem coe_comm_psi {x : G} (hxN : x ∈ Subgroup.normalizer (K : Set G)) (a : K) :
     ((a * ((K.normalizerMonoidHom ⟨x⁻¹, inv_mem hxN⟩)⁻¹ a)⁻¹ : K) : G) =
       (a : G) * x * (a : G)⁻¹ * x⁻¹ := by

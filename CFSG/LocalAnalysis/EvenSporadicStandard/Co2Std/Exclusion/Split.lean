@@ -47,7 +47,7 @@ private abbrev Ssub (L : Subgroup G) (t z : G) : Subgroup G :=
   Esub L t ⊔ zpowers z
 
 private theorem A_le_Esub (h : Hyp G L A T z t) : A ≤ Esub L t := by
-  haveI : IsElementaryAbelian 2 A := h.jc.module.elemAb
+  have : IsElementaryAbelian 2 A := h.jc.module.elemAb
   intro a ha
   refine ⟨h.jc.le ha, ?_⟩
   exact Subgroup.mem_centralizer_singleton_iff.mpr
@@ -64,7 +64,7 @@ private theorem Esub_le_normalizer_zpowers (h : Hyp G L A T z t) :
   (Esub_le_centralizer_zpowers h).trans (Subgroup.centralizer_le_normalizer _)
 
 private theorem commutator_Esub (h : Hyp G L A T z t) : ⁅Esub L t, Esub L t⁆ = Esub L t := by
-  haveI : Group.IsPerfect ↥(Esub L t) := Group.isPerfect_def.mpr h.jc.perfectE
+  have : Group.IsPerfect ↥(Esub L t) := Group.isPerfect_def.mpr h.jc.perfectE
   exact Subgroup.commutator_eq_self
 
 private theorem mem_Ssub_iff (h : Hyp G L A T z t) {u : G} :
@@ -300,29 +300,31 @@ private theorem exists_lift (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     _ = (e0 : G)⁻¹ * ((e0 : G) * e * (e0 : G)⁻¹) * (e0 : G) := by rw [← h1]
     _ = e := by group
 
-private theorem A_le_centralizer_W (h : Hyp G L A T z t) (h3 : E3Facts A z W) :
+private theorem A_le_centralizer_W (_h : Hyp G L A T z t) (h3 : E3Facts A z W) :
     A ≤ Subgroup.centralizer (W : Set G) :=
   Subgroup.le_centralizer_iff.mpr (h3.le_R₀.trans inf_le_right)
 
+omit [Finite G] in
 private theorem mul_comm_of_mem_W (hW : IsElementaryAbelian 2 W) {u v : G}
     (hu : u ∈ W) (hv : v ∈ W) : u * v = v * u := by
-  haveI : IsElementaryAbelian 2 W := hW
+  have : IsElementaryAbelian 2 W := hW
   exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := W)).comm ⟨u, hu⟩ ⟨v, hv⟩)
 
 private theorem mul_comm_of_mem_A (h : Hyp G L A T z t) {u v : G}
     (hu : u ∈ A) (hv : v ∈ A) : u * v = v * u := by
-  haveI : IsElementaryAbelian 2 A := h.jc.module.elemAb
+  have : IsElementaryAbelian 2 A := h.jc.module.elemAb
   exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := A)).comm ⟨u, hu⟩ ⟨v, hv⟩)
 
+omit [Finite G] in
 private theorem sq_eq_one_of_mem_W (hW : IsElementaryAbelian 2 W) {w : G} (hw : w ∈ W) :
     w * w = 1 := by
-  haveI : IsElementaryAbelian 2 W := hW
+  have : IsElementaryAbelian 2 W := hW
   have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) w hw
   simpa [pow_two] using h
 
 private theorem sq_eq_one_of_mem_A (h : Hyp G L A T z t) {a : G} (ha : a ∈ A) :
     a * a = 1 := by
-  haveI : IsElementaryAbelian 2 A := h.jc.module.elemAb
+  have : IsElementaryAbelian 2 A := h.jc.module.elemAb
   have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) a ha
   simpa [pow_two] using h
 
@@ -370,14 +372,17 @@ private noncomputable def conjA (x : ↥(L ⊓ Subgroup.normalizer (A : Set G)))
 private noncomputable def conjAInv (x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) : A :=
   ⟨(x : G)⁻¹ * (b : G) * (x : G), (Subgroup.mem_normalizer_iff''.mp x.2.2 b).mp b.2⟩
 
+omit [Finite G] in
 @[simp]
 private theorem conjA_apply (x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) :
     (conjA x b : G) = (x : G) * (b : G) * (x : G)⁻¹ := rfl
 
+omit [Finite G] in
 @[simp]
 private theorem conjAInv_apply (x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) :
     (conjAInv x b : G) = (x : G)⁻¹ * (b : G) * (x : G) := rfl
 
+omit [Finite G] in
 private theorem delta_inv_mul (h2 : E2Facts L A z) {r : G} (hr : r ∈ R₀ A z) :
     delta z r⁻¹ * delta z r = 1 := by
   rw [delta_inv_of_conj_mem h2.conj_mem hr, inv_mul_cancel]
@@ -472,6 +477,7 @@ private theorem gammaRaw_dep (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   rw [hy]
   exact (gammaRaw_mul_of_mem_A h h2 h3 hW S x (x⁻¹ * y) haA b).symm
 
+omit [Finite G] in
 private theorem conjN_eq_conjA (x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) :
     conjN L A x b = conjA x b := by
   apply Subtype.ext
@@ -484,10 +490,10 @@ private noncomputable def gamma (h : Hyp G L A T z t) (h2 : E2Facts L A z)
 
 private theorem gamma_toAutImage (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     (h3 : E3Facts A z W) (hW : IsElementaryAbelian 2 W) (S : DeltaSection h h2 h3 hW)
-    (x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) :
-    gamma h h2 h3 hW S (toAutImage x) b = gammaRaw h h2 h3 hW S x b :=
-  descend_toAutImage (fun x => gammaRaw h h2 h3 hW S x b)
-    (fun x y hxy => gammaRaw_dep h h2 h3 hW S hxy b) x
+    (_x : ↥(L ⊓ Subgroup.normalizer (A : Set G))) (b : A) :
+    gamma h h2 h3 hW S (toAutImage _x) b = gammaRaw h h2 h3 hW S _x b :=
+  descend_toAutImage (fun _x => gammaRaw h h2 h3 hW S _x b)
+    (fun _x _y hxy => gammaRaw_dep h h2 h3 hW S hxy b) _x
 
 private theorem gammaRaw_mul (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     (h3 : E3Facts A z W) (hW : IsElementaryAbelian 2 W) (S : DeltaSection h h2 h3 hW)
@@ -644,7 +650,7 @@ private theorem exists_fixed_lift (h : Hyp G L A T z t) (h2 : E2Facts L A z)
         _ = x * y := by rw [hcomm]
     calc x * y * x⁻¹ = y * x * x⁻¹ := by rw [hyx.symm]
       _ = y := by
-        simp only [zpow_neg_one, Subgroup.coe_inv]
+        simp only [Subgroup.coe_inv]
         group
   have hconj_t : conjAInv x tA = tA := by
     apply Subtype.ext
@@ -663,7 +669,7 @@ private theorem exists_fixed_lift (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   rw [gamma_toAutImage]
   simp only [coe_toAutImage]
   rw [conjN_eq_conjA]
-  simp only [gammaRaw, Subgroup.coe_mk, conjA, hconj_t, tA]
+  simp only [gammaRaw, conjA, hconj_t, tA]
   apply Subtype.ext
   simp only [Subgroup.coe_mul]
   have hL : (S.s tA : G)⁻¹ * ((x : G) * (S.s tA : G) * (x : G)⁻¹) =
@@ -673,7 +679,7 @@ private theorem exists_fixed_lift (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   have hR : (⟨(S.s tA : G)⁻¹ * y, huA⟩ : A) *
       ((x : G) * ((⟨(S.s tA : G)⁻¹ * y, huA⟩ : A) : G) * (x : G)⁻¹) =
       (S.s tA : G)⁻¹ * (x : G) * (S.s tA : G)⁻¹ * (x : G)⁻¹ := by
-    simp only [Subgroup.coe_mk]
+    simp only
     have hstep : (x : G) * ((S.s tA : G)⁻¹ * y) * (x : G)⁻¹ =
         ((x : G) * (S.s tA : G)⁻¹ * (x : G)⁻¹) * y := by
       calc (x : G) * ((S.s tA : G)⁻¹ * y) * (x : G)⁻¹
@@ -811,6 +817,7 @@ private theorem mem_W1 (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   · rintro ⟨a, rfl⟩
     exact ⟨sec' h h2 h3 hW S X a, ⟨a, rfl⟩, rfl⟩
 
+omit [Finite G] in
 private theorem mem_W2 {W₁ : Subgroup G} {z g : G} :
     g ∈ W2 W₁ z ↔ ∃ w ∈ W₁, z * w * z⁻¹ = g := by
   rw [W2, Subgroup.mem_map]
@@ -855,9 +862,9 @@ private theorem W1_inf_A (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   have hg1 : g = 1 := by
     rw [← ha, ha1]
     exact congrArg Subtype.val (map_one (sec' h h2 h3 hW S X))
-  rwa [hg1, Subgroup.mem_bot]
+  rw [hg1, Subgroup.mem_bot]
 
-private theorem z_normalizes_W (h : Hyp G L A T z t) (h2 : E2Facts L A z)
+private theorem z_normalizes_W (_h : Hyp G L A T z t) (_h2 : E2Facts L A z)
     (h3 : E3Facts A z W) : z ∈ Subgroup.normalizer (W : Set G) := by
   have hzB : z ∈ B A z := Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   exact h3.M_le ((Subgroup.le_normalizer (H := B A z)) hzB)
@@ -964,6 +971,7 @@ private noncomputable def Uint (h2 : E2Facts L A z) (h3 : E3Facts A z W)
     (I : Subgroup G) : Subgroup A :=
   (I.subgroupOf W).map (E3Facts.deltaRestrict h2 h3)
 
+omit [Finite G] in
 private theorem mem_Uint (h2 : E2Facts L A z) (h3 : E3Facts A z W) (I : Subgroup G)
     {u : A} :
     u ∈ Uint (W := W) h2 h3 I ↔

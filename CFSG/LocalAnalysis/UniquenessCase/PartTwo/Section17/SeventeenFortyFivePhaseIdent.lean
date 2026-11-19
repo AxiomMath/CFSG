@@ -30,7 +30,7 @@ theorem phase45_identify_five (hId : CFSG.AGLEmbedding.KFactSmallIdent)
   have h5F : 5 ∣ Nat.card ↥(CFSG.generalizedFitting L) := by
     rw [hFtop, Nat.card_congr (Subgroup.topEquiv (G := L)).toEquiv]
     exact hM.2.1.trans (Subgroup.card_subgroup_dvd_card M)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hO : CFSG.pPrimeCore 5 L = ⊥ :=
     CFSG.pPrimeCore_eq_bot_of_isSimpleGroup_generalizedFitting hFs h5F
   have h := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.identification_of_isStronglyPEmbedded

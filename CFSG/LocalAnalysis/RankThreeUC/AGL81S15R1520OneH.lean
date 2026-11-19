@@ -16,7 +16,7 @@ theorem not_dvd_index_of_commutator_mem {X : Type*} [Group X] [Finite X] {p : �
     (hnp : ∀ N : Subgroup X, N.Normal → N.index ≠ p) {N : Subgroup X} [N.Normal]
     (hN : ∀ x y : X, x * y * x⁻¹ * y⁻¹ ∈ N) : ¬ p ∣ N.index := by
   intro hdvd
-  haveI : IsMulCommutative (X ⧸ N) := ⟨⟨fun a b => by
+  have : IsMulCommutative (X ⧸ N) := ⟨⟨fun a b => by
     refine QuotientGroup.induction_on a fun x => QuotientGroup.induction_on b fun y => ?_
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq]
     have := hN y⁻¹ x⁻¹
@@ -35,7 +35,7 @@ theorem pRank_le_of_inner_action {X : Type*} [Group X] [Finite X] {p : ℕ} (hp 
     (hNS : ∀ y ∈ N, ∃ s ∈ S, ∀ z ∈ S, y * z * y⁻¹ = s * z * s⁻¹)
     (hSY : S ≤ Y) (hC : ∀ c ∈ Y, (∀ z ∈ S, c * z * c⁻¹ = z) → c ∈ S) :
     Open.pRank p Y ≤ Open.pRank p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hidx := not_dvd_index_of_commutator_mem hnp hN
   obtain ⟨E, hEY, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt Y
   have hEp : IsPGroup p E := fun g => ⟨1, Subtype.ext (by simpa [pow_one] using hE.2 g g.2)⟩
@@ -85,7 +85,7 @@ theorem exists_normal_inner_action_of_simple
     hK.inCatalog_of_surjective S (MonoidHom.id ↥S) Function.surjective_id
   have hcomm :=
     CFSG.RankThree.PartTwo.KFacts.commutator_le_inner_of_not_three_dvd hSz hnab hcat h3
-  haveI hnorm : (MulAut.conj : ↥S →* MulAut ↥S).range.Normal :=
+  have hnorm : (MulAut.conj : ↥S →* MulAut ↥S).range.Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal ↥S
   refine ⟨((MulAut.conj : ↥S →* MulAut ↥S).range).comap (MulAut.conjNormal : X →* MulAut ↥S),
     hnorm.comap _, fun x y => ?_, fun y hy => ?_⟩
@@ -105,7 +105,7 @@ theorem exists_component_dvd_three_of_two_le_pRank
     (hF : ¬ 3 ∣ Nat.card (CFSG.generalizedFitting ↥Y) →
       Open.pRank p (CFSG.generalizedFitting ↥Y) ≤ 1) :
     ∃ K : Subgroup ↥Y, CFSG.IsComponent K ∧ 3 ∣ Nat.card K ∧ p ∣ Nat.card K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   have hKp : ∀ K : Subgroup ↥Y, CFSG.IsComponent K → p ∣ Nat.card K := fun K hKc =>
@@ -115,10 +115,10 @@ theorem exists_component_dvd_three_of_two_le_pRank
     hcon ⟨K, hKc, h3, hKp K hKc⟩
   have hF3 := not_dvd_card_generalizedFitting hp Nat.prime_three hp3 hO hK3
   have hr1 := hF hF3
-  haveI hchar : (CFSG.generalizedFitting ↥Y).Characteristic :=
+  have hchar : (CFSG.generalizedFitting ↥Y).Characteristic :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥Y)).1
   set S : Subgroup X := (CFSG.generalizedFitting ↥Y).map Y.subtype with hSdef
-  haveI hSn : S.Normal := inferInstance
+  have hSn : S.Normal := inferInstance
   have hSY : S ≤ Y := map_subtype_le _
   have hC : ∀ c ∈ Y, (∀ z ∈ S, c * z * c⁻¹ = z) → c ∈ S := by
     intro c hc hcz
@@ -135,14 +135,14 @@ theorem exists_component_dvd_three_of_two_le_pRank
     rcases generalizedFitting_cases_of_pRank_le_one hp hp2 hO hr1 with
       ⟨hFeq, hcyc⟩ | ⟨-, K, hKc, hFK, hZ⟩
     ·
-      haveI : IsCyclic ↥(CFSG.generalizedFitting ↥Y) := by
+      have : IsCyclic ↥(CFSG.generalizedFitting ↥Y) := by
         rw [hFeq]
         exact hcyc
-      haveI : IsCyclic ↥S :=
+      have : IsCyclic ↥S :=
         isCyclic_of_surjective ((CFSG.generalizedFitting ↥Y).equivMapOfInjective Y.subtype
           Y.subtype_injective).toMonoidHom (MulEquiv.surjective _)
       obtain ⟨N, hNn, hN, hNS⟩ := exists_normal_inner_action_of_cyclic (S := S)
-      haveI := hNn
+      have := hNn
       exact pRank_le_of_inner_action hp hnp hN hNS hSY hC
     ·
       let e1 : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
@@ -150,9 +150,9 @@ theorem exists_component_dvd_three_of_two_le_pRank
       let eS : ↥K ≃* ↥S :=
         (MulEquiv.subgroupCongr hFK).symm.trans
           ((CFSG.generalizedFitting ↥Y).equivMapOfInjective Y.subtype Y.subtype_injective)
-      haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
-      haveI : IsSimpleGroup ↥K := e1.symm.isSimpleGroup
-      haveI : IsSimpleGroup ↥S := eS.symm.isSimpleGroup
+      have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKc.1.2.1
+      have : IsSimpleGroup ↥K := e1.symm.isSimpleGroup
+      have : IsSimpleGroup ↥S := eS.symm.isSimpleGroup
       have hnab : ∃ a b : ↥S, a * b ≠ b * a := by
         obtain ⟨a, b, hab⟩ := hKc.1.2.2
         refine ⟨eS (e1 a), eS (e1 b), fun h => hab ?_⟩
@@ -164,7 +164,7 @@ theorem exists_component_dvd_three_of_two_le_pRank
         rw [← Nat.card_congr eS.toEquiv]
         exact hK3 K hKc
       obtain ⟨N, hNn, hN, hNS⟩ := exists_normal_inner_action_of_simple hSz hK hnab h3S
-      haveI := hNn
+      have := hNn
       exact pRank_le_of_inner_action hp hnp hN hNS hSY hC
   have h1 : Open.pRank p S = Open.pRank p (CFSG.generalizedFitting ↥Y) :=
     pRank_map_eq_of_coprime_kernel Y.subtype _ (by
@@ -176,7 +176,7 @@ theorem pPrimeCore_eq_subgroupOf_of_normal {M : Type*} [Group M] [Finite M] {p :
     [Fact p.Prime] (H : Subgroup M) [H.Normal] :
     CFSG.pPrimeCore p ↥H = (CFSG.pPrimeCore p M).subgroupOf H := by
   apply le_antisymm
-  · haveI : ((CFSG.pPrimeCore p ↥H).map H.subtype).Normal := inferInstance
+  · have : ((CFSG.pPrimeCore p ↥H).map H.subtype).Normal := inferInstance
     have hcop : Nat.Coprime p (Nat.card ((CFSG.pPrimeCore p ↥H).map H.subtype)) := by
       rw [Subgroup.card_map_of_injective H.subtype_injective]
       exact CFSG.pPrimeCore_coprime_card
@@ -201,7 +201,7 @@ theorem exists_pComponent_map_eq {H Y : Type} [Group H] [Finite H] [Group Y] {p 
   refine ⟨L, hL, ?_⟩
   have hfe : f = e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pPrimeCore p H)) := by
     ext x
-    simp only [e, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [e, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       QuotientGroup.mk'_apply, MulEquiv.trans_apply, QuotientGroup.quotientMulEquivOfEq_mk]
     rfl
   have hLK : L.map f = K := by
@@ -212,7 +212,7 @@ theorem exists_pComponent_map_eq {H Y : Type} [Group H] [Finite H] [Group Y] {p 
 
 theorem pPrimeCore_eq_bot_of_normal {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     (hX : CFSG.pPrimeCore p X = ⊥) (Y : Subgroup X) [Y.Normal] : CFSG.pPrimeCore p ↥Y = ⊥ := by
-  haveI : ((CFSG.pPrimeCore p ↥Y).map Y.subtype).Normal := inferInstance
+  have : ((CFSG.pPrimeCore p ↥Y).map Y.subtype).Normal := inferInstance
   have hcop : Nat.Coprime p (Nat.card ((CFSG.pPrimeCore p ↥Y).map Y.subtype)) := by
     rw [Subgroup.card_map_of_injective Y.subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
@@ -228,15 +228,15 @@ theorem pRank_generalizedFitting_le_one
     (Y : Subgroup (M ⧸ CFSG.pPrimeCore p M)) [Y.Normal]
     (h3 : ¬ 3 ∣ Nat.card (CFSG.generalizedFitting ↥Y)) :
     Open.pRank p (CFSG.generalizedFitting ↥Y) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.generalizedFitting ↥Y).Characteristic :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.generalizedFitting ↥Y).Characteristic :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥Y)).1
   have hsurj : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore p M)) :=
     QuotientGroup.mk'_surjective _
   let F' : Subgroup (M ⧸ CFSG.pPrimeCore p M) := (CFSG.generalizedFitting ↥Y).map Y.subtype
-  haveI : F'.Normal := inferInstance
+  have : F'.Normal := inferInstance
   let A : Subgroup M := F'.comap (QuotientGroup.mk' (CFSG.pPrimeCore p M))
-  haveI hAn : A.Normal := Subgroup.Normal.comap inferInstance _
+  have hAn : A.Normal := Subgroup.Normal.comap inferInstance _
   have hWA : CFSG.pPrimeCore p M ≤ A := fun w hw => by
     show QuotientGroup.mk' (CFSG.pPrimeCore p M) w ∈ F'
     rw [show QuotientGroup.mk' (CFSG.pPrimeCore p M) w = 1 from (QuotientGroup.eq_one_iff w).2 hw]
@@ -272,11 +272,11 @@ theorem exists_pComponent_dvd_three_of_two_le_pRank
     (hrk : 2 ≤ Open.pRank p H) :
     ∃ I : Subgroup M, I ≤ H ∧ CFSG.IsPComponent p (I.subgroupOf H) ∧ 3 ∣ Nat.card I ∧
       p ∣ Nat.card I := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hsurj : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore p M)) :=
     QuotientGroup.mk'_surjective _
-  haveI hYn : (H.map (QuotientGroup.mk' (CFSG.pPrimeCore p M))).Normal :=
+  have hYn : (H.map (QuotientGroup.mk' (CFSG.pPrimeCore p M))).Normal :=
     Subgroup.Normal.map inferInstance _ hsurj
   have hkerH : ¬ p ∣ Nat.card ↥(H ⊓ (QuotientGroup.mk' (CFSG.pPrimeCore p M)).ker) := by
     rw [QuotientGroup.ker_mk']

@@ -308,7 +308,7 @@ private theorem N_le_normalizer_pCoreIn : σ.N ≤ Subgroup.normalizer (pCoreIn 
   le_normalizer_map_subtype σ.N (CFSG.pCore σ.p σ.N)
 
 omit [Finite G] in
-private theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+private theorem isPGroup_D : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
 
 private theorem D_le_normalizer_C : σ.D ≤ Subgroup.normalizer (σ.C : Set G) :=
   inf_le_right.trans (normalizer_le_normalizer_centralizer_v3 σ.T)

@@ -128,7 +128,7 @@ private theorem s16c1b_dfs_eq (invs : List ℕ) :
     ∀ n xs, s16c1b_dfs invs n xs = s16c1b_dfsG s16c1b_tab invs n xs
   | 0, _ => rfl
   | n + 1, xs => by
-    simp only [s16c1b_dfs, s16c1b_dfsG, s16c1b_dfs_eq invs n] <;> rfl
+    simp only [s16c1b_dfs, s16c1b_dfsG, s16c1b_dfs_eq invs n]; rfl
 
 private def s16c1b_top (x : ℕ) : Bool :=
   !s16c1b_extOK [] x || s16c1b_dfsG s16c1b_tabL s16c1b_invsL 3 [x]

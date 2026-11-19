@@ -22,7 +22,7 @@ theorem not_three_dvd_of_isSLThreePiAt' {X : Type} [Group X] {m : ℕ}
 theorem gap129YSporadic_of
     (hTL : KS129ThreeLocalFix) (hCen : Gap127TwoCfgPlus) : Gap129YSporadic := by
   intro G _ _ A c L b a K S cfg q hq x hxD hxb Y hY hXY X' _ hX' ⟨eT⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
   obtain ⟨hbA, haA, haL, hb1, ha1, haB, hbL, hab, haD, -⟩ := cfg.point_facts
@@ -50,7 +50,7 @@ theorem gap129YSporadic_of
     rw [this, map_one]
   have hβnt : ∃ y : ↥Y, y⁻¹ * β y ∉ aschbacherSolvableCore 3 ↥Y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbQ : b ∈ Sec4.thetaQuotCentralizer Y := by
       rw [Sec6.mem_thetaQuotCentralizer_iff]
       refine ⟨hbN, fun l hl => ?_⟩
@@ -145,7 +145,7 @@ theorem gap129YSporadic_of
     have h := Subgroup.mem_centralizer_singleton_iff.mp (hKb hyK)
     rw [hβ, ← h]
     group
-  haveI : Group.IsPerfect ↥(resCent K x) := isPerfect_resCent K x
+  have : Group.IsPerfect ↥(resCent K x) := isPerfect_resCent K x
   have hXp : Group.IsPerfect ↥XY :=
     Group.IsPerfect.ofSurjective (f := eXY.symm.toMonoidHom) eXY.symm.surjective
   have hXM' : resCent K x ≤ Y ⊓ Subgroup.centralizer ({b} : Set G) :=
@@ -163,7 +163,7 @@ theorem gap129YSporadic_of
   obtain ⟨-, -, δ, hGK, hδ13, F, hFf, hFfin, hFcard, φK, hφK, hkerK⟩ :=
     exists_sl2_quotient_of_fix hTL hCen G A c L b a K S cfg q hq x hxD hxb
   obtain ⟨hq4, hq2, -⟩ := hCen.2 G A c L b a K S cfg q hq
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have hq3card : ¬ 3 ∣ q.card := not_three_dvd_of_isSLThreePiAt' hq.1
   have hF3 : ¬ 3 ∣ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hFcard]

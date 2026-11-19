@@ -39,7 +39,7 @@ theorem exists_conj_pow_of_twoA
     (hd : orderOf d = 7) (htd : t * d = d * t) (hy : orderOf y = 7) (hty : t * y = y * t) :
     ∃ g : G, ∃ m : ℕ, g * y * g⁻¹ = d ^ m := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, -, -, -, hcls, hA, hBz, -⟩ := id hE
-  haveI : Finite G := hfin
+  have : Finite G := hfin
   have htA : IsConj a t := by
     rcases hcls t ht with h | h
     · exact h
@@ -54,10 +54,10 @@ theorem exists_conj_pow_of_twoA
       Subgroup.card_map_of_injective X.subtype_injective
     rw [hZ, Nat.card_zpowers, ht] at h1
     exact h1.symm
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e.toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e.toEquiv
   have hbar : ∀ k : ↥X, orderOf k = 7 → orderOf (e (QuotientGroup.mk k)) = 7 := by
     intro k hk
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     rw [MulEquiv.orderOf_eq]
     refine orderOf_eq_prime ?_ fun h1 => ?_
     · rw [← QuotientGroup.mk_pow, ← hk, pow_orderOf_eq_one, QuotientGroup.mk_one]

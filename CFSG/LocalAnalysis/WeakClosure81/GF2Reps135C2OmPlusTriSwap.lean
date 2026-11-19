@@ -52,8 +52,7 @@ theorem sl3BlockSwap_tv01 (c : F) : sl3BlockSwap (tv 0 1 c) = tv 1 2 c := by
     tv_of_ne (by decide : (0 : Fin 3) ≠ 1), tv_of_ne (by decide : (1 : Fin 3) ≠ 2)]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, CharTwo.neg_eq]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, CharTwo.neg_eq]
 
 theorem sl3BlockSwap_tv10 (c : F) : sl3BlockSwap (tv 1 0 c) = tv 2 1 c := by
   apply Subtype.ext
@@ -62,8 +61,7 @@ theorem sl3BlockSwap_tv10 (c : F) : sl3BlockSwap (tv 1 0 c) = tv 2 1 c := by
     tv_of_ne (by decide : (1 : Fin 3) ≠ 0), tv_of_ne (by decide : (2 : Fin 3) ≠ 1)]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, CharTwo.neg_eq]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, CharTwo.neg_eq]
 
 theorem sl3BlockSwap_tv12 (c : F) : sl3BlockSwap (tv 1 2 c) = tv 0 1 c := by
   apply Subtype.ext
@@ -72,8 +70,7 @@ theorem sl3BlockSwap_tv12 (c : F) : sl3BlockSwap (tv 1 2 c) = tv 0 1 c := by
     tv_of_ne (by decide : (1 : Fin 3) ≠ 2), tv_of_ne (by decide : (0 : Fin 3) ≠ 1)]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, CharTwo.neg_eq]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, CharTwo.neg_eq]
 
 theorem sl3BlockSwap_tv21 (c : F) : sl3BlockSwap (tv 2 1 c) = tv 1 0 c := by
   apply Subtype.ext
@@ -82,8 +79,7 @@ theorem sl3BlockSwap_tv21 (c : F) : sl3BlockSwap (tv 2 1 c) = tv 1 0 c := by
     tv_of_ne (by decide : (2 : Fin 3) ≠ 1), tv_of_ne (by decide : (1 : Fin 3) ≠ 0)]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, CharTwo.neg_eq]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, CharTwo.neg_eq]
 
 theorem exists_sl3BlockSwap :
     ∃ θ : SL(3, F) →* SL(3, F), (∀ c : F, θ (tv 0 1 c) = tv 1 2 c) ∧

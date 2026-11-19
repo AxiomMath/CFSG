@@ -175,7 +175,7 @@ theorem coordQ_bijective : Function.Bijective coordQ := by
       rcases zmod_two_cases t with rfl | rfl
       · simp
       · change (1 : ℤ) • Multiplicative.toAdd (G6.allOnes 6) = (1 : ZMod 2) • ones
-        simp only [one_smul, one_zsmul]
+        simp only [one_smul]
         rfl
   · intro w
     refine ⟨QuotientGroup.mk (mk6 (∑ c, Multiplicative.toAdd w c • bas c) ?_), ?_⟩

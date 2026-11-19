@@ -71,7 +71,7 @@ theorem torsBound_mark_eq_one_of_not_oddCenterPrimeLabel
   · by_cases hr : r = 3
     · subst r
       exact hchar2 .PSL 4 f (fun hd => hnp4 (hd.trans (Nat.gcd_dvd_left _ _))) hp.not_dvd_one
-    · simp only [markTag, markRank, markChar, markDeg, if_neg hr]
+    · simp only [markTag, markRank, markChar, markDeg, ite_eq_right hr]
       apply hchar2
       · simp only [genericOrders]
         split_ifs
@@ -88,9 +88,9 @@ theorem torsBound_mark_eq_one_of_not_oddCenterPrimeLabel
       exact hchar2 .PSL 2 (2 * f) (fun hd => hnp2 (hd.trans (Nat.gcd_dvd_left _ _))) hp.not_dvd_one
     · by_cases hr3 : r = 3
       · subst r
-        simp only [markTag, markRank, markChar, markDeg, if_neg (by decide : (3 : ℕ) ≠ 2)]
+        simp only [markTag, markRank, markChar, markDeg, ite_eq_right (by decide : (3 : ℕ) ≠ 2)]
         exact hchar2 .PSU 4 f (fun hd => hnp4 (hd.trans (Nat.gcd_dvd_left _ _))) hp.not_dvd_one
-      · simp only [markTag, markRank, markChar, markDeg, if_neg hr2, if_neg hr3]
+      · simp only [markTag, markRank, markChar, markDeg, ite_eq_right hr2, ite_eq_right hr3]
         exact hchar2 .POmegaMinus r f (fun hd => hnp4 (hd.trans (Nat.gcd_dvd_left _ _))) hp.not_dvd_one
   · apply hchar2
     · intro hd

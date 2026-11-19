@@ -12,12 +12,14 @@ namespace ThreeOne
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω] {σ : Perm Ω}
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private lemma mem_centralizer_of_conj_eq {p : Perm Ω} (h : σ * p * σ⁻¹ = p) :
     p ∈ Subgroup.centralizer {σ} := by
   rw [Subgroup.mem_centralizer_singleton_iff]
   calc p * σ = (σ * p * σ⁻¹) * σ := by rw [h]
     _ = σ * p := by rw [mul_assoc, inv_mul_cancel, mul_one]
 
+omit [Fintype Ω] in
 private lemma commute_swap_swap_of (hσ : ∀ x, σ (σ x) = x) {a b : Ω} (ha : σ a ≠ a)
     (hb : σ b ≠ b) (hab : a ≠ b) (hbσa : b ≠ σ a) :
     Commute (swap a b) (swap (σ a) (σ b)) := by
@@ -28,19 +30,21 @@ private lemma commute_swap_swap_of (hσ : ∀ x, σ (σ x) = x) {a b : Ω} (ha :
   have hnodup : [a, b, σ a, σ b].Nodup := by
     refine List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_,
       List.nodup_singleton _⟩⟩⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hab, ha.symm, haσb⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hbσa, hb.symm⟩
     · simp only [List.mem_singleton]
       exact hσaσb
   exact (Equiv.Perm.disjoint_swap_swap hnodup).commute
 
+omit [Fintype Ω] in
 theorem swap_apply_mem_centralizer (hσ : ∀ x, σ (σ x) = x) (a : Ω) :
     swap a (σ a) ∈ Subgroup.centralizer {σ} := by
   apply mem_centralizer_of_conj_eq
   rw [← swap_apply_apply σ a (σ a), hσ a, swap_comm (σ a) a]
 
+omit [Fintype Ω] in
 theorem swap_mul_swap_mem_centralizer (hσ : ∀ x, σ (σ x) = x) {a b : Ω} (ha : σ a ≠ a)
     (hb : σ b ≠ b) : swap a b * swap (σ a) (σ b) ∈ Subgroup.centralizer {σ} := by
   apply mem_centralizer_of_conj_eq
@@ -79,7 +83,7 @@ theorem swap_mul_swap_mem_inf (hσ : ∀ x, σ (σ x) = x) {H : Subgroup (Perm �
       Equiv.Perm.sign_swap']
     by_cases hab : a = b
     · subst hab; simp
-    · rw [if_neg hab, if_neg (fun h => hab (σ.injective h))]
+    · rw [ite_eq_right hab, ite_eq_right (fun h => hab (σ.injective h))]
       simp
   · exact swap_mul_swap_mem_centralizer hσ ha hb
 
@@ -145,6 +149,7 @@ theorem exists_mem_inf_apply_eq_of_apply_eq (hσ : ∀ x, σ (σ x) = x) {H : Su
     · rw [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hy.symm hyσz,
         Equiv.swap_apply_left]
 
+omit [Fintype Ω] in
 theorem apply_eq_of_mem_centralizer {α : Ω} (hα : σ α = α) (hfix : ∀ x, x ≠ α → σ x ≠ x)
     {g : Perm Ω} (hg : g ∈ Subgroup.centralizer {σ}) : g α = α := by
   have hcomm : g * σ = σ * g := Subgroup.mem_centralizer_singleton_iff.mp hg

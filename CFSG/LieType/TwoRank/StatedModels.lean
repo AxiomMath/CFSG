@@ -31,9 +31,9 @@ theorem card_le_sixteen_of_isElementaryAbelian_statedProj {K : Type} [Field K]
     (hK : ringChar K ≠ 2) {ι : Type} [Fintype ι] [DecidableEq ι] (hι : Fintype.card ι = 4)
     {H : Subgroup (GL ι K)} (E : Subgroup (StatedProj H)) [IsElementaryAbelian 2 E] :
     Nat.card E ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψ : Function.Injective (statedProjToPGL H) := statedProjToPGL_injective H
-  haveI : IsElementaryAbelian 2 (E.map (statedProjToPGL H)) :=
+  have : IsElementaryAbelian 2 (E.map (statedProjToPGL H)) :=
     IsElementaryAbelian.map (p := 2) (A := E) (statedProjToPGL H)
   have h := card_le_sixteen_of_isElementaryAbelian_pgl_four hK hι (E.map (statedProjToPGL H))
   rwa [Subgroup.card_map_of_injective (f := statedProjToPGL H) hψ] at h
@@ -43,9 +43,9 @@ theorem trace_eq_zero_of_card_eq_sixteen_statedProj {K : Type} [Field K] (hK : r
     (E : Subgroup (StatedProj H)) [IsElementaryAbelian 2 E] (hE : Nat.card E = 16) {h : H}
     (hhE : (h : StatedProj H) ∈ E) (hh : (h : StatedProj H) ≠ 1) :
     trace ((h : GL ι K) : Matrix ι ι K) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψ : Function.Injective (statedProjToPGL H) := statedProjToPGL_injective H
-  haveI : IsElementaryAbelian 2 (E.map (statedProjToPGL H)) :=
+  have : IsElementaryAbelian 2 (E.map (statedProjToPGL H)) :=
     IsElementaryAbelian.map (p := 2) (A := E) (statedProjToPGL H)
   have hcard : Nat.card (E.map (statedProjToPGL H)) = 16 := by
     rw [Subgroup.card_map_of_injective (f := statedProjToPGL H) hψ, hE]

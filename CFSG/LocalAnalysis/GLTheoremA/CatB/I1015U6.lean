@@ -190,7 +190,7 @@ theorem card_center_pQuot_dvd_three (hGA : GriessAllModelsStatement) {X K : Subg
 theorem exists_sub_card_pow {E : Subgroup G} (hE : IsElemAbelian 3 E) {k : ℕ}
     (h : 3 ^ k ∣ Nat.card E) :
     ∃ E' : Subgroup G, E' ≤ E ∧ IsElemAbelian 3 E' ∧ Nat.card E' = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K', hK'⟩ := Sylow.exists_subgroup_card_pow_prime 3 (G := ↥E) h
   refine ⟨K'.map E.subtype, Subgroup.map_subtype_le K', hE.mono (Subgroup.map_subtype_le K'), ?_⟩
   rw [Subgroup.card_map_of_injective E.subtype_injective, hK']

@@ -243,7 +243,7 @@ theorem mulVec_entry {n : ℕ} (hn : 0 < n) (X k : ℕ) (i : Fin n) :
       if (mulF2 n X (spreadF2 n k)).testBit (n * i.val) then 1 else 0 := by
   have h := congrFun (congrFun (pkMat_mulF2 n X (spreadF2 n k)) i) ⟨0, hn⟩
   rw [pkMat_spread hn, Matrix.mul_apply] at h
-  simp only [Matrix.of_apply, if_true, mul_zero] at h
+  simp only [Matrix.of_apply, ite_true] at h
   rw [Matrix.mulVec, dotProduct, ← h]
   simp [pkMat]
 
@@ -278,11 +278,11 @@ theorem fixK_eq {n : ℕ} (hn : 0 < n) (X : ℕ) :
     refine Finset.sum_congr rfl fun k hk => ?_
     have hk' := Finset.mem_range.1 hk
     by_cases hp : pkMat n X *ᵥ vecB k = vecB k
-    · rw [if_pos hp, (test_iff hn hk').2 hp]
+    · rw [ite_eq_left hp, (test_iff hn hk').2 hp]
     · have hb : Nat.beq (colF2 n (mulF2 n X (spreadF2 n k)) (nat_lit 0)) k = false := by
         rw [Bool.eq_false_iff]
         exact fun h => hp ((test_iff hn hk').1 h)
-      rw [if_neg hp, hb]
+      rw [ite_eq_right hp, hb]
   rw [e2, Nat.card_eq_fintype_card, Fintype.card_subtype]
   refine Finset.card_bij (fun k _ => vecB k) ?_ ?_ ?_
   · intro k hk
@@ -301,7 +301,7 @@ theorem fixK_eq {n : ℕ} (hn : 0 < n) (X : ℕ) :
     let f : ℕ → ℕ := fun t => if h : t < n then (v ⟨t, h⟩).val else 0
     have hf : ∀ t < n, f t < 2 ^ 1 := by
       intro t ht
-      simp only [f, dif_pos ht, pow_one]
+      simp only [f, dite_eq_left ht, pow_one]
       exact ZMod.val_lt _
     have hlt := blockSum_lt n hf
     have hv' : vecB (∑ t ∈ Finset.range n, f t * 2 ^ (1 * t)) = v := by
@@ -310,7 +310,7 @@ theorem fixK_eq {n : ℕ} (hn : 0 < n) (X : ℕ) :
       simp only [one_mul, add_zero] at h1
       simp only [vecB, one_mul]
       rw [h1]
-      simp only [i.isLt, decide_true, Bool.true_and, f, dif_pos i.isLt]
+      simp only [i.isLt, decide_true, Bool.true_and, f, dite_eq_left i.isLt]
       generalize v i = a
       revert a
       decide
@@ -423,7 +423,7 @@ theorem pkMat_pw3 (hone : pkMat n one = 1) (a i : ℕ) :
     rw [pkMat_mulF2, sq]
 
 theorem pair_sound (hn : 0 < n) (hρ : Function.Injective ρ) (hone : pkMat n one = 1)
-    (hcone : cnF2 n one = true) (hcnE : ∀ i < N, cnF2 n (E i) = true) {Pw : ℕ → ℕ}
+    (hcone : cnF2 n one = true) (_hcnE : ∀ i < N, cnF2 n (E i) = true) {Pw : ℕ → ℕ}
     (hX : ∀ i < N, X i ∈ T ∧ ρ (X i) = pkMat n (E i)) (hsurj : ∀ x ∈ T, ∃ i < N, X i = x)
     (hfs : ∀ i < N, fsI n one c0 nF E F Fm i = true)
     (hpair : ∀ q < nF * nF, pairI n one c0 nF E F Pw q = true) :

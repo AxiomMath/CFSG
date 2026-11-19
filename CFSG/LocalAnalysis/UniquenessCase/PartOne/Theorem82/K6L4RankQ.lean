@@ -17,7 +17,7 @@ theorem le_pRank_centralizer_image_mk {H : Type} [Group H] [Finite H] (N : Subgr
     (hm : m ≤ CFSG.Open.pRank p (Subgroup.centralizer T)) :
     m ≤ CFSG.Open.pRank p (Subgroup.centralizer (QuotientGroup.mk' N '' T)) := by
   have hp1 : 1 < p := hp.one_lt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hE_le, hE, hcard⟩ :=
     CFSG.SectionRank.exists_pRank hp1 (Subgroup.centralizer T)
   have hmap : E.map (QuotientGroup.mk' N) ≤
@@ -140,7 +140,7 @@ theorem le_pRank_centralizer_of_diag_commuting {K : Type} [Field K] [Finite K]
 
 theorem exists_units_orderOf_eq_prime {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hpK : p ∣ Nat.card K - 1) : ∃ a : Kˣ, orderOf a = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← Nat.card_units] at hpK
   exact exists_prime_orderOf_dvd_card' p hpK
 

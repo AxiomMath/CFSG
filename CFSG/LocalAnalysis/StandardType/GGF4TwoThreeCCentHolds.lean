@@ -27,6 +27,7 @@ variable {L : Type} [Field L] [CharP L 2]
   {a : Fin Tag.F4.rank → Lˣ} {ω : Lˣ} {k : Fin Tag.F4.rank → ℕ}
 
 open scoped Classical in
+omit [CharP L 2] in
 theorem ncard_kernel_eq_card_filter (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (hak : ∀ i, a i = ω ^ k i) :
     {γ : V4 | IsRoot Tag.F4 γ ∧ kdot k γ % 3 = 0}.ncard =
@@ -34,7 +35,7 @@ theorem ncard_kernel_eq_card_filter (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
   rw [← Set.ncard_coe_finset, Finset.coe_filter]
   congr 1
   ext γ
-  simp only [Set.mem_setOf_eq, Finset.mem_coe, mem_rootFinset, rootChar_eq_one_iff hω3 hω1 hak]
+  simp only [Set.mem_ofPred_eq, mem_rootFinset, rootChar_eq_one_iff hω3 hω1 hak]
 
 end Kernel
 
@@ -72,9 +73,9 @@ theorem ggF4TwoThreeCCentInput_holds :
   unfold CFSG.LieType.SeitzGeneration.ExcHighThree.GGF4TwoThreeCCentInput
   intro K _ _ _ hK e c a he3 he1 _hc hda hcard
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf e = 3 := orderOf_eq_prime he3 he1
   have he3' : (e : ModGL Tag.F4 K) ^ 3 = 1 := by
     rw [← Subgroup.coe_pow, he3, Subgroup.coe_one]

@@ -205,7 +205,7 @@ theorem three_dvd_card_SU4 : 3 ∣ Nat.card SU4 := by
   exact Dvd.dvd.mul_right (dvd_pow_self 3 (by norm_num)) _
 
 theorem not_isMulCommutative_SU4 : ¬ IsMulCommutative SU4 := by
-  haveI : IsSimpleGroup SU4 := CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIVU48.isSimpleGroup_SU4
+  have : IsSimpleGroup SU4 := CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIVU48.isSimpleGroup_SU4
   intro h
   obtain ⟨a, b, hab⟩ := exists_noncomm_SU4
   exact hab (h.is_comm.comm a b)
@@ -232,13 +232,13 @@ theorem goodCent_one (hk : kLevel 3 SU4 ≤ 2) : GoodCent 1 := by
     ext x
     simp [Subgroup.mem_centralizer_singleton_iff]
   rw [htop] at hI
-  haveI : IsSimpleGroup SU4 := CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIVU48.isSimpleGroup_SU4
+  have : IsSimpleGroup SU4 := CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIVU48.isSimpleGroup_SU4
   have hIt : I = ⊤ := by
     rcases CFSG.Open.IsSubnormal.eq_bot_or_top hI.2.1 with h | h
     · exact absurd h (glaPComponent_ne_bot' hI)
     · exact h
   rw [hIt]
-  haveI : IsSimpleGroup (⊤ : Subgroup SU4) := Subgroup.topEquiv.isSimpleGroup
+  have : IsSimpleGroup (⊤ : Subgroup SU4) := Subgroup.topEquiv.isSimpleGroup
   obtain ⟨e⟩ := pSimple_equiv_of_simple (⊤ : Subgroup SU4) not_isMulCommutative_top
     (by rw [Subgroup.card_top]; exact three_dvd_card_SU4)
   rw [CFSG.LocalAnalysis.GLTheoremA.kLevel_congr 3 e, CFSG.LocalAnalysis.GLTheoremA.kLevel_congr 3 Subgroup.topEquiv]

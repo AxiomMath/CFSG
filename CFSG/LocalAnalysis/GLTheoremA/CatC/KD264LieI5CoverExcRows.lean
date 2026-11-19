@@ -24,7 +24,7 @@ theorem kd264I5CoverLift_E6 (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex
     CFSG.Models.lieModel_of_namesTag (t := .E6) (p := q.p) (f := q.exponent)
       ⟨q.prime_p, q.exponent_pos, rfl⟩ ⟨_, hd⟩ ⟨rfl, rfl⟩ eK
   obtain ⟨-, ⟨eM⟩⟩ := e6_row hmodel
-  haveI : NeZero (Nat.gcd 3 (q.p ^ q.exponent - 1)) :=
+  have : NeZero (Nat.gcd 3 (q.p ^ q.exponent - 1)) :=
     ⟨(Nat.gcd_pos_of_pos_left _ (by norm_num)).ne'⟩
   exact kd264I5CoverLift_of_multiplier ⟨.E6 q, hd⟩ hK eK
     (a := Nat.gcd 3 (q.p ^ q.exponent - 1))
@@ -47,7 +47,7 @@ theorem kd264I5CoverLift_twistedE6 (q : TauCeti.PrimePower) (hd : (TauCeti.LieTy
     unfold exceptionalOrders
     split <;> first | rfl | (exfalso; simp_all)
   have hgen : genericOrders .twistedE6 0 q.p q.exponent = (Nat.gcd 3 (q.p ^ q.exponent + 1), 1) := rfl
-  haveI : NeZero (Nat.gcd 3 (q.p ^ q.exponent + 1)) :=
+  have : NeZero (Nat.gcd 3 (q.p ^ q.exponent + 1)) :=
     ⟨(Nat.gcd_pos_of_pos_left _ (by norm_num)).ne'⟩
   unfold generic exceptional at eM
   rw [hex, hgen] at eM

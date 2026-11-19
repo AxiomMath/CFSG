@@ -144,20 +144,20 @@ theorem ggResLeviDatumCard_reverse_of_witness {G : Type} [Group G] {p : ℕ} [Fa
         | inl x =>
             have hx : (eC x).1 ∉ S := (eC x).2
             dsimp only
-            rw [dif_neg hx]
+            rw [dite_eq_right hx]
             apply congrArg Sum.inl
             have hsub : (⟨(eC x).1, hx⟩ : {i : Λ // i ∉ S}) = eC x := Subtype.ext rfl
             rw [hsub, Equiv.symm_apply_apply]
         | inr s =>
-            simp only [dif_pos s.2]
+            simp only [dite_eq_left s.2]
             apply congrArg Sum.inr
             apply Subtype.ext
             rfl
       right_inv := by
         intro i
         by_cases hi : i ∈ S
-        · simp only [dif_pos hi]
-        · simp only [dif_neg hi]
+        · simp only [dite_eq_left hi]
+        · simp only [dite_eq_right hi]
           rw [Equiv.apply_symm_apply] }
   let eT : ({i : Λ // i ∉ S} ⊕ Λa) ⊕ A' → Λ ⊕ Λa :=
     fun o =>
@@ -513,11 +513,11 @@ theorem l05nBL_ggIsWeylMatrix_dynkinType_reindex {t : TauCeti.DynkinType} (ht : 
         by_cases hij : i = j
         · subst hij
           rw [ggCoxeterMatrixD_apply (TauCeti.DynkinType.D n).rank i i]
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           exact CoxeterMatrix.diagonal (TauCeti.DynkinType.D n).coxeterMatrix i
         · rw [TauCeti.DynkinType.coxeterMatrix_D_apply n hij]
           rw [ggCoxeterMatrixD_apply (TauCeti.DynkinType.D n).rank i j]
-          rw [if_neg hij]
+          rw [ite_eq_right hij]
           rfl
       have hnr : 4 ≤ (TauCeti.DynkinType.D n).rank := by simpa using hn
       rw [hD]
@@ -1388,10 +1388,10 @@ theorem GGResLineJDatum_A3_of_GGResXDatumA
   classical
   rcases hXD with ⟨Λ, i1, i2, M, C, V, i3, i4, ι, φ, h, α, e,
     hM, -, hC, hform, hrefl, hpair, -, hclos⟩
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
+  let := i1
+  let := i2
+  let := i3
+  let := i4
   let r : Fin 3 → MulAut ↥Bs := fun i => φ (e i)
   let h' : Fin 3 → V := fun i => h (e i)
   let α' : Fin 3 → Module.Dual (ZMod 3) V := fun i => α (e i)

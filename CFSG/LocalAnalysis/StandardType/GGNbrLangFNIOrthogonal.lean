@@ -178,7 +178,7 @@ theorem kgFieldRestriction_hOne_of_rawSelf {lab : LargeEvenLabel}
     exact ⟨hsimple'', hna'',
       ⟨(CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcenterR).trans e'',
         hOne_neg_of_rawImage hcenterR e'' hF'' hsimple'' hna'' hinn'' hf hord⟩⟩
-  letI : IsSimpleGroup R := hsimpleR
+  let : IsSimpleGroup R := hsimpleR
   exact kgFieldRestriction_hOne hmark hJ f' hf'
 
 theorem kgFieldRestrictionOn_twD_two :
@@ -194,8 +194,8 @@ theorem kgFieldRestrictionOn_twD_two :
   dsimp only [LargeEvenRawDatum] at hraw ⊢
   dsimp only [LargeEvenRecipeLinear] at hraw ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   let H := LargeEvenSLGroup (Fin 2) K
   let R := LargeEvenProj H
   let I := LargeEvenMatConjImage (LargeEvenProjMk H) Set.univ

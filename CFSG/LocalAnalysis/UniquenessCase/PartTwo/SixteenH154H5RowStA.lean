@@ -29,8 +29,8 @@ private theorem s16h_relIndex_eq_eight_of_binaryNaturalSL [Finite W]
     (h : BinaryNaturalSL L I Z 3 1) (hZI : Z ≤ I) :
     Z.relIndex I = 8 := by
   obtain ⟨K, hF, hfin, hcard, hreal⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hfin
+  let : Field K := hF
+  let : Finite K := hfin
   obtain ⟨π, hπ⟩ := hreal
   have h1 : Nat.card I = Nat.card (FFModel.nat (StatedSL 3 K)).Mod * Nat.card Z :=
     CFSG.Quasithin.G64.RealizesVia.card_eq hπ
@@ -78,7 +78,7 @@ theorem s16h_H5_rowL3_mQuot_three_dvd [Finite W] {L : Subgroup (MulAut W)}
       (r := k) (hr := hkpos) (I := (⊤ : Subgroup W)) (Z := commSub ⊤ L ⊓ fixV L)
       (W := I) (c := 8) hZI (fun _ => le_top) (fun _ => s16h_top_le_normalizer) hc
       (fun i => (inf_le_inf_left (I i) le_sup_right).trans (hind i))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmq : E3.mQuot (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = 3 * k := by
       have hfact : (commSub ⊤ L ⊓ fixV L).relIndex (commSub ⊤ L) = 2 ^ (3 * k) := by
         nth_rewrite 2 [hUeq]
@@ -94,7 +94,7 @@ theorem s16h_H5_rowSt8_irrSet [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut
     (h : s16h_H5RowSt8 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L)) :
     commSub ⊤ L ∈ irrSet L := by
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut (W := W)
+  have : Finite (MulAut W) := s16h_finite_mulAut (W := W)
   have hnot : ¬ (IsAlt ↥L 5 ∧ IsL3 ↥L 1) := by
     rintro ⟨hAlt, hL3⟩
     have h60 : Nat.card ↥L = 60 := by
@@ -136,7 +136,7 @@ private theorem s16h_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} {g 
 
 private theorem s16h_isElemAbelian_top {G : Type*} [Group G] {p : ℕ} {E : Subgroup G}
     (h : IsElemAbelian p E) : IsElemAbelian p (⊤ : Subgroup ↥E) := by
-  haveI : IsMulCommutative ↥E := h.1
+  have : IsMulCommutative ↥E := h.1
   refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : ↥E) (b : ↥E))⟩⟩,
     fun x _ => Subtype.ext (h.2 (x : ↥E) (x : ↥E).2)⟩
 
@@ -161,7 +161,7 @@ theorem s16h_H5_rowSt8_autSub_le [Finite W] {A L : Subgroup (MulAut W)} {t : Mul
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     Nat.card ↥(autSub E (commSub ⊤ L)) ≤ q ^ 2 := by
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut (W := W)
+  have : Finite (MulAut W) := s16h_finite_mulAut (W := W)
   set U : Subgroup W := commSub ⊤ L with hU
   set Λ : Subgroup (MulAut U) := autSub L U with hΛ
   set Ē : Subgroup (MulAut U) := autSub E U with hĒ
@@ -209,7 +209,7 @@ theorem s16h_H5_rowSt8_autSub_le [Finite W] {A L : Subgroup (MulAut W)} {t : Mul
   have hCcard_le : Nat.card ↥(Ē ⊓ Subgroup.centralizer (Λ : Set (MulAut U))) ≤ q := by
     have hcyc := (s16h_H5_bridge_cent_cyclic_odd (W := W) hc hirr
       (E := E) hE).1
-    haveI : IsCyclic ↥(Ē ⊓ Subgroup.centralizer (Λ : Set (MulAut U))) := hcyc
+    have : IsCyclic ↥(Ē ⊓ Subgroup.centralizer (Λ : Set (MulAut U))) := hcyc
     have hdvd : Nat.card ↥(Ē ⊓ Subgroup.centralizer (Λ : Set (MulAut U))) ∣ q := by
       rw [← IsCyclic.exponent_eq_card]
       exact Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
@@ -223,7 +223,7 @@ theorem s16h_H5_rowSt8_autSub_le [Finite W] {A L : Subgroup (MulAut W)} {t : Mul
     rw [← MonoidHom.range_eq_map] at h
     exact h
   have hkerL : ((resHom U).comp (Subgroup.inclusion hLU)).ker = ⊥ := by
-    haveI : IsSimpleGroup ↥L := isSimpleGroup_of_isL3 h.1
+    have : IsSimpleGroup ↥L := isSimpleGroup_of_isL3 h.1
     by_contra hne
     have hker_top : ((resHom U).comp (Subgroup.inclusion hLU)).ker = ⊤ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top
@@ -257,7 +257,7 @@ theorem s16h_H5_rowSt8_autSub_le [Finite W] {A L : Subgroup (MulAut W)} {t : Mul
   have hq2not : ¬ q ^ 2 ∣ Nat.card (MulAut Λ) := by
     rw [hcard_aut]; exact s16h_not_sq_dvd_336 hq hq2
   have hrange_le : Nat.card ρ.range ≤ q := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have h := CFSG.LargeExtraspecial.S63.card_le_of_isPGroup_of_not_dvd
       (G := MulAut Λ) (p := q) (k := 1) hq2not ρ.range hρab.isPGroup
     simpa using h

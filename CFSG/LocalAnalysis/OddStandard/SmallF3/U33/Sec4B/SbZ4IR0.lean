@@ -15,7 +15,7 @@ private theorem map_centralizer_eq_of_odd_ker [Finite X] (π : X →* Y)
     (hπ : Function.Surjective π) (hker : Odd (Nat.card π.ker)) {A : Subgroup X}
     (hA : IsPGroup 2 A) :
     (centralizer (A : Set X)).map π = centralizer ((A.map π : Subgroup Y) : Set Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ fun e he => ?_
   · rintro _ ⟨c, hc, rfl⟩
     rw [SetLike.mem_coe, mem_centralizer_iff] at hc
@@ -57,7 +57,7 @@ theorem z4i_lift_two_cent [Finite X] (π : X →* Y) (hπ : Function.Surjective 
     (hP : IsPGroup 2 P) (hPc : P ≤ centralizer ((A.map π : Subgroup Y) : Set Y)) :
     ∃ P' : Subgroup X, IsPGroup 2 P' ∧ P'.map π = P ∧ P' ≤ centralizer (A : Set X) ∧
       Function.Injective (π.comp P'.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup X := centralizer (A : Set X)
   let π' : Z →* Y := π.comp Z.subtype
   have hCen : centralizer ((A.map π : Subgroup Y) : Set Y) = Z.map π :=
@@ -100,7 +100,7 @@ theorem z4i_lift_two_ge [Finite X] (π : X →* Y) (hπ : Function.Surjective π
     (hP : IsPGroup 2 P) (hAP : A.map π ≤ P) :
     ∃ P' : Subgroup X, IsPGroup 2 P' ∧ A ≤ P' ∧ P'.map π = P ∧
       Function.Injective (π.comp P'.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X₁ : Subgroup X := P.comap π
   have hA_le : A ≤ X₁ := fun a ha => hAP (Subgroup.mem_map_of_mem π ha)
   have hA' : IsPGroup 2 (A.subgroupOf X₁) :=

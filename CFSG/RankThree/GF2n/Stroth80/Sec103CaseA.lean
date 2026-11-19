@@ -19,7 +19,7 @@ variable {hc : Ctx M Q Z B} {n : ℕ} {t : G} {Y : Subgroup G}
 
 private theorem BadA.exists_line_of_fusion (D : BadA hc n t Y) {c : G}
     (hc' : Adm103 M Q Z B t Y c)
-    (hcY : Ctx (Subgroup.normalizer (Y : Set G)) (QB Y) Y B) (HY : Sec10Hyp hcY n)
+    (hcY : Ctx (Subgroup.normalizer (Y : Set G)) (QB Y) Y B) (_HY : Sec10Hyp hcY n)
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
     {M₀ : Tim79.QuadModel (QB Y) Y K γ}
     (hDY : GlobalModelData (Subgroup.normalizer (Y : Set G)) (QB Y) Y γ M₀) {gY : G}
@@ -47,7 +47,7 @@ private theorem BadA.exists_line_of_fusion (D : BadA hc n t Y) {c : G}
   exact exists_isLine_le M₀ hSQY hSY hA₀ hK hcard
 
 private theorem BadA.line_le_Ut_of_fusion (D : BadA hc n t Y) {c : G}
-    (hc' : Adm103 M Q Z B t Y c)
+    (_hc' : Adm103 M Q Z B t Y c)
     (hcY : Ctx (Subgroup.normalizer (Y : Set G)) (QB Y) Y B)
     (hsw : Sit (Subgroup.normalizer (Y : Set G)) (QB Y) Y (conjSubgroup c Y) (c * t * c⁻¹))
     (hAw : CaseA (QB Y) Y (c * t * c⁻¹)) {gY : G} (hgY : Y = conjSubgroup gY Z)
@@ -187,7 +187,7 @@ private theorem BadA.commutator_data (D : BadA hc n t Y) {c : G} {X : Subgroup G
     (hc' : Adm103 M Q Z B t Y c)
     (hα : α ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G))
     (hb : ⁅h, α * ⁅t, c⁆⁆ ∈ Q ⊓ QB Y ⊓ Vt M (LB M Q B) B Z t)
-    (hrX : α * ⁅t, c⁆ ∉ QB X) :
+    (_hrX : α * ⁅t, c⁆ ∉ QB X) :
     h * (α * ⁅t, c⁆) * h⁻¹ ∈ Q ∧ h * (α * ⁅t, c⁆) * h⁻¹ ∉ Z ∧
       h * (α * ⁅t, c⁆) * h⁻¹ ≠ 1 := by
   have hrQ : α * ⁅t, c⁆ ∈ Q := Q.mul_mem hα.1.1 (D.comm_mem_Q hc'.mem)
@@ -209,7 +209,7 @@ private theorem BadA.commutator_data (D : BadA hc n t Y) {c : G} {X : Subgroup G
   exact ⟨hhrQ, hhrZ, fun h0 => hhrZ (h0 ▸ Z.one_mem)⟩
 
 private theorem BadA.mem_QB_conj_of_root (D : BadA hc n t Y) {c c'' g h α k : G}
-    (hc' : Adm103 M Q Z B t Y c) (hc'' : Adm103 M Q Z B t Y c'') (hk : k ∈ Q)
+    (_hc' : Adm103 M Q Z B t Y c) (hc'' : Adm103 M Q Z B t Y c'') (hk : k ∈ Q)
     (hαQ : α ∈ Q) (hα'' : α ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c''} : Set G))
     (hhrQ : h * (α * ⁅t, c⁆) * h⁻¹ ∈ Q)
     (hhrZ : h * (α * ⁅t, c⁆) * h⁻¹ ∉ Z)
@@ -331,7 +331,7 @@ private theorem BadA.false_of_conj_fusion (D : BadA hc n t Y) {c : G}
     (hsr : Sit (Subgroup.normalizer (X : Set G)) (QB X) X (conjSubgroup g Z) (a₁ * ⁅t, c⁆))
     (hcomm : ∀ h ∈ QB X, ⁅h, a₁ * ⁅t, c⁆⁆ ∈ X → h * a₁ = a₁ * h)
     (ha₁A : a₁ ∈ Q ⊓ QB Y) (hxa : ⁅t, c⁆ * a₁ = a₁ * ⁅t, c⁆)
-    (ha₁sq : a₁ * a₁ = 1) (ha₁ : a₁ ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G))
+    (ha₁sq : a₁ * a₁ = 1) (_ha₁ : a₁ ∈ Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G))
     (hr : a₁ * ⁅t, c⁆ ∈ conjSubgroup g Z) : False := by
   have hAX : Q ⊓ QB Y ≤ QB X := D.inf_QB_le_QB_of_root hX (hYX D.hs.mem)
   have hαr : a₁ * (a₁ * ⁅t, c⁆) = a₁ * ⁅t, c⁆ * a₁ := by rw [mul_assoc a₁ ⁅t, c⁆, hxa]

@@ -341,8 +341,7 @@ theorem s16h_z3_exists_J {W : Type} [CommGroup W] [Finite W] {A L L₂ : Subgrou
       rintro z ⟨c, hcA, hcL, rfl⟩
       refine ⟨b * c, A.mul_mem hbA hcA, ?_, ?_⟩
       · rw [s16h_map_conj_mul (H := L) (a := b) (b := c), hcL, hbL]
-      · change b * (c * j * c⁻¹) * b⁻¹ = (b * c) * j * (b * c)⁻¹
-        group
+      · group
     have hle : J.map (MulAut.conj b).toMonoidHom ≤ J := by
       change (Subgroup.closure Y).map (MulAut.conj b).toMonoidHom ≤ Subgroup.closure Y
       rw [MonoidHom.map_closure]

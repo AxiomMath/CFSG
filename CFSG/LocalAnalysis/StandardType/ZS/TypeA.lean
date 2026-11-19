@@ -43,7 +43,7 @@ theorem rank_map_cartanMatrix_A (ℓ : ℕ) :
     ((CartanMatrix.A ℓ).map (Int.cast : ℤ → ZMod p)).rank = if p ∣ ℓ + 1 then ℓ - 1 else ℓ := by
   classical
   by_cases hp : p ∣ ℓ + 1
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have hn : 1 ≤ ℓ := by
       have hp2 : 2 ≤ p := (Fact.out : p.Prime).two_le
       have hle : p ≤ ℓ + 1 := Nat.le_of_dvd (by omega) hp
@@ -65,7 +65,7 @@ theorem rank_map_cartanMatrix_A (ℓ : ℕ) :
       rw [Matrix.rank, ← hf]
       omega
     exact hrank
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have hdet : ((CartanMatrix.A ℓ).map (Int.cast : ℤ → ZMod p)).det ≠ 0 := by
       change ((CartanMatrix.A ℓ).map (fun x : ℤ => (x : ZMod p))).det ≠ 0
       rw [← Int.cast_det (R := ZMod p) (CartanMatrix.A ℓ), CartanMatrix.A_det]
@@ -134,7 +134,7 @@ theorem symmetric_row_of_isCartanModel_A [Module.Finite (ZMod p) U] (hp : p ≠ 
   rw [rank_map_cartanMatrix_A ℓ, hn] at hfin
   by_cases hpℓ : p ∣ ℓ + 1
   · right
-    rw [if_pos hpℓ] at hfin
+    rw [ite_eq_left hpℓ] at hfin
     have hnℓ : 1 ≤ ℓ := by
       have hp2 : 2 ≤ p := (Fact.out : p.Prime).two_le
       have hle : p ≤ ℓ + 1 := Nat.le_of_dvd (by omega) hpℓ
@@ -145,7 +145,7 @@ theorem symmetric_row_of_isCartanModel_A [Module.Finite (ZMod p) U] (hp : p ≠ 
     · rw [hn2]
       exact ⟨T.symm, fun r hr => isSwap_symm_apply_of_isRefl hp T hT hr⟩
   · left
-    rw [if_neg hpℓ] at hfin
+    rw [ite_eq_right hpℓ] at hfin
     have hn1 : n + 1 = ℓ + 1 := by omega
     refine ⟨?_, ?_⟩
     · rwa [hn1]

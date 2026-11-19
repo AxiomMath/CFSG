@@ -23,7 +23,7 @@ theorem sec8t84_card_le_of_sylow {H S W : Subgroup G} (hS : IsSylow2Of S H) (hW 
       rw [← hyx]
       simpa [MulAut.conj_apply] using (hiff y).mp hy
     · intro hx
-      refine ⟨a * x * a⁻¹, ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
+      refine ⟨a * x * a⁻¹, ?_, by simp [mul_assoc]⟩
       rw [hiff]
       simpa [mul_assoc] using hx
   have hcard : Nat.card Q = Nat.card S := by
@@ -47,7 +47,7 @@ theorem sec8t84_isSylow2Of_of_card_ge {H U V : Subgroup G} (hV : IsSylow2Of V H)
       calc U.relIndex H * Nat.card U = Nat.card H := h1
         _ = V.relIndex H * Nat.card V := h2.symm
         _ = V.relIndex H * Nat.card U := by rw [← hcardeq]
-    haveI : Nonempty U := ⟨1, U.one_mem⟩
+    have : Nonempty U := ⟨1, U.one_mem⟩
     exact Nat.mul_right_cancel (Finite.card_pos (α := U)) hmul
   rw [hrel]
   exact hV.2.2
@@ -75,11 +75,13 @@ theorem sec8t84_normalizing_le {H T W : Subgroup G} (hT : IsSylow2Of T H) (hW : 
     IsSylow2Of.eq_of_le hT hsupH hsup2 le_sup_left
   exact heq ▸ le_sup_right
 
+omit [Finite G] in
 theorem sec8t84_normalizer_map (E : Subgroup G) (u : G) :
     normalizer ((E.map (MulAut.conj u).toMonoidHom : Subgroup G) : Set G) =
       (normalizer (E : Set G)).map (MulAut.conj u).toMonoidHom := by
   exact (Subgroup.map_equiv_normalizer_eq E (MulAut.conj u)).symm
 
+omit [Finite G] in
 theorem sec8t84_centralizer_map (B : Subgroup G) (u : G) :
     centralizer ((B.map (MulAut.conj u).toMonoidHom : Subgroup G) : Set G) =
       (centralizer (B : Set G)).map (MulAut.conj u).toMonoidHom := by
@@ -103,6 +105,7 @@ theorem sec8t84_centralizer_map (B : Subgroup G) (u : G) :
     have h := congrArg (fun z => MulAut.conj u z) (hc b hb)
     simpa [map_mul] using h
 
+omit [Finite G] in
 theorem sec8t84_isSylow2Of_map {H K : Subgroup G} (hK : IsSylow2Of K H) (u : G) :
     IsSylow2Of (K.map (MulAut.conj u).toMonoidHom) (H.map (MulAut.conj u).toMonoidHom) := by
   simpa [CFSG.conjugate, inv_inv] using hK.conjugate u⁻¹

@@ -20,7 +20,7 @@ theorem gomi_iform_eq_sum_single {τ : Tag} (u γ : Fin τ.rank → ℤ) :
   have h : ∀ j, iform u (Pi.single j 1 : Fin τ.rank → ℤ) = ∑ i, u i * τ.symmetrizedCartan i j := by
     intro j
     simp only [iform, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
   calc iform u γ = ∑ i, ∑ j, u i * τ.symmetrizedCartan i j * γ j := rfl
     _ = ∑ j, ∑ i, u i * τ.symmetrizedCartan i j * γ j := Finset.sum_comm
     _ = ∑ j, γ j * ∑ i, u i * τ.symmetrizedCartan i j := Finset.sum_congr rfl fun j _ => by
@@ -145,7 +145,7 @@ theorem gomi_neigh_dichotomy {τ : Tag} (b : Fin τ.rank → Bool)
     have : List.ofFn γ ∈ Lf := by
       rw [hLf, List.mem_filter]
       refine ⟨hγmem, ?_⟩
-      simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, decide_eq_true_eq, hht, hvec]
+      simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, decide_eq_true_eq, hvec]
       refine ⟨⟨⟨fun hh => hγne (List.ofFn_injective hh), hγpos⟩, hγr.2⟩, ?_⟩
       rw [ha, hvec]
       exact hne
@@ -312,7 +312,7 @@ theorem gomi_false_of_isPComponent_totalFixedGroup (D : OrthogonalSemilinearFixe
       ((φ (-1) : adjointGroup τ k) : ModGL τ k) * ((g : adjointGroup τ k) : ModGL τ k)
     rw [hφ]
     exact this
-  haveI := hJ₀s
+  have := hJ₀s
   have hZ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hJ₀nab).2
   rw [hZ, Subgroup.mem_bot] at hcent
   exact hz1 (congrArg (fun x : J₀ => (x : adjointGroup τ k)) hcent)

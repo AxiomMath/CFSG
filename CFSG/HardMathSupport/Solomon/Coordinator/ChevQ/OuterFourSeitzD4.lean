@@ -48,7 +48,7 @@ theorem exists_noncomm_of_not_prime [Finite S] [IsSimpleGroup S] (h : ¬ (Nat.ca
     ∃ a b : S, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  letI : CommGroup S := { (inferInstance : Group S) with mul_comm := hc }
+  let : CommGroup S := { (inferInstance : Group S) with mul_comm := hc }
   exact h IsSimpleGroup.prime_card
 
 theorem exists_noncomm_of_four_dvd [Finite S] [IsSimpleGroup S] (h : 4 ∣ Nat.card S) :
@@ -703,7 +703,7 @@ theorem seitzHyperGamma_eq_top_of_graphField (hS2 : CFSG.AGLEmbeddingD2.KFactSei
   classical
   have : Finite (ModGL Tag.D4 K) := finite_modGL
   have : Finite (AdjD4 K) := Subtype.finite
-  haveI := inner_normal (AdjD4 K)
+  have := inner_normal (AdjD4 K)
   obtain ⟨β, hβE, g, a, σ, ε, hεlt, hσ3, ⟨hε0, hσ1⟩, hβ⟩ := hGF
   have hε : ε = 1 ∨ ε = 2 := by omega
   have hβ3 : β ^ 3 = 1 := hE.2 β hβE
@@ -888,7 +888,7 @@ theorem fieldAutD4_of_fieldType {S : Type} [Group S] {K : Type} [Field K] [Finit
     (hφ3 : φ ^ 3 = 1)
     (hF : D4ElemType (MulAut.congr e φ) fun ε σ => ε = 0 ∧ σ ≠ 1) : FieldAutD4 S φ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hK
@@ -948,7 +948,7 @@ theorem seitz2310FourFreeAt_d4_of (hL : SeitzHyperLie fun d p _ => SeitzGoodInde
       obtain ⟨-, hcl | ⟨h0, -⟩⟩ := hmod
       swap
       · omega
-      haveI : IsSimpleGroup S :=
+      have : IsSimpleGroup S :=
         (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus S 4 2 3
           hcl).2
       have hnab : ∃ a b : S, a * b ≠ b * a := by

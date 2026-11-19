@@ -81,8 +81,8 @@ theorem burnsideF48s_d42_chart {E : Type} [Group E] {M₁ M₂ : Subgroup E}
         ∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₂ ↔ ((θ x : ↥(d4H ⊔ d4N)) : D) ∈ d4N) ∨
       ((∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₁ ↔ ((θ x : ↥(d4H ⊔ d4N)) : D) ∈ d4N) ∧
         ∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₂ ↔ ((θ x : ↥(d4H ⊔ d4N)) : D) ∈ d4H) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := nonempty_equiv_trialityGroup8 ↥(⊤ : Subgroup E)
     (burnsideF48_lieModel_D4 hyp.model)
@@ -114,7 +114,7 @@ section Main
 theorem burnsideF48s_d42_small_top (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : ChF.HypF_4_4 .D4tw 2 1 Gp M₁ M₂) (hGp : Gp = ⊤) :
     ChF.F48Concl .D4tw 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hs : IsSimpleGroup D := d4_isSimpleGroup (D' := ↥Gp) (burnsideF48_lieModel_D4 hyp.model)
   subst hGp
@@ -125,7 +125,7 @@ theorem burnsideF48s_d42_small_top (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group
   intro Y _ β hβ hs'
   have h13 := (burnside_as_F_4_13_of h45 h46 .D4tw 2 1 E ⊤ M₁ M₂ hyp Y β hβ hs').2
   rw [card_G0] at h13
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
   exact burnsideF48s_qe_of_match_or (burnsideF48s_d42_match hs) θ hθ β hβ hs'
 
 end Main
@@ -172,7 +172,7 @@ theorem burnsideF48s_d42_card_E (hcA : Nat.card (MulAut D) = 3 * Nat.card D) {E 
     [Group E] [Finite E] {Gp : Subgroup E} [Gp.Normal] (ε : D ≃* ↥Gp)
     (hcent : Subgroup.centralizer (Gp : Set E) = ⊥) (hGp : Gp ≠ ⊤) :
     Nat.card E = Nat.card (MulAut D) := by
-  haveI : Finite D := Finite.of_equiv ↥Gp ε.symm.toEquiv
+  have : Finite D := Finite.of_equiv ↥Gp ε.symm.toEquiv
   have hinj := burnsideF48s_d42_conjHom_injective Gp ε.symm hcent
   have h1 : Nat.card E ∣ Nat.card (MulAut D) := by
     have := Subgroup.card_subgroup_dvd_card (burnsideF48s_d42_conjHom Gp ε.symm).range
@@ -283,8 +283,8 @@ theorem burnsideF48s_d42_isoProp_d3 {D' : Type} [Group D']
   have hs : IsSimpleGroup D := d4_isSimpleGroup hD'
   obtain ⟨hcA, hinj⟩ := d4_card_aut hD'
   have hK := d3_K3_eq_top hD'
-  haveI : Finite D := finite_D
-  haveI : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
+  have : Finite D := finite_D
+  have : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
     rw [hcA]
     exact Nat.mul_ne_zero (by norm_num) Nat.card_pos.ne')
   let eN : ↥d3Setting.N ≃* D :=
@@ -295,7 +295,7 @@ theorem burnsideF48s_d42_isoProp_d3 {D' : Type} [Group D']
   obtain ⟨⟨Ġ, hĠ, β', -, ⟨φ, -⟩, hext⟩, -⟩ :=
     d3F48 hD' (d4_hZH hs) (d4_hNN hs) hs Y β hβ hsm
   obtain ⟨ν, hνinj, hνnorm, hνcent, -⟩ := hext
-  haveI := hνnorm
+  have := hνnorm
   let eR : ↥ν.range ≃* D := (MonoidHom.ofInjective hνinj).symm.trans eN
   obtain ⟨χ⟩ := burnsideF48s_d42_nonempty_equiv ν.range eR hνcent
     (le_of_eq (by rw [← hc]; exact Nat.card_congr φ.toEquiv))
@@ -309,9 +309,9 @@ section Ext
 theorem burnsideF48s_d42_small_ext (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : ChF.HypF_4_4 .D4tw 2 1 Gp M₁ M₂) (hGp : Gp ≠ ⊤) :
     ChF.F48Concl .D4tw 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hD' : IsLieOverTwo .trialityD4 0 1 ↥Gp := burnsideF48_lieModel_D4 hyp.model
   have hs : IsSimpleGroup D := d4_isSimpleGroup hD'
@@ -321,7 +321,7 @@ theorem burnsideF48s_d42_small_ext (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group
   obtain ⟨hcA, -⟩ := d4_card_aut hD'
   have hcardE := burnsideF48s_d42_card_E hcA ε hyp.centralizer_trivial hGp
   have hinj := burnsideF48s_d42_conjHom_injective Gp ε.symm hyp.centralizer_trivial
-  haveI : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
+  have : Finite (MulAut D) := Nat.finite_of_card_ne_zero (by
     rw [← hcardE]
     exact Nat.card_pos.ne')
   let cE : E ≃* MulAut D := MulEquiv.ofBijective _ (hinj.bijective_of_nat_card_le hcardE.ge)
@@ -347,7 +347,7 @@ theorem burnsideF48s_d42_small_ext (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group
   refine ⟨fun Y _ β hβ hsm => ?_, fun h => absurd h hGp⟩
   have h13 := (burnside_as_F_4_13_of h45 h46 .D4tw 2 1 E Gp M₁ M₂ hyp Y β hβ hsm).2
   rw [card_G0] at h13
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
   obtain ⟨χ⟩ := burnsideF48s_d42_iso_of_isoProp_or (burnsideF48s_d42_isoProp_d3 hD') θ hθ β hβ
     hsm (h13.trans hcardE)
   let e : β.G0 ≃* E := (burnsideF48_G0Equiv β).trans (χ.trans cE.symm)

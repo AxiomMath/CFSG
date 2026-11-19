@@ -45,8 +45,8 @@ theorem center_eq_bot_of_tenFourteenOneGroup
     {p : ℕ} {K : Type*} [Group K] (hK : TenFourteenOneGroup p K)
     (hnc : ∃ a b : K, a * b ≠ b * a) : Subgroup.center K = ⊥ := by
   obtain ⟨i, hi, ⟨e⟩⟩ := hK
-  haveI := isSimpleGroup_of_isTenFourteenOneIndex hi
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have := isSimpleGroup_of_isTenFourteenOneIndex hi
+  have : IsSimpleGroup K := e.isSimpleGroup
   rcases (Subgroup.center K).normal_of_characteristic.eq_bot_or_eq_top with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hnc
@@ -54,6 +54,7 @@ theorem center_eq_bot_of_tenFourteenOneGroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_not_comm_of_d1KBar_ne_bot {p : ℕ} {M C : Subgroup G} (h : d1KBar p M C ≠ ⊥) :
     ∃ a b : ↥(d1KBar p M C), a * b ≠ b * a := by
   obtain ⟨L, hL, hLX⟩ : ∃ L : Subgroup (C ⧸ primeComplementCore (G := C) p),
@@ -68,6 +69,7 @@ theorem exists_not_comm_of_d1KBar_ne_bot {p : ℕ} {M C : Subgroup G} (h : d1KBa
   have := hc ⟨x, hLK x.2⟩ ⟨y, hLK y.2⟩
   exact Subtype.ext (by simpa using congrArg Subtype.val this)
 
+omit [Finite G] in
 theorem center_d1KBar_eq_bot_of_tenFourteenOneGroup
     {p : ℕ} {M C : Subgroup G} (h : d1KBar p M C ≠ ⊥)
     (hK : TenFourteenOneGroup p ↥(d1KBar p M C)) : Subgroup.center ↥(d1KBar p M C) = ⊥ :=

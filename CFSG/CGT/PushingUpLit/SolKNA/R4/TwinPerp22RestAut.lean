@@ -48,7 +48,7 @@ section Comm
 
 variable {A : Type*} [Group A]
 
-theorem false_of_comm_aut {z : A} (hz2 : z * z = 1) (V W : A ≃* A) (hV2 : ∀ x, V (V x) = x)
+theorem false_of_comm_aut {z : A} (hz2 : z * z = 1) (V W : A ≃* A) (_hV2 : ∀ x, V (V x) = x)
     (hWz : W z = z) (hVd : (∀ x, V x = x) ∨ (∀ x, V x = z * x * z⁻¹))
     (hc : ∀ x, V (W (V (W.symm x))) = z * x * z⁻¹) : ∀ x, z * x * z⁻¹ = x := by
   intro x
@@ -107,7 +107,7 @@ theorem exists_normal_component (hd : TightDatum R S z) (hc : TightClsR r Q R S 
     have hFstar : genFittingFStar Q = F ⊔ L := by
       show genFittingFitting Q ⊔ genFittingLayer Q = _
       rw [genFittingLayer_eq_layer, hlayer]
-    haveI hFn : F.Normal := ⟨fun n hn g' => by
+    have hFn : F.Normal := ⟨fun n hn g' => by
       have := Subgroup.mem_center_iff.mp (hFZ hn) g'
       rw [this, mul_inv_cancel_right]
       exact hn⟩
@@ -209,7 +209,7 @@ theorem layerAut {r n : ℕ} (hr : 4 ≤ r) (hA : CIT3Below n) (hB : TightBelowR
   have hd' := TwistQ.datum hd hN2 htN hnt
   have hc' := twistQ_clsR hd hNc hN2 htN hc
   have hnO' : ¬ TightInO2 (QuotientGroup.mk' (Subgroup.center Q) z) := fun h => hnO (TwistQ.inO2_of hN2 h)
-  haveI := hLn
+  have := hLn
   have hTs : IsSimpleGroup ↥(socleOf L) := isSimpleGroup_socle hLq hLC
   have hTab := exists_ne_comm_socle hLq hLC
   have hTC := centralizer_socle_eq_bot hLq hLC

@@ -87,7 +87,7 @@ theorem hk : checkK 23 d23.ta d23.tb d23.order CL.chars d23.hGensW HL.chars d23.
     (Nat.eq_of_beq_eq_true r_B) (eq_of_eqLB r_CL) (eq_of_eqLB r_HL) (eq_of_eqLB r_PL)
     (eq_of_eqLB r_EA) (eq_of_eqLB r_EB)
     (by rw [k01, k02, k03, k04, k05, k06, k07, k08, k09, k10, k11, k12, k13, k14, k15, k16, k17,
-      k18, k19, k20, k21, k22, k23, k24, k25, k26, k27] <;> rfl)
+      k18, k19, k20, k21, k22, k23, k24, k25, k26, k27]; rfl)
 
 end CFSG.KD.LQT.C4047
 

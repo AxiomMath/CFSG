@@ -17,6 +17,7 @@ section Generic
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] (T : ι → Module.End (ZMod 3) V)
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem fgWt_map_le (e : V ≃ₗ[ZMod 3] V) (c : ι ≃ ι)
     (h : ∀ i v, T (c i) (e v) = e (T i v)) (χ : ι → ZMod 3) :
     (fgWt T χ).map (e : V →ₗ[ZMod 3] V) ≤ fgWt T (fun i => χ (c.symm i)) := by
@@ -36,6 +37,7 @@ section Action
 variable (B : Subgroup (OGroup Q)) [Fintype ↥B] [DecidableEq ↥B] (f : OGroup Q)
   (hf : ∀ g, g ∈ B ↔ f * g * f⁻¹ ∈ B)
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ↥B] [DecidableEq ↥B] in
 theorem fgT_conj (g : ↥B) (v : V) :
     fgT B (fgCj B f hf g) (((f : OGroup Q) : V ≃ₗ[ZMod 3] V) v) =
       ((f : OGroup Q) : V ≃ₗ[ZMod 3] V) (fgT B g v) := by
@@ -43,6 +45,7 @@ theorem fgT_conj (g : ↥B) (v : V) :
     (((f : OGroup Q) : V ≃ₗ[ZMod 3] V) v) = _
   simp [Subgroup.coe_mul, LinearEquiv.mul_apply, fgT]
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ↥B] [DecidableEq ↥B] in
 theorem fgWt_map_f (χ : ↥B → ZMod 3) :
     (fgWt (fgT B) χ).map (((f : OGroup Q) : V ≃ₗ[ZMod 3] V) : V →ₗ[ZMod 3] V) =
       fgWt (fgT B) (fgPerm B (ZMod 3) (fgCj B f hf) χ) := by
@@ -74,12 +77,14 @@ theorem fgWt_map_f (χ : ↥B → ZMod 3) :
     rw [h3] at h1
     exact ⟨e v, h1, hfe v⟩
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ↥B] [DecidableEq ↥B] in
 theorem finrank_fgWt_perm (χ : ↥B → ZMod 3) :
     Module.finrank (ZMod 3) (fgWt (fgT B) (fgPerm B (ZMod 3) (fgCj B f hf) χ)) =
       Module.finrank (ZMod 3) (fgWt (fgT B) χ) := by
   rw [← fgWt_map_f B f hf χ]
   exact LinearEquiv.finrank_map_eq ((f : OGroup Q) : V ≃ₗ[ZMod 3] V) _
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ↥B] [DecidableEq ↥B] in
 theorem fgWt_perm_ne_bot_iff (χ : ↥B → ZMod 3) :
     fgWt (fgT B) (fgPerm B (ZMod 3) (fgCj B f hf) χ) ≠ ⊥ ↔ fgWt (fgT B) χ ≠ ⊥ := by
   constructor

@@ -164,16 +164,16 @@ theorem sh_evalL {n : Nat} {G : Array Mat × Array Mat} {g : List Nat × List Na
     obtain ⟨i, b⟩ := l
     rw [evalL_cons, evalLK_cons]
     cases b
-    · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true]
+    · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true]
       exact (h₂ i.val).mul ih
-    · rw [if_pos rfl, if_pos rfl]
+    · rw [ite_eq_left rfl, ite_eq_left rfl]
       exact (h₁ i.val).mul ih
 
-theorem sh_mats {Gb : List Nat} (hw : ∀ w, Sh (wordArr w) (wK Gb w)) (ws : List Word) :
+theorem sh_mats {Gb : List Nat} (hw : ∀ _w, Sh (wordArr _w) (wK Gb _w)) (ws : List Word) :
     (∀ i, Sh ((matsOf ws).1.getD i one14) (getK (matsK Gb ws).1 i)) ∧
       (∀ i, Sh ((matsOf ws).2.getD i one14) (getK (matsK Gb ws).2 i)) :=
-  ⟨sh_getD ws wordArr (wK Gb) (fun w _ => hw w),
-    sh_getD ws (fun w => wordArr w.reverse) (fun w => wK Gb w.reverse) (fun w _ => hw _)⟩
+  ⟨sh_getD ws wordArr (wK Gb) (fun _w _ => hw _w),
+    sh_getD ws (fun _w => wordArr _w.reverse) (fun _w => wK Gb _w.reverse) (fun _w _ => hw _)⟩
 
 def ShN (A : Native.Mat) (a : Nat) : Prop := blowMat (Code.decode A) = pkMat 28 a
 

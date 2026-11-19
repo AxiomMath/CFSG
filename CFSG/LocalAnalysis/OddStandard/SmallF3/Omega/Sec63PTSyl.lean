@@ -68,8 +68,8 @@ theorem sec63PT_exists_pGroup_lift {A P : Type} [Group A] [Finite A] [Group P] (
   let S : Subgroup A := (S₀ : Subgroup ↥H').map H'.subtype
   refine ⟨S, ?_, ?_, ?_, ?_⟩
   · exact (Subgroup.map_subtype_le (S₀ : Subgroup ↥H')).trans hH'le
-  · exact S₀.isPGroup'.map H'.subtype
-  · exact sec63PT_disjoint_ker ρ hodd (S₀.isPGroup'.map H'.subtype)
+  · exact S₀.isPGroup.map H'.subtype
+  · exact sec63PT_disjoint_ker ρ hodd (S₀.isPGroup.map H'.subtype)
   · have hcomp : ρ.comp H'.subtype = R.subtype.comp f := MonoidHom.ext fun _ => rfl
     calc S.map ρ = ((S₀ : Subgroup ↥H').map H'.subtype).map ρ := rfl
       _ = (S₀ : Subgroup ↥H').map (ρ.comp H'.subtype) :=

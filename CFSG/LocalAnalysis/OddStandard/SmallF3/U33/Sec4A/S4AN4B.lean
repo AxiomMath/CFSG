@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_conj_of_stab {K : Subgroup G} {X : Set G} {x₀ : G} (hx₀ : x₀ ∈ X)
     (hfix : ∀ k ∈ K, k * x₀ * k⁻¹ = x₀)
     (h₀ : ∀ σ₀ : Equiv.Perm ↥(X \ {x₀}), ∃ k ∈ K, ∀ x : ↥(X \ {x₀}),
@@ -20,7 +21,7 @@ theorem exists_conj_of_stab {K : Subgroup G} {X : Set G} {x₀ : G} (hx₀ : x�
   have hmem : ∀ τ : Equiv.Perm ↥X, (τ ⟨x₀, hx₀⟩ : ↥X) = ⟨x₀, hx₀⟩ →
       ∀ y : ↥(X \ {x₀}), ((τ ⟨y, y.2.1⟩ : ↥X) : G) ∈ X \ {x₀} := by
     intro τ hτ y
-    refine (Set.mem_diff _).mpr ⟨(τ ⟨y, y.2.1⟩).2, fun h => y.2.2 ?_⟩
+    refine (Set.mem_sdiff _).mpr ⟨(τ ⟨y, y.2.1⟩).2, fun h => y.2.2 ?_⟩
     have h1 : τ ⟨y, y.2.1⟩ = τ ⟨x₀, hx₀⟩ := by
       rw [hτ]
       exact Subtype.ext (Set.mem_singleton_iff.mp h)
@@ -46,6 +47,7 @@ theorem exists_conj_of_stab {K : Subgroup G} {X : Set G} {x₀ : G} (hx₀ : x�
     exact (hfix k hk).symm
   · exact hkx ⟨x, x.2, fun h => hx (Set.mem_singleton_iff.mp h)⟩
 
+omit [Finite G] in
 theorem exists_conj_of_trans_stab {N K : Subgroup G} {X : Set G} {x₀ : G} (hx₀ : x₀ ∈ X)
     (hX : ∀ n ∈ N, ∀ x ∈ X, n * x * n⁻¹ ∈ X) (hKN : K ≤ N)
     (htrans : ∀ x ∈ X, ∃ n ∈ N, n * x₀ * n⁻¹ = x)
@@ -81,6 +83,7 @@ theorem exists_perm_four_section {N W : Subgroup G} {X : Set G}
   simp only [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
   exact map_eq_one_iff E E.injective
 
+omit [Finite G] in
 theorem card_eq_mul_of_section {V W : Subgroup G} (hWV : W ≤ V) {K : Type} [Group K]
     (ψ : ↥V →* K) (hs : Function.Surjective ψ) (hker : ψ.ker = W.subgroupOf V) :
     Nat.card V = Nat.card K * Nat.card W := by
@@ -114,12 +117,13 @@ theorem nonempty_closure_dihedral {D : Type} [Group D] [Finite D] {ρ σ : D} (h
         exact (mem_zpowers_iff).mpr ⟨k, by simpa using congrArg Subtype.val hk⟩))
   rwa [Subgroup.orderOf_mk] at h
 
+omit [Finite G] in
 theorem exists_dihedral_section {V W : Subgroup G} (hV2 : IsPGroup 2 V)
     {Φ : Type} [Group Φ] [Finite Φ] (hΦ : Nat.card Φ ∣ 24) (φ : ↥V →* Φ)
     (hker : φ.ker = W.subgroupOf V) {r s : ↥V} (hr : orderOf (φ r) = 4)
     (hs : φ s * φ s = 1) (hrel : φ s * φ r * (φ s)⁻¹ = (φ r)⁻¹) :
     ∃ ψ : ↥V →* DihedralGroup 4, Function.Surjective ψ ∧ ψ.ker = W.subgroupOf V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ2 : φ s ^ 2 = 1 := by
     rw [pow_two]
     exact hs

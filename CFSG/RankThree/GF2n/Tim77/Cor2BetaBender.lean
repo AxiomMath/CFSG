@@ -24,7 +24,7 @@ theorem cor2Beta_isBender_of_wcl {L : Type} [Group L] [Finite L] [IsSimpleGroup 
     (hstar : ∀ y : L, (∃ m : L, y = m * s * m⁻¹) → y * s = s * y → y ∈ (T : Subgroup L)) :
     CFSG.BenderSuzuki.IsBenderGroup L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hB : CFSG.Open.fusionIsBenderGroup L
   · exact CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup hB
   have hK : (∃ p f : ℕ, ∃ _hp : Fact p.Prime, Odd p ∧ 0 < f ∧ 5 ≤ p ^ f ∧
@@ -89,7 +89,7 @@ theorem cor2Beta_isBender_of_wcl {L : Type} [Group L] [Finite L] [IsSimpleGroup 
           omega
     · have hdvd : Nat.card (T : Subgroup L) ∣ Nat.card (normalizer ((T : Subgroup L) : Set L)) :=
         Subgroup.card_dvd_of_le Subgroup.le_normalizer
-      obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
       have hk' : 2 ∣ Nat.card (T : Subgroup L) := by
         rw [hk]
         have : k ≠ 0 := by
@@ -176,10 +176,10 @@ section OuterInvolutionCerts
 theorem cor2Beta_outer_excluded
     {L : Type} [Group L] [Finite L] (hL : CFSG.BenderSuzuki.IsBenderGroup L) (σ : MulAut L)
     (hσ : σ * σ = 1) (hout : ¬ ∃ g : L, ∀ x : L, σ x = g * x * g⁻¹) {s : L} (hs1 : s ≠ 1)
-    (hs2 : s * s = 1) (hσs : σ s = s)
+    (hs2 : s * s = 1) (_hσs : σ s = s)
     (hstar : ∀ x : L, σ x = x → (x * s * x⁻¹) * s = s * (x * s * x⁻¹)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs2' : orderOf s = 2 := orderOf_eq_prime (by rw [sq]; exact hs2) hs1
   obtain ⟨S, hsS⟩ : ∃ S : Sylow 2 L, s ∈ (S : Subgroup L) := by
     have hp : IsPGroup 2 (Subgroup.zpowers s) := by
@@ -225,7 +225,7 @@ theorem cor2Beta_outer_excluded
         _ = (x * s * x⁻¹) * y := by group
     have hyN := hCz hc
     refine CFSG.CGT.PushingUpLit.A78.mem_sylow_of_mem_normalizer S hyN ?_
-    obtain ⟨k, hk⟩ := (x • S : Sylow 2 L).isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := (x • S : Sylow 2 L).isPGroup ⟨y, hy⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hSeq : (x • S : Sylow 2 L) = S :=
     Sylow.ext ((x • S : Sylow 2 L).maximal_isPGroup.eq_of_le S.isPGroup hle)

@@ -177,7 +177,7 @@ private lemma a2s_eq_of_isComponentOf_le_of_quasisimple {G : Type*} [Group G]
 private theorem a2s_solvable_map {G : Type*} [Group G] (n : G) (H : Subgroup G)
     (hH : Group.IsSolvable H) :
     Group.IsSolvable (H.map (MulAut.conj n).toMonoidHom) := by
-  haveI := hH
+  have := hH
   exact Group.isSolvable_of_surjective
     (f := ((MulAut.conj n).toMonoidHom.subgroupMap H)) (MonoidHom.subgroupMap_surjective _ _)
 
@@ -192,7 +192,7 @@ private theorem a2s_not_solvable {G : Type*} [Group G] (n : G) (R : Fin 3 → Su
   have h2 : Group.IsSolvable (R 2) := by
     have := a2s_solvable_map n (R 1) h1
     rwa [hconj 1] at this
-  haveI := hsolv; haveI := h1; haveI := h2
+  have := hsolv; have := h1; have := h2
   have c12 : ∀ (x : ↥(R 1)) (y : ↥(R 2)), Commute ((R 1).subtype x) ((R 2).subtype y) :=
     fun x y => hcomm 1 2 (by decide) x x.2 y y.2
   obtain ⟨φ12, h12r, h12⟩ : ∃ φ12 : ↥(R 1) × ↥(R 2) →* G, φ12.range = R 1 ⊔ R 2 ∧
@@ -215,12 +215,12 @@ private theorem a2s_not_solvable {G : Type*} [Group G] (n : G) (R : Fin 3 → Su
       · exact le_sup_left
       · exact le_sup_of_le_right le_sup_left
       · exact le_sup_of_le_right le_sup_right
-  haveI : Group.IsSolvable (↥φ.range) := Group.isSolvable_of_surjective (f := φ.rangeRestrict)
+  have : Group.IsSolvable (↥φ.range) := Group.isSolvable_of_surjective (f := φ.rangeRestrict)
     φ.rangeRestrict_surjective
   have hE : Group.IsSolvable (↥(⨆ k, R k)) := by
     rw [← hφr]; exact this
-  haveI := hE
-  haveI : Group.IsSolvable K := Group.isSolvable_of_isSolvable_injective
+  have := hE
+  have : Group.IsSolvable K := Group.isSolvable_of_isSolvable_injective
     (f := Subgroup.inclusion hKE) (Subgroup.inclusion_injective hKE)
   have := Group.IsSolvable.commutator_lt_top_of_nontrivial K
   rw [hKp] at this
@@ -241,9 +241,9 @@ theorem ntpA2_split
   have hpair' := hpair
   obtain ⟨hap, hT, h1, hnM, hn3, hcommd, -⟩ := hpair'
   obtain ⟨hcard3, σ, hσne, hσ3, hσspan, hcompat, hlayer⟩ := hS L p₀ S a n hpair hker
-  haveI hFin : Finite (KernelComponent (rootCharHom a)) :=
+  have hFin : Finite (KernelComponent (rootCharHom a)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard3]; norm_num)
-  letI : Fintype (KernelComponent (rootCharHom a)) := Fintype.ofFinite _
+  let : Fintype (KernelComponent (rootCharHom a)) := Fintype.ofFinite _
   have hcardF : Fintype.card (KernelComponent (rootCharHom a)) = 3 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard3
   obtain ⟨e, he⟩ := exists_equiv_finRotate hcardF σ hσne hσ3
@@ -288,8 +288,8 @@ theorem ntpA2_split
       simp_rw [hRdef]
       exact Equiv.iSup_comp (g := fun i => rationalComponent S.ρ S.Γ (rootCharHom a) i) e
     rw [hEI]; exact h
-  haveI hKnt : Nontrivial ↥K := by
-    haveI := hKq.2.1.toNontrivial
+  have hKnt : Nontrivial ↥K := by
+    have := hKq.2.1.toNontrivial
     exact (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     intro h

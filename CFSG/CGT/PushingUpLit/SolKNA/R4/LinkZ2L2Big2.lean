@@ -39,7 +39,7 @@ theorem eq_one_of_mem_oddCoreOf_of_mul_self [Finite G] {Λ : Subgroup G} {y : G}
 
 theorem exists_pow_two_pow_eq_one {P : Sylow 2 G} {y : G} (hy : y ∈ (P : Subgroup G)) :
     ∃ k : ℕ, y ^ 2 ^ k = 1 := by
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem exists_pow_involution {x : G} {k : ℕ} (hk : x ^ 2 ^ k = 1) (hx : x ≠ 1) :
@@ -190,7 +190,7 @@ theorem Z2SetR.conj_mem_T₀ (hs : Z2SetR r n R S t J u R₀ T₀ P) {x : Y}
     (hxP : x ∈ (P : Subgroup Y)) (hxu : x ∈ Subgroup.centralizer ({u} : Set Y)) {y : Y}
     (hy : y ∈ T₀) : x * y * x⁻¹ ∈ T₀ := by
   have hT : J ⊓ (P : Subgroup Y) = T₀ := hs.hT₀.2.2 _ inf_le_left
-    (P.isPGroup'.to_le inf_le_right) (le_inf hs.hT₀.1 hs.hT₀P)
+    (P.isPGroup.to_le inf_le_right) (le_inf hs.hT₀.1 hs.hT₀P)
   have hxN : x ∈ Subgroup.normalizer (J : Set Y) :=
     (TightLargeHypR.typeRFam hs.large).tight J hs.hJ.1 u hs.hu hxu
   rw [← hT] at hy ⊢
@@ -201,7 +201,7 @@ theorem Z2SetR.conj_mem_R₀ (hs : Z2SetR r n R S t J u R₀ T₀ P) {x : Y}
     (hxP : x ∈ (P : Subgroup Y)) (hxt : x ∈ Subgroup.centralizer ({t} : Set Y)) {y : Y}
     (hy : y ∈ R₀) : x * y * x⁻¹ ∈ R₀ := by
   have hR : tightCore R ⊓ (P : Subgroup Y) = R₀ := hs.hR₀.2.2 _ inf_le_left
-    (P.isPGroup'.to_le inf_le_right) (le_inf hs.hR₀.1 hs.hR₀P)
+    (P.isPGroup.to_le inf_le_right) (le_inf hs.hR₀.1 hs.hR₀P)
   have hxN : x ∈ Subgroup.normalizer ((tightCore R : Subgroup Y) : Set Y) :=
     (TightLargeHypR.typeRFam hs.large).tight (tightCore R) ⟨1, conjSub_one _⟩ t
       hs.large.datum.isUniqueInvolution_core hxt
@@ -242,7 +242,7 @@ theorem Z2SetR.mem_oddCoreOf_of_actsTriv (hs : Z2SetR r n R S t J u R₀ T₀ P)
     w ∈ oddCoreOf (linkLayer R t) := by
   obtain ⟨p, f, -, -, -, -, hk⟩ := hs.model
   have hZ : Subgroup.center ↥(linkGrp R t) = ⊥ := by
-    haveI := hs.simple
+    have := hs.simple
     obtain ⟨-, h4, F, _, _, hFcard, ⟨e⟩⟩ := MF163.psl2_of_lieModel hk
     have hnab : ∃ a b : ↥(genFittingFStar ↥(linkGrp R t)), a * b ≠ b * a := by
       obtain ⟨x, y, hxy⟩ :=

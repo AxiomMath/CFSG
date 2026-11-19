@@ -31,7 +31,7 @@ theorem z4i_sq_eq_one_of_card_four {T : Type*} [Group T] [Finite T] (hcard : Nat
     · exact absurd (by simpa using hk) hne1
     · exact absurd (by simpa using hk) hne2
     · simpa using hk
-  haveI hcyc : IsCyclic T := isCyclic_of_orderOf_eq_card x (by rw [horder, hcard])
+  have hcyc : IsCyclic T := isCyclic_of_orderOf_eq_card x (by rw [horder, hcard])
   have hαdvd : orderOf α ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr hα3
   have hαne1 : orderOf α ≠ 1 := by
     intro h
@@ -128,11 +128,11 @@ private lemma z4i_inv_mul_mem {N M : Subgroup X}
   rwa [show b⁻¹ * (a * b⁻¹) * (b⁻¹)⁻¹ = b⁻¹ * a by group] at h1
 
 theorem z4i_sq_mem_of_relIndex_four [Finite X] {N M : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1)
-    (hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
+    (_hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
     (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
     (hidx : N.relIndex M = 4) (hfpf : ∀ x ∈ M, ρ * x * ρ⁻¹ * x⁻¹ ∈ N → x ∈ N) {x : X}
     (hx : x ∈ M) : x ^ 2 ∈ N := by
-  haveI hNnorm : (N.subgroupOf M).Normal :=
+  have hNnorm : (N.subgroupOf M).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hNn (g : X) g.2 (n : X) hn⟩
@@ -149,13 +149,13 @@ theorem z4i_sq_mem_of_relIndex_four [Finite X] {N M : Subgroup X} {ρ : X} (hρ3
   simpa using Subgroup.mem_subgroupOf.mp hmul
 
 theorem z4i_cover_mod [Finite X] {N M : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1)
-    (hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
+    (_hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
     (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
     (hidx : N.relIndex M = 4) (hfpf : ∀ x ∈ M, ρ * x * ρ⁻¹ * x⁻¹ ∈ N → x ∈ N) {x₀ : X}
     (hx₀ : x₀ ∈ M) (hx₀N : x₀ ∉ N) {x : X} (hx : x ∈ M) :
     ∃ n ∈ N, x = n ∨ x = x₀ * n ∨ x = (ρ * x₀ * ρ⁻¹) * n ∨
       x = (ρ ^ 2 * x₀ * (ρ ^ 2)⁻¹) * n := by
-  haveI hNnorm : (N.subgroupOf M).Normal :=
+  have hNnorm : (N.subgroupOf M).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hNn (g : X) g.2 (n : X) hn⟩
@@ -208,12 +208,12 @@ theorem z4i_cover_mod [Finite X] {N M : Subgroup X} {ρ : X} (hρ3 : ρ ^ 3 = 1)
       Or.inr (Or.inr (Or.inr (by group)))⟩
 
 theorem z4i_comm_invol_trivial [Finite X] {N M : Subgroup X} {ρ τ : X} (hρ3 : ρ ^ 3 = 1)
-    (hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
+    (_hNM : N ≤ M) (hNn : ∀ m ∈ M, ∀ n ∈ N, m * n * m⁻¹ ∈ N)
     (hρN : ∀ n ∈ N, ρ * n * ρ⁻¹ ∈ N) (hρM : ∀ m ∈ M, ρ * m * ρ⁻¹ ∈ M)
     (hidx : N.relIndex M = 4) (hfpf : ∀ x ∈ M, ρ * x * ρ⁻¹ * x⁻¹ ∈ N → x ∈ N)
     (hτ2 : τ * τ = 1) (hτρ : τ * ρ = ρ * τ) (hτN : ∀ n ∈ N, τ * n * τ⁻¹ ∈ N)
     (hτM : ∀ m ∈ M, τ * m * τ⁻¹ ∈ M) {x : X} (hx : x ∈ M) : τ * x * τ⁻¹ * x⁻¹ ∈ N := by
-  haveI hNnorm : (N.subgroupOf M).Normal :=
+  have hNnorm : (N.subgroupOf M).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hNn (g : X) g.2 (n : X) hn⟩

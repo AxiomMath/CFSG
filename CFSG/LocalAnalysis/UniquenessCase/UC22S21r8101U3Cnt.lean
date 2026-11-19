@@ -29,12 +29,12 @@ theorem u81_inner_right (u : U4P D L K n p) {e : Bar2 D.M} (he : e ∈ commutato
     (h₀ : ∃ x₀ ∈ barImage D.M L, ∀ f ∈ barImage D.M L, e * f * e⁻¹ = x₀ * f * x₀⁻¹) :
     ∃ x₁ ∈ barImage D.M K, ∀ f ∈ barImage D.M K, e * f * e⁻¹ = x₁ * f * x₁⁻¹ := by
   obtain ⟨-, hinf, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
-  haveI := u.isMulCommutative_outer
+  have := u.isMulCommutative_outer
   have hbot : barImage D.M L ≠ ⊥ := by
     obtain ⟨e, -⟩ := uc22p22l_barImage_equiv u.hL
-    haveI : IsSimpleGroup (Bar2 L) :=
+    have : IsSimpleGroup (Bar2 L) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) u.hL2
-    haveI : Nontrivial ↥(barImage D.M L) := e.symm.toEquiv.nontrivial
+    have : Nontrivial ↥(barImage D.M L) := e.symm.toEquiv.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hcases : ∀ x : Bar2 D.M,
       (x ∈ normalizer (barImage D.M L : Set (Bar2 D.M)) ∧
@@ -57,8 +57,8 @@ theorem u81_exists_elem (u : U4P D L K n p) (hsp : IsStronglyPEmbedded p D.M)
       E ≤ normalizer (barImage D.M L : Set (Bar2 D.M)) ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 4 := by
   have hn := u.prime_p
-  haveI : Fact p.Prime := ⟨hn⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hn⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 := u.p_ne_two
   obtain ⟨S, hSM, hSM'⟩ :=
     UC6.sylow_le_commutator_map_of_stronglyEmbedded_uc6 D.standing.simple D.standing.nonab hsp
@@ -92,7 +92,7 @@ theorem u81_exists_mem_centralizer (u : U4P D L K n p) (hsp : IsStronglyPEmbedde
     ∃ c ∈ centralizer ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)),
       orderOf c = p := by
   have hn := u.prime_p
-  haveI : Fact p.Prime := ⟨hn⟩
+  have : Fact p.Prime := ⟨hn⟩
   have hn2 := u.p_ne_two
   obtain ⟨hcomm, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   obtain ⟨E, hE', hEN, hEel, hEc⟩ := u.u81_exists_elem hsp hfour
@@ -165,12 +165,12 @@ theorem u81_exists_mem_normalizer (u : U4P D L K n p) {r : ℕ} (hr : r.Prime)
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M))) ≤ 1) :
     ∃ y ∈ normalizer (B : Set G) ⊓ D.M, orderOf y = p := by
   have hn := u.prime_p
-  haveI : Fact p.Prime := ⟨hn⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hn⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 := u.p_ne_two
   obtain ⟨hcomm, hinf, -, -, -, hXn, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
-  haveI := hXn
+  have := hXn
   have hRH : barImage D.M R ≤ barImage D.M L ⊔ barImage D.M K ⊔
       centralizer ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)) :=
     fun β hβ => by
@@ -190,7 +190,7 @@ theorem u81_exists_mem_normalizer (u : U4P D L K n p) {r : ℕ} (hr : r.Prime)
     have h₀ := pRank_le_one_of_isL2_or_isSz (Or.inl u.isL2_barImage) hn hn2
     have h₁ := pRank_le_one_of_isL2_or_isSz (Or.inl u.symm.isL2_barImage) hn hn2
     omega
-  obtain ⟨e, heE, heH⟩ := SetLike.not_le_iff_exists.1 hEH
+  obtain ⟨e, heE, heH⟩ := IsConcreteLE.not_le_iff_exists.1 hEH
   obtain ⟨S, hS⟩ := (u4x_isSylowOf_barImage hR).of_le hRH le_top
   obtain ⟨x, hxo, hxN⟩ := CFSG.RankThree.PartOne.KFSU5.exists_orderOf_eq_normalizer_sylow_of_pow
     _ S (hEel.2 e heE) heH

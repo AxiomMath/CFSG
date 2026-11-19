@@ -46,7 +46,7 @@ theorem y54_d_mem_X {c : Ctx5 G L} (hH : F33Hyp c.s c.e) : c.d ∈ f4X c.s := by
           rw [hxt, y5_dtd (c := c) hH]
           exact Subgroup.mul_mem _ (Subgroup.subset_closure (Or.inl (y54_z_mem_F c.s)))
             (Subgroup.subset_closure (Or.inr rfl))
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [show c.d * (x * y) * c.d⁻¹ =
           (c.d * x * c.d⁻¹) * (c.d * y * c.d⁻¹) by group]
@@ -86,7 +86,7 @@ theorem y54_S_fix_d {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
   have hxT1 : x ∈ c.e.T₁ := c.e.T_le (s3_S_le_T c.s hx)
   rcases y5_T1_conj_d (c := c) hH x hxT1 with h | h
   · rw [commutatorElement_def, h]
-    simpa using c.s.fr.F.one_mem
+    simp
   · rw [commutatorElement_def, h]
     simpa using y54_z_mem_F c.s
 

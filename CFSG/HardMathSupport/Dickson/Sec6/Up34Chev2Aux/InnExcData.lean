@@ -72,11 +72,11 @@ theorem nonempty_innerData [CharP L 2] (S : LangSetup τ L p₀) {a : Fin τ.ran
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hk
   obtain ⟨σ, z, hσ, hzZ, hnorm, hz⟩ := exists_untwistT_Z S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r = 2 := CharP.eq L hchar ‹CharP L 2›
   subst hr2
   have hσ' : ∀ c, σ c = c ^ (2 ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
@@ -86,7 +86,7 @@ theorem nonempty_innerData [CharP L 2] (S : LangSetup τ L p₀) {a : Fin τ.ran
     show c ∈ fixSubfield σ ↔ _
     rw [mem_fixSubfield, hσ']
     rfl
-  haveI hfinK : Finite (fixSubfield σ) := by
+  have hfinK : Finite (fixSubfield σ) := by
     have h1 : (fixSubfield σ : Set L).Finite := by rw [hset]; exact hfinset
     exact h1.to_subtype
   have hKcard : Nat.card (fixSubfield σ) = 2 ^ (e * s) := by

@@ -57,10 +57,10 @@ theorem S_mem_normalizer_X₂ {s : G} (hs : s ∈ d.S) : s ∈ normalizer (d.X�
   mem_normalizer_of_conj_mem (fun _ hy => d.S_conj_X₂ hs hy) (fun y hy => by
     simpa using d.S_conj_X₂ (inv_mem hs) hy)
 
-theorem X₁_le_normalizer_F : d.X₁ ≤ normalizer (d.F : Set G) := fun x hx =>
+theorem X₁_le_normalizer_F : d.X₁ ≤ normalizer (d.F : Set G) := fun _x hx =>
   d.mem_normalizer_F (le_normalizer (d.X₁_le hx))
 
-theorem X₂_le_normalizer_F : d.X₂ ≤ normalizer (d.F : Set G) := fun x hx =>
+theorem X₂_le_normalizer_F : d.X₂ ≤ normalizer (d.F : Set G) := fun _x hx =>
   d.mem_normalizer_F (le_normalizer (d.X₂_le hx))
 
 theorem X₁_conj_eq {f : G} (hf : f ∈ d.X₁) {y : G} (hy : y ∈ d.X₁) : f * y * f⁻¹ = y := by
@@ -185,6 +185,7 @@ theorem omega₂_triv_F {ω : G} (hωN : ω ∈ d.N) (hωS : ω ∈ normalizer (
   rw [e]
   exact mul_mem hZ (inv_mem hz)
 
+omit [Finite G] in
 theorem comm_triv_aux {ω ω₂ f a b c : G} (ha : a = ω⁻¹ * f * ω) (hb : b = ω₂⁻¹ * a * ω₂)
     (hc : c = ω * b * ω⁻¹) :
     (ω₂ * ω * ω₂⁻¹ * ω⁻¹) * f * (ω₂ * ω * ω₂⁻¹ * ω⁻¹)⁻¹ * f⁻¹ =

@@ -286,7 +286,7 @@ theorem exists_complement_of_three_F4 [CFSG.GH74.QTGen4.Finite4 G] (h1222 : Stmt
 
   have hLS : IsSylowTwoOf ((S : Subgroup G) ⊓ L) L := by
     have hS : IsSylowTwoOf (S : Subgroup G) (L ⊔ (S : Subgroup G)) := by
-      refine ⟨le_sup_right, S.isPGroup', fun h2 => hH.sylow.2 ?_⟩
+      refine ⟨le_sup_right, S.isPGroup, fun h2 => hH.sylow.2 ?_⟩
       exact h2.trans (Subgroup.relIndex_dvd_index_of_le le_sup_right)
     exact A4.isSylowTwoOf_inf_normal hS le_sup_left
       (sup_le Subgroup.le_normalizer hH.normalizes)

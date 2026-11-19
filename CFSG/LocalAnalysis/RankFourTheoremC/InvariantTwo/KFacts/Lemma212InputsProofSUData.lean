@@ -78,8 +78,8 @@ theorem l212in_conj_mem_statedSU (hK : Nat.card K = (r ^ f) ^ 2) {B : GL (Fin n)
   invFun g := ⟨(B : GL (Fin n) K)⁻¹ * g * (B : GL (Fin n) K)⁻¹⁻¹, by
     have := l212in_conj_mem_statedSU hK (B⁻¹).2 g.2
     simpa using this⟩
-  left_inv g := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
-  right_inv g := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
+  left_inv g := Subtype.ext (by simp only; group)
+  right_inv g := Subtype.ext (by simp only; group)
   map_mul' g h := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
 theorem l212in_suConj_coe (hK : Nat.card K = (r ^ f) ^ 2) (B : Uid (unitaryInvolution K r f) n)
@@ -87,6 +87,7 @@ theorem l212in_suConj_coe (hK : Nat.card K = (r ^ f) ^ 2) (B : Uid (unitaryInvol
     ((l212in_suConj hK B g : StatedSU n (r ^ f) K) : GL (Fin n) K) =
       (B : GL (Fin n) K) * g * (B : GL (Fin n) K)⁻¹ := rfl
 
+omit [Finite K] in
 theorem l212in_conj_scalar (B : GL (Fin n) K) (c : Kˣ) :
     B * GeneralLinearGroup.scalar (Fin n) c * B⁻¹ = GeneralLinearGroup.scalar (Fin n) c := by
   have h : GeneralLinearGroup.scalar (Fin n) c ∈ Subgroup.center (GL (Fin n) K) := by

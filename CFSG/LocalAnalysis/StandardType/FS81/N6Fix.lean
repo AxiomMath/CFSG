@@ -21,36 +21,36 @@ theorem diagonal_tauSign_mem_evenFix0 {n : ℕ} (hn : Even n) :
   refine ⟨1, tauSign n, fun i => ?_, ⟨rfl, rfl, ?_⟩, ?_⟩
   · by_cases hi : i = 0
     · exact Or.inl (by simp [tauSign, hi])
-    · exact Or.inr (by show (if i = 0 then (1 : ZMod 3) else -1) = -1; rw [if_neg hi])
+    · exact Or.inr (by show (if i = 0 then (1 : ZMod 3) else -1) = -1; rw [ite_eq_right hi])
   · simp [tauSign, Fin.succ_ne_zero, hn.neg_one_pow]
   · ext i j
     by_cases h : i = j
     · subst h
       simp [spMat_apply]
-    · simp [spMat_apply, Matrix.diagonal_apply_ne _ h, h]
+    · simp [spMat_apply, h]
 
 theorem diagonal_tauSign_mem_monoFix0 (n : ℕ) : Matrix.diagonal (tauSign n) ∈ monoFix0 n := by
   refine ⟨1, tauSign n, fun i => ?_, ⟨rfl, rfl⟩, ?_⟩
   · by_cases hi : i = 0
     · exact Or.inl (by simp [tauSign, hi])
-    · exact Or.inr (by show (if i = 0 then (1 : ZMod 3) else -1) = -1; rw [if_neg hi])
+    · exact Or.inr (by show (if i = 0 then (1 : ZMod 3) else -1) = -1; rw [ite_eq_right hi])
   · ext i j
     by_cases h : i = j
     · subst h
       simp [spMat_apply]
-    · simp [spMat_apply, Matrix.diagonal_apply_ne _ h, h]
+    · simp [spMat_apply, h]
 
 theorem eq_zero_of_diagonal_tauSign_mulVec {n : ℕ} {w : Fin (n + 1) → ZMod 3}
     (h : Matrix.diagonal (tauSign n) *ᵥ w = w) {i : Fin (n + 1)} (hi : i ≠ 0) : w i = 0 := by
   have e := congrFun h i
-  simp only [Matrix.mulVec_diagonal, tauSign, if_neg hi, neg_one_mul] at e
+  simp only [Matrix.mulVec_diagonal, tauSign, ite_eq_right hi, neg_one_mul] at e
   exact eq_zero_of_neg_eq_self e
 
 theorem apply_zero_eq_zero_of_commute_tau {n : ℕ} {A : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)}
     (h : A * Matrix.diagonal (tauSign n) = Matrix.diagonal (tauSign n) * A) {i : Fin (n + 1)}
     (hi : i ≠ 0) : A i 0 = 0 := by
   have e := congrFun (congrFun h i) 0
-  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, tauSign, if_neg hi, ↓reduceIte, mul_one,
+  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, tauSign, ite_eq_right hi, ↓reduceIte, mul_one,
     neg_one_mul] at e
   exact eq_zero_of_neg_eq_self e.symm
 
@@ -66,17 +66,17 @@ theorem eq_diagonal_tauSign_of_mem_monoFix0 {n : ℕ}
     · subst h
       simp
     · have hne : σ.symm i ≠ j := fun e => h (by rw [← e, Equiv.apply_symm_apply])
-      simp [Pi.single_apply, hne, h]
+      simp [hne, h]
   have hsq : ∀ j, σ (σ j) = j ∧ s (σ j) * s j = 1 := by
     intro j
     have e := congrFun (congrFun h2 (σ (σ j))) j
-    rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, if_pos rfl, Matrix.one_apply] at e
+    rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, ite_eq_left rfl, Matrix.one_apply] at e
     have hne : s (σ j) * s j ≠ 0 := by
       rcases hs (σ j) with h1 | h1 <;> rcases hs j with h3 | h3 <;> rw [h1, h3] <;> decide
     by_cases hj : σ (σ j) = j
-    · rw [if_pos hj] at e
+    · rw [ite_eq_left hj] at e
       exact ⟨hj, e⟩
-    · rw [if_neg hj] at e
+    · rw [ite_eq_right hj] at e
       exact absurd e hne
   have hfixed : ∀ i, i ≠ 0 → σ i = i ∧ s i = -1 := by
     intro i hi
@@ -111,7 +111,7 @@ theorem eq_diagonal_tauSign_of_mem_monoFix0 {n : ℕ}
   by_cases h : i = j
   · subst h
     simp [spMat_apply]
-  · simp [spMat_apply, Matrix.diagonal_apply_ne _ h, h]
+  · simp [spMat_apply, h]
 
 theorem false_of_normalizer_le_monoFix0 {G : Type} [Group G] [Finite G] {n : ℕ} (hn : n ≠ 0)
     (B : Basis3 G (n + 1)) {b₀ : G} (hb0 : B.b 0 = b₀) (hfus : Fus42 B b₀)
@@ -170,7 +170,7 @@ theorem false_of_normalizer_le_monoFix0 {G : Type} [Group G] [Finite G] {n : ℕ
       simp at this
     have e2 := congrFun (congrFun e ⟨1, by omega⟩) ⟨1, by omega⟩
     rw [hT, Matrix.diagonal_apply_eq, Matrix.one_apply_eq] at e2
-    simp only [tauSign, if_neg h10] at e2
+    simp only [tauSign, ite_eq_right h10] at e2
     exact absurd e2 (by decide)
   have hτ2 : τ * τ = 1 := hmatinj _ _ (by rw [hmatmul, hmatτ, hTT, OneMemClass.coe_one,
     Basis3.matOf_one])
@@ -224,7 +224,7 @@ theorem false_of_normalizer_le_monoFix0 {G : Type} [Group G] [Finite G] {n : ℕ
         have : σ.symm 0 = 0 := by rw [Equiv.symm_apply_eq, hσ0]
         simp [this, hs0]
       · have : σ.symm i ≠ 0 := fun e => hi (by rw [← hσ0, ← e, Equiv.apply_symm_apply])
-        simp [Pi.single_apply, this, hi]
+        simp [this, hi]
     have hfix : ∀ v, S *ᵥ v = v → ∀ i, i ≠ 0 → v i = 0 := by
       obtain ⟨c₀, hc₀⟩ := hfixT _ hSe0
       have hc₀ne : c₀ ≠ 0 := by

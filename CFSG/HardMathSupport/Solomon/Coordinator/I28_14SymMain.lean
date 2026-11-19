@@ -12,14 +12,14 @@ namespace CFSG.HardMathSupport.Solomon.Coordinator
 
 open CFSG.ComponentClassification.OutcomeLocal CFSG.Open Module Submodule
 
-theorem tvC_symOdd {m : ℕ} (hm : 5 ≤ m) (hmo : Odd m) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem tvC_symOdd {m : ℕ} (hm : 5 ≤ m) (_hmo : Odd m) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {A : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) (sumZero m))}
     (hA : IsMaxElemAbelianIn (U := sumZero m) p (sumZeroRep m).range A)
     {t : LinearMap.GeneralLinearGroup (ZMod 2) (sumZero m)} (htG : t ∈ (sumZeroRep m).range)
     (ht : IsF2Transvection t) : HasCentralizedConj (U := sumZero m) p (sumZeroRep m).range A t :=
   i28_14_symModel_C (SymModel.full hm) hm hp hp2 hA htG ht
 
-theorem tvC_symEven {m : ℕ} (hm : 5 ≤ m) (hme : Even m) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem tvC_symEven {m : ℕ} (hm : 5 ≤ m) (_hme : Even m) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {A : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) (sumZero m ⧸ onesLine m))}
     (hA : IsMaxElemAbelianIn (U := sumZero m ⧸ onesLine m) p (heartRep m).range A)
     {t : LinearMap.GeneralLinearGroup (ZMod 2) (sumZero m ⧸ onesLine m)}
@@ -28,7 +28,7 @@ theorem tvC_symEven {m : ℕ} (hm : 5 ≤ m) (hme : Even m) {p : ℕ} (hp : p.Pr
     HasCentralizedConj (U := sumZero m ⧸ onesLine m) p (heartRep m).range A t :=
   i28_14_symModel_C (SymModel.heart hm) hm hp hp2 hA htG ht
 
-theorem tvN_symOdd {m : ℕ} (hm : 5 ≤ m) (hmo : Odd m)
+theorem tvN_symOdd {m : ℕ} (hm : 5 ≤ m) (_hmo : Odd m)
     (haut : ∀ α : MulAut (Equiv.Perm (Fin m)),
       (∀ i j : Fin m, i ≠ j → ∃ a b : Fin m, a ≠ b ∧ α (Equiv.swap i j) = Equiv.swap a b) →
         ∃ π : Equiv.Perm (Fin m), α = MulAut.conj π)
@@ -37,7 +37,7 @@ theorem tvN_symOdd {m : ℕ} (hm : 5 ≤ m) (hmo : Odd m)
     g ∈ (sumZeroRep m).range :=
   i28_14_symModel_N (SymModel.full hm) hm haut hg
 
-theorem tvN_symEven {m : ℕ} (hm : 5 ≤ m) (hme : Even m)
+theorem tvN_symEven {m : ℕ} (hm : 5 ≤ m) (_hme : Even m)
     (haut : ∀ α : MulAut (Equiv.Perm (Fin m)),
       (∀ i j : Fin m, i ≠ j → ∃ a b : Fin m, a ≠ b ∧ α (Equiv.swap i j) = Equiv.swap a b) →
         ∃ π : Equiv.Perm (Fin m), α = MulAut.conj π)

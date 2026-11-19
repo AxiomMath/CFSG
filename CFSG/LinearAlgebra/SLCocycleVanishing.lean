@@ -99,12 +99,11 @@ private lemma diag_mul_transvection (w : Fin N → Fˣ) {i j : Fin N} (hijw : w 
   rw [Matrix.add_apply, Matrix.add_apply, Matrix.diagonal_mul, Matrix.mul_diagonal]
   by_cases hac : a = i ∧ c = j
   · obtain ⟨rfl, rfl⟩ := hac
-    simp only [Matrix.diagonal_apply, Matrix.single_apply, Matrix.add_apply, ite_true,
-      eq_self_iff_true]
+    simp only [Matrix.diagonal_apply, Matrix.single_apply]
     rw [hijw]
     ring
   · have hs : Matrix.single i j b a c = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       exact hac ⟨rfl, rfl⟩
     rw [hs, mul_zero, zero_mul, add_zero]
@@ -231,7 +230,7 @@ private lemma exists_coboundary_of_family
         (g : Matrix (Fin N) (Fin N) F) *ᵥ
           (c h - ((h : Matrix (Fin N) (Fin N) F) *ᵥ a - a))
     rw [hc g h]
-    simp only [Matrix.mulVec_sub, Matrix.mulVec_mulVec, Matrix.mulVec_add]
+    simp only [Matrix.mulVec_sub, Matrix.mulVec_mulVec]
     abel
   have hc't : c' t = 0 := by
     change c t - ((t : Matrix (Fin N) (Fin N) F) *ᵥ a - a) = 0
@@ -249,7 +248,7 @@ private lemma coboundary_of_diag_data {F : Type*} [Field F] [Fintype F] [CharP F
     (hc : ∀ g h, c (g * h) = c g + (g : Matrix (Fin N) (Fin N) F) *ᵥ c h) :
     ∃ a : Fin N → F, ∀ g, c g = (g : Matrix (Fin N) (Fin N) F) *ᵥ a - a := by
   classical
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have hchar : ringChar F = 2 := ringChar.eq_iff.mpr (inferInstance : CharP F 2)
   obtain ⟨μ, hμgen⟩ := IsCyclic.exists_generator (α := Fˣ)
   set m : ℕ := Fintype.card F - 1 with hm
@@ -314,7 +313,7 @@ private lemma coboundary_of_diag_data {F : Type*} [Field F] [Fintype F] [CharP F
         have hj : j = Classical.choose (exists_ne_ne i j hij hN) := by simpa using h
         exact hp.2 hj.symm
       unfold weight
-      rw [if_neg hpi, if_neg hpj]
+      rw [ite_eq_right hpi, ite_eq_right hpj]
   ·
     have hμN2 : μ ^ (N - 2) ≠ 1 := hμpow_ne (N - 2) h2
     have hμne : μ ≠ 1 := fun h => hμN2 (by rw [h, one_pow])
@@ -362,7 +361,7 @@ private lemma coboundary_of_diag_data {F : Type*} [Field F] [Fintype F] [CharP F
     · intro i j hij b
       apply transvection_mul_diagSL_eq
       unfold weight
-      rw [if_pos (by simp), if_pos (by simp)]
+      rw [ite_eq_left (by simp), ite_eq_left (by simp)]
 
 end Helpers
 

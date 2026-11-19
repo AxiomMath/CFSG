@@ -66,26 +66,26 @@ theorem core_eq_of_index_two {H : Type} [Group H] [Finite H] (Ω K O : Subgroup 
     exact Subgroup.eq_of_le_of_card_ge hKO hle
 
 theorem core_N_le_D {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
-    (hH : E1Hyp M Q Z B t) : Nt M (LB M Q B) t ≤ E1Dpre M Q B t := by
+    (_hH : E1Hyp M Q Z B t) : Nt M (LB M Q B) t ≤ E1Dpre M Q B t := by
   unfold E1Dpre
   refine (le_iSup₂ (f := fun (g : G) (_ : g ∈ Lgen M (LB M Q B) ) =>
     conjSubgroup g (Nt M (LB M Q B) t)) 1 (Subgroup.one_mem _)).trans' ?_
   intro n hn
   refine ⟨n, hn, ?_⟩
-  simp [conjSubgroup]
+  simp
 
 theorem core_theta_S_pgroup {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
     (hH : E1Hyp M Q Z B t) (AM : ActionModel M Q Z)
     {β : AM.M₀.E →ₗ[AM.K] AM.M₀.E} (hβ : BetaProps AM.S (AM.Vsp hH.ctx t) β)
     (hβNx : ∀ x : ↥(H0 M Z), (x : G) ∈ Nt M (LB M Q B) t →
       ∃ c : AM.K, ∀ e, AM.φ x e = e + c • β e)
-    {ι : Type} [Fintype ι] [DecidableEq ι] {Qf : QuadraticForm AM.K (ι → AM.K)}
+    {ι : Type} [Fintype ι] [DecidableEq ι] {_Qf : QuadraticForm AM.K (ι → AM.K)}
     (cV : (AM.Vsp hH.ctx t) ≃ₗ[AM.K] (ι → AM.K))
     (Θ : ↥(E1Ct hH.ctx t) →* GL ι AM.K)
     (hΘ : ∀ (c : ↥(E1Ct hH.ctx t)) (v : AM.M₀.E) (hv : v ∈ AM.Vsp hH.ctx t),
         ∃ hw : phiG AM c v ∈ AM.Vsp hH.ctx t,
           cV ⟨phiG AM c v, hw⟩ = (Θ c : Matrix ι ι AM.K) *ᵥ cV ⟨v, hv⟩)
-    (S : Subgroup G) (hSC : S ≤ E1Ct hH.ctx t)
+    (S : Subgroup G) (_hSC : S ≤ E1Ct hH.ctx t)
     (hS2 : QuotSat S Q (fun W _ => IsPGroup 2 W)) :
     IsPGroup 2 ↥((S.subgroupOf (E1Ct hH.ctx t)).map Θ) := by
   obtain ⟨hSnorm, hSP⟩ := id hS2
@@ -278,7 +278,7 @@ theorem case_a_core {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : 
     obtain ⟨c, hc', rfl⟩ := Subgroup.mem_map.mp hg
     exact hΘH c (hSD (Subgroup.mem_subgroupOf.mp hc')) c.2
   have hΘS_abel := hf.comm _ hΘS_Ω
-    (core_theta_S_pgroup hH AM hβ hβNx (Qf := Qf) cV Θ hΘ S hSC hS2)
+    (core_theta_S_pgroup hH AM hβ hβNx (_Qf := Qf) cV Θ hΘ S hSC hS2)
   intro a ha b hb
   have hab : Θ ⟨a, hSC ha⟩ * Θ ⟨b, hSC hb⟩ = Θ ⟨b, hSC hb⟩ * Θ ⟨a, hSC ha⟩ :=
     hΘS_abel _ (Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr ha)) _

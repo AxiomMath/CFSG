@@ -94,7 +94,7 @@ theorem exists_card_eq_two_pow_add_one [Finite H] [Finite Ω] {ω₀ : Ω} {U : 
     (hUtrans : ∀ μ ν : Ω, μ ≠ ω₀ → ν ≠ ω₀ → ∃ u ∈ U, u • μ = ν) (hne : ∃ μ : Ω, μ ≠ ω₀) :
     ∃ u : ℕ, Nat.card Ω = 2 ^ u + 1 := by
   obtain ⟨μ, hμ⟩ := hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have horb : ({ω₀} : Set Ω)ᶜ = MulAction.orbit U μ := by
     ext ω
     rw [Set.mem_compl_iff, Set.mem_singleton_iff, MulAction.mem_orbit_iff]

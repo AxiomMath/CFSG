@@ -20,8 +20,8 @@ theorem strongly_real_small_comm {V : Type} [CommGroup V]
     have := h2 (Additive.toMul x)
     rw [two_nsmul]
     exact this
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hV
-  haveI : Finite (Additive V) := inferInstanceAs (Finite V)
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hV
+  have : Finite (Additive V) := inferInstanceAs (Finite V)
   let Φ : MulAut V →* (Additive V ≃ₗ[ZMod 2] Additive V) :=
     { toFun := fun e => (MulEquiv.toAdditive e).toLinearEquiv fun c x =>
         ZMod.map_smul (MulEquiv.toAdditive e) c x

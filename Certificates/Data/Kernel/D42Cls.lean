@@ -128,7 +128,7 @@ abbrev N3 := Nat × Nat × Nat
       evalW (S ++ [D] ++ S' ++ [D']) rt.2.2.2.1 == gx &&
       evalW (S ++ [D] ++ S' ++ [D']) rt.2.2.2.2 == gy))
 
-@[expose] def rootD (ls : List Nat) (k Vm N O gx gy : Nat) (S S' : List Nat)
+@[expose] def rootD (_ls : List Nat) (k Vm N O gx gy : Nat) (S S' : List Nat)
     (CR : List (List N3)) (W1 W2 : List N3) (D D' : Nat)
     (rt : List Nat × List Nat × Nat × List Nat × List Nat) : Bool :=
   rootR k Vm N O gx gy S S' CR W1 W2 D D' (mulP (mulP D k) D') rt

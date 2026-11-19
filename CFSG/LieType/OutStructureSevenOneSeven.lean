@@ -16,6 +16,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.Normal]
 
+omit [Finite X] in
 theorem mem_sup_centralizer_of_mem_inner {x : X}
     (h : MulAut.conjNormal (H := L) x ∈ inner ↥L) :
     x ∈ L ⊔ centralizer (L : Set X) :=
@@ -24,10 +25,12 @@ theorem mem_sup_centralizer_of_mem_inner {x : X}
 @[expose] noncomputable def conjToOuter : X →* Outer ↥L :=
   (QuotientGroup.mk' (inner ↥L)).comp (MulAut.conjNormal (H := L))
 
+omit [Finite X] in
 theorem conjToOuter_apply (x : X) :
     conjToOuter (L := L) x =
       (QuotientGroup.mk' (inner ↥L)) (MulAut.conjNormal (H := L) x) := rfl
 
+omit [Finite X] in
 theorem conjToOuter_ne_one {x : X} (hx : x ∉ L ⊔ centralizer (L : Set X)) :
     conjToOuter (L := L) x ≠ 1 := by
   intro h
@@ -36,6 +39,7 @@ theorem conjToOuter_ne_one {x : X} (hx : x ∉ L ⊔ centralizer (L : Set X)) :
   exact mem_sup_centralizer_of_mem_inner
     ((QuotientGroup.eq_one_iff (MulAut.conjNormal (H := L) x)).mp h)
 
+omit [Finite X] in
 theorem sup_centralizer_le_ker_conjToOuter :
     L ⊔ centralizer (L : Set X) ≤ (conjToOuter (L := L)).ker := by
   refine sup_le ?_ ?_
@@ -59,7 +63,7 @@ theorem sup_centralizer_le_ker_conjToOuter :
 theorem three_dvd_outer_centerQuotient_of_three_dvd_index (hL : CFSG.IsComponent L)
     (hdiv : 3 ∣ (L ⊔ centralizer (L : Set X)).index) :
     3 ∣ Nat.card (Outer (↥L ⧸ center ↥L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let U : Subgroup X := L ⊔ centralizer (L : Set X)
   have hUidx : U.index = Nat.card (X ⧸ U) := Subgroup.index_eq_card (H := U)
   have h3q : 3 ∣ Nat.card (X ⧸ U) := by rw [← hUidx]; exact hdiv
@@ -90,7 +94,7 @@ theorem three_dvd_outer_centerQuotient_of_three_dvd_index (hL : CFSG.IsComponent
   have h3OutL : 3 ∣ Nat.card (Outer ↥L) := by
     have := orderOf_dvd_natCard y
     rwa [hyord] at this
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   let f : Outer ↥L →* Outer (↥L ⧸ center ↥L) := centerQuotientOuterHom ↥L
   have hf : Function.Injective f := centerQuotient_outer_injective ↥L
   have hcard : Nat.card (Outer ↥L) = Nat.card (f.range : Subgroup (Outer (↥L ⧸ center ↥L))) :=

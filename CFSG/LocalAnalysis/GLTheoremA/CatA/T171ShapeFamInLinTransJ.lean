@@ -19,7 +19,7 @@ open scoped commutatorElement MatrixGroups
 theorem linJ_equiv_comm {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω]
     {S : Subgroup Ω} {x y : Ω} {J : Subgroup Ω}
     (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (S : Set Ω))
-    (hyN : y ∈ Subgroup.normalizer (S : Set Ω))
+    (_hyN : y ∈ Subgroup.normalizer (S : Set Ω))
     (hJ : GLAPComponent p (S ⊓ Subgroup.centralizer ({x} : Set Ω)) J)
     (hJy : y ∈ Subgroup.normalizer (J : Set Ω))
     {d : ℕ} {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) (hd : 1 ≤ d)

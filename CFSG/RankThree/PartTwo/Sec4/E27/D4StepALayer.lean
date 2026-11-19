@@ -27,7 +27,7 @@ theorem layer_le_closure_fixed (P : D4Par n X σ) (hn : 2 ≤ n)
           ∃ y ∈ E, y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} :=
   layer_le_closure_fixed_aux CFSG.Goldschmidt.topStatement P hn hE hcard hno hx hx1
 
-theorem stepALayerAll : StepALayerAll := fun _ _ _ _ _ P hn E hE hcard hno x hx hx1 =>
+theorem stepALayerAll : StepALayerAll := fun _ _ _ _ _ P hn _E hE hcard hno _x hx hx1 =>
   layer_le_closure_fixed P hn hE hcard hno hx hx1
 
 theorem seitz27_trialityD4_final_layer :

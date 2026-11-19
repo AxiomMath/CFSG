@@ -38,7 +38,7 @@ theorem heCaseIIK_of_geometry {d : L34E16Cert}
     exact this
   have hodd : standardComponentOddCore G = ⊥ := by
     refine sSup_eq_bot.mpr fun N ⟨hNn, hNodd⟩ => ?_
-    haveI := hNn
+    have := hNn
     rcases hs.eq_bot_or_eq_top_of_normal N with h | h
     · exact h
     · exfalso
@@ -95,7 +95,7 @@ theorem heCaseIIK_of_geometry {d : L34E16Cert}
     rw [h4] at this
     exact even_iff_two_dvd.mpr (dvd_trans (by norm_num) this)
   have htop : rankTwoX A ⊔ R = ⊤ := by
-    haveI : (rankTwoX A).Normal := Subgroup.normalClosure_normal
+    have : (rankTwoX A).Normal := Subgroup.normalClosure_normal
     rcases hs.eq_bot_or_eq_top_of_normal (rankTwoX A) with h | h
     · exfalso
       apply hAbot

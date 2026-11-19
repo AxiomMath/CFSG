@@ -186,7 +186,7 @@ theorem hasDihedralSylowTwo_of_le {R M L : Subgroup X} (hR : IsSylowOf 2 R M)
   let e : (S : Subgroup L) ≃* P := (S : Subgroup L).equivMapOfInjective L.subtype
     L.subtype_injective
   rcases isCyclic_or_dihedral_of_isSylowOf hR hRd ((map_subtype_le _).trans hLM)
-      (S.isPGroup'.map L.subtype) with h | ⟨k, hk, ⟨f⟩⟩
+      (S.isPGroup.map L.subtype) with h | ⟨k, hk, ⟨f⟩⟩
   · exact absurd ((MulEquiv.isCyclic e).mpr h) hnc
   · exact ⟨S, k + 1, by omega, ⟨e.trans (by rw [Nat.add_sub_cancel]; exact f)⟩⟩
 
@@ -246,7 +246,7 @@ theorem hasFourGroup_of_isComponent {R : Subgroup A} (hR : IsSylowOf 2 R ⊤)
   obtain ⟨SC⟩ := (inferInstance : Nonempty (Sylow 2 C))
   let e : (SC : Subgroup C) ≃* (SC : Subgroup C).map C.subtype :=
     (SC : Subgroup C).equivMapOfInjective C.subtype C.subtype_injective
-  rcases isCyclic_or_dihedral_of_isSylowOf hR hRd le_top (SC.isPGroup'.map C.subtype) with
+  rcases isCyclic_or_dihedral_of_isSylowOf hR hRd le_top (SC.isPGroup.map C.subtype) with
     h | ⟨k, hk, ⟨f⟩⟩
   · exact absurd ((MulEquiv.isCyclic e).mpr h)
       (not_isCyclic_sylow_of_isPerfect (even_card_of_isComponent hC) SC)

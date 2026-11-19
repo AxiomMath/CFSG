@@ -31,8 +31,8 @@ private theorem w16g_card_mulAut_dvd_six {W : Type} [CommGroup W] [Finite W]
 theorem w16f_perfect_gl_three (hW : ∀ w : W, w ^ 2 = 1) (hrk : rk ↥(⊤ : Subgroup W) ≤ 3)
     (X : Subgroup (MulAut W)) (hperf : ⁅X, X⁆ = X) (hne : X ≠ ⊥) :
     rk ↥(⊤ : Subgroup W) = 3 ∧ X = ⊤ := by
-  haveI : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hne
+  have : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hperf
+  have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hne
   by_cases h2 : rk ↥(⊤ : Subgroup W) ≤ 2
   · exfalso
     have hdvd6 : Nat.card (MulAut W) ∣ 6 := w16g_card_mulAut_dvd_six hW h2
@@ -161,8 +161,8 @@ theorem w16f_diag_dichotomy (hW : ∀ w : W, w ^ 2 = 1) {Y K : Subgroup (MulAut 
       map_mul' := fun a b => Subtype.ext (map_mul δ a b) }
   let δ' : ↥K →* MulAut ↥T := (resHom T).comp δ''
   let X : Subgroup (MulAut ↥T) := δ'.range
-  haveI : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hK.2.2.1
-  haveI : Group.IsPerfect ↥X := Group.IsPerfect.range δ'
+  have : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hK.2.2.1
+  have : Group.IsPerfect ↥X := Group.IsPerfect.range δ'
   have hperf : ⁅X, X⁆ = X := Subgroup.commutator_eq_self
   have hT2 : ∀ u : ↥T, u ^ 2 = 1 := fun u =>
     Subtype.ext (by simpa [Subgroup.coe_pow] using hW (u : W))

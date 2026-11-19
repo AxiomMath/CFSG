@@ -68,7 +68,7 @@ theorem cycle_factor_mem_core (h239 : Input23_9) {n r : ℕ}
     (hg : g ∈ alternatingGroup (Fin n))
     (hgsupp : ∀ j : Fin n, (∀ b ∈ permImage ψ H, b i ≠ j) → g j = j) :
     ((ψ.symm ⟨g, hg⟩ : ↥(barX 3 N K)) : ↥N ⧸ GLAPPrimeCore 3 ↥N) ∈ GLBCore 3 (r - 1) H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Bt : Subgroup ↥(alternatingGroup (Fin n)) := (H.subgroupOf (barX 3 N K)).map ψ.toMonoidHom
   have hBel : IsElemAbelian 3 Bt := (hHel.subgroupOf _).map _
   have hrank : CFSG.Open.pRank 3 Bt = CFSG.Open.pRank 3 H := by
@@ -155,7 +155,7 @@ theorem core_gamma2 {Cb : Type} [Group Cb] [Finite Cb] {p n s : ℕ} (hp : p.Pri
     ∃ P : Subgroup Cb, P ≤ Q ∧ P ≤ Kb ∧ IsElemAbelian p P ∧ p ^ s ≤ Nat.card P ∧
       Kb ≤ GLBCore p 2 P := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ι : ↥Kb →* Equiv.Perm (Fin n) := (alternatingGroup (Fin n)).subtype.comp ψ.toMonoidHom
   have hι_inj : Function.Injective ι := fun x y hxy =>
     ψ.injective (Subtype.ext (show ((ψ x : ↥(alternatingGroup (Fin n))) : Equiv.Perm (Fin n)) =
@@ -392,7 +392,7 @@ theorem core_le_M (h : Sec11 G m p B M E A) {r : ℕ} (hr2 : 2 ≤ r) (hnot : ¬
     GLBCore p 2 S ≤ M := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hp3 : 3 ≤ p := by
     have h2 := hp.two_le
@@ -472,7 +472,7 @@ theorem orbit_regular {α : Type} [Finite α] {B : Subgroup (Equiv.Perm α)}
 theorem cycleType_of_pow_three {α : Type} [Fintype α] [DecidableEq α] {b : Equiv.Perm α}
     (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) :
     ∃ s : ℕ, b.cycleType = Multiset.replicate s 3 ∧ b.support.card = s * 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   obtain ⟨k, hk⟩ := Equiv.Perm.cycleType_prime_order (hσ := by rw [hord]; exact Nat.prime_three)
   rw [hord] at hk
@@ -490,6 +490,7 @@ theorem glbCore_mono_k {p k k' : ℕ} (hk : k' ≤ k) (P : Subgroup G) :
   rintro _ ⟨Q, hQP, hQk, rfl⟩
   exact le_sSup ⟨Q, hQP, hk.trans hQk, rfl⟩
 
+omit [Finite G] in
 theorem barX_inf_right {p : ℕ} {N M : Subgroup G} : barX p N (M ⊓ N) = barX p N M := by
   unfold barX
   rw [Subgroup.inf_subgroupOf_right]
@@ -527,7 +528,7 @@ theorem alt_rank_two (h239 : Input23_9) (h23 : Input23_5) (h121 : Prop121_corSta
   have hFA := alt_F_ne_A h23 h hs D'
   obtain ⟨hp3, hδ4⟩ := alt_p_three_delta_four h121 h hs D' hAK hFA
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hp2 := ne_two_of h
   by_contra hr2
   have hr3 : 3 ≤ CFSG.Open.pRank 3 F := by

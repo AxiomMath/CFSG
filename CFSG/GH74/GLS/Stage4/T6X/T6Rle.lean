@@ -117,7 +117,7 @@ theorem Zstar_C₂ (h : T6CtxW N u p) :
   obtain ⟨S₁⟩ : Nonempty (Sylow 2 ↥N.K₁) := inferInstance
   set T₁ : Subgroup G := (S₁ : Subgroup ↥N.K₁).map N.K₁.subtype with hT₁
   have hT₁K : T₁ ≤ N.K₁ := Subgroup.map_subtype_le _
-  have hT₁p : IsPGroup 2 ↥T₁ := S₁.isPGroup'.map _
+  have hT₁p : IsPGroup 2 ↥T₁ := S₁.isPGroup.map _
   have hT₁idx : ¬ 2 ∣ T₁.relIndex N.K₁ := by
     have : T₁.relIndex N.K₁ = (S₁ : Subgroup ↥N.K₁).index := by
       unfold Subgroup.relIndex
@@ -154,7 +154,7 @@ theorem Zstar_C₂ (h : T6CtxW N u p) :
   have hT₁'p : IsPGroup 2 ↥T₁' := hT₁p.comap_subtype
   obtain ⟨Q, hQ⟩ := hT₁'p.exists_le_sylow
   set E : Subgroup G := (Q : Subgroup ↥(C₂ N)).map (C₂ N).subtype with hE
-  have hEp : IsPGroup 2 ↥E := Q.isPGroup'.map _
+  have hEp : IsPGroup 2 ↥E := Q.isPGroup.map _
   have hEC : ∀ e ∈ E, ∀ x ∈ N.X₂, e * x * e⁻¹ = x := by
     rintro e ⟨q, -, rfl⟩ x hx
     have := Subgroup.mem_centralizer_iff.1 q.2 x hx
@@ -321,7 +321,7 @@ theorem R_le_R₂ (h : T6CtxW N u p) {R : Subgroup G} (hRp : IsPGroup p ↥R) (h
     Subgroup.mem_normalizer_fintype (fun w hw => Wsub_norm hm hw)
   have hPW : P ≤ Wsub N := Subgroup.map_subtype_le _
   have hPM : P ≤ M₂ N := hPW.trans (Wsub_le_C₂.trans C₂_le_M₂)
-  have hPp : IsPGroup p ↥P := S.isPGroup'.map _
+  have hPp : IsPGroup p ↥P := S.isPGroup.map _
   have hle := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer p hPM (hMW.trans hPnorm) hPp
   intro r hr
   exact hle ⟨⟨r, hRW hr⟩, hRS (Subgroup.mem_subgroupOf.2 hr), rfl⟩

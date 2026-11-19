@@ -105,7 +105,7 @@ private lemma zero_not_mem_genericRemainder_vars (n : ℕ) :
             MvPolynomial.C ((-1 : ℂ) ^ (j.succ : ℕ)) := by
           rw [map_pow, map_neg, map_one]
       rw [hcpow, MvPolynomial.vars_C] at hconst
-      simpa using hconst
+      simp at hconst
     · have hx' : (0 : Fin (n + 2)) = j.succ := by
         simpa using hx
       exact Fin.succ_ne_zero j hx'.symm
@@ -172,7 +172,7 @@ theorem genericDet_irreducible : ∀ (n : ℕ), 0 < n →
   | 0, h => by omega
   | 1, _ => by
       rw [Matrix.det_fin_one]
-      exact MvPolynomial.X_prime.irreducible
+      exact MvPolynomial.prime_X.irreducible
   | n + 2, _ => by
       have ih := genericDet_irreducible (n + 1) (by omega)
       have hf := genericMinor_zero_irreducible n ih

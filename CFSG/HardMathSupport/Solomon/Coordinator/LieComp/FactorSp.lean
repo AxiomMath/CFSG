@@ -67,7 +67,7 @@ theorem spAltSixFacts_holds : SpAltSixFacts := by
     simp [Nat.factorial]
   have hlt := lt_order_sp (Nat.card E) m hq hm hne'
   by_cases h2 : ringChar E = 2
-  · haveI : CharP E 2 := h2 ▸ ringChar.charP E
+  · have : CharP E 2 := h2 ▸ ringChar.charP E
     have := CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSp_of_charTwo (K := E) m
     omega
   · have := CFSG.ClassicalInvolution.card_statedProj_statedSp_of_two_ne_zero (K := E) (n := m)
@@ -79,7 +79,7 @@ private theorem isChevSimple_of_carrier {E : Type} [Field E] [Fintype E] (r : �
     (hK : Fintype.card E = d.fieldOrder)
     (eT : d.Group ≃* StatedProj (StatedSp r ↥d.fixedField)) :
     IsChevSimple (ringChar E) (StatedProj (StatedSp r E)) := by
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype d.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card E = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card (α := d.fixedField), ValidLieTypeIndex.card_fixedField]
@@ -182,10 +182,10 @@ theorem spFourTwoFacts_holds : SpFourTwoFacts := by
   intro E _ _ hE
   have hk : Nat.card E = 2 := by rw [Nat.card_eq_fintype_card]; exact hE
   let e : ↥(commutator ↥(StatedSp 2 E)) ≃* ↥(commutator sympFour) := commutatorSpFourEquiv hk
-  haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
-  haveI : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
-  haveI : IsSimpleGroup ↥(commutator ↥(StatedSp 2 E)) := e.isSimpleGroup
-  haveI : Group.IsPerfect ↥(commutator ↥(StatedSp 2 E)) :=
+  have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+  have : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
+  have : IsSimpleGroup ↥(commutator ↥(StatedSp 2 E)) := e.isSimpleGroup
+  have : Group.IsPerfect ↥(commutator ↥(StatedSp 2 E)) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hcen : Subgroup.center ↥(commutator ↥(StatedSp 2 E)) = ⊥ := by
     rcases (inferInstance :

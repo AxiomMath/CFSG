@@ -118,7 +118,7 @@ theorem Pair.exists_core_move (hP : Pair X E) {d : X}
   have hTn : ((T : Subgroup M).map M.subtype).Normal := inferInstance
   set S : Subgroup X := ((T : Subgroup M).map M.subtype).map L.subtype
   have hS : S ∈ coreSet E d := by
-    refine ⟨(T.isPGroup'.map M.subtype).map L.subtype, Subgroup.map_subtype_le _, ?_⟩
+    refine ⟨(T.isPGroup.map M.subtype).map L.subtype, Subgroup.map_subtype_le _, ?_⟩
     rintro l hl _ ⟨t, ht, rfl⟩
     exact ⟨⟨l, hl⟩ * t * ⟨l, hl⟩⁻¹, hTn.conj_mem t ht ⟨l, hl⟩, rfl⟩
   by_contra! hall

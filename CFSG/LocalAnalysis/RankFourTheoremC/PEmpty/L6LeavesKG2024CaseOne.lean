@@ -45,8 +45,8 @@ theorem case_one {p : ℕ} {z : Perm Ω} (hp : p.Prime) (hp5 : 5 ≤ p) (hz : or
     rw [Set.ncard_coe_finset, hsupp] at this
     rw [Nat.card_coe_set_eq]
     omega
-  haveI : Nontrivial ↥F := Finite.one_lt_card_iff_nontrivial.1 (by omega)
-  haveI hsimpleF : IsSimpleGroup ↥(alternatingGroup ↥F) := alternatingGroup.isSimpleGroup hFcard
+  have : Nontrivial ↥F := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have hsimpleF : IsSimpleGroup ↥(alternatingGroup ↥F) := alternatingGroup.isSimpleGroup hFcard
   have hinj : Function.Injective (Equiv.Perm.ofSubtype (p := fun x => x ∈ F)) :=
     Equiv.Perm.ofSubtype_injective
   let Y : Subgroup (Perm Ω) := (alternatingGroup ↥F).map Equiv.Perm.ofSubtype

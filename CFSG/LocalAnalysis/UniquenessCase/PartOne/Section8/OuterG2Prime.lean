@@ -18,11 +18,11 @@ theorem card_outer_adjointGroup_G2_zmod_prime
         (by
           letI : Fact p.Prime := ⟨hp⟩
           infer_instance))) = 1 := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, Θ, -, -, hΘker, -⟩ :=
     odd_F4_and_nonexceptional_G2_automorphism_normal_form (p := p) (f := 1) hp hp2 le_rfl
       (ZMod p) (by rw [Nat.card_zmod, pow_one]) .G2 (Or.inr ⟨rfl, hp3⟩)
-  haveI : Subsingleton (ZMod p ≃+* ZMod p) :=
+  have : Subsingleton (ZMod p ≃+* ZMod p) :=
     ⟨fun σ τ => by
       rw [ringEquiv_eq_one_of_card_eq_prime hp (Nat.card_zmod p) σ,
         ringEquiv_eq_one_of_card_eq_prime hp (Nat.card_zmod p) τ]⟩
@@ -34,7 +34,7 @@ theorem card_outer_adjointGroup_G2_zmod_prime
     intro α _
     rw [MonoidHom.mem_ker]
     exact Subsingleton.elim _ _
-  haveI : Subsingleton (Outer (adjointGroup .G2 (ZMod p))) :=
+  have : Subsingleton (Outer (adjointGroup .G2 (ZMod p))) :=
     QuotientGroup.subsingleton_iff.mpr htop
   exact Nat.card_of_subsingleton (1 : Outer (adjointGroup .G2 (ZMod p)))
 

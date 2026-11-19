@@ -28,9 +28,9 @@ theorem FF81Hyp.tauX_ne_one (h : FF81Hyp b L)
     {τ b₁ b₂ b₃ : G} (hτL : τ ∈ L) (hb₁ : b₁ ∈ L) (hb₂ : b₂ ∈ L) (hb₃ : b₃ ∈ L)
     (hE : IsElemAb 3 3 (Subgroup.closure ({b₁, b₂, b₃} : Set G)))
     (hb₁ne : b₁ ≠ 1)
-    (hτ2 : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
+    (_hτ2 : orderOf τ = 2) (hb : τ * b * τ⁻¹ = b)
     (hinv : τ * b₁ * τ⁻¹ = b₁⁻¹ ∧ τ * b₂ * τ⁻¹ = b₂⁻¹ ∧ τ * b₃ * τ⁻¹ = b₃⁻¹)
-    (hbB : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
+    (_hbB : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hb₁B : b₁ ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G)) :
     FF81X.tau (FF81Hyp.tau_mem_normalizer h hτL hb₁ hb₂ hb₃ hE hb hinv) ≠ 1 := by
   let B : Subgroup G := Subgroup.closure ({b, b₁, b₂, b₃} : Set G)

@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r95c_map_subgroupOf_I9_eq_bot (H : Subgroup G) :
     ((I9 H).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) = ⊥ := by
   rw [Subgroup.map_eq_bot_iff]
@@ -28,6 +29,7 @@ private theorem r95c_map_subgroupOf_I9_eq_bot (H : Subgroup G) :
   rw [MonoidHom.mem_ker, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact (Subgroup.mem_map_iff_mem H.subtype_injective).1 (Subgroup.mem_subgroupOf.1 hx)
 
+omit [Finite G] in
 private theorem r95c_img9_le_of_le_sup {H K L : Subgroup G} (hLH : L ≤ H)
     (hKL : K ≤ L ⊔ I9 H) : img9 H K ≤ img9 H L := by
   have hIH : I9 H ≤ H := Subgroup.map_subtype_le _
@@ -40,6 +42,7 @@ private theorem r95c_img9_le_of_le_sup {H K L : Subgroup G} (hLH : L ≤ H)
         rw [Subgroup.subgroupOf_sup hLH hIH, Subgroup.map_sup,
           r95c_map_subgroupOf_I9_eq_bot H, sup_bot_eq]
 
+omit [Finite G] in
 private theorem r95c_mem_I9_of_mk_eq {H : Subgroup G} {a b : ↥H}
     (h : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H) a =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H) b) :
@@ -109,7 +112,8 @@ private theorem r95c_calNOf_ne {D : Data G} {H S : Subgroup G} (hH : H ≠ ⊤)
   rw [h, Set.mem_singleton_iff] at this
   exact hHM (this ▸ hHN)
 
-private theorem r95c_L9_le_sup {Y H S : Subgroup G} (hYH : Y ≤ H)
+omit [Finite G] in
+private theorem r95c_L9_le_sup {Y H S : Subgroup G} (_hYH : Y ≤ H)
     (hSL : S ≤ L9 Y H ⊔ I9 H) : L9 S H ≤ L9 Y H ⊔ I9 H := by
   have hn : H ≤ normalizer ((L9 Y H ⊔ I9 H : Subgroup G) : Set G) :=
     (le_inf (le_normalizer_L9 Y H)
@@ -124,7 +128,7 @@ private theorem r95c_L9_le_sup {Y H S : Subgroup G} (hYH : Y ≤ H)
 private theorem r95c_hyp91_of_le {D : Data G} {Y H D₃ T : Subgroup G} (hyp : Hyp91 D Y H D₃)
     (hH : H ≠ ⊤) (hTH : T ≤ H) (hTM : T ≤ D.M) (hTL : T ≤ L9 Y H ⊔ I9 H)
     (hDT : D₃ ≤ T) : Hyp91 D T H D₃ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3 : Nat.card D₃ = 3 := hyp.2.2.2
   have hHM : ¬ H ≤ D.M := hyp.2.1.2.1
   have hD3' : IsPGroup 3 D₃ := IsPGroup.of_card (n := 1) (by rw [hD3, pow_one])
@@ -154,6 +158,7 @@ private theorem r95c_img9_le_T {D : Data G} {Y H : Subgroup G}
     exact h
   exact Subgroup.mem_map.2 ⟨m, Subgroup.mem_subgroupOf.2 ⟨hmHM, hmLI⟩, hmz⟩
 
+omit [Finite G] in
 private theorem r95c_exists_hom {Y H T : Subgroup G} (hYH : Y ≤ H) (hTH : T ≤ H)
     (hTL : T ≤ L9 Y H ⊔ I9 H) (hLT : img9 H (L9 Y H) ≤ img9 H T) :
     ∃ ρ : ↥T →* Lbar9 Y H, Function.Surjective ρ ∧
@@ -178,7 +183,7 @@ private theorem r95c_exists_hom {Y H T : Subgroup G} (hYH : Y ≤ H) (hTH : T �
 private theorem r95c_map_eq_top_of_normal {A B : Type*} [Group A] [Group B] [IsSimpleGroup B]
     (ρ : A →* B) (hρ : Function.Surjective ρ) {N : Subgroup A} [N.Normal] {d : A}
     (hd : d ∈ N) (hd1 : ρ d ≠ 1) : N.map ρ = ⊤ := by
-  haveI : (N.map ρ).Normal := (inferInstance : N.Normal).map ρ hρ
+  have : (N.map ρ).Normal := (inferInstance : N.Normal).map ρ hρ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map ρ) with h | h
   · exfalso
     have : ρ d ∈ N.map ρ := ⟨d, hd, rfl⟩
@@ -190,11 +195,11 @@ private theorem r95c_quot_pPrimeCore_equiv {X Λ : Type*} [Group X] [Finite X] [
     [IsSimpleGroup Λ] (φ : X →* Λ) (hφ : Function.Surjective φ)
     (hker : Nat.Coprime 3 (Nat.card φ.ker)) (h3 : 3 ∣ Nat.card Λ) :
     Nonempty ((X ⧸ CFSG.pPrimeCore 3 X) ≃* Λ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : φ.ker ≤ CFSG.pPrimeCore 3 X :=
     CFSG.le_pPrimeCore_of_normal_coprime (MonoidHom.normal_ker φ) hker
   have h2 : CFSG.pPrimeCore 3 X ≤ φ.ker := by
-    haveI : ((CFSG.pPrimeCore 3 X).map φ).Normal :=
+    have : ((CFSG.pPrimeCore 3 X).map φ).Normal :=
       (CFSG.pPrimeCore_normal (p := 3) (G := X)).map φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pPrimeCore 3 X).map φ) with h | h
     · rw [Subgroup.map_eq_bot_iff] at h
@@ -214,7 +219,7 @@ private theorem r95c_equiv_of_hom {T D₃ I : Subgroup G} {Λ : Type} [Group Λ]
     (ρ : ↥T →* Λ) (hρ : Function.Surjective ρ)
     (hker : ∀ t : ↥T, ρ t = 1 → (t : G) ∈ I) :
     Nonempty (BarO3 (Opp 3 T) ≃* Λ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXT : Opp 3 T ≤ T := opp_le_self 3 T
   have hD3' : IsPGroup 3 D₃ := IsPGroup.of_card (n := 1) (by rw [hD3, pow_one])
   have hD3P : D₃ ≤ Opp 3 T :=
@@ -234,7 +239,7 @@ private theorem r95c_equiv_of_hom {T D₃ I : Subgroup G} {Λ : Type} [Group Λ]
     exact (Nat.Prime.coprime_iff_not_dvd (Fact.out : Nat.Prime 3)).1 hI h3dvdI
   let φ : ↥(Opp 3 T) →* Λ := ρ.comp (Subgroup.inclusion hXT)
   have hdTmem : dT ∈ (Opp 3 T).subgroupOf T := Subgroup.mem_subgroupOf.2 (hD3P d.2)
-  haveI : ((Opp 3 T).subgroupOf T).Normal := normal_opp_subgroupOf 3 T
+  have : ((Opp 3 T).subgroupOf T).Normal := normal_opp_subgroupOf 3 T
   have hrange : φ.range = ⊤ := by
     change (ρ.comp (Subgroup.inclusion hXT)).range = ⊤
     rw [← MonoidHom.map_range ρ (Subgroup.inclusion hXT), Subgroup.inclusion_range]
@@ -264,8 +269,8 @@ theorem r95_exists_core {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91 D Y H 
     (hH : H ≠ ⊤) (hS : IsSimpleGroup (Lbar9 Y H))
     (hLM : img9 H (L9 Y H) ≤ img9 H (H ⊓ D.M)) :
     ∃ K : Subgroup G, Hyp91 D K H D₃ ∧ Nonempty (BarO3 (Opp 3 K) ≃* Lbar9 Y H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hS
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hS
   have hYH : Y ≤ H := hyp.2.1.1
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hTH : H ⊓ D.M ⊓ (L9 Y H ⊔ I9 H) ≤ H := inf_le_left.trans inf_le_left

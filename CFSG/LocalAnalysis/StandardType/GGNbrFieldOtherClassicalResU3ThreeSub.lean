@@ -157,7 +157,7 @@ theorem act_of_lift_U3Three (hk : Nat.card k = (2 ^ m) ^ 2) (hm : 2 ≤ m) {L'' 
     (hα : ∀ g, ψ (α g) = LargeEvenProjMk H₀ g) {a : MulAut L''} (M : N₀)
     (hind : ∀ l, ρ₀ M (ψ l) = ψ (a l)) (s : H₀) :
     a (α s) = α ((LargeEvenSUGroup (Fin 3) k (2 ^ m)).normalizerMonoidHom M s) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : Group.IsPerfect H₀ :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := m) hk le_rfl (dq_ne_U3Three hm)
   refine CFSG.RankThree.PartOne.S15K.eq_of_perfect_of_map_eq ψ hker hperf
@@ -224,7 +224,7 @@ theorem reg_or_frame_U3Three (h₀ : UnitaryFieldData 2 m k) (hk : Nat.card k = 
           B ∈ LargeEvenGUSet (Fin 3) k (2 ^ m) → ∃ τ : Fin 3 → kˣ, P⁻¹ * B * P = diagHom 3 τ) ∧
         P⁻¹ * B₀ * P = diagHom 3 σ ∧ ¬ Function.Injective σ ∧ σ u ≠ σ v := by
   classical
-  haveI : CharP k 2 := h₀.charP
+  have : CharP k 2 := h₀.charP
   have hN := TableBUE.gu_subset_normalizer (d := 3) h₀
   have hNU : ∀ {x : GL (Fin 3) k}, x ∈ primeFormUnitary h₀ (idGram k 3) → x ∈ N₀ :=
     fun hx => hN (TableBUD.mem_guSet_of_mem_primeFormUnitary h₀ hx)
@@ -459,12 +459,12 @@ theorem ggTorusNoLineTwoKX_u3Three
   classical
   intro L'' _ _ ψ hψ hker hperf _ A hA hAI _ _
   have h₀ : UnitaryFieldData 2 m k := TableBU.unitaryFieldData_of_card hk (by omega)
-  haveI : CharP k 2 := h₀.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP k 2 := h₀.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdq := dq_ne_U3Three hm
   have hN := TableBUE.gu_subset_normalizer (d := 3) h₀
   obtain ⟨ω, hω⟩ := exists_omega_U3Three h₀ h3
-  haveI : Finite H₀ := Finite.of_injective
+  have : Finite H₀ := Finite.of_injective
     (fun x : H₀ => ((x : GL (Fin 3) k) : Matrix (Fin 3) (Fin 3) k))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
   obtain ⟨α, -, hα⟩ := exists_cover_of_sections (LargeEvenProjMk H₀)

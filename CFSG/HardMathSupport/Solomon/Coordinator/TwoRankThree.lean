@@ -97,7 +97,7 @@ theorem twoRankThreeOfStanding_proved :
 
 theorem inputUExists_proved : InputUExists := by
   intro G _ _ m p hS P
-  exact CFSG.HardMathSupport.Solomon.Proving.exists_isUGroup_of_three_le_pRank P.isPGroup'
+  exact CFSG.HardMathSupport.Solomon.Proving.exists_isUGroup_of_three_le_pRank P.isPGroup
     (twoRankThreeOfStanding_proved G m p hS P)
 
 end CFSG.HardMathSupport.Solomon.Coordinator

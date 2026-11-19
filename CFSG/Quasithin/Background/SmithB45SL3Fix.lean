@@ -324,7 +324,7 @@ theorem exists_conj_std {t₁ t₂ : SL(3, F)} (h : IsRootPair t₁ t₂) :
     obtain ⟨ψ₀, h0⟩ := exists_dotProduct_eq_one hc
     let P : Matrix (Fin 3) (Fin 3) F := Matrix.of ![ψ₀, φ₁, φ₂]
     have hP : IsUnit P := by
-      rw [← Matrix.linearIndependent_rows_iff_isUnit]
+      rw [← Matrix.linearIndependent_row_iff_isUnit]
       have := linearIndependent_three h0 h1 h2 hind
       convert this using 1
       funext r
@@ -367,7 +367,7 @@ theorem exists_conj_std {t₁ t₂ : SL(3, F)} (h : IsRootPair t₁ t₂) :
     have h0' : ψ ⬝ᵥ x₀ = 1 := by rw [dotProduct_comm]; exact h0
     let N : Matrix (Fin 3) (Fin 3) F := (Matrix.of ![w₁, w₂, x₀])ᵀ
     have hN : IsUnit N := by
-      rw [Matrix.isUnit_transpose, ← Matrix.linearIndependent_rows_iff_isUnit]
+      rw [Matrix.isUnit_transpose, ← Matrix.linearIndependent_row_iff_isUnit]
       have h1' : w₁ ⬝ᵥ ψ = 0 := by rw [dotProduct_comm]; exact h1
       have h2' : w₂ ⬝ᵥ ψ = 0 := by rw [dotProduct_comm]; exact h2
       have := linearIndependent_three (c := ψ) (ψ₀ := x₀) h0 h1' h2' hind

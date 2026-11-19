@@ -33,12 +33,12 @@ theorem noL34Layer_conj_projOrth_two (hO : LieOrderFormulasInput)
     (hK : Nat.card K = 2 ^ f₀) {b : ProjOrthDerived Q} (hb : b ^ 3 = 1) (hb1 : b ≠ 1)
     (hPIL : PerfectInLayer (MulAut.conj b)) : NoL34Layer (MulAut.conj b) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf₀ hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf₀ hK
   have : Finite V := Module.finite_of_finite K
   have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by
       have := Submodule.finrank_le U
@@ -57,7 +57,7 @@ theorem noL34Layer_conj_projOrth_two (hO : LieOrderFormulasInput)
   rcases hcases A hcomp' with ⟨h, hh, hne1, hq, hAeq⟩ | ⟨hlist, n, C, hsup, hC, hCc, i, hAeq⟩
   ·
     have hhp : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhp⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhp⟩
     have hFΩ : specialBlock Q xe h ≤ orthDerived Q :=
       specialBlock_le_orthDerived_of_perfect hq.1
         ((specialBlock_le_isometryCentralizer h).trans (fun _ hg => (Subgroup.mem_inf.mp hg).1))
@@ -140,7 +140,7 @@ theorem noL34Layer_conj_omega_two (hO : LieOrderFormulasInput) {t : StatedLieTag
     perfectInLayer_conj_omega (ht.elim (fun h => Or.inr (Or.inl h)) (fun h => Or.inr (Or.inr h)))
       hG Nat.prime_three (by norm_num) (by norm_num) a ha3
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, -, hK, ⟨ε⟩⟩ := exists_projOrth_model_two ht hG
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_equiv G ε.toEquiv
+  have : Finite (ProjOrthDerived Q) := Finite.of_equiv G ε.toEquiv
   refine noL34Layer_congr ε ?_
   rw [CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj]
   have hb : (ε a) ^ 3 = 1 := by rw [← map_pow, ha3, map_one]
@@ -156,7 +156,7 @@ theorem not_up34Pumpup_conj_omega_two (hO : LieOrderFormulasInput) {t : StatedLi
     (hnab : ∃ a b : S, a * b ≠ b * a) {n f : ℕ} (hG : StatedClassicalModel S t n 2 f) (x : S) :
     ¬ Up34Pumpup S (MulAut.conj x) := by
   intro hx
-  haveI := hs
+  have := hs
   obtain ⟨hx3, hx1, hnl⟩ := (up34Pumpup_iff _).1 hx
   have hcen : Subgroup.center S = ⊥ := up34_center_eq_bot_of_simple hnab
   have hxcube : x ^ 3 = 1 := by

@@ -77,7 +77,7 @@ theorem orderOf_dvd_of_mem_borel_of_odd
     (hy : y ∈ Bender.borel (Q : Subgroup K)) (hodd : Odd (orderOf y)) :
     orderOf y ∣ 2 ^ n - 1 := by
   obtain ⟨t, hcore⟩ := hK.exists_benderCore Q
-  obtain ⟨q', -, hconj⟩ := hcore.exists_conj_cartan_of_odd Q.isPGroup' (A := zpowers y)
+  obtain ⟨q', -, hconj⟩ := hcore.exists_conj_cartan_of_odd Q.isPGroup (A := zpowers y)
     (Subgroup.zpowers_le.mpr hy) (by rw [Nat.card_zpowers]; exact hodd)
   have hd := hconj y (Subgroup.mem_zpowers y)
   have h1 : orderOf (q' * y * q'⁻¹) = orderOf y := MulEquiv.orderOf_eq (MulAut.conj q') y
@@ -224,7 +224,7 @@ theorem bender_J_frob
     have h2 : (⟨w, hWJ hw⟩ : ↥J) = 1 := e.injective (by rw [h1, map_one])
     exact (Subgroup.mem_bot).mpr (congrArg Subtype.val h2)
   obtain ⟨t, hcore⟩ := hK.exists_benderCore Q
-  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup'
+  have hQ2 : IsPGroup 2 (Q : Subgroup K) := Q.isPGroup
   have hfM : ∀ g : ↥J, f g ∈ Bender.borel (Q : Subgroup K) := fun g => hQ ⟨g, rfl⟩
   have hmemQ : ∀ x ∈ Bender.borel (Q : Subgroup K), IsPGroup 2 (zpowers x) →
       x ∈ (Q : Subgroup K) := by
@@ -245,7 +245,7 @@ theorem bender_J_frob
   obtain ⟨S, -⟩ : ∃ S : Sylow 2 ↥J, True := ⟨default, trivial⟩
   have hSU : (S : Subgroup ↥J) ≤ U₁ := by
     intro s hs
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     refine hmemQ (f s) (hfM s) (isPGroup_zpowers_of_pow_eq_one (k := k) ?_)
     rw [← map_pow, hk', map_one]

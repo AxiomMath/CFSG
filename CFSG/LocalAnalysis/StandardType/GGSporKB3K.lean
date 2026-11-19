@@ -21,7 +21,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BThreeFi23
 theorem ggSporK_bmPCentralF1F4_B_three_native
     :
     BMPCentralF1 3 NativeSporadic.B ∧ BMPCentralF4 3 NativeSporadic.B := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨z, hzo, hzrk, hz14⟩ := ggSporK_bThree_F1F4_z
   have hzc : IsConj z (phiB (t3 1)) :=
     CFSG.HardMathSupport.Solomon.Coordinator.B3B.isConj_phiB_t3_one_of_rk hzo hzrk
@@ -70,7 +70,7 @@ theorem ggSporK_bmPCentralF1F4_B_three
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : CFSG.Blueprint.NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   have h := ggSporK_bmPCentralF1F4_B_three_native
   exact ⟨@bmPCentralF1_of_mulEquiv CFSG.Blueprint.NativeSporadic.B
       (TauCeti.CFSGIndex.sporadic .B).Group _ _ _ _ 3 e' h.1,

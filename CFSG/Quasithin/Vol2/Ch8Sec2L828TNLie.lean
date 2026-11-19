@@ -126,7 +126,7 @@ private theorem two_three_dvd_psu3_two_828N {X : Type} [Group X] {n : ℕ}
     (h : IsPSU 3 2 n X) : 2 ∣ Nat.card X ∧ 3 ∣ Nat.card X :=
   two_three_dvd_of_psu3_828N (q := 2 ^ n) (CFSG.Quasithin.B69.card_psu_three_mul h)
 
-private theorem two_three_dvd_psu3_prime_828N {X : Type} [Group X] {p : ℕ} (hp : p.Prime)
+private theorem two_three_dvd_psu3_prime_828N {X : Type} [Group X] {p : ℕ} (_hp : p.Prime)
     (h : IsPSU 3 p 1 X) : 2 ∣ Nat.card X ∧ 3 ∣ Nat.card X := by
   have hc := CFSG.Quasithin.B69.card_psu_three_mul h
   rw [pow_one] at hc
@@ -279,7 +279,7 @@ private theorem nonabelian_of_simple_not_prime_828N {X : Type} [Group X]
     (hs : IsSimpleGroup X) (hp : ¬ (Nat.card X).Prime) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  letI : IsMulCommutative X := ⟨⟨fun a b => hc a b⟩⟩
+  let : IsMulCommutative X := ⟨⟨fun a b => hc a b⟩⟩
   exact hp (Group.is_simple_iff_prime_card.mp hs)
 
 theorem e22Simple_of_cases {Γ : Type} [Group Γ] {H T M K : Subgroup Γ}

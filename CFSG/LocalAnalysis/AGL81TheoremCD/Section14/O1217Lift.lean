@@ -16,6 +16,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.RankThreeUC.AGL
 
 variable {G : Type} [Group G] [Finite G] {M Q H F : Subgroup G} {q p : ℕ} {E : Subgroup G}
 
+omit [Finite G] in
 private theorem mk_mem_centralizer_kStar_of_mem_centralizer_kSub
     {x : G} (hxH : x ∈ H)
     (hx : x ∈ Subgroup.centralizer (AGL81C.kSub q M H : Set G)) :
@@ -44,8 +45,8 @@ private theorem exists_mul_mem_inf_centralizer (s : Setting1417 G M Q H F q)
     ∃ n ∈ AGL81C.kSub q M H ⊓ CFSG.Open.relPPrimeCore q H,
       ∀ d ∈ D, d * (k * n) * d⁻¹ = k * n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) q
   let K : Subgroup G := AGL81C.kSub q M H
   let R : Subgroup G := CFSG.Open.relPPrimeCore q H
@@ -119,9 +120,9 @@ theorem Hyp1417.exists_not_mem_centralizer_star (h : Hyp1417 G M q p E)
       Subgroup.centralizer (AGL81C.kStar q M HA :
         Set (↥HA ⧸ primeComplementCore (G := ↥HA) q))
   obtain ⟨Q, F, s⟩ := h.exists_setting hAE hA hH
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : IsCyclic A := isCyclic_of_prime_card hA
-  haveI : IsMulCommutative ↥E := h.elem.1
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : IsCyclic A := isCyclic_of_prime_card hA
+  have : IsMulCommutative ↥E := h.elem.1
   have hEcentA : E ≤ Subgroup.centralizer (A : Set G) := by
     intro e he
     rw [Subgroup.mem_centralizer_iff]
@@ -186,7 +187,7 @@ private theorem dvd_card_star_inf_centralizer (h : Hyp1417 G M q p E)
         (Subgroup.zpowers (QuotientGroup.mk' (primeComplementCore (G := ↥H) q) b) :
           Set (AGL81C.StarGroup q H))) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) q
   let X := AGL81C.StarGroup q H
   let X₁ : Subgroup X := AGL81C.starImg q H (H ⊓ M)
@@ -254,8 +255,8 @@ private theorem exists_kStar_mem_centralizer_not_le (h : Hyp1417 G M q p E)
             Set (AGL81C.StarGroup q H)) ∧
         x ∉ AGL81C.starImg q H (H ⊓ M) := by
   classical
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) q
   let X := AGL81C.StarGroup q H
   let K : Subgroup X := AGL81C.kStar q M H
@@ -274,7 +275,7 @@ private theorem exists_kStar_mem_centralizer_not_le (h : Hyp1417 G M q p E)
   have hK1app := hK1 q s.qPrime s.q_ne_two X K (s.kStar_normal h1)
     (s.kStructure h1).2.2.2 (s.two_le_pRank_top_star (F := F)) X₁
     (s.isStronglyPEmbedded_starImg (F := F)) D ⟨p, h.hp, h.hp2, h.hpq, hDcard⟩ hqD
-  obtain ⟨x, hx, hxX₁⟩ := SetLike.not_le_iff_exists.mp hK1app
+  obtain ⟨x, hx, hxX₁⟩ := IsConcreteLE.not_le_iff_exists.mp hK1app
   rw [Subgroup.mem_inf] at hx
   obtain ⟨hxK, hxD⟩ := hx
   obtain ⟨k, hk, hkx⟩ := Subgroup.mem_map.mp hxK
@@ -292,8 +293,8 @@ private theorem false_of_star_lift (h : Hyp1417 G M q p E)
         (Subgroup.zpowers (QuotientGroup.mk' (primeComplementCore (G := ↥H) q) b) :
           Set (AGL81C.StarGroup q H)))) : False := by
   classical
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   obtain ⟨k, x, hkA, hkx, hxD, hxX₁⟩ :=
     exists_kStar_mem_centralizer_not_le (h := h) (s := s) h1 hK1 hbE hbC hqD
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) q

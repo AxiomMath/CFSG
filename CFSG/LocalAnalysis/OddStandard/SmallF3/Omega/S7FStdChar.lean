@@ -31,17 +31,17 @@ theorem s7f_lieModel_center_of_twoU43 [Finite G] {L : Subgroup G} (hY : IsQuasis
     (h : IsTwoU43 (↥L ⧸ oddCore ↥L)) : LieModel (↥L ⧸ center ↥L) .PSU 4 3 1 := by
   have hne : oddCore ↥L ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
-    haveI : Finite (↥L ⧸ oddCore ↥L) := inferInstance
+    have : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
+    have : Finite (↥L ⧸ oddCore ↥L) := inferInstance
     have h1 : Nat.card (center (↥L ⧸ oddCore ↥L)) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     have h2 : Nat.card (center (↥L ⧸ oddCore ↥L)) = 2 := h.1
     omega
   let N : Subgroup ↥L := oddCore ↥L
-  haveI : N.Normal := oddCore_normal ↥L
+  have : N.Normal := oddCore_normal ↥L
   let q : ↥L →* ↥L ⧸ N := QuotientGroup.mk' N
   have hle : N ≤ center ↥L := oddCore_le_center_of_isQuasisimple hY hne
-  haveI : Group.IsPerfect ↥L := hY.1
+  have : Group.IsPerfect ↥L := hY.1
   have hcenter : (center ↥L).map q = center (↥L ⧸ N) :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel q
       (QuotientGroup.mk'_surjective N)
@@ -68,7 +68,7 @@ theorem s7f_center_eq_bot [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b *
 
 theorem s7f_orderOf_conj (hc : center G = ⊥) {s : G} (hs : orderOf s = 2) :
     orderOf (MulAut.conj s) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs2 : s ^ 2 = 1 := by rw [← hs]; exact pow_orderOf_eq_one s
   refine orderOf_eq_prime (by rw [← map_pow, hs2, map_one]) ?_
   intro h1

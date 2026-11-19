@@ -158,7 +158,7 @@ theorem factorsFinrankLe_extend_root_of_irreducible
     let f := extendScalars_map k γ.toIntertwiningMap
     have hf : Function.Injective f := by
       change Function.Injective (γ.toLinearEquiv.toLinearMap.baseChange k)
-      rw [LinearMap.baseChange_eq_ltensor]
+      rw [LinearMap.baseChange_eq_lTensor]
       exact Module.Flat.lTensor_preserves_injective_linearMap _ γ.toLinearEquiv.injective
     exact factorsFinrankLe_of_injective f hf htarget
   · push Not at hnt
@@ -187,14 +187,14 @@ private theorem extend_root_factors_sub_quot
   let g := extendScalars_map k g₀
   have hf : Function.Injective f := by
     change Function.Injective (A.toSubmodule.subtype.baseChange k)
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ A.toSubmodule.injective_subtype
   have hg : Function.Surjective g := by
     change Function.Surjective (A.toSubmodule.mkQ.baseChange k)
     exact LinearMap.baseChange_surjective k A.toSubmodule.mkQ_surjective
   have hex : Function.Exact f g := by
     change Function.Exact (A.toSubmodule.subtype.baseChange k) (A.toSubmodule.mkQ.baseChange k)
-    simpa only [LinearMap.baseChange_eq_ltensor] using
+    simpa only [LinearMap.baseChange_eq_lTensor] using
       Module.Flat.lTensor_exact (M := k) (LinearMap.exact_subtype_mkQ A.toSubmodule)
   exact factorsFinrankLe_of_exact f g hf hg hex hA hQ
 

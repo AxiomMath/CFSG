@@ -14,8 +14,8 @@ variable {K : Type} [Field K]
 
 theorem exists_isPrimitiveRoot_of_dvd [Finite K] {p : ℕ} (hp : p.Prime)
     (hpK : p ∣ Nat.card K - 1) : ∃ ζ : K, IsPrimitiveRoot ζ p := by
-  haveI := Fact.mk hp
-  haveI : Fintype Kˣ := Fintype.ofFinite _
+  have := Fact.mk hp
+  have : Fintype Kˣ := Fintype.ofFinite _
   have hcard : p ∣ Fintype.card Kˣ := by
     rw [← Nat.card_eq_fintype_card, Nat.card_units]
     exact hpK
@@ -35,14 +35,14 @@ theorem dlog_pow (hζ : IsPrimitiveRoot ζ p) (m : ℕ) : dlog p ζ (ζ ^ m) = (
   have hmm : ζ ^ m = ζ ^ (m % p) := pow_eq_pow_mod m hζ.pow_eq_one
   have h : ∃ i : Fin p, ζ ^ (i : ℕ) = ζ ^ m := ⟨⟨m % p, hmod⟩, hmm.symm⟩
   unfold dlog
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have hi : ((Classical.choose h : Fin p) : ℕ) = m % p :=
     hζ.pow_inj (Classical.choose h).2 hmod ((Classical.choose_spec h).trans hmm)
   rw [hi, ZMod.natCast_mod]
 
 theorem exists_lt_of_pow_eq_one (hζ : IsPrimitiveRoot ζ p) {x : K} (hx : x ^ p = 1) :
     ∃ i : ℕ, i < p ∧ x = ζ ^ i := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   obtain ⟨i, hi, hx'⟩ := hζ.eq_pow_of_pow_eq_one hx
   exact ⟨i, hi, hx'.symm⟩
 
@@ -82,7 +82,7 @@ theorem exists_zmod_span {G : Type*} [Group G] {d : ℕ} (hζ : IsPrimitiveRoot 
       ∃ M : Submodule (ZMod p) (F → ZMod p), (∀ x, x ∈ M ↔ ∃ g, v g = x) ∧
         r ≤ Module.finrank (ZMod p) M := by
   classical
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   set v : G → (F → ZMod p) := fun g k => dlog p ζ ((f g k.1 : Kˣ) : K) with hv
   have hmul : ∀ g h, v (g * h) = v g + v h := by
     intro g h
@@ -123,7 +123,7 @@ theorem exists_zmod_span {G : Type*} [Group G] {d : ℕ} (hζ : IsPrimitiveRoot 
         refine ⟨g ^ c.val, ?_⟩
         rw [hsmul, ZMod.natCast_zmod_val] }
   have hM_mem : ∀ x, x ∈ M ↔ ∃ g, v g = x := fun x => Iff.rfl
-  haveI : Module.Finite (ZMod p) M := FiniteDimensional.finiteDimensional_submodule M
+  have : Module.Finite (ZMod p) M := FiniteDimensional.finiteDimensional_submodule M
   have hbij : Function.Bijective (fun g : G => (⟨v g, ⟨g, rfl⟩⟩ : M)) := by
     refine ⟨fun g h hgh => hvinj (congrArg Subtype.val hgh), fun x => ?_⟩
     obtain ⟨g, hg⟩ := (hM_mem x.1).mp x.2

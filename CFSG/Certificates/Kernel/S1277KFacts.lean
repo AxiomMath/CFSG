@@ -32,7 +32,7 @@ theorem comb_dec (u : List ℕ) (e : ℕ) :
 
 theorem comb_single (u : Fin 3 → ℕ) (i : Fin 3) : comb u (Pi.single i 1) = u i := by
   have h1 : (1 : ZMod 2).val = 1 := rfl
-  fin_cases i <;> simp [comb, Pi.single_apply, h1]
+  fin_cases i <;> simp [comb, h1]
 
 theorem inSpan_iff {u : List ℕ} {x : ℕ} : InSpan (uF u) x ↔ inSp u x = true := by
   rw [inSp_iff]
@@ -77,6 +77,7 @@ section Facts
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem codQ_of (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
     (hN : nodeChk M kg m gs ts e0 = true) (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {p TP d : ℕ} {pg pr pt ws : List ℕ}
@@ -86,6 +87,7 @@ theorem codQ_of (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
   unfold CodQ
   exact ⟨f1, f2, f3, f4⟩
 
+omit [Finite G] in
 theorem labInv_of (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
     (hN : nodeChk M kg m gs ts e0 = true) (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {p TP d : ℕ} {pg pr pt ws : List ℕ}
@@ -153,6 +155,7 @@ theorem sigFacts_of_tables (hQK : Q ≤ K) (hQn : ∀ h ∈ H, ∀ x ∈ Q, h * 
     rw [hd', hL', Nat.eq_of_beq_eq_true hxi]
     exact x_sound hx
 
+omit [Finite G] in
 theorem imFacts_of (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
     (hN : nodeChk M kg m gs ts e0 = true) (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {TP : ℕ}
@@ -187,7 +190,7 @@ theorem imFacts_of (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
       rwa [pow_two] at h2
     · have e : {x | x ∈ Q ∧ InSpan (uF b) (rd6 TP (κ x))} = (A : Set G) := by
         ext x
-        rw [Set.mem_setOf_eq, SetLike.mem_coe, hA, hD, inSpan_iff]
+        rw [Set.mem_ofPred_eq, SetLike.mem_coe, hA, hD, inSpan_iff]
       rw [e, ← Nat.card_coe_set_eq]
       exact hA16
   have hspan : ∀ {b : List ℕ}, (∀ s ∈ a, ∀ x, inSp b x = true → inSp b (appP s x) = true) →

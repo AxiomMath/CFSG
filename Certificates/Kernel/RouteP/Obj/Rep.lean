@@ -48,7 +48,7 @@ theorem objRep_of {L : Array (List Int)} (hL : objLines () = L)
         rw [getElem!_pos _ r (by simp [mTabs]; omega), getElem!_pos (mTabs ()) r (by simp [mTabs]; omega),
           Array.getElem_append_left]
       rw [e]
-      simp only [regsG, if_pos h2]
+      simp only [regsG, ite_eq_left h2]
       rcases (by omega : r = 0 ∨ r = 1) with rfl | rfl
       · exact hm.1
       · exact hm.2
@@ -56,7 +56,7 @@ theorem objRep_of {L : Array (List Int)} (hL : objLines () = L)
         rw [getElem!_pos _ r (by simp [mTabs]; omega), Array.getElem_append_right (by simp [mTabs]; omega)]
         simp
       rw [e]
-      simp only [regsG, if_neg h2]
+      simp only [regsG, ite_eq_right h2]
       exact Rep.idT hn
   have hprog' : ∀ ins ∈ objProg (), instrRegsLt (objRegs ()).size ins := by
     rw [hsize]
@@ -64,7 +64,7 @@ theorem objRep_of {L : Array (List Int)} (hL : objLines () = L)
   obtain ⟨-, -, hrep⟩ := runSLP_rep' hn (objProg ()) (objRegs ()) regsG hprog' hregs
   have hsz' : (objLines ()).size = 56 := by rw [hL]; exact hsz
   have hlines := prog_spec (NW := NWO) (KA := KAO) (KB := KBO) (g := 2) (o := 0) (ls := objLines ())
-    (t := fun ℓ => 2 + ℓ) hls (regs := regsG) (fun r hr => by simp only [regsG, if_pos hr, Nat.add_zero])
+    (t := fun ℓ => 2 + ℓ) hls (regs := regsG) (fun r hr => by simp only [regsG, ite_eq_left hr, Nat.add_zero])
     (fun ℓ hℓ => lokO (by simp; omega))
     (fun ℓ hℓ z hz => lokO (by rw [hL] at hz; exact hw ℓ (by omega) z hz))
     (fun ℓ hℓ k hk => by
@@ -80,7 +80,7 @@ theorem objRep_of {L : Array (List Int)} (hL : objLines () = L)
     by_cases h2 : r < 2
     · unfold objProg
       rw [runSLPG_compileSLP_lt 2 _ hls regsG h2]
-      simp only [regsG, if_pos h2]
+      simp only [regsG, ite_eq_left h2]
     · have := hlines (r - 2) (by rw [hsz']; omega)
       rw [show 2 + (r - 2) = r by omega] at this
       unfold objProg

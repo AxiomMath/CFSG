@@ -86,10 +86,10 @@ theorem stepForm_facts {Y : Array W} (hY : RowsWF Y) {X : Array W} (hX : RowsWF 
 theorem gensT_get (l : ℕ) : (gensT ()).get l = frTable matAT ∨ (gensT ()).get l = frTable matBT := by
   unfold Gens.get
   by_cases h : l = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     left
     simp only [gensT]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     right
     simp only [gensT]
 
@@ -115,7 +115,7 @@ theorem formAt_facts (E : Enum) (k : ℕ) :
         exact ⟨h1.trans hs, h2⟩
       · obtain ⟨h1, h2⟩ := stepForm_facts rowsWF_matBT hw
         exact ⟨h1.trans hs, h2⟩
-    · rw [formAt, dif_neg h]
+    · rw [formAt, dite_eq_right h]
       exact rootForm_facts'
 
 noncomputable abbrev form (k : ℕ) : RRef := formAt gensT orb rootForm k

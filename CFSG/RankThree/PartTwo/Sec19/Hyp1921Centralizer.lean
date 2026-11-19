@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag (projectiveSL)
 
 variable {G : Type} [Group G] [Finite G] {A M N L : Subgroup G}
 
+omit [Finite G] in
 theorem exists_subgroup_sectionCentralizer {U L : Subgroup G}
     (hUL : U ≤ Subgroup.normalizer (L : Set G)) :
     ∃ K : Subgroup G, K ≤ U ∧ (K : Set G) = sectionCentralizer U L (CFSG.Open.pCoreOf 2 L) := by
@@ -47,7 +48,7 @@ theorem Hyp1921.exists_ne_one_mem_sectionCentralizer_of (h : Hyp1921 G A M N L)
   obtain ⟨φ⟩ := h.quotient_iso
   have hE27 : IsE27 A := isE27_of_mem_partTwoE h.mem_partTwoE
   have hk4 : Nat.card (GaloisField 2 2) = 4 := KFacts.L34.card_galoisField_two_two
-  haveI : Finite (MulAut (projectiveSL 3 (GaloisField 2 2))) :=
+  have : Finite (MulAut (projectiveSL 3 (GaloisField 2 2))) :=
     Nat.finite_of_card_ne_zero (by rw [KFacts.L34.card_mulAut hk4]; norm_num)
   let β : A →* MulAut (projectiveSL 3 (GaloisField 2 2)) :=
     (Sec3.Sims321.rho φ).comp (Subgroup.inclusion hAL)
@@ -63,7 +64,7 @@ theorem Hyp1921.exists_ne_one_mem_sectionCentralizer_of (h : Hyp1921 G A M N L)
     omega
   obtain ⟨a, ha1, ha⟩ : ∃ a : A, β a = 1 ∧ a ≠ 1 := by
     rw [injective_iff_map_eq_one] at hnot
-    push_neg at hnot
+    push Not at hnot
     exact hnot
   refine ⟨(a : G), ⟨a.2, fun l hl => ?_⟩, fun h1 => ha (Subtype.ext (by simpa using h1))⟩
   exact (Sec3.Sims321.rho_eq_one_iff φ ⟨(a : G), hAL a.2⟩).mp ha1 l hl

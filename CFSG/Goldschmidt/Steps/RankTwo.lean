@@ -16,7 +16,7 @@ theorem omega1_le_of_isConj {G : Type} [Group G] [Finite G] (S : Sylow 2 G) {A :
     (hAS : A ≤ S) (hA1 : A ≠ ⊥) (hcl : fusionStronglyClosed (A : Set G) (S : Subgroup G))
     (hconj : ∀ x y : G, orderOf x = 2 → orderOf y = 2 → IsConj x y) :
     Omega1 (S : Subgroup G) ≤ A := by
-  have hAp : IsPGroup 2 A := (S.isPGroup').to_le hAS
+  have hAp : IsPGroup 2 A := (S.isPGroup).to_le hAS
   obtain ⟨n, hn⟩ := hAp.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

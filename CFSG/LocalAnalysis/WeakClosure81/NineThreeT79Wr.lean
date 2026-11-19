@@ -39,9 +39,9 @@ private theorem nine3_wr_mul {k l : Fin m} (hkl : k ≠ l) (y z : L) :
   apply SemidirectProduct.ext
   · funext n
     by_cases hk : n = k
-    · simp [hk, hkl, Ne.symm hkl]
+    · simp [hk, Ne.symm hkl]
     · by_cases hl : n = l
-      · simp [hl, hk, hkl, Ne.symm hkl]
+      · simp [hl, Ne.symm hkl]
       · simp [hk, hl, Equiv.swap_apply_of_ne_of_ne hk hl]
   · simp
 
@@ -60,7 +60,7 @@ private theorem nine3_wr_comm_iff {k l : Fin m} (hkl : k ≠ l) (y z : L) :
   constructor
   · intro h
     have hk := congrFun (congrArg SemidirectProduct.left h) k
-    simp [hkl] at hk
+    simp at hk
     have hw : y * z⁻¹ = (y * z⁻¹)⁻¹ := by
       rw [mul_inv_rev]; simpa using hk
     nth_rewrite 1 [hw]
@@ -69,14 +69,14 @@ private theorem nine3_wr_comm_iff {k l : Fin m} (hkl : k ≠ l) (y z : L) :
     apply SemidirectProduct.ext
     · funext n
       by_cases hk : n = k
-      · simp [hk, hkl, Ne.symm hkl]
+      · simp [hk]
         have hw : y * z⁻¹ = (y * z⁻¹)⁻¹ := (eq_inv_iff_mul_eq_one).2 h
         rw [hw, mul_inv_rev]
         simp
       · by_cases hl : n = l
-        · simp [hl, hk, hkl, Ne.symm hkl]
+        · simp [hl, Ne.symm hkl]
           exact nine3_inv_mul_eq_of_sq h
-        · simp [hk, hl, Equiv.swap_apply_of_ne_of_ne hk hl]
+        · simp [hk, hl]
     · simp
 
 private theorem nine3_conj_inr (g : WreathSym L m) (ρ : Equiv.Perm (Fin m)) :
@@ -87,10 +87,8 @@ private theorem nine3_conj_inr (g : WreathSym L m) (ρ : Equiv.Perm (Fin m)) :
   apply SemidirectProduct.ext
   · funext n
     simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
-      SemidirectProduct.inv_left, SemidirectProduct.inv_right,
-      SemidirectProduct.left_inr, SemidirectProduct.right_inr,
-      SemidirectProduct.left_inl, SemidirectProduct.right_inl,
-      map_one, MulAut.one_apply, one_mul, mul_one,
+      SemidirectProduct.inv_left, SemidirectProduct.left_inr, SemidirectProduct.right_inr,
+      map_one, mul_one,
       nine3_wreathAct_apply, Pi.mul_apply, Pi.inv_apply, map_mul, MulAut.mul_apply]
     congr 1
   · simp [SemidirectProduct.mul_right, SemidirectProduct.inv_right]
@@ -107,9 +105,9 @@ private theorem nine3_wr_of_conj_swap {k l : Fin m} (hkl : k ≠ l) {x : WreathS
   apply SemidirectProduct.ext
   · funext n
     by_cases hk : n = k
-    · simp [hk, hkl, Ne.symm hkl]
+    · simp [hk]
     · by_cases hl : n = l
-      · simp [hl, hk, hkl, Ne.symm hkl]
+      · simp [hl, Ne.symm hkl]
       · simp [hk, hl, Equiv.swap_apply_of_ne_of_ne hk hl]
   · simp
 
@@ -119,13 +117,11 @@ private theorem nine3_isConj_wr_swap {k l : Fin m} (hkl : k ≠ l) (y : L) :
   apply SemidirectProduct.ext
   · funext n
     simp only [SemidirectProduct.mul_left, SemidirectProduct.inv_left,
-      SemidirectProduct.left_inl, SemidirectProduct.right_inl, MulAut.one_apply, mul_one,
-      SemidirectProduct.left_inr, SemidirectProduct.inv_right, nine3_wreathAct_apply,
-      nine3_single_apply, Pi.inv_apply]
+      SemidirectProduct.left_inl, SemidirectProduct.right_inl, SemidirectProduct.left_inr]
     by_cases hk : n = k
-    · simp [hk, hkl, Ne.symm hkl]
+    · simp [hk, Ne.symm hkl]
     · by_cases hl : n = l
-      · simp [hl, hk, hkl, Ne.symm hkl]
+      · simp [hl, Ne.symm hkl]
       · simp [hk, hl, Equiv.swap_apply_of_ne_of_ne hk hl]
   · simp
 
@@ -219,7 +215,7 @@ private theorem nine3_sl2_exists_ne_one (F : Type) [Field F] :
   · intro h
     have h01 := congrArg (fun m : Matrix.SpecialLinearGroup (Fin 2) F =>
       (m : Matrix (Fin 2) (Fin 2) F) 0 1) h
-    have h10 : (1 : F) = 0 := by simpa using h01
+    have h10 : (1 : F) = 0 := by simp at h01
     exact one_ne_zero h10
 
 private theorem nine3_swap_fixed_four {k l n : Fin m} (hkl : k ≠ l)
@@ -241,39 +237,29 @@ private theorem nine3_swap_mul_comm_of_disjoint {k l k' l' : Fin m}
     by_cases hx3 : x = k' <;> by_cases hx4 : x = l' <;>
     simp_all [Equiv.swap_apply_def, hk1.symm, hk2.symm, hl1.symm, hl2.symm]
 
-private theorem nine3_wr_comm_of_disjoint {k l k' l' : Fin m} (hkl : k ≠ l) (hk'l' : k' ≠ l')
+private theorem nine3_wr_comm_of_disjoint {k l k' l' : Fin m} (_hkl : k ≠ l) (hk'l' : k' ≠ l')
     (hk1 : k ≠ k') (hk2 : k ≠ l') (hl1 : l ≠ k') (hl2 : l ≠ l') (y y' : L) :
     nine3_wr k l y * nine3_wr k' l' y' = nine3_wr k' l' y' * nine3_wr k l y := by
   apply SemidirectProduct.ext
   · funext n
-    simp only [nine3_wr_left, SemidirectProduct.mul_left, SemidirectProduct.mul_right,
-      nine3_wreathAct_apply, nine3_base_apply, Pi.mul_apply]
+    simp only [nine3_wr_left, SemidirectProduct.mul_left, nine3_wreathAct_apply, nine3_base_apply, Pi.mul_apply]
     by_cases h1 : n = k
-    · simp [h1, hk1, hk2, hl1, hl2, hkl, hk'l', hk1.symm, hk2.symm, hl1.symm, hl2.symm,
-        Equiv.swap_apply_of_ne_of_ne hk1 hk2, Equiv.swap_apply_of_ne_of_ne hk1.symm hl1.symm,
-        Equiv.swap_apply_of_ne_of_ne hl1 hl2, Equiv.swap_apply_of_ne_of_ne hk2.symm hl2.symm,
-        hk'l'.symm]
+    · simp [h1, hk1, hk2, hl1, hl2, Equiv.swap_apply_of_ne_of_ne hk1 hk2]
     · by_cases h2 : n = l
-      · simp [h2, hk1, hk2, hl1, hl2, hkl, hk'l', hk1.symm, hk2.symm, hl1.symm, hl2.symm,
-          Equiv.swap_apply_of_ne_of_ne hk1 hk2, Equiv.swap_apply_of_ne_of_ne hk1.symm hl1.symm,
-          Equiv.swap_apply_of_ne_of_ne hl1 hl2, Equiv.swap_apply_of_ne_of_ne hk2.symm hl2.symm,
-          hk'l'.symm]
+      · simp [h2, hk1, hk2, hl1, hl2, Equiv.swap_apply_of_ne_of_ne hl1 hl2]
       · by_cases h3 : n = k'
-        · simp [h3, hk1, hk2, hl1, hl2, hkl, hk'l', hk1.symm, hk2.symm, hl1.symm, hl2.symm,
-            Equiv.swap_apply_of_ne_of_ne hk1 hk2, Equiv.swap_apply_of_ne_of_ne hk1.symm hl1.symm,
-            Equiv.swap_apply_of_ne_of_ne hl1 hl2, Equiv.swap_apply_of_ne_of_ne hk2.symm hl2.symm,
-            hk'l'.symm]
+        · simp [h3, hk1.symm, hk2.symm, hl1.symm, hl2.symm,
+            Equiv.swap_apply_of_ne_of_ne hk1.symm hl1.symm]
         · by_cases h4 : n = l'
-          · simp [h4, hk1, hk2, hl1, hl2, hkl, hk'l', hk1.symm, hk2.symm, hl1.symm, hl2.symm,
-              Equiv.swap_apply_of_ne_of_ne hk1 hk2, Equiv.swap_apply_of_ne_of_ne hk1.symm hl1.symm,
-              Equiv.swap_apply_of_ne_of_ne hl1 hl2, Equiv.swap_apply_of_ne_of_ne hk2.symm hl2.symm,
+          · simp [h4, hk1.symm, hk2.symm, hl1.symm, hl2.symm,
+              Equiv.swap_apply_of_ne_of_ne hk2.symm hl2.symm,
               hk'l'.symm]
           · simp [h1, h2, h3, h4, Equiv.swap_apply_of_ne_of_ne h1 h2,
               Equiv.swap_apply_of_ne_of_ne h3 h4]
   · exact nine3_swap_mul_comm_of_disjoint hk1 hk2 hl1 hl2
 
-theorem nine3_prop710_wreath {n m : ℕ} (hn : 1 < n) {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 2 ^ n)
+theorem nine3_prop710_wreath {n m : ℕ} (_hn : 1 < n) {F : Type} [Field F] [Finite F]
+    (_hF : Nat.card F = 2 ^ n)
     {c a e a' v : WreathSym (Matrix.SpecialLinearGroup (Fin 2) F) m} {i j : Fin m} (hij : i ≠ j)
     (hc : IsConj c (SemidirectProduct.inr (Equiv.swap i j))) (h : Nine3Config c a e a' v) :
     ∃ d, IsConj c d ∧ d ≠ v ∧ d * a = a * d ∧ d * e = e * d := by
@@ -443,7 +429,7 @@ theorem nine3_prop710_wreath {n m : ℕ} (hn : 1 < n) {F : Type} [Field F] [Fini
       · rw [hv_eq]
         intro hd
         have hthis := congrFun (congrArg SemidirectProduct.left hd) k_v
-        simp [nine3_wr_left, nine3_base_apply, hklv] at hthis
+        simp [nine3_wr_left, nine3_base_apply] at hthis
         exact hx hthis
       · rw [ha_eq]
         exact nine3_wr_comm_of_disjoint hklv hkla hk1 hk2 hl1 hl2 (y_v * x) y_a
@@ -507,7 +493,7 @@ theorem nine3_prop710_wreath {n m : ℕ} (hn : 1 < n) {F : Type} [Field F] [Fini
     · rw [hv_eq]
       intro hd
       have hthis := congrFun (congrArg SemidirectProduct.left hd) k_v
-      simp [nine3_wr_left, nine3_base_apply, hklv] at hthis
+      simp [nine3_wr_left, nine3_base_apply] at hthis
       exact hx hthis
     · rw [ha_eq]
       exact nine3_wr_comm_of_disjoint hklv hkla hk1 hk2 hl1 hl2 (y_v * x) y_a

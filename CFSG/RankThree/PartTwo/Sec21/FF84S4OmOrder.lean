@@ -23,7 +23,7 @@ theorem commutator_mem_of_index_le_two {Γ : Type*} [Group Γ] [Finite Γ] (K : 
   rcases (by omega : K.index = 1 ∨ K.index = 2) with h1 | h2
   · rw [Subgroup.index_eq_one.mp h1]
     exact Subgroup.mem_top _
-  · haveI := Subgroup.normal_of_index_eq_two h2
+  · have := Subgroup.normal_of_index_eq_two h2
     have hq : Nat.card (Γ ⧸ K) = 2 := h2
     have hsq : ∀ g : Γ ⧸ K, g * g = 1 := by
       intro g

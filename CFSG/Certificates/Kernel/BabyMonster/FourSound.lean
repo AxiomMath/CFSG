@@ -311,6 +311,7 @@ theorem rOut_bit (q : Nat) : ∀ (Rb : List (List Nat)) (E acc : Nat),
     simp only [e]
     ring
 
+set_option exponentiation.threshold 4096 in
 theorem LMB_eq : LMB = 2 ^ 4096 - 1 := by
   unfold LMB
   rw [nsub, nshl, Nat.one_shiftLeft]

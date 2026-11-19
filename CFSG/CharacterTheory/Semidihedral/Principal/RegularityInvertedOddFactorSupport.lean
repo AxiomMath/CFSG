@@ -72,7 +72,7 @@ theorem exists_sylow_eq_map_of_normalizer_le [Finite G] {ℓ : ℕ} [Fact ℓ.Pr
     (hN : Subgroup.normalizer (((Q : Subgroup H).map H.subtype : Subgroup G) : Set G) ≤ H) :
     ∃ T : Sylow ℓ G, (T : Subgroup G) = (Q : Subgroup H).map H.subtype := by
   set Q₀ : Subgroup G := (Q : Subgroup H).map H.subtype with hQ₀
-  have hQ₀p : IsPGroup ℓ Q₀ := Q.isPGroup'.map H.subtype
+  have hQ₀p : IsPGroup ℓ Q₀ := Q.isPGroup.map H.subtype
   obtain ⟨T, hT⟩ := hQ₀p.exists_le_sylow
   refine ⟨T, ?_⟩
   by_contra hne
@@ -84,13 +84,13 @@ theorem exists_sylow_eq_map_of_normalizer_le [Finite G] {ℓ : ℕ} [Fact ℓ.Pr
     intro x hx
     have : (⟨x, hx⟩ : T) ∈ Q₀.subgroupOf T := htop ▸ Subgroup.mem_top _
     exact this
-  have hnorm := CFSG.LocalAnalysis.ComponentInitial.p_group_normalizer_condition T.isPGroup' hlt
+  have hnorm := CFSG.LocalAnalysis.ComponentInitial.p_group_normalizer_condition T.isPGroup hlt
   obtain ⟨g, hgN, hgQ⟩ := IsConcreteLE.exists_of_lt hnorm
   rw [← Subgroup.subgroupOf_normalizer_eq hT, Subgroup.mem_subgroupOf] at hgN
   have hgH : (g : G) ∈ H := hN hgN
   set R : Subgroup H := ((T : Subgroup G) ⊓ Subgroup.normalizer (Q₀ : Set G)).comap H.subtype
   have hRp : IsPGroup ℓ R :=
-    (T.isPGroup'.comap_of_injective H.subtype Subtype.val_injective).to_le
+    (T.isPGroup.comap_of_injective H.subtype Subtype.val_injective).to_le
       (Subgroup.comap_mono inf_le_left)
   have hQR : (Q : Subgroup H) ≤ R := by
     intro x hx

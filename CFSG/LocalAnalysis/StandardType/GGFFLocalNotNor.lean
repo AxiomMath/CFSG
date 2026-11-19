@@ -23,7 +23,7 @@ theorem not_nor_le (h : SettingCore b K z)
   have hβmem : g⁻¹ * b * g ∈ CFSG.conjugate (Subgroup.zpowers b) g := by
     rw [CFSG.conjugate, Subgroup.mem_map]
     refine ⟨b, Subgroup.mem_zpowers b, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
   have hβC : g⁻¹ * b * g ∈ Cen b := hgC hβmem
   have hβ3 : (g⁻¹ * b * g) ^ 3 = 1 := by
     rw [show g⁻¹ * b * g = g⁻¹ * b * (g⁻¹)⁻¹ by rw [inv_inv], conj_pow, h.b_cube]
@@ -52,7 +52,7 @@ theorem not_nor_le (h : SettingCore b K z)
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     rw [map_zpow]
     have e : ((MulAut.conj g⁻¹).toMonoidHom) b = g⁻¹ * b * g := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     rw [e]
     exact (Subgroup.zpowers b).zpow_mem hβzp k
   exact hgne (Subgroup.eq_of_le_of_card_ge hle_conj (by

@@ -190,7 +190,7 @@ theorem centralizer_inf_le_sup [Finite S] (hS : IsPGroup 2 S) {K A : Subgroup S}
       rw [htop]
       exact Subgroup.mem_top _
     exact hxW (Subgroup.mem_subgroupOf.mp hxmem)
-  obtain ⟨t', ht'n, ht'W⟩ := SetLike.exists_of_lt (hNC _ hWX)
+  obtain ⟨t', ht'n, ht'W⟩ := _root_.IsConcreteLE.exists_of_lt (hNC _ hWX)
   have haW : (⟨a, haX⟩ : Subgroup.centralizer ((A ⊓ K : Subgroup S) : Set S)) ∈
       (K ⊔ Subgroup.zpowers a).subgroupOf
         (Subgroup.centralizer ((A ⊓ K : Subgroup S) : Set S)) :=

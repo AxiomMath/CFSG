@@ -16,7 +16,7 @@ open CFSG.Open CFSG.GorensteinWalter
 theorem exists_eq_two_pow_of_dihedral {G : Type*} [Group G] [Finite G] (T : Sylow 2 G) {n : ℕ}
     (hn : 2 ≤ n) (e : (T : Subgroup G) ≃* DihedralGroup n) : ∃ m, 1 ≤ m ∧ n = 2 ^ m := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   have hcard : Nat.card (T : Subgroup G) = 2 * n :=
     (Nat.card_congr e.toEquiv).trans DihedralGroup.nat_card
   have hdvd : n ∣ 2 ^ k := by
@@ -83,8 +83,8 @@ theorem exists_central_involution {G : Type*} [Group G] [Finite G] (T : Sylow 2 
     [Nontrivial (T : Subgroup G)] :
     ∃ z : G, orderOf z = 2 ∧ (T : Subgroup G) ≤ Subgroup.centralizer {z} := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hZ : Nontrivial (Subgroup.center (T : Subgroup G)) := T.isPGroup'.center_nontrivial
-  have hZ2 : IsPGroup 2 (Subgroup.center (T : Subgroup G)) := T.isPGroup'.to_subgroup _
+  have hZ : Nontrivial (Subgroup.center (T : Subgroup G)) := T.isPGroup.center_nontrivial
+  have hZ2 : IsPGroup 2 (Subgroup.center (T : Subgroup G)) := T.isPGroup.to_subgroup _
   obtain ⟨k, hk⟩ := hZ2.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -164,7 +164,7 @@ theorem dihedral_core
       exact hLodd
     let eL : L' ≃* L := (L.equivMapOfInjective eQ.toMonoidHom eQ.injective).symm
     have hCL : Subgroup.centralizer ({z} : Set G) ≤ L' :=
-      hCT ▸ le_of_odd_index hL'odd T.isPGroup'
+      hCT ▸ le_of_odd_index hL'odd T.isPGroup
     have hzL : z ∈ L' := hCL hzC
     rcases hLmodel with hPSL | hPGL
     ·

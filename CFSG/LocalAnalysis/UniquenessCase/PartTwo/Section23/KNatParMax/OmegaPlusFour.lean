@@ -21,8 +21,8 @@ open scoped commutatorElement
 theorem two_le_of_natOmegaPlusFour {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {n : ℕ}
     (h : NatOmegaPlus H ⊤ ⊥ 4 n) (hperf : ⁅H, H⁆ = H) : 2 ≤ n := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   rw [show 4 / 2 = 2 by norm_num] at hR
   rcases n with _ | _ | k
   · rw [pow_zero] at hK
@@ -69,17 +69,17 @@ theorem natParMax_omegaPlusFour {W : Type} [CommGroup W] [Finite W]
     (hgen : H = ⨆ r ∈ R, K.map (MulAut.conj r).toMonoidHom) (hS : IsSylowIn 2 S H)
     (hRX : R ≤ Subgroup.normalizer (X : Set (MulAut W)))
     (hXge : H ⊓ stabSub (fixV S) ≤ X) (hXlt : X < H) : X = H ⊓ stabSub (fixV S) := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : Finite ↥H :=
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite ↥H :=
     Finite.of_injective (fun x : ↥H => (x : MulAut W)) Subtype.coe_injective
   have hn2 : 2 ≤ n := two_le_of_natOmegaPlusFour hN hperf
   obtain ⟨A, B, hAg, hBg, ⟨eAB⟩, hLA, hLB⟩ := isL2Square_of_isOmegaPlus hn2 hΩ
-  letI : Group A := hAg
-  letI : Group B := hBg
-  haveI : Finite (A × B) :=
+  let : Group A := hAg
+  let : Group B := hBg
+  have : Finite (A × B) :=
     Finite.of_injective (eAB.symm : A × B → ↥H) eAB.symm.injective
-  haveI : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
-  haveI : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
+  have : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
+  have : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
   have hA : ∀ (T : Sylow 2 A) (Q : Subgroup A), (T : Subgroup A) ≤ Q → Q ≠ ⊤ →
       Q ≤ Subgroup.normalizer (T : Set A) :=
     fun T Q h1 h2 => l2_sylow_le_normalizer hn2 hLA T Q h1 h2

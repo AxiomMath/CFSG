@@ -39,9 +39,9 @@ theorem unitary_cover_data {X : Type} [Group X] [Finite X] {m : ℕ} (hm : Odd m
       exact (QuotientGroup.quotientBot (G := X)).symm.trans
         (QuotientGroup.quotientMulEquivOfEq hcen.symm)
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m * 2) (by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m * 2) (by
       simpa only [Nat.card_eq_fintype_card, ← pow_mul] using hKcard)
     have hnq : ((3 : ℕ), 2 ^ m) ≠ (3, 2) := by
       intro h
@@ -51,8 +51,8 @@ theorem unitary_cover_data {X : Type} [Group X] [Finite X] {m : ℕ} (hm : Odd m
       omega
     have hq := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := m)
       (n := 3) hKcard (by norm_num) hnq
-    haveI : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ m) K) := hq.1.1
-    haveI : Group.IsPerfect X :=
+    have : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 3 (2 ^ m) K) := hq.1.1
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
     have hmod : 2 ^ m % 3 = 2 := by
       obtain ⟨k, rfl⟩ := hm
@@ -75,7 +75,7 @@ theorem u3nPure_holds : U3nPure := by
     have := hn.pos
     omega
   obtain ⟨hperf, hodd, e, hB⟩ := unitary_cover_data hm hm2 hX
-  haveI := hperf
+  have := hperf
   exact ⟨hodd, fun E hE hEc hsE => cover_root (le_refl _) hodd hB hs1 hs2 hE hEc hsE,
     fun F hF hFs hFn => cover_aut hodd hm hB hs1 hs2 hF hFs hFn⟩
 

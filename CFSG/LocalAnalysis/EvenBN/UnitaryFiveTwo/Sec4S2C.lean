@@ -63,7 +63,7 @@ theorem R_le_cenMod_D₀ (h : d.Hyp) : d.R ≤ cenMod (d.X₄ ⊔ d.Y) d.D₀ :=
   rw [e]
   exact mem_sup_right hc
 
-theorem D₂_le_cenMod_D₀' (h : d.Hyp) : d.D₂ ≤ cenMod (d.X₄ ⊔ d.Y) d.D₀ := fun u hu =>
+theorem D₂_le_cenMod_D₀' (h : d.Hyp) : d.D₂ ≤ cenMod (d.X₄ ⊔ d.Y) d.D₀ := fun _u hu =>
   mem_cenMod_of_comm h.X₄Y_le_D₀ fun p hp => mem_sup_right ((h.D₂_le_cenMod_D₀ hu).2 p hp)
 
 theorem RD₂_le_cenMod_D₀ (h : d.Hyp) : d.R ⊔ d.D₂ ≤ cenMod (d.X₄ ⊔ d.Y) d.D₀ :=

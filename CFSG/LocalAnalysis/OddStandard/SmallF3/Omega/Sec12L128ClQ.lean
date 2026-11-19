@@ -19,7 +19,7 @@ theorem sec128_normal_perfect_type {Q : Type} [Group Q]
   ·
     obtain ⟨e⟩ : Nonempty (Q ≃* WrZ2 ↥(alternatingGroup (Fin 5))) := h
     let N : Subgroup (WrZ2 ↥(alternatingGroup (Fin 5))) := P.map e.toMonoidHom
-    haveI : N.Normal := hPn.map e.toMonoidHom e.surjective
+    have : N.Normal := hPn.map e.toMonoidHom e.surjective
     have hNperf : ⁅N, N⁆ = N := by
       rw [← Subgroup.map_commutator, hP]
     have hN1 : N ≠ ⊥ := fun h => hP1 ((Subgroup.map_eq_bot_iff_of_injective P e.injective).mp h)
@@ -29,14 +29,14 @@ theorem sec128_normal_perfect_type {Q : Type} [Group Q]
     exact hidx
   ·
     have hPE : P ≤ E := sec128_perfect_le_index_two E hEi P hP
-    haveI : IsSimpleGroup ↥E :=
+    have : IsSimpleGroup ↥E :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hE
     have hPeq : P = E := sec128_eq_of_simple E P hPE hP1
     subst hPeq
     exact ⟨hEi, Or.inr (Or.inl hE)⟩
   ·
     have hPE : P ≤ E := sec128_perfect_le_index_two E hEi P hP
-    haveI : IsSimpleGroup ↥E :=
+    have : IsSimpleGroup ↥E :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hE
     have hPeq : P = E := sec128_eq_of_simple E P hPE hP1
     subst hPeq

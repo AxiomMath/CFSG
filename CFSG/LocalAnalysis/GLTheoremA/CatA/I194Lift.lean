@@ -19,7 +19,7 @@ theorem mem_conjJ {a x : Y} {J : Subgroup Y} : x ∈ conjJ a J ↔ a⁻¹ * x * 
   · rintro ⟨y, hy, rfl⟩
     simpa [conjJ, MulAut.conj_apply, mul_assoc] using hy
   · intro h
-    exact ⟨a⁻¹ * x * a, h, by simp [conjJ, MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨a⁻¹ * x * a, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
 theorem conjJ_mul (x y : Y) (J : Subgroup Y) : conjJ x (conjJ y J) = conjJ (x * y) J := by
   ext z
@@ -82,7 +82,7 @@ theorem commute_of_comp_ne [Finite Y] {K L : Subgroup Y} (hK : IsComponent K)
       y hy).symm
 
 theorem exists_transversal [Finite Y] (A H : Subgroup Y)
-    (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hH : H ≤ A) :
+    (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (_hH : H ≤ A) :
     ∃ T : List Y, T.Nodup ∧ (∀ t ∈ T, t ∈ A) ∧
       (∀ t ∈ T, ∀ s ∈ T, t⁻¹ * s ∈ H → t = s) ∧ (∀ x ∈ A, ∃ t ∈ T, t⁻¹ * x ∈ H) := by
   classical
@@ -94,7 +94,7 @@ theorem exists_transversal [Finite Y] (A H : Subgroup Y)
     show (g : Y) * (n : Y) * (g : Y)⁻¹ ∈ H
     rw [hc]
     exact hn
-  letI : Fintype (↥A ⧸ H.subgroupOf A) := Fintype.ofFinite _
+  let : Fintype (↥A ⧸ H.subgroupOf A) := Fintype.ofFinite _
   refine ⟨(Finset.univ.image fun q : ↥A ⧸ H.subgroupOf A =>
       ((Quotient.out q : ↥A) : Y)).toList, Finset.nodup_toList _, ?_, ?_, ?_⟩
   · intro t ht

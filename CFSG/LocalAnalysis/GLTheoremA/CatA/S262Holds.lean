@@ -27,8 +27,7 @@ theorem good3On_gf2Uni (hPL : KD264PL 3) : Good3On gf2Uni :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2Uni] at he
     · exact three_ne_characteristic_of_card_two
-        (TauCeti.LieTypeIndex.characteristic_twistedA _ _) he.2
-    all_goals exact he.elim) fixed_perfect_gf2Uni
+        (TauCeti.LieTypeIndex.characteristic_twistedA _ _) he.2) fixed_perfect_gf2Uni
 
 theorem i262GF2_holds
     : I262GF2 := by

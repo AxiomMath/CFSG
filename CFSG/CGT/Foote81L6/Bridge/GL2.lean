@@ -90,7 +90,7 @@ theorem ι_apply (x : SD n) : D.ι x = D.ω ^ x.i.val * D.σ ^ x.j.val := rfl
 theorem ι_injective : Function.Injective D.ι :=
   SD.lift_injective _ _ _ D.orderOf_ω D.σ_not_mem
 
-theorem ι_z (hn : 2 ≤ n) : D.ι SD.z = -1 := by
+theorem ι_z (_hn : 2 ≤ n) : D.ι SD.z = -1 := by
   rw [ι_apply]
   change D.ω ^ (hf n).val * D.σ ^ (0 : ZMod 2).val = -1
   rw [ZMod.val_zero, pow_zero, mul_one, D.ω_pow_hf]

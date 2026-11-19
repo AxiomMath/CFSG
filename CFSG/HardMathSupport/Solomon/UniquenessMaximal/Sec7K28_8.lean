@@ -34,6 +34,7 @@ theorem mk_eq_of_mem_oPrime3 {o : X} (ho : o ∈ oPrime3 X) :
   have : y = ⟨o, trivial⟩ := Subtype.ext hyo
   exact this ▸ hy
 
+omit [Finite X] in
 theorem barX_eq_top_of_sup {N : Subgroup X} (h : N ⊔ oPrime3 X = ⊤) :
     barX 3 (⊤ : Subgroup X) N = ⊤ := by
   have := (oPrime3_normal (X := X))
@@ -62,6 +63,7 @@ theorem normalizer_sup_oPrime3_eq_top {P : Subgroup X} (hPO : P ≤ oPrime3 X) (
     rw [Subgroup.map_subgroupOf_eq_of_le hPO]
   rw [← h, hmap]
 
+omit [Finite X] in
 theorem mem_normalizer_sup_oPrime3 {T : Subgroup X} {g : X}
     (hg : g ∈ Subgroup.normalizer (T : Set X)) : g ∈ Subgroup.normalizer ((T ⊔ oPrime3 X : Subgroup X) : Set X) := by
   have hO := oPrime3_normal (X := X)
@@ -133,7 +135,7 @@ theorem not_two_dvd_relIndex_inf {B T : Subgroup X} (hB : IsPGroup 3 B)
   obtain ⟨S, hTS, hSfix⟩ := CFSG.SignalizerFunctor.Helpers.invariant_sylow_containing 3 2
     Nat.prime_three Nat.prime_two hB hBcop (T.subgroupOf H) hT' hinv
   let S' : Subgroup X := (S : Subgroup H).map H.subtype
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map H.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map H.subtype
   have hS'B : B ≤ Subgroup.normalizer (S' : Set X) := by
     rw [Subgroup.le_normalizer_iff]
     rintro b hb _ ⟨y, hy, rfl⟩

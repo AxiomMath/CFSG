@@ -16,7 +16,7 @@ open AutSection
 
 theorem kFactLThreeFourAutSection_holds : KFactLThreeFourAutSection := by
   intro q hq hq2 hq3 V _ _ hV hr A K _ hK φ hφ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨W, _, _, _, ρ, hker, h3 | ⟨h4, B, hB, halt, hsim⟩⟩ := hasSmallSympModel hq2 hV hr
   · exact not_surjective_of_dim_le_three hq2 (fiveCentralizesTwo hq2) h3 ρ hker A
       (lThreeFourTwoLocal_of hK) φ hφ

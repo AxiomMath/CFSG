@@ -18,13 +18,14 @@ section Certs
 
 variable {n q : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem three_not_dvd_center (h : UnitaryFieldData 2 n F) (hn : 2 ≤ n) :
     ¬ 3 ∣ Nat.card (Subgroup.center (unitaryPSU h 6)) := by
   rw [center_unitaryPSU_six h hn, Subgroup.card_bot]
   norm_num
 
 theorem twA5_six (h : UnitaryFieldData 2 n F) (hn : 4 ≤ n) {ζu : Fˣ}
-    (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1)
+    (_hζ : h.norm (ζu : F) = 1) (_hζo : orderOf ζu = q) (hq : q.Prime) (hqdvd : q ∣ 2 ^ n + 1)
     (hq6 : ¬ q ∣ 6) (hq2 : q ≠ 2) :
     (Subgroup.center ↥(blockSU h suFiveIndex) = ⊥ ∧
         TrivialMultiplierT ↥(blockSU h suFiveIndex)) ∨
@@ -52,6 +53,7 @@ theorem twA5_shape (h : UnitaryFieldData 2 n F) (hn : 4 ≤ n) (he : evenRank (u
   exact ⟨rfl, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
     (Or.inl ⟨rfl, rfl, hz3, rfl, rfl⟩)))))⟩
 
+omit [Finite F] in
 theorem twA5_su_case (h : UnitaryFieldData 2 n F) (hn : 2 ≤ n) {ζu : Fˣ}
     (hζ : h.norm (ζu : F) = 1) :
     3 ∣ Nat.card (Subgroup.center (unitaryPSU h 6)) →

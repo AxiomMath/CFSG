@@ -161,9 +161,9 @@ theorem frame4_of_twin_reps {K K' : Subgroup G} {z : G}
     fun h => hbc (Subtype.ext (c.comm_of_omega σ ρ' h).symm)⟩, rfl, rfl, rfl, rfl⟩
 
 theorem trans_of_fuse {K K' : Subgroup G} {z : G}
-    (hs : CFSG.ClassicalInvolution.Q8P.Asc77.Hyp23Setting Ω K K' z) (hW : W ∈ WSet Ω)
-    (hzW : z ∈ W) {u : G} (huK : u ∈ K ⊔ K') (huW : u ∈ W) (hu1 : u ≠ 1) (huz : u ≠ z)
-    (hu2 : u * u = 1)
+    (hs : CFSG.ClassicalInvolution.Q8P.Asc77.Hyp23Setting Ω K K' z) (_hW : W ∈ WSet Ω)
+    (_hzW : z ∈ W) {u : G} (_huK : u ∈ K ⊔ K') (_huW : u ∈ W) (_hu1 : u ≠ 1) (_huz : u ≠ z)
+    (_hu2 : u * u = 1)
     (hfuse : ∀ L ∈ twinSet Ω K, ∀ L' ∈ twinSet Ω K, L' ≠ L → ∀ R₁ R₂ : Subgroup G,
       IsSylow2In R₁ L → IsSylow2In R₂ L' → Commutes R₁ R₂ → ∀ x ∈ R₁, ∀ y ∈ R₂,
         orderOf x = 4 → orderOf y = 4 →
@@ -232,7 +232,7 @@ theorem trans_of_fuse {K K' : Subgroup G} {z : G}
       have hR'syl : IsSylow2In F.ρ'.R K' := by rw [← hρ'K]; exact F.ρ'.hRK
       have hc2 : Commutes F.ρ.R F.ρ'.R :=
         CFSG.ClassicalInvolution.Q8P.Asc77.HypOmegaMod.commutes_of_twin_of_isPGroup hΩ hK hK' hKK'.symm hz hz' (hρK ▸ F.ρ.hRK.1)
-          (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup'.to_le (sup_le hρS hρ'S))
+          (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup.to_le (sup_le hρS hρ'S))
       have hCx : ∀ x ∈ F.ρ.R, ∀ y ∈ F.ρ'.R, orderOf x = 4 → orderOf y = 4 →
           Subgroup.centralizer ({x * y} : Set G) ≤ H := by
         intro x hx y hy ox oy t ht

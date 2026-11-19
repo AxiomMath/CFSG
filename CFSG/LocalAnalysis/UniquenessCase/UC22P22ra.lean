@@ -22,9 +22,9 @@ theorem uc22p22r_card_inf_le (D : Data G) (h63 : UC6.R6_3 D) {q : ℕ} (hq : q.P
 
 theorem uc22p22r_normalizer_le {q : ℕ} (hq : q.Prime) {M P A : Subgroup G} (hAP : A ≤ P)
     (hAcard : Nat.card ↥A = q) (hΓ : rankThreeGamma 1 q P ≤ M) : normalizer (A : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hrankA : 1 ≤ CFSG.Open.pRank q A := by
-    haveI : IsCyclic ↥A := isCyclic_of_prime_card hAcard
+    have : IsCyclic ↥A := isCyclic_of_prime_card hAcard
     refine CFSG.SectionRank.le_pRank hq.one_lt le_rfl ⟨inferInstance, fun x hx => ?_⟩ ?_
     · have h1 : (⟨x, hx⟩ : ↥A) ^ Nat.card ↥A = 1 := pow_card_eq_one'
       rw [hAcard] at h1
@@ -36,7 +36,7 @@ theorem uc22p22r_final2210_holds (D : Data G) (h63 : UC6.R6_3 D) : Final2210 D :
   classical
   intro q hq hq2 P₁ P₂ A g z hP₁M hP₂M hP₁q hP₂q hP₁exp hP₂exp hP₁card hP₂card hΓ₁ hΓ₂ hAcard hAP₁ hAP₂
     hz1 hzO hzA hgz hgM hAne hcomm hD'M hAM₁ hD'N hAN
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2le := hq.two_le
   set D' : Subgroup G := uniqueFourConj g A with hD'
   set P₂' : Subgroup G := uniqueFourConj g P₂ with hP₂'

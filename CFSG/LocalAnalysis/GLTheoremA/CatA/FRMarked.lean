@@ -110,7 +110,7 @@ theorem simple_chev_of_index {R : Type} [Group R] {d : ValidLieTypeIndex}
 theorem simple_chev_of_alt {R : Type} [Group R] {n : ℕ} (hn : 5 ≤ n) (h : n = 5 ∨ n = 6 ∨ n = 8)
     (e : Nonempty (R ≃* alternatingGroup (Fin n))) : IsSimpleGroup R ∧ IsChevSimple 2 R := by
   obtain ⟨e⟩ := e
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
+  have : IsSimpleGroup (alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
   refine ⟨(MulEquiv.isSimpleGroup_congr e).mpr inferInstance, Or.inr ⟨.alternating n hn, ?_, ⟨e⟩⟩⟩
   rcases h with rfl | rfl | rfl <;> simp [ambiguousChev]
 

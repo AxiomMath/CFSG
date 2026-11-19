@@ -77,7 +77,7 @@ theorem cFix_total {KX PT XM : ℕ → ℕ} {n k : ℕ} (hn : n ≤ 64 * k) :
   rw [sum_blocks k (fun i => if i < n ∧ sameSpanL CFSG.KD.LyOm.BC (getRec KX 9324 i)
       (bMul CFSG.KD.LyOm.BC (getRec KX 9324 i) (XM (chartOf (getRec PT 32 i)))) = true then 1 else 0),
     show 64 * k = n + (64 * k - n) by omega, Finset.sum_range_add,
-    Finset.sum_eq_zero (s := Finset.range (64 * k - n)) (fun i _ => if_neg (by omega)), Nat.add_zero]
+    Finset.sum_eq_zero (s := Finset.range (64 * k - n)) (fun i _ => ite_eq_right (by omega)), Nat.add_zero]
   exact Finset.sum_congr rfl fun i hi => by
     rw [if_congr (and_iff_right (Finset.mem_range.1 hi)) rfl rfl]
 

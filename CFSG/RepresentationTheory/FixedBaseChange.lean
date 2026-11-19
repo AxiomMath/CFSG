@@ -58,8 +58,7 @@ private theorem fixSubDefectExtendScalars_eq (ρ : Representation F G V) (N : Su
   apply LinearMap.ext
   intro x
   funext n
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v => simp [fixSubDefectExtendScalars, fixSubDefect, TensorProduct.tmul_sub]
   | add x y hx hy => simp [map_add, hx, hy]
 
@@ -136,8 +135,7 @@ theorem sectionRep_extendScalars (ρ : Representation F G V) (N : Subgroup G) [F
       fixSubBaseChangeEquiv F' ρ N (extendScalars F' (sectionRep ρ N ι hι) m x) =
         sectionRep (extendScalars F' ρ) N ι hι m (fixSubBaseChangeEquiv F' ρ N x) := by
   intro m x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       apply Subtype.ext
       simp [extendScalars_apply, sectionRep_apply, coe_fixSubBaseChangeEquiv_tmul]
@@ -304,8 +302,7 @@ theorem baseChange_intertwines (ρ : Representation F G V) (T : V →ₗ[F] V)
     ∀ g v, T.baseChange F' (extendScalars F' ρ g v) =
       extendScalars F' ρ (α g) (T.baseChange F' v) := by
   intro g v
-  induction v using TensorProduct.induction_on with
-  | zero => simp
+  induction v using TensorProduct.inductionOn with
   | tmul a w => simp [extendScalars_apply, hT]
   | add x y hx hy =>
       simp only [map_add]

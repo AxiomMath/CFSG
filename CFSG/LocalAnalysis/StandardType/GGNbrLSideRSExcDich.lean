@@ -105,8 +105,8 @@ theorem ggNbrLSideDich_of_transport
       exact (e r).2
     · intro x hx
       exact ⟨e.symm ⟨x, hx⟩, by simp [ι]⟩
-  haveI : Finite ↥S.Γ := S.finite_Γ
-  haveI : Finite R := Finite.of_injective e e.injective
+  have : Finite ↥S.Γ := S.finite_Γ
+  have : Finite R := Finite.of_injective e e.injective
   have hβ : ∀ c : R, ι (φ c) = rootDiagUnit τ a * ι c * (rootDiagUnit τ a)⁻¹ :=
     fun c => hφe c
   have h2L : ((2 : ℕ) : L) = 0 := by simpa using hL2

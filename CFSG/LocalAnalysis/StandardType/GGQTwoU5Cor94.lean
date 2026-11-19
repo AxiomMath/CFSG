@@ -81,7 +81,7 @@ theorem le_centralizer_of_rank {L : Subgroup G} (hperf : commutator L = ⊤) {M 
     intro a ha
     rw [mem_normalizer_iff]
     intro c
-    simp only [SetLike.mem_coe, mem_subgroupOf, Subgroup.coe_mul, InvMemClass.coe_inv]
+    simp only [mem_subgroupOf, Subgroup.coe_mul, InvMemClass.coe_inv]
     exact (mem_normalizer_iff.1 (hBT (mem_subgroupOf.1 ha)) c)
   have hE27 : 3 ^ r ≤ Nat.card E := by
     let ψB := ψ.comp (B.subgroupOf Nn).subtype
@@ -179,7 +179,7 @@ theorem exists_two_subgroup_of_even_center {G₁ E : Subgroup G} (hE : E ≤ nor
     have hsq : ∀ g ∈ closure S, g ^ 2 = 1 := by
       have hScomm : IsMulCommutative (closure S) :=
         Subgroup.isMulCommutative_closure fun a ha b hb _ => hk a ha b hb
-      letI : CommGroup (closure S) := by
+      let : CommGroup (closure S) := by
         open scoped IsMulCommutative in exact inferInstance
       have htop : closure (((↑) : closure S → G) ⁻¹' S) ≤ (powMonoidHom 2 : closure S →* closure S).ker := by
         rw [closure_le]

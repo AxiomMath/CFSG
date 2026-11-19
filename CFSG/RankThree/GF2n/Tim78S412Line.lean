@@ -34,6 +34,7 @@ include H hg
 
 section Root
 
+omit [Finite G] in
 theorem outer_ne_B : conjSubgroup g B ≠ B := fun h => hg.notLeP (by rw [h]; exact H.B_le_P)
 
 theorem outer_inf_B : B ⊓ conjSubgroup g B = ⊥ :=
@@ -169,14 +170,16 @@ theorem outer_L_elemAb : Assembly.IsElemAbelian 2 (B ⊔ conjSubgroup g B) :=
   CFSG.Open.IsElemAbelian.sup_of_commute H.elemAb (isElemAbelian_conjSubgroup H.elemAb g)
     (H.outer_comm_B hg)
 
+omit [Finite G] H in
 theorem outer_commutator_mem_B {p a : G} (hp : p ∈ P) (ha : a ∈ conjSubgroup g B) :
     ⁅p, a⁆ ∈ B := by
   rw [← commutatorElement_inv]
   exact B.inv_mem (hg.pfull a ha p hp)
 
+omit [Finite G] H in
 theorem outer_conj_eq {p a : G} (hp : p ∈ P) (ha : a ∈ conjSubgroup g B) :
     p * a * p⁻¹ = ⁅p, a⁆ * a ∧ ⁅p, a⁆ ∈ B :=
-  ⟨by simp only [commutatorElement_def]; group, H.outer_commutator_mem_B hg hp ha⟩
+  ⟨by simp only [commutatorElement_def]; group, Hyp4.outer_commutator_mem_B hg hp ha⟩
 
 theorem outer_P_le_normalizer_L :
     P ≤ Subgroup.normalizer ((B ⊔ conjSubgroup g B : Subgroup G) : Set G) := by
@@ -185,7 +188,7 @@ theorem outer_P_le_normalizer_L :
   have hAB : conjSubgroup g B ≤ Subgroup.normalizer (B : Set G) :=
     le_normalizer_of_comm fun a ha b hb => (H.outer_comm_B hg b hb a ha).symm
   obtain ⟨b, hb, a, ha, rfl⟩ := exists_mul_of_mem_sup hAB hl
-  obtain ⟨hpa, hpaB⟩ := H.outer_conj_eq hg hp ha
+  obtain ⟨hpa, hpaB⟩ := CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_eq hg hp ha
   have hpb : p * b * p⁻¹ = b := by
     rw [show p * b = b * p from (H.center_Q hb (H.P_le_Q hp)).symm, mul_inv_cancel_right]
   have e : p * (b * a) * p⁻¹ = b * (⁅p, a⁆ * a) := by
@@ -195,16 +198,17 @@ theorem outer_P_le_normalizer_L :
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hb)
     (Subgroup.mul_mem _ (Subgroup.mem_sup_left hpaB) (Subgroup.mem_sup_right ha))
 
+omit [Finite G] H in
 theorem outer_conj_mem_classIn {p : G} (hp : p ∈ P) :
     conjSubgroup p (conjSubgroup g B) ∈ classIn B (B ⊔ conjSubgroup g B) := by
   refine ⟨⟨p * g, (conjSubgroup_mul p g B).symm⟩, fun x hx => ?_⟩
   have hx' := mem_conjSubgroup.mp hx
-  obtain ⟨hpa, hpaB⟩ := H.outer_conj_eq hg (P.inv_mem hp) hx'
+  obtain ⟨hpa, hpaB⟩ := CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_eq hg (P.inv_mem hp) hx'
   have e : x = p * (p⁻¹ * x * p) * p⁻¹ := by group
   have e2 : p * (p⁻¹ * x * p) * p⁻¹ = ⁅p, p⁻¹ * x * p⁆ * (p⁻¹ * x * p) := by
     simp only [commutatorElement_def]; group
   rw [e, e2]
-  exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (H.outer_commutator_mem_B hg hp hx'))
+  exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Hyp4.outer_commutator_mem_B hg hp hx'))
     (Subgroup.mem_sup_right hx')
 
 theorem outer_exists_point (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput) {w : G}
@@ -220,13 +224,13 @@ theorem outer_exists_point (hCen : BenderCenterInput) (hU : UnitaryTwoGeneration
     exact hb
   · obtain ⟨p, hp, hpa⟩ := H.outer_surj_P hg hCen hU ha ha1 b hb
     refine ⟨conjSubgroup p (conjSubgroup g B), Or.inr ⟨p, hp, rfl⟩,
-      H.outer_conj_mem_classIn hg hp, ?_⟩
+      CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_mem_classIn hg hp, ?_⟩
     have hbb : b⁻¹ = b := inv_eq_of_mul_eq_one_right (by
       have := H.sq_eq_one b hb
       rwa [sq] at this)
     have h1 : ⁅p, a⁆ = b := by rw [← commutatorElement_inv, hpa, hbb]
     have h2 : b * a = p * a * p⁻¹ := by
-      rw [(H.outer_conj_eq hg hp ha).1, h1]
+      rw [(CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_eq hg hp ha).1, h1]
     rw [mem_conjSubgroup, h2, show p⁻¹ * (p * a * p⁻¹) * p = a by group]
     exact ha
 
@@ -278,6 +282,7 @@ theorem outer_conj_ne_of_not_cent {p : G} (hp : p ∈ P) (hCen : BenderCenterInp
   hpc (mem_centP.mpr ⟨hp, H.outer_comm_of_mem_normalizer hg hCen hU hp
     (conjSubgroup_eq_self_iff.mp h)⟩)
 
+omit [Finite G] in
 theorem outer_conj_ne_B {p : G} (hp : p ∈ P) : conjSubgroup p (conjSubgroup g B) ≠ B := by
   intro h
   apply H.outer_ne_B hg

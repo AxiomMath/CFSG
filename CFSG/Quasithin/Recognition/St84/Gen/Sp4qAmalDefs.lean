@@ -40,7 +40,7 @@ variable {F : Type*} [Field F]
 
 theorem sp4RadMat_one : sp4RadMat (1 : SL(2, F)) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [sp4RadMat, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [sp4RadMat]
 
 theorem sp4RadMat_mul [CharP F 2] (M N : SL(2, F)) :
     sp4RadMat (M * N) = sp4RadMat M * sp4RadMat N := by
@@ -53,7 +53,6 @@ theorem sp4RadMat_mul [CharP F 2] (M N : SL(2, F)) :
     simp [sp4RadMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.SpecialLinearGroup.coe_mul,
       Fin.sum_univ_two]
   all_goals first
-    | ring1
     | linear_combination (N 0 0 * N 1 0) * hM + (M 1 0 * M 0 1 * N 0 0 * N 1 0) * h2
     | linear_combination (N 0 1 * N 1 1) * hM + (M 1 0 * M 0 1 * N 0 1 * N 1 1) * h2
     | linear_combination (M 0 0 * N 0 0 * M 0 1 * N 1 0) * h2
@@ -101,10 +100,10 @@ theorem mem_sp4Gamma_iff [CharP F 2] {A : GL (Fin 3) F} :
   constructor
   · rintro ⟨⟨M, c⟩, rfl⟩
     refine ⟨M, c, ?_⟩
-    simp [sp4GammaHom, Matrix.mul_smul]
+    simp [sp4GammaHom]
   · rintro ⟨M, c, hA⟩
     refine ⟨(M, c), Units.ext ?_⟩
-    simp [sp4GammaHom, Matrix.mul_smul, hA]
+    simp [sp4GammaHom, hA]
 
 end Matrices
 

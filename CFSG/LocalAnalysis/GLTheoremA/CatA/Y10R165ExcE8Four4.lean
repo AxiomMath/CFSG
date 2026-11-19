@@ -21,13 +21,13 @@ theorem canonicalRep_d4d4W_mem_torus_sup_rootSpan {L : Type} [Field L] :
 
 theorem exists_fourLang (K : Type) [Field K] [Finite K] (L : Type) [Field L] [Algebra K L]
     [IsAlgClosure K L] (ℓ f : ℕ) [Fact ℓ.Prime] [CharP K ℓ] [CharP L ℓ] (hf : 1 ≤ f)
-    (hK : Nat.card K = ℓ ^ f) :
+    (_hK : Nat.card K = ℓ ^ f) :
     ∃ g : ModGL .E8 L,
       g ∈ torusGroup .E8 L ⊔ rootSpan .E8 L (kernelRoots d4d4Char) ∧
         entrywiseFrobGL .E8 L ℓ f g =
           g * canonicalRep (coxeterSystem .E8) L d4d4W := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨z, hz, hz'⟩ := CFSG.LieType.AlgebraicGroups.lang_torus_sup_rootSpan
     (τ := .E8) (L := L) (ℓ := ℓ) (χ := d4d4Char) (e := f) hf
     (canonicalRep (coxeterSystem .E8) L d4d4W) (canonicalRep_d4d4W_mem_torus_sup_rootSpan (L := L))
@@ -40,7 +40,7 @@ theorem exists_fourLang (K : Type) [Field K] [Finite K] (L : Type) [Field L] [Al
 
 theorem exists_sq_eq_unit_of_isAlgClosed {L : Type} [Field L] [IsAlgClosed L] (t : Lˣ) :
     ∃ s : Lˣ, s * s = t := by
-  obtain ⟨b, hb⟩ := IsAlgClosed.exists_eq_mul_self (t : L)
+  obtain ⟨b, hb⟩ := IsAlgClosed.isSquare (t : L)
   have hb0 : b ≠ 0 := by
     rintro rfl
     have h0 : (t : L) = 0 := by rw [hb]; ring

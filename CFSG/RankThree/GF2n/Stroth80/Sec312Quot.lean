@@ -16,7 +16,7 @@ theorem statedSL_le_of_transvection_mem {k : ℕ} (hk : 2 ≤ k) {K : Type} [Fie
     (h : ∀ (i j : Fin k) (_ : i ≠ j) (c : K), ∃ g ∈ S,
       (g : Matrix (Fin k) (Fin k) K) = Matrix.transvection i j c) :
     StatedSL k K ≤ S := by
-  haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr hk
+  have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.mpr hk
   have htop := CFSG.ClassicalGroups.SpecialLinear.eq_top_of_forall_transvection_mem
     (S.comap (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin k) K →* GL (Fin k) K)) (by
@@ -42,10 +42,10 @@ theorem normal_pGroup_le_center_of_quasisimple {X : Type} [Group X] [Finite X]
     (hq : CFSG.IsQuasisimple X) (T : Subgroup X) [T.Normal] (hT : IsPGroup 2 T) :
     T ≤ Subgroup.center X := by
   obtain ⟨-, hsimple, a, b, hab⟩ := hq
-  haveI := hsimple
+  have := hsimple
   set N' : Subgroup (X ⧸ Subgroup.center X) :=
     T.map (QuotientGroup.mk' (Subgroup.center X)) with hN'
-  haveI : N'.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+  have : N'.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N' with h | h
   · intro t ht
     have h1 : QuotientGroup.mk' (Subgroup.center X) t ∈ N' := Subgroup.mem_map_of_mem _ ht
@@ -56,9 +56,9 @@ theorem normal_pGroup_le_center_of_quasisimple {X : Type} [Group X] [Finite X]
     have hpg : IsPGroup 2 (X ⧸ Subgroup.center X) := by
       rw [h] at hpN
       exact hpN.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial (X ⧸ Subgroup.center X) :=
+    have : Nontrivial (X ⧸ Subgroup.center X) :=
       ⟨⟨a, 1, fun h1 => hab (by rw [h1]; simp)⟩⟩
-    haveI := hpg.center_nontrivial
+    have := hpg.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (X ⧸ Subgroup.center X)) with
       h2 | h2
     · exact (Subgroup.center (X ⧸ Subgroup.center X)).nontrivial_iff_ne_bot.mp inferInstance h2
@@ -157,7 +157,7 @@ theorem quotSat_isSLModel_of_restrict
   have hO : (inSubgroup (pCore 2) S).subgroupOf S = pCore 2 ↥S := by
     unfold inSubgroup
     exact Subgroup.comap_map_eq_self_of_injective S.subtype_injective _
-  haveI hn : ((inSubgroup (pCore 2) S).subgroupOf S).Normal := by
+  have hn : ((inSubgroup (pCore 2) S).subgroupOf S).Normal := by
     rw [hO]
     exact pCore_normal
   refine ⟨hn, K, inferInstance, inferInstance, rfl, ⟨?_⟩⟩

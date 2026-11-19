@@ -13,7 +13,7 @@ namespace Gen2318LocalE64Aux
 theorem charP_two_of_card_four (K' : Type) [Field K'] [Finite K'] (h : Nat.card K' = 4) :
     CharP K' 2 := by
   classical
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K'
   rw [Fintype.card_eq_nat_card, h] at hcard
   have hdvd : p ∣ 4 := by
@@ -66,11 +66,11 @@ theorem e6_four_witness {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2 ^ 2
     ∃ E P : Subgroup K, IsElemAbelian 3 E ∧ E ⊓ Subgroup.center K = ⊥ ∧
       5 ≤ CFSG.Open.pRank 3 E ∧ P ≠ ⊥ ∧ IsPGroup 2 P ∧ E ≤ Subgroup.normalizer (P : Set K) := by
   classical
-  haveI : CharP F 2 := charP_two_of_card_four F (by rw [hF]; norm_num)
+  have : CharP F 2 := charP_two_of_card_four F (by rw [hF]; norm_num)
   have h2F : (2 : F) = 0 := by
     have h := CharP.cast_eq_zero F 2
     exact_mod_cast h
-  haveI : Finite (e6Data_valid.minGroup F) := finite_minGroup' e6Data_valid
+  have : Finite (e6Data_valid.minGroup F) := finite_minGroup' e6Data_valid
   let π : e6Data_valid.minGroup F →* AdjointQuotient Tag.E6 F :=
     (QuotientGroup.mk' (Subgroup.center ↥(adjointGroup Tag.E6 F))).comp (e6Isogeny F)
   have hπ : Function.Surjective π :=

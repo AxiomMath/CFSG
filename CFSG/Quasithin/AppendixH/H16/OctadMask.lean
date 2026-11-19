@@ -48,12 +48,12 @@ theorem card_octV5 : Nat.card ↥octV5 = 32 := by
   rfl
 
 theorem rk_octV1 : rk ↥octV1 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, card_octV1]
   exact padicValNat.self (by norm_num)
 
 theorem rk_octV5 : rk ↥octV5 = 5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, card_octV5, show (32 : ℕ) = 2 ^ 5 by norm_num, padicValNat.prime_pow]
 
 theorem octV1_le_octV5 : octV1 ≤ octV5 := by

@@ -56,7 +56,7 @@ open scoped Classical in
 theorem prep_permS {P Q : ℕ} (h : Co3H.perm P Q = true) : PRep 276 9 P (permS P) := by
   obtain ⟨g, hg, -⟩ := CFSG.KC.EnumSound.permOK_perm h
   have hex : ∃ g : Sym, PRep 276 9 P g := ⟨g, hg⟩
-  rw [permS, dif_pos hex]
+  rw [permS, dite_eq_left hex]
   exact hex.choose_spec
 
 theorem mem_P {a : ℕ} {g : Sym}

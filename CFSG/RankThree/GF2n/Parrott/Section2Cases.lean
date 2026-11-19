@@ -372,6 +372,7 @@ theorem no_conj_z_eq_of_mem_J_minus_J1_cases
   intro g hg
   exact hnot (isConj_iff.mpr ⟨g, hg⟩)
 
+omit [Finite G] in
 theorem false_of_involution_centralizer_eq_center_gen {J₁ : Subgroup G} {j : J z}
     {B : Subgroup G}
     (hjZ : j ∉ Subgroup.center (J z))
@@ -398,6 +399,7 @@ theorem false_of_involution_centralizer_eq_center_gen {J₁ : Subgroup G} {j : J
     exact Subgroup.mem_subgroupOf.mpr hjcenterIn
   exact hjZ hjcenter
 
+omit [Finite G] in
 theorem no_conj_z_eq_of_mem_J1_minus_centerJ_gen {J₁ : Subgroup G} {j : J z}
     (hj2 : orderOf (j : G) = 2) (hjZ : j ∉ Subgroup.center (J z))
     {B : Subgroup G}
@@ -687,6 +689,7 @@ theorem not_conj_of_isSylowOf_centralizer_of_commutator_le
       _ = x := by group
   exact hxJ (hK'J (hnx ▸ hzn))
 
+omit [Finite G] in
 theorem false_of_mem_utJ_of_data_gen [hN : ((J z).subgroupOf (H z)).Normal]
     {w : ↥(H z)} {x : G} (hxw : (w : G)⁻¹ * x ∈ J z)
     {K : Subgroup (J z)}
@@ -788,6 +791,7 @@ theorem false_of_mem_utJ_of_data_gen [hN : ((J z).subgroupOf (H z)).Normal]
   obtain ⟨eK⟩ := hKiso
   exact hnoK L hLle ⟨eL.trans eK⟩
 
+omit [Finite G] in
 theorem no_conj_z_eq_of_mem_utJ_gen [hN : ((J z).subgroupOf (H z)).Normal]
     {w : ↥(H z)} {x : G} (hxw : (w : G)⁻¹ * x ∈ J z)
     {K : Subgroup (J z)}

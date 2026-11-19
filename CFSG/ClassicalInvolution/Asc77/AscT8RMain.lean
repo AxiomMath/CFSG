@@ -54,7 +54,7 @@ theorem eq_of_centralizes (hs : Std8 p f Ω K J S R T W z t)
     exact hxc
   have h1 := conj_zt_mul_inv_mem_of_orderFour hs hX hV (n := g⁻¹) hxK hx4 hn
   rw [inv_inv] at h1
-  exact eq_of_mul_inv_mem_odd S.isPGroup' hb (zt_mem_sylow hs) (oddCoreOf_odd_natCard _) h1
+  exact eq_of_mul_inv_mem_odd S.isPGroup hb (zt_mem_sylow hs) (oddCoreOf_odd_natCard _) h1
 
 theorem eq_of_centralizes_J (hs : Std8 p f Ω K J S R T W z t)
     (hX : omegaNbrGen Ω K = J ⊔ oddCoreOf (omegaNbrGen Ω K)) (hV' : ExtraTrans Ω J K S t z)

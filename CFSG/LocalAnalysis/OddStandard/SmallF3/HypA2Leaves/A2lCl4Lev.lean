@@ -49,7 +49,7 @@ theorem cl24_lev_exists [Finite K] [FiniteDimensional K V] (hQ : (polarBilin Q).
     {x y : V} (hxW : x ∈ P₁.perp) (hyW : y ∈ P₁.perp) (hx : x ≠ 0) (hy : y ≠ 0)
     (hxy : Q x = Q y) :
     ∃ g : elementaryGroup Q, Cl24Lev P₁ g ∧ (g : V ≃ₗ[K] V) x = y := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   have he₂ : P₂.e ∈ P₁.perp := by
     rw [HypPair.mem_perp]; exact ⟨h₁₂.ee, h₁₂.fe⟩
   have hf₂ : P₂.f ∈ P₁.perp := by

@@ -383,7 +383,7 @@ theorem exists_le_img148_deltaZero_of_innerON (h142 : Concl142S14) {A L : Subgro
   have hKt : Sec4.IsTripleCover ↥K (alternatingGroup (Fin 6)) :=
     KFacts.KS14.isTripleCover_congr eK hK0t
   have hKp : Group.IsPerfect ↥K := by
-    haveI := hK0p
+    have := hK0p
     exact Group.IsPerfect.ofSurjective (f := eK.toMonoidHom) eK.surjective
   have hKJ : K ≤ Jq := Subgroup.map_subtype_le K0
   have hKC : K ≤ Subgroup.centralizer {u} := by
@@ -520,7 +520,7 @@ theorem img148_le_deltaZero_of_innerON (h142 : Concl142S14) {A L : Subgroup G} {
       have h := Subgroup.mem_centralizer_singleton_iff.mp (hKC (Subgroup.mem_subgroupOf.mp hk))
       rw [hαa] at h
       simpa using h
-    · haveI := hKp
+    · have := hKp
       exact Group.IsPerfect.ofSurjective (f := eKK.symm.toMonoidHom) eKK.symm.surjective
     · rw [Nat.card_congr eKK.toEquiv, HJRes2.card_of_isTripleCover_six hKt]
     · intro hEC

@@ -167,7 +167,7 @@ theorem monCore_of_perm (hperm : PermBound r m) (hm : 4 ≤ m) [Nontrivial C] (h
       rw [hψ, hzx i0] at h2
       exact h2
     rw [MonoidHom.mem_ker, powMonoidHom_apply, hzx i, h1]
-  haveI : NeZero r := ⟨hr.out.ne_zero⟩
+  have : NeZero r := ⟨hr.out.ne_zero⟩
   let uOf : ψ.ker → (Fin m → ZMod r) := fun x i =>
     torsionLog hCr ⟨(((x : π'.ker) : P) : Mon C m).left i, hker_mem x i⟩
   have huU : ∀ x : ψ.ker, ∑ i, uOf x i = 0 ∧ ∀ b ∈ π'.range,
@@ -177,7 +177,7 @@ theorem monCore_of_perm (hperm : PermBound r m) (hm : 4 ≤ m) [Nontrivial C] (h
     · have h1 : ∏ i, (⟨(((x : π'.ker) : P) : Mon C m).left i, hker_mem x i⟩ :
           (powMonoidHom r : C →* C).ker) = 1 := by
         apply Subtype.ext
-        rw [SubmonoidClass.coe_finset_prod, Subgroup.coe_one]
+        rw [SubmonoidClass.coe_finsetProd, Subgroup.coe_one]
         exact hdetK _
       have h2 := torsionLog_prod hCr (fun i => (⟨(((x : π'.ker) : P) : Mon C m).left i,
         hker_mem x i⟩ : (powMonoidHom r : C →* C).ker))

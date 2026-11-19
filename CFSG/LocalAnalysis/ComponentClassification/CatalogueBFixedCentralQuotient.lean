@@ -120,7 +120,7 @@ theorem fixed_pComponent_image_transport
   let L1 : Subgroup N :=
     (M.subgroupOf (FixedCommutingProduct.fixedSubgroup ψ)).map
       (fixedImageProjection Z ψ hinvariant)
-  haveI hNnormal : N.Normal := fixedImage_normal Z ψ hinvariant hcentral
+  have hNnormal : N.Normal := fixedImage_normal Z ψ hinvariant hcentral
   have hM1 : CFSG.IsPComponent 2 L1 := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CatalogueBCentralQuotient.pComponent_map 2

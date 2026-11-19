@@ -64,7 +64,7 @@ theorem false_of_abelian3 [Finite X] {H : Subgroup X} (ψ : ↥H →* F)
   apply hab'
   rw [← map_mul, ← map_mul]
   congr 1
-  exact Subtype.ext (hab ((S : Subgroup ↥H).map H.subtype) (S.isPGroup'.map _) _ ⟨u, hu, rfl⟩ _
+  exact Subtype.ext (hab ((S : Subgroup ↥H).map H.subtype) (S.isPGroup.map _) _ ⟨u, hu, rfl⟩ _
     ⟨v, hv, rfl⟩)
 
 end C264Om

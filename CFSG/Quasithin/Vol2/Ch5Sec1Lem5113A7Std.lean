@@ -210,12 +210,12 @@ theorem exists_conj_eq_p0 {S : Subgroup (alternatingGroup (Fin 7))} (hS : IsSylo
   have hPS : (P : Subgroup (alternatingGroup (Fin 7))) = S :=
     (Subgroup.eq_of_le_of_card_ge hSP (by
       rw [card_eq_eight hS]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P.isPGroup'))).symm
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P.isPGroup))).symm
   obtain ⟨P', hP'⟩ := isPGroup_p0.exists_le_sylow
   have hP'eq : (P' : Subgroup (alternatingGroup (Fin 7))) = p0 :=
     (Subgroup.eq_of_le_of_card_ge hP' (by
       rw [card_p0]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P'.isPGroup'))).symm
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P'.isPGroup))).symm
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 7)) P P'
   refine ⟨g, ?_⟩
   rw [← hPS, ← hP'eq, ← hg, Sylow.coe_subgroup_smul]

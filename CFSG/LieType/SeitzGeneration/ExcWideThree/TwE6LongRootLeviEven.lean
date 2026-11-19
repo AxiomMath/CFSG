@@ -155,24 +155,28 @@ theorem comm_A3 (h2 : (2 : K) = 0) (x y : K) :
     exact commute_pinnedX (mem_rootFinset.1 hR1) (isRoot_single _ 3) hn11 hn12
       (fun h => hs11 (mem_rootFinset.2 h)) 1 y
 
+omit [Finite K] in
 theorem coe_yG_one (c : orbitField TwistTag.E6 K σ.toRingHom 1) :
     ((yG σ 1 c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       yUnit TwistTag.E6.tag K 2 c * yUnit TwistTag.E6.tag K 4 (σ c) := by
   rw [coe_yG, coe_orbitY]
   simp [card_orbit_one', orbitMin_one, List.range_succ, perm_two]
 
+omit [Finite K] in
 theorem coe_xG_one (c : orbitField TwistTag.E6 K σ.toRingHom 1) :
     ((xG σ 1 c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       xUnit TwistTag.E6.tag K 2 c * xUnit TwistTag.E6.tag K 4 (σ c) := by
   rw [coe_xG, coe_orbitX]
   simp [card_orbit_one', orbitMin_one, List.range_succ, perm_two]
 
+omit [Finite K] in
 theorem coe_xG_two (c : orbitField TwistTag.E6 K σ.toRingHom 2) :
     ((xG σ 2 c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       xUnit TwistTag.E6.tag K 3 c := by
   rw [coe_xG, coe_orbitX]
   simp [card_orbit_two', orbitMin_two]
 
+omit [Finite K] in
 theorem xG_two_eq_commutator (h2 : (2 : K) = 0)
     (c₁ : orbitField TwistTag.E6 K σ.toRingHom 1) (c₀ : orbitField TwistTag.E6 K σ.toRingHom 2)
     (hc : (c₀ : K) = c₁ + σ c₁) :

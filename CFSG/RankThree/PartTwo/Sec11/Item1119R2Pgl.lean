@@ -34,7 +34,7 @@ theorem toYA_central {a : G} {Y A : Subgroup G} (hAC : A ≤ Subgroup.centralize
   rw [Subgroup.mem_centralizer_singleton_iff] at h4
   exact h4.symm
 
-theorem toSec_comm {a : G} {Y A B B' : Subgroup G} (hAC : A ≤ Subgroup.centralizer ({a} : Set G))
+theorem toSec_comm {a : G} {Y A B B' : Subgroup G} (_hAC : A ≤ Subgroup.centralizer ({a} : Set G))
     (hBC : B ≤ Subgroup.centralizer ({a} : Set G)) (hB : B ≤ Y ⊔ A)
     (hB'C : B' ≤ Subgroup.centralizer ({a} : Set G)) (hB' : B' ≤ Y ⊔ A) (u : B) (v : B')
     (huv : (u : G) * v = v * u) :
@@ -91,7 +91,7 @@ theorem center_projImage_glPi_eq_bot {π : Bool} {p f : ℕ} {F : Type} [Field F
     (hF : PiField π p f F) (hq : ModThree π (p ^ f)) (hq2 : 2 < p ^ f) :
     Subgroup.center (projImage (glPi π 3 (p ^ f) F)) = ⊥ := by
   have hπ : π = false → UnitaryFieldData p f F := fun h => by subst h; exact hF.unitary
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) F)) :=
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) F)) :=
     Sec13.isPerfect_projImage_slPi hF hq2
   rw [eq_bot_iff]
   intro ζ hζ
@@ -150,7 +150,7 @@ theorem hF_of_pgl {a c z d : G} {Y A K : Subgroup G}
       rw [this, map_one]
     have h2 := congrArg (fun m => (e m).2) h1
     simpa [map_pow] using h2
-  haveI := hKp
+  have := hKp
   have hJp : Group.IsPerfect κ.range :=
     Group.IsPerfect.ofSurjective (f := κ.rangeRestrict) (MonoidHom.rangeRestrict_surjective κ)
   have hξ9 : 9 ∣ orderOf (κ ⟨z, hzK⟩) := by

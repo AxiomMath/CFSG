@@ -115,10 +115,11 @@ theorem s2a2_fix {M N J : Subgroup G} (hM : IsPGroup 2 M) (hNM : N ≤ M)
     (hJN : J ≤ normalizer (N : Set G)) (hJ : Odd (Nat.card J)) {m : G} (hm : m ∈ M)
     (hfix : ∀ j ∈ J, m⁻¹ * (j * m * j⁻¹) ∈ N) :
     ∃ c ∈ M ⊓ centralizer (J : Set G), ∃ n ∈ N, m = c * n := by
-  haveI : Group.IsNilpotent M := hM.isNilpotent
+  have : Group.IsNilpotent M := hM.isNilpotent
   exact Common.exists_mem_inf_centralizer_mul_of_coprime hNM hMN hJM hJN inferInstance
     (coprime_card_of_odd hJ hM) hm hfix
 
+omit [Finite G] in
 theorem s2a2_odd_card_of_le_I {J : Subgroup G} (hJ : J ≤ d.I) : Odd (Nat.card J) :=
   Odd.of_dvd_nat d.odd_card_I (Subgroup.card_dvd_of_le hJ)
 
@@ -127,7 +128,7 @@ theorem Hyp.s2a2_I_le_B₃ (hd : d.Hyp) : d.I ≤ normalizer (d.B₃ : Set G) :=
   exact (hd.I_le_normalizer_B₁ hi).1
 
 theorem Hyp.s2a2_I_le_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
-    d.I ≤ normalizer (d.B₆ : Set G) := fun i hi =>
+    d.I ≤ normalizer (d.B₆ : Set G) := fun _i hi =>
   d.normalizer_le_normalizer_B₆ (hd.normalizer_B₁_le_normalizer_FB₃ hGMS
     (hd.I_le_normalizer_B₁ hi).1)
 
@@ -146,8 +147,10 @@ theorem Hyp.s2a2_psi (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
 theorem Hyp.s2a2_A₃_le_centralizer_t (hd : d.Hyp) : d.A₃ ≤ centralizer ({d.t} : Set G) :=
   fun _ ha => hd.L_le_centralizer (d.pull_le_L _ ha)
 
+omit [Finite G] in
 theorem s2a2_isPGroup_A₃ (d : Data G h) : IsPGroup 2 d.A₃ := d.isPGroup_P.to_le d.A₃_le_P
 
+omit [Finite G] in
 theorem s2a2_A₃_le_normalizer_A₁ (d : Data G h) : d.A₃ ≤ normalizer (d.A₁ : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer d.A₁_le_A₃).1 (normal_A₁_subgroupOf_A₃ d)
 
@@ -292,13 +295,13 @@ theorem Hyp.s2a2_hA₅ (hd : d.Hyp) :
 
 theorem Hyp.s2a2_D_le_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
     d.D ≤ d.B₆ :=
-  s2a2_commutator_le_left fun i hi => hd.s2a2_I_le_B₆ hGMS (d.I₁_le_I hi)
+  s2a2_commutator_le_left fun _i hi => hd.s2a2_I_le_B₆ hGMS (d.I₁_le_I hi)
 
 theorem s2a2_B₆_le_normalizer_D (d : Data G h) : d.B₆ ≤ normalizer (d.D : Set G) :=
   s2a2_le_normalizer_commutator (M := d.B₆) (A := d.I₁)
 
 theorem Hyp.s2a2_I_le_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
-    d.I ≤ normalizer (d.D : Set G) := fun i hi =>
+    d.I ≤ normalizer (d.D : Set G) := fun _i hi =>
   d.mem_normalizer_D (hd.s2a2_I_le_B₆ hGMS hi)
     (mem_normalizer_of_mem_centralizer' (d.I_le_centralizer_I₁ hi))
 
@@ -334,6 +337,7 @@ theorem Hyp.s2a2_comm_mem_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd :
   rw [h1, show (d.t ^ m * n)⁻¹ * (d.t ^ m * (k * n * k⁻¹)) = n⁻¹ * (k * n * k⁻¹) by group]
   exact mul_mem (inv_mem hn) hkn
 
+omit [Finite G] in
 theorem s2a2_N₅_le_centralizer_I₅ (d : Data G h) : d.N₅ ≤ centralizer (d.I₅ : Set G) := by
   rw [d.N₅_eq, d.sec2_1_five.2.2.2.2.1]
   rintro _ ⟨n, hn, rfl⟩
@@ -342,13 +346,17 @@ theorem s2a2_N₅_le_centralizer_I₅ (d : Data G h) : d.N₅ ≤ centralizer (d
   have := mem_centralizer_iff.1 (d.N₂_le_centralizer_I₂ hn) i hi
   rw [← map_mul, ← map_mul, this]
 
+omit [Finite G] in
 theorem s2a2_N₂_le_M₂ (d : Data G h) : d.N₂ ≤ d.M₂ := le_normalClosureIn d.N₂_le_centralizer_I₂
 
+omit [Finite G] in
 theorem s2a2_N₅_le_M₅ (d : Data G h) : d.N₅ ≤ d.M₅ := le_normalClosureIn (s2a2_N₅_le_centralizer_I₅ d)
 
+omit [Finite G] in
 theorem s2a2_M₂_le_centralizer_I₂ (d : Data G h) : d.M₂ ≤ centralizer (d.I₂ : Set G) :=
   normalClosureIn_le_self _ _
 
+omit [Finite G] in
 theorem s2a2_M₅_le_centralizer_I₅ (d : Data G h) : d.M₅ ≤ centralizer (d.I₅ : Set G) :=
   normalClosureIn_le_self _ _
 
@@ -412,7 +420,7 @@ theorem Hyp.s2a2_S_eq (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp
     (hR : IsSylowOf 2 (S ⊓ centralizer (d.I₂ : Set G)) d.M₂) :
     d.E ≤ S ∧ S ⊓ d.M₂ = S ⊓ centralizer (d.I₂ : Set G) ∧
       S = d.E ⊔ (S ⊓ centralizer (d.I₂ : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE : d.E ≤ S := by
     have h := hS.eq_of_le (le_sup_right : S ≤ d.E ⊔ S)
       (sup_le d.E_le_L₂ hS.le)
@@ -432,11 +440,13 @@ theorem Hyp.s2a2_S_eq (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp
   have hmR : m ∈ S ⊓ centralizer (d.I₂ : Set G) := hSM ▸ Subgroup.mem_inf.2 ⟨hmS, hm⟩
   exact mul_mem (Subgroup.mem_sup_left he) (Subgroup.mem_sup_right hmR)
 
+omit [Finite G] in
 theorem s2a2_I₂_le_I₆ (d : Data G h) : d.I₂ ≤ d.I₆ := d.pull_mono fun x hx => by
   rw [mem_I₂sub] at hx
   rw [mem_I₆sub]
   exact ⟨hx.1, hx.2.1.trans hx.2.2⟩
 
+omit [Finite G] in
 theorem s2a2_I₆_le_I (d : Data G h) : d.I₆ ≤ d.I := d.pull_mono (torusEq_le _)
 
 theorem Hyp.s2a2_zpowers_t (hd : d.Hyp) {c : G} (hc : c ∈ zpowers d.t) : c = 1 ∨ c = d.t := by
@@ -465,6 +475,7 @@ theorem Hyp.s2a2_lift (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp
   have hn1 : n⁻¹ * d.t * n * d.t = 1 := (hd.cr_F_eq_one_iff hGMS hnF).2 hn
   rw [← hxa, hd.cr_F_mul hc.1 hnF, hn1, mul_one]
 
+omit [Finite G] in
 theorem s2a2_S_comm_V (hLV : d.V ≤ CFSG.centerIn d.L₂) {S : Subgroup G}
     (hS : IsSylowOf 2 S d.L₂) {n w : G} (hn : n ∈ S) (hw : w ∈ d.V) : n * w = w * n :=
   mem_centralizer_iff.1 (hLV hw).2 n (hS.le hn)
@@ -706,6 +717,7 @@ theorem Hyp.s2a2_D_le_S (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.H
   exact mul_mem hs ((mem_normalizer_iff.1 (hIS hiI) s⁻¹).1 (inv_mem hs) |> fun h => by
     simpa [mul_assoc] using h)
 
+omit [Finite G] in
 theorem s2a2_A₂_le_normalizer_Zp (d : Data G h) : d.A₂ ≤ normalizer (d.Zp : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer d.Zp_le_A₂).1 (normal_Zp_subgroupOf_A₂ d)
 

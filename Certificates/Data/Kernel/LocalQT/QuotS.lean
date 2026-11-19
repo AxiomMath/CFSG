@@ -54,7 +54,7 @@ open CFSG.KC.LQT.PP CFSG.KC.LQT.BW CFSG.KC.LQT.BT CFSG.KC.LQT.BS
 
 @[expose] noncomputable def quotSK (n w : Nat) (B : List Nat) (LC : List Nat)
     (xs : List (List Nat × Nat × Nat)) (RS : Nat) (RT : Nat → Nat) (M lg fuel : Nat)
-    (E PG : Nat → Nat) (K2 L2 r : Nat) : Bool :=
+    (E _PG : Nat → Nat) (K2 L2 r : Nat) : Bool :=
   (fun (G : List Nat) => allBs [
     allL B (fun b => Nat.blt b n),
     List.all xs (fun x => andB (allL x.1 fun l => Nat.blt l (lenA LC)) (Nat.beq (Nat.mod x.2.2 2) 1)),

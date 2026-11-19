@@ -25,7 +25,7 @@ theorem d4_fixedData_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     (hαdef : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K 1))
     (hα3 : α ^ 3 = 1) : FixedData3 (fixSubgroup α) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨f, hf, hKf⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 3 ^ f := by
     have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 3
@@ -34,7 +34,7 @@ theorem d4_fixedData_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     dual_data_one (ℓ := 3) hf K hKf α hα3 g a hαdef
   have hchar : CharP K₃ 3 :=
     charP_of_injective_algebraMap (algebraMap K K₃).injective 3
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
     finite_graphFixedRootGroup_D4 Fr
   have hφfix : FixedData3 (fixSubgroup φ) :=
     fixedData3_trialityD4_three hf hK₃ Fr hFr φ hφ3 hφo
@@ -54,8 +54,8 @@ theorem d4_fixedData_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     · rintro ⟨y, hy, rfl⟩
       obtain ⟨u, hu⟩ := hfix2 y hy
       exact ⟨u.1, u.2, hu.symm⟩
-  haveI : Finite (adjointGroup Tag.D4 K) := by
-    haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := by
+    have : Finite (ModGL Tag.D4 K) := finite_modGL
     infer_instance
   refine FixedData3.of_map_injective ι' hι' ?_
   rw [hmap]

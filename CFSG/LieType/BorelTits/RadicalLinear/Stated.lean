@@ -27,7 +27,7 @@ theorem radicalTwoSubgroup_statedProj (r : ℕ) (K : Type) [Field K] [Finite K]
               Nonempty ((S ⧸ Z') ≃* StatedProj (StatedSL (m i) K)) := by
   classical
   obtain ⟨f, hf, hcard⟩ := hK
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     let _ : Fintype K := Fintype.ofFinite K
     have h2dvd : 2 ∣ Fintype.card K := by
       rw [← Nat.card_eq_fintype_card, hcard]

@@ -23,6 +23,7 @@ theorem weyl_mul_comm_of_neg {τ : Tag} {w₀ : WeylGroup τ} (hw₀ : ∀ v : F
   refine ext_single fun i => ?_
   rw [mul_smul, mul_smul, hw₀, hw₀, smul_neg]
 
+omit [IsAlgClosure K L] in
 theorem canonicalRep_longest_mem_twistedFixed (D : ReeFrameData K L a)
     {w₀ : WeylGroup ReeTag.F4.tag}
     (hw₀ : ∀ w, (coxeterSystem ReeTag.F4.tag).length w ≤ (coxeterSystem ReeTag.F4.tag).length w₀)

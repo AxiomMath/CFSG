@@ -21,17 +21,17 @@ open CFSG.Sporadic.HNSchreier
 theorem good427_hn_s1 : Good427 (CJ (sJ 0)) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hcomm⟩ :=
     ctuc_hn_three_centralizers_exact
-  haveI : IsSimpleGroup ↥L1J := isSimpleGroup_L1J
+  have : IsSimpleGroup ↥L1J := isSimpleGroup_L1J
   have hLC : L1J ≤ CJ (sJ 0) := by
     rw [← hcomm]
     refine Subgroup.commutator_le.mpr fun x hx y hy => ?_
     rw [commutatorElement_def]
     exact (CJ (sJ 0)).mul_mem ((CJ (sJ 0)).mul_mem ((CJ (sJ 0)).mul_mem hx hy)
       ((CJ (sJ 0)).inv_mem hx)) ((CJ (sJ 0)).inv_mem hy)
-  haveI : Group.IsPerfect ↥L1J := by
-    haveI : Group.IsPerfect alt3 := ⟨commutator_alt3⟩
+  have : Group.IsPerfect ↥L1J := by
+    have : Group.IsPerfect alt3 := ⟨commutator_alt3⟩
     exact Group.IsPerfect.map _
-  haveI : Nontrivial ↥L1J := by
+  have : Nontrivial ↥L1J := by
     rw [← Finite.one_lt_card_iff_nontrivial, card_L1J_eq]
     norm_num
   exact good427_of_derived_le_simple hLC (exists_noncomm_of_perfect (K := L1J))
@@ -81,7 +81,7 @@ theorem good427_thS : Good427 (Subgroup.centralizer ({thS} : Set ↥J)) := by
   have hε : SatisfiesG23Words thEps := fun r hr =>
     (Census.CoverCenterThreeRest.lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨-, hsimp, hna, hcard⟩ := leaf_closure_of_six thEps hε hne
-  haveI := hsimp
+  have := hsimp
   have hEC : Subgroup.closure (Set.range thEps) ≤ Subgroup.centralizer ({thS} : Set ↥J) := by
     rw [Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩

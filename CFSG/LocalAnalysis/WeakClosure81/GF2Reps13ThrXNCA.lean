@@ -16,12 +16,13 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 variable {A Q O : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private theorem w16n_Q_isPGroup (h : HNon A Q O t) : IsPGroup 3 ↥Q := by
   intro q
   exact ⟨1, by rw [pow_one]; exact Subtype.ext (h.hQe.2 (q : MulAut W) q.2)⟩
 
 private theorem w16n_Q_card_pow (h : HNon A Q O t) : ∃ d : ℕ, Nat.card ↥Q = 3 ^ d := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact (w16n_Q_isPGroup h).exists_card_eq
 
 private theorem w16n_Q_odd (h : HNon A Q O t) : Odd (Nat.card ↥Q) := by
@@ -29,6 +30,7 @@ private theorem w16n_Q_odd (h : HNon A Q O t) : Odd (Nat.card ↥Q) := by
   rw [hd]
   exact Odd.pow (by norm_num : Odd 3)
 
+omit [Finite W] in
 private theorem w16n_commSub_ne_bot (h : HNon A Q O t) : commSub ⊤ Q ≠ ⊥ := by
   intro hbot
   apply h.hQ1
@@ -113,6 +115,7 @@ private theorem w16n_not_le_gen (h : HNon A Q O t) :
   exact (le_antisymm hle (iSup_le fun
     (R : {R : Subgroup (MulAut W) // R ≤ Q ∧ rk ↥(commSub ⊤ R) = 2}) => R.2.1)).symm
 
+omit [Finite W] in
 private theorem w16n_conj_isPGroup (h : HNon A Q O t) (g : MulAut W) :
     IsPGroup 3 ↥(Q.map (MulAut.conj g).toMonoidHom) := by
   intro x
@@ -144,6 +147,7 @@ private theorem w16n_card_ne_three (h : HNon A Q O t) : Nat.card ↥Q ≠ 3 := b
   exact hcent
 
 
+omit [Finite W] in
 private theorem w16n_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (y : MulAut W) :
     g * y * g⁻¹ ∈ centSub (U.map g.toMonoidHom) ↔ y ∈ centSub U := by
   rw [mem_centSub, mem_centSub]
@@ -159,8 +163,9 @@ private theorem w16n_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (y
     have hv' : y v = v := hh v hv
     simp [MulAut.mul_apply, hv']
 
+omit [Finite W] in
 private theorem w16n_kerOn_map_eq (h : HNon A Q O t) {x : MulAut W} (hxO : x ∈ O)
-    {U : Subgroup W} (hU : U ∈ s13IsoComps Q) :
+    {U : Subgroup W} (_hU : U ∈ s13IsoComps Q) :
     s13KerOn Q (U.map x.toMonoidHom) = (s13KerOn Q U).map (MulAut.conj x).toMonoidHom := by
   ext z
   constructor
@@ -193,7 +198,7 @@ private theorem w16n_all_ker_eq_bot (h : HNon A Q O t) :
   exact Subtype.ext_iff.mp h
 
 private theorem w16n_rk_of_supp_singleton (h : HNon A Q O t) {U : Subgroup W}
-    (hU : U ∈ s13IsoComps Q) {R : Subgroup (MulAut W)} (hRQ : R ≤ Q)
+    (_hU : U ∈ s13IsoComps Q) {R : Subgroup (MulAut W)} (hRQ : R ≤ Q)
     (hsupp : s13Supp Q R = {U}) : rk ↥(commSub ⊤ R) = rk ↥U := by
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
@@ -228,9 +233,9 @@ private theorem w16n_ranks_eq_two_of_ncard_three (h : HNon A Q O t)
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
   have hsum : (∑ i : {U : Subgroup W // U ∈ s13IsoComps Q}, rk ↥(i.1)) ≤ 6 := by
     have h := (w16n_components h).2.1
     rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype] at h
@@ -250,9 +255,10 @@ private theorem w16n_ranks_eq_two_of_ncard_three (h : HNon A Q O t)
   intro U hU
   exact hbound ⟨U, hU⟩
 
+omit [Finite W] in
 private theorem w16n_map_fixed_of_two (h : HNon A Q O t) {x : MulAut W} (hxO : x ∈ O)
     (hx3 : x ^ 3 = 1) {U U' : Subgroup W} (hU : U ∈ s13IsoComps Q)
-    (hU' : U' ∈ s13IsoComps Q) (hne : U ≠ U') (hS : s13IsoComps Q = {U, U'}) :
+    (_hU' : U' ∈ s13IsoComps Q) (hne : U ≠ U') (hS : s13IsoComps Q = {U, U'}) :
     U.map x.toMonoidHom = U := by
   have hnorm : ∀ y ∈ Q, x * y * x⁻¹ ∈ Q := fun y hy => h.hQN x hxO y hy
   have hnorm' : ∀ y ∈ Q, x⁻¹ * y * x ∈ Q := fun y hy =>
@@ -407,7 +413,7 @@ private theorem w16n_supp_of_le_ker (h : HNon A Q O t) {U : Subgroup W}
   ext U'
   constructor
   · intro hU'
-    rw [s13Supp, Set.mem_setOf_eq] at hU'
+    rw [s13Supp, Set.mem_ofPred_eq] at hU'
     by_contra hne
     have hbot : commSub U' R = ⊥ :=
       (s13IsoComps_commSub_eq h.hW hp3 hp32 h.hQe hRQ hU'.1).1 (hRle U' hU'.1 hne)
@@ -420,7 +426,7 @@ private theorem w16n_supp_of_le_ker (h : HNon A Q O t) {U : Subgroup W}
     exact (s13IsoComps_le_commSub h.hW (w16n_Q_odd h) hU).1
 
 private theorem w16n_sup_eq_Q (hcardQ : Nat.card ↥Q = 27) {H R : Subgroup (MulAut W)}
-    (hH : H ≤ Q) (hHR : R ≤ Q) (hHcard : Nat.card ↥H = 9) (hRcard : 3 ≤ Nat.card ↥R)
+    (hH : H ≤ Q) (hHR : R ≤ Q) (hHcard : Nat.card ↥H = 9) (_hRcard : 3 ≤ Nat.card ↥R)
     (hnot : ¬ R ≤ H) : H ⊔ R = Q := by
   have hle : H ⊔ R ≤ Q := sup_le hH hHR
   refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -680,9 +686,9 @@ private theorem w16n_rk_t (h : HNon A Q O t) (hS3 : (s13IsoComps Q).ncard = 3) :
   rw [hsup] at hcost
   have hsum : (∑ᶠ (U : Subgroup W) (_ : U ∈ s13IsoComps Q), rk ↥U) = 6 := by
     classical
-    haveI : Finite (Subgroup W) :=
+    have : Finite (Subgroup W) :=
       Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-    haveI : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
+    have : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
     rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype]
     have hcardN : Nat.card {U : Subgroup W // U ∈ s13IsoComps Q} = 3 := by
       rw [Nat.card_coe_set_eq, hS3]

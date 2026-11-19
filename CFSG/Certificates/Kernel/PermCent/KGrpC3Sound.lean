@@ -53,12 +53,13 @@ theorem noOddB_map (B : ℕ) (C : List M) : noOddB B (C.map f) = noOddB B C := b
   simp only [noOddB, List.all_map, List.any_map, Function.comp_def, ← map_inv, ← map_mul,
     ordB_map f hf, ← map_one f, hf.eq_iff]
 
+omit [DecidableEq M] [DecidableEq N] hf in
 theorem q8B_map (t a b : M) : q8B (f t) (f a) (f b) = (q8B t a b).map f := by
   simp only [q8B, List.map_cons, List.map_nil, map_mul, map_one]
 
 theorem pairsB_map (t : M) (C : List M) : pairsB (f t) (C.map f) = pairsB t C := by
   simp only [pairsB, List.filter_map, List.all_map, List.any_map, Function.comp_def, ← map_mul,
-    ← map_inv, ← map_pow, ← map_one f, hf.eq_iff, q8B_map f hf, memB_map f hf]
+    ← map_inv, ← map_pow, ← map_one f, hf.eq_iff, q8B_map f, memB_map f hf]
 
 theorem goodCheck_map (B : ℕ) (L : List M) : goodCheck B (L.map f) = goodCheck B L := by
   simp only [goodCheck, List.all_map, Function.comp_def, ne_eq, ← map_mul, ← map_one f, hf.eq_iff,

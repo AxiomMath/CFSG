@@ -59,7 +59,7 @@ theorem restrV_eq_zero {t : ℕ} (S : Finset (Fin t)) {u : PlaneRaw.V t}
     exact ⟨k, hk⟩
   have hk' : (k : ℕ) < S.card := k.isLt
   have h := congrFun hu k
-  rw [restrV, dif_pos hk'] at h
+  rw [restrV, dite_eq_left hk'] at h
   rw [← hk]
   exact h
 
@@ -98,8 +98,8 @@ theorem mem_oYcode_zero_iff (hτ : OrthTauMemOmega) (hK : Nat.card K = 2)
             (1 : Matrix (Fin 2) (Fin 2) K) a b := by
           rw [Matrix.one_apply, Matrix.one_apply]
           by_cases hab : a = b
-          · rw [if_pos hab, if_pos (by rw [hab])]
-          · rw [if_neg hab, if_neg (fun h => hab (by simpa using congrArg WitSpNs.side h))]
+          · rw [ite_eq_left hab, ite_eq_left (by rw [hab])]
+          · rw [ite_eq_right hab, ite_eq_right (fun h => hab (by simpa using congrArg WitSpNs.side h))]
         exact hmat.trans hone
       have hζj : ζ (Multiplicative.ofAdd (u i)) = 1 := by
         apply Matrix.SpecialLinearGroup.ext

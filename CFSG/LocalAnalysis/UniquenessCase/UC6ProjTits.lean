@@ -13,7 +13,7 @@ open Subgroup
 theorem exists_basis_of_card_25 {Q : Type*} [Group Q] [Finite Q] {R : Subgroup Q} (hR : Nat.card R = 25)
     (h5 : ∀ x ∈ R, x ^ 5 = 1) :
     ∃ a ∈ R, ∃ b ∈ R, ∀ s t : ℕ, s < 5 → t < 5 → (s ≠ 0 ∨ t ≠ 0) → a ^ s * b ^ t ≠ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨a, haR, ha1⟩ := UC6.exists_ne_one_of_card_eq_25 hR
   have hao : orderOf a = 5 := orderOf_eq_prime (h5 a haR) ha1
   obtain ⟨b, hbR, hba⟩ : ∃ b ∈ R, b ∉ zpowers a := by
@@ -53,7 +53,7 @@ theorem kProjRep_Tits (J : Type) [Group J] (hq : CFSG.Open.IsQuasisimple J) (N :
     (f : J →* (Matrix.GeneralLinearGroup (Fin d) (ZMod q)) ⧸
       center (Matrix.GeneralLinearGroup (Fin d) (ZMod q))) : f = 1 := by
   obtain ⟨e⟩ := TitsAut.lieModel_equiv hT
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have h5 : (5 : ZMod q) ≠ 0 := by
     intro h
     have h' : ((5 : ℕ) : ZMod q) = 0 := by exact_mod_cast h

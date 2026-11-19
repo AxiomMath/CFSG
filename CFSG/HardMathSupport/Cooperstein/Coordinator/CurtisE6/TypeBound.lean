@@ -97,7 +97,7 @@ theorem no_J_univ {ρ : Representation k ↥(e6Data_valid.minGroup K) V} (hρ : 
       fun h hh => ?_, fun i => ?_⟩
     · simp [hρ0def, hχ1 h hh]
     · refine ⟨fun _ => ⟨hχi i, ?_⟩, fun _ => hJ ▸ Finset.mem_univ i⟩
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       refine ((e6CoverRankOne K).heckeT_datum ρ0 i _).trans ?_
       simp only [hρ0def, Representation.trivial_apply, Finset.sum_const, Finset.card_univ]
       have hev : Even (Fintype.card K) :=

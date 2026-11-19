@@ -57,7 +57,7 @@ theorem r16_38_m3Gap_of_r638 (D : Data G) (h127 : R127 D) (h638 : UC6.R6_38 D) :
     rw [range_barHom V₀ V hV hMs]
     exact Mbar_le_normalizer_lBar hS S hSω
   have hOp : F10.OpRes 3 D.M = D.M := h638 3 Nat.prime_three (by norm_num) (Or.inl h3sig)
-  haveI hNorm : ((OmegaModel.linSub S).comap (barHom V₀ V hV hMs)).Normal :=
+  have hNorm : ((OmegaModel.linSub S).comap (barHom V₀ V hV hMs)).Normal :=
     OmegaModel.normal_comap_linSub S _ hrN
   have hq : IsPGroup 3 (↥D.M ⧸ (OmegaModel.linSub S).comap (barHom V₀ V hV hMs)) :=
     OmegaModel.isPGroup_quotient_comap_linSub S hSK8 _ hrN

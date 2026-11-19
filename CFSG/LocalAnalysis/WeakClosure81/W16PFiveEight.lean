@@ -90,7 +90,7 @@ theorem Hyp167.inf_centralizer_eSub_le_kerMOf (hX : Hyp167 M V₀ V U S H g X T)
 private theorem hyp167_exists_sylow_le_inf (hX : Hyp167 M V₀ V U S H g X T)
     (hQ : IsSylowIn 2 (T ⊓ kerMOf M X) (kerMOf M X)) :
     ∃ P : Subgroup G, IsSylowIn 2 P (kerMOf M H) ∧ P ≤ T ⊓ kerMOf M X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀syl, hP₀K⟩ := hX.mem.2.1
   obtain ⟨k, hkK, hkQ⟩ :=
     exists_conj_le_of_isSylowTwoOf (A := P₀) hQ hP₀K hP₀syl.isPGroup
@@ -113,7 +113,7 @@ private theorem hyp167_inf_kerMOf_normal (hX : Hyp167 M V₀ V U S H g X T) :
     IsSylowIn 2 (T ⊓ kerMOf M X) (kerMOf M X) ∧
       ((T ⊓ kerMOf M X).subgroupOf X).Normal := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKX : kerMOf M X ≤ X := kerMOf_le_group M X
   have hKM : kerMOf M X ≤ M := kerMOf_le_left M X
   have hKn : ((kerMOf M X).subgroupOf X).Normal := normal_subgroupOf_kerMOf M X
@@ -167,7 +167,7 @@ private theorem hyp167_inf_kerMOf_normal (hX : Hyp167 M V₀ V U S H g X T) :
 
 theorem Hyp167.inf_kerMOf_eq_pCoreOf (hX : Hyp167 M V₀ V U S H g X T) :
     T ⊓ kerMOf M X = pCoreOf 2 (kerMOf M X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKX : kerMOf M X ≤ X := kerMOf_le_group M X
   obtain ⟨hQsyl, hQnormX⟩ := hyp167_inf_kerMOf_normal hX
   refine le_antisymm ?_ ?_
@@ -182,7 +182,7 @@ theorem Hyp167.inf_kerMOf_eq_pCoreOf (hX : Hyp167 M V₀ V U S H g X T) :
 theorem Hyp167.eq_conjClosure_sup_pCoreOf (hX : Hyp167 M V₀ V U S H g X T) :
     X = conjClosure (conjSubgroup V g) X ⊔ pCoreOf 2 (kerMOf M X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKX : kerMOf M X ≤ X := kerMOf_le_group M X
   obtain ⟨hQsyl, -⟩ := hyp167_inf_kerMOf_normal hX
   obtain ⟨P, hPsyl, hPQ⟩ := hyp167_exists_sylow_le_inf hX hQsyl

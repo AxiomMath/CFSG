@@ -30,8 +30,8 @@ theorem heckeT_cover_comp {Ĝ G : Type*} [Group Ĝ] [Group G] {B : Type*} {M : C
     [AddCommGroup V] [Module k V] (ρ : Representation k G V) (s : B) (v : V) :
     C.datum.heckeT (ρ.comp π) s v = D.heckeT ρ s v := by
   have i0 : Fintype ↥(D.X s) := Fintype.ofFinite _
-  letI i2 : Fintype ↥(C.lX s) := Fintype.ofFinite _
-  letI i1 : Fintype ↥(C.datum.X s) := i2
+  let i2 : Fintype ↥(C.lX s) := Fintype.ofFinite _
+  let i1 : Fintype ↥(C.datum.X s) := i2
   rw [C.datum.heckeT_apply, D.heckeT_apply]
   refine Fintype.sum_equiv (C.lXEquiv s) (fun x : ↥(C.lX s) => (ρ.comp π) ((x : Ĝ) * C.nhat s) v)
     (fun y : ↥(D.X s) => ρ ((y : G) * D.n s) v) fun x => ?_
@@ -209,7 +209,7 @@ theorem e6Surv78_core {k : Type} [Field k] [CharP k 2] [inst₀ : Algebra K k] {
       if i = (⟨1, by decide⟩ : N6) then (@algebraMap K k _ _ inst₀ (u : K)) ^ (2 ^ b) else 1) :
     Module.finrank k V = 78 ∧ ∀ A : Subgroup ↥(e6Data_valid.minGroup K), (∀ a ∈ A, a ^ 2 = 1) →
       A ≠ ⊥ → 22 + Module.finrank k ↥(fixSub ρ A) ≤ 78 ∧ Nat.card A ≤ Nat.card K ^ 16 := by
-  letI alg : Algebra K k := ((algebraMap K k).comp (frobEquiv K b).toRingHom).toAlgebra
+  let alg : Algebra K k := ((algebraMap K k).comp (frobEquiv K b).toRingHom).toAlgebra
   have key : ∀ u : K, algebraMap K k u = (@algebraMap K k _ _ inst₀ u) ^ (2 ^ b) := fun u => by
     show @algebraMap K k _ _ inst₀ (frobEquiv K b u) = _
     rw [frobEquiv_apply, map_pow]
@@ -219,8 +219,8 @@ theorem e6Surv78_core {k : Type} [Field k] [CharP k 2] [inst₀ : Algebra K k] {
     intro i u
     rw [adjChi78_dC, key]
     by_cases h : i = e6node2
-    · rw [if_pos h, if_pos h, zpow_one]
-    · rw [if_neg h, if_neg h, zpow_zero]
+    · rw [ite_eq_left h, ite_eq_left h, zpow_one]
+    · rw [ite_eq_right h, ite_eq_right h, zpow_zero]
       simp
   subst hJ
   have hχ' : ∀ i u, χ (e6Data_valid.hm K i u) =

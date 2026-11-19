@@ -575,7 +575,7 @@ theorem sSup_eq_top (hq : CFSG.IsQuasisimple X)
     rw [Nat.card_congr ψ.toEquiv, CFSG.CGT.Timmesfeld75.card_alternatingGroup_six, hZ3] at h1
     omega
   have hP27 : Nat.card (P : Subgroup X) = 27 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hmul := (P : Subgroup X).card_mul_index
     rw [hk, hX] at hmul
     have hnd := P.not_dvd_index

@@ -188,6 +188,7 @@ theorem heart_le_gamma (hS : GGQTwoSetting p B Bs x L D J)
   rintro _ ⟨D, u, hD, hu, rfl⟩
   exact UnitTB.conj_mem_of_selfCent (gamma_hyps hS hN).2 hdiag hD hu
 
+omit [Finite G] in
 theorem exists_induced_mem_of_h3 (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     {K : Type} [Field K] [Finite K] {n d : ℕ}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (unitarySU 2 n K d))
@@ -394,6 +395,7 @@ variable {K : Type} [Field K] [Finite K] {d : ℕ}
   {h : UnitaryFieldData 2 1 K} {Q : GL (Fin d) K}
   {hQ : Q ∈ primeFormUnitary h (idGram K d)}
 
+omit [Finite K] in
 theorem isSemilin_conj_frameMk (P : ↥(unitarySU 2 1 K d)) :
     IsSemilin (frameMk h Q hQ) (MulAut.conj (frameMk h Q hQ P)) (P : GL (Fin d) K) 1 := by
   intro v w hvw
@@ -455,7 +457,7 @@ theorem prod_weight_eq_one_of_inner (hK : Nat.card K = (2 ^ 1) ^ 2) (hd : 3 ≤ 
       GL (Fin d) K) : Matrix (Fin d) (Fin d) K).det = (c : K) ^ d := by
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.det_diagonal,
       Finset.prod_const, Finset.card_univ, Fintype.card_fin]
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   have hc3 : (c : K) ^ 3 = 1 := by
     have hcU : Matrix.GeneralLinearGroup.scalar (Fin d) c ∈ primeFormUnitary h (idGram K d) := by
       rw [hcN]
@@ -501,6 +503,7 @@ variable {K : Type} [Field K] [Finite K] {d : ℕ}
   map_mul' π τ := by
     rw [UnitAct.permSU_mul, map_mul, map_mul]
 
+omit [Finite K] in
 theorem frameAct_qTwoFramePerm
     (hσn : ∀ k, ((σ k : Kˣ) : K) ^ (2 ^ 1 + 1) = 1)
     (he : FrameAct h Q hQ e σ) (π : Equiv.Perm (Fin d)) :
@@ -513,7 +516,7 @@ theorem frameAct_qTwoFramePerm
       ((LineU.permSU h π : GL (Fin d) K))⁻¹ =
         (diagHom d (σ ∘ ⇑π.symm) : GL (Fin d) K) := by
     apply Units.ext
-    simp only [Units.val_mul, coe_diagHom, coe_permGL_matrix, coe_permGL_inv_matrix]
+    simp only [Units.val_mul, coe_diagHom]
     exact permMatrix_conj_diag π (fun i => (σ i : K))
   have hP : (LineU.permSU h π : GL (Fin d) K) ∈
       primeFormUnitary h (idGram K d) :=
@@ -523,7 +526,7 @@ theorem frameAct_qTwoFramePerm
   have h1 := hconj.mul h he (TableBUD.diagHom_mem_primeFormUnitary h hσn)
   have h2 := h1.mul h hinv (Subgroup.inv_mem _ hP)
   rw [show (1 : K ≃+* K) * 1 * 1⁻¹ = 1 from by group] at h2
-  simp only [map_one, MulAut.one_apply, inv_one, one_mul, mul_one] at h2
+  simp only [map_one, MulAut.one_apply, inv_one, mul_one] at h2
   rw [hmatGL] at h2
   exact h2
 
@@ -562,8 +565,8 @@ theorem heart_inner_frame_prod_one [Fact p.Prime]
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
   obtain ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
     QTwoUnitary.exists_frame_of_marking_twA_heart hS hp3 hq2 htag h3d hmark hidx
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hinner := GGQ2LDatum.beta_image_inner_of_heartShape M hp2 hN hM hxC θ
   refine ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, ?_, hcardW⟩
   intro e he
@@ -635,13 +638,13 @@ theorem card_heartWeightSubgroup {K : Type} [Field K] [Finite K] {d : ℕ}
     let j : Fin d := ⟨1, by omega⟩
     let σ : Fin d → Kˣ := Function.update 1 j c
     have hσ0 : σ ⟨0, by omega⟩ = 1 := by
-      simp [σ, Function.update, j]
+      simp [σ, j]
     refine ⟨⟨σ, hσ0⟩, ?_⟩
     change (∏ k, σ k) = c
     rw [Finset.prod_eq_single j]
-    · simp [σ, Function.update]
+    · simp [σ]
     · intro b _ hb
-      simp [σ, Function.update, hb]
+      simp [σ, hb]
     · intro h
       exact absurd (Finset.mem_univ j) h
   have hrange : f.range = ⊤ := MonoidHom.range_eq_top.mpr hsurj
@@ -677,7 +680,7 @@ theorem frameWeights_eq_heartWeight
     (hdq : (d, 2 ^ 1) ≠ (3, 2)) (hp : Nat.Prime 3) (hpq : 3 ∣ 2 ^ 1 + 1)
     (hinner : ∀ e ∈ E, ∃ u : ↥(unitarySU 2 1 K d),
       e = MulAut.conj (frameMk h Q hQ u))
-    (hfr : ∀ e ∈ E, ∃ σ : Fin d → Kˣ,
+    (_hfr : ∀ e ∈ E, ∃ σ : Fin d → Kˣ,
       σ ⟨0, by omega⟩ = 1 ∧ (∀ k, σ k ^ 3 = 1) ∧
       (∀ k, ((σ k : Kˣ) : K) ^ (2 ^ 1 + 1) = 1) ∧
       TableBUD.FrameAct h Q hQ e σ)
@@ -699,6 +702,7 @@ theorem frameWeights_eq_heartWeight
     rw [Units.coe_prod, hprod, Units.val_one]
   · rw [hcardW, card_heartWeightSubgroup hK (by omega)]
 
+omit [Finite K] in
 theorem heartWeightSubgroup_perm
     {hd : 1 ≤ d} (hK : Nat.card K = (2 ^ 1) ^ 2) (h3d : 3 ∣ d)
     {σ : Fin d → Kˣ} (hσ : σ ∈ heartWeightSubgroup (K := K) hd)
@@ -741,7 +745,7 @@ theorem heart_inner_frame_weights_eq_of_le_sup_zpowers [Fact p.Prime]
     ∃ (K : Type) (hfield : Field K), letI := hfield;
       ∃ (hfin : Finite K), letI := hfin;
       ∃ (h : UnitaryFieldData 2 1 K),
-      ∃ (hK : Nat.card K = (2 ^ 1) ^ 2),
+      ∃ (_hK : Nat.card K = (2 ^ 1) ^ 2),
       ∃ (θ : L ⧸ Subgroup.center L ≃*
           LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ 1)))
         (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -757,10 +761,10 @@ theorem heart_inner_frame_weights_eq_of_le_sup_zpowers [Fact p.Prime]
         TableBUD.frameWeights h Q hQ (by omega) 3 (ggBeta L θ hN).range =
           heartWeightSubgroup (K := K) (by omega) := by
   classical
-  obtain ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
+  obtain ⟨K, hfield, hfin, h, _hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
     QTwoUnitary.exists_frame_of_marking_twA_heart hS hp3 hq2 htag h3d hmark hidx
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by rw [hp3]; norm_num
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
@@ -782,9 +786,9 @@ theorem heart_inner_frame_weights_eq_of_le_sup_zpowers [Fact p.Prime]
     exact ⟨σ, hσ0, hσ3, hσn, hfrσ⟩
   have heq : TableBUD.frameWeights h Q hQ (by omega) 3 (ggBeta L θ hN).range =
       heartWeightSubgroup (K := K) (by omega) :=
-    frameWeights_eq_heartWeight hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq)
+    frameWeights_eq_heartWeight _hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq)
       hinner hfr0 (by simpa using h3d) hcardW
-  refine ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, ?_, ?_, heq⟩
+  refine ⟨K, hfield, hfin, h, _hK, θ, hN, Q, hQ, ?_, ?_, heq⟩
   · intro e he
     obtain ⟨σ, hσ0, hσ3, hσn, hfrσ⟩ := hfr e he
     obtain ⟨u, heu⟩ := hinner e he
@@ -792,7 +796,7 @@ theorem heart_inner_frame_weights_eq_of_le_sup_zpowers [Fact p.Prime]
       rw [← heu]
       exact hfrσ
     have hprodK : ∏ k, ((σ k : Kˣ) : K) = 1 :=
-      prod_weight_eq_one_of_inner hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq)
+      prod_weight_eq_one_of_inner _hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq)
         u hσn hfrσ' (by simpa using h3d)
     refine ⟨σ, ?_, hfrσ⟩
     refine Subgroup.mem_inf.mpr ⟨hσ0, ?_⟩
@@ -909,7 +913,7 @@ theorem heart_framePerm_mem_normalizer_of_le_sup_zpowers [Fact p.Prime]
     ∃ (K : Type) (hfield : Field K), letI := hfield;
       ∃ (hfin : Finite K), letI := hfin;
       ∃ (h : UnitaryFieldData 2 1 K),
-      ∃ (hK : Nat.card K = (2 ^ 1) ^ 2),
+      ∃ (_hK : Nat.card K = (2 ^ 1) ^ 2),
       ∃ (θ : L ⧸ Subgroup.center L ≃*
           LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ 1)))
         (hN : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -919,10 +923,10 @@ theorem heart_framePerm_mem_normalizer_of_le_sup_zpowers [Fact p.Prime]
           Subgroup.normalizer ((ggBeta L θ hN).range :
             Set (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ 1))))) := by
   classical
-  obtain ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
+  obtain ⟨K, hfield, hfin, h, _hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
     QTwoUnitary.exists_frame_of_marking_twA_heart hS hp3 hq2 htag h3d hmark hidx
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by rw [hp3]; norm_num
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
@@ -942,9 +946,9 @@ theorem heart_framePerm_mem_normalizer_of_le_sup_zpowers [Fact p.Prime]
     intro e he
     obtain ⟨σ, hσ0, hσ3, hσn, hfrσ⟩ := hfr e he
     exact ⟨σ, hσ0, hσ3, hσn, hfrσ⟩
-  refine ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, ?_⟩
+  refine ⟨K, hfield, hfin, h, _hK, θ, hN, Q, hQ, ?_⟩
   exact qTwoFramePerm_mem_normalizer (E := (ggBeta L θ hN).range)
-    hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq) hinner hfr0
+    _hK (by omega) hdq (hp3 ▸ hp) (hp3 ▸ hpq) hinner hfr0
     (by simpa using h3d) hcardW π
 
 
@@ -991,8 +995,8 @@ theorem exists_quotient_J_block_of_le_sup_zpowers [Fact p.Prime]
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
   obtain ⟨K, hfield, hfin, h, hK, θ, hN, Q, hQ, hfr, hcardW⟩ :=
     QTwoUnitary.exists_frame_of_marking_twA_heart hS hp3 hq2 htag h3d hmark hidx
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hDL : D ≤ Subgroup.normalizer (L : Set G) := QTwoCav.d_le_normalizer hS hN
   have hstd : LargeEvenStdSub p B x L D J := hS.1.1.2.2
   have hpre : LargeEvenStdSubPre p B x L D J := hstd.1

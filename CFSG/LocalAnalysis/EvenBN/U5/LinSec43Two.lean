@@ -46,7 +46,7 @@ theorem lin_sec43_two_aux (h41 : c.Sec41) {A₀ : Subgroup G} (hA₀S : A₀ ≤
   ·
     have hc2 := lin43_card_le_DQ hl k c hA
     by_contra hnot
-    obtain ⟨x, hxA, hxB⟩ := SetLike.not_le_iff_exists.1 hnot
+    obtain ⟨x, hxA, hxB⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
     obtain ⟨d', hd', q', hq', rfl⟩ := lin43_exists_mul_DQ hl k c x (hA hxA)
     have hq'1 : q' ≠ 1 := by
       rintro rfl
@@ -62,7 +62,7 @@ theorem lin_sec43_two_aux (h41 : c.Sec41) {A₀ : Subgroup G} (hA₀S : A₀ ≤
   ·
     obtain ⟨x, hxA, hxDQ⟩ : ∃ x ∈ A₀, x ∉ d.D ⊔ (c.Y ⊓ c.S) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hA hcon
     exfalso
     obtain ⟨d', hd', p, hp, q', hq', rfl⟩ := lin43_exists_mul_S hl k c x (hA₀S hxA)
@@ -80,7 +80,7 @@ theorem lin_sec43_two_aux (h41 : c.Sec41) {A₀ : Subgroup G} (hA₀S : A₀ ≤
     exact absurd hcard (not_lt.2 h3)
 
 theorem lin_sec43_two (h41 : c.Sec41)
-    (h42 : c.Sec42)
+    (_h42 : c.Sec42)
     (h43 : ∀ Y : Subgroup G, Y ≤ d.D → CFSG.IsElementaryAbelian 2 Y → Y ≤ c.Bc ∨ Y ≤ c.Bt) :
     ∀ X : Subgroup G, X ≤ c.S → CFSG.IsElementaryAbelian 2 X → (2 ^ f) ^ 10 < Nat.card X →
       X ≤ c.Bc ∨ X ≤ c.Bt := by

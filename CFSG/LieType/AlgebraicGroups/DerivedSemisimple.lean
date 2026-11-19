@@ -111,8 +111,7 @@ theorem hom_basePointsRepresentation (f : Comodule.Hom R H M N) (g : WithConv (H
     Comodule.endOfPoint_tmul, Comodule.endOfPoint_tmul, ← Comodule.Hom.map_coact_apply,
     ← Comodule.Hom.coe_toLinearMap]
   generalize f.toLinearMap = φ
-  induction Comodule.coact (R := R) (C := H) (M := M) m using TensorProduct.induction_on with
-  | zero => simp
+  induction Comodule.coact (R := R) (C := H) (M := M) m using TensorProduct.inductionOn with
   | tmul a b => simp
   | add x y hx hy => simp only [map_add, smul_add] at hx hy ⊢; rw [hx, hy]
 
@@ -497,8 +496,7 @@ theorem exists_one_tmul_eq {H : Type u} [AddCommGroup H] [Module k H]
     (x : AlgebraicClosure k ⊗[k] H) : ∃ h : H, (1 : AlgebraicClosure k) ⊗ₜ[k] h = x := by
   have hsurj : Function.Surjective (algebraMap k (AlgebraicClosure k)) :=
     (IsAlgClosed.algebraMap_bijective_of_isIntegral (k := k) (K := AlgebraicClosure k)).2
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, TensorProduct.tmul_zero _ _⟩
+  induction x using TensorProduct.inductionOn with
   | tmul a h =>
     obtain ⟨b, rfl⟩ := hsurj a
     refine ⟨b • h, ?_⟩

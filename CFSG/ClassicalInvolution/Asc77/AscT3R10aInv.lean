@@ -94,7 +94,7 @@ theorem Std20.r10a_RR'_le_z (d : Std20 p f K K' J S R R' W V z t) {y : G} (hyR :
   have hzR' : z ∈ R' := by
     rw [d.late_R'_eq]
     exact ⟨d.late_hzK'.mem, hzS⟩
-  have hA2 : IsPGroup 2 ↥(R ⊓ R') := S.isPGroup'.to_le (inf_le_left.trans d.hRS)
+  have hA2 : IsPGroup 2 ↥(R ⊓ R') := S.isPGroup.to_le (inf_le_left.trans d.hRS)
   have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_K' d.ne.symm hA2
     (inf_le_left.trans d.hR.1) (inf_le_right.trans d.hR'.1)
   have hz1 := d.viol.hzK.ne_one

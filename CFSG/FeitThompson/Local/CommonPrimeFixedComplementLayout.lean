@@ -79,8 +79,8 @@ theorem sup_pCoreIn_eq' : pCoreIn q S ⊔ D = S :=
     (exists_relIndex_eq_pow_of_isHallSubgroup hDhall)
 
 theorem inf_pCoreIn_eq_bot' : pCoreIn q S ⊓ D = ⊥ :=
-  h.inf_pCoreIn_eq_bot hDS (h.not_dvd_natCard_of_isHallSubgroup hDS hDhall)
-    (exists_relIndex_eq_pow_of_isHallSubgroup hDhall)
+  h.inf_pCoreIn_eq_bot (h.not_dvd_natCard_of_isHallSubgroup hDS hDhall)
+
 
 theorem natCard_mul_natCard_pCoreIn' : Nat.card ↥D * Nat.card ↥(pCoreIn q S) = Nat.card ↥S :=
   h.natCard_mul_natCard_pCoreIn hDS (h.not_dvd_natCard_of_isHallSubgroup hDS hDhall)

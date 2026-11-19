@@ -36,8 +36,7 @@ theorem exists_commutatorElement_ne_one_SL2_zmod_two :
   refine ⟨x, y, fun h => ?_⟩
   have h00 := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) (ZMod 2) =>
     (A : Matrix (Fin 2) (Fin 2) (ZMod 2)) 0 0) (commutatorElement_eq_one_iff_mul_comm.mp h)
-  simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two, x, y,
-    Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h00
+  simp only [x, y] at h00
   revert h00
   decide
 

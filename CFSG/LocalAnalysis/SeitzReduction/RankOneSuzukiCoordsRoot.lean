@@ -134,7 +134,7 @@ theorem exists_mulEquiv_szModelU_eq [Finite K]
     ∃ e' : L ≃* suzukiGroup a K, szModelU L e' = T₁ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hT₁
-  have hPp : IsPGroup 2 ((P : Subgroup L).map e.toMonoidHom) := P.isPGroup'.map _
+  have hPp : IsPGroup 2 ((P : Subgroup L).map e.toMonoidHom) := P.isPGroup.map _
   obtain ⟨g, hg⟩ := CFSG.LieType.SteinbergBR.exists_le_conj_suzukiU hK hPp
   let e' : L ≃* suzukiGroup a K := e.trans (MulAut.conj g⁻¹)
   have he' : ∀ y, e' y = g⁻¹ * e y * g := fun y => by simp [e']

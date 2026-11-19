@@ -38,7 +38,7 @@ theorem cmEquiv_one_one_one_pow_planeVec (k : ℕ) (i : Fin 3) (p : K × K) :
   by_cases h : j = i
   · subst h
     simp [planeVec]
-  · simp [planeVec, Pi.single_apply, h]
+  · simp [planeVec, h]
 
 theorem cmEquiv_one_one_one_pow_three : cmEquiv K ![1, 1, 1] ^ 3 = 1 := by
   refine LinearEquiv.ext fun x => ?_
@@ -115,7 +115,7 @@ theorem heisE_sum (a : K × K) :
   rw [h1, heisE_orbit a 2, heisE]
   refine Prod.ext (funext fun i => ?_) ?_
   · fin_cases i <;> refine Prod.ext ?_ ?_ <;>
-      simp [planeVec, Pi.single_apply, pow_two, rotLE_apply] <;> ring
+      simp [planeVec, pow_two, rotLE_apply] <;> ring
   · simp [planeVec]
 
 theorem heisE_indep (a : K × K) (s t : K)

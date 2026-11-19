@@ -153,7 +153,7 @@ theorem k18_B0_le_derived (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {V' : Subg
     · exact hyD
     · exact hzD
   have hV'comm : ∀ a ∈ V', ∀ b ∈ V', a * b = b * a := by
-    haveI : IsMulCommutative ↥V' := hV1.1
+    have : IsMulCommutative ↥V' := hV1.1
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V') ⟨b, hb⟩)
   have hv₁v₂ : v₁ * v₂ = v₂ * v₁ := hV'comm v₁ hv₁V v₂ hv₂V

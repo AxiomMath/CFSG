@@ -15,14 +15,17 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_pCore_of_mem_pCoreOf_lemma27 {H : Subgroup G} {w : ↥H}
     (hw : (w : G) ∈ pCoreOf 2 H) : w ∈ CFSG.pCore 2 ↥H :=
   (Subgroup.mem_map_iff_mem H.subtype_injective).1 hw
 
+omit [Finite G] in
 private theorem mem_pCoreOf_of_mem_pCore_lemma27 {H : Subgroup G} {w : ↥H}
     (hw : w ∈ CFSG.pCore 2 ↥H) : (w : G) ∈ pCoreOf 2 H :=
   Subgroup.mem_map_of_mem H.subtype hw
 
+omit [Finite G] in
 private theorem natCard_statedSL_two_dvd_of_surjective_lemma27 {Y : Subgroup G} {F : Type}
     [Field F] [Finite F] (ρ : ↥Y →* ↥(StatedSL 2 F)) (hρ : Function.Surjective ρ) :
     Nat.card ↥(StatedSL 2 F) ∣ Nat.card ↥Y := by
@@ -48,9 +51,9 @@ theorem lemma27 (hK : quasithinIsQTKECat G) (hs : IsSimpleGroup G)
     Y ≤ K := by
   by_contra hYK
   obtain ⟨p, hp, hp2, hpd, hp3⟩ := exists_prime_dvd_two_pow_sub_one hn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpF : p ∣ Fintype.card F - 1 := by rw [hF]; exact hpd
-  have hF3 : p = 3 → Fintype.card F = 4 := fun h => by rw [hF, hp3 h] <;> norm_num
+  have hF3 : p = 3 → Fintype.card F = 4 := fun h => by rw [hF, hp3 h]; norm_num
   have hdvdY : p ∣ Nat.card ↥Y :=
     dvd_trans (prime_dvd_natCard_statedSL_two_lemma27 hpF)
       (natCard_statedSL_two_dvd_of_surjective_lemma27 ρ hρ)

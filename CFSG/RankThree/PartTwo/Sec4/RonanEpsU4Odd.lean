@@ -152,7 +152,7 @@ theorem goursat_prod {X Y : Type} [Group X] [Group Y] (hX : IsSimpleGroup X)
           convert hc using 1
           ext
           · simp [← hg]
-          · simp [hh]
+          · simp
         exact (hmemA _).mpr hc'
       have hBn : B.Normal := by
         constructor
@@ -164,7 +164,7 @@ theorem goursat_prod {X Y : Type} [Group X] [Group Y] (hX : IsSimpleGroup X)
         have hc' : ((1 : X), g * b * g⁻¹) ∈ H := by
           convert hc using 1
           ext
-          · simp [hh]
+          · simp
           · simp [← hg]
         exact (hmemB _).mpr hc'
       have hAt : A = ⊤ := (IsSimpleGroup.eq_bot_or_eq_top_of_normal A).resolve_left hA0
@@ -210,23 +210,23 @@ section Simple
 
 theorem isSimpleGroup_of_isQuasisimple_center {Q : Type} [Group Q] (hQ : IsQuasisimple Q)
     (hZ : Subgroup.center Q = ⊥) : IsSimpleGroup Q := by
-  haveI := hQ.2.1
+  have := hQ.2.1
   exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem isSimpleGroup_of_isTypeEps {X : Type} [Group X] (h : IsTypeEps X) : IsSimpleGroup X := by
   obtain ⟨p, f, hp, -, hf, ⟨-, ⟨ψ⟩⟩ | ⟨-, hq2, ⟨ψ⟩⟩⟩ := h
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p f) (by norm_num)
+  · have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p f) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact ψ.isSimpleGroup
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := f)
+  · have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := f)
       ⟨Fact.out, hf, le_rfl, fun h => by have := (Prod.mk.inj h).2; omega⟩
     exact ψ.isSimpleGroup
 
 theorem false_of_simple_isTypeEpsCube {K : Type} [Group K] [Finite K] (hs : IsSimpleGroup K)
     (hc : IsTypeEpsCube (K ⧸ CFSG.pCore 2 K)) {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n * ((2 ^ n) ^ 2 - 1)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   have hcard := le_card_of_isTypeEpsCube hc
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 K) with hb | ht
   · have e : (K ⧸ CFSG.pCore 2 K) ≃* K :=
@@ -293,11 +293,11 @@ theorem u4OddEps_caseA {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
     (hs : (K₂.subgroupOf (unitarySU 2 n L 4 ⊓
       Subgroup.centralizer {diagU ![ω, ω, ω, 1]})).IsSubnormal)
     (hnt : K₂ ≠ ⊥) (hT : IsTypeEps (K₂ ⧸ CFSG.pCore 2 K₂)) : False := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect K₂ := Subgroup.isPerfect_iff.mpr hKp
-  haveI : Nontrivial K₂ := (Subgroup.nontrivial_iff_ne_bot K₂).mpr hnt
+  have : Nontrivial K₂ := (Subgroup.nontrivial_iff_ne_bot K₂).mpr hnt
   have hωL3 : (ω : L) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, hω3, Units.val_one]
   have hωL1 : (ω : L) ≠ 1 := fun e => hω1 (Units.ext e)
   set D : GL (Fin 4) L := diagU ![ω, ω, ω, 1] with hDdef
@@ -368,8 +368,8 @@ theorem u4OddEps_caseB {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
     (hs : (K₂.subgroupOf (unitarySU 2 n L 4 ⊓
       Subgroup.centralizer {diagU (dvecD0 ω)})).IsSubnormal)
     (hnt : K₂ ≠ ⊥) (hTc : IsTypeEpsCube (K₂ ⧸ CFSG.pCore 2 K₂)) : False := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hω1' : ω⁻¹ ≠ 1 := fun e => hω1 (inv_eq_one.mp e)
   have hl2 : ∀ j : Fin 4, j ≠ 2 → dvecD0 ω 2 ≠ dvecD0 ω j := by
     intro j hj
@@ -412,28 +412,28 @@ theorem u4OddEps_caseB {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
   have hsB := hs
   obtain ⟨hq, hcard⟩ := (sl2_block_facts h (nonempty_blkSU2_mulEquiv h)).1 hn
   have hZ : Subgroup.center (blkSU2 n L) = ⊥ := by
-    haveI : CharP h.fixedField 2 :=
+    have : CharP h.fixedField 2 :=
       CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq h.card_fixedField
     obtain ⟨φ⟩ := nonempty_blkSU2_mulEquiv h
     exact center_eq_bot_of_mulEquiv φ Sec19.Item19Res2Proof.center_sl2_eq_bot
-  haveI hN₁ : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hq hZ
+  have hN₁ : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hq hZ
   have hK : K₂ = blkSU2 n L :=
     eq_of_subnormal_of_le_simple hK₂N hBC hsB hN₁ hnt
   have hKs : IsSimpleGroup K₂ := (MulEquiv.subgroupCongr hK).isSimpleGroup
   exact false_of_simple_isTypeEpsCube (n := n) hKs hTc (by omega)
     (by rw [Nat.card_congr (MulEquiv.subgroupCongr hK).toEquiv, hcard])
 
-theorem u4OddEps_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : Lˣ} (hω1 : ω ≠ 1)
-    (hω2 : ω ≠ ω⁻¹) {K₂ : Subgroup (GL (Fin 4) L)} (hU : K₂ ≤ unitarySU 2 n L 4)
+theorem u4OddEps_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : Lˣ} (_hω1 : ω ≠ 1)
+    (hω2 : ω ≠ ω⁻¹) {K₂ : Subgroup (GL (Fin 4) L)} (_hU : K₂ ≤ unitarySU 2 n L 4)
     (hC : K₂ ≤ centC n L ω) (hKp : ⁅K₂, K₂⁆ = K₂)
     (hs : (K₂.subgroupOf (centC n L ω)).IsSubnormal) (hnt : K₂ ≠ ⊥)
     (hT : IsTypeEps (K₂ ⧸ CFSG.pCore 2 K₂)) (hTc : IsTypeEpsCube (K₂ ⧸ CFSG.pCore 2 K₂)) :
     False := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect K₂ := Subgroup.isPerfect_iff.mpr hKp
-  haveI : CharP h.fixedField 2 :=
+  have : CharP h.fixedField 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq h.card_fixedField
   have hM : blkSU2 n L ⊔ blkSU2L n L ≤ centC n L ω :=
     sup_le (blkSU2_le_centC h ω) (blkSU2L_le_centC h ω)
@@ -509,8 +509,8 @@ theorem u4OddEps_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
   have hZ₂ : Subgroup.center (blkSU2L n L) = ⊥ := by
     obtain ⟨φ⟩ := nonempty_blkSU2L_mulEquiv h
     exact center_eq_bot_of_mulEquiv φ Sec19.Item19Res2Proof.center_sl2_eq_bot
-  haveI hX : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hqN₁ hZ₁
-  haveI hY : IsSimpleGroup (blkSU2L n L) := isSimpleGroup_of_isQuasisimple_center hqN₂ hZ₂
+  have hX : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hqN₁ hZ₁
+  have hY : IsSimpleGroup (blkSU2L n L) := isSimpleGroup_of_isQuasisimple_center hqN₂ hZ₂
   rcases goursat_prod hX hY hHs hHne with hTop | hXH | hYH
   ·
     have eK : K₂ ≃* (↥(blkSU2 n L) × ↥(blkSU2L n L)) :=
@@ -531,7 +531,7 @@ theorem u4OddEps_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
     have eK : K₂ ≃* ↥(blkSU2 n L) :=
       (((Subgroup.equivMapOfInjective H Φ hΦinj).trans (MulEquiv.subgroupCongr hmapK)).symm).trans
         eX
-    haveI : IsSimpleGroup K₂ := eK.isSimpleGroup
+    have : IsSimpleGroup K₂ := eK.isSimpleGroup
     exact false_of_simple_isTypeEpsCube (n := n) inferInstance hTc (by omega)
       (by rw [Nat.card_congr eK.toEquiv, hcardN₁])
   ·
@@ -539,7 +539,7 @@ theorem u4OddEps_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω
     have eK : K₂ ≃* ↥(blkSU2L n L) :=
       (((Subgroup.equivMapOfInjective H Φ hΦinj).trans (MulEquiv.subgroupCongr hmapK)).symm).trans
         eY
-    haveI : IsSimpleGroup K₂ := eK.isSimpleGroup
+    have : IsSimpleGroup K₂ := eK.isSimpleGroup
     exact false_of_simple_isTypeEpsCube (n := n) inferInstance hTc (by omega)
       (by rw [Nat.card_congr eK.toEquiv, hcardN₂])
 
@@ -548,8 +548,8 @@ end Blocks
 theorem u4OddInnerEps : U4OddInnerEps := by
   intro n hodd S _ _ hS σ hin hσ3 hσ1 K hKfix hKperf hsub hT hTc
   obtain ⟨eS⟩ := hS
-  haveI := hKperf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := hodd.pos
   rcases Nat.eq_or_lt_of_le hn1 with rfl | hn2
   ·

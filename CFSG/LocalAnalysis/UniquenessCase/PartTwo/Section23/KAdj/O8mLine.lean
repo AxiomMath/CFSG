@@ -213,9 +213,9 @@ theorem kAdjAt_of_realizes_omegaMinusEight {W : Type} [CommGroup W] [Finite W]
 theorem kAdjAt_omegaMinusEight (W : Type) [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     (n : ℕ) (h : IsOmega8m ↥H n ∧ NatOmegaMinus H ⊤ ⊥ 8 n) (hn : 3 ≤ n) : KAdjAt W H n := by
   obtain ⟨-, -, K, hKf, hKfin, b, c, hcard, hirr, hreal⟩ := h
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hcard
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hcard
   exact kAdjAt_of_realizes_omegaMinusEight H hirr hcard (by omega) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KAdjE

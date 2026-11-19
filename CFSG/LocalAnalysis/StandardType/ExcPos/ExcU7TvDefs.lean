@@ -78,10 +78,9 @@ private theorem u7tv_map_tvMat (σ : L →+* L) (v φ : Fin ν → L) (t : L) :
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [tvMat, Matrix.map_apply, Matrix.one_apply, Matrix.vecMulVec_apply, smul_eq_mul,
-      mul_assoc]
-  · simp [tvMat, Matrix.map_apply, Matrix.one_apply, Matrix.vecMulVec_apply, hij,
-      smul_eq_mul, mul_assoc]
+    simp [tvMat, Matrix.map_apply, Matrix.vecMulVec_apply, smul_eq_mul]
+  · simp [tvMat, Matrix.map_apply, Matrix.vecMulVec_apply, hij,
+      smul_eq_mul]
 
 private theorem u7tv_stdUnitary_tvMat_apply (σ : L →+* L) (v φ : Fin ν → L)
     (h : φ ⬝ᵥ v = 0) (t : L) :
@@ -269,7 +268,7 @@ theorem mem_tvGroup_single {a b : Fin ν} (hab : a ≠ b) {X : SL(ν, L)} :
   · rintro ⟨t, rfl⟩
     exact ⟨t, (u7tv_tvMat_single hab t).symm⟩
 
-theorem tvGroup_map_conjSLn {v φ : Fin ν → L} (h : φ ⬝ᵥ v = 0) (M : GL (Fin ν) L) :
+theorem tvGroup_map_conjSLn {v φ : Fin ν → L} (_h : φ ⬝ᵥ v = 0) (M : GL (Fin ν) L) :
     (tvGroup v φ).map (conjSLn M) =
       tvGroup ((M : Matrix (Fin ν) (Fin ν) L).mulVec v)
         (Matrix.vecMul φ ((M⁻¹ : GL (Fin ν) L) : Matrix (Fin ν) (Fin ν) L)) := by
@@ -288,7 +287,7 @@ theorem tvGroup_map_conjSLn {v φ : Fin ν → L} (h : φ ⬝ᵥ v = 0) (M : GL 
       (Matrix.vecMul φ ((M⁻¹ : GL (Fin ν) L) : Matrix (Fin ν) (Fin ν) L)) t]
     rw [u7tv_gl_inv_mulVec, u7tv_gl_inv_vecMul]
 
-theorem tvGroup_map_conj {v φ : Fin ν → L} (h : φ ⬝ᵥ v = 0) (k : SL(ν, L)) :
+theorem tvGroup_map_conj {v φ : Fin ν → L} (_h : φ ⬝ᵥ v = 0) (k : SL(ν, L)) :
     (tvGroup v φ).map (MulAut.conj k).toMonoidHom =
       tvGroup ((k : Matrix (Fin ν) (Fin ν) L).mulVec v)
         (Matrix.vecMul φ ((k⁻¹ : SL(ν, L)) : Matrix (Fin ν) (Fin ν) L)) := by

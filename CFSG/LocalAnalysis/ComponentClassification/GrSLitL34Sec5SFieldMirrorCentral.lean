@@ -43,7 +43,7 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
   let π : ↥M →* X := QuotientGroup.mk' (pPrimeCore 2 ↥M)
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hπker : π.ker = pPrimeCore 2 ↥M := QuotientGroup.ker_mk' _
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   let K : Subgroup X := Subgroup.centralizer (L : Set X)
   have hKn : K.Normal := Subgroup.normal_centralizer
   have hX0n : (L.comap π).Normal := hLn.comap π
@@ -56,7 +56,7 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
   let B : Subgroup G := Bm.map M.subtype
   have hSM2 : IsPGroup 2 SM := by
     change IsPGroup 2 ((S : Subgroup G).comap M.subtype)
-    exact S.isPGroup'.comap_subtype
+    exact S.isPGroup.comap_subtype
   have hU_SM : U ≤ SM := inf_le_left
   have hBm_SM : Bm ≤ SM := inf_le_left
   have hAU : Am ≤ U := by
@@ -75,7 +75,7 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
     obtain ⟨hxS, hxN⟩ := mem_inf.mp hx
     obtain ⟨n, hnN, rfl⟩ := Subgroup.mem_map.mp hxN
     rw [Subgroup.mem_bot]
-    obtain ⟨k, hk⟩ := (S.isPGroup' : IsPGroup 2 ↥S).exists_orderOf_eq_pow
+    obtain ⟨k, hk⟩ := (S.isPGroup : IsPGroup 2 ↥S).exists_orderOf_eq_pow
       ⟨M.subtype n, hxS⟩
     have hk' : orderOf (M.subtype n) = 2 ^ k := by
       rwa [Subgroup.orderOf_mk] at hk
@@ -121,12 +121,12 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
   have hPSL : Open.StatedClassicalModel (↥L ⧸ center ↥L) .PSL 3 2 n :=
     hLL.statedClassicalModel (by decide)
   obtain ⟨-, F, hFfield, hFfin, hFcard, ⟨eF⟩⟩ := hPSL
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
   have hFchar : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rwa [← Nat.card_eq_fintype_card])
-  letI : CharP F 2 := hFchar
+  let : CharP F 2 := hFchar
   let eL : ↥L ≃* projectiveSL 3 F :=
     (((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eF).trans
       ((Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 F).symm.trans
@@ -464,7 +464,7 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
     change m⁻¹ * M.subtype bm * m ∈ Bm.map M.subtype
     exact Subgroup.mem_map.mpr ⟨_, hyBm, rfl⟩
   have hstrong : CFSG.IsStronglyClosedIn (S : Subgroup G) (B : Set G) :=
-    stronglyClosed_kernel_of_rank_four S.isPGroup' hSM hAS hBS hAn hAelem.isElemAbelian hA16
+    stronglyClosed_kernel_of_rank_four S.isPGroup hSM hAS hBS hAn hAelem.isElemAbelian hA16
       hAB hcomm hBinv hBM hfus
   have hsc : ∀ a ∈ B, ∀ g : G, g⁻¹ * a * g ∈ (S : Subgroup G) → g⁻¹ * a * g ∈ B :=
     hstrong.2
@@ -528,10 +528,10 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
       (Subgroup.mem_centralizer_iff.mp hzR bm hbm)
   have hsolvImage : Group.IsSolvable
       ↥((X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)).map M.subtype) := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer (B : Set G)) := hGoldB
+    have : Group.IsSolvable ↥(Subgroup.centralizer (B : Set G)) := hGoldB
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hS0C)
   have hsolvS0 : Group.IsSolvable ↥(X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)) := by
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥((X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)).map M.subtype) := hsolvImage
     let f : ↥(X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)) →*
         ↥((X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)).map M.subtype) :=
@@ -541,7 +541,7 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
     exact Group.isSolvable_of_isSolvable_injective hf
   have hsolvMap : Group.IsSolvable
       ↥((X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)).map π) := by
-    haveI : Group.IsSolvable ↥(X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)) := hsolvS0
+    have : Group.IsSolvable ↥(X0 ⊓ Subgroup.centralizer (Bm : Set ↥M)) := hsolvS0
     exact Group.isSolvable_of_surjective (π.subgroupMap_surjective _)
   have hsolvL : Group.IsSolvable ↥L := by
     rw [hS0map] at hsolvMap
@@ -552,8 +552,8 @@ theorem false_of_field_host_central_normal (hcat : L3TwoPowProperFixedCatalog)
     obtain ⟨a, b, hab⟩ := hL.1.2.2
     have h' : a = b := Subsingleton.elim a b
     exact hab (by rw [h'])
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : Nontrivial ↥L := hntL
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : Nontrivial ↥L := hntL
   exact Group.IsPerfect.not_isSolvable ↥L hsolvL
 
 theorem false_of_field_host_central_moved (h13 : Sol76T13.SolomonThm13Simple)

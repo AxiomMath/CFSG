@@ -68,7 +68,7 @@ theorem original_involution_mem_normal_sylow_subgroup [Finite G]
     e.symm (Original.x (2 ^ n)) ∈ D := by
   let : IsCyclic (Subgroup.center (S : Subgroup G)) :=
     original_sylow_center_isCyclic n hn S e
-  apply central_involution_mem_normal_two_subgroup S.isPGroup'
+  apply central_involution_mem_normal_two_subgroup S.isPGroup
     (e.symm (Original.x (2 ^ n))) ?_ ?_ D hD
   · rw [← Subgroup.map_center_eq e.symm]
     refine Subgroup.mem_map.mpr ⟨Original.x (2 ^ n), ?_, rfl⟩

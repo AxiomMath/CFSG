@@ -29,6 +29,7 @@ private theorem commutator_mul_mul_three {G : Type*} [Group G] (x a b c : G) :
   simp only [commutatorElement_def]
   group
 
+omit [Finite K] in
 private theorem pinnedX_mem_U2 {γ : Fin TwistTag.D4.tag.rank → ℤ} (hγ : IsRoot TwistTag.D4.tag γ)
     (h2 : 2 ≤ height γ) (c : K) :
     pinnedX TwistTag.D4.tag K γ c ∈ heightSeries TwistTag.D4.tag K 2 :=
@@ -52,7 +53,7 @@ private theorem coordC_list_prod : ∀ l : List (ModGL TwistTag.D4.tag K),
 private theorem coordC_pinnedX_ne {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.D4.tag γ) (h2 : 2 ≤ height γ) (hne : γ ≠ rootC) (c : K) :
     coordC (pinnedX TwistTag.D4.tag K γ c) = 0 := by
-  rw [coordC_pinnedX hγ h2 c, if_neg hne]
+  rw [coordC_pinnedX hγ h2 c, ite_eq_right hne]
 
 theorem exists_nested_commutator_coord : ∃ ε₀ : K, (ε₀ = 1 ∨ ε₀ = -1) ∧ ∀ s t : K,
     ⁅pinnedX TwistTag.D4.tag K rootB s, pinnedX TwistTag.D4.tag K rootA0 t *
@@ -127,7 +128,7 @@ theorem exists_nested_commutator_coord : ∃ ε₀ : K, (ε₀ = 1 ∨ ε₀ = -
   rw [coordC_list_prod _ hmemL]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
   rw [coordC_pinnedX_ne hA0B k0 (by decide), coordC_pinnedX_ne hA01B k01 (by decide),
-    coordC_pinnedX_ne hA1B k1 (by decide), coordC_pinnedX isRoot_rootC kC, if_pos rfl,
+    coordC_pinnedX_ne hA1B k1 (by decide), coordC_pinnedX isRoot_rootC kC, ite_eq_left rfl,
     coordC_pinnedX_ne hA13B k13 (by decide), coordC_pinnedX_ne hA03B k03 (by decide),
     coordC_pinnedX_ne hA3B k3 (by decide)]
   ring

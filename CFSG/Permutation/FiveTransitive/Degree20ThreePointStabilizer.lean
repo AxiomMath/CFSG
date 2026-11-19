@@ -60,7 +60,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twenty
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -92,7 +92,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twenty
   have hJcard : Nat.card J = 272 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   let T : Sylow 17 J := Sylow.nonempty.some
   have hh : h ≠ 0 :=
     Nat.ne_of_gt Nat.card_pos
@@ -114,9 +114,9 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twenty
     rw [T.card_eq_multiplicity, hJcard,
       hfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -196,7 +196,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twenty
     simp only [T.coe_coe]
   have hrDvd : C.relIndex N ∣ 16 := by
     rwa [hrEq]
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrPos : 0 < C.relIndex N :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

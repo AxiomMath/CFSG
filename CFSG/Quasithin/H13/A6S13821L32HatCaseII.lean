@@ -38,7 +38,7 @@ theorem caseII_false {S : Setting4 G T L V}
   obtain ⟨π, hπ, hker, hD⟩ := exists_pi_sl3 hK hKn hTsylH hP'
   have hL0K : l0 L ≤ K := S.l0_le_of_hat h139 h37 h38 hhat hH hK hKn hP
   have hXgen : S.X13820 ≤ oTwoUpper S.X13820 := P.eq.le
-  have hL0gen : l0 L ≤ oTwoUpper (l0 L) := S.oTwoUpper_l0.symm.le
+  have hL0gen : l0 L ≤ oTwoUpper (l0 L) := (CFSG.Quasithin.H13.A6.Setting4.oTwoUpper_l0 (G := G) (L := L)).symm.le
   have hXL1 : S.X13820 ≤ S.L1 := P.le_L1
   have hL0L1 : l0 L ≤ S.L1 := S.l0_le_L1
   set Xs : Subgroup SL3.S := (S.X13820.subgroupOf K).map π with hXsdef
@@ -180,11 +180,11 @@ theorem caseII_false {S : Setting4 G T L V}
       rw [e]
       exact Subgroup.mul_mem_sup haK h2
     have hsolv : Group.IsSolvable ↥((K ⊓ (S.L1 ⊔ T)) ⊔ pCoreOf 2 K) := by
-      haveI := S.isSolvable_L1T h1334 hS
-      haveI hNsolv : Group.IsSolvable ↥(pCoreOf 2 K) := by
-        haveI := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 K)
+      have := S.isSolvable_L1T h1334 hS
+      have hNsolv : Group.IsSolvable ↥(pCoreOf 2 K) := by
+        have := IsPGroup.isNilpotent (pCoreOf_isPGroup 2 K)
         infer_instance
-      haveI hTsolv : Group.IsSolvable ↥(K ⊓ (S.L1 ⊔ T)) :=
+      have hTsolv : Group.IsSolvable ↥(K ⊓ (S.L1 ⊔ T)) :=
         Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe
           (inf_le_right : K ⊓ (S.L1 ⊔ T) ≤ S.L1 ⊔ T)).toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe (inf_le_right : K ⊓ (S.L1 ⊔ T) ≤ S.L1 ⊔ T)).surjective

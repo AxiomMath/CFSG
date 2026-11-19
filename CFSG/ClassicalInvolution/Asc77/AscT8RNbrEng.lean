@@ -21,13 +21,13 @@ section Cert
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   {K J : Subgroup G} {S : Sylow 2 G} {T : Subgroup G}
 
-theorem sylow_inf_omegaNbrGen_gen (hJ : J ∈ omegaNbr Ω K) (hTJ : T ≤ J) (hTS : T ≤ (S : Subgroup G))
+theorem sylow_inf_omegaNbrGen_gen (hJ : J ∈ omegaNbr Ω K) (_hTJ : T ≤ J) (hTS : T ≤ (S : Subgroup G))
     (hTsyl : IsSylow2In T J) (hX : omegaNbrGen Ω K = J ⊔ oddCoreOf (omegaNbrGen Ω K)) :
     (S : Subgroup G) ⊓ omegaNbrGen Ω K = T := by
   have hJX : J ≤ omegaNbrGen Ω K :=
     le_iSup₂ (f := fun N (_ : N ∈ omegaNbr Ω K) => N) J hJ
   have hTX : IsSylow2In T (omegaNbrGen Ω K) := isSylow2In_of_eq_sup_oddCoreOf hJX hX hTsyl
-  exact hTX.eq_of_le S.isPGroup'.to_inf_left inf_le_right
+  exact hTX.eq_of_le S.isPGroup.to_inf_left inf_le_right
     (le_inf hTS (hTsyl.1.trans hJX))
 
 theorem not_mem_omegaNbr_of_four_le_gen (hJ : J ∈ omegaNbr Ω K) (hTJ : T ≤ J)
@@ -43,7 +43,7 @@ theorem not_mem_omegaNbr_of_four_le_gen (hJ : J ∈ omegaNbr Ω K) (hTJ : T ≤ 
     have : x ∈ (S : Subgroup G) ⊓ omegaNbrGen Ω K := ⟨hx.2, hMX hx.1⟩
     rw [sylow_inf_omegaNbrGen_gen hJ hTJ hTS hTsyl hX] at this
     exact hTJ this
-  exact hMJ (heq S.isPGroup'.to_inf_right h4 inf_le_left hle)
+  exact hMJ (heq S.isPGroup.to_inf_right h4 inf_le_left hle)
 
 end Cert
 end T8R

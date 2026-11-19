@@ -54,7 +54,7 @@ private lemma triD4Line_algHom_det_eq_norm (k K : Type) [Field k] [Field K] [Alg
         _ = φ ((x - y)⁻¹) *ᵥ (φ (x - y) *ᵥ v₀) := by rw [Matrix.mulVec_mulVec]
         _ = 0 := by rw [hzv, Matrix.mulVec_zero]
     exact hv₀ this
-  haveI : FiniteDimensional k K := inferInstance
+  have : FiniteDimensional k K := inferInstance
   have hdim : Module.finrank k K = Module.finrank k (Fin 3 → k) := by
     rw [hdeg, Module.finrank_fintype_fun_eq_card]
     simp
@@ -128,9 +128,9 @@ theorem triD4Line_exists_torus (k K : Type) [Field k] [Field K] [Algebra k K] [F
       Nonempty (T ≃* Multiplicative (ZMod (Nat.card k ^ 2 + Nat.card k + 1)) ×
         Multiplicative (ZMod (Nat.card k ^ 2 + Nat.card k + 1))) := by
   classical
-  haveI : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
+  have : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨g₁, c₁, h₁, rfl⟩ := triD4LineMk_surjective k K e₁
   have hpow : Matrix.GeneralLinearGroup.det (g₁ ^ 3) =
       Units.map (Algebra.norm k (S := K)) (c₁ ^ 3) := by
@@ -150,7 +150,7 @@ theorem triD4Line_exists_torus (k K : Type) [Field k] [Field K] [Algebra k K] [F
     exact ha.symm
   have hint : IsIntegral k (c₁ : K) := Algebra.IsIntegral.isIntegral _
   have hprime : Nat.Prime (Module.finrank k K) := by rw [hdeg]; norm_num
-  haveI : IsSimpleOrder (IntermediateField k K) :=
+  have : IsSimpleOrder (IntermediateField k K) :=
     IntermediateField.isSimpleOrder_of_finrank_prime k K hprime
   have hbot : k⟮(c₁ : K)⟯ ≠ ⊥ := by
     intro h
@@ -219,7 +219,7 @@ theorem triD4Line_exists_torus (k K : Type) [Field k] [Field K] [Algebra k K] [F
     rw [MonoidHom.mem_ker, hΦ₂map_apply]
     refine (triD4LineMk_eq_one_iff k K _ _ _).2 ⟨μ, ?_, rfl⟩
     exact triD4Line_unitsMap_algebraMap_eq_scalar k K φ μ
-  haveI : H.Normal := inferInstance
+  have : H.Normal := inferInstance
   let Q := Kˣ ⧸ H
   let Φ₂ : Q →* TriD4LineX k K := QuotientGroup.lift H Φ₂map hH_le
   have hΦ₂_apply : ∀ d : Kˣ,
@@ -320,10 +320,10 @@ theorem triD4Line_exists_torus (k K : Type) [Field k] [Field K] [Algebra k K] [F
       exact Subgroup.card_mul_index H
     rw [hcardH, hcardKunits] at h1
     exact Nat.mul_left_cancel hqpos (h1.trans hfac)
-  haveI : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
-  haveI : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
-  haveI : IsCyclic Nm.ker := Subgroup.isCyclic Nm.ker
-  haveI : IsCyclic Q :=
+  have : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) Units.val_injective
+  have : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic Nm.ker := Subgroup.isCyclic Nm.ker
+  have : IsCyclic Q :=
     isCyclic_of_surjective (QuotientGroup.mk' H) (QuotientGroup.mk'_surjective H)
   have eK : Nm.ker ≃* Multiplicative (ZMod (Nat.card k ^ 2 + Nat.card k + 1)) := by
     rw [← hcard_ker']

@@ -84,6 +84,7 @@ theorem comm_a_mem_W {m : ℕ} {θ : ↥K →* ↥(alternatingGroup (Fin m))} {�
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem centMax_core (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (haS : a ∈ S) (hna : a ∉ kerAct W K S) (hS2 : Nat.card ↥(indAut W K S) = 2)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) (hm : AltModel W K a U₁ U₂) : CentMax W K S a := by
@@ -144,6 +145,7 @@ theorem centMax_core (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ :
   rw [this]
   exact H.mul_mem hyH' hC'
 
+omit [Finite X] in
 theorem threeElt_core (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (haS : a ∈ S) (hZ : Subgroup.center ↥(bar W K) = ⊥) (hm : AltModel W K a U₁ U₂) :
     ThreeElt W K S a := by
@@ -155,7 +157,7 @@ theorem threeElt_core (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ 
   have hW1 : W ≤ kerAct W K S := hR.w1_le
   obtain ⟨l, hli, hlj⟩ : ∃ l : Fin m, l ≠ i ∧ l ≠ j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (Finset.univ : Finset (Fin m)) ⊆ {i, j} := fun l _ => by
       by_cases hl : l = i
       · simp [hl]

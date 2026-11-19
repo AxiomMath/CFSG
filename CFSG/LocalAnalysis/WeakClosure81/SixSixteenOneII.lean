@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_wClos_of_le {V S R L : Subgroup G} {j : ℕ} (hRS : R ≤ S)
     (hA_le_R : ∀ A ∈ E3.gammaSet V j S, A ≤ R) (hL : L ≤ normalizer (R : Set G)) :
     L ≤ normalizer (E3.wClos V j S : Set G) := by
@@ -23,7 +24,7 @@ theorem le_normalizer_wClos_of_le {V S R L : Subgroup G} {j : ℕ} (hRS : R ≤ 
   exact hL.trans (E3.normalizer_le_normalizer_wClos R)
 
 theorem conj_mem_sup_pCore_aux {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
-    [Fact (Nat.Prime 2)] (hp2 : p ≠ 2) (hsolv : Group.IsSolvable Y)
+    [Fact (Nat.Prime 2)] (_hp2 : p ≠ 2) (hsolv : Group.IsSolvable Y)
     (hcard : ∀ q : ℕ, q.Prime → q ∣ Nat.card Y → q = 2 ∨ q = p) (P : Sylow p Y)
     (hab : ∀ x ∈ (P : Subgroup Y), ∀ y ∈ (P : Subgroup Y), x * y = y * x) :
     ∀ g : Y, ∀ x ∈ (P : Subgroup Y), g * x * g⁻¹ ∈ (P : Subgroup Y) ⊔ CFSG.pCore 2 Y := by
@@ -84,8 +85,8 @@ theorem conj_le_sup_pCoreOf {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
     (hXp : IsPGroup p X) (hXab : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) (hS2 : IsPGroup 2 S)
     (hperm : (X : Set G) * (S : Set G) = (S : Set G) * (X : Set G)) :
     ∀ g ∈ X ⊔ S, ∀ x ∈ X, g * x * g⁻¹ ∈ X ⊔ pCoreOf 2 (X ⊔ S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := X ⊔ S with hK
   have hXK : X ≤ K := le_sup_left
   have hSK : S ≤ K := le_sup_right
@@ -106,7 +107,7 @@ theorem conj_le_sup_pCoreOf {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hS2
   have hcardK : Nat.card K = p ^ a * 2 ^ b := by rw [hcardNat, ha, hb]
   have hsolv : Group.IsSolvable ↥K := by
-    haveI : Fintype ↥K := Fintype.ofFinite _
+    have : Fintype ↥K := Fintype.ofFinite _
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       hp Nat.prime_two hp2 (by rw [← Nat.card_eq_fintype_card, hcardK])
   have hcard : ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥K → q = 2 ∨ q = p := by
@@ -120,7 +121,7 @@ theorem conj_le_sup_pCoreOf {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
   have hfac : (Nat.card ↥K).factorization p = a := by
     rw [hcardK, Nat.factorization_mul (pow_pos hp.pos a).ne' (pow_pos Nat.two_pos b).ne']
     simp [Nat.Prime.factorization_pow hp, Nat.Prime.factorization_pow Nat.prime_two,
-      Finsupp.single_apply, Ne.symm hp2]
+      Ne.symm hp2]
   let P : Sylow p ↥K := Sylow.ofCard (X.subgroupOf K) (by rw [hcardX', ha, hfac])
   have hP : (P : Subgroup ↥K) = X.subgroupOf K := rfl
   have hab : ∀ x ∈ (P : Subgroup ↥K), ∀ y ∈ (P : Subgroup ↥K), x * y = y * x := by
@@ -134,6 +135,7 @@ theorem conj_le_sup_pCoreOf {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p
   rw [Subgroup.map_sup, hP, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hXK] at h2
   exact h2
 
+omit [Finite G] in
 theorem le_omega1_of_mem_gammaSet {V S A : Subgroup G} (hV : IsElemAbelian 2 V) {j : ℕ}
     (hA : A ∈ E3.gammaSet V j S) : A ≤ F11.Omega1p 2 S := by
   have hAe : IsElemAbelian 2 A := (E3.isInvColl_gammaSet hV j S).isElemAbelian A hA
@@ -162,7 +164,7 @@ theorem sq_dichotomy {S Q : Subgroup G} (hQS : Q ≤ S)
     (hx2 : x ^ 2 = 1) : x ∈ Q ∨ t⁻¹ * x ∈ Q := by
   obtain ⟨a, haΩ, hΩ⟩ := hcyc
   set N : Subgroup G := normalizer (Q : Set G) with hN
-  haveI : (Q.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (Q.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   let f : ↥N →* (↥N ⧸ Q.subgroupOf N) := QuotientGroup.mk' (Q.subgroupOf N)
   have hΩS : F11.Omega1p 2 S ≤ S := (Subgroup.closure_le _).2 (fun y hy => hy.1)
   have hSN : ∀ y ∈ S, y ∈ N := fun y hy => hQn hy
@@ -188,7 +190,7 @@ theorem sq_dichotomy {S Q : Subgroup G} (hQS : Q ≤ S)
     exact ⟨h, rfl, hh⟩
   obtain ⟨ht, htN, htc⟩ := hmemL t htS ht2
   obtain ⟨hx, hxN, hxc⟩ := hmemL x hxS hx2
-  haveI : IsCyclic (Subgroup.zpowers c) := inferInstance
+  have : IsCyclic (Subgroup.zpowers c) := inferInstance
   have ht1 : f ht ≠ 1 := fun h => htQ (by rw [← htN]; exact (hker _).1 h)
   have hsq : ∀ y : ↥N, (y : G) ^ 2 = 1 → f y ^ 2 = 1 := fun y hy => by
     rw [← map_pow]
@@ -241,6 +243,7 @@ theorem omega1_le_sup_of_cyclic {S Q : Subgroup G} (hQS : Q ≤ S)
       have : t * (t⁻¹ * (s * t * s⁻¹)) * t⁻¹ = s * t * s⁻¹ * t⁻¹ := by group
       rwa [this] at h'
 
+omit [Finite G] in
 theorem exists_X0 {X Q : Subgroup G} {t : G}
     (hQ : ∀ g ∈ X, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) :
     ∃ X₀ : Subgroup G, ∀ x, x ∈ X₀ ↔ x ∈ X ∧ t * x * t⁻¹ * x⁻¹ ∈ Q := by
@@ -253,12 +256,13 @@ theorem exists_X0 {X Q : Subgroup G} {t : G}
     have : t * (x * y) * t⁻¹ * (x * y)⁻¹ =
         (t * x * t⁻¹ * x⁻¹) * (x * (t * y * t⁻¹ * y⁻¹) * x⁻¹) := by group
     rw [this]; exact Q.mul_mem hx' (hQ x hx _ hy')
-  · exact ⟨X.one_mem, by simpa using Q.one_mem⟩
+  · exact ⟨X.one_mem, by simp⟩
   · rintro x ⟨hx, hx'⟩
     refine ⟨X.inv_mem hx, ?_⟩
     have : t * x⁻¹ * t⁻¹ * x⁻¹⁻¹ = x⁻¹ * (t * x * t⁻¹ * x⁻¹)⁻¹ * x⁻¹⁻¹ := by group
     rw [this]; exact hQ _ (X.inv_mem hx) _ (Q.inv_mem hx')
 
+omit [Finite G] in
 theorem exists_Y {X Q : Subgroup G} {t : G}
     (hQ : ∀ g ∈ X, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q)
     (hXab : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) :
@@ -277,12 +281,13 @@ theorem exists_Y {X Q : Subgroup G} {t : G}
     have h3 := hQ x⁻¹ (X.inv_mem hx) _ hy'
     rw [inv_inv] at h3
     exact Q.mul_mem hx' h3
-  · exact ⟨X.one_mem, by simpa using Q.one_mem⟩
+  · exact ⟨X.one_mem, by simp⟩
   · rintro x ⟨hx, hx'⟩
     refine ⟨X.inv_mem hx, ?_⟩
     have : t * x⁻¹ * t⁻¹ * x⁻¹ = x * (t * x * t⁻¹ * x)⁻¹ * x⁻¹ := by group
     rw [this]; exact hQ _ hx _ (Q.inv_mem hx')
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj {R : Subgroup G} {g : G}
     (h1 : ∀ h ∈ R, g * h * g⁻¹ ∈ R) (h2 : ∀ h ∈ R, g⁻¹ * h * g ∈ R) :
     g ∈ normalizer (R : Set G) := by
@@ -290,6 +295,7 @@ theorem mem_normalizer_of_conj {R : Subgroup G} {g : G}
   have := h2 _ hh
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conj_mem_sup {Q : Subgroup G} {t g : G} (hQ : ∀ q ∈ Q, g * q * g⁻¹ ∈ Q)
     (ht : g * t * g⁻¹ ∈ zpowers t ⊔ Q) : ∀ h ∈ zpowers t ⊔ Q, g * h * g⁻¹ ∈ zpowers t ⊔ Q := by
   have : zpowers t ⊔ Q ≤ (zpowers t ⊔ Q).comap (MulAut.conj g).toMonoidHom := by
@@ -311,7 +317,7 @@ theorem exists_split {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (Y : Set G) * (S : Set G) = (S : Set G) * (Y : Set G) ∧
       (∀ s ∈ S, ∀ y ∈ Y, s * y * s⁻¹ ∈ Y ⊔ pCoreOf 2 (X ⊔ S)) ∧
       ∀ y ∈ Y, t * y * t⁻¹ * y ∈ pCoreOf 2 (X ⊔ S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp : IsPGroup p X := isPGroup_of_pow_eq_one hexp
   have hSyl : IsSylowIn 2 S (X ⊔ S) := isSylowIn_sup_of_mul_comm hp hp2 hXp hS2 hperm
   have hQS : pCoreOf 2 (X ⊔ S) ≤ S := E1.pCoreOf_two_le_of_isSylowIn hSyl
@@ -486,6 +492,7 @@ theorem exists_split {X S : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   · intro y hy
     exact ((hY y).1 hy).2
 
+omit [Finite G] in
 theorem le_twoResidual_of_isPGroup {Y H : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hYp : IsPGroup p Y) (hYH : Y ≤ H) : Y ≤ twoResidual H := by
   intro y hy
@@ -609,7 +616,7 @@ theorem isE_one_sup {X S Y A : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠
           · right; rw [zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
         rcases hi with hi | hi
         · refine ⟨false, ?_⟩
-          simp only [Bool.false_eq_true, if_false]
+          simp only [Bool.false_eq_true, ite_false]
           symm
           rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
           rw [hi] at hzq
@@ -619,7 +626,7 @@ theorem isE_one_sup {X S Y A : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠
           rw [← hzq']
           exact D.inv_mem (hQD hq)
         · refine ⟨true, ?_⟩
-          simp only [if_true]
+          simp only [ite_true]
           rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
           rw [hi] at hzq
           show (((⟨t, htA⟩ : A)⁻¹ * a : A) : G) ∈ D
@@ -701,9 +708,9 @@ theorem six_sixteen_ii_key {V S X : Subgroup G} (hV : IsElemAbelian 2 V) {p : �
   by_cases hcase : ∀ A ∈ E3.gammaSet V i S, A ≤ pCoreOf 2 (X ⊔ S)
   · exact Or.inl (le_normalizer_wClos_of_le hQS hcase (le_sup_left.trans hQn))
   right
-  push_neg at hcase
+  push Not at hcase
   obtain ⟨A, hA, hAQ⟩ := hcase
-  obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨t, htA, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have htS : t ∈ S := hA.1 htA
   have ht2 : t ^ 2 = 1 := ((E3.isInvColl_gammaSet hV i S).isElemAbelian A hA).2 t htA
   obtain ⟨hΩ, hcent⟩ := omega1_le_sup_of_cyclic hQS (le_sup_right.trans hQn) hcyc htS ht2 htQ
@@ -785,7 +792,7 @@ theorem w3Lem616_1ii_of_key
   by_cases hbig : p ^ 2 < Nat.card X
   · exact six_sixteen_one_i_uncond hV hM hS hk hH hW0 hgt hp hp2 hXM hexp hbig hperm hUY
   have hXp : IsPGroup p X := isPGroup_of_pow_eq_one hexp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hXp
   have hn2 : n = 2 := by
     have hle : n ≤ 2 := by
@@ -794,14 +801,14 @@ theorem w3Lem616_1ii_of_key
       rw [hn]
       exact Nat.pow_lt_pow_right hp.one_lt (by omega)
     interval_cases n
-    · haveI : Subsingleton X := (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
+    · have : Subsingleton X := (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
       exact absurd (isCyclic_of_subsingleton (α := X)) hXnc
     · exact absurd (isCyclic_of_prime_card (by simpa using hn) : IsCyclic X) hXnc
     · rfl
   subst hn2
   have hXab : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := by
     intro x hx y hy
-    have h := IsPGroup.commutative_of_card_eq_prime_sq hn ⟨x, hx⟩ ⟨y, hy⟩
+    have h := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
     simpa using congrArg Subtype.val h
   refine six_sixteen_close_NZ hV hM hS hk hH hW0 hgt ?_
   intro i hi

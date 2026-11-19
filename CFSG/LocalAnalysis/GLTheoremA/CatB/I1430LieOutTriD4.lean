@@ -30,7 +30,7 @@ theorem typeLayer_fieldActor_two_allW (hD : LieSOutTypeW T tm tf tN) {f : ℕ} (
     {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     TypeLayer T (fieldActor (t := TwistTag.D4) σ σ) False := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   rcases Nat.lt_or_ge f 2 with h | h
   · obtain rfl : f = 1 := by omega
     refine typeLayer_of_card_dvd hD.card_eq _ (M := 12096) ?_ hD.ord.not_dvd_12096
@@ -50,7 +50,7 @@ theorem lieSOut_not_catalogIs_projImage_slPi_trueW (hD : LieSOutTypeW T tm tf tN
     {K : Type} [Field K] (hK : PiField true 2 f K) :
     ¬ catalogIs ↥(projImage (slPi true 3 (2 ^ f) K)) T := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_projImage_slPi_true_equiv hK
   exact (KFacts.KS14.isEmpty_mulEquiv_projSL_three_of_card (hD.card_eq h) hD.ord.ne_sl3
     (GaloisField 2 f)).false e
@@ -59,7 +59,7 @@ theorem lieSOut_not_catalogIs_projImage_slPi_falseW (hD : LieSOutTypeW T tm tf t
     {K : Type} [Field K] (hK : PiField false 2 f K) :
     ¬ catalogIs ↥(projImage (slPi false 3 (2 ^ f) K)) T := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_projImage_slPi_false_equiv hK
   exact (KFacts.KS14.isEmpty_mulEquiv_projSU_three_of_card (hD.card_eq h) hD.ord.ne_su3 2 f
     hK.one_le).false e
@@ -78,7 +78,7 @@ theorem typeLayer_of_autFix_equiv_evenW (hD : LieSOutTypeW T tm tf tN) {f : ℕ}
     omega
   have hq2 : 2 < 2 ^ f :=
     lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) hf2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact typeLayer_of_equiv_projImage hPi hq2 φ (ef.trans e₃) fun hT =>
     (lieSOut_not_catalogIs_projImage_slPi_trueW hD hPi hT).elim
 
@@ -91,7 +91,7 @@ theorem typeLayer_of_autFix_equiv_oddW (hD : LieSOutTypeW T tm tf tN) {f : ℕ} 
     TypeLayer T φ False := by
   obtain ⟨F, _, _, hF, ⟨e₃⟩⟩ := kF82D4SecondCentY0_holds f hfo K σ hK hσ
   have hPi : PiField false 2 f F := ⟨Nat.prime_two, hf, hF⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hf1 : f = 1
   · subst hf1
     refine typeLayer_of_card_dvd hD.card_eq φ (M := 216) ?_ hD.ord.not_dvd_216
@@ -113,7 +113,7 @@ theorem typeLayer_three_D4_outer_twoW (hD : LieSOutTypeW T tm tf tN) {f : ℕ} (
     (hφ : φ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     TypeLayer T φ False := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hG2 : TypeLayer T (fieldActor (t := TwistTag.D4) σ σ) False :=
     typeLayer_fieldActor_two_allW hD hf hK σ hσ
   rcases Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv hf hK hσ hφ3

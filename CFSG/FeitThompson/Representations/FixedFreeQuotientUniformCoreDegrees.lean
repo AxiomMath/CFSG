@@ -313,7 +313,7 @@ theorem exists_linear_indClassFun_eq [Fintype K] [E.Normal] [IsMulCommutative E]
   have hne : cfInner (indClassFun D ξ) θ ≠ 0 := by rw [hinner]; exact hpos.ne'
   have hθeq : θ = indClassFun D ξ := by
     by_contra hne'
-    rw [cfInner_eq_ite_of_mem_Irr hind hθ, if_neg fun h => hne' h.symm] at hne
+    rw [cfInner_eq_ite_of_mem_Irr hind hθ, ite_eq_right fun h => hne' h.symm] at hne
     exact hne rfl
   exact ⟨ξ, hξ, hξ1, hξC, hξE, hθeq⟩
 

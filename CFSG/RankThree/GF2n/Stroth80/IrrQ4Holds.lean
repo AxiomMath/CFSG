@@ -55,7 +55,7 @@ theorem sec717_exp_two {H X : Type} [Group H] [CommGroup X] [Finite X] (n : ℕ)
       intro y
       have hy : y ∈ S := by rw [htop]; exact Subgroup.mem_top y
       exact hy
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hdvd : 2 ∣ Nat.card X := by
       rw [hcard]
       exact dvd_pow_self 2 hn
@@ -95,9 +95,9 @@ theorem sec717_forall_rho_one_of_ne {K : Type} [Field K] [Finite K] [CharP K 2]
     obtain ⟨h, hh⟩ := MonoidHom.mem_range.mp ha
     exact ⟨h, Subtype.ext hh⟩
   let M : Subgroup ↥(StatedOmega (StatedQuadPlus 3 K)) := ρhom.ker.map φ'
-  haveI hMnorm : M.Normal :=
+  have hMnorm : M.Normal :=
     Subgroup.Normal.map (inferInstance : ρhom.ker.Normal) φ' hφ'surj
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 K)) :=
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadPlus 3 K)) :=
     isSimpleGroup_statedOmega_quadPlus_three_of_charTwo (K := K)
   have hmemK : h ∈ ρhom.ker := by
     rw [MonoidHom.mem_ker, ρhom_apply]
@@ -142,7 +142,7 @@ theorem sec717_phi_eq_one_of_rho_eq_one {K : Type} [Field K] [Finite K] [CharP K
   by_contra hφh
   have hall : ∀ g : H, ρ g = 1 :=
     sec717_forall_rho_one_of_ne φ ρ hφr hmul hker hρ hφh
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card X := by
     rw [hcard]
     exact dvd_pow_self 2 (by omega)
@@ -242,7 +242,7 @@ theorem sec717_form_construct {X Y : Type} [CommGroup X] [CommGroup Y]
   obtain ⟨h1L, h1R, hker⟩ := sec717_beta_ker β hβL hβR hexp
   let K : Subgroup Y := (powMonoidHom 2 : Y →* Y).ker
   have hY2 : ∀ x y, β x y ∈ K := hker
-  letI : Module (ZMod 2) (Additive ↥K) := sec717Module ↥K (fun z => by
+  let : Module (ZMod 2) (Additive ↥K) := sec717Module ↥K (fun z => by
     apply Subtype.ext
     rw [pow_two]
     have h := MonoidHom.mem_ker.mp z.2
@@ -264,7 +264,7 @@ theorem sec717_form_construct {X Y : Type} [CommGroup X] [CommGroup Y]
       map_add' := fun x x' => by
         ext y
         simp only [LinearMap.add_apply, LinearMap.comp_apply,
-          AddMonoidHom.coe_toZModLinearMap, AddMonoidHom.add_apply]
+          AddMonoidHom.coe_toZModLinearMap]
         rw [badd.map_add]
         simp
       map_smul' := fun c x => by
@@ -360,7 +360,7 @@ theorem sec717_finish {K : Type} [Field K] [Finite K] [CharP K 2]
       β' (Additive.ofMul (ρ h x)) (Additive.ofMul (ρ h y)) =
         β' (Additive.ofMul x) (Additive.ofMul y)) :
     False := by
-  haveI : IsMulCommutative X := ⟨⟨mul_comm⟩⟩
+  have : IsMulCommutative X := ⟨⟨mul_comm⟩⟩
   set A : Additive X ≃ₗ[ZMod 2] Additive X := CFSG.GroupTheory.mulAutLinearHom X (ρ ha) with hA
   set B : Additive X ≃ₗ[ZMod 2] Additive X := CFSG.GroupTheory.mulAutLinearHom X (ρ hb) with hB
   have hAB : A * B = B * A := by
@@ -424,9 +424,9 @@ theorem irrQ4NoPairing_holds : IrrQ4NoPairingStatement := by
   have hXpos : 0 < Nat.card X := by
     rw [hcard]
     exact pow_pos hKpos 4
-  haveI : Finite X := Nat.finite_of_card_ne_zero (ne_of_gt hXpos)
+  have : Finite X := Nat.finite_of_card_ne_zero (ne_of_gt hXpos)
   obtain ⟨f, hfcard⟩ : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨(n : ℕ), by rw [Nat.card_eq_fintype_card, hn]⟩
   have hf1 : 1 ≤ f := by
@@ -434,14 +434,14 @@ theorem irrQ4NoPairing_holds : IrrQ4NoPairingStatement := by
     have hf0 : f = 0 := by omega
     rw [hf0, pow_zero] at hfcard
     have h2 : 1 < Nat.card K := by
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     omega
   have hcardX : Nat.card X = 2 ^ (4 * f) := by
     rw [hcard, hfcard, ← pow_mul, Nat.mul_comm]
   have hexp : ∀ x : X, x ^ 2 = 1 := sec717_exp_two (4 * f) ρ hirr hcardX (by omega)
-  letI : Module (ZMod 2) (Additive X) := sec717Module X hexp
+  let : Module (ZMod 2) (Additive X) := sec717Module X hexp
   have hphi : ∀ h : H, ρ h = 1 → φ h = 1 :=
     sec717_phi_eq_one_of_rho_eq_one (n := 4 * f) φ ρ hφr hmul hker hirr hcardX (by omega)
   have he : 2 ≤ 4 * f := by omega

@@ -16,9 +16,9 @@ theorem pRank_add_one_le_of_commutator_le_pCoreOf {q : ℕ} [hqp : Fact q.Prime]
     CFSG.Open.pRank q L + 1 ≤ CFSG.Open.pRank q M := by
   classical
   have hqprime : q.Prime := hqp.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup ↥M := CFSG.pCore 2 ↥M with hK
-  haveI hKn : K.Normal := hK ▸ CFSG.pCore_normal
+  have hKn : K.Normal := hK ▸ CFSG.pCore_normal
   set π : ↥M →* (↥M ⧸ K) := QuotientGroup.mk' K with hπ
   set l : Subgroup ↥M := L.subgroupOf M with hl
   set x : Subgroup ↥M := X.subgroupOf M with hx
@@ -47,7 +47,7 @@ theorem pRank_add_one_le_of_commutator_le_pCoreOf {q : ℕ} [hqp : Fact q.Prime]
     rw [show Nat.card x = Nat.card X from
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXM).toEquiv]
     exact hqX
-  haveI : Group.IsPerfect ↥x := hperf_x
+  have : Group.IsPerfect ↥x := hperf_x
   have hxRperf : Group.IsPerfect ↥(x.map π) := Group.IsPerfect.map (H := x) π
   have hq_xR : q ∣ Nat.card (x.map π) := by
     have hcard := CFSG.GorensteinWalter.card_map_eq_card_mul_card_ker π x

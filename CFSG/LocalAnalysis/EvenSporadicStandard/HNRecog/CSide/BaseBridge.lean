@@ -28,7 +28,7 @@ theorem WeakHyp.exists_hom_baseEmb [Finite C] (hC : WeakHyp C Q) :
         (∀ g : alternatingGroup (Fin 5) × alternatingGroup (Fin 5), ∀ u ∈ U, σ g u ∈ U) →
           U = ⊥ ∨ U = ⊤) := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
   let e : C ⧸ Q ≃* A5WrTwo := hC.quotient.some
   let Φ : C →* A5WrTwo := (e : C ⧸ Q →* A5WrTwo).comp (QuotientGroup.mk' Q)

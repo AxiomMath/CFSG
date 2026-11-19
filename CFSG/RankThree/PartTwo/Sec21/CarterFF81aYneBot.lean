@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
+omit [Finite G] in
 theorem FF81Hyp.oddCore_ne_bot_of_move
     {B : Subgroup G} {X : Subgroup (MulAut ↥B)} {τX : MulAut ↥B}
     (hτXmem : τX ∈ X)

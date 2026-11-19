@@ -113,7 +113,7 @@ theorem fr_caseI_N [Fact p.Prime] (hK : FrobKFacts) (hG : FrobGlobal G) (hl : Fr
     (not_map_mk_le_map_mk_inf hOM hLN hl.not_le)
     (fr_coprime_card_map_subgroupOf hWN hWp _) (map_subgroupOf_le_normalizer_map hUW _))
 
-theorem fr_caseIIHyp [Fact p.Prime] (hK : FrobKFacts) (hG : FrobGlobal G) (hl : FrobLocal p P M x)
+theorem fr_caseIIHyp [Fact p.Prime] (_hK : FrobKFacts) (hG : FrobGlobal G) (hl : FrobLocal p P M x)
     {N : Subgroup G} (hNtop : N ≠ ⊤) (hLN : layerOf x ≤ N) (hxN : x ∈ N) :
     ∃ n : ℕ, FrobCaseIIHyp p n
       (((layerOf x).subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p)))

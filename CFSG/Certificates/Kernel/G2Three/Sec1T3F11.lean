@@ -16,17 +16,19 @@ open scoped commutatorElement
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {elt : ℕ → Γ} {P C V Q : ℕ}
 
+omit [Finite Γ] in
 theorem f11_e1 {fr : Frame Γ} (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     elt 1 = fr.a₁ ∧ elt 2 = fr.b₁ ∧ elt 3 = fr.a₂ ∧ elt 4 = fr.b₂ ∧ elt 5 = fr.h₀ :=
   ⟨by rw [hg 0 (by norm_num), sGen_zero], by rw [hg 1 (by norm_num), sGen_one],
     by rw [hg 2 (by norm_num), sGen_two], by rw [hg 3 (by norm_num), sGen_three],
     by rw [hg 4 (by norm_num), sGen_four]⟩
 
+omit [Finite Γ] in
 theorem f11_gens5 {fr : Frame Γ} (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     {x | ∃ g ∈ [1, 2, 3, 4, 5], elt g = x} = {fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} := by
   obtain ⟨h1, h2, h3, h4, h5⟩ := f11_e1 hg
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro ⟨g, hg', rfl⟩
@@ -43,12 +45,13 @@ theorem f11_gens5 {fr : Frame Γ} (hg : ∀ s < 5, elt (s + 1) = sGen fr s) :
     · exact ⟨4, Or.inr (Or.inr (Or.inr (Or.inl rfl))), h4⟩
     · exact ⟨5, Or.inr (Or.inr (Or.inr (Or.inr rfl))), h5⟩
 
+omit [Finite Γ] in
 theorem f11_gens6 {fr : Frame Γ} (hg : ∀ s < 6, elt (s + 1) = sGen fr s) :
     {x | ∃ g ∈ [1, 2, 3, 4, 5, 6], elt g = x} = {fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} := by
   obtain ⟨h1, h2, h3, h4, h5⟩ := f11_e1 (fun s hs => hg s (by omega))
   have h6 : elt 6 = fr.σ := by rw [hg 5 (by norm_num), sGen_five]
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro ⟨g, hg', rfl⟩
@@ -67,23 +70,27 @@ theorem f11_gens6 {fr : Frame Γ} (hg : ∀ s < 6, elt (s + 1) = sGen fr s) :
     · exact ⟨5, Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl)))), h5⟩
     · exact ⟨6, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr rfl)))), h6⟩
 
+omit [Finite Γ] in
 theorem f11_card (hR : RealT elt P C V Q) {M : ℕ} {K : Subgroup Γ}
     (hM : mset elt M = (K : Set Γ)) : Nat.card K = pop M := by
   rw [← pop_sound hR.inj (repM_mset hR.inj M), hM]
   exact Nat.card_coe_set_eq (K : Set Γ)
 
+omit [Finite Γ] in
 theorem f11_S {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 5, elt (s + 1) = sGen fr s)
     {R : ℕ} (hc : closOK C [1, 2, 3, 4, 5] R = true) :
     mset elt (closK C [1, 2, 3, 4, 5] R) = (fr.S : Set Γ) := by
   rw [closK_closure hR (by decide) hc, f11_gens5 hg]
   rfl
 
+omit [Finite Γ] in
 theorem f11_Ss {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen fr s)
     {R : ℕ} (hc : closOK C [1, 2, 3, 4, 5, 6] R = true) :
     mset elt (closK C [1, 2, 3, 4, 5, 6] R) = (fr.Sσ : Set Γ) := by
   rw [closK_closure hR (by decide) hc, f11_gens6 hg]
   rfl
 
+omit [Finite Γ] in
 theorem f11_rels {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen fr s)
     (h : rel11K P C V Q 1 2 3 4 5 6 = true) : ∀ r ∈ Frame.rels11, FreeGroup.lift fr.gens11 r = 1 := by
   obtain ⟨h1, h2, h3, h4, h5⟩ := f11_e1 (fun s hs => hg s (by omega))
@@ -123,8 +130,7 @@ theorem f11_rels {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (
   have e20 := E r20
   have e21 := E r21
   have hm : ∀ x y, mulE P x y < 128 := fun _ _ => atR_lt _ _
-  simp (disch := first | norm_num | exact atR_lt _ _ | exact hm _ _) only [hR.sq, commE_elt hR, mulE_elt hR,
-    hR.one, hz] at e1 e2 e3 e4 e5 e6 e7 e8 e9 e10 e11 e12 e13 e14 e15 e16 e17 e18 e19 e20 e21
+  simp (disch := first | norm_num | exact atR_lt _ _ | exact hm _ _) only [hR.sq, commE_elt hR, hR.one] at e1 e2 e3 e4 e5 e6 e7 e8 e9 e10 e11 e12 e13 e14 e15 e16 e17 e18 e19 e20 e21
   have hz' : ∀ x, x < 128 → elt (mulE P x (atR Q 2)) = elt x * (elt 2 * elt 2) := fun x hx => by
     rw [mulE_elt hR hx (atR_lt _ _), hz]
   have hxy : ∀ x y, x < 128 → y < 128 → elt (mulE P x y) = elt x * elt y := fun x y hx hy =>
@@ -133,10 +139,10 @@ theorem f11_rels {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (
   rw [hz' _ (by norm_num)] at e9 e10
   rw [hz' _ (hm _ _), hxy _ _ (by norm_num) (by norm_num)] at e13 e14 e15 e16
   intro r hr
-  simp only [Frame.rels11, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hr
+  simp only [Frame.rels11, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hr
   rcases hr with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
     rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals simp only [map_mul, map_inv, map_pow, map_commutatorElement, FreeGroup.lift_apply_of,
+  all_goals simp only [map_mul, map_inv, map_commutatorElement, FreeGroup.lift_apply_of,
     g0, g1, g2, g3, g4, g5, mul_inv_eq_one, pow_two]
   · exact e1
   · exact e2
@@ -160,6 +166,7 @@ theorem f11_rels {fr : Frame Γ} (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (
   · exact e20
   · exact e21
 
+omit [Finite Γ] in
 theorem fact11_of_twin {fr : Frame Γ} {L : Subgroup Γ} {R : ℕ}
     (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen fr s)
     (h : f11K P C V Q 1 2 3 4 5 6 R = true)

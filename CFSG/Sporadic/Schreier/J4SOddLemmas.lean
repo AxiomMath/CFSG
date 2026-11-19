@@ -86,7 +86,7 @@ theorem exists_invariant_sylow [Finite G] {S R : Subgroup G} (hS : IsPGroup 2 S)
     exact (Nat.not_even_iff_odd.2 hR) (even_iff_two_dvd.2 (h.trans h1))
   obtain ⟨P, hP⟩ := hS.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q R) h2
   refine ⟨(P : Subgroup R).map R.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map R.subtype, ?_, ?_⟩
+    P.isPGroup.map R.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective R.subtype_injective, Sylow.card_eq_multiplicity]
   · rintro s hs _ ⟨y, hy, rfl⟩
     have hfix : (⟨s, hs⟩ : S) • P = P := hP ⟨s, hs⟩

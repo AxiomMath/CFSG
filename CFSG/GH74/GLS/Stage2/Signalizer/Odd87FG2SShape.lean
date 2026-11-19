@@ -3,7 +3,7 @@ module
 public import CFSG.GH74.GLS.Stage2.Signalizer.Odd87FG2SSL2
 public import CFSG.LinearAlgebra.SL2MinimalFaithfulMatrix
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Std.Tactic.BVDecide.Normalize.Prop
 
 public section

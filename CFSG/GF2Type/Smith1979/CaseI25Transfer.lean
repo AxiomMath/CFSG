@@ -21,10 +21,10 @@ section Generic
 
 theorem exists_quotient_of_character {G : Type} [Group G] (P : Subgroup G)
     (ψ : P →* Multiplicative (ZMod 2)) {c : G} (hc : c ∈ P) (hψc : ψ ⟨c, hc⟩ ≠ 1)
-    (hfus : ∀ x : G, ∀ h : x * c * x⁻¹ ∈ P, ψ ⟨x * c * x⁻¹, h⟩ = ψ ⟨c, hc⟩) :
+    (hfus : ∀ x : G, ∀ _h : x * c * x⁻¹ ∈ P, ψ ⟨x * c * x⁻¹, _h⟩ = ψ ⟨c, hc⟩) :
     ∃ Q : Subgroup G, Q ≤ P ∧ (Q.subgroupOf P).Normal ∧
       (∀ x y : P, x * y * x⁻¹ * y⁻¹ ∈ Q.subgroupOf P) ∧ c ∉ Q ∧
-      ∀ x : G, ∀ h : x * c * x⁻¹ ∈ P, ∃ q ∈ Q, x * c * x⁻¹ = c * q := by
+      ∀ x : G, ∀ _h : x * c * x⁻¹ ∈ P, ∃ q ∈ Q, x * c * x⁻¹ = c * q := by
   have hmem : ∀ y : G, ∀ hy : y ∈ P, y ∈ (ψ.ker).map P.subtype ↔ ψ ⟨y, hy⟩ = 1 := by
     intro y hy
     constructor
@@ -32,8 +32,8 @@ theorem exists_quotient_of_character {G : Type} [Group G] (P : Subgroup G)
       have hz' : z = ⟨y, hy⟩ := Subtype.ext hzy
       rw [← hz']
       exact MonoidHom.mem_ker.mp hz
-    · intro h
-      exact ⟨⟨y, hy⟩, MonoidHom.mem_ker.mpr h, rfl⟩
+    · intro _h
+      exact ⟨⟨y, hy⟩, MonoidHom.mem_ker.mpr _h, rfl⟩
   have hQeq : ((ψ.ker).map P.subtype).subgroupOf P = ψ.ker := by
     ext z
     rw [Subgroup.mem_subgroupOf, hmem (z : G) z.2, MonoidHom.mem_ker]
@@ -48,11 +48,11 @@ theorem exists_quotient_of_character {G : Type} [Group G] (P : Subgroup G)
     exact (commutatorElement_eq_one_iff_mul_comm (g₁ := ψ x) (g₂ := ψ y)).mpr (mul_comm _ _)
   · intro hcQ
     exact hψc ((hmem c hc).mp hcQ)
-  · intro x h
-    have hqP : c⁻¹ * (x * c * x⁻¹) ∈ P := P.mul_mem (P.inv_mem hc) h
+  · intro x _h
+    have hqP : c⁻¹ * (x * c * x⁻¹) ∈ P := P.mul_mem (P.inv_mem hc) _h
     refine ⟨c⁻¹ * (x * c * x⁻¹), (hmem _ hqP).mpr ?_, (mul_inv_cancel_left c _).symm⟩
-    have e1 : (⟨c⁻¹ * (x * c * x⁻¹), hqP⟩ : P) = (⟨c, hc⟩ : P)⁻¹ * ⟨x * c * x⁻¹, h⟩ := rfl
-    rw [e1, map_mul, map_inv, hfus x h, inv_mul_cancel]
+    have e1 : (⟨c⁻¹ * (x * c * x⁻¹), hqP⟩ : P) = (⟨c, hc⟩ : P)⁻¹ * ⟨x * c * x⁻¹, _h⟩ := rfl
+    rw [e1, map_mul, map_inv, hfus x _h, inv_mul_cancel]
 
 open scoped IsMulCommutative in
 theorem not_mem_commutator_of_fusion {G : Type} [Group G] [Finite G] {P Q : Subgroup G}
@@ -61,13 +61,13 @@ theorem not_mem_commutator_of_fusion {G : Type} [Group G] [Finite G] {P Q : Subg
     {c : G} (hcP : c ∈ P) (hc2 : orderOf c = 2) (hcQ : c ∉ Q)
     (hfus : ∀ g : G, g * c * g⁻¹ ∈ P → ∃ q ∈ Q, g * c * g⁻¹ = c * q) :
     c ∉ _root_.commutator G := by
-  haveI := hQn
+  have := hQn
   have hcomm : _root_.commutator P ≤ Q.subgroupOf P := by
     change ⁅(⊤ : Subgroup P), ⊤⁆ ≤ Q.subgroupOf P
     rw [Subgroup.commutator_le]
     intro x _ y _
     simpa [commutatorElement_def] using hab x y
-  haveI : IsMulCommutative (P ⧸ Q.subgroupOf P) :=
+  have : IsMulCommutative (P ⧸ Q.subgroupOf P) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
   let ϕ : P →* P ⧸ Q.subgroupOf P := QuotientGroup.mk' (Q.subgroupOf P)
   have hconj : ∀ x : G, ∀ h : x⁻¹ * c * x ∈ P, ϕ ⟨x⁻¹ * c * x, h⟩ = ϕ ⟨c, hcP⟩ := by
@@ -116,7 +116,7 @@ variable {G : Type} [Group G] [Finite G] {S : Setting G} {g : G}
 @[expose] noncomputable def nuOn (ν : NLbar S g →* Multiplicative (ZMod 2))
     (P : Subgroup S.Mbar) (hP : P ≤ (NLbar S g).subgroupOf S.Mbar) :
     P →* Multiplicative (ZMod 2) :=
-  ν.comp ((subgroupOfEquivOfLe (fun x hx => hx.1 : NLbar S g ≤ S.Mbar)).toMonoidHom.comp
+  ν.comp ((subgroupOfEquivOfLe (fun _x hx => hx.1 : NLbar S g ≤ S.Mbar)).toMonoidHom.comp
     (Subgroup.inclusion hP))
 
 theorem mem_NLbar_of_mem_Lbar {t : S.O} (ht : t ∈ S.Lbar g) : t ∈ NLbar S g :=
@@ -137,7 +137,7 @@ theorem orderOf_tM_eq_two (H : Hyp4 S g) {t : S.O} (ht : t ∈ S.Lbar g) (ht1 : 
 theorem exists_sylow_data (H : Hyp4 S g) (C : Cons311 S g) {t : S.O} (ht : t ∈ S.Lbar g) :
     ∃ P : Subgroup S.Mbar, CFSG.RankThree.PartOne.IsSylowOf 2 P ⊤ ∧ tM ht ∈ P ∧
       ∀ x ∈ P, (x : S.O) ∈ normalizer (S.Lbar g : Set S.O) := by
-  haveI : Finite S.Mbar := inferInstance
+  have : Finite S.Mbar := inferInstance
   obtain ⟨Ps, hLP, hPN⟩ := S11.exists_sylow_le_normalizer H.conj_mem C
   have hcP : tM ht ∈ (Ps : Subgroup S.Mbar) := by
     obtain ⟨x, hx, hxt⟩ := hLP ht
@@ -146,7 +146,7 @@ theorem exists_sylow_data (H : Hyp4 S g) (C : Cons311 S g) {t : S.O} (ht : t ∈
     exact hx
   have hsyl : CFSG.RankThree.PartOne.IsSylowOf 2 (Ps : Subgroup S.Mbar) ⊤ := by
     unfold CFSG.RankThree.PartOne.IsSylowOf
-    refine ⟨le_top, Ps.isPGroup', ?_⟩
+    refine ⟨le_top, Ps.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Ps.not_dvd_index
   exact ⟨Ps, hsyl, hcP, fun x hx => hPN (Subgroup.mem_map_of_mem _ hx)⟩
@@ -181,7 +181,7 @@ theorem nu_fusion (ν : NLbar S g →* Multiplicative (ZMod 2)) {P : Subgroup S.
 theorem not_mem_commutator_Mbar (ν : NLbar S g →* Multiplicative (ZMod 2))
     (hν : ν ⟨t, mem_NLbar_of_mem_Lbar ht⟩ ≠ 1) :
     t ∉ (_root_.commutator S.Mbar).map S.Mbar.subtype := by
-  haveI : Finite S.Mbar := inferInstance
+  have : Finite S.Mbar := inferInstance
   obtain ⟨P, hsyl, hcP, hPN⟩ := exists_sylow_data H C ht
   have hPle : P ≤ (NLbar S g).subgroupOf S.Mbar := fun x hx =>
     Subgroup.mem_subgroupOf.mpr ⟨x.2, hPN x hx⟩

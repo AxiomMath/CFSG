@@ -161,7 +161,7 @@ theorem alt_a7_finish_of_card {n : ℕ} {N K Q : Subgroup (Perm (Fin n))} {F : F
   have hVK : IsKleinFour ↥V := by
     rw [hVeq]
     exact alternatingGroup.kleinFour_isKleinFour hα4
-  haveI : IsKleinFour ↥V := hVK
+  have : IsKleinFour ↥V := hVK
   have hVEl : IsElementaryAbelian 2 ↥V := by
     refine { toIsMulCommutative := IsKleinFour.isMulCommutative, exponent_dvd_p := ?_ }
     rw [IsKleinFour.exponent_two]
@@ -174,7 +174,7 @@ theorem alt_a7_perm_of_card {n : ℕ} {N K Q : Subgroup (Perm (Fin n))}
     (hK7 : (↥K ⧸ pPrimeCore 2 ↥K) ≃* alternatingGroup (Fin 7))
     (hQN : Q ≤ N) (hQK : ∀ q ∈ Q, ∀ k ∈ K, q * k = k * q)
     (hQ2 : IsPGroup 2 Q) (hQ4 : 4 ≤ Nat.card Q)
-    (hterm : Terminal N K) {x : Perm (Fin n)} (hxQ : x ∈ Q) (hx2 : x * x = 1)
+    (hterm : Terminal N K) {x : Perm (Fin n)} (_hxQ : x ∈ Q) (hx2 : x * x = 1)
     (hcomp : IsTwoComponentIn K
       (Subgroup.centralizer ({x} : Set (Perm (Fin n))) ⊓ alternatingGroup (Fin n))) :
     IsElementaryAbelian 2 ↥Q ∧ Nat.card Q = 4 ∧ n = 11 ∧ N ≤ alternatingGroup (Fin n) := by
@@ -236,7 +236,7 @@ theorem ivk73_a7_alt_of_b {n : ℕ} (N : Type) [Group N] [Finite N]
     have hfac : Nat.factorial n ≤ Nat.factorial 6 := Nat.factorial_le hn6
     have h720 : Nat.factorial 6 < 2520 := by norm_num [Nat.factorial]
     omega
-  haveI : L.Normal := hLnorm
+  have : L.Normal := hLnorm
   obtain ⟨ι, hι, hιL⟩ := exists_perm_embedding hn7 hcent e
   have hNA : alternatingGroup (Fin n) ≤ ι.range := by
     intro g hg
@@ -294,7 +294,6 @@ theorem ivk73_a7_alt_of_b {n : ℕ} (N : Type) [Group N] [Finite N]
       have hyl : ((e l : alternatingGroup (Fin n)) : Perm (Fin n)) = y := by simp [l]
       refine ⟨(l : N), ⟨Subgroup.mem_centralizer_singleton_iff.mpr ?_, l.2⟩, ?_⟩
       · apply hι
-        change ι ((l : N) * b) = ι (b * (l : N))
         rw [map_mul, map_mul, hιL l, hyl]
         exact Subgroup.mem_centralizer_singleton_iff.mp hyC
       · rw [hιL l, hyl]
@@ -343,7 +342,7 @@ theorem ivk73_a7_alt {n : ℕ} (N : Type) [Group N] [Finite N]
       IsCompIn (centralizer ({y} : Set N)) K) :
     IsElementaryAbelian 2 ↥Q ∧ Nat.card ↥Q = 4 ∧ n = 11 ∧ L = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrankOpen : 2 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup ↥Q) := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]
     exact hQrank

@@ -156,7 +156,7 @@ theorem card_pstab_le (Q : QuadraticForm (ZMod 2) V) (hQ : Q.polarBilin.Nondegen
       refine ⟨fun a b => Subtype.ext (LinearEquiv.ext fun v => ?_)⟩
       rw [a.2.2 v Submodule.mem_top, b.2.2 v Submodule.mem_top]
     have h1 : Nat.card (pstab Q ⊤) ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr this
-    simpa using h1
+    simp
   | succ n ih =>
     intro Z hPZ hdim
     set B : LinearMap.BilinForm (ZMod 2) V := Q.polarBilin with hB

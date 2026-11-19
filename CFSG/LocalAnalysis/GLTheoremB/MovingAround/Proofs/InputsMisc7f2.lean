@@ -151,7 +151,7 @@ theorem d4P_pow_hVec (n : ℕ) (j : Fin Tag.D4.rank) :
   diagramMap_pow_hVec TwistTag.D4 K n j
 
 theorem d4P_pow_rootVec
-    (n : ℕ) {α : Fin Tag.D4.rank → ℤ} (hα : IsRoot Tag.D4 α) :
+    (n : ℕ) {α : Fin Tag.D4.rank → ℤ} (_hα : IsRoot Tag.D4 α) :
     ((d4P K ^ n : ModGL Tag.D4 K) : Module.End K (RootModule Tag.D4 K)) (rootVec Tag.D4 K α) =
       rootVec Tag.D4 K (permLattice (d4Rho ^ n) α) :=
   diagramMap_pow_rootVec TwistTag.D4 K n α
@@ -166,7 +166,7 @@ theorem isGraded_d4P_pow
     rw [h, Finsupp.single_apply] at hab
     have ha : Sum.inl ((d4Rho ^ n) j) = a := by
       by_contra h'
-      exact hab (if_neg h')
+      exact hab (ite_eq_right h')
     rw [← ha]
     rfl
   · have h := d4P_pow_rootVec (K := K) n hβ
@@ -175,7 +175,7 @@ theorem isGraded_d4P_pow
     rw [h, Finsupp.single_apply] at hab
     have ha : (Sum.inr ⟨permLattice (d4Rho ^ n) β, hβ'⟩ : Label Tag.D4) = a := by
       by_contra h'
-      exact hab (if_neg h')
+      exact hab (ite_eq_right h')
     rw [← ha]
     exact height_permLattice' _ _
 
@@ -230,7 +230,7 @@ theorem eps_eq_zero_of_isRL {c : ModGL Tag.D4 K} (hc : c ∈ adjointGroup Tag.D4
     rw [hγe] at h
     have := congrFun h ((d4Rho ^ ε) i)
     by_contra hne
-    simp [Pi.single_apply, hne] at this
+    simp [hne] at this
   have hρ : d4Rho ^ ε = 1 := Equiv.ext hfix
   interval_cases ε
   · rfl
@@ -320,8 +320,8 @@ theorem eps_eq_zero_of_split [Finite K] (h3 : 3 ∣ Nat.card K - 1)
     (hfix : ∀ x ∈ (S : Subgroup (adjointGroup Tag.D4 K)),
       (MulAut.conj c * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) x = x) : ε = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   obtain ⟨ω, hωo⟩ : ∃ ω : Kˣ, orderOf ω = 3 :=
     exists_prime_orderOf_dvd_card' 3 (by rw [Nat.card_units]; exact h3)
   have hω3 : ω ^ 3 = 1 := by rw [← hωo]; exact pow_orderOf_eq_one ω
@@ -374,6 +374,7 @@ section CharThree
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem pinnedX_mem_posUnipotent' {τ : Tag} {α : Fin τ.rank → ℤ} (hα : IsRoot τ α)
     (hpos : 0 < height α) (c : K) : pinnedX τ K α c ∈ posUnipotent τ K :=
   Subgroup.mem_iSup_of_mem α (Subgroup.mem_iSup_of_mem ⟨hα, hpos⟩ (Subgroup.subset_closure ⟨c, rfl⟩))
@@ -383,15 +384,15 @@ theorem eps_eq_zero_of_char_three [CharP K 3] (S : Sylow 3 (adjointGroup Tag.D4 
     (hfix : ∀ x ∈ (S : Subgroup (adjointGroup Tag.D4 K)),
       (MulAut.conj c * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) x = x) : ε = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   set H : Subgroup (adjointGroup Tag.D4 K) := (posUnipotent Tag.D4 K).subgroupOf
     (adjointGroup Tag.D4 K) with hH
   obtain ⟨P, hP⟩ := (exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀).1
   have hHp : IsPGroup 3 H := by
     rw [hH, ← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   set β := exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε with hβ
   obtain ⟨g, hg⟩ := exists_conj_fix_of_isPGroup S hHp hfix
   set c' : adjointGroup Tag.D4 K := g * c * β g⁻¹ with hc'
@@ -439,7 +440,7 @@ theorem eps_eq_zero_of_char_three [CharP K 3] (S : Sylow 3 (adjointGroup Tag.D4 
       have e : (MulAut.conj c')⁻¹ (⟨(c' : ModGL Tag.D4 K) * x * (c' : ModGL Tag.D4 K)⁻¹, hxG'⟩ :
           ↥(adjointGroup Tag.D4 K)) = ⟨x, hxG⟩ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e] at h1
       exact (hmemH _).1 h1
   have hcB : (c' : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K := by
@@ -831,11 +832,11 @@ theorem eps_eq_zero_of_nonsplit [Finite K] (hq : Nat.card K % 3 = 2)
     (hfix : ∀ x ∈ (S : Subgroup (adjointGroup Tag.D4 K)),
       (MulAut.conj c * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) x = x) : ε = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   have := Fintype.ofFinite K
   obtain ⟨n, hp, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   obtain ⟨Q, ω, -, hQ, hω, -⟩ := exists_twist_data (K₂ := FiniteField.Extension K (ringChar K) 2)
     hq (FiniteField.natCard_extension K (ringChar K) 2)
     (σ := (FiniteField.Extension.frob K (ringChar K) 2).toRingEquiv.toRingHom)
@@ -939,7 +940,7 @@ theorem eps_eq_zero [Finite K] (S : Sylow 3 (adjointGroup Tag.D4 K)) (c : adjoin
     (hfix : ∀ x ∈ (S : Subgroup (adjointGroup Tag.D4 K)),
       (MulAut.conj c * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) x = x) : ε = 0 := by
   by_cases h3 : ringChar K = 3
-  · haveI : CharP K 3 := ringChar.eq_iff.1 h3
+  · have : CharP K 3 := ringChar.eq_iff.1 h3
     exact eps_eq_zero_of_char_three S c a σ hε hfix
   · have := Fintype.ofFinite K
     obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
@@ -956,7 +957,7 @@ theorem eps_eq_zero [Finite K] (S : Sylow 3 (adjointGroup Tag.D4 K)) (c : adjoin
 theorem d4NoTrialitySylowThree_holds : InputsMisc7e.D4NoTrialitySylowThree := by
   intro K _ _ S α ⟨k, hk⟩ hfix
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Φ, hΦ⟩ : ∃ Φ, Φ = coordinatePlusWitnessEquiv K
       (CFSG.HardMathSupport.Dickson.Bal207.D4Graph.isoAdj K).symm := ⟨_, rfl⟩
   have hαβ : α = MulAut.congr Φ (MulAut.congr Φ.symm α) := by

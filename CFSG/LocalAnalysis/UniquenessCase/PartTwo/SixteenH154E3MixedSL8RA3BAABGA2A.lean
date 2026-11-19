@@ -18,7 +18,7 @@ theorem s16h_zpowers_sup_noncyclic_of_prime {p : ℕ} (hp : p.Prime) {u v : X}
     (hdisj : Subgroup.zpowers u ⊓ Subgroup.zpowers v = ⊥) :
     IsPGroup p ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) ∧
       ¬ IsCyclic ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : Nat.card (Subgroup.zpowers u) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hu hu1]
   have hT : Nat.card (Subgroup.zpowers v) = p := by
@@ -35,6 +35,7 @@ theorem s16h_zpowers_sup_noncyclic_of_prime {p : ℕ} (hp : p.Prime) {u v : X}
   refine ⟨IsPGroup.of_card (n := 2) hcardE, ?_⟩
   exact s16c7_not_isCyclic_of_elemAbelian (G := X) hp hEel (le_of_eq hcardE.symm)
 
+omit [Finite X] in
 theorem s16h_normalizer_inf_le_normalizer_join {A B : Subgroup X} :
     Subgroup.normalizer (A : Set X) ⊓ Subgroup.normalizer (B : Set X) ≤
       Subgroup.normalizer ((A ⊔ B : Subgroup X) : Set X) := by

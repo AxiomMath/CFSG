@@ -12,7 +12,7 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore_l34g (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -22,7 +22,7 @@ theorem l34g_card_le_two_of_central_two [Finite G] {I : Subgroup G} (hI : InFSta
   by_cases hbot : N = ⊥
   · rw [hbot, Subgroup.card_bot]
     norm_num
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnt : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hbot
     obtain ⟨k, hkpos, hkcard⟩ := hN2.nontrivial_iff_card.mp hnt
     have hdvd : 2 ∣ Nat.card ↥N := by

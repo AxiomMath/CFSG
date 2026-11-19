@@ -62,19 +62,19 @@ theorem rankOneData_suzukiGroup
     · refine Or.inr ⟨suzukiSElt a K u v * suzukiDElt a K l,
         (mem_suzukiB_iff hK).2 ⟨u, v, l, rfl⟩, suzukiSElt a K c d,
         suzukiU_le_suzukiB a K (suzukiSElt_mem_suzukiU a K c d), ?_⟩
-      simpa [h]
+      simp [h]
   refine ⟨CFSG.LieType.SteinbergBR.isPGroup_suzukiU hK, hUbot,
     exists_sylow_eq_suzukiU hK, suzukiU_le_suzukiB a K, ?_, ?_, ?_⟩
-  · haveI : IsSimpleGroup (suzukiGroup a K) := (suzuki_simple ha hK).2.2
+  · have : IsSimpleGroup (suzukiGroup a K) := (suzuki_simple ha hK).2.2
     intro M hUM hM
     rcases le_B_or_eq_top_of_bruhat (B := suzukiB a K) (U := suzukiU a K)
       (T := suzukiT a K) (n := suzukiWElt a K) rfl hTnorm hnT
       (suzukiWElt_mul_self (a := a) (K := K)) hUbot hbruhat M hUM with h | h
     · exact h
     · exact absurd h hM.ne
-  · haveI : MulAction.IsMultiplyPretransitive (suzukiGroup a K) (suzukiOmegaSub hK) 2 :=
+  · have : MulAction.IsMultiplyPretransitive (suzukiGroup a K) (suzukiOmegaSub hK) 2 :=
       (suzukiPointAction_suzukiGroup hK).isMultiplyPretransitive
-    haveI : MulAction.IsPretransitive (suzukiGroup a K) (suzukiOmegaSub hK) :=
+    have : MulAction.IsPretransitive (suzukiGroup a K) (suzukiOmegaSub hK) :=
       MulAction.isPretransitive_of_is_two_pretransitive
     rw [show suzukiB a K = MulAction.stabilizer (suzukiGroup a K)
       (⟨suzukiInfty K, suzukiInfty_mem_suzukiOmega a K⟩ : suzukiOmegaSub hK) from
@@ -223,7 +223,7 @@ theorem root_normal_in_pointStabilizer {X Ω : Type*} [Group X] [Finite X] [MulA
     change (Q.subgroupOf M).Normal
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hQle).mpr hQnormal
   have hQxm_le : Qxm ≤ Subgroup.normalizer (Qm : Set M) := by
-    haveI : Qm.Normal := hQmN
+    have : Qm.Normal := hQmN
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hsup2 : IsPGroup 2 (Qm ⊔ Qxm : Subgroup M) :=
@@ -273,7 +273,7 @@ theorem exists_szPointAction
   let U₀ := suzukiU a K
   let B₀ := suzukiB a K
   let T₀ := suzukiT a K
-  haveI : Finite G := (suzuki_simple ha hK).1
+  have : Finite G := (suzuki_simple ha hK).1
   have hdata₀ : RankOneData G U₀ B₀ := rankOneData_suzukiGroup ha hK
   let U_N : Subgroup N := U₀.map φ.symm.toMonoidHom
   let B_N : Subgroup N := B₀.map φ.symm.toMonoidHom
@@ -296,7 +296,7 @@ theorem exists_szPointAction
   have hΩpos : 0 < Fintype.card Ω := by
     rw [hΩ]
     positivity
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp hΩpos
+  have : Nonempty Ω := Fintype.card_pos_iff.mp hΩpos
   let ω : Ω := Classical.arbitrary Ω
   have hcard : Fintype.card Ω = 1 + Nat.card U_N := by
     rw [hΩ, hU_Ncard, ← pow_mul, mul_comm]
@@ -320,7 +320,7 @@ theorem exists_szPointAction
     · rintro ⟨z, hz, rfl⟩
       refine ⟨z, hz, ?_⟩
       have hz' := congrArg (fun f : G →* G => f z) hcomp
-      simp only [MonoidHom.comp_apply, MulAut.conj_apply] at hz'
+      simp only [MonoidHom.comp_apply] at hz'
       exact hz'.symm
     · rintro ⟨z, hz, rfl⟩
       exact ⟨z, hz, by
@@ -338,7 +338,7 @@ theorem exists_szPointAction
       (T₀.map (MulAut.conj g).toMonoidHom) := P₀.conj g
   let U₂ : Subgroup N := (U₀.map (MulAut.conj g).toMonoidHom).map φ.symm.toMonoidHom
   let T₂ : Subgroup N := (T₀.map (MulAut.conj g).toMonoidHom).map φ.symm.toMonoidHom
-  letI : MulAction N (suzukiOmegaSub hK) := MulAction.compHom _ φ.toMonoidHom
+  let : MulAction N (suzukiOmegaSub hK) := MulAction.compHom _ φ.toMonoidHom
   let P₂ : SuzukiPointAction N (suzukiOmegaSub hK) (2 ^ (2 * a + 1))
       (g • α₀) (g • β₀) U₂ T₂ :=
     P₁.of_mulEquiv φ.symm (by intro n y; rfl)
@@ -360,8 +360,8 @@ theorem exists_szPointAction
     apply Subgroup.map_injective (f := φ.toMonoidHom) φ.injective
     rw [hmapStab, hmapB]
     exact hstabG
-  haveI : MulAction.IsPreprimitive X Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive X Ω := inferInstance
+  have : MulAction.IsPreprimitive X Ω := MulAction.isPreprimitive_of_is_two_pretransitive h2
+  have : MulAction.IsQuasiPreprimitive X Ω := inferInstance
   have hNfixed : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     apply hNbot
@@ -372,7 +372,7 @@ theorem exists_szPointAction
     intro y
     have hy : y ∈ MulAction.fixedPoints N Ω := by rw [htop]; exact Set.mem_univ y
     simpa using hy ⟨n, hn⟩
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hNfixed
   let Bc : Subgroup N := MulAction.stabilizer N (g • α₀)
   have hBc : Bc = (MulAction.stabilizer X ω).subgroupOf N := hstabN

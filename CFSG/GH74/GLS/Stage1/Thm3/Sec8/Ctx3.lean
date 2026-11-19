@@ -167,6 +167,7 @@ theorem V₁_le_W (hII : II4_4_4_center) (hq : II4_4_quat) (hs : Setup8 G z S K�
 theorem V₂_le_W (hII : II4_4_4_center) (hq : II4_4_quat) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Vof S K₂ W₁ ≤ Wsub S U := inf_le_left.trans (hs.W₁_le_W hII hq)
 
+omit [Finite G] in
 theorem W_le_S : Wsub S U ≤ S := inf_le_left
 
 end Setup8

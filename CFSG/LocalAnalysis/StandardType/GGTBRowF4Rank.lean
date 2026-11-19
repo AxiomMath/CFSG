@@ -79,10 +79,10 @@ theorem ggF4Row_finrank_le_five
     calc Nat.card ↥Bs = Nat.card (ggGamma L hN).range * p := hmul.symm
       _ ≤ p ^ 4 * p := Nat.mul_le_mul_right p hγ
       _ = p ^ 5 := by ring
-  haveI : Module.Finite (ZMod p) V := by
-    haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := by
+    have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
     exact Module.Finite.of_finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
     rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),
       Nat.card_zmod]

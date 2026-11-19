@@ -53,9 +53,9 @@ theorem bfs_tree {fa fb fp fl : Nat → Nat} {N : Nat} (hbfs : bfsOrderOK fa fb 
       rw [bfsStep_eq] at hCs
       have hqn : h < cnt fa fb fp fl h := by
         by_contra hqn
-        rw [if_neg hqn] at hCs
+        rw [ite_eq_right hqn] at hCs
         exact hn0 hCs
-      rw [if_pos hqn] at hCs
+      rw [ite_eq_left hqn] at hCs
       have hn1z : bfsHit fp fl h 1 (fa h) (cnt fa fb fp fl h) ≠ 0 := by
         intro e
         rw [e, bfsHit_zero] at hCs
@@ -116,8 +116,8 @@ theorem img_beta (hO : OrbOK) (h : LHChecks D) {Q : Nat → Nat}
       (ent_be hO h (mem_lt hs hk hj)).1⟩
 
 theorem sets_inj {Q : Nat → Nat} {lb m0 : Nat} (hw : walkOK Q lb m0 = true) :
-    ∀ i < 14080, ∀ j < 14080, bitsOfNat (sb (Q i)) = bitsOfNat (sb (Q j)) → i = j :=
-  fun i hi j hj e => sb_inj hw hi hj (bitsOfNat_inj (sb_lt_3520 _) (sb_lt_3520 _) e)
+    ∀ _i < 14080, ∀ _j < 14080, bitsOfNat (sb (Q _i)) = bitsOfNat (sb (Q _j)) → _i = _j :=
+  fun _i hi _j hj e => sb_inj hw hi hj (bitsOfNat_inj (sb_lt_3520 _) (sb_lt_3520 _) e)
 
 theorem orbit_eq_gen (hO : OrbOK) (h : LHChecks D) {Q : Nat → Nat} {lb m0 : Nat}
     (hs : ∀ s < 20, setSl Q D.al D.be s = true) (hbfs : orbBfsK Q = true)
@@ -157,6 +157,7 @@ theorem orbDec_get (Q : Nat → Nat) {k : Nat} (hk : k < 14080) :
   exact ⟨ofFn_get (fun k => fd (Q k) 7722 16383) hk, ofFn_get (fun k => fd (Q k) 7736 16383) hk,
     ofFn_get (fun k => fd (Q k) 7750 16383) hk, ofFn_get (fun k => fd (Q k) 7764 3) hk⟩
 
+set_option exponentiation.threshold 3510 in
 theorem keyFind_orb {Q : Nat → Nat} {lb m0 : Nat} (hw : walkOK Q lb m0 = true) {k : Nat}
     (hk : k < 14080) : keyFind (keyTable (orbDec Q).sets) (orbDec Q).sets[k]! = k := by
   unfold keyFind keyTable
@@ -180,7 +181,7 @@ theorem orbitOK_gen (hO : OrbOK) (h : LHChecks D) {Q : Nat → Nat} {lb m0 : Nat
       rw [orbDec_sets Q hk]
       exact (bitsIs_bitsOfNat _).congr fun y _ => sb_mem hs hk y
   unfold CFSG.Sporadic.Fi22.Native.orbitOK
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
+  simp only [Bool.and_eq_true, beq_iff_eq]
   have s1 : (orbDec Q).pa.size = 14080 := by rw [hpa, Array.size_ofFn]
   have s2 : (orbDec Q).pb.size = 14080 := by rw [hpb, Array.size_ofFn]
   have s3 : (orbDec Q).par.size = 14080 := by rw [hpar, Array.size_ofFn]
@@ -232,6 +233,7 @@ theorem c_orbit1 (hO : OrbOK) (h : LHChecks D) :
       (keyTable (orbDec D.QB).sets) = true :=
   orbitOK_gen hO h h.setB h.bfsB h.walkB (B1_eq h)
 
+set_option exponentiation.threshold 3510 in
 theorem c_keyFind (h : LHChecks D) :
     keyFind (keyTable (orbDec D.QA).sets) (bitsOf (lhData ())[1]!) = 14080 := by
   have hn : ∀ k < 14080, sb (D.QA k) ≠ bs D.lb1 := by

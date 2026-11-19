@@ -220,7 +220,7 @@ private lemma hermTools_gram_det {E V : Type} [Field E] [AddCommGroup V] [Module
       rw [hx0, map_zero] at h
       simpa using h.symm
     exact σ.injective (by rw [hσai, map_zero])
-  have hu : IsUnit Gᵀ := Matrix.linearIndependent_cols_iff_isUnit.mp hrow
+  have hu : IsUnit Gᵀ := Matrix.linearIndependent_col_iff_isUnit.mp hrow
   have hud : IsUnit Gᵀ.det := (Matrix.isUnit_iff_isUnit_det Gᵀ).mp hu
   rw [Matrix.det_transpose] at hud
   exact hud.ne_zero
@@ -243,7 +243,7 @@ theorem exists_hermOrthonormalBasis {E : Type} [Field E]
     intro i
     exact i.elim0
   · have hkpos : 0 < k := Nat.pos_of_ne_zero hk0
-    haveI : Nonempty (Fin k) := Fin.pos_iff_nonempty.mp hkpos
+    have : Nonempty (Fin k) := Fin.pos_iff_nonempty.mp hkpos
     let v : Module.Basis (Fin k) E V := (Module.finBasis E V).reindex (finCongr hk)
     let G : Matrix (Fin k) (Fin k) E := fun i j => H (v i) (v j)
     have hGherm : conjTr σ G = G := by
@@ -263,7 +263,6 @@ theorem exists_hermOrthonormalBasis {E : Type} [Field E]
     refine ⟨Module.Basis.mk hwli hspanw, ?_⟩
     intro i j
     rw [Module.Basis.mk_apply, Module.Basis.mk_apply]
-    change H (e (b i)) (e (b j)) = if i = j then 1 else 0
     rw [hermTools_form_eq_sum σ H v haddL hsmulL haddR hsmulR (e (b i)) (e (b j))]
     have hvx : v.equivFun (e (b i)) = b i := by
       dsimp only [e]

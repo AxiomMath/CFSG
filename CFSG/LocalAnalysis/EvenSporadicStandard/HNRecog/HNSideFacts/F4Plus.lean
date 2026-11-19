@@ -33,7 +33,7 @@ theorem thetaK_injective : Function.Injective thetaK := by
 theorem thetaK_c4K {s : ℕ} (hs : s < 9) :
     thetaK (c4K s) = (thetaJ ⟨c4G s, c4G_mem_HJ s⟩ : Perm (Fin 12)) := by
   rw [thetaK_apply]
-  simp only [c4K, dif_pos hs]
+  simp only [c4K, dite_eq_left hs]
   rfl
 
 theorem s12_get {s : ℕ} (hs : s < 9) : s12[s]! = natArr InvData.c4Nat[s]! := by
@@ -53,12 +53,12 @@ theorem prep_thetaK_gen_inv {s : ℕ} (hs : s < 9) :
 theorem prep_thetaK_word {w : List ℤ} (hw : plettersOK 9 w = true) :
     PRep 12 (pword 12 s12 (pinvs 12 s12) w)
       (thetaK (CFSG.Sporadic.LySchreier.evalWord c4K w)) :=
-  prep_pword_hom thetaK c4K (fun h hh => prep_thetaK_gen hh) (fun h hh => prep_thetaK_gen_inv hh)
+  prep_pword_hom thetaK c4K (fun _h hh => prep_thetaK_gen hh) (fun _h hh => prep_thetaK_gen_inv hh)
     w hw
 
 theorem incl_c4K {s : ℕ} (hs : s < 9) : Subgroup.inclusion K4_le_CJ (c4K s) = gJn s := by
   apply Subtype.ext
-  simp only [c4K, dif_pos hs, gJn, dif_pos (show s < 10 by omega), gJ, g4, if_pos hs]
+  simp only [c4K, dite_eq_left hs, gJn, dite_eq_left (show s < 10 by omega), gJ, g4, ite_eq_left hs]
   rfl
 
 theorem letterIdx_lt {w : List ℤ} (hw : plettersOK 9 w = true) {l : ℤ} (hl : l ∈ w) :

@@ -22,7 +22,7 @@ section Certs
 theorem lt_of_all {w : List ℕ} (h : w.all (· < 26) = true) : ∀ l ∈ w, l < 26 := fun l hl =>
   of_decide_eq_true (List.all_eq_true.1 h l hl)
 
-theorem nil_lt : ∀ l ∈ ([] : List ℕ), l < 26 := fun l hl => absurd hl List.not_mem_nil
+theorem nil_lt : ∀ _l ∈ ([] : List ℕ), _l < 26 := fun _l hl => absurd hl List.not_mem_nil
 
 theorem conj_of_eqOnBase {n x y : List ℕ} (hn : ∀ l ∈ n, l < 26) (hx : ∀ l ∈ x, l < 26)
     (hy : ∀ l ∈ y, l < 26)

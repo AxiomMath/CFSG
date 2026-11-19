@@ -52,31 +52,31 @@ theorem isSolvable_normalizer_modelV35 :
   set V := modelV sylowS35 e35 with hV
   set N := Subgroup.normalizer (V : Set SL(3, ZMod 5)) with hN
   set C := Subgroup.centralizer (V : Set SL(3, ZMod 5)) with hC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥C :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥C :=
     Group.isSolvable_of_comm fun a b => Subtype.ext (centralizer_modelV35_comm a.2 b.2)
   have hVp : IsPGroup 2 ↥V :=
-    (sylowS35.isPGroup').to_le (modelV_le_sylow sylowS35 e35)
-  haveI : Group.IsNilpotent ↥V := hVp.isNilpotent
-  haveI : Group.IsSolvable ↥V := inferInstance
+    (sylowS35.isPGroup).to_le (modelV_le_sylow sylowS35 e35)
+  have : Group.IsNilpotent ↥V := hVp.isNilpotent
+  have : Group.IsSolvable ↥V := inferInstance
   have hCV : C ≤ Subgroup.normalizer (V : Set SL(3, ZMod 5)) :=
     Subgroup.centralizer_le_normalizer _
-  haveI : Group.IsSolvable ↥(C ⊔ V) := isSolvable_sup_of_le_normalizer' hCV inferInstance inferInstance
+  have : Group.IsSolvable ↥(C ⊔ V) := isSolvable_sup_of_le_normalizer' hCV inferInstance inferInstance
   have hVCN : V ⊔ C ≤ N := sup_le Subgroup.le_normalizer hCV
-  haveI : Group.IsSolvable ↥(V ⊔ C) := by rw [sup_comm]; infer_instance
-  haveI : Group.IsSolvable ↥(modelVInnerCentralizer sylowS35 e35) := by
+  have : Group.IsSolvable ↥(V ⊔ C) := by rw [sup_comm]; infer_instance
+  have : Group.IsSolvable ↥(modelVInnerCentralizer sylowS35 e35) := by
     rw [modelVInnerCentralizer_eq]
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hVCN).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hVCN).injective
-  haveI : Group.IsSolvable (↥N ⧸ modelVInnerCentralizer sylowS35 e35) := by
+  have : Group.IsSolvable (↥N ⧸ modelVInnerCentralizer sylowS35 e35) := by
     rcases modelVNormalizerQuotient_alternatives 2 le_rfl sylowS35 e35 with h2 | h6
     · have hp : IsPGroup 2 (↥N ⧸ modelVInnerCentralizer sylowS35 e35) :=
         IsPGroup.of_card (n := 1) (by rw [h2]; norm_num)
-      haveI : Group.IsNilpotent (↥N ⧸ modelVInnerCentralizer sylowS35 e35) := hp.isNilpotent
+      have : Group.IsNilpotent (↥N ⧸ modelVInnerCentralizer sylowS35 e35) := hp.isNilpotent
       infer_instance
     · obtain ⟨f⟩ := h6
-      haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+      have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
       exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
   exact Group.isSolvable_of_subgroup_quotient (modelVInnerCentralizer sylowS35 e35)
 

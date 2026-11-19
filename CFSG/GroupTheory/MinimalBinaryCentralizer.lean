@@ -38,7 +38,7 @@ theorem end_commutative_of_pairwise_nonisomorphic_simple
     rw [LinearMap.coe_piMap, Pi.map_apply]
     by_cases hij : i = j
     · subst hij
-      simp [comp, LinearMap.proj_apply]
+      simp [comp]
     · have hleft : f (Pi.single j x) i = 0 := by
         change (comp f i j) x = 0
         rw [hcompZero f hij]
@@ -159,7 +159,7 @@ theorem endomorphism_commutative_of_minimal_faithful_binary_representation
       rw [hUdim, hWdim,
         Fintype.sum_eq_add_sum_subtype_ne
           (fun k : Fin n => Module.finrank (ZMod 2) (S k)) j]
-      haveI : Nontrivial ↥(S j) := IsSimpleModule.nontrivial R (S j)
+      have : Nontrivial ↥(S j) := IsSimpleModule.nontrivial R (S j)
       have hpos : 0 < Module.finrank (ZMod 2) (S j) := Module.finrank_pos
       omega
     have hWi : Module.finrank (ZMod 2) ((i : Fin n) → ↥(S i)) =

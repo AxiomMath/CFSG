@@ -102,7 +102,7 @@ theorem perfect_le_of_central_product (t : Γ) (N M J : Subgroup Γ)
     (hNJ : ¬ ∀ n ∈ N, ∀ j ∈ J, n * j = j * n) : J ≤ N := by
   let D : Subgroup Γ :=
     { carrier := {n | n ∈ N ∧ ∃ m ∈ M, n * m ∈ J}
-      one_mem' := ⟨N.one_mem, 1, M.one_mem, by simpa using J.one_mem⟩
+      one_mem' := ⟨N.one_mem, 1, M.one_mem, by simp⟩
       mul_mem' := by
         rintro n n' ⟨hn, m, hm, hj⟩ ⟨hn', m', hm', hj'⟩
         refine ⟨N.mul_mem hn hn', m * m', M.mul_mem hm hm', ?_⟩
@@ -246,6 +246,7 @@ variable {Γ : Type*} [Group Γ] [Finite Γ]
 
 abbrev cj (t : Γ) (K : Subgroup Γ) : Subgroup Γ := K.map (MulAut.conj t).toMonoidHom
 
+omit [Finite Γ] in
 theorem mem_cj {t : Γ} (ht : t * t = 1) {K : Subgroup Γ} {x : Γ} :
     x ∈ cj t K ↔ t * x * t⁻¹ ∈ K := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
@@ -263,6 +264,7 @@ theorem mem_cj {t : Γ} (ht : t * t = 1) {K : Subgroup Γ} {x : Γ} :
     calc t * (t * x * t) * t = (t * t) * x * (t * t) := by group
       _ = x := by rw [ht]; group
 
+omit [Finite Γ] in
 theorem cj_cj {t : Γ} (ht : t * t = 1) (K : Subgroup Γ) : cj t (cj t K) = K := by
   ext x
   rw [mem_cj ht, mem_cj ht]
@@ -272,6 +274,7 @@ theorem cj_cj {t : Γ} (ht : t * t = 1) (K : Subgroup Γ) : cj t (cj t K) = K :=
       _ = x := by rw [ht]; group
   rw [this]
 
+omit [Finite Γ] in
 theorem isComponent_cj (t : Γ) {K : Subgroup Γ} (hK : IsComponent K) : IsComponent (cj t K) :=
   isComponent_map_mulEquiv (MulAut.conj t) hK
 

@@ -58,10 +58,10 @@ theorem primeSupport_of_normalized_odd (W : Subgroup G) (hodd : Odd (Nat.card W)
   have hpodd : Odd p := hodd.of_dvd_nat hpdiv
   obtain ⟨U, hUS, hUnontriv⟩ :=
     SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
-      2 p Nat.prime_two hp (d.S : Subgroup G) W d.S.isPGroup' hW
+      2 p Nat.prime_two hp (d.S : Subgroup G) W d.S.isPGroup hW
       (Nat.prime_two.coprime_iff_not_dvd.mpr hodd.not_two_dvd_nat) hpdiv
   let P := (U : Subgroup W).map W.subtype
-  have hP : IsPGroup p P := U.isPGroup'.map W.subtype
+  have hP : IsPGroup p P := U.isPGroup.map W.subtype
   have hPodd : Odd (Nat.card P) := hodd.of_dvd_nat
     (Subgroup.card_dvd_of_le (Subgroup.map_subtype_le _))
   obtain ⟨e⟩ := d.sylow_dihedral
@@ -104,14 +104,14 @@ theorem odd_overgroup_eq (hc : d.CanonicalNormalizers)
     by_cases hpW : p ∣ Nat.card W
     · have hpR := hsupp ⟨hp, hpW⟩
       obtain ⟨P, hPR, hPS⟩ := normalized_exists_sylow 2 p Nat.prime_two hp
-        (d.S : Subgroup G) d.R d.S.isPGroup' hRnorm
+        (d.S : Subgroup G) d.R d.S.isPGroup hRnorm
         (Nat.prime_two.coprime_iff_not_dvd.mpr d.R_odd.not_two_dvd_nat)
       have hmax := (hc.1 p hpR P hPR hPS).1
       change IsPGroup p P ∧ NormalizedBy P (d.S : Subgroup G) ∧
         (∀ Q : Subgroup G, IsPGroup p Q → NormalizedBy Q (d.S : Subgroup G) →
           P ≤ Q → Q = P) at hmax
       obtain ⟨Q, hQW, hPQ, hQS⟩ := normalized_sylow_containing 2 p Nat.prime_two hp
-        (d.S : Subgroup G) W P d.S.isPGroup' hW
+        (d.S : Subgroup G) W P d.S.isPGroup hW
         (Nat.prime_two.coprime_iff_not_dvd.mpr hodd.not_two_dvd_nat)
         (hPR.1.trans hRW) hPR.2.1 hPS
       have hQP := hmax.2.2 Q hQW.2.1 hQS hPQ

@@ -31,7 +31,7 @@ theorem coe_yStd (t : μ3) :
   refine Fin.lastCases ?_ (fun i => ?_) k
   · rw [CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIV.torusSnoc_last]
     have h3 : ((t : Kˣ)) ^ 3 = 1 := (mem_rootsOfUnity 3 _).mp t.2
-    simp [Fin.prod_const, h3]
+    simp [h3]
   · rw [CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIV.torusSnoc_castSucc]
     have : (Fin.castSucc i : Fin 4) ≠ 3 := by
       intro h
@@ -60,7 +60,7 @@ theorem mem_centralizer_yStd {t : μ3} (ht : (t : Kˣ) ≠ 1) (g : SU4) :
     simp only [Subgroup.coe_mul, Units.val_mul, coe_yStd] at h'
     have e1 := congrFun (congrFun h' i) 3
     have e2 := congrFun (congrFun h' 3) i
-    simp only [mul_diagonal, diagonal_mul, if_pos rfl, if_neg hi, ite_true] at e1 e2
+    simp only [mul_diagonal, diagonal_mul, ite_eq_right hi, ite_true] at e1 e2
     constructor
     · have : (((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) i 3) * (1 - ((t : Kˣ) : K)) = 0 := by
         linear_combination e1
@@ -181,7 +181,7 @@ theorem map_ker_rho : (rho ht).ker.map (Cstd t).subtype = Jblk := by
     show ent x.1 a 3 = (Pi.single 3 1 : Fin 4 → K) a
     by_cases ha : a = 3
     · subst ha; simp [hx1]
-    · simp [Pi.single_apply, ha, (hxg a ha).1]
+    · simp [ha, (hxg a ha).1]
   · intro hg
     obtain ⟨A, rfl⟩ := hg
     have hshape : ∀ i : Fin 4, i ≠ 3 →
@@ -192,11 +192,11 @@ theorem map_ker_rho : (rho ht).ker.map (Cstd t).subtype = Jblk := by
       · show ((((blockEmb K 2 3 4 3 0 (by norm_num) A : SU4) : GL (Fin 4) K) :
           Matrix (Fin 4) (Fin 4) K)) i 3 = 0
         rw [coe_coe_blockEmb, blockMat_apply_of_not_mem_right _ _ (by simp)]
-        simp [Matrix.one_apply, hi]
+        simp [hi]
       · show ((((blockEmb K 2 3 4 3 0 (by norm_num) A : SU4) : GL (Fin 4) K) :
           Matrix (Fin 4) (Fin 4) K)) 3 i = 0
         rw [coe_coe_blockEmb, blockMat_apply_of_not_mem_left _ (by simp)]
-        simp [Matrix.one_apply, hi.symm]
+        simp [hi.symm]
     have hmem : blockEmb K 2 3 4 3 0 (by norm_num) A ∈ Cstd t :=
       (mem_centralizer_yStd ht _).2 hshape
     refine ⟨⟨_, hmem⟩, MonoidHom.mem_ker.2 ?_, rfl⟩
@@ -301,7 +301,7 @@ theorem sStd_mem_Jblk (t : μ3) : sStd t ∈ Jblk := by
   · subst ha; simp [hlast]
   · have : ent (sStd t) a 3 = 0 := by
       simp only [sStd, ent, coe_torusSU4, diagonal_apply_ne _ ha]
-    simp [Pi.single_apply, ha, this]
+    simp [ha, this]
 
 end Order
 

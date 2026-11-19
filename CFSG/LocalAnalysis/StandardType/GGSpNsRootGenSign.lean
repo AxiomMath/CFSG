@@ -23,6 +23,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p k : ℕ} {U : Fin k → Submodule F V}
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)} {u : Fin k → V} {c t : F}
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSignSwap_mem_gspFixPerp (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     frameSignSwap Q e u c t a ∈ gspFixPerp (QuadraticMap.polarBilin Q) (U a) := by
   have hB : LinearMap.BilinForm.IsAlt (polarBilin Q) :=
@@ -34,6 +35,7 @@ theorem frameSignSwap_mem_gspFixPerp (hF : IsCoherentFrame Q p U e E u c t) (a :
   rw [hT]
   exact Tsp_mem_gspFixPerp hB hw (t * c)⁻¹
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSignSwap_mul_self (a : Fin k) :
     frameSignSwap Q e u c t a * frameSignSwap Q e u c t a = 1 := by
   have hB : LinearMap.BilinForm.IsAlt (polarBilin Q) :=
@@ -43,6 +45,7 @@ theorem frameSignSwap_mul_self (a : Fin k) :
   rw [hT]
   exact Tsp_mul_self hB _ _
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSignSwap_app_u (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     (frameSignSwap Q e u c t a).app (u a) = (e a : V ≃ₗ[F] V) (u a) := by
   have hB : LinearMap.BilinForm.IsAlt (polarBilin Q) :=
@@ -58,6 +61,7 @@ theorem frameSignSwap_app_u (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
   rw [hT, Tsp_app, hBuw, inv_mul_cancel₀ htc, one_smul]
   rw [← add_assoc, hV2 (u a), zero_add]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSignSwap_app_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     (frameSignSwap Q e u c t a).app ((e a : V ≃ₗ[F] V) (u a)) = u a := by
   have hB : LinearMap.BilinForm.IsAlt (polarBilin Q) :=
@@ -74,7 +78,8 @@ theorem frameSignSwap_app_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) 
   rw [hT, Tsp_app, hBeuw, inv_mul_cancel₀ htc, one_smul]
   rw [add_comm ((e a : V ≃ₗ[F] V) (u a)), add_assoc, hV2 ((e a : V ≃ₗ[F] V) (u a)), add_zero]
 
-theorem frameSignSwap_conj_self (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+omit [Finite F] in
+theorem frameSignSwap_conj_self (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     frameSignSwap Q e u c t a * omegaToGsp Q (e a) * frameSignSwap Q e u c t a =
       (omegaToGsp Q (e a))⁻¹ := by
@@ -198,6 +203,7 @@ theorem frameSignSwap_conj_self (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     exact hy
   rw [Gsp.map_add, Gsp.map_add, hstep y hy', hLz z hz, hωinvz z hz]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSignSwap_commute_of_ne (hF : IsCoherentFrame Q p U e E u c t) {a b : Fin k}
     (hab : b ≠ a) :
     frameSignSwap Q e u c t a * omegaToGsp Q (e b) =
@@ -226,6 +232,7 @@ theorem frameSignSwap_commute_of_ne (hF : IsCoherentFrame Q p U e E u c t) {a b 
   congr 1
   rw [← Gsp.form_app (omegaToGsp Q (e b)) x w, hfix]
 
+omit [Finite F] in
 theorem frameSignSwap_conj_torus (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hp : p.Prime) (hF : IsCoherentFrame Q p U e E u c t)
     (τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q))
@@ -234,7 +241,7 @@ theorem frameSignSwap_conj_torus (hQ : (QuadraticMap.polarBilin Q).Nondegenerate
     frameSignSwap Q e u c t a * omegaToGsp Q (τ f) * (frameSignSwap Q e u c t a)⁻¹ =
       omegaToGsp Q (τ (CFSG.StandardType.SpCoord.sgnAut a f)) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let T : Gsp (polarBilin Q) := frameSignSwap Q e u c t a
   let L : (Fin k → Multiplicative (ZMod p)) →* Gsp (polarBilin Q) :=
     (MulAut.conj T).toMonoidHom.comp ((omegaToGsp Q).comp (τ : _ →* ↥(orthDerived Q)))

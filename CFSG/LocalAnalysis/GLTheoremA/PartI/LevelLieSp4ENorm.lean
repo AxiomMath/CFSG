@@ -21,6 +21,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 theorem neg_vec (x : Ix → K) : -x = x := funext fun i => CharTwo.neg_eq (x i)
 
+omit [CharP K 2] in
 theorem finrank_sum (A : Matrix Ix Ix K) :
     Module.finrank K (LinearMap.range (Matrix.mulVecLin (Pm A))) + Module.finrank K (Wsp A) = 4 := by
   have h := LinearMap.finrank_range_add_finrank_ker (Matrix.mulVecLin (Pm A))
@@ -88,7 +89,7 @@ theorem finrank_Wsp_eq_two [Fintype K] (hcard : Fintype.card K = 8) {A : Matrix 
     have hbf : ∀ x, bf (v : Ix → K) x = 0 := by
       intro x
       have hPx : Pm A *ᵥ x ∈ LinearMap.range (Matrix.mulVecLin (Pm A)) :=
-        ⟨x, by simp [Matrix.mulVecLin_apply]⟩
+        ⟨x, by simp⟩
       obtain ⟨c, hc⟩ := hall ⟨Pm A *ᵥ x, hPx⟩
       have hc' : Pm A *ᵥ x = c • (v : Ix → K) := by
         have := congrArg Subtype.val hc
@@ -143,7 +144,7 @@ theorem exists_u [Fintype K] (hcard : Fintype.card K = 8) {A : Matrix Ix Ix K}
     have hx' : x ∈ Submodule.span K (Set.range ![u, A *ᵥ u]) := hspan ▸ hx
     obtain ⟨c, hc⟩ := (Submodule.mem_span_range_iff_exists_fun K).1 hx'
     rw [← hc, Fin.sum_univ_two]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [bf_add_right, bf_smul_right, bf_smul_right, bf_self_zero, hbf0]
     ring
   apply hu0
@@ -186,6 +187,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def basisVec (v w u u' : Ix → K) : Ix → Ix → K := Sum.elim ![v, u] ![w, u']
 
+omit [CharP K 2] in
 theorem gram_entry (e : Ix → Ix → K) (M : Matrix Ix Ix K) (b b' : Ix) :
     ((Matrix.of fun a c => e c a)ᵀ * M * Matrix.of fun a c => e c a) b b' =
       e b ⬝ᵥ (M *ᵥ e b') := by

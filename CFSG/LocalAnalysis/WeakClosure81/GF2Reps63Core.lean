@@ -58,7 +58,7 @@ private theorem not_dvd_two_mul_of_odd {r n : ℕ} (hn : Odd n) : ¬ 2 * r ∣ n
   exact hn.not_two_dvd_nat (dvd_trans (show 2 ∣ 2 * r from ⟨r, rfl⟩) h)
 
 private theorem not_dvd_two_pow_mul_two_of_two_le {e r n' : ℕ} (he : 2 ≤ e)
-    (hrn : r ∣ n') (hn' : Odd n') : ¬ 2 ^ e * r ∣ n' * 2 := by
+    (_hrn : r ∣ n') (hn' : Odd n') : ¬ 2 ^ e * r ∣ n' * 2 := by
   intro h
   have h2e : 2 ^ e ∣ n' * 2 := dvd_trans (show 2 ^ e ∣ 2 ^ e * r from ⟨r, rfl⟩) h
   have hcop : Nat.Coprime (2 ^ e) n' := (Nat.coprime_two_left.mpr hn').pow_left e
@@ -79,7 +79,7 @@ private theorem false_of_two_le_e {G : Type*} [Group G] {U : Type*} [CommGroup U
     (hker : ∀ y ∈ L, σ (a * y⁻¹ * a * y) = 1 → ∀ z ∈ L, y * z = z * y)
     (hw : w ∈ L) (hwm : ∀ k : ℕ, (∀ z ∈ L, w ^ k * z = z * w ^ k) ↔ m ∣ k)
     (hm_eq : m = 2 ^ e * r) (hN_eq : orderOf w = 2 ^ f * n')
-    (hr_odd : Odd r) (hn' : Odd n') (hrn : r ∣ n') (he : 2 ≤ e) : False := by
+    (_hr_odd : Odd r) (hn' : Odd n') (hrn : r ∣ n') (he : 2 ≤ e) : False := by
   let y := w ^ n'
   have hyL : y ∈ L := pow_mem hw n'
   have hnc : ¬ ∀ z ∈ L, y ^ 2 * z = z * y ^ 2 := by

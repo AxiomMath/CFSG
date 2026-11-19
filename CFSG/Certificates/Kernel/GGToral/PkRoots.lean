@@ -53,13 +53,13 @@ theorem rootIs_spec {H : Hd} {c r s k : ℕ} (h : rootIs H c r s k = true) (j : 
         rw [hb] at h1
         have h3 : c / 16 ^ j % 16 + lane (row H.rrev r) (Nat.sub (Nat.sub H.n 1) j) = 8 :=
           Nat.eq_of_beq_eq_true h1
-        rw [if_pos hs]
+        rw [ite_eq_left hs]
         omega
       · have hb : Nat.beq s 1 = false := Bool.eq_false_iff.mpr fun h => hs (Nat.eq_of_beq_eq_true h)
         rw [hb] at h1
         have h3 : c / 16 ^ j % 16 = 8 + lane (row H.rrev r) (Nat.sub (Nat.sub H.n 1) j) :=
           Nat.eq_of_beq_eq_true h1
-        rw [if_neg hs]
+        rw [ite_eq_right hs]
         omega
 
 theorem memB_iff (m r : ℕ) : memB m r = true ↔ m.testBit r = true := by
@@ -168,15 +168,15 @@ theorem rows_roots {τ : Tag} {D : List ℕ} {H : Hd} {s : List ℕ}
   refine ⟨fun r hr => ?_, fun α hα => ?_⟩
   · obtain ⟨k, hk, hroot⟩ := h2 r hr
     have := hcode hroot
-    rw [if_neg (by omega)] at this
+    rw [ite_eq_right (by omega)] at this
     exact StepTwoToralCert.isRoot_iff_exists_index.mpr ⟨k, hk, this.symm⟩
   · obtain ⟨k, hk, rfl⟩ := StepTwoToralCert.isRoot_iff_exists_index.mp hα
     obtain ⟨r, hr, t, ht, hroot⟩ := h1 k hk
     refine ⟨r, hr, ?_⟩
     rw [hcode hroot]
     by_cases h1t : t = 1
-    · exact Or.inr (if_pos h1t)
-    · exact Or.inl (if_neg h1t)
+    · exact Or.inr (ite_eq_left h1t)
+    · exact Or.inl (ite_eq_right h1t)
 
 theorem rtC_le {codes D : List ℕ} {H : Hd} {s : List ℕ}
     (hD : ∀ k' : Hd → List ℕ → Bool, hdK k' D = k' H s) (hnp : 0 < H.np)
@@ -184,7 +184,7 @@ theorem rtC_le {codes D : List ℕ} {H : Hd} {s : List ℕ}
   intro r hr j hj
   obtain ⟨k, -, hk⟩ := (pkHead_spec hD hnp h).2 r hr
   have h1 := rootIs_spec hk j hj
-  rw [if_neg (by omega)] at h1
+  rw [ite_eq_right (by omega)] at h1
   have h2 := Nat.mod_lt (codes.getD k 0 / 16 ^ j) (by norm_num : 0 < 16)
   omega
 

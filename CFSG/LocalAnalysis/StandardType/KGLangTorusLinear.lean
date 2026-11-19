@@ -48,8 +48,7 @@ private theorem kgLangCLinAux_cHom_apply_mk {d : ℕ} {𝕂 : Type} [Field 𝕂]
     exact MulEquiv.apply_symm_apply _ _
   have h2 := congrArg (fun φ => φ ((TypeA.recipeEquiv d 𝕂)
     (LargeEvenProjMk (LargeEvenSLGroup (Fin d) 𝕂) h))) h1
-  simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-    MulEquiv.apply_symm_apply] at h2
+  simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply] at h2
   apply (TypeA.recipeEquiv d 𝕂).injective
   rw [h2, TypeA.recipeEquiv_mk, CFSG.LocalAnalysis.ComponentInitial.LinearFlag.conjAut_proj,
     TypeA.recipeEquiv_mk]
@@ -336,8 +335,8 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
     (hfp : orderOf f = p) :
     KGLangTorusInput p J (MulAut.conj f).toMonoidHom := by
   classical
-  haveI : CharP 𝕂 2 := charP_two_of_card h𝕂
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : CharP 𝕂 2 := charP_two_of_card h𝕂
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   let c := kgLangCLinAux_cHom (d := d) (𝕂 := 𝕂)
   have hc_range : c.range =
       LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) 𝕂)) Set.univ :=
@@ -404,7 +403,7 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
   have hPab : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
     intro a ha b hb
     have hcomm : c a * c b = c b * c a := by
-      letI : IsMulCommutative E := hE.1
+      let : IsMulCommutative E := hE.1
       exact congrArg Subtype.val (mul_comm' (⟨c a, ha⟩ : E) (⟨c b, hb⟩ : E))
     have hker : a * b * (b * a)⁻¹ ∈ c.ker := by
       rw [MonoidHom.mem_ker]
@@ -431,7 +430,7 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hE.2 x x.2
   have hEodd : Odd (Nat.card E) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := hEp.exists_card_eq
     rw [hk]
     exact (hp.odd_of_ne_two hp2).pow
@@ -446,7 +445,7 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
     rw [← two_mul, ← pow_succ', Nat.sub_add_cancel hn1]
   have hker_odd : Odd (Nat.card c.ker) := by
     rw [hc_ker, largeEvenScalars_def]
-    haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
     have hinj : Function.Injective
         (Matrix.GeneralLinearGroup.scalar (Fin d) : 𝕂ˣ →* GL (Fin d) 𝕂) := by
       intro a b hab
@@ -570,7 +569,7 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
       rw [map_mul]; exact mul_mem hx' hy'
   have hBcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x :=
     (kgLangC_span_comm_reduced P hPab hPodd).1
-  letI : CommRing ↥B :=
+  let : CommRing ↥B :=
     { (inferInstance : Ring ↥B) with
       mul_comm := fun a b => Subtype.ext (hBcomm a a.2 b b.2) }
   let U : Subgroup (GL (Fin d) 𝕂) :=
@@ -670,12 +669,12 @@ theorem kgLangC_torusInput_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n 
   exact ⟨N, hNleJ, hNab, hNstab, hN90, hEN⟩
 
 theorem kgLangTorusDatumCont_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {d n : ℕ} (hd : 3 ≤ d)
-    (hpd : ¬ p ∣ d) (hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n)
+    (hpd : ¬ p ∣ d) (_hpn : p ∣ n) (𝕂 : Type) [Field 𝕂] [Finite 𝕂] (h𝕂 : Nat.card 𝕂 = 2 ^ n)
     (hcyc : GGRawFieldCycW p (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) 𝕂)) Set.univ)
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) 𝕂))))
     (hZ : ∀ [Finite (HopfCover (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂)))]
-      (θ : HopfCover (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂)) ⧸
+      (_θ : HopfCover (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂)) ⧸
         Subgroup.center (HopfCover (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂))) ≃*
           LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂)),
       commutator (HopfCover (LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂))) = ⊤ →

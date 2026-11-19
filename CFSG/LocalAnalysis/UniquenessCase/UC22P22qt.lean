@@ -66,6 +66,7 @@ variable {G : Type} [Group G] [Finite G]
 structure Sigma2Std (D : Data G) : Prop where
   exists_hyp612 : ∀ p ∈ D.sig2, ∃ P P₀ : Subgroup G, UC6.Hyp612 D p P P₀
 
+omit [Finite G] in
 theorem uc22p22q_inftyOf_conj {K : Subgroup G} {n x : G} (hn : n ∈ normalizer (K : Set G))
     (hx : x ∈ UC6.inftyOf K) : n * x * n⁻¹ ∈ UC6.inftyOf K := by
   obtain ⟨y, hy, rfl⟩ := hx
@@ -73,6 +74,7 @@ theorem uc22p22q_inftyOf_conj {K : Subgroup G} {n x : G} (hn : n ∈ normalizer 
   have h := map_derivedSeries_le_derivedSeries (UC6.conjOn K hn).toMonoidHom (Nat.card K)
   exact h ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22q_layer_le (H : Subgroup G) : rankThreeLayer H ≤ H :=
   sSup_le fun _ hL => hL.1
 

@@ -23,9 +23,9 @@ theorem i_le_three_of_R17_13 {D : Data G}
     {V₀ V L : Subgroup G} {r q : ℕ} {hC : Ctx17_6 D V₀ V L r q}
     (h : R17_13At D 𝔉 V₀ V L r q hC) : iL17_12 D 𝔉 r q L ≤ 3 := by
   rcases h with h1 | ⟨-, h2⟩ | ⟨-, h3⟩
-  · simpa [h1] using (le_refl (1 : ℕ∞))
+  · simp [h1]
   · simpa [h2] using (show (2 : ℕ∞) ≤ 3 by norm_num)
-  · simpa [h3] using (le_refl (3 : ℕ∞))
+  · simp [h3]
 
 theorem b_le_two_of_R17_11 {D : Data G} {V₀ V L : Subgroup G} {r q : ℕ}
     {hC : Ctx17_6 D V₀ V L r q}
@@ -40,7 +40,7 @@ theorem barInf_equiv_bar2 {D : Data G} {L : Subgroup G} {q : ℕ}
   obtain ⟨r, f, hr, hr2, hq, hf, hm⟩ := h
   have hsimple : IsSimpleGroup (Bar2 L) :=
     CFSG.GH74.GLS.EvenSelP.isSimpleGroup_of_lieModel' hr hr2 hm
-  haveI : IsSimpleGroup (Bar2 L) := hsimple
+  have : IsSimpleGroup (Bar2 L) := hsimple
   have hcenter : Subgroup.center (Bar2 L) = ⊥ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21k_center_eq_bot hL.2.2
   obtain ⟨e1⟩ := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21k_barInf_equiv_of_calC hL

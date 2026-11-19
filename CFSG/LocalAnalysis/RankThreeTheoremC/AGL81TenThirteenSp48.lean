@@ -63,7 +63,7 @@ private theorem elemAbelian_sup {X : Type*} [Group X] [Finite X] {p : ℕ} {A B 
   · have h := card_sup_mul_card_inf_eq_of_le_normalizer hN
     rwa [hAB, card_bot, mul_one] at h
 
-private theorem elemAbelian_zpowers {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
+private theorem elemAbelian_zpowers {X : Type*} [Group X] [Finite X] {p : ℕ} (_hp : p.Prime)
     {x : X} (hx : orderOf x = p) :
     IsElemAbelian p (zpowers x) ∧ Nat.card (zpowers x) = p := by
   refine ⟨⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun y hy => ?_⟩, by rw [Nat.card_zpowers, hx]⟩
@@ -155,6 +155,7 @@ private theorem exists_spE {Y : Type*} [Group Y] {K : Subgroup Y}
   · rintro _ ⟨_, ⟨s, hs, rfl⟩, rfl⟩
     exact ⟨s, hs, rfl⟩
 
+omit [Finite G] in
 private theorem imH_ne_bot {H I₀ : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} (hI₀H : I₀ ≤ H) {T : Type} [Group T]
     [Nontrivial T] (f : I₀ →* T) (hf : Function.Surjective f)
@@ -178,6 +179,7 @@ private theorem imH_ne_bot {H I₀ : Subgroup G}
   obtain ⟨y, rfl⟩ := hf b
   exact hab (by rw [hf1, hf1])
 
+omit [Finite G] in
 private theorem not_isSolvable_d1X0 {M H L I₀ : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} (hLM : L ≤ M)
     (hI₀ : I₀ ∈ cZero (H ⊓ L)) (hI₀c : IsTwoPrimeComponent I₀ I₀) {T : Type} [Group T]
@@ -193,10 +195,10 @@ private theorem not_isSolvable_d1X0 {M H L I₀ : Subgroup G}
       apply map_injective H.subtype_injective
       rw [map_commutator, map_subgroupOf_eq_of_le hI₀H, hI₀c.perfect]
     rw [← map_commutator, h1]
-  haveI := hsol
-  haveI : Group.IsSolvable (imH H I₀) := solvable_of_solvable_injective (inclusion_injective hWX)
-  haveI : Nontrivial (imH H I₀) := (nontrivial_iff_ne_bot _).2 (imH_ne_bot hI₀H f hf hfk)
-  haveI : Group.IsPerfect (imH H I₀) := by
+  have := hsol
+  have : Group.IsSolvable (imH H I₀) := Group.isSolvable_of_isSolvable_injective (inclusion_injective hWX)
+  have : Nontrivial (imH H I₀) := (nontrivial_iff_ne_bot _).2 (imH_ne_bot hI₀H f hf hfk)
+  have : Group.IsPerfect (imH H I₀) := by
     refine ⟨map_injective (imH H I₀).subtype_injective ?_⟩
     rw [map_subtype_commutator, hperf, ← MonoidHom.range_eq_map, range_subtype]
   exact Group.IsPerfect.not_isSolvable (imH H I₀) inferInstance
@@ -211,7 +213,7 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
       (A₀ V₀ : Subgroup (H ⧸ primeComplementCore (G := H) 3)),
       Sp48NInSitu (T : Subgroup (H ⧸ primeComplementCore (G := H) 3)) (d1X0 3 M H) K A₀ V₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   set O := primeComplementCore (G := H) 3 with hOdef
   set π := QuotientGroup.mk' O with hπ
@@ -220,7 +222,7 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
   have hk := hd.kbar
   subst hk
   have hKn : (d1KBar 3 M H).Normal := d1KBar_normal_of_escape he hd.base hd.le_H hne
-  haveI := hKn
+  have := hKn
   obtain ⟨R, hBR, hRM, hR, -⟩ := exists_isSylowIn_of_isAGLQ he hd.base hd.le_H
   set T : Sylow 3 (H ⧸ O) := hR.toSylow.mapSurjective (QuotientGroup.mk'_surjective O) with hT
   have hTeq : (T : Subgroup (H ⧸ O)) = (R.subgroupOf H).map π := by
@@ -228,13 +230,13 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
   obtain ⟨E, hET, hEab, hEcard, hcore⟩ := cores_le_d1X0 he hd.base hBR hRM hR
   rw [← hTeq] at hET hcore
   obtain ⟨⟨eSp⟩, hcardK⟩ := exists_equiv_sp8 hdK eK
-  haveI : IsSimpleGroup Sp8 := isSimple_sp8_of_index hdK eK eSp
-  haveI : IsSimpleGroup (d1KBar 3 M H) := eSp.isSimpleGroup
+  have : IsSimpleGroup Sp8 := isSimple_sp8_of_index hdK eK eSp
+  have : IsSimpleGroup (d1KBar 3 M H) := eSp.isSimpleGroup
   have hZK : center (d1KBar 3 M H) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (d1KBar 3 M H)) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (d1KBar 3 M H) := center_eq_top_iff.1 h
+      have : IsMulCommutative (d1KBar 3 M H) := center_eq_top_iff.1 h
       have hpr := (Group.is_simple_iff_prime_card (α := d1KBar 3 M H)).1 inferInstance
       rw [hcardK] at hpr
       exact absurd hpr (by norm_num)
@@ -295,7 +297,7 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
       rw [hAdef, card_map_of_injective (MulAut.conj g).injective, hA₀c]
     have h3T : 3 ≤ Open.pRank 3 (T : Subgroup (H ⧸ O)) :=
       Sp48Cfg.le_pRank' (by norm_num) hgT hBel hBc
-    rw [if_pos h3T] at hcore
+    rw [ite_eq_left h3T] at hcore
     refine hSeitz A hAK hA hAc fun a ha ha1 k hk hka => ?_
     have ha3 : orderOf a = 3 := orderOf_eq_prime (hA.2 a ha) ha1
     set X : Subgroup (H ⧸ O) := zpowers a ⊔ zpowers z with hXdef
@@ -336,7 +338,7 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
       (primeComplementCore_quotient_eq_bot (G := H) 3) hKn hmem hZK
   have h3T : 3 ≤ Open.pRank 3 (T : Subgroup (H ⧸ O)) := by
     by_contra hlt
-    rw [if_neg hlt] at hcore
+    rw [ite_eq_right hlt] at hcore
     have hEK : E ≤ d1KBar 3 M H := by
       intro e he
       by_contra heK
@@ -377,7 +379,7 @@ private theorem exists_inSitu (hKN : KFactSp48NonsolvLocal) {P : Sylow 3 G}
     intro x hx
     obtain ⟨m, rfl⟩ := mem_zpowers_iff.1 hx
     exact ((Commute.zpow_left (show Commute e k from hke.symm) m).eq)
-  rw [if_pos h3T] at hcore
+  rw [ite_eq_left h3T] at hcore
   have hY₀ : d1X0 3 M H ≠ ⊤ := fun h => hnle (h ▸ le_top)
   obtain ⟨A₀', V₀, hI⟩ := hKN (H ⧸ O) (d1KBar 3 M H) dK hdK hKn ⟨eK⟩ hC T (d1X0 3 M H) h3T hcore
     hY₀ hns
@@ -596,7 +598,7 @@ theorem agl81TenThirteenSp48_of_sigma (hσ : 3 ∈ rankThreeSigmaA G)
         (d1PlusCore 3 H K).subgroupOf I₀ ≤ f.ker → False := by
   intro hS P M H Q K hd L hL I₀ hI₀ hI₀c q dK dJ hq2 hq3 hdK hdJ ⟨eK⟩ f hf hfk
   have hdJc : IsCaseTwoIndex 3 dJ := Or.inl ⟨rfl, q, hq2, hq3, hdJ⟩
-  haveI : Nontrivial (CatGroup dJ) :=
+  have : Nontrivial (CatGroup dJ) :=
     (isSimpleGroup_of_isCaseTwoGroup_three ⟨dJ, hdJc, ⟨MulEquiv.refl _⟩⟩).toNontrivial
   have hns := Sp48Cfg.not_isSolvable_d1X0 hL.le hI₀ hI₀c f hf hfk
   obtain ⟨T, A₀, V₀, hI⟩ := Sp48Cfg.exists_inSitu hKN hd ⟨q, hq2, hq3, hdK⟩ eK hns

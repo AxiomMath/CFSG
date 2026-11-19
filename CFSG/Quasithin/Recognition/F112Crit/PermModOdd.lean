@@ -70,8 +70,8 @@ private theorem eq_ite_of_fixed {Ω G : Type*} [Fintype Ω] [DecidableEq Ω] [Gr
     rw [hsum0, hgs, add_zero] at this
     exact this
   by_cases hα : α = ω
-  · rw [if_pos hα, hα, hgω]
-  · rw [if_neg hα]
+  · rw [ite_eq_left hα, hα, hgω]
+  · rw [ite_eq_right hα]
     obtain ⟨ν₀, hν₀⟩ := Function.ne_iff.mp hg0
     have hν₀' : ν₀ ≠ ω := fun h => hν₀ (by rw [h, hgω]; rfl)
     have hc1 : c₁ = 1 := by
@@ -99,8 +99,8 @@ private theorem const_sub_single_mem {Ω G : Type*} [Fintype Ω] [DecidableEq Ω
         exact ⟨M.add_mem ha1 hb1, by simp [Finset.sum_add_distrib, ha2, hb2]⟩
       neg_mem' := by
         rintro a ⟨ha1, ha2⟩
-        exact ⟨M.neg_mem ha1, by simp [Finset.sum_neg_distrib, ha2]⟩ }
-  letI : MulAction U (Ω → ZMod 2) := arrowAction
+        exact ⟨M.neg_mem ha1, by simp [ha2]⟩ }
+  let : MulAction U (Ω → ZMod 2) := arrowAction
   obtain ⟨g, ⟨hgM, hgs⟩, hg0, hgfix⟩ := exists_smul_eq_self_ne_zero (K := U) (V := Ω → ZMod 2) hU
     (fun a => funext fun α => CharTwo.add_self_eq_zero (a α)) A
     (fun u a ha => ⟨hM u a ha.1, (sum_comp_inv_smul (u : G) a).trans ha.2⟩) (fun u => rfl)
@@ -125,7 +125,7 @@ end Aux
 
 theorem single_add_single_mem_of_nonconst {Ω G : Type*} [Fintype Ω] [DecidableEq Ω] [Group G]
     [MulAction G Ω] (hodd : Odd (Fintype.card Ω)) (htrans : ∀ α β : Ω, ∃ g : G, g • α = β)
-    {ω : Ω} {U : Subgroup G} [Finite U] (hU : IsPGroup 2 U) (hUω : ∀ u ∈ U, u • ω = ω)
+    {ω : Ω} {U : Subgroup G} [Finite U] (hU : IsPGroup 2 U) (_hUω : ∀ u ∈ U, u • ω = ω)
     (hUtr : ∀ α β : Ω, α ≠ ω → β ≠ ω → ∃ u ∈ U, u • α = β)
     {M : AddSubgroup (Ω → ZMod 2)}
     (hM : ∀ (g : G) (f : Ω → ZMod 2), f ∈ M → (fun α => f (g⁻¹ • α)) ∈ M)

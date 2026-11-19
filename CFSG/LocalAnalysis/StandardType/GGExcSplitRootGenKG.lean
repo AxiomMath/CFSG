@@ -61,8 +61,8 @@ theorem ggTorusRootGenAvoidKG_excSplit
   open CFSG.LieType.Chevalley TableB Multiplicative
     CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley ExcSplitRootGen in
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) hpq
   have hζ : ζ ^ p = 1 := hζo ▸ pow_orderOf_eq_one ζ
   have hτ' : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4 := by
@@ -112,7 +112,7 @@ theorem ggTorusRootGenAvoidKG_excSplit
   have hroot : ∀ α β : Fin τ.rank → ℤ, IsRoot τ α → IsRoot τ β → (∀ t : Fin τ.rank → ZMod p,
       ∑ j, (α j : ZMod p) * t j = 0 → ∑ j, (β j : ZMod p) * t j = 0) → β = α ∨ β = -α :=
     fun α β hα hβ h => eq_or_eq_neg_of_forall_sum_eq_zero hτ' hp2 hα hβ h
-  haveI : Nonempty {α : Fin τ.rank → ℤ // IsRoot τ α} :=
+  have : Nonempty {α : Fin τ.rank → ℤ // IsRoot τ α} :=
     ⟨⟨Pi.single ⟨0, τ.rank_pos⟩ 1, isRoot_single τ _⟩⟩
   refine ggTorusRootGenAvoidKG_of_reflTorusModel hp hp2
     (by rw [← Subgroup.map_center_eq e, TableBExc.center_recipeGroup_eq_bot τ K, Subgroup.map_bot])
@@ -136,8 +136,8 @@ theorem ggTorusRootGenAvoidKG_F4Split
   open CFSG.LieType.Chevalley TableB Multiplicative
     CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley ExcSplitRootGen in
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) hpq
   have hζ : ζ ^ p = 1 := hζo ▸ pow_orderOf_eq_one ζ
   have hτ' : Tag.F4 = .E6 ∨ Tag.F4 = .E7 ∨ Tag.F4 = .E8 ∨ Tag.F4 = .F4 :=
@@ -156,7 +156,7 @@ theorem ggTorusRootGenAvoidKG_F4Split
       (∀ t : Fin Tag.F4.rank → ZMod p, ∑ j, (α j : ZMod p) * t j = 0 →
         ∑ j, (β j : ZMod p) * t j = 0) → β = α ∨ β = -α :=
     fun α β hα hβ h => eq_or_eq_neg_of_forall_sum_eq_zero hτ' hp2 hα hβ h
-  haveI : Nonempty {α : Fin Tag.F4.rank → ℤ // IsRoot .F4 α} :=
+  have : Nonempty {α : Fin Tag.F4.rank → ℤ // IsRoot .F4 α} :=
     ⟨⟨Pi.single ⟨0, Tag.F4.rank_pos⟩ 1, isRoot_single .F4 _⟩⟩
   refine ggTorusRootGenAvoidKG_of_reflTorusModel hp hp2
     (by rw [← Subgroup.map_center_eq e, TableBF4.center_recipeGroup_eq_bot K, Subgroup.map_bot])

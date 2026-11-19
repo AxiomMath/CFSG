@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple (relPP
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
   {T S : Subgroup G}
 
+omit [Finite G] in
 private theorem p622S_mem_sup_aux {A B : Subgroup G} (hB : ∀ a ∈ A, ∀ b ∈ B, a * b * a⁻¹ ∈ B)
     {n : G} (hn : n ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, a * b = n := by
   rw [Subgroup.sup_eq_closure] at hn
@@ -36,6 +37,7 @@ private theorem p622S_mem_sup_aux {A B : Subgroup G} (hB : ∀ a ∈ A, ∀ b �
   · rintro x hx ⟨a, ha, b, hb, rfl⟩
     exact ⟨a⁻¹, A.inv_mem ha, a * b⁻¹ * a⁻¹, hB a ha b⁻¹ (B.inv_mem hb), by group⟩
 
+omit [Finite G] in
 private theorem p622S_simpleSection_aux {H K O : Subgroup G} (hKH : K ≤ H) (hOH : O ≤ H)
     (hO : H ≤ normalizer (O : Set G)) (hperf : ⁅K, K⁆ = K) (hlt : K ⊓ O < K)
     (hmax : ∀ N : Subgroup G, N ≤ K → (N.subgroupOf K).Normal → K ⊓ O ≤ N →
@@ -99,7 +101,7 @@ theorem p622_apply_pcomp (hK64 : KFact64ii) (hS : Setting G) (c : P622Conf p P M
   have hz := c.failure.central
   have hprime : p.Prime := c.failure.prime
   have hp2 : p ≠ 2 := c.failure.ne_two
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hKH : CFSG.Open.IsKGroup ↥(centralizer ({x} : Set G)) :=
     fun K L _ _ hsimple _ => k631_isKGroup_centralizer hS hx.ne_one K (L.subgroupOf K) hsimple
   have hxo : orderOf x = p := orderOf_eq_prime hx.pow_eq_one hx.ne_one
@@ -107,7 +109,7 @@ theorem p622_apply_pcomp (hK64 : KFact64ii) (hS : Setting G) (c : P622Conf p P M
   have hxz : x * z = z * x := mem_centralizer_iff.mp hz.centralizes x hx.mem
   have hxnz : x ∉ zpowers z := p622_x_not_mem_zpowers hS hsit hx hz
   have hPCp : IsPGroup p ↥((P : Subgroup G) ⊓ centralizer ({x} : Set G)) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have hsub : IsPGroup p ↥(((P : Subgroup G) ⊓ centralizer ({x} : Set G)).subgroupOf
       (centralizer ({x} : Set G))) :=
     hPCp.of_equiv (subgroupOfEquivOfLe inf_le_right).symm

@@ -44,7 +44,7 @@ theorem card_lt_of_isPGroup_of_not_comm {k : ℕ} (hG : ¬ p ^ (k + 1) ∣ Nat.c
   by_contra hlt
   push Not at hlt
   obtain ⟨S, hES⟩ := hE.exists_le_sylow
-  have hSk := card_le_of_isPGroup_of_not_dvd hG S.isPGroup'
+  have hSk := card_le_of_isPGroup_of_not_dvd hG S.isPGroup
   have hEeq : E = S :=
     Subgroup.eq_of_le_of_card_ge hES (hSk.trans hlt)
   obtain ⟨S', hHS'⟩ := hH.exists_le_sylow

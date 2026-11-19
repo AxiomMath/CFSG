@@ -40,7 +40,7 @@ theorem pCoreOf_sup_conj_le_pCoreOf (hA : IsElemAbelian 2 A) (hTI : IsTI A) (hm 
     exact le_sup_left
   intro k hk
   have hksup : k ∈ pCoreOf 2 K ⊔ X := hK (hmono (hleTwo hk))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L ⟨k, hk⟩
   have hn' : k ^ 2 ^ n = 1 := by
     have hv := congrArg Subtype.val hn

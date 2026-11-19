@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 @[expose] def CosetUnique (M Q Z : Subgroup G) (z : G) : Prop :=
   ∀ x : G, x ∈ M → x ∉ Q → IsConj z x → ∀ c ∈ Z, IsConj z (x * c) → c = 1
 
+omit [Finite G] in
 theorem cosetUnique_of_inter {z : G}
     (h : ∀ x : G, x ∈ M → x ∉ Q → IsConj z x → conjClassSet z ∩ cosetSet x Z = {x}) :
     CosetUnique M Q Z z := by

@@ -58,7 +58,7 @@ theorem permL_of_chk {gc : List (List ℕ)} (h : TPermChk gc = true) {g : P16} (
       LDesc L LL → cconj (code g) (code a1) ∈ LL → cconj (code g) (code b1) ∈ LL →
       g * x * g⁻¹ ∈ L := by
     intro x hx L LL hL ha hb
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl
     · exact hmem hL _ ha
     · exact hmem hL _ hb
@@ -66,7 +66,7 @@ theorem permL_of_chk {gc : List (List ℕ)} (h : TPermChk gc = true) {g : P16} (
       LDesc L LL → cconj (code g) (code a2) ∈ LL → cconj (code g) (code b2) ∈ LL →
       g * x * g⁻¹ ∈ L := by
     intro x hx L LL hL ha hb
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl
     · exact hmem hL _ ha
     · exact hmem hL _ hb

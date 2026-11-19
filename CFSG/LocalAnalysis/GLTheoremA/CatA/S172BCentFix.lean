@@ -19,6 +19,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem oddOrderIsometry_three (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {x : V ≃ₗ[ZMod 2] V} (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hx3 : x ^ 3 = 1) :
     OddOrderIsometry Q 3 x :=
@@ -241,6 +242,7 @@ theorem commutator_centralizer_le_supportedFixedDerived
   rw [Subgroup.mem_subgroupOf]
   exact commutator_mem_supportedFixedDerived hx hdim (hmem g hg) (hmem h hh)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_isometryCentralizer_of_mem_centralizer {x g : ↥(orthDerived Q)}
     (hg : g ∈ Subgroup.centralizer ({x} : Set ↥(orthDerived Q))) :
     (g : V ≃ₗ[ZMod 2] V) ∈ isometryCentralizer Q (x : V ≃ₗ[ZMod 2] V) :=
@@ -249,6 +251,7 @@ theorem mem_isometryCentralizer_of_mem_centralizer {x g : ↥(orthDerived Q)}
       congrArg (fun f : ↥(orthDerived Q) => (f : V ≃ₗ[ZMod 2] V) v)
         (Subgroup.mem_centralizer_singleton_iff.1 hg)⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_centralizer_of_mem_isometryCentralizer {x g : ↥(orthDerived Q)}
     (hg : (g : V ≃ₗ[ZMod 2] V) ∈ isometryCentralizer Q (x : V ≃ₗ[ZMod 2] V)) :
     g ∈ Subgroup.centralizer ({x} : Set ↥(orthDerived Q)) :=

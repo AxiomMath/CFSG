@@ -140,12 +140,12 @@ theorem odd_card_outer_ree
 theorem ree_case_false
     {X : Type} [Group X] [Finite X] {L K : Subgroup X}
     (hKL : K ≤ L) (hKn : K.Normal) (hKC : Subgroup.centralizer (K : Set X) = ⊥)
-    [hKs : IsSimpleGroup ↥K]
+    [_hKs : IsSimpleGroup ↥K]
     {t : ↥L} (ht : orderOf t = 2)
     (hC24 : Nat.card ↥(Subgroup.centralizer ({t} : Set ↥L)) = 24)
     (a : ℕ) (ha : 1 ≤ a) (hRee : ReeTitsModel ↥K .twistedG2 3 (2 * a + 1)) : False := by
   classical
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   let ψ : ↥L →* Outer ↥K :=
     (QuotientGroup.mk' (inner ↥K)).comp
       ((MulAut.conjNormal (H := K)).comp L.subtype)
@@ -155,8 +155,7 @@ theorem ree_case_false
       rw [Subgroup.mem_centralizer_iff]
       intro m hm
       have h := congrArg (fun f : MulAut ↥K => ((f ⟨m, hm⟩ : ↥K) : X)) hy
-      simp only [MulAut.conjNormal_apply, MulAut.one_apply, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subgroup.coe_one] at h
+      simp only [MulAut.conjNormal_apply, MulAut.one_apply] at h
       have h' : y * m = m * y := by
         have := congrArg (fun z : X => z * y) h
         simpa [mul_assoc] using this
@@ -259,7 +258,7 @@ theorem j1_case_false
     (hC24 : Nat.card ↥(Subgroup.centralizer ({t} : Set ↥L)) = 24)
     (eJ : ↥K ≃* CFSG.Open.walterJ1) : False := by
   classical
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   let ψ : ↥L →* Outer ↥K :=
     (QuotientGroup.mk' (inner ↥K)).comp
       ((MulAut.conjNormal (H := K)).comp L.subtype)
@@ -269,8 +268,7 @@ theorem j1_case_false
       rw [Subgroup.mem_centralizer_iff]
       intro m hm
       have h := congrArg (fun f : MulAut ↥K => ((f ⟨m, hm⟩ : ↥K) : X)) hy
-      simp only [MulAut.conjNormal_apply, MulAut.one_apply, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subgroup.coe_one] at h
+      simp only [MulAut.conjNormal_apply, MulAut.one_apply] at h
       have h' : y * m = m * y := by
         have := congrArg (fun z : X => z * y) h
         simpa [mul_assoc] using this
@@ -300,7 +298,7 @@ theorem j1_case_false
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     exact hmem_iff x
   have hOut : Nat.card (Outer ↥K) = 1 := outer_trivial_of_mulEquiv_walterJ1 eJ
-  haveI : Subsingleton (Outer ↥K) :=
+  have : Subsingleton (Outer ↥K) :=
     Finite.card_le_one_iff_subsingleton.1 (by rw [hOut])
   have htop : ψ.ker = ⊤ := by
     apply eq_top_iff.2

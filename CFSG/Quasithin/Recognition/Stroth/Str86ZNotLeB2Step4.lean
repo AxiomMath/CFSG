@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_q2_le_normalizer_D {L1 L2 S : Subgroup G} {h : G} (hh : h ∈ P2 L1 L2 S)
     (hQ2S : Q2 L1 L2 S ≤ S) :
     Q2 L1 L2 S ≤ Subgroup.normalizer
@@ -29,14 +30,14 @@ theorem str86_q2_le_normalizer_D {L1 L2 S : Subgroup G} {h : G} (hh : h ∈ P2 L
   have hxQ1h : x ∈ Subgroup.normalizer ((MulAut.conj h • Q1 L1 L2 S : Subgroup G) : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, mem_conj_smul_iff']
+    simp only [mem_conj_smul_iff']
     have e : h⁻¹ * (x * y * x⁻¹) * h =
         (h⁻¹ * x * h) * (h⁻¹ * y * h) * (h⁻¹ * x * h)⁻¹ := by group
     rw [e]
     exact Subgroup.mem_normalizer_iff.mp hN _
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   rw [Subgroup.mem_normalizer_iff.mp hxQ1h y,
     Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y]
 
@@ -137,7 +138,7 @@ theorem str86_b2_false_of_relIndex_D_eq_cube
     intro x hx
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [Subgroup.mem_normalizer_iff.mp (hSQ1 (hQ2S hx)) y,
       Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y]
   have hcomm := commutator_le_of_le_sup_of_inf_le (N := Q2 L1 L2 S)

@@ -42,8 +42,8 @@ theorem good427_suz_C :
     rw [← Cy_eq.1]
     exact TabSuzC.Esub_derived.1
   obtain ⟨eE⟩ := TabSuzC.nonempty_mulEquiv_Esub_alt6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup TabSuzC.Esub := eE.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup TabSuzC.Esub := eE.isSimpleGroup
   have hna : ∃ a b : TabSuzC.Esub, a * b ≠ b * a := by
     have ha : (Equiv.swap (0 : Fin 6) 1 * Equiv.swap 0 2) ∈ alternatingGroup (Fin 6) := by
       rw [Equiv.Perm.mem_alternatingGroup]; decide
@@ -94,7 +94,7 @@ open Subgroup
 
 theorem good427_ly (k : Blueprint.NativeSporadic.Carrier .Ly) (hk : orderOf k = 3) :
     Good427 (centralizer ({k} : Set (Blueprint.NativeSporadic.Carrier .Ly))) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card Blueprint.NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)

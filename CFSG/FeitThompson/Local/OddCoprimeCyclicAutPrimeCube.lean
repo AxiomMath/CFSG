@@ -436,14 +436,14 @@ theorem natCard_additive_abelianization_of_card_eq_prime_cube (hp : p.Prime)
 end PlaneStructure
 
 theorem natCard_dvd_sub_one_or_natCard_dvd_add_one_of_cyclic_odd_coprime
-    {p : ℕ} {P : Type*} [Group P] (hp : p.Prime) (hodd : Odd p) (hP : Nat.card P = p ^ 3)
+    {p : ℕ} {P : Type*} [Group P] (hp : p.Prime) (_hodd : Odd p) (hP : Nat.card P = p ^ 3)
     (hnab : ¬ IsMulCommutative P) (hexp : ∀ x : P, x ^ p = 1)
     {A : Subgroup (MulAut P)} (hAcyc : IsCyclic A) (hAodd : Odd (Nat.card A))
     (hcop : (Nat.card A).Coprime p)
     (hfix : ∀ a ∈ A, ∀ z ∈ center P, (a : MulAut P) z = z) :
     Nat.card A ∣ p - 1 ∨ Nat.card A ∣ p + 1 := by
   have : Fact p.Prime := ⟨hp⟩
-  letI : Module (ZMod p) (Additive (Abelianization P)) :=
+  let : Module (ZMod p) (Additive (Abelianization P)) :=
     AddCommGroup.zmodModule (nsmul_additive_abelianization_eq_zero hexp)
   have hVcard : Nat.card (Additive (Abelianization P)) = p ^ 2 :=
     natCard_additive_abelianization_of_card_eq_prime_cube hp hP hnab

@@ -219,7 +219,7 @@ theorem pgu_two_no_normal_two_group (hK : PiField false 2 1 K) (hq : ModThree fa
       (QuotientGroup.mk'_surjective _)
   obtain ⟨τ, hτ3, hτ1⟩ := KFacts.exists_primitive_cube_root hK
   by_contra hne
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
   have hZ := hN2.center_nontrivial
   have h2Z : IsPGroup 2 (Subgroup.center N) := hN2.to_subgroup _
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -325,7 +325,7 @@ theorem swapGL_conj_diagTau {τ : K} (hτ : τ ^ 3 = 1) :
   apply eq_inv_of_mul_eq_one_left
   ext i j
   rw [Units.val_mul, Units.val_mul, Units.val_mul, coe_swapGL, Sec4.coe_diagTau, Units.val_one]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, hτ]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
   · linear_combination hτ
   · linear_combination hτ
 

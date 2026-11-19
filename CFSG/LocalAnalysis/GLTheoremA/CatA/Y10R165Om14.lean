@@ -47,7 +47,7 @@ private theorem thirdBlock_mem_orthDerived_of_odd [Fintype ↥(orthImage Ã)]
       (Q := (Q.comp (fixedSpace xD).subtype).comp (fixedSpace xE').subtype)
       hxE'odd.polarBilin_fixed_nondegenerate hp hp2 hxGZodd hxGZne hZeven hZcases hns
   have hxGZord : orderOf xGZ = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxGZodd.pow_eq_one hxGZne
   refine ⟨hxGZmem, ?_⟩
   rw [Nat.card_congr (supportedFixedDerivedEquiv hxE'odd).toEquiv]
@@ -55,6 +55,7 @@ private theorem thirdBlock_mem_orthDerived_of_odd [Fintype ↥(orthImage Ã)]
     ((Q.comp (fixedSpace xD).subtype).comp (fixedSpace xE').subtype)) hxGZmem
   rwa [hxGZord] at h
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_isometryCentralizer_of_centralizes [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
@@ -234,9 +235,9 @@ theorem concl165_of_restriction [Fintype ↥(orthImage Ã)]
       polarBilin Q ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = polarBilin Q u v)
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)
     {D E G : Hyperplane (orthImage Ã) p}
-    (hDS : D ∈ nonBotBlocks (orthImage Ã) p) (hES : E ∈ nonBotBlocks (orthImage Ã) p)
+    (_hDS : D ∈ nonBotBlocks (orthImage Ã) p) (_hES : E ∈ nonBotBlocks (orthImage Ã) p)
     (hDE : D ≠ E) (hGD : G ≠ D) (hGE : G ≠ E)
-    (hfixD : 8 ≤ Module.finrank F ↥(fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D)))
+    (_hfixD : 8 ≤ Module.finrank F ↥(fixedSpace (blockEnd (orthImage Ã) hp hpF hAe t ht D)))
     (hregD : 3 ≤ CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ∨
       ∃ ℓ : ℕ, Module.finrank F V = 2 * ℓ ∧ Odd ℓ ∧ 5 ≤ ℓ ∧
         Module.finrank F ↥(blockSpace (orthImage Ã) D.1) = 2 ∧
@@ -302,7 +303,7 @@ theorem concl165_of_restriction [Fintype ↥(orthImage Ã)]
     not_isPlusType_and_anisotropic_of_finrank_eq_four (D := D) (E := E) (G := G) hQ hn hp hp2 hpF
       h2 hAe hB t ht hDE hGD hGE hGne hZvdim hregD hxE'odd hZdim hVG_le_Zmap hxGZcoe hxGZodd
   have hxGZne : xGZ ≠ 1 :=
-    ne_one_of_restriction (D := D) (E := E) (G := G) hp hpF hAe t ht hGD hGne hVG_le_Zmap hxGZcoe
+    ne_one_of_restriction (D := D) (_E := E) (G := G) hp hpF hAe t ht hGD hGne hVG_le_Zmap hxGZcoe
   obtain ⟨hxGZmem, hpdvdL'⟩ :=
     thirdBlock_mem_orthDerived_of_odd hp hp2 hpF hAe t ht hxE'odd hZeven hZcases hns
       hxGZodd hxGZne
@@ -317,7 +318,7 @@ theorem concl165_of_restriction [Fintype ↥(orthImage Ã)]
 theorem concl165_of_blocks
     (hT : OmTorusThree)
     (hQ : (polarBilin Q).Nondegenerate) (hn : Nat.card F = 2 ^ n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hqdiv : q ∣ 2 ^ n - 1 ∨ q ∣ 2 ^ n + 1)
     (hÃe : IsElemAbelian p Ã)
     (hÃmax : CFSG.Open.pRank p (⊤ : Subgroup ↥(orthDerived Q)) ≤ CFSG.Open.pRank p Ã)
@@ -328,7 +329,7 @@ theorem concl165_of_blocks
         ℓ - 1 ≤ CFSG.Open.pRank p Ã)) :
     Concl165 ↥(orthDerived Q) p q Ã := by
   classical
-  letI : Fintype ↥(orthImage Ã) := Fintype.ofFinite ↥(orthImage Ã)
+  let : Fintype ↥(orthImage Ã) := Fintype.ofFinite ↥(orthImage Ã)
   have hpF : (p : F) ≠ 0 := cast_prime_ne_zero hp hp2
   have h2 : (2 : F) = 0 := by
     have := CharP.cast_eq_zero F 2

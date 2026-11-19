@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_H5ZCond_of_two_elements {A L : Subgroup (MulAut W)}
     (h : ∀ x ∈ A ⊓ normalizer (L : Set (MulAut W)),
       (∃ n : ℕ, x ^ 2 ^ n ∈ centSub (commSub ⊤ L ⊓ fixV L)) →

@@ -95,6 +95,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
+omit [Finite K] in
 theorem groupA_le_adjointGroup : groupA K ≤ adjointGroup Tag.E6 K :=
   Subgroup.closure_mono fun g ⟨i, _, c, h⟩ =>
     ⟨i, c, by rcases h with rfl | rfl; exacts [Or.inl rfl, Or.inr rfl]⟩
@@ -107,9 +108,11 @@ variable (K) in
 @[expose] def fixAToMod (σ : K ≃+* K) : ↥(fixA K σ.toRingHom) →* ModGL Tag.E6 K :=
   (groupA K).subtype.comp (fixA K σ.toRingHom).subtype
 
+omit [Finite K] in
 theorem fixAToMod_injective : Function.Injective (fixAToMod K σ) :=
   fun _ _ h => Subtype.ext (Subtype.ext h)
 
+omit [Finite K] in
 theorem range_fixAToMod : (fixAToMod K σ).range = twE6LeviSA K σ := by
   ext g
   constructor

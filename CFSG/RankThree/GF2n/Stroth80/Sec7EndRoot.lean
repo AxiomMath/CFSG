@@ -15,20 +15,24 @@ section OmegaThree
 
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X}
 
+omit [Finite X] in
 private theorem endgE_conj_one : conjSubgroup (1 : X) A = A := by
   ext x
   simp [mem_conjSubgroup]
 
+omit [Finite X] in
 private theorem endgE_conj_mem {g a : X} (ha : a ∈ A) : g * a * g⁻¹ ∈ conjSubgroup g A := by
   rw [mem_conjSubgroup, show g⁻¹ * (g * a * g⁻¹) * g = a by group]
   exact ha
 
+omit [Finite X] in
 private theorem endgE_conj_ne_one {g a : X} (ha1 : a ≠ 1) : g * a * g⁻¹ ≠ 1 := by
   intro h
   apply ha1
   calc a = g⁻¹ * (g * a * g⁻¹) * g := by group
     _ = 1 := by rw [h, mul_one, inv_mul_cancel]
 
+omit [Finite X] in
 private theorem endgE_exists_of_mem {g x : X} (hx : x ∈ conjSubgroup g A) (hx1 : x ≠ 1) :
     ∃ a ∈ A, a ≠ 1 ∧ g * a * g⁻¹ = x := by
   refine ⟨g⁻¹ * x * g, mem_conjSubgroup.mp hx, ?_, by group⟩
@@ -37,10 +41,12 @@ private theorem endgE_exists_of_mem {g x : X} (hx : x ∈ conjSubgroup g A) (hx1
   calc x = g * (g⁻¹ * x * g) * g⁻¹ := by group
     _ = 1 := by rw [h, mul_one, mul_inv_cancel]
 
+omit [Finite X] in
 private theorem endgE_exists_ne_one (hO : EndOmegaHyp A) : ∃ a ∈ A, a ≠ 1 := by
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hO.ne_bot
   exact ⟨a, a.2, fun h => ha (Subtype.ext h)⟩
 
+omit [Finite X] in
 private theorem endgE_conj_eq_of_mem (hO : EndOmegaHyp A) {g u : X} (hu : u ∈ A) (hu1 : u ≠ 1)
     (hug : u ∈ conjSubgroup g A) : conjSubgroup g A = A := by
   have hn : g⁻¹ ∈ Subgroup.normalizer (A : Set X) :=
@@ -51,6 +57,7 @@ private theorem endgE_conj_eq_of_mem (hO : EndOmegaHyp A) {g u : X} (hu : u ∈ 
   rw [inv_inv] at hx
   exact hx.symm
 
+omit [Finite X] in
 private theorem endgE_inOmega_of_commute (hO : EndOmegaHyp A) {k a x : X} (ha : a ∈ A)
     (ha1 : a ≠ 1) (hx : x ∈ conjSubgroup k A) (hx1 : x ≠ 1) (hc : a * x = x * a) :
     InOmegaA A k := by
@@ -59,23 +66,27 @@ private theorem endgE_inOmega_of_commute (hO : EndOmegaHyp A) {k a x : X} (ha : 
   have hz' : z ∈ conjSubgroup (1 : X) A := by rw [endgE_conj_one]; exact hz
   exact hO.n1 1 k a ha' ha1 x hx hx1 hc z hz' y hy
 
+omit [Finite X] in
 private theorem endgE_ne_one_of_isConj {t τ : X} (ht1 : t ≠ 1) (h : IsConj t τ) : τ ≠ 1 := by
   rintro rfl
   exact ht1 (isConj_one_left.mp h)
 
+omit [Finite X] in
 private theorem endgE_mul_self_of_mem (hO : EndOmegaHyp A) {g x : X} (hx : x ∈ conjSubgroup g A) :
     x * x = 1 := by
   have hsq := hO.sq _ (mem_conjSubgroup.mp hx)
   calc x * x = g * (g⁻¹ * x * g * (g⁻¹ * x * g)) * g⁻¹ := by group
     _ = 1 := by rw [hsq, mul_one, mul_inv_cancel]
 
+omit [Finite X] in
 private theorem endgE_le_egen {k : X} (hk : InOmegaA A k) : conjSubgroup k A ≤ EgenX A :=
   le_iSup₂_of_le (f := fun g (_ : InOmegaA A g) => conjSubgroup g A) k hk le_rfl
 
+omit [Finite X] in
 theorem endg_exists_ne (hO : EndOmegaHyp A) (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) :
     ∃ g : X, InOmegaA A g ∧ conjSubgroup g A ≠ A := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : EgenX A ≤ A := iSup₂_le fun g hg => (hcon g hg).le
   have hcomm : ⁅A, A⁆ = ⊥ := by
     rw [eq_bot_iff, Subgroup.commutator_le]
@@ -85,7 +96,8 @@ theorem endg_exists_ne (hO : EndOmegaHyp A) (hne : ⁅EgenX A, EgenX A⁆ ≠ �
   apply hne
   exact eq_bot_iff.mpr ((Subgroup.commutator_mono hle hle).trans hcomm.le)
 
-theorem endg_six_five_a (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A)
+omit [Finite X] in
+theorem endg_six_five_a (hO : EndOmegaHyp A) (_F : OmegaPart1 A) (G : OmegaPart2 A)
     (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {s t : X} (hs : s ∈ A) (ht : t ∈ A) (hs1 : s ≠ 1)
     (ht1 : t ≠ 1) : IsConj s t := by
   by_cases hst : s = t
@@ -168,6 +180,7 @@ theorem endg_six_five_a (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 
     exact c3.symm
   exact c1.trans (c2.trans (c5.trans c4.symm))
 
+omit [Finite X] in
 theorem endg_six_five_b (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A)
     (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {t : X} (ht : t ∈ A) (ht1 : t ≠ 1) :
     ∀ τ : X, τ * t = t * τ → IsConj t τ → τ ≠ t → IsConj t (t * τ) := by
@@ -200,6 +213,7 @@ theorem endg_six_five_b (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 
       G.six_four_gen hne hne' hc hτk hτ1 t (by rw [endgE_conj_one]; exact ht)
     exact hconj.trans (isConj_iff.mpr ⟨w, hw⟩)
 
+omit [Finite X] in
 theorem endg_conjCent_le (hO : EndOmegaHyp A) {t : X} (ht : t ∈ A) (ht1 : t ≠ 1) :
     ∀ τ : X, τ * t = t * τ → IsConj t τ → τ ∈ EgenX A := by
   intro τ hcomm hconj
@@ -210,6 +224,7 @@ theorem endg_conjCent_le (hO : EndOmegaHyp A) {t : X} (ht : t ∈ A) (ht1 : t �
   have hτ1 : τ ≠ 1 := endgE_ne_one_of_isConj ht1 hconj
   exact endgE_le_egen (endgE_inOmega_of_commute hO ht ht1 hτk hτ1 hcomm.symm) hτk
 
+omit [Finite X] in
 theorem endg_corB_setup (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A)
     (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {t : X} (ht : t ∈ A) (ht1 : t ≠ 1) :
     CFSG.Timmesfeld.CorB.Setup t := by
@@ -231,11 +246,12 @@ theorem endg_corB_setup (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 
   · intro τ hcomm hconj hτt
     exact endg_six_five_b hO F G hne ht ht1 τ hcomm hconj hτt
 
+omit [Finite X] in
 theorem endg_eight_one (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A)
     (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {t : X} (ht : t ∈ A) (ht1 : t ≠ 1) :
     CFSG.Timmesfeld.rootSet {x : X | IsConj t x} t = {x | x ∈ A ∧ x ≠ 1} := by
   ext x
-  simp only [CFSG.Timmesfeld.rootSet, Set.mem_setOf_eq]
+  simp only [CFSG.Timmesfeld.rootSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hxD, hxc⟩
     have hx1 : x ≠ 1 := endgE_ne_one_of_isConj ht1 hxD
@@ -275,6 +291,7 @@ theorem endg_eight_one (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A
       have hkO : InOmegaA A k := endgE_inOmega_of_commute hO ht ht1 hfk hf1 htf.eq
       exact hkO x hxA f hfk
 
+omit [Finite X] in
 theorem endg_eight_one_card (hO : EndOmegaHyp A) (F : OmegaPart1 A) (G : OmegaPart2 A)
     (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {t : X} (ht : t ∈ A) (ht1 : t ≠ 1) :
     ∀ d : X, IsConj t d →

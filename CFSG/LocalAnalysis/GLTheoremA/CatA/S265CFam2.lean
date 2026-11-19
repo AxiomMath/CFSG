@@ -189,7 +189,7 @@ theorem range_isElemAbelian_of_subgroup {M Ω : Type*} [Group M] [Group Ω] {p :
 theorem quCfg_false_of_autSolv {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {x b : Ω}
     (cfg : QUCfg 3 S B T x b) (hQ : AutSolvThree (↥S ⧸ Subgroup.center ↥S)) : False := by
   have hp := cfg.prime
-  haveI hSn : S.Normal := cfg.normal
+  have hSn : S.Normal := cfg.normal
   obtain ⟨E, hEB, hEel, hE3, hlay⟩ := cfg.gstar
   set φ : ↥E →* MulAut (↥S ⧸ Subgroup.center ↥S) := (S2019.actQuot S).comp E.subtype with hφ
   have hĒ : IsElemAbelian 3 φ.range := range_isElemAbelian_of_subgroup hEel φ
@@ -215,7 +215,7 @@ theorem quCfg_false_of_autSolv {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgr
           congrArg (fun z : ↥(Subgroup.zpowers x) => (z : Ω)) h
         exact h'))
     have hordx : Nat.card (Subgroup.zpowers x) = 3 := by
-      haveI := Fact.mk hp
+      have := Fact.mk hp
       rw [Nat.card_zpowers, orderOf_eq_prime (cfg.elem.2 x cfg.xB) cfg.x1]
     calc Nat.card φ.ker ≤ Nat.card (Subgroup.zpowers x) := Nat.card_le_card_of_injective ι hι
       _ = 3 := hordx
@@ -239,12 +239,12 @@ theorem quCfg_false_of_autSolv {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgr
     simp only [MulAut.conjNormal_apply]
     calc ((e : ↥E) : Ω) * g * ((e : ↥E) : Ω)⁻¹ = g * ((e : ↥E) : Ω) * ((e : ↥E) : Ω)⁻¹ := by rw [h]
       _ = g := by group
-  haveI hsolY : Group.IsSolvable ↥Y := hQ φ.range hĒ h9 Y hYfix
+  have hsolY : Group.IsSolvable ↥Y := hQ φ.range hĒ h9 Y hYfix
   have hsolC : Group.IsSolvable ↥(S172X.csIn S E) :=
     S172X.isSolvable_of_map_le (QuotientGroup.mk' (Subgroup.center ↥S))
       (fun g hg => (QuotientGroup.eq_one_iff g).1 hg) (le_refl Y)
-  haveI : Group.IsSolvable ↥((S172X.csIn S E).map S.subtype) :=
-    solvable_of_surjective (f := (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype
+  have : Group.IsSolvable ↥((S172X.csIn S E).map S.subtype) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype
       S.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype S.subtype_injective).surjective
   rw [S172X.map_csIn_subtype S E] at this
@@ -316,7 +316,7 @@ theorem commute_of_commute_cubeRoot_matrix {F : Type*} [Field F] {ω : F} (hω3 
     (hns : ∀ c : F, B ≠ c • (1 : Matrix (Fin 3) (Fin 3) F)) (hX : Commute X B) (hY : Commute Y B) :
     Commute X Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   set μ : Fin 3 → F := fun i => ω ^ (i : ℕ) with hμ
   have hω0 : ω ≠ 0 := by
@@ -346,7 +346,7 @@ theorem commute_of_commute_cubeRoot_matrix {F : Type*} [Field F] {ω : F} (hω3 
   have hVcol : V.col = v := by
     funext c r
     rfl
-  have hVu : IsUnit V := Matrix.linearIndependent_cols_iff_isUnit.1 (hVcol ▸ hli)
+  have hVu : IsUnit V := Matrix.linearIndependent_col_iff_isUnit.1 (hVcol ▸ hli)
   have hdetV : IsUnit V.det := (Matrix.isUnit_iff_isUnit_det V).1 hVu
   have hBV : B * V = V * Matrix.diagonal μ := by
     ext r c
@@ -514,7 +514,7 @@ theorem autSolvThree_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T)
   have hYfix : ∀ y ∈ Y', ∀ ψ ∈ Ē', ψ y = y := by
     rintro _ ⟨y, hy, rfl⟩ _ ⟨ψ, hψ, rfl⟩
     simp [MulAut.congr_apply, hY y hy ψ hψ]
-  haveI := hT Ē' hĒ'ab h9' Y' hYfix
+  have := hT Ē' hĒ'ab h9' Y' hYfix
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Y.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom) (MulEquiv.injective _)
 
@@ -551,7 +551,7 @@ theorem mem_of_pow_odd_of_index_two {G : Type*} [Group G] {N : Subgroup G} [N.No
 theorem false_of_comm_three_seven_of_simple_6048 {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     (hcard : Nat.card T = 6048) (hnc : ∀ t b : T, orderOf t = 2 → orderOf b = 7 → t * b ≠ b * t)
     {s b : T} (hs : orderOf s = 3) (hb : orderOf b = 7) (hsb : s * b = b * s) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hbcard : Nat.card (Subgroup.zpowers b) = 7 := by rw [Nat.card_zpowers, hb]
   obtain ⟨P, hbP⟩ := (IsPGroup.of_card (p := 7) (n := 1) (by rw [hbcard, pow_one])).exists_le_sylow
   have hPcard : Nat.card (P : Subgroup T) = 7 := CFSG.Quasithin.H13.U3.GC137.SQ.card_sylow_seven hcard P
@@ -624,7 +624,7 @@ theorem isSolvable_of_card_dvd_sixtyThree {X : Type*} [Group X] [Finite X] (h : 
 
 theorem exists_cubeRoot_of_three_dvd {K : Type*} [Field K] [Finite K] (h3 : 3 ∣ Nat.card K - 1) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [Nat.card_units]; exact h3)
   have ha3 : a ^ 3 = 1 := by rw [← ha]; exact pow_orderOf_eq_one a
   refine ⟨(a : K), by rw [← Units.val_pow_eq_pow_val, ha3, Units.val_one], fun h => ?_⟩
@@ -1053,8 +1053,8 @@ theorem reeEight_centralizer_comm {F : Type} [Field F] [Finite F] [CharP F F4.pr
     (hF : Nat.card F = 2 ^ (2 * 1 + 1)) (E : Subgroup (F4.reeGamma F 1)) (hE : IsElemAbelian 3 E)
     (h9 : 9 ≤ Nat.card E) {g h : F4.reeGamma F 1} (hg : g ∈ Subgroup.centralizer (E : Set (F4.reeGamma F 1)))
     (hh : h ∈ Subgroup.centralizer (E : Set (F4.reeGamma F 1))) : g * h = h * g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hzE, hz1⟩ : ∃ z ∈ E, z ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -1093,10 +1093,10 @@ theorem reeEight_outer_solvable {Q : Type} [Group Q] (hmodel : CFSG.Blueprint.Re
     have h2 : orderOf (⟨γ, hγmem⟩ : ↥(FP.fixSub τ)) = 3 := (Subgroup.orderOf_mk γ hγmem).trans hγ
     exact h1.trans h2
   have hcard := CFSG.RankThree.PartTwo.Sec19.SimsC198.reeGamma_card_centralizer hk x hxord
-  haveI hsol : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0))) := by
-    haveI : Finite ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0))) :=
+  have hsol : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0))) := by
+    have : Finite ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0))) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-    haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0)))
+    have := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set (F4.reeGamma k 0)))
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 3)
       Nat.prime_two Nat.prime_three (by norm_num) ?_
     rw [← Nat.card_eq_fintype_card, hcard]
@@ -1121,13 +1121,13 @@ theorem reeEight_outer_solvable {Q : Type} [Group Q] (hmodel : CFSG.Blueprint.Re
 theorem autSolvTwF4Eight_holds : ∀ (Q : Type) [Group Q] [Finite Q], CFSG.Blueprint.LieModel Q .twistedF4 0 2 3 → AutSolvThree Q := by
   intro Q _ _ hL Ē hĒ h9 Y hY
   obtain ⟨-, hmodel⟩ := hL.reeTitsModel (by simp [CFSG.Blueprint.reeTitsTags])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, -, hiso⟩ := large_Ree_model_Schreier Q 2 3 hmodel
   obtain ⟨hadm, a, hfa, F, hFf, hFfin, hF, ⟨e'⟩⟩ := id hmodel
   have ha : a = 1 := by omega
   subst ha
   have hF' : Nat.card F = 2 ^ (2 * 1 + 1) := by simpa using hF
-  haveI : CharP F F4.prime :=
+  have : CharP F F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hF
   obtain ⟨eΓ⟩ := hiso 1 F rfl hF ⟨e'⟩
@@ -1175,7 +1175,7 @@ theorem autSolvTwF4Eight_holds : ∀ (Q : Type) [Group Q] [Finite Q], CFSG.Bluep
     rw [map_mul, map_mul]
     exact reeEight_centralizer_comm hF' E' hE'ab hE'card (hYc a a.2) (hYc b b.2)
   ·
-    obtain ⟨τ, hτE, hτi⟩ := SetLike.not_le_iff_exists.1 hinn
+    obtain ⟨τ, hτE, hτi⟩ := IsConcreteLE.not_le_iff_exists.1 hinn
     have hτ3 : τ ^ 3 = 1 := hĒ.2 τ hτE
     have hτ1 : τ ≠ 1 := fun h => hτi (h ▸ Subgroup.one_mem _)
     have hτord : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
@@ -1229,8 +1229,8 @@ section TD4Two
 
 theorem autSolvTD4Two_holds : ∀ (Q : Type) [Group Q] [Finite Q], catalogIs Q S9.isTD4two → AutSolvThree Q := by
   intro Q _ _ hQ Ē hĒ h9 Y hY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Ē := Nat.finite_of_card_ne_zero (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Ē := Nat.finite_of_card_ne_zero (by omega)
   have hĒp : IsPGroup 3 ↥Ē := fun x => ⟨1, Subtype.ext (by simpa using hĒ.2 x x.2)⟩
   obtain ⟨k, hk⟩ := hĒp.exists_card_eq
   have h2k : 2 ≤ k := by
@@ -1251,7 +1251,7 @@ theorem autSolvTD4Two_holds : ∀ (Q : Type) [Group Q] [Finite Q], catalogIs Q S
   have hE9 : Nat.card E = 9 := by
     rw [hE, Subgroup.card_map_of_injective Ē.subtype_injective, hE₀]
     norm_num
-  haveI := CFSG.LocalAnalysis.GLTheoremA.e9Solv_td4two Q hQ E hEab hE9
+  have := CFSG.LocalAnalysis.GLTheoremA.e9Solv_td4two Q hQ E hEab hE9
   have hYle : Y ≤ CFSG.LocalAnalysis.GLTheoremA.i269Fix E := fun y hy =>
     CFSG.LocalAnalysis.GLTheoremA.mem_i269Fix.2 fun α hα => hY y hy α (hEĒ hα)
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hYle)
@@ -1265,10 +1265,10 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThree.PartTwo.Sec1
 theorem g2Eight_not_two_dvd_card_centralizer {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8)
     {D : Subgroup ↥(adjointGroup .G2 K)} (hD : IsElemAbelian 3 D) (h9 : 9 ≤ Nat.card D) :
     ¬ 2 ∣ Nat.card ↥(Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K))) := by
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num : 1 ≤ 3) (hK.trans (by norm_num))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL .G2 K) := finite_modGL
   intro h2
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 h2
   set T : Subgroup ↥(adjointGroup .G2 K) := Subgroup.zpowers (t : ↥(adjointGroup .G2 K)) with hT
@@ -1313,11 +1313,11 @@ theorem g2Eight_centralizer_comm_short {K : Type} [Field K] [Finite K] (hK : Nat
     {z : ↥(adjointGroup .G2 K)} (hzD : z ∈ D) (hz1 : z ≠ 1) (hzS : z ∈ KS11Lie4Proof.g2ShortSL2 K)
     {g h : ↥(adjointGroup .G2 K)} (hg : g ∈ Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K)))
     (hh : h ∈ Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K))) : g * h = h * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num : 1 ≤ 3) (hK.trans (by norm_num))
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Finite (ModGL .G2 K) := finite_modGL
   have hz3 : z ^ 3 = 1 := hD.2 z hzD
   have hzo : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hK8 : Nat.card K = 2 ^ 3 := hK.trans (by norm_num)
@@ -1325,7 +1325,7 @@ theorem g2Eight_centralizer_comm_short {K : Type} [Field K] [Finite K] (hK : Nat
     rw [hK]
     norm_num
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := KS11Lie4Proof.exists_quadratic_ext' K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU (p := 2) (f := 3) hK8 h3 hdeg hzS hz3 hz1
   have hL : Nat.card L = (2 ^ 3) ^ 2 := by rw [KS11Lie4Proof.natCard_quadratic hdeg, hK8]
   have h63 : 3 ∣ Nat.card L - 1 := by
@@ -1341,7 +1341,7 @@ theorem g2Eight_centralizer_solvable_long {K : Type} [Field K] [Finite K] (hK : 
     {z : ↥(adjointGroup .G2 K)} (hzD : z ∈ D) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1)
     (hzM : z ∈ KS11Lie4Proof.g2LongSL2 K) :
     Group.IsSolvable ↥(Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K))) := by
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Finite (ModGL .G2 K) := finite_modGL
   set C := Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K)) with hC
   obtain ⟨hB1, -⟩ := KS11Lie4Proof.g2ThreeBCentMinus_holds K (by rw [hK]; norm_num) (by rw [hK]; norm_num) z hzM
     hz3 hz1
@@ -1367,7 +1367,7 @@ theorem g2Eight_centralizer_solvable_long {K : Type} [Field K] [Finite K] (hK : 
     have h1 : Nat.Coprime (Nat.card ↥(KS11Lie4Proof.g2ShortSL2 K ⊓ C)) 2 :=
       Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 hodd')
     exact Nat.Coprime.pow_right 3 h1
-  haveI : Group.IsSolvable ↥(KS11Lie4Proof.g2ShortSL2 K ⊓ C) :=
+  have : Group.IsSolvable ↥(KS11Lie4Proof.g2ShortSL2 K ⊓ C) :=
     isSolvable_of_card_dvd_sixtyThree (hcop.dvd_of_dvd_mul_left hdvd504)
   have hmemT : ∀ x : ↥(commutator ↥C), ((x : ↥C) : ↥(adjointGroup .G2 K)) ∈ KS11Lie4Proof.g2ShortSL2 K ⊓ C := by
     intro x
@@ -1379,16 +1379,16 @@ theorem g2Eight_centralizer_solvable_long {K : Type} [Field K] [Finite K] (hK : 
   have hf : Function.Injective f := fun a b hab => by
     have h1 := congrArg Subtype.val hab
     exact Subtype.ext (Subtype.ext h1)
-  haveI : Group.IsSolvable ↥(commutator ↥C) := Group.isSolvable_of_isSolvable_injective hf
+  have : Group.IsSolvable ↥(commutator ↥C) := Group.isSolvable_of_isSolvable_injective hf
   exact Group.isSolvable_of_ker_le_range (commutator ↥C).subtype (Abelianization.of : ↥C →* Abelianization ↥C)
     (by rw [Abelianization.ker_of, Subgroup.range_subtype])
 
 theorem g2Eight_centralizer_solvable {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8)
     {D : Subgroup ↥(adjointGroup .G2 K)} (hD : IsElemAbelian 3 D) (h9 : 9 ≤ Nat.card D) :
     Group.IsSolvable ↥(Subgroup.centralizer (D : Set ↥(adjointGroup .G2 K))) := by
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num : 1 ≤ 3) (hK.trans (by norm_num))
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Finite (ModGL .G2 K) := finite_modGL
   obtain ⟨z, hzD, hz1⟩ : ∃ z ∈ D, z ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -1436,7 +1436,7 @@ theorem g2Eight_outer_solvable (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThree
     (hYτ : ∀ y ∈ Y, τ y = y) (hYγ : ∀ y ∈ Y, γ * y = y * γ) : Group.IsSolvable ↥Y := by
   classical
   have hK8 : Nat.card K = 2 ^ 3 := hK.trans (by norm_num)
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Finite (ModGL .G2 K) := finite_modGL
   obtain ⟨⟨x, σ⟩, hxσ, -⟩ := CFSG.RankThree.Chevalley.conj_normalForm_of_pointwise
     (CFSG.ComponentClassification.UnbalancedCatalog.even_G2_exact_automorphism_normal_form
       (by norm_num : 2 ≤ 3) K hK8).1 τ
@@ -1449,7 +1449,7 @@ theorem g2Eight_outer_solvable (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThree
     CFSG.RankThree.Chevalley.even_G2_canonical_field_centralizer_all_orders (by norm_num : 2 ≤ 3) hK8 σ
   rw [hσp] at hk
   have hk2 : Nat.card (fixSubfield σ) = 2 := hk.trans (by norm_num)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hmemφ : ∀ a : adjointGroup .G2 (fixSubfield σ),
       baseChangeGL (fixSubfield σ).subtype (a : ModGL .G2 (fixSubfield σ)) ∈ adjointGroup .G2 K :=
     fun a => hJC ⟨a, a.2, rfl⟩
@@ -1504,7 +1504,7 @@ theorem g2Eight_outer_solvable (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThree
         _ = 1 := by rw [h2]; group
     rw [h3, orderOf_one] at hγ
     omega
-  haveI hsol := hG2 (fixSubfield σ) hk2 γ₀ hγ₀3 hγ₀1
+  have hsol := hG2 (fixSubfield σ) hk2 γ₀ hγ₀3 hγ₀1
   let ρ0 : ↥Y →* ↥φ.range :=
     ((MulAut.conj h).toMonoidHom.comp Y.subtype).codRestrict φ.range fun y => hψ y (hYτ y y.2)
   let ρ1 : ↥Y →* adjointGroup .G2 (fixSubfield σ) := eR.symm.toMonoidHom.comp ρ0
@@ -1532,8 +1532,8 @@ theorem g2Eight_outer_solvable (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThree
 theorem autSolvThree_adjointG2Eight (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThreeSolvable) {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 8) : AutSolvThree ↥(adjointGroup .G2 K) := by
   intro Ē hĒ h9 Y hY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL .G2 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL .G2 K) := finite_modGL
   have hK8 : Nat.card K = 2 ^ 3 := hK.trans (by norm_num)
   have hZ : Subgroup.center ↥(adjointGroup .G2 K) = ⊥ := center_adjointGroup_eq_bot
   have hinj := mulAutConj_injective_of_center_eq_bot hZ
@@ -1543,7 +1543,7 @@ theorem autSolvThree_adjointG2Eight (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCent
     have hĒ₀ab : IsElemAbelian 3 Ē₀ := isElemAbelian_comap_of_injective _ hinj hĒ
     have hcard : Nat.card Ē₀ = Nat.card Ē := by
       rw [← hmap, Subgroup.card_map_of_injective hinj]
-    haveI := g2Eight_centralizer_solvable hK hĒ₀ab (hcard ▸ h9)
+    have := g2Eight_centralizer_solvable hK hĒ₀ab (hcard ▸ h9)
     have hYle : Y ≤ Subgroup.centralizer (Ē₀ : Set ↥(adjointGroup .G2 K)) := by
       intro y hy
       rw [Subgroup.mem_centralizer_iff]
@@ -1553,7 +1553,7 @@ theorem autSolvThree_adjointG2Eight (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCent
       calc e * y = (e * y * e⁻¹) * e := by group
         _ = y * e := by rw [h]
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hYle)
-  · obtain ⟨τ, hτE, hτi⟩ := SetLike.not_le_iff_exists.1 hinn
+  · obtain ⟨τ, hτE, hτi⟩ := IsConcreteLE.not_le_iff_exists.1 hinn
     have hτ3 : τ ^ 3 = 1 := hĒ.2 τ hτE
     have hτ1 : τ ≠ 1 := fun h => hτi (h ▸ Subgroup.one_mem _)
     have hτord : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
@@ -1563,7 +1563,7 @@ theorem autSolvThree_adjointG2Eight (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCent
     obtain ⟨-, -, -, -, hAut, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality
         Nat.prime_two (by norm_num : 1 ≤ 3) hK8
-    haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+    have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
     let ψ : ↥Ē →* (K ≃+* K) := Θ.comp Ē.subtype
     have hker : ψ.ker ≠ ⊥ := by
       intro hbot
@@ -1619,7 +1619,7 @@ theorem autSolvG2Eight_of_g2Two (hG2 : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThre
 
 theorem g2Two_centralizer_solvable : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThreeSolvable := by
   intro k _ _ hk g hg3 hg1
-  haveI : Finite (ModGL .G2 k) := finite_modGL
+  have : Finite (ModGL .G2 k) := finite_modGL
   obtain ⟨hsimple, hTcard⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.simple_card_commutator_adjointG2_two k hk
   have hnc := CFSG.Quasithin.H13.U3.GC137.SQ.u3_no_comm_of_lieModel
     (CFSG.Quasithin.EmptyFaithfulMultiple.g2TwoDerivedUnitaryTransport_holds k hk)
@@ -1627,7 +1627,7 @@ theorem g2Two_centralizer_solvable : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThreeS
     rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hk]
     norm_num [CFSG.Open.ordG2]
   set N : Subgroup ↥(adjointGroup .G2 k) := commutator ↥(adjointGroup .G2 k) with hNdef
-  haveI : N.Normal := Subgroup.commutator_normal ⊤ ⊤
+  have : N.Normal := Subgroup.commutator_normal ⊤ ⊤
   let eN : ↥N ≃* ↥⁅adjointGroup .G2 k, adjointGroup .G2 k⁆ :=
     (N.equivMapOfInjective (adjointGroup .G2 k).subtype Subtype.val_injective).trans
       (MulEquiv.subgroupCongr (Subgroup.map_subtype_commutator _))
@@ -1636,12 +1636,12 @@ theorem g2Two_centralizer_solvable : CFSG.RankThree.PartTwo.Sec8.G2TwoCentThreeS
     have h := N.card_mul_index
     rw [hNcard, hJcard] at h
     omega
-  haveI : IsSimpleGroup ↥⁅adjointGroup .G2 k, adjointGroup .G2 k⁆ := hsimple
+  have : IsSimpleGroup ↥⁅adjointGroup .G2 k, adjointGroup .G2 k⁆ := hsimple
   have hgN : g ∈ N := mem_of_pow_odd_of_index_two hidx (by decide) hg3
   have hg3o : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   have h7 : ¬ 7 ∣ Nat.card ↥(Subgroup.centralizer ({g} : Set ↥(adjointGroup .G2 k))) := by
     intro h7
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 7 h7
     have hco : orderOf (c : ↥(adjointGroup .G2 k)) = 7 := by rw [Subgroup.orderOf_coe]; exact hc
     have hc7 : (c : ↥(adjointGroup .G2 k)) ^ 7 = 1 := by rw [← hco]; exact pow_orderOf_eq_one _
@@ -1689,8 +1689,8 @@ theorem quGraph_tyC {X L : Subgroup G} {b : G}
     with ⟨q, hv, hq2, hq3, ⟨eG2⟩⟩ | hU3
   ·
     exfalso
-    haveI : IsSimpleGroup (PQuot 3 (Ipart 3 L b)) := by
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
+    have : IsSimpleGroup (PQuot 3 (Ipart 3 L b)) := by
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
         (CFSG.Assembly.lie_finite_simple ⟨.G2 q, hv⟩).2
       exact MulEquiv.isSimpleGroup eG2
     have hcenter : Subgroup.center (PQuot 3 (Ipart 3 L b)) = ⊥ :=
@@ -1708,11 +1708,11 @@ theorem quGraph_tyC {X L : Subgroup G} {b : G}
       omega
     exact not_tyC_of_G2model hf hG hC
   ·
-    haveI : IsSimpleGroup (PQuot 3 (Ipart 3 L b)) := by
+    have : IsSimpleGroup (PQuot 3 (Ipart 3 L b)) := by
       obtain ⟨i, hi, ⟨eU⟩⟩ := hU3
       cases i with
       | lie idx =>
-        haveI : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
+        have : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
         exact MulEquiv.isSimpleGroup eU
       | cyclic _ _ => exact False.elim hi
       | alternating _ _ => exact False.elim hi

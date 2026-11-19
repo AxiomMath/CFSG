@@ -36,7 +36,7 @@ theorem isSylow2In_of_natCard_le {J P Q : Subgroup Y} (hQ : IsSylow2In Q J) (hPJ
 
 theorem conj_mem_of_relIndex_two {A R : Subgroup Y} (hAR : A ≤ R) (h : A.relIndex R = 2) {x u : Y}
     (hx : x ∈ R) (hu : u ∈ A) : x * u * x⁻¹ ∈ A := by
-  haveI : (A.subgroupOf R).Normal := Subgroup.normal_of_index_eq_two h
+  have : (A.subgroupOf R).Normal := Subgroup.normal_of_index_eq_two h
   exact (inferInstance : (A.subgroupOf R).Normal).conj_mem ⟨u, hAR hu⟩
     (Subgroup.mem_subgroupOf.mpr hu) ⟨x, hx⟩
 
@@ -79,7 +79,7 @@ theorem et_ne_one : d.D.ce * t ≠ 1 := by
 
 theorem et_mem_W : d.D.ce * t ∈ d.W := d.W.mul_mem d.D.e_mem_W d.D.t_mem_W
 
-theorem W_le_centralizer_et : d.W ≤ Subgroup.centralizer ({d.D.ce * t} : Set Y) := fun w hw =>
+theorem W_le_centralizer_et : d.W ≤ Subgroup.centralizer ({d.D.ce * t} : Set Y) := fun _w hw =>
   Subgroup.mem_centralizer_singleton_iff.mpr (d.hc _ d.et_mem_W _ hw).symm
 
 theorem t_mem_centralizer_et : t ∈ Subgroup.centralizer ({d.D.ce * t} : Set Y) :=

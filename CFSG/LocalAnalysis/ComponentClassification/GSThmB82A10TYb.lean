@@ -32,6 +32,7 @@ private theorem altOnFin_apply (e : ↥T ≃ Fin k) (u : ↥(altOn T)) (x : Fin 
   change ((e.symm (e.permCongr (v : Perm ↥T) x) : ↥T) : α) = _
   rw [Equiv.permCongr_apply, Equiv.symm_apply_apply, hvu, Perm.ofSubtype_apply_coe]
 
+omit [Fintype α] [DecidableEq α] in
 private theorem permCongr_subtypePerm_apply_fin (e : ↥T ≃ Fin k) {g : Perm α}
     (hg : ∀ i, g i ∈ T ↔ i ∈ T) (x : Fin k) :
     ((e.symm (e.permCongr (g.subtypePerm hg) x) : ↥T) : α) = g (e.symm x) := by
@@ -50,6 +51,7 @@ private theorem altOnFin_conj (e : ↥T ≃ Fin k) {g : Perm α} (hg : ∀ i, g 
 
 end Transport
 
+omit [Finite X] in
 private theorem exists_equiv_fin_ten {N₁ N₂ L : Subgroup X} {n : ℕ}
     {φ₁ : ↥N₁ →* Perm (Fin 10)} {φ₂ : ↥N₂ →* Perm (Fin n)} {Δ : Finset (Fin n)}
     (hΔ : Δ.card = 10) (h₁ : IsRep φ₁ L (alternatingGroup (Fin 10)))

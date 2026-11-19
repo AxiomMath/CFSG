@@ -70,7 +70,7 @@ theorem exists_ctx0_of_hyp {G : Type} [Group G] [Finite G] {t : G} {L : Subgroup
     refine ⟨(c : G), c.2, ?_⟩
     have hcG := congrArg (fun k : ↥L => (k : G)) hc
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow] using hcG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP_le_cent : twoCore t ≤ Subgroup.centralizer (L : Set G) := by
     rw [← h.centralizer_eq]
     exact inf_le_left

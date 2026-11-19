@@ -69,7 +69,7 @@ theorem neK_sound {l : List (Fin Tag.E6.rank)} {j : Fin Tag.E6.rank}
   intro he
   rw [← actK_single h1] at he
   have := toV_inj h1 (ej_lt j) (he.trans (toV_ej j).symm)
-  rw [if_pos (by rw [this]; exact Nat.beq_refl _)] at h2
+  rw [ite_eq_left (by rw [this]; exact Nat.beq_refl _)] at h2
   exact absurd h2 (by decide)
 
 @[expose] def cubK (l : List (Fin Tag.E6.rank)) (j : ℕ) : Bool :=
@@ -109,7 +109,7 @@ theorem cubK_sound {l : List (Fin Tag.E6.rank)} {j : Fin Tag.E6.rank}
 
 @[expose] def sg (n : ℕ) : ℕ := Nat.land (Nat.shiftRight sgP (Nat.mul 7 n)) 127
 
-@[expose] local instance rootDecEqK : DecidableEq (Fin Tag.E6.rank → ℤ) :=
+local instance rootDecEqK : DecidableEq (Fin Tag.E6.rank → ℤ) :=
   Fintype.decidablePiFintype
 
 theorem mem_rootFinset_E6 {α : Fin Tag.E6.rank → ℤ} :

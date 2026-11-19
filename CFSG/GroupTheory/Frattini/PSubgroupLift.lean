@@ -8,6 +8,7 @@ namespace CFSG.GroupTheory
 
 variable {L H : Type*} [Group L] [Finite L] [Group H] [Finite H]
 
+omit [Finite L] [Finite H] in
 theorem card_comap_eq_card_ker_mul_card (f : L →* H) (hf : Function.Surjective f)
     (Astar : Subgroup H) :
     Nat.card (Astar.comap f) = Nat.card f.ker * Nat.card Astar := by
@@ -37,6 +38,7 @@ theorem card_comap_eq_card_ker_mul_card (f : L →* H) (hf : Function.Surjective
   rw [show f.ker.subgroupOf (Astar.comap f) = f.ker.subgroupOf N from rfl, hcard] at h
   exact h.symm
 
+omit [Finite L] [Finite H] in
 private theorem card_map_eq_card_of_inf_ker_eq_bot {f : L →* H} {A : Subgroup L}
     (hdisj : A ⊓ f.ker = ⊥) : Nat.card (A.map f) = Nat.card A := by
   let fA : A →* ↥(A.map f) :=
@@ -78,7 +80,7 @@ theorem exists_pSubgroup_map_eq_of_coprime_ker {p : ℕ} [Fact p.Prime]
     rw [hk, Nat.factorization_pow_self (Fact.out : p.Prime)]
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p N))
   let A : Subgroup L := (Q : Subgroup N).map N.subtype
-  have hAp : IsPGroup p A := Q.isPGroup'.map N.subtype
+  have hAp : IsPGroup p A := Q.isPGroup.map N.subtype
   have hAle : A ≤ N := Subgroup.map_subtype_le _
   have hcardA : Nat.card A = Nat.card Astar := by
     change Nat.card ((Q : Subgroup N).map N.subtype) = Nat.card Astar
@@ -101,6 +103,7 @@ theorem exists_pSubgroup_map_eq_of_coprime_ker {p : ℕ} [Fact p.Prime]
     · rw [card_map_eq_card_of_inf_ker_eq_bot hdisj, hcardA]
   exact ⟨A, hAp, hAle, hmap, hdisj⟩
 
+omit [Finite H] in
 theorem exists_mul_mem_comap_and_normalizer {p : ℕ} [Fact p.Prime] (f : L →* H)
     {Astar : Subgroup H} {A : Subgroup L} (hAle : A ≤ Astar.comap f)
     (hAsyl : CFSG.ABGLocalTools.IsSylowOf p A (Astar.comap f))

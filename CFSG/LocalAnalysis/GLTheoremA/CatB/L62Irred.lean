@@ -34,7 +34,7 @@ theorem hom_trivial_comm (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)
     [Module (ZMod 2) Q] [Module.Finite (ZMod 2) Q] [Finite Q] (hQ : Module.finrank (ZMod 2) Q = 4)
     (φ : I →* Module.End (ZMod 2) Q) (R : Q →ₗ[ZMod 2] Q) (hR : ∀ x, R (R x) + R x + x = 0)
     (hcomm : ∀ i x, φ i (R x) = R (φ i x)) (i : I) : φ i = 1 := by
-  haveI := finite_end Q
+  have := finite_end Q
   apply hom_trivial_of_small eI φ _ i
   have hle : Nat.card (Set.range φ) ≤
       Nat.card {f : Q →ₗ[ZMod 2] Q // ∀ x, f (R x) = R (f x)} := by
@@ -52,7 +52,7 @@ theorem act_trivial_sub (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7))
     (N : Submodule (ZMod 2) Vx) (hN : ∀ i ∈ I, ∀ n ∈ N, rho i n ∈ N)
     (hsmall : Nat.card (Module.End (ZMod 2) N) < 2520) (i : I) (n : Vx) (hn : n ∈ N) :
     rho i n = n := by
-  haveI := finite_end N
+  have := finite_end N
   have h1 := hom_trivial_of_small eI (resHom I N hN)
     (lt_of_le_of_lt (Nat.card_le_card_of_injective _ Subtype.val_injective) hsmall) i
   have h2 := congrArg (fun f : Module.End (ZMod 2) N => (f ⟨n, hn⟩ : Vx)) h1
@@ -62,7 +62,7 @@ theorem act_trivial_quot (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)
     (N : Submodule (ZMod 2) Vx) (hN : ∀ i ∈ I, ∀ n ∈ N, rho i n ∈ N)
     (hsmall : Nat.card (Module.End (ZMod 2) (Vx ⧸ N)) < 2520) (i : I) (v : Vx) :
     rho i v - v ∈ N := by
-  haveI := finite_end (Vx ⧸ N)
+  have := finite_end (Vx ⧸ N)
   have h1 := hom_trivial_of_small eI (quotHom I N hN)
     (lt_of_le_of_lt (Nat.card_le_card_of_injective _ Subtype.val_injective) hsmall) i
   have h2 := congrArg (fun f : Module.End (ZMod 2) (Vx ⧸ N) => f (Submodule.Quotient.mk v)) h1
@@ -109,7 +109,7 @@ theorem finrank_Vx : Module.finrank (ZMod 2) Vx = 6 := by
 
 theorem card_eq_two_pow (X : Type) [AddCommGroup X] [Module (ZMod 2) X] [Finite X] :
     Nat.card X = 2 ^ Module.finrank (ZMod 2) X := by
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2)]
   simp
 

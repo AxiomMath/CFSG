@@ -39,7 +39,7 @@ theorem le_of_b3For_quotient {N : Subgroup G} [N.Normal] (hB : B3For (G ⧸ N)) 
     (by rw [coe_sylowMap]; exact map_mono hST) (stronglyClosed_map N T hST hS) hN'
   rw [show (S.map (QuotientGroup.mk' N) : Set (G ⧸ N)) = QuotientGroup.mk' N '' (S : Set G) from
     coe_map _ _, ← Subgroup.map_normalClosure _ _ hsurj, htop, map_top_of_surjective _ hsurj] at h
-  have hTS := h.2.2 _ le_top (sylowMap N T).isPGroup'
+  have hTS := h.2.2 _ le_top (sylowMap N T).isPGroup
     (by rw [coe_sylowMap]; exact map_mono hST)
   intro t ht
   have h1 : QuotientGroup.mk' N t ∈ S.map (QuotientGroup.mk' N) := by
@@ -82,7 +82,7 @@ theorem fusionIsSylowIn_of_b3For_normalClosure (T : Sylow 2 G) {S : Subgroup G} 
     exact mem_centralizer_iff.mp hk y (mem_subgroupOf.mp hy)
   have h := hB TH _ hTH hcl hN'
   rw [normalClosure_subgroupOf_eq_top T hST hS rfl] at h
-  refine ⟨hSH, T.isPGroup'.to_le hST, fun P hPH hP hSP => ?_⟩
+  refine ⟨hSH, T.isPGroup.to_le hST, fun P hPH hP hSP => ?_⟩
   have h1 := h.2.2 (P.subgroupOf H) le_top hP.comap_subtype
     (fun x hx => mem_subgroupOf.mpr (hSP (mem_subgroupOf.mp hx)))
   have h2 := congrArg (Subgroup.map H.subtype) h1
@@ -137,7 +137,7 @@ theorem le_of_b3_main
     exact hTRS
   ·
     obtain ⟨z, hzA, hz2, -⟩ := exists_central_involution_of_isPGroup
-      (T.isPGroup'.to_le (inf_le_right.trans hST)) hA
+      (T.isPGroup.to_le (inf_le_right.trans hST)) hA
     have hzc := mem_center_of_mem_inf T hST hS hRcl hRC hNSC hO (mem_inf.mp hzA).1
       (mem_inf.mp hzA).2 hz2
     have : (zpowers z).Normal := normal_of_le_center (zpowers_le.mpr hzc)
@@ -164,7 +164,7 @@ theorem b3For
           (mem_inf.mp hx).2]
         exact one_mem _
     rw [htop]
-    refine ⟨le_top, T.isPGroup'.to_le hST, fun P _ hP hSP => ?_⟩
+    refine ⟨le_top, T.isPGroup.to_le hST, fun P _ hP hSP => ?_⟩
     have h1 : P = T := T.maximal_isPGroup.eq_of_ge hP (hTS.trans hSP)
     exact le_antisymm (h1.le.trans hTS) hSP
   · exact fusionIsSylowIn_of_b3For_normalClosure T hST hS hN (ih' _ (card_lt_of_ne_top htop))

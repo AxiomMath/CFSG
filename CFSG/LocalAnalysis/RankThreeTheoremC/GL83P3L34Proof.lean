@@ -37,6 +37,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace GL83P3L34Aux
 
+omit [Finite G] in
 theorem normalizer_of_lwc {x : G} {Q : Subgroup G} (h : LineWeaklyClosed x Q)
     {g : G} (hg : g * x * g⁻¹ ∈ Q) : g ∈ normalizer ((zpowers x : Subgroup G) : Set G) := by
   have hle : (zpowers x).map (MulAut.conj g).toMonoidHom ≤ Q := by
@@ -249,7 +250,7 @@ theorem exists_conj_le_of_isPGroup {P : Sylow 3 G} {O K₁ : Subgroup G}
   have hp : Nat.Prime 3 := Nat.prime_three
   have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hPsylW : IsSylowOf 3 (P : Subgroup G) ((P : Subgroup G) ⊔ O) :=
-    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup', fun hdvd => P.not_dvd_index
+    isSylowOf_iff.mpr ⟨le_sup_left, P.isPGroup, fun hdvd => P.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le le_sup_left))⟩
   set W : Subgroup G := (P : Subgroup G) ⊔ O
   obtain ⟨Q, hQ⟩ := (hK₁p.comap_subtype (K := W)).exists_le_sylow
@@ -343,7 +344,7 @@ theorem point_facts (hS : Setting G) (hU0 : FullCoreLocal G) (hK2 : KFactL34Thre
   have hOcop : Nat.Coprime 3 (Nat.card O) := primeComplementCore_coprime 3
   set π : C →* C ⧸ O := QuotientGroup.mk' O with hπ
   set Q' : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQ'
-  have hQ'p : IsPGroup 3 Q' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hQ'p : IsPGroup 3 Q' := (P.isPGroup.to_le inf_le_left).comap_subtype
   set L : Subgroup (C ⧸ O) := r1sBar x J with hL
   have hLn : L.Normal := r1sBar_normal_l34 hJ
   set D' : Subgroup C := ((P : Subgroup G) ⊓ J).subgroupOf C with hD'
@@ -433,7 +434,7 @@ theorem point_facts (hS : Setting G) (hU0 : FullCoreLocal G) (hK2 : KFactL34Thre
       have : (⟨l, hl⟩ : ↥L) ∈ Γ.comap L.subtype := by rw [h]; exact Subgroup.mem_top _
       exact this
   have hSsyl : IsSylowOf 3 (S : Subgroup ↥L) ⊤ := by
-    refine isSylowOf_iff.mpr ⟨le_top, S.isPGroup', ?_⟩
+    refine isSylowOf_iff.mpr ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hΓS : ∀ g ∈ Γ, ∀ s ∈ Db, g * s * g⁻¹ ∈ Db := by
@@ -548,7 +549,7 @@ theorem le_centralizer_of_mem (h : Hyp Y x) {Q : Sylow 3 Y} (hxQ : x ∈ (Q : Su
     have := h.weakClosed Q hxQ q hle
     rw [← this, MonoidHom.map_zpowers]
     exact mem_zpowers _
-  obtain ⟨m, hm⟩ := Q.isPGroup' ⟨q, hq⟩
+  obtain ⟨m, hm⟩ := Q.isPGroup ⟨q, hq⟩
   have hqm : q ^ (3 ^ m) = 1 := congrArg Subtype.val hm
   have := p34_conj_eq_of_pow h.ne_one h.pow_eq_one hqm h1
   exact mem_centralizer_singleton_iff.mpr (by
@@ -930,8 +931,8 @@ theorem le_pCore_of_mem_pCore (d : Data Y x Z S O) (hxF : x ∈ CFSG.pCore 3 Y) 
 theorem exists_central_order_three {F : Subgroup Y} (hF3 : IsPGroup 3 F) (hF : F ≠ ⊥) :
     ∃ v ∈ F, v ≠ 1 ∧ v ^ 3 = 1 ∧ ∀ f ∈ F, v * f = f * v := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial ↥F := (Subgroup.nontrivial_iff_ne_bot F).mpr hF
-  haveI : Nontrivial ↥(Subgroup.center ↥F) := hF3.center_nontrivial
+  have : Nontrivial ↥F := (Subgroup.nontrivial_iff_ne_bot F).mpr hF
+  have : Nontrivial ↥(Subgroup.center ↥F) := hF3.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : ↥(Subgroup.center ↥F))
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hF3 (c : ↥F)
   have hc1' : (c : ↥F) ≠ 1 := fun h => hc1 (Subtype.ext h)
@@ -1079,7 +1080,7 @@ theorem exists_elemAbelian_of_not_isCyclic {K : Subgroup Y} (P : Sylow 3 K)
     ∃ B : Subgroup Y, B ≤ K ∧ IsElemAbelian 3 B ∧ Nat.card B = 3 ^ 2 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B₀, hB₀, hB₀c⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
-    (p := 3) (by decide) P.isPGroup' hnc
+    (p := 3) (by decide) P.isPGroup hnc
   have hB₁ : CFSG.IsElementaryAbelian 3 (B₀.map (P : Subgroup K).subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hB₂ : CFSG.IsElementaryAbelian 3 ((B₀.map (P : Subgroup K).subtype).map K.subtype) :=
@@ -1217,7 +1218,7 @@ theorem mem_of_isCyclic_sylow (d : Data Y x Z S O) (hInn : KFactInnerAction) {K 
   have hr'P : r' ∈ (P : Subgroup K) := (hmem r').mpr hrQK.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ :=
     CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect
-      hK.2.2.1 P.isPGroup' P.not_dvd_index hPc hP1
+      hK.2.2.1 P.isPGroup P.not_dvd_index hPc hP1
   have ha1 : a ≠ 1 := fun ha => hga (by rw [ha, mul_one, mul_inv_cancel])
   obtain ⟨j, rfl⟩ : ∃ j : ℤ, r' ^ j = a := by
     have hr'p : (⟨r', hr'P⟩ : (P : Subgroup K)) ^ 3 = 1 :=
@@ -1262,6 +1263,7 @@ theorem mem_of_isCyclic_sylow (d : Data Y x Z S O) (hInn : KFactInnerAction) {K 
     exact hc1.symm
   exact hxr ▸ hrQK.2
 
+omit [Finite Y] in
 theorem isElemAbelian_subgroupOf {A B : Subgroup Y} (hA : IsElemAbelian 3 A) :
     IsElemAbelian 3 (A.subgroupOf B) := by
   have := hA.1
@@ -1366,7 +1368,7 @@ theorem false_of_normalized (d : Data Y x Z S O) (hWC3 : KFactWeakClosureOmega3)
     simpa using GL83Generic5MComp.eq_one_of_mem_of_mem_centralizer hZ0 hkk hcc
   have hKcent : centralizer (K' : Set ↥X) = ⊥ := by
     rw [eq_bot_iff]
-    haveI := hK'n
+    have := hK'n
     have hTp : IsPGroup 3 (centralizer (K' : Set ↥X)) := fun g => by
       obtain ⟨a, ha⟩ := h3pow g.1 g.2
       exact ⟨a, Subtype.ext ha⟩
@@ -1580,7 +1582,7 @@ theorem center_eq_bot_of_kfact (hCen : KFactCentralOmega) {Y : Type} [Group Y] [
   obtain ⟨S⟩ : Nonempty (Sylow 3 K) := inferInstance
   refine hCen K hK.2.2 hcatK hdvd hrk S ?_
   intro s hs t ht hs3 ht3
-  have hSp : IsPGroup 3 ((S : Subgroup K).map K.subtype) := S.isPGroup'.map _
+  have hSp : IsPGroup 3 ((S : Subgroup K).map K.subtype) := S.isPGroup.map _
   obtain ⟨R, hR⟩ := hSp.exists_le_sylow
   have h1 : (s : Y) ∈ (R : Subgroup Y) := hR ⟨s, hs, rfl⟩
   have h2 : (t : Y) ∈ (R : Subgroup Y) := hR ⟨t, ht, rfl⟩
@@ -1619,7 +1621,7 @@ theorem conj_mem_sup_of_data
   have hπc : ∀ a b : M, π (a * b * a⁻¹) = π a * π b * (π a)⁻¹ := fun a b => by
     rw [map_mul, map_mul, map_inv]
   set PM : Subgroup M := (P : Subgroup G).subgroupOf M with hPMdef
-  have hPMp : IsPGroup 3 PM := P.isPGroup'.comap_subtype
+  have hPMp : IsPGroup 3 PM := P.isPGroup.comap_subtype
   have hxPM : (⟨x, hxM⟩ : M) ∈ PM := mem_subgroupOf.mpr hxP
   have hinj : ∀ a ∈ PM, ∀ b ∈ PM, π a = π b → a = b := by
     intro a ha b hb hab
@@ -1653,7 +1655,7 @@ theorem conj_mem_sup_of_data
           (Subgroup.card_map_of_injective (P : Subgroup G).subtype_injective).symm
       _ ≤ Nat.card E := Subgroup.card_le_of_le hle
       _ = 3 ^ 3 := hEcard
-  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup', fun hdvd =>
+  have hPsyl : IsSylowOf 3 (P : Subgroup G) M := isSylowOf_iff.mpr ⟨hPM, P.isPGroup, fun hdvd =>
     P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   obtain ⟨R, hR⟩ : ∃ R : Sylow 3 (M ⧸ O), (R : Subgroup (M ⧸ O)) = PM.map π := by
     obtain ⟨-, hp', hdvd⟩ := isSylowOf_iff.1 (isSylowOf_top_map_mk hPsyl)
@@ -1920,7 +1922,7 @@ theorem gl83P3L34_remark_of_caseOne (hS : Setting G) (hU0 : FullCoreLocal G)
   have hc1 : L34CaseOne 3 P M J :=
     h 3 hp P M hM hfail hIH x hgen rfl J hJC hCJ hperf hlt hmin hnot Q ψ hψ hker hQ
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hp hM).1
-  exact GL83P3L34Aux.normalizer_of_conj hPM inf_le_left P.isPGroup'.to_inf_left hc1 hSC
+  exact GL83P3L34Aux.normalizer_of_conj hPM inf_le_left P.isPGroup.to_inf_left hc1 hSC
 
 theorem gl83P3L34_caseOne_of_kfacts (hS : Setting G) (hU0 : FullCoreLocal G)
     (hD1 : TheoremD1 G) (hSig : SignalizerTwoGroupKFact) (hL : KFactsL34Full)

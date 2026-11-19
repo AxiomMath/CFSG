@@ -9,7 +9,7 @@ namespace CFSG.GroupTheory
 theorem exists_nontrivial_repr_card (K : Type) [Group K] [Finite K] [Nontrivial K] :
     ∃ n : ℕ, ∃ f : K →* Matrix.GeneralLinearGroup (Fin n) (ZMod 2), f ≠ 1 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let n : ℕ := Fintype.card K
   let e : K ≃ Fin n := Fintype.equivFin K
   let ρ : K →* Equiv.Perm K := MulAction.toPermHom K K
@@ -20,7 +20,7 @@ theorem exists_nontrivial_repr_card (K : Type) [Group K] [Finite K] [Nontrivial 
         intro a b
         ext i
         simp only [Equiv.trans_apply, Equiv.Perm.coe_mul, Function.comp_apply, map_mul]
-        simp [mul_smul] }
+        simp }
   let f : K →* Matrix.GeneralLinearGroup (Fin n) (ZMod 2) :=
     (Matrix.permMatrixHom (n := Fin n) (R := ZMod 2)).toHomUnits.comp τ
   refine ⟨n, f, ?_⟩
@@ -28,7 +28,7 @@ theorem exists_nontrivial_repr_card (K : Type) [Group K] [Finite K] [Nontrivial 
   obtain ⟨g, hg⟩ := exists_ne (1 : K)
   have hmat : ((f g : Matrix.GeneralLinearGroup (Fin n) (ZMod 2)) :
       Matrix (Fin n) (Fin n) (ZMod 2)) = 1 := by
-    have hfg : f g = 1 := by simpa [hf]
+    have hfg : f g = 1 := by simp [hf]
     rw [hfg]
     rfl
   have hmat' : (Matrix.permMatrixHom (n := Fin n) (R := ZMod 2) (τ g) :

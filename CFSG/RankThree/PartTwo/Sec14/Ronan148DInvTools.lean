@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_mem_theta_of_mem_sup {a x : G} (hx : x ∈ Subgroup.centralizer ({a} : Set G))
     {K' : Subgroup G} (hK' : K' ≤ Subgroup.centralizer ({a} : Set G))
     (h : ∀ k ∈ K', ⁅k, x⁆ ∈
@@ -182,7 +183,7 @@ theorem exists_nonabelian_le_lB {A L : Subgroup G} {c : G} (h : Sec14Std G A c L
     · have h1 := Subgroup.mem_centralizer_singleton_iff.mp (hSd hs)
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact congrArg Subtype.val h1
-    · obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    · obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       exact ⟨k, by
         simpa using congrArg (fun z : ↥(S : Subgroup ↥Lb) => ((z : ↥Lb) : G)) hk⟩
   refine ⟨E, fun x hx => ?_, fun x hx => ?_, ?_⟩

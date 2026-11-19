@@ -35,7 +35,7 @@ theorem odd_card_ker_lift {L' R : Type} [Group L'] [Finite L'] [Group R] (ψ : L
     Odd (Nat.card (QuotientGroup.lift K₂ ψ hle).ker) := by
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨u, hu⟩ :=
     exists_prime_orderOf_dvd_card' (G := (QuotientGroup.lift K₂ ψ hle).ker) 2 hdvd
   obtain ⟨z, hz⟩ := QuotientGroup.mk_surjective (u : L' ⧸ K₂)

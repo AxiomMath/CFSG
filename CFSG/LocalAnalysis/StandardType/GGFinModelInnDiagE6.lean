@@ -45,7 +45,7 @@ private theorem g4bMulAut_conj_injective_of_center_bot {G : Type*} [Group G]
     rw [Subgroup.mem_center_iff]
     intro w
     have h3 := congrArg (fun f : MulAut G => f w) h1
-    simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.one_apply] at h3
+    simp only [MulAut.conj_apply, MulAut.one_apply] at h3
     have h4 : (v⁻¹ * u) * w = w * (v⁻¹ * u) := by
       have h5 := congrArg (fun t => t * (v⁻¹ * u)) h3
       simpa [mul_assoc] using h5
@@ -110,16 +110,16 @@ private theorem g4bE6Decomp
         m = baseChangeGL (ggRatEmb f)
           (rootDiagUnit Tag.E6 a * (j : ModGL Tag.E6 (GaloisField 2 f))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hKcard]
     exact ggFrobT_apply f c
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
   have hcomm : ∀ r : ZMod 2,
       ggRatEmb f (algebraMap (ZMod 2) (GaloisField 2 f) r) = algebraMap (ZMod 2) GGL r :=
     fun r => (IsAlgClosed.lift (R := ZMod 2) (S := GaloisField 2 f) (M := GGL)).commutes r
-  haveI : Module.IsTorsionFree (GaloisField 2 f) GGL := {
+  have : Module.IsTorsionFree (GaloisField 2 f) GGL := {
     isSMulRegular := by
       intro r hr
       have hr0 : r ≠ 0 := hr.ne_zero
@@ -133,7 +133,7 @@ private theorem g4bE6Decomp
       RingHom.comp (RingHom.id GGL) (algebraMap (ZMod 2) GGL) := by
     ext r
     exact hcomm r
-  haveI : IsAlgClosure (GaloisField 2 f) GGL :=
+  have : IsAlgClosure (GaloisField 2 f) GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.ringHom_of_comp_eq
         (f := algebraMap (ZMod 2) (GaloisField 2 f)) (g := RingHom.id GGL)
@@ -172,7 +172,7 @@ private theorem g4bE6Decomp
     intro i
     have hbi : ((b i : GGLˣ) : GGL) ^ 2 ^ f = ((b i : GGLˣ) : GGL) := by
       have h2 := congrArg (fun u : GGLˣ => (u : GGL)) (congrFun hbfix i)
-      simp only [Units.coe_map, MonoidHom.coe_coe, ggFrobT_apply] at h2
+      simp only [Units.coe_map] at h2
       exact h2
     have hmem : ((b i : GGLˣ) : GGL) ∈ Set.range (algebraMap (GaloisField 2 f) GGL) :=
       CFSG.LieType.Chevalley.mem_range_algebraMap_of_pow_card_eq (k := GaloisField 2 f)
@@ -209,8 +209,8 @@ theorem ggFixGp_conj_innDiagU_E6
     (hm : m ∈ ggFixGp .E6 f)
     (hmN : m ∈ Subgroup.normalizer ((ggIota .E6 n f hf).range : Set (ModGL (langTag .E6) GGL))) :
     GGInnDiagU .E6 n f (ggConjAut (ggIota .E6 n f hf) hinj ⟨m, hmN⟩) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hmAdj : m ∈ adjointGroup Tag.E6 GGL := by
     have hm' := hm
     rw [ggFixGp] at hm'

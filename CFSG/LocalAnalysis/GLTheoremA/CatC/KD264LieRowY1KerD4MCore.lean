@@ -27,16 +27,19 @@ structure Setting (ρ : Γ →* Module.End K V) (Q : QuadraticForm K V) : Prop w
 
 variable {ρ : Γ →* Module.End K V} {Q : QuadraticForm K V}
 
+omit [Finite K] [FiniteDimensional K V] [Fintype Γ] in
 theorem Setting.hB (hs : Setting ρ Q) (g : Γ) (u w : V) :
     polar Q (ρ g u) (ρ g w) = polar Q u w :=
   polar_map_of_isometry (T := ρ g) (hs.hQ g) u w
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Setting.oidem (hs : Setting ρ Q) (o : Option (Subgroup Γ)) : OIdem Q (Qf ρ o) :=
   ⟨Qf_idem hs.h3 hs.hΓ o, fun u v => by
     have := Qf_bilin (ρ := ρ) (polarBilin Q)
       (fun g u w => by simp only [QuadraticMap.polarBilin_apply_apply]; exact hs.hB g u w) o u v
     simpa only [QuadraticMap.polarBilin_apply_apply] using this⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Setting.orth (hs : Setting ρ Q) {o₁ o₂ : Option (Subgroup Γ)} (hne : o₁ ≠ o₂) :
     Qf ρ o₁ * Qf ρ o₂ = 0 :=
   Qf_orth hs.h3 hs.hΓ hs.hexp hs.hcomm hne
@@ -49,6 +52,7 @@ theorem exists_not_mem_of_idx3 {F : Subgroup Γ} (hF : F ∈ idx3 Γ) : ∃ g : 
   rw [this, Subgroup.index_top] at h1
   exact absurd h1 (by norm_num)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Setting.mem_range_Qf_map (hs : Setting ρ Q) (o : Option (Subgroup Γ)) (g : Γ) {x : V}
     (hx : x ∈ LinearMap.range (Qf ρ o)) : ρ g x ∈ LinearMap.range (Qf ρ o) := by
   obtain ⟨y, rfl⟩ := hx
@@ -56,10 +60,12 @@ theorem Setting.mem_range_Qf_map (hs : Setting ρ Q) (o : Option (Subgroup Γ)) 
   have := congrArg (fun f : Module.End K V => f y) (commute_Qf (ρ := ρ) hs.hcomm o g)
   simpa [Module.End.mul_apply] using this.symm
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Setting.nondeg_Qf (hs : Setting ρ Q) (o : Option (Subgroup Γ)) :
     ∀ x ∈ LinearMap.range (Qf ρ o), (∀ y ∈ LinearMap.range (Qf ρ o), polar Q x y = 0) → x = 0 :=
   nondeg_range hs.hnd (hs.oidem o).idem (hs.oidem o).adj
 
+omit [Finite K] in
 theorem Setting.even_finrank (hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ idx3 Γ) :
     Even (finrank K (LinearMap.range (Qf ρ (some F)))) := by
   obtain ⟨g, hg⟩ := exists_not_mem_of_idx3 hF
@@ -67,6 +73,7 @@ theorem Setting.even_finrank (hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ i
     (fun x hx => sq_add_self_add_one hs.h3 hs.hΓ hs.hexp hs.hcomm hF hg hx) (hs.hQ g)
     (hs.nondeg_Qf (some F))
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem Setting.isCubePlane (hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ idx3 Γ)
     (h2 : finrank K (LinearMap.range (Qf ρ (some F))) = 2) :
     IsCubePlane Q (LinearMap.range (Qf ρ (some F))) := by
@@ -74,7 +81,8 @@ theorem Setting.isCubePlane (hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ id
   exact ⟨h2, ρ g, fun x hx => hs.mem_range_Qf_map (some F) g hx,
     fun x hx => sq_add_self_add_one hs.h3 hs.hΓ hs.hexp hs.hcomm hF hg hx, hs.hQ g⟩
 
-theorem av_eq_add (hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ idx3 Γ) :
+omit [Finite K] [FiniteDimensional K V] in
+theorem av_eq_add (_hs : Setting ρ Q) {F : Subgroup Γ} (hF : F ∈ idx3 Γ) :
     av ρ F = Qf ρ none + Qf ρ (some F) := by
   rw [Qf_some_of_mem hF, Qf]
   abel

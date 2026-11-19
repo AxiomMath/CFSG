@@ -70,7 +70,7 @@ theorem p23_sigmaStarNorm_eq_top_of_layer
   exact p23_sigmaStarNorm_eq_top hc hTwo fun c hcu =>
     hlay _ (conjSub_mem_tqMembers3 hΩ.conjInvariant hcu hJ₁)
 
-theorem p23_dstarComp_eq_univ (hc : P23Cfg n Y R S t K' W u e g)
+theorem p23_dstarComp_eq_univ (_hc : P23Cfg n Y R S t K' W u e g)
     (h : sigmaStarNorm (Om R) (tightCore R) = ⊤) :
     ∀ J ∈ Om R, J ∈ dstarComp (Om R) (tightCore R) := by
   have hK : tightCore R ∈ Om R := CoreAssembly.mem_conjClass_self _

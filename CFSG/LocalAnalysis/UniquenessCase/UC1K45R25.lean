@@ -39,6 +39,7 @@ private noncomputable abbrev Zof' (e : ↥(Tof G D) ≃* QuaternionGroup 2) : Su
 private abbrev Vof (e : ↥(Tof G D) ≃* QuaternionGroup 2) : Type :=
   ↥(Xof G) ⧸ Zof' e
 
+omit [Finite G] in
 private theorem Tof_sq_eq_one_or_z (e : ↥(Tof G D) ≃* QuaternionGroup 2) {t : G}
     (ht : t ∈ Tof G D) : t * t = 1 ∨ t * t = zof e := by
   rcases quaternion_two_sq_eq_one_or_a (e ⟨t, ht⟩) with h | h
@@ -51,6 +52,7 @@ private theorem Tof_sq_eq_one_or_z (e : ↥(Tof G D) ≃* QuaternionGroup 2) {t 
       e.injective (by rw [map_mul, h, MulEquiv.apply_symm_apply])
     simpa [zof] using congrArg (Subtype.val) h1
 
+omit [Finite G] in
 private theorem zof_mem_center_T (e : ↥(Tof G D) ≃* QuaternionGroup 2) :
     e.symm (QuaternionGroup.a 2) ∈ Subgroup.center ↥(Tof G D) := by
   rw [Subgroup.mem_center_iff]
@@ -72,6 +74,7 @@ private theorem Zof_le_center (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* Quaternio
     Zof e ≤ Subgroup.center G :=
   (Zof_le_ZX c e).trans c.ZX_le
 
+omit [Finite G] in
 private theorem zof_ne_one (e : ↥(Tof G D) ≃* QuaternionGroup 2) : zof e ≠ 1 := by
   intro h
   have h' : e.symm (QuaternionGroup.a 2) = 1 := Subtype.ext (by simpa [zof] using h)
@@ -79,6 +82,7 @@ private theorem zof_ne_one (e : ↥(Tof G D) ≃* QuaternionGroup 2) : zof e ≠
     rw [← MulEquiv.apply_symm_apply e (QuaternionGroup.a 2), h', map_one]
   exact quaternion_two_a_ne_one this
 
+omit [Finite G] in
 private theorem zof_sq (e : ↥(Tof G D) ≃* QuaternionGroup 2) : zof e * zof e = 1 := by
   have h : e.symm (QuaternionGroup.a 2) * e.symm (QuaternionGroup.a 2) = 1 := by
     apply e.injective
@@ -89,9 +93,9 @@ private theorem eq_one_or_zof_of_mem_ZX_sq_one (c : Ctx45 p G D)
     (e : ↥(Tof G D) ≃* QuaternionGroup 2) {u : G} (hu : u ∈ ZXof G) (hu2 : u * u = 1) :
     u = 1 ∨ u = zof e := by
   classical
-  haveI : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
-  haveI : IsCyclic ↥(ZXof G) := Subgroup.isCyclic_of_le c.ZX_le
-  haveI : Fintype ↥(ZXof G) := Fintype.ofFinite _
+  have : IsCyclic ↥(Subgroup.center G) := c.center_cyclic
+  have : IsCyclic ↥(ZXof G) := Subgroup.isCyclic_of_le c.ZX_le
+  have : Fintype ↥(ZXof G) := Fintype.ofFinite _
   have hcard : (Finset.univ.filter (fun w : ↥(ZXof G) => w ^ 2 = 1)).card ≤ 2 :=
     IsCyclic.card_pow_eq_one_le (n := 2) (by norm_num)
   let z' : ↥(ZXof G) := ⟨zof e, zof_mem_ZX c e⟩
@@ -158,7 +162,7 @@ private theorem commutator_mem_Zof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* Quat
 private noncomputable def Yof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2) :
     Subgroup G where
   carrier := {x | x ∈ Xof G ∧ x * x ∈ Zof e}
-  one_mem' := ⟨(Xof G).one_mem, by simpa using (Zof e).one_mem⟩
+  one_mem' := ⟨(Xof G).one_mem, by simp⟩
   mul_mem' := by
     rintro x y ⟨hxX, hxZ⟩ ⟨hyX, hyZ⟩
     refine ⟨(Xof G).mul_mem hxX hyX, ?_⟩
@@ -196,7 +200,7 @@ private theorem Tof_le_Yof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGr
 
 private theorem sq_mem_Zof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2) {x : G}
     (hx : x ∈ Xof G) : x * x ∈ Zof e := by
-  haveI : (Yof c e).Normal := Yof_normal c e
+  have : (Yof c e).Normal := Yof_normal c e
   have hXle : Xof G ≤ Yof c e := by
     rw [← c.X_gen]
     exact Subgroup.normalClosure_le_normal (Tof_le_Yof c e)
@@ -310,11 +314,13 @@ private noncomputable def psiOf (e : ↥(Tof G D) ≃* QuaternionGroup 2) [(Zof'
     Vof e →* ↥(CFSG.Quasithin.G6.coreMod 5) :=
   QuotientGroup.lift (Zof' e) ψ h
 
+omit [Finite G] in
 private theorem psiOf_mk' (e : ↥(Tof G D) ≃* QuaternionGroup 2) [(Zof' e).Normal]
     (ψ : ↥(Xof G) →* ↥(CFSG.Quasithin.G6.coreMod 5)) (h : Zof' e ≤ ψ.ker)
     (x : ↥(Xof G)) : psiOf e ψ h (QuotientGroup.mk' (Zof' e) x) = ψ x := by
   simp [psiOf]
 
+omit [Finite G] in
 private theorem psiOf_surjective (e : ↥(Tof G D) ≃* QuaternionGroup 2) [(Zof' e).Normal]
     (ψ : ↥(Xof G) →* ↥(CFSG.Quasithin.G6.coreMod 5)) (h : Zof' e ≤ ψ.ker)
     (hψs : Function.Surjective ψ) : Function.Surjective (psiOf e ψ h) := by
@@ -370,7 +376,7 @@ private theorem closure_generators_eq_top (c : Ctx45 p G D) (e : ↥(Tof G D) �
     · exact Subgroup.subset_closure ⟨g, ⟨x, hx⟩, rfl⟩
     · change ((⟨x, hx⟩ * ((MulAut.conjNormal g) ⟨x, hx⟩)⁻¹ : ↥(Xof G)) : G) =
         x * g * x⁻¹ * g⁻¹
-      simp only [MulAut.conjNormal_apply, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [MulAut.conjNormal_apply, Subgroup.coe_mul, Subgroup.coe_inv]
       group
   have hXle : Xof G ≤ Subgroup.map (Xof G).subtype (Subgroup.closure S) := by
     have hcomm : ⁅Xof G, (⊤ : Subgroup G)⁆ ≤ Subgroup.map (Xof G).subtype (Subgroup.closure S) := by
@@ -404,7 +410,7 @@ private theorem Vof_sq_eq_one (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* Quaternio
   rw [← map_mul, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   simpa using sq_mem_Zof c e w.2
 
-private theorem center_le_Zof' (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2)
+private theorem center_le_Zof' (_c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2)
     [(Zof' e).Normal] (ψ : ↥(Xof G) →* ↥(CFSG.Quasithin.G6.coreMod 5))
     (h : Zof' e ≤ ψ.ker) (hψk : ψ.ker = Subgroup.center ↥(Xof G))
     (hker : (psiOf e ψ h).ker = ⊥) : Subgroup.center ↥(Xof G) ≤ Zof' e := by
@@ -416,7 +422,7 @@ private theorem center_le_Zof' (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* Quaterni
   rw [hker, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hxker
   exact hxker
 
-private theorem ZX_le_Zof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2)
+private theorem ZX_le_Zof (_c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2)
     [(Zof' e).Normal] (hcenter : Subgroup.center ↥(Xof G) ≤ Zof' e) : ZXof G ≤ Zof e := by
   intro u hu
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hu
@@ -424,7 +430,7 @@ private theorem ZX_le_Zof (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGro
 
 private theorem card_ZX_eq_two (c : Ctx45 p G D) (e : ↥(Tof G D) ≃* QuaternionGroup 2)
     (hZX_le : ZXof G ≤ Zof e) : Nat.card ↥(ZXof G) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · calc Nat.card ↥(ZXof G) ≤ Nat.card ↥(Zof e) := Subgroup.card_le_of_le hZX_le
       _ = orderOf (zof e) := Nat.card_zpowers (zof e)
@@ -440,9 +446,9 @@ theorem r2_center_two (c : Ctx45 p G D)
     Nat.card ↥(Subgroup.center ↥(Xof G)) = 2 := by
   obtain ⟨e⟩ := c.Q8
   obtain ⟨η, ψ, hηk, hηr, hψs, hψk, hψe⟩ := hD5
-  haveI : (Zof' e).Normal := Zof'_normal c e
+  have : (Zof' e).Normal := Zof'_normal c e
   have hle : commutator ↥(Xof G) ≤ Zof' e := commutator_le_Zof' c e
-  haveI : IsMulCommutative (Vof e) :=
+  have : IsMulCommutative (Vof e) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hle
   have hZof'_le_ker : Zof' e ≤ ψ.ker := by
     rw [hψk]; exact Zof'_le_center c e

@@ -33,8 +33,8 @@ theorem exponent_eq_one_of_isoLie_twistedA {p : ℕ} [Fact p.Prime] (hp2 : p ≠
     {q : TauCeti.PrimePower} (hq : q.p = p)
     (hI : IsoLie ↥(CFSG.generalizedFitting X) (.twistedA 2 q)) : q.exponent = 1 := by
   obtain ⟨hKs, -, hKn, -⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Fact.out hO hN
-  haveI := hKn
-  haveI := hKs
+  have := hKn
+  have := hKs
   obtain ⟨T, hT⟩ := CFSG.Glauberman.sylow_inf_normal P (N := CFSG.generalizedFitting X)
   have hTmap : (T : Subgroup ↥(CFSG.generalizedFitting X)).map
       (CFSG.generalizedFitting X).subtype = (P : Subgroup X) ⊓ CFSG.generalizedFitting X := by
@@ -69,7 +69,7 @@ theorem not_isoLie_reeG2_of_isStronglyPEmbedded (hG3 : Gls3StronglyThreeEmbedded
   obtain ⟨hNL, -⟩ := inf_eq_and_le_normalizer_of_isStronglyPEmbedded hG3 hp3 hX hO h2 hN P hPN
   subst hp3
   obtain ⟨-, -, hKn, -⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
-  haveI := hKn
+  have := hKn
   obtain ⟨T, hT⟩ := CFSG.Glauberman.sylow_inf_normal P (N := CFSG.generalizedFitting X)
   have hTmap : (T : Subgroup ↥(CFSG.generalizedFitting X)).map
       (CFSG.generalizedFitting X).subtype = (P : Subgroup X) ⊓ CFSG.generalizedFitting X := by
@@ -119,7 +119,7 @@ theorem rows3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
       ∀ q : TauCeti.PrimePower, q.p = 3 →
         IsoLie ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) (.twistedA 2 q) →
           q.exponent = 1 := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨P₀⟩ : Nonempty (Sylow k.p ↥(H ⊓ k.M)) := inferInstance
   obtain ⟨P', hP', hP'N⟩ := k.exists_sylow_map_of_isSylowOf hH
     (P := (P₀ : Subgroup ↥(H ⊓ k.M)).map (H ⊓ k.M).subtype) ⟨P₀, rfl⟩
@@ -135,7 +135,7 @@ theorem rows3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
   all_goals
     rw [hP'] at hyQ hnc
     exact k.centralizer_le_of_not_isCyclic_inf_fstar hH (Subgroup.map_subtype_le _)
-      (P₀.isPGroup'.map _) hy hyQ hnc
+      (P₀.isPGroup.map _) hy hyQ hnc
 
 open CFSG.LocalAnalysis.UniquenessCase.UC22 in
 theorem exists_rows3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
@@ -144,7 +144,7 @@ theorem exists_rows3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
     ∃ P : Subgroup (F07.QuotK7 k.p H),
       Gls3ConclusionPlus (F07.QuotK7 k.p H) (CFSG.generalizedFitting (F07.QuotK7 k.p H)) P ∧
         ∀ m : ℕ, ¬ IsoLie ↥(CFSG.generalizedFitting (F07.QuotK7 k.p H)) (.reeG2 m) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨P⟩ : Nonempty (Sylow k.p (F07.QuotK7 k.p H)) := Sylow.nonempty
   obtain ⟨h, hR, -⟩ := k.rows3_of_config hG3 hRee hp3 hH P
   exact ⟨P, h, hR⟩

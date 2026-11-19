@@ -186,7 +186,7 @@ theorem prod_proj {M : Type} [Ring M] [Algebra F M] (A B : M) (hAA : A * A = A) 
 
 omit [Finite F] in
 theorem alpha_pow_eight (Z C : Matrix (Fin 3) (Fin 3) F) (hZ : Z * Z = 1) (hZ1 : Z ≠ 1)
-    (hZu : (Z.map (· ^ 7))ᵀ * Z = 1) (α : F) (hα0 : α ≠ 0) (hC : C = fAlpha Z α)
+    (hZu : (Z.map (· ^ 7))ᵀ * Z = 1) (α : F) (_hα0 : α ≠ 0) (hC : C = fAlpha Z α)
     (hCu : (C.map (· ^ 7))ᵀ * C = 1) : α ^ 8 = 1 := by
   have h2 : (2 : F) ≠ 0 := two_ne_zero'
   have hZb : (Z.map (· ^ 7))ᵀ = Z := by
@@ -196,13 +196,13 @@ theorem alpha_pow_eight (Z C : Matrix (Fin 3) (Fin 3) F) (hZ : Z * Z = 1) (hZ1 :
   set A : Matrix (Fin 3) (Fin 3) F := (2 : F)⁻¹ • (1 - Z) with hA
   set B : Matrix (Fin 3) (Fin 3) F := (2 : F)⁻¹ • (1 + Z) with hB
   have e1 : (1 - Z) * (1 - Z) = (2 : F) • (1 - Z) := by
-    simp only [sub_mul, mul_sub, add_mul, mul_add, one_mul, mul_one, hZ]; module
+    simp only [sub_mul, mul_sub, one_mul, mul_one, hZ]; module
   have e2 : (1 + Z) * (1 + Z) = (2 : F) • (1 + Z) := by
-    simp only [sub_mul, mul_sub, add_mul, mul_add, one_mul, mul_one, hZ]; module
+    simp only [add_mul, mul_add, one_mul, mul_one, hZ]; module
   have e3 : (1 - Z) * (1 + Z) = 0 := by
-    simp only [sub_mul, mul_sub, add_mul, mul_add, one_mul, mul_one, hZ]; module
+    simp only [sub_mul, mul_add, one_mul, mul_one, hZ]; module
   have e4 : (1 + Z) * (1 - Z) = 0 := by
-    simp only [sub_mul, mul_sub, add_mul, mul_add, one_mul, mul_one, hZ]; module
+    simp only [mul_sub, add_mul, one_mul, mul_one, hZ]; module
   have hinv : (2 : F)⁻¹ * (2 : F)⁻¹ * 2 = (2 : F)⁻¹ := by field_simp
   have hAA : A * A = A := by
     rw [hA, smul_mul_smul_comm, e1, smul_smul, hinv]

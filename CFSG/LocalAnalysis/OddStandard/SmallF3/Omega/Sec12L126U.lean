@@ -51,7 +51,7 @@ theorem sec126_eq_of_le_sup [Finite G] {V V' : Subgroup G} {s' : G}
     (hC : Nat.card ↥(V' ⊓ centralizer ({s'} : Set G)) ≤ 16) : V = V' := by
   by_contra hne
   have hnle : ¬ V ≤ V' := fun h => hne (Subgroup.eq_of_le_of_card_ge h (by rw [hcV, hcV']))
-  obtain ⟨x0, hx0V, hx0n⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨x0, hx0V, hx0n⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   obtain ⟨v0, hv0, hx0⟩ : ∃ v ∈ V', x0 = v * s' := by
     rcases sec126_mem_sup_zpowers hs'N hs' (hle hx0V) with h | h
     · exact absurd h hx0n

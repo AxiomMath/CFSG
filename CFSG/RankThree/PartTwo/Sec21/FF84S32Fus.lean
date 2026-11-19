@@ -13,7 +13,7 @@ section Main
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ : G}
 
 theorem c_notin_O3 (h : FF84Sec3 b L B b₁ b₂) : b₁ * b₂ ∉ O3 (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact B_central_notin_Oup 3 (Cen (b₁ * b₂)) B (S2_B_sylow h)
     (fun x hx y hy => (comm_of_mem_B h hx hy).eq) (c_mem_B h)
     (fun g hg => Subgroup.mem_centralizer_singleton_iff.1 hg) (c_ne_one h)

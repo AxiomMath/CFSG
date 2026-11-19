@@ -222,7 +222,7 @@ private theorem false_of_le_centralizer_of_pCoreOf_le
   by_cases hZ2 : Z2 L1 L2 S = Z1 L1 L2 S
   · exact false_of_Z_eq_Z1_of_Z_eq_Z2 hF hZeq (hZ2.trans hZeq)
   · obtain ⟨x, hxZ2, hxZ1⟩ :=
-      SetLike.exists_of_lt (lt_of_le_of_ne hZle (Ne.symm hZ2))
+      _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hZle (Ne.symm hZ2))
     have hxCent2 : x ∈ Subgroup.centralizer (Q2 L1 L2 S : Set G) :=
       (Subgroup.mem_inf.mp
         (A4.omegaOneCenterOf_le_centerOf (Q2 L1 L2 S) hxZ2)).2

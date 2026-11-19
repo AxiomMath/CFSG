@@ -540,7 +540,7 @@ private theorem exists_refl_of_reflGen [Fact p.Prime] {A : Subgroup (U ≃ₗ[ZM
   push Not at h
   have hempty : {t : U ≃ₗ[ZMod p] U | t ∈ A ∧ IsRefl p t} = ∅ := by
     ext t
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact fun ht => h t ht.1 ht.2
   have hAbot : A = ⊥ := by rw [hgen, hempty, Subgroup.closure_empty]
   obtain ⟨t, htA, htT⟩ := ht

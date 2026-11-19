@@ -33,7 +33,7 @@ variable {L : Subgroup G} {S : Sylow 2 (centralizer (L : Set G))} {t : G}
 
 theorem sg_le_centralizer : sg L S ≤ centralizer (L : Set G) := map_subtype_le _
 
-theorem isPGroup_sg : IsPGroup 2 (sg L S) := S.isPGroup'.map _
+theorem isPGroup_sg : IsPGroup 2 (sg L S) := S.isPGroup.map _
 
 theorem isCyclic_sg (hs : Sector L S t) : IsCyclic (sg L S) := by
   have := hs.cyclic

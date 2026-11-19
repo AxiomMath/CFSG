@@ -14,7 +14,7 @@ namespace CertificateChecks.KernelJ4NP7850
 open CFSG.KC.Loop CFSG.KC.J4Q CFSG.KD.J4Q CFSG.KD.J4M4F CFSG.KD.J4NP7850 CFSG.Sporadic.J4
   CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT2 CertificateChecks.KernelJ4Q CFSG.KS.PackFld
 
-@[expose] noncomputable def rowN (x : Nat) : Row := toRow (ofN x).toVec
+noncomputable def rowN (x : Nat) : Row := toRow (ofN x).toVec
 
 theorem bit_mul (x k : Nat) : (x >>> k) &&& 1 = if x.testBit k then 1 else 0 := by
   rw [Nat.and_one_is_mod, Nat.testBit, Nat.one_and_eq_mod_two]
@@ -89,7 +89,7 @@ theorem vecJ_xsum (b : Nat) (f : Nat → Nat) : ∀ n, vecJ rm (xsum f n) b = xs
   | 0 => vecJ_zero b
   | n + 1 => by rw [xsum_succ, xsum_succ, vecJ_xor, vecJ_xsum b f n]
 
-@[expose] noncomputable def bsum7850 (h : Nat → Nat) (n : Nat) : Nat :=
+noncomputable def bsum7850 (h : Nat → Nat) (n : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) 0 (fun i acc => acc + h i * 2 ^ (128 * i)) n
 
 theorem bsum7850_succ (h : Nat → Nat) (n : Nat) :
@@ -155,7 +155,7 @@ theorem fld_xsum7850 {P : Nat → Nat} {G : Nat → Nat → Nat} : ∀ {n : Nat}
 theorem c_bsum7850 : c = bsum7850 (fun _ => 1) 112 :=
   Nat.eq_of_beq_eq_true (by decide +kernel)
 
-@[expose] noncomputable def step7850 (a b k : Nat) : Nat :=
+noncomputable def step7850 (a b k : Nat) : Nat :=
   ((a >>> k) &&& c) * rm &&& ((b >>> (k * 128)) &&& rm) * c
 
 theorem mrec7850 (a b : Nat) : ∀ n, Nat.rec (motive := fun _ => Nat) (nat_lit 0)
@@ -172,7 +172,7 @@ theorem mulJ_eq7850 (a b : Nat) : mulJ c rm a b = xsum (step7850 a b) 112 := by
   rw [strictN_eq7850, strictN_eq7850]
   exact mrec7850 a b 112
 
-theorem fld_step7850 (a b : Nat) {k : Nat} (hk : k < 112) :
+theorem fld_step7850 (a b : Nat) {k : Nat} (_hk : k < 112) :
     Fld 128 (step7850 a b k)
       (fun i => if i < 112 then (if a.testBit (128 * i + k) then rowJ rm b k else 0) else 0) := by
   have hc := (fld_bsum7850 (h := fun _ => 1) (fun _ => by omega) 112).1
@@ -318,9 +318,7 @@ theorem rank_loop7850{FM R : List Nat} {Q v : Nat} (hv : v < 2 ^ 112)
   | 0, _ => rfl
   | n + 1, hn => by
     refine Eq.trans (congrArg (vecJ rm v) (rec_succ7850 _ _ n)) ?_
-    beta_reduce
     rw [strictN_eq7850]
-    beta_reduce
     rw [vecJ_xorM, rank_loop7850 hv hfix n (by omega), vecJ_mulJ_any, vecJ_xorM,
       getN_eq7850 one FM n, hfix n (by omega), vecJ_one7850 hv, Nat.xor_self, vecJ_zero,
       Nat.xor_zero]

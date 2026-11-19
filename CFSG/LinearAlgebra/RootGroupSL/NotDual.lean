@@ -11,6 +11,7 @@ variable {k E VJ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup VJ] [Module k VJ] [Module E VJ] [IsScalarTower k E VJ]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ]
 
+omit [Module.Finite E VJ] in
 private lemma exists_form_vanishing_on_pair (u e₁ : VJ) (hm : 3 ≤ Module.finrank E VJ) :
     ∃ φ : VJ →ₗ[E] E, φ u = 0 ∧ φ e₁ = 0 ∧ ∃ v : VJ, φ v = 1 := by
   classical
@@ -39,6 +40,7 @@ private lemma exists_form_vanishing_on_pair (u e₁ : VJ) (hm : 3 ≤ Module.fin
   · rw [LinearMap.smul_apply, hφe, smul_eq_mul, mul_zero]
   · rw [LinearMap.smul_apply, smul_eq_mul, inv_mul_cancel₀ hv]
 
+omit [Algebra k E] [IsScalarTower k E VJ] [Module.Finite k E] [Module.Finite k VJ] [Module.Finite E VJ] in
 private lemma form_eq_zero_of_fixed (e₁ : VJ) (hm : 3 ≤ Module.finrank E VJ)
     (f : Module.Dual k VJ)
     (hf : ∀ (B : SpecialLinearGroup E VJ), B e₁ = e₁ → ∀ x : VJ, f (B x) = f x) :
@@ -77,7 +79,7 @@ theorem not_exists_equivariant_dual_addEquiv (hm : 3 ≤ Module.finrank E VJ)
     (hT : ∀ (B : SpecialLinearGroup E VJ) (f : Module.Dual k VJ),
       T (f ∘ₗ (SpecialLinearGroup.toLinearEquiv (restrictSL k B⁻¹)).toLinearMap) = B (T f)) :
     False := by
-  haveI : Nontrivial VJ := Module.nontrivial_of_finrank_pos (R := E) (M := VJ) (by omega)
+  have : Nontrivial VJ := Module.nontrivial_of_finrank_pos (R := E) (M := VJ) (by omega)
   obtain ⟨e₁, he₁⟩ := exists_ne (0 : VJ)
   let f₀ : Module.Dual k VJ := T.symm e₁
   have hf₀ : T f₀ = e₁ := T.apply_symm_apply e₁

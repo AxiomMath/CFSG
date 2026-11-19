@@ -20,11 +20,11 @@ lemma ggNSLiePI2_hoff (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbelian p Bs) 
     (i j : Fin (N - 1)) (hij : (i : ℕ) ≠ (j : ℕ)) (hij1 : (i : ℕ) + 1 ≠ (j : ℕ))
     (hi1j : (i : ℕ) ≠ (j : ℕ) + 1)
     {x : Fin (N - 1) → Additive ↥Bs} {g : Fin (N - 1) → Module.Dual (ZMod p) (Additive ↥Bs)}
-    (hx0 : ∀ k, x k ≠ 0) (hgx : ∀ k, g k (x k) = 2)
+    (_hx0 : ∀ k, x k ≠ 0) (hgx : ∀ k, g k (x k) = 2)
     (hnorm : ∀ k v, ggNSLiePI2_linearEquivOfMulAut hp (ρ (ggNSLiePI2_simpleSwap N k)) v =
       v - g k v • x k) :
     g i (x j) = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod p) = 0 := by simpa using h
@@ -79,7 +79,7 @@ lemma ggNSLiePI2_hadj (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbelian p Bs) 
     (hnorm : ∀ k v, ggNSLiePI2_linearEquivOfMulAut hp (ρ (ggNSLiePI2_simpleSwap N k)) v =
       v - g k v • x k) :
     g i (x ⟨i.1 + 1, hi⟩) * g ⟨i.1 + 1, hi⟩ (x i) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod p) = 0 := by simpa using h

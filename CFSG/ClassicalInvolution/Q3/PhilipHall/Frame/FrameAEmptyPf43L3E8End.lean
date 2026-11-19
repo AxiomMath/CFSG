@@ -64,7 +64,7 @@ theorem prod_no_conj (cfg : L3E8Cfg K z J zJ H Q E S) (hU : UniqueCosetZ K z)
     rw [Subgroup.mem_normalizer_iff] at hbQ ⊢
     intro w
     have := hbQ (g⁻¹ * w * g⁻¹⁻¹)
-    simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+    simp only [mem_rightConjugate_iff] at this ⊢
     rw [show g⁻¹ * (a * w * a⁻¹) * g⁻¹⁻¹ = b * (g⁻¹ * w * g⁻¹⁻¹) * b⁻¹ by rw [hab]; group]
     exact this
   have hA := fun e (he : e ∈ E) => cfg.wreath_diag hb hb2 hbN he
@@ -136,7 +136,7 @@ theorem prod_no_conj (cfg : L3E8Cfg K z J zJ H Q E S) (hU : UniqueCosetZ K z)
     obtain ⟨f, hf, hf1, hfz⟩ : ∃ f ∈ E, f ≠ 1 ∧ f ≠ z := by
       by_contra hcon
       push Not at hcon
-      haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
+      have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
       have hsurj : Function.Surjective (![1, ⟨z, hzE⟩] : Fin 2 → E) := by
         intro f
         by_cases hf1 : (f : T) = 1
@@ -184,7 +184,7 @@ theorem prod_no_conj (cfg : L3E8Cfg K z J zJ H Q E S) (hU : UniqueCosetZ K z)
     rw [Subgroup.mem_normalizer_iff] at hgN ⊢
     intro w
     have := hgN (g * w * g⁻¹)
-    simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+    simp only [mem_rightConjugate_iff] at this ⊢
     rw [show g * (e * (b⁻¹ * e * b)) * g⁻¹ * (g * w * g⁻¹) * (g * (e * (b⁻¹ * e * b)) * g⁻¹)⁻¹ =
         g * (e * (b⁻¹ * e * b) * w * (e * (b⁻¹ * e * b))⁻¹) * g⁻¹ by group] at this
     exact this

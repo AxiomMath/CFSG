@@ -142,7 +142,7 @@ theorem evenLieAutInner_of_inputs
   intro K _ _ hK β hβ hex
   obtain ⟨P, hPfix⟩ := hex
   have hPs : IsSylowTwoOf (P : Subgroup K) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨P.isPGroup', P.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨P.isPGroup, P.not_dvd_index⟩
   have key : SylowCentralizingAutInner K → IsInnerAut β := fun hS => hS _ hPs β hPfix
   rcases hK with ((⟨f, h | h | h | h | h | h | h | h⟩ | h) | ⟨n, hn, h⟩)
   · exact key (sylowCentralizingAutInner_of_stated_psl_two (by have := h.1; omega) h.2)

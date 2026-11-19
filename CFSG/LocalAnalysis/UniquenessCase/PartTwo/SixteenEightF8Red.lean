@@ -127,7 +127,7 @@ theorem s16g_exists_mult_omegaPlus {m : ℕ} (hm : 3 ≤ m) [Finite K] [CharP K 
         Set (GL (Fin m ⊕ Fin m) K))), μ x = 1 → ∀ v : Fin m ⊕ Fin m → K,
           StatedQuadPlus m K (((x : GL (Fin m ⊕ Fin m) K) : Matrix _ _ K) *ᵥ v) =
             StatedQuadPlus m K v := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨μ, -, hμ⟩ := s16g_exists_mult_quadratic (CFSG.LieType.Universal.Spin.quadPlus m K)
     (CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus m K)
     (addCommutantScalar_statedOmegaPlus hm)
@@ -148,7 +148,7 @@ theorem s16g_exists_mult_omegaMinus {m : ℕ} (hm : 2 ≤ m) [Finite K] [CharP K
           StatedQuadMinus m K b c
               (((x : GL (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K) : Matrix _ _ K) *ᵥ v) =
             StatedQuadMinus m K b c v := by
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨μ, -, hμ⟩ := s16g_exists_mult_quadratic (CFSG.LieType.Universal.Spin.quadMinus m K b c)
     (CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite m K hirr)
     (addCommutantScalar_statedOmegaMinus hm hirr)
@@ -165,6 +165,7 @@ theorem s16g_range_le_norm {G : Type*} [Group G] {A : Subgroup G} {Γ : Subgroup
   rintro _ ⟨a, rfl⟩
   exact hρN a
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem s16g_pRank_le_of_embedding {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (ρ : ↥A →* MulAut (Multiplicative (ι → K))) (hρ : Function.Injective ρ) {p : ℕ}
     (hp : p.Prime) {r : ℕ}
@@ -178,6 +179,7 @@ theorem s16g_pRank_le_of_embedding {G : Type*} [Group G] [Finite G] {A : Subgrou
   rwa [Subgroup.card_map_of_injective hρ,
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEA).toEquiv] at h2
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem s16g_exists_elem_of_le_pRank {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (ρ : ↥A →* MulAut (Multiplicative (ι → K))) (hρ : Function.Injective ρ) {p : ℕ}
     (hp : p.Prime) {k : ℕ} (hk : k ≤ CFSG.Open.pRank p A) :

@@ -65,7 +65,7 @@ theorem str86_b2_false_of_relIndex_D_eq_q
     intro x hx
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [Subgroup.mem_normalizer_iff.mp (hSQ1 (hQ2S hx)) y,
       Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y]
   have hcommQ2le : ⁅Q2 L1 L2 S, Q2 L1 L2 S⁆ ≤ Q2 L1 L2 S := by
@@ -270,7 +270,7 @@ theorem str86_b2_false_of_relIndex_D_eq_q
       with h | h
     · exfalso
       have hωQ : ω ∈ Q2 L1 L2 S := h.le (Subgroup.mem_sup_left hωO)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨j, hj⟩ := (pCoreOf_isPGroup 2 (P2 L1 L2 S)) ⟨ω, hωQ⟩
       have hj' : ω ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
       have hdvd : 3 ∣ 2 ^ j := by

@@ -130,8 +130,8 @@ theorem M_inf_Y (h : d.Hyp) : d.M ⊓ d.Y = d.V₂ := by
   · exact fun v hv => Subgroup.mem_inf.2 ⟨h.V₂_le_D₁ hv, mem_centralizer_singleton_iff.2
       (h.Y_comm_e₂ (h.V₂_le_Y hv))⟩
 
-theorem M_le_normalizer_D₃ (h : d.Hyp) : d.M ≤ normalizer (d.D₃ : Set G) := fun m hm =>
-  mem_normalizer_fintype fun u hu => h.conj_mem_D₃_of_mem_D₁ (M_le_D₁ hm) hu
+theorem M_le_normalizer_D₃ (h : d.Hyp) : d.M ≤ normalizer (d.D₃ : Set G) := fun _m hm =>
+  mem_normalizer_fintype fun _u hu => h.conj_mem_D₃_of_mem_D₁ (M_le_D₁ hm) hu
 
 theorem card_X₂_sup_V₂ (h : d.Hyp) : Nat.card (d.X₂ ⊔ d.V₂ : Subgroup G) = 2 ^ 8 := by
   have hN : d.X₂ ≤ normalizer (d.V₂ : Set G) := fun x hx =>

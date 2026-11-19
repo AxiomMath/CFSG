@@ -52,7 +52,7 @@ theorem liftAut_apply_eq_of_commute (hker : π.ker ≤ LinearFlag.scalars n F) (
   obtain ⟨P0, hP0⟩ := LinearFlag.exists_sylow_unitriangular (K := F) 2 (n := n) (by omega)
   have hU2 : IsPGroup 2 (LinearFlag.unitriangular n F) := by
     rw [← hP0]
-    exact P0.isPGroup'
+    exact P0.isPGroup
   obtain ⟨a, ha⟩ := hU2.exists_orderOf_eq_pow
     (⟨u, hu⟩ : LinearFlag.unitriangular n F)
   have ha' : orderOf u = 2 ^ a := by
@@ -141,7 +141,7 @@ theorem exists_commutator_pow_eq (hker : π.ker ≤ LinearFlag.scalars n F) (hn 
     obtain ⟨P0, hP0⟩ := LinearFlag.exists_sylow_unitriangular (K := F) 2 (n := n) (by omega)
     have hU2 : IsPGroup 2 (LinearFlag.unitriangular n F) := by
       rw [← hP0]
-      exact P0.isPGroup'
+      exact P0.isPGroup
     have hmap2 : IsPGroup 2 ((LinearFlag.unitriangular n F).map π) := hU2.map π
     obtain ⟨a, ha⟩ := hmap2.exists_orderOf_eq_pow
       (⟨w, hwU⟩ : (LinearFlag.unitriangular n F).map π)

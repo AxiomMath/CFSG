@@ -19,7 +19,7 @@ theorem false_of_commuting_involutions_in (inp : Thm24ThreeSimpleInputs)
     (hcov : OddCover s' A) (hAN : A ≤ N) {x y : H} (hxN : x ∈ N) (hyN : y ∈ N)
     (hx : x ∈ centralizer (A : Set H)) (hy : y ∈ centralizer (A : Set H)) (hx2 : orderOf x = 2)
     (hy2 : orderOf y = 2) (hxy : x ≠ y) (hcomm : x * y = y * x) : False := by
-  haveI := hN.isSimpleGroup
+  have := hN.isSimpleGroup
   have hAsub : SolStd (A.subgroupOf N) := solStd_subgroupOf hAN hxN hx2 hx hA
   have hcov' : OddCover s' (A.subgroupOf N) :=
     oddCover_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hAN).symm hcov

@@ -155,7 +155,7 @@ theorem cnt_omK_mulAut (α : MulAut Jc)
     have hjJ : (⟨omK j, omK_mem_Jc j⟩ : Jc) =
         (⟨omK (σ.symm k), omK_mem_Jc (σ.symm k)⟩ : Jc) * x := Subtype.ext hj
     have h' := congrArg (fun w : Jc => α w) hjJ
-    simp only [map_mul, MulEquiv.apply_symm_apply] at h'
+    simp only [map_mul] at h'
     have h'' := congrArg Subtype.val h'
     simp only [Subgroup.coe_mul] at h''
     rw [hσ j, congrArg Subtype.val (hsymm k)] at h''
@@ -170,7 +170,7 @@ theorem adj_omK_mulAut (α : MulAut Jc)
       ((α ((⟨omK a, omK_mem_Jc a⟩ : Jc) * ⟨omK b, omK_mem_Jc b⟩) : Jc) : K) := by
     rw [map_mul, Subgroup.coe_mul, hσ a, hσ b]
   rw [hmul, cnt_omK_mulAut α σ hσ, Function.Injective.ne_iff (EquivLike.injective σ)]
-  simp [Subgroup.coe_mul]
+  simp
 
 theorem nbrInv_of_mulAut
     (α : MulAut Jc) (σ : Equiv.Perm (Fin 77))

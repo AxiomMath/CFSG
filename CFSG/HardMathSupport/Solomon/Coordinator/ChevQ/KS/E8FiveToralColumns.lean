@@ -96,7 +96,7 @@ theorem exists_eigenTriple_of_langPlaneData {K : Type} [Field K] [Finite K]
   have hE₀p : ∀ x ∈ E₀, x ^ 5 = 1 := hE₀.2
   have hE₀m : ∀ a ∈ E₀, ∀ b ∈ E₀, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hE₀.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ω, hω⟩ := exists_orderOf_eq_five_of_not_dvd hpK
   obtain ⟨x₀, hx₀, x₁, hx₁, x₂, hx₂, hrel, k₀, k₁, k₂, ha₀, ha₁, ha₂, hreg'⟩ :=
     exists_cubeColumns hω hE₀p hE₀m hE₀c D hreg

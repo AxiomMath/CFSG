@@ -18,7 +18,7 @@ theorem qtsFacts_of {G S IL W R INV CLS LN CM V0 : List Nat} (hg : gOK G = true)
     (hw : nwOK G S W V0 LN = true) (hsw : swapOK G S IL CM = true) (hce : centOK G S = true)
     (hcz : centerOK G = true) (hlen : lensOK G S IL W V0 = true) : QtsFacts := by
   unfold lensOK at hlen
-  simp only [and'_eq, Bool.and_eq_true, Nat.beq_eq, lenR_eq] at hlen
+  simp only [Bool.and_eq_true, Nat.beq_eq, lenR_eq] at hlen
   obtain ⟨hG, hS, hIL, hW, hV⟩ := hlen
   unfold QtsFacts
   exact ⟨small_spec, lists_spec hg hG hs (by rw [lenR_eq]; exact hS), qpowOK_spec hg hG hq,

@@ -92,14 +92,14 @@ theorem monEmb_injective {C : Type} [CommGroup C] {F : Type} [Field F] {e : C �
     rw [← coe_monEmb_apply, hx, Units.val_one, Matrix.one_apply]
   have hσ : ∀ i, x.right⁻¹ i = i := fun i => by
     have h := hent i (x.right⁻¹ i)
-    rw [if_pos rfl] at h
+    rw [ite_eq_left rfl] at h
     by_contra hne
-    rw [if_neg (Ne.symm hne)] at h
+    rw [ite_eq_right (Ne.symm hne)] at h
     exact (e (x.left i)).ne_zero h
   have hr : x.right = 1 := inv_eq_one.mp (Equiv.ext hσ)
   refine SemidirectProduct.ext (funext fun i => he ?_) hr
   have h := hent i i
-  rw [if_pos (hσ i), if_pos rfl] at h
+  rw [ite_eq_left (hσ i), ite_eq_left rfl] at h
   rw [SemidirectProduct.one_left, Pi.one_apply, map_one]
   exact Units.ext h
 

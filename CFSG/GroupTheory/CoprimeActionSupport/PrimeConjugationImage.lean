@@ -16,7 +16,7 @@ theorem exists_subgroup {H : Type*} [Group H] [Finite H] {q : ℕ} (hq : q.Prime
     have := Subgroup.normalizer_commutator_ge_right E D
     rwa [hcomm] at this
   let φ : D →* MulAut E := E.normalizerMonoidHom.comp (Subgroup.inclusion hN)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hker : φ.ker = ⊥ := by
     have hdvd : Nat.card φ.ker ∣ q := hD ▸ Subgroup.card_subgroup_dvd_card φ.ker
     rcases (Nat.dvd_prime hq).mp hdvd with h | h

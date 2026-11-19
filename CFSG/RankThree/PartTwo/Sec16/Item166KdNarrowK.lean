@@ -60,12 +60,14 @@ private def centMod (Q K : Subgroup G) : Subgroup G where
     rw [h2]
     exact h1
 
+omit [Finite G] in
 private theorem commutator_le_of_le_centMod {Q J V : Subgroup G} (hV : V ≤ centMod Q J) :
     ⁅V, J⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
   intro v hv j hj
   exact (hV hv).2 j hj
 
+omit [Finite G] in
 private theorem commutator_le_of_le_normalizer {Q J : Subgroup G}
     (hJ : J ≤ Subgroup.normalizer (Q : Set G)) : ⁅Q, J⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -130,10 +132,10 @@ theorem commutator_theta_sSup_le_pCoreOf {d : G}
   have hcross : ∀ V : Subgroup G, ⁅V, J⁆ ≤ θK → ⁅V, J⁆ ≤ P := fun V hV =>
     CFSG.GroupTheory.commutator_le_of_isPerfect_of_le hJperf hθKs hPθK hPn hθK hV
   set X₁ := sSup (𝒳 \ {K})
-  have hX₁X : X₁ ≤ X := sSup_le fun Y hY => le_sSup (Set.diff_subset hY)
+  have hX₁X : X₁ ≤ X := sSup_le fun Y hY => le_sSup (Set.sdiff_subset hY)
   have hX₁C : X₁ ≤ centMod θK J := by
     refine sSup_le fun Y hY => ?_
-    simp only [Set.mem_diff, Set.mem_singleton_iff] at hY
+    simp only [Set.mem_sdiff, Set.mem_singleton_iff] at hY
     intro y hy
     refine ⟨hXNθK (le_sSup hY.1 hy), fun k hk => ?_⟩
     have hc : ⁅K, Y⁆ ≤ θK :=
@@ -235,6 +237,7 @@ theorem commutator_theta_le_pCoreOf_of_split {K J : Subgroup G}
     exact (commutator_le_of_le_normalizer (hJK.trans (Sec6.le_normalizer_theta K))).trans
       (CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 le_rfl Subgroup.le_normalizer hθ2)
 
+omit [Finite G] in
 private theorem centralizer_conj_eq {d g : G}
     (hg : g ∈ Subgroup.normalizer (Subgroup.zpowers d : Set G)) :
     Subgroup.centralizer ({g * d * g⁻¹} : Set G) = Subgroup.centralizer ({d} : Set G) := by
@@ -270,13 +273,14 @@ private theorem mem_normalizer_of_mem_thetaComponentsAt {d g : G} {J K : Subgrou
     have hJJ : ⁅J, J⁆ = J := Subgroup.commutator_eq_self
     rw [← hJJ]
     exact (Subgroup.commutator_mono hJK hJK').trans hc
-  haveI := (Sec6.theta_solvable_and_not_dvd K).1
+  have := (Sec6.theta_solvable_and_not_dvd K).1
   have hsol : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJθ)
       (Subgroup.inclusion_injective _)
-  haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
+  have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
   exact Group.IsPerfect.not_isSolvable ↥J hsol
 
+omit [Finite G] in
 private theorem mem_normalizer_inSubgroup_perfectResidual {K : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer (inSubgroup perfectResidual K : Set G) :=
@@ -348,7 +352,7 @@ theorem step166ThetaDComm_of_thetaDCommK
     exact Sec14.centralizer_singleton_ne_top hD13.isSimpleGroup hD13.nonabelian hd1
       (top_le_iff.mp (htop ▸ hKC))
   have hS4 : SectionFourHyp ↥Kd := hD13.toTheoremFourHyp.sectionFourHyp hKtop
-  haveI : Group.IsPerfect ↥Kd := Sec6.isPerfect_of_mem_thetaComponentsAt hKd
+  have : Group.IsPerfect ↥Kd := Sec6.isPerfect_of_mem_thetaComponentsAt hKd
   have hθK := commutator_theta_le_pCoreOf_of_split hS4 hKdA6 hJK
     (hK G A c L Y₀ h hJ d hdA hd1 hdc Kd hKd hKdeq hKdA6 hAK hNK)
   exact commutator_theta_sSup_le_pCoreOf h𝒳 htypes3 hKd hKd𝒳 hKdeq hKdA6 hLBperf hθK

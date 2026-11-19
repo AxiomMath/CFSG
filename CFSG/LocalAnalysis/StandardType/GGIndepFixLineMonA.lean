@@ -51,8 +51,8 @@ theorem l6km_monomial_setup {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup 
   let A : Subgroup (V ≃ₗ[ZMod p] V) := Subgroup.closure (Set.range r ∪ Set.range s)
   let P : Subgroup (V ≃ₗ[ZMod p] V) := Subgroup.closure (Set.range r)
   let Q : Subgroup (↥T ≃ₗ[ZMod p] ↥T) := ggFixLineQ S
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   have hPA : P ≤ A := Subgroup.closure_mono (Set.subset_union_left)
   let ρA : ↥A →* (↥T ≃ₗ[ZMod p] ↥T) :=
     (ggLinRestrictHom T).comp (Subgroup.inclusion (ggFixLine_A_le_stab S))
@@ -257,8 +257,8 @@ lemma l6km_move_rank_one {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     Module.finrank (ZMod p) (ggLinMove
       ((Afun i) : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s))) = 1 := by
   classical
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite (p := p) s S.s_refl S.fix_H
   let T : Submodule (ZMod p) V := ggFixLineT r s
   have hTprops := ggFixLine_T_props S
   have hhiT : ∀ i, h i ∈ T := fun i =>

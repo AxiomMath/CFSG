@@ -62,7 +62,7 @@ theorem noNormal3_of_isType1483 {X : Type*} [Group X] [Finite X]
     exact Ronan148W.noNormal3_congr e.symm Ronan148W.noNormal3_alternating_five_sq
   · obtain ⟨e⟩ := h7
     exact Ronan148W.noNormal3_congr e.symm Ronan148W.noNormal3_alternatingGroup_seven
-  · haveI := hp7
+  · have := hp7
     obtain ⟨e⟩ := hL37
     exact Ronan148W.noNormal3_congr e.symm Ronan148W.noNormal3_projSL_three_seven
 
@@ -113,7 +113,7 @@ theorem card_ge_of_isType1483 {X : Type*} [Group X] [Finite X]
     norm_num
   · obtain ⟨e⟩ := h7
     rw [Nat.card_congr e.toEquiv, KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1]
-  · haveI := hp7
+  · have := hp7
     obtain ⟨e⟩ := hL37
     rw [Nat.card_congr e.toEquiv, Sec15.card_projSL_three_seven]
     norm_num
@@ -143,7 +143,7 @@ private theorem cubeComm_of_isType1483 {X : Type*} [Group X]
     exact (hA5.prod hA5).of_mulEquiv e
   · obtain ⟨e⟩ := h7
     exact (Read148Perf.cubeComm_alternatingGroup 7 (by norm_num)).of_mulEquiv e
-  · haveI := hp7
+  · have := hp7
     obtain ⟨e⟩ := hL37
     have := Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field (GaloisField 7 1)
     have : IsSimpleGroup X := e.isSimpleGroup

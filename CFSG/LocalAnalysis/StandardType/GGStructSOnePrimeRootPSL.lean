@@ -97,7 +97,7 @@ theorem ggRootInvolCentTypedTag_PSL : GGRootInvolCentTypedTag .PSL := by
   obtain ⟨ψ', hrange, hker', hr'⟩ :=
     RCSPSL.exists_conj (F := GaloisField 2 f) (by omega) ψs hkers hrs
   have hm1 : 1 ≤ m := by omega
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   change GGInvolCentTyped ψs.range r
   rw [← hrange, hr']
   set P := LinFusion.ggTransPlacement (m := m) hm1 with hP

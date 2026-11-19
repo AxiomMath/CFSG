@@ -141,8 +141,8 @@ theorem GGHalfJoin.fusion_core {m : ℕ} (hm : 1 ≤ m)
         (⟨0, Nat.succ_pos _⟩ : Fin (m + 1 + 1)).succ ∉
           {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val} := by
       constructor
-      · simp only [Set.mem_setOf_eq, not_le, Fin.val_castSucc]; omega
-      · simp only [Set.mem_setOf_eq, not_le, Fin.val_succ]; omega
+      · simp only [Set.mem_ofPred_eq, not_le, Fin.val_castSucc]; omega
+      · simp only [Set.mem_ofPred_eq, not_le, Fin.val_succ]; omega
     rw [hω₀]
     exact (commute_omegaBlock_slOn hk hc''mem).symm
   have hconjA : (MulAut.conj A⁻¹) a = ω₀ := by

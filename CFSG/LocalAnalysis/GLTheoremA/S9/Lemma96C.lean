@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_sq_eq_one {q : ℕ} (hq2 : q ≠ 2) (hq : q.Prime) {a : G} (h2 : a ^ 2 = 1)
     (hq1 : a ^ q = 1) : a = 1 := by
   obtain ⟨m, hm⟩ := hq.odd_of_ne_two hq2
@@ -18,6 +19,7 @@ theorem eq_one_of_sq_eq_one {q : ℕ} (hq2 : q ≠ 2) (hq : q.Prime) {a : G} (h2
     rw [hm, pow_succ, pow_mul, h2, one_pow, one_mul]
   rw [← this]; exact hq1
 
+omit [Finite G] in
 theorem inverts_of_inf_centralizer_eq_bot {A : Subgroup G} {t : G}
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (ht : t ∈ Subgroup.normalizer (A : Set G))
     (ht2 : t ^ 2 = 1) (h : A ⊓ Subgroup.centralizer ({t} : Set G) = ⊥) :
@@ -38,6 +40,7 @@ theorem inverts_of_inf_centralizer_eq_bot {A : Subgroup G} {t : G}
   rw [h, Subgroup.mem_bot] at hy
   exact eq_inv_of_mul_eq_one_right hy
 
+omit [Finite G] in
 theorem exists_fixed_by_four_group {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {A₀ U : Subgroup G}
     (hab : ∀ a ∈ A₀, ∀ b ∈ A₀, a * b = b * a) (hexp : ∀ a ∈ A₀, a ^ q = 1) (hne : A₀ ≠ ⊥)
     (hU : IsElemAbelian 2 U) (hUc : Nat.card U = 4) (hUN : U ≤ Subgroup.normalizer (A₀ : Set G)) :
@@ -62,7 +65,7 @@ theorem exists_fixed_by_four_group {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {A�
       exact orderOf_eq_prime (by simpa using hU.2 t₁ ht₁U) ht₁
     rw [h, hUc] at this; omega
   have hle : Subgroup.zpowers t₁ ≤ U := Subgroup.zpowers_le.2 ht₁U
-  obtain ⟨t₂, ht₂U, ht₂Z⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hle hZ1)
+  obtain ⟨t₂, ht₂U, ht₂Z⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle hZ1)
   have ht₂1 : t₂ ≠ 1 := fun h => ht₂Z (h ▸ (Subgroup.zpowers t₁).one_mem)
   have ht₁₂ : t₁ * t₂ ≠ 1 := by
     intro h
@@ -90,6 +93,7 @@ theorem exists_fixed_by_four_group {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {A�
     rw [sq]; nth_rewrite 1 [e5]; exact inv_mul_cancel a
   exact (Subgroup.mem_bot).2 (eq_one_of_sq_eq_one hq2 hq e6 (hexp a ha))
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot_of_commutator {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G}
     {z : G} (hz2 : z ^ 2 = 1) (hzN : z ∈ Subgroup.normalizer (Q : Set G))
     (hab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) (hexp : ∀ a ∈ Q, a ^ q = 1)
@@ -171,6 +175,7 @@ theorem five_le_pRank_of_disjoint {q : ℕ} (hq : q.Prime) {D W R : Subgroup G}
   exact hi5.trans (CFSG.SectionRank.le_pRank hq.one_lt (sup_le hWD hRD)
     (isElemAbelian_mono hD (sup_le hWD hRD)) hi)
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_center (Q : Subgroup G) :
     Subgroup.normalizer (Q : Set G) ≤
       Subgroup.normalizer ((Q ⊓ Subgroup.centralizer (Q : Set G) : Subgroup G) : Set G) := by
@@ -198,7 +203,7 @@ theorem inf_centralizer_le_core {p : ℕ} (hp : p.Prime) {X L A : Subgroup G}
     (hnc : ¬ L ≤ Subgroup.centralizer (A : Set G)) :
     L ⊓ Subgroup.centralizer (A : Set G) ≤ GLAPPrimeCoreOf p L := by
   classical
-  haveI hKnormal : ((L ⊓ Subgroup.centralizer (A : Set G)).subgroupOf L).Normal :=
+  have hKnormal : ((L ⊓ Subgroup.centralizer (A : Set G)).subgroupOf L).Normal :=
     normal_inf_centralizer hLA
   set Og : Subgroup ↥L := GLAPPrimeCore p ↥L with hOg
   set Kg : Subgroup ↥L := (L ⊓ Subgroup.centralizer (A : Set G)).subgroupOf L with hKg
@@ -224,7 +229,7 @@ theorem inf_centralizer_le_core {p : ℕ} (hp : p.Prime) {X L A : Subgroup G}
       have hOgcard : Nat.card ↥Og = Nat.card (GLAPPrimeCoreOf p L) := by
         rw [GLAPPrimeCoreOf]
         exact (Subgroup.card_map_of_injective L.subtype_injective).symm
-      haveI hOgsolv : Group.IsSolvable ↥Og :=
+      have hOgsolv : Group.IsSolvable ↥Og :=
         CFSG.FeitThompson.isSolvable_of_odd_natCard _ (hOgcard ▸ hodd)
       set f : ↥Og →* (↥L ⧸ Kg) := (QuotientGroup.mk' Kg).comp Og.subtype with hf
       have hfsurj : Function.Surjective f := by
@@ -238,7 +243,7 @@ theorem inf_centralizer_le_core {p : ℕ} (hp : p.Prime) {X L A : Subgroup G}
           change (QuotientGroup.mk' Kg) o = (QuotientGroup.mk' Kg) (k * o)
           have hk1 : (QuotientGroup.mk' Kg) k = 1 := (QuotientGroup.eq_one_iff k).2 hk
           rw [map_mul, hk1, one_mul]
-      haveI : Group.IsSolvable (↥L ⧸ Kg) := Group.isSolvable_of_surjective hfsurj
+      have : Group.IsSolvable (↥L ⧸ Kg) := Group.isSolvable_of_surjective hfsurj
       have hperf : (commutator (↥L ⧸ Kg)) = ⊤ := by
         have h1 : (⁅(⊤ : Subgroup ↥L), (⊤ : Subgroup ↥L)⁆ : Subgroup ↥L) = ⊤ := by
           apply Subgroup.map_injective L.subtype_injective
@@ -250,7 +255,7 @@ theorem inf_centralizer_le_core {p : ℕ} (hp : p.Prime) {X L A : Subgroup G}
         exact h2.symm
       have htriv : Subsingleton (↥L ⧸ Kg) := by
         by_contra hns
-        haveI : Nontrivial (↥L ⧸ Kg) := not_subsingleton_iff_nontrivial.1 hns
+        have : Nontrivial (↥L ⧸ Kg) := not_subsingleton_iff_nontrivial.1 hns
         exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥L ⧸ Kg)).ne hperf
       have hKtop : Kg = ⊤ := by
         rw [eq_top_iff]
@@ -269,6 +274,7 @@ theorem inf_centralizer_le_core {p : ℕ} (hp : p.Prime) {X L A : Subgroup G}
   obtain ⟨o, ho, hok⟩ := Subgroup.mem_map.1 (Subgroup.mem_map_of_mem L.subtype (hKO this))
   exact ⟨o, ho, hok⟩
 
+omit [Finite G] in
 theorem mem_core_of_mem_coreOf {p : ℕ} {L : Subgroup G} {k : G} (hkL : k ∈ L)
     (hk : k ∈ GLAPPrimeCoreOf p L) : (⟨k, hkL⟩ : ↥L) ∈ GLAPPrimeCore p ↥L := by
   obtain ⟨o, ho, hok⟩ := Subgroup.mem_map.1 hk
@@ -334,7 +340,7 @@ theorem not_inverts {p : ℕ} (hp : p.Prime) {X L A : Subgroup G} (hL : GLAPComp
       have : (l * (⟨z, hzL⟩ : ↥L))⁻¹ * ((⟨z, hzL⟩ : ↥L) * l) =
           (⟨z, hzL⟩ : ↥L)⁻¹ * (⟨(l : G)⁻¹ * z * l * z⁻¹, hcL⟩ : ↥L) * ((⟨z, hzL⟩ : ↥L)⁻¹)⁻¹ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, InvMemClass.coe_inv]
+        simp only [Subgroup.coe_mul, InvMemClass.coe_inv]
         group
       rw [this]; exact hN
   rw [hZ, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hcentral

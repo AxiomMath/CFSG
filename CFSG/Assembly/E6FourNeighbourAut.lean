@@ -40,13 +40,13 @@ private theorem e6FourOutInner_perfect_adjoint {K : Type} [Field K] [Finite K]
   let Inn : Subgroup (MulAut (adjointGroup Tag.E6 K)) :=
     (MulAut.conj : adjointGroup Tag.E6 K →* MulAut (adjointGroup Tag.E6 K)).range
   have hInnNormal : Inn.Normal := CFSG.StandardType.AutSt.normal_range_conj
-  haveI : Inn.Normal := hInnNormal
+  have : Inn.Normal := hInnNormal
   have hcyc : IsCyclic (RingAut K) :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK).2
-  haveI : IsCyclic (RingAut K) := hcyc
-  letI : CommGroup (RingAut K) := IsCyclic.commGroup
+  have : IsCyclic (RingAut K) := hcyc
+  let : CommGroup (RingAut K) := IsCyclic.commGroup
   have hPker : P ≤ Θ.ker := by
-    haveI : Group.IsPerfect P := hP
+    have : Group.IsPerfect P := hP
     have hhom : Θ.comp P.subtype = 1 :=
       CFSG.OrderReductions.Helpers.perfect_hom_to_commutative_eq_one P
         (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) (Θ.comp P.subtype)
@@ -90,7 +90,7 @@ private theorem e6FourOutInner_perfect_adjoint {K : Type} [Field K] [Finite K]
       (MonoidHom.mem_ker (f := QuotientGroup.mk' Inn)).mpr hq
     rwa [QuotientGroup.ker_mk'] at hmem
   have hPP : ⁅P, P⁆ = P := by
-    haveI : Group.IsPerfect P := hP
+    have : Group.IsPerfect P := hP
     exact Subgroup.commutator_eq_self
   have hPPle : ⁅P, P⁆ ≤ Inn := (Subgroup.commutator_mono hPker hPker).trans hker_comm
   exact hPP ▸ hPPle
@@ -98,9 +98,9 @@ private theorem e6FourOutInner_perfect_adjoint {K : Type} [Field K] [Finite K]
 theorem e6FourOutInner_holds : E6FourOutInner := by
   intro J _ _ hJ hZ
   obtain ⟨K, iF, iFin, iC, hK, ⟨e⟩⟩ := e6FourMark_exists_adjointGroup hJ hZ
-  letI : Field K := iF
-  letI : Finite K := iFin
-  letI : CharP K 2 := iC
+  let : Field K := iF
+  let : Finite K := iFin
+  let : CharP K 2 := iC
   refine ⟨?_, ?_⟩
   · exact E6FourInnerFive.of_mulEquiv e (e6FourOutInner_five_adjoint hK)
   · exact E6FourInnerPerfect.of_mulEquiv e (e6FourOutInner_perfect_adjoint hK)

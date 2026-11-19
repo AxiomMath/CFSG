@@ -32,12 +32,13 @@ set_option quotPrecheck false in
 local notation "s1A" => (⟨sigma1, sigma1_mem_A⟩ : A45)
 
 
-omit hN in
+omit hN [Finite G] in
 private theorem z_centralizes_element_kl (h : Tim79a.ParrottHyp z) (g : ↥(H z)) :
     (g : G) * z = z * (g : G) :=
   Subgroup.mem_centralizer_iff.mp (z_centralizes_H h) (g : G) g.2
 
 omit hN in
+omit [Finite G] in
 private theorem conjV_pi_eq_self_of_mem_centralizer_kl (h : Tim79a.ParrottHyp z) {g : ↥(H z)}
     {y : J z} (hy : (y : G) ∈ Subgroup.centralizer ({(g : G)} : Set G)) :
     conjV h g (QuotientV.pi z y) = QuotientV.pi z y := by
@@ -202,6 +203,7 @@ theorem card_J_inf_centralizer_sigma1Nine_mul_inv_eq (h : Tim79a.ParrottHyp z)
   exact (card_J_inf_centralizer_sigma1Nine_mul_inv_of_spin (z := z) D h P hP hσ₂ hq₂ hc₂).trans
     (by norm_num)
 
+omit hN in
 theorem exists_mem_centralizer_pi_eq_of_fixed (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     {σ x : ↥(H z)} (hσ : orderOf σ = 3) (hZσ : conjZ z σ = 1) (hx2 : x * x = 1)

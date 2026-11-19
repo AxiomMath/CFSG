@@ -379,7 +379,7 @@ theorem e6_fixed_of_conj {G K C : Type*} [Group G] [Group K] [Group C]
     (ε : MulAut K) (ψ : G →* G)
     (hψ : θsc.comp ψ = (ind ε).toMonoidHom.comp θsc)
     (g : G) : ε (σ g) = σ (ψ g) := by
-  haveI : Group.IsPerfect G := ⟨hperf⟩
+  have : Group.IsPerfect G := ⟨hperf⟩
   have hcomp : π.comp (ε.toMonoidHom.comp σ) = π.comp (σ.comp ψ) := by
     apply MonoidHom.ext
     intro z
@@ -395,8 +395,8 @@ theorem e6_fixed_of_conj {G K C : Type*} [Group G] [Group K] [Group C]
   rw [h]
 
 theorem e6BadCube_fixed_lift
-    {K : Type} [Group K] [Finite K] (hperf : commutator K = ⊤)
-    {k : Type} [Field k] [Finite k] (hk3 : ringChar k ≠ 3)
+    {K : Type} [Group K] [Finite K] (_hperf : commutator K = ⊤)
+    {k : Type} [Field k] [Finite k] (_hk3 : ringChar k ≠ 3)
     (h3 : 3 ∣ Nat.card k - 1) (h4 : Nat.card k ≠ 4)
     (θ : K ⧸ Subgroup.center K ≃* adjointGroup Tag.E6 k) {E : Subgroup (MulAut K)}
     (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 3) {ω c : kˣ}
@@ -432,7 +432,7 @@ theorem e6BadCube_fixed_lift
     exact (QuotientGroup.eq_one_iff x).mp h1
   have hk5 : 5 ≤ Nat.card k := four_lt_card_of_three_dvd h3 h4
   have hK4 : 4 ≤ Nat.card k := (four_lt_card_of_three_dvd h3 h4).le
-  haveI : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
+  have : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
   have hEab : IsElemAbelian 3 (coverImage θ E) := isElemAbelian_coverImage θ hE
   have hEd : coverImage θ E ≤ e6Inndiag k := by
     rw [hEc]
@@ -620,7 +620,6 @@ theorem e6BadCube_fixed_lift
   have hPmat : (π (σ y) : ModGL .E6 k) =
       (weylWordElt .E6 k e6BadNWord : ModGL .E6 k) * D' := by
     rw [hP]
-    change (↑(e6BadN k c * D0 ^ n) : ModGL .E6 k) = _
     rw [Subgroup.coe_mul, Subgroup.coe_zpow, hD0mat, coe_e6BadN, ← coe_weylWordElt,
       ← rootDiagUnit_zpow, torusElt_eq_rootDiagUnit, torusElt_eq_rootDiagUnit]
     show (weylWordElt .E6 k e6BadNWord : ModGL .E6 k) *
@@ -671,7 +670,7 @@ theorem e6BadCube_fixed_point
     exact (QuotientGroup.eq_one_iff x).mp h1
   have hk5 : 5 ≤ Nat.card k := four_lt_card_of_three_dvd h3 h4
   have hK4 : 4 ≤ Nat.card k := (four_lt_card_of_three_dvd h3 h4).le
-  haveI : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
+  have : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
   have hEab : IsElemAbelian 3 (coverImage θ E) := isElemAbelian_coverImage θ hE
   have hEd : coverImage θ E ≤ e6Inndiag k := by
     rw [hEc]
@@ -752,7 +751,7 @@ theorem seitzHyperGamma_eq_top_of_coverImage_eq_e6BadCube
       apply θ.injective
       simpa [π] using hx
     exact (QuotientGroup.eq_one_iff x).mp h1
-  haveI : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
+  have : Group.IsPerfect (e6Data_valid.minGroup k) := CFSG.LieType.CurtisTits.isPerfect_e6 k
   have hEab : IsElemAbelian 3 (coverImage θ E) := isElemAbelian_coverImage θ hE
   have hEd : coverImage θ E ≤ e6Inndiag k := by
     rw [hEc]

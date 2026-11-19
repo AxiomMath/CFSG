@@ -21,6 +21,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggAutomizerJoin_le_ggAutomizer (L Bs : Subgroup G) (𝒦 : Finset (Subgroup G)) :
     ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs := by
   unfold ggAutomizerJoin
@@ -40,11 +41,13 @@ theorem ggRouteCfg_ne_bot {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgrou
   obtain ⟨_, _, _, hC, _⟩ := hS
   exact GGHalf.ne_bot_of_isComponentOf hC
 
+omit [Finite G] in
 private lemma coe_presentation_mul {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (x y : M.Group) :
     ((e (x * y) : ↥A) : MulAut ↥Bs) = ((e x : ↥A) : MulAut ↥Bs) * ((e y : ↥A) : MulAut ↥Bs) := by
   rw [map_mul, Subgroup.coe_mul]
 
+omit [Finite G] in
 theorem ggSimple_eq_conj_of_mem_ggCoxRefl {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (hM : GGSimplyLacedConnected M)
     {r₀ : MulAut ↥Bs} (hr₀ : r₀ ∈ ggCoxRefl M e) (i : ι) :
@@ -56,6 +59,7 @@ theorem ggSimple_eq_conj_of_mem_ggCoxRefl {Bs : Subgroup G} {A : Subgroup (MulAu
   simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
+omit [Finite G] in
 theorem ggCoxRefl_conj_of_connected {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (hM : GGSimplyLacedConnected M)
     {r₀ r : MulAut ↥Bs} (hr₀ : r₀ ∈ ggCoxRefl M e) (hr : r ∈ ggCoxRefl M e) :
@@ -70,6 +74,7 @@ theorem ggCoxRefl_conj_of_connected {Bs : Subgroup G} {A : Subgroup (MulAut ↥B
   rw [h1, hai]
   group
 
+omit [Finite G] in
 theorem ggCoxConj_ne {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (hinj : Function.Injective M.simple) (w : M.Group)
     {i j : ι} (hij : i ≠ j) :
@@ -83,6 +88,7 @@ theorem ggCoxConj_ne {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
   rw [mul_assoc, mul_assoc] at h2
   exact mul_right_cancel (mul_left_cancel h2)
 
+omit [Finite G] in
 theorem ggCoxConj_comm {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (w : M.Group) {i j : ι}
     (h : M.simple i * M.simple j = M.simple j * M.simple i) :
@@ -100,6 +106,7 @@ theorem ggCoxConj_comm {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Typ
     ← coe_presentation_mul e (w * M.simple j * w⁻¹) (w * M.simple i * w⁻¹)]
   rw [hXY]
 
+omit [Finite G] in
 theorem ggCoxConj_ne_comm {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (w : M.Group) {i j : ι}
     (h : M.simple i * M.simple j ≠ M.simple j * M.simple i) :
@@ -139,6 +146,7 @@ theorem ggRankOnePerf_conj_card_le {Bs H : Subgroup G} {a : MulAut ↥Bs} (ha : 
     rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     exact H.mul_mem (H.mul_mem hgH (hle hy)) (H.inv_mem hgH)
 
+omit [Finite G] in
 private theorem conj_presentation_simple {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)}
     {ι : Type} {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (w s : M.Group) :
     ((e w⁻¹ : ↥A) : MulAut ↥Bs) * ((e (w * s * w⁻¹) : ↥A) : MulAut ↥Bs) *
@@ -205,7 +213,7 @@ theorem ggLe_iSup_ggRankOnePerf_of_gen {Bs : Subgroup G} {A : Subgroup (MulAut �
 
 theorem ggFin_four_le_card {F : Type} [Field F] [Finite F] (hc : CharP F 2) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (h : p ∣ Nat.card F - 1) : 4 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have hcard : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hn]
@@ -231,7 +239,7 @@ theorem ggSplitLie_of_prim_refl (hL1 : GGSecFiveL1CoxInput) (hRk1 : GGSecFiveRk1
     {X : Subgroup G} (hX : X = L ∨ X ∈ 𝒦) {r : MulAut ↥Bs} (hrA : r ∈ ggAutomizer X Bs)
     (hrC : r ∈ ggCoxRefl M e) : GGSplitLie p X := by
   by_contra hns
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦
@@ -280,7 +288,7 @@ theorem ggSecFiveTier1Input_of_prim (hL1 : GGSecFiveL1CoxInput) (hRk1 : GGSecFiv
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦
   obtain ⟨hpp, hp2⟩ := ggRouteCfg_prime hcfg
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hsl : GGSimplyLaced M := hconn.1
   have hsplitX : ∀ X : Subgroup G, (X = L ∨ X ∈ 𝒦) → GGSplitLie p X := by

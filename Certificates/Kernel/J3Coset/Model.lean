@@ -100,7 +100,7 @@ variable {J : Type} [Group J]
 @[expose] noncomputable def actE (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
     J →* Equiv.Perm (Fin nn) := psi.comp e.toMonoidHom
 
-@[expose] noncomputable def instE (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
+@[instance_reducible, expose] noncomputable def instE (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
     MulAction J (Fin nn) := MulAction.compHom (Fin nn) (actE e)
 
 @[expose] noncomputable def g0E (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) (c : ℕ) : J :=
@@ -128,13 +128,13 @@ theorem act0 (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) (c : ℕ) (hc :
     rcases (by omega : c = 0 ∨ c = 1 ∨ c = 2 ∨ c = 3) with rfl | rfl | rfl | rfl
     · simp only [g0E, genP, ↓reduceIte]
       exact ha
-    · simp only [g0E, genP, show (1 : ℕ) ≠ 0 from by decide, if_false, if_true, map_inv]
+    · simp only [g0E, genP, show (1 : ℕ) ≠ 0 from by decide, ite_false, ite_true, map_inv]
       rw [ha]
     · simp only [g0E, genP, show (2 : ℕ) ≠ 0 from by decide, show (2 : ℕ) ≠ 1 from by decide,
-        if_false, if_true]
+        ite_false, ite_true]
       exact hb
     · simp only [g0E, genP, show (3 : ℕ) ≠ 0 from by decide, show (3 : ℕ) ≠ 1 from by decide,
-        show (3 : ℕ) ≠ 2 from by decide, if_false, map_inv]
+        show (3 : ℕ) ≠ 2 from by decide, ite_false, map_inv]
       rw [hb]
   rw [key]
 
@@ -142,9 +142,9 @@ theorem act1 (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) (c : ℕ) (hc :
     (i : Fin nn) : (actE e (g1E e c) i).val = tb c i.val := by
   unfold g1E
   by_cases h4 : c < 4
-  · rw [if_pos h4]
+  · rw [ite_eq_left h4]
     exact act0 e c h4 i
-  · rw [if_neg h4]
+  · rw [ite_eq_right h4]
     have hk : ∀ w, codesAB w = true → ∀ i : Fin nn,
         (actE e (ev (g0E e) w) i).val = wv tb w i.val := fun w hw =>
       act_ev (actE e) (g0E e) tb w fun d hd j => act0 e d (by
@@ -154,31 +154,31 @@ theorem act1 (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) (c : ℕ) (hc :
         simpa using h2) j
     by_cases h5 : c = 4
     · subst h5
-      rw [if_pos rfl, hk _ fix_facts.2.2.2.2.2.2.1]
+      rw [ite_eq_left rfl, hk _ fix_facts.2.2.2.2.2.2.1]
       exact ((k_facts i.val i.isLt).1).symm
     · have h5' : c = 5 := by omega
       subst h5'
-      rw [if_neg (by decide), hk _ fix_facts.2.2.2.2.2.2.2.1]
+      rw [ite_eq_right (by decide), hk _ fix_facts.2.2.2.2.2.2.2.1]
       exact ((k_facts i.val i.isLt).2).symm
 
 theorem actG (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) (c : ℕ) (hc : c < 8)
     (i : Fin nn) : (actE e (gE e c) i).val = tb c i.val := by
   unfold gE
   by_cases h6 : c < 6
-  · rw [if_pos h6]
+  · rw [ite_eq_left h6]
     exact act1 e c h6 i
-  · rw [if_neg h6]
+  · rw [ite_eq_right h6]
     have hp : ∀ w, codesIn 4 5 w = true → ∀ i : Fin nn,
         (actE e (ev (g1E e) w) i).val = wv tb w i.val := fun w hw =>
       act_ev (actE e) (g1E e) tb w fun d hd j => act1 e d (by
         rcases codesIn_mem hw d hd with rfl | rfl <;> decide) j
     by_cases h7 : c = 6
     · subst h7
-      rw [if_pos rfl, hp _ fix_facts.2.2.2.2.2.2.2.2.1]
+      rw [ite_eq_left rfl, hp _ fix_facts.2.2.2.2.2.2.2.2.1]
       exact ((p_facts i.val i.isLt).1).symm
     · have h7' : c = 7 := by omega
       subst h7'
-      rw [if_neg (by decide), hp _ fix_facts.2.2.2.2.2.2.2.2.2.1]
+      rw [ite_eq_right (by decide), hp _ fix_facts.2.2.2.2.2.2.2.2.2.1]
       exact ((p_facts i.val i.isLt).2).symm
 
 theorem acts (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
@@ -193,7 +193,7 @@ theorem gen_top (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
     rintro _ ⟨i, rfl⟩
     apply Subgroup.subset_closure
     have hgen : presGen P i.val = PresentedGroup.of i := by
-      simp only [CFSG.Sporadic.Bridge.presGen, dif_pos i.2]
+      simp only [CFSG.Sporadic.Bridge.presGen, dite_eq_left i.2]
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
     rcases (by have := i.2; omega : i.val = 0 ∨ i.val = 1) with h | h
     · left
@@ -248,7 +248,7 @@ variable [Finite J]
 theorem P_sylow (e : J ≃* (TauCeti.CFSGIndex.sporadic .J3).Group)
     (hJ : Nat.card J = 50232960) :
     IsPGroup 3 (@PP J _ (gE e)) ∧ ¬ 3 ∣ (@PP J _ (gE e)).index := by
-  letI := instE e
+  let := instE e
   have hc := card_P (acts e) hJ
   refine ⟨IsPGroup.of_card (n := 5) (by rw [hc]; norm_num), ?_⟩
   have := Subgroup.card_mul_index (PP (gE e))
@@ -285,7 +285,7 @@ theorem fact9435 : ∀ (J : Type) [Group J] [Finite J],
           IsCoatom H ∧ LocalData H t₁ t₂ s Z w₁ w₂ := by
   intro J _ _ ⟨e⟩ hs hJ T
   obtain ⟨c, hc⟩ := exists_twist e hJ T
-  letI := instE (twist e c)
+  let := instE (twist e c)
   exact ⟨stabilizer J pt0, gE (twist e c) 6, gE (twist e c) 7, gE (twist e c) 5,
     zz (gE (twist e c)), sw1, sw2, hc, coatom (acts _) hJ, localData (acts _) hJ⟩
 
@@ -296,10 +296,10 @@ theorem fact9465 : ∀ (J : Type) [Group J] [Finite J],
           K ≤ Subgroup.normalizer ((T : Subgroup J) : Set J) ∨ K = ⊤ := by
   intro J _ _ ⟨e⟩ hs hJ
   refine ⟨?_, fun T K hTK => ?_⟩
-  · letI := instE e
+  · let := instE e
     exact ⟨_, _, _, _, _, coverData (acts e) hJ⟩
   · obtain ⟨c, hc⟩ := exists_twist e hJ T
-    letI := instE (twist e c)
+    let := instE (twist e c)
     rw [← hc] at hTK ⊢
     exact overgroup (acts _) hJ hTK
 
@@ -315,7 +315,7 @@ theorem fact9466 : ∀ (J : Type) [Group J] [Finite J],
           ∀ E : Subgroup J, E ≤ T → IsMulCommutative E → (∀ y ∈ E, y ^ 3 = 1) →
             Nat.card E = 9 → ∃ y ∈ E, (MulAut.conj x * φ) y ≠ y) := by
   intro J _ _ ⟨e⟩ hs hJ
-  letI := instE e
+  let := instE e
   obtain ⟨φ, h1, h2, h3, h4⟩ := outer (acts e) hJ (gen_top e)
   exact ⟨sylP e hJ, φ, h1, h2, h3, h4⟩
 

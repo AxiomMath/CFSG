@@ -332,7 +332,7 @@ theorem exists_involution_of_three
     have hX2 : IsPGroup 2 X := by
       intro ⟨x, hx⟩
       obtain ⟨l, hl, t, ht, hlt⟩ := Lem24.exists_mul_of_mem_sup_normal hH.normalizes hx.1
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨t, ht⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨t, ht⟩
       have hk' : t ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       obtain ⟨z, hz, hzt⟩ := Lem24.exists_pow_eq_mul_pow hl (hH.normalizes ht) (2 ^ k)
       rw [hk', mul_one] at hzt
@@ -381,7 +381,7 @@ theorem exists_involution_of_three
     have := Subgroup.card_le_of_le hle
     rw [hA4, hCVT] at this
     omega
-  obtain ⟨k₀, hk₀⟩ := S.isPGroup' ⟨t₀, ht₀⟩
+  obtain ⟨k₀, hk₀⟩ := S.isPGroup ⟨t₀, ht₀⟩
   have hk₀' : t₀ ^ 2 ^ k₀ = 1 := by simpa using congrArg Subtype.val hk₀
   have hex : ∃ i, ∀ w ∈ U ⊓ V, t₀ ^ 2 ^ i * w * (t₀ ^ 2 ^ i)⁻¹ = w :=
     ⟨k₀, fun w _ => by rw [hk₀']; group⟩
@@ -656,7 +656,7 @@ theorem prime_eq_three_of_three
     have hdvd := dvd_card_sub_one_of_fpf hp hord hhF fun f hf hfix =>
       hUh f ((hmemF f).mp hf).1 hfix
     have hFdvd : Nat.card F ∣ 16 := hU16 ▸ Subgroup.card_dvd_of_le inf_le_left
-    have hc2 : IsPGroup 2 (Subgroup.zpowers c) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hc)
+    have hc2 : IsPGroup 2 (Subgroup.zpowers c) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hc)
     have hmod := card_modEq_card_centralizer hc2 hcU
     rw [hU16] at hmod
     have hF16 : Nat.card F = 16 := by

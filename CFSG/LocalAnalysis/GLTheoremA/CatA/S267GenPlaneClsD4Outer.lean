@@ -51,12 +51,12 @@ theorem compsNormal_fixSubgroup_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.P
   · rw [h]
     obtain ⟨hs, -, ⟨eF⟩⟩ := LieComp.exists_fixSubgroup_twistedOne_equiv he hK T 1 (Or.inl rfl)
       (fun c => by rw [hT, pow_one])
-    haveI := hs
+    have := hs
     exact (compsNormal_of_isSimpleGroup).of_mulEquiv eF
   · rw [h]
     obtain ⟨hs, -, ⟨eF⟩⟩ := LieComp.exists_fixSubgroup_twistedOne_equiv he hK T⁻¹ 2
       (Or.inr rfl) hinv
-    haveI := hs
+    have := hs
     exact ((compsNormal_of_isSimpleGroup).of_mulEquiv eF).of_mulEquiv
       (MulEquiv.subgroupCongr (fixedSubgroup_twistedEntrywiseAut_D4_two T))
 
@@ -167,8 +167,8 @@ theorem d4OuterCompNormal_holds : D4OuterCompNormal := by
   subst hq
   obtain ⟨e⟩ := hT.iso
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hFcard : Nat.card F = q.p ^ q.exponent := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = q.p ^ q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,

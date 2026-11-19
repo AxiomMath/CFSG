@@ -24,7 +24,7 @@ theorem minorMatrix_zero {R : Type*} [CommRing R] {m : ℕ}
     rw [Finset.card_eq_zero.mp (Set.powersetCard.card_eq s),
       Finset.card_eq_zero.mp (Set.powersetCard.card_eq t)]
   subst hst
-  rw [Matrix.one_apply, if_pos rfl, minor]
+  rw [Matrix.one_apply, ite_eq_left rfl, minor]
   exact Matrix.det_isEmpty
 
 theorem card_powersetCard_fin_six_zero :
@@ -41,8 +41,8 @@ theorem card_powersetCard_fin_six_three :
 theorem card_powersetCard_fin_six {n : ℕ} (hn : n = 0 ∨ n = 3) :
     Fintype.card (Set.powersetCard (Fin 6) n) = if n = 3 then 20 else 1 := by
   rcases hn with rfl | rfl
-  · rw [if_neg (by decide : ¬ (0 : ℕ) = 3), card_powersetCard_fin_six_zero]
-  · rw [if_pos rfl, card_powersetCard_fin_six_three]
+  · rw [ite_eq_right (by decide : ¬ (0 : ℕ) = 3), card_powersetCard_fin_six_zero]
+  · rw [ite_eq_left rfl, card_powersetCard_fin_six_three]
 
 theorem six_le_rank_minor_sub_one {K : Type} [Field K] [Finite K] [CharP K 2]
     (g : Matrix (Fin 6) (Fin 6) K) (hg : g * g = 1) (hg1 : g ≠ 1) :
@@ -114,9 +114,9 @@ theorem card_sub_two_mul_rank_minorMatrix_le {K k : Type} [Field K] [Finite K] [
         2 * (minorMatrix n (g.map φ) - 1).rank ≤
       if n = 3 then 8 else 1 := by
   rcases hn with rfl | rfl
-  · rw [if_neg (by decide : ¬ (0 : ℕ) = 3), card_powersetCard_fin_six_zero,
+  · rw [ite_eq_right (by decide : ¬ (0 : ℕ) = 3), card_powersetCard_fin_six_zero,
       minorMatrix_zero (g.map φ), sub_self, Matrix.rank_zero]
-  · rw [if_pos rfl, card_powersetCard_fin_six_three]
+  · rw [ite_eq_left rfl, card_powersetCard_fin_six_three]
     have h6 : 6 ≤ (minorMatrix 3 (g.map φ) - 1).rank :=
       six_le_rank_minor_map_sub_one φ g hg hg1
     omega

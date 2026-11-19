@@ -22,7 +22,7 @@ theorem kFactTenNineWCGammaAlt6 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h9 : ∀ T : Sylow 3 K, 3 < Nat.card (T : Subgroup K) := by
     intro T
     obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e Hyp111.AltSixIrred.isPGroup_sylowZero

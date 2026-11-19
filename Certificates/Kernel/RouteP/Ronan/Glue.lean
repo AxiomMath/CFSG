@@ -412,7 +412,7 @@ theorem h4Letter_pres {l : Nat} (hl : l ∈ zpLetters) (hl11 : l < 11)
     eL_negSucc_congr hN ha hb
   have hcq : cq ((l + 1 : Nat) : ℤ) = Int.negSucc (28 + l) := by
     unfold cq
-    rw [if_pos (by omega), if_pos (by omega), Int.negSucc_eq]
+    rw [ite_eq_left (by omega), ite_eq_left (by omega), Int.negSucc_eq]
     omega
   have hlk : LOK NWC KAC KBC (Int.negSucc (28 + l + 58)) :=
     lok_negSucc_congr hN ha hb (lokP (by simp; omega))

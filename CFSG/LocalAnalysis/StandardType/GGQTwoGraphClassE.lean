@@ -17,19 +17,19 @@ private lemma ggQ2ge_fin_ne (n a b : ℕ) (ha : a < n) (hb : b < n) (h : a ≠ b
 private lemma ggQ2ge_D_left {k : ℕ} (hk : 2 ≤ k) :
     CartanMatrix.D (2 * k) ⟨2 * k - 3, by omega⟩ ⟨2 * k - 4, by omega⟩ = -1 := by
   unfold CartanMatrix.D
-  simp only [Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
+  simp only [Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2ge_D_mid {k : ℕ} (hk : 2 ≤ k) :
     CartanMatrix.D (2 * k) ⟨2 * k - 3, by omega⟩ ⟨2 * k - 2, by omega⟩ = -1 := by
   unfold CartanMatrix.D
-  simp only [Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
+  simp only [Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2ge_D_right {k : ℕ} (hk : 2 ≤ k) :
     CartanMatrix.D (2 * k) ⟨2 * k - 3, by omega⟩ ⟨2 * k - 1, by omega⟩ = -1 := by
   unfold CartanMatrix.D
-  simp only [Matrix.of_apply, Fin.ext_iff, Fin.val_mk]
+  simp only [Matrix.of_apply, Fin.ext_iff]
   split_ifs <;> omega
 
 private lemma ggQ2ge_A_char (n : ℕ) : ∀ x y : Fin n, x ≠ y →
@@ -102,8 +102,6 @@ private lemma ggQ2ge_ABC_no_three {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ)
   rcases hy with hy | hy <;> rcases hz with hz | hz <;> rcases hw with hw | hw <;>
     first
       | exact hyz (Fin.ext (by omega))
-      | exact hyw (Fin.ext (by omega))
-      | exact hzw (Fin.ext (by omega))
 
 private lemma ggQ2ge_F4_no_three : ggQ2ge_NoThree CartanMatrix.F₄ :=
   ggQ2ge_ABC_no_three _ ggQ2ge_F4_char
@@ -122,7 +120,7 @@ private theorem ggQ2ge_card_eq {ι : Type} [Fintype ι] [DecidableEq ι] {e₀ :
   have h1 : Fintype.card {i : ι // i ≠ e₀} = Fintype.card ι - 1 := by
     have := Fintype.card_subtype_compl (fun i : ι => i = e₀)
     simp only [Fintype.card_subtype_eq] at this
-    simpa using this
+    simp
   have h2 : Fintype.card (Fin (2 * k)) = Fintype.card {i : ι // i ≠ e₀} :=
     Fintype.card_congr f
   rw [Fintype.card_fin] at h2
@@ -419,14 +417,14 @@ theorem ggQ2g_classE7 {ι : Type} [Fintype ι] [DecidableEq ι] (C : Matrix ι �
       exact h52 h
   have h0 : (0 : Fin 7) ∉ Set.range g := by
     rintro ⟨i, hi⟩
-    fin_cases i <;> simp_all [hg0, hg1, hg2, hg3, hg4, hg5]
+    fin_cases i <;> simp_all
   have he0 : e₀ = e 0 := by
     by_contra hne
     have hmem : (0 : Fin 7) ∈ Set.range g := by
       refine ⟨f.symm ⟨e 0, Ne.symm hne⟩, ?_⟩
       change e.symm (f (f.symm ⟨e 0, Ne.symm hne⟩)) = 0
       rw [Equiv.apply_symm_apply]
-      simpa using Equiv.symm_apply_apply e 0
+      simp
     exact h0 hmem
   have hc : c = e 1 ∨ c = e 6 := by
     have hcl' := ggQ2ge_unique_e7 C e he hcl

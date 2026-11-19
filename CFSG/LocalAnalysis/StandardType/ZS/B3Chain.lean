@@ -34,16 +34,16 @@ theorem b3Chain_apply {U : Type} [AddCommGroup U] [Module (ZMod p) U]
   have h2 : i0.succAbove 2 ≠ i0 := Fin.succAbove_ne i0 2
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis,
-      if_neg h02, Units.val_one, one_smul, permMap_apply_basis,
+      ite_eq_right h02, Units.val_one, one_smul, permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne h01 h02, permMap_apply_basis, Equiv.swap_apply_left]
   · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis,
-      if_neg h12, Units.val_one, one_smul, permMap_apply_basis, Equiv.swap_apply_left,
+      ite_eq_right h12, Units.val_one, one_smul, permMap_apply_basis, Equiv.swap_apply_left,
       permMap_apply_basis, Equiv.swap_apply_of_ne_of_ne (Ne.symm h02) (Ne.symm h12)]
-  · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis, if_pos rfl,
+  · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_left rfl,
       Units.val_neg, Units.val_one, neg_one_smul, map_neg, permMap_apply_basis,
       Equiv.swap_apply_right, map_neg, permMap_apply_basis, Equiv.swap_apply_right]
   · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis,
-      if_neg (Ne.symm h2), Units.val_one, one_smul, permMap_apply_basis,
+      ite_eq_right (Ne.symm h2), Units.val_one, one_smul, permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne (Ne.symm h1) (Ne.symm h2), permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne (Ne.symm h0) (Ne.symm h1)]
 
@@ -89,13 +89,13 @@ private theorem b3Chain_pair23_apply_basis {U : Type} [AddCommGroup U] [Module (
   dsimp only
   obtain ⟨h01, h02, h12, -, h1, h2⟩ := b3Chain_index_ne i0
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg h02, Units.val_one, one_smul,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right h02, Units.val_one, one_smul,
       permMap_apply_basis, Equiv.swap_apply_of_ne_of_ne h01 h02]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg h12, Units.val_one, one_smul,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right h12, Units.val_one, one_smul,
       permMap_apply_basis, Equiv.swap_apply_left]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_pos rfl, Units.val_neg, Units.val_one,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_left rfl, Units.val_neg, Units.val_one,
       neg_one_smul, map_neg, permMap_apply_basis, Equiv.swap_apply_right]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg (Ne.symm h2), Units.val_one,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right (Ne.symm h2), Units.val_one,
       one_smul, permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne (Ne.symm h1) (Ne.symm h2)]
 
@@ -109,14 +109,14 @@ private theorem b3Chain_pair13_apply_basis {U : Type} [AddCommGroup U] [Module (
   dsimp only
   obtain ⟨h01, h02, h12, h0, h1, h2⟩ := b3Chain_index_ne i0
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg h02, Units.val_one, one_smul,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right h02, Units.val_one, one_smul,
       permMap_apply_basis, Equiv.swap_apply_left]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg h12, Units.val_one, one_smul,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right h12, Units.val_one, one_smul,
       permMap_apply_basis, Equiv.swap_apply_right]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_pos rfl, Units.val_neg, Units.val_one,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_left rfl, Units.val_neg, Units.val_one,
       neg_one_smul, map_neg, permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne (Ne.symm h02) (Ne.symm h12)]
-  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, if_neg (Ne.symm h2), Units.val_one,
+  · rw [LinearEquiv.mul_apply, diagMap_apply_basis, ite_eq_right (Ne.symm h2), Units.val_one,
       one_smul, permMap_apply_basis,
       Equiv.swap_apply_of_ne_of_ne (Ne.symm h0) (Ne.symm h1)]
 
@@ -240,8 +240,8 @@ theorem b3Chain_cube {U : Type} [AddCommGroup U] [Module (ZMod p) U]
   refine f.ext' fun k => ?_
   rw [pow_three, LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagMap_apply_basis]
   rcases Fin.eq_self_or_eq_succAbove i0 k with rfl | ⟨j, rfl⟩
-  · rw [hi, hi, hi, if_pos rfl, Units.val_one, one_smul]
-  · rw [if_neg (Fin.succAbove_ne i0 j), Units.val_neg, Units.val_one, neg_one_smul]
+  · rw [hi, hi, hi, ite_eq_left rfl, Units.val_one, one_smul]
+  · rw [ite_eq_right (Fin.succAbove_ne i0 j), Units.val_neg, Units.val_one, neg_one_smul]
     obtain rfl | rfl | rfl : j = 0 ∨ j = 1 ∨ j = 2 := by fin_cases j <;> decide
     · rw [ha, hb, hc]
     · rw [hb, hc, map_neg, ha]
@@ -278,7 +278,7 @@ private theorem eq_smul_basis_of_fix_diagMap_sign {n : ℕ} {U : Type} [AddCommG
     rw [hv] at hcoord
     have hcoord' : (if k = i0 then (1 : ZMod p) else -1) * f.equivFun v k =
         f.equivFun v k := hcoord.symm
-    rw [if_neg hk, neg_one_mul] at hcoord'
+    rw [ite_eq_right hk, neg_one_mul] at hcoord'
     have h2 : (2 : ZMod p) * f.equivFun v k = 0 := by
       have hsum : f.equivFun v k + f.equivFun v k = 0 := (neg_eq_iff_add_eq_zero).mp hcoord'
       simpa [two_mul] using hsum
@@ -318,7 +318,7 @@ private theorem eq_of_mem_span_of_commute_diagMap_sign {n : ℕ} {U : Type} [Add
     simp
   have hzk : z (f k) = - f k := by
     change diagMap p f (fun j => if j = i0 then 1 else -1) (f k) = - f k
-    rw [diagMap_apply_basis, if_neg hk]
+    rw [diagMap_apply_basis, ite_eq_right hk]
     simp
   have hzs : z (s (f k)) = s (z (f k)) := by
     have h := congrArg (fun g : U ≃ₗ[ZMod p] U => g (f k)) hc.symm
@@ -374,7 +374,7 @@ private theorem eq_diagMap_sign_of_apply {U : Type} [AddCommGroup U]
   · rw [hi, diagMap_apply_basis]
     simp
   · rw [hk _ (Fin.succAbove_ne i0 j), diagMap_apply_basis,
-      if_neg (Fin.succAbove_ne i0 j)]
+      ite_eq_right (Fin.succAbove_ne i0 j)]
     simp
 
 private theorem eq_sgn_of_commute_diagMap_sign_of_ne_zero {U : Type} [AddCommGroup U]

@@ -72,7 +72,7 @@ private theorem twslr_exists_card_ge_pow_ordQ_family {K V : Type} [Field K] [Fin
       (∀ x ∈ S, ∀ i, Commute x (f i)) ∧
       ℓ ^ (finrank K V / OrdPNS.ordQ K ℓ) ≤ Nat.card S := by
   classical
-  haveI : NeZero ℓ := ⟨hℓ.ne_zero⟩
+  have : NeZero ℓ := ⟨hℓ.ne_zero⟩
   induction hn : finrank K V using Nat.strong_induction_on generalizing V with
   | _ n ih =>
   by_cases hlt : n < OrdPNS.ordQ K ℓ
@@ -104,7 +104,7 @@ private theorem twslr_exists_card_ge_pow_ordQ_family {K V : Type} [Field K] [Fin
     have hpos : 0 < finrank K V₁ :=
       Nat.pos_of_ne_zero fun h0 => hker (Submodule.finrank_eq_zero.mp h0)
     have hlt₂ : finrank K V₂ < n := by rw [← hn]; omega
-    haveI : Fact (Irreducible g) := ⟨hg⟩
+    have : Fact (Irreducible g) := ⟨hg⟩
     have hg0 : g ≠ 0 := hg.ne_zero
     let e₁ : Module.End K V₁ := (f i0).restrict (hm₁ i0)
     have hge : aeval e₁ g = 0 := LinearMap.ext fun w => Subtype.ext (by
@@ -114,7 +114,7 @@ private theorem twslr_exists_card_ge_pow_ordQ_family {K V : Type} [Field K] [Fin
       Ideal.Quotient.liftₐ (Ideal.span {g}) (aeval e₁) (fun a ha => by
         obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton'.mp ha
         rw [map_mul, hge, mul_zero])
-    letI : Module (AdjoinRoot g) V₁ := Module.compHom V₁ φ.toRingHom
+    let : Module (AdjoinRoot g) V₁ := Module.compHom V₁ φ.toRingHom
     have hsmul : ∀ (l : AdjoinRoot g) (v : V₁), l • v = φ l v := fun _ _ => rfl
     have : IsScalarTower K (AdjoinRoot g) V₁ := ⟨fun a l v => by
       rw [hsmul, hsmul, map_smul, LinearMap.smul_apply]⟩
@@ -150,7 +150,7 @@ private theorem twslr_exists_card_ge_pow_ordQ_family {K V : Type} [Field K] [Fin
       rw [Module.End.pow_apply, Module.End.one_apply] at h1
       exact h1
     have hζ : IsPrimitiveRoot (AdjoinRoot.root g) ℓ := by
-      haveI : NeZero (ℓ : AdjoinRoot g) := by
+      have : NeZero (ℓ : AdjoinRoot g) := by
         refine ⟨fun h0 => hℓK ?_⟩
         have h1 : algebraMap K (AdjoinRoot g) (ℓ : K) = 0 := by rw [map_natCast]; exact h0
         exact (injective_iff_map_eq_zero _).mp (algebraMap K (AdjoinRoot g)).injective _ h1
@@ -258,7 +258,7 @@ private theorem twslr_exists_card_ge_pow_ordQ_matrix_family {K : Type} [Field K]
       (∀ x ∈ S, x ^ ℓ = 1) ∧ (∀ x ∈ S, ∀ y ∈ S₀, Commute x y) ∧
       ℓ ^ (n / OrdPNS.ordQ K ℓ) ≤ Nat.card S := by
   classical
-  haveI : Finite S₀ := hS₀fin.to_subtype
+  have : Finite S₀ := hS₀fin.to_subtype
   let f : S₀ → Module.End K (Fin n → K) := fun x => Matrix.toLinAlgEquiv' x.1
   have hfc : ∀ i j, Commute (f i) (f j) := fun i j =>
     (hS₀c i.1 i.2 j.1 j.2).map Matrix.toLinAlgEquiv'
@@ -287,7 +287,7 @@ private theorem twslr_ordQ_eq_two {K : Type} [Field K]
     rw [eq_neg_iff_add_eq_zero]
     exact h0
   rw [hcast]
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem twslr_three_ne_zero {K : Type} [Field K] [CharP K 2] : (3 : K) ≠ 0 := by
@@ -312,7 +312,7 @@ private theorem twslr_exists_section {K : Type} [Field K] [Finite K] [CharP K 2]
   have hcp : ¬ 3 ∣ Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin d) K)) := by
     intro h
     exact h3K' (h.trans (card_center_specialLinear_dvd (d := d) (K := K) hd0))
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (TableB.IsElemAbelian.comm hE a.2 b.2) }
   have hV : ∀ v : ↥E, v ^ 3 = 1 := fun v => Subtype.ext (hE.2 v v.2)

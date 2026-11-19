@@ -53,7 +53,7 @@ private theorem perfectInLayer_primeFormP_outer {ℓ f n : ℕ} {K : Type} [Fiel
 
 theorem perfectInLayer_twistedA_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.twistedA r q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :

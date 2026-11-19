@@ -12,13 +12,13 @@ theorem q2nN7_sq_of_mul_self {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (h
     (h2 : spMat σ s * spMat σ s = 1) : ∀ j, σ (σ j) = j ∧ s (σ j) * s j = 1 := by
   intro j
   have e := congrFun (congrFun h2 (σ (σ j))) j
-  rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, if_pos rfl, Matrix.one_apply] at e
+  rw [spMat_mul, spMat_apply, Equiv.Perm.mul_apply, ite_eq_left rfl, Matrix.one_apply] at e
   have hne : s (σ j) * s j ≠ 0 := by
     rcases hs (σ j) with h1 | h1 <;> rcases hs j with h3 | h3 <;> rw [h1, h3] <;> decide
   by_cases hj : σ (σ j) = j
-  · rw [if_pos hj] at e
+  · rw [ite_eq_left hj] at e
     exact ⟨hj, e⟩
-  · rw [if_neg hj] at e
+  · rw [ite_eq_right hj] at e
     exact absurd e hne
 
 theorem q2nN7_classify {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (hs : IsSign s)
@@ -67,11 +67,11 @@ theorem q2nN7_classify {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (hs : Is
           if i ∈ (Finset.univ \ ({0, i₀} : Finset (Fin 8))) then -1 else 1 := by
         funext i
         by_cases hi : i ∈ (Finset.univ \ ({0, i₀} : Finset (Fin 8)))
-        · rw [if_pos hi]
+        · rw [ite_eq_left hi]
           exact (hother i
             (fun h => (Finset.mem_sdiff.mp hi).2 (by simp [h]))
             (fun h => (Finset.mem_sdiff.mp hi).2 (by simp [h]))).2
-        · rw [if_neg hi]
+        · rw [ite_eq_right hi]
           have hmem : i = 0 ∨ i = i₀ := by
             by_cases h0 : i = 0
             · exact Or.inl h0

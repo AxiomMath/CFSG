@@ -15,7 +15,7 @@ namespace GGHalf
 private theorem eq_or_inv_of_card_three {H : Type*} [Group H] (hH : Nat.card H = 3)
     {u u' : H} (hu : u ≠ 1) (hu' : u' ≠ 1) : u' = u ∨ u' = u⁻¹ := by
   classical
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite H := Nat.finite_of_card_ne_zero (by omega)
   have hu3 : orderOf u = 3 := by
     have h1 : orderOf u ∣ 3 := hH ▸ orderOf_dvd_natCard u
     rcases (Nat.dvd_prime Nat.prime_three).1 h1 with h | h

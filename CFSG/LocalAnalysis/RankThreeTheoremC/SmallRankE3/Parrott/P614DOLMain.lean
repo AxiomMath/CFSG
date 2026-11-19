@@ -70,10 +70,7 @@ theorem xD_mem_normalizer (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) :
     refine ⟨(xD u)⁻¹ p, ?_, ?_⟩
     · rw [xD_inv]
       exact xD_mem_eZero hk (inv_ne_one.mpr hu) hp
-    · change MulAut.conj ((xD u)⁻¹ p) = h
-      rw [← CFSG.RankThree.PartTwo.KFacts.mul_mulAutConj_mul_inv, inv_inv]
-      change (xD u)⁻¹ * (MulAut.conj : projectiveSL 3 k →* MulAut (projectiveSL 3 k)) p *
-        xD u = h
+    · rw [← CFSG.RankThree.PartTwo.KFacts.mul_mulAutConj_mul_inv, inv_inv]
       rw [hpe]
       group
 
@@ -146,7 +143,7 @@ open CFSG.RankThree.PartTwo.KFacts.L34
 
 theorem kFactL34DiagGen_holds : KFactL34DiagGen := by
   intro X _ _ N Q hN ⟨e₀⟩ hC hQ z _ hz3 hzc
-  haveI := hN
+  have := hN
   have hk : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num

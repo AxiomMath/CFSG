@@ -19,6 +19,7 @@ section Geom
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [Finite K] in
 theorem isCompl_perpOf_range {Q : QuadraticForm K V} (hnd : (polarBilin Q).Nondegenerate)
     {e : Module.End K V} (he : OIdem Q e) :
     IsCompl (LinearMap.range e) (perpOf Q (LinearMap.range e)) := by
@@ -50,10 +51,10 @@ theorem geometry (h3 : (3 : K) ≠ 0) {Q : QuadraticForm K V} (hdim : finrank K 
         (∀ g ∈ orthogonalGroup Q, (∀ f ∈ F, g * f = f * g) → ∀ h ∈ Hv, g * h * g⁻¹ ∈ Hv) ∧
         CFSG.Open.IsQuasisimple Hv ∧ 3 ∣ Nat.card (Hv ⧸ Subgroup.center Hv) ∧
         (∃ w : V, w ≠ 0 ∧ ∀ h ∈ Hv, h w = w) := by
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   let ρ : P →* Module.End K V :=
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom).comp P.subtype
   have hρ : ∀ (g : P) (v : V), ρ g v = (g : V ≃ₗ[K] V) v := fun g v => rfl

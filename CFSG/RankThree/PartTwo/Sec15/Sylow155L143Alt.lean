@@ -16,7 +16,7 @@ variable {α : Type*} [Fintype α] [DecidableEq α]
 
 private theorem exists_cycleType_eq_replicate_three {σ : Perm α} (h : σ ^ 3 = 1) :
     ∃ k : ℕ, σ.cycleType = Multiset.replicate k 3 ∧ σ.support.card = 3 * k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨σ.cycleType.card, cycleType_of_pow_prime_eq_one h, ?_⟩
   have hsum := sum_cycleType σ
   rw [cycleType_of_pow_prime_eq_one h, Multiset.sum_replicate, smul_eq_mul] at hsum

@@ -52,7 +52,7 @@ theorem opq4a_sl2_exists_involution_inverts {K : Type} [Field K] [Finite K] [Cha
     exact (Nat.even_pow' (by omega)).mpr even_two
   refine opq4a_exists_involution_inverts_sylow (q := Nat.card K)
     (N := Nat.card K * (Nat.card K + 1)) (sl2_commutator_eq_top hf hK)
-    (fun p _ hp2 P => CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 _ P.isPGroup')
+    (fun p _ hp2 P => CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 _ P.isPGroup)
     (fun t ht => sl2_involution_centralizer_isPGroup t ht)
     (by rw [sl2_card, linear_card_factor hq1]) (linear_card_coprime hqeven hq1)
     (splitTorusSLHom K).range card_range_splitTorusSLHom sl2Swap ?_

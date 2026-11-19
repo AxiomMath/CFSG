@@ -27,7 +27,7 @@ theorem unitary_of_isometry (h : UnitaryFieldData 2 1 K) {A : Matrix (Fin 4) (Fi
 theorem center_su4_eq (hK : Nat.card K = 4) :
     Subgroup.center ↥(StatedSU 4 2 K) =
       (StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 2 K) := by
-  haveI := finite_of_card_four hK
+  have := finite_of_card_four hK
   have h := unitaryFieldData_of_card hK
   ext z
   rw [Subgroup.mem_center_iff, Subgroup.mem_subgroupOf]
@@ -61,7 +61,7 @@ theorem exists_unitary_scalar_of_mem_NSU (hK : Nat.card K = 4) {g : GL (Fin 4) K
         (u : Matrix (Fin 4) (Fin 4) K) = 1 ∧
       (g : Matrix (Fin 4) (Fin 4) K) = c • (u : Matrix (Fin 4) (Fin 4) K) := by
   classical
-  haveI := finite_of_card_four hK
+  have := finite_of_card_four hK
   have h := unitaryFieldData_of_card hK
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   let e : ↥(StatedSU 4 2 K) ⧸ Subgroup.center ↥(StatedSU 4 2 K) ≃* StatedProj (StatedSU 4 2 K) :=
@@ -132,7 +132,7 @@ theorem exists_unitary_scalar_of_mem_NSU (hK : Nat.card K = 4) {g : GL (Fin 4) K
         ext i
         by_cases hi : i = 3
         · simp [hi]
-        · simp only [hi, if_false, bar_eq_sq h]
+        · simp only [hi, ite_false, bar_eq_sq h]
           linear_combination hx3
     obtain ⟨s', hs', hgs⟩ := hact ⟨s, hs⟩
     simp only [MonoidHom.id_apply] at hs' hgs
@@ -163,15 +163,15 @@ theorem exists_unitary_scalar_of_mem_NSU (hK : Nat.card K = 4) {g : GL (Fin 4) K
       have h0 : (0 : Fin 4) ≠ 3 := by decide
       by_cases hi : i = 3
       · subst hi
-        simp only [hD, Matrix.diagonal_apply_eq, h0, if_false, if_true] at h1
+        simp only [h0, ite_false, ite_true] at h1
         have : (x - 1) * X 3 0 = 0 := by linear_combination h1
         exact (mul_eq_zero.mp this).resolve_left (sub_ne_zero.mpr hx1)
-      · simp only [hD, Matrix.diagonal_apply_eq, h0, hi, if_false] at h1
+      · simp only [h0, hi, ite_false] at h1
         have : (x - φ x) * X i 0 = 0 := by linear_combination h1
         exact (mul_eq_zero.mp this).resolve_left (sub_ne_zero.mpr (Ne.symm hx))
     have hz : X *ᵥ (Pi.single 0 1) = 0 := by
       ext i
-      simp [Matrix.mulVec_single_one, hcol i]
+      simp [hcol i]
     have hinv : ((g⁻¹ * A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) * X = 1 := by
       rw [hXdef, ← Units.val_mul]
       have : g⁻¹ * A * (A⁻¹ * g) = 1 := by group

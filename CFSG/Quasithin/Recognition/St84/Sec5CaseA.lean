@@ -39,7 +39,7 @@ private theorem perm_commute_of_card_four {W : Type*} [Fintype W] (hW : Fintype.
     rw [← map_mul, ← map_mul, hαβ]
   have hτ'β' : eM τ * eM β = eM β * eM τ := by
     rw [← map_mul, ← map_mul, hτβ]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hβ'ord : orderOf (eM β) = 3 := orderOf_eq_prime hβ'3 hβ'1
   have hα'mem : eM α ∈ Subgroup.zpowers (eM β) := by
     rw [← CFSG.GorensteinWalter.sFour_centralizer_order_three_eq_zpowers hβ'ord,
@@ -63,8 +63,8 @@ private theorem false_of_trivial_quotient_action
     (hkQ : k ∈ Subgroup.normalizer (Q : Set G)) (hk3 : k ^ 3 = 1)
     (hCk : ∀ q ∈ Q, k * q * k⁻¹ = q → q ∈ C)
     (hktriv : ∀ q ∈ Q, k * q * k⁻¹ * q⁻¹ ∈ C) : False := by
-  haveI : Fintype ↥Q := Fintype.ofFinite ↥Q
-  haveI hCfin : Finite ↥C :=
+  have : Fintype ↥Q := Fintype.ofFinite ↥Q
+  have hCfin : Finite ↥C :=
     Finite.of_injective (Subgroup.inclusion hCQ) (Subgroup.inclusion_injective hCQ)
   have hkCmap : ∀ c ∈ C, k * c * k⁻¹ ∈ C := by
     intro c hc
@@ -205,16 +205,16 @@ private theorem card_Q_one_of_card_S (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   rw [hS] at h
   omega
 
-private theorem card_edgeSylow_one_of_card_S (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
+private theorem card_edgeSylow_one_of_card_S (Y : Setup Γ G) (_H : Y.Sec5Hyp s n₀)
     (hS : Nat.card Y.S = 2 ^ 6) : Nat.card (Y.edgeSylow 1) = 2 ^ 6 := by
   rw [Y.card_edgeSylow_eq 1, Y.edgeSylow_zero, hS]
 
 private theorem card_Q_two_of_card_S (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hS : Nat.card Y.S = 2 ^ 6) (hn0 : n₀ = 2) : Nat.card (Y.Q 2) = 2 ^ 4 := by
   subst hn0
-  haveI : Finite ↥(Y.Gi 2) := Y.hyp.finite_stab (Y.vert 2)
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 2)
-  haveI := finite_of_le_stabilizer Y.hyp ((Y.isSylowTwoOf_edgeSylow 1).1.trans inf_le_left)
+  have : Finite ↥(Y.Gi 2) := Y.hyp.finite_stab (Y.vert 2)
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 2)
+  have := finite_of_le_stabilizer Y.hyp ((Y.isSylowTwoOf_edgeSylow 1).1.trans inf_le_left)
   have hS1 := card_edgeSylow_one_of_card_S Y H hS
   have hle : Y.Q 2 ≤ Y.edgeSylow 1 := by
     simpa [Setup.edgeSylow] using Y.Q_le_edgeSylow_right 2
@@ -246,7 +246,7 @@ private theorem Q_zero_eq_Z (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r₀ : ℕ}
   have hQ := card_Q_zero_of_card_S Y H hS hn0
   have hZ0 : Nat.card (Y.Z 0) = 16 := by
     simpa [hn0] using (caseA_card_Z Y H hZ h3 h4 hb he).2
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
   refine (Subgroup.eq_of_le_of_card_ge (Y.Z_le_Q 0) ?_).symm
   rw [hQ, hZ0]
   norm_num
@@ -259,7 +259,7 @@ private theorem Q_two_eq_Z (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r₀ : ℕ}
   have hn0 := (caseA_n Y H hZ h3 h4 hb he).1
   have hQ := card_Q_two_of_card_S Y H hS hn0
   have hZ2 := card_Z_two Y H hZ h3 h4 hb he
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 2)
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 2)
   refine (Subgroup.eq_of_le_of_card_ge (Y.Z_le_Q 2) ?_).symm
   rw [hQ, hZ2]
 
@@ -377,8 +377,8 @@ private theorem not_isMulCommutative_Q_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
       rw [centerOf]
       exact Subgroup.mem_inf.mpr ⟨hxS, hxcent⟩
     exact (center_S_le_Z Y H 1 (Or.inr rfl)).1 hxcenter
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI : Finite ↥(Y.Z 1) :=
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1))
   have hle := Subgroup.card_le_of_le hWle
   rw [hW, hZcard] at hle
@@ -481,12 +481,12 @@ private theorem commutator_Q_one_eq_Z_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀
     intro hbot
     exact not_isMulCommutative_Q_one Y H hZ h3 h4 hb he hr
       (Subgroup.commutator_self_eq_bot_iff.mp hbot)
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI : Finite ↥(⁅Y.Q 1, Y.Q 1⁆) :=
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(⁅Y.Q 1, Y.Q 1⁆) :=
     finite_of_le_stabilizer Y.hyp
       (((Subgroup.commutator_le_sup (Y.Q 1) (Y.Q 1)).trans
         (le_of_eq (sup_idem (Y.Q 1)))).trans (Y.Q_le_Gi 1))
-  haveI : Finite ↥(Y.Z 1) :=
+  have : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1))
   have hcardle : Nat.card ↥(⁅Y.Q 1, Y.Q 1⁆) ≤ 2 := by
     have h := Subgroup.card_le_of_le hle
@@ -537,7 +537,7 @@ private theorem a5Pre_vertex_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r₀ 
       ((Y.Z 0).subgroupOf (Y.Gi 0)) ⊥ := by
   let H0 := Y.Gi 0
   let L0 := Y.L 0
-  haveI : Finite ↥H0 := Y.hyp.finite_stab (Y.vert 0)
+  have : Finite ↥H0 := Y.hyp.finite_stab (Y.vert 0)
   have hAn := caseA_n Y H hZ h3 h4 hb he
   have hQ0 := Q_zero_eq_Z Y H hZ h3 h4 hb he hr
   have hLleH : L0 ≤ H0 := Y.L_le_Gi 0
@@ -575,7 +575,7 @@ private theorem card_Z_zero_inf_centralizer_S (Y : Setup Γ G)
     (hb : Y.HasB 0 1) (he : Y.ZtExt 0 r₀ r₀) (hr : Y.IsMaxRegLen 4) :
     Nat.card ↥(Y.Z 0 ⊓ Subgroup.centralizer (Y.S : Set G)) = 2 := by
   let H0 := Y.Gi 0
-  haveI : Finite ↥H0 := Y.hyp.finite_stab (Y.vert 0)
+  have : Finite ↥H0 := Y.hyp.finite_stab (Y.vert 0)
   let L := (Y.L 0).subgroupOf H0
   let E := (Y.Z 0).subgroupOf H0
   let T := (Y.S).subgroupOf H0
@@ -608,14 +608,14 @@ private theorem card_center_modEq_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r
     (hb : Y.HasB 0 1) (he : Y.ZtExt 0 r₀ r₀) (hr : Y.IsMaxRegLen 4) :
     Nat.card ↥(centerOf (Y.Q 1)) ≡ 2 [MOD 3] := by
   let C := centerOf (Y.Q 1)
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI : Finite ↥C :=
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥C :=
     finite_of_le_stabilizer Y.hyp ((inf_le_left : C ≤ Y.Q 1).trans (Y.Q_le_Gi 1))
-  haveI : Finite ↥(Y.K) := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
+  have : Finite ↥(Y.K) := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
   have hKC : Y.K ≤ Subgroup.normalizer (centerOf (Y.Q 1) : Set G) :=
     ((Y.K_le_Gi 1).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 1))).trans
       (CFSG.Quasithin.normalizer_le_normalizer_centerOf (Y.Q 1))
-  letI : MulDistribMulAction ↥(Y.K) ↥C :=
+  let : MulDistribMulAction ↥(Y.K) ↥C :=
     MulDistribMulAction.compHom C (C.normalizerMonoidHom.comp (Subgroup.inclusion hKC))
   have hsmul : ∀ (k : ↥(Y.K)) (c : ↥C),
       ((k • c : ↥C) : G) = (k : G) * (c : G) * (k : G)⁻¹ := by
@@ -739,15 +739,15 @@ private theorem center_Q_one_inf_Q_zero_eq_Z_one (Y : Setup Γ G)
     · intro z hz
       exact (Q_zero_eq_Z Y H hZ h3 h4 hb he hr) ▸ (Subgroup.mem_inf.mp hz).2
     · exact center_inf_Q_zero_le_centralizer_S Y H hZ h3 h4 hb he hr
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI : Finite ↥(Y.Z 0) := finite_of_le_stabilizer Y.hyp (Y.Z_le_Gi 0)
-  haveI : Finite ↥(C ⊓ Y.Q 0) :=
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Z 0) := finite_of_le_stabilizer Y.hyp (Y.Z_le_Gi 0)
+  have : Finite ↥(C ⊓ Y.Q 0) :=
     finite_of_le_stabilizer Y.hyp
       (((inf_le_left : C ⊓ Y.Q 0 ≤ C).trans (inf_le_left : C ≤ Y.Q 1)).trans (Y.Q_le_Gi 1))
-  haveI : Finite ↥(Y.Z 0 ⊓ Subgroup.centralizer (Y.S : Set G)) :=
+  have : Finite ↥(Y.Z 0 ⊓ Subgroup.centralizer (Y.S : Set G)) :=
     finite_of_le_stabilizer Y.hyp
       ((inf_le_left : Y.Z 0 ⊓ Subgroup.centralizer (Y.S : Set G) ≤ Y.Z 0).trans (Y.Z_le_Gi 0))
-  haveI : Finite ↥(Y.Z 1) :=
+  have : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1))
   have hcardle : Nat.card ↥(C ⊓ Y.Q 0) ≤ 2 := by
     have h := Subgroup.card_le_of_le hle
@@ -779,9 +779,9 @@ private theorem center_Q_one_eq_Z_one (Y : Setup Γ G)
       exact Subgroup.mem_inf.mpr ⟨hZ1le hx, hZ1W0 hx⟩
   by_contra hne
   have hCleQ : C ≤ Y.Q 1 := inf_le_left
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI : Finite ↥C := finite_of_le_stabilizer Y.hyp (hCleQ.trans (Y.Q_le_Gi 1))
-  haveI : Finite ↥(Y.Z 1) :=
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥C := finite_of_le_stabilizer Y.hyp (hCleQ.trans (Y.Q_le_Gi 1))
+  have : Finite ↥(Y.Z 1) :=
     finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 1).trans (Y.Q_le_Gi 1))
   have hS := card_S_eq_sixtyfour Y H hZ h3 h4 hb he hr
   have hQ1card : Nat.card ↥(Y.Q 1) = 32 := by
@@ -810,7 +810,7 @@ private theorem center_Q_one_eq_Z_one (Y : Setup Γ G)
     rw [sup_comm, inf_comm, hCinfW0, hZ1card, h8, hW0card] at hprod
     have hsupcard : Nat.card ↥(C ⊔ W0) = 32 := by omega
     have hsup_le : C ⊔ W0 ≤ Y.Q 1 := sup_le hCleQ inf_le_right
-    haveI : Finite ↥(C ⊔ W0) :=
+    have : Finite ↥(C ⊔ W0) :=
       finite_of_le_stabilizer Y.hyp (hsup_le.trans (Y.Q_le_Gi 1))
     have hEq : C ⊔ W0 = Y.Q 1 :=
       Subgroup.eq_of_le_of_card_ge hsup_le (by rw [hQ1card, hsupcard])
@@ -922,7 +922,7 @@ private theorem isSpecialPow_Q_one (Y : Setup Γ G)
     (hb : Y.HasB 0 1) (he : Y.ZtExt 0 r₀ r₀) (hr : Y.IsMaxRegLen 4) :
     IsSpecialPow 2 2 2 ↥(Y.Q 1) := by
   let Z := (Y.Z 1).subgroupOf (Y.Q 1)
-  haveI := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hP : IsPGroup 2 ↥(Y.Q 1) := pCoreOf_isPGroup' (Y.Gi 1)
   have hQ1card32 : Nat.card ↥(Y.Q 1) = 32 := by
     have hS := card_S_eq_sixtyfour Y H hZ h3 h4 hb he hr
@@ -1225,8 +1225,8 @@ private theorem card_centralizer_Q_one (Y : Setup Γ G)
     Nat.card ↥(Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)) = 2 ∨
       Nat.card ↥(Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)) = 8 ∨
       Nat.card ↥(Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)) = 32 := by
-  haveI : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hS := card_S_eq_sixtyfour Y H hZ h3 h4 hb he hr
   have hQcard : Nat.card ↥(Y.Q 1) = 32 := by
     have h := card_Q_one_of_card_S Y H hS
@@ -1274,11 +1274,11 @@ private theorem centralizes_of_commutator_mem_Z
 private theorem exists_mem_L_one_conj_mul_mem_Q_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     {x : G} (hxL : x ∈ Y.L 1) (hx3 : orderOf x = 3) :
     ∃ t : G, t ∈ Y.L 1 ∧ t * x * t⁻¹ * x ∈ Y.Q 1 := by
-  haveI : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) :=
+  have : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) :=
     Finite.of_injective (Subgroup.inclusion (Y.L_le_Gi 1))
       (Subgroup.inclusion_injective (Y.L_le_Gi 1))
-  haveI hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   let xL : ↥(Y.L 1) := ⟨x, hxL⟩
   let xq : oTwoQuot ↥(Y.L 1) := QuotientGroup.mk xL
   have hxq3 : orderOf xq = 3 := by
@@ -1345,7 +1345,7 @@ private theorem false_of_card_inf_centralizer_eq_eight (Y : Setup Γ G) (H : Y.S
     {x : G} (hxL : x ∈ Y.L 1) (hx3 : orderOf x = 3)
     (hZC : Y.Z 1 ≤ Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G))
     (hC8 : Nat.card ↥(Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)) = 8) : False := by
-  haveI hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   let C : Subgroup G := Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)
   have hZ1centL : Y.Z 1 ≤ Subgroup.centralizer (Y.L 1 : Set G) := by
     rw [h4]
@@ -1363,7 +1363,7 @@ private theorem false_of_card_inf_centralizer_eq_eight (Y : Setup Γ G) (H : Y.S
     have hcomm : x * z = z * x := Subgroup.mem_centralizer_iff.mp (hZ1centL hz) x hxL
     calc x * z * x⁻¹ = (z * x) * x⁻¹ := by rw [hcomm]
       _ = z := by group
-  haveI hCfin : Finite ↥C :=
+  have hCfin : Finite ↥C :=
     Finite.of_injective (Subgroup.inclusion inf_le_left)
       (Subgroup.inclusion_injective inf_le_left)
   have hCnorm : ∀ q ∈ Y.Q 1, ∀ c ∈ C, q * c * q⁻¹ ∈ C := by
@@ -1394,8 +1394,8 @@ private theorem false_of_card_inf_centralizer_eq_eight (Y : Setup Γ G) (H : Y.S
     have hC8' : Nat.card ↥C = 8 := hC8
     have h32 : Nat.card ↥C = 32 := by rw [hCeq, hQcard]
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hKfin : Finite ↥(Y.K) := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hKfin : Finite ↥(Y.K) := finite_of_le_stabilizer Y.hyp (Y.K_le_Gi 0)
   obtain ⟨k0, hk0ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Y.K)) 3 (by simp [hKcard])
   let k : G := (k0 : G)
@@ -1444,7 +1444,7 @@ private theorem false_of_card_inf_centralizer_eq_eight (Y : Setup Γ G) (H : Y.S
   have hQ_le_NC : Y.Q 1 ≤ Subgroup.normalizer (C : Set G) :=
     fun q hq =>
       CFSG.GH74.KGroups.mem_normalizer_of_conj_mem C q (fun c hc => hCnorm q hq c hc)
-  haveI hCn : (C.subgroupOf (Y.Q 1)).Normal :=
+  have hCn : (C.subgroupOf (Y.Q 1)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hQ_le_NC
   obtain ⟨t, htL, htx⟩ := exists_mem_L_one_conj_mul_mem_Q_one Y H hxL hx3
   have htQ : t ∈ Subgroup.normalizer (Y.Q 1 : Set G) :=
@@ -1505,7 +1505,7 @@ private theorem false_of_card_inf_centralizer_eq_eight (Y : Setup Γ G) (H : Y.S
     rw [QuotientGroup.eq_iff_div_mem] at h3
     have h4 := Subgroup.mem_subgroupOf.mp h3
     simpa [div_eq_mul_inv] using h4
-  haveI : Fintype (↥(Y.Q 1) ⧸ C.subgroupOf (Y.Q 1)) := Fintype.ofFinite _
+  have : Fintype (↥(Y.Q 1) ⧸ C.subgroupOf (Y.Q 1)) := Fintype.ofFinite _
   have hquot_card : Fintype.card (↥(Y.Q 1) ⧸ C.subgroupOf (Y.Q 1)) = 4 := by
     rw [← Nat.card_eq_fintype_card, ← Subgroup.index_eq_card]
     have hCsubcard : Nat.card ↥(C.subgroupOf (Y.Q 1)) = Nat.card ↥C :=
@@ -1638,8 +1638,8 @@ private theorem natSec_Q_one (Y : Setup Γ G)
     (hb : Y.HasB 0 1) (he : Y.ZtExt 0 r₀ r₀) (hr : Y.IsMaxRegLen 4) :
     NatSec (Y.L 1) (centerOf (Y.Q 1)) (Y.Q 1) := by
   intro x hxL hx3 e heQ hec
-  haveI : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   let C : Subgroup G := Y.Q 1 ⊓ Subgroup.centralizer ({x} : Set G)
   have hZ1centL : Y.Z 1 ≤ Subgroup.centralizer (Y.L 1 : Set G) := by
     rw [h4]
@@ -1661,7 +1661,7 @@ private theorem natSec_Q_one (Y : Setup Γ G)
     exact hxe.symm
   have hCcard := card_centralizer_Q_one Y H hZ h3 h4 hb he hr hxL hx3
   rcases hCcard with hC2 | hC8 | hC32
-  · haveI : Finite ↥C := Nat.finite_of_card_ne_zero (by rw [hC2]; norm_num)
+  · have : Finite ↥C := Nat.finite_of_card_ne_zero (by rw [hC2]; norm_num)
     have hCZ : C = Y.Z 1 := by
       exact (Subgroup.eq_of_le_of_card_ge (H := Y.Z 1) (K := C) hZC (by
         rw [hC2, card_Z_one_eq_two Y H hZ h3])).symm
@@ -1694,7 +1694,7 @@ private theorem commutator_le_of_perfect_quotient_action {G : Type*} [Group G]
     (hpQ : CFSG.pCore 2 ↥L ≤ Q.subgroupOf L) :
     ⁅Q, L⁆ ≤ Z := by
   let V := ↥Q ⧸ (Z.subgroupOf Q)
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   let φ : ↥L →* MulAut V := conjQuotHom Q Z L hLQ hLZ
   have hQker : Q.subgroupOf L ≤ φ.ker := by
     intro q hq
@@ -1711,10 +1711,10 @@ private theorem commutator_le_of_perfect_quotient_action {G : Type*} [Group G]
   have hpker : CFSG.pCore 2 ↥L ≤ φ.ker := hpQ.trans hQker
   let ψ : oTwoQuot ↥L →* MulAut V := QuotientGroup.lift _ φ hpker
   have hψ : ∀ l : ↥L, ψ (QuotientGroup.mk l) = φ l := fun l => rfl
-  haveI : Group.IsPerfect (oTwoQuot ↥L) := hperf
+  have : Group.IsPerfect (oTwoQuot ↥L) := hperf
   have hperf_range : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
   have hsolv : Group.IsSolvable (MulAut V) := by
-    haveI : Group.IsSolvable (Equiv.Perm V) :=
+    have : Group.IsSolvable (Equiv.Perm V) :=
       Equiv.Perm.isSolvable (by rw [hVcard])
     have hf : Function.Injective (MulAction.toPermHom (MulAut V) V) :=
       MulAction.toPerm_injective
@@ -1723,7 +1723,7 @@ private theorem commutator_le_of_perfect_quotient_action {G : Type*} [Group G]
     Group.isSolvable_of_isSolvable_injective (f := ψ.range.subtype) ψ.range.subtype_injective
   have hsub : Subsingleton ↥ψ.range := by
     by_contra h
-    haveI : Nontrivial ↥ψ.range := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial ↥ψ.range := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isSolvable ↥ψ.range hsolv_range
   have hbot : ψ.range = ⊥ := Subgroup.eq_bot_of_subsingleton ψ.range
   have hφ1 : ∀ l : ↥L, φ l = 1 := by
@@ -1748,8 +1748,8 @@ private theorem commutator_le_of_perfect_quotient_action {G : Type*} [Group G]
 private theorem commutator_Q_zero_L_zero_le_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hVcard : Nat.card (↥(Y.Q 0) ⧸ (Y.Z 0).subgroupOf (Y.Q 0)) = 4) :
     ⁅Y.Q 0, Y.L 0⁆ ≤ Y.Z 0 := by
-  haveI hQ0fin : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
-  haveI hL0fin : Finite ↥(Y.L 0) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 0)
+  have hQ0fin : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have hL0fin : Finite ↥(Y.L 0) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 0)
   have hZn : ((Y.Z 0).subgroupOf (Y.Q 0)).Normal := by
     refine Subgroup.normal_of_le_center ?_
     intro z hz
@@ -1772,7 +1772,7 @@ private theorem commutator_Q_zero_L_zero_le_Z_zero (Y : Setup Γ G) (H : Y.Sec5H
         from rfl, (Y.hyp.isLocL2_oTwoPrime (Y.vert 0)).pCoreOf_eq]
   have hperf : Group.IsPerfect (oTwoQuot ↥(Y.L 0)) :=
     CFSG.Quasithin.F112R.isPerfect_of_isL2Quot H.two_le (isL2Quot_L_zero Y H)
-  haveI : ((Y.Z 0).subgroupOf (Y.Q 0)).Normal := hZn
+  have : ((Y.Z 0).subgroupOf (Y.Q 0)).Normal := hZn
   exact commutator_le_of_perfect_quotient_action (Q := Y.Q 0) (Z := Y.Z 0) (L := Y.L 0)
     (fun l hl => (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0))
       (Y.L_le_Gi 0 hl))
@@ -1845,14 +1845,14 @@ private theorem card_Q_zero_inf_Q_two_le_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n
       Y.Qs 1 ⊓ Subgroup.centralizer ({d} : Set G) := le_inf hP hP_Cd
   have hle2 : Nat.card ↥(Y.Qs 1 ⊓ Subgroup.centralizer ({d} : Set G)) ≤ 2 :=
     card_Qs_inf_centralizer Y H hdJ hd3
-  haveI : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQsfin : Finite ↥(Y.Qs 1) :=
+  have : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQsfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective ((inf_le_left).trans (Y.Q_le_Gi 1)))
-  haveI : Finite ↥(Y.Qs 1 ⊓ Subgroup.centralizer ({d} : Set G)) :=
+  have : Finite ↥(Y.Qs 1 ⊓ Subgroup.centralizer ({d} : Set G)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left)
       (Subgroup.inclusion_injective inf_le_left)
-  haveI : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
+  have : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
     Finite.of_injective (Subgroup.inclusion hP_inf) (Subgroup.inclusion_injective hP_inf)
   exact (Subgroup.card_le_of_le hP_inf).trans hle2
 
@@ -1880,7 +1880,7 @@ theorem caseA_r (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r r₀ : ℕ}
       have h := card_S_of_isMaxRegLen_six_reg Y H hr' hs5 h06
       rw [hn0] at h
       exact h.trans (by norm_num : 4 * 2 ^ 6 = 2 ^ 8)
-    haveI hQ0fin : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+    have hQ0fin : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
     have hQ0 : Nat.card (Y.Q 0) = 2 ^ 6 := by
       have h := Subgroup.relIndex_mul_card (H := Y.Q 0) (K := Y.S)
       have hle : Y.Q 0 ≤ Y.S := by
@@ -1913,9 +1913,9 @@ theorem caseA_r (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {r r₀ : ℕ}
       rw [inf_eq_left.mpr hAleQ1, hrel, hQ1] at h
       norm_num at h ⊢
       omega
-    haveI hZ0fin : Finite ↥(Y.Z 0) :=
+    have hZ0fin : Finite ↥(Y.Z 0) :=
       Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
-    haveI hL0fin : Finite ↥(Y.L 0) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 0)
+    have hL0fin : Finite ↥(Y.L 0) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 0)
     have hVcard : Nat.card (↥(Y.Q 0) ⧸ (Y.Z 0).subgroupOf (Y.Q 0)) = 4 := by
       rw [← Subgroup.index_eq_card]
       have hZsubcard : Nat.card ↥((Y.Z 0).subgroupOf (Y.Q 0)) = 16 := by

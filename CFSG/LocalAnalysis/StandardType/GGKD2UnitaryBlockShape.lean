@@ -123,7 +123,7 @@ private lemma ltrcu2c_entry_zero
 
 theorem unitaryBlock_entry_zero
     {d n : ℕ} {K : Type} [Field K] [Finite K] (h : UnitaryFieldData 2 n K)
-    (hn : 2 ≤ n) (hdvd : 3 ∣ 2 ^ n + 1)
+    (_hn : 2 ≤ n) (hdvd : 3 ∣ 2 ^ n + 1)
     {N : GL (Fin d) K}
     (hNnorm : N ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
     {I : Finset (Fin d)} (hI : I.card = 2)
@@ -220,10 +220,9 @@ private theorem ltrcu2d_isBlockDiag_of_shape
     have hglob := congrFun (congrFun hAsimA (I.equivFin.symm a)) j.val
     simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.smul_apply,
       Matrix.one_apply] at hglob
-    rw [if_neg (show ((I.equivFin.symm a : ↥I) : Fin d) ≠ j.val from fun hh =>
+    rw [ite_eq_right (show ((I.equivFin.symm a : ↥I) : Fin d) ≠ j.val from fun hh =>
       j.2 (hh ▸ (I.equivFin.symm a).2)), smul_zero] at hglob
-    simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, TableBUE.blockRes,
-      Matrix.zero_apply, Q]
+    simp only [Matrix.zero_apply, Q]
     rw [← hglob]
     rw [← Finset.sum_subset (Finset.subset_univ I) (fun x _ hx => by
       rw [hshapeA (I.equivFin.symm a) (I.equivFin.symm a).2 x hx, map_zero, zero_mul]),
@@ -378,7 +377,7 @@ theorem unitaryBlock_conj_inner_of_shape
     rw [hLm, Subgroup.normalizerMonoidHom_apply_apply_coe]
     simp only [Units.val_mul]
     rw [CFSG.LocalAnalysis.GLTheoremA.T171Sh.blockRes_conj_eq hAdiag hbOn]
-    simp only [Units.val_mul, CFSG.LocalAnalysis.GLTheoremA.T171Sh.coe_blockResGL, bIgl]
+    simp only [CFSG.LocalAnalysis.GLTheoremA.T171Sh.coe_blockResGL, bIgl]
   have hRres : TableBUE.blockRes I Rm =
       ((h' * bIgl * h'⁻¹ : GL (Fin I.card) K) : Matrix (Fin I.card) (Fin I.card) K) := by
     rw [hRm]

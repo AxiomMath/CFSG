@@ -101,7 +101,7 @@ theorem uc22lb_big_psl {L : Type} [Group L] {m f : ℕ} (hf : 3 ≤ f)
     (h : StatedClassicalModel L .PSL m 2 f) :
     ∃ _ : Finite L, 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup L) := by
   obtain ⟨⟨hp, hf1, hm, -⟩, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfin : Finite L := Finite.of_equiv _ e.symm.toEquiv
   refine ⟨hfin, ?_⟩
   have h1 := CFSG.SectionRank.ClassicalOdd.le_pRank_SL (n := m) (a := 1) (b := 1) le_rfl
@@ -112,7 +112,7 @@ theorem uc22lb_big_psl {L : Type} [Group L] {m f : ℕ} (hf : 3 ≤ f)
 theorem uc22lb_big_psp {L : Type} [Group L] {m f : ℕ} (h : StatedClassicalModel L .PSp m 2 f) :
     ∃ _ : Finite L, 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup L) := by
   obtain ⟨⟨hp, hf1, hm, -⟩, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfin : Finite L := Finite.of_equiv _ e.symm.toEquiv
   refine ⟨hfin, ?_⟩
   have h1 := CFSG.SectionRank.ClassicalOdd.le_pRank_Sp (n := m) hm hK
@@ -163,8 +163,10 @@ variable {m : ℕ} {K : Type} [Field K] [CharP K 2]
 @[expose] def uc22lbM (u w : Fin m → K) (c d : K) : Matrix (Fin m) (Fin m) K :=
   1 + c • vecMulVec u u + d • vecMulVec w w
 
+omit [CharP K 2] in
 theorem uc22lbM_zero (u w : Fin m → K) : uc22lbM u w 0 0 = 1 := by simp [uc22lbM]
 
+omit [CharP K 2] in
 theorem uc22lbM_mul (u w : Fin m → K) (huu : u ⬝ᵥ u = 0) (huw : u ⬝ᵥ w = 0) (hwu : w ⬝ᵥ u = 0)
     (hww : w ⬝ᵥ w = 0) (c d c' d' : K) :
     uc22lbM u w c d * uc22lbM u w c' d' = uc22lbM u w (c + c') (d + d') := by
@@ -180,6 +182,7 @@ theorem uc22lbM_mul (u w : Fin m → K) (huu : u ⬝ᵥ u = 0) (huw : u ⬝ᵥ w
     h21, h22, smul_zero, add_zero, add_smul]
   abel
 
+omit [CharP K 2] in
 theorem uc22lbM_transpose (u w : Fin m → K) (c d : K) :
     (uc22lbM u w c d)ᵀ = uc22lbM u w c d := by
   ext i j
@@ -191,7 +194,7 @@ theorem uc22lbM_transpose (u w : Fin m → K) (c d : K) :
 theorem uc22lbM_map_pow {f : ℕ} (u w : Fin m → K) (hu : ∀ i, u i ^ 2 ^ f = u i)
     (hw : ∀ i, w i ^ 2 ^ f = w i) (c d : K) :
     (uc22lbM u w c d).map (· ^ 2 ^ f) = uc22lbM u w (c ^ 2 ^ f) (d ^ 2 ^ f) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   ext i j
   simp only [uc22lbM, map_apply, Matrix.add_apply, Matrix.smul_apply, vecMulVec_apply,
     smul_eq_mul, one_apply, add_pow_char_pow, mul_pow, hu, hw]
@@ -205,6 +208,7 @@ theorem uc22lbM_unitary {f : ℕ} (u w : Fin m → K) (hu : ∀ i, u i ^ 2 ^ f =
   rw [uc22lbM_map_pow u w hu hw, uc22lbM_transpose, uc22lbM_mul u w huu huw hwu hww, hc, hd,
     uc22lbM_zero]
 
+omit [CharP K 2] in
 theorem uc22lbM_mulVec (u w : Fin m → K) (huu : u ⬝ᵥ u = 0) (hwu : w ⬝ᵥ u = 0) (c d : K) :
     uc22lbM u w c d *ᵥ u = u := by
   simp only [uc22lbM, add_mulVec, one_mulVec, smul_mulVec, vecMulVec_mulVec, huu, hwu]
@@ -212,6 +216,7 @@ theorem uc22lbM_mulVec (u w : Fin m → K) (huu : u ⬝ᵥ u = 0) (hwu : w ⬝�
 
 @[expose] def uc22lbVec (i j : Fin m) : Fin m → K := Pi.single i 1 + Pi.single j 1
 
+omit [CharP K 2] in
 theorem uc22lbVec_pow {f : ℕ} {i j : Fin m} (hij : i ≠ j) (k : Fin m) :
     uc22lbVec (K := K) i j k ^ 2 ^ f = uc22lbVec i j k := by
   simp only [uc22lbVec, Pi.add_apply, Pi.single_apply]
@@ -225,23 +230,24 @@ theorem uc22lbVec_pow {f : ℕ} {i j : Fin m} (hij : i ≠ j) (k : Fin m) :
 
 theorem uc22lbVec_dot_self {i j : Fin m} (hij : i ≠ j) :
     uc22lbVec (K := K) i j ⬝ᵥ uc22lbVec i j = 0 := by
-  simp only [uc22lbVec, add_dotProduct, dotProduct_add, single_dotProduct, dotProduct_single,
-    Pi.add_apply, Pi.single_apply, hij, hij.symm, if_true, if_false]
+  simp only [uc22lbVec, dotProduct_add, dotProduct_single,
+    Pi.add_apply, Pi.single_apply, hij, hij.symm, ite_true, ite_false]
   simp
   exact CharTwo.add_self_eq_zero (1 : K)
 
+omit [CharP K 2] in
 theorem uc22lbVec_dot_disjoint {i j k l : Fin m} (hik : i ≠ k) (hil : i ≠ l) (hjk : j ≠ k)
     (hjl : j ≠ l) : uc22lbVec (K := K) i j ⬝ᵥ uc22lbVec k l = 0 := by
-  simp only [uc22lbVec, add_dotProduct, dotProduct_add, single_dotProduct, dotProduct_single,
-    Pi.add_apply, Pi.single_apply, hik, hil, hjk, hjl, hik.symm, hil.symm, hjk.symm, hjl.symm,
-    if_true, if_false]
+  simp only [uc22lbVec, dotProduct_add, dotProduct_single,
+    Pi.add_apply, Pi.single_apply, hik.symm, hil.symm, hjk.symm, hjl.symm,
+    ite_false]
   simp
 
 @[expose] def uc22lbTr (K : Type) [Field K] [CharP K 2] (f : ℕ) : K →+ K where
   toFun c := c ^ 2 ^ f + c
   map_zero' := by simp
   map_add' c d := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     simp only [add_pow_char_pow]
     abel
 
@@ -249,7 +255,7 @@ theorem uc22lbTr_apply (f : ℕ) (c : K) : uc22lbTr K f c = c ^ 2 ^ f + c := rfl
 
 theorem uc22lbTr_uc22lbTr [Finite K] {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2) (c : K) :
     uc22lbTr K f (uc22lbTr K f c) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = (2 ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]
   have h := FiniteField.pow_card c
@@ -278,7 +284,7 @@ theorem uc22lb_three_le_pRank_of_family [Finite K] {f : ℕ} {V : Type} [AddComm
     (huw : u ⬝ᵥ w = 0) (hwu : w ⬝ᵥ u = 0) (hww : w ⬝ᵥ w = 0) (hu0 : u ≠ 0)
     (hinj : Function.Injective fun v => uc22lbM u w (α v) (β v)) :
     3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (StatedProj (StatedSU m (2 ^ f) K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : Multiplicative V →* GL (Fin m) K :=
     glOfAdd (fun v : V => uc22lbM u w (α v) (β v)) (by simp [uc22lbM_zero]) (fun a b => by
       rw [map_add, map_add, uc22lbM_mul u w huu huw hwu hww])
@@ -310,8 +316,8 @@ theorem uc22lb_big_psu {L : Type} [Group L] {m f : ℕ} (hmf : (4 ≤ m ∧ 2 �
     (h : StatedClassicalModel L .PSU m 2 f) :
     ∃ _ : Finite L, 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup L) := by
   obtain ⟨⟨hp, hf, hm, hnq⟩, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hK
   have hfin : Finite L := Finite.of_equiv _ e.symm.toEquiv
   refine ⟨hfin, ?_⟩
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv Nat.one_lt_two e]
@@ -346,8 +352,7 @@ theorem uc22lb_big_psu {L : Type} [Group L] {m f : ℕ} (hmf : (4 ≤ m ∧ 2 �
     · intro a b hab
       have h1 := congrFun (congrFun hab ⟨0, by omega⟩) ⟨0, by omega⟩
       have h2 := congrFun (congrFun hab ⟨2, by omega⟩) ⟨2, by omega⟩
-      simp [uc22lbM, uc22lbVec, vecMulVec_apply, Matrix.add_apply, Matrix.smul_apply,
-        Pi.single_apply, Matrix.one_apply] at h1 h2
+      simp [uc22lbM, uc22lbVec, vecMulVec_apply, Matrix.add_apply, Matrix.smul_apply] at h1 h2
       exact Prod.ext h1 h2
   ·
     have hne01 : (⟨0, by omega⟩ : Fin m) ≠ ⟨1, by omega⟩ := by simp [Fin.ext_iff]
@@ -364,8 +369,7 @@ theorem uc22lb_big_psu {L : Type} [Group L] {m f : ℕ} (hmf : (4 ≤ m ∧ 2 �
       simp [uc22lbVec] at this
     · intro a b hab
       have h1 := congrFun (congrFun hab ⟨0, by omega⟩) ⟨0, by omega⟩
-      simp [uc22lbM, uc22lbVec, vecMulVec_apply, Matrix.add_apply, Matrix.smul_apply,
-        Pi.single_apply, Matrix.one_apply] at h1
+      simp [uc22lbM, uc22lbVec, vecMulVec_apply, Matrix.add_apply, Matrix.smul_apply] at h1
       exact h1
 
 end Unitary
@@ -390,15 +394,15 @@ theorem uc22lbAlt_xz : uc22lbAltX * uc22lbAltZ = uc22lbAltZ * uc22lbAltX := by d
 theorem uc22lbAlt_yz : uc22lbAltY * uc22lbAltZ = uc22lbAltZ * uc22lbAltY := by decide +kernel
 
 theorem uc22lbAlt_ox : orderOf uc22lbAltX = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
 
 theorem uc22lbAlt_oy : orderOf uc22lbAltY = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
 
 theorem uc22lbAlt_oz : orderOf uc22lbAltZ = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide +kernel) (by decide +kernel)
 
 theorem uc22lbAlt_xne : uc22lbAltX ≠ uc22lbAltY := by decide +kernel
@@ -423,7 +427,7 @@ theorem uc22lbAlt_notMem :
 
 theorem uc22lb_big_alt9 {L : Type} [Group L] (e : L ≃* alternatingGroup (Fin 9)) :
     ∃ _ : Finite L, 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup L) := by
-  haveI : Finite L := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite L := Finite.of_equiv _ e.symm.toEquiv
   refine ⟨inferInstance, ?_⟩
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv Nat.one_lt_two e]
   obtain ⟨E₁, hE₁x, hE₁y, hE₁, hE₁card, hE₁le⟩ :=
@@ -484,7 +488,7 @@ theorem uc22lb_nonab_of_big {L : Type} [Group L]
       ∃ P : Subgroup L, P ≠ ⊤ ∧ Subgroup.normalizer (U : Set L) ≤ P) :
     ∃ a b : L, a * b ≠ b * a := by
   obtain ⟨hfin, h3⟩ := hbig
-  haveI := hfin
+  have := hfin
   obtain ⟨E, -, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank Nat.one_lt_two (⊤ : Subgroup L)
   have hE8 : 8 ≤ Nat.card E := by
     rw [hEcard]
@@ -559,7 +563,7 @@ theorem uc22lb_big_chevalley {L : Type} [Group L] {t : StatedLieTag} {f : ℕ}
     ∃ _ : Finite L, 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup L) := by
   have hfin : Finite L := CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness L t 2 f h
   refine ⟨hfin, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hp, hf, hn⟩, hm⟩ := h
   cases t with
   | G2 => have := three_mul_le_pRank_of_G2Model hm; omega
@@ -750,7 +754,7 @@ theorem listBNonabelian_of (hE : ListBExceptionalFacts) : ListBNonabelian := by
 theorem listBNotSmall_of (hE : ListBExceptionalFacts) : ListBNotSmall := by
   intro L _ h
   obtain ⟨hfin, h3, -⟩ := uc22lb_listB_facts hE h
-  haveI := hfin
+  have := hfin
   exact uc22lb_notSmall_of_big h3
 
 

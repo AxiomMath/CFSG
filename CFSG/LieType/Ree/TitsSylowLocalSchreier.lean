@@ -105,7 +105,7 @@ theorem tits_Sylow_local_Schreier_criterion [Finite G] {p : ℕ} [Fact p.Prime] 
     exact Subgroup.normal_in_normalizer
   have hK' : Subgroup.centralizer ((K.subgroupOf N : Subgroup N) : Set N) ≤ K.subgroupOf N :=
     centralizer_subgroupOf_le hKN hCK
-  have hKp : IsPGroup p K := S.isPGroup'.to_le hKS
+  have hKp : IsPGroup p K := S.isPGroup.to_le hKS
   obtain ⟨hPJ, hcommJ⟩ := pointwiseFixingAut_abelian_pGroup hJ'
     (isPGroup_subgroupOf hJH hJp)
   obtain ⟨hPK, hcommK⟩ := pointwiseFixingAut_abelian_pGroup hK' (isPGroup_subgroupOf hKN hKp)

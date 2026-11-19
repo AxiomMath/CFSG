@@ -80,7 +80,7 @@ private theorem comb_dichotomy (P : (Fin 8 → ZMod 2) → Prop) (hE : ∀ v, P 
     · exact h2.2.2.2.2.1 h
     · exact h2.2.2.2.2.2 h
   · right
-    push_neg at hex
+    push Not at hex
     intro v hv
     by_contra hsv
     rcases hside v hv fun h => hsv h.2 with hf | hs

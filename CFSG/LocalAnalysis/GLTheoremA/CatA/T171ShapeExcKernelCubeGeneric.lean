@@ -13,7 +13,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type*} [Group G]
 
 theorem displacement_central_of_conj_eq {P : Subgroup G} {F : G →* G} {y g : G}
-    (hg : g ∈ P) (hFmem : ∀ x ∈ P, F x ∈ P)
+    (_hg : g ∈ P) (hFmem : ∀ x ∈ P, F x ∈ P)
     (hFsurj : ∀ x ∈ P, ∃ x' ∈ P, F x' = x)
     (hyF : F y = y)
     (hconj : ∀ x ∈ P, y * x * y⁻¹ = g * x * g⁻¹) :

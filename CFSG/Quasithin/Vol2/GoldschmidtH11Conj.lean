@@ -36,6 +36,7 @@ theorem conjSub_le {φ : MulAut V} {A L : Subgroup (MulAut V)} (hφ : φ ∈ L) 
   have := L.mul_mem (L.mul_mem hφ (h hx)) (L.inv_mem hφ)
   simpa [mul_assoc] using this
 
+omit [Finite V] in
 theorem rkIdx_fixV_conjSub (φ : MulAut V) (A : Subgroup (MulAut V)) :
     rkIdx (fixV (conjSub φ A)) = rkIdx (fixV A) :=
   CFSG.Quasithin.ConjTransport.rkIdx_fixV_map_conj A φ
@@ -80,6 +81,7 @@ theorem conjSub_zpowers (φ : MulAut V) (t : MulAut V) :
       (a = 2 ∧ ∃ t ∈ A, rkIdx (fixV (Subgroup.zpowers t)) = a)) ∧
     (A ≤ L → rk A + a ≤ rkIdx (fixV A))
 
+omit [Finite V] in
 theorem H11Concl_of_conjSub {a : ℕ} {L A : Subgroup (MulAut V)} {φ : MulAut V} (hφ : φ ∈ L)
     (hc : H11Concl a L (conjSub φ A)) : H11Concl a L A := by
   obtain ⟨h1, h2, h3⟩ := hc

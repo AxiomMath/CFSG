@@ -51,7 +51,7 @@ theorem spEnd_sq_add_eq_zero {g : StatedSp 4 (ZMod 2)} (hg3 : g ^ 3 = 1)
   refine LinearMap.ext fun v => ?_
   apply hfpf
   simp only [LinearMap.add_apply, Module.End.one_apply, pow_two, Module.End.mul_apply, map_add,
-    LinearMap.zero_apply, h3]
+    h3]
   abel
 
 theorem fpfIrrGap_holds : FpfIrrGap := by
@@ -68,12 +68,12 @@ theorem fpfIrrGap_holds : FpfIrrGap := by
   have hγ : spEnd g ^ 2 + spEnd g + 1 = 0 := spEnd_sq_add_eq_zero hg3 hfpf
   obtain ⟨A', S, _, f, hA'M, hcat, hf⟩ := hM6
   obtain ⟨hSsimple, h5S, y, hy⟩ := a6_data hcat
-  haveI := hSsimple
+  have := hSsimple
   have hcomm : ∀ a : ↥A', (a : StatedSp 4 (ZMod 2)) * g = g * a := fun a =>
     Subgroup.mem_centralizer_singleton_iff.mp (hCA ▸ hMA₁ (hA'M a.2))
   have hpres : ∀ a : ↥A', ∀ u ∈ U, spEnd (a : StatedSp 4 (ZMod 2)) u ∈ U := fun a u hu =>
     hUM a (hA'M a.2) u hu
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : 5 ∣ Nat.card ↥A' := h5S.trans (Subgroup.card_dvd_of_surjective hf)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hxa5 : orderOf (x : StatedSp 4 (ZMod 2)) = 5 := by rw [Subgroup.orderOf_coe]; exact hx

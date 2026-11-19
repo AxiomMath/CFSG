@@ -13,9 +13,11 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fx_qe_commute_of_sq {u y : OGroup Q} (h : u * u = y) : u * y = y * u := by
   rw [← h, mul_assoc, h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fx_qe_mapsTo_commSp {u y : OGroup Q} (hyy : y * y = 1) (h : u * u = y) :
     ∀ x ∈ commSp y, (u : V ≃ₗ[ZMod 3] V) x ∈ commSp y := by
   intro x hx

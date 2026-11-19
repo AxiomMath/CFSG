@@ -55,7 +55,7 @@ private theorem companion3_zero_pow_three {R : Type*} [CommRing R] :
     (companion3 (1 : R) 0 0) ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [companion3, pow_succ, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    simp [companion3, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]
 
 private theorem exists_involution_sl {R : Type*} [CommRing R] (M : Matrix (Fin 3) (Fin 3) R)
     (hdet : M.det = 1) (hM : M * M = 1) (hne : M ≠ 1) :

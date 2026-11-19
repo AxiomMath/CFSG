@@ -102,7 +102,7 @@ private theorem tripleA6_isSylowTwoOf_map (hH : HatMod H) {T' : Subgroup ↥H}
   obtain ⟨e⟩ := hH.quot
   have hTZ : T' ⊓ (QuotientGroup.mk' (Subgroup.center ↥H)).ker = ⊥ := by
     rw [QuotientGroup.ker_mk']
-    exact Subgroup.inf_eq_bot_of_coprime (by rw [hT'8, hH.center]; norm_num)
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hT'8, hH.center]; norm_num)))
   have hQ : Nat.card (↥H ⧸ Subgroup.center ↥H) = 360 := by
     rw [Nat.card_congr e.toEquiv]
     exact H13.Orbit.card_alt6_eq
@@ -132,7 +132,7 @@ private theorem tripleA6_exists_stabilizer_not_mem_normalizer [Finite V]
   have hker := QuotientGroup.ker_mk' (Subgroup.center ↥H)
   have hTZ : T.subgroupOf H ⊓ (QuotientGroup.mk' (Subgroup.center ↥H)).ker = ⊥ := by
     rw [hker]
-    exact Subgroup.inf_eq_bot_of_coprime (by rw [hT'8, hH.center]; norm_num)
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hT'8, hH.center]; norm_num)))
   have hSZ : MulAction.stabilizer ↥H v ⊓ (QuotientGroup.mk' (Subgroup.center ↥H)).ker = ⊥ := by
     rw [hker]
     exact tripleA6_stabilizer_inf_center_eq_bot hH hv1
@@ -296,7 +296,7 @@ end ActionModel
 
 private theorem card_sylow_two_of_card_eq_1080 {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 1080) (P : Sylow 2 G) : Nat.card (P : Subgroup G) = 8 := by
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hmul := (P : Subgroup G).card_mul_index
   have hidx := P.not_dvd_index
   have hi : (P : Subgroup G).index ≠ 0 := Subgroup.index_ne_zero_of_finite

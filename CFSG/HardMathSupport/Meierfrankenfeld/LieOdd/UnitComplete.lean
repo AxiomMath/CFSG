@@ -11,19 +11,23 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 variable {K : Type} [Field K] {p f : ℕ} {ι : Type} [Fintype ι] [DecidableEq ι]
   (h : UnitaryFieldData p f K) (G : Matrix ι ι K)
 
+omit [DecidableEq ι] in
 theorem Psi_smul (α β : K) (x y : ι → K) :
     Psi h G (α • x) (β • y) = h.bar β * α * hf h G y x - h.bar α * β * hf h G x y := by
   simp only [Psi, hf_smul_left, hf_smul_right]
   ring
 
+omit [DecidableEq ι] in
 theorem Psi_smul_left (α : K) (x y : ι → K) :
     Psi h G (α • x) y = α * hf h G y x - h.bar α * hf h G x y := by
   simp only [Psi, hf_smul_left, hf_smul_right]
 
+omit [DecidableEq ι] in
 theorem Psi_smul_right (β : K) (x y : ι → K) :
     Psi h G x (β • y) = h.bar β * hf h G y x - β * hf h G x y := by
   simp only [Psi, hf_smul_left, hf_smul_right]
 
+omit [DecidableEq ι] in
 theorem Psi_self (x : ι → K) : Psi h G x x = 0 := by simp [Psi]
 
 private theorem bar_two_inv : h.bar (2⁻¹ : K) = 2⁻¹ := by
@@ -34,7 +38,7 @@ theorem exists_hf_ne_zero (hdet : G.det ≠ 0) {v : ι → K} (hv0 : v ≠ 0) : 
   push Not at hcon
   exact hv0 (eq_zero_of_hf_eq_zero h G hdet hcon)
 
-theorem exists_perp_hf_ne_zero (hdet : G.det ≠ 0) (hG : (G.map h.bar)ᵀ = G) {v u : ι → K}
+theorem exists_perp_hf_ne_zero (hdet : G.det ≠ 0) (_hG : (G.map h.bar)ᵀ = G) {v u : ι → K}
     (hv0 : v ≠ 0) (huv : ∀ k : K, u ≠ k • v) : ∃ w, hf h G v w = 0 ∧ hf h G u w ≠ 0 := by
   by_contra hcon
   push Not at hcon
@@ -89,7 +93,7 @@ structure SympSys (v : ι → K) (a b : Fin 2 → ι → K) (ι₀ : K) : Prop w
   hii : ∀ i, Psi h G (a i) (b i) = ι₀
 
 theorem exists_symp_system_isotropic (h2 : (2 : K) ≠ 0) (hdet : G.det ≠ 0)
-    (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} (hv0 : v ≠ 0) (hv : hf h G v v = 0)
+    (hG : (G.map h.bar)ᵀ = G) {v u : ι → K} (hv0 : v ≠ 0) (_hv : hf h G v v = 0)
     (hu : hf h G v u = 0) (huu : hf h G u u = 0) (huv : ∀ k : K, u ≠ k • v) :
     ∃ (a b : Fin 2 → ι → K) (ι₀ : K), a 0 = u ∧ SympSys h G v a b ι₀ := by
   obtain ⟨w, hvw, huw, hww⟩ := exists_partner_isotropic h G h2 hdet hG hv0 hu huu huv
@@ -226,8 +230,7 @@ theorem exists_symp_system_aniso (h2 : (2 : K) ≠ 0) (hdet : G.det ≠ 0)
     rw [hu_eq, hw, hf_add_left, hf_smul_left, hf_sub_right, hf_smul_right, hf_smul_right, hve,
       hve]
     rw [hw'e]
-    simp only [hf_add_left, hf_add_right, hf_smul_left, hf_smul_right, hf_sub_right, hornt]
-    try simp only [map_neg, UnitaryFieldData.bar_bar]
+    simp only [hf_add_left, hf_smul_left, hf_smul_right, hf_sub_right, hornt]
     simp
     ring
   have hwu : hf h G w u = 0 := by
@@ -236,9 +239,9 @@ theorem exists_symp_system_aniso (h2 : (2 : K) ≠ 0) (hdet : G.det ≠ 0)
     exact this.symm
   have hww : hf h G w w = hf h G u u := by
     rw [huu', hw]
-    simp only [hf_add_left, hf_add_right, hf_smul_left, hf_smul_right, hf_sub_left, hf_sub_right,
+    simp only [hf_smul_left, hf_smul_right, hf_sub_left, hf_sub_right,
       hornt]
-    try simp only [map_neg, map_sub, UnitaryFieldData.bar_bar]
+    try simp only [UnitaryFieldData.bar_bar]
     simp
     ring
   obtain ⟨ι₀, hι, hι0⟩ := h.exists_mem_traceZero_ne_zero

@@ -112,9 +112,9 @@ theorem ggTorsion_psl_components {m n : ℕ} {F : Type} [Field F] [Finite F]
         Matrix.SpecialLinearGroup (Fin d) D ⧸
           Subgroup.center (Matrix.SpecialLinearGroup (Fin d) D)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rwa [← Nat.card_eq_fintype_card]
   let H := LargeEvenSLGroup (Fin (m + 1)) F
@@ -124,8 +124,8 @@ theorem ggTorsion_psl_components {m n : ℕ} {F : Type} [Field F] [Finite F]
   let q : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* R := π.comp e.toMonoidHom
   let ψ : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* MulAut R :=
     (MulAut.conj : R →* MulAut R).comp q
-  haveI : Finite R := inferInstance
-  haveI : Finite (MulAut R) := inferInstance
+  have : Finite R := inferInstance
+  have : Finite (MulAut R) := inferInstance
   have hq_surj : Function.Surjective q :=
     (QuotientGroup.mk'_surjective _).comp e.surjective
   have hψrange : ψ.range = (MulAut.conj : R →* MulAut R).range := by

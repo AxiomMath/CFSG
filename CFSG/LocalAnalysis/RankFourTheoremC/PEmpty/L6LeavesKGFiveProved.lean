@@ -23,12 +23,12 @@ theorem false_of_sl2_two {Q : Type} [Group Q] [Finite Q]
       GaloisField.card 2 1 one_ne_zero]
     norm_num
   rcases h with ⟨-, hs, a, b, hab⟩ | hp
-  · haveI := Fintype.ofFinite Q
+  · have := Fintype.ofFinite Q
     have hsolv : Group.IsSolvable Q :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
         Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
-    haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hs
-    haveI : Group.IsSolvable (Q ⧸ Subgroup.center Q) := inferInstance
+    have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hs
+    have : Group.IsSolvable (Q ⧸ Subgroup.center Q) := inferInstance
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr inferInstance a b)
   · rw [hcard] at hp
     norm_num at hp

@@ -66,8 +66,8 @@ private lemma l05nPC_mem_A_iff {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
     (hA : A.map (ggLin (p := 3) ι) = Subgroup.closure gensV)
     (hgen : l05nDA_conjEnd (p := 3) (N := 7) θ '' gensV = gens) (t : MulAut ↥Bs) :
     t ∈ A ↔ l05nDA_PhiEnd (p := 3) (N := 7) ι θ t ∈ Submonoid.closure gens := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   have hcl : l05nDA_conjEnd (p := 3) (N := 7) θ '' ↑(Subgroup.closure gensV) =
@@ -110,8 +110,8 @@ private lemma l05nPC_fix_image {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
     (z : ↥Bs) :
     l05nDA_PhiEnd (p := 3) (N := 7) ι θ '' ggPZFixRefl 3 A z =
       ggDepELPZFixRefl gens (θ (ι (Additive.ofMul z))) := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   have hgen : l05nDA_conjEnd (p := 3) (N := 7) θ '' gensV = gens :=
@@ -165,8 +165,8 @@ private lemma l05nPC_orbit_image {G : Type} [Group G] [Finite G] {Bs : Subgroup 
     (z : ↥Bs) :
     l05nDA_PhiEnd (p := 3) (N := 7) ι θ '' ggPZOrbit 3 AJ A z =
       ggDepELPZOrbit gens (θ (ι (Additive.ofMul z))) := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   have hgenJ : l05nDA_conjEnd (p := 3) (N := 7) θ '' gensJV =

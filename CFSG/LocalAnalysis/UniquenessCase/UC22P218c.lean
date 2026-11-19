@@ -118,7 +118,7 @@ theorem uc22p218c_exists_torus_action (α : MulAut (StatedProj (StatedSp 2 K)))
 theorem uc22p218c_normalizer_le_sup :
     normalizer ((projUnipotent 2 K : Subgroup (StatedProj (StatedSp 2 K))) : Set (StatedProj (StatedSp 2 K))) ≤
       (sp4T K).range ⊔ projUnipotent 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.normalizer_projUnipotent 2 (by norm_num)]
   rintro _ ⟨b, hb, rfl⟩
   have hY : CFSG.Quasithin.H13.KG22.spY.range ⊔ CFSG.Quasithin.H13.KG22.spY'.range ≤
@@ -275,7 +275,7 @@ theorem uc22p218c_exists_elemAbelian_torus {r : ℕ} (hr : r.Prime) (hrK : r ∣
     ∃ E : Subgroup (StatedProj (StatedSp 2 K)), E ≤ normalizer ((projUnipotent 2 K :
       Subgroup (StatedProj (StatedSp 2 K))) : Set (StatedProj (StatedSp 2 K))) ∧
       IsElemAbelian r E ∧ Nat.card E = r ^ 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) r (by rw [Nat.card_units]; exact hrK)
   let f : (Fin 2 → ↥(zpowers ζ)) →* StatedProj (StatedSp 2 K) :=
     (sp4T K).comp ((zpowers ζ).subtype.compLeft (Fin 2))
@@ -326,7 +326,7 @@ theorem uc22p218c_exists_mem_centMod_sp4 {n s : ℕ} (hX : IsSp4 X n) {U : Subgr
     ∃ d : X, orderOf d = 2 ^ s - 1 ∧ ∀ α : MulAut X, (∃ e : ℕ, α ^ 2 ^ e = 1) →
       U.map α.toMonoidHom = U → d ∈ CFSG.Quasithin.H13.L32A.C.SkPf.centMod U α := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨φ, hφ⟩ := uc22p218c_exists_mulEquiv_map e hU
   obtain ⟨t, ht⟩ := uc22p218c_exists_orderOf_units hK hsn
   obtain ⟨k, rfl⟩ := hs
@@ -346,7 +346,7 @@ theorem uc22p218c_exists_mem_centMod_sp4 {n s : ℕ} (hX : IsSp4 X n) {U : Subgr
 theorem uc22p218c_pRank_eq_two_sp4 [Finite X] {n r : ℕ} (hX : IsSp4 X n) (hr : r.Prime) (hrn : r ∣ 2 ^ n - 1) :
     CFSG.Open.pRank r (⊤ : Subgroup X) = 2 := by
   obtain ⟨⟨-, hn1, -, -⟩, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e]
   exact uc22p218c_pRank_model hr (uc22p218c_ne_two_of_dvd hn1 hrn) (by rw [hK]; exact hrn)
 
@@ -358,7 +358,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p218c_pRank_eq_two_of_bar2 {L : Subgroup G} {n r : ℕ} (hX : IsSp4 (Bar2 L) n) (hr : r.Prime)
     (hrn : r ∣ 2 ^ n - 1) : CFSG.Open.pRank r L = 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨-, hn1, -, -⟩, -⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
   have hN : ¬ r ∣ Nat.card (CFSG.pCore 2 ↥L) := by
     obtain ⟨m, hm⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).exists_card_eq
@@ -380,7 +380,7 @@ theorem uc22p218c_conj_mul_inv_mem_of_mem_centMod {L : Subgroup G} (Q : Sylow 2 
   have h1 := mul_mem hq (CFSG.fitting_pCore_le_sylow Q hqe)
   rw [mul_inv_cancel_left] at h1
   refine mem_map.2 ⟨_, h1, ?_⟩
-  simp [rhoL_mk_coe]
+  simp
 
 theorem uc22p218c_rhoL_pow_and_map {L : Subgroup G} (Q : Sylow 2 ↥L) {t : G} (htL : t ∈ normalizer (L : Set G))
     (htS : t ∈ normalizer (((Q : Subgroup ↥L).map L.subtype : Subgroup G) : Set G)) (ht : ∃ a : ℕ, t ^ 2 ^ a = 1) :

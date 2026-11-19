@@ -82,7 +82,7 @@ theorem pow_two_eq_one_of_mul_eq_two_smul_one {n : ℕ} {G : Type*} [CommGroup G
     · rw [hdiag k]
       simp
     · intro j hj
-      rw [hdiag j, if_neg hj, zpow_zero]
+      rw [hdiag j, ite_eq_right hj, zpow_zero]
   have hmain : a k ^ (2 : ℤ) = 1 := by
     rw [← hprod]
     calc ∏ j, a j ^ (∑ i, C j i * A i k)

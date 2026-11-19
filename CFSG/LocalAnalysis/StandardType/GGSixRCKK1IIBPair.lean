@@ -168,14 +168,14 @@ theorem rckRowIIAt_of_pair
         Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set (ggU t n 1).K)) → ⁅Q, Q⁆ ≤ Rr)
     (hP : RCKIIPair t n) : RCKRowIIAt t n := by
   intro Jb _ _ hoddJb φ hφsurj hφker
-  haveI hperfU : Group.IsPerfect (ggU t n 1).K := ⟨RCKK1I.rckK1I_ggU_perfect hpos hadm⟩
-  haveI hfinU : Finite (ggU t n 1).K :=
+  have hperfU : Group.IsPerfect (ggU t n 1).K := ⟨RCKK1I.rckK1I_ggU_perfect hpos hadm⟩
+  have hfinU : Finite (ggU t n 1).K :=
     CFSG.StandardType.LieKnownR2.OddCenter.finite_ggU hpos hadm
   have hZoddU : Odd (Nat.card (Subgroup.center (ggU t n 1).K)) :=
     CFSG.StandardType.LieKnownR2.OddCenter.odd_card_center_ggU hpos hadm
   have hZ2U : Subgroup.center ((ggU t n 1).K ⧸ Subgroup.center (ggU t n 1).K) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
-  haveI hperfJb : Group.IsPerfect Jb := Group.IsPerfect.ofSurjective hφsurj
+  have hperfJb : Group.IsPerfect Jb := Group.IsPerfect.ofSurjective hφsurj
   have hZJb : Subgroup.center (Jb ⧸ Subgroup.center Jb) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
   let ψ : (ggU t n 1).K →* Jb ⧸ Subgroup.center Jb :=
@@ -218,7 +218,7 @@ theorem rckRowIIAt_of_pair
       (ggU t n 1).D.rootGroup β := by
     rw [ggRootSub]
     ext y
-    simp [MulAut.conj_apply]
+    simp
   have hRrEq : Rr = ggRootSub (ggU t n 1).D (MonoidHom.id (ggU t n 1).K) β 1 := by
     show (ggU t n 1).D.rootGroup β = ggRootSub (ggU t n 1).D (MonoidHom.id _) β 1
     rw [hggid]

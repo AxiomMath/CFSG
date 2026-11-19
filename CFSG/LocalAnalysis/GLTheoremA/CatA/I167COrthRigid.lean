@@ -77,7 +77,7 @@ theorem i167COrth_clash_lin_plus {n n' k' : ℕ} (hn : 5 ≤ n) (hn' : 3 ≤ n')
   obtain ⟨l', hl', e'⟩ := hD.omP hq hn' hk' hk3' h'
   have := Y10GInnExcLabel.canonLabel_eq_of_hasLabel hRig hl hl'
   rw [e, e'] at this
-  split_ifs at this <;> simp at this <;> omega
+  split_ifs at this <;> simp at this; omega
 
 theorem i167COrth_clash_lin_minus {n n' k' : ℕ} (hn : 5 ≤ n) (hn' : 4 ≤ n') (hk' : 1 ≤ k')
     (h : catalogIs (X ⧸ Subgroup.center X) (isLnA n 2))
@@ -95,7 +95,7 @@ theorem i167COrth_clash_un_lin {m f n : ℕ} (hm : 2 ≤ m) (hf : 1 ≤ f) (hn :
   obtain ⟨l', hl', e'⟩ := hD.lnA hq hn h'
   have := Y10GInnExcLabel.canonLabel_eq_of_hasLabel hRig hl hl'
   rw [e, e'] at this
-  split_ifs at this <;> simp at this <;> omega
+  split_ifs at this <;> simp at this; omega
 
 theorem i167COrth_clash_un_minus {m f n k : ℕ} (hm : 2 ≤ m) (hf : 1 ≤ f) (hn : 4 ≤ n) (hk : 1 ≤ k)
     (h : catalogIs (X ⧸ Subgroup.center X) (isUnA m (2 ^ f)))
@@ -113,7 +113,7 @@ theorem i167COrth_clash_un_plus {m f n k : ℕ} (hm : 2 ≤ m) (hf : 1 ≤ f) (h
   obtain ⟨l', hl', e'⟩ := hD.omP hq hn hk hk3 h'
   have := Y10GInnExcLabel.canonLabel_eq_of_hasLabel hRig hl hl'
   rw [e, e'] at this
-  split_ifs at this <;> simp at this <;> omega
+  split_ifs at this <;> simp at this
 
 end CFSG.LocalAnalysis.GLTheoremA.I167
 

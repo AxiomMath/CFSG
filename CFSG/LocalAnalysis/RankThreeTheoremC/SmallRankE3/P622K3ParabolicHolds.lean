@@ -24,7 +24,7 @@ section Certificates
 theorem kFactParabolicSectionThree_holds : KFactParabolicSectionThree := by
   intro A _ _ K K₀ z hK hrk hL3 hz3 hzK₀ hpar hne hSyl
   obtain ⟨hK₀K, U, hUsyl, hUN⟩ := hpar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzK : z ∈ K := hK₀K hzK₀
   set zK : ↥K := ⟨z, hzK⟩ with hzKdef
   have hzKord : orderOf zK = 3 := by
@@ -34,7 +34,7 @@ theorem kFactParabolicSectionThree_holds : KFactParabolicSectionThree := by
   have hnc : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra hnc'
     have hcomm : ∀ a b : ↥K, a * b = b * a := fun a b => by_contra fun h => hnc' ⟨a, b, h⟩
-    letI : CommGroup ↥K := { (inferInstance : Group ↥K) with mul_comm := hcomm }
+    let : CommGroup ↥K := { (inferInstance : Group ↥K) with mul_comm := hcomm }
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (zpowers zK) with h | h
     · rw [zpowers_eq_bot] at h
       rw [h, orderOf_one] at hzKord

@@ -119,7 +119,7 @@ theorem exists_conj_le {G : Type} [Group G] [Finite G] {M R Q₀ : Subgroup G} {
     have hxR' : (⟨x, hM₁M x.2⟩ : ↥M) ∈ (R' : Subgroup ↥M) := by
       rw [hR', mem_subgroupOf]
       exact hx
-    obtain ⟨k, hk⟩ := R'.isPGroup' ⟨_, hxR'⟩
+    obtain ⟨k, hk⟩ := R'.isPGroup ⟨_, hxR'⟩
     refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
     have := congrArg (fun y : ↥(R' : Subgroup ↥M) => ((y : ↥M) : G)) hk
     simpa using this

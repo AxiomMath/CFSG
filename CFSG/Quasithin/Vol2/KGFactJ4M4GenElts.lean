@@ -22,10 +22,10 @@ open CFSG.Sporadic.J4 CFSG.Quasithin.KGC31 CFSG.Quasithin.KGC31.J4
 theorem getD_append_singleton {α : Type*} (l : List α) (x d : α) (k : ℕ) :
     (l ++ [x]).getD k d = if k = l.length then x else l.getD k d := by
   rcases lt_trichotomy k l.length with h | h | h
-  · rw [List.getD_append _ _ _ _ h, if_neg (by omega)]
+  · rw [List.getD_append _ _ _ _ h, ite_eq_right (by omega)]
   · subst h
     simp
-  · rw [if_neg (by omega), List.getD_eq_default _ _ (by simp; omega),
+  · rw [ite_eq_right (by omega), List.getD_eq_default _ _ (by simp; omega),
       List.getD_eq_default _ _ (by omega)]
 
 theorem evalSlp_mem {G : Type*} [Group G] (K : Subgroup G) {inp : ℕ → G} (hin : ∀ k, inp k ∈ K) :

@@ -27,7 +27,7 @@ theorem finrank_V1At_le (h34 : Stroth34Statement) (hGen : StrothGenByBStatement)
     (hFix : ∀ v, v ∈ fixAt σ A W ↔ ∃ x ∈ B, M₀.π x = v)
     (hU' : ∀ s : Lgen M (LB M Q B), (s : G) ∈ LB M Q B → ∃ u ∈ PtStab σ W, ∀ v, A u v = T s v) :
     finrank K (V1At σ A M₀.B W) ≤ 10 := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hctx : Ctx M Q Z B := hc.ctx
   have hZQ : Z ≤ Q := hctx.hyp.Z_normal.1
   have hQ21 : Nat.card Q = Nat.card Z ^ 21 := by

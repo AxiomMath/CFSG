@@ -34,6 +34,7 @@ private theorem irgK1_gammaOf_toStd (a b : Fin 4) :
   fin_cases a <;> fin_cases b <;> fin_cases c <;>
     simp [irgK1_gammaOf, SpecialLinear.toStd]
 
+omit [Finite F] in
 private theorem irgK1_rhoGL_spinPlusThreeEquiv (x : spinGroup (quadPlus 3 F)) :
     rhoGL (CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv x) =
       spinAction (quadPlus 3 F) x := by
@@ -42,6 +43,7 @@ private theorem irgK1_rhoGL_spinPlusThreeEquiv (x : spinGroup (quadPlus 3 F)) :
   rw [MonoidHom.apply_ofInjective_symm]
   simp [MulEquiv.subgroupCongr_apply, MonoidHom.ofInjective_apply]
 
+omit [Finite F] in
 private theorem irgK1_eichler_swap {a b : Fin 3 ⊕ Fin 3 → F} (ha : quadPlus 3 F a = 0)
     (hb : quadPlus 3 F b = 0) (hab : polar (quadPlus 3 F) a b = 0) (c : F) :
     eichler (quadPlus 3 F) a (c • b) = eichler (quadPlus 3 F) b (c • a) := by
@@ -49,6 +51,7 @@ private theorem irgK1_eichler_swap {a b : Fin 3 ⊕ Fin 3 → F} (ha : quadPlus 
       (by simp [hb, QuadraticMap.map_smul]) (by rw [polar_smul_right, hab, smul_zero]),
     eichler_smul_left]
 
+omit [Finite F] [CharP F 2] in
 private theorem irgK1_transv_congr {a b : Fin 4} (hab hab' : a ≠ b) (c : F) :
     transv a b hab c = transv a b hab' c := by
   apply Subtype.ext
@@ -97,6 +100,7 @@ private theorem irgK1_ab_neg (i j : Fin 3) (s t : Bool) :
   fin_cases i <;> fin_cases j <;> cases s <;> cases t <;>
     simp [irgK1_ab]
 
+omit [Finite F] in
 private theorem irgK1_gen_01tt {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
     (hab : (0 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -107,6 +111,7 @@ private theorem irgK1_gen_01tt {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_03]
 
+omit [Finite F] in
 private theorem irgK1_gen_01tf {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
     (hab : (1 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -117,6 +122,7 @@ private theorem irgK1_gen_01tf {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_12]
 
+omit [Finite F] in
 private theorem irgK1_gen_01ft {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
     (hab : (2 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -125,11 +131,12 @@ private theorem irgK1_gen_01ft {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl])
+    (by simp [quadPlus_single_inr])
+    (by simp [polar_quadPlus_single_inr])]
   rw [rho_transv_21]
 
+omit [Finite F] in
 private theorem irgK1_gen_01ff {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
     (hab : (3 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -138,11 +145,12 @@ private theorem irgK1_gen_01ff {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 1)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inr])
+    (by simp [quadPlus_single_inr])
+    (by simp [polar_quadPlus_single_inr])]
   rw [rho_transv_30]
 
+omit [Finite F] in
 private theorem irgK1_gen_02tt {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
     (hab : (0 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -151,11 +159,12 @@ private theorem irgK1_gen_02tt {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl])
+    (by simp [quadPlus_single_inl])
+    (by simp [polar_quadPlus_single_inl])]
   rw [rho_transv_02]
 
+omit [Finite F] in
 private theorem irgK1_gen_02tf {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
     (hab : (1 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -166,6 +175,7 @@ private theorem irgK1_gen_02tf {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_13]
 
+omit [Finite F] in
 private theorem irgK1_gen_02ft {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
     (hab : (3 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -174,11 +184,12 @@ private theorem irgK1_gen_02ft {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl])
+    (by simp [quadPlus_single_inr])
+    (by simp [polar_quadPlus_single_inr])]
   rw [rho_transv_31]
 
+omit [Finite F] in
 private theorem irgK1_gen_02ff {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
     (hab : (2 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -189,6 +200,7 @@ private theorem irgK1_gen_02ff {hn : 3 ≤ 3} (hij : (0 : Fin 3) ≠ 2)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_20]
 
+omit [Finite F] in
 private theorem irgK1_gen_12tt {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
     (hab : (0 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -199,6 +211,7 @@ private theorem irgK1_gen_12tt {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_01]
 
+omit [Finite F] in
 private theorem irgK1_gen_12tf {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
     (hab : (2 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -209,6 +222,7 @@ private theorem irgK1_gen_12tf {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
   rw [rho_transv_23]
 
+omit [Finite F] in
 private theorem irgK1_gen_12ft {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
     (hab : (3 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -217,11 +231,12 @@ private theorem irgK1_gen_12ft {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl])
+    (by simp [quadPlus_single_inr])
+    (by simp [polar_quadPlus_single_inr])]
   rw [rho_transv_32]
 
+omit [Finite F] in
 private theorem irgK1_gen_12ff {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
     (hab : (1 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -230,11 +245,12 @@ private theorem irgK1_gen_12ff {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 2)
   rw [irgK1_transv_congr hab (by decide)]
   apply CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.rhoGL_injective'
   rw [irgK1_rhoGL_spinPlusThreeEquiv, HypFrame.spinAction_longRoot_eq_eichler, plusFrame_vec]
-  rw [irgK1_eichler_swap (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [quadPlus_single_inl, quadPlus_single_inr])
-    (by simp [polar_quadPlus_single_inl, polar_quadPlus_single_inr, polar_smul_right])]
+  rw [irgK1_eichler_swap (by simp [quadPlus_single_inr])
+    (by simp [quadPlus_single_inr])
+    (by simp [polar_quadPlus_single_inr])]
   rw [rho_transv_10]
 
+omit [Finite F] in
 private theorem irgK1_gen_10tt {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
     (hab : (0 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -245,6 +261,7 @@ private theorem irgK1_gen_10tt {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_01tt (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_10tf {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
     (hab : (2 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -255,6 +272,7 @@ private theorem irgK1_gen_10tf {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_01ft (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_10ft {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
     (hab : (1 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -265,6 +283,7 @@ private theorem irgK1_gen_10ft {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_01tf (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_10ff {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
     (hab : (3 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -275,6 +294,7 @@ private theorem irgK1_gen_10ff {hn : 3 ≤ 3} (hij : (1 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_01ff (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_20tt {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
     (hab : (0 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -285,6 +305,7 @@ private theorem irgK1_gen_20tt {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_02tt (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_20tf {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
     (hab : (3 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -295,6 +316,7 @@ private theorem irgK1_gen_20tf {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_02ft (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_20ft {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
     (hab : (1 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -305,6 +327,7 @@ private theorem irgK1_gen_20ft {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_02tf (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_20ff {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
     (hab : (2 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -315,6 +338,7 @@ private theorem irgK1_gen_20ff {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 0)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_02ff (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_21tt {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
     (hab : (0 : Fin 4) ≠ 1) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -325,6 +349,7 @@ private theorem irgK1_gen_21tt {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_12tt (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_21tf {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
     (hab : (3 : Fin 4) ≠ 2) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -335,6 +360,7 @@ private theorem irgK1_gen_21tf {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_12ft (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_21ft {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
     (hab : (2 : Fin 4) ≠ 3) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -345,6 +371,7 @@ private theorem irgK1_gen_21ft {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
   simpa [CharTwo.neg_eq] using
     irgK1_gen_12tf (hij := hij.symm) (hab := by decide) c
 
+omit [Finite F] in
 private theorem irgK1_gen_21ff {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
     (hab : (1 : Fin 4) ≠ 0) (c : F) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.spinPlusThreeEquiv
@@ -356,9 +383,10 @@ private theorem irgK1_gen_21ff {hn : 3 ≤ 3} (hij : (2 : Fin 3) ≠ 1)
     irgK1_gen_12ff (hij := hij.symm) (hab := by decide) c
 
 
+omit [Finite F] in
 private theorem irgK1_compat {hn : 3 ≤ 3} (β' : Fin 3 → ℤ)
     (hβ' : β' ∈ (Spin.plusDatum 3 F hn).roots)
-    (hlong : GGLongRoot (Spin.plusDatum 3 F hn) β') :
+    (_hlong : GGLongRoot (Spin.plusDatum 3 F hn) β') :
     ∃ γ : Fin 3 → ℤ, γ ∈ (SpecialLinear.rootDatum 3 F).roots ∧
       GGLongRoot (SpecialLinear.rootDatum 3 F) γ ∧
       ∃ w : SpecialLinearGroup (Fin 4) F,
@@ -395,7 +423,7 @@ private theorem irgK1_compat {hn : 3 ≤ 3} (β' : Fin 3 → ℤ)
         (SpecialLinearGroup.transvectionHom (A := F) hab).range :=
       SpecialLinear.rootGroup_eq 3 F hab (irgK1_gammaOf_toStd a b)
     have hconj : MulAut.conj (1 : SpecialLinearGroup (Fin 4) F) = 1 := by
-      ext y; simp [MulAut.conj_apply]
+      ext y; simp
     have hone : (MulEquiv.toMonoidHom (1 : MulAut (SpecialLinearGroup (Fin 4) F))) =
         MonoidHom.id _ := by ext x; rfl
     rw [hsrc, htgt, hconj, hone, Subgroup.map_id]
@@ -441,7 +469,7 @@ private theorem irgK1_compat {hn : 3 ≤ 3} (β' : Fin 3 → ℤ)
       SpecialLinear.rootGroup_eq 3 F hab.symm (by
         rw [SpecialLinear.toStd_neg, irgK1_gammaOf_toStd, neg_sub])
     have hconj : MulAut.conj (1 : SpecialLinearGroup (Fin 4) F) = 1 := by
-      ext y; simp [MulAut.conj_apply]
+      ext y; simp
     have hone : (MulEquiv.toMonoidHom (1 : MulAut (SpecialLinearGroup (Fin 4) F))) =
         MonoidHom.id _ := by ext x; rfl
     rw [hsrc, htgt, hconj, hone, Subgroup.map_id]
@@ -479,7 +507,7 @@ private theorem irgK1_compat {hn : 3 ≤ 3} (β' : Fin 3 → ℤ)
         | exact irgK1_gen_21tf hij hab.symm (Multiplicative.toAdd x)
 
 theorem irgIsoCompat_omegaPlus_three
-    {g : ℕ} (hg : 1 ≤ g) :
+    {g : ℕ} (_hg : 1 ≤ g) :
     ∃ e : (ggU .POmegaPlus 3 g).K ≃* (ggU .PSL 4 g).K, IRGIsoCompat e := by
   have hsrc : ggU .POmegaPlus 3 g =
       (⟨spinGroup (quadPlus 3 (GaloisField 2 g)),

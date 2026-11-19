@@ -20,7 +20,7 @@ private theorem exists_frattiniRep_ne_one_of_semiregular {E : Subgroup Γ} [E.No
     (hQ : IsPGroup q ↥Q) (hQ'le : Q' ≤ Q) (hQ'ne : Q' ≠ ⊥)
     (hQE : Q ⊓ Subgroup.centralizer (E : Set Γ) = ⊥) :
     ∃ t ∈ Q', frattiniRep 2 (MulAut.conjNormal (H := E)) t ≠ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra h
   push Not at h
   have hle : Q' ≤ Q ⊓ Subgroup.centralizer (E : Set Γ) := by
@@ -45,9 +45,9 @@ private theorem commute_of_semiregular_normal_two_of_fixV {E : Subgroup Γ} [E.N
     (hQE : Q ⊓ Subgroup.centralizer (E : Set Γ) = ⊥)
     (hfix : ∀ v, frattiniRep 2 (MulAut.conjNormal (H := E)) d v = v → v = 0) :
     ∀ x ∈ Q, d * x = x * d := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  letI : CommGroup (↥E ⧸ frattini ↥E) := IsMulCommutative.instCommGroup
-  letI : AddCommGroup (Additive (↥E ⧸ frattini ↥E)) := Additive.addCommGroup
+  have : Fact q.Prime := ⟨hq⟩
+  let : CommGroup (↥E ⧸ frattini ↥E) := IsMulCommutative.instCommGroup
+  let : AddCommGroup (Additive (↥E ⧸ frattini ↥E)) := Additive.addCommGroup
   let ρ := frattiniRep 2 (MulAut.conjNormal (H := E))
   have hfixV : fixV ρ (Subgroup.zpowers d) = ⊥ := by
     refine le_antisymm ?_ bot_le
@@ -90,9 +90,9 @@ theorem commute_of_semiregular_normal_two {E : Subgroup Γ} [E.Normal] (hE : IsP
     (hqr : q ≠ r) {Q : Subgroup Γ} (hQ : IsPGroup q ↥Q)
     (hdQ : d ∈ Subgroup.normalizer (Q : Set Γ))
     (hQE : Q ⊓ Subgroup.centralizer (E : Set Γ) = ⊥) : ∀ x ∈ Q, d * x = x * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥E) := ⟨hE⟩
-  haveI : IsElementaryAbelian 2 (↥E ⧸ frattini ↥E) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥E) := ⟨hE⟩
+  have : IsElementaryAbelian 2 (↥E ⧸ frattini ↥E) :=
     CFSG.isElementaryAbelian_quotient_frattini
   have hfix : ∀ v, frattiniRep 2 (MulAut.conjNormal (H := E)) d v = v → v = 0 :=
     fun v hv => CFSG.GroupTheory.frattiniRep_conjNormal_eq_zero_of_inf_centralizer_eq_bot
@@ -103,7 +103,8 @@ section Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-private theorem inf_centralizer_subgroupOf_eq_bot {M E : Subgroup G} (hEM : E ≤ M) {d : G}
+omit [Finite G] in
+private theorem inf_centralizer_subgroupOf_eq_bot {M E : Subgroup G} (_hEM : E ≤ M) {d : G}
     (hdM : d ∈ M) (h : E ⊓ Subgroup.centralizer ({d} : Set G) = ⊥) :
     E.subgroupOf M ⊓ Subgroup.centralizer ({⟨d, hdM⟩} : Set ↥M) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -121,6 +122,7 @@ private theorem inf_centralizer_subgroupOf_eq_bot {M E : Subgroup G} (hEM : E �
   rw [h] at hxbot
   exact Subtype.ext (Subgroup.mem_bot.mp hxbot)
 
+omit [Finite G] in
 private theorem mem_normalizer_subgroupOf {M Q : Subgroup G} {d : G} (hdM : d ∈ M)
     (h : d ∈ Subgroup.normalizer (Q : Set G)) :
     (⟨d, hdM⟩ : ↥M) ∈ Subgroup.normalizer (Q.subgroupOf M : Set ↥M) := by
@@ -133,7 +135,8 @@ private theorem mem_normalizer_subgroupOf {M Q : Subgroup G} {d : G} (hdM : d �
   · intro hx
     exact (Subgroup.mem_normalizer_iff.mp h (x : G)).mpr hx
 
-private theorem inf_centralizer_subgroupOf_eq_bot' {M Q E : Subgroup G} (hQM : Q ≤ M)
+omit [Finite G] in
+private theorem inf_centralizer_subgroupOf_eq_bot' {M Q E : Subgroup G} (_hQM : Q ≤ M)
     (hEM : E ≤ M) (h : Q ⊓ Subgroup.centralizer (E : Set G) = ⊥) :
     Q.subgroupOf M ⊓ Subgroup.centralizer (E.subgroupOf M : Set ↥M) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -156,7 +159,7 @@ theorem commute_of_semiregular_normal_two_of_le {M E Q : Subgroup G} (hEM : E �
     (hqr : q ≠ r) (hQM : Q ≤ M) (hQ : IsPGroup q ↥Q)
     (hdQ : d ∈ Subgroup.normalizer (Q : Set G))
     (hQE : Q ⊓ Subgroup.centralizer (E : Set G) = ⊥) : ∀ x ∈ Q, d * x = x * d := by
-  haveI hE'n : (E.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hME
+  have hE'n : (E.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hME
   have hE' : IsPGroup 2 ↥(E.subgroupOf M) :=
     hE.of_equiv (Subgroup.subgroupOfEquivOfLe hEM).symm
   have hdE' := inf_centralizer_subgroupOf_eq_bot hEM hdM hdE
@@ -180,14 +183,14 @@ theorem isCyclic_fittingSubgroup_of_isCyclic_pCore {X : Type} [Group X] [Finite 
   have hZ : IsZGroup ↥F := by
     rw [isZGroup_iff]
     intro r hr P
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hPmap_le : ((P : Subgroup ↥F).map F.subtype) ≤ CFSG.pCore r X :=
       Sylow.map_le_pCore (inferInstance : F.Normal) (inferInstance : Group.IsNilpotent ↥F) r P
-    haveI : IsCyclic ↥(CFSG.pCore r X) := h r hr
+    have : IsCyclic ↥(CFSG.pCore r X) := h r hr
     have hcyc_map : IsCyclic ↥((P : Subgroup ↥F).map F.subtype) := isCyclic_of_le hPmap_le
     exact (MulEquiv.isCyclic
       (Subgroup.equivMapOfInjective (P : Subgroup ↥F) F.subtype F.subtype_injective)).mpr hcyc_map
-  haveI : IsZGroup ↥F := hZ
+  have : IsZGroup ↥F := hZ
   exact inferInstance
 
 end CFSG.LocalAnalysis.UniquenessCase.UCK

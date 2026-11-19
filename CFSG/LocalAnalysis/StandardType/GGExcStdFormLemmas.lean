@@ -65,7 +65,7 @@ end Plane
 
 variable {G : Type} [Group G] {U' : Type} [Group U']
 
-theorem GGStdForm.exists_plane_subgroup {p : ℕ} (hp : p.Prime) {Bs G₀ : Subgroup G}
+theorem GGStdForm.exists_plane_subgroup {p : ℕ} (_hp : p.Prime) {Bs G₀ : Subgroup G}
     (hBs : IsElemAbelian p Bs) {Δ : UniversalRootDatum U'}
     {S : Matrix (Fin Δ.rank) (Fin Δ.rank) ℤ} {π : Equiv.Perm (Fin Δ.rank)} {f : ℕ}
     (F : GGStdForm p Bs G₀ Δ S π f) (f₁ f₂ : Fin Δ.rank → ZMod p)
@@ -136,7 +136,7 @@ theorem GGStdForm.exists_plane_subgroup {p : ℕ} (hp : p.Prime) {Bs G₀ : Subg
     · change F.coord b ∈ W.toAddSubgroup.toSubgroup
       rw [hb]
       exact (Multiplicative.mem_toSubgroup W.toAddSubgroup (Multiplicative.ofAdd w.1)).mpr
-        ((Submodule.mem_toAddSubgroup (p := W)).mpr (by simpa using w.2))
+        ((Submodule.mem_toAddSubgroup (p := W)).mpr (by simp))
     · exact Subtype.ext (by
         change Multiplicative.toAdd (F.coord b) = w.1
         simpa using congrArg Multiplicative.toAdd hb)
@@ -193,7 +193,7 @@ theorem GGStdForm.card_inf_centralizer_le {p : ℕ} (hp : p.Prime) {Bs G₀ : Su
       (∀ i, g (π i) = g i) ∧ ∀ β ∈ O, latChar p g β = 0} ≤ p ^ 2) :
     Nat.card (Bs ⊓ Subgroup.centralizer (L₁ : Set G) : Subgroup G) ≤ p ^ 2 := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let g : (Bs ⊓ Subgroup.centralizer (L₁ : Set G) : Subgroup G) →
       {g : Fin Δ.rank → ZMod p //
         (∀ i, g (π i) = g i) ∧ ∀ β ∈ O, latChar p g β = 0} :=

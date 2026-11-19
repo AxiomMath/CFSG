@@ -21,7 +21,7 @@ theorem centre_odd (h : Setup28 W K S) : Odd (Nat.card ↥(Subgroup.center ↥(b
   by_contra hev
   have h2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(bar W K)) :=
     (even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hev))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
   set c : ↥(bar W K) := (x : ↥(bar W K)) with hc
   have hcc : c ∈ Subgroup.center ↥(bar W K) := x.2

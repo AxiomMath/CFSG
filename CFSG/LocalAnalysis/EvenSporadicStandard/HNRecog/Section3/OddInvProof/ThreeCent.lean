@@ -57,7 +57,7 @@ theorem oddInv_three_card {G : Type} [Group G] [Finite G] {a z x : G} (h : IsF5T
     rw [hcard] at hle
     generalize Nat.card ↥(Qz z ⊓ Gx (a * x) ⊓ Gx a) = n at hle hdvd ⊢
     have hn32 : n ≤ 32 := Nat.le_of_dvd (by norm_num) hdvd
-    interval_cases n <;> first | omega | norm_num at hle hdvd ⊢
+    interval_cases n <;> first | omega
   ·
     intro u hu
     obtain ⟨huQ, huc⟩ := Subgroup.mem_inf.mp hu

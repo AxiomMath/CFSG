@@ -78,7 +78,7 @@ theorem i1312_comm_iff_fix {G : Type} [Group G] {p : ℕ} {I S : Subgroup G} (hS
 theorem i1312_card_Sbar_dvd {G : Type} [Group G] [Finite G] {p : ℕ} {I S : Subgroup G}
     (hS2 : IsPGroup 2 S) (hS8 : Nat.card S ≤ 8) (hSI : S ≤ I) :
     Nat.card ↥((S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I))) ∣ 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSbarp : IsPGroup 2 ((S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I))) :=
     IsPGroup.map (i1312_isPGroup_subgroupOf hS2) _
   have hdvd : Nat.card ↥((S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I))) ∣
@@ -92,7 +92,7 @@ theorem i1312_card_Sbar_dvd {G : Type} [Group G] [Finite G] {p : ℕ} {I S : Sub
   rw [hk] at hle ⊢
   have hk3 : k ≤ 3 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 4 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
     omega
   exact (Nat.pow_dvd_pow 2 hk3).trans (by norm_num)
@@ -104,8 +104,8 @@ theorem i1312_part2 {G : Type} [Group G] [Finite G] {p : ℕ} {I B S : Subgroup 
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ Nat.card B ≤ p * Nat.card B₀ ∧
       ∀ c ∈ B₀, (⁅S, Subgroup.zpowers c⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hom0 : ↥B →* MulAut (PQuot p I) := (barAut p I).comp (Subgroup.inclusion hBN)
   have hinv : ∀ b : ↥B,
       ((S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I))).map (hom0 b).toMonoidHom =
@@ -135,7 +135,7 @@ theorem i1312_part2 {G : Type} [Group G] [Finite G] {p : ℕ} {I B S : Subgroup 
           ((f ⟨x, hx⟩ : ↥((S.subgroupOf I).map (QuotientGroup.mk' (GLAPPrimeCore p ↥I)))) :
             PQuot p I)) (hKtriv k hk)
         simp only [CFSG.OrderReductions.InvariantSylow.restrictedHomomorphism,
-          CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism_apply, hom0,
+          hom0,
           MulAut.one_apply] at h3
         exact h3
       exact (i1312_comm_iff_fix hSI (hBN k.2)).2 hfix s hs
@@ -154,8 +154,8 @@ theorem i1312_part1 {G : Type} [Group G] [Finite G] {p : ℕ} {X I B S : Subgrou
     {c : G} (hc : c ∈ B) (hcS : (⁅S, Subgroup.zpowers c⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p I) :
     CentMod p I c := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hpcop : Nat.Coprime p 2 := (Nat.coprime_primes hp Nat.prime_two).2 hp2

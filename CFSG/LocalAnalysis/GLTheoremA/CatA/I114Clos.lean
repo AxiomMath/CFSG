@@ -13,6 +13,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closureIn_le_of_le {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X) :
     closureIn K B ≤ X := by
   show (⨆ (a : G) (_ : a ∈ B), K.map (MulAut.conj a).toMonoidHom) ≤ X
@@ -29,6 +30,7 @@ theorem mem_cj_conj_of_mem {Y : Type} [Group Y] {H : Subgroup Y} {g c : Y} (hc :
   rw [mem_cj, e]
   exact hc
 
+omit [Finite G] in
 theorem mk_mem_Sbar_of_mem_closureIn {p : ℕ} {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X)
     {x : ↥X} (hx : x.1 ∈ closureIn K B) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) x : ↥X ⧸ GLAPPrimeCore p ↥X) ∈ Sbar p X K B := by
@@ -57,12 +59,14 @@ theorem mk_mem_Sbar_of_mem_closureIn {p : ℕ} {X K B : Subgroup G} (hKX : K ≤
   rw [hyeq] at hy
   exact Subgroup.mem_comap.1 hy
 
+omit [Finite G] in
 theorem map_subgroupOf_le_Sbar {p : ℕ} {X K B T : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X)
     (hT : T ≤ closureIn K B) :
     (T.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X)) ≤ Sbar p X K B := by
   rintro _ ⟨x, hx, rfl⟩
   exact mk_mem_Sbar_of_mem_closureIn hKX hBX (hT (Subgroup.mem_subgroupOf.1 hx))
 
+omit [Finite G] in
 theorem isPGroup_map_subgroupOf {p : ℕ} {X T : Subgroup G} (hTp : IsPGroup 2 T) :
     IsPGroup 2 ((T.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X))) :=
   (hTp.comap_subtype (K := X)).map _
@@ -84,6 +88,7 @@ theorem mk_mem_normalizer_map {X : Type} [Group X] {N Tm : Subgroup X} [N.Normal
   rw [e, mem_map_mk_iff, mem_map_mk_iff]
   exact Subgroup.mem_normalizer_iff.1 hx z
 
+omit [Finite G] in
 theorem mem_normalizer_sup_of_mem {p : ℕ} {X T B : Subgroup G} (hBT : B ≤ Subgroup.normalizer (T : Set G))
     {x : ↥X} (hx : x.1 ∈ B) :
     x ∈ Subgroup.normalizer ((((T.subgroupOf X) ⊔ GLAPPrimeCore p ↥X : Subgroup ↥X)) : Set ↥X) := by
@@ -100,6 +105,7 @@ theorem mem_normalizer_sup_of_mem {p : ℕ} {X T B : Subgroup G} (hBT : B ≤ Su
     exact Subgroup.mem_top x
   rw [cj_sup, mem_normalizer_iff_cj.1 hxT, mem_normalizer_iff_cj.1 hxN]
 
+omit [Finite G] in
 theorem barX_le_normalizer_map {p : ℕ} {X B T : Subgroup G} (hBT : B ≤ Subgroup.normalizer (T : Set G)) :
     barX p X B ≤ Subgroup.normalizer
       (((T.subgroupOf X).map (QuotientGroup.mk' (GLAPPrimeCore p ↥X)) :

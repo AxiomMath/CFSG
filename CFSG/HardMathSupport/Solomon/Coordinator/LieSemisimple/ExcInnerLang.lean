@@ -61,7 +61,7 @@ theorem exists_conj_torusGroup_of_pow_eq_one {τ : Tag} {p : ℕ} (hp : p.Prime)
   have hfin : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp.pos, hxp⟩
   have hBfin : (Subgroup.zpowers x : Set (ModGL τ L)).Finite :=
     Set.finite_coe_iff.1 (finite_zpowers.2 hfin)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hexp : ∀ y ∈ Subgroup.zpowers x, y ^ p = 1 := by
     intro y hy
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy

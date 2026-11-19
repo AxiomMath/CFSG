@@ -25,7 +25,7 @@ theorem s16c34_exists_not_mem_nBar (D : Data G) {V₀ V L : Subgroup G} (h : Hyp
       ∃ φ ∈ Mbar D.M V₀ V hV, X = (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom} =
       {barSub V₀ V hV L} := by
     ext X
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨φ, hφ, rfl⟩
       obtain ⟨g, hgM, hg⟩ := (mem_barSub V₀ V hV D.M φ⁻¹).1 ((Mbar D.M V₀ V hV).inv_mem hφ)
@@ -39,6 +39,7 @@ theorem s16c34_exists_not_mem_nBar (D : Data G) {V₀ V L : Subgroup G} (h : Hyp
     rw [hset, Set.ncard_singleton]
   omega
 
+omit [Finite G] in
 theorem s16c34_preBarSub_le_cElt {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {K : Subgroup (MulAut (Vtil V₀ V hV))} {y : IntMod V hV}
     (hfix : mkTil V₀ V hV y ∈ fixV K) :

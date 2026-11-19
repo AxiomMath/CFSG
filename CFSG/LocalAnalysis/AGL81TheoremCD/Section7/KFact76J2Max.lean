@@ -21,10 +21,10 @@ private theorem testBit_foldl_ite (p : ℕ → Prop) [DecidablePred p] (f : ℕ 
   | i :: L, a => by
     rw [List.foldl_cons, testBit_foldl_ite p f j L]
     by_cases hp : p i
-    · simp only [hp, if_true, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true,
+    · simp only [hp, ite_true, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true,
         decide_eq_true_eq, List.mem_cons, exists_eq_or_imp, true_and]
       tauto
-    · simp only [hp, if_false, List.mem_cons, exists_eq_or_imp, false_and, false_or]
+    · simp only [hp, ite_false, List.mem_cons, exists_eq_or_imp, false_and, false_or]
 
 private def setOfCode (n : ℕ) : Set (Fin 315) := {x | n.testBit x = true}
 
@@ -44,6 +44,7 @@ private theorem setOfCode_imgSet {t : Array ℕ} {g : J2.GJ} (ht : Rep 315 t g.1
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y, y.2, hy, ht y⟩
 
+set_option exponentiation.threshold 315 in
 private theorem setOfCode_inj {a b : ℕ} (ha : a < 2 ^ 315) (hb : b < 2 ^ 315)
     (h : setOfCode a = setOfCode b) : a = b := by
   apply Nat.eq_of_testBit_eq
@@ -135,7 +136,7 @@ private theorem coatom_of_check {G X : Type*} [Group G] [MulAction G X] (x₀ : 
   have hH'le : H' ≤ MulAction.stabilizer G x₀ := by
     rw [Subgroup.closure_le]
     rintro _ ⟨s, hs, rfl⟩
-    rw [Set.mem_setOf_eq, hp_size] at hs
+    rw [Set.mem_ofPred_eq, hp_size] at hs
     obtain ⟨hw5, h0⟩ := hstab_w s hs
     have := (hword _ hw5 0 (by norm_num)).2
     rw [h0, hd0] at this
@@ -224,7 +225,7 @@ private theorem rep_j2Gens {k : ℕ}
   | 1, _ => exact rep_permB
   | k + 2, hk =>
     have hk3 : k < J2.gensNZArr.size := by rw [gensNZArr_size]; omega
-    rw [j2Gens, dif_pos hk3, gensArr_get_add_two (by omega)]
+    rw [j2Gens, dite_eq_left hk3, gensArr_get_add_two (by omega)]
     exact J2.rep_elA _
 
 private theorem closure_j2Gens :
@@ -253,7 +254,7 @@ theorem isCoatom_normalizer_zJ :
     omega
   have hnt : ∃ g : J2.GJ, g • x₀ ≠ x₀ := by
     by_contra h
-    push_neg at h
+    push Not at h
     have htop : MulAction.stabilizer J2.GJ x₀ = ⊤ := eq_top_iff.2 fun g _ => h g
     rw [htop, Subgroup.index_top] at hidx
     omega
@@ -265,7 +266,7 @@ theorem isCoatom_normalizer_zJ :
     rintro _ ⟨k, hk, rfl⟩
     have hk3 : k < 3 := by rwa [gensNZArr_size] at hk
     have hg : j2Gens (k + 2) = J2.gElt J2.gensNZArr J2.gensNZ_spec k hk := by
-      rw [j2Gens, dif_pos hk]
+      rw [j2Gens, dite_eq_left hk]
     obtain ⟨-, e⟩ := tab_spec hc (fun k hk a _ => hact k hk a) (show k + 2 < 5 by omega)
       (natCertOK_pos hc)
     rw [hfix k hk3, natCertOK_root hc, hg] at e

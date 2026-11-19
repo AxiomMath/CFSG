@@ -65,13 +65,13 @@ theorem eq_apply_of_eqOn_cyclicTIDiff [Fintype G] [Fintype ↥W]
   have hηsigned : ∀ p, η p ∈ signedIrr G := fun p =>
     mem_signedIrr_of_mem_span_Irr_of_cfInner_self_eq_one
       (mem_virtualChars_iff.1 (hW.prodCharEta_mem_virtualChars hσ p.1 p.2))
-      (by rw [hη, hW.cfInner_prodCharEta hσ, if_pos ⟨rfl, rfl⟩])
+      (by rw [hη, hW.cfInner_prodCharEta hσ, ite_eq_left ⟨rfl, rfl⟩])
   have hηinner : ∀ p q, cfInner (η p) (η q) = if p = q then 1 else 0 := by
     intro p q
     rw [hη, hW.cfInner_prodCharEta hσ]
     exact if_congr (by rw [Prod.ext_iff]) rfl rfl
   have hηortho : ∀ p q, p ≠ q → cfInner (η p) (η q) = 0 := fun p q h => by
-    rw [hηinner, if_neg h]
+    rw [hηinner, ite_eq_right h]
   have hψsigned := hηsigned p₀
   set f : G → ℂ := ρ - η p₀ with hf
   have hfcf : f ∈ classFun G :=
@@ -117,7 +117,7 @@ theorem eq_apply_of_eqOn_cyclicTIDiff [Fintype G] [Fintype ↥W]
   have h1 : cfInner ρ (η p₀) = 1 := by
     have h0 := hazero p₀.1 p₀.2
     simp only [ha, hf, cfInner_sub_left] at h0
-    rw [hηinner, if_pos rfl] at h0
+    rw [hηinner, ite_eq_left rfl] at h0
     linear_combination h0
   exact eq_of_cfInner_eq_one hρ hψsigned h1
 

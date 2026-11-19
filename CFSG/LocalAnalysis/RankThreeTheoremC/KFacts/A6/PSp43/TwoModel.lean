@@ -69,7 +69,7 @@ theorem eq_of_mem_gens {V : Subgroup (Equiv.Perm (Fin 45))} (hV : Nat.card V = 9
     rw [Subgroup.closure_le]
     intro g hg
     rw [hws] at hg
-    simp only [List.map_cons, List.map_nil, Set.mem_setOf_eq, List.mem_cons,
+    simp only [List.map_cons, List.map_nil, Set.mem_ofPred_eq, List.mem_cons,
       List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl
     · exact hx
@@ -119,7 +119,7 @@ theorem exists_conj_edge {Q' U' : Subgroup (Equiv.Perm (Fin 45))} {x' : Equiv.Pe
   have hQ₁eq : Q₁ = Q0 := Subgroup.eq_of_le_of_card_ge hQ₁Q0 (by rw [hQ₁c, card_Q0])
   have hx₁ : g₁⁻¹ * x' * g₁ ∈ Q0 := by
     rw [← hQ₁eq]
-    exact ⟨x', hUQ hxU, by simp [MulAut.conj_apply]⟩
+    exact ⟨x', hUQ hxU, by simp⟩
   have hx₁c : Nat.card ↥(P ⊓ centralizer ({g₁⁻¹ * x' * g₁} : Set (Equiv.Perm (Fin 45)))) =
       108 := by
     have := card_centralizer_conj (inv_mem hg₁) x'
@@ -136,7 +136,7 @@ theorem exists_conj_edge {Q' U' : Subgroup (Equiv.Perm (Fin 45))} {x' : Equiv.Pe
     rintro _ ⟨u, hu, rfl⟩
     have h1 : g₁⁻¹ * u * g₁ ∈ Q0 := by
       rw [← hQ₁eq]
-      exact ⟨u, hUQ hu, by simp [MulAut.conj_apply]⟩
+      exact ⟨u, hUQ hu, by simp⟩
     have h2 := (mem_normalizer_iff.1 hnN _).1 h1
     simpa [g, MulAut.conj_apply, mul_assoc] using h2
   have hwc₂ : ∀ h ∈ P, h * wperm x0W * h⁻¹ ∈ U₂ → h * wperm x0W * h⁻¹ ∈ zpowers (wperm x0W) := by

@@ -597,7 +597,7 @@ theorem commute_map_iff (φ : G ≃* G) {a b : G} : Commute (φ a) (φ b) ↔ Co
 omit [Finite G] in
 theorem mem_commSet_map_iff (φ : G ≃* G) (hφ : ∀ z, φ z ∈ D ↔ z ∈ D) {a z : G} :
     φ z ∈ commSet D (φ a) ↔ z ∈ commSet D a := by
-  simp only [commSet, Set.mem_setOf_eq, hφ, commute_map_iff, φ.injective.ne_iff]
+  simp only [commSet, Set.mem_ofPred_eq, hφ, commute_map_iff, φ.injective.ne_iff]
 
 omit [Finite G] in
 theorem mem_gammaAt_map_iff (φ : G ≃* G) (hφ : ∀ z, φ z ∈ D ↔ z ∈ D) {x y v z : G} :

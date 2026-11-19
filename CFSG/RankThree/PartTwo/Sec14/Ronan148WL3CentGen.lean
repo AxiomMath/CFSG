@@ -31,7 +31,6 @@ theorem finite_mulAut (G : Type*) [Group G] [Finite G] : Finite (MulAut G) :=
       rw [eq_comm, ← mul_eq_one_iff_eq_inv, ← pow_succ,
         Nat.sub_add_cancel (orderOf_pos a), pow_orderOf_eq_one]
     intro w hw
-    change (a⁻¹ : MulAut G) w ∈ W
     rw [hinv]
     exact hpow _ w hw
 

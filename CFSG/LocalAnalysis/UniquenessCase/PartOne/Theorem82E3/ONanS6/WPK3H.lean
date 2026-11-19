@@ -30,8 +30,8 @@ theorem K3_holds' :
   intro Y _ _ hY S
   obtain ⟨hq, hZcard, hON⟩ := hY
   obtain ⟨e⟩ := hON
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   have hZp : IsPGroup 3 (Subgroup.center Y) :=
     IsPGroup.of_card (n := 1) (by rw [hZcard, pow_one])
   have hcardON : Nat.card (Y ⧸ Subgroup.center Y) = 460815505920 := by

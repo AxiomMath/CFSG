@@ -51,7 +51,7 @@ theorem D1OneSmallData.exists_surjective_czQuot (hd : D1OneSmallData p P M H R R
   obtain ⟨T₁, -, -, -, -, hT₁nc, -⟩ := hd.exists_sylow
   obtain ⟨x, hx⟩ : ∃ x : (T₁ : Subgroup K), x ≠ 1 :=
     (Subgroup.ne_bot_iff_exists_ne_one).mp fun h => hT₁nc (h ▸ inferInstance)
-  obtain ⟨k, hk⟩ := T₁.isPGroup' x
+  obtain ⟨k, hk⟩ := T₁.isPGroup x
   have hOC := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hN : ∀ n ∈ (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) p).comap
       (Subgroup.inclusion hWC), p.Coprime (orderOf n) := by

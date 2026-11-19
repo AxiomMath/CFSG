@@ -91,10 +91,11 @@ theorem card_eq_sixty_of_dvd {C P : Subgroup S} (hPC : P ≤ C)
     Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_right k hodd.symm) hm
   refine ⟨by rw [hP, h1], Subgroup.card_eq_one.mp h1⟩
 
+omit [Finite S] in
 theorem mem_of_orderOf_five {C P : Subgroup S} (hPC : P ≤ C)
     (hPn : ∀ g ∈ C, ∀ p ∈ P, g * p * g⁻¹ ∈ P) (hP60 : Nat.card P = 60) {k : ℕ}
     (hC : Nat.card C = 60 * 2 ^ k) {x : S} (hx : x ∈ C) (hx5 : orderOf x = 5) : x ∈ P := by
-  haveI : (P.subgroupOf C).Normal :=
+  have : (P.subgroupOf C).Normal :=
     ⟨fun n hn g => Subgroup.mem_subgroupOf.mpr (by
       have := hPn (g : S) g.2 (n : S) (Subgroup.mem_subgroupOf.mp hn)
       simpa using this)⟩

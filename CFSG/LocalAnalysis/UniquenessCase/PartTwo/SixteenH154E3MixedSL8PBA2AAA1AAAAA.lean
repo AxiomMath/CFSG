@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup
 
 theorem s16h_sl28_seven_rank_lbar_sup_kbar {X : Type} [Group X] [Finite X]
-    {M L E : Subgroup X} (hLM : L ≤ M) (hL : IsSLn ↥L 2 3) (hE : IsElemAbelian 7 E)
+    {M L E : Subgroup X} (_hLM : L ≤ M) (hL : IsSLn ↥L 2 3) (hE : IsElemAbelian 7 E)
     (hE3 : 7 ^ 3 ≤ Nat.card ↥E) (hEM : E ≤ M)
     (hEN : E ≤ Subgroup.normalizer (L : Set X)) :
     3 ≤ CFSG.Open.pRank 7 (L ⊔ (M ⊓ Subgroup.centralizer (L : Set X))) := by

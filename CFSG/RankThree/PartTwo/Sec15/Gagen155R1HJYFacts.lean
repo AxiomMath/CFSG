@@ -132,7 +132,7 @@ private theorem pow_three_eq_one_of_component {Y : Type} [Group Y]
   have hd3U : d ^ 3 ∈ U := by
     let H : Subgroup Y := U ⊔ D
     let NQ : Subgroup H := U.subgroupOf H
-    haveI hNQ : NQ.Normal := by
+    have hNQ : NQ.Normal := by
       apply Subgroup.normal_subgroupOf_of_le_normalizer
       show U ⊔ D ≤ Subgroup.normalizer (U : Set Y)
       rw [hsup]
@@ -278,10 +278,10 @@ private theorem mem_sup_zpowers_of_borel {Y : Type} [Group Y] [Finite Y]
     z ∈ (U : Subgroup Y) ⊔ Subgroup.zpowers y := by
   obtain ⟨D, hDcyc, h5D, hbot, hsup⟩ := hB U
   obtain ⟨dy, hdyD, uy, huyU, hdecomp_y, hdy3⟩ :=
-    exists_component_of_mem_normalizer U.isPGroup' hbot hsup hy hy3
+    exists_component_of_mem_normalizer U.isPGroup hbot hsup hy hy3
   obtain ⟨dz, hdzD, uz, huzU, hdecomp_z, hdz3⟩ :=
-    exists_component_of_mem_normalizer U.isPGroup' hbot hsup hz hz3
-  haveI : IsCyclic D := hDcyc
+    exists_component_of_mem_normalizer U.isPGroup hbot hsup hz hz3
+  have : IsCyclic D := hDcyc
   have hzp_eq : Subgroup.zpowers (⟨dy, hdyD⟩ : D) =
       Subgroup.zpowers (⟨dz, hdzD⟩ : D) := by
     rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers,
@@ -300,7 +300,7 @@ theorem exists_order_five_commute_of_conj {Y : Type} [Group Y] [Finite Y]
     {g d' y : Y} (hd'D : d' ∈ D) (hy : y = g * d' * g⁻¹)
     (hgN : g ∈ N) (hDN : D ≤ N) :
     ∃ t ∈ N, orderOf t = 5 ∧ Commute t y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨t0, ht05⟩ := exists_prime_orderOf_dvd_card' (G := D) 5 h5D
   have ht0N : (t0 : Y) ∈ N := hDN t0.2
   let t : Y := MulAut.conj g (t0 : Y)
@@ -313,8 +313,8 @@ theorem exists_order_five_commute_of_conj {Y : Type} [Group Y] [Finite Y]
     rw [MulEquiv.orderOf_eq, Subgroup.orderOf_coe]
     exact ht05
   have hcomm_dt : d' * (t0 : Y) = (t0 : Y) * d' := by
-    haveI : IsCyclic D := hDcyc
-    letI : CommGroup D := IsCyclic.commGroup
+    have : IsCyclic D := hDcyc
+    let : CommGroup D := IsCyclic.commGroup
     exact congrArg Subtype.val (mul_comm (⟨d', hd'D⟩ : D) ⟨(t0 : Y), t0.2⟩)
   refine ⟨t, htN, ht5, (commute_iff_eq t y).mpr ?_⟩
   rw [ht_eq, hy]
@@ -337,13 +337,13 @@ private theorem exists_commute_order_five_of_borel {Y : Type} [Group Y] [Finite 
     ∃ t ∈ Subgroup.normalizer ((U : Subgroup Y) : Set Y), orderOf t = 5 ∧ Commute t y := by
   obtain ⟨D, hDcyc, h5D, hbot, hsup⟩ := hB U
   obtain ⟨d, hdD, u, huU, hdecomp, hd3⟩ :=
-    exists_component_of_mem_normalizer U.isPGroup' hbot hsup hy hy3
+    exists_component_of_mem_normalizer U.isPGroup hbot hsup hy hy3
   have hdN : d ∈ Subgroup.normalizer ((U : Subgroup Y) : Set Y) := by
     rw [← hsup]
     exact Subgroup.mem_sup_right hdD
   have hdH0 : d ∈ (U : Subgroup Y) ⊔ Subgroup.zpowers y := hBclause U y d hy hdN hy3 hd3
   obtain ⟨g, hgH0, d', hd'H0, hd'z, hy_eq⟩ :=
-    exists_conj_eq_of_order_three_mem_sup_zpowers U.isPGroup' hy hy3 hdH0 hd3
+    exists_conj_eq_of_order_three_mem_sup_zpowers U.isPGroup hy hy3 hdH0 hd3
   have hd'D : d' ∈ D := Subgroup.zpowers_le.mpr hdD hd'z
   have hgN : g ∈ Subgroup.normalizer ((U : Subgroup Y) : Set Y) :=
     (sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hy)) hgH0

@@ -135,7 +135,7 @@ theorem memAt_eq_closure (l : Fin 7) (h : (fanoLines.get ⟨l, by simp [fanoLine
   have e0 : eW (4 * l.val + 2 * (bif b then 0 else 1)) =
       (memLC (cpl l 0) (cpl l 1) (cpl l 2) (cpl l 3) b).getD (2 + 2 * 0) 1 := by
     have hl : lineOf (4 * l.val + 2 * (bif b then 0 else 1)) = l :=
-      Fin.ext (by cases b <;> simp [lineOf] <;> omega)
+      Fin.ext (by cases b <;> simp [lineOf]; omega)
     have hb : ((4 * l.val + 2 * (bif b then 0 else 1)) / 2 % 2 == 0) = b := by
       cases b <;> simp <;> omega
     have h0 : (4 * l.val + 2 * (bif b then 0 else 1)) % 2 = 0 := by cases b <;> simp <;> omega

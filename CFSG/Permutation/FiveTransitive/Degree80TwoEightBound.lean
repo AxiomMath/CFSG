@@ -21,7 +21,7 @@ theorem sylow_card_le_eight
   let _ : Fact (Nat.Prime 2) := ⟨by decide⟩
   let Q := sylowImage X P s S
   let _ : Fintype Q := Fintype.ofFinite _
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : Nat.card (fixedPoints Q X) = 8 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF

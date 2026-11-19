@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   refine le_antisymm ?_ ?_
@@ -38,6 +39,7 @@ private theorem w16f_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
       (Subgroup.mem_sup_right (Subgroup.subset_closure ⟨x, hx, v, hv, rfl⟩))
   · exact sup_le (commSub_mono le_sup_left le_rfl) (commSub_mono le_sup_right le_rfl)
 
+omit [Finite W] in
 private theorem w16f_commSub_map_conj (g : MulAut W) (J : Subgroup W)
     (A : Subgroup (MulAut W)) :
     commSub (J.map g.toMonoidHom) (A.map (MulAut.conj g).toMonoidHom) =
@@ -54,12 +56,15 @@ private theorem w16f_commSub_map_conj (g : MulAut W) (J : Subgroup W)
     refine ⟨(MulAut.conj g).toMonoidHom x, ⟨x, hx, rfl⟩, g w, ⟨w, hw, rfl⟩, ?_⟩
     simp [MulAut.conj_apply, MulAut.mul_apply]
 
+omit [Finite W] in
 private theorem w16f_stableUnder_top (X : Subgroup (MulAut W)) : StableUnder X ⊤ :=
   fun _ _ _ _ => Subgroup.mem_top _
 
+omit [Finite W] in
 private theorem w16f_stableUnder_bot (X : Subgroup (MulAut W)) : StableUnder X ⊥ :=
   fun _ _ u hu => by rw [Subgroup.mem_bot] at hu ⊢; rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16f_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -69,12 +74,14 @@ private theorem w16f_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgrou
     have h1 := h x⁻¹ (X.inv_mem hx) (x u) hxu
     rwa [MulAut.inv_apply_self] at h1, h x hx u⟩
 
+omit [Finite W] in
 private theorem w16f_stableUnder_sup {X Z : Subgroup (MulAut W)} {U : Subgroup W}
     (hX : StableUnder X U) (hZ : StableUnder Z U) : StableUnder (X ⊔ Z) U := by
   intro g hg u hu
   exact (mem_stabSub.mp (sup_le (w16f_le_stabSub_of_stable hX)
     (w16f_le_stabSub_of_stable hZ) hg) u).2 hu
 
+omit [Finite W] in
 private theorem w16f_mem_stabSub_of_maps {t : MulAut W} (ht2 : orderOf t = 2) {U : Subgroup W}
     (h : ∀ u ∈ U, t u ∈ U) : t ∈ stabSub U := by
   have ht : t * t = 1 := by rw [← pow_two, ← ht2]; exact pow_orderOf_eq_one t
@@ -84,6 +91,7 @@ private theorem w16f_mem_stabSub_of_maps {t : MulAut W} (ht2 : orderOf t = 2) {U
     have h1 := h (t u) htu
     rwa [← MulAut.mul_apply, ht, MulAut.one_apply] at h1, h u⟩
 
+omit [Finite W] in
 private theorem w16f_map_eq_self_of_mem_stabSub {U : Subgroup W} {g : MulAut W}
     (hg : g ∈ stabSub U) : U.map g.toMonoidHom = U := by
   ext u
@@ -95,6 +103,7 @@ private theorem w16f_map_eq_self_of_mem_stabSub {U : Subgroup W} {g : MulAut W}
     exact ⟨g⁻¹ u, (mem_stabSub.mp hg (g⁻¹ u)).mp (by simpa using hu),
       MulEquiv.apply_symm_apply g u⟩
 
+omit [Finite W] in
 private theorem w16f_commutator_sup_sup_self {A B : Subgroup (MulAut W)}
     (hA : ⁅A, A⁆ = A) (hB : ⁅B, B⁆ = B) : ⁅A ⊔ B, A ⊔ B⁆ = A ⊔ B := by
   refine le_antisymm (Subgroup.commutator_le_of_le le_rfl le_rfl) (sup_le ?_ ?_)
@@ -103,6 +112,7 @@ private theorem w16f_commutator_sup_sup_self {A B : Subgroup (MulAut W)}
   · calc B = ⁅B, B⁆ := hB.symm
       _ ≤ ⁅A ⊔ B, A ⊔ B⁆ := Subgroup.commutator_mono le_sup_right le_sup_right
 
+omit [Finite W] in
 private theorem w16f_sec_stab {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U : Subgroup W}
     (hirr : IsIrrOn (K ⊔ K.map (MulAut.conj t).toMonoidHom) U U₀)
     (htU : ∀ u ∈ U, t u ∈ U) (htU₀ : ∀ u ∈ U₀, t u ∈ U₀) (ht2 : orderOf t = 2) :
@@ -117,6 +127,7 @@ private theorem w16f_sec_stab {K : Subgroup (MulAut W)} {t : MulAut W} {U₀ U :
       (w16f_le_stabSub_of_stable hirr.2.2.1) (Subgroup.mem_sup_right hg)⟩
   · exact ⟨w16f_mem_stabSub_of_maps ht2 htU, w16f_mem_stabSub_of_maps ht2 htU₀⟩
 
+omit [Finite W] in
 private theorem w16f_isIrrOn_of_le_sup {L : Subgroup (MulAut W)} {U U₀ R : Subgroup W}
     (hirr : IsIrrOn L U U₀) (hRleU : R ≤ U) (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U)
     (hRstab : StableUnder L R) (hRne : R ≠ ⊥) : IsIrrOn L R ⊥ := by

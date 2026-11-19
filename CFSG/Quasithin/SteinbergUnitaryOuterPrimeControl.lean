@@ -61,7 +61,7 @@ theorem perfect_unitary_central_quotient_outer_prime_control (h : UnitaryFieldDa
     have hcyc : ∀ V : Subgroup (Outer J), IsPGroup ℓ V → IsCyclic V := fun V hV =>
       isCyclic_of_isPGroup_of_injective ι hι
         (fun W hW => isCyclic_of_isPGroup_of_ker_coprime F hcop hW) hV
-    exact ⟨fun P => hcyc P P.isPGroup', pRank_le_one_of_forall_isCyclic hcyc⟩
+    exact ⟨fun P => hcyc P P.isPGroup, pRank_le_one_of_forall_isCyclic hcyc⟩
   refine ⟨?_, hmain, fun hn3 ℓ hℓ hℓ5 => hmain ℓ hℓ fun hdvd => ?_, fun hd => ?_⟩
   · rw [← hout]
     exact Subgroup.card_dvd_of_injective ι hι

@@ -32,8 +32,8 @@ private theorem cz_form_e_e {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod 
     ggCZForm φ (e i) (e j) = if i = j then 1 else 0 := by
   rw [ggCZForm_apply_e hd (e i) j, hd j i]
   by_cases h : i = j
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 private def czIsRoot (e : Fin m → V) (_φ : Fin m → Module.Dual (ZMod p) V) (x : V) : Prop :=
   ∃ i j : Fin m, i ≠ j ∧ ∃ ε : ZMod p, (ε = 1 ∨ ε = -1) ∧ x = e i - ε • e j
@@ -43,7 +43,7 @@ private theorem cz_root_ne_zero {e : Fin m → V} {φ : Fin m → Module.Dual (Z
   obtain ⟨i, j, hij, ε, hε, rfl⟩ := hx
   intro h
   have h1 : φ i (e i - ε • e j) = 1 := by
-    rw [map_sub, LinearMap.map_smul, hd i i, hd i j, if_pos rfl, if_neg hij,
+    rw [map_sub, LinearMap.map_smul, hd i i, hd i j, ite_eq_left rfl, ite_eq_right hij,
       smul_zero, sub_zero]
   rw [h, map_zero] at h1
   exact one_ne_zero h1.symm
@@ -58,10 +58,10 @@ private theorem cz_form_root_self {e : Fin m → V} {φ : Fin m → Module.Dual 
     (hε : ε = 1 ∨ ε = -1) :
     ggCZForm φ (e i - ε • e j) (e i - ε • e j) = 2 := by
   have hi : φ i (e i - ε • e j) = 1 := by
-    rw [map_sub, LinearMap.map_smul, hd i i, hd i j, if_pos rfl, if_neg hij,
+    rw [map_sub, LinearMap.map_smul, hd i i, hd i j, ite_eq_left rfl, ite_eq_right hij,
       smul_zero, sub_zero]
   have hj : φ j (e i - ε • e j) = -ε := by
-    rw [map_sub, LinearMap.map_smul, hd j i, hd j j, if_neg (Ne.symm hij), if_pos rfl,
+    rw [map_sub, LinearMap.map_smul, hd j i, hd j j, ite_eq_right (Ne.symm hij), ite_eq_left rfl,
       smul_eq_mul, mul_one, zero_sub]
   rw [cz_form_apply_root hd _, hi, hj]
   have hε2 : ε * ε = 1 := by
@@ -131,9 +131,9 @@ private theorem czProj_e {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) 
     (hd : GGCZDual e φ) (i : Fin m) : czProj e φ (e i) = e i := by
   rw [czProj_apply]
   rw [Finset.sum_eq_single i]
-  · rw [hd i i, if_pos rfl, one_smul]
+  · rw [hd i i, ite_eq_left rfl, one_smul]
   · intro b _ hb
-    rw [hd b i, if_neg hb, zero_smul]
+    rw [hd b i, ite_eq_right hb, zero_smul]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -465,11 +465,11 @@ private def czRel (φ : Fin m → Module.Dual (ZMod p) V) (t : V ≃ₗ[ZMod p] 
   zero_mem' := by simp [ggCZForm]
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_add, ggCZForm_add_right, ha, hb, ggCZForm_add_right, mul_add]
   smul_mem' := by
     intro c a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_smul, ggCZForm_smul_right, ha, ggCZForm_smul_right]
     ring
 

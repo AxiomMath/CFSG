@@ -50,7 +50,7 @@ theorem FF81Hyp.X_eq_oddCore_mul_centralizer_tau_of_no_conj (h : FF81Hyp b L)
     intro g hg
     let σ : MulAut ↥B := (g : MulAut ↥B)
     have hσX : σ ∈ X := by
-      simpa [X, σ] using g.2
+      simp [X, σ]
     have hcommX : (σ * τX * σ⁻¹) * τX = τX * (σ * τX * σ⁻¹) := by
       have hg' := congrArg (fun x : ↥X => (x : MulAut ↥B)) hg
       simpa [σ, τX'] using hg'

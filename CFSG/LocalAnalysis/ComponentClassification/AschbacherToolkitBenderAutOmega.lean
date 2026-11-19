@@ -66,7 +66,7 @@ theorem eq_one_of_mem_of_mem {R S : Sylow 2 G}
     refine ⟨g⁻¹ * x * g, Subgroup.le_normalizer hxS, ?_⟩
     change g * (g⁻¹ * x * g) * g⁻¹ = x
     group
-  have h2 : IsPGroup 2 ((R : Subgroup G) ⊓ D : Subgroup G) := R.isPGroup'.to_inf_left
+  have h2 : IsPGroup 2 ((R : Subgroup G) ⊓ D : Subgroup G) := R.isPGroup.to_inf_left
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp h2
   have hdvd : Nat.card ((R : Subgroup G) ⊓ D : Subgroup G) ∣ Nat.card D :=
     Subgroup.card_dvd_of_le inf_le_right
@@ -85,7 +85,7 @@ theorem eq_one_of_mem_normalizer {R S : Sylow 2 G}
     (hSE : fusionStronglyEmbedded (Subgroup.normalizer ((R : Subgroup G) : Set G)))
     (hne : S ≠ R) {r : G} (hr : r ∈ (R : Subgroup G))
     (hrS : r ∈ Subgroup.normalizer ((S : Subgroup G) : Set G)) : r = 1 := by
-  have h := R.isPGroup'.inf_normalizer_sylow S
+  have h := R.isPGroup.inf_normalizer_sylow S
   have hmem : r ∈ (R : Subgroup G) ⊓ Subgroup.normalizer (S : Set G) := ⟨hr, hrS⟩
   rw [h] at hmem
   exact eq_one_of_mem_of_mem hSE hne hmem.1 hmem.2

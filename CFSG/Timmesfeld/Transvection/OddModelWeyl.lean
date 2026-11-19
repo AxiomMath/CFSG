@@ -45,10 +45,10 @@ theorem levelPermS_swap (k : Fin (m / 2)) (a : Fin (m / 2) ⊕ Fin (m / 2)) :
   · rw [levelPermS_of_not_lt h]
     rcases a with i | i
     · by_cases hik : i = k
-      · subst hik; simp [Equiv.swap_apply_def]
+      · subst hik; simp
       · simp [Equiv.swap_apply_def, hik]
     · by_cases hik : i = k
-      · subst hik; simp [Equiv.swap_apply_def]
+      · subst hik; simp
       · simp [Equiv.swap_apply_def, hik]
 
 private theorem lowIdx_ne_of_ne {i k : Fin (m / 2)} (hik : i ≠ k) :
@@ -67,7 +67,7 @@ private theorem crd_levelPermS_inl (k : Fin (m / 2)) (i : Fin (m / 2)) :
   · rw [levelPermS_of_not_lt h, levelPerm, dite_eq_right h]
     by_cases hik : i = k
     · subst hik
-      simp [crd_inr, Equiv.swap_apply_def]
+      simp [crd_inr]
     · have hlow := lowIdx_ne_of_ne hik
       rw [show Equiv.swap (Sum.inl k) (Sum.inr k) (Sum.inl i) = Sum.inl i by
         rw [Equiv.swap_apply_def]; simp [hik]]
@@ -107,13 +107,11 @@ private theorem levelPerm_midIdx (k : Fin (m / 2)) :
   rw [levelPerm]
   by_cases h : k.val + 1 < m / 2
   · rw [dite_eq_left h, Equiv.Perm.mul_apply]
-    simp [Equiv.swap_apply_def, h1, h2, Ne.symm h1, Ne.symm h2,
-      lowIdx_ne_midIdx (m := m) (hm := hm) ⟨k.val + 1, h⟩,
-      rev_lowIdx_ne_midIdx (m := m) (hm := hm) ⟨k.val + 1, h⟩,
+    simp [Equiv.swap_apply_def, Ne.symm h1, Ne.symm h2,
       Ne.symm (lowIdx_ne_midIdx (m := m) (hm := hm) ⟨k.val + 1, h⟩),
       Ne.symm (rev_lowIdx_ne_midIdx (m := m) (hm := hm) ⟨k.val + 1, h⟩)]
   · rw [dite_eq_right h]
-    simp [Equiv.swap_apply_def, h1, h2, Ne.symm h1, Ne.symm h2]
+    simp [Equiv.swap_apply_def, Ne.symm h1, Ne.symm h2]
 
 private theorem levelWeyl_one_mul_self (k : Fin (m / 2)) :
     levelWeyl hσ ⟨1, one_mem_traceZero⟩ k * levelWeyl hσ ⟨1, one_mem_traceZero⟩ k = 1 := by
@@ -136,11 +134,13 @@ private theorem mat_levelWeyl_one (k : Fin (m / 2)) :
   rw [coe_levelWeyl hσ one_ne_zero k,
     (show ((⟨1, one_mem_traceZero⟩ : traceZero σ) : F) = 1 from rfl), levelSign_one]
 
+omit [CharP F 2] in
 private theorem mat_suLong_rootMatrix (a : Fin (m / 2) ⊕ Fin (m / 2)) {c : F}
     (hc : c + σ c = 0) :
     mat σ m (suLong σ a c) = longRootMatrix (crd a) c := by
   rw [mat_suLong a hc, longRootMatrix, crd_swap a]
 
+omit [CharP F 2] in
 private theorem signedPerm_levelPerm_one_mul_self (k : Fin (m / 2)) :
     signedPerm (levelPerm (n := m) k) (1 : Fin m → F) *
       signedPerm (levelPerm (n := m) k) (1 : Fin m → F) = 1 := by

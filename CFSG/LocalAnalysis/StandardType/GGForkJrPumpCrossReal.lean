@@ -51,7 +51,7 @@ theorem ggForkCross_realize (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) (hJ
     (hind : LinearIndependent (ZMod p) (ggOptFam ha h))
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range φ))
     (hAK : ggAutomizer K Bs = Subgroup.closure (φ '' {i | i ≠ b} ∪ {φa}))
-    (hvb : v₂ ≠ b) (hvc : v₂ ≠ c) :
+    (hvb : v₂ ≠ b) (_hvc : v₂ ≠ c) :
     αa (h b) = 0 ∨ ∃ X : Subgroup G, GGAutLattice p Bs X ∧
       (φ b * φ c) * φa * (φ b * φ c)⁻¹ ∈ ggInduced X Bs ∧ φ c ∈ ggInduced X Bs ∧
         φ v₂ ∈ ggInduced X Bs := by

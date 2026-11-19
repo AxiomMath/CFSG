@@ -138,6 +138,7 @@ theorem sq_mem {a : G} (ha : a ∈ P) : a ^ 2 ∈ V := by
   have := sq_mem_inSubgroup_frattini H.isPGroup_P ha
   exact H.frattini_P_le_and_V_eq.1 this
 
+omit [Finite G] in
 theorem M_le_normalizer_P : M ≤ Subgroup.normalizer (P : Set G) := fun m hm => by
   rw [H.hP]
   exact mem_normalizer_inf (H.M_le_normalizer_Q hm)

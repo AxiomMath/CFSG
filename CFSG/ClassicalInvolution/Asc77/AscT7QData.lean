@@ -44,7 +44,7 @@ include h h11 h16 h4
 private theorem frame_of : CFSG.ClassicalInvolution.Asc77.T7QEng.Frame S R R' z t' := by
   have hF : ∀ y ∈ Nsub S R, ¬ IsFAut R' y := fun y hy =>
     h16 G Ω K K' W S R R' z t u₁ u₂ h.hyp y (mem_Nsub.mp hy).1
-  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup'.to_le (show Nsub S R ≤ _ from inf_le_left)
+  have hN2 : IsPGroup 2 ↥(Nsub S R) := S.isPGroup.to_le (show Nsub S R ≤ _ from inf_le_left)
   exact
     { hzR := h.hzR
       hqR := h.hqR

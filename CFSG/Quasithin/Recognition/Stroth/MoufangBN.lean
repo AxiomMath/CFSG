@@ -13,15 +13,18 @@ open scoped Pointwise
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 @[simp] theorem mem_moufangB {t : ZMod (2 * n) → V} {x : ↥(littleGroup D Γ n)} :
     x ∈ moufangB D Γ n t ↔ (x : D) • t n = t n ∧ (x : D) • t (n + 1) = t (n + 1) := by
   rw [moufangB, Subgroup.mem_subgroupOf, Subgroup.mem_inf, MulAction.mem_stabilizer_iff,
     MulAction.mem_stabilizer_iff]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 @[simp] theorem mem_moufangN {t : ZMod (2 * n) → V} {x : ↥(littleGroup D Γ n)} :
     x ∈ moufangN D Γ n t ↔ (x : D) • (Set.range t) = Set.range t := by
   rw [moufangN, Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
 
+omit [Fintype V] [FaithfulSMul D V] in
 theorem smul_mem_range_of_mem_stabilizer {t : ZMod (2 * n) → V} {g : D}
     (hg : g ∈ MulAction.stabilizer D (Set.range t)) {y : V} (hy : y ∈ Set.range t) :
     g • y ∈ Set.range t := by
@@ -29,6 +32,7 @@ theorem smul_mem_range_of_mem_stabilizer {t : ZMod (2 * n) → V} {g : D}
   have h := Set.smul_mem_smul_set (a := g) hy
   rwa [hs] at h
 
+omit [FaithfulSMul D V] in
 theorem moufangB_inf_moufangN_fix {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ)
     {x : ↥(littleGroup D Γ n)} (hx : x ∈ moufangB D Γ n t ⊓ moufangN D Γ n t) :
@@ -40,6 +44,7 @@ theorem moufangB_inf_moufangN_fix {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
   obtain ⟨k, rfl⟩ := hy
   exact apt_fix_of_fix_two ht hn hP hT hN hB.1 hB.2 k
 
+omit [Fintype V] [FaithfulSMul D V] in
 theorem conj_mem_fixingSubgroup {s : Set V} {g x : D}
     (hg : g ∈ MulAction.stabilizer D s) (hx : x ∈ fixingSubgroup D s) :
     g * x * g⁻¹ ∈ fixingSubgroup D s := by
@@ -53,6 +58,7 @@ theorem conj_mem_fixingSubgroup {s : Set V} {g x : D}
     _ = g • (g⁻¹ • y) := by rw [hx _ hgy]
     _ = y := by rw [smul_inv_smul]
 
+omit [FaithfulSMul D V] in
 theorem moufangCartan_normal {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : IsGeneralizedPolygon Γ n) (hT : IsThick Γ) :
     (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal := by
@@ -100,6 +106,7 @@ theorem exists_reflection {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n
   exact ⟨v * u * w, hmL,
     MulAction.mem_stabilizer_iff.mpr (mem_moufangN.mp hN), hact⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem mem_moufangB_inf_moufangN_of_fix {t : ZMod (2 * n) → V}
     {x : ↥(littleGroup D Γ n)} (hx : (x : D) ∈ fixingSubgroup D (Set.range t)) :
     x ∈ moufangB D Γ n t ⊓ moufangN D Γ n t := by
@@ -179,6 +186,7 @@ theorem reflTwo_smul {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (
     reflTwo ht hn hP hT hM • apt t k = apt t (2 * (n : ℤ) - k) :=
   (Classical.choose_spec (exists_reflection_two ht hn hP hT hM)).2.2 k
 
+omit [Fintype V] [FaithfulSMul D V] in
 theorem reflect_sq_smul {t : ZMod (2 * n) → V} {m : D} {i : ℤ}
     (hm : ∀ k : ℤ, m • apt t k = apt t (2 * i - k)) (k : ℤ) :
     (m * m) • apt t k = apt t k := by
@@ -191,7 +199,7 @@ theorem reflOne_sq_fix {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
   intro y hy
   obtain ⟨k, rfl⟩ := hy
   have hk : apt t ((k.val : ℤ)) = t k := by
-    haveI : NeZero (2 * n) := ⟨by omega⟩
+    have : NeZero (2 * n) := ⟨by omega⟩
     show t (((k.val : ℤ) : ZMod (2 * n))) = t k
     congr 1
     push_cast
@@ -206,7 +214,7 @@ theorem reflTwo_sq_fix {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
   intro y hy
   obtain ⟨k, rfl⟩ := hy
   have hk : apt t ((k.val : ℤ)) = t k := by
-    haveI : NeZero (2 * n) := ⟨by omega⟩
+    have : NeZero (2 * n) := ⟨by omega⟩
     show t (((k.val : ℤ) : ZMod (2 * n))) = t k
     congr 1
     push_cast

@@ -40,7 +40,7 @@ theorem comm_of_conj {M : Type*} [Monoid M] {h z : M} (hz5 : z ^ 5 = 1)
           rw [mul_assoc, mul_assoc, ← pow_add, ← pow_add, hz6]
       _ = z ^ 3 * h := by
           rw [hc, mul_assoc z h, hc, mul_assoc z (z * h), mul_assoc z h, hc]
-          simp only [← mul_assoc, ← pow_succ']
+          simp only [← mul_assoc]
           rw [show z * z * z = z ^ 3 by rw [pow_succ, pow_two]]
   have hk : ∀ k : ℕ, h * z ^ k = z ^ (3 * k) * h := by
     intro k

@@ -45,7 +45,7 @@ theorem ccompOK_three_of_card_dvd_1080
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 1080) : CCompOK 3 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs
+  have := hs
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 1080 :=
     (prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3 hI.1).trans hk
   exact ctypeOK_three_of_card_dvd_360 hb hnab
@@ -102,7 +102,7 @@ theorem ccompOK_three_of_card_dvd_1080_or_504
   · exact ccompOK_three_of_card_dvd_1080 hb hk3 hk
   · intro I hI
     obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-    haveI := hs
+    have := hs
     have h3 : 3 * Nat.card (PSimple 3 I) ∣ 504 :=
       (prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3 hI.1).trans hk
     have hd : Nat.card (PSimple 3 I) ∣ 168 :=

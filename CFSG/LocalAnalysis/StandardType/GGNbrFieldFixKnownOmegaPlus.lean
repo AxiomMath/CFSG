@@ -16,7 +16,7 @@ namespace FieldFixOmegaPlus
 
 private theorem dvd_two_pow_div_sub_one {p n : ℕ} (hp : p.Prime) (hn : p ∣ n)
     (h : p ∣ 2 ^ n - 1) : p ∣ 2 ^ (n / p) - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨m, rfl⟩ := hn
   rw [Nat.mul_div_cancel_left m hp.pos]
   rw [← ZMod.natCast_eq_zero_iff, Nat.cast_sub Nat.one_le_two_pow] at h ⊢
@@ -66,7 +66,7 @@ theorem exists_fixGeom (hm : 4 ≤ m) {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime) 
     rw [mem_range_subfieldInj_iff k hp hp2 hσ hσk hm3 hσf r, mem_ggFixSub]
   let e : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)) ≃* ↥(ggFixSub f) :=
     (MonoidHom.ofInjective (subfieldInj_injective k hm1)).trans (MulEquiv.subgroupCongr hrange)
-  haveI := hS₀
+  have := hS₀
   exact ⟨k, inferInstance, inferInstance, hcard, hS₀, hna₀,
     ggFixGeom_of_inn hna₀ hZ (fun _ h => h) (fun _ h => h) e⟩
 

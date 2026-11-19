@@ -67,7 +67,7 @@ private theorem pRank_three_quot_ker_eq_one {Q : Type} [Group Q] [Finite Q] {r :
     (ρ : Representation (ZMod r) Q V) (hE9 : ¬ HasE9 Q) {D : Subgroup Q}
     (hD3 : Nat.card D = 3) (hfix : fixV ρ D = ⊥) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (Q ⧸ ρ.ker)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 := not_three_dvd_card_ker ρ hE9 hD3 hfix
   have hDb3 := card_map_ker_mk'_eq_three ρ hD3 hfix
   refine le_antisymm (pRank_three_le_one_of_not_hasE9 fun h =>
@@ -97,7 +97,7 @@ theorem quot_ker_K462 {Q : Type} [Group Q] [Finite Q] (hK462 : UCK.K462) {r : �
     (kerRepresentation_irreducible_iff ρ).mpr
       (CFSG.Quasithin.H13.A6.G52.isIrreducible_of_forall_submodule ρ hirr)
   have hperfb : commutator (Q ⧸ ρ.ker) = ⊤ := by
-    haveI : Group.IsPerfect Q := ⟨hQperf⟩
+    have : Group.IsPerfect Q := ⟨hQperf⟩
     exact Group.IsPerfect.commutator_eq_top
   have hKb : CFSG.Open.IsKGroup (Q ⧸ ρ.ker) := hQK.quotient ρ.ker
   have h2r : 2 < r := lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)

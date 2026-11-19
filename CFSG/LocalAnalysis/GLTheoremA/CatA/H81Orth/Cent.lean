@@ -127,9 +127,10 @@ local notation "R" => othersSpace (LinearEquiv.toLinearMap x) (X - 1 : K[X])
 
 @[expose] noncomputable def restrictOthers (g : V ≃ₗ[K] V) (hg : g ∈ isometryCentralizer Q x) :
     Module.End K R :=
-  (g.toLinearMap.restrict fun r hr =>
+  (g.toLinearMap.restrict fun _r hr =>
     mem_othersSpace_of_apply (Subgroup.mem_inf.mp hg).2 hr)
 
+omit [FiniteDimensional K V] in
 theorem coe_restrictOthers_apply (g : V ≃ₗ[K] V) (hg : g ∈ isometryCentralizer Q x) (r : R) :
     ((restrictOthers g hg r : R) : V) = g r :=
   rfl
@@ -138,6 +139,7 @@ theorem coe_restrictOthers_apply (g : V ≃ₗ[K] V) (hg : g ∈ isometryCentral
     Module.End K R :=
   restrictOthers x ⟨hx, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
 
+omit [FiniteDimensional K V] in
 theorem commute_restrictOthers_self (hx : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (g : V ≃ₗ[K] V) (hg : g ∈ isometryCentralizer Q x) :
     Commute (restrictOthers g hg) (restrictOthersSelf hx) := by
@@ -171,7 +173,7 @@ theorem restrictOthersSelf_ne_smul (hx : OddOrderIsometry Q p x) (hp2 : p ≠ 2)
   obtain ⟨s, hs, hQs⟩ := hQr
   have hxs : x s = c • s := by
     have := congrArg (fun f : Module.End K R => ((f ⟨s, hs⟩ : R) : V)) hc
-    simp only [restrictOthersSelf, coe_restrictOthers_apply, LinearMap.smul_apply,
+    simp only [restrictOthersSelf, LinearMap.smul_apply,
       Module.End.one_apply, Submodule.coe_smul] at this
     exact this
   have hc2 : c ^ 2 = 1 := by
@@ -237,6 +239,7 @@ theorem commutator_isometryCentralizer_le (hx : OddOrderIsometry Q p x) (hp2 : p
   (Subgroup.commutator_le).mpr fun _ hg _ hh =>
     commutatorElement_mem_supportedBlock hx hp2 hp h2 hR hg hh
 
+omit [FiniteDimensional K V] in
 theorem commutator_supportedBlock_le :
     ⁅supportedBlock Q x (X - 1), supportedBlock Q x (X - 1)⁆ ≤ supportedFixedDerived Q x := by
   rw [Subgroup.commutator_le]

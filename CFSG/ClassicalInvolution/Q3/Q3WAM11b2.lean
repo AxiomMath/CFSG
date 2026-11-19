@@ -37,7 +37,7 @@ private theorem exists_two_group_card_eight {J : Subgroup M11T} (hJ : Nat.card J
       omega
     rw [h]
     norm_num
-  refine ⟨(P : Subgroup ↥J).map J.subtype, ?_, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup ↥J).map J.subtype, ?_, P.isPGroup.map _, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
   · rw [Subgroup.card_map_of_injective J.subtype_injective, h8]

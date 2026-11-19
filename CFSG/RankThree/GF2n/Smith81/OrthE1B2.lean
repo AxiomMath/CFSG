@@ -17,7 +17,7 @@ section B2Generic
 
 theorem b2_charP_two {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨m, hm, hKm⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 2 ^ n := by
     rw [← hK, Nat.card_eq_fintype_card, hKm]
@@ -52,7 +52,7 @@ theorem b2_sl_card {G : Type} [Group G] {S Q : Subgroup G} {q n : ℕ}
     (hQS : Q ≤ S) (hS : QuotSat S Q (IsSLModel 2 q)) (hq : q = 2 ^ n) (h4 : 4 ≤ q) :
     Nat.card S = Nat.card Q * (q * (q ^ 2 - 1)) := by
   obtain ⟨hN, hX⟩ := hS
-  haveI := hN
+  have := hN
   have h := (b2_sl_facts hX hq h4).1
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Q.subgroupOf S)
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQS).toEquiv] at h1
@@ -62,7 +62,7 @@ theorem b2_sl_center_elem {G : Type} [Group G] {S Q : Subgroup G} {q n : ℕ}
     (hS : QuotSat S Q (IsSLModel 2 q)) (hq : q = 2 ^ n) (h4 : 4 ≤ q)
     {x : G} (hx : x ∈ S) (hc : ∀ y ∈ S, ⁅x, y⁆ ∈ Q) : x ∈ Q := by
   obtain ⟨hN, hX⟩ := hS
-  haveI := hN
+  have := hN
   have hcen := (b2_sl_facts hX hq h4).2.2
   have key := hcen (QuotientGroup.mk' (Q.subgroupOf S) ⟨x, hx⟩) (fun w => by
     obtain ⟨⟨y, hy⟩, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf S) w
@@ -72,16 +72,16 @@ theorem b2_sl_center_elem {G : Type} [Group G] {S Q : Subgroup G} {q n : ℕ}
     simpa [commutatorElement_def] using hc y hy)
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp key)
 
-theorem b2_sl_dich {G : Type} [Group G] {F Q H : Subgroup G} (hQF : Q ≤ F)
+theorem b2_sl_dich {G : Type} [Group G] {F Q H : Subgroup G} (_hQF : Q ≤ F)
     (hN : (Q.subgroupOf F).Normal) (hS : IsSimpleGroup (↥F ⧸ Q.subgroupOf F))
     (hQH : Q ≤ H) (hHF : H ≤ F) (hH : ∀ f ∈ F, ∀ h ∈ H, f * h * f⁻¹ ∈ H) : H = Q ∨ H = F := by
-  haveI := hN
-  haveI := hS
+  have := hN
+  have := hS
   have hHn : (H.subgroupOf F).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hHF]
     intro h k hh hk
     exact hH k hk h hh
-  haveI := hHn.map (QuotientGroup.mk' (Q.subgroupOf F)) (QuotientGroup.mk'_surjective _)
+  have := hHn.map (QuotientGroup.mk' (Q.subgroupOf F)) (QuotientGroup.mk'_surjective _)
   rcases Subgroup.Normal.eq_bot_or_eq_top
       ((H.subgroupOf F).map (QuotientGroup.mk' (Q.subgroupOf F))) with hb | ht
   · left
@@ -104,8 +104,8 @@ theorem b2_sl_dich {G : Type} [Group G] {F Q H : Subgroup G} (hQF : Q ≤ F)
       H.mul_mem (Subgroup.mem_subgroupOf.mp hh') (hQH hfQ)
     simpa using key
 
-theorem b2_sup_decomp {G : Type} [Group G] (R₀ S T : Subgroup G) (hS : S ≤ R₀) (hT : T ≤ R₀)
-    (hSn : ∀ r ∈ R₀, ∀ s ∈ S, r * s * r⁻¹ ∈ S) (hTn : ∀ r ∈ R₀, ∀ t ∈ T, r * t * r⁻¹ ∈ T)
+theorem b2_sup_decomp {G : Type} [Group G] (R₀ S T : Subgroup G) (_hS : S ≤ R₀) (hT : T ≤ R₀)
+    (hSn : ∀ r ∈ R₀, ∀ s ∈ S, r * s * r⁻¹ ∈ S) (_hTn : ∀ r ∈ R₀, ∀ t ∈ T, r * t * r⁻¹ ∈ T)
     (x : G) (hx : x ∈ S ⊔ T) : ∃ s ∈ S, ∃ t ∈ T, s * t = x := by
   let U : Subgroup G :=
     { carrier := {x | ∃ s ∈ S, ∃ t ∈ T, s * t = x}
@@ -230,9 +230,9 @@ theorem b2_diag_G {G : Type} [Group G] [Finite G] {X' A C F Q₀ : Subgroup G}
     (hZA : ∀ a ∈ A, (∀ a' ∈ A, ⁅a, a'⁆ ∈ Q₀) → a ∈ Q₀)
     (hZC : ∀ c ∈ C, (∀ c' ∈ C, ⁅c, c'⁆ ∈ Q₀) → c ∈ Q₀) {x : G} (hxX : x ∈ X')
     (hx : ∀ f ∈ F, ⁅f, x⁆ ∈ Q₀) : x ∈ Q₀ := by
-  haveI hA1 : (A.subgroupOf X').Normal :=
+  have hA1 : (A.subgroupOf X').Normal :=
     (Subgroup.normal_subgroupOf_iff hAX).mpr fun h k hh hk => hAn k hk h hh
-  haveI hC1 : (C.subgroupOf X').Normal :=
+  have hC1 : (C.subgroupOf X').Normal :=
     (Subgroup.normal_subgroupOf_iff hCX).mpr fun h k hh hk => hCn k hk h hh
   have hsup1 : A.subgroupOf X' ⊔ C.subgroupOf X' = ⊤ := by
     rw [eq_top_iff]
@@ -293,6 +293,7 @@ section B2E1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem b2_conj_mem_of_comm {A B Q : Subgroup G} (hQA : Q ≤ A)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, ⁅a, b⁆ ∈ Q) {c : G} (hc : c ∈ B) {f : G} (hf : f ∈ A) :
     c * f * c⁻¹ ∈ A := by
@@ -301,6 +302,7 @@ theorem b2_conj_mem_of_comm {A B Q : Subgroup G} (hQA : Q ≤ A)
   rw [h2]
   exact A.mul_mem (hQA (Q.inv_mem h1)) hf
 
+omit [Finite G] in
 theorem b2_factor_normal {X Q F₁ F₂ : Subgroup G} {q : ℕ} (hT : TwoFactors Q X F₁ F₂ q) :
     (∀ x ∈ X, ∀ f ∈ F₁, x * f * x⁻¹ ∈ F₁) ∧ (∀ x ∈ X, ∀ f ∈ F₂, x * f * x⁻¹ ∈ F₂) := by
   obtain ⟨hQ1, hQ2, -, -, hsup, -, hcomm, -, -⟩ := hT
@@ -341,7 +343,8 @@ theorem b2_nt_facts {M Q Z B : Subgroup G} {t : G} (hSplit : RtSplitStatement)
   obtain ⟨h1, h2, h3, h4, -⟩ := hSplit G M Q Z B t hH
   exact ⟨h1, h2, h3, h4⟩
 
-theorem b2_comm_NX {M Q Z B : Subgroup G} {t : G}
+omit [Finite G] in
+theorem b2_comm_NX {M Q _Z B : Subgroup G} {t : G}
     (h2 : Nt M (LB M Q B) t ⊓ E1Xpre M Q B t = Q)
     (h3 : Nt M (LB M Q B) t ⊔ E1Xpre M Q B t = Rt M (LB M Q B) t)
     (h4 : ∀ r ∈ Rt M (LB M Q B) t, ∀ x ∈ E1Xpre M Q B t, r * x * r⁻¹ ∈ E1Xpre M Q B t) :
@@ -382,7 +385,7 @@ theorem b2_Fc_le (hCt : CtStructureStatement) (hSplit : RtSplitStatement)
   have hq4 : 4 ≤ Nat.card Z := hH.ctx.hyp.q4
   have htL : t ∈ LB M Q B := hH.mem
   obtain ⟨hNL, hNX, hNR, hXR⟩ := b2_nt_facts hSplit hH
-  have hcommNX := b2_comm_NX (Z := Z) hNX hNR hXR
+  have hcommNX := b2_comm_NX (_Z := Z) hNX hNR hXR
   obtain ⟨hQFb, hQFc, hFbX, hFcX, hsupF, hintF, hcommF, hSb, hSc⟩ := hTF
   have hXR' : E1Xpre M Q B t ≤ Rt M (LB M Q B) t := by rw [← hNR]; exact le_sup_right
   have hRM : Rt M (LB M Q B) t ≤ M := hH.ctx.Rt_le_M t
@@ -482,6 +485,7 @@ section B2Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem b2_comm_symm {a b : G} {Q : Subgroup G} (h : ⁅a, b⁆ ∈ Q) : ⁅b, a⁆ ∈ Q := by
   have h' := Q.inv_mem h
   rwa [commutatorElement_inv] at h'
@@ -491,6 +495,7 @@ theorem b2_isSL_iso {X Y : Type} [Group X] [Group Y] {q : ℕ} (e : X ≃* Y)
   obtain ⟨K, hK, hfin, hcard, ⟨e'⟩⟩ := h
   exact ⟨K, hK, hfin, hcard, ⟨e.symm.trans e'⟩⟩
 
+omit [Finite G] in
 theorem b2_twoFactors_swap {X Q F₁ F₂ : Subgroup G} {q : ℕ} (hT : TwoFactors Q X F₁ F₂ q) :
     TwoFactors Q X F₂ F₁ q := by
   obtain ⟨hQ1, hQ2, hF1, hF2, hsup, hint, hcomm, hS1, hS2⟩ := hT
@@ -499,6 +504,7 @@ theorem b2_twoFactors_swap {X Q F₁ F₂ : Subgroup G} {q : ℕ} (hT : TwoFacto
   · rw [inf_comm]; exact hint
   · exact b2_comm_symm (hcomm b hb a ha)
 
+omit [Finite G] in
 theorem b2_twoFactors_conj {X Q F₁ F₂ : Subgroup G} {q : ℕ} (hT : TwoFactors Q X F₁ F₂ q) {g : G}
     (hgQ : conjSubgroup g Q = Q) :
     TwoFactors Q (conjSubgroup g X) (conjSubgroup g F₁) (conjSubgroup g F₂) q := by
@@ -523,6 +529,7 @@ theorem b2_twoFactors_conj {X Q F₁ F₂ : Subgroup G} {q : ℕ} (hT : TwoFacto
     rw [hgQ] at h
     exact h
 
+omit [Finite G] in
 theorem b2_conj_normal {X F : Subgroup G} {g : G}
     (hN : ∀ x ∈ X, ∀ f ∈ F, x * f * x⁻¹ ∈ F) :
     ∀ r ∈ conjSubgroup g X, ∀ a ∈ conjSubgroup g F, r * a * r⁻¹ ∈ conjSubgroup g F := by
@@ -533,6 +540,7 @@ theorem b2_conj_normal {X F : Subgroup G} {g : G}
   rw [e]
   exact hN _ hr _ ha
 
+omit [Finite G] in
 theorem b2_conj_center {S Q : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (Q : Set G))
     (hcen : ∀ x ∈ S, (∀ y ∈ S, ⁅x, y⁆ ∈ Q) → x ∈ Q) :
     ∀ x ∈ conjSubgroup g S, (∀ y ∈ conjSubgroup g S, ⁅x, y⁆ ∈ Q) → x ∈ Q := by
@@ -556,6 +564,7 @@ theorem b2_conj_center {S Q : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalize
   have e : g * (g⁻¹ * x * g) * g⁻¹ = x := by group
   rwa [e] at h3
 
+omit [Finite G] in
 theorem b2_centralizer_sup {M Q Fc H₁ H₂ : Subgroup G}
     (hQn : M ≤ Subgroup.normalizer (Q : Set G)) (hH₁M : H₁ ≤ M) (hH₂M : H₂ ≤ M)
     (h₁ : ∀ c ∈ Fc, ∀ h ∈ H₁, ⁅c, h⁆ ∈ Q) (h₂ : ∀ c ∈ Fc, ∀ h ∈ H₂, ⁅c, h⁆ ∈ Q) :
@@ -576,7 +585,7 @@ end B2Assembly
 section B2Main
 
 
-theorem b2_of (hCt : CtStructureStatement) (hSplit : RtSplitStatement) (hTI : NtTIStatement) :
+theorem b2_of (hCt : CtStructureStatement) (hSplit : RtSplitStatement) (_hTI : NtTIStatement) :
     B2Statement := by
   intro G _ _ M Q Z B t hH g hg hplus Fb Fc hTF hN'
   classical
@@ -585,7 +594,7 @@ theorem b2_of (hCt : CtStructureStatement) (hSplit : RtSplitStatement) (hTI : Nt
   obtain ⟨n, k, hn2, -⟩ := hH.ctx.hyp.cp
   have htL : t ∈ LB M Q B := hH.mem
   obtain ⟨hNL, hNX, hNR, hXR⟩ := b2_nt_facts hSplit hH
-  have hcommNX := b2_comm_NX (Z := Z) hNX hNR hXR
+  have hcommNX := b2_comm_NX (_Z := Z) hNX hNR hXR
   have hRM : Rt M (LB M Q B) t ≤ M := hH.ctx.Rt_le_M t
   have hXR' : E1Xpre M Q B t ≤ Rt M (LB M Q B) t := by rw [← hNR]; exact le_sup_right
   have hXM : E1Xpre M Q B t ≤ M := hXR'.trans hRM
@@ -634,7 +643,7 @@ theorem b2_of (hCt : CtStructureStatement) (hSplit : RtSplitStatement) (hTI : Nt
   have hNFc : (Q.subgroupOf Fc).Normal := by
     obtain ⟨h, -⟩ := hSc
     exact h
-  haveI := hNFc
+  have := hNFc
   have hsimpFc : IsSimpleGroup (↥Fc ⧸ Q.subgroupOf Fc) := by
     obtain ⟨hN1, hX1⟩ := hSc
     exact (b2_sl_facts hX1 hn2 hq4).2.1

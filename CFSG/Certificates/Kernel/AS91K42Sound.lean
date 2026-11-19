@@ -82,9 +82,9 @@ theorem q0b_eq (h : q0OK = true) : ∀ n < 4096, q0b n = bitQ q0M n := by
   have h' := List.all_eq_true.1 h n (List.mem_range.2 hn)
   exact beq_iff_eq.1 h'
 
-theorem inO1b_eq : inO1b = bitQ o1Mask := funext fun n => (bitQ_eq _ _).symm
+theorem inO1b_eq : inO1b = bitQ o1Mask := funext fun _n => (bitQ_eq _ _).symm
 
-theorem inO2b_eq : inO2b = bitQ o2Mask := funext fun n => (bitQ_eq _ _).symm
+theorem inO2b_eq : inO2b = bitQ o2Mask := funext fun _n => (bitQ_eq _ _).symm
 
 theorem orbitOK42_of (hq : q0OK = true) (h1 : orbOK gamF 3 o1Mask = true)
     (h2 : orbOK gamF 5 o2Mask = true) (h3 : orbOK gamF 1 q0M = true) (hi : invK = true)

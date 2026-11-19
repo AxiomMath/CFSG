@@ -23,11 +23,11 @@ theorem pRank_le_one_of_card_le {G : Type*} [Group G] [Finite G]
 theorem card_le_three_of_sylow_isCyclic {G : Type*} [Group G] [Finite G]
     (hcyc : ∀ R : Sylow 3 G, IsCyclic R) {E : Subgroup G} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 x x.2)⟩
   obtain ⟨R, hER⟩ := hEp.exists_le_sylow
-  haveI := hcyc R
-  haveI : IsCyclic E := by
+  have := hcyc R
+  have : IsCyclic E := by
     have : IsCyclic ↥(E.subgroupOf (R : Subgroup G)) := Subgroup.isCyclic _
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hER).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hER).surjective
@@ -36,8 +36,8 @@ theorem card_le_three_of_sylow_isCyclic {G : Type*} [Group G] [Finite G]
 theorem exists_lift_elemAbelian {G H : Type*} [Group G] [Group H] [Finite G] {π : G →* H}
     (hπ : Function.Surjective π) (hker : ¬ 3 ∣ Nat.card π.ker) {E : Subgroup H}
     (hE : IsElemAbelian 3 E) : ∃ F : Subgroup G, IsElemAbelian 3 F ∧ Nat.card F = Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite H := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite H := Finite.of_surjective π hπ
   have hEp : IsPGroup 3 E := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 x x.2)⟩
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective hπ 3 Q
@@ -47,7 +47,7 @@ theorem exists_lift_elemAbelian {G H : Type*} [Group G] [Group H] [Finite G] {π
     have hm : a * b⁻¹ ∈ (S : Subgroup G) ⊓ π.ker := by
       refine Subgroup.mem_inf.2 ⟨mul_mem ha (inv_mem hb), ?_⟩
       rw [MonoidHom.mem_ker, map_mul, map_inv, hab, mul_inv_cancel]
-    have hp : IsPGroup 3 ↥((S : Subgroup G) ⊓ π.ker) := S.isPGroup'.to_le inf_le_left
+    have hp : IsPGroup 3 ↥((S : Subgroup G) ⊓ π.ker) := S.isPGroup.to_le inf_le_left
     have hbot : (S : Subgroup G) ⊓ π.ker = ⊥ := by
       by_contra hne
       obtain ⟨k, hk⟩ := hp.exists_card_eq
@@ -85,7 +85,7 @@ theorem pRank_top_le_of_surjective {G H : Type*} [Group G] [Group H] [Finite G] 
 theorem pRank_projSL_two_le_one {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime]
     (hF : Nat.card F = p ^ f) (hF7 : 7 ≤ Nat.card F) (hp3 : p ≠ 3) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSL 2 F))) ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card F) := by
     rw [hF]
     exact Nat.Coprime.pow_right f ((Nat.coprime_primes Nat.prime_three Fact.out).2 (Ne.symm hp3))
@@ -101,7 +101,7 @@ theorem not_three_dvd_card_ker_projSL_three {F : Type} [Field F] [Finite F]
       (QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSL 3 F))).ker := by
   rw [QuotientGroup.ker_mk']
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
   obtain ⟨c, hc⟩ := Subgroup.mem_subgroupOf.1 x.2
   have hdet : ((x : ↥(StatedSL 3 F)) : GL (Fin 3) F).val.det = 1 :=
@@ -144,7 +144,7 @@ theorem not_three_dvd_card_ker_projSU_three {F : Type} [Field F] {p e : ℕ}
   have := h.finite
   rw [QuotientGroup.ker_mk']
   intro hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hd
   obtain ⟨l, hl⟩ := Subgroup.mem_subgroupOf.1 x.2
   have hl' : Matrix.GeneralLinearGroup.scalar (Fin 3) l ∈ StatedSU 3 (p ^ e) F := by
@@ -182,7 +182,7 @@ theorem pRank_projSU_three_le_one {F : Type} [Field F] {p e : ℕ} (h : UnitaryF
     (hq : p ^ e % 3 = 1) :
     letI := h.finite
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU 3 (p ^ e) F))) ≤ 1 := by
-  letI := h.finite
+  let := h.finite
   have hSU := CFSG.RankThree.PartTwo.Sec4.Res417Four.pRank_statedSU_three_le_one h hq
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top] at hSU
   exact (pRank_top_le_of_surjective (QuotientGroup.mk'_surjective _)
@@ -208,7 +208,7 @@ theorem rankOneAut_holds : RankOneAut := by
   cases dd with
   | A r q =>
     have hp3 : q.p ≠ 3 := by simpa [LieTypeIndex.characteristic_A] using hch
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hm := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
     refine pRank_mulAut_le_two_of_outClause hnab ?_ (GL83.I713.outClauseFor_classical_PSL hm)
     obtain ⟨-, F, _, _, hF, ⟨f⟩⟩ := hm

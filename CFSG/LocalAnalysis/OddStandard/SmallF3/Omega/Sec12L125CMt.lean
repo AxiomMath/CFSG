@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S E : Subgroup G}
 
+omit [Finite G] in
 theorem sec125_mem_normalizer_of_conj {H : Subgroup G} {g : G} (h : ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (h' : ∀ x ∈ H, g⁻¹ * x * g ∈ H) : g ∈ normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -100,7 +101,7 @@ theorem sec125_CNt_le_CMt (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S 
 theorem sec125_CNt_eq_CMt (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L))
     (h : Sec125Core t (secV t S L E) E) :
     secN (secV t S L E) ⊓ centralizer ({t} : Set G) = secCMt t S L :=
-  le_antisymm (sec125_CNt_le_CMt F hE h) fun g hg =>
+  le_antisymm (sec125_CNt_le_CMt F hE h) fun _g hg =>
     Subgroup.mem_inf.mpr ⟨sec125_CMt_le_N F hE hg, (Subgroup.mem_inf.mp hg).2⟩
 
 end CFSG.OddStandard.SmallF3.Omega

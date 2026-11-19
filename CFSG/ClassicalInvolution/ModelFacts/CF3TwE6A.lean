@@ -37,10 +37,10 @@ theorem twistedE6_rankOne_gen3_or_perfect (he : 1 ≤ e) (hq3 : p ^ e = 3)
     rw [CFSG.ClassicalInvolution.WeakCT.card_fixedField_frobQ p e he]
     exact hq3
   have hchar : CharP (CFSG.ClassicalInvolution.Models.TwistedPairs.fixedField (frobQ p e)) 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Finite (CFSG.ClassicalInvolution.Models.TwistedPairs.fixedField (frobQ p e)) :=
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Finite (CFSG.ClassicalInvolution.Models.TwistedPairs.fixedField (frobQ p e)) :=
       Nat.finite_of_card_ne_zero (by rw [hcardF]; norm_num)
-    haveI := Fintype.ofFinite (CFSG.ClassicalInvolution.Models.TwistedPairs.fixedField (frobQ p e))
+    have := Fintype.ofFinite (CFSG.ClassicalInvolution.Models.TwistedPairs.fixedField (frobQ p e))
     exact charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hcardF)
   fin_cases j
   · right

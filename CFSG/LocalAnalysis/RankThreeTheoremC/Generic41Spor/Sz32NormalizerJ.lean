@@ -18,7 +18,7 @@ private theorem nj_solvable_of_regular_mem {p : ℕ} [Fact p.Prime] {K O : Subgr
     (hreg : ∀ k ∈ K, Nat.Coprime p (orderOf k) → k ∈ O) : Group.IsSolvable ↥K := by
   have hp : p.Prime := Fact.out
   have hNK : O ⊓ K ≤ K := inf_le_right
-  haveI hNnormal : ((O ⊓ K).subgroupOf K).Normal := by
+  have hNnormal : ((O ⊓ K).subgroupOf K).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hNK]
     intro n hn
     rw [Subgroup.mem_normalizer_iff]
@@ -33,7 +33,7 @@ private theorem nj_solvable_of_regular_mem {p : ℕ} [Fact p.Prime] {K O : Subgr
       refine ⟨hO.mpr hh.1, ?_⟩
       have := K.mul_mem (K.mul_mem (K.inv_mem hn) hh.2) hn
       simpa [mul_assoc] using this
-  haveI hsolN : Group.IsSolvable ↥(O ⊓ K) := by
+  have hsolN : Group.IsSolvable ↥(O ⊓ K) := by
     apply CFSG.FeitThompson.isSolvable_of_odd_natCard _
     have h1 : Nat.card ↥(O ⊓ K) ∣ Nat.card ↥O := Subgroup.card_dvd_of_le inf_le_left
     have h2 : Odd (Nat.card ↥O) := Nat.odd_iff.mpr (by omega)
@@ -52,19 +52,20 @@ private theorem nj_solvable_of_regular_mem {p : ℕ} [Fact p.Prime] {K O : Subgr
     refine ⟨a, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     exact ⟨hmemO, pow_mem k.2 _⟩
-  haveI : Finite (↥K ⧸ (O ⊓ K).subgroupOf K) := inferInstance
-  haveI := hpgrp.isNilpotent
-  haveI : Group.IsSolvable (↥K ⧸ (O ⊓ K).subgroupOf K) := inferInstance
+  have : Finite (↥K ⧸ (O ⊓ K).subgroupOf K) := inferInstance
+  have := hpgrp.isNilpotent
+  have : Group.IsSolvable (↥K ⧸ (O ⊓ K).subgroupOf K) := inferInstance
   refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hNK)
     (QuotientGroup.mk' ((O ⊓ K).subgroupOf K)) ?_
   rw [QuotientGroup.ker_mk', Subgroup.inclusion_range]
 
+omit [Finite G] in
 private theorem nj_derived_le {C J K₀ : Subgroup G} {A : Type*} [Group A] [Group.IsSolvable A]
     [Group.IsSolvable ↥K₀] (hJC : J ≤ C) (hCJ : C ≤ Subgroup.normalizer (J : Set G)) (hKC : K₀ ≤ C)
     (φ : ↥C →* A) (hφJ : ∀ (j : G) (hj : j ∈ J), φ ⟨j, hJC hj⟩ = 1)
     (hker : ∀ c : ↥C, φ c = 1 → ∃ k ∈ K₀, ∃ j ∈ J, (c : G) = k * j) :
     ∃ m, (derivedSeries ↥C m).map C.subtype ≤ J := by
-  haveI hJn : (J.subgroupOf C).Normal := by
+  have hJn : (J.subgroupOf C).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hJC]; exact hCJ
   let f : ↥K₀ →* ↥C ⧸ J.subgroupOf C :=
     (QuotientGroup.mk' (J.subgroupOf C)).comp (Subgroup.inclusion hKC)
@@ -89,6 +90,7 @@ private theorem nj_derived_le {C J K₀ : Subgroup G} {A : Type*} [Group A] [Gro
   rintro _ ⟨c, hc, rfl⟩
   exact h2 hc
 
+omit [Finite G] in
 private theorem nj_normalizes {C J : Subgroup G} [Group.IsPerfect J] (hJC : J ≤ C) {n : G}
     (hn : C.map (MulAut.conj n).toMonoidHom = C)
     (hres : ∃ m, (derivedSeries ↥C m).map C.subtype ≤ J) :
@@ -117,6 +119,7 @@ private theorem nj_normalizes {C J : Subgroup G} [Group.IsPerfect J] (hJC : J �
     _ = (derivedSeries ↥C m).map C.subtype := hDinv m
     _ = J := hJeq
 
+omit [Finite G] in
 private theorem nj_map_conj_centralizer {x n : G}
     (hn : n ∈ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G)) :
     (Subgroup.centralizer ({x} : Set G)).map (MulAut.conj n).toMonoidHom =
@@ -155,21 +158,21 @@ theorem sz32_normalizer_le_normalizer_J (hS : Setting G) (hD1 : TheoremD1 G) (hU
     (hSz : Sz32Facts) (hc : PointConfig IsSz32Type G 5 P M x J) :
     Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) ≤ Subgroup.normalizer (J : Set G) := by
   intro n hn
-  haveI : Group.IsPerfect J := hc.perfect
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Group.IsPerfect J := hc.perfect
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hJC : J ≤ Subgroup.centralizer ({x} : Set G) := hc.le_cent
   obtain ⟨Q, _, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   obtain ⟨ρ, hρ⟩ := sps_exists_action (p := 5) hc.cent_le ψ hψ hker
   have hout : Nat.card (Outer Q) = 5 := hSz.outer Q hQ
-  haveI : Group.IsSolvable (Outer Q) := by
-    haveI : IsCyclic (Outer Q) := isCyclic_of_prime_card hout
+  have : Group.IsSolvable (Outer Q) := by
+    have : IsCyclic (Outer Q) := isCyclic_of_prime_card hout
     infer_instance
   have hprop := point_prop31_ii hS hD1 hU0 hc
   have hodd := odd_card_pPrimeCoreIn_of_not_le hS hD1 hc.sigma hc.core hc.generic.2.2.2.ge
     hc.generic.2.1.2.2.2.2
   have hKC : u3K0 5 x J ≤ Subgroup.centralizer ({x} : Set G) := fun k hk => hk.1
-  haveI hKsolv : Group.IsSolvable ↥(u3K0 5 x J) :=
+  have hKsolv : Group.IsSolvable ↥(u3K0 5 x J) :=
     nj_solvable_of_regular_mem (p := 5)
       (O := CFSG.ABGTheoremB.pPrimeCoreIn 5 (Subgroup.centralizer ({x} : Set G)))
       (fun k hk => CFSG.ABGTheoremB.le_normalizer_map_subtype _ (CFSG.pPrimeCore 5 _) (hKC hk))

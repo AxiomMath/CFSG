@@ -22,7 +22,7 @@ theorem exists_rootRefl_mem_map_of_card_192
     ∃ (w : V) (hw : B w w = 2), rootRefl (B := B) w hw ∈ AL.map (ggLin (p := 3) ι) ∧
       B w (ι (Additive.ofMul x)) = 0 ∧ B w (ι (Additive.ofMul y)) ≠ 0 := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective ((↑) : (V ≃ₗ[ZMod 3] V) → V → V) DFunLike.coe_injective
   by_contra hno
   have hgen : ∀ φ ∈ AL, ggLin (p := 3) ι φ ∈ e6Weyl hα := by

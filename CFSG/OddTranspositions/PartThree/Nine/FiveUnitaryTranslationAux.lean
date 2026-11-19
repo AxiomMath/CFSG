@@ -491,7 +491,7 @@ theorem exists_translationSubgroup_of_orthogonal {L L₀ : Subgroup G} {Γ : Set
     exact hy
   have hVsq : ∀ v ∈ V, v * v = 1 := by
     rintro _ ⟨y, ⟨hyP, hyY'⟩, rfl⟩
-    have h := hY'sq y hyY' (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyP))
+    have h := hY'sq y hyY' (P.isPGroup.to_le (Subgroup.zpowers_le.mpr hyP))
     simpa using congrArg Subtype.val h
   have hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb =>
     commute_of_mul_self_eq_one' (hVsq a ha) (hVsq b hb) (hVsq _ (V.mul_mem ha hb))
@@ -516,7 +516,7 @@ theorem exists_translationSubgroup_of_orthogonal {L L₀ : Subgroup G} {Γ : Set
     exact le_sup_left
   have hBN := Subgroup.centralizer_le_normalizer ((S : Set G) ∩ D)
   have hTp : IsPGroup 2 ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) :=
-    T.isPGroup'.map _
+    T.isPGroup.map _
   have hCB := fun x (hxB : x ∈ Subgroup.centralizer ((S : Set G) ∩ D))
       (hxL : ∀ l ∈ L, Commute x l) =>
     exists_mul_of_mem_centralizer hL.centralizer_eq (fun b hb => hL.sylow_normal b (hBN hb))

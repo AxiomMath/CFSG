@@ -55,7 +55,7 @@ theorem ggPsiInnerDiag_of_induced_conj_diag {G : Type} [Group G] {f : ℕ}
     {ψ : (ggU .E6 0 f).K →* G}
     {χ : adjointGroup .E6 (GaloisField 2 f) →* G} (hχ : Function.Injective χ)
     (hval : ∀ u, ψ u = χ (e6Isogeny (GaloisField 2 f) u))
-    (hker : ψ.ker ≤ Subgroup.center (ggU .E6 0 f).K) {c : G}
+    (_hker : ψ.ker ≤ Subgroup.center (ggU .E6 0 f).K) {c : G}
     (hc : c ∈ Subgroup.normalizer (ψ.range : Set G))
     {g : adjointGroup .E6 (GaloisField 2 f)} {a : Fin Tag.E6.rank → (GaloisField 2 f)ˣ}
     (hact : ∀ u : adjointGroup .E6 (GaloisField 2 f),
@@ -99,14 +99,14 @@ private theorem exists_centralizing_elemAbelian_field_E6
     {ψ : ↥(e6Data_valid.minGroup (GaloisField 2 f)) →* G}
     (hS : GGSixFusionSetting p Bs G₀ (ggU .E6 n f).D .E6 n f ψ)
     {y : G} (hyM : y ∈ Subgroup.normalizer (G₀ : Set G)) (hyp : orderOf y = p)
-    (hdf : GGPsiDiagField (ggU .E6 n f).D ψ y)
+    (_hdf : GGPsiDiagField (ggU .E6 n f).D ψ y)
     (hni : ¬ GGPsiInnerDiag (ggU .E6 n f).D ψ y) :
     ∃ E₀ : Subgroup G, E₀ ≤ G₀ ∧ IsElemAbelian p E₀ ∧ (∀ x ∈ E₀, y * x = x * y) ∧
       Nat.card Bs ≤ p * Nat.card E₀ := by
   classical
   have hpp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpres : GGPresentsG0 G₀ (ggU .E6 n f).D .E6 n f ψ := hS.presents
   have hrange : ψ.range = G₀ := hS.range_eq
   have hf : 1 ≤ f := hpres.1.1.2.1
@@ -202,9 +202,9 @@ private theorem exists_centralizing_elemAbelian_field_E6
     have hp2le : 2 ≤ p := hpp.two_le
     omega
   set e : ℕ := orderOf ((Nat.card (GaloisField 2 f) : ℕ) : ZMod p) with hedef
-  haveI : Finite (fixSubfield σ) :=
+  have : Finite (fixSubfield σ) :=
     Finite.of_injective (Subtype.val : fixSubfield σ → GaloisField 2 f) Subtype.val_injective
-  haveI : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
+  have : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
   have hefix : orderOf ((Nat.card (fixSubfield σ) : ℕ) : ZMod p) = e :=
     orderOf_card_fixSubfield_eq hpp hp2 σ hσ1 hσp1
   obtain ⟨E, hE, hEcard⟩ := exists_E6 (K := fixSubfield σ) (p := p) (e := e) hpp hp2 hefix

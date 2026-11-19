@@ -46,40 +46,40 @@ private lemma psuA5_kind2 {f n : ℕ} {K : Type} [Field K]
     (he : psuKind h X B e = 2) : psuPsiTrivial h X B e := by
   unfold psuKind at he
   by_cases hdag : psuDag h e = e
-  · rw [if_pos hdag] at he
+  · rw [ite_eq_left hdag] at he
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at he; omega
-    · rw [if_neg hpsi] at he; omega
-  · rw [if_neg hdag] at he
+    · rw [ite_eq_left hpsi] at he; omega
+    · rw [ite_eq_right hpsi] at he; omega
+  · rw [ite_eq_right hdag] at he
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at he
+    · rw [ite_eq_left hpsi] at he
       by_cases htr : psuPsiTrivial h X B e
       · exact htr
-      · rw [if_neg htr] at he; omega
-    · rw [if_neg hpsi] at he
+      · rw [ite_eq_right htr] at he; omega
+    · rw [ite_eq_right hpsi] at he
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at he; omega
-      · rw [if_neg h4] at he; omega
+      · rw [ite_eq_left h4] at he; omega
+      · rw [ite_eq_right h4] at he; omega
 
 private lemma psuA5_kind0 {f n : ℕ} {K : Type} [Field K]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} {e : Matrix (Fin n) (Fin n) K}
     (he : psuKind h X B e = 0) : psuDag h e = e ∧ psuPsi h X e = e := by
   unfold psuKind at he
   by_cases hdag : psuDag h e = e
-  · rw [if_pos hdag] at he
+  · rw [ite_eq_left hdag] at he
     by_cases hpsi : psuPsi h X e = e
     · exact ⟨hdag, hpsi⟩
-    · rw [if_neg hpsi] at he; omega
-  · rw [if_neg hdag] at he
+    · rw [ite_eq_right hpsi] at he; omega
+  · rw [ite_eq_right hdag] at he
     by_cases hpsi : psuPsi h X e = e
-    · rw [if_pos hpsi] at he
+    · rw [ite_eq_left hpsi] at he
       by_cases htr : psuPsiTrivial h X B e
-      · rw [if_pos htr] at he; omega
-      · rw [if_neg htr] at he; omega
-    · rw [if_neg hpsi] at he
+      · rw [ite_eq_left htr] at he; omega
+      · rw [ite_eq_right htr] at he; omega
+    · rw [ite_eq_right hpsi] at he
       by_cases h4 : psuPsi h X e = psuDag h e
-      · rw [if_pos h4] at he; omega
-      · rw [if_neg h4] at he; omega
+      · rw [ite_eq_left h4] at he; omega
+      · rw [ite_eq_right h4] at he; omega
 
 private lemma psuA5_blockField {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
@@ -212,10 +212,10 @@ private lemma psuA5_unique_order_two {G : Type} [Group G] [Fintype G] [IsCyclic 
 private lemma psuA5_ringEquiv_isCyclic (F : Type) [Field F] [Finite F] :
     IsCyclic (F ≃+* F) := by
   classical
-  haveI : Fact (ringChar F).Prime := ⟨CharP.prime_ringChar F⟩
-  haveI hchar : CharP F (ringChar F) := ⟨fun x => ringChar.spec F x⟩
-  letI : Algebra (ZMod (ringChar F)) F := ZMod.algebra F (ringChar F)
-  haveI : IsCyclic (F ≃ₐ[ZMod (ringChar F)] F) :=
+  have : Fact (ringChar F).Prime := ⟨CharP.prime_ringChar F⟩
+  have hchar : CharP F (ringChar F) := ⟨fun x => ringChar.spec F x⟩
+  let : Algebra (ZMod (ringChar F)) F := ZMod.algebra F (ringChar F)
+  have : IsCyclic (F ≃ₐ[ZMod (ringChar F)] F) :=
     FiniteField.instIsCyclicAlgEquivOfFinite (ZMod (ringChar F)) F
   let f : (F ≃ₐ[ZMod (ringChar F)] F) →* (F ≃+* F) :=
     { toFun := fun e => e.toRingEquiv
@@ -236,8 +236,8 @@ private lemma psuA5_involutions_eq {F : Type} [Field F] [Finite F]
     (hθσ : ∀ k : K, θ (algebraMap K F k) = algebraMap K F (σ k)) :
     τ = θ := by
   classical
-  haveI : IsCyclic (F ≃+* F) := psuA5_ringEquiv_isCyclic F
-  haveI : Fintype (F ≃+* F) := Fintype.ofFinite _
+  have : IsCyclic (F ≃+* F) := psuA5_ringEquiv_isCyclic F
+  have : Fintype (F ≃+* F) := Fintype.ofFinite _
   refine psuA5_unique_order_two hτ hθ ?_ ?_
   · intro h1
     obtain ⟨k, hk⟩ := hσ
@@ -325,9 +325,9 @@ private lemma psuA5_kind0_trivial {f n : ℕ} {K : Type} [Field K] [Finite K] [C
     fun a ha => (psuGraph_star_mem S a ha).1
   have hθA : ∀ a ∈ psuAlg B, psuTheta h X a ∈ psuAlg B := psuA5_theta_mem S
   obtain ⟨L, instField, instAlg, instFin, π, hπsurj, hker, _⟩ := psuA5_blockField S hePrim
-  letI : Field L := instField
-  letI : Algebra K L := instAlg
-  letI : Finite L := instFin
+  let : Field L := instField
+  let : Algebra K L := instAlg
+  let : Finite L := instFin
   have hdagmul : ∀ a b, a ∈ psuAlg B → b ∈ psuAlg B →
       psuDag h (a * b) = psuDag h a * psuDag h b := by
     intro a b ha hb

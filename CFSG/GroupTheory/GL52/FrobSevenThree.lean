@@ -45,7 +45,7 @@ theorem conj_eq_pow_of_matrix {x d : G52} {k : ℕ} (hx : x ^ 3 = 1)
 theorem exists_frob73 {β : G52} (hβ : orderOf β = 3) :
     ∃ d : G52, d ≠ 1 ∧ d ^ 7 = 1 ∧ ∃ k : ℕ, (k = 2 ∨ k = 4) ∧ β * d * β⁻¹ = d ^ k := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_eq_of_card_pow (p := 3) (k := 2) (H := syl3R)
     (by rw [syl3_card_R]; norm_num) (fun P => by rw [syl3_card_sylow P]; norm_num)
   have hβp : IsPGroup 3 (Subgroup.zpowers β) :=

@@ -50,7 +50,7 @@ theorem invT_getD_aux {s : Array ℕ} (hlt : ∀ j < s.size, s.getD j 0 < s.size
     · subst hik
       have hlt' := hlt i hkn
       rw [Array.getD_eq_getD_getElem?, Array.set!_eq_setIfInBounds, Array.getElem?_setIfInBounds_self,
-        if_pos (by omega)]
+        ite_eq_left (by omega)]
       rfl
 
 theorem invT_getD {s : Array ℕ} (hlt : ∀ j < s.size, s.getD j 0 < s.size)
@@ -95,12 +95,13 @@ theorem eq_T_of_img {A : Array ℕ} {g : Γ} (hA : A.size = 100)
 variable [FaithfulSMul Γ (Fin 100)]
 
 theorem eq_of_act {g h : Γ} (H : ∀ q < 100, act 100 g q = act 100 h q) : g = h :=
-  eq_of_base (B := List.range 100) (fun b hb => List.mem_range.mp hb) base_of_faithful
-    fun b hb => H b (List.mem_range.mp hb)
+  eq_of_base (B := List.range 100) (fun _b hb => List.mem_range.mp hb) base_of_faithful
+    fun _b hb => H _b (List.mem_range.mp hb)
 
 theorem eq_of_T {g h : Γ} (hgh : T g = T h) : g = h :=
   eq_of_act fun q _ => by rw [← img_T, ← img_T, hgh]
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem T_inv (g : Γ) : T g⁻¹ = invT (T g) := by
   have hsz : (T g).size = 100 := T_size g
   have hlt : ∀ j < (T g).size, (T g).getD j 0 < (T g).size := by
@@ -127,6 +128,7 @@ theorem T_inv (g : Γ) : T g⁻¹ = invT (T g) := by
     simp only [img]
     exact this
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem T_conj (x g : Γ) : T (x * g * x⁻¹) = conjT (T x) (invT (T x)) (T g) := by
   rw [mul_assoc, T_mul, T_mul, T_inv]
   rfl

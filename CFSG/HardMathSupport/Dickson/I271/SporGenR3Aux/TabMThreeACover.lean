@@ -23,11 +23,11 @@ theorem mul_comm_of_card_le_three {K : Type*} [Group K] [Finite K] (h : Nat.card
   have hpos : 0 < Nat.card K := Nat.card_pos
   have key : Nat.card K = 1 ∨ Nat.card K = 2 ∨ Nat.card K = 3 := by omega
   rcases key with h1 | h2 | h3
-  · haveI : Subsingleton K := (Nat.card_eq_one_iff_unique.1 h1).1
+  · have : Subsingleton K := (Nat.card_eq_one_iff_unique.1 h1).1
     exact Subsingleton.elim _ _
-  · haveI := isCyclic_of_prime_card (p := 2) h2
+  · have := isCyclic_of_prime_card (p := 2) h2
     exact (IsCyclic.commGroup (α := K)).mul_comm a b
-  · haveI := isCyclic_of_prime_card (p := 3) h3
+  · have := isCyclic_of_prime_card (p := 3) h3
     exact (IsCyclic.commGroup (α := K)).mul_comm a b
 
 theorem ker_le_ker_of_isSimpleGroup (hY : commutator Y = ⊤) (Φ : Y →* G) (ψ : Y →* J)
@@ -35,7 +35,7 @@ theorem ker_le_ker_of_isSimpleGroup (hY : commutator Y = ⊤) (Φ : Y →* G) (�
     (hΦ : Φ.range ≠ ⊥) : Φ.ker ≤ ψ.ker := by
   by_contra hle
   have htop : Φ.ker.map ψ = ⊤ := by
-    haveI : (Φ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
+    have : (Φ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hψ
     refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Φ.ker.map ψ)).resolve_left fun hbot => hle ?_
     intro x hx
     have h1 : ψ x ∈ Φ.ker.map ψ := Subgroup.mem_map_of_mem ψ hx
@@ -53,7 +53,7 @@ theorem ker_le_ker_of_isSimpleGroup (hY : commutator Y = ⊤) (Φ : Y →* G) (�
   have hf : Function.Surjective f := by
     rintro ⟨_, x, hx, rfl⟩
     exact ⟨⟨x, hx⟩, rfl⟩
-  haveI : Finite (ψ.ker.map Φ) := Finite.of_surjective f hf
+  have : Finite (ψ.ker.map Φ) := Finite.of_surjective f hf
   have hA : Nat.card (ψ.ker.map Φ) ≤ 3 := (Nat.card_le_card_of_surjective f hf).trans hk
   have hcomm : ∀ u ∈ Φ.range, ∀ v ∈ Φ.range, v * u = u * v := fun u hu v hv =>
     congrArg Subtype.val (mul_comm_of_card_le_three hA ⟨v, hrange hv⟩ ⟨u, hrange hu⟩)
@@ -223,8 +223,8 @@ theorem isQuasisimple_transport {A B : Type*} [Group A] [Group B] (e : A ≃* B)
     CFSG.Open.IsQuasisimple A ∧ Nonempty (A ⧸ Subgroup.center A ≃* B ⧸ Subgroup.center B) := by
   let f := QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
     (Subgroup.map_center_eq e)
-  haveI : Group.IsPerfect B := Group.isPerfect_def.2 h.1
-  haveI : Group.IsPerfect A :=
+  have : Group.IsPerfect B := Group.isPerfect_def.2 h.1
+  have : Group.IsPerfect A :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact ⟨⟨Group.isPerfect_def.1 this, f.isSimpleGroup_congr.2 h.2⟩, ⟨f⟩⟩
 

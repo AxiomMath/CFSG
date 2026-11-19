@@ -36,7 +36,7 @@ theorem model3_unitary_a (hF' : UnitaryFieldData 2 m F') :
 
 theorem model3_unitary_b (hF' : UnitaryFieldData 2 m F') :
     Model3TildeB ↥(unitarySU 2 m F' 3) := by
-  haveI := hF'.finite
+  have := hF'.finite
   intro R x hx
   have hxP : IsPGroup 2 (Subgroup.zpowers x) := by
     intro y
@@ -76,7 +76,7 @@ theorem model3_unitary_c (hm : 2 ≤ m) (hF' : UnitaryFieldData 2 m F') :
           (R : Subgroup ↥(unitarySU 2 m F' 3)).subtype := by
       rw [hZ, (unitary_point_conjugation hF' τ⁻¹ hL).2.1, hLτ]
     rw [hconj, sup_idem]
-    exact R.isPGroup'.to_le (Subgroup.map_subtype_le _)
+    exact R.isPGroup.to_le (Subgroup.map_subtype_le _)
   · exact model3_unitary_generation hm hF' R hL hZ hfix τ hLτ
 
 theorem model3_unitary (hm : 2 ≤ m) (hF' : UnitaryFieldData 2 m F') :

@@ -23,10 +23,10 @@ private theorem w172_two_pow_le_card_monoidHom {V W : Type*} [CommGroup V] [Comm
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     exact hW x.toMul
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hV2
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
-  haveI : Module.Finite (ZMod 2) (Additive V) := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hV2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  have : Module.Finite (ZMod 2) (Additive V) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   have hcardV : Nat.card V = 2 ^ rk V :=
     card_eq_two_pow_of_isPGroup (isPGroup_two_of_sq_eq_one fun v => by
       rw [pow_two]; exact hV v)
@@ -61,11 +61,11 @@ theorem w172_two_pow_le_relIndex_centralizer {R N V₀ : Subgroup G}
     (hcent : ∀ t ∈ R, ∀ v ∈ V₀, t * v = v * t)
     (hsurj : ∀ f : ↥N →* ↥V₀, ∃ t ∈ R, ∀ n : ↥N, ⁅(n : G), t⁆ = (f n : G)) :
     2 ^ (rk ↥V₀ * rk ↥N) ≤ (Subgroup.centralizer (N : Set G)).relIndex R := by
-  letI : CommGroup ↥V₀ := { (inferInstance : Group ↥V₀) with
+  let : CommGroup ↥V₀ := { (inferInstance : Group ↥V₀) with
     mul_comm := fun a b => hV₀.1.is_comm.comm a b }
-  letI : CommGroup ↥N := { (inferInstance : Group ↥N) with
+  let : CommGroup ↥N := { (inferInstance : Group ↥N) with
     mul_comm := fun a b => hN.1.is_comm.comm a b }
-  haveI : IsMulCommutative ↥V₀ := hV₀.1
+  have : IsMulCommutative ↥V₀ := hV₀.1
   have hN2 : ∀ x : ↥N, x * x = 1 := fun x => Subtype.ext (by
     simpa [pow_two] using hN.2 (x : G) x.2)
   have hV2 : ∀ x : ↥V₀, x * x = 1 := fun x => Subtype.ext (by

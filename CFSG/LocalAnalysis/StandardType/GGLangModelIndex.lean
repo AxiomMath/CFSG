@@ -96,11 +96,11 @@ theorem pow_mem_map_adjointGroup_of_fixed
   classical
   obtain ⟨S, hS⟩ := CFSG.LieType.Chevalley.exists_finset_descent hxC
   obtain ⟨E, hEf, hSE, hKE⟩ := exists_finite_subfield_of_finset (K := K) (L := L) S
-  haveI : Finite E := hEf
+  have : Finite E := hEf
   obtain ⟨y, hy, rfl⟩ := hS E hSE
   obtain ⟨σE, hσE, hJ, hfix⟩ := exists_subfieldFrobenius_data (τ := τ) Fr hFr E hKE
   have hyΓ : y ∈ entrywiseFixedGroup τ σE := hfix y hy hxF
-  haveI : ((fixedFieldImage τ σE).subgroupOf (entrywiseFixedGroup τ σE)).Normal :=
+  have : ((fixedFieldImage τ σE).subgroupOf (entrywiseFixedGroup τ σE)).Normal :=
     fixedFieldImage_normal
   have h1 : (⟨y, hyΓ⟩ : entrywiseFixedGroup τ σE) ^
       ((fixedFieldImage τ σE).subgroupOf (entrywiseFixedGroup τ σE)).index ∈

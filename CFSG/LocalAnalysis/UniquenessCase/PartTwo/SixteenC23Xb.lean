@@ -18,9 +18,9 @@ theorem c23_exists_fixed_sylow (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {u₀ : U}
     ∃ Xb : Subgroup (MulAut U), Xb ≤ A₁ ⊔ A₂ ∧ Nat.card Xb = 9 ∧
       (∀ x ∈ Xb, (x : MulAut U) u₀ = u₀) ∧
       ∀ j ∈ A₁ ⊔ A₂, (j : MulAut U) u₀ = u₀ → ∃ x ∈ Xb, ∃ s ∈ S, j = x * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : MulAction ↥(A₁ ⊔ A₂) U := MulAction.compHom U (A₁ ⊔ A₂).subtype
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulAction ↥(A₁ ⊔ A₂) U := MulAction.compHom U (A₁ ⊔ A₂).subtype
   have hA_Mb : A₁ ⊔ A₂ ≤ Mb := sup_le h.le₁ h.le₂
   have horb : MulAction.orbit ↥(A₁ ⊔ A₂) u₀ = c23Omega Y₁ Y₂ := by
     ext u

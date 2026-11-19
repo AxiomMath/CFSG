@@ -36,11 +36,11 @@ theorem noL34Layer_inndiag_twE6_two (hI : Char2Hrat Tag.E6 .inner) (hS : Char2Hr
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   have h3K : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     intro h3
@@ -55,7 +55,7 @@ theorem noL34Layer_inndiag_twE6_two (hI : Char2Hrat Tag.E6 .inner) (hS : Char2Hr
   obtain ⟨S, a, ι, -, -, hT, hap, h1, hinj, hrange, hconj⟩ :=
     exists_langSetup_of_inndiag_twE6_of_prime Nat.prime_two hf hK σ hσ Nat.prime_three
       (by norm_num) Nat.prime_five (by norm_num) (Or.inl le_rfl) hmon β h hh hβ hp1 hh1
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_algebraicClosure Nat.prime_three h3K
@@ -135,7 +135,7 @@ theorem up34C2Inn_TwE6_holds (hI : Char2Hrat Tag.E6 .inner) (hS : Char2Hrat Tag.
         rw [Subgroup.mem_center_iff]
         intro g
         have := DFunLike.congr_fun h1 g
-        simp only [MulAut.conj_apply, MulAut.one_apply, inv_one, mul_one, one_mul] at this
+        simp only [MulAut.conj_apply, inv_one, mul_one, one_mul] at this
         calc g * x ^ 3 = x ^ 3 * g * (x ^ 3)⁻¹ * x ^ 3 := by rw [this]
           _ = x ^ 3 * g := by group
       rwa [hZ, Subgroup.mem_bot] at h2

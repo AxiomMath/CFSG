@@ -233,7 +233,7 @@ private lemma scalarProduct_sum_smul_self_distinct {G : Type u} [Group G] [Finty
                 · intro ν hν hne
                   have hχne : χ μ ≠ χ ν := hdist μ hμ ν hν hne.symm
                   have hcoeff : (χ μ).1 ≠ (χ ν).1 := fun hEq => hχne (Subtype.ext hEq)
-                  simp [hχne, hcoeff]
+                  simp [hcoeff]
                 · intro hnot
                   exact False.elim (hnot hμ)
               simpa using hsingle
@@ -308,8 +308,7 @@ public theorem restrictU_scalarProduct (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Sect
     have hsp : scalarProduct (↥c.U) (∑ β' ∈ s0Orbit c β, β'.1)
         (∑ β' ∈ s0Orbit c β, β'.1) = (s0Orbit c β).card := by
       refine scalarProduct_sum_self_distinct (s0Orbit c β) (fun a : Irr (↥c.U) => a) ?_
-      intro i hi j hj hij
-      intro hEq
+      intro i hi j hj hij hEq
       exact hij hEq
     rw [hsp]
     have hindex_prod : (s0Orbit c β).card * (orbit c.H0 c.U ν.1).card =
@@ -708,7 +707,7 @@ private lemma scalarProduct_self_eq_one_of_isPMIrr {G : Type u} [Group G] [Finty
 
 /-- The induced class function of a class function is a class function. -/
 private lemma isClassFunction_inducedClassFunction {G : Type u} [Group G] [Fintype G]
-    (H : Subgroup G) (δ : ClassFunction (↥H)) (hδ : IsClassFunction δ) :
+    (H : Subgroup G) (δ : ClassFunction (↥H)) (_hδ : IsClassFunction δ) :
     IsClassFunction (inducedClassFunction H δ) := by
   intro x g
   unfold inducedClassFunction
@@ -730,7 +729,7 @@ private lemma isClassFunction_inducedClassFunction {G : Type u} [Group G] [Finty
         rwa [hEq]
       have hEq : (g⁻¹ * z)⁻¹ * x * (g⁻¹ * z) = z⁻¹ * (g * x * g⁻¹) * z := by
         group
-      rw [dif_pos hzmem, dif_pos hmem']
+      rw [dite_eq_left hzmem, dite_eq_left hmem']
       congr 1
       apply Subtype.ext
       exact hEq.symm
@@ -740,7 +739,7 @@ private lemma isClassFunction_inducedClassFunction {G : Type u} [Group G] [Finty
         have hEq : (g⁻¹ * z)⁻¹ * x * (g⁻¹ * z) = z⁻¹ * (g * x * g⁻¹) * z := by
           group
         rwa [← hEq]
-      rw [dif_neg hzmem, dif_neg hnot]
+      rw [dite_eq_right hzmem, dite_eq_right hnot]
 
 /-- `inducedFromSub` of a class function is a class function. -/
 private lemma isClassFunction_inducedFromSub {G : Type u} [Group G] [Fintype G]
@@ -893,7 +892,6 @@ private lemma BOf_orbit_pair_conj (c : Hyp11 G) (h12 : Hyp12 c)
         · rw [hA, hB]
           simp [hμsν, hνμ]
           simp [hμμ, hνν]
-          try norm_num
       · by_cases hνν : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1
         · rw [hA, hB]
           simp [hμsν, hνμ]
@@ -1137,7 +1135,7 @@ private lemma BOf_orbit_pair_conj (c : Hyp11 G) (h12 : Hyp12 c)
                 refine Finset.sum_congr rfl ?_
                 intro x hx
                 have hmem : x⁻¹ * 1 * x ∈ c.H0 := by simp
-                rw [dif_pos hmem]
+                rw [dite_eq_left hmem]
                 apply congrArg (μ.1 - ν.1)
                 apply Subtype.ext
                 simp
@@ -1320,7 +1318,7 @@ private lemma TI_sum_lt_card (c : Hyp11 G) (h12 : Hyp12 c)
       · exact hEqT
       · rw [hDisjT] at hneq
         rcases hneq with ⟨w, hw⟩
-        exact False.elim (by simpa using hw)
+        exact False.elim (by simp at hw)
     exact hleft_distinct x₁ hx₁ x₂ hx₂ hne hmemT
   have h1not_conj : ∀ x : ↥(⊤ : Subgroup G),
       (1 : G) ∉ (fun y : G => (x : G) * y * (x : G)⁻¹) '' c.T := by
@@ -1329,7 +1327,7 @@ private lemma TI_sum_lt_card (c : Hyp11 G) (h12 : Hyp12 c)
     have hy1 : y = 1 := by
       calc
         y = (x : G)⁻¹ * ((x : G) * y * (x : G)⁻¹) * (x : G) := by group
-        _ = 1 := by simpa [hEq]
+        _ = 1 := by simp [hEq]
     exact h1notT (hy1 ▸ hyT)
   let Sx : ↥(⊤ : Subgroup G) → Finset G := fun x => Finset.univ.filter (fun y : G =>
     y ∈ (fun t : G => (x : G) * t * (x : G)⁻¹) '' c.T)
@@ -1372,7 +1370,7 @@ private lemma TI_sum_lt_card (c : Hyp11 G) (h12 : Hyp12 c)
       exact (hdisj_conj x₁ hx₁ x₂ hx₂ hne) ▸ (⟨hmem₁, hmem₂⟩ :
         y ∈ (fun y : G => (x₁ : G) * y * (x₁ : G)⁻¹) '' c.T ∩
           (fun y : G => (x₂ : G) * y * (x₂ : G)⁻¹) '' c.T)
-    exact False.elim (by simpa using hz')
+    exact False.elim (by simp at hz')
   let U : Finset G := t.biUnion Sx
   have h1notU : (1 : G) ∉ U := by
     intro h
@@ -1466,7 +1464,7 @@ private lemma T_sum_scalarProduct (c : Hyp11 G) (h12 : Hyp12 c)
         simp [hxU, hxT]
       · have hxT : (x : G) ∈ c.T := by
           dsimp [Hyp11.T]
-          simp [Set.mem_diff, x.2, hxU]
+          simp [hxU]
         simp [hxU, hxT]
     calc
       (∑ x : ↥c.H0, if (x : G) ∈ c.T then f x else 0)
@@ -1537,7 +1535,7 @@ private lemma orbitSet_mem_nonempty' (c : Hyp11 G)
 
 /- A system of orbit representatives for the `Λ`-orbits of `Irr(H0)` (a
 re-derivation of the Lemma-2.4 helper, using only public API). -/
-private lemma exists_orbit_reps' (c : Hyp11 G) (h12 : Hyp12 c) :
+private lemma exists_orbit_reps' (c : Hyp11 G) (_h12 : Hyp12 c) :
     ∃ (ι : Type u) (_ : Fintype ι) (rep : ι → ClassFunction (↥c.H0)),
       (∀ i : ι, IsIrreducibleCharacter (rep i)) ∧
       (∀ ν : {ν : ClassFunction (↥c.H0) // IsIrreducibleCharacter ν},
@@ -2080,9 +2078,9 @@ private lemma T_sum_ge (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
     refine Finset.sum_congr rfl ?_
     intro x hx
     by_cases hxT : (x : G) ∈ c.T
-    · rw [if_pos hxT, if_pos hxT]
+    · rw [ite_eq_left hxT, ite_eq_left hxT]
       rw [hχΨT x hxT]
-    · rw [if_neg hxT, if_neg hxT]
+    · rw [ite_eq_right hxT, ite_eq_right hxT]
   have hTsumC : (Tsum : ℂ) = ∑ x : ↥c.H0,
       if (x : G) ∈ c.T then Ψ x * star (Ψ x) else 0 := by
     rw [hTsum_eq]
@@ -2090,9 +2088,9 @@ private lemma T_sum_ge (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
     refine Finset.sum_congr rfl ?_
     intro x hx
     by_cases hxT : (x : G) ∈ c.T
-    · rw [if_pos hxT, if_pos hxT]
+    · rw [ite_eq_left hxT, ite_eq_left hxT]
       exact (Complex.mul_conj (Ψ x)).symm
-    · rw [if_neg hxT, if_neg hxT]
+    · rw [ite_eq_right hxT, ite_eq_right hxT]
       simp
   have hEq0 : (Tsum : ℂ) =
       (Nat.card (↥c.H0) : ℂ) * scalarProduct (↥c.H0) Ψ Ψ -

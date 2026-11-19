@@ -130,7 +130,7 @@ theorem wt_root_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 4
           by_cases hi : i = j
           · subst hi
             simp [hj]
-          · simp [hi, Pi.single_eq_of_ne hi, hwj]
+          · simp [hi, hwj]
         rw [hS, Finset.card_insert_of_notMem (by simp [hj])]
         exact congrArg (· + 1) h5
       omega
@@ -294,7 +294,7 @@ theorem orbit_root_seven (Xg : Subgroup (GL (Fin 8) (ZMod 3))) (h : N7MatHyp Xg)
       have h1 := MulAction.index_stabilizer ↥Xg (repW 2)
       have h2' : MulAction.orbit ↥Xg (repW 2) = {v | OrbV Xg (repW 2) v} := by
         ext v
-        simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq, OrbV, Subgroup.smul_def,
+        simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq, OrbV, Subgroup.smul_def,
           Units.smul_def, Matrix.smul_eq_mulVec]
         constructor
         · rintro ⟨⟨A, hA⟩, rfl⟩

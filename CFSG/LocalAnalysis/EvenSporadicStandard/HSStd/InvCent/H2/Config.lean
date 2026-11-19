@@ -62,10 +62,10 @@ private theorem cfgAux_tv_sq (cfg : H2Cfg G t v J) : (t * v) * (t * v) = 1 := by
     _ = (t * t) * (v * v) := by group
     _ = 1 := by rw [cfg.t_sq, cfg.v_sq, mul_one]
 
-theorem t_mem_kleinV (cfg : H2Cfg G t v J) : t ∈ kleinV t v :=
+theorem t_mem_kleinV (_cfg : H2Cfg G t v J) : t ∈ kleinV t v :=
   Subgroup.mem_sup_left (Subgroup.mem_zpowers t)
 
-theorem v_mem_kleinV (cfg : H2Cfg G t v J) : v ∈ kleinV t v :=
+theorem v_mem_kleinV (_cfg : H2Cfg G t v J) : v ∈ kleinV t v :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers v)
 
 theorem kleinV_le_centralizer (cfg : H2Cfg G t v J) :
@@ -98,8 +98,7 @@ theorem mem_kleinV_iff (cfg : H2Cfg G t v J) {x : G} :
     { carrier := {x | x = 1 ∨ x = t ∨ x = v ∨ x = t * v}
       mul_mem' := by
         rintro x y (rfl | rfl | rfl | rfl) (rfl | rfl | rfl | rfl) <;>
-          simp [ht_t, hv_v, hvt, ht_tv, ht_vt, hv_tv, hv_vt,
-            htv_t, htv_v, hvt_t, hvt_v, htv_tv, htv_vt, hvt_tv, hvt_vt]
+          simp [ht_t, hv_v, hvt, ht_tv, hv_tv, htv_t, htv_v, htv_tv]
       one_mem' := Or.inl rfl
       inv_mem' := by
         rintro x (rfl | rfl | rfl | rfl)

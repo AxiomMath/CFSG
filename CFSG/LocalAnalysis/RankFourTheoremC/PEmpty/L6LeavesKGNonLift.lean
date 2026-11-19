@@ -14,6 +14,7 @@ variable {A : Type} [Group A] [Finite A] {p : ℕ} {Kb Sb Bb Mb : Subgroup A} {z
     ↥H →* MulAut ↥K :=
   (K.normalizerMonoidHom).comp (Subgroup.inclusion hH)
 
+omit [Finite A] in
 theorem act_apply {K H : Subgroup A} (hH : H ≤ normalizer (K : Set A)) (h : ↥H) (k : ↥K) :
     ((act H hH h k : ↥K) : A) = (h : A) * k * (h : A)⁻¹ := rfl
 
@@ -78,6 +79,7 @@ theorem comm_of_act_comm (c : KQCfg A p Kb Sb Bb Mb z) {b : ↥Bb} {s : ↥Sb}
   have h4 : (b : A) * s * (b : A)⁻¹ = s := congrArg Subtype.val h3
   rwa [mul_inv_eq_iff_eq_mul] at h4
 
+omit [Finite A] in
 theorem act_apply_eq_iff {s : ↥Sb} (hS : Sb ≤ normalizer (Kb : Set A)) {k : ↥Kb} :
     act Sb hS s k = k ↔ (s : A) * k = k * s := by
   rw [Subtype.ext_iff, act_apply, mul_inv_eq_iff_eq_mul]

@@ -320,7 +320,7 @@ theorem ggTorusNoFixSC_unitarySplit {K : Type} [Field K] {n d p : ℕ}
     GGTorusNoFixSC p 0 (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro L' _ _ ψ hψ hker hperf A hA hAI _ _ hsc a ha hfix
   obtain ⟨r, ε, U, ζ, τ, φ, -, -, hζ, -, hτ, -, -, -, hM, hτc⟩ :=
     SuSplitRootGen.exists_isCoverTorusModel hK hd hp hpq hψ hker hperf hA hAI hsc

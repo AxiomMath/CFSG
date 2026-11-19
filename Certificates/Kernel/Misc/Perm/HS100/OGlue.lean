@@ -123,7 +123,7 @@ theorem l_unpack {l : ℕ} (hl : l < 24) : s5fLetter l = unpack 100 7 (LK l) := 
   · have hg : PP 100 7 (GK (l - 12)) := by
       have := ppL (l := l - 12) (by omega)
       unfold LK at this
-      rwa [if_pos (by omega)] at this
+      rwa [ite_eq_left (by omega)] at this
     rw [g_unpack (by omega), invCand_PP hg]
 
 theorem eval_unpack (w : List ℕ) (hw : ∀ l ∈ w, l < 24) : ∀ (acc : Array ℕ) (A : ℕ),

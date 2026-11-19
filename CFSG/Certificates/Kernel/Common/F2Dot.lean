@@ -74,7 +74,7 @@ theorem testBit_maskFrom (f : ℕ → Bool) :
     simp only [maskFrom, Nat.testBit_or, testBit_maskFrom f m (k + 1) i]
     by_cases hik : i = k
     · subst hik
-      cases hf : f i <;> simp [hf, Nat.testBit_two_pow]
+      cases hf : f i <;> simp
     · have h1 : (if f k = true then 2 ^ k else 0).testBit i = false := by
         split
         · rw [Nat.testBit_two_pow]; simp; omega

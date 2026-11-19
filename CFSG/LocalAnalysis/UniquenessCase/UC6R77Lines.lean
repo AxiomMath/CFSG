@@ -22,12 +22,12 @@ theorem exists_mem_normalizer_zpowers_of_line {p r : ℕ} [hp : Fact p.Prime] [h
     (hsZ : s ∈ normalizer (Z : Set G)) (hs : orderOf s = p) :
     ∃ y ∈ E, y ∉ Z ∧ s ∈ normalizer (zpowers y : Set G) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   set S : Set (Subgroup G) := {L | L ≤ E ∧ Nat.card L = r} \ {Z} with hSdef
   have himg : {L : Subgroup G | L ≤ E ∧ Nat.card L = r} = map E.subtype ''
       ↑(Finset.univ.filter fun M : Subgroup E => Nat.card M = r) := by
     ext L
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.coe_filter, Finset.mem_univ, true_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.coe_filter, Finset.mem_univ, true_and]
     refine ⟨fun ⟨hLE, hL⟩ => ⟨L.subgroupOf E, ?_, map_subgroupOf_eq_of_le hLE⟩, ?_⟩
     · rw [← hL]
       exact Nat.card_congr (subgroupOfEquivOfLe hLE).toEquiv

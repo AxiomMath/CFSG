@@ -61,7 +61,7 @@ private theorem w183fin_odd_orderOf_mul_of_odd_inf {G : Type*} [Group G] [Finite
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (mul_inv_eq_iff_eq_mul.mp hbz).symm
   have hmem : z ∈ M₁ ⊓ M₂ := Subgroup.mem_inf.mpr ⟨ha hzCa, hb hzCb⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzord : orderOf z = 2 := by
     refine orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1
   have h2dvd : 2 ∣ Nat.card ↥(M₁ ⊓ M₂) := by
@@ -122,7 +122,7 @@ private theorem w183fin_sz8_sup_eq_top
       have hnorm : F ≤ Subgroup.normalizer (P : Subgroup Q) := by
         rw [← hN₀]; exact hZP'leN
       have hsup : IsPGroup 2 ↥(F ⊔ (P : Subgroup Q)) :=
-        IsPGroup.to_sup_of_normal_right' hZP'el.isPGroup (P : Sylow 2 Q).isPGroup' hnorm
+        IsPGroup.to_sup_of_normal_right' hZP'el.isPGroup (P : Sylow 2 Q).isPGroup hnorm
       calc F ≤ F ⊔ (P : Subgroup Q) := le_sup_left
         _ = (P : Subgroup Q) := (P : Sylow 2 Q).maximal_isPGroup.eq_of_ge hsup le_sup_right
     have hFbot : F = ⊥ := by
@@ -142,7 +142,7 @@ private theorem w183fin_sz8_sup_eq_top
     exact even_iff_two_dvd.mpr (h2.trans hdvd)
   have hSEY : fusionStronglyEmbedded (N₀.subgroupOf Y) :=
     stronglyEmbedded_subgroupOf hSE Y hnotY hEven
-  rcases CFSG.Open.Open.bender_strongly_embedded ↥Y (N₀.subgroupOf Y) hSEY with
+  rcases CFSG.Open.Thm.bender_strongly_embedded ↥Y (N₀.subgroupOf Y) hSEY with
     hcyc | ⟨M, N, hMnorm, hNnorm, hMNnorm, hMN, hModd, hNodd, hBender⟩
   · exfalso
     obtain ⟨S, hZsubS⟩ := IsPGroup.exists_le_sylow hZsubel.isPGroup
@@ -245,7 +245,7 @@ private theorem w183fin_finPairGenSz8_gen :
   obtain ⟨a, ha, h3, ⟨e⟩⟩ := exists_mulEquiv_sz_of_isSz hY
   have ha1 : a = 1 := by omega
   subst ha1
-  haveI : Finite Y := Finite.of_equiv (Sz 1) e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv (Sz 1) e.symm.toEquiv
   obtain ⟨P, hP⟩ := exists_sylow_eq_inf_centralizer_of_isElemAbelian ha e h₁
     (by rw [c₁]; norm_num)
   obtain ⟨P', hP'⟩ := exists_sylow_eq_inf_centralizer_of_isElemAbelian ha e h₂
@@ -263,8 +263,8 @@ private theorem w183fin_finPairGenSz8_odd :
   obtain ⟨a', ha', h3, ⟨e⟩⟩ := exists_mulEquiv_sz_of_isSz hY
   have ha1' : a' = 1 := by omega
   subst ha1'
-  haveI : Finite Y := Finite.of_equiv (Sz 1) e.symm.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_equiv (Sz 1) e.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_eq_inf_centralizer_of_isElemAbelian ha' e h₁
     (by rw [c₁]; norm_num)
   obtain ⟨P', hP'⟩ := exists_sylow_eq_inf_centralizer_of_isElemAbelian ha' e h₂

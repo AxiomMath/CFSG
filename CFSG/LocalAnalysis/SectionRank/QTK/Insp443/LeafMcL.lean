@@ -18,7 +18,7 @@ theorem conclK_McL
     ConclK (NativeSporadic.Carrier .McL) L V MK := by
   let φ : NativeSporadic.Carrier .McL ≃* CFSG.Sporadic.Schreier.mclP :=
     CFSG.Sporadic.Schreier.mclPermEquiv
-  haveI : Finite (NativeSporadic.Carrier .McL) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .McL) := Finite.of_injective (⇑φ) φ.injective
   exact ConclK.of_map_mulEquiv φ h.elemAbelian h.le_normalizer
     (McLCls.conclK_K0 (h.map_mulEquiv φ))
 
@@ -26,7 +26,7 @@ theorem forK_McL :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .McL)) := by
   let φ : NativeSporadic.Carrier .McL ≃* CFSG.Sporadic.Schreier.mclP :=
     CFSG.Sporadic.Schreier.mclPermEquiv
-  haveI : Finite (NativeSporadic.Carrier .McL) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .McL) := Finite.of_injective (⇑φ) φ.injective
   exact forK_of_kConfig_three
     CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.nativeRow_McL
     (fun _ _ _ _ _ _ hK e hZ => KConf.false_of_threeMcL hK e hZ) (fun _ _ _ h => conclK_McL h)

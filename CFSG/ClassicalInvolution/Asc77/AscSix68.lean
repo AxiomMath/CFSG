@@ -18,7 +18,7 @@ theorem l6_8 : L6_8 p f := by
   obtain ⟨K, hK, hUK⟩ := hΩ.exists_member_of_mem_USet hp hU
   obtain ⟨V₀, hV₀, hV₀K⟩ := exists_mem_of_mem_etaSet hp hΩ hηS' hK ⟨hU, hUS⟩ hUK
   have hV₀U : V₀ ∈ USet Ω := (hS₁.1 hV₀).1
-  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup'.to_le (sup_le hUS (hηS V₀ hV₀))
+  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup.to_le (sup_le hUS (hηS V₀ hV₀))
   have hdich := hΩ.eq_or_sup_mem_RSet hp hK hU hV₀U hUK hV₀K hT
   have hlie : ∀ V : Subgroup G, (U = V ∨ U ⊔ V ∈ RSet Ω) → V ≤ K := by
     intro V h

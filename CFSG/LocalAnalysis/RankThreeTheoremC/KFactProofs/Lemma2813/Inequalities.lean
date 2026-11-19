@@ -17,6 +17,7 @@ section CT
 
 variable {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
 
+omit [Finite M] in
 theorem ineq_triple_inf (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) :
     ∃ p q r : V3, p ≠ 0 ∧ q ≠ 0 ∧ r ≠ 0 ∧
       fixSub M (Spt p) ⊓ fixSub M (Spt q) ⊓ fixSub M (Spt r) = ⊥ := by
@@ -28,7 +29,7 @@ theorem ineq_triple_inf (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0)
   rw [AddSubgroup.mem_bot]
   exact hM0 m (fun g => hm g (Subgroup.mem_top g))
 
-theorem card_fixSub_Spt_sq {p q : V3} (hp : p ≠ 0) (hq : q ≠ 0) (hpq : p ≠ q) :
+theorem card_fixSub_Spt_sq {p q : V3} (hp : p ≠ 0) (hq : q ≠ 0) (_hpq : p ≠ q) :
     Nat.card (fixSub M (Spt p)) * Nat.card (fixSub M (Spt p)) ≤
       Nat.card M * Nat.card (fixSub M (Spt p ⊔ Spt q)) := by
   have h1 := card_inf_ge (fixSub M (Spt p)) (fixSub M (Spt q))

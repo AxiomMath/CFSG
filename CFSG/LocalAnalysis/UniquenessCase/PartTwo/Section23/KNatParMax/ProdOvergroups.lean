@@ -84,7 +84,7 @@ theorem le_normalizer_or_prodFactor_le {X A B : Type} [Group X] [Group A] [Group
     (hcA : ∀ T : Sylow 2 A, ⁅(⊤ : Subgroup A), Subgroup.normalizer (T : Set A)⁆ = ⊤)
     (S : Sylow 2 X) {Y : Subgroup X} (hY : Subgroup.normalizer (S : Set X) ≤ Y) :
     Y ≤ Subgroup.normalizer (S : Set X) ∨ prodFirstFactor e ≤ Y ∨ prodSecondFactor e ≤ Y := by
-  haveI : Finite X := Finite.of_equiv (A × B) e.symm.toEquiv
+  have : Finite X := Finite.of_equiv (A × B) e.symm.toEquiv
   let T : Sylow 2 (A × B) :=
     Sylow.mapSurjective (p := 2) (f := e.toMonoidHom) e.surjective S
   let P : Subgroup (A × B) := Y.map e.toMonoidHom

@@ -195,7 +195,7 @@ theorem cl_core {L Q V : Subgroup G} (hZ : centerOf L = pCoreOf 2 L) (hQ : IsSyl
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
   set T : Subgroup (↥L ⧸ Z) := (Tsyl : Subgroup (↥L ⧸ Z)) with hTdef
   have hTsyl : IsSylowTwoOf T ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hG : R3c11.SylowGoodCl T := hSG T hTsyl
   set Vbar : Subgroup (↥L ⧸ Z) := (V.subgroupOf L).map π with hVbar
   have hVL : V ≤ L := hVQ.trans hPL

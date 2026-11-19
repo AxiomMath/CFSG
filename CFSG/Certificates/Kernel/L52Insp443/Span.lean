@@ -77,7 +77,7 @@ theorem exists_of_mem_spanK {n : ℕ} (hn : n < 2 ^ 32) (φ : Γ →* Equiv.Perm
     · obtain ⟨x, hx, m, hm, hr⟩ := ih c hc
       refine ⟨x, hx, 2 * m, by rw [List.length_cons, pow_succ]; omega, ?_⟩
       have e : maskProd n (T :: Ts) (2 * m) = compT n (idT n) (maskProd n Ts m) := by
-        rw [maskProd, if_neg (by omega), Nat.mul_div_cancel_left m (by norm_num)]
+        rw [maskProd, ite_eq_right (by omega), Nat.mul_div_cancel_left m (by norm_num)]
       rw [e, ← one_mul (φ x)]
       exact Rep.compT (Rep.idT hn) hr
     · obtain ⟨s, hs, rfl⟩ := List.mem_map.mp hc
@@ -85,7 +85,7 @@ theorem exists_of_mem_spanK {n : ℕ} (hn : n < 2 ^ 32) (φ : Γ →* Equiv.Perm
       refine ⟨f b * y, by rw [hmul, hb, hy], 2 * m + 1,
         by rw [List.length_cons, pow_succ]; omega, ?_⟩
       have e : maskProd n (T :: Ts) (2 * m + 1) = compT n T (maskProd n Ts m) := by
-        rw [maskProd, if_pos (by omega), show (2 * m + 1) / 2 = m by omega]
+        rw [maskProd, ite_eq_left (by omega), show (2 * m + 1) / 2 = m by omega]
       rw [e, map_mul]
       exact Rep.compT hT hr
 
@@ -113,7 +113,7 @@ theorem mem_of_comm_card [Finite Γ] {bs S : List ℕ} (hf : ∀ b ∈ bs, κ (f
     exact hc _ hx b hb
   have himg : κ '' {x : Γ | κ x ∈ S} = (S.toFinset : Set ℕ) := by
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.coe_toFinset]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.coe_toFinset]
     constructor
     · rintro ⟨x, hx, rfl⟩
       exact hx

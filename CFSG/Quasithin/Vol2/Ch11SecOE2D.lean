@@ -106,7 +106,7 @@ private theorem realizes_zmod_two {K : Type} [Field K] [Finite K] (hK : Nat.card
     (FFModel.zornQ ⁅quasithinG2 (ZMod 2), quasithinG2 (ZMod 2)⁆).Realizes H ⊤ Z := by
   obtain ⟨π, hπ⟩ := h
   have hcp : CharP K 2 := charP_two_of_card hK
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]; norm_num
   let ε : K ≃+* ZMod 2 := (ZMod.ringEquivOfPrime K Nat.prime_two hF).symm
   let τ : ↥⁅quasithinG2 K, quasithinG2 K⁆ ≃* ↥⁅quasithinG2 (ZMod 2), quasithinG2 (ZMod 2)⁆ :=

@@ -79,7 +79,7 @@ theorem isSylowTwoOf_of_max [Finite G] {J P : Subgroup G} (hJP : J ≤ P) (hJ2 :
   have hJ2' : IsPGroup 2 (J.subgroupOf P) :=
     hJ2.of_equiv (Subgroup.subgroupOfEquivOfLe hJP).symm
   obtain ⟨S, hS⟩ := hJ2'.exists_le_sylow
-  have hS2 : IsPGroup 2 ((S : Subgroup ↥P).map P.subtype) := S.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S : Subgroup ↥P).map P.subtype) := S.isPGroup.map _
   have hJS : J ≤ (S : Subgroup ↥P).map P.subtype := fun j hj =>
     ⟨⟨j, hJP hj⟩, hS (Subgroup.mem_subgroupOf.2 hj), rfl⟩
   have hle := hmax _ hS2 hJS (Subgroup.map_subtype_le _)

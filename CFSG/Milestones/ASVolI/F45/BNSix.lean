@@ -67,9 +67,10 @@ theorem burnsideF45_bn_vt_inj (i : Bool) {u u' : X}
 
 variable [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem burnsideF45_bn_mem_U_of_pElement (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) {x : X}
     (hx : x ∈ D.B) {k : ℕ} (hk : orderOf x = p ^ k) : x ∈ D.U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Sylow p X := hU.2.1.toSylow (burnsideF45_bn_not_dvd_index D hU)
   have hxp : IsPGroup p (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
@@ -83,6 +84,7 @@ theorem burnsideF45_bn_mem_U_of_pElement (hp : p.Prime) (hU : ChF.IsSylowOf p D.
   rw [h] at hmem
   exact hmem
 
+omit [Finite X] in
 theorem burnsideF45_bn_oPPrime_le_U (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) :
     oPPrime p D.B ≤ D.U := by
   unfold oPPrime
@@ -90,10 +92,11 @@ theorem burnsideF45_bn_oPPrime_le_U (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤
   rintro x ⟨hx, k, hk⟩
   exact burnsideF45_bn_mem_U_of_pElement D hp hU hx hk
 
+omit [Finite X] in
 theorem burnsideF45_bn_U_le_oPPrime (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) :
     D.U ≤ oPPrime p D.B := by
   intro x hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hU.2.1 ⟨x, hx⟩
   have hk' : x ^ p ^ k = 1 := by
     have := congrArg Subtype.val hk
@@ -101,6 +104,7 @@ theorem burnsideF45_bn_U_le_oPPrime (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).1 (orderOf_dvd_of_pow_eq_one hk')
   exact Subgroup.subset_closure ⟨D.U_le_B hx, j, hj⟩
 
+omit [Finite X] in
 theorem burnsideF45_bn_six_trans (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) (i : Bool)
     {w₁ w₂ : V D} (h₁ : (Γ D).Adj (v D i) w₁) (h₁' : w₁ ≠ v D (!i))
     (h₂ : (Γ D).Adj (v D i) w₂) (h₂' : w₂ ≠ v D (!i)) :

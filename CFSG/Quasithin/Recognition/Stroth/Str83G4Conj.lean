@@ -74,6 +74,7 @@ theorem str83G4_not_le_normalizer_z2
   have hZ2bot : Z2 L1 L2 S = ⊥ := le_bot_iff.mp hpc
   exact hZ1ne (le_bot_iff.mp (hZ1Z2.trans (le_of_eq hZ2bot)))
 
+omit [Finite G] in
 private theorem le_normalizer_q1_of_sup (L1 L2 S : Subgroup G) :
     L1 ⊔ S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G) :=
   (sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)).trans
@@ -169,6 +170,7 @@ theorem str83G4_relIndex_q1_conjugate_q2
     Subgroup.relIndex_pointwise_smul (MulAut.conj g⁻¹) (Q2 L1 L2 S) S
   rw [hrelQ, hrelConj, str86_relIndex_q2_s hF hB (by omega) hL2]
 
+omit [Finite G] in
 private theorem str83X_eq_conjClosure_L1 {L1 L2 S : Subgroup G} {a : ℕ}
     (hfr : Str83G4Frame L1 L2 S a) :
     str83X L1 L2 S = conjClosure (Z2 L1 L2 S) L1 := by
@@ -187,6 +189,7 @@ private theorem str83X_eq_conjClosure_L1 {L1 L2 S : Subgroup G} {a : ℕ}
     (Subgroup.mem_normalizer_iff.mp (hBZ hb) z).mp hz
   simpa [mul_assoc] using mem_conjClosure (Z := Z2 L1 L2 S) (H := L1) hl hbz
 
+omit [Finite G] in
 private theorem iInf_conjugate_q2_le_centralizer_str83X {L1 L2 S : Subgroup G} {a : ℕ}
     (hfr : Str83G4Frame L1 L2 S a) :
     (⨅ (g : G) (_ : g ∈ L1 ⊔ S), CFSG.conjugate (Q2 L1 L2 S) g) ≤
@@ -209,7 +212,6 @@ private theorem iInf_conjugate_q2_le_centralizer_str83X {L1 L2 S : Subgroup G} {
     have hcent : CFSG.conjugate (Q2 L1 L2 S) l⁻¹ ≤
         Subgroup.centralizer (CFSG.conjugate (Z2 L1 L2 S) l⁻¹ : Set G) := by
       intro q hq
-      change q ∈ Subgroup.centralizer (CFSG.conjugate (Z2 L1 L2 S) l⁻¹ : Set G)
       rw [Subgroup.mem_centralizer_iff]
       intro w hw
       change w ∈ CFSG.conjugate (Z2 L1 L2 S) l⁻¹ at hw
@@ -452,7 +454,7 @@ theorem str83G4_normalizer_z2_eq
             Subgroup.normalizer (Z2 L1 L2 S : Set G) :=
           le_normalizer_z2_of_sylow (hQ1S hqQ1)
         have hnNZ' : (n : G) ∈ Subgroup.normalizer (Z2 L1 L2 S : Set G) := hnNZ.2
-        have heq : h = (n : G) * ((n⁻¹ * ⟨h, hh⟩ : ↥H) : G) := by simp [mul_assoc]
+        have heq : h = (n : G) * ((n⁻¹ * ⟨h, hh⟩ : ↥H) : G) := by simp
         rw [heq]
         exact (Subgroup.mem_inf.mpr
           ⟨H.mul_mem n.2 (n⁻¹ * ⟨h, hh⟩).2,

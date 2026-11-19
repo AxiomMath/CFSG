@@ -49,7 +49,7 @@ private theorem D2L34R27.exists_escape_aux (c : D2L34R27 G d P M A H R Rbar K T)
         (K₁ : Subgroup (N₁ ⧸ primeComplementCore (G := N₁) 3)),
         D2L34BetaConf3 d₁ P M E N₁ E₀ Rbar₁ K₁)) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := c.amb
+  have := c.amb
   have hc := c.ctx.conf
   have hEc : Nat.card E = 3 ^ 2 := by rw [hE9]; norm_num
   obtain ⟨N₁, hNN₁, hN₁⟩ := exists_maximal_twoLocal hN2
@@ -59,7 +59,7 @@ private theorem D2L34R27.exists_escape_aux (c : D2L34R27 G d P M A H R Rbar K T)
   obtain ⟨S, hXS⟩ := hXp.exists_le_sylow
   set E₀ : Subgroup G := (S : Subgroup N₁).map N₁.subtype
   have hXE₀ : X ≤ E₀ := fun x hx => ⟨⟨x, hXN₁ hx⟩, hXS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hE₀p : IsPGroup 3 E₀ := S.isPGroup'.map N₁.subtype
+  have hE₀p : IsPGroup 3 E₀ := S.isPGroup.map N₁.subtype
   have hErank : 2 ≤ Open.pRank 3 E := le_pRank_of_isElemAbelian Nat.prime_three hEel hEc
   have hX2 : 2 ≤ Open.pRank 3 X := hErank.trans (pRank_mono 3 Nat.prime_three hEX)
   have hE₀M : E₀ ≤ M := le_of_pGroup_of_normRankTwo c.ctx.normRankTwo hE₀p hXE₀ hXM hX2

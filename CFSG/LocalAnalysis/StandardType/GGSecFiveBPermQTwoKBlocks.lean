@@ -75,15 +75,15 @@ theorem nsCore_apply_of_triv {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ}
       · by_cases hab : a = b
         · subst hab
           simp
-        · rw [if_neg hab, if_neg (fun h => hab (by simpa using h))]
+        · rw [ite_eq_right hab, ite_eq_right (fun h => hab (by simpa using h))]
       · by_cases hab : b = a
         · subst hab
           simp
-        · rw [if_neg hab, if_neg (fun h => hab (by simpa using h))]
+        · rw [ite_eq_right hab, ite_eq_right (fun h => hab (by simpa using h))]
     · rw [nsCore, fromBlocks_apply₁₁, fromBlocks_apply₁₁, blockDiagonal_apply_ne _ _ _ hii,
         blockDiagonal_apply_ne _ _ _ (Ne.symm hii), one_apply, one_apply,
-        if_neg (fun h => hii (by simp at h; exact h.2)),
-        if_neg (fun h => hii (by simp at h; exact h.2.symm))]
+        ite_eq_right (fun h => hii (by simp at h; exact h.2)),
+        ite_eq_right (fun h => hii (by simp at h; exact h.2.symm))]
       exact ⟨rfl, rfl⟩
   · simp [nsCore]
   · simp [nsCore]
@@ -92,11 +92,11 @@ theorem nsCore_apply_of_triv {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ}
     · by_cases hjj : j = j'
       · subst hjj
         simp
-      · rw [if_neg hjj, if_neg (fun h => hjj (by simpa using h))]
+      · rw [ite_eq_right hjj, ite_eq_right (fun h => hjj (by simpa using h))]
     · by_cases hjj : j' = j
       · subst hjj
         simp
-      · rw [if_neg hjj, if_neg (fun h => hjj (by simpa using h))]
+      · rw [ite_eq_right hjj, ite_eq_right (fun h => hjj (by simpa using h))]
 
 theorem nsMat_apply_of_left {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ} {p : Fin m}
     (hp : NsTriv k (ε p)) (q : Fin m) :
@@ -106,7 +106,7 @@ theorem nsMat_apply_of_left {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ} {
   by_cases hpq : p = q
   · subst hpq
     simp
-  · rw [if_neg (fun h => hpq (ε.injective h)), if_neg hpq]
+  · rw [ite_eq_right (fun h => hpq (ε.injective h)), ite_eq_right hpq]
 
 theorem nsMat_apply_of_right {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ} {q : Fin m}
     (hq : NsTriv k (ε q)) (p : Fin m) :
@@ -116,7 +116,7 @@ theorem nsMat_apply_of_right {C : Matrix (Fin e) (Fin e) F} {k : Fin s → ℕ} 
   by_cases hpq : p = q
   · subst hpq
     simp
-  · rw [if_neg (fun h => hpq (ε.injective h)), if_neg hpq]
+  · rw [ite_eq_right (fun h => hpq (ε.injective h)), ite_eq_right hpq]
 
 theorem commute_of_standard {J : Finset (Fin m)} {A X : Matrix (Fin m) (Fin m) F}
     (hA : ∀ p q, (p ∈ J ∨ q ∈ J) → A p q = (1 : Matrix (Fin m) (Fin m) F) p q)
@@ -138,14 +138,14 @@ theorem commute_of_standard {J : Finset (Fin m)} {A X : Matrix (Fin m) (Fin m) F
         simp only [mul_apply]
         refine Finset.sum_eq_zero fun l _ => ?_
         by_cases hl : l ∈ J
-        · rw [hA l q (Or.inl hl), one_apply, if_neg (fun h : l = q => hq (h ▸ hl)), mul_zero]
-        · rw [hX p l (Or.inr hl), one_apply, if_neg (fun h : p = l => hl (h ▸ hp)), zero_mul]
-      rw [h2, hX p q (Or.inr hq), one_apply, if_neg (fun h : p = q => hq (h ▸ hp))]
+        · rw [hA l q (Or.inl hl), one_apply, ite_eq_right (fun h : l = q => hq (h ▸ hl)), mul_zero]
+        · rw [hX p l (Or.inr hl), one_apply, ite_eq_right (fun h : p = l => hl (h ▸ hp)), zero_mul]
+      rw [h2, hX p q (Or.inr hq), one_apply, ite_eq_right (fun h : p = q => hq (h ▸ hp))]
   · have h1 : (A * X) p q = (A * (1 : Matrix (Fin m) (Fin m) F)) p q := by
       simp only [mul_apply]
       refine Finset.sum_congr rfl fun l _ => ?_
       by_cases hl : l ∈ J
-      · rw [hA p l (Or.inr hl), one_apply, if_neg (fun h : p = l => hp (h ▸ hl)), zero_mul,
+      · rw [hA p l (Or.inr hl), one_apply, ite_eq_right (fun h : p = l => hp (h ▸ hl)), zero_mul,
           zero_mul]
       · rw [hX l q (Or.inl hl)]
     have h2 : (X * A) p q = ((1 : Matrix (Fin m) (Fin m) F) * A) p q := by
@@ -205,7 +205,7 @@ private theorem kT_singleton_eq (k : Fin s) :
   funext i
   by_cases hik : i = k
   · subst hik
-    simp only [kT, Finset.mem_singleton, if_true, Pi.single_eq_same]
+    simp only [kT, Finset.mem_singleton, ite_true, Pi.single_eq_same]
     rfl
   · simp [kT, hik]
 
@@ -345,7 +345,7 @@ theorem commutator_mem_coordBlockSL (hprim : IsPrimitiveRoot (AdjoinRoot.root g)
         Pi.single_eq_of_ne hk'i _
       simp only [Sum.elim_inl]
       rw [hpresc k' hk' _ hv, map_zero, Finsupp.zero_apply,
-        if_neg (fun h => by rw [h, hεq] at hεp; simp at hεp; exact hk'i hεp.2.symm)]
+        ite_eq_right (fun h => by rw [h, hεq] at hεp; simp at hεp; exact hk'i hεp.2.symm)]
     · rw [hentry, hq, hcol, hfixblk i hi, ← hq, Pi.single_apply]
   ·
     have hp : p ∉ fixS ε Sᶜ := by
@@ -375,7 +375,7 @@ theorem commutator_mem_coordBlockSL (hprim : IsPrimitiveRoot (AdjoinRoot.root g)
     rw [hentry, hq, hcol, frameCoords_apply, hεp]
     simp only [Sum.elim_inl]
     rw [hpresc k' hk' _ rfl, map_zero, Finsupp.zero_apply,
-      if_neg (fun h => by rw [h, hεq] at hεp; simp at hεp)]
+      ite_eq_right (fun h => by rw [h, hεq] at hεp; simp at hεp)]
 
 end Commutator
 
@@ -605,7 +605,7 @@ theorem blockComm [Finite G]
     have hz₀ : SLNS.nsSL ε hC (SLNS.kT {k₁}) ∈ coordBlockSL (ZMod 2) J :=
       nsSL_mem_coordBlockSL ε hC fun i hi => by
         simp only [SLNS.kT, Finset.mem_singleton]
-        rw [if_neg (fun h : i = k₁ => hi (h ▸ hk₁))]
+        rw [ite_eq_right (fun h : i = k₁ => hi (h ▸ hk₁))]
     rw [← range_blockSLOn] at hz₀
     obtain ⟨z, hz⟩ := hz₀
     have hzne : z ≠ 1 := by
@@ -642,13 +642,13 @@ theorem blockComm [Finite G]
     have hwR : w ∈ R := by
       rw [hw, hιdef, frameHom_ofAdd]
       refine ⟨_, nsSL_mem_coordBlockSL ε hC fun i hi => ?_, rfl⟩
-      simp only [htS, if_neg hi, ZMod.val_zero]
+      simp only [htS, ite_eq_right hi, ZMod.val_zero]
     have hhB : e * w⁻¹ ∈ Bs := Bs.mul_mem he (Bs.inv_mem (hιB _))
     refine ⟨e * w⁻¹, ?_, w, ⟨hιB _, hwR⟩, by group⟩
     rw [show e * w⁻¹ = ((b * (⟨w, hιB _⟩ : ↥Bs)⁻¹ : ↥Bs) : G) from rfl, mem_coordZeroOn_iff,
       coords_mul, coords_inv, hιcoords]
     intro k hk
-    simp only [toAdd_mul, toAdd_inv, toAdd_ofAdd, Pi.add_apply, Pi.neg_apply, htS, if_pos hk]
+    simp only [toAdd_mul, toAdd_inv, toAdd_ofAdd, Pi.add_apply, Pi.neg_apply, htS, ite_eq_left hk]
     exact add_neg_cancel _
   ·
     intro c hc

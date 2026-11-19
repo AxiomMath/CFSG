@@ -95,7 +95,7 @@ theorem sylow_isMulCommutative_of_le [Finite G] {p : ℕ} (hp : p.Prime) {U E : 
   set T : Subgroup G := (S : Subgroup ↥U).map U.subtype with hT
   have hTU : T ≤ U := Subgroup.map_subtype_le _
   have hTE : T ≤ E := hTU.trans hUE
-  have hTp : IsPGroup p ↥T := S.isPGroup'.map U.subtype
+  have hTp : IsPGroup p ↥T := S.isPGroup.map U.subtype
   have hTp' : IsPGroup p ↥(T.subgroupOf E) :=
     hTp.of_equiv (Subgroup.subgroupOfEquivOfLe hTE).symm
   obtain ⟨Q, hQ⟩ := hTp'.exists_le_sylow
@@ -124,7 +124,7 @@ theorem mem_kappaPrimes_of_orderOf_eq [Finite G] {q : ℕ} {M : Subgroup G} {z :
     ⟨⟨z, hzM⟩, hS (Subgroup.mem_zpowers _), rfl⟩
   have hcyc : IsCyclic ((S : Subgroup ↥M).map M.subtype : Subgroup G) := by
     rw [isCyclic_map_subtype_iff]
-    exact isCyclic_of_elementaryAbelianPRank_le_one hq hodd S.isPGroup'
+    exact isCyclic_of_elementaryAbelianPRank_le_one hq hodd S.isPGroup
       (le_trans (elementaryAbelianPRank_subgroup_le hq.one_lt _) hrank.le)
   refine mem_kappaPrimes_iff.2 ⟨hq, ?_, hnotσ, S, hcyc, z, hzS, ?_, hcent⟩
   · rw [← hz]; exact Subgroup.orderOf_dvd_natCard M hzM

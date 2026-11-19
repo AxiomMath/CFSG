@@ -43,12 +43,12 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
         ((fX (CoxeterMatrix.E₈.simple i) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs))
 
 private theorem l6m8_symmetrizedCartan_E8 :
-    (Tag.E8).symmetrizedCartan = CartanMatrix.E₈ := by
+    (Tag.E8).symmetrizedCartan = (CartanMatrix.E 8) := by
   ext i j
   fin_cases i <;> fin_cases j <;> decide
 
 private lemma l6m8_iform_eq (x y : Fin Tag.E8.rank → ℤ) :
-    iform (τ := .E8) x y = ∑ k, ∑ l, x k * CartanMatrix.E₈ k l * y l := by
+    iform (τ := .E8) x y = ∑ k, ∑ l, x k * (CartanMatrix.E 8) k l * y l := by
   simp only [CFSG.LieType.Steinberg.Adjoint.iform, l6m8_symmetrizedCartan_E8]
   rfl
 
@@ -69,7 +69,7 @@ private lemma l6m8_marks_ne :
 private lemma l6m8_pair_iform {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (hD8 : Fin Tag.E8.rank → V)
     (αD : Fin Tag.E8.rank → Module.Dual (ZMod p) V)
-    (hpairD : ∀ i j : Fin Tag.E8.rank, αD i (hD8 j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpairD : ∀ i j : Fin Tag.E8.rank, αD i (hD8 j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (x y : Fin Tag.E8.rank → ℤ) :
     (∑ k, ((x k : ℤ) : ZMod p) • αD k) (∑ l, ((y l : ℤ) : ZMod p) • hD8 l)
       = ((iform (τ := .E8) x y : ℤ) : ZMod p) := by
@@ -99,8 +99,8 @@ theorem ggMaxRank_sideChain {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
   classical
   subst hp
   obtain ⟨V, hVadd, hVmod, ι, φD, hD8, αD, hlinD, hreflD, hpairD, ⟨f, hf⟩, hclD, hsepD⟩ := hD
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   have hrefl8 : ∀ i : Fin 8,
       GGIsReflection 3 ((f (CoxeterMatrix.E₈.simple i) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs) :=
     fun i => by rw [hf i]; exact hreflD i
@@ -198,7 +198,7 @@ theorem ggMaxRank_sideChain {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
           ggMaxRankPairing 3 0 0 false (Sum.inl i) (Sum.inr 0)
         rw [l6m8_pair_iform hD8 αD hpairD (c i) b, iform_comm (c i) b, hbpair i]
         fin_cases i <;>
-          simp [ggMaxRankPairing, ggMaxRankEdge, ggMaxRankEmb] <;> norm_num
+          simp [ggMaxRankPairing, ggMaxRankEdge]
     | inr k =>
       fin_cases k
       cases o' with
@@ -207,13 +207,13 @@ theorem ggMaxRank_sideChain {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
           ggMaxRankPairing 3 0 0 false (Sum.inr 0) (Sum.inl j)
         rw [l6m8_pair_iform hD8 αD hpairD b (c j), hbpair j]
         fin_cases j <;>
-          simp [ggMaxRankPairing, ggMaxRankEdge, ggMaxRankEmb] <;> norm_num
+          simp [ggMaxRankPairing, ggMaxRankEdge]
       | inr k' =>
         fin_cases k'
         change (∑ k, (b k : ZMod 3) • αD k) (∑ l, (b l : ZMod 3) • hD8 l) =
           ggMaxRankPairing 3 0 0 false (Sum.inr 0) (Sum.inr 0)
         rw [l6m8_pair_iform hD8 αD hpairD b b, hbb]
-        simp [ggMaxRankPairing, ggMaxRankEmb]
+        simp [ggMaxRankPairing]
   have hself : ∀ o, αv o (hv o) = 2 := by
     intro o
     rw [hpair_all o o]

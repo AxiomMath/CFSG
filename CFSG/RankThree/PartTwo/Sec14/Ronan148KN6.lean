@@ -55,7 +55,7 @@ theorem aschbacherSolvableCore_eq_bot_of_simple_not_solvable {S : Type} [Group S
 theorem aschbacherSolvableCore_eq_bot_of_mulEquiv {S T : Type} [Group S] [Finite S] [Group T]
     [IsSimpleGroup T] (e : S ≃* T) (hns : ¬ Group.IsSolvable T) :
     aschbacherSolvableCore 3 S = ⊥ := by
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup S := e.isSimpleGroup
   refine aschbacherSolvableCore_eq_bot_of_simple_not_solvable ?_
   intro hs
   exact hns (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
@@ -66,9 +66,9 @@ theorem isSimpleGroup_projSL_three_field (p f : ℕ) [Fact p.Prime] :
 
 theorem not_isSolvable_projSL_three (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) :
     ¬ Group.IsSolvable (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) := by
-  haveI := isSimpleGroup_projSL_three_field p f
+  have := isSimpleGroup_projSL_three_field p f
   by_cases hq2 : 2 < p ^ f
-  · haveI : Group.IsPerfect (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) := by
+  · have : Group.IsPerfect (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) := by
       rw [Sec13.projSL_eq]
       exact Sec13.isPerfect_projImage_slPi (Sec13.piField_galoisField p f hf) hq2
     exact Group.IsPerfect.not_isSolvable _
@@ -77,17 +77,17 @@ theorem not_isSolvable_projSL_three (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) :
       have h2 : 2 ≤ p := (Fact.out : p.Prime).two_le
       have h3 : p ≤ p ^ f := Nat.le_self_pow (by omega) p
       omega
-    haveI : Finite (GaloisField p f) :=
+    have : Finite (GaloisField p f) :=
       Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ (Fact.out : p.Prime).ne_zero)
     have hcard : Nat.card (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) = 168 := by
       obtain ⟨ν⟩ := CFSG.RankThree.PartTwo.KFacts.nonempty_sl3_mulEquiv_projSL
         (F := GaloisField p f) (by simp [hF, hq])
-      rw [← Nat.card_congr ν.toEquiv, CFSG.RankThree.PartTwo.KFacts.card_sl_three_eq, hF, hq] <;>
+      rw [← Nat.card_congr ν.toEquiv, CFSG.RankThree.PartTwo.KFacts.card_sl_three_eq, hF, hq];
         norm_num
     intro hs
     have hcomm : ∀ a b : CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f),
         a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.mpr hs
-    letI : CommGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
+    let : CommGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
       { (inferInstance : Group (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f))) with
         mul_comm := hcomm }
     have hp : (Nat.card (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f))).Prime :=
@@ -97,9 +97,9 @@ theorem not_isSolvable_projSL_three (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) :
 
 theorem not_isSolvable_projSU_three (p f : ℕ) [Fact p.Prime] (hf : 1 ≤ f) (hq2 : 2 < p ^ f) :
     ¬ Group.IsSolvable (CFSG.Assembly.RankThreeEven.projSU 3 p f) := by
-  haveI := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two p f
+  have := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two p f
     hf (by omega)
-  haveI : Group.IsPerfect (CFSG.Assembly.RankThreeEven.projSU 3 p f) := by
+  have : Group.IsPerfect (CFSG.Assembly.RankThreeEven.projSU 3 p f) := by
     rw [Sec13.projSU_eq]
     exact Sec13.isPerfect_projImage_slPi (Sec13.piField_galoisField_two p f hf) hq2
   exact Group.IsPerfect.not_isSolvable _
@@ -109,7 +109,7 @@ theorem isSimpleGroup_alt_seven : IsSimpleGroup (alternatingGroup (Fin 7)) :=
 
 theorem not_isSolvable_alt_seven : ¬ Group.IsSolvable (alternatingGroup (Fin 7)) := by
   intro hs
-  haveI := isSimpleGroup_alt_seven
+  have := isSimpleGroup_alt_seven
   have hcomm : ∀ a b : alternatingGroup (Fin 7), a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr hs
   have h01 : (0 : Fin 7) ≠ 1 := by decide
@@ -117,10 +117,10 @@ theorem not_isSolvable_alt_seven : ¬ Group.IsSolvable (alternatingGroup (Fin 7)
   have h13 : (1 : Fin 7) ≠ 3 := by decide
   have h1 : (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 2) ∈ alternatingGroup (Fin 7) := by
     rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap h01,
-      Equiv.Perm.sign_swap h12] <;> decide
+      Equiv.Perm.sign_swap h12]; decide
   have h2 : (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 3) ∈ alternatingGroup (Fin 7) := by
     rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap h01,
-      Equiv.Perm.sign_swap h13] <;> decide
+      Equiv.Perm.sign_swap h13]; decide
   have key : (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 2) *
       (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 3) ≠
       (Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 3) *
@@ -134,7 +134,7 @@ theorem isSimpleGroup_of_isLThreePi_not_solvable {X : Type} [Group X] [Finite X]
   obtain ⟨p, e, hp, he, hiso⟩ := hX
   unfold Sec4.IsoLThreePi at hiso
   rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨hmod, ⟨φ⟩⟩
-  · haveI := isSimpleGroup_projSL_three_field p e
+  · have := isSimpleGroup_projSL_three_field p e
     exact φ.isSimpleGroup
   · by_cases hq : p ^ e = 2
     · exfalso
@@ -148,9 +148,9 @@ theorem isSimpleGroup_of_isLThreePi_not_solvable {X : Type} [Group X] [Finite X]
         have h2 : 2 ^ e = 2 ^ 1 := by simpa using hq
         exact Nat.pow_right_injective (le_refl 2) h2
       subst he1
-      haveI := Sec13.isSolvable_projSU_two
+      have := Sec13.isSolvable_projSU_two
       exact hns (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
-    · haveI := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two
+    · have := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two
         p e he hq
       exact φ.isSimpleGroup
 
@@ -254,7 +254,7 @@ theorem range_kappa_ne_bot [Finite Γ] {A L K : Subgroup Γ} {e : Γ} (h : Sig14
       map_mul' := fun _ _ => rfl }
   have hinj : Function.Injective f := fun k k' hkk => congrArg Subtype.val hkk
   have hsK : Group.IsSolvable K := Group.isSolvable_of_isSolvable_injective hinj
-  haveI : Group.IsPerfect K := h.isPerfect
+  have : Group.IsPerfect K := h.isPerfect
   exact Group.IsPerfect.not_isSolvable K hsK
 
 end Image

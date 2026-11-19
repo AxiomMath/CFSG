@@ -18,12 +18,12 @@ namespace Lemma1314
   carrier := {k | x k = k}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_inv, ha]
 
 @[expose] def PumpupVia (p : ℕ) (J : Type) [Group J] (K : Type) [Group K] [Finite K]
@@ -73,28 +73,28 @@ namespace Lemma1314
     ∀ (K B : Subgroup Y), IsComponentOf K ⊤ → IsElemAbelian 5 B →
       IsSporType .Fi23 ↥K → IsGMinusOne 5 B K
 
-@[expose] abbrev L0bOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (b : G) : Subgroup G :=
+abbrev L0bOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (b : G) : Subgroup G :=
   GLAPLayer p (L0 ⊓ Subgroup.centralizer ({b} : Set G))
 
-@[expose] abbrev LOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (d b : G) : Subgroup G :=
+abbrev LOf (p : ℕ) {G : Type} [Group G] (L0 : Subgroup G) (d b : G) : Subgroup G :=
   ⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({d} : Set G)), GLBConj g (L0bOf p L0 b)
 
 @[expose] def PumpupBlock : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
-    (h : Cex1310 G m p B M E A D T R L0 d) {U : Subgroup G} (hU : IsU1312 p B M D L0 d U)
-    {b : G} (hb : b ∈ centBar p U (L1of p M D L0)) (hb1 : b ≠ 1),
+    (_h : Cex1310 G m p B M E A D T R L0 d) {U : Subgroup G} (_hU : IsU1312 p B M D L0 d U)
+    {b : G} (_hb : b ∈ centBar p U (L1of p M D L0)) (_hb1 : b ≠ 1),
     ∃ x : MulAut (barOf p (LOf p L0 d b)), PumpupVia p (barOf p (L0bOf p L0 b)) (barOf p (LOf p L0 d b)) x
 
 @[expose] def KHatBlock : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
-    (h : Cex1310 G m p B M E A D T R L0 d) {U : Subgroup G} (hU : IsU1312 p B M D L0 d U)
-    {b : G} (hb : b ∈ centBar p U (L1of p M D L0)) (hb1 : b ≠ 1),
+    (_h : Cex1310 G m p B M E A D T R L0 d) {U : Subgroup G} (_hU : IsU1312 p B M D L0 d U)
+    {b : G} (_hb : b ∈ centBar p U (L1of p M D L0)) (_hb1 : b ≠ 1),
     CFSG.LocalAnalysis.GLTheoremA.IsKHat (barOf p (LOf p L0 d b))
 
 @[expose] def ExcBlock : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
-    (h : Cex1310 G m p B M E A D T R L0 d) (h139a : Prop139a p M D) {U : Subgroup G}
-    (hU : IsU1312 p B M D L0 d U) {b : G} (hb : b ∈ centBar p U (L1of p M D L0)) (hb1 : b ≠ 1),
+    (_h : Cex1310 G m p B M E A D T R L0 d) (_h139a : Prop139a p M D) {U : Subgroup G}
+    (_hU : IsU1312 p B M D L0 d U) {b : G} (_hb : b ∈ centBar p U (L1of p M D L0)) (_hb1 : b ≠ 1),
     p = 5 →
     (∃ (ε : Bool) (n : ℕ), 1 ≤ n ∧ IsOmegaTwo ε (n + 1) (barOf p (L0bOf p L0 b)) ∧
       HasFixedPointFreeOrder ε n p) →
@@ -103,7 +103,7 @@ namespace Lemma1314
 
 @[expose] def ConnBlock : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
-    (h : Cex1310 G m p B M E A D T R L0 d) (h139a : Prop139a p M D), 4 ≤ CFSG.Open.pRank p A →
+    (_h : Cex1310 G m p B M E A D T R L0 d) (_h139a : Prop139a p M D), 4 ≤ CFSG.Open.pRank p A →
     IsKConnectedIn p 3 ⊤ A B
 
 section Transport
@@ -231,7 +231,7 @@ theorem le_of_gMinusOne {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hnorm : ∀ E : Subgroup G, E ≤ F → 2 ≤ CFSG.Open.pRank p E → Subgroup.normalizer (E : Set G) ≤ M)
     (hcore : GLAPPrimeCoreOf p C ≤ M) (hG : IsGMinusOne p (barX p C F) (barX p C L))
     (hk : 3 ≤ CFSG.Open.pRank p F) : L ≤ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : CFSG.Open.pRank p (barX p C F) = CFSG.Open.pRank p F :=
     rank_barX_of_isPGroup hp hF hFC
   have h1 : barX p C L ≤ GLBCore p (CFSG.Open.pRank p F - 1) (barX p C F) := by

@@ -32,7 +32,7 @@ private theorem fbridge_commutator_quot_eq_top {Q : Type*} [Group Q] (N : Subgro
 
 private theorem fbridge_center_quot_eq_bot {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Q ⧸ Subgroup.center Q)) with h | h
   · exact h
   · exfalso
@@ -79,12 +79,14 @@ private noncomputable def fbridgeF (L : Subgroup G) :
     ↥L →* (PQuot p L ⧸ Subgroup.center (PQuot p L)) :=
   (QuotientGroup.mk' (Subgroup.center (PQuot p L))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥L))
 
+omit [Finite G] in
 private theorem fbridgeF_surjective (L : Subgroup G) : Function.Surjective (fbridgeF (p := p) L) := by
   intro y
   obtain ⟨z, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center (PQuot p L)) y
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore p ↥L) z
   exact ⟨x, rfl⟩
 
+omit [Finite G] in
 private theorem fbridge_ker {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hO : GLAPPrimeCore p ↥L ≠ ⊤) : (fbridgeF (p := p) L).ker = Subgroup.center ↥L := by
   have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
@@ -126,6 +128,7 @@ private noncomputable def fbridgeE {L : Subgroup G} (hq : CFSG.Open.IsQuasisimpl
   (QuotientGroup.quotientMulEquivOfEq (fbridge_ker hq hO).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (fbridgeF (p := p) L) (fbridgeF_surjective L))
 
+omit [Finite G] in
 private theorem fbridgeE_mk {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hO : GLAPPrimeCore p ↥L ≠ ⊤) (l : ↥L) :
     fbridgeE hq hO (QuotientGroup.mk l) = QuotientGroup.mk (QuotientGroup.mk l) := rfl

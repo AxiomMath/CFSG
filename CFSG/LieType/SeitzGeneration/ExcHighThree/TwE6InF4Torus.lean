@@ -52,7 +52,7 @@ theorem zSplit_twE6_good (k K : Type) [Field k] [Finite k] [Field K] [Algebra k 
         apply hi
         rw [← hperm3] at h
         exact rhoE6'.injective h
-      rw [if_neg hi, if_neg hne]
+      rw [ite_eq_right hi, ite_eq_right hne]
   have hmem : CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit Tag.E6 a ∈ twistedFixedGroup TwistTag.E6 k (RingHom.id k) := by
     refine (mem_twistedFixedGroup_iff_twistHom _ _ _).2 ⟨
       CFSG.SeitzReduction.E6Pilot.rootDiagUnit_corootTuple_mem_adjointGroup branchDelta ω,
@@ -76,7 +76,7 @@ theorem zSplit_twE6_good (k K : Type) [Field k] [Finite k] [Field K] [Algebra k 
   refine ⟨z, hF4, ?_⟩
   intro i hi d
   have hJ : a i = 1 := by
-    rw [ha_val, if_neg]
+    rw [ha_val, ite_eq_right]
     rcases hi with rfl | rfl | rfl | rfl <;> decide
   have hbc : baseChangeGL (algebraMap k K) (z : ModGL TwistTag.E6.tag k) =
       (CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit Tag.E6 (fun l => Units.map (algebraMap k K).toMonoidHom (a l)) : ModGL Tag.E6 K) := by

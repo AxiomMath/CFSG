@@ -107,7 +107,7 @@ theorem sp_core_one (f : LinearMap.BilinForm (ZMod 2) W) (hfalt : f.IsAlt)
         Nonempty (↥L' ≃* alternatingGroup (Fin 6)) := by
   classical
   let EΓ : Subgroup (W ≃ₗ[ZMod 2] W) := E'.map (TauCeti.BilinForm.isometryGroup f).subtype
-  haveI : Fintype EΓ := Fintype.ofFinite _
+  have : Fintype EΓ := Fintype.ofFinite _
   have hEΓ : IsElemAbelian 3 EΓ :=
     X1Sp.isElemAbelian_map_hom 3 (TauCeti.BilinForm.isometryGroup f).subtype hE'
   have hcardΓ : Fintype.card EΓ = 3 ^ n := by
@@ -156,7 +156,7 @@ theorem sp_core_one (f : LinearMap.BilinForm (ZMod 2) W) (hfalt : f.IsAlt)
       rw [h0, finrank_bot] at this
       omega)
     have h1 : e i2 = 1 := congrArg Subtype.val h
-    have h2 : e i2 x = ρ i2 x := by rw [hact i2 i2 x hx, if_pos rfl]
+    have h2 : e i2 x = ρ i2 x := by rw [hact i2 i2 x hx, ite_eq_left rfl]
     have h3 : ρ i2 x = x := by
       rw [← h2, h1]
       rfl
@@ -219,7 +219,7 @@ end X1F4
 theorem x1F4FrameGood_holds : X1F4FrameGood := by
   intro K _ _ _ hK
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK]
   obtain ⟨ιs⟩ := X1Sp.exists_stdIso 3
   set D : Subgroup (adjointGroup .F4 K) := C3Levi K with hD
@@ -234,7 +234,7 @@ theorem x1F4FrameGood_holds : X1F4FrameGood := by
     rw [hE'def]
     exact X1Sp.isElemAbelian_map_hom 3 _
       (X1F4.isElemAbelian_comap Subtype.val_injective hE3el)
-  haveI : Fintype E' := Fintype.ofFinite _
+  have : Fintype E' := Fintype.ofFinite _
   have hE'card : Fintype.card E' = 3 ^ 3 := by
     rw [← Nat.card_eq_fintype_card, hE'def, Subgroup.card_map_of_injective Θ.injective,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE3D).toEquiv,
@@ -296,8 +296,8 @@ theorem x1F4FrameGood_holds : X1F4FrameGood := by
   have hq : CFSG.Open.IsQuasisimple ↥L :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv χ.symm
       X1Sp.isQuasisimple_alt6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥L := χ.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥L := χ.isSimpleGroup
   have hnc6 : ¬ IsMulCommutative (alternatingGroup (Fin 6)) := by
     rw [alternatingGroup.isMulCommutative_iff_card_le_three]
     simp

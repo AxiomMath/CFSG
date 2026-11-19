@@ -124,6 +124,7 @@ theorem etaB_injective (P : D4Par n X σ) : Function.Injective (etaB P) :=
     (CFSG.RankThree.PartOne.SEITZ7.psiB_injective σ.toRingHom P.sigma_cube_hom)
 
 open CFSG.RankThree.PartOne.SEITZ7 in
+omit [Finite X] in
 theorem xd_simple_unit (i : Fin CFSG.LieType.Steinberg.TwistedD4.d4.rank) {p : ℕ}
     (hp : CFSG.LieType.Steinberg.TwistedD4.d4Root p = Pi.single i 1) (c : X) :
     ((xd p c : adjointGroup CFSG.LieType.Steinberg.TwistedD4.d4 X) :
@@ -133,6 +134,7 @@ theorem xd_simple_unit (i : Fin CFSG.LieType.Steinberg.TwistedD4.d4.rank) {p : �
   exact CFSG.RankThree.PartOne.SEITZ8.coe_xe_simple_end i hp c
 
 open CFSG.RankThree.PartOne.SEITZ7 in
+omit [Finite X] in
 theorem xd_neg_simple_unit (i : Fin CFSG.LieType.Steinberg.TwistedD4.d4.rank) {p : ℕ}
     (hp : CFSG.LieType.Steinberg.TwistedD4.d4Root p = -Pi.single i 1) (c : X) :
     ((xd p c : adjointGroup CFSG.LieType.Steinberg.TwistedD4.d4 X) :
@@ -167,7 +169,7 @@ theorem slShort_upper_eq_orbit (P : D4Par n X σ) (c : X) :
     orbitRankOneHom TwistTag.D4 X σ.toRingHom KS11Lie4Proof.d4Outer
       (uSL (⟨c, KS11Lie4Proof.mem_orbitField_d4Outer P.sigma_pow_three c⟩ :
         orbitField TwistTag.D4 X σ.toRingHom KS11Lie4Proof.d4Outer)) := by
-  haveI := P.charP
+  have := P.charP
   have h1 := congrArg (fun y : adjointGroup d4 X => (y : ModGL d4 X))
     (slShort_upper_xA σ.toRingHom P.sigma_cube_hom c)
   refine h1.trans ?_
@@ -193,7 +195,7 @@ theorem slShort_lower_eq_orbit (P : D4Par n X σ) (c : X) :
     orbitRankOneHom TwistTag.D4 X σ.toRingHom KS11Lie4Proof.d4Outer
       (vSL (⟨c, KS11Lie4Proof.mem_orbitField_d4Outer P.sigma_pow_three c⟩ :
         orbitField TwistTag.D4 X σ.toRingHom KS11Lie4Proof.d4Outer)) := by
-  haveI := P.charP
+  have := P.charP
   have h1 := congrArg (fun y : adjointGroup d4 X => (y : ModGL d4 X))
     (slShort_lower_xAm σ.toRingHom P.sigma_cube_hom c)
   refine h1.trans ?_
@@ -276,7 +278,7 @@ theorem iotaA_range (P : D4Par n X σ) : (iotaA P).range = Asub σ := by
 theorem iotaA_etaB_commute (P : D4Par n X σ) (M : Matrix.SpecialLinearGroup (Fin 2) X)
     (N : Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :
     iotaA P M * etaB P N = etaB P N * iotaA P M := by
-  haveI := P.charP
+  have := P.charP
   have h := (CFSG.RankThree.PartOne.SEITZ7.slShort_commute_psi σ.toRingHom
     P.sigma_cube_hom M N).eq
   apply (eC P).injective
@@ -289,10 +291,10 @@ open CFSG.RankThree.PartTwo.Sec11.KS11Lie6Proof CFSG.RankThree.PartOne.KGD
 theorem card_centralizer_Asub_le (P : D4Par n X σ) :
     Nat.card (Subgroup.centralizer ((Asub σ : Subgroup (C0 σ)) : Set (C0 σ))) ≤
       Nat.card (Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) := by
-  haveI := P.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := AlgebraicClosure X
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 n
   have hFr : ∀ c, Fr c = c ^ (2 ^ n) := fun c => iterateFrobenius_def 2 n c
   have hcomm : ∀ c, algebraMap X L (σ c) = Fr (algebraMap X L c) := fun c => by
@@ -327,6 +329,7 @@ theorem finite_C0 : Finite (C0 σ) :=
   haveI : Finite (ModGL TwistTag.D4.tag X) := finite_modGL
   Subtype.finite
 
+omit [Finite X] in
 theorem Asub_Bsub_commute {a b : C0 σ} (ha : a ∈ Asub σ) (hb : b ∈ Bsub σ) : a * b = b * a :=
   Subgroup.mem_centralizer_iff.mp hb a ha
 
@@ -338,7 +341,7 @@ theorem etaB_range_le (P : D4Par n X σ) : (etaB P).range ≤ Bsub σ := by
   exact iotaA_etaB_commute P M N
 
 theorem Bsub_eq_range_etaB (P : D4Par n X σ) : Bsub σ = (etaB P).range := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   symm
   refine Subgroup.eq_of_le_of_card_ge (etaB_range_le P) ?_
   have h1 := card_centralizer_Asub_le P
@@ -357,7 +360,7 @@ theorem Bsub_eq_range_etaB (P : D4Par n X σ) : Bsub σ = (etaB P).range := by
     (MulEquiv.subgroupCongr (Bsub_eq_range_etaB P).symm)
 
 theorem Asub_inf_Bsub (P : D4Par n X σ) : Asub σ ⊓ Bsub σ = ⊥ := by
-  haveI := P.charP
+  have := P.charP
   refine eq_bot_iff.mpr fun g hg => ?_
   obtain ⟨hgA, hgB⟩ := hg
   rw [← iotaA_range P] at hgA
@@ -374,10 +377,10 @@ theorem Asub_inf_Bsub (P : D4Par n X σ) : Asub σ ⊓ Bsub σ = ⊥ := by
 
 theorem isSimple_nonab_C0 (P : D4Par n X σ) :
     IsSimpleGroup (C0 σ) ∧ ∃ x y : C0 σ, x * y ≠ y * x := by
-  haveI := P.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := AlgebraicClosure X
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap X L).injective 2
   obtain ⟨-, -, -, hsimple, hnonab⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group 2 n Nat.prime_two P.one_le X
       P.card L 1 (Or.inl rfl) σ.toRingHom (fun c => by rw [pow_one]; exact P.frob c)
@@ -455,7 +458,7 @@ theorem Asub_sup_Bsub_ne_top (P : D4Par n X σ) : Asub σ ⊔ Bsub σ ≠ ⊤ :=
         exact mul_left_cancel h3
       rw [h2]
       exact hw
-  haveI := hnorm
+  have := hnorm
   rcases hs.eq_bot_or_eq_top_of_normal (Asub σ) with h | h
   · exact Asub_ne_bot P h
   · apply Bsub_ne_bot P

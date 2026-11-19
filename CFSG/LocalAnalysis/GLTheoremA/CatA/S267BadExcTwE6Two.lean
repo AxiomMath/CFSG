@@ -356,7 +356,7 @@ theorem exists_twoLocal_rootSpan_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (h�
       E ≤ Subgroup.normalizer (U : Set ↥(twistedE6RootGroup K σ)) ∧ IsElemAbelian ℓ E ∧
         Nat.card E = ℓ ^ (5 * f) := by
   have hK2f : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ (by omega) hK2f
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq K ℓ]; exact hℓ2)
   have hneg : ∀ g : orbitField TwistTag.E6 K σ.toRingHom ⟨3, by decide⟩ →+* K,
@@ -406,8 +406,8 @@ theorem five_le_twoLocalRank_cat_twistedE6 (Q : TauCeti.PrimePower)
   obtain ⟨K, _, σ, hK, hσ, ⟨ec⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 Q hv
   obtain ⟨hfin, hsimp⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_twistedE6 hv
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hmodel : CFSG.Models.LieModel (Cat ⟨.twistedE6 Q, hv⟩) .twistedE6 0 Q.p Q.exponent :=
     ⟨⟨Q.prime_p, Q.exponent_pos, rfl⟩,
       Or.inr ⟨rfl, ⟨.twistedE6 Q, hv⟩, ⟨rfl, rfl⟩, ⟨MulEquiv.refl _⟩⟩⟩

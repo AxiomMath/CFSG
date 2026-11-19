@@ -46,7 +46,7 @@ theorem pkgSzPaired215
   rw [hK] at hKn hCK hKS
   set S := (T' : Subgroup H).map π with hSdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  have hS2 : IsPGroup 2 S := T'.isPGroup'.map π
+  have hS2 : IsPGroup 2 S := T'.isPGroup.map π
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.2
     ⟨le_top, hS2, by
       rw [Subgroup.relIndex_top_right, hSdef, ← Sylow.coe_mapSurjective hπs T']

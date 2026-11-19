@@ -12,7 +12,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 
 variable {K : Type} [Field K] {n : ℕ}
 
-theorem coprime_three_two_pow_sub_one (hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1) :
+theorem coprime_three_two_pow_sub_one (_hn : 1 ≤ n) (hpq : 3 ∣ 2 ^ n + 1) :
     Nat.Coprime 3 (2 ^ n - 1) := by
   rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
   intro h

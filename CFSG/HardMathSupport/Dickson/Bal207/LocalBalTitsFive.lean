@@ -37,13 +37,13 @@ theorem no_order_thirteen_commutes_order_five {G : Type*} [Group G] [Finite G]
   have hdvd : Nat.card C ∣ 17971200 := hcard ▸ Subgroup.card_subgroup_dvd_card C
   have hn2 : ¬ 2 ∣ Nat.card C := by
     intro h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h
     exact h2 (u : G) y (by rw [Subgroup.orderOf_coe]; exact hu) hy
       (Subgroup.mem_centralizer_singleton_iff.1 u.2)
   have hn3 : ¬ 3 ∣ Nat.card C := by
     intro h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 3 h
     exact h3 (u : G) y (by rw [Subgroup.orderOf_coe]; exact hu) hy
       (Subgroup.mem_centralizer_singleton_iff.1 u.2)
@@ -199,8 +199,8 @@ theorem titsD_no_thirteen_commutes_five {y : titsD}
 theorem titsD_card_le_two_of_commute_five {k : titsD}
     (hk : orderOf k = 5) {T : Subgroup titsD} {n : ℕ} (hT : Nat.card T = 2 ^ n)
     (hTk : ∀ t ∈ T, t * k = k * t) : Nat.card T ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · rw [hT]; norm_num
   obtain ⟨v, hvT, hv2, hTv⟩ : ∃ v ∈ T, orderOf v = 2 ∧ ∀ t ∈ T, t * v = v * t := by
@@ -284,7 +284,7 @@ theorem titsD_eq_bot_of_five {k : titsD} (hk : orderOf k = 5) {Y : Subgroup (Mul
     (hYk : ∀ y ∈ Y, y * MulAut.conj k = MulAut.conj k * y)
     (hYn : ∀ q : titsD, q * k = k * q → ∀ y ∈ Y, MulAut.conj q * y * (MulAut.conj q)⁻¹ ∈ Y)
     (hY5 : Nat.Coprime 5 (Nat.card Y)) : Y = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hinj := LocalTwoBalance.Cross.TitsAux.conj_injective_titsD
   obtain ⟨P, hP, hkP⟩ := Sylow.exists_subgroup_card_pow_prime_le 5 (n := 1) (m := 2)
     (by rw [CFSG.Sporadic.Schreier.Tits.card_titsD]; norm_num) (Subgroup.zpowers k)
@@ -337,17 +337,17 @@ theorem titsD_eq_bot_of_five {k : titsD} (hk : orderOf k = 5) {Y : Subgroup (Mul
       (CFSG.Sporadic.Schreier.Tits.card_titsD ▸ Subgroup.card_subgroup_dvd_card _)
     rcases LocalTwoBalance.Cross.TitsAux.prime_dvd_card_titsD hq hqD with rfl | rfl | rfl | rfl
     · rfl
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 hqS
       exact absurd (hSk x x.2) (RankThree.PartTwo.Sec4.Item434RemTits.mul_ne_mul_of_orderOf
         (by rw [Subgroup.orderOf_coe]; exact hx) (Or.inl rfl) hk)
     · exact absurd hqS ((Nat.Prime.coprime_iff_not_dvd Nat.prime_five).1 hS5)
-    · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 13 hqS
       exact (titsD_no_thirteen_commutes_five (by rw [Subgroup.orderOf_coe]; exact hy) hk
         (hSk y y.2).symm).elim
   have hSle := titsD_card_le_two_of_commute_five hk hS2 hSk
-  haveI : (innerAut titsD).Normal :=
+  have : (innerAut titsD).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal titsD
   have hrel : (innerAut titsD).relIndex Y ∣ 2 := by
     have h := Subgroup.relIndex_dvd_index_of_normal (innerAut titsD) Y
@@ -369,7 +369,7 @@ theorem titsD_eq_bot_of_five {k : titsD} (hk : orderOf k = 5) {Y : Subgroup (Mul
   exact Subgroup.card_eq_one.1 hY1
 
 theorem isLocallyBalancedAbs_five_one_titsD : IsLocallyBalancedAbs 5 1 titsD := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro D hD hcard H hH _
   obtain ⟨d, hdD, hd1⟩ := exists_ne_one_of_card_eq_prime Nat.prime_five hcard
   have hd5 : d ^ 5 = 1 := hD.2 d hdD

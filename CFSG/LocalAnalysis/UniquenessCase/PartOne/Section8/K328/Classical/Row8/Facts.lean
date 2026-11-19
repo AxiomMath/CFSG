@@ -194,7 +194,6 @@ private theorem k328r8f_Prow_triple (F : Type) [Field F] [Fintype F] [DecidableE
   funext r
   fin_cases r <;> simp [k328r8f_Prow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     field_simp [hb]
     ring_nf
     simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
@@ -207,7 +206,6 @@ private theorem k328r8f_Brow_triple (F : Type) [Field F] [Fintype F] [DecidableE
   fin_cases r <;> simp [k328r8f_Brow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
@@ -363,7 +361,6 @@ private theorem k328r8f_zrow_triple (F : Type) [Field F] [Fintype F] [DecidableE
   fin_cases r <;> simp [k328r8f_zrow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
@@ -423,11 +420,6 @@ private theorem k328r8f_ZT_comm (F : Type) [Field F] [Fintype F] [DecidableEq F]
   fin_cases r <;>
     simp [k328r8f_zrow, k328r8f_Trow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
-    try rw [k328r8f_hc F b c α _hα _hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
-    try field_simp [_hb]
-    try ring_nf
-    try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
     try ring_nf)
 
 private theorem k328r8f_ZB_comm (F : Type) [Field F] [Fintype F] [DecidableEq F] (b c α : F) [CharP F 2]
@@ -442,7 +434,6 @@ private theorem k328r8f_ZB_comm (F : Type) [Field F] [Fintype F] [DecidableEq F]
     simp [k328r8f_zrow, k328r8f_Brow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero]
@@ -460,7 +451,6 @@ private theorem k328r8f_ZP_comm (F : Type) [Field F] [Fintype F] [DecidableEq F]
     simp [k328r8f_zrow, k328r8f_Prow, Sum.elim_inl, Sum.elim_inr, Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
@@ -479,7 +469,6 @@ private theorem k328r8f_TP_eq (F : Type) [Field F] [Fintype F] [DecidableEq F] (
       Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]
@@ -498,7 +487,6 @@ private theorem k328r8f_BP_eq (F : Type) [Field F] [Fintype F] [DecidableEq F] (
       Matrix.cons_val]
   all_goals (
     try rw [k328r8f_hc F b c α hα hb]
-    try rw [show b⁻¹ ^ 2 = (b ^ 2)⁻¹ from inv_pow b 2]
     try field_simp [hb]
     try ring_nf
     try simp only [k328r8f_ofNat_mod2 F, Nat.reduceMod, Nat.cast_zero, Nat.cast_one]

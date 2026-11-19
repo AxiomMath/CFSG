@@ -63,7 +63,7 @@ private theorem ggQ2s08k4_mono_const_of_stab
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
     (f : Module.Basis (Fin N) (ZMod 3) V)
     {a : V ≃ₗ[ZMod 3] V} {σ : Equiv.Perm (Fin N)} {ε : Fin N → ZMod 3}
-    (hε : ∀ i, ε i ≠ 0) (ha : ∀ i, a (f i) = ε i • f (σ i)) {c : ZMod 3}
+    (_hε : ∀ i, ε i ≠ 0) (ha : ∀ i, a (f i) = ε i • f (σ i)) {c : ZMod 3}
     (hax : a (∑ i, f i) = c • ∑ i, f i) :
     ∀ i, ε i = c := by
   intro i
@@ -71,7 +71,7 @@ private theorem ggQ2s08k4_mono_const_of_stab
     rw [map_sum]
     exact Finset.sum_congr rfl (fun j _ => ha j)
   have h1 : f.repr (a (∑ j, f j)) (σ i) = ε i := by
-    rw [hx, map_sum, Finsupp.finset_sum_apply, Finset.sum_eq_single i]
+    rw [hx, map_sum, _root_.Finsupp.finsetSum_apply, Finset.sum_eq_single i]
     · rw [map_smul, Finsupp.smul_apply, Module.Basis.repr_self_apply]
       simp
     · intro j _ hj
@@ -80,7 +80,7 @@ private theorem ggQ2s08k4_mono_const_of_stab
       simp [hne]
     · intro hi; exact absurd (Finset.mem_univ i) hi
   have hone : f.repr (∑ j, f j) (σ i) = 1 := by
-    rw [map_sum, Finsupp.finset_sum_apply, Finset.sum_eq_single (σ i)]
+    rw [map_sum, _root_.Finsupp.finsetSum_apply, Finset.sum_eq_single (σ i)]
     · rw [Module.Basis.repr_self_apply]; simp
     · intro j _ hj
       rw [Module.Basis.repr_self_apply]
@@ -126,13 +126,13 @@ private theorem ggQ2s08k4_conj_sgn
   have hiff : ((Equiv.swap i0 a).symm k = i0) ↔ (k = a) := by
     rw [Equiv.symm_apply_eq, Equiv.swap_apply_left]
   by_cases hk : k = a
-  · rw [if_pos hk, if_pos (hiff.mpr hk)]
-  · rw [if_neg hk, if_neg (fun h => hk (hiff.mp h))]
+  · rw [ite_eq_left hk, ite_eq_left (hiff.mpr hk)]
+  · rw [ite_eq_right hk, ite_eq_right (fun h => hk (hiff.mp h))]
 
 private theorem ggQ2s08k4_twist_eq
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
     (f : Module.Basis (Fin N) (ZMod 3) V)
-    {r : V ≃ₗ[ZMod 3] V} {i0 j0 : Fin N} (hij : i0 ≠ j0)
+    {r : V ≃ₗ[ZMod 3] V} {i0 j0 : Fin N} (_hij : i0 ≠ j0)
     (hrd : ∀ k, r (f k) = (if k = i0 then (-1 : ZMod 3) else if k = j0 then -1 else 1) •
       f (Equiv.swap i0 j0 k)) :
     r = ggQ2s08k4_pairDiag f i0 j0 * ggQ2s08k4_permM f (Equiv.swap i0 j0) := by
@@ -142,11 +142,11 @@ private theorem ggQ2s08k4_twist_eq
   rw [hrd k, LinearEquiv.mul_apply, ggQ2s08k4_permM_apply, ggQ2s08k4_pairDiag_apply]
   congr 1
   rcases eq_or_ne k i0 with h1 | h1
-  · rw [h1]; simp [Equiv.swap_apply_left, hij]
+  · rw [h1]; simp [Equiv.swap_apply_left]
   · rcases eq_or_ne k j0 with h2 | h2
-    · rw [h2]; simp [Equiv.swap_apply_right, hij]
+    · rw [h2]; simp [Equiv.swap_apply_right]
     · have hsw : Equiv.swap i0 j0 k = k := Equiv.swap_apply_of_ne_of_ne h1 h2
-      rw [if_neg h1, if_neg h2, hsw, if_neg h1, if_neg h2]
+      rw [ite_eq_right h1, ite_eq_right h2, hsw, ite_eq_right h1, ite_eq_right h2]
 
 private theorem ggQ2s08k4_conj_pairDiag
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
@@ -236,7 +236,7 @@ private theorem ggQ2s08k4_neg_mul_monoEven
 private theorem ggQ2s08k4_neg_one_ne_zero
     : (-1 : ZMod 3) ≠ 0 := by decide
 
-theorem ggQ2s08core_all_perms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ} (hN : 4 ≤ N)
+theorem ggQ2s08core_all_perms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ} (_hN : 4 ≤ N)
     (f : Module.Basis (Fin N) (ZMod 3) V) (R W : Subgroup (V ≃ₗ[ZMod 3] V))
     (hR : (∀ a, a ∈ R ↔ GGQ2S08Mono f a) ∨ (∀ a, a ∈ R ↔ GGQ2S08MonoEven f a))
     (hW : ∀ a, a ∈ W ↔ ∃ σ : Equiv.Perm (Fin N), ∀ i, a (f i) = f (σ i))
@@ -280,7 +280,7 @@ theorem ggQ2s08core_all_perms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N
       intro k
       rw [hrc k, hσ1]
       by_cases hk : k = i0
-      · rw [hk, hci0, if_pos rfl]
+      · rw [hk, hci0, ite_eq_left rfl]
         rfl
       · rw [hcj k hk]; simp [hk]
     have hRmono : ∀ a, a ∈ R ↔ GGQ2S08Mono f a := by
@@ -330,10 +330,10 @@ theorem ggQ2s08core_all_perms {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N
       intro k
       rw [hrc k, hσswap]
       by_cases h1 : k = i0
-      · rw [h1, if_pos rfl, hcneg.1]
+      · rw [h1, ite_eq_left rfl, hcneg.1]
       · by_cases h2 : k = j0
-        · rw [h2, if_neg hij.symm, if_pos rfl, hcneg.2]
-        · rw [if_neg h1, if_neg h2, hck k h1 h2]
+        · rw [h2, ite_eq_right hij.symm, ite_eq_left rfl, hcneg.2]
+        · rw [ite_eq_right h1, ite_eq_right h2, hck k h1 h2]
     have hTwist : r = ggQ2s08k4_pairDiag f i0 j0 * ggQ2s08k4_permM f (Equiv.swap i0 j0) :=
       ggQ2s08k4_twist_eq f hij hrd
     have hpp : (ggQ2s08k4_permM f (Equiv.swap i0 j0)) *

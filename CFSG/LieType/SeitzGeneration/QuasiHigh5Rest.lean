@@ -72,13 +72,13 @@ theorem sUid_eq_gramSU [Finite Kf] [Fact ℓ.Prime] [CharP Kf ℓ] (h : UnitaryF
 
 theorem commutator_GU1_eq_top (h : UnitaryFieldData ℓ f Kf) (hn : 3 ≤ n)
     (hne : (n, ℓ ^ f) ≠ (3, 2)) : commutator (GU1 h n) = ⊤ := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI := h.finite
-  haveI : CharP Kf ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have := h.finite
+  have : CharP Kf ℓ := h.charP
   have hperf := CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd h.card_eq_sq hn hne
   have e : CFSG.Open.StatedSU n (ℓ ^ f) Kf ≃* GU1 h n :=
     MulEquiv.subgroupCongr (gramSU_eq_statedSU h n).symm
-  haveI : Group.IsPerfect (GU1 h n) := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
+  have : Group.IsPerfect (GU1 h n) := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   exact Group.IsPerfect.commutator_eq_top
 
 theorem exists_su_lift
@@ -88,10 +88,10 @@ theorem exists_su_lift
     ∃ φ : GU1 h n →* K, Function.Surjective φ ∧
       ∀ g, θ ((φ g : K) : K ⧸ Subgroup.center K) = piG h n g := by
   classical
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI := h.finite
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have := h.finite
+  have : CharP Kf ℓ := h.charP
+  have : Group.IsPerfect K := ⟨hperf⟩
   set S := CFSG.Open.StatedSU n (ℓ ^ f) Kf with hSdef
   let ε : GU1 h n ≃* S := MulEquiv.subgroupCongr (gramSU_eq_statedSU h n)
   let π' : S →* primeFormP h (idGram Kf n) := (piG h n).comp ε.symm.toMonoidHom
@@ -248,7 +248,7 @@ theorem closure_liftCent_of_family [Finite Kf] [Fact ℓ.Prime] [CharP Kf ℓ]
           Matrix (Fin n) (Fin n) Kf)) → H = ⊤) :
     Subgroup.closure (liftCent h n Ē) = ⊤ :=
   closure_eq_top_of_sUid h (fun i => ((W i : GL (Fin n) Kf) : Matrix (Fin n) (Fin n) Kf)) _
-    (fun i g hg => ⟨W i, hW i, hW1 i, hg⟩) htop
+    (fun i _g hg => ⟨W i, hW i, hW1 i, hg⟩) htop
 
 theorem scalar_mem_GU (h : UnitaryFieldData ℓ f Kf) {c : Kfˣ} (hc : h.norm (c : Kf) = 1) :
     GeneralLinearGroup.scalar (Fin n) c ∈ primeFormUnitary h (idGram Kf n) :=
@@ -263,7 +263,7 @@ theorem conjHom_ne_one_of_qcomm (h : UnitaryFieldData ℓ f Kf) (hn : 3 ≤ n)
     primeFormConjHom h (idGram Kf n) W₀ ≠ 1 ∧
       ∀ j : ℕ, primeFormConjHom h (idGram Kf n) (W₁ * W₀ ^ j) ≠ 1 := by
   have hn0 : 0 < n := by omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hkey : (W₀ : GL (Fin n) Kf) * W₁ ≠ W₁ * W₀ := by
     intro hc
     have h1 : ((W₀ : GL (Fin n) Kf) : Matrix (Fin n) (Fin n) Kf) *
@@ -346,12 +346,12 @@ theorem closure_liftCent_toral (h : UnitaryFieldData ℓ f Kf) (hn : 3 ≤ n) (h
     apply Subtype.ext
     rw [hx, (hcs sμ μ⁻¹ rfl A).mul_pow, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_pow,
       hAp]
-    simp [hsμ, ← map_pow, ← map_mul]
+    simp [hsμ, ← map_pow]
   have hy1 : y ^ p = 1 := by
     apply Subtype.ext
     rw [hy, (hcs sμ' μ'⁻¹ rfl B).mul_pow, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_pow,
       hBp]
-    simp [hsμ', ← map_pow, ← map_mul]
+    simp [hsμ', ← map_pow]
   have hκx : ∀ a b : ℕ, κ (x ^ a * y ^ b) = κ (A ^ a * B ^ b) := by
     intro a b
     have h1 : κ sμ = 1 := (OuterUnitaryWide.conjHom_eq_one_iff h hn sμ).2 ⟨μ⁻¹, hμi, rfl⟩
@@ -652,8 +652,8 @@ theorem closure_liftCent_eq_top
     (hĒ : IsElemAbelian p Ē) (hc : Nat.card Ē = p ^ 2) (hD : Ē ≤ primeFormD h (idGram Kf n)) :
     Subgroup.closure (liftCent h n Ē) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn0 : 0 < n := by omega
   set κ := primeFormConjHom h (idGram Kf n) with hκ
   obtain ⟨e₁, he₁, e₂, he₂, he₂1, he₁₂⟩ := exists_independent_pair hp Ē hĒ.2 hc
@@ -958,9 +958,9 @@ theorem seitzHyperGamma_eq_top_unitary_diag
     (hD : E.map (QuasiHigh2.modelAut θ) ≤ primeFormD h (idGram Kf n)) :
     seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI := h.finite
-  haveI : CharP Kf ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have := h.finite
+  have : CharP Kf ℓ := h.charP
   have hne : (n, ℓ ^ f) ≠ (3, 2) := fun h' => hq2 (Prod.mk.inj h').2
   have hinj := QuasiHigh2.modelAut_injective hperf θ
   have hĒ : IsElemAbelian p (E.map (QuasiHigh2.modelAut θ)) :=
@@ -1009,9 +1009,9 @@ theorem seitzHyperGamma_eq_top_unitary_field
     seitzHyperGamma p E = ⊤ := by
   classical
   have hfin : Finite Kf := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP Kf ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   have hne' : (n, ℓ ^ f) ≠ (3, 2) := fun h' => hne ⟨(Prod.mk.inj h').1, (Prod.mk.inj h').2⟩
   have hC : IsPrimeFormGram (1 : GL (Fin n) Kf) := isPrimeFormGram_one
   set ι := primeFormFieldFactor h hC hn3 hne with hι
@@ -1258,9 +1258,9 @@ theorem seitzHyperGamma_eq_top_unitary
   obtain ⟨hℓ, hf, hn3, hne, Kf, _, hU, ⟨θ'⟩⟩ :=
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv e)
-  haveI := hU.finite
-  haveI : Fact q.p.Prime := ⟨hℓ⟩
-  haveI : CharP Kf q.p := hU.charP
+  have := hU.finite
+  have : Fact q.p.Prime := ⟨hℓ⟩
+  have : CharP Kf q.p := hU.charP
   have hqcard : q.p ^ q.exponent = q.card := (TauCeti.PrimePower.card_def q).symm
   have hpq1 : p ∣ q.p ^ q.exponent + 1 := by
     rw [hqcard]

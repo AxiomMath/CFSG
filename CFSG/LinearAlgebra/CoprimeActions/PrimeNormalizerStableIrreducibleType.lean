@@ -115,8 +115,8 @@ theorem clifford_indep [IsSemisimpleModule R M] (T : M ≃ₛₗ[φ] M) (r : ℕ
     have hle : ((tw T)^[i.val] S0) ≤ isotypicComponent R M ((tw T)^[j.val] S0) := by
       rw [← h]; exact Submodule.le_isotypicComponent _
     have hiso := (le_isotypicComponent_iff (R := R) (M := M)).1 hle
-    haveI := hsimple i.val
-    haveI : IsSimpleModule R (⊤ : Submodule R ((tw T)^[i.val] S0)) :=
+    have := hsimple i.val
+    have : IsSimpleModule R (⊤ : Submodule R ((tw T)^[i.val] S0)) :=
       IsSimpleModule.congr (Submodule.topEquiv (R := R) (M := ((tw T)^[i.val] S0)))
     obtain ⟨e⟩ := hiso ⊤
     exact ⟨(Submodule.topEquiv (R := R) (M := ((tw T)^[i.val] S0))).symm.trans e⟩
@@ -151,7 +151,7 @@ instance (α : MulAut E) : RingHomInvPair (twRing (F := F) α) (twRing α⁻¹) 
   ⟨RingHom.ext (twRing_symm α), RingHom.ext fun x => by simpa using twRing_symm (F := F) α⁻¹ x⟩
 
 instance (α : MulAut E) : RingHomInvPair (twRing (F := F) α⁻¹) (twRing α) :=
-  ⟨RingHom.ext fun x => by simpa using twRing_symm (F := F) α⁻¹ x, RingHom.ext (twRing_symm α)⟩
+  ⟨RingHom.ext fun x => by simp, RingHom.ext (twRing_symm α)⟩
 
 theorem key_cov (σ : Representation F E V) (α : MulAut E) (T : V ≃ₗ[F] V)
     (hcov : ∀ e v, T (σ e v) = σ (α e) (T v)) (r : F[E]) (v : V) :
@@ -176,7 +176,7 @@ theorem key_cov (σ : Representation F E V) (α : MulAut E) (T : V ≃ₗ[F] V)
 
 @[expose] noncomputable def mkSLEquiv (σ : Representation F E V) (α : MulAut E) (T : V ≃ₗ[F] V)
     (hcov : ∀ e v, T (σ e v) = σ (α e) (T v)) : σ.asModule ≃ₛₗ[twRing (F := F) α] σ.asModule :=
-  LinearEquiv.ofLinear (mkSL σ α T hcov)
+  LinearEquiv.ofLinearMap (mkSL σ α T hcov)
     (mkSL σ α⁻¹ T.symm (fun e v => by
       apply T.injective
       simp [hcov]))

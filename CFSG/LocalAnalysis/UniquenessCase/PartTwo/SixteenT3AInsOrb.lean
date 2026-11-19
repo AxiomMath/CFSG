@@ -17,8 +17,8 @@ theorem s16t_a_exists_noncyclic_stab {T : Type} [CommGroup T] [Finite T] {p : �
     (hEY : ∀ x : E, Y.map (ψ x).toMonoidHom = Y) {n : T} (hn : n ∈ Y) :
     ∃ P : Subgroup E, ¬ IsCyclic ↥P ∧ ∀ x ∈ P, ψ x n = n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction E T := MulAction.compHom T ψ
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction E T := MulAction.compHom T ψ
   have hEp : IsPGroup p E := fun g => ⟨1, by rw [pow_one]; exact hE g⟩
   obtain ⟨k, hk⟩ := hEp.exists_card_eq
   set S : Subgroup E := MulAction.stabilizer E n with hS

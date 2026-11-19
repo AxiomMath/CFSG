@@ -14,12 +14,14 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem z4j_isPGroup_of_sq {A : Subgroup X} (h : ∀ a ∈ A, a * a = 1) : IsPGroup 2 A := by
   intro g
   refine ⟨1, ?_⟩
   rw [pow_one]
   exact Subtype.ext (by simpa [pow_two] using h g.1 g.2)
 
+omit [Finite X] in
 theorem z4j_isPGroup_pair {a b : X} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) :
     IsPGroup 2 (closure ({a, b} : Set X)) := by
   refine z4j_isPGroup_of_sq fun x hx => ?_
@@ -35,7 +37,7 @@ theorem z4j_isPGroup_pair {a b : X} (ha : a * a = 1) (hb : b * b = 1) (hab : a *
 
 theorem z4j_eq_of_odd_relIndex {A P K : Subgroup X} (hAP : A ≤ P) (hPK : P ≤ K)
     (hP : IsPGroup 2 P) (hodd : ¬ 2 ∣ A.relIndex K) : P = A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmul := Subgroup.relIndex_mul_relIndex A P K hAP hPK
   have hoddP : ¬ 2 ∣ A.relIndex P := by
     intro h2
@@ -95,8 +97,8 @@ theorem z4j_tt_sylow_of (hN : Odd (Nat.card N)) (hCN : ∀ n ∈ N, t * n = n * 
     ∀ P : Subgroup (X ⧸ N), P ≤ centralizer ({z4iπ N ρ} : Set (X ⧸ N)) → IsPGroup 2 P →
       ∃ c ∈ centralizer ({z4iπ N ρ} : Set (X ⧸ N)),
         ∀ p ∈ P, c * p * c⁻¹ ∈ closure ({z4iπ N t, z4iπ N τ} : Set (X ⧸ N)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (X ⧸ N) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (X ⧸ N) := inferInstance
   have hπ : Function.Surjective (z4iπ N) := z4iπ_surjective N
   have hker : Odd (Nat.card (z4iπ N).ker) := by rw [z4iπ_ker]; exact hN
   set A : Subgroup X := closure ({t, τ} : Set X) with hAdef
@@ -182,6 +184,7 @@ theorem z4j_tt_sylow_of (hN : Odd (Nat.card N)) (hCN : ∀ n ∈ N, t * n = n * 
     rw [hcj] at hmem
     simpa [hS0def] using hmem
 
+omit [Finite X] [N.Normal] in
 theorem z4j_two_pow_of (hN : Odd (Nat.card N)) (h : 2 ^ 10 ∣ Nat.card X) :
     2 ^ 10 ∣ Nat.card (X ⧸ N) := by
   have hcop : Nat.Coprime (2 ^ 10) (Nat.card N) :=

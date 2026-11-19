@@ -90,22 +90,26 @@ private theorem ggNSPosPF3C_matrix_eq_of_add_self {a b : Matrix (Fin n) (Fin n) 
     _ = 0 + b := by rw [h]
     _ = b := zero_add b
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_conjTr_smul (σ : K ≃+* K) (a : K)
     (A : Matrix (Fin n) (Fin n) K) :
     conjTr σ (a • A) = σ a • conjTr σ A := by
   ext i j
-  simp [conjTr, Matrix.map_smul]
+  simp [conjTr]
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_P2_eq (ω : K) (c : Matrix (Fin n) (Fin n) K) :
     ggNSPosPF3C_P2 ω c = ω • c + ω • 1 := by
   simp [ggNSPosPF3C_P2, smul_add]
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_P1_eq (ω : K) (c : Matrix (Fin n) (Fin n) K) :
     ggNSPosPF3C_P1 ω c = ω • c + (1 + ω) • 1 := by
   simp only [ggNSPosPF3C_P1, ggNSPosPF3C_P2, smul_add]
   rw [add_smul, one_smul]
   abel
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_lin_mul
     (hc : c * c = ω ^ 2 • c + ω • (1 : Matrix (Fin n) (Fin n) K))
     (a b a' b' : K) :
@@ -116,10 +120,12 @@ private theorem ggNSPosPF3C_lin_mul
   rw [hc]
   module
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_lin_add (a b a' b' : K) :
     (a • c + b • 1) + (a' • c + b' • 1) = (a + a') • c + (b + b') • 1 := by
   module
 
+omit [CharP K 2] in
 private theorem ggNSPosPF3C_lin_smul (x a b : K) :
     x • (a • c + b • 1) = (x * a) • c + (x * b) • 1 := by
   rw [smul_add, smul_smul, smul_smul]
@@ -144,7 +150,7 @@ theorem ggNSPosPF3C_P2_mul_self (hω : ω ^ 2 + ω + 1 = 0)
   rw [ggNSPosPF3C_lin_mul hc]
   have h1 : ω * ω * ω ^ 2 + ω * ω + ω * ω = ω := by
     rw [show ω * ω * ω ^ 2 = ω ^ 4 by ring, ggNSPosPF3C_omega_four hω]
-    simp [CharTwo.add_self_eq_zero]
+    simp
   have h2 : ω * ω * ω + ω * ω = ω := by
     rw [show ω * ω * ω = ω ^ 3 by ring, ggNSPosPF3C_omega_cube hω,
       show ω * ω = ω ^ 2 by ring, ggNSPosPF3C_one_add_sq hω]
@@ -157,7 +163,7 @@ theorem ggNSPosPF3C_P1_mul_self (hω : ω ^ 2 + ω + 1 = 0)
   rw [ggNSPosPF3C_lin_mul hc]
   have h1 : ω * ω * ω ^ 2 + ω * (1 + ω) + ω * (1 + ω) = ω := by
     rw [show ω * ω * ω ^ 2 = ω ^ 4 by ring, ggNSPosPF3C_omega_four hω]
-    simp [CharTwo.add_self_eq_zero]
+    simp
   have h2 : ω * ω * ω + (1 + ω) * (1 + ω) = 1 + ω := by
     rw [show ω * ω * ω = ω ^ 3 by ring, ggNSPosPF3C_omega_cube hω,
       show (1 + ω) * (1 + ω) = (1 + ω) ^ 2 by ring, CharTwo.add_sq, one_pow,
@@ -243,13 +249,14 @@ theorem ggNSPosPF3C_pow_three (hω : ω ^ 2 + ω + 1 = 0)
   rw [ggNSPosPF3C_pow_eq hω hc 3, ggNSPosPF3C_omega_cube hω, one_smul,
     ggNSPosPF3C_P1_add_P2]
 
+omit [CharP K 2] in
 theorem ggNSPosPF3C_commute_P {ℓ : Matrix (Fin n) (Fin n) K} (hℓ : ℓ * c = c * ℓ) :
     ℓ * ggNSPosPF3C_P1 ω c = ggNSPosPF3C_P1 ω c * ℓ ∧
       ℓ * ggNSPosPF3C_P2 ω c = ggNSPosPF3C_P2 ω c * ℓ := by
   have h2 : ℓ * ggNSPosPF3C_P2 ω c = ggNSPosPF3C_P2 ω c * ℓ := by
     rw [ggNSPosPF3C_P2_eq]
     simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_smul, Matrix.smul_mul,
-      Matrix.mul_one, Matrix.one_mul, smul_add, hℓ]
+      Matrix.mul_one, Matrix.one_mul, hℓ]
   refine ⟨?_, h2⟩
   rw [ggNSPosPF3C_P1, Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul, h2]
 
@@ -312,12 +319,12 @@ theorem ggNSPosPF3C_scalar_eq_one_of_conj (hω : ω ^ 2 + ω + 1 = 0)
       (ω ^ 2 * (ζ : K)) • (c * (ℓ : Matrix (Fin n) (Fin n) K)) +
         ω • (ℓ : Matrix (Fin n) (Fin n) K) := by
     rw [hc]
-    simp only [Matrix.mul_add, Matrix.mul_smul, Matrix.mul_one, h, smul_add, smul_smul]
+    simp only [Matrix.mul_add, Matrix.mul_smul, Matrix.mul_one, h, smul_smul]
   have hR : (c * c) * (ℓ : Matrix (Fin n) (Fin n) K) =
       ω ^ 2 • (c * (ℓ : Matrix (Fin n) (Fin n) K)) +
         ω • (ℓ : Matrix (Fin n) (Fin n) K) := by
     rw [hc]
-    simp only [Matrix.add_mul, Matrix.smul_mul, Matrix.one_mul, smul_add, smul_smul]
+    simp only [Matrix.add_mul, Matrix.smul_mul, Matrix.one_mul]
   have hmain : (ω ^ 2 * (ζ : K)) • (c * (ℓ : Matrix (Fin n) (Fin n) K)) +
         ω • (ℓ : Matrix (Fin n) (Fin n) K) =
       ((ζ : K) ^ 2 * ω ^ 2) • (c * (ℓ : Matrix (Fin n) (Fin n) K)) +

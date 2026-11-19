@@ -159,7 +159,7 @@ theorem exists_sylow_C_normalized (h_C : σ.C ≤ oddCoreIn σ.C ⊔ σ.D) {r : 
     (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ P : Subgroup G, IsSylowOf r P σ.C ∧ σ.D ≤ Subgroup.normalizer (P : Set G) := by
   have : Fact r.Prime := ⟨hr⟩
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hDC : σ.D ≤ Subgroup.normalizer (σ.C : Set G) :=
     inf_le_right.trans (normalizer_le_normalizer_centralizer_v2 σ.T)
   have hDO : σ.D ≤ Subgroup.normalizer (oddCoreIn σ.C : Set G) :=
@@ -186,7 +186,7 @@ theorem exists_sylow_ON_normalized (hσ : σ.IsValid) {r : ℕ} (hr : r.Prime)
     ∃ R : Subgroup G, IsSylowOf r R σ.ON ∧ σ.D ≤ Subgroup.normalizer (R : Set G) ∧
       P ≤ Subgroup.normalizer (R : Set G) := by
   have : Fact r.Prime := ⟨hr⟩
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hPON : P ≤ Subgroup.normalizer (σ.ON : Set G) :=
     hPC.trans (σ.C_le_N.trans σ.N_le_normalizer_ON)
   have hDON : σ.D ≤ Subgroup.normalizer (σ.ON : Set G) :=
@@ -232,7 +232,7 @@ theorem lemmaV22_of_familyL (hσ : σ.IsValid) (h32 : σ.LemmaIV32)
       σ.familyL r := by
   have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := σ.prime_ne_two_of_dvd_ON hr hdiv
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨R, hR, hDR⟩ := exists_isSylowOf_normalized_of_odd hr hD2
     ((σ.D_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
   refine exists_sylow_normalizer_thompsonCenter_mem ⟨_, (h32 r hr hdiv hexc R hR hDR).1⟩

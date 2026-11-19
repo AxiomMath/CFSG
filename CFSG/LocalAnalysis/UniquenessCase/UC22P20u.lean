@@ -26,6 +26,7 @@ variable {G : Type} [Group G] [Finite G]
   QuotientGroup.congr (CFSG.pCore 2 ↥L) (CFSG.pCore 2 ↥L) (uc22p20uConjL L t ht)
     (CFSG.LieType.BorelTits.map_pCore_mulEquiv 2 (uc22p20uConjL L t ht))
 
+omit [Finite G] in
 theorem uc22p20uInd_mk (L : Subgroup G) {t : G} (ht : t ∈ normalizer (L : Set G)) (l : ↥L) :
     uc22p20uInd L t ht (QuotientGroup.mk l) =
       QuotientGroup.mk ⟨t * l * t⁻¹, (Subgroup.mem_normalizer_iff.1 ht l).1 l.2⟩ := rfl
@@ -66,7 +67,7 @@ theorem uc22p20u_join_ne_top (D : Data G) (h20_4 : S20_4 D) (h1930 : H1930 D) {L
     (⨆ (P : Subgroup (Bar2 L)) (_ : normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) :
       Set (Bar2 L)) ≤ P ∧ P ≠ ⊤ ∧ ∀ α ∈ uc22p20uA D L, ∀ x, x ∈ P ↔ α x ∈ P), P) ≠ ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro htop
   have hLcal : L ∈ calL D.T D.M := hL.prop
   have hTL : D.T ≤ normalizer (L : Set G) := hLcal.1

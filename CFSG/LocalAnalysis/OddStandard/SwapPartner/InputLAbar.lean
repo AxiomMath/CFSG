@@ -77,8 +77,8 @@ theorem injective_restrict_commutator (h : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ 
     Function.Injective
       ((QuotientGroup.mk' (center K)).domRestrict ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)) := by
   let φ := (QuotientGroup.mk' (center K)).domRestrict ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)
-  haveI hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
-  haveI hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
+  have hA_simple : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
+  have hsimple : IsSimpleGroup ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
     (Subgroup.subgroupOfEquivOfLe hA).isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with hker | hker
   · exact (MonoidHom.ker_eq_bot_iff φ).mp hker
@@ -89,7 +89,7 @@ theorem injective_restrict_commutator (h : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ 
         rw [hker]; exact Subgroup.mem_top _
       rw [MonoidHom.mem_ker] at hxker
       exact (QuotientGroup.eq_one_iff x).mp hxker
-    haveI : IsMulCommutative ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
+    have : IsMulCommutative ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K) :=
       isMulCommutative_anti hle_center
     have hprime : (Nat.card ((⁅Sg, Sg⁆ : Subgroup X).subgroupOf K)).Prime :=
       (Group.is_simple_iff_prime_card).mp hsimple

@@ -39,8 +39,8 @@ private theorem familyKernel_pair_eq_inter {L : Type} [Field L]
     familyKernel (![a, b] : Fin 2 → Fin Tag.E8.rank → Lˣ) =
       rootCharKernel a ∩ rootCharKernel b := by
   ext α
-  simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq, Set.mem_inter_iff,
-    Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq, Set.mem_inter_iff,
+    Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one]
   tauto
 
 theorem familyKernel_d6Pair {L : Type} [Field L] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -50,7 +50,7 @@ theorem familyKernel_d6Pair {L : Type} [Field L] {p : ℕ} (hp : p.Prime) (hp2 :
       e8D4PerpRoots := by
   rw [familyKernel_pair_eq_inter, ExcE8Four.rootCharKernel_d6TorsionChar hp hp2 hζo hlam, hb]
   ext α
-  simp only [ExcE8Four.d6Roots, d6zRoots, e8D4PerpRoots, Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [ExcE8Four.d6Roots, d6zRoots, e8D4PerpRoots, Set.mem_inter_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨hα, h1, h2⟩, -, h3, h4⟩
     exact ⟨hα, (d6Pair_iff α (mem_rootFinset.2 hα)).2
@@ -67,8 +67,8 @@ theorem rootCharKernel_eq_d6zRoots_of_rootChar {L : Type} [Field L] {p : ℕ} (h
     (hbd : ∀ α ∈ rootFinset .E8,
       (2 * α 4 - α 3 - α 5) ^ 2 + (2 * α 1 - α 3) ^ 2 ≤ 4) :
     rootCharKernel b = d6zRoots := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h5 : 5 ≤ p := by
     refine hp.five_le_of_ne_two_of_ne_three hp2 ?_
     intro h3
@@ -136,7 +136,7 @@ end PerpChar
 
 private theorem coprime_two_card_sub_one (K : Type) [Field K] [Finite K] [CharP K 2] :
     Nat.Coprime 2 (Nat.card K - 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by rw [ringChar.eq]
   have hcard2 : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]
@@ -202,6 +202,7 @@ section Layer
 
 variable {K L : Type} [Field K] [Finite K] [CharP K 2] [Field L] [Algebra K L]
 
+omit [Finite K] [CharP K 2] in
 private theorem adjEmb_mem_normalizer_perp_of_mem_centralizers {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {ζ : Lˣ} (hζo : orderOf ζ = p) {lam : ZMod p} (hlam : lam * lam = -1)
     {g : ModGL .E8 L}

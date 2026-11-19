@@ -52,7 +52,7 @@ theorem exists_not_mem_D (hEW : TwinThmEW.ThmEQ8) (hcit : CIT3Below n)
     exact sup_le_sup_right le_sup_left _
   have hall : ∀ g : Y, g * t * g⁻¹ ∈ C.D := fun g => hconj g (by rw [htop]; exact Subgroup.mem_top g)
   have hcore := C.H.ex.1.perp.core
-  haveI := hcore.simple
+  have := hcore.simple
   have hNle : Subgroup.normalClosure ({t} : Set Y) ≤ C.D := by
     unfold Subgroup.normalClosure
     rw [Subgroup.closure_le]

@@ -10,7 +10,7 @@ open CFSG.Assembly
 
 @[expose] def KGFNIFieldExponentOn (S : LargeEvenLabel → Prop) : Prop :=
   ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab → S lab →
-    LargeEvenLabelAll lab fun R _ _ F => ∀ f ∈ F, f ^ (kgfniFieldDegree lab * lab.n) = 1
+    LargeEvenLabelAll lab fun _R _ _ F => ∀ f ∈ F, f ^ (kgfniFieldDegree lab * lab.n) = 1
 
 @[expose] def KGFNIRawSimpleOn (S : LargeEvenLabel → Prop) : Prop :=
   ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab → S lab →

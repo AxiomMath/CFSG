@@ -27,8 +27,8 @@ theorem pRank_le_two_of_psp_two {G : Type} [Group G] [Finite G] {p f : ℕ}
     (hC : StatedClassicalModel G .PSp 2 p f) (h3 : p ≠ 3) :
     CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2 := by
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := hC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K p :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have h3K : (3 : K) ≠ 0 := by
     intro h

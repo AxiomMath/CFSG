@@ -13,12 +13,12 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
   CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.StandardType.TwE6RootKill CFSG.Open
 
 theorem isPGroup_le_of_normal_of_relIndex_coprime {G : Type*} [Group G] {R C Q : Subgroup G}
-    [Finite R] {p : ℕ} [Fact p.Prime] (hCR : C ≤ R) (hC : (C.subgroupOf R).Normal)
+    [Finite R] {p : ℕ} [Fact p.Prime] (_hCR : C ≤ R) (hC : (C.subgroupOf R).Normal)
     (hQR : Q ≤ R) (hQ : IsPGroup p Q) (hcop : (C.relIndex R).Coprime p) : Q ≤ C := by
   intro x hxQ
   let C' : Subgroup R := C.subgroupOf R
   let Q' : Subgroup R := Q.subgroupOf R
-  haveI : C'.Normal := hC
+  have : C'.Normal := hC
   have hxQ' : (⟨x, hQR hxQ⟩ : R) ∈ Q' := Subgroup.mem_subgroupOf.2 hxQ
   have hQ' : IsPGroup p Q' := hQ.comap_subtype
   let f : R →* R ⧸ C' := QuotientGroup.mk' C'
@@ -58,7 +58,7 @@ theorem exists_twNormTwo_descent {f : ℕ} (hf : 1 ≤ f) (h3 : 3 ∣ 2 ^ f + 1)
       A.map (baseChangeGL (algebraMap (GaloisField 2 (2 * f)) Ω)) = X ∧
       TwNormTwo (GaloisField 2 (2 * f)) (frobQEquiv hf) A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let R : Subgroup (ModGL Tag.E6 Ω) := TwistedDiag.Rgrp Ω Fr
   let C : Subgroup (ModGL Tag.E6 Ω) := TwistedDiag.Cgrp K (frobQEquiv hf).toRingHom Ω
@@ -76,7 +76,7 @@ theorem exists_twNormTwo_descent {f : ℕ} (hf : 1 ≤ f) (h3 : 3 ∣ 2 ^ f + 1)
   let Φ : ↥Γ ≃* ↥R := twInndiagEquivRgrp hf hK (frobQEquiv hf) hσ Fr hFr
   obtain ⟨hfin, hCR, hCn, hC3, -⟩ :=
     TwistedDiag.cgrp_facts (ℓ := 2) hf K hK (frobQEquiv hf).toRingHom hσ h3 Ω Fr hFr
-  haveI : Finite ↥R := hfin
+  have : Finite ↥R := hfin
   have hVC : V ≤ C := by
     refine isPGroup_le_of_normal_of_relIndex_coprime hCR hCn ?_ hV2 ?_
     · exact hVR

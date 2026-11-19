@@ -108,14 +108,14 @@ theorem conj_letterR (i : Bool) (a b : ℕ) :
       x ^ (actR i (a, b)).1 * y ^ (actR i (a, b)).2 := by
   cases i
   · have e1 : h * x * h⁻¹ = x ^ 0 * y ^ 1 := by rw [pow_zero, one_mul, pow_one, hhx]
-    rw [kOf, conj_split, e1, hhy, pw_pow h₁ h₂ hc, pw_pow h₁ h₂ hc, pw_mul h₁ h₂ hc, actR,
-      pw_mod h₁ h₂ hc (0 * a + 3 * b)]
+    rw [kOf, conj_split, e1, hhy, pw_pow hc, pw_pow hc, pw_mul hc, actR,
+      pw_mod h₁ h₂ (0 * a + 3 * b)]
     congr 3 <;> ring_nf
   · have e2 : k * y * k⁻¹ = x ^ 5 * y ^ 1 := by rw [pow_one, hky]
     have e1 : k * x * k⁻¹ = x ^ 6 * y ^ 1 := by rw [pow_one, hkx]
-    rw [kOf, conj_split, e1, e2, pw_pow h₁ h₂ hc, pw_pow h₁ h₂ hc, pw_mul h₁ h₂ hc, actR,
-      pw_mod h₁ h₂ hc (6 * a + 5 * b)]
-    congr 3 <;> ring_nf
+    rw [kOf, conj_split, e1, e2, pw_pow hc, pw_pow hc, pw_mul hc, actR,
+      pw_mod h₁ h₂ (6 * a + 5 * b)]
+    congr 3; ring_nf
 
 theorem conj_wordR (w : List Bool) (a b : ℕ) :
     gWR h k w * (x ^ a * y ^ b) * (gWR h k w)⁻¹ =

@@ -14,7 +14,7 @@ open CFSG.Blueprint CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native
 
 set_option Elab.async false
 
-@[expose] def progB : List (List (ℕ × ℕ)) := [
+def progB : List (List (ℕ × ℕ)) := [
   [(1, 1), (1, 1), (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (1, 1),
     (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (1, 1), (0, 1), (0, 1), (1, 1), (0, 1), (1, 1),
     (1, 1), (0, 1), (1, 1), (0, 1), (1, 1), (1, 1), (0, 1), (1, 1), (0, 1), (1, 1), (1, 1),
@@ -90,29 +90,29 @@ set_option Elab.async false
   [(41, 2)],
   [(8, 13)]]
 
-@[expose] def initRowsB : Array (Array ℕ) := #[dat.rowsA, dat.rowsB, rowsSB]
+def initRowsB : Array (Array ℕ) := #[dat.rowsA, dat.rowsB, rowsSB]
 
-@[expose] def regsRowsB : Array (Array ℕ) := CFSG.Sporadic.Co1.OddNative.runRows initRowsB progB
+def regsRowsB : Array (Array ℕ) := CFSG.Sporadic.Co1.OddNative.runRows initRowsB progB
 
-@[expose] def rrB (i : ℕ) : Array ℕ := regsRowsB[i]?.getD (idRows 24)
+def rrB (i : ℕ) : Array ℕ := regsRowsB[i]?.getD (idRows 24)
 
-@[expose] def yIdx : List ℕ := [8, 12]
+def yIdx : List ℕ := [8, 12]
 
-@[expose] def sIdx : List ℕ := [33, 34, 35, 36, 37, 38]
+def sIdx : List ℕ := [33, 34, 35, 36, 37, 38]
 
-@[expose] def eIdx : List ℕ := [40, 42]
+def eIdx : List ℕ := [40, 42]
 
-@[expose] def gIdx : ℕ := 8
+def gIdx : ℕ := 8
 
-@[expose] def yRows : Array (Array ℕ) := (yIdx.map rrB).toArray
+def yRows : Array (Array ℕ) := (yIdx.map rrB).toArray
 
-@[expose] def sRows : Array (Array ℕ) := (sIdx.map rrB).toArray
+def sRows : Array (Array ℕ) := (sIdx.map rrB).toArray
 
-@[expose] def FY : VTree := vtreeBFS yRows code4 100000
+def FY : VTree := vtreeBFS yRows code4 100000
 
-@[expose] def FS : GTree := gtBFS sRows 100000
+def FS : GTree := gtBFS sRows 100000
 
-@[expose] def centB : Bool :=
+def centB : Bool :=
   (yIdx ++ sIdx ++ eIdx).all (fun i => mulRows 24 (rrB i) rowsSB == mulRows 24 rowsSB (rrB i)) &&
     (sIdx ++ eIdx).all (fun i => isFixedN (transposeRows 24 (rrB i)) code4) &&
     (yIdx ++ sIdx ++ eIdx ++ [43]).all (fun i => validRows (rrB i)) &&

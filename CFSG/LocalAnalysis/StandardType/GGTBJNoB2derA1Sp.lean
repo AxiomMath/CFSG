@@ -47,11 +47,11 @@ private theorem sympA6_unitary_not_a6
     (hA6 : Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* alternatingGroup (Fin 6))) : False := by
   classical
   have hr : 1 ≤ r := Nat.pos_of_neZero r
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have blocks := spPrimaryBlocks_of_order_three hK hr hx3 hx1
   let fac : primaryFactors (spEnd x) := ⟨X ^ 2 + X + 1, hmem⟩
   have hfac : (fac : K[X]) = X ^ 2 + X + 1 := rfl
-  haveI : Fact (Irreducible (fac : K[X])) := ⟨irreducible_of_mem_primaryFactors fac.2⟩
+  have : Fact (Irreducible (fac : K[X])) := ⟨irreducible_of_mem_primaryFactors fac.2⟩
   have hdn : (fac : K[X]) ≠ X - 1 := by
     rw [hfac]
     exact CFSG.HardMathSupport.Dickson.Bal207.X_sq_add_X_add_one_ne
@@ -69,8 +69,8 @@ private theorem sympA6_unitary_not_a6
     rw [Module.finrank_eq_card_basis e, Fintype.card_fin]
   have hm1 : 1 ≤ Module.finrank (AdjoinRoot (fac : K[X]))
       (primaryComponent (spEnd x) (fac : K[X])) := by rw [hfing]; omega
-  haveI : Finite (AdjoinRoot (fac : K[X])) := hE.finite
-  haveI : Fintype (AdjoinRoot (fac : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (fac : K[X])) := hE.finite
+  have : Fintype (AdjoinRoot (fac : K[X])) := Fintype.ofFinite _
   have hEcard : Fintype.card (AdjoinRoot (fac : K[X])) = (2 ^ g) ^ 2 := by
     rw [Fintype.card_eq_nat_card]
     exact hE.card_eq_sq
@@ -134,7 +134,7 @@ private theorem sympA6_fixed_dim_four
     spFixedDim x = 4 := by
   classical
   have hr : 1 ≤ r := Nat.pos_of_neZero r
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have blocks := spPrimaryBlocks_of_order_three hK hr hx3 hx1
   have h4 : 4 ≤ spFixedDim x :=
     fixedDim_ge_four_of_quasisimple_derived_fixed hK hr hx3 hx1 hQ
@@ -176,10 +176,10 @@ private theorem sympA6_fixed_dim_four
         have h := (Subgroup.mem_center_iff.mp ha)
           (⟨b.1, Subgroup.commutator_le_self (spFixedFactor x) b.2⟩ : ↥(spFixedFactor x))
         simpa using (congrArg Subtype.val h).symm
-      haveI : Group.IsSolvable ↥⁅spFixedFactor x, spFixedFactor x⁆ :=
+      have : Group.IsSolvable ↥⁅spFixedFactor x, spFixedFactor x⁆ :=
         Group.isSolvable_of_comm hcomm
-      haveI : Group.IsPerfect ↥⁅spFixedFactor x, spFixedFactor x⁆ := hQ.1
-      haveI : Nontrivial ↥⁅spFixedFactor x, spFixedFactor x⁆ := by
+      have : Group.IsPerfect ↥⁅spFixedFactor x, spFixedFactor x⁆ := hQ.1
+      have : Nontrivial ↥⁅spFixedFactor x, spFixedFactor x⁆ := by
         obtain ⟨a, b, hab⟩ := hQ.2.2
         obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
         obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -218,7 +218,7 @@ theorem sp_a6_component_position
     spFixedDim x = 4 ∧ J = (⁅spFixedFactor x, spFixedFactor x⁆).map (proj r K) := by
   classical
   have hr : 1 ≤ r := Nat.pos_of_neZero r
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h3K : ((3 : ℕ) : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
     norm_num
@@ -227,7 +227,7 @@ theorem sp_a6_component_position
     exact CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars_le_center
   have blocks := spPrimaryBlocks_of_order_three hK hr hx3 hx1
   have hsq := (CFSG.RankThree.Classical.altPrimaryData_spLin h3K hx3).squarefree
-  haveI : Finite (CFSG.RankThree.Classical.reciprocalOrbits
+  have : Finite (CFSG.RankThree.Classical.reciprocalOrbits
       (CFSG.RankThree.Classical.spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct

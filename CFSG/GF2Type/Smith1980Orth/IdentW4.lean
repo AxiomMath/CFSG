@@ -269,7 +269,7 @@ private theorem exists_commutative_exponent_three (O : OrthData S) (hw : S.width
     rw [h3] at h
     exact h.trans (by norm_num)
   have hdisj : Disjoint (T : Subgroup S.M) S.Q :=
-    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ T.isPGroup' S.extraspecial.1
+    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ T.isPGroup S.extraspecial.1
   have hTinj : ∀ a ∈ (T : Subgroup S.M), ∀ b ∈ (T : Subgroup S.M), π a = π b → a = b := by
     intro a ha b hb hab
     have h1 : a⁻¹ * b ∈ (T : Subgroup S.M) := mul_mem (inv_mem ha) hb

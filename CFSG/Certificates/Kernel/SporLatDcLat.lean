@@ -121,7 +121,7 @@ private theorem closure_eMem (j : ℕ) :
   have h2 : {x : Γ | ∃ w ∈ P.D.mw.getD j [], x = evalElt P.els w} =
       {x : Γ | ∃ w ∈ P.D.mw.getD j [], x = wordElt P.a P.b w} := by
     ext x
-    rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨w, hw, rfl⟩
       exact ⟨w, hw, P.evalElt_eq_wordElt (mw_letters P hw)⟩
@@ -134,7 +134,7 @@ private theorem closure_eMem (j : ℕ) :
         {x : Γ | x ∈ P.sl.take P.C.ng} ∪
           {x : Γ | ∃ w ∈ P.D.mw.getD j [], x = wordElt P.a P.b w} := by
       ext x
-      rw [Set.mem_setOf_eq, Set.mem_union, Set.mem_setOf_eq, Set.mem_setOf_eq, List.mem_append]
+      rw [Set.mem_ofPred_eq, Set.mem_union, Set.mem_ofPred_eq, Set.mem_ofPred_eq, List.mem_append]
       constructor
       · rintro (hx | hx)
         · exact Or.inl hx
@@ -166,7 +166,7 @@ private theorem closure_eAtom (w : List ℕ) :
   have h1 : {x : Γ | ∃ v ∈ eAtom P.C w, x = evalElt P.els v} =
       {x : Γ | ∃ v ∈ sLet P.C, x = evalElt P.els v} ∪ {evalElt P.els w} := by
     ext x
-    rw [Set.mem_setOf_eq, Set.mem_union, Set.mem_setOf_eq, Set.mem_singleton_iff,
+    rw [Set.mem_ofPred_eq, Set.mem_union, Set.mem_ofPred_eq, Set.mem_singleton_iff,
       mem_eAtom_iff]
   rw [h1, Subgroup.closure_union, closure_sLet P]
 
@@ -335,7 +335,7 @@ private theorem memW_mem_of_sup {g : Γ} {T : List ℕ} {w : List ℕ}
 
 private theorem atom_prop_member {r : Rep} (hr : r ∈ P.recs)
     (hcls : Nat.blt r.cls P.D.mw.length = true)
-    {x : Wit} {gs : List Wit} (hwits : r.wits = x :: gs)
+    {x : Wit} {gs : List Wit} (_hwits : r.wits = x :: gs)
     (h1 : memW P.C (eMem P.C P.D r.cls) x r.lab = true)
     (h2 : gensW P.C (eAtom P.C r.w) gs (P.D.mw.getD r.cls []) = true) :
     AtomProp P r := by
@@ -344,7 +344,7 @@ private theorem atom_prop_member {r : Rep} (hr : r ∈ P.recs)
   have hjJ : r.cls < P.D.mw.length := by rwa [Nat.blt_eq] at hcls
   have hmem : memberOrTop P.D.mw.length P.Y r.cls = P.Y r.cls := by
     unfold memberOrTop
-    rw [if_pos hjJ]
+    rw [ite_eq_left hjJ]
   refine ⟨?_, ?_⟩
   · rw [hmem]
     exact evalElt_mem_Y P hrOK h1
@@ -359,7 +359,7 @@ private theorem atom_prop_member {r : Rep} (hr : r ∈ P.recs)
       exact hrep
     rw [Y, Subgroup.closure_le]
     intro y hy
-    rw [Set.mem_setOf_eq] at hy
+    rw [Set.mem_ofPred_eq] at hy
     rw [List.mem_append] at hy
     rcases hy with hy | hy
     · exact hSZ (Subgroup.subset_closure hy)
@@ -439,7 +439,7 @@ private theorem atom_prop_top_ref {r : Rep} {Z : Subgroup Γ}
   have h2 := (ih (refR P.D c') hr' hrank').2 Z hSZ hrefZ
   have h3 : memberOrTop P.D.mw.length P.Y (refR P.D c').cls = ⊤ := by
     unfold memberOrTop
-    rw [hclsJ, if_neg (by omega)]
+    rw [hclsJ, ite_eq_right (by omega)]
   rwa [h3] at h2
 
 private theorem atom_prop_top_letters {r : Rep} {Z : Subgroup Γ}
@@ -472,7 +472,7 @@ private theorem atom_prop_top {r : Rep} (hr : r ∈ P.recs) (hJ : r.cls = P.D.mw
   have hisW : isW P.C r.w = true := (repOK_parts P hrOK).1
   have hmem : memberOrTop P.D.mw.length P.Y r.cls = ⊤ := by
     unfold memberOrTop
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   refine ⟨?_, ?_⟩
   · rw [hmem]
     exact Subgroup.mem_top _
@@ -500,7 +500,7 @@ private theorem atom_prop_aux : ∀ (ρ : ℕ) (r : Rep), r ∈ P.recs → r.ran
     cases hcls : Nat.blt r.cls P.D.mw.length with
     | true =>
       rw [hcls] at hatom
-      simp only [cond_true] at hatom
+      simp only [_root_.Bool.cond_true] at hatom
       cases hwits : r.wits with
       | nil => rw [hwits] at hatom; simp at hatom
       | cons x gs =>
@@ -508,7 +508,7 @@ private theorem atom_prop_aux : ∀ (ρ : ℕ) (r : Rep), r ∈ P.recs → r.ran
         exact atom_prop_member P hr hcls hwits hatom.1 hatom.2
     | false =>
       rw [hcls] at hatom
-      simp only [cond_false, Bool.and_eq_true, Nat.beq_eq] at hatom
+      simp only [Bool.cond_false, Bool.and_eq_true, Nat.beq_eq] at hatom
       refine atom_prop_top P hr hatom.1 hatom.2 ?_
       intro r' hr' hrank'
       exact ih r'.rank (by rwa [hρ] at hrank') r' hr' rfl
@@ -571,7 +571,7 @@ private theorem Y_le_sup_of_eJoin {j j' jj : ℕ} {ws : List Wit}
     P.Y jj ≤ P.Y j ⊔ P.Y j' := by
   rw [Y, Subgroup.closure_le]
   intro x hx
-  rw [Set.mem_setOf_eq, List.mem_append] at hx
+  rw [Set.mem_ofPred_eq, List.mem_append] at hx
   rcases hx with hx | hx
   · exact Y_le_sup_left P j j' (Subgroup.subset_closure (List.mem_append_left _ hx))
   · obtain ⟨w, hw, rfl⟩ := List.mem_map.mp hx
@@ -593,7 +593,7 @@ private theorem Y_le_Y_of_gens {j jj : ℕ} {ws : List Wit}
     P.Y j ≤ P.Y jj := by
   rw [Y, Subgroup.closure_le]
   intro x hx
-  rw [Set.mem_setOf_eq, List.mem_append] at hx
+  rw [Set.mem_ofPred_eq, List.mem_append] at hx
   rcases hx with hx | hx
   · exact S_le_Y P jj (Subgroup.subset_closure hx)
   · obtain ⟨w, hw, rfl⟩ := List.mem_map.mp hx
@@ -638,11 +638,11 @@ private theorem exists_join {j j' : ℕ} (h : (j, j') ∈ pairsL P.D.mw.length) 
 private theorem memberOrTop_lt {j : ℕ} (h : j < P.D.mw.length) :
     memberOrTop P.D.mw.length P.Y j = P.Y j := by
   unfold memberOrTop
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem memberOrTop_top : memberOrTop P.D.mw.length P.Y P.D.mw.length = ⊤ := by
   unfold memberOrTop
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 private theorem sup_top_of_topW {j j' : ℕ} {ws : List Wit}
     (h : topW P.C P.D (eJoin P.C P.D j j') (fun _ => true) ws = true) :
@@ -699,13 +699,13 @@ private theorem joinOK_spec {e : Join} (h : joinOK P.C P.D e = true) :
   refine ⟨hjle, ?_⟩
   by_cases hlt : Nat.blt e.2.2.1 P.D.mw.length = true
   · left
-    rw [hlt, cond_true, Bool.and_eq_true, Bool.and_eq_true] at hrest
+    rw [hlt, _root_.Bool.cond_true, Bool.and_eq_true, Bool.and_eq_true] at hrest
     exact ⟨by rwa [Nat.blt_eq] at hlt, hrest.1.1, hrest.1.2, hrest.2⟩
   · right
     have hfl : Nat.blt e.2.2.1 P.D.mw.length = false := by
       rw [Bool.eq_false_iff]
       exact hlt
-    rw [hfl, cond_false] at hrest
+    rw [hfl, Bool.cond_false] at hrest
     have hge : P.D.mw.length ≤ e.2.2.1 := by
       have h1 : ¬ (e.2.2.1 < P.D.mw.length) := by
         rw [← Nat.blt_eq]
@@ -775,7 +775,7 @@ private theorem mem_recs_atomR {r : Rep} (hr : r ∈ P.recs) (hcls : ¬ r.cls < 
     rw [Bool.eq_false_iff]
     intro h
     exact hcls (by rwa [← Nat.blt_eq])
-  rw [hfl, cond_false, Bool.and_eq_true, Nat.beq_eq] at hatom
+  rw [hfl, Bool.cond_false, Bool.and_eq_true, Nat.beq_eq] at hatom
   exact hatom.1
 
 theorem family_complete_apply :
@@ -787,11 +787,11 @@ theorem family_complete_apply :
   have hrep : ∀ c (h : c < R), rep c = evalElt P.els (P.recs[c]).w := by
     intro c h
     unfold rep
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hjc : ∀ c (h : c < R), jc c = (P.recs[c]).cls := by
     intro c h
     unfold jc
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hcover : ∀ g : Γ, ∃ c < R, ∃ s ∈ P.S, ∃ t ∈ P.S, g = s * rep c * t := by
     intro g
     obtain ⟨r, hr, s, hs, t, ht, rfl⟩ := cover_rec P g

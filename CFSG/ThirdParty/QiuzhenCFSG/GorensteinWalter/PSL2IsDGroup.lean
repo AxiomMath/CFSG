@@ -45,8 +45,8 @@ public theorem isDGroup_of_mulEquiv_psl2_odd
       _hrhoApply, _hiotaNormal, _hiotaIndex, _hsharp, hlarge,
       _hsmallTwo, _hsmallThree⟩
   have hsimplePSL : IsSimpleGroup (PSL2 K) := (hlarge hKlarge).1
-  letI : IsSimpleGroup (PSL2 K) := hsimplePSL
-  letI : IsSimpleGroup G := e.isSimpleGroup
+  let : IsSimpleGroup (PSL2 K) := hsimplePSL
+  let : IsSimpleGroup G := e.isSimpleGroup
   have hEven : 2 ∣ Nat.card G := by
     let S : Sylow 2 G := Classical.choice Sylow.nonempty
     obtain ⟨m, _hm, ⟨eS⟩⟩ := hDihedral S

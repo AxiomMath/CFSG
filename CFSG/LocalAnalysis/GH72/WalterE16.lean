@@ -65,7 +65,7 @@ theorem le_normalizer_component : T ≤ normalizer (K : Set G) :=
 theorem isSylowOf_inf_component : IsSylowOf 2 (T ⊓ K) K := by
   have hT : IsSylowOf 2 T ⊤ := by
     rw [isSylowOf_iff, relIndex_top_right, ← hS]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   exact isSylowOf_inf_of_le_normalizer hT (le_normalizer_component hO hY hS hK)
 
 theorem exists_inner_mem_inf {t : G} (ht : t ∈ T) :
@@ -97,7 +97,7 @@ theorem exists_inner_mem_inf {t : G} (ht : t ∈ T) :
         _ = k * (k ^ n * x * (k ^ n)⁻¹) * k⁻¹ := hk _ hx'
         _ = k ^ (n + 1) * x * (k ^ (n + 1))⁻¹ := by group
   obtain ⟨m, hm⟩ : ∃ m : ℕ, t ^ 2 ^ m = 1 := by
-    have hTp : IsPGroup 2 T := hS ▸ S.isPGroup'
+    have hTp : IsPGroup 2 T := hS ▸ S.isPGroup
     obtain ⟨m, hm⟩ := hTp ⟨t, ht⟩
     exact ⟨m, by simpa using congrArg Subtype.val hm⟩
   have hkm : k ^ 2 ^ m = 1 := by

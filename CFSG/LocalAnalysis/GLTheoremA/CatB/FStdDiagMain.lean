@@ -80,7 +80,7 @@ theorem fstd_exists_elemAbelian_of_le_inner {S : Type} [Group S] [Finite S]
 
 theorem fstd_27_dvd_of_elemAbelian {G : Type} [Group G] [Finite G] {A : Subgroup G}
     (hA : CFSG.Assembly.IsElemAbelian 3 A) (hc : 27 ≤ Nat.card ↥A) : 27 ∣ Nat.card ↥A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 ↥A := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by rw [Subgroup.coe_pow, hA.2 _ g.2, Subgroup.coe_one])⟩
@@ -130,7 +130,7 @@ theorem fstd_false_of_ambiguous {S : Type} [Group S] [Finite S]
       simp only [ambiguousChev] at hi
       omega
     have e' : S ≃* alternatingGroup (Fin n) := e
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hcard : Nat.card S = n.factorial / 2 := by
       rw [Nat.card_congr e'.toEquiv, nat_card_alternatingGroup]
       simp only [Nat.card_eq_fintype_card, Fintype.card_fin]

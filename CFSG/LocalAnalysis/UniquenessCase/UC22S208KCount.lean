@@ -17,7 +17,7 @@ theorem s208k_card_sylow_eq_index {G : Type} [Group G] [Finite G] {B R : Subgrou
     (hdc : ∀ g, g ∉ B → ∀ y, y ∉ B → ∃ b₁ ∈ B, ∃ b₂ ∈ B, y = b₁ * g * b₂) :
     Nat.card (Sylow 2 ↥R) = B.index := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨r, hrR, hrB⟩ := SetLike.not_le_iff_exists.mp hRB
+  obtain ⟨r, hrR, hrB⟩ := IsConcreteLE.not_le_iff_exists.mp hRB
   have hsup : B ⊔ R = ⊤ := by
     refine eq_top_iff.mpr fun y _ => ?_
     by_cases hy : y ∈ B

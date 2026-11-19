@@ -27,8 +27,8 @@ theorem ggFixLine_central_complement {p N : ℕ} [Fact p.Prime] {V : Type} [AddC
   have hTprops := ggFixLine_T_props S
   have hTmem : ∀ g ∈ A, ∀ v : V, g v - v ∈ T := hTprops.1
   have hT' : Module.finrank (ZMod p) ↥T = N - 1 := hT
-  haveI hι : Finite ι := S.finite_family
-  haveI hfinV : Module.Finite (ZMod p) V := ggFixLine_finite s S.s_refl S.fix_H
+  have hι : Finite ι := S.finite_family
+  have hfinV : Module.Finite (ZMod p) V := ggFixLine_finite s S.s_refl S.fix_H
   have hVdim : Module.finrank (ZMod p) V = N :=
     (ggFixLine_split S.odd S.five_le S.dvd S.dim_le S.indep S.pair S.r_form hF2).1
   have hTne : T ≠ ⊤ := by

@@ -42,7 +42,7 @@ theorem rckRP_admissible_PSU_of_quasisimple_range
     CFSG.Open.StatedLieAdmissible .PSU r 2 g ∨ (r = 2 ∧ 2 ≤ g) := by
   have hns : ¬ Group.IsSolvable ↥ρ.range := by
     intro hs
-    haveI : Group.IsSolvable ↥ρ.range := hs
+    have : Group.IsSolvable ↥ρ.range := hs
     exact CFSG.StandardType.LinSemisimple.false_of_isQuasisimple_of_le_isSolvable hq le_rfl
   have hdim := CFSG.StandardType.LieKnownR2.PSU.jDim_selfDual_psu ρ hns
   by_cases hr : r = 2
@@ -60,7 +60,7 @@ theorem rckRP_admissible_PSU_of_quasisimple_range
     omega
 
 theorem rckRP_nonempty_mulEquiv_PSL_two_PSp_one
-    {f : ℕ} (hf : 1 ≤ f) : Nonempty ((ggU .PSL 2 f).K ≃* (ggU .PSp 1 f).K) := by
+    {f : ℕ} (_hf : 1 ≤ f) : Nonempty ((ggU .PSL 2 f).K ≃* (ggU .PSp 1 f).K) := by
   change Nonempty (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) ≃*
     ↥(CFSG.Open.StatedSp 1 (GaloisField 2 f)))
   exact ⟨CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne
@@ -68,7 +68,7 @@ theorem rckRP_nonempty_mulEquiv_PSL_two_PSp_one
 
 theorem rckRP_nonempty_mulEquiv_PSL_two_PSU_two
     {g : ℕ} (hg : 1 ≤ g) : Nonempty ((ggU .PSL 2 g).K ≃* (ggU .PSU 2 g).K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases g with _ | g
   · omega
   let F := GaloisField 2 (2 * (g + 1))

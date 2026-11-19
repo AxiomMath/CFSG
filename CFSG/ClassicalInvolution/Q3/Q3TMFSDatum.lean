@@ -111,7 +111,7 @@ theorem typeCNormalDatum_proved :
   have hLC : L ≤ C := isSubnormal_le hz.subnormal
   obtain ⟨hodd, -⟩ := odd_index_of_memberIndex_eq_three hS.sup hC
   set Q' : Subgroup Y := (Q : Subgroup L).map L.subtype with hQ'def
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map L.subtype
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map L.subtype
   have hQ'T : Q' ≤ T := isPGroup_two_le_of_odd_index hodd hQ'2
   have hQ'L : Q' ≤ L := Subgroup.map_subtype_le _
   have hQ'C : Q' ≤ C := hQ'L.trans hLC

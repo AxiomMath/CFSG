@@ -159,25 +159,25 @@ theorem exists_kgPieces_frame_four {K V : Type} [Field K] [Finite K] [CharP K 2]
       intro y hy
       rw [Subgroup.mem_bot]
       by_contra hy1
-      haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperfP
-      haveI : Group.IsSolvable ↥C₀ := hsolC
-      haveI : Group.IsSolvable ↥P :=
+      have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperfP
+      have : Group.IsSolvable ↥C₀ := hsolC
+      have : Group.IsSolvable ↥P :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hPC)
           (Subgroup.inclusion_injective hPC)
-      haveI : Nontrivial ↥P :=
+      have : Nontrivial ↥P :=
         ⟨⟨y, hy⟩, 1, fun h => hy1 (by simpa using congrArg Subtype.val h)⟩
       exact Group.IsPerfect.not_isSolvable ↥P inferInstance
     · intro J hJ
       exact absurd hJ (Set.notMem_empty J)
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨f, -, hcardK⟩ := FiniteField.card K 2
     have hKf : Nat.card K = 2 ^ (f : ℕ) := by
       rw [Nat.card_eq_fintype_card, hcardK]
     have hf2 : 2 ≤ (f : ℕ) := by
       by_contra h
-      push_neg at h
+      push Not at h
       rcases (by omega : (f : ℕ) = 0 ∨ (f : ℕ) = 1) with h0 | h1
       · rw [hKf, h0] at hK
         norm_num at hK

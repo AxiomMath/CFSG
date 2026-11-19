@@ -24,7 +24,7 @@ theorem exists_ebar_data {E : Type} [Group E] [Finite E] {K : Subgroup E} {u : E
       CFSG.Blueprint.LieModel (↥J ⧸ center ↥J) .PSU 4 3 1 ∧
       (∀ x ∈ center ↥J, orderOf x ≠ 4) ∧
       Nonempty (↥K ⧸ CFSG.Open.fusionZStar ↥K ≃* ↥J ⧸ CFSG.Open.fusionZStar ↥J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : E →* E ⧸ center E := QuotientGroup.mk' (center E)
   let t : E ⧸ center E := π u
   let J : Subgroup (E ⧸ center E) := K.map π

@@ -42,7 +42,7 @@ theorem false_of_cube_of_fix_wRho_E6 {K : Type} [Field K] {z : Fin Tag.E6.rank �
   by_cases h1 : ∀ i, z i = 1
   · refine hfive (fun k => Pi.single (Fin.castSucc k) 1) (fun k => ?_)
       ((Pi.linearIndependent_single_one (Fin 6) ℤ).comp _ (Fin.castSucc_injective 5))
-    simp only [famKernel, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+    simp only [famKernel, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
     exact ⟨.basis _, by simp [rootChar, h1]⟩
   obtain ⟨i₀, hi₀⟩ := not_forall.1 h1
   have hω3 := hz i₀
@@ -80,7 +80,7 @@ theorem false_of_cube_of_fix_wRho_E6 {K : Type} [Field K] {z : Fin Tag.E6.rank �
     simp only [Fin.prod_univ_six, Fin.sum_univ_six, he6, ← zpow_mul', zpow_add]
   have hmem {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot .E6 β) (h3 : (3 : ℤ) ∣ ∑ i, e i * β i) :
       β ∈ famKernel {z} := by
-    simp only [famKernel, Set.mem_setOf_eq, Set.mem_singleton_iff, forall_eq]
+    simp only [famKernel, Set.mem_ofPred_eq, Set.mem_singleton_iff, forall_eq]
     refine ⟨hβ, ?_⟩
     rw [hchar, ← orderOf_dvd_iff_zpow_eq_one, hord,
       Finset.sum_congr rfl fun i _ => mul_comm (β i) (e i)]

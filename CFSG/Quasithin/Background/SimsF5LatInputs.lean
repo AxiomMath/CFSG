@@ -142,7 +142,7 @@ theorem enc6_one : enc6 (1 : GL6F3) = 1 := by
   rw [enc6_toFun, M6.toFun_one]
   by_cases hij : i = j
   · subst hij
-    simp only [Units.val_one, Matrix.one_apply_eq, if_true]
+    simp only [Units.val_one, Matrix.one_apply_eq, ite_true]
     rfl
   · simp [hij, Matrix.one_apply_ne hij]
 

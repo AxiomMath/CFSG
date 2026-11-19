@@ -73,7 +73,6 @@ theorem faithfulOnType_of_model (D : XDatum S Φ ΓM v₁ v₂) (e : S.ι.Γ ≃
       rw [e.apply_symm_apply, hw] at h1
       cases hs : CosetGeom.vtype (e.symm w) <;> cases s <;> rw [hs] at h1 <;>
         first
-        | rfl
         | exact absurd h1.symm hlab
         | exact absurd h1 hlab
     have := hy _ hvt

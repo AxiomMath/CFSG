@@ -51,7 +51,7 @@ theorem exists_pair_of_fixed {M K L : Subgroup G} (hK : K ∈ calC M) (hL : L �
     ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R M ∧ ∃ a₁ ∈ K ⊓ R, ∃ a₂ ∈ L ⊓ R,
       orderOf a₁ = 3 ∧ orderOf a₂ = 3 ∧ a₁ ∈ centralizer (Q : Set G) ∧
         a₂ ∈ centralizer (Q : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQodd : Odd (Nat.card Q) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hQ
     rw [hn]
@@ -83,7 +83,7 @@ private theorem exists_orderOf_three_centralizer_of_not_dvd {L : Subgroup G}
     (r : CFSG.Open.pRank 3 L = 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G}
     (hP : IsPGroup p P) (hPN : P ≤ normalizer (L : Set G)) (hpL : ¬ p ∣ Nat.card (Bar2 L)) :
     ∃ b ∈ L, orderOf b = 3 ∧ b ∈ centralizer (P : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpL' : ¬ p ∣ Nat.card L := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥L)]
     intro h
@@ -95,7 +95,7 @@ private theorem exists_orderOf_three_centralizer_of_not_dvd {L : Subgroup G}
     CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup hp Nat.prime_three hP hPN hpL'
   have hTL : (S : Subgroup L).map L.subtype ≤ L := map_subtype_le _
   have hTc : IsCyclic ((S : Subgroup L).map L.subtype) :=
-    R8107Shape.isCyclic_of_isPGroup_of_pRank_eq_one r hTL (S.isPGroup'.map L.subtype)
+    R8107Shape.isCyclic_of_isPGroup_of_pRank_eq_one r hTL (S.isPGroup.map L.subtype)
   have h3S : 3 ∣ Nat.card (S : Subgroup L) := by
     rw [Sylow.card_eq_multiplicity]
     exact dvd_pow_self 3 (Nat.Prime.factorization_pos_of_dvd Nat.prime_three Nat.card_pos.ne'
@@ -187,7 +187,7 @@ theorem exists_pair_mem_sig {D : Data G} (hSg : UC6S846.SigmaStd D) (h82 : F08.R
       orderOf a₁ = 3 ∧ orderOf a₂ = 3 ∧
         ∃ y ∈ D.M, orderOf y = p ∧ y * a₁ = a₁ * y ∧ y * a₂ = a₂ * y := by
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp5 := five_le_of_mem_sig hSg hnsp hL₁ hp
   have hN₁ : ∀ H : Subgroup G, H ≤ D.M → Odd (Nat.card H) → H ≤ normalizer (L₁ : Set G) :=
     fun _ hHM hH => R8107Odd.le_normalizer_of_odd h82 hnsp hL₁ r₁ hHM hH

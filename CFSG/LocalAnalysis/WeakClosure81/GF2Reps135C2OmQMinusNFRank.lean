@@ -30,17 +30,17 @@ theorem omqnf_finrank_map_plane {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
       if ∏ a, s a = 1 then 0 else 1 := by
   have hb : b ≠ 0 := CFSG.StandardType.GGOppRadOmega.b_ne_zero hirr
   by_cases hp : ∏ a, s a = 1
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have hbot : Submodule.map ((T : Vm n K →ₗ[K] Vm n K) - 1) (omqnfPlane n K) = ⊥ := by
       rw [omqnfPlane, Submodule.map_span, Submodule.span_eq_bot]
       rintro _ ⟨_, ⟨p, rfl⟩, rfl⟩
       simp [h.2 p, hp]
     rw [hbot, finrank_bot]
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have key : ∀ p, ((T : Vm n K →ₗ[K] Vm n K) - 1) (planeVec n p) =
         (b * p 1) • planeVec n (planeOne : Fin 2 → K) := by
       intro p
-      simp only [LinearMap.sub_apply, LinearEquiv.coe_coe, h.2 p, if_neg hp, Module.End.one_apply]
+      simp only [LinearMap.sub_apply, LinearEquiv.coe_coe, h.2 p, ite_eq_right hp, Module.End.one_apply]
       rw [← planeVec_sub, omqnfrk_refl_sub, planeVec_smul]
     have himg : Submodule.map ((T : Vm n K →ₗ[K] Vm n K) - 1) (omqnfPlane n K) =
         Submodule.span K {planeVec n (planeOne : Fin 2 → K)} := by
@@ -86,7 +86,7 @@ theorem omqnf_finrank_commSpace {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     induction hv using Submodule.span_induction with
     | mem y hy =>
       obtain ⟨x, rfl⟩ := hy
-      rcases x with a | a <;> simp [omqnfFrame, eVec, fVec, Pi.single_apply]
+      rcases x with a | a <;> simp [omqnfFrame, eVec, fVec]
     | zero => rfl
     | add y z _ _ hy hz => simp [hy, hz]
     | smul r y _ hy => simp [hy]

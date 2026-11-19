@@ -231,7 +231,7 @@ theorem endo_zero_or_one [Finite Q] {n : ℕ} (hQ : Nat.card Q = 2 ^ n) (hn : 2 
   have : Finite (Module.End (ZMod 2) Q) :=
     Finite.of_injective (fun φ : Module.End (ZMod 2) Q => (φ : Q → Q))
       (fun a b h => LinearMap.ext fun v => congrFun h v)
-  letI : Field (commOf π) := (commOf_isField hirr).toField
+  let : Field (commOf π) := (commOf_isField hirr).toField
   have hEfin : Finite (commOf π) := inferInstance
   have : Module.Finite (commOf π) Q := Module.Finite.of_finite
   have hEcard : Nat.card (commOf π) = 2 ^ finrank (ZMod 2) (commOf π) := by
@@ -247,7 +247,7 @@ theorem endo_zero_or_one [Finite Q] {n : ℕ} (hQ : Nat.card Q = 2 ^ n) (hn : 2 
   have hne1 : (1 : commOf π) ≠ ⟨ξ, hξ⟩ := fun h => h1 (by simpa using (congrArg Subtype.val h).symm)
   have h3 : 3 ≤ Nat.card (commOf π) := by
     classical
-    haveI := Fintype.ofFinite (commOf π)
+    have := Fintype.ofFinite (commOf π)
     rw [Nat.card_eq_fintype_card]
     have hc : ({0, 1, ⟨ξ, hξ⟩} : Finset (commOf π)).card = 3 := by
       rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem, Finset.card_singleton]
@@ -448,7 +448,7 @@ theorem endo_rel [Finite W] [IsSimpleGroup H] (hnab : ∃ a b : H, a * b ≠ b *
         Submodule.Quotient.mk ⟨ξ (π h u), hξU _ (hU h u u.2)⟩
       congr 1
       exact Subtype.ext (hcomm h u)
-  haveI := isPerfect_of_simple hnab
+  have := isPerfect_of_simple hnab
   rcases endo_zero_or_one hQcard hn (center_trivial_of_simple hnab) hcard hirrQ hinjQ hcommQ with
     h | h
   · exfalso
@@ -656,12 +656,12 @@ theorem K542_holds : K542 := by
   have hQT : pCoreOf 2 (⊤ : Subgroup X) ≤ T :=
     CFSG.Quasithin.B6.pCoreOf_two_le_of_isSylowTwoOf hX.sylow
   have hV := isElemAbelian_gnV_of_le hC hQT
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   rcases h6 with h6 | ⟨d, q, hq3, hqd, he⟩
   · obtain ⟨eL⟩ := h6
     have : IsSimpleGroup (alternatingGroup (Fin 6)) := isSimpleGroup_alt6
-    haveI : IsSimpleGroup ↥Ls := eL.isSimpleGroup
+    have : IsSimpleGroup ↥Ls := eL.isSimpleGroup
     have hcard : Nat.card ↥Ls = 360 := by
       rw [Nat.card_congr eL.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
         Fintype.card_fin]
@@ -671,7 +671,7 @@ theorem K542_holds : K542 := by
       (n := 4) (by norm_num) (Or.inl ⟨rfl, hcard⟩) hHI hrel x hx
   · obtain ⟨e⟩ := he
     obtain ⟨hs, hcard⟩ := K542Proof.u33_simple_card hq3 hqd e
-    haveI := hs
+    have := hs
     obtain ⟨hHI, hrel⟩ := agl81FiveThreeU33_proved X T hX.kGroup hC hT2 hQT Ls hL hJ
       ⟨d, ⟨q, hq3, hqd⟩, ⟨e⟩⟩
     exact K542Proof.k542_of_clause hV Ls (K542Proof.nonabelian_of_simple_card (by norm_num) hcard)

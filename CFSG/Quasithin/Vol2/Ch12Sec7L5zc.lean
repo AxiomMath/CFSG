@@ -499,7 +499,7 @@ theorem not_threeRankLeOne {X Y : Type*} [Group X] [Group Y] [Finite X] (π : X 
   obtain ⟨P⟩ : Nonempty (Sylow 3 X) := inferInstance
   have hPc : IsCyclic ↥(P : Subgroup X) := by
     by_contra hnc
-    have : Fact (IsPGroup 3 ↥(P : Subgroup X)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(P : Subgroup X)) := ⟨P.isPGroup⟩
     obtain ⟨S, -, hS9, hSe⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
     have hSe' := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 S).mp hSe
     obtain ⟨s₁, hs₁S, hs₁⟩ : ∃ s₁ ∈ S, s₁ ≠ 1 := by

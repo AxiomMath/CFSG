@@ -82,7 +82,7 @@ theorem le_mParam_of_isNaturalClassicalModule [Finite V] (hV : ∀ v : V, v ^ 2 
     k ≤ E3.mParam X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold E3.mParam
-  rw [if_pos heven]
+  rw [ite_eq_left heven]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 2 (even_iff_two_dvd.mp heven)
   refine le_csInf ⟨_, (x : MulAut V), x.2, by rw [Subgroup.orderOf_coe, hx], rfl⟩ ?_
   rintro _ ⟨t, htX, ht2, rfl⟩

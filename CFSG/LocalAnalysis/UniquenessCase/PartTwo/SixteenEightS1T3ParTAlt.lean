@@ -13,12 +13,13 @@ open CFSG.Quasithin.H13.A7Blk
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_parab_of_alt (h : ThreeNat A L T) {n : ℕ} (hn : 7 ≤ n) (halt : UC22.IsAlt ↥L n)
     {a : ℕ} (hM : ∀ X : Subgroup (Equiv.Perm (Fin n)), IsPGroup 2 ↥X →
       T3ParabIn (alternatingGroup (Fin n)) X a) :
     T3ParabIn L T a := by
   obtain ⟨e⟩ := halt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn5 : 5 ≤ n := by omega
   have hn6 : n ≠ 6 := by omega
   have hT : T ≤ Subgroup.normalizer (L : Set (MulAut W)) := le_trans h.sylow.le h.normal
@@ -62,7 +63,7 @@ theorem s16t3_parab_of_alt (h : ThreeNat A L T) {n : ℕ} (hn : 7 ≤ n) (halt :
     intro a
     apply Subtype.ext
     rw [hσ_def ⟨(t : MulAut W), t.2.1⟩, MulAut.congr_apply]
-    simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
+    simp only [MulEquiv.trans_apply]
     rw [coe_permAutEquiv_apply hn5 hn6]
     have hc : L.normalizerMonoidHom
         (Subgroup.inclusion hT ⟨(t : MulAut W), t.2.1⟩) (e.symm a) =

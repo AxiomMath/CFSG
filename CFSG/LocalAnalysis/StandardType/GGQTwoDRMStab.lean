@@ -87,7 +87,7 @@ private lemma p9uRMS_signedPerm_apply {m : ℕ} {T : DVec m ≃ₗ[ZMod 3] DVec 
     rw [Finset.sum_apply, Finset.sum_eq_single k]
     · simp [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]
     · intro i _ hi
-      simp [Pi.smul_apply, Pi.single_apply, hi]
+      simp [Pi.smul_apply, hi]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   conv_lhs => rw [hv]
@@ -98,7 +98,7 @@ private lemma p9uRMS_signedPerm_apply {m : ℕ} {T : DVec m ≃ₗ[ZMod 3] DVec 
   · intro i _ hi
     have hne : σ i ≠ j := fun h =>
       hi (σ.injective (h.trans (Equiv.apply_symm_apply σ j).symm))
-    simp [Pi.smul_apply, Pi.single_apply, hne]
+    simp [Pi.smul_apply, hne]
   · intro hj
     exact absurd (Finset.mem_univ (σ.symm j)) hj
 
@@ -144,7 +144,7 @@ private lemma p9uRMS_stab_of {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : S
       ∀ a ∈ ggInduced ⊤ Bs, GGIsReflection 3 a → a ⟨x, hx⟩ = ⟨x, hx⟩ →
         a ∈ ggAutomizer L Bs ∨
           ∃ i : Fin m, ∀ b : ↥Bs, β (Additive.ofMul (a b)) = dNeg m i (β (Additive.ofMul b)) := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   have hfix_of : ∀ a : MulAut ↥Bs, a ⟨x, hx⟩ = ⟨x, hx⟩ → ggLin (p := 3) β a w = w := by
     intro a hax
     have h1 : ggLin (p := 3) β a (β (Additive.ofMul ⟨x, hx⟩)) = β (Additive.ofMul ⟨x, hx⟩) := by
@@ -172,7 +172,7 @@ private lemma p9uRMS_stab_of {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : S
     intro a b hab
     have h1 : ggLin (p := 3) β a.1 = ggLin (p := 3) β b.1 := congrArg Subtype.val hab
     exact Subtype.ext (ggLin_injective (p := 3) β h1)
-  haveI : Finite (p9uRMS_MatSet m w) :=
+  have : Finite (p9uRMS_MatSet m w) :=
     Finite.of_injective (fun A : p9uRMS_MatSet m w => (A.1 : DVec m → DVec m))
       (fun _ _ h => Subtype.ext (LinearEquiv.ext (congrFun h)))
   have hcard : Nat.card {a : MulAut ↥Bs // a ∈ ggInduced ⊤ Bs ∧ a ⟨x, hx⟩ = ⟨x, hx⟩} ≤
@@ -193,7 +193,7 @@ private lemma p9uRMS_stab_of {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : S
 theorem ggQTwoDRMStabInput_of_coords (ha₀ : GGLNoncyclicInput) (hC : GGQTwoDRMBaseCoordInput) :
     GGQTwoDRMStabInput := by
   intro G instG instF p B Bs x L D J 𝒦 ι M e hcfg m e' hm hM hx β hβ
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   obtain ⟨hx₀, β₀, hJ₀, hcases⟩ := hC G p B Bs x L D J 𝒦 ι M e hcfg m e' hm hM
   have hJ : qtwoDActsAs β (ggAutomizerJoin L Bs 𝒦) (dEven m) :=
     p9uRMS_actsAs_of_map (qtwoD_image_eq (m := m) (by omega) hM β hβ)

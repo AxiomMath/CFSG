@@ -49,8 +49,7 @@ theorem Ctx.ker_commQ1Hom (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) :
     (Ctx.commQ1Hom hc htM).ker =
       (Q ⊓ Subgroup.centralizer ({t} : Set G)).subgroupOf (Q1 hc t) := by
   ext x
-  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Ctx.commQ1Hom, MonoidHom.coe_mk,
-    MonoidHom.coe_coe]
+  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Ctx.commQ1Hom, MonoidHom.coe_mk]
   constructor
   · intro h1
     have h1' : ⁅t, (x : G)⁆ = 1 := congrArg Subtype.val h1
@@ -159,6 +158,7 @@ private theorem exists_conj_of_comm_eq (hs : Sit M Q Z X x) {z h : G}
       calc z * x = (x * z * x⁻¹) * x := by rw [hxcz]
         _ = x * z := by group
 
+omit [Finite G] in
 private theorem mem_Ut_of_mem_range_sub_one (hs : Sit M Q Z X x)
     {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} (A : XAct M₀ x)
     {α : G} (hαQ : α ∈ Q) {f : M₀.E}

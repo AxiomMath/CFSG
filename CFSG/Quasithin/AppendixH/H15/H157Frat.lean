@@ -44,7 +44,7 @@ theorem subgroupOf_zpowers_eq_zpowers {G : Type*} [Group G] {H : Subgroup G} {g 
 
 theorem MY0_le_Nt_sup_KSp : MY M24g S0 ≤ (Nt ⊓ MY M24g S0) ⊔ KSp := by
   intro σ hσ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set tG : ↥(MY M24g S0) := ⟨tP, tP_mem_MY0⟩ with htG
   set tN : ↥(piM.ker) := ⟨tG, piM_tP⟩ with htN
   set P0 : Subgroup ↥(piM.ker) := Subgroup.zpowers tN with hP0
@@ -120,7 +120,7 @@ theorem card_Nt_inf_MY0 : Nat.card ↥(Nt ⊓ MY M24g S0) = 2160 := by
     have hxk : (x : S24) ∈ Nt ⊓ KSp := ⟨hx1.1, hx2⟩
     rw [Nt_inf_KSp, Subgroup.mem_bot] at hxk
     exact Subgroup.mem_bot.2 (Subtype.ext (by simpa using hxk))
-  haveI hnorm : (KSp.subgroupOf (MY M24g S0)).Normal := ⟨fun k hk g => by
+  have hnorm : (KSp.subgroupOf (MY M24g S0)).Normal := ⟨fun k hk g => by
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using MY0_conj_KSp g.property hk⟩
   have hmul : (↑((Nt ⊓ MY M24g S0).subgroupOf (MY M24g S0)) : Set ↥(MY M24g S0)) *
@@ -131,7 +131,7 @@ theorem card_Nt_inf_MY0 : Nat.card ↥(Nt ⊓ MY M24g S0) = 2160 := by
   have hcomp : ((Nt ⊓ MY M24g S0).subgroupOf (MY M24g S0)).IsComplement'
       (KSp.subgroupOf (MY M24g S0)) :=
     Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul
-  have hcard := hcomp.card_mul
+  have hcard := hcomp.card_mul_card
   rw [card_MY0] at hcard
   have hKcard : Nat.card ↥(KSp.subgroupOf (MY M24g S0)) = 64 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe KSp_le_MY0).toEquiv, card_KSp]
@@ -179,7 +179,7 @@ theorem exists_pi_Nt :
         show piM (Subgroup.inclusion Nt_le_MY0 n) = 1
         exact hnker
       set m : ↥N0 := ⟨(n : S24), hN0⟩ with hm
-      haveI hKn : (KSp.subgroupOf N0).Normal := ⟨fun k hk g => by
+      have hKn : (KSp.subgroupOf N0).Normal := ⟨fun k hk g => by
         rw [Subgroup.mem_subgroupOf] at hk ⊢
         simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using
           MY0_conj_KSp (N0_le_MY0 g.property) hk⟩

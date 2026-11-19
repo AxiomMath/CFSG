@@ -57,7 +57,7 @@ private theorem lk0xu7a_image_eq_of_componentOrbitLength_eq_one {τ : Tag}
   simpa [S] using hmem.2
 
 theorem excU7_orbit_data {X : Type} [Group X] {f p : ℕ} {G₀ B₁ D J : Subgroup X} {x : X}
-    {R Rm : Subgroup X} (hp : p.Prime) (hp2 : p ≠ 2)
+    {R Rm : Subgroup X} (hp : p.Prime) (_hp2 : p ≠ 2)
     (P : ExcPacket Tag.E6 f p G₀ B₁ D J x R Rm) (hb : P.b = 2) :
     P.Δ.n = 1 ∧ p ∣ 2 ^ f - 1 ∧ 2 ≤ f ∧
       ∀ γ, IsRoot Tag.E6 γ → P.ρ γ = permLattice (TwistTag.perm .E6) γ := by
@@ -105,9 +105,9 @@ theorem excU7_orbit_data {X : Type} [Group X] {f p : ℕ} {G₀ B₁ D J : Subgr
       (IsRoot.permLattice (TwistTag.cartan_perm .E6) hγ) (hρmap.symm.trans hmap)
 
 theorem excU7_classes {X : Type} [Group X] {f p : ℕ} {G₀ B₁ D J : Subgroup X} {x : X}
-    {R Rm : Subgroup X} (hp : p.Prime) (hp2 : p ≠ 2)
+    {R Rm : Subgroup X} (_hp : p.Prime) (_hp2 : p ≠ 2)
     (P : ExcPacket Tag.E6 f p G₀ B₁ D J x R Rm) (hb : P.b = 2) (h2 : 2 ≤ compRank P.rootsJ)
-    {e : X} (he : e ∈ D) {iK : KernelComponent (P.chiAt e)}
+    {e : X} (_he : e ∈ D) {iK : KernelComponent (P.chiAt e)}
     (hsub : P.rootsJ ⊆ componentRoots (P.chiAt e) iK)
     (horb : componentOrbitLength P.ρ (componentRoots (P.chiAt e) iK) = 1) :
     ∃ i₂ : KernelComponent P.chiD, i₂ ≠ P.iJ ∧
@@ -148,7 +148,7 @@ theorem excU7_proper {X : Type} [Group X] {f p : ℕ} {G₀ B₁ D J : Subgroup 
   have hker : ∀ γ, IsRoot Tag.E6 γ → P.chiAt e (Multiplicative.ofAdd γ) = 1 := by
     intro γ hγ
     have hmem : γ ∈ componentRoots (P.chiAt e) iK := by rw [hAll]; exact hγ
-    simp only [componentRoots, Set.mem_setOf_eq] at hmem
+    simp only [componentRoots, Set.mem_ofPred_eq] at hmem
     obtain ⟨hk, -⟩ := hmem
     exact hk.2
   have hcoord : P.coord e = 1 := by

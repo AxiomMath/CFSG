@@ -133,7 +133,7 @@ theorem prime_dvd_two_pow_mQuot_sub_one (h : Hyp64 n M V₀ V g) (hgen : GenHyp 
     (hXB : ⁅Xbar, barSub V₀ V h.elemAbelian (BOf M V g)⁆ = ⊥) {p : ℕ} (hp : p.Prime)
     (hpX : p ∣ Nat.card Xbar) : p ∣ 2 ^ E3.mQuot V (UOf M V g) - 1 := by
   obtain ⟨-, -, hexp⟩ := fourteen_eight_one h hgen hirr hY hX1 hXM hXnorm hXB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Xbar) p hpX
   have := orderOf_dvd_of_pow_eq_one (hexp x x.2)
   rwa [Subgroup.orderOf_coe, hx] at this

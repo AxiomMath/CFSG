@@ -27,7 +27,7 @@ theorem exists_normal_complement_of_le_centralizer {r : ℕ} [Fact r.Prime] (P :
     (MonoidHom.ker_transferSylow_isComplement' P hP).card_mul_card⟩
   intro g hg
   rw [MonoidHom.mem_ker]
-  obtain ⟨k, hk⟩ := P.isPGroup' (MonoidHom.transferSylow P hP g)
+  obtain ⟨k, hk⟩ := P.isPGroup (MonoidHom.transferSylow P hP g)
   have h1 := orderOf_dvd_of_pow_eq_one hk
   have h2 := orderOf_map_dvd (MonoidHom.transferSylow P hP) g
   exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes (hg.pow_right k) h2 h1)
@@ -308,7 +308,7 @@ theorem lemma_7_12_a :
     set Λ' := (Λ : Subgroup M).map M.subtype with hΛ'def
     have hxΛ' : x ∈ Λ' := ⟨xM, hΛx (Subgroup.mem_zpowers xM), rfl⟩
     have hΛ'Q : Λ' ≤ s.Q :=
-      s.le_Q_of_isPGroup hp3 hS hℓ6 (Λ.isPGroup'.map M.subtype) hxQ hx1 hxΛ'
+      s.le_Q_of_isPGroup hp3 hS hℓ6 (Λ.isPGroup.map M.subtype) hxQ hx1 hxΛ'
     have hΛ'1 : Λ' ≠ ⊥ := fun h0 => hx1 (by rw [h0] at hxΛ'; exact Subgroup.mem_bot.mp hxΛ')
     have hNΛ' : Subgroup.normalizer (Λ' : Set G) = Subgroup.normalizer (s.T : Set G) := by
       rw [s.lemma_4_3 hp hS hΛ'Q hΛ'1, hNQ]
@@ -361,7 +361,7 @@ theorem lemma_7_12_a :
     have hKdvd : 3 ^ (n + 1) ∣ Nat.card KG := by
       rw [hKGcard]
       have hΛcop : Nat.Coprime (3 ^ (n + 1)) (Nat.card (Λ : Subgroup M)) := by
-        obtain ⟨b, hb⟩ := Λ.isPGroup'.exists_card_eq
+        obtain ⟨b, hb⟩ := Λ.isPGroup.exists_card_eq
         rw [hb]
         exact Nat.Coprime.pow _ _ hℓ3'
       refine hΛcop.dvd_of_dvd_mul_right ?_
@@ -375,7 +375,7 @@ theorem lemma_7_12_a :
   obtain ⟨Pst, hPPst⟩ := hP3.exists_le_sylow
   have hPeq : P = Pst := by
     refine Subgroup.eq_of_le_of_card_ge hPPst ?_
-    obtain ⟨v, hv⟩ := Pst.isPGroup'.exists_card_eq
+    obtain ⟨v, hv⟩ := Pst.isPGroup.exists_card_eq
     rw [hv, hn]
     have hnv : 3 ^ n ∣ 3 ^ v := by
       have := Subgroup.card_dvd_of_le hPPst

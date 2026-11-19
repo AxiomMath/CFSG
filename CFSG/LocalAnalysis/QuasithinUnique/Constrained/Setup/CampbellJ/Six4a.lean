@@ -164,6 +164,7 @@ theorem U_factsJ (h : IsSeed S ρ (Ecore G) ψ)
     (adm_aimg α.symm ((adm_thompsonJ_iff (S := S) (Y := _)).mpr
       (h.adm_sylow_of_adm_core hPAdm)))) hUQ
 
+omit [Finite G] in
 private theorem le_thompsonJ_of_adm_Six4a {Q' Y : Subgroup G} (hY : Adm Q' Y) :
     Y ≤ CFSG.Quasithin.thompsonJ Q' := by
   obtain ⟨A, hA, hle⟩ := hY
@@ -481,7 +482,7 @@ theorem mixed_conjugation_calculusJ_abc (h : IsSeed S ρ (Ecore G) ψ)
     {Λ : Subgroup (MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgroup G)))} (hΛ : LamHyp S Λ)
     {α : MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgroup G))} (hα : α ∈ Λ) {g hh : G}
     (hgH : g ∈ Hone S) (hg2 : g ^ 2 = 1)
-    (hhH : hh ∈ Hone S) (hhM : hh ∉ Mnorm S ρ) (hh2 : hh ^ 2 = 1) :
+    (hhH : hh ∈ Hone S) (_hhM : hh ∉ Mnorm S ρ) (hh2 : hh ^ 2 = 1) :
     (Adm (CFSG.pCore 2 G)
         (cj (aimg (CFSG.Quasithin.thompsonJ (S : Subgroup G)) α (Fcore G)) g) ∧
       Adm (CFSG.pCore 2 G)

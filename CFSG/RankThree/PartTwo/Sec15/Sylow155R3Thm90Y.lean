@@ -69,7 +69,7 @@ theorem false_of_acts {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9For J)
     (hMsub : (M.subgroupOf (Subgroup.centralizer ({c} : Set Y))).IsSubnormal)
     (hMperf : Group.IsPerfect M) (hMΛ : M ≤ Λ) (φ : M →* J) (hφ : Function.Surjective φ) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set θY := aschbacherSolvableCore 3 Y with hθY
   set θΛ := aschbacherSolvableCore 3 ↥Λ with hθΛ
   have hθΛY : θΛ = θY.subgroupOf Λ :=
@@ -121,7 +121,7 @@ theorem false_of_acts {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9For J)
     have := hMperf
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hMΛ).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hMΛ).symm.surjective
-  haveI : Group.IsPerfect (M.subgroupOf Λ) := hMΛperf
+  have : Group.IsPerfect (M.subgroupOf Λ) := hMΛperf
   have hPperf : Group.IsPerfect P := Group.IsPerfect.map (QuotientGroup.mk' θΛ)
   have hsub1 : SubnormalIn M (Subgroup.centralizer ({c} : Set Y)) := hMsub
   have hsub2 := SubnormalIn.subgroupOf Λ (inf_le_right : Subgroup.centralizer ({c} : Set Y) ⊓ Λ ≤ Λ)
@@ -148,7 +148,7 @@ theorem false_of_acts {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9For J)
   have hsub3 : SubnormalIn P (fixedSubgroup σ) := by
     rw [hfix]
     exact SubnormalIn.map hMfix (QuotientGroup.mk' θΛ) hsub2
-  haveI hθsol : Group.IsSolvable θY :=
+  have hθsol : Group.IsSolvable θY :=
     (solvable_prime_complement_core_characterization (H := Y) Nat.prime_three).1
   have hker0 : θY.subgroupOf M ≤ φ.ker :=
     hJ.le_ker_of_normalizes M θY hθsol
@@ -190,7 +190,7 @@ theorem false_of_two_points {J : Type} [Group J] (hJ : J2Facts J) (hK9 : K9For J
   obtain ⟨Λ₂, hΛ₂, hMΛ₂⟩ := h48 Y hY A hA hn c' hc' hc1' M' hM'
   have hAN : ∀ Λ ∈ thetaComponents 3 Y, A ≤ Subgroup.normalizer (Λ : Set Y) := fun Λ hΛ =>
     h45 Y hY A hApG (Or.inr ⟨hA, hn⟩) Λ hΛ
-  haveI hθY : (aschbacherSolvableCore 3 Y).Normal := inferInstance
+  have hθY : (aschbacherSolvableCore 3 Y).Normal := inferInstance
   have hθsol : Group.IsSolvable (aschbacherSolvableCore 3 Y) :=
     (solvable_prime_complement_core_characterization (H := Y) Nat.prime_three).1
   have crit : (∀ m : M, (d : Y) * m * (d : Y)⁻¹ * (m : Y)⁻¹ ∈ aschbacherSolvableCore 3 Y) →

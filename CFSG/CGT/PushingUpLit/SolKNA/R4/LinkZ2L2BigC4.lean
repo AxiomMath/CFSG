@@ -36,7 +36,7 @@ theorem card_uSet (hr : 2 ≤ r) (hs : Z2SetR r n R S t J u R₀ T₀ P) {U : Su
 
 private theorem actsTriv_one {Y : Type} [Group Y] (Λ : Subgroup Y) : ActsTriv Λ 1 := by
   intro z hz
-  simpa using (oddCoreOf Λ).one_mem
+  simp
 
 theorem star_of_pi (hr : 4 ≤ r) (hs : Z2SetR r n R S t J u R₀ T₀ P) {p f : ℕ}
     (hm : Z2BigLinkModel r ↥(linkGrp R t) p f) (hCyc : Z2BigModelPiCyc r) {L : Subgroup Y}

@@ -18,6 +18,7 @@ section Geometry
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem card_LomGL_plus_two91
     (E : ElemMatrixIso (quadPlus 2 K) (StatedOmega (StatedQuadPlus 2 K)))
     {u : Fin 2 ⊕ Fin 2 → K} (hu : quadPlus 2 K u = 0) (hu0 : u ≠ 0) :
@@ -39,7 +40,7 @@ theorem card_LomGL_plus_two91
     card_rootGroup hQ hu hu0, hfin]
 
 theorem card_eq_two_pow91 : ∃ e : ℕ, Nat.card K = 2 ^ e := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 
@@ -52,7 +53,7 @@ theorem exists_singular_fixed91 (h4 : 4 ≤ Nat.card K)
       ∀ g ∈ U₀,
         ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ p = p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := StatedOmega (StatedQuadPlus 2 K) with hXdef
   have hS₁X : E.LomGL u ≤ X := fun A hA => ((mem_matrixOf_iff).mp hA).1
   let S₁ : Subgroup ↥X := (E.LomGL u).subgroupOf X

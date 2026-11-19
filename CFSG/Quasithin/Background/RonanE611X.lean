@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G} (hV : IsElemAbelian 2 V)
 
+omit [Finite G] in
 theorem autI_eq_of_surj {K X : Subgroup G} (hK : K ≤ Subgroup.normalizer (V : Set G))
     (hXK : X ≤ K) (hsurj : ∀ a ∈ (convHom hV K hK).range, ∃ x : ↥K, (x : G) ∈ X ∧
       convHom hV K hK x = a) : autI hV X = autI hV K := by

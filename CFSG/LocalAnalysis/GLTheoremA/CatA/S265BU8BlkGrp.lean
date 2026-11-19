@@ -62,7 +62,7 @@ private theorem three_dvd_card_gramSU_four (h₀ : UnitaryFieldData 2 1 K₀) :
       (fun A : gramSU h₀ (idGram K₀ 4) => ((A : GL (Fin 4) K₀) : Matrix (Fin 4) (Fin 4) K₀) 0 0) h1
     have h2 : (u : K₀) = 1 := h1'
     exact hu1 h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← orderOf_eq_prime hd3 hd1]
   exact orderOf_dvd_natCard d
 
@@ -75,7 +75,7 @@ theorem simple_coordBlockSU_of_card_four [Finite K₀] [CharP K₀ 2] (h₀ : Un
   suffices H : IsSimpleGroup (Su K₀ 2 1 J.card) ∧ (∃ a b : Su K₀ 2 1 J.card, a * b ≠ b * a) ∧
       3 ∣ Nat.card (Su K₀ 2 1 J.card) by
     obtain ⟨hs, ⟨a, b, hab⟩, h3⟩ := H
-    haveI := hs
+    have := hs
     refine ⟨eB.symm.isSimpleGroup, ⟨eB a, eB b, fun h' => hab (eB.injective ?_)⟩, ?_⟩
     · rw [map_mul, map_mul]
       exact h'
@@ -84,7 +84,7 @@ theorem simple_coordBlockSU_of_card_four [Finite K₀] [CharP K₀ 2] (h₀ : Un
   rw [hJ]
   have heq₀ : SUid (unitaryInvolution K₀ 2 1) 4 = gramSU h₀ (idGram K₀ 4) :=
     (SUid_eq_statedSU (h₀.card.trans (by norm_num)) 4).trans (statedSU_eq_gramSU h₀ 4)
-  haveI : IsSimpleGroup (primeFormP h₀ (idGram K₀ 4)) :=
+  have : IsSimpleGroup (primeFormP h₀ (idGram K₀ 4)) :=
     isSimpleGroup_primeFormP_one h₀ (n := 4) (by norm_num) (by norm_num)
   let e : Su K₀ 2 1 4 ≃* primeFormP h₀ (idGram K₀ 4) := (MulEquiv.subgroupCongr heq₀).trans
     (MulEquiv.ofBijective (QuotientGroup.mk' _)

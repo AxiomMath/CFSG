@@ -21,7 +21,7 @@ theorem simpleStmt_of_psu_model {Y : Type} [Group Y] [Finite Y]
   have hcharP : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hcard, pow_mul])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hp, hf, hn, hne⟩ := hadm
   obtain ⟨hq, hZsc⟩ := isQuasisimple_statedSU_of_card hcard hn hne
   have hqQ : CFSG.IsQuasisimple (StatedSU n (2 ^ f) F ⧸ Subgroup.center (StatedSU n (2 ^ f) F)) :=

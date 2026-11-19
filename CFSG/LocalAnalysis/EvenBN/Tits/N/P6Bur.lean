@@ -103,7 +103,7 @@ theorem mem_of_isPGroup_three_of_card [Finite G] {I Λ : Subgroup G} (hΛI : Λ 
   have hPle : P ≤ Λ := hPeq ▸ inf_le_right
   exact hPle (hgP (mem_zpowers g))
 
-theorem exists_normal_odd_subgroup [Finite G] {Hh C Wst : Subgroup G} (hCH : C ≤ Hh)
+theorem exists_normal_odd_subgroup [Finite G] {Hh C Wst : Subgroup G} (_hCH : C ≤ Hh)
     (hCn : ∀ h ∈ Hh, ∀ c ∈ C, h * c * h⁻¹ ∈ C) (hW : fusionIsSylowIn 2 Wst C)
     (hcent : ∀ c ∈ C, ∀ w ∈ Wst, c * w = w * c) :
     ∃ N : Subgroup G, N ≤ C ∧ Odd (Nat.card N) ∧ (∀ h ∈ Hh, ∀ n ∈ N, h * n * h⁻¹ ∈ N) ∧
@@ -130,7 +130,7 @@ theorem exists_normal_odd_subgroup [Finite G] {Hh C Wst : Subgroup G} (hCH : C �
     intro o hoC hoodd
     have h1 : orderOf (τ ⟨o, hoC⟩) ∣ orderOf (⟨o, hoC⟩ : ↥C) := orderOf_map_dvd τ _
     have h2 : orderOf (⟨o, hoC⟩ : ↥C) = orderOf o := Subgroup.orderOf_mk o hoC
-    obtain ⟨k, hk⟩ := P.isPGroup' (τ ⟨o, hoC⟩)
+    obtain ⟨k, hk⟩ := P.isPGroup (τ ⟨o, hoC⟩)
     have h3 : orderOf (τ ⟨o, hoC⟩) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have hcop : Nat.Coprime (2 ^ k) (orderOf o) :=
       Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hoodd)

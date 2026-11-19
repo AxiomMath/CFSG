@@ -57,7 +57,7 @@ theorem centralizer_zpowers_eq (a : G) :
 
 include S in
 theorem mem_qCore_self (a : ↥(blockU J)) : (a : G) ∈ qCore (a : G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : Subgroup.zpowers (a : G) ≤ Subgroup.centralizer ({(a : G)} : Set G) :=
     Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
   have hn : Subgroup.centralizer ({(a : G)} : Set G) ≤
@@ -71,7 +71,7 @@ include S in
 theorem mem_qCore_of_commute {a : ↥(blockU J)} (ha1 : a ≠ 1) {x : G}
     (hx : x ∈ Subgroup.centralizer ({(a : G)} : Set G))
     (hc : ∀ q ∈ qCore (a : G), q * x = x * q) : x ∈ qCore (a : G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD : IsPGroup 2 (Subgroup.zpowers (a : G)) :=
     (isPGroup_blockU S).to_le (Subgroup.zpowers_le.mpr a.2)
   have hD1 : Subgroup.zpowers (a : G) ≠ ⊥ := fun h =>
@@ -103,7 +103,7 @@ theorem qCore_inf_le_rootSub (hZ : blockZ J = ⊥) {a : ↥(blockU J)} (ha1 : a 
 theorem qCore_le_rootSub (hH1 : H1Natural m) (hZ : blockZ J = ⊥)
     (hC : Subgroup.centralizer (J : Set G) = ⊥) {a : ↥(blockU J)} (ha1 : a ≠ 1)
     (ha : quadQ m (S.vec a) = 0) : qCore (a : G) ≤ rootSub S hZ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRn : rootSub S hZ a ≤ Subgroup.normalizer (qCore (a : G) : Set G) :=
     (rootSub_le_centralizer S hZ a).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _)
   have hY := IsPGroup.to_sup_of_normal_left' (isPGroup_qCore _)
@@ -285,7 +285,7 @@ theorem isExtraspecial_qCore (hH1 : H1Natural m) (hZ : blockZ J = ⊥)
     (hC : Subgroup.centralizer (J : Set G) = ⊥) {a : ↥(blockU J)} (ha1 : a ≠ 1)
     (ha : quadQ m (S.vec a) = 0) (hnot : ¬ Subgroup.centralizer ({(a : G)} : Set G) ≤ M) :
     IsExtraspecialPGroup 2 (qCore (a : G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha1' : (a : G) ≠ 1 := fun h => ha1 (Subtype.ext h)
   have hQR := qCore_le_rootSub S hH1 hZ hC ha1 ha
   have hQM : qCore (a : G) ≤ M := hQR.trans (rootSub_le S hZ a)

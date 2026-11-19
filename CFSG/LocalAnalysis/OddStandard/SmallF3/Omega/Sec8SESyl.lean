@@ -51,8 +51,8 @@ private theorem sec8s_conj_le [Finite G] {t : G} {B E P K' : Subgroup G} {a : G}
     (haK : ∀ x : G, x ∈ K' ↔ a⁻¹ * x * a ∈ zpowers t ⊔ E) :
     ∀ e ∈ E, a⁻¹ * e * a ∈ E ∧ a * e * a⁻¹ ∈ E := by
   classical
-  haveI : Finite ↥E := Finite.of_injective (Subtype.val : ↥E → G) Subtype.val_injective
-  haveI : Finite ↥B := Finite.of_injective (Subtype.val : ↥B → G) Subtype.val_injective
+  have : Finite ↥E := Finite.of_injective (Subtype.val : ↥E → G) Subtype.val_injective
+  have : Finite ↥B := Finite.of_injective (Subtype.val : ↥B → G) Subtype.val_injective
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x :=
     fun x hx y hy => CFSG.Open.IsElemAbelian.comm hEel.1 hx hy
   have hEK' : E ≤ K' := le_trans hEP hPK'
@@ -64,7 +64,7 @@ private theorem sec8s_conj_le [Finite G] {t : G} {B E P K' : Subgroup G} {a : G}
     rcases sec8s_mem_sup ht2 htn he₂Ka with he₂E' | ⟨e₁, he₁E, he₂eq⟩
     · exact he₂ne he₂E'
     · let D : Subgroup G := E ⊓ E.comap (MulAut.conj a⁻¹).toMonoidHom
-      haveI : Finite ↥D := Finite.of_injective (Subtype.val : ↥D → G) Subtype.val_injective
+      have : Finite ↥D := Finite.of_injective (Subtype.val : ↥D → G) Subtype.val_injective
       have hmemD : ∀ x : G, x ∈ D ↔ x ∈ E ∧ a⁻¹ * x * a ∈ E := by
         intro x
         simp only [D, Subgroup.mem_inf, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom,
@@ -169,7 +169,7 @@ private theorem sec8s_P_le_E [Finite G] {t : G} {E P K' : Subgroup G} {a : G}
     (hne : ∃ e₀ ∈ E, t * e₀ ≠ e₀ * t) :
     P ≤ E := by
   classical
-  haveI : Finite ↥E := Finite.of_injective (Subtype.val : ↥E → G) Subtype.val_injective
+  have : Finite ↥E := Finite.of_injective (Subtype.val : ↥E → G) Subtype.val_injective
   have hsurj : ∀ y ∈ E, ∃ x ∈ E, a⁻¹ * x * a = y := by
     intro y hy
     have hsurj' : Function.Surjective

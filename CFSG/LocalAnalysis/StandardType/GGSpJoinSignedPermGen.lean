@@ -25,7 +25,7 @@ private theorem coordPerm_one (n p : ℕ) :
   apply Equiv.ext
   intro v
   funext t
-  simp only [coordPerm_apply, Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+  simp only [coordPerm_apply, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
 
 private theorem coordPerm_inv (n p : ℕ) (σ : Equiv.Perm (Fin n)) :
     coordPerm n p σ⁻¹ = (coordPerm n p σ)⁻¹ := by
@@ -43,8 +43,8 @@ private theorem coordPerm_conj_coordInv (n p : ℕ) (ρ : Equiv.Perm (Fin n)) (a
     Function.update_apply, Equiv.apply_symm_apply]
   have hiff : ρ.symm t = a ↔ t = ρ a := Equiv.symm_apply_eq ρ
   by_cases h : t = ρ a
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hiff.mp hh)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hiff.mp hh)), ite_eq_right h]
 
 theorem coordPerm_mem_spSignedGroup (σ : Equiv.Perm (Fin n)) :
     coordPerm n p σ ∈ spSignedGroup n p := by
@@ -142,8 +142,8 @@ private theorem flipFinset_mem_spSignedGroup (T : Finset (Fin n)) :
         rw [flipFinset_apply, Equiv.Perm.mul_apply, coordInv_apply]
         by_cases ht : t = a
         · subst ht
-          simp [Function.update_apply, ha]
-        · rw [Function.update_apply, if_neg ht, flipFinset_apply]
+          simp [ha]
+        · rw [Function.update_apply, ite_eq_right ht, flipFinset_apply]
           simp [Finset.mem_insert, ht]
       rw [hstep]
       exact Subgroup.mul_mem _ (coordInv_mem_spSignedGroup a) ih
@@ -161,7 +161,7 @@ private theorem signedPerm_apply_mulSingle (g : Multiplicative (ZMod p))
     signedPerm n p σ T (Pi.mulSingle i g) t =
       if σ.symm t = i then (if i ∈ T then g⁻¹ else g) else 1 := by
   rw [signedPerm, Equiv.Perm.mul_apply, coordPerm_apply, flipFinset_apply]
-  by_cases h : σ.symm t = i <;> simp [Pi.mulSingle_apply, h]
+  by_cases h : σ.symm t = i <;> simp [h]
 
 private theorem signedPerm_apply_mulSingle_ne_one_iff (g : Multiplicative (ZMod p))
     (hg : g ≠ 1) (hginv : g⁻¹ ≠ 1)
@@ -169,9 +169,9 @@ private theorem signedPerm_apply_mulSingle_ne_one_iff (g : Multiplicative (ZMod 
     signedPerm n p σ T (Pi.mulSingle i g) t ≠ 1 ↔ σ.symm t = i := by
   rw [signedPerm_apply_mulSingle]
   by_cases h : σ.symm t = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨fun _ => h, fun _ => by by_cases hT : i ∈ T <;> simp [hT, hg, hginv]⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun hh => (hh rfl).elim, fun hh => (h hh).elim⟩
 
 private theorem signedPerm_apply_mulSingle_self (g : Multiplicative (ZMod p))
@@ -220,12 +220,12 @@ private theorem signedPerm_injective_of_odd (g : Multiplicative (ZMod p))
 private theorem signedPerm_injective (hp : p.Prime) (hp2 : p ≠ 2) :
     Function.Injective (fun x : Equiv.Perm (Fin n) × Finset (Fin n) =>
       signedPerm n p x.1 x.2) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.pos.ne'⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.pos.ne'⟩
   have h2p : 2 < p := by
     have := hp.two_le
     omega
-  haveI : Fact (2 < p) := ⟨h2p⟩
+  have : Fact (2 < p) := ⟨h2p⟩
   let g : Multiplicative (ZMod p) := Multiplicative.ofAdd (1 : ZMod p)
   have hg_eq : g = Multiplicative.ofAdd (1 : ZMod p) := rfl
   have hg : g ≠ 1 := by
@@ -244,8 +244,8 @@ private theorem signedPerm_injective (hp : p.Prime) (hp2 : p ≠ 2) :
 
 theorem two_pow_mul_factorial_le_card_spSignedGroup (hp : p.Prime) (hp2 : p ≠ 2) :
     2 ^ n * n.factorial ≤ Nat.card (spSignedGroup n p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.pos.ne'⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.pos.ne'⟩
   have hcard : Nat.card (Equiv.Perm (Fin n) × Finset (Fin n)) = n.factorial * 2 ^ n := by
     rw [Nat.card_prod, Nat.card_perm, Nat.card_fin, Nat.card_eq_fintype_card, Fintype.card_finset,
       Fintype.card_fin]

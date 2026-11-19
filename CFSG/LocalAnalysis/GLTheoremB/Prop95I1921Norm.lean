@@ -22,7 +22,7 @@ theorem not_central_sylow_K {p : ℕ} [hpF : Fact p.Prime] {K : Subgroup X}
       rw [← hP n hn g, mul_inv_cancel_right]
     rw [e]
     exact hn
-  haveI := hPn
+  have := hPn
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime
     (N := (P : Subgroup ↥K)) (Sylow.card_coprime_index P)
   have hPidx : Nat.card H = (P : Subgroup ↥K).index := hH.symm.index_eq_card.symm
@@ -79,9 +79,9 @@ theorem claim_card_K {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgrou
   intro B hB hn
   obtain ⟨Ts, hBT⟩ := hB.exists_le_sylow
   have hT : CFSG.Open.fusionIsSylowIn p (Ts : Subgroup X) ⊤ :=
-    ⟨le_top, Ts.isPGroup', fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
+    ⟨le_top, Ts.isPGroup, fun P _ hP hTP => Ts.maximal_isPGroup.eq_of_ge hP hTP⟩
   have hEn : ((compE X).subgroupOf ⊤).Normal := by
-    haveI := compE_normal (X := X)
+    have := compE_normal (X := X)
     infer_instance
   have hE_conj : ∀ g : X, ∀ e ∈ compE X, g * e * g⁻¹ ∈ compE X := fun g e he =>
     (compE_normal (X := X)).conj_mem e he g
@@ -96,7 +96,7 @@ theorem claim_card_K {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgrou
   have hQT : ∀ q ∈ Q, q ∈ (Ts : Subgroup X) := fun q hq => hTT q (Subgroup.mem_inf.1 hq).1
   have hQE : ∀ q ∈ Q, q ∈ compE X := fun q hq => hTEE q (Subgroup.mem_inf.1 hq).1
   have hQN : ∀ q ∈ Q, q ∈ Subgroup.normalizer (B : Set X) := fun q hq => (Subgroup.mem_inf.1 hq).2
-  have hQp : IsPGroup p Q := Ts.isPGroup'.to_le (fun q hq => hQT q hq)
+  have hQp : IsPGroup p Q := Ts.isPGroup.to_le (fun q hq => hQT q hq)
   have hD2 : IsPGroup 2 (pCoreOf 2 (Subgroup.centralizer (B : Set X))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
   by_cases hQB : Q ≤ B
@@ -114,7 +114,7 @@ theorem claim_card_K {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgrou
     have hYT : Y ≤ (Ts : Subgroup X) := by
       rintro y ⟨b, hb, t, ht, rfl⟩
       exact (Ts : Subgroup X).mul_mem (hBT hb) (hTT t ht)
-    have hYp : IsPGroup p Y := Ts.isPGroup'.to_le hYT
+    have hYp : IsPGroup p Y := Ts.isPGroup.to_le hYT
     have hBY : B ≤ Y := fun b hb => ⟨b, hb, 1, TE.one_mem, by group⟩
     have hYB : Y ≤ B := pgroup_normalizer_strict hYp hBY (by
       rintro y ⟨b, hb, t, ht, rfl⟩ hyN
@@ -177,7 +177,7 @@ theorem claim_card_K {p : ℕ} [hpF : Fact p.Prime] (hp2 : p ≠ 2) {K : Subgrou
       rw [← heq] at h1
       exact h1
     have hRT : Q ⊔ B ≤ (Ts : Subgroup X) := sup_le (fun q hq => hQT q hq) hBT
-    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup'.to_le hRT
+    have hRp : IsPGroup p ((Q ⊔ B : Subgroup X)) := Ts.isPGroup.to_le hRT
     have hc1 : Nat.card B < Nat.card ↥(Q ⊔ B) := Subgroup.card_lt_of_lt hBR
     have hc2 : Nat.card ↥(Q ⊔ B) ≤ Nat.card X := Subgroup.card_le_card_group _
     have hlt : Nat.card X - Nat.card ↥(Q ⊔ B) < n := by omega
@@ -239,7 +239,7 @@ theorem pCoreOf_centralizer_le_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     {K : Subgroup X} (hK : IsComponentOf K ⊤) (hO : GLAPPrimeCore p ↥K = ⊥)
     {B : Subgroup X} (hB : IsPGroup p B) :
     pCoreOf 2 (Subgroup.centralizer (B : Set X)) ≤ Subgroup.normalizer (K : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact claim_card_K hp2 hK hO _ B hB rfl
 
 theorem pCoreOf_centralizer_singleton_le_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -261,19 +261,25 @@ section Diag
 
 @[expose] def cpow (d : X) (i : ℕ) (k : X) : X := d ^ i * k * (d ^ i)⁻¹
 
+omit [Finite X] in
 theorem cpow_mul (d : X) (i : ℕ) (k k' : X) : cpow d i (k * k') = cpow d i k * cpow d i k' := by
   simp only [cpow]; group
 
+omit [Finite X] in
 theorem cpow_one' (d : X) (i : ℕ) : cpow d i 1 = 1 := by simp [cpow]
 
+omit [Finite X] in
 theorem cpow_zero (d k : X) : cpow d 0 k = k := by simp [cpow]
 
+omit [Finite X] in
 theorem cpow_succ (d : X) (i : ℕ) (k : X) : d * cpow d i k * d⁻¹ = cpow d (i + 1) k := by
   simp only [cpow, pow_succ']; group
 
+omit [Finite X] in
 theorem cpow_self {p : ℕ} {d : X} (hd : d ^ p = 1) (k : X) : cpow d p k = k := by
   simp [cpow, hd]
 
+omit [Finite X] in
 theorem cpow_conj {d t : X} (hdt : t * d = d * t) (i : ℕ) (k : X) :
     t * cpow d i k * t⁻¹ = cpow d i (t * k * t⁻¹) := by
   have h : t * d ^ i * t⁻¹ = d ^ i := by
@@ -312,12 +318,14 @@ theorem list_prod_map_mul {α : Type*} [Group α] (f g : ℕ → α) :
 @[expose] def diagProd (d : X) (p : ℕ) (k : X) : X :=
   ((List.range p).map (fun i => cpow d i k)).prod
 
+omit [Finite X] in
 theorem diagProd_succ (d : X) (q : ℕ) (k : X) :
     diagProd d (q + 1) k = k * ((List.range q).map (fun i => cpow d (i + 1) k)).prod := by
   simp only [diagProd]
   rw [List.range_succ_eq_map, List.map_cons, List.prod_cons, List.map_map, cpow_zero]
   rfl
 
+omit [Finite X] in
 theorem map_cpow_succ {p : ℕ} {d : X} (hd : d ^ p = 1) (hp : 1 ≤ p) (k : X) :
     ((List.range p).map (fun i => d * cpow d i k * d⁻¹)).prod =
       ((List.range (p - 1)).map (fun i => cpow d (i + 1) k)).prod * k := by
@@ -328,6 +336,7 @@ theorem map_cpow_succ {p : ℕ} {d : X} (hd : d ^ p = 1) (hp : 1 ≤ p) (k : X) 
 
 variable {p : ℕ}
 
+omit [Finite X] in
 theorem map_conj_ne (hp : p.Prime) {K : Subgroup X} {d : X} (hd : d ^ p = 1)
     (hdK : d ∉ Subgroup.normalizer (K : Set X)) {i j : ℕ} (hij : i < j) (hjp : j < p) :
     K.map (MulAut.conj (d ^ i)).toMonoidHom ≠ K.map (MulAut.conj (d ^ j)).toMonoidHom := by
@@ -394,6 +403,7 @@ section Diag2
 
 variable {p : ℕ}
 
+omit [Finite X] in
 theorem diagProd_one (d : X) (p : ℕ) : diagProd d p 1 = 1 := by
   simp [diagProd, cpow_one']
 
@@ -460,6 +470,7 @@ section B2
 
 variable {p : ℕ}
 
+omit [Finite X] in
 theorem diagProd_conj {d t : X} (hdt : t * d = d * t) (p : ℕ) (k : X) :
     t * diagProd d p k * t⁻¹ = diagProd d p (t * k * t⁻¹) := by
   unfold diagProd
@@ -528,7 +539,7 @@ theorem le_centralizer_of_not_mem_normalizer (hp : p.Prime) (hp2 : p ≠ 2)
     exact hle hn
   let Z : Subgroup ↥K := Subgroup.center ↥K
   let Lb : Subgroup (↥K ⧸ Z) := L.map (QuotientGroup.mk' Z)
-  haveI : Lb.Normal := hLn.map _ (QuotientGroup.mk'_surjective Z)
+  have : Lb.Normal := hLn.map _ (QuotientGroup.mk'_surjective Z)
   have hLb2 : IsPGroup 2 Lb := by
     intro x
     obtain ⟨l, hl, hlx⟩ := Subgroup.mem_map.1 x.2
@@ -549,7 +560,7 @@ theorem le_centralizer_of_not_mem_normalizer (hp : p.Prime) (hp2 : p ≠ 2)
       rw [← hlx, ← map_pow]
       exact (QuotientGroup.eq_one_iff _).2 hZl
     simpa using this
-  haveI : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
   have hnab : ∃ a b : ↥K ⧸ Z, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -617,7 +628,7 @@ theorem normal_two_subgroup_le_center {K : Subgroup X} (hK : IsComponentOf K ⊤
     {M : Subgroup ↥K} [M.Normal] (hM : ∀ m ∈ M, ∃ n : ℕ, m ^ (2 ^ n) = 1) :
     M ≤ Subgroup.center ↥K := by
   let Z : Subgroup ↥K := Subgroup.center ↥K
-  haveI : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Z) := hK.2.2.2
   have hnab : ∃ a b : ↥K ⧸ Z, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -638,7 +649,7 @@ theorem normal_two_subgroup_le_center {K : Subgroup X} (hK : IsComponentOf K ⊤
       rw [h1, h1]
     exact not_subsingleton (↥K ⧸ Z) this
   let Mb : Subgroup (↥K ⧸ Z) := M.map (QuotientGroup.mk' Z)
-  haveI : Mb.Normal := (inferInstance : M.Normal).map _ (QuotientGroup.mk'_surjective Z)
+  have : Mb.Normal := (inferInstance : M.Normal).map _ (QuotientGroup.mk'_surjective Z)
   have hMb2 : IsPGroup 2 Mb := by
     intro x
     obtain ⟨m, hm, hmx⟩ := Subgroup.mem_map.1 x.2
@@ -654,6 +665,7 @@ theorem normal_two_subgroup_le_center {K : Subgroup X} (hK : IsComponentOf K ⊤
   rw [hMb, Subgroup.mem_bot] at this
   exact (QuotientGroup.eq_one_iff _).1 this
 
+omit [Finite X] in
 theorem centralizes_of_commutators_central {K : Subgroup X} (hK : IsComponentOf K ⊤) {t : X}
     (htN : t ∈ Subgroup.normalizer (K : Set X))
     (hcen : ∀ k ∈ K, ∀ k' ∈ K, (t * k * t⁻¹ * k⁻¹) * k' = k' * (t * k * t⁻¹ * k⁻¹)) :
@@ -702,7 +714,7 @@ theorem le_centralizer_of_normalized_by {K : Subgroup X} (hK : IsComponentOf K �
     (hSN : S ≤ Subgroup.normalizer (K : Set X)) (hKS : ∀ k ∈ K, ∀ s ∈ S, k * s * k⁻¹ ∈ S) :
     S ≤ Subgroup.centralizer (K : Set X) := by
   let M : Subgroup ↥K := S.subgroupOf K
-  haveI : M.Normal := ⟨fun m hm g => by
+  have : M.Normal := ⟨fun m hm g => by
     have hmS : (m : X) ∈ S := hm
     show ((g * m * g⁻¹ : ↥K) : X) ∈ S
     simpa using hKS g g.2 m hmS⟩
@@ -726,6 +738,7 @@ end B3
 
 section B4
 
+omit [Finite X] in
 theorem mem_inducedAutGroup {W K : Subgroup X} {φ : MulAut ↥K} :
     φ ∈ inducedAutGroup W K ↔ ∃ (w : X) (hw : w ∈ Subgroup.normalizer (K : Set X)),
       w ∈ W ∧ K.normalizerMonoidHom ⟨w, hw⟩ = φ := by
@@ -737,10 +750,12 @@ theorem mem_inducedAutGroup {W K : Subgroup X} {φ : MulAut ↥K} :
   · rintro ⟨w, hw, hwW, rfl⟩
     exact ⟨⟨w, hw⟩, hwW, rfl⟩
 
+omit [Finite X] in
 theorem normalizerMonoidHom_apply_coe' {K : Subgroup X} {w : X}
     (hw : w ∈ Subgroup.normalizer (K : Set X)) (k : ↥K) :
     ((K.normalizerMonoidHom ⟨w, hw⟩ k : ↥K) : X) = w * k * w⁻¹ := rfl
 
+omit [Finite X] in
 theorem normalizerMonoidHom_eq_one_iff {K : Subgroup X} {w : X}
     (hw : w ∈ Subgroup.normalizer (K : Set X)) :
     K.normalizerMonoidHom ⟨w, hw⟩ = 1 ↔ w ∈ Subgroup.centralizer (K : Set X) := by
@@ -757,6 +772,7 @@ theorem normalizerMonoidHom_eq_one_iff {K : Subgroup X} {w : X}
     calc w * (k : X) * w⁻¹ = (k : X) * w * w⁻¹ := by rw [← h k k.2]
       _ = k := by group
 
+omit [Finite X] in
 theorem inducedAutGroup_eq_bot_iff {W K : Subgroup X}
     (hW : W ≤ Subgroup.normalizer (K : Set X)) :
     inducedAutGroup W K = ⊥ ↔ W ≤ Subgroup.centralizer (K : Set X) := by

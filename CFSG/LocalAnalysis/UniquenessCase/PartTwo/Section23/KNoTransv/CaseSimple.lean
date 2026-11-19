@@ -30,8 +30,8 @@ theorem not_isTransvection_of_simple {B : Type} [CommGroup B] [Finite B]
     exact hne (by simp)
   obtain ⟨T, _, _, ψ, hψ, hψk, hTnab, W, _, _, c, hW, hc, hcard, hperm⟩ :=
     exists_mcLaughlin_quotient hB hH hH1 hs hsN hgen
-  haveI : Finite (MulAut B) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : Finite S := Finite.of_surjective f hf
+  have : Finite (MulAut B) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite S := Finite.of_surjective f hf
   have hSnab := exists_mul_ne_of_ordData hS
   obtain ⟨e⟩ := nonempty_mulEquiv_of_ker hf hker (fun N hN h4 => eq_bot_of_pow_four hSnab hN h4)
     hψ (center_eq_bot_of_isSimpleGroup hTnab) hψk

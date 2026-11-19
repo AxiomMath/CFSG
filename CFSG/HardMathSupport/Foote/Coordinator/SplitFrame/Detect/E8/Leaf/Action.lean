@@ -123,7 +123,7 @@ theorem conj_gen_deg1 {γ μ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinset
       pinnedX_mem_Qθ_of_mem_Deg1 hD _
     have hconj := conj_of_root hγ0 hμ1 hγr hμr h t c
     have he : t * (aE8 γ μ : K) * c = (commConst .E8 γ μ (1, 1) : K) * t * c := by
-      rw [aE8, if_pos (mem_rootFinset.2 h)]
+      rw [aE8, ite_eq_left (mem_rootFinset.2 h)]
       ring
     constructor
     · rw [hconj]
@@ -136,7 +136,7 @@ theorem conj_gen_deg1 {γ μ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinset
     constructor
     · rw [hconj]
       exact hμQ
-    · rw [hconj, hμc, actFun_single, aE8, if_neg hn]
+    · rw [hconj, hμc, actFun_single, aE8, ite_eq_right hn]
       simp
 
 end Gen
@@ -148,9 +148,9 @@ theorem adm : Adm aE8 := by
   refine ⟨fun h => ?_, fun h => ?_⟩
   · obtain ⟨hε, -⟩ := (simply_laced_root_commutator_unit.{0} .E8
       (Or.inr (Or.inr (Or.inr rfl))) (mem_rootFinset.1 hγ) hμr hne hne').1 (mem_rootFinset.1 h)
-    rw [aE8, if_pos h]
+    rw [aE8, ite_eq_left h]
     rcases hε with h' | h' <;> simp [h']
-  · rw [aE8, if_neg h]
+  · rw [aE8, ite_eq_right h]
 
 section Main
 

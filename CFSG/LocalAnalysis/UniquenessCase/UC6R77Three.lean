@@ -22,8 +22,8 @@ theorem r77E2_of_conclusion76 (D : UC22.Data G)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p) :
     UC22.F07.R77E2 D := by
   intro _ p hp _ hsp r hr _ hrσ E hEM hEel hEcard h2
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   exact UC6R77.rankThreeGamma_le_of_two_lt_pRank hpr (h76 p hp hsp) hEM hEel hEcard h2
 
@@ -32,8 +32,8 @@ theorem r77E4_of_conclusion76 (D : UC22.Data G)
     (hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → r ∉ D.sig → CFSG.Open.pRank r D.M ≤ 3) :
     UC22.F07.R77E4 D := by
   intro hsub p hp _ hsp r hr hr2 hrσ X hXM hX hnc hexp hcl h3
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   exact UC6R77.rankThreeGamma_le_of_three_lt_pRank hr2 hpr hsp (h76 p hp hsp)
     (sixNineAt_of_R6_9 h69 hsub hr hr2 hXM hX hexp hcl)

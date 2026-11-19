@@ -70,7 +70,7 @@ theorem le_two_of_elemAbelian_quotient [Finite G] {G₁ : Subgroup G} {p : ℕ} 
       rw [hab, inv_mul_cancel]
     have hs : a⁻¹ * b ∈ (S : Subgroup ↥G₁) := Subgroup.mul_mem _ (Subgroup.inv_mem _ ha) hb
     obtain ⟨i, hi⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥G₁)) ⟨_, hk⟩
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨_, hs⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨_, hs⟩
     have hi' : (a⁻¹ * b) ^ 2 ^ i = 1 := by simpa using congrArg Subtype.val hi
     have hj' : (a⁻¹ * b) ^ p ^ j = 1 := by simpa using congrArg Subtype.val hj
     have h1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.coprime_dvd_left

@@ -91,7 +91,7 @@ theorem card_orbit_lroot (i : Fin 5) :
   have hset : MulAction.orbit (lvl 1) (lroot i) =
       ↑(Finset.univ.filter (fun p : Fin nLines => subLab p = i)) := by
     ext p
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     exact (subLab_eq_iff i p).symm
   rw [hset, Set.ncard_coe_finset, card_subLab, subSizes_getElem]
 
@@ -291,11 +291,11 @@ noncomputable instance fl_dec : DecidablePred fl := fun _ => Classical.propDecid
 
 theorem fl_zero {p : Fin nPts} (h : cl p = 0) : fl p ↔ p = root := by
   unfold fl
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem fl_ne {p : Fin nPts} (h : cl p ≠ 0) : fl p ↔ In20 p := by
   unfold fl
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 theorem fl_smul {h : J} (hh : h ∈ lvl 1) (p : Fin nPts) : fl (h • p) ↔ fl p := by
   by_cases h0 : cl p = 0
@@ -356,8 +356,8 @@ theorem card_cl (i : Fin 5) :
   classical
   rw [Finset.card_eq_sum_card_fiberwise (f := lineF)
     (t := Finset.univ.filter fun l : Fin nLines => subLab l = i) (fun p hp => by
-      simp only [Finset.coe_filter, Finset.mem_coe, Finset.mem_filter, Finset.mem_univ, true_and,
-        Set.mem_setOf_eq] at hp ⊢
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and,
+        Set.mem_ofPred_eq] at hp ⊢
       exact hp)]
   have hfib : ∀ l ∈ Finset.univ.filter (fun l : Fin nLines => subLab l = i),
       ((Finset.univ.filter fun p : Fin nPts => cl p = i).filter fun p => lineF p = l).card =

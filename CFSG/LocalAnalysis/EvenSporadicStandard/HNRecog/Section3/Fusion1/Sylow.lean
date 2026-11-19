@@ -57,9 +57,9 @@ private theorem mem_sup_zpowers_two {H : Type*} [Group H] {x y w : H}
 private theorem natCard_of_isShapeTwoTwoSixS5 {X : Type*} [Group X]
     (h : IsShapeTwoTwoSixS5 X) : Nat.card X = 2 ^ 11 * 15 := by
   obtain ⟨V, N, hVnorm, hNnorm, hVN, hVE, hNVE, hXNE⟩ := h
-  haveI : V.Normal := hVnorm
-  haveI : N.Normal := hNnorm
-  haveI : (V.subgroupOf N).Normal := hVnorm.subgroupOf N
+  have : V.Normal := hVnorm
+  have : N.Normal := hNnorm
+  have : (V.subgroupOf N).Normal := hVnorm.subgroupOf N
   have hcardV : Nat.card V = 2 ^ 2 := by
     rw [Nat.card_congr (Classical.choice hVE).toEquiv, natCard_Elem2]
   have hcardNV : Nat.card (N ⧸ V.subgroupOf N) = 2 ^ 6 := by
@@ -78,7 +78,7 @@ theorem exists_isConj_z_of_labelled (hI : TwoHSInterface) (hS : SuborbitFacts) {
     (hF : TwoHSFacts ↥(Gx a) (GxSelf a) z' b' u') :
     IsConj z (z' : G) ∨ IsConj z (a * (z' : G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hE⟩ := h.cent_a
   set Xsub : Subgroup ↥(Gx a) := Subgroup.centralizer ({z'} : Set ↥(Gx a)) with hXsub
   have hcardX : Nat.card Xsub = 2 ^ 11 * 15 := by
@@ -88,7 +88,7 @@ theorem exists_isConj_z_of_labelled (hI : TwoHSInterface) (hS : SuborbitFacts) {
   have hcardT₀ : Nat.card T₀ = 2 ^ 11 := by
     rw [Sylow.card_eq_multiplicity T₀, hcardX, factorization_two_pow_eleven_mul_fifteen]
   let T : Subgroup ↥(Gx a) := (T₀ : Subgroup Xsub).map Xsub.subtype
-  have hTp : IsPGroup 2 T := (T₀.isPGroup').map Xsub.subtype
+  have hTp : IsPGroup 2 T := (T₀.isPGroup).map Xsub.subtype
   have hcardT : Nat.card T = 2 ^ 11 := by
     change Nat.card ((T₀ : Subgroup Xsub).map Xsub.subtype) = 2 ^ 11
     rw [Subgroup.card_subtype, hcardT₀]

@@ -11,14 +11,15 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {M L : Subgroup (MulAut W)} {Z : Subgroup W}
 
+omit [Finite W] in
 theorem SevenCfg.map_eq_of_mem (h : SevenCfg M L Z) {l : MulAut W} (hl : l ∈ L)
     {Y : Subgroup W} (hY : Y ∈ conjSubs M Z) : Y.map l.toMonoidHom = Y := by
   classical
   have hcard : Nat.card ↥(conjSubs M Z) = 4 := by
     rw [Nat.card_coe_set_eq]
     exact h.ncard
-  haveI : Finite ↥(conjSubs M Z) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype ↥(conjSubs M Z) := Fintype.ofFinite _
+  have : Finite ↥(conjSubs M Z) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fintype ↥(conjSubs M Z) := Fintype.ofFinite _
   have hcard' : Fintype.card ↥(conjSubs M Z) = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -93,6 +94,7 @@ theorem SevenCfg.le_commSub_of_ne (h : SevenCfg M L Z) {Y : Subgroup W} (hY : Y 
   rw [← hu']
   exact Subgroup.subset_closure ⟨l, hl, w, Subgroup.mem_top _, rfl⟩
 
+omit [Finite W] in
 theorem SevenCfg.eq_one_of_fix_all (h : SevenCfg M L Z) {k : MulAut W}
     (hk : ∀ Y ∈ conjSubs M Z, ∀ y ∈ Y, k y = y) : k = 1 := by
   have hle : sSup (conjSubs M Z) ≤ MonoidHom.eqLocus k.toMonoidHom (MonoidHom.id W) :=

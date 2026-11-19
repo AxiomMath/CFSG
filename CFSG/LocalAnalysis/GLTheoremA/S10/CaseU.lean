@@ -61,7 +61,7 @@ theorem psimple_L_isU48 (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup
   have hL : GLAPComponent 3 (cx x) L := (sstar_triple h.star).2.2
   have hsimple : IsSimpleGroup ↥L := caseU_isSimple_of_isU4eight hU.L_iso
   have hPS : IsSimpleGroup (PSimple 3 L) := (isQuasisimple_pQuot_of_glaPComponent hc.ctx.prime hL).2
-  haveI := hPS.toNontrivial
+  have := hPS.toNontrivial
   have hne_top : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (PQuot 3 L) := by
@@ -99,6 +99,7 @@ theorem exists_z_L (hc : S10Ctx G p) (hin : Lemma105Inputs G p) (hu : U48CentInv
   exact hu (cx x) L B E₂ T (sstar_triple h.star).2.2 hU.L_iso (sstar_norm h.star) (B_el h)
     hE₂B (hE₂I.trans (layer_le _ _ |>.trans inf_le_left)) hE₂card hTL hT2 hTO hTB
 
+omit [Finite G] in
 private theorem caseU_mem_Ipart {B : Subgroup G} {L : Subgroup G} {b z : G} (hb : b ∈ B)
     (hzL : IsCentralIn 2 z L) (hBz : B ≤ Subgroup.centralizer ({z} : Set G))
     (hI : Ipart p L b = L ⊓ cx b) : z ∈ Ipart p L b := by
@@ -129,8 +130,8 @@ theorem Icomp_of_cfg (hc : S10Ctx G p) (hin : Lemma105Inputs G p) {B : Subgroup 
     GLAPComponent p (L ⊓ cx b) (Ipart p L b) ∧ IsChevSimple 2 (PSimple p (Ipart p L b)) :=
   hin.i91comp (cx x) L b (sstar_triple h.star).2.2 (sstar_chev2 hc h.star) ((B_el h).2 b h.mem) h.prop h.I_ne
 
-theorem odd_core_I (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg p B x L b) (hU : CaseU G p B x L b) : Odd (Nat.card (GLAPPrimeCoreOf p (Ipart p L b))) := by
+theorem odd_core_I (_hc : S10Ctx G p) (_hin : Lemma103Inputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
+    {b : G} (_h : Cfg p B x L b) (hU : CaseU G p B x L b) : Odd (Nat.card (GLAPPrimeCoreOf p (Ipart p L b))) := by
   rw [hU.I_core, Subgroup.card_bot]
   exact odd_one
 
@@ -138,7 +139,7 @@ private theorem caseU_decomp_of_mem_D {p : ℕ} (hp : p.Prime) {D : Subgroup G} 
     (hDc : Nat.card D = p ^ 2) {a d e : G} (ha : a ∈ D) (ha1 : a ≠ 1) (hd : d ∈ D) (he : e ∈ D)
     (hda : d ∉ Subgroup.zpowers a) (hea : e ∉ Subgroup.zpowers a) :
     ∃ i j : ℕ, e = a ^ i * d ^ j ∧ ¬ p ∣ j := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcomm : ∀ x ∈ D, ∀ y ∈ D, y * x = x * y := fun x hx y hy =>
     congrArg Subtype.val (hD.1.is_comm.comm (⟨y, hy⟩ : D) ⟨x, hx⟩)
   have hd1 : d ≠ 1 := fun h => hda (h ▸ Subgroup.one_mem _)
@@ -188,6 +189,7 @@ private theorem caseU_decomp_of_mem_D {p : ℕ} (hp : p.Prime) {D : Subgroup G} 
   rw [← hxy, pow_mul, hD.2 d hd, one_pow, mul_one]
   exact Subgroup.pow_mem _ (Subgroup.mem_zpowers a) i
 
+omit [Finite G] in
 private theorem caseU_conjQ_mul {p : ℕ} {M : Subgroup G} {x y : G} (hx : x ∈ Subgroup.normalizer (M : Set G))
     (hy : y ∈ Subgroup.normalizer (M : Set G)) (q : PQuot p M) :
     lemma102_conjQ p (Subgroup.mul_mem _ hx hy) q = lemma102_conjQ p hy (lemma102_conjQ p hx q) := by
@@ -199,12 +201,14 @@ private theorem caseU_conjQ_mul {p : ℕ} {M : Subgroup G} {x y : G} (hx : x ∈
     show (x * y)⁻¹ * (l : G) * (x * y) = y⁻¹ * (x⁻¹ * (l : G) * x) * y
     group
 
+omit [Finite G] in
 private theorem caseU_conjQ_congr {p : ℕ} {M : Subgroup G} {g g' : G} (h : g = g')
     (hg : g ∈ Subgroup.normalizer (M : Set G)) (hg' : g' ∈ Subgroup.normalizer (M : Set G))
     (q : PQuot p M) : lemma102_conjQ p hg q = lemma102_conjQ p hg' q := by
   subst h
   rfl
 
+omit [Finite G] in
 private theorem caseU_conjQ_one {p : ℕ} {M : Subgroup G} (q : PQuot p M) :
     lemma102_conjQ p (Subgroup.one_mem _ : (1 : G) ∈ Subgroup.normalizer (M : Set G)) q = q := by
   induction q using QuotientGroup.induction_on with
@@ -214,6 +218,7 @@ private theorem caseU_conjQ_one {p : ℕ} {M : Subgroup G} (q : PQuot p M) :
     apply Subtype.ext
     simp [lemma102_conjHomL_val]
 
+omit [Finite G] in
 private theorem caseU_conjQ_cent {p : ℕ} {M : Subgroup G} {a : G} (hc : CentMod p M a)
     (ha : a ∈ Subgroup.normalizer (M : Set G)) (q : PQuot p M) : lemma102_conjQ p ha q = q := by
   induction q using QuotientGroup.induction_on with
@@ -229,6 +234,7 @@ private theorem caseU_conjQ_cent {p : ℕ} {M : Subgroup G} {a : G} (hc : CentMo
       exact Subgroup.inv_mem _ hO
     exact (lemma102_mem_glaPPrimeCore_iff (M.mul_mem (M.inv_mem (lemma102_conjHomL ha l).2) l.2)).2 hO'
 
+omit [Finite G] in
 private theorem caseU_conjQ_pow_cent {p : ℕ} {M : Subgroup G} {a : G} (hc : CentMod p M a)
     (ha : a ∈ Subgroup.normalizer (M : Set G)) (i : ℕ) (q : PQuot p M) :
     lemma102_conjQ p (Subgroup.pow_mem _ ha i) q = q := by
@@ -241,6 +247,7 @@ private theorem caseU_conjQ_pow_cent {p : ℕ} {M : Subgroup G} {a : G} (hc : Ce
       (Subgroup.mul_mem _ (Subgroup.pow_mem _ ha n) ha)]
     rw [caseU_conjQ_mul (Subgroup.pow_mem _ ha n) ha q, ih q, caseU_conjQ_cent hc ha q]
 
+omit [Finite G] in
 private theorem caseU_conjQ_pow_iter {p : ℕ} {M : Subgroup G} {d : G}
     (hd : d ∈ Subgroup.normalizer (M : Set G)) (j : ℕ) (q : PQuot p M) :
     lemma102_conjQ p (Subgroup.pow_mem _ hd j) q = (⇑(lemma102_conjQ p hd))^[j] q := by
@@ -254,6 +261,7 @@ private theorem caseU_conjQ_pow_iter {p : ℕ} {M : Subgroup G} {d : G}
       (Subgroup.mul_mem _ (Subgroup.pow_mem _ hd n) hd)]
     rw [caseU_conjQ_mul (Subgroup.pow_mem _ hd n) hd q, ih q, Function.iterate_succ_apply']
 
+omit [Finite G] in
 private theorem caseU_iter_induced {p : ℕ} {M : Subgroup G} {d : G} (hd : d ∈ Subgroup.normalizer (M : Set G))
     {R : Type} [Group R] {φ : MulAut R}
     {θ : PQuot p M ⧸ Subgroup.center (PQuot p M) ≃* R}
@@ -267,6 +275,7 @@ private theorem caseU_iter_induced {p : ℕ} {M : Subgroup G} {d : G} (hd : d �
     rw [hφ q (lemma102_conjQ p hd q) ((lemma102_indRel_iff_conjQ hd q _).2 rfl)]
     exact ih _
 
+omit [Finite G] in
 private theorem caseU_primeField_pow {p : ℕ} (hp : p.Prime) {M : Subgroup G} {d e : G}
     (hd : d ∈ Subgroup.normalizer (M : Set G)) (he : e ∈ Subgroup.normalizer (M : Set G))
     {j : ℕ} (hpj : ¬ p ∣ j)
@@ -376,7 +385,6 @@ theorem isChevTwo_of_isU3eight {S : Type} [Group S] (h : catalogIs S S9.isU3eigh
     obtain ⟨d, hv⟩ := j
     simp only [S9.isU3eight, onLie] at hi
     simp only [onLie]
-    change d.characteristic = 2
     split at hi
     · rename_i q
       rw [TauCeti.LieTypeIndex.characteristic_twistedA]

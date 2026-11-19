@@ -29,7 +29,7 @@ theorem card_singular [Finite W] (q : W → ZMod 2) (B : LinearMap.BilinForm (ZM
     (hB : ∀ v : W, (∀ w, B v w = 0) → v = 0)
     (hS : ∃ S : Submodule (ZMod 2) W, Module.finrank (ZMod 2) S = 3 ∧ ∀ s ∈ S, q s = 0) :
     Nat.card {v : W // v ≠ 0 ∧ q v = 0} = 35 := by
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   have hq0 : q 0 = 0 := q_zero q B hq
   have hpolar : ∀ x y, q (x + y) - q x - q y = B x y := fun x y => by
     linear_combination hq x y

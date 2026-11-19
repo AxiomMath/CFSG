@@ -123,7 +123,7 @@ theorem not_four_dvd_card_centralizer
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h.orderOf_t, pow_one])
   obtain ⟨S, hS⟩ := (hT.comap_subtype (K := Subgroup.centralizer ({x'} : Set G))).exists_le_sylow
   set SG : Subgroup G := (S : Subgroup _).map (Subgroup.centralizer ({x'} : Set G)).subtype
-  have hSG2 : IsPGroup 2 SG := S.isPGroup'.map _
+  have hSG2 : IsPGroup 2 SG := S.isPGroup.map _
   have htS : h.t ∈ SG := ⟨⟨h.t, htx'⟩, hS (by
     rw [Subgroup.mem_comap]
     exact Subgroup.mem_zpowers _), rfl⟩

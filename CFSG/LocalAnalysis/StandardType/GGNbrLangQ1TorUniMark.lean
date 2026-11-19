@@ -51,7 +51,7 @@ private theorem l02qu4_guFull_eq_primeFormUnitary {m Q p f : ℕ} {E : Type} [Fi
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary h
         (1 : Matrix (Fin m) (Fin m) E) : Set (GL (Fin m) E)) := by
     ext A
-    rw [Set.mem_setOf_eq, SetLike.mem_coe,
+    rw [Set.mem_ofPred_eq, SetLike.mem_coe,
       CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) =
         (A : Matrix (Fin m) (Fin m) E).map h.bar := by
@@ -426,13 +426,13 @@ private theorem l02qu4_largeEvenMarking_heldSU {a Q : ℕ} {M : Type} [Field M] 
       have hcard3 : Nat.card M = 2 ^ 2 := by rw [hQ2] at hcard; exact hcard
       have hsolv : Group.IsSolvable ↥(StatedSU 3 2 M) :=
         l02qu4_isSolvable_statedSU_three_two hcard3
-      haveI : Group.IsPerfect ↥(StatedSU 3 2 M) := ⟨hqs.1⟩
-      haveI : Nontrivial (↥(StatedSU 3 2 M) ⧸ Subgroup.center ↥(StatedSU 3 2 M)) :=
+      have : Group.IsPerfect ↥(StatedSU 3 2 M) := ⟨hqs.1⟩
+      have : Nontrivial (↥(StatedSU 3 2 M) ⧸ Subgroup.center ↥(StatedSU 3 2 M)) :=
         hqs.2.toNontrivial
-      haveI : Nontrivial ↥(StatedSU 3 2 M) :=
+      have : Nontrivial ↥(StatedSU 3 2 M) :=
         (QuotientGroup.mk'_surjective (Subgroup.center ↥(StatedSU 3 2 M))).nontrivial
       exact Group.IsPerfect.not_isSolvable ↥(StatedSU 3 2 M) hsolv
-    letI : Fintype M := Fintype.ofFinite M
+    let : Fintype M := Fintype.ofFinite M
     obtain ⟨f, hQf, hUF⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData M (q := 2 ^ k)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
     exact largeEvenMarking_mono (fun _ _ _ _ _ _ _ => trivial)
@@ -440,7 +440,7 @@ private theorem l02qu4_largeEvenMarking_heldSU {a Q : ℕ} {M : Type} [Field M] 
   · have h2a : 2 ≤ a := l02qu4_two_le_of_isQuasisimple_statedSU hqs
     have ha2 : a = 2 := by omega
     subst ha2
-    letI : Fintype M := Fintype.ofFinite M
+    let : Fintype M := Fintype.ofFinite M
     have hk2 : 2 ≤ k := by
       by_contra hk
       have hk01 : k = 0 ∨ k = 1 := by omega
@@ -454,10 +454,10 @@ private theorem l02qu4_largeEvenMarking_heldSU {a Q : ℕ} {M : Type} [Field M] 
         rw [hk1, pow_one] at hqs
         have hsolv : Group.IsSolvable ↥(StatedSU 2 2 M) :=
           l02qu4_isSolvable_statedSU_two_two hcard2
-        haveI : Group.IsPerfect ↥(StatedSU 2 2 M) := ⟨hqs.1⟩
-        haveI : Nontrivial (↥(StatedSU 2 2 M) ⧸ Subgroup.center ↥(StatedSU 2 2 M)) :=
+        have : Group.IsPerfect ↥(StatedSU 2 2 M) := ⟨hqs.1⟩
+        have : Nontrivial (↥(StatedSU 2 2 M) ⧸ Subgroup.center ↥(StatedSU 2 2 M)) :=
           hqs.2.toNontrivial
-        haveI : Nontrivial ↥(StatedSU 2 2 M) :=
+        have : Nontrivial ↥(StatedSU 2 2 M) :=
           (QuotientGroup.mk'_surjective (Subgroup.center ↥(StatedSU 2 2 M))).nontrivial
         exact Group.IsPerfect.not_isSolvable ↥(StatedSU 2 2 M) hsolv
     exact largeEvenMarking_mono (fun _ _ _ _ _ _ _ => trivial)
@@ -482,8 +482,8 @@ private theorem l02qu4_component_group_iso {Q n : ℕ} {L : Type} [Field L] [Fin
   obtain ⟨r, H, hgrp, hfinH, hblk, ⟨ε⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.centralizerDecomposition_gu
       hτ hτQ hL s hs hord
-  letI : ∀ k, Group (H k) := hgrp
-  letI : ∀ k, Finite (H k) := hfinH
+  let : ∀ k, Group (H k) := hgrp
+  let : ∀ k, Finite (H k) := hfinH
   have hbl : ∀ k, ∃ S : Subgroup (H k), (∀ x y : H k, ⁅x, y⁆ ∈ S) ∧
       (∀ X : Subgroup S, CFSG.Open.IsComponentOf X ⊤ → X = ⊤) ∧ S.Normal ∧
       ((∃ (a d : ℕ) (M : Type) (_ : Field M) (_ : Finite M) (τ : M ≃+* M)
@@ -539,18 +539,18 @@ private theorem l02qu4_component_marking {Q n : ℕ} {L : Type} [Field L] [Finit
     LargeEvenMarking ↥C (fun _ _ _ _ _ _ => True) := by
   rcases l02qu4_component_group_iso hτ hτQ hL s hs hord hC with huni | hlin
   · obtain ⟨a, d, M, hMF, hMfin, τ', hτ', hτ'Q, hcardM, ⟨e⟩⟩ := huni
-    letI : Field M := hMF
-    letI : Finite M := hMfin
+    let : Field M := hMF
+    let : Finite M := hMfin
     obtain ⟨k, hk⟩ := hQpow
     have hcard2 : Nat.card M = 2 ^ (k * d * 2) := by
       calc Nat.card M = (Q ^ d) ^ 2 := hcardM
         _ = ((2 ^ k) ^ d) ^ 2 := by rw [hk]
         _ = 2 ^ (k * d * 2) := by rw [pow_mul, pow_mul]
-    letI : Fintype M := Fintype.ofFinite M
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP M 2 := charP_of_card_eq_prime_pow (p := 2) (f := k * d * 2)
+    let : Fintype M := Fintype.ofFinite M
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP M 2 := charP_of_card_eq_prime_pow (p := 2) (f := k * d * 2)
       (by rw [← Nat.card_eq_fintype_card, hcard2])
-    haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+    have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
     have hperfH : commutator ↥(Held.heldSU a M τ' hτ') = ⊤ := by
       have h := Subgroup.map_commutator (H₁ := (⊤ : Subgroup ↥C)) (H₂ := ⊤) e.toMonoidHom
       rw [show (⁅(⊤ : Subgroup ↥C), ⊤⁆) = ⊤ from hC.2.2.1,
@@ -566,14 +566,14 @@ private theorem l02qu4_component_marking {Q n : ℕ} {L : Type} [Field L] [Finit
       l02qu4_largeEvenMarking_heldSU hτ'Q hcardM ⟨k * d, by rw [hk, pow_mul]⟩ hqsH
     exact largeEvenMarking_congr e (fun _ _ _ _ _ _ _ => trivial) hheld
   · obtain ⟨b, ee, M, hMF, hMfin, hcardM, ⟨e⟩⟩ := hlin
-    letI : Field M := hMF
-    letI : Finite M := hMfin
+    let : Field M := hMF
+    let : Finite M := hMfin
     obtain ⟨k, hk⟩ := hQpow
     have hcard2 : Nat.card M = 2 ^ (k * (2 * ee)) := by
       calc Nat.card M = Q ^ (2 * ee) := hcardM
         _ = (2 ^ k) ^ (2 * ee) := by rw [hk]
         _ = 2 ^ (k * (2 * ee)) := by rw [← pow_mul]
-    haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+    have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
     have hperfH : commutator ↥(StatedSL b M) = ⊤ := by
       have h := Subgroup.map_commutator (H₁ := (⊤ : Subgroup ↥C)) (H₂ := ⊤) e.toMonoidHom
       rw [show (⁅(⊤ : Subgroup ↥C), ⊤⁆) = ⊤ from hC.2.2.1,
@@ -614,7 +614,7 @@ private theorem l02qu4_largeEvenMarking_of_central_surj_norm {A B : Type*} [Grou
     LargeEvenMarking B (fun lab _ _ I _ θ => Q0 ∧ tag lab ∧ ∀ j, PB j → ∃ φ ∈ I,
       LargeEvenInduces θ (relB j) φ) := by
   have hperf : Group.IsPerfect A := ⟨hA⟩
-  haveI : Group.IsPerfect A := hperf
+  have : Group.IsPerfect A := hperf
   have hB : commutator B = ⊤ := (Group.IsPerfect.ofSurjective hg).commutator_eq_top
   have hcomap : (Subgroup.center B).comap g = Subgroup.center A :=
     CFSG.LocalCores.comap_center_eq_of_perfect hperf g hg hker
@@ -668,9 +668,9 @@ theorem q1TorUni_marking {d m : ℕ} {K : Type} [Field K] [Finite K]
         ∃ φ ∈ IJ, LargeEvenInduces θJ
           (fun j j' : ↥J₀ =>
             TableB.projConj (LargeEvenSUGroup (Fin d) K (2 ^ m)) ⟨k, hkN⟩ (j : _) = (j' : _)) φ) := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m * 2) (by
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m * 2) (by
     rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hord : (orderOf s : K) ≠ 0 := by
     intro h

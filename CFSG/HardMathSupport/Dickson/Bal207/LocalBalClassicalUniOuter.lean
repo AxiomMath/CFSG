@@ -165,7 +165,7 @@ theorem exists_orthonormal_eigenbasis (hpq : 3 ∣ ℓ ^ f + 1) {X : primeFormUn
       ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ b i = μ • b i := by
   classical
   have := h.finite
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ := KCUnitaryPlane.exists_primitiveRoot_of_dvd h Nat.prime_three hpq
   set T : Module.End K (Fin n → K) := ((toLinU h n X :
       LinearMap.GeneralLinearGroup K (Fin n → K)) : Module.End K (Fin n → K)) with hT
@@ -352,7 +352,7 @@ theorem core_centralizer_primeFormP_eq_bot
     GLAPPrimeCoreOf 3 (Subgroup.centralizer
       ({(x : primeFormP h (idGram K n))} : Set (primeFormP h (idGram K n)))) = ⊥ := by
   classical
-  haveI : Finite (primeFormP h (idGram K n)) := finite_primeFormP
+  have : Finite (primeFormP h (idGram K n)) := finite_primeFormP
   have hinj := mk_injective_of_eq_bot hZ
   have key : ∀ z : gramSU h (idGram K n), ((z : primeFormP h (idGram K n)) *
       (x : primeFormP h (idGram K n)) = (x : primeFormP h (idGram K n)) *

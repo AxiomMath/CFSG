@@ -23,7 +23,7 @@ theorem sec5cn_core_of_eq (h36 : Asc82Lemma36) (h52a : Asc82Lemma52a) (hO : Asc8
     (hs1 : s ≠ 1) (hsz : s ≠ z) (hst : s * t = t * s) (hst1 : s ≠ t) (hst3 : s ≠ t * z)
     (hK : ∀ k ∈ K₁ ⊔ K₂, s * k = k * s) : m ∈ normalizer ((K₁ ⊔ K₂ : Subgroup G) : Set G) := by
   subst hms
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact sec5cn_core h36 h52a hO hAut c hmz (orderOf_eq_prime (by rw [pow_two]; exact hs2) hs1)
     hsz hst hst1 hst3 hK
 

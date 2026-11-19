@@ -27,14 +27,14 @@ theorem not_hasType424_fixSub_a2Plus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
       ↥(CFSG.RankThree.PartTwo.Sec4.autFix
         (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) := by
   classical
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hA : A2Std σ d (p ^ f) := a2Std_of_class hp hp2 hf hq hK hσ hd hd3 hd1
   have hφ := a2_hφ_of_class (σ := σ) (d := d) hs
   obtain ⟨ρ, hρ, hcard, -⟩ := TriA2.exists_hom_fixSub hA.toCore
     (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) hφ
   obtain ⟨hker, hN, hsolv⟩ := sl3_hom_structure ρ hρ hcard
-  haveI := hN
-  haveI : Fintype (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) :=
+  have := hN
+  have : Fintype (CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) :=
     Fintype.ofFinite _
   have hquasi' : CFSG.IsQuasisimple
       SL(3, CFSG.LieType.Steinberg.TwistedD4.fixedField σ.toRingHom) :=

@@ -17,8 +17,8 @@ theorem u62OddExclHered_of_milestones (hCIT : CITPart2) : U62OddExclHered := by
       Balance.eq_top_of_index_ne_two hidx fun h2 =>
         hcat (Balance.catalog_of_index_two hN h2 hkp)
     subst hNtop
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup Y) := hN.isSimpleGroup
-    haveI : IsSimpleGroup Y :=
+    have : IsSimpleGroup ↥(⊤ : Subgroup Y) := hN.isSimpleGroup
+    have : IsSimpleGroup Y :=
       (Subgroup.topEquiv.symm : Y ≃* ↥(⊤ : Subgroup Y)).isSimpleGroup
     obtain ⟨a, b, hab⟩ := hN.nonabelian
     have hnonab : ∃ a b : Y, a * b ≠ b * a :=

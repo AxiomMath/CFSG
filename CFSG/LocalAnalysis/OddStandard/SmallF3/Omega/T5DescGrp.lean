@@ -76,11 +76,11 @@ theorem descMk_eq_one_iff (hL : IsOm6Z2 L) {t : G} (ht : t ∈ centerIn L) (ht2 
     exact h.symm
   have hset : {m : ↥(normalizer (L : Set G)) | (m : G) = t} = {tN} := by
     ext m
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨fun h => Subtype.ext h, fun h => by rw [h]⟩
   have hzp : DescZ L t = zpowers tN := by
     rw [DescZ, hset]
-    haveI : (zpowers tN).Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr htN_center)
+    have : (zpowers tN).Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr htN_center)
     refine le_antisymm (Subgroup.normalClosure_le_normal ?_) ?_
     · intro x hx
       rw [Set.mem_singleton_iff] at hx

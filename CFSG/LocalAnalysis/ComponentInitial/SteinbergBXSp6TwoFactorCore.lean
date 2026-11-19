@@ -211,7 +211,7 @@ theorem transfer_eq_ofAdd_one_of_odd_index [Finite G] {M : Subgroup G} {z : G} (
       have hPodd : Odd (P : Subgroup (centralizer {z})).index :=
         Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 (P.not_dvd_index))
       exact Odd.of_dvd_nat (hQidx ▸ hPodd) (relIndex_dvd_of_le_left _ hQM)
-    have hP2 : IsPGroup 2 P := P.isPGroup'
+    have hP2 : IsPGroup 2 P := P.isPGroup
     have hmod := hP2.card_modEq_card_fixedPoints T
     rw [hfp, Nat.card_coe_set_eq, Set.ncard_empty] at hmod
     have hT : Nat.card T = S₀.card := by

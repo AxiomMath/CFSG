@@ -22,10 +22,12 @@ open scoped commutatorElement Pointwise Matrix
 variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : MulAut W}
   {Y : Subgroup W} {n : ℕ}
 
+omit [Finite W] in
 private theorem w1369_conjBy_sup (e : MulAut W) (A B : Subgroup (MulAut W)) :
     conjBy e (A ⊔ B) = conjBy e A ⊔ conjBy e B := by
   simp only [conjBy, Subgroup.map_sup]
 
+omit [Finite W] in
 private theorem w1369_stableUnder_commSub_self (R : Subgroup (MulAut W)) :
     StableUnder R (commSub ⊤ R) := by
   intro r hr u hu
@@ -47,6 +49,7 @@ private theorem w1369_stableUnder_commSub_self (R : Subgroup (MulAut W)) :
     rw [map_inv]
     exact (Subgroup.closure _).inv_mem ha
 
+omit [Finite W] in
 private theorem w1369_stableUnder_iff_le_stabSub {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -208,11 +211,11 @@ theorem Std139.moved_normalized (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s
         apply le_antisymm
         · simpa [sup_idem] using Subgroup.commutator_le_sup (Ke ⊔ Ked) (Ke ⊔ Ked)
         · refine sup_le ?_ ?_
-          · haveI : Group.IsPerfect ↥Ke := ⟨hKe_comp.2.2.1⟩
+          · have : Group.IsPerfect ↥Ke := ⟨hKe_comp.2.2.1⟩
             calc Ke = ⁅Ke, Ke⁆ := (Subgroup.commutator_eq_self).symm
               _ ≤ ⁅Ke ⊔ Ked, Ke ⊔ Ked⁆ :=
                 Subgroup.commutator_mono le_sup_left le_sup_left
-          · haveI : Group.IsPerfect ↥Ked := ⟨hKed_comp.2.2.1⟩
+          · have : Group.IsPerfect ↥Ked := ⟨hKed_comp.2.2.1⟩
             calc Ked = ⁅Ked, Ked⁆ := (Subgroup.commutator_eq_self).symm
               _ ≤ ⁅Ke ⊔ Ked, Ke ⊔ Ked⁆ :=
                 Subgroup.commutator_mono le_sup_right le_sup_right
@@ -289,7 +292,7 @@ theorem Std139.moved_normalized (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s
 
 theorem Std139.moved_faithful (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     {K : Subgroup (MulAut W)} {d : MulAut W} (hK : IsComponentOf K G) (hd : d ∈ D)
-    (hd1 : d ≠ 1) (hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (h134 : Conc4_134 G K d) :
+    (hd1 : d ≠ 1) (hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (_h134 : Conc4_134 G K d) :
     ∀ e ∈ D, (∀ y ∈ swapPair K d, e * y = y * e) → e = 1 := by
   intro e he hcent
   by_contra he1
@@ -319,23 +322,23 @@ theorem Std139.moved_faithful (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y
   have hmoved := w1369_lemmaB_swap hw2 S hK hd hd1 hKd
   have hY'perf : ⁅swapPair K d, swapPair K d⁆ = swapPair K d :=
     (swap_comm_eq_self hK hdG hd2 hKd).2
-  haveI : Group.IsPerfect ↥(swapPair K d) := Subgroup.isPerfect_iff.mpr hY'perf
-  haveI : Group.IsSolvable (Equiv.Perm (W ⧸ Y)) :=
+  have : Group.IsPerfect ↥(swapPair K d) := Subgroup.isPerfect_iff.mpr hY'perf
+  have : Group.IsSolvable (Equiv.Perm (W ⧸ Y)) :=
     Equiv.Perm.isSolvable (le_of_eq hcard4)
-  haveI : Group.IsSolvable (MulAut (W ⧸ Y)) :=
+  have : Group.IsSolvable (MulAut (W ⧸ Y)) :=
     Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm (W ⧸ Y)) (by
       intro a b hab
       exact MulEquiv.ext fun x => congrArg (fun f : Equiv.Perm (W ⧸ Y) => f x) hab)
-  haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
-  haveI : Group.IsSolvable ↥ρ.range :=
+  have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsSolvable ↥ρ.range :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective ρ.range)
   have hρ1 : ρ = 1 := by
     have hsub : Subsingleton ↥ρ.range := by
       rw [← not_nontrivial_iff_subsingleton]
       intro hnt
-      haveI : Nontrivial ↥ρ.range := hnt
+      have : Nontrivial ↥ρ.range := hnt
       exact (Group.IsPerfect.not_isSolvable (G := ↥ρ.range)) inferInstance
-    haveI : Subsingleton ↥ρ.range := hsub
+    have : Subsingleton ↥ρ.range := hsub
     ext y x
     have h2 : (⟨ρ y, MonoidHom.mem_range.mpr ⟨y, rfl⟩⟩ : ↥ρ.range) = 1 :=
       Subsingleton.elim _ _

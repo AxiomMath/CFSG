@@ -66,13 +66,13 @@ theorem monotone_eq_sortedVec (c : Vn n) (hc : Monotone fun i => (c i).val) :
     simp [D1]
   unfold sortedVec
   by_cases hi0 : i.val < D0.card
-  · rw [if_pos hi0]
+  · rw [ite_eq_left hi0]
     exact h0.mpr hi0
-  · rw [if_neg hi0]
+  · rw [ite_eq_right hi0]
     by_cases hi1 : i.val < D0.card + (D1.card - D0.card)
-    · rw [if_pos hi1]
+    · rw [ite_eq_left hi1]
       exact (key (c i)).2.1 (h1.mpr (by omega)) fun h => hi0 (h0.mp h)
-    · rw [if_neg hi1]
+    · rw [ite_eq_right hi1]
       exact (key (c i)).2.2.1 fun h => hi1 (by have := h1.mp h; omega)
 
 @[expose] def f3 (f : ZMod 3 × ZMod 3 × ZMod 3) (t : ZMod 3) : ZMod 3 :=

@@ -14,6 +14,7 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X}
   {Tt : X → Submodule K E} {q : ℕ}
 
+omit [Finite X] in
 theorem MoveFrame.fix_Tt_of_mem_L (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) (hs : s ∈ V)
     (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) {l : X} (hl : l ∈ L) {w : E} (hw : w ∈ Tt g) :
     φ l w = w := by
@@ -23,8 +24,9 @@ theorem MoveFrame.fix_Tt_of_mem_L (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) 
   rw [opm_apply (φ l)] at h
   exact sub_eq_zero.mp h
 
+omit [Finite X] in
 theorem MoveFrame.L_comm_Vg (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) (hs : s ∈ V)
-    (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) (htV : g * s * g⁻¹ ∉ V) :
+    (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) (_htV : g * s * g⁻¹ ∉ V) :
     (∀ l ∈ L, l ∈ normalizer ((conjSubgroup g V : Subgroup X) : Set X)) ∧
       (∀ l ∈ L, ∀ v ∈ conjSubgroup g V, l * v = v * l) := by
   have htc : g * s * g⁻¹ ∈ conjSubgroup g V := mem_conjSubgroup_iff'.mpr ⟨s, hs, rfl⟩
@@ -54,8 +56,9 @@ theorem MoveFrame.L_comm_Vg (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) (hs : 
     rw [map_mul φ l (g * a * g⁻¹), map_mul φ (g * a * g⁻¹) l]
     exact hc
 
+omit [Finite X] in
 theorem MoveFrame.L_le_Nbg (F : MoveFrame B φ V L Nb Rb Tt q) (s g : X) (hs : s ∈ V)
-    (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) (htV : g * s * g⁻¹ ∉ V)
+    (hs1 : s ≠ 1) (ht : g * s * g⁻¹ ∈ L) (_htV : g * s * g⁻¹ ∉ V)
     (hNg : ∀ l ∈ L, l ∈ normalizer ((conjSubgroup g V : Subgroup X) : Set X))
     (hcomm : ∀ l ∈ L, ∀ v ∈ conjSubgroup g V, l * v = v * l) :
     ∀ l ∈ L, l ∈ conjSubgroup g Nb := by

@@ -212,7 +212,7 @@ private theorem exists_conj_comm_of_psl2 {X : Type} [Group X] [Finite X]
     (hl : LieModel (FStarQuot X) .PSL 2 p f) {z : X} (hz : z ∈ genFittingFStar X)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) :
     ∃ g : X, g * z * g⁻¹ ≠ z ∧ (g * z * g⁻¹) * z = z * (g * z * g⁻¹) := by
-  haveI := hsimple
+  have := hsimple
   obtain ⟨hp, h4, F, _, _, hFcard, ⟨e⟩⟩ := MF163.psl2_of_lieModel hl
   have hf1 : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | h
@@ -811,7 +811,7 @@ private theorem Z2Set.exists_s_of_mod (hs : Z2Set n R S t J u R₀ T₀ P) {x : 
   have hww : x * u * x⁻¹ * (x * u * x⁻¹) = 1 := by
     calc x * u * x⁻¹ * (x * u * x⁻¹) = x * (u * u) * x⁻¹ := by group
       _ = 1 := by rw [hs.hu.sq]; group
-  have h2 : IsPGroup 2 ↥(R₀ ⊔ T₀) := P.isPGroup'.to_le (sup_le hs.hR₀P hs.hT₀P)
+  have h2 : IsPGroup 2 ↥(R₀ ⊔ T₀) := P.isPGroup.to_le (sup_le hs.hR₀P hs.hT₀P)
   obtain ⟨s, hsΛ, hss, hsR, hsT, hsC, hso⟩ := exists_lift_of_mod h2 hT₀Λ
     (fun r hr y hy => conj_mem_linkLayer hs.large (hR₀t hr) hy)
     (fun r hr y hy => commutator_mem_oddCoreOf_linkLayer' hs.large (hR₀K hr) hy) hwΛ hww hN

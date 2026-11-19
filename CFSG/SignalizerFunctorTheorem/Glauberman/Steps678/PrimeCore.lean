@@ -95,7 +95,7 @@ theorem sylowOf_le {q : ℕ} {T U : Subgroup G} (h : IsSylowOf q T U) : T ≤ U 
 omit [Finite G] in
 theorem sylowOf_isPGroup {q : ℕ} {T U : Subgroup G} (h : IsSylowOf q T U) : IsPGroup q T := by
   obtain ⟨P, rfl⟩ := h
-  exact P.isPGroup'.map U.subtype
+  exact P.isPGroup.map U.subtype
 
 omit [Finite G] in
 theorem sylowOf_eq_of_le {q : ℕ} {T U Y : Subgroup G} (h : IsSylowOf q T U)

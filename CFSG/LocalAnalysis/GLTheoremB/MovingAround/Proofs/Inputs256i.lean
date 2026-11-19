@@ -136,6 +136,7 @@ section CoprimeLift
 
 variable {K S : Type} [Group K] [Finite K] [Group S]
 
+omit [Finite K] in
 theorem exists_coprime_lift (π : K →* S) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) (a : MulAut K) (β : MulAut S) (hπβ : ∀ x, π (a x) = β (π x))
     {J : Subgroup S} (hJsn : IsSubnormal J (fixSubgroup β))
@@ -148,7 +149,7 @@ theorem exists_coprime_lift (π : K →* S) (hπ : Function.Surjective π)
     rw [hNdef, Subgroup.mem_comap, MonoidHom.mem_ker.1 hx]
     exact J.one_mem
   set Z₀ : Subgroup ↥N := π.ker.subgroupOf N with hZ₀
-  haveI : Z₀.Normal := Subgroup.Normal.subgroupOf (MonoidHom.normal_ker π) N
+  have : Z₀.Normal := Subgroup.Normal.subgroupOf (MonoidHom.normal_ker π) N
   have hZcard : Nat.card Z₀ = Nat.card π.ker := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hkerN).toEquiv
   have hZindex : Z₀.index = Nat.card J := by
     have h1 : (π.domRestrict N).ker = Z₀ := MonoidHom.ker_domRestrict N π
@@ -249,7 +250,7 @@ theorem oPrimeResidualOf_le_of_qGenCoprime {p q : ℕ} (hp : p.Prime) (hq : q.Pr
             IsChevSimple q (barOf p Q ⧸ Subgroup.center (barOf p Q))),
           Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
   set zb : ↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a) := QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z with hzb
   set C : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)) :=
@@ -391,7 +392,7 @@ theorem barX_le_iSup_glaPComponent_of_gen {p q : ℕ} (hp : p.Prime) {a : G} {K 
             IsChevSimple q (barOf p Q ⧸ Subgroup.center (barOf p Q))),
           Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set R₂ : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)) :=
     ⨆ (z : ↥(Cg a)) (_ : (z : G) ∈ A0) (_ : z ≠ 1),
       ⨆ (Q : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)))
@@ -667,7 +668,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barOf barAut)
 theorem input14_2StructRee37_of_gen (h : ReeGen37) : Input14_2StructRee37 := by
   intro G _ _ a K E A hK ⟨hv, ⟨θ⟩⟩ hA0C hA0el hA0r hN hF hIii
   right
-  haveI : Fact (7 : ℕ).Prime := ⟨by norm_num⟩
+  have : Fact (7 : ℕ).Prime := ⟨by norm_num⟩
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
   set B : Subgroup (MulAut (Cat ⟨.reeG2 3, hv⟩)) := ((E ⊓ A).subgroupOf N).map (Inputs2311c.catAct θ) with hB
   have hBel : IsElemAbelian 7 B := (hA0el.subgroupOf N).map _
@@ -729,7 +730,7 @@ theorem input14_2StructThree_of_qGen3On
     Inputs256e.Input14_2StructThree := by
   intro G _ _ p q hp hp2 hq hq2 hqp hq3 a K E A hK hchev hA0C hA0el hA0r hN hF hIii
   subst hq3
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : p ≠ 3 := Ne.symm hqp
   rcases hchev with ⟨i, hi, ⟨θ⟩⟩ | hamb
   · cases i with

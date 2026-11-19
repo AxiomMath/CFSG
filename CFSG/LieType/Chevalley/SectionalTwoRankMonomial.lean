@@ -14,7 +14,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.GH74
 
 theorem sectionalTwoRankLE_of_not_two_pow_dvd {X : Type*} [Group X] [Finite X] {r : ℕ}
     (h : ¬ 2 ^ (r + 1) ∣ Nat.card X) : SectionalTwoRankLE X r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P hP
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hdvd : 2 ^ k ∣ Nat.card X := hk ▸ Subgroup.card_subgroup_dvd_card P
@@ -27,7 +27,7 @@ theorem sectionalTwoRankLE_of_not_two_pow_dvd {X : Type*} [Group X] [Finite X] {
 theorem sectionalTwoRankLE_of_odd_index {X : Type*} [Group X] [Finite X] (N : Subgroup X)
     (hN : Odd N.index) {r : ℕ} (h : SectionalTwoRankLE N r) : SectionalTwoRankLE X r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P hP
   have hcard : ¬ 2 ∣ Nat.card (X ⧸ N) := by
     rw [← Subgroup.index_eq_card]
@@ -59,7 +59,7 @@ theorem sectionalTwoRankLE_pi {G : Type*} [Group G] [Finite G] {a : ℕ}
     have h := hG.prod (sectionalTwoRankLE_pi hG n)
     let e : (Fin (n + 1) → G) →* G × (Fin n → G) :=
       (Pi.evalMonoidHom (fun _ => G) 0).prod
-        (Pi.monoidHom fun i : Fin n => Pi.evalMonoidHom (fun _ => G) i.succ)
+        (_root_.MonoidHom.pi fun i : Fin n => Pi.evalMonoidHom (fun _ => G) i.succ)
     have he : Function.Injective e := by
       intro x y hxy
       have h0 : x 0 = y 0 := congrArg Prod.fst hxy
@@ -79,7 +79,7 @@ theorem sectionalTwoRankLE_monomialSubgroup
     (τ : Tag) (R : Type) [Field R]
     [Finite R] {r : ℕ} (hW : SectionalTwoRankLE (WeylGroup τ) r) :
     SectionalTwoRankLE (monomialSubgroup τ R) (τ.rank + r) := by
-  haveI := finite_modGL (τ := τ) (K := R)
+  have := finite_modGL (τ := τ) (K := R)
   obtain ⟨-, ⟨ρ, hρs, -, -, -, hker⟩, -⟩ := Weyl_normalizer_quotient τ R
   have hle : torusGroup τ R ≤ monomialSubgroup τ R := le_sup_left
   have hN : SectionalTwoRankLE ρ.ker τ.rank := by
@@ -98,10 +98,10 @@ theorem sectionalTwoRankLE_adjointGroup
     (τ : Tag) {r : ℕ} (hW : SectionalTwoRankLE (WeylGroup τ) r) (K : Type) [Field K] [Finite K]
     (hK : Odd (Nat.card K)) : SectionalTwoRankLE (adjointGroup τ K) (τ.rank + r) := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set M := Nat.card (WeylGroup τ) with hMdef
   have hM : 1 ≤ M := Nat.card_pos
-  haveI : NeZero (Nat.totient (2 ^ M)) :=
+  have : NeZero (Nat.totient (2 ^ M)) :=
     ⟨(Nat.totient_pos.2 (pow_pos (by norm_num) M)).ne'⟩
   let L := FiniteField.Extension K (ringChar K) (Nat.totient (2 ^ M))
   have hL : Nat.card L = Nat.card K ^ Nat.totient (2 ^ M) := FiniteField.natCard_extension _ _ _
@@ -110,7 +110,7 @@ theorem sectionalTwoRankLE_adjointGroup
   have hWM : ¬ 2 ^ M ∣ Nat.card (WeylGroup τ) := fun h =>
     absurd (Nat.le_of_dvd Nat.card_pos h) (not_le.2 (Nat.lt_two_pow_self))
   have hodd := (exceptional_Lang_finite_normalizer_odd_index_involutions τ L hLodd hM hLM hWM).1
-  haveI := finite_modGL (τ := τ) (K := L)
+  have := finite_modGL (τ := τ) (K := L)
   have hNC : monomialSubgroup τ L ≤ adjointGroup τ L := monomialSubgroup_le_adjointGroup'
   have hCL : SectionalTwoRankLE (adjointGroup τ L) (τ.rank + r) :=
     sectionalTwoRankLE_of_odd_index ((monomialSubgroup τ L).subgroupOf (adjointGroup τ L)) hodd
@@ -135,9 +135,9 @@ theorem sectionalTwoRankLE_of_untwistedChevalleyModel
     {G : Type} [Group G] {τ : Tag} {q r : ℕ} (hW : SectionalTwoRankLE (WeylGroup τ) r)
     (hq : Odd q) (h : UntwistedChevalleyModel G τ q) : SectionalTwoRankLE G (τ.rank + r) := by
   obtain ⟨K, hfield, hfin, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hfield
-  haveI : Finite K := hfin
-  haveI := finite_modGL (τ := τ) (K := K)
+  let : Field K := hfield
+  have : Finite K := hfin
+  have := finite_modGL (τ := τ) (K := K)
   have hA := sectionalTwoRankLE_adjointGroup τ hW K (hcard ▸ hq)
   exact SectionalTwoRankLE.of_mulEquiv e.symm
     (SectionalTwoRankLE.quotient (Subgroup.center ↥(adjointGroup τ K)) hA)
@@ -146,9 +146,9 @@ theorem sectionalTwoRankLE_of_twistedChevalleyModel
     {G : Type} [Group G] {t : TwistTag} {q r : ℕ} (hW : SectionalTwoRankLE (WeylGroup t.tag) r)
     (hq : Odd q) (h : TwistedChevalleyModel G t q) : SectionalTwoRankLE G (t.tag.rank + r) := by
   obtain ⟨K, hfield, hfin, hcard, σ, -, ⟨e⟩⟩ := h
-  letI : Field K := hfield
-  haveI : Finite K := hfin
-  haveI := finite_modGL (τ := t.tag) (K := K)
+  let : Field K := hfield
+  have : Finite K := hfin
+  have := finite_modGL (τ := t.tag) (K := K)
   have hA := sectionalTwoRankLE_adjointGroup t.tag hW K (hcard ▸ hq.pow)
   set H := twistedFixedGroup t K σ
   have hHH : ⁅H, H⁆ ≤ H := Subgroup.commutator_le.2 fun a ha b hb => by

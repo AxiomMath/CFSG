@@ -10,7 +10,7 @@ theorem eq_one_of_mem_center_of_abelian_sylow {K : Type} [Group K] [Finite K]
     (hperf : Group.IsPerfect K) {p : ℕ} [Fact p.Prime] (P : Sylow p K)
     (hPab : ∀ x ∈ (P : Subgroup K), ∀ y ∈ (P : Subgroup K), x * y = y * x) {z : K}
     (hz : z ∈ Subgroup.center K) (hzp : z ^ p = 1) : z = 1 := by
-  haveI : (Subgroup.zpowers z).Normal :=
+  have : (Subgroup.zpowers z).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hz)
   have hpg : IsPGroup p (Subgroup.zpowers z) := by
     rintro ⟨g, hg⟩

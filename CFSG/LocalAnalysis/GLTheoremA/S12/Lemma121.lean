@@ -50,7 +50,7 @@ theorem l121_small_case (h : Cfg12 G m 3 B x L D K) (hin : Inputs121 G 3) (hs : 
 theorem exists_D'' (h : Cfg12 G m p B x L D K) {E : Subgroup G} (hE : IsE3 p B E) :
     ∃ D'' : Subgroup G, IsE2 p B D'' ∧ D'' ≤ Subgroup.zpowers x ⊔ E ∧ x ∉ D'' := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzB : Subgroup.zpowers x ≤ B := Subgroup.zpowers_le.2 h.tri.mem
   have hSB : Subgroup.zpowers x ⊔ E ≤ B := sup_le hzB hE.1
   have hSel : IsElemAbelian p (Subgroup.zpowers x ⊔ E) := isElemAbelian_mono h.tri.bmax.1 hSB
@@ -117,7 +117,7 @@ theorem l121_layer_D'' (h : Cfg12 G m p B x L D K) (hin : Inputs121 G p) {E D'' 
 theorem l121_card_D'' (h : Cfg12 G m p B x L D K) {D'' : Subgroup G} (hD : IsE2 p B D'') (hx : x ∉ D'') :
     Nat.card D'' = p ^ 2 * Nat.card ↥(D'' ⊓ centModSubgroup p L) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : D'' ⊓ centModSubgroup p L = ⊥ := by
     rw [eq_bot_iff]
     intro g hg
@@ -173,7 +173,7 @@ theorem l121_d_two (h : Cfg12 G m 3 B x L D K) (hin : Inputs121 G 3)
     (hnot : ¬ IsGStar 3 B L) : dLevel G 3 = 2 := by
   have hlev := IsSStarMax.level h.tri.star
   have h2 := hin.level2 _ L h.tri.comp hL
-  rw [← hlev, tripleLevel, if_neg hnot, h2]
+  rw [← hlev, tripleLevel, ite_eq_right hnot, h2]
   norm_num
 
 theorem l121_E_K (h : Cfg12 G m p B x L D K) (hin : Inputs121 G p) {E : Subgroup G} (hE : IsE3 p B E) (hDE : D ≤ E)
@@ -198,7 +198,7 @@ theorem l121_d_five (h : Cfg12 G m p B x L D K) {E : Subgroup G} (hE : IsE3 p B 
     (hne : GLAPLayer p (L ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥) : dLevel G p = 5 := by
   have hlev := IsSStarMax.level h.tri.star
   have hG : IsGStar p B L := ⟨E, hE.1, hE.2.1, hE.2.2, by rwa [closureIn_eq_self h.tri.norm]⟩
-  rw [← hlev, tripleLevel, if_pos hG]
+  rw [← hlev, tripleLevel, ite_eq_left hG]
 
 end S12
 

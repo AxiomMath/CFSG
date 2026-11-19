@@ -89,6 +89,7 @@ variable {k : Type} [Field k] {p : ℕ} [Fact p.Prime] [CharP k p] [IsAlgClosed 
 
 open CFSG.LieType.Chevalley
 
+omit [IsAlgClosed k] in
 theorem frobFixed_le (e : ℕ) :
     frobeniusFixedField k p e ≤ frobeniusFixedField k p (e * 2) := by
   intro x hx
@@ -112,10 +113,12 @@ instance frobFixedAlgebra (e : ℕ) :
         rw [← pow_mul, ← pow_mul, Nat.mul_comm (p ^ e) (p ^ (e * 2))]
       rw [h1, hx])
 
+omit [IsAlgClosed k] in
 theorem coe_frobHom (e : ℕ) (x : ↥(frobeniusFixedField k p (e * 2))) :
     ((frobHom e x : ↥(frobeniusFixedField k p (e * 2))) : k) = (x : k) ^ p ^ e :=
   rfl
 
+omit [IsAlgClosed k] in
 theorem frobHom_frobHom (e : ℕ) (x : ↥(frobeniusFixedField k p (e * 2))) :
     frobHom e (frobHom e x) = x := by
   refine Subtype.ext ?_
@@ -153,7 +156,7 @@ theorem exists_kleinData_frob {e : ℕ} (he : 0 < e) (hp2 : p ≠ 2) :
     push Not at hcon
     have hle : frobeniusFixedField k p (e * 2) ≤ frobeniusFixedField k p e := fun x hx =>
       mem_frobeniusFixedField.2 (congrArg Subtype.val (hcon ⟨x, hx⟩))
-    haveI : Finite ↥(frobeniusFixedField k p e) :=
+    have : Finite ↥(frobeniusFixedField k p e) :=
       Nat.finite_of_card_ne_zero (by rw [card_frobeniusFixedField he]; exact (pow_pos (Fact.out : p.Prime).pos e).ne')
     have hinj : Function.Injective (Subfield.inclusion hle) := (Subfield.inclusion hle).injective
     have h1 := Nat.card_le_card_of_injective _ hinj

@@ -90,6 +90,7 @@ private noncomputable def bar2Map {A X : Subgroup G} (hA : IsElemAbelian 2 A)
           (CFSG.pCore_isPGroup.map _)
       exact hle ⟨x, hx, rfl⟩)
 
+omit [Finite G] in
 private theorem bar2Map_surjective {A X : Subgroup G} (hA : IsElemAbelian 2 A)
     (hX : X ≤ stabTil (⊥ : Subgroup G) A) : Function.Surjective (bar2Map hA hX) := by
   intro y
@@ -577,7 +578,7 @@ private theorem product_L0_eq_L_aux
       rw [IsSylowIn.coe_toSylow, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
       simpa using Subgroup.mem_normalizer_iff.mp (hL0N (Subgroup.mem_subgroupOf.mp hx)) (y : G)
     have : Group.IsSolvable ↥(c.L0.subgroupOf c.L) :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hBle) (Subgroup.inclusion_injective _)
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hBle) (Subgroup.inclusion_injective _)
     have hperf : ⁅c.L0.subgroupOf c.L, c.L0.subgroupOf c.L⁆ = c.L0.subgroupOf c.L := by
       rw [CFSG.GroupTheory.commutator_subgroupOf_eq c.hL0L c.hL0L, c.hL0.1.2.1]
     have hbot := eq_bot_of_perfect_of_isSolvable hperf

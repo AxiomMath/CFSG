@@ -32,7 +32,7 @@ theorem four_le_ker {S : Finset Nat} (hS : XorClosed S) (h8 : S.card = 8) (φ : 
         (S.filter fun x => form φ x = false).card := by
       refine Finset.card_le_card_of_injOn (fun x => x ^^^ w) ?_ ?_
       · intro x hx
-        simp only [Finset.coe_filter, Set.mem_setOf_eq, Bool.not_eq_false] at hx ⊢
+        simp only [Finset.coe_filter, Set.mem_ofPred_eq, Bool.not_eq_false] at hx ⊢
         refine ⟨hS.2.2 x hx.1 w hw, ?_⟩
         rw [form_xor_right, hx.2, hφw]
         rfl

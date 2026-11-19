@@ -28,7 +28,7 @@ theorem isAmalgamOfGroup_d4_of_d4qLocalData {G : Type} [Group G] [Finite G]
   classical
   let K := GaloisField 2 (3 * f)
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 f
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hf1 : 1 ≤ f := by omega
   have hK : Nat.card K = (2 ^ f) ^ 3 := by
     rw [GaloisField.card (p := 2) (n := 3 * f) (by omega), Nat.mul_comm 3 f, pow_mul]

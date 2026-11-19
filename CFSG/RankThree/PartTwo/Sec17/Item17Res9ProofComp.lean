@@ -121,7 +121,7 @@ theorem false_of_le_sup_of_ne {K X O J L₀ : Subgroup H} (hK : K ∈ thetaCompo
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥(K.map π)))
   have hPZ : (P : Subgroup ↥(K.map π)) ≤ Subgroup.center ↥(K.map π) := by
     intro x hx
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hx⟩
     have hxn : (x : H ⧸ θ) ^ 3 ^ n = 1 := by
       have := congrArg (fun y : ↥(P : Subgroup ↥(K.map π)) => ((y : ↥(K.map π)) : H ⧸ θ)) hn
       simpa using this

@@ -349,7 +349,7 @@ theorem actL_of_mem {Y L : Subgroup G} (hLY : L ≤ Y)
       (MulAut.conj (quotEquiv hLY hY hL ⟨l, hl⟩)) = MulAut.conj ⟨l, hl⟩
   ext x
   rw [MulAut.congr_apply]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
+  simp only [MulEquiv.trans_apply]
   rw [MulAut.conj_apply, MulAut.conj_apply]
   rw [show (quotEquiv hLY hY hL).symm.symm x = (quotEquiv hLY hY hL) x from rfl]
   rw [show (quotEquiv hLY hY hL ⟨l, hl⟩) * (quotEquiv hLY hY hL) x *

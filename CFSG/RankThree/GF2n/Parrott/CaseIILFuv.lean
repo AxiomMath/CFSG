@@ -27,6 +27,7 @@ local notation "Mat8" => Matrix (Fin 8) (Fin 8) (ZMod 2)
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem conj_mem_J {y : G} (hy : y ∈ H z) {j : G} (hj : j ∈ J z) : y * j * y⁻¹ ∈ J z :=
   (mem_normalizer_iff.mp (J_le_normalizer_A hy) j).mp hj
 

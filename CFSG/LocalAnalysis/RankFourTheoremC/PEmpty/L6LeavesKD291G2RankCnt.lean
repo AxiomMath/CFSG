@@ -73,29 +73,29 @@ theorem card_le_cube [Finite F] (h2 : (2 : F) ≠ 0) (h3 : (3 : F) ≠ 0)
     (by rw [card_hs_five, Subgroup.card_bot, mul_one]) (by rw [Subgroup.card_bot]; exact one_pos)
   have pA : ¬ (n1 = 1 ∧ n2 = 1) := by
     rintro ⟨e1, e2⟩
-    obtain ⟨f, hf, hfn⟩ := SetLike.not_le_iff_exists.1 (hB1 e1)
-    obtain ⟨g, hg, hgn⟩ := SetLike.not_le_iff_exists.1 (hB2 e2)
+    obtain ⟨f, hf, hfn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB1 e1)
+    obtain ⟨g, hg, hgn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB2 e2)
     exact patA hf.2 hfn hg.2 hgn (hcomm g hg.1 f hf.1)
   have pB : ¬ (n3 = 1 ∧ n4 = 1) := by
     rintro ⟨e3, e4⟩
-    obtain ⟨x, hx, hxn⟩ := SetLike.not_le_iff_exists.1 (hB3 e3)
-    obtain ⟨y, hy, hyn⟩ := SetLike.not_le_iff_exists.1 (hB4 e4)
+    obtain ⟨x, hx, hxn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB3 e3)
+    obtain ⟨y, hy, hyn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB4 e4)
     exact patB h3 hx.2 hxn hy.2 hyn (hcomm x hx.1 y hy.1)
   have pC : ¬ ((n1 = 1 ∨ n2 = 1) ∧ n5 = 1 ∧ (n3 = 1 ∨ n4 = 1)) := by
     rintro ⟨hf12, e5, he34⟩
     obtain ⟨f, hf1, hf, hfn⟩ : ∃ f : ModGL .G2 F, f ∈ E ∧ f ∈ heightSeries .G2 F 1 ∧
         f ∉ heightSeries .G2 F 2 := by
       rcases hf12 with e1 | e2
-      · obtain ⟨f, hf, hfn⟩ := SetLike.not_le_iff_exists.1 (hB1 e1)
+      · obtain ⟨f, hf, hfn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB1 e1)
         exact ⟨f, hf.1, hf.2, fun h => hfn (hs_two_le_Wg h)⟩
-      · obtain ⟨g, hg, hgn⟩ := SetLike.not_le_iff_exists.1 (hB2 e2)
+      · obtain ⟨g, hg, hgn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB2 e2)
         exact ⟨g, hg.1, Wg_le_hs_one hg.2, hgn⟩
-    obtain ⟨z, hz, hzn⟩ := SetLike.not_le_iff_exists.1 (hB5 e5)
+    obtain ⟨z, hz, hzn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB5 e5)
     rcases he34 with e3 | e4
-    · obtain ⟨x, hx, hxn⟩ := SetLike.not_le_iff_exists.1 (hB3 e3)
+    · obtain ⟨x, hx, hxn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB3 e3)
       exact patC h2 h3 hf hfn hz.2 hzn (Or.inl ⟨hx.2, hxn⟩) (hcomm f hf1 z hz.1)
         (hcomm f hf1 x hx.1)
-    · obtain ⟨y, hy, hyn⟩ := SetLike.not_le_iff_exists.1 (hB4 e4)
+    · obtain ⟨y, hy, hyn⟩ := IsConcreteLE.not_le_iff_exists.1 (hB4 e4)
       exact patC h2 h3 hf hfn hz.2 hzn (Or.inr ⟨hy.2, hyn⟩) (hcomm f hf1 z hz.1)
         (hcomm f hf1 y hy.1)
   have hsum : n1 + n2 + n3 + n4 + n5 + n6 ≤ 3 := by omega

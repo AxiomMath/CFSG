@@ -182,7 +182,7 @@ theorem ggQ2s08_core_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
     (hred : ∃ U : Submodule (ZMod 3) V, U ≠ ⊥ ∧ U ≠ ⊤ ∧ ∀ a ∈ R, ∀ u ∈ U, a u ∈ U) :
     t ∈ GGQ2S08M0 R W r xv := by
   classical
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨U, hU0, hU1, hUR⟩ := hred
   have hrR : r ∈ R := by rw [hR]; exact Subgroup.subset_closure (by simp)
   have htR : t ∈ R := by rw [hR]; exact Subgroup.subset_closure (by simp)
@@ -332,8 +332,8 @@ theorem ggQ2s08_core_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
           rw [h, Submodule.map_top, Submodule.range_subtype]
         exact Submodule.map_injective_of_injective H.injective_subtype h'
   have hAbsRb : ZS.AbsIrred 3 Rb := ggWAut_absIrred_of_le hWbR hWirrWb
-  haveI : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
   have hcard : Nat.card Rb ≤ Nat.card R := by
@@ -453,7 +453,7 @@ theorem ggQ2s08_core_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
         simpa only [Subtype.coe_mk] using
           (hrbar_apply ⟨w⁻¹ h, hwh⟩).symm.trans (hw_apply ⟨w⁻¹ h, hwh⟩)
       rw [h1]
-      simpa using LinearEquiv.apply_symm_apply w (h : V)
+      simp
     have hkR : k ∈ R := by
       rw [hkdef]
       exact Subgroup.mul_mem _ hrR (Subgroup.inv_mem _ (hWR hwW))
@@ -502,7 +502,7 @@ theorem ggQ2s08_core_red (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
       simpa only [Subtype.coe_mk] using
         (htbar_apply ⟨m⁻¹ h, hmh⟩).symm.trans (hm_res ⟨m⁻¹ h, hmh⟩)
     rw [h1]
-    simpa using LinearEquiv.apply_symm_apply m (h : V)
+    simp
   have hkR : k ∈ R := by
     rw [hkdef]
     exact Subgroup.mul_mem _ htR (Subgroup.inv_mem _ hmR)

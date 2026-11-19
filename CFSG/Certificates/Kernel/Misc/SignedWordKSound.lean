@@ -25,10 +25,10 @@ theorem signedWordA_unpack {n w : ℕ} (hw : szOK n w = true) {gs : Array (Array
     cases b
     · have hp := permB_pinvS hw (hGp k hk)
       refine ⟨?_, permB_pcomp hw hp p⟩
-      simp only [signedWordA, swK, cond_false, Bool.false_eq_true, ↓reduceIte]
-      rw [e, hG k hk, inv_unpack hw (hGp k hk), comp_unpack hw hp p]
+      simp only [signedWordA, swK, Bool.cond_false, Bool.false_eq_true, ↓reduceIte]
+      rw [e, hG k hk, inv_unpack (hGp k hk), comp_unpack hw hp p]
     · refine ⟨?_, permB_pcomp hw (hGp k hk) p⟩
-      simp only [signedWordA, swK, cond_true, ↓reduceIte]
+      simp only [signedWordA, swK, _root_.Bool.cond_true, ↓reduceIte]
       rw [e, hG k hk, comp_unpack hw (hGp k hk) p]
 
 end CFSG.KC.SignedWordK

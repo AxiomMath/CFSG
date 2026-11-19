@@ -67,10 +67,10 @@ theorem nonempty_su_equiv_lieUniversalPSU
       exact (Finite.one_lt_card (α := K)).ne' this
     · exact h
   have hG : Nat.card (GaloisField p (2 * f)) = (p ^ f) ^ 2 := card_galoisField_two_mul p f hf
-  haveI := Fintype.ofFinite K
-  haveI : Finite (GaloisField p (2 * f)) :=
+  have := Fintype.ofFinite K
+  have : Finite (GaloisField p (2 * f)) :=
     Nat.finite_of_card_ne_zero (by rw [hG]; exact pow_ne_zero 2 (pow_ne_zero f hp.ne_zero))
-  haveI := Fintype.ofFinite (GaloisField p (2 * f))
+  have := Fintype.ofFinite (GaloisField p (2 * f))
   have hcard : Fintype.card K = Fintype.card (GaloisField p (2 * f)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hG]
   let e : K ≃+* GaloisField p (2 * f) := FiniteField.ringEquivOfCardEq hcard

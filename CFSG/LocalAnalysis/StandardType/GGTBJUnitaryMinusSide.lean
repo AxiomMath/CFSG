@@ -203,7 +203,7 @@ theorem ggTBJ_uniMinus_sideDatum_of_frame
       have hv : ∀ i' ∈ S,
           (Pi.mulSingle i (ofAdd (1 : ZMod p)) : Fin m → Multiplicative (ZMod p)) i' = 1 := by
         intro i' hi'
-        rw [Pi.mulSingle_apply, if_neg (show i' ≠ i by rintro rfl; exact hi hi')]
+        rw [Pi.mulSingle_apply, ite_eq_right (show i' ≠ i by rintro rfl; exact hi hi')]
       have h := hZ1' x hx (Pi.mulSingle i (ofAdd (1 : ZMod p))) hv
       rw [h]; group
     have hswap : ∀ a ∈ S, ∀ b ∈ S, a ≠ b →
@@ -286,10 +286,10 @@ theorem ggTBJ_uniMinus_sideDatum_of_frame
         rw [SpCoord.diagAut_apply, SpCoord.diagAut_apply]
         have h1 : (Pi.mulSingle i (ofAdd (1 : ZMod p)) : Fin m → Multiplicative (ZMod p)) i' =
             1 := by
-          rw [Pi.mulSingle_apply, if_neg (show i' ≠ i by rintro rfl; exact hi hi')]
+          rw [Pi.mulSingle_apply, ite_eq_right (show i' ≠ i by rintro rfl; exact hi hi')]
         have h2 : (Pi.mulSingle i (ofAdd (1 : ZMod p)) : Fin m → Multiplicative (ZMod p)) j =
             1 := by
-          rw [Pi.mulSingle_apply, if_neg (show j ≠ i by rintro rfl; exact hi hj)]
+          rw [Pi.mulSingle_apply, ite_eq_right (show j ≠ i by rintro rfl; exact hi hj)]
         rw [h1, h2, toAdd_one, mul_zero, mul_zero]
       have h := hL1 x (by rw [← hJlevi]; exact hx)
         (SpCoord.diagAut s hs (Pi.mulSingle i (ofAdd (1 : ZMod p)))) hv
@@ -303,8 +303,8 @@ theorem ggTBJ_uniMinus_sideDatum_of_frame
           (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) i =
             (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) j := by
         intro i hi j hj
-        rw [show (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) i = ofAdd 1 from if_pos hi,
-          show (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) j = ofAdd 1 from if_pos hj]
+        rw [show (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) i = ofAdd 1 from ite_eq_left hi,
+          show (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) j = ofAdd 1 from ite_eq_left hj]
       have h := hL1 x (by rw [← hJlevi]; exact hx)
         (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) hv
       have hvec_eq : SpCoord.diagAut s hs (fun j => if j ∈ S then ofAdd (1 : ZMod p) else 1) =
@@ -312,8 +312,8 @@ theorem ggTBJ_uniMinus_sideDatum_of_frame
         funext j
         rw [SpCoord.diagAut_apply]
         by_cases hj : j ∈ S
-        · rw [if_pos hj, if_pos hj, toAdd_ofAdd, mul_one]
-        · rw [if_neg hj, if_neg hj, toAdd_one, mul_zero, ofAdd_zero]
+        · rw [ite_eq_left hj, ite_eq_left hj, toAdd_ofAdd, mul_one]
+        · rw [ite_eq_right hj, ite_eq_right hj, toAdd_one, mul_zero, ofAdd_zero]
       rw [hframe', hvec_eq] at h
       rw [h]; group
     have hgen : ∀ a ∈ S, ∀ b ∈ S, a ≠ b →

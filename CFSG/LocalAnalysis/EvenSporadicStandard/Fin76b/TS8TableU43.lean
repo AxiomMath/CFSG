@@ -48,7 +48,7 @@ theorem exists_conj_of_table
   have hQmax : ∀ R : Subgroup X, IsPGroup 2 R → R ≤ ⊤ → (Q : Subgroup X) ≤ R →
       R ≤ (Q : Subgroup X) :=
     fun R hR _ hle => Q.maximal_isPGroup.2 hR hle
-  obtain ⟨g, -, hg⟩ := sylow_conj le_top le_top hHxP Q.isPGroup' hHxmax hQmax
+  obtain ⟨g, -, hg⟩ := sylow_conj le_top le_top hHxP Q.isPGroup hHxmax hQmax
   have hφ : Function.Injective (MulAut.conj g⁻¹).toMonoidHom := (MulAut.conj g⁻¹).injective
   have hTc : OuterTable (g⁻¹ * ζ * g) (g⁻¹ * α * g) (g⁻¹ * t * g) (g⁻¹ * g₁ * g)
       (g⁻¹ * g₂ * g) (g⁻¹ * h₁ * g) (g⁻¹ * h₂ * g) := by

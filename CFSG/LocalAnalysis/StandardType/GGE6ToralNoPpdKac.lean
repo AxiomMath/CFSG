@@ -141,14 +141,14 @@ theorem exists_weylAct_eq_normal
         familyKernel (fun _ : Unit => weylAct v b) = parabolicRoots Tag.E6 J) ∨
       ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ weylAct v b = e6LineChar ω := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have h3 : 3 ∣ Nat.card K - 1 := by
     obtain ⟨j, hj⟩ : ∃ j, b j ≠ 1 := by
       by_contra h
       push Not at h
       exact hb1 (funext h)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← Nat.card_units, ← orderOf_eq_prime (hb j) hj]
     exact orderOf_dvd_natCard (b j)
   have h3K : ((3 : ℕ) : K) ≠ 0 := by
@@ -183,7 +183,7 @@ theorem exists_weylAct_eq_normal
     rw [← hc, h0, map_zero]
   set ζ : Kˣ := Units.mk0 c hc0 with hζdef
   have hζmap : Units.map φ.toMonoidHom ζ = ζL := Units.ext (by
-    simp only [Units.coe_map, MonoidHom.coe_coe, RingHom.toMonoidHom_eq_coe, hζdef, Units.val_mk0]
+    simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass, RingHom.toMonoidHom_eq_coe, hζdef, Units.val_mk0]
     exact hc)
   have hζ : IsPrimitiveRoot (ζ : K) 3 := by
     have h : IsPrimitiveRoot (φ (ζ : K)) 3 := by
@@ -249,7 +249,7 @@ theorem exists_weylAct_eq_normal
       exact hk hk'
     · ext α
       rw [hvb]
-      simp only [familyKernel, parabolicRoots, Set.mem_setOf_eq,
+      simp only [familyKernel, parabolicRoots, Set.mem_ofPred_eq,
         CFSG.HardMathSupport.Timmesfeld.CrossChar.KacData.rootChar_eq_zpow]
       constructor
       · rintro ⟨hα, hχ⟩

@@ -147,6 +147,7 @@ include h
 
 variable [Fintype ↥L] [(P.subgroupOf L).Normal] [(Z.subgroupOf L).Normal]
 
+omit [(P.subgroupOf L).Normal] [(Z.subgroupOf L).Normal] in
 theorem exists_pos_apply_one_div_natCard_eq {ψ : ↥L → ℂ}
     (hψ : ψ ∈ indFam (P.subgroupOf L) (nonprincipalIrr ↥(P.subgroupOf L))) :
     ∃ n : ℕ, 0 < n ∧ ψ 1 / (Nat.card ↥E : ℂ) = n := by

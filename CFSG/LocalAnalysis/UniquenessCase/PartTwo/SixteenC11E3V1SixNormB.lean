@@ -80,7 +80,7 @@ private theorem s1611e3_sixZ_ne_one : sixZ ≠ (1 : SixE6) := by
   intro h
   have h1 : (allOnes 6 : PermMod 6) = 1 := by simpa [sixZ] using congrArg Subtype.val h
   have h2 := congrFun (congrArg Multiplicative.toAdd h1) 0
-  have h3 : (1 : ZMod 2) = 0 := by simpa [allOnes] using h2
+  have h3 : (1 : ZMod 2) = 0 := by simp [allOnes] at h2
   exact one_ne_zero h3
 
 private theorem s1611e3_sixRho_ne_sixSwap (σ : Perm (Fin 6)) : sixRho σ ≠ sixSwap := by
@@ -145,7 +145,7 @@ private def s1611e3_conjGhat (g : ↥sixGhat) : MulAut ↥sixLhat where
         (l : MulAut (SixE6 × SixE6)) l.2⟩
   left_inv l := Subtype.ext (by group)
   right_inv l := Subtype.ext (by group)
-  map_mul' l m := Subtype.ext (by simp only [Subtype.coe_mk, Subgroup.coe_mul]; group)
+  map_mul' l m := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
 private def s1611e3_conjHom : ↥sixGhat →* MulAut ↥sixLhat where
   toFun := s1611e3_conjGhat

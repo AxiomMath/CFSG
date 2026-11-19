@@ -52,7 +52,7 @@ private lemma q2cFPt_isLeftDescent_blockRevI {m : ℕ} {d : List ℕ} (hd : IsCu
 
 private lemma q2cFPt_isLongest_blockRevI {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d) :
     IsLongest (symCox m) (cutTypes m d) (q2cFPt_blockRevI hd) := by
-  haveI : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
+  have : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
   apply isLongest_of_forall_isLeftDescent
   · rw [q2cFPt_parabolic_eq_prefixSub hd]
     exact q2cFPt_blockRevI_mem_prefixSub hd
@@ -98,7 +98,7 @@ private lemma q2cFPt_permRk_blockRev_diag {m : ℕ} {d : List ℕ} (hd : IsCut (
 
 private lemma q2cFPt_ge_of_diag {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d)
     {σ : Equiv.Perm (Fin (m + 1))} (hσ : σ ∈ q2cFPt_prefixSub (m + 1) d)
-    {b r : ℕ} (hb : b + 1 < d.length) (hr : r ≤ blockSize d b)
+    {b r : ℕ} (hb : b + 1 < d.length) (_hr : r ≤ blockSize d b)
     (h : permRk σ (d.getD b 0 + r) (d.getD b 0 + (blockSize d b - r)) = d.getD b 0)
     {k : Fin (m + 1)} (hk1 : d.getD b 0 ≤ k.val) (hk2 : k.val < d.getD b 0 + r) :
     d.getD b 0 + (blockSize d b - r) ≤ (σ k).val := by
@@ -203,7 +203,7 @@ private lemma q2cFPt_block_eq_rev {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d
   have hk_eq : emb ⟨k.val - d.getD b 0, hklt⟩ = k := by
     apply Fin.ext
     rw [hemb]
-    simp only [Fin.val_mk]
+    simp only
     omega
   rw [← hk_eq]
   have h := hpoint ⟨k.val - d.getD b 0, hklt⟩

@@ -321,8 +321,8 @@ theorem Ctx21.sylow_cx_abelian_of_gen4 (hc : Ctx21 G x K A a D J)
   have hab : ∀ R : Subgroup (CentralizerBar x), IsPGroup 2 ↥R → IsMulCommutative ↥R :=
     fun R hR => RankC.isMulCommutative_of_isPGroup hgen hLc hd hR
   have hPbar : IsPGroup 2 ↥((P : Subgroup ↥(centralizer ({x} : Set G))).map (proj x)) :=
-    P.isPGroup'.map (proj x)
-  exact RankC.isMulCommutative_of_map (proj x) (fun n hn => proj_odd x n hn) P.isPGroup'
+    P.isPGroup.map (proj x)
+  exact RankC.isMulCommutative_of_map (proj x) (fun n hn => proj_odd x n hn) P.isPGroup
     (hab _ hPbar)
 
 theorem Ctx21.sylow_cx_abelian (hc : Ctx21 G x K A a D J)

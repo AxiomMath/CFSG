@@ -32,10 +32,10 @@ theorem exists_lever {L : Subgroup X} [hLn : L.Normal] (P : Sylow 2 X) {a : X} (
     have hmem : (⟨g⁻¹ * a * g, haP⟩ : (P : Subgroup X)) ∈ L.subgroupOf (P : Subgroup X) := haL'
     rw [h, mem_bot] at hmem
     exact ha1 (congrArg Subtype.val hmem)
-  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup.isNilpotent
   have hM := Group.IsNilpotent.inf_center_ne_bot_of_normal hNne
   set M := L.subgroupOf (P : Subgroup X) ⊓ center (P : Subgroup X) with hMdef
-  have hM2 : IsPGroup 2 M := P.isPGroup'.to_subgroup M
+  have hM2 : IsPGroup 2 M := P.isPGroup.to_subgroup M
   obtain ⟨n, hn⟩ := hM2.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

@@ -34,9 +34,8 @@ theorem rckNC_exc_rank {τ : Tag} {ρ : Equiv.Perm (Fin τ.rank → ℤ)}
     (h : twistKind ρ χ i = .exc) : compRank (componentRoots χ i) = 6 ∨
       compRank (componentRoots χ i) = 4 := by
   unfold twistKind at h
-  split_ifs at h with c1 c2 c3 c4 <;>
+  split_ifs at h with c1 c2 c3 c4;
     first
-    | exact absurd h (by decide)
     | (rcases c2 with c2 | c2
        · exact Or.inl c2.1
        · exact Or.inr c2.1)
@@ -49,10 +48,10 @@ theorem rckNC_kind_six {τ : Tag} {ρ : Equiv.Perm (Fin τ.rank → ℤ)}
       ((ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength ρ (componentRoots χ i)])
   · left
     unfold twistKind
-    rw [if_pos c1]
+    rw [ite_eq_left c1]
   · right
     unfold twistKind
-    rw [if_neg c1, if_pos (Or.inl ⟨h6, h72⟩)]
+    rw [ite_eq_right c1, ite_eq_left (Or.inl ⟨h6, h72⟩)]
 
 @[expose] def RCKPairA1
     : Prop :=

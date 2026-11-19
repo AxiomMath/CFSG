@@ -13,7 +13,7 @@ variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 theorem ThreeNat.eight_le_card (h : ThreeNat A L T) : 8 ≤ Nat.card W := by
   obtain ⟨I, hZI, _hIU, hnat⟩ := SumOfNatShape.exists_summand h.sum (0 : Fin 3)
   have h8 := SumOfNatShape.eight_mul_card_le h.quasi hnat
-  haveI : Nonempty ↥(fixV L) := ⟨1⟩
+  have : Nonempty ↥(fixV L) := ⟨1⟩
   have hZ1 : 1 ≤ Nat.card ↥(fixV L) := Nat.card_pos
   have hIleW : Nat.card ↥I ≤ Nat.card W := Subgroup.card_le_card_group I
   calc 8 = 8 * 1 := (mul_one 8).symm

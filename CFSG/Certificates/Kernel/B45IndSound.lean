@@ -67,25 +67,24 @@ theorem findIdx?_arr {α : Type} (q : α → Bool) (xs : Array α) : xs.findIdx?
 theorem piArr_eq (ts : Array (Array ℕ)) (g : Array ℕ) (p : ℕ) :
     (piArr ts g p).toList = piL (LA ts) g.toList p := by
   rcases ts with ⟨l⟩
-  simp only [piArr, piL, LA, List.map_toArray, List.findIdx?_toArray, Array.toList_map,
-    List.map_map, get!_nat, comp24_eq, Function.comp_def]
+  simp only [piArr, piL, LA, List.map_toArray, List.findIdx?_toArray, List.map_map, get!_nat, comp24_eq, Function.comp_def]
 
 theorem hArr_eq (ts : Array (Array ℕ)) (g pi : Array ℕ) :
     LA (hArr ts g pi) = hL (LA ts) g.toList pi.toList := by
   simp only [hArr, hL, LA, Array.toList_map, Array.toList_range, List.map_map, List.length_map,
     Array.length_toList]
   refine List.map_congr_left fun k _ => ?_
-  simp only [Function.comp_apply, comp24_eq, invArr_eq, get!_nat, get!_arr, List.toList_toArray]
+  simp only [Function.comp_apply, comp24_eq, invArr_eq, get!_nat, get!_arr]
   rfl
 
 theorem piOK_eq (ts : Array (Array ℕ)) (g : Array ℕ) (p : ℕ) (pi : Array ℕ) :
     piOK ts g p pi = piOKL (LA ts) g.toList p pi.toList := by
-  simp only [piOK, piOKL, length_LA, get!_nat, get!_arr, List.toList_toArray, comp24_eq]
+  simp only [piOK, piOKL, length_LA, get!_nat, get!_arr, comp24_eq]
 
 theorem cosetOK_eq (a b : Array ℕ) (ts : Array (Array ℕ)) (m p : ℕ) :
     cosetOK a b ts m p = cosetOKL a.toList b.toList (LA ts) m p := by
   simp only [cosetOK, cosetOKL, piOK_eq, piArr_eq, length_LA, get!_nat, get!_arr,
-    List.toList_toArray, invArr_eq]
+    invArr_eq]
 
 theorem indCols_eq (d : ℕ) (Xc : Array ℕ → ℕ → ℕ) (ts : Array (Array ℕ)) (g : Array ℕ) (p : ℕ) :
     indCols d Xc ts g p = indColsL d Xc (LA ts) g.toList p := by
@@ -118,11 +117,11 @@ theorem swap_eq (st : Array (ℕ × ℕ)) (i j : ℕ) :
   simp only [Array.length_toList]
   by_cases h1 : i < st.size
   · by_cases h2 : j < st.size
-    · rw [dif_pos h1, dif_pos h2, Array.toList_swap, if_pos ⟨h1, h2⟩,
+    · rw [dite_eq_left h1, dite_eq_left h2, Array.toList_swap, ite_eq_left ⟨h1, h2⟩,
         List.getD_eq_getElem _ _ (by simpa using h2), List.getD_eq_getElem _ _ (by simpa using h1)]
       rfl
-    · rw [dif_pos h1, dif_neg h2, if_neg fun h => h2 h.2]
-  · rw [dif_neg h1, if_neg fun h => h1 h.1]
+    · rw [dite_eq_left h1, dite_eq_right h2, ite_eq_right fun h => h2 h.2]
+  · rw [dite_eq_right h1, ite_eq_right fun h => h1 h.1]
 
 theorem invStep_size (n : ℕ) (st : Array (ℕ × ℕ)) (i : ℕ) : (invStep n st i).size = st.size := by
   unfold invStep

@@ -196,10 +196,10 @@ theorem exists_pelem_mod_center {p : ℕ} [hp : Fact p.Prime] {Λ : Subgroup G}
     rfl
   have hSZ : ¬ (S : Subgroup Λ) ≤ Subgroup.center Λ := fun hle =>
     S.not_dvd_index (dvd_trans hpZ (Subgroup.index_dvd_of_le hle))
-  obtain ⟨s, hsS, hsZ, hsα⟩ := exists_mem_fixed_mod_center (S : Subgroup Λ) S.isPGroup' hSZ α
+  obtain ⟨s, hsS, hsZ, hsα⟩ := exists_mem_fixed_mod_center (S : Subgroup Λ) S.isPGroup hSZ α
     hαk hS
   have hs : ∃ m : ℕ, s ^ p ^ m = 1 := by
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨s, hsS⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨s, hsS⟩
     exact ⟨m, by simpa using congrArg Subtype.val hm⟩
   obtain ⟨y, hyZ, hyp, hyc, hyα⟩ := exists_pow_mem_center α hs hsZ hsα
   refine ⟨y, hyZ, hyp, hyc, ?_⟩

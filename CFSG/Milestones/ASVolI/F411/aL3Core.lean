@@ -270,7 +270,7 @@ theorem burnsideF411a_finite_projSL [Finite K] (n : ℕ) : Finite (projectiveSL 
 theorem burnsideF411a_projSL3_inner_of_fix_sylow [Finite K] (p : ℕ) [Fact p.Prime] [CharP K p]
     (α : MulAut (projectiveSL 3 K)) (S : Sylow p (projectiveSL 3 K))
     (hα : ∀ s ∈ (S : Subgroup (projectiveSL 3 K)), α s = s) : ∃ g, α = MulAut.conj g := by
-  haveI := burnsideF411a_finite_projSL (K := K) 3
+  have := burnsideF411a_finite_projSL (K := K) 3
   obtain ⟨P₀, hP₀⟩ := exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq (projectiveSL 3 K) P₀ S
   have hβ : ∀ u ∈ projUnitriangular 3 K, ((MulAut.conj x)⁻¹ * α * MulAut.conj x) u = u := by

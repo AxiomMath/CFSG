@@ -48,7 +48,7 @@ theorem zj_growth_closure_class_two_properties (prime : ℕ) (prime_prime : prim
   let closure := zjGrowthClosure base kernel
   let core := primeSetCore (GroupType := GroupType) {prime}
   let _coreNormal := prime_set_core_normal (GroupType := GroupType) {prime}
-  have properties := zj_growth_fixed_subgroup_properties prime prime_prime base kernel sylow.isPGroup' proper
+  have properties := zj_growth_fixed_subgroup_properties prime prime_prime base kernel sylow.isPGroup proper
   have core_containment := zj_growth_closure_le_prime_core prime prime_prime stable self_centralizing sylow
     kernel proper
   have core_le : core ≤ base := (prime_core_isPGroup prime prime_prime).le_sylow_of_normal sylow

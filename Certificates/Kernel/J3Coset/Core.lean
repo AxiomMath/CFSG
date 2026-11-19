@@ -79,6 +79,7 @@ theorem wv_lt (hg : Acts g) {w : List ℕ} (hw : ∀ c ∈ w, c < 8) {y : ℕ} (
   rw [← this]
   exact Fin.isLt _
 
+omit [MulAction J (Fin nn)] in
 theorem ev_single (c : ℕ) : ev g [c] = g c := by simp [ev]
 
 theorem fix_letter (hg : Acts g) {c : ℕ} (hc : c < 8) (h : tb c 0 = 0) : g c • pt0 = pt0 :=
@@ -124,6 +125,7 @@ theorem faithful [IsSimpleGroup J] (hg : Acts g) : FaithfulSMul J (Fin nn) := by
 
 variable [Finite J]
 
+omit [Finite J] in
 theorem card_stab (hJ : Nat.card J = 50232960) (hg : Acts g) :
     Nat.card (stabilizer J pt0) = 1944 := by
   have horb : orbit J pt0 = Set.univ := Set.eq_univ_of_forall fun p => trans hg p
@@ -141,6 +143,7 @@ theorem o_facts : (Oc.flatten.map Prod.fst).Nodup ∧ Oc.flatten.length = 1944 �
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   exact ⟨(sortedB_pairwise h1).imp (fun hab => Nat.ne_of_lt hab), h2, h3⟩
 
+omit [Finite J] in
 theorem k_stab (hg : Acts g) {w : List ℕ} (hw : codesIn 4 5 w = true) :
     ev g w ∈ stabilizer J pt0 := by
   apply ev_mem
@@ -190,6 +193,7 @@ theorem word_eq (hJ : Nat.card J = 50232960) (hg : Acts g) (w v : List ℕ)
     rw [ev_smul hg hw, ev_smul hg hv]
     exact h1
 
+omit [Finite J] in
 theorem word_ne (hg : Acts g) (w v : List ℕ) (hw : ∀ c ∈ w, c < 8) (hv : ∀ c ∈ v, c < 8)
     {y : ℕ} (hy : y < nn) (h : wv tb w y ≠ wv tb v y) : ev g w ≠ ev g v := by
   intro e

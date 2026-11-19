@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 open scoped Pointwise commutatorElement
 
-theorem uc22p20n_arith {p k b : ℕ} (hp : p.Prime) (hk : 1 ≤ k)
+theorem uc22p20n_arith {p k b : ℕ} (hp : p.Prime) (_hk : 1 ≤ k)
     (h : (2 ^ k + 1) ∣ p ^ b) : ∃ k' : ℕ, p = 2 ^ k' + 1 := by
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).1 h
   have h1 : p - 1 ∣ p ^ j - 1 := Nat.sub_one_dvd_pow_sub_one p j
@@ -24,6 +24,7 @@ section Normalizer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p20n_coe_sup_of_perm {H K : Subgroup G} (h : (H : Set G) * K = K * H) :
     ((H ⊔ K : Subgroup G) : Set G) = H * K := by
   rw [Subgroup.sup_eq_closure_mul]
@@ -55,7 +56,7 @@ theorem uc22p20n_card_sup_perm {p : ℕ} [Fact p.Prime] {P S : Subgroup G} (hPp 
     (hS2 : IsPGroup 2 ↥S) (hPS : (P : Set G) * S = (S : Set G) * P) :
     ∃ a n : ℕ, Nat.card ↥(P ⊔ S) = 2 ^ a * p ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRcoe : ((P ⊔ S : Subgroup G) : Set G) = P * S := uc22p20n_coe_sup_of_perm hPS
   have hPR : P ≤ P ⊔ S := le_sup_left
   have hSR : S ≤ P ⊔ S := le_sup_right
@@ -92,6 +93,7 @@ theorem uc22p20n_card_sup_perm {p : ℕ} [Fact p.Prime] {P S : Subgroup G} (hPp 
   refine ⟨a, n, ?_⟩
   rw [← Subgroup.card_mul_index S', hS'card, hidx]
 
+omit [Finite G] in
 theorem uc22p20n_card_image_dvd {L R : Subgroup G} (hRL : R ≤ L) :
     Nat.card ↥((R.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ∣ Nat.card ↥R := by
   have h1 := Subgroup.card_map_dvd (H := R.subgroupOf L) (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
@@ -100,12 +102,12 @@ theorem uc22p20n_card_image_dvd {L R : Subgroup G} (hRL : R ≤ L) :
   rwa [h2] at h1
 
 theorem uc22p20n_le_normalizer_of_div (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M)
-    (hDiv : uc22p20kDiv (Bar2 L)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hDiv : uc22p20kDiv (Bar2 L)) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hnf : ¬ ∃ k : ℕ, p = 2 ^ k + 1) {P : Subgroup G} (hPp : IsPGroup p ↥P) (hPL : P ≤ L)
     (hperm : Permutes P D.T) : P ≤ normalizer ((D.T ⊓ L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   have hS2 : IsPGroup 2 ↥(D.T ⊓ L) := D.sylowM.isPGroup.to_inf_left
   have hPS : (P : Set G) * ↑(D.T ⊓ L) = (↑(D.T ⊓ L) : Set G) * P := by
@@ -145,12 +147,12 @@ end Normalizer
 
 section Prime
 
-theorem uc22p20n_not_fermat {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem uc22p20n_not_fermat {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {P B : Subgroup G} (hPp : IsPGroup p ↥P) (hPc : IsCyclic ↥P)
     (hBN : B ≤ normalizer (P : Set G)) (hBodd : Odd (Nat.card B)) (hPB : ⁅P, B⁆ = P)
     (hPne : P ≠ ⊥) : ¬ ∃ k : ℕ, p = 2 ^ k + 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨k₀, hk₀⟩
   obtain ⟨g, hg⟩ := hPc.exists_generator
   set g' : G := (g : G) with hg'

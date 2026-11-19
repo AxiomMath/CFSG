@@ -17,7 +17,7 @@ theorem s3_no_fourth_root (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center �
     (hOut : (innerAut (L ⧸ center L)).index = 2)
     (hQ : s.T ⊓ centralizer (L : Set G) = zpowers s.t) : ∀ v : G, v ^ 4 ≠ s.t := by
   intro v hv
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
   have ht2 : s.t ^ 2 = 1 := by rw [← s.t_order]; exact pow_orderOf_eq_one s.t
   have hvt : v * s.t = s.t * v := by rw [← hv]; group
   have hvH : v ∈ s.H := by

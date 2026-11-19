@@ -135,7 +135,7 @@ theorem closure_cenGen_adjointG2_eq_top
   have hE'S : E' ≤ S := by
     intro x hx
     exact ⟨⟨x, hE'M hx⟩, hQ hx, rfl⟩
-  have hSp : IsPGroup p ↥S := Q.isPGroup'.map M.subtype
+  have hSp : IsPGroup p ↥S := Q.isPGroup.map M.subtype
   have hSidx : ¬ p ∣ S.index := by
     have h1 : S.index = (Q : Subgroup ↥M).index * M.index := Subgroup.index_map_subtype _
     rw [h1]

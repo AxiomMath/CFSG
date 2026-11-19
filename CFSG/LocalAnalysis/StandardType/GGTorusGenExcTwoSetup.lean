@@ -38,7 +38,7 @@ private theorem frameDiag_mem_twistedTorus_two
     ExcFrames.frameDiag ζ hζ s ∈ twistedTorusOf
       (canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w)
       (Units.map (entrywiseHom Fr)) := by
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   refine mem_twistedTorusOf.2 ⟨?_, ?_⟩
   · rcases hτ with rfl | rfl
     · exact rootDiagUnit_mem_torusGroup_E7 _
@@ -66,11 +66,11 @@ theorem exists_langSetup_data_two
         (adjointGroup τ K).subtype) := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num)
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hperf : commutator ↥(adjointGroup τ K) = ⊤ :=
     single_edge_perfect τ K (by rcases hτ with rfl | rfl | rfl <;> simp)
   let D : LangDatum τ L :=
@@ -115,12 +115,12 @@ theorem exists_langSetup_of_langFrame_two
     (hFr : ∀ c, Fr c = c ^ Nat.card K) (hg0C : g0 ∈ adjointGroup τ (AlgebraicClosure K))
     (hg0 : Units.map (entrywiseHom Fr) g0 =
       g0 * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w)
-    (hζo : orderOf ζ = 3)
+    (_hζo : orderOf ζ = 3)
     (hbase : ∀ s : Fin τ.rank → ZMod 3,
       baseChangeGL (algebraMap K (AlgebraicClosure K))
           ((ι₀ (Multiplicative.ofAdd s) : adjointGroup τ K) : ModGL τ K) =
         g0 * ExcFrames.frameDiag ζ hζ s * g0⁻¹)
-    (hinj : Function.Injective ι₀) :
+    (_hinj : Function.Injective ι₀) :
     ∃ (S : LangSetup τ (AlgebraicClosure K) 5)
       (ι : adjointGroup τ K →* ModGL τ (AlgebraicClosure K)),
       S.D.Φ = Units.map (entrywiseHom Fr) ∧ S.D.q = Nat.card K ∧

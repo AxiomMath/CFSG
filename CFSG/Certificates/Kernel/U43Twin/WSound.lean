@@ -63,8 +63,8 @@ theorem evenC_dec {W : ℕ} (hW : W < 16 ^ 17) (hd : Dig W) : evenC (dec W) = ev
   rw [powRaw_dec hd 2, powRaw_dec hd 4, isZ_dec (powK_lt W 2), isZ_dec hW, isZ_dec (powK_lt W 4),
     strictB_eq, bIf_eq, band_eq, band_eq, notK_eq, notK_eq]
   by_cases h : (isZK (powK W 2) && !isZK W) = true
-  · rw [if_pos h, h, Bool.true_or]
-  · rw [if_neg h, Bool.not_eq_true] at *
+  · rw [ite_eq_left h, h, Bool.true_or]
+  · rw [ite_eq_right h, Bool.not_eq_true] at *
     rw [h, Bool.false_or]
 
 theorem neqK_spec {A1 A2 B1 B2 W : ℕ} (hA1 : Dig A1) (hA2 : Dig A2) (hB1 : Dig B1) (hB2 : Dig B2)
@@ -127,7 +127,7 @@ theorem invK_spec {T F W : ℕ → ℕ} {Z i : ℕ} {cands : Array (Array ℕ)} 
   rw [strictB_eq, strictB_eq, bIf_eq, band_eq, notK_eq] at h
   rw [mulRaw_dec hd hd, isZ_dec (mulK_lt _ _), isZ_dec hlt]
   by_cases hi : (isZK (mulK (T i) (T i)) && !isZK (T i)) = true
-  · rw [if_pos hi] at h
+  · rw [ite_eq_left hi] at h
     rw [strictB_eq, strictB_eq] at h
     obtain ⟨h1, h⟩ := bAnd_spec h
     obtain ⟨h2, h3⟩ := bAnd_spec h
@@ -147,7 +147,7 @@ theorem sqK_spec {T SP R : ℕ → ℕ} {Z i : ℕ} (hd : Dig (T i)) (hZ : Dig Z
     ∃ k < 96, R k = i := by
   rw [mulRaw_dec hd hd, eqZ_dec (mulK_dig hd hd) hZ] at hs
   unfold sqK at h
-  rw [strictB_eq, bIf_eq, if_pos hs, strictB_eq] at h
+  rw [strictB_eq, bIf_eq, ite_eq_left hs, strictB_eq] at h
   obtain ⟨h1, h⟩ := bAnd_spec h
   obtain ⟨h2, h3⟩ := bAnd_spec h
   have e1 : 0 < SP i := Eq.mp Nat.blt_eq h1
@@ -189,13 +189,13 @@ theorem q8pK_spec {T R : ℕ → ℕ} {X EL : ℕ → ℕ → ℕ} {w k l C Z : 
   rw [strictB_eq, strictB_eq, strictB_eq, bIf_eq] at h
   simp only [Bool.or_eq_true]
   by_cases t0' : Nat.beq (fld(w, 0, 3)) 0 = true
-  · rw [if_pos t0', x2] at h
+  · rw [ite_eq_left t0', x2] at h
     have := neqK_spec dj di (mulK_dig hZd di) dj h
     rw [hZ, mulRaw_dec hZd di, this]
     simp
-  rw [if_neg t0', bIf_eq] at h
+  rw [ite_eq_right t0', bIf_eq] at h
   by_cases t1 : Nat.beq (fld(w, 0, 3)) 1 = true
-  · rw [if_pos t1, strictB_eq] at h
+  · rw [ite_eq_left t1, strictB_eq] at h
     obtain ⟨h1, h2⟩ := bAnd_spec h
     have hu := land_lt (a := Nat.shiftRight w 3) (m := 7)
     have hv := land_lt (a := Nat.shiftRight w 6) (m := 7)
@@ -210,7 +210,7 @@ theorem q8pK_spec {T R : ℕ → ℕ} {X EL : ℕ → ℕ → ℕ} {w k l C Z : 
       left; right
       rw [Bool.and_eq_true]
       exact ⟨memL_dec di d1 m1 h1, memL_dec dj d2 m2 h2⟩
-  rw [if_neg t1] at h
+  rw [ite_eq_right t1] at h
   obtain ⟨-, h⟩ := bAnd_spec h
   right
   refine List.any_eq_true.2 ⟨c, hc, ?_⟩
@@ -318,16 +318,16 @@ theorem halfK_spec {P A B w : ℕ} {L : ℕ → ℕ} {Ls : List (Array ℕ)} (hP
   unfold halfK at h
   rw [strictB_eq, strictB_eq, bIf_eq] at h
   by_cases t0 : Nat.beq (fld(w, 0, 3)) 0 = true
-  · rw [if_pos t0] at h
+  · rw [ite_eq_left t0] at h
     obtain ⟨h1, h2⟩ := bAnd_spec h
     obtain ⟨d, m⟩ := hL _ (Eq.mp Nat.blt_eq h1)
     rw [memL_dec hP d m h2, Bool.or_true]
-  rw [if_neg t0, bIf_eq] at h
+  rw [ite_eq_right t0, bIf_eq] at h
   by_cases t1 : Nat.beq (fld(w, 0, 3)) 1 = true
-  · rw [if_pos t1] at h
+  · rw [ite_eq_left t1] at h
     rw [commC_false hP hA h]
     rfl
-  · rw [if_neg t1] at h
+  · rw [ite_eq_right t1] at h
     rw [commC_false hP hB h, Bool.and_false]
     rfl
 
@@ -343,12 +343,12 @@ theorem oddK_spec {T W G : ℕ → ℕ} {i : ℕ} {Gs : List (Array ℕ)} (hT : 
   by_cases z : isZK (T i) = true
   · rw [z]
     rfl
-  rw [if_neg z, strictB_eq, bIf_eq] at h
+  rw [ite_eq_right z, strictB_eq, bIf_eq] at h
   rw [Bool.not_eq_true] at z
   have e9 : powK (T i) 9 = mulK (T i) (powK (T i) 8) := powK_succ _ 8
   rw [z, Bool.false_or, powRaw_dec hd 9, e9, isZ_dec (mulK_lt _ _)]
   by_cases z9 : isZK (mulK (T i) (powK (T i) 8)) = true
-  · rw [if_pos z9, strictB_eq] at h
+  · rw [ite_eq_left z9, strictB_eq] at h
     obtain ⟨h1, h⟩ := bAnd_spec h
     rw [strictB_eq] at h
     obtain ⟨dg, mg⟩ := hG _ (Eq.mp Nat.blt_eq h1)

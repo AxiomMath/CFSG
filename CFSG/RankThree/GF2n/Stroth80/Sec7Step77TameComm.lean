@@ -96,7 +96,7 @@ theorem sec7_tame_comm_of_normalizer (h34 : Stroth34Statement) (h310chi : Stroth
   rwa [e] at h4
 
 theorem sec7_CN_normalizes_LB_conj {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
-    [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t)
+    [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t : G} (_hs : Sec7Hyp hc n t)
     {K : Type} [Field K] [Finite K] {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ)
     (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E) (hS : IsTensorSetup hc n M₀ ρ b)
     {h : G} (hhM : h ∈ M)
@@ -164,7 +164,7 @@ theorem sec7_exists_point_reverse (h34 : Stroth34Statement) (hRoot : Stroth310Ro
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hg'M : g⁻¹ ∈ M := M.inv_mem hgM
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   obtain ⟨K', fK', finK', hchar', b', c', hirr, φ, θ, Ψ, hKK, hφ, hΨc, hΨr, e₀, he₀U, he₀0, hline,
     hΨe₀0, hQΨe₀, hHperp⟩ := sec7_om4_setup h34 hRoot hc hs hom M₀ ρ b hS
@@ -296,7 +296,7 @@ theorem sec7_tame_comm_d3 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
     (hStr : Stroth73cOm4Statement) : Step77TameCommNStatement 3 := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 htame hcardV
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
   have hg'M : g⁻¹ ∈ M := M.inv_mem hgM
@@ -307,10 +307,10 @@ theorem sec7_tame_comm_d3 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
   have hd3 : Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ conjSubgroup g⁻¹ (Vt M (LB M Q B) B Z t)) =
       Nat.card K ^ (1 + 3) := by
     rw [hVinter, card_conjSubgroup, inf_comm, hcardV, hZK]
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
@@ -338,7 +338,7 @@ theorem sec7_tame_comm_d2 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
     (hStr : Stroth73cOm4Statement) : Step77TameCommNStatement 2 := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 htame hcardV
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hguM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
@@ -350,10 +350,10 @@ theorem sec7_tame_comm_d2 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
   have hZV' : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   obtain ⟨ψs, hψs, hrs, hker⟩ := sec7_pair_psi hc M₀ ρ b hS ht ψ hψ hrange hgM hsM hs1

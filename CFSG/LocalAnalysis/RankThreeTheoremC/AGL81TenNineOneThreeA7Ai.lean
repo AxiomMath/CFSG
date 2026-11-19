@@ -254,7 +254,7 @@ theorem badG_eq_false {T : Subgroup (Perm (Fin 7))}
   have hinv : ∀ s ∈ T, s * s = 1 → s ≠ 1 → s ∈ vInv := fun s hs hss hs1 =>
     hA s hss hs1 fun x hx y hy =>
       pow_sixteen_of_isPGroup hT (T.mul_mem (hE x hx s hs) (hE y hy s hs))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -292,6 +292,7 @@ variable {N : Type*} [Group N]
 
 variable [Finite N] {σ : N →* Perm (Fin 7)} {A : Subgroup N}
 
+omit [Finite N] in
 theorem exists_mem_of_mem_e9 (he : ∀ x ∈ e9, ∃ a ∈ A, σ a = x) {c : Perm (Fin 7)} (hc : c ∈ e9) :
     ∃ a ∈ blockAi σ A c, σ a = c := by
   obtain ⟨a, ha, hac⟩ := he c hc
@@ -300,6 +301,7 @@ theorem exists_mem_of_mem_e9 (he : ∀ x ∈ e9, ∃ a ∈ A, σ a = x) {c : Per
   rw [hac]
   exact mem_zpowers c
 
+omit [Finite N] in
 theorem card_blockAi (hinj : ∀ a ∈ A, σ a = 1 → a = 1) (he : ∀ x ∈ e9, ∃ a ∈ A, σ a = x)
     {c : Perm (Fin 7)} (hc : c ∈ e9) : Nat.card (blockAi σ A c) = orderOf c := by
   obtain ⟨a₀, ha₀, ha₀c⟩ := exists_mem_of_mem_e9 he hc
@@ -321,7 +323,7 @@ theorem card_blockAi (hinj : ∀ a ∈ A, σ a = 1 → a = 1) (he : ∀ x ∈ e9
   rw [Nat.card_eq_of_bijective f hf, Nat.card_zpowers]
 
 theorem map_conj_blockAi_eq {S : Subgroup N}
-    (hinj : ∀ a ∈ A, σ a = 1 → a = 1) (hAe : ∀ a ∈ A, σ a ∈ e9)
+    (_hinj : ∀ a ∈ A, σ a = 1 → a = 1) (hAe : ∀ a ∈ A, σ a ∈ e9)
     (he : ∀ x ∈ e9, ∃ a ∈ A, σ a = x) (hS : IsPGroup 2 S)
     (hSA : ∀ a ∈ A, ∀ s ∈ S, a * s * a⁻¹ ∈ S) (hS1 : S.map σ ≠ ⊥)
     {c : Perm (Fin 7)} (hc : c = c1 ∨ c = c2) {y : N} (hyS : ∀ s ∈ S, y * s * y⁻¹ ∈ S)
@@ -371,6 +373,7 @@ theorem map_conj_blockAi_eq {S : Subgroup N}
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj y).injective]
 
+omit [Finite N] in
 theorem blockAi_ne (he : ∀ x ∈ e9, ∃ a ∈ A, σ a = x) : blockAi σ A c1 ≠ blockAi σ A c2 := by
   intro h
   obtain ⟨a, ha, hac⟩ := exists_mem_of_mem_e9 he c1_mem_e9
@@ -441,6 +444,7 @@ theorem actS_conj (e : ↥(barM M L) ≃* alternatingGroup (Fin 7)) (y : nML M L
 @[expose] noncomputable def barL (hLM : L ≤ M) {l : G} (hl : l ∈ L) : barM M L :=
   ⟨QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨l, hLM hl⟩, ⟨⟨l, hLM hl⟩, Subgroup.mem_subgroupOf.mpr hl, rfl⟩⟩
 
+omit [Finite G] in
 theorem barOf_eq_barL (hLM : L ≤ M) (a : nML M L) (ha : (a : G) ∈ L) :
     barOf M L a = (barL hLM ha : ↥M ⧸ CFSG.pCore 2 ↥M) := rfl
 
@@ -487,8 +491,8 @@ theorem agl81TenNineOneThreeAiCfg_holds
     AGL81TenNineOneThreeAiCfg G := by
   intro hS P M H Q K hd L hL hne hYL
   obtain ⟨e⟩ := hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h98 : AGL81NineEightFour G := agl81NineEightFour_holds
   obtain ⟨Q', hQ'Y, hQQ'⟩ :=
     exists_isSylowIn_ge 3 (le_inf hd.le_H hd.base.1) hd.base.2.1

@@ -77,6 +77,7 @@ private lemma linSubOne_comp_linSubOne_eq_zero (B : LinearMap.BilinForm K E)
   change u (linSubOne τ f) - linSubOne τ f = 0
   rw [huV _ hmem, sub_self]
 
+omit [CharP K 2] in
 private lemma eq_sum_of_mem_dual (B : LinearMap.BilinForm K E) {V : Submodule K E}
     (b : Module.Basis (Fin 2) K V) {e : Fin 2 → E}
     (he : ∀ i j, B (e i) (b j) = if i = j then 1 else 0)
@@ -88,8 +89,8 @@ private lemma eq_sum_of_mem_dual (B : LinearMap.BilinForm K E) {V : Submodule K 
     conv_lhs => rw [← b.sum_repr w]
     push_cast
     rw [map_sum]
-    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul]
-    fin_cases i <;> simp [he, Fin.sum_univ_two]
+    simp only [map_smul, smul_eq_mul]
+    fin_cases i <;> simp [he]
   have hw : w = ∑ i, B (e i) (w : E) • b i := by
     conv_lhs => rw [← b.sum_equivFun w]
     refine Finset.sum_congr rfl fun i _ => ?_
@@ -116,20 +117,22 @@ private lemma sub_sum_smul_mem_orthogonal (B : LinearMap.BilinForm K E)
   have hk : B (x - ∑ j, B x (b j) • e j) (b k) = 0 := by
     simp only [map_sub, LinearMap.sub_apply, map_sum, LinearMap.sum_apply, map_smul,
       LinearMap.smul_apply]
-    fin_cases k <;> simp [he, Fin.sum_univ_two]
+    fin_cases k <;> simp [he]
   rw [map_smul, hk, smul_zero]
 
 private abbrev formMatrix (B : LinearMap.BilinForm K E) {V : Submodule K E}
-    (b : Module.Basis (Fin 2) K V) (τ : E ≃ₗ[K] E) (e : Fin 2 → E) (u : E ≃ₗ[K] E) :
+    (_b : Module.Basis (Fin 2) K V) (τ : E ≃ₗ[K] E) (e : Fin 2 → E) (u : E ≃ₗ[K] E) :
     Matrix (Fin 2) (Fin 2) K :=
   fun i j => B (e i) (linSubOne u (linSubOne τ (e j)))
 
 
+omit [CharP K 2] in
 private lemma linSubOne_symm_comp (u : E ≃ₗ[K] E) (x : E) :
     linSubOne u.symm x = - u.symm (linSubOne u x) := by
   change u.symm x - x = -(u.symm (u x - x))
   rw [map_sub, u.symm_apply_apply, neg_sub]
 
+omit [CharP K 2] in
 private lemma linSubOne_comp_linSubOne_adjoint (B : LinearMap.BilinForm K E)
     {τ : E ≃ₗ[K] E} (hτB : ∀ e f, B (τ e) (τ f) = B e f) (hτ2 : ∀ e, τ (τ e) = e)
     {u : E ≃ₗ[K] E} (hu : ∀ e f, B (u e) (u f) = B e f)
@@ -183,7 +186,7 @@ private lemma formMatrix_transpose (B : LinearMap.BilinForm K E) (hBalt : ∀ e,
   have huVinv : ∀ v ∈ V, u.symm v = v := by
     intro v hv
     apply u.injective
-    simpa [huV v hv] using u.apply_symm_apply v
+    simp [huV v hv]
   have hcomm : linSubOne u.symm (linSubOne τ (e i)) =
       linSubOne u (linSubOne τ (e i)) := by
     have h1 : linSubOne u.symm (linSubOne τ (e i)) =
@@ -213,16 +216,19 @@ private lemma formMatrix_transpose (B : LinearMap.BilinForm K E) (hBalt : ∀ e,
     _ = formMatrix B b τ e u j i := rfl
 
 
+omit [CharP K 2] in
 private lemma linSubOne_one (x : E) : linSubOne (1 : E ≃ₗ[K] E) x = 0 := by
   change x - x = 0
   rw [sub_self]
 
+omit [CharP K 2] in
 private lemma formMatrix_one (B : LinearMap.BilinForm K E) {V : Submodule K E}
     (b : Module.Basis (Fin 2) K V) (τ : E ≃ₗ[K] E) (e : Fin 2 → E) :
     formMatrix B b τ e (1 : E ≃ₗ[K] E) = 0 := by
   ext i j
-  simp [formMatrix, linSubOne_one]
+  simp [formMatrix]
 
+omit [CharP K 2] in
 private lemma linSubOne_mul_apply {V : Submodule K E} {τ : E ≃ₗ[K] E}
     {u v : E ≃ₗ[K] E} (huV : ∀ w ∈ V, u w = w)
     (hNv : ∀ x, linSubOne v (linSubOne τ x) ∈ V) (x : E) :
@@ -243,6 +249,7 @@ private lemma linSubOne_mul_apply {V : Submodule K E} {τ : E ≃ₗ[K] E}
         (v (linSubOne τ x) - linSubOne τ x) := by rw [add_comm]
 
 
+omit [CharP K 2] in
 private lemma linSubOne_conj {τ : E ≃ₗ[K] E} {u w : E ≃ₗ[K] E}
     (huτ : ∀ e, u (τ e) = τ (u e)) (hwτ : ∀ e, w (τ e) = τ (w e)) (x : E) :
     linSubOne (u * w * u.symm) (linSubOne τ x) =
@@ -281,7 +288,7 @@ private lemma formMatrix_eq_right (B : LinearMap.BilinForm K E) (hBalt : ∀ e, 
     (hNV : ∀ e, (∀ v ∈ V, B e v = 0) → τ e - e ∈ V)
     {H : Type*} [Group H] {ρ : H →* (E ≃ₗ[K] E)}
     {D : Subgroup H} (hDV : ∀ d ∈ D, ∀ v ∈ V, ρ d v = v)
-    (hDτ : ∀ d ∈ D, ∀ e, ρ d (τ e) = τ (ρ d e))
+    (_hDτ : ∀ d ∈ D, ∀ e, ρ d (τ e) = τ (ρ d e))
     {d : H} (hd : d ∈ D) {x y y' : E}
     (hy : y - y' ∈ B.orthogonal V) :
     B x (linSubOne (ρ d) (linSubOne τ y)) =
@@ -329,8 +336,8 @@ private lemma formMatrix_conj_mod (B : LinearMap.BilinForm K E)
     have h := hρB r ((ρ r).symm (e a)) (b k)
     rw [LinearEquiv.apply_symm_apply] at h
     rw [← h, hA k, map_sum]
-    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul]
-    fin_cases a <;> simp [he, Fin.sum_univ_two]
+    simp only [map_smul, smul_eq_mul]
+    fin_cases a <;> simp [he]
   intro a
   have hsum : ∑ k, B ((ρ r).symm (e a)) (b k) • e k = ∑ k, A a k • e k := by
     apply Finset.sum_congr rfl
@@ -347,7 +354,7 @@ private lemma formMatrix_conj (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B e 
     {D : Subgroup H} (hDV : ∀ d ∈ D, ∀ v ∈ V, ρ d v = v)
     (hDτ : ∀ d ∈ D, ∀ e, ρ d (τ e) = τ (ρ d e))
     {Γ : Set H} (hΓτ : ∀ r ∈ Γ, ∀ e, ρ r (τ e) = τ (ρ r e))
-    (hΓD : ∀ r ∈ Γ, ∀ d ∈ D, r * d * r⁻¹ ∈ D)
+    (_hΓD : ∀ r ∈ Γ, ∀ d ∈ D, r * d * r⁻¹ ∈ D)
     {b : Module.Basis (Fin 2) K V} {e : Fin 2 → E}
     (he : ∀ i j, B (e i) (b j) = if i = j then 1 else 0)
     {r : H} (hr : r ∈ Γ)
@@ -392,6 +399,7 @@ private lemma formMatrix_conj (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B e 
     _ = ∑ k, ∑ l, (A i k * formMatrix B b τ e (ρ d) k l * A j l) := hsum
 
 
+omit [CharP K 2] in
 private lemma formMatrix_mul (B : LinearMap.BilinForm K E)
     {V : Submodule K E} (b : Module.Basis (Fin 2) K V) {τ : E ≃ₗ[K] E}
     {u v : E ≃ₗ[K] E} (huV : ∀ w ∈ V, u w = w)
@@ -459,6 +467,7 @@ private lemma card_sym_two_le_of_injective {K D G₀ : Type*} [Field K] [Finite 
     _ = Nat.card (Additive D) := AddSubgroup.card_ker_mul_card_range φ
     _ = Nat.card D := Nat.card_congr (Additive.ofMul (α := D))
 
+omit [CharP K 2] in
 private lemma formMatrix_eq_zero_of_mem_D₀ {V : Submodule K E}
     {τ : E ≃ₗ[K] E} (B : LinearMap.BilinForm K E)
     {H : Type*} [Group H] {ρ : H →* (E ≃ₗ[K] E)}
@@ -520,9 +529,9 @@ private lemma formMatrix_eq_smul_of_zero_diag (B : LinearMap.BilinForm K E)
       formMatrix B b τ e u 0 1 •
         (B x (b 1) • (b 0 : E) + B x (b 0) • (b 1 : E)) := by
   rw [linSubOne_comp_linSubOne_eq_sum B hBalt b hNV hu huV huτ he x]
-  simp only [Fin.sum_univ_two, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one]
+  simp only [Fin.sum_univ_two, Fin.isValue]
   rw [h00, h11, h01]
-  simp [smul_add, smul_smul, mul_comm, mul_left_comm, mul_assoc]
+  simp [smul_add, smul_smul]
 
 
 
@@ -546,6 +555,7 @@ section Main
 variable {K E H : Type*} [Field K] [Finite K] [CharP K 2]
   [AddCommGroup E] [Module K E] [Module.Finite K E] [Group H] [Finite H]
 
+omit [Finite K] [Module.Finite K E] [Finite H] in
 private lemma formHom_transpose (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B e e = 0)
     {V : Submodule K E} (b : Module.Basis (Fin 2) K V) {τ : E ≃ₗ[K] E}
     (hτB : ∀ e f, B (τ e) (τ f) = B e f) (hτ2 : ∀ e, τ (τ e) = e)
@@ -564,6 +574,7 @@ private lemma formHom_transpose (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B 
   exact formMatrix_transpose B hBalt b hτB hτ2 hNV (hρB _) (hDV _ (Additive.toMul d).2)
     (hDτ _ (Additive.toMul d).2) j i
 
+omit [Finite K] [Module.Finite K E] [Finite H] in
 private lemma formHom_invariant (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B e e = 0)
     {V : Submodule K E} (b : Module.Basis (Fin 2) K V) {τ : E ≃ₗ[K] E}
     (hNV : ∀ e, (∀ v ∈ V, B e v = 0) → τ e - e ∈ V)
@@ -593,10 +604,11 @@ private lemma formHom_invariant (B : LinearMap.BilinForm K E) (hBalt : ∀ e, B 
   rw [show ((b' : D) : H) = r * (Additive.toMul a : D) * r⁻¹ from rfl]
   rw [formMatrix_conj B hBalt hNV hρB hDV hDτ hΓτ hΓD he hr hA
     (Additive.toMul a).2 i j]
-  simp only [Matrix.mul_apply, Matrix.transpose_apply, Finset.mul_sum, Finset.sum_mul,
+  simp only [Matrix.mul_apply, Matrix.transpose_apply, Finset.sum_mul,
     mul_assoc]
   conv_rhs => rw [Finset.sum_comm]
 
+omit [Finite K] [Module.Finite K E] [Finite H] in
 private lemma exists_mu_of_zero_diag (B : LinearMap.BilinForm K E)
     (hBalt : ∀ e, B e e = 0) {V : Submodule K E}
     (b : Module.Basis (Fin 2) K V) {τ : E ≃ₗ[K] E}
@@ -625,6 +637,7 @@ private lemma exists_mu_of_zero_diag (B : LinearMap.BilinForm K E)
     (hDτ d hd) he h00 h11 h01 x
   simpa [linSubOne] using hformula
 
+omit [Module.Finite K E] in
 private lemma false_of_symmetric_range (B : LinearMap.BilinForm K E)
     (hBalt : ∀ e, B e e = 0) {V : Submodule K E}
     (b : Module.Basis (Fin 2) K V) {τ : E ≃ₗ[K] E}

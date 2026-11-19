@@ -31,8 +31,8 @@ private theorem exists_pow_two_pow_mul_eq_one_ne_one {Ω : Type} [Field Ω] [IsA
   have h2 : ((2 ^ f + 1 : ℕ) : Ω) = 1 := by
     push_cast
     rw [CharTwo.two_eq_zero, zero_pow (n := f) (by omega), zero_add]
-  haveI : NeZero ((2 ^ f + 1 : ℕ) : Ω) := ⟨by rw [h2]; exact one_ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω (2 ^ f + 1)
+  have : NeZero ((2 ^ f + 1 : ℕ) : Ω) := ⟨by rw [h2]; exact one_ne_zero⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω (2 ^ f + 1)
   refine ⟨ζ, by rw [← pow_succ]; exact hζ.pow_eq_one, hζ.ne_one ?_⟩
   have := Nat.two_pow_pos f
   omega
@@ -45,8 +45,7 @@ private theorem mul_comm_of_unitary_conj {Ω : Type} [Field Ω] {ν : ℕ} (φ :
   have hG' : G * (G.map φ)ᵀ = 1 := mul_eq_one_comm.1 hG
   have hX : (G.map φ)ᵀ * ((M.map φ)ᵀ * M) * G = (M.map φ)ᵀ * M := by
     have h := congrArg (fun X => (M.map φ)ᵀ * X * M) hWG
-    simp only [Matrix.map_mul, transpose_mul, Matrix.mul_assoc, Matrix.mul_one,
-      Matrix.one_mul] at h
+    simp only [Matrix.map_mul, transpose_mul, Matrix.mul_assoc, Matrix.mul_one] at h
     rw [hMiM, Matrix.mul_one, ← Matrix.mul_assoc (M.map φ)ᵀ, hq1, Matrix.one_mul] at h
     simpa only [Matrix.mul_assoc] using h
   calc (M.map φ)ᵀ * M * G = G * (G.map φ)ᵀ * ((M.map φ)ᵀ * M) * G := by

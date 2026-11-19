@@ -24,7 +24,7 @@ theorem ggInvolCentTyped_map_iff_of_injective (φ : X →* X') (hφ : Function.I
       exact ⟨x, rfl⟩
     rw [inf_comm, ← inf_eq_left.mpr hle, inf_assoc,
       ggRCQL_range_inf_centralizer hφ r, Subgroup.map_inf _ _ φ hφ]
-    simp [A, inf_comm]
+    simp [inf_comm]
   let e : ↥A ≃* ↥(A.map φ) := Subgroup.equivMapOfInjective A φ hφ
   have hpc : (CFSG.Open.pCore 2 ↥A).map e.toMonoidHom =
       CFSG.Open.pCore 2 ↥(A.map φ) := CFSG.pCore_map_iso 2 e
@@ -64,12 +64,12 @@ section Reductions
 variable {X : Type} [Group X] [Finite X]
 
 private theorem pCore_subgroupOf_eq_of_normal {W : Type} [Group W] {N V : Subgroup W}
-    (hNV : N ≤ V) (hNVn : (N.subgroupOf V).Normal) :
+    (_hNV : N ≤ V) (hNVn : (N.subgroupOf V).Normal) :
     CFSG.Open.pCore 2 ↥(N.subgroupOf V) =
       (CFSG.Open.pCore 2 ↥V).subgroupOf (N.subgroupOf V) := by
   apply le_antisymm
-  · haveI := hNVn
-    haveI hchar : (CFSG.Open.pCore 2 ↥(N.subgroupOf V)).Characteristic :=
+  · have := hNVn
+    have hchar : (CFSG.Open.pCore 2 ↥(N.subgroupOf V)).Characteristic :=
       CFSG.pCore_characteristic
     have hmapn : ((CFSG.Open.pCore 2 ↥(N.subgroupOf V)).map (N.subgroupOf V).subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
@@ -95,7 +95,7 @@ private theorem pCore_subgroupOf_eq_of_normal {W : Type} [Group W] {N V : Subgro
 
 private theorem isChevTwoLayered_quotient_pCore_of_isPGroup {G : Type} [Group G] [Finite G]
     {N Q : Subgroup G} (hQN : Q ≤ N) (hQ2 : IsPGroup 2 Q)
-    (hQnorm : N ≤ Subgroup.normalizer (Q : Set G)) [hQn : (Q.subgroupOf N).Normal]
+    (_hQnorm : N ≤ Subgroup.normalizer (Q : Set G)) [hQn : (Q.subgroupOf N).Normal]
     (hNQ : IsChevTwoLayered (↥N ⧸ Q.subgroupOf N)) :
     IsChevTwoLayered (↥N ⧸ CFSG.Open.pCore 2 ↥N) := by
   have hQp : IsPGroup 2 ↥(Q.subgroupOf N) :=
@@ -107,12 +107,12 @@ private theorem isChevTwoLayered_quotient_pCore_of_isPGroup {G : Type} [Group G]
     (CFSG.Open.pCore 2 ↥N).map (QuotientGroup.mk' (Q.subgroupOf N))
   have hTn : T.Normal :=
     (CFSG.pCore_normal (p := 2) (G := ↥N)).map _ (QuotientGroup.mk'_surjective _)
-  haveI := hTn
+  have := hTn
   have hTp : IsPGroup 2 ↥T :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥N)).map _
   have hTsolv : Group.IsSolvable ↥T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥T := hTp.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥T := hTp.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hquot : IsChevTwoLayered ((↥N ⧸ Q.subgroupOf N) ⧸ T) :=
     hNQ.quotient T hTsolv
@@ -126,7 +126,7 @@ theorem ggInvolCentTyped_of_normal {G₀ : Subgroup X} {r : X} {N Q : Subgroup X
     (hNV : N ≤ Subgroup.centralizer ({r} : Set X) ⊓ G₀)
     (hNnormal : (N.subgroupOf (Subgroup.centralizer ({r} : Set X) ⊓ G₀)).Normal)
     (hQN : Q ≤ N) (hQ2 : IsPGroup 2 Q)
-    (hQnorm : N ≤ Subgroup.normalizer (Q : Set X)) [hQn : (Q.subgroupOf N).Normal]
+    (_hQnorm : N ≤ Subgroup.normalizer (Q : Set X)) [hQn : (Q.subgroupOf N).Normal]
     (hNQ : IsChevTwoLayered (↥N ⧸ Q.subgroupOf N))
     (hVNsolv : Group.IsSolvable
       (↥(Subgroup.centralizer ({r} : Set X) ⊓ G₀) ⧸
@@ -197,16 +197,16 @@ theorem ggInvolCentTyped_of_normal {G₀ : Subgroup X} {r : X} {N Q : Subgroup X
     rw [hO, sup_bot_eq]
   have hsolv : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := by
     have hmap : Function.Surjective (QuotientGroup.map Nv (Nv ⊔ O) (MonoidHom.id ↥V)
-        (by simpa using (show Nv ≤ Nv ⊔ O from fun x hx => Subgroup.mem_sup_left hx))) := by
+        (by simp)) := by
       intro y
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Nv ⊔ O) y
       refine ⟨QuotientGroup.mk' Nv x, ?_⟩
       rw [QuotientGroup.map_mk']
       rfl
-    haveI : Group.IsSolvable (↥V ⧸ Nv) := hVNsolv
+    have : Group.IsSolvable (↥V ⧸ Nv) := hVNsolv
     exact Group.isSolvable_of_surjective hmap
-  haveI hNvNormal : Nv.Normal := hNnormal
-  haveI hONormal : O.Normal := CFSG.pCore_normal
+  have hNvNormal : Nv.Normal := hNnormal
+  have hONormal : O.Normal := CFSG.pCore_normal
   have hquot : Group.IsSolvable ((↥V ⧸ O) ⧸ f.range) := by
     have hker : Nv ⊔ O ≤ Subgroup.comap (QuotientGroup.mk' O) f.range := by
       intro x hx
@@ -226,9 +226,9 @@ theorem ggInvolCentTyped_of_normal {G₀ : Subgroup X} {r : X} {N Q : Subgroup X
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective O z
       refine ⟨QuotientGroup.mk' (Nv ⊔ O) x, ?_⟩
       exact QuotientGroup.map_mk' (Nv ⊔ O) f.range (QuotientGroup.mk' O) hker x
-    haveI : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := hsolv
+    have : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := hsolv
     exact Group.isSolvable_of_surjective hφ
-  haveI := hMn
+  have := hMn
   exact IsChevTwoLayered.of_normal_of_solvable_quotient f.range hMlayer hquot
 
 theorem ggInvolCentTyped_of_sup_eq {G₀ : Subgroup X} {r : X} {Q L : Subgroup X}
@@ -251,7 +251,7 @@ theorem ggInvolCentTyped_of_sup_eq {G₀ : Subgroup X} {r : X} {Q L : Subgroup X
     change Subgroup.centralizer ({r} : Set X) ⊓ G₀ ≤ Subgroup.normalizer (Q : Set X)
     rw [← hQL]
     exact sup_le Subgroup.le_normalizer hLQ
-  haveI : (Q.subgroupOf V).Normal :=
+  have : (Q.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQV).2 hQnorm
   have hVQ : IsChevTwoLayered (↥V ⧸ Q.subgroupOf V) := by
     have hsup : L.subgroupOf V ⊔ Q.subgroupOf V = ⊤ := by
@@ -260,11 +260,11 @@ theorem ggInvolCentTyped_of_sup_eq {G₀ : Subgroup X} {r : X} {Q L : Subgroup X
       rw [Subgroup.subgroupOf_self]
     have hL' : IsChevTwoLayered ↥(L.subgroupOf V) :=
       hL.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLV)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQp : IsPGroup 2 ↥(Q.subgroupOf V) :=
       hQ2.of_equiv (Subgroup.subgroupOfEquivOfLe hQV).symm
     have hQsolv : Group.IsSolvable ↥(Q.subgroupOf V) := by
-      haveI : Group.IsNilpotent ↥(Q.subgroupOf V) := hQp.isNilpotent
+      have : Group.IsNilpotent ↥(Q.subgroupOf V) := hQp.isNilpotent
       exact IsNilpotent.to_isSolvable
     exact hL'.quotient_of_sup_eq_top hQsolv hsup
   have hVVsolv : Group.IsSolvable (↥V ⧸ V.subgroupOf V) :=
@@ -308,7 +308,7 @@ theorem ggInvolCentTyped_of_oTwoPrime_eq_sup {G₀ : Subgroup X} {r : X} {Q L : 
     change ggRCSX G₀ r ≤ Subgroup.normalizer (Q : Set X)
     rw [hX]
     exact sup_le Subgroup.le_normalizer hLQ
-  haveI hQn : (Q.subgroupOf N).Normal :=
+  have hQn : (Q.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQN).2 hQnorm
   have hNQ : IsChevTwoLayered (↥N ⧸ Q.subgroupOf N) := by
     have hsup : L.subgroupOf N ⊔ Q.subgroupOf N = ⊤ := by
@@ -317,11 +317,11 @@ theorem ggInvolCentTyped_of_oTwoPrime_eq_sup {G₀ : Subgroup X} {r : X} {Q L : 
       rw [Subgroup.subgroupOf_self]
     have hL' : IsChevTwoLayered ↥(L.subgroupOf N) :=
       hL.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLN)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQp : IsPGroup 2 ↥(Q.subgroupOf N) :=
       hQ2.of_equiv (Subgroup.subgroupOfEquivOfLe hQN).symm
     have hQsolv : Group.IsSolvable ↥(Q.subgroupOf N) := by
-      haveI : Group.IsNilpotent ↥(Q.subgroupOf N) := hQp.isNilpotent
+      have : Group.IsNilpotent ↥(Q.subgroupOf N) := hQp.isNilpotent
       exact IsNilpotent.to_isSolvable
     exact hL'.quotient_of_sup_eq_top hQsolv hsup
   have hgen_le : ggOTwoPrime V ≤ N := by
@@ -344,7 +344,7 @@ theorem ggInvolCentTyped_of_oTwoPrime_eq_sup {G₀ : Subgroup X} {r : X} {Q L : 
   have hodd : Odd (Nat.card (↥V ⧸ N.subgroupOf V)) := by
     rw [← Nat.not_even_iff_odd]
     intro heven
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (Even.two_dvd heven)
     have hxodd := hodd_order x
     rw [hx] at hxodd
@@ -545,8 +545,8 @@ theorem ggStructSOnePrimeRoot_of_ggRootInvolCentTyped
   have hchev : CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2 (↥S ⧸ N) :=
     isChevSimple_two_of_rootInvolution hL hV hp hp2 hG₀ he hep hcomm hroot S hSY hsub
       hperf N hsimp hnc
-  haveI : Group.IsPerfect ↥S := Group.isPerfect_def.mpr hperf
-  haveI : Group.IsPerfect (↥S ⧸ N) :=
+  have : Group.IsPerfect ↥S := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect (↥S ⧸ N) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   have hperfN : commutator (↥S ⧸ N) = ⊤ := Group.isPerfect_def.mp inferInstance
   exact largeEvenMarking_of_isChevSimple hperfN hsimp hnc hchev

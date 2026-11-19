@@ -21,6 +21,7 @@ section Generic
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem u4x_eq_one_of_comm {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hA : center ↥A = ⊥) {a b : Q} (ha : a ∈ A) (hb : b ∈ B)
     (h : ∀ x ∈ A, a * b * x = x * (a * b)) : a = 1 := by
@@ -38,6 +39,7 @@ theorem u4x_eq_one_of_comm {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B,
   rw [hA, Subgroup.mem_bot] at hz
   simpa using congrArg Subtype.val hz
 
+omit [Finite Q] in
 theorem u4x_eq_of_mul_eq {A B : Subgroup Q} (hAB : A ⊓ B = ⊥) {a a' b b' : Q} (ha : a ∈ A)
     (ha' : a' ∈ A) (hb : b ∈ B) (hb' : b' ∈ B) (h : a * b = a' * b') : a = a' ∧ b = b' := by
   have h1 : a'⁻¹ * a = b' * b⁻¹ := by
@@ -49,6 +51,7 @@ theorem u4x_eq_of_mul_eq {A B : Subgroup Q} (hAB : A ⊓ B = ⊥) {a a' b b' : Q
   subst h2
   exact ⟨rfl, mul_left_cancel h⟩
 
+omit [Finite Q] in
 theorem u4x_mem_sup {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) {x : Q}
     (hx : x ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
   have hAB : A ≤ normalizer (B : Set Q) := fun a ha => by
@@ -71,6 +74,7 @@ theorem u4x_mem_sup {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y 
   obtain ⟨a, ha, b, hb, rfl⟩ := Set.mem_mul.1 hx'
   exact ⟨a, ha, b, hb, rfl⟩
 
+omit [Finite Q] in
 theorem u4x_top_le_normalizer {H : Subgroup Q} (hN : H.Normal) : ⊤ ≤ normalizer (H : Set Q) :=
   fun g _ => Subgroup.mem_normalizer_iff.2 fun h =>
     ⟨fun hh => hN.conj_mem h hh g, fun hh => by simpa [mul_assoc] using hN.conj_mem _ hh g⁻¹⟩
@@ -89,6 +93,7 @@ theorem u4x_mem_of_mul_mem {p : ℕ} [Fact p.Prime] {A B S : Subgroup Q}
   obtain ⟨rfl, rfl⟩ := u4x_eq_of_mul_eq hAB ha ha'.2 hb hb'.2 hab'.symm
   exact ⟨ha'.1.1, hb'.1.1⟩
 
+omit [Finite Q] in
 theorem u4x_inf_eq_bot {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x)
     (hB : center ↥B = ⊥) : A ⊓ B = ⊥ := by
   rw [eq_bot_iff]
@@ -101,6 +106,7 @@ theorem u4x_inf_eq_bot {A B : Subgroup Q} (hcomm : ∀ x ∈ A, ∀ y ∈ B, x *
   rw [Subgroup.mem_bot]
   simpa using congrArg Subtype.val hz
 
+omit [Finite Q] in
 theorem u4x_sup_inf_centralizer {F₀ F₁ : Subgroup Q} (hcomm : ∀ x ∈ F₀, ∀ y ∈ F₁, x * y = y * x)
     (h₀ : center ↥F₀ = ⊥) (h₁ : center ↥F₁ = ⊥) :
     (F₀ ⊔ F₁) ⊓ centralizer ((F₀ ⊔ F₁ : Subgroup Q) : Set Q) = ⊥ := by
@@ -130,6 +136,7 @@ theorem u4x_isSylowOf_barImage {M P : Subgroup G} {p : ℕ} [Fact p.Prime]
     intro hd
     exact hPidx (hd.trans hdvd)
 
+omit [Finite G] in
 theorem u4x_barImage_sup {M L K : Subgroup G} (hLM : L ≤ M) (hKM : K ≤ M) :
     barImage M (L ⊔ K) = barImage M L ⊔ barImage M K := by
   simp only [barImage]
@@ -141,10 +148,11 @@ theorem u4x_barImage_normal {M X : Subgroup G} (hMX : M ≤ normalizer (X : Set 
   obtain ⟨m, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M) g
   exact (Subgroup.mem_normalizer_iff.1 (uc22ine229_mk_mem_normalizer (L := X) (hMX m.2)) y).1 hy
 
+omit [Finite G] in
 theorem u4x_center_eq_bot {M L : Subgroup G} (hL : L ∈ calC M) {n : ℕ}
     (hS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : center ↥(barImage M L) = ⊥ := by
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv hL
-  haveI : IsSimpleGroup (Bar2 L) := by
+  have : IsSimpleGroup (Bar2 L) := by
     rcases hS with h | h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     · exact CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h

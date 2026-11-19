@@ -62,6 +62,7 @@ variable {G : Type} [Group G] [Finite G]
   ⟨⟨mn0 m * m.gX1 * (mn0 m)⁻¹, mn0 m * mn1 m * (mn0 m)⁻¹, mn1 m * m.gX0 * (mn1 m)⁻¹,
     mn1 m * mn0 m * (mn1 m)⁻¹, mn1 m ^ 2⟩, m.gS⟩
 
+omit [Finite G] in
 theorem conj_inv_conj (g x : G) : (MulAut.conj g⁻¹) (g * x * g⁻¹) = x := by
   rw [MulAut.conj_apply]
   group
@@ -104,6 +105,7 @@ theorem conj_inv_conj (g x : G) : (MulAut.conj g⁻¹) (g * x * g⁻¹) = x := b
 @[expose] def frameMap {G' : Type} [Group G'] (φ : G →* G') (fr : Frame G) : Frame G' :=
   ⟨⟨φ fr.u₁, φ fr.b₁, φ fr.u₂, φ fr.b₂, φ fr.h₀⟩, φ fr.σ⟩
 
+omit [Finite G] in
 theorem conj_sq (g y : G) : (g * y * g⁻¹) ^ 2 = g * y ^ 2 * g⁻¹ := by
   rw [sq, sq]
   group
@@ -132,6 +134,7 @@ theorem frameOf_twist (g : G) (m : G23Model G) :
   · rw [conj_sq]
   · trivial
 
+omit [Finite G] in
 theorem frameMap_Sσ {G' : Type} [Group G'] (φ : G →* G') (fr : Frame G) :
     (frameMap φ fr).Sσ = fr.Sσ.map φ := by
   have h1 : (frameMap φ fr).a₁ = φ fr.a₁ := by

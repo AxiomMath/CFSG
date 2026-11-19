@@ -201,7 +201,7 @@ theorem cfg_classify {g : Equiv.Perm (Fin 820)} (hg : g ∈ P)
     exact absurd hm List.not_mem_nil
   | true =>
     have hk2 := Nat.eq_of_beq_eq_true e
-    rw [e, cond_true] at hm
+    rw [e, _root_.Bool.cond_true] at hm
     subst hk2
     obtain ⟨j, hj, hji⟩ := List.getElem_of_mem hm
     obtain ⟨-, -, hcf, hlen⟩ := frame_facts

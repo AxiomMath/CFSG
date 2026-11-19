@@ -110,7 +110,7 @@ theorem closure_eq_spanG : (Subgroup.closure {x | x ∈ gs} : Set G) = {x | x �
         · obtain ⟨a0, ha0, rfl⟩ := List.mem_map.1 ha
           exact Subgroup.mul_mem _ (hacc a0 ha0)
             (Subgroup.subset_closure (hg g List.mem_cons_self))
-    exact key gs [1] (fun _ h => h) (by simp [Subgroup.one_mem]) x hx
+    exact key gs [1] (fun _ h => h) (by simp) x hx
 
 theorem mul_self_of_mem_closure {x : G} (hx : x ∈ Subgroup.closure {x | x ∈ gs}) : x * x = 1 := by
   have key : x * x = 1 ∧ ∀ g ∈ gs, x * g = g * x := by
@@ -183,13 +183,15 @@ theorem map_spanA : ∀ (gs acc : List ℕ), (∀ g ∈ gs, g < 2 ^ (C.d + 7)) �
     refine List.map_congr_left fun a ha => ?_
     exact el_mulC hM (hacc a ha) (hg g List.mem_cons_self)
 
+omit [Group G] hM in
 theorem subset_spanA : ∀ (gs acc : List ℕ), ∀ a ∈ acc, a ∈ spanA C gs acc
   | [], _, _, ha => ha
   | g :: gs, acc, a, ha => by
     change a ∈ spanA C gs (dbl C g acc)
     exact subset_spanA gs _ a (by rw [dbl_eq]; exact List.mem_append_left _ ha)
 
-theorem zero_mem_spanL (gs : List ℕ) : 0 ∈ spanL C gs := subset_spanA hM gs [0] 0 (by simp)
+omit [Group G] hM in
+theorem zero_mem_spanL (gs : List ℕ) : 0 ∈ spanL C gs := subset_spanA gs [0] 0 (by simp)
 
 theorem closure_coe_eq (h0 : w 0 = 1) {gs : List ℕ} (hgs : ∀ g ∈ gs, g < 2 ^ (C.d + 7))
     (hcm : ∀ g ∈ gs, ∀ h ∈ gs, mulC C g h = mulC C h g) (hsq : ∀ g ∈ gs, mulC C g g = 0) :

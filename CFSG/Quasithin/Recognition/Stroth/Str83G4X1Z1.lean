@@ -99,9 +99,9 @@ theorem str83G4_commutator_mem_z2_of_mem_x_inf_conjugate
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
     (hB : ¬ CFSG.conjugate (str83X L1 L2 S) d.w ≤ Q1 L1 L2 S) :
-    ∀ g ∈ L2 ⊔ S, ∀ y ∈ str83X L1 L2 S ⊓ CFSG.conjugate (str83X L1 L2 S) d.w,
-      g * y * g⁻¹ * y⁻¹ ∈ Z2 L1 L2 S :=
-  fun g hg y hy => (mem_centralizerMod.mp (str83G4_le_centralizerMod_z2 hfr d
+    ∀ _g ∈ L2 ⊔ S, ∀ y ∈ str83X L1 L2 S ⊓ CFSG.conjugate (str83X L1 L2 S) d.w,
+      _g * y * _g⁻¹ * y⁻¹ ∈ Z2 L1 L2 S :=
+  fun _g hg y hy => (mem_centralizerMod.mp (str83G4_le_centralizerMod_z2 hfr d
     (str83G4_commutator_x_inf_conjugate_x_q2_le hfr d hX hB) hg)).2.2 y hy
 
 private theorem str83G4_commutator_eq_one_of_mem_x1_of_mem_q2

@@ -141,7 +141,7 @@ theorem intrSet_flagSys_eq_genSet (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 
       genSet K f (m + 1) d pol := by
     rw [genSet_eq_flipSet hK hq hn hd pol]
     ext E
-    simp only [Set.mem_setOf_eq, flagPsiMax]
+    simp only [Set.mem_ofPred_eq, flagPsiMax]
     rw [residue_univ hB (stdFlag K (m + 1)), hres]
     simp only [Set.mem_univ, true_and]
   have hgen : genSet K f (m + 1) d pol =
@@ -194,7 +194,7 @@ theorem intrSet_flagSys_eq_set22x (hK : Nat.card K = (2 ^ f) ^ 2) :
       set22x K f := by
     rw [set22x_eq_flipSet hK]
     ext E
-    simp only [Set.mem_setOf_eq, flagPsiXMax]
+    simp only [Set.mem_ofPred_eq, flagPsiXMax]
     rw [residue_univ hB (stdFlag K 4), hres]
     simp only [Set.mem_univ, true_and]
   have hgen : set22x K f =

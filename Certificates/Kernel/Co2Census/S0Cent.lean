@@ -109,7 +109,7 @@ theorem cent_pts
   have hcls := (s0_class hj5).2
   rw [(s0_class hj5).1] at hcls
   have hrep : s0Rep j = sElt nr := by
-    rw [s0Rep, if_neg hj0, hnr]
+    rw [s0Rep, ite_eq_right hj0, hnr]
   rw [hrep] at hcls
   have hcent := ncard_centS0_mul (sElt_mem_S0 nr)
   rw [hcls] at hcent

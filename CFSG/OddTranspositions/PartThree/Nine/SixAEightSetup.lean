@@ -132,7 +132,7 @@ theorem card_sylow (h : NineSixSetting hC T S U) : Nat.card (S : Subgroup G) = 1
       Nat.card_zmod] at hpsl
     rw [Nat.card_congr e.toEquiv] at hker
     omega
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have h1 : 2 ^ 7 ∣ Nat.card (S : Subgroup G) :=
     S.pow_dvd_card_of_pow_dvd_card
       ((hN ▸ Dvd.intro 21 rfl).trans (Subgroup.card_subgroup_dvd_card _))

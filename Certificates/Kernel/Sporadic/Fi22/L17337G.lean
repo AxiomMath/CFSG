@@ -28,22 +28,22 @@ theorem letF_spec {a b ai bi : ℕ} {G H : Equiv.Perm (Fin 3510)}
       letF a b ai bi (i, e) y = ((cond e (![G, H] i) (![G, H] i)⁻¹ y : Fin 3510) : ℕ) := by
   rw [Fin.forall_fin_two, Bool.forall_bool, Bool.forall_bool]
   refine ⟨⟨fun y => ?_, fun y => ?_⟩, ⟨fun y => ?_, fun y => ?_⟩⟩
-  · rw [letF_0f, cond_false, Matrix.cons_val_zero, hai]
-  · rw [letF_0t, cond_true, Matrix.cons_val_zero, ha]
-  · rw [letF_1f, cond_false, Matrix.cons_val_one, Matrix.cons_val_fin_one, hbi]
-  · rw [letF_1t, cond_true, Matrix.cons_val_one, Matrix.cons_val_fin_one, hb]
+  · rw [letF_0f, Bool.cond_false, Matrix.cons_val_zero, hai]
+  · rw [letF_0t, _root_.Bool.cond_true, Matrix.cons_val_zero, ha]
+  · rw [letF_1f, Bool.cond_false, Matrix.cons_val_one, Matrix.cons_val_fin_one, hbi]
+  · rw [letF_1t, _root_.Bool.cond_true, Matrix.cons_val_one, Matrix.cons_val_fin_one, hb]
 
 theorem letter_mem {G H : Equiv.Perm (Fin 3510)} {P : Subgroup (Equiv.Perm (Fin 3510))}
     (hG : G ∈ P) (hH : H ∈ P) : ∀ (i : Fin 2) (e : Bool), cond e (![G, H] i) (![G, H] i)⁻¹ ∈ P := by
   rw [Fin.forall_fin_two, Bool.forall_bool, Bool.forall_bool]
   refine ⟨⟨?_, ?_⟩, ⟨?_, ?_⟩⟩
-  · rw [cond_false, Matrix.cons_val_zero]
+  · rw [Bool.cond_false, Matrix.cons_val_zero]
     exact P.inv_mem hG
-  · rw [cond_true, Matrix.cons_val_zero]
+  · rw [_root_.Bool.cond_true, Matrix.cons_val_zero]
     exact hG
-  · rw [cond_false, Matrix.cons_val_one, Matrix.cons_val_fin_one]
+  · rw [Bool.cond_false, Matrix.cons_val_one, Matrix.cons_val_fin_one]
     exact P.inv_mem hH
-  · rw [cond_true, Matrix.cons_val_one, Matrix.cons_val_fin_one]
+  · rw [_root_.Bool.cond_true, Matrix.cons_val_one, Matrix.cons_val_fin_one]
     exact hH
 
 theorem ev_pe {p : ℕ} (hp : PP 3510 12 p) (y : Fin 3510) : ev p y = pe p y :=

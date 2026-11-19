@@ -23,9 +23,9 @@ theorem lieModel_equiv {X : Type} [Group X] (h : LieModel X .Tits 0 2 1) : Nonem
 theorem simple_of_lieModel {X : Type} [Group X] (h : LieModel X .Tits 0 2 1) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨e⟩ := lieModel_equiv h
-  haveI : IsSimpleGroup titsD := titsD_simple
-  haveI : IsSimpleGroup X := e.isSimpleGroup_congr.mpr inferInstance
-  haveI : Finite X := Finite.of_equiv titsD e.symm.toEquiv
+  have : IsSimpleGroup titsD := titsD_simple
+  have : IsSimpleGroup X := e.isSimpleGroup_congr.mpr inferInstance
+  have : Finite X := Finite.of_equiv titsD e.symm.toEquiv
   have h2 : 2 ∣ Nat.card X := by rw [Nat.card_congr e.toEquiv, card_titsD]; norm_num
   have h3 : 2 < Nat.card X := by rw [Nat.card_congr e.toEquiv, card_titsD]; norm_num
   exact ⟨inferInstance, exists_noncomm_of_simple_of_even h2 h3⟩
@@ -62,7 +62,7 @@ theorem factorization_five {K : Type} [Group K] (hK : IsoLie K .tits) : (Nat.car
 
 theorem exists_sylow_eq {K : Type} [Group K] [Finite K] (hK : IsoLie K .tits) (E : Subgroup K)
     (hE : Nat.card E = 5 ^ 2) : ∃ P : Sylow 5 K, (P : Subgroup K) = E := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact ⟨Sylow.ofCard E (by rw [hE, factorization_five hK]), rfl⟩
 
 end Iso
@@ -83,13 +83,13 @@ theorem sylowAutSelfCent {K : Type} [Group K] [Finite K] (hK : IsoLie K .tits) :
 theorem absKC {K : Type} [Group K] [Finite K] (hK : LieModel K .Tits 0 2 1) {r : ℕ} (hr : r = 5)
     (E : Subgroup K) (hE : Nat.card E = 5 ^ 2) : AbsKC K r E := by
   subst hr
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hK' := isoLie_of_lieModel hK
   exact AbsKC.of_sylowAutSelfCent (sylowAutSelfCent hK') (center_eq_bot hK') hE
 
 theorem absKInv {K : Type} [Group K] [Finite K] (hK : LieModel K .Tits 0 2 1) (E : Subgroup K)
     (hE : Nat.card E = 5 ^ 2) : AbsKInv K E := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hK' := isoLie_of_lieModel hK
   exact AbsKInv.of_sylowAutSelfCent (by norm_num) (sylowAutSelfCent hK') (center_eq_bot hK') hE
 
@@ -101,7 +101,7 @@ section Sig
 theorem absKN {K : Type} [Group K] [Finite K] (hK : LieModel K .Tits 0 2 1) {r : ℕ} (hr : r = 5)
     (isL34 : Prop) (E : Subgroup K) (hE : Nat.card E = 5 ^ 2) : AbsKN K r E isL34 := by
   subst hr
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hK' := isoLie_of_lieModel hK
   obtain ⟨P, rfl⟩ := exists_sylow_eq hK' E hE
   exact AbsKN.of_signalizerTrivialOn (signalizerTrivialTits_holds K hK') P isL34
@@ -127,13 +127,13 @@ section KMult
 
 theorem kMult_Tits (J : Type) [Group J] [Finite J] (hq : CFSG.Open.IsQuasisimple J)
     (N : Subgroup J) [N.Normal] (hN : N ≤ center J) (hT : LieModel (J ⧸ N) .Tits 0 2 1)
-    (hodd : Odd (Nat.card (center J))) : center J = ⊥ := by
+    (_hodd : Odd (Nat.card (center J))) : center J = ⊥ := by
   obtain ⟨e⟩ := CFSG.LocalAnalysis.UniquenessCase.UC6.TitsAut.lieModel_equiv hT
   obtain ⟨hs, a, b, hab⟩ := CFSG.LocalAnalysis.UniquenessCase.UC6.TitsAut.simple_of_lieModel hT
   have hnorm : ((center J).map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   have hCN : center J = N := by
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((center J).map (QuotientGroup.mk' N)) with h | h
     · refine le_antisymm (fun x hx => ?_) hN
       have : QuotientGroup.mk' N x ∈ (center J).map (QuotientGroup.mk' N) := ⟨x, hx, rfl⟩

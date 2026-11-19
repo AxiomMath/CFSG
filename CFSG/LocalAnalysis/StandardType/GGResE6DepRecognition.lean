@@ -26,7 +26,7 @@ theorem GGResHyp.e6_marking_of_endpoint_facts
       3 ^ 5 ≤ Nat.card ↥(ggGamma X hN).range)
     (hcard : Nat.card ↥(ggAutomizer X Bs) = 51840) :
     GGInnerDiagOnLabel (fun _ lab => GGE6DepLabel lab) 3 Bs X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
 
   have hInn : GGInnerDiagOn Bs X := by
     rcases hX with hX | hX
@@ -91,7 +91,7 @@ theorem GGResHyp.e6_marking_of_endpoint_facts
         have hMA : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.A, 3, f⟩) 3 Bs X := by
           refine ⟨hperf, ⟨.A, 3, f⟩, ⟨hΛ.1, by norm_num, by norm_num⟩, ?_⟩
           dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
-          rw [if_pos rfl] at hraw
+          rw [ite_eq_left rfl] at hraw
           obtain ⟨E, _, _, hE, hs, hna, θ, hN, hind⟩ := hraw
           exact ⟨E, inferInstance, inferInstance, hE, hs, hna, θ, rfl, hN, hind⟩
         rcases three_dvd_two_pow_pred_or_succ f with hminus | hplus
@@ -111,7 +111,7 @@ theorem GGResHyp.e6_marking_of_endpoint_facts
         · have hMU : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.twA, 3, f⟩) 3 Bs X := by
             refine ⟨hperf, ⟨.twA, 3, f⟩, ⟨hΛ.1, by norm_num, by norm_num⟩, ?_⟩
             dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
-            rw [if_neg (by norm_num : ¬ (3 = 2)), if_pos rfl] at hraw
+            rw [ite_eq_right (by norm_num : ¬ (3 = 2)), ite_eq_left rfl] at hraw
             obtain ⟨E, _, _, hE, hs, hna, θ, hN, hind⟩ := hraw
             exact ⟨E, inferInstance, inferInstance, hE, hs, hna, θ, rfl, hN, hind⟩
           rcases three_dvd_two_pow_pred_or_succ f with hminus | hplus

@@ -127,7 +127,7 @@ theorem exists_fixed_mul_center [Finite K] {p : ℕ} [hp : Fact p.Prime]
       group
     rw [h1]
     exact Z.mul_mem (hx f hf) (apply_mem_center f hy1)
-  letI : MulAction F T :=
+  let : MulAction F T :=
     { smul := fun f y => ⟨(f : MulAut K) y, hTF f f.2 y y.2⟩
       one_smul := fun y => Subtype.ext rfl
       mul_smul := fun f g y => Subtype.ext rfl }
@@ -323,9 +323,9 @@ theorem le_closure_of_p'Subgroup [Finite K] {p : ℕ} [Fact p.Prime] {E : Subgro
     H ≤ Subgroup.closure {s : K ⧸ Subgroup.center K | (∃ m : ℕ, ¬ p ∣ m ∧ s ^ m = 1) ∧
       ∃ F ≤ E, F.relIndex E = p ∧ ∀ f ∈ F, quotAut f s = s} := by
   classical
-  haveI : CFSG.IsElementaryAbelian p E := isElementaryAbelian_of_isElemAbelian hE
-  haveI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
-  letI : MulDistribMulAction E H :=
+  have : CFSG.IsElementaryAbelian p E := isElementaryAbelian_of_isElemAbelian hE
+  have : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
+  let : MulDistribMulAction E H :=
     { smul := fun f s => ⟨quotAut (f : MulAut K) s, hstab f f.2 s s.2⟩
       one_smul := fun s => Subtype.ext (quotAut_one (s : K ⧸ Subgroup.center K))
       mul_smul := fun f g s => Subtype.ext (quotAut_mul (f : MulAut K) g s)

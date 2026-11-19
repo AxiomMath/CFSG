@@ -31,6 +31,7 @@ theorem sixFF_ff8_aux_frob_diagTorus (k : ℕ) {g : antiSp K} (hg : g ∈ diagTo
   fin_cases a <;> fin_cases b <;>
     simp [diagMat, inv_pow, zero_pow (pow_ne_zero k two_ne_zero)]
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_pull_conj {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     {Y : Subgroup (antiSp K)} (hY : ∀ s ∈ Y, (frobAut K ^ m) s ∈ Y) :
@@ -42,15 +43,18 @@ theorem sixFF_ff8_aux_pull_conj {m : ℕ} {v₀ : G}
   rw [h2]
   exact symm_mem_pull.mpr (hY _ hφx)
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_closure {g : G} {T : Set G} (hT : ∀ x ∈ T, g * x * g⁻¹ ∈ T) :
     ∀ x ∈ Subgroup.closure T, g * x * g⁻¹ ∈ Subgroup.closure T := by
   exact sixFF_ff3a_conj_closure fun x hx => Subgroup.subset_closure (hT x hx)
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_hvt {v₀ : G} (hvc : v₀ ∈ centralizer ({t} : Set G)) :
     v₀ * t * v₀⁻¹ = t := by
   have hct : t * v₀ = v₀ * t := Subgroup.mem_centralizer_iff.mp hvc t (Set.mem_singleton t)
   rw [← hct, mul_inv_cancel_right]
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_mem_normalizer_zpowers_sup {v₀ : G} (hvt : v₀ * t * v₀⁻¹ = t)
     {X : Subgroup G} (hX : ∀ x ∈ X, v₀ * x * v₀⁻¹ ∈ X) :
     v₀ ∈ normalizer ((zpowers t ⊔ X : Subgroup G) : Set G) := by
@@ -66,53 +70,61 @@ theorem sixFF_ff8_aux_mem_normalizer_zpowers_sup {v₀ : G} (hvt : v₀ * t * v�
     exact hle hx
   exact RootAxisTwoCore.conj_mem_sup hZ hX hq
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_U {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹) (k : Axis) :
     ∀ x ∈ U φ k, v₀ * x * v₀⁻¹ ∈ U φ k :=
   sixFF_ff8_aux_pull_conj hv (Y := rootU K k) fun s hs =>
     (frobAut_pow_mem_iff (frobAut_mem_rootU_iff k) m s).mpr hs
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_A {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹) (k : Axis) :
     ∀ x ∈ A φ k, v₀ * x * v₀⁻¹ ∈ A φ k :=
   sixFF_ff8_aux_pull_conj hv (Y := rootA K k) fun s hs =>
     (frobAut_pow_mem_iff (frobAut_mem_rootA_iff k) m s).mpr hs
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_D {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis) :
-    ∀ x ∈ D φ t k, v₀ * x * v₀⁻¹ ∈ D φ t k := fun x hx =>
+    ∀ x ∈ D φ t k, v₀ * x * v₀⁻¹ ∈ D φ t k := fun _x hx =>
   FullCenter.conj_mem_pCore_map
     (sixFF_ff8_aux_mem_normalizer_zpowers_sup hvt (sixFF_ff8_aux_conj_U hv k)) hx
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_E {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis) :
-    ∀ x ∈ E φ t k, v₀ * x * v₀⁻¹ ∈ E φ t k := fun x hx =>
+    ∀ x ∈ E φ t k, v₀ * x * v₀⁻¹ ∈ E φ t k := fun _x hx =>
   FullCenter.conj_mem_pCore_map
     (sixFF_ff8_aux_mem_normalizer_zpowers_sup hvt (sixFF_ff8_aux_conj_A hv k)) hx
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_E0 {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) : ∀ x ∈ E₀ φ t, v₀ * x * v₀⁻¹ ∈ E₀ φ t := fun x hx =>
   Subgroup.mem_inf.mpr ⟨sixFF_ff8_aux_conj_E hv hvt Axis.one x (Subgroup.mem_inf.mp hx).1,
     sixFF_ff8_aux_conj_E hv hvt Axis.two x (Subgroup.mem_inf.mp hx).2⟩
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_J0 {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹) :
     ∀ x ∈ J₀ φ, v₀ * x * v₀⁻¹ ∈ J₀ φ :=
-  sixFF_ff8_aux_pull_conj hv (Y := diagTorus K) fun s hs =>
+  sixFF_ff8_aux_pull_conj hv (Y := diagTorus K) fun _s hs =>
     sixFF_ff8_aux_frob_diagTorus m hs
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_F {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) : ∀ x ∈ F φ t, v₀ * x * v₀⁻¹ ∈ F φ t := by
   apply sixFF_ff8_aux_conj_closure
   rintro x ⟨e, he, j, hj, rfl⟩
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact ⟨v₀ * e * v₀⁻¹, sixFF_ff8_aux_conj_E0 hv hvt e he, v₀ * j * v₀⁻¹,
     sixFF_ff8_aux_conj_J0 hv j hj, by group⟩
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_FD {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis)
@@ -121,20 +133,23 @@ theorem sixFF_ff8_aux_conj_FD {m : ℕ} {v₀ : G}
   Subgroup.mem_inf.mpr ⟨hF x (Subgroup.mem_inf.mp hx).1,
     sixFF_ff8_aux_conj_D hv hvt k x (Subgroup.mem_inf.mp hx).2⟩
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_Kc {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis)
     (hF : ∀ x ∈ F φ t, v₀ * x * v₀⁻¹ ∈ F φ t) :
-    ∀ x ∈ Kc φ t k, v₀ * x * v₀⁻¹ ∈ Kc φ t k := fun x hx =>
+    ∀ x ∈ Kc φ t k, v₀ * x * v₀⁻¹ ∈ Kc φ t k := fun _x hx =>
   RootAxisTwoCore.conj_mem_sup (sixFF_ff8_aux_conj_A hv k)
     (sixFF_ff8_aux_conj_FD hv hvt k hF) hx
 
+omit [CharP K 2] [Finite K] in
 theorem sixFF_ff8_aux_weyl_mat (k : Axis) :
     ∀ a b : Fin 4, mat (FullCenterWeyl.weylElt K k) a b = 0 ∨
       mat (FullCenterWeyl.weylElt K k) a b = 1 := by
   cases k <;> intro a b <;> fin_cases a <;> fin_cases b <;>
     simp [mat, FullCenterWeyl.glMat_weylElt, FullCenterWeyl.weylMat]
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_w_conj {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹) (k : Axis) :
     v₀ * w φ k * v₀⁻¹ = w φ k := by
@@ -143,6 +158,7 @@ theorem sixFF_ff8_aux_w_conj {m : ℕ} {v₀ : G}
     (sixFF_ff8_aux_weyl_mat k)] at h
   exact h.symm
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff8_aux_conj_Mw {v₀ : G} {a b : Axis} (hw : v₀ * w φ b * v₀⁻¹ = w φ b)
     (hM : ∀ x ∈ Mc φ t a, v₀ * x * v₀⁻¹ ∈ Mc φ t a) :
     ∀ x ∈ Mw φ t a b, v₀ * x * v₀⁻¹ ∈ Mw φ t a b := by
@@ -156,21 +172,24 @@ theorem sixFF_ff8_aux_conj_Mw {v₀ : G} {a b : Axis} (hw : v₀ * w φ b * v₀
   rw [inv_inv, show v₀ * ((w φ b)⁻¹ * y * w φ b) * v₀⁻¹ =
     (v₀ * (w φ b)⁻¹ * v₀⁻¹) * (v₀ * y * v₀⁻¹) * (v₀ * w φ b * v₀⁻¹) by group, hw', hw]
 
+omit [Finite K] [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_Mc {v₀ : G} {a : Axis}
     (hP0 : ∀ x ∈ P₀ φ t a, v₀ * x * v₀⁻¹ ∈ P₀ φ t a)
     (hJ0 : ∀ x ∈ J₀ φ, v₀ * x * v₀⁻¹ ∈ J₀ φ) :
     ∀ x ∈ Mc φ t a, v₀ * x * v₀⁻¹ ∈ Mc φ t a := by
   apply sixFF_ff8_aux_conj_closure
   rintro x ⟨p, hp, j, hj, rfl⟩
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact ⟨v₀ * p * v₀⁻¹, hP0 p hp, v₀ * j * v₀⁻¹, hJ0 j hj, by group⟩
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_P1 {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
-    (hvt : v₀ * t * v₀⁻¹ = t) (i : Axis) : ∀ x ∈ P₁ φ t i, v₀ * x * v₀⁻¹ ∈ P₁ φ t i := fun x hx =>
+    (hvt : v₀ * t * v₀⁻¹ = t) (i : Axis) : ∀ x ∈ P₁ φ t i, v₀ * x * v₀⁻¹ ∈ P₁ φ t i := fun _x hx =>
   FullCenter.conj_mem_pCore_map
     (RootAxisTwoCore.mem_normalizer_of_conj_le (sixFF_ff8_aux_conj_D hv hvt i)) hx
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_mem_En {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis) : v₀ ∈ En φ t k :=
@@ -179,11 +198,13 @@ theorem sixFF_ff8_aux_mem_En {m : ℕ} {v₀ : G}
       RootAxisTwoCore.mem_normalizer_of_conj_le
         (sixFF_ff8_aux_conj_Kc hv hvt k (sixFF_ff8_aux_conj_F hv hvt))⟩
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_P2 {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
-    (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis) : ∀ x ∈ P₂ φ t k, v₀ * x * v₀⁻¹ ∈ P₂ φ t k := fun x hx =>
+    (hvt : v₀ * t * v₀⁻¹ = t) (k : Axis) : ∀ x ∈ P₂ φ t k, v₀ * x * v₀⁻¹ ∈ P₂ φ t k := fun _x hx =>
   FullCenter.conj_mem_pCore_map (sixFF_ff8_aux_mem_En hv hvt k) hx
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_P0 {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) (i : Axis) : ∀ x ∈ P₀ φ t i, v₀ * x * v₀⁻¹ ∈ P₀ φ t i := fun x hx =>
@@ -191,29 +212,34 @@ theorem sixFF_ff8_aux_conj_P0 {m : ℕ} {v₀ : G}
     ⟨sixFF_ff8_aux_conj_P1 hv hvt i x (Subgroup.mem_inf.mp hx).1,
       sixFF_ff8_aux_conj_P2 hv hvt i.swap x (Subgroup.mem_inf.mp hx).2⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff8_aux_conj_Mhat {v₀ : G} {a b : Axis} (hw : v₀ * w φ b * v₀⁻¹ = w φ b)
     (hM : ∀ x ∈ Mc φ t a, v₀ * x * v₀⁻¹ ∈ Mc φ t a) :
-    ∀ x ∈ Mhat φ t a b, v₀ * x * v₀⁻¹ ∈ Mhat φ t a b := fun x hx =>
+    ∀ x ∈ Mhat φ t a b, v₀ * x * v₀⁻¹ ∈ Mhat φ t a b := fun _x hx =>
   RootAxisTwoCore.conj_mem_sup hM (sixFF_ff8_aux_conj_Mw hw hM) hx
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff8_aux_conj_Dstar {v₀ : G} {a : Axis}
     (hMh : ∀ x ∈ Mhat φ t a a, v₀ * x * v₀⁻¹ ∈ Mhat φ t a a)
     (hK : ∀ x ∈ Kc φ t a.swap, v₀ * x * v₀⁻¹ ∈ Kc φ t a.swap) :
-    ∀ x ∈ Dstar φ t a, v₀ * x * v₀⁻¹ ∈ Dstar φ t a := fun x hx =>
+    ∀ x ∈ Dstar φ t a, v₀ * x * v₀⁻¹ ∈ Dstar φ t a := fun _x hx =>
   RootAxisTwoCore.conj_mem_sup hMh hK hx
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff8_aux_conj_S {v₀ : G} {a : Axis}
     (h1 : ∀ x ∈ Mhat φ t a Axis.one, v₀ * x * v₀⁻¹ ∈ Mhat φ t a Axis.one)
     (h2 : ∀ x ∈ Mhat φ t a Axis.two, v₀ * x * v₀⁻¹ ∈ Mhat φ t a Axis.two) :
-    ∀ x ∈ S φ t a, v₀ * x * v₀⁻¹ ∈ S φ t a := fun x hx =>
+    ∀ x ∈ S φ t a, v₀ * x * v₀⁻¹ ∈ S φ t a := fun _x hx =>
   RootAxisTwoCore.conj_mem_sup h1 h2 hx
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_conj_bot (v₀ : G) :
     ∀ x ∈ (⊥ : Subgroup G), v₀ * x * v₀⁻¹ ∈ (⊥ : Subgroup G) := by
   intro x hx
   rw [Subgroup.mem_bot.mp hx]
   simp
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_aux_normal {m : ℕ} {v₀ : G}
     (hv : ∀ l : L, ((φ.symm ((frobAut K ^ m) (φ l)) : L) : G) = v₀ * l * v₀⁻¹)
     (hvt : v₀ * t * v₀⁻¹ = t) : ∀ k : Fin 7, v₀ ∈ normalizer (ffSeries φ t i k : Set G) := by
@@ -234,6 +260,7 @@ theorem sixFF_ff8_aux_normal {m : ℕ} {v₀ : G}
       (sixFF_ff8_aux_conj_S (sixFF_ff8_aux_conj_Mhat (sixFF_ff8_aux_w_conj hv Axis.one) hMc)
         (sixFF_ff8_aux_conj_Mhat (sixFF_ff8_aux_w_conj hv Axis.two) hMc))
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) (hK : SixKConclusion φ t i) (f7 : FF7Concl φ t i) :
     FF8Concl n φ t i := by

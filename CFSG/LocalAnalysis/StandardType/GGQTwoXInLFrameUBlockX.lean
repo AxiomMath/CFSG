@@ -105,23 +105,23 @@ private theorem ggQTUbx_z0_diag {N : ℕ} {K : Type} [Field K] [Finite K]
       rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_single i]
       · rw [CFSG.SectionRank.OddCover.coe_diagHom, Matrix.GeneralLinearGroup.coe_scalar]
         rw [Matrix.diagonal_apply, Matrix.scalar_apply]
-        simp only [if_true]
+        simp only [ite_true]
         rw [hIconst i hi i0 hi0]
         rw [CFSG.SectionRank.OddCover.coe_diagHom]
         rw [Matrix.diagonal_apply, Matrix.diagonal_apply]
-        simp only [if_true]
-        rw [if_pos hi]
+        simp only [ite_true]
+        rw [ite_eq_left hi]
         rfl
       · intro j _ hij
         rw [CFSG.SectionRank.OddCover.coe_diagHom, Matrix.GeneralLinearGroup.coe_scalar]
         rw [Matrix.diagonal_apply, Matrix.scalar_apply]
-        rw [if_neg (Ne.symm hij)]
+        rw [ite_eq_right (Ne.symm hij)]
         rw [zero_mul]
       · intro hi
         exact absurd (Finset.mem_univ i) hi
     · rw [CFSG.SectionRank.OddCover.coe_diagHom]
       rw [Matrix.diagonal_apply]
-      simp only [if_true, hi, if_false]
+      simp only [ite_true, hi, ite_false]
       simpa using (TableBUE.mem_blockSU).mp hz0_in i i (Or.inl hi)
   · rw [hz0_eq_diag]
     rw [Units.val_mul, Matrix.mul_apply]

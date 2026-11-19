@@ -43,13 +43,13 @@ theorem conjIn_Q_eq {g : G} (hg : g ∈ ctxX t tau x₁ x₂)
     rw [hp.conj_eq_mul_comm_inv hg hgV (hp.Q_le_O ha), hav, inv_inv, smul_eq_mul]
 
 theorem tQ_eq : conjIn (ctxQ t tau x₁ x₂ rho) t = t • (fourGrp x₁ x₂ : Set G) :=
-  hp.conjIn_Q_eq hp.t_mem_X hp.t_comm_V fun v hv => by
+  hp.conjIn_Q_eq CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X hp.t_comm_V fun v hv => by
     obtain ⟨a, ha, hav⟩ := hp.exists_comm_eq v hv
-    exact ⟨a, hp.Y_le_Q ha, hav⟩
+    exact ⟨a, CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha, hav⟩
 
 theorem tauQ_eq (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ = a⁻¹) :
     conjIn (ctxQ t tau x₁ x₂ rho) tau = tau • (fourGrp x₁ x₂ : Set G) :=
-  hp.conjIn_Q_eq hp.tau_mem_X hp.tau_comm_V fun v hv => by
+  hp.conjIn_Q_eq CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X hp.tau_comm_V fun v hv => by
     obtain ⟨q, hq, rfl⟩ := (hp.V_eq_sq v).mp hv
     refine ⟨q⁻¹, inv_mem hq, ?_⟩
     have h := htau q⁻¹ (inv_mem hq)
@@ -65,12 +65,12 @@ include hg
 
 theorem ttauQ_eq :
     conjIn (ctxQ t tau x₁ x₂ rho) (t * tau) = (t * tau) • (fourGrp x₁ x₂ : Set G) := by
-  refine hg.toZ4Pre.conjIn_Q_eq hg.ttau_mem_X (fun v hv => ?_) fun v hv => ?_
+  refine hg.toZ4Pre.conjIn_Q_eq CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.ttau_mem_X (fun v hv => ?_) fun v hv => ?_
   · rw [mul_assoc, hg.tau_comm_V v hv, ← mul_assoc, hg.t_comm_V v hv, mul_assoc]
   · obtain ⟨a, ha, hav⟩ := hg.exists_comm_eq v hv
-    refine ⟨a, hg.Y_le_Q ha, ?_⟩
-    have h1 : z4Comm tau a = 1 := hg.comm_eq_one_iff.mpr (hg.tau_cent a ha)
-    rw [hg.comm_ttau (hg.Y_le_Q ha), h1, hav, one_mul]
+    refine ⟨a, CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha, ?_⟩
+    have h1 : z4Comm tau a = 1 := CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.comm_eq_one_iff.mpr (hg.tau_cent a ha)
+    rw [hg.comm_ttau (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha), h1, hav, one_mul]
 
 end Z4Good
 

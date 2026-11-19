@@ -14,9 +14,10 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G] {b : G} {J B : Subgroup G}
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow_three {x : G} (hx : x ^ 3 = 1) :
     IsPGroup 3 (Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd : orderOf x ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr hx
   rcases (Nat.dvd_prime Nat.prime_three).mp hd with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h]; norm_num)
@@ -24,8 +25,8 @@ theorem isPGroup_zpowers_of_pow_three {x : G} (hx : x ^ 3 = 1) :
 
 theorem exists_gen_of_card_three {D : Subgroup G} (hD : Nat.card D = 3) :
     ∃ d ∈ D, D = Subgroup.zpowers d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial ↥D := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hD]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial ↥D := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hD]; norm_num)
   obtain ⟨d, hd⟩ := exists_ne (1 : ↥D)
   have hdo : orderOf d ∣ 3 := hD ▸ orderOf_dvd_natCard d
   have hdo' : orderOf d = 3 := by
@@ -41,6 +42,7 @@ namespace Data
 variable (hD : Data b J B)
 include hD
 
+omit [Finite G] in
 theorem pow_three : b ^ 3 = 1 := by
   have := pow_orderOf_eq_one b
   rwa [hD.ord] at this
@@ -49,11 +51,13 @@ variable (c : Coord B) (W : Submodule (ZMod 3) (Fin 3 → ZMod 3))
   (hW : ∀ u, u ∈ W ↔ c.d u ∈ B ⊓ J)
 include c hW
 
+omit [Finite G] in
 theorem not_mem_W : c.e b ∉ W := fun hv => hD.hbJ (by
   have := (hW _).mp hv
   rw [c.d_e b hD.hbB] at this
   exact this.2)
 
+omit [Finite G] in
 theorem claimA (hstab : ∀ g ∈ c.X, ∀ w ∈ W, act33 g w ∈ W) {n : G} (hn : n ∈ Nor B)
     (hy : n * b * n⁻¹ ∈ B ⊓ J) : False := by
   obtain ⟨g, hg, hgx⟩ := c.exists_mem_X hn
@@ -106,6 +110,7 @@ theorem orbit (hstab : ∀ g ∈ c.X, ∀ w ∈ W, act33 g w ∈ W)
     · rw [h]
     · rw [h, Subgroup.zpowers_inv]
 
+omit [Finite G] in
 theorem case2 (hCF : ∀ b₁ b₂ : G, IsFullMonomial B b b₁ b₂ → ControlsFusionIn B)
     {u₁ u₂ : Fin 3 → ZMod 3} (hu₁ : u₁ ∈ W) (hu₂ : u₂ ∈ W)
     (hli : LinearIndependent (ZMod 3) ![c.e b, u₁, u₂])

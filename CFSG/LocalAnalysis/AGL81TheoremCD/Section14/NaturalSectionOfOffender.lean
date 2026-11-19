@@ -29,6 +29,7 @@ private noncomputable abbrev autTopRho (W : Subgroup X) [W.Normal] :
   (Setup.rho W ⊤ (by rw [Subgroup.normalizer_eq_top W])).codRestrict (autTop W) fun g =>
     (Setup.range_rho (by rw [Subgroup.normalizer_eq_top W])).le ⟨g, rfl⟩
 
+omit [Finite X] in
 private theorem autTopRho_surjective (W : Subgroup X) [W.Normal] :
     Function.Surjective (autTopRho W) := by
   intro g
@@ -38,6 +39,7 @@ private theorem autTopRho_surjective (W : Subgroup X) [W.Normal] :
   obtain ⟨x, hx⟩ := hg
   exact ⟨x, Subtype.ext hx⟩
 
+omit [Finite X] in
 private theorem autTopRho_ker (W : Subgroup X) [W.Normal] :
     (autTopRho W).ker = (Subgroup.centralizer (W : Set X)).subgroupOf ⊤ := by
   ext g
@@ -50,6 +52,7 @@ private theorem autTopRho_ker (W : Subgroup X) [W.Normal] :
     apply Subtype.ext
     exact (Setup.rho_eq_one_iff (by rw [Subgroup.normalizer_eq_top W]) g).2 h
 
+omit [Finite X] in
 private theorem autTopRho_apply (W : Subgroup X) [W.Normal]
     (g : ↥(⊤ : Subgroup X)) (v : ↥W) :
     ((((autTopRho W) g : MulAut ↥W) v : ↥W) : X) = (g : X) * (v : X) * (g : X)⁻¹ :=
@@ -63,6 +66,7 @@ private noncomputable abbrev autTopPsi (W : Subgroup X) [W.Normal] {n : ℕ}
     ⟨φ.domRestrict ⊤, by
       rw [autTopRho_ker, MonoidHom.ker_domRestrict, hker]⟩
 
+omit [Finite X] in
 private theorem autTopPsi_comp_autTopRho (W : Subgroup X) [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X))
@@ -71,6 +75,7 @@ private theorem autTopPsi_comp_autTopRho (W : Subgroup X) [W.Normal] {n : ℕ}
   (autTopRho W).liftOfRightInverse_comp_apply _ _ ⟨φ.domRestrict ⊤, by
     rw [autTopRho_ker, MonoidHom.ker_domRestrict, hker]⟩ x
 
+omit [Finite X] in
 private theorem autTopPsi_injective (W : Subgroup X) [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X)) :
@@ -89,6 +94,7 @@ private theorem autTopPsi_injective (W : Subgroup X) [W.Normal] {n : ℕ}
   calc autTopRho W x = autTopRho W x * (autTopRho W y)⁻¹ * autTopRho W y := by group
     _ = autTopRho W y := by rw [hxy, one_mul]
 
+omit [Finite X] in
 private theorem autTopPsi_range (W : Subgroup X) [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X)) :
@@ -101,6 +107,7 @@ private theorem autTopPsi_range (W : Subgroup X) [W.Normal] {n : ℕ}
     MonoidHom.ext (autTopPsi_comp_autTopRho W φ hker)]
   rw [MonoidHom.domRestrict_range]
 
+omit [Finite X] in
 private theorem alternatingGroup_le_autTopPsi_range {W L : Subgroup X} [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X))
@@ -109,6 +116,7 @@ private theorem alternatingGroup_le_autTopPsi_range {W L : Subgroup X} [W.Normal
   rw [autTopPsi_range, ← hL]
   exact Subgroup.map_mono le_top
 
+omit [Finite X] in
 private theorem autTopPsi_normalizes_pCore {W L : Subgroup X} [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X))
@@ -124,6 +132,7 @@ private theorem autTopPsi_normalizes_pCore {W L : Subgroup X} [W.Normal] {n : �
   exact Subgroup.mem_map.mpr ⟨y * k * y⁻¹, hNn.conj_mem k hk y, by
     rw [map_mul, map_mul, map_inv]⟩
 
+omit [Finite X] in
 private theorem nonempty_autL_equiv_alt {W L : Subgroup X} [W.Normal] {n : ℕ}
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X))
@@ -167,13 +176,14 @@ private theorem nonempty_autL_equiv_alt {W L : Subgroup X} [W.Normal] {n : ℕ}
     ((QuotientGroup.quotientMulEquivOfEq hker_eq).trans
       (QuotientGroup.quotientKerEquivOfSurjective Φ hΦsurj))⟩
 
+omit [Finite X] in
 private theorem autL_sq_mem {W L : Subgroup X} [W.Normal] {n : ℕ} (hn : 9 ≤ n)
     (φ : X →* Equiv.Perm (Fin n))
     (hker : φ.ker = Subgroup.centralizer (W : Set X))
     (hL : L.map φ = alternatingGroup (Fin n)) :
     ∀ y ∈ autTop W, y ^ 2 ∈ autL W L := by
   have hLs_le_Gs : autL W L ≤ autTop W := InternalSec.autOn_le_autOn_of_le le_top
-  haveI : Nontrivial (Fin n) :=
+  have : Nontrivial (Fin n) :=
     ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by
       intro h; exact (by omega : (0 : ℕ) ≠ 1) (congrArg Fin.val h)⟩⟩
   intro y hy
@@ -183,7 +193,7 @@ private theorem autL_sq_mem {W L : Subgroup X} [W.Normal] {n : ℕ} (hn : 9 ≤ 
   have hsqA : φ.domRestrict ⊤ (x ^ 2) ∈ alternatingGroup (Fin n) := by
     have h := Subgroup.sq_mem_of_index_two (H := alternatingGroup (Fin n))
       alternatingGroup.index_eq_two (φ.domRestrict ⊤ x)
-    simpa [map_pow] using h
+    simp [map_pow]
   obtain ⟨l, hlL, hlφ₀⟩ := Subgroup.mem_map.mp (by rw [hL]; exact hsqA)
   have hlφ : φ l = φ ((x : X) ^ 2) := by
     rw [hlφ₀, MonoidHom.domRestrict_apply, Subgroup.coe_pow]
@@ -212,8 +222,9 @@ private theorem autL_sq_mem {W L : Subgroup X} [W.Normal] {n : ℕ} (hn : 9 ≤ 
   have hfinal : (autTopRho W x) ^ 2 = Subgroup.inclusion hLs_le_Gs lstar := by
     rw [← map_pow, hx2, hρl]
   rw [← Subgroup.coe_pow, hfinal]
-  simpa using lstar.2
+  simp
 
+omit [Finite X] in
 private theorem map_autTopPsi_pCore_inf_alt_eq_bot {W : Subgroup X} [W.Normal] {n : ℕ}
     (hn : 9 ≤ n) (ψ : ↥(autTop W) →* Equiv.Perm (Fin n))
     (hAnorm : ∀ a ∈ alternatingGroup (Fin n),
@@ -266,9 +277,10 @@ private theorem map_autTopPsi_pCore_inf_alt_eq_bot {W : Subgroup X} [W.Normal] {
   simpa using congrArg (fun z : ↥(alternatingGroup (Fin n)) =>
     (z : Equiv.Perm (Fin n))) hmem
 
+omit [Finite X] in
 private theorem map_autTopPsi_pCore_eq_bot {W : Subgroup X} [W.Normal] {n : ℕ} (hn : 9 ≤ n)
     (ψ : ↥(autTop W) →* Equiv.Perm (Fin n))
-    (hψinj : Function.Injective ψ)
+    (_hψinj : Function.Injective ψ)
     (hAnorm : ∀ a ∈ alternatingGroup (Fin n),
       ∀ x ∈ Subgroup.map ψ (pCore 2 ↥(autTop W)),
         a * x * a⁻¹ ∈ Subgroup.map ψ (pCore 2 ↥(autTop W)))
@@ -308,21 +320,22 @@ private theorem autL_eq_quasithinGenFitting {W L : Subgroup X} [W.Normal]
   (CFSG.Quasithin.B1Red.quasithinGenFitting_eq_of_two_quot (Y := autTop W) (L := autL W L)
     (InternalSec.autOn_le_autOn_of_le le_top) hnorm hq hsq hO2).symm
 
+omit [Finite X] in
 private theorem isFFModule_autTop {W A : Subgroup X} [W.Normal]
     (hW : IsElemAbelian 2 W) :
     letI : CommGroup ↥W := commGroupOfElemAbelian hW
-    ∀ (hA : IsElemAbelian 2 A) (hAW : ¬ A ≤ Subgroup.centralizer (W : Set X)),
+    ∀ (_hA : IsElemAbelian 2 A) (_hAW : ¬ A ≤ Subgroup.centralizer (W : Set X)),
       Nat.card W ≤ (Subgroup.centralizer (W : Set X)).relIndex A *
         Nat.card ↥(W ⊓ Subgroup.centralizer (A : Set X)) →
       IsFFModule (autTop W) := by
-  letI : CommGroup ↥W := commGroupOfElemAbelian hW
-  intro hA hAW hoff
+  let : CommGroup ↥W := commGroupOfElemAbelian hW
+  intro _hA _hAW hoff
   have hAn : A ≤ Subgroup.normalizer (W : Set X) := by
     rw [Subgroup.normalizer_eq_top W]
     exact le_top
   refine ⟨autOn A W, InternalSec.autOn_le_autOn_of_le le_top,
-    CFSG.Quasithin.AutOn.autOn_ne_bot_of_not_le_centralizer hAn hAW,
-    CFSG.Quasithin.isElemAbelian2_autOn hW hA hAn, ?_⟩
+    CFSG.Quasithin.AutOn.autOn_ne_bot_of_not_le_centralizer hAn _hAW,
+    CFSG.Quasithin.isElemAbelian2_autOn hW _hA hAn, ?_⟩
   rw [CFSG.Quasithin.AutOn.card_autOn_eq_relIndex_centralizer hAn,
     CFSG.Quasithin.card_fixV_autOn_eq hW hAn]
   exact hoff
@@ -331,38 +344,39 @@ private theorem isAltNaturalSection_autL
     {W L : Subgroup X} [W.Normal] {n : ℕ}
     (hW : IsElemAbelian 2 W) :
     letI : CommGroup ↥W := commGroupOfElemAbelian hW
-    ∀ (hn : 9 ≤ n) (hLF : autL W L = quasithinGenFitting (autTop W))
-      (e : ↥(autL W L) ≃* alternatingGroup (Fin n))
-      (Astar : Subgroup (MulAut ↥W)) (hAstar : IsFFStarOffender (autTop W) Astar),
+    ∀ (_hn : 9 ≤ n) (_hLF : autL W L = quasithinGenFitting (autTop W))
+      (_e : ↥(autL W L) ≃* alternatingGroup (Fin n))
+      (Astar : Subgroup (MulAut ↥W)) (_hAstar : IsFFStarOffender (autTop W) Astar),
       IsAltNaturalSection (autL W L) (commV (autL W L)) n := by
-  letI : CommGroup ↥W := commGroupOfElemAbelian hW
-  intro hn hLF e Astar hAstar
+  let : CommGroup ↥W := commGroupOfElemAbelian hW
+  intro _hn _hLF _e Astar _hAstar
   have h85 : GF2EightFive := EightFive.gf2EightFive_of_b42L42Core EightFive.b42L42Core_holds
   have hV2 : ∀ v : ↥W, v ^ 2 = 1 := fun v => Subtype.ext (hW.2 v v.2)
   have hLs_le_Gs : autL W L ≤ autTop W := InternalSec.autOn_le_autOn_of_le le_top
-  rcases h85 ↥W hV2 (autTop W) (autL W L) hLF n (Or.inr hn) ⟨e⟩ ⟨Astar, hAstar⟩ with
+  rcases h85 ↥W hV2 (autTop W) (autL W L) _hLF n (Or.inr _hn) ⟨_e⟩ ⟨Astar, _hAstar⟩ with
     hnat | ⟨h7, -, -⟩
   · exact isAltNaturalSection_commV_of_le hLs_le_Gs (by omega) hnat
   · omega
 
+omit [Finite X] in
 private theorem naturalSectionOn_of_altNaturalSection {W L : Subgroup X} [W.Normal] {n : ℕ}
     (hW : IsElemAbelian 2 W) :
     letI : CommGroup ↥W := commGroupOfElemAbelian hW
     ∀ (hLs_le_Gs : autL W L ≤ autTop W)
       (θs : ↥(autTop W) →* Equiv.Perm (Fin n))
       (πs : ↥(commV (autL W L)) →* Multiplicative (altHeart n))
-      (hπs : Function.Surjective πs)
-      (hkers : πs.ker = (commV (autL W L) ⊓ fixV (autL W L)).subgroupOf (commV (autL W L)))
-      (hrange : alternatingGroup (Fin n) ≤ (θs.comp (Subgroup.inclusion hLs_le_Gs)).range)
-      (hequiv : ∀ (h : ↥(autTop W)) (u v : ↥(commV (autL W L))),
+      (_hπs : Function.Surjective πs)
+      (_hkers : πs.ker = (commV (autL W L) ⊓ fixV (autL W L)).subgroupOf (commV (autL W L)))
+      (_hrange : alternatingGroup (Fin n) ≤ (θs.comp (Subgroup.inclusion hLs_le_Gs)).range)
+      (_hequiv : ∀ (h : ↥(autTop W)) (u v : ↥(commV (autL W L))),
         (v : ↥W) = (h : MulAut ↥W) (u : ↥W) → ∀ x : evenWeight n,
           Multiplicative.toAdd (πs u) = (x : altHeart n) →
             Multiplicative.toAdd (πs v) =
               (evenWeightPerm (θs h) x : altHeart n))
-      (hinj : Function.Injective θs),
+      (_hinj : Function.Injective θs),
       NaturalSectionOn W L ⊤ n := by
-  letI : CommGroup ↥W := commGroupOfElemAbelian hW
-  intro hLs_le_Gs θs πs hπs hkers hrange hequiv hinj
+  let : CommGroup ↥W := commGroupOfElemAbelian hW
+  intro hLs_le_Gs θs πs _hπs _hkers _hrange _hequiv _hinj
   have hLW : L ≤ Subgroup.normalizer (W : Set X) := by
     rw [Subgroup.normalizer_eq_top W]
     exact le_top
@@ -374,19 +388,19 @@ private theorem naturalSectionOn_of_altNaturalSection {W L : Subgroup X} [W.Norm
   have hιs : ∀ t : ↥⁅W, L⁆,
       (((ι.symm t : ↥(commV (autL W L))) : ↥W) : X) = (t : X) := fun t => by
     rw [← hι, ι.apply_symm_apply]
-  refine ⟨πs.comp ι.symm.toMonoidHom, θs.comp (autTopRho W), hπs.comp ι.symm.surjective,
+  refine ⟨πs.comp ι.symm.toMonoidHom, θs.comp (autTopRho W), _hπs.comp ι.symm.surjective,
     ?_, ?_, ?_, ?_⟩
   · ext t
     have key : t ∈ (πs.comp ι.symm.toMonoidHom).ker ↔
         ((ι.symm t : ↥(commV (autL W L))) : ↥W) ∈ fixV (autL W L) := by
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
-        ← MonoidHom.mem_ker, hkers, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+        ← MonoidHom.mem_ker, _hkers, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
       exact ⟨fun h => h.2, fun h => ⟨(ι.symm t).2, h⟩⟩
     rw [key, CFSG.CGT.PushingUpLit.BHS5.mem_fixV_autOn_iff hW hLW, hιs,
       Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨fun h => ⟨t.2, h⟩, fun h => h.2⟩
   · intro σ hσ
-    obtain ⟨l, hl⟩ := hrange hσ
+    obtain ⟨l, hl⟩ := _hrange hσ
     obtain ⟨p, hpL, hpl⟩ :=
       (Setup.mem_autOn_iff_rho (by rw [Subgroup.normalizer_eq_top W]) (X := L)
         (le_top : L ≤ ⊤)).1 l.2
@@ -399,12 +413,12 @@ private theorem naturalSectionOn_of_altNaturalSection {W L : Subgroup X} [W.Norm
       _ = θs (Subgroup.inclusion hLs_le_Gs l) := by rw [hρp]
       _ = σ := hl
   · intro m u u' hu' x hx
-    refine hequiv (autTopRho W m) (ι.symm u) (ι.symm u') ?_ x hx
+    refine _hequiv (autTopRho W m) (ι.symm u) (ι.symm u') ?_ x hx
     apply Subtype.ext
     rw [autTopRho_apply, hιs, hιs]
     exact hu'
   · intro m hm
-    have h1 : autTopRho W m = 1 := hinj (hm.trans (map_one θs).symm)
+    have h1 : autTopRho W m = 1 := _hinj (hm.trans (map_one θs).symm)
     have hmem : m ∈ (autTopRho W).ker := h1
     rw [autTopRho_ker, Subgroup.mem_subgroupOf] at hmem
     exact hmem
@@ -419,12 +433,12 @@ theorem naturalSectionOn_top_of_offender
       Nat.card ↥(W ⊓ Subgroup.centralizer (A : Set X))) :
     NaturalSectionOn W L ⊤ n := by
   classical
-  haveI : W.Normal := hWn
-  haveI : L.Normal := hLn
-  haveI : Nontrivial (Fin n) :=
+  have : W.Normal := hWn
+  have : L.Normal := hLn
+  have : Nontrivial (Fin n) :=
     ⟨⟨⟨0, by omega⟩, ⟨1, by omega⟩, by
       intro h; exact (by omega : (0 : ℕ) ≠ 1) (congrArg Fin.val h)⟩⟩
-  letI : CommGroup ↥W := commGroupOfElemAbelian hW
+  let : CommGroup ↥W := commGroupOfElemAbelian hW
   have hLs_le_Gs : autL W L ≤ autTop W := InternalSec.autOn_le_autOn_of_le le_top
   have hψinj := autTopPsi_injective W φ hker
   have hAnorm := autTopPsi_normalizes_pCore φ hker hL

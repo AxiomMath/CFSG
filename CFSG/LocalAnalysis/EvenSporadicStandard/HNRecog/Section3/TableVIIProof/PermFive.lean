@@ -36,7 +36,7 @@ theorem tableVII_perm_card_alternating : Nat.card (alternatingGroup (Fin 5)) = 6
 
 theorem tableVII_perm_alternating_le {N : Subgroup (Perm (Fin 5))} (hN : N.Normal)
     (hne : N ≠ ⊥) : alternatingGroup (Fin 5) ≤ N := by
-  haveI := hN
+  have := hN
   exact Perm.alternatingGroup_le_of_normal (by simp) ((Subgroup.nontrivial_iff_ne_bot N).2 hne)
 
 theorem tableVII_perm_eq_top_of_normal {N : Subgroup (Perm (Fin 5))} (hN : N.Normal)

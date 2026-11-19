@@ -31,8 +31,8 @@ theorem exists_isSylowOf_two_of_index_eq_three (k : Sec7Core4 G) {H : Subgroup G
           CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H) := by
   subst hPb
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hPHM, hPp, -⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hP
   have hPH : P ≤ H := hPHM.trans inf_le_left
   have hP1 : P ≠ ⊥ := by
@@ -40,7 +40,7 @@ theorem exists_isSylowOf_two_of_index_eq_three (k : Sec7Core4 G) {H : Subgroup G
     rw [bot_subgroupOf, Subgroup.map_bot, card_bot] at h27
     exact absurd h27 (by norm_num)
   obtain ⟨-, -, hFn, -⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hFn
+  have := hFn
   set K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H with hK₀
   set F : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀) with hF
   set N : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' K₀) with hN

@@ -81,6 +81,7 @@ theorem mat_assoc4 (A B : Fin 4 → Fin 4 → ZMod 2) (c : Fin 4 → ZMod 2) (s 
   refine Finset.sum_congr rfl fun u _ => Finset.sum_congr rfl fun t _ => ?_
   ring
 
+omit [SMulCommClass A5 (ZMod 2) W] in
 theorem nat_case (ψ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] W) (o : ℕ) (om : Fin 4 → Fin 4 → ZMod 2)
     (hψ : ∀ g c, ψ (fun s => ∑ t, bm o g s t * c t) = g • ψ c)
     (hcomm : ∀ (g : A5) (l k : Fin 4), ∑ t, om l t * bm o g t k = ∑ t, bm o g l t * om t k)
@@ -123,6 +124,7 @@ theorem nat_case (ψ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] W) (o : ℕ) (om : Fin 
   · rw [Nat.card_congr ψ.symm.toEquiv]
     simp
 
+omit [SMulCommClass A5 (ZMod 2) W] in
 theorem delta_case (ψ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] W)
     (hψ : ∀ g c, ψ (fun s => ∑ t, bm 11 g s t * c t) = g • ψ c) :
     ∃ φ : W ≃+ ↥(evenWeight 5), ∀ (g : A5) (w : W) (i : Fin 5),

@@ -33,6 +33,7 @@ theorem Hyp79.isCentralProductOfL3_classGroup (H : Hyp79 M V Q) {U : Subgroup G}
   rw [← hQF]
   exact hk
 
+omit [Finite G] in
 theorem commute_of_closure {S T : Set G} (h : ∀ x ∈ S, ∀ y ∈ T, x * y = y * x) :
     ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure T, x * y = y * x := by
   have h1 : ∀ x ∈ S, ∀ y ∈ Subgroup.closure T, x * y = y * x := by
@@ -51,6 +52,7 @@ theorem commute_of_closure {S T : Set G} (h : ∀ x ∈ S, ∀ y ∈ T, x * y = 
       Subgroup.mem_centralizer_iff.mpr fun z hz => (h1 s hs z hz).symm
   exact (Subgroup.mem_centralizer_iff.mp (hle hx) y hy).symm
 
+omit [Finite G] in
 theorem isCentralProductOf_of_fintype {P : Subgroup G → Prop} {Q Z : Subgroup G} {ι : Type}
     [Fintype ι] [Nonempty ι] (D : ι → Subgroup G) (hle : ∀ i, D i ≤ Q) (hP : ∀ i, P (D i))
     (hZ : ∀ i, (Subgroup.center ↥(D i)).map (D i).subtype = Z)
@@ -91,10 +93,10 @@ theorem Hyp79.exists_isCentralProductOfL3 (H : Hyp79 M V Q) :
     rw [hf] at h
     exact classOf_eq_of_mem (Dm U) h (Dm U')
   let ι : Type := ↥(Set.range f)
-  haveI : Finite ι := (Set.finite_range f).to_subtype
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := (Set.finite_range f).to_subtype
+  have : Fintype ι := Fintype.ofFinite ι
   let U₀ : ↥(Opp V Q) := ⟨conjSubgroup g₀ V, ⟨g₀, rfl⟩, hg₀Q, hg₀V⟩
-  haveI : Nonempty ι := ⟨⟨f U₀, U₀, rfl⟩⟩
+  have : Nonempty ι := ⟨⟨f U₀, U₀, rfl⟩⟩
   obtain ⟨rep, hrep⟩ : ∃ rep : ι → ↥(Opp V Q), ∀ c, f (rep c) = c.1 :=
     ⟨fun c => Classical.choose c.2, fun c => Classical.choose_spec c.2⟩
   have hcp : ∀ c : ι, ∃ k : ℕ,
@@ -123,8 +125,8 @@ theorem Hyp79.exists_isCentralProductOfL3 (H : Hyp79 M V Q) :
         exact classOf_eq_of_mem_of_mem hmem hU'
       exact Subtype.ext ((hrep c).symm.trans (h1.trans (hrep c')))
   let J : Type := Σ c : ι, Fin (k c)
-  haveI : Nonempty J := ⟨⟨Classical.arbitrary ι, ⟨0, (hk _).1⟩⟩⟩
-  haveI : Fintype J := inferInstance
+  have : Nonempty J := ⟨⟨Classical.arbitrary ι, ⟨0, (hk _).1⟩⟩⟩
+  have : Fintype J := inferInstance
   refine ⟨n, Fintype.card J, hVn, isCentralProductOf_of_fintype (fun j : J => Df j.1 j.2)
     ?_ ?_ ?_ ?_ ?_⟩
   · intro j

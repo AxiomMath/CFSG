@@ -41,6 +41,7 @@ theorem isConnectedAlgebraicSubgroup_closureSubgroup (H : Subgroup (WithConv (A 
     exact pointsZero_pointsIdeal (subgroupPoints H)
   exact isConnectedAlgebraicSubgroup _ hclosed.isPointConstructible hirr'
 
+omit [IsAlgClosed k] [Algebra.FiniteType k A] in
 theorem closureSubgroup_le_of_isPointClosed (H Zp : Subgroup (WithConv (A →ₐ[k] k)))
     (hZ : IsPointClosed k (subgroupPoints Zp)) (hHZ : H ≤ Zp) : closureSubgroup H ≤ Zp := by
   obtain ⟨Zc, hZc, hZeq⟩ := hZ

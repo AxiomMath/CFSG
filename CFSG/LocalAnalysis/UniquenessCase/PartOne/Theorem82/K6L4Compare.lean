@@ -9,6 +9,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.K6L4
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem ker_of_card (f : Multiplicative (Fin 4 → ZMod 3) →* Y) (h27 : Nat.card f.range = 27)
     (hconst : ∀ t : ZMod 3, f (Multiplicative.ofAdd fun _ => t) = 1) :
     ∀ v, f v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t := by
@@ -73,11 +74,13 @@ private lemma neg_eq_add_self (p : Fin 4 → ZMod 3) : -p = p + p := by
 private lemma neg_eq_add_self_zmod (x : ZMod 3) : -x = x + x := by
   decide +revert
 
+omit [Finite Y] in
 private lemma map_const_eq_one {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
     (t : ZMod 3) : c₀ (Multiplicative.ofAdd (fun _ : Fin 4 => t)) = 1 :=
   (h₀k _).mpr ⟨t, rfl⟩
 
+omit [Finite Y] in
 private lemma map_sub_const {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
     (a : Fin 4 → ZMod 3) :
@@ -89,6 +92,7 @@ private lemma map_sub_const {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     rw [sub_eq_add_neg]
   rw [h, ofAdd_add, map_mul, map_const_eq_one h₀k, mul_one]
 
+omit [Finite Y] in
 private lemma exists_lift_column {A : Subgroup Y}
     {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y} (hc : IsSumZeroCoords A c)
     (h₀r : c₀.range = A) (i : Fin 4) :
@@ -100,12 +104,14 @@ private lemma exists_lift_column {A : Subgroup Y}
   obtain ⟨x, hx⟩ := hAi
   exact ⟨Multiplicative.toAdd x, by simpa using hx⟩
 
+omit [Finite Y] in
 private lemma action_eq_of_columns_zero {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {N : (Fin 4 → ZMod 3) → (Fin 4 → ZMod 3)} (hN0 : N 0 = 0) :
     c (Multiplicative.ofAdd (0 : Fin 4 → ZMod 3)) = c₀ (Multiplicative.ofAdd (N 0)) := by
   rw [hN0]
   simp
 
+omit [Finite Y] in
 private lemma action_eq_of_columns_add {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {N : (Fin 4 → ZMod 3) → (Fin 4 → ZMod 3)}
     (hNadd : ∀ p q, N (p + q) = N p + N q) {p q : Fin 4 → ZMod 3}
@@ -114,6 +120,7 @@ private lemma action_eq_of_columns_add {c c₀ : Multiplicative (Fin 4 → ZMod 
     c (Multiplicative.ofAdd (p + q)) = c₀ (Multiplicative.ofAdd (N (p + q))) := by
   rw [hNadd p q, ofAdd_add, map_mul, hp, hq, ofAdd_add, map_mul]
 
+omit [Finite Y] in
 private lemma action_eq_of_columns_neg {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {N : (Fin 4 → ZMod 3) → (Fin 4 → ZMod 3)} (hNneg : ∀ p, N (-p) = N p + N p)
     {p : Fin 4 → ZMod 3} (hp : c (Multiplicative.ofAdd p) = c₀ (Multiplicative.ofAdd (N p))) :
@@ -127,6 +134,7 @@ private lemma action_eq_of_columns_neg {c c₀ : Multiplicative (Fin 4 → ZMod 
     _ = c₀ (Multiplicative.ofAdd (N p + N p)) := by rw [ofAdd_add]
     _ = c₀ (Multiplicative.ofAdd (N (-p))) := by rw [hNneg p]
 
+omit [Finite Y] in
 private lemma action_eq_of_columns_generator {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     {N : (Fin 4 → ZMod 3) → (Fin 4 → ZMod 3)}
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
@@ -146,11 +154,12 @@ private lemma action_eq_of_columns_single {T : AddSubgroup (Fin 4 → ZMod 3)}
       a.val • (Pi.single i (1 : ZMod 3) : Fin 4 → ZMod 3) := by
     funext j
     by_cases hj : j = i
-    · subst hj; simp [ZMod.natCast_zmod_val]
+    · subst hj; simp
     · rw [Pi.single_eq_of_ne hj, Pi.smul_apply, Pi.single_eq_of_ne hj, smul_zero]
   rw [h1]
   exact nsmul_mem (hgen i) a.val
 
+omit [Finite Y] in
 private lemma action_eq_of_columns {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
     {M : Fin 4 → Fin 4 → ZMod 3} {w : Fin 4 → Fin 4 → ZMod 3}
@@ -189,6 +198,7 @@ private lemma action_eq_of_columns {c c₀ : Multiplicative (Fin 4 → ZMod 3) �
   rw [show v = ∑ i, Pi.single i (v i) from (sum_single_eq v).symm]
   exact sum_mem (fun i _ => hsingle i (v i))
 
+omit [Finite Y] in
 private lemma row_sum_eq_zero {A : Subgroup Y}
     {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y} (hc : IsSumZeroCoords A c)
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
@@ -211,6 +221,7 @@ private lemma row_sum_eq_zero {A : Subgroup Y}
   rw [show ∑ i, M j i = t from congrFun ht' j]
   exact ht0
 
+omit [Finite Y] in
 private lemma inj_of_action {A : Subgroup Y}
     {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y} (hc : IsSumZeroCoords A c)
     {M : Fin 4 → Fin 4 → ZMod 3}
@@ -230,6 +241,7 @@ private lemma inj_of_action {A : Subgroup Y}
   rw [ht', ht0]
   rfl
 
+omit [Finite Y] in
 theorem compare_columns {A : Subgroup Y} {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (hc : IsSumZeroCoords A c) (h₀r : c₀.range = A)
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t) :
@@ -255,6 +267,7 @@ private lemma sum_sum_mul_eq_zero (M : Fin 4 → Fin 4 → ZMod 3)
     Finset.sum_congr rfl (fun i _ => Equiv.sum_comp τ (fun j => M j i * v i))]
   simp [← Finset.sum_mul, hcol]
 
+omit [Finite Y] in
 private lemma eq_of_const_ker {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
     {F G : Fin 4 → ZMod 3} (hF : (∑ j, F j) = 0) (hG : (∑ j, G j) = 0)
@@ -280,6 +293,7 @@ private lemma eq_of_const_ker {c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
   funext j
   exact sub_eq_zero.mp (by simpa [ht0] using congrFun ht' j)
 
+omit [Finite Y] in
 private lemma mem_normalizer_of_conj {A : Subgroup Y}
     {c : Multiplicative (Fin 4 → ZMod 3) →* Y} (hc : IsSumZeroCoords A c) {n : Y}
     (τ : Equiv.Perm (Fin 4))
@@ -335,15 +349,16 @@ private lemma matrix_eq_of_single (M : Fin 4 → Fin 4 → ZMod 3)
   rw [hF, hG] at h
   exact h
 
+omit [Finite Y] in
 theorem compare_intertwine {A : Subgroup Y} {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
-    (hc : IsSumZeroCoords A c) (h₀r : c₀.range = A)
+    (hc : IsSumZeroCoords A c) (_h₀r : c₀.range = A)
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
     (h₀n : ∀ n ∈ Subgroup.normalizer (A : Set Y), ∃ ρ : Equiv.Perm (Fin 4), ∀ v,
       n * c₀ v * n⁻¹ = c₀ (Multiplicative.ofAdd fun i => Multiplicative.toAdd v (ρ i)))
     (M : Fin 4 → Fin 4 → ZMod 3)
     (hM : ∀ v : Fin 4 → ZMod 3, c (Multiplicative.ofAdd v) =
       c₀ (Multiplicative.ofAdd fun j => ∑ i, M j i * v i))
-    (hrow : ∀ j, ∑ i, M j i = 0) (hcol : ∀ i, ∑ j, M j i = 0) :
+    (_hrow : ∀ j, ∑ i, M j i = 0) (hcol : ∀ i, ∑ j, M j i = 0) :
     ∀ σ : Equiv.Perm (Fin 4), ∃ ρ : Equiv.Perm (Fin 4), ∀ j i, M j (σ i) = M (ρ j) i := by
   intro σ
   obtain ⟨n, hn⟩ := hc.2.2.2 σ.symm
@@ -452,6 +467,7 @@ private lemma zmod_mul_sub_neg (ε a b : ZMod 3) :
     ε * (a - b) = -ε * b - -ε * a := by
   decide +revert
 
+omit [Finite Y] in
 theorem compare_coords {A : Subgroup Y} {c c₀ : Multiplicative (Fin 4 → ZMod 3) →* Y}
     (hc : IsSumZeroCoords A c) (h₀r : c₀.range = A)
     (h₀k : ∀ v, c₀ v = 1 ↔ ∃ t : ZMod 3, Multiplicative.toAdd v = fun _ => t)
@@ -485,7 +501,7 @@ theorem compare_coords {A : Subgroup Y} {c c₀ : Multiplicative (Fin 4 → ZMod
                   (g := fun i => if i = τ j then ε₁ * w i else 0)
               rw [← h]
               exact Finset.sum_congr rfl (fun i _ => by
-                by_cases hh : i = τ j <;> simp [hh] <;> ring)
+                by_cases hh : i = τ j <;> simp [hh])
         _ = ε₁ * (∑ i, w i) - ε₁ * w (τ j) := by
               rw [Finset.mul_sum, Finset.sum_ite_eq']
               simp

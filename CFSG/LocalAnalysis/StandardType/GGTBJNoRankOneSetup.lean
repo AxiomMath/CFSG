@@ -18,7 +18,7 @@ open CFSG.Assembly
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem l48nS_normalizerMonoidHom_mem_subgroupOf {G : Type*} [Group G]
-    {J L : Subgroup G} (hJL : J ≤ L) (g : Subgroup.normalizer (L : Set G))
+    {J L : Subgroup G} (_hJL : J ≤ L) (g : Subgroup.normalizer (L : Set G))
     (hgJ : (g : G) ∈ Subgroup.normalizer (J : Set G)) {j : ↥L} (hj : (j : G) ∈ J) :
     L.normalizerMonoidHom g j ∈ J.subgroupOf L := by
   rw [Subgroup.mem_subgroupOf, Subgroup.normalizerMonoidHom_apply_apply_coe]
@@ -51,7 +51,7 @@ theorem ggRankOne_setup {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgro
   obtain ⟨hxL, hx1, hxp, -⟩ := GGConfig.data_L hcfg
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hS.2.2.2.1.1
   obtain ⟨hp, -, -, -, b, hbB, hbnotinner⟩ := ggRankOne_card hcfg hn hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ₀ : ↥B →* MulAut ↥L := L.normalizerMonoidHom.comp (Subgroup.inclusion hBL)
   let A : Subgroup (MulAut ↥L) := φ₀.range
   have hmemker : ∀ c : ↥B, c ∈ φ₀.ker ↔ (c : G) ∈ Subgroup.centralizer (L : Set G) := by
@@ -102,7 +102,7 @@ theorem ggRankOne_setup {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgro
     show φ₀ d ^ p = 1
     rw [← map_pow, hdp, map_one]
   have hae : a * e = e * a := by
-    haveI : IsMulCommutative ↥B := hB.1
+    have : IsMulCommutative ↥B := hB.1
     show φ₀ bB * φ₀ d = φ₀ d * φ₀ bB
     rw [← map_mul, ← map_mul]
     exact congrArg φ₀ (mul_comm' bB d)

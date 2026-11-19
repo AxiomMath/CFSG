@@ -24,19 +24,19 @@ variable
 theorem wcOn_reeGamma_three : WCOn 3 (ReeTag.F4.reeGamma K a) := by
   classical
   have h2 : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : CharP (ZMod 2) ReeTag.F4.prime := ZMod.charP 2
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : CharP (ZMod 2) ReeTag.F4.prime := ZMod.charP 2
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   let ι : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   have h0 : ∀ c : ZMod 2, ι (c ^ 2 ^ 0) = (ι c) ^ 2 ^ a := by
     intro c
-    rcases h2 c with rfl | rfl <;> simp [pow_ne_zero]
+    rcases h2 c with rfl | rfl <;> simp
   have h1 : ∀ c : ZMod 2, ι (c ^ 2 ^ (0 + 1)) = (ι c) ^ 2 ^ (a + 1) := by
     intro c
-    rcases h2 c with rfl | rfl <;> simp [pow_ne_zero]
+    rcases h2 c with rfl | rfl <;> simp
   obtain ⟨x, y, h, -, -, hcomm, -, -, hcard, -, -, -⟩ :=
     CFSG.SectionRank.Tits_sylow3_cubic_witness (K := ZMod 2) (by simp)
   let φ : ↥(commutator ↥(reeFixed ReeTag.F4 (ZMod 2) 0)) →* ↥(ReeTag.F4.reeGamma K a) :=
@@ -56,8 +56,8 @@ theorem wcOn_reeGamma_three : WCOn 3 (ReeTag.F4.reeGamma K a) := by
 theorem wcOn_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     WCOn p (ReeTag.F4.reeGamma K a) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   by_cases hp3 : p = 3
   · subst hp3
     exact wcOn_reeGamma_three
@@ -94,8 +94,8 @@ theorem crossReeTits_twistedF4 :
   obtain ⟨-, -, -, rfl, -, -⟩ := hadm
   obtain ⟨a, K, _, _, _, ha, hfa, hK, ⟨e⟩⟩ := CFSG.RankThree.PartOne.KEXC.exists_gamma_of_model hmodel
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hfa]; exact hK
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   exact WCOn.of_mulEquiv e (wcOn_reeGamma hK' hp2)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure.ExcCross

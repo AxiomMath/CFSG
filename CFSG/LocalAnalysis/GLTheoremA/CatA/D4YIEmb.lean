@@ -17,6 +17,7 @@ variable {H : Type} [Group H] [Finite H] {K : Subgroup H}
 @[expose] def FixEmb (K : Subgroup H) (c : H) (J : Type) [Group J] : Prop :=
   ∃ j : J →* H, Function.Injective j ∧ (∀ x, j x ∈ K) ∧ ∀ x, c * j x = j x * c
 
+omit [Finite H] in
 theorem fixEmb_transport {J : Type} [Group J] {K₀ : Type} [Field K₀] [Finite K₀] [CharP K₀ 2]
     (Φ : ↥K ≃* Om8 K₀) {c : H} (hcN : c ∈ Subgroup.normalizer (K : Set H)) (j : J →* Om8 K₀)
     (hj : Function.Injective j) (hfix : ∀ x, (MulAut.congr Φ (conjAut K c hcN)) (j x) = j x) :
@@ -32,6 +33,7 @@ theorem fixEmb_transport {J : Type} [Group J] {K₀ : Type} [Field K₀] [Finite
   calc c * (Φ.symm (j x) : H) = c * (Φ.symm (j x) : H) * c⁻¹ * c := by group
     _ = (Φ.symm (j x) : H) * c := by rw [h3]
 
+omit [Finite H] in
 theorem FixEmb.rank4 {c : H} {J : Type} [Group J] (h : FixEmb K c J)
     (hJ : ∃ E : Subgroup J, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4) :
     ∃ E : Subgroup H, E ≤ K ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4 ∧ ∀ y ∈ E, c * y = y * c := by
@@ -44,6 +46,7 @@ theorem FixEmb.rank4 {c : H} {J : Type} [Group J] (h : FixEmb K c J)
   · rintro _ ⟨x, -, rfl⟩
     exact hjc x
 
+omit [Finite H] in
 theorem FixEmb.rankW {c : H} {J : Type} [Group J] (h : FixEmb K c J) {m : ℕ}
     (hJ : ∃ E W : Subgroup J, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ m ∧ IsPGroup 2 W ∧ W ≠ ⊥ ∧
       E ≤ Subgroup.normalizer (W : Set J)) :

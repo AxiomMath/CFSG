@@ -430,7 +430,7 @@ public theorem lemma7_2_local {G : Type*} [Group G] [Finite G] (p : ℕ) [Fact p
   let P0G : Subgroup G := (P0 : Subgroup (↥P)).map P.subtype
   have hP0p : IsPGroup p P0G := by
     simpa [P0G] using
-      IsPGroup.map (p := p) (H := (P0 : Subgroup (↥P))) P0.isPGroup' P.subtype
+      IsPGroup.map (p := p) (H := (P0 : Subgroup (↥P))) P0.isPGroup P.subtype
   have hP0_le_P : P0G ≤ P := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩

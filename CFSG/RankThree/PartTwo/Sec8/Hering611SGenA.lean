@@ -9,6 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_fixed_mem_coset {B N : Subgroup G} (hB : IsPGroup 3 B)
     (hN3 : ¬ 3 ∣ Nat.card N) (hBN : B ≤ Subgroup.normalizer (N : Set G)) {y : G}
     (hy : ∀ b ∈ B, y⁻¹ * (b * y * b⁻¹) ∈ N) :
@@ -20,7 +21,7 @@ theorem exists_fixed_mem_coset {B N : Subgroup G} (hB : IsPGroup 3 B)
       group
     rw [hfac]
     exact N.mul_mem (hy b hb) hconj
-  letI : MulAction ↥B ↥N :=
+  let : MulAction ↥B ↥N :=
     { smul := fun b n => ⟨y⁻¹ * ((b : G) * (y * (n : G)) * (b : G)⁻¹), hmem b b.2 n n.2⟩
       one_smul := fun n => Subtype.ext (by
         show y⁻¹ * ((1 : G) * (y * (n : G)) * (1 : G)⁻¹) = (n : G)

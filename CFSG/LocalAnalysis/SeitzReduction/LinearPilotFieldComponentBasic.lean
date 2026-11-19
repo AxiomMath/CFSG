@@ -133,7 +133,7 @@ theorem exists_zmod_two_hom_of_isCyclic {C A : Type*} [Group C] [Finite C] [Grou
   have hHcyc : IsCyclic φ.range := inferInstance
   have hrs : φ.rangeRestrict s ≠ 1 := fun h => hs1 (congrArg Subtype.val h)
   have h2 : 2 ∣ Nat.card φ.range := by
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hsS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hsS⟩
     have hk' : φ.rangeRestrict s ^ 2 ^ k = 1 := by
       rw [← map_pow]
       have : s ^ 2 ^ k = 1 := congrArg Subtype.val hk

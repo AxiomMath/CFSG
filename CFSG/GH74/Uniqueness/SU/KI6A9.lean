@@ -110,7 +110,7 @@ theorem Cfg.ki6TwoA9 (h : Cfg H T H₀) {L : Subgroup H} (hL : IsComponent L)
       · exact hk1 h1
       · exact hkt h1
     have hk2 : ∃ n : ℕ, k ^ (2 ^ n) = 1 := by
-      obtain ⟨n, hn⟩ := T.isPGroup' ⟨k, hkT⟩
+      obtain ⟨n, hn⟩ := T.isPGroup ⟨k, hkT⟩
       exact ⟨n, by simpa using congrArg Subtype.val hn⟩
     have hint : ∀ g : H, g ∈ zpowers (x : H) → g ∈ zpowers k → g ∈ zpowers t := by
       intro g hg1 hg2

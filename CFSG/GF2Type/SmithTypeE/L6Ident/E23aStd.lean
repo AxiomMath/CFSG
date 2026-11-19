@@ -102,7 +102,7 @@ theorem C8_eq_span :
     exact Submodule.subset_span ⟨j, rfl⟩
   · rintro _ ⟨j, rfl⟩ m hm
     show (Pi.single (c8Pos j) (1 : ZMod 2) : V) m = 0
-    rw [Pi.single_apply, if_neg]
+    rw [Pi.single_apply, ite_eq_right]
     rintro rfl
     exact hm (c8Pos_mem j)
 
@@ -237,7 +237,7 @@ theorem cent2_le_closure_std (h34a : SmithL6E34a) [IsSimpleGroup G] (hw : S.widt
     have hcC8 : φ (S.cl c) ∈ C8 := by
       rw [hφc, decode_two_pow]
       intro j hj
-      rw [Pi.single_apply, if_neg]
+      rw [Pi.single_apply, ite_eq_right]
       rintro rfl
       exact hj hm
     obtain ⟨c', hc'Q, hc't, hc'u, hc'v⟩ :=

@@ -14,14 +14,14 @@ theorem finrank_eq {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     Module.finrank (ZMod p) (Additive (Quotient.Pbar P)) = 2 * n := by
   have hp : p.Prime := hc.oddPrimeClassTwoAction.setting.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   show Module.finrank (ZMod p) (Additive (Quotient.Pbar P)) = 2 * n
   have hZ : Nat.card (Subgroup.center ↥P) = p := hc.extraspecial.2.2.2
   have hfin : Finite (Additive (Quotient.Pbar P)) :=
     inferInstanceAs (Finite (↥P ⧸ Subgroup.center ↥P))
-  haveI : Module.Finite (ZMod p) (Additive (Quotient.Pbar P)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (Additive (Quotient.Pbar P)) := Module.Finite.of_finite
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥P)
   have hq : Nat.card (Quotient.Pbar P) * p = p ^ (2 * n) * p := by
     rw [← hZ, ← hmul, hn, hZ]; ring

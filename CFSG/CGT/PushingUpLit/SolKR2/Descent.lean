@@ -423,7 +423,7 @@ theorem R2First_of_core (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInp
   have hAD : A ≠ D := by
     rintro rfl
     exact had (Lam.comm_self h hA a ha d hd)
-  have hS2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup'.map M.subtype
+  have hS2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup.map M.subtype
   have hadS : a * d ∈ (S : Subgroup M).map M.subtype :=
     ((S : Subgroup M).map M.subtype).mul_mem (hAS ha) (hDS hd)
   obtain ⟨m, hm⟩ : ∃ m : ℕ, orderOf (a * d) = 2 ^ m := by

@@ -44,9 +44,9 @@ theorem modelBGen_hr [Finite K] (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ
     (hi₁ : i₁ ≠ highNode τ) :
     ModelBGen p τ.rank ↥(adjointGroup τ K) (entrywiseAdjointAut τ σ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set j₀ := highNode τ with hj₀
   set ψ := entrywiseAdjointAut τ σ with hψ
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ

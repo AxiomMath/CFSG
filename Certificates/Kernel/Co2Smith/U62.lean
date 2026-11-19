@@ -82,6 +82,7 @@ theorem foldl_unpack {G : Array (Array Nat)} {GK : List Nat}
     rw [hG, mulRows_unpack]
     exact foldl_unpack hG w _
 
+set_option exponentiation.threshold 616 in
 theorem wr_unpack {G : Array (Array Nat)} {GK : List Nat}
     (hG : ∀ j, G.getD j (idRows 22) = unpackR 22 (GK.getD j IDP)) (w : List Nat) :
     u62WR G w = unpackR 22 (wrK GK w) := by

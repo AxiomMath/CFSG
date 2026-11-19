@@ -20,7 +20,7 @@ theorem fi22_lhRoot_closure_card_le (i : Fin 2) :
   let : MulAction J D := MulAction.compHom D (Pair.conjPerm pair_D)
   have horbit : MulAction.orbit J (lhRoot i) = lhOrbit i := by
     ext T
-    simp only [MulAction.mem_orbit_iff, lhOrbit, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, lhOrbit, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, rfl⟩
       exact ⟨g, rfl⟩

@@ -523,7 +523,7 @@ namespace Setting
 variable {G : Type u} [Group G] [Finite G] (σ : Setting G)
 
 omit [Finite G] in
-private theorem isPGroup_two_D_nc : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+private theorem isPGroup_two_D_nc : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
 
 private theorem x_mem_D_nc (hσ : σ.IsValid) : σ.x ∈ σ.D := σ.T_le_D hσ σ.x_mem_T
 

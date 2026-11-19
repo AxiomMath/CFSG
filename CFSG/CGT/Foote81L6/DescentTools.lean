@@ -15,12 +15,12 @@ theorem zred_natCast (b k : ℕ) : zred b k = k := map_natCast _ k
 
 theorem zred_surjective (b : ℕ) : Function.Surjective (zred b) := by
   intro x
-  haveI : NeZero (2 ^ b) := ⟨by positivity⟩
+  have : NeZero (2 ^ b) := ⟨by positivity⟩
   exact ⟨(x.val : ZMod (2 ^ (b + 1))), by rw [zred_natCast, ZMod.natCast_zmod_val]⟩
 
 theorem zred_eq_zero_iff (b : ℕ) {i : ZMod (2 ^ (b + 1))} :
     zred b i = 0 ↔ i = 0 ∨ i = ((2 ^ b : ℕ) : ZMod (2 ^ (b + 1))) := by
-  haveI : NeZero (2 ^ (b + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (b + 1)) := ⟨by positivity⟩
   constructor
   · intro h
     have hv : zred b (i.val : ZMod (2 ^ (b + 1))) = 0 := by rwa [ZMod.natCast_zmod_val]
@@ -102,12 +102,12 @@ section Lift
 variable {G : Type*} [Group G] [Finite G]
 
 theorem isConj_or_isConj_mul_of_isConj_mk_sup {O : Subgroup G} [O.Normal]
-    (hO : Odd (Nat.card O)) {a : G} (ha2 : a * a = 1) (haO : ∀ g : G, g * a * g⁻¹ * a⁻¹ ∈ O)
+    (hO : Odd (Nat.card O)) {a : G} (ha2 : a * a = 1) (_haO : ∀ g : G, g * a * g⁻¹ * a⁻¹ ∈ O)
     {M : Subgroup G} [M.Normal] (hM : M = O ⊔ zpowers a) {x y : G}
     (hx : ∃ k : ℕ, x ^ (2 ^ k) = 1) (hy : ∃ k : ℕ, y ^ (2 ^ k) = 1) (hya : y * a = a * y)
     (hxy : IsConj (QuotientGroup.mk x : G ⧸ M) (QuotientGroup.mk y)) :
     IsConj x y ∨ IsConj x (y * a) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := isConj_iff.1 hxy
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective g
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul,
@@ -162,7 +162,7 @@ theorem isConj_or_isConj_mul_of_isConj_mk_sup {O : Subgroup G} [O.Normal]
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hY2
       rw [hk]
       exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.2 hO)
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hYL : Y ≤ L := le_sup_right
   have hcardL : Nat.card L = Nat.card O * Nat.card Y :=
     card_sup_of_le_normalizer (by rw [normalizer_eq_top]; exact le_top) hOY

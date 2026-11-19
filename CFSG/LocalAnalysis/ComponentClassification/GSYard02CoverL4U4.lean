@@ -28,7 +28,7 @@ variable {G : Type} [Group G]
       rw [← mul_assoc, hzx, mul_assoc]
     show a * b = 1 ∨ a * b = x ∨ a * b = z ∨ a * b = x * z
     rcases ha with ha | ha | ha | ha <;> rcases hb with hb | hb | hb | hb <;> rw [ha, hb] <;>
-      simp [mul_assoc, hx, hz, hx', hz', hzx, hzx']
+      simp [mul_assoc, hx, hz, hx', hzx, hzx']
   inv_mem' := by
     intro a ha
     have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx
@@ -93,7 +93,7 @@ theorem l4u_exists_nontriv {E : Subgroup G} (hE : IsKleinFour E) (z : G) :
   have hcon' : ∀ e ∈ E, e = 1 ∨ e = z := by
     intro e he
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcon ⟨e, he, h.1, h.2⟩
   have hsub : (E : Set G) ⊆ {1, z} := by
     intro e he
@@ -286,8 +286,8 @@ theorem l4uS_le_K4 (M : ModelData F) {D : Subgroup (GL (Fin 2) F)} (hD : ∀ a �
     rcases hdet a ha with h | h <;> rw [h] <;> norm_num
 
 theorem l4uS_good (M : ModelData F) (h2 : (2 : F) ≠ 0) {D : Subgroup (GL (Fin 2) F)}
-    (hD : ∀ a ∈ D, a ∈ M.U2)
-    (hdet : ∀ a ∈ D, (a : Matrix (Fin 2) (Fin 2) F).det = 1 ∨
+    (_hD : ∀ a ∈ D, a ∈ M.U2)
+    (_hdet : ∀ a ∈ D, (a : Matrix (Fin 2) (Fin 2) F).det = 1 ∨
       (a : Matrix (Fin 2) (Fin 2) F).det = -1) (hrefl : reflGL2 ∈ D) :
     ∀ e ∈ l4uS D, e * e = 1 → e ≠ 1 → e ≠ xGL F →
       e * xyGL F = xyGL F * e ∨ ∃ y ∈ l4uS D, y * y = 1 ∧ y ≠ 1 ∧ y ≠ xGL F ∧
@@ -430,15 +430,12 @@ theorem wp4_reflGL2_coe :
     ((reflGL2 : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = Matrix.diagonal ![1, -1] := by
   first
     | simp [reflGL2]
-    | (unfold reflGL2; rfl)
-    | (delta reflGL2; rfl)
 
 theorem wp4_reflGL2_mul_self : (reflGL2 : GL (Fin 2) F) * reflGL2 = 1 := by
   apply Units.ext
   rw [Units.val_mul, wp4_reflGL2_coe, Matrix.diagonal_mul_diagonal, Units.val_one]
   first
     | (ext i j; fin_cases i <;> fin_cases j <;> simp)
-    | (ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.one_apply])
 
 theorem wp4_reflGL2_ne_one (h2 : (2 : F) ≠ 0) : (reflGL2 : GL (Fin 2) F) ≠ 1 := by
   intro h
@@ -466,13 +463,12 @@ theorem wp4_mem_klein {G : Type} [Group G] {x z : G} (hx : x * x = 1) (hz : z * 
     g ∈ l4uKlein hx hz hxz ↔ g = 1 ∨ g = x ∨ g = z ∨ g = x * z := by
   first
     | exact Iff.rfl
-    | simp [l4uKlein]
 
 theorem wp4_klein_sylow [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
     (hrefl : reflGL2 ∈ M.U2) :
     ∃ Q : Sylow 2 ↥M.U2, (⟨reflGL2, hrefl⟩ : ↥M.U2) ∈ Q.toSubgroup ∧
       (⟨-1, M.neg_mem⟩ : ↥M.U2) ∈ Q.toSubgroup := by
-  haveI : Finite (GL (Fin 2) F) :=
+  have : Finite (GL (Fin 2) F) :=
     Finite.of_injective (fun g : GL (Fin 2) F => (g : Matrix (Fin 2) (Fin 2) F))
       Units.val_injective
   have hx : (⟨reflGL2, hrefl⟩ : ↥M.U2) * ⟨reflGL2, hrefl⟩ = 1 :=
@@ -488,7 +484,7 @@ theorem wp4_klein_sylow [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
     wp4_neg_one_ne_one h2 (congrArg Subtype.val h)
   have hxz' : (⟨reflGL2, hrefl⟩ : ↥M.U2) ≠ ⟨-1, M.neg_mem⟩ := fun h =>
     wp4_reflGL2_ne_neg_one h2 (congrArg Subtype.val h)
-  haveI hK : IsKleinFour ↥(l4uKlein hx hz hxz) :=
+  have hK : IsKleinFour ↥(l4uKlein hx hz hxz) :=
     l4uKlein_isKleinFour hx hz hxz hx1 hz1 hxz'
   have h4 : Nat.card ↥(l4uKlein hx hz hxz) = 4 := IsKleinFour.card_four
   have hcard : Nat.card ↥(l4uKlein hx hz hxz) = 2 ^ 2 := h4.trans (by norm_num)
@@ -505,16 +501,15 @@ theorem exists_D_of_model [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
       reflGL2 ∈ D ∧ (∀ a ∈ D, (a : Matrix (Fin 2) (Fin 2) F).det = 1 ∨
         (a : Matrix (Fin 2) (Fin 2) F).det = -1) ∧
       ∃ k t : ℕ, Nat.card D = 2 ^ k ∧ Odd t ∧ Nat.card M.U2 = 2 ^ k * t := by
-  haveI : Finite (GL (Fin 2) F) :=
+  have : Finite (GL (Fin 2) F) :=
     Finite.of_injective (fun g : GL (Fin 2) F => (g : Matrix (Fin 2) (Fin 2) F))
       Units.val_injective
   obtain ⟨Q, hxQ, hzQ⟩ := wp4_klein_sylow M h2 hrefl
-  have hD : IsPGroup 2 ↥(Q.toSubgroup.map M.U2.subtype) := Q.isPGroup'.map M.U2.subtype
+  have hD : IsPGroup 2 ↥(Q.toSubgroup.map M.U2.subtype) := Q.isPGroup.map M.U2.subtype
   have hmemU : ∀ a ∈ Q.toSubgroup.map M.U2.subtype, a ∈ M.U2 := by
     rintro a ⟨x, -, rfl⟩
     first
       | exact x.2
-      | simpa using x.2
   refine ⟨Q.toSubgroup.map M.U2.subtype, hmemU,
     Subgroup.mem_map.2 ⟨⟨-1, M.neg_mem⟩, hzQ, rfl⟩,
     Subgroup.mem_map.2 ⟨⟨reflGL2, hrefl⟩, hxQ, rfl⟩, ?_, ?_⟩
@@ -531,7 +526,7 @@ theorem exists_D_of_model [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
     · exact Nat.coprime_two_left.1 (Nat.coprime_ordCompl Nat.prime_two hn)
     · exact (Nat.ordProj_mul_ordCompl_eq_self _ 2).symm
 
-theorem card_K4_eq_sq [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
+theorem card_K4_eq_sq [Finite F] (M : ModelData F) (_h2 : (2 : F) ≠ 0)
     (hU : ∃ c : ℕ, Odd c ∧ Nat.card M.U2 = 2 * Nat.card M.H2 * c)
     (hK4 : ∃ m : ℕ, Odd m ∧ Nat.card M.K4 = 2 * (Nat.card M.U2 * Nat.card M.H2) * m)
     {k t : ℕ} (hUt : Nat.card M.U2 = 2 ^ k * t) (ht : Odd t) :
@@ -615,7 +610,7 @@ theorem sylowFourJoined_block [Finite F] (M : ModelData F) (h2 : (2 : F) ≠ 0)
     (hdet2 : ∀ a ∈ M.U2, ∀ k : ℕ, a ^ (2 ^ k) = 1 →
       (a : Matrix (Fin 2) (Fin 2) F).det = 1 ∨ (a : Matrix (Fin 2) (Fin 2) F).det = -1) :
     SylowFourJoined ↥M.K4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨D, hD, -, hreflD, hdet, k, t, hDcard, ht, hUt⟩ := exists_D_of_model M h2 hrefl hdet2
   obtain ⟨t', ht', hK⟩ := card_K4_eq_sq M h2 hU hK4 hUt ht
   have hSK : l4uS D ≤ M.K4 := l4uS_le_K4 M hD hdet
@@ -753,16 +748,16 @@ variable {F : Type} [Field F]
 
 theorem l4u_centre_statedProj_SL4 [Finite F] :
     Subgroup.center (StatedProj (StatedSL 4 F)) = ⊥ := by
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 4 F)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL F (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
   refine CFSG.Semidihedral.CoreFreeDihedral.center_eq_bot_of_simple_nonabelian ?_
   obtain ⟨E, hEm⟩ : ∃ E : GL (Fin 4) F,
       (E : Matrix (Fin 4) (Fin 4) F) = _root_.Matrix.transvection 0 1 1 :=
-    ⟨_root_.Matrix.GeneralLinearGroup.transvection 0 1 (by decide) 1, by first | rfl | simp⟩
+    ⟨_root_.Matrix.GeneralLinearGroup.transvection 0 1 (by decide) 1, by first | rfl⟩
   obtain ⟨E', hE'm⟩ : ∃ E : GL (Fin 4) F,
       (E : Matrix (Fin 4) (Fin 4) F) = _root_.Matrix.transvection 1 2 1 :=
-    ⟨_root_.Matrix.GeneralLinearGroup.transvection 1 2 (by decide) 1, by first | rfl | simp⟩
+    ⟨_root_.Matrix.GeneralLinearGroup.transvection 1 2 (by decide) 1, by first | rfl⟩
   have hE : E ∈ StatedSL 4 F :=
     CFSG.Open.StatedAPI.mem_statedSL_of_det
       (by rw [hEm]; exact _root_.Matrix.det_transvection_of_ne _ _ (by decide) _)
@@ -775,35 +770,23 @@ theorem l4u_centre_statedProj_SL4 [Finite F] :
       QuotientGroup.mk ((⟨E', hE'⟩ : StatedSL 4 F) * ⟨E, hE⟩) := by
     first
       | exact h
-      | (rw [QuotientGroup.mk_mul, QuotientGroup.mk_mul]; exact h)
-      | simpa [QuotientGroup.mk_mul] using h
   obtain ⟨u, hu⟩ := (CFSG.Open.StatedAPI.statedProj_mk_eq_iff (StatedSL 4 F) _ _).1 h'
   have hu' : (E' : Matrix (Fin 4) (Fin 4) F) * (E : Matrix (Fin 4) (Fin 4) F) =
       (E : Matrix (Fin 4) (Fin 4) F) * (E' : Matrix (Fin 4) (Fin 4) F) *
         ((u : F) • (1 : Matrix (Fin 4) (Fin 4) F)) := by
-    first | exact hu | simpa using hu
+    first | exact hu
   rw [hEm, hE'm] at hu'
   have h02 := congrFun (congrFun hu' 0) 2
   have hL : ((_root_.Matrix.transvection (1 : Fin 4) 2 (1 : F) *
       _root_.Matrix.transvection 0 1 1 : Matrix (Fin 4) (Fin 4) F) 0 2) = 0 := by
     first
-      | (simp [_root_.Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_four,
-          Matrix.single_apply, Matrix.one_apply]; done)
-      | (simp +decide [_root_.Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_four,
-          Matrix.single_apply, Matrix.one_apply]; done)
-      | (rw [_root_.Matrix.transvection_mul_apply_of_ne (1 : Fin 4) 2 0 2 (by decide) (1 : F)]
-         simp [_root_.Matrix.transvection])
+      | (simp [_root_.Matrix.transvection, Matrix.mul_apply, Matrix.one_apply])
   have hR : ((_root_.Matrix.transvection (0 : Fin 4) 1 (1 : F) *
       _root_.Matrix.transvection 1 2 1 * ((u : F) • (1 : Matrix (Fin 4) (Fin 4) F)) :
       Matrix (Fin 4) (Fin 4) F) 0 2) = (u : F) := by
     first
       | (simp [_root_.Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_four,
-          Matrix.single_apply, Matrix.one_apply]; done)
-      | (simp +decide [_root_.Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_four,
-          Matrix.single_apply, Matrix.one_apply]; done)
-      | (rw [Matrix.mul_smul, Matrix.mul_one, Matrix.smul_apply,
-          _root_.Matrix.transvection_mul_apply_same (0 : Fin 4) 1 2 (1 : F)]
-         simp [_root_.Matrix.transvection])
+          Matrix.single_apply, Matrix.one_apply])
   exact u.ne_zero (hR.symm.trans (h02.symm.trans hL))
 
 theorem l4u_exists_nonker {H : Subgroup (GL (Fin 4) F)} {Q : Type} [Group Q] [Finite Q]
@@ -983,7 +966,7 @@ theorem coverLeafL4_holds
     exact SylowFourJoined.of_mulEquiv (MulEquiv.ofBijective π ⟨hinj, hπs⟩)
       (sylowFourJoined_SL4 h4)
   · have hi : ∃ i : F, i * i = -1 := by
-      haveI := Fintype.ofFinite F
+      have := Fintype.ofFinite F
       have hsq : IsSquare (-1 : F) := by
         rw [FiniteField.isSquare_neg_one_iff, Fintype.card_eq_nat_card]
         omega
@@ -1007,14 +990,14 @@ theorem coverLeafU4_holds
   have h2K : (2 : K) ≠ 0 := CFSG.GH74.L5U5.two_ne_zero_of_odd_card hKodd
   obtain ⟨π, hπs, hπe⟩ := hG.psu4_cover Q hquasi h2z K (p ^ f) hK hq_odd e
   have hker := l4u_ker_scalar e π hπe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center (StatedProj (StatedSU 4 (p ^ f) K)) = ⊥ :=
     CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.ka_center_bot_pu hK (by norm_num) (by simp)
   have hnonker := l4u_exists_nonker hZ π hπs hker hz
   by_cases h4 : p ^ f % 4 = 1
   · have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
       { prime := hp, one_le := hf, card := by rw [hK, ← pow_mul, mul_comm] }
-    haveI : CharP K p := hUFD.charP
+    have : CharP K p := hUFD.charP
     have hinj : Function.Injective π := by
       rw [injective_iff_map_eq_one]
       intro g hg
@@ -1049,7 +1032,7 @@ theorem coverLeafU4_holds
     have hq2 : (p ^ f) ^ 2 % 4 = 1 := by
       rw [Nat.pow_mod, h4']
     have hi : ∃ i : K, i * i = -1 := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       have hsq : IsSquare (-1 : K) := by
         rw [FiniteField.isSquare_neg_one_iff, Fintype.card_eq_nat_card, hK, hq2]
         norm_num

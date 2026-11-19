@@ -56,8 +56,8 @@ theorem card_inf_conjugate_ge {G : Type} [Group G] [Finite G] {V U I : Subgroup 
     (QuotientGroup.mk' (U.subgroupOf I)).comp (Subgroup.inclusion hWI)
   let ψ : ↥W →* DihedralGroup p := e.toMonoidHom.comp φ
   have hR2 : IsPGroup 2 ↥ψ.range := hW2.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hRd : Nat.card ↥ψ.range ∣ 2 * p := by
     have := Subgroup.card_subgroup_dvd_card ψ.range
     rwa [DihedralGroup.nat_card] at this

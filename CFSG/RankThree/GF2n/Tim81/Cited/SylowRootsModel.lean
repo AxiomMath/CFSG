@@ -29,7 +29,7 @@ private theorem sylowRoots_le_map_lowRad {F : Type} [Field F] [Finite F] [CharP 
     (S : Sylow 2 ↥X₀)
     (hS : (lowRad σ N).map Φ ≤ (S : Subgroup ↥X₀).map X₀.subtype) :
     sylowRoots X₀ Δ S ≤ (lowRad σ N).map Φ := by
-  haveI : Finite (SU σ N) :=
+  have : Finite (SU σ N) :=
     Finite.of_injective (SUExtras.mat σ N) (SUExtras.mat_injective (σ := σ) (n := N))
   have hodd : Odd (Nat.card Φ.ker) :=
     CFSG.StandardType.odd_natCard_of_le_center_SU σ hker
@@ -41,7 +41,7 @@ private theorem sylowRoots_le_map_lowRad {F : Type} [Field F] [Finite F] [CharP 
   obtain ⟨v, T, hv0, hvv, hT, rfl⟩ := exists_eq_map_of_mem hσ hN hΔ hAΔ
   obtain ⟨P, hP2, hPmap, -⟩ :=
     CFSG.GroupTheory.exists_isPGroup_map_eq_of_odd (Φ := Φ) hodd hSleRange
-      (S.isPGroup'.map X₀.subtype)
+      (S.isPGroup.map X₀.subtype)
   have hQbarP : (lowRad σ N).map Φ ≤ P.map Φ := by rw [hPmap]; exact hS
   have hRP : lowRad σ N ≤ P :=
     CFSG.GroupTheory.le_of_map_le_map_of_odd hker hodd (isPGroup_lowRad (σ := σ) (m := N)) hQbarP
@@ -184,7 +184,7 @@ theorem inSubgroup_pCore_le_normalizer_map_lowRad {F : Type} [Field F] [Finite F
     rw [commute_of_mem_map_lowRad hq (hT ht), mul_assoc, mul_inv_cancel, mul_one]
     exact ht
   have hQbar_le_L : Qbar ≤ L := le_inf hQbar_le_X hQbar_le_NT
-  haveI : (CFSG.pCore 2 L).Normal :=
+  have : (CFSG.pCore 2 L).Normal :=
     CFSG.LieType.BorelTits.pCore_normal (G := L) (r := 2)
   have hRnorm : L ≤ Subgroup.normalizer (R : Set K) := by
     have h := Subgroup.le_normalizer_map (H := CFSG.pCore 2 L) L.subtype
@@ -227,7 +227,7 @@ theorem inSubgroup_pCore_le_normalizer_map_lowRad {F : Type} [Field F] [Finite F
 
 theorem le_map_lowRad_of_le_centralizer {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
     (hσ : ∀ c, σ (σ c) = c) {N : ℕ} (hN : 2 ≤ N) {K : Type} [Group K]
-    {X₀ : Subgroup K} {Δ : Set (Subgroup K)} {Φ : SU σ N →* K}
+    {_X₀ : Subgroup K} {Δ : Set (Subgroup K)} {Φ : SU σ N →* K}
     (hker : Φ.ker ≤ Subgroup.center (SU σ N))
     (hΔ : ∀ U : Subgroup K, U ∈ Δ ↔
       ∃ x, U = (conjSub (Unitary.rootGroup σ hσ N (unitaryLongRoot N hN)) x).map Φ)
@@ -258,7 +258,7 @@ theorem natCard_map_lowRad {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     {Φ : SU (unitaryInvolution F 2 f) N →* K}
     (hker : Φ.ker ≤ Subgroup.center (SU (unitaryInvolution F 2 f) N)) :
     Nat.card ↥((lowRad (unitaryInvolution F 2 f) N).map Φ) = (2 ^ f) ^ ((N / 2) ^ 2) := by
-  haveI : Finite (SU (unitaryInvolution F 2 f) N) :=
+  have : Finite (SU (unitaryInvolution F 2 f) N) :=
     Finite.of_injective (SUExtras.mat (unitaryInvolution F 2 f) N)
       (SUExtras.mat_injective (σ := unitaryInvolution F 2 f) (n := N))
   have hodd : Odd (Nat.card Φ.ker) :=

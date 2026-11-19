@@ -156,7 +156,7 @@ theorem ncard_involutions_le {x : G} {d e : ℕ}
     intro u' hu'
     obtain ⟨hu'2, hu'1, hu'x, hn⟩ := hu'
     have hn2 : 2 ∣ orderOf (u₀ * u') := by rcases hn with h | h <;> rw [h] <;> norm_num
-    have hn4 : 4 ≤ orderOf (u₀ * u') := by rcases hn with h | h <;> rw [h] <;> norm_num
+    have hn4 : 4 ≤ orderOf (u₀ * u') := by rcases hn with h | h <;> rw [h]; norm_num
     obtain ⟨hγ2, hγ1, hγu, hγu', hγu0, hγu'ne, hu'ne⟩ :=
       dihedral_center hu₀2 hu'2 rfl hn2 hn4
     set γ := (u₀ * u') ^ (orderOf (u₀ * u') / 2) with hγdef
@@ -212,7 +212,7 @@ theorem ncard_involutions_le {x : G} {d e : ℕ}
     have hcard : ({u₀, u₀ * γ} : Set G).ncard = 2 :=
       Set.ncard_pair (fun h => hu₀γne h.symm)
     have hd : (N γ).ncard ≤ d := hN γ hγ2 hγ1 hγx
-    rw [Set.ncard_diff hsub (Set.toFinite _), hcard]
+    rw [Set.ncard_sdiff hsub (Set.toFinite _), hcard]
     omega
   have hO46 : O46.ncard ≤ d * (d - 2) := by
     calc O46.ncard ≤ (⋃ γ ∈ (Set.toFinite (N u₀)).toFinset, (N γ \ {u₀, u₀ * γ})).ncard :=

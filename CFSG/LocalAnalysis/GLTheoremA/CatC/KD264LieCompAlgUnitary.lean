@@ -39,7 +39,7 @@ private theorem card_centerQuotient_unitaryBlock_eq
   obtain ⟨ei, hv⟩ := e
   obtain ⟨eK⟩ := hKiso
   let k8 : Type := GaloisField 2 3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk8 : Nat.card k8 = 8 := by
     dsimp only [k8]
     rw [GaloisField.card 2 3 (by norm_num)]
@@ -89,8 +89,8 @@ private theorem selfDual_natDegree_one_of_card
         ⟨E, hE, hEt, m, _hcharE, hcardE, hm, hne, ⟨eM⟩⟩ |
         ⟨E, hE, hEt, m, _hcharE, hcardE, hm2, h4, ⟨eM⟩⟩
     ·
-      letI : Field Fld := hFld
-      letI : Fintype Fld := hFldt
+      let : Field Fld := hFld
+      let : Fintype Fld := hFldt
       let πM : Matrix.SpecialLinearGroup (Fin 2) Fld →* ↥Comp :=
         πSB.comp eM.symm.toMonoidHom
       have hπM : Function.Surjective πM := hπSB.comp eM.symm.surjective
@@ -107,8 +107,8 @@ private theorem selfDual_natDegree_one_of_card
         (F := Fld) (j := (a : K[X]).natDegree) hj hFcard πM hπM hkerM hperf hN
       exact ⟨hself, hres.1⟩
     ·
-      letI : Field E := hE
-      letI : Fintype E := hEt
+      let : Field E := hE
+      let : Fintype E := hEt
       let πM : ↥(StatedSU m (2 ^ (3 * (a : K[X]).natDegree)) E) →* ↥Comp :=
         πSB.comp eM.symm.toMonoidHom
       have hπM : Function.Surjective πM := hπSB.comp eM.symm.surjective
@@ -127,8 +127,8 @@ private theorem selfDual_natDegree_one_of_card
       exact ⟨hself, hres.2.1⟩
     ·
       exfalso
-      letI : Field E := hE
-      letI : Fintype E := hEt
+      let : Field E := hE
+      let : Fintype E := hEt
       let πM : Matrix.SpecialLinearGroup (Fin m) E →* ↥Comp :=
         πSB.comp eM.symm.toMonoidHom
       have hπM : Function.Surjective πM := hπSB.comp eM.symm.surjective
@@ -147,10 +147,10 @@ private theorem selfDual_natDegree_one_of_card
     exfalso
     have hne : (a : K[X]) ≠ dualPoly h.bar (a : K[X]) := Ne.symm hself
     obtain ⟨eM⟩ := nonempty_specialBlock_mulEquiv_SL (pairedPrimaryBlock H a hne)
-    letI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
-    haveI : Finite K := h.finite
-    haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-    letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+    let : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+    have : Finite K := h.finite
+    have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+    let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
     let πM : Matrix.SpecialLinearGroup
         (Fin (primaryMultiplicity (x : Module.End K (Fin n → K)) (a : K[X])))
         (AdjoinRoot (a : K[X])) →* ↥Comp := πSB.comp eM.symm.toMonoidHom
@@ -395,8 +395,8 @@ theorem compAlgAt_primeFormP_unitary_eight {K : Type} [Field K]
   have hQSB : CFSG.IsQuasisimple ↥SB :=
     (specialBlockFacts_of_good H hq2 a.1 a.2).quasisimple a.2.1
   have hSUperf : commutator ↥(sesqSpecialUnitaryGroup Hf) = ⊤ := by
-    haveI : Group.IsPerfect ↥SB := hQSB.1
-    haveI : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) :=
+    have : Group.IsPerfect ↥SB := hQSB.1
+    have : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) :=
       @Group.IsPerfect.ofSurjective ↥SB ↥(sesqSpecialUnitaryGroup Hf) _ _
         Φ.toMonoidHom hQSB.1 Φ.surjective
     exact Group.IsPerfect.commutator_eq_top

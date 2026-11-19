@@ -20,7 +20,7 @@ theorem close16_frattini_lift {M Q : Type} [Group M] [Finite M] [Group Q] (φ : 
     (hq : q ∈ normalizer ((A.map φ : Subgroup Q) : Set Q)) (hqr : q ∈ φ.range) :
     ∃ n ∈ normalizer (A : Set M), φ n = q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := hqr
   let B : Subgroup M := Y ⊓ (A.map φ).comap φ
   have hAp : IsPGroup p A := IsPGroup.of_card (n := 1) (by simpa using hA)
@@ -71,7 +71,7 @@ theorem close16_frattini_lift {M Q : Type} [Group M] [Finite M] [Group Q] (φ : 
       intro y hy
       obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.1 hy
       exact (Subgroup.mem_inf.1 (hZB hz)).2
-    haveI : Finite ↥(A.map φ) :=
+    have : Finite ↥(A.map φ) :=
       Finite.of_surjective (φ.subgroupMap A) (φ.subgroupMap_surjective A)
     rw [← hcard]
     calc Nat.card (Z.map φ) ≤ Nat.card (A.map φ) := Subgroup.card_le_of_le hmaple
@@ -103,7 +103,7 @@ theorem close16_frattini_lift {M Q : Type} [Group M] [Finite M] [Group Q] (φ : 
     obtain ⟨P, hP⟩ := (hZp.comap_subtype (K := B)).exists_le_sylow
     refine ⟨P, (Subgroup.eq_of_le_of_card_ge hP ?_).symm⟩
     have h1 := hAmax ((P : Subgroup B).map B.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
     rw [Subgroup.card_map_of_injective B.subtype_injective] at h1
     change Nat.card P ≤ Nat.card (Z.subgroupOf B)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZB).toEquiv]
@@ -250,7 +250,7 @@ theorem close16_exists_lift_barSub {D : Data G} {V : Subgroup G} {hV : IsElemAbe
     (hEp : IsPGroup p E) :
     ∃ P : Subgroup G, P ≤ J ∧ IsPGroup p P ∧ barSub ⊥ V hV P = E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥J →* ↥(barSub ⊥ V hV J) :=
     MonoidHom.codRestrict ((actTil ⊥ V hV).comp (Subgroup.inclusion (hJ.trans hM)))
       (barSub ⊥ V hV J)
@@ -281,7 +281,7 @@ theorem close16_exists_lift_barSub {D : Data G} {V : Subgroup G} {hV : IsElemAbe
   let R : Subgroup ↥J := (T : Subgroup ↥Ppre).map Ppre.subtype
   let P : Subgroup G := R.map J.subtype
   have hPJ : P ≤ J := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := (T.isPGroup'.map Ppre.subtype).map J.subtype
+  have hPp : IsPGroup p P := (T.isPGroup.map Ppre.subtype).map J.subtype
   have hRφ : R.map φ = E' := by
     apply le_antisymm
     · rintro _ ⟨x, hx, rfl⟩
@@ -351,7 +351,7 @@ theorem close16_card_barSub {D : Data G} {V : Subgroup G} {hV : IsElemAbelian 2 
     (hp : p.Prime) (hA : IsPGroup p A)
     (hker : ¬ p ∣ Nat.card ↥(Y ⊓ F11.CTilde D.M ⊥ V)) :
     Nat.card ↥(barSub ⊥ V hV A) = Nat.card ↥A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨φ, hφsurj, hφker⟩ := close16_exists_hom_barSub hM (hAY.trans hYM)
   have hAKbot : A ⊓ F11.CTilde D.M ⊥ V = ⊥ := by
     have hKp : IsPGroup p ↥(A ⊓ F11.CTilde D.M ⊥ V) :=

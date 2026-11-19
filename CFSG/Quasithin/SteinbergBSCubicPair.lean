@@ -129,7 +129,7 @@ theorem qrc_conjugate_pair_produces_cubic_action_and_exact_kernel {I : Type*} [G
   have hJT : J ≤ T := hJp.le_sylow_of_normal T
   have hJV : J ≤ normalizer (V : Set I) := hJT.trans hTV
   have hJC : centralizer (J : Set I) ≤ J := by rw [hJ']; exact hchar
-  have hVp : IsPGroup 2 V := T.isPGroup'.to_le hVT
+  have hVp : IsPGroup 2 V := T.isPGroup.to_le hVT
   have hV2 : ∀ v ∈ V, v * v = 1 := fun v hv => by
     rw [← pow_two]
     exact elemPow_eq_one_of_isElementaryAbelian v hv

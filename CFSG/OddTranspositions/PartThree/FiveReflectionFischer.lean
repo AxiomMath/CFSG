@@ -52,10 +52,10 @@ theorem fiveForm_single (k : ℕ) (ε : Bool) (x : Fin (k + 1) → ZMod 5) (i : 
   rcases Fin.eq_castSucc_or_eq_last i with ⟨j, rfl⟩ | rfl
   · have hne : (Fin.last k) ≠ j.castSucc := fun h => (Fin.castSucc_lt_last j).ne' h
     simp only [fiveForm, Pi.single_apply, Fin.castSucc_inj, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, hne, if_false, sub_zero,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, hne, ite_false, sub_zero,
       (Fin.castSucc_lt_last j).ne, one_mul]
-  · simp only [fiveForm, Pi.single_apply, mul_one, mul_zero, if_true,
-      (fun j : Fin k => (Fin.castSucc_lt_last j).ne), if_false, Finset.sum_const_zero,
+  · simp only [fiveForm, Pi.single_apply, mul_one, mul_zero, ite_true,
+      (fun j : Fin k => (Fin.castSucc_lt_last j).ne), ite_false, Finset.sum_const_zero,
       zero_sub, neg_mul]
 
 theorem fiveBilin_comm (k : ℕ) (ε π : Bool) (x y : Fin (k + 1) → ZMod 5) :

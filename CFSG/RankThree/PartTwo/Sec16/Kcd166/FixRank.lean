@@ -21,7 +21,7 @@ private lemma pow_commutatorElement_mem {G : Type*} [Group G] {N : Subgroup G} {
     ∀ k : ℕ, ⁅s ^ k, f⁆ ∈ N := by
   intro k
   induction k with
-  | zero => simpa [commutatorElement_def] using N.one_mem
+  | zero => simp [commutatorElement_def]
   | succ k ih =>
     have h1 : s * ⁅s ^ k, f⁆ * s⁻¹ ∈ N := (Subgroup.mem_normalizer_iff.mp hs _).mp ih
     have h2 : ⁅s ^ (k + 1), f⁆ = s * ⁅s ^ k, f⁆ * s⁻¹ * ⁅s, f⁆ := by
@@ -63,7 +63,7 @@ private lemma exists_gen_of_surjective {H K : Type*} [Group H] [Group K]
   rw [Subgroup.map_top_of_surjective φ hφ] at h1
   have h3 : φ '' (s : Set H) = ((s.image φ : Finset K) : Set K) := by
     ext y
-    simp [Finset.mem_image]
+    simp
   rw [h3] at h1
   exact h1.symm
 
@@ -73,7 +73,7 @@ private lemma card_le_pow_three_of_group {p : ℕ} [Fact p.Prime] {A : Type*} [G
     Nat.card A ≤ p ^ 3 := by
   classical
   obtain ⟨s, hsc, htop⟩ := h
-  haveI : Group.FG A := Group.fg_iff.mpr ⟨(s : Set A), htop, s.finite_toSet⟩
+  have : Group.FG A := Group.fg_iff.mpr ⟨(s : Set A), htop, s.finite_toSet⟩
   have hgen3 : CFSG.generatorRank A ≤ 3 := by
     rw [CFSG.generatorRank_eq_group_rank]
     exact (Group.rank_le htop).trans hsc
@@ -111,7 +111,7 @@ private lemma conj_mem_zpowers_of_commute {G : Type} [Group G] {s t y : G}
   have hst : s * t * s⁻¹ = t := by rw [h]; group
   refine Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩
   rw [show s * t ^ k * s⁻¹ = (s * t * s⁻¹) ^ k by
-        simpa using (conj_zpow (i := k) (a := s) (b := t)).symm, hst]
+        simp, hst]
 
 private lemma mem_normalizer_zpowers_of_commute {G : Type} [Group G] {s t : G}
     (h : s * t = t * s) : s ∈ Subgroup.normalizer (Subgroup.zpowers t : Set G) := by
@@ -325,7 +325,7 @@ private lemma isPGroup_p_quotient {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
   simpa [Subgroup.mem_subgroupOf, Subgroup.coe_pow] using hpow
 
 private lemma exists_sylow_subgroup {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
-    {M N H : Subgroup G} (hNM : N ≤ M) (hNn : (N.subgroupOf M).Normal)
+    {M N H : Subgroup G} (hNM : N ≤ M) (_hNn : (N.subgroupOf M).Normal)
     (hexp : ∀ x ∈ M, x ^ p ∈ N)
     (hMH : M ≤ H) (hHnormM : H ≤ Subgroup.normalizer (M : Set G))
     (hHnormN : H ≤ Subgroup.normalizer (N : Set G)) {t : G} (htH : t ∈ H) :
@@ -333,16 +333,16 @@ private lemma exists_sylow_subgroup {G : Type} [Group G] [Finite G] {p : ℕ} [F
       (⟨t, htH⟩ : ↥H) ∈ (N.subgroupOf H : Set ↥H) *
         (Subgroup.normalizer ((R.subgroupOf H) : Set ↥H) : Set ↥H) := by
   classical
-  haveI hKnormal : (M.subgroupOf H).Normal :=
+  have hKnormal : (M.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMH).mpr hHnormM
-  haveI hCnormal : (N.subgroupOf H).Normal :=
+  have hCnormal : (N.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hNM.trans hMH)).mpr hHnormN
   have hCK : N.subgroupOf H ≤ M.subgroupOf H := fun x hx => hNM hx
   have hpquot : IsPGroup p (↥(M.subgroupOf H) ⧸
       (N.subgroupOf H).subgroupOf (M.subgroupOf H)) :=
     isPGroup_p_quotient (M := M) (N := N) (H := H) hexp
   let P : Sylow p ↥(M.subgroupOf H) := default
-  haveI hPfin : Finite (Sylow p ↥(M.subgroupOf H)) := Sylow.finite_of_finiteIndex P
+  have hPfin : Finite (Sylow p ↥(M.subgroupOf H)) := Sylow.finite_of_finiteIndex P
   obtain ⟨hprod, hfratt⟩ := CFSG.GroupTheory.ZJ.normal_p_quotient_frattini
     (G := ↥H) (C := N.subgroupOf H) (H := M.subgroupOf H) (p := p) hCK hpquot P
   set R' : Subgroup ↥H := (P : Subgroup (M.subgroupOf H)).map (M.subgroupOf H).subtype with hR'def
@@ -354,7 +354,7 @@ private lemma exists_sylow_subgroup {G : Type} [Group G] [Finite G] {p : ℕ} [F
       _ = M := Subgroup.map_subgroupOf_eq_of_le hMH
   have hR2 : IsPGroup p R := by
     rw [hRdef, hR'def]
-    exact (P.isPGroup'.map (M.subgroupOf H).subtype).map H.subtype
+    exact (P.isPGroup.map (M.subgroupOf H).subtype).map H.subtype
   have hK_eq : (M.subgroupOf H) = (N.subgroupOf H) ⊔ R' := by
     refine le_antisymm ?_ (sup_le hCK hR'M)
     intro x hx
@@ -540,7 +540,7 @@ theorem le_inf_centralizer_sup_of_coprime {G : Type} [Group G] [Finite G] {p : �
   have hs2_inf : s2 ∈ Subgroup.normalizer ((R ⊓ N) : Set G) :=
     Subgroup.inf_normalizer_le_normalizer_inf ⟨hs2R, hs2N⟩
   have hsolv : Group.IsSolvable ↥R := by
-    haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+    have : Group.IsNilpotent ↥R := hR2.isNilpotent
     infer_instance
   intro f hf
   have hfM : f ∈ M := hFM hf
@@ -605,9 +605,9 @@ private lemma exists_three_generators {G : Type} [Group G] [Finite G] {p : ℕ} 
 private lemma isElementaryAbelian_map {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     {M N Q : Subgroup G} [hN : (N.subgroupOf M).Normal]
     (hab : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N) (hexp : ∀ x ∈ M, x ^ p ∈ N)
-    (hQM : Q ≤ M) :
+    (_hQM : Q ≤ M) :
     IsElementaryAbelian p ↥((Q.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M))) := by
-  haveI hMbar : IsMulCommutative (↥M ⧸ N.subgroupOf M) := by
+  have hMbar : IsMulCommutative (↥M ⧸ N.subgroupOf M) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, _root_.commutator_def,
       Subgroup.commutator_le]
     rintro x - y -
@@ -632,7 +632,7 @@ private lemma card_map_le_pow_three {G : Type} [Group G] [Finite G] {p : ℕ} [F
     (hQM : Q ≤ M) (hgen : ∃ s : Finset ↥Q, s.card ≤ 3 ∧
       Subgroup.closure (s : Set ↥Q) = ⊤) :
     Nat.card ↥((Q.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M))) ≤ p ^ 3 := by
-  haveI hQea : IsElementaryAbelian p
+  have hQea : IsElementaryAbelian p
       ↥((Q.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M))) :=
     isElementaryAbelian_map hab hexp hQM
   let π : ↥Q →* (↥M ⧸ N.subgroupOf M) :=
@@ -657,7 +657,7 @@ private lemma card_map_le_pow_three {G : Type} [Group G] [Finite G] {p : ℕ} [F
   exact card_le_pow_three_of_group ⟨t, htc, htstop⟩
 
 private lemma map_subgroupOf_le_map_of_le_sup {G : Type} [Group G] {M N F Q : Subgroup G}
-    [hN : (N.subgroupOf M).Normal] (hNM : N ≤ M) (hQM : Q ≤ M) (hFM : F ≤ M)
+    [hN : (N.subgroupOf M).Normal] (hNM : N ≤ M) (hQM : Q ≤ M) (_hFM : F ≤ M)
     (hFQN : F ≤ Q ⊔ N) :
     (F.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M)) ≤
       (Q.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M)) := by
@@ -684,7 +684,7 @@ private lemma relIndex_le_pow_three_of_le_sup {G : Type} [Group G] [Finite G] {p
     (hQM : Q ≤ M) (hFM : F ≤ M) (hFQN : F ≤ Q ⊔ N)
     (hgen : ∃ s : Finset ↥Q, s.card ≤ 3 ∧ Subgroup.closure (s : Set ↥Q) = ⊤) :
     N.relIndex F ≤ p ^ 3 := by
-  haveI hN : (N.subgroupOf M).Normal := hNn
+  have hN : (N.subgroupOf M).Normal := hNn
   have hAbound := card_map_le_pow_three (Q := Q) hab hexp hQM hgen
   have hle := map_subgroupOf_le_map_of_le_sup hNM hQM hFM hFQN
   rw [← Subgroup.relIndex_subgroupOf hFM]
@@ -704,12 +704,12 @@ private lemma relIndex_le_pow_three_aux {G : Type} [Group G] [Finite G] {p : ℕ
     {H : Subgroup G} (hMH : M ≤ H) (hH_eq : H = M ⊔ Subgroup.zpowers t)
     (hHnormM : H ≤ Subgroup.normalizer (M : Set G))
     (hHnormN : H ≤ Subgroup.normalizer (N : Set G)) (htH : t ∈ H)
-    {F : Subgroup G} (hNF : N ≤ F) (hFM : F ≤ M) (hFt : ∀ f ∈ F, t * f * t⁻¹ * f⁻¹ ∈ N) :
+    {F : Subgroup G} (_hNF : N ≤ F) (hFM : F ≤ M) (hFt : ∀ f ∈ F, t * f * t⁻¹ * f⁻¹ ∈ N) :
     N.relIndex F ≤ p ^ 3 := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hKnormal : (M.subgroupOf H).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hKnormal : (M.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMH).mpr hHnormM
   obtain ⟨R, hRM, hR2, hM_eq, hfratt⟩ :=
     exists_sylow_subgroup hNM hNn hexp hMH hHnormM hHnormN htH
@@ -771,9 +771,9 @@ theorem card_le_sq_of_localRank_lt {G : Type} [Group G] [Finite G] {p : ℕ} (hp
     (hrk : CFSG.Assembly.RankThreeEven.localRank p G < 3) :
     ∀ S E : Subgroup G, S ≠ ⊥ → IsPGroup 2 S → E ≤ Subgroup.normalizer (S : Set G) →
       IsMulCommutative E → (∀ e ∈ E, e ^ p = 1) → Nat.card E ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro S E hS hS2 hEN hEc hEp
-  haveI hEea : IsElementaryAbelian p ↥E :=
+  have hEea : IsElementaryAbelian p ↥E :=
     { toIsMulCommutative := hEc
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x => by
         apply Subtype.ext
@@ -816,7 +816,7 @@ private lemma index_subgroupOf_eq_pow_three {G : Type} [Group G] [Finite G] {p :
     (hgen : ∃ s : Finset ↥Q, s.card ≤ 3 ∧ Subgroup.closure (s : Set ↥Q) = ⊤)
     (hrel3 : N.relIndex F = p ^ 3) :
     (N.subgroupOf Q).index = p ^ 3 := by
-  haveI hN : (N.subgroupOf M).Normal := hNn
+  have hN : (N.subgroupOf M).Normal := hNn
   have hcontain := map_subgroupOf_le_map_of_le_sup hNM hQM hFM hFQN
   have hupper : Nat.card ((Q.subgroupOf M).map (QuotientGroup.mk' (N.subgroupOf M))) ≤ p ^ 3 :=
     card_map_le_pow_three (Q := Q) hab hexp hQM hgen
@@ -838,16 +838,16 @@ private lemma index_subgroupOf_eq_pow_three {G : Type} [Group G] [Finite G] {p :
   exact hW
 
 private lemma frattini_eq_subgroupOf_of_card {G : Type} [Group G] [Finite G] {p : ℕ}
-    [Fact p.Prime] {M N Q : Subgroup G} (hp5 : 5 ≤ p) (hNM : N ≤ M)
-    (hNn : (N.subgroupOf M).Normal)
+    [Fact p.Prime] {M N Q : Subgroup G} (_hp5 : 5 ≤ p) (_hNM : N ≤ M)
+    (_hNn : (N.subgroupOf M).Normal)
     (hab : ∀ x ∈ M, ∀ y ∈ M, x * y * x⁻¹ * y⁻¹ ∈ N) (hexp : ∀ x ∈ M, x ^ p ∈ N)
     (hQp : IsPGroup p ↥Q) (hQM : Q ≤ M) (hKrel : (N.subgroupOf Q).index = p ^ 3)
     (hgen : ∃ s : Finset ↥Q, s.card ≤ 3 ∧ Subgroup.closure (s : Set ↥Q) = ⊤) :
     frattini ↥Q = N.subgroupOf Q := by
-  haveI : Fact (IsPGroup p ↥Q) := ⟨hQp⟩
-  haveI hKnormal : (N.subgroupOf Q).Normal :=
+  have : Fact (IsPGroup p ↥Q) := ⟨hQp⟩
+  have hKnormal : (N.subgroupOf Q).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
-      (hQM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mp hNn))
+      (hQM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer _hNM).mp _hNn))
   have hfr_le_K : frattini ↥Q ≤ N.subgroupOf Q := by
     rw [CFSG.frattini_eq_closure_commutator_union_powers (p := p)]
     refine (Subgroup.closure_le (N.subgroupOf Q)).mpr ?_
@@ -864,7 +864,7 @@ private lemma frattini_eq_subgroupOf_of_card {G : Type} [Group G] [Finite G] {p 
       Subgroup.closure (s : Set (↥Q ⧸ frattini ↥Q)) = ⊤ :=
     exists_gen_of_surjective (QuotientGroup.mk' (frattini ↥Q))
       (QuotientGroup.mk'_surjective _) hgen
-  haveI hEAΦ : IsElementaryAbelian p (↥Q ⧸ frattini ↥Q) :=
+  have hEAΦ : IsElementaryAbelian p (↥Q ⧸ frattini ↥Q) :=
     CFSG.isElementaryAbelian_quotient_frattini (R := ↥Q) (p := p)
   have hΦindex_le : (frattini ↥Q).index ≤ p ^ 3 := by
     have hcard := card_le_pow_three_of_group (p := p) hgenΦ
@@ -873,7 +873,7 @@ private lemma frattini_eq_subgroupOf_of_card {G : Type} [Group G] [Finite G] {p 
     Subgroup.index_antitone hfr_le_K
   have hΦindex_eq : (frattini ↥Q).index = (N.subgroupOf Q).index :=
     le_antisymm (by rwa [hKrel]) hKleΦ
-  haveI : (N.subgroupOf Q).FiniteIndex := Subgroup.finiteIndex_of_finite
+  have : (N.subgroupOf Q).FiniteIndex := Subgroup.finiteIndex_of_finite
   exact Subgroup.eq_of_index_dvd_index hfr_le_K (by rw [hΦindex_eq])
 
 private lemma frattini_condition_of_scalar {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
@@ -913,10 +913,10 @@ private lemma relIndex_ne_pow_three_of_mod_two {G : Type} [Group G] [Finite G] {
     (hrel3 : N.relIndex F = p ^ 3) : False := by
   classical
   let X := ↥F ⧸ N.subgroupOf F
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   let ψ : X →* X := conjQuotientMap hσF hσN
   let f : Function.End X := fun z => ψ z
-  haveI : Fintype (Function.fixedPoints f) := Fintype.ofFinite _
+  have : Fintype (Function.fixedPoints f) := Fintype.ofFinite _
   have hf3 : f ^ 3 = 1 := by
     funext z
     change ψ (ψ (ψ z)) = z
@@ -973,7 +973,7 @@ private lemma exists_Q_data {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mp hNn
   have hNnF : (N.subgroupOf F).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hFM.trans hMnormN)
-  haveI hNnF' : (N.subgroupOf F).Normal := hNnF
+  have hNnF' : (N.subgroupOf F).Normal := hNnF
   let Q : Subgroup G := F ⊓ Subgroup.centralizer (Subgroup.zpowers t : Set G)
   have hQM : Q ≤ M := inf_le_left.trans hFM
   have hQp : IsPGroup p ↥Q := hMp.to_le hQM
@@ -1000,7 +1000,7 @@ private lemma relIndex_eq_pow_three_of_not_le {G : Type} [Group G] [Finite G] {p
     (hrel_le : N.relIndex F ≤ p ^ 3) (hnot : ¬ N.relIndex F ≤ p ^ 2) :
     N.relIndex F = p ^ 3 := by
   have hp : p.Prime := Fact.out
-  haveI : (N.subgroupOf F).Normal := hNn
+  have : (N.subgroupOf F).Normal := hNn
   have hquot : IsPGroup p (↥F ⧸ N.subgroupOf F) := (hMp.to_le hFM).to_quotient _
   obtain ⟨k, hk⟩ := hquot.exists_card_eq
   have hk' : N.relIndex F = p ^ k := by
@@ -1034,7 +1034,7 @@ private lemma scalar_data_of_relIndex_eq_pow_three {G : Type} [Group G] [Finite 
     push Not at h
     exact hFN_ne (le_antisymm h hNF)
   obtain ⟨x, hxF, hxN⟩ := hex
-  haveI hEA : IsElementaryAbelian p (↥F ⧸ N.subgroupOf F) :=
+  have hEA : IsElementaryAbelian p (↥F ⧸ N.subgroupOf F) :=
     CFSG.GroupTheory.isElementaryAbelian_quotient_of_commutator_pow (p := p) hab hexp hFM
   exact scalar_cube_and_ne_one (p := p) hσF hσN hσ3 hw hFM hfpf hxF hxN
 
@@ -1060,14 +1060,14 @@ private lemma case_mod_one_contradiction (hK1 : KFacts.BlackburnScalarAut)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mp hNn
   have hNnF : (N.subgroupOf F).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hFM.trans hMnormN)
-  haveI hNnF' : (N.subgroupOf F).Normal := hNnF
+  have hNnF' : (N.subgroupOf F).Normal := hNnF
   obtain ⟨hw3, hwne⟩ :=
     scalar_data_of_relIndex_eq_pow_three (p := p) hab hexp hσF hσN hσ3 hw hFM hfpf hNF hrel3
   have hKindex : (N.subgroupOf Q).index = p ^ 3 :=
     index_subgroupOf_eq_pow_three hNM hNn hab hexp hQM hFM hFQN hgen hrel3
   have hΦeqK : frattini ↥Q = N.subgroupOf Q :=
     frattini_eq_subgroupOf_of_card hp5 hNM hNn hab hexp hQp hQM hKindex hgen
-  haveI hNQ : (N.subgroupOf Q).Normal :=
+  have hNQ : (N.subgroupOf Q).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hQM.trans hMnormN)
   let σQ : MulAut ↥Q := Q.normalizerMonoidHom ⟨σ, hσQ⟩
   have hfr_cond : ∀ y : ↥Q, (σQ y)⁻¹ * y ^ w ∈ frattini ↥Q :=
@@ -1101,7 +1101,7 @@ theorem relIndex_le_sq_of_order_three (hK1 : KFacts.BlackburnScalarAut)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mp hNn
   have hNnF : (N.subgroupOf F).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hFM.trans hMnormN)
-  haveI hNnF' : (N.subgroupOf F).Normal := hNnF
+  have hNnF' : (N.subgroupOf F).Normal := hNnF
   obtain ⟨Q, hQeq, hQM, hQp, hQnorm, ⟨u, huc, hustop⟩, hFQN⟩ :=
     exists_Q_data hp5 hloc hMp hNM hNn ht2 ht1 htN hNF hFM hFt
   have hrel_le : N.relIndex F ≤ p ^ 3 :=

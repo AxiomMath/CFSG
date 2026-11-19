@@ -22,7 +22,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem mem_typeKernel_of_classPres {θ : MulAut (StatedProj (StatedSp 2 K))}
     (hθ : uc22pdiag_ClassPres (StatedProj (StatedSp 2 K)) θ) : θ ∈ typeKernel K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V₀, hV₀⟩ := exists_sylow_projUnipotent (K := K) 2 (r := 2) (by norm_num)
   have hB : normalizer ((V₀ : Subgroup (StatedProj (StatedSp 2 K))) : Set (StatedProj (StatedSp 2 K))) =
       projBorel 2 K := by
@@ -81,7 +81,7 @@ theorem not_isInnDiagFieldAut_of_not_inner_sp4 {S : Type} [Group S] {n : ℕ} (h
     ¬ CFSG.ASVolI.ChA.IsInnDiagFieldAut S θ := by
   intro h
   obtain ⟨⟨-, -, -, hne⟩, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hS (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   have hn3 : 2 < n := by
     obtain ⟨k, rfl⟩ := hn
     rcases Nat.eq_zero_or_pos k with rfl | hk
@@ -91,11 +91,11 @@ theorem not_isInnDiagFieldAut_of_not_inner_sp4 {S : Type} [Group S] {n : ℕ} (h
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Finite (StatedProj (StatedSp 2 K)) := CFSG.ClassicalGroups.Symplectic.finite_statedProj_statedSp 2 K
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
+  have : Finite (StatedProj (StatedSp 2 K)) := CFSG.ClassicalGroups.Symplectic.finite_statedProj_statedSp 2 K
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 2 (by norm_num) (Or.inl (Or.inr h4))
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup S := e.isSimpleGroup
   have hcp : uc22pdiag_ClassPres S θ :=
     uc22pdiag_classPres_of_innDiagField (fun V => (uc22pdiag_twoClasses_Sp4 hS V).twoCoatoms)
       (uc22pdiag_dvd_Sp4 hS hn3) h
@@ -111,7 +111,7 @@ theorem exists_quot_not_isInnDiagFieldAut_sp4 {X : Type} [Group X] {n : ℕ} (hX
     ∃ θ : MulAut (X ⧸ center X), (∀ x : X, θ (QuotientGroup.mk x) = QuotientGroup.mk (α x)) ∧
       ¬ CFSG.ASVolI.ChA.IsInnDiagFieldAut (X ⧸ center X) θ := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨e₀, he₀⟩ :=
     UCK.exists_mulEquiv_of_center_eq_bot (CFSG.QuasithinUnique.Lin2.Five.center_eq_bot_of_equiv e)
   refine ⟨MulAut.congr e₀ α, fun x => ?_, ?_⟩

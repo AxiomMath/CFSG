@@ -92,7 +92,7 @@ theorem Sn_succ (n : ℕ) : Sn D (n + 1) = Sn D n ⊔ (ZMod 2) ∙ pkVec (D.bvL 
   rw [Sn, Sn, sup_comm, ← Submodule.span_insert]
   congr 1
   ext v
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     rcases Nat.lt_succ_iff_lt_or_eq.mp hk with hk | rfl
@@ -143,7 +143,7 @@ theorem exists_uVec (hbv : ∀ l < 5, D.bvL l < 2 ^ 248) {w : Fin 248 → ZMod 2
     rw [spanL, rowsOf_U0 hbv, Sn]
     congr 1
     ext v
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq]
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨b, hb, rfl⟩
       rcases hb with rfl | rfl | rfl | rfl | rfl
@@ -190,7 +190,7 @@ theorem uVec_mem (hbv : ∀ l < 5, D.bvL l < 2 ^ 248) (c : ℕ) :
     rw [spanL, rowsOf_U0 hbv, Sn]
     congr 1
     ext v
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq]
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨b, hb, rfl⟩
       rcases hb with rfl | rfl | rfl | rfl | rfl

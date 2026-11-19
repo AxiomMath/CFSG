@@ -85,7 +85,7 @@ theorem inner_step (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
   rw [hy]
   rcases Nat.lt_or_eq_of_le hp1 with hlt | heq
   · have hin : E.index.contains (T (POS i)) = true := (e6 _).2 ⟨POS i, hlt, rfl⟩
-    rw [if_neg (by rw [hin]; decide), hold (Nat.ne_of_lt hlt)]
+    rw [ite_eq_right (by rw [hin]; decide), hold (Nat.ne_of_lt hlt)]
     exact ⟨e1, e2, e3, e4, e5, e6, e7⟩
   · have hout : E.index.contains (T (POS i)) = false := by
       cases hm : E.index.contains (T (POS i))
@@ -94,7 +94,7 @@ theorem inner_step (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
         have := hd t (by omega) (POS i) hp2 he
         omega
     obtain ⟨hc1, hc2, hc3⟩ := hnew heq
-    rw [if_pos (by rw [hout]; decide), hc1]
+    rw [ite_eq_left (by rw [hout]; decide), hc1]
     have hc0 : 0 < C i := by omega
     refine ⟨by simp [e1], by simp [e2], by simp [e3], fun t ht => ?_, fun t ht ht0 => ?_,
       fun y => ?_, fun t ht => ?_⟩
@@ -139,9 +139,9 @@ theorem inner_step (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h s : �
         rw [hne]
         exact e7 t ht
       · subst ht
-        rw [heq, beq_self_eq_true, if_pos rfl, e1]
+        rw [heq, beq_self_eq_true, ite_eq_left rfl, e1]
 
-theorem C_le (hk : 0 < gs.size) (hC0 : C 0 = 1) (hn : 0 < n)
+theorem C_le (_hk : 0 < gs.size) (hC0 : C 0 = 1) (hn : 0 < n)
     (hS : ∀ i < n * gs.size, StepE gs T PA PB C POS n i) : ∀ i ≤ n * gs.size, C i ≤ n := by
   intro i hi
   induction i with
@@ -167,7 +167,7 @@ theorem head_step (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') {h : ℕ} 
       omega)).1
     rwa [Nat.mul_div_cancel _ hk] at this
   unfold outerJ
-  rw [if_pos hlt, bfsStep_eq, hE.2.2.2.1 h (by rw [← hE.1]; exact hlt)]
+  rw [ite_eq_left hlt, bfsStep_eq, hE.2.2.2.1 h (by rw [← hE.1]; exact hlt)]
   have key : ∀ s ≤ gs.size, BInvE T PA PB (C (h * gs.size + s))
       ((List.range s).foldl (stepJ gs (T h) h) E) := by
     intro s hs'
@@ -201,7 +201,7 @@ theorem init_inv (hT0 : T 0 = idA ()) (hC0 : C 0 = 1) : BInvE T PA PB (C 0) init
       rw [← h2, hT0]
   · have : t = 0 := by omega
     subst this
-    simp only [initE, Std.HashMap.getElem?_insert, hT0, beq_self_eq_true, if_true]
+    simp only [initE, Std.HashMap.getElem?_insert, hT0, beq_self_eq_true, ite_true]
 
 theorem foldl_idle : ∀ (l : List ℕ) (E : Enum), (∀ q ∈ l, E.elems.size ≤ q) →
     l.foldl (outerJ gs) E = E
@@ -210,11 +210,11 @@ theorem foldl_idle : ∀ (l : List ℕ) (E : Enum), (∀ q ∈ l, E.elems.size �
     rw [List.foldl_cons]
     have e : outerJ gs E q = E := by
       unfold outerJ
-      rw [if_neg (by have := h q List.mem_cons_self; omega)]
+      rw [ite_eq_right (by have := h q List.mem_cons_self; omega)]
     rw [e]
     exact foldl_idle l E fun q' hq' => h q' (List.mem_cons_of_mem q hq')
 
-theorem bfsEnum_replay {fuel : ℕ} (hk : 0 < gs.size) (hn : 0 < n) (hfuel : n ≤ fuel)
+theorem bfsEnum_replay {fuel : ℕ} (hk : 0 < gs.size) (_hn : 0 < n) (hfuel : n ≤ fuel)
     (hT0 : T 0 = idA ()) (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') (hC0 : C 0 = 1)
     (hCn : C (n * gs.size) = n) (hS : ∀ i < n * gs.size, StepE gs T PA PB C POS n i) :
     BInvE T PA PB n (bfsEnum gs fuel) := by
@@ -240,7 +240,7 @@ theorem lookup_of_inv {E : Enum} (hE : BInvE T PA PB n E) {t : ℕ} (ht : t < n)
   unfold Enum.lookup
   rw [hE.2.2.2.2.2.2 t ht]
   simp only
-  rw [if_pos ⟨by rw [hE.1]; exact ht, hE.2.2.2.1 t ht⟩]
+  rw [ite_eq_left ⟨by rw [hE.1]; exact ht, hE.2.2.2.1 t ht⟩]
 
 theorem enumOK_of_replay {fuel : ℕ} (hk : 0 < gs.size) (hn : 0 < n) (hfuel : n ≤ fuel)
     (hT0 : T 0 = idA ()) (hd : ∀ t < n, ∀ t' < n, T t = T t' → t = t') (hC0 : C 0 = 1)

@@ -21,11 +21,11 @@ private lemma l05nDP1_A_apply (n : ℕ) (u v : Fin n) :
   show (if u = v then 1 else if (v.val + 1 = u.val ∨ u.val + 1 = v.val) then 3 else 2) =
        (if u = v then 1 else if (u.val + 1 = v.val ∨ v.val + 1 = u.val) then 3 else 2)
   by_cases huv : u = v
-  · rw [if_pos huv, if_pos huv]
-  · rw [if_neg huv, if_neg huv]
+  · rw [ite_eq_left huv, ite_eq_left huv]
+  · rw [ite_eq_right huv, ite_eq_right huv]
     by_cases h : (v.val + 1 = u.val ∨ u.val + 1 = v.val)
-    · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-    · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+    · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 private lemma l05nDP1_B_apply (n : ℕ) (u v : Fin n) :
     CoxeterMatrix.B n u v =
@@ -39,14 +39,14 @@ private lemma l05nDP1_B_apply (n : ℕ) (u v : Fin n) :
       else if ((u = n - 1 ∧ v = n - 2) ∨ (v = n - 1 ∧ u = n - 2)) then 4
       else if (u.val + 1 = v.val ∨ v.val + 1 = u.val) then 3 else 2)
   by_cases huv : u = v
-  · rw [if_pos huv, if_pos huv]
-  · rw [if_neg huv, if_neg huv]
+  · rw [ite_eq_left huv, ite_eq_left huv]
+  · rw [ite_eq_right huv, ite_eq_right huv]
     by_cases h4 : (u = n - 1 ∧ v = n - 2 ∨ v = n - 1 ∧ u = n - 2)
-    · rw [if_pos h4, if_pos h4]
-    · rw [if_neg h4, if_neg h4]
+    · rw [ite_eq_left h4, ite_eq_left h4]
+    · rw [ite_eq_right h4, ite_eq_right h4]
       by_cases h : (v.val + 1 = u.val ∨ u.val + 1 = v.val)
-      · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-      · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+      · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+      · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 private lemma l05nDP1_path_embed {L n : ℕ} (hL : 2 ≤ L) (f : Fin L → Fin n)
     (hf : Function.Injective f)
@@ -75,7 +75,7 @@ private lemma l05nDP1_path_embed {L n : ℕ} (hL : 2 ≤ L) (f : Fin L → Fin n
       apply Fin.ext
       omega
     have hne : (⟨k + 1 + 1, hk⟩ : Fin L) ≠ ⟨k, Nat.lt_of_succ_lt (Nat.lt_of_succ_lt hk)⟩ := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     exact hne (hf heq)
   have hup_all : (f ⟨0, h0L⟩).val + 1 = (f ⟨1, h1L⟩).val →
       ∀ (k : ℕ) (hk : k + 1 < L),
@@ -110,7 +110,7 @@ private lemma l05nDP1_path_embed {L n : ℕ} (hL : 2 ≤ L) (f : Fin L → Fin n
       apply Fin.ext
       omega
     have hne : (⟨k + 1 + 1, hk⟩ : Fin L) ≠ ⟨k, Nat.lt_of_succ_lt (Nat.lt_of_succ_lt hk)⟩ := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     exact hne (hf heq)
   have hdown_all : (f ⟨1, h1L⟩).val + 1 = (f ⟨0, h0L⟩).val →
       ∀ (k : ℕ) (hk : k + 1 < L),
@@ -166,14 +166,14 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
           apply Fin.ext
           rw [hfi]
         exact ht ⟨t.val, htlt⟩ hfe.symm
-      refine ⟨⟨L - 1, by omega⟩, Or.inr (by simp only [Fin.val_mk]; omega), ?_⟩
+      refine ⟨⟨L - 1, by omega⟩, Or.inr (by simp only; omega), ?_⟩
       intro i
       rw [hfi i, htL]
       constructor
       · intro h; rcases h with h | h
-        · apply Fin.ext; simp only [Fin.val_mk]; omega
+        · apply Fin.ext; simp only; omega
         · omega
-      · intro h; left; rw [h]; simp only [Fin.val_mk]; omega
+      · intro h; left; rw [h]; simp only; omega
     · have hfi : ∀ i : Fin L, (f i).val = i.val + 1 := by
         intro i; have := hc i; rw [this, hc1]; omega
       have ht0 : t.val = 0 := by
@@ -183,7 +183,7 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
         have hfe : f ⟨t.val - 1, htlt⟩ = t := by
           apply Fin.ext
           rw [hfi]
-          simp only [Fin.val_mk]
+          simp only
           omega
         exact ht ⟨t.val - 1, htlt⟩ hfe.symm
       refine ⟨⟨0, by omega⟩, Or.inl rfl, ?_⟩
@@ -192,7 +192,7 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
       constructor
       · intro h; rcases h with h | h
         · omega
-        · apply Fin.ext; simp only [Fin.val_mk]; omega
+        · apply Fin.ext; simp only; omega
       · intro h; right; rw [h]
   · let iL : Fin L := ⟨L - 1, by omega⟩
     have hc_ge : L - 1 ≤ c' := by
@@ -215,7 +215,7 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
         have hfe : f ⟨L - 1 - t.val, hilt⟩ = t := by
           apply Fin.ext
           rw [hfi]
-          simp only [Fin.val_mk]
+          simp only
           omega
         exact ht ⟨L - 1 - t.val, hilt⟩ hfe.symm
       refine ⟨⟨0, by omega⟩, Or.inl rfl, ?_⟩
@@ -223,9 +223,9 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
       rw [hfi i, htL]
       constructor
       · intro h; rcases h with h | h
-        · apply Fin.ext; simp only [Fin.val_mk]; omega
+        · apply Fin.ext; simp only; omega
         · omega
-      · intro h; left; rw [h]; simp only [Fin.val_mk]; omega
+      · intro h; left; rw [h]; simp only; omega
     · have hfi : ∀ i : Fin L, (f i).val = L - i.val := by
         intro i; have := hc' i; omega
       have ht0 : t.val = 0 := by
@@ -236,17 +236,17 @@ private lemma l05nDP1_A_cases {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1
         have hfe : f ⟨L - t.val, hilt⟩ = t := by
           apply Fin.ext
           rw [hfi]
-          simp only [Fin.val_mk]
+          simp only
           omega
         exact ht ⟨L - t.val, hilt⟩ hfe.symm
-      refine ⟨⟨L - 1, by omega⟩, Or.inr (by simp only [Fin.val_mk]; omega), ?_⟩
+      refine ⟨⟨L - 1, by omega⟩, Or.inr (by simp only; omega), ?_⟩
       intro i
       rw [hfi i, ht0]
       constructor
       · intro h; rcases h with h | h
         · omega
-        · apply Fin.ext; simp only [Fin.val_mk]; omega
-      · intro h; right; rw [h]; simp only [Fin.val_mk]; omega
+        · apply Fin.ext; simp only; omega
+      · intro h; right; rw [h]; simp only; omega
 
 
 private lemma l05nDP1_B_double {L : ℕ} (hL : 1 ≤ L) (u v : Fin (L + 1))
@@ -254,12 +254,12 @@ private lemma l05nDP1_B_double {L : ℕ} (hL : 1 ≤ L) (u v : Fin (L + 1))
     CoxeterMatrix.B (L + 1) u v = 4 := by
   rw [l05nDP1_B_apply]
   have huv : u ≠ v := by intro h; rw [h] at hu; omega
-  rw [if_neg huv]
+  rw [ite_eq_right huv]
   have hdb : ((u.val = (L + 1) - 1 ∧ v.val = (L + 1) - 2) ∨
       (v.val = (L + 1) - 1 ∧ u.val = (L + 1) - 2)) := by
     right
     exact ⟨by omega, by omega⟩
-  rw [if_pos hdb]
+  rw [ite_eq_left hdb]
 
 private lemma l05nDP1_B_t {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1)) (t : Fin (L + 1))
     (hf : Function.Injective f) (ht : ∀ i, t ≠ f i)
@@ -272,11 +272,11 @@ private lemma l05nDP1_B_t {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1)) (
     have hA := hB i j
     rw [h4, l05nDP1_A_apply] at hA
     by_cases hij : i = j
-    · rw [if_pos hij] at hA; omega
-    · rw [if_neg hij] at hA
+    · rw [ite_eq_left hij] at hA; omega
+    · rw [ite_eq_right hij] at hA
       by_cases hadj : ((i.val + 1 = j.val) ∨ (j.val + 1 = i.val))
-      · rw [if_pos hadj] at hA; omega
-      · rw [if_neg hadj] at hA; omega
+      · rw [ite_eq_left hadj] at hA; omega
+      · rw [ite_eq_right hadj] at hA; omega
   have hpath : ∀ i j : Fin L, i ≠ j →
       ((f i).val + 1 = (f j).val ∨ (f j).val + 1 = (f i).val ↔
         i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
@@ -288,10 +288,10 @@ private lemma l05nDP1_B_t {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1)) (
       · exact hnotboth ⟨j, i, by omega, by omega⟩
       · exact hnotboth ⟨i, j, by omega, by omega⟩
     have key := hB i j
-    rw [l05nDP1_B_apply, if_neg hfij, if_neg hdbf, l05nDP1_A_apply, if_neg hij] at key
+    rw [l05nDP1_B_apply, ite_eq_right hfij, ite_eq_right hdbf, l05nDP1_A_apply, ite_eq_right hij] at key
     constructor
-    · intro h; by_contra hd; rw [if_pos h, if_neg hd] at key; omega
-    · intro h; by_contra hd; rw [if_neg hd, if_pos h] at key; omega
+    · intro h; by_contra hd; rw [ite_eq_left h, ite_eq_right hd] at key; omega
+    · intro h; by_contra hd; rw [ite_eq_right hd, ite_eq_left h] at key; omega
   have hL2 : 2 ≤ L := by omega
   rcases l05nDP1_path_embed hL2 f hf hpath with ⟨c, hc⟩ | ⟨c', hc'⟩
   · let iL : Fin L := ⟨L - 1, by omega⟩
@@ -310,17 +310,17 @@ private lemma l05nDP1_B_t {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1)) (
           apply Fin.ext
           rw [hfi]
         exact ht ⟨t.val, htlt⟩ hfe.symm
-      refine ⟨htL, ⟨⟨L - 1, by omega⟩, Or.inr (by simp only [Fin.val_mk]; omega), ?_⟩⟩
+      refine ⟨htL, ⟨⟨L - 1, by omega⟩, Or.inr (by simp only; omega), ?_⟩⟩
       intro i
       rw [hfi i]
       constructor
-      · intro h; apply Fin.ext; simp only [Fin.val_mk]; omega
+      · intro h; apply Fin.ext; simp only; omega
       · intro h; rw [h]
     · exfalso
       apply hnotboth
       refine ⟨⟨L - 2, by omega⟩, ⟨L - 1, by omega⟩, ?_, ?_⟩
-      · have h := hc ⟨L - 2, by omega⟩; simp only [Fin.val_mk] at h; omega
-      · have h := hc ⟨L - 1, by omega⟩; simp only [Fin.val_mk] at h; omega
+      · have h := hc ⟨L - 2, by omega⟩; simp only at h; omega
+      · have h := hc ⟨L - 1, by omega⟩; simp only at h; omega
   · let iL : Fin L := ⟨L - 1, by omega⟩
     have hc_ge : L - 1 ≤ c' := by
       have h := hc' iL
@@ -342,20 +342,20 @@ private lemma l05nDP1_B_t {L : ℕ} (hL : 3 ≤ L) (f : Fin L → Fin (L + 1)) (
         have hfe : f ⟨L - 1 - t.val, hilt⟩ = t := by
           apply Fin.ext
           rw [hfi]
-          simp only [Fin.val_mk]
+          simp only
           omega
         exact ht ⟨L - 1 - t.val, hilt⟩ hfe.symm
       refine ⟨htL, ⟨⟨0, by omega⟩, Or.inl rfl, ?_⟩⟩
       intro i
       rw [hfi i]
       constructor
-      · intro h; apply Fin.ext; simp only [Fin.val_mk]; omega
-      · intro h; rw [h]; simp only [Fin.val_mk]; omega
+      · intro h; apply Fin.ext; simp only; omega
+      · intro h; rw [h]; simp only; omega
     · exfalso
       apply hnotboth
       refine ⟨⟨1, by omega⟩, ⟨0, by omega⟩, ?_, ?_⟩
-      · have h := hc' ⟨1, by omega⟩; simp only [Fin.val_mk] at h; omega
-      · have h := hc' ⟨0, by omega⟩; simp only [Fin.val_mk] at h; omega
+      · have h := hc' ⟨1, by omega⟩; simp only at h; omega
+      · have h := hc' ⟨0, by omega⟩; simp only at h; omega
 
 
 theorem ggDepA_ext_A {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L))
@@ -381,21 +381,21 @@ theorem ggDepA_ext_A {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
     intro i j hij
     have hfij : f i ≠ f j := fun h => hij (hf h)
     have key := hA i j
-    rw [l05nDP1_A_apply, if_neg hfij, l05nDP1_A_apply, if_neg hij] at key
+    rw [l05nDP1_A_apply, ite_eq_right hfij, l05nDP1_A_apply, ite_eq_right hij] at key
     constructor
-    · intro h; by_contra hd; rw [if_pos h, if_neg hd] at key; omega
-    · intro h; by_contra hd; rw [if_neg hd, if_pos h] at key; omega
+    · intro h; by_contra hd; rw [ite_eq_left h, ite_eq_right hd] at key; omega
+    · intro h; by_contra hd; rw [ite_eq_right hd, ite_eq_left h] at key; omega
   obtain ⟨k, hkend, hkadj⟩ := l05nDP1_A_cases hL f t hf ht hpath
   refine ⟨k, hkend, fun i => ?_⟩
   have hadj : (t.val + 1 = (f i).val ∨ (f i).val + 1 = t.val) ↔ i = k := by
     rw [or_comm]; exact hkadj i
   have hMi : M none (some i) = CoxeterMatrix.A (L + 1) t (f i) := by
     rw [hM, CoxeterMatrix.reindex_apply]
-  rw [hMi, l05nDP1_A_apply, if_neg (ht i)]
+  rw [hMi, l05nDP1_A_apply, ite_eq_right (ht i)]
   by_cases hik : i = k
-  · rw [if_pos hik, if_pos (hadj.mpr hik)]
-  · rw [if_neg hik]
-    rw [if_neg (fun h => hik (hadj.mp h))]
+  · rw [ite_eq_left hik, ite_eq_left (hadj.mpr hik)]
+  · rw [ite_eq_right hik]
+    rw [ite_eq_right (fun h => hik (hadj.mp h))]
 
 theorem ggDepA_ext_B {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L))
     {M : CoxeterMatrix (Option (Fin L))} (hM : M = (CoxeterMatrix.B (L + 1)).reindex e)
@@ -438,11 +438,11 @@ theorem ggDepA_ext_B {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
       omega
   have hMi : M none (some i) = CoxeterMatrix.B (L + 1) t (f i) := by
     rw [hM, CoxeterMatrix.reindex_apply]
-  rw [hMi, l05nDP1_B_apply, if_neg (ht i)]
+  rw [hMi, l05nDP1_B_apply, ite_eq_right (ht i)]
   by_cases hik : i = k
-  · rw [if_pos (hdb.mpr hik), if_pos hik]
-  · rw [if_neg (fun h => hik (hdb.mp h)), if_neg hik]
-    rw [if_neg (fun h => hik (hadj.mp h))]
+  · rw [ite_eq_left (hdb.mpr hik), ite_eq_left hik]
+  · rw [ite_eq_right (fun h => hik (hdb.mp h)), ite_eq_right hik]
+    rw [ite_eq_right (fun h => hik (hadj.mp h))]
 
 private theorem l05nDP2_D_ne_zero (n : ℕ) {u v : Fin n} (h : u ≠ v) :
     CartanMatrix.D n u v ≠ 0 ↔ ( (u.val + 1 = v.val ∧ v.val + 2 < n) ∨
@@ -454,31 +454,31 @@ private theorem l05nDP2_D_ne_zero (n : ℕ) {u v : Fin n} (h : u ≠ v) :
       (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n)) ∨
       (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n)) ) := by
     unfold CartanMatrix.D
-    rw [Matrix.of_apply, if_neg h]
+    rw [Matrix.of_apply, ite_eq_right h]
     by_cases hn : n ≤ 2
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       have hAll : ¬( (u.val + 1 = v.val ∧ v.val + 2 < n) ∨
           (v.val + 1 = u.val ∧ u.val + 2 < n) ∨
           (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n)) ∨
           (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n)) ) := by
         rintro (⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
       simp [hAll]
-    · rw [if_neg hn]
+    · rw [ite_eq_right hn]
       by_cases hA : (u.val + 1 = v.val ∧ v.val + 2 < n)
-      · rw [if_pos hA]; simp [hA]
-      · rw [if_neg hA]
+      · rw [ite_eq_left hA]; simp [hA]
+      · rw [ite_eq_right hA]
         by_cases hB : (v.val + 1 = u.val ∧ u.val + 2 < n)
-        · rw [if_pos hB]; simp [hB]
-        · rw [if_neg hB]
+        · rw [ite_eq_left hB]; simp [hB]
+        · rw [ite_eq_right hB]
           by_cases hC : (u.val + 3 = n ∧ (v.val + 2 = n ∨ v.val + 1 = n))
-          · rw [if_pos hC]; simp [hC]
-          · rw [if_neg hC]
+          · rw [ite_eq_left hC]; simp [hC]
+          · rw [ite_eq_right hC]
             by_cases hD : (v.val + 3 = n ∧ (u.val + 2 = n ∨ u.val + 1 = n))
-            · rw [if_pos hD]; simp [hD]
-            · rw [if_neg hD]; simp [hA, hB, hC, hD]
+            · rw [ite_eq_left hD]; simp [hD]
+            · rw [ite_eq_right hD]; simp [hA, hB, hC, hD]
   constructor
   · intro hD; by_contra hP; exact hD (hz.mpr hP)
-  · intro hP; intro hD; exact (hz.mp hD) hP
+  · intro hP hD; exact (hz.mp hD) hP
 
 private theorem l05nDP2_D_nb_zero {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)} (hv : v ≠ 0) :
     CartanMatrix.D (L + 1) 0 v ≠ 0 ↔ v.val = 1 := by
@@ -497,25 +497,25 @@ private theorem l05nDP2_D_nb_fork {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)}
         v = (⟨L, by omega⟩ : Fin (L + 1))) := by
   have h := l05nDP2_D_ne_zero (L + 1) (Ne.symm hv)
   rw [h]; clear h
-  simp only [Fin.val_mk] at *
+  simp only at *
   constructor
   · rintro (h1 | h1 | h1 | h1)
     · omega
-    · exact Or.inl (Fin.ext (by first | (simp only [Fin.val_mk]; omega) | omega))
+    · exact Or.inl (Fin.ext (by first | (simp only; omega)))
     · rcases h1 with ⟨-, h1 | h1⟩
-      · exact Or.inr (Or.inl (Fin.ext (by first | (simp only [Fin.val_mk]; omega) | omega)))
-      · exact Or.inr (Or.inr (Fin.ext (by first | (simp only [Fin.val_mk]; omega) | omega)))
+      · exact Or.inr (Or.inl (Fin.ext (by first | (simp only; omega))))
+      · exact Or.inr (Or.inr (Fin.ext (by first | (simp only; omega))))
     · omega
   · rintro (hv1 | hv1 | hv1)
     · rw [hv1]
-      exact Or.inr (Or.inl ⟨by first | (simp only [Fin.val_mk]; omega) | omega,
-        by first | (simp only [Fin.val_mk]; omega) | omega⟩)
+      exact Or.inr (Or.inl ⟨by first | (simp only; omega),
+        by first | omega⟩)
     · rw [hv1]
-      exact Or.inr (Or.inr (Or.inl ⟨by first | (simp only [Fin.val_mk]; omega) | omega,
-        by first | (simp only [Fin.val_mk]; omega) | omega⟩))
+      exact Or.inr (Or.inr (Or.inl ⟨by first | omega,
+        by first | (simp only; omega)⟩))
     · rw [hv1]
-      exact Or.inr (Or.inr (Or.inl ⟨by first | (simp only [Fin.val_mk]; omega) | omega,
-        Or.inr (by simp [Fin.val_mk])⟩))
+      exact Or.inr (Or.inr (Or.inl ⟨by first | omega,
+        Or.inr (by simp)⟩))
 
 private theorem l05nDP2_D_nb_leaf1 {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)}
     (hv : v ≠ (⟨L - 1, by omega⟩ : Fin (L + 1))) :
@@ -523,17 +523,17 @@ private theorem l05nDP2_D_nb_leaf1 {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)}
       v = (⟨L - 2, by omega⟩ : Fin (L + 1)) := by
   have h := l05nDP2_D_ne_zero (L + 1) (Ne.symm hv)
   rw [h]; clear h
-  simp only [Fin.val_mk] at *
+  simp only at *
   constructor
   · rintro (h1 | h1 | h1 | h1)
     · omega
     · omega
     · omega
-    · exact Fin.ext (by first | (simp only [Fin.val_mk]; omega) | omega)
+    · exact Fin.ext (by first | (simp only; omega))
   · intro hv1
     rw [hv1]
-    exact Or.inr (Or.inr (Or.inr ⟨by first | (simp only [Fin.val_mk]; omega) | omega,
-      Or.inl (by first | (simp only [Fin.val_mk]; omega) | omega)⟩))
+    exact Or.inr (Or.inr (Or.inr ⟨by first | (simp only; omega),
+      Or.inl (by first | omega)⟩))
 
 private theorem l05nDP2_D_nb_leaf2 {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)}
     (hv : v ≠ (⟨L, by omega⟩ : Fin (L + 1))) :
@@ -541,19 +541,19 @@ private theorem l05nDP2_D_nb_leaf2 {L : ℕ} (hL : 3 ≤ L) {v : Fin (L + 1)}
       v = (⟨L - 2, by omega⟩ : Fin (L + 1)) := by
   have h := l05nDP2_D_ne_zero (L + 1) (Ne.symm hv)
   rw [h]; clear h
-  simp only [Fin.val_mk] at *
+  simp only at *
   constructor
   · rintro (h1 | h1 | h1 | h1)
     · omega
     · omega
     · omega
-    · exact Fin.ext (by first | (simp only [Fin.val_mk]; omega) | omega)
+    · exact Fin.ext (by first | (simp only; omega))
   · intro hv1
     rw [hv1]
-    exact Or.inr (Or.inr (Or.inr ⟨by first | (simp only [Fin.val_mk]; omega) | omega,
-      Or.inr (by simp [Fin.val_mk])⟩))
+    exact Or.inr (Or.inr (Or.inr ⟨by first | (simp only; omega),
+      Or.inr (by simp)⟩))
 
-private theorem l05nDP2_has_two {L : ℕ} (hL : 3 ≤ L) {f : Fin L → Fin (L + 1)}
+private theorem l05nDP2_has_two {L : ℕ} (_hL : 3 ≤ L) {f : Fin L → Fin (L + 1)}
     (hadj : ∀ i j : Fin L, i ≠ j →
       (CartanMatrix.D (L + 1) (f i) (f j) ≠ 0 ↔ (j.val + 1 = i.val ∨ i.val + 1 = j.val)))
     {i : Fin L} (h0 : i.val ≠ 0) (hL' : i.val + 1 ≠ L) :
@@ -621,20 +621,20 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
     intro i j hij
     have h := hJ' i j
     have hfij : f i ≠ f j := fun hh => hij (hf_inj hh)
-    rw [ggCoxeterMatrixD_apply, if_neg hfij] at h
-    simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij] at h
+    rw [ggCoxeterMatrixD_apply, ite_eq_right hfij] at h
+    simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij] at h
     constructor
     · intro hD
       by_cases hc : (j.val + 1 = i.val ∨ i.val + 1 = j.val)
       · exact hc
-      · exfalso; rw [if_neg hD, if_neg hc] at h; omega
+      · exfalso; rw [ite_eq_right hD, ite_eq_right hc] at h; omega
     · intro hc
       by_cases hD : CartanMatrix.D (L + 1) (f i) (f j) = 0
-      · exfalso; rw [if_pos hD, if_pos hc] at h; omega
+      · exfalso; rw [ite_eq_left hD, ite_eq_left hc] at h; omega
       · exact hD
   have hrange : Set.range f = {u : Fin (L + 1) | u ≠ t} := by
     ext u
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, rfl⟩
       exact fun hc => ht_ne i hc.symm
@@ -728,14 +728,14 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
     intro k hkpos hkadj huniq
     refine ⟨k, hkpos, ?_⟩
     intro i
-    rw [hMnone i, ggCoxeterMatrixD_apply, if_neg (ht_ne i)]
+    rw [hMnone i, ggCoxeterMatrixD_apply, ite_eq_right (ht_ne i)]
     by_cases hik : i = k
     · have hD : CartanMatrix.D (L + 1) t (f i) ≠ 0 := by rw [hik]; exact hkadj
-      rw [if_neg hD, if_pos hik]
+      rw [ite_eq_right hD, ite_eq_left hik]
     · have hD : CartanMatrix.D (L + 1) t (f i) = 0 := by
         by_contra hD'
         exact hik (hf_inj (huniq (f i) (ht_ne i).symm hD'))
-      rw [if_pos hD, if_neg hik]
+      rw [ite_eq_left hD, ite_eq_right hik]
   rcases htleaf with ht0 | htf | htl
   ·
     have hL3 : L = 3 := by
@@ -744,13 +744,13 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
       have hne_t : ∀ {u : Fin (L + 1)}, u.val ≠ t.val → u ≠ t :=
         fun hu h => hu (congrArg Fin.val h)
       have hcf0 : (⟨L - 2, by omega⟩ : Fin (L + 1)).val ≠ t.val := by
-        simp only [Fin.val_mk]; omega
+        simp only; omega
       have hcc0 : (⟨L - 3, by omega⟩ : Fin (L + 1)).val ≠ t.val := by
-        simp only [Fin.val_mk]; omega
+        simp only; omega
       have hcl10 : (⟨L - 1, by omega⟩ : Fin (L + 1)).val ≠ t.val := by
-        simp only [Fin.val_mk]; omega
+        simp only; omega
       have hcl20 : (⟨L, by omega⟩ : Fin (L + 1)).val ≠ t.val := by
-        simp only [Fin.val_mk]; omega
+        simp only; omega
       obtain ⟨i0, hi0⟩ := hmem (⟨L - 2, by omega⟩ : Fin (L + 1)) (hne_t hcf0)
       obtain ⟨j1, hj1⟩ := hmem (⟨L - 3, by omega⟩ : Fin (L + 1)) (hne_t hcc0)
       obtain ⟨j2, hj2⟩ := hmem (⟨L - 1, by omega⟩ : Fin (L + 1)) (hne_t hcl10)
@@ -758,27 +758,27 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
       have hfork_ne_chain : (⟨L - 3, by omega⟩ : Fin (L + 1)) ≠
           (⟨L - 2, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hfork_ne_l1 : (⟨L - 1, by omega⟩ : Fin (L + 1)) ≠
           (⟨L - 2, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hfork_ne_l2 : (⟨L, by omega⟩ : Fin (L + 1)) ≠
           (⟨L - 2, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hc12 : (⟨L - 3, by omega⟩ : Fin (L + 1)) ≠
           (⟨L - 1, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hc13 : (⟨L - 3, by omega⟩ : Fin (L + 1)) ≠
           (⟨L, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hc23 : (⟨L - 1, by omega⟩ : Fin (L + 1)) ≠
           (⟨L, by omega⟩ : Fin (L + 1)) := by
         intro h; have := congrArg Fin.val h
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have d1 : CartanMatrix.D (L + 1) (f i0) (f j1) ≠ 0 := by
         rw [hi0, hj1]
         exact (l05nDP2_D_nb_fork hL hfork_ne_chain).mpr (Or.inl rfl)
@@ -798,18 +798,18 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
         d1 d2 d3
     have ht_eq : t = 0 := Fin.ext (by simpa using ht0)
     have hcl : (⟨L - 2, by omega⟩ : Fin (L + 1)) ≠ t := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     obtain ⟨k, hk⟩ := hmem (⟨L - 2, by omega⟩ : Fin (L + 1)) hcl
     have hkadj : CartanMatrix.D (L + 1) t (f k) ≠ 0 := by
       rw [ht_eq, hk]
       exact (l05nDP2_D_nb_zero hL (by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr
-        (by first | (simp only [Fin.val_mk]; omega) | omega)
+        intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr
+        (by first | (simp only; omega))
     have hkval : k.val = 1 := by
       have h1 : (⟨L - 1, by omega⟩ : Fin (L + 1)) ≠ t := by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only at this; omega
       have h2 : (⟨L, by omega⟩ : Fin (L + 1)) ≠ t := by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+        intro h; have := congrArg Fin.val h; simp only at this; omega
       obtain ⟨j1, hj1⟩ := hmem (⟨L - 1, by omega⟩ : Fin (L + 1)) h1
       obtain ⟨j2, hj2⟩ := hmem (⟨L, by omega⟩ : Fin (L + 1)) h2
       have hk1 : k ≠ j1 := by
@@ -817,30 +817,30 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
         have hh : (⟨L - 2, by omega⟩ : Fin (L + 1)) = (⟨L - 1, by omega⟩ : Fin (L + 1)) := by
           rw [← hk, h, hj1]
         have := congrArg Fin.val hh
-        simp only [Fin.val_mk] at this
+        simp only at this
         omega
       have hk2 : k ≠ j2 := by
         intro h
         have hh : (⟨L - 2, by omega⟩ : Fin (L + 1)) = (⟨L, by omega⟩ : Fin (L + 1)) := by
           rw [← hk, h, hj2]
         have := congrArg Fin.val hh
-        simp only [Fin.val_mk] at this
+        simp only at this
         omega
       have hj12 : j1 ≠ j2 := by
         intro h
         have hh : (⟨L - 1, by omega⟩ : Fin (L + 1)) = (⟨L, by omega⟩ : Fin (L + 1)) := by
           rw [← hj1, h, hj2]
         have := congrArg Fin.val hh
-        simp only [Fin.val_mk] at this; omega
+        simp only at this; omega
       have hd1 : CartanMatrix.D (L + 1) (f k) (f j1) ≠ 0 := by
         rw [hk, hj1]
         exact (l05nDP2_D_nb_fork hL (by
-          intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr
+          intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr
           (Or.inr (Or.inl rfl))
       have hd2 : CartanMatrix.D (L + 1) (f k) (f j2) ≠ 0 := by
         rw [hk, hj2]
         exact (l05nDP2_D_nb_fork hL (by
-          intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr
+          intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr
           (Or.inr (Or.inr rfl))
       have e1 := (hadj k j1 hk1).mp hd1
       have e2 := (hadj k j2 hk2).mp hd2
@@ -858,7 +858,7 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
   ·
     have ht_eq : t = (⟨L - 1, by omega⟩ : Fin (L + 1)) := Fin.ext htf
     have hut : (⟨L, by omega⟩ : Fin (L + 1)) ≠ t := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     obtain ⟨j, hj⟩ := hmem (⟨L, by omega⟩ : Fin (L + 1)) hut
     have huniq_u : ∀ v, v ≠ (⟨L, by omega⟩ : Fin (L + 1)) →
         CartanMatrix.D (L + 1) (⟨L, by omega⟩ : Fin (L + 1)) v ≠ 0 →
@@ -868,22 +868,22 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
       l05nDP2_end_of_not_has_two hL hadj
         (hNotTwo (⟨L, by omega⟩ : Fin (L + 1)) (⟨L - 2, by omega⟩ : Fin (L + 1)) huniq_u j hj)
     have hct : (⟨L - 2, by omega⟩ : Fin (L + 1)) ≠ t := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     obtain ⟨k, hk⟩ := hmem (⟨L - 2, by omega⟩ : Fin (L + 1)) hct
     have hkadj : CartanMatrix.D (L + 1) t (f k) ≠ 0 := by
       rw [ht_eq, hk]
       exact (l05nDP2_D_nb_leaf1 hL (by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr rfl
+        intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr rfl
     have hkj : k ≠ j := by
       intro h
       have hh : (⟨L - 2, by omega⟩ : Fin (L + 1)) = (⟨L, by omega⟩ : Fin (L + 1)) := by
         rw [← hk, h, hj]
       have := congrArg Fin.val hh
-      simp only [Fin.val_mk] at this; omega
+      simp only at this; omega
     have hcu : CartanMatrix.D (L + 1) (f k) (f j) ≠ 0 := by
       rw [hk, hj]
       exact (l05nDP2_D_nb_fork hL (by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr
+        intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr
         (Or.inr (Or.inr rfl))
     have hkj' := (hadj k j hkj).mp hcu
     have hkpos : k.val = 1 ∨ k.val + 2 = L := by
@@ -902,7 +902,7 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
   ·
     have ht_eq : t = (⟨L, by omega⟩ : Fin (L + 1)) := Fin.ext htl
     have hut : (⟨L - 1, by omega⟩ : Fin (L + 1)) ≠ t := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     obtain ⟨j, hj⟩ := hmem (⟨L - 1, by omega⟩ : Fin (L + 1)) hut
     have huniq_u : ∀ v, v ≠ (⟨L - 1, by omega⟩ : Fin (L + 1)) →
         CartanMatrix.D (L + 1) (⟨L - 1, by omega⟩ : Fin (L + 1)) v ≠ 0 →
@@ -912,22 +912,22 @@ theorem ggDepA_ext_D {L : ℕ} (hL : 3 ≤ L) (e : Fin (L + 1) ≃ Option (Fin L
       l05nDP2_end_of_not_has_two hL hadj
         (hNotTwo (⟨L - 1, by omega⟩ : Fin (L + 1)) (⟨L - 2, by omega⟩ : Fin (L + 1)) huniq_u j hj)
     have hct : (⟨L - 2, by omega⟩ : Fin (L + 1)) ≠ t := by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
+      intro h; have := congrArg Fin.val h; simp only at this; omega
     obtain ⟨k, hk⟩ := hmem (⟨L - 2, by omega⟩ : Fin (L + 1)) hct
     have hkadj : CartanMatrix.D (L + 1) t (f k) ≠ 0 := by
       rw [ht_eq, hk]
       exact (l05nDP2_D_nb_leaf2 hL (by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr rfl
+        intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr rfl
     have hkj : k ≠ j := by
       intro h
       have hh : (⟨L - 2, by omega⟩ : Fin (L + 1)) = (⟨L - 1, by omega⟩ : Fin (L + 1)) := by
         rw [← hk, h, hj]
       have := congrArg Fin.val hh
-      simp only [Fin.val_mk] at this; omega
+      simp only at this; omega
     have hcu : CartanMatrix.D (L + 1) (f k) (f j) ≠ 0 := by
       rw [hk, hj]
       exact (l05nDP2_D_nb_fork hL (by
-        intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)).mpr
+        intro h; have := congrArg Fin.val h; simp only at this; omega)).mpr
         (Or.inr (Or.inl rfl))
     have hkj' := (hadj k j hkj).mp hcu
     have hkpos : k.val = 1 ∨ k.val + 2 = L := by
@@ -1019,8 +1019,8 @@ private theorem l05nDP3_E6_closed :
   rw [l05nDP3_E6_concl]
   rw [l05nDP3_E6_off] at ho
   rcases hp with ⟨rfl, rfl, rfl, rfl, rfl⟩ | ⟨rfl, rfl, rfl, rfl, rfl⟩
-  · fin_cases t <;> simp_all <;> decide
-  · fin_cases t <;> simp_all <;> decide
+  · fin_cases t <;> simp_all; decide
+  · fin_cases t <;> simp_all; decide
 
 private def l05nDP3_F4_hyp (a0 a1 a2 : Fin 4) : Prop :=
   l05nDP3_f4 a0 a0 = l05nDP3_a 3 0 0 ∧
@@ -1065,7 +1065,7 @@ private theorem ggDepA_ext_E6 (e : Fin 6 ≃ Option (Fin 5)) {M : CoxeterMatrix 
   have hf_ne : ∀ i j : Fin 5, i ≠ j → f i ≠ f j := fun i j hij h => hij (hf_inj h)
   have ht_off : ∀ i : Fin 5, t ≠ f i := by
     intro i h
-    have h' : (none : Option (Fin 5)) = some i := e.symm.injective (by simpa [t, f] using h)
+    have h' : (none : Option (Fin 5)) = some i := e.symm.injective (by simp [t, f] at h)
     simp at h'
   have ha01 : l05nDP3_e6 (f 0) (f 1) = 3 := by rw [hJ' 0 1]; decide
   have ha12 : l05nDP3_e6 (f 1) (f 2) = 3 := by rw [hJ' 1 2]; decide
@@ -1186,7 +1186,7 @@ lemma l05nDP4_cartanA_eq_two {n : ℕ} {i j : Fin n}
     (h : CartanMatrix.A n i j = 2) : i = j := by
   by_contra hij
   simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false] at h
-  split_ifs at h <;> omega
+  split_ifs at h; omega
 
 lemma l05nDP4_cartanA_mem (n : ℕ) (i j : Fin n) :
     CartanMatrix.A n i j = 2 ∨ CartanMatrix.A n i j = -1 ∨ CartanMatrix.A n i j = 0 := by
@@ -1198,18 +1198,18 @@ lemma l05nDP4_cartanA_mem (n : ℕ) (i j : Fin n) :
 lemma l05nDP4_coxeterA_of_cartanA_zero {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     (h : CartanMatrix.A n i j = 0) : CoxeterMatrix.A n i j = 2 := by
   by_cases hadj : i.val + 1 = j.val ∨ j.val + 1 = i.val
-  · simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false, if_pos hadj] at h
+  · simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false, ite_eq_left hadj] at h
     omega
   · have hadj' : ¬ (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by omega
-    simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false, if_neg hadj']
+    simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false, ite_eq_right hadj']
 
 lemma l05nDP4_coxeterA_of_cartanA_neg {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     (h : CartanMatrix.A n i j < 0) : CoxeterMatrix.A n i j = 3 := by
   by_cases hadj : i.val + 1 = j.val ∨ j.val + 1 = i.val
   · have hadj' : j.val + 1 = i.val ∨ i.val + 1 = j.val := by tauto
-    simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false, if_pos hadj']
+    simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false, ite_eq_left hadj']
   · have hadj' : ¬ (j.val + 1 = i.val ∨ i.val + 1 = j.val) := by omega
-    simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false, if_neg hadj'] at h
+    simp only [CartanMatrix.A, Matrix.of_apply, hij, ite_false] at h
     omega
 
 lemma l05nDP4_neg_pair_of_mul {a b k : ℤ} (hk : k = 2 ∨ k = 3) (ha : a < 0) (hb : b < 0)
@@ -1291,22 +1291,22 @@ private theorem ggDepA_pattern_abs {L : ℕ} (hL : 3 ≤ L) (hr : L = 3 ∨ L = 
       · exact Or.inr (Or.inr ⟨hL5, hk2, rfl, rfl⟩)
     · intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 3 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 3 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, -⟩ | ⟨hm, h1, h2⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_left hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
   ·
-    have hkM : M none (some k) = 4 := by rw [hrow k, if_pos rfl]
+    have hkM : M none (some k) = 4 := by rw [hrow k, ite_eq_left rfl]
     have hprod : C none (some k) * C (some k) none = 2 ∧ C none (some k) < 0 ∧
         C (some k) none < 0 := by
       rcases hC.2 none (some k) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ |
@@ -1325,34 +1325,34 @@ private theorem ggDepA_pattern_abs {L : ℕ} (hL : 3 ≤ L) (hr : L = 3 ∨ L = 
     · refine ⟨k, -1, -2, Or.inl ⟨hend, Or.inr (Or.inl ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
     · refine ⟨k, -2, -1, Or.inl ⟨hend, Or.inr (Or.inr ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
@@ -1364,23 +1364,23 @@ private lemma l05nDP4_cartanA_emb {N : ℕ} (hN : N = 5 ∨ N = 7 ∨ N = 10)
         (if b'.val = 0 then ⟨j.val + 1, by omega⟩ else ⟨j.val, by omega⟩) =
       CartanMatrix.A (N - 2) i j := by
   rcases hN with rfl | rfl | rfl <;> rcases hb with h0 | hl
-  · simp only [if_pos h0]
+  · simp only [ite_eq_left h0]
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
   · have h0' : ¬ b'.val = 0 := by omega
-    simp only [if_neg h0']
+    simp only [ite_eq_right h0']
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
-  · simp only [if_pos h0]
-    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
-    split_ifs <;> omega
-  · have h0' : ¬ b'.val = 0 := by omega
-    simp only [if_neg h0']
-    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
-  · simp only [if_pos h0]
+  · simp only [ite_eq_left h0]
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
     split_ifs <;> omega
   · have h0' : ¬ b'.val = 0 := by omega
-    simp only [if_neg h0']
+    simp only [ite_eq_right h0']
+    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
+  · simp only [ite_eq_left h0]
+    simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
+    split_ifs <;> omega
+  · have h0' : ¬ b'.val = 0 := by omega
+    simp only [ite_eq_right h0']
     simp only [CartanMatrix.A, Matrix.of_apply, Fin.ext_iff]
 
 lemma l05nDP4_cast_cartan {p : ℕ} {a b : ℤ} (hp : 5 ≤ p)
@@ -1400,10 +1400,10 @@ lemma l05nDP4_cast_cartan {p : ℕ} {a b : ℤ} (hp : 5 ≤ p)
       exact le_antisymm hle hpab
     have ha3 : a = -3 := by
       rcases ha with rfl | rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl <;>
-        norm_num at habs <;> omega
+        norm_num at habs; omega
     have hb2 : b = 2 := by
       rcases ha with rfl | rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl <;>
-        norm_num at habs <;> omega
+        norm_num at habs; omega
     have : a = 2 := h2 hb2
     omega
 
@@ -1424,15 +1424,15 @@ theorem ggDepA_pattern {p N : ℕ} (hp : 5 ≤ p) (hN : N = 5 ∨ N = 7 ∨ N = 
   have hemb_val : ∀ k : Fin (N - 2), (emb k).val = if b'.val = 0 then k.val + 1 else k.val := by
     intro k
     by_cases h : b'.val = 0
-    · simp only [emb, if_pos h]
-    · simp only [emb, if_neg h]
+    · simp only [emb, ite_eq_left h]
+    · simp only [emb, ite_eq_right h]
   have hemb_ne : ∀ k : Fin (N - 2), emb k ≠ b' := by
     intro k hh
     have hhv : (emb k).val = b'.val := congrArg Fin.val hh
     rw [hemb_val k] at hhv
     rcases hb with h0 | hl
-    · rw [if_pos h0] at hhv; omega
-    · rw [if_neg (by omega : ¬ b'.val = 0)] at hhv; omega
+    · rw [ite_eq_left h0] at hhv; omega
+    · rw [ite_eq_right (by omega : ¬ b'.val = 0)] at hhv; omega
   let toJ : Fin (N - 2) → {i : Λ // i ≠ b} := fun k => ⟨e (emb k), by
     intro hh
     exact hemb_ne k (by
@@ -1467,9 +1467,9 @@ theorem ggDepA_pattern {p N : ℕ} (hp : 5 ≤ p) (hN : N = 5 ∨ N = 7 ∨ N = 
     intro k
     apply Fin.ext
     by_cases h0 : b'.val = 0
-    · simp only [posFun, toJ, dif_pos h0, hemb_val k, if_pos h0, Equiv.symm_apply_apply]
+    · simp only [posFun, toJ, dite_eq_left h0, hemb_val k, ite_eq_left h0, Equiv.symm_apply_apply]
       omega
-    · simp only [posFun, toJ, dif_neg h0, hemb_val k, if_neg h0, Equiv.symm_apply_apply]
+    · simp only [posFun, toJ, dite_eq_right h0, hemb_val k, ite_eq_right h0, Equiv.symm_apply_apply]
   have hpos_right : ∀ i : {i : Λ // i ≠ b}, toJ (posFun i) = i := by
     intro i
     apply Subtype.ext
@@ -1482,9 +1482,9 @@ theorem ggDepA_pattern {p N : ℕ} (hp : 5 ≤ p) (hN : N = 5 ∨ N = 7 ∨ N = 
         have hv : (e.symm i.val).val ≠ 0 := by
           intro hv0
           exact hi (Fin.ext (by rw [hv0, h0]))
-        simp only [posFun, dif_pos h0, emb, if_pos h0, hemb_val, if_pos h0]
+        simp only [posFun, dite_eq_left h0, emb, ite_eq_left h0]
         omega
-      · simp only [posFun, dif_neg h0, emb, if_neg h0, hemb_val, if_neg h0]
+      · simp only [posFun, dite_eq_right h0, emb, ite_eq_right h0]
     show e (emb (posFun i)) = i.val
     rw [hemb, Equiv.apply_symm_apply]
   let posEquiv : Fin (N - 2) ≃ {i : Λ // i ≠ b} :=
@@ -1527,8 +1527,8 @@ theorem ggDepA_pattern {p N : ℕ} (hp : 5 ≤ p) (hN : N = 5 ∨ N = 7 ∨ N = 
   obtain ⟨k, m, n, hpat, hrow⟩ := ggDepA_pattern_abs (L := N - 2) hL3 hr3 hM₀ hC₀ hJ₀
   have hposeq : (if b'.val = 0 then (emb k).val - 1 else (emb k).val) = k.val := by
     by_cases h0 : b'.val = 0
-    · rw [if_pos h0, hemb_val k, if_pos h0]; omega
-    · rw [if_neg h0, hemb_val k, if_neg h0]
+    · rw [ite_eq_left h0, hemb_val k, ite_eq_left h0]; omega
+    · rw [ite_eq_right h0, hemb_val k, ite_eq_right h0]
   have hiff : ∀ i : {i : Λ // i ≠ b}, posEquiv.symm i = k ↔ e.symm i.val = emb k := by
     intro i
     constructor
@@ -1559,21 +1559,21 @@ theorem ggDepA_pattern {p N : ℕ} (hp : 5 ≤ p) (hN : N = 5 ∨ N = 7 ∨ N = 
     refine ⟨?_, ?_⟩
     · by_cases hik : e.symm i = emb k
       · have h2 : posEquiv.symm i = k := (hiff i).2 hik
-        rw [if_pos h2] at hr1
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr1
+        rw [ite_eq_left hik]
         exact hr1
       · have h2 : posEquiv.symm i ≠ k := fun hh => hik ((hiff i).1 hh)
-        rw [if_neg h2] at hr1
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr1
+        rw [ite_eq_right hik]
         exact hr1
     · by_cases hik : e.symm i = emb k
       · have h2 : posEquiv.symm i = k := (hiff i).2 hik
-        rw [if_pos h2] at hr2
-        rw [if_pos hik]
+        rw [ite_eq_left h2] at hr2
+        rw [ite_eq_left hik]
         exact hr2
       · have h2 : posEquiv.symm i ≠ k := fun hh => hik ((hiff i).1 hh)
-        rw [if_neg h2] at hr2
-        rw [if_neg hik]
+        rw [ite_eq_right h2] at hr2
+        rw [ite_eq_right hik]
         exact hr2
   refine ⟨emb k, m, n, ?_, fun i => hrow' i⟩
   unfold GGDepAPat

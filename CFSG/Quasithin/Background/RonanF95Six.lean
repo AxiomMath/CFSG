@@ -235,6 +235,7 @@ theorem F95_six_core (h : HypF91 T V L V₁ Vp H) (hidx : Vp.relIndex V = 2)
       · exact ⟨3, Or.inl rfl, hdih 3 le_rfl hm3⟩
       · exact ⟨6, Or.inr ⟨hj2, Or.inr rfl⟩, hdih 6 (by norm_num) hm6⟩
 
+omit [Finite G] in
 theorem card_V_eq (h : HypF91 T V L V₁ Vp H) (hidx : Vp.relIndex V = 2) :
     Nat.card V = Nat.card Vp * 2 := by
   have h1 := Subgroup.card_mul_index (Vp.subgroupOf V)

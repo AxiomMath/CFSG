@@ -11,6 +11,7 @@ section Vector
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 private theorem one_add_pow_two_pow (X : Module.End (ZMod 2) V) (k : ℕ) :
     (1 + X) ^ (2 ^ k) = 1 + X ^ (2 ^ k) := by
   have hdbl : ∀ Y : Module.End (ZMod 2) V, Y + Y = 0 := fun Y => LinearMap.ext fun x => by

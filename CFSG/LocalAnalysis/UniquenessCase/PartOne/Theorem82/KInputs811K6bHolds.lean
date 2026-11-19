@@ -38,7 +38,7 @@ theorem three_le_pRank_centralizer_of_isLie811
 theorem k6b_of_k6a
     (h6a : K6a) : K6b := by
   intro Y _ _ fam r f h A hA hAc x hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : CFSG.GroupTheory.UniqueElemSylow 3 3 Y := fun P => by
     simpa using h6a Y fam r f h P
   exact CFSG.GroupTheory.UniqueElemSylow.exists_conj_mem (by norm_num) hU

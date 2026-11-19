@@ -144,10 +144,12 @@ variable (q : ℕ)
 
 variable {q} [NeZero q]
 
+omit [NeZero q] in
 theorem cast_addq (a b : ℕ) : ((addq q a b : ℕ) : ZMod q) = a + b := by
   change (((a + b) % q : ℕ) : ZMod q) = _
   rw [ZMod.natCast_mod, Nat.cast_add]
 
+omit [NeZero q] in
 theorem cast_mulq (a b : ℕ) : ((mulq q a b : ℕ) : ZMod q) = a * b := by
   change (((a * b) % q : ℕ) : ZMod q) = _
   rw [ZMod.natCast_mod, Nat.cast_mul]
@@ -171,12 +173,14 @@ theorem cast_zq (x : ℤ) : ((zq q x : ℕ) : ZMod q) = (x : ZMod q) := by
   change ((Int.toNat (x % (q : ℤ)) : ℕ) : ZMod q) = _
   rw [← Int.cast_natCast, Int.toNat_of_nonneg (Int.emod_nonneg _ hq), ZMod.intCast_mod]
 
+omit [NeZero q] in
 theorem eqq_eq (a b : ℕ) : eqq q a b = decide ((a : ZMod q) = b) := by
   rw [Bool.eq_iff_iff, decide_eq_true_iff, ZMod.natCast_eq_natCast_iff']
   unfold eqq
   rw [Nat.beq_eq]
   exact Iff.rfl
 
+omit [NeZero q] in
 theorem cast_sumR (f : ℕ → ℕ) (m : ℕ) :
     ((sumR q f m : ℕ) : ZMod q) = ∑ i : Fin m, ((f i : ℕ) : ZMod q) := by
   induction m with
@@ -258,7 +262,7 @@ variable {q : ℕ} [NeZero q] {N : ℕ} {T : Fin N → Vector (ZMod q) (N + 1)} 
   (hT : ∀ (k : Fin N) (l : Fin (N + 1)), (T k).get l = (nth (nthL TN k.val) l.val : ZMod q))
 include hT
 
-omit hT in
+omit hT [NeZero q] in
 theorem dot_eq {m : ℕ} {A Z : Vector (ZMod q) (m + 1)} {a z : List ℕ}
     (hA : ∀ l : Fin (m + 1), A.get l = (nth a l.val : ZMod q))
     (hZ : ∀ l : Fin (m + 1), Z.get l = (nth z l.val : ZMod q)) :
@@ -268,37 +272,36 @@ theorem dot_eq {m : ℕ} {A Z : Vector (ZMod q) (m + 1)} {a z : List ℕ}
   simp only [cast_mulq, hA, hZ]
 
 omit hT in
+omit [NeZero q] in
 theorem fUnit_get {M : ℕ} (k l : Fin (M + 1)) :
     (ggFUnit k : Vector (ZMod q) (M + 1)).get l = (nth (unitN (M + 1) k.val) l.val : ZMod q) := by
   rw [ggFUnit, Vector.get_ofFn, unitN, nth, nthD_ofA _ _ _ _ _ l.isLt, zero_add]
-  beta_reduce
   by_cases h : l = k
-  · rw [if_pos h, beqT (by rw [h])]
+  · rw [ite_eq_left h, beqT (by rw [h])]
     exact Nat.cast_one.symm
-  · rw [if_neg h, beqF (fun h' => h (Fin.ext h'))]
+  · rw [ite_eq_right h, beqF (fun h' => h (Fin.ext h'))]
     exact Nat.cast_zero.symm
 
 omit hT in
+omit [NeZero q] in
 theorem fDUnit_get {M : ℕ} (k l : Fin M) :
     (ggFDUnit k : Vector (ZMod q) M).get l = (nth (unitN M k.val) l.val : ZMod q) := by
   rw [ggFDUnit, Vector.get_ofFn, unitN, nth, nthD_ofA _ _ _ _ _ l.isLt, zero_add]
-  beta_reduce
   by_cases h : l = k
-  · rw [if_pos h, beqT (by rw [h])]
+  · rw [ite_eq_left h, beqT (by rw [h])]
     exact Nat.cast_one.symm
-  · rw [if_neg h, beqF (fun h' => h (Fin.ext h'))]
+  · rw [ite_eq_right h, beqF (fun h' => h (Fin.ext h'))]
     exact Nat.cast_zero.symm
 
 theorem refl_get (k : Fin N) {Z : Vector (ZMod q) (N + 1)} {z : List ℕ}
     (hZ : ∀ l : Fin (N + 1), Z.get l = (nth z l.val : ZMod q)) (l : Fin (N + 1)) :
     (ggFRefl T k Z).get l = (nth (reflN q N TN k.val z) l.val : ZMod q) := by
   rw [ggFRefl, Vector.get_ofFn, reflN, nth, nthD_ofA _ _ _ _ _ l.isLt, zero_add]
-  beta_reduce
   by_cases h : l = k.castSucc
-  · rw [if_pos h, beqT (by rw [h]; rfl)]
+  · rw [ite_eq_left h, beqT (by rw [h]; rfl)]
     change _ = ((subq q _ _ : ℕ) : ZMod q)
     rw [cast_subq, dot_eq (hT k) hZ, ← hZ l]
-  · rw [if_neg h, beqF (fun h' => h (Fin.ext (by rw [h']; rfl)))]
+  · rw [ite_eq_right h, beqF (fun h' => h (Fin.ext (by rw [h']; rfl)))]
     exact hZ l
 
 theorem word_get (ws : List (Fin N)) {Z : Vector (ZMod q) (N + 1)} {z : List ℕ}
@@ -312,23 +315,23 @@ theorem FH_get (t : Fin N × List (Fin N)) (l : Fin (N + 1)) :
     (ggFH T t).get l = (nth (FHN q N TN t) l.val : ZMod q) :=
   word_get hT t.2 (fun l => fUnit_get t.1.castSucc l) l
 
+omit [NeZero q] in
 theorem dualAt_eq {c : Vector (ZMod q) N} {c' : List ℕ}
     (hc : ∀ o : Fin N, c.get o = (nth c' o.val : ZMod q)) (j : Fin N) :
     ggFDualAt T c j = (dualAtN q N TN c' j.val : ZMod q) := by
   rw [ggFDualAt, dualAtN, cast_sumR]
   refine Finset.sum_congr rfl fun o _ => ?_
-  simp only [cast_mulq, hc, hT, Fin.coe_castSucc]
+  simp only [cast_mulq, hc, hT, Fin.val_castSucc]
 
 theorem dRefl_get (j : Fin N) {c : Vector (ZMod q) N} {c' : List ℕ}
     (hc : ∀ o : Fin N, c.get o = (nth c' o.val : ZMod q)) (o : Fin N) :
     (ggFDRefl T j c).get o = (nth (dReflN q N TN j.val c') o.val : ZMod q) := by
   rw [ggFDRefl, Vector.get_ofFn, dReflN, nth, nthD_ofA _ _ _ _ _ o.isLt, zero_add]
-  beta_reduce
   by_cases h : o = j
-  · rw [if_pos h, beqT (by rw [h])]
+  · rw [ite_eq_left h, beqT (by rw [h])]
     change _ = ((subq q _ _ : ℕ) : ZMod q)
     rw [cast_subq, dualAt_eq hT hc, ← hc o]
-  · rw [if_neg h, beqF (fun h' => h (Fin.ext h'))]
+  · rw [ite_eq_right h, beqF (fun h' => h (Fin.ext h'))]
     exact hc o
 
 theorem dWordRev_get (ws : List (Fin N)) {c : Vector (ZMod q) N} {c' : List ℕ}
@@ -359,6 +362,7 @@ theorem rootAt_FC_unit (t : Fin N × List (Fin N)) (z : Fin (N + 1)) :
   refine Finset.sum_congr rfl fun o _ => ?_
   simp only [cast_mulq, FC_get hT, dot_eq (hT o) (fUnit_get z)]
 
+omit [NeZero q] in
 theorem rootAt_eq {c : Vector (ZMod q) N} {c' : List ℕ}
     (hc : ∀ o : Fin N, c.get o = (nth c' o.val : ZMod q)) {Z : Vector (ZMod q) (N + 1)} {z : List ℕ}
     (hZ : ∀ l : Fin (N + 1), Z.get l = (nth z l.val : ZMod q)) :
@@ -401,6 +405,7 @@ variable {q : ℕ} [NeZero q] {n : ℕ} {T : Fin (n + 1) → Vector (ZMod q) (n 
   (hT : ∀ (k : Fin (n + 1)) (l : Fin (n + 2)), (T k).get l = (nth (nthL TN k.val) l.val : ZMod q))
 include hT
 
+omit [NeZero q] in
 theorem dot_vec (k : Fin (n + 1)) (z : List ℕ) :
     ggFDot (T k) (ggFVec z) = (dotN q (n + 1 + 1) (nthL TN k.val) z : ZMod q) :=
   dot_eq (hT k) (vec_get z)
@@ -441,7 +446,7 @@ theorem matEqF_eq (ws ws' : List (Fin N)) :
         (fun l => wordN q N TN ws' (unitN (N + 1) l)) =
       decide (ggFMat T ws = ggFMat T ws') := by
   simp only [ggFMat, mapEq_decide, matEqF, allR_eq_finRange, wordUnit_get hT, eqq_eq,
-    Fin.coe_castSucc]
+    Fin.val_castSucc]
 
 end WStar
 
@@ -452,9 +457,9 @@ theorem cast_brec {q m : ℕ} (a c : Fin m) :
     (((Bool.rec (motive := fun _ => ℕ) 0 1 (Nat.beq a.val c.val) : ℕ)) : ZMod q) =
       if a = c then 1 else 0 := by
   by_cases h : a = c
-  · rw [if_pos h, beqT (by rw [h])]
+  · rw [ite_eq_left h, beqT (by rw [h])]
     exact Nat.cast_one
-  · rw [if_neg h, beqF (fun h' => h (Fin.ext h'))]
+  · rw [ite_eq_right h, beqF (fun h' => h (Fin.ext h'))]
     exact Nat.cast_zero
 
 theorem ggGensWord_cons {n : ℕ} (F : List (Fin (n + 1) × List (Fin (n + 1)))) (jl : List (Fin n))
@@ -714,7 +719,7 @@ theorem lineN_eq {T : Fin (n + 1) → Vector (ZMod q) (n + 2)} {TN : List (List 
   unfold lineN ggResLineCheck
   rw [hpw]
   simp only [gvN_eq, wordN_wordN, matEqF_eq hT, ggGensWord_cons, bnot_eq, eqq_eq, cast_sumR,
-    cast_mulq, cast_brec, getD_nthL, getD_nth, hT, Fin.coe_castSucc, dot_vec hT, rootAt_FC_vec hT,
+    cast_mulq, cast_brec, getD_nthL, getD_nth, hT, Fin.val_castSucc, dot_vec hT, rootAt_FC_vec hT,
     Nat.cast_zero, allR_eq_finRange, anyR_eq_finRange, ne_eq, decide_not]
 
 theorem ggnWit_eq (u v : ℕ) (w : GGCellWitI n) :
@@ -722,10 +727,10 @@ theorem ggnWit_eq (u v : ℕ) (w : GGCellWitI n) :
   have hT := tab_get (q := q) C ib ic e₁ e₂ u v
   cases w with
   | tv t₁ t₂ l₀ z =>
-    simp only [witN, ggCellWitCheckI, FH_get hT, rootAt_FC_unit hT, Fin.coe_castSucc, band_eq,
+    simp only [witN, ggCellWitCheckI, FH_get hT, rootAt_FC_unit hT, Fin.val_castSucc, band_eq,
       bnot_eq, eqq_eq, cast_subq, cast_mulq, Nat.cast_zero, allR_eq_finRange, ne_eq, decide_not]
   | tvk t₁ t₂ o₀ l =>
-    simp only [witN, ggCellWitCheckI, FH_get hT, dualAt_FC hT, Fin.coe_castSucc, band_eq,
+    simp only [witN, ggCellWitCheckI, FH_get hT, dualAt_FC hT, Fin.val_castSucc, band_eq,
       bnot_eq, eqq_eq, cast_subq, cast_mulq, Nat.cast_zero, allR_eq_finRange, ne_eq, decide_not]
   | tri t j' =>
     simp only [witN, ggCellWitCheckI, FA_eq hT, dualAt_FC hT, band_eq, bnot_eq, eqq_eq, cast_mulq,
@@ -740,14 +745,14 @@ theorem ggnWit_eq (u v : ℕ) (w : GGCellWitI n) :
   | wstar typ ts d lam gw =>
     simp only [witN, ggCellWitCheckI, ggFMat, band_eq, bnot_eq, eqq_eq, cast_mulq, cast_zq,
       cast_sumR, Nat.cast_zero, Nat.cast_ite, Nat.cast_one, ne_eq, decide_not, mapEq_decide,
-      wordUnit_get hT, rootAt_FC_FH hT, FH_get hT, Fin.coe_castSucc]
+      wordUnit_get hT, rootAt_FC_FH hT, FH_get hT, Fin.val_castSucc]
   | std => rfl
   | nospan => rfl
   | q8 O ci t x₀ =>
     simp only [witN, ggCellWitCheckI, ggQ8Check, q8N, notPropN, ggFNotProp, band_eq, bnot_eq,
       eqq_eq, cast_mulq, cast_subq, Nat.cast_zero, allR_eq_finRange, anyR_eq_finRange, ne_eq,
       decide_not, getD_nthL, vecEq_decide, dot_vec hT, refl_vec hT, rootAt_FC_vec hT, FH_get hT,
-      vec_get, fUnit_get, Fin.coe_castSucc]
+      vec_get, fUnit_get, Fin.val_castSucc]
   | line TT jl K z w F gens elts =>
     simp only [witN, ggCellWitCheckI, lineN_eq _ _ hT, band_eq]
   | o2a TT jl K z w F gens elts =>

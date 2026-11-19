@@ -45,9 +45,9 @@ theorem gen_act : ∀ c < 2, ∀ x (hx : x < 3510), (gab c • (⟨x, hx⟩ : Fi
   unfold CFSG.Sporadic.Fi22.orb at hA hB
   rw [CertificateChecks.KernelFi22C.orbitData_eq, idx_of_lt _ hx] at hA hB
   interval_cases c
-  · rw [gab, if_pos rfl, ← hA]
+  · rw [gab, ite_eq_left rfl, ← hA]
     exact (CertificateChecks.KernelFi22C.alpha_get hx).1
-  · rw [gab, if_neg (by decide), ← hB]
+  · rw [gab, ite_eq_right (by decide), ← hB]
     exact (CertificateChecks.KernelFi22C.beta_get hx).1
 
 theorem sep5 (g : J) (h : ∀ i < 5, ∀ hi : BS i < 3510, g • (⟨BS i, hi⟩ : Fin 3510) = ⟨BS i, hi⟩) :

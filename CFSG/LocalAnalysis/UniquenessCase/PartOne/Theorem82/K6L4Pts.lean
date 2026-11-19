@@ -14,7 +14,7 @@ variable {Y : Type} [Group Y] [Finite Y] (r : ℕ)
 
 @[expose] def Loc1 (C : Subgroup Y) : Prop :=
   (Nat.card C).factorization r = 2 ∧ pRank r C = 2 ∧
-    ∃ K : Subgroup Y, K ≤ C ∧ ¬ IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧
+    ∃ K : Subgroup Y, K ≤ C ∧ ¬ Group.IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧
       Nat.card K = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 ∧
       ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) → N = ⊥
 
@@ -23,10 +23,11 @@ variable {Y : Type} [Group Y] [Finite Y] (r : ℕ)
 
 @[expose] def Loc3 (C : Subgroup Y) : Prop :=
   (Nat.card C).factorization r = 3 ∧ pRank r C = 2 ∧
-    ∃ K : Subgroup Y, K ≤ C ∧ ¬ IsSolvable ↥K ∧
+    ∃ K : Subgroup Y, K ≤ C ∧ ¬ Group.IsSolvable ↥K ∧
       ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) →
         N ≤ centralizer (K : Set Y)
 
+omit [Finite Y] in
 private theorem Loc_conj_map_comap_inf (M N : Subgroup Y) (g : Y)
     (hN : N ≤ M.map (MulAut.conj g).toMonoidHom) :
     (N.comap (MulAut.conj g).toMonoidHom ⊓ M).map (MulAut.conj g).toMonoidHom = N := by
@@ -80,6 +81,7 @@ private theorem Loc_conj_pRank (C : Subgroup Y) (g : Y) :
     · rw [Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom)
         (MulAut.conj g).injective, hEcard]
 
+omit [Finite Y] in
 private theorem Loc_conj_normal_comap_inf (M N : Subgroup Y) (g : Y)
     (hN : (N.subgroupOf (M.map (MulAut.conj g).toMonoidHom)).Normal) :
     ((N.comap (MulAut.conj g).toMonoidHom ⊓ M).subgroupOf M).Normal := by
@@ -93,6 +95,7 @@ private theorem Loc_conj_normal_comap_inf (M N : Subgroup Y) (g : Y)
     group
   exact ⟨Subgroup.mem_comap.mpr hmem, M.mul_mem (M.mul_mem b.2 a.2) (M.inv_mem b.2)⟩
 
+omit [Finite Y] in
 theorem centralizer_conj (g x : Y) :
     centralizer ({g * x * g⁻¹} : Set Y) =
       (centralizer ({x} : Set Y)).map (MulAut.conj g).toMonoidHom := by
@@ -119,7 +122,7 @@ theorem Loc1.conj {C : Subgroup Y} (h : Loc1 r C) (g : Y) :
   · intro hs
     let e : ↥K ≃* ↥(K.map (MulAut.conj g).toMonoidHom) :=
       Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom (MulAut.conj g).injective
-    haveI : Group.IsSolvable ↥(K.map (MulAut.conj g).toMonoidHom) := hs
+    have : Group.IsSolvable ↥(K.map (MulAut.conj g).toMonoidHom) := hs
     exact hKns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   · rw [← Subgroup.map_commutator K K (MulAut.conj g).toMonoidHom, hKperf]
   · rw [Subgroup.card_map_of_injective (f := (MulAut.conj g).toMonoidHom)
@@ -138,6 +141,7 @@ theorem Loc1.conj {C : Subgroup Y} (h : Loc1 r C) (g : Y) :
     have hthis := hKodd (N.comap (MulAut.conj g).toMonoidHom ⊓ K) inf_le_right hnorm hNodd'
     rw [← hmap, hthis, Subgroup.map_bot]
 
+omit [Finite Y] in
 theorem Loc2.conj {C : Subgroup Y} (h : Loc2 r C) (g : Y) :
     Loc2 r (C.map (MulAut.conj g).toMonoidHom) := by
   unfold Loc2 at h ⊢
@@ -154,7 +158,7 @@ theorem Loc3.conj {C : Subgroup Y} (h : Loc3 r C) (g : Y) :
   · intro hs
     let e : ↥K ≃* ↥(K.map (MulAut.conj g).toMonoidHom) :=
       Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom (MulAut.conj g).injective
-    haveI : Group.IsSolvable ↥(K.map (MulAut.conj g).toMonoidHom) := hs
+    have : Group.IsSolvable ↥(K.map (MulAut.conj g).toMonoidHom) := hs
     exact hKns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   · intro N hNle hNnorm hNodd
     have hmap := Loc_conj_map_comap_inf K N g hNle
@@ -207,6 +211,7 @@ private theorem transfer8_odd_map_inf_comap {G N : Type*} [Group G] [Group N]
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp (hT hy)
     exact Subgroup.mem_map.mpr ⟨x, ⟨hx, hy⟩, rfl⟩
 
+omit [Finite K] [Finite Y] in
 private theorem transfer8_odd_normal {S : Subgroup H} {N : Subgroup Y}
     (hNnorm : (N.subgroupOf (S.map π)).Normal) :
     ((S ⊓ N.comap π).subgroupOf S).Normal := by
@@ -224,18 +229,19 @@ private theorem transfer8_odd_normal {S : Subgroup H} {N : Subgroup Y}
   rw [hsub]
   exact hNnorm.comap g
 
+omit [Finite K] [Finite Y] in
 theorem transfer8_basic (hπ : TwoQuot π)
     (hker : π.ker = (StatedScalars (Fin 4) K).subgroupOf H) {r : ℕ} {K₁ : Subgroup H}
-    (hperf : ⁅K₁, K₁⁆ = K₁) (hns : ¬ IsSolvable K₁) (hcard : Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2)
+    (hperf : ⁅K₁, K₁⁆ = K₁) (hns : ¬ Group.IsSolvable K₁) (hcard : Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2)
     (hz : Nat.card ↥(K₁ ⊓ (StatedScalars (Fin 4) K).subgroupOf H) = 2) :
-    ¬ IsSolvable ↥(K₁.map π) ∧ ⁅K₁.map π, K₁.map π⁆ = K₁.map π ∧
+    ¬ Group.IsSolvable ↥(K₁.map π) ∧ ⁅K₁.map π, K₁.map π⁆ = K₁.map π ∧
       Nat.card (K₁.map π) = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 := by
   have hker2 : Nat.card ↥(K₁ ⊓ π.ker) = 2 := by rw [hker]; exact hz
   refine ⟨?_, ?_, ?_⟩
   · intro hs
-    haveI : Group.IsSolvable ↥(K₁.map π) := hs
+    have : Group.IsSolvable ↥(K₁.map π) := hs
     apply hns
-    haveI : Group.IsSolvable ↥((π.ker).subgroupOf K₁) :=
+    have : Group.IsSolvable ↥((π.ker).subgroupOf K₁) :=
       Group.isSolvable_of_comm fun a b => by
       apply Subtype.ext
       apply Subtype.ext
@@ -256,7 +262,8 @@ theorem transfer8_basic (hπ : TwoQuot π)
     rw [← h]
     exact (Nat.mul_div_cancel _ (show 0 < 2 by norm_num)).symm
 
-theorem transfer8_odd (hπ : TwoQuot π)
+omit [Finite K] [Finite Y] in
+theorem transfer8_odd (_hπ : TwoQuot π)
     (hker : π.ker = (StatedScalars (Fin 4) K).subgroupOf H) {K₁ : Subgroup H}
     (hz : Nat.card ↥(K₁ ⊓ (StatedScalars (Fin 4) K).subgroupOf H) = 2)
     (hN : ∀ N : Subgroup H, N ≤ K₁ → (N.subgroupOf K₁).Normal →
@@ -297,6 +304,7 @@ theorem transfer8_odd (hπ : TwoQuot π)
     exact hker.symm ▸ hNt
   rw [← hmap, hbot]
 
+omit [Finite K] [Finite Y] in
 private theorem transfer9_restrict_injective {K₃ : Subgroup H} (hsc : K₃ ⊓ π.ker = ⊥) :
     Function.Injective ((π.comp K₃.subtype).codRestrict (K₃.map π)
       fun x => ⟨x, x.2, rfl⟩) := by
@@ -316,6 +324,7 @@ private theorem transfer9_restrict_injective {K₃ : Subgroup H} (hsc : K₃ ⊓
   · intro hx
     rw [hx, map_one]
 
+omit [Finite K] [Finite Y] in
 private theorem transfer9_odd_normal {K₃ : Subgroup H} (hsc : K₃ ⊓ π.ker = ⊥)
     {N : Subgroup Y} (hNle : N ≤ K₃.map π) (hNnorm : (N.subgroupOf (K₃.map π)).Normal)
     (hNodd : Odd (Nat.card N)) :
@@ -336,18 +345,19 @@ private theorem transfer9_odd_normal {K₃ : Subgroup H} (hsc : K₃ ⊓ π.ker 
     simpa using h.symm
   exact ⟨transfer8_odd_normal hNnorm, by rw [hcard]; exact hNodd, hmap⟩
 
-theorem transfer9 (hπ : TwoQuot π) (hker : π.ker = (StatedScalars (Fin 4) K).subgroupOf H)
-    {K₃ : Subgroup H} (hns : ¬ IsSolvable K₃)
+omit [Finite K] [Finite Y] in
+theorem transfer9 (_hπ : TwoQuot π) (hker : π.ker = (StatedScalars (Fin 4) K).subgroupOf H)
+    {K₃ : Subgroup H} (hns : ¬ Group.IsSolvable K₃)
     (hsc : K₃ ⊓ (StatedScalars (Fin 4) K).subgroupOf H = ⊥)
     (hN : ∀ N : Subgroup H, N ≤ K₃ → (N.subgroupOf K₃).Normal → Odd (Nat.card N) →
       N ≤ centralizer (K₃ : Set H)) :
-    ¬ IsSolvable ↥(K₃.map π) ∧ ∀ N : Subgroup Y, N ≤ K₃.map π →
+    ¬ Group.IsSolvable ↥(K₃.map π) ∧ ∀ N : Subgroup Y, N ≤ K₃.map π →
       (N.subgroupOf (K₃.map π)).Normal → Odd (Nat.card N) →
         N ≤ centralizer ((K₃.map π : Subgroup Y) : Set Y) := by
   have hsc' : K₃ ⊓ π.ker = ⊥ := by rw [hker]; exact hsc
   refine ⟨?_, ?_⟩
   · intro hs
-    haveI : Group.IsSolvable ↥(K₃.map π) := hs
+    have : Group.IsSolvable ↥(K₃.map π) := hs
     exact hns (Group.isSolvable_of_isSolvable_injective (transfer9_restrict_injective hsc'))
   · intro N hNle hNnorm hNodd
     obtain ⟨hnorm, hodd, hmap⟩ := transfer9_odd_normal hsc' hNle hNnorm hNodd

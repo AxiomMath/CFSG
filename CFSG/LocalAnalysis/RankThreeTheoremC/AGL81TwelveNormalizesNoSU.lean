@@ -61,7 +61,7 @@ theorem not_forall_of_suThreeTwo {G : Type} [Group G] [Finite G] {I₀ L : Subgr
     have hceq : c = x * y * x⁻¹ * y⁻¹ := Subtype.ext (by simpa using hcc)
     rw [hceq, map_mul, map_mul, map_mul, map_inv, map_inv] at hc1
     have := congrArg (· * π y * π x) hc1
-    simp only [one_mul, inv_mul_cancel_right, mul_assoc] at this
+    simp only [one_mul, mul_assoc] at this
     rw [← this]
     group
   obtain ⟨x, hx3, hxa⟩ := hlift a ha
@@ -86,7 +86,7 @@ theorem false_of_forall_commutator_mem {G : Type} [Group G] [Finite G] {H L I₀
       (h3.trans (Subgroup.card_dvd_of_le (oUpperTwo_le_self I₀)))
   by_cases hs3 : Nonempty (↥I₀ ⧸ CFSG.pCore 2 ↥I₀ ≃* Equiv.Perm (Fin 3))
   · obtain ⟨e⟩ := hs3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hx' : orderOf (x : G) = 3 := by rwa [Subgroup.orderOf_coe]
     have hx3 : (x : G) ^ 3 ^ 1 = 1 := by rw [pow_one, ← hx', pow_orderOf_eq_one]

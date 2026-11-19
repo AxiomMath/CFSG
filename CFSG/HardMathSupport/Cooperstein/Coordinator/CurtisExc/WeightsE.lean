@@ -98,8 +98,8 @@ theorem dvd_of_wclsE_eq {x x' : Fin τ.rank → ℤ} (h : wclsE τ K k x = wclsE
   have h1 := congrFun h (i, g)
   simp only [wclsE, kpow] at h1
   have h2 : (algebraMap K k (g : K)) ^ (x i - x' i) = 1 := by
-    rw [zpow_sub₀ (by simpa using g.ne_zero), h1,
-      div_self (zpow_ne_zero _ (by simpa using g.ne_zero))]
+    rw [zpow_sub₀ (by simp), h1,
+      div_self (zpow_ne_zero _ (by simp))]
   have h3 : ((g ^ (x i - x' i) : Kˣ) : K) = 1 := by
     apply (algebraMap K k).injective
     rw [map_one, Units.val_zpow_eq_zpow_val, map_zpow₀]

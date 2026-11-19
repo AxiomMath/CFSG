@@ -14,7 +14,7 @@ open CFSG.Quasithin CFSG.Quasithin.G11 CFSG.QuasithinUnique.Setup.X1
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 theorem false_of_Suzuki
-    {f : ℕ} (hf : Odd f) (hf3 : 3 ≤ f) {Γ A L : Subgroup (GLV V)} {m : ℕ}
+    {f : ℕ} (_hf : Odd f) (hf3 : 3 ≤ f) {Γ A L : Subgroup (GLV V)} {m : ℕ}
     (h : G93Hyp Γ A L L m)
     (hS : SuzukiModel (↥L ⧸ Subgroup.center ↥L) 2 f) : False := by
   obtain ⟨-, a, ha, K, instF, instFin, hfa, hKc, ⟨e⟩⟩ := hS
@@ -25,7 +25,7 @@ theorem false_of_Suzuki
     have hdvd : p ∣ 2 ^ (2 * f) + 1 :=
       (hpP.dvd_add_one_iff (by omega) (2 * f)).2
         ⟨⟨1, by ring⟩, fun h' => by have := Nat.le_of_dvd (by omega) h'; omega⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hp2 : p ≠ 2 := hpP.ne_two (by omega)
     have hKc' : Nat.card K = 2 ^ (2 * a + 1) := hfa ▸ hKc
     have hcard : p ∣ Nat.card (suzukiGroup a K) := by
@@ -53,7 +53,7 @@ theorem false_of_Suzuki
     have hq := isQuasisimple_toMulSub h.L_comp.2.2
     have α := cqEquiv_toMulSub_comp e
     have hKc' : Nat.card K = 2 ^ (2 * a + 1) := hfa ▸ hKc
-    haveI : Nontrivial (Multiplicative V) := hirr.1
+    have : Nontrivial (Multiplicative V) := hirr.1
     obtain ⟨-, -, hP2, -, -⟩ := suzuki_irreducible_normalizer_excludes a ha hKc'
       (Multiplicative V) hW (toMulSub L) hq.1 hirr.2 α
     have hsq : ∀ x ∈ toMulSub A, x * x = 1 := fun x hx => by

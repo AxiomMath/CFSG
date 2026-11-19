@@ -26,7 +26,7 @@ variable {τ : Tag}
 theorem iform_eq_sum_single (β v : Fin τ.rank → ℤ) :
     iform β v = ∑ j, v j * iform β (Pi.single j 1) := by
   simp only [iform, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Finset.mul_sum]

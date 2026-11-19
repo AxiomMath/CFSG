@@ -82,10 +82,10 @@ public theorem H0CLinearCandidateXmu_transported_generator_raw_smul_source_core_
       (w0 • x) • μraw j = μraw i := by
   classical
   intro _instAction hx
-  letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
-  letI : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
+  let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+  let : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
     quotientMulDistribMulAction (A := W1) (G := U) (C.subgroupOf U) hCinv
-  letI : MulAction (U ⧸ C.subgroupOf U)
+  let : MulAction (U ⧸ C.subgroupOf U)
       (H0CLinearCandidateXthetaRawIndex_sec9.{u} p q) :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
   rcases hμrawOrderedData with ⟨hqposμ, _hwμ, E, hE, hμraw_eq⟩
@@ -420,12 +420,12 @@ public theorem H0CLinearCandidateXmu_transported_muorbit_injective_source_core_s
   let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   rcases hμrawOrderedActionData with
     ⟨hW1normU, w0, hw0gen, hμrawOrderedData, hqpos, hsucc, _χbar,
@@ -445,12 +445,12 @@ public theorem H0CLinearCandidateXmu_transported_muorbit_injective_source_core_s
   have hCinv :
       letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
       IsInvariant W1 U (C.subgroupOf U) := by
-    letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+    let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
     exact theorem_9_7_quotientCentralizerIn_isInvariant_W1_sec9
       h92 hpData (case_9_7_a_quotientCentralizerIn_sec9 hcase)
       hW1normU hW1normMF
-  letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
-  letI : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
+  let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+  let : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
     quotientMulDistribMulAction (A := W1) (G := U) (C.subgroupOf U) hCinv
   have hfixedBot :
       fixedPointSubgroup W1 (U ⧸ C.subgroupOf U) = ⊥ :=
@@ -631,12 +631,12 @@ public theorem H0CLinearCandidateXmu_transported_final_injective_source_core_sec
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
@@ -656,7 +656,7 @@ public theorem H0CLinearCandidateXmu_transported_final_injective_source_core_sec
     dsimp [HCD, HCm, Dm]
     exact theorem_9_8_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q a ubar hcase hBarU
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   have hrawCoord :
       (∀ k : κ,
         Section1.inertiaSubgroup HCD
@@ -1479,12 +1479,12 @@ public theorem H0CLinearCandidateXmu_ordered_generator_inertia_bridge_sec9
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
@@ -1495,12 +1495,12 @@ public theorem H0CLinearCandidateXmu_ordered_generator_inertia_bridge_sec9
   have hDnormal : Dm.Normal := by
     simpa [Dm] using
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   have hHCnormal : HCm.Normal := by
     dsimp [HCm]
     exact theorem_9_8_HC_normal_M_of_case_a_sec9
       M MF U W1 W2 H0 C p q a ubar hcase hBarU
-  letI : HCm.Normal := hHCnormal
+  let : HCm.Normal := hHCnormal
   let w0M : M := ⟨(w0 : G), hW1M w0.property⟩
   dsimp only
   intro i
@@ -1826,17 +1826,17 @@ public theorem H0CLinearCandidateXmu_transported_W1_inertia_source_core_sec9
   let hDnormal : Dm.Normal := by
     simpa [Dm] using
       (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   let HCm : Subgroup M := (MF ⊔ C).subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
@@ -1944,12 +1944,12 @@ public theorem H0CLinearCandidateXmu_transported_orbit_W1_data_source_core_sec9
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
@@ -2074,12 +2074,12 @@ public theorem H0CLinearCandidateXmu_transported_raw_data_source_core_sec9
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
@@ -2177,12 +2177,12 @@ public theorem H0CLinearCandidateXmu_transported_final_image_source_core_sec9
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
   let θ : ι → Section1.ClassFunction Dm :=
@@ -2201,7 +2201,7 @@ public theorem H0CLinearCandidateXmu_transported_final_image_source_core_sec9
     dsimp [HCD, HCm, Dm]
     exact theorem_9_8_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q a ubar hcase hBarU
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   have hrawCoord :
       (∀ k : κ,
         Section1.inertiaSubgroup HCD
@@ -2439,12 +2439,12 @@ public theorem H0CLinearCandidateXmu_transported_residual_data_source_core_sec9
   let HCD : Subgroup Dm := HCm.subgroupOf Dm
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
   let θ : ι → Section1.ClassFunction Dm :=
@@ -2463,7 +2463,7 @@ public theorem H0CLinearCandidateXmu_transported_residual_data_source_core_sec9
     dsimp [HCD, HCm, Dm]
     exact theorem_9_8_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q a ubar hcase hBarU
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   have hrawCoord :
       (∀ k : κ,
         Section1.inertiaSubgroup HCD
@@ -2735,22 +2735,22 @@ public theorem H0CLinearCandidateXmu_final_subfamily_of_orbit_data_source_core_s
     dsimp [HCD, HCm, Dm]
     exact theorem_9_8_HC_normal_ambientDerived_subgroupOf_sec9
       M MF U W1 W2 H0 C p q a ubar hcase hBarU
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   let κ : Type u := H0CLinearCandidateXthetaRawIndex_sec9.{u} p q
   let instAction : MulAction (U ⧸ C.subgroupOf U) κ :=
     rawCoordinateMulAction_sec9 p q H hHcard ρ
-  letI : MulAction (U ⧸ C.subgroupOf U) κ := instAction
+  let : MulAction (U ⧸ C.subgroupOf U) κ := instAction
   let ι : Type u := Quotient (MulAction.orbitRel (U ⧸ C.subgroupOf U) κ)
   let instFintypeι : Fintype ι := Fintype.ofFinite ι
   let instDecidableEqι : DecidableEq ι := Classical.decEq ι
-  letI : Fintype ι := instFintypeι
-  letI : DecidableEq ι := instDecidableEqι
+  let : Fintype ι := instFintypeι
+  let : DecidableEq ι := instDecidableEqι
   let orbit : κ → ι := fun k => Quotient.mk'' k
   let ψ : ι → Section1.ClassFunction HCm :=
     fun i => Section1.subgroupOfClassFunction (ψHC (Quotient.out i))
   let θ : ι → Section1.ClassFunction Dm :=
     fun i => Section1.inducedCF HCD (Section1.subgroupOfClassFunction (ψ i))
-  letI : HCD.Normal := hnormalHCD
+  let : HCD.Normal := hnormalHCD
   have hstab : ∀ k : κ, MulAction.stabilizer (U ⧸ C.subgroupOf U) k = ⊥ :=
     rawCoordinateMulAction_stabilizer_eq_bot_sec9
       hcase H hHcard hHnorm hHsup ρ hρaction
@@ -2851,9 +2851,9 @@ public theorem theorem_9_8_H0C_linear_candidate_Xmu_final_subfamily_source_core_
       M MF U W1 W2 H0 C p q a H hHcard hHindep hHsup hcase with
     ⟨hcomm, hnormalH0C, hH0CinfMF, hsup, ψHC, hψformula, hψinj, hψirr,
       hψdeg, hψker, hψnonker⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
-  letI : ((H0 ⊔ C).subgroupOf (MF ⊔ C)).Normal := hnormalH0C
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
+  let : ((H0 ⊔ C).subgroupOf (MF ⊔ C)).Normal := hnormalH0C
   have hcore :
       H0CLinearCandidateXthetaThetaCoordinateActionCoreData_sec9
         M MF U H0 C p q ψHC :=
@@ -2893,10 +2893,10 @@ public theorem theorem_9_8_H0C_linear_candidate_Xmu_residual_data_ordered_source
       M MF U W1 W2 H0 C p q a H hHcard hHindep hHsup hcase with
     ⟨hcomm, hnormalH0C, hH0CinfMF, hsup, ψHC, hψformula, _hψinj, _hψirr,
       _hψdeg, _hψker, _hψnonker⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
-  letI : (C.subgroupOf U).Normal := hnormalC
-  letI : ((H0 ⊔ C).subgroupOf (MF ⊔ C)).Normal := hnormalH0C
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := hcomm
+  let : (C.subgroupOf U).Normal := hnormalC
+  let : ((H0 ⊔ C).subgroupOf (MF ⊔ C)).Normal := hnormalH0C
   exact H0CLinearCandidateXmu_transported_residual_data_source_core_sec9
     M MF U W1 W2 H0 C p q a aρ u SH0C ψHC H hHcard hHnorm hHindep hHsup
     ρ hρcyc hρcard hρaction hρker hconj horderedXmu hH0CinfMF hsup hψformula
@@ -2959,8 +2959,8 @@ public theorem theorem_9_8_H0C_linear_candidate_Xmu_Dmu_source_core_sec9
       M MF U W1 W2 H0 C p q a u SH0C hcase hBarU hSH0C with
     ⟨ι, instFintype, instDecidableEq, θ, ψ, hθinj, hθcard, hθdata, Xmu,
       hXmucard, _hXmu_red, hred_sub_Xmu, hXmu_sep⟩
-  letI : Fintype ι := instFintype
-  letI : DecidableEq ι := instDecidableEq
+  let : Fintype ι := instFintype
+  let : DecidableEq ι := instDecidableEq
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let HCm : Subgroup M := (MF ⊔ C).subgroupOf M
   let HCD : Subgroup Dm := HCm.subgroupOf Dm

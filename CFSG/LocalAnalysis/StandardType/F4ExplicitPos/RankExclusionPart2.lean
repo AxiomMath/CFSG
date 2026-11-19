@@ -176,6 +176,7 @@ variable {X : Type} [Group X] [Finite X] {B₁ : Subgroup X}
 
 variable (Θ : B₁ →* ModGL Tag.F4 Ω) (a : Fin Tag.F4.rank → Ωˣ)
 
+omit [IsAlgClosed Ω] [Finite X] in
 theorem hThetaZ_of_actual
     (hp : p.Prime) (hp2 : p ≠ 2) (ha : ∀ i, a i ^ p = 1)
     (hadj : ∀ b : B₁, Θ b ∈ adjointGroup Tag.F4 Ω)

@@ -82,11 +82,11 @@ private lemma ggNSPosPB1_mul_perm_apply {K : Type} [Field K] {n : ℕ}
     intro l
     by_cases hl : l = τ⁻¹ k
     · subst hl
-      rw [ggNSPosPB1_permMatrix_apply, if_pos (by simp), if_pos rfl, mul_one]
+      rw [ggNSPosPB1_permMatrix_apply, ite_eq_left (by simp), ite_eq_left rfl, mul_one]
     · have hk : ¬ k = τ l := by
         intro hk
         exact hl (by rw [hk]; simp)
-      rw [ggNSPosPB1_permMatrix_apply, if_neg hk, if_neg hl, mul_zero]
+      rw [ggNSPosPB1_permMatrix_apply, ite_eq_right hk, ite_eq_right hl, mul_zero]
   simp only [h]
   rw [Finset.sum_ite_eq']
   simp
@@ -107,12 +107,12 @@ private lemma ggNSPosPB1_perm_conj_apply {K : Type} [Field K] {n : ℕ}
     rw [ggNSPosPB1_permMatrix_apply]
     by_cases hk : k = τ j
     · subst hk
-      rw [if_pos (by rw [hτk]), if_pos rfl, mul_one]
-    · rw [if_neg hk]
+      rw [ite_eq_left (by rw [hτk]), ite_eq_left rfl, mul_one]
+    · rw [ite_eq_right hk]
       have : j ≠ τ k := by
         intro h
         exact hk (by rw [h, hτk k])
-      rw [if_neg this, mul_zero]
+      rw [ite_eq_right this, mul_zero]
   simp only [h3]
   rw [Finset.sum_ite_eq']
   simp
@@ -130,10 +130,10 @@ private lemma ggNSPosPB1_diag_perm_apply {K : Type} [Field K] {n : ℕ}
 theorem ggNSPosPB_diag_eq {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} {ψ : Su K 2 f n →* G}
     (h : GGNSLocalHyp p B Bs K f n ψ)
-    (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs) (a b : Fin n) (hab : a ≠ b) (r : MulAut ↥Bs)
+    (_hd : GGActsDiagonally (p := 2) (f := f) ψ Bs) (a b : Fin n) (_hab : a ≠ b) (r : MulAut ↥Bs)
     (hr : ∀ s : ↥Bs, ((r s : ↥Bs) : G) =
       ψ (ggPermSU (Equiv.swap a b)) * (s : G) * (ψ (ggPermSU (Equiv.swap a b)))⁻¹)
-    {t : ↥Bs} (ht : r t = t) {g : GL (Fin n) K} (hdg : ggIsDiagMat g)
+    {t : ↥Bs} (ht : r t = t) {g : GL (Fin n) K} (_hdg : ggIsDiagMat g)
     (hact : GGInducesUnitary (p := 2) (f := f) ψ (t : G) g) :
     ∀ d : Fin n → K, ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = Matrix.diagonal d →
       d a = d b := by
@@ -224,14 +224,12 @@ theorem ggNSPosPB_diag_eq {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subg
       (Equiv.swap a k).permMatrix K) k a =
       (((z : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) k k := by
     rw [ggNSPosPB1_mul_perm_apply]
-    congr 1
     rw [show (Equiv.swap a k)⁻¹ = Equiv.swap a k from inv_eq_of_mul_eq_one_right hσ,
       Equiv.swap_apply_left]
   have hR : ((Equiv.swap a k).permMatrix K *
       (((z : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) k a =
       (((z : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) a a := by
     rw [ggNSPosPB1_perm_mul_apply]
-    congr 1
     rw [Equiv.swap_apply_right]
   have hkk_aa : (((z : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) k k =
       (((z : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) a a := by

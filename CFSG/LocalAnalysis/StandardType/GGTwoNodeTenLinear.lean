@@ -46,8 +46,8 @@ theorem ggTen_core_hyps
   unfold GGTenLinear at hA
   obtain ⟨ΛL, iΛL, dΛL, ML, CL, hL, aL, rL, hK, aK, rK, x, hcardL, hWeyl, hCartan, hpairL,
     hrL, ⟨fL, hfL⟩, hpairK, hrK, hx, hkerL, ht, hab, hAeq, hnt, hstab⟩ := hA
-  letI := iΛL
-  letI := dΛL
+  let := iΛL
+  let := dΛL
   let h : ΛL ⊕ Fin 8 → V := Sum.elim hL hK
   let α : ΛL ⊕ Fin 8 → Module.Dual (ZMod 3) V := Sum.elim aL aK
   let r : ΛL ⊕ Fin 8 → (V ≃ₗ[ZMod 3] V) := Sum.elim rL rK
@@ -79,7 +79,7 @@ theorem ggTen_core_hyps
     rw [Set.range_subset_iff]
     intro i
     exact ⟨Sum.inl i, by simp [h]⟩
-  haveI : Module.Finite (ZMod 3) ↥(Submodule.span (ZMod 3) (Set.range h)) :=
+  have : Module.Finite (ZMod 3) ↥(Submodule.span (ZMod 3) (Set.range h)) :=
     Module.Finite.of_finite
   have hd : 9 ≤ Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) := by
     have hle := Submodule.finrank_mono hspan_le
@@ -96,12 +96,12 @@ theorem ggTen_core_hyps
     · omega
   have hstab_card := tenLinAux_stabilizer_card A x
   have horbit := tenLinAux_orbit_le hdim A x
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (congrFun h))
-  haveI : Fintype ↥A := Fintype.ofFinite ↥A
-  haveI : Fintype ↑(MulAction.orbit ↥A x) := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer ↥A x) := Fintype.ofFinite _
+  have : Fintype ↥A := Fintype.ofFinite ↥A
+  have : Fintype ↑(MulAction.orbit ↥A x) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.stabilizer ↥A x) := Fintype.ofFinite _
   have hOS : Nat.card (MulAction.orbit ↥A x) * Nat.card (MulAction.stabilizer ↥A x) =
       Nat.card ↥A := by
     simpa only [Nat.card_eq_fintype_card] using
@@ -240,7 +240,7 @@ theorem ggTen_linear
     (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hA : GGTenLinear A) : ZS.LinWeyl 3 A := by
   obtain ⟨ι, hι, h, α, r, hα, hr, hAr, hconn, hker, hnt, hd, hV, hcard⟩ :=
     ggTen_core_hyps hdim A hA
-  letI := hι
+  let := hι
   exact ggTen_core hKG h α hα r hr A hAr hconn hker hnt hd hV hcard
 
 end CFSG.StandardType

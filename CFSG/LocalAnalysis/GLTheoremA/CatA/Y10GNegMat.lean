@@ -11,9 +11,10 @@ open Matrix CFSG.Open CFSG.LocalAnalysis.GLTheoremA.Y10GU6
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] in
 theorem ringEquiv_eq_id_of_iterate_five [Finite F] (hF : Nat.card F = 16) (σ : F ≃+* F)
     (h5 : ∀ x : F, (σ : F → F)^[5] x = x) (x : F) : σ x = x := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hcomm : σ.toRingHom.comp (algebraMap (ZMod 2) F) = algebraMap (ZMod 2) F :=
     RingHom.ext_zmod _ _
   let e : F ≃ₐ[ZMod 2] F :=
@@ -37,7 +38,7 @@ theorem ringEquiv_eq_id_of_iterate_five [Finite F] (hF : Nat.card F = 16) (σ : 
   have hcard : Nat.card (F ≃ₐ[ZMod 2] F) = 4 := by
     rw [IsGalois.card_aut_eq_finrank]
     have h2 : Module.finrank (ZMod 2) F = 4 := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have hc := Module.card_eq_pow_finrank (K := ZMod 2) (V := F)
       rw [← Nat.card_eq_fintype_card, hF, ZMod.card] at hc
       have : (2 : ℕ) ^ 4 = 2 ^ (Module.finrank (ZMod 2) F) := by
@@ -56,14 +57,15 @@ theorem ringEquiv_eq_id_of_iterate_five [Finite F] (hF : Nat.card F = 16) (σ : 
   exact this
 
 
+omit [DecidableEq F] [CharP F 2] in
 theorem exists_fifth_root_ne_one [Finite F] (hF : Nat.card F = 16) :
     ∃ ζ : F, ζ ^ 5 = 1 ∧ ζ ≠ 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcard : Nat.card Fˣ = 15 := by
     rw [Nat.card_units, hF]
   have h5 : 5 ∣ Nat.card Fˣ := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 5 h5
   refine ⟨(u : F), ?_, ?_⟩
   · have h1 : u ^ 5 = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
@@ -73,6 +75,7 @@ theorem exists_fifth_root_ne_one [Finite F] (hF : Nat.card F = 16) :
     rw [h', orderOf_one] at hu
     norm_num at hu
 
+omit [DecidableEq F] in
 theorem commutant_scalar [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) (M : GL (Fin 6) F)
     (hM : ∀ x ∈ StatedSU 6 (2 ^ 2) F, M * x = x * M) :
     ∃ c : F, (M : Matrix (Fin 6) (Fin 6) F) = c • 1 := by
@@ -124,7 +127,7 @@ theorem commutant_scalar [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) (M : GL (Fin
           · simp [t, hki, hkj]
       simp_rw [hfac]
       rw [Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ i, Finset.prod_ite_eq' Finset.univ j]
-      simp only [Finset.mem_univ, if_true]
+      simp only [Finset.mem_univ, ite_true]
       rw [← pow_succ', show 4 + 1 = 5 by norm_num, hζ5]
     have hD := diagU_mem_SU hF ht ht5 hdet
     have hcomm := hMM _ hD
@@ -177,6 +180,7 @@ theorem commutant_scalar [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) (M : GL (Fin
   · rw [hoff i k hik, Matrix.smul_apply, Matrix.one_apply_ne hik, smul_zero]
 
 
+omit [DecidableEq F] [CharP F 2] in
 theorem ringAut_pow_apply (φ : F ≃+* F) (k : ℕ) (y : F) :
     ((φ : RingAut F) ^ k) y = (⇑φ)^[k] y := by
   induction k generalizing y with
@@ -185,6 +189,7 @@ theorem ringAut_pow_apply (φ : F ≃+* F) (k : ℕ) (y : F) :
     rw [pow_succ, Function.iterate_succ_apply, ← ih]
     rfl
 
+omit [DecidableEq F] [CharP F 2] in
 theorem iterate_five_eq_id [Finite F] (hF : Nat.card F = 16) (φ : F ≃+* F) {ζ : F}
     (hζ5 : ζ ^ 5 = 1) (hζ1 : ζ ≠ 1) (hζ : (⇑φ)^[5] ζ = ζ) (x : F) : (⇑φ)^[5] x = x := by
   rw [← ringAut_pow_apply]
@@ -208,6 +213,7 @@ theorem iterate_five_eq_id [Finite F] (hF : Nat.card F = 16) (φ : F ≃+* F) {�
       B ^ 5 = 1 → (¬ ∃ c : F, (B : Matrix (Fin 6) (Fin 6) F) = c • 1) →
       ∀ y : GL (Fin 6) F, y ∈ StatedSU 6 (2 ^ 2) F → orderOf y = 7 → B * y = y * B → False
 
+omit [DecidableEq F] in
 theorem det_map_pow_four {n : Type} [Fintype n] [DecidableEq n] (M : Matrix n n F) :
     (M.map (fun x : F => x ^ 4)).det = M.det ^ 4 := by
   have hfun : (fun x : F => x ^ 4) = ⇑(iterateFrobenius F 2 2 : F →+* F) :=

@@ -155,7 +155,7 @@ theorem yamadaM₆_inf_centralizer_J₄_le (hW : CFSG.Walter.WalterOrderForm) (h
 
 theorem yamada_5_60_3_le (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G2Data L K)
     (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    (yamadaN₂ d t ⊓ centralizer (d.J₄ : Set G)) ⊓ yamadaM₆ d t ≤ yamadaY₂ d t := fun x hx =>
+    (yamadaN₂ d t ⊓ centralizer (d.J₄ : Set G)) ⊓ yamadaM₆ d t ≤ yamadaY₂ d t := fun _x hx =>
   h.yamadaM₆_inf_centralizer_J₄_le hW d hK hQ
     ⟨(Subgroup.mem_inf.1 hx).2, (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 hx).1).2⟩
 

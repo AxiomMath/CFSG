@@ -55,7 +55,7 @@ theorem exists_orderOf_nine_mem_sup (hK : Nat.card K = 4) {b : G} {L Bs : Subgro
   have hTR : S ⊔ Subgroup.zpowers b ≤
       Subgroup.centralizer {b} ⊓ Subgroup.centralizer (L : Set G) :=
     sup_le hSR (le_inf (Subgroup.zpowers_le.mpr hbCb) hPL)
-  haveI hcycT : IsCyclic ↥(S ⊔ Subgroup.zpowers b) := hcyc _ hT3 (hTR.trans inf_le_right)
+  have hcycT : IsCyclic ↥(S ⊔ Subgroup.zpowers b) := hcyc _ hT3 (hTR.trans inf_le_right)
   have hcardP : Nat.card ↥(Subgroup.zpowers b) = 3 := by
     rw [Nat.card_zpowers, hb]
   obtain ⟨k, hk⟩ := hT3.exists_card_eq
@@ -136,6 +136,7 @@ theorem exists_orderOf_nine_mem_sup (hK : Nat.card K = 4) {b : G} {L Bs : Subgro
     exact hsord
   exact ⟨sG, hsGord, hs3val, hsCb, hsBs⟩
 
+omit [Finite K] in
 theorem false_of_pow_three_mem_centralizer {ω : K} (hω : ω ^ 2 + ω + 1 = 0) {b : G}
     {L Bs : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -271,7 +272,7 @@ theorem map_burnside_complement_eq_relPPrimeCore {b : G} {L : Subgroup G}
     rw [show Nat.gcd 3 (Nat.card ↥O) = 1 from hOcop] at hgcd
     norm_num at hgcd
   have hOK : O.subgroupOf C ≤ Kc := by
-    haveI := hKn
+    have := hKn
     exact CFSG.GroupTheory.le_of_normal_coprime_of_isPGroup_quotient Kc (O.subgroupOf C)
       hKquot hOsub_3
   have hOleK : O ≤ Kc.map C.subtype := by

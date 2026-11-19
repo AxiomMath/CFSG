@@ -11,6 +11,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_mul_self_eq_one_of_mem_cent (hW : ∀ w : W, w ^ 2 = 1)
     {K : Subgroup (MulAut W)} {R : Subgroup W} (hKtriv : commSub ⊤ K ≤ R)
     {g : MulAut W} (hgK : g ∈ K) (hgC : g ∈ centSub R) : g * g = 1 := by
@@ -32,6 +33,7 @@ private theorem w16f_mul_self_eq_one_of_mem_cent (hW : ∀ w : W, w ^ 2 = 1)
     _ = 1 * w := by rw [hW r]
     _ = w := one_mul w
 
+omit [Finite W] in
 theorem swap_faithful_on_commSub (hW : ∀ w : W, w ^ 2 = 1) {Y K : Subgroup (MulAut W)}
     (hY : ∀ P : Subgroup (MulAut W), P ≤ Y → (P.subgroupOf Y).Normal → IsPGroup 2 P → P = ⊥)
     (hK : IsComponentOf K Y) {R : Subgroup W} (hKR : StableUnder K R)

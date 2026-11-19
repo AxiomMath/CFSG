@@ -26,7 +26,7 @@ theorem lt_inf_normalizer_of_isNilpotent {P S : Subgroup G} [Group.IsNilpotent P
 
 theorem lt_inf_normalizer_of_isPGroup {p : ℕ} [Fact p.Prime] {P S : Subgroup G} [Finite ↥P]
     (hP : IsPGroup p P) (hSP : S < P) : S < P ⊓ Subgroup.normalizer (S : Set G) := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   exact lt_inf_normalizer_of_isNilpotent hSP
 
 end CFSG.GroupTheory

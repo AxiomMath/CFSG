@@ -42,7 +42,7 @@ theorem kd26fE6_holds : YS04F.KD26fE6 := by
       cases d <;> simp only [onLie, isE6Eps] at hi
       rename_i qq
       obtain ⟨K, _, σ, hK, hσ, ⟨φ⟩⟩ := exists_catEquiv_twistedE6 qq hv
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by
+      have : Finite K := Nat.finite_of_card_ne_zero (by
         rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ qq.prime_p.ne_zero))
       have h3' : 3 ∣ qq.p ^ qq.exponent + 1 := by
         have : qq.p ^ qq.exponent = q := by rw [← hi, TauCeti.PrimePower.card_def]

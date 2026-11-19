@@ -80,12 +80,12 @@ theorem exists_smul_of_suConj_mul_suField_fixes_torus {K : Type} [Field K] {p f 
 theorem suConj_mul_suField_map_stabilizer_eq {K : Type} [Field K] [Finite K] {p f : ℕ}
     {h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K}
     {T : Subgroup (unitarySU p f K 3)} {v : Fin 3 → K}
-    (hvfix : ∀ b ∈ T, ((b : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec v = v)
+    (_hvfix : ∀ b ∈ T, ((b : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec v = v)
     {L : Subgroup (unitarySU p f K 3)}
     (hL : ∀ g, g ∈ L ↔ ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec v = v)
     {B : unitaryIsom3 h} {δ : K ≃+* K} {c : K} (hcne : c ≠ 0)
     (hc : ((B : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ (δ ∘ v) = c • v)
-    (hβ : ∀ b ∈ T, (suConj h B * suField h δ) b = b) :
+    (_hβ : ∀ b ∈ T, (suConj h B * suField h δ) b = b) :
     L.map (suConj h B * suField h δ).toMonoidHom = L := by
   let Bm : GL (Fin 3) K := (B : GL (Fin 3) K)
   let vδ : Fin 3 → K := δ ∘ v
@@ -96,8 +96,7 @@ theorem suConj_mul_suField_map_stabilizer_eq {K : Type} [Field K] [Finite K] {p 
     fun b => coe_suConj_mul_suField_apply B δ b
   have hBinv_v : (Bm : Matrix (Fin 3) (Fin 3) K)⁻¹ *ᵥ v = (c⁻¹ : K) • vδ := by
     have hmul : (Bm : Matrix (Fin 3) (Fin 3) K)⁻¹ * (Bm : Matrix (Fin 3) (Fin 3) K) = 1 := by
-      simpa using congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K))
-        (inv_mul_cancel Bm)
+      simp
     have h1 : (Bm : Matrix (Fin 3) (Fin 3) K)⁻¹ *ᵥ (Bm *ᵥ vδ) = vδ := by
       rw [Matrix.mulVec_mulVec, hmul, Matrix.one_mulVec]
     have h2 : vδ = c • ((Bm : Matrix (Fin 3) (Fin 3) K)⁻¹ *ᵥ v) := by

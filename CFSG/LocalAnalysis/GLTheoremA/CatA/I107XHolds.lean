@@ -80,9 +80,9 @@ theorem twoRankLow_E6_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
   have e0 : LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 6) K false) ≃*
       AdjointQuotient Tag.E6 K :=
     (CFSG.StandardType.centerQuot_chevGroup_equiv K Tag.E6).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 6) K false)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 6) K false)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (AdjointQuotient Tag.E6 K) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (AdjointQuotient Tag.E6 K) := Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0]
   have hcount := CFSG.LocalAnalysis.GLTheoremA.I107X.simplyLaced_pRank_ge (Or.inl rfl) (K := K) (n := n)
@@ -107,9 +107,9 @@ theorem twoRankLow_E7_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
   have e0 : LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 7) K false) ≃*
       AdjointQuotient Tag.E7 K :=
     (CFSG.StandardType.centerQuot_chevGroup_equiv K Tag.E7).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 7) K false)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 7) K false)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (AdjointQuotient Tag.E7 K) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (AdjointQuotient Tag.E7 K) := Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0]
   have hcount := CFSG.LocalAnalysis.GLTheoremA.I107X.simplyLaced_pRank_ge (Or.inr (Or.inl rfl)) (K := K) (n := n)
@@ -134,9 +134,9 @@ theorem twoRankLow_E8_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
   have e0 : LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 8) K false) ≃*
       AdjointQuotient Tag.E8 K :=
     (CFSG.StandardType.centerQuot_chevGroup_equiv K Tag.E8).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 8) K false)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenChevH (CFSG.Assembly.LargeEvenCartanE 8) K false)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (AdjointQuotient Tag.E8 K) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (AdjointQuotient Tag.E8 K) := Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0]
   have hcount := CFSG.LocalAnalysis.GLTheoremA.I107X.simplyLaced_pRank_ge (Or.inr (Or.inr rfl)) (K := K) (n := n)

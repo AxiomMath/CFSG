@@ -65,7 +65,7 @@ theorem commutator_top_of_commutator_eq {K : Subgroup G} (hK : ⁅K, K⁆ = K) :
 theorem eq_top_of_isPGroup_quotient {A : Type*} [Group A] [Finite A] {p : ℕ} [Fact p.Prime]
     (hA : ⁅(⊤ : Subgroup A), (⊤ : Subgroup A)⁆ = ⊤) (N : Subgroup A) [N.Normal]
     (hN : IsPGroup p (A ⧸ N)) : N = ⊤ := by
-  haveI : Group.IsNilpotent (A ⧸ N) := hN.isNilpotent
+  have : Group.IsNilpotent (A ⧸ N) := hN.isNilpotent
   by_contra hne
   exact not_nontrivial_of_perfect (commutator_top_of_surjective (QuotientGroup.mk' N)
     (QuotientGroup.mk'_surjective N) hA) (QuotientGroup.nontrivial_iff.mpr hne)
@@ -129,7 +129,7 @@ theorem conj_mem_pElementSubgroup {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈
     obtain ⟨n, hn⟩ := hy.2
     refine ⟨n, ?_⟩
     have h := orderOf_injective (MulAut.conj k).toMonoidHom (MulAut.conj k).injective y
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at h
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at h
     rw [h, hn]
   | one => simp
   | mul a b _ _ ha hb =>
@@ -205,7 +205,7 @@ theorem inf_le_pPrimeCore_map (hK : PComp 3 Y H K z) :
 
 theorem pPrimeCore_map_eq (hK : PComp 3 Y H K z) :
     (CFSG.pPrimeCore 3 ↥K).map K.subtype = K ⊓ rankThreePrimeCore 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : (((CFSG.pPrimeCore 3 ↥K).map K.subtype).subgroupOf K).Normal := by
     show (Subgroup.comap K.subtype ((CFSG.pPrimeCore 3 ↥K).map K.subtype)).Normal
     rw [Subgroup.comap_map_eq_self_of_injective K.subtype_injective]
@@ -220,7 +220,7 @@ theorem pPrimeCore_map_eq (hK : PComp 3 Y H K z) :
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hc (three_dvd_card hK)
 
 theorem pPrimeCore_ne_top (hK : PComp 3 Y H K z) : CFSG.pPrimeCore 3 ↥K ≠ ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h
   have hc : Nat.Coprime 3 (Nat.card (CFSG.pPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   rw [h, Subgroup.card_top] at hc
@@ -244,9 +244,9 @@ theorem isSimpleGroup_kbar (hK : PComp 3 Y H K z) : IsSimpleGroup (Kbar K) := by
     rw [h, Subgroup.map_top, Subgroup.range_subtype]
 
 theorem kbar_nonabelian (hK : PComp 3 Y H K z) : ∃ a b : Kbar K, a * b ≠ b * a := by
-  haveI := isSimpleGroup_kbar hK
+  have := isSimpleGroup_kbar hK
   by_contra h
-  haveI : Group.IsSolvable (Kbar K) := Group.isSolvable_of_comm fun a b => by
+  have : Group.IsSolvable (Kbar K) := Group.isSolvable_of_comm fun a b => by
     by_contra hab
     exact h ⟨a, b, hab⟩
   exact not_nontrivial_of_perfect
@@ -254,7 +254,7 @@ theorem kbar_nonabelian (hK : PComp 3 Y H K z) : ∃ a b : Kbar K, a * b ≠ b *
       (QuotientGroup.mk'_surjective _) (commutator_top_of_commutator_eq hK.perfect)) inferInstance
 
 theorem center_kbar (hK : PComp 3 Y H K z) : center (Kbar K) = ⊥ := by
-  haveI := isSimpleGroup_kbar hK
+  have := isSimpleGroup_kbar hK
   obtain ⟨a, b, hab⟩ := kbar_nonabelian hK
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (Kbar K)) with h | h
   · exact h
@@ -262,19 +262,19 @@ theorem center_kbar (hK : PComp 3 Y H K z) : center (Kbar K) = ⊥ := by
     exact absurd (Subgroup.mem_center_iff.mp ha b).symm hab
 
 theorem three_dvd_card_kbar (hK : PComp 3 Y H K z) : 3 ∣ Nat.card (Kbar K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 := three_dvd_card hK
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pPrimeCore 3 ↥K)] at h3
   exact Nat.Coprime.dvd_of_dvd_mul_right CFSG.pPrimeCore_coprime_card h3
 
 theorem pElementSubgroup_eq (hK : PComp 3 Y H K z)
     (hD2 : IsPGroup 2 (rankThreePrimeCore 3 H)) : pElementSubgroup 3 K = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJK : pElementSubgroup 3 K ≤ K := pElementSubgroup_le K
-  haveI hJn : ((pElementSubgroup 3 K).subgroupOf K).Normal := ⟨fun n hn k =>
+  have hJn : ((pElementSubgroup 3 K).subgroupOf K).Normal := ⟨fun n hn k =>
     Subgroup.mem_subgroupOf.mpr (conj_mem_pElementSubgroup k.2 (Subgroup.mem_subgroupOf.mp hn))⟩
-  haveI := inf_subgroupOf_normal hK
+  have := inf_subgroupOf_normal hK
   have hsup : pElementSubgroup 3 K ⊔ (K ⊓ rankThreePrimeCore 3 H) = K := by
     have hn : ((pElementSubgroup 3 K ⊔ (K ⊓ rankThreePrimeCore 3 H)).subgroupOf K).Normal := by
       rw [Subgroup.subgroupOf_sup hJK inf_le_left]

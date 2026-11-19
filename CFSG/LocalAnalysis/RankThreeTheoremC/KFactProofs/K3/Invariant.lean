@@ -20,7 +20,7 @@ theorem sylow_inf_component (S : Sylow 3 H) {L : Subgroup H}
     IsSylowOf 3 ((S : Subgroup H) ⊓ L) L := by
   have hS : IsSylowOf 3 (S : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   have hSK : IsSylowOf 3 (S : Subgroup H) ((S : Subgroup H) ⊔ L) :=
@@ -35,6 +35,7 @@ section Invariant
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem ti_mem_map (S : Sylow 3 H) (e : (S : Subgroup H) ≃* W3) (L : Subgroup H)
     (y : (S : Subgroup H)) :
     e y ∈ (((S : Subgroup H) ⊓ L).subgroupOf (S : Subgroup H)).map e.toMonoidHom ↔
@@ -51,6 +52,7 @@ theorem ti_mem_map (S : Sylow 3 H) (e : (S : Subgroup H) ≃* W3) (L : Subgroup 
     exact Subgroup.mem_map.mpr
       ⟨y, Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨y.2, hy⟩), rfl⟩
 
+omit [Finite H] in
 theorem ti_normal (S : Sylow 3 H) {L : Subgroup H}
     (hSL : (S : Subgroup H) ≤ normalizer (L : Set H)) (e : (S : Subgroup H) ≃* W3)
     {N : Subgroup W3} (hmem : ∀ y : (S : Subgroup H), e y ∈ N ↔ (y : H) ∈ L) :
@@ -63,6 +65,7 @@ theorem ti_normal (S : Sylow 3 H) {L : Subgroup H}
   have hy : (y : H) ∈ normalizer (L : Set H) := hSL y.2
   exact (Subgroup.mem_set_normalizer_iff.mp hy (z : H)).mp hz
 
+omit [Finite H] in
 theorem ti_ne_bot (S : Sylow 3 H) (e : (S : Subgroup H) ≃* W3) {L : Subgroup H}
     {N : Subgroup W3} (hmem : ∀ y : (S : Subgroup H), e y ∈ N ↔ (y : H) ∈ L)
     {t : H} (ht : t ∈ (S : Subgroup H)) (htL : t ∈ L) (ho : orderOf t = 3) : N ≠ ⊥ := by

@@ -127,7 +127,7 @@ theorem exists_chart_of_hom {q : A →* LinearFlag.projectiveSL 3 F4} (hq : Func
     rw [Subgroup.orderOf_mk] at this
     exact hodd.of_dvd_nat this
   have h2elt : ∀ x ∈ (V₀ : Subgroup A), ∃ m, orderOf x = 2 ^ m := fun x hx => by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp V₀.isPGroup' ⟨x, hx⟩
+    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp V₀.isPGroup ⟨x, hx⟩
     exact ⟨m, by rwa [Subgroup.orderOf_mk] at hm⟩
   have hinj₀ : Function.Injective (q.comp (V₀ : Subgroup A).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

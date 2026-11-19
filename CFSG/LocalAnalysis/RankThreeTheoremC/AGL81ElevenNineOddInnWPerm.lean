@@ -11,7 +11,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeTh
 
 theorem alternatingGroup_le_wSup {n : ℕ} (hn : 5 ≤ n) :
     alternatingGroup (Fin n) ≤ wSup (Perm (Fin n)) := by
-  haveI : (alternatingGroup (Fin n)).Normal := alternatingGroup.normal
+  have : (alternatingGroup (Fin n)).Normal := alternatingGroup.normal
   exact le_wSup_of_normal_of_isQuasisimple inferInstance
     ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp
       ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open _).mpr
@@ -32,7 +32,7 @@ theorem oddInnW_perm {n : ℕ} (h2 : CFSG.pCore 2 (Perm (Fin n)) = ⊥) : OddInn
   have h4' : n ≠ 4 := by rintro rfl; exact pCore_two_perm_ne_bot (Or.inr rfl) h2
   rcases Nat.lt_or_ge n 2 with hn1 | hn2
   ·
-    haveI : Subsingleton (Fin n) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hn1)
+    have : Subsingleton (Fin n) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hn1)
     refine ⟨1, one_mem _, fun x _ => ?_⟩
     rw [Subsingleton.elim α 1]
     simp

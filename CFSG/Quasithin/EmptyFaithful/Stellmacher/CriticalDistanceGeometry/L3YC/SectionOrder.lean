@@ -14,6 +14,7 @@ namespace Stellmacher.CD.L3YC
 
 variable {G : Type} [Group G] [Finite G] {F : Type} [Field F] [Finite F]
 
+omit [Finite G] in
 theorem card_section_pow {A V Z D : Subgroup G} {α : ↥A →* ↥(StatedSL 3 F)}
     (hα : Function.Surjective α) {dual : Bool} {k : ℕ}
     (h : IsSumOfNaturalModulesVia A V Z α dual k) (hDV : D ≤ V) (hZD : Z ≤ D)

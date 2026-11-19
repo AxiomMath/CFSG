@@ -49,7 +49,7 @@ theorem pumpUp_quotient_component
     {K : Type} [Group K] [Finite K] {W Wk : Subgroup K} {ζ ξ : MulAut K}
     {Q A : Subgroup (MulAut K)}
     (h : PumpUpAut W Wk ζ ξ Q A) :
-    let S := K ⧸ Subgroup.center K
+    let _S := K ⧸ Subgroup.center K
     let β := CFSG.LocalAnalysis.GLTheoremA.Y10F.centerQuotAut K ζ
     let J := W.map (QuotientGroup.mk' (Subgroup.center K))
     β ^ 3 = 1 ∧

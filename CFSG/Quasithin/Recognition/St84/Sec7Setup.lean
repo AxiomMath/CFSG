@@ -169,7 +169,7 @@ theorem pCoreOf_eq_inf_edgeSylow (i : ℤ) {A : Subgroup G} (hKA : X.K ≤ A)
     (hA : A ≤ X.Gi i ⊓ X.Gi (i + 1)) :
     pCoreOf 2 A = A ⊓ X.edgeSylow i ∧ X.K ⊔ pCoreOf 2 A = A := by
   classical
-  haveI : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
+  have : Finite ↥(X.Gi i ⊓ X.Gi (i + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi i ⊓ X.Gi (i + 1)) inf_le_left
   have hASnorm : A ≤ Subgroup.normalizer ((A ⊓ X.edgeSylow i : Subgroup G) : Set G) :=
     (le_inf (Subgroup.le_normalizer (H := A))
@@ -351,7 +351,7 @@ theorem mem_Q_of_commutator_mem (i : ℤ) (hn : 2 ≤ X.n i) {k : G} (hk : k ∈
       have hfixj : u • X.vert (i - 1) = X.vert (i - 1) :=
         MulAction.mem_stabilizer_iff.mp huj
       have heq : X.vert (i + 1) = X.vert (i - 1) :=
-        MulAction.injective u (by simpa [h, hfixj])
+        MulAction.injective u (by simp [h, hfixj])
       exact hne heq.symm
     have hwfix : u • X.vert (i + 1) = X.vert (i + 1) := by
       rcases (X.torus_fixed i hn hk hk1 (u • X.vert (i + 1)) hwadj).mp hfixw with h | h
@@ -374,7 +374,7 @@ theorem mem_Q_of_commutator_mem (i : ℤ) (hn : 2 ≤ X.n i) {k : G} (hk : k ∈
       have hfixj : u • X.vert (i + 1) = X.vert (i + 1) :=
         MulAction.mem_stabilizer_iff.mp huj
       have heq : X.vert (i - 1) = X.vert (i + 1) :=
-        MulAction.injective u (by simpa [h, hfixj])
+        MulAction.injective u (by simp [h, hfixj])
       exact hne heq
     have hwfix : u • X.vert (i - 1) = X.vert (i - 1) := by
       rcases (X.torus_fixed i hn hk hk1 (u • X.vert (i - 1)) hwadj).mp hfixw with h | h

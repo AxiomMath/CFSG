@@ -32,13 +32,13 @@ theorem s16h_not_mBarGT_of_bar_two (D : Data G) (hSig : UC6S846.SigmaStd D) (h61
     have hV : IsElemAbelian 2 V := h.hyp125.isElemAbelian
     have hMs : D.M ≤ stabTil ⊥ V :=
       le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-    haveI hCT : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
+    have hCT : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
     have hH11 : F11.Hyp11 D ⊥ V := Hyp125.hyp11 h127 h.hyp125
     have h1110 : R1110Core D := r1110Core_holds D hSig h61 h63 h77 h869 h111 h112 hThin hCyc
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨Xbar, hXbn, hXbe, hXbc, hXbcomm, hXble⟩ :=
       s16h_z3_exists_xbar_of_bar (h := h) hXn hXe hXd (n := 2) hcard
-    haveI := hXbn
+    have := hXbn
     have hXn' : D.M ≤ normalizer ((F11.barPreimage11 D.M ⊥ V Xbar : Subgroup G) : Set G) :=
       fun g hg => uc22p22u_mem_normalizer_barPreimage11 (M := D.M) (V₀ := ⊥) (V := V)
         (Xbar := Xbar) hg
@@ -135,7 +135,7 @@ theorem s16h_not_mBarGT_of_bar_two (D : Data G) (hSig : UC6S846.SigmaStd D) (h61
           have hYct : Y ≤ F11.CTilde D.M ⊥ V :=
             s16h_z3_le_cTilde_of_barSub_eq_bot hV h.hyp125.pairFacts.le_normalizer hYM
               (hYM.trans hMs) hsplitbot
-          haveI : IsCyclic ↥(P ⊓ F11.CTilde D.M ⊥ V) :=
+          have : IsCyclic ↥(P ⊓ F11.CTilde D.M ⊥ V) :=
             (h1110 ⊥ V hH11 p hp hp2 P hP).2.1.1
           exact hYnc (Subgroup.isCyclic_of_le (le_inf hYP hYct))
         · exact hsplitX

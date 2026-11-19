@@ -94,7 +94,7 @@ theorem normalizer_le_of_normalizer_sylow_le {Y : Type*} [Group Y] [Finite Y] {p
   have hTG : (T : Subgroup Y) ≤ G' := hTJ.trans hJG
   let P' : Sylow p G' := T.subtype hTG
   set N' : Subgroup G' := J.subgroupOf G' with hN'
-  haveI hN'n : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJG).2 le_rfl
+  have hN'n : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJG).2 le_rfl
   have hP'N' : (P' : Subgroup G') ≤ N' := by
     rw [Sylow.coe_subtype]
     exact fun x hx => Subgroup.mem_subgroupOf.mpr (hTJ (Subgroup.mem_subgroupOf.mp hx))

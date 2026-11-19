@@ -96,9 +96,9 @@ theorem cfInner_etaLocal (i i' : Irr ↥W₁) (k k' : Irr ↥W₂) :
   by_cases hi : i = i'
   · by_cases hk : k = k'
     · simp [hi, hk]
-    · rw [if_neg ?_, if_neg (by simp [hk])]
+    · rw [ite_eq_right ?_, ite_eq_right (by simp [hk])]
       exact fun hcon => hk (irrMapSubtype_injective L W₂ hcon.2)
-  · rw [if_neg ?_, if_neg (by simp [hi])]
+  · rw [ite_eq_right ?_, ite_eq_right (by simp [hi])]
     exact fun hcon => hi (irrMapSubtype_injective L W₁ hcon.1)
 
 omit [K.Normal] [Fintype ↑(Irr ↥W₁)] in
@@ -122,9 +122,10 @@ theorem isOrthonormalFamily_etaLocal [DecidableEq (Irr ↥W₁ × Irr ↥W₂)] 
   rw [hC.cfInner_etaLocal p.1 q.1 p.2 q.2]
   by_cases hpq : p = q
   · simp [hpq]
-  · rw [if_neg fun hcon => hpq (Prod.ext hcon.1 hcon.2), if_neg hpq]
+  · rw [ite_eq_right fun hcon => hpq (Prod.ext hcon.1 hcon.2), ite_eq_right hpq]
 
 include hC in
+omit [K.Normal] in
 theorem nuRow_eq_nu {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     hC.nuRow hk = (ν ⟨h.primeTIrow σ k,
       Submodule.subset_span (primeTIrow_mem_indFam_sdiff hC.local_data hk)⟩ : G → ℂ) := by
@@ -148,16 +149,19 @@ theorem nuRow_eq_nu {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
   exact sub_left_injective key
 
 include hC in
+omit [K.Normal] in
 theorem nuRow_mem_virtualChars {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     hC.nuRow hk ∈ virtualChars G := by
   rw [hC.nuRow_eq_nu hk]; exact (ν _).2
 
 include hC in
+omit [K.Normal] in
 theorem nuRow_mem_classFun {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     hC.nuRow hk ∈ classFun G :=
   mem_classFun_of_mem_span_Irr (mem_span_Irr_of_mem_virtualChars (hC.nuRow_mem_virtualChars hk))
 
 include hC in
+omit [K.Normal] in
 theorem cfInner_nuZeta_nuRow {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     cfInner hC.nuZeta (hC.nuRow hk) = 0 := by
   rw [hC.nuZeta_def, hC.nuRow_eq_nu hk, hC.nu_inner]
@@ -205,7 +209,7 @@ theorem cfInner_tauBridge_nuRow (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ 
       = 1 + (d : ℂ) * (n : ℂ) := by
     rw [hC.nuRow_sub_smul_nuZeta hj, hC.cfInner_tauBridge_nu i hj hf, cfInner_sub_right,
       cfInner_smul_right, h.cfInner_primeTIbridge_primeTIrow hC.local_data i j j,
-      h.cfInner_primeTIbridge_zeta hC.local_data i j, if_pos rfl, if_neg (Ne.symm hj),
+      h.cfInner_primeTIbridge_zeta hC.local_data i j, ite_eq_left rfl, ite_eq_right (Ne.symm hj),
       map_intCast]
     ring
   rw [cfInner_sub_right, cfInner_smul_right, hC.cfInner_tauBridge_nuZeta i hj, map_intCast] at hcoh

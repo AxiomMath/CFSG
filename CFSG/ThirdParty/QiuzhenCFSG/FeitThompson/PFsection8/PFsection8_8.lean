@@ -64,7 +64,7 @@ private theorem theorem_8_8_complement_exponent_dvd_of_quotientExponentDvd
   classical
   rcases hcomp with ⟨hHM, hUM, hsup, hdisj⟩
   rcases hquot with ⟨_hHM, hNorm, hDvd⟩
-  haveI : (H.subgroupOf M).Normal := hNorm
+  have : (H.subgroupOf M).Normal := hNorm
   have hsup_local : U.subgroupOf M ⊔ H.subgroupOf M = ⊤ := by
     calc
       U.subgroupOf M ⊔ H.subgroupOf M = (U ⊔ H).subgroupOf M := by
@@ -345,7 +345,7 @@ private theorem theorem_8_8_normal_in_overgroup_of_normal_hall_intermediate
   have hmNormD : (m : G) ∈ Subgroup.normalizer (D : Set G) := hM_norm_D hmM
   let mD : Subgroup.normalizer (D : Set G) := ⟨m, hmNormD⟩
   let φ : MulAut D := Subgroup.normalizerMonoidHom D mD
-  letI : (H.subgroupOf D).Normal := hNormHD
+  let : (H.subgroupOf D).Normal := hNormHD
   have hEqLocal : (H.subgroupOf D).map φ.toMonoidHom = H.subgroupOf D := by
     exact hHallHD.eq_of_normal (hHallHD.map_mulAut φ)
   apply theorem_8_8_mem_normalizer_of_conjBy_le_self
@@ -453,7 +453,7 @@ private theorem theorem_8_8_typeII_typeFData_of_canonical
       intro x _hx
       exact hDleM (by simp [D, hDtop])
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvD : IsSolvable D :=
+  have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDneTop)
   have hoddD : Odd (Nat.card D) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card D)
@@ -919,7 +919,7 @@ public theorem typePDefinitionData_frobeniusJoinWithKernel
       (by simp [S]) (by simp [S])]
     exact Subgroup.subgroupOf_eq_top.2 (by simp [S])
   have hUWcompSub : (U.subgroupOf S).IsComplement' (W1.subgroupOf S) := by
-    letI : (U.subgroupOf S).Normal := hUnormalS
+    let : (U.subgroupOf S).Normal := hUnormalS
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (U.subgroupOf S) (W1.subgroupOf S) hUWdisjSub hUWsupTop
   have hUsub_ne : U.subgroupOf S ≠ ⊥ := by

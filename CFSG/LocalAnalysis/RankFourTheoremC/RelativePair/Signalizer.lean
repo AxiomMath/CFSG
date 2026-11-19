@@ -86,7 +86,7 @@ theorem KFactSetting.exists_normal_coprime_signalizer {n : ℕ} (hS : KFactSetti
       rw [hY', Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
       exact hYc
     have hle := ambient_prime_constraint_signalizer_le_core p hprime hodd N₀ D Y' hcon
-      (P.isPGroup'.to_le hDP) hDN₀ hY'c hY'N hDY' hcontains
+      (P.isPGroup.to_le hDP) hDN₀ hY'c hY'N hDY' hcontains
     rw [← hYY']
     exact Subgroup.map_mono hle
 
@@ -104,7 +104,7 @@ theorem KFactSetting.pCore_quotient_eq_bot {n : ℕ} (hS : KFactSetting n G)
   obtain ⟨hDab, z, hzD, hz1, hzc, hzp, hN₀M, hCD, -⟩ :=
     hS.obstruction.transitivity_data hD1 hp hext hPD hR h13
   obtain ⟨hM, hDP, -, -⟩ := hext.obstruction
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   have hDH : D ≤ H := (le_sup_right : D ≤ relPairBase R T ⊔ D).trans hH.base_le
   set K' : Subgroup H := primeComplementCore (G := H) p with hK'
   set π : H →* H ⧸ K' := QuotientGroup.mk' K' with hπ

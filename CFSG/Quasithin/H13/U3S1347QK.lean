@@ -23,7 +23,7 @@ theorem cntL_eq (f : ℕ → Bool) (L : List ℕ) : cntL f L = (L.filter f).leng
     rw [List.filter_cons]
     cases f a
     · exact ih
-    · rw [if_pos rfl, List.length_cons, ← ih]
+    · rw [ite_eq_left rfl, List.length_cons, ← ih]
 
 @[expose] def W4Q : List ℕ :=
   [0, 69632, 65792, 4352, 65552, 4112, 272, 69904, 65537, 4097, 257, 69889, 17, 69649, 65809, 4369]
@@ -68,7 +68,7 @@ theorem hi_pk {a : ℕ} (b : ℕ) (ha : a < 2 ^ 24) : hi (pk a b) = b := by
 theorem enc_lt (σ : Perm (Fin 6)) : enc σ < 2 ^ 24 := by
   unfold enc
   refine lt_of_lt_of_eq (encF_lt fun i hi => ?_) (by norm_num)
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact lt_of_lt_of_le (Fin.isLt _) (by norm_num)
 
 @[expose] def DTC : List ℕ :=
@@ -106,7 +106,7 @@ theorem fix1_of {d t : Fin 16 → Perm (Fin 6)} {W : List P6} (hW : (W.map vc6 =
   have hm := allK_iff.1 fix1B_check _ (mem_DTC i.isLt)
   rw [hp i, lo_pk _ (enc_lt _), hi_pk _ (enc_lt _), f1, sq_beq h1,
     beq_one_false h16 enc_one6 h2] at hm
-  simp only [Bool.not_false, Bool.and_true, Bool.true_and, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hm
+  simp only [Bool.not_false, Bool.and_true, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hm
   have ht := sq_of_beq hm.1
   rw [fix_bridge (by simpa using h1) hW, fix_bridge (by simpa using ht) hW]
   exact Nat.le_of_ble_eq_true hm.2
@@ -132,7 +132,7 @@ theorem fix2_of {d t : Fin 16 → Perm (Fin 6)} {W : List P6} (hW : (W.map vc6 =
   rw [hp i, hp j, lo_pk _ (enc_lt _), hi_pk _ (enc_lt _), lo_pk _ (enc_lt _), hi_pk _ (enc_lt _),
     f2, sq_beq h1, sq_beq h3, beq_one_false h16 enc_one6 h2, beq_one_false h16 enc_one6 h4,
     beq_enc_false h16 h5, (comm_enc_iff h16).2 h6] at hm
-  simp only [Bool.not_false, Bool.and_true, Bool.true_and, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hm
+  simp only [Bool.not_false, Bool.and_true, Bool.not_true, Bool.false_or, Bool.and_eq_true] at hm
   have hti := sq_of_beq hm.1.1
   have htj := sq_of_beq hm.1.2
   have hdl : ∀ s ∈ [d i, d j], s * s = 1 := by

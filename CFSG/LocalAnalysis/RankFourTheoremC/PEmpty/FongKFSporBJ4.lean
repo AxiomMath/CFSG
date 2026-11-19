@@ -18,7 +18,7 @@ theorem j4Eleven_reach : ∀ w : Fin 2 → ZMod 11, w ≠ 0 → ∃ s : ZMod 11,
 
 theorem j4Eleven_oneClassE_J :
     OneClassE 11 J := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨x, y, z, h₁, h₂, c, -, hext, -, hexp, hz, hcenter, -, -, h1x, h1y, -, h2x, h2y, -, -,
     -, -, -, -, -, -⟩ := R3E_J4_eleven_normalizer_transitivity_and_fixed_dimensions
   subst hz
@@ -40,7 +40,7 @@ theorem j4Eleven_oneClassE_J :
   have hsyl : ¬ 11 ^ 4 ∣ Nat.card J := by
     rw [CFSG.Sporadic.J4.card_J CFSG.Sporadic.J4.j4Facts]
     decide
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by
+  have : Finite J := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.J4.card_J CFSG.Sporadic.J4.j4Facts]; norm_num)
   exact oneClassE_of_witness (by norm_num) hsyl hx hy hne hzx hzy h1x h1y h2x h2y 6
     j4Eleven_reach

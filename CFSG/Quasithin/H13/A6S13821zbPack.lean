@@ -99,7 +99,6 @@ theorem conj_pow {τ : Perm (Fin 5)} (hs : Perm.sign τ = 1) (h2 : τ * τ = 1) 
       exact absurd h (by decide)
   obtain ⟨σ, hσ⟩ := exists_of_walkK (P := fun cs => evenK 5 cs &&
     !p4K (powK 5 e5 (mulK 5 (enc τ) (conjK5 cs (enc τ))) 6)) hw
-  beta_reduce at hσ
   rw [Bool.and_eq_true] at hσ
   obtain ⟨hσ1, hσ2⟩ := hσ
   refine ⟨σ, (sign_eq_one_iff_evenK h5 σ).2 hσ1, ?_⟩

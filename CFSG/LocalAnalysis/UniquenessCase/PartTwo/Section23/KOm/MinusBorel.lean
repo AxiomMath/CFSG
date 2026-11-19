@@ -58,7 +58,7 @@ theorem conj_mul_inv_pow_card_mem_rootGroupGL [Finite K] [CharP K 2] {b c : K}
     (hg : g ∈ lineStabilizer (quadMinus 2 K b c) (KTabC.e1M K)) (hodd : Odd (orderOf g)) :
     t * g * t⁻¹ * (g ^ Nat.card K)⁻¹ ∈ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let L : Subgroup (GL ιM K) := lineStabilizer (quadMinus 2 K b c) (KTabC.e1M K)
   have htL : t ∈ L := isoFix_le_lineStabilizer b c ht
   let t' : ↥L := ⟨t, htL⟩

@@ -27,7 +27,7 @@ theorem sec8t84d3_Y_inf_C (h : Sec8T84DCtx G t E X1 X2) (hd : Sec8T84DDec G t E 
       (Subgroup.mem_sup_left heE1) (Subgroup.mem_sup_right hoO)
   · refine sup_le (fun e he => ⟨sec8t84d3_E1_le_Y h hd he, ?_⟩)
       (fun o ho => ⟨sec8t84d3_O_le_Y h ho, h.hO ho⟩)
-    haveI := h.elem.1.1
+    have := h.elem.1.1
     exact (hd.le1.trans (Subgroup.le_centralizer E)) he
 
 theorem sec8t84d3_quot (h : Sec8T84DCtx G t E X1 X2) (hd : Sec8T84DDec G t E X1 X2 E1 E2) :

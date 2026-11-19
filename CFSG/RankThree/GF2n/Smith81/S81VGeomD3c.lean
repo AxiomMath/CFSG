@@ -30,13 +30,16 @@ private theorem herm_ba_of_frame (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b
     simp
   · simp [h, Ne.symm h]
 
+omit [Field F] in
 private theorem range_v2 (x y : Fin 6 → F) : Set.range ![x, y] = ({x, y} : Set (Fin 6 → F)) :=
   Matrix.range_cons_cons_empty x y ![]
 
+omit [Field F] in
 private theorem range_v3 (x y z : Fin 6 → F) :
     Set.range ![x, y, z] = ({x, y, z} : Set (Fin 6 → F)) := by
   rw [Matrix.range_cons, Matrix.range_cons_cons_empty, Set.singleton_union]
 
+omit [Field F] in
 private theorem range_v4 (x y z w : Fin 6 → F) :
     Set.range ![x, y, z, w] = ({x, y, z, w} : Set (Fin 6 → F)) := by
   rw [Matrix.range_cons, Matrix.range_cons, Matrix.range_cons_cons_empty, Set.singleton_union,
@@ -63,7 +66,7 @@ private theorem gram_three_det (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) 
   have h4 : herm σ x (a 0) = σ θ := by rw [herm_conj σ hσ, h1]
   have h5 : herm σ x (b 0) = 1 := by rw [herm_conj σ hσ, h2, map_one]
   rw [Matrix.det_fin_three]
-  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf, h1, h2, h3, h4, h5] <;> ring
+  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf, h1, h2, h3, h4, h5]; ring
 
 private theorem gram_three_ne (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (hθ : θ + σ θ ≠ 0)
     {x : Fin 6 → F} (h1 : herm σ (a 0) x = θ) (h2 : herm σ (b 0) x = 1)
@@ -77,15 +80,15 @@ private theorem li_three (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (hθ :
     (h3 : herm σ x x = 0) : LinearIndependent F ![a 0, b 0, x] :=
   linearIndependent_of_gram ![a 0, b 0, x] (gram_three_ne hσ hf hθ h1 h2 h3)
 
-private theorem herm_a0_rr (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
+private theorem herm_a0_rr (_hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (a 0) (rr a b θ) = θ := by
   unfold rr
-  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf]
+  simp [hf.aa, hf.ab]
 
 private theorem herm_b0_rr (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (b 0) (rr a b θ) = 1 := by
   unfold rr
-  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf]
+  simp [hf.bb, herm_ba_of_frame hσ hf]
 
 private theorem herm_rr_rr [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (rr a b θ) (rr a b θ) = 0 := by
@@ -95,15 +98,15 @@ private theorem herm_rr_rr [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame 
     ring
   rw [key, CharTwo.two_eq_zero, zero_mul]
 
-private theorem herm_a0_v3 (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
+private theorem herm_a0_v3 (_hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (a 0) (v3 a b θ) = θ := by
   unfold v3
-  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf]
+  simp [hf.aa, hf.ab]
 
 private theorem herm_b0_v3 (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (b 0) (v3 a b θ) = 1 := by
   unfold v3
-  simp [hf.aa, hf.bb, hf.ab, herm_ba_of_frame hσ hf]
+  simp [hf.bb, herm_ba_of_frame hσ hf]
 
 private theorem herm_v3_v3 [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     herm σ (v3 a b θ) (v3 a b θ) = 0 := by
@@ -236,12 +239,12 @@ private theorem P2_le_orth (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
   rcases hx with rfl | rfl
   · rw [SetLike.mem_coe]
     apply orth_of_b1
-    simp [hf.bb, herm_ba_of_frame hσ hf]
+    simp [herm_ba_of_frame hσ hf]
   · rw [SetLike.mem_coe]
     apply orth_of_b1
-    simp [hf.bb, herm_ba_of_frame hσ hf]
+    simp [hf.bb]
 
-theorem P_perp [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (hθ : θ + σ θ ≠ 0) :
+theorem P_perp [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (_hθ : θ + σ θ ≠ 0) :
     P3 a b θ ⊓ orth σ (Submodule.span F {b 1}) = P2 a b := by
   apply le_antisymm
   · intro x hx

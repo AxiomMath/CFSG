@@ -109,7 +109,7 @@ public theorem exists_involution_not_mem
     ∃ t : X, IsInvolution t ∧ t ∉ M := by
   obtain ⟨z, hzM, hz⟩ := hM.exists_involution
   have hMlt : M < ⊤ := lt_top_iff_ne_top.mpr hM.ne_top
-  obtain ⟨g, _, hgM⟩ := SetLike.exists_of_lt hMlt
+  obtain ⟨g, _, hgM⟩ := _root_.IsConcreteLE.exists_of_lt hMlt
   refine ⟨rightConjugateElem z g, isInvolution_rightConjugateElem hz, ?_⟩
   intro hzgM
   apply hgM

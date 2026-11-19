@@ -70,7 +70,7 @@ theorem soc_l2_comm_of_cyclic_quot_central {G Q : Type} [Group G] [Group Q] [IsC
 
 theorem soc_l2_semilinearQuotient_comm (K : Type) [Field K] [Finite K]
     (hK : IsOddPrimePower (Nat.card K)) : ∀ a b : SemilinearQuotient K, a * b = b * a := by
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   have hdvd : Nat.card (quotientFieldProjection K).ker ∣ 2 := by
     rw [quotientFieldProjection_ker K]
     exact CFSG.Walter.W67.JROut.card_diagonalHom_range_dvd_two K hK
@@ -90,7 +90,7 @@ theorem soc_l2_socleCyc4 (K : Type) [Field K] [Finite K] {p f : ℕ} [Fact p.Pri
   intro z hz N₁ N₂ P₁ P₂ hN₁ hN₂ _ _ hS₁ hS₂ hc₁ hc₂ hn₁ hn₂
   have ht : orderOf (e z) = 2 := by rw [MulEquiv.orderOf_eq]; exact hz
   obtain ⟨m, hm, ⟨ψ⟩⟩ := soc_l2_centralizer_dihedral K hK hp hf h3 ht
-  haveI := hm
+  have := hm
   obtain ⟨c, hc⟩ : ∃ c : Subgroup.centralizer ({e z} : Set (PSL2 K)),
       ψ c = DihedralGroup.r (1 : ZMod m) :=
     ⟨ψ.symm (DihedralGroup.r (1 : ZMod m)), ψ.apply_symm_apply _⟩
@@ -162,12 +162,12 @@ theorem soc_l2_data {F : Type} [Group F] (h : SmallL2 F) :
 
 theorem socleInvConj_l2 {F : Type} [Group F] [Finite F] (h : SmallL2 F) : SocleInvConj F := by
   obtain ⟨p, f, K, _, _, hp, hpodd, hf, -, hK, ⟨e⟩⟩ := soc_l2_data h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact soc_l2_socleInvConj K hK hpodd hf e
 
 theorem socleCyc4_l2 {F : Type} [Group F] [Finite F] (h : SmallL2 F) : SocleCyc4 F := by
   obtain ⟨p, f, K, _, _, hp, hpodd, hf, h3, hK, ⟨e⟩⟩ := soc_l2_data h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact soc_l2_socleCyc4 K hK hpodd hf h3 e
 
 theorem socleOutAbelian_l2 {F : Type} [Group F] [Finite F] (h : SmallL2 F) :

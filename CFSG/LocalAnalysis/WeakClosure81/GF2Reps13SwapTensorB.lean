@@ -13,18 +13,20 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_mul_mul_comm {A B : Subgroup (MulAut W)}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {a₁ a₂ b₁ b₂ : MulAut W}
-    (ha₁ : a₁ ∈ A) (ha₂ : a₂ ∈ A) (hb₁ : b₁ ∈ B) (hb₂ : b₂ ∈ B) :
+    (_ha₁ : a₁ ∈ A) (ha₂ : a₂ ∈ A) (hb₁ : b₁ ∈ B) (_hb₂ : b₂ ∈ B) :
     (a₁ * a₂) * (b₁ * b₂) = (a₁ * b₁) * (a₂ * b₂) := by
   rw [mul_assoc a₁ a₂ (b₁ * b₂), ← mul_assoc a₂ b₁ b₂, hc a₂ ha₂ b₁ hb₁,
     mul_assoc b₁ a₂ b₂, ← mul_assoc a₁ b₁ (a₂ * b₂)]
 
+omit [Finite W] in
 theorem w16f_isMatTensor2_realizes {K K' : Subgroup (MulAut W)} {U₀ U R : Subgroup W}
     (hKs : K ≤ secStabAll U U₀) (hK's : K' ≤ secStabAll U U₀) (hcomm : ⁅K, K'⁆ = ⊥) (hRU : R ≤ U)
     (hRst : StableUnder (K ⊔ K') R) (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U)
     (hKf : K ⊓ centSub R = ⊥) (hK'f : K' ⊓ centSub R = ⊥) {F : Type} [Field F] [Finite F]
-    {n : ℕ} (hF : Nat.card F = 2 ^ n)
+    {n : ℕ} (_hF : Nat.card F = 2 ^ n)
     (h : IsMatTensor2 (secImg K U U₀) (secImg K' U U₀) F) :
     (FFModel.tensorNat 2 F).Realizes (K ⊔ K') R ⊥ := by
   classical

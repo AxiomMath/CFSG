@@ -10,7 +10,7 @@ private lemma exists_generic_pair {V : Type*} [Group V] [Finite V]
     (hsq : ∀ v : V, v * v = 1) (hcard : Nat.card V = 8) {z : V} (hz1 : z ≠ 1) :
     ∃ a b : V, a ≠ 1 ∧ a ≠ z ∧ b ≠ 1 ∧ b ≠ z ∧ a ≠ b ∧ a ≠ z * b := by
   classical
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hcardV : Fintype.card V = 8 := by rw [Fintype.card_eq_nat_card, hcard]
   have h2 : ({1, z} : Finset V).card = 2 := by
     rw [Finset.card_insert_of_notMem (by simp [hz1.symm]), Finset.card_singleton]
@@ -56,6 +56,7 @@ private lemma exists_generic_pair {V : Type*} [Group V] [Finite V]
 
 variable {W V N : Type} [Group W] [Finite W] [Group V] [Finite V] [Group N] [Finite N]
 
+omit [Finite W] [Finite N] in
 theorem ase_complement (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →* V)
     (hπ : Function.Surjective π) (hπact : ∀ (n : N) (w : W), π (act n w) = vact n (π w))
     (hW : ∀ w : W, w ^ 2 = 1) (hV8 : Nat.card V = 8)
@@ -79,7 +80,7 @@ theorem ase_complement (act : N →* MulAut W) (vact : N →* MulAut V) (π : W 
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hW2 a),
       inv_eq_of_mul_eq_one_right (hW2 b)] at h
     exact h.symm
-  letI : CommGroup W := { ‹Group W› with mul_comm := hcomm }
+  let : CommGroup W := { ‹Group W› with mul_comm := hcomm }
   have hV2 : ∀ v : V, v ^ 2 = 1 := by
     intro v
     obtain ⟨w, rfl⟩ := hπ v
@@ -91,7 +92,7 @@ theorem ase_complement (act : N →* MulAut W) (vact : N →* MulAut V) (π : W 
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hsqV a),
       inv_eq_of_mul_eq_one_right (hsqV b)] at h
     exact h.symm
-  letI : CommGroup V := { ‹Group V› with mul_comm := hVcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hVcomm }
   obtain ⟨a₁, b₁, ha₁1, ha₁z, hb₁1, hb₁z, ha₁b₁, ha₁zb₁⟩ :=
     exists_generic_pair hsqV hV8 hz1
   obtain ⟨s0, hs01, hs0z, hs0π, hs0v₀, hs0eq, _⟩ :=

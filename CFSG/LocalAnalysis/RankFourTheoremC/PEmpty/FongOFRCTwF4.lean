@@ -82,7 +82,7 @@ theorem outerFixedRankCrossAt_twistedF4 : OuterFixedRankCrossAt .twistedF4 := by
   have hdvd₀ : p ∣ K128.phiF4 d (2 ^ (2 * b + 1)) :=
     K128.dvd_phiF4_of_dvd_pow hp (by omega) hd (by rw [← hqp]; exact hdvd)
   have hphi : K128.phiF4 d (2 ^ (2 * b + 1)) ≠ 0 := by
-    rcases hd with rfl | rfl | rfl <;> simp [K128.phiF4] <;> omega
+    rcases hd with rfl | rfl | rfl <;> simp [K128.phiF4]; omega
   have he : 1 ≤ (K128.phiF4 d (2 ^ (2 * b + 1))).factorization p :=
     hp.factorization_pos_of_dvd hphi hdvd₀
   have hshape := K128.sylowShape_ree (a := b) (K := fixSubfield β) hbcard hd hp hp5 hdvd₀

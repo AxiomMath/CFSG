@@ -31,7 +31,7 @@ private theorem exists_fixed_mod_subgroup {P Z : Subgroup G} {g : G}
     have hzZ : ((z : ↥P) : G) ∈ Z := hz
     have hcomm := hZc hzZ (w : G) w.2
     exact Subtype.ext (by simpa [mul_comm] using hcomm)
-  haveI hKnormal : K.Normal := Subgroup.normal_of_le_center hKle
+  have hKnormal : K.Normal := Subgroup.normal_of_le_center hKle
   have hKne : K ≠ ⊤ := by
     intro htop
     apply hPne
@@ -39,8 +39,8 @@ private theorem exists_fixed_mod_subgroup {P Z : Subgroup G} {g : G}
     intro p hp
     have : (⟨p, hp⟩ : ↥P) ∈ K := by rw [htop]; exact Subgroup.mem_top _
     exact this
-  haveI hquotne : Nontrivial (↥P ⧸ K) := QuotientGroup.nontrivial_iff.mpr hKne
-  haveI : MulAction.QuotientAction (Subgroup.normalizer (P : Set G)) K :=
+  have hquotne : Nontrivial (↥P ⧸ K) := QuotientGroup.nontrivial_iff.mpr hKne
+  have : MulAction.QuotientAction (Subgroup.normalizer (P : Set G)) K :=
     ⟨fun b a a' h => by
       have hbZ : (b : G) ∈ Subgroup.normalizer (Z : Set G) := hNZ b.2
       have hmem : (((a⁻¹ * a') : ↥P) : G) ∈ Z := h
@@ -59,7 +59,7 @@ private theorem exists_fixed_mod_subgroup {P Z : Subgroup G} {g : G}
     obtain ⟨n, rfl⟩ := hh
     exact Subgroup.zpow_mem _ hgP n
   let f : H →* Subgroup.normalizer (P : Set G) := Subgroup.inclusion hHP
-  letI : MulAction H (↥P ⧸ K) := MulAction.compHom _ f
+  let : MulAction H (↥P ⧸ K) := MulAction.compHom _ f
   have hH2 : IsPGroup 2 H := by
     obtain ⟨n, hn⟩ := hg2
     exact IsPGroup.of_card (n := n) (by rw [Nat.card_zpowers, hn])
@@ -134,6 +134,7 @@ private def fixedModSubgroup (P Z : Subgroup G) (g : G)
     rw [hcalc]
     exact Z.inv_mem hxZ
 
+omit [Finite G] in
 private theorem le_fixedModSubgroup {P Z : Subgroup G} {g : G}
     (hZP : Z ≤ P) (hNZ : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (Z : Set G))
     (hgP : g ∈ Subgroup.normalizer (P : Set G))
@@ -146,6 +147,7 @@ private theorem le_fixedModSubgroup {P Z : Subgroup G} {g : G}
   rw [commutatorElement_def]
   exact Z.mul_mem hgz (Z.inv_mem hz)
 
+omit [Finite G] in
 private theorem commutator_conj_mem {P Z : Subgroup G} {g l x : G}
     (hPZ : P ≤ Subgroup.normalizer (Z : Set G))
     (hlP : l ∈ Subgroup.normalizer (P : Set G))
@@ -173,13 +175,14 @@ private theorem commutator_conj_mem {P Z : Subgroup G} {g l x : G}
   rw [hkey]
   exact Z.mul_mem huzZ hqyZ
 
+omit [Finite G] in
 private theorem fixedModSubgroup_le_normalizer {P Z L : Subgroup G} {g : G}
-    (hZP : Z ≤ P)
+    (_hZP : Z ≤ P)
     (hNZ : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (Z : Set G))
     (hZc : Z ≤ Subgroup.centralizer (P : Set G))
     (hLP : L ≤ Subgroup.normalizer (P : Set G))
     (hPZ : P ≤ Subgroup.normalizer (Z : Set G))
-    (hgP : g ∈ Subgroup.normalizer (P : Set G))
+    (_hgP : g ∈ Subgroup.normalizer (P : Set G))
     (hcomm : ∀ l ∈ L, ⁅g, l⁆ ∈ P)
     (hder : ⁅P, P⁆ ≤ Z) :
     L ≤ Subgroup.normalizer (fixedModSubgroup P Z g hZc : Set G) := by
@@ -197,10 +200,11 @@ private theorem fixedModSubgroup_le_normalizer {P Z L : Subgroup G} {g : G}
     have := hconj l⁻¹ (L.inv_mem hl) (l * x * l⁻¹) hx
     simpa [mul_assoc] using this⟩
 
+omit [Finite G] in
 private theorem fixedModSubgroup_bot_le_normalizer {P Z L : Subgroup G} {g : G}
     (hZc : Z ≤ Subgroup.centralizer (P : Set G))
     (hLZ : L ≤ Subgroup.normalizer (Z : Set G))
-    (hLP : L ≤ Subgroup.normalizer (P : Set G))
+    (_hLP : L ≤ Subgroup.normalizer (P : Set G))
     (hcomm : ∀ l ∈ L, ⁅g, l⁆ ∈ P) :
     L ≤ Subgroup.normalizer (fixedModSubgroup Z ⊥ g bot_le : Set G) := by
   have hconj : ∀ l ∈ L, ∀ x ∈ fixedModSubgroup Z ⊥ g bot_le,

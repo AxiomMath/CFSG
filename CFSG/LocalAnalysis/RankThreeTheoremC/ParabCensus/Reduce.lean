@@ -179,14 +179,14 @@ theorem exists_mulEquiv_statedSp_of_isQuasisimple (hZ : OddCenterRest) {A : Type
     isLieOf_quotient_center_top (Q := ↥Y) hB2
   obtain ⟨r, K, hKf, hKfin, hKchar, hr, hK2, ⟨f⟩⟩ :=
     exists_mulEquiv_statedSp_of_idxBTwo hZ hcomp hodd hB2'
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hr3 : 3 ≤ r := by
     rcases Nat.eq_or_lt_of_le hr with h2 | h2
     · subst r
       have hperfSp : Group.IsPerfect ↥(StatedSp 2 K) := by
-        haveI : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
+        have : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
         exact Group.IsPerfect.ofSurjective
           (f := (Subgroup.topEquiv.symm.trans f).toMonoidHom)
           (Subgroup.topEquiv.symm.trans f).surjective
@@ -216,9 +216,9 @@ theorem isSpTwoLeviProduct_of_parabolic (hZ : OddCenterRest) {A : Type} [Group A
   · subst P
     obtain ⟨r, K, hKf, hKfin, hKchar, hr, hK2, ⟨e⟩⟩ :=
       exists_mulEquiv_statedSp_of_isQuasisimple hZ hY hO hB2
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKf
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     have hpc := pCore_eq_bot_of_pCoreOf_eq_bot hO
     have hquot : ↥Y ⧸ CFSG.pCore 2 ↥Y ≃* ↥Y :=
       (QuotientGroup.quotientMulEquivOfEq hpc).trans QuotientGroup.quotientBot
@@ -230,9 +230,9 @@ theorem isSpTwoLeviProduct_of_parabolic (hZ : OddCenterRest) {A : Type} [Group A
   ·
     obtain ⟨r, K, hKf, hKfin, hKchar, hr, hK2, ⟨e⟩⟩ :=
       exists_mulEquiv_statedSp_of_isQuasisimple hZ hY hO hB2
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    letI : CharP K 2 := hKchar
+    let : Field K := hKf
+    let : Finite K := hKfin
+    let : CharP K 2 := hKchar
     have hself : ∀ S : Sylow 2 ↥Y,
         normalizer ((S : Subgroup ↥Y) : Set ↥Y) = (S : Subgroup ↥Y) :=
       forall_sylow_normalizer_eq_of_mulEquiv e.symm
@@ -269,10 +269,10 @@ theorem isSpTwoLeviProduct_of_parabolic (hZ : OddCenterRest) {A : Type} [Group A
     have hpc_top : CFSG.pCore 2 ↥P = ⊤ := by
       refine top_unique ?_
       exact le_sSup ⟨inferInstance, hP2.of_equiv Subgroup.topEquiv.symm⟩
-    haveI : Subsingleton (↥P ⧸ CFSG.pCore 2 ↥P) := by
+    have : Subsingleton (↥P ⧸ CFSG.pCore 2 ↥P) := by
       rw [hpc_top]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton (Fin 0 → PUnit) := inferInstance
+    have : Subsingleton (Fin 0 → PUnit) := inferInstance
     refine ⟨0, fun _ => PUnit, fun _ => inferInstance, fun _ => inferInstance, ?_⟩
     refine ⟨⟨MulEquiv.ofBijective
       (1 : (↥P ⧸ CFSG.pCore 2 ↥P) →* (Fin 0 → PUnit))

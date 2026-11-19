@@ -133,6 +133,7 @@ variable (e : X) (heD : e ∈ D) (K : Subgroup X) (hKG₀ : K ≤ G₀)
   (hKcomp : IsComponentOf K (Subgroup.centralizer {e})) (hJK : J ≤ K)
 include heD hKG₀ hKcomp hJK
 
+omit heJ e_J in
 theorem nbrpmmx_neighbourBlockData :
     ∃ (S' : Set (GL (Ix n) (GaloisField 2 f))) (K' : Subgroup (UK n f)) (ε' e' : Mx n f),
       S' ⊆ S ∧ SetD n f ψ K S' K' ∧ EpsD n f S' K' ε' ∧ IsPrimIdemIn (AdS f S') e' ∧

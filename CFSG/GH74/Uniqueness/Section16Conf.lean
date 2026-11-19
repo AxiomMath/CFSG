@@ -80,7 +80,7 @@ theorem ZDSetup.exists_sylow_central_ge (S : ZDSetup X Z M) {R : Subgroup X} (hR
     have hmem := mem_map_smul Q h hrQ
     rwa [hh, map_subtype_sylow_subtype T hTM] at hmem
   have hz₁ : (h : X) * ((h : X)⁻¹ * z * h) * (h : X)⁻¹ = z := by group
-  refine ⟨conjugate (T : Subgroup X) h, T.isPGroup'.map _,
+  refine ⟨conjugate (T : Subgroup X) h, T.isPGroup.map _,
     fun r hr => mem_conjugate_iff.mpr (hRT r hr), (h : X)⁻¹ * z * h, S.invariant.2 z hz h,
     M.mul_mem (M.mul_mem (M.inv_mem h.2) hzM) h.2, ?_, fun s hs => ?_⟩
   · rw [mem_conjugate_iff, hz₁]

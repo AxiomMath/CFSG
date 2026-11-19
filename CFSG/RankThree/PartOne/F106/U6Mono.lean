@@ -170,14 +170,14 @@ theorem zneg_add : ∀ x : ZMod 3, -x + x = 0 := by decide
     have h0 : (fun i => d i + (fun i => -d (σ i)) (σ⁻¹ i)) = 0 := by
       funext i
       have := zadd_neg (d i)
-      simpa using this
+      simp
     rw [h0, mul_inv_cancel, c.mono_one]
   inv_val := by
     rw [mono_mul]
     have h0 : (fun i => (fun i => -d (σ i)) i + d (σ⁻¹⁻¹ i)) = 0 := by
       funext i
       have := zneg_add (d (σ i))
-      simpa using this
+      simp
     rw [h0, inv_mul_cancel, c.mono_one]
 
 theorem monoGL_val (d : Fin 6 → ZMod 3) (σ : Equiv.Perm (Fin 6)) :

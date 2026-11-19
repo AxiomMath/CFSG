@@ -30,20 +30,20 @@ private theorem kf43s4_alt5_nonab : ∃ x y : alternatingGroup (Fin 5), x * y �
 theorem s43_kfactS4_of (h41 : PartTwo.Sec4.Item4_1LargeAll)
     (hSz : LemmaSz) (hAut : LemmaSzAut3) : S43_KFactS4 := by
   intro H _ _ hKG hS4 K hKp hKt
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ3 := kf43_image_not_dvd_three (H := H)
   have hrad := kf43_radical_free_image (H := H)
   set Θ := aschbacherSolvableCore 3 H with hΘ
   set π : H →* H ⧸ Θ := QuotientGroup.mk' Θ with hπ
   set Qs : Subgroup (H ⧸ Θ) := (pPrimeCore 3 H).map π with hQs
-  haveI hQn : Qs.Normal := kf43_image_normal
+  have hQn : Qs.Normal := kf43_image_normal
   have hKQ : KCore.KGroupNonab InCatalog ↥Qs :=
     KCore.KGroupNonab.subgroup Assembly.inCatalog_isoInvariant
       (KCore.KGroupNonab.quotient Assembly.inCatalog_isoInvariant hKG Θ) Qs
   have hrank : localRank 5 ↥(layer ↥Qs) ≤ 2 := by
     let Y : Subgroup (H ⧸ Θ) := (layer ↥Qs).map Qs.subtype
     have hf : Function.Surjective (π.subgroupComap Y) :=
-      MonoidHom.subgroupComap_surjective_of_surjective π Y (QuotientGroup.mk'_surjective Θ)
+      _root_.MonoidHom.subgroupComap_surjective π Y (QuotientGroup.mk'_surjective Θ)
     let e : ↥(layer ↥Qs) ≃* ↥Y :=
       Subgroup.equivMapOfInjective (layer ↥Qs) Qs.subtype Qs.subtype_injective
     let f : ↥(Y.comap π) →* ↥(layer ↥Qs) := e.symm.toMonoidHom.comp (π.subgroupComap Y)
@@ -57,7 +57,7 @@ theorem s43_kfactS4_of (h41 : PartTwo.Sec4.Item4_1LargeAll)
     rw [Census.localRank_eq_of_mulEquiv ε Nat.prime_five] at h5
     omega
   obtain ⟨e5⟩ := CFSG.ComponentClassification.RankTwoClassical.nonempty_equiv_a5_of_psl hKt
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := inferInstance
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := inferInstance
   have hPs : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := e5.isSimpleGroup
   have hPn : ∃ x y : ↥K ⧸ Subgroup.center ↥K, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := kf43s4_alt5_nonab

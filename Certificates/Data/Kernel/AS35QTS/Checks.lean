@@ -38,12 +38,12 @@ open CFSG.KC.F4M3B
 
 @[expose] noncomputable def allI (L : List Nat) (f : Nat → Nat → Bool) : Bool :=
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun x _ ih j => Bool.and' (f j x) (ih (Nat.succ j))) L 0
+    (fun x _ ih j => _root_.Bool.and (f j x) (ih (Nat.succ j))) L 0
 
 @[expose] noncomputable def allI2 (L M : List Nat) (f : Nat → Nat → Nat → Bool) : Bool :=
   List.rec (motive := fun _ => List Nat → Nat → Bool) (fun _ _ => true)
     (fun x _ ih M j => List.rec (motive := fun _ => Bool) false
-      (fun y rest _ => Bool.and' (f j x y) (ih rest (Nat.succ j))) M) L M 0
+      (fun y rest _ => _root_.Bool.and (f j x y) (ih rest (Nat.succ j))) M) L M 0
 
 @[expose] noncomputable def hitK (t : Nat) (Y T : PL Nat) (n : Nat) : PL Nat → Nat → Nat :=
   Nat.rec (motive := fun _ => PL Nat → Nat → Nat) (fun _ acc => acc)
@@ -53,7 +53,7 @@ open CFSG.KC.F4M3B
 @[expose] def laneT : Nat := 41589
 
 @[expose] noncomputable def ilOK (G IL : List Nat) : Bool :=
-  Bool.and' (incB 82944 IL) (frc allT fun tA => lanesK G fun X =>
+  _root_.Bool.and (incB 82944 IL) (frc allT fun tA => lanesK G fun X =>
     mulK (natOps tA) frc X X fun Q => Nat.beq (invM tA X Q) (ind IL))
 
 @[expose] noncomputable def qpowOK (G : List Nat) : Bool :=
@@ -63,8 +63,8 @@ open CFSG.KC.F4M3B
       Nat.beq (Nat.land (isI3 (natOps tA) X) (bnot (natOps tA) (eqP (natOps tA) P4 E))) 0
 
 @[expose] noncomputable def rootOK (G IL R : List Nat) : Bool :=
-  Bool.and' (incB 82944 R) <| frc allT fun tA => lanesK G fun X => mulK (natOps tA) frc X X fun Q =>
-    Bool.and' (Nat.beq (Nat.land (ind R) (bnot (natOps tA)
+  _root_.Bool.and (incB 82944 R) <| frc allT fun tA => lanesK G fun X => mulK (natOps tA) frc X X fun Q =>
+    _root_.Bool.and (Nat.beq (Nat.land (ind R) (bnot (natOps tA)
         (Nat.land (isI3 (natOps tA) X) (eqP (natOps tA) Q (cst tA ixT))))) 0)
       (frc (ones (lenR IL)) fun ti => bindP (cmpP X IL) fun Xi =>
         Nat.beq (Nat.land (bnot (natOps ti) (isI3 (natOps ti) Xi))
@@ -72,15 +72,15 @@ open CFSG.KC.F4M3B
 
 @[expose] noncomputable def invOK (G IL S INV : List Nat) : Bool :=
   frc allT fun tA => lanesK G fun X =>
-    Bool.and' (Nat.beq (eqP (natOps 1) (atLane 1 X laneT) (cst 1 ixT)) 1)
+    _root_.Bool.and (Nat.beq (eqP (natOps 1) (atLane 1 X laneT) (cst 1 ixT)) 1)
     (frc (Nat.lor (Nat.shiftLeft 1 laneT) (ind S)) fun D =>
-    Bool.and' (allI INV fun _ w =>
+    _root_.Bool.and (allI INV fun _ w =>
         let c := Nat.land w (ones 17)
         let a := Nat.land (Nat.shiftRight w 17) (ones 17)
         let b := Nat.shiftRight w 34
-        Bool.and' (Nat.beq (bitN D a) 1) (Bool.and' (Nat.beq (bitN D b) 1)
-          (Bool.and' (Bool.not' (Nat.beq a b))
-            (Bool.and' (Nat.beq (commP 1 (atLane 1 X a) (atLane 1 X b)) 1)
+        _root_.Bool.and (Nat.beq (bitN D a) 1) (_root_.Bool.and (Nat.beq (bitN D b) 1)
+          (_root_.Bool.and (not (Nat.beq a b))
+            (_root_.Bool.and (Nat.beq (commP 1 (atLane 1 X a) (atLane 1 X b)) 1)
               (mulK (natOps 1) frc (atLane 1 X a) (atLane 1 X b) fun P =>
                 Nat.beq (eqP (natOps 1) P (atLane 1 X c)) 1)))))
       (Nat.beq (Nat.land (ind IL) (bnot (natOps tA) (Nat.lor D
@@ -89,7 +89,7 @@ open CFSG.KC.F4M3B
 
 @[expose] noncomputable def classOK (G S CLS : List Nat) : Bool :=
   lanesK G fun X => List.rec (motive := fun _ => Bool) false (fun t0 _ _ =>
-    allI2 S CLS fun _ s m => Bool.and' (Nat.blt m 82944) <|
+    allI2 S CLS fun _ s m => _root_.Bool.and (Nat.blt m 82944) <|
       mulK (natOps 1) frc (atLane 1 X m) (atLane 1 X t0) fun A =>
       mulK (natOps 1) frc (atLane 1 X s) (atLane 1 X m) fun B => Nat.beq (eqP (natOps 1) A B) 1) S
 
@@ -121,10 +121,10 @@ open CFSG.KC.F4M3B
 
 @[expose] noncomputable def distProd (X : PL Nat) (L : List Nat) : Bool :=
   allI L fun i a => allI L fun j b => allI L fun i' a' => allI L fun j' b' =>
-    Bool.or' (Nat.beq i j) (Bool.or' (Nat.beq i' j') (Bool.or'
-      (Bool.not' (Nat.beq (prodC X a b) (prodC X a' b')))
-      (Bool.or' (Bool.and' (Nat.beq i i') (Nat.beq j j'))
-        (Bool.and' (Nat.beq i j') (Nat.beq j i')))))
+    _root_.Bool.or (Nat.beq i j) (_root_.Bool.or (Nat.beq i' j') (_root_.Bool.or
+      (not (Nat.beq (prodC X a b) (prodC X a' b')))
+      (_root_.Bool.or (_root_.Bool.and (Nat.beq i i') (Nat.beq j j'))
+        (_root_.Bool.and (Nat.beq i j') (Nat.beq j i')))))
 
 @[expose] noncomputable def take5 (L : List Nat) : List Nat :=
   List.rec (motive := fun _ => Nat → List Nat) (fun _ => [])
@@ -140,16 +140,16 @@ open CFSG.KC.F4M3B
     bindP (cmpP X (laneT :: S)) fun XD => bindP (cmpP X S) fun XS =>
     List.rec (motive := fun _ => List Nat → List Nat → Nat → Bool) (fun _ _ _ => true)
       (fun t _ ih LNs CMs i => List.rec (motive := fun _ => Bool) false (fun row CMr _ =>
-        Bool.and' (ih (drop5 LNs) CMr (Nat.succ i))
-        (Bool.and' (incB 82944 (take5 LNs)) (Bool.and' (Nat.beq (lenR (take5 LNs)) 5)
-        (Bool.and' (allI (take5 LNs) fun _ a => Bool.and' (Nat.beq (bitN D a) 1)
+        _root_.Bool.and (ih (drop5 LNs) CMr (Nat.succ i))
+        (_root_.Bool.and (incB 82944 (take5 LNs)) (_root_.Bool.and (Nat.beq (lenR (take5 LNs)) 5)
+        (_root_.Bool.and (allI (take5 LNs) fun _ a => _root_.Bool.and (Nat.beq (bitN D a) 1)
             (Nat.beq (commP 1 (atLane 1 X t) (atLane 1 X a)) 1))
-        (Bool.and' (Nat.beq (CFSG.KC.popcount (commP t37 (atLane t37 X t) XD) 64) 5)
-        (Bool.and' (allI (take5 LNs) fun _ a => allI (take5 LNs) fun _ b =>
+        (_root_.Bool.and (Nat.beq (CFSG.KC.popcount (commP t37 (atLane t37 X t) XD) 64) 5)
+        (_root_.Bool.and (allI (take5 LNs) fun _ a => allI (take5 LNs) fun _ b =>
             Nat.beq (commP 1 (atLane 1 X a) (atLane 1 X b)) 1)
-        (Bool.and' (distProd X (take5 LNs))
-        (Bool.and' (Nat.beq (commP t36 (atLane t36 X t) XS) row)
-        (Bool.and' (allI2 S CM fun j _ row' => Bool.or' (Nat.beq (bitN row j) 0) (Nat.beq row row'))
+        (_root_.Bool.and (distProd X (take5 LNs))
+        (_root_.Bool.and (Nat.beq (commP t36 (atLane t36 X t) XS) row)
+        (_root_.Bool.and (allI2 S CM fun j _ row' => _root_.Bool.or (Nat.beq (bitN row j) 0) (Nat.beq row row'))
           (mulK (natOps t37) frc (cst t37 ixT) (atLane t37 X t) fun P =>
             Nat.beq (eqP (natOps t37) P XD) 0)))))))))
         ) CMs) S LN CM 0
@@ -164,15 +164,15 @@ open CFSG.KC.F4M3B
     mulK (natOps tp) frc c2 c2 fun c4 => mulK (natOps tp) frc c4 c4 fun c8 =>
     mulK (natOps tp) frc c8 c8 fun c16 => mulK (natOps tp) frc c16 c16 fun c32 =>
     mulK (natOps tp) frc c32 c32 fun c64 => mulK (natOps tp) frc c64 c8 fun c72 =>
-      Bool.and' (Bool.and' (incB 82944 W) (Nat.beq (ind W) (Nat.land (ind IL)
+      _root_.Bool.and (_root_.Bool.and (incB 82944 W) (Nat.beq (ind W) (Nat.land (ind IL)
           (Nat.xor (Nat.lor (Nat.shiftLeft 1 laneT) (ind S)) allT))))
-      <| Bool.and' (Nat.beq (eqP (natOps tp) c72 E) tp)
+      <| _root_.Bool.and (Nat.beq (eqP (natOps tp) c72 E) tp)
         (Nat.beq (CFSG.KC.popcount (hitK tp Y T 72 E 0) 3392) 1188)
 
 @[expose] noncomputable def nwOK (G S W V0 LN : List Nat) : Bool :=
   frc allT fun tA => lanesK G fun X => List.rec (motive := fun _ => Bool) false (fun t0 _ _ =>
-    Bool.and' (incB 82944 V0) <|
-    Bool.and' (Nat.beq (Nat.land (ind W) (commP tA X (atLane tA X t0))) (ind V0))
+    _root_.Bool.and (incB 82944 V0) <|
+    _root_.Bool.and (Nat.beq (Nat.land (ind W) (commP tA X (atLane tA X t0))) (ind V0))
     (frc (lenR V0) fun nb => frc (ones (Nat.mul 5 nb)) fun tp =>
     bindP (mapP (fun p => pairA 5 nb (cmp (take5 LN) p)) X) fun A =>
     bindP (mapP (fun p => pairB 5 nb (cmp V0 p)) X) fun B =>
@@ -184,13 +184,13 @@ open CFSG.KC.F4M3B
 @[expose] noncomputable def swapOK (G S IL CM : List Nat) : Bool :=
   lanesK G fun X => frc (ones (lenR IL)) fun ti => bindP (cmpP X IL) fun V =>
     allI2 S CM fun i p row => allI S fun j p' =>
-      Bool.or' (Nat.beq i j) (Bool.or' (Nat.beq (bitN row j) 0)
+      _root_.Bool.or (Nat.beq i j) (_root_.Bool.or (Nat.beq (bitN row j) 0)
         (mulK (natOps ti) frc V (atLane ti X p) fun A =>
          mulK (natOps ti) frc (atLane ti X p') V fun B =>
          frc (eqP (natOps ti) A B) fun M =>
-           Bool.and' (Nat.beq (CFSG.KC.popcount M 128) 16)
-             (allI S fun k q => Bool.or' (Nat.beq k i) (Bool.or' (Nat.beq k j)
-               (Bool.or' (Nat.beq (bitN row k) 0)
+           _root_.Bool.and (Nat.beq (CFSG.KC.popcount M 128) 16)
+             (allI S fun k q => _root_.Bool.or (Nat.beq k i) (_root_.Bool.or (Nat.beq k j)
+               (_root_.Bool.or (Nat.beq (bitN row k) 0)
                  (Nat.beq (Nat.land M (commP ti V (atLane ti X q))) 0))))))
 
 @[expose] noncomputable def centOK (G S : List Nat) : Bool :=

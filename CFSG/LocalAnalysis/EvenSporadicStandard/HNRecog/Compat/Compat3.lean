@@ -11,7 +11,7 @@ open Section3
 
 variable {G G' : Type} [Group G] [Group G'] {a z : G} {a' z' : G'} {α : G → G'}
 
-theorem compat_three (h : F5Std a z) (h' : F5Std a' z') (hα : IsIsoOn (Gx a) (Gx a') α)
+theorem compat_three (h : F5Std a z) (_h' : F5Std a' z') (_hα : IsIsoOn (Gx a) (Gx a') α)
     (F : Fam a α) {b t : G} (hb : b ∈ InvIn (Gx a)) (hbA : IsConj a b) (hba : b ≠ a)
     (hcase : b ∈ orb2A a a ∨ t ∈ orb2A a b) (ht : t ∈ InvIn (Gxy a b)) (hta : t ≠ a)
     (htb : t ≠ b) (htab : t ≠ a * b) :

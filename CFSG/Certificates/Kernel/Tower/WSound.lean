@@ -101,7 +101,7 @@ theorem wm_eq (hS : SubModel S L) {LP SM AC : Nat} (hLP : lpOK LP L = true)
     exact hS.nodup.idxOf_getElem _ _
   have hac := acOK_get hAC hi hv
   rw [hget _ hi, actK_eq] at hac
-  rw [CFSG.SCATWreath.wMul, hS.smulTab_get hi hj, hS.actTab_get hi hv, wm, shr6, shr6, and63,
+  rw [CFSG.SCATWreath.wMul, CFSG.OddStandard.AltStdSmall4.Tower.SubModel.smulTab_get hi hj, CFSG.OddStandard.AltStdSmall4.Tower.SubModel.actTab_get hi hv, wm, shr6, shr6, and63,
     and63, hidx, hac]
   rfl
 

@@ -478,8 +478,8 @@ private lemma exists_diagHom_of_forall_le_eigScalar {F : Type} [Field F] {n : �
   ext r c
   rw [hνr c r]
   by_cases hrc : r = c
-  · subst hrc; rw [if_pos rfl, Matrix.diagonal_apply_eq, Units.val_mk0]
-  · rw [if_neg hrc, Matrix.diagonal_apply_ne _ hrc]
+  · subst hrc; rw [ite_eq_left rfl, Matrix.diagonal_apply_eq, Units.val_mk0]
+  · rw [ite_eq_right hrc, Matrix.diagonal_apply_ne _ hrc]
 
 private lemma exists_not_le_eigScalar {F : Type} [Field F] {n : ℕ} {τ : Fin n → Fˣ}
     {H J : Subgroup (GL (Fin n) F)}

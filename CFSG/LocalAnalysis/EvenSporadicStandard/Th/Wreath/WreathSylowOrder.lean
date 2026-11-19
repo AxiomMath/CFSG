@@ -12,6 +12,7 @@ open Subgroup SylowEnd CFSG.GroupTheory Matrix
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
   {S A B Aa D : Subgroup G} {z b : G}
 
+omit [Finite G] in
 private theorem mul_add_one_comm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) : w * (w + 1) = (w + 1) * w := by
   calc w * (w + 1) = w * w + w * 1 := by rw [mul_add]
@@ -21,6 +22,7 @@ private theorem mul_add_one_comm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub h
     _ = w * w + 1 * w := by rw [hww, one_mul]
     _ = (w + 1) * w := by rw [add_mul]
 
+omit [Finite G] in
 private theorem commute_add_one_of_cases (hD : DHyp A Aa t D) {w f : AddMonoid.End (VSub hD)}
     (hww : w * w = w) (hf : f = 0 ∨ f = 1 ∨ f = w ∨ f = w + 1) :
     f * (w + 1) = (w + 1) * f := by
@@ -31,6 +33,7 @@ private theorem commute_add_one_of_cases (hD : DHyp A Aa t D) {w f : AddMonoid.E
   · exact hw
   · rfl
 
+omit [Finite G] in
 private theorem phiQ_mul_add_one_comm (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hww : w * w = w) {Q : Subgroup G}
     (hΦ : ∀ c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G),
@@ -39,6 +42,7 @@ private theorem phiQ_mul_add_one_comm (hD : DHyp A Aa t D) {w : AddMonoid.End (V
       phiQ hD Q c * (w + 1) = (w + 1) * phiQ hD Q c :=
   fun c hc => commute_add_one_of_cases hD hww (hΦ c hc)
 
+omit [Finite G] in
 private theorem vConj_eq_one_of_mem_centralizer (hD : DHyp A Aa t D) {n : G}
     (hn : n ∈ centralizer (omega1 D hD.comm : Set G)) : vConj hD n = 1 := by
   have hnN : n ∈ normalizer (omega1 D hD.comm : Set G) :=
@@ -50,12 +54,14 @@ private theorem vConj_eq_one_of_mem_centralizer (hD : DHyp A Aa t D) {n : G}
   rw [← hcomm]
   group
 
+omit [Finite G] in
 private theorem mem_wComm_of_mem_centralizer (hD : DHyp A Aa t D)
     {w : AddMonoid.End (VSub hD)} {n : G}
     (hn : n ∈ centralizer (omega1 D hD.comm : Set G)) : n ∈ wComm hD w := by
   refine ⟨Subgroup.centralizer_le_normalizer _ hn, ?_⟩
   rw [vConj_eq_one_of_mem_centralizer hD hn, one_mul, mul_one]
 
+omit [Finite G] in
 private theorem Q_le_centralizer_omega1 (hD : DHyp A Aa t D) {Q : Subgroup G}
     (hQ : QHyp L A D t Q) : Q ≤ centralizer (omega1 D hD.comm : Set G) := by
   intro q hq
@@ -213,6 +219,7 @@ private def restrictRho (hD : DHyp A Aa t D) (Q : Subgroup G)
           ⟨y.1, wreathP₁_le_wreathN₁ hD Q w y.2⟩ from Subtype.ext rfl]
       exact map_mul ρ₁ _ _ }
 
+omit [Finite G] in
 private theorem ker_restrictRho (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)} (hww : w * w = w)
     {c₁ : G → (Fin 4 → ZMod 2)} (hc₁ : IsCoord (wFix hD w) c₁)
@@ -346,7 +353,7 @@ private theorem two_pow_nine_dvd_card_inf (H : ThCyc G L R t)
     2 ^ 9 ∣ Nat.card ↥((normalizer (Q : Set G) ⊓
       centralizer (omega1 D hD.comm : Set G)).subgroupOf (wreathP₁ hD Q w)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨p, hpP, hpNV, ⟨k, hpk⟩, hpphi⟩ := hp
   have hQ_le_CV : Q ≤ centralizer (omega1 D hD.comm : Set G) :=
     Q_le_centralizer_omega1 hD hQ
@@ -454,7 +461,7 @@ theorem ThCyc.exists_le_wreathP₁_card_eq (H : ThCyc G L R t) (W : ThLocalIn L 
       p ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G) ∧
         (∃ k : ℕ, orderOf p = 2 ^ k) ∧ phiQ hD Q p = w) :
     ∃ X₀ : Subgroup G, X₀ ≤ wreathP₁ hD Q w ∧ IsPGroup 2 X₀ ∧ Nat.card X₀ = 2 ^ 15 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ^ 15 ∣ Nat.card (wreathP₁ hD Q w) :=
     ThCyc.two_pow_fifteen_dvd_card_wreathP₁ H W W2 hD h4 hb hwH hww hτw hw0 hQ hq4 hsq hΦ
       hgQ hgw hgM hp

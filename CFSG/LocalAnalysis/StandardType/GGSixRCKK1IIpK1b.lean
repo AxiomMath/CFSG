@@ -153,7 +153,7 @@ private lemma rckIIpK_mem_vA8 {v : alternatingGroup (Fin 8)} :
 
 private lemma rckIIpK_cyc3_mem (j : Fin 4) : cyc3 j ∈ alternatingGroup (Fin 8) := by
   rw [Equiv.Perm.mem_alternatingGroup]
-  fin_cases j <;> simp [cyc3, map_mul, Equiv.Perm.sign_swap]
+  fin_cases j <;> simp [cyc3, map_mul]
 
 private lemma rckIIpK_cyc3_comm (j : Fin 4) :
     (⟨cyc3 j, rckIIpK_cyc3_mem j⟩ : alternatingGroup (Fin 8)) * rA8 =
@@ -165,7 +165,7 @@ private lemma rckIIpK_cyc3_comm (j : Fin 4) :
 
 private lemma rckIIpK_no_order_three {Y : Subgroup (Equiv.Perm (Fin 8))} (hY : IsPGroup 2 Y)
     {a : Equiv.Perm (Fin 8)} (ha : a ∈ Y) (h3 : a ^ 3 = 1) (hne : a ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hY.exists_orderOf_eq_pow (⟨a, ha⟩ : Y)
   have hkσ : orderOf a = 2 ^ k := by rw [← Subgroup.orderOf_mk a ha, hk]
   have hdvd3 : orderOf a ∣ 3 := (orderOf_dvd_iff_pow_eq_one).mpr h3
@@ -188,7 +188,7 @@ theorem rckIIp_S8_core (Y : Subgroup (Equiv.Perm (Fin 8))) (hY : IsPGroup 2 Y)
     ∀ v ∈ vA8, ∀ σ ∈ Y, σ * (v : Equiv.Perm (Fin 8)) * σ⁻¹ * (v : Equiv.Perm (Fin 8))⁻¹ ∈
       Subgroup.zpowers (rA8 : Equiv.Perm (Fin 8)) := by
   intro v hv σ hσ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσinC : inC σ := by
     have h := hfix σ hσ
     rw [rckIIpK_rA8_coe] at h

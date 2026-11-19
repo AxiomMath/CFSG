@@ -375,7 +375,7 @@ private theorem exists_functional (A : Subgroup W11) (hA : Nat.card A = 512) :
       smul_mem' := fun c v hv => by
         have hc : c = 0 ∨ c = 1 := by revert c; decide
         rcases hc with rfl | rfl
-        · simpa using A.one_mem
+        · simp
         · simpa using hv }
   have hP : ∀ v, v ∈ P ↔ Multiplicative.ofAdd v ∈ A := fun v => Iff.rfl
   have hlt : P < ⊤ := by

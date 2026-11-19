@@ -26,7 +26,7 @@ theorem twoLocalWhen_E7
     · rw [h0, mul_zero] at hf
       omega
     · exact h0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpe : ¬ p ∣ 18 := by
     intro h
     have h' : p ∣ 2 * 3 * 3 := h
@@ -45,7 +45,7 @@ theorem twoLocalWhen_E7
     let θ : K ≃* adjointGroup Tag.E7 F := e.trans
       ((QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans
         QuotientGroup.quotientBot)
-    haveI : Fintype (WeylGroup .E7) := Fintype.ofFinite _
+    have : Fintype (WeylGroup .E7) := Fintype.ofFinite _
     obtain ⟨r, hr, hrdvd, hrq, hrN⟩ :=
       OLExc.exists_ppd_prime_not_dvd_normalizer .E7 hf hf₀ hFcard θ hp
       (by norm_num) (fun h => by omega) hpe

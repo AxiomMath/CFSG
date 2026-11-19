@@ -94,9 +94,9 @@ theorem cyclic_or_dihedral_of_odd_ker {G H : Type} [Group G] [Finite G] [Group H
       apply hπ
       exact congrArg Subtype.val hxy
     exact Odd.of_dvd_nat hker hdvd
-  have hPinj := injective_on_pgroup g hgker (P : Subgroup ↥(O2Of X)) P.isPGroup'
+  have hPinj := injective_on_pgroup g hgker (P : Subgroup ↥(O2Of X)) P.isPGroup
   have hPbar : IsPGroup 2 ↥((g.comp (P : Subgroup ↥(O2Of X)).subtype).range) :=
-    P.isPGroup'.of_surjective (g.comp (P : Subgroup ↥(O2Of X)).subtype).rangeRestrict
+    P.isPGroup.of_surjective (g.comp (P : Subgroup ↥(O2Of X)).subtype).rangeRestrict
       (MonoidHom.rangeRestrict_surjective _)
   have hc := cyclic_or_dihedral_of_pgroup_le hE _ hPbar
   exact cyclic_or_dihedral_of_injective

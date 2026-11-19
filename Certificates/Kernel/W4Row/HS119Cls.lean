@@ -20,7 +20,7 @@ theorem ofFn_congr32 {g h : ℕ → ℕ} (hgh : ∀ i < 32, g i = h i) : ofFn 32
 
 theorem e_zero : e 0 = 1 := by
   unfold e
-  rw [eF_succ, if_pos rfl]
+  rw [eF_succ, ite_eq_left rfl]
 
 theorem e_om' {k : ℕ} (hk : k < 1024) {i : ℕ} (hi : i < 32) :
     e k (omF i hi) = omF (img (SE k) i) (img_lt _ _) :=

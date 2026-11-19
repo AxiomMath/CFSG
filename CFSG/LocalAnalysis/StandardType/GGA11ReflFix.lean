@@ -96,9 +96,9 @@ private theorem a11rf_fPow_inj {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
     (hBs : Subgroup.closure (Set.range f) = Bs)
     (hcard : Nat.card (Subgroup.closure (Set.range f)) = 7 ^ 4) :
     Function.Injective (fPow f) := by
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
   have hdom : Fintype.card (Fin 4 → ZMod 7) = 7 ^ 4 := by
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   have hcod : Fintype.card ↥Bs = 7 ^ 4 := by
     rw [← Nat.card_eq_fintype_card, ← hBs]
     exact hcard
@@ -238,7 +238,7 @@ private theorem a11rf_fPow_one {G : Type} [Group G] (f : Fin 4 → G) :
 private theorem a11rf_rank_of_fix {M : M4} (hM : M * M = 1)
     (hfix : Nat.card {v : Fin 4 → ZMod 7 // Matrix.vecMul v M = v} = 7 ^ 3) :
     (M - 1).rank = 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hp2 : (2 : ZMod 7) ≠ 0 := by
     intro h
     have hdvd : 7 ∣ 2 := (ZMod.natCast_eq_zero_iff 2 7).mp h
@@ -262,7 +262,7 @@ private theorem a11rf_rank_of_fix {M : M4} (hM : M * M = 1)
   have hmap : (Mᵀ - 1).mulVecLin = Mᵀ.mulVecLin - LinearMap.id := by
     apply LinearMap.ext
     intro v
-    simp [Matrix.mulVecLin_apply, Matrix.sub_mulVec, Matrix.one_mulVec]
+    simp
   have hrankT : (Mᵀ - 1).rank = 1 := by
     change Module.finrank (ZMod 7) (LinearMap.range ((Mᵀ - 1).mulVecLin)) = 1
     rw [hmap]

@@ -20,7 +20,7 @@ theorem twE6OddLayerCentre_of_ringEquiv
     (z : ↥(graphFixedRootGroup TwistTag.E6 K σ)) (hz : z ∈ GLALayer (LayerSixE.autFix A))
     (hzc : ∀ y ∈ GLALayer (LayerSixE.autFix A), z * y = y * z) (hz2 : z ^ 2 = 1) : z = 1 := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨Â, hÂH, hÂodd, hfix⟩ :=
     exists_odd_lift_twInndiag K σ (by rw [← hσe]; exact σe.surjective) A hA hAI
   have hD4 : ∀ J, graphFixedParabolicRadical TwistTag.E6 K σ J ⊓
@@ -215,7 +215,7 @@ theorem ggE6InndiagOddLayerCentre_holds
     : GGE6InndiagOddLayerCentre := by
   intro K _ _ _ A hA _ hAI z hz hzc hz2
   classical
-  haveI : Finite (ModGL Tag.E6 K) := finite_modGL
+  have : Finite (ModGL Tag.E6 K) := finite_modGL
   obtain ⟨Â, hÂH, hÂodd, hfix⟩ := exists_odd_lift_inndiag Tag.E6 K A hA hAI
   have hL := fun J => parabolic_inndiag_Levi Tag.E6 K J
   have hD4 := fun J => (hL J).2.2.2.1

@@ -296,8 +296,8 @@ theorem frame_upper {G : Type} [Group G] [Finite G] {k : ℕ} {Bs : Subgroup G}
     ∀ ψ ∈ A, ∃ h ∈ spSignedGroup (k + 1) 3, ∀ a, ψ (Φ a) = Φ (h a) := by
   classical
   obtain ⟨e, _⟩ := hA
-  haveI : Finite ↥Bs := Finite.of_injective (fun x : ↥Bs => (x : G)) Subtype.val_injective
-  haveI : Finite ↥A := Finite.of_injective
+  have : Finite ↥Bs := Finite.of_injective (fun x : ↥Bs => (x : G)) Subtype.val_injective
+  have : Finite ↥A := Finite.of_injective
     (fun ψ : ↥A => fun x : ↥Bs => (ψ : MulAut ↥Bs) x)
     (by
       intro ψ ψ' h

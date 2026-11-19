@@ -75,7 +75,7 @@ theorem exists_sylow_two_le_fixedSubgroup (hK : Nat.card K = 3 ^ (2 * a + 1)) {�
     ∃ S : Sylow 2 (G2.reeGamma K a),
       (S : Subgroup (G2.reeGamma K a)) ≤ fixedSubgroup (G2.reeGammaFieldAut K a β) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSR, h8, -⟩ := exists_eight_subgroup_le_fixedSubgroup hK hp hp2 hβ
   obtain ⟨T⟩ : Nonempty (Sylow 2 (G2.reeGamma K a)) := inferInstance
   have hT : Nat.card T = 8 := reeGamma_sylow_two_card hK T
@@ -90,7 +90,7 @@ theorem exists_kleinFour_le_fixedSubgroup (hK : Nat.card K = 3 ^ (2 * a + 1)) {�
       Nat.card E = 4 ∧ ∀ x ∈ E, x ^ 2 = 1 := by
   classical
   obtain ⟨S, hSR, h8, hexp⟩ := exists_eight_subgroup_le_fixedSubgroup hK hp hp2 hβ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₀, hE₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥S) 2 (n := 2)
     (by rw [h8]; norm_num)
   refine ⟨E₀.map S.subtype, (Subgroup.map_subtype_le _).trans hSR, ?_, ?_⟩
@@ -112,7 +112,7 @@ theorem exists_simple_le_fixedSubgroup (hK : Nat.card K = 3 ^ (2 * a + 1)) {β :
     (W₀.equivMapOfInjective e.symm.toMonoidHom e.symm.injective).trans
       (W₁.equivMapOfInjective R.subtype R.subtype_injective)
   refine ⟨W, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · haveI := hW₀s
+  · have := hW₀s
     exact e₂.symm.isSimpleGroup
   · exact ⟨e₂ x, e₂ y, fun h => hxy (e₂.injective (by rw [map_mul, map_mul]; exact h))⟩
   · refine ⟨((e.symm s : ↥R) : G2.reeGamma K a), ⟨e.symm s, ⟨s, hsW, rfl⟩, rfl⟩, ?_⟩

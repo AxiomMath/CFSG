@@ -14,7 +14,7 @@ open CFSG.RankThree.PartOne
 theorem isPGroup_le_of_le_sup {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     (hp3 : p ≠ 3) {F R D : Subgroup X} (hRF : R ≤ Subgroup.normalizer (F : Set X))
     (hR3 : IsPGroup 3 R) (hD : IsPGroup p D) (hDle : D ≤ F ⊔ R) : D ≤ F := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   refine CFSG.GroupTheory.le_of_le_sup_of_isPGroup_of_not_dvd_card
     (Fact.out : p.Prime) hRF hD hDle ?_
   obtain ⟨n, hn⟩ := hR3.exists_card_eq

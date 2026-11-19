@@ -145,7 +145,7 @@ theorem node1214Syl_of_inputs : Node1214Syl := by
   obtain ⟨S, hPS⟩ := hPp.exists_le_sylow
   have hPeq : P = (S : Subgroup G) := by
     by_contra hne
-    obtain ⟨y, hyS, hyP, hyN⟩ := Sec12Fus.exists_mem_normalizer_sdiff hPS S.isPGroup' hne
+    obtain ⟨y, hyS, hyP, hyN⟩ := Sec12Fus.exists_mem_normalizer_sdiff hPS S.isPGroup hne
     have hyN' : y⁻¹ ∈ Subgroup.normalizer (P : Set G) :=
       (Subgroup.normalizer (P : Set G)).inv_mem hyN
     have hEy : ∀ e ∈ E, y * e * y⁻¹ ∈ E := fun e he => by
@@ -218,7 +218,7 @@ theorem node1214Syl_of_inputs : Node1214Syl := by
       rw [hout.omega] at this
       exact this
     have hy'S : y' ∈ S := S.mul_mem (S.inv_mem (hPS huP)) hyS
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨y', hy'S⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨y', hy'S⟩
     have hy'pow : y' ^ (p ^ m) = 1 := congrArg Subtype.val hm
     set γ : ↥(torusImage E (cNormalizer c)) :=
       ⟨E.normalizerMonoidHom ⟨y', hy'E⟩, Subgroup.mem_map.2 ⟨⟨y', hy'E⟩,

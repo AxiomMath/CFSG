@@ -19,8 +19,8 @@ theorem typeA_fix_eq_zero {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type*}
     (hbraid : ∀ i j : Fin (n + 1), i.val + 1 = j.val → s i * s j * s i = s j * s i * s j) :
     ∀ v : V, (∀ i, s i v = v) → v = 0 := by
   classical
-  haveI : NeZero (2 : ZMod p) := ⟨zmod_two_ne_zero hp2⟩
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have : NeZero (2 : ZMod p) := ⟨zmod_two_ne_zero hp2⟩
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   choose h f hf hrepr using hrefl
   have hrepr' : ∀ i, s i = reflection (hf i) := fun i => LinearEquiv.ext fun v => by
     rw [hrepr i v, reflection_apply]
@@ -168,13 +168,13 @@ theorem cartanA6_mul_inv (i k : Fin (5 + 1)) :
 theorem sumZeroCoords_castSucc {p : ℕ} (v : Fin (5 + 1) → ZMod p) (i : Fin (5 + 1)) :
     sumZeroCoords v i.castSucc = v i - ∑ k, v k := by
   change (if h : (i.castSucc : Fin (5 + 1 + 1)).val < 5 + 1 then v ⟨_, h⟩ else 0) - _ = _
-  rw [dif_pos (by simp)]
+  rw [dite_eq_left (by simp)]
   rfl
 
 theorem sumZeroCoords_last {p : ℕ} (v : Fin (5 + 1) → ZMod p) :
     sumZeroCoords v (Fin.last (5 + 1)) = -∑ k, v k := by
   change (if h : (Fin.last (5 + 1)).val < 5 + 1 then v ⟨_, h⟩ else 0) - _ = _
-  rw [dif_neg (by simp), zero_sub]
+  rw [dite_eq_right (by simp), zero_sub]
 
 theorem six_nsmul_of_three {p : ℕ} (h3 : (3 : ZMod p) = 0) (x : ZMod p) :
     (5 + 1 : ℕ) • x = 0 := by
@@ -272,11 +272,11 @@ theorem sumZeroCoords_const {p : ℕ} (h3 : (3 : ZMod p) = 0) (a : ZMod p) :
   funext j
   induction j using Fin.lastCases with
   | last =>
-      rw [sumZeroCoords_last, if_pos rfl]
+      rw [sumZeroCoords_last, ite_eq_left rfl]
       simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, six_nsmul_of_three h3,
         neg_zero]
   | cast k =>
-      rw [sumZeroCoords_castSucc, if_neg (Fin.castSucc_lt_last k).ne]
+      rw [sumZeroCoords_castSucc, ite_eq_right (Fin.castSucc_lt_last k).ne]
       simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, six_nsmul_of_three h3,
         sub_zero]
 

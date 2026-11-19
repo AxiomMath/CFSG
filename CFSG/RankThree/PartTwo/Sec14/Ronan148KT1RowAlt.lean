@@ -73,7 +73,7 @@ theorem rowOf143_alt
   intro S _ _ _ _ ⟨e⟩ _
   have hA : CFSG.RankThree.PartTwo.Sec16.Steps166.NoSzSection
       (MulAut (alternatingGroup (Fin n))) := by
-    haveI := finite_mulAut_alt n
+    have := finite_mulAut_alt n
     by_cases h6 : n = 6
     · subst h6
       exact noSzSection_of_card_lt_alt

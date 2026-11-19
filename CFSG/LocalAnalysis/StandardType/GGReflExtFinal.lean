@@ -73,7 +73,7 @@ theorem sum_single_castSucc {n : ℕ} (a : Fin n → ZMod 3) :
       fun k : Fin (n + 1) => if hk : (k : ℕ) < n then a ⟨k, hk⟩ else 0 := by
   funext k
   refine Fin.lastCases ?_ (fun j' => ?_) k
-  · simp [Finset.sum_apply, Pi.single_apply, Fin.castSucc_ne_last]
+  · simp [Finset.sum_apply, Fin.castSucc_ne_last]
   · simp [Finset.sum_apply, Pi.single_apply]
 
 theorem case_n {n : ℕ} (row : ℕ → Vec)
@@ -91,7 +91,7 @@ theorem case_n {n : ℕ} (row : ℕ → Vec)
     (htm : t x ≠ x) : ZS.LinWeyl 3 A := by
   obtain ⟨T, hT⟩ := hc_n
   have hne : ¬ (n = n + 1) := by omega
-  haveI : Fact (mkFrame 3 n n row s₀ xl bound).p.Prime := ⟨Nat.prime_three⟩
+  have : Fact (mkFrame 3 n n row s₀ xl bound).p.Prime := ⟨Nat.prime_three⟩
   refine core_classification (mkFrame 3 n n row s₀ xl bound) (by show (3 : ℕ) ≠ 2; decide) hT
     (fun i => ⟨row i ++ (if n = n + 1 then [if i = 0 then s₀ else 0] else []), unitV n i⟩)
     rfl ε h α r hr A hrA ?_ ?_ hrg hnt hcard t htA htr ?_
@@ -105,13 +105,13 @@ theorem case_n {n : ℕ} (row : ℕ → Vec)
     have : (mkFrame 3 n n row s₀ xl bound).vec (row i ++ (if n = n + 1 then [if (i : ℕ) = 0 then s₀ else 0] else [])) j =
         C i j := by
       show ((((row i ++ (if n = n + 1 then [if (i : ℕ) = 0 then s₀ else 0] else [])).getD j 0 : ℕ)) : ZMod 3) = C i j
-      rw [if_neg hne, List.append_nil]
+      rw [ite_eq_right hne, List.append_nil]
       exact hrow i j
     exact congrArg (· * ε w j) this.symm
   · have hvx : (mkFrame 3 n n row s₀ xl bound).vec (mkFrame 3 n n row s₀ xl bound).x = x₀ := by
       funext j
       show (((xl ++ (if n = n + 1 then [0] else [])).getD j 0 : ℕ) : ZMod 3) = x₀ j
-      rw [if_neg hne, List.append_nil]
+      rw [ite_eq_right hne, List.append_nil]
       exact hxl j
     rw [hvx]
     exact moving_conj ε x x₀ c hc hεx t htm
@@ -135,7 +135,7 @@ theorem case_succ {n : ℕ}
     (hcard : Nat.card A ≤ bound) (t : V ≃ₗ[ZMod 3] V) (htA : t ∈ A) (htr : GGLinRefl t)
     (htm : t x ≠ x) : ZS.LinWeyl 3 A := by
   obtain ⟨T, hT⟩ := hc_s
-  haveI : Fact (mkFrame 3 n (n + 1) row s xl bound).p.Prime := ⟨Nat.prime_three⟩
+  have : Fact (mkFrame 3 n (n + 1) row s xl bound).p.Prime := ⟨Nat.prime_three⟩
   refine core_classification (mkFrame 3 n (n + 1) row s xl bound) (by show (3 : ℕ) ≠ 2; decide) hT
     (fun i => ⟨row i ++ (if n + 1 = n + 1 then [if i = 0 then s else 0] else []),
       unitV (n + 1) i⟩) rfl ε h α r hr A hrA ?_ ?_ hrg hnt hcard t htA htr ?_
@@ -154,7 +154,7 @@ theorem case_succ {n : ℕ}
           (Fin.castSucc j) = C i j := by
         show (((row i ++ (if n + 1 = n + 1 then [if (i : ℕ) = 0 then s else 0] else [])).getD
           (Fin.castSucc j : ℕ) 0 : ℕ) : ZMod 3) = C i j
-        rw [if_pos rfl, Fin.coe_castSucc, getD_append_left' _ _ _ (by rw [hlen i]; exact j.isLt)]
+        rw [ite_eq_left rfl, Fin.val_castSucc, getD_append_left' _ _ _ (by rw [hlen i]; exact j.isLt)]
         exact hrow i j
       exact congrArg (· * ε w (Fin.castSucc j)) hj.symm
     · have hl : (mkFrame 3 n (n + 1) row s xl bound).vec
@@ -162,29 +162,29 @@ theorem case_succ {n : ℕ}
           (Fin.last n) = if i = i0 then (s : ZMod 3) else 0 := by
         show (((row i ++ (if n + 1 = n + 1 then [if (i : ℕ) = 0 then s else 0] else [])).getD
           (Fin.last n : ℕ) 0 : ℕ) : ZMod 3) = if i = i0 then (s : ZMod 3) else 0
-        rw [if_pos rfl, Fin.val_last,
+        rw [ite_eq_left rfl, Fin.val_last,
           getD_append_right' _ _ _ (by rw [hlen i]) (by simp [hlen i]), hlen i, Nat.sub_self]
         by_cases hi : (i : ℕ) = 0
         · have hii : i = i0 := Fin.ext (by rw [hi, hi0])
-          rw [if_pos hii]
+          rw [ite_eq_left hii]
           simp [hi]
         · have hii : i ≠ i0 := fun h' => hi (by rw [h', hi0])
-          rw [if_neg hii]
+          rw [ite_eq_right hii]
           simp [hi]
       exact congrArg (· * ε w (Fin.last n)) hl.symm
   · have hvx : c • (mkFrame 3 n (n + 1) row s xl bound).vec (mkFrame 3 n (n + 1) row s xl bound).x =
         fun k : Fin (n + 1) => if hk : (k : ℕ) < n then c * x₀ ⟨k, hk⟩ else 0 := by
       funext k
       by_cases hk : (k : ℕ) < n
-      · rw [dif_pos hk]
+      · rw [dite_eq_left hk]
         show c * (((xl ++ (if n + 1 = n + 1 then [0] else [])).getD k 0 : ℕ) : ZMod 3) = _
-        rw [if_pos rfl, getD_append_left' _ _ _ (by rw [hxlen]; exact hk), hxl ⟨k, hk⟩]
-      · rw [dif_neg hk]
+        rw [ite_eq_left rfl, getD_append_left' _ _ _ (by rw [hxlen]; exact hk), hxl ⟨k, hk⟩]
+      · rw [dite_eq_right hk]
         have hkn : (k : ℕ) = n := by
           have hk' : (k : ℕ) < n + 1 := k.isLt
           omega
         show c * (((xl ++ (if n + 1 = n + 1 then [0] else [])).getD k 0 : ℕ) : ZMod 3) = 0
-        rw [if_pos rfl, getD_append_right' _ _ _ (by rw [hxlen]; omega) (by simp [hxlen]; omega),
+        rw [ite_eq_left rfl, getD_append_right' _ _ _ (by rw [hxlen]; omega) (by simp [hxlen]; omega),
           hxlen, hkn]
         simp
     exact moving_conj ε x _ c hc (hεx.trans hvx.symm) t htm
@@ -211,7 +211,7 @@ theorem frame_classification {n : ℕ}
     (hrg : A = Subgroup.closure {s | s ∈ A ∧ GGLinRefl s}) (hnt : ∀ g ∈ A, ¬ IsTransv g)
     (hcard : Nat.card A ≤ bound) (t : V ≃ₗ[ZMod 3] V) (htA : t ∈ A) (htr : GGLinRefl t)
     (htm : t x ≠ x) : ZS.LinWeyl 3 A := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hle : n ≤ Module.finrank (ZMod 3) V := by simpa using hind.fintype_card_le_finrank
   obtain ⟨c, hc, hxc⟩ := x_coords C x₀ hker h α hpair x hxne hxker hxmem
   by_cases hd : Module.finrank (ZMod 3) V = n

@@ -66,7 +66,7 @@ theorem jSub_le_oPPrimeHull_of_forall {M H : Subgroup G} {d : ℕ}
 theorem oPPrimeHull_top_eq_of_isSimpleGroup {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     {d : ℕ} (hd : d.Prime) (hdvd : d ∣ Nat.card X) :
     oPPrimeHull d (⊤ : Subgroup X) = ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := X) d hdvd
   have hx1 : x ≠ 1 := by
     intro h
@@ -81,7 +81,7 @@ theorem oPPrimeHull_top_eq_of_isSimpleGroup {X : Type} [Group X] [Finite X] [IsS
   have hgen : (Subgroup.zpowers x : Subgroup X) ≤ oPPrimeHull d (⊤ : Subgroup X) := by
     rw [Subgroup.zpowers_le]
     exact Subgroup.subset_closure ⟨trivial, 1, by simpa using hxord⟩
-  haveI : (oPPrimeHull d (⊤ : Subgroup X)).Normal := oPPrimeHull_top_normal d
+  have : (oPPrimeHull d (⊤ : Subgroup X)).Normal := oPPrimeHull_top_normal d
   have hle : Subgroup.normalClosure (Subgroup.zpowers x : Set X) ≤
       oPPrimeHull d (⊤ : Subgroup X) :=
     Subgroup.normalClosure_le_normal (fun y hy => hgen hy)
@@ -93,10 +93,10 @@ theorem oPPrimeHull_top_eq_of_perfect_of_simple_quotient {H : Type} [Group H] [F
     [Group.IsPerfect H] {Z : Subgroup H} [Z.Normal] {d : ℕ} (hd : d.Prime)
     (hZ2 : IsPGroup 2 Z) (hsimple : IsSimpleGroup (H ⧸ Z)) (hdvd : d ∣ Nat.card (H ⧸ Z)) :
     oPPrimeHull d (⊤ : Subgroup H) = ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup H := oPPrimeHull d (⊤ : Subgroup H) with hNdef
-  haveI hNn : N.Normal := oPPrimeHull_top_normal d
+  have hNn : N.Normal := oPPrimeHull_top_normal d
   have hgen : oPPrimeHull d (⊤ : Subgroup (H ⧸ Z)) = ⊤ :=
     oPPrimeHull_top_eq_of_isSimpleGroup hd hdvd
   have hmap : N.map (QuotientGroup.mk' Z) = ⊤ := by
@@ -122,16 +122,16 @@ theorem oPPrimeHull_top_eq_of_perfect_of_simple_quotient {H : Type} [Group H] [F
       ← map_pow, hzk, map_one]
   have hsub : Subsingleton (H ⧸ N) := by
     by_contra hnt
-    haveI : Nontrivial (H ⧸ N) := not_subsingleton_iff_nontrivial.mp hnt
-    haveI : Group.IsNilpotent (H ⧸ N) := hQ2.isNilpotent
+    have : Nontrivial (H ⧸ N) := not_subsingleton_iff_nontrivial.mp hnt
+    have : Group.IsNilpotent (H ⧸ N) := hQ2.isNilpotent
     exact Group.IsPerfect.not_isSolvable (H ⧸ N) inferInstance
   exact QuotientGroup.subsingleton_iff.mp hsub
 
 theorem IsL3TwoPow.isSimpleGroup {n : ℕ} {X : Type} [Group X] (h : IsL3TwoPow n X) :
     IsSimpleGroup X := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (PSL(3, GaloisField 2 n)) :=
+  have : IsSimpleGroup (PSL(3, GaloisField 2 n)) :=
     (CFSG.LinearGroups.linear_projective_simple (K := GaloisField 2 n) (n := 3)
       (by norm_num) (Or.inl (by norm_num))).2.1
   exact e.isSimpleGroup
@@ -140,8 +140,8 @@ theorem le_oPPrimeHull_of_isL3TwoPow {L M : Subgroup G} {d n : ℕ} (hd : d.Prim
     (hd3 : 3 < d) (hLM : L ≤ M) (hperf : ⁅L, L⁆ = L) (hdvdL : d ∣ Nat.card L)
     (hL3 : IsL3TwoPow n (↥L ⧸ pCore 2 ↥L)) :
     L ≤ oPPrimeHull d M := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
+  have : Fact d.Prime := ⟨hd⟩
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
   have hZ2 : IsPGroup 2 (pCore 2 ↥L) := CFSG.pCore_isPGroup
   have hd2 : d ≠ 2 := by omega
   have hdZ : ¬ d ∣ Nat.card (pCore 2 ↥L) := by

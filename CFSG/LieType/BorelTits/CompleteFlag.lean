@@ -119,7 +119,7 @@ theorem IsCompleteFlag.exists_sylow_normalizer_le_flagStab [Finite V] (p : ℕ) 
     · intro g _ v _
       rw [hCi]
       exact Submodule.mem_top
-    obtain ⟨m, hm⟩ := exists_fixFlag_eq_top ρ p (S : Subgroup H) S.isPGroup'
+    obtain ⟨m, hm⟩ := exists_fixFlag_eq_top ρ p (S : Subgroup H) S.isPGroup
     have hex : ∃ k, ¬fixFlag ρ (S : Subgroup H) k ≤ C i := ⟨m, by rwa [hm, top_le_iff]⟩
     obtain ⟨k, hk⟩ : ∃ k, Nat.find hex = k := ⟨_, rfl⟩
     have hnle : ¬fixFlag ρ (S : Subgroup H) k ≤ C i := hk ▸ Nat.find_spec hex

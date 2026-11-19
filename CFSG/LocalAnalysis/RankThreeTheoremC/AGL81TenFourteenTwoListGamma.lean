@@ -24,8 +24,8 @@ theorem kFactTenFourteenTwoA5_of_gamma
     (hSch : KFactCatalogSchreier) (hΓ : KFactTenFourteenTwoA5Gamma) :
     KFactTenFourteenTwoA5 := by
   intro p Y _ _ K Y₀ J R c hp hp2 hKn hL hKY hCK hc hco hR3 hN hJY hJs hJp hJirr hJC
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   have hnc : ∃ a b : K, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -33,10 +33,10 @@ theorem kFactTenFourteenTwoA5_of_gamma
       congrArg Subtype.val (h ⟨m, hm⟩ ⟨k, hk⟩))
   have hZ : center K = ⊥ := RankOneCent.center_eq_bot_of_tenFourteenOneGroup hL hnc
   obtain ⟨i, hi, ⟨e⟩⟩ := hL
-  haveI := RankOneCent.isSimpleGroup_of_isTenFourteenOneIndex hi
-  haveI hKs : IsSimpleGroup K := e.isSimpleGroup
-  haveI := hSch K hKs hnc ⟨i, ⟨e⟩⟩
-  haveI : Group.IsPerfect J :=
+  have := RankOneCent.isSimpleGroup_of_isTenFourteenOneIndex hi
+  have hKs : IsSimpleGroup K := e.isSimpleGroup
+  have := hSch K hKs hnc ⟨i, ⟨e⟩⟩
+  have : Group.IsPerfect J :=
     (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
   set θ : Y →* MulAut K := MulAut.conjNormal with hθ
   set φ : K →* MulAut K := θ.comp K.subtype with hφ
@@ -117,7 +117,7 @@ theorem kFactTenFourteenTwoA5_of_gamma
     have : c = 1 := congrArg Subtype.val h1
     exact hp.one_lt.ne' (by rw [← hco, this, orderOf_one])
   have hzc : zpowers c ≤ center Y := zpowers_le.mpr hc
-  haveI : (zpowers c).Normal := ⟨fun n hn g => by
+  have : (zpowers c).Normal := ⟨fun n hn g => by
     rw [mem_center_iff.mp (hzc hn) g, mul_inv_cancel_right]
     exact hn⟩
   have hcR : c ∈ (R : Subgroup Y) :=

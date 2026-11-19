@@ -37,27 +37,30 @@ section Field
 variable {K : Type} [Field K] [Finite K] {p : ℕ} [hpf : Fact p.Prime] {c : K}
   [hirr : Fact (Irreducible (X ^ p - C c : K[X]))]
 
+omit [Finite K] hpf in
 theorem odA_root_pow : (AdjoinRoot.root (X ^ p - C c : K[X])) ^ p = algebraMap K _ c := by
   have := AdjoinRoot.eval₂_root (X ^ p - C c : K[X])
   simp only [eval₂_sub, eval₂_pow, eval₂_X, eval₂_C] at this
   rw [AdjoinRoot.algebraMap_eq]
   exact sub_eq_zero.1 this
 
+omit [Finite K] in
 theorem odA_finrank :
     Module.finrank K (AdjoinRoot (X ^ p - C c : K[X])) = p := by
   have hf0 : (X ^ p - C c : K[X]) ≠ 0 := (monic_X_pow_sub_C c hpf.out.ne_zero).ne_zero
   rw [(AdjoinRoot.powerBasis hf0).finrank]
-  simp [AdjoinRoot.powerBasis, natDegree_X_pow_sub_C]
+  simp [AdjoinRoot.powerBasis]
 
 instance odA_finite : Finite (AdjoinRoot (X ^ p - C c : K[X])) := by
   have hf0 : (X ^ p - C c : K[X]) ≠ 0 := (monic_X_pow_sub_C c hpf.out.ne_zero).ne_zero
-  haveI : Module.Finite K (AdjoinRoot (X ^ p - C c : K[X])) :=
+  have : Module.Finite K (AdjoinRoot (X ^ p - C c : K[X])) :=
     (AdjoinRoot.powerBasis hf0).finite
   exact Module.finite_of_finite K
 
+omit [Finite K] in
 theorem odA_card :
     Nat.card (AdjoinRoot (X ^ p - C c : K[X])) = Nat.card K ^ p := by
-  haveI : Module.Finite K (AdjoinRoot (X ^ p - C c : K[X])) :=
+  have : Module.Finite K (AdjoinRoot (X ^ p - C c : K[X])) :=
     (AdjoinRoot.powerBasis ((monic_X_pow_sub_C c hpf.out.ne_zero).ne_zero)).finite
   rw [Module.natCard_eq_pow_finrank (K := K), odA_finrank]
 
@@ -76,6 +79,7 @@ variable (K r e0 p c) in
     AdjoinRoot (X ^ p - C c : K[X]) →+* AdjoinRoot (X ^ p - C c : K[X]) :=
   iterateFrobenius (AdjoinRoot (X ^ p - C c : K[X])) r (e0 * p)
 
+omit [Finite K] hpf in
 theorem odIota_apply (x : AdjoinRoot (X ^ p - C c : K[X])) :
     odIota K r e0 p c x = x ^ ((r ^ e0) ^ p) := by
   rw [odIota, iterateFrobenius_def, pow_mul]
@@ -84,7 +88,7 @@ theorem odIota_algebraMap (hK : Nat.card K = (r ^ e0) ^ 2) (hp : Odd p) (a : K) 
     odIota K r e0 p c (algebraMap K _ a) = algebraMap K _ (a ^ (r ^ e0)) := by
   rw [odIota_apply, ← map_pow]
   congr 1
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = (r ^ e0) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   obtain ⟨k, rfl⟩ := hp
   have h1 := FiniteField.pow_card_pow k a
@@ -92,6 +96,7 @@ theorem odIota_algebraMap (hK : Nat.card K = (r ^ e0) ^ 2) (hp : Odd p) (a : K) 
   have h2 : (r ^ e0) ^ (2 * k + 1) = ((r ^ e0) ^ 2) ^ k * r ^ e0 := by rw [pow_succ, pow_mul]
   rw [h2, pow_mul, h1]
 
+omit [Finite K] hpf in
 theorem odIota_root (hp : Odd p) (hpq : p ∣ r ^ e0 + 1) (hc : c ^ (r ^ e0 + 1) = 1) :
     odIota K r e0 p c (AdjoinRoot.root (X ^ p - C c : K[X])) =
       (AdjoinRoot.root (X ^ p - C c : K[X]))⁻¹ := by

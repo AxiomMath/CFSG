@@ -50,9 +50,9 @@ theorem spPaired_exists_blockComponent {r n p : ℕ} {K : Type} [Field K] [Finit
     ∃ yO ∈ spSupported x (O : Set K[X]), yO ^ p = 1 ∧
       ∀ g ∈ spSupported x (O : Set K[X]), Commute (yO⁻¹ * y) g := by
   classical
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
-  haveI : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
+  have : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
   obtain ⟨hcomm, hind, hjoin⟩ := hblocks.directProduct
   let H : ↥(reciprocalOrbits (spEnd x)) → Subgroup (StatedSp r K) :=
     fun O => spSupported x (O : Set K[X])

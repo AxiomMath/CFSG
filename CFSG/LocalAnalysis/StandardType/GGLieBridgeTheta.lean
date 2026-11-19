@@ -57,7 +57,7 @@ private theorem l10b3_theta_abs {K G Y : Type} [Group K] [Group G] [Group Y] {ψ
   · intro k h
     have h1 : e (QuotientGroup.mk k) = ⟨ψ k, h⟩ := rfl
     have h2 : e.symm.toMonoidHom (e (QuotientGroup.mk k)) = QuotientGroup.mk k := by
-      simpa using e.symm_apply_apply (e (QuotientGroup.mk k))
+      simp
     rw [MonoidHom.comp_apply, ← h1, h2]
     exact QuotientGroup.lift_mk ψ.ker hker k
   · rw [MonoidHom.range_comp,

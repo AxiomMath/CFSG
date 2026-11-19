@@ -127,8 +127,8 @@ private theorem gsb_exists_baseEmb_mul_swap_of_right_eq (g : A5WrTwo)
 theorem cSide_shape_nonconj {x y : alternatingGroup (Fin 5)} (hx : orderOf x = 5)
     (hy : orderOf y = 5) (hxy : ¬ IsConj x y) :
     IsShapeZpTimesZp 5 ↥(Subgroup.centralizer ({A5WrTwo.baseEmb (x, y)} : Set A5WrTwo)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite A5WrTwo := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite A5WrTwo := inferInstance
   obtain ⟨hx5, hx1⟩ := (orderOf_eq_prime_iff (p := 5) (x := x)).mp hx
   obtain ⟨hy5, hy1⟩ := (orderOf_eq_prime_iff (p := 5) (x := y)).mp hy
   have hCx : Nat.card ↥(Subgroup.centralizer ({x} : Set (alternatingGroup (Fin 5)))) = 5 :=
@@ -216,7 +216,7 @@ theorem cSide_exists_outer_cent_iff (x y : alternatingGroup (Fin 5)) :
 
 theorem cSide_isConj_of_order_three {x y : alternatingGroup (Fin 5)} (hx : orderOf x = 3)
     (hy : orderOf y = 3) : IsConj x y := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hx3, hx1⟩ := (orderOf_eq_prime_iff (p := 3) (x := x)).mp hx
   obtain ⟨hy3, hy1⟩ := (orderOf_eq_prime_iff (p := 3) (x := y)).mp hy
   exact isConj_iff.mpr (gsb_three_conj x y hx3 hx1 hy3 hy1)
@@ -225,15 +225,15 @@ theorem cSide_exists_orderOf {p : ℕ} (hp : p = 3 ∨ p = 5) :
     ∃ x : alternatingGroup (Fin 5), orderOf x = p := by
   rcases hp with rfl | rfl
   · refine ⟨gsb_threeCycle, ?_⟩
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime (by decide) (by decide)
   · refine ⟨gsb_fiveCycle, ?_⟩
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime (by decide) (by decide)
 
 theorem cSide_exists_nonconj_five :
     ∃ x y : alternatingGroup (Fin 5), orderOf x = 5 ∧ orderOf y = 5 ∧ ¬ IsConj x y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hx : orderOf gsb_fiveCycle = 5 := orderOf_eq_prime (by decide) (by decide)
   have hy : orderOf (gsb_fiveCycle ^ 2) = 5 := by
     have hcop : (orderOf gsb_fiveCycle).Coprime 2 := by rw [hx]; norm_num

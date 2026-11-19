@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_conj_eq {M V₀ V : Subgroup G} (hN : normalizer (V : Set G) = M)
     (hN₀ : M ≤ normalizer (V₀ : Set G)) {g h : G}
     (hgh : conjSubgroup V g = conjSubgroup V h) :
@@ -34,6 +35,7 @@ theorem s16c1_G47_conj_eq {M V₀ V : Subgroup G} (hN : normalizer (V : Set G) =
       _ = conjSubgroup A h := by rw [hA']
   exact ⟨key M (Subgroup.le_normalizer hmem), key V₀ (hN₀ hmem)⟩
 
+omit [Finite G] in
 theorem s16c1_G47_inCalO1_of_mem {n : ℕ} {M V₀ V : Subgroup G}
     (hN : normalizer (V : Set G) = M) (hN₀ : M ≤ normalizer (V₀ : Set G)) {g : G}
     (hg : conjSubgroup V g ∈ calO1 n M V₀ V) : InCalO1 n M V₀ V g := by
@@ -104,7 +106,7 @@ theorem s16c1_G47_odd_data {M V₀ V Q : Subgroup G} {g : G} (hO : InCalOStar 1 
           ((V ⊓ conjSubgroup M g : Subgroup G) : Set G) ∧
         K ≤ Q ∧ ∃ n : ℕ, Odd n ∧ ∀ j : ℕ, (w * w') ^ j ∈ K ↔ n ∣ j := by
   obtain ⟨hO1, K, hKn, hset, hshape, -⟩ := hO
-  haveI := hKn
+  have := hKn
   have hKQ : K ≤ Q := by
     intro x hx
     have hx' : x ∈ (K : Set G) := hx

@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s716C_conjSubgroup_le {K V : Subgroup G} (hVK : V ≤ K) {a : G} (ha : a ∈ K) :
     conjSubgroup V a ≤ K := by
   intro y hy
@@ -39,6 +40,7 @@ theorem s716C_isMulCommutative_sup {Q : Type*} [Group Q] {A B : Subgroup Q}
     · exact setLike_mul_comm hu ht
   exact ⟨⟨fun x y => Subtype.ext (Subgroup.mem_centralizer_iff.mp (hle x.2) y y.2).symm⟩⟩
 
+omit [Finite G] in
 theorem exists_good_conjugates (hF : PSUThreeRootFacts) {K V X : Subgroup G} (hVK : V ≤ K)
     (hV : IsElemAbelian 2 V) {P : Type} [Group P] [Finite P] {ψ : ↥K →* P}
     (hψ : Function.Surjective ψ) {n : ℕ} (hP : IsPSUGp P 3 n)
@@ -86,7 +88,7 @@ theorem exists_good_conjugates (hF : PSUThreeRootFacts) {K V X : Subgroup G} (hV
       have h2 : (v : G) * w = w * v := commutatorElement_eq_one_iff_commute.mp h1
       rw [← map_mul, ← map_mul]
       exact congrArg ψ (Subtype.ext h2)
-    haveI : IsMulCommutative ↥(barSub K ψ V ⊔ conjSubgroup (barSub K ψ V) (ψ a)) :=
+    have : IsMulCommutative ↥(barSub K ψ V ⊔ conjSubgroup (barSub K ψ V) (ψ a)) :=
       s716C_isMulCommutative_sup hRab.1 (isElemAbelian_conjSubgroup' hRab (ψ a)).1 hcomm
     have htop := commutator_eq_top_of_isL2Gp hn2 hL2
     rw [(commutator_eq_bot_iff _).mpr this] at htop
@@ -105,6 +107,7 @@ theorem exists_good_conjugates (hF : PSUThreeRootFacts) {K V X : Subgroup G} (hV
     have hxX : ψ x ∈ barSub K ψ X := mem_barSub.mpr ⟨x, hx, rfl⟩
     exact (Subgroup.mem_centralizer_iff.mp (hXg hxX) (ψ w) hwR).symm
 
+omit [Finite G] in
 theorem commutator_mem_of_odd {K N : Subgroup G} {Q : Type} [Group Q] {φ : ↥K →* Q}
     (hφ : IsBarMap K N φ) {x w : ↥K} {m : ℕ} (hm : Odd m) (hx : x ^ m = 1) (hw : w * w = 1)
     (hc : Commute (((QuotientGroup.mk' (Subgroup.center Q)).comp φ) x)
@@ -121,6 +124,7 @@ theorem commutator_mem_of_odd {K N : Subgroup G} {Q : Type} [Group Q] {φ : ↥K
   have h2 : φ ⁅x, w⁆ = 1 := by rw [map_commutatorElement]; exact hone
   exact (hφ.ker_iff _).mp h2
 
+omit [Finite G] in
 theorem commutator_eq_top_of_pair {K I : Subgroup G} {Q : Type} [Group Q] {φ : ↥K →* Q}
     (hφ : IsBarMap K I φ) {V A : Subgroup G} (hVK : V ≤ K) (hAK : A ≤ K) {n : ℕ} (hn : 2 ≤ n)
     (hS : IsL2Gp ↥(barSub K ((QuotientGroup.mk' (Subgroup.center Q)).comp φ) (V ⊔ A)) n)
@@ -171,6 +175,7 @@ theorem commutator_eq_top_of_pair {K I : Subgroup G} {Q : Type} [Group Q] {φ : 
   rw [hncl] at hncl'
   exact top_le_iff.mp hncl'
 
+omit [Finite G] in
 theorem eq_sup_of_perfect {K N M : Subgroup G} {Q : Type} [Group Q] {φ : ↥K →* Q}
     (hφ : IsBarMap K N φ) (hN : N ≤ K) (hM : M ≤ K) (hperf : commutator Q = ⊤)
     (hMtop : barSub K ((QuotientGroup.mk' (Subgroup.center Q)).comp φ) M = ⊤) :
@@ -237,6 +242,7 @@ theorem false_of_card_bounds {I Y C T : Subgroup G} (hYI : Y ≤ I) (hCI : C ≤
       _ ≤ Nat.card ↥T ^ 3 := hI
   exact absurd h4 (not_le.mpr (Nat.pow_lt_pow_right hT1 (by norm_num)))
 
+omit [Finite G] in
 theorem card_inf_centralizer_conj {I : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.normalizer (I : Set G)) (x : G) :
     Nat.card ↥(I ⊓ Subgroup.centralizer ({k⁻¹ * x * k} : Set G)) =

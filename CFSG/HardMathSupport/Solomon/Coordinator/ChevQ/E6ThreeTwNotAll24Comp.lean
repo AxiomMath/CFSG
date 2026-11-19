@@ -113,8 +113,8 @@ theorem component_le_hyperGamma_of_plane (hS : AGLEmbeddingD2.KFactSeitzRankTwo)
     (hJE : ∀ g ∈ E, J.map g.toMonoidHom = J) :
     J ≤ seitzHyperGamma 3 E := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJfix : ∀ g ∈ Subgroup.zpowers f, ∀ y ∈ J, g y = y := fun g hg y hy => hJ.1 hy g hg
   have hperf : commutator J = ⊤ := hJ.2.2.1
   set ρ : ↥E →* MulAut J := resHom J E hJE with hρ

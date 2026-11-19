@@ -160,18 +160,18 @@ private theorem ggNbrLangS1ExcEAux_toralAt
         _ = RecipeExcLang.twConj K₀ σ w (θ₀ (QuotientGroup.mk j)) := by rw [hθj]
   rcases h with hE6 | hE7 | hTw
   · obtain ⟨K₀, hfield, hfin, θJ, W, hgeom, hclause⟩ := hE6
-    letI : Field K₀ := hfield
-    letI : Finite K₀ := hfin
+    let : Field K₀ := hfield
+    let : Finite K₀ := hfin
     obtain ⟨θ₀, hθ₀⟩ := untw .E6 K₀ θJ W hclause
     exact Or.inl ⟨K₀, hfield, hfin, θ₀, W, hgeom, hθ₀⟩
   · obtain ⟨K₀, hfield, hfin, θJ, W, hgeom, hclause⟩ := hE7
-    letI : Field K₀ := hfield
-    letI : Finite K₀ := hfin
+    let : Field K₀ := hfield
+    let : Finite K₀ := hfin
     obtain ⟨θ₀, hθ₀⟩ := untw .E7 K₀ θJ W hclause
     exact Or.inr (Or.inl ⟨K₀, hfield, hfin, θ₀, W, hgeom, hθ₀⟩)
   · obtain ⟨K₀, hfield, hfin, σ, hσ, θJ, W, hgeom, hclause⟩ := hTw
-    letI : Field K₀ := hfield
-    letI : Finite K₀ := hfin
+    let : Field K₀ := hfield
+    let : Finite K₀ := hfin
     obtain ⟨θ₀, hθ₀⟩ := tw K₀ σ hσ θJ W hclause
     exact Or.inr (Or.inr ⟨K₀, hfield, hfin, σ, hσ, θ₀, W, hgeom, hθ₀⟩)
 
@@ -304,7 +304,7 @@ theorem ggNbrLangAxisOuterOn_s1ExcE (hsub : GGNbrSubcomponentInput)
     have hc := congrArg (fun z : ↥K => (z : G))
       (Subgroup.mem_center_iff.mp hjZ (Subgroup.inclusion hJK y))
     simpa using hc
-  haveI : Group.IsPerfect ↥J := ⟨hJperf⟩
+  have : Group.IsPerfect ↥J := ⟨hJperf⟩
   let e' : ↥J ⧸ Subgroup.center ↥J ≃* ↥J₀R ⧸ Subgroup.center ↥J₀R :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence ρJ hρJsurj hkerJ
   have hφ : ∃ u ∈ I, ∃ f ∈ Subgroup.closure F, ggLAut K θ ⟨x, hN hxBs⟩ = u * f :=

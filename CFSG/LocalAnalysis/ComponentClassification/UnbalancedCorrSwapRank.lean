@@ -400,7 +400,7 @@ theorem swapped_correspondence_centralizer_rank_bound {a b : G} {J L : Subgroup 
     ⟨D, (comap_map_eq_self_of_injective V.subtype_injective _).symm⟩
   obtain ⟨P, hP⟩ := UnbalancedGS.RankProjectiveAction.exists_sylow_inf_of_le_normalizer hSV hSsyl
     hLaV hVN
-  have hS2 : IsPGroup 2 S := D.isPGroup'.map V.subtype
+  have hS2 : IsPGroup 2 S := D.isPGroup.map V.subtype
   have hRS : R ≤ S := by
     intro r hr
     exact ⟨⟨r, le_sup_right (a := conjugate L a) hr⟩, hDR hr, rfl⟩

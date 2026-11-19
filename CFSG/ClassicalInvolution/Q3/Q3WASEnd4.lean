@@ -178,7 +178,7 @@ theorem chainRow3_four (h3 : OddThreeFreeInput) : ChainRow3 4 := by
     · exact (nd.mem 2 (by norm_num)).1
     · exact (nd.mem 3 (by norm_num)).1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact nd.commK 0 (by norm_num)
     · exact nd.commK 1 (by norm_num)
     · exact nd.commK 2 (by norm_num)
@@ -190,7 +190,7 @@ theorem chainRow3_four (h3 : OddThreeFreeInput) : ChainRow3 4 := by
     · exact nd.far 0 (by norm_num) 3 (by norm_num) (by norm_num)
     · exact nd.far 1 (by norm_num) 3 (by norm_num) (by norm_num)
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; exact absurd hij (by decide)) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; exact absurd hij (by decide))
     · exact ⟨W1, hW1⟩
     · exact ⟨W2, hW2⟩
     · exact nd.pair 0 (by norm_num)

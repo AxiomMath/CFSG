@@ -153,10 +153,10 @@ theorem exists_cover_omegaMinus8 {K : Type} [Group K] [Finite K] {f : ℕ}
       ∃ φ : K →* ↥(StatedOmega (StatedQuadMinus 4 F b c)),
         Function.Surjective φ ∧ φ.ker ≤ Subgroup.center K := by
   obtain ⟨-, F, hF, hFin, hFcard, b, c, hirr, ⟨e⟩⟩ := hK.statedClassicalModel (by decide)
-  letI := hF
-  letI := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
+  let := hF
+  let := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rw [← Nat.card_eq_fintype_card, hFcard])
   have hbot : (StatedScalars (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2) F).subgroupOf
       (StatedOmega (StatedQuadMinus 4 F b c)) = ⊥ :=
@@ -204,7 +204,7 @@ private theorem exists_sylow_closure_omegaMinus8 {F : Type} [Field F] [Finite F]
     intro i j
     by_cases hj : j = i
     · subst hj
-      simpa [Pi.mulSingle_eq_same, ← hζ] using pow_orderOf_eq_one ζ
+      simp [Pi.mulSingle_eq_same, ← hζ]
     · rw [Pi.mulSingle_eq_of_ne hj, one_pow]
   let S : Set (StatedOmega (StatedQuadMinus 4 F b c)) :=
     Set.range fun i : Fin 3 =>
@@ -239,7 +239,7 @@ private theorem exists_sylow_closure_omegaMinus8 {F : Type} [Field F] [Finite F]
     IsPGroup.of_card (n := 3 * a) (by rw [hcardS, ← pow_mul, Nat.mul_comm])
   have hrpow : (r ^ a).factorization r = a := by
     rw [Nat.factorization_pow, Finsupp.smul_apply, smul_eq_mul, hr.factorization_self, mul_one]
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hidx : ¬ r ∣ (Subgroup.closure S).index :=
     CFSG.HardMathSupport.Timmesfeld.LinearRank.not_dvd_index_of_card_eq hr _
       (by rw [factorization_card_statedOmega_quadMinus_four hirr hr hr5 hrd, hcardS,
@@ -255,13 +255,13 @@ theorem k_CartanSylowAbelian_omegaMinus8 :
               ∀ P : Sylow r K, IsMulCommutative (P : Subgroup K) := by
   intro K _ _ f r hAdm hK hQ hOddC hr hr5 hrdvd P
   obtain ⟨F, hF, hFin, hFcard, b, c, hirr, φ, hφ, hker⟩ := exists_cover_omegaMinus8 hK
-  letI := hF
-  letI := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
+  let := hF
+  let := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rw [← Nat.card_eq_fintype_card, hFcard])
   have hrd' : r ∣ Nat.card F - 1 := by rw [hFcard]; exact hrdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, D, hDcoe, hS_comm, hS_odd, hinv⟩ :=
     exists_sylow_closure_omegaMinus8 (F := F) hirr hr hr5 hrd'
   have hcomm := CFSG.GroupTheory.comap_closure_comm_of_inverters (φ := φ) hφ hker

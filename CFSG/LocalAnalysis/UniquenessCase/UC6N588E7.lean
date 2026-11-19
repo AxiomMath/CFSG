@@ -94,8 +94,8 @@ theorem innX_injective (hSch : UCK.KSch) : Function.Injective m.innX := fun _ _ 
   m.conj_injective_Lbar hKM hK3 h69 hSch (congrArg Subtype.val h)
 
 theorem pPrimeCore_Xs (hSch : UCK.KSch) : CFSG.pPrimeCore m.r ↥m.Xs = ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI := m.isSimpleGroup_Lbar_of_inputs hKM hK3 h69 hSch
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have := m.isSimpleGroup_Lbar_of_inputs hKM hK3 h69 hSch
   set N := CFSG.pPrimeCore m.r ↥m.Xs with hN
   have hinj := m.innX_injective hKM hK3 h69 hSch
   set U : Subgroup m.Lbar := N.comap m.innX with hU
@@ -139,7 +139,7 @@ theorem R_le_normalizer_LA : m.R ≤ normalizer ((m.LA : Subgroup G) : Set G) :=
 
 omit hKM hK3 in
 theorem R_inf_LA_sylow : IsSylowOf m.r (m.R ⊓ m.LA) m.LA := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hLR : m.L ⊔ m.R ≤ m.H := sup_le m.L_le_H (m.R_le_H h69)
   have hS : IsSylowOf m.r m.R (m.L ⊔ m.R) := (m.R_sylow_H h69).of_le le_sup_right hLR
   have hle : m.LA ≤ m.L ⊔ m.R := sup_le le_sup_left (m.A_le_R.trans le_sup_right)
@@ -149,7 +149,7 @@ theorem R_inf_LA_sylow : IsSylowOf m.r (m.R ⊓ m.LA) m.LA := by
 
 omit hKM hK3 in
 theorem star_R_sylow : IsSylowOf m.r (m.star m.R) ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h : IsSylowOf m.r ((m.R.subgroupOf m.LA).map m.LA.subtype)
       ((⊤ : Subgroup ↥m.LA).map m.LA.subtype) := by
     rw [Subgroup.subgroupOf_map_subtype, ← MonoidHom.range_eq_map, Subgroup.range_subtype]

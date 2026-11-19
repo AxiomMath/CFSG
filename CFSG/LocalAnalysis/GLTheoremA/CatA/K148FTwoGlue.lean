@@ -24,7 +24,7 @@ theorem openQS_of_mulEquiv (e : G ≃* H) (h : CFSG.Open.IsQuasisimple H) :
   obtain ⟨hc, hs⟩ := h
   let f := QuotientGroup.congr (Subgroup.center G) (Subgroup.center H) e (Subgroup.map_center_eq e)
   refine ⟨?_, f.isSimpleGroup⟩
-  haveI : Group.IsPerfect H := ⟨hc⟩
+  have : Group.IsPerfect H := ⟨hc⟩
   exact (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective).commutator_eq_top
 
 theorem catalogIs_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T)
@@ -108,7 +108,7 @@ theorem eq_of_subnormal_quasisimple {P : Type} [Group P] {R M : Subgroup P} [IsS
   rcases subnormal_eq_bot_or_top_of_simple R hsub rfl with hM | hM
   · exfalso
     have hnt : Nontrivial ↥M := by
-      haveI := hq.2.toNontrivial
+      have := hq.2.toNontrivial
       exact nontrivial_of_quotient (Subgroup.center ↥M)
     rw [hM, Subgroup.nontrivial_iff_ne_bot] at hnt
     exact hnt rfl
@@ -117,9 +117,9 @@ theorem eq_of_subnormal_quasisimple {P : Type} [Group P] {R M : Subgroup P} [IsS
 theorem openQS_not_solvable {A : Type} [Group A] [Group.IsSolvable A]
     (h : CFSG.Open.IsQuasisimple A) : False := by
   obtain ⟨hc, hs⟩ := h
-  haveI := hs.toNontrivial
-  haveI : Nontrivial A := nontrivial_of_quotient (Subgroup.center A)
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (G := A)).ne hc
+  have := hs.toNontrivial
+  have : Nontrivial A := nontrivial_of_quotient (Subgroup.center A)
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := A)).ne hc
 
 theorem not_pComp_of_solvable {P : Type} [Group P] [Finite P] {Z M : Subgroup P}
     [Group.IsSolvable ↥Z] (hM : GLAPComponent 3 Z M) : False := by
@@ -163,7 +163,7 @@ theorem pComp_eq_derived {P : Type} [Group P] [Finite P] {X : Subgroup P}
     {S : Subgroup P} (hS : GLAPComponent 3 X S) : S = derivedIn X := by
   obtain ⟨hSX, hIS, hq⟩ := pComp_facts hO hS
   have hle : S ≤ derivedIn X := le_derivedIn_of_quasisimple hSX hq
-  haveI := simple_derivedIn (P := P) hR
+  have := simple_derivedIn (P := P) hR
   have hsub := isSubnormal_inf (derivedIn X) hIS
   rw [inf_eq_left.2 hle, inf_eq_right.2 (derivedIn_le X)] at hsub
   exact eq_of_subnormal_quasisimple hsub hq

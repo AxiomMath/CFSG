@@ -37,7 +37,7 @@ theorem foldr_sum (g : Nat → Nat) : ∀ (n a : Nat),
     change a + g n + _ = _
     omega
 
-theorem place_fld {w n : Nat} {val : Nat → Nat} (hw : 0 < w) (hv : ∀ r < n, val r < 2 ^ w) {r : Nat}
+theorem place_fld {w n : Nat} {val : Nat → Nat} (_hw : 0 < w) (hv : ∀ r < n, val r < 2 ^ w) {r : Nat}
     (hr : r < n) :
     CFSG.KS.SporSch.LyK.placeF val (fun r => w * r) n / 2 ^ (w * r) % 2 ^ w = val r := by
   have hn : 0 < n := by omega
@@ -162,7 +162,7 @@ theorem index_fold {α : Type} [BEq α] [Hashable α] [LawfulBEq α] [Inhabited 
       Std.HashMap.getElem?_insert]
     by_cases hkn : k = n
     · subst hkn
-      rw [if_pos (beq_self_eq_true _)]
+      rw [ite_eq_left (beq_self_eq_true _)]
     · have hne : (pts[n]! == pts[k]!) = false := by
         rw [beq_eq_false_iff_ne]
         intro e
@@ -248,7 +248,7 @@ theorem vStep_fail (GP E PL : Nat → Nat) {c : Nat} (hc : c ≤ 78125) (h j : N
 theorem vStep_skip (GP E PL : Nat → Nat) (c h j st : Nat) (hh : Nat.land st 1048575 ≤ h) :
     vStep GP E PL c h j st = st := by
   unfold vStep
-  rw [strictN_eqP, strictN_eqP, nIf_eqP, if_neg (by rw [Nat.blt_eq]; exact Nat.not_lt.2 hh)]
+  rw [strictN_eqP, strictN_eqP, nIf_eqP, ite_eq_right (by rw [Nat.blt_eq]; exact Nat.not_lt.2 hh)]
 
 theorem fold_fix {α σ : Type} (f : α → σ → σ) (F : σ) (hB : ∀ x, f x F = F) :
     ∀ l : List α, l.foldl (fun s x => f x s) F = F
@@ -306,7 +306,7 @@ theorem shr_enc {h j : Nat} (hh : h < 2 ^ 20) : Nat.shiftRight (h + 2 ^ 20 * j) 
   rw [Nat.shiftRight_eq_div_pow]
   exact mO_enc hh
 
-theorem set_get {k k' : Nat} {a : Array Bool} (hk : k < a.size) (hk' : k' < a.size) :
+theorem set_get {k k' : Nat} {a : Array Bool} (_hk : k < a.size) (hk' : k' < a.size) :
     (a.set! k true)[k']! = if k = k' then true else a[k']! := by
   rw [Array.set!_eq_setIfInBounds]
   rw [getElem!_pos _ k' (by simpa using hk'), getElem!_pos a k' hk', Array.getElem_setIfInBounds]
@@ -336,15 +336,15 @@ theorem vstep_sim {kg c : Nat} {GP E PL : Nat → Nat} {gens : Array (Array Nat)
   have hk5 : code7K Y < 78125 := code7K_lt hYd
   rw [hy, code7_dec]
   have hseen : s.1[code7K Y]! = M.testBit (code7K Y) := n2 _ hk5
-  rw [hst, vStep_enc GP E PL c h j cnt M hcnt, if_pos hh] at hnf ⊢
+  rw [hst, vStep_enc GP E PL c h j cnt M hcnt, ite_eq_left hh] at hnf ⊢
   by_cases hb : M.testBit (code7K Y) = true
-  · rw [if_pos hb, hseen, hb]
+  · rw [ite_eq_left hb, hseen, hb]
     simp only [Bool.not_true, Bool.false_eq_true, ↓reduceIte]
     rw [← hst]
     exact ⟨⟨a1, a2, a3, a4, a5, a6⟩, le_rfl, n1, n2, n3, n4, n5⟩
-  · rw [if_neg hb] at hnf ⊢
+  · rw [ite_eq_right hb] at hnf ⊢
     by_cases hn : cnt < c ∧ E cnt = Y ∧ PL cnt = h + 2 ^ 20 * j
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       have hb' : M.testBit (code7K Y) = false := by simpa using hb
       rw [hseen, hb']
       simp only [Bool.not_false, ↓reduceIte]
@@ -400,9 +400,9 @@ theorem vstep_sim {kg c : Nat} {GP E PL : Nat → Nat} {gens : Array (Array Nat)
         rw [set_get (by rw [n1]; exact hk5) (by rw [n1]; exact hk'), Nat.testBit_or,
           Nat.testBit_two_pow, n2 k hk']
         by_cases e : code7K Y = k
-        · rw [if_pos e, e]
+        · rw [ite_eq_left e, e]
           simp
-        · rw [if_neg e]
+        · rw [ite_eq_right e]
           simp [e]
       · change s.2.1.push (dec7B Y) = _
         rw [n3, ← hn2]
@@ -415,7 +415,7 @@ theorem vstep_sim {kg c : Nat} {GP E PL : Nat → Nat} {gens : Array (Array Nat)
         have : j = Nat.shiftRight (PL cnt) 20 := by rw [hn3, shr_enc hh20]
         rw [n5, this]
         exact ofFn_push (fun i => Nat.shiftRight (PL i) 20) cnt
-    · rw [if_neg hn] at hnf
+    · rw [ite_eq_right hn] at hnf
       exact absurd rfl hnf
 
 theorem foldl_skip (f : Nat → Nat → Nat) (hskip : ∀ h st, cO st ≤ h → f h st = st) :
@@ -568,8 +568,8 @@ theorem vbfs_soundL {kg c nS Hh : Nat} {GP E PL C : Nat → Nat} {root : Array N
         rw [hroot, code7_dec, set_get (by rw [hsz]; exact hk0) (by rw [hsz]; exact hk),
           Nat.testBit_two_pow]
         by_cases e : code7K (E 0) = k
-        · rw [if_pos e, decide_eq_true e]
-        · rw [if_neg e, getElem!_pos _ k (by rw [hsz]; exact hk), Array.getElem_replicate,
+        · rw [ite_eq_left e, decide_eq_true e]
+        · rw [ite_eq_right e, getElem!_pos _ k (by rw [hsz]; exact hk), Array.getElem_replicate,
             decide_eq_false e]
       · change #[root] = _
         rw [hroot]

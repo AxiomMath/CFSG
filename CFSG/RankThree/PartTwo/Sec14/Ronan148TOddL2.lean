@@ -65,7 +65,7 @@ theorem pPrimeCoreOf_eq_bot_of_isPGroup {G : Type*} [Group G] [Finite G] {H : Su
 theorem pPrimeCoreOf_eq_bot_of_isSimpleGroup {G : Type*} [Group G] [Finite G] {H : Subgroup G}
     [IsSimpleGroup H] (h3 : 3 ∣ Nat.card H) : pPrimeCoreOf 3 H = ⊥ := by
   have hc := CFSG.coprime_card_pPrimeCore 3 H
-  haveI := CFSG.pPrimeCore_normal (p := 3) (G := H)
+  have := CFSG.pPrimeCore_normal (p := 3) (G := H)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pPrimeCore 3 H) with h | h
   · unfold pPrimeCoreOf
     rw [h, Subgroup.map_bot]
@@ -111,6 +111,7 @@ section Model
 
 variable {S : Type} [Group S] [Finite S] {F : Type} [Field F] [Finite F]
 
+omit [Finite S] in
 theorem conj_injective_of_psl2 (e : S ≃* PSL2 F) :
     Function.Injective (MulAut.conj : S →* MulAut S) := by
   rw [injective_iff_map_eq_one]
@@ -160,7 +161,7 @@ theorem pPrimeCoreOf_autFix_eq_bot_of_outer (e : S ≃* PSL2 F) {r f : ℕ} (hr 
   rw [autFix_eq_eqLocus]
   have : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S) ⧸
       Subgroup.center (α.toMonoidHom.eqLocus (MonoidHom.id S))) := hQ.2.1
-  haveI : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S)) := MulEquiv.isSimpleGroup
+  have : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S)) := MulEquiv.isSimpleGroup
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
   exact pPrimeCoreOf_eq_bot_of_isSimpleGroup h3
 

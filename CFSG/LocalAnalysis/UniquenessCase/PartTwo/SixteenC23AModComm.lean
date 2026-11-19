@@ -91,12 +91,12 @@ theorem c23a_rk_le_three_mul_commSub [Finite V] (hV : ∀ v : V, v ^ 2 = 1)
   classical
   obtain ⟨D⟩ := h.nat
   have hV3 : finrank (ZMod 2) (Fin 3 → ZMod 2) = 3 := Module.finrank_fin_fun (ZMod 2)
-  letI : Module (ZMod 2) (Additive ↥E) :=
+  let : Module (ZMod 2) (Additive ↥E) :=
     AddCommGroup.zmodModule fun x => by
       apply Additive.toMul.injective
       change (Additive.toMul x) ^ 2 = (1 : ↥E)
       exact Subtype.ext (hV ((Additive.toMul x : ↥E) : V))
-  haveI : FiniteDimensional (ZMod 2) (Additive ↥E) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive ↥E) := Module.Finite.of_finite
   have hLE : ∀ g ∈ L, ∀ w ∈ E, g w ∈ E := by
     intro g hg w hw
     obtain ⟨γ, hγ⟩ := D.surj ⟨g, hg⟩

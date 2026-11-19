@@ -25,8 +25,8 @@ theorem bAnd_iff {a b : Bool} : Bool.rec (motive := fun _ => Bool) false b a = t
 theorem nIf_beq (a b t e : Nat) :
     Bool.rec (motive := fun _ => Nat) e t (Nat.beq a b) = if a = b then t else e := by
   cases hb : Nat.beq a b
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 theorem nIf_ble (a b : Nat) : Bool.rec (motive := fun _ => Nat) b a (Nat.ble a b) = min a b := by
   cases hb : Nat.ble a b
@@ -49,9 +49,11 @@ theorem chunk3_eq (XC : Nat → Nat) (c : Nat) : chunk3 XC c =
     (XC (c / 133) ||| (XC (c / 133 + 1) <<< 53200 ||| XC (c / 133 + 2) <<< 106400)) >>>
       (400 * (c - 133 * (c / 133))) := rfl
 
+set_option exponentiation.threshold 399 in
 theorem recC_mod (C r : Nat) : recC (2 ^ 399 - 1) C r = C / 2 ^ (400 * r) % 2 ^ 399 := by
   rw [recC_eq, Nat.shiftRight_eq_div_pow, Nat.and_two_pow_sub_one_eq_mod]
 
+set_option exponentiation.threshold 1729 in
 theorem recC_lt {M : Nat} (hM : M = 2 ^ 399 - 1) (C r : Nat) : recC M C r < 2 ^ 1729 := by
   subst hM
   rw [recC_mod]
@@ -73,9 +75,11 @@ theorem childrenOK_spec {h j c : Nat} : ∀ {n t0 : Nat}, childrenOK h j c n t0 
       exact ⟨hc.1, hc.2.1⟩
     · exact childrenOK_spec hc.2.2 t (by omega) (by omega)
 
+set_option exponentiation.threshold 53200 in
 private theorem bit_lo {x K : Nat} (hx : x < 2 ^ 53200) (hK : 53200 ≤ K) : x.testBit K = false :=
   Nat.testBit_lt_two_pow (lt_of_lt_of_le hx (Nat.pow_le_pow_right (by norm_num) hK))
 
+set_option exponentiation.threshold 399 in
 theorem chunk3_rec {XC : Nat → Nat} {M c t : Nat} (hM : M = 2 ^ 399 - 1) (hct : c % 133 + t < 399)
     (hXC : ∀ i, c / 133 ≤ i → i < (c + t) / 133 → XC i < 2 ^ 53200) :
     recC M (chunk3 XC c) t = recX XC M (c + t) := by
@@ -134,9 +138,9 @@ theorem gat_succ (M C CH h : Nat) (fin : Nat → Nat → Nat → Nat → Bool)
   rw [gat_succ_raw]
   simp only [letB_eq, Nat.and_one_is_mod, Nat.shiftRight_eq_div_pow, pow_one]
   rcases Nat.mod_two_eq_zero_or_one (childF h t) with h0 | h0
-  · rw [h0, if_neg (by omega)]
+  · rw [h0, ite_eq_right (by omega)]
     rfl
-  · rw [h0, if_pos rfl]
+  · rw [h0, ite_eq_left rfl]
     rfl
 
 private noncomputable def S (h ℓ : Nat) (f : Nat → Nat) (T : Nat) : Nat :=
@@ -148,22 +152,22 @@ private noncomputable def nc (h ℓ T : Nat) : Nat := ((range T).filter fun t =>
 private theorem S_succ_of_eq {h ℓ T : Nat} {f : Nat → Nat} (hT : childF h T % 2 = ℓ) :
     S h ℓ f (T + 1) = S h ℓ f T + f T * 2 ^ (1729 * nc h ℓ T) := by
   unfold S nc
-  rw [range_add_one, filter_insert, if_pos hT, sum_insert (by simp), add_comm, hT]
+  rw [range_add_one, filter_insert, ite_eq_left hT, sum_insert (by simp), add_comm, hT]
 
 private theorem S_succ_of_ne {h ℓ T : Nat} {f : Nat → Nat} (hT : childF h T % 2 ≠ ℓ) :
     S h ℓ f (T + 1) = S h ℓ f T := by
   unfold S
-  rw [range_add_one, filter_insert, if_neg hT]
+  rw [range_add_one, filter_insert, ite_eq_right hT]
 
 private theorem nc_succ_of_eq {h ℓ T : Nat} (hT : childF h T % 2 = ℓ) :
     nc h ℓ (T + 1) = nc h ℓ T + 1 := by
   unfold nc
-  rw [range_add_one, filter_insert, if_pos hT, card_insert_of_notMem (by simp)]
+  rw [range_add_one, filter_insert, ite_eq_left hT, card_insert_of_notMem (by simp)]
 
 private theorem nc_succ_of_ne {h ℓ T : Nat} (hT : childF h T % 2 ≠ ℓ) :
     nc h ℓ (T + 1) = nc h ℓ T := by
   unfold nc
-  rw [range_add_one, filter_insert, if_neg hT]
+  rw [range_add_one, filter_insert, ite_eq_right hT]
 
 private theorem S_lt {h ℓ : Nat} {f : Nat → Nat} (hf : ∀ t, f t < 2 ^ 1729) :
     ∀ T, S h ℓ f T < 2 ^ (1729 * nc h ℓ T)
@@ -198,12 +202,12 @@ private theorem gat_go {M C CH h : Nat} {fin : Nat → Nat → Nat → Nat → B
     rw [gat_succ, show t0 + (n + 1) = t0 + 1 + n by omega, ← gat_go (fin := fin) hp hx n (t0 + 1)]
     rcases Nat.mod_two_eq_zero_or_one (childF h t0) with h0 | h0
     · have h1 : childF h t0 % 2 ≠ 1 := by omega
-      rw [if_neg h1, S_succ_of_ne (f := fun t => recC M C (childF h t / 2)) h1,
+      rw [ite_eq_right h1, S_succ_of_ne (f := fun t => recC M C (childF h t / 2)) h1,
         S_succ_of_ne (f := fun t => recC M CH t) h1, nc_succ_of_ne h1, nc_succ_of_eq h0,
         ← lor_step (f := fun t => recC M C (childF h t / 2)) hp h0,
         ← lor_step (f := fun t => recC M CH t) hx h0]
     · have h1 : childF h t0 % 2 ≠ 0 := by omega
-      rw [if_pos h0, S_succ_of_ne (f := fun t => recC M C (childF h t / 2)) h1,
+      rw [ite_eq_left h0, S_succ_of_ne (f := fun t => recC M C (childF h t / 2)) h1,
         S_succ_of_ne (f := fun t => recC M CH t) h1, nc_succ_of_ne h1, nc_succ_of_eq h0,
         ← lor_step (f := fun t => recC M C (childF h t / 2)) hp h0,
         ← lor_step (f := fun t => recC M CH t) hx h0]
@@ -259,13 +263,13 @@ private theorem mod_div_mod (a n m k : Nat) (h : m + k ≤ n) :
     simp [hi, this]
   · simp [hi]
 
+set_option exponentiation.threshold 1729 in
 theorem fixRows_spec {RM : Nat} (hRM : RM = 2 ^ 1729 - 1) (Y : Nat) : ∀ nr, fixRows RM Y nr =
     ((range nr).filter fun r => Y / 2 ^ (1729 * r) % 2 ^ 728 = 0).card +
       2 ^ 24 * ((range nr).filter fun r => Y / 2 ^ (1729 * r + 728) % 2 ^ 832 = 0).card
   | 0 => rfl
   | r + 1 => by
     rw [fixRows_succ_raw, strictN_eq]
-    beta_reduce
     rw [Nat.one_shiftLeft, Nat.one_shiftLeft, Nat.one_shiftLeft, fixRows_spec hRM Y r,
       card_filter_range_succ, card_filter_range_succ, rowL_eq, hRM,
       Nat.shiftRight_eq_div_pow, Nat.and_two_pow_sub_one_eq_mod, Nat.shiftRight_eq_div_pow,
@@ -294,13 +298,13 @@ private theorem treeLeaf_raw (XC TD MSF : Nat → Nat) (N M L H CM3 RM GA GB GFC
         fixRows RM (mulC L H CM3 RM (leafA M (XC j) 133) GFC) (min (N - 133 * j) 133),
         2 ^ 50) := by
   show strictN (XC j) _ = _
-  rw [strictN_eq]; beta_reduce
-  rw [strictN_eq]; beta_reduce
-  rw [strictN_eq]; beta_reduce
-  rw [strictN_eq]; beta_reduce
-  rw [letB_eq]; beta_reduce
-  rw [strictN_eq]; beta_reduce
-  rw [strictN_eq]; beta_reduce
+  rw [strictN_eq]
+  rw [strictN_eq]
+  rw [strictN_eq]
+  rw [strictN_eq]
+  rw [letB_eq]
+  rw [strictN_eq]
+  rw [strictN_eq]
   rw [land_21, land_21, land_9, nIf_ble]
   rfl
 

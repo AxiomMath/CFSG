@@ -350,7 +350,7 @@ theorem exists_octNorm_eq_zero_not_mem {W : Submodule K (Oct K)} (hW : W ≠ ⊤
   refine hcon _ ?_
   rw [Pi.basisFun_apply]
   rcases i with i | i <;> fin_cases i <;>
-    simp [octNorm, octA, octB, octU, octW, dot3, Pi.single_apply]
+    simp [octNorm, octA, octB, octU, octW, dot3]
 
 theorem ker_mulRight_le_of_range_eq {y y' : Oct K} (hy0 : y ≠ 0) (hy : octNorm y = 0)
     (hy0' : y' ≠ 0) (hy' : octNorm y' = 0)

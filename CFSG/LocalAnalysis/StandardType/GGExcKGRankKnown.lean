@@ -172,11 +172,11 @@ theorem ggExcKGRank_F4 (n f : ℕ) (G : Type) [Group G] [Finite G]
 end ExcCertF4
 
 
-private theorem kgr_regime_arith (f : ℕ) (hf : f ≠ 0) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem kgr_regime_arith (f : ℕ) (_hf : f ≠ 0) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
     (hreg : ¬ GGExcRegime p f) :
     ¬ p ∣ 2 ^ f ∧ 3 < p ∧ orderOf (((2 ^ f : ℕ) : ZMod p)) ≠ 1 ∧
       orderOf (((2 ^ f : ℕ) : ZMod p)) ≠ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ 2 ^ f := by
     intro h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
@@ -228,7 +228,7 @@ private theorem kgr_regime_arith (f : ℕ) (hf : f ≠ 0) (p : ℕ) (hp : p.Prim
       exact eq_neg_iff_add_eq_zero.1 h3
     exact (ZMod.natCast_eq_zero_iff _ p).1 this
 
-private theorem kgr_rankLE2_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+private theorem kgr_rankLE2_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (_hp3 : 3 < p)
     (hpq : ¬ p ∣ Nat.card K)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 1 ∧ orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 2 ∧
       orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 3 ∧ orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 4 ∧
@@ -246,7 +246,7 @@ private theorem kgr_rankLE2_E8 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p
     have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
     intro F hF
     interval_cases e <;>
-      first | exact absurd hcnt (by decide) | (exfalso; omega) | skip
+      try first | exact absurd hcnt (by decide) | (exfalso; omega)
     · exact (sylowTorus_E8_five K hp he').rank_le hp hF
     · exact (sylowTorus_E8_eight K hp he').rank_le hp hF
     · exact (sylowTorus_E8_ten K hp he').rank_le hp hF
@@ -372,7 +372,7 @@ private theorem kgr_map_elemAbelian {H H' : Type} [Group H] [Group H'] (φ : H �
   · rintro _ ⟨a, ha, rfl⟩
     rw [← map_pow, hE.2 a ha, map_one]
 
-theorem kgr_rankLE3_E7 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+theorem kgr_rankLE3_E7 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (_hp3 : 3 < p)
     (hpq : ¬ p ∣ Nat.card K)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 1 ∧ orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 2) :
     ∀ F : Subgroup (adjointGroup Tag.E7 K), IsElemAbelian p F → Nat.card F ≤ p ^ 3 := by
@@ -387,7 +387,7 @@ theorem kgr_rankLE3_E7 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) 
     have h30 : e ≤ 30 := le_thirty_of_degCount_pos (τ := Tag.E7) (by simp) hpos
     have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
     interval_cases e <;>
-      first | exact absurd hcnt (by decide) | (exfalso; omega) | skip
+      try first | exact absurd hcnt (by decide) | (exfalso; omega)
     · exact (kgr_sylowTorus_E7_three K hp he').rank_le hp hF
     · exact ((sylowTorus_E7_four K hp he').rank_le hp hF).trans
         (Nat.pow_le_pow_right hp.pos (by norm_num))
@@ -401,7 +401,7 @@ private theorem kgr_sylowTorus_E6_three (K : Type) [Field K] [Finite K] {p : ℕ
     e6Three_charpoly e6Three_pow he rfl (by decide) (by decide) (by decide)
   simpa using h
 
-theorem kgr_rankLE3_E6 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
+theorem kgr_rankLE3_E6 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (_hp3 : 3 < p)
     (hpq : ¬ p ∣ Nat.card K)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 1 ∧ orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 2) :
     ∀ F : Subgroup (adjointGroup Tag.E6 K), IsElemAbelian p F → Nat.card F ≤ p ^ 3 := by
@@ -416,7 +416,7 @@ theorem kgr_rankLE3_E6 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) 
     have h30 : e ≤ 30 := le_thirty_of_degCount_pos (τ := Tag.E6) (by simp) hpos
     have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
     interval_cases e <;>
-      first | exact absurd hcnt (by decide) | (exfalso; omega) | skip
+      try first | exact absurd hcnt (by decide) | (exfalso; omega)
     · exact (kgr_sylowTorus_E6_three K hp he').rank_le hp hF
     · exact ((sylowTorus_E6_four K hp he').rank_le hp hF).trans
         (Nat.pow_le_pow_right hp.pos (by norm_num))

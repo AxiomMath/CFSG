@@ -22,7 +22,7 @@ theorem cVec_bVec (w : Fin 3 → ℤ) : cVec (bVec w) = w := by
 theorem bVec_cVec {d : Fin 4 → ℤ} (hd : ∑ i, d i = 0) : bVec (cVec d) = d := by
   rw [Fin.sum_univ_four] at hd
   funext i
-  fin_cases i <;> simp [bVec, cVec] <;> linarith
+  fin_cases i <;> simp [bVec, cVec]; linarith
 
 theorem sum_bVec (w : Fin 3 → ℤ) : ∑ i, bVec w i = 0 := by
   simp [bVec, Fin.sum_univ_four]

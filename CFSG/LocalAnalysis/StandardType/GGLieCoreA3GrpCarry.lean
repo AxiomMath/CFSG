@@ -182,7 +182,7 @@ theorem ggLie_weyl_carry
   refine ⟨canonicalRep (coxeterSystem (langTag .E6)) GGL w₃,
     ggLieGC_canonicalRep_mem_commutator w₃, ?_, ?_⟩
   · have h2 : (2 : GGL) = 0 := by
-      haveI : CharP GGL 2 := inferInstance
+      have : CharP GGL 2 := inferInstance
       exact_mod_cast CharP.cast_eq_zero GGL 2
     have hc₀ := canonicalRep_mul_pinnedX_mul_inv_of_two (τ := langTag .E6) (K := GGL) h2 w₃
       hβ₀ 1
@@ -202,7 +202,7 @@ theorem ggLie_weyl_carry
       _ = pinnedX (langTag .E6) GGL ψ₀ 1 * pinnedX (langTag .E6) GGL (-ψ₀) 1 := by
         rw [hc₀, hc₀']
   · have h2 : (2 : GGL) = 0 := by
-      haveI : CharP GGL 2 := inferInstance
+      have : CharP GGL 2 := inferInstance
       exact_mod_cast CharP.cast_eq_zero GGL 2
     have hc₁ := canonicalRep_mul_pinnedX_mul_inv_of_two (τ := langTag .E6) (K := GGL) h2 w₃
       hβ₁ 1

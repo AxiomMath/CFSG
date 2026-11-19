@@ -104,7 +104,7 @@ theorem rootDiagUnit_apply_apply (s : Fin τ.rank → Lˣ) (w : RootModule τ L)
     · subst hb
       simp only [Finsupp.single_eq_same]
       ring
-    · simp [Finsupp.single_apply, hb]
+    · simp [hb]
 
 theorem exists_zpow_ne_one [IsAlgClosed L] {k : ℤ} (hk : k ≠ 0) : ∃ c : Lˣ, c ^ k ≠ 1 := by
   classical
@@ -271,7 +271,7 @@ theorem wtDet_rootDiagUnit {Ψ : Set (Fin τ.rank → ℤ)} {s : Fin τ.rank →
   have key : wtDet (L := L) Ψ ℓ₀ ⟨rootDiagUnit τ s, h⟩ =
       (@LinearMap.det (wtSpace (L := L) Ψ ℓ₀) _ L _ _) ((rootChar s (labelWt τ ℓ₀) : L) • LinearMap.id) := by
     rw [wtDet_apply, hr]
-  haveI : Module.Free L (wtSpace (L := L) Ψ ℓ₀) := Module.Free.of_divisionRing L ↥(wtSpace (L := L) Ψ ℓ₀)
+  have : Module.Free L (wtSpace (L := L) Ψ ℓ₀) := Module.Free.of_divisionRing L ↥(wtSpace (L := L) Ψ ℓ₀)
   rw [key, LinearMap.det_smul, LinearMap.det_id, mul_one, finrank_wtSpace]
 
 theorem familyGroup_le_centralizer

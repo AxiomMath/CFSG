@@ -134,7 +134,7 @@ theorem tf_lt (hw : n + 1 < 2 ^ w) {k : ℕ} (u : Fin k → Fin n) (t : ℕ) : t
 
 theorem pg_tkey (hw : n + 1 < 2 ^ w) {k : ℕ} (u : Fin k → Fin n) (i : Fin k) :
     pg w (mask w) (tkey w u) i = u i := by
-  rw [tkey, pg_keyR (tf_lt hw u) i.2, tf, dif_pos i.2]
+  rw [tkey, pg_keyR (tf_lt hw u) i.2, tf, dite_eq_left i.2]
 
 theorem tkey_inj (hw : n + 1 < 2 ^ w) {k : ℕ} {u u' : Fin k → Fin n}
     (h : tkey w u = tkey w u') : u = u' := by
@@ -146,7 +146,7 @@ theorem subKey_tkey {k : ℕ} {B : List ℕ} {off : ℕ} {v : Fin k → Fin n}
     (hv : ∀ i : Fin k, getS B (off + i) = v i) : subKey w B off k = tkey w v := by
   change keyR w (fun t => getS B (Nat.add off t)) k = keyR w (tf v) k
   refine keyR_congr fun t ht => ?_
-  rw [tf, dif_pos ht]
+  rw [tf, dite_eq_left ht]
   exact hv ⟨t, ht⟩
 
 theorem mapKey_tkey (hw : n + 1 < 2 ^ w) {k gp : ℕ} {g : Equiv.Perm (Fin n)}
@@ -154,7 +154,7 @@ theorem mapKey_tkey (hw : n + 1 < 2 ^ w) {k gp : ℕ} {g : Equiv.Perm (Fin n)}
     mapKey w (mask w) gp k (tkey w u) = tkey w (fun i => g (u i)) := by
   change keyR w (fun t => pg w (mask w) gp (pg w (mask w) (tkey w u) t)) k = keyR w (tf _) k
   refine keyR_congr fun t ht => ?_
-  rw [pg_tkey hw u ⟨t, ht⟩, tf, dif_pos ht]
+  rw [pg_tkey hw u ⟨t, ht⟩, tf, dite_eq_left ht]
   exact hg (u ⟨t, ht⟩)
 
 theorem conjKey_tkey {k yp yip gp : ℕ} {y g : Equiv.Perm (Fin n)} (hy : PRep n w yp y)
@@ -165,7 +165,7 @@ theorem conjKey_tkey {k yp yip gp : ℕ} {y g : Equiv.Perm (Fin n)} (hy : PRep n
     (getS B (Nat.add off t))))) k = keyR w (tf _) k
   refine keyR_congr fun t ht => ?_
   have e : getS B (Nat.add off t) = v ⟨t, ht⟩ := hv ⟨t, ht⟩
-  rw [e, hyi, hg, hy, tf, dif_pos ht]
+  rw [e, hyi, hg, hy, tf, dite_eq_left ht]
   rfl
 
 @[expose] noncomputable def decP (n w p : ℕ) (i : Fin n) : Fin n :=
@@ -174,7 +174,7 @@ theorem conjKey_tkey {k yp yip gp : ℕ} {y g : Equiv.Perm (Fin n)} (hy : PRep n
 theorem decP_of_prep {p : ℕ} {g : Equiv.Perm (Fin n)} (hp : PRep n w p g) : decP n w p = ⇑g := by
   funext i
   unfold decP
-  rw [dif_pos (by rw [hp i]; exact (g i).2)]
+  rw [dite_eq_left (by rw [hp i]; exact (g i).2)]
   exact Fin.ext (hp i)
 
 end CFSG.KC.OrbRow

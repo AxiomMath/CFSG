@@ -52,7 +52,7 @@ private theorem fs81SixLift_orderOf_mk_of_order_three {G : Type} [Group G] [Fini
 
 private theorem fs81SixLift_notMem_of_inverts {G : Type} [Group G] [Finite G]
     {C N : Subgroup G} (hCN : C ≤ Subgroup.normalizer (N : Set G)) (hN2 : IsPGroup 2 N)
-    {b k : G} (hbC : b ∈ C) (hkC : k ∈ C) (hb : orderOf b = 3)
+    {b k : G} (hbC : b ∈ C) (_hkC : k ∈ C) (hb : orderOf b = 3)
     (hkb : k * b * k⁻¹ = b⁻¹) (hkN : k ∈ N) : False := by
   have hb2N : b ^ (-2 : ℤ) ∈ N := by
     have h1 : b * k⁻¹ * b⁻¹ ∈ N :=
@@ -212,7 +212,7 @@ private theorem fs81SixLift_P_inf_N {G : Type} [Group G]
     (hP : Nonempty (↥P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2))) :
     P ⊓ N = ⊥ := by
   classical
-  haveI hPsimp : IsSimpleGroup ↥P := by
+  have hPsimp : IsSimpleGroup ↥P := by
     obtain ⟨e⟩ := hP
     exact (MulEquiv.isSimpleGroup_congr e).mpr
       CFSG.Quasithin.HSType.isSimpleGroup_SL_three_two
@@ -223,7 +223,7 @@ private theorem fs81SixLift_P_inf_N {G : Type} [Group G]
       le_inf h1 h2
     have h4 := h3.trans (Subgroup.inf_normalizer_le_normalizer_inf (H := N) (K := P))
     simpa [inf_comm] using h4
-  haveI hPNnormal : ((P ⊓ N).subgroupOf P).Normal := by
+  have hPNnormal : ((P ⊓ N).subgroupOf P).Normal := by
     have h := (Subgroup.normal_subgroupOf_iff_le_normalizer_inf (H := N) (K := P)).mpr
       (by simpa [inf_comm] using hPnN)
     simpa [Subgroup.inf_subgroupOf_right] using h
@@ -363,7 +363,7 @@ theorem fs81SixLift_of_sixLemma (h : FS81SixLemma) : FS81SixLift := by
   intro G _ _ C M N P b k b₁ hNM hMC hCN hN2 hPC hPM hbM hkM hb hk hkb hP hb₁P hb₁ hPk
     hcb hcb₁
   have hNC : N ≤ C := hNM.trans hMC
-  haveI hN' : (N.subgroupOf C).Normal :=
+  have hN' : (N.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNC).mpr hCN
   have hMhat := fs81SixLift_Mhat_le h hNM hMC hCN hN2 hPC hPM hbM hkM hb hk hkb hP hb₁P hb₁
     hPk hcb hcb₁

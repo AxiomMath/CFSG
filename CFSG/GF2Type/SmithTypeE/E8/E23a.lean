@@ -29,6 +29,7 @@ variable {G : Type} [Group G] [Finite G]
   (∀ P : Subgroup G, P ≤ cent2 t u ⊓ S.M →
     (∀ c ∈ cent2 t u ⊓ S.M, ∀ p ∈ P, c * p * c⁻¹ ∈ P) → IsPGroup 2 P → P ≤ S.QG)
 
+omit [Finite G] in
 theorem commute_conj_iff_E8 (g a b : G) :
     Commute (g * a * g⁻¹) (g * b * g⁻¹) ↔ Commute a b := by
   constructor
@@ -43,22 +44,26 @@ theorem commute_conj_iff_E8 (g a b : G) :
       _ = g * (b * a) * g⁻¹ := by rw [h]
       _ = g * b * g⁻¹ * (g * a * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conj_mem_cent2_iff_E8 (g : G) {t u x : G} :
     g * x * g⁻¹ ∈ cent2 (g * t * g⁻¹) (g * u * g⁻¹) ↔ x ∈ cent2 t u := by
   rw [mem_cent2, mem_cent2, commute_conj_iff_E8, commute_conj_iff_E8]
 
+omit [Finite G] in
 theorem conj_mem_QG_iff_E8 (S : Setting G) {g : G} (hg : g ∈ S.M) {x : G} :
     g * x * g⁻¹ ∈ S.QG ↔ x ∈ S.QG := by
   refine ⟨fun h => ?_, S.conj_mem_QG hg⟩
   have := S.conj_mem_QG (S.M.inv_mem hg) h
   rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at this
 
+omit [Finite G] in
 theorem conj_mem_M_iff_E8 (S : Setting G) {g : G} (hg : g ∈ S.M) {x : G} :
     g * x * g⁻¹ ∈ S.M ↔ x ∈ S.M := by
   refine ⟨fun h => ?_, fun h => S.M.mul_mem (S.M.mul_mem hg h) (S.M.inv_mem hg)⟩
   have := S.M.mul_mem (S.M.mul_mem (S.M.inv_mem hg) h) hg
   rwa [show g⁻¹ * (g * x * g⁻¹) * g = x by group] at this
 
+omit [Finite G] in
 theorem E23aConcl.of_conj (S : Setting G) {t u g : G} (hg : g ∈ S.M)
     (h : E23aConcl S (g * t * g⁻¹) (g * u * g⁻¹)) : E23aConcl S t u := by
   obtain ⟨h1, h2, h3, h4, h5⟩ := h
@@ -213,7 +218,7 @@ theorem orderOf_psi_mul {t u : G} (htM : t ∈ S.M) (huM : u ∈ S.M) (htu : ord
     rw [← map_mul]
     exact congrArg ψ (mbarPt_mul S htM huM).symm
   rw [e, MulEquiv.orderOf_eq]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [← map_pow]
     have h1 : (⟨t * u, hθM⟩ : S.M) ^ 3 = 1 := by

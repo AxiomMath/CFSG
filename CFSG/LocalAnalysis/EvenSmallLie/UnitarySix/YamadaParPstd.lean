@@ -247,11 +247,13 @@ variable [CharP F 2] [Finite F]
 theorem natCard_F4 : Nat.card CFSG.Fischer.F4 = 4 := by
   rw [Nat.card_eq_fintype_card]; rfl
 
+omit [CharP F 2] in
 theorem exists_ringEquiv_F4 (hF : Nat.card F = 4) : Nonempty (F ≃+* CFSG.Fischer.F4) := by
   have : Fintype F := Fintype.ofFinite F
   exact ⟨FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF, natCard_F4])⟩
 
+omit [CharP F 2] in
 theorem card_sigFix_congr (hF : Nat.card F = 4) (R : F → F → F → F → Prop)
     (R' : CFSG.Fischer.F4 → CFSG.Fischer.F4 → CFSG.Fischer.F4 → CFSG.Fischer.F4 → Prop)
     (hR : ∀ e : F ≃+* CFSG.Fischer.F4, ∀ a b f c, R' (e a) (e b) (e f) (e c) ↔ R a b f c) :

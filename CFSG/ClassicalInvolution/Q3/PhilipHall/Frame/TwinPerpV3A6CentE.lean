@@ -30,7 +30,7 @@ theorem isPGroup_center_of_oddCore_eq_bot {X : Type*} [Group X] [Finite X]
       Nat.mul_div_cancel_left _ (pow_pos two_pos _)]
   have hwc : ∀ g : X, g * w = w * g := fun g =>
     Subgroup.mem_center_iff.mp (Subgroup.pow_mem _ z.2 _) g
-  haveI hN : (Subgroup.zpowers w).Normal := ⟨fun a ha g => by
+  have hN : (Subgroup.zpowers w).Normal := ⟨fun a ha g => by
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
     have h1 : g * w ^ i * g⁻¹ = w ^ i := by
       rw [((Commute.zpow_right (hwc g) i)).eq, mul_inv_cancel_right]
@@ -57,7 +57,7 @@ theorem mem_pSpan_PY (L : A6c.LayerCtx Ω c) {g : Y} (hg : g ∈ rLayer Ω c) :
 
 theorem le_pCoreOf_of_perm (L : A6c.LayerCtx Ω c) {g : Y} (hg : g ∈ rLayer Ω c)
     (hperm : permQ 6 (L.I.φ ⟨g, mem_pSpan_PY L hg⟩) = 1) : g ∈ pCoreOf 2 (rLayer Ω c) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hspan := A6c.pSpan_PY (Ω := Ω) (c := c) L.h2
   set Sp := pSpan (A6c.PY Ω c) with hSp
   set N : Subgroup Y := (((permQ 6).comp L.I.φ).ker).map Sp.subtype with hN

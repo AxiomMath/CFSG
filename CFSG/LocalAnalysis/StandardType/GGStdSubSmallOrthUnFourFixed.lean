@@ -16,6 +16,7 @@ section FourFixed
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {a : V ≃ₗ[K] V}
 
+omit [Finite K] [CharP K 2] in
 theorem commutator_le_fixedDerived {p : ℕ} (hx : OddOrderIsometry Q p a) :
     ⁅supportedBlock Q a (X - 1), supportedBlock Q a (X - 1)⁆ ≤ supportedFixedDerived Q a := by
   rw [hx.supportedFixedDerived_eq]
@@ -100,9 +101,9 @@ theorem normConcl_of_fixed_four {p n : ℕ} {A : Subgroup (V ≃ₗ[K] V)} {Y : 
     (hmem : (X - 1 : K[X]) ∈ primaryFactors a.toLinearMap)
     (hX : D ≤ ⁅supportedBlock Q a (X - 1), supportedBlock Q a (X - 1)⁆) : NormConcl p A D := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨S.prime⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_odd S.prime S.odd
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) p A :=
     isoGroup_of_le S.regular S.le_omega S.elem

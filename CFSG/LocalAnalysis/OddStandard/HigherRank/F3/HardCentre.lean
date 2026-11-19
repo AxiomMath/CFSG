@@ -24,7 +24,7 @@ private lemma generic_exceptional_mul_self (n : ℕ) (hn : n = 4 ∨ n = 6) :
 theorem pOmegaPlusCentreExpTwo_of_griess (hGr : CFSG.Open.GriessAllModelsStatement) :
     POmegaPlusCentreExpTwo := by
   intro K _ _ hK n hn hm x hx
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   let e : K ⧸ center K ≃* K ⧸ center K := MulEquiv.refl _
   let q : K →* K ⧸ center K := CFSG.RankThree.PerfectCover.centralQuotientMap e
   have hq : Function.Surjective q := CFSG.RankThree.PerfectCover.centralQuotientMap_surjective e

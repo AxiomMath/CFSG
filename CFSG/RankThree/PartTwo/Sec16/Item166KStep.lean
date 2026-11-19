@@ -133,7 +133,7 @@ lemma pPrimeCoreOf_le_normalizer_of_thetaComponentsIn {G : Type} [Group G] [Fini
     have hTsub : Subsingleton (↥X ⧸ aschbacherSolvableCore 3 ↥X) := by
       rw [hFtop]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton T := hTsub
+    have : Subsingleton T := hTsub
     have hcardT : Nat.card T = 1 :=
       Nat.card_of_subsingleton (Classical.arbitrary T)
     have h3 : 3 ∣ Nat.card T := by

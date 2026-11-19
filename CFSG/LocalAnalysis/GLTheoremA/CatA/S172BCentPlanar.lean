@@ -18,6 +18,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem coe_pow_three_eq_one {y : ↥(orthDerived Q)} (hy3 : orderOf y = 3) :
     (y : V ≃ₗ[ZMod 2] V) ^ 3 = 1 := by
   have := pow_orderOf_eq_one y
@@ -52,6 +53,7 @@ theorem layerIs_centralizer_planar (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   exact ⟨hlayer, layerIs_of_glaLayer_eq hlayer hcomp
     (catalogIs_pSimple_supportedFixedDerived_minus hQ hy3 hm hfix hminus)⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem mem_centralizer_pair_of_mem_supportedFixedDerived_inf
     {y d₂ g : ↥(orthDerived Q)}
     (hgH : g ∈ (supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)).subgroupOf (orthDerived Q))
@@ -117,7 +119,7 @@ theorem layerIs_centralizer_pair_planar (hQ : (QuadraticMap.polarBilin Q).Nondeg
     le_inf ((Subgroup.commutator_mono hX₂y hX₂y).trans
       (commutator_centralizer_le_supportedFixedDerived hQ hy3 (by omega)))
       ((Subgroup.commutator_le_self X₂).trans hX₂d)
-  haveI := normal_subgroupOf_of_commutator_le hcomm
+  have := normal_subgroupOf_of_commutator_le hcomm
   exact layerIs_of_normal_solvable hHX (isSolvable_quotient_of_commutator_le hcomm) hLH
 
 end CFSG.LocalAnalysis.GLTheoremA.S172B.Cent

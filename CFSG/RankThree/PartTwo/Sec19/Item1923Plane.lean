@@ -53,11 +53,13 @@ open CFSG.RankThree.PartTwo.Sec19 (starIm IsList194 IsSmall194 IsTripleA6 IsProp
 
 variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem mem_planeGroup_iff {x : G} :
     x ∈ planeGroup A L c ↔ x ∈ L ∧ x ∈ Subgroup.normalizer ((A ⊓ L : Subgroup G) : Set G) ∧
       x * c = c * x := by
   simp only [planeGroup, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff, and_assoc]
 
+omit [Finite G] in
 private theorem autIn_planeGroup_eq :
     Sec4.autIn (planeGroup A L c) (A ⊓ L) =
       Sec4.autIn (L ⊓ Subgroup.centralizer ({c} : Set G)) (A ⊓ L) := by
@@ -245,6 +247,7 @@ theorem step1923_card_autIn_W (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L 
       _ ≤ Nat.card (Sec4.autIn (planeGroup A L c) (A ⊓ L)) :=
         Nat.card_le_card_of_injective f hf
 
+omit [Finite G] in
 private theorem plane_map_conj_mul (K : Subgroup G) (a b : G) :
     K.map (MulAut.conj (a * b)).toMonoidHom =
       (K.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom := by
@@ -253,6 +256,7 @@ private theorem plane_map_conj_mul (K : Subgroup G) (a b : G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private theorem plane_map_conj_eq_iff_mem (K : Subgroup G) (a b : G) :
     K.map (MulAut.conj b).toMonoidHom = K.map (MulAut.conj a).toMonoidHom ↔
       a⁻¹ * b ∈ Subgroup.normalizer (K : Set G) := by
@@ -366,6 +370,7 @@ private theorem plane_quaternion_exists {Γ : Type} [Group Γ] {Φ ΦR : Subgrou
     exact ΦR.mul_mem hii hr
   exact hgij hprod
 
+omit [Finite G] in
 private theorem plane_pow_apply {X : Subgroup G} {k : G}
     (hN : k ∈ Subgroup.normalizer (X : Set G)) (n : ℕ) (x : X) :
     ((X.normalizerMonoidHom ⟨k, hN⟩ ^ n) x : G) = k ^ n * x * (k ^ n)⁻¹ := by
@@ -375,6 +380,7 @@ private theorem plane_pow_apply {X : Subgroup G} {k : G}
     rw [pow_succ', MulAut.mul_apply, Sec4.normalizerMonoidHom_apply_coe, ih]
     group
 
+omit [Finite G] in
 private theorem plane_pow_eq_one_iff {X : Subgroup G} {k : G}
     (hN : k ∈ Subgroup.normalizer (X : Set G)) (n : ℕ) :
     X.normalizerMonoidHom ⟨k, hN⟩ ^ n = 1 ↔ ∀ x : X, k ^ n * x * (k ^ n)⁻¹ = x := by

@@ -24,7 +24,7 @@ theorem orbit_geometry
      (Nat.card (Family (X := X) (sylowImage X P s S) 2) = 5 ∧
       Nat.card (Family (X := X) (sylowImage X P s S) 4) = 5)) := by
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hX : Nat.card X = 52 := by rwa [Nat.card_eq_fintype_card]
   have hfixed : Nat.card (fixedPoints Q X) = 6 := by
     rw [← FixedNormalizerAction.fixed_eq Q]

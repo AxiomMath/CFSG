@@ -24,9 +24,9 @@ theorem isCoatom_normalizer_of_u33 {K : Type} [Group K] [Finite K]
   obtain ⟨-, hf, hq, F, _, _, J, hJ, hF, hfix, ⟨e⟩⟩ :=
     UnitaryModel.exists_equiv_psu (UnitaryModel.statedClassicalModel hU he)
   rw [hp3] at hq hF hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (ProjectiveSpecialUnitaryMatrixGroup J) := isSimpleGroup_psu J _ hF hfix hq
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (ProjectiveSpecialUnitaryMatrixGroup J) := isSimpleGroup_psu J _ hF hfix hq
+  have : IsSimpleGroup K := e.isSimpleGroup
   obtain ⟨P, hAP, hAC⟩ := Hering432.exists_sylow_le_center_of_weaklyClosed hA hwc
   obtain ⟨S, hS⟩ := UnitaryModel.exists_sylow_eq_rootGroup J hJ hF hfix hf
   obtain ⟨e', he'⟩ := UnitaryModel.exists_equiv_map_eq e P S

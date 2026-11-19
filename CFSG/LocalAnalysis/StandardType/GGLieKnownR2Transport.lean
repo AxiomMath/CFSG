@@ -24,8 +24,8 @@ open CFSG.Open
 variable {U X : Type} [Group U] [Group X] {ψ : U →* X}
 
 theorem finite_of_odd_card_ker [Finite X] (hodd : Odd (Nat.card ψ.ker)) : Finite U := by
-  haveI : Finite ψ.ker := Nat.finite_of_card_ne_zero hodd.pos.ne'
-  haveI : Finite (U ⧸ ψ.ker) :=
+  have : Finite ψ.ker := Nat.finite_of_card_ne_zero hodd.pos.ne'
+  have : Finite (U ⧸ ψ.ker) :=
     Finite.of_equiv ψ.range (QuotientGroup.quotientKerEquivRange ψ).toEquiv.symm
   exact Finite.of_subgroup_quotient ψ.ker
 
@@ -51,7 +51,7 @@ theorem map_normalizer_eq_range_inf_normalizer_map (hker : ψ.ker ≤ Subgroup.c
 theorem map_pCoreOf_eq_of_odd_central_ker [Finite X] (hker : ψ.ker ≤ Subgroup.center U)
     (hodd : Odd (Nat.card ψ.ker)) {M : Subgroup U} (hM : ψ.ker ≤ M) :
     (pCoreOf 2 M).map ψ = pCoreOf 2 (M.map ψ) := by
-  haveI : Finite U := finite_of_odd_card_ker hodd
+  have : Finite U := finite_of_odd_card_ker hodd
   have hπker : ψ.rangeRestrict.ker = ψ.ker := ψ.ker_rangeRestrict
   have hle : M.map ψ ≤ ψ.range := Subgroup.map_le_range ψ M
   have hcomap : ((M.map ψ).subgroupOf ψ.range).comap ψ.rangeRestrict = M := by

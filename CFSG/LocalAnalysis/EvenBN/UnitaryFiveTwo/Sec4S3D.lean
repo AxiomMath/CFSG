@@ -23,7 +23,7 @@ theorem X₂_le_A₁ : d.X₂ ≤ d.A₁ := d.pull_mono X₂sub_le_A₁sub
 
 theorem A₁_le_D₃ (h : d.Hyp) : d.A₁ ≤ d.D₃ := (le_sup_left : d.A₁ ≤ d.AW).trans h.AW_le_D₃
 
-theorem X₂_le_normalizer_A₂ (h : d.Hyp) : d.X₂ ≤ normalizer (d.A₂ : Set G) := fun x hx =>
+theorem X₂_le_normalizer_A₂ (h : d.Hyp) : d.X₂ ≤ normalizer (d.A₂ : Set G) := fun _x hx =>
   (h.S_le_NHA₂ (X₂_le_S' hx)).1
 
 theorem X₂_inf_A₂ (h : d.Hyp) : d.X₂ ⊓ d.A₂ = ⊥ := by
@@ -45,8 +45,8 @@ theorem X₂_inf_D₂ (h : d.Hyp) : d.X₂ ⊓ d.D₂ = ⊥ := by
   rwa [h.X₂_inf_A₂] at this
 
 theorem S₃_le_normalizer_Y (h : d.Hyp) : d.S₃ ≤ normalizer (d.Y : Set G) :=
-  h.S₃_le_S_sup_D₂.trans (sup_le h.S_le_normalizer_Y fun e he =>
-    mem_normalizer_of_forall_comm fun y hy => (D₂_comm_Y' he hy).symm)
+  h.S₃_le_S_sup_D₂.trans (sup_le h.S_le_normalizer_Y fun _e he =>
+    mem_normalizer_of_forall_comm fun _y hy => (D₂_comm_Y' he hy).symm)
 
 theorem D₃_le_normalizer_D₂ (h : d.Hyp) : d.D₃ ≤ normalizer (d.D₂ : Set G) := fun u hu => by
   have := h.S₃_le_S_sup_D₂ (h.D₃_le_S₃' hu)
@@ -68,7 +68,7 @@ theorem exists_eq_mul_of_mem_D₃' (h : d.Hyp) {x : G} (hx : x ∈ d.D₃) :
     group
 
 theorem D₃_le_normalizer_D₃_inf_D₂ (h : d.Hyp) :
-    d.D₃ ≤ normalizer ((d.D₃ ⊓ d.D₂ : Subgroup G) : Set G) := fun x hx =>
+    d.D₃ ≤ normalizer ((d.D₃ ⊓ d.D₂ : Subgroup G) : Set G) := fun _x hx =>
   mem_normalizer_fintype fun t ht => Subgroup.mem_inf.2
     ⟨mul_mem (mul_mem hx (Subgroup.mem_inf.1 ht).1) (inv_mem hx),
       (mem_normalizer_iff.1 (h.D₃_le_normalizer_D₂ hx) t).1 (Subgroup.mem_inf.1 ht).2⟩
@@ -140,8 +140,8 @@ theorem card_commutator_S : Nat.card (⁅d.S, d.S⁆ : Subgroup G) = 2 ^ 6 := by
     ← commutator_Ssub_eq_X₄sub_sup_Fsub, d.card_pull, card_commutator_Ssub]
 
 theorem Y_le_normalizer_commutator_S (h : d.Hyp) :
-    d.Y ≤ normalizer ((⁅d.S, d.S⁆ : Subgroup G) : Set G) := fun y hy =>
-  mem_normalizer_of_forall_comm fun n hn =>
+    d.Y ≤ normalizer ((⁅d.S, d.S⁆ : Subgroup G) : Set G) := fun _y hy =>
+  mem_normalizer_of_forall_comm fun _n hn =>
     Y_comm_D₀ hy (h.A₂_le_D₀ (commutator_S_le_A₂ hn)) |>.symm
 
 theorem S'_inf_Y (h : d.Hyp) : ⁅d.S, d.S⁆ ⊓ d.Y = d.F := by

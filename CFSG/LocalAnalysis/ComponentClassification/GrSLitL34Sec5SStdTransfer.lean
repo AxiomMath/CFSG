@@ -147,7 +147,7 @@ theorem false_of_sylow_of_not_exists_mul_eq [IsSimpleGroup G]
       exact Commute.of_orderOf_dvd_two h2 x y
     · rw [htop, Subgroup.index_top] at hNidx
       exact absurd hNidx (by norm_num)
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hSidx : ¬ 2 ∣ (S : Subgroup G).index := S.not_dvd_index
   obtain ⟨g, hgS₀, hext⟩ :=
     CFSG.EvenSporTransfer.exists_extremal_conj_of_thompson (T := (S : Subgroup G)) (U := S₀)

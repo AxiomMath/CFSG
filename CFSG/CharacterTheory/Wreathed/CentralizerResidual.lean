@@ -152,7 +152,7 @@ theorem centralizerTransferKernel_index [Finite G] [IsSimpleGroup G]
 theorem centralizerTransferKernel_quotient_isPGroup [Finite G] (n : ℕ) (hn : 2 ≤ n)
     (S : Sylow 2 G) (e : S ≃* Wreath (2 ^ n)) :
     IsPGroup 2 (involutionCentralizer n S e ⧸ centralizerTransferKernel n hn S e) :=
-  ((centralizerSylow n hn S e).isPGroup'.to_quotient
+  ((centralizerSylow n hn S e).isPGroup.to_quotient
     (CFSG.Semidihedral.FocalTransfer.conjugatePairFocal
       (centralizerSylow n hn S e : Subgroup (involutionCentralizer n S e)))).of_equiv
         (QuotientGroup.quotientKerEquivOfSurjective (centralizerTransfer n hn S e)

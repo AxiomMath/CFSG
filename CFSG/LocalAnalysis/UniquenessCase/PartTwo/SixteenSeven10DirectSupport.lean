@@ -42,6 +42,7 @@ private theorem finite_mulAut : Finite (MulAut T) := by
   exact Finite.of_injective (fun f : MulAut T => (f : T → T))
     (fun f g h => MulEquiv.ext (congrFun h))
 
+omit [Finite T] in
 theorem s16c1610_inf_centSub_eq_bot {B : Subgroup (MulAut T)} {Ut Y : Subgroup T}
     (hA3 : ∀ b ∈ B, b ≠ 1 → fixV (Subgroup.zpowers b) ≤ Ut) (hY : ¬ Y ≤ Ut) :
     B ⊓ centSub Y = ⊥ := by
@@ -51,7 +52,7 @@ theorem s16c1610_inf_centSub_eq_bot {B : Subgroup (MulAut T)} {Ut Y : Subgroup T
   refine hY (le_trans (fun y hy => ?_) (hA3 b hbB hb1))
   exact mem_fixV_zpowers_iff_apply.mpr (mem_centSub.mp hbc y hy)
 
-theorem s16c1610_inf_ne_bot_of_rkIdx_lt (hT : ∀ t : T, t ^ 2 = 1) {Y Ut : Subgroup T}
+theorem s16c1610_inf_ne_bot_of_rkIdx_lt (_hT : ∀ t : T, t ^ 2 = 1) {Y Ut : Subgroup T}
     (h : rkIdx Ut < rk ↥Y) : Y ⊓ Ut ≠ ⊥ := by
   intro hbot
   have h1 : rk ↥(Y ⊔ Ut) + rk ↥(Y ⊓ Ut) = rk ↥Y + rk ↥Ut := rk_sup_add_rk_inf Y Ut
@@ -67,7 +68,7 @@ theorem s16c1610_ut_eq_top_of_card_le_two (hT : ∀ t : T, t ^ 2 = 1) {B : Subgr
     {Ut : Subgroup T} (hB1 : B ≠ ⊥) (hB2 : IsElemAbelian2 B) (hcard : Nat.card B ≤ 2)
     (hA4 : ∀ b ∈ B, b ≠ 1 → ∀ w, w ∈ Ut ↔ w * (b w)⁻¹ ∈ fixV B) : Ut = ⊤ := by
   classical
-  haveI : Finite (MulAut T) := finite_mulAut
+  have : Finite (MulAut T) := finite_mulAut
   obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hB1
   let b : MulAut T := (a : MulAut T)
   have hbB : b ∈ B := a.2
@@ -119,7 +120,7 @@ theorem s16c1610_ut_eq_top_of_card_le_two (hT : ∀ t : T, t ^ 2 = 1) {B : Subgr
   intro w _
   exact (hA4 b hbB hb1 w).mpr (hfixw w)
 
-theorem s16c1610_rk_fixV_le_of_invariant (hT : ∀ t : T, t ^ 2 = 1) {B : Subgroup (MulAut T)}
+theorem s16c1610_rk_fixV_le_of_invariant (_hT : ∀ t : T, t ^ 2 = 1) {B : Subgroup (MulAut T)}
     {S S' : Subgroup T} (hd : Disjoint S S') (hsup : S ⊔ S' = ⊤)
     (hS : ∀ b ∈ B, ∀ s ∈ S, b s ∈ S) (hS' : ∀ b ∈ B, ∀ s ∈ S', b s ∈ S') :
     rk ↥(fixV B) ≤ rk ↥(S ⊓ fixV B) + rk ↥(S' ⊓ fixV B) := by
@@ -166,11 +167,11 @@ theorem s16c1610_card_le_two_of_rk_two (hT : ∀ t : T, t ^ 2 = 1) {B : Subgroup
     (hB2 : ∀ b ∈ B, b ^ 2 = 1) {Y : Subgroup T} (hY : rk ↥Y = 2) (hBY : B ≤ stabSub Y)
     (hker : B ⊓ centSub Y = ⊥) : Nat.card B ≤ 2 := by
   classical
-  haveI : Finite (MulAut ↥Y) :=
+  have : Finite (MulAut ↥Y) :=
     Finite.of_injective (fun f : MulAut ↥Y => (f : ↥Y → ↥Y))
       (fun f g h => MulEquiv.ext (congrFun h))
   have hMA : Nat.card (MulAut ↥Y) = 6 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [CFSG.Sporadic.RuSchreier.ru_card_mulAut_elementary
       (fun a b : ↥Y => Subtype.ext (mul_comm (a : T) (b : T)))
       (fun a : ↥Y => Subtype.ext (by simpa using hT (a : T))) (n := 2)
@@ -242,7 +243,7 @@ theorem s16c1610_card_le_two_mul_stab {B : Subgroup (MulAut T)} {Y Y' : Subgroup
   have hstab_stab : (B ⊓ stabSub Y).subgroupOf B = MulAction.stabilizer B Y := by
     rw [← MulAction.stabilizer_subgroupOf B Y, hstab_eq]
     ext x
-    simp [Subgroup.mem_subgroupOf, x.2]
+    simp [Subgroup.mem_subgroupOf]
   have hcardstab : Nat.card (MulAction.stabilizer B Y) = Nat.card ↥(B ⊓ stabSub Y) := by
     rw [← hstab_stab]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
@@ -270,6 +271,7 @@ theorem s16c1610_card_le_two_mul_stab {B : Subgroup (MulAut T)} {Y Y' : Subgroup
     _ = (MulAction.stabilizer B Y).index * Nat.card ↥(B ⊓ stabSub Y) := by rw [hcardstab]
     _ ≤ 2 * Nat.card ↥(B ⊓ stabSub Y) := Nat.mul_le_mul_right _ hidx
 
+omit [Finite T] in
 theorem s16c1610_orbit_pair {ι : Type} {Y : ι → Subgroup T} (hind : iSupIndep Y)
     {B : Subgroup (MulAut T)} (hBc : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a)
     (hperm : ∀ b ∈ B, ∀ i, ∃ j, (Y i).map b.toMonoidHom = Y j) {i j : ι} (hij : i ≠ j)

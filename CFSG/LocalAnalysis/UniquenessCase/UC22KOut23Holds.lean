@@ -30,23 +30,21 @@ theorem kOut23_of_sz (hSz : ∀ (S : Type) [Group S] [Finite S] (a : ℕ), IsSz 
   have hout : PerfectInInn S := by
     rcases hshape with ⟨a, hL2 | hSzModel⟩ | ⟨q, hq, hq2, hL2Odd⟩ | hJ1
     · obtain ⟨-, -, F, hField, hFinite, -, ⟨e⟩⟩ := lieModel_psl_data hL2
-      letI := hField
-      letI := hFinite
+      let := hField
+      let := hFinite
       exact PerfectInInn.of_mulEquiv
         (e.trans (projectiveSpecialLinearGroupEquivStatedProj 2 F).symm)
         (perfectInInn_psl_two F)
     · exact hSz S a hSzModel
     · obtain ⟨-, -, F, hField, hFinite, -, ⟨e⟩⟩ := lieModel_psl_data hL2Odd
-      letI := hField
-      letI := hFinite
+      let := hField
+      let := hFinite
       exact PerfectInInn.of_mulEquiv
         (e.trans (projectiveSpecialLinearGroupEquivStatedProj 2 F).symm)
         (perfectInInn_psl_two F)
-    · intro Q _
-      intro g _
+    · intro Q _ g _
       obtain ⟨x, hx⟩ := (kJ1_holds S hJ1).2.2 g
       refine ⟨x, ?_⟩
-      change MulAut.conj x = g
       exact hx.symm
   simpa [CFSG.ComponentClassification.OuterAutomorphisms.inner]
     using hout P (Subgroup.isPerfect_iff.mp hP)

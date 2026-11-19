@@ -13,7 +13,7 @@ open Subgroup
 private theorem sec8t84ts4_card_eq {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']
     {S : Subgroup G} {S' : Subgroup G'} (hS : IsSylow2Of S ⊤) (hS' : IsSylow2Of S' ⊤)
     (hcard : Nat.card G = Nat.card G') : Nat.card S = Nat.card S' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS.exists_sylow
   obtain ⟨P', hP'⟩ := hS'.exists_sylow
   have h1 : Nat.card (⊤ : Subgroup G) = Nat.card G := Subgroup.card_top
@@ -37,7 +37,7 @@ theorem sec8t84ts4_theta {W : Certificates.Asc82NormA6.Facts} {Y : Type} [Group 
     simp [hθdef, MulAut.conj_apply]
   refine ⟨θ, ?_, ?_⟩
   · have hhom : θ.toMonoidHom = (MulAut.conj c).toMonoidHom.comp Θ.toMonoidHom := rfl
-    haveI : (Sec8T84FPV0 W).Normal := sec8t84FPV0_normal W
+    have : (Sec8T84FPV0 W).Normal := sec8t84FPV0_normal W
     rw [hhom, ← Subgroup.map_map, hΘ]
     exact Subgroup.Normal.map_conj_eq (Sec8T84FPV0 W) c
   · refine Subgroup.eq_of_le_of_card_ge ?_ ?_

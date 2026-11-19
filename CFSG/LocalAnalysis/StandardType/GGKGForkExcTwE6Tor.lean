@@ -138,7 +138,7 @@ theorem exists_twFrame_conj_into_torus
     norm_num at hpq
     have hle : p ≤ 2 := Nat.le_of_dvd (by norm_num) hpq
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let M : Matrix (Fin TwistTag.E6.tag.rank) (Fin TwistTag.E6.tag.rank) ℤ := -1
   have hMeq : M = -1 := rfl
   have hpow : M ^ 2 = 1 := by
@@ -177,7 +177,7 @@ theorem exists_twFrame_conj_into_torus
     have hx' := hconjE x hx
     have hy : (((c⁻¹)⁻¹ * x * c⁻¹ : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
         ((c * x * c⁻¹ : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     rw [hy]
     obtain ⟨t, htT, ht⟩ := Subgroup.mem_map.1 hx'
     rw [← ht]
@@ -227,7 +227,7 @@ theorem exists_twFrame_conj_into_torus
         Y z = g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (z : ModGL TwistTag.E6.tag K)
           * g0 := by
       intro z
-      simp [Y, MulAut.conj_apply]
+      simp [Y]
     have hYinj : Function.Injective Y :=
       (MulAut.conj (g0⁻¹)).injective.comp
         ((baseChangeGL_injective (algebraMap K (AlgebraicClosure K))).comp
@@ -269,7 +269,7 @@ theorem exists_twFrame_conj_into_torus
       rw [hET_mem]
     obtain ⟨S⟩ : Nonempty (Sylow p (twistedE6RootGroup K σ)) := Sylow.nonempty
     obtain ⟨c, E'', hE''le_S, hE''card, hE''conj⟩ :=
-      hconj (S : Subgroup (twistedE6RootGroup K σ)) S.isPGroup'
+      hconj (S : Subgroup (twistedE6RootGroup K σ)) S.isPGroup
     let P0 : Subgroup (twistedE6RootGroup K σ) := E''.map (MulAut.conj c).toMonoidHom
     have hP0TF : P0 ≤ TF := by
       rintro _ ⟨x, hx, rfl⟩
@@ -282,7 +282,7 @@ theorem exists_twFrame_conj_into_torus
         [show (MulEquiv.toMonoidHom (MulAut.conj g0)) t = g0 * t * g0⁻¹ from MulAut.conj_apply g0 t]
       group
     have hE''pg : IsPGroup p E'' := by
-      have hSp : IsPGroup p (S : Subgroup (twistedE6RootGroup K σ)) := S.isPGroup'
+      have hSp : IsPGroup p (S : Subgroup (twistedE6RootGroup K σ)) := S.isPGroup
       intro x
       obtain ⟨k, hk⟩ := hSp ⟨x.1, hE''le_S x.2⟩
       exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
@@ -303,7 +303,7 @@ theorem exists_twFrame_conj_into_torus
       obtain ⟨k, hk⟩ := IsPGroup.exists_pow_pow_eq_one hP0pg ⟨x, hx⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     obtain ⟨P, hQ_le_P⟩ := IsPGroup.exists_le_sylow hQpg
-    have hPpg : IsPGroup p (P : Subgroup (twistedE6RootGroup K σ)) := Sylow.isPGroup' P
+    have hPpg : IsPGroup p (P : Subgroup (twistedE6RootGroup K σ)) := Sylow.isPGroup P
     have hPcard : Nat.card (P : Subgroup (twistedE6RootGroup K σ)) =
         p ^ (6 * padicValNat p (2 ^ n + 1) + padicValNat p 51840) := by
       rw [Sylow.card_eq_multiplicity, Nat.factorization_def _ hp,
@@ -312,7 +312,7 @@ theorem exists_twFrame_conj_into_torus
         5 ^ (6 * padicValNat p (2 ^ n + 1) + 1) := by
       rw [hPcard, h5val, hp_eq]
     obtain ⟨Q', hEQ'⟩ := IsPGroup.exists_le_sylow hE.isPGroup
-    haveI : MulAction.IsPretransitive (twistedE6RootGroup K σ)
+    have : MulAction.IsPretransitive (twistedE6RootGroup K σ)
         (Sylow p (twistedE6RootGroup K σ)) := Sylow.isPretransitive_of_finite
     obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (twistedE6RootGroup K σ) P Q'
     have hQ'map : (Q' : Subgroup (twistedE6RootGroup K σ)) =
@@ -352,7 +352,7 @@ theorem exists_twFrame_conj_into_torus
       refine ⟨Fr, g0, ggKGTc_w0 (TwistTag.E6.tag), y, hFr, hg0C, hwlong, hlang, fun x hx => ?_⟩
       have hxE' : (MulAut.conj y⁻¹).toMonoidHom x ∈ E' := Subgroup.mem_map_of_mem _ hx
       have hxTF : y⁻¹ * x * y ∈ TF := by
-        rw [show (MulAut.conj y⁻¹).toMonoidHom x = y⁻¹ * x * y by simp [MulAut.conj_apply]] at hxE'
+        rw [show (MulAut.conj y⁻¹).toMonoidHom x = y⁻¹ * x * y by simp] at hxE'
         exact hE'TF hxE'
       exact (hTF_mem _).1 hxTF
     let T : Subgroup (twistedE6RootGroup K σ) := (P : Subgroup (twistedE6RootGroup K σ)) ⊓ TF
@@ -456,7 +456,7 @@ theorem exists_twFrame_conj_into_torus
               (u * e * u⁻¹) he
             simpa [mul_assoc] using h
         have hu5T : u ^ 5 ∈ T := by
-          haveI : (T.subgroupOf (P : Subgroup (twistedE6RootGroup K σ))).Normal := hTnorm
+          have : (T.subgroupOf (P : Subgroup (twistedE6RootGroup K σ))).Normal := hTnorm
           have hmem := Subgroup.pow_index_mem (T.subgroupOf (P : Subgroup (twistedE6RootGroup K σ)))
             (⟨u, huP⟩ : (P : Subgroup (twistedE6RootGroup K σ)))
           rw [hidx5] at hmem

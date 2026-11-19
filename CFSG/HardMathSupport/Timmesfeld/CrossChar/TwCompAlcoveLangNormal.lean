@@ -181,10 +181,10 @@ theorem dvd_dotProduct_sub_of_kernelWeyl
 private theorem alcoveValue_eq_zero_dvd {τ : Tag} {p : ℕ} {μ γ : Fin τ.rank → ℤ}
     (h : alcoveValue p μ γ = 0) : (p : ℤ) ∣ γ ⬝ᵥ μ := by
   by_cases hpos : ∀ j, 0 ≤ γ j
-  · rw [alcoveValue, if_pos hpos, add_zero] at h
+  · rw [alcoveValue, ite_eq_left hpos, add_zero] at h
     rw [h]
     exact dvd_zero _
-  · rw [alcoveValue, if_neg hpos] at h
+  · rw [alcoveValue, ite_eq_right hpos] at h
     have hμ : γ ⬝ᵥ μ = -(p : ℤ) := by linarith
     rw [hμ]
     exact dvd_neg.mpr dvd_rfl

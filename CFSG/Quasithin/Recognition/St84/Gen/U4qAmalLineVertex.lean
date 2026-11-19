@@ -218,8 +218,8 @@ theorem U4qLocalData.exists_twist_borelOf_left (hH : Hyp111 L1 L2 S)
     (hd : d ∈ borelOf L1 S) :
     ∃ A : GL (Fin 2) K, A ∈ u4DetFixGL hU ∧
       ActsByMatrix (c₂.coordEquiv hU) d (u4TwistMat hU (A : Matrix (Fin 2) (Fin 2) K)) := by
-  haveI := hU.charP
-  haveI := hU.finite
+  have := hU.charP
+  have := hU.finite
   obtain ⟨g, hg, hgx⟩ := hD.exists_inner_borelOf_left hH hS d hd
   have hdQ : d ∈ Subgroup.normalizer (pCoreOf 2 L2 : Set G) :=
     normalizer_le_normalizer_pCoreOf 2 L2 (hH.h2.borel_le hd)
@@ -270,6 +270,7 @@ theorem U4qLocalData.exists_twist_borelOf_left (hH : Hyp111 L1 L2 S)
     rw [hμ]
     ring
 
+omit [Finite G] in
 private theorem U4qCoordLeft.conj_mem_of_upper {F : Type} [Field F]
     (c₁ : U4qCoordLeft L1 L2 S f F) (hSL1 : S ≤ L1) {y : ↥L1}
     (hy : (c₁.α y : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) {s : G} (hs : s ∈ S) :
@@ -297,7 +298,7 @@ private theorem U4qLocalData.exists_actsByMatrix_of_mem_u4Gamma2 (hH : Hyp111 L1
     ∃ p ∈ L2 ⊔ borelOf L1 S,
       ActsByMatrix (c₂.coordEquiv hU) p (M : Matrix (Fin 4) (Fin 4) hU.fixedField) := by
   classical
-  haveI := hU.charP
+  have := hU.charP
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   obtain ⟨A, hA, rfl⟩ := Subgroup.mem_map.mp hM
   obtain ⟨ρ, κ, hκ, -, -, hC⟩ := hD.exists_ringEquiv_fixedField hH hS c₁ c₂ hU
@@ -350,7 +351,7 @@ private theorem U4qLocalData.exists_actsByMatrix_of_mem_u4Gamma2 (hH : Hyp111 L1
   have e11 := congrFun (congrFun hzfix 1) 1
   rw [mul_mul_map_bar_transpose_apply] at e00 e11
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e00 e11
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e00 e11
   have hB00 : (B : Matrix (Fin 2) (Fin 2) K) 0 0 * hU.bar ((B : Matrix (Fin 2) (Fin 2) K) 0 0) =
       1 := by
     linear_combination -e00
@@ -453,11 +454,11 @@ private theorem U4qLocalData.exists_complement_right (hH : Hyp111 L1 L2 S)
     ∃ X : Subgroup G, X ≤ L2 ⊔ bigB L1 L2 S ∧ X ⊓ pCoreOf 2 L2 = ⊥ ∧
       pCoreOf 2 L2 ⊔ X = L2 ⊔ bigB L1 L2 S := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
-  haveI := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  have := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hSL2 : S ≤ L2 := hD.le_right hH hS
   obtain ⟨x₀, hx₀⟩ := c₁.surjective_α
@@ -614,7 +615,7 @@ theorem U4qLocalData.exists_mulEquiv_parP2 (hH : Hyp111 L1 L2 S) (hD : U4qLocalD
         ((ψ x : ↥(parP2 hU)) : hypSU hU 2 0) ∈
           Subgroup.normalizer ((hypUnitriangular hU 2 0 : Subgroup (hypSU hU 2 0)) :
             Set (hypSU hU 2 0)) := by
-  haveI : Finite K := hU.finite
+  have : Finite K := hU.finite
   exact (hD.isLinSemidirect_right hH hS c₁ c₂ hU).exists_mulEquiv_sylow
     (isLinSemidirect_parP2 hU)
     (isSylowTwoOf_sup_bigB_right_of_le hH (hD.le_left hH hS) (hD.le_right hH hS))

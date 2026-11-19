@@ -192,7 +192,7 @@ private theorem term_bit (U : Array Nat) (k m : Nat) :
       (decide (pairIdx 80 k k ≤ m) && (U[k]?.getD 0).testBit (k + (m - pairIdx 80 k k))) := by
   rw [Nat.testBit_shiftLeft, Nat.testBit_shiftRight]
 
-private theorem pack_bit {U : Array Nat} (hU : Wf80 U) (m : Nat) :
+private theorem pack_bit {U : Array Nat} (_hU : Wf80 U) (m : Nat) :
     (packRowsZ 80 U).testBit m = true ↔
       ∃ k < 80, pairIdx 80 k k ≤ m ∧ (U[k]?.getD 0).testBit (k + (m - pairIdx 80 k k)) = true := by
   unfold packRowsZ
@@ -297,7 +297,7 @@ private theorem canon_bit (X : Array Nat) {i : Nat} (t : Nat) (hi : i < 80) :
   have e : ∀ b : Bool, (decide (t ≥ i + 1) && b) = (decide (i + 1 ≤ t) && b) := fun b => rfl
   by_cases h1 : i + 1 ≤ t
   · have e1 : i + 1 + (t - (i + 1)) = t := by omega
-    simp [h1, e1, show ¬ t = i by omega, show ¬ t ≤ i by omega, show t - i ≠ 0 by omega]
+    simp [h1, e1, show ¬ t = i by omega, show t - i ≠ 0 by omega]
   · by_cases h2 : t = i
     · subst h2; simp
     · simp [h1, h2, show ¬ t ≥ i by omega]
@@ -393,7 +393,7 @@ private theorem projR_bit {D v k : Nat} (hk : k < 80) (n p : Nat) :
       have h1 : Nat.land (Nat.shiftRight v n) 1 = if v.testBit n then 1 else 0 :=
         CFSG.KC.J4Q.and_one_bit v n
       rw [h1]
-      cases hb : v.testBit n <;> simp [hb] <;> rfl
+      cases hb : v.testBit n <;> simp; rfl
     rw [e]
     have hb : (1 <<< k <<< (128 * n)).testBit p = (decide (p / 128 = n) && decide (p % 128 = k)) := by
       rw [Nat.testBit_shiftLeft, Nat.testBit_shiftLeft, one_bit]
@@ -401,16 +401,16 @@ private theorem projR_bit {D v k : Nat} (hk : k < 80) (n p : Nat) :
       simp only [Bool.and_eq_true, decide_eq_true_eq, ge_iff_le]
       omega
     by_cases hv : v.testBit n = true
-    · rw [if_pos hv, Nat.testBit_xor, ih, hb]
+    · rw [ite_eq_left hv, Nat.testBit_xor, ih, hb]
       by_cases h1 : p / 128 = n
       · subst h1
         simp [hv]
       · simp [h1, show (p / 128 < n + 1) ↔ p / 128 < n by omega]
-    · rw [if_neg hv, ih]
+    · rw [ite_eq_right hv, ih]
       by_cases h1 : p / 128 = n
       · subst h1
         simp [hv]
-      · simp [h1, show (p / 128 < n + 1) ↔ p / 128 < n by omega]
+      · simp [show (p / 128 < n + 1) ↔ p / 128 < n by omega]
 
 theorem projK_eq {v k : Nat} (hk : k < 80) :
     Wf80 (projRows 80 v k) ∧ projK dgK v k = enc80 (projRows 80 v k) := by
@@ -435,12 +435,12 @@ theorem projK_eq {v k : Nat} (hk : k < 80) :
   by_cases hq : p / 128 < 80
   · rw [hget _ hq, Nat.testBit_xor]
     by_cases hv : v.testBit (p / 128) = true
-    · simp only [hv, if_true]
+    · simp only [hv, ite_true]
       rw [Nat.one_shiftLeft, Nat.one_shiftLeft, Nat.testBit_two_pow, Nat.testBit_two_pow]
       simp [hq, eq_comm]
-    · simp only [hv, if_false]
+    · simp only [hv]
       rw [Nat.one_shiftLeft, Nat.testBit_two_pow]
-      simp [hq, hv, eq_comm]
+      simp [hq, eq_comm]
   · simp [hq]
 
 theorem colK_eq (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {X : Array Nat} (hX : Wf80 X)

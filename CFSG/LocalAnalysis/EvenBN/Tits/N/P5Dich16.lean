@@ -23,7 +23,7 @@ theorem layer_dichotomy16 (hTop : TopStatement) {X : Type} [Group X] [Finite X] 
         (∀ h ∈ imgIn A (normalizer (A : Set X)), ∀ b ∈ B₀, h * b * h⁻¹ ∈ B₀) ∧
         Odd (Nat.card B₀) ∧ ∀ a b : ↥A, a ≠ 1 → b ≠ 1 → ∃ g ∈ B₀, g a = b := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hU1, hU2, hU3⟩ := unpack hTop S hAS hab.1 hcl
   have hφ5 : rhoHom A x ^ 5 = 1 := by rw [← map_pow, hx5, map_one]
   have hcardAbar : Nat.card (Abar A) = 16 := by rw [card_Abar hab]; exact hA

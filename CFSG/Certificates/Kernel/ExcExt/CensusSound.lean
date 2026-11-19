@@ -384,10 +384,10 @@ theorem cen_walk_sound {d cv : Nat} {pl : KCPlane → Bool} {W : Nat → List KC
         rintro rfl
         rw [hc] at hcn
         exact Bool.noConfusion hcn
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
       exact ih hw cy (by omega) hc
     · rw [hcn] at hw
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       cases ps with
       | nil => exact Bool.noConfusion hw
       | cons P tl =>
@@ -634,7 +634,7 @@ theorem cen_cbody_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat} (hT : TabsOK 
             simp only [csearchOf, he]
             exact hok
           · refine cen_orR (cen_orR ?_)
-            simp only [hv]
+            simp only
             exact hok
 
 theorem scanLineCK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
@@ -649,7 +649,7 @@ theorem scanLineCK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
   rcases hL' with hL' | hL'
   · left
     obtain ⟨e, he, hok⟩ := cen_refLCK_sound hT hL'
-    simp only [csearchOf, if_pos rfl, he]
+    simp only [csearchOf, he]
     exact hok
   · right
     have hW : ∀ n ps, cwalkK K L.cv L.cref (n + 1) ps = Bool.rec (motive := fun _ => Bool)

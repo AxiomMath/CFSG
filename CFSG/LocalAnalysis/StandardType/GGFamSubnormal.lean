@@ -20,7 +20,7 @@ private theorem famKernel_range_eq_kernelRoots {τ : Tag} {L : Type} [Field L] {
     kernelRoots (famCharHom a) = famKernel (Set.range a) := by
   ext γ
   rw [mem_kernelRoots_famChar]
-  simp only [famKernel, Set.mem_setOf_eq, Set.mem_range]
+  simp only [famKernel, Set.mem_ofPred_eq, Set.mem_range]
   exact ⟨fun h => ⟨h.1, fun b hb => by obtain ⟨u, rfl⟩ := hb; exact h.2 u⟩,
     fun h => ⟨h.1, fun u => h.2 (a u) ⟨u, rfl⟩⟩⟩
 

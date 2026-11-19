@@ -77,7 +77,7 @@ theorem exists_placed {S : Sylow 2 G} {z : G} (hzS : ∀ s ∈ (S : Subgroup G),
     simp
   have he₀S : e₀ ∈ (S : Subgroup G) := hNS he₀
   have hE2 : IsPGroup 2 (Subgroup.zpowers e₀) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr he₀S)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr he₀S)
   have hEC : Subgroup.zpowers e₀ ≤ Subgroup.centralizer ({e₀} : Set G) :=
     Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
   obtain ⟨P, hP, hEP⟩ := IsSylow2In.exists_ge hE2 hEC

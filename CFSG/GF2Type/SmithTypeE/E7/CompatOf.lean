@@ -63,6 +63,7 @@ theorem exists_conj_mem_M_not_mem_QG {φ : S.Qt ≃ₗ[ZMod 2] (Fin 32 → ZMod 
   · intro hx
     exact hc.2 ((SME.mem_Qa_iff S g _).2 hx)
 
+omit [IsSimpleGroup G] in
 theorem exists_conj_tv {ψ : S.Mbar ≃* TD6}
     (h2 : ∀ (x : G) (hx : x ∈ S.M), IsConj S.z x → x ∉ S.QG →
       ∃ k : Fin 365211, ψ ⟨S.ρ ⟨x, hx⟩, ⟨⟨x, hx⟩, rfl⟩⟩ = ⟨tvP k, tvP_mem k⟩)

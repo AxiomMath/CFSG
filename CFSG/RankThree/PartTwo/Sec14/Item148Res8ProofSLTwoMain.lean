@@ -50,7 +50,7 @@ theorem exists_odd_card_eq [Finite K] [CharP K 2] (F₀ : Subfield K) {ρ : K} (
     rw [h1]
     exact (SpecialLinearGroup.transvection_coeff_zero _).symm
   set Q := (P : Subgroup G).map G.subtype with hQ
-  have hQ2 : IsPGroup 2 Q := P.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := P.isPGroup.map _
   have hρQ : uSL ρ ∈ Q :=
     ⟨⟨uSL ρ, hu hρmem⟩, hP (Subgroup.mem_subgroupOf.mpr hρmem), rfl⟩
   have hQG : Q ≤ G := by

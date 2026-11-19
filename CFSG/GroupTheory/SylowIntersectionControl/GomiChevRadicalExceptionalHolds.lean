@@ -20,7 +20,7 @@ theorem chevParabolicRadicalSimple_of_chevalleyExceptionalModel
         ChevParabolicRadicalSimple K := fun ht hA h =>
     chevParabolicRadicalSimple_of_overgroups hK
       (hA 0 f K hK h.1 (Or.inr (Or.inl ⟨rfl, ht, h⟩))).1
-  cases t <;> first | exact (h.2 : False).elim | skip
+  cases t <;> try exact (h.2 : False).elim
   case G2 => exact key (by decide) Quasithin.LieOver.asLieTwoAt_g2 h
   case F4 => exact key (by decide) Quasithin.LieOver.asLieTwoAt_f4 h
   case E6 => exact key (by decide) Quasithin.LieOver.asLieTwoAt_e6 h

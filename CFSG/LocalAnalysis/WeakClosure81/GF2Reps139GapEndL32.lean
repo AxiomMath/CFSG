@@ -59,14 +59,14 @@ theorem gapEndL32_holds : GapEndL32 := by
   intro Q _ _ hQ2 L hL3 hirrOn hcard
   have hirr : ∀ B : Subgroup Q, (∀ l ∈ L, ∀ b ∈ B, l b ∈ B) → B = ⊥ ∨ B = ⊤ :=
     fun B hB => hirrOn.2.2.2 B hB bot_le le_top
-  haveI : Module (ZMod 2) (Additive Q) :=
+  have : Module (ZMod 2) (Additive Q) :=
     AddCommGroup.zmodModule (G := Additive Q) (fun x => by
       have hx := hQ2 (Additive.toMul x)
       rw [two_nsmul]
       apply Additive.toMul.injective
       rw [toMul_add, ← pow_two]
       exact hx)
-  haveI : Finite (Additive Q) := inferInstanceAs (Finite Q)
+  have : Finite (Additive Q) := inferInstanceAs (Finite Q)
   have hcardV : Nat.card (Additive Q) = 2 ^ 8 :=
     (Nat.card_congr (Additive.ofMul : Q ≃ Additive Q)).symm.trans hcard
   have hSC := (show CFSG.Blueprint.LieModel ↥L .PSL 3 2 1 from hL3).statedClassicalModel_of_ne_zero

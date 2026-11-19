@@ -168,15 +168,15 @@ theorem s16e_two_alt_comm_rk_ge {W : Type} [CommGroup W] [Finite W] {H : Subgrou
     rw [evenWeightPerm_pairEW]
   have hF₁i : (F₁ : Fin n → ZMod 2) i = 1 := by
     rw [hF₁eq, AddSubgroup.coe_add, Pi.add_apply, pairEW_apply, pairEW_apply,
-      if_neg hij, if_neg hil, if_pos rfl, if_neg hik]
+      ite_eq_right hij, ite_eq_right hil, ite_eq_left rfl, ite_eq_right hik]
     norm_num
   have hF₁k : (F₁ : Fin n → ZMod 2) k = 1 := by
     rw [hF₁eq, AddSubgroup.coe_add, Pi.add_apply, pairEW_apply, pairEW_apply,
-      if_neg hkj, if_neg hkl, if_neg hki, if_pos rfl]
+      ite_eq_right hkj, ite_eq_right hkl, ite_eq_right hki, ite_eq_left rfl]
     norm_num
   have hF₁p : (F₁ : Fin n → ZMod 2) p = 0 := by
     rw [hF₁eq, AddSubgroup.coe_add, Pi.add_apply, pairEW_apply, pairEW_apply,
-      if_neg hpj, if_neg hpl, if_neg hpi, if_neg hpk]
+      ite_eq_right hpj, ite_eq_right hpl, ite_eq_right hpi, ite_eq_right hpk]
     norm_num
   have hσpi : i ≠ σ p := by
     intro h
@@ -194,11 +194,11 @@ theorem s16e_two_alt_comm_rk_ge {W : Type} [CommGroup W] [Finite W] {H : Subgrou
     exact hpl h1
   have hF₂i : (F₂ : Fin n → ZMod 2) i = 1 := by
     rw [hF₂eq, AddSubgroup.coe_add, Pi.add_apply, pairEW_apply, pairEW_apply,
-      if_neg hij, if_neg hσpi, if_pos rfl, if_neg hpi.symm]
+      ite_eq_right hij, ite_eq_right hσpi, ite_eq_left rfl, ite_eq_right hpi.symm]
     norm_num
   have hF₂k : (F₂ : Fin n → ZMod 2) k = 0 := by
     rw [hF₂eq, AddSubgroup.coe_add, Pi.add_apply, pairEW_apply, pairEW_apply,
-      if_neg hkj, if_neg hσpk, if_neg hki, if_neg hpk.symm]
+      ite_eq_right hkj, ite_eq_right hσpk, ite_eq_right hki, ite_eq_right hpk.symm]
     norm_num
   have hF₁F₂i : ((F₁ + F₂ : evenWeight n) : Fin n → ZMod 2) i = 0 := by
     rw [AddSubgroup.coe_add, Pi.add_apply, hF₁i, hF₂i]
@@ -351,7 +351,7 @@ theorem s16e_two_alt_comm_rk_ge {W : Type} [CommGroup W] [Finite W] {H : Subgrou
       exact (add_left_cancel h4).symm
     exact hf₁0 hz
   have hAcard4 : 4 ≤ Nat.card ↥A := by
-    letI : Fintype ↥A := Fintype.ofFinite _
+    let : Fintype ↥A := Fintype.ofFinite _
     have e1 : (⟨1, A.one_mem⟩ : ↥A) ≠ ⟨a, haA⟩ :=
       fun h => ha1 (Subtype.ext_iff.mp h).symm
     have e2 : (⟨1, A.one_mem⟩ : ↥A) ≠ ⟨b, hbA⟩ :=

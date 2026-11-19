@@ -87,7 +87,7 @@ theorem chevSubTorus_cartan_witness
             D ≤ Subgroup.normalizer (((posUnipotent τ F).subgroupOf (adjointGroup τ F) :
               Subgroup (adjointGroup τ F)) : Set (adjointGroup τ F)) := by
   classical
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   set D : Subgroup (adjointGroup τ F) := (chevSubTorus e ζ hζ).range with hD
   have hinj : Function.Injective (chevSubTorus e ζ hζ) :=
     chevSubTorus_injective e he hζo hζ hdet
@@ -126,8 +126,8 @@ theorem cartanRankLarge_of_model {τ : Tag} {f : ℕ} {K : Type} [Group K] [Fini
     (S : Subgroup K) (hS : IsSylowTwoOf S ⊤) :
     ∃ r' : ℕ, r'.Prime ∧ r' ≠ 2 ∧ r' ∣ 2 ^ f - 1 ∧
       3 < CFSG.Open.pRank r' (⊤ : Subgroup (normalizerQuotient S)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP F 2 := uc22pwex_charP_two hFcard
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP F 2 := uc22pwex_charP_two hFcard
   let eφ : (K ⧸ Subgroup.center K) ≃* adjointGroup τ F :=
     e₀.trans (CFSG.GH74.Filter.Lie.adjointQuotientEquiv τ F)
   let φ : K →* adjointGroup τ F :=
@@ -151,7 +151,7 @@ theorem cartanRankLarge_of_model {τ : Tag} {f : ℕ} {K : Type} [Group K] [Fini
   let U : Subgroup (adjointGroup τ F) :=
     (posUnipotent τ F).subgroupOf (adjointGroup τ F)
   have hU : IsSylowTwoOf U ⊤ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨hU2, hUidx⟩ := isPGroup_and_not_dvd_index 2
       (posUnipotent_le_adjointGroup (τ := τ) (K := F))
       (card_posUnipotent (τ := τ) (K := F))
@@ -172,8 +172,8 @@ theorem k_CartanRankLarge_F4 :
                   3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   intro K _ _ f _ hq hL _ _ S hS _
   obtain ⟨F, hFld, hFin, hFcard, ⟨e₀⟩⟩ := (hL.chevalleyExceptionalModel (by decide)).2
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   have hf2 : 2 ≤ f := by
     by_contra hf
     interval_cases f <;> norm_num at hq
@@ -196,8 +196,8 @@ theorem k_CartanRankLarge_E7 :
                   3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   intro K _ _ f _ hq hL _ _ S hS _
   obtain ⟨F, hFld, hFin, hFcard, ⟨e₀⟩⟩ := (hL.chevalleyExceptionalModel (by decide)).2
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   have hf2 : 2 ≤ f := by
     by_contra hf
     interval_cases f <;> norm_num at hq
@@ -220,8 +220,8 @@ theorem k_CartanRankLarge_E8 :
                   3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   intro K _ _ f _ hq hL _ _ S hS _
   obtain ⟨F, hFld, hFin, hFcard, ⟨e₀⟩⟩ := (hL.chevalleyExceptionalModel (by decide)).2
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   have hf2 : 2 ≤ f := by
     by_contra hf
     interval_cases f <;> norm_num at hq
@@ -244,8 +244,8 @@ theorem k_CartanRankLarge_E6_of_three_le :
                   3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   intro K _ _ f hf _ hL _ _ S hS _
   obtain ⟨F, hFld, hFin, hFcard, ⟨e₀⟩⟩ := (hL.chevalleyExceptionalModel (by decide)).2
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   obtain ⟨r, hr, hr2, hr3, hrdvd⟩ :=
     CFSG.exists_prime_ne_two_ne_three_dvd_two_pow_sub_one hf
   have hdet : IsUnit (((Tag.E6.cartan.submatrix id id).det : ℤ) : ZMod r) := by
@@ -265,8 +265,8 @@ theorem k_CartanRankLarge_E6_of_eq_two :
                   3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   intro K _ _ _ hL _ _ S hS _
   obtain ⟨F, hFld, hFin, hFcard, ⟨e₀⟩⟩ := (hL.chevalleyExceptionalModel (by decide)).2
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   have hdet := isUnit_det_cartan_E6_submatrix_e6D4Embedding
   exact cartanRankLarge_of_model hFcard e₀ (by norm_num) (by norm_num) (by norm_num)
     e6D4Embedding e6D4Embedding_injective (by decide) hdet S hS

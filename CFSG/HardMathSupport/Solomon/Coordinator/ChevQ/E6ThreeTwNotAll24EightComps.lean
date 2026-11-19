@@ -48,16 +48,16 @@ theorem exists_langSetup_conj_of_inndiag_twE6_iota {ℓ f : ℕ} (hℓ : ℓ.Pri
       ∀ c : twistedE6RootGroup K σ, S.D.g0 * ι c * S.D.g0⁻¹ =
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (c : ModGL TwistTag.E6.tag K) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c
@@ -236,7 +236,7 @@ theorem twE6EightComps : TwE6EightComps := by
     (by norm_num) hcube.elemAbelian hfE h hh hh1 hh3 (by rw [hd]; simp) J hJ, ?_⟩
   subst hh
   have hJ0 := hJ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, e, he, hqe⟩ :=
     prime_ringChar_and_eq_pow_of_card_sq K 8 hcube.card_field (by norm_num)
   have hK2 : ringChar K = 2 := by
@@ -273,7 +273,7 @@ theorem twE6EightComps : TwE6EightComps := by
     (J.equivMapOfInjective ι hinjι).trans (MulEquiv.subgroupCongr hi)
   have h3q' : 3 ∣ S.D.q + 1 := by rw [hDq, ← hqe]; exact hcube.three_dvd
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hDq]; exact hFr c
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have hL2 : ringChar (AlgebraicClosure K) = 2 := by
     rw [ringChar.eq (AlgebraicClosure K) (ringChar K), hK2]
@@ -287,13 +287,13 @@ theorem twE6EightComps : TwE6EightComps := by
       (Subgroup.map_center_eq eJ)).trans ed, hd3, hexc⟩
   ·
     right
-    haveI : CharP K' 2 := ringChar.of_eq hK'2
+    have : CharP K' 2 := ringChar.of_eq hK'2
     refine ⟨⟨K', inferInstance, inferInstance, ?_,
       ⟨eJ.trans (mulEquivPSLOfSLCoverCharTwo g hg hgk)⟩⟩, fun s hs hs9 h' => ?_⟩
     · rw [hK'card, hDq, hK2, he3]
     ·
-      haveI : CharP K 2 := ringChar.of_eq hK2
-      haveI : CharP (AlgebraicClosure K) 2 :=
+      have : CharP K 2 := ringChar.of_eq hK2
+      have : CharP (AlgebraicClosure K) 2 :=
         charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
       have hsR : ι s ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
         rw [← hi]

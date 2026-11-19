@@ -181,11 +181,13 @@ theorem eq_rhoT_of_fix_line (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) {z : 
   have := hfix 0
   rwa [zero_smul, add_zero, fldAut_one, mul_one] at this
 
+omit [Finite K] in
 theorem natCast_odd_eq_one {N : ℕ} (hN : Odd N) : (N : K) = 1 := by
   obtain ⟨k, rfl⟩ := hN
   push_cast
   rw [CharTwo.two_eq_zero, zero_mul, zero_add]
 
+omit [Finite K] in
 theorem exists_eigen_basis {B : Matrix (Fin 3) (Fin 3) K} (hBns : ∀ c : K, B ≠ c • 1) {N : ℕ}
     (hN : Odd N) {d : K} (hBN : B ^ N = d • 1) {γ : K}
     (hE : 2 ≤ Module.finrank K (LinearMap.ker (Matrix.toLin' (1 - γ • B)))) :
@@ -502,7 +504,7 @@ theorem card_centSub_fixV_le (hK : Nat.card K = (2 ^ 1) ^ 2) {y : MulAut (HMod 1
         rw [hD₁f, hD₁f, smul_smul, hs, div_mul_cancel₀ _ hα0]
       · simp only [Fin.mk_one, Fin.isValue, Matrix.cons_val_one, Matrix.cons_val_zero]
         rw [hD₂f, hD₂f, smul_smul, hs, div_mul_cancel₀ _ hα0]
-      · simp only [Fin.reduceFinMk, Fin.isValue, Matrix.cons_val]
+      · simp only [Fin.reduceFinMk, Matrix.cons_val]
         rw [hwf, hwf, smul_smul]
         congr 1
         rw [hs]

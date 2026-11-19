@@ -38,7 +38,7 @@ theorem original_sylow_centralizer_sees_entire_odd_field_factor {N : Type v} [Gr
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp (Nat.coprime_two_left.mpr hR)
   obtain ⟨hCmap, hcore, hker, -⟩ :=
     CFSG.Semidihedral.Local.coprime_centralizer_prime_complement_core_quotient 2 R hR2
-      (S : Subgroup N) S.isPGroup'
+      (S : Subgroup N) S.isPGroup
   have hEmap : E.map π = (CFSG.oddCore CH).map CH.subtype := by
     change ((CFSG.oddCore C).map C.subtype).map π = (CFSG.oddCore CH).map CH.subtype
     rw [CFSG.Semidihedral.CoreResidual.oddCore_eq_twoPrimeCore,
@@ -105,7 +105,7 @@ theorem original_sylow_centralizer_sees_entire_odd_field_factor {N : Type v} [Gr
       exact h1
     rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ hZnorm] at hc'
     obtain ⟨z, hz, k, hk, rfl⟩ := Set.mem_mul.mp hc'
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨z, hZS hz⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨z, hZS hz⟩
     have hz1 : ω z = 1 := map_eq_one_of_pow_two_pow hd ω (k := j) (congrArg Subtype.val hj)
     refine ⟨k, hk, ?_⟩
     rw [map_mul, hz1, one_mul] at hcσ

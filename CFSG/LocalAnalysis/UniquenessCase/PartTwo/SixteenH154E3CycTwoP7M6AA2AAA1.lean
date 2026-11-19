@@ -36,7 +36,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA1_cyc7_structure
     {A L : Subgroup (MulAut W)} {t x : MulAut W}
     (hLx : L = Subgroup.zpowers x) (hxo : orderOf x = 7)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L)
-    (hfpf : ∀ w : W, x w = w → w = 1) (ht : t ∈ A) (hinv : t * x * t⁻¹ = x⁻¹)
+    (hfpf : ∀ w : W, x w = w → w = 1) (_ht : t ∈ A) (hinv : t * x * t⁻¹ = x⁻¹)
     (hLA : L ≤ A) (h7 : 2 ≤ CFSG.Open.pRank 7 A) :
     Nat.card ↥A ∣ 294 ∧
       IsElemAbelianOfRank 7 2 ↥(A ⊓ Subgroup.centralizer (L : Set (MulAut W))) ∧
@@ -45,7 +45,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA1_cyc7_structure
           ((A ⊓ Subgroup.centralizer (L : Set (MulAut W))) : Set (MulAut W)) ⊓ A ≤
         A ⊓ Subgroup.centralizer (L : Set (MulAut W)) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hx7 : x ^ 7 = 1 := by
     have h := pow_orderOf_eq_one x
     rwa [hxo] at h
@@ -184,11 +184,11 @@ theorem s16h_e3_CycTwoP7M6AA2AAA1_cyc7_structure
     intro a
     refine hkerψ (a ^ 7) ?_
     rw [map_pow]
-    simpa [ψ, MonoidHom.prod_apply, hpow₁ a, hpow₂ a]
+    simp [ψ, MonoidHom.prod_apply, hpow₁ a, hpow₂ a]
   have hCnormal : (C.subgroupOf A).Normal := by
     have hAN : A ≤ Subgroup.normalizer (L : Set (MulAut W)) := fun g hg =>
       Subgroup.mem_normalizer_iff_map_conj_eq.mpr (hLn g hg)
-    haveI : ((Subgroup.centralizer (L : Set (MulAut W))).subgroupOf
+    have : ((Subgroup.centralizer (L : Set (MulAut W))).subgroupOf
         (Subgroup.normalizer (L : Set (MulAut W)))).Normal :=
       Subgroup.normal_subgroupOf_centralizer_normalizer (L : Set (MulAut W))
     have hcomap : (((Subgroup.centralizer (L : Set (MulAut W))).subgroupOf
@@ -208,8 +208,8 @@ theorem s16h_e3_CycTwoP7M6AA2AAA1_cyc7_structure
   have hLC : L ≤ C := by
     rw [hCdef]
     refine le_inf hLA ?_
-    haveI : IsCyclic ↥L := isCyclic_of_prime_card hLcard
-    letI : CommGroup ↥L := IsCyclic.commGroup
+    have : IsCyclic ↥L := isCyclic_of_prime_card hLcard
+    let : CommGroup ↥L := IsCyclic.commGroup
     exact Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance
   have hcent : Subgroup.centralizer (C : Set (MulAut W)) ⊓ A ≤ C := by
     intro g hg

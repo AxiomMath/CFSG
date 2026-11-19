@@ -38,7 +38,7 @@ theorem exists_conj_mem_D (F : Frame L1 L2 S D X) {t : G} (ht : t ∈ P1 L1 L2 S
     congr 1
   have hle3 : ∀ Q : Sylow 3 ↥P, Nat.card (Q : Subgroup ↥P) ≤ 3 := by
     intro Q
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     have hdvd : Nat.card (Q : Subgroup ↥P) ∣ Nat.card P := Subgroup.card_subgroup_dvd_card _
     rw [hn, hP15] at hdvd
     by_contra hlt

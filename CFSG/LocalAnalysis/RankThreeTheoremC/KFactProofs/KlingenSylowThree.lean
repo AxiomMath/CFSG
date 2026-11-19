@@ -19,6 +19,7 @@ section Transport
 
 variable {p : ℕ} [Fact p.Prime] {K H : Type*} [Group K] [Group H]
 
+omit [Fact (Nat.Prime p)] in
 theorem coe_smul_sylow_eq_map (g : H) (P : Sylow p H) :
     ((g • P : Sylow p H) : Subgroup H) = (P : Subgroup H).map (MulAut.conj g).toMonoidHom := by
   ext x

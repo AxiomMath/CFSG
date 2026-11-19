@@ -73,7 +73,7 @@ theorem card_lt_of_conj_le_zpowers {E : Subgroup (MulAut G)} {ψ δ : MulAut G}
   have hmap : E.map (MulAut.conj ψ).toMonoidHom ≤ Subgroup.zpowers δ := by
     rintro _ ⟨x, hx, rfl⟩
     exact hle x hx
-  haveI : Finite (Subgroup.zpowers δ) := Nat.finite_of_card_ne_zero (by rw [hδ]; norm_num)
+  have : Finite (Subgroup.zpowers δ) := Nat.finite_of_card_ne_zero (by rw [hδ]; norm_num)
   have h := Subgroup.card_le_of_le hmap
   rw [Subgroup.card_map_of_injective (MulAut.conj ψ).injective, hcard] at h
   omega
@@ -173,7 +173,7 @@ private theorem exists_conj_eq_entrywiseAdjointAut_e6 (τ : Tag) {p : ℕ} (hp :
     intro h
     rw [hαdef, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul,
       Subgroup.coe_inv, coe_exactNormalAut, exactQ_zero]
-    simp only [w, mul_inv_rev, one_mul, inv_one, mul_one]
+    simp only [w, mul_inv_rev, inv_one, mul_one]
     group
   let ιC : adjointGroup τ K → inndiagGroup τ K := fun h => ⟨h, adjointGroup_le_inndiagGroup h.2⟩
   obtain ⟨X, hXdef⟩ : ∃ X : MulAut (inndiagGroup τ K),

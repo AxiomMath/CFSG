@@ -353,7 +353,7 @@ private lemma reflection_toMatrix_halfForm {w : U} {ψ : Module.Dual (ZMod p) U}
   fin_cases i <;> fin_cases j <;>
     simp [halfFormMat, hβ0, hβ1, hβ2, hγ, hμ0, hμ1, hμ2, hν, hαinv,
       hμβ, hνγ, h1sub] <;>
-    (first | exact hgenν | exact hgenμ | field_simp [htwo])
+    (first | field_simp [htwo])
 
 end CommutePij
 
@@ -644,8 +644,7 @@ private lemma pijMat_ac_pow_four (ht : t ^ 2 = -1) :
   rw [pow_mul, pijMat_ac_sq ht]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.diagonal, pow_two, Matrix.of_apply,
-      neg_one_mul_neg_one]
+    simp [Matrix.mul_apply, Matrix.diagonal, pow_two, Matrix.of_apply]
 
 private lemma pijMat_ac_sq_ne_one (hp : p ≠ 2) (ht : t ^ 2 = -1) :
     (pijMat 0 1 1 * pijMat 0 1 t : Matrix (Fin 4) (Fin 4) (ZMod p)) ^ 2 ≠ 1 := by
@@ -2410,19 +2409,9 @@ private lemma zs4e_toMatrix_unitsSMul_pijMat (w : Fin 4 → (ZMod p)ˣ) {i j : F
     try rcases h2 with ⟨rfl, rfl⟩
     try rcases h3 with ⟨rfl, _, _⟩
     try (rw [Units.val_inv_eq_inv_val])
-    try (rw [← mul_assoc, mul_comm α ↑(w r), mul_assoc,
-      inv_mul_cancel₀ (w r).ne_zero, one_mul])
     try (rw [mul_one, inv_mul_cancel₀ (w r).ne_zero])
-    try (rw [inv_mul_cancel₀ (w r).ne_zero, one_mul])
-    try (rw [inv_mul_cancel₀ (w r).ne_zero])
-    try (rw [← mul_assoc, mul_comm α ↑(w c), mul_assoc,
-      inv_mul_cancel₀ (w c).ne_zero, one_mul])
-    try (rw [mul_one, inv_mul_cancel₀ (w c).ne_zero])
-    try (rw [inv_mul_cancel₀ (w c).ne_zero, one_mul])
-    try (rw [inv_mul_cancel₀ (w c).ne_zero])
     try field_simp
     try ring
-    try (rw [mul_zero, zero_mul])
 
 omit [Module.Finite (ZMod p) U] in
 private lemma zs4e_toMatrix_unitsSMul_halfFormMat (w : Fin 4 → (ZMod p)ˣ)
@@ -2437,16 +2426,16 @@ private lemma zs4e_toMatrix_unitsSMul_halfFormMat (w : Fin 4 → (ZMod p)ˣ)
   simp only [halfFormMat, Matrix.smul_apply, Matrix.of_apply, smul_eq_mul]
   by_cases hr : r = 3 <;> by_cases hc : c = 3
   · rw [hr, hc]
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     rw [Units.val_inv_eq_inv_val]
     field_simp [hw3ne]
   · rw [hr]
     have hc1 : ((w c : (ZMod p)ˣ) : ZMod p) = 1 := by rw [hw c hc]; rfl
-    simp only [hc1, mul_one, if_neg (Ne.symm hc), if_neg hc, if_true]
+    simp only [hc1, mul_one, ite_eq_right (Ne.symm hc), ite_eq_right hc, ite_true]
     rw [Units.val_inv_eq_inv_val]
     field_simp [hw3ne, hα]
   · rw [hc]
-    simp only [if_neg hr, if_true]
+    simp only [ite_eq_right hr, ite_true]
     rw [show w r = 1 from hw r hr]
     simp only [Units.val_one, inv_one, one_mul]
     ring
@@ -2454,10 +2443,10 @@ private lemma zs4e_toMatrix_unitsSMul_halfFormMat (w : Fin 4 → (ZMod p)ˣ)
     have hwc : w c = 1 := hw c hc
     by_cases hrc : r = c
     · rw [hrc]
-      simp only [if_true]
+      simp only [ite_true]
       rw [hwc]
       simp only [Units.val_one, inv_one, one_mul, mul_one]
-    · simp only [if_neg hrc, if_neg hc, if_neg hr]
+    · simp only [ite_eq_right hrc, ite_eq_right hc, ite_eq_right hr]
       rw [hwr, hwc]
       simp only [Units.val_one, inv_one, one_mul, mul_one]
 
@@ -2546,7 +2535,7 @@ private lemma zs4e_exists_halfOnes_aux (hp : p ≠ 2) {t : ZMod p}
     intro h
     exact hα0 (inv_eq_zero.mp (neg_eq_zero.mp h)))
   let w : Fin 4 → (ZMod p)ˣ := fun i => if i = 3 then u else 1
-  have hw : ∀ i : Fin 4, i ≠ 3 → w i = 1 := fun i hi => if_neg hi
+  have hw : ∀ i : Fin 4, i ≠ 3 → w i = 1 := fun i hi => ite_eq_right hi
   have hw3 : (w 3 : ZMod p) = -α⁻¹ := by simp [w, u]
   have h0 : w (0 : Fin 4) = 1 := hw 0 (by decide)
   have h1 : w (1 : Fin 4) = 1 := hw 1 (by decide)
@@ -2585,7 +2574,7 @@ private lemma zs4e_exists_halfOnes_swap (hp : p ≠ 2) (h : NFourData f t a b c 
   have h' : NFourData f t a b c d' G := conj h hg
   let u₀ : (ZMod p)ˣ := Units.mk0 t (tz_ne_zero h.sq_t)
   let w₁ : Fin 4 → (ZMod p)ˣ := fun i => if i = 0 then u₀ else 1
-  have hw₁ : ∀ i : Fin 4, i ≠ 0 → w₁ i = 1 := fun i hi => if_neg hi
+  have hw₁ : ∀ i : Fin 4, i ≠ 0 → w₁ i = 1 := fun i hi => ite_eq_right hi
   have hw₁0 : (w₁ 0 : ZMod p) = t := by simp [w₁, u₀]
   have h1 : w₁ (1 : Fin 4) = 1 := hw₁ 1 (by decide)
   have h2 : w₁ (2 : Fin 4) = 1 := hw₁ 2 (by decide)

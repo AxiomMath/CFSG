@@ -13,28 +13,34 @@ open Module
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_comm_apply {a b : Module.End (ZMod 3) V} (h : a * b = b * a) (x : V) :
     a (b x) = b (a x) := by
   simpa [Module.End.mul_apply] using congrArg (fun f => f x) h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_anticomm_apply {a b : Module.End (ZMod 3) V} (h : a * b = -(b * a)) (x : V) :
     a (b x) = -b (a x) := by
   simpa [Module.End.mul_apply] using congrArg (fun f => f x) h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_mem_ker_sub_one {t : Module.End (ZMod 3) V} {x : V} :
     x ∈ LinearMap.ker (t - 1) ↔ t x = x := by
   rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_mem_ker_add_one {t : Module.End (ZMod 3) V} {x : V} :
     x ∈ LinearMap.ker (t + 1) ↔ t x = -x := by
   rw [LinearMap.mem_ker, LinearMap.add_apply, Module.End.one_apply, add_eq_zero_iff_eq_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_stable_of_comm {t T : Module.End (ZMod 3) V} (h : t * T = T * t) :
     ∀ x ∈ LinearMap.ker (t + 1), T x ∈ LinearMap.ker (t + 1) := by
   intro x hx
   rw [sec5c3q_mem_ker_add_one] at hx ⊢
   rw [sec5c3q_comm_apply h x, hx, map_neg]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec5c3q_not_comm_comm {t T₁ T₂ : Module.End (ZMod 3) V} (h₁ : T₁ * T₁ = 1)
     (h₂ : T₂ * T₂ = 1) (h12 : T₁ * T₂ = -(T₂ * T₁))
     (ht : finrank (ZMod 3) (LinearMap.ker (t + 1)) = 3)
@@ -85,7 +91,7 @@ theorem sec5c3q_branch_ncard_le {T₁ T₂ : Module.End (ZMod 3) V} (h₁ : T₁
     (ha₂ : ∀ t ∈ S, t * T₂ = -(T₂ * t))
     (hcomm : ∀ t ∈ S, ∀ t' ∈ S, t * t' = t' * t ∨ t * t' = -(t' * t)) : S.ncard ≤ 8 := by
   classical
-  haveI := sec5c3q_finite_end (V := V)
+  have := sec5c3q_finite_end (V := V)
   have hstab : ∀ t ∈ S, ∀ x ∈ LinearMap.ker (T₁ - 1), t x ∈ LinearMap.ker (T₁ - 1) := by
     intro t ht x hx
     rw [sec5c3q_mem_ker_sub_one] at hx ⊢
@@ -180,7 +186,7 @@ theorem sec5c3q_caseB_ncard_le {T₁ T₂ : Module.End (ZMod 3) V} (S : Set (Mod
     (hcomm : ∀ t ∈ S, ∀ t' ∈ S, t * t' = t' * t ∨ t * t' = -(t' * t))
     (hT₁ : T₁ ∈ S) (hT₂ : T₂ ∈ S) (h12 : T₁ * T₂ = -(T₂ * T₁)) : S.ncard ≤ 16 := by
   classical
-  haveI := sec5c3q_finite_end (V := V)
+  have := sec5c3q_finite_end (V := V)
   have hker : ∀ t ∈ S, finrank (ZMod 3) (LinearMap.ker (t + 1)) = 3 := fun t ht => by
     rw [← sec5c3q_range_sub_one (hsq t ht)]
     exact hdim t ht

@@ -21,7 +21,7 @@ theorem ggExcCentredRK_holds
   intro p hp hp2 X _ _ A Ab σ J n hd hk labJ labX hΛJ hΛX hR hhJ hhX
   obtain ⟨-, hgen⟩ := hR
   obtain ⟨hloc, hflat, hcard, hrank, hnum, hself, honly, hm⟩ := hd.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hK0 : GGK0MainBS GGKacExcQuasi GGKacValid := ggK0MainBS_quasi_of_B3 hB3
   have hS : GGK0Schur GGKacExcQuasi := ggK0Schur_excPair.mono fun _ _ h => h.1

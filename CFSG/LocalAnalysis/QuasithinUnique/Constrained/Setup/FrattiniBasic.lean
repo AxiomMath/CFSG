@@ -218,7 +218,7 @@ theorem frattini_eq_of_pCore_eq_bot {G : Type*} [Group G] [Finite G] {p : ℕ} [
     obtain ⟨P⟩ : Nonempty (Sylow p (frattini G)) := inferInstance
     have hPn := frattini_sylow_normal G p P
     have hP2 : P.map (frattini G).subtype ≤ CFSG.pCore p G :=
-      le_sSup ⟨hPn, (P.isPGroup').map (frattini G).subtype⟩
+      le_sSup ⟨hPn, (P.isPGroup).map (frattini G).subtype⟩
     rw [hO, le_bot_iff] at hP2
     have hcard : Nat.card P = 1 := by
       have : Nat.card (P.map (frattini G).subtype) = Nat.card P :=

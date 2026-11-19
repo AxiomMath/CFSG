@@ -129,7 +129,7 @@ theorem inner_subgroup_eq_bstar_subgroupOf {G : Type} [Group G] {p : ℕ}
     (hT : ∀ t ∈ T, t ^ p = 1)
     (hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs) :
     T = Bs.subgroupOf K := by
-  letI : IsMulCommutative Bs := hBs.1
+  let : IsMulCommutative Bs := hBs.1
   have hcomm : ∀ a ∈ (ggGamma K hN).range, ∀ b ∈ (ggGamma K hN).range, a * b = b * a := by
     rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
     rw [← map_mul, ← map_mul]

@@ -28,6 +28,7 @@ section Cases
 
 variable {B M : Subgroup Q} {c : Q}
 
+omit [Finite Q] in
 theorem centralizer_le_normalizer_of_le {T : Subgroup Q} (hTM : T ≤ M) :
     Subgroup.centralizer (M : Set Q) ≤ Subgroup.normalizer (T : Set Q) :=
   (Subgroup.centralizer_le (s := (T : Set Q)) (t := (M : Set Q)) hTM).trans
@@ -43,12 +44,12 @@ theorem exists_two_of_central (h2M : 2 ∣ Nat.card M) {S : Subgroup Q}
   have hS₂ne : S₂ ≠ ⊥ := fun h =>
     P.ne_bot_of_dvd_card h2M
       ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).1 h)
-  have hS₂2 : IsPGroup 2 S₂ := P.isPGroup'.map _
+  have hS₂2 : IsPGroup 2 S₂ := P.isPGroup.map _
   refine ⟨S₂, hS₂ne, hS₂2, fun s hs => ?_⟩
   exact centralizer_le_normalizer_of_le hS₂M (hS hs)
 
 theorem B0_le_centralizer (Tr : Triple3 B M c) :
-    t113B0 B M ≤ Subgroup.centralizer (M : Set Q) := fun b hb =>
+    t113B0 B M ≤ Subgroup.centralizer (M : Set Q) := fun _b hb =>
   Subgroup.mem_centralizer_iff.2 fun l hl => Tr.B0_comm_K hb l (Tr.L_le_K hl)
 
 theorem good_caseI (S : QSetting B M c) (hH3 : Nat.card (t113H B M) ≤ 3) :

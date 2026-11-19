@@ -12,6 +12,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qTwoLMDivCoordInner_wf_conj_mem {Bs L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (n : ↥L)
     (hnBs : (n : G) ∈ Subgroup.normalizer (Bs : Set G)) :
@@ -38,6 +39,7 @@ private theorem qTwoLMDivCoordInner_wf_conj_mem {Bs L : Subgroup G}
     rw [hb]
     group
 
+omit [Finite G] in
 private theorem qTwoLMDivCoordInner_wf_conjAut_eq {Bs L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {m : ℕ} (h3 : 3 ∣ m)
     (τ : ↥(sumZero m 3) →* ↥L) (hmem : ∀ f, ((τ f : ↥L) : G) ∈ Bs)
@@ -82,7 +84,7 @@ theorem qTwoLMDivCoordInner_wtheta {B Bs L : Subgroup G} {x : G} (hG : GGThmIHyp
         ggGamma L hN ⟨((τ f : ↥L) : G), hmem f⟩ := by
   let ψ : ↥(sumZero m 3) →* ↥Bs :=
     { toFun := fun f => ⟨((τ f : ↥L) : G), hmem f⟩
-      map_one' := Subtype.ext (by simpa using congrArg Subtype.val (map_one τ))
+      map_one' := Subtype.ext (by simp)
       map_mul' := fun f g => Subtype.ext (by
         show ((τ (f * g) : ↥L) : G) = ((τ f : ↥L) : G) * ((τ g : ↥L) : G)
         rw [map_mul, Subgroup.coe_mul]) }
@@ -142,6 +144,7 @@ theorem qTwoLMDivCoordInner_wtheta {B Bs L : Subgroup G} {x : G} (hG : GGThmIHyp
   obtain ⟨θ, hθ⟩ := qTwoLMDivCoordInner_quot h3 φ hsurj hker_eq
   exact ⟨θ, fun f => by rw [hθ f, hφ_apply f]⟩
 
+omit [Finite G] in
 theorem qTwoLMDivCoordInner_wfields {Bs L : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {m : ℕ} (h3 : 3 ∣ m)
     (τ : ↥(sumZero m 3) →* ↥L) (hmem : ∀ f, ((τ f : ↥L) : G) ∈ Bs)

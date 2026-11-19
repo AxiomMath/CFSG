@@ -169,7 +169,7 @@ theorem ggG2_rawDatum
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   dsimp only [LargeEvenRawDatum]
   refine ⟨k, inferInstance, inferInstance, hk, ?_⟩
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.G2 k) := hs
+  have : IsSimpleGroup ↥(adjointGroup Tag.G2 k) := hs
   exact ⟨MulEquiv.isSimpleGroup (e₁.trans e₂),
     nonabelian_of_mulEquiv (e₁.trans e₂).symm hnab,
     ⟨e.trans (e₁.trans e₂).symm⟩⟩
@@ -181,13 +181,13 @@ theorem ggG2der_rawDatum
       IsSimpleGroup R₀ ∧ (∃ a b : R₀, a * b ≠ b * a) ∧ Nonempty (Y ≃* R₀) := by
   obtain ⟨hDs, hDcard⟩ := ExcCopy.g2Two_derived_exc hk
   obtain ⟨eD⟩ := nonempty_commutator_subgroup_equiv (adjointGroup Tag.G2 k)
-  haveI : IsSimpleGroup ↥(commutator ↥(adjointGroup Tag.G2 k)) := hDs
-  haveI hDs' : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ :=
+  have : IsSimpleGroup ↥(commutator ↥(adjointGroup Tag.G2 k)) := hDs
+  have hDs' : IsSimpleGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ :=
     MulEquiv.isSimpleGroup eD
   have hDnc : ∃ a b : ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ :=
+    let : CommGroup ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆ :=
       { (inferInstance : Group ↥⁅adjointGroup Tag.G2 k, adjointGroup Tag.G2 k⁆) with
         mul_comm := hcon }
     have hp := IsSimpleGroup.prime_card

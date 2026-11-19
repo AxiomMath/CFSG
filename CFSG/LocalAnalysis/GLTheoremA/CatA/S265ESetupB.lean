@@ -17,7 +17,7 @@ theorem s265e_centerQuot_equiv_map {X : Type} [Group X] {Kb : Subgroup X} (hKb :
     Nonempty (↥Kb ⧸ Subgroup.center ↥Kb ≃*
       ↥(Kb.map (QuotientGroup.mk' (Subgroup.center X))) ⧸
         Subgroup.center ↥(Kb.map (QuotientGroup.mk' (Subgroup.center X)))) := by
-  haveI : Group.IsPerfect ↥Kb := ⟨hKb⟩
+  have : Group.IsPerfect ↥Kb := ⟨hKb⟩
   set π := QuotientGroup.mk' (Subgroup.center X)
   have hker : (π.subgroupMap Kb).ker ≤ Subgroup.center ↥Kb := by
     intro k hk
@@ -62,11 +62,12 @@ private theorem s265e_sz32_model {R : Type} [Group R] (h : catalogIs R tySz32) :
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem s265e_lieModel_sz {K : Subgroup Ω} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hSz : catalogIs (PSimple 5 K) tySz32) {Q : Type} [Group Q]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* Q) : LieModel Q .twistedB2 0 2 5 := by
   have hM := s265e_sz32_model hSz
-  haveI : Nontrivial (PSimple 5 K) := (CFSG.LieType.Simplicity.fam_2b2_simplicity _ 2 5 hM).1
+  have : Nontrivial (PSimple 5 K) := (CFSG.LieType.Simplicity.fam_2b2_simplicity _ 2 5 hM).1
   obtain ⟨θ⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 5) hKq
   exact LieModel.of_mulEquiv (θ.symm.trans e) (Or.inr (Or.inr (Or.inr ⟨rfl, rfl, hM⟩)))
 
@@ -86,14 +87,16 @@ private theorem s265e_tits_model {R : Type} [Group R] (h : catalogIs R tyTits) :
     | tits => exact CFSG.StandardType.ChevTwo.reeTitsModel_of_tits hv e
     | _ => exact hi.elim
 
+omit [Finite Ω] in
 theorem s265e_lieModel_tits {K : Subgroup Ω} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hT : catalogIs (PSimple 5 K) tyTits) {Q : Type} [Group Q]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* Q) : LieModel Q .Tits 0 2 1 := by
   have hR := s265e_tits_model hT
-  haveI : Nontrivial (PSimple 5 K) := (CFSG.LieType.Simplicity.fam_tits_simplicity _ 2 1 hR).1
+  have : Nontrivial (PSimple 5 K) := (CFSG.LieType.Simplicity.fam_tits_simplicity _ 2 1 hR).1
   obtain ⟨θ⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 5) hKq
   exact LieModel.of_mulEquiv (θ.symm.trans e) (Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hR⟩)))
 
+omit [Finite Ω] in
 theorem s265e_lieModel {K : Subgroup Ω} (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hE : catalogIs (PSimple 5 K) tyE) {Q : Type} [Group Q]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* Q) :

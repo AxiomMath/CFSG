@@ -25,12 +25,12 @@ theorem i166On_famE7_of_transport
     rk2_center_eq_bot_of_large hK (Or.inr (Or.inr (Or.inr (Or.inl ht)))) hn
   obtain ⟨F, hField, hFinite, hCard, ⟨e⟩⟩ :=
     exists_mulEquiv_adjointGroup_E7_of_hasLabel hK ht hZ
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hchar : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hCard
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   have hmodel := concl166S_E7_model_of_layerData (F := F) hn hCard hp hp2 hpD (hD6 lab.n hn)
   exact htr e hmodel
 

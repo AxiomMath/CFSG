@@ -34,7 +34,7 @@ theorem l34_facts {K : Type} [Group K] [Finite K] (hK : IsLinThreeFour K) (T : S
         ∃ t ∈ (T : Subgroup K), α = MulAut.conj t) ∧
       CFSG.pRank 3 (MulAut K) = 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ε₀⟩ := KFactProofs.L34Local.nonempty_equiv_of_isLinThreeFour hK
   have hk : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
@@ -43,7 +43,7 @@ theorem l34_facts {K : Type} [Group K] [Finite K] (hK : IsLinThreeFour K) (T : S
     rw [Nat.card_congr ε₀.toEquiv]
     exact CFSG.RankThree.PartTwo.KFacts.L34.card_projectiveSL hk
   have hsimple : IsSimpleGroup K := by
-    haveI := CFSG.Quasithin.Vol2.Ch11.SecS.C11P9A.isSimpleGroup_projectiveSL_four hk
+    have := CFSG.Quasithin.Vol2.Ch11.SecS.C11P9A.isSimpleGroup_projectiveSL_four hk
     exact ε₀.isSimpleGroup
   have hTcard : Nat.card (T : Subgroup K) = 9 := KFactProofs.L34Local.card_sylow_three hK20 T
   have hP₁ : Nat.card ((T : Subgroup K).map ε₀.toMonoidHom) = 9 := by
@@ -144,13 +144,13 @@ theorem threeFourSolvThreeNoneAt_l34
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ hrkC hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb
     _ hdir
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd34 : CFSG.AGLEmbeddingD2.IsL34Index d := ⟨q, hq2, hqe, hd⟩
   have hKL : IsLinThreeFour ↥K := ⟨d, ⟨q, hq2, hqe, hd⟩, hKX⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJdef
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hKC' : ∀ x ∈ K, x ∈ C → x = 1 := fun x hxK hxC => by
@@ -197,8 +197,8 @@ theorem threeFourSolvThreeNoneAt_l34
     rw [Subgroup.card_top, Subgroup.card_bot, hcardK] at h1
     norm_num at h1
   have hKcomp : IsComponentOf K ⊤ := by
-    haveI := hKsimple
-    haveI : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
+    have := hKsimple
+    have : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩
   have hKY₀ : ¬ K ≤ Y₀ := hcomp K hKcomp le_rfl
@@ -208,9 +208,9 @@ theorem threeFourSolvThreeNoneAt_l34
   have hθ1 : ∀ y : Y, θ y = 1 ↔ y ∈ C := fun y => by rw [← MonoidHom.mem_ker, hθker]
   have hθeq : ∀ a b : Y, θ a = θ b ↔ a⁻¹ * b ∈ C := fun a b => by
     rw [← hθ1, map_mul, map_inv, inv_mul_eq_one]
-  haveI : Finite (MulAut ↥K) := MulEquiv.finite_left
+  have : Finite (MulAut ↥K) := MulEquiv.finite_left
   set Kb := K.map θ with hKb
-  haveI : Kb.Normal := hKn.map θ hθs
+  have : Kb.Normal := hKn.map θ hθs
   have hCX : centralizer (Kb : Set (MulAut.conjNormal : Y →* MulAut ↥K).range) = ⊥ :=
     SolvNone.centralizer_map_rangeRestrict_conjNormal_eq_bot hZ
   have hKbX : Nonempty (Kb ≃* (TauCeti.CFSGIndex.lie d).Group) := by
@@ -310,7 +310,7 @@ theorem threeFourSolvThreeNoneAt_l34
         exact hk3.trans (CFSG.SectionRank.le_pRank (by norm_num) (hzQ.trans hQR) hel hk₂₇)
       have hNQ : normalizer (Q : Set Y) ≤ Y₀ := by
         have hcore' := hcore
-        rw [if_pos hrkR] at hcore'
+        rw [ite_eq_left hrkR] at hcore'
         refine le_trans ?_ hcore'
         rw [GLBWeakCore, rankThreeAschCore]
         exact le_sSup ⟨Q, hQR, hrkQ2, hrkQ3, rfl⟩
@@ -372,7 +372,7 @@ theorem threeFourSolvThreeNoneAt_l34
           rw [CFSG.SectionRank.pRank_coe_eq_openPRank, CFSG.SectionRank.pRank_eq_open_pRank_top]
           exact CFSG.SectionRank.pRank_mono (by norm_num) le_top
         omega
-      rw [if_neg hrkX] at hcoreX
+      rw [ite_eq_right hrkX] at hcoreX
       have hEinj : Function.Injective (θ.comp E.subtype) := by
         refine (injective_iff_map_eq_one _).mpr fun x hx => ?_
         exact Subtype.ext (SolvNone.eq_one_of_isPGroup_of_coprime hker' hE.isPGroup x x.2 hx)
@@ -384,7 +384,7 @@ theorem threeFourSolvThreeNoneAt_l34
       by_cases hEK : E.map θ ≤ Kb
       ·
         have hS : IsPGroup 3 ↥((R : Subgroup Y).map θ ⊓ Kb) :=
-          (R.isPGroup'.map θ).to_le inf_le_left
+          (R.isPGroup.map θ).to_le inf_le_left
         have hTbS : Tb ≤ (R : Subgroup Y).map θ ⊓ Kb :=
           le_inf (Subgroup.map_mono hTYR) hTbKb
         have hSTb : Tb = (R : Subgroup Y).map θ ⊓ Kb :=
@@ -415,7 +415,7 @@ theorem threeFourSolvThreeNoneAt_l34
   have hWY₀ : W ≤ Y₀.map θ := pCoreOf_le 3 _
   have hWKb : W ≤ Kb := by
     by_contra hWK
-    obtain ⟨w, hwW, hwK⟩ := SetLike.not_le_iff_exists.mp hWK
+    obtain ⟨w, hwW, hwK⟩ := IsConcreteLE.not_le_iff_exists.mp hWK
     set U := W ⊔ Tb with hU
     have hTbN : Tb ≤ normalizer (W : Set _) := hTbY₀.trans hWnorm
     have hUp : IsPGroup 3 U := hWp.to_sup_of_normal_left' hTbel.isPGroup hTbN
@@ -441,11 +441,11 @@ theorem threeFourSolvThreeNoneAt_l34
         exact ⟨z, hzU, hzK, fun t ht => hz t (Subgroup.mem_sup_right ht)⟩
       push Not at hZU
       refine ⟨w, Subgroup.mem_sup_left hwW, hwK, ?_⟩
-      haveI : Nontrivial U := ⟨⟨⟨w, Subgroup.mem_sup_left hwW⟩, 1, fun h => hwK (by
+      have : Nontrivial U := ⟨⟨⟨w, Subgroup.mem_sup_left hwW⟩, 1, fun h => hwK (by
         have : w = 1 := congrArg Subtype.val h
         rw [this]
         exact Kb.one_mem)⟩⟩
-      haveI := hUp.center_nontrivial
+      have := hUp.center_nontrivial
       obtain ⟨z₀, hz₀1⟩ := exists_ne (1 : Subgroup.center U)
       set z : (MulAut.conjNormal : Y →* MulAut ↥K).range := (z₀ : ↥U).1 with hz
       have hzU : z ∈ U := (z₀ : ↥U).2
@@ -567,7 +567,7 @@ theorem threeFourSolvThreeNoneAt_l34
       (hJsub.comap K.subtype) (hJp.comap_of_injective K.subtype K.subtype_injective)
     rw [hY₀K] at h1
     have hp := (pCoreOf_isPGroup 3 (normalizer ((T : Subgroup ↥K) : Set ↥K))).to_sup_of_normal_left'
-      T.isPGroup' (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
+      T.isPGroup (le_normalizer.trans (localGroup_le_normalizer_pCoreOf 3 _))
     exact h1.trans (le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right))
   have hJT : J ≤ TY := by
     rw [← hJ'map]

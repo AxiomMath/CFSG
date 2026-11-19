@@ -234,7 +234,7 @@ private lemma natCard_le_two_pow_finrank_of_commuting_involutions
   have hind : iSupIndep W :=
     iSupIndep.mono hindmax fun χ => iInf_mono fun i => Module.End.eigenspace_le_maxGenEigenspace
   let X := {χ : ι → K // W χ ≠ ⊥}
-  haveI : Fintype X := hind.fintypeNeBotOfFiniteDimensional
+  have : Fintype X := hind.fintypeNeBotOfFiniteDimensional
   have hcardX : Fintype.card X ≤ finrank K V := hind.subtype_ne_bot_le_finrank
   have hspanX : (⨆ χ : X, W χ.1) = ⊤ := by
     rw [iSup_subtype_ne_bot_eq_iSup W, hspan]
@@ -270,11 +270,11 @@ private lemma natCard_le_two_pow_finrank_of_commuting_involutions
       · rw [hi, hj]
       · exfalso
         rw [hi, hj] at hb
-        rw [if_neg (one_ne_neg_one_of_two_ne_zero h2), if_pos rfl] at hb
+        rw [ite_eq_right (one_ne_neg_one_of_two_ne_zero h2), ite_eq_left rfl] at hb
         exact (by decide : ¬((0 : Fin 2) = 1)) hb
       · exfalso
         rw [hi, hj] at hb
-        rw [if_pos rfl, if_neg (one_ne_neg_one_of_two_ne_zero h2)] at hb
+        rw [ite_eq_left rfl, ite_eq_right (one_ne_neg_one_of_two_ne_zero h2)] at hb
         exact (by decide : ¬((1 : Fin 2) = 0)) hb
       · rw [hi, hj]
     have hker : (⊤ : Submodule K V) ≤ LinearMap.ker (f i - f j) := by
@@ -305,8 +305,8 @@ theorem pow_le_card_of_elemAbelian_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     (hBs : IsElemAbelian p Bs) {S : Subgroup (MulAut ↥Bs)} (hS : IsElemAbelian 2 S) {k : ℕ}
     (hk : 2 ^ k ≤ Nat.card S) [Finite Bs] : p ^ k ≤ Nat.card Bs := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥Bs := hBs.1
   have hp2' : (2 : ZMod p) ≠ 0 := by
     intro h
     have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h
@@ -318,8 +318,8 @@ theorem pow_le_card_of_elemAbelian_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     refine Subtype.ext ?_
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hBs.2 x.toMul x.toMul.2
-  letI : Module (ZMod p) (Additive ↥Bs) := AddCommGroup.zmodModule (n := p) hV
-  haveI hfin : Module.Finite (ZMod p) (Additive ↥Bs) := Module.Finite.of_finite
+  let : Module (ZMod p) (Additive ↥Bs) := AddCommGroup.zmodModule (n := p) hV
+  have hfin : Module.Finite (ZMod p) (Additive ↥Bs) := Module.Finite.of_finite
   let f : S → Module.End (ZMod p) (Additive ↥Bs) := fun s =>
     (MonoidHom.toAdditive ((s : MulAut ↥Bs).toMonoidHom)).toZModLinearMap p
   have hf_apply : ∀ (s : S) (b : ↥Bs),
@@ -380,14 +380,14 @@ theorem coxeterMatrix_cartanC_eq_B (n : ℕ) :
     by_cases h1 : i.val + 1 = j.val
     · by_cases h2 : j.val + 1 < n
       · rw [CFSG.LieType.Universal.Symplectic.coxeterMatrix_of_succ_short n h1 h2]
-        simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+        simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
         split_ifs <;> omega
       · rw [CFSG.LieType.Universal.Symplectic.coxeterMatrix_of_succ_long n h1 h2]
-        simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+        simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
         split_ifs <;> omega
     · have h2 : j.val + 1 ≠ i.val := by omega
       rw [CFSG.LieType.Universal.Symplectic.coxeterMatrix_of_far n hijne h1 h2]
-      simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hijne]
+      simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hijne]
       split_ifs <;> omega
   ext i j
   rcases lt_trichotomy i.val j.val with h | h | h

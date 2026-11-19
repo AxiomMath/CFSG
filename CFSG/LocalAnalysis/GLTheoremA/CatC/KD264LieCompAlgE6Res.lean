@@ -74,8 +74,8 @@ private theorem notEight_graphFixedRootGroup_cubic_kd264e6 {f' : ℕ} (hf' : 1 �
   obtain ⟨eCat⟩ := catEquiv_trialityD4_of_field q' hv' K hKq σ₁ hσ₁
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hcard : Nat.card ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) =
       CFSG.Open.orderTrialityD4 (2 ^ f') := by
     have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.trialityD4 q', hv'⟩
@@ -175,7 +175,7 @@ private theorem notEight_fixE6_dN_kd264e6 (h2 : ringChar L = 2) :
   have hne : Nat.card (↥(tauDatum L 2 f hf).orbitGroup ⧸
       Subgroup.center ↥(tauDatum L 2 f hf).orbitGroup) ≠ 0 := by
     rcases hN with h | h <;> rw [h] <;> norm_num
-  haveI : Finite (↥(tauDatum L 2 f hf).orbitGroup ⧸
+  have : Finite (↥(tauDatum L 2 f hf).orbitGroup ⧸
       Subgroup.center ↥(tauDatum L 2 f hf).orbitGroup) := Nat.finite_of_card_ne_zero hne
   exact not_card_compAlgEight_of_lieModel_POmegaMinus_kd264alg hlie hN
 
@@ -633,12 +633,12 @@ theorem e6D4OuterNotEight_holds :
       (fun γ hγ => S.rho_eq_smul_of_frob hFr hΦ' hn hγ) i v hv hρ hnin
   ·
     rw [hs, Function.iterate_one] at hnin
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq : S.D.q = 2 ^ 3 := by rw [hq8]; norm_num
     have hall := kernelRoots_subset_of_ncard24_kd264e6 h3L hap i hc
     obtain ⟨⟨e⟩, hZ⟩ := d4t2out_rationalComponent_equiv S ⟨t, ht, Fr, hFr, hΦ⟩
       (ℓ := 2) (f := 3) (by norm_num) hq (by norm_num) hT hap i v hv hall hρ hnin
-    haveI := CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.finite_rationalComponent S a i
+    have := CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.finite_rationalComponent S a i
     have hcard : Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) =
         CFSG.Open.orderTrialityD4 (2 ^ 3) := by
       have h := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds _ _ ⟨e⟩

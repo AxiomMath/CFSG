@@ -112,7 +112,7 @@ theorem ordBMRow_of_search
     exact lre6br4_finish hp hU33 hb hdiv
   case A =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .PSL (l + 1) 2 n := hmodel.admissible
     simp only [LargeEvenInLambda2] at hlab
@@ -125,7 +125,7 @@ theorem ordBMRow_of_search
         have hq0 : 2 ^ n ≠ 0 := by positivity
         have hbm : bmAutBnd .PSL (l + 1) (2 ^ n) = 2 ^ n * ((2 ^ n) ^ 2 - 1) * n := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_pos ((beq_iff_eq).mpr h2), h2]
+          rw [ite_eq_left ((beq_iff_eq).mpr h2), h2]
           rw [lre6br4_lieOrd_PSL_two_even (2 ^ n) hq hq0]
         have hmodel2 : LieModel R .PSL 2 2 n := by simpa only [h2] using hmodel
         have hbound0 := ordBMBound_PSL_two (p := 2) (f := n) Nat.prime_two (by omega) R hR hmodel2 p hp hp2
@@ -138,7 +138,7 @@ theorem ordBMRow_of_search
         have hbm : bmAutBnd .PSL (l + 1) (2 ^ n) =
             lieOrd .PSL (l + 1) (2 ^ n) * (2 * n * Nat.gcd (l + 1) (2 ^ n - 1)) := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_neg (fun hc => h2 (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => h2 (eq_of_beq hc))]
         have hbound0 := ordBMBound_PSL (n := l + 1) (f := n) h3 hlab.1 R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
             (bmAutBnd .PSL (l + 1) (2 ^ n)).factorization p := by
@@ -147,7 +147,7 @@ theorem ordBMRow_of_search
         exact lre6br4_finish hp hok hb hdiv
   case twA =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .PSU (l + 1) 2 n := hmodel.admissible
     simp only [LargeEvenInLambda2] at hlab
@@ -165,7 +165,7 @@ theorem ordBMRow_of_search
       exact lre6br4_finish hp hok hb hdiv
   case B =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .PSp l 2 n := hmodel.admissible
     simp only [LargeEvenInLambda2] at hlab
@@ -175,7 +175,7 @@ theorem ordBMRow_of_search
       · have hn2 : 2 ≤ n := hlab.2.2 hl2
         have hbm : bmAutBnd .PSp l (2 ^ n) = bmGlOrd 4 (2 ^ n) * n := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_pos ((beq_iff_eq).mpr hl2)]
+          rw [ite_eq_left ((beq_iff_eq).mpr hl2)]
         have hmodel2 : LieModel R .PSp 2 2 n := by simpa only [hl2] using hmodel
         have hbound0 := ordBMBound_PSp_two (f := n) hn2 R hR hmodel2 p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -186,7 +186,7 @@ theorem ordBMRow_of_search
       · have h3 : 3 ≤ l := by omega
         have hbm : bmAutBnd .PSp l (2 ^ n) = lieOrd .PSp l (2 ^ n) * n := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_neg (fun hc => hl2 (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hl2 (eq_of_beq hc))]
         have hbound0 := ordBMBound_PSp (r := l) (f := n) h3 hlab.1 R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
             (bmAutBnd .PSp l (2 ^ n)).factorization p := by
@@ -195,7 +195,7 @@ theorem ordBMRow_of_search
         exact lre6br4_finish hp hok hb hdiv
   case C =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .PSp l 2 n := hmodel.admissible
     simp only [LargeEvenInLambda2] at hlab
@@ -205,7 +205,7 @@ theorem ordBMRow_of_search
       · have hn2 : 2 ≤ n := hlab.2.2 hl2
         have hbm : bmAutBnd .PSp l (2 ^ n) = bmGlOrd 4 (2 ^ n) * n := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_pos ((beq_iff_eq).mpr hl2)]
+          rw [ite_eq_left ((beq_iff_eq).mpr hl2)]
         have hmodel2 : LieModel R .PSp 2 2 n := by simpa only [hl2] using hmodel
         have hbound0 := ordBMBound_PSp_two (f := n) hn2 R hR hmodel2 p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -216,7 +216,7 @@ theorem ordBMRow_of_search
       · have h3 : 3 ≤ l := by omega
         have hbm : bmAutBnd .PSp l (2 ^ n) = lieOrd .PSp l (2 ^ n) * n := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_neg (fun hc => hl2 (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hl2 (eq_of_beq hc))]
         have hbound0 := ordBMBound_PSp (r := l) (f := n) h3 hlab.1 R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
             (bmAutBnd .PSp l (2 ^ n)).factorization p := by
@@ -227,8 +227,8 @@ theorem ordBMRow_of_search
     by_cases h3 : l = 3
     · subst h3
       have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-      simp only [markTag, markRank, markChar, markDeg, if_true, if_false] at hC
-      simp only [MarkedModel, markTag, markRank, markChar, markDeg, if_true, if_false] at hmodel
+      simp only [markTag, markRank, markDeg, ite_true] at hC
+      simp only [MarkedModel, markTag, markRank, markChar, markDeg, ite_true] at hmodel
       have hadm : StatedLieAdmissible .PSL 4 2 n := hmodel.admissible
       simp only [LargeEvenInLambda2] at hlab
       rcases hC with hexcl | hok
@@ -236,7 +236,7 @@ theorem ordBMRow_of_search
       · have hbm : bmAutBnd .PSL 4 (2 ^ n) =
             lieOrd .PSL 4 (2 ^ n) * (2 * n * Nat.gcd 4 (2 ^ n - 1)) := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_neg (by decide : ¬ ((4 == 2) = true))]
+          rw [ite_eq_right (by decide : ¬ ((4 == 2) = true))]
         have hbound0 := ordBMBound_PSL (n := 4) (f := n) (by norm_num) hlab.1 R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
             (bmAutBnd .PSL 4 (2 ^ n)).factorization p := by
@@ -245,13 +245,13 @@ theorem ordBMRow_of_search
         exact lre6br4_finish hp hok hb hdiv
     · have htag : markTag ⟨.D, l, n⟩ = .POmegaPlus := by
         simp only [markTag]
-        rw [if_neg h3]
+        rw [ite_eq_right h3]
       have hrank : markRank ⟨.D, l, n⟩ = l := by
         simp only [markRank]
-        rw [if_neg h3]
+        rw [ite_eq_right h3]
       have hdeg : markDeg ⟨.D, l, n⟩ = n := rfl
       have hC := lre6br4_search_or hN hS hlab (by rfl) (by rw [htag]; simp [searchTags]) hd
-      simp only [htag, hrank, hdeg, markChar] at hC
+      simp only [htag, hrank, hdeg] at hC
       simp only [MarkedModel, htag, hrank, hdeg, markChar] at hmodel
       have hadm : StatedLieAdmissible .POmegaPlus l 2 n := hmodel.admissible
       simp only [LargeEvenInLambda2] at hlab
@@ -263,8 +263,8 @@ theorem ordBMRow_of_search
           · subst hn1
             have hbm : bmAutBnd .POmegaPlus 4 (2 ^ 1) = 3 * lieOrd .POmegaPlus 4 2 := by
               simp only [bmAutBnd, Nat.log2_two_pow]
-              rw [if_pos (by decide : ((4 == 4) = true))]
-              rw [if_pos (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
+              rw [ite_eq_left (by decide : ((4 == 4) = true))]
+              rw [ite_eq_left (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
               norm_num
             have hbound0 := ordBMBound_D4_two R hR hmodel p hp hp2
             have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -277,14 +277,14 @@ theorem ordBMRow_of_search
               exact hn1 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
             have hbm : bmAutBnd .POmegaPlus 4 (2 ^ n) = 0 := by
               simp only [bmAutBnd, Nat.log2_two_pow]
-              rw [if_pos (by decide : ((4 == 4) = true))]
-              rw [if_neg (fun hc => hne (eq_of_beq hc))]
+              rw [ite_eq_left (by decide : ((4 == 4) = true))]
+              rw [ite_eq_right (fun hc => hne (eq_of_beq hc))]
             rw [hbm] at hok
             simp [bmAutOk] at hok
         · have h5 : 5 ≤ l := by omega
           have hbm : bmAutBnd .POmegaPlus l (2 ^ n) = bmGlOrd (2 * l) (2 ^ n) * n := by
             simp only [bmAutBnd, Nat.log2_two_pow]
-            rw [if_neg (fun hc => h4 (eq_of_beq hc))]
+            rw [ite_eq_right (fun hc => h4 (eq_of_beq hc))]
           have hbound0 := ordBMBound_POmegaPlus (n := l) (f := n) h5 hlab.1 R hR hmodel p hp hp2
           have hb : (Nat.card (MulAut R)).factorization p ≤
               (bmAutBnd .POmegaPlus l (2 ^ n)).factorization p := by
@@ -295,8 +295,8 @@ theorem ordBMRow_of_search
     by_cases h2 : l = 2
     · subst h2
       have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-      simp only [markTag, markRank, markChar, markDeg, if_true, if_false] at hC
-      simp only [MarkedModel, markTag, markRank, markChar, markDeg, if_true, if_false] at hmodel
+      simp only [markTag, markRank, markDeg, ite_true] at hC
+      simp only [MarkedModel, markTag, markRank, markChar, markDeg, ite_true] at hmodel
       have hadm : StatedLieAdmissible .PSL 2 2 (2 * n) := hmodel.admissible
       simp only [LargeEvenInLambda2] at hlab
       rcases hC with hexcl | hok
@@ -306,7 +306,7 @@ theorem ordBMRow_of_search
         have hbm : bmAutBnd .PSL 2 (2 ^ (2 * n)) =
             2 ^ (2 * n) * ((2 ^ (2 * n)) ^ 2 - 1) * (2 * n) := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_pos (by decide : ((2 == 2) = true))]
+          rw [ite_eq_left (by decide : ((2 == 2) = true))]
           rw [lre6br4_lieOrd_PSL_two_even (2 ^ (2 * n)) hq hq0]
         have hbound0 := ordBMBound_PSL_two (p := 2) (f := 2 * n) Nat.prime_two (by omega)
           R hR hmodel p hp hp2
@@ -318,8 +318,8 @@ theorem ordBMRow_of_search
     · by_cases h3 : l = 3
       · subst h3
         have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-        simp only [markTag, markRank, markChar, markDeg, if_true, if_false] at hC
-        simp only [MarkedModel, markTag, markRank, markChar, markDeg, if_true, if_false] at hmodel
+        simp only [markTag, markRank, markDeg, ite_true] at hC
+        simp only [MarkedModel, markTag, markRank, markChar, markDeg, ite_true] at hmodel
         have hadm : StatedLieAdmissible .PSU 4 2 n := hmodel.admissible
         simp only [LargeEvenInLambda2] at hlab
         rcases hC with hexcl | hok
@@ -336,15 +336,15 @@ theorem ordBMRow_of_search
           exact lre6br4_finish hp hok hb hdiv
       · have htag : markTag ⟨.twD, l, n⟩ = .POmegaMinus := by
           simp only [markTag]
-          rw [if_neg h2, if_neg h3]
+          rw [ite_eq_right h2, ite_eq_right h3]
         have hrank : markRank ⟨.twD, l, n⟩ = l := by
           simp only [markRank]
-          rw [if_neg h2, if_neg h3]
+          rw [ite_eq_right h2, ite_eq_right h3]
         have hdeg : markDeg ⟨.twD, l, n⟩ = n := by
           simp only [markDeg]
-          rw [if_neg h2]
+          rw [ite_eq_right h2]
         have hC := lre6br4_search_or hN hS hlab (by rfl) (by rw [htag]; simp [searchTags]) hd
-        simp only [htag, hrank, hdeg, markChar] at hC
+        simp only [htag, hrank, hdeg] at hC
         simp only [MarkedModel, htag, hrank, hdeg, markChar] at hmodel
         have hadm : StatedLieAdmissible .POmegaMinus l 2 n := hmodel.admissible
         simp only [LargeEvenInLambda2] at hlab
@@ -360,7 +360,7 @@ theorem ordBMRow_of_search
           exact lre6br4_finish hp hok hb hdiv
   case E6 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     rcases hC with hexcl | hok
     · simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
       exact lre6br4_not_excl hmodel.admissible hexcl
@@ -369,7 +369,7 @@ theorem ordBMRow_of_search
       simp [bmAutOk] at hok
   case E7 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     rcases hC with hexcl | hok
     · simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
       exact lre6br4_not_excl hmodel.admissible hexcl
@@ -378,7 +378,7 @@ theorem ordBMRow_of_search
       simp [bmAutOk] at hok
   case E8 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     rcases hC with hexcl | hok
     · simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
       exact lre6br4_not_excl hmodel.admissible hexcl
@@ -387,7 +387,7 @@ theorem ordBMRow_of_search
       simp [bmAutOk] at hok
   case F4 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .F4 0 2 n := hmodel.admissible
     rcases hC with hexcl | hok
@@ -396,7 +396,7 @@ theorem ordBMRow_of_search
       · subst hn1
         have hbm : bmAutBnd .F4 0 (2 ^ 1) = lieOrd .F4 0 2 * 2 := by
           simp only [bmAutBnd]
-          rw [if_pos (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
+          rw [ite_eq_left (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
           norm_num
         have hbound0 := ordBMBound_F4_two R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -409,12 +409,12 @@ theorem ordBMRow_of_search
           exact hn1 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
         have hbm : bmAutBnd .F4 0 (2 ^ n) = 0 := by
           simp only [bmAutBnd]
-          rw [if_neg (fun hc => hne (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hne (eq_of_beq hc))]
         rw [hbm] at hok
         simp [bmAutOk] at hok
   case twE6 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .twistedE6 0 2 n := hmodel.admissible
     rcases hC with hexcl | hok
@@ -423,7 +423,7 @@ theorem ordBMRow_of_search
       · subst hn1
         have hbm : bmAutBnd .twistedE6 0 (2 ^ 1) = lieOrd .twistedE6 0 2 * 18 := by
           simp only [bmAutBnd]
-          rw [if_pos (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
+          rw [ite_eq_left (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
           norm_num
         have hbound0 := ordBMBound_twistedE6_two R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -436,12 +436,12 @@ theorem ordBMRow_of_search
           exact hn1 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
         have hbm : bmAutBnd .twistedE6 0 (2 ^ n) = 0 := by
           simp only [bmAutBnd]
-          rw [if_neg (fun hc => hne (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hne (eq_of_beq hc))]
         rw [hbm] at hok
         simp [bmAutOk] at hok
   case triD4 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .trialityD4 0 2 n := hmodel.admissible
     rcases hC with hexcl | hok
@@ -450,7 +450,7 @@ theorem ordBMRow_of_search
       · subst hn1
         have hbm : bmAutBnd .trialityD4 0 (2 ^ 1) = lieOrd .trialityD4 0 2 * 3 := by
           simp only [bmAutBnd]
-          rw [if_pos (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
+          rw [ite_eq_left (by decide : (((2 : ℕ) ^ 1 == 2) = true))]
           norm_num
         have hbound0 := ordBMBound_trialityD4_two R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -463,12 +463,12 @@ theorem ordBMRow_of_search
           exact hn1 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
         have hbm : bmAutBnd .trialityD4 0 (2 ^ n) = 0 := by
           simp only [bmAutBnd]
-          rw [if_neg (fun hc => hne (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hne (eq_of_beq hc))]
         rw [hbm] at hok
         simp [bmAutOk] at hok
   case G2 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .G2 0 2 n := hmodel.admissible
     rcases hC with hexcl | hok
@@ -477,7 +477,7 @@ theorem ordBMRow_of_search
       · subst hn2
         have hbm : bmAutBnd .G2 0 (2 ^ 2) = lieOrd .G2 0 4 * 2 := by
           simp only [bmAutBnd]
-          rw [if_pos (by decide : (((2 : ℕ) ^ 2 == 4) = true))]
+          rw [ite_eq_left (by decide : (((2 : ℕ) ^ 2 == 4) = true))]
           norm_num
         have hbound0 := ordBMBound_G2_four R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
@@ -490,12 +490,12 @@ theorem ordBMRow_of_search
           exact hn2 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
         have hbm : bmAutBnd .G2 0 (2 ^ n) = 0 := by
           simp only [bmAutBnd]
-          rw [if_neg (fun hc => hne (eq_of_beq hc))]
+          rw [ite_eq_right (fun hc => hne (eq_of_beq hc))]
         rw [hbm] at hok
         simp [bmAutOk] at hok
   case twB2 =>
     have hC := lre6br4_search_or hN hS hlab (by rfl) (by simp [markTag, searchTags]) hd
-    simp only [markTag, markRank, markChar, markDeg] at hC
+    simp only [markTag, markRank, markDeg] at hC
     simp only [MarkedModel, markTag, markRank, markChar, markDeg] at hmodel
     have hadm : StatedLieAdmissible .twistedB2 0 2 n := hmodel.admissible
     rcases hC with hexcl | hok
@@ -504,7 +504,7 @@ theorem ordBMRow_of_search
       · subst hn3
         have hbm : bmAutBnd .twistedB2 0 (2 ^ 3) = lieOrd .twistedB2 0 (2 ^ 3) * 3 := by
           simp only [bmAutBnd, Nat.log2_two_pow]
-          rw [if_pos (by decide : ((((2 : ℕ) ^ 3 == 8) || ((2 : ℕ) ^ 3 == 32)) = true))]
+          rw [ite_eq_left (by decide : ((((2 : ℕ) ^ 3 == 8) || ((2 : ℕ) ^ 3 == 32)) = true))]
         have hbound0 := ordBMBound_twistedB2 (f := 3) (Or.inl rfl) R hR hmodel p hp hp2
         have hb : (Nat.card (MulAut R)).factorization p ≤
             (bmAutBnd .twistedB2 0 (2 ^ 3)).factorization p := by
@@ -515,7 +515,7 @@ theorem ordBMRow_of_search
         · subst hn5
           have hbm : bmAutBnd .twistedB2 0 (2 ^ 5) = lieOrd .twistedB2 0 (2 ^ 5) * 5 := by
             simp only [bmAutBnd, Nat.log2_two_pow]
-            rw [if_pos (by decide : ((((2 : ℕ) ^ 5 == 8) || ((2 : ℕ) ^ 5 == 32)) = true))]
+            rw [ite_eq_left (by decide : ((((2 : ℕ) ^ 5 == 8) || ((2 : ℕ) ^ 5 == 32)) = true))]
           have hbound0 := ordBMBound_twistedB2 (f := 5) (Or.inr rfl) R hR hmodel p hp hp2
           have hb : (Nat.card (MulAut R)).factorization p ≤
               (bmAutBnd .twistedB2 0 (2 ^ 5)).factorization p := by
@@ -530,7 +530,7 @@ theorem ordBMRow_of_search
             exact hn5 (Nat.pow_right_injective (a := 2) (by norm_num) (by simpa using hc))
           have hbm : bmAutBnd .twistedB2 0 (2 ^ n) = 0 := by
             simp only [bmAutBnd]
-            rw [if_neg]
+            rw [ite_eq_right]
             · intro hc
               rw [Bool.or_eq_true] at hc
               rcases hc with h8 | h32

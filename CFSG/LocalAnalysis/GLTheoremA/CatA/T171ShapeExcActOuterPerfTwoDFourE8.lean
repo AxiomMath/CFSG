@@ -237,7 +237,7 @@ theorem rankFourTwoDE8Stable_holds : RankFourTwoDE8Stable := by
       ext γ
       exact ⟨fun h => h.1, fun hγ =>
         ⟨hγ, rootChar_eq_one_of_mem_charStabilizer_neg hwstab hneg γ⟩⟩
-    haveI : Subsingleton (KernelComponent (rootCharHom a)) :=
+    have : Subsingleton (KernelComponent (rootCharHom a)) :=
       kernelComponent_subsingleton_of_kernelRoots_all_E8 hker
     exact hji (Subsingleton.elim j i)
 

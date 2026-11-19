@@ -60,7 +60,7 @@ private theorem conj_delta_eq_self (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK
     (hRM : R ≤ c.S.M) (hKR : t.Ky ≤ Subgroup.normalizer (R : Set G))
     (hR2 : IsPGroup 2 R) {r : G} (hrR : r ∈ R) (u : ↥(t.Lhat 0)) :
     t.qmk ⟨r, hRM hrR⟩ * t.delta u * (t.qmk ⟨r, hRM hrR⟩)⁻¹ = t.delta u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3R : ¬ 3 ∣ Nat.card R :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup hR2 Nat.prime_three (by norm_num)
   have hcomm : ⁅R, t.Ky⁆ ≤ c.L ⊓ t.d.N :=
@@ -154,8 +154,6 @@ private theorem conj_fixed_components (hK32 : CFSG.LocalAnalysis.UniquenessCase.
   let c2 : ↥(t.Lhat 2) := ⟨σ (a 2 : t.Mb), hmem 2⟩
   have hmuLc : t.muL ((c0, c1), c2) = σ (t.muL ((a 0, a 1), a 2)) := by
     rw [muL_apply, muL_apply]
-    change (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb) =
-      σ ((a 0 : t.Mb) * (a 1 : t.Mb) * (a 2 : t.Mb))
     rw [map_mul, map_mul]
   have hmuLa : t.muL ((a 0, a 1), a 2) = t.delta u := muL_diagComp t u
   have hEq : t.muL ((c0, c1), c2) = t.muL ((a 0, a 1), a 2) := by
@@ -213,8 +211,6 @@ private theorem conj_swap_zero_one_components (hK32 : CFSG.LocalAnalysis.Uniquen
     (commute_of_mem_Lhat t 0 1 (by decide) (c0 : t.Mb) (c1 : t.Mb) c0.2 c1.2).eq
   have hmuLc : t.muL ((c0, c1), c2) = σ (t.muL ((a 0, a 1), a 2)) := by
     rw [muL_apply, muL_apply]
-    change (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb) =
-      σ ((a 0 : t.Mb) * (a 1 : t.Mb) * (a 2 : t.Mb))
     rw [map_mul, map_mul]
     rw [hcomm]
   have hmuLa : t.muL ((a 0, a 1), a 2) = t.delta u := muL_diagComp t u
@@ -272,8 +268,6 @@ private theorem conj_swap_one_two_components (hK32 : CFSG.LocalAnalysis.Uniquene
     (commute_of_mem_Lhat t 1 2 (by decide) (c1 : t.Mb) (c2 : t.Mb) c1.2 c2.2).eq
   have hmuLc : t.muL ((c0, c1), c2) = σ (t.muL ((a 0, a 1), a 2)) := by
     rw [muL_apply, muL_apply]
-    change (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb) =
-      σ ((a 0 : t.Mb) * (a 1 : t.Mb) * (a 2 : t.Mb))
     rw [map_mul, map_mul]
     change (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb) =
       (c0 : t.Mb) * (c2 : t.Mb) * (c1 : t.Mb)
@@ -342,8 +336,6 @@ private theorem conj_swap_two_zero_components (hK32 : CFSG.LocalAnalysis.Uniquen
   have hc012 : Commute ((c0 : t.Mb) * (c1 : t.Mb)) (c2 : t.Mb) := hc02.mul_left hc12
   have hmuLc : t.muL ((c0, c1), c2) = σ (t.muL ((a 0, a 1), a 2)) := by
     rw [muL_apply, muL_apply]
-    change (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb) =
-      σ ((a 0 : t.Mb) * (a 1 : t.Mb) * (a 2 : t.Mb))
     rw [map_mul, map_mul]
     calc (c0 : t.Mb) * (c1 : t.Mb) * (c2 : t.Mb)
         = (c2 : t.Mb) * ((c0 : t.Mb) * (c1 : t.Mb)) := hc012.eq
@@ -480,7 +472,7 @@ private noncomputable def conjHom (j : Fin 3) : ↥(t.d.A j) →* ↥(t.d.A (j +
   map_one' := by ext; simp
   map_mul' a b := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk, MulAut.conj_apply]
+    simp only [Subgroup.coe_mul]
     group
 
 private noncomputable def diagHom (j : Fin 3) :
@@ -497,9 +489,9 @@ private noncomputable def Diag (j : Fin 3) : Subgroup G :=
 
 private theorem diagHom_apply (j : Fin 3) (a : ↥(t.d.A j)) :
     (diagHom t j a : G) = (a : G) * (t.y * (a : G) * t.y⁻¹) := by
-  letI : IsMulCommutative ↥(t.d.A j ⊔ t.d.A (j + 1)) :=
+  let : IsMulCommutative ↥(t.d.A j ⊔ t.d.A (j + 1)) :=
     (t.d.isElemAbelian_A_sup_A j (j + 1)).1
-  letI : CommGroup ↥(t.d.A j ⊔ t.d.A (j + 1)) := IsMulCommutative.instCommGroup
+  let : CommGroup ↥(t.d.A j ⊔ t.d.A (j + 1)) := IsMulCommutative.instCommGroup
   rfl
 
 private theorem inf_A_A_succ_eq_bot (j : Fin 3) : t.d.A j ⊓ t.d.A (j + 1) = ⊥ := by
@@ -794,7 +786,7 @@ private theorem exists_rankTwo_le_normalizer
   let πhom : ↥t.d.M →* Equiv.Perm (Fin 3) := t.d.permHom t.hinj (hperm_d t)
   let rmD : ↥R → ↥t.d.M := fun r => ⟨(r : G), t.hdM ▸ (show (r : G) ∈ t.M from hRM r.2)⟩
   let πR : ↥R →* Equiv.Perm (Fin 3) := πhom.comp (Subgroup.inclusion hRM')
-  letI : MulAction ↥R (Fin 3) := MulAction.compHom (Fin 3) πR
+  let : MulAction ↥R (Fin 3) := MulAction.compHom (Fin 3) πR
   obtain ⟨i, hi₀⟩ := hR2.nonempty_fixed_point_of_prime_not_dvd_card (Fin 3) (by
     rw [Nat.card_fin]; norm_num)
   have hπR_eq : ∀ r : ↥R, πhom (rmD r) = πR r := fun r => by

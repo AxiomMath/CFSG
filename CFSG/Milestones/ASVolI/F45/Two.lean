@@ -98,7 +98,7 @@ theorem burnsideF45_cover_of_index_two {G : Type*} [Group G] {R B : Subgroup G}
     (hR : R.index = 2) (hB : ¬ B ≤ R) (q : G) : ∃ r ∈ R, ∃ b ∈ B, q = r * b := by
   by_cases hq : q ∈ R
   · exact ⟨q, hq, 1, B.one_mem, (mul_one q).symm⟩
-  · obtain ⟨b, hbB, hbR⟩ := SetLike.not_le_iff_exists.1 hB
+  · obtain ⟨b, hbB, hbR⟩ := IsConcreteLE.not_le_iff_exists.1 hB
     refine ⟨q * b⁻¹, ?_, b, hbB, by group⟩
     rw [Subgroup.mul_mem_iff_of_index_two hR]
     exact iff_of_false hq (fun h => hbR (by simpa using R.inv_mem h))
@@ -135,7 +135,7 @@ theorem burnsideF45_isLongRootParabolic {G : Type} [Group G] {B P₁ P₂ L : Su
     · calc y * z = y * z * y⁻¹ * y := by group
         _ = z * y := by rw [h]
   have hmax := (hlie.2.2.2 P₁).2 (Or.inl rfl)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : oPPrime 2 P₁ ≤ P₁ := (Subgroup.closure_le _).2 fun x hx => hx.1
   refine ⟨z, Subgroup.subset_closure ⟨hzP, 1, ?_⟩, hz1, fun y hy => hcomm y (hle hy), ?_⟩
   · rw [pow_one]
@@ -290,8 +290,8 @@ theorem burnsideF45_clause2_G2d {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ :
     ⟨-, exponent, K', fK', finK', charK', scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c' <;> decide)
   · exact absurd hk (by decide)
-  · letI := fK
-    haveI := finK
+  · let := fK
+    have := finK
     let π : E ≃* G2Native.SmallModel K := Subgroup.topEquiv.symm.trans marking.symm
     have hπ : ∀ (L : Subgroup (G2Native.Parent K)) (M : Subgroup E),
         ⊤ ⊓ M = (G2Native.smallImage K marking L).map (⊤ : Subgroup E).subtype →
@@ -350,7 +350,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.ASVolI.ChF.ExceptionalRoots
 theorem burnsideF45_tits_isLongRootParabolic (K : Type) [Field K] [Finite K] [CharP K 2]
     (scope : ReeScope K 0) :
     IsLongRootParabolic 2 ⊤ (NativeFrame.ree K 0).pointParabolic := by
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := ‹CharP K 2›
   have hK : Nat.card K = 2 := by simpa [ReeScope] using scope
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := scope
   have hloc := burnsideF4h_reeOrderedLocals_core K 0 scope
@@ -416,9 +416,9 @@ theorem burnsideF45_clause2_Tits {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ 
   · exact absurd hk (by decide)
   · exact absurd hk (by decide)
   · subst he
-    letI := fK
-    haveI := finK
-    haveI := charK
+    let := fK
+    have := finK
+    have := charK
     have hK : Nat.card K = 2 := by simpa [ReeScope] using scope
     obtain ⟨-, -, -, ι, hιinj, hιidx, -, hB, hP1, hP2, -, -, hBi, -, -⟩ :=
       burnsideF4h_titsParentAssembly K scope

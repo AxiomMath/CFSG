@@ -264,7 +264,7 @@ theorem eq_or_exists_zpowers_of_isCyclic [Finite Ω] {p : ℕ} (hp : p.Prime) {B
     (hf : ∀ x : ↥B, f x = 1 ↔ (x : Ω) ∈ B₁) :
     B₁ = B ∨ ∃ b ∈ B, b ∉ B₁ ∧ B = B₁ ⊔ Subgroup.zpowers b ∧
       Subgroup.zpowers b ⊓ B₁ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hle : B ≤ B₁
   · exact Or.inl (le_antisymm hB₁ hle)
   right
@@ -276,7 +276,7 @@ theorem eq_or_exists_zpowers_of_isCyclic [Finite Ω] {p : ℕ} (hp : p.Prime) {B
   have hord : orderOf (f ⟨b, hbB⟩) = p := orderOf_eq_prime hfbp hfb
   have hpow : ∀ x : ↥B, ∃ m : ℤ, f x = f ⟨b, hbB⟩ ^ m := by
     intro x
-    haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
     have hexp : Monoid.exponent ↥f.range ∣ p := by
       refine Monoid.exponent_dvd_of_forall_pow_eq_one fun y => ?_
       obtain ⟨z, hz⟩ := y.2

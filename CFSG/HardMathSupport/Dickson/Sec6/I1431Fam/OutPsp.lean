@@ -34,7 +34,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem t6outpsp_commutator_le_odd (hodd : ringChar K ≠ 2) :
     commutator (MulAut (StatedProj (StatedSp 2 K))) ≤ (conjAut 2 K).range := by
-  haveI : ((conjAut 2 K).range : Subgroup (MulAut (StatedProj (StatedSp 2 K)))).Normal :=
+  have : ((conjAut 2 K).range : Subgroup (MulAut (StatedProj (StatedSp 2 K)))).Normal :=
     (stdPinnedPSp_two_stable hodd).normal
   refine t6outpsp_commutator_le_of_eq_mul_comm _ (fieldAut 2 K).range ?_ ?_
   · intro g
@@ -45,7 +45,7 @@ theorem t6outpsp_commutator_le_odd (hodd : ringChar K ≠ 2) :
 
 theorem t6outpsp_commutator_le_even [CharP K 2] :
     commutator (MulAut (StatedProj (StatedSp 2 K))) ≤ (conjAut 2 K).range := by
-  haveI := range_conjAut_normal_of_charTwo (F := K)
+  have := range_conjAut_normal_of_charTwo (F := K)
   set τ₀ : MulAut (StatedProj (StatedSp 2 K)) := CFSG.QuasithinUnique.Lin2.Five.tauAut
   set S : Set (MulAut (StatedProj (StatedSp 2 K))) := Set.range (fieldAut 2 K) ∪ {τ₀}
   have hS : S.Pairwise Commute := by
@@ -70,7 +70,7 @@ theorem t6outpsp_commutator_le_even [CharP K 2] :
 theorem t6outpsp_commutator_le_conjAut_range :
     commutator (MulAut (StatedProj (StatedSp 2 K))) ≤ (conjAut 2 K).range := by
   by_cases h2 : ringChar K = 2
-  · haveI : CharP K 2 := ringChar.of_eq h2
+  · have : CharP K 2 := ringChar.of_eq h2
     exact t6outpsp_commutator_le_even
   · exact t6outpsp_commutator_le_odd h2
 

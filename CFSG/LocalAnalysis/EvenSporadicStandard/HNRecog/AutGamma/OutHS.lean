@@ -11,8 +11,8 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 private theorem card_mulAut_le
     {H : Type} [Group H] {E : Subgroup H}
     (h : TwoHS.IsHSCover H E) : Nat.card (MulAut E) ≤ 88704000 := by
-  haveI : Finite H := h.finite
-  haveI : Group.IsPerfect E := h.perfect
+  have : Finite H := h.finite
+  have : Group.IsPerfect E := h.perfect
   rw [← TwoHS.card_mulAut_of_isSporadic_hs h.quotient]
   exact Nat.card_le_card_of_injective _
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective E)
@@ -20,7 +20,7 @@ private theorem card_mulAut_le
 private theorem card_centralizer_le_two {H : Type} [Group H]
     {E : Subgroup H} (h : TwoHS.IsHSCover H E) :
     Nat.card (centralizer (E : Set H)) ≤ 2 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   rw [← h.card_center]
   refine Nat.card_le_card_of_injective
     (fun x : centralizer (E : Set H) => (⟨⟨x, h.centralizer_le x.2⟩, ?_⟩ : center E)) ?_
@@ -42,19 +42,19 @@ theorem index_range_conj_le_two
     {H : Type} [Group H] {E : Subgroup H}
     (h : TwoHS.IsF5Centralizer H E) :
     (MulAut.conj : H →* MulAut H).range.index ≤ 2 := by
-  haveI : Finite H := h.toIsHSCover.finite
+  have : Finite H := h.toIsHSCover.finite
   have hEeq : E = _root_.commutator H := by
     apply le_antisymm
     · have hperf : ⁅E, E⁆ = E := (Subgroup.isPerfect_iff (H := E)).mp h.toIsHSCover.perfect
       calc E = ⁅E, E⁆ := hperf.symm
         _ ≤ _root_.commutator H := Subgroup.commutator_mono le_top le_top
-    · haveI : E.Normal := h.toIsHSCover.normal
+    · have : E.Normal := h.toIsHSCover.normal
       have hcard : Nat.card (H ⧸ E) = 2 := by
         rw [← Subgroup.index_eq_card]
         exact h.index_eq_two
-      haveI : IsCyclic (H ⧸ E) := isCyclic_of_prime_card (p := 2) hcard
+      have : IsCyclic (H ⧸ E) := isCyclic_of_prime_card (p := 2) hcard
       exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
-  haveI : E.Characteristic := hEeq.symm ▸ inferInstance
+  have : E.Characteristic := hEeq.symm ▸ inferInstance
   let res : MulAut H →* MulAut E := MulAut.characteristic E
   have hker : Nat.card res.ker ≤ 2 := by
     obtain ⟨v, hv, _hv2⟩ := h.exists_outer_involution

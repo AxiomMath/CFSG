@@ -30,7 +30,7 @@ theorem exists_Pmax (h : T6Ctx N u p) :
   have hcardP : Nat.card ↥((S : Subgroup ↥C).map C.subtype) =
       p ^ (Nat.card ↥C).factorization p := by
     rw [Subgroup.card_map_of_injective C.subtype_injective, Sylow.card_eq_multiplicity S]
-  refine ⟨(S : Subgroup ↥C).map C.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, hcardP, ?_⟩
+  refine ⟨(S : Subgroup ↥C).map C.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, hcardP, ?_⟩
   · intro x hx
     exact ⟨⟨x, hTC hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   · intro E hEC hEp
@@ -79,7 +79,7 @@ theorem A_card2 (h : T6Ctx N u p) (h' : T6Ctx N.swap u p) {P : Subgroup G} (hXP 
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.zpowers_le.2 hzA)).toEquiv,
       Nat.card_zpowers, hzord]; norm_num
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
-  have hE2 : IsPGroup 2 ↥((S : Subgroup ↥A).map A.subtype) := S.isPGroup'.map _
+  have hE2 : IsPGroup 2 ↥((S : Subgroup ↥A).map A.subtype) := S.isPGroup.map _
   have hzE : N.z ∈ (S : Subgroup ↥A).map A.subtype :=
     ⟨⟨N.z, hzA⟩, hS (Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers _)), rfl⟩
   have hEA : (S : Subgroup ↥A).map A.subtype ≤ A := Subgroup.map_subtype_le _

@@ -70,7 +70,7 @@ theorem ggPhanNSAPairAux_range_blockEmb2 {K : Type} [Field K] [Finite K] {p f n 
       rw [blockMat_apply (F := K) (i := i) (k := 2)]
       by_cases hj : i ≤ j.val ∧ j.val < i + 2
       · by_cases hk : i ≤ k.val ∧ k.val < i + 2
-        · rw [dif_pos ⟨hj, hk⟩]
+        · rw [dite_eq_left ⟨hj, hk⟩]
           show (((M : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K)
               (blockIdx i (by omega) ⟨j.val - i, by omega⟩)
               (blockIdx i (by omega) ⟨k.val - i, by omega⟩) =
@@ -79,9 +79,9 @@ theorem ggPhanNSAPairAux_range_blockEmb2 {K : Type} [Field K] [Finite K] {p f n 
                 Fin.ext (by simp only [blockIdx_val]; omega),
               show blockIdx i (by omega) ⟨k.val - i, by omega⟩ = k from
                 Fin.ext (by simp only [blockIdx_val]; omega)]
-        · rw [dif_neg (fun hh => hk hh.2)]
+        · rw [dite_eq_right (fun hh => hk hh.2)]
           exact (hMoff j k (Or.inr (by omega))).symm
-      · rw [dif_neg (fun hh => hj hh.1)]
+      · rw [dite_eq_right (fun hh => hj hh.1)]
         exact (hMoff j k (Or.inl (by omega))).symm
     have heqB : blockMat n i Bmat =
         (((M⁻¹ : Su K p f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
@@ -89,7 +89,7 @@ theorem ggPhanNSAPairAux_range_blockEmb2 {K : Type} [Field K] [Finite K] {p f n 
       rw [blockMat_apply (F := K) (i := i) (k := 2)]
       by_cases hj : i ≤ j.val ∧ j.val < i + 2
       · by_cases hk : i ≤ k.val ∧ k.val < i + 2
-        · rw [dif_pos ⟨hj, hk⟩]
+        · rw [dite_eq_left ⟨hj, hk⟩]
           show ((((M⁻¹ : Su K p f n) : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K)
               (blockIdx i (by omega) ⟨j.val - i, by omega⟩)
               (blockIdx i (by omega) ⟨k.val - i, by omega⟩) =
@@ -98,9 +98,9 @@ theorem ggPhanNSAPairAux_range_blockEmb2 {K : Type} [Field K] [Finite K] {p f n 
                 Fin.ext (by simp only [blockIdx_val]; omega),
               show blockIdx i (by omega) ⟨k.val - i, by omega⟩ = k from
                 Fin.ext (by simp only [blockIdx_val]; omega)]
-        · rw [dif_neg (fun hh => hk hh.2)]
+        · rw [dite_eq_right (fun hh => hk hh.2)]
           exact (hMioff j k (Or.inr (by omega))).symm
-      · rw [dif_neg (fun hh => hj hh.1)]
+      · rw [dite_eq_right (fun hh => hj hh.1)]
         exact (hMioff j k (Or.inl (by omega))).symm
     have hmul1 : Amat * Bmat = 1 := by
       apply blockMat_injective (k := 2) h

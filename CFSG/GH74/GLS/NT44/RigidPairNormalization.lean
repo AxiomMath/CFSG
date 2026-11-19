@@ -217,7 +217,7 @@ theorem normalizes_rigid_families_of_rigid_actor :
   have hL0 : L0 ∈ RigidSet fullQ v := by
     have h := isRigidOfType_conj (Q := fullQ) hJ g
     simpa only [hg, L0, CFSG.GH74.GLS.Stage1.Thm3.Sec4.cmap, RigidSet,
-      Set.mem_setOf_eq] using h
+      Set.mem_ofPred_eq] using h
   constructor
   ·
     intro I hI

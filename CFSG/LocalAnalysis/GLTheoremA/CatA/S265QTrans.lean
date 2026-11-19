@@ -23,6 +23,7 @@ section Quot
 
 variable {A : Type} [Group A] [Finite A] {p : ℕ}
 
+omit [Finite A] in
 theorem normal_glaPPrimeCoreOf {S : Subgroup A} (hS : S.Normal) : (GLAPPrimeCoreOf p S).Normal := by
   have h := normalizer_le_normalizer_glaPPrimeCoreOf p S
   rw [Subgroup.normalizer_eq_top_iff.2 hS, top_le_iff] at h
@@ -32,7 +33,7 @@ theorem cycModSylow_map (hp : p.Prime) {S : Subgroup A} (hS : S.Normal) (N : Sub
     (hN : N = GLAPPrimeCoreOf p S) (hcyc : CycModSylow p S) :
     CycModSylow p (S.map (QuotientGroup.mk' N)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : ¬ p ∣ Nat.card (QuotientGroup.mk' N).ker := by
     rw [QuotientGroup.ker_mk', hN]
     exact not_dvd_card_glaPPrimeCoreOf hp _
@@ -58,7 +59,7 @@ theorem cycModSylow_map (hp : p.Prime) {S : Subgroup A} (hS : S.Normal) (N : Sub
 
 theorem twoLocalRank_quot_le (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgroup A) [N.Normal]
     (hN : ¬ p ∣ Nat.card N) : GLATwoLocalRank p (A ⧸ N) ≤ GLATwoLocalRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   show CFSG.Open.twoLocalPrimeRank p (A ⧸ N) ≤ CFSG.Open.twoLocalPrimeRank p A
   unfold twoLocalPrimeRank
   apply csSup_le'
@@ -130,14 +131,14 @@ section Cases
 
 variable {A : Type} [Group A] [Finite A] {p : ℕ}
 
-theorem maxc_of_cases (hp : p.Prime) (hp2 : p ≠ 2) {N : Subgroup A} [N.Normal] (hN : ¬ p ∣ Nat.card N)
+theorem maxc_of_cases (hp : p.Prime) (_hp2 : p ≠ 2) {N : Subgroup A} [N.Normal] (hN : ¬ p ∣ Nat.card N)
     {B T : Subgroup A} (hB : IsElemAbelian p B) (hrank : p ^ GLATwoLocalRank p A ≤ Nat.card B)
     (hT2 : IsPGroup 2 T) (hBT : B ≤ Subgroup.normalizer (T : Set A)) (hne : (⁅T, B⁆ : Subgroup A) ≠ ⊥) :
     (⁅T.map (QuotientGroup.mk' N), B.map (QuotientGroup.mk' N)⁆ : Subgroup (A ⧸ N)) ≠ ⊥ ∨
       (⁅T, B⁆ : Subgroup A) ≤ N ∧ ∀ E : Subgroup (A ⧸ N), IsElemAbelian p E →
         Nat.card E ≤ Nat.card (B.map (QuotientGroup.mk' N)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hle : (⁅T, B⁆ : Subgroup A) ≤ N
   · right
     refine ⟨hle, fun E hE => ?_⟩
@@ -177,12 +178,13 @@ section Central
 
 variable {A : Type} [Group A] [Finite A] {p : ℕ}
 
+omit [Finite A] in
 theorem glaPPrimeCoreOf_central {S : Subgroup A} (hq : CFSG.Open.IsQuasisimple ↥S)
     (hq' : CFSG.Open.IsQuasisimple (PQuot p S)) :
     ∀ n ∈ GLAPPrimeCoreOf p S, ∀ s ∈ S, s * n = n * s := by
   have hne : GLAPPrimeCore p ↥S ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup (PQuot p S ⧸ Subgroup.center (PQuot p S)) := hq'.2
+    have : IsSimpleGroup (PQuot p S ⧸ Subgroup.center (PQuot p S)) := hq'.2
     have hsub : Subsingleton (PQuot p S) := by
       unfold PQuot
       rw [htop]
@@ -196,6 +198,7 @@ theorem glaPPrimeCoreOf_central {S : Subgroup A} (hq : CFSG.Open.IsQuasisimple �
   have := Subgroup.mem_center_iff.1 (hle hn') ⟨s, hs⟩
   exact congrArg Subtype.val this
 
+omit [Finite A] in
 theorem not_le_of_isQuasisimple_central {K Z : Subgroup A} (hK : CFSG.Open.IsQuasisimple ↥K) (hKZ : K ≤ Z)
     (hZ : ∀ z ∈ Z, ∀ k ∈ K, k * z = z * k) : False := by
   have hc : Subgroup.center ↥K = ⊤ := by
@@ -204,7 +207,7 @@ theorem not_le_of_isQuasisimple_central {K Z : Subgroup A} (hK : CFSG.Open.IsQua
     rw [Subgroup.mem_center_iff]
     intro k'
     exact Subtype.ext (hZ k (hKZ k.2) k' k'.2)
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
   have hsub : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top

@@ -34,8 +34,8 @@ theorem uline_le_sup_inf_QB_of_eq_X_or_Y (h34 : Stroth34Statement)
     · exact hsplit.1.2.2.2.1
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hflag, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   have hfac := sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   set H : Subgroup (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) :=
     (S.subgroupOf (Rt M (LB M Q B) t)).map ((Ψ K).toMonoidHom.comp φ) with hHdef
@@ -89,6 +89,7 @@ theorem uline_le_sup_inf_QB_of_eq_X_or_Y (h34 : Stroth34Statement)
   rw [hxe, sup_comm]
   exact Subgroup.mul_mem_sup hz hwmem
 
+omit [Finite G] in
 private theorem sq_eq_one_of_isConjB (hc : Ctx M Q Z B) {t g b : G} (hb : b ∈ B)
     (hgt : g * t * g⁻¹ = b) : t ^ 2 = 1 := by
   have hb2 : b ^ 2 = 1 := hc.isElemAbelian_B.2 b hb
@@ -99,6 +100,7 @@ private theorem sq_eq_one_of_isConjB (hc : Ctx M Q Z B) {t g b : G} (hb : b ∈ 
   have h2 := congrArg (fun x => g⁻¹ * x * g) h1
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 private theorem zpow_comm_mem_Z_of_sq_eq_one {t δ : G} (ht2 : t ^ 2 = 1) (Z : Subgroup G)
     (htd : ⁅t, δ⁆ ∈ Z) : ∀ k : ℤ, ⁅t ^ k, δ⁆ ∈ Z := by
   intro k
@@ -153,6 +155,7 @@ private theorem comm_mem_Wt_of_mem_X (h34 : Stroth34Statement) (hc : Ctx M Q Z B
   rw [hWQ1]
   exact hmem
 
+omit [Finite G] in
 private theorem conjSubgroup_sup_Z_eq_of_comm_mem_Z {Z H : Subgroup G} {g : G}
     (hcomm : ∀ h ∈ H, ⁅g, h⁆ ∈ Z) : conjSubgroup g H ⊔ Z = H ⊔ Z := by
   refine le_antisymm (sup_le ?_ le_sup_right) (sup_le ?_ le_sup_right)
@@ -177,6 +180,7 @@ private theorem conjSubgroup_sup_Z_eq_of_comm_mem_Z {Z H : Subgroup G} {g : G}
     rw [sup_comm] at hmem
     rwa [← e] at hmem
 
+omit [Finite G] in
 private theorem comm_mul_mem_of_comm_mem {V W X : Subgroup G} {t : G}
     (hδW : ∀ x ∈ X, ⁅x, t⁆ ∈ W) (hXV : ∀ x ∈ X, ∀ w ∈ W, ⁅x, w⁆ ∈ V)
     (hWW : ⁅W, W⁆ ≤ V) {a b : G} (ha : a ∈ X) (hb : b ∈ X) :
@@ -212,12 +216,12 @@ private theorem comm_mem_Vt_of_mem_commutator (h34 : Stroth34Statement) (hc : Ct
         (by rw [hV]; exact sec39_Z_le_Vt))
   have hnorm : (V.subgroupOf W).Normal :=
     CFSG.GroupTheory.normal_subgroupOf_of_commutator_le hWW
-  haveI : (V.subgroupOf W).Normal := hnorm
+  have : (V.subgroupOf W).Normal := hnorm
   have hVnorm : ∀ v ∈ V, ∀ w ∈ W, w * v * w⁻¹ ∈ V := by
     intro v hv w hw
     exact Subgroup.mem_subgroupOf.mp
       (hnorm.conj_mem ⟨v, hVW hv⟩ (Subgroup.mem_subgroupOf.mpr hv) ⟨w, hw⟩)
-  haveI : IsMulCommutative (↥W ⧸ V.subgroupOf W) :=
+  have : IsMulCommutative (↥W ⧸ V.subgroupOf W) :=
     CFSG.GroupTheory.isMulCommutative_quotient_subgroupOf_of_commutator_le hWW
   have hδadd : ∀ a ∈ X, ∀ b ∈ X, ⁅a * b, t⁆ * (⁅a, t⁆ * ⁅b, t⁆)⁻¹ ∈ V :=
     fun a ha b hb => comm_mul_mem_of_comm_mem hδW hXV hWW ha hb
@@ -279,8 +283,8 @@ private theorem exists_mem_commutator_mul_mem_CN (h34 : Stroth34Statement)
   have hXR : X ≤ Rt M (LB M Q B) t := hsplit.1.2.1
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hflag, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   let φ'' : ↥(Rt M (LB M Q B) t) →*
       (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) := (Ψ K).toMonoidHom.comp φ
   have hφ''1 : ∀ s : ↥(Rt M (LB M Q B) t), φ'' s = 1 ↔ (s : G) ∈ hc.CN t := by
@@ -302,10 +306,10 @@ private theorem exists_mem_commutator_mul_mem_CN (h34 : Stroth34Statement)
     rcases hfac with ⟨-, hX⟩ | ⟨-, hX⟩
     · exact Or.inr hX
     · exact Or.inl hX
-  haveI : Group.IsPerfect f.range := by
+  have : Group.IsPerfect f.range := by
     have hq4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
     have hSL := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hq4
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K ×
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K ×
         Matrix.SpecialLinearGroup (Fin 2) K) := isPerfect_prod hSL hSL
     rcases hfr' with h | h
     · rw [h]

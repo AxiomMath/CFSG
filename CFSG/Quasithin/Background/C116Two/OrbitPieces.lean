@@ -19,7 +19,7 @@ theorem card_orbitW {H T V L A : Subgroup G} (h : Ctx H T V L) (hAT : A ≤ T) :
       Nat.card ↥(orbitC A L) * Nat.card ↥(blockU L) ^ ((A ⊓ Subgroup.normalizer (L : Set G)).relIndex A) := by
   classical
   obtain ⟨hcomm, hLU⟩ := orbit_family_hyps h hAT
-  haveI : Fintype ↥(orbitBlocks A L) := Fintype.ofFinite _
+  have : Fintype ↥(orbitBlocks A L) := Fintype.ofFinite _
   have key := card_iSup_mul_prod_eq (fun i : ↥(orbitBlocks A L) => blockU (i : Subgroup G))
     (fun i => blockZ (i : Subgroup G)) (fun i => (i : Subgroup G)) (fun i => inf_le_left) hcomm hLU
     (fun i => rfl)
@@ -56,7 +56,7 @@ theorem fixedPts_inf_centralizer_le {H T V L A : Subgroup G} (h : Ctx H T V L) (
         (orbitW A L ⊓ Subgroup.centralizer (L : Set G)) ≤ orbitC A L := by
   classical
   obtain ⟨hcomm, hLU⟩ := orbit_family_hyps h hAT
-  haveI : Fintype ↥(orbitBlocks A L) := Fintype.ofFinite _
+  have : Fintype ↥(orbitBlocks A L) := Fintype.ofFinite _
   intro x hx
   obtain ⟨h1, h2⟩ := Subgroup.mem_inf.mp hx
   obtain ⟨hxW, hxA⟩ := Subgroup.mem_inf.mp h1

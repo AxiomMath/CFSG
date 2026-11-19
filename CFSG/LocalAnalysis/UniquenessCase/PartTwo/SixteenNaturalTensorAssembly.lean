@@ -34,17 +34,17 @@ theorem s168e3_threeNatSeven_l3_mBarGT_three_of_fixV_ne_bot
     (hZ : fixV (lBar V₀ V hV L) ≠ ⊥) :
     MBarGT D.M V₀ V 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L) (barSub V₀ V hV D.T) :=
     s168e3_threeNat_of_s15_eq_one c hcomp hsum htrans hs
-  letI : Module (ZMod 2) (Additive (Vtil V₀ V hV)) := MulAutTwo.zmod2Module h.elem
+  let : Module (ZMod 2) (Additive (Vtil V₀ V hV)) := MulAutTwo.zmod2Module h.elem
   obtain ⟨m⟩ := h.exists_naturalThreeMultiplicityData h7 hL3
-  letI : AddCommGroup m.Q := m.qAdd
-  letI : Module (ZMod 2) m.Q := m.qModule
-  letI : Finite m.Q := m.qFinite
-  letI : AddCommGroup m.X := m.xAdd
-  letI : Module (ZMod 2) m.X := m.xModule
-  letI : Finite m.X := m.xFinite
+  let : AddCommGroup m.Q := m.qAdd
+  let : Module (ZMod 2) m.Q := m.qModule
+  let : Finite m.Q := m.qFinite
+  let : AddCommGroup m.X := m.xAdd
+  let : Module (ZMod 2) m.X := m.xModule
+  let : Finite m.X := m.xFinite
   let Vg := Vtil V₀ V hV
   let A := Mbar D.M V₀ V hV
   let B := lBar V₀ V hV L
@@ -55,14 +55,14 @@ theorem s168e3_threeNatSeven_l3_mBarGT_three_of_fixV_ne_bot
   let κW : Representation (ZMod 2) ↥K₀ W := s16smRepW (MonoidHom.id ↥K₀)
   let α : Representation (ZMod 2) ↥A W := s16smRepW (MonoidHom.id ↥A)
   let i : Z₀ →ₗ[ZMod 2] W := Z₀.subtype
-  haveI : Finite Vg := inferInstance
-  haveI : Finite W := inferInstance
-  haveI : Finite (MulAut Vg) :=
+  have : Finite Vg := inferInstance
+  have : Finite W := inferInstance
+  have : Finite (MulAut Vg) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := MulAut Vg))
-  haveI : Finite ↥B := inferInstance
-  haveI : Finite ↥A := inferInstance
-  haveI : Finite ↥K₀ := inferInstance
-  haveI : Finite Z₀ := inferInstance
+  have : Finite ↥B := inferInstance
+  have : Finite ↥A := inferInstance
+  have : Finite ↥K₀ := inferInstance
+  have : Finite Z₀ := inferInstance
   have hZne : Z₀ ≠ ⊥ := by
     intro hbot
     apply hZ
@@ -73,7 +73,7 @@ theorem s168e3_threeNatSeven_l3_mBarGT_three_of_fixV_ne_bot
     have hz1 : Additive.ofMul z = (0 : W) := by simpa using hmem
     have : z = 1 := Additive.ofMul.injective (by simpa using hz1)
     exact Subgroup.mem_bot.mpr this
-  haveI : Nontrivial Z₀ := (Submodule.nontrivial_iff_ne_bot (p := Z₀)).mpr hZne
+  have : Nontrivial Z₀ := (Submodule.nontrivial_iff_ne_bot (p := Z₀)).mpr hZne
   have hnat : Explicit.BinaryNaturalSL m.rhoQ 3 (ZMod 2) .natural := by
     show (FFModel.nat (StatedSL 3 (ZMod 2))).IsModel m.rhoQ
     let e := JonesParshall.secEquivAmb (FFModel.nat (StatedSL 3 (ZMod 2))) rfl rfl

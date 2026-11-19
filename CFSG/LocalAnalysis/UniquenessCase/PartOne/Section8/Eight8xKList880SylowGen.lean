@@ -476,9 +476,9 @@ private theorem comm_of_card_le_sq {H : Type} [Group H] {p j : ℕ} [hp : Fact p
   · have : Subsingleton H := (Nat.card_eq_one_iff_unique.mp (by simpa using hH)).1
     intro a b; exact Subsingleton.elim _ _
   · have : IsCyclic H := isCyclic_of_prime_card (by simpa using hH)
-    have : IsMulCommutative H := IsCyclic.commutative
+    have : IsMulCommutative H := _root_.IsCyclic.isMulCommutative
     intro a b; exact (IsMulCommutative.is_comm (M := H)).comm a b
-  · exact IsPGroup.commutative_of_card_eq_prime_sq hH
+  · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hH).is_comm.comm
 
 private theorem rank_le_two_of_card_dvd_cube {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     (hcard : Nat.card G ∣ p ^ 3) (hr : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 2) :
@@ -559,7 +559,7 @@ private theorem sylow_comm_of_quotient {X : Type} [Group X] [Finite X] {p : ℕ}
     exact mul_mem (mul_mem (mul_mem a.2 b.2) (inv_mem a.2)) (inv_mem b.2)
   have hcZ : c ∈ Z := by
     have hmap : IsPGroup p ((S : Subgroup X).map (QuotientGroup.mk' Z)) :=
-      S.isPGroup'.map _
+      S.isPGroup.map _
     obtain ⟨T, hT⟩ := hmap.exists_le_sylow
     have hT' := h T
     have ha : QuotientGroup.mk' Z (a : X) ∈ (T : Subgroup (X ⧸ Z)) := hT ⟨a, a.2, rfl⟩
@@ -571,7 +571,7 @@ private theorem sylow_comm_of_quotient {X : Type} [Group X] [Finite X] {p : ℕ}
       QuotientGroup.mk_mul, QuotientGroup.mk_inv, QuotientGroup.mk_inv, hab']
     group
   have hc1 : c = 1 := by
-    obtain ⟨k, hk⟩ := (S.isPGroup') ⟨c, hcS⟩
+    obtain ⟨k, hk⟩ := (S.isPGroup) ⟨c, hcS⟩
     have h1 : orderOf c ∣ p ^ k := by
       rw [orderOf_dvd_iff_pow_eq_one]
       exact congrArg Subtype.val hk

@@ -46,7 +46,7 @@ theorem pow_mem_pCoreOf_of_mem_mul {L : Subgroup G} {y c : G} {q : ℕ}
   classical
   let M : Subgroup G := Subgroup.normalizer (pCoreOf p L)
   let O : Subgroup ↥M := (pCoreOf p L).subgroupOf M
-  haveI : O.Normal := (Subgroup.normal_subgroupOf_iff
+  have : O.Normal := (Subgroup.normal_subgroupOf_iff
     (Subgroup.le_normalizer (H := pCoreOf p L))).mpr
     (fun h k hh hk => (Subgroup.mem_normalizer_iff.mp hk h).mp hh)
   let cM : ↥M := ⟨c, hc⟩

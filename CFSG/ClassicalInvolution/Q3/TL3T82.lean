@@ -129,7 +129,7 @@ variable {H : LabHyp' Ω f Ω₁ lab₁ T O} (B : Base H)
 theorem μ₀_mem : B.μ₀ ∈ memLabels m := memBar_mem_memLabels _ _ _
 
 theorem μ₀_memOn : B.μ₀ ∈ memLabelsOn ((T : Set (Fin m))ᶜ) :=
-  ⟨B.α₀, B.hα₀, true, fun x hx => H.O_sub (B.hα₀O hx), rfl⟩
+  ⟨B.α₀, B.hα₀, true, fun _x hx => H.O_sub (B.hα₀O hx), rfl⟩
 
 theorem stab (σ : alternatingGroup (Fin m)) (hσ : altAct σ B.μ₀ = B.μ₀) :
     conjSub (f σ) B.M₀ = B.M₀ := by
@@ -512,7 +512,7 @@ theorem exists_labelling' (H : LabHyp' Ω f Ω₁ lab₁ T O) (hD : m = 9 → H.
   have hlab_spec : ∀ L ∈ Ω, lab L ∈ memLabels m ∧ B.Λ (lab L) = L := by
     intro L hL
     have h := hReq L hL
-    rw [hlabdef, dif_pos h]
+    rw [hlabdef, dite_eq_left h]
     exact h.choose_spec
   have hlab_Λ : ∀ μ ∈ memLabels m, lab (B.Λ μ) = μ := by
     intro μ hμ

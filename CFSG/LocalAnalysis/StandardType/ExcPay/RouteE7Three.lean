@@ -47,7 +47,7 @@ theorem isToralSubgroup_E7_three {f : ℕ} (A : Subgroup (ModGL (langTag .E7) GG
 
 private theorem pow_six_le_card_range_ggGamma_E7_three {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
-    {k : ℕ} (hk : 1 ≤ k)
+    {k : ℕ} (_hk : 1 ≤ k)
     (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) {X : Subgroup G}
     (hX : X = L ∨ ∃ y, GGNbr 3 B x D J y X)
     (hmark : GGInnerDiagOnLabel (fun p lab => ggRowP_EE7 p lab ∧ k ≤ lab.n) 3 Bs X) :

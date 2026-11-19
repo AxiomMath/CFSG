@@ -56,6 +56,7 @@ variable {I : Subgroup G}
 abbrev jbar (J₁ : Subgroup ↥I) : Subgroup (barOf 3 I) :=
   J₁.map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥I))
 
+omit [Finite G] in
 theorem rho_map_le {J₁ : Subgroup ↥I} {a : G} (ha : a ∈ Subgroup.normalizer (I : Set G))
     (haJ : a ∈ Subgroup.normalizer ((J₁.map I.subtype : Subgroup G) : Set G))
     {y : barOf 3 I} (hy : y ∈ jbar J₁) : barAut 3 I ⟨a, ha⟩ y ∈ jbar J₁ := by
@@ -70,6 +71,7 @@ theorem rho_map_le {J₁ : Subgroup ↥I} {a : G} (ha : a ∈ Subgroup.normalize
     exact hjj'.symm
   exact ⟨j', hj', by rw [QuotientGroup.mk'_apply, h2]⟩
 
+omit [Finite G] in
 theorem rho_mem_stab {J₁ : Subgroup ↥I} {a : G} (ha : a ∈ Subgroup.normalizer (I : Set G))
     (haJ : a ∈ Subgroup.normalizer ((J₁.map I.subtype : Subgroup G) : Set G)) :
     barAut 3 I ⟨a, ha⟩ ∈ stabAut (jbar J₁) := by
@@ -156,6 +158,7 @@ variable {G : Type} [Group G] [Finite G] {I : Subgroup G}
     Subgroup (MulAut (barOf 3 I)) :=
   ((barAut 3 I).comp (Subgroup.inclusion hAN)).range
 
+omit [Finite G] in
 theorem mem_ahat {A : Subgroup G} {hAN : A ≤ Subgroup.normalizer (I : Set G)}
     {e : MulAut (barOf 3 I)} :
     e ∈ ahat I A hAN ↔
@@ -205,9 +208,10 @@ theorem rho_comp_injective {A B : Subgroup G} {x : G} {J : Subgroup G} (hJI : J 
     obtain ⟨⟨haJ, -⟩, hnt⟩ := hfld (a : G) a.2 hax
     exact hnt ⟨haJ, barAut_eq_one_of_rho_eq_one hJI haN haJ ha1⟩
 
+omit [Finite G] in
 theorem isElemAbelian_ahat {A : Subgroup G} {hAN : A ≤ Subgroup.normalizer (I : Set G)}
     (hA : IsElemAbelian 3 A) : IsElemAbelian 3 (ahat I A hAN) := by
-  haveI := hA.1
+  have := hA.1
   refine ⟨⟨⟨fun e₁ e₂ => ?_⟩⟩, fun e he => ?_⟩
   · obtain ⟨a₁, ha₁, h₁, he₁⟩ := mem_ahat.1 e₁.2
     obtain ⟨a₂, ha₂, h₂, he₂⟩ := mem_ahat.1 e₂.2
@@ -279,11 +283,13 @@ section Back
 
 variable {G : Type} [Group G] [Finite G] {I : Subgroup G}
 
+omit [Finite G] in
 theorem mem_cs_subgroupOf_iff (a : G) (y : ↥I) :
     y ∈ (I ⊓ Cs a).subgroupOf I ↔ a * (y : G) = (y : G) * a := by
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
   exact ⟨fun h => h.2.symm, fun h => ⟨y.2, h.symm⟩⟩
 
+omit [Finite G] in
 theorem mem_cs_iff_conj {a b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G))
     (hab : a * b = b * a) (y : ↥I) :
     y ∈ (I ⊓ Cs a).subgroupOf I ↔
@@ -308,6 +314,7 @@ theorem mem_cs_iff_conj {a b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G))
         _ = b * ((y : G) * a) * b⁻¹ := by group
     exact mul_left_cancel (mul_right_cancel h')
 
+omit [Finite G] in
 theorem map_cs_subgroupOf {a b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G))
     (hab : a * b = b * a) :
     ((I ⊓ Cs a).subgroupOf I).map (I.normalizerMonoidHom ⟨b, hbN⟩).toMonoidHom =
@@ -337,6 +344,7 @@ theorem comp_map_conj {a b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G))
   have := glaPComponent_map Nat.prime_three (I.normalizerMonoidHom ⟨b, hbN⟩).toMonoidHom hker hK
   rwa [map_cs_subgroupOf hbN hab] at this
 
+omit [Finite G] in
 theorem jbar_map_conj {b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G)) (K₁ : Subgroup ↥I) :
     jbar (K₁.map (I.normalizerMonoidHom ⟨b, hbN⟩).toMonoidHom) =
       (jbar K₁).map (barAut 3 I ⟨b, hbN⟩).toMonoidHom := by
@@ -344,6 +352,7 @@ theorem jbar_map_conj {b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G)) (K�
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem conj_map_subtype {b : G} (hbN : b ∈ Subgroup.normalizer (I : Set G)) (K₁ : Subgroup ↥I) :
     (K₁.map (I.normalizerMonoidHom ⟨b, hbN⟩).toMonoidHom).map I.subtype =
       GLBConj b⁻¹ (K₁.map I.subtype) := by
@@ -422,7 +431,7 @@ theorem ambient_of_concl {B A : Subgroup G} {x : G} {J₁ : Subgroup ↥I} {q : 
       rintro Ki Kj hKi hKj ⟨e, heA, he⟩
       obtain ⟨b, hbA, hbN, rfl⟩ := mem_ahat.1 heA
       refine ⟨b⁻¹, inv_mem hbA, ?_⟩
-      haveI := hE.1
+      have := hE.1
       have hab : a * b = b * a := congrArg Subtype.val
         (mul_comm' (⟨a, hAB haA⟩ : ↥B) ⟨b, hAB hbA⟩)
       have hconj := comp_map_conj hbN hab hKi

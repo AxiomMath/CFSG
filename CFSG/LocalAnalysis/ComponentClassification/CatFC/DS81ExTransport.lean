@@ -15,7 +15,7 @@ open Subgroup CFSG.Open CFSG.Blueprint
       23 ∣ Nat.card ↥(centralizer ({τ} : Set X)) → 89 ∣ Nat.card ↥(centralizer ({τ} : Set X))
 
 theorem prime_dvd_card_centralizer_of_classesCover {X G : Type} [Group X] [Group G]
-    (e : X ≃* G) {reps : List G} {p : ℕ} [hp : Fact p.Prime]
+    (e : X ≃* G) {reps : List G} {p : ℕ} [_hp : Fact p.Prime]
     (hcov : ∀ x : G, x * x = 1 → x ≠ 1 → ∃ y ∈ reps, IsConj y x)
     (hz : ∀ y ∈ reps, ∃ z : G, orderOf z = p ∧ Commute z y)
     {τ : X} (hτ : orderOf τ = 2) : p ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by

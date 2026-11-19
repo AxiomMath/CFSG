@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_rhoL_pow_eq_one {L Q : Subgroup G} {q : ℕ}
     (hQ : IsPGroup q Q) (hQN : Q ≤ normalizer (L : Set G)) {s : G} (hs : s ∈ Q) :
     ∃ k : ℕ, (rhoL L ⟨s, hQN hs⟩) ^ (q ^ k) = 1 := by
@@ -25,6 +26,7 @@ private theorem exists_rhoL_pow_eq_one {L Q : Subgroup G} {q : ℕ}
   have hm : (⟨s, hQN hs⟩ : ↥(normalizer (L : Set G))) ^ (q ^ k) = 1 := Subtype.ext hpow
   rw [← map_pow, hm, map_one]
 
+omit [Finite G] in
 private theorem rhoL_mem_barImage_inf {L Q : Subgroup G} {s : G}
     (hQN : Q ≤ normalizer (L : Set G)) (hs : s ∈ Q) :
     ∀ t ∈ barImage L (Q ⊓ L), rhoL L ⟨s, hQN hs⟩ t ∈ barImage L (Q ⊓ L) := by
@@ -53,6 +55,7 @@ private theorem exists_lift_elemAbelian {L Q : Subgroup G} {q : ℕ}
     by rw [← card_barImage_of_isPGroup (hE.trans inf_le_right) hq hq2 hEpg, hbarE,
         hScard]⟩
 
+omit [Finite G] in
 private theorem le_centralizer_of_barImage_le {L Q E : Subgroup G} {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hQ : IsPGroup q Q)
     (hQN : Q ≤ normalizer (L : Set G))
@@ -85,7 +88,7 @@ private theorem stronglyEmbedded_of_isU4 {D : Data G} (hSg : SigmaStd D)
     (hq : q.Prime) (hq2 : q ≠ 2) (hqn : q ∣ 2 ^ n + 1) (hqs : q ∉ D.sig) :
     IsStronglyPEmbedded q D.M := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hL : L ∈ calC D.M := hH.1
   have hLM : L ≤ D.M := hL.1.le
   have hpσ : p ∈ D.sig := hH.2.2.2.1

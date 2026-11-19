@@ -218,8 +218,8 @@ private theorem isQuasisimple_rootSpan_setD {K : Type} [Field K] [Finite K] [Cha
         h 5 (notMem_setD_iff.mpr (Or.inr rfl))⟩
   rw [hset, ← subsystemGroup_eq_rootSpan (τ := Tag.E6) (K := K) (J := C2E6Std.setD)]
   change IsQuasisimple (TwistedE6Pilot.d4Levi K)
-  haveI : IsSimpleGroup (TwistedE6Pilot.d4Levi K) := TwistedE6Pilot.isSimpleGroup_d4Levi (K := K)
-  haveI : Group.IsPerfect (TwistedE6Pilot.d4Levi K) := TwistedE6Pilot.isPerfect_d4Levi (K := K)
+  have : IsSimpleGroup (TwistedE6Pilot.d4Levi K) := TwistedE6Pilot.isSimpleGroup_d4Levi (K := K)
+  have : Group.IsPerfect (TwistedE6Pilot.d4Levi K) := TwistedE6Pilot.isPerfect_d4Levi (K := K)
   exact CFSG.LocalAnalysis.ComponentInitial.isQuasisimple_of_isSimpleGroup
     (exists_mul_ne_mul_of_isPerfect (TwistedE6Pilot.d4Levi K))
 
@@ -234,7 +234,7 @@ theorem isQuasisimple_rootSpan_d4 {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem kgAdjL2 : KGAdjL2 := by
   intro K _ _ hchar ζ hζ hζo α β hα hβ hαβ
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   refine ggLayerOf_map_famCentralizer_of_pPower (τ := Tag.E6) (K := K) (p := 3)
     Nat.prime_three _ ?_ ?_
   · intro a ha
@@ -246,7 +246,7 @@ theorem kgAdjL2 : KGAdjL2 := by
 
 theorem kgAdjL3i : KGAdjL3i := by
   intro K _ _ hchar ζ hζ hζo α β hα hβ hαβ
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   refine ggLayerOf_map_famCentralizer_of_pPower (τ := Tag.E6) (K := K) (p := 3)
     Nat.prime_three _ ?_ ?_
   · intro a ha
@@ -274,7 +274,7 @@ theorem isQuasisimple_rootSpan_perp {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem kgAdjL1 : KGAdjL1 := by
   intro K _ _ hchar ζ hζ hζo β hβ
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   refine ggLayerOf_map_famCentralizer_of_pPower (τ := Tag.E6) (K := K) (p := 3)
     Nat.prime_three _ ?_ ?_
   · intro a ha

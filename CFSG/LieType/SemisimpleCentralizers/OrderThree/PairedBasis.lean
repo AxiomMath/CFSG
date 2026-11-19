@@ -40,7 +40,7 @@ theorem gramForm_eq_zero_of_forall_basis (h : UnitaryFieldData p f K) {d : ℕ}
 
 theorem eq_zero_of_mem_range_adjoint_of_orthogonal (h : UnitaryFieldData p f K) {d : ℕ}
     {M M' : Matrix (Fin d) (Fin d) K} (hM : M * M = M) (hMM' : M * M' = 0)
-    (hM'M : M' * M = 0) (hM' : (M.map h.bar)ᵀ = M')
+    (_hM'M : M' * M = 0) (hM' : (M.map h.bar)ᵀ = M')
     {w : Fin d → K} (hw : w ∈ LinearMap.range (Matrix.toLin' M'))
     (horth : ∀ v : LinearMap.range (Matrix.toLin' M), gramForm h 1 (v : Fin d → K) w = 0) :
     w = 0 := by
@@ -170,7 +170,7 @@ theorem exists_paired_cols {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDat
     by_cases hij : i = j
     · subst hij
       simp
-    · rw [Pi.single_eq_of_ne' (Ne.symm hij), if_neg hij]
+    · rw [Pi.single_eq_of_ne' (Ne.symm hij), ite_eq_right hij]
   have hFstarE : (F.map h.bar)ᵀ * E = 1 := by
     have h1 := congrArg (fun M : Matrix (Fin a) (Fin a) K => M.map h.bar) hEF
     rw [Matrix.map_mul, Matrix.map_one _ (map_zero h.bar) (map_one h.bar)] at h1

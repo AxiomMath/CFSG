@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 theorem M_eq_K_sup_normalizer (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) :
     m.M = m.K ⊔ (m.M ⊓ normalizer (m.Z : Set G)) := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hZp : IsPGroup m.r m.Z := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact m.card_Z)
   obtain ⟨S, hS, hZS⟩ := exists_isSylowOf_ge m.Z_le_K hZp
   have hScyc : IsCyclic ↥S := m.isCyclic_of_isSylowOf hcyc hS
@@ -54,7 +54,7 @@ theorem not_dvd_index_K {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
     rw [Subgroup.map_sup, hK', hN', Subgroup.map_subgroupOf_eq_of_le m.K_le_M,
       Subgroup.map_subgroupOf_eq_of_le inf_le_left, htop]
     exact hFr.symm
-  haveI hK'n : K'.Normal :=
+  have hK'n : K'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer m.K_le_M).2
       (fun g hg => m.mem_normalizer_K hg)
   have hidx : K'.index = K'.relIndex N' := by
@@ -71,9 +71,9 @@ theorem sylow_le_K {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
     (hP : IsSylowOf p P m.M) : P ≤ m.K := by
   classical
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   set K' : Subgroup ↥m.M := m.K.subgroupOf m.M with hK'
-  haveI hK'n : K'.Normal :=
+  have hK'n : K'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer m.K_le_M).2
       (fun g hg => m.mem_normalizer_K hg)
   have hpidx : ¬ p ∣ K'.index := m.not_dvd_index_K hp hcyc h626
@@ -81,7 +81,7 @@ theorem sylow_le_K {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
   intro x hx
   obtain ⟨⟨y, hyM⟩, hyQ, rfl⟩ := hx
   have hy : (⟨y, hyM⟩ : ↥m.M) ∈ (Q : Subgroup ↥m.M) := hyQ
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨⟨y, hyM⟩, hy⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨⟨y, hyM⟩, hy⟩
   have hord : orderOf (⟨y, hyM⟩ : ↥m.M) ∣ p ^ k := by
     have h1 : orderOf (⟨⟨y, hyM⟩, hy⟩ : (Q : Subgroup ↥m.M)) ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
     rwa [Subgroup.orderOf_mk] at h1

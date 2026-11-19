@@ -106,12 +106,12 @@ theorem exists_weylAct_eq_of_mem_thetaFixed
     ∃ (c : Fin Tag.E6.rank → Ωˣ) (u : WeylGroup Tag.E6), (∀ i, c i ^ r = 1) ∧ c ≠ 1 ∧
       u ∈ kernelReflectionGroup b ∧ weylAct u (c ^ (-(2 ^ n : ℤ))) = c := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hxC, hxθ⟩ := (TwistedDiag.mem_thetaFixed (Fr := Fr)).1 hx
   let B : Subgroup (ModGL Tag.E6 Ω) := Subgroup.zpowers x
   have hfin : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.2 ⟨r, hr.pos, hxr⟩
-  haveI : Finite B := finite_zpowers.2 hfin
+  have : Finite B := finite_zpowers.2 hfin
   have hBfin : (B : Set (ModGL Tag.E6 Ω)).Finite :=
     Set.toFinite (B : Set (ModGL Tag.E6 Ω))
   have hBle : B ≤ adjointGroup Tag.E6 Ω := Subgroup.zpowers_le.mpr hxC

@@ -53,7 +53,7 @@ theorem exists_odd_orderOf_map_eq {Γ Γ' : Type*} [Group Γ] [Finite Γ] [Group
   · have ho1' : o = 1 := ho1.symm
     have hρ1 : ρ γ = 1 := orderOf_eq_one_iff.mp ho1'
     refine ⟨1, Subgroup.one_mem _, ?_, ?_⟩
-    · simpa using odd_one
+    · simp
     · rw [map_one, hρ1]
 
 private lemma pow_eq_one_of_matrix_pow {M : GL (Fin 4) (ZMod 2)} {k : ℕ}
@@ -317,20 +317,20 @@ private lemma X32_mem (hij : (3 : Fin 4) ≠ 2) : X 3 2 hij ∈ K :=
 private lemma transvection_mem_closure_odd {i j : Fin 4} (hij : i ≠ j) : X i j hij ∈ K := by
   fin_cases i <;> fin_cases j
   · exact (hij rfl).elim
-  · exact X01_mem (by simpa using hij)
-  · exact X02_mem (by simpa using hij)
-  · exact X03_mem (by simpa using hij)
-  · exact X10_mem (by simpa using hij)
+  · exact X01_mem (by simp)
+  · exact X02_mem (by simp)
+  · exact X03_mem (by simp)
+  · exact X10_mem (by simp)
   · exact (hij rfl).elim
-  · exact X12_mem (by simpa using hij)
-  · exact X13_mem (by simpa using hij)
-  · exact X20_mem (by simpa using hij)
-  · exact X21_mem (by simpa using hij)
+  · exact X12_mem (by simp)
+  · exact X13_mem (by simp)
+  · exact X20_mem (by simp)
+  · exact X21_mem (by simp)
   · exact (hij rfl).elim
-  · exact X23_mem (by simpa using hij)
-  · exact X30_mem (by simpa using hij)
-  · exact X31_mem (by simpa using hij)
-  · exact X32_mem (by simpa using hij)
+  · exact X23_mem (by simp)
+  · exact X30_mem (by simp)
+  · exact X31_mem (by simp)
+  · exact X32_mem (by simp)
   · exact (hij rfl).elim
 
 private lemma diagonal_eq_one_of_det_ne_zero {D : Fin 4 → ZMod 2}

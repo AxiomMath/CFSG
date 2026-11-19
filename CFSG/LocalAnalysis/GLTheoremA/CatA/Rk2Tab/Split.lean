@@ -22,7 +22,7 @@ theorem twoLocalPrimeRank_statedSU_quot_le_of_dvd (r : ℕ) (hr : r.Prime) (hr2 
           C ≤ Subgroup.center (StatedSU d (2 ^ f) F) →
             CFSG.Open.twoLocalPrimeRank r (StatedSU d (2 ^ f) F ⧸ C) ≤ d - 2 := by
   intro F _ _ _ f d hK hd hrq C hCn hC
-  haveI : C.Normal := hCn
+  have : C.Normal := hCn
   refine twoLocalPrimeRank_statedSU_quot_le hK hd hr hr2 hrq C hC ?_
   intro V _ _ _ R hR hcomm hpow
   exact CFSG.GroupTheory.card_le_pow_finrank_sub_one_mul_card_scalar hr hr2 (by

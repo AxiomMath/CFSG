@@ -31,7 +31,7 @@ private lemma repM_mul (S : Setting G M L)
 private lemma repM_inj (S : Setting G M L)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) :
     Function.Injective (repM S hc) :=
-  fun a b h => hc.inj (congrArg Subtype.val h)
+  fun _a _b h => hc.inj (congrArg Subtype.val h)
 
 private lemma conj_repM (S : Setting G M L)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) (m : ↥M) (v : Fin 64) :
@@ -286,7 +286,7 @@ private lemma exists_decomp (S : Setting G M L)
 private lemma inf_subgroupOf_normalizer_zpowers_eq_bot (S : Setting G M L)
     (hD : DModelFacts) (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
     (hC1 : Subgroup.centralizer (L : Set G) = ⊥) (θ : ↥M)
-    (hθ3 : θ ^ 3 = 1) (hθne : θ ≠ 1) (hψθ : S.psiM hc θ = heZeta) :
+    (hθ3 : θ ^ 3 = 1) (_hθne : θ ≠ 1) (hψθ : S.psiM hc θ = heZeta) :
     (blockU L).subgroupOf M ⊓ Subgroup.normalizer (Subgroup.zpowers θ : Set ↥M) = ⊥ := by
   rw [eq_bot_iff]
   intro k hk

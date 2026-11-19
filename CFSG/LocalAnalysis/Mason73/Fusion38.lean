@@ -52,6 +52,7 @@ theorem exists_E16_le_centralizer_of_piT_tP (hn : 3 ≤ n) {μ : L4Model n} (h2 
   · exact hconj _ h _ (E1x_mul_self (by omega)) (E1x_le_centralizer_txT (by omega))
       (card_E1x hn)
 
+omit [Finite G] in
 theorem map_subtype_commutator (C : Subgroup G) : (commutator C).map C.subtype = ⁅C, C⁆ := by
   rw [_root_.commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
     Subgroup.range_subtype]

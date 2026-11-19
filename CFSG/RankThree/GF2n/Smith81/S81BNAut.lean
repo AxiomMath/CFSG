@@ -42,7 +42,7 @@ private theorem schur6_eq_smul (ξ : Cube K) (I : Set.powersetCard (Fin 6) 3)
   by_cases hJ : I = J
   · subst hJ
     simp
-  · rw [if_neg hJ, mul_zero]
+  · rw [ite_eq_right hJ, mul_zero]
     exact h J (fun h' => hJ h'.symm)
 
 private theorem schur6_step (T : Cube K →ₗ[K] Cube K) (c : K)
@@ -54,7 +54,7 @@ private theorem schur6_step (T : Cube K →ₗ[K] Cube K) (c : K)
     T (cubeBasis K (replSet I a b hb ha)) = c • cubeBasis K (replSet I a b hb ha) := by
   have hrho : rho K (transvGL K a b hne 1) (cubeBasis K I) =
       cubeBasis K I + cubeBasis K (replSet I a b hb ha) := by
-    rw [rho_transvGL_cubeBasis (K := K) hab hne 1 I, dif_pos (And.intro hb ha), one_smul]
+    rw [rho_transvGL_cubeBasis (K := K) hab hne 1 I, dite_eq_left (And.intro hb ha), one_smul]
   have h1 := hT' hne (cubeBasis K I)
   rw [hrho, map_add, hI, map_smul, hrho, smul_add] at h1
   exact add_left_cancel h1
@@ -77,7 +77,7 @@ theorem commutes_scalar (T : Cube K →ₗ[K] Cube K)
     have hno : ¬ (b ∈ schur6_I0.val ∧ a ∉ schur6_I0.val) := schur6_no_straddle a b hab
     have hfix : rho K (transvGL K a b hne 1) (cubeBasis K schur6_I0) =
         cubeBasis K schur6_I0 := by
-      rw [rho_transvGL_cubeBasis (K := K) (Or.inl hab) hne 1 schur6_I0, dif_neg hno]
+      rw [rho_transvGL_cubeBasis (K := K) (Or.inl hab) hne 1 schur6_I0, dite_eq_right hno]
     have hTfix : rho K (transvGL K a b hne 1) (T (cubeBasis K schur6_I0)) =
         T (cubeBasis K schur6_I0) := by
       rw [← hT' hne, hfix]
@@ -216,14 +216,14 @@ private theorem qn_pow_apply (P : GL (Fin 6) K) (T : Cube K ≃ₗ[K] Cube K) (c
     (hTc : ∀ ξ, T ξ = c • rho K P ξ) (j : ℕ) (ξ : Cube K) :
     (T ^ j) ξ = (c ^ j) • rho K (P ^ j) ξ := by
   induction j generalizing ξ with
-  | zero => simp [qn_rho_one]
+  | zero => simp
   | succ j ih =>
     rw [pow_succ' T j, pow_succ' c j, pow_succ' P j, LinearEquiv.mul_apply, ih, map_smul, hTc,
       ← qn_rho_mul, smul_smul, mul_comm (c ^ j) c]
 
 theorem mem_Gam_of_innerType_pow [Finite K] [CharP K 2] {T : Cube K ≃ₗ[K] Cube K}
     (hT : InnerType T) {k : ℕ} (hk : T ^ (2 ^ k) = 1) : T ∈ Gam K := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨P, hP⟩ := hT
   obtain ⟨c, hc0, hTc⟩ := qn_scalar P T hP
   have hcard : 2 ∣ Fintype.card K := by

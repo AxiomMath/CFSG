@@ -55,7 +55,7 @@ theorem Socle185Shape.card_cases (hO : LieOrderFormulasInput) {T : Type} [Group 
       rw [hgcd, mul_one] at hM
       refine ⟨p ^ f, by omega, Nat.odd_iff.mpr (by omega), ?_⟩
       rw [hM]
-      simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+      simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
     · right; right; left
       obtain ⟨-, hM, -⟩ := hO T .PSU 3 p f hS.admissible hS
       have hpf : 5 ≤ p ^ f := hp5.trans (Nat.le_self_pow (by have := hS.admissible.2.1; omega) p)
@@ -67,7 +67,7 @@ theorem Socle185Shape.card_cases (hO : LieOrderFormulasInput) {T : Type} [Group 
       refine ⟨p ^ f, by omega, Nat.odd_iff.mpr (by omega), ?_⟩
       rw [hM]
       have h3e : ¬ Even (3 : ℕ) := by decide
-      simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair, h3e]
+      simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, h3e]
   · right; right; right
     obtain ⟨-, hM, -⟩ := hO T .PSL 2 7 1 h.1 (Or.inl ⟨by decide, h⟩)
     have := CFSG.SeitzReduction.CrossChar.two_mul_card_eq_of_PSL_two_odd (q' := 7)

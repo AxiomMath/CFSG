@@ -34,7 +34,7 @@ theorem largeEvenLabelAll_torusLift_noLine_unitDvd {p : ℕ} (hp : p.Prime) {lab
     fun _ _ _ _ ⟨r, hl, hT⟩ => ⟨r, hl, ggTorusNoLine_of_noInvariantLineSCr hp hT⟩
 
 theorem ggNbrInnerWeylOn_unitDvd : GGNbrInnerWeylOn GGNbrWeylUnitDvdLabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, ht, h3, hpq, hpd, h63⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, ht, h3, hpq, hpd, h63⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_torusLift_noLine_unitDvd hp hlab ⟨⟨ht, h3, hpq, hpd⟩, h63⟩)

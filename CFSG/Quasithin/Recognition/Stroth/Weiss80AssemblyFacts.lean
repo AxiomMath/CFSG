@@ -130,8 +130,8 @@ theorem exists_polygonApartment_through_edge {Γ : SimpleGraph V} [Fintype V] [D
   let z : ℕ → V := GPath.cycSeq p q
   have hz_eq : ∀ i j, z i = z j ↔ i % (2 * n) = j % (2 * n) :=
     GPath.periodic_eq_iff hconn hcol (by omega) hU z hadj hnb hper
-  haveI : NeZero (2 * n) := ⟨by omega⟩
-  haveI : Fact (1 < 2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
+  have : Fact (1 < 2 * n) := ⟨by omega⟩
   let t : ZMod (2 * n) → V := fun k => z k.val
   have ht_inj : Function.Injective t := by
     intro a b hab
@@ -186,6 +186,7 @@ private def p1Smul {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     have h := (GraphAction.adj_smul (Γ := Γ) (ψ1 g) u w.1).mpr w.2
     rwa [hgu] at h⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem p1Smul_apply {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (g : ↥P1)
     (w : nbrs (Γ := Γ) u) : (p1Smul hψ1u g w).1 = ψ1 g • w.1 := rfl
@@ -208,15 +209,17 @@ private noncomputable abbrev p1PermHom {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u
   letI := p1Action (Γ := Γ) hψ1u
   MulAction.toPermHom ↥P1 (nbrs (Γ := Γ) u)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem p1PermHom_apply {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (g : ↥P1)
     (w : nbrs (Γ := Γ) u) : (p1PermHom (Γ := Γ) hψ1u g) w = p1Smul hψ1u g w := rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem core_smul_eq {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
     (hψ1v : ψ1.range ⊓ MulAction.stabilizer D v = (psiB P2 ψ1).range)
     (htrans : ∀ w : V, Γ.Adj u w → ∃ g : ↥P1, ψ1 g • v = w)
-    (hv : Γ.Adj u v) (n : ↥P1)
+    (_hv : Γ.Adj u v) (n : ↥P1)
     (hn : n ∈ ((P1 ⊓ P2).subgroupOf P1).normalCore) (w : nbrs (Γ := Γ) u) :
     p1Smul hψ1u n w = w := by
   apply Subtype.ext
@@ -239,6 +242,7 @@ private theorem core_smul_eq {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
           rw [hfix _ hmem]
     _ = w.1 := hg
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem p1PermHom_ker {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1 : Function.Injective ψ1)
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
@@ -298,6 +302,7 @@ noncomputable def rangeAction {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     MulAction (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
   MulAction.compHom (nbrs (Γ := Γ) u) (Subgroup.subtype (rangeGroup (Γ := Γ) hψ1u))
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem rangeAction_smul_eq {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (σ : rangeGroup (Γ := Γ) hψ1u)
     (w : nbrs (Γ := Γ) u) :
@@ -305,6 +310,7 @@ theorem rangeAction_smul_eq {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
   unfold rangeAction
   rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_rangeGroup_iff {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (σ : Equiv.Perm (nbrs (Γ := Γ) u)) :
     σ ∈ rangeGroup (Γ := Γ) hψ1u ↔ ∃ g : ↥P1, ∀ w : nbrs (Γ := Γ) u, (σ w).1 = ψ1 g • w.1 := by
@@ -319,6 +325,7 @@ private noncomputable def rangeHom {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V
     ↥P1 →* rangeGroup (Γ := Γ) hψ1u :=
   (p1PermHom (Γ := Γ) hψ1u).codRestrict _ fun g => ⟨g, rfl⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem rangeHom_apply {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (g : ↥P1)
     (w : nbrs (Γ := Γ) u) :
@@ -327,6 +334,7 @@ private noncomputable def rangeHom {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V
   change ((p1PermHom (Γ := Γ) hψ1u g) w).1 = ψ1 g • w.1
   rw [p1PermHom_apply, p1Smul_apply]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] private theorem rangeAction_rangeHom {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) (g : ↥P1)
     (w : nbrs (Γ := Γ) u) :
@@ -337,24 +345,26 @@ private noncomputable def rangeHom {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V
     ((rangeHom (Γ := Γ) hψ1u g : Equiv.Perm (nbrs (Γ := Γ) u)) w)
   rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem range_faithful {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u) :
     letI := rangeAction (Γ := Γ) hψ1u
     FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) := by
-  letI := rangeAction (Γ := Γ) hψ1u
+  let := rangeAction (Γ := Γ) hψ1u
   rw [faithfulSMul_iff]
   intro y hy
   apply Subtype.ext
   ext w
   exact congrArg Subtype.val (hy w)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem range_pretransitive {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
     (htrans : ∀ w : V, Γ.Adj u w → ∃ g : ↥P1, ψ1 g • v = w)
     (hv : Γ.Adj u v) :
     letI := rangeAction (Γ := Γ) hψ1u
     MulAction.IsPretransitive (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) := by
-  letI := rangeAction (Γ := Γ) hψ1u
+  let := rangeAction (Γ := Γ) hψ1u
   refine ⟨fun a b => ?_⟩
   obtain ⟨g, hg⟩ := htrans a.1 a.2
   obtain ⟨h, hh⟩ := htrans b.1 b.2
@@ -378,6 +388,7 @@ private theorem range_pretransitive {P1 : Subgroup X} {ψ1 : ↥P1 →* D} {u v 
     simp
   rw [hinv, hh']
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem range_stabilizer_of_v {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
     (hψ1v : ψ1.range ⊓ MulAction.stabilizer D v = (psiB P2 ψ1).range)
@@ -389,7 +400,7 @@ private theorem range_stabilizer_of_v {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} 
     letI := rangeAction (Γ := Γ) hψ1u
     ∃ y : rangeGroup (Γ := Γ) hψ1u,
       y • (⟨v, hv⟩ : nbrs (Γ := Γ) u) = ⟨v, hv⟩ ∧ y • a = b := by
-  letI := rangeAction (Γ := Γ) hψ1u
+  let := rangeAction (Γ := Γ) hψ1u
   have ha' : a.1 ≠ v := fun h => ha (Subtype.ext h)
   have hb' : b.1 ≠ v := fun h => hb (Subtype.ext h)
   obtain ⟨g, hg, -⟩ := hreg a.1 b.1 a.2 b.2 ha' hb'
@@ -420,6 +431,7 @@ private theorem range_stabilizer_of_v {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} 
       p1Smul_apply, hb0']
     exact hg
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem range_stabilizer_transitive {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
     (hψ1v : ψ1.range ⊓ MulAction.stabilizer D v = (psiB P2 ψ1).range)
@@ -431,7 +443,7 @@ private theorem range_stabilizer_transitive {P1 P2 : Subgroup X} {ψ1 : ↥P1 �
     (ha : a ≠ c) (hb : b ≠ c) :
     letI := rangeAction (Γ := Γ) hψ1u
     ∃ y : rangeGroup (Γ := Γ) hψ1u, y • c = c ∧ y • a = b := by
-  letI := rangeAction (Γ := Γ) hψ1u
+  let := rangeAction (Γ := Γ) hψ1u
   obtain ⟨g, hg⟩ := (range_pretransitive (Γ := Γ) hψ1u htrans hv).exists_smul_eq
     (⟨v, hv⟩ : nbrs (Γ := Γ) u) c
   let gp : Equiv.Perm (nbrs (Γ := Γ) u) := g
@@ -462,6 +474,7 @@ private theorem range_stabilizer_transitive {P1 P2 : Subgroup X} {ψ1 : ↥P1 �
     show (g : Equiv.Perm (nbrs (Γ := Γ) u)) ((g : Equiv.Perm (nbrs (Γ := Γ) u)).symm b) = b
     exact Equiv.apply_symm_apply _ _
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem range_twoTransitive {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
     (hψ1v : ψ1.range ⊓ MulAction.stabilizer D v = (psiB P2 ψ1).range)
@@ -472,8 +485,8 @@ private theorem range_twoTransitive {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u
     (hv : Γ.Adj u v) :
     letI := rangeAction (Γ := Γ) hψ1u
     MulAction.IsMultiplyPretransitive (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) 2 := by
-  letI := rangeAction (Γ := Γ) hψ1u
-  haveI : MulAction.IsPretransitive (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
+  let := rangeAction (Γ := Γ) hψ1u
+  have : MulAction.IsPretransitive (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
     range_pretransitive (Γ := Γ) hψ1u htrans hv
   rw [MulAction.is_two_pretransitive_iff]
   intro a b c d hab hcd
@@ -497,6 +510,7 @@ theorem hasNormalCopy_of_mulEquiv {G H K : Type} [Group G] [Group H] [Group K]
   refine ⟨N.map e.toMonoidHom, hN.map e.toMonoidHom e.surjective, ?_⟩
   exact ⟨(MulEquiv.subgroupMap e N).symm.trans φ⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem subconstNatural_data {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hψ1 : Function.Injective ψ1)
     (hψ1u : ψ1.range ≤ MulAction.stabilizer D u)
@@ -579,7 +593,7 @@ theorem card_nbrs_eq_one_add_card_root {u v : V} (hT : IsThick Γ) {hroot : Subg
       Fintype.card (nbrs (Γ := Γ) u) - 1 := by
     have h := Fintype.card_subtype_compl (α := nbrs (Γ := Γ) u)
       (p := fun w => w = ⟨v, hv⟩)
-    simpa using h
+    simp
   have hpos : 1 ≤ Fintype.card (nbrs (Γ := Γ) u) :=
     Fintype.card_pos_iff.mpr ⟨⟨v, hv⟩⟩
   omega
@@ -619,9 +633,9 @@ theorem subconstNatural_psu3 {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hpow : ∃ e : ℕ, 1 ≤ e ∧ Fintype.card (nbrs (Γ := Γ) u) = 1 + 2 ^ e)
     (hN : HasNormalCopy (Subconst P1 P2) (StatedProj (StatedSU 3 (2 ^ k) F))) :
     Fintype.card (nbrs (Γ := Γ) u) = 2 ^ (3 * k) + 1 := by
-  letI := rangeAction (Γ := Γ) hψ1u
-  haveI : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
-  haveI : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
+  let := rangeAction (Γ := Γ) hψ1u
+  have : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
+  have : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
     range_faithful (Γ := Γ) hψ1u
   have h2t : MulAction.IsMultiplyPretransitive (rangeGroup (Γ := Γ) hψ1u)
       (nbrs (Γ := Γ) u) 2 :=
@@ -644,9 +658,9 @@ theorem subconstNatural_sz {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hpow : ∃ e : ℕ, 1 ≤ e ∧ Fintype.card (nbrs (Γ := Γ) u) = 1 + 2 ^ e)
     (hN : HasNormalCopy (Subconst P1 P2) ↥(Sz a)) :
     Fintype.card (nbrs (Γ := Γ) u) = 2 ^ (2 * (2 * a + 1)) + 1 := by
-  letI := rangeAction (Γ := Γ) hψ1u
-  haveI : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
-  haveI : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
+  let := rangeAction (Γ := Γ) hψ1u
+  have : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
+  have : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
     range_faithful (Γ := Γ) hψ1u
   have h2t : MulAction.IsMultiplyPretransitive (rangeGroup (Γ := Γ) hψ1u)
       (nbrs (Γ := Γ) u) 2 :=
@@ -669,9 +683,9 @@ theorem subconstNatural_l2 {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D} {u v : V}
     (hN : HasNormalCopy (Subconst P1 P2)
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 m))) :
     Fintype.card (nbrs (Γ := Γ) u) = 2 ^ m + 1 := by
-  letI := rangeAction (Γ := Γ) hψ1u
-  haveI : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
-  haveI : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
+  let := rangeAction (Γ := Γ) hψ1u
+  have : Finite (rangeGroup (Γ := Γ) hψ1u) := by infer_instance
+  have : FaithfulSMul (rangeGroup (Γ := Γ) hψ1u) (nbrs (Γ := Γ) u) :=
     range_faithful (Γ := Γ) hψ1u
   have h2t : MulAction.IsMultiplyPretransitive (rangeGroup (Γ := Γ) hψ1u)
       (nbrs (Γ := Γ) u) 2 :=
@@ -823,6 +837,7 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
   {L : Subgroup D} {R : RankTwoSystem ↥L n} {t : ZMod (2 * n) → V}
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem map_root_le_of_pathRootGroup_le (hn : 3 ≤ n) (ht : IsPolygonApartment Γ n t)
     {B : Subgroup D}
     (hRoot : ∀ i : ℤ, 1 ≤ i → i ≤ n → (R.root i).map L.subtype = aptRoot D Γ n t i)
@@ -846,6 +861,7 @@ theorem map_root_le_of_pathRootGroup_le (hn : 3 ≤ n) (ht : IsPolygonApartment 
     rw [show i + ((j + 1 : ℕ) : ℤ) = (n : ℤ) + 1 by omega]
     simp [apt]
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem map_U_le_of_pathRootGroup_le (hn : 3 ≤ n) (ht : IsPolygonApartment Γ n t)
     {B : Subgroup D}
     (hRoot : ∀ i : ℤ, 1 ≤ i → i ≤ n → (R.root i).map L.subtype = aptRoot D Γ n t i)
@@ -951,6 +967,7 @@ variable {V : Type} [Fintype V] {Δ : SimpleGraph V} [DecidableRel Δ.Adj]
   {X : Type} [Group X] {P1 P2 : Subgroup X} {ψ1 : ↥P1 →* D}
   {k : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite D] in
 theorem exists_noncommuting_pathRootGroup_of_subconstUnitary
   (t : ZMod (2 * 4) → V) (ht : IsPolygonApartment Δ 4 t)
   (hGP : IsGeneralizedPolygon Δ 4) (hThick : IsThick Δ) (hMouf : MoufangCondition D Δ 4)
@@ -1001,8 +1018,8 @@ theorem exists_noncommuting_pathRootGroup_of_subconstUnitary
     exact rootGroupRegular (n := 4) (V := V) (Γ := Δ) (D := D) (by norm_num)
       hGP hThick hMouf q hq y y' (by simpa [hq4] using hy) (by simpa [hq4] using hy')
       (by simpa [hq3] using hne) (by simpa [hq3] using hne')
-  letI := rangeAction (Γ := Δ) hψ1u
-  haveI : FaithfulSMul ↥(rangeGroup (Γ := Δ) hψ1u) (nbrs (Γ := Δ) (t 5)) :=
+  let := rangeAction (Γ := Δ) hψ1u
+  have : FaithfulSMul ↥(rangeGroup (Γ := Δ) hψ1u) (nbrs (Γ := Δ) (t 5)) :=
     range_faithful (Γ := Δ) hψ1u
   let Y := ↥(rangeGroup (Γ := Δ) hψ1u)
   let Ω := nbrs (Γ := Δ) (t 5)

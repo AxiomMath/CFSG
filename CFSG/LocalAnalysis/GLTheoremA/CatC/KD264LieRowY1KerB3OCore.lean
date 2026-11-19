@@ -19,6 +19,7 @@ variable {K V Γ : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Fin
 
 variable {ρ : Γ →* Module.End K V} {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem core7 (hs : Setting ρ Q) (hdim : finrank K V = 7)
     (hfaith : ∀ g : Γ, (∀ v : V, ρ g v = v) → g = 1) :
     ∃ F ∈ idx3 Γ, finrank K (LinearMap.range (av ρ F)) = 3 ∧

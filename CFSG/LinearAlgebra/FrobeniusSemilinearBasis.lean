@@ -42,6 +42,7 @@ private lemma frobBasis_exists_pow_sub_add {Q : ℕ} (hQ : 2 ≤ Q) (c : L) :
   obtain ⟨a, ha⟩ := IsAlgClosed.exists_root _ hp
   exact ⟨a, by simpa [Polynomial.IsRoot] using ha⟩
 
+omit [IsAlgClosed L] in
 private lemma frobBasis_span_invariant {V : Type*} [AddCommGroup V] [Module L V]
     {σ : L →+* L} {φ : V →ₛₗ[σ] V} {k : ℕ} {b : Fin k → V}
     (hfix : ∀ i, φ (b i) = b i) :
@@ -52,6 +53,7 @@ private lemma frobBasis_span_invariant {V : Type*} [AddCommGroup V] [Module L V]
   rw [SetLike.mem_coe, Submodule.mem_comap, hfix i]
   exact Submodule.subset_span ⟨i, rfl⟩
 
+omit [IsAlgClosed L] in
 private lemma frobBasis_preimage {V : Type*} [AddCommGroup V] [Module L V]
     {σ : L →+* L} {φ : V →ₛₗ[σ] V} (hφ : Function.Injective φ) {k : ℕ} {b : Fin k → V}
     (hfix : ∀ i, φ (b i) = b i) (hsurj : Function.Surjective σ) :
@@ -72,6 +74,7 @@ private lemma frobBasis_preimage {V : Type*} [AddCommGroup V] [Module L V]
   exact Submodule.sum_mem _ fun i _ =>
     Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
 
+omit [IsAlgClosed L] in
 private lemma frobBasis_mapQ_injective {V : Type*} [AddCommGroup V] [Module L V]
     {σ : L →+* L} {U : Submodule L V} {φ : V →ₛₗ[σ] V}
     (hmap : U ≤ Submodule.comap φ U) (hpre : ∀ x, φ x ∈ U → x ∈ U) :
@@ -102,7 +105,7 @@ private lemma frobBasis_fixed_outside {V : Type*} [AddCommGroup V] [Module L V]
   have hpre : ∀ x, φ x ∈ U → x ∈ U := frobBasis_preimage hφ hfix hsurj
   let ψ : V ⧸ U →ₛₗ[σ] V ⧸ U := U.mapQ U φ hmap
   have hψinj : Function.Injective ψ := frobBasis_mapQ_injective hmap hpre
-  haveI : Nontrivial (V ⧸ U) := Submodule.Quotient.nontrivial_iff.mpr hUtop'
+  have : Nontrivial (V ⧸ U) := Submodule.Quotient.nontrivial_iff.mpr hUtop'
   obtain ⟨wbar, hwbar_ne, hwbar_fix⟩ :=
     exists_ne_zero_fixed_of_frobeniusSemilinear (V := V ⧸ U) hQ hσ ψ hψinj
   obtain ⟨w, rfl⟩ := Submodule.Quotient.mk_surjective (p := U) wbar
@@ -248,7 +251,7 @@ theorem exists_map_frobenius_eq_mul {n : ℕ} {σ : L →+* L} {Q : ℕ} (hQ : 2
     simpa [Y] using b'.linearIndependent
   have hYunit : IsUnit Y.det :=
     (Matrix.isUnit_iff_isUnit_det (A := Y)).mp
-      (Matrix.linearIndependent_rows_iff_isUnit.mp hYli)
+      (Matrix.linearIndependent_row_iff_isUnit.mp hYli)
   have hYmap : Y.map σ = Y * (C : Matrix (Fin n) (Fin n) L) := by
     refine Matrix.ext_row fun i => ?_
     rw [Matrix.row_map, Matrix.row_mul_eq_vecMul_row]

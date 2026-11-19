@@ -417,7 +417,7 @@ theorem false_of_setting310_IIa_four
     hinf hsup hV'inv S hPS
   have hτ : ∀ s ∈ (S : Subgroup H), ∀ w ∈ V₀, s * w = w * s := by
     have h1 := le_centralizer_subgroupOf_normalizer_four h3 hF e hKL hKo hKH hXH hTH hW₀
-      (hRV ▸ hVP) hP.isPGroup hPN' hPS S.isPGroup' hSN
+      (hRV ▸ hVP) hP.isPGroup hPN' hPS S.isPGroup hSN
     intro s hs w hw
     exact ((mem_centralizer_iff.mp (h1 hs)) w hw).symm
   exact hset.false_of_tauType hP hPC hIIa hGold hGs hP64 hVP hε hV'P hV'e hV'16 hinf hsup

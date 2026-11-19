@@ -146,14 +146,14 @@ theorem even_matVec_sub_of_theta_eq (m : ℕ) (hm : 2 ≤ m) (M : IntMat)
   have hmeven : Even ((thetaM m *ᵥ D) i) := thetaM_mulVec_even m (by omega) D i
   have hk1 : 1 ≤ Type100.k m i := by
     have hm' := hm
-    fin_cases i <;> simp [Type100.k] <;> omega
+    fin_cases i <;> simp [Type100.k]; omega
   exact even_of_intCast_eq_even (n := Type100.k m i) hk1 hmeven hcoord
 
 theorem uM_mulVec (Q : Fin 3 → ℤ) :
     Type100.uM *ᵥ Q = ![Q 0, Q 2, Q 1] := by
   funext i
   fin_cases i <;>
-    simp [Type100.uM, uMat, ofCols, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+    simp [Type100.uM, uMat, ofCols, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
 theorem rhoM_mulVec (Q : Fin 3 → ℤ) :
     Type100.ρM *ᵥ Q = ![Q 0 - 2 * Q 2, -Q 2, Q 1 - Q 2] := by
@@ -175,8 +175,8 @@ theorem exists_theta_eq_of_two_zsmul (m : ℕ) (hm : 2 ≤ m)
   rw [theta_thetaPreInt m hm W, hW, hw]
 
 theorem square_class_dichotomy (m : ℕ) (hm : 2 ≤ m) (q : Torus (Type100.k m))
-    (huv : ∃ d, theta m d = matAct (Type100.k m) Type100.uvM (Type100.compat_uv m) q - q)
-    (ht : ∃ d, theta m d = matAct (Type100.k m) Type100.tM (Type100.compat_t m) q - q)
+    (_huv : ∃ d, theta m d = matAct (Type100.k m) Type100.uvM (Type100.compat_uv m) q - q)
+    (_ht : ∃ d, theta m d = matAct (Type100.k m) Type100.tM (Type100.compat_t m) q - q)
     (hu : ∃ d, theta m d = matAct (Type100.k m) Type100.uM (Type100.compat_u m) q - q)
     (hr : ∃ d, theta m d = matAct (Type100.k m) Type100.ρM (Type100.compat_rho m) q - q) :
     (∃ d, theta m d = q) ∨ (∃ d, theta m d = q - Torus.c) := by
@@ -221,7 +221,7 @@ theorem square_class_dichotomy (m : ℕ) (hm : 2 ≤ m) (q : Torus (Type100.k m)
     let E : Fin 3 → ℤ := ![e0, e1, e2]
     have hE : (2 : ℤ) • E = Q - ![1, 0, 0] := by
       funext i
-      fin_cases i <;> simp [E, he0, he1, he2] <;> omega
+      fin_cases i <;> simp [E, he0, he1, he2]
     have hq2 : (2 : ℤ) • Torus.ofInt (Type100.k m) E = q - Torus.c := by
       rw [← Torus.ofInt_zsmul, hE, Torus.ofInt_sub, ofInt_one_zero_zero, ← hQ']
     obtain ⟨d, hd⟩ := exists_theta_eq_of_two_zsmul m hm ⟨Torus.ofInt (Type100.k m) E, hq2⟩

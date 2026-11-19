@@ -10,6 +10,7 @@ open Module
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem gcFinrankMap (W : Submodule F (Fin 6 → F)) (H : Submodule F W) :
     finrank F ↥(H.map W.subtype) = finrank F H :=
   (LinearEquiv.finrank_eq (Submodule.equivMapOfInjective W.subtype Subtype.val_injective H)).symm
@@ -39,6 +40,7 @@ private theorem gcCardPoints (W : Submodule F (Fin 6 → F)) :
   (Nat.card_congr ((gcSubPointsEquiv W).trans (Projectivization.equivSubmodule F ↥W).symm)).trans
     (Projectivization.card_of_finrank F ↥W rfl)
 
+omit [Finite F] in
 private theorem gcExistsCompl {U : Submodule F (Fin 6 → F)} {z : Fin 6 → F} (hzU : z ∈ U)
     (hz0 : z ≠ 0) :
     ∃ C : Submodule F (Fin 6 → F), C ≤ U ∧ Submodule.span F {z} ⊔ C = U ∧
@@ -54,6 +56,7 @@ private theorem gcExistsCompl {U : Submodule F (Fin 6 → F)} {z : Fin 6 → F} 
   rw [hsup, hinf, finrank_bot, finrank_span_singleton hz0] at h
   omega
 
+omit [Finite F] in
 private theorem gcSupSpanInf {U C L : Submodule F (Fin 6 → F)} {z : Fin 6 → F}
     (hsup : Submodule.span F {z} ⊔ C = U) (hLU : L ≤ U) (hzL : z ∈ L) :
     Submodule.span F {z} ⊔ (L ⊓ C) = L := by
@@ -63,6 +66,7 @@ private theorem gcSupSpanInf {U C L : Submodule F (Fin 6 → F)} {z : Fin 6 → 
   rw [inf_comm L C]
   exact h1.symm
 
+omit [Finite F] in
 private theorem gcFinrankInfCompl {L C : Submodule F (Fin 6 → F)} {z : Fin 6 → F}
     (hz0 : z ≠ 0) (hinf : Submodule.span F {z} ⊓ C = ⊥)
     (hL : Submodule.span F {z} ⊔ (L ⊓ C) = L) (hfin : finrank F L = 2) :
@@ -73,6 +77,7 @@ private theorem gcFinrankInfCompl {L C : Submodule F (Fin 6 → F)} {z : Fin 6 �
   rw [hL, hbot, finrank_bot, finrank_span_singleton hz0, hfin] at h
   omega
 
+omit [Finite F] in
 private theorem gcFinrankSupSpan {r C : Submodule F (Fin 6 → F)} {z : Fin 6 → F}
     (hz0 : z ≠ 0) (hinf : Submodule.span F {z} ⊓ C = ⊥) (hrC : r ≤ C)
     (hfin : finrank F r = 1) :

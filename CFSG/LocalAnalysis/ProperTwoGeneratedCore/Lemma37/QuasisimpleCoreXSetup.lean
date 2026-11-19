@@ -131,7 +131,7 @@ theorem Setting.sylow_le_of_le (h : Setting J Q B) (M : Subgroup J) (T : Sylow 2
     {D : Subgroup J} (hDT : D ≤ (T : Subgroup M).map M.subtype) (hDB : D ≤ B)
     (hD : 2 ≤ CFSG.Open.pRank 2 D) : (T : Subgroup M) ≤ B.subgroupOf M := by
   have hle : (T : Subgroup M).map M.subtype ≤ B :=
-    pGroup_le_of_large_intersection Q B 2 h.sylow_le h.core_le _ (T.isPGroup'.map M.subtype)
+    pGroup_le_of_large_intersection Q B 2 h.sylow_le h.core_le _ (T.isPGroup.map M.subtype)
       (hD.trans (CFSG.SectionRank.pRank_mono (by decide) (le_inf hDT hDB)))
   exact fun x hx => Subgroup.mem_subgroupOf.mpr (hle (Subgroup.mem_map_of_mem _ hx))
 

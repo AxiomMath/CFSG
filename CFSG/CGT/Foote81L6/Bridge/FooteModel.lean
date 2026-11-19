@@ -25,7 +25,7 @@ variable {n : ℕ}
   A_comm_B := AT_comm_BT hn
   conj_t_A := conj_tT_AT hn
   conj_t_B := conj_tT_BT hn
-  t_sq := by rw [pow_two, tT_mul_tT hn]
+  t_sq := by rw [pow_two, tT_mul_tT (n := n)]
   two_le_m := by omega
   A_iso := by
     rw [show n - 1 - 1 = n - 2 by omega]

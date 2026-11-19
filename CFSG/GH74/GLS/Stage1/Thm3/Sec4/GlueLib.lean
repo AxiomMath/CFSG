@@ -85,9 +85,9 @@ theorem sTop_of_clause_d [Finite G] {z : G} {S : Subgroup G}
   have hle : (S' : Subgroup G) ≤ centralizer ({z} : Set G) := fun s hs =>
     Subgroup.mem_centralizer_singleton_iff.2 (hzS'.2.1 s hs)
   have hS'top : M.Syl2In (S' : Subgroup G) ⊤ :=
-    ⟨le_top, S'.isPGroup', by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
+    ⟨le_top, S'.isPGroup, by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
   have hS'C : M.Syl2In (S' : Subgroup G) (centralizer ({z} : Set G)) := by
-    refine ⟨hle, S'.isPGroup', fun hdvd => ?_⟩
+    refine ⟨hle, S'.isPGroup, fun hdvd => ?_⟩
     have h1 : (S' : Subgroup G).relIndex (centralizer ({z} : Set G)) ∣ (S' : Subgroup G).index := by
       rw [← Subgroup.relIndex_mul_index hle]
       exact dvd_mul_right _ _

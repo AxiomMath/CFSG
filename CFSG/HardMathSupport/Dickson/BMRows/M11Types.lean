@@ -47,8 +47,8 @@ theorem isSimpleGroup_of_goodM12 {T : Type} [Group T] (h : GoodM12 T) : IsSimple
 theorem noncomm_of_goodM12 {T : Type} [Group T] (h : GoodM12 T) : ∃ a b : T, a * b ≠ b * a := by
   have := isSimpleGroup_of_goodM12 h
   by_contra hc
-  push_neg at hc
-  letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
+  push Not at hc
+  let : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := T)
   rw [card_of_goodM12 h] at hp
   norm_num at hp
@@ -56,8 +56,8 @@ theorem noncomm_of_goodM12 {T : Type} [Group T] (h : GoodM12 T) : ∃ a b : T, a
 theorem not_sq_dvd_card_mulAut_goodM12
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) {T : Type} [Group T]
     (h : GoodM12 T) : ¬ 11 ^ 2 ∣ Nat.card (MulAut T) := by
-  haveI := finite_of_goodM12 h
-  haveI := isSimpleGroup_of_goodM12 h
+  have := finite_of_goodM12 h
+  have := isSimpleGroup_of_goodM12 h
   have hnc := noncomm_of_goodM12 h
   have hZ : Subgroup.center T = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnc
@@ -80,7 +80,7 @@ theorem not_sq_dvd_card_mulAut_goodM12
   have hA : Nat.card (MulAut T) = Nat.card (Outer T) * Nat.card T := by
     rw [← hI]
     exact Subgroup.card_eq_card_quotient_mul_card_subgroup (inner T)
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   have hpos : 0 < Nat.card (MulAut T) := Nat.card_pos
   rw [hA, card_of_goodM12 h] at hpos ⊢
   rcases (by omega : Nat.card (Outer T) = 1 ∨ Nat.card (Outer T) = 2) with h1 | h1 <;>
@@ -94,13 +94,13 @@ theorem typeOK_goodM12 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
 theorem qtypeOK_goodM12 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     ∀ (T : Type) [Group T], GoodM12 T → I1416QRows.QTypeOK 11 T := by
   intro T _ h
-  haveI := finite_of_goodM12 h
+  have := finite_of_goodM12 h
   exact I1416QRows.qtypeOK_of_not_sq_dvd_aut (by norm_num) (not_sq_dvd_card_mulAut_goodM12 hOut h)
 
 theorem ctypeOK_goodM12 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     ∀ (T : Type) [Group T], GoodM12 T → Chev2Rows.CTypeOK 11 T := by
   intro T _ h
-  haveI := finite_of_goodM12 h
+  have := finite_of_goodM12 h
   exact Chev2Rows.ctypeOK_of_card_eq hb (card_of_goodM12 h)
 
 end M12

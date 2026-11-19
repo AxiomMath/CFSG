@@ -78,7 +78,7 @@ theorem card_Fq (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) : Nat.card (Fq n 
   rw [← card_fixed hn hK]
   exact Nat.card_congr (Equiv.subtypeEquivRight fun x => by rw [mem_frobFixed]; rfl)
 
-theorem barR_ne_of_trace (hK : Nat.card K = (2 ^ n) ^ 2) {ω : K} (hω : ω + bar n ω = 1) :
+theorem barR_ne_of_trace (_hK : Nat.card K = (2 ^ n) ^ 2) {ω : K} (hω : ω + bar n ω = 1) :
     barR n K ω ≠ ω := by
   intro h
   have h1 : bar n ω = ω := h

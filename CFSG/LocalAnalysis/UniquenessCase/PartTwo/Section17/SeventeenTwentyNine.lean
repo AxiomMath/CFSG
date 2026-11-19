@@ -25,7 +25,7 @@ theorem centralizer_le_of_involution_of_two_le_pRank (D : Data G) (h61 : UC6.R6_
     UC6S846.exists_elemAbelian_card_of_le_pRank hp (k := 2) hrank
   have hAM : A ≤ D.M := hA.trans inf_le_left
   have hAv : A ≤ Subgroup.centralizer ({v} : Set G) := hA.trans inf_le_right
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAc : ¬ IsCyclic A :=
     RankThreeTheoremC.not_isCyclic_of_elemAbelian hAel hAcard le_rfl
   exact centralizer_le_of_noncyclic D h61 hpsig hAM hAel.isPGroup hAc hv1

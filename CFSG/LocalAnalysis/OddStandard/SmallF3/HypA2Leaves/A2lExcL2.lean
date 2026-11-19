@@ -23,7 +23,7 @@ theorem a2l_chev3On_l2 (hGr : TBLit.GriessMultipliersOdd) (hCL2 : HypA2.ClosureF
   have he2 : 2 ≤ e := a2l_two_le_of_psl_two_three he
   by_cases hZ : center K = ⊥
   · obtain ⟨σ', P, hPF, hF⟩ := a2l_exc_reduce hK hnF hσ hXσ hXc hXF
-    haveI : IsSimpleGroup (K ⧸ center K) := hK.2.1
+    have : IsSimpleGroup (K ⧸ center K) := hK.2.1
     have hq := CatLeaf.fixedTwoComponentsQuasisimple_psl_two hK.2.2 (p := 3) (by norm_num)
       (GH74.statedClassicalModel_of_lieModel (by norm_num) he)
     rcases a2l_fieldExp_of_fStar hCL2 hq he hPF hF with h | h | h | h

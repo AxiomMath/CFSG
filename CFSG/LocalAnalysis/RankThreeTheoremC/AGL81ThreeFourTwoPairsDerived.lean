@@ -25,10 +25,10 @@ theorem threeFourTwo_false_of_solvable {K Y₀ J : Subgroup Y}
   set φ : (Y₀.subgroupOf K) →* Y := K.subtype.comp (Y₀.subgroupOf K).subtype with hφ
   have hsol' : Group.IsSolvable φ.range := Group.isSolvable_of_surjective φ.rangeRestrict_surjective
   rw [threeFourTwo_range_subgroupOf] at hsol'
-  haveI : Group.IsSolvable J :=
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ)
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
   exact Group.IsPerfect.not_isSolvable J inferInstance
 
 theorem threeFourTwo_equiv_commutator {K Y₀ J : Subgroup Y}

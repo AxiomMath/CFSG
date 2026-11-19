@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankThreeUC.S15.ACore CFSG.Open
 
 theorem linCoreMatrix : LinCoreMatrix := by
   intro F _ _ m r hr hr2 hrF hrm hm3 Z₀ _ hZ₀
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hm4 : 4 ≤ m
   · rw [linMat_ge4 (perm_module_bound hr2 hm4) hr2 hm4 hrF
       (fun H hH => exists_conj_monomial_GL hr2 hrF (by omega) H hH) Z₀ hZ₀]

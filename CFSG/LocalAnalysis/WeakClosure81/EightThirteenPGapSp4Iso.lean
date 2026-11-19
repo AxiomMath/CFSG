@@ -18,9 +18,9 @@ theorem exists_mulEquiv_statedSp_of_isSp4 {G : Type} [Group G] (h : IsSp4 G 2) :
       Nonempty (G ≃* StatedSp 2 F) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK])
   have hZ := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (n := 2) (K := K)
   let g : StatedProj (StatedSp 2 K) ≃* StatedSp 2 K :=

@@ -26,7 +26,7 @@ namespace IsF20
 variable {x y : Γ}
 
 theorem orderOf_x (h : IsF20 x y) : orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime h.x5 h.x_ne
 
 theorem conj_y_pow (h : IsF20 x y) (j i : ℕ) :
@@ -91,7 +91,7 @@ theorem disjoint_zpowers (h : IsF20 x y) : Disjoint (zpowers x) (zpowers y) := b
   have hc : Nat.Coprime (Nat.card (zpowers x)) (Nat.card (zpowers y)) := by
     rw [Nat.card_zpowers, Nat.card_zpowers, h.orderOf_x, h.orderOf_y]
     decide
-  exact Subgroup.inf_eq_bot_of_coprime hc
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hc))
 
 theorem mem_F20_iff (h : IsF20 x y) {f : Γ} : f ∈ F20 x y ↔ ∃ i j : ℕ, f = x ^ i * y ^ j := by
   have hle : zpowers y ≤ normalizer ((zpowers x : Subgroup Γ) : Set Γ) :=
@@ -244,7 +244,7 @@ theorem centralizer_x (h : IsF20 x y) {f : Γ} (hf : f ∈ F20 x y) (hfx : f * x
     · exact absurd hdvd (by decide)
     · exact absurd hdvd (by decide)
   subst hj0
-  simpa using Subgroup.pow_mem _ (mem_zpowers x) i
+  simp
 
 theorem normal_eq_bot (h : IsF20 x y) {N : Subgroup Γ} (hN : N ≤ F20 x y)
     (hNn : ∀ n ∈ N, ∀ f ∈ F20 x y, f * n * f⁻¹ ∈ N) (hNx : N ⊓ zpowers x = ⊥) : N = ⊥ := by

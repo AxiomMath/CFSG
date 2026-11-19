@@ -16,39 +16,39 @@ theorem gamma_isConj_iff {a x : G} (hx : IsConj a x) (b : G) : IsConj x b ↔ Is
 
 theorem gamma_orb2A_eq {a x : G} (hx : IsConj a x) (y : G) : orb2A x y = orb2A a y := by
   ext b
-  simp only [orb2A, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [orb2A, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_orb2B_eq {a x : G} (hx : IsConj a x) (z y : G) : orb2B x z y = orb2B a z y := by
   ext b
-  simp only [orb2B, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [orb2B, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_orb3A_eq {a x : G} (hx : IsConj a x) (y : G) : orb3A x y = orb3A a y := by
   ext c
-  simp only [orb3A, Set.mem_setOf_eq, gamma_isConj_iff hx, gamma_orb2A_eq hx]
+  simp only [orb3A, Set.mem_ofPred_eq, gamma_isConj_iff hx, gamma_orb2A_eq hx]
 
 theorem gamma_orb4A_eq {a x : G} (hx : IsConj a x) (z y : G) : orb4A x z y = orb4A a z y := by
   ext c
-  simp only [orb4A, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [orb4A, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_orb4B_eq {a x : G} (hx : IsConj a x) (y : G) : orb4B x y = orb4B a y := by
   ext c
-  simp only [orb4B, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [orb4B, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_orb6A_eq {a x : G} (hx : IsConj a x) (y : G) : orb6A x y = orb6A a y := by
   ext c
-  simp only [orb6A, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [orb6A, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_oddSet_eq {a x : G} (hx : IsConj a x) (y : G) : oddSet x y = oddSet a y := by
   ext c
-  simp only [oddSet, Set.mem_setOf_eq, gamma_isConj_iff hx]
+  simp only [oddSet, Set.mem_ofPred_eq, gamma_isConj_iff hx]
 
 theorem gamma_orb5A_eq {a x : G} (hx : IsConj a x) (y : G) : orb5A x y = orb5A a y := by
   ext c
-  simp only [orb5A, Set.mem_setOf_eq, gamma_isConj_iff hx, gamma_oddSet_eq hx]
+  simp only [orb5A, Set.mem_ofPred_eq, gamma_isConj_iff hx, gamma_oddSet_eq hx]
 
 theorem gamma_orb5E_eq {a x : G} (hx : IsConj a x) (y : G) : orb5E x y = orb5E a y := by
   ext c
-  simp only [orb5E, Set.mem_setOf_eq, gamma_isConj_iff hx, gamma_oddSet_eq hx]
+  simp only [orb5E, Set.mem_ofPred_eq, gamma_isConj_iff hx, gamma_oddSet_eq hx]
 
 theorem gamma_gammaSet_eq {a x : G} (hx : IsConj a x) (z y : G) :
     gammaSet x z y = gammaSet a z y := by

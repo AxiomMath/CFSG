@@ -182,7 +182,7 @@ public noncomputable def forbiddenConfiguration_brauerSuzukiWallHypotheses
   have hKleH : K ≤ c.H := by
     exact sup_le (c.S0_le_S.trans hSleH) hUleH
   have htK : c.t ∈ K :=
-    SetLike.le_def.mp le_sup_left c.t_mem_S0
+    _root_.IsConcreteLE.le_iff.mp le_sup_left c.t_mem_S0
   have hsH : s ∈ c.H := hSleH hs.1
   have hsnotK : s ∉ K := by
     have hsnot := BenderGlauberman.s_not_mem_H0' bg h12
@@ -198,7 +198,7 @@ public noncomputable def forbiddenConfiguration_brauerSuzukiWallHypotheses
     apply le_antisymm
     · intro x hxH
       by_cases hxK : x ∈ K
-      · exact SetLike.le_def.mp le_sup_left hxK
+      · exact _root_.IsConcreteLE.le_iff.mp le_sup_left hxK
       · have hxsK : x * s ∈ K := by
           have hmem :
               (⟨x, hxH⟩ : c.H) * ⟨s, hsH⟩ ∈ K.subgroupOf c.H := by
@@ -210,8 +210,8 @@ public noncomputable def forbiddenConfiguration_brauerSuzukiWallHypotheses
         have hEq : (x * s) * s = x := by rw [mul_assoc, hss, mul_one]
         rw [← hEq]
         exact (K ⊔ Subgroup.zpowers s).mul_mem
-          (SetLike.le_def.mp le_sup_left hxsK)
-          (SetLike.le_def.mp le_sup_right hsZ)
+          (_root_.IsConcreteLE.le_iff.mp le_sup_left hxsK)
+          (_root_.IsConcreteLE.le_iff.mp le_sup_right hsZ)
     · exact sup_le hKleH (Subgroup.zpowers_le.mpr hsH)
   have hUnormal : IsNormalIn c.U c.H := by
     refine ⟨hUleH, ?_⟩

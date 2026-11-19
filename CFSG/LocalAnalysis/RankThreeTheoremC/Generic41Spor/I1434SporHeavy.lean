@@ -16,7 +16,7 @@ open CFSG.Blueprint
 theorem i1434SporCase_holds
     : I1434SporCase := by
   have hord : I1434.SporCarrierOrders := fun s =>
-    CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card s
+    CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card s
   refine I1434.i1434SporCase_of_tables hord ?_
   intro s h5
   rcases (I1434.five_pow_three_dvd_sporOrd_iff s).1 h5 with
@@ -31,7 +31,7 @@ theorem i1434SporCase_holds
   · exact I1434.hn_hasNonabelianFiveSubgroup
   · exact I1434.ly_hasNonabelianFiveSubgroup
   · exact I1434.b_hasNonabelianFiveSubgroup
-  · haveI : Finite NativeSporadic.M :=
+  · have : Finite NativeSporadic.M :=
       Nat.finite_of_card_ne_zero (by
         have := hord .M
         rw [show NativeSporadic.Carrier .M = NativeSporadic.M from rfl] at this

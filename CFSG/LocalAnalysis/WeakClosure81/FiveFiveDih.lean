@@ -83,7 +83,7 @@ theorem nonempty_mulEquiv_dihedralGroup_of_inverts {H X : Subgroup G} {p : ℕ} 
     {a : G} (hXcard : Nat.card X = p) (hH : H = X ⊔ Subgroup.zpowers a) (ha : a * a = 1)
     (haX : a ∉ X) (hinv : ∀ x ∈ X, a * x * a⁻¹ = x⁻¹) :
     Nonempty (↥H ≃* DihedralGroup p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha_inv : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
   have ha_ne_one : a ≠ 1 := by
     intro h
@@ -92,7 +92,7 @@ theorem nonempty_mulEquiv_dihedralGroup_of_inverts {H X : Subgroup G} {p : ℕ} 
     intro hbot
     have h1 : Nat.card X = 1 := by rw [hbot, Subgroup.card_bot]
     exact hp.ne_one (by rw [← hXcard, h1])
-  haveI : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot X).mpr hX_ne_bot
+  have : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot X).mpr hX_ne_bot
   obtain ⟨x, hx, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial X
   have horder_dvd : orderOf x ∣ p := by
     rw [← hXcard]
@@ -174,8 +174,8 @@ theorem nonempty_mulEquiv_dihedralGroup_of_inverts {H X : Subgroup G} {p : ℕ} 
     rw [Subgroup.map_top, Subgroup.range_subtype, MonoidHom.map_closure, Set.image_pair, hr, hs]
     change Subgroup.closure ({(x : G), a} : Set G) = H
     exact hclosure
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥H := inferInstance
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥H := inferInstance
   have hbij : Function.Bijective (b5_dih_wordHom r s p hrp hss hsrs) :=
     b5_dih_wordHom_bijective (r := r) (s := s) (M := p) hp.two_le hHcard hgen hrp hss hsrs
   exact ⟨(MulEquiv.ofBijective _ hbij).symm⟩

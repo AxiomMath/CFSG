@@ -21,7 +21,7 @@ theorem l2_data_even {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A] (T
   classical
   obtain ⟨p, f, K, _, _, Ψ, α, hp, hp2, hf, hKcard, h2, hPSL, hΨz, hΨx, hα, hΨbb, hΨbα, hΨb1,
     hmem, a₀, ha₀T, ha₀z, hΨa₀⟩ := l2_setup_iff hr T hT hC hxo hbx hbb hz
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hθinj : Function.Injective
       ((Ψ.toMonoidHom : MulAut ↥T →* PGammaL2 K).comp (MulAut.conjNormal : A →* MulAut ↥T)) :=
     Ψ.injective.comp (conjNormal_injective hC)

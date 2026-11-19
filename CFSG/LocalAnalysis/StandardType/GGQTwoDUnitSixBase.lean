@@ -171,6 +171,7 @@ theorem Datum.exists_lift_psu5 [Finite Q] (hD : Datum p N f L Bs Z) {P : Subgrou
     rfl
 
 open scoped commutatorElement in
+omit [Finite G] in
 theorem Datum.le_of_img_le (hD : Datum p N f L Bs Z) {J J' : Subgroup G} (hJ : J ≤ L)
     (hJ' : J' ≤ L) [Group.IsPerfect ↥J'] (h : img N f J' ≤ img N f J) : J' ≤ J := by
   have hdec : ∀ a ∈ J', ∃ u ∈ J, ∃ z ∈ Z, a = u * z := by
@@ -198,11 +199,13 @@ theorem Datum.le_of_img_le (hD : Datum p N f L Bs Z) {J J' : Subgroup G} (hJ : J
   rw [hcomm]
   exact J.mul_mem (J.mul_mem (J.mul_mem hu hv) (J.inv_mem hu)) (J.inv_mem hv)
 
+omit [Finite G] in
 theorem Datum.eq_of_img_eq (hD : Datum p N f L Bs Z) {J J' : Subgroup G} (hJ : J ≤ L)
     (hJ' : J' ≤ L) [Group.IsPerfect ↥J] [Group.IsPerfect ↥J'] (h : img N f J = img N f J') :
     J = J' :=
   le_antisymm (hD.le_of_img_le hJ' hJ h.le) (hD.le_of_img_le hJ hJ' h.ge)
 
+omit [Finite G] in
 theorem Datum.conj_mem_of_img (hD : Datum p N f L Bs Z) {J : Subgroup G} (hJ : J ≤ L)
     [Group.IsPerfect ↥J] (n : ↥N) (hnL : ∀ l ∈ L, (n : G) * l * (n : G)⁻¹ ∈ L)
     (hn : ∀ q ∈ img N f J, f n * q * (f n)⁻¹ ∈ img N f J) :
@@ -223,6 +226,7 @@ theorem Datum.conj_mem_of_img (hD : Datum p N f L Bs Z) {J : Subgroup G} (hJ : J
   intro j hj
   exact hle ⟨j, hj, rfl⟩
 
+omit [Finite G] in
 theorem Datum.commute_of_img (hD : Datum p N f L Bs Z) {J : Subgroup G} (hJ : J ≤ L)
     [Group.IsPerfect ↥J] (hJZ : ∀ j ∈ J, j ∈ Z → j = 1) (n : ↥N)
     (hnL : ∀ l ∈ L, (n : G) * l * (n : G)⁻¹ ∈ L)

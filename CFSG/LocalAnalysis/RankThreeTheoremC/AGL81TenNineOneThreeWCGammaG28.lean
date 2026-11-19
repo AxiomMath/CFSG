@@ -27,7 +27,7 @@ theorem eq_of_wclosedIn (hZ : ∀ k : K, (∀ x : K, k * x = x * k) → k = 1)
     (hwc : IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y)
     (hwc' : IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A' Y) : A' = A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hι := innHom_injective hZ
   obtain ⟨a, haT, ha3, hac, hAa⟩ := exists_inner_of_wclosedIn hZ hinnT S A hA3 Y hSY hwc
   obtain ⟨b, hbT, hb3, hbc, hAb⟩ := exists_inner_of_wclosedIn hZ hinnT S A' hA'3 Y hSY hwc'

@@ -19,17 +19,17 @@ variable {F : Type*} [Field F]
 
 theorem torusEntry_of_lt {n m : ℕ} (μ : Subgroup Fˣ) (a : Fin m → μ) {j : Fin n} (h : j.val < m) :
     torusEntry μ a j = (a ⟨j.val, h⟩ : Fˣ) := by
-  rw [torusEntry, dif_pos h]
+  rw [torusEntry, dite_eq_left h]
 
 theorem torusEntry_of_rev_lt {n m : ℕ} (μ : Subgroup Fˣ) (a : Fin m → μ) {j : Fin n}
     (h : ¬ j.val < m) (h' : (Fin.rev j).val < m) :
     torusEntry μ a j = ((a ⟨(Fin.rev j).val, h'⟩ : Fˣ))⁻¹ := by
-  rw [torusEntry, dif_neg h, dif_pos h']
+  rw [torusEntry, dite_eq_right h, dite_eq_left h']
 
 theorem torusEntry_of_not {n m : ℕ} (μ : Subgroup Fˣ) (a : Fin m → μ) {j : Fin n}
     (h : ¬ j.val < m) (h' : ¬ (Fin.rev j).val < m) :
     torusEntry μ a j = 1 := by
-  rw [torusEntry, dif_neg h, dif_neg h']
+  rw [torusEntry, dite_eq_right h, dite_eq_right h']
 
 theorem torusEntry_mem {n m : ℕ} (μ : Subgroup Fˣ) (a : Fin m → μ) (j : Fin n) :
     torusEntry μ a j ∈ μ := by

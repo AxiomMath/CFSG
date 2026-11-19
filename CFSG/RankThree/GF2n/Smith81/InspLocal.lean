@@ -49,13 +49,13 @@ theorem hyp_classIn [Finite G] {z : G}
     Hyp ↥(Subgroup.normalClosure ({z} : Set G)) (classIn z) := by
   classical
   set X := Subgroup.normalClosure ({z} : Set G) with hXdef
-  haveI : X.Normal := Subgroup.normalClosure_normal
+  have : X.Normal := Subgroup.normalClosure_normal
   have hzX : z ∈ X := Subgroup.subset_normalClosure rfl
   have hCX : ∀ w : G, IsConj z w → w ∈ X := fun w hw => mem_normalClosure_of_isConj hw
   refine ⟨inferInstance, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·
     refine ⟨⟨z, hzX⟩, Set.ext fun x => ?_⟩
-    simp only [classIn, Set.mem_setOf_eq]
+    simp only [classIn, Set.mem_ofPred_eq]
     constructor
     · intro hx
       obtain ⟨c, hcX, hc⟩ := hconj x hx
@@ -112,6 +112,7 @@ section Local
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem isPGroup_Q (H : StrothHyp M Q Z) : IsPGroup 2 Q := by
   rw [H.hQ]
   exact (inSubgroup_pCore_two M).1

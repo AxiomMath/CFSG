@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec9c_fixed_eq_one {B : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     (hirr : ∀ B' : Subgroup G, B' ≤ B → (∀ x ∈ T, ∀ c ∈ B', x * c * x⁻¹ ∈ B') →
       B' = ⊥ ∨ B' = B)
@@ -33,6 +34,7 @@ theorem sec9c_fixed_eq_one {B : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     have hle2 : orderOf b ≤ 2 := Nat.le_of_dvd (by norm_num) hdvd
     omega
 
+omit [Finite G] in
 private lemma sec9c_sixteen_dvd_of_range {B : Subgroup G} {V : Subgroup (↥B × ↥B)}
     (hB16 : Nat.card B = 16) (π : ↥V →* ↥B) (h : (π.range).map B.subtype = B) :
     16 ∣ Nat.card V := by
@@ -45,6 +47,7 @@ private lemma sec9c_sixteen_dvd_of_range {B : Subgroup G} {V : Subgroup (↥B ×
   have hdvd : Nat.card ↥B ∣ Nat.card ↥V := Subgroup.card_dvd_of_surjective hsurj
   rwa [hB16] at hdvd
 
+omit [Finite G] in
 private lemma sec9c_fst_range_inv {B : Subgroup G} {T : Set G} (V : Subgroup (↥B × ↥B))
     (hinv : ∀ x ∈ T, ∀ w ∈ V, ∃ w' ∈ V,
       ((w'.1 : ↥B) : G) = x * ((w.1 : ↥B) : G) * x⁻¹ ∧
@@ -63,6 +66,7 @@ private lemma sec9c_fst_range_inv {B : Subgroup G} {T : Set G} (V : Subgroup (�
   rw [hz']
   exact hw'1
 
+omit [Finite G] in
 private lemma sec9c_snd_range_inv {B : Subgroup G} {T : Set G} (V : Subgroup (↥B × ↥B))
     (hinv : ∀ x ∈ T, ∀ w ∈ V, ∃ w' ∈ V,
       ((w'.1 : ↥B) : G) = x * ((w.1 : ↥B) : G) * x⁻¹ ∧
@@ -81,6 +85,7 @@ private lemma sec9c_snd_range_inv {B : Subgroup G} {T : Set G} (V : Subgroup (�
   rw [hz']
   exact hw'2
 
+omit [Finite G] in
 theorem sec9c_card_dvd {B : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     (hirr : ∀ B' : Subgroup G, B' ≤ B → (∀ x ∈ T, ∀ c ∈ B', x * c * x⁻¹ ∈ B') →
       B' = ⊥ ∨ B' = B)
@@ -104,7 +109,7 @@ theorem sec9c_card_dvd {B : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
         MonoidHom.mem_range.mpr ⟨w, rfl⟩
       rw [hfr, Subgroup.mem_bot] at hmem
       simpa using hmem
-    obtain ⟨w₀, hw₀V, hw₀ne⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hV)
+    obtain ⟨w₀, hw₀V, hw₀ne⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hV)
     rw [Subgroup.mem_bot] at hw₀ne
     have hw₀2 : (w₀ : ↥B × ↥B).2 ≠ 1 := by
       intro h2
@@ -124,6 +129,7 @@ theorem sec9c_card_dvd {B : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4)
     · exact sec9c_sixteen_dvd_of_range hB16 _ h2
   · exact sec9c_sixteen_dvd_of_range hB16 _ hf
 
+omit [Finite G] in
 theorem sec9c_B_le_K {B M K : Subgroup G} {T : Set G} (hB : IsElemAb2 B 4) (hBM : B ≤ M)
     (hTB : ∀ x ∈ T, x ∈ normalizer (B : Set G)) (hTK : ∀ x ∈ T, x ∈ K)
     (hMK : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K)

@@ -39,7 +39,7 @@ theorem sevenStep_of_hasField {T : Type} [Group T] [Finite T] (hZ : Subgroup.cen
   obtain ⟨g, φ, hφord, hWeq, hgood⟩ := h W hWcard h7
   unfold FieldGood FieldRigid FieldPair FieldCount at hgood
   obtain ⟨hrig, hpair, hcount⟩ := hgood
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X' : Subgroup T := X.map g.symm.toMonoidHom
   have hX'card : Nat.card X' = 9 := by
     dsimp only [X']

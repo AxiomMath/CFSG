@@ -27,7 +27,7 @@ theorem qTwoNbrRec_isUnitaryMat_of_isDiag {F : Type} [Field F] [Finite F] [CharP
     (hF : Nat.card F = (2 ^ 1) ^ 2) {d : ℕ} {g : GL (Fin d) F} (hg : ggIsDiagMat g) :
     ggIsUnitaryMat (p := 2) (f := 1) g := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨t, ht⟩ := hg
   have htne : ∀ i, t i ≠ 0 := fun i => LineU.diag_ne_zero_of_eq ht i
   have hcard : Fintype.card F = 4 := by

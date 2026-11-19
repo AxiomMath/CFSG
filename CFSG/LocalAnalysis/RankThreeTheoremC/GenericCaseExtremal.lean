@@ -72,10 +72,10 @@ theorem exists_largeObstruction_isSylowOf (hS : Setting G) (hU0 : FullCoreLocal 
   obtain ⟨-, hx1, hxp, hx3, -⟩ := id hx
   refine ⟨x, hxP, hx, ?_⟩
   set C : Subgroup G := centralizer ({x} : Set G) with hC
-  have hS₀p : IsPGroup p ((P : Subgroup G) ⊓ C : Subgroup G) := P.isPGroup'.to_inf_left
+  have hS₀p : IsPGroup p ((P : Subgroup G) ⊓ C : Subgroup G) := P.isPGroup.to_inf_left
   have hNM : normalizer (((P : Subgroup G) ⊓ C : Subgroup G) : Set G) ≤ M :=
     normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hS₀p (inf_le_left.trans hPM)
-      (two_le_pRank_inf_centralizer P.isPGroup' (by omega) hxP hx1 hxp)
+      (two_le_pRank_inf_centralizer P.isPGroup (by omega) hxP hx1 hxp)
   obtain ⟨T, hT⟩ := (hS₀p.comap_subtype (K := C)).exists_le_sylow
   set S : Subgroup G := (T : Subgroup C).map C.subtype with hSdef
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf p S C := ⟨T, rfl⟩

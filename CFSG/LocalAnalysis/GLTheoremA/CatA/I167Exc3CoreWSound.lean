@@ -194,7 +194,7 @@ private theorem exc3core_wobs_of_check_aux3 {τ : Tag} {L : Type} [Field L]
       ((rootCharHom a) (Multiplicative.ofAdd (RD.rt τ k₁)))⁻¹) :
     RD.digDot (RD.rl τ l) (List.ofFn e) % 3 = 2 := by
   have ho : orderOf ω₀ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hω₀ hωne
   have hEl_eq : ω₀ ^ RD.digDot (RD.rl τ l) (List.ofFn e) =
       (ω₀ ^ RD.digDot (RD.rl τ k₁) (List.ofFn e))⁻¹ := by
@@ -248,7 +248,7 @@ private theorem exc3core_wobs_of_check_aux5 {τ : Tag} (V l k₁ : ℕ) (d : Lis
   intro hEq
   have hthis := List.all_eq_true.1 hall (exc3core_sig τ V l) hmem
   rw [hEq] at hthis
-  simpa using hthis
+  simp at hthis
 
 private theorem exc3core_wobs_of_check_aux6 {τ : Tag} {L : Type} [Field L]
     (a : Fin τ.rank → Lˣ) (ω₀ : Lˣ) (e : Fin τ.rank → ℕ) (V k₁ : ℕ)
@@ -270,7 +270,7 @@ private theorem exc3core_wobs_of_check_aux6 {τ : Tag} {L : Type} [Field L]
     rw [hE0] at hE1
     norm_num at hE1
   have ho : orderOf ω₀ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hω₀ hωne
   have hE1mod : RD.digDot (RD.rl τ k₁) (List.ofFn e) % 3 = (1:ℤ) % 3 := by
     rw [hE1]
@@ -342,7 +342,7 @@ theorem exc3core_wobs_of_check {τ : Tag} (hτ : NoG2 τ) (cap : ℕ) (u w : ℕ
   exact exc3core_wobs_of_check_aux6 a ω₀ e V k₁ (componentRoots (rootCharHom a) i)
     hae hω₀ he0 hdig hΨ hk₁ hE1 hall
 
-theorem exc3core_all_of_chunks {α : Type} (vs : List α) (f : α → Bool) (c k : ℕ) (hc : 0 < c)
+theorem exc3core_all_of_chunks {α : Type} (vs : List α) (f : α → Bool) (c k : ℕ) (_hc : 0 < c)
     (hl : vs.length ≤ c * k)
     (h : ∀ j < k, ((vs.drop (c * j)).take c).all f = true) : vs.all f = true := by
   have key : ∀ k, ∀ vs : List α, vs.length ≤ c * k →

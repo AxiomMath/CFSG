@@ -127,7 +127,7 @@ theorem eq_one_of_mem_thetaQuotCentralizer (he : CFSG.Assembly.evenRank G = 3) {
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       3 Nat.prime_three B M hB3 hM3 (hBL.trans hLM) 2 Nat.prime_two
   set RG := (R : Subgroup M).map M.subtype with hRG
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map M.subtype
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map M.subtype
   have hRG1 : RG ≠ ⊥ := by
     intro hbot
     obtain ⟨y, -, hle⟩ := exists_le_conj_sylow R (le_sup_left : Subgroup.zpowers t ≤ M) hT2
@@ -155,7 +155,7 @@ theorem odd_card_theta (he : CFSG.Assembly.evenRank G = 3) {B L : Subgroup G}
   obtain ⟨R, hBR⟩ :=
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       3 Nat.prime_three B θL (Sec5.isPGroup_of_isElemAbelian hB) hθ3 hBθ 2 Nat.prime_two
-  have hR2 : IsPGroup 2 ((R : Subgroup θL).map θL.subtype) := R.isPGroup'.map θL.subtype
+  have hR2 : IsPGroup 2 ((R : Subgroup θL).map θL.subtype) := R.isPGroup.map θL.subtype
   have hRbot : (R : Subgroup θL).map θL.subtype = ⊥ := by
     by_contra hne
     have := Sec5.card_le_of_le_normalizer he hne hR2 hB hBR

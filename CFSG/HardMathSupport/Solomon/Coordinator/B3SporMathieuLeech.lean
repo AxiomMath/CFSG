@@ -151,7 +151,7 @@ theorem b3SporPair_mathieuLeech :
         · exact sporadicOPrimeHolds_Co2_three
         · exact sporadicOPrimeHolds_Co3_three
       · rcases hname with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-          simp only [reduceCtorEq, false_or, or_false, or_self] at h
+          simp only [reduceCtorEq, or_false, or_self] at h
         exact sporadicOPrimeHolds_Co1_five
       · rcases hname with h | h | h | h | h | h | h | h | h | h | h | h <;> cases h
     · unfold B3SporRestPair at h
@@ -178,7 +178,7 @@ theorem b3SporPair_mathieuLeech :
           simp only [reduceCtorEq, false_or, or_false, or_self] at h
         exact b3SporPair_of_sporadicOPrimeHolds hp hp2 hbr hOut sporadicOPrimeHolds_Co1_seven
       · rcases hname with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-          simp only [reduceCtorEq, false_or, or_false, or_self] at h
+          simp only [reduceCtorEq, or_self] at h
       · rcases hname with h' | h' | h' | h' | h' | h' | h' | h' | h' | h' | h' | h' <;>
           rw [h'] at h <;> cases h
   · refine b3SporPair_of_card_exact hp hp2 hOut fun S _ _ he => ?_

@@ -27,7 +27,7 @@ theorem s16c1G43_conj_not_mem {D : Data G} (h22 : R1622 D) {V₀ V L : Subgroup 
   have hU2 : ∀ y ∈ U, y = 1 ∨ y = x := by
     intro y hy
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hy
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have horder : orderOf x = 2 := orderOf_eq_prime hx2 hx1
     have hmod : x ^ (k % (2 : ℤ)) = x ^ k := by
       simpa [horder] using zpow_mod_orderOf x k
@@ -61,7 +61,7 @@ theorem s16c1G43_conj_not_mem {D : Data G} (h22 : R1622 D) {V₀ V L : Subgroup 
       by_contra hnot
       exact hXne (le_bot_iff.1 fun y hy => by
         rcases hU2 y (hXU hy) with h1 | h2
-        · simpa [h1]
+        · simp [h1]
         · exact absurd (h2 ▸ hy) hnot)
     have hXUeq : X = U := le_antisymm hXU (Subgroup.zpowers_le.mpr hxX)
     rw [hXUeq]
@@ -142,7 +142,7 @@ theorem s16c1G43_lt_rStar {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
     unfold rStarMV
     refine le_iInf₂ fun U hU => ?_
     obtain ⟨hUV, hN⟩ := hU
-    obtain ⟨x, hxN, hxM⟩ := SetLike.not_le_iff_exists.1 hN
+    obtain ⟨x, hxN, hxM⟩ := IsConcreteLE.not_le_iff_exists.1 hN
     have hUle : U ≤ V ⊓ conjSubgroup V x := by
       refine le_inf hUV ?_
       intro u hu

@@ -19,7 +19,7 @@ theorem ks166J2A5Three :
   · rw [hx1]
     exact Subgroup.one_mem _
   obtain ⟨ψ, hψE, _, hKZ⟩ := exists_frame hX hKp hKA hEK hE9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac3 : (604800 : ℕ).factorization 3 = 3 := by
     rw [Nat.factorization_def _ Nat.prime_three]
     decide +kernel

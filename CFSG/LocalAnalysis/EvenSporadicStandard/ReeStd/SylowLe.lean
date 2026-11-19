@@ -14,9 +14,9 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem exists_isPGroup_le_odd_relIndex {A P : Subgroup G} (hP : IsPGroup 2 P) (hPA : P ≤ A) :
     ∃ T : Subgroup G, IsPGroup 2 T ∧ P ≤ T ∧ T ≤ A ∧ Odd (T.relIndex A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hP.comap_subtype (K := A)).exists_le_sylow
-  refine ⟨(Q : Subgroup A).map A.subtype, Q.isPGroup'.map _, ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup A).map A.subtype, Q.isPGroup.map _, ?_, ?_, ?_⟩
   · intro p hp
     exact ⟨⟨p, hPA hp⟩, hQ hp, rfl⟩
   · rintro _ ⟨x, -, rfl⟩
@@ -30,11 +30,11 @@ theorem exists_isPGroup_le_odd_relIndex {A P : Subgroup G} (hP : IsPGroup 2 P) (
 theorem exists_mul_mem_normalizer_of_sylow {R T : Subgroup G} (hTR : T ≤ R) (hT : IsPGroup 2 T)
     (hodd : Odd (T.relIndex R)) {c : G} (hc : c ∈ normalizer (R : Set G)) :
     ∃ r ∈ R, r * c ∈ normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 (T.subgroupOf R) := hT.comap_subtype
   have hnd : ¬ 2 ∣ (T.subgroupOf R).index := hodd.not_two_dvd_nat
   let S : Sylow 2 R := hT'.toSylow hnd
-  haveI : Finite (Sylow 2 R) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow 2 R) := Sylow.finite_of_finiteIndex S
   have hcR : ∀ h, h ∈ R ↔ c * h * c⁻¹ ∈ R :=
     (Subgroup.mem_normalizer_iff (H := R)).mp hc
   have hRsmul : MulAut.conj c • R = R := by

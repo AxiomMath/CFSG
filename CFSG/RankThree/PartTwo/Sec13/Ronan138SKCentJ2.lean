@@ -271,7 +271,7 @@ theorem step138CentJ2_of (hspor : SporadicModels131) (h415 : Sec4.Item4_15)
       have hwS : w ∈ (S : Subgroup K) := by
         rw [hw]
         exact mul_mem (mul_mem (mul_mem hs hbS) (inv_mem hs)) (inv_mem hbS)
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨w, hwS⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨w, hwS⟩
       have hk' : w ^ 3 ^ k = 1 := by
         have h2 := congrArg (fun z : (S : Subgroup K) => (z : K)) hk
         rw [Subgroup.coe_pow, Subgroup.coe_one] at h2

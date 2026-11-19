@@ -15,7 +15,7 @@ open CFSG Subgroup
 theorem exists_fixed_orderOf_eq_prime {S : Type*} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     (hS : p ∣ Nat.card S) (α : MulAut S) (hα : α ^ p = 1) :
     ∃ s : S, orderOf s = p ∧ α s = s := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA : IsPGroup p (Subgroup.zpowers α) := by
     intro g
     refine ⟨1, ?_⟩
@@ -78,7 +78,7 @@ theorem exists_lift_fixed_orderOf_eq_prime {J : Type*} [Group J] [Finite J] {p :
     (hxo : orderOf (QuotientGroup.mk x : J ⧸ Subgroup.center J) = p)
     (hfx : (QuotientGroup.mk (f x) : J ⧸ Subgroup.center J) = QuotientGroup.mk x) :
     ∃ w : J, orderOf w = p ∧ f w = w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζ : x⁻¹ * f x ∈ Subgroup.center J := by
     have h1 : (f x)⁻¹ * x ∈ Subgroup.center J := QuotientGroup.eq.mp hfx
     have h2 := inv_mem h1
@@ -119,7 +119,7 @@ theorem r3_cube_of_central_commuting {N : Type} [Group N] [Finite N] {p : ℕ} (
     (hYv : Y ⊓ Subgroup.zpowers v = ⊥) (hfA : f ∉ Y ⊔ Subgroup.zpowers v) :
     ∃ F : Subgroup N, CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ 3 ∧
       F = Y ⊔ Subgroup.zpowers v ⊔ Subgroup.zpowers f := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzp : ∀ w : N, orderOf w = p → ∀ x ∈ Subgroup.zpowers w, x ^ p = 1 := by
     intro w hw x hx
     have h1 := Subgroup.orderOf_dvd_natCard (Subgroup.zpowers w) hx
@@ -185,13 +185,13 @@ theorem r3_wDelta {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     {J₀ : Subgroup N} (hJ₀ : CFSG.IsComponent J₀) {u : N} (hu2 : u * u = 1)
     (hne : J₀.map (MulAut.conj u).toMonoidHom ≠ J₀)
     (hm : ¬ p ∣ Nat.card (Subgroup.center J₀))
-    {Y : Subgroup N} (hY : Nat.card Y = p) (hYc : Y ≤ Subgroup.center N)
+    {Y : Subgroup N} (_hY : Nat.card Y = p) (hYc : Y ≤ Subgroup.center N)
     {w : N} (hw : w ∈ J₀) (hwo : orderOf w = p) :
     orderOf (w * (u * w * u⁻¹)) = p ∧ u * (w * (u * w * u⁻¹)) = (w * (u * w * u⁻¹)) * u ∧
       Y ⊓ Subgroup.zpowers (w * (u * w * u⁻¹)) = ⊥ ∧
       ∀ k : ℤ, ∀ j ∈ J₀, (w * (u * w * u⁻¹)) ^ k * j * ((w * (u * w * u⁻¹)) ^ k)⁻¹ =
         w ^ k * j * (w ^ k)⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨J₁, hJ₁def⟩ : ∃ J₁ : Subgroup N, J₁ = J₀.map (MulAut.conj u).toMonoidHom := ⟨_, rfl⟩
   rw [← hJ₁def] at hne
   have hJ₁ : CFSG.IsComponent J₁ := by

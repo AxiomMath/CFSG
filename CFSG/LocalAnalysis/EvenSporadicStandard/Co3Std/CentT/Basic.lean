@@ -50,6 +50,7 @@ namespace CentConfig
 
 variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X → Prop}
 
+omit [Finite X] in
 private theorem zpowers_sq_eq_one_or {x : X} (hx : x * x = 1) {c : X}
     (hc : c ∈ zpowers x) : c = 1 ∨ c = x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hc
@@ -62,6 +63,7 @@ private theorem zpowers_sq_eq_one_or {x : X} (hx : x * x = 1) {c : X}
     obtain ⟨m, hm⟩ : ∃ m : ℤ, k = 2 * m + 1 := ⟨k / 2, by omega⟩
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite X] in
 private theorem exists_mul_of_mem_sup_of_le_centralizer {T C : Subgroup X}
     (hC : C ≤ centralizer (T : Set X)) {x : X} (hx : x ∈ T ⊔ C) :
     ∃ t ∈ T, ∃ c ∈ C, x = t * c := by

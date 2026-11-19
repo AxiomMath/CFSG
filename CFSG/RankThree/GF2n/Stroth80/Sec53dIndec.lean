@@ -20,11 +20,12 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.isIndecSec_Vt_sp (hc : Ctx M Q Z B) {t : G} (hsp : SpNat hc t) :
     IsIndecSec (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z := by
   obtain ⟨K, hK, hKf, hKc, m, hm, hrep⟩ := hsp
   obtain ⟨e, -, he, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKc.trans he)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKc.trans he)
   rintro ⟨A₁, A₂, hZA₁, hA₁V, hZA₂, hA₂V, hA₁ne, hA₂ne, hsup, hinf, hinv⟩
   have hRU : ∀ r ∈ Rt M (LB M Q B) t, ∀ u ∈ A₁, r * u * r⁻¹ ∈ A₁ := by
     intro r hr u hu
@@ -40,6 +41,7 @@ theorem Ctx.isIndecSec_Vt_sp (hc : Ctx M Q Z B) {t : G} (hsp : SpNat hc t) :
       exact (inf_of_le_right hA₂V).symm
     exact hA₂ne h₂
 
+omit [Finite G] in
 theorem Ctx.isIndecSec_vone_of_eq (hc : Ctx M Q Z B) {t r : G} (hsp : SpNat hc t)
     (hV1 : Vone Q B (conjSubgroup r B) (Vt M (LB M Q B) B Z t) = Vt M (LB M Q B) B Z t) :
     IsIndecSec (Rt M (LB M Q B) t) (Vone Q B (conjSubgroup r B)

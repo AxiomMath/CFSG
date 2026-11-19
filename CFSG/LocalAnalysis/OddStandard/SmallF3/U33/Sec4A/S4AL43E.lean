@@ -74,7 +74,7 @@ private theorem sup_PT_le_centralizer (h : Ctx t L S x₁ x₂ lam rho tau) {p :
     (hp : p ∈ twoCore t) :
     twoCore t ⊔ wreathGrp x₁ x₂ lam ≤
       centralizer ({p} : Set G) ⊓ centralizer ({t} : Set G) := by
-  haveI : IsCyclic (twoCore t) := h.hyp.isCyclic
+  have : IsCyclic (twoCore t) := h.hyp.isCyclic
   have hT_le_L : wreathGrp x₁ x₂ lam ≤ L := wreathGrp_le_L h
   have hT_le_inv : wreathGrp x₁ x₂ lam ≤ invCent t :=
     le_trans hT_le_L (L_le_invCent h.hyp)

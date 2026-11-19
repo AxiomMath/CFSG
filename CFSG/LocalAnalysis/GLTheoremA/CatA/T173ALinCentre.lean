@@ -124,7 +124,7 @@ theorem lin_center_coprime {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Fini
     {S B : Subgroup Ω} (hS : CFSG.Open.IsQuasisimple ↥S) {n d : ℕ} {F : Type} [Field F]
     [Finite F] {θ : ↥S ⧸ Subgroup.center ↥S ≃* LinPSL d F} (hM : LinMarking p S B n d F θ)
     (hn : 2 ≤ n) (hd : ¬ p ∣ d) : ¬ p ∣ Nat.card (Subgroup.center ↥S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFcard : Nat.card F = 2 ^ n := hM.1
   have hd2 : 2 ≤ d := hM.2.2.1
   have hpdvd : p ∣ 2 ^ n - 1 := by

@@ -24,6 +24,7 @@ open CFSG.Blueprint (SuzukiModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem eight72_rhoL_eq_one_of_centralizesBar {K : Subgroup G} {x : G}
     (hxN : x ∈ normalizer (K : Set G)) (hx : UC22.CentralizesBar x K) :
     UC6S846.rhoL K ⟨x, hxN⟩ = 1 := by

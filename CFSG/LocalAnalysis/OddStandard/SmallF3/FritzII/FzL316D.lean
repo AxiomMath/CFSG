@@ -28,11 +28,11 @@ theorem fzl_norm_mem {Q Φ : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
     intro h k hh hk; rw [show k * h * k⁻¹ = ⁅k, h⁆ * h from by group]
     exact Φ.mul_mem (hc k hk h (hΦQ hh)) hh
   let Nq : Subgroup Q := Φ.subgroupOf Q
-  haveI : Nq.Normal := hNQ
+  have : Nq.Normal := hNQ
   let π : Q →* Q ⧸ Nq := QuotientGroup.mk' Nq
   have hcomm : _root_.commutator Q ≤ Nq :=
     Subgroup.commutator_le.mpr fun a _ b _ => hc a a.2 b b.2
-  haveI : IsMulCommutative (Q ⧸ Nq) :=
+  have : IsMulCommutative (Q ⧸ Nq) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm
   let cQ : Q →* Q :=
     { toFun := fun x => ⟨rho * (x : G) * rho⁻¹, hQ x x.2⟩
@@ -140,7 +140,7 @@ theorem fzl_norm_mem {Q Φ : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
     have hx1K : rho * ⁅q, rho⁆ * rho⁻¹ ∈ K := by
       refine ⟨hQ _ (hx0Q q hq), ?_⟩
       rw [hNrm_conj, hx0Nrm q hq]
-      simpa using Φ.one_mem
+      simp
     interval_cases i
     · simp [commutatorElement_def]
     · simpa using hx0K
@@ -153,7 +153,7 @@ theorem fzl_card_mod3_of_fpf {Y : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
     (hY : ∀ y ∈ Y, rho * y * rho⁻¹ ∈ Y) (hfix : ∀ y ∈ Y, rho * y * rho⁻¹ = y → y = 1) :
     Nat.card Y % 3 = 1 := by
   classical
-  haveI : Fintype Y := Fintype.ofFinite Y
+  have : Fintype Y := Fintype.ofFinite Y
   let f : Function.End Y := fun y => ⟨rho * (y : G) * rho⁻¹, hY y y.2⟩
   have hr3 : rho * rho * rho = 1 := by
     simpa [pow_succ, pow_two, mul_assoc] using hrho3
@@ -166,7 +166,7 @@ theorem fzl_card_mod3_of_fpf {Y : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
   have hcardfix : Fintype.card (Function.fixedPoints f) = 1 := by
     rw [Fintype.card_eq_one_iff]
     refine ⟨⟨1, ?_⟩, ?_⟩
-    · rw [Function.mem_fixedPoints_iff]; apply Subtype.ext; simp [f]
+    · rw [Function.mem_fixedPoints_iff]; apply Subtype.ext; simp
     · intro b; apply Subtype.ext; apply Subtype.ext
       have hb : f b.1 = b.1 := b.2
       have hb' : rho * ((b.1 : Y) : G) * rho⁻¹ = ((b.1 : Y) : G) := by

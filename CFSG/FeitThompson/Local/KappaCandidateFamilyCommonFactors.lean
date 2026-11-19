@@ -191,7 +191,7 @@ theorem FNI_kappa_candidate_family_common_factors
     intro T hTI hTM
     obtain ⟨hTc, X, hXK, hXp, hNX⟩ := (hmemI T hTI).resolve_left hTM
     obtain ⟨-, -, -, hex, -⟩ := hrefl G M K A Z hsetup X T hXK hXp hTc hNX
-    simp only [if_neg hTM, dif_pos hex]
+    simp only [ite_eq_right hTM, dite_eq_left hex]
     exact hex.choose_spec
   ·
     have h : (1 : ℕ) < I.ncard :=

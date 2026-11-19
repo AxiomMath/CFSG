@@ -142,8 +142,9 @@ theorem exists_finset_axisBlock {i : Fin q} {χ : Multiplicative V →* ℂˣ}
       (inr : U →* S.grp) (inr_injective (φ := S.mulAutHom))).toEquiv).symm
   · rw [hTdeg ψ hψ, S.baseChar_one, mul_one, S.index_inertiaGroup_baseChar h]
 
+omit [IsMulCommutative U] in
 theorem mem_block_iff_mem_resConstituents {i : Fin q} {χ : Multiplicative V →* ℂˣ}
-    (h : S.IsAxisChar i χ) {T : Finset (S.grp → ℂ)} (hTsub : ↑T ⊆ Irr S.grp)
+    (_h : S.IsAxisChar i χ) {T : Finset (S.grp → ℂ)} (hTsub : ↑T ⊆ Irr S.grp)
     (hTsum : indClassFun S.base (S.baseChar χ) = ∑ ψ ∈ T, ψ)
     {θ : S.grp → ℂ} (hθIrr : θ ∈ Irr S.grp) :
     S.baseChar χ ∈ resConstituents S.base θ ↔ θ ∈ T := by
@@ -156,17 +157,17 @@ theorem mem_block_iff_mem_resConstituents {i : Fin q} {χ : Multiplicative V →
     rw [hTsum, cfInner_sum_left,
       Finset.sum_congr rfl fun ψ hψ => cfInner_eq_ite_of_mem_Irr (hTsub hψ) hθIrr]
     by_cases hmem : θ ∈ T
-    · rw [if_pos hmem, Finset.sum_eq_single_of_mem θ hmem (fun ψ _ hne => if_neg hne), if_pos rfl]
-    · rw [if_neg hmem]
-      refine Finset.sum_eq_zero fun ψ hψ => if_neg ?_
+    · rw [ite_eq_left hmem, Finset.sum_eq_single_of_mem θ hmem (fun ψ _ hne => ite_eq_right hne), ite_eq_left rfl]
+    · rw [ite_eq_right hmem]
+      refine Finset.sum_eq_zero fun ψ hψ => ite_eq_right ?_
       intro hcon
       exact hmem (by rw [← hcon]; exact hψ)
   rw [← hfrob, hsum]
   refine ⟨fun hc => ?_, fun hmem => ⟨S.baseChar_mem_Irr χ, ?_⟩⟩
   · by_contra hcon
-    rw [if_neg hcon] at hc
+    rw [ite_eq_right hcon] at hc
     exact absurd hc.2 (by norm_num)
-  · rw [if_pos hmem]; norm_num
+  · rw [ite_eq_left hmem]; norm_num
 
 theorem apply_one_of_mem_axisWeightFinset {i : Fin q} {θ : S.grp → ℂ}
     (hθ : θ ∈ S.axisWeightFinset i) : θ 1 = ((S.lineCentralizer i).index : ℂ) := by
@@ -192,6 +193,7 @@ theorem card_over_axisBase {i : Fin q} {lam : S.base → ℂ} (hlam : lam ∈ S.
       (key θ (hTsub hmem)).2 hmem⟩, (key θ (hTsub hmem)).2 hmem⟩
   rw [heq, hTcard]
 
+omit [IsMulCommutative U] in
 theorem card_below_axisWeight {i : Fin q} {θ : S.grp → ℂ} (hθ : θ ∈ S.axisWeightFinset i)
     [DecidablePred fun lam : S.base → ℂ => lam ∈ resConstituents S.base θ] :
     {lam ∈ S.axisBaseFinset i | lam ∈ resConstituents S.base θ}.card
@@ -229,6 +231,7 @@ theorem mem_allAxisWeightFinset {θ : S.grp → ℂ} :
   · intro h; obtain ⟨i, -, h2⟩ := h; exact ⟨i, h2⟩
   · intro h; obtain ⟨i, h2⟩ := h; exact ⟨i, Finset.mem_univ i, h2⟩
 
+omit [IsMulCommutative U] in
 theorem allAxisWeightFinset_subset_Irr : ↑S.allAxisWeightFinset ⊆ Irr S.grp := by
   intro θ hθ
   obtain ⟨i, hi⟩ := (S.mem_allAxisWeightFinset).1 hθ

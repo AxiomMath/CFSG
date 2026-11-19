@@ -58,6 +58,7 @@ section TransferWCent
 variable {G : Type} [Group G] [Finite G] {Y P : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {π : adjointGroup .G2 K →* ↥Y}
 
+omit [Finite G] in
 theorem g2Transfer_mul_inv_mem_pCoreOf (hπ : Function.Bijective π) (hPY : P ≤ Y)
     (hBA : borel (g2Datum K) (torus (τ := .G2) K) ≤ (P.subgroupOf Y).comap π)
     {i : Fin (Tag.rank .G2)} (hI : negIndices (g2Datum K) ((P.subgroupOf Y).comap π) = {i})
@@ -94,7 +95,7 @@ theorem exists_g2_cover (hGA : CFSG.Open.GriessAllModelsStatement) {G : Type} [G
         (P.subgroupOf Y).comap π ∧
       ∃ i : Fin (Tag.rank .G2),
         negIndices (g2Datum (GaloisField 2 f)) ((P.subgroupOf Y).comap π) = {i} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd := Lin.odd_card_center_of_pCore_eq_bot (pCore_eq_bot_of_pCoreOf h2)
   obtain ⟨f, hf, ⟨e⟩⟩ := exists_mulEquiv_g2_of_isLieOf hGA hY hodd hF
   obtain ⟨π, hQ, hBA, i, hI⟩ := exists_node_of_parabolic e hpar hne hna
@@ -121,7 +122,7 @@ theorem exists_g2_model (hGA : CFSG.Open.GriessAllModelsStatement) {G : Type} [G
         WCent P β → ∀ s ∈ rankOne (g2Datum (GaloisField 2 f)).rootGroup i,
           aut β s * s⁻¹ ∈ pCoreOf 2 A) ∧
       (∀ β : ↥(Subgroup.normalizer (Y : Set G)), aut β = 1 → ∀ y ∈ Y, (β : G) * y = y * β) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf, π, hπ, hBA, i, hI⟩ := exists_g2_cover hGA hY h2 hF hpar hne hna
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by

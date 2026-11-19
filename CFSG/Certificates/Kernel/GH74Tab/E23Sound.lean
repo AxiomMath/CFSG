@@ -159,14 +159,15 @@ theorem prodB4_eq (bl : List (Fin 64)) (m : Nat) :
       (bif j % 2 == 1 then (bl.map Fin.val).getD k D.one else D.one) := by
     intro j k
     by_cases h : j % 2 = 1
-    · rw [if_pos h, hg, beq_iff_eq.2 h, cond_true]
+    · rw [ite_eq_left h, hg, beq_iff_eq.2 h, _root_.Bool.cond_true]
     · have h' : (j % 2 == 1) = false := by simpa using h
-      rw [if_neg h, h', cond_false, one_eq D ht, val_f64 hd1]
+      rw [ite_eq_right h, h', Bool.cond_false, one_eq D ht, val_f64 hd1]
   unfold Tab.prodB4E2
   rw [mulT_eq D ht, mulT_eq D ht, mulT_eq D ht, val_f64_mul, val_f64_mul, hi m 0, hi (m / 2) 1,
     hi (m / 4) 2, hi (m / 8) 3]
   rfl
 
+omit hd in
 theorem conj2_eq (A : Nat) {t0 r : Nat} (ht0 : t0 < 64) (hr : r < 64) :
     (mkTab n).conjE2 (tblOf A) (f64 t0) (f64 r) = f64 (mul D (mul D t0 (g6 A r)) (g6 D.I t0)) := by
   unfold Tab.conjE2
@@ -185,8 +186,8 @@ theorem stable_eq (A : Nat) {t0 r1 r2 : Nat} (ht0 : t0 < 64) (h1 : r1 < 64) (h2 
     (mkTab n).stableE2 (tblOf A) (f64 t0) (f64 r1) (f64 r2) = stabK D A t0 r1 r2 := by
   have hd1 := (dataOK_spec D hd).1
   unfold Tab.stableE2
-  rw [one_eq D ht, mulT_eq D ht, val_f64 h1, val_f64 h2, conj2_eq ht hd A ht0 hd1,
-    conj2_eq ht hd A ht0 h1, conj2_eq ht hd A ht0 h2, conj2_eq ht hd A ht0 (mul_lt D _ _),
+  rw [one_eq D ht, mulT_eq D ht, val_f64 h1, val_f64 h2, conj2_eq ht A ht0 hd1,
+    conj2_eq ht A ht0 h1, conj2_eq ht A ht0 h2, conj2_eq ht A ht0 (mul_lt D _ _),
     inKlein_eq ht hd h1 h2 (mul_lt D _ _), inKlein_eq ht hd h1 h2 (mul_lt D _ _),
     inKlein_eq ht hd h1 h2 (mul_lt D _ _), inKlein_eq ht hd h1 h2 (mul_lt D _ _)]
   rfl
@@ -338,6 +339,7 @@ theorem e2OK_sound {L : List (Nat × Nat)} {W2 : List (List Nat)} {W3 : List (Li
   exact ⟨e2P1_of ht hd _ h0 q1 _, e2P2_of ht hd _ _ q2 _, e2P3_of ht hd _ hu _ q3,
     e2P4_of ht hd _ q4 _⟩
 
+omit hd in
 theorem conj3_val (i x : Fin 64) : ((mkTab n).conjE3 i x).val = cjK D i.val x.val := by
   unfold Tab.conjE3 cjK
   rw [mulT_eq D ht, mulT_eq D ht, inv_eq D ht]
@@ -397,13 +399,13 @@ theorem e3P_of (A : Nat) {wa wc : Nat} (h0 : e1K0 D = true) (hw : wOK7 wa wc = t
       cjK D t.val ((bLK D A).getD k.val D.one) = (bLK D A).getD k'.val D.one := by
     intro t k k' h
     have := congrArg Fin.val h
-    rwa [conj3_val ht hd, hBval, hBval] at this
+    rwa [conj3_val ht, hBval, hBval] at this
   have hcv' : ∀ (t : Nat) (_ : t < 64) (k k' : Fin 4),
       cjK D t ((bLK D A).getD k.val D.one) = (bLK D A).getD k'.val D.one →
       (mkTab 7).conjE3 (f64 t) (B.get k) = B.get k' := by
     intro t htl k k' h
     apply Fin.ext
-    rw [conj3_val ht hd, val_f64 htl, hBval, hBval]
+    rw [conj3_val ht, val_f64 htl, hBval, hBval]
     exact h
   have hIL : ∀ i : Fin 64, (mkTab 7).isInv i = true → ((mkTab 7).aVecE2 (tblOf A)).get i = false →
       i.val ∈ itLK D (mskL (aLK D A)) := by

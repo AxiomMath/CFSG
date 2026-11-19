@@ -152,7 +152,7 @@ theorem kernelRoots_rootCharHom_eq_line (hζ : IsPrimitiveRoot ζ p) (a : Fin τ
     (ha : ∀ j, a j ^ p = 1) :
     kernelRoots (rootCharHom a) = kernelRoots (tcChiLn τ p (tcExpVec hζ a ha)) := by
   ext γ
-  rw [kernelRoots_rootCharHom, Set.mem_setOf_eq,
+  rw [kernelRoots_rootCharHom, Set.mem_ofPred_eq,
     mem_kernelRoots_chiQ (τ := τ) p ({tcExpVec hζ a ha} : Set (Fin τ.rank → ZMod p)) γ]
   simp only [Set.mem_singleton_iff, forall_eq]
   rw [tcRootChar_eq_one_iff hζ a ha γ]
@@ -160,7 +160,7 @@ theorem kernelRoots_rootCharHom_eq_line (hζ : IsPrimitiveRoot ζ p) (a : Fin τ
 theorem kernelRoots_famChar_punit_eq (a : Fin τ.rank → Lfˣ) :
     kernelRoots (famCharHom (fun _ : PUnit.{1} => a)) = kernelRoots (rootCharHom a) := by
   ext γ
-  rw [mem_kernelRoots_famChar, kernelRoots_rootCharHom, Set.mem_setOf_eq]
+  rw [mem_kernelRoots_famChar, kernelRoots_rootCharHom, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨h1, h2 PUnit.unit⟩

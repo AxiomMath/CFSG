@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem relIndex_sup_eq_relIndex_of_le_normalizer {A B : Subgroup G}
     (h : B ≤ normalizer (A : Set G)) : B.relIndex (A ⊔ B) = B.relIndex A := by
   unfold Subgroup.relIndex Subgroup.index
@@ -31,23 +32,28 @@ private theorem relIndex_sup_eq_relIndex_of_le_normalizer {A B : Subgroup G}
     Subgroup.mem_subgroupOf]
   simpa using hb
 
+omit [Finite G] in
 theorem mem_tSub15_iff {M V₀ V U P : Subgroup G} {x : G} :
     x ∈ tSub15 M V₀ V U P ↔ x ∈ P ∧ x ∈ F11.CTilde M V₀ V ∧
       x ∈ centralizer (v1Sub15 V₀ U : Set G) := by
   unfold tSub15
   simp only [Subgroup.mem_inf, and_assoc]
 
+omit [Finite G] in
 theorem tSub15_le_P (M V₀ V U P : Subgroup G) : tSub15 M V₀ V U P ≤ P :=
   fun _ hx => (mem_tSub15_iff.1 hx).1
 
+omit [Finite G] in
 theorem tSub15_le_cTilde (M V₀ V U P : Subgroup G) :
     tSub15 M V₀ V U P ≤ F11.CTilde M V₀ V :=
   fun _ hx => (mem_tSub15_iff.1 hx).2.1
 
+omit [Finite G] in
 theorem tSub15_le_centralizer (M V₀ V U P : Subgroup G) :
     tSub15 M V₀ V U P ≤ centralizer (v1Sub15 V₀ U : Set G) :=
   fun _ hx => (mem_tSub15_iff.1 hx).2.2
 
+omit [Finite G] in
 theorem le_tSub15 {M V₀ V U P A : Subgroup G} (hP : A ≤ P) (hC : A ≤ F11.CTilde M V₀ V)
     (hV₁ : A ≤ centralizer (v1Sub15 V₀ U : Set G)) : A ≤ tSub15 M V₀ V U P :=
   fun _ hx => mem_tSub15_iff.2 ⟨hP hx, hC hx, hV₁ hx⟩
@@ -276,7 +282,7 @@ theorem pCoreOf_kHull15_le
     (c : Cfg1511 M V₀ V U S H P Q₀ p) :
     pCoreOf 2 (kHull15 V₀ H) ≤ iHull15 V₀ U H := by
   by_contra hle
-  obtain ⟨y, hyY, hyI⟩ := SetLike.not_le_iff_exists.1 hle
+  obtain ⟨y, hyY, hyI⟩ := IsConcreteLE.not_le_iff_exists.1 hle
   obtain ⟨w, hw, i, hi, hwi⟩ := b15_exists_mul_of_mem_pCoreOf c hyY
   have hwV1 : w ∉ v1Sub15 V₀ U := by
     intro hw1

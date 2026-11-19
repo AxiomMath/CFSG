@@ -20,7 +20,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.Yardstones.Md0ec50421ce4 CFSG
 section LieCompHolds
 
 
-theorem lieComp_holds : LieComp.LieComp :=
+theorem lieComp_holds : LieComp.LieCompAll :=
   LieComp.lieComp_of_classical lieOrderBridge_holds YS08.LieQ.lieQConstrainedInner_three_holds
       (LieComp.d4OuterExport_holds (LieComp.trialityOddA2Comps_of_toral
           LieComp.TriA2.a2PlusComps_holds LieComp.TriA2.a2MinusComps_holds))

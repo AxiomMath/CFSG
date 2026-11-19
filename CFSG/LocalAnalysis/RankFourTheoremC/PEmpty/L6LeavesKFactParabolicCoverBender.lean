@@ -17,7 +17,7 @@ theorem false_of_bender {A : Type} [Group A] [Finite A]
     (hpar : IsParabolicTwo A K K₀) (hne : K₀ ≠ K)
     (hSyl : ∀ U : Subgroup A, CFSG.ABGLocalTools.IsSylowOf 2 U K₀ →
       ¬ U ≤ rankThreePrimeCore p K₀) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hK₀K, U, hU, hUN⟩ := hpar
   obtain ⟨n, i, e, hBT⟩ := Bender.isBenderGroup_iff_exists_benderType.mp
     (CFSG.GH74.isBenderGroup_of_fusionIsBenderGroup hB)

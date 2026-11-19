@@ -29,6 +29,7 @@ namespace LinEngine
 variable {F V : Type} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 variable {p : ℕ}
 
+omit [FiniteDimensional F V] in
 private theorem blockEndSL_mem_pow [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p}
@@ -39,6 +40,7 @@ private theorem blockEndSL_mem_pow [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [F
   rw [hx]
   exact blockEnd_pow A hp hpF hA t ht D
 
+omit [FiniteDimensional F V] in
 private theorem blockEndSL_mem_ne_one [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p}
@@ -50,15 +52,17 @@ private theorem blockEndSL_mem_ne_one [Fintype F] (A : Subgroup (V ≃ₗ[F] V))
     exact congrArg (fun z : SpecialLinearGroup F V => (z : V ≃ₗ[F] V)) h
   exact hD (eq_one_of_blockEnd_eq_one A hp hpF hA t ht hval)
 
+omit [FiniteDimensional F V] in
 private theorem blockEndSL_mem_orderOf [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p}
     (hD : blockSpace A D.1 ≠ ⊥) (x : SpecialLinearGroup F V)
     (hx : (x : V ≃ₗ[F] V) = blockEnd A hp hpF hA t ht D) : orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (blockEndSL_mem_pow A hp hpF hA t ht x hx)
     (blockEndSL_mem_ne_one A hp hpF hA t ht hD x hx)
 
+omit [FiniteDimensional F V] in
 private theorem blockEndSL_mem_notMem_zpowers [Fintype F] (A : Subgroup (V ≃ₗ[F] V))
     [Fintype A] (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D E : Hyperplane A p} (hDE : D ≠ E)
@@ -74,6 +78,7 @@ private theorem blockEndSL_mem_notMem_zpowers [Fintype F] (A : Subgroup (V ≃�
   change (x : V ≃ₗ[F] V) ^ k = (y : V ≃ₗ[F] V) at hval
   rwa [hx, hy] at hval
 
+omit [FiniteDimensional F V] in
 private theorem centralizer_singleton_eq_blockEndSL [Fintype F] (A : Subgroup (V ≃ₗ[F] V))
     [Fintype A] (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -143,17 +148,17 @@ theorem exists_blockElements_quasisimple {A : Subgroup (SpecialLinearGroup F V)}
     le_trans (by norm_num) hfixed4
   have hqJ : CFSG.IsQuasisimple
       (SpecialLinearGroup F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁))) := by
-    haveI : Module.Free F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁)) :=
+    have : Module.Free F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁)) :=
       Module.Free.of_divisionRing F _
-    haveI : Module.Finite F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁)) :=
+    have : Module.Finite F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁)) :=
       Module.Finite.of_injective (Submodule.subtype _) Subtype.val_injective
     exact isQuasisimple_specialLinearGroup_of_three_le (Module.finBasis F _) hW1
   have hqL : CFSG.IsQuasisimple
       (SpecialLinearGroup F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁) ⊓
         fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₂))) := by
-    haveI : Module.Free F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁) ⊓
+    have : Module.Free F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁) ⊓
         fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₂)) := Module.Free.of_divisionRing F _
-    haveI : Module.Finite F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁) ⊓
+    have : Module.Finite F ↥(fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₁) ⊓
         fixedByEnd (blockEnd Agl hp hpF hAgl t ht D₂)) :=
       Module.Finite.of_injective (Submodule.subtype _) Subtype.val_injective
     by_cases hL3 : 3 ≤ Module.finrank F

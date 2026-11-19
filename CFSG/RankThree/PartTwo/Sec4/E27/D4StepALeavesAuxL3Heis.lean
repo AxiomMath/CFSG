@@ -156,13 +156,13 @@ theorem heis_scalar {A B g : Matrix (Fin 3) (Fin 3) F} {c : F} (hA : IsUnit A) (
   have hij := congrFun (congrFun hr i) j
   simp only [Matrix.map_apply, Matrix.scalar_apply, Matrix.diagonal_apply] at hij
   have h00 := congrFun (congrFun hr 0) 0
-  simp only [Matrix.map_apply, Matrix.scalar_apply, Matrix.diagonal_apply, if_true] at h00
+  simp only [Matrix.map_apply, Matrix.scalar_apply, Matrix.diagonal_apply, ite_true] at h00
   simp only [Matrix.scalar_apply, Matrix.diagonal_apply]
   by_cases hij' : i = j
   · subst hij'
-    simp only [if_true] at hij ⊢
+    simp only [ite_true] at hij ⊢
     exact hφ (hij.trans h00.symm)
-  · simp only [hij', if_false] at hij ⊢
+  · simp only [hij', ite_false] at hij ⊢
     exact hφ (by rw [hij, map_zero])
 
 end AnyField

@@ -58,7 +58,7 @@ private lemma prime_dvd_card_of_ne_bot_F03 {K V : Type} [Field K] [AddCommGroup 
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hgroup
   have hcard : Nat.card ↥W = p ^ n :=
     (Nat.card_congr (Multiplicative.ofAdd : ↥W ≃ Multiplicative ↥W)).trans hn
-  haveI : Nontrivial ↥W := Submodule.nontrivial_iff_ne_bot.mpr hW
+  have : Nontrivial ↥W := Submodule.nontrivial_iff_ne_bot.mpr hW
   have hn0 : n ≠ 0 := by
     intro h0
     have h1 : Nat.card ↥W = 1 := by rw [hcard, h0, pow_zero]
@@ -71,7 +71,7 @@ theorem mem_of_fixed_of_stable {K V H : Type} [Field K] [AddCommGroup V] [Module
     [Group H] (p : ℕ) [Fact p.Prime] [CharP K p] (ρ : H →* Module.End K V) {S : Subgroup H}
     (hS : IsPGroup p ↥S) {W : Submodule K V} (hW : W ≠ ⊥) (hWS : ∀ g ∈ S, ∀ w ∈ W, ρ g w ∈ W)
     {v : V} (hfix : ∀ x : V, (∀ g ∈ S, ρ g x = x) → x ∈ Submodule.span K {v}) : v ∈ W := by
-  letI : MulAction ↥S ↥W :=
+  let : MulAction ↥S ↥W :=
     { smul := fun g w => ⟨ρ (g : H) (w : V), hWS (g : H) g.2 (w : V) w.2⟩
       one_smul := fun w => Subtype.ext (by
         show ρ (1 : H) (w : V) = (w : V)

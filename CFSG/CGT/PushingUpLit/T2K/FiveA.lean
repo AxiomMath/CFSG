@@ -47,11 +47,11 @@ theorem isSylowOf_top_of_normalizer_le {M T : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hTQ⟩ := hT.isPGroup.exists_le_sylow
   have hTQeq : T = (Q : Subgroup G) := by
-    refine eq_of_normalizer_inf_le Q.isPGroup' hTQ ?_
+    refine eq_of_normalizer_inf_le Q.isPGroup hTQ ?_
     intro x ⟨hxQ, hxN⟩
     have hle : T ≤ (Q : Subgroup G) ⊓ Subgroup.normalizer (T : Set G) :=
       le_inf hTQ (Subgroup.le_normalizer)
-    have heq := hT.eq_of_le hle (inf_le_right.trans hN) (Q.isPGroup'.to_le inf_le_left)
+    have heq := hT.eq_of_le hle (inf_le_right.trans hN) (Q.isPGroup.to_le inf_le_left)
     have : x ∈ (Q : Subgroup G) ⊓ Subgroup.normalizer (T : Set G) := ⟨hxQ, hxN⟩
     rw [heq] at this
     exact this

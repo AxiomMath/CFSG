@@ -25,8 +25,8 @@ theorem k67ThreeIndex_of_split
     (hsplit : CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KFactSylowSplit) : K67ThreeIndex := by
   unfold K67ThreeIndex
   intro Q _ _ J hJ hK hs hnab hr1 hC hrQ h3
-  haveI : J.Normal := hJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : J.Normal := hJ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcat : CFSG.Open.IsCatalogGroup ↥J := isCatalogGroup_of_isKGroup_of_simple hK hs hnab
   obtain ⟨t₀, -, ht₀⟩ :=
     CFSG.GroupTheory.exists_mem_orderOf_eq_of_one_le_pRank (p := 3) Nat.prime_three
@@ -47,8 +47,8 @@ theorem k67ThreeIndex_of_split
   obtain ⟨x, hxP, hxJ, hx3⟩ :=
     exists_orderOf_three_of_split hsplit J hcat hs hnab hr1.le hC P hPJ
   let N : Subgroup ↥P := J.subgroupOf (P : Subgroup Q)
-  haveI hNnormal : N.Normal := hJ.subgroupOf (P : Subgroup Q)
-  haveI hPnil : Group.IsNilpotent ↥P := IsPGroup.isNilpotent P.isPGroup'
+  have hNnormal : N.Normal := hJ.subgroupOf (P : Subgroup Q)
+  have hPnil : Group.IsNilpotent ↥P := IsPGroup.isNilpotent P.isPGroup
   have hNne : N ≠ ⊥ := by
     intro hbot
     have hmem : (⟨t, htP⟩ : ↥P) ∈ N := by
@@ -64,7 +64,7 @@ theorem k67ThreeIndex_of_split
   have hZne : Z ≠ ⊥ := by
     change N ⊓ Subgroup.center ↥P ≠ ⊥
     exact Group.IsNilpotent.inf_center_ne_bot_of_normal hNne
-  have hZp : IsPGroup 3 ↥Z := P.isPGroup'.to_subgroup Z
+  have hZp : IsPGroup 3 ↥Z := P.isPGroup.to_subgroup Z
   have hZcard : 3 ∣ Nat.card Z := by
     rcases hZp.card_eq_or_dvd with h1 | hd
     · exact absurd (Subgroup.eq_bot_of_card_eq Z h1) hZne

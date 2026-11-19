@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem bpow_mul_sq_pow_two {b s : G} (hbs : Commute b s) (hb3 : b ^ 3 = 1)
     (hs3 : s ^ 3 = 1) (k : ℕ) : b ^ k * (b ^ k * s ^ 2) ^ 2 = s := by
   have hcomm : Commute (b ^ k) (s ^ 2) := (hbs.pow_left k).pow_right 2
@@ -36,7 +37,7 @@ private theorem orders_and_sup_of_notMem {S : Subgroup G} {b s : G}
   have hs1 : s ≠ 1 := fun h => hsb (h ▸ Subgroup.one_mem _)
   have hb3 : b ^ 3 = 1 := hexp b hbS
   have hs3 : s ^ 3 = 1 := hexp s hsS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hob : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   have hos : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   have hbcard : Nat.card (Subgroup.zpowers b) = 3 := by rw [Nat.card_zpowers, hob]
@@ -97,6 +98,7 @@ private theorem exists_pow_mul_pow_of_mem_normalizer {S : Subgroup G} {b s u : G
   rw [← hkp, ← hjq] at hpq
   exact ⟨k, j, hj3, hpq.symm⟩
 
+omit [Finite G] in
 private theorem false_of_conj_eq_bpow_mul_sq {b s u : G} {k : ℕ}
     (hrep : u * s * u⁻¹ = b ^ k * s ^ 2) (hsb : s ∉ Subgroup.zpowers b)
     (hu3 : u ^ 3 = 1) (hub : u * b = b * u) (hbs : Commute b s)
@@ -127,6 +129,7 @@ private theorem false_of_conj_eq_bpow_mul_sq {b s u : G} {k : ℕ}
     rw [hs_eq]
     exact Subgroup.inv_mem _ (Subgroup.pow_mem _ (Subgroup.mem_zpowers b) k))
 
+omit [Finite G] in
 private theorem commutator_mem_zpowers_of_rep {b s u : G} {k j : ℕ}
     (hrep : u * s * u⁻¹ = b ^ k * s ^ j) (hj3 : j < 3)
     (hsb : s ∉ Subgroup.zpowers b) (hu3 : u ^ 3 = 1) (hub : u * b = b * u)
@@ -176,6 +179,7 @@ private theorem commutator_mem_zpowers_of_normalizes {S : Subgroup G} {b u : G}
     exact commutator_mem_zpowers_of_rep hrep hj3 hsb hu3 hub
       (hcomm b hbS s hsS) (hexp b hbS) (hexp s hsS)
 
+omit [Finite G] in
 private theorem forall_commutator_mem_of_generators {P A N : Subgroup G} {y v : G}
     (hP : P = A ⊔ Subgroup.zpowers y)
     (hNcent : ∀ n ∈ N, ∀ p ∈ P, n * p = p * n)
@@ -279,11 +283,12 @@ private theorem commutator_mem_zpowers_of_mem_A {A S : Subgroup G} {c y b : G}
   rw [← hps, hform, hpy1, mul_one, hEq]
   exact hsy
 
+omit [Finite G] in
 private theorem notMem_A_of_houter {A L P S : Subgroup G} {c y : G}
     (hA : A = Subgroup.zpowers c ⊔ S) (hSA : S ≤ A)
     (hAcomm : ∀ x ∈ A, ∀ z ∈ A, x * z = z * x)
     (hcL : L ≤ Subgroup.centralizer ({c} : Set G))
-    (hAP : A ≤ P) (hyP : y ∈ P)
+    (hAP : A ≤ P) (_hyP : y ∈ P)
     (houter : ∀ s ∈ S, s⁻¹ * y ∉ Late.sectionCentralizer P L
       (inSubgroup (aschbacherSolvableCore 3) L)) :
     y ∉ A := by
@@ -398,6 +403,7 @@ private theorem eq_sup_zpowers_of_card_dvd_81 {A P : Subgroup G} {y : G}
   refine ⟨(Subgroup.eq_of_le_of_card_ge hsup_le (by rw [hPcard, hsup81])).symm, hPcard⟩
 
 
+omit [Finite G] in
 private theorem commutator_mem_zpowers_of_mem_P {A P : Subgroup G} {y b : G}
     (hP : P = A ⊔ Subgroup.zpowers y)
     (hAcomm : ∀ a ∈ A, ∀ z ∈ A, a * z = z * a)
@@ -594,7 +600,7 @@ private theorem exists_z_facts {L S P : Subgroup G} {y x b : G}
 private theorem zpowers_eq_of_mem_zpowers_of_pow_three {b w : G}
     (hw : w ∈ Subgroup.zpowers b) (hw1 : w ≠ 1) (hw3 : w ^ 3 = 1)
     (hbo : orderOf b = 3) : Subgroup.zpowers w = Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardN : Nat.card (Subgroup.zpowers b) = 3 := by rw [Nat.card_zpowers, hbo]
   have hwo : orderOf w = 3 := orderOf_eq_prime hw3 hw1
   have hcardw : Nat.card (Subgroup.zpowers w) = 3 := by rw [Nat.card_zpowers, hwo]
@@ -703,7 +709,7 @@ theorem map_conj_zpowers_eq {A L : Subgroup G} {c : G} (h : Sec15R G A c L)
     commutator_mem_zpowers_of_mem_P hP_eq_Ay (fun a ha z hz => hD.commute ha hz) hAy hNcentP
   obtain ⟨z, hzN, hzs, hz3, hzxN, hzx1, hzx3⟩ :=
     exists_z_facts hS9raw inf_le_right hSP hyP hy3 hyN hyouter hcent hPP hxP hexp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : b ^ 3 = 1 := hexp3 b (hAP ((inf_le_left : A ⊓ L ≤ A) hbS))
   have hbo : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   exact map_conj_zpowers_eq_of_z hbo hzN hzs hz3 hzxN hzx1 hzx3

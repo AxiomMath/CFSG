@@ -29,7 +29,7 @@ private lemma centralizer_map_eq_inf_range {H G : Type*} [Group H] [Group G]
     refine ⟨?_, ⟨y, hyx⟩⟩
     change x ∈ Subgroup.centralizer ({ι s} : Set G)
     rw [← hyx, Subgroup.mem_centralizer_singleton_iff]
-    simpa only [← map_mul, hy']
+    simp only [← map_mul, hy']
   · rintro ⟨hx, y, hyx⟩
     rw [Subgroup.mem_map]
     refine ⟨y, ?_, hyx⟩

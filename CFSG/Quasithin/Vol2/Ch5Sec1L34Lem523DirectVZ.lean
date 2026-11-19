@@ -55,11 +55,13 @@ theorem pCoreOf_le_centralizer_VZ (h : Hyp5_1_14 G T M L V H B D n) (h5114 : Stm
   rw [← hh.centralizer_eq_pCoreOf hVZmod] at h1
   exact h1.trans inf_le_right
 
+omit [Finite G] in
 theorem mul_comm_mem_commutator {H K : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y ∈ K) :
     x * y * x⁻¹ * y⁻¹ ∈ ⁅H, K⁆ := by
   have := Subgroup.commutator_mem_commutator hx hy
   rwa [commutatorElement_def] at this
 
+omit [Finite G] in
 theorem conj_mem_commVL {VZ : Subgroup G} (hVZ : ∀ ℓ ∈ L, ∀ x ∈ VZ, ℓ * x * ℓ⁻¹ ∈ VZ)
     {ℓ : G} (hℓ : ℓ ∈ L) {y : G} (hy : y ∈ ⁅VZ, L⁆) : ℓ * y * ℓ⁻¹ ∈ ⁅VZ, L⁆ := by
   have key : ⁅VZ, L⁆ ≤ ⁅VZ, L⁆.comap (MulAut.conj ℓ).toMonoidHom := by

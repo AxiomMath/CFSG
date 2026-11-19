@@ -20,12 +20,12 @@ theorem rootsA_get {c : Nat} (hc : c < 3) : rootsA[c]! = rtP c := by
 
 theorem zIdx_pos (g : Nat) : zIdx ((g + 1 : Nat) : Int) = g := by
   unfold zIdx
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   omega
 
 theorem labG_eq {x : Nat} (hx : x < 31671) : labG x = labP x := by
   unfold labG
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
 
 theorem TG_lt {k x : Nat} (hk : gOK k = true) (hx : x < 31671) : TG k x < 31671 :=
   rng k (by have := ((gOK_iff k).1 hk).1; omega) x hx
@@ -41,7 +41,7 @@ theorem path_spec : ∀ f p, p < 31671 → depP p < f →
     by_cases hr : p = rtP (labP p)
     · have e : pathF (rtP (labP p)) (f + 1) p = [] := by
         have hb : (p == rtP (labP p)) = true := by rw [← hr]; exact beq_self_eq_true p
-        rw [pathF_succ, if_pos hb]
+        rw [pathF_succ, ite_eq_left hb]
       rw [e]
       exact ⟨hr.symm, fun z hz => absurd hz (List.not_mem_nil)⟩
     · obtain ⟨g1, g2, g3, g4, g5⟩ := nonroot hp hr
@@ -50,9 +50,9 @@ theorem path_spec : ∀ f p, p < 31671 → depP p < f →
       have e : pathF (rtP (labP p)) (f + 1) p =
           ((genP p + 1 : Nat) : Int) :: pathF (rtP (labP p)) f (parP p) := by
         have hb : ¬ (p == rtP (labP p)) = true := by rw [beq_iff_eq]; exact hr
-        rw [pathF_succ, if_neg hb]
+        rw [pathF_succ, ite_eq_right hb]
         unfold genG parG
-        rw [if_pos hp, if_pos hp]
+        rw [ite_eq_left hp, ite_eq_left hp]
       rw [e]
       refine ⟨?_, fun z hz => ?_⟩
       · change XK (zIdx ((genP p + 1 : Nat) : Int)) (wK (pathF (rtP (labP p)) f (parP p))
@@ -68,7 +68,7 @@ theorem path_spec : ∀ f p, p < 31671 → depP p < f →
 theorem VL_pos {g : Nat} (hg : gOK g = true) : VL ((g + 1 : Nat) : Int) :=
   ⟨by omega, by rw [zIdx_pos]; exact ((gOK_iff g).1 hg).1⟩
 
-theorem zIdx_neg {z : Int} (hz : z ≠ 0) : zIdx (-z) = zIdx z := by
+theorem zIdx_neg {z : Int} (_hz : z ≠ 0) : zIdx (-z) = zIdx z := by
   unfold zIdx
   split_ifs <;> omega
 
@@ -110,9 +110,9 @@ theorem gz_neg {z : Int} (hz : VL z) : gz (-z) = (gz z)⁻¹ := by
   rw [zIdx_neg hz.1]
   by_cases h : 0 < z
   · have h' : ¬ (0 : Int) < -z := by omega
-    rw [if_neg h', if_pos h]
+    rw [ite_eq_right h', ite_eq_left h]
   · have h' : (0 : Int) < -z := by have := hz.1; omega
-    rw [if_pos h', if_neg h, inv_inv]
+    rw [ite_eq_left h', ite_eq_right h, inv_inv]
 
 theorem wPG_invWord : ∀ {u : List Int}, (∀ z ∈ u, VL z) → wPG (invWord u) = (wPG u)⁻¹
   | [], _ => by simp [wPG, invWord]
@@ -189,7 +189,7 @@ theorem trans_gen {k q : Nat} (hk : gOK k = true) (hq : q < 31671) (h0 : labP q 
     obtain ⟨i, hi, e⟩ := this
     exact ⟨i, List.mem_range.1 hi, e⟩
   have h := allN_iff.1 trans_ok k ((gOK_iff k).1 hk).1
-  rw [bIf_eq, if_pos hk] at h
+  rw [bIf_eq, ite_eq_left hk] at h
   have h2 := allN_iff.1 h i hi
   rw [strictB_eq] at h2
   rw [← tau_eq]

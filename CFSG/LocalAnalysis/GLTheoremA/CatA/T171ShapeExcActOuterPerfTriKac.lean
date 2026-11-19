@@ -28,8 +28,8 @@ theorem excTri_exists_pinned_of_pos {N : ℕ} (hN : 0 < N) (hNL : (N : L) ≠ 0)
         componentRoots (rootCharHom a) i = (fun α => v • α) '' K.rootsOf C ∧
         compRank (componentRoots (rootCharHom a) i) = C.card ∧
         (componentRoots (rootCharHom a) i).ncard = kacCount τ K.θ C := by
-  haveI : NeZero (N : L) := ⟨hNL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L N
+  have : NeZero (N : L) := ⟨hNL⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L N
   have hu : IsUnit ζ := hζ.isUnit hN.ne'
   obtain ⟨v, μ, -, hall⟩ := K.exists_smul_rootsOf hK hN (ζ := hu.unit) (by simpa using hζ) a
     (pow_eq_one_of_rootDiagUnit_pow hTN)
@@ -73,7 +73,7 @@ theorem excTri_d4_pinned_of_pos {p₀ N : ℕ} (S : LangSetup τ L p₀) (hN : 0
 theorem excTri_exists_order [CharP L 2] {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
     (haT : rootDiagUnit τ a ∈ S.D.torus) :
     ∃ N : ℕ, 0 < N ∧ (N : L) ≠ 0 ∧ rootDiagUnit τ a ^ N = 1 := by
-  haveI : Finite S.D.model := S.finite
+  have : Finite S.D.model := S.finite
   let y : S.D.model := ⟨rootDiagUnit τ a, S.D.torus_le_model haT⟩
   have hN : orderOf y = orderOf (rootDiagUnit τ a) := Subgroup.orderOf_mk _ _
   have hpos : 0 < orderOf y := orderOf_pos y

@@ -55,7 +55,7 @@ theorem fixed_ne_six
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hFfin : Fintype.card F = 6 := by rwa [← Nat.card_eq_fintype_card]
   have hexp : ∀ a b : Fin 5 → X, Function.Injective a → Function.Injective b →

@@ -61,7 +61,7 @@ theorem subgroupIsSylow_iff {group : Type*} [Group group] [Finite group]
     subgroupIsSylow prime primary ↔ IsPGroup prime primary ∧ ¬prime ∣ primary.index := by
   constructor
   · rintro ⟨sylow, rfl⟩
-    exact ⟨sylow.isPGroup', sylow.not_dvd_index⟩
+    exact ⟨sylow.isPGroup, sylow.not_dvd_index⟩
   · rintro ⟨hprimary, hindex⟩
     exact ⟨hprimary.toSylow hindex, hprimary.toSylow_coe hindex⟩
 
@@ -75,7 +75,7 @@ theorem classDefect_sylow_iff_class_size {group : Type*} [Group group] [Fintype 
   have hnotdivides := sylow.not_dvd_index
   have hgroup : IsPGroup prime
       ((sylow : Subgroup _).map (Subgroup.centralizer ({representative} : Set group)).subtype) :=
-    sylow.isPGroup'.map _
+    sylow.isPGroup.map _
   simp only [hgroup, true_and, (Fact.out : prime.Prime).dvd_mul, hnotdivides, false_or]
 
 theorem principal_class_residue_ne_zero_iff_sylow {group : Type*} [Group group] [Fintype group]

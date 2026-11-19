@@ -23,7 +23,7 @@ theorem s3_outer_of_not_mem_M (hS : HRSetting G L) {x : G} (hxH : x ∈ s.H)
   intro hαInn
   rw [← jSub_self] at hαInn
   obtain ⟨l, hl, hlα⟩ := (mem_jSub L).mp hαInn
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
   have hActs : ActsAs L (l⁻¹ * x) (1 : MulAut (L ⧸ center L)) := by
     simpa using actsAs_mul L (actsAs_inv L hlα) hα
   have hcen : l⁻¹ * x ∈ centralizer (L : Set G) := (actsAs_one_iff L).mp hActs
@@ -37,7 +37,7 @@ theorem s3_outer_of_not_mem_M (hS : HRSetting G L) {x : G} (hxH : x ∈ s.H)
 theorem s3_jSub_H (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).index = 2)
     (hRT : s.R ≠ s.T) : jSub L s.H = ⊤ := by
   have hnotle : ¬ s.T ≤ s.R := fun h => hRT (le_antisymm h s.R_le_T).symm
-  obtain ⟨x, hxT, hxR⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨x, hxT, hxR⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hxH : x ∈ s.H := s.sylow_T.1 hxT
   have hxM : x ∉ L ⊔ centIn s.H L := s3_not_mem_M s hS hxT hxR
   have hxN : x ∈ normalizer (L : Set G) := s3_T_le_N s hS hxT

@@ -71,7 +71,7 @@ theorem l17_U_tQ (hc : Ctx17 t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgrou
     exact l17_U_tG hc hR h𝒮R hA hAN g (by rw [hg]; exact hmem)
 
 theorem l17_U_tauQ (hc : Ctx17 t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgroup G}
-    (hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
+    (_hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
     (hq : q ∈ ctxQ t tau x₁ x₂ rho) : tau * q ∉ A := by
   intro hmem
   obtain ⟨-, -, hAcard⟩ := hA

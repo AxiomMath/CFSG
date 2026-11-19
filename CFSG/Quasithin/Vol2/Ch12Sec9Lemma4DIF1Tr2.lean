@@ -13,7 +13,7 @@ abbrev V4 : Type := Fin (3 + 1) → ZMod 2
 
 noncomputable def sl4Lin (g : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) :
     V4 ≃ₗ[ZMod 2] V4 :=
-  LinearEquiv.ofLinear (Matrix.toLin' (g : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)))
+  LinearEquiv.ofLinearMap (Matrix.toLin' (g : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)))
     (Matrix.toLin' ((g⁻¹ : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) :
       Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)))
     (by
@@ -35,7 +35,7 @@ noncomputable def sl4Lin (g : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) 
 
 theorem sl4Lin_apply (g : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2)) (x : V4) :
     sl4Lin g x = Matrix.mulVec (g : Matrix (Fin (3 + 1)) (Fin (3 + 1)) (ZMod 2)) x := by
-  simp only [sl4Lin, LinearEquiv.ofLinear_apply]
+  simp only [sl4Lin, LinearEquiv.coe_ofLinearMap]
   exact Matrix.toLin'_apply _ _
 
 noncomputable def Psi0 : Matrix.SpecialLinearGroup (Fin (3 + 1)) (ZMod 2) →*

@@ -22,7 +22,7 @@ theorem ObstructionSetting.gl83InvariantTwoTransitivity_of_containment
   have hM := hext.obstruction.1
   have hPM := hS.sylow_le hp hM
   obtain ⟨A, hAP, hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P
-  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc
@@ -37,7 +37,7 @@ theorem ObstructionSetting.gl83InvariantTwoTransitivity_of_containment
   have hT'X := (hX T' (global_invariant_two_maximal_is_maximal_within D M T' hT'
     (hcont p hp P M D hext hPD hDab T' hT'))).le
   exact rank_two_maximal_two_subgroups_common_signalizer_transitivity p hprime D T' T _
-    (P.isPGroup'.to_le hext.obstruction.2.1) hT' hT (coprime_card_pPrimeCoreIn_sup hN₀M)
+    (P.isPGroup.to_le hext.obstruction.2.1) hT' hT (coprime_card_pPrimeCoreIn_sup hN₀M)
     (hext.obstruction.2.1.trans hPX) hT'X hTX
 
 theorem ObstructionSetting.transitivityCase_of_steps (hS : ObstructionSetting G)
@@ -52,7 +52,7 @@ theorem ObstructionSetting.transitivityCase_of_steps (hS : ObstructionSetting G)
   have hPM := hS.sylow_le hp hM
   have hDM : D ≤ M := hext.obstruction.2.1.trans hPM
   obtain ⟨A, hAP, hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P
-  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc

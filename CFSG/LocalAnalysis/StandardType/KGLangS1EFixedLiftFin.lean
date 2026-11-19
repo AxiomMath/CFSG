@@ -29,7 +29,7 @@ theorem kgLangS1EFixedLift_mem_torus_of_baseChange {τ : Tag} {K L : Type} [Fiel
     have hempty : kernelRoots (MonoidHom.id (Multiplicative (Fin τ.rank → ℤ))) =
         (∅ : Set _) := by
       ext α
-      simp only [kernelRoots, Set.mem_setOf_eq, MonoidHom.id_apply, Set.mem_empty_iff_false,
+      simp only [kernelRoots, Set.mem_ofPred_eq, MonoidHom.id_apply, Set.mem_empty_iff_false,
         iff_false, not_and]
       intro hα h1
       exact hα.ne_zero (by simpa using h1)

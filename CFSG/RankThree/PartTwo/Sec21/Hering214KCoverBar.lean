@@ -15,6 +15,7 @@ section PerfectCover
 
 variable {X Y : Type} [Group X] [Finite X] [Group Y]
 
+omit [Finite X] in
 theorem eq_one_of_onCenterQuotient_of_perfect [Group.IsPerfect X] {α : MulAut X}
     (h1 : onCenterQuotient α = 1) : α = 1 := by
   have hcent : ∀ x : X, x⁻¹ * α x ∈ Subgroup.center X := by

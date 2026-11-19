@@ -27,8 +27,8 @@ theorem comm_inv_right_of_central {u s : G} (h : u * s * u⁻¹ * s⁻¹ ∈ Sub
     _ = _ := by group
 
 theorem exists_mul_central {S Z : Subgroup G} (hZ : Z ≤ Subgroup.center G) {h : G}
-    (hh : h ∈ S ⊔ Z) : ∃ s ∈ S, ∃ c ∈ Z, h = s * c :=
-  exists_mul_of_comm_sup (fun s _ c hc => Subgroup.mem_center_iff.mp (hZ hc) s) hh
+    (hh : h ∈ S ⊔ Z) : ∃ s ∈ S, ∃ _c ∈ Z, h = s * _c :=
+  exists_mul_of_comm_sup (fun s _ _c hc => Subgroup.mem_center_iff.mp (hZ hc) s) hh
 
 end Helpers
 
@@ -38,7 +38,7 @@ variable {G : Type} [Group G]
 
 @[expose] def trivSub (S K Z : Subgroup G) (hZ : Z ≤ Subgroup.center G) : Subgroup G where
   carrier := {s | s ∈ S ∧ ∀ u ∈ K, u * s * u⁻¹ * s⁻¹ ∈ Z}
-  one_mem' := ⟨S.one_mem, fun u _ => by simpa using Z.one_mem⟩
+  one_mem' := ⟨S.one_mem, fun u _ => by simp⟩
   mul_mem' := by
     rintro s s' ⟨hsS, hsK⟩ ⟨hsS', hsK'⟩
     refine ⟨S.mul_mem hsS hsS', fun u hu => ?_⟩
@@ -68,19 +68,19 @@ theorem trivSub_conj {S K Z P : Subgroup G} (hZ : Z ≤ Subgroup.center G)
 
 theorem trivSub_eq [Finite G] {S P K Z : Subgroup G} {α β γ δ z : G}
     (hpres : QDPres S α β γ δ z) (hzc : z ∈ Subgroup.center G) (hZ : Z ≤ Subgroup.center G)
-    (hzZ : z ∈ Z) (hP5 : Nat.card P = 5) (hPS : ∀ p ∈ P, ∀ s ∈ S, p * s * p⁻¹ ∈ S)
+    (_hzZ : z ∈ Z) (hP5 : Nat.card P = 5) (hPS : ∀ p ∈ P, ∀ s ∈ S, p * s * p⁻¹ ∈ S)
     (hPK : ∀ p ∈ P, ∀ u ∈ K, p * u * p⁻¹ ∈ K) (hnc : ¬ ∀ p ∈ P, ∀ s ∈ S, p * s = s * p)
     (hex : ∃ s ∈ S, s ≠ 1 ∧ s ≠ z ∧ ∀ u ∈ K, u * s * u⁻¹ * s⁻¹ ∈ Z) :
     trivSub S K Z hZ = S := by
   have hF : ∀ p ∈ P, ∀ s ∈ trivSub S K Z hZ, p * s * p⁻¹ ∈ trivSub S K Z hZ :=
     trivSub_conj hZ hPS hPK
-  haveI : Finite (trivSub S K Z hZ) := inferInstance
+  have : Finite (trivSub S K Z hZ) := inferInstance
   have hmod := card_modEq_conj hP5 hF
   have hzF : z ∈ trivSub S K Z hZ :=
     ⟨hpres.z_mem, fun u _ => by
       have := Subgroup.mem_center_iff.mp hzc u
       rw [this]
-      simpa using Z.one_mem⟩
+      simp⟩
   have hfix : trivSub S K Z hZ ⊓ Subgroup.centralizer (P : Set G) = Subgroup.zpowers z := by
     apply le_antisymm
     · intro s hs
@@ -112,10 +112,10 @@ theorem exists_fixed_noncentral [Finite G] {S K Z : Subgroup G} {α β γ δ z :
     (hKN : K ≤ Subgroup.normalizer ((S ⊔ Z : Subgroup G) : Set G)) :
     ∃ s ∈ S, s ≠ 1 ∧ s ≠ z ∧ ∀ u ∈ K, u * s * u⁻¹ * s⁻¹ ∈ Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHK : S ⊔ Z ≤ K := sup_le hSK hZK
   let ZK : Subgroup ↥K := Z.subgroupOf K
-  haveI hZKn : ZK.Normal := ⟨fun n hn g => by
+  have hZKn : ZK.Normal := ⟨fun n hn g => by
     have hn' : (n : G) ∈ Z := hn
     show ((g * n * g⁻¹ : ↥K) : G) ∈ Z
     have h1 := Subgroup.mem_center_iff.mp (hZ hn') (g : G)
@@ -126,11 +126,11 @@ theorem exists_fixed_noncentral [Finite G] {S K Z : Subgroup G} {α β γ δ z :
     rw [h2]
     exact hn'⟩
   have hQp : IsPGroup 2 (↥K ⧸ ZK) := hKp.to_quotient ZK
-  haveI : Group.IsNilpotent (↥K ⧸ ZK) := hQp.isNilpotent
+  have : Group.IsNilpotent (↥K ⧸ ZK) := hQp.isNilpotent
   let Hs : Subgroup ↥K := (S ⊔ Z).subgroupOf K
-  haveI hHsn : Hs.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHK).mpr hKN
+  have hHsn : Hs.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHK).mpr hKN
   let Hb : Subgroup (↥K ⧸ ZK) := Hs.map (QuotientGroup.mk' ZK)
-  haveI : Hb.Normal := hHsn.map _ (QuotientGroup.mk'_surjective ZK)
+  have : Hb.Normal := hHsn.map _ (QuotientGroup.mk'_surjective ZK)
   have hsHs : ∀ s, ∀ hs : s ∈ S, (⟨s, hSK hs⟩ : ↥K) ∈ Hs := fun s hs =>
     Subgroup.mem_subgroupOf.mpr (Subgroup.mem_sup_left hs)
   have hHb : Hb ≠ ⊥ := by
@@ -203,7 +203,7 @@ theorem key_lemma [Finite G] {S T P : Subgroup G} {α β γ δ z : G}
     (hnc : ¬ ∀ p ∈ P, ∀ s ∈ S, p * s = s * p) :
     ∀ t ∈ T, ∃ s ∈ S, s⁻¹ * t ∈ Subgroup.center G := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Z, hZdef⟩ : ∃ Z : Subgroup G, Z = T ⊓ Subgroup.center G := ⟨_, rfl⟩
   have hZc : Z ≤ Subgroup.center G := by rw [hZdef]; exact inf_le_right
   have hZT : Z ≤ T := by rw [hZdef]; exact inf_le_left
@@ -266,7 +266,7 @@ theorem key_lemma [Finite G] {S T P : Subgroup G} {α β γ δ z : G}
     have h2 : u = (u * s₀⁻¹) * s₀ := by group
     rw [h2]
     exact H.mul_mem (hZH hZu) (hSH hs₀)
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hnc' : NormalizerCondition ↥T := Group.normalizerCondition_of_isNilpotent
   have hfull : H.subgroupOf T = ⊤ := by
     apply (normalizerCondition_iff_only_full_group_self_normalizing.mp hnc') (H.subgroupOf T)

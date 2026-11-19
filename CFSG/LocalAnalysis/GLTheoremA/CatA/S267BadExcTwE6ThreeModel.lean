@@ -65,7 +65,7 @@ theorem snocOneHom_diagGen4 :
     snocOneHom (Multiplicative (ZMod p)) 4 (diagGen4 (p := p)) = diagGen := by
   funext i
   fin_cases i <;> simp [snocOneHom, diagGen4, diagGen, Fin.snoc, Pi.mulSingle_apply] <;>
-    first | rfl | decide
+    decide
 
 theorem diagGen4_ne_one : (diagGen4 : Fin 4 → Multiplicative (ZMod p)) ≠ 1 := by
   intro h
@@ -90,7 +90,7 @@ theorem trace_diagThreeHom_diagGen4 :
   have hprod : ∏ j, (diagGen : Fin 5 → Multiplicative (ZMod p)) j = 1 := by
     simp only [diagGen, Pi.mul_apply]
     rw [Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.prod_pi_mulSingle',
-      if_pos (Finset.mem_univ _), if_pos (Finset.mem_univ _), ofAdd_neg]
+      ite_eq_left (Finset.mem_univ _), ite_eq_left (Finset.mem_univ _), ofAdd_neg]
     exact mul_inv_cancel _
   rw [← map_prod, hprod, map_one, inv_one, Units.val_one]
   simp only [diagTuple_castSucc, Fin.sum_univ_five]
@@ -283,14 +283,14 @@ theorem modelBGen_twistedE6_three_spec (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf : 1
             ({twE6T K ℓ f} : Set ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))) ∧
         fieldActor (t := TwistTag.E6) (unitaryInvolution K ℓ f) ε (twE6T K ℓ f) = twE6T K ℓ f := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨d, rfl⟩ := exists_eq_mul_of_orderOf hK hp hp2 hε
   have hQ1 : 1 ≤ ℓ ^ (3 * d) := Nat.one_le_pow _ _ (Fact.out : ℓ.Prime).pos
   have hpQ2 := three_dvd_sq_sub_one_of_dvd_add_one hQ1 h3
   have hF := card_fixSubfield_of_orderOf hp hK hε
-  haveI : Finite (fixSubfield ε) := Subtype.finite
+  have : Finite (fixSubfield ε) := Subtype.finite
   have h3F : 3 ∣ ℓ ^ d + 1 := by
     refine dvd_add_one_of_dvd_pow_add_one hp ?_
     rw [show (ℓ ^ d) ^ 3 = ℓ ^ (3 * d) by ring]
@@ -335,7 +335,7 @@ theorem modelBGen_twistedE6_three_spec (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf : 1
   have hφε : ∀ x, suidMap (unitaryInvolution K ℓ (3 * d)) 6 (ringEquiv_comm_of_finite _ ε)
       (φ x) = φ x := fun x => suidMap_suidSub hp hp2 hK hε _
   have hφy : ∀ x (u : Kˣ) (hu : u ^ (ℓ ^ (3 * d) + 1) = 1),
-      φ x * yLam hK u hu = yLam hK u hu * φ x := by
+      φ x * yLam u hu = yLam u hu * φ x := by
     intro x u hu
     apply Subtype.ext
     apply Units.ext

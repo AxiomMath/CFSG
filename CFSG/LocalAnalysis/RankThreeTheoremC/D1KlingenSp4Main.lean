@@ -77,7 +77,7 @@ theorem d1CaseThreeKlingen3_of_residue3 (hmod : StmtKlingenModel) (hk : KFactKli
     have : Finite (MulAut K) := MulEquiv.finite_left
     intro x hx
     rw [← hcfg.rbar] at hx
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨x, hx⟩
     have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hmem := mem_sup_centralizer_of_pow hp hOut hxk
     rwa [hC, sup_bot_eq] at hmem

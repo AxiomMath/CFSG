@@ -24,7 +24,7 @@ theorem four_dvd_ggAutomizer_of_four_action {G : Type} [Group G] [Finite G]
     change (((ggConjAut A hgN ^ 2) ⟨d, hd⟩ : A) : G) = d at he
     rw [ggConjAut_pow_apply] at he
     exact hmove he
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf a = 4 := by
     have h := orderOf_eq_prime_pow (p := 2) (n := 1)
       (by simpa using ha2) (by simpa using ha4)

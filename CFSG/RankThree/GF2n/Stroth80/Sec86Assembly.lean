@@ -92,7 +92,7 @@ theorem sec86NormLB_of_82 (h82 : Stroth82Statement) (hConj : Sec86ConjStatement)
     (hH : Sec86NormHStatement) : Sec86NormLBStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 hle
   have hall := sec8_not_forall_normalizer h82 hConj hc hs hZ0
-  push_neg at hall
+  push Not at hall
   obtain ⟨ν, hνM, hνL, hνZ⟩ := hall
   obtain ⟨ν', hν'H, hν'L, hν'Z⟩ := hH G M Q Z B hc n t hs Z0 hZ0 ν hνM hνL hνZ
   exact hν'Z (hle ⟨hν'H, hν'L⟩).2
@@ -103,7 +103,7 @@ theorem stroth86_of_inputs (h84 : Stroth84Statement) (h85 : Stroth85Statement)
     (hSub : Step86HypSubStatement) (hNU : Step86NotUnitaryStatement) : Stroth86Statement := by
   have hMax := step86MaxAb_holds
   intro G _ _ M Q Z B hc n t h5 hsp
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hs : Sec8Hyp hc n t := ⟨h5, hsp⟩
   obtain ⟨Z0, hZ0⟩ := Ctx.exists_centre hc h5.mem
   have hN' := h84 G M Q Z B hc n t hs

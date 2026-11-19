@@ -87,8 +87,8 @@ theorem MinCE.false
     (h : MinCE G T S₁ S₂) : False := by
   have := h.isSimpleGroup
   have hO := h.oddCore_eq_bot
-  obtain ⟨W, hWodd, hWmax, hWb⟩ := exists_W (T.isPGroup'.to_le h.le₁)
-    (T.isPGroup'.to_le h.le₂) h.comm h.disj h.coreSep h.exists_isKleinFour
+  obtain ⟨W, hWodd, hWmax, hWb⟩ := exists_W (T.isPGroup.to_le h.le₁)
+    (T.isPGroup.to_le h.le₂) h.comm h.disj h.coreSep h.exists_isKleinFour
     h.symm.exists_isKleinFour
   have htop := h.iSup_centralizer_eq_top
   by_cases hW1 : W = ⊥

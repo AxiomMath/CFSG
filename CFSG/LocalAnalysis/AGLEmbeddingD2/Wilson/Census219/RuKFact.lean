@@ -121,7 +121,7 @@ theorem exists_pow_eq_one_of_isCentral218 {X : Type} [Group X] {x : X}
       (Q : Subgroup ↥(⊤ : Subgroup X)) := by
     rw [hQ]; exact s.2
   obtain ⟨q, hq, hqs⟩ := hs
-  obtain ⟨k, hk⟩ := (Q.isPGroup' ⟨q, hq⟩)
+  obtain ⟨k, hk⟩ := (Q.isPGroup ⟨q, hq⟩)
   refine ⟨k, ?_⟩
   have h1 : (q : ↥(⊤ : Subgroup X)) ^ 3 ^ k = 1 := by
     simpa using congrArg (fun z : ↥(Q : Subgroup ↥(⊤ : Subgroup X)) => (z : ↥(⊤ : Subgroup X))) hk

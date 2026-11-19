@@ -127,8 +127,8 @@ private lemma involution_character_zero_or_scalar
     (hcoprime : Nat.Coprime (Module.finrank ℂ V) m) :
     rho.character s = 0 ∨
       ∃ a : ℂ, rho s = a • (1 : Module.End ℂ V) := by
-  letI : rho.IsIrreducible := hirr
-  letI : Nontrivial V := Theory.Character.irreducible_nontrivial rho
+  let : rho.IsIrreducible := hirr
+  let : Nontrivial V := Theory.Character.irreducible_nontrivial rho
   let d := Module.finrank ℂ V
   have hdpos : 0 < d := by
     exact (Module.finrank_pos_iff (R := ℂ) (M := V)).2 inferInstance
@@ -195,8 +195,8 @@ private lemma finrank_eq_one_of_irreducible_ker_eq_top
     (rho : Representation ℂ G V) (hirr : rho.IsIrreducible)
     (hker : rho.ker = ⊤) : Module.finrank ℂ V = 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : rho.IsIrreducible := hirr
+  let : Fintype G := Fintype.ofFinite G
+  let : rho.IsIrreducible := hirr
   have hrho : rho = 1 := MonoidHom.ker_eq_top_iff.mp hker
   let d := Module.finrank ℂ V
   have hcf (x : G) :
@@ -214,7 +214,7 @@ private lemma finrank_eq_one_of_irreducible_ker_eq_top
   norm_num [Complex.normSq_eq_conj_mul_self] at hnorm
   have hnormNat : d * d = 1 := by exact_mod_cast hnorm
   have hdpos : 0 < d := by
-    letI : Nontrivial V := Theory.Character.irreducible_nontrivial rho
+    let : Nontrivial V := Theory.Character.irreducible_nontrivial rho
     exact (Module.finrank_pos_iff (R := ℂ) (M := V)).2 inferInstance
   nlinarith
 
@@ -229,7 +229,7 @@ private lemma exists_nontrivial_scalar_rep_of_prime_power_class
   classical
   rcases Theory.Character.second_orthogonality (G := G) with
     ⟨ι, hι, chi, hchi, horth⟩
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   choose d rho hchiRho using fun i => (hchi.1 i).1
   have hirr : ∀ i : ι, (rho i).IsIrreducible := by
     intro i
@@ -253,7 +253,7 @@ private lemma exists_nontrivial_scalar_rep_of_prime_power_class
       ConjClasses.mk_eq_mk_iff_isConj.mp h
     exact hsne (isConj_one_left.mp hconj)
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   choose q htrace using fun i => involution_trace_int (rho i) s hsq
   let z : ι → ℤ := fun i => (2 : ℤ) * q i - d i
   have hvalueInt : ∀ i : ι, (rho i).character s = (z i : ℂ) := by

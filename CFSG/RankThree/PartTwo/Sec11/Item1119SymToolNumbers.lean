@@ -44,11 +44,11 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 
 theorem aux_Numbers_zpow_natpow3 {G : Type} [Group G] (x : G) (k : ℤ) :
     (x ^ k) ^ 3 = x ^ (k * 3) := by
-  rw [← zpow_natCast, ← zpow_mul] <;> norm_num
+  rw [← zpow_natCast, ← zpow_mul]; norm_num
 
 theorem aux_Numbers_natpow3_zpow {G : Type} [Group G] (x : G) (k : ℤ) :
     (x ^ 3) ^ k = x ^ (3 * k) := by
-  rw [← zpow_natCast, ← zpow_mul] <;> norm_num
+  rw [← zpow_natCast, ← zpow_mul]; norm_num
 
 theorem aux_Numbers_zpow_pow_three {G : Type} [Group G] {c : G} (hc3 : c ^ 3 = 1) (n : ℤ) :
     (c ^ n) ^ 3 = 1 := by

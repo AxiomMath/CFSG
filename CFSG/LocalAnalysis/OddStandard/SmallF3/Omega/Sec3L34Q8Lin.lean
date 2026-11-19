@@ -16,6 +16,7 @@ open CFSG.GroupTheory.WeirSylow
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma map_commSp_le_self {g t : OGroup Q} (htt : t * t = 1) (hgt : g * t = t * g) :
     (commSp t).map (g : V →ₗ[ZMod 3] V) ≤ commSp t := by
   intro x hx
@@ -120,14 +121,12 @@ theorem four_dvd_invDim_of_quaternion (hQ : Q.Nondegenerate) {q r : OGroup Q}
     ext x
     change (a (a x) : V) = -(x : V)
     rw [ha_apply (a x), ha_apply x]
-    change (q : V ≃ₗ[ZMod 3] V) ((q : V ≃ₗ[ZMod 3] V) (x : V)) = -(x : V)
     rw [← LinearEquiv.mul_apply, ← hcoe_q]
     exact (mem_commSp_iff hyy).mp x.2
   have hbE : (b : Module.End (ZMod 3) W) * (b : Module.End (ZMod 3) W) = -1 := by
     ext x
     change (b (b x) : V) = -(x : V)
     rw [hb_apply (b x), hb_apply x]
-    change (r : V ≃ₗ[ZMod 3] V) ((r : V ≃ₗ[ZMod 3] V) (x : V)) = -(x : V)
     rw [← LinearEquiv.mul_apply, ← hcoe_r, ← hqr]
     exact (mem_commSp_iff hyy).mp x.2
   have hcoe_neg_a : ((a.symm : W ≃ₗ[ZMod 3] W) : Module.End (ZMod 3) W)

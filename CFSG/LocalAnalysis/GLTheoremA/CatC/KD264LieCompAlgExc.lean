@@ -300,10 +300,10 @@ theorem compAlgAt_adjointGroup_kd264alg
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.exists_langSetup_of_inner_untw_of_prime_eq
       hτ Nat.prime_three h3K Nat.prime_three h3K (Or.inr (by rw [hK]; norm_num)) hmon hperf x hx3
       hx1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hq8 : S.D.q = 8 := by rw [hSq, hK]
   have hTame := langSetup_hTame_of_prime S Nat.prime_three natCast_three_ne_zero_kd264alg
@@ -337,10 +337,10 @@ theorem not_card_compAlgEight_of_inner_kd264alg {τ : Tag} {L : Type} [Field L] 
   intro hN
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hinner]
+    rw [ite_eq_left hinner]
   obtain ⟨D⟩ := nonempty_innerData S hT i hk
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he3 : D.e = 3 := by
     have h : (2 : ℕ) ^ D.e = 2 ^ 3 := by rw [← D.hq, hq8]; norm_num
     exact Nat.pow_right_injective le_rfl h
@@ -429,7 +429,7 @@ theorem not_card_compAlgEight_of_lieModel_POmegaMinus_kd264alg {G : Type} [Group
   intro hG
   have hclass : StatedClassicalModel G .POmegaMinus n 2 e := h.statedClassicalModel (by decide)
   obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨eG⟩⟩ := hclass
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn4 : 4 ≤ n := h.admissible.2.2
   have he : 0 < e := h.admissible.2.1
   obtain ⟨q, hv, hqp, ⟨eq⟩⟩ :=
@@ -440,7 +440,7 @@ theorem not_card_compAlgEight_of_lieModel_POmegaMinus_kd264alg {G : Type} [Group
     CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.twistedD n q, hv⟩ G
       ⟨eG.trans eq⟩
   change Nat.card G = CFSG.Open.orderTwistedD n q.card at hcard
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := e)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := e)
     (by rw [← Nat.card_eq_fintype_card, hK])
   have hq2 : q.p = 2 := hqp.trans (ringChar.eq K 2)
   have hqc : q.card = 2 ^ q.exponent := by rw [TauCeti.PrimePower.card_def, hq2]
@@ -672,7 +672,7 @@ theorem excAlgTypeAAt_E8_kd264alg : ExcAlgTypeAAt .E8 := by
   by_contra hnA
   have h3L := natCast_three_ne_zero_kd264alg (L := L)
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
-  haveI := finite_rationalComponent S a i
+  have := finite_rationalComponent S a i
   obtain ⟨v, μ, x, c, -, hc, -, hlen, -, hrank, hncard⟩ :=
     exists_cand_of_class kacE8 facts_E8 e8_tree e8_adj e8_check e8_lt e8_card S Nat.prime_three
       h3L hTp i
@@ -729,7 +729,7 @@ theorem excAlgTypeAAt_E7_kd264alg : ExcAlgTypeAAt .E7 := by
   by_contra hnA
   have h3L := natCast_three_ne_zero_kd264alg (L := L)
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
-  haveI := finite_rationalComponent S a i
+  have := finite_rationalComponent S a i
   obtain ⟨v, μ, x, c, -, hc, -, hlen, -, hrank, hncard⟩ :=
     exists_cand_of_class kacE7 facts_E7 e7_tree e7_adj e7_check e7_lt e7_card S Nat.prime_three
       h3L hTp i
@@ -783,7 +783,7 @@ theorem excAlgTypeAAt_E6_of_kd264alg (hR1 : E6D4OuterNotEight) : ExcAlgTypeAAt .
   by_contra hnA
   have h3L := natCast_three_ne_zero_kd264alg (L := L)
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
-  haveI := finite_rationalComponent S a i
+  have := finite_rationalComponent S a i
   obtain ⟨v, μ, x, c, -, hc, -, hlen, -, hrank, hncard⟩ :=
     exists_cand_of_class kacE6 facts_E6 e6_tree e6_adj e6_check e6_lt e6_card S Nat.prime_three
       h3L hTp i
@@ -838,8 +838,8 @@ theorem lieCompAlg_excUntwisted_of_kd264alg (hE6 : E6CompAlgEight) (hF4 : ExcAlg
     obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
     have hK8 : Nat.card K = 8 := by rw [hK]; exact hfield
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
       (by rw [← Nat.card_eq_fintype_card, hK8]; norm_num)
     have hchar : ringChar K ≠ 3 := by rw [ringChar.eq K 2]; norm_num
     refine compAlgAt_of_mulEquiv eK.symm (compAlgAt_adjointGroup_kd264alg (Or.inl rfl) hK8
@@ -914,10 +914,10 @@ theorem compAlgAt_adjointGroup_E6_kd264alg {K : Type} [Field K] [Finite K] (hK :
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.exists_langSetup_of_inner_untw_of_prime_eq
       (Or.inr (Or.inr (Or.inl rfl))) Nat.prime_three h3K Nat.prime_three h3K
       (Or.inr (by rw [hK]; norm_num)) hmon hperf x hx3 hx1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hq8 : S.D.q = 8 := by rw [hSq, hK]
   have hTame := langSetup_hTame_of_prime S Nat.prime_three natCast_three_ne_zero_kd264alg

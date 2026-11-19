@@ -29,10 +29,10 @@ theorem s16h_sl28_sylow_two_borel_seven {Ω : Type} [Group Ω] [Finite Ω] {A U 
       ∃ b ∈ A, b ∈ Subgroup.normalizer (U : Set Ω) ∧ orderOf b = 7 := by
   classical
   obtain ⟨K, hKf, hKfin, hKcard, ⟨eA⟩⟩ := hA
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
     refine charP_of_card_eq_prime_pow (p := 2) (f := 3) ?_
     rw [← Nat.card_eq_fintype_card, hKcard]
   have hK8 : Nat.card K = 8 := by rw [hKcard]; norm_num

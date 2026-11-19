@@ -44,7 +44,7 @@ private theorem gacts_mul {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} {F 
 
 private theorem gacts_inv {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} {F : Type} [Field F]
     {U : Subgroup (GL (Fin d) F)} {ψ : ↥U →* ↥S} {b : Ω} {A : GL (Fin d) F}
-    (hA : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F))) (h : GActs ψ b A) :
+    (_hA : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F))) (h : GActs ψ b A) :
     GActs ψ b⁻¹ A⁻¹ := by
   intro u u' hu'
   have huu' : (u : GL (Fin d) F) = A * (u' : GL (Fin d) F) * A⁻¹ := by
@@ -181,8 +181,8 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
         _ = (((Units.mk0 (Dfun i) (hDne i)) * (Units.mk0 (Dfun i) (hDne i))⁻¹ : Fˣ) : F) := by
               rw [Units.val_mul]
         _ = 1 := by
-          simpa using Units.mul_inv (Units.mk0 (Dfun i) (hDne i))
-    · simp [Matrix.diagonal_mul, Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
+          simp
+    · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
   have hDnorm : (P * Ay * P⁻¹ : GL (Fin (m + 1)) F) ∈
       Subgroup.normalizer ((LargeEvenSUGroup (Fin (m + 1)) F (2 ^ n) :
         Subgroup (GL (Fin (m + 1)) F)) : Set (GL (Fin (m + 1)) F)) :=
@@ -278,7 +278,7 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     by_contra hlt
     push Not at hlt
     have hle1 : I.card ≤ 1 := by omega
-    haveI : Nonempty (Fin (m + 1)) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin (m + 1)) := ⟨⟨0, by omega⟩⟩
     obtain ⟨i₀, hi₀⟩ := Finset.card_le_one_iff_subset_singleton.mp hle1
     have hsub : CFSG.StandardType.TableBUE.blockSU (K := F) (n := n) I ≤
         CFSG.StandardType.TableBUE.blockSU (K := F) (n := n)
@@ -306,10 +306,10 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
       Finset.card_pos.mpr ⟨i, by
         rw [hIdef]
         exact CFSG.StandardType.LinTorus.self_mem_diagClass _ _ _⟩
-    haveI : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 F I.card) :=
+    have : Group.IsSolvable ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 F I.card) :=
       CFSG.StandardType.WitSU.isSolvable_unitarySU_two_one hUF hk1 hIcard
     let e := CFSG.StandardType.TableBUE.blockSUEquiv (K := F) (n := 1) I hUF
-    haveI : Group.IsSolvable ↥(CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I) :=
+    have : Group.IsSolvable ↥(CFSG.StandardType.TableBUE.blockSU (K := F) (n := 1) I) :=
       Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
         (fun x y h => e.symm.injective h)
     have hsolvI : Group.IsSolvable
@@ -332,7 +332,7 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
         · rintro ⟨u, hu, rfl⟩
           exact ⟨⟨u, hu⟩, rfl⟩
       exact hrange_eq ▸ hres
-    haveI := hsolvI
+    have := hsolvI
     exact CFSG.StandardType.LinSemisimple.false_of_isQuasisimple_of_le_isSolvable
       hKcomp.2.2 hKiI
   have hδconst : ∀ a ∈ I, ∀ b ∈ I, δ a = δ b := by
@@ -439,7 +439,7 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     have hy1 : y ≠ 1 := by
       intro hy1; exact hyx (by rw [hy1]; exact Subgroup.one_mem _)
     have hyp : y ^ p = 1 := hcfg.elem.2 y hyB
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hordy : orderOf y = p := orderOf_eq_prime hyp hy1
     have hordx : orderOf x = p := orderOf_eq_prime (hcfg.elem.2 x hcfg.mem) hcfg.ne_one
     have hzxD : Subgroup.zpowers x ≤ D := Subgroup.zpowers_le.mpr hcfg.std.2.2.2.1
@@ -556,7 +556,7 @@ theorem uni_K_shape {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
       intro hy1; exact hyx (by rw [hy1]; exact Subgroup.one_mem _)
     have hyp : y ^ p = 1 := hcfg.elem.2 y hyB
     obtain ⟨c₁, hc₁, k, hk⟩ : ∃ c₁ ∈ Subgroup.zpowers x, ∃ k : ℕ, b = c₁ * y ^ k := by
-      letI : CommGroup ↥D :=
+      let : CommGroup ↥D :=
         { (inferInstance : Group ↥D) with
           mul_comm := fun a b => Subtype.ext (IsElemAbelian.comm hcfg.std.2.1 a.2 b.2) }
       have htop : (Subgroup.zpowers x).subgroupOf D ⊔ (Subgroup.zpowers y).subgroupOf D =

@@ -79,7 +79,7 @@ theorem clause_four_of_witness {Y : Type} [Group Y] [Finite Y] {L R P : Subgroup
       have hc'P : c' ∈ Pbar := hNP hc'
       obtain ⟨s, hs⟩ := (IsPGroup.iff_orderOf.1 hN2) ⟨c', hc'⟩
       have hs' : orderOf c' = 2 ^ s := by rw [← hs, ← Subgroup.orderOf_coe]
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨e, ⟨k, hk⟩, hfe⟩ := exists_pElement_lift (QuotientGroup.mk' (Subgroup.center ↥L))
         (p := 2) (x := w) ⟨s, by rw [hw]; exact hs'⟩
       refine ⟨w ^ e, by rw [hfe, hw], ?_, k, hk⟩

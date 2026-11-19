@@ -176,7 +176,7 @@ theorem keyX_eq {x : ℕ} {X : Equiv.Perm (Fin 315)} (hx : PRep x X) :
   | p :: pts, hpts => by
     have hp := hpts p (List.mem_cons_self ..)
     change Nat.lor (ap x p) (keyX x pts <<< 9) = _
-    rw [keyX_eq hx pts fun q hq => hpts q (List.mem_cons_of_mem p hq), keyP, dif_pos hp,
+    rw [keyX_eq hx pts fun q hq => hpts q (List.mem_cons_of_mem p hq), keyP, dite_eq_left hp,
       hx p hp]
 
 theorem keysN_eq {G Gi : List ℕ} {x : ℕ} {w : List ℕ} {σ : ℕ → Equiv.Perm (Fin 315)}
@@ -190,7 +190,7 @@ theorem keysN_eq {G Gi : List ℕ} {x : ℕ} {w : List ℕ} {σ : ℕ → Equiv.
     have hp := hpts p (List.mem_cons_self ..)
     change Nat.lor (keyN G Gi x p w) (keysN G Gi x pts w <<< 9) = _
     rw [keysN_eq hG hGi hx hw hw' pts fun q hq => hpts q (List.mem_cons_of_mem p hq), keyP,
-      dif_pos hp]
+      dite_eq_left hp]
     congr 1
     have e1 := wImg_eq hG hw p hp
     have hlt : wImg G w p < 315 := by rw [e1]; exact Fin.isLt _
@@ -254,7 +254,7 @@ theorem conjOK_sound {G Gi : List ℕ} {x : ℕ} {pts : List ℕ} {R : List (ℕ
   have hsub : ((R.map f).toFinset : Set (Equiv.Perm (Fin 315))) ⊆
       {y | ∃ k ∈ closure (σ '' {i | i < G.length}), y = k⁻¹ * X * k} := by
     intro y hy
-    simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hy
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hy
     obtain ⟨r, hr, rfl⟩ := hy
     refine ⟨wordP σ r.2, list_prod_mem ?_, rfl⟩
     intro g hg
@@ -381,7 +381,7 @@ theorem grpOK_sound {S pts : List ℕ} {W C : List (List ℕ)} {i₀ : ℕ}
   refine ⟨hmem, ?_, hlet, hrep, hi0, hx0⟩
   have e : (closure (σ '' {j | j < S.length}) : Set (Equiv.Perm (Fin 315))) = (Rf : Set _) := by
     ext y
-    simp only [SetLike.mem_coe, Finset.mem_coe]
+    simp only [SetLike.mem_coe]
     rw [hmem y, memR y]
   have hc : Nat.card (closure (σ '' {j | j < S.length})) =
       Nat.card ↥(Rf : Set (Equiv.Perm (Fin 315))) := by
@@ -439,8 +439,8 @@ theorem conjTo_sound {G : List ℕ} {σ : ℕ → Equiv.Perm (Fin 315)}
   refine ⟨hw, ?_⟩
   have hZ : PRep (if Nat.beq r.1 0 = true then a else c) (if r.1 = 0 then A else Cc) := by
     by_cases h0 : r.1 = 0
-    · rw [if_pos (by rw [h0]; rfl), if_pos h0]; exact ha
-    · rw [if_neg (by rw [Nat.beq_eq]; exact h0), if_neg h0]; exact hc
+    · rw [ite_eq_left (by rw [h0]; rfl), ite_eq_left h0]; exact ha
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h0), ite_eq_right h0]; exact hc
   have e := (prep_eq (prep_pm hx hH) (prep_pm hH hZ)).1 h2
   rw [mul_assoc, e]
   group

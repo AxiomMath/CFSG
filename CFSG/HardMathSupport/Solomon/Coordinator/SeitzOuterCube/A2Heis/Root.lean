@@ -50,7 +50,7 @@ theorem matC_mul_matX_mul_z (hΔ : α ^ 3 + (lam : F) ≠ 0) (hγ : γ ≠ 0) :
       Matrix.diagonal ![γ⁻¹ ^ 2, γ, γ] * matX lam α γ := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, kc, nc] <;>
+    simp [Matrix.mul_apply, Matrix.diagonal_apply, kc, nc] <;>
     field_simp <;> ring
 
 theorem matT_mul_matC_mul_t (hΔ : α ^ 3 + (lam : F) ≠ 0) (hγ : γ ≠ 0) :
@@ -61,7 +61,7 @@ theorem matT_mul_matC_mul_t (hΔ : α ^ 3 + (lam : F) ≠ 0) (hγ : γ ≠ 0) :
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.single_apply,
       Matrix.one_apply, nc] <;>
-    field_simp <;> ring
+    field_simp; ring
 
 end Matrices
 
@@ -94,7 +94,7 @@ theorem polyXSL_mul_xSL (hΔ : α ^ 3 + (lam : F) ≠ 0) (hγ : γ ≠ 0) (μ : 
       ((μ : F) • (α • 1 + (monomGL F lam : Matrix (Fin 3) (Fin 3) F)))
   have hd : Matrix.diagonal ![γ⁻¹, γ⁻¹, γ ^ 2] = γ⁻¹ • Matrix.diagonal ![1, 1, γ ^ 3] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp; field_simp
   rw [Matrix.smul_mul, Matrix.mul_smul, matB_mul_matX hΔ, hd, Matrix.smul_mul, Matrix.mul_smul,
     smul_comm]
 
@@ -158,6 +158,7 @@ theorem tbar_mem_closure_hyperFix (h : HeisHyp σ lam ω) (hα : σ α = α) (h�
   rw [hT, map_mul, map_mul, map_mul, map_inv, map_inv]
   exact M.mul_mem (M.mul_mem (M.mul_mem ht hCM) (M.inv_mem ht)) (M.inv_mem hCM)
 
+omit [Finite F] in
 theorem nc_mul_ne_zero (hα0 : α ≠ 0) (hγ : γ ≠ 0) (hΔ : α ^ 3 + (lam : F) ≠ 0)
     (hγ3 : γ ^ 3 ≠ 1) : nc lam α γ * (γ ^ 3 - 1) ≠ 0 := by
   have hl : (lam : F) ≠ 0 := lam.ne_zero

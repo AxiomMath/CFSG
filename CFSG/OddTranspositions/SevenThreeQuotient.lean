@@ -19,16 +19,16 @@ theorem image_isClass_quotient {Θ : Set X} {d₀ : X} (hΘ : Θ = {g | IsConj d
   ext g
   constructor
   · rintro ⟨x, hx, rfl⟩
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [isConj_iff] at hx ⊢
     obtain ⟨c, hc⟩ := hx
     exact ⟨QuotientGroup.mk' N c, by rw [← hc]; simp [map_mul]⟩
-  · simp only [Set.mem_setOf_eq]
+  · simp only [Set.mem_ofPred_eq]
     rw [isConj_iff]
     rintro ⟨y, hy⟩
     obtain ⟨z, rfl⟩ := QuotientGroup.mk'_surjective N y
     refine ⟨z * d₀ * z⁻¹, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq]
+    · simp only [Set.mem_ofPred_eq]
       rw [isConj_iff]
       exact ⟨z, rfl⟩
     · rw [← hy]
@@ -74,6 +74,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
     Set (thirdK D z ⧸ CFSG.solvableRadical (thirdK D z)) :=
   (QuotientGroup.mk' (CFSG.solvableRadical (thirdK D z))) '' DeltaK D z
 
+omit [Finite G] in
 theorem DeltaK_isOddTransp (hS : Setup G D) (z : G) : IsOddTransp (DeltaK D z) := by
   constructor
   · intro x hx
@@ -86,6 +87,7 @@ theorem DeltaK_isOddTransp (hS : Setup G D) (z : G) : IsOddTransp (DeltaK D z) :
       rfl
     rwa [hcoe]
 
+omit [Finite G] in
 theorem DeltaK_closure_eq_top (z : G) : Subgroup.closure (DeltaK D z) = ⊤ := by
   have h := Subgroup.closure_preimage_eq_top (Delta D z)
   have hK : DeltaK D z = (thirdK D z).subtype ⁻¹' Delta D z := rfl
@@ -93,6 +95,7 @@ theorem DeltaK_closure_eq_top (z : G) : Subgroup.closure (DeltaK D z) = ⊤ := b
   change Subgroup.closure ((Subgroup.closure (Delta D z)).subtype ⁻¹' Delta D z) = ⊤
   exact h
 
+omit [Finite G] in
 theorem DeltaK_class (hS : Setup G D) (hL : LocalSecond D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n) :
@@ -109,11 +112,11 @@ theorem DeltaK_class (hS : Setup G D) (hL : LocalSecond D)
   · intro hx
     have hxΔ : (x : G) ∈ Delta D z := hx
     obtain ⟨k, hkK, hku⟩ := thirdK_transitive hS hL htri hn hord x hxΔ
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [isConj_iff]
     exact ⟨⟨k, hkK⟩, Subtype.ext hku⟩
   · intro hx
-    simp only [Set.mem_setOf_eq] at hx
+    simp only [Set.mem_ofPred_eq] at hx
     rw [isConj_iff] at hx
     obtain ⟨c, hc⟩ := hx
     have hcG : (c : G) * u * (c : G)⁻¹ = (x : G) := by
@@ -157,6 +160,7 @@ theorem thirdK_quotient_radical_eq_bot
   exact OddTransp.eq_bot_of_quotient_solvableRadical (CFSG.solvableRadical _)
     inferInstance OddTransp.isSolvable_solvableRadical
 
+omit [Finite G] in
 theorem commute_of_commute_mk_of_ne (hS : Setup G D) {z : G} {a b : thirdK D z}
     (ha : a ∈ DeltaK D z) (hb : b ∈ DeltaK D z)
     (hcomm : Commute (QuotientGroup.mk' (CFSG.solvableRadical (thirdK D z)) a)
@@ -266,6 +270,7 @@ theorem localSecond_DeltaBar (hS : Setup G D) (hL : LocalSecond D)
   localSecond_quotient_class hS hL (DeltaK_class hS hL htri hn hord)
     (DeltaK_mk_ne_one hS hL htri hn hn1 hord)
 
+omit [Finite G] in
 theorem thirdK_le_thirdK_of_le_centralizer {z e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G)) :
     thirdK D z ≤ thirdK D e := by
@@ -275,6 +280,7 @@ theorem thirdK_le_thirdK_of_le_centralizer {z e : G}
     ⟨(mem_Delta_iff.mp hx).1,
       Subgroup.mem_centralizer_singleton_iff.mp (hzK (Delta_subset_thirdK hx))⟩)
 
+omit [Finite G] in
 theorem thirdK_map_quotient_injective {z e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
     (h9 : (thirdK D z).subgroupOf (thirdK D e) ⊓
@@ -303,6 +309,7 @@ theorem thirdK_map_quotient_injective {z e : G}
     simpa using this
   exact Subtype.ext (inv_mul_eq_one.mp h1)
 
+omit [Finite G] in
 theorem orderOf_thirdK_map_quotient {z e : G}
     (hzK : thirdK D z ≤ Subgroup.centralizer ({e} : Set G))
     (h9 : (thirdK D z).subgroupOf (thirdK D e) ⊓

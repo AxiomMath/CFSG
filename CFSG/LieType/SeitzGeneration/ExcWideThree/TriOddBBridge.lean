@@ -23,10 +23,11 @@ theorem triOdd_two_le_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) : 2 �
     _ = ℓ ^ 1 := (pow_one ℓ).symm
     _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf
 
+omit [Finite X] in
 theorem triOdd_ringChar_ne_two {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f)
     (hX : Nat.card X = (ℓ ^ f) ^ 3) : ringChar X ≠ 2 := by
   have hX' : Nat.card X = ℓ ^ (3 * f) := by rw [hX, ← pow_mul]; ring_nf
-  haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := 3 * f) (by omega) hX'
   rw [ringChar.eq X ℓ]
   exact hℓ2
@@ -46,6 +47,7 @@ variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
     exact Subfield.mem_top c
 
 
+omit [Finite X] in
 theorem map_triOddOrbitIncl_surjective (h3 : ∀ c : X, σ (σ (σ c)) = c) :
     Function.Surjective (Matrix.SpecialLinearGroup.map (triOddOrbitIncl σ h3) :
       Matrix.SpecialLinearGroup (Fin 2) X →*
@@ -68,6 +70,7 @@ variable (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c)
 include hσ3
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem triOdd_slShort_upper_eq_orbit (c : X) :
     (((slShort σ.toRingHom hσ3 (CFSG.LieType.Steinberg.sl2Upper c) :
       twistedGroup σ.toRingHom) : adjointGroup d4 X) : ModGL d4 X) =
@@ -94,6 +97,7 @@ theorem triOdd_slShort_upper_eq_orbit (c : X) :
   rfl
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem triOdd_slShort_lower_eq_orbit (c : X) :
     (((slShort σ.toRingHom hσ3 (CFSG.LieType.Steinberg.sl2Lower c) :
       twistedGroup σ.toRingHom) : adjointGroup d4 X) : ModGL d4 X) =
@@ -120,6 +124,7 @@ theorem triOdd_slShort_lower_eq_orbit (c : X) :
   rfl
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem triOdd_slShort_eq_orbit (g : Matrix.SpecialLinearGroup (Fin 2) X) :
     (((slShort σ.toRingHom hσ3 g : twistedGroup σ.toRingHom) :
       adjointGroup d4 X) : ModGL d4 X) =
@@ -193,6 +198,7 @@ theorem triOdd_Asub_eq_eqRoot_slShort {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : 
   exact ⟨M, Subtype.ext ((triOdd_eqRoot_slShort_coe σ hσ3 (triOdd_ringChar_ne_two hℓ hℓ2 hf hX)
     (triOdd_two_le_pow hℓ hf) hX hσ M).trans hg')⟩
 
+omit [Finite X] in
 theorem triOdd_slShort_injective (hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c) :
     Function.Injective (slShort σ.toRingHom hσ3) :=
   CFSG.LieType.Steinberg.TwistedD4.slShort_injective (σ := σ.toRingHom) hσ3

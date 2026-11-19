@@ -145,7 +145,7 @@ private theorem isBlock_B₀ (Y : Subgroup A10) (hN : normalizer (S₀ : Set A10
     rcases hk with ⟨-, hk⟩ | ⟨-, hk⟩
     · exact ⟨_, Y'.pow_mem h1 k, hk⟩
     · exact ⟨_, Y'.mul_mem (Y'.pow_mem h2 k) h3, hk⟩
-  haveI hpt : IsPretransitive Y' (Fin 10) := by
+  have hpt : IsPretransitive Y' (Fin 10) := by
     refine ⟨fun x y => ?_⟩
     obtain ⟨gx, hgx, hx⟩ := hreach x
     obtain ⟨gy, hgy, hy⟩ := hreach y
@@ -201,7 +201,7 @@ private theorem overgroup_S₀ (Y₀ : Subgroup A10) (hN : normalizer (S₀ : Se
 
 private theorem exists_conj (S : Sylow 5 A10) :
     ∃ x : A10, ∀ s : A10, s ∈ (S : Subgroup A10) ↔ x⁻¹ * s * x ∈ S₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let Q : Sylow 5 A10 := Sylow.ofCard S₀ (by rw [card_S₀, factorization_A10]; norm_num)
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq A10 Q S
   refine ⟨x, fun s => ?_⟩

@@ -19,7 +19,7 @@ theorem k_K_Omega6Minus_smallComm_holds_of (hIso : K_Omega6Minus_natIsoMod) :
   obtain ⟨I, -, hind, hsup, hNat⟩ := hSum
   have : NeZero s := ⟨by omega⟩
   obtain ⟨-, K, hK, hKf, b, c, hcardK, hpoly, π0, hπ0⟩ := hNat 0
-  letI : Field K := hK
+  let : Field K := hK
   have : Finite K := hKf
   have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hcardK

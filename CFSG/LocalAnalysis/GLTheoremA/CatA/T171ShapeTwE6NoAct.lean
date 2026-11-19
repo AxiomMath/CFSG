@@ -30,10 +30,10 @@ theorem twE6_commutator_range_le_inner {Ω : Type} [Group Ω] {L : Subgroup Ω} 
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* TwE6Delta.RecipeR K n) (hL : commutator ↥L = ⊤)
     {B A T : Subgroup Ω} (hA : IsElemAbelian 3 A) (hT2 : IsPGroup 2 T)
     (hBN : B ≤ Subgroup.normalizer (L : Set Ω)) (hAB : A ≤ B)
-    (hAI : ∀ a ha, ggLAut L θ ⟨a, hBN (hAB ha)⟩ ∈ TwE6Delta.RecipeI K n)
+    (hAI : ∀ _a ha, ggLAut L θ ⟨_a, hBN (hAB ha)⟩ ∈ TwE6Delta.RecipeI K n)
     (hTN : T ≤ Subgroup.normalizer (L : Set Ω)) (hBT : B ≤ Subgroup.normalizer (T : Set Ω)) :
     ⁅((ggLAut L θ).comp (Subgroup.inclusion hTN)).range,
-      ((ggLAut L θ).comp (Subgroup.inclusion (fun a ha => hBN (hAB ha)))).range⁆ ≤
+      ((ggLAut L θ).comp (Subgroup.inclusion (fun _a ha => hBN (hAB ha)))).range⁆ ≤
       (MulAut.conj : TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n)).range :=
   let ⟨_, hDn, hID, hodd⟩ := TwE6Delta.ggOutdiagOdd_twE6 hn hK 3
   commutator_range_le_inner θ hL hDn hID hodd hA hT2 hBN hAB hAI hTN hBT
@@ -91,7 +91,7 @@ theorem three_pow_four_le_card_of_twE6 {Ω : Type} [Group Ω] [Finite Ω]
         exact Subgroup.mem_centralizer_iff.mp hyC (l : Ω) l.2
       have hmem : e ∈ E ⊓ Subgroup.center ↥L := ⟨he, hcen⟩
       rw [hZbot, Subgroup.mem_bot] at hmem
-      simpa [hmem]
+      simp [hmem]
     have hc1 : Nat.card ↥(E' ⊓ Subgroup.centralizer (L : Set Ω)) = 1 := by
       rw [hinf, Subgroup.card_bot]
     have hle : 3 * 3 ^ 4 ≤ 3 * Nat.card A * 1 := by
@@ -132,11 +132,11 @@ theorem twE6NoAct_of (hM : TwE6Marking) (hX : TwE6BigToralExit) : TwE6NoAct := b
       | _ => simp [S10.isTE6n, onLie] at hi
   obtain ⟨n', K', hKfield, hKfinite, hn1, h3dvd, hKcard, hsimple, θ, hmark⟩ :=
     hM Ω L K A d β hSetup hE6cat
-  letI := hKfield
-  letI := hKfinite
-  haveI : Finite (TwE6Delta.RecipeR K' n') := TwE6Delta.finite_recipeR hKcard
-  haveI : Finite (MulAut (TwE6Delta.RecipeR K' n')) := TwE6Delta.finite_mulAut_recipeR hKcard
-  haveI : L.Normal := hLN
+  let := hKfield
+  let := hKfinite
+  have : Finite (TwE6Delta.RecipeR K' n') := TwE6Delta.finite_recipeR hKcard
+  have : Finite (MulAut (TwE6Delta.RecipeR K' n')) := TwE6Delta.finite_mulAut_recipeR hKcard
+  have : L.Normal := hLN
   have hL : commutator ↥L = ⊤ := hcfg.qs.1
   let N := Subgroup.normalizer (L : Set Ω)
   have hBN : B ≤ N := hcfg.norm
@@ -246,7 +246,7 @@ theorem twE6NoAct_of (hM : TwE6Marking) (hX : TwE6BigToralExit) : TwE6NoAct := b
         have h := map_commutatorElement lam
           (⟨t, hTN ht⟩ : Subgroup.normalizer (L : Set Ω))
           (⟨b, hBN hb⟩ : Subgroup.normalizer (L : Set Ω))
-        convert h using 3 <;> rfl
+        convert h using 3
       rw [h1]
       exact hcomm
     exact mem_centralizer_of_ggLAut_eq_one L θ hL hlz

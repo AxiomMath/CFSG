@@ -306,9 +306,9 @@ theorem ordTwistedA_eq_orderTwistedA (n Q : ℕ) (hQ : 1 ≤ Q) :
   have h1 : 1 ≤ Q ^ i := Nat.one_le_pow _ _ hQ
   have hc : ((Q ^ i : ℕ) : ℤ) = (Q : ℤ) ^ i := Nat.cast_pow Q i
   rcases Nat.even_or_odd i with hi | hi
-  · rw [if_pos hi, hi.neg_one_pow]
+  · rw [ite_eq_left hi, hi.neg_one_pow]
     omega
-  · rw [if_neg (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
+  · rw [ite_eq_right (Nat.not_even_iff_odd.2 hi), hi.neg_one_pow]
     omega
 
 theorem evenLieOrder_ne_of_three_dvd {t : StatedLieTag} {n f a r : ℕ}
@@ -409,7 +409,7 @@ theorem false_of_lieModel_two_of_excIndex {R : Type} [Group R] {t : StatedLieTag
   have hadm : StatedLieAdmissible t n 2 f :=
     CFSG.SeitzReduction.F4Pilot.statedLieAdmissible_of_lieModel hR
   have hform := CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput R t n 2 f hadm hR
-  haveI : Finite R := hform.1
+  have : Finite R := hform.1
   have hcard : Nat.card R = CFSG.SeitzReduction.F4Pilot.evenLieOrder t n f :=
     CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder hR
   cases i with

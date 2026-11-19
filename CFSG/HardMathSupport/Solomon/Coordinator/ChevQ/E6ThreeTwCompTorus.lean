@@ -202,7 +202,7 @@ theorem twTheta_torus_card_three_le (hFr : ∀ c, Fr c = c ^ q) (h3 : 3 ∣ q + 
     have e5 : b 5 = b 0 * b 2 * b 3 * b 4 := by
       have := hφ (Pi.single 5 1)
       rw [twCompTor_smul_single_five, twCompTor_rootChar_vec, twCompTor_rootChar_single] at this
-      simp only [zpow_zero, zpow_neg, zpow_one, one_mul, mul_one] at this
+      simp only [zpow_zero, zpow_neg, zpow_one, mul_one] at this
       exact twCompTor_eq_of_inv_mul_inv (hb3 5) (by rwa [mul_inv, mul_inv, mul_inv])
     have e4' : b 4 = b 1 * b 2 := by rw [e4, e2]
     have e5' : b 5 = b 0 * b 1 := by

@@ -54,7 +54,7 @@ theorem eq_one_of_central_P2 {g : Y} (hg : g ∈ P2) (h : ∀ k ∈ P2, g * k = 
 theorem exists_three_fix_P2 :
     ∃ x ∈ P2, orderOf x = 3 ∧ ∃ v ∈ Vsub, v ≠ 1 ∧ v * x = x * v := by
   obtain ⟨f, hf, hr, -, hV⟩ := exists_embedding_P2
-  have hx : (SemidirectProduct.inr c3 : Mc) ∈ f.range := hr ▸ mem_Mof.2 (by simpa using c3_mem)
+  have hx : (SemidirectProduct.inr c3 : Mc) ∈ f.range := hr ▸ mem_Mof.2 (by simp)
   obtain ⟨x, hx⟩ := hx
   obtain ⟨v, hvV, hvP, hv⟩ := hV w34
   refine ⟨x, x.2, ?_, v, hvV, ?_, ?_⟩

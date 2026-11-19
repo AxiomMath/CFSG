@@ -54,7 +54,7 @@ theorem odd_card_commutator_outer_of_six_model {J : Type} [Group J] [IsSimpleGro
   have hnc : ¬ IsMulCommutative J := fun hc => by
     obtain ⟨a, b, hab⟩ := hna
     exact hab (hc.is_comm.comm a b)
-  haveI : Group.IsPerfect J := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
+  have : Group.IsPerfect J := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have hcen : Subgroup.center J = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hna).2
   let eZ : J ⧸ Subgroup.center J ≃* J :=
     (QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot
@@ -72,9 +72,9 @@ theorem stroth12FStarLB_holds : Stroth12FStarLBStatement := by
   intro G _ _ M Q Z B hN hc n h12 t ht htQ hF
   classical
   set H := bar M Q (H0 M Z) with hHdef
-  haveI hHn : H.Normal := hc.normal_bar_H0
+  have hHn : H.Normal := hc.normal_bar_H0
   set X := inSubgroup generalizedFitting H with hXdef
-  haveI hXn : X.Normal := normal_inSubgroup_fstar H
+  have hXn : X.Normal := normal_inSubgroup_fstar H
   obtain ⟨r, hr⟩ : ∃ r : ℕ, Nat.card Z = 2 ^ r := by
     obtain ⟨r, -, hr, -⟩ := hc.hyp.cp
     exact ⟨r, hr⟩
@@ -99,12 +99,12 @@ theorem stroth12FStarLB_holds : Stroth12FStarLBStatement := by
     · exact isSimpleGroup_of_isPSUModel hU
     · exact isSimpleGroup_of_isPSLModel hL
   obtain ⟨hs, hna⟩ := hsn
-  haveI := hs
+  have := hs
   have hFc : Subgroup.center ↥(generalizedFitting ↥H) = ⊥ :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hna).2
   let eX : ↥(generalizedFitting ↥H) ≃* ↥X :=
     (generalizedFitting ↥H).equivMapOfInjective H.subtype H.subtype_injective
-  haveI : IsSimpleGroup ↥X := eX.symm.isSimpleGroup
+  have : IsSimpleGroup ↥X := eX.symm.isSimpleGroup
   have hnaX : ∃ a b : ↥X, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     exact ⟨eX a, eX b, fun h => hab (eX.injective (by rw [map_mul, map_mul, h]))⟩

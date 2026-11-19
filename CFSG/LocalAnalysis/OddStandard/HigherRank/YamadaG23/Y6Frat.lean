@@ -39,7 +39,7 @@ theorem y6_frattini {G : Type} [Group G] [Finite G] {N K C : Subgroup G} (hKN : 
     exact hidx
   let P₁ : Sylow 2 ↥K := hCk.toSylow hidxCk
   let P₂ : Sylow 2 ↥K := hDk.toSylow hidxDk
-  haveI : Finite (Sylow 2 ↥K) := Sylow.finite_of_finiteIndex P₁
+  have : Finite (Sylow 2 ↥K) := Sylow.finite_of_finiteIndex P₁
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq (↥K) P₁ P₂
   have hcoe : MulAut.conj k • Ck = Dk := by
     have h := congrArg (fun Q : Sylow 2 ↥K => (Q : Subgroup ↥K)) hk
@@ -95,9 +95,9 @@ theorem y6_sylow_of_self_normalizing {G : Type} [Group G] [Finite G] {K C : Subg
           trivial
         exact Subgroup.mem_subgroupOf.mp hy'
       exact hEq (le_antisymm hCkP hPC)
-    haveI : Group.IsNilpotent ↥(P : Subgroup ↥K) := IsPGroup.isNilpotent P.isPGroup'
+    have : Group.IsNilpotent ↥(P : Subgroup ↥K) := IsPGroup.isNilpotent P.isPGroup
     have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup ↥K))
-    obtain ⟨x, hx_norm, hx_not⟩ := SetLike.exists_of_lt (hNC H hHlt)
+    obtain ⟨x, hx_norm, hx_not⟩ := _root_.IsConcreteLE.exists_of_lt (hNC H hHlt)
     have hxK_norm : (x : ↥K) ∈ normalizer Ck := by
       have h1 : x ∈ (normalizer Ck).subgroupOf (P : Subgroup ↥K) := by
         rw [Subgroup.subgroupOf_normalizer_eq hCkP]

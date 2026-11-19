@@ -33,7 +33,7 @@ theorem z0_props :
   ⟨⟨h.z_sq, h.z_ne⟩, h.z_mem, h.z_comm⟩
 
 theorem orderOf_z0 : orderOf z0 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact z0_props.1.1) z0_props.1.2
 
 theorem z0_mem_QT0 :

@@ -34,7 +34,7 @@ public theorem image_hasDihedralSylowTwo_of_odd_kernel
     exact congrArg (fun X : Sylow 2 (f.range) => (X : Subgroup f.range)) hQ
   rcases hG Q with ⟨m, hm, ⟨eQ⟩⟩
   have hQcop : Nat.Coprime (Nat.card (Q : Subgroup G)) (Nat.card f.ker) := by
-    rcases (IsPGroup.iff_card.mp Q.isPGroup') with ⟨n, hn⟩
+    rcases (IsPGroup.iff_card.mp Q.isPGroup) with ⟨n, hn⟩
     rw [hn]
     exact (Nat.coprime_two_left.mpr hkerodd).pow_left n
   have hdisj : (Q : Subgroup G) ⊓ f.ker = ⊥ :=

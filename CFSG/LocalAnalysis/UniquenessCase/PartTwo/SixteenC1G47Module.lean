@@ -52,7 +52,7 @@ private lemma s16c1_G47_mem_Z_of_conj_eq {Hs : Type*} [Group Hs] {q : ℕ} (hq :
 
 theorem s16c1_G47_module {Hs F : Type} [Group Hs] [Finite Hs] [Group F] [Finite F] {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) {S Z : Subgroup Hs} (hS : IsPGroup q S) (hZS : Z ≤ S) {u : Hs}
-    (hu2 : u * u = 1) (hSu : ∀ s ∈ S, u * s * u⁻¹ ∈ S)
+    (hu2 : u * u = 1) (_hSu : ∀ s ∈ S, u * s * u⁻¹ ∈ S)
     (hSZ : ∀ s ∈ S, u * s * u⁻¹ * s ∈ Z) (hZc : ∀ c ∈ Z, ∀ s ∈ S, c * s = s * c)
     (hcomm : ∀ s ∈ S, ∀ t ∈ S, s * t * s⁻¹ * t⁻¹ ∈ Z)
     (hnc : ¬ ∃ s ∈ S, S ≤ Z ⊔ Subgroup.zpowers s) (hF : ∀ e : F, e * e = 1)

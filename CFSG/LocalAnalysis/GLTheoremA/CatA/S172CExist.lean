@@ -31,8 +31,8 @@ theorem modelExist_orthDerived_of_type (hQ : (QuadraticMap.polarBilin Q).Nondege
     ModelExist p ↥(orthDerived Q) (n - 1) (isUnA (n - 1) (Nat.card F)) Q₁
       (isUnA (n - 2) (Nat.card F)) := by
   intro Bb hBb hcard d hd hLd hcd
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨f, hf1, hf⟩ := Cent.exists_natCard_eq_two_pow F
   obtain ⟨U, e, hF⟩ := exists_planeFrame hQ hdim hp hp2 hpq htype hBb hcard

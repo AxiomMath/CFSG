@@ -18,6 +18,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s217v_mem_centralizer_barImage {M L : Subgroup G} (hL : L ∈ calC M) {a : G}
     (haM : a ∈ M) (ha : CentralizesBar a L) :
     uc22p21cPi M ⟨a, haM⟩ ∈ centralizer (barImage M L : Set (Bar2 M)) := by
@@ -36,7 +37,7 @@ theorem uc22s217v_exists_centralizesBar_le {L A : Subgroup G} (hJ1 : IsJ1 (Bar2 
     (hp : p.Prime) (hp2 : p ≠ 2) (hA : IsPGroup p A) (hAN : A ≤ normalizer (L : Set G)) :
     ∃ A' ≤ A, Nat.card A ≤ p * Nat.card A' ∧ ∀ a ∈ A', CentralizesBar a L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : ↥A →* MulAut (Bar2 L) := (UC6S846.rhoL L).comp (Subgroup.inclusion hAN)
   obtain ⟨hcard, -, hinn⟩ := kJ1_holds (Bar2 L) hJ1
   have hsurj : Function.Surjective (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) := fun θ => by
@@ -79,9 +80,9 @@ theorem uc22s217v_exists_elemAbelian_centralizer {M A : Subgroup G} {W₁ W₂ :
     ∃ E : Subgroup G, E ≤ M ∧ IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧
       A ≤ centralizer (E : Set G) ∧
       ∀ R : Subgroup G, R ≤ M → IsPGroup r R → E ≤ R → E ≤ centralizer (R : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y₁, hy₁W, hy₁o⟩ : ∃ y ∈ W₁, orderOf y = r := by
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥W₁) r hW₁.2
     exact ⟨z, z.2, (Subgroup.orderOf_coe z).trans hz⟩
@@ -129,7 +130,7 @@ theorem uc22s217v_exists_elemAbelian_centralizer {M A : Subgroup G} {W₁ W₂ :
     exact (map_subtype_le _).trans (uc22p21c_barPreimage_le M Eb)
   have hEr : IsPGroup r E := by
     rw [hE]
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hdisj : Disjoint (E.subgroupOf M) (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
     rw [QuotientGroup.ker_mk']
     refine Subgroup.disjoint_def.2 fun {x} hxE hxO => Subtype.ext ?_

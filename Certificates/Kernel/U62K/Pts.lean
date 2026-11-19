@@ -50,7 +50,7 @@ theorem ls_facts : (∀ l < 42, InTwo 31671 14566 18249 (CFSG.Perm.pairG sylG l)
     idx 31671 (CFSG.Perm.pairG sylG 2) 14566 = 18249 := by
   have h := lsOK_true
   unfold lsOK at h
-  simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq] at h
+  simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨hall, h2⟩ := h
   have hall' := CFSG.KS.Raw.Orb.allN_iff.1 hall
   simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq] at hall'
@@ -79,7 +79,7 @@ theorem wJ_dW : wJ (repW dW 7) = CFSG.Sporadic.Fi23.d := by
   have e : wJ dW = CFSG.Sporadic.Fi23.wordJ CFSG.Sporadic.Fi23.Native.dWord := by
     simp only [dW, wJ_cons, wJ_nil, jL_39, jL_40, CFSG.Sporadic.Fi23.wordJ,
       CFSG.Sporadic.Fi23.Native.dWord, List.map_cons, List.map_nil, List.prod_cons,
-      List.prod_nil, one_mul, mul_one, mul_assoc, if_pos rfl, one_ne_zero, if_false, if_true]
+      List.prod_nil, one_mul, mul_one, mul_assoc, one_ne_zero, ite_false, ite_true]
   rw [wJ_repW, e]
   rfl
 

@@ -123,7 +123,7 @@ theorem isElemAbelian_range_tE : IsElemAbelian 3 (tE K).range := by
 theorem card_range_tE : Nat.card (tE K).range = 3 ^ 4 := by
   rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective tE_injective, Subgroup.card_top,
     Nat.card_congr Multiplicative.toAdd, Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
 end X1F4
 
@@ -136,6 +136,7 @@ namespace X1F4
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem conj_injective :
     Function.Injective (MulAut.conj : adjointGroup .F4 K →* MulAut (adjointGroup .F4 K)) := by
   rw [injective_iff_map_eq_one]
@@ -203,8 +204,7 @@ theorem model (hK : Nat.card K = 2) (hC : X1F4FrameConj) (hG : X1F4FrameGood)
 end X1F4
 
 theorem kd264X1ExcF4_of_frame (hC : X1F4FrameConj) (hG : X1F4FrameGood) : KD264X1ExcF4 := by
-  intro d q hd _
-  intro _ _ _ hov _ _
+  intro d q hd _ _ _ _ hov _ _
   have hq : q.card = 2 := by simpa [ov2Idx, fieldSize, hd] using hov
   have hcat : CFSG.Yardstones.Md0ec50421ce4.catalogIs (TauCeti.CFSGIndex.lie d).Group
       CFSG.LocalAnalysis.GLTheoremA.S9.isF4two :=
@@ -213,7 +213,7 @@ theorem kd264X1ExcF4_of_frame (hC : X1F4FrameConj) (hG : X1F4FrameGood) : KD264X
       exact hq, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.CatB.I2610.exists_adjointGroup_of_catalogIs_isF4two hcat
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (le_refl 1) (by rw [pow_one]; exact hK)
   intro A hA hrk

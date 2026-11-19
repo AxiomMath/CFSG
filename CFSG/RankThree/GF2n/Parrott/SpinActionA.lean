@@ -346,17 +346,17 @@ theorem toQA_mul (p q : QAct) : toQA (p * q) = toQA p * toQA q := by
 theorem toQA_x :
     toQA (⟨⟨x45, x45_mem_Q⟩, C2.e⟩ : QAct) = ⟨x45, Q45_le_A45 x45_mem_Q⟩ := by
   apply Subtype.ext
-  simp [toQA_apply, fpow_e, fpow_t]
+  simp [toQA_apply, fpow_e]
 
 theorem toQA_y :
     toQA (⟨⟨y45, y45_mem_Q⟩, C2.e⟩ : QAct) = ⟨y45, Q45_le_A45 y45_mem_Q⟩ := by
   apply Subtype.ext
-  simp [toQA_apply, fpow_e, fpow_t]
+  simp [toQA_apply, fpow_e]
 
 theorem toQA_f :
     toQA (⟨1, C2.t⟩ : QAct) = ⟨f45, f45_mem_A⟩ := by
   apply Subtype.ext
-  simp [toQA_apply, fpow_e, fpow_t]
+  simp [toQA_apply, fpow_t]
 
 theorem toQA_injective : Function.Injective toQA := by
   rintro ⟨p, bp⟩ ⟨q, bq⟩ h
@@ -459,28 +459,28 @@ theorem rho_conjBeta_xElt :
   rw [conjBeta_xElt, rho_evalW]
   apply Units.ext
   rw [coe_evalW_genUnit, rho_xElt]
-  simp [MfUnit, MxUnit, MfUnit_inv, Mf_conj_Mx]
+  simp [MfUnit, MxUnit, Mf_conj_Mx]
 
 theorem rho_conjBeta_yElt :
     rho (conjBeta U42.yElt) = MfUnit * rho U42.yElt * MfUnit⁻¹ := by
   rw [conjBeta_yElt, rho_evalW]
   apply Units.ext
   rw [coe_evalW_genUnit, rho_yElt]
-  simp [MfUnit, MyUnit, MfUnit_inv, Mf_conj_My]
+  simp [MfUnit, MyUnit, Mf_conj_My]
 
 theorem rho_conjBeta (g : PSp43) : rho (conjBeta g) = MfUnit * rho g * MfUnit⁻¹ := by
   let K : Subgroup PSp43 :=
     { carrier := {g | rho (conjBeta g) = MfUnit * rho g * MfUnit⁻¹}
       one_mem' := by
-        simp [beta, MfUnit_inv, MfUnit_mul_MfUnit]
+        simp [MfUnit_inv, MfUnit_mul_MfUnit]
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul conjBeta, map_mul rho, map_mul rho, ha, hb]
         group
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv conjBeta, map_inv rho, map_inv rho, ha]
         group }
   have hK : K = ⊤ := by
@@ -636,7 +636,7 @@ theorem one_apply : (1 : SpinExtA) = ⟨0, 1⟩ := rfl
 def proj : SpinExtA →* A45 where
   toFun p := p.a
   map_one' := rfl
-  map_mul' p q := rfl
+  map_mul' _p _q := rfl
 
 def inl : Multiplicative V →* SpinExtA where
   toFun v := ⟨v.toAdd, 1⟩

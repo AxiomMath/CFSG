@@ -15,19 +15,19 @@ theorem a1EightInnAutDerived_holds : A1EightInnAutDerived := by
   unfold GGHasLabel at hlab
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hlab
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e₀⟩⟩ := hlab
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   let e₁ := TypeA.recipeEquiv 2 K
   let e₂ := QuotientGroup.quotientMulEquivOfEq
     (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalars_eq_center 2 K).symm
   let e : Q ≃* CFSG.GorensteinWalter.PSL2 K := e₀.trans (e₁.trans e₂.symm)
-  haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer
+  have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.GorensteinWalter.PSL2 K)) :=
     CFSG.ClassicalInvolution.Nobq.isCyclic_outer_psl2_of_charTwo K
-  haveI : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer
+  have : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.GorensteinWalter.PSL2 K)) := IsCyclic.isMulCommutative
   have hcommK : ∀ a b : CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.GorensteinWalter.PSL2 K), a * b = b * a :=

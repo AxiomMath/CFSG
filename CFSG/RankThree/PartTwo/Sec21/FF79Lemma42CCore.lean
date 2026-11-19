@@ -36,7 +36,7 @@ theorem types_main (h4 : FF79Sec4 b J B b₁ b₂) (R : Subgroup G) (hR1 : b₁ 
     rw [← w2, hB.crd_neg]; rfl
   have hne : ∀ p ∈ cs₁ ∪ cs₂, E p ≠ 1 := by
     intro p hp h
-    have := hB.crd_eq (h.trans hB.crd_zero.symm)
+    have := hB.crd_eq (h.trans CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero.symm)
     simp only [cs₁, cs₂, Finset.mem_union, Finset.mem_insert, Finset.mem_singleton] at hp
     rcases hp with (rfl | rfl | rfl | rfl) | (rfl | rfl | rfl | rfl) <;>
       (simp only at this; omega)

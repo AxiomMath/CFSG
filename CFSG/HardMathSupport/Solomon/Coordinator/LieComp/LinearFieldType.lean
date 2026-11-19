@@ -17,12 +17,13 @@ variable {n : ℕ} {k : Type} [Field k] [Finite k]
 private theorem ne_zero_of_nontrivial_subgroup {T : Subgroup (LinearFlag.projectiveSL n k)}
     (hT : Nontrivial ↥T) : n ≠ 0 := by
   rintro rfl
-  haveI : Subsingleton (Matrix (Fin 0) (Fin 0) k) := inferInstance
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin 0) k) := inferInstance
-  haveI : Subsingleton (LinearFlag.projectiveSL 0 k) := inferInstance
-  haveI : Subsingleton ↥T := inferInstance
+  have : Subsingleton (Matrix (Fin 0) (Fin 0) k) := inferInstance
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin 0) k) := inferInstance
+  have : Subsingleton (LinearFlag.projectiveSL 0 k) := inferInstance
+  have : Subsingleton ↥T := inferInstance
   exact not_subsingleton_iff_nontrivial.mpr hT inferInstance
 
+omit [Finite k] in
 private theorem minpoly_glA_eq_of_not_pow {p : ℕ} (hp : p.Prime)
     {A : GL (Fin n) k} {c : kˣ}
     (hA : A ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c)
@@ -62,8 +63,8 @@ theorem linear_fieldType_component {p : ℕ}
       ∃ (E : Type) (_ : Field E) (_ : Fintype E), Nat.card E = Nat.card k ^ p ∧
         ∃ g : Matrix.SpecialLinearGroup (Fin (n / p)) E →* ↥T, Function.Surjective g ∧
           g.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (n / p)) E) := by
-  haveI : IsSimpleGroup (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2
-  haveI : Nontrivial ↥T := (QuotientGroup.mk'_surjective (Subgroup.center ↥T)).nontrivial
+  have : IsSimpleGroup (↥T ⧸ Subgroup.center ↥T) := hT.2.2.2
+  have : Nontrivial ↥T := (QuotientGroup.mk'_surjective (Subgroup.center ↥T)).nontrivial
   have hn0 : n ≠ 0 := ne_zero_of_nontrivial_subgroup (T := T) inferInstance
   obtain ⟨h, rfl⟩ := linear_inner_components hpk hA T hT
   have hmin := minpoly_glA_eq_of_not_pow hp hA hc hn0
@@ -87,8 +88,8 @@ theorem linear_fieldType_component {p : ℕ}
   · intro T' hT'
     exact eq_of_isComponentOf_of_not_pow hp hpk hA hc hn0 hT hT'
   · have hirr : Irreducible h.1.1 := hfac ▸ hmin.2
-    haveI : Fact (Irreducible h.1.1) := ⟨hirr⟩
-    haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
+    have : Fact (Irreducible h.1.1) := ⟨hirr⟩
+    have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
     have hcard : Nat.card (AdjoinRoot h.1.1) = Nat.card k ^ p := by
       rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot h.1.1, hfac, hdeg]
     have hm : primaryMultiplicity (glA A : Module.End k (Fin n → k)) h.1.1 = n / p :=

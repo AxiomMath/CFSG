@@ -77,7 +77,7 @@ private theorem pkW_succ (w : ℕ) (g : ℕ → ℕ) (n : ℕ) (h : pkW w g n < 
 private theorem div_step (A c X Y Z : ℕ) (hX : 0 < X) :
     (A + c * (X * (Y * Z))) / X % Y = A / X % Y := by
   have : c * (X * (Y * Z)) = X * (Y * (c * Z)) := by
-    simp only [Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+    simp only [Nat.mul_left_comm]
   rw [this, Nat.add_mul_div_left _ _ hX, Nat.add_mul_mod_self_left]
 
 private theorem pkW_spec (w : ℕ) (g : ℕ → ℕ) (n : ℕ) (hg : ∀ i, i < n → g i < 2 ^ w) :
@@ -111,7 +111,7 @@ private theorem fld6_eq' (P i : ℕ) : fld6 P i = P / 2 ^ (6 * i) % 2 ^ 6 := by
 private theorem compK_eq (A B : ℕ) : compK A B = pkW 6 (fun i => evV A (fld6 B i)) 6 := rfl
 
 private theorem compK_lt (A B : ℕ) : compK A B < 2 ^ 36 :=
-  (pkW_spec 6 (fun i => evV A (fld6 B i)) 6 (fun i _ => evV_lt _ _)).1
+  (pkW_spec 6 (fun _i => evV A (fld6 B _i)) 6 (fun _i _ => evV_lt _ _)).1
 
 private theorem unpack6_compK (A B : ℕ) :
     unpack6 (compK A B) = compT (unpack6 A) (unpack6 B) := by
@@ -290,12 +290,11 @@ private theorem bEntK_eq (u : Bool) (P k : ℕ) (hk : k < 9) :
   generalize k % 3 = j at *
   by_cases hij : i = j
   · subst hij
-    simp only [Nat.beq_refl, if_true, mkv_a i hi, ← evV_eq, qK_eq, evalV_zero, qOf_zero,
+    simp only [Nat.beq_refl, ite_true, mkv_a i hi, ← evV_eq, qK_eq, evalV_zero, qOf_zero,
       Nat.xor_zero]
   · have hb : Nat.beq i j = false := Bool.eq_false_iff.2 fun h => hij (Nat.eq_of_beq_eq_true h)
     rw [hb]
-    simp only [hij, if_false, mkv_a i hi, mkv_ab i j hi hj, mkv_b j hj, ← evV_eq, qK_eq, evalV_zero,
-      qOf_zero, Nat.xor_zero, evV_zero]
+    simp only [hij, ite_false, mkv_a i hi, mkv_ab i j hi hj, mkv_b j hj, ← evV_eq, qK_eq]
     cases u <;> simp [Nat.xor_assoc, evV_zero, qOf_zero]
 
 private theorem bOf_getD_lt (u : Bool) (l : List ℕ) (k : ℕ) (hk : k < 9) : (bOf u l).getD k 0 < 512 := by

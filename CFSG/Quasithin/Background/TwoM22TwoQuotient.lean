@@ -23,7 +23,7 @@ theorem mul_comm_of_isPerfect_of_commutator_mem {G : Type*} [Group G] {C Y : Sub
       map_mul' := by
         intro c₁ c₂
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         have hB : (c₁ : G)⁻¹ * (g * (c₂ : G) * g⁻¹ * (c₂ : G)⁻¹)
             = (g * (c₂ : G) * g⁻¹ * (c₂ : G)⁻¹) * (c₁ : G)⁻¹ := by
           have h := hYc _ (hcomm c₂ c₂.2) (c₁ : G) c₁.2
@@ -72,7 +72,7 @@ theorem exists_lift_ker_eq_center_of_isPerfect_of_ker_le
     rw [hM] at h
     rw [← h]
     ext x
-    simp [Subgroup.mem_comap, MonoidHom.mem_ker]
+    simp [MonoidHom.mem_ker]
   have hcomapφ : Subgroup.comap φ (Subgroup.center D) = Subgroup.center C :=
     CFSG.LocalCores.comap_center_eq_of_perfect hC φ hφ (hYq.trans hkerq)
   have hmap : Subgroup.map φ q.ker = Subgroup.center D := by
@@ -171,11 +171,11 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel_of_card_ker_eq_six
     (htY : ∀ y ∈ Y, t * y * t⁻¹ = y⁻¹)
     {n : G} (hnN : n ∈ N) (hnC : n ∉ C) (hn : ∀ c ∈ C, n * n * c = c * (n * n)) :
     n * n = 1 := by
-  haveI hYNnorm : (Y.subgroupOf N).Normal :=
+  have hYNnorm : (Y.subgroupOf N).Normal :=
     ⟨fun y hy g => by
       have h := hYN (g : G) g.2 (y : G) (Subgroup.mem_subgroupOf.mp hy)
       simpa [Subgroup.mem_subgroupOf] using h⟩
-  haveI hCNnorm : (C.subgroupOf N).Normal :=
+  have hCNnorm : (C.subgroupOf N).Normal :=
     ⟨fun c hc g => by
       have h := hnorm (g : G) g.2 (c : G) (Subgroup.mem_subgroupOf.mp hc)
       simpa [Subgroup.mem_subgroupOf] using h⟩
@@ -191,7 +191,7 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel_of_card_ker_eq_six
         Subgroup.relIndex_subgroupOf (H := C) (K := N) (L := N) le_rfl
     rwa [Subgroup.relIndex_top_right, hidx] at h1
   have hDnorm : D.Normal := hCNnorm.map mk hmksurj
-  haveI : D.Normal := hDnorm
+  have : D.Normal := hDnorm
   have hidxD : D.index = 2 := by
     have hkerle : mk.ker ≤ CN := by
       intro y hy
@@ -199,10 +199,10 @@ theorem mul_self_eq_one_of_isTwoM22TwoModel_of_card_ker_eq_six
       exact hYC (Subgroup.mem_subgroupOf.mp hy)
     rw [show D = CN.map mk from rfl, Subgroup.index_map_eq CN hmksurj hkerle, hidxCN]
   have hperfCN : Group.IsPerfect ↥CN := by
-    haveI : Group.IsPerfect ↥C := hperf
+    have : Group.IsPerfect ↥C := hperf
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hCN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hCN).symm.surjective
-  haveI : Group.IsPerfect ↥CN := hperfCN
+  have : Group.IsPerfect ↥CN := hperfCN
   have hperfD : Group.IsPerfect ↥D := Group.IsPerfect.map (H := CN) mk
   let φ : ↥C →* ↥D :=
     { toFun := fun c =>

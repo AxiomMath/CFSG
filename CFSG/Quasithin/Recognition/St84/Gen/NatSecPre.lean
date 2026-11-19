@@ -41,9 +41,9 @@ theorem NatPre.isNatSecOf {P L E K T : Subgroup G} [Finite ↥P] {F : Type} [Fie
     (hT : IsSylowTwoOf T L) (hC : 2 ^ n ≤ K.relIndex (relCent E K T)) :
     CFSG.Quasithin.F112R.St84.IsNatSecOf L E K α := by
   classical
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion h.le) (Subgroup.inclusion_injective h.le)
-  haveI : Finite ↥E :=
+  have : Finite ↥E :=
     Finite.of_injective (Subgroup.inclusion hEP) (Subgroup.inclusion_injective hEP)
   have hcoreLP := pCoreOf_le_pCoreOf_of_le_normalizer h.le h.norm_L
   refine isNatSecOf_of_two_pow_le_of_nontrivial (L := L) (E := E) (Z := K) (T := T)
@@ -57,9 +57,9 @@ theorem natQuot_of_two_pow_le {P L E Z T : Subgroup G} [Finite ↥P] {n : ℕ} (
     (hC : 2 ^ n ≤ Z.relIndex (relCent E Z T)) : NatQuot L E Z n := by
   classical
   have hEP : E ≤ P := hEL.trans h.le
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion h.le) (Subgroup.inclusion_injective h.le)
-  haveI : Finite ↥E :=
+  have : Finite ↥E :=
     Finite.of_injective (Subgroup.inclusion hEP) (Subgroup.inclusion_injective hEP)
   have hcoreLP := pCoreOf_le_pCoreOf_of_le_normalizer h.le h.norm_L
   have hL : L ≤ Subgroup.normalizer (E : Set G) ⊓ Subgroup.normalizer (Z : Set G) :=
@@ -67,7 +67,7 @@ theorem natQuot_of_two_pow_le {P L E Z T : Subgroup G} [Finite ↥P] {n : ℕ} (
   obtain ⟨α, hα, hker, hnat⟩ :=
     exists_isNatSecOf_of_two_pow_le (L := L) (E := E) (Z := Z) (T := T) hn h.quot h.sec
       hL (fun x hx e he => h.core x (hcoreLP hx) e he) h.card h.nontriv hT hC
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)
@@ -80,9 +80,9 @@ theorem comm_le_of_natPre {P L E V Z : Subgroup G} [Finite ↥P] {n : ℕ} (hn :
   classical
   have hEP : E ≤ P := hEV.E_le.trans hE.le
   have hVP : V ≤ P := hVZ.E_le.trans hV.le
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hE.le) (Subgroup.inclusion_injective hE.le)
-  haveI : Finite ↥E :=
+  have : Finite ↥E :=
     Finite.of_injective (Subgroup.inclusion hEP) (Subgroup.inclusion_injective hEP)
   obtain ⟨R, hR⟩ := CFSG.GroupTheory.PermSylowTwo.exists_isSylowTwoOf_top ↥L
   let T : Subgroup G := R.map L.subtype
@@ -97,7 +97,7 @@ theorem comm_le_of_natPre {P L E V Z : Subgroup G} [Finite ↥P] {n : ℕ} (hn :
     exists_isNatSecOf_of_two_pow_le (L := L) (E := E) (Z := V) (T := T) hn hE.quot hE.sec
       hLE (fun x hx e he => hE.core x (hcoreE hx) e he) hE.card hE.nontriv hT
       (by rw [hEV.line T hT])
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)

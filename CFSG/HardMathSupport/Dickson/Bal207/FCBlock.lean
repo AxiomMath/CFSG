@@ -48,16 +48,16 @@ theorem isOmegaOneTorus_cubeDiag {ω : E} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     let w : Fin n → E := fun i => if i = u then ω ^ 2 else 1
     have hvw : ∀ i, v i * w i = 1 := fun i => by
       by_cases hi : i = u
-      · simp only [v, w, hi, if_true]
+      · simp only [v, w, hi, ite_true]
         rw [← pow_succ', hω]
-      · simp only [v, w, hi, if_false, mul_one]
+      · simp only [v, w, hi, ite_false, mul_one]
     let d : GL (Fin n) E :=
       ⟨diagonal v, diagonal w, by rw [diagonal_mul_diagonal, funext hvw, diagonal_one],
         by rw [diagonal_mul_diagonal, funext fun i => (mul_comm _ _).trans (hvw i), diagonal_one]⟩
     have hv3 : ∀ i, v i ^ 3 = 1 := fun i => by
       by_cases hi : i = u
-      · simp only [v, hi, if_true, hω]
-      · simp only [v, hi, if_false, one_pow]
+      · simp only [v, hi, ite_true, hω]
+      · simp only [v, hi, ite_false, one_pow]
     refine ⟨d, ⟨isDiag_diagonal v, Units.ext ?_⟩, ?_, fun i hi => ?_⟩
     · change (diagonal v) ^ 3 = 1
       have hv : v ^ 3 = 1 := funext fun i => by rw [Pi.pow_apply, hv3 i, Pi.one_apply]
@@ -65,11 +65,11 @@ theorem isOmegaOneTorus_cubeDiag {ω : E} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
       exact diagonal_one
     · change diagonal v u u ≠ 1
       rw [diagonal_apply_eq]
-      simp only [v, if_true]
+      simp only [v, ite_true]
       exact hω1
     · change diagonal v i i = 1
       rw [diagonal_apply_eq]
-      simp only [v, hi, if_false]
+      simp only [v, hi, ite_false]
 
 theorem glAut_eq_of_mem_cubeDiag {φ : E ≃+* E} (hφ : ∀ c : E, c ^ 3 = 1 → φ c = c)
     {d : GL (Fin n) E} (hd : d ∈ cubeDiag E n) : glAut φ d = d := by

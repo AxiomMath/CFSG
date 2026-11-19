@@ -22,7 +22,7 @@ theorem orderOf_eq_one_of_dvd_sub_one' {p q : ℕ} (hq : 1 ≤ q) (h : p ∣ q -
 
 theorem dvd_add_one_of_orderOf_eq_two' {p q : ℕ} (hp : p.Prime)
     (he : orderOf ((q : ℕ) : ZMod p) = 2) : p ∣ q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p)
   have h2 : x ^ 2 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have h1 : x ≠ 1 := fun h => by rw [h, orderOf_one] at he; omega
@@ -33,7 +33,7 @@ theorem dvd_add_one_of_orderOf_eq_two' {p q : ℕ} (hp : p.Prime)
 
 theorem orderOf_eq_two_of_dvd_add_one' {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : p ∣ q + 1) : orderOf ((q : ℕ) : ZMod p) = 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h0 : ((q + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 h
   have hq : (q : ZMod p) = -1 := by
     rw [Nat.cast_add, Nat.cast_one] at h0
@@ -50,7 +50,7 @@ theorem orderOf_eq_two_of_dvd_add_one' {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
 
 theorem dvd_phi3_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ) : ZMod p) = 3) :
     p ∣ q ^ 2 + q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p)
   have h3 : x ^ 3 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have h1 : x ≠ 1 := fun h => by rw [h, orderOf_one] at he; omega
@@ -61,7 +61,7 @@ theorem dvd_phi3_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ)
 
 theorem dvd_phi4_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ) : ZMod p) = 4) :
     p ∣ q ^ 2 + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p)
   have h4 : x ^ 4 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have h1 : x ^ 2 ≠ 1 := fun h => by
@@ -75,7 +75,7 @@ theorem dvd_phi4_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ)
 
 theorem dvd_phi6_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ) : ZMod p) = 6) :
     p ∣ q ^ 2 - q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p)
   have h6 : x ^ 6 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have h3 : x ^ 3 ≠ 1 := fun h => by
@@ -103,7 +103,7 @@ theorem dvd_phi6_of_orderOf' {p q : ℕ} (hp : p.Prime) (he : orderOf ((q : ℕ)
 
 theorem orderOf_natCast_pos' {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) :
     0 < orderOf (q : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   refine Nat.pos_of_ne_zero fun h => ?_
   have h' := h ▸ ZMod.orderOf_dvd_card_sub_one hq0
@@ -115,7 +115,7 @@ theorem exists_inv_arith {p q e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ 
     (he : orderOf ((q : ℕ) : ZMod p) = e) (s : ℤ) (k : ℕ)
     (hs : (s = 1 ∧ ¬ e ∣ k) ∨ (s = -1 ∧ e ∣ k)) :
     ∃ q' : ℕ, q * q' ≡ 1 [MOD p] ∧ ¬ (p : ℤ) ∣ (q' : ℤ) ^ k * s - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he0 : 0 < e := he ▸ orderOf_natCast_pos' hp hpq
   have hqe : (q : ZMod p) ^ e = 1 := by rw [← he]; exact pow_orderOf_eq_one _
   refine ⟨q ^ (e - 1), ?_, ?_⟩

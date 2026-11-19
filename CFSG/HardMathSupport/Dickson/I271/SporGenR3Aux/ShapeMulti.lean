@@ -39,6 +39,7 @@ section Transport
 
 variable {Q Q' : Type} [Group Q] [Finite Q] [Group Q'] [Finite Q']
 
+omit [Finite Q] in
 theorem comp_map_symm {p : ℕ} (hp : p.Prime) (e : Q ≃* Q') (k : Q) {J' : Subgroup Q'}
     (hJ' : GLAPComponent p (Subgroup.centralizer ({e k} : Set Q')) J') :
     GLAPComponent p (Subgroup.centralizer ({k} : Set Q)) (J'.map e.symm.toMonoidHom) := by
@@ -48,12 +49,14 @@ theorem comp_map_symm {p : ℕ} (hp : p.Prime) (e : Q ≃* Q') (k : Q) {J' : Sub
     rw [map_centralizer_singleton e.symm (e k), MulEquiv.symm_apply_apply]
   rwa [hmap'] at h1
 
+omit [Finite Q] [Finite Q'] in
 theorem map_map_symm (e : Q ≃* Q') (J' : Subgroup Q') :
     (J'.map e.symm.toMonoidHom).map e.toMonoidHom = J' := by
   rw [Subgroup.map_map]
   have : e.toMonoidHom.comp e.symm.toMonoidHom = MonoidHom.id _ := by ext; simp
   rw [this, Subgroup.map_id]
 
+omit [Finite Q] in
 theorem MultiShapeAt.of_equiv {p : ℕ} (hp : p.Prime) {Good Rk : ∀ (T : Type) [Group T], Prop}
     (hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Good T → Good T')
     (hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Rk T → Rk T')
@@ -81,6 +84,7 @@ theorem MultiShapeAt.of_equiv {p : ℕ} (hp : p.Prime) {Good Rk : ∀ (T : Type)
           hRk _ _ (pQuotEquiv p (e.subgroupMap (J'.map e.symm.toMonoidHom))) hR
         rwa [hJe] at h1
 
+omit [Finite Q] in
 theorem AtMostOneCompAt.of_equiv {p : ℕ} (hp : p.Prime) (e : Q ≃* Q') {k : Q}
     (h : AtMostOneCompAt p k) : AtMostOneCompAt p (e k) := by
   intro I' J' hI' hJ'
@@ -89,6 +93,7 @@ theorem AtMostOneCompAt.of_equiv {p : ℕ} (hp : p.Prime) (e : Q ≃* Q') {k : Q
     _ = (J'.map e.symm.toMonoidHom).map e.toMonoidHom := by rw [h1]
     _ = J' := map_map_symm e J'
 
+omit [Finite Q] in
 theorem CentShapeMulti.of_equiv {p : ℕ} (hp : p.Prime) {Good Rk : ∀ (T : Type) [Group T], Prop}
     (hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Good T → Good T')
     (hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → Rk T → Rk T')
@@ -170,7 +175,7 @@ variable {X : Type} [Group X]
   (x : X)⁻¹ * a ∈ Subgroup.centralizer (K : Set X)
 
 theorem InnRel.one (K : Subgroup X) : InnRel K 1 1 := by
-  simpa [InnRel] using (Subgroup.centralizer (K : Set X)).one_mem
+  simp [InnRel]
 
 theorem InnRel.mul {K : Subgroup X} {x y : ↥K} {a b : X} (hc : InnRel K x a) (hd : InnRel K y b) :
     InnRel K (x * y) (a * b) := by
@@ -224,6 +229,7 @@ section PlaneStep
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem imgInner_comm {K A : Subgroup X} (hZ : Subgroup.center ↥K = ⊥)
     (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {x y : ↥K} (hx : x ∈ imgInner K A)
     (hy : y ∈ imgInner K A) : x * y = y * x := by
@@ -259,6 +265,7 @@ theorem imgInner_comm {K A : Subgroup X} (hZ : Subgroup.center ↥K = ⊥)
   have h2 : (y * x)⁻¹ * (x * y) = 1 := Subtype.ext h1
   exact (inv_mul_eq_one.1 h2).symm
 
+omit [Finite X] in
 theorem imgInner_pow {p : ℕ} {K A : Subgroup X} (hZ : Subgroup.center ↥K = ⊥)
     (hAp : ∀ a ∈ A, a ^ p = 1) {x : ↥K} (hx : x ∈ imgInner K A) : x ^ p = 1 := by
   obtain ⟨a, ha, hc⟩ := hx
@@ -274,6 +281,7 @@ theorem imgInner_pow {p : ℕ} {K A : Subgroup X} (hZ : Subgroup.center ↥K = �
     exact Subgroup.inv_mem _ (Subgroup.pow_mem _ hc p)
   exact Subtype.ext (Amb.eq_one_of_mem_centralizer hZ (x ^ p : ↥K).2 h3)
 
+omit [Finite X] in
 theorem isElemAbelian_imgInner {p : ℕ} {K A : Subgroup X} (hZ : Subgroup.center ↥K = ⊥)
     (hAel : IsElemAbelian p A) : IsElemAbelian p (imgInner K A) := by
   refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
@@ -354,14 +362,14 @@ theorem strong_of_centShapeMulti {name : TauCeti.SporadicName} {p : ℕ}
     (hZ : Subgroup.center ↥K = ⊥) : IsStronglyBalancedIn p B K := by
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hloc : IsLocallyOneBalancedAbs p (↥K ⧸ Subgroup.center ↥K) :=
     isLocallyOneBalancedAbs_of_pair hOut hBr hC.prime hC.odd hP _ hq.2
       (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   let eK : ↥K ≃* NativeSporadic.Carrier name :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans
       (e.trans (hBr name).some.symm)
-  haveI : Finite (NativeSporadic.Carrier name) := Finite.of_equiv ↥K eK.toEquiv
+  have : Finite (NativeSporadic.Carrier name) := Finite.of_equiv ↥K eK.toEquiv
   have hshape : CentShapeMulti p Good Rk ↥K :=
     CentShapeMulti.of_equiv hC.prime hGood hRk eK.symm hD
   refine strong_of_dichotomy_multi hGood hRk hOut hC hN ⟨e⟩ hloc hIH ?_ ?_

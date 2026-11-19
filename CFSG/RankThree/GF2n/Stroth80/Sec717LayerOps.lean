@@ -99,8 +99,7 @@ theorem opm_commutator_of_lowering {a b : E ≃ₗ[K] E} (ha : IsLayerLowering T
   have bba := hb.comp_comp hb ha
   have bbb := hb.comp_comp hb hb
   simp only [opm_mul_apply_layer, opm_inv_apply_of_lowering ha,
-    opm_inv_apply_of_lowering hb, map_add, map_neg, map_zero, aaa, aab, aba, abb, baa, bab, bba,
-    bbb, neg_zero, add_zero, zero_add]
+    opm_inv_apply_of_lowering hb, map_add, map_neg, map_zero, aaa, aab, aba, abb, baa, bab, bbb, neg_zero, add_zero]
   abel
 
 theorem opm_conj_apply (r a : E ≃ₗ[K] E) (x : E) :

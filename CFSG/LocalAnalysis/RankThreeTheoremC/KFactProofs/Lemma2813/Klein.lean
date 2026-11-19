@@ -44,7 +44,7 @@ theorem kl_klein_elements {S : Subgroup GL32} (hS : Nat.card S = 4)
     have h3 := Nat.card_zpowers a
     rw [haord, h, hS] at h3
     exact absurd h3 (by norm_num)
-  obtain ⟨b, hbS, hbn⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨b, hbS, hbn⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hb1 : b ≠ 1 := fun h => hbn (h ▸ one_mem _)
   have hba : b ≠ a := fun h => hbn (h ▸ mem_zpowers a)
   have ha2 : a * a = 1 := by rw [← pow_two]; exact hsq a haS
@@ -518,7 +518,7 @@ theorem involutions_generate {s : GL32} (hs : s ^ 2 = 1) (hs1 : s ≠ 1) :
     group
   have himg : (MulAut.conj c⁻¹).toMonoidHom '' ({kl_x1, kl_x2, kl_x3} : Set GL32) =
       {c⁻¹ * kl_x1 * c, c⁻¹ * kl_x2 * c, c⁻¹ * kl_x3 * c} := by
-    simp [Set.image_insert_eq, MulAut.conj_apply]
+    simp [Set.image_insert_eq]
   rw [hg₁, hg₂, hs']
   have h2 : c⁻¹ * kl_E 1 2 (by decide) * c = c⁻¹ * kl_x2 * c := rfl
   have h3 : c⁻¹ * kl_E 2 0 (by decide) * c = c⁻¹ * kl_x3 * c := rfl

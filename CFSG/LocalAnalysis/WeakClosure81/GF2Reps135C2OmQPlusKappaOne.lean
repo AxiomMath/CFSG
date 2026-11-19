@@ -123,7 +123,7 @@ private lemma c2slomqk1_neg_toStdD_single_eq {n m : ℕ} (hn : 2 ≤ n) (i : Fin
     simp [rootIdxD_ne n hn i]
   · by_cases hx' : x = rootIdxD' n i
     · subst hx'
-      simp [hx, (rootIdxD_ne n hn i).symm]
+      simp [hx]
     · simp [hx, hx']
 
 theorem omq_omPlus_kappa_one_rank (h1 : OmqPlusWeightVector) (h2 : OmqRankFromWeights) {n : ℕ}
@@ -144,7 +144,7 @@ theorem omq_omPlus_kappa_one_rank (h1 : OmqPlusWeightVector) (h2 : OmqRankFromWe
   have hcard_units : m = Nat.card F - 1 := by rw [hm, Nat.card_units]
   have hmodd : Odd m := by
     rw [hcard_units]
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨f, -, hcard⟩ := FiniteField.card F 2
     have heven : Even (Nat.card F) := by
       rw [Nat.card_eq_fintype_card, hcard]

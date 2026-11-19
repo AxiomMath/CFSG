@@ -161,7 +161,7 @@ theorem three_le_pRank_of_acts [Finite G] {X L E : Subgroup G} (hLX : L ≤ X)
       rw [← Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hX0, pow_succ]
       exact h1
     omega
-  have hPp : IsPGroup 3 ↥(P : Subgroup ↥X) := P.isPGroup'
+  have hPp : IsPGroup 3 ↥(P : Subgroup ↥X) := P.isPGroup
   have hPnil : Group.IsNilpotent ↥(P : Subgroup ↥X) := hPp.isNilpotent
   have hL'n : L'.Normal := hn
   set N : Subgroup ↥(P : Subgroup ↥X) := L'.subgroupOf (P : Subgroup ↥X) with hN
@@ -234,7 +234,7 @@ theorem three_le_pRank_of_acts [Finite G] {X L E : Subgroup G} (hLX : L ≤ X)
     isElemAbelian_sup_zpowers hE'ea hz'3 (fun e he => hz'cen e (hP he))
   have hS_le : E' ⊔ Subgroup.zpowers z' ≤ (P : Subgroup ↥X) :=
     sup_le hP ((Subgroup.zpowers_le).mpr hz'P)
-  have hS3 : IsPGroup 3 ↥(E' ⊔ Subgroup.zpowers z') := P.isPGroup'.to_le hS_le
+  have hS3 : IsPGroup 3 ↥(E' ⊔ Subgroup.zpowers z') := P.isPGroup.to_le hS_le
   obtain ⟨m', hm'⟩ := IsPGroup.iff_card.mp hS3
   have hE'9 : Nat.card ↥E' = 9 := by
     rw [← hE9]

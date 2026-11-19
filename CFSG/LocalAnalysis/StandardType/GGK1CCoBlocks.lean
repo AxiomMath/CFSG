@@ -43,7 +43,7 @@ theorem ggK1CCo_blocks_exists {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     {x : ↥(StatedSp r K)} {m : List ℕ} (hm : GGK1CMultOf p nf d r K x m)
     (hx : x ^ p = 1) : Nonempty (ggK1CCo_Blocks p nf d r K x m) := by
   obtain ⟨P⟩ := ggK1CBl_preblocks_exists hnf hp hp2 hdvd hK hm hx
-  letI : Fintype P.ι := P.fintype
+  let : Fintype P.ι := P.fintype
   refine ⟨⟨P.ι, P.A, P.kind, P.hcomm, P.hjoin, P.hindep, ?_, P.kind_multiset, ?_, ?_, ?_⟩⟩
   · exact fun i => (ggK1CBl_witness_facts hnf hK (P.witness i)).1
   · exact fun i => (ggK1CBl_witness_facts hnf hK (P.witness i)).2.1

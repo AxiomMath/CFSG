@@ -54,7 +54,7 @@ theorem card_eq_of_maximal_minusForm
     exact hmax F hEF (hF.trans inf_le_left) hFea
   obtain ⟨Ps, hPsorth, hPsU, hcard, U', hU'U, hU'nd, hU'dim, hU'perp, hU'noPair⟩ :=
     exists_pairs_of_maximal hQ 10 ⊤ (by rw [finrank_top, hV])
-      (nondeg_top (polarBilin_symm (minusForm 5)) hQ) E hEU hE hmax'
+      (nondeg_top hQ) E hEU hE hmax'
   have hfinU' : finrank (ZMod 2) U' ≤ 3 := by
     by_contra h
     push Not at h
@@ -148,7 +148,7 @@ theorem exists_le_elemAbelian_card_of_pomegaMinus_five {X : Type} [Group X] [Fin
       apply hf_inj
       have ha : f a.1 ∈ F := (hTmem a.1).1 a.2
       have hb : f b.1 ∈ F := (hTmem b.1).1 b.2
-      letI : IsMulCommutative F := hFea.1
+      let : IsMulCommutative F := hFea.1
       have hc : (⟨f a.1, ha⟩ : F) * ⟨f b.1, hb⟩ = ⟨f b.1, hb⟩ * ⟨f a.1, ha⟩ :=
         mul_comm' _ _
       simpa [map_mul] using congrArg Subtype.val hc

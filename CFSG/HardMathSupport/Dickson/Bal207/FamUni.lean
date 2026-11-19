@@ -26,6 +26,7 @@ section Clauses
 variable {X : Type} [Group X] [Finite X] {K B J : Subgroup X} {S : Type} [Group S]
   {e : (↥K ⧸ Subgroup.center ↥K) ≃* S}
 
+omit [Finite X] in
 theorem uni_exists_fixed_cube (hBK : B ≤ Subgroup.normalizer (K : Set X)) {f m : ℕ} {F : Type}
     [Field F] (h : UnitaryFieldData 2 f F) (hf : f = 1 ∨ f = 3) (hm : 2 ≤ m)
     {ι : primeFormUnitary h (oneGram F m) →* S} (hι : Function.Injective ι)

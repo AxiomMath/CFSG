@@ -284,11 +284,11 @@ private theorem off_path_kernel_bot [Finite V] [Finite H] {W : ClosedGoodPath H 
       · have h1 : zs i = W'.x ((i : ℤ) - 1) := by
           show (if i = 0 then y else if i = 1 then u else W'.x ((i : ℤ) - 1)) =
             W'.x ((i : ℤ) - 1)
-          rw [if_neg hi0, if_neg hi1]
+          rw [ite_eq_right hi0, ite_eq_right hi1]
         have h2 : zs (i + 1) = W'.x (((i + 1 : ℕ) : ℤ) - 1) := by
           show (if i + 1 = 0 then y else if i + 1 = 1 then u else
             W'.x (((i + 1 : ℕ) : ℤ) - 1)) = W'.x (((i + 1 : ℕ) : ℤ) - 1)
-          rw [if_neg (by omega : ¬ i + 1 = 0), if_neg (by omega : ¬ i + 1 = 1)]
+          rw [ite_eq_right (by omega : ¬ i + 1 = 0), ite_eq_right (by omega : ¬ i + 1 = 1)]
         rw [h1, h2]
         have h := W'.adj ((i : ℤ) - 1)
         rwa [show (i : ℤ) - 1 + 1 = ((i + 1 : ℕ) : ℤ) - 1 by push_cast; ring] at h
@@ -318,7 +318,7 @@ private theorem off_path_kernel_bot [Finite V] [Finite H] {W : ClosedGoodPath H 
         have h3 : zs (i + 2) = W'.x (((i + 2 : ℕ) : ℤ) - 1) := by
           have h0 : i + 2 ≠ 0 := by omega
           have h2' : i + 2 ≠ 1 := by omega
-          simp [zs, h0, h2']
+          simp [zs, h2']
         rw [h1, h3]
         have h := W'.ne_add_two ((i : ℤ) - 1)
         rwa [show (i : ℤ) - 1 + 2 = ((i + 2 : ℕ) : ℤ) - 1 by push_cast; ring] at h
@@ -424,12 +424,12 @@ private theorem off_path_path9 [Finite V] [Finite H] {W' : ClosedGoodPath H Γ}
         · have h1 : qs i = W'.x ((i : ℤ) - 2) := by
             show (if i = 0 then z else if i = 1 then y else if i = 2 then u else
               W'.x ((i : ℤ) - 2)) = W'.x ((i : ℤ) - 2)
-            rw [if_neg hi0, if_neg hi1, if_neg hi2]
+            rw [ite_eq_right hi0, ite_eq_right hi1, ite_eq_right hi2]
           have h2 : qs (i + 1) = W'.x (((i + 1 : ℕ) : ℤ) - 2) := by
             show (if i + 1 = 0 then z else if i + 1 = 1 then y else if i + 1 = 2 then u
               else W'.x (((i + 1 : ℕ) : ℤ) - 2)) = W'.x (((i + 1 : ℕ) : ℤ) - 2)
-            rw [if_neg (by omega : ¬ i + 1 = 0), if_neg (by omega : ¬ i + 1 = 1),
-              if_neg (by omega : ¬ i + 1 = 2)]
+            rw [ite_eq_right (by omega : ¬ i + 1 = 0), ite_eq_right (by omega : ¬ i + 1 = 1),
+              ite_eq_right (by omega : ¬ i + 1 = 2)]
           rw [h1, h2]
           have h := W'.adj ((i : ℤ) - 2)
           rwa [show (i : ℤ) - 2 + 1 = ((i + 1 : ℕ) : ℤ) - 2 by push_cast; ring] at h
@@ -465,7 +465,7 @@ private theorem off_path_path9 [Finite V] [Finite H] {W' : ClosedGoodPath H Γ}
             have h0 : i + 2 ≠ 0 := by omega
             have h2' : i + 2 ≠ 1 := by omega
             have h3' : ¬ (i + 2 = 2) := by omega
-            simp [qs, offPathSeq, h0, h2', h3', hi0]
+            simp [qs, offPathSeq, h2', hi0]
           rw [h1, h3]
           have h := W'.ne_add_two ((i : ℤ) - 2)
           rwa [show (i : ℤ) - 2 + 2 = ((i + 2 : ℕ) : ℤ) - 2 by push_cast; ring] at h
@@ -473,7 +473,7 @@ private theorem off_path_path9 [Finite V] [Finite H] {W' : ClosedGoodPath H Γ}
 
 private theorem off_path_L5 [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
     (hQ : W.QuarterHyp) {W' : ClosedGoodPath H Γ} {u y z : V} {q : GPath Γ 9}
-    (hq : q.NoBack) (hq0 : q 0 = z) (hq1 : q 1 = y) (hq2 : q 2 = u)
+    (hq : q.NoBack) (_hq0 : q 0 = z) (_hq1 : q 1 = y) (_hq2 : q 2 = u)
     (hqseq : ∀ i, i ≤ 9 → q i = offPathSeq W' u y z i)
     (hzfix : ∀ m ∈ oddOrderClosure (W.kernelAt 0), m • z = z)
     (hKfixy : ∀ k ∈ W.kernelAt 0, k • y = y)
@@ -536,7 +536,7 @@ private theorem off_path_L5 [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
   exact ⟨L₅, hL₅0, hL₅1, hL₅2, hL₅x, hKo_stab, hKo_H5⟩
 
 private theorem off_path_conj [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
-    (hQ : W.QuarterHyp) {W' : ClosedGoodPath H Γ} {u z : V} {L₅ : ClosedGoodPath H Γ}
+    (hQ : W.QuarterHyp) {W' : ClosedGoodPath H Γ} {u _z : V} {L₅ : ClosedGoodPath H Γ}
     (hW'0 : W'.x 0 = u) (hW'K : W'.kernelAt 0 = W.kernelAt 0)
     (hL₅2 : L₅.x 2 = u)
     (hKo_H5 : oddOrderClosure (W.kernelAt 0) ≤ L₅.kernelAt 2) :
@@ -588,7 +588,7 @@ private theorem off_path_conj [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
 private theorem off_path_torus [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
     (hQ : W.QuarterHyp) {y z u : V} {L₅ : ClosedGoodPath H Γ}
     (hL₅0 : L₅.x 0 = z) (hL₅1 : L₅.x 1 = y) (hL₅2 : L₅.x 2 = u)
-    (hKo_stab : oddOrderClosure (W.kernelAt 0) ≤ L₅.stab)
+    (_hKo_stab : oddOrderClosure (W.kernelAt 0) ≤ L₅.stab)
     (hstab_norm_Ko : L₅.stab ≤ Subgroup.normalizer
       (oddOrderClosure (W.kernelAt 0) : Set H))
     (hKfixu : ∀ k ∈ W.kernelAt 0, k • u = u)
@@ -681,7 +681,7 @@ private theorem off_path_torus [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
 
 private theorem off_path_notKG [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
     (hQ : W.QuarterHyp) {u y z : V} {L₅ : ClosedGoodPath H Γ}
-    (hL₅0 : L₅.x 0 = z) (hL₅1 : L₅.x 1 = y) (hL₅2 : L₅.x 2 = u)
+    (_hL₅0 : L₅.x 0 = z) (hL₅1 : L₅.x 1 = y) (hL₅2 : L₅.x 2 = u)
     (hKo_stab : oddOrderClosure (W.kernelAt 0) ≤ L₅.stab)
     (hKfixu : ∀ k ∈ W.kernelAt 0, k • u = u)
     (hKfixy : ∀ k ∈ W.kernelAt 0, k • y = y)
@@ -733,7 +733,7 @@ private theorem off_path_kernel_eq [Finite V] [Finite H] {W : ClosedGoodPath H �
     (hL₅0 : L₅.x 0 = z) (hL₅1 : L₅.x 1 = y) (hL₅2 : L₅.x 2 = u)
     (hL₅x : ∀ i : ℕ, i ≤ 9 → L₅.x (i : ℤ) = offPathSeq W' u y z i)
     (hW'K : W'.kernelAt 0 = W.kernelAt 0)
-    (hK_norm_Ko : W.kernelAt 0 ≤ Subgroup.normalizer
+    (_hK_norm_Ko : W.kernelAt 0 ≤ Subgroup.normalizer
       (oddOrderClosure (W.kernelAt 0) : Set H))
     (hKu_fix : W.kernelAt 0 ≤ fixingSubgroup H (Γ.neighborSet u))
     (hKfixu : ∀ k ∈ W.kernelAt 0, k • u = u)
@@ -839,7 +839,7 @@ private theorem inv_step_off_path [Finite V] [Finite H] {W : ClosedGoodPath H Γ
     (hQ : W.QuarterHyp) {u : V} (hu : AuxInv W u) {W' : ClosedGoodPath H Γ}
     (hW'0 : W'.x 0 = u) (hW'K : W'.kernelAt 0 = W.kernelAt 0)
     {c : H} (hc : ∀ i, c • W.x i = W'.x i)
-    {y : V} (hy : Γ.Adj u y) (hy1 : y ≠ W'.x 1) (hy2 : y ≠ W'.x (-1)) :
+    {y : V} (hy : Γ.Adj u y) (hy1 : y ≠ W'.x 1) (_hy2 : y ≠ W'.x (-1)) :
     ∃ z : V, Γ.Adj y z ∧ z ≠ u ∧
       W.kernelAt 0 ≤ fixingSubgroup H (Γ.neighborSet z) ∧ AuxInv W z ∧
       ∀ v : V, Γ.Adj y v → v ≠ u →
@@ -868,7 +868,7 @@ private theorem inv_step_off_path [Finite V] [Finite H] {W : ClosedGoodPath H Γ
   obtain ⟨L₅, hL₅0, hL₅1, hL₅2, hL₅x, hKo_stab, hKo_H5⟩ :=
     off_path_L5 hQ hq_nb hq0 hq1 hq2 hqseq hzfix hKfixy hKfixu hKu_fix hKfixW
   obtain ⟨c₅, hc₅, hcardH5, -, -, -, -, hstab_norm_Ko⟩ :=
-    off_path_conj (z := z) hQ hW'0 hW'K hL₅2 hKo_H5
+    off_path_conj (_z := z) hQ hW'0 hW'K hL₅2 hKo_H5
   obtain ⟨hnorm_torus, hMle⟩ :=
     off_path_torus hQ hL₅0 hL₅1 hL₅2 hKo_stab hstab_norm_Ko hKfixu hKfixy hzfix
   have hnotKG := off_path_notKG hQ hL₅0 hL₅1 hL₅2 hKo_stab hKfixu hKfixy hKu_fix

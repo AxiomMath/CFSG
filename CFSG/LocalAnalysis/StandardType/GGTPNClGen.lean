@@ -174,7 +174,7 @@ theorem ggClGenRK_of_regime
   intro p hp hp2 X _ _ A Ab σ J n hd hk labJ labX hΛJ hΛX hR hhJ hhX
   obtain ⟨hRreg, hgen⟩ := hR
   obtain ⟨hloc, hflat, hcard, hrank, hnum, hself, honly, hm⟩ := hd.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hK0 : GGK0MainBS GGKacGenericCl GGMultValidCl := ggK0MainBS_cl
   have hS : GGK0Schur GGKacGenericCl := ggK0Schur_cl

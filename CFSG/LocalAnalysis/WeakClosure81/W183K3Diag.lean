@@ -40,7 +40,7 @@ theorem br3_false_of_diagonal (hfin : FinG3) (h : Assumption131 Y Γ VA i)
         (∀ x ∈ alphaA Y Lj A, nb * x * nb⁻¹ ∈ alphaA Y Lj A) ∧
         ∀ x ∈ alphaA Y Lj A, x ≠ 1 → nb * x * nb⁻¹ ≠ x := by
     intro Lj Lk htwo' hAnj hAnk hCj hCk hsh
-    haveI : Finite (alphaQuot Y Lj) := w183_alpha_finite Y Lj
+    have : Finite (alphaQuot Y Lj) := w183_alpha_finite Y Lj
     obtain ⟨hN, hC⟩ := w183k3_alpha_normal_cent htwo'.quasi₁ htwo'.le₁
     obtain ⟨e⟩ := w183k3_alpha_shape htwo'.le₁
     obtain ⟨hcard', hel'⟩ := w183_alpha_card_elem hAY hAnj hCj hcard hel

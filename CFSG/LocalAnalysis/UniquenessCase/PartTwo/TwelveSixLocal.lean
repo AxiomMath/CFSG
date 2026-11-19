@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveSix
 
+omit [Finite G] in
 theorem hasCompFactor_calL1_iff (H : Subgroup G) :
     F12.HasCompFactor H IsCalL1 ↔ CFSG.LocalAnalysis.RankThreeUC.Asc1930HasA H := by
   constructor
@@ -33,6 +34,7 @@ theorem hasCompFactor_calL1_iff (H : Subgroup G) :
     · exact Or.inr (Or.inr hP)
     · exact Or.inr (Or.inl hP)
 
+omit [Finite G] in
 theorem hasCompFactor_calL0_iff (H : Subgroup G) :
     F12.HasCompFactor H IsCalL0 ↔ CFSG.LocalAnalysis.RankThreeUC.Asc1930HasB H := by
   constructor
@@ -77,7 +79,7 @@ theorem pCoreOf_ne_bot_of_mem_hSet (D : Data G) {H : Subgroup G}
 
 theorem exists_mem_calMOf_le (D : Data G) {H : Subgroup G}
     (hH : H ∈ CFSG.LocalAnalysis.RankThreeUC.hSet D.T D.M) : ∃ N ∈ calMOf D.T, H ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hloc : IsTwoLocal (normalizer (pCoreOf 2 H : Set G)) :=
     ⟨pCoreOf 2 H, pCoreOf_ne_bot_of_mem_hSet D hH,
       CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H, rfl⟩
@@ -87,7 +89,7 @@ theorem exists_mem_calMOf_le (D : Data G) {H : Subgroup G}
 
 theorem ne_top_of_mem_hSet (D : Data G) {H : Subgroup G}
     (hH : H ∈ CFSG.LocalAnalysis.RankThreeUC.hSet D.T D.M) : H ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   obtain ⟨N, hN, hHN⟩ := exists_mem_calMOf_le D hH
   intro htop
   apply CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1.1

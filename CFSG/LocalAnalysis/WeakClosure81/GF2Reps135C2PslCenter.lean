@@ -40,7 +40,7 @@ private lemma c2slcen_eq_one_of_mem_center {W : Type} [CommGroup W]
     (hz : z ∈ Subgroup.center ↥L) : z = 1 := by
   have hmem : c2slcen_psi z ∈ LEnd L := c2slcen_psi_mem hz
   obtain ⟨x, y, hxy, -⟩ := Nat.card_eq_two_iff.mp hend
-  haveI : Nontrivial (LEnd L) := ⟨x, y, hxy⟩
+  have : Nontrivial (LEnd L) := ⟨x, y, hxy⟩
   obtain ⟨y₀, -, hyuniq⟩ := (Nat.card_eq_two_iff' (0 : LEnd L)).mp hend
   have hy1 : y₀ = 1 := (hyuniq 1 (one_ne_zero : (1 : LEnd L) ≠ 0)).symm
   have hpsi : (⟨c2slcen_psi z, hmem⟩ : LEnd L) = 0 ∨

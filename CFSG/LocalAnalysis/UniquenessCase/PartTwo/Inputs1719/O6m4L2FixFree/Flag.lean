@@ -15,7 +15,7 @@ private theorem eq_bot_or_eq_of_le_of_finrank_eq_one_F04 {K V : Type} [Field K] 
   by_cases hU : U = ⊥
   · exact Or.inl hU
   right
-  haveI : Nontrivial W :=
+  have : Nontrivial W :=
     Module.nontrivial_of_finrank_pos (R := K) (M := W) (by rw [hW]; norm_num)
   obtain ⟨u, hu⟩ := exists_ne (0 : W)
   have hWspan : W = K ∙ (u : V) :=
@@ -151,7 +151,7 @@ theorem singFlag_mem_of_finrank_eq_one {K V H : Type} [Field K] [AddCommGroup V]
         change isoCompletion Φ.polar (singSeq Φ ρ R) (Module.finrank K V) k =
           Φ.polar.perp (singSeq Φ ρ R (2 * Module.finrank K V + 1 - k))
         unfold isoCompletion
-        rw [if_neg hk, if_pos hk2]
+        rw [ite_eq_right hk, ite_eq_left hk2]
       have hj : 2 * Module.finrank K V + 1 - k ≤ Module.finrank K V := by omega
       rcases singSeq_eq_bot_or_eq_of_finrank_eq_one_F04 Φ ρ R h1 hj with h | h
       · refine Or.inr (Or.inr (Or.inr ?_))

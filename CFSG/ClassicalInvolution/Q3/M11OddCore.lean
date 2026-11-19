@@ -43,7 +43,7 @@ theorem eq_bot_of_normal_odd_of_card_eq_48 {C N : Subgroup G} (hC : Nat.card C =
     obtain ⟨P, hP⟩ := hpA.exists_le_sylow
     have hNP : N.subgroupOf C ≤ P := hpN'.le_sylow_of_normal P
     have hPcard : Nat.card P ≤ 3 := by
-      obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
       have hdP : Nat.card P ∣ 48 := hC ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup ↥C)
       rw [hk] at hdP ⊢
       by_contra hlt

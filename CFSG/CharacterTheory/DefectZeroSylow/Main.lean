@@ -35,7 +35,7 @@ theorem character_eq_zero_of_finrank_dvd {G : Type} [Group G] [Fintype G] {p : �
 
 theorem dvd_orderOf_of_mem_sylow {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (Q : Sylow p G)
     {x : G} (hx : x ∈ (Q : Subgroup G)) (hx1 : x ≠ 1) : p ∣ orderOf x := by
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨x, hx⟩
   rw [Subgroup.orderOf_mk] at hk
   rcases k with _ | k
   · exact absurd (orderOf_eq_one_iff.mp (by simpa using hk)) hx1

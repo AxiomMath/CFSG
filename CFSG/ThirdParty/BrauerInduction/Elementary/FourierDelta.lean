@@ -92,8 +92,7 @@ lemma phiSum_apply_expand [Finite G]
   apply Finset.sum_congr rfl
   intro ζ hζ
   congr 1
-  simpa [FDRep.ofLinearChar] using
-    FDRep.char_ofLinearChar (psiEZeta p ha ζ) x
+  simp
 
 /--
 In the pointwise expansion of `phiSum`, the two values of the linear character
@@ -270,7 +269,7 @@ lemma phi_eq_phiSum
   rw [phiSum_apply_expand p ha x]
   rw [phiSum_apply_product_eq_combine p ha x]
   let aInvE : E_subgroup p a := ⟨a⁻¹, inv_mem_E_subgroup p a⟩
-  haveI : NeZero (orderOf a) := IsPRegular.neZero_orderOf p ha
+  have : NeZero (orderOf a) := IsPRegular.neZero_orderOf p ha
   by_cases h_reg : Group.pRegular p (x : G) = a
   · have h_in_P :
         ((aInvE * x : E_subgroup p a) : G) ∈ P_of_Z  p a := by

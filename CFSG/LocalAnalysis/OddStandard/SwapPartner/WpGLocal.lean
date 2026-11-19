@@ -88,7 +88,7 @@ private lemma wp_mul_z_comm_iff {x w : G} (hx : x * z = z * x) :
       _ = z * (w * x) := by rw [h]
       _ = (z * w) * x := by group
 
-private lemma wp_conj_iota (hC : CentData z ι) {ρ a : Perm (Fin 10)} :
+private lemma wp_conj_iota (_hC : CentData z ι) {ρ a : Perm (Fin 10)} :
     (ι ρ) * ι a * (ι ρ)⁻¹ = ι (ρ * a * ρ⁻¹) := by
   rw [map_mul, map_mul, map_inv]
 
@@ -102,7 +102,7 @@ private lemma wp_conj_z_iota (hC : CentData z ι) {ρ a : Perm (Fin 10)} :
         rw [hC.comm (ρ * a * ρ⁻¹), mul_assoc, hC.mul_self, mul_one]
 
 theorem exists_simpleNormalIn (hC : CentData z ι) {g x : G} {σ : Perm (Fin 10)}
-    (hσ : σ * σ = 1) (hσ1 : σ ≠ 1) (hk : Multiset.card σ.cycleType ≤ 2)
+    (hσ : σ * σ = 1) (_hσ1 : σ ≠ 1) (hk : Multiset.card σ.cycleType ≤ 2)
     (hx : g⁻¹ * x * g = ι σ ∨ g⁻¹ * x * g = z * ι σ) :
     ∃ D : Subgroup G, SimpleNormalIn (g * z * g⁻¹) x D ∧
       Nat.card D = (10 - 2 * Multiset.card σ.cycleType).factorial / 2 := by
@@ -212,8 +212,8 @@ theorem exists_simpleNormalIn (hC : CentData z ι) {g x : G} {σ : Perm (Fin 10)
     rw [hconj]
     exact (hmem _).mpr ⟨ρ * a * ρ⁻¹, hρa, rfl⟩
   have hsimple : IsSimpleGroup D := by
-    haveI : Nontrivial (Fin F.card) := Fin.nontrivial_iff_two_le.mpr (by omega)
-    haveI : IsSimpleGroup (alternatingGroup (Fin F.card)) :=
+    have : Nontrivial (Fin F.card) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : IsSimpleGroup (alternatingGroup (Fin F.card)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; exact hFge)
     exact MulEquiv.isSimpleGroup eD
   have hnonab : ∃ a ∈ D, ∃ b ∈ D, a * b ≠ b * a := by
@@ -231,7 +231,7 @@ theorem exists_simpleNormalIn (hC : CentData z ι) {g x : G} {σ : Perm (Fin 10)
     rw [Nat.card_fin] at h3
     omega
   have hcard : Nat.card D = (10 - 2 * Multiset.card σ.cycleType).factorial / 2 := by
-    haveI : Nontrivial (Fin F.card) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin F.card) := Fin.nontrivial_iff_two_le.mpr (by omega)
     calc Nat.card D = Nat.card (alternatingGroup (Fin F.card)) := Nat.card_congr eD.toEquiv
       _ = (Nat.card (Fin F.card)).factorial / 2 := nat_card_alternatingGroup
       _ = F.card.factorial / 2 := by rw [Nat.card_fin]

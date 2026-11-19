@@ -38,7 +38,7 @@ theorem gl23_nonempty_bar2_top_equiv_perm :
     rw [hS16, card_G23] at h
     omega
   have hsyl : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup G23) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     have h3 : ((S : Subgroup G23).subgroupOf ⊤).index = 3 := hrel
     rw [h3]
     norm_num
@@ -48,7 +48,7 @@ theorem gl23_nonempty_bar2_top_equiv_perm :
       rw [← Subgroup.normalizer_eq_top_iff]
       exact top_unique h
     have hle : (S : Subgroup G23) ≤ CFSG.pCore 2 G23 :=
-      CFSG.LieType.BorelTits.le_pCore 2 hSnorm S.isPGroup'
+      CFSG.LieType.BorelTits.le_pCore 2 hSnorm S.isPGroup
     rw [pCore_two_eq] at hle
     have hdvd : Nat.card ↥(S : Subgroup G23) ∣ Nat.card ↥quatQ := Subgroup.card_dvd_of_le hle
     rw [hS16, card_quatQ] at hdvd

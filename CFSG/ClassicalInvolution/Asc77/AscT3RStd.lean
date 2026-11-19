@@ -141,7 +141,7 @@ theorem Std20.r9_hinj (d : Std20 p f K K' J S R R' W V z t) (c8 : Concl20_8 S K'
   have hxR' : v ^ n ∈ R' := d.r9_cStar_S c8 hu huK hxS hn
   have hxK' : v ^ n ∈ K' := d.hR'.1 hxR'
   have hx2 : IsPGroup 2 ↥(Subgroup.zpowers (v ^ n)) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   obtain ⟨m, hm2, hm1⟩ := late_exists_pow_invol hx2 h1
   have hmV : (v ^ n) ^ m ∈ V := V.pow_mem hxV m
   have hmK' : (v ^ n) ^ m ∈ K' := K'.pow_mem hxK' m

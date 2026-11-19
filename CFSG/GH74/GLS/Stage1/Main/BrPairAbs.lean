@@ -135,7 +135,7 @@ theorem odd_index_oPrimeResidual' (Y : Type*) [Group Y] [Finite Y] :
   obtain ⟨P⟩ : Nonempty (Sylow 2 Y) := inferInstance
   have hP : (P : Subgroup Y) ≤ oPrimeResidual 2 Y := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     have := congrArg Subtype.val hk
     simpa using this

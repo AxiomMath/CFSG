@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
   (MulAut.congr θ).toMonoidHom.comp
     ((e6QTwoQuotCenterAutHom L).comp (e6QTwoBstarConjAction hNL))
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_eq {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -27,6 +28,7 @@ theorem e6QTwoSixFrameAction_eq {Bs L : Subgroup G}
     e6QTwoSixFrameAction hNL θ b =
       (MulAut.congr θ) (e6QTwoQuotCenterAutHom L (e6QTwoBstarConjAction hNL b)) := rfl
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_apply {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -38,6 +40,7 @@ theorem e6QTwoSixFrameAction_apply {Bs L : Subgroup G}
   exact congrArg θ (congrArg (QuotientGroup.mk' (Subgroup.center L))
     (Subtype.ext (e6QTwoBstarConjAction_apply hNL b l)))
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_ker {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -62,6 +65,7 @@ theorem e6QTwoSixFrameAction_ker {Bs L : Subgroup G}
       rw [h1, map_one]
     rw [e6QTwoSixFrameAction_eq hNL θ b, h2, map_one]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_isElemAbelian_range {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -78,6 +82,7 @@ theorem e6QTwoSixFrameAction_isElemAbelian_range {Bs L : Subgroup G}
     have hb3 : b' ^ 3 = 1 := Subtype.ext (by simpa using hBs.2 (b' : G) b'.2)
     rw [hb3, map_one]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_mem_matConjImage {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -107,6 +112,7 @@ theorem e6QTwoSixFrameAction_mem_matConjImage {Bs L : Subgroup G}
     · exact hβind
   rwa [hψβ] at hψ
 
+omit [Finite G] in
 theorem e6QTwoSixFrameAction_range_le_inndiag (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -121,6 +127,7 @@ theorem e6QTwoSixFrameAction_range_le_inndiag (hK : Nat.card K = 4) {Bs L : Subg
   exact InndiagSU.congr_mem_primeFormD (USixTwo.fieldDataFour hK) (by norm_num : 1 ≤ 6) hK'
     (e6QTwoSixFrameAction_mem_matConjImage hNL θ hI b)
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_card_ker_le {Bs L : Subgroup G} {x : G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -134,6 +141,7 @@ theorem e6QTwoSixFrameAction_card_ker_le {Bs L : Subgroup G} {x : G}
   have hx3 : x ^ 3 = 1 := hBs.2 x hx
   exact Nat.le_of_dvd (by norm_num) (orderOf_dvd_iff_pow_eq_one.mpr hx3)
 
+omit [Finite G] in
 theorem e6QTwoSixFrameAction_card_range_le (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -182,6 +190,7 @@ theorem e6QTwoSixFrameAction_card_range_le (hK : Nat.card K = 4) {Bs L : Subgrou
   · have hle : Nat.card β.range ≤ 3 ^ 3 := by omega
     exact hle.trans (by norm_num)
 
+omit [Finite G] in
 theorem e6QTwoSixCardLeThreePowSix (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hx : x ∈ Bs)

@@ -22,11 +22,11 @@ theorem ggResXDatumAx_of_torData_twA5 {G : Type} [Group G] [Finite G] {m : ℕ}
       (ggGamma X hN).range) :
     GGResXDatumAx 3 Bs X z 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw⟩ := hTor
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := 3) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   obtain ⟨ι⟩ := hι
   obtain ⟨hnk, hbk, α, hlin, hpair, -⟩ :=
     ggHLT_lin hm h3m hBs hS hN w hw V ι (x := 1) (Subgroup.one_mem Bs)

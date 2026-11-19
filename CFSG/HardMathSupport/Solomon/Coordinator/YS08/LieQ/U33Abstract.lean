@@ -20,14 +20,14 @@ theorem radRigidInner_of_sylow_core {K : Type} [Group K] [Finite K] (hBT : Holds
       (T : Subgroup K) ≤ Subgroup.normalizer (R : Set K) →
         ∀ g : K, (∀ r ∈ R, g * r = r * g) → Odd (orderOf g) → g = 1) :
     RadRigidInner 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro R hR x hx hxo
   have hR' := hR
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   obtain ⟨-, -, -, -, -, U, hUN⟩ := canonical_parabolic_tits hBT h0 hp
   rw [radInf_eq_of_pCoreOf hc] at hUN
   have hRU : R ≤ (U : Subgroup K) := by
-    have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup K)) := hp.to_sup_of_normal_left' U.isPGroup' hUN
+    have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup K)) := hp.to_sup_of_normal_left' U.isPGroup hUN
     have h1 : R ⊔ (U : Subgroup K) = (U : Subgroup K) :=
       U.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact h1 ▸ le_sup_left
@@ -89,7 +89,7 @@ theorem zpowers_four_cases {K : Type} [Group K] (z : K) (hz4 : orderOf z = 4) {w
     simp
 
 theorem u33_core {K : Type} [Group K] [Finite K] (T : Subgroup K) (z : K) (hT2 : IsPGroup 2 T)
-    (hT : Nat.card T = 32) (hzT : z ∈ T) (hz4 : orderOf z = 4)
+    (hT : Nat.card T = 32) (_hzT : z ∈ T) (hz4 : orderOf z = 4)
     (hzc : ∀ x ∈ T, x * z = z * x)
     (hZ : ∀ x ∈ T, (∀ y ∈ T, x * y = y * x) → x ∈ Subgroup.zpowers z)
     (hC : Nat.card (Subgroup.centralizer ({z ^ 2} : Set K)) = 96)
@@ -98,12 +98,12 @@ theorem u33_core {K : Type} [Group K] [Finite K] (T : Subgroup K) (z : K) (hT2 :
     (R : Subgroup K) (hR : IsRadical 2 R) (hRT : R ≤ T)
     (hTN : T ≤ Subgroup.normalizer (R : Set K)) (g : K) (hg : ∀ r ∈ R, g * r = r * g)
     (hgo : Odd (orderOf g)) : g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hg1
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   have ht : z ^ 2 ∈ R := by
-    haveI : Group.IsNilpotent T := hT2.isNilpotent
-    haveI hnorm : (R.subgroupOf T).Normal :=
+    have : Group.IsNilpotent T := hT2.isNilpotent
+    have hnorm : (R.subgroupOf T).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hRT).2 hTN
     have hne : R.subgroupOf T ≠ ⊥ := by
       intro hbot

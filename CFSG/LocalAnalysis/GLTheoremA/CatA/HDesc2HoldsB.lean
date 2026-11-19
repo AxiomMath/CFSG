@@ -97,7 +97,7 @@ theorem kDescFamRes_linear_of_res (hN3 : KD264InnGood) (hL : LinearRes) (p : ℕ
 theorem kDescFamRes_unitary_of_res (hN3 : KD264InnGood) (hI5 : CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KD264I5Low)
     (hU : UnitaryRes) (p : ℕ) : KDescFamRes p fUnitary :=
   kDescFamRes_unitary_aux lvCtx_holds CFSG.LocalAnalysis.GLTheoremA.k3NotChev2At_holds
-    CFSG.LocalAnalysis.GLTheoremA.KD264Lie.kd264OutCyc_holds
+
     (KD264Lie.kd264OuterIdx_of_families KD264Lie.lieOuterIdx_linear KD264Lie.lieOuterIdx_unitary
         KD264Lie.lieOuterIdx_classicalBCD KD264Lie.lieOuterIdx_triality
         KD264Lie.lieOuterIdx_excUntwisted KD264Lie.lieOuterIdx_excTwisted) p

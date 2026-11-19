@@ -29,7 +29,7 @@ theorem mul_self_eq_one_of_central_q8 (a : QuaternionGroup 2) (ha : ∀ b, a * b
 theorem not_isPGroup_two_sl23 : ¬ IsPGroup 2 SL(2, ZMod 3) := by
   intro h
   obtain ⟨g, hg3, hg1⟩ : ∃ g : SL(2, ZMod 3), g ^ 3 = 1 ∧ g ≠ 1 := by decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   obtain ⟨k, hk⟩ := h g
   have h3 : 3 ∣ 2 ^ k := ho ▸ orderOf_dvd_of_pow_eq_one hk
@@ -221,7 +221,7 @@ theorem center_eq_bot_of_le (hC : Subgroup.centralizer (L : Set Y) = ⊥) {X : S
 
 theorem eq_of_le_of_isSimpleGroup (hLn : L.Normal) (hL : L ≠ ⊥) {X : Subgroup Y} (hLX : L ≤ X)
     [IsSimpleGroup ↥X] : X = L := by
-  haveI : (L.subgroupOf X).Normal := hLn.subgroupOf X
+  have : (L.subgroupOf X).Normal := hLn.subgroupOf X
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (L.subgroupOf X) with h | h
   · exfalso
     apply hL

@@ -63,7 +63,7 @@ theorem normEsc_exists_two_group_strict {H T : Subgroup G} [Finite G] (hTH : T �
   · rintro _ ⟨x, _, rfl⟩
     exact x.2
   · let e := Subgroup.equivMapOfInjective Q.toSubgroup H.subtype Subtype.val_injective
-    exact Q.isPGroup'.of_injective e.symm.toMonoidHom e.symm.injective
+    exact Q.isPGroup.of_injective e.symm.toMonoidHom e.symm.injective
   · intro hTW
     have hidx : T.subgroupOf H = Q.toSubgroup := by
       ext x

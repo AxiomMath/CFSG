@@ -45,7 +45,7 @@ theorem pRank_le_two_of_isU3 {X : Type} [Group X] [Finite X] {n r : ℕ}
 
 theorem center_eq_bot_of_isU3 {X : Type} [Group X] {n : ℕ} (h : IsU3 X n) :
     Subgroup.center X = ⊥ := by
-  haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 h
+  have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 h
   obtain ⟨a, b, hab⟩ := CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_PSU3 h
   exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
     fun hc => hab (hc.is_comm.comm a b)
@@ -54,16 +54,16 @@ theorem center_eq_bot_bar2_lp {D : Data G} {p n : ℕ}
     (hn : P17_64_2 D p n) : Subgroup.center (Bar2 (Lp D p)) = ⊥ := by
   rcases hn with ⟨⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩, -⟩ |
     ⟨⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩, -⟩
-  · haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  · have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-    haveI : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+    have : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB)
     refine CFSG.ABGLocalTools.center_eq_bot_of_mulEquiv e ?_
     rw [Subgroup.center_prod, center_eq_bot_of_lieModel_psl2 hA,
       center_eq_bot_of_lieModel_psl2 hB, Subgroup.bot_prod_bot]
-  · haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  · have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-    haveI : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+    have : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB)
     refine CFSG.ABGLocalTools.center_eq_bot_of_mulEquiv e ?_
     rw [Subgroup.center_prod, center_eq_bot_of_lieModel_psl2 hA, center_eq_bot_of_isU3 hB,
@@ -77,9 +77,9 @@ theorem pRank_bar2_lp_le_two {D : Data G} {p n : ℕ} (hp : p.Prime) (hp2 : p �
     (h : IsL2Square (Bar2 (Lp D p)) n) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 (Lp D p))) ≤ 2 := by
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := h
-  haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
     (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-  haveI : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  have : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
     (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB)
   have hA1 : CFSG.Open.pRank p (⊤ : Subgroup A) ≤ 1 :=
     CFSG.QuasithinUnique.Id2519.pRank_le_one_psl_two_even
@@ -97,9 +97,9 @@ theorem pRank_bar2_lp_le_three' {D : Data G} {p n : ℕ} (hp : p.Prime) (hp2 : p
     (h : IsL2U3Product (Bar2 (Lp D p)) n) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 (Lp D p))) ≤ 3 := by
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := h
-  haveI : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  have : Finite A := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
     (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hA)
-  haveI : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
+  have : Finite B := CFSG.LieType.Simplicity.finite_of_statedClassicalModel
     (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB)
   have hA1 : CFSG.Open.pRank p (⊤ : Subgroup A) ≤ 1 :=
     CFSG.QuasithinUnique.Id2519.pRank_le_one_psl_two_even
@@ -174,7 +174,7 @@ theorem pRank_eq_three_of_P17_64_2 {D : Data G}
 theorem inf_centSection_Lp_le_pCore {D : Data G} {p n : ℕ}
     (hn : P17_64_2 D p n) :
     (centSection D.M (Lp D p) (pCoreOf 2 (Lp D p)) ⊓ Lp D p) ≤ pCoreOf 2 (Lp D p) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro m hm
   obtain ⟨hmC, hmL⟩ := hm
   have hcenter : (QuotientGroup.mk' (CFSG.pCore 2 ↥(Lp D p)) ⟨m, hmL⟩) ∈

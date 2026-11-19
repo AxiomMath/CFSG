@@ -40,6 +40,7 @@ private lemma shift_mul_self (t : GL (Fin 3) K) (ht : t * t = 1) :
       (Matrix.toLin' ((t : Matrix (Fin 3) (Fin 3) K) - 1)) = 0
   rw [Module.End.mul_eq_comp, ← Matrix.toLin'_mul, mat_sq_sub_one t ht, map_zero]
 
+omit [CharP K 2] in
 private lemma finrank_range_le_one {a : Module.End K (V3 (K := K))} (ha : a * a = 0) :
     finrank K (LinearMap.range a) ≤ 1 := by
   have hle : LinearMap.range a ≤ LinearMap.ker a := by
@@ -53,12 +54,14 @@ private lemma finrank_range_le_one {a : Module.End K (V3 (K := K))} (ha : a * a 
   omega
 
 
+omit [CharP K 2] in
 private lemma finrank_ker_eq_two_of_finrank_range_eq_one {a : Module.End K (V3 (K := K))}
     (hda : finrank K (LinearMap.range a) = 1) : finrank K (LinearMap.ker a) = 2 := by
   have h := LinearMap.finrank_range_add_finrank_ker a
   have h3 : finrank K (V3 (K := K)) = 3 := Module.finrank_fin_fun (R := K) (n := 3)
   omega
 
+omit [CharP K 2] in
 private lemma ker_eq_of_commute_of_mul_eq_zero {a b : Module.End K (V3 (K := K))}
     (ha : a * a = 0) (hb : b * b = 0) (hab : a * b = b * a)
     (hda : finrank K (LinearMap.range a) = 1)
@@ -113,6 +116,7 @@ private lemma ker_eq_of_commute_of_mul_eq_zero {a b : Module.End K (V3 (K := K))
     Submodule.eq_of_le_of_finrank_eq hsup_b (by omega)
   rw [← hAa, ← hBb]
 
+omit [CharP K 2] in
 private lemma range_eq_of_commute_of_mul_ne_zero {a b : Module.End K (V3 (K := K))}
     (hab : a * b = b * a) (hda : finrank K (LinearMap.range a) = 1)
     (hdb : finrank K (LinearMap.range b) = 1) (hab0 : a * b ≠ 0) :
@@ -145,6 +149,7 @@ private lemma range_eq_of_commute_of_mul_ne_zero {a b : Module.End K (V3 (K := K
     Submodule.eq_of_le_of_finrank_eq hle_b (by omega)
   rw [← hEqA, ← hEqB]
 
+omit [CharP K 2] in
 private lemma range_eq_or_ker_eq_of_commute {a b : Module.End K (V3 (K := K))}
     (ha : a * a = 0) (hb : b * b = 0) (hab : a * b = b * a)
     (hda : finrank K (LinearMap.range a) = 1)
@@ -174,6 +179,7 @@ private lemma finrank_ker_shift_eq_two (t : GL (Fin 3) K) (ht : t * t = 1)
   finrank_ker_eq_two_of_finrank_range_eq_one (finrank_range_shift_eq_one t ht h0)
 
 
+omit [CharP K 2] in
 private lemma shift_comm {s t : GL (Fin 3) K} (h : s * t = t * s) :
     shift s * shift t = shift t * shift s := by
   have hmat : (s : Matrix (Fin 3) (Fin 3) K) * t = (t : Matrix (Fin 3) (Fin 3) K) * s := by
@@ -252,11 +258,13 @@ private lemma exists_common_centre_or_axis
 def submoduleStabilizer (U : Submodule K (Fin 3 → K)) : Subgroup (GL (Fin 3) K) :=
   glStabilizer (n := 3) U
 
+omit [CharP K 2] in
 theorem mem_submoduleStabilizer_iff {U : Submodule K (Fin 3 → K)} {x : GL (Fin 3) K} :
     x ∈ submoduleStabilizer U ↔
       Submodule.map (Matrix.toLin' (x : Matrix (Fin 3) (Fin 3) K)) U = U :=
   mem_glStabilizer_iff
 
+omit [CharP K 2] in
 theorem mem_submoduleStabilizer_of_map_le {U : Submodule K (Fin 3 → K)} {x : GL (Fin 3) K}
     (h : Submodule.map (Matrix.toLin' (x : Matrix (Fin 3) (Fin 3) K)) U ≤ U) :
     x ∈ submoduleStabilizer U :=

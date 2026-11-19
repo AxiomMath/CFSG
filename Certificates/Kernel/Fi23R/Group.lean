@@ -50,7 +50,7 @@ theorem lp_43 : lp 43 = dP := by unfold lp; simp
 
 theorem lp_big {c : ℕ} (hc : 128 ≤ c) : lp c = cT (c - 128) := by
   unfold lp
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem lp_mem (c : ℕ) : lp c ∈ Xc := by
   unfold lp
@@ -144,7 +144,7 @@ theorem base_one {p : Pt} (hp : p ∈ Xc) (hb : ∀ i (hi : i < 6), (p ⟨i, by 
   have hT : Nat.card T23 = 4089470473293004800 := by rw [grp_eq]; exact card_Xc_eq
   have hge : ∏ l ∈ Finset.range 6, CNT l ≤
       ∏ l ∈ Finset.range 6, (MulAction.orbit (Gs T23 (bF hn BB) l) (bF hn BB l)).ncard := by
-    refine Finset.prod_le_prod' fun l hl => ?_
+    refine Finset.prod_le_prod fun l hl => ?_
     have hl' := Finset.mem_range.1 hl
     rw [← dSet_card chain_hyp hn hl', ← Set.ncard_coe_finset]
     exact Set.ncard_le_ncard (dSet_sub_orbit chain_hyp hn hl') (Set.toFinite _)
@@ -213,7 +213,7 @@ theorem cT_acts_f : ∀ f k, k < 31671 → tb G 93 k < f → ActsAs (cT k) (tAf 
     by_cases h0 : k = 0
     · subst h0
       rw [cT_zero]
-      exact actsAs_congr dP_acts fun x _ => by rw [tAf_succ, if_pos rfl]
+      exact actsAs_congr dP_acts fun x _ => by rw [tAf_succ, ite_eq_left rfl]
     · obtain ⟨hp, -, -⟩ := tr_pt hk h0
       have hpN : tb G 91 k < 31671 := by omega
       have hdp : tb G 93 (tb G 91 k) < f := by
@@ -224,9 +224,9 @@ theorem cT_acts_f : ∀ f k, k < 31671 → tb G 93 k < f → ActsAs (cT k) (tAf 
       split_ifs with hl
       · have hi : ActsAs aP⁻¹ (tb G 39) := by rw [aP_inv]; exact aP_acts
         refine actsAs_congr ((aP_acts.mul ih).mul hi) fun x _ => ?_
-        rw [tAf_succ, if_neg h0, if_pos hl]
+        rw [tAf_succ, ite_eq_right h0, ite_eq_left hl]
       · refine actsAs_congr ((bP_acts.mul ih).mul bPi_acts) fun x _ => ?_
-        rw [tAf_succ, if_neg h0, if_neg hl]
+        rw [tAf_succ, ite_eq_right h0, ite_eq_right hl]
 
 theorem cT_acts {k : ℕ} (hk : k < 31671) : ActsAs (cT k) (tA G k) :=
   cT_acts_f 200 k hk (dep_pt hk).1
@@ -251,15 +251,15 @@ theorem cT_inv (hD : dP * dP = 1) (k : ℕ) : (cT k)⁻¹ = cT k := by
 theorem lp_acts {c : ℕ} (hc : okL c) : ActsAs (lp c) (lf G c) := by
   rcases hc with rfl | rfl | rfl | rfl | ⟨h1, h2⟩
   · rw [lp_39]
-    exact actsAs_congr aP_acts fun x _ => by rw [lf_eq, if_pos (by norm_num)]
+    exact actsAs_congr aP_acts fun x _ => by rw [lf_eq, ite_eq_left (by norm_num)]
   · rw [lp_40]
-    exact actsAs_congr bP_acts fun x _ => by rw [lf_eq, if_pos (by norm_num)]
+    exact actsAs_congr bP_acts fun x _ => by rw [lf_eq, ite_eq_left (by norm_num)]
   · rw [lp_41]
-    exact actsAs_congr bPi_acts fun x _ => by rw [lf_eq, if_pos (by norm_num)]
+    exact actsAs_congr bPi_acts fun x _ => by rw [lf_eq, ite_eq_left (by norm_num)]
   · rw [lp_43]
-    exact actsAs_congr dP_acts fun x _ => by rw [lf_eq, if_pos (by norm_num)]
+    exact actsAs_congr dP_acts fun x _ => by rw [lf_eq, ite_eq_left (by norm_num)]
   · rw [lp_big h1]
-    exact actsAs_congr (cT_acts (by omega)) fun x _ => by rw [lf_eq, if_neg (by omega)]
+    exact actsAs_congr (cT_acts (by omega)) fun x _ => by rw [lf_eq, ite_eq_right (by omega)]
 
 theorem wp_acts : ∀ w : List ℕ, (∀ c ∈ w, okL c) → ActsAs (wp w) (wa G w)
   | [], _ => fun _ _ => rfl
@@ -285,7 +285,7 @@ theorem lp_invL (hD : dP * dP = 1) {c : ℕ} (hc : okL c) : lp (invL c) = (lp c)
     rw [e, lp_40, lp_41, inv_inv]
   · have e : invL 43 = 43 := rfl
     rw [e, lp_43, dP_inv hD]
-  · have e : invL c = c := by unfold invL; rw [if_neg (by omega), if_neg (by omega)]
+  · have e : invL c = c := by unfold invL; rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     rw [e, lp_big h1, cT_inv hD]
 
 theorem wp_invW (hD : dP * dP = 1) : ∀ w : List ℕ, (∀ c ∈ w, okL c) → wp (invW w) = (wp w)⁻¹
@@ -412,7 +412,7 @@ theorem rep_gen {z : ℤ} (hz : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2) :
   have hT := genTables_TR (z := z) (by omega) (by omega)
   intro i hi
   rw [(hT.2 i hi).1, idx_eq _ hi, lp_acts (okL_regZ hz) i hi, lf_eq,
-    if_pos (by rcases regZ_ok hz with h | h | h <;> omega)]
+    ite_eq_left (by rcases regZ_ok hz with h | h | h <;> omega)]
 
 theorem rw_genTables {z : ℤ} (hz : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2) :
     RW (genTables orbLit z) [regZ z] := by
@@ -444,7 +444,7 @@ theorem wa_rev_wv : ∀ L : List ℕ, (∀ c ∈ L, c < 128) → ∀ x, wa G L.r
   | [], _, _ => rfl
   | c :: L, h, x => by
     rw [List.reverse_cons, wa_append, wa_rev_wv L (fun d hd => h d (List.mem_cons_of_mem c hd)) x,
-      wa_cons, wa_nil, lf_eq, if_pos (h c List.mem_cons_self), wv_cons]
+      wa_cons, wa_nil, lf_eq, ite_eq_left (h c List.mem_cons_self), wv_cons]
 
 theorem rw_dTab : RW (dTab orbLit) [43] := by
   have h := rw_powT (rw_wordT (dLetters ()) dLetters_ok) 7
@@ -482,10 +482,10 @@ theorem rw_treeActTab {k : ℕ} (hk : k < 31671) :
   refine rw_of_acts (by unfold treeActTab; exact Array.size_ofFn) hok fun m hm => ?_
   unfold treeActTab
   rw [ap_ofFn _ hm, UInt32.toNat_ofNat',
-    tAf_treeAct (fun m hm => by rw [hD.ap hm, wa_cons, wa_nil, lf_eq, if_pos (by norm_num)])
+    tAf_treeAct (fun m hm => by rw [hD.ap hm, wa_cons, wa_nil, lf_eq, ite_eq_left (by norm_num)])
       (fun m hm => (hbi.2 m hm).1) 200 k hk (dep_pt hk).1 m hm,
     Nat.mod_eq_of_lt (lt_trans (tAf_lt 200 k m hm) (by norm_num)), wa_cons, wa_nil, lf_eq,
-    if_neg (by omega), Nat.add_sub_cancel_left]
+    ite_eq_right (by omega), Nat.add_sub_cancel_left]
   rfl
 
 end

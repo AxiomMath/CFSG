@@ -148,13 +148,13 @@ private theorem lieModel_twoD_highG_compRank
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .POmegaMinus
         (compRank (componentRoots (rootCharHom a) i)) 2 e := by
   classical
-  haveI := hcp
+  have := hcp
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
   have hrc : ringChar L = r := @ringChar.eq L _ r hchar
   have h2 : r = 2 := by rw [← hrc]; exact @ringChar.eq L _ 2 hcp
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hmcomp : m = compRank (componentRoots (rootCharHom a) i) := by
     have h1 : m = (simpleRoots (componentRoots (rootCharHom a) i)).card := by
       rw [← Fintype.card_fin m,
@@ -193,8 +193,8 @@ private theorem lieModel_twoD_highG_compRank
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hlie := lieModel_orbitGroup_of_datum_four hτ D (by omega) hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
     hsw.1 hsw.2
@@ -235,7 +235,7 @@ private theorem lieModel_twoD_highG_compRank_all
   have hTp : rootDiagUnit τ a ^ p = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   have hkind : twistKind S.ρ (rootCharHom a) i = .twoD := by
     unfold twistKind
-    rw [if_neg hout, if_neg, if_pos ⟨by omega, hn⟩]
+    rw [ite_eq_right hout, ite_eq_right, ite_eq_left ⟨by omega, hn⟩]
     rintro (⟨h6, h72⟩ | ⟨h4', -, -⟩)
     · rw [hn, h6] at h72; omega
     · omega
@@ -618,7 +618,7 @@ private theorem tag_eq_twD_of_markTag {lab : LargeEvenLabel}
   cases tag <;> simp only [markTag] at h <;>
     first
       | rfl
-      | (split_ifs at h <;> simp_all)
+      | (split_ifs at h)
       | simp_all
 
 private theorem rank_ne_of_markTag
@@ -630,12 +630,12 @@ private theorem rank_ne_of_markTag
   simp only [markTag] at h
   have h2 : ¬ rank = 2 := by
     intro hr
-    rw [if_pos hr] at h
+    rw [ite_eq_left hr] at h
     exact absurd h (by decide)
   have h3 : ¬ rank = 3 := by
-    rw [if_neg h2] at h
+    rw [ite_eq_right h2] at h
     intro hr
-    rw [if_pos hr] at h
+    rw [ite_eq_left hr] at h
     exact absurd h (by decide)
   exact ⟨h2, h3⟩
 
@@ -647,14 +647,14 @@ private theorem markRank_eq_self_of_markTag
   obtain ⟨tag, rank, n⟩ := lab
   subst htag
   simp only [markRank]
-  rw [if_neg h2, if_neg h3]
+  rw [ite_eq_right h2, ite_eq_right h3]
 
 private theorem markDeg_eq_n_of_markTag {lab : LargeEvenLabel}
     (htag : lab.tag = .twD) (h2 : lab.rank ≠ 2) : markDeg lab = lab.n := by
   obtain ⟨tag, rank, n⟩ := lab
   subst htag
   simp only [markDeg]
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
 
 private theorem exists_label_pOmegaMinus
     {G : Type} [Group G] {X : Subgroup G}
@@ -684,7 +684,7 @@ private theorem exists_label_triD4 {G : Type} [Group G] {X : Subgroup G}
     cases tag <;> simp only [markTag] at htag <;>
       first
         | rfl
-        | (split_ifs at htag <;> simp_all)
+        | (split_ifs at htag)
         | simp_all
   have hn' : lab.n = f := by
     rw [← hdeg]

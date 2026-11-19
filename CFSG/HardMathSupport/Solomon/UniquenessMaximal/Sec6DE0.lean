@@ -89,7 +89,7 @@ theorem not_normalizer_conj {B K : Subgroup G} (hB : IsElemAbelian 3 B) {c : G} 
   rwa [gLBConj_inv_gLBConj, gLBConj_inv_gLBConj] at h3
 
 theorem barX_mono_le {X A C : Subgroup G} (h : A ≤ C) : barX 3 X A ≤ barX 3 X C :=
-  Subgroup.map_mono fun z hz => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hz))
+  Subgroup.map_mono fun _z hz => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hz))
 
 omit [Finite G] in
 theorem commutes_sup2 {Q : Type*} [Group Q] {A C : Subgroup Q} {ζ : Q}

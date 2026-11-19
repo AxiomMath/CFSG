@@ -39,7 +39,7 @@ theorem centralizer_sylow_of_odd_point_class [Finite G] (z : G) (hz : orderOf z 
   have hUodd : Odd U.index := by
     rw [Subgroup.index_map_subtype]
     exact hPodd.mul hCodd
-  have hUtwo : IsPGroup 2 U := P.isPGroup'.map C.subtype
+  have hUtwo : IsPGroup 2 U := P.isPGroup.map C.subtype
   let S : Sylow 2 G := hUtwo.toSylow hUodd.not_two_dvd_nat
   have hS : (S : Subgroup G) = U := IsPGroup.toSylow_coe _ _
   have hzU : z ∈ U := NormalGraph.centralizer_sylow_contains z hz P

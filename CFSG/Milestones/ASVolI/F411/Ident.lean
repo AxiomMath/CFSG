@@ -145,7 +145,7 @@ theorem burnsideF411_oPPrime_le (p : ℕ) (P : Subgroup E) : oPPrime p P ≤ P :
 
 theorem burnsideF411_oPPrime_mono (p : ℕ) {P Q : Subgroup E} (h : P ≤ Q) :
     oPPrime p P ≤ oPPrime p Q :=
-  Subgroup.closure_mono fun x hx => ⟨h hx.1, hx.2⟩
+  Subgroup.closure_mono fun _x hx => ⟨h hx.1, hx.2⟩
 
 theorem burnsideF411_le_oPPrime {p : ℕ} [Fact p.Prime] {S P : Subgroup E} (hSP : S ≤ P)
     (hS : IsPGroup p S) : S ≤ oPPrime p P := by

@@ -16,7 +16,7 @@ theorem isParabolicTwo_top_of_isNontrivialParabolic [Finite X] {J : Subgroup X}
     (hJ : S19.IsNontrivialParabolic X J) : CFSG.AGLEmbedding.IsParabolicTwo ⊤ J := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨S, hS⟩, -, -⟩ := hJ
-  refine ⟨le_top, (S : Subgroup X), ⟨le_top, S.isPGroup', ?_⟩, ?_⟩
+  refine ⟨le_top, (S : Subgroup X), ⟨le_top, S.isPGroup, ?_⟩, ?_⟩
   · rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   · rw [top_inf_eq]
@@ -36,7 +36,7 @@ theorem ne_inf_normalizer_of_isNontrivialParabolic {J : Subgroup X}
     (Subgroup.le_normalizer.trans hSJ.le).trans hJT.le
   have hsup : (S : Subgroup X) ⊔ T = T := by
     have h := (hT2.toSylow hTi).maximal_isPGroup.eq_of_ge
-      (S.isPGroup'.to_sup_of_normal_right' hT2 hSN)
+      (S.isPGroup.to_sup_of_normal_right' hT2 hSN)
       (by rw [IsPGroup.toSylow_coe]; exact le_sup_right)
     rwa [IsPGroup.toSylow_coe] at h
   have hST : T = S := (S.maximal_isPGroup.eq_of_le hT2 (sup_eq_right.mp hsup)).symm

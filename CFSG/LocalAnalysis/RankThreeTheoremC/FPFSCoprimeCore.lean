@@ -34,7 +34,7 @@ theorem sq_le_pred_mul_finrank_ker_ad [FiniteDimensional K W] [IsAlgClosed K] {p
     (hfix : ∀ w : W, (A : Module.End K W) w = w → w = 0) :
     finrank K W ^ 2 ≤ (p - 1) * finrank K (LinearMap.ker (adOp A - 1)) := by
   classical
-  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot K p
+  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot K p
   set g : W ≃ₗ[K] W := LinearMap.GeneralLinearGroup.generalLinearEquiv K W A with hg
   have hgp : g ^ p = 1 := by rw [hg, ← map_pow, hAp, map_one]
   have hp2 : p ≥ 2 := hp.out.two_le

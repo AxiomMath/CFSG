@@ -26,32 +26,38 @@ variable {Ω : Set (Subgroup G)} {K J : Subgroup G} {t : G} {S : Sylow 2 G}
   (c : StarCex Ω K J t S)
 include c
 
+omit [Finite G] in
 theorem t_mem_pCore : t ∈ pCore 2 G := by
   obtain ⟨Q, hQn, hQ2, htQ⟩ := c.hyp.thmD.inO2 J c.hJ t c.ht
   exact (le_sSup ⟨hQn, hQ2⟩ : Q ≤ pCore 2 G) htQ
 
+omit [Finite G] c in
 theorem pCore_le : pCore 2 G ≤ (S : Subgroup G) :=
   CFSG.pCore_isPGroup.le_sylow_of_normal S
 
+omit [Finite G] in
 theorem t_mem : t ∈ (S : Subgroup G) :=
-  c.pCore_le c.t_mem_pCore
+  StarCex.pCore_le c.t_mem_pCore
 
+omit [Finite G] in
 theorem t_mul_t : t * t = 1 :=
   c.ht.sq
 
 theorem mem_dstarComp_of_le {L : Subgroup G} (hL : L ∈ Ω) (hLS : L ≤ (S : Subgroup G)) :
     L ∈ dstarComp Ω K :=
-  c.hyp.mem_dstarComp_of_le S.isPGroup' hL c.hK hLS c.hKS
+  c.hyp.mem_dstarComp_of_le S.isPGroup hL c.hK hLS c.hKS
 
 theorem conjSub_ne {L : Subgroup G} (hL : L ∈ dstarComp Ω K) : conjSub t L ≠ L := by
   intro htL
-  have hLJ := c.hyp.mem_dstarComp_of_normalizes (c.hyp.mem_of_mem_dstarComp c.hK hL) c.hJ c.ht
+  have hLJ := c.hyp.mem_dstarComp_of_normalizes (CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_of_mem_dstarComp c.hK hL) c.hJ c.ht
     (mem_normalizer_iff_conjSub_eq.mpr htL)
-  exact c.hJK (c.hyp.mem_dstarComp_trans hL (c.hyp.mem_dstarComp_comm c.hJ hLJ))
+  exact c.hJK (CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_trans hL (CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_comm c.hJ hLJ))
 
+omit [Finite G] in
 theorem conjSub_conjSub (L : Subgroup G) : conjSub t (conjSub t L) = L := by
   rw [← conjSub_mul, c.t_mul_t, conjSub_one]
 
+omit [Finite G] in
 theorem conjSub_le {L : Subgroup G} (hLS : L ≤ (S : Subgroup G)) :
     conjSub t L ≤ (S : Subgroup G) :=
   (conjSub_mono hLS).trans (conjSub_eq_self_of_mem c.t_mem).le
@@ -61,6 +67,7 @@ theorem exists_eta : ∃ η ∈ etaG Ω, (∀ V ∈ η, V ≤ (S : Subgroup G)) 
   obtain ⟨η, hη, hinv⟩ := Sec6Gen.exists_invariant_mem_etaSet c.hyp.thmD.hyp S
   exact ⟨η, ⟨S, hη, hinv⟩, fun V hV => (hη.1 hV).2, hinv⟩
 
+omit [Finite G] c in
 theorem le_normalizer_of_invariant {η : Set (Subgroup G)}
     (hinv : ∀ s ∈ (S : Subgroup G), ∀ V ∈ η, conjSub s V ∈ η) :
     (S : Subgroup G) ≤ Subgroup.normalizer (((⨆ V ∈ η, V : Subgroup G)) : Set G) := by

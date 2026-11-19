@@ -85,6 +85,7 @@ theorem isSecondBlockVec_permVec_heartSwap (v : Fin 8 → ZMod 2) :
   revert v
   decide +kernel
 
+omit [Group G] in
 theorem heart_image_swap_firstBlock (φ : (Fin 8 → ZMod 2) → G) :
     (fun v => φ (permVec heartSwap v)) '' {v | IsFirstBlockVec v} =
       φ '' {v | IsSecondBlockVec v} := by
@@ -97,6 +98,7 @@ theorem heart_image_swap_firstBlock (φ : (Fin 8 → ZMod 2) → G) :
     show φ (permVec heartSwap (permVec heartSwap u)) = φ u
     rw [← sec5b_permVec_mul, heartSwap_mul_self, heart_permVec_one]
 
+omit [Group G] in
 theorem heart_image_swap_secondBlock (φ : (Fin 8 → ZMod 2) → G) :
     (fun v => φ (permVec heartSwap v)) '' {v | IsSecondBlockVec v} =
       φ '' {v | IsFirstBlockVec v} := by
@@ -109,6 +111,7 @@ theorem heart_image_swap_secondBlock (φ : (Fin 8 → ZMod 2) → G) :
     show φ (permVec heartSwap (permVec heartSwap u)) = φ u
     rw [← sec5b_permVec_mul, heartSwap_mul_self, heart_permVec_one]
 
+omit [Group G] in
 theorem heart_ncard_firstBlock {φ : (Fin 8 → ZMod 2) → G}
     (hinj : ∀ v w, IsEvenVec v → IsEvenVec w → φ v = φ w → w = v ∨ w = v + 1) :
     Set.ncard (φ '' {v | IsFirstBlockVec v}) = 8 := by
@@ -129,6 +132,7 @@ theorem heart_ncard_firstBlock {φ : (Fin 8 → ZMod 2) → G}
   rw [hset, Set.ncard_coe_finset]
   decide +kernel
 
+omit [Group G] in
 theorem heart_ncard_secondBlock {φ : (Fin 8 → ZMod 2) → G}
     (hinj : ∀ v w, IsEvenVec v → IsEvenVec w → φ v = φ w → w = v ∨ w = v + 1) :
     Set.ncard (φ '' {v | IsSecondBlockVec v}) = 8 := by

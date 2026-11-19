@@ -313,7 +313,7 @@ theorem xi_mulVec_aV {ι : K} (hι : ι * ι = -1) (s t : K) :
     (xi : Matrix (Fin 4) (Fin 4) K) *ᵥ aV ι s t = ι • aV ι s t := by
   funext i
   fin_cases i <;> simp [xi, aV, Matrix.mulVec, dotProduct, Fin.sum_univ_four] <;>
-    first | ring1 | linear_combination (-s) * hι | linear_combination (-t) * hι
+    first | linear_combination (-s) * hι | linear_combination (-t) * hι
 
 theorem aV_expand (ι s t : K) : aV ι s t = s • aV ι 1 0 + t • aV ι 0 1 := by
   funext i

@@ -111,7 +111,7 @@ theorem commute_reflDiag_of_mem_suStab [Finite K] {q : ℕ} (hK : Nat.card K = q
         (f := fun i => CFSG.LieType.Universal.Unitary.conjTr σ A k i * A i j) k
         (Finset.mem_univ k) (fun i _ hi => by
           rw [show CFSG.LieType.Universal.Unitary.conjTr σ A k i = σ (A i k) by rfl,
-            hcol i, if_neg hi, map_zero, zero_mul])
+            hcol i, ite_eq_right hi, map_zero, zero_mul])
       simpa [show CFSG.LieType.Universal.Unitary.conjTr σ A k k = σ (A k k) by rfl,
         hcol k] using h
     rw [hsum] at h1
@@ -126,11 +126,11 @@ theorem commute_reflDiag_of_mem_suStab [Finite K] {q : ℕ} (hK : Nat.card K = q
       by_cases hj : j = k
       · subst j
         ring
-      · rw [hrow j, if_neg (Ne.symm hj)]
+      · rw [hrow j, ite_eq_right (Ne.symm hj)]
         simp
     · by_cases hj : j = k
       · subst j
-        rw [hcol i, if_neg hi]
+        rw [hcol i, ite_eq_right hi]
         simp
       · rw [Function.update_of_ne hi, Function.update_of_ne hj]
         ring

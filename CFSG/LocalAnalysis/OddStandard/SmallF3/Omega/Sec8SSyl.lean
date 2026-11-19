@@ -154,8 +154,8 @@ theorem asc82FinkSylow_of (h36 : Asc82Lemma36) (h37 : Asc82Lemma37) (hM : Asc82T
       intro p hp
       have hpH : (⟨p, hp⟩ : ↥P) ∈ H := by rw [htop]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hpH
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥P := hPsyl.2.1.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥P := hPsyl.2.1.isNilpotent
     have hnc : NormalizerCondition ↥P := Group.normalizerCondition_of_isNilpotent
     have hlt : H < Subgroup.normalizer H := hnc H (lt_of_le_of_ne le_top hHne)
     have hssub : (H : Set ↥P) ⊂ (Subgroup.normalizer (H : Set ↥P) : Set ↥P) := by

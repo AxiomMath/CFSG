@@ -26,13 +26,13 @@ theorem close16_le_center_of_isSolvable {Q : Type} [Group Q] [Finite Q]
 
 theorem close16_pCore_le_of_alt_quot {Q : Type} [Group Q] [Finite Q] (N : Subgroup Q) [N.Normal]
     (e : Q ⧸ N ≃* alternatingGroup (Fin 8)) : CFSG.pCore 2 Q ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (Q ⧸ N) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Q ⧸ N) := MulEquiv.isSimpleGroup e
   let π : Q →* Q ⧸ N := QuotientGroup.mk' N
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
-  haveI hPn : ((CFSG.pCore 2 Q).map π).Normal :=
+  have hPn : ((CFSG.pCore 2 Q).map π).Normal :=
     Subgroup.Normal.map inferInstance π hπ
   have hP2 : IsPGroup 2 ↥((CFSG.pCore 2 Q).map π) :=
     (CFSG.pCore_isPGroup).map π
@@ -71,8 +71,8 @@ theorem close16_le_pCore_of_alt_quot {Q : Type} [Group Q] [Finite Q] (hQ : Group
     (hL : CFSG.Open.rankThreeLayer (⊤ : Subgroup (Q ⧸ CFSG.pCore 2 Q)) = ⊤)
     (N : Subgroup Q) [N.Normal] (hN : Group.IsSolvable ↥N)
     (e : Q ⧸ N ≃* alternatingGroup (Fin 8)) : N ≤ CFSG.pCore 2 Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect Q := hQ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect Q := hQ
   set R := CFSG.pCore 2 Q with hR
   have hRN : R ≤ N := close16_pCore_le_of_alt_quot N e
   let π : Q →* Q ⧸ R := QuotientGroup.mk' R
@@ -111,7 +111,7 @@ theorem close16_le_pCore_of_alt_quot {Q : Type} [Group Q] [Finite Q] (hQ : Group
     rw [hkerS]
     exact Group.isSolvable_of_surjective (f := π.subgroupMap N)
       (MonoidHom.subgroupMap_surjective π N)
-  haveI : q.ker.Normal := MonoidHom.normal_ker q
+  have : q.ker.Normal := MonoidHom.normal_ker q
   have hSc : q.ker ≤ Subgroup.center (Q ⧸ R) := close16_le_center_of_isSolvable hL hSsolv
   have hQb : Group.IsPerfect (Q ⧸ R) := Group.IsPerfect.ofSurjective hπ
   have hdvd := close16_card_ker_dvd_two hQb q hq hSc
@@ -125,6 +125,7 @@ theorem close16_le_pCore_of_alt_quot {Q : Type} [Group Q] [Finite Q] (hQ : Group
   have h1 : π x = 1 := by simpa using hSle hmem
   exact (QuotientGroup.eq_one_iff x).mp h1
 
+omit [Finite G] in
 private theorem close16_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -152,7 +153,7 @@ theorem close16_ker_eq_pcore {Y C : Subgroup G} [((Y ⊓ C).subgroupOf Y).Normal
       obtain ⟨y, hy, hyx⟩ := hsolv (Subgroup.mem_subgroupOf.mp hx)
       have hyx' : y = x := Subtype.ext hyx
       exact hyx' ▸ hy
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   obtain ⟨e⟩ := hA8

@@ -35,8 +35,8 @@ private theorem k0Center_map_theta_eq_bot {L : Subgroup G}
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hLq hRn with h | h
     · exfalso
       rw [h] at hRs
-      haveI := CFSG.LocalCores.isQuasisimple_nontrivial hLq
-      haveI : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) := hLq.1
+      have := CFSG.LocalCores.isQuasisimple_nontrivial hLq
+      have : Group.IsPerfect (↥L ⧸ aschbacherSolvableCore 3 ↥L) := hLq.1
       exact Group.IsPerfect.not_isSolvable (↥L ⧸ aschbacherSolvableCore 3 ↥L)
         (Group.isSolvable_of_surjective
           (f := (Subgroup.topEquiv : ↥(⊤ : Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) ≃*
@@ -44,7 +44,7 @@ private theorem k0Center_map_theta_eq_bot {L : Subgroup G}
     · exact h
   exact central_normal_eq_bot (aschbacherSolvableCore 3 ↥L) hLs hLn hLmax _ hRc hRp
 
-private theorem k0Center_ker_le_theta {L Z : Subgroup G} (hZL : Z ≤ L)
+private theorem k0Center_ker_le_theta {L Z : Subgroup G} (_hZL : Z ≤ L)
     (ρ : ↥Z →* ↥L ⧸ aschbacherSolvableCore 3 ↥L)
     (hker : ∀ z : Z, z ∈ ρ.ker ↔ (z : G) ∈ inSubgroup (aschbacherSolvableCore 3) L) :
     ρ.ker ≤ aschbacherSolvableCore 3 ↥Z := by

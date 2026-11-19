@@ -22,7 +22,7 @@ theorem E8ZPkg.centralizer_eq_zpowers (P : E8ZPkg z e E B T A X)
     (he2 : e * e = 1) (he1 : e ≠ 1)
     (hCE0 : ∀ x ∈ Hhat, (∀ y ∈ E0, x * y = y * x) → x = 1 ∨ x = alpha) :
     Subgroup.centralizer (E : Set G) = Subgroup.zpowers e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Ce, hCe⟩ : ∃ C : Subgroup G, C = Subgroup.centralizer ({e} : Set G) := ⟨_, rfl⟩
   obtain ⟨Y, hY⟩ : ∃ C : Subgroup G, C = Subgroup.centralizer (E : Set G) := ⟨_, rfl⟩
   rw [← hCe] at hodd
@@ -136,7 +136,7 @@ theorem E8ZPkg.centralizer_eq_zpowers (P : E8ZPkg z e E B T A X)
     obtain ⟨Tc, hTc⟩ : ∃ Tc : Sylow 2 ↥Ce,
         (Tc : Subgroup ↥Ce) = (T : Subgroup G).subgroupOf Ce :=
       ⟨T.subtype hTCe, rfl⟩
-    haveI : Finite (Sylow 2 ↥Ce) :=
+    have : Finite (Sylow 2 ↥Ce) :=
       Finite.of_injective (fun P : Sylow 2 ↥Ce => (P : Set ↥Ce)) SetLike.coe_injective
     obtain ⟨m, hm⟩ := MulAction.exists_smul_eq (↥Ce) Tc S₁
     have hconj : ∀ q ∈ Q, (m : G)⁻¹ * q * (m : G) ∈ (T : Subgroup G) := by
@@ -174,14 +174,14 @@ theorem E8ZPkg.centralizer_eq_zpowers (P : E8ZPkg z e E B T A X)
     obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
     have hSle : Nat.card S ≤ 2 := by
       have hQ2' : IsPGroup 2 ((S : Subgroup ↥Y).map Y.subtype) :=
-        S.isPGroup'.map Y.subtype
+        S.isPGroup.map Y.subtype
       have hle := hQ2 _ hQ2' (Subgroup.map_subtype_le _)
       rwa [Subgroup.card_map_of_injective Y.subtype_injective] at hle
     have hcyc : IsCyclic S := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
       rcases n with _ | _ | n
       · have h1 : Nat.card S = 1 := by simpa using hn
-        haveI : Subsingleton S := (Nat.card_eq_one_iff_unique.mp h1).1
+        have : Subsingleton S := (Nat.card_eq_one_iff_unique.mp h1).1
         exact isCyclic_of_subsingleton
       · have h2 : Nat.card S = 2 := by simpa using hn
         exact isCyclic_of_prime_card (p := 2) h2

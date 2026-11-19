@@ -18,10 +18,10 @@ theorem qtGens_get {k : Nat} (hk : k < 7) : glQtGens[k]! = unpackR 22 (qtGenK k)
   unfold glQtGens qtGenK
   rw [getElem!_pos _ k (by simp [hk]), Array.getElem_ofFn]
   by_cases h6 : k < 6
-  · simp only [if_pos h6]
+  · simp only [ite_eq_left h6]
     rw [gens_get h6]
     rfl
-  · simp only [if_neg h6]
+  · simp only [ite_eq_right h6]
     exact mkR_get (by decide)
 
 theorem qt_ok : glQtOK = true := by

@@ -56,7 +56,7 @@ theorem exists_prime_five_le_dvd_two_pow_sub_one {k : ℕ} (hk : 2 ≤ k) :
 theorem two_le_pRank_statedSL_three_of_orderOf {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) {ζ : Kˣ} (hζ : orderOf ζ = p) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup ↥(CFSG.Open.StatedSL 3 K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ
   have hζ1 : ζ ≠ 1 := by
     intro h
@@ -134,13 +134,13 @@ theorem kfBigPrime_holds : KFBigPrime := by
   obtain ⟨p, hp, hp5, hpd⟩ := exists_prime_five_le_dvd_two_pow_sub_one hk
   have hcard : Nat.card (GaloisField 2 (2 * k)) = 2 ^ (2 * k) :=
     GaloisField.card 2 (2 * k) (by omega)
-  haveI : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
   have hunits : Nat.card (GaloisField 2 (2 * k))ˣ = 2 ^ (2 * k) - 1 := by
     rw [Nat.card_units, hcard]
   have hdvd : p ∣ Fintype.card (GaloisField 2 (2 * k))ˣ := by
     rw [← Nat.card_eq_fintype_card, hunits]
     exact hpd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card p hdvd
   refine ⟨p, hp, hp5, ?_⟩
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by omega : 1 < p)
@@ -238,12 +238,12 @@ theorem zSL2_ne_one : zSL2 ≠ 1 := by
   simp [zSL2] at h01
 
 theorem zSL2_orderOf : orderOf zSL2 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime zSL2_pow_three zSL2_ne_one
 
 theorem twoLe_of_projSp_three_one {X : Type} [Group X] [Finite X]
     (e : X ≃* projSp 3 (GaloisField 2 1)) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center (CFSG.Open.StatedSp 3 (GaloisField 2 1)) = ⊥ :=
     CFSG.Timmesfeld.Transvection.center_statedSp_eq_bot (by norm_num)
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
@@ -265,7 +265,7 @@ theorem twoLe_of_projOmegaMinus {X : Type} [Group X] [Finite X] {b c : GaloisFie
 
 theorem twoLe_of_projSU_three_three {X : Type} [Group X] [Finite X]
     (e : X ≃* projSU 3 3 1) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC : CFSG.Quasithin.IsPSU 3 3 1 X :=
     ⟨⟨Nat.prime_three, le_rfl, le_rfl, by decide⟩, GaloisField 3 2, inferInstance, inferInstance,
       by rw [GaloisField.card 3 2 (by norm_num)]; norm_num,
@@ -353,7 +353,7 @@ theorem center_eq_bot_of_iso_center {X M : Type} [Group X] [Group M] (e : X ≃*
 theorem center_eq_bot_of_projSL {X : Type} [Group X] (hperf : Group.IsPerfect X) {n a : ℕ}
     (hn : 2 ≤ n) (ha : 1 ≤ a) (hna : n = 2 → 2 ≤ a)
     (e : X ≃* projSL n (GaloisField 2 a)) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup (projSL n (GaloisField 2 a)) :=
+  have : IsSimpleGroup (projSL n (GaloisField 2 a)) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity _ n 2 a
       (CFSG.RankThree.PartTwo.Sec21.statedClassicalModel_psl_of_mulEquiv_projSL hn ha hna
         (MulEquiv.refl _))).2
@@ -369,7 +369,7 @@ theorem kf2_of_isoGTwoEven
   · rcases hL with ⟨n, hn, h | h | h | hG⟩ | h | h | h | h | h | h | h | h | ⟨b, c, hbc, h⟩ | h
     ·
       obtain ⟨e⟩ := h
-      haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+      have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
       have hcardF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
         rw [← Nat.card_eq_fintype_card, GaloisField.card 2 n (by omega)]
       have hc := CFSG.RankThree.PartTwo.Sec12.card_center_eq_of_mulEquiv e
@@ -397,12 +397,12 @@ theorem kf2_of_isoGTwoEven
       exact kf2_of_center_eq_bot (hG2 n X hG)
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (projSU 4 2 1) :=
+      have : IsSimpleGroup (projSU 4 2 1) :=
         CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSU le_rfl le_rfl
       exact kf2_of_center_eq_bot (center_eq_bot_of_iso_simple e hperf)
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (projSU 4 2 3) :=
+      have : IsSimpleGroup (projSU 4 2 3) :=
         CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSU le_rfl (by norm_num)
       exact kf2_of_center_eq_bot (center_eq_bot_of_iso_simple e hperf)
     ·
@@ -434,7 +434,7 @@ theorem kf2_of_isoGTwoEven
           (statedProjEquivSelfOfCenter _ hZ)) hZ)
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedOmega
+      have : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedOmega
           (CFSG.Open.StatedQuadMinus 4 (GaloisField 2 1) b c))) :=
         CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus
           (n := 4) (K := GaloisField 2 1) le_rfl hbc
@@ -443,7 +443,7 @@ theorem kf2_of_isoGTwoEven
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 (GaloisField 2 1) b c))).symm) hperf)
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+      have : IsSimpleGroup (alternatingGroup (Fin 10)) :=
         alternatingGroup.isSimpleGroup (α := Fin 10) (by simp)
       exact kf2_of_center_eq_bot (center_eq_bot_of_iso_simple e hperf)
   ·

@@ -49,7 +49,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem smith28aE5_of_normQuot (hN : NormQuotE5Statement) (hB : ElemBoundE5Statement) :
     Smith28aE5Statement := by
   intro G _ _ M Q Z B IH hc h5 X x hs hQ
-  haveI := hc.ctx.normal_Q_in_M
+  have := hc.ctx.normal_Q_in_M
   obtain ⟨n, m, hw, hnm⟩ := hc.e.exists_width
   have h115 := smith115Statement_holds G M Q Z X x hs n hw hQ
   have hel : IsElemAbelian 2 (Lx M X) := h115.1.mono le_sup_right
@@ -87,7 +87,7 @@ theorem smith28aE5_of_normQuot (hN : NormQuotE5Statement) (hB : ElemBoundE5State
 theorem smith28aE4_of_normQuot (hN : NormQuotE4Statement) (hB : ElemBoundE4Statement) :
     Smith28aE4Statement := by
   intro G _ _ M Q Z B IH hc h4 X x hs hQ
-  haveI := hc.ctx.normal_Q_in_M
+  have := hc.ctx.normal_Q_in_M
   obtain ⟨n, m, hw, hnm⟩ := hc.e.exists_width
   have h115 := smith115Statement_holds G M Q Z X x hs n hw hQ
   have hel : IsElemAbelian 2 (Lx M X) := h115.1.mono le_sup_right

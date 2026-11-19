@@ -74,7 +74,7 @@ theorem exists_local_frame_cover {X : Type} [Group X] [Finite X] (hX : CFSG.IsQu
   obtain ⟨F₁, hZF₁, hF₁F, hF₁27, -, -, h3A, -⟩ := exists_F1_of_class hZ3 e hFbar hZF hF81
   have hex : ∃ a ∈ F, a ∉ F₁ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have : Nat.card F ≤ Nat.card F₁ := by
       have hle : F ≤ F₁ := hno
       exact Subgroup.card_le_of_le hle

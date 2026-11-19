@@ -86,7 +86,7 @@ theorem exists_point_LB (h34 : Stroth34Statement) (hRoot : Stroth310RootStatemen
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hQN : Q ≤ hc.CN t := hc.Q_le_CN' ht
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   let f₀ : ↥(Rt M (LB M Q B) t) →* Mbar M Q :=
@@ -156,6 +156,7 @@ theorem exists_point_LB (h34 : Stroth34Statement) (hRoot : Stroth310RootStatemen
   rw [← hL, ← hfx]
   exact Subgroup.mem_map.mpr ⟨⟨(ℓ : G), hℓR⟩, Subgroup.mem_subgroupOf.mpr hℓL, rfl⟩
 
+omit [Finite K] in
 theorem finrank_LB_le_two {u : Fin 4 ⊕ Fin 4 → K} (hu0 : u ≠ 0) (hQu : quadPlus 4 K u = 0)
     {g : GL (Fin 4 ⊕ Fin 4) K} (hg : g ∈ LomGLPlus (by norm_num : 3 ≤ 4) u) :
     Module.finrank K (LinearMap.range

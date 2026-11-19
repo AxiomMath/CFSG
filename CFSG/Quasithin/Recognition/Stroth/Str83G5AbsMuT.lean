@@ -30,6 +30,7 @@ theorem le_normalizer_win (c : Conf G n) (a b : ℤ) :
 
 variable [Finite G] (c : Conf G n)
 
+omit [Finite G] in
 private theorem isPGroup_win_J :
     IsPGroup 2 (win c.Q₁ c.Q₂ c.x₁ c.x₂ 0 c.pattern.J) := by
   refine c.isPGroup₁.to_le ?_

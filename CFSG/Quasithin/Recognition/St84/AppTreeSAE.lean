@@ -38,6 +38,7 @@ noncomputable abbrev f112saK' (L1 L2 S : Subgroup H) : Subgroup (f112saE0 L1 L2 
 noncomputable abbrev f112saQ (L1 L2 S : Subgroup H) : Type :=
   f112saE0 L1 L2 S ⧸ f112saK' L1 L2 S
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_oTwoRes_left
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (oTwoRes L1 : Set H) := by
@@ -47,6 +48,7 @@ theorem f112sa_bigB_le_normalizer_oTwoRes_left
   rw [conjSub_oTwoRes,
     F1.conjSub_eq_of_mem_normalizer (bigB_le_normalizer_of_hyp111 hF.1 hb)]
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_oTwoRes_right
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (oTwoRes L2 : Set H) := by
@@ -58,6 +60,7 @@ theorem f112sa_bigB_le_normalizer_oTwoRes_right
   show conjSub b (oTwoRes L2) = oTwoRes L2
   rw [conjSub_oTwoRes, F1.conjSub_eq_of_mem_normalizer (hN hb)]
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_X1
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (f112saX1 L1 L2 S : Set H) := by
@@ -76,6 +79,7 @@ theorem f112sa_bigB_le_normalizer_X1
       ((bigB L1 L2 S).inv_mem hb) hxB) hb
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_X2
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (f112saX2 L1 L2 S : Set H) := by
@@ -94,22 +98,28 @@ theorem f112sa_bigB_le_normalizer_X2
       ((bigB L1 L2 S).inv_mem hb) hxB) hb
     simpa [mul_assoc] using h
 
+omit [Finite H] in
 theorem f112sa_X1_le_bigB (L1 L2 S : Subgroup H) :
     f112saX1 L1 L2 S ≤ bigB L1 L2 S := inf_le_right
 
+omit [Finite H] in
 theorem f112sa_X2_le_bigB (L1 L2 S : Subgroup H) :
     f112saX2 L1 L2 S ≤ bigB L1 L2 S := inf_le_right
 
+omit [Finite H] in
 theorem f112sa_X1_le_oTwoRes (L1 L2 S : Subgroup H) :
     f112saX1 L1 L2 S ≤ oTwoRes L1 := inf_le_left
 
+omit [Finite H] in
 theorem f112sa_X2_le_oTwoRes (L1 L2 S : Subgroup H) :
     f112saX2 L1 L2 S ≤ oTwoRes L2 := inf_le_left
 
+omit [Finite H] in
 theorem f112sa_K_le_bigB (L1 L2 S : Subgroup H) :
     f112saK L1 L2 S ≤ bigB L1 L2 S :=
   sup_le (f112sa_X1_le_bigB L1 L2 S) (f112sa_X2_le_bigB L1 L2 S)
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_K
     {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (f112saK L1 L2 S : Set H) :=
@@ -192,6 +202,7 @@ theorem f112sa_P2_eq_P2'_sup_bigB
       · exact (f112sa_X1_le_bigB L1 L2 S).trans le_sup_right
     · exact le_sup_right
 
+omit [Finite H] in
 theorem f112sa_P1'_inf_bigB {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) :
     f112saP1' L1 L2 S ⊓ bigB L1 L2 S = f112saK L1 L2 S := by
@@ -213,6 +224,7 @@ theorem f112sa_P1'_inf_bigB {L1 L2 S : Subgroup H}
     exact sup_le ((show f112saX1 L1 L2 S ≤ oTwoRes L1 from inf_le_left).trans le_sup_left)
       (show f112saX2 L1 L2 S ≤ f112saP1' L1 L2 S from le_sup_right)
 
+omit [Finite H] in
 theorem f112sa_P2'_inf_bigB {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) :
     f112saP2' L1 L2 S ⊓ bigB L1 L2 S = f112saK L1 L2 S := by
@@ -645,7 +657,7 @@ theorem f112saQ_eq_one_of_odd_of_hyp111R {L1 L2 S : Subgroup H}
     [hN : (f112saK' L1 L2 S).Normal]
     {q : f112saQ L1 L2 S} (hodd : Odd (orderOf q)) : q = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ orderOf q := (f112saQ_isPGroup_of_hyp111R hF hR h1).dvd_orderOf hne
   have hne' : ¬ Even (orderOf q) := Nat.not_even_iff_odd.mpr hodd
   exact hne' (even_iff_two_dvd.mpr h2)
@@ -662,6 +674,7 @@ theorem f112saEOdd_le_ker_chi_of_hyp111R {L1 L2 S : Subgroup H}
   exact f112saQ_eq_one_of_odd_of_hyp111R hF hR h1
     (huodd.of_dvd_nat (orderOf_map_dvd (f112saChiR hF.toW hR) u))
 
+omit [Finite H] in
 theorem f112sa_subgroupOf_closure_eq {K L : Subgroup H} {s : Set H}
     (hK : K = Subgroup.closure s) (hs : s ⊆ L) :
     K.subgroupOf L = Subgroup.closure ((↑) ⁻¹' s : Set L) := by
@@ -678,6 +691,7 @@ theorem f112sa_subgroupOf_closure_eq {K L : Subgroup H} {s : Set H}
       exact ⟨⟨x, hs hx⟩, hx, rfl⟩
   rw [himg]
 
+omit [Finite H] in
 theorem f112sa_ofA_eq_ofB_of_mem_inf (L1 L2 S : Subgroup H)
     {x : H} (hx : x ∈ f112P1 L1 L2 S ⊓ f112P2 L1 L2 S) :
     (f112Gold L1 L2 S).ofA ⟨x, hx.1⟩ = (f112Gold L1 L2 S).ofB ⟨x, hx.2⟩ := by
@@ -686,6 +700,7 @@ theorem f112sa_ofA_eq_ofB_of_mem_inf (L1 L2 S : Subgroup H)
   have h2 : (f112Gold L1 L2 S).toB c = ⟨x, hx.2⟩ := rfl
   rw [← h1, ← h2, (f112Gold L1 L2 S).ofA_toA, (f112Gold L1 L2 S).ofB_toB]
 
+omit [Finite H] in
 theorem f112sa_oTwoRes_left_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((oTwoRes L1).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA ≤
@@ -706,6 +721,7 @@ theorem f112sa_oTwoRes_left_map_le_EOdd
   · rintro x ⟨hxL, -⟩
     exact Subgroup.mem_sup_left hxL
 
+omit [Finite H] in
 theorem f112sa_oTwoRes_right_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((oTwoRes L2).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB ≤
@@ -726,6 +742,7 @@ theorem f112sa_oTwoRes_right_map_le_EOdd
   · rintro x ⟨hxL, -⟩
     exact Subgroup.mem_sup_left hxL
 
+omit [Finite H] in
 theorem f112sa_X2_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((f112saX2 L1 L2 S).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA ≤
@@ -745,6 +762,7 @@ theorem f112sa_X2_map_le_EOdd
   exact Subgroup.mem_map_of_mem (f112Gold L1 L2 S).ofB
     (Subgroup.mem_subgroupOf.mpr haO)
 
+omit [Finite H] in
 theorem f112sa_P1'_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA ≤
@@ -754,6 +772,7 @@ theorem f112sa_P1'_map_le_EOdd
     ((f112sa_X2_le_bigB L1 L2 S).trans le_sup_right), Subgroup.map_sup]
   exact sup_le f112sa_oTwoRes_left_map_le_EOdd f112sa_X2_map_le_EOdd
 
+omit [Finite H] in
 theorem f112sa_X1_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((f112saX1 L1 L2 S).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB ≤
@@ -772,6 +791,7 @@ theorem f112sa_X1_map_le_EOdd
   exact Subgroup.mem_map_of_mem (f112Gold L1 L2 S).ofA
     (Subgroup.mem_subgroupOf.mpr haO)
 
+omit [Finite H] in
 theorem f112sa_P2'_map_le_EOdd
     {L1 L2 S : Subgroup H} :
     ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB ≤
@@ -789,10 +809,10 @@ theorem f112sa_EOdd_inf_ofA_range {L1 L2 S : Subgroup H}
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 1) (n := 2) (by norm_num) (by norm_num) hF.1
       (isL2Quot_of_VS3 h1) h2
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF.toW hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF.toW hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF.toW
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF.toW
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huA⟩
@@ -816,10 +836,10 @@ theorem f112sa_EOdd_inf_ofB_range {L1 L2 S : Subgroup H}
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 1) (n := 2) (by norm_num) (by norm_num) hF.1
       (isL2Quot_of_VS3 h1) h2
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF.toW hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF.toW hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF.toW
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF.toW
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huB⟩

@@ -38,7 +38,7 @@ private def sectionTrivial {G : Type*} [Group G] (A V : Subgroup G) : Subgroup G
     ∀ x ∈ A, g * x * g⁻¹ * x⁻¹ ∈ V}
   one_mem' := by
     refine ⟨Subgroup.one_mem _, fun x _ => ?_⟩
-    simpa using V.one_mem
+    simp
   mul_mem' := by
     rintro g h ⟨hgV, hg⟩ ⟨hhV, hh⟩
     refine ⟨Subgroup.mul_mem _ hgV hhV, fun x hx => ?_⟩
@@ -57,6 +57,7 @@ private def sectionTrivial {G : Type*} [Group G] (A V : Subgroup G) : Subgroup G
     rw [heq]
     exact h
 
+omit [Finite G] in
 private theorem mem_sectionTrivial {A V : Subgroup G} {g : G} :
     g ∈ sectionTrivial A V ↔ g ∈ Subgroup.normalizer (V : Set G) ∧
       ∀ x ∈ A, g * x * g⁻¹ * x⁻¹ ∈ V :=
@@ -119,7 +120,7 @@ private theorem frameInter_le_pCoreOf {c : Ctx2311 D Ch} (F : c.SL3Facts)
 
 private theorem frame_inf_pCoreOf_le {c : Ctx2311 D Ch} (x : Fin 3 → ↥c.L) (i : Fin 3) :
     conjSubgroup c.K (x i) ⊓ frameS c ≤ CFSG.Open.pCoreOf 2 (conjSubgroup c.K (x i)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : ∀ g ∈ conjSubgroup c.K (x i),
       ∀ y ∈ conjSubgroup c.K (x i) ⊓ frameS c,
         g * y * g⁻¹ ∈ conjSubgroup c.K (x i) ⊓ frameS c := by
@@ -400,7 +401,7 @@ private theorem frame_fpf_all {c : Ctx2311 D Ch} (F : c.SL3Facts) (x : Fin 3 →
   have hB : frameS c = ⨆ A ∈ Set.range T, A := by
     rw [iSup_range]
     refine hSsup.trans ?_
-    simp [T, CFSG.Quasithin.iSup_fin_three]
+    simp [T]
   have hdV : d ∈ Subgroup.normalizer (c.V : Set G) :=
     Ctx23L.sup_le_normalizer_V D Ch c.toCtx23L (Subgroup.mem_sup_left hdL)
   have hdS : ∀ A ∈ Set.range T, d ∈ Subgroup.normalizer (A : Set G) := by
@@ -450,15 +451,15 @@ private theorem frame_adapted {c : Ctx2311 D Ch} (F : c.SL3Facts) {d : G} (hdL :
       Hinf (MulAction.stabilizer ↥(c.H F.hV)
         ((c.toCtx23L.Ztil F.hV : Subgroup (c.toCtx23L.W F.hV)) :
           Set (c.toCtx23L.W F.hV))) = frameKStar F := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom _ ((c.H F.hV).subtype.comp
       (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom _ ((c.H F.hV).subtype.comp
       (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   have hnat : IsNaturalClassicalModule (c.H F.hV) (CFSG.Open.pRank 2 D.Z) :=
@@ -518,8 +519,8 @@ private theorem frame_lift_data {c : Ctx2311 D Ch} (F : c.SL3Facts) {d : G} (hdL
     intro i
     by_cases hi : i = 0
     · subst hi
-      simpa [x, ha0]
-    · simp only [x, if_neg hi, hxx]
+      simp [x, ha0]
+    · simp only [x, ite_eq_right hi, hxx]
   have hx : IsSL3Frame (frameKStar F) (fun i => c.phiL F.hV (x i)) := by
     rw [show (fun i => c.phiL F.hV (x i)) = a from funext hxφ]
     exact hframe
@@ -551,11 +552,11 @@ private theorem frame_point_stab {c : Ctx2311 D Ch} (F : c.SL3Facts) {d : G} (hd
           (MulAut.conj (c.phiL F.hV (x i))⁻¹).toMonoidHom →
         (l : G) ∈ conjSubgroup D.M (x i) ∧
           (l : G) ∈ Subgroup.normalizer (frameE x i : Set G)) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   have hPa' : ∀ i, c.phiL F.hV ⟨d, hdL⟩ ∈ (MulAction.stabilizer ↥(c.H F.hV)
       ((c.toCtx23L.Ztil F.hV : Subgroup (c.toCtx23L.W F.hV)) : Set (c.toCtx23L.W F.hV))).map
         (MulAut.conj (c.phiL F.hV (x i))⁻¹).toMonoidHom := by
@@ -582,15 +583,15 @@ private theorem frame_fpf {c : Ctx2311 D Ch} (F : c.SL3Facts) {d : G} (hdL : d �
     (hdodd : Odd (orderOf d)) (hd3 : d ^ 3 ≠ 1)
     (hdK : ∀ k ∈ c.K, d * k * d⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 c.K) :
     ∀ t ∈ frameS c, d * t * d⁻¹ * t⁻¹ ∈ c.V → t ∈ c.V := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom _ (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom _ ((c.H F.hV).subtype.comp
       (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom _ ((c.H F.hV).subtype.comp
       (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   obtain ⟨a, hframe, hPa, hdecomp, hKstar⟩ := frame_adapted F hdL hdodd hd3 hdK

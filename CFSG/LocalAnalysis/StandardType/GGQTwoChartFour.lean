@@ -27,6 +27,7 @@ open CFSG.ClassicalInvolution.Balance.StrongBalance.Linear
 
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
 
+omit [Finite F0] in
 theorem qTwoFour_natCast_sq (k : ℕ) : (k : F0) ^ 2 = (k : F0) := by
   induction k with
   | zero => simp
@@ -34,6 +35,7 @@ theorem qTwoFour_natCast_sq (k : ℕ) : (k : F0) ^ 2 = (k : F0) := by
     rw [Nat.cast_succ, add_sq, hk]
     simp [show (2 : F0) = 0 from CharP.cast_eq_zero F0 2]
 
+omit [Finite F0] in
 theorem qTwoFour_cube_sq_add_nat_ne_zero {ω : F0} (hω : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) (k : ℕ) : ω ^ 2 + (k : F0) ≠ 0 := by
   intro h
@@ -90,7 +92,7 @@ theorem qTwoFour_separating_trace_ne_zero {I : Finset (Fin m)} (hI : I.card = 4)
     simp
   rw [hsplit, hsumI, zero_add,
     Finset.sum_eq_add_sum_sdiff_singleton_of_mem hjU, hsumRest]
-  simp only [d, if_neg hj, if_pos rfl]
+  simp only [d, ite_eq_right hj]
   exact qTwoFour_cube_sq_add_nat_ne_zero hω hω1 _
 
 theorem qTwoFour_comm_of_map_comm_of_trace_ne_zero (hF0 : Nat.card F0 = 4)
@@ -239,6 +241,7 @@ open scoped MatrixGroups
 
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
 
+omit [CharP F0 2] in
 theorem qTwoFour_exists_cube_root (hF0 : Nat.card F0 = 4) :
     ∃ ω : F0, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ ω ≠ 0 := by
   have hcard : Nat.card F0ˣ = 3 := by
@@ -252,11 +255,11 @@ theorem qTwoFour_exists_cube_root (hF0 : Nat.card F0 = 4) :
   · intro h
     have hζ1 : ζ = 1 := Units.ext h
     rw [hζ1] at hζ
-    have : (1 : ℕ) = 3 := by simpa using hζ
+    have : (1 : ℕ) = 3 := by simp at hζ
     omega
   · exact ζ.ne_zero
 
-theorem qTwoFour_exists_separating_diagonal (hF0 : Nat.card F0 = 4) {m : ℕ} (hm : 5 ≤ m) {I : Finset (Fin m)} (hI : I.card = 4)
+theorem qTwoFour_exists_separating_diagonal (hF0 : Nat.card F0 = 4) {m : ℕ} (_hm : 5 ≤ m) {I : Finset (Fin m)} (hI : I.card = 4)
     {j : Fin m} (hj : j ∉ I) {ω : F0} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hω0 : ω ≠ 0) :
     ∃ t : Su F0 2 1 m,
       t ^ 3 = 1 ∧
@@ -292,7 +295,7 @@ theorem qTwoFour_exists_separating_diagonal (hF0 : Nat.card F0 = 4) {m : ℕ} (h
       rw [hdi]
       exact qTwoLMDivKind_norm_eq_one hF0 hω0
     · by_cases hij : i = j
-      · have hdi : d i = ω ^ 2 := by simp [d, hi, hij, hj]
+      · have hdi : d i = ω ^ 2 := by simp [d, hij, hj]
         rw [hdi]
         exact qTwoLMDivKind_norm_eq_one hF0 (pow_ne_zero 2 hω0)
       · have hdi : d i = 1 := by simp [d, hi, hij]
@@ -307,7 +310,7 @@ theorem qTwoFour_exists_separating_diagonal (hF0 : Nat.card F0 = 4) {m : ℕ} (h
   exact qTwoFour_separating_trace_ne_zero hI hj hω3 hω1 htmat
 
 theorem qTwoFour_perm_comm_separator {m : ℕ} {I : Finset (Fin m)} {j : Fin m}
-    (hj : j ∉ I) {ω : F0}
+    (_hj : j ∉ I) {ω : F0}
     {σ : Equiv.Perm (Fin m)} (hσ : ∀ y, y ∉ I → σ y = y)
     {t : Su F0 2 1 m}
     (htmat : ((t : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
@@ -453,6 +456,7 @@ section NativeNormalization
 variable {G : Type} [Group G] [Finite G]
 variable {m : ℕ} {ψ : Su F0 2 1 m →* G}
 
+omit [Finite G] in
 theorem qTwoFour_indicator_comm_of_map_comm (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m)
     {I : Finset (Fin m)} (hI : I.card = 4) {j : Fin m} (hj : j ∉ I)
     {ω : F0} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hω0 : ω ≠ 0)
@@ -482,7 +486,7 @@ theorem qTwoFour_indicator_comm_of_map_comm (hF0 : Nat.card F0 = 4) (hm : 5 ≤ 
       exact hω1 (mul_left_cancel₀ hω0 h1).symm
     by_cases hjj : j' = j
     · have hdj : (fun i => if i ∈ I then ω else if i = j then ω ^ 2 else 1) j' = ω ^ 2 := by
-        simp [hj', hjj, hj]
+        simp [hjj, hj]
       rw [hdi, hdj]
       exact hω2ne
     · have hdj : (fun i => if i ∈ I then ω else if i = j then ω ^ 2 else 1) j' = 1 := by
@@ -492,6 +496,7 @@ theorem qTwoFour_indicator_comm_of_map_comm (hF0 : Nat.card F0 = 4) (hm : 5 ≤ 
   exact qTwoFour_compIndicator_comm_of_comm_diagonal (d := fun i =>
     if i ∈ I then ω else if i = j then ω ^ 2 else 1) htmat hvt hsep
 
+omit [Finite G] in
 theorem qTwoFour_conj_mem_block_of_map_comm (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m)
     {I : Finset (Fin m)} (hI : I.card = 4) {j : Fin m} (hj : j ∉ I)
     {ω : F0} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hω0 : ω ≠ 0)
@@ -513,9 +518,9 @@ variable {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G)}
 variable {m n : ℕ} {S : QTwoChartSetting B Bs x L D J 𝒦 m n}
 variable {ψ : Su F0 2 1 m →* G} {ε : Fin m ↪ Fin (n + 1)}
 
-theorem qTwoFour_separator_mem_fixI (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m)
-    {I : Finset (Fin m)} (hI : I.card = 4) {j : Fin m} (hj : j ∉ I)
-    {ω : F0} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hω0 : ω ≠ 0)
+theorem qTwoFour_separator_mem_fixI (_hF0 : Nat.card F0 = 4) (_hm : 5 ≤ m)
+    {I : Finset (Fin m)} (_hI : I.card = 4) {j : Fin m} (hj : j ∉ I)
+    {ω : F0} (_hω3 : ω ^ 3 = 1) (_hω1 : ω ≠ 1) (_hω0 : ω ≠ 0)
     (hε : QTwoFrameMatch S ψ ε) {t : Su F0 2 1 m}
     (htmat : ((t : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal (fun i => if i ∈ I then ω else if i = j then ω ^ 2 else 1))
@@ -537,7 +542,7 @@ theorem qTwoFour_separator_mem_fixI (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m)
     have hσinv : ∀ y, y ∉ I → σ⁻¹ y = y := by
       intro y hy
       apply σ.injective
-      simpa [hσ y hy]
+      simp [hσ y hy]
     have hcomm_t : ggPermSU σ⁻¹ * t = t * ggPermSU σ⁻¹ :=
       qTwoFour_perm_comm_separator hj hσinv htmat
     have hcomm_u_t : u * t = t * u := by simpa [hu_eq] using hcomm_t
@@ -588,9 +593,10 @@ section Model
 variable {G : Type} [Group G] [Finite G]
 variable {B Bs L : Subgroup G} {m : ℕ} {ψ : Su F0 2 1 m →* G}
 
-theorem qTwoFour_separator_mem_Bstar (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m)
-    {I : Finset (Fin m)} (hI : I.card = 4) {j : Fin m} (hj : j ∉ I)
-    {ω : F0} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hω0 : ω ≠ 0)
+omit [Finite G] in
+theorem qTwoFour_separator_mem_Bstar (_hF0 : Nat.card F0 = 4) (_hm : 5 ≤ m)
+    {I : Finset (Fin m)} (_hI : I.card = 4) {j : Fin m} (_hj : j ∉ I)
+    {ω : F0} (_hω3 : ω ^ 3 = 1) (_hω1 : ω ≠ 1) (_hω0 : ω ≠ 0)
     (hBs : GGBstar 3 B Bs) (hψ : QTwoOrdModel Bs L ψ)
     {t : Su F0 2 1 m} (ht3 : t ^ 3 = 1)
     (htmat : ((t : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
@@ -812,6 +818,7 @@ theorem qTwoFour_psi_comm_of_mem_qTwoFixI {ε : Fin m ↪ Fin (n + 1)}
     exact h1.symm
   exact mul_inv_eq_iff_eq_mul.mp hconj
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoFour_diagonal_eq_of_comm {d : Fin m → F0} {U : Matrix (Fin m) (Fin m) F0}
     {i j : Fin m} (hcomm : Matrix.diagonal d * U = U * Matrix.diagonal d)
     (hUij : U i j = 1) : d i = d j := by
@@ -843,7 +850,7 @@ theorem qTwoFour_diagonal_eq_on_fourSet (hF0 : Nat.card F0 = 4) (hm : 4 ≤ m)
     have hcomm : ψ u * f = f * ψ u :=
       qTwoFour_psi_comm_of_mem_qTwoFixI S hf hσ huLift
     have hu2 : u * u = 1 :=
-      qTwoFour_square_one_of_mulVec_single (by simpa [σ] using Equiv.swap_mul_self i j) huVec
+      qTwoFour_square_one_of_mulVec_single (by simp [σ]) huVec
     obtain ⟨u', hu'gl, hu'psi⟩ := hact u
     have hψeq : ψ u' = ψ u := by
       rw [hu'psi]
@@ -886,7 +893,7 @@ theorem qTwoFour_diagonal_eq_on_fourSet (hF0 : Nat.card F0 = 4) (hm : 4 ≤ m)
 theorem qTwoFour_block_le_centralizer_fix (hF0 : Nat.card F0 = 4)
     {ψ : Su F0 2 1 m →* G} (hψ : QTwoOrdModel Bs L ψ)
     {ε : Fin m ↪ Fin (n + 1)} (hε : QTwoFrameMatch S ψ ε)
-    {I : Finset (Fin m)} (hI : I.card = 4) :
+    {I : Finset (Fin m)} (_hI : I.card = 4) :
     qTwoBlockOf ψ 1 I ≤
       Subgroup.centralizer (qTwoFixI S.ρA (qTwoFrameSet ε 1 I) : Set G) := by
   classical
@@ -1003,6 +1010,7 @@ theorem qTwoChart_mem_qTwoFixI_base (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
   change (s : MulAut ↥Bs) ⟨x, hx⟩ = ⟨x, hx⟩
   exact hqSym_le (show (s : MulAut ↥Bs) ∈ qTwoSymI S.ρA I₀ from s.2)
 
+omit [Finite G] in
 theorem qTwoChart_centralizer_normal {F : Subgroup G}
     (hxF : x ∈ F)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
@@ -1028,6 +1036,7 @@ theorem qTwoChart_centralizer_normal {F : Subgroup G}
     (Subgroup.mem_normalizer_iff.mp hkNorm h).mp hh.2
   exact ⟨hconjL, hconjC⟩
 
+omit [Finite G] in
 theorem qTwoChart_block_component_of_normal {F : Subgroup G} {U : Subgroup G}
     (hxF : x ∈ F)
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
@@ -1044,6 +1053,7 @@ theorem qTwoChart_block_component_of_normal {F : Subgroup G} {U : Subgroup G}
     (CFSG.Open.IsSubnormal.step inf_le_right hCnormal
       (CFSG.Open.IsSubnormal.refl _))
 
+omit [Finite G] in
 theorem qTwoChart_qTwoBlock_quasisimple
     {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
     (hF0 : Nat.card F0 = 4) (ψ : Su F0 2 1 m →* G)
@@ -1110,6 +1120,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   {𝒦 : Finset (Subgroup G)} {m n : ℕ}
 
+omit [Finite G] in
 theorem qTwoFour_mem_fixI_iff
     (ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦))
     (I : Finset (Fin (n + 1))) (b : Bs) :
@@ -1159,6 +1170,7 @@ theorem qTwoFour_supported_conj (I : Finset (Fin (n + 1)))
   simp only [Equiv.Perm.mul_apply, hσ _ hpre]
   simp
 
+omit [Finite G] in
 theorem qTwoFour_fixI_action_mem
     (ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦))
     (I : Finset (Fin (n + 1))) (π : Equiv.Perm (Fin (n + 1)))

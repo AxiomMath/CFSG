@@ -18,10 +18,10 @@ theorem two_mul_card_eq_ordL4U4 {X : Type} [Group X] {p f : ℕ} (hp2 : p ≠ 2)
   rcases hX with ⟨h3, hX⟩ | ⟨h1, hX⟩
   · have h := card_psl4 hp2 hX
     rw [(gcd_four_of_mod_three h3).1] at h
-    rw [h, ordL4U4, if_pos h3]
+    rw [h, ordL4U4, ite_eq_left h3]
   · have h := card_psu4 hp2 hX
     rw [(gcd_four_of_mod_one h1).2] at h
-    rw [h, ordL4U4, if_neg (by omega)]
+    rw [h, ordL4U4, ite_eq_right (by omega)]
 
 theorem leaf_card_dvd {S : Type} [Group S] [Finite S] {P : Subgroup S} {p f : ℕ}
     (hp2 : p ≠ 2)

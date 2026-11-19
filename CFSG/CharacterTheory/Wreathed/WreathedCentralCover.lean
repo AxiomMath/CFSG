@@ -571,7 +571,7 @@ theorem original_root_projective_outer [Finite F]
     exact ⟨Original.a (2 ^ n), Subgroup.mem_zpowers _, rfl⟩
   have hne : chi (actualRoot S e) ≠ 1 := fun h => hout (h ▸ (coordinateG F).one_mem)
   have hg : ∃ k : ℕ, (pi (actualRoot S e)) ^ 2 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨actualRoot S e, actualRoot_mem_sylow S e⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨actualRoot S e, actualRoot_mem_sylow S e⟩
     refine ⟨k, ?_⟩
     rw [← map_pow, show actualRoot S e ^ 2 ^ k = 1 from congrArg Subtype.val hk, map_one]
   exact ⟨original_two_element_linear F Sigma hd _ hg, hout, orderOf_eq_prime hsq hne⟩

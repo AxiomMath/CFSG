@@ -22,6 +22,7 @@ open CFSG.RankThree.PartOne.Census3 (IsoLie)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sup_pCoreOf_normal_of_mul {M Y N B : Subgroup G} (hNM : N ≤ M)
     (hNB : N ≤ normalizer (B : Set G)) (hmul : ∀ m ∈ M, ∃ h ∈ N, ∃ y ∈ Y, m = h * y)
     (hBY : ∀ b ∈ B, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M) :
@@ -52,7 +53,7 @@ theorem inf_le_normalizer_of_l34 (hG3 : Gls3StronglyThreeEmbeddedPlus)
     {B₁ : Subgroup G} (hB₁H : B₁ ≤ H) (hB₁M : B₁ ≤ k.M) (hB₁ : IsPGroup 3 B₁)
     (hB₁c : Nat.card B₁ = 3 ^ 2) :
     H ⊓ k.M ≤ normalizer (B₁ : Set G) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hB₁p : IsPGroup k.p B₁ := hp3 ▸ hB₁
   have hB₁HM : B₁ ≤ H ⊓ k.M := le_inf hB₁H hB₁M
   have hB₁' : IsPGroup k.p ↥(B₁.subgroupOf (H ⊓ k.M)) :=
@@ -65,7 +66,7 @@ theorem inf_le_normalizer_of_l34 (hG3 : Gls3StronglyThreeEmbeddedPlus)
   have hPH : P ≤ H := (Subgroup.map_subtype_le _).trans inf_le_left
   have hPp : IsPGroup 3 P := by
     intro g
-    obtain ⟨n, hn⟩ := Q.isPGroup'.map (H ⊓ k.M).subtype g
+    obtain ⟨n, hn⟩ := Q.isPGroup.map (H ⊓ k.M).subtype g
     exact ⟨n, by rw [← hp3]; exact hn⟩
   have hPB : P = B₁ :=
     (Subgroup.eq_of_le_of_card_ge hBP (by rw [hB₁c]; exact h9 P hPH hPp)).symm

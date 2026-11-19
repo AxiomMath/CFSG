@@ -32,13 +32,13 @@ theorem no_semilinear_involution {F : Type} [Field F] [Finite F] [CharP F 2] {b 
   obtain ⟨σ₁, hσ₁add, hσ₁sm, hσ₁inv, hσ₁q⟩ :=
     semi_normalize hirr (⇑σ) θ hθθ hadd hσ hσσ hμ
   have hS : SemiInvol b c θ σ₁ := ⟨hσ₁add, hσ₁sm, hσ₁inv, hσ₁q⟩
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have hF : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
     exact hn
   obtain ⟨σ', hσ', hσ'e, v₁, hv1, hv2, hv3, hv4, t₁, hσ'v⟩ :=
-    semi_exists_plane hirr hF (PNat.one_le n) hS
+    semi_exists_plane hirr hF ((fun (n : ℕ+) => (one_le : 1 ≤ n)) n) hS
   have hli : LinearIndependent F ![eV F idx0, v₁] := by
     rw [LinearIndependent.pair_iff]
     intro s t hst

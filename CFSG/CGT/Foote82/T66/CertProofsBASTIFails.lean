@@ -422,13 +422,13 @@ private theorem heartAct_swap_sub {i j : Fin 6} (hij : i ≠ j) (y : CFSG.Quasit
     show _ = if k = i ∨ k = j then (1 : ZMod 2) else 0
     by_cases hki : k = i
     · subst hki
-      rw [swap_apply_left, if_pos (Or.inl rfl)]
+      rw [swap_apply_left, ite_eq_left (Or.inl rfl)]
       exact h1 _ _ hx
     · by_cases hkj : k = j
       · subst hkj
-        rw [swap_apply_right, if_pos (Or.inr rfl)]
+        rw [swap_apply_right, ite_eq_left (Or.inr rfl)]
         exact h1 _ _ (Ne.symm hx)
-      · rw [swap_apply_of_ne_of_ne hki hkj, sub_self, if_neg (by tauto)]
+      · rw [swap_apply_of_ne_of_ne hki hkj, sub_self, ite_eq_right (by tauto)]
 
 private theorem eq_one_or_eq_of_mem_zpowers' {G : Type*} [Group G] {e k : G} (he : e * e = 1)
     (hk : k ∈ Subgroup.zpowers e) : k = 1 ∨ k = e := by
@@ -446,7 +446,7 @@ theorem basTIFails_altSix [Finite V] {L : Subgroup (GLV V)}
     ∃ l ∈ L, l * d * l⁻¹ ≠ d ∧ d * (l * d * l⁻¹) = (l * d * l⁻¹) * d ∧
       commSpace (Subgroup.zpowers d) (commSpace L ⊤) ⊓
         commSpace (Subgroup.zpowers (l * d * l⁻¹)) (commSpace L ⊤) ≠ ⊥ := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   obtain ⟨α, hαs, β, hβs, hβk, hR⟩ := hL
   have hdd : d * d = 1 := by
     have h := pow_orderOf_eq_one d

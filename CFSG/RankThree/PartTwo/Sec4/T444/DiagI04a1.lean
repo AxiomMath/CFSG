@@ -101,7 +101,7 @@ theorem I04a1_three_le_card_ker {G : Type} [Group G] (hG : Nat.card G = 27)
       exact Nat.dvd_gcd h27 hdvd
     exact Nat.le_of_dvd (by norm_num) hg
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hle : Nat.card f.ker * Nat.card f.range ≤ 2 * 9 :=
     Nat.mul_le_mul (by omega) hm9
   linarith
@@ -122,7 +122,7 @@ theorem I04a1_range_inlY_le_A {Y : Type} [Group Y] {A' S : Subgroup Y}
     (hA27 : Nat.card A' = 27) (hA'S : A' ≤ S)
     (e : S ≃* Multiplicative (ZMod 3) × projectiveSL 3 (GaloisField 2 2)) :
     (inlY e).range ≤ A' := by
-  haveI : Finite (inlY e).range :=
+  have : Finite (inlY e).range :=
     Nat.finite_of_card_ne_zero (by rw [card_range_inlY e]; norm_num)
   let prj : S →* projectiveSL 3 (GaloisField 2 2) := (MonoidHom.snd _ _).comp e.toMonoidHom
   let phi : A' →* projectiveSL 3 (GaloisField 2 2) := prj.comp (Subgroup.inclusion hA'S)
@@ -160,7 +160,7 @@ theorem ys03_I04a1_Z3L34_structure {Y : Type} [Group Y] {A' L' S : Subgroup Y}
   have hAc : ∀ a ∈ A', ∀ a' ∈ A', a * a' = a' * a := fun a ha a' ha' => I04a1_comm hA ha ha'
   have hLeq : L' = (inrY e).range := I04a1_L_eq_range hAL hLp hAc hL'S hS e
   have hZA : (inlY e).range ≤ A' := I04a1_range_inlY_le_A hA27 hA'S e
-  haveI : Finite (inlY e).range :=
+  have : Finite (inlY e).range :=
     Nat.finite_of_card_ne_zero (by rw [card_range_inlY e]; norm_num)
   have hAC : A' ⊓ Subgroup.centralizer (L' : Set Y) = (inlY e).range := by
     apply le_antisymm

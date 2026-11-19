@@ -52,8 +52,8 @@ theorem perfect_centralizes_of_semilinAct {N Y P : Subgroup G} (hS : SemilinAct 
     rw [key, map_mul, mul_assoc]
     rfl
   let sgm : ↥N →* (K ≃+* K) := MonoidHom.mk' σ hσmul
-  haveI : IsMulCommutative (K ≃+* K) := (Stroth80.isCyclic_ringEquiv K).isMulCommutative
-  haveI : Group.IsPerfect ↥P := hP
+  have : IsMulCommutative (K ≃+* K) := (Stroth80.isCyclic_ringEquiv K).isMulCommutative
+  have : Group.IsPerfect ↥P := hP
   have hσ1 : ∀ (p : G) (hp : p ∈ P), σ ⟨p, hPN hp⟩ = 1 := fun p hp =>
     Stroth80.hom_eq_one_of_perfect_of_comm (fun a b => Std.Commutative.comm (op := (· * ·)) a b)
       (sgm.comp (Subgroup.inclusion hPN)) ⟨p, hp⟩

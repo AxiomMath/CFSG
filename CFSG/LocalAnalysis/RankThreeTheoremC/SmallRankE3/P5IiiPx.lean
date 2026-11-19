@@ -48,7 +48,7 @@ theorem x_not_mem_frattini3 (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Subg
     (hQ : IsPGroup p Q) : x ∉ (frattini ↥Q).map Q.subtype := by
   classical
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   rintro ⟨q, hqfr, hqx⟩
   obtain ⟨R, hQR⟩ := hQ.exists_le_sylow
   have hxR : x ∈ (R : Subgroup G) := hQR (hqx ▸ q.2)
@@ -71,7 +71,7 @@ theorem x_not_mem_frattini3 (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Subg
     (Nat.card_congr (subgroupOfEquivOfLe hAR).toEquiv).trans hAc
   have hxp : (⟨x, hxR⟩ : ↥(R : Subgroup G)) ^ p = 1 := Subtype.ext hx.pow_eq_one
   obtain ⟨E, hEC, hEe, hE3⟩ := exists_centralizer_rank_three_of_mem_frattini (sigmaA_odd p hsit.mem_sigmaA)
-    R.isPGroup' hxp hxQ hA' hAc'
+    R.isPGroup hxp hxQ hA' hAc'
   have hE : IsElemAbelian p (E.map (R : Subgroup G).subtype) := by
     have h := CFSG.IsElementaryAbelian.map_subtype (p := p) (K := (R : Subgroup G)) (H := E)
     exact ⟨h.toIsMulCommutative, fun y hy => CFSG.elemPow_eq_one_of_isElementaryAbelian y hy⟩
@@ -98,7 +98,7 @@ theorem px_eq_plane3 {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
     (hR : smallRankIsQ8D8 (smallRankR x z T)) (hK : KFactAutQ8D8Five) :
     (P : Subgroup G) ⊓ centralizer ({x} : Set G) = zpowers x ⊔ zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hB : CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankPlane 5 (P : Subgroup G) x z :=
     SmallRankPlane.of_situation hS hsit hx hz
   have hBcard : Nat.card ↥(zpowers x ⊔ zpowers z) = 5 ^ 2 := hB.card_eq
@@ -112,7 +112,7 @@ theorem px_eq_plane3 {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
   have hcard5 : Nat.card (zpowers x) = 5 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hx5 hx1]
   set Px : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G) with hPxdef
-  have hPxpg : IsPGroup 5 Px := P.isPGroup'.to_le inf_le_left
+  have hPxpg : IsPGroup 5 Px := P.isPGroup.to_le inf_le_left
   have hxPx : x ∈ Px := ⟨hxP, mem_centralizer_singleton_iff.mpr rfl⟩
   have hzPx : z ∈ Px := ⟨hzP, mem_centralizer_singleton_iff.mpr hxz.symm⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z with hBdef
@@ -224,7 +224,7 @@ theorem px_eq_plane3 {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
     rw [← hRz, hRzbot]
   have hxK0 : x ∈ K0G := ⟨hxPx, hxR⟩
   have hzK0 : zpowers x ≤ K0G := zpowers_le.mpr hxK0
-  haveI : Fact (IsPGroup 5 Px) := ⟨hPxpg⟩
+  have : Fact (IsPGroup 5 Px) := ⟨hPxpg⟩
   have hcyc : IsCyclic K0G := by
     refine CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6Delta.isCyclic_of_pow_eq_one_mem
       (by norm_num) hK0pg ((zpowers x).subgroupOf K0G) ?_ ?_

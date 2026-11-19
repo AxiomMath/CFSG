@@ -121,7 +121,7 @@ private theorem g7_map_pCoreOf_eq_of_central {G B : Type*} [Group G] [Group B] (
         _ = s * x * s⁻¹ := by rw [← this]; group
     rw [this]
     exact S.mul_mem (S.mul_mem hs hx) (S.inv_mem hs)
-  have hSle : (S : Subgroup Y) ≤ CFSG.pCore 2 Y := le_sSup ⟨hnorm, S.isPGroup'⟩
+  have hSle : (S : Subgroup Y) ≤ CFSG.pCore 2 Y := le_sSup ⟨hnorm, S.isPGroup⟩
   apply le_antisymm
   · rw [← hYT]
     exact Subgroup.map_mono (g7_pCoreOf_le 2 Y)
@@ -312,38 +312,46 @@ private def g7Pi {K : Subgroup X} (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(
     ↥K →* ↥(alternatingGroup (Fin 7)) :=
   e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))
 
+omit [Finite X] in
 private theorem g7Pi_apply {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) (k : ↥K) :
     g7Pi e k = e (QuotientGroup.mk k) := rfl
 
+omit [Finite X] in
 private theorem g7Pi_surjective {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) :
     Function.Surjective (g7Pi e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite X] in
 private theorem g7Pi_eq_one_iff {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) (k : ↥K) :
     g7Pi e k = 1 ↔ ∀ h : ↥K, h * k = k * h := by
   rw [g7Pi_apply, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff, Subgroup.mem_center_iff]
 
+omit [Finite X] in
 private theorem g7_imgA7_eq {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) (R : Subgroup X) :
     imgA7 K R e = (R.subgroupOf K).map (g7Pi e) := by
   unfold imgA7 g7Pi
   rw [Subgroup.map_map]
 
+omit [Finite X] in
 private theorem g7_imgA7_mono {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) {R R' : Subgroup X}
     (h : R ≤ R') : imgA7 K R e ≤ imgA7 K R' e := by
   rw [g7_imgA7_eq, g7_imgA7_eq]
   exact Subgroup.map_mono fun x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
 
+omit [Finite X] in
 private theorem g7_rootOf_le {K : Subgroup X} (d : X) : rootOf K d ≤ K :=
   (g7_pCoreOf_le 2 _).trans inf_le_left
 
+omit [Finite X] in
 private theorem g7_rootOf_pgroup {K : Subgroup X} (d : X) : IsPGroup 2 (rootOf K d) :=
   g7_isPGroup_pCoreOf 2 _
 
+omit [Finite X] in
 private theorem g7_center_two_pow {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K = ⊥) {z : ↥K}
     (hz : ∀ h, h * z = z * h) {j : ℕ} (hj : z ^ (2 ^ j) = 1) : z = 1 := by
   have hn : (Subgroup.zpowers z).Normal := by
@@ -361,6 +369,7 @@ private theorem g7_center_two_pow {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K =
   rw [hK3] at hle
   exact Subgroup.mem_bot.1 (hle (Subgroup.mem_zpowers z))
 
+omit [Finite X] in
 private theorem g7_two_elt_central {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K = ⊥) {r x : X}
     (hrK : r ∈ K) (hxK : x ∈ K) (hz : r⁻¹ * x ∈ Subgroup.centralizer (K : Set X)) {i j : ℕ}
     (hr : r ^ (2 ^ i) = 1) (hx : x ^ (2 ^ j) = 1) : r = x := by
@@ -387,6 +396,7 @@ private theorem g7_two_elt_central {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K 
   have : r' = x' := inv_mul_eq_one.1 h2
   exact congrArg Subtype.val this
 
+omit [Finite X] in
 private theorem g7_inf_le_root {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K = ⊥) {R Y : Subgroup X}
     (hRK : R ≤ K) (hR : IsPGroup 2 R) (hY : IsPGroup 2 Y)
     (hYle : Y ≤ R ⊔ Subgroup.centralizer (K : Set X)) : Y ⊓ K ≤ R := by
@@ -404,10 +414,12 @@ private theorem g7_inf_le_root {K : Subgroup X} (hK3 : GLAPPrimeCore 3 ↥K = �
   rw [← this]
   exact hr
 
+omit [Finite X] in
 private theorem g7_comm_of_mem {D : Subgroup X} (hD : IsElemAbelian 3 D) {d d' : X} (hd : d ∈ D)
     (hd' : d' ∈ D) : d * d' = d' * d :=
   congrArg Subtype.val (hD.1.is_comm.comm (⟨d, hd⟩ : D) ⟨d', hd'⟩)
 
+omit [Finite X] in
 private theorem g7_orderOf_eq_three {D : Subgroup X} (hD : IsElemAbelian 3 D) {d : X} (hdD : d ∈ D)
     (hd1 : d ≠ 1) : orderOf d = 3 := by
   have h3 : d ^ 3 = 1 := hD.2 d hdD
@@ -415,6 +427,7 @@ private theorem g7_orderOf_eq_three {D : Subgroup X} (hD : IsElemAbelian 3 D) {d
   · exact absurd (orderOf_eq_one_iff.1 h) hd1
   · exact h
 
+omit [Finite X] in
 private theorem g7_conj_comm {K : Subgroup X}
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) {d₁ d₂ : X}
     (h₁ : d₁ ∈ Subgroup.normalizer (K : Set X)) (h₂ : d₂ ∈ Subgroup.normalizer (K : Set X))
@@ -460,13 +473,13 @@ section Gamma7Leaves
 
 variable {X : Type} [Group X] [Finite X]
 
-theorem imgA7_rootOf {K : Subgroup X} (hK : IsComponentOf K ⊤) (hK3 : GLAPPrimeCore 3 ↥K = ⊥)
-    (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) {d : X} (hd : orderOf d = 3)
+theorem imgA7_rootOf {K : Subgroup X} (_hK : IsComponentOf K ⊤) (hK3 : GLAPPrimeCore 3 ↥K = ⊥)
+    (e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin 7))) {d : X} (_hd : orderOf d = 3)
     (hdN : d ∈ Subgroup.normalizer (K : Set X)) {c : ↥(alternatingGroup (Fin 7))}
     (hc : ConjActsAs d K e c) :
     imgA7 K (rootOf K d) e =
       pCoreOf 2 (Subgroup.centralizer ({c} : Set ↥(alternatingGroup (Fin 7)))) := by
-  clear hK hd
+  clear _hK _hd
   let α : ↥K ≃* ↥K := K.normalizerMonoidHom ⟨d, hdN⟩
   have hα : ∀ k : ↥K, ((α k : ↥K) : X) = d * k * d⁻¹ := fun k => rfl
   have hcα : ∀ k : ↥K, g7Pi e (α k) = c * g7Pi e k * c⁻¹ := fun k => hc k (α k) (hα k)
@@ -537,7 +550,7 @@ theorem gamma7_local_ge (hA : A7Facts) (hM : AltSixSevenCentre)
     have hdvd : Nat.card (Subgroup.center ↥K) ∣ 6 := hM 7 (Or.inr rfl) ↥K hperf ⟨e⟩
     have hodd : ¬ 2 ∣ Nat.card (Subgroup.center ↥K) := by
       intro h2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥K)) 2 h2
       have hxo : orderOf (x : ↥K) = 2 := by rw [Subgroup.orderOf_coe]; exact hx
       have hz : (x : ↥K) ^ (2 ^ 1) = 1 := by
@@ -648,10 +661,12 @@ theorem gamma7_local (hA : A7Facts) (hM : AltSixSevenCentre) (h1 : Input19_21_1)
   · obtain ⟨hN, ⟨c, hc3, hcc⟩, hroot, hle⟩ := gamma7_local_le h1 e hd hdD hd1 hc
     exact Or.inr ⟨gamma7_local_ge hA hM e hd hdD hd1 hc hN hc3 hcc hle, hle, hN, c, hc3, hcc, hroot⟩
 
+omit [Finite X] in
 private theorem g7_hf_pgroup {K D : Subgroup X} {Hf : X → Subgroup X} (hd : Gamma7Data K D Hf)
     {d : X} (hdD : d ∈ D) (hd1 : d ≠ 1) : IsPGroup 2 (Hf d) :=
   (g7_isPGroup_pCoreOf 2 _).to_le (hd.fam.le_pCore d hdD hd1)
 
+omit [Finite X] in
 private theorem g7_inf_eq_bot {K D : Subgroup X} {Hf : X → Subgroup X} (hd : Gamma7Data K D Hf)
     {d : X} (hdD : d ∈ D) (hd1 : d ≠ 1) (hC : Hf d ≤ Subgroup.centralizer (K : Set X)) :
     Hf d ⊓ K = ⊥ := by
@@ -709,7 +724,7 @@ theorem gamma7_sigma0_cases (hA : A7Facts) (hM : AltSixSevenCentre) (h1 : Input1
   · refine Or.inl (le_bot_iff.1 ?_)
     exact iSup_le fun d => iSup_le fun hdD => iSup_le fun hd1 =>
       (g7_inf_eq_bot hd hdD hd1 (hall d hdD hd1)).le
-  push_neg at hall
+  push Not at hall
   obtain ⟨d₀, hd₀D, hd₀1, hd₀C⟩ := hall
   by_cases hdis : ∃ (d₁ d₂ : X) (c₁ c₂ : ↥(alternatingGroup (Fin 7))), d₁ ∈ D ∧ d₁ ≠ 1 ∧ d₂ ∈ D ∧
       d₂ ≠ 1 ∧ ¬ Hf d₁ ≤ Subgroup.centralizer (K : Set X) ∧
@@ -851,8 +866,8 @@ theorem gamma7_sigma (hA : A7Facts) (hM : AltSixSevenCentre) (h1 : Input19_21_1)
       exact ⟨g7_conj_mem_pCoreOf 2 _ (hKS g.2) hv.1, (g * v * g⁻¹).2⟩
     have hmap := Subgroup.Normal.map hVk (QuotientGroup.mk' (Subgroup.center ↥K))
       (QuotientGroup.mk'_surjective _)
-    haveI hsimple : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hd.comp.2.2.2
-    haveI := hmap
+    have hsimple : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hd.comp.2.2.2
+    have := hmap
     have hV1 : ∀ x ∈ pCoreOf 2 (sigmaFam D Hf) ⊓ K, x = 1 := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (((pCoreOf 2 (sigmaFam D Hf) ⊓ K).subgroupOf K).map

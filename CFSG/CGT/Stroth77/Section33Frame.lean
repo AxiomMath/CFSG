@@ -291,7 +291,7 @@ theorem stroth_3_3 (h : F.IsD D dD) (hs : 1 ≤ s) :
       Subgroup.normalizer (D : Set G) :=
     (Subgroup.closure_le _).mpr fun x hx => (hgen x hx).2.1
   obtain ⟨e, heR, heD, he⟩ := CFSG.GroupTheory.exists_commutatorElement_mem_of_isPGroup
-    (F.S.isPGroup'.to_le hPS) (F.S.isPGroup'.to_le hRS) hlt hRN hPQ hPK
+    (F.S.isPGroup.to_le hPS) (F.S.isPGroup.to_le hRS) hlt hRN hPQ hPK
   have hr : ∀ x ∈ ({dD.uv, dD.t, dD.u} : Set G), e⁻¹ * x * e * x⁻¹ ∈ D := fun x hx => by
     have h' := (Subgroup.mem_normalizer_iff''.mp (hRN heR) _).mp
       (he x (Subgroup.subset_closure hx))

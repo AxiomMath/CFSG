@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7ctr_card_eq_mul_range {R N : Subgroup G} {H : Type*} [Group H] (hNR : N ≤ R)
     (φ : ↥R →* H) (hker : φ.ker = N.subgroupOf R) :
     Nat.card ↥R = Nat.card ↥N * Nat.card ↥φ.range := by
@@ -20,6 +21,7 @@ theorem sec7ctr_card_eq_mul_range {R N : Subgroup G} {H : Type*} [Group H] (hNR 
   rw [hker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNR).toEquiv] at h
   exact h.symm
 
+omit [Finite G] in
 theorem sec7ctr_card_om4 {R N : Subgroup G} (hNR : N ≤ R) {K : Type} [Field K] [Finite K]
     [CharP K 2] {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (φ : ↥R →* GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K)
@@ -29,6 +31,7 @@ theorem sec7ctr_card_om4 {R N : Subgroup G} (hNR : N ≤ R) {K : Type} [Field K]
     CFSG.SeitzReduction.F4Pilot.natCard_statedOmega_quadMinus_two hirr,
     CFSG.SeitzReduction.F4Pilot.ordSL_two]
 
+omit [Finite G] in
 theorem sec7ctr_conj_B_sup_Z {V : Subgroup G} (hBV : B ≤ V) {ν : G}
     (hν : ∀ v ∈ V, ⁅ν, v⁆ ∈ Z) : conjSubgroup ν B ⊔ Z = B ⊔ Z := by
   apply le_antisymm

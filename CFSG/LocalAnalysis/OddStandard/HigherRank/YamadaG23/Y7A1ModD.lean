@@ -18,7 +18,7 @@ theorem y7a_quotModIso (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts
     {P : Subgroup (Equiv.Perm (Fin 16))} (hP : Y7AReg c ψ lab P) :
     QuotModIso (normIn c.s.H c.s.fr.A) (M6 c.e) (AV1 c.e) c.s.fr.A c.s.fr.Z := by
   have hcfg := c.y7acfg hH
-  haveI hZ : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := by
+  have hZ : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := by
     have hle : c.s.fr.Z ≤ c.s.fr.A := by
       rw [SFrame.Z]
       exact Subgroup.zpowers_le.mpr (y7a_z_mem_A hcfg)

@@ -57,7 +57,7 @@ theorem exists_sq_ne_one_of_card (F : Type) [Field F] [Finite F] (h4 : 4 ≤ Nat
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hsub : (Finset.univ : Finset F) ⊆ ({0, 1, -1} : Finset F) := by
     intro a _
     by_cases ha : a = 0

@@ -18,15 +18,16 @@ theorem rho_mem_LO (ha : Ctx4A t L S x₁ x₂ lam rho tau) : rho ∈ ctxLO t ta
   have hl := ha.toCtx4L
   have hc := hl.toCtx4Q
   have hs := isSylSL34_of_Ctx4L hl
-  exact M_le_LO hc hs hc.rho_mem_M
+  exact M_le_LO hc.rho_mem_M
 
 theorem lamt_mem_LO (ha : Ctx4A t L S x₁ x₂ lam rho tau) :
     lam * t ∈ ctxLO t tau x₁ x₂ := by
   have hl := ha.toCtx4L
   have hc := hl.toCtx4Q
   have hs := isSylSL34_of_Ctx4L hl
-  exact mul_mem (M_le_LO hc hs hc.lam_mem_M) (M_le_LO hc hs (hc.O_le_M hc.t_mem_O))
+  exact mul_mem (M_le_LO hc.lam_mem_M) (M_le_LO (hc.O_le_M hc.t_mem_O))
 
+omit [Finite G] in
 theorem O_le_LO (t tau : G) (x₁ x₂ : G) : ctxO t tau x₁ x₂ ≤ ctxLO t tau x₁ x₂ :=
   Subgroup.le_normalizer
 

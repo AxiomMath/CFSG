@@ -13,52 +13,58 @@ open scoped Pointwise
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conjBy_rootD_pos_of_reflect {t : ZMod (2 * n) → V} {m : ↥(littleGroup D Γ n)} {i : ℤ}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * i - k)) {j : ℤ}
     (hj1 : 1 ≤ j) :
     CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t j) =
       aptRoot D Γ n t (2 * i + (n : ℤ) - j) := by
-  rw [rootD, if_pos (by omega)]
+  rw [rootD, ite_eq_left (by omega)]
   exact conjBy_aptRoot_of_map_conj_action
     (aptRoot_map_conj_of_reflect (D := D) (Γ := Γ) (n := n) (t := t) (m := (m : D)) (i := i) hm) j
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conjBy_rootD_neg_of_reflect {t : ZMod (2 * n) → V} {m : ↥(littleGroup D Γ n)} {i : ℤ}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * i - k)) {j : ℤ}
     (hj1 : 1 ≤ j) :
     CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t (-j)) =
       aptRoot D Γ n t (2 * i - j) := by
-  rw [rootD, if_neg (by omega)]
+  rw [rootD, ite_eq_right (by omega)]
   rw [show (n : ℤ) - -j = (n : ℤ) + j by ring]
   have h := conjBy_aptRoot_of_map_conj_action
     (aptRoot_map_conj_of_reflect (D := D) (Γ := Γ) (n := n) (t := t) (m := (m : D))
       (i := i) hm) ((n : ℤ) + j)
   rwa [show 2 * i + (n : ℤ) - ((n : ℤ) + j) = 2 * i - j by ring] at h
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootL_n_add_one_eq_neg_one {t : ZMod (2 * n) → V} :
     rootL (D := D) (Γ := Γ) (n := n) t ((n : ℤ) + 1) =
       rootL (D := D) (Γ := Γ) (n := n) t (-1) := by
   rw [rootL, rootL]
   congr 1
-  rw [rootD, rootD, if_pos (by omega), if_neg (by omega)]
+  rw [rootD, rootD, ite_eq_left (by omega), ite_eq_right (by omega)]
   congr 1
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootL_neg_n_add_one_eq_one {t : ZMod (2 * n) → V} :
     rootL (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) + 1)) =
       rootL (D := D) (Γ := Γ) (n := n) t 1 := by
   rw [rootL, rootL]
   congr 1
-  rw [rootD, rootD, if_neg (by omega), if_pos (by omega)]
+  rw [rootD, rootD, ite_eq_right (by omega), ite_eq_left (by omega)]
   rw [show (n : ℤ) - (-((n : ℤ) + 1)) = 1 + 2 * (n : ℤ) * 1 by ring,
     aptRoot_add_two_mul]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootL_zero_eq_n {t : ZMod (2 * n) → V} (hn : 3 ≤ n) :
     rootL (D := D) (Γ := Γ) (n := n) t 0 =
       rootL (D := D) (Γ := Γ) (n := n) t (n : ℤ) := by
   rw [rootL, rootL]
   congr 1
-  rw [rootD, rootD, if_neg (by omega), if_pos (by omega)]
+  rw [rootD, rootD, ite_eq_right (by omega), ite_eq_left (by omega)]
   congr 1
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conjBy_rootL_one_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {m : ↥(littleGroup D Γ n)}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * 1 - k)) {j : ℤ}
@@ -67,11 +73,12 @@ theorem conjBy_rootL_one_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApar
       rootL (D := D) (Γ := Γ) (n := n) t ((n : ℤ) + 2 - j) := by
   have hD : CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t j) =
       rootD (D := D) (Γ := Γ) (n := n) t ((n : ℤ) + 2 - j) := by
-    rw [conjBy_rootD_pos_of_reflect hm hj1, rootD, if_pos (by omega)]
+    rw [conjBy_rootD_pos_of_reflect hm hj1, rootD, ite_eq_left (by omega)]
     congr 1
     ring
   exact conjBy_subgroupOf m (rootD_le_littleGroup ht hn _) (rootD_le_littleGroup ht hn _) hD
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conjBy_rootL_one_neg_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {m : ↥(littleGroup D Γ n)}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * 1 - k)) {j : ℤ}
@@ -80,12 +87,13 @@ theorem conjBy_rootL_one_neg_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygon
       rootL (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) + 2 - j)) := by
   have hD : CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t (-j)) =
       rootD (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) + 2 - j)) := by
-    rw [conjBy_rootD_neg_of_reflect hm hj1, rootD, if_neg (by omega)]
+    rw [conjBy_rootD_neg_of_reflect hm hj1, rootD, ite_eq_right (by omega)]
     have e : (n : ℤ) - (-((n : ℤ) + 2 - j)) = (2 - j) + 2 * (n : ℤ) * 1 := by ring
     rw [e, aptRoot_add_two_mul]
     congr 1
   exact conjBy_subgroupOf m (rootD_le_littleGroup ht hn _) (rootD_le_littleGroup ht hn _) hD
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conjBy_rootL_n_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {m : ↥(littleGroup D Γ n)}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * (n : ℤ) - k)) :
@@ -93,11 +101,12 @@ theorem conjBy_rootL_n_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
       rootL (D := D) (Γ := Γ) (n := n) t (-(n : ℤ)) := by
   have hD : CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t (n : ℤ)) =
       rootD (D := D) (Γ := Γ) (n := n) t (-(n : ℤ)) := by
-    rw [conjBy_rootD_pos_of_reflect hm (by omega), rootD, if_neg (by omega)]
+    rw [conjBy_rootD_pos_of_reflect hm (by omega), rootD, ite_eq_right (by omega)]
     congr 1
     ring
   exact conjBy_subgroupOf m (rootD_le_littleGroup ht hn _) (rootD_le_littleGroup ht hn _) hD
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conjBy_rootL_n_pos_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {m : ↥(littleGroup D Γ n)}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * (n : ℤ) - k)) {j : ℤ}
@@ -106,11 +115,12 @@ theorem conjBy_rootL_n_pos_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonAp
       rootL (D := D) (Γ := Γ) (n := n) t ((n : ℤ) - j) := by
   have hD : CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t j) =
       rootD (D := D) (Γ := Γ) (n := n) t ((n : ℤ) - j) := by
-    rw [conjBy_rootD_pos_of_reflect hm hj1, rootD, if_pos (by omega)]
+    rw [conjBy_rootD_pos_of_reflect hm hj1, rootD, ite_eq_left (by omega)]
     have e : 2 * (n : ℤ) + (n : ℤ) - j = ((n : ℤ) - j) + 2 * (n : ℤ) * 1 := by ring
     rw [e, aptRoot_add_two_mul]
   exact conjBy_subgroupOf m (rootD_le_littleGroup ht hn _) (rootD_le_littleGroup ht hn _) hD
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conjBy_rootL_n_neg_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {m : ↥(littleGroup D Γ n)}
     (hm : ∀ k : ℤ, (m : D) • apt t k = apt t (2 * (n : ℤ) - k)) {j : ℤ}
@@ -119,7 +129,7 @@ theorem conjBy_rootL_n_neg_of_reflect {t : ZMod (2 * n) → V} (ht : IsPolygonAp
       rootL (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) - j)) := by
   have hD : CFSG.GH74.BNPair.conjBy (m : D) (rootD (D := D) (Γ := Γ) (n := n) t (-j)) =
       rootD (D := D) (Γ := Γ) (n := n) t (-((n : ℤ) - j)) := by
-    rw [conjBy_rootD_neg_of_reflect hm hj1, rootD, if_neg (by omega)]
+    rw [conjBy_rootD_neg_of_reflect hm hj1, rootD, ite_eq_right (by omega)]
     congr 1
     ring
   exact conjBy_subgroupOf m (rootD_le_littleGroup ht hn _) (rootD_le_littleGroup ht hn _) hD
@@ -158,7 +168,7 @@ theorem action_one_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
   intro m hmW
   let B := moufangB D Γ n t
   let N := moufangN D Γ n t
-  letI : (cartan B N).Normal := moufangCartan_normal (t := t) ht hn hP hT
+  let : (cartan B N).Normal := moufangCartan_normal (t := t) ht hn hP hT
   have hfix : ∀ h ∈ B ⊓ N, ∀ k : ℤ,
       (((h : ↥(littleGroup D Γ n)) : D)) • apt t k = apt t k := by
     intro h hh k
@@ -233,8 +243,7 @@ theorem action_one_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
     have hfpos : f i = (n : ℤ) + 2 - i := by
       simp [f, show i ≠ 1 by omega, show i ≠ -1 by omega, show 0 < i by omega]
     have hfneg : f (-i) = -((n : ℤ) + 2 - i) := by
-      simp [f, show -i ≠ 1 by omega, show -i ≠ -1 by omega, show ¬ 0 < -i by omega,
-        show ¬ i < 0 by omega]
+      simp [f, show -i ≠ 1 by omega, show -i ≠ -1 by omega, show ¬ i < 0 by omega]
       ring
     exact ⟨by rw [hpos, hfpos], by rw [hneg, hfneg]⟩
 
@@ -259,7 +268,7 @@ theorem action_two_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
   intro m hmW
   let B := moufangB D Γ n t
   let N := moufangN D Γ n t
-  letI : (cartan B N).Normal := moufangCartan_normal (t := t) ht hn hP hT
+  let : (cartan B N).Normal := moufangCartan_normal (t := t) ht hn hP hT
   have hfix : ∀ h ∈ B ⊓ N, ∀ k : ℤ,
       (((h : ↥(littleGroup D Γ n)) : D)) • apt t k = apt t k := by
     intro h hh k
@@ -328,7 +337,7 @@ theorem action_two_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
       constructor
       · omega
       · have h1 : IsRoot n (n : ℤ) := isRoot_of_pos_le (by omega) (by omega)
-        simpa [Int.natAbs_neg] using h1.2
+        simp [Int.natAbs_neg]
     have h := hall (-(n : ℤ)) hnIs
     simpa [f, show n ≠ 0 by omega] using h
   · intro i hi1 hin
@@ -343,7 +352,7 @@ theorem action_two_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
       simp [f, show i ≠ (n : ℤ) by omega, show i ≠ -(n : ℤ) by omega, show 0 < i by omega]
     have hfneg : f (-i) = -((n : ℤ) - i) := by
       simp [f, show -i ≠ (n : ℤ) by omega, show -i ≠ -(n : ℤ) by omega,
-        show ¬ 0 < -i by omega, show ¬ i < 0 by omega]
+        show ¬ i < 0 by omega]
       ring
     exact ⟨by rw [hpos, hfpos], by rw [hneg, hfneg]⟩
 
@@ -352,11 +361,11 @@ theorem isSaturated_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
     IsSaturated (moufangB D Γ n t) (moufangN D Γ n t) := by
   let B := moufangB D Γ n t
   let N := moufangN D Γ n t
-  letI : MulAction ↥N (AptEdge t) := aptEdgeMulAction (t := t) ht hn hP hT
+  let : MulAction ↥N (AptEdge t) := aptEdgeMulAction (t := t) ht hn hP hT
   have hcardOrbit : (MulAction.orbit ↥N (aptEdgeOf t (n : ZMod (2 * n)))).ncard = 2 * n :=
     card_orbit_aptEdge_base (t := t) ht hn hP hT hM
   have horbit : MulAction.orbit ↥N (aptEdgeOf t (n : ZMod (2 * n))) = Set.univ := by
-    haveI : Finite (AptEdge t) := Subtype.finite
+    have : Finite (AptEdge t) := Subtype.finite
     rw [Set.eq_univ_iff_ncard]
     rw [hcardOrbit, card_aptEdge (Γ := Γ) (t := t) ht hn]
   unfold IsSaturated
@@ -387,7 +396,7 @@ theorem isSaturated_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
       rw [mem_moufangB]
       exact ⟨hconj_fix (t n) (Set.mem_range_self _),
         hconj_fix (t (n + 1)) (Set.mem_range_self _)⟩
-    · simp [u, MulAut.conj_apply, mul_assoc]
+    · simp [u, mul_assoc]
   · intro x hx
     have hxprop : ∀ m : ↥N, x ∈
         B.map (MulAut.conj ((m : ↥(littleGroup D Γ n)))⁻¹).toMonoidHom :=
@@ -398,7 +407,7 @@ theorem isSaturated_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ
       obtain ⟨b, hb, hbx⟩ := Subgroup.mem_map.mp (hxprop m)
       have hbconj : m.1 * x * m.1⁻¹ = b := by
         rw [← hbx]
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       have hbB := mem_moufangB.mp (show b ∈ moufangB D Γ n t from hb)
       have hzpoint : (b : D) • z = z := by
         rw [aptEdge] at hz
@@ -471,7 +480,7 @@ theorem meet_one_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
       (g k : D) ∈ aptRoot D Γ n t ((n : ℤ) + k) := by
     intro k hk1 hkn
     have h := hgmem k hk1 hkn
-    rw [rootL, Subgroup.mem_subgroupOf, rootD, if_neg (by omega)] at h
+    rw [rootL, Subgroup.mem_subgroupOf, rootD, ite_eq_right (by omega)] at h
     rwa [show (n : ℤ) - -k = (n : ℤ) + k by ring] at h
   have keyprod : ∀ (l : List ℤ) (y : V), (∀ j ∈ l, (g j : D) • y = y) →
       (((l.map g).prod : ↥(littleGroup D Γ n)) : D) • y = y := by
@@ -612,7 +621,7 @@ theorem isRootGroupSystem_moufang {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
       (titsW1 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM)
       (titsW2 (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM)
       (rootU (D := D) (Γ := Γ) (n := n) t) n (rootL (D := D) (Γ := Γ) (n := n) t) := by
-  letI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  let : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   have hfix : ∀ h ∈ moufangB D Γ n t ⊓ moufangN D Γ n t, ∀ k : ℤ,
       (((h : ↥(littleGroup D Γ n)) : D)) • apt t k = apt t k := by

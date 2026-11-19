@@ -167,10 +167,10 @@ theorem n0_normUs0 {v : G4 K n} (hv : v ∈ Us0 K n) :
   · rw [gm_conj_s0]
     fin_cases i <;> simp [pA_zero, pA_one, pA_two, pA_three, hdiag]
   · rw [gm_conj_s0]
-    simp [pA_zero, pA_one, pA_two, pA_three]
+    simp [pA_zero, pA_one]
     exact hlow _ _ (by decide)
   · rw [gm_conj_s0]
-    simp [pA_zero, pA_one, pA_two, pA_three]
+    simp [pA_two, pA_three]
     exact hlow _ _ (by decide)
 
 theorem n1_normUs1 {v : G4 K n} (hv : v ∈ Us1 K n) :
@@ -189,7 +189,7 @@ theorem n1_normUs1 {v : G4 K n} (hv : v ∈ Us1 K n) :
   · rw [gm_conj_s1]
     fin_cases i <;> simp [pB_zero, pB_one, pB_two, pB_three, hdiag]
   · rw [gm_conj_s1]
-    simp [pB_zero, pB_one, pB_two, pB_three]
+    simp [pB_one, pB_two]
     exact hlow _ _ (by decide)
 
 theorem n0_normUs0' {v : G4 K n} (hv : v ∈ Us0 K n) :

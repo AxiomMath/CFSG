@@ -35,7 +35,7 @@ open CFSG.KC.Enum CFSG.KS
       bIf(Nat.blt (Nat.succ i) N, Nat.blt (Nat.land R KM) (Nat.land (C (Nat.succ i)) KM), true))),
     true)))
 
-@[expose] noncomputable def witK (w m r nS nL nY : Nat) (G L Y : Nat → Nat) (KP R o len c : Nat) :
+@[expose] noncomputable def witK (w m r _nS nL nY : Nat) (G L Y : Nat → Nat) (KP R o len c : Nat) :
     Bool :=
   strictB (Nat.add o (Nat.succ len)) (fun o' => strictB (rf w m R o') (fun len' =>
     bAnd(Nat.blt (nat_lit 0) c, bAnd(Nat.ble c nY, bAnd(lettersK w m nL R o' len',

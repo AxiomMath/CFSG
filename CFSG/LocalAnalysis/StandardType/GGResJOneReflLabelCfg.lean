@@ -97,7 +97,7 @@ theorem ggResJOneReflLabel_cfg {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : L
     subst ht
     have hM : 3 ∣ ggTorM ⟨.E6, l, n⟩ := by simpa [ggTorM] using h3m
     have hrow : GGTBTorRowAt p ⟨.E6, l, n⟩ 5 (ggTorM ⟨.E6, l, n⟩) 6
-        CartanMatrix.E₆ CoxeterMatrix.E₆ := GGTBTorRowAt.e6Three rfl hp3' hM
+        (CartanMatrix.E 6) CoxeterMatrix.E₆ := GGTBTorRowAt.e6Three rfl hp3' hM
     have hle := hS _ _ _ _ _ hrow
     omega
   ·

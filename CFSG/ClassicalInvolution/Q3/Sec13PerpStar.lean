@@ -13,23 +13,28 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem perpStar_partIHypG (h : EndHyp Ω) : Q3CL.PartIHypG Ω :=
   ⟨h.thmD.hyp, h.cls, h.thmD.aEmpty⟩
 
+omit [Finite G] in
 private theorem perpStar_isSylow2In_self {J : Subgroup G} (h2 : IsPGroup 2 ↥J) :
     IsSylow2In J J :=
   ⟨le_rfl, h2, fun _ hVJ _ hJV => le_antisymm hVJ hJV⟩
 
+omit [Finite G] in
 private theorem perpStar_mem_dComp_of_omegaNbr {K J : Subgroup G} (hJ : J ∈ omegaNbr Ω K) :
     J ∈ dComp Ω K :=
   Relation.ReflTransGen.single ⟨hJ.1, Or.inl hJ⟩
 
+omit [Finite G] in
 private theorem perpStar_mem_dComp_of_kPerp {K M : Subgroup G} (hM : M ∈ KPerp Ω K) :
     M ∈ dComp Ω K := by
   rcases Set.mem_insert_iff.mp hM with rfl | hM'
   · exact Relation.ReflTransGen.refl
   · exact perpStar_mem_dComp_of_omegaNbr hM'
 
+omit [Finite G] in
 private theorem perpStar_mem_of_mem_dComp {K M : Subgroup G} (hK : K ∈ Ω)
     (hM : M ∈ dComp Ω K) : M ∈ Ω := by
   have hM' : Relation.ReflTransGen
@@ -47,6 +52,7 @@ private theorem perpStar_inf_eq_bot_of_odd {X Q : Subgroup G} (hX : Odd (Nat.car
   rw [hk]
   exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hX)
 
+omit [Finite G] in
 private theorem perpStar_conj_pullback (h : EndHyp Ω) {W : Subgroup G} {g : G}
     {R : Subgroup G} (hR : R ∈ DSet Ω (conjSub g W)) : conjSub g⁻¹ R ∈ DSet Ω W := by
   obtain ⟨hRΩ, hRN⟩ := h.mem_dSet_iff.mp hR
@@ -118,7 +124,7 @@ private theorem perpStar_local (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet
       (perpStar_mem_dComp_of_omegaNbr (Q3T6.Mu.ctx_omega_of_comm c ρ' τ hRJ' h3.symm))
 
 private theorem perpStar_transport (h : EndHyp Ω) {W₀ : Subgroup G} (hW₀ : W₀ ∈ WSet Ω)
-    {K : Subgroup G} (hK : K ∈ Ω) (hL : ∀ R ∈ DSet Ω W₀, R ∈ dComp Ω K)
+    {K : Subgroup G} (_hK : K ∈ Ω) (hL : ∀ R ∈ DSet Ω W₀, R ∈ dComp Ω K)
     {W : Subgroup G} (hW : W ∈ WSet Ω) :
     ∃ g : G, ∀ R ∈ DSet Ω W, R ∈ dComp Ω (conjSub g K) := by
   obtain ⟨g, hg⟩ := wSet_conj h hW₀ hW
@@ -144,7 +150,7 @@ theorem not_mem_dComp_of_omegaStar (h : EndHyp Ω) {K J : Subgroup G} (hK : K �
     have hBA : B ∈ dComp Ω A := by
       by_cases hn : B ∈ omegaNbr Ω A ∨ A ∈ omegaNbr Ω B
       · exact Relation.ReflTransGen.single ⟨hBΩ, hn⟩
-      · push_neg at hn
+      · push Not at hn
         obtain ⟨W, hW, hAD, hBD⟩ : ∃ W ∈ WSet Ω, A ∈ DSet Ω W ∧ B ∈ DSet Ω W := by
           rcases hB with hB | hB
           · obtain ⟨W, hW, h1, h2, -⟩ := exists_wSet_of_omegaStar h hAΩ hB hn.1

@@ -57,14 +57,15 @@ variable
 
 include hι
 
+omit hι in
 private theorem iotaFun_single (i : ℕ) (hi : i < 6) :
     iotaFun (Pi.single (⟨i, hi⟩ : Fin 6) 1) = uElem i := by
   interval_cases i <;>
-    simp [iotaFun, Pi.single_apply, ZMod.val_one]
+    simp [iotaFun, ZMod.val_one]
 
 private theorem uElem_mem_range {i : ℕ} (hi : i < 6) : uElem i ∈ ι.range :=
   MonoidHom.mem_range.2 ⟨Multiplicative.ofAdd (Pi.single (⟨i, hi⟩ : Fin 6) 1), by
-    rw [hι, iotaFun_single (ι := ι) (hι := hι) i hi]⟩
+    rw [hι, iotaFun_single]⟩
 
 theorem range_iota : ι.range = wordSubgroupP uWords := by
   apply le_antisymm
@@ -103,7 +104,7 @@ theorem injective_iota : Function.Injective ι := by
 theorem iota_tv : ι (Multiplicative.ofAdd tv) = pA := by
   rw [hι]
   rw [show tv = Pi.single (⟨4, by norm_num⟩ : Fin 6) 1 from rfl,
-    iotaFun_single (ι := ι) (hι := hι) 4 (by norm_num)]
+    iotaFun_single]
   apply Subtype.ext
   show elemW (uWords.getD 4 []) = elemA
   have e : uWords.getD 4 [] = wordA := by decide
@@ -113,7 +114,7 @@ theorem iota_tv : ι (Multiplicative.ofAdd tv) = pA := by
 theorem iota_zv : ι (Multiplicative.ofAdd (Pi.single 0 1 : V6)) = pZ := by
   rw [hι]
   change iotaFun (Pi.single (⟨0, by norm_num⟩ : Fin 6) 1) = pZ
-  rw [iotaFun_single (ι := ι) (hι := hι) 0 (by norm_num)]
+  rw [iotaFun_single]
   apply Subtype.ext
   show elemW (uWords.getD 0 []) = elemZ
   have e : uWords.getD 0 [] = wordZ := by decide
@@ -130,7 +131,7 @@ theorem coords_b_A : ∃ v : V6, ι (Multiplicative.ofAdd v) = pB ∧ lam v = 1 
   refine ⟨Pi.single (5 : Fin 6) 1, ?_, ?_, ?_⟩
   · rw [hι]
     change iotaFun (Pi.single (⟨5, by norm_num⟩ : Fin 6) 1) = pB
-    rw [iotaFun_single (ι := ι) (hι := hι) 5 (by norm_num)]
+    rw [iotaFun_single]
     apply Subtype.ext
     show elemW (uWords.getD 5 []) = elemB
     have e : uWords.getD 5 [] = wordB := by decide

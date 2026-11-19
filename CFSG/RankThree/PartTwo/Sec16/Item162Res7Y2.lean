@@ -83,12 +83,12 @@ private theorem pCoreOf_ne_bot_of_a7 {Y : Subgroup G}
       rw [hw1, mul_one, one_mul]
     exact (le_inf le_rfl hYc).trans h
   have hYbot : Y = ⊥ := le_bot_iff.mp hYle_bot
-  haveI hnt : Nontrivial (alternatingGroup (Fin 7)) := by
+  have hnt : Nontrivial (alternatingGroup (Fin 7)) := by
     rw [← Finite.one_lt_card_iff_nontrivial, nat_card_alternatingGroup,
       Nat.card_eq_fintype_card, Fintype.card_fin]
     norm_num
   have hnt' : Nontrivial (↥Y ⧸ CFSG.pCore 2 ↥Y) := h7.some.toEquiv.nontrivial
-  haveI : Subsingleton ↥Y := by
+  have : Subsingleton ↥Y := by
     rw [hYbot]
     infer_instance
   obtain ⟨x, y, hxy⟩ := hnt'
@@ -137,7 +137,7 @@ theorem four_le_card_omegaOneCenterOf (h : Conf683 A c L Y₁ Y₂ S b Lb) :
     (Subgroup.zpowers_le.mpr hbA).trans
       (h.maxCE.1.s₂.prop.1.1.1.2.2.trans
         (CFSG.Quasithin.A4.normalizer_le_normalizer_omegaOneCenterOf S))
-  letI : MulAction ↥(Subgroup.zpowers b) ↥Z :=
+  let : MulAction ↥(Subgroup.zpowers b) ↥Z :=
     MulAction.compHom _ (Subgroup.inclusion hBnorm)
   have hsmul : ∀ (g : ↥(Subgroup.zpowers b)) (z : ↥Z),
       ((g • z : ↥Z) : G) = (g : G) * (z : G) * (g : G)⁻¹ := by

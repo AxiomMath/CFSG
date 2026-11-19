@@ -18,14 +18,14 @@ theorem s16h_H5_row_SL2_eight_lieModel {A L : Subgroup (MulAut W)} {t : MulAut W
   classical
   obtain ⟨hSL, _hNat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e2⟩⟩ := hSL
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
     rw [FiniteField.even_card_iff_char_two]
     rw [Fintype.card_eq_nat_card, hKcard]
     norm_num
-  letI : CharP K 2 := hchar ▸ ringChar.charP K
+  let : CharP K 2 := hchar ▸ ringChar.charP K
   let U : Subgroup W := commSub ⊤ L
   let Z : Subgroup W := commSub ⊤ L ⊓ fixV L
   let e3 : ↥(StatedSL 2 K) ≃* Matrix.SpecialLinearGroup (Fin 2) K :=

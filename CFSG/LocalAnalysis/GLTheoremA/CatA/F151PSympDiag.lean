@@ -62,11 +62,11 @@ theorem sympDiag_of_block (hL : CatLayer) (hC : CatChevComps) (hB : DiagOfBlock)
     (hT : MarkTransport) (hI : ShapeModelDiagIso) (hM : T171Sh.SympComponentBlockAnalysis) :
     SympDiag := by
   intro n m K _ _ hn hne hcard p hp hp2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := m)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hbij := proj_bijective_of_charTwo (r := n) (K := K)
   have hcat : catalogIs (StatedProj (StatedSp n K)) (onLie fun d => d.characteristic = 2) :=
     catalogIs_statedProj_statedSp_charTwo n m K hn hne hcard

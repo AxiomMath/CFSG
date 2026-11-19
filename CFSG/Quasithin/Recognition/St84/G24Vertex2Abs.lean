@@ -87,7 +87,7 @@ private theorem P2_le_normalizer_frameW [Finite G]
 private theorem not_comm_le_of_card [Finite G] {Q W L : Subgroup G}
     (hcomm : ⁅Q, L⁆ = Q) (hle : ⁅Q, L⁆ ≤ W)
     (hQ : Nat.card Q = 2 ^ 10) (hW : Nat.card W < 2 ^ 10) : False := by
-  haveI : Finite ↥W := Subtype.finite
+  have : Finite ↥W := Subtype.finite
   have hle' : Q ≤ W := hcomm ▸ hle
   have hcards : Nat.card Q ≤ Nat.card W := Subgroup.card_le_of_le hle'
   rw [hQ] at hcards
@@ -202,7 +202,7 @@ private theorem exists_frameW_model [Finite G]
       Nonempty (A5Model (L2 ⊔ bigB L1 L2 S) L2 (dsQ L2 L1 S) W
         Certificates.A5GL42.HN) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P2 : Subgroup G := L2 ⊔ bigB L1 L2 S
   let Q2 : Subgroup G := dsQ L2 L1 S
   let Z2 : Subgroup G := centerOf Q2
@@ -448,7 +448,7 @@ private theorem center_model_exists [Finite G]
       obtain ⟨⟨l, hlL⟩, hl3⟩ :=
         CFSG.GroupTheory.AlternatingFive.exists_orderOf_eq_three_of_oTwoQuot_mulEquiv e5
       have hl3' : orderOf l = 3 := by rw [Subgroup.orderOf_mk] at hl3; exact hl3
-      haveI : Nontrivial ↥Z2 := Finite.one_lt_card_iff_nontrivial.mp (by
+      have : Nontrivial ↥Z2 := Finite.one_lt_card_iff_nontrivial.mp (by
         rw [hZ2card]; norm_num)
       obtain ⟨⟨e, he⟩, he1⟩ := exists_ne (1 : ↥Z2)
       refine ⟨l, hlL, e, he, ?_⟩
@@ -533,7 +533,7 @@ theorem exists_g24Frame2 [Finite G]
       Nat.card Y = 4 ∧ Y ⊓ centerOf (dsQ L2 L1 S) = ⊥) :
     ∃ F : G24Frame2 L1 L2 S, F.k = k := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let P2 : Subgroup G := L2 ⊔ bigB L1 L2 S
   let Q2 : Subgroup G := dsQ L2 L1 S
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1

@@ -13,9 +13,10 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {Q : Type} [Group Q] [Finite Q] {T A B R L₀ : Subgroup Q}
 
+omit [Finite Q] in
 private theorem wc820pq_eq_one_of_odd_of_two {O S : Subgroup Q} (hO : Odd (Nat.card O))
     {x : Q} (hxO : x ∈ O) (hS2 : IsPGroup 2 S) (hxS : x ∈ S) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS2 ⟨x, hxS⟩
   have hk2 : x ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk2)
@@ -36,7 +37,7 @@ theorem Cfg813.A_le_iSup_astar (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionC
   classical
   intro a ha
   let idx := {J : Subgroup Q // IsComponentOf J ⊤ ∧ ¬ A ≤ centralizer (J : Set Q)}
-  haveI : Fintype idx := Fintype.ofFinite idx
+  have : Fintype idx := Fintype.ofFinite idx
   have hdec : ∀ J : idx, ∃ ℓ ∈ Astar T J.1 A,
       ∃ c ∈ T ⊓ centralizer (J.1 : Set Q), a = ℓ * c :=
     fun J => (Cfg813.astar_facts hF0 hF1 hF2 h J.2.1 J.2.2).2.2.2 a ha
@@ -62,7 +63,7 @@ theorem Cfg813.A_le_iSup_astar (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionC
   have hFnormal : F.Normal := by
     change (CFSG.fittingSubgroup Q).Normal
     infer_instance
-  haveI : Group.IsNilpotent ↥F := by
+  have : Group.IsNilpotent ↥F := by
     change Group.IsNilpotent ↥(CFSG.fittingSubgroup Q)
     infer_instance
   have hFsub : CFSG.Open.IsSubnormal F ⊤ :=
@@ -175,7 +176,7 @@ theorem Cfg813.A_le_iSup_astar (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionC
       exact Subgroup.mem_centralizer_singleton_iff.mp (hsup hy)
     exact hmem
   have hxFstar : x ∈ Fstar := by
-    have hmem := CFSG.Open.Open.generalized_fitting_self_centralizing Q hFstara
+    have hmem := CFSG.Open.Thm.generalized_fitting_self_centralizing Q hFstara
     exact hmem
   let Z : Subgroup Q := (Subgroup.center ↥Fstar).map Fstar.subtype
   have hxZ : x ∈ Z := by
@@ -188,14 +189,14 @@ theorem Cfg813.A_le_iSup_astar (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionC
     have hEnormal : E.Normal := by
       change (CFSG.ComponentClassification.Layer.subgroup Q).Normal
       exact CFSG.ComponentClassification.Layer.normal Q
-    haveI : F.Normal := hFnormal
-    haveI : E.Normal := hEnormal
+    have : F.Normal := hFnormal
+    have : E.Normal := hEnormal
     have hsup : (F ⊔ E).Normal := inferInstance
     exact hsup
   have hZnormal : Z.Normal := by
     dsimp [Z]
-    haveI : Fstar.Normal := hFstarNormal
-    haveI : (Subgroup.center ↥Fstar).Characteristic := Subgroup.centerCharacteristic
+    have : Fstar.Normal := hFstarNormal
+    have : (Subgroup.center ↥Fstar).Characteristic := Subgroup.centerCharacteristic
     infer_instance
   have hZnil : Group.IsNilpotent ↥Z := by
     dsimp [Z]
@@ -291,8 +292,8 @@ theorem Cfg813.A_le_of_section (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionC
   have hBeq : B ⊓ J = J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) :=
     h.inf_component_eq hF0 hF3 hJ hSne
   obtain ⟨E, hEgrp, W, X, hXgrp, ψ, Φ, hE8, hψsurj, hΦkerN⟩ := hsec
-  letI : Group E := hEgrp
-  letI : Group X := hXgrp
+  let : Group E := hEgrp
+  let : Group X := hXgrp
   have hleB : J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) ≤ B := by
     rw [← hBeq]
     exact inf_le_left

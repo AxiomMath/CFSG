@@ -10,11 +10,13 @@ open Subgroup
 
 variable {p : ℕ} {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 private theorem xof_le_pPrimeCore_of_eq
     (hH : CFSG.pPrimeCore 3 G = Xof G ⊔ Subgroup.center G) :
     Xof G ≤ CFSG.pPrimeCore 3 G :=
   le_sup_left.trans (le_of_eq hH.symm)
 
+omit [Finite G] in
 private theorem center_le_pPrimeCore_of_eq
     (hH : CFSG.pPrimeCore 3 G = Xof G ⊔ Subgroup.center G) :
     Subgroup.center G ≤ CFSG.pPrimeCore 3 G :=
@@ -26,6 +28,7 @@ private noncomputable def uc45J (hXH : Xof G ≤ CFSG.pPrimeCore 3 G) :
   (QuotientGroup.mk' ((Subgroup.center G).subgroupOf (CFSG.pPrimeCore 3 G))).comp
     (Subgroup.inclusion hXH)
 
+omit [Finite G] in
 private theorem uc45J_surjective
     (hH : CFSG.pPrimeCore 3 G = Xof G ⊔ Subgroup.center G) :
     Function.Surjective (uc45J (xof_le_pPrimeCore_of_eq hH)) := by
@@ -82,6 +85,7 @@ private noncomputable def uc45Theta
     ((QuotientGroup.quotientMulEquivOfEq hjk).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψs))
 
+omit [Finite G] in
 private theorem uc45Theta_apply_j
     (j : ↥(Xof G) →* ↥(CFSG.pPrimeCore 3 G) ⧸
       (Subgroup.center G).subgroupOf (CFSG.pPrimeCore 3 G))
@@ -92,6 +96,7 @@ private theorem uc45Theta_apply_j
   simp only [uc45Theta, MulEquiv.trans_apply, quotientKerEquivOfSurjective_symm_apply,
     QuotientGroup.quotientMulEquivOfEq_mk, quotientKerEquivOfSurjective_mk]
 
+omit [Finite G] in
 private theorem uc45Theta_equivariant
     (hH : CFSG.pPrimeCore 3 G = Xof G ⊔ Subgroup.center G)
     (η : G →* Equiv.Perm (Fin 5))

@@ -40,11 +40,11 @@ theorem slpG_append_prefix {G : Type*} [Group G] (gensG : ℤ → G) (W E : Arra
     congr 2
     funext z
     by_cases h2 : z.natAbs ≤ 2
-    · simp only [h2, if_true]
-    · simp only [h2, if_false]
+    · simp only [h2, ite_true]
+    · simp only [h2, ite_false]
       by_cases h3 : z.natAbs - 3 < j
-      · simp only [h3, if_true, ih _ h3 (by omega)]
-      · simp only [h3, if_false]
+      · simp only [h3, ite_true, ih _ h3 (by omega)]
+      · simp only [h3, ite_false]
 
 end Generic
 
@@ -122,13 +122,13 @@ theorem s7_eq (j : ℕ) : s7 j = wordG (letter7 j) W7[j]! :=
 theorem letter7_pos {j k : ℕ} (hk : k < j) : letter7 j ((k + 3 : ℕ) : ℤ) = s7 k := by
   have h3 : ¬ k + 3 ≤ 2 := by omega
   have h0 : (0 : ℤ) < ((k + 3 : ℕ) : ℤ) := by positivity
-  simp only [letter7, Int.natAbs_natCast, h3, if_false, Nat.add_sub_cancel, hk, if_true, h0]
+  simp only [letter7, Int.natAbs_natCast, h3, ite_false, Nat.add_sub_cancel, hk, ite_true, h0]
 
 theorem letter7_neg {j k : ℕ} (hk : k < j) : letter7 j (-((k + 3 : ℕ) : ℤ)) = (s7 k)⁻¹ := by
   have h3 : ¬ k + 3 ≤ 2 := by omega
   have h0 : ¬ (0 : ℤ) < -((k + 3 : ℕ) : ℤ) := by omega
-  simp only [letter7, Int.natAbs_neg, Int.natAbs_natCast, h3, if_false, Nat.add_sub_cancel, hk,
-    if_true, h0]
+  simp only [letter7, Int.natAbs_neg, Int.natAbs_natCast, h3, ite_false, Nat.add_sub_cancel, hk,
+    ite_true, h0]
 
 theorem s7_eq_M7 {j t : ℕ} (hj : 1087 ≤ j) (ht : t ∈ conjTs)
     (hw : W7[j]! = (fi24SevenData.conj[t]!).2.map lt2w) : s7 j = M7 t := by
@@ -235,14 +235,14 @@ theorem s7_mem_closure : ∀ j, 1093 ≤ j → j < 1205 → s7 j ∈ Subgroup.cl
     obtain ⟨z, hz, rfl⟩ := List.mem_map.1 hx
     obtain ⟨hz3, hcase⟩ := hr z hz
     unfold letter7
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     rcases hcase with hg | ⟨hlo, hhi⟩
     · obtain ⟨hlt, hmem⟩ := isGen7_spec hg
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
       split_ifs
       · exact Subgroup.subset_closure hmem
       · exact Subgroup.inv_mem _ (Subgroup.subset_closure hmem)
-    · rw [if_pos (by omega)]
+    · rw [ite_eq_left (by omega)]
       have hm := ih _ (by omega) hlo (by omega)
       split_ifs
       · exact hm

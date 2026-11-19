@@ -37,7 +37,7 @@ theorem exists_lift_isElemAbelian {X Q : Type} [Group X] [Group Q] [Finite X] [F
     (π : X →* Q) (hπs : Function.Surjective π) (hO : Nat.Coprime 3 (Nat.card π.ker))
     {P : Subgroup Q} (hP : IsElemAbelian 3 P) :
     ∃ K : Subgroup X, IsElemAbelian 3 K ∧ Nat.card K = Nat.card P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQc : Nat.card (P.comap π) = Nat.card P * Nat.card π.ker := card_comap_of_surjective π hπs P
   obtain ⟨a, ha⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hP
   have hdvd : 3 ^ a ∣ Nat.card (P.comap π) := by
@@ -77,8 +77,8 @@ theorem card_le_of_quot_even {G : Type} [Group G] [Finite G] {C : Subgroup G}
     (heven : 2 ∣ Nat.card (GLAPPrimeCoreOf 3 C))
     {P : Subgroup (↥C ⧸ GLAPPrimeCore 3 ↥C)} (hP : IsElemAbelian 3 P) :
     Nat.card P ≤ 3 ^ GLATwoLocalRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : Nat.Coprime 3 (Nat.card (QuotientGroup.mk' (GLAPPrimeCore 3 ↥C)).ker) := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.pPrimeCore_coprime_card
@@ -99,10 +99,10 @@ theorem card_le_of_quot_even {G : Type} [Group G] [Finite G] {C : Subgroup G}
     CFSG.ABGLocalTools.exists_invariant_isSylowOf_ge_of_coprime (q := 3) (r := 2)
       Nat.prime_three Nat.prime_two (isPGroup_of_isElemAbelian hK') hKY hY3 bot_le
       IsPGroup.of_bot (fun g _ => Subgroup.mem_normalizer_iff.2 fun h => by
-        simp only [SetLike.mem_coe, Subgroup.mem_bot]
+        simp only [Subgroup.mem_bot]
         constructor <;> intro hh <;> simp_all)
   have hS : (S : Subgroup (GLAPPrimeCoreOf 3 C)) ≠ ⊥ := S.ne_bot_of_dvd_card heven
-  have := card_le_pow_glaTwoLocalRank Nat.prime_three hK' ?_ (S.isPGroup'.map _) hQR
+  have := card_le_pow_glaTwoLocalRank Nat.prime_three hK' ?_ (S.isPGroup.map _) hQR
   · rw [Subgroup.card_map_of_injective C.subtype_injective, hKc] at this
     exact this
   · intro h
@@ -139,7 +139,7 @@ theorem i117At_of_facts (hR : Rank23At G) (hF : D4TwoFactsAt) (h112 : D4TwoNorma
   intro B x L hBmax hess hKG hcomp hBL hD4 b hb
   by_contra hbn
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hBel : IsElemAbelian 3 B := hBmax.1
   have hBcard : Nat.card B = 3 ^ GLATwoLocalRank 3 G := hBmax.2.1
@@ -156,7 +156,7 @@ theorem i117At_of_facts (hR : Rank23At G) (hF : D4TwoFactsAt) (h112 : D4TwoNorma
   have e0 : PSimple 3 L ≃* PQuot 3 L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hcat : catalogIs ↥Kb S9.isD4two := (catalogIs_congr (e0.trans e)).1 hD4
-  haveI : Finite ↥Kb := inferInstance
+  have : Finite ↥Kb := inferInstance
   have hFK : D4TwoFacts ↥Kb := hF ↥Kb hcat
   have hKc : ∀ k ∈ Kb, (∀ y ∈ Kb, y * k = k * y) → k = 1 := by
     intro k hk hcomm

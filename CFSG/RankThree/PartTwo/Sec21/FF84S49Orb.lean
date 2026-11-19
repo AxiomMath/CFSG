@@ -21,11 +21,13 @@ attribute [local instance] Classical.propDecidable
 @[expose] noncomputable def NcompC (b b₁ b₂ x : G) : ℕ :=
   (if x ∈ Cen b then 0 else 1) + (if x ∈ Cen b₁ then 0 else 1) + (if x ∈ Cen b₂ then 0 else 1)
 
+omit [Finite G] in
 theorem conj_mem_cen_iff (g x z : G) : g * z * g⁻¹ ∈ Cen (g * x * g⁻¹) ↔ z ∈ Cen x := by
   rw [cen_conjBy, mem_conjBy_iff]
   have e : g⁻¹ * (g * z * g⁻¹) * g = z := by group
   rw [e]
 
+omit [Finite G] in
 theorem mem_cenS_of_subset {s : Set G} {x : G} (h : ∀ u ∈ s, x ∈ Cen u) :
     x ∈ CenS (Subgroup.closure s) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -35,6 +37,7 @@ theorem mem_cenS_of_subset {s : Set G} {x : G} (h : ∀ u ∈ s, x ∈ Cen u) :
     exact Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_singleton_iff.1 (h u hu)).symm
   exact Subgroup.mem_centralizer_singleton_iff.1 (this hw)
 
+omit [Finite G] in
 theorem op2_cen_of_reach {S : Subgroup G} {g x s : G} (hg : g ∈ Nor S) (hgx : g * x * g⁻¹ = s)
     (hs : Op 2 (Cen s) = S) : Op 2 (Cen x) = S := by
   have h1 : Op 2 (Cen s) = conjBy g (Op 2 (Cen x)) := by
@@ -44,6 +47,7 @@ theorem op2_cen_of_reach {S : Subgroup G} {g x s : G} (hg : g ∈ Nor S) (hgx : 
   apply conjBy_inj (y := g)
   rw [← h1, h2]
 
+omit [Finite G] in
 theorem mem_nor_of_cen {H : Subgroup G} {y : G} (hy : ∀ z ∈ H, z * y = y * z) : y ∈ Nor H := by
   rw [Subgroup.mem_normalizer_iff]
   intro h
@@ -63,6 +67,7 @@ theorem mem_nor_of_cen {H : Subgroup G} {y : G} (hy : ∀ z ∈ H, z * y = y * z
     rw [e] at hh
     exact hh
 
+omit [Finite G] in
 theorem pat_disjoint {S : Subgroup G} {b b₁ b₂ : G} {e₀ e₁ e₂ f₀ f₁ f₂ : Prop}
     (h : ¬ (e₀ ↔ f₀) ∨ ¬ (e₁ ↔ f₁) ∨ ¬ (e₂ ↔ f₂)) :
     Disjoint (PatSet S b b₁ b₂ e₀ e₁ e₂) (PatSet S b b₁ b₂ f₀ f₁ f₂) := by
@@ -73,6 +78,7 @@ theorem pat_disjoint {S : Subgroup G} {b b₁ b₂ : G} {e₀ e₁ e₂ f₀ f�
   · exact h (h1.symm.trans g1)
   · exact h (h2.symm.trans g2)
 
+omit [Finite G] in
 theorem pat_ne_one {S : Subgroup G} {b b₁ b₂ : G} {e₀ e₁ e₂ : Prop} {x : G}
     (hx : x ∈ PatSet S b b₁ b₂ e₀ e₁ e₂) (h : ¬ (e₀ ∧ e₁ ∧ e₂)) : x ≠ 1 := by
   rintro rfl
@@ -96,9 +102,9 @@ theorem coordHyp : CoordHyp (Op 2 (Nor U)) b b₁ b₂ := by
   exact
   { ea := c.S_ea2 hU
     card := by rw [hEA6.2]; norm_num
-    nor₀ := c.B_le_nor_S hU (mem_b c.sec)
-    nor₁ := c.B_le_nor_S hU (mem_b₁ c.sec)
-    nor₂ := c.B_le_nor_S hU (mem_b₂ c.sec)
+    nor₀ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b c.sec)
+    nor₁ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₁ c.sec)
+    nor₂ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₂ c.sec)
     ord₀ := c.ord_b
     ord₁ := c.ord_b₁
     ord₂ := c.ord_b₂
@@ -122,10 +128,11 @@ theorem closure3_le_nor : Subgroup.closure ({b, b₁, b₂} : Set G) ≤ Nor (Op
   intro z hz
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
   rcases hz with rfl | rfl | rfl
-  · exact c.B_le_nor_S hU (mem_b c.sec)
-  · exact c.B_le_nor_S hU (mem_b₁ c.sec)
-  · exact c.B_le_nor_S hU (mem_b₂ c.sec)
+  · exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b c.sec)
+  · exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₁ c.sec)
+  · exact CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU (mem_b₂ c.sec)
 
+omit c hU [Finite G] in
 theorem shift_mem {n : G} (hnS : n ∈ Nor (Op 2 (Nor U))) (h1 : n * b * n⁻¹ = b₁)
     (h2 : n * b₁ * n⁻¹ = b₂) (h3 : n * b₂ * n⁻¹ = b) {e₀ e₁ e₂ : Prop} {x : G}
     (hx : x ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ e₀ e₁ e₂) :
@@ -149,7 +156,7 @@ theorem reach_shift {n : G} (hnS : n ∈ Nor (Op 2 (Nor U))) (h1 : n * b * n⁻�
     (hx : x ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ e₀ e₁ e₂)
     (hy : y ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ e₂ e₀ e₁) :
     ∃ g ∈ Nor (Op 2 (Nor U)), g * x * g⁻¹ = y := by
-  obtain ⟨β, hβ, hβy⟩ := c.reach_same hU e₂ e₀ e₁ (c.shift_mem hU hnS h1 h2 h3 hx) hy
+  obtain ⟨β, hβ, hβy⟩ := c.reach_same hU e₂ e₀ e₁ (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.shift_mem hnS h1 h2 h3 hx) hy
   refine ⟨β * n, mul_mem hβ hnS, ?_⟩
   rw [← hβy]
   group
@@ -159,7 +166,7 @@ theorem reach_shift2 {n : G} (hnS : n ∈ Nor (Op 2 (Nor U))) (h1 : n * b * n⁻
     (hx : x ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ e₀ e₁ e₂)
     (hy : y ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ e₁ e₂ e₀) :
     ∃ g ∈ Nor (Op 2 (Nor U)), g * x * g⁻¹ = y := by
-  have hx2 := c.shift_mem hU hnS h1 h2 h3 (c.shift_mem hU hnS h1 h2 h3 hx)
+  have hx2 := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.shift_mem hnS h1 h2 h3 (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.shift_mem hnS h1 h2 h3 hx)
   obtain ⟨β, hβ, hβy⟩ := c.reach_same hU e₁ e₂ e₀ hx2 hy
   refine ⟨β * (n * n), mul_mem hβ (mul_mem hnS hnS), ?_⟩
   rw [← hβy]
@@ -175,6 +182,7 @@ theorem no_triple {w : G} (hwS : w ∈ Op 2 (Nor U)) (h0 : w ∈ Cen b) (h1 : w 
   rw [(c.coordHyp hU).fix] at hmem
   exact Subgroup.mem_bot.1 hmem
 
+omit [Finite G] c hU in
 theorem cen_pair {w u v : G} (hw : w ∈ CenS (Subgroup.closure ({u, v} : Set G))) :
     w ∈ Cen u ∧ w ∈ Cen v := by
   have h := Subgroup.mem_centralizer_iff.1 hw
@@ -189,14 +197,14 @@ theorem pat1₀ {x : G} (hx : x ∈ PatSet (Op 2 (Nor U)) b b₁ b₂ False True
   have hsub : (↑W : Set G) \ {1} ⊆ PatSet (Op 2 (Nor U)) b b₁ b₂ False True True := by
     rintro w ⟨hw, hw1⟩
     have hwS := c.comm_le_S hU (mem_b c.sec) hw
-    obtain ⟨hc1, hc2⟩ := c.cen_pair hU (hiso.2.2.2.2.1 hw)
+    obtain ⟨hc1, hc2⟩ := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.cen_pair (hiso.2.2.2.2.1 hw)
     refine ⟨hwS, ⟨fun hc0 => hw1 (c.no_triple hU hwS hc0 hc1 hc2), fun h => h.elim⟩,
       ⟨fun _ => trivial, fun _ => hc1⟩, ⟨fun _ => trivial, fun _ => hc2⟩⟩
   have hc : (PatSet (Op 2 (Nor U)) b b₁ b₂ False True True).ncard = 3 := by
     have := (coord_orbits hCH False True True).1
     simpa using this
   have hW3 : ((↑W : Set G) \ {1}).ncard = 3 := by
-    rw [Set.ncard_diff_singleton_of_mem (one_mem W), ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem (one_mem W), ← Nat.card_coe_set_eq]
     have : Nat.card ↥(↑W : Set G) = 4 := hiso.1
     omega
   have heq := Set.eq_of_subset_of_ncard_le hsub (by omega) (Set.toFinite _)
@@ -220,14 +228,15 @@ theorem not_cen_le_nor_pat2₀ (hA : A8Model L) (hP : A_PiStar_stmt)
     rw [← c.S48_CSb hU]; exact ⟨hxS, hb⟩
   refine c.S49_two_comp hU hA hP hT hxU ?_ ?_ ?_
   · intro hm
-    exact hnb₂ (c.cen_pair hU (hiso.2.2.2.2.2.1 hm)).2
+    exact hnb₂ (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.cen_pair (hiso.2.2.2.2.2.1 hm)).2
   · intro hm
-    exact hnb₁ (c.cen_pair hU (hiso.2.2.2.2.2.2 hm)).2
+    exact hnb₁ (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.cen_pair (hiso.2.2.2.2.2.2 hm)).2
   · intro h1
     apply hnb₁
     rw [h1]
     exact Subgroup.mem_centralizer_singleton_iff.2 (by simp)
 
+omit [Finite G] c hU in
 theorem ncomp_pat {S : Subgroup G} {e₀ e₁ e₂ : Prop} {x : G}
     (hx : x ∈ PatSet S b b₁ b₂ e₀ e₁ e₂) :
     NcompC b b₁ b₂ x = (if e₀ then 0 else 1) + (if e₁ then 0 else 1) + (if e₂ then 0 else 1) := by
@@ -239,7 +248,7 @@ theorem S49_S6 (hA : A8Model L) (hodd : A_cent_A5_odd_stmt) {s₀ : G}
     (hs : s₀ ∈ ⁅Op 2 (Nor U), Subgroup.zpowers b⁆) (hs1 : s₀ ≠ 1) :
     ∃ H : Subgroup G, H ≤ Cen s₀ ∧ Nonempty (↥H ≃* Equiv.Perm (Fin 6)) ∧
       H ⊓ Op 2 (Nor U) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h180 := card_L_cen_b₁ hA c.post
   have hS : Op 2 (Cen s₀) = Op 2 (Nor U) := c.S49_one_comp₀ hU h180 hs hs1
   have hs₀S : s₀ ∈ Op 2 (Nor U) := c.comm_le_S hU (mem_b c.sec) hs
@@ -264,7 +273,7 @@ theorem S49_orbits (hA : A8Model L) (hP : A_PiStar_stmt)
       (∀ x ∈ Δ₁, ∀ n ∈ Nor (Op 2 (Nor U)), n * x * n⁻¹ ∈ Δ₁) ∧
       (∀ x ∈ Δ₁, Op 2 (Cen x) = Op 2 (Nor U)) ∧ (∀ x ∈ Δ₂, Op 2 (Cen x) ≠ Op 2 (Nor U)) ∧
       (∀ x ∈ Op 2 (Nor U), x ≠ 1 → (x ∈ Δ₁ ↔ NcompC b b₁ b₂ x % 2 = 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h180 := card_L_cen_b₁ hA c.post
   have hCH := c.coordHyp hU
   obtain ⟨n, hnH, hn1, hn2, hn3⟩ := c.cycle hU
@@ -329,16 +338,16 @@ theorem S49_orbits (hA : A8Model L) (hP : A_PiStar_stmt)
   have hodd1 : ∀ x ∈ Q3 ∪ (A0 ∪ A1 ∪ A2), NcompC b b₁ b₂ x % 2 = 1 := by
     intro x hx
     rcases hx with hx | (hx | hx) | hx
-    · rw [c.ncomp_pat hU hx]; simp
-    · rw [c.ncomp_pat hU hx]; simp
-    · rw [c.ncomp_pat hU hx]; simp
-    · rw [c.ncomp_pat hU hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
   have heven2 : ∀ x ∈ D0 ∪ D1 ∪ D2, NcompC b b₁ b₂ x % 2 = 0 := by
     intro x hx
     rcases hx with (hx | hx) | hx
-    · rw [c.ncomp_pat hU hx]; simp
-    · rw [c.ncomp_pat hU hx]; simp
-    · rw [c.ncomp_pat hU hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
+    · rw [CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.ncomp_pat hx]; simp
   obtain ⟨s₀, hs₀A⟩ : A0.Nonempty := Set.nonempty_of_ncard_ne_zero (by rw [cA0]; norm_num)
   obtain ⟨x₀, hx₀D⟩ : D0.Nonempty := Set.nonempty_of_ncard_ne_zero (by rw [cD0]; norm_num)
   have hs₀ : Op 2 (Cen s₀) = Op 2 (Nor U) := c.op2_pat1₀ hU h180 hs₀A
@@ -385,14 +394,14 @@ theorem S49_orbits (hA : A8Model L) (hP : A_PiStar_stmt)
   have h5 : 5 ∣ Nat.card ↥H := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     decide
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y₀, hy₀⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hy : orderOf (y₀ : G) = 5 := by rw [Subgroup.orderOf_coe]; exact hy₀
   have hyn : (y₀ : G) ∈ Nor (Op 2 (Nor U)) := hCenN (hHc y₀.2)
   have hnc : ¬ Op 2 (Nor U) ≤ Cen (y₀ : G) := by
     intro hSc
     have hyU : (y₀ : G) ∈ Nor U :=
-      mem_nor_of_cen fun h hh => Subgroup.mem_centralizer_singleton_iff.1 (hSc (c.U_le_S hU hh))
+      mem_nor_of_cen fun h hh => Subgroup.mem_centralizer_singleton_iff.1 (hSc (CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.U_le_S hU hh))
     have hyC : (y₀ : G) ∈ CenS (Op 2 (Nor U)) :=
       Subgroup.mem_centralizer_iff.2 fun h hh => Subgroup.mem_centralizer_singleton_iff.1 (hSc hh)
     have hyS : (y₀ : G) ∈ Op 2 (Nor U) := c.S48_charTwo hU ⟨hyU, hyC⟩

@@ -86,7 +86,7 @@ theorem ggNotSplitLie_of_rk1_data
     (hL1L : ggRankOnePerf Bs r₀ = ggRankOneIn L Bs r₀)
     (hL1X : ggRankOnePerf Bs r = ggRankOneIn X Bs r) : ¬ GGSplitLie p X := by
   intro hs
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦
@@ -128,7 +128,7 @@ theorem ggNotSplitLie_of_phan_refl
     {X : Subgroup G} (hX : X = L ∨ X ∈ 𝒦) {r : MulAut ↥Bs} (hrA : r ∈ ggAutomizer X Bs)
     (hrC : r ∈ ggCoxRefl M e) : ¬ GGSplitLie p X := by
   intro hs
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   obtain ⟨r₀, hr₀A, hr₀C⟩ : ∃ r₀ : MulAut ↥Bs, r₀ ∈ ggAutomizer L Bs ∧ r₀ ∈ ggCoxRefl M e := by
     by_contra hne
     refine ggRouteCfg_ne_bot hcfg (le_bot_iff.mp ?_)
@@ -175,8 +175,8 @@ private theorem ggPhanNbr_refl_of_split
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
     (hpres : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e) (hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3)
     {K : Subgroup G} (hK : K ∈ 𝒦) (hKs : GGSplitLie p K) :
-    ∃ r ∈ ggAutomizer K Bs, r ∈ ggCoxRefl M e :=
-  ggPhanNbr_refl_of_split_nbr hcfg hpres hle3 (hcfg.2.2.2.1.2 K hK) (fun r hr => ggAutomizer_le_ggAutomizerJoin (Or.inr hK) hr) hKs
+    ∃ _r ∈ ggAutomizer K Bs, _r ∈ ggCoxRefl M e :=
+  ggPhanNbr_refl_of_split_nbr hcfg hpres hle3 (hcfg.2.2.2.1.2 K hK) (fun _r hr => ggAutomizer_le_ggAutomizerJoin (Or.inr hK) hr) hKs
 
 theorem ggSecFiveNonSplitNbrInput_of_prim
     (hL1 : GGSecFiveL1PhanInput) (hRk1 : GGSecFiveRk1PhanInput) (hGen : GGSecFiveGenPhanInput) :

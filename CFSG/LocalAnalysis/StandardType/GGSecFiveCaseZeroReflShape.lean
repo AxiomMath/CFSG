@@ -90,7 +90,7 @@ private lemma ggCZS_commute {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
       rw [hi v, hj v]
     rw [hrr]
   · simp only [LinearEquiv.mul_apply, hi, hj, map_sub, map_smul,
-      hd i j, hd j i, hij, Ne.symm hij, if_false]
+      hd i j, hd j i, hij, Ne.symm hij, ite_false]
     simp [smul_eq_mul, mul_zero, sub_zero]
     abel
 

@@ -101,7 +101,7 @@ theorem ggTwE6Split_model_K
       apply Subtype.ext
       simp [inv_pow, hBs.2 b hb]
     rw [hb1, map_one]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     charP_two_of_card (K := F) (m := 2 * n) (by rw [hFcard, ← pow_mul, mul_comm])
   let σ : F →+* F := iterateFrobenius F 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c

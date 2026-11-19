@@ -11,8 +11,8 @@ open scoped IsMulCommutative
 theorem e4_828_holds : E4_828 := by
   intro Q X _ _ _ hQ h3 ⟨e⟩ _ S hcyc
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := Finite.of_equiv _ e.toEquiv
   let π : Q →* X := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Q))
   have hπs : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ∀ q : Q, π q = 1 ↔ q ∈ Subgroup.center Q := by
@@ -24,7 +24,7 @@ theorem e4_828_holds : E4_828 := by
     (S : Subgroup X).index_comap_of_surjective hπs
   let f : R →* (S : Subgroup X) :=
     (π.comp R.subtype).codRestrict (S : Subgroup X) (fun r => r.2)
-  haveI : IsCyclic (S : Subgroup X) := hcyc
+  have : IsCyclic (S : Subgroup X) := hcyc
   have hRab : IsMulCommutative R := by
     refine f.isMulCommutative_of_isCyclic_of_ker_le_center ?_
     intro r hr

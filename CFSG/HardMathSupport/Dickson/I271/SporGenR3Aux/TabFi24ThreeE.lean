@@ -105,7 +105,7 @@ theorem cent1_fix_m1 (hF : FrameFacts) {g : J} (hg : g ∈ cent1) :
 theorem card_cent1_of_orbit (hF : FrameFacts)
     (horb : Nat.card (MulAction.orbit cent1 cA) = 3) :
     Nat.card cent1 = 3 * Nat.card stab4 := by
-  haveI : Finite J := finite_J
+  have : Finite J := finite_J
   have h := CFSG.Perm.card_eq_orbit_mul cent1 stab4 cA stab4_le_cent1
     (fun _ hl => (mem_stab4.1 hl).2.1)
     (fun _ hh hfix => mem_stab4.2 ⟨(mem_cent1.1 hh).2, hfix,
@@ -115,7 +115,7 @@ theorem card_cent1_of_orbit (hF : FrameFacts)
 theorem card_centX_of_orbit (hF : FrameFacts)
     (horb : Nat.card (MulAction.orbit centX pt0) = 3) :
     Nat.card centX = 3 * Nat.card cent1 := by
-  haveI : Finite J := finite_J
+  have : Finite J := finite_J
   have h := CFSG.Perm.card_eq_orbit_mul centX cent1 pt0 inf_le_left
     (fun _ hl => (fix_of_mem_lvl_two (mem_cent1.1 hl).2).1)
     (fun _ hh hfix => mem_cent1_of_fix hF hh hfix)
@@ -216,7 +216,7 @@ theorem card_centX : Nat.card centX = 9 * Nat.card stab4 := by
 
 theorem card_stab4_le : Nat.card stab4 ≤ 4245696 := by
   have hB := bfs_facts
-  haveI : Finite J := finite_J
+  have : Finite J := finite_J
   have h := CFSG.Perm.card_eq_orbit_mul (lvl 2) stab4 ((cA, cB) : Fin 306936 × Fin 306936)
     (fun _ hg => (mem_stab4.1 hg).1)
     (fun _ hl => by rw [Prod.smul_mk, (mem_stab4.1 hl).2.1, (mem_stab4.1 hl).2.2])
@@ -244,7 +244,7 @@ section Shape
 
 
 theorem shapeRkAt_xJ : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) xJ := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have hF := frame_facts
   obtain ⟨hleaf, hsimp, hnab, hcard⟩ := leaf_closure_of_six_some epsJ hF.eps_rel hF.eps_ne
   have hLS : Subgroup.closure (Set.range epsJ) ≤ stab4 := by
@@ -273,7 +273,7 @@ theorem isConj_rep4_xJ : IsConj (wordElt [2]) xJ := by
 
 theorem shapeRkAt_fi24Rep3_four :
     ShapeRkAt 3 (LeafType 3) (fun _ _ => True) (fi24Rep3 4) := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨c, hc⟩ := isConj_iff.1 isConj_rep4_xJ
   have h := ShapeRkAt.of_equiv Nat.prime_three (fun _ _ _ _ e h => LeafType.of_equiv e h)
     (fun _ _ _ _ _ h => h) (MulAut.conj c⁻¹) shapeRkAt_xJ

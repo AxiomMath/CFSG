@@ -94,7 +94,7 @@ theorem eq_one_of_centralizes_ZT (hO : pPrimeCore 2 Y = ⊥) (hz : ∀ y : Y, y 
     refine hC (mem_centralizer_iff.mpr fun τ hτ => ?_)
     obtain ⟨e, he, f, hf, rfl⟩ := D.mem_T_iff_mul hO hz hτ
     rw [mul_assoc, ← hwF f hf, ← mul_assoc, ← hwE e he, mul_assoc]
-  have h2 := (D.sylowXt hO hz).isPGroup' ⟨w, hwT⟩
+  have h2 := (D.sylowXt hO hz).isPGroup ⟨w, hwT⟩
   obtain ⟨k, hk⟩ := h2
   have hk' : w ^ 2 ^ k = 1 := congrArg Subtype.val hk
   obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk')

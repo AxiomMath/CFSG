@@ -69,7 +69,7 @@ theorem nineteen_seven_mQuot_UOf_eq_two
   have hidx_eq : (imgTil V₀ V hV (UOf D.M V g)).index = Nat.card S.K ^ k := by
     have hUpos : 0 < Nat.card (imgTil V₀ V hV (UOf D.M V g)) := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hUpos (by rw [hcardU, hk])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmQuot : E3.mQuot V (UOf D.M V g) = 2 * k := by
     rw [mQuot_UOf_eq_rkIdx h64' hgen, rkIdx, hidx_eq, hSK,
       show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_mul, padicValNat.prime_pow]
@@ -144,8 +144,8 @@ theorem nineteen_seven_not_inCalOStar
   have hzno : (z : G) ≠ 1 := fun h => hz1 (Subtype.ext h)
   have hzB : (z : G) ∈ BOf D.M V g := (Subgroup.mem_inf.1 (hzN (z : G) hzV₀)).2
   have hzVg : (z : G) ∈ conjSubgroup V g := (Subgroup.mem_inf.1 hzB).1
-  haveI : IsMulCommutative ↥V := hV.1
-  haveI : IsMulCommutative ↥(conjSubgroup V g) :=
+  have : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥(conjSubgroup V g) :=
     Subgroup.map_isMulCommutative (H := V) (f := (MulAut.conj g⁻¹).toMonoidHom)
   have hVg_comm : ∀ a ∈ conjSubgroup V g, ∀ b ∈ conjSubgroup V g, a * b = b * a :=
     isMulCommutative_iff_of_setLike.1

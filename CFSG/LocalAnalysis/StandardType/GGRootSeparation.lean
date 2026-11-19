@@ -297,7 +297,7 @@ private theorem ggU_pendant_facts {t : StatedLieTag} {n f : ℕ}
     · intro i j hij
       exact pendant_E8 i j hij
 
-theorem ggRootSeparation {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAdmissible t n 2 f)
+theorem ggRootSeparation {t : StatedLieTag} {n f : ℕ} (_hadm : StatedLieAdmissible t n 2 f)
     (ht : t = .PSL ∨ t = .POmegaPlus ∨ t = .E6 ∨ t = .E7 ∨ t = .E8)
     (h3 : 3 ≤ (ggU t n f).D.rank) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {α β : Fin (ggU t n f).D.rank → ℤ} (hα : α ∈ (ggU t n f).D.roots)
@@ -373,7 +373,7 @@ theorem ggRootPair_surjective {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAd
     Function.Surjective
       ((ggRootEval (p := p) (ggU t n f).D.cartan α).prod
         (ggRootEval (p := p) (ggU t n f).D.cartan β)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hS, hdiv, -⟩ := ggU_pendant_facts ht h3
   set A := (ggU t n f).D.cartan
   have hα' : α ∈ roots (ggU t n f).D.isFiniteType ∅ := by
@@ -442,7 +442,7 @@ theorem ggRootEval_on_coroots (A : Matrix (Fin r) (Fin r) ℤ)
     (∑ j, (α j : ZMod p) • root j) (∑ i, x i • coroot i) =
       ggRootEval (p := p) A α x := by
   rw [ggRootEval_apply]
-  simp only [LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.proj_apply, map_sum, map_smul,
+  simp only [LinearMap.sum_apply, LinearMap.smul_apply, map_sum, map_smul,
     smul_eq_mul, hpair]
   simp_rw [Finset.mul_sum, Int.cast_sum, Int.cast_mul, Finset.mul_sum]
   apply Finset.sum_congr rfl

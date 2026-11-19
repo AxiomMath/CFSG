@@ -191,12 +191,12 @@ theorem ggKGCACent
     (hWfull : ∀ φ : W ≃ₗ[GGKGCF] W, ∃ a ∈ J, ∀ w : W, (a (w : V) : V) = (φ w : V))
     (h2 : 2 ≤ Module.finrank GGKGCF W) (hT2 : Module.finrank GGKGCF T = 2) :
     Group.IsSolvable ↥(Subgroup.centralizer (J : Set (V ≃ₗ[GGKGCF] V))) := by
-  haveI : Finite T := Module.finite_of_finite GGKGCF
-  haveI : Finite (T ≃ₗ[GGKGCF] T) :=
+  have : Finite T := Module.finite_of_finite GGKGCF
+  have : Finite (T ≃ₗ[GGKGCF] T) :=
     Finite.of_injective (fun e : T ≃ₗ[GGKGCF] T => (e : T → T))
       (fun e1 e2 h => LinearEquiv.ext (congrFun h))
   have hTcard : Nat.card (T ≃ₗ[GGKGCF] T) = 6 := ggKGCANum_card_aut_two hT2
-  haveI : Group.IsSolvable (T ≃ₗ[GGKGCF] T) :=
+  have : Group.IsSolvable (T ≃ₗ[GGKGCF] T) :=
     CFSG.GroupTheory.groups_order_below_sixty_solvable (by rw [hTcard]; norm_num)
   have hS : ∀ a ∈ Subgroup.centralizer (J : Set (V ≃ₗ[GGKGCF] V)), ∀ x ∈ T, a x ∈ T :=
     fun a ha => ggKGCACent_mapsTo_T J W T hc hTfix hWfull h2 a ha

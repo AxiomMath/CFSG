@@ -82,7 +82,7 @@ private theorem card_pElements_abelian {G : Type*} [Group G] (T : Subgroup G)
   have hQP : (Q : Subgroup ↥T) ≤ P.subgroupOf T := by
     intro y hy
     rw [Subgroup.mem_subgroupOf]
-    obtain ⟨k, hk⟩ := (Sylow.isPGroup' Q).exists_pow_pow_eq_one ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := (Sylow.isPGroup Q).exists_pow_pow_eq_one ⟨y, hy⟩
     refine ⟨(y : ↥T).2, k, ?_⟩
     have h := congrArg (fun z : ↥Q => ((z : ↥T) : G)) hk
     simpa using h

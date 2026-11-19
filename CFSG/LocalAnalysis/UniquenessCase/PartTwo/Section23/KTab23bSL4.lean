@@ -40,23 +40,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem sl4Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V)) (n : ℕ)
     (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : SL4Line V H' n) : SL4Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -226,7 +226,7 @@ end Transport
 
 theorem kTab23b_SL4_line_of_naturalModel (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsSLn ↥H 4 n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ 4 n)
     (hnatural : ∀ (K : Type) [Field K] [Finite K] (n : ℕ), Nat.card K = 2 ^ n →
       SL4Line (CFSG.Quasithin.H.StdMod (Fin 4) K)
@@ -251,8 +251,8 @@ theorem kTab23b_SL4_line_of_naturalModel (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨K, hF, hFin, hK, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 4) (Γ := CFSG.Open.StatedSL 4 K) (H := H) hReal
@@ -442,12 +442,12 @@ theorem stabilizer_submoduleSub4 (K : Type) [Field K] (W : Submodule K (Fin 4 �
       (Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) := Set.mulActionSet
     MulAction.stabilizer (Matrix.SpecialLinearGroup (Fin 4) K)
       (submoduleSub4 K W : Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) = LinearFlag.stabilizer W := by
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (CFSG.Quasithin.H.StdMod (Fin 4) K) :=
     MulDistribMulAction.compHom _ (piNat4 (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (CFSG.Quasithin.H.StdMod (Fin 4) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) := Set.mulActionSet
   ext A
   rw [MulAction.mem_stabilizer_iff, LinearFlag.mem_stabilizer]
@@ -522,19 +522,19 @@ theorem StdQ4_eq_stabilizer_stdFlagSub4 (K : Type) [Field K] [Finite K] [CharP K
       (Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) := Set.mulActionSet
     MulAction.stabilizer (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
       (stdFlagSub4 K ((j : ℕ) + 1) : Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) = StdQ4 K j := by
-  letI : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
+  let : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
       (CFSG.Quasithin.H.StdMod (Fin 4) K) :=
     MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K)).subtype
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
       (CFSG.Quasithin.H.StdMod (Fin 4) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K))
       (Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) := Set.mulActionSet
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (CFSG.Quasithin.H.StdMod (Fin 4) K) :=
     MulDistribMulAction.compHom _ (piNat4 (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (CFSG.Quasithin.H.StdMod (Fin 4) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 4) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 4) K)) := Set.mulActionSet
   have h := CFSG.ProperTwoGeneratedCore.LocalCriterionNumerator.stabilizer_map_of_equivariant
     (eSL4 K) (Equiv.refl (Set (CFSG.Quasithin.H.StdMod (Fin 4) K))) ?_
@@ -700,7 +700,7 @@ theorem fixV_U2_map_piNat (K : Type) [Field K] [Finite K] [CharP K 2] :
         funext i
         fin_cases i <;>
           simp [superDiag4, LinearCover.coe_rootElt_of_ne, Matrix.transvection,
-            Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+            Matrix.add_apply]
       have hU2 : LinearCover.rootElt (K := K) (0 : Fin 4) (2 : Fin 4) (1 : K) ∈ U2 K :=
         Subgroup.mem_map_of_mem ((unitriangular 4 K).subtype) hker
       have hmem : piNat4 (LinearCover.rootElt (K := K) (0 : Fin 4) (2 : Fin 4) (1 : K)) ∈
@@ -715,7 +715,7 @@ theorem fixV_U2_map_piNat (K : Type) [Field K] [Finite K] [CharP K 2] :
       rw [piNat4_apply, toAdd_matAut_apply4, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
         hcoe, transvection_mulVec] at h'
       have hcoord := congrFun h' 0
-      simp only [Pi.add_apply, Pi.single_eq_same, mul_one] at hcoord
+      simp only [Pi.add_apply, Pi.single_eq_same] at hcoord
       have h0 : Multiplicative.toAdd x 0 + Multiplicative.toAdd x 2 =
           Multiplicative.toAdd x 0 + 0 := by simpa using hcoord
       exact h2 (add_left_cancel h0)
@@ -730,7 +730,7 @@ theorem fixV_U2_map_piNat (K : Type) [Field K] [Finite K] [CharP K 2] :
         funext i
         fin_cases i <;>
           simp [superDiag4, LinearCover.coe_rootElt_of_ne, Matrix.transvection,
-            Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+            Matrix.add_apply]
       have hU2 : LinearCover.rootElt (K := K) (0 : Fin 4) (3 : Fin 4) (1 : K) ∈ U2 K :=
         Subgroup.mem_map_of_mem ((unitriangular 4 K).subtype) hker
       have hmem : piNat4 (LinearCover.rootElt (K := K) (0 : Fin 4) (3 : Fin 4) (1 : K)) ∈
@@ -745,7 +745,7 @@ theorem fixV_U2_map_piNat (K : Type) [Field K] [Finite K] [CharP K 2] :
       rw [piNat4_apply, toAdd_matAut_apply4, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
         hcoe, transvection_mulVec] at h'
       have hcoord := congrFun h' 0
-      simp only [Pi.add_apply, Pi.single_eq_same, mul_one] at hcoord
+      simp only [Pi.add_apply, Pi.single_eq_same] at hcoord
       have h0 : Multiplicative.toAdd x 0 + Multiplicative.toAdd x 3 =
           Multiplicative.toAdd x 0 + 0 := by simpa using hcoord
       exact h3 (add_left_cancel h0)
@@ -807,7 +807,7 @@ theorem fixV_commutator_UH4 (K : Type) [Field K] [Finite K] [CharP K 2] :
       rw [piNat4_apply, toAdd_matAut_apply4, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
         hcoe, transvection_mulVec] at h'
       have hcoord := congrFun h' 0
-      simp only [Pi.add_apply, Pi.single_eq_same, mul_one] at hcoord
+      simp only [Pi.add_apply, Pi.single_eq_same] at hcoord
       have h0 : Multiplicative.toAdd x 0 + Multiplicative.toAdd x 2 =
           Multiplicative.toAdd x 0 + 0 := by simpa using hcoord
       exact h2 (add_left_cancel h0)
@@ -824,7 +824,7 @@ theorem fixV_commutator_UH4 (K : Type) [Field K] [Finite K] [CharP K 2] :
       rw [piNat4_apply, toAdd_matAut_apply4, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
         hcoe, transvection_mulVec] at h'
       have hcoord := congrFun h' 0
-      simp only [Pi.add_apply, Pi.single_eq_same, mul_one] at hcoord
+      simp only [Pi.add_apply, Pi.single_eq_same] at hcoord
       have h0 : Multiplicative.toAdd x 0 + Multiplicative.toAdd x 3 =
           Multiplicative.toAdd x 0 + 0 := by simpa using hcoord
       exact h3 (add_left_cancel h0)
@@ -866,8 +866,7 @@ theorem fixV_center_UH4 (K : Type) [Field K] [Finite K] [CharP K 2] :
       rw [piNat4_apply, toAdd_matAut_apply4, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
         hcoe, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec] at h'
       have hcoord := congrFun h' 0
-      simp only [Pi.add_apply, CFSG.Quasithin.B69.corner0, CFSG.Quasithin.B69.corner1,
-        Pi.single_eq_same, mul_one] at hcoord
+      simp only [Pi.add_apply, CFSG.Quasithin.B69.corner0, CFSG.Quasithin.B69.corner1] at hcoord
       have h0 : Multiplicative.toAdd x 0 + Multiplicative.toAdd x 3 =
           Multiplicative.toAdd x 0 + 0 := by simpa using hcoord
       exact h3 (add_left_cancel h0)
@@ -1019,7 +1018,7 @@ theorem embMat4_mul {K : Type} [Field K] (A B : Matrix (Fin 2) (Fin 2) K) :
   rw [← h]
   congr 1
   rw [Matrix.fromBlocks_multiply]
-  simp [Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one]
+  simp
 
 theorem embMat4_det {K : Type} [Field K] (A : Matrix (Fin 2) (Fin 2) K) :
     (embMat4 A).det = A.det := by
@@ -1250,7 +1249,7 @@ theorem isL2_bar2_perfectCore_Q23 (K : Type) [Field K] [Finite K] [CharP K 2]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab := sl2_nonabelian hK4
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
   have hmodel : CFSG.Blueprint.LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -1271,9 +1270,9 @@ theorem perfectCore_Q23_eq_bot_of_card_two (K : Type) [Field K] [Finite K] [Char
   have hU : IsPGroup 2 (unitriangular 4 K) := by
     refine IsPGroup.of_card (n := k * (4 * (4 - 1) / 2)) ?_
     rw [card_unitriangular, hk, ← pow_mul]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent (unitriangular 4 K) := hU.isNilpotent
-  haveI : Group.IsSolvable (unitriangular 4 K) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent (unitriangular 4 K) := hU.isNilpotent
+  have : Group.IsSolvable (unitriangular 4 K) := inferInstance
   have hrange_bot : (blkSLQ23 K).range = ⊥ := by
     have himg_perf : Group.IsPerfect ↥(blkSLQ23 K).range := by
       rw [Subgroup.isPerfect_iff]
@@ -1414,9 +1413,9 @@ theorem sl4NaturalModel_holds :
       SL4Line (CFSG.Quasithin.H.StdMod (Fin 4) K)
         (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K)) n := by
   intro K hF hFin n hK
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -1432,10 +1431,7 @@ theorem sl4NaturalModel_holds :
   set H : Subgroup (MulAut V) := CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 4 K) with hH
   change SL4Line V H n
   unfold SL4Line
-  intro S
-  intro ℓ Pℓ
-  intro Tstar hTnorm hT2 hST
-  intro Good Pstar hmin
+  intro S ℓ Pℓ Tstar hTnorm hT2 hST Good Pstar hmin
   classical
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥H) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S

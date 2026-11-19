@@ -55,7 +55,7 @@ private theorem f_eq_one_of_lieModel_three_one
     (hadm : StatedLieAdmissible t n 3 f) (hmodel : LieModel X t n 3 f)
     (hX₂ : LieModel X t₂ n₂ 3 1)
     (hadm₂ : StatedLieAdmissible t₂ n₂ 3 1)
-    (hle : lieSylowExponent t₂ n₂ ≤ 10)
+    (_hle : lieSylowExponent t₂ n₂ ≤ 10)
     (hno : ∀ t n f, StatedLieAdmissible t n 3 f → 2 ≤ f →
       lieSylowExponent t n * f = lieSylowExponent t₂ n₂ →
       lieOrderNumerator t n (3 ^ f) * lieOrderDivisor t₂ n₂ 3 ≠

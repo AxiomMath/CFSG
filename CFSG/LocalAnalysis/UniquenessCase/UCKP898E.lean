@@ -51,6 +51,7 @@ theorem diag_ratio_of_projH_eq {g g' : H} {a a' : ι → K}
     diagonal_mul_diagonal] at e2
   exact congrFun (diagonal_injective e2) i
 
+omit [Fintype ι] in
 theorem map_diagonal_apply_fix {φ : K ≃+* K} {a : ι → K} (ha : ∀ i, φ (a i) = a i) (i j : ι) :
     φ (diagonal a i j) = diagonal a i j := by
   by_cases hij : i = j
@@ -109,16 +110,16 @@ theorem coe_uDiag2_mul {ζ : K} (hζ0 : ζ ≠ 0) (hζ : h.norm ζ = 1) :
 theorem coe_uRot_zero_one {ν : ℕ} (h : UnitaryFieldData 2 ν K) :
     (((uRot h (show (0 : Fin 3) ≠ 1 by decide) : StatedSU 3 (2 ^ ν) K) : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) = !![0, 1, 0; 1, 0, 0; 0, 0, 1] := by
-  haveI := h.charP
+  have := h.charP
   rw [coe_uRot]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [single_apply, one_apply, CharTwo.neg_eq]
+  fin_cases i <;> fin_cases j <;> simp [one_apply, CharTwo.neg_eq]
 
 theorem swap_mul_diagonal (a b c : K) :
     (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) * diagonal ![a, b, c] =
       diagonal ![b, a, c] * !![0, 1, 0; 1, 0, 0; 0, 0, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, diagonal_apply]
 
 end Elements
 
@@ -132,7 +133,7 @@ theorem diag_fixed_order {ν : ℕ} (h : UnitaryFieldData 2 ν K) {q : ℕ} (hq 
       ∀ φ : K ≃+* K, φ ζ = ζ →
         uFieldAut h (by norm_num) φ (projH _ (uDiag2 h (show (0 : Fin 3) ≠ 1 by decide) hζ0 hζN)) =
           projH _ (uDiag2 h (show (0 : Fin 3) ≠ 1 by decide) hζ0 hζN) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hζq1 : ζ ^ q = 1 := hζq ▸ pow_orderOf_eq_one ζ
   have hd := coe_uDiag2_zero_one h hζ0 hζN
   generalize uDiag2 h (show (0 : Fin 3) ≠ 1 by decide) hζ0 hζN = d at hd ⊢
@@ -158,7 +159,7 @@ theorem toral_E9_data {ν : ℕ} (h : UnitaryFieldData 2 ν K) {ζ : K} (hζ0 : 
       f ∉ Subgroup.zpowers e ∧ g * e = e * g ∧ g * f = f⁻¹ * g ∧
       ∀ φ : K ≃+* K, φ ζ = ζ →
         uFieldAut h (by norm_num) φ e = e ∧ uFieldAut h (by norm_num) φ f = f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζ9' : ζ ^ 9 = 1 := hζ9 ▸ pow_orderOf_eq_one ζ
   obtain ⟨ω, hω⟩ : ∃ ω : K, ω = ζ ^ 3 := ⟨_, rfl⟩
   have hω0 : ω ≠ 0 := by rw [hω]; exact pow_ne_zero 3 hζ0

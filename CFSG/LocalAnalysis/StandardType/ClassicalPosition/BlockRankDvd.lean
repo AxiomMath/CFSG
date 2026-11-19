@@ -138,20 +138,20 @@ private lemma brd_core {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Fi
     show (gM * e - e) * a = a * (gM * e - e)
     rw [Matrix.sub_mul, Matrix.mul_sub, h1, hea]
   obtain ⟨K, hKfield, hKalg, hKfin, π, hπsurj, hπker, hπdeg⟩ := exists_blockField hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalg
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Algebra F K := hKalg
+  let : Finite K := hKfin
   have hcommP : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute := by
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     have h := hS s hs s' hs'
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   let I : Ideal A := RingHom.ker π.toRingHom
   let L : Submodule A V :=
     { carrier := Set.range T.mulVec
-      zero_mem' := ⟨0, by simp [Matrix.mulVec]⟩
+      zero_mem' := ⟨0, by simp⟩
       add_mem' := by
         rintro x y ⟨u, rfl⟩ ⟨v, rfl⟩
         exact ⟨u + v, by rw [Matrix.mulVec_add]⟩
@@ -207,8 +207,8 @@ private lemma brd_core {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Fi
     rw [map_sub, hxy, sub_self]
   let ee := AlgEquiv.ofBijective e' ⟨hinj', hsurj'⟩
   let ρ : K →ₐ[F] Module.End F L := ρ'.comp ee.symm.toAlgHom
-  letI : Module K L := Module.compHom L ρ.toRingHom
-  haveI hST : IsScalarTower F K L := by
+  let : Module K L := Module.compHom L ρ.toRingHom
+  have hST : IsScalarTower F K L := by
     refine ⟨fun r k x => ?_⟩
     show ρ (r • k) x = r • (ρ k x)
     rw [Algebra.smul_def, map_mul, AlgHom.commutes]

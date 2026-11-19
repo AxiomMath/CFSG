@@ -59,7 +59,7 @@ theorem sylowAutBoundAll_statedProj {K ι : Type} [Field K] [Finite K] [Fintype 
     {ℓ : ℕ} (hℓ : ℓ.Prime) (hn : Fintype.card ι < ℓ) (hK : ¬ ℓ ∣ Nat.card K)
     (H : Subgroup (GL ι K)) :
     SylowAutBoundAll ℓ (Fintype.card ι).factorial (StatedProj H) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hG : SylowAutBoundAll ℓ (Fintype.card ι).factorial (GL ι K) :=
     sylowAutBoundAll_GL_of_fintype hℓ hn hK
   have hH : SylowAutBoundAll ℓ (Fintype.card ι).factorial H :=
@@ -72,7 +72,7 @@ theorem sylowAutBound_of_statedProj_mulEquiv {S : Type} [Group S] [Finite S] {K 
     (hn : Fintype.card ι < ℓ) (hK : ¬ ℓ ∣ Nat.card K) (H : Subgroup (GL ι K))
     (hdvd : (Fintype.card ι).factorial ∣ m) (e : S ≃* StatedProj H) :
     SylowAutBound ℓ m S := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have h1 : SylowAutBoundAll ℓ (Fintype.card ι).factorial (StatedProj H) :=
     sylowAutBoundAll_statedProj hℓ hn hK H
   have h2 : SylowAutBoundAll ℓ (Fintype.card ι).factorial S :=

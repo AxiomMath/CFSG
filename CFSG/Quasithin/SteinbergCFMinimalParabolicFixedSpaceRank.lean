@@ -357,7 +357,7 @@ theorem solvable_minimal_parabolic_irreducible_factor_fixed_space_rank {H : Type
       rw [hmapT]
       infer_instance
     have htop : (T : Subgroup H).map (QuotientGroup.mk' C) ≤ CFSG.pCore 2 (H ⧸ C) :=
-      le_sSup ⟨hN, T.isPGroup'.map _⟩
+      le_sSup ⟨hN, T.isPGroup.map _⟩
     rw [hmapT, hO2bar] at htop
     obtain ⟨g, hg⟩ := hρ
     have h1 : (g : H ⧸ C) = 1 := (Subgroup.mem_bot).mp (htop (Subgroup.mem_top _))
@@ -420,7 +420,7 @@ theorem solvable_minimal_parabolic_irreducible_factor_fixed_space_rank {H : Type
     · rintro ⟨t, ht, hty⟩
       exact ⟨t, ht, congrArg Subtype.val hty⟩
   have hT₀ : IsSylowTwoOf ((T : Subgroup H).map ρGL) ρGL.range := by
-    refine ⟨Subgroup.map_le_range _ _, T.isPGroup'.map ρGL, ?_⟩
+    refine ⟨Subgroup.map_le_range _ _, T.isPGroup.map ρGL, ?_⟩
     rw [heq]
     intro hdvd
     exact T.not_dvd_index

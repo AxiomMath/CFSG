@@ -34,7 +34,7 @@ theorem sh_Q_eq_P {M V Q P H : Subgroup G} {n : ℕ}
 theorem sh_coatom_avoid {P : Subgroup G} (hP2 : IsPGroup 2 P) {v : G} (hvP : v ∈ P)
     (hv : v ∉ inSubgroup frattini P) :
     ∃ K : Subgroup P, IsCoatom K ∧ K.index = 2 ∧ (⟨v, hvP⟩ : P) ∉ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hex : ∃ K : Subgroup P, IsCoatom K ∧ (⟨v, hvP⟩ : P) ∉ K := by
     by_contra hcon
     push Not at hcon
@@ -47,9 +47,10 @@ theorem sh_coatom_avoid {P : Subgroup G} (hP2 : IsPGroup 2 P) {v : G} (hvP : v �
     intro hK
     exact hcon K hK
   obtain ⟨K, hK, hvK⟩ := hex
-  haveI : Group.IsNilpotent P := hP2.isNilpotent
+  have : Group.IsNilpotent P := hP2.isNilpotent
   exact ⟨K, hK, (IsPGroup.isCoatom_iff_index_eq_prime hP2).mp hK, hvK⟩
 
+omit [Finite G] in
 theorem sh_mem_sup_of_commute (E F : Subgroup G) (hc : ∀ e ∈ E, ∀ f ∈ F, Commute e f)
     {x : G} (hx : x ∈ E ⊔ F) : ∃ e ∈ E, ∃ f ∈ F, e * f = x := by
   let S : Subgroup G :=
@@ -148,6 +149,7 @@ theorem sh_commute {M V Q P H : Subgroup G} {n : ℕ}
     exact heV
   exact (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp heZ).2 f (hFQ hf)).symm
 
+omit [Finite G] in
 theorem sh_elemAbelian (v : G) (hv2 : v ^ 2 = 1) : IsElemAbelian 2 (Subgroup.zpowers v) := by
   refine ⟨?_, ?_⟩
   · infer_instance
@@ -155,14 +157,16 @@ theorem sh_elemAbelian (v : G) (hv2 : v ^ 2 = 1) : IsElemAbelian 2 (Subgroup.zpo
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hv2, one_zpow]
 
+omit [Finite G] in
 theorem sh_two_le_card (v : G) (hv2 : v ^ 2 = 1) (hv1 : v ≠ 1) :
     2 ≤ Nat.card (Subgroup.zpowers v) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_zpowers, orderOf_eq_prime hv2 hv1]
 
+omit [Finite G] in
 theorem sh_inf_eq_bot (v : G) (hv2 : v ^ 2 = 1) (hv1 : v ≠ 1) {F : Subgroup G} (hvF : v ∉ F) :
     Subgroup.zpowers v ⊓ F = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf v = 2 := orderOf_eq_prime hv2 hv1
   rw [eq_bot_iff]
   intro x hx
@@ -182,9 +186,10 @@ theorem sh_inf_eq_bot (v : G) (hv2 : v ^ 2 = 1) (hv1 : v ≠ 1) {F : Subgroup G}
   · rw [h1, zpow_one] at hxF
     exact absurd hxF hvF
 
+omit [Finite G] in
 theorem sh_comm_factor {Q : Subgroup G} {e e' f f' : G}
     (he : ∀ q ∈ Q, Commute e q) (he' : ∀ q ∈ Q, Commute e' q)
-    (heQ : e ∈ Q) (he'Q : e' ∈ Q) (hf : f ∈ Q) (hf' : f' ∈ Q) :
+    (_heQ : e ∈ Q) (he'Q : e' ∈ Q) (hf : f ∈ Q) (hf' : f' ∈ Q) :
     ⁅e * f, e' * f'⁆ = ⁅f, f'⁆ := by
   have hc1 : ⁅e, e' * f'⁆ = 1 := by
     rw [commutatorElement_eq_one_iff_mul_comm]
@@ -205,6 +210,7 @@ theorem sh_comm_factor {Q : Subgroup G} {e e' f f' : G}
     rw [(he _ hX).eq, mul_assoc, mul_inv_cancel, mul_one]
   rw [hL, hR, h1, h2]
 
+omit [Finite G] in
 theorem sh_derived_le {F : Subgroup G} : ⁅F, F⁆ ≤ F := by
   rw [Subgroup.commutator_le]
   intro g hg h hh
@@ -242,6 +248,7 @@ theorem sh_V_four {V : Subgroup G} (hcard : Nat.card V = 4) {z v : G} (hz : z �
     exact hx
   simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using hx'
 
+omit [Finite G] in
 theorem sh_odd_conj_contra {k z v : G} {m : ℕ} (hm : Odd m) (hkm : k ^ m = 1)
     (hkz : k * z = z * k) (hz2 : z * z = 1) (hz1 : z ≠ 1) (hkv : k * v = v * z * k) :
     False := by
@@ -270,7 +277,8 @@ theorem sh_odd_conj_contra {k z v : G} {m : ℕ} (hm : Odd m) (hkm : k ^ m = 1)
   rw [h3] at h2
   exact hz1 h2.symm
 
-theorem sh_odd_kill_fix {M V : Subgroup G} {k z v : G} {m : ℕ} (hkM : k ∈ M)
+omit [Finite G] in
+theorem sh_odd_kill_fix {M V : Subgroup G} {k z v : G} {m : ℕ} (_hkM : k ∈ M)
     (hMV : ∀ y ∈ V, k * y * k⁻¹ ∈ V) (hvV : v ∈ V)
     (hV4 : ∀ x ∈ V, x = 1 ∨ x = z ∨ x = v ∨ x = v * z)
     (hkz : k * z = z * k) (hz2 : z * z = 1) (hz1 : z ≠ 1) (hv1 : v ≠ 1) (hvz : v ≠ z)
@@ -292,11 +300,13 @@ theorem sh_odd_kill_fix {M V : Subgroup G} {k z v : G} {m : ℕ} (hkM : k ∈ M)
         _ = v * z * k := by rw [h]
     exact sh_odd_conj_contra hm hkm hkz hz2 hz1 hkv
 
+omit [Finite G] in
 theorem sh_zpow_comm {k y : G} (hky : k * y = y * k) {a : G} (ha : a ∈ Subgroup.zpowers k) :
     a * y = y * a := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   exact ((show Commute k y from hky).zpow_left i).eq
 
+omit [Finite G] in
 theorem sh_conj_mem_V {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q : Set G))
     (hV : V = Q ⊓ Subgroup.centralizer (Q : Set G)) {g : G} (hg : g ∈ M) {y : G}
     (hy : y ∈ V) : g * y * g⁻¹ ∈ V := by
@@ -313,6 +323,7 @@ theorem sh_conj_mem_V {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q :
     _ = g * (y * (g⁻¹ * q * g)) * g⁻¹ := by rw [hcm]
     _ = (g * y * g⁻¹) * q := by group
 
+omit [Finite G] in
 theorem sh_mem_V_iff_conj {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q : Set G))
     (hV : V = Q ⊓ Subgroup.centralizer (Q : Set G)) {g : G} (hg : g ∈ M) (y : G) :
     y ∈ V ↔ g * y * g⁻¹ ∈ V := by
@@ -341,10 +352,12 @@ theorem sh_mem_V_iff_conj {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer 
     rw [e]
     exact sh_conj_mem_V hMN hV (M.inv_mem ha) (V.inv_mem (ha' x hx))
 
+omit [Finite G] in
 theorem sh_mem_K_iff {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q : Set G))
     (hV : V = Q ⊓ Subgroup.centralizer (Q : Set G)) {k : G} :
     k ∈ sh_K hMN hV ↔ k ∈ M ∧ ∀ x ∈ Q, ⁅k, x⁆ ∈ V := Iff.rfl
 
+omit [Finite G] in
 theorem sh_K_conj {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q : Set G))
     (hV : V = Q ⊓ Subgroup.centralizer (Q : Set G)) {g k : G} (hg : g ∈ M)
     (hk : k ∈ sh_K hMN hV) : g * k * g⁻¹ ∈ sh_K hMN hV := by
@@ -366,7 +379,7 @@ theorem sh_coprime_step {M V Q : Subgroup G} (hMN : M ≤ Subgroup.normalizer (Q
     (hkK : ∀ a ∈ Subgroup.zpowers k, a ∈ M ∧ ∀ x ∈ Q, ⁅a, x⁆ ∈ V)
     (hkV : ∀ y ∈ V, k * y = y * k) (hodd : Odd (Nat.card (Subgroup.zpowers k))) :
     ∀ x ∈ Q, k * x = x * k := by
-  haveI hnorm : Subgroup.Normalizes (Subgroup.zpowers k) Q :=
+  have hnorm : Subgroup.Normalizes (Subgroup.zpowers k) Q :=
     ⟨Subgroup.zpowers_le.mpr (hMN hkM)⟩
   have hMVn : M ≤ Subgroup.normalizer (V : Set G) := fun g hg =>
     Subgroup.mem_normalizer_iff.mpr (fun y => sh_mem_V_iff_conj hMN hV hg y)
@@ -457,8 +470,8 @@ theorem sh_derived_eq (h11b : Lemma11bStatement) (cfg : QPCfg M V Q P H Φ ψ a 
     exact h
   exact (le_antisymm hle1 hle2).trans hQQ
 
-theorem sh_inf_V_F (h11b : Lemma11bStatement) (cfg : QPCfg M V Q P H Φ ψ a T)
-    {v : G} (hvV : v ∈ V) (hvW : v ∉ wOf V H) {F : Subgroup G} (hFQ : F ≤ Q) (hvF : v ∉ F)
+theorem sh_inf_V_F (_h11b : Lemma11bStatement) (cfg : QPCfg M V Q P H Φ ψ a T)
+    {v : G} (hvV : v ∈ V) (_hvW : v ∉ wOf V H) {F : Subgroup G} (_hFQ : F ≤ Q) (hvF : v ∉ F)
     (hAF : V ⊓ wOf V H ≤ F) : V ⊓ F = V ⊓ wOf V H := by
   have hH := cfg.hyp
   have hAV : V ⊓ wOf V H ≤ V ⊓ F := le_inf inf_le_left hAF
@@ -474,7 +487,7 @@ theorem sh_inf_V_F (h11b : Lemma11bStatement) (cfg : QPCfg M V Q P H Φ ψ a T)
   have hcases : Nat.card ↥(V ⊓ F) = 2 ∨ Nat.card ↥(V ⊓ F) = 4 := by
     have hle4 : Nat.card ↥(V ⊓ F) ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd
     generalize Nat.card ↥(V ⊓ F) = n at hdvd hge hle4 ⊢
-    interval_cases n <;> first | omega | norm_num at hdvd
+    interval_cases n <;> first | omega
   rcases hcases with h2 | h4
   · exact (Subgroup.eq_of_le_of_card_ge hAV (by omega)).symm
   · exfalso
@@ -629,7 +642,7 @@ theorem sh_centralizer_mp (h11b : Lemma11bStatement) (h12 : Lemma12Statement)
   rw [← hMQ] at hfin
   exact hfin ((sh_mem_K_iff hMN hV).mpr ⟨hhM, hcomm⟩)
 
-theorem sh_centralizer_mpr (h11b : Lemma11bStatement) (h12 : Lemma12Statement)
+theorem sh_centralizer_mpr (h11b : Lemma11bStatement) (_h12 : Lemma12Statement)
     (cfg : QPCfg M V Q P H Φ ψ a T) {h : G} (hh : h ∈ Q) :
     h ∈ Subgroup.centralizer ({cfg.aG} : Set G) ∧ ∀ x ∈ Q, ⁅h, x⁆ ∈ V := by
   refine ⟨Subgroup.mem_centralizer_iff.mpr (fun g hg => ?_), fun x hx => ?_⟩

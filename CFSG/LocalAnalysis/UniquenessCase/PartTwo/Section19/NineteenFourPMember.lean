@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem sup_tauOf_mem_calP19_4 {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L K : Subgroup G}
     (h : Ctx19_1 D V₀ V p L K) {A J X : Subgroup G} (hA : A ∈ E3.gammaSet V₀ 0 D.T)
-    (hJ : JChoice19 D L K J) {q : ℕ} (hqp : q.Prime) (hq2 : q ≠ 2) (hX : Nat.card X = q)
+    (_hJ : JChoice19 D L K J) {q : ℕ} (hqp : q.Prime) (hq2 : q ≠ 2) (hX : Nat.card X = q)
     (hXJ : X ≤ J)
     (hτX : E1.tauOf (J ⊔ D.T) D.T A ≤
       normalizer ((X ⊔ pCoreOf 2 (J ⊔ D.T) : Subgroup G) : Set G))

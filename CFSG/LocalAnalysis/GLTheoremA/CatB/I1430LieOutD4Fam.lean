@@ -39,7 +39,7 @@ theorem lieSOut_d4W (hD : LieSOutTypeW T tm tf tN) : TypeOuterAt T Pc FamD4 := b
     obtain ⟨e'⟩ :=
       CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
     let E : S ≃* adjointGroup Tag.D4 K := e0.trans e'
-    haveI := finite_adjointD4 K
+    have := finite_adjointD4 K
     have hα3 : MulAut.congr E α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hαi : MulAut.congr E α ∉
         CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.D4 K) := by

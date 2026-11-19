@@ -20,7 +20,7 @@ theorem uc22s13xn_pRank_le_one {M L : Subgroup G} (hL : L ∈ calC M) {n p : ℕ
     (hU : IsU3 (Bar2 L) n) (hp : p.Prime) (hp2 : p ≠ 2) (hpn : ¬ p ∣ 2 ^ n + 1) :
     CFSG.Open.pRank p L ≤ 1 := by
   rw [← pRank_bar2_eq_of_odd hp hp2]
-  haveI := PartTwo.s13_isSimple_of_isU3 hU
+  have := PartTwo.s13_isSimple_of_isU3 hU
   have hZ : center (Bar2 L) = ⊥ := uc22p22a_center_eq_bot (PartTwo.s13_nonabelian_bar hL)
   have hinj : Function.Injective (MulAut.conj : Bar2 L →* MulAut (Bar2 L)) := by
     rw [← MonoidHom.ker_eq_bot_iff,

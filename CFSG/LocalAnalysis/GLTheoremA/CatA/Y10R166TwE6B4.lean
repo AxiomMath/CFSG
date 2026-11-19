@@ -55,21 +55,26 @@ def twE6C (Fr : Ω →+* Ω) : Subgroup (ModGL Tag.E6 Ω) :=
 def twE6Block (Fr : Ω →+* Ω) : Subgroup (ModGL Tag.E6 Ω) :=
   subsystemGroup Tag.E6 Ω support56 ⊓ TwistedDiag.thetaFixed Fr
 
+omit [CharP Ω 2] in
 theorem mem_twE6Block {Fr : Ω →+* Ω} {g : ModGL Tag.E6 Ω} :
     g ∈ twE6Block Fr ↔
       g ∈ subsystemGroup Tag.E6 Ω support56 ∧ g ∈ TwistedDiag.thetaFixed Fr :=
   Iff.rfl
 
+omit [CharP Ω 2] in
 theorem mem_twE6C {Fr : Ω →+* Ω} {g : ModGL Tag.E6 Ω} :
     g ∈ twE6C Fr ↔ g ∈ ⁅TwistedDiag.thetaFixed Fr, TwistedDiag.thetaFixed Fr⁆ :=
   Iff.rfl
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_fixed (Fr : Ω →+* Ω) : twE6Block Fr ≤ TwistedDiag.thetaFixed Fr :=
   inf_le_right
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_subsystem (Fr : Ω →+* Ω) :
     twE6Block Fr ≤ subsystemGroup Tag.E6 Ω support56 := inf_le_left
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_C_of_perfect (Fr : Ω →+* Ω)
     (hperf : ⁅twE6Block Fr, twE6Block Fr⁆ = twE6Block Fr) : twE6Block Fr ≤ twE6C Fr := by
   rw [← hperf]
@@ -173,7 +178,7 @@ theorem twE6_block_Phi {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c = c ^ (2 
       rw [hΦt]
       congr 2
       rw [ht']
-      simp [mul_assoc]
+      simp
     exact sl3_eq_top_of_adjacent _ (hmem 0 1 (by decide)) (hmem 1 2 (by decide))
       (hmem 1 0 (by decide)) (hmem 2 1 (by decide))
   let Φ : Matrix.SpecialLinearGroup (Fin 3) Ω ≃*

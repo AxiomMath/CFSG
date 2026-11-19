@@ -29,7 +29,7 @@ theorem meets_inner_of_data {A Q : Type*} [Group A] [Finite A] [Group Q]
   by_cases hker : D ≤ Θ.ker
   · have := hY D hker hD hDI
     omega
-  · obtain ⟨α, hαD, hαk⟩ := SetLike.not_le_iff_exists.1 hker
+  · obtain ⟨α, hαD, hαk⟩ := IsConcreteLE.not_le_iff_exists.1 hker
     have hα3 : α ^ 3 = 1 := hD.2 α hαD
     have hΘα : Θ α ≠ 1 := fun h => hαk (MonoidHom.mem_ker.2 h)
     obtain ⟨ψ, hψ⟩ := hdesc α hα3 hΘα
@@ -72,7 +72,7 @@ theorem meets_inner_of_data {A Q : Type*} [Group A] [Finite A] [Group Q]
     have hδD' : δ ∈ D' := hδ.1
     have hδk : δ ∈ Θ.ker := hδ.2
     have hcomm : δ * (ψ * α * ψ⁻¹) = (ψ * α * ψ⁻¹) * δ := by
-      haveI := hD'ea.1
+      have := hD'ea.1
       exact congrArg Subtype.val (mul_comm' (⟨δ, hδD'⟩ : D') ⟨_, hTD'⟩)
     have hδI : δ ∈ I := hψ δ hδk hcomm
     have : δ ∈ D' ⊓ I := ⟨hδD', hδI⟩
@@ -110,7 +110,7 @@ theorem exists_cube_of_fixed {K : Type} [Field K] [Finite K] (η : K ≃+* K) (h
     (h3 : 3 ∣ Nat.card K - 1) (c : Kˣ) (hc : η (c : K) = c) : ∃ s : Kˣ, s ^ 3 = c := by
   classical
   obtain ⟨ℓ, f, hℓ, hf, hKℓ⟩ : ∃ ℓ f : ℕ, ℓ.Prime ∧ 1 ≤ f ∧ Nat.card K = ℓ ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, hp', hn⟩ := FiniteField.card K (ringChar K)
     exact ⟨ringChar K, n, hp', n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
   obtain ⟨-, -, -, -, -, hA⟩ := finite_field_automorphism_fixed_field_cardinality hℓ hf hKℓ
@@ -139,10 +139,10 @@ theorem exists_cube_of_fixed {K : Type} [Field K] [Finite K] (η : K ≃+* K) (h
     have h1 : Nat.card K % 3 = 1 := by omega
     rw [hKm, Nat.pow_mod] at h1
     have : m % 3 = 0 ∨ m % 3 = 1 ∨ m % 3 = 2 := by omega
-    rcases this with h | h | h <;> simp [h] at h1 <;> omega
+    rcases this with h | h | h <;> simp [h] at h1; omega
   obtain ⟨t, ht⟩ : ∃ t, m = 3 * t + 1 := ⟨m / 3, by omega⟩
   have hcm : (c : K) ^ (m - 1) = 1 := by
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Fintype S := Fintype.ofFinite S
     have hx0 : (⟨(c : K), hcS⟩ : S) ≠ 0 := fun h => c.ne_zero (congrArg Subtype.val h)
     have h1 := FiniteField.pow_card_sub_one_eq_one (⟨(c : K), hcS⟩ : S) hx0
     rw [← Nat.card_eq_fintype_card, hScard'] at h1

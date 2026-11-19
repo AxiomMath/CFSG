@@ -127,10 +127,10 @@ private noncomputable def sixteenC8SpinFormUEquiv :
           trans ∑ j ∈ Finset.univ, (if j = k then a j else 0)
           · exact Finset.sum_congr rfl fun j _ => by
               by_cases h : j = k
-              · rw [coordX_smul (a j) (frameE (ZMod 2) j) k, coordX_frameE j k, if_pos h,
-                  if_pos h, mul_one]
-              · rw [coordX_smul (a j) (frameE (ZMod 2) j) k, coordX_frameE j k, if_neg h,
-                  if_neg h, mul_zero]
+              · rw [coordX_smul (a j) (frameE (ZMod 2) j) k, coordX_frameE j k, ite_eq_left h,
+                  ite_eq_left h, mul_one]
+              · rw [coordX_smul (a j) (frameE (ZMod 2) j) k, coordX_frameE j k, ite_eq_right h,
+                  ite_eq_right h, mul_zero]
           · exact Finset.sum_ite_eq_of_mem' Finset.univ k a (Finset.mem_univ k))
 
 private theorem sixteenC8SpinForm_cardU : Nat.card ↥sixteenC8SpinFormU = 2 ^ 4 := by

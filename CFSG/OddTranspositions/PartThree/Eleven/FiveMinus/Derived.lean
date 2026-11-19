@@ -259,9 +259,9 @@ private theorem fiveMinusDerivedHom_range_ne_bot :
 theorem nonempty_commutator_fiveReflectionGroup_four_true_false_mulEquiv :
     Nonempty (commutator (fiveReflectionGroup 4 true false) ≃*
       FiveSquareFrameGeneration.derived) := by
-  haveI : IsSimpleGroup FiveSquareFrameGeneration.derived :=
+  have : IsSimpleGroup FiveSquareFrameGeneration.derived :=
     FiveSquareFrameGeneration.derived_isSimpleGroup
-  haveI hnormal : fiveMinusDerivedHom.range.Normal := fiveMinusDerivedHom_range_normal
+  have hnormal : fiveMinusDerivedHom.range.Normal := fiveMinusDerivedHom_range_normal
   have htop : fiveMinusDerivedHom.range = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal fiveMinusDerivedHom.range with h | h
     · exact absurd h fiveMinusDerivedHom_range_ne_bot

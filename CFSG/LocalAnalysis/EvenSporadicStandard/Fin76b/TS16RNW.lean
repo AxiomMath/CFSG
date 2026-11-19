@@ -50,7 +50,7 @@ theorem t_mem_Dsub (hs4 : s ^ 4 = t) : t ∈ Dsub s z := by
   rw [← a_sq hs4]
   exact mul_mem a_mem_Dsub a_mem_Dsub
 
-theorem b_inv_a (hz2 : z * z = 1) (hzs : z * s * z⁻¹ = s⁻¹) :
+theorem b_inv_a (_hz2 : z * z = 1) (hzs : z * s * z⁻¹ = s⁻¹) :
     (s * z) * (s * s) * (s * z)⁻¹ = (s * s)⁻¹ := by
   have hconj : z * (s * s) * z⁻¹ = (s * s)⁻¹ := by
     calc z * (s * s) * z⁻¹ = (z * s * z⁻¹) * (z * s * z⁻¹) := by group
@@ -94,7 +94,7 @@ theorem inv_s_eq_pow (hs8 : s ^ 8 = 1) : s⁻¹ = s ^ 7 := by
   rw [← pow_succ']
   exact hs8
 
-theorem z_mul_pow_s (hz2 : z * z = 1) (hzs : z * s * z⁻¹ = s⁻¹) (hs8 : s ^ 8 = 1) (k : ℕ) :
+theorem z_mul_pow_s (_hz2 : z * z = 1) (hzs : z * s * z⁻¹ = s⁻¹) (hs8 : s ^ 8 = 1) (k : ℕ) :
     z * s ^ k = s ^ (7 * k) * z := by
   have h1 : z * s ^ k * z⁻¹ = s ^ (7 * k) := by
     rw [← conj_pow, hzs, inv_s_eq_pow hs8, ← pow_mul]
@@ -155,7 +155,7 @@ theorem z_not_mem_Dsub (hz2 : z * z = 1) (hs8 : s ^ 8 = 1) (hzs : z * s * z⁻¹
 
 theorem card_Dsub {S : Subgroup G} [Finite G] (hs : s ∈ S) (hzS : z ∈ S) (hs8 : s ^ 8 = 1)
     (hz2 : z * z = 1) (hzs : z * s * z⁻¹ = s⁻¹) (hord : orderOf s = 8) (hzns : z ∉ zpowers s)
-    (hgen : ∀ y ∈ S, ∃ i j : ℕ, y = s ^ i * z ^ j) (hS16 : Nat.card ↥S = 16) :
+    (_hgen : ∀ y ∈ S, ∃ i j : ℕ, y = s ^ i * z ^ j) (hS16 : Nat.card ↥S = 16) :
     Nat.card ↥(Dsub s z) = 8 := by
   have hDS : Dsub s z ≤ S := Dsub_le hs hzS
   have hK : zpowers (s * s) ≤ Dsub s z := zpowers_le.2 a_mem_Dsub
@@ -163,7 +163,7 @@ theorem card_Dsub {S : Subgroup G} [Finite G] (hs : s ∈ S) (hzS : z ∈ S) (hs
     zpowers_le.2 (mul_mem (mem_zpowers s) (mem_zpowers s))
   have hord2 : orderOf (s * s) = 4 := by
     have h2 : orderOf (s ^ 2) = orderOf s / 2 := orderOf_pow_of_dvd (by norm_num) (by omega)
-    rw [← pow_two, h2, hord] <;> norm_num
+    rw [← pow_two, h2, hord]
   have hKcard : Nat.card (zpowers (s * s)) = 4 := by
     rw [Nat.card_zpowers, hord2]
   have hKD : 4 ∣ Nat.card ↥(Dsub s z) := by
@@ -197,8 +197,8 @@ theorem card_Dsub {S : Subgroup G} [Finite G] (hs : s ∈ S) (hzS : z ∈ S) (hs
     rw [heq]
     exact hzS
 
-theorem invol_mem_Dsub {S : Subgroup G} (hz2 : z * z = 1) (hs8 : s ^ 8 = 1) (hs4 : s ^ 4 = t)
-    (hzs : z * s * z⁻¹ = s⁻¹) (hord : orderOf s = 8)
+theorem invol_mem_Dsub {S : Subgroup G} (hz2 : z * z = 1) (_hs8 : s ^ 8 = 1) (hs4 : s ^ 4 = t)
+    (_hzs : z * s * z⁻¹ = s⁻¹) (hord : orderOf s = 8)
     (hgen : ∀ y ∈ S, ∃ i j : ℕ, y = s ^ i * z ^ j) :
     ∀ y ∈ S, y * y = 1 → y ≠ 1 → (∀ k : ℕ, y ≠ s ^ (2 * k) * z) → y ∈ Dsub s z := by
   intro y hyS hy2 _ hnot

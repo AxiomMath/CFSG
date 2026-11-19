@@ -32,7 +32,7 @@ namespace R869S
 theorem two_le_pRank_pair_of_isL2 {M K : Subgroup G} (hK : K ∈ calC M)
     (hc2 : (conjSetOf M K).ncard = 2) {n : ℕ} (hL2 : IsL2 (Bar2 K) n) {s : ℕ} (hs : s.Prime)
     (hs2 : s ≠ 2) (hsK : s ∣ Nat.card (Bar2 K)) : 2 ≤ CFSG.Open.pRank s (conjClosure M K) := by
-  haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   refine P2214R.two_le_pRank_pair hK hc2 hs hs2 ?_
   rw [uc22p21k_center_eq_bot hK.2.2, Subgroup.index_bot]
   exact hsK

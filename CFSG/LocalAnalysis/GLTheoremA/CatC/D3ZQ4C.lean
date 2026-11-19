@@ -61,7 +61,7 @@ theorem d3Q013Center_holds :
   obtain ⟨m, α, hαinj, hαrange⟩ : ∃ (m : ℕ) (α : Fin m → Fin Tag.D4.rank → ℤ),
       Function.Injective α ∧ Set.range α = Rd4J := by
     classical
-    haveI := hfin.fintype
+    have := hfin.fintype
     refine ⟨Fintype.card ↥Rd4J, fun i => ((Fintype.equivFin ↥Rd4J).symm i).1, ?_, ?_⟩
     · intro i j h
       exact (Fintype.equivFin ↥Rd4J).symm.injective (Subtype.ext h)

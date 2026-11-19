@@ -18,6 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] noncomputable def cubeRk (x : Cube 3 K ≃ₗ[K] Cube 3 K) : ℕ :=
   Module.finrank K (LinearMap.range ((x : Cube 3 K →ₗ[K] Cube 3 K) - LinearMap.id))
 
+omit [Finite K] [CharP K 2] in
 theorem cubeRk_conj (g x : Cube 3 K ≃ₗ[K] Cube 3 K) : cubeRk (g * x * g⁻¹) = cubeRk x := by
   unfold cubeRk
   have h1 : (((g * x * g⁻¹ : Cube 3 K ≃ₗ[K] Cube 3 K)) : Cube 3 K →ₗ[K] Cube 3 K) - LinearMap.id =
@@ -76,7 +77,7 @@ theorem b7b_heart_data (hq : 4 ≤ Nat.card K) (T : Cube 3 K ≃ₗ[K] Cube 3 K)
     exact hc
 
 theorem b7b_card_eq_two_pow (hq : 4 ≤ Nat.card K) : ∃ k : ℕ, 2 ≤ k ∧ Nat.card K = 2 ^ k := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   refine ⟨(n : ℕ), ?_, by rw [Nat.card_eq_fintype_card, hn]⟩
   by_contra hlt
@@ -87,6 +88,7 @@ theorem b7b_card_eq_two_pow (hq : 4 ≤ Nat.card K) : ∃ k : ℕ, 2 ≤ k ∧ N
   rw [Nat.card_eq_fintype_card, hn] at hq
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem b7b_pow_upper_entries (A : Matrix (Fin 2) (Fin 2) K) (h10 : A 1 0 = 0) (m : ℕ) :
     (A ^ m) 1 0 = 0 ∧ (A ^ m) 0 0 = (A 0 0) ^ m ∧ (A ^ m) 1 1 = (A 1 1) ^ m := by
   induction m with
@@ -97,12 +99,13 @@ theorem b7b_pow_upper_entries (A : Matrix (Fin 2) (Fin 2) K) (h10 : A 1 0 = 0) (
     refine ⟨?_, ?_, ?_⟩
     · simp [Matrix.mul_apply, Fin.sum_univ_two, h1, h10]
     · simp [Matrix.mul_apply, Fin.sum_univ_two, h2, h10, pow_succ]
-    · simp [Matrix.mul_apply, Fin.sum_univ_two, h1, h3, h10, pow_succ]
+    · simp [Matrix.mul_apply, Fin.sum_univ_two, h1, h3, pow_succ]
 
+omit [CharP K 2] in
 theorem b7b_upper_pow_card_sub_one (A : Matrix (Fin 2) (Fin 2) K) (h10 : A 1 0 = 0)
     (hdet : IsUnit A.det) :
     A ^ (Nat.card K - 1) = uniMat ((A ^ (Nat.card K - 1)) 0 1) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨e1, e2, e3⟩ := b7b_pow_upper_entries A h10 (Nat.card K - 1)
   have hd : A.det = A 0 0 * A 1 1 := by
     rw [Matrix.det_fin_two, h10]; ring
@@ -115,6 +118,7 @@ theorem b7b_upper_pow_card_sub_one (A : Matrix (Fin 2) (Fin 2) K) (h10 : A 1 0 =
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uniMat, e1, e2, e3]
 
+omit [Finite K] [CharP K 2] in
 theorem b7b_kronMap_pow_apply (T : Cube 3 K ≃ₗ[K] Cube 3 K) (h : Fin 3 → Matrix (Fin 2) (Fin 2) K)
     (hTh : ∀ v, T v = kronMap h v) (m : ℕ) (v : Cube 3 K) :
     (T ^ m) v = kronMap (fun i => (h i) ^ m) v := by
@@ -163,6 +167,7 @@ theorem b7b_mem_cubeU_of_upper (hq : 4 ≤ Nat.card K) (T : Cube 3 K ≃ₗ[K] C
   rw [h3] at hpow
   exact (inv_mem_iff).mp hpow
 
+omit [Finite K] [CharP K 2] in
 theorem b7b_diag_rel {π : Equiv.Perm (Fin 3)} (hππ : π * π = 1)
     {h : Fin 3 → Matrix (Fin 2) (Fin 2) K}
     (hup : ∀ i, h i 1 0 = 0) {T : Cube 3 K ≃ₗ[K] Cube 3 K}
@@ -179,6 +184,7 @@ theorem b7b_diag_rel {π : Equiv.Perm (Fin 3)} (hππ : π * π = 1)
   rw [← h1]
   exact Finset.prod_congr rfl fun i _ => (mul_diag_of_upper (hup i) (hup (π i)) (y i)).symm
 
+omit [Finite K] [CharP K 2] in
 theorem b7b_diag_rel_i {π : Equiv.Perm (Fin 3)} {h : Fin 3 → Matrix (Fin 2) (Fin 2) K}
     (hrel : ∀ y : Fin 3 → Fin 2, ∏ i, (h i (y i) (y i) * h (π i) (y i) (y i)) = 1)
     (i : Fin 3) : h i 0 0 * h (π i) 0 0 = h i 1 1 * h (π i) 1 1 := by
@@ -201,10 +207,11 @@ theorem b7b_diag_rel_i {π : Equiv.Perm (Fin 3)} {h : Fin 3 → Matrix (Fin 2) (
     exact zero_ne_one h0
   exact mul_right_cancel₀ hP0 (h0.trans h1.symm)
 
+omit [Finite K] [CharP K 2] in
 theorem b7b_heart_normal_form (T : Cube 3 K ≃ₗ[K] Cube 3 K) (π : Equiv.Perm (Fin 3))
-    (hππ : π * π = 1) (h : Fin 3 → Matrix (Fin 2) (Fin 2) K) (hunit : ∀ i, IsUnit (h i).det)
+    (_hππ : π * π = 1) (h : Fin 3 → Matrix (Fin 2) (Fin 2) K) (hunit : ∀ i, IsUnit (h i).det)
     (hup : ∀ i, h i 1 0 = 0) (hTh : ∀ v, T v = kronMap h (permMap π v))
-    (hT2 : T * T ∈ cubeU 3 K) :
+    (_hT2 : T * T ∈ cubeU 3 K) :
     ∃ g' ∈ cubeU 3 K, ∀ v, (g'⁻¹ * T) v =
       kronMap (fun i => dgMat (h i 0 0) (h i 1 1)) (permMap π v) := by
   obtain ⟨g', hg'U, hg'⟩ := exists_cubeU_apply (fun i => h i 0 1 / h i 1 1)
@@ -220,7 +227,8 @@ theorem b7b_heart_normal_form (T : Cube 3 K ≃ₗ[K] Cube 3 K) (π : Equiv.Perm
   rw [LinearEquiv.mul_apply, e2]
   exact g'.symm_apply_apply _
 
-theorem b7b_heart_sq_one (T : Cube 3 K ≃ₗ[K] Cube 3 K) (π : Equiv.Perm (Fin 3))
+omit [Finite K] [CharP K 2] in
+theorem b7b_heart_sq_one (_T : Cube 3 K ≃ₗ[K] Cube 3 K) (π : Equiv.Perm (Fin 3))
     (hππ : π * π = 1) (h : Fin 3 → Matrix (Fin 2) (Fin 2) K)
     (hrel : ∀ y : Fin 3 → Fin 2, ∏ i, (h i (y i) (y i) * h (π i) (y i) (y i)) = 1)
     (X : Cube 3 K ≃ₗ[K] Cube 3 K)
@@ -264,6 +272,7 @@ theorem b7b_exists_labels {π : Equiv.Perm (Fin 3)} (hππ : π * π = 1) (hπ1 
     rw [← perm_invol hππ x, h1, hb]
   · exact h1
 
+omit [Finite K] in
 theorem b7b_heart_rank (π : Equiv.Perm (Fin 3)) (hππ : π * π = 1) (hπ1 : π ≠ 1)
     (h : Fin 3 → Matrix (Fin 2) (Fin 2) K) (hunit : ∀ i, IsUnit (h i).det)
     (hup : ∀ i, h i 1 0 = 0)
@@ -346,6 +355,7 @@ theorem b7b_heart (hq : 4 ≤ Nat.card K) (T : Cube 3 K ≃ₗ[K] Cube 3 K)
     · rw [hTu]; exact hXsq
     · rw [hTu]; exact hXrk
 
+omit [Finite K] [CharP K 2] in
 theorem cubeRk_cubeU_ge_three {w : Cube 3 K ≃ₗ[K] Cube 3 K} (hw : w ∈ cubeU 3 K) (hne : w ≠ 1) :
     3 ≤ cubeRk w := by
   obtain ⟨β, hβ⟩ := mem_cubeU.mp hw

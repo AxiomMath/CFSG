@@ -44,14 +44,14 @@ theorem geomBody_sz (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K :
   have hF := Y10GField.innFree_of_ggRawInnField
     (RawAutSz.ggRawInnField_suzuki ha hK hp.one_lt.ne') hS hna
   obtain ⟨b, hbp, k, _, _, hkcard, ⟨e₁⟩⟩ := fixSub_sz ha hK hp hp2 hF hf hord
-  haveI := hS
+  have := hS
   have hZ := center_eq_bot_of_simple_noncomm hna
   have hfix : FP.fixSub f = ggFixSub f := Subgroup.ext fun _ => Iff.rfl
   rcases Nat.eq_zero_or_pos b with hb0 | hb1
   ·
     subst hb0
     refine Or.inr fun E hE hEx => ?_
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hc : Nat.card (suzukiGroup 0 k) = 20 := by
       rw [suzuki_order hkcard]
       norm_num
@@ -59,7 +59,7 @@ theorem geomBody_sz (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K :
       rw [← hc, ← hfix]
       exact Nat.card_congr e₁.toEquiv
     have hdvd : Nat.card E ∣ 20 := hC ▸ card_dvd_card_fixSub hZ hEx
-    haveI : Finite E := Nat.finite_of_card_ne_zero (fun h0 => by rw [h0] at hdvd; norm_num at hdvd)
+    have : Finite E := Nat.finite_of_card_ne_zero (fun h0 => by rw [h0] at hdvd; norm_num at hdvd)
     have hpg : IsPGroup p E := fun φ => ⟨1, by
       apply Subtype.ext
       rw [pow_one, Subgroup.coe_pow, hE.2 φ φ.2, Subgroup.coe_one]⟩
@@ -90,7 +90,7 @@ theorem geomBody_sz (hp : p.Prime) (hp2 : p ≠ 2) {a : ℕ} (ha : 1 ≤ a) (K :
   ·
     obtain ⟨eZ⟩ := nonempty_szQuot_equiv hb1 hkcard
     obtain ⟨hs₀, hna₀⟩ := Y10GField.szQuot_simple hb1 hkcard
-    haveI := hs₀
+    have := hs₀
     obtain ⟨θ₀, hθ₀⟩ := ggFixGeom_of_inn (I₀ := LargeEvenInnSet _) hna₀ hZ (fun φ hφ => hφ)
       (fun φ hφ => hφ) ((eZ.trans e₁.symm).trans (MulEquiv.subgroupCongr hfix))
     have hlab₀ : LargeEvenInLambda2 ⟨.twB2, 0, 2 * b + 1⟩ := by

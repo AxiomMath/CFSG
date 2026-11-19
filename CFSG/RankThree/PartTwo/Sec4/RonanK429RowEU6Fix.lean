@@ -197,7 +197,7 @@ theorem exists_conj_commute {r : ℕ} (hr : r.Prime) (hr3 : r ≠ 3) (hr2 : ¬ r
     {y : GL (Fin 6) F4} (hy : y ∈ S6) (hyo : orderOf y = r) (A : GU6) {g : P6}
     (hg : conj6 A g = g) (hgo : orderOf g = r) :
     ∃ s ∈ S6, MulAut.conj s (A : GL (Fin 6) F4) * y = y * MulAut.conj s (A : GL (Fin 6) F4) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨h, hh, hhr, hAh⟩ :=
     exists_lift_commute A hg (m := r) (by rw [← hgo]; exact pow_orderOf_eq_one g)
   have hho : orderOf h = r := by

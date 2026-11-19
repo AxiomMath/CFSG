@@ -34,8 +34,8 @@ theorem three_le_card_of_isQuasisimple_blockP {I : Finset (Fin d)} (hIc : Iᶜ.N
   have : Group.IsPerfect (blockP K hw I) := hq.1
   have : Nontrivial (blockP K hw I) := by
     by_contra hnt
-    haveI hsub : Subsingleton (blockP K hw I) := not_nontrivial_iff_subsingleton.1 hnt
-    haveI : Subsingleton ((blockP K hw I) ⧸ Subgroup.center (blockP K hw I)) := Quot.Subsingleton
+    have hsub : Subsingleton (blockP K hw I) := not_nontrivial_iff_subsingleton.1 hnt
+    have : Subsingleton ((blockP K hw I) ⧸ Subgroup.center (blockP K hw I)) := Quot.Subsingleton
     exact hq.2.2.elim fun a ha => ha.elim fun b hb => hb (Subsingleton.elim (a * b) (b * a))
   exact Group.IsPerfect.not_isSolvable _ hs'
 

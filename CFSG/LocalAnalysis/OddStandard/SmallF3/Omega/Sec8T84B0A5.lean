@@ -53,8 +53,8 @@ theorem phi_a : phi (PresentedGroup.of 0) = a6a := a5Hom_of a6a_sq a6b_cube a6ab
 theorem phi_b : phi (PresentedGroup.of 1) = a6b := a5Hom_of a6a_sq a6b_cube a6ab_pow 1
 
 theorem phi_injective : Function.Injective phi := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup (PG 2 a5Rels) := MulEquiv.isSimpleGroup a5RelsEquivAlt5
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup (PG 2 a5Rels) := MulEquiv.isSimpleGroup a5RelsEquivAlt5
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases Subgroup.Normal.eq_bot_or_eq_top (MonoidHom.ker phi) with h | h
   · exact h

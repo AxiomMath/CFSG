@@ -138,7 +138,7 @@ theorem centralizes_of_autImageRankThree {X : Type} [Group X] [Finite X] {B J S 
 theorem isStronglyLocallyOneBalanced_of_autImageRankThree {X : Type} [Group X] [Finite X]
     {B J : Subgroup X} {b : X} (hperf : ⁅J, J⁆ = J) (hL : IsLieQuot ↥J IsU3EightIndexTwo)
     (hE : AutImageRankThree B J) : IsStronglyLocallyOneBalanced 3 B b J :=
-  KSF4Kit.isStronglyLocallyOneBalanced_of_centralizes fun S hS hcop hBS =>
+  KSF4Kit.isStronglyLocallyOneBalanced_of_centralizes fun _S hS hcop hBS =>
     centralizes_of_autImageRankThree hperf (nonempty_equiv_projSU_of_isLieQuot hL) hE
       (hS.trans inf_le_left) hcop hBS
 

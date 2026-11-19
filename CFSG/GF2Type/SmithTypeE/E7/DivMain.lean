@@ -69,6 +69,7 @@ theorem q_wtV_eq_zero
   obtain ⟨h, rfl⟩ := isConj_iff.mp hc
   rw [conj_pow, S.z_sq, mul_one, mul_inv_cancel]
 
+omit [IsSimpleGroup G] in
 theorem not_opp_of_not_isConj
     (hcl2 : ∀ i < 75735, ∃ c : G, IsConj S.z c ∧ c ∈ S.QG ∧ φ (S.cl c) = wtV i)
     (hiso : ∀ u v : S.Qt, fModel (φ u) (φ v) = polar S.q u v)

@@ -43,11 +43,11 @@ private def fixOf {E : Type*} [Group E] (k : MulAut E) : Subgroup E where
   one_mem' := map_one k
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 private lemma mem_fixOf {E : Type*} [Group E] {k : MulAut E} {e : E} :

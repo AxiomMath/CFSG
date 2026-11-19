@@ -26,7 +26,7 @@ theorem exists_elemAbelian_aut_cube {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ}
     (hS : S.Normal) (hperf : ⁅S, S⁆ = S) (hB : IsElemAbelian p B) (hB4 : p ^ 4 ≤ Nat.card B)
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) :
     ∃ A : Subgroup (MulAut (PSimple p S)), IsElemAbelian p A ∧ p ^ 3 ≤ Nat.card A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := card_le_card_inf_centMod_mul_pow hp hS hperf hB
   rw [hBC] at h
   have h' : p ^ 4 ≤ p ^ (1 + CFSG.Open.pRank p (⊤ : Subgroup (MulAut (PSimple p S)))) := by

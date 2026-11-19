@@ -80,7 +80,7 @@ private theorem walkFold_getD_lt {α : Type*} (G : GenData) (one : α) (step : �
       (walkFold G one step (j + 1)).getD j one :=
     walkFold_getD_le G one step (Nat.succ_le_of_lt hj) (Nat.lt_succ_self j)
   rw [h1, walkFold_succ, Array.getD_eq_getD_getElem?, Array.getElem?_push,
-    if_pos (show j = (walkFold G one step j).size by rw [walkFold_size G one step j])]
+    ite_eq_left (show j = (walkFold G one step j).size by rw [walkFold_size G one step j])]
   rfl
 
 theorem size_walk {α : Type*} (G : GenData) (one : α) (step : α → ℕ → α) :
@@ -99,7 +99,7 @@ theorem walk_succ {α : Type*} (G : GenData) (one : α) (step : α → ℕ → �
       step ((G.walk one step).getD (G.parAt j).1 one) (G.parAt j).2 := by
   rw [walk_eq_walkFold, walkFold_getD_lt G one step hj]
   simp only [walkVal]
-  rw [if_neg (by simp [show j ≠ 0 by omega])]
+  rw [ite_eq_right (by simp [show j ≠ 0 by omega])]
   rw [← walkFold_getD_le G one step (Nat.le_of_lt hj) hp]
 
 @[expose] def rowOf (G : GenData) (i : ℕ) : Array ℕ := G.walk i G.rtAt
@@ -161,7 +161,7 @@ theorem invOK_spec {G : GenData} (h : G.invOK = true) :
 theorem tab_mul {G : GenData} {i j : ℕ} (hi : i < G.n) (hj : j < G.n) :
     G.tab.mul i j = (G.walk i G.rtAt).getD j i := by
   have hrow : G.rowsOf.getD i #[] = G.rowOf i := by
-    simp [rowsOf, Array.getD_eq_getD_getElem?, Array.getElem?_map, Array.getElem?_range, hi]
+    simp [rowsOf, Array.getD_eq_getD_getElem?, hi]
   have hsize : j < (G.walk i G.rtAt).size := by rw [size_walk G i G.rtAt]; exact hj
   have h1 : (G.walk i G.rtAt).getD j 0 = (G.walk i G.rtAt).getD j i := by
     rw [Array.getD_eq_getD_getElem?, Array.getD_eq_getD_getElem?,

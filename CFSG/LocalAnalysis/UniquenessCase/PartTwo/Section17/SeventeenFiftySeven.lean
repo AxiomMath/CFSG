@@ -21,6 +21,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem dvd_card_bar2_of_isSz_sub_one {L : Subgroup G} {p n : ℕ} (h : IsSz (Bar2 L) n)
     (hdvd : p ∣ 2 ^ n - 1) : p ∣ Nat.card (Bar2 L) := by
   have hsz : CFSG.Blueprint.SuzukiModel (Bar2 L) 2 n := by
@@ -32,8 +33,8 @@ theorem dvd_card_bar2_of_isSz_sub_one {L : Subgroup G} {p n : ℕ} (h : IsSz (Ba
     · exact absurd h3.2.1 (by decide)
     · exact h4.2.2
   obtain ⟨-, a, ha, K, hfield, hfinite, hf, hKcard, ⟨e⟩⟩ := hsz
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hKcard' : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hf]; exact hKcard
   have hcard : Nat.card (Bar2 L) =
       Nat.card (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) := by
@@ -72,7 +73,7 @@ theorem opp_pCoreOf_two_eq_bot {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : 
   by_contra hne
   obtain ⟨s, hs, hsord⟩ :=
     s13_exists_orderOf_of_pElementSubgroup_ne_bot hp (by simpa [Opp] using hne)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsH : s ∈ CFSG.Open.pCoreOf 2 M := (s13_Bar13_opp_le p (CFSG.Open.pCoreOf 2 M)) hs
   obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M) ⟨s, hsH⟩
@@ -84,6 +85,7 @@ theorem opp_pCoreOf_two_eq_bot {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : 
   · exact hp.ne_one h1
   · exact hp2 h2
 
+omit [Finite G] in
 theorem centSection_bot_bot (M : Subgroup G) : centSection M ⊥ ⊥ = M := by
   ext m
   constructor
@@ -179,7 +181,7 @@ theorem exists_lift_of_normal_isPGroup (M : Subgroup G) {q : ℕ} (hq : q.Prime)
       ((Dg ⊔ CFSG.Open.pCoreOf 2 M).subgroupOf M).Normal := by
   classical
   let N2 : Subgroup ↥M := CFSG.pCore 2 ↥M
-  haveI : N2.Normal := CFSG.pCore_normal
+  have : N2.Normal := CFSG.pCore_normal
   obtain ⟨k2, hk2⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup : IsPGroup 2 ↥N2)
   let π : ↥M →* Bar2 M := QuotientGroup.mk' N2
   have hcop : q.Coprime (Nat.card N2) := by
@@ -258,18 +260,18 @@ theorem commutator_bar_pow_mem_centralizer_pCore (D : Data G) {V₀ V : Subgroup
     exact Subgroup.mem_centralizer_iff.mpr fun h hh => by
       rw [SetLike.mem_coe, Subgroup.mem_bot] at hh
       rw [hh, one_mul, mul_one]
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Nontrivial ↥(CFSG.pCore q Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hQq
+  have : Fact q.Prime := ⟨hq⟩
+  have : Nontrivial ↥(CFSG.pCore q Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hQq
   let Qq : Subgroup Q := CFSG.pCore q Q
-  haveI : Qq.Normal := CFSG.pCore_normal
+  have : Qq.Normal := CFSG.pCore_normal
   have hQqp : IsPGroup q ↥Qq := CFSG.pCore_isPGroup
   obtain ⟨Cq, hCqchar, -, hCqcomm, hCqexp, hCqfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := q) hq2 hQqp
   let CqQ : Subgroup Q := Cq.map Qq.subtype
   have hCqQnormal : CqQ.Normal := by
-    haveI : Cq.Characteristic := hCqchar
+    have : Cq.Characteristic := hCqchar
     exact ConjAct.normal_of_characteristic_of_normal
-  haveI : CqQ.Normal := hCqQnormal
+  have : CqQ.Normal := hCqQnormal
   let eC : ↥Cq ≃* ↥CqQ := Cq.equivMapOfInjective Qq.subtype Qq.subtype_injective
   have hCqQp : IsPGroup q ↥CqQ := hQqp.to_subgroup Cq |>.map Qq.subtype
   let φ : Q →* MulAut ↥Qq := MulAut.conjNormal (H := Qq)
@@ -293,7 +295,7 @@ theorem commutator_bar_pow_mem_centralizer_pCore (D : Data G) {V₀ V : Subgroup
         Nat.card CqQ = q ^ 2 ∧ ∃ Wstar : Subgroup Q, Wstar.Normal ∧ Wstar ≤ CqQ ∧
           Nat.card Wstar = q := by
       let N2 : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
-      haveI : N2.Normal := CFSG.pCore_normal
+      have : N2.Normal := CFSG.pCore_normal
       obtain ⟨k2, hk2⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup : IsPGroup 2 ↥N2)
       let π : ↥D.M →* Q := QuotientGroup.mk' N2
       have hcop : q.Coprime (Nat.card N2) := by
@@ -383,7 +385,7 @@ theorem commutator_bar_pow_mem_centralizer_pCore (D : Data G) {V₀ V : Subgroup
           hq_not_dvd_N2).trans
           ((Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWleM).toEquiv).trans hWcard)
       exact ⟨hCqQcard, Wstar, hWstar_normal, hWstar_le, hWstarcard⟩
-    haveI : Wstar.Normal := hWstar_normal
+    have : Wstar.Normal := hWstar_normal
     have hcW : commutator Q ≤ Subgroup.centralizer (Wstar : Set Q) :=
       CFSG.LocalAnalysis.CyclicNormalConj.commutator_le_centralizer
         (isCyclic_of_prime_card hWstarcard)
@@ -395,7 +397,7 @@ theorem commutator_bar_pow_mem_centralizer_pCore (D : Data G) {V₀ V : Subgroup
         rw [← h]
         ring
       exact Nat.eq_of_mul_eq_mul_right hq.pos h'
-    haveI : IsCyclic (↥CqQ ⧸ Wstar.subgroupOf CqQ) := isCyclic_of_prime_card hquot_card
+    have : IsCyclic (↥CqQ ⧸ Wstar.subgroupOf CqQ) := isCyclic_of_prime_card hquot_card
     have hsec := CFSG.GroupTheory.map_commutator_eq_bot_of_isCyclic
       (CFSG.RankThree.PartTwo.Sec3.sectionAction CqQ Wstar)
     refine CFSG.GroupTheory.isPGroup_of_forall_fix_disp (C := Cq) (W := Wstar.comap Qq.subtype)
@@ -486,7 +488,7 @@ theorem barImage_Sp_le_pCore (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
     barImage D.M (Sp D p) ≤ CFSG.pCore p (Bar2 D.M) := by
   have hpp : p.Prime := (D.sig_prime p hp.1).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp.1).2
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have htop : CFSG.GH74.GLS.oResidual p (Bar2 D.M) = ⊤ :=
     uc22p21c_oResidual_bar_eq_top hpp (h638 p hpp hp2 (Or.inl hp.1))
   let S : Set (Bar2 D.M) := {x | x ∈ Subgroup.centralizer
@@ -517,7 +519,7 @@ theorem barImage_Sp_le_pCore (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
   have h3 : ∀ x ∈ Subgroup.closure S, ∃ n : ℕ,
       x ^ p ^ n ∈ Subgroup.centralizer (CFSG.pCore p (Bar2 D.M) : Set (Bar2 D.M)) :=
     fun x hx => commutator_bar_pow_mem_centralizer_pCore D hV h22 h23 hpp (hYcomm hx)
-  haveI := CFSG.GroupTheory.isNilpotent_of_le_centralizer_layer_pCores hpp h1 h2 h3
+  have := CFSG.GroupTheory.isNilpotent_of_le_centralizer_layer_pCores hpp h1 h2 h3
   have hYp : IsPGroup p (Subgroup.closure S) := by
     have hcl := CFSG.GroupTheory.isPGroup_closure_of_isNilpotent (Y := ↥(Subgroup.closure S))
       (p := p) (S := (Subgroup.closure S).subtype ⁻¹' S) fun s hs => by
@@ -555,7 +557,7 @@ theorem seventeen_fiftyseven (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V
   push Not at hle
   have hpp : p.Prime := (D.sig_prime p hp.1).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp.1).2
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hrk := pRank_Sp_le D hV hp hThin hCyc h638 h33 h22 h23
   have hnc : ¬ IsCyclic ↥(CFSG.pCore p (Bar2 D.M)) := fun hcyc => by
     have := CFSG.SectionRank.pRank_le_one_of_isCyclic hpp hcyc

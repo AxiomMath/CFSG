@@ -13,7 +13,7 @@ open CFSG.Open
 open CFSG.HardMathSupport.Timmesfeld.CrossChar (primePower_p_eq_two_of_card_eq_two)
 
 @[expose] def SpOneBlock : Prop :=
-  ∀ (n : ℕ) (hn4 : 4 ≤ n) (hn5 : n ≤ 5)
+  ∀ (n : ℕ) (_hn4 : 4 ≤ n) (_hn5 : n ≤ 5)
     (Bb : Subgroup (StatedSp n (ZMod 2))),
     SmallModel (StatedSp n (ZMod 2)) Bb →
       ∃ y ∈ Bb, y ≠ 1 ∧ StdAt Bb y ∧

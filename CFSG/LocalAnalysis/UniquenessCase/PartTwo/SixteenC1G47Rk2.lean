@@ -26,7 +26,7 @@ theorem s16c1_G47_comm_card_le {Hs : Type} [Group Hs] [Finite Hs] {q : ℕ} (hq 
     (hcl : ∀ a ∈ S, ∀ b ∈ S, ∀ c ∈ S, ⁅⁅a, b⁆, c⁆ = 1)
     (hr : CFSG.Open.pRank q (⊤ : Subgroup Hs) ≤ 2) : IsCyclic ↥⁅S, S⁆ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set C : Subgroup Hs := S ⊓ centralizer (S : Set Hs) with hCdef
   have hcomm_le : ⁅S, S⁆ ≤ C := by
     rw [Subgroup.commutator_le]
@@ -140,9 +140,9 @@ theorem s16c1_G47_perfect_cyclic {Γ : Type*} [Group Γ] {X C : Subgroup Γ} [Fi
   intro x hx c hc
   let ρ : X →* MulAut C :=
     (MulDistribMulAction.toMulAut (normalizer (C : Set Γ)) C).comp (Subgroup.inclusion hXC)
-  haveI : Group.IsPerfect X := hX
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
-  haveI : IsMulCommutative ρ.range :=
+  have : Group.IsPerfect X := hX
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : IsMulCommutative ρ.range :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (mulAut_mul_comm_of_isCyclic (a : MulAut C) (b : MulAut C))
   have h1 : ρ ⟨x, hx⟩ = 1 := by

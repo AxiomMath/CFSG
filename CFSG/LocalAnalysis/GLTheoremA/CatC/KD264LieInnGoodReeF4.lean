@@ -54,8 +54,8 @@ private theorem exists_good_of_reePlane_reeGamma_F4 {a : ℕ} {K : Type} [Field 
       P' ≤ Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a)) ∧ ⁅P', P'⁆ = P' ∧
         p ∣ Nat.card P' := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨γ, hγ⟩ := exists_conj_plane hp hp2 hsh P E (fun x hx => hE.2 x hx) hcard
   have hroot : (rootFinset ReeTag.F4.tag).Nonempty := by
     refine Finset.card_pos.mp ?_
@@ -93,7 +93,7 @@ private theorem exists_good_of_reePlane_reeGamma_F4 {a : ℕ} {K : Type} [Field 
   · have hquasiMap : CFSG.IsQuasisimple (Sg.map (MulAut.conj γ).toMonoidHom) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv
         (Sg.equivMapOfInjective (MulAut.conj γ).toMonoidHom (MulAut.conj γ).injective) hquasi
-    haveI : Group.IsPerfect ↥(Sg.map (MulAut.conj γ).toMonoidHom) := hquasiMap.1
+    have : Group.IsPerfect ↥(Sg.map (MulAut.conj γ).toMonoidHom) := hquasiMap.1
     exact Subgroup.commutator_eq_self
   · rw [Subgroup.card_map_of_injective (MulAut.conj γ).injective]
     exact hpdvd
@@ -130,11 +130,11 @@ private theorem exists_good_of_reeGamma_F4_three {K : Type} [Field K] [Finite K]
       P ≤ Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a)) ∧ ⁅P, P⁆ = P ∧
         3 ∣ Nat.card P := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hne : ∃ x ∈ E, x ≠ 1 := by
     have h1 : 1 < Nat.card E := by rw [hcard]; norm_num
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp h1
     obtain ⟨x, hx1⟩ := exists_ne (1 : E)
     exact ⟨x, x.2, fun h => hx1 (Subtype.ext h)⟩
   obtain ⟨x, hxE, hx1⟩ := hne
@@ -145,7 +145,7 @@ private theorem exists_good_of_reeGamma_F4_three {K : Type} [Field K] [Finite K]
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
       (su3_isQuasisimple (by omega) (card_galoisField_su3 a))
   refine ⟨x, hxE, hx1, Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a)), le_rfl, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥(Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a))) :=
+  · have : Group.IsPerfect ↥(Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a))) :=
       hquasi.1
     exact Subgroup.commutator_eq_self
   · rw [show Nat.card (Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a))) =

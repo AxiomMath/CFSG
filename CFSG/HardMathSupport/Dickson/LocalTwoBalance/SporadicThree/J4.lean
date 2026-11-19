@@ -35,7 +35,7 @@ private theorem fixGen_map_mulEquiv {M X : Type*} [Group M] [Group X] (e : M ≃
 
 private theorem center_eq_bot_of_simple {S : Type*} [Group S] (hS : IsSimpleGroup S)
     (hnab : ∃ a b : S, a * b ≠ b * a) : Subgroup.center S = ⊥ := by
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso

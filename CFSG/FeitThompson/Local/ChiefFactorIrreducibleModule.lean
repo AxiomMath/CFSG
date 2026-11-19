@@ -60,7 +60,7 @@ instance [Group.IsSolvable G] : Group.IsSolvable ↥(quotientFactor X Y) :=
   isSolvable_map (QuotientGroup.mk' Y) X
 
 theorem quotientFactor_ne_bot (h : Y < X) : quotientFactor X Y ≠ ⊥ := by
-  obtain ⟨x, hxX, hxY⟩ := SetLike.exists_of_lt h
+  obtain ⟨x, hxX, hxY⟩ := _root_.IsConcreteLE.exists_of_lt h
   intro hc
   have hx : (x : G ⧸ Y) ∈ quotientFactor X Y := mk_mem_quotientFactor X Y hxX
   rw [hc, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hx

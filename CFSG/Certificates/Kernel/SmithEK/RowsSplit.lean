@@ -11,7 +11,7 @@ theorem drop_succ_eq {α : Type} (l : List α) (n : Nat) : l.drop (n + 1) = l.ta
 
 theorem drop_drop_add' {α : Type} (l : List α) (a n : Nat) :
     (l.drop a).drop n = l.drop (a + n) := by
-  simp [List.drop_drop, Nat.add_comm]
+  simp [List.drop_drop]
 
 theorem rowsF_nil (ONE REP DATA Bpk : Nat) (Qs Pl : List Nat) (Cr : List (List Nat)) (Pr : List Nat) :
     rowsF ONE REP DATA Bpk Qs Pl [] Cr Pr = true := rfl

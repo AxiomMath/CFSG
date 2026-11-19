@@ -30,8 +30,8 @@ theorem scalar_iff [Nonempty ι] (k : Subfield K) (A : GL ι k) :
     ext i j
     by_cases h : i = j
     · subst h
-      simp [Matrix.GeneralLinearGroup.coe_scalar, coe_glMap]
-    · simp [Matrix.GeneralLinearGroup.coe_scalar, coe_glMap, Matrix.diagonal_apply, h]
+      simp [Matrix.GeneralLinearGroup.coe_scalar]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, h]
   · rintro ⟨c, hc⟩
     obtain ⟨i⟩ := ‹Nonempty ι›
     have hent : ∀ a b : ι, ((A : Matrix ι ι k) a b : K) = if a = b then (c : K) else 0 := by
@@ -41,7 +41,7 @@ theorem scalar_iff [Nonempty ι] (k : Subfield K) (A : GL ι k) :
         coe_glMap] using this.symm
     have hcm : (c : K) ∈ k := by
       have := hent i i
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       rw [← this]
       exact (A : Matrix ι ι k) i i |>.2
     have hc0 : (⟨(c : K), hcm⟩ : k) ≠ 0 := by
@@ -54,10 +54,10 @@ theorem scalar_iff [Nonempty ι] (k : Subfield K) (A : GL ι k) :
     have := hent a b
     by_cases h : a = b
     · subst h
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       simp [Matrix.GeneralLinearGroup.coe_scalar, this]
-    · rw [if_neg h] at this
-      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.diagonal_apply, h, this]
+    · rw [ite_eq_right h] at this
+      simp [Matrix.GeneralLinearGroup.coe_scalar, h, this]
 
 
 noncomputable def fixHom (σ : K ≃+* K) (H : Subgroup (GL ι K))
@@ -162,7 +162,7 @@ theorem subBody_linear (hd : 2 ≤ d) {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card K 
       (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) I
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K))) := by
   intro f hf hord
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   have hu : 0 < d * (d - 1) / 2 := by
     have : 2 ≤ d * (d - 1) := calc 2 = 2 * 1 := rfl
       _ ≤ d * (d - 1) := Nat.mul_le_mul hd (by omega)
@@ -201,7 +201,7 @@ theorem subBody_symplectic (hm : 1 ≤ m) {n : ℕ} (hn : 1 ≤ n) (hK : Nat.car
       (LargeEvenProj (LargeEvenSpGroup K m)) I
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSpGroup K m))) := by
   intro f hf hord
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hu : 0 < m * m := Nat.mul_pos hm hm
   have hordH : twoPart (Nat.card (LargeEvenSpGroup K m)) ^ 1 = 2 ^ (n * (m * m)) := by
     rw [pow_one]
@@ -236,8 +236,8 @@ theorem subBody_omegaPlus (hm : 4 ≤ m) {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card
       (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) I
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K m)))) := by
   intro f hf hord
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hu : 0 < m * (m - 1) := Nat.mul_pos (by omega) (by omega)
   have hordH : twoPart (Nat.card (LargeEvenOmega (LargeEvenQPlus K m))) ^ 1 =
       2 ^ (n * (m * (m - 1))) := by
@@ -282,7 +282,7 @@ theorem su_hiff [CharP K 2] {j : ℕ} (hj : 1 ≤ j) (hK : Nat.card K = (2 ^ j) 
     rw [hjj', ← mul_assoc, mul_comm 2 (orderOf σ), mul_assoc, Nat.mul_div_cancel_left _ hr0]
   have hk : Nat.card (fixF σ) = (2 ^ j') ^ 2 := by
     rw [card_fixF, hcard, hee', pow_mul']
-  haveI : CharP (fixF σ) 2 :=
+  have : CharP (fixF σ) 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * j')
       (by rw [hk, ← pow_mul, mul_comm])
   rw [hj'eq]
@@ -296,7 +296,7 @@ theorem subBody_unitary [CharP K 2] (hd : 3 ≤ d) {j : ℕ} (hj : 1 ≤ j)
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ j)))) := by
   intro f hf hord
   have hK' : Nat.card K = 2 ^ (2 * j) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   have hu : 0 < d * (d - 1) / 2 := by
     have : 2 ≤ d * (d - 1) := calc 2 = 2 * 1 := rfl
       _ ≤ d * (d - 1) := Nat.mul_le_mul (by omega) (by omega)
@@ -323,7 +323,7 @@ theorem subBody_unitary [CharP K 2] (hd : 3 ≤ d) {j : ℕ} (hj : 1 ≤ j)
       · exact h0
     have hk : Nat.card (fixF σ) = (2 ^ j') ^ 2 := by
       rw [card_fixF.trans he, hee', pow_mul']
-    haveI : CharP (fixF σ) 2 :=
+    have : CharP (fixF σ) 2 :=
       CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * j')
         (by rw [hk, ← pow_mul, mul_comm])
     have hj'eq : j / orderOf σ = j' := by

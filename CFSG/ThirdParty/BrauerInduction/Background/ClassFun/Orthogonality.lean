@@ -70,7 +70,7 @@ lemma action_eq_zero_of_pairing_eq_zero
       (Module.finrank k (S i) : k) ≠ 0 := by
     have h_not_zero : ¬ Limits.IsZero (S i) :=
       CategoryTheory.Simple.not_isZero (S i)
-    haveI : Nontrivial (S i) :=
+    have : Nontrivial (S i) :=
       (FDRep.nontrivial_iff_not_IsZero (S i)).mpr h_not_zero
     exact Nat.cast_ne_zero.mpr
       (Module.finrank_pos_iff.mpr inferInstance).ne'
@@ -110,15 +110,15 @@ lemma classFun_eq_zero_of_orthogonal_simples
       ∀ (S : FDRep k G), Simple S →
         ∑ x : G, f x * S.character x⁻¹ = 0) :
     f = 0 := by
-  haveI : NeZero (Nat.card G : k) :=
+  have : NeZero (Nat.card G : k) :=
     ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
 
   obtain ⟨ι, S, hι, hSimple, ⟨e⟩⟩ :=
     FDRep.exists_simple_decomposition
       (FDRep.leftRegular k G)
 
-  letI : Fintype ι := hι
-  haveI : ∀ i, Simple (S i) := hSimple
+  let : Fintype ι := hι
+  have : ∀ i, Simple (S i) := hSimple
 
   have hS_zero :
       ∀ i, ClassFun.action f (S i) = 0 := by
@@ -261,11 +261,11 @@ lemma characterPairingLeft_conjClassIndicator
     by_cases hx : IsConj x a
     · have hx_inv : IsConj x⁻¹ a⁻¹ := (h_inv_iff x).mpr hx
       have hfx : f x = f a := f.map_conj x a hx
-      simp only [conjClassIndicator_apply, hx, hx_inv, if_true, mul_one, hfx]
+      simp only [conjClassIndicator_apply, hx, hx_inv, ite_true, mul_one, hfx]
     · have hx_inv : ¬ IsConj x⁻¹ a⁻¹ := by
         intro h
         exact hx ((h_inv_iff x).mp h)
-      simp only [conjClassIndicator_apply, hx, hx_inv, if_false, mul_zero]
+      simp only [conjClassIndicator_apply, hx, hx_inv, ite_false, mul_zero]
   calc
     (∑ x : G, f x * (conjClassIndicator k a⁻¹) x⁻¹)
         =

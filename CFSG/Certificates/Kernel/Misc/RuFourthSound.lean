@@ -90,9 +90,9 @@ private theorem tv_close {v : Nat} {neg : Bool} {acc : List Char} {s : Nat} {st 
   · omega
   · omega
   cases neg
-  · rw [if_neg (by decide), List.reverse_reverse, tv_pos hd hne]
+  · rw [ite_eq_right (by decide), List.reverse_reverse, tv_pos hd hne]
     rfl
-  · rw [if_pos rfl, List.reverse_reverse, tv_neg hd hne]
+  · rw [ite_eq_left rfl, List.reverse_reverse, tv_neg hd hne]
     have := hpos rfl
     change some (-((Nat.ofDigitChars 10 ds 0 : Nat) : Int)) = some (Int.negSucc (Nat.ofDigitChars 10 ds 0 - 1))
     congr 1

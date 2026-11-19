@@ -97,8 +97,8 @@ theorem card_le_cube_of_class_two {Q : Type} [Group Q] [Finite Q] {r : ℕ} [Fac
   have hx1 : x ≠ 1 := fun h => hxZ (by rw [h]; exact Subgroup.one_mem _)
   have hHp : IsPGroup r H := hQ.to_subgroup H
   obtain ⟨z0, hz0Z, hz01⟩ : ∃ z ∈ CFSG.centerIn H, z ≠ 1 := by
-    haveI : Nontrivial H := ⟨⟨x, hxH⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩
-    haveI : Nontrivial (Subgroup.center H) := IsPGroup.center_nontrivial hHp
+    have : Nontrivial H := ⟨⟨x, hxH⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩
+    have : Nontrivial (Subgroup.center H) := IsPGroup.center_nontrivial hHp
     obtain ⟨g, hg⟩ := exists_ne (1 : Subgroup.center H)
     exact ⟨((g : H) : Q),
       Subgroup.mem_inf.mpr ⟨(g : H).2, Subgroup.mem_centralizer_iff.mpr fun k hk =>
@@ -240,7 +240,7 @@ theorem card_frattini_quotient_le_sq {Q : Type} [Group Q] [Finite Q] {r : ℕ} [
       (∀ a ∈ A, a ^ r = 1) → Nat.card A ≤ r ^ 2) :
     Nat.card (↥H ⧸ frattini ↥H) ≤ r ^ 2 := by
   have hHp : IsPGroup r H := hQ.to_subgroup H
-  haveI : Fact (IsPGroup r H) := ⟨hHp⟩
+  have : Fact (IsPGroup r H) := ⟨hHp⟩
   have hr0 : 0 < r := by omega
   by_cases hcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a
   · have hH2 : Nat.card H ≤ r ^ 2 := hrank H le_rfl hcomm hexp
@@ -275,13 +275,13 @@ theorem false_of_E9_of_commGroup {V : Type} [Group V] [Finite V] [IsMulCommutati
     (E : Subgroup (MulAut V)) (hEc : ∀ e ∈ E, ∀ f ∈ E, e * f = f * e)
     (hE3 : ∀ e ∈ E, e ^ 3 = 1) (hE9 : Nat.card E = 9)
     (h : MulAut V) (hinv : ∀ e ∈ E, h * e * h⁻¹ = e⁻¹) : False := by
-  letI : CommGroup V :=
+  let : CommGroup V :=
     { (inferInstance : Group V) with mul_comm := isMulCommutative_iff.mp inferInstance }
   have hV : ∃ v : V, v ≠ 1 := by
     by_contra hcon
     push Not at hcon
-    haveI : Subsingleton V := ⟨fun a b => by rw [hcon a, hcon b]⟩
-    haveI : Subsingleton (MulAut V) := ⟨fun a b => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
+    have : Subsingleton V := ⟨fun a b => by rw [hcon a, hcon b]⟩
+    have : Subsingleton (MulAut V) := ⟨fun a b => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
     have h1 : Nat.card E ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr inferInstance
     omega
   obtain ⟨g, hgE, hg1, v, hv1, hgv⟩ :=
@@ -295,17 +295,17 @@ theorem false_of_inverted_E9_of_rank_two {Q : Type} [Group Q] [Finite Q] {r : �
     (E : Subgroup (MulAut Q)) (hEc : ∀ e ∈ E, ∀ f ∈ E, e * f = f * e)
     (hE3 : ∀ e ∈ E, e ^ 3 = 1) (hE9 : Nat.card E = 9)
     (h : MulAut Q) (hinv : ∀ e ∈ E, h * e * h⁻¹ = e⁻¹) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (IsPGroup r Q) := ⟨hQ⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (IsPGroup r Q) := ⟨hQ⟩
   have hQnt : Nontrivial Q := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
-    haveI : Subsingleton (MulAut Q) := ⟨fun a b => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
+    have : Subsingleton (MulAut Q) := ⟨fun a b => MulEquiv.ext fun v => Subsingleton.elim _ _⟩
     have h1 : Nat.card E ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr inferInstance
     omega
   obtain ⟨H, hHchar, hHcls, -, hHexp, hHfix⟩ :=
     CFSG.theorem_1_13 (G := Q) (p := r) (by omega)
-  haveI : H.Characteristic := hHchar
+  have : H.Characteristic := hHchar
   have hHp : IsPGroup r H := hQ.to_subgroup H
   have hexpH : ∀ k ∈ H, k ^ r = 1 := by
     intro k hk
@@ -321,7 +321,7 @@ theorem false_of_inverted_E9_of_rank_two {Q : Type} [Group Q] [Finite Q] {r : �
     show IsMulCommutative A ∧ ∀ x ∈ A, x ^ r = 1
     exact ⟨isMulCommutative_iff.mpr (fun a b => Subtype.ext (hcomm a a.2 b b.2)), hA⟩
   obtain ⟨-, hVcomm, hVexp, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hHp
-  haveI : IsMulCommutative (↥H ⧸ frattini ↥H) := hVcomm
+  have : IsMulCommutative (↥H ⧸ frattini ↥H) := hVcomm
   have hVcard : Nat.card (↥H ⧸ frattini ↥H) ≤ r ^ 2 :=
     card_frattini_quotient_le_sq hr5 hQ H hexpH hcls hrankH
   have hkerφ : IsPGroup r (quotientAutomorphism (frattini ↥H)).ker :=

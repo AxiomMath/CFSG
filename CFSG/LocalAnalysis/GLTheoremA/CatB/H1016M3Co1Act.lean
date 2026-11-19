@@ -70,12 +70,12 @@ private theorem rowsMat_r1 : rowsMat 3 6 r1Rows = Matrix.of fun k j => conjVec 1
   decide +kernel
 
 private theorem letterG_seven : letterG Co1T.lG 7 = ElemThree.g 0 := by
-  rw [letterG, if_pos (by norm_num), Co1T.lG, List.getD_append _ _ _ _ (by simp),
+  rw [letterG, ite_eq_left (by norm_num), Co1T.lG, List.getD_append _ _ _ _ (by simp),
     List.getD_append_right _ _ _ _ (by simp)]
   simp
 
 private theorem letterG_eight : letterG Co1T.lG 8 = ElemThree.g 1 := by
-  rw [letterG, if_pos (by norm_num), Co1T.lG, List.getD_append _ _ _ _ (by simp),
+  rw [letterG, ite_eq_left (by norm_num), Co1T.lG, List.getD_append _ _ _ _ (by simp),
     List.getD_append_right _ _ _ _ (by simp)]
   simp
 

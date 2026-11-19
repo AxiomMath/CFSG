@@ -28,7 +28,7 @@ theorem ggF4Small_a4_abstract {ι : Type} {M : CoxeterMatrix ι} (i₀ i₁ : ι
       g * z * g⁻¹ ∉ Subgroup.zpowers z := by
   by_contra hcon
   simp only [not_exists, not_and, not_not] at hcon
-  letI : CommGroup ↥Bs :=
+  let : CommGroup ↥Bs :=
     { (inferInstance : Group ↥Bs) with mul_comm := fun a b => hBsE.1.is_comm.comm a b }
   let z' : ↥Bs := ⟨z, hzBs⟩
   have hz'3 : z' ^ 3 = 1 := Subtype.ext (by rw [SubgroupClass.coe_pow]; exact hBsE.2 z hzBs)

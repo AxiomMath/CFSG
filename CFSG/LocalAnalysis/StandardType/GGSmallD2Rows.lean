@@ -19,7 +19,7 @@ theorem false_of_slpm (X : GGSmallD2Ctx p N A T AT)
     (hsl : ∀ g : ↥T ≃ₗ[ZMod p] ↥T, g ∈ AT ↔ (LinearEquiv.det g = 1 ∨ LinearEquiv.det g = -1)) :
     False := by
   classical
-  haveI : Module.Finite (ZMod p) ↥T := X.finite_T
+  have : Module.Finite (ZMod p) ↥T := X.finite_T
   let σ : ↥T ≃ₗ[ZMod p] ↥T := LinearEquiv.neg (ZMod p)
   have hσ2 : σ * σ = 1 := by
     ext v
@@ -39,7 +39,7 @@ theorem false_of_orth (X : GGSmallD2Ctx p N A T AT) {Q : QuadraticForm (ZMod p) 
     (hA : ∀ g, g ∈ AT ↔ ZS.IsIsom p Q g) : False := by
   have hneg : (LinearEquiv.neg (ZMod p) : ↥T ≃ₗ[ZMod p] ↥T) ∈ AT :=
     (hA _).mpr (fun v => by
-      simpa [LinearEquiv.neg_apply] using (QuadraticMap.map_neg Q v))
+      simp [LinearEquiv.neg_apply])
   exact X.false_of_neg_mem hneg
 
 theorem false_of_gmmn (X : GGSmallD2Ctx p N A T AT) {n : ℕ}
@@ -72,7 +72,7 @@ theorem false_of_exc (X : GGSmallD2Ctx p N A T AT) (k : ZS.ExcRow)
   have hcen_ne : Nat.card ↥(Subgroup.center ↥AT) ≠ 0 := by
     rw [hcen]
     cases k <;> decide
-  haveI : Finite ↥(Subgroup.center ↥AT) := Nat.finite_of_card_ne_zero hcen_ne
+  have : Finite ↥(Subgroup.center ↥AT) := Nat.finite_of_card_ne_zero hcen_ne
   obtain ⟨z, hzord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥AT)) 2 h2dvd
   have hzne : z ≠ 1 := by
@@ -81,7 +81,7 @@ theorem false_of_exc (X : GGSmallD2Ctx p N A T AT) (k : ZS.ExcRow)
     omega
   let zg : ↥T ≃ₗ[ZMod p] ↥T := (z.1 : ↥AT)
   have hz : zg ∈ AT := by
-    simpa [zg] using z.1.2
+    simp [zg]
   have hzz : zg * zg = 1 := by
     have hz2c : z * z = 1 := by rw [← pow_two, ← hzord, pow_orderOf_eq_one]
     have hz2AT : (z.1 : ↥AT) * (z.1 : ↥AT) = 1 := by

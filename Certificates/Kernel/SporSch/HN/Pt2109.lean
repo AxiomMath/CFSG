@@ -650,8 +650,8 @@ theorem seedWordArr_arrJ :
     change pcomp nPts (if l = 1 then arrJ aJ else arrJ bJ) (seedWordArr nPts (arrJ aJ) (arrJ bJ) w) = _
     rw [seedWordArr_arrJ w fun z hz => hw z (List.mem_cons_of_mem l hz), seedJ]
     rcases hw l List.mem_cons_self with rfl | rfl
-    · rw [if_pos rfl, if_pos rfl, pcomp_arrJ]
-    · rw [if_neg (by omega), if_neg (by omega), pcomp_arrJ]
+    · rw [ite_eq_left rfl, ite_eq_left rfl, pcomp_arrJ]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega), pcomp_arrJ]
 
 theorem c1_eq : FAData.c1Words.map (fun w => pword nPts SJ (pinvs nPts SJ) w) =
     Array.ofFn (n := 8) fun j => arrJ (C1J j) := by
@@ -675,10 +675,10 @@ theorem c3_eq :
   · rw [Array.getElem_push_lt (by simpa [hs] using h), Array.getElem_map,
       ← getElem!_pos FAData.c3Words j (by rw [hs]; exact h), pword_arrJ SJ_arrs _ (letters_ok.2.2.1 j h)]
     unfold C3J
-    rw [if_pos h]
+    rw [ite_eq_left h]
   · have e : j = 6 := by omega
     subst e
-    rw [Array.getElem_push, dif_neg (by simp [hs])]
+    rw [Array.getElem_push, dite_eq_right (by simp [hs])]
     rfl
 
 theorem ofFn_get8 {f : ℕ → Array ℕ} {j : ℕ} (hj : j < 8) :

@@ -16,10 +16,10 @@ theorem exists_noncommuting_map_of_isSimpleGroup (ψ : X →* Y) {C : Subgroup X
     (hsimple : IsSimpleGroup ↥H) :
     ∃ a ∈ C.map ψ, ∃ b ∈ C.map ψ, a * b ≠ b * a := by
   classical
-  haveI : IsSimpleGroup ↥H := hsimple
-  haveI : Group.IsPerfect ↥C := hC.1.1
-  haveI : Group.IsPerfect ↥(C.map ψ) := Group.IsPerfect.map (H := C) ψ
-  haveI : Group.IsPerfect ↥H := by
+  have : IsSimpleGroup ↥H := hsimple
+  have : Group.IsPerfect ↥C := hC.1.1
+  have : Group.IsPerfect ↥(C.map ψ) := Group.IsPerfect.map (H := C) ψ
+  have : Group.IsPerfect ↥H := by
     have eH : ↥(C.map ψ) ≃* ↥H := MulEquiv.subgroupCongr hmap
     exact Group.IsPerfect.ofSurjective (f := eH.toMonoidHom) eH.surjective
   have hnc : ¬ IsMulCommutative ↥H := Group.IsPerfect.not_isMulCommutative (G := ↥H)
@@ -134,7 +134,7 @@ theorem ker_comp_subtype_eq_center (ψ : X →* Y) {C : Subgroup X}
     (ψ.comp C.subtype).ker = Subgroup.center C := by
   classical
   let ρ : C →* Y := ψ.comp C.subtype
-  haveI : IsSimpleGroup ↥H := hsimple
+  have : IsSimpleGroup ↥H := hsimple
   have hHne : H ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot H).mp inferInstance
   have hnot : ¬ C ≤ ψ.ker := by
     intro hle
@@ -143,8 +143,8 @@ theorem ker_comp_subtype_eq_center (ψ : X →* Y) {C : Subgroup X}
   have hqmap : CFSG.IsQuasisimple (C.map ψ) :=
     CFSG.LocalCores.isQuasisimple_map hC.1 ψ hnot
   have hnc : ¬ IsMulCommutative ↥H := by
-    haveI : Group.IsPerfect ↥(C.map ψ) := hqmap.1
-    haveI : Group.IsPerfect ↥H := by
+    have : Group.IsPerfect ↥(C.map ψ) := hqmap.1
+    have : Group.IsPerfect ↥H := by
       have eH : ↥(C.map ψ) ≃* ↥H := MulEquiv.subgroupCongr hmap
       exact Group.IsPerfect.ofSurjective (f := eH.toMonoidHom) eH.surjective
     exact Group.IsPerfect.not_isMulCommutative (G := ↥H)

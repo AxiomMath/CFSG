@@ -79,7 +79,7 @@ theorem s16c4_nonsing_centralizer_le (D : Data G) (h61 : UC6.R6_1 D) {V₀ V L :
 
 theorem s16c4_ts_of_not_centralizer_le (D : Data G) (h61 : UC6.R6_1 D) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (h4 : Case167_4 D V₀ V hV L)
-    (F : UFrame V₀ V hV L) {U : Subgroup G} (hUV : U ≤ V)
+    (F : UFrame V₀ V hV L) {U : Subgroup G} (_hUV : U ≤ V)
     (hU : ¬ centralizer (U : Set G) ≤ D.M) :
     (∀ x : IntMod V hV, x.val ∈ U → F.Sing (mkTil V₀ V hV x)) ∧
       (V₀ ≠ ⊥ → U ⊓ V₀ = ⊥) := by

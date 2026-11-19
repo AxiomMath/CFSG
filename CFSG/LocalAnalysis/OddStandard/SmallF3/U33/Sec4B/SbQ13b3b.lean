@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma fourGrp_le_closure_insert (a b c : G) :
     fourGrp a b ≤ Subgroup.closure ({a ^ 2, (a * b) ^ 2, c} : Set G) := by
   rw [fourGrp]
@@ -75,7 +76,7 @@ theorem q13b_E8_cent_four (h : Q13Om t L S x₁ x₂ lam rho tau om) {𝒮 F : S
 
 theorem q13b_le_N_S (h : Q13Om t L S x₁ x₂ lam rho tau om) {𝒮 F : Subgroup G}
     (h𝒮 : IsPGroup 2 𝒮) (hU : ctxU t tau x₁ x₂ lam ≤ 𝒮) (hF : NormalIn F 𝒮)
-    (hFe : CFSG.Open.IsElemAbelian 2 F) (hFc : Nat.card F = 8)
+    (_hFe : CFSG.Open.IsElemAbelian 2 F) (hFc : Nat.card F = 8)
     (hV : F ⊓ centralizer ({t} : Set G) = fourGrp x₁ x₂) :
     F ≤ normalizer (S : Set G) ⊓ 𝒮 := by
   have hS_cent : S ≤ centralizer ({t} : Set G) := by

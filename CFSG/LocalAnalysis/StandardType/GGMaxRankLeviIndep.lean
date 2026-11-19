@@ -54,14 +54,14 @@ private lemma pjg_leaf_A11_zero {Λ : Type} {C : Matrix Λ Λ ℤ} (e : Fin 11 �
     rw [pjg_cartanA_entry] at hneA
     by_cases h0 : e.symm y = 0
     · exact absurd h0 hne0
-    rw [if_neg (fun h => h0 h.symm)] at hneA
+    rw [ite_eq_right (fun h => h0 h.symm)] at hneA
     by_cases hadj : ((0 : Fin 11) : ℕ) + 1 = (e.symm y).val ∨
         (e.symm y).val + 1 = ((0 : Fin 11) : ℕ)
     · have hv : (e.symm y).val = 1 := by
         simp only [Fin.val_zero] at hadj
         omega
       exact Fin.ext hv
-    · rw [if_neg hadj] at hneA
+    · rw [ite_eq_right hadj] at hneA
       exact absurd rfl hneA
 
 private lemma pjg_leaf_A11_last {Λ : Type} {C : Matrix Λ Λ ℤ} (e : Fin 11 ≃ Λ)
@@ -89,14 +89,14 @@ private lemma pjg_leaf_A11_last {Λ : Type} {C : Matrix Λ Λ ℤ} (e : Fin 11 �
     rw [pjg_cartanA_entry] at hneA
     by_cases h0 : e.symm y = ⟨10, by norm_num⟩
     · exact absurd h0 hne0
-    rw [if_neg (fun h => h0 h.symm)] at hneA
+    rw [ite_eq_right (fun h => h0 h.symm)] at hneA
     by_cases hadj : ((⟨10, by norm_num⟩ : Fin 11) : ℕ) + 1 = (e.symm y).val ∨
         (e.symm y).val + 1 = ((⟨10, by norm_num⟩ : Fin 11) : ℕ)
     · have hv : (e.symm y).val = 9 := by
-        simp only [Fin.val_mk] at hadj
+        simp only at hadj
         omega
       exact Fin.ext hv
-    · rw [if_neg hadj] at hneA
+    · rw [ite_eq_right hadj] at hneA
       exact absurd rfl hneA
 
 private theorem pjg_A11_leaf_mem {Λ : Type} [Fintype Λ] [DecidableEq Λ]
@@ -130,10 +130,10 @@ private theorem pjg_A11_leaf_mem {Λ : Type} [Fintype Λ] [DecidableEq Λ]
       simpa [CoxeterMatrix.reindex_apply, i, j] using h'
     have hadj : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) := by
       rw [pjg_coxA_entry] at hMij
-      rw [if_neg hij] at hMij
+      rw [ite_eq_right hij] at hMij
       by_cases h3 : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)
       · exact h3
-      · rw [if_neg h3] at hMij
+      · rw [ite_eq_right h3] at hMij
         exact absurd rfl hMij
     simpa [idx, i, j] using hadj.symm
   let R : T → T → Prop := fun u v => u ≠ v ∧ M.M u.1 v.1 ≠ 2

@@ -108,7 +108,7 @@ theorem lift_swap {t z : G} (ht : t * t = 1) (hz : z * z = 1) (htz : t * z = z *
   obtain ⟨⟨r, hrE⟩, hrP, hrr⟩ := mem_map.mp (htop ▸ mem_top (⟨rb, hrbm⟩ : ↥(Et.map π)))
   have hrr' : π r = rb := congrArg Subtype.val hrr
   set E : Subgroup G := (P : Subgroup ↥Et).map Et.subtype with hE
-  have hE2 : IsPGroup 2 E := P.isPGroup'.map _
+  have hE2 : IsPGroup 2 E := P.isPGroup.map _
   have hrE' : r ∈ E := ⟨⟨r, hrE⟩, hrP, rfl⟩
   have htE : t ∈ E := ⟨⟨t, hE0 (subset_closure (by simp))⟩,
     hP (mem_subgroupOf.mpr (subset_closure (by simp))), rfl⟩

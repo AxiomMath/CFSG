@@ -10,6 +10,7 @@ open Subgroup Equiv Equiv.Perm CFSG.OddStandard.AltStdSec.SwapPattern
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G}
 
+omit [Finite G] in
 theorem twist_facts_conj (hC : CentData z ι) {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     (κ : ↥(centralizer ({x} : Set G)) →* ℤˣ) :
@@ -53,20 +54,20 @@ theorem twist_facts_conj (hC : CentData z ι) {x : G}
     have hiff : ε ρ = -1 ↔ β ρ 8 = 9 := by
       rw [hε ρ]
       by_cases h8 : β ρ 8 = 9
-      · rw [if_pos h8]
+      · rw [ite_eq_left h8]
         exact ⟨fun _ => h8, fun _ => rfl⟩
-      · rw [if_neg h8]
+      · rw [ite_eq_right h8]
         exact ⟨fun h => absurd h (by decide), fun h => absurd h h8⟩
     have hif1 : (if β ρ 8 = 9 then (1 : ℕ) else 0) =
         (if ε ρ = -1 then 1 else 0) := by
       by_cases h8 : β ρ 8 = 9
-      · rw [if_pos h8, if_pos (hiff.mpr h8)]
-      · rw [if_neg h8, if_neg (fun h => h8 (hiff.mp h))]
+      · rw [ite_eq_left h8, ite_eq_left (hiff.mpr h8)]
+      · rw [ite_eq_right h8, ite_eq_right (fun h => h8 (hiff.mp h))]
     have hif2 : (if β ρ 8 = 9 then (0 : ℕ) else 1) =
         (if ε ρ = -1 then 0 else 1) := by
       by_cases h8 : β ρ 8 = 9
-      · rw [if_pos h8, if_pos (hiff.mpr h8)]
-      · rw [if_neg h8, if_neg (fun h => h8 (hiff.mp h))]
+      · rw [ite_eq_left h8, ite_eq_left (hiff.mpr h8)]
+      · rw [ite_eq_right h8, ite_eq_right (fun h => h8 (hiff.mp h))]
     exact ⟨by rw [hπρ, hcard.1, hif1], by rw [hπzρ, hcard.2, hif2]⟩
 
 end CFSG.OddStandard.AltStdSec.SwapPartner

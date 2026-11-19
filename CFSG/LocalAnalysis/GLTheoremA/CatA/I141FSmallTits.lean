@@ -23,7 +23,7 @@ theorem i141f_not_cube_dvd_35942400 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
       | (norm_num at hp; done)
       | (norm_num at hp2; done)
       | (norm_num at hp3; done)
-      | (norm_num at h; done)
+      | (norm_num at h)
 
 section Certs
 

@@ -94,12 +94,12 @@ private lemma signed_irr_eq_smul_of_pairing_ne {G : Type u} [Group G] [Fintype G
     rcases hχeq with hχeq | hχeq
     · have h' : scalarProduct G χ ψ = 0 := by
         rw [hχeq]
-        simpa [scalarProduct_irr_ite hψ₀ hψ, h]
+        simp [scalarProduct_irr_ite hψ₀ hψ, h]
       exact hne h'
     · have h' : scalarProduct G χ ψ = 0 := by
         rw [hχeq]
         rw [scalarProduct_neg_left]
-        simpa [scalarProduct_irr_ite hψ₀ hψ, h]
+        simp [scalarProduct_irr_ite hψ₀ hψ, h]
       exact hne h'
   rcases hχeq with hχeq | hχeq
   · -- `χ = ψ₀ = ψ` and the coefficient is `1`
@@ -616,12 +616,12 @@ private lemma orbit_eq_of_mem (c : Hyp11 G) [Fintype ↥(LambdaHom c.H0 c.U)]
     refine Finset.mem_image.mpr ⟨l * l₀, Finset.mem_univ _, ?_⟩
     rw [← hEq₀]
     ext x
-    simp [LambdaChar, map_mul, mul_assoc]
+    simp [LambdaChar, mul_assoc]
   · intro hψ
     rcases (Finset.mem_image.mp hψ) with ⟨l, hl, rfl⟩
     refine Finset.mem_image.mpr ⟨l * l₀⁻¹, Finset.mem_univ _, ?_⟩
     ext x
-    simp [LambdaChar, map_mul, map_inv, Units.val_inv, mul_assoc]
+    simp [LambdaChar, mul_assoc]
     have hμx : μ x = (l₀.1 x : ℂ) * ν x := (congrFun hEq₀ x).symm
     rw [hμx]
     have hne : (l₀.1 x : ℂ) ≠ 0 := unit_val_ne_zero (l₀.1 x)
@@ -767,7 +767,7 @@ private lemma scalarProduct_star_comm' {G : Type u} [Group G] [Fintype G]
     star (scalarProduct G φ ψ) = scalarProduct G ψ φ := by
   classical
   unfold scalarProduct
-  simp [map_sum, map_mul, map_star, mul_comm, mul_left_comm, mul_assoc]
+  simp [mul_comm]
 
 private lemma card_ge_four_of_four_mem {α : Type u} [DecidableEq α]
     (s : Finset α) {a b c d : α}
@@ -985,7 +985,7 @@ private lemma mu_fixed_of_false_branch (c : Hyp11 G) (h12 : Hyp12 c)
 
 private lemma exists_fixed_pairing_zero (c : Hyp11 G) (h12 : Hyp12 c)
     (hSC : Section3Hyp c) {ν μ μ' : Irr (↥c.H0)}
-    (hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 ≠ ν.1)
+    (_hνs : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 ≠ ν.1)
     (hνsL : conjChar c.H0 (s_normalizes_H0 c h12) ν.1 ∈ orbit c.H0 c.U ν.1)
     (hμ'L : μ'.1 ∈ orbit c.H0 c.U μ.1)
     (hμfix : conjChar c.H0 (s_normalizes_H0 c h12) μ.1 = μ.1)
@@ -1252,7 +1252,7 @@ private lemma eta_signed_irreducible (c : Hyp11 G) (h12 : Hyp12 c)
     rw [scalarProduct_sub_left, scalarProduct_sub_right, scalarProduct_sub_right]
     simp only [scalarProduct_smul_right, scalarProduct_smul_left]
     rw [hμnorm, hνnorm, hνμ, hμν]
-    rcases ha with h | h <;> simp [h, ha_re, haa] <;> ring
+    rcases ha with h | h <;> simp [h] <;> ring
   have hηgen : IsGeneralizedCharacter η := by
     have hμgen := tildeNu_isGeneralized c h12 μ
     have hνgen := tildeNu_isGeneralized c h12 ν
@@ -1322,7 +1322,7 @@ private lemma lambda_mu4_false (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp 
   have hnot : μ.1 ∉ orbit c.H0 c.U ν.1 :=
     mu_not_in_nu_orbit c h12 hχ hνB hνs hνsL hμB hμν hμνs
   have hμcard4 : 4 ≤ (orbit c.H0 c.U μ.1).card := by
-    simpa [hΛμ4]
+    simp [hΛμ4]
   rcases exists_not_fixed_of_card_ge_four c h12 μ.2 hμfix hμcard4 with ⟨μ'c, hμ'L, hμ's⟩
   let μ' : Irr (↥c.H0) := ⟨μ'c, orbit_mem_isIrreducible c.H0 c.U μ.2 hμ'L⟩
   have hμ'L' : μ'.1 ∈ orbit c.H0 c.U μ.1 := by simpa [μ'] using hμ'L
@@ -1467,7 +1467,7 @@ private lemma orbit_mem_degree_eq (c : Hyp11 G) [Fintype ↥(LambdaHom c.H0 c.U)
   simp [LambdaChar]
 
 /-- `(χ|_{H0}, rep)_{H0}` is an integer for `rep` irreducible. -/
-private lemma restrict_scalarProduct_int (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma restrict_scalarProduct_int (c : Hyp11 G) (_h12 : Hyp12 c)
     {χ : ClassFunction G} (hχ : IsPMIrr G χ)
     (rep : ClassFunction (↥c.H0)) (hrep : IsIrreducibleCharacter rep) :
     ∃ a : ℤ, scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ (y : G)) rep = (a : ℂ) := by
@@ -1483,7 +1483,7 @@ private lemma restrict_scalarProduct_int (c : Hyp11 G) (h12 : Hyp12 c)
   have hrev : star (scalarProduct (↥c.H0) rep (fun y : ↥c.H0 => χ (y : G))) =
       scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ (y : G)) rep := by
     unfold scalarProduct
-    simp [map_sum, map_mul, map_star, mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_comm]
   rw [← hrev, ha]
   simp
 
@@ -1851,7 +1851,7 @@ private lemma chi_one_quarter_int (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3H
     · rw [Finset.mem_singleton]
       exact fun h => hμνs h.symm
     · rw [Finset.mem_insert, Finset.mem_singleton]
-      push_neg
+      push Not
       exact ⟨hνne, fun h => hμν h.symm⟩
   have hνsdeg : (conjIrr c h12 ν).1 (1 : ↥c.H0) = ν.1 (1 : ↥c.H0) :=
     orbit_mem_degree_eq c (by simpa [conjIrr_coe] using hνsL)
@@ -2273,9 +2273,9 @@ private lemma not_four_dvd_index_of_mem_centralizerIn (c : Hyp11 G) (hSC : Secti
     exact h
   have hcardH : 4 ≤ Nat.card ↥H := by
     have ha : (c.t1 * c.t2) ^ 2 ∈ H := by
-      exact SetLike.le_def.mp le_sup_left (SPrime_mem_pow_two c)
+      exact _root_.IsConcreteLE.le_iff.mp le_sup_left (SPrime_mem_pow_two c)
     have hb : t ∈ H := by
-      exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers t)
+      exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers t)
     let a : ↥H := ⟨(c.t1 * c.t2) ^ 2, ha⟩
     let b : ↥H := ⟨t, hb⟩
     have hord : orderOf (c.t1 * c.t2) = 4 := by
@@ -2381,7 +2381,7 @@ private lemma not_four_dvd_index_of_mem_centralizerIn (c : Hyp11 G) (hSC : Secti
           rw [← hrel]
           change r * (c.S : Subgroup G).index = (c.S : Subgroup G).index
           rw [hr1]
-          simp [r]
+          simp
         rwa [h'] at h4
       have h2S : 2 ∣ (c.S : Subgroup G).index := by
         rcases h4S with ⟨k, hk⟩
@@ -2403,7 +2403,7 @@ private lemma not_four_dvd_index_of_mem_centralizerIn (c : Hyp11 G) (hSC : Secti
 
 /-- `χ ≡ 0 (mod 2)` on `C_U(t)` for `t ∈ S \ S0` an involution, given
 `4 ∣ χ(1)` and `|S| = 8`. -/
-private lemma chi_congruent_zero_on_centralizerIn (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma chi_congruent_zero_on_centralizerIn (c : Hyp11 G) (_h12 : Hyp12 c)
     (hSC : Section3Hyp c) {χ : ClassFunction G} (hχ : IsPMIrr G χ)
     (hquarter : ∃ k : ℤ, (χ 1 : ℂ) / 4 = (k : ℂ))
     (hS8 : Nat.card (↥(c.S : Subgroup G)) = 8)
@@ -2555,7 +2555,7 @@ private lemma not_congruent_sum_two_on_fixed (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
       · rw [Finset.mem_singleton]
         exact fun h => hμνs h.symm
       · rw [Finset.mem_insert, Finset.mem_singleton]
-        push_neg
+        push Not
         exact ⟨hνne, fun h => hμν h.symm⟩
     have hsum : CongruentModTwo (χ (u : G))
         (ν.1 ⟨(u : G), hu⟩ + (conjIrr c h12 ν).1 ⟨(u : G), hu⟩ + μ.1 ⟨(u : G), hu⟩) :=
@@ -2719,7 +2719,7 @@ public theorem lemma_3_4 (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
       · -- `S_α = S'⟨t1⟩`: `t1` fixes both `α` and `α₂`
         have ht1stab : c.t1 ∈ stabilizerS c α := by
           rw [hstab1]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t1)
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t1)
         have hfixα : conjIrrS c c.t1_mem_S α = α := by
           rcases ht1stab with ⟨hg, hfix⟩
           exact (conjIrrS_proof_irrel c c.t1_mem_S hg α).trans hfix
@@ -2797,7 +2797,7 @@ public theorem lemma_3_4 (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
       · -- `S_α = S'⟨t2⟩`: `t2` fixes both `α` and `α₂`
         have ht2stab : c.t2 ∈ stabilizerS c α := by
           rw [hstab2]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t2)
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t2)
         have hfixα' : conjIrrS c c.t2_mem_S α = α := by
           rcases ht2stab with ⟨hg, hfix⟩
           exact (conjIrrS_proof_irrel c c.t2_mem_S hg α).trans hfix

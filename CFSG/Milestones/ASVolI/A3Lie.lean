@@ -657,7 +657,7 @@ theorem burnsideA315h_closure_eq_comap {F : Type} [Field F] (x : MulAut PSL(3, F
 
 theorem burnsideA315h_orderOf_pi {F : Type} [Field F] {x : MulAut PSL(3, F)}
     (h1 : x ∉ psl3InnAut F) (h3 : x ^ 3 ∈ psl3InnAut F) : orderOf (burnsideA315h_pi F x) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · rw [← map_pow]
     exact (burnsideA315h_pi_eq_one_iff _).2 h3
@@ -774,7 +774,7 @@ theorem burnsideA315h_norm_not_scalar {F : Type} [Field F] [Finite F] {n : ℕ} 
   have hce : c ^ e = c := by
     apply Units.ext
     have := congrArg Units.val hfix'
-    simp only [Units.coe_map, MonoidHom.coe_coe] at this
+    simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass] at this
     rw [Units.val_pow_eq_pow_val, ← hσe]
     exact this
   have hdet := congrArg Matrix.GeneralLinearGroup.det hc
@@ -868,7 +868,7 @@ theorem burnsideA315h_isL3Circ_true {F : Type} [Field F] [Finite F] {n : ℕ} (h
     CFSG.Quasithin.IsL3Circ true (2 ^ (6 * n)) ↥(psl3Circ σ g) := by
   refine ⟨(psl3InnAut F).subgroupOf (psl3Circ σ g), n, F, inferInstance, inferInstance, hn, hF,
     σ, g, hσ, hg, ?_⟩
-  simp only [if_true]
+  simp only [ite_true]
   refine ⟨trivial, MulEquiv.refl _, ?_⟩
   exact Subgroup.map_id _
 
@@ -881,14 +881,14 @@ theorem burnsideA315h_isL3Circ_false {F : Type} [Field F] [Finite F] {n : ℕ} (
   refine ⟨(psl3InnAut F).subgroupOf
     (psl3Circ σ g ⊓ Subgroup.centralizer ({κ} : Set (MulAut PSL(3, F)))), n, F, inferInstance,
     inferInstance, hn, hF, σ, g, hσ, hg, ?_⟩
-  simp only [Bool.false_eq_true, if_false]
+  simp only [Bool.false_eq_true, ite_false]
   refine ⟨trivial, hodd, κ, hκ, MulEquiv.refl _, ?_⟩
   exact Subgroup.map_id _
 
 
 theorem burnsideA315h_pow_card {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = 2 ^ (6 * n)) (y : F) : y ^ (4 ^ n) ^ 3 = y := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have h := FiniteField.pow_card y
   rwa [Fintype.card_eq_nat_card, burnsideA315h_card_cube hF] at h
 
@@ -1109,11 +1109,11 @@ theorem burnsideA315h_index_E_le {F : Type} [Field F] [Finite F] :
 
 
 theorem burnsideA315h_finite_psl (F : Type) [Field F] [Finite F] : Finite PSL(3, F) := by
-  haveI : Finite SL(3, F) := inferInstance
+  have : Finite SL(3, F) := inferInstance
   exact inferInstance
 
 theorem burnsideA315h_finite_aut (F : Type) [Field F] [Finite F] : Finite (MulAut PSL(3, F)) := by
-  haveI := burnsideA315h_finite_psl F
+  have := burnsideA315h_finite_psl F
   exact Finite.of_injective (fun β : MulAut PSL(3, F) => (β : PSL(3, F) → PSL(3, F)))
     fun _ _ h => MulEquiv.ext (congrFun h)
 
@@ -1287,7 +1287,7 @@ theorem burnsideA315h_pi_field_central {F : Type} [Field F] [Finite F] {n : ℕ}
 theorem burnsideA315h_orderOf_pi_diag {F : Type} [Field F] [Finite F] {g : GL (Fin 3) F}
     (hg : Matrix.GeneralLinearGroup.det g ∉ burnsideA315h_cubes F) :
     orderOf (burnsideA315h_pi F (psl3DiagAut g)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · rw [← map_pow, burnsideA315h_pi_eq_one_iff]
     have h1 : (psl3DiagAut g) ^ 3 = psl3DiagAut (g ^ 3) :=
@@ -1341,13 +1341,13 @@ theorem burnsideA315h_sylow_abstract {Q : Type*} [Group Q] [Finite Q] {v k a : �
     (hinf : Subgroup.zpowers f ⊓ Subgroup.zpowers d = ⊥) :
     IsPGroup 3 ↥(Subgroup.zpowers f ⊔ Subgroup.zpowers d) ∧
       ¬ 3 ∣ (Subgroup.zpowers f ⊔ Subgroup.zpowers d).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : Nat.card (Subgroup.zpowers f) = 3 ^ v := by rw [Nat.card_zpowers, hf]
   have hU : Nat.card (Subgroup.zpowers d) = 3 := by rw [Nat.card_zpowers, hd]
   have hTp : IsPGroup 3 (Subgroup.zpowers f) := IsPGroup.of_card hT
   have hUp : IsPGroup 3 (Subgroup.zpowers d) := IsPGroup.of_card (n := 1) (by rw [hU]; simp)
   have hTc : Subgroup.zpowers f ≤ Subgroup.center Q := Subgroup.zpowers_le.2 hfc
-  haveI hN : (Subgroup.zpowers f).Normal := Subgroup.normal_of_le_center hTc
+  have hN : (Subgroup.zpowers f).Normal := Subgroup.normal_of_le_center hTc
   have hnorm : Subgroup.zpowers d ≤ Subgroup.normalizer ((Subgroup.zpowers f : Subgroup Q) : Set Q) := by
     intro u _
     rw [Subgroup.mem_normalizer_iff]
@@ -1491,7 +1491,7 @@ theorem burnsideA315h_outer_sylow {F : Type} [Field F] [Finite F] {n : ℕ} (hn 
   have hinf := burnsideA315h_inf_field_diag σ₁ g₀
   obtain ⟨a, ha, hcardOut⟩ := burnsideA315h_card_out hn hF
   have hfin : Finite (MulAut PSL(3, F)) := burnsideA315h_finite_aut F
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer PSL(3, F)) :=
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer PSL(3, F)) :=
     inferInstanceAs (Finite (MulAut PSL(3, F) ⧸ _))
   have hcard' : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer PSL(3, F)) =
       a * (3 ^ v * k) * 3 := by
@@ -2204,10 +2204,10 @@ theorem burnsideA315h_isPSU {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 �
       rwa [hτ] at this
     have := congrArg (fun φ : RingAut F => φ x) h2
     simpa [pow_two] using this
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega : 1 ≤ 6 * n) hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF' : Nat.card F = (2 ^ (3 * n)) ^ 2 := by
     rw [hF, ← pow_mul]; congr 1; ring
   have hτU : τ = CFSG.LieType.BorelTits.unitaryInvolution F 2 (3 * n) := by

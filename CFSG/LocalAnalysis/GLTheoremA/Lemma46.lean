@@ -24,7 +24,7 @@ theorem lemma46 {p : ℕ} (hp : p.Prime) {Exc Club : Subgroup G → Prop}
       mxB p Club B x < mxB p Club B' x' ∧
       ¬ IsCyclic (B' ⊓ centModSubgroup p L' : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Cx := Subgroup.centralizer ({x} : Set G)
   have hS : IsSTriple p B x L := hBxL.1
   have hB : GLAIsBmax p B := hS.1

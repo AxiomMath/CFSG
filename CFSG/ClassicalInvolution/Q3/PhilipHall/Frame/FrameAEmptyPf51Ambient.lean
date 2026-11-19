@@ -80,6 +80,7 @@ theorem not_mem_center {a : T} (ha : a ≠ 1) : a ∉ Subgroup.center T := by
   rw [center_eq_bot, Subgroup.mem_bot]
   exact ha
 
+omit [Finite T] in
 theorem isSimpleGroup_generalizedFitting : IsSimpleGroup (CFSG.generalizedFitting T) := by
   rw [← CFSG.Adapters.genFittingFStar_eq_foundations T]
   exact fstar_simple

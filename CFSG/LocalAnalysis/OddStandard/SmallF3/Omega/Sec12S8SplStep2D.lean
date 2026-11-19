@@ -36,8 +36,8 @@ theorem H_disj (h : S8Data V1 V2 φ1 φ2 α β) : s8H V2 ⊓ s8H V1 = ⊥ := by
 theorem H_comm (h : S8Data V1 V2 φ1 φ2 α β) :
     ∀ x ∈ s8H V2, ∀ y ∈ s8H V1, x * y = y * x := by
   intro x hx y hy
-  haveI := h.H_normal
-  haveI := h.swap.H_normal
+  have := h.H_normal
+  have := h.swap.H_normal
   exact Subgroup.commute_of_normal_of_disjoint _ _ inferInstance inferInstance
     (disjoint_iff.mpr h.H_disj) x y hx hy
 

@@ -65,8 +65,10 @@ section Char3
 
 variable {K : Type} [Field K] [Finite K] [CharP K 3]
 
+omit [Finite K] in
 private theorem jk_three_eq_zero : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
 
+omit [Finite K] in
 private theorem jk_cube_injective : Function.Injective (fun x : K => x ^ 3) := by
   intro x y hxy
   have h : (x - y) ^ 3 = 0 := by
@@ -77,6 +79,7 @@ private theorem jk_cube_injective : Function.Injective (fun x : K => x ^ 3) := b
 private theorem jk_exists_cube_eq (c : K) : ∃ t : K, t ^ 3 = c :=
   Finite.injective_iff_surjective.1 jk_cube_injective c
 
+omit [Finite K] in
 private theorem jk_pinnedX_pow_three (α : Fin TwistTag.D4.tag.rank → ℤ) (c : K) :
     pinnedX TwistTag.D4.tag K α c ^ 3 = 1 := by
   have h3 : c + c + c = 0 := by linear_combination c * (jk_three_eq_zero (K := K))
@@ -90,6 +93,7 @@ private theorem jk_isRoot_A0 : IsRoot TwistTag.D4.tag rootA0 := mem_rootFinset.1
 private theorem jk_isRoot_A1 : IsRoot TwistTag.D4.tag rootA1 := mem_rootFinset.1 (by decide +kernel)
 private theorem jk_isRoot_A3 : IsRoot TwistTag.D4.tag rootA3 := mem_rootFinset.1 (by decide +kernel)
 
+omit [Finite K] [CharP K 3] in
 private theorem jk_commute_CD_short (r r' t : K) :
     Commute (pinnedX TwistTag.D4.tag K rootC r * pinnedX TwistTag.D4.tag K rootD r')
       (pinnedX TwistTag.D4.tag K rootA0 t * pinnedX TwistTag.D4.tag K rootA1 t *
@@ -117,6 +121,7 @@ private theorem jk_commute_CD_short (r r' t : K) :
   have h3 := (Commute.mul_left hC3 hD3)
   exact Commute.mul_right (Commute.mul_right h0 h1) h3
 
+omit [Finite K] [CharP K 3] in
 private theorem jk_inv_shortA (t : K) :
     (pinnedX TwistTag.D4.tag K rootA0 t * pinnedX TwistTag.D4.tag K rootA1 t *
         pinnedX TwistTag.D4.tag K rootA3 t)⁻¹ =
@@ -137,6 +142,7 @@ private theorem jk_inv_shortA (t : K) :
   rw [mul_inv_rev, mul_inv_rev, pinnedX_neg, pinnedX_neg, pinnedX_neg]
   exact jk_prod_rev_of_pairwise c01 c03 c13
 
+omit [Finite K] in
 private theorem jk_pow_three_longForm (s r r' : K) :
     (pinnedX TwistTag.D4.tag K rootB s * pinnedX TwistTag.D4.tag K rootC r *
       pinnedX TwistTag.D4.tag K rootD r') ^ 3 = 1 := by
@@ -167,7 +173,7 @@ private theorem jk_pow_three_longForm (s r r' : K) :
     commute_pinnedX_of_not_isRoot_add isRoot_rootC isRoot_rootD (by decide) (by decide)
       (jk_not_isRoot_of_not_mem (by decide +kernel)) _ _
   rw [(Commute.mul_left hxz hyz).mul_pow 3, jk_pow_three_mul_of_comm hyx hdx hdy]
-  simp only [jk_pinnedX_pow_three, one_mul, mul_one]
+  simp only [jk_pinnedX_pow_three, mul_one]
 
 end Char3
 
@@ -175,11 +181,13 @@ section Coord
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem jk_pinnedX_rootC_mem (r : K) :
     pinnedX TwistTag.D4.tag K rootC r ∈ heightSeries TwistTag.D4.tag K 2 :=
   pinnedX_mem_rootSpan (S := {α | IsRoot TwistTag.D4.tag α ∧ 0 < height α ∧ (2 : ℤ) ≤ height α})
     ⟨isRoot_rootC, by rw [height_rootC]; norm_num, by rw [height_rootC]; norm_num⟩ r
 
+omit [Finite K] in
 private theorem jk_pinnedX_rootD_mem (r : K) :
     pinnedX TwistTag.D4.tag K rootD r ∈ heightSeries TwistTag.D4.tag K 2 :=
   pinnedX_mem_rootSpan (S := {α | IsRoot TwistTag.D4.tag α ∧ 0 < height α ∧ (2 : ℤ) ≤ height α})
@@ -189,8 +197,8 @@ private theorem jk_coordC_CD (r r' : K) :
     coordC (pinnedX TwistTag.D4.tag K rootC r * pinnedX TwistTag.D4.tag K rootD r') = r := by
   rw [coordC_mul (jk_pinnedX_rootC_mem r) (jk_pinnedX_rootD_mem r'),
     coordC_pinnedX isRoot_rootC (by rw [height_rootC]; norm_num) r,
-    coordC_pinnedX isRoot_rootD (by rw [height_rootD]; norm_num) r', if_pos rfl,
-    if_neg (show ¬ (rootD = rootC) by decide), add_zero]
+    coordC_pinnedX isRoot_rootD (by rw [height_rootD]; norm_num) r', ite_eq_left rfl,
+    ite_eq_right (show ¬ (rootD = rootC) by decide), add_zero]
 
 private theorem jk_coordC_one : coordC (1 : ModGL TwistTag.D4.tag K) = 0 := by
   have h := coordC_mul (K := K) (x := 1) (y := 1)
@@ -221,30 +229,32 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [CharP K 3] hK hσ in
 private theorem jk_fieldActor_longElt {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) (c : K) (hc : σ c = c) :
-    fieldActor (t := TwistTag.D4) σ σ (longElt hf hK σ hσ hγ c hc) =
-      longElt hf hK σ hσ hγ c hc := by
+    fieldActor (t := TwistTag.D4) σ σ (longElt σ hγ c hc) =
+      longElt σ hγ c hc := by
   apply Subtype.ext
   rw [coe_fieldActor, coe_longElt]
   have e : Units.map (entrywiseHom σ.toRingHom) (pinnedX TwistTag.D4.tag K γ c) =
       pinnedX TwistTag.D4.tag K γ (σ c) := Units.ext (entrywise_pinnedX σ.toRingHom γ c)
   rw [e, hc]
 
+omit hf [Finite K] hK hσ in
 private theorem jk_longElt_pow_three {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) (c : K) (hc : σ c = c) :
-    longElt hf hK σ hσ hγ c hc ^ 3 = 1 := by
+    longElt σ hγ c hc ^ 3 = 1 := by
   apply Subtype.ext
   rw [Subgroup.coe_pow, coe_longElt, jk_pinnedX_pow_three, Subgroup.coe_one]
 
 theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r = r) (hr' : σ r' = r')
     (hs0 : s ≠ 0) (hr₁ : σ r₁ = r₁) :
     ∃ (w : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (r'' : K) (hr'' : σ r'' = r''),
-      w⁻¹ * (longElt hf hK σ hσ (Or.inl rfl) s hs * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-          longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr') *
+      w⁻¹ * (longElt σ (Or.inl rfl) s hs * longElt σ (Or.inr (Or.inl rfl)) r hr *
+          longElt σ (Or.inr (Or.inr rfl)) r' hr') *
         fieldActor (t := TwistTag.D4) σ σ w =
-      longElt hf hK σ hσ (Or.inl rfl) s hs * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r₁ hr₁ *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r'' hr'' := by
+      longElt σ (Or.inl rfl) s hs * longElt σ (Or.inr (Or.inl rfl)) r₁ hr₁ *
+        longElt σ (Or.inr (Or.inr rfl)) r'' hr'' := by
   obtain ⟨ε₀, hε₀, hnest⟩ := exists_nested_commutator_coord (K := K)
   have hε₀0 : ε₀ ≠ 0 := by
     rcases hε₀ with h | h <;> rw [h] <;> norm_num
@@ -261,11 +271,11 @@ theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r =
   have hts : ε₀ * s * t ^ 3 = r₁ - r := by
     rw [ht]
     field_simp
-  obtain ⟨m, hm⟩ : ∃ m, m = longElt hf hK σ hσ (Or.inl rfl) s hs := ⟨_, rfl⟩
-  obtain ⟨cc, hcc⟩ : ∃ cc, cc = longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr := ⟨_, rfl⟩
-  obtain ⟨dd, hdd⟩ : ∃ dd, dd = longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr' := ⟨_, rfl⟩
+  obtain ⟨m, hm⟩ : ∃ m, m = longElt σ (Or.inl rfl) s hs := ⟨_, rfl⟩
+  obtain ⟨cc, hcc⟩ : ∃ cc, cc = longElt σ (Or.inr (Or.inl rfl)) r hr := ⟨_, rfl⟩
+  obtain ⟨dd, hdd⟩ : ∃ dd, dd = longElt σ (Or.inr (Or.inr rfl)) r' hr' := ⟨_, rfl⟩
   rw [← hm, ← hcc, ← hdd]
-  obtain ⟨a, ha⟩ : ∃ a, a = shortElt hf hK σ hσ htσ := ⟨_, rfl⟩
+  obtain ⟨a, ha⟩ : ∃ a, a = shortElt σ htσ := ⟨_, rfl⟩
   obtain ⟨Mq, hMq⟩ : ∃ x : ModGL TwistTag.D4.tag K, x = pinnedX TwistTag.D4.tag K rootB s :=
     ⟨_, rfl⟩
   obtain ⟨Cq, hCq⟩ : ∃ x : ModGL TwistTag.D4.tag K, x = pinnedX TwistTag.D4.tag K rootC r :=
@@ -282,28 +292,28 @@ theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r =
   have hddC : (dd : ModGL TwistTag.D4.tag K) = Dq := by
     rw [hdd, coe_longElt, hDq]
   have haC : (a : ModGL TwistTag.D4.tag K) = Aq := by
-    rw [ha, coe_shortElt hf hK σ hσ htσ, hAq]
+    rw [ha, coe_shortElt σ htσ, hAq]
   have hmU : (m : ModGL TwistTag.D4.tag K) ∈
       graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
     rw [hmC, hMq]
-    exact pinnedX_mem_graphFixedPosUnipotent hf hK σ hσ (Or.inl rfl) hs
+    exact pinnedX_mem_graphFixedPosUnipotent σ (Or.inl rfl) hs
   have hδm : fieldActor (t := TwistTag.D4) σ σ m = m := by
     rw [hm]
-    exact jk_fieldActor_longElt hf hK σ hσ (Or.inl rfl) s hs
+    exact jk_fieldActor_longElt σ (Or.inl rfl) s hs
   have hδc : fieldActor (t := TwistTag.D4) σ σ cc = cc := by
     rw [hcc]
-    exact jk_fieldActor_longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr
+    exact jk_fieldActor_longElt σ (Or.inr (Or.inl rfl)) r hr
   have hδd : fieldActor (t := TwistTag.D4) σ σ dd = dd := by
     rw [hdd]
-    exact jk_fieldActor_longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr'
+    exact jk_fieldActor_longElt σ (Or.inr (Or.inr rfl)) r' hr'
   have hδa : fieldActor (t := TwistTag.D4) σ σ a = a := by
     rw [ha]
-    exact fieldActor_shortElt hf hK σ hσ htσ
+    exact fieldActor_shortElt σ htσ
   have hm3 : m ^ 3 = 1 := by
     rw [hm]
-    exact jk_longElt_pow_three hf hK σ hσ (Or.inl rfl) s hs
+    exact jk_longElt_pow_three σ (Or.inl rfl) s hs
   have hmc : cocycleProd (fieldActor (t := TwistTag.D4) σ σ) m = 1 :=
-    cocycleProd_eq_one_of_fixed_cube hf hK σ hσ m hδm hm3
+    cocycleProd_eq_one_of_fixed_cube σ m hδm hm3
   have hy3 : (m * cc * dd) ^ 3 = 1 := by
     apply Subtype.ext
     rw [Subgroup.coe_pow, Subgroup.coe_mul, Subgroup.coe_mul, hmC, hccC, hddC, Subgroup.coe_one,
@@ -346,7 +356,7 @@ theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r =
   have hP2L : m⁻¹ * y₁ ∈ layerN σ 1 :=
     (mem_layerN σ).2 (by rw [show ((1 + 1 : ℕ) : ℤ) = 2 by norm_num]; exact hP2mem)
   obtain ⟨W, hWmem, hkill⟩ := exists_kill_layers_one_two hf hK σ hσ hmU hmc hyc₁ hP2L
-  obtain ⟨r₂, r'', hr₂, hr'', hlong⟩ := exists_long_form_of_mem_layerN_three hf hK σ hσ ⟨_, hkill⟩
+  obtain ⟨r₂, r'', hr₂, hr'', hlong⟩ := exists_long_form_of_mem_layerN_three σ ⟨_, hkill⟩
   have hWq2 : (W : ModGL TwistTag.D4.tag K) ∈
       heightSeries TwistTag.D4.tag K 2 := by
     have h := (mem_layerN σ).1 hWmem
@@ -400,11 +410,11 @@ theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r =
     rw [hZeq, jk_coordC_CD]
   have hr₂eq : r₂ = r₁ := hZr₂.symm.trans hZcoord
   have hkey : m⁻¹ * (W⁻¹ * y₁ * fieldActor (t := TwistTag.D4) σ σ W) =
-      longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r₁ hr₁ *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r'' hr'' := by
+      longElt σ (Or.inr (Or.inl rfl)) r₁ hr₁ *
+        longElt σ (Or.inr (Or.inr rfl)) r'' hr'' := by
     apply Subtype.ext
-    have e : ((longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r₁ hr₁ *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r'' hr'' :
+    have e : ((longElt σ (Or.inr (Or.inl rfl)) r₁ hr₁ *
+        longElt σ (Or.inr (Or.inr rfl)) r'' hr'' :
         graphFixedRootGroup TwistTag.D4 K σ.toRingHom) : ModGL TwistTag.D4.tag K) =
         pinnedX TwistTag.D4.tag K rootC r₁ * pinnedX TwistTag.D4.tag K rootD r'' := by
       rw [Subgroup.coe_mul, coe_longElt, coe_longElt]
@@ -420,9 +430,9 @@ theorem exists_twistedConj_kill_C {s r r' r₁ : K} (hs : σ s = s) (hr : σ r =
     _ = m * (m⁻¹ * (W⁻¹ * y₁ * fieldActor (t := TwistTag.D4) σ σ W)) := by
       rw [hy₁]
       group
-    _ = m * (longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r₁ hr₁ *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r'' hr'') := by rw [hkey]
-    _ = m * longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r₁ hr₁ *
-        longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r'' hr'' := by rw [mul_assoc]
+    _ = m * (longElt σ (Or.inr (Or.inl rfl)) r₁ hr₁ *
+        longElt σ (Or.inr (Or.inr rfl)) r'' hr'') := by rw [hkey]
+    _ = m * longElt σ (Or.inr (Or.inl rfl)) r₁ hr₁ *
+        longElt σ (Or.inr (Or.inr rfl)) r'' hr'' := by rw [mul_assoc]
 
 end CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3

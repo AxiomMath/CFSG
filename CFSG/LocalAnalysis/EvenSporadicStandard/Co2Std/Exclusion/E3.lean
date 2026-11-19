@@ -23,8 +23,8 @@ private theorem e3_z_not_mem_A (h : Hyp G L A T z t) : z ∉ A := by
   exact h.not_conj z (h.jc.le hz) (IsConj.refl z)
 
 private theorem e3_elemAb_B (h : Hyp G L A T z t) : IsElementaryAbelian 2 ↥(B A z) := by
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
-  letI : IsElementaryAbelian 2 ↥(zpowers z) :=
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥(zpowers z) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) (by rw [pow_two]; exact h.set.z_sq)
   exact IsElementaryAbelian.sup_of_le_centralizer (e3_zpows_le_centralizer_A h)
 
@@ -37,7 +37,7 @@ private theorem e3_card_B (h : Hyp G L A T z t) : Nat.card (B A z) = 2 ^ 11 := b
   rw [← hcard]
   norm_num
 
-private theorem e3_z_mem_B (h : Hyp G L A T z t) : z ∈ B A z :=
+private theorem e3_z_mem_B (_h : Hyp G L A T z t) : z ∈ B A z :=
   mem_sup_right (mem_zpowers z)
 
 private theorem e3_z_mem_R₀ (h : Hyp G L A T z t) : z ∈ R₀ A z :=
@@ -74,7 +74,7 @@ theorem Hyp.commutator_mem_B (h : Hyp G L A T z t) (h2 : E2Facts L A z) {r s : G
   have hmap := map_commutatorElement (f := deltaHom h2.conj_mem)
     (g₁ := (⟨r, hr⟩ : ↥(R₀ A z))) (g₂ := (⟨s, hs⟩ : ↥(R₀ A z)))
   rw [hmap]
-  haveI : IsMulCommutative A := h.jc.module.elemAb.toIsMulCommutative
+  have : IsMulCommutative A := h.jc.module.elemAb.toIsMulCommutative
   exact commutatorElement_eq_one_iff_mul_comm.mpr (mul_comm' _ _)
 
 theorem Hyp.commutator_mem_A_of_mem_B_R₀ (h : Hyp G L A T z t) (h2 : E2Facts L A z)
@@ -120,11 +120,11 @@ private theorem e3g_mul_self : e3g * e3g = 1 := by
   unfold e3g
   decide
 
-private noncomputable def e3tauG (h : Hyp G L A T z t) (x : G) : Multiplicative (ZMod 2) := by
+private noncomputable def e3tauG (_h : Hyp G L A T z t) (x : G) : Multiplicative (ZMod 2) := by
   classical
   exact if x ∈ A then 1 else e3g
 
-private theorem e3tauG_eq_one_iff (h : Hyp G L A T z t) {x : G} (hx : x ∈ B A z) :
+private theorem e3tauG_eq_one_iff (h : Hyp G L A T z t) {x : G} (_hx : x ∈ B A z) :
     e3tauG h x = 1 ↔ x ∈ A := by
   rw [e3tauG]
   by_cases hxA : x ∈ A
@@ -231,11 +231,13 @@ private noncomputable def e3deltaSection (h2 : E2Facts L A z) (a : ↥A) : ↥(R
   ⟨Classical.choose (h2.exists_delta_eq a.2),
     (Classical.choose_spec (h2.exists_delta_eq a.2)).1⟩
 
+omit [Finite G] in
 private theorem e3deltaSection_spec (h2 : E2Facts L A z) (a : ↥A) :
     deltaHom h2.conj_mem (e3deltaSection h2 a) = a := by
   apply Subtype.ext
   exact (Classical.choose_spec (h2.exists_delta_eq a.2)).2
 
+omit [Finite G] in
 private theorem e3deltaSection_val (h2 : E2Facts L A z) (a : ↥A) :
     delta z ((e3deltaSection h2 a : ↥(R₀ A z)) : G) = (a : G) :=
   congrArg Subtype.val (e3deltaSection_spec h2 a)
@@ -469,7 +471,7 @@ theorem Hyp.commutator_mem_A_of_mem_R₀ (h : Hyp G L A T z t) (h2 : E2Facts L A
 
 private theorem e3_mul_self_mem_A_of_mem_B (h : Hyp G L A T z t) {b : G}
     (hb : b ∈ B A z) : b * b ∈ A := by
-  letI : IsElementaryAbelian 2 ↥(B A z) := e3_elemAb_B h
+  let : IsElementaryAbelian 2 ↥(B A z) := e3_elemAb_B h
   have h1 : b ^ 2 = 1 := elemPow_eq_one_of_isElementaryAbelian (p := 2) b hb
   rw [pow_two] at h1
   rw [h1]
@@ -480,7 +482,7 @@ private theorem e3_sq_mem_B (h : Hyp G L A T z t) (h2 : E2Facts L A z) {r : G}
   have hr2R : r * r ∈ R₀ A z := mul_mem hr hr
   apply (h.delta_eq_one_iff h2 hr2R).mp
   rw [h2.delta_mul hr hr]
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
   have h1 : (delta z r) ^ 2 = 1 :=
     elemPow_eq_one_of_isElementaryAbelian (p := 2) (delta z r) (h2.delta_mem hr)
   simpa [pow_two] using h1
@@ -546,7 +548,7 @@ private noncomputable def e3q (h : Hyp G L A T z t) (h2 : E2Facts L A z) (a : �
   e3tauG h (((e3deltaSection h2 a : ↥(R₀ A z)) : G) *
     ((e3deltaSection h2 a : ↥(R₀ A z)) : G))
 
-private theorem e3tauG_eq_g_of_not_mem (h : Hyp G L A T z t) {x : G} (hx : x ∈ B A z)
+private theorem e3tauG_eq_g_of_not_mem (h : Hyp G L A T z t) {x : G} (_hx : x ∈ B A z)
     (hxA : x ∉ A) : e3tauG h x = e3g := by
   simp [e3tauG, hxA]
 
@@ -686,7 +688,7 @@ theorem Hyp.mul_self_mem_A_of_mem_R₀ (h : Hyp G L A T z t) (h2 : E2Facts L A z
 private theorem e3_A_le_R₀ (h : Hyp G L A T z t) : A ≤ R₀ A z :=
   fun _ ha => h.B_le_R₀ (mem_sup_left ha)
 
-private theorem e3_A_subgroupOf_le_center (h : Hyp G L A T z t) :
+private theorem e3_A_subgroupOf_le_center (_h : Hyp G L A T z t) :
     A.subgroupOf (R₀ A z) ≤ Subgroup.center (R₀ A z) := by
   intro a ha
   rw [Subgroup.mem_center_iff]
@@ -706,7 +708,7 @@ private instance e3_normal_A_subgroupOf_R₀ :
 private theorem e3_elemAb_quotR₀ (h : Hyp G L A T z t) (h2 : E2Facts L A z) :
     IsElementaryAbelian 2 (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))) := by
   classical
-  letI : (A.subgroupOf (R₀ A z)).Normal :=
+  let : (A.subgroupOf (R₀ A z)).Normal :=
     Subgroup.normal_of_le_center (e3_A_subgroupOf_le_center h)
   have hcomm : ∀ x y : ↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z)), x * y = y * x := by
     intro x y
@@ -742,6 +744,7 @@ private theorem e3_elemAb_quotR₀ (h : Hyp G L A T z t) (h2 : E2Facts L A z) :
     simpa [pow_two] using h.mul_self_mem_A_of_mem_R₀ h2 r.2
   exact { is_comm := ⟨hcomm⟩, exponent_dvd_p := hexp }
 
+omit [Finite G] in
 private theorem e3f_zero (f : Additive (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))) → ZMod 2)
     (hfadd : ∀ x y, f (x + y) = f x + f y) : f 0 = 0 := by
   have h := hfadd 0 0
@@ -749,7 +752,7 @@ private theorem e3f_zero (f : Additive (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A 
   have h2 : f 0 + f 0 = 0 := CharTwo.add_self_eq_zero _
   rwa [h2] at h
 
-private noncomputable def e3phi (h : Hyp G L A T z t) (h2 : E2Facts L A z)
+private noncomputable def e3phi (_h : Hyp G L A T z t) (_h2 : E2Facts L A z)
     (f : Additive (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))) → ZMod 2)
     (hfadd : ∀ x y, f (x + y) = f x + f y) :
     ↥(R₀ A z) →* Multiplicative (ZMod 2) where
@@ -796,7 +799,7 @@ private theorem e3_exists_phi (h : Hyp G L A T z t) (h2 : E2Facts L A z) :
       (∀ a : ↥A, φ ⟨a, e3_A_le_R₀ h a.2⟩ = 1) ∧
       φ ⟨z, e3_z_mem_R₀ h⟩ = e3g := by
   classical
-  letI : IsElementaryAbelian 2 (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))) :=
+  let : IsElementaryAbelian 2 (↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))) :=
     e3_elemAb_quotR₀ h h2
   let Q := ↥(R₀ A z) ⧸ (A.subgroupOf (R₀ A z))
   let v : Additive Q :=
@@ -838,6 +841,7 @@ private theorem e3_exists_phi (h : Hyp G L A T z t) (h2 : E2Facts L A z) :
 private noncomputable def e3psi (φ : ↥(R₀ A z) →* Multiplicative (ZMod 2))
     (r : ↥(R₀ A z)) : ZMod 2 := (φ r).toAdd
 
+omit [Finite G] in
 private theorem e3psi_mul (φ : ↥(R₀ A z) →* Multiplicative (ZMod 2))
     (r s : ↥(R₀ A z)) : e3psi φ (r * s) = e3psi φ r + e3psi φ s := by
   show (φ (r * s)).toAdd = (φ r).toAdd + (φ s).toAdd
@@ -992,7 +996,7 @@ private theorem e3gamma_cocycle (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     have hh : toAutImage x * toAutImage (x⁻¹) = 1 := by
       rw [← toAutImage_mul, mul_inv_cancel, toAutImage_one]
     have hh' : (toAutImage x : MulAut ↥A) * (toAutImage (x⁻¹) : MulAut ↥A) = 1 := by
-      simpa using congrArg Subtype.val hh
+      simp
     exact inv_eq_of_mul_eq_one_right hh'
   have hδs : delta z (s : G) = ((((toAutImage x : MulAut ↥A)⁻¹) a : ↥A) : G) := by
     show delta z ((x : G)⁻¹ * (r : G) * (x : G)) = _
@@ -1065,10 +1069,10 @@ private noncomputable def e3gamma' (h : Hyp G L A T z t) (h2 : E2Facts L A z)
 private theorem e3gamma'_toAutImage (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     (φ : ↥(R₀ A z) →* Multiplicative (ZMod 2))
     (hφA : ∀ a : ↥A, φ ⟨a, e3_A_le_R₀ h a.2⟩ = 1)
-    (x : ↥(L ⊓ normalizer (A : Set G))) :
-    e3gamma' h h2 φ (toAutImage x) = e3gamma h h2 φ x :=
-  descend_toAutImage (fun x => e3gamma h h2 φ x)
-    (fun x y hxy => funext (fun a => e3gamma_eq_of_conjN h h2 φ hφA hxy a)) x
+    (_x : ↥(L ⊓ normalizer (A : Set G))) :
+    e3gamma' h h2 φ (toAutImage _x) = e3gamma h h2 φ _x :=
+  descend_toAutImage (fun _x => e3gamma h h2 φ _x)
+    (fun _x _y hxy => funext (fun a => e3gamma_eq_of_conjN h h2 φ hφA hxy a)) _x
 
 private theorem e3gamma'_add (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     (φ : ↥(R₀ A z) →* Multiplicative (ZMod 2))
@@ -1091,6 +1095,7 @@ private theorem e3gamma'_cocycle (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     e3gamma'_toAutImage h h2 φ hφA x, e3gamma'_toAutImage h h2 φ hφA y]
   exact e3gamma_cocycle h h2 φ hφA x y a
 
+omit [Finite G] in
 private theorem e3f_one (f : ↥A → ZMod 2) (hfadd : ∀ a b, f (a * b) = f a + f b) :
     f 1 = 0 := by
   have h := hfadd 1 1
@@ -1098,7 +1103,7 @@ private theorem e3f_one (f : ↥A → ZMod 2) (hfadd : ∀ a b, f (a * b) = f a 
   have h2 : f 1 + f 1 = 0 := CharTwo.add_self_eq_zero _
   rwa [h2] at h
 
-private noncomputable def e3phi' (h : Hyp G L A T z t) (h2 : E2Facts L A z)
+private noncomputable def e3phi' (_h : Hyp G L A T z t) (h2 : E2Facts L A z)
     (φ : ↥(R₀ A z) →* Multiplicative (ZMod 2)) (f : ↥A → ZMod 2)
     (r : ↥(R₀ A z)) : ZMod 2 :=
   e3psi φ r + f ⟨delta z (r : G), h2.delta_mem r.2⟩
@@ -1173,7 +1178,7 @@ private theorem e3phi'_invariant (h : Hyp G L A T z t) (h2 : E2Facts L A z)
     have hh : toAutImage x * toAutImage (x⁻¹) = 1 := by
       rw [← toAutImage_mul, mul_inv_cancel, toAutImage_one]
     have hh' : (toAutImage x : MulAut ↥A) * (toAutImage (x⁻¹) : MulAut ↥A) = 1 := by
-      simpa using congrArg Subtype.val hh
+      simp
     exact inv_eq_of_mul_eq_one_right hh'
   have hδr' : delta z (r' : G) = ((((toAutImage x : MulAut ↥A)⁻¹) a : ↥A) : G) := by
     show delta z ((x : G)⁻¹ * (r : G) * (x : G)) = _
@@ -1277,7 +1282,7 @@ theorem Hyp.exists_e3Facts {G : Type} [Group G] [Finite G] {L A T : Subgroup G} 
         change Multiplicative.ofAdd (e3phi' h h2 φ f ⟨z, e3_z_mem_R₀ h⟩) = e3g
         rw [e3phi'_z h h2 φ hφz f hfadd]
         rfl
-      haveI : Nontrivial ↥((e3phi'Hom h h2 φ f hfadd).range) := by
+      have : Nontrivial ↥((e3phi'Hom h h2 φ f hfadd).range) := by
         refine ⟨⟨⟨1, one_mem _⟩, ⟨e3g, hzmem⟩, ?_⟩⟩
         intro hEq
         have hval := congrArg Subtype.val hEq

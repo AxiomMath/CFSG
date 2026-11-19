@@ -25,7 +25,7 @@ theorem lieCompAlg_classicalBCD (hD4 : D4EightCompAlgOuter) : LieCompAlg isClass
   | D n q =>
     have h8 : q.p ^ q.exponent = 8 := (TauCeti.PrimePower.card_def q).symm.trans hfield
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_D n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       by_cases h4 : n = 4
       · subst h4
@@ -41,7 +41,7 @@ theorem lieCompAlg_classicalBCD (hD4 : D4EightCompAlgOuter) : LieCompAlg isClass
   | twistedD n q =>
     have h8 : q.p ^ q.exponent = 8 := (TauCeti.PrimePower.card_def q).symm.trans hfield
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_twistedD n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact compAlgAt_pomegaMinus_eight hSC h8
     · have h4n : 4 ≤ n := hadm.2.2

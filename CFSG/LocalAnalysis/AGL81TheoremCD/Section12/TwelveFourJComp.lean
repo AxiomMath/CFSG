@@ -17,15 +17,15 @@ variable {G : Type} [Group G] [Finite G]
 theorem statedClassicalModel_psl_three_of_mulEquiv {X : Type} [Group X] {n : ℕ}
     (hn : n ≠ 0) (e : X ≃* PSL(3, GaloisField 2 n)) :
     StatedClassicalModel X .PSL 3 2 n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨Nat.prime_two, Nat.one_le_iff_ne_zero.mpr hn, by norm_num, ?_, ?_⟩,
     GaloisField 2 n, inferInstance, inferInstance, GaloisField.card 2 n hn,
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 _)⟩⟩
   · intro h
-    simp only [Prod.mk.injEq, true_and] at h
+    simp only [Prod.mk.injEq] at h
     omega
   · intro h
-    simp only [Prod.mk.injEq, true_and] at h
+    simp only [Prod.mk.injEq] at h
     omega
 
 theorem gcd_three_two_pow_sub_one_of_odd {n : ℕ} (hn : Odd n) :

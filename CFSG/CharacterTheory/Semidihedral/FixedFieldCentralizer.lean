@@ -308,7 +308,7 @@ theorem exists_sylow_le_of_odd_index {H : Type u} [Group H] [Finite H]
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 N := Classical.choice inferInstance
   let U : Subgroup H := (P : Subgroup N).map N.subtype
-  have hUp : IsPGroup 2 U := P.isPGroup'.map N.subtype
+  have hUp : IsPGroup 2 U := P.isPGroup.map N.subtype
   have hUindex : Odd U.index := by
     rw [Subgroup.index_map_subtype]
     have hPodd : Odd (P : Subgroup N).index :=

@@ -184,7 +184,7 @@ theorem ident_gen [Finite G] {T H Y : Subgroup G} {m : ℕ} (hInd : SimpleCaseUp
     apply hH2
     intro h
     obtain ⟨hy, hS'⟩ := hinvS h.1 (hHgen h.2)
-    obtain ⟨n, hn⟩ := (S.isPGroup' : IsPGroup 2 (S : Subgroup (jQuot ↥Y))) ⟨_, hS'⟩
+    obtain ⟨n, hn⟩ := (S.isPGroup : IsPGroup 2 (S : Subgroup (jQuot ↥Y))) ⟨_, hS'⟩
     refine ⟨n, ?_⟩
     have h1 : jMap ↥Y (⟨(h : G), hy⟩ ^ 2 ^ n) = 1 := by
       rw [map_pow]

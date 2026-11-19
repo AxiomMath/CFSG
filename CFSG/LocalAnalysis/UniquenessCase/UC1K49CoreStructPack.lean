@@ -11,6 +11,7 @@ variable {G : Type} [Group G] [Finite G]
 open scoped commutatorElement IsMulCommutative
 open CFSG.ABGLocalTools
 
+omit [Finite G] in
 theorem chief_struct49_sup_eq_Lc_ne {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hx : X = Subgroup.zpowers x) {i j : ℕ} (hi : i < 3) (hj : j < 3) (hij : i ≠ j) :
     Lc L x i ≠ Lc L x j := by
@@ -91,6 +92,7 @@ theorem chief_struct49_sup_eq_commutator_le {H X L Q I : Subgroup G} (h : Setup4
   · exact chief_struct49_sup_eq_Lc_normalizes_E h hx hch V hV (by norm_num)
   · exact (hVle 2).trans hV2E
 
+omit [Finite G] in
 theorem chief_struct49_sup_eq_le_sup {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x : G} (hx : X = Subgroup.zpowers x) {N M : Subgroup G} (V : ℕ → Subgroup G)
     (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) :
@@ -111,7 +113,7 @@ theorem chief_struct49_sup_eq_le_sup {H X L Q I : Subgroup G} (h : Setup49 H X L
   exact sup_le (sup_le h0 h1) h2
 
 theorem chief_struct49_sup_eq {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
-    (hx : X = Subgroup.zpowers x) {A : Subgroup G} {a n : G} (hd : XAData X L I x A a n)
+    (hx : X = Subgroup.zpowers x) {A : Subgroup G} {a n : G} (_hd : XAData X L I x A a n)
     {N M : Subgroup G} (hch : HChief H N M) (hI : ¬ ⁅N, I⁆ ≤ M) :
     ∀ V : ℕ → Subgroup G, (∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) → N = V 0 ⊔ V 1 ⊔ V 2 := by
   intro V hV
@@ -159,6 +161,7 @@ namespace Ctx49
 
 variable (c : Ctx49 H X L Q I x A a n N M)
 
+omit [Finite G] in
 theorem direct_V_le_N (c : Ctx49 H X L Q I x A a n N M) (V : ℕ → Subgroup G)
     (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) (j : ℕ) : V j ≤ N := by
   have hLjN : Lc L x j ≤ Subgroup.normalizer (N : Set G) := (c.Lc_H j).trans c.chief.2.1
@@ -171,8 +174,9 @@ theorem direct_V_le_N (c : Ctx49 H X L Q I x A a n N M) (V : ℕ → Subgroup G)
   rw [hthis]
   exact N.inv_mem (N.mul_mem hmem (N.inv_mem hn))
 
+omit [Finite G] in
 theorem direct_comm_mem_sup {Vj Vk : Subgroup G} {d : G}
-    (hVjk : Vj ≤ Subgroup.normalizer (Vk : Set G)) (hVjN : Vj ≤ N) (hVkN : Vk ≤ N)
+    (hVjk : Vj ≤ Subgroup.normalizer (Vk : Set G)) (hVjN : Vj ≤ N) (_hVkN : Vk ≤ N)
     (hNM : N ≤ Subgroup.normalizer (M : Set G))
     (hj : ∀ n ∈ Vj, ⁅n, d⁆ ∈ M) (hk : ∀ n ∈ Vk, ⁅n, d⁆ ∈ M) :
     ∀ n ∈ Vj ⊔ Vk, ⁅n, d⁆ ∈ M := by
@@ -183,6 +187,7 @@ theorem direct_comm_mem_sup {Vj Vk : Subgroup G} {d : G}
     (Subgroup.mem_normalizer_iff.mp (hNM (hVjN ha)) ⁅b, d⁆).mp (hk b hb)
   exact M.mul_mem hb' (hj a ha)
 
+omit [Finite G] in
 theorem direct_le_normalizer (c : Ctx49 H X L Q I x A a n N M) {Vj Vk : Subgroup G}
     (hVjN : Vj ≤ N) (hVkN : Vk ≤ N) (hMVk : M ≤ Vk) :
     Vj ≤ Subgroup.normalizer (Vk : Set G) := by
@@ -190,6 +195,7 @@ theorem direct_le_normalizer (c : Ctx49 H X L Q I x A a n N M) {Vj Vk : Subgroup
   exact (Subgroup.commutator_le.mpr fun a ha b hb =>
     c.chief.2.2.2.2.1 a (hVjN ha) b (hVkN hb)).trans hMVk
 
+omit [Finite G] in
 theorem direct_op_fix (c : Ctx49 H X L Q I x A a n N M)
     [hNorm : (M.subgroupOf N).Normal] [hElem : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N)]
     {y : G} (hy : y ∈ N) {g : ↥H} (hcomm : ⁅y, (g : G)⁆ ∈ M) :
@@ -260,10 +266,10 @@ include c in
 theorem direct (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (h3 : ∀ i j : ℕ, i < 3 → j < 3 → i ≠ j → ⁅V i, Lc L x j⁆ ≤ M) :
     V 0 ⊓ (V 1 ⊔ V 2) = M ∧ V 1 ⊓ (V 0 ⊔ V 2) = M ∧ V 2 ⊓ (V 0 ⊔ V 1) = M := by
-  haveI hNorm : (M.subgroupOf N).Normal :=
+  have hNorm : (M.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.chief.1.le).mpr
       ((c.NQ.trans (Q_le_H49 c.setup)).trans c.chief.2.2.1)
-  haveI hElem : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) := c.chief.isElementaryAbelian
+  have hElem : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) := c.chief.isElementaryAbelian
   refine ⟨direct_inf_sup_eq c V hV h3 (by norm_num) (by norm_num) (by norm_num)
       (by norm_num) (by norm_num) (by norm_num),
     direct_inf_sup_eq c V hV h3 (by norm_num) (by norm_num) (by norm_num)
@@ -271,47 +277,57 @@ theorem direct (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔
     direct_inf_sup_eq c V hV h3 (by norm_num) (by norm_num) (by norm_num)
       (by norm_num) (by norm_num) (by norm_num)⟩
 
+omit [Finite G] in
 theorem irred_conjugate_sup (A B : Subgroup G) (g : G) :
     CFSG.conjugate (A ⊔ B) g = CFSG.conjugate A g ⊔ CFSG.conjugate B g := by
   simp only [CFSG.conjugate, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem irred_conjugate_comm (A B : Subgroup G) (g : G) :
     CFSG.conjugate ⁅A, B⁆ g = ⁅CFSG.conjugate A g, CFSG.conjugate B g⁆ := by
   simp only [CFSG.conjugate, Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem irred_conj_Lc (i j : ℕ) :
     CFSG.conjugate (Lc L x i) (x ^ j) = Lc L x (i + j) := by
   simp only [Lc]
   rw [conjugate_conjugate, ← pow_add]
 
+omit [Finite G] in
 theorem irred_conj_Lc_inv (i : ℕ) :
     CFSG.conjugate (Lc L x i) ((x ^ i)⁻¹) = Lc L x 0 := by
   simp only [Lc, conjugate_conjugate, mul_inv_cancel, conjugate_one, pow_zero]
 
+omit [Finite G] in
 theorem irred_conj_of_mem_normalizer {W : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (W : Set G)) : CFSG.conjugate W g = W := by
   rw [CFSG.conjugate]
   exact (Subgroup.mem_normalizer_iff_map_conj_eq (H := W) (g := g⁻¹)).mp
     ((Subgroup.normalizer (W : Set G)).inv_mem hg)
 
+omit [Finite G] in
 theorem irred_conjugate_mono {A B : Subgroup G} (g : G) (h : A ≤ B) :
     CFSG.conjugate A g ≤ CFSG.conjugate B g := by
   simp only [CFSG.conjugate]
   exact Subgroup.map_mono h
 
 include c in
+omit [Finite G] in
 theorem irred_conj_N (g : G) (hg : g ∈ H) : CFSG.conjugate N g = N :=
   irred_conj_of_mem_normalizer (c.chief.2.1 hg)
 
 include c in
+omit [Finite G] in
 theorem irred_conj_M (g : G) (hg : g ∈ H) : CFSG.conjugate M g = M :=
   irred_conj_of_mem_normalizer (c.chief.2.2.1 hg)
 
 include c in
+omit [Finite G] in
 theorem irred_conj_Q (g : G) (hg : g ∈ H) : CFSG.conjugate Q g = Q :=
   irred_conj_of_mem_normalizer (H_le_normalizer_Q c.setup hg)
 
 include c in
+omit [Finite G] in
 theorem irred_conj_V (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (i j : ℕ) : CFSG.conjugate (V i) (x ^ j) = V (i + j) := by
   have hN := c.irred_conj_N (x ^ j) (c.setup.X_le (c.pow_mem j))
@@ -320,6 +336,7 @@ theorem irred_conj_V (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i�
     irred_conj_Lc i j]
 
 include c in
+omit [Finite G] in
 theorem irred_conj_V_inv (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (i : ℕ) : CFSG.conjugate (V i) ((x ^ i)⁻¹) = V 0 := by
   have hg : (x ^ i)⁻¹ ∈ H := c.setup.X_le (X.inv_mem (c.pow_mem i))
@@ -329,16 +346,19 @@ theorem irred_conj_V_inv (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L 
     irred_conj_Lc_inv i]
 
 include c in
+omit [Finite G] in
 theorem irred_conj_V_one (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (i : ℕ) : CFSG.conjugate (V i) x = V (i + 1) := by
   simpa using c.irred_conj_V V hV i 1
 
+omit [Finite G] in
 theorem irred_conjugate_normalizer (Y : Subgroup G) (g : G) :
     CFSG.conjugate (Subgroup.normalizer (Y : Set G)) g =
       Subgroup.normalizer (CFSG.conjugate Y g : Set G) := by
   simp only [CFSG.conjugate]
   exact Subgroup.map_equiv_normalizer_eq Y (MulAut.conj g⁻¹)
 
+omit [Finite G] in
 theorem irred_mem_normalizer_of_conj_eq {W : Subgroup G} {g : G}
     (h : CFSG.conjugate W g = W) : g ∈ Subgroup.normalizer (W : Set G) := by
   have h' : g⁻¹ ∈ Subgroup.normalizer (W : Set G) :=
@@ -346,6 +366,7 @@ theorem irred_mem_normalizer_of_conj_eq {W : Subgroup G} {g : G}
   simpa using (Subgroup.normalizer (W : Set G)).inv_mem h'
 
 include c in
+omit [Finite G] in
 theorem irred_V_le_N (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (j : ℕ) : V j ≤ N := by
   have hcomm : ⁅N, Lc L x j⁆ ≤ N := by
@@ -376,11 +397,13 @@ theorem irred_normalizer_sup (V : ℕ → Subgroup G)
       (c.irred_V_le_N V hV i)
 
 include c in
+omit [Finite G] in
 theorem irred_normalizer_M (i : ℕ) :
     Lc L x i ⊔ Q ≤ Subgroup.normalizer (M : Set G) :=
   sup_le ((c.Lc_H i).trans c.chief.2.2.1) ((Q_le_H49 c.setup).trans c.chief.2.2.1)
 
 include c in
+omit [Finite G] in
 theorem irred_lt (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (h1 : N = V 0 ⊔ V 1 ⊔ V 2) (i : ℕ) (hi : i < 3) : M < V i := by
   refine lt_of_le_of_ne ?_ (fun hEq => ?_)
@@ -414,6 +437,7 @@ theorem irred_lt (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ �
       exact absurd hNM (ne_of_gt c.chief.1)
 
 include c in
+omit [Finite G] in
 theorem irred_inf_sup_le (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
     (h2 : V 0 ⊓ (V 1 ⊔ V 2) = M ∧ V 1 ⊓ (V 0 ⊔ V 2) = M ∧ V 2 ⊓ (V 0 ⊔ V 1) = M)
     {Y Y1 Y2 : Subgroup G} (hMY : M ≤ Y) (hYV : Y ≤ V 0)
@@ -528,7 +552,7 @@ theorem irred_Z_invariant (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L
 
 include c in
 theorem irred_min (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M)
-    (h1 : N = V 0 ⊔ V 1 ⊔ V 2)
+    (_h1 : N = V 0 ⊔ V 1 ⊔ V 2)
     (h2 : V 0 ⊓ (V 1 ⊔ V 2) = M ∧ V 1 ⊓ (V 0 ⊔ V 2) = M ∧ V 2 ⊓ (V 0 ⊔ V 1) = M)
     (h3 : ∀ i j : ℕ, i < 3 → j < 3 → i ≠ j → ⁅V i, Lc L x j⁆ ≤ M) :
     ∀ Y : Subgroup G, M ≤ Y → Y ≤ V 0 →
@@ -561,6 +585,7 @@ theorem irred_min (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ 
     exact le_antisymm hYV hV0Y
 
 include c in
+omit [Finite G] in
 theorem irred_min_rotate (V : ℕ → Subgroup G) (hV : ∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) (i : ℕ)
     (hmin0 : ∀ Y : Subgroup G, M ≤ Y → Y ≤ V 0 →
       Lc L x 0 ⊔ Q ≤ Subgroup.normalizer (Y : Set G) → Y = M ∨ Y = V 0) :

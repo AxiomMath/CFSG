@@ -62,8 +62,7 @@ theorem mk4_inj {a b c d a' b' c' d' : ℕ} (ha : a < 5) (hb : b < 5) (hc : c < 
   have e1 := congrFun h 1
   have e2 := congrFun h 2
   have e3 := congrFun h 3
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three,
-    Matrix.head_cons] at e0 e1 e2 e3
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three] at e0 e1 e2 e3
   rw [cast_inj ha ha' e0, cast_inj hb hb' e1, cast_inj hc hc' e2, cast_inj hd hd' e3]
 
 theorem mod5_lt (n : ℕ) : n % 5 < 5 := Nat.mod_lt _ (by norm_num)
@@ -227,14 +226,14 @@ theorem sign_spec (hP : pinOK π P = true) (hS : signOK π P = true) (i : Fin 65
 theorem signProp_of (hP : pinOK π P = true) (hS : signOK π P = true) : signProp π :=
   sign_spec hP hS
 
-theorem table_spec (hR : rowsOK R = true) (hP : pinOK π P = true) (hT : tableOK R P = true)
+theorem table_spec (_hR : rowsOK R = true) (_hP : pinOK π P = true) (hT : tableOK R P = true)
     (i j : Fin 65) :
     (∃ s < 4, dec (sm (Nat.succ s) (rf (cd P i) (cd P j))) = dec (cd P (ln (R i) j))) ∧
       ((i : ℕ) ≠ j → ∀ s < 4, sm (Nat.succ s) (cd P j) ≠ cd P i) := by
   have h1 := allF_spec hT i.2
   simp only [force_eq] at h1
   have h2 := allF_spec h1 j.2
-  simp only [force_eq, bAnd_eq, bOr_eq, bNot_eq, Bool.and_eq_true, Bool.or_eq_true] at h2
+  simp only [bAnd_eq, bOr_eq, bNot_eq, Bool.and_eq_true, Bool.or_eq_true] at h2
   obtain ⟨hA, hB⟩ := h2
   refine ⟨?_, fun hij s hs => ?_⟩
   · obtain ⟨s, hs, e⟩ := anyF_spec hA
@@ -338,7 +337,7 @@ theorem coverProp_of (hP : pinOK π P = true) (hC : coverOK π P = true) : cover
   have hv : dec x = v := by
     rw [hx, dec_mk4 (ZMod.val_lt _) (ZMod.val_lt _) (ZMod.val_lt _) (ZMod.val_lt _)]
     funext a
-    fin_cases a <;> simp [ZMod.natCast_zmod_val]
+    fin_cases a <;> simp
   have hx625 : x < 625 := by
     have h0 := ZMod.val_lt (v 0)
     have h1 := ZMod.val_lt (v 1)

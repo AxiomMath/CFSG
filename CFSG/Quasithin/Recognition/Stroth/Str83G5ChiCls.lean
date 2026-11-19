@@ -33,7 +33,7 @@ private theorem two_pow_inj {s t : ℕ} (hs : s < n) (ht : t < n)
   have h8 : 2 ^ t - 2 ^ s = 0 := Nat.eq_zero_of_dvd_of_lt h7 (by omega)
   omega
 
-theorem card_cls_of_isUnit (hn : n ≠ 0) {φ : Coord n} (h : IsUnit φ.1) : (cls φ).card = n := by
+theorem card_cls_of_isUnit (_hn : n ≠ 0) {φ : Coord n} (h : IsUnit φ.1) : (cls φ).card = n := by
   unfold cls
   rw [Finset.card_image_of_injOn, Finset.card_range]
   intro s hs t ht hst
@@ -106,15 +106,15 @@ private theorem pow_eq_pow_iff (hn : n ≠ 0) (hζ : orderOf ζ = 2 ^ n - 1) {p 
 
 private theorem pow_val_eq_pow_val_iff (hn : n ≠ 0) (hζ : orderOf ζ = 2 ^ n - 1)
     {x y : ZMod (2 ^ n - 1)} : ζ ^ x.val = ζ ^ y.val ↔ x = y := by
-  haveI : NeZero (2 ^ n - 1) := ⟨two_pow_sub_one_ne_zero hn⟩
+  have : NeZero (2 ^ n - 1) := ⟨two_pow_sub_one_ne_zero hn⟩
   rw [pow_eq_pow_iff hn hζ, ZMod.natCast_zmod_val, ZMod.natCast_zmod_val]
 
 private theorem pow_val_pow_two_pow (hn : n ≠ 0) (hζ : orderOf ζ = 2 ^ n - 1)
     (x : ZMod (2 ^ n - 1)) (e : ℕ) :
     (ζ ^ x.val) ^ 2 ^ e = ζ ^ ((2 : ZMod (2 ^ n - 1)) ^ e * x).val := by
-  haveI : NeZero (2 ^ n - 1) := ⟨two_pow_sub_one_ne_zero hn⟩
+  have : NeZero (2 ^ n - 1) := ⟨two_pow_sub_one_ne_zero hn⟩
   rw [← pow_mul, pow_eq_pow_iff hn hζ]
-  simp [ZMod.natCast_zmod_val, mul_comm]
+  simp [mul_comm]
 
 private theorem pow_two_pow_eq_iff (hn : n ≠ 0) (hζ : orderOf ζ = 2 ^ n - 1)
     (x : ZMod (2 ^ n - 1)) (e : ℕ) :
@@ -369,7 +369,7 @@ theorem IsChiEmb.chiLab_subset_cls {ζ : GaloisField 2 n} {d₁ d₂ : G} {C S :
     (hS₂ : d₂ ∈ normalizer (S : Set G)) (hCS : ¬ S ≤ C) :
     chiLab ζ d₁ d₂ C S ⊆ (cls φ : Set (Coord n)) := by
   rintro φ' ⟨β', h'⟩
-  obtain ⟨s₀, hs₀S, hs₀C⟩ := SetLike.not_le_iff_exists.1 hCS
+  obtain ⟨s₀, hs₀S, hs₀C⟩ := IsConcreteLE.not_le_iff_exists.1 hCS
   have hv' : β' s₀ ≠ 0 := fun h0 => hs₀C ((h'.eq_zero_iff s₀ hs₀S).1 h0)
   have hζ0 : ζ ≠ 0 := ζ_ne_zero hn hζ
   have T : ∀ P : MvPolynomial (Fin 2) (ZMod 2),
@@ -436,7 +436,7 @@ private theorem ncard_range_aeval_eq {a b : GaloisField 2 n} {d : ℕ} (hd : d �
   set k := Module.finrank (ZMod 2) K with hk
   have hfix : ∀ y ∈ K, y ^ 2 ^ k = y := by
     intro y hy
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have h1 := FiniteField.pow_card (⟨y, hy⟩ : K)
     rw [← Nat.card_eq_fintype_card, ← hpow] at h1
     simpa using congrArg Subtype.val h1
@@ -460,7 +460,7 @@ theorem IsChiEmb.relIndex_eq [Finite G] {ζ : GaloisField 2 n} {d₁ d₂ : G} {
     {φ : Coord n} {β : G → GaloisField 2 n} (h : IsChiEmb ζ d₁ d₂ C S φ β) (hn : n ≠ 0)
     (hζ : orderOf ζ = 2 ^ n - 1) (hY : IsYSimple (zpowers d₁ ⊔ zpowers d₂) C S) :
     C.relIndex S = 2 ^ (cls φ).card := by
-  obtain ⟨s₀, hs₀S, hs₀C⟩ := SetLike.exists_of_lt hY.1
+  obtain ⟨s₀, hs₀S, hs₀C⟩ := _root_.IsConcreteLE.exists_of_lt hY.1
   have hv : β s₀ ≠ 0 := fun h0 => hs₀C ((h.eq_zero_iff s₀ hs₀S).1 h0)
   rw [h.relIndex_eq_ncard hv, h.setOf_eq_range_aeval hY hs₀S hs₀C, card_cls_eq_minimalPeriod hn φ]
   have hper := Function.isPeriodicPt_minimalPeriod (frobStep n) φ

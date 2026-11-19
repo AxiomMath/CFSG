@@ -63,7 +63,7 @@ theorem isZGroup_of_isHallPiOf_kappaPrimes [Finite G] {W X : Subgroup G}
   intro q hq P
   have : Fact q.Prime := ⟨hq⟩
   have hmapP : IsPGroup q ↥((P : Subgroup ↥X).map X.subtype) :=
-    P.isPGroup'.of_equiv
+    P.isPGroup.of_equiv
       (Subgroup.equivMapOfInjective (P : Subgroup ↥X) X.subtype X.subtype_injective)
   have hle : (P : Subgroup ↥X).map X.subtype ≤ X := map_subtype_le _
   exact (isCyclic_map_subtype_iff _).1

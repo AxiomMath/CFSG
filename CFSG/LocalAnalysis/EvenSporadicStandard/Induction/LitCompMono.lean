@@ -18,8 +18,8 @@ theorem twoLayerIn_inf_centralizer_le {H A : Subgroup G} (hA : IsPGroup 2 A)
 
 theorem lt_inf_normalizer_of_isPGroup {S T : Subgroup G} (hS : IsPGroup 2 S) (hT : T ≤ S)
     (hne : T ≠ S) : T < S ⊓ normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent S := hS.isNilpotent
   have hlt : T.subgroupOf S < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h

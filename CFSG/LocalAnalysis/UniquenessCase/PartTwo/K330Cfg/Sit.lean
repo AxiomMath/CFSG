@@ -25,17 +25,17 @@ theorem sit (h : OneComp J M X P) : Sit ↥J := by
       intro a b
       by_contra hab
       exact hnab ⟨a, b, hab⟩
-    haveI : IsMulCommutative ↥J := IsMulCommutative.of_comm hcomm
+    have : IsMulCommutative ↥J := IsMulCommutative.of_comm hcomm
     have hp : (Nat.card ↥J).Prime := (Group.is_simple_iff_prime_card (α := ↥J)).mp h.simple
     rcases hp.eq_one_or_self_of_dvd 9 hncard with h91 | h9p
     · norm_num at h91
     · rw [← h9p] at hp
       exact (by norm_num : ¬ Nat.Prime 9) hp
   have hKJ : CFSG.Open.IsKGroup ↥J := h.isKGroup.subgroup J
-  haveI : IsSimpleGroup ↥J := h.simple
+  have : IsSimpleGroup ↥J := h.simple
   have hcat : CFSG.Open.IsCatalogGroup ↥J :=
     CFSG.KCore.KGroupNonab.catalogue_self CFSG.Open.isCatalogGroup_isoInvariant hKJ hnonab
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrank : CFSG.Open.pRank 3 (⊤ : Subgroup ↥J) = 2 := by
     refine le_antisymm ?_ ?_
     · refine CFSG.SectionRank.pRank_le (p := 3) (by norm_num) ?_

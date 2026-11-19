@@ -65,7 +65,7 @@ theorem sylow_card_dvd_of_faithful_rational_character (data : FiniteComplexRepre
     simp
   have hFzero : ∀ x : H, x ≠ 1 → F x = 0 := by
     intro x hx
-    obtain ⟨e, he⟩ := P.isPGroup' x
+    obtain ⟨e, he⟩ := P.isPGroup x
     have hx' : (x : G) ^ p ^ e = 1 := by rw [← Subgroup.coe_pow, he, Subgroup.coe_one]
     have hx1 : (x : G) ≠ 1 := fun h => hx (Subtype.ext h)
     obtain ⟨k, hk, hval⟩ :=

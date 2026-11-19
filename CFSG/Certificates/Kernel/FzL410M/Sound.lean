@@ -322,8 +322,8 @@ theorem ordGo (C : Codec N d m one) [DecidableEq X] {x : ℕ} (hx : x < N) :
     have h0 : d r = one ↔ Nat.beq r 0 = true := by
       rw [← C.one, C.beq_iff hr C.pos]
     by_cases hr0 : d r = one
-    · rw [if_pos hr0, h0.1 hr0]
-    · rw [if_neg hr0, C.mul hr hx, ih (C.lt hr hx)]
+    · rw [ite_eq_left hr0, h0.1 hr0]
+    · rw [ite_eq_right hr0, C.mul hr hx, ih (C.lt hr hx)]
       have : Nat.beq r 0 = false := by
         cases hb : Nat.beq r 0
         · rfl
@@ -484,7 +484,7 @@ theorem comm_pe_iff (a : A) (i : TM) : mulT (pe a) i = mulT i (pe a) ↔ act i.2
   · intro h
     rw [h, add_comm]
 
-theorem act_dT (h : actOK = true) {k p : ℕ} (hk : k < 512) (hp : p < 64) :
+theorem act_dT (_h : actOK = true) {k p : ℕ} (hk : k < 512) (hp : p < 64) :
     act (dT k).2 (dec p) = dec (actA (k / 64) p) := (dec_actA _ (by omega) _ hp).symm
 
 theorem fix_iff (h : actOK = true) {k p : ℕ} (hk : k < 512) (hp : p < 64) :
@@ -496,8 +496,8 @@ theorem fix_iff (h : actOK = true) {k p : ℕ} (hk : k < 512) (hp : p < 64) :
   · intro e
     rw [e]
 
-theorem forallA {P : A → Prop} : (∀ a, P a) ↔ ∀ p < 64, P (dec p) :=
-  ⟨fun h p _ => h _, fun h a => dec_cmp a ▸ h _ (cmp_lt a)⟩
+theorem forallA {P : A → Prop} : (∀ a, P a) ↔ ∀ _p < 64, P (dec _p) :=
+  ⟨fun h _p _ => h _, fun h a => dec_cmp a ▸ h _ (cmp_lt a)⟩
 
 theorem centOf_iff (h : actOK = true) {k : ℕ} (hk : k < 512) (pr : A → Prop) [DecidablePred pr]
     (prN : ℕ → Bool) (hpr : ∀ p < 64, pr (dec p) ↔ prN p = true) :
@@ -572,6 +572,7 @@ theorem qC (hc : qcB = true) : QC := by
     rw [eE_eq]
     exact (commT hA hk (by have := eE_lt a b; omega)).1 (hE _ (eE_lt a b))
 
+omit hA in
 theorem eF (hc : efB = true) : EF := by
   unfold EF
   rw [forallA]
@@ -775,7 +776,7 @@ theorem modelFacts (hA : actOK = true) {O : ℕ} (hO : ordOK O = true)
     (hinv : invFB = true) (hfus : FusAll) (hcs : CardS) (hsl : SLem) : ModelFacts :=
   ⟨(codecT hA).sep hO hdR (fun k hk => (inR_iff k hk).symm) hR,
     (codecR hA).sep hO hdP (fun k hk => (inPR_iff k hk).symm) hP,
-    sqZ hA hsq, hrq, qC hA hqc, eF hA hef, centP hA hcp, invF hA hinv, hfus, hcs, hsl⟩
+    sqZ hA hsq, hrq, qC hA hqc, eF hef, centP hA hcp, invF hA hinv, hfus, hcs, hsl⟩
 
 end CFSG.FzL410KM
 

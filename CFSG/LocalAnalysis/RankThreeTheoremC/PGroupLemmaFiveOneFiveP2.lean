@@ -74,13 +74,14 @@ section Extraspecial
 variable {p : ℕ} [hp : Fact p.Prime] {Y : Subgroup G}
 
 omit [Fact p.Prime] in
+omit [Finite G] in
 theorem IsExtraspecialExpP.exists_ne (hY : IsExtraspecialExpP p Y) :
     ∃ a b : Y, a * b ≠ b * a := by
   by_contra h
   push Not at h
   exact hY.1 ⟨⟨h⟩⟩
 
-omit [Fact p.Prime] in
+omit [Fact p.Prime] [Finite G] in
 theorem IsExtraspecialExpP.not_le_center (hY : IsExtraspecialExpP p Y) :
     ¬ Y ≤ Y ⊓ centralizer (Y : Set G) := by
   intro h
@@ -88,6 +89,7 @@ theorem IsExtraspecialExpP.not_le_center (hY : IsExtraspecialExpP p Y) :
   exact hab (Subtype.ext (mem_centralizer_iff.mp (h b.2).2 a a.2))
 
 omit [Fact p.Prime] in
+omit [Finite G] in
 theorem IsExtraspecialExpP.isElemAbelian_center (hY : IsExtraspecialExpP p Y) :
     IsElemAbelian p (Y ⊓ centralizer (Y : Set G)) :=
   ⟨⟨⟨fun a b => Subtype.ext (mem_centralizer_iff.mp b.2.2 a a.2.1)⟩⟩,
@@ -144,12 +146,12 @@ theorem exists_mem_not_mem_forall_conj {p : ℕ} [Fact p.Prime] {P B Z K : Subgr
   have hWp : IsPGroup p W := hP.to_sup_of_normal_right' hB hPB
   have hZW : Z ≤ W := (hZK.trans hKB).trans le_sup_right
   have hKW : K ≤ W := hKB.trans le_sup_right
-  haveI hZnorm : (Z.subgroupOf W).Normal := (normal_subgroupOf_iff_le_normalizer hZW).mpr hZn
-  haveI hKnorm : (K.subgroupOf W).Normal := (normal_subgroupOf_iff_le_normalizer hKW).mpr hKn
+  have hZnorm : (Z.subgroupOf W).Normal := (normal_subgroupOf_iff_le_normalizer hZW).mpr hZn
+  have hKnorm : (K.subgroupOf W).Normal := (normal_subgroupOf_iff_le_normalizer hKW).mpr hKn
   set f := QuotientGroup.mk' (Z.subgroupOf W)
   set Kq := (K.subgroupOf W).map f
-  haveI : Kq.Normal := Subgroup.Normal.map hKnorm f (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsNilpotent (W ⧸ Z.subgroupOf W) := (hWp.to_quotient _).isNilpotent
+  have : Kq.Normal := Subgroup.Normal.map hKnorm f (QuotientGroup.mk'_surjective _)
+  have : Group.IsNilpotent (W ⧸ Z.subgroupOf W) := (hWp.to_quotient _).isNilpotent
   have hKq : Kq ≠ ⊥ := by
     obtain ⟨k, hkK, hkZ⟩ := Set.not_subset.mp hKZ
     rw [Subgroup.ne_bot_iff_exists_ne_one]
@@ -264,7 +266,7 @@ theorem IsExtraspecialExpP.forall_conj_mem_center_of_ne (hY : IsExtraspecialExpP
       (sup_le (hPX.trans hXZ) ((hEY.trans le_normalizer).trans hXZ)) (sup_le hPE le_normalizer)
       hEZ
     have hlt : Z < F ⊓ E := lt_of_le_of_ne (le_inf hZF hZE) fun h =>
-      heZ (by change e ∈ Z; rw [h]; exact (⟨⟨hEY heE, heP⟩, heE⟩ : e ∈ F ⊓ E))
+      heZ (by rw [h]; exact (⟨⟨hEY heE, heP⟩, heE⟩ : e ∈ F ⊓ E))
     have hc := mul_card_le_card_of_lt (hEp.to_le inf_le_right) hlt
     rw [hcZ, ← pow_two, ← hEc] at hc
     exact (Subgroup.eq_of_le_of_card_ge inf_le_right hc) ▸ inf_le_left
@@ -283,7 +285,7 @@ end Normalized
 
 theorem pGroupExtraspecialNormalizer : PGroupExtraspecialNormalizer G := by
   intro p hp _ Y hY M hM
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z := Y ⊓ centralizer (Y : Set G) with hZ
   set X := normalizer (Y : Set G) with hX
   by_cases htriv : ∀ T : Subgroup G, T ≤ X → IsPGroup p T → ∀ t ∈ T, ∀ y ∈ Y,
@@ -301,7 +303,7 @@ theorem pGroupExtraspecialNormalizer : PGroupExtraspecialNormalizer G := by
   obtain ⟨S, hS⟩ := hT'.exists_le_sylow
   set SG := (S : Subgroup X).map X.subtype with hSG
   have hSGX : SG ≤ X := map_subtype_le _
-  have hSGp : IsPGroup p SG := S.isPGroup'.map _
+  have hSGp : IsPGroup p SG := S.isPGroup.map _
   have hTSG : T ≤ SG := fun a ha => ⟨⟨a, hTX ha⟩, hS (mem_subgroupOf.mpr ha), rfl⟩
   obtain ⟨E₀, hE₀Y, hE₀e, hE₀c, hZE₀, hSE₀⟩ := hY.exists_normalized_sq hSGp hSGX
   intro x hx
@@ -309,7 +311,7 @@ theorem pGroupExtraspecialNormalizer : PGroupExtraspecialNormalizer G := by
   have hSM : (S : Subgroup X) ≤ M.subgroupOf X := fun a ha =>
     mem_subgroupOf.mpr (hPM SG hSGX hSGp ⟨a, ha, rfl⟩)
   have hS'M : ((xX • S : Sylow p X) : Subgroup X) ≤ M.subgroupOf X := fun a ha =>
-    mem_subgroupOf.mpr (hPM _ (map_subtype_le _) ((xX • S).isPGroup'.map _) ⟨a, ha, rfl⟩)
+    mem_subgroupOf.mpr (hPM _ (map_subtype_le _) ((xX • S).isPGroup.map _) ⟨a, ha, rfl⟩)
   obtain ⟨h, hh, heq⟩ := exists_mem_eq_map_conj_of_sylow_le (xX • S) S hS'M hSM
   set n : G := ((h * xX : X) : G) with hn_def
   have hnX : n ∈ X := (h * xX).2

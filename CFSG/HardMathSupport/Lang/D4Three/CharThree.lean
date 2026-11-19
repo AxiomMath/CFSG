@@ -174,7 +174,7 @@ theorem twentySeven_dvd_fixedSubgroup_D4_char3_stable
       have e : (MulAut.conj g)⁻¹ (⟨(g : ModGL Tag.D4 K) * x * (g : ModGL Tag.D4 K)⁻¹, hxG'⟩ :
           ↥(adjointGroup Tag.D4 K)) = ⟨x, hxG⟩ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e] at h1
       exact (hmemH _).1 h1
   have hgB : (g : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K := by
@@ -296,7 +296,7 @@ theorem twentySeven_dvd_fixedSubgroup_D4_char3
     rw [h1, hS]
     exact map_inv_toMonoidHom_of_map_eq h1
   have key := twentySeven_dvd_fixedSubgroup_D4_char3_stable
-    (MulAut.conj h⁻¹ * α * MulAut.conj h) hα'3 hα'in H hP hU P.isPGroup'
+    (MulAut.conj h⁻¹ * α * MulAut.conj h) hα'3 hα'in H hP hU P.isPGroup
   rwa [card_fixedSubgroup_conj'] at key
 
 end CFSG.HardMathSupport.Lang.D4Three

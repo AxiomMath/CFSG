@@ -145,7 +145,7 @@ variable {G : Type} [Group G] [Finite G] {p f : ℕ} {z : G} {S : Sylow 2 G} {K�
 
 theorem ModelPic.N_ord (c : FiveCtx G p f z S K₁ K₂ t u)
     (pic : ModelPic z t u K₁ K₂ c.t_mem_Cz c.u_mem_Cz z' S' K₁' K₂' t' u' ψ)
-    (b66 : Five66W z t u K₁ K₂ H w₁) {x : G} (hxz : x * z * x⁻¹ = u) (hxu : x * u * x⁻¹ = z * u)
+    (b66 : Five66W z t u K₁ K₂ H w₁) {x : G} (_hxz : x * z * x⁻¹ = u) (_hxu : x * u * x⁻¹ = z * u)
     [(H.subgroupOf (NN z u)).Normal]
     (φ : ↥(NN z u) ⧸ H.subgroupOf (NN z u) ≃* Equiv.Perm (Fin 4)) :
     ∀ n ∈ NN z u, orderOf n = 3 ∨ IsPGroup 2 ↥(zpowers n) := by

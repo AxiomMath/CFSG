@@ -18,6 +18,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_symm_map (e : MulAut G) (H : Subgroup G) :
     (H.map e.symm.toMonoidHom).map e.toMonoidHom = H := by
   simpa using map_automorphism_symm_map H e.symm

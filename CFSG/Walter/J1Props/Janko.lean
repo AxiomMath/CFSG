@@ -152,7 +152,7 @@ theorem card_sylow_of_mem (S : Sylow 2 G) (htS : h.t ∈ S) : Nat.card (S : Subg
   have h1 := Subgroup.relIndex_mul_card ((S : Subgroup G) ⊓ h.F) S
   rw [h.relIndex_inf_F S htS, inf_assoc, inf_comm h.F, ← inf_assoc, inf_idem] at h1
   have hV4 : Nat.card ((S : Subgroup G) ⊓ h.F : Subgroup G) ∣ 4 :=
-    A5Sub.card_dvd_four_of_isPGroup h.iso inf_le_right (S.isPGroup'.to_le inf_le_left)
+    A5Sub.card_dvd_four_of_isPGroup h.iso inf_le_right (S.isPGroup.to_le inf_le_left)
   have h8 : 8 ∣ Nat.card (S : Subgroup G) := by
     have : 2 ^ 3 ∣ Nat.card G := by
       have := Subgroup.card_subgroup_dvd_card (Subgroup.centralizer ({h.t} : Set G))
@@ -172,7 +172,7 @@ theorem mul_self_of_mem_sylow (S : Sylow 2 G) (htS : h.t ∈ S) {x : G} (hx : x 
     x * x = 1 := by
   have hF : ∀ y ∈ (S : Subgroup G) ⊓ h.F, y * y = 1 := by
     intro y hy
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy.1⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy.1⟩
     have hk' := congrArg Subtype.val hk
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at hk'
     rw [← pow_two]
@@ -359,7 +359,7 @@ theorem eq_top_of_odd_index (G₁ : Subgroup G) [hG₁ : G₁.Normal] (hodd : Od
   have hSG : (S : Subgroup G) ≤ G₁ := (h.sylow_le_centralizer S htS).trans hCG
   have hab : HasAbelianSylowTwo G₁ := by
     intro Q
-    obtain ⟨S', hS'⟩ := (Q.isPGroup'.map G₁.subtype).exists_le_sylow
+    obtain ⟨S', hS'⟩ := (Q.isPGroup.map G₁.subtype).exists_le_sylow
     have hc := h.abelian_sylow S'
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha : ((a : G₁) : G) ∈ (S' : Subgroup G) := hS' ⟨a, a.2, rfl⟩

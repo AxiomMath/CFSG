@@ -525,12 +525,12 @@ theorem ggF4_exists_conj_of_cover
   have hLval : (tL' : MulAut ↥Bs) = tL := rfl
   have ht'val : ∀ i ∈ S, (t' i : MulAut ↥Bs) = t i := by
     intro i hi
-    rw [show t' i = ⟨t i, htA i hi⟩ from dif_pos (htA i hi)]
+    rw [show t' i = ⟨t i, htA i hi⟩ from dite_eq_left (htA i hi)]
   have hL' : R.IsRefl tL' := (F4Rep.isRefl_iff hRs).2 (hconv tL hLA hL)
   have hK' : R.IsRefl tK' := (F4Rep.isRefl_iff hRs).2 (hconv tK hKA hK)
   have ht' : ∀ i ∈ S, R.IsRefl (t' i) := by
     intro i hi
-    rw [show t' i = ⟨t i, htA i hi⟩ from dif_pos (htA i hi)]
+    rw [show t' i = ⟨t i, htA i hi⟩ from dite_eq_left (htA i hi)]
     exact (F4Rep.isRefl_iff hRs).2 (hconv (t i) (htA i hi) (ht i hi))
   have hcomm' := ggF4Endpoint_hcomm' S tL' hLval t' ht'val hcomm
   have hplane' :=

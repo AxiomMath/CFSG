@@ -18,6 +18,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem u81_mem_centralizer_barImage_closure {M : Subgroup G} {s : Set G} (hs : s ⊆ M)
     {z : Bar2 M}
     (h : ∀ g (hg : g ∈ s), uc22p21cPi M ⟨g, hs hg⟩ * z = z * uc22p21cPi M ⟨g, hs hg⟩) :
@@ -37,7 +38,7 @@ variable {D : Data G} {L K : Subgroup G} {n : ℕ}
 
 theorem u81_exists_mem_bar (u : U4X D L K n) :
     ∃ z ∈ barImage D.M L, orderOf z = n := by
-  haveI : Fact n.Prime := ⟨u.prime_n⟩
+  have : Fact n.Prime := ⟨u.prime_n⟩
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv u.hL
   have hdvd : n ∣ Nat.card ↥(barImage D.M L) := by
     rw [← Nat.card_congr e.toEquiv]
@@ -106,7 +107,7 @@ theorem normalizer_pair_le (hb : U81Basis D L K n B b)
     (u : U4X D L K n) (hBM : B ≤ D.M) (h847 : F08.R847 D) (he : 3 < CFSG.Open.evenRank G)
     (h869 : F08.R869NS5 D) (hsp : IsStronglyPEmbedded n D.M) (hfour : 4 ≤ CFSG.Open.pRank n D.M)
     (i j : Fin 3) : normalizer ((closure {b i, b j} : Subgroup G) : Set G) ≤ D.M := by
-  haveI : Fact n.Prime := ⟨u.prime_n⟩
+  have : Fact n.Prime := ⟨u.prime_n⟩
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   obtain ⟨k, hki, hkj⟩ : ∃ k : Fin 3, k ≠ i ∧ k ≠ j := by
     revert i j

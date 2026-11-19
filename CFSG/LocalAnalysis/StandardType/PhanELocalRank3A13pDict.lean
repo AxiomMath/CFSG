@@ -25,6 +25,7 @@ theorem gram_zero_right (u : Fin 4 → K) : gram f u 0 = 0 := by
 theorem ne_zero_of_aniso {u : Fin 4 → K} (hu : Aniso f u) : u ≠ 0 :=
   fun h => hu (by rw [h]; exact plb_hh_zero_right (f := f) 0)
 
+omit [Finite K] [CharP K 2] in
 private theorem plb_linearIndependent_pair {x y : Fin 4 → K} (hx : x ≠ 0) (hy : y ≠ 0)
     (hne : Submodule.span K {x} ≠ Submodule.span K {y}) :
     ∀ a b : K, a • x + b • y = 0 → a = 0 ∧ b = 0 := by
@@ -71,6 +72,7 @@ private theorem plb_mem_perpB_sup_of {x y u : Fin 4 → K} (hux : hh f x u = 0)
   rw [hux, huy, hh_of_mem_Vsub_left (f := f) hv]
   ring
 
+omit [Finite K] [CharP K 2] in
 private theorem plb_inf_eq_bot_iff {A B : Submodule K (Fin 4 → K)} (hA : finrank K A = 1) :
     A ⊓ B = ⊥ ↔ ¬ A ≤ B := by
   constructor
@@ -97,6 +99,7 @@ private theorem plb_inf_eq_bot_iff {A B : Submodule K (Fin 4 → K)} (hA : finra
     have h0 : finrank K ↥(A ⊓ B) = 0 := by omega
     exact hne (Submodule.finrank_eq_zero.mp h0)
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_sup_sup_eq_three {a b t : Submodule K (Fin 4 → K)} (ha : BPt a) (hb : BPt b)
     (ht : BPt t) (hab : a ≠ b) (htab : ¬ t ≤ a ⊔ b) :
     finrank K ↥(a ⊔ b ⊔ t) = 3 := by
@@ -119,6 +122,7 @@ theorem span_ne_of_gram_ne {x y : Fin 4 → K} (hg : gram f x y ≠ 0) :
   obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hy_mem
   rw [← hc, gram_smul_right, gram_self, mul_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem map_tailProj_sup_Vsub (S : Submodule K (Fin 4 → K)) :
     S.map tailProj ⊔ Vsub 4 1 = S ⊔ Vsub 4 1 := by
   have hcomp : tailProj.comp tailProj = (tailProj : (Fin 4 → K) →ₗ[K] (Fin 4 → K)) := by
@@ -135,6 +139,7 @@ theorem admT_D13p : AdmT (D13p (K := K) f) = Adm13p (K := K) f := by
   funext p L H
   simp only [AdmT, D13p, Adm13p, map_tailProj_sup_Vsub]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_vec_of_BPt {u : Submodule K (Fin 4 → K)} (hu : BPt u) :
     ∃ x : Fin 4 → K, x 0 = 0 ∧ x ≠ 0 ∧ u = Submodule.span K {x} := by
   have hu' : u ≤ Vtail ∧ finrank K u = 1 := hu

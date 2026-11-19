@@ -13,7 +13,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 theorem sporadicCase_Co2 : SporadicCase .Co2 :=
   sporadicCase_of_comps
-    (fun G _ _ ⟨e⟩ t ht B hB =>
+    (fun _G _ _ ⟨e⟩ t ht B hB =>
       absurd hB (CTI_Co2_involution_centralizers_have_no_components e t ht B))
     (outer_of_forall_inner
       (mem_inner_of_mulEquiv co2PermEquiv CTUC_Co2_full_automorphisms_inner))

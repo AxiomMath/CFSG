@@ -27,10 +27,12 @@ private lemma plv_pev_gramTuple (c a b : Fin 4 → K) (s : K) :
   rw [gram_comb]
   simp only [pev, plv_gramTuple]
 
+omit [Finite K] [CharP K 2] in
 private lemma plv_pev_zero (c : K × K × K × K) : pev (2 ^ f) c 0 = c.2.2.2 := by
   have hq0 : (2 : ℕ) ^ f ≠ 0 := pow_ne_zero f (by norm_num)
-  simp [pev, hq0]
+  simp [pev]
 
+omit [Finite K] [CharP K 2] in
 private lemma plv_pev_s (s : K) : pev (2 ^ f) ((0, 0, 1, 0) : K × K × K × K) s = s := by
   simp [pev]
 
@@ -86,7 +88,7 @@ theorem exists_nbr_vec (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) {u : F
   have hc₂ : plv_gramTuple f u a b ≠ 0 := plv_gramTuple_ne_zero_of_aniso f hK hu hab
   obtain ⟨s, h₁, h₂, -⟩ := exists_avoid f hK hq hc₁ hc₂ hc₂
   refine ⟨s • a + b, ?_, ?_, ?_⟩
-  · simp [a, b, Pi.single_apply]
+  · simp [a, b]
   · show hh f (s • a + b) (s • a + b) ≠ 0
     rw [← plv_pev_hhTuple f a b s]
     exact h₁
@@ -103,7 +105,7 @@ theorem nbr3_vec (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) {u c d : Fin
     intro h0
     have h1 : (1 : K) = 0 := by
       have := congrArg (fun t : K × K × K × K => t.2.2.1) h0
-      simpa using this
+      simp at this
     exact one_ne_zero h1
   obtain ⟨s, h₁, h₂, h₃⟩ := exists_avoid f hK hq hc₁ hc₂ hc₃
   have hs : s ≠ 0 := fun hs0 => h₃ (by rw [hs0, plv_pev_s f 0])

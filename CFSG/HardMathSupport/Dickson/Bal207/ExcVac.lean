@@ -34,11 +34,11 @@ theorem bal207PlusFamClauses_of_noComp {X : Type} [Group X] {p : ℕ} {K B A : S
 theorem excVac_false_of_solvable {G : Type} [Group G] [Finite G] {p : ℕ} {X I : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hI : GLAPComponent p X I) : False := by
   have hIX : I ≤ X := hI.1
-  haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIX)
       (Subgroup.inclusion_injective hIX)
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
   exact Group.IsPerfect.not_isSolvable (G := ↥I) inferInstance
 
 theorem excVac_mulAut_eq_one {Y : Type*} [Group Y] (hperf : commutator Y = ⊤)

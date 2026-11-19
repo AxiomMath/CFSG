@@ -30,15 +30,18 @@ theorem sq_eq_one_F {a : F} (h : a ^ 2 = 1) : a = 1 := by
 
 variable {F}
 
+omit [CharP F 2] in
 theorem tm_mul (α β α' β' : F) :
     tm F α β * tm F α' β' = tm F (α * α' + β * β') (α * β' + β * α' + β * β') := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [tm, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
+omit [CharP F 2] in
 theorem tm_one : tm F 1 0 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [tm]
 
+omit [CharP F 2] in
 theorem tm_transpose (α β : F) : (tm F α β)ᵀ = tm F α β := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [tm]

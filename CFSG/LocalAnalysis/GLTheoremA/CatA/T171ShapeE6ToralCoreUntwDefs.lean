@@ -23,9 +23,9 @@ noncomputable abbrev e6RecipeConj
 @[expose] def E6ToralComponentAction :
     Prop :=
   ∀ (n : ℕ) (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
-    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (hwd3 : wd ^ 3 = 1)
-      (hwd1 : wd ≠ 1) (hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n), 3 ∣ 2 ^ n - 1 →
+    ∀ (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)) (_hwd3 : wd ^ 3 = 1)
+      (_hwd1 : wd ≠ 1) (_hwb3 : wb ^ 3 = 1) (w : WeylGroup Tag.E6)
       (g0 : ModGL Tag.E6 (AlgebraicClosure K)),
       g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure K) →
       entrywiseFrobGL Tag.E6 (AlgebraicClosure K) 2 n g0 =
@@ -46,7 +46,7 @@ noncomputable abbrev e6RecipeConj
     Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L J A : Subgroup G) (d b : G) (n : ℕ)
     (K : Type) [Field K] [Finite K] [CharP (AlgebraicClosure K) 2]
-    (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n),
+    (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n),
     3 ∣ 2 ^ n - 1 → Setup 3 L J A d b →
     ∀ (θ : ↥L ⧸ Subgroup.center ↥L ≃* TableBExc.RecipeGroup Tag.E6 K)
       (wd wb : ↥(TableBExc.E6Three.hatGroup Tag.E6 K)),

@@ -162,8 +162,8 @@ theorem BlockData.exists_le_of_perfect_subnormal {C Y : Subgroup X} {y : X}
   have hperf : ∀ N : Subgroup X, IsQuasisimple N → Group.IsPerfect N := fun N hq => hq.1
   have hns : ∀ N : Subgroup X, IsQuasisimple N → ¬ Group.IsSolvable N := by
     intro N hq hsol
-    haveI := isQuasisimple_nontrivial hq
-    haveI := hq.1
+    have := isQuasisimple_nontrivial hq
+    have := hq.1
     exact Group.IsPerfect.not_isSolvable N hsol
   rcases hdich N₁ hN₁ hn₁ hq₁ with h₁ | h₁
   · exact ⟨N₁, h₁, hn₁, hperf N₁ hq₁, hns N₁ hq₁, hy₁⟩

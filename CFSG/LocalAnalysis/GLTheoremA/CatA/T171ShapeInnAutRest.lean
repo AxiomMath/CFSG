@@ -68,7 +68,7 @@ theorem innAutDerivedInnDiag_rest : InnAutDerivedInnDiag RestIndex := by
       obtain ⟨hn, hq2⟩ := hi
       have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
         ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
-      simp only [TauCeti.LieTypeIndex.inStandardRange_iff] at hr
+      simp only at hr
       exact absurd hq2 hr.2
     | D n q =>
       obtain ⟨hn, hq2⟩ := hi

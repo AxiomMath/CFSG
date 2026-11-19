@@ -72,7 +72,7 @@ theorem exists_secD_fix [IsAlgClosed L] {q : ℕ} (hq : 2 ≤ q) {Fr : L →+* L
   rw [map_secD, secD_mul]
   congr 1
   refine Units.ext ?_
-  simp only [Units.val_mul, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [Units.val_mul, Units.coe_map, RingHom.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     Units.val_mk0, hFr]
   have hq1 : ν ^ q = ν ^ (q - 1) * ν := by
     rw [← pow_succ]

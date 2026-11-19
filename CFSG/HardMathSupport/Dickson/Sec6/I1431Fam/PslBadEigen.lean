@@ -55,12 +55,13 @@ section Good
 
 variable {K : Type*} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem exists_eigenspace_two_of_good {A : GL (Fin 3) K}
-    (hsq : Squarefree (minpoly K (glA A : Module.End K (Fin 3 → K)))) {h : K[X]}
+    (_hsq : Squarefree (minpoly K (glA A : Module.End K (Fin 3 → K)))) {h : K[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End K (Fin 3 → K))) (hgood : IsGoodFactor A h) :
     ∃ c : K, 2 ≤ Module.finrank K
       (Module.End.eigenspace (glA A : Module.End K (Fin 3 → K)) c) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hm2 : 2 ≤ primaryMultiplicity (glA A : Module.End K (Fin 3 → K)) h := by
     rcases hgood with h3 | ⟨h2, -⟩
     · omega

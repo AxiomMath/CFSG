@@ -23,9 +23,9 @@ theorem eInvFour_of_conj_data {Ē : Subgroup (MulAut C)}
     intro v
     constructor
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
   refine ⟨W', CFSG.Open.IsElemAbelian.map hW _, ?_, ?_, ?_⟩
   · rw [hW', Subgroup.card_map_of_injective (show Function.Injective
       (MulAut.conj g⁻¹).toMonoidHom from (MulAut.conj g⁻¹).injective), hW4]

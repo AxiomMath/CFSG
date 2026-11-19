@@ -13,7 +13,7 @@ open CFSG.StandardType CFSG.Open CFSG.Assembly SpCoord
 variable {G : Type} [Group G] [Finite G]
 
 theorem hdRo7CKCoordAux_ggGamma_mem_conj_range (p : ℕ) (B Bs : Subgroup G) (x : G)
-    (L D J : Subgroup G) (y : G) (K : Subgroup G) (hH : GGResHyp p B Bs x L D J y K)
+    (L D J : Subgroup G) (y : G) (K : Subgroup G) (_hH : GGResHyp p B Bs x L D J y K)
     (R : Type) [Group R] (I : Set (MulAut R)) (θ : ↥K ⧸ Subgroup.center ↥K ≃* R)
     (hI : I ⊆ Set.range (MulAut.conj : R →* MulAut R)) (hZK : Subgroup.center ↥K = ⊥)
     (hBsN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -85,6 +85,7 @@ theorem hdRo7CKCoordAux_hinner (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Su
   rw [← h2, ← h3]
   exact (congrArg Subtype.val h1).symm
 
+omit [Finite G] in
 private lemma hdRo7CKCoordAux_eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) {z : G} (hzX : z ∈ X)
     (hzC : z ∈ Subgroup.centralizer (X : Set G)) : z = 1 := by
@@ -112,6 +113,7 @@ private def hdRo7CKCoordAux_prodHom (Bs X : Subgroup G) :
       _ = (q.1 : G) * ((q.2 : G) * (r.1 : G)) * (r.2 : G) := by rw [h]
       _ = ((q.1 : G) * (q.2 : G)) * ((r.1 : G) * (r.2 : G)) := by group
 
+omit [Finite G] in
 private lemma hdRo7CKCoordAux_prodHom_bijective {p : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center X = ⊥)
     (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))

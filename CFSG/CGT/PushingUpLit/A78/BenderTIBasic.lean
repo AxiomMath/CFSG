@@ -69,7 +69,7 @@ theorem fusionStronglyEmbedded_normalizer_of_ti (S : Sylow 2 X)
   refine ⟨fun htop => hnn (normalizer_eq_top_iff.mp htop), ?_, ?_⟩
   · have hdvd : Nat.card (S : Subgroup X) ∣ Nat.card (normalizer ((S : Subgroup X) : Set X)) :=
       Subgroup.card_dvd_of_le le_normalizer
-    obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     have hn0 : n ≠ 0 := by
       rintro rfl
       exact hS1 (Subgroup.card_eq_one.mp (by simpa using hn))
@@ -127,13 +127,13 @@ theorem exists_sylow_eq_of_forall_mem_normalizer {Z : Subgroup X} (hZ : IsPGroup
     intro x hx
     have := (Subgroup.subgroupOf_eq_top.mp htop)
     exact this hx
-  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := (P : Subgroup X))
   have hlt2 := hnc _ hlt
   obtain ⟨y, hyN, hyZ⟩ := IsConcreteLE.exists_of_lt hlt2
   refine hyZ ?_
   have hy2 : ∃ k : ℕ, (y : X) ^ 2 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' y
+    obtain ⟨k, hk⟩ := P.isPGroup y
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hyn : (y : X) ∈ normalizer (Z : Set X) := by
     rw [Subgroup.mem_normalizer_iff] at hyN ⊢

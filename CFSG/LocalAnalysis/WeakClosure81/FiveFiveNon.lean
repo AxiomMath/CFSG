@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conj_mem_of_normal_subgroupOf {X N : Subgroup G} (hNX : N ≤ X)
     (hN : (N.subgroupOf X).Normal) {g n : G} (hg : g ∈ X) (hn : n ∈ N) :
     g * n * g⁻¹ ∈ N := by
@@ -26,7 +27,7 @@ theorem five_five_nonabelian {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : ma
   have hmin := hX.2.2.2
   have hHXA : H = X ⊔ A := five_four_one hM (by rw [hK]; exact hX)
   obtain ⟨S, hSX, hSn, hSsimple, hSnab⟩ := exists_simple_normal_of_isMinNormalOver hX hnab
-  haveI := hSsimple
+  have := hSsimple
   have hSbot : S ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot S).1 (inferInstance : Nontrivial ↥S)
   have hAnorm : A ≤ Subgroup.normalizer (S : Set G) := by
     intro a ha
@@ -60,11 +61,12 @@ theorem five_five_nonabelian {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : ma
     · exact hS
   rwa [← hSXeq]
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot_of_isSimpleGroup {H A X : Subgroup G} (hA : IsElemAbelian 2 A)
     (hAH : A ≤ H) (hXH : X ≤ H) (hX : (X.subgroupOf H).Normal) (hH : H = X ⊔ A)
     (hO2 : pCoreOf 2 H = ⊥) (hsimple : IsSimpleGroup ↥X)
     (hnab : ¬ ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) : H ⊓ Subgroup.centralizer (X : Set G) = ⊥ := by
-  haveI := hsimple
+  have := hsimple
   set C : Subgroup G := H ⊓ Subgroup.centralizer (X : Set G) with hCdef
   have hCn : (C.subgroupOf H).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -102,7 +104,7 @@ theorem inf_centralizer_eq_bot_of_isSimpleGroup {H A X : Subgroup G} (hA : IsEle
         rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hcomm]
         group
       exact ⟨by rw [hval]; exact hnC, by rw [hval]; exact hnX⟩
-    haveI : ((C ⊓ X).subgroupOf X).Normal := hZn
+    have : ((C ⊓ X).subgroupOf X).Normal := hZn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((C ⊓ X).subgroupOf X) with hZ | hZ
     · refine le_bot_iff.mp fun z hz => ?_
       have hzZ : (⟨z, hz.2⟩ : ↥X) ∈ (C ⊓ X).subgroupOf X := Subgroup.mem_subgroupOf.2 hz

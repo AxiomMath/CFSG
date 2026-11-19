@@ -142,8 +142,8 @@ theorem false_of_classicalModel_pomega {G : Type} [Group G] [Finite G] {t : Stat
     hinner hβ5
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, hK, -, ⟨eG⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_projOrth_model_card (Or.inr ht) hG
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : Nontrivial V := by
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : Nontrivial V := by
     obtain ⟨U, hU, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by have := Submodule.finrank_le U; omega)
   set ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=

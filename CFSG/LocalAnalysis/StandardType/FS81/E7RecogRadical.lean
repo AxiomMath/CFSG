@@ -44,9 +44,9 @@ private theorem fs81_radicalOdd_T1_le {X : Type} [Group X] [Finite X]
   have hT₁T₀ : T₀ ≤ T₁ := by
     rw [hT₁, hT₀]
     exact le_inf inf_le_left Subgroup.le_normalizer
-  haveI : Group.IsNilpotent ↥T₁ :=
+  have : Group.IsNilpotent ↥T₁ :=
     IsPGroup.isNilpotent (hT2.to_le (by rw [hT₁]; exact inf_le_left))
-  have hsol : IsSolvable ↥T₁ := IsNilpotent.to_isSolvable
+  have hsol : Group.IsSolvable ↥T₁ := IsNilpotent.to_isSolvable
   exact le_of_l3TwoFixedPointFree hT₁T₀ (by rw [hT₁]; exact inf_le_right)
     (hPY.trans hYNT₁) (hPY.trans hYNT₀) hP hb₀P hb₀3 hsol hfpf
 
@@ -61,8 +61,8 @@ private theorem fs81_radicalOdd_core {X : Type} [Group X] [Finite X]
       Subgroup.centralizer ({b₀} : Set X) ⊓ Y ≤ Subgroup.normalizer (N : Set X) → N = ⊥)
     (hb₀3 : orderOf b₀ = 3) (hb₀P : b₀ ∈ P) (hPY : P ≤ Y)
     (hP : Nonempty (↥P ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)))
-    (htR : t ∈ R) (ht2 : orderOf t = 2)
-    (hchar : CharTwo (Subgroup.centralizer ({t} : Set X))) :
+    (htR : t ∈ R) (_ht2 : orderOf t = 2)
+    (_hchar : CharTwo (Subgroup.centralizer ({t} : Set X))) :
     pCoreOf 2 (Subgroup.centralizer ({t} : Set X)) =
       pCoreOf 2 (Subgroup.centralizer ({t} : Set X)) ⊓ Subgroup.centralizer (Y : Set X) := by
   classical

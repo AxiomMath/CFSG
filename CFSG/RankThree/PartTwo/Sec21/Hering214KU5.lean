@@ -72,8 +72,7 @@ theorem diagU_mul_xr (d : Fin 5 → Kˣ) (c : K) :
   simp only [Units.val_mul, diagU_val, xr_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.single_apply,
-      Fin.sum_univ_five] <;> field_simp
+    simp [Matrix.mul_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.single_apply]; field_simp
 
 theorem xr_eq_one_iff {c : K} : xr c = 1 ↔ c = 0 := by
   constructor
@@ -111,6 +110,7 @@ section Main
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_cube_root (hK : Nat.card K = (2 ^ 2) ^ 2) : ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
   classical
   have hc : Nat.card Kˣ = 15 := by
@@ -118,7 +118,7 @@ theorem exists_cube_root (hK : Nat.card K = (2 ^ 2) ^ 2) : ∃ ω : Kˣ, ω ^ 3 
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
     norm_num
   have h3 : 3 ∣ Nat.card Kˣ := by rw [hc]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h3
   refine ⟨ω, ?_, ?_⟩
   · rw [← hω]; exact pow_orderOf_eq_one ω
@@ -146,7 +146,7 @@ theorem eInvNine_statedSU_five (hK : Nat.card K = (2 ^ 2) ^ 2)
     (hsyl : ∀ P : Sylow 3 (StatedProj (StatedSU 5 (2 ^ 2) K)), Nat.card P = 9) :
     EInvNine (StatedProj (StatedSU 5 (2 ^ 2) K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ω, hω3, hω1⟩ := exists_cube_root hK
   have hσω : CFSG.LieType.BorelTits.unitaryInvolution K 2 2 (ω : K) = ω := sigma_eq_self hω3
   set σ := CFSG.LieType.BorelTits.unitaryInvolution K 2 2 with hσdef
@@ -299,7 +299,7 @@ section Final
 open CFSG.PGLModel (projSUEquivStatedProj isSimpleGroup_projSU_of_admissible)
 
 theorem eInvNine_projSU_five_four : EInvNine (projSU 5 2 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := GaloisField 2 (2 * 2) with hKdef
   have hK : Nat.card K = (2 ^ 2) ^ 2 := U4Lines.card_galoisField_two_mul 2 (by norm_num)
   have hadm : StatedLieAdmissible .PSU 5 2 2 :=

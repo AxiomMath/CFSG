@@ -18,6 +18,7 @@ open CFSG.GroupTheory.ThreeTranspositions (HasE9)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem n924x_opp_le_self (p : ℕ) (Y : Subgroup G) : Opp p Y ≤ Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
   exact (closure_le Y).2 fun _ hx => hx.1
@@ -58,8 +59,8 @@ theorem I9_le_of_hyp97_L2_4n (D : Data G) (hK462 : UCK.K462)
     (hn : 1 < n) (hL2 : IsL2 (Bar2 X) (2 * n)) (hXp : ⁅X, X⁆ = X)
     (hSH : CFSG.ABGLocalTools.IsSylowOf 2 S H) (hXY : (X.subgroupOf Y).Normal)
     (hHt : H ≠ ⊤) : F09.I9 H ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hIM
   obtain ⟨⟨hY9, hH9, hD₃X, hZ3⟩, -, -, hSY⟩ := hyp
   have hYH : Y ≤ H := hH9.1
@@ -113,7 +114,7 @@ theorem I9_le_of_hyp97_L2_4n (D : Data G) (hK462 : UCK.K462)
       rw [Subgroup.le_normalizer_iff]
       intro u hu w hw
       exact hUW.2.2.2.1 u hu w hw
-    haveI hWn : (W.subgroupOf U).Normal :=
+    have hWn : (W.subgroupOf U).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hUW.1.le).mpr hUWn
     have hP : IsPGroup 2 (↥U ⧸ W.subgroupOf U) := by
       intro g
@@ -143,7 +144,7 @@ theorem I9_le_of_hyp97_L2_4n (D : Data G) (hK462 : UCK.K462)
       fun u hu h => hfix u (hU₁U hu) h
     obtain ⟨N, hNn, hN3, hcases⟩ :=
       chief_quot_cases_odd hK462 hKK hE9X hXp hZX hZ3 hXgen hr hr2 hUW₁ hfix₁
-    haveI : N.Normal := hNn
+    have : N.Normal := hNn
     exact false_of_odd_quot (Q := ↥X) hn hL2 N hN3 hcases
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

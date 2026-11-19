@@ -104,7 +104,7 @@ theorem exists_elemAbelian_inner_trivial {p k m : ℕ} [Fact p.Prime] (hmk : m �
     have := Subgroup.card_dvd_of_le hle
     rwa [Nat.card_zpowers, hw] at this
   have hAk : p ^ k ∣ Nat.card φ.range := pow_dvd_card_range hQ φ hker_dvd
-  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   obtain ⟨D, hDA, hD, hDc⟩ := exists_isElemAbelian_card hA ((pow_dvd_pow p hmk).trans hAk)
   refine ⟨D, hD, hDc, ?_⟩
   rw [eq_bot_iff]
@@ -117,8 +117,8 @@ theorem no_elemAbelian_three_cube (hOut : SporadicOuterLeTwo) (hRank : LieOuterR
     {D : Subgroup (MulAut (K ⧸ Subgroup.center K))} (hD : IsElemAbelian 3 D)
     (hc : Nat.card D = 3 ^ 3) (hin : D ⊓ innerAut (K ⧸ Subgroup.center K) = ⊥) : False := by
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hinj : Function.Injective
       ((QuotientGroup.mk' (inner (K ⧸ Subgroup.center K))).comp D.subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

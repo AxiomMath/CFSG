@@ -163,7 +163,7 @@ theorem fieldInnerT_Ly_five {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     set R : Subgroup T := (S : Subgroup ↥E).map E.subtype with hR
     have hcardR : Nat.card R = Nat.card (S : Subgroup ↥E) :=
       Subgroup.card_map_of_injective E.subtype_injective
-    have hR2 : IsPGroup 2 R := (S.isPGroup').map E.subtype
+    have hR2 : IsPGroup 2 R := (S.isPGroup).map E.subtype
     have hbR : ∀ u ∈ R, b * u * b⁻¹ = u := by
       rintro _ ⟨s, hs, rfl⟩
       exact (hbfix _).1 (hE.1 s.2)

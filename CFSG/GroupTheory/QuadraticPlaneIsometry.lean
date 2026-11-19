@@ -18,7 +18,7 @@ theorem isometry_commute_or_inv_of_det_eq_one (h2 : (2 : F) ≠ 0)
     (∀ r : W ≃ₗ[F] W, r ∈ orthogonalGroup Q → LinearEquiv.det r = 1 → s * r = r * s) ∨
     (∀ r : W ≃ₗ[F] W, r ∈ orthogonalGroup Q → LinearEquiv.det r = 1 →
       s * r * s⁻¹ = r⁻¹) := by
-  haveI : FiniteDimensional F W := .of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional F W := .of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨l, -, -, -, hdet⟩ := exists_det_eq_neg_one_pow h2 hQ hs
   rcases Nat.even_or_odd l.length with he | ho
   · left

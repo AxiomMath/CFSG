@@ -45,7 +45,7 @@ theorem sylow_in_intermediate {G : Type*} [Group G] [Finite G]
       (restricted : Subgroup intermediate).map intermediate.subtype = (sylow : Subgroup overgroup).map overgroup.subtype := by
   let image := (sylow : Subgroup overgroup).map overgroup.subtype
   let localSubgroup := image.subgroupOf intermediate
-  have htwo : IsPGroup 2 localSubgroup := (sylow.isPGroup'.map overgroup.subtype).comap_subtype
+  have htwo : IsPGroup 2 localSubgroup := (sylow.isPGroup.map overgroup.subtype).comap_subtype
   have hmaximal : ∀ candidate : Subgroup intermediate, IsPGroup 2 candidate → localSubgroup ≤ candidate → candidate ≤ localSubgroup := by
     intro candidate hcandidateTwo hle
     let candidateImage := candidate.map intermediate.subtype
@@ -104,7 +104,7 @@ theorem forward {G : Type*} [Group G] [Finite G]
     rw [← OrbitBlockConjugation.normalizer]
     exact himageOverlap.trans inf_le_right
   obtain ⟨factor, hfactor, hnormalizes⟩ := fixed_factor conjugate hevenConjugate huniversalConjugate hquasisimpleConjugate
-    hoddConjugate image (sylow.isPGroup'.map overlap.subtype) himageNormalizer
+    hoddConjugate image (sylow.isPGroup.map overlap.subtype) himageNormalizer
   let original := UniversalOrbitBlock.conjugate factor actor⁻¹
   have horiginal : original ∈ UniversalOrbitBlock.block component := by
     have hback := (OrbitBlockConjugation.block conjugate factor actor⁻¹).mpr hfactor

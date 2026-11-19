@@ -43,7 +43,7 @@ theorem exists_small_invariant_set {H : Subgroup (Perm (Fin 7))} (h5 : ¬ 5 ∣ 
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
-  have hP2 : IsPGroup 2 (P : Subgroup ↥H) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup ↥H) := P.isPGroup
   have hmod := hP2.card_modEq_card_fixedPoints (Fin 7)
   have hfix : ∃ x₀ : Fin 7, ∀ g : (P : Subgroup ↥H), g • x₀ = x₀ := by
     have hpos : 0 < Nat.card ↥(MulAction.fixedPoints (P : Subgroup ↥H) (Fin 7)) := by

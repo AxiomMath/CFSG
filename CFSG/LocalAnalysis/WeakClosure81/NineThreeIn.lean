@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_subgroupOf_mem_omegaSet_top {U H E W : Subgroup G} {k : G}
     (hUH : U ≤ H) (hWH : W ≤ H) (hW : W = conjSubgroup U k) (hk : k ∈ H)
     (hEH : E ≤ H) (hEW : E ⊓ W ≠ ⊥) (hWO : ¬ W ≤ pCoreOf 2 H) :
@@ -38,6 +39,7 @@ private theorem nineThree_subgroupOf_mem_omegaSet_top {U H E W : Subgroup G} {k 
     have h2 := hle hmem
     rwa [Subgroup.mem_subgroupOf] at h2
 
+omit [Finite G] in
 private theorem nineThree_map_subtype_mem_omegaIn {V H E U : Subgroup G} {W' : Subgroup ↥H}
     (hU : U ∈ omegaIn V H E)
     (hW' : W' ∈ omegaSet (U.subgroupOf H) (⊤ : Subgroup ↥H) (E.subgroupOf H)) :

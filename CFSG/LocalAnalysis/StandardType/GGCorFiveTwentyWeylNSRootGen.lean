@@ -79,7 +79,7 @@ theorem GGRootGenNbrInputOnNS.toWeyl {S : ℕ → LargeEvenLabel → Prop}
 
 theorem ggHypDichotomyInputNS_of_lBalance (hL : GGLBalanceInput) (hP : GGStdSubPrimeInput) :
     GGHypDichotomyInputNS :=
-  fun G _ _ p B Bs x L D J hHyp _ _ _ t Jt hr hind hJC hpc =>
+  fun _G _ _ _p _B _Bs _x _L _D _J hHyp _ _ _ _t _Jt hr hind hJC hpc =>
     ggDichotomy_of_hyp hL hP hHyp hr hind hJC hpc
 
 theorem ggHypDichotomyInputNS_of_catalogueSchreier (hS : CatalogueRelativeB.CatalogueSchreier)
@@ -90,7 +90,7 @@ theorem ggExcReflInputNS_of_tb (hTB : GGExcReflTBInputNS) : GGExcReflInputNS := 
   intro G _ _ p B Bs x L D J hHyp hq hN hW
   have hp : p.Prime := hHyp.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hHyp.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJL : ggAutomizer J Bs ≤ ggAutomizer L Bs :=
     ggAutomizer_mono Bs (hHyp.1.2.2.1.2.2.2.2.2.1.1.trans inf_le_left)
   obtain ⟨T⟩ := hTB G p B Bs x L D J hHyp hq hN hW

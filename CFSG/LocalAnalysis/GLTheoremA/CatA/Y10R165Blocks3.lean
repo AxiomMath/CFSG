@@ -22,18 +22,20 @@ private theorem zpow_eq_pow_toNat {G : Type*} [Group G] {x : G} {q : ℕ} (hq : 
   congr 1
   rw [Int.toNat_of_nonneg (Int.emod_nonneg n (by exact_mod_cast hq.ne'))]
 
-theorem pow_blockEnd_eq_one (hp : p.Prime) (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A)
+omit [Fintype A] in
+theorem pow_blockEnd_eq_one (_hp : p.Prime) (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A)
     (D : Hyperplane A p) : ((t D : V ≃ₗ[F] V) ^ p) = 1 := by
   have h := map_pow A.subtype (t D) p
   rw [pow_eq_one A hA (t D), map_one] at h
   exact h.symm
 
-theorem exists_mul_pow_of_mem_sup_zpowers (hp : p.Prime) (hpF : (p : F) ≠ 0)
+omit [Fintype A] in
+theorem exists_mul_pow_of_mem_sup_zpowers (hp : p.Prime) (_hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     (a : ↥A) (D : Hyperplane A p) :
     ∃ (d : ↥A) (n : ℕ), d ∈ D.1 ∧ a = d * (t D) ^ n := by
-  haveI : IsMulCommutative ↥A := hA.1
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := fun a b => mul_comm' a b }
+  have : IsMulCommutative ↥A := hA.1
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := fun a b => mul_comm' a b }
   have htop : D.1 ⊔ Subgroup.zpowers (t D) = ⊤ := by
     refine HyperBlocks.sup_zpowers_eq hp le_top ?_ (Subgroup.mem_top (t D)) (ht D)
     rw [Subgroup.relIndex_top_right]
@@ -45,11 +47,11 @@ theorem exists_mul_pow_of_mem_sup_zpowers (hp : p.Prime) (hpF : (p : F) ≠ 0)
   rw [← hdu, show u = (t D) ^ n from hn.symm,
     zpow_eq_pow_toNat (G := ↥A) (x := t D) hp.pos (pow_eq_one A hA (t D)) n]
 
-theorem pow_blockEnd_apply_eq (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
-    (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p} {d : ↥A}
+theorem pow_blockEnd_apply_eq (_hp : p.Prime) (_hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
+    (t : Hyperplane A p → ↥A) (_ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p} {d : ↥A}
     (hd : d ∈ D.1) (n : ℕ) {w : V} (hw : w ∈ blockSpace A D.1) :
     (((d * (t D) ^ n : ↥A)) : V ≃ₗ[F] V) w = ((t D : V ≃ₗ[F] V) ^ n) w := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have h1 : (((d * (t D) ^ n : ↥A)) : V ≃ₗ[F] V)
       = (d : V ≃ₗ[F] V) * (((t D) ^ n : ↥A) : V ≃ₗ[F] V) := map_mul A.subtype d ((t D) ^ n)
   have h2 : (((t D) ^ n : ↥A) : V ≃ₗ[F] V) = (t D : V ≃ₗ[F] V) ^ n := map_pow A.subtype (t D) n
@@ -77,8 +79,8 @@ abbrev blockEndOf (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A) 
     (D : Hyperplane A p) : V ≃ₗ[F] V :=
   glue (isCompl_blockSpace_ker A hp hpF hA D)
     (restrictEquiv (blockSpace A D.1) (a : V ≃ₗ[F] V)
-      (fun u hu => blockSpace_invariant A hp hpF hA hu)
-      (fun u hu => blockSpace_invariant A hp hpF hA (a := a⁻¹) hu)) 1
+      (fun _u hu => blockSpace_invariant A hp hpF hA hu)
+      (fun _u hu => blockSpace_invariant A hp hpF hA (a := a⁻¹) hu)) 1
 
 theorem blockEndOf_apply_mem (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (a : ↥A) (D : Hyperplane A p) {u : V} (hu : u ∈ blockSpace A D.1) :

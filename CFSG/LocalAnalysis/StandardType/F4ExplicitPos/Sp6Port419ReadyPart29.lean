@@ -12,6 +12,7 @@ open CFSG CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType CFSG.Li
   CFSG.LieType.RootSystem CFSG.LieType.Steinberg CFSG.LieType.Steinberg.Adjoint
   CFSG.LieType.Universal.Symplectic CFSG.Timmesfeld.LieEmbed
 
+omit [CharP K 2] [Finite K] in
 theorem c3RootSubgroup_eq_rootGroup {γ : Fin 3 → ℤ}
     (hγ : γ ∈ roots (isFiniteType_cartanC 3) ∅) :
     c3RootSubgroup (K := K) γ
@@ -26,6 +27,7 @@ theorem c3RootSubgroup_eq_rootGroup {γ : Fin 3 → ℤ}
     obtain ⟨c, rfl⟩ := (hp.1 g).1 hg
     exact Subgroup.subset_closure ⟨c, rfl⟩
 
+omit [CharP K 2] [Finite K] in
 theorem iSup_c3RootSubgroup_eq_top :
     (⨆ γ ∈ roots (isFiniteType_cartanC 3) ∅, c3RootSubgroup (K := K) γ)
       = ⊤ := by
@@ -35,6 +37,7 @@ theorem iSup_c3RootSubgroup_eq_top :
     iSup_congr fun γ => iSup_congr fun hγ => c3RootSubgroup_eq_rootGroup (K := K) hγ]
   exact (CFSG.LieType.Universal.Symplectic.isCTGroupDatum 3 K).iSup_eq_top
 
+omit [CharP K 2] [Finite K] in
 theorem range_eq_rootSpan
     (ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K))
     (hι : ∀ γ c, ι (Sp.x 3 K γ c) = Adjoint.f4Par K (c3ToF4 γ) c) :

@@ -54,7 +54,7 @@ private theorem card_le_two_mul_card_stabilizer {K V : Type} [Field K] [AddCommG
     ∃ A0 : Subgroup (V ≃ₗ[K] V), (∀ t, t ∈ A0 ↔ t ∈ A ∧ ∀ w ∈ W, t w ∈ W) ∧
       Nat.card A ≤ 2 * Nat.card A0 := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V))
       (fun f g h => LinearEquiv.ext (congrFun h))
   let A0 : Subgroup (V ≃ₗ[K] V) :=
@@ -73,7 +73,7 @@ private theorem card_le_two_mul_card_stabilizer {K V : Type} [Field K] [AddCommG
     omega
   · have hle : A0 ≤ A := fun t ht => ht.1
     have hlt : A0 < A := lt_of_le_of_ne hle hA0
-    obtain ⟨s₀, hs₀A, hs₀A0⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨s₀, hs₀A, hs₀A0⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hs₀not : ¬ ∀ w ∈ W, s₀ w ∈ W := fun h => hs₀A0 ⟨hs₀A, h⟩
     have hs₀swap : (∀ w ∈ W, s₀ w ∈ W') ∧ (∀ w ∈ W', s₀ w ∈ W) := by
       rcases hdich s₀ hs₀A with h | h
@@ -94,15 +94,15 @@ private theorem card_le_two_mul_card_stabilizer {K V : Type} [Field K] [AddCommG
       intro t t' h
       by_cases ht : (t : V ≃ₗ[K] V) ∈ A0
       · by_cases ht' : (t' : V ≃ₗ[K] V) ∈ A0
-        · simp only [f, dif_pos ht, dif_pos ht'] at h
+        · simp only [f, dite_eq_left ht, dite_eq_left ht'] at h
           have h1 : (⟨t, ht⟩ : A0) = ⟨t', ht'⟩ := Sum.inl_injective h
           exact Subtype.ext (congrArg (fun x : A0 => (x : V ≃ₗ[K] V)) h1)
-        · simp only [f, dif_pos ht, dif_neg ht'] at h
+        · simp only [f, dite_eq_left ht, dite_eq_right ht'] at h
           exact absurd h (by simp)
       · by_cases ht' : (t' : V ≃ₗ[K] V) ∈ A0
-        · simp only [f, dif_neg ht, dif_pos ht'] at h
+        · simp only [f, dite_eq_right ht, dite_eq_left ht'] at h
           exact absurd h (by simp)
-        · simp only [f, dif_neg ht, dif_neg ht'] at h
+        · simp only [f, dite_eq_right ht, dite_eq_right ht'] at h
           have h1 : (⟨s₀ * t, _⟩ : A0) = ⟨s₀ * t', _⟩ := Sum.inr_injective h
           have h2 : s₀ * (t : V ≃ₗ[K] V) = s₀ * (t' : V ≃ₗ[K] V) :=
             congrArg (fun x : A0 => (x : V ≃ₗ[K] V)) h1
@@ -145,6 +145,7 @@ private theorem card_le_of_flag_restriction {K V W : Type} [Field K] [Finite K]
       CFSG.LinearAlgebra.card_le_of_commute_of_flag Ahat hcommA hH hℓ hℓH h1' h2' h3'
 
 open CFSG.ComponentClassification.CatalogueBOrthogonalStabilizerRigidity in
+omit [Finite K] [CharP K 2] in
 private theorem eq_orthogonal_of_totallySingular {V : Type} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (Qf : QuadraticForm K V)
     (hnd : ∀ x : V, (∀ y, QuadraticMap.polar Qf x y = 0) → x = 0)
@@ -155,6 +156,7 @@ private theorem eq_orthogonal_of_totallySingular {V : Type} [AddCommGroup V] [Mo
     have hfin' := hfin
     omega)).symm
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem exists_natDualCoord_addEquiv (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)) {m : ℕ}
     {W₁ W₂ : Submodule K ↥(cmComm M Q Z B K γ M₀ φ)} (hW : IsCompl W₁ W₂)
     {F : (Fin m → K) →+ ↥(cmComm M Q Z B K γ M₀ φ)}
@@ -215,6 +217,7 @@ private theorem exists_natDualCoord_addEquiv (φ : ↥(H0 M Z) →* (M₀.E ≃�
   · intro e
     exact hΦΨ e
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem exists_natDualCoord (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)) {m : ℕ}
     {ρ : SL(m, K) →* (↥(cmComm M Q Z B K γ M₀ φ) ≃ₗ[K]
       ↥(cmComm M Q Z B K γ M₀ φ))}
@@ -265,6 +268,7 @@ private theorem exists_natDualCoord (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M�
     show Ψ.symm (0, y) = F' y
     rw [← hΨF' y, AddEquiv.symm_apply_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_conj_action_of_mem_LB (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφk : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -320,6 +324,7 @@ private theorem exists_conj_action_of_mem_LB (hc : Ctx M Q Z B)
     _ = (φ ⟨l, hlH⟩ * φ (s' : ↥(H0 M Z))) v := by rw [hkey]
     _ = φ ⟨l, hlH⟩ (φ (s' : ↥(H0 M Z)) v) := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem preserves_or_swaps_summands (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφk : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -382,6 +387,7 @@ private theorem preserves_or_swaps_summands (hc : Ctx M Q Z B)
       rw [← hCW₁]
       exact h.2 y
 
+omit [CharP K 2] in
 private theorem polarBilin_orthogonal_eq_self (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -394,6 +400,7 @@ private theorem polarBilin_orthogonal_eq_self (hc : Ctx M Q Z B)
   eq_orthogonal_of_totallySingular (cmCommQf B φ)
     (fun x hx => hc.cmCommQf_nondegenerate hD φ hφπ x hx) hs hfin
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem finrank_eq_of_isCompl
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     {W₁ W₂ : Submodule K ↥(cmComm M Q Z B K γ M₀ φ)}
@@ -405,6 +412,7 @@ private theorem finrank_eq_of_isCompl
   have hadd := Submodule.finrank_add_eq_of_isCompl hW
   omega
 
+omit [CharP K 2] in
 private theorem exists_mem_B_ne_zero_of_not_mem (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -457,12 +465,12 @@ private theorem exists_flag_line {K W : Type} [Field K] [Finite K] [AddCommGroup
     have hℓne : ℓ ≠ ⊥ := fun hbot => by
       rw [hbot] at hmem
       exact hne0 (by simpa using hmem)
-    letI : Fintype K := Fintype.ofFinite K
-    haveI : Finite W := Module.finite_of_finite K
+    let : Fintype K := Fintype.ofFinite K
+    have : Finite W := Module.finite_of_finite K
     have hq1 : 1 < Nat.card K := Finite.one_lt_card (α := K)
     have hcardle : Nat.card ℓ ≤ Nat.card K :=
       (AddSubgroup.card_le_of_le hℓle).trans hDcard
-    haveI : Nontrivial ℓ := Submodule.nontrivial_iff_ne_bot.mpr hℓne
+    have : Nontrivial ℓ := Submodule.nontrivial_iff_ne_bot.mpr hℓne
     have hcardℓ : Nat.card ℓ = Nat.card K ^ Module.finrank K ℓ :=
       Module.natCard_eq_pow_finrank
     have hle1 : Nat.card K ^ Module.finrank K ℓ ≤ Nat.card K ^ 1 := by
@@ -488,6 +496,7 @@ private theorem exists_flag_line {K W : Type} [Field K] [Finite K] [AddCommGroup
     · intro t ht l hl
       exact h3 t ht l (hℓmem l hl)
 
+omit [CharP K 2] in
 private theorem eq_one_of_restrict_eq_one (hc : Ctx M Q Z B)
     (ha2 : ∃ a ∈ LB M Q B, IsA2 Q Z a)
     (hD : GlobalModelData M Q Z γ M₀)
@@ -515,6 +524,7 @@ private theorem eq_one_of_restrict_eq_one (hc : Ctx M Q Z B)
   rw [map_add, hfixV ⟨v, hv⟩, hfixO y hy]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem card_range_eq_card_bar_of_ker (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (f : ↥(LB M Q B) →* (↥(cmComm M Q Z B K γ M₀ φ) ≃ₗ[K]
@@ -532,6 +542,7 @@ private theorem card_range_eq_card_bar_of_ker (hc : Ctx M Q Z B)
       _ = Nat.card Q * Nat.card (bar M Q (LB M Q B)) := ((mul_comm _ _).trans h2).symm
   exact Nat.eq_of_mul_eq_mul_left Nat.card_pos h3
 
+omit [Finite K] [CharP K 2] in
 private theorem summand_dichotomy (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφk : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
@@ -575,6 +586,7 @@ private theorem summand_dichotomy (hc : Ctx M Q Z B)
   exact preserves_or_swaps_summands hc φ hφk hm hσ₀ hρ hW₁mem hW₁surj hW₂mem hW₂surj
     l.2 (hf l)
 
+omit [CharP K 2] in
 private theorem exists_restrict_hom (hc : Ctx M Q Z B)
     (ha2 : ∃ a ∈ LB M Q B, IsA2 Q Z a)
     (hD : GlobalModelData M Q Z γ M₀)
@@ -628,6 +640,7 @@ private theorem exists_restrict_hom (hc : Ctx M Q Z B)
     rw [h2']
     rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem mul_comm_range (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (f : ↥(LB M Q B) →* (↥(cmComm M Q Z B K γ M₀ φ) ≃ₗ[K]
@@ -643,6 +656,7 @@ private theorem mul_comm_range (hc : Ctx M Q Z B)
   rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h1
   exact h1
 
+omit [Finite G] [CharP K 2] in
 private theorem exists_stabilizer_res
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (f : ↥(LB M Q B) →* (↥(cmComm M Q Z B K γ M₀ φ) ≃ₗ[K]
@@ -657,7 +671,7 @@ private theorem exists_stabilizer_res
       ∃ res : A0 →* (W ≃ₗ[K] W),
         ∀ (t : A0) (w : W), ((res t w : W) : ↥(cmComm M Q Z B K γ M₀ φ)) = t.1 w := by
   classical
-  haveI : Finite ↥(cmComm M Q Z B K γ M₀ φ) := Module.finite_of_finite K
+  have : Finite ↥(cmComm M Q Z B K γ M₀ φ) := Module.finite_of_finite K
   obtain ⟨A0, hA0mem, hcard2⟩ :=
     card_le_two_mul_card_stabilizer f.range hdich
   have hA0W : ∀ t, t ∈ A0 → ∀ w ∈ W, t w ∈ W := fun t ht => (hA0mem t).mp ht |>.2
@@ -673,6 +687,7 @@ private theorem exists_stabilizer_res
         simp [LinearEquiv.ofSubmodules_apply] }
   exact ⟨A0, hA0mem, hcard2, res, fun t w => rfl⟩
 
+omit [(Q.subgroupOf M).Normal] [CharP K 2] [Finite K] in
 private theorem line_action (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -684,6 +699,7 @@ private theorem line_action (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M�
     (T := (φ ⟨(l : G), hc.LB_le_H0 l.2⟩ : M₀.E →ₗ[K] M₀.E))
     (hφπ ⟨(l : G), hc.LB_le_H0 l.2⟩)).2
 
+omit [CharP K 2] [Finite K] in
 private theorem fix_of_mem_D (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -727,6 +743,7 @@ private theorem fix_of_mem_D (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M
   rw [hc0, zero_smul, sub_eq_zero] at hc'
   exact hc'
 
+omit [CharP K 2] in
 private theorem card_D_le_of_stabilizer (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -780,6 +797,7 @@ private theorem card_D_le_of_stabilizer (hc : Ctx M Q Z B)
   rw [h1]
   exact Nat.card_pos (α := K)
 
+omit [CharP K 2] in
 private theorem card_D_le_of_swap (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -830,6 +848,7 @@ private theorem card_D_le_of_swap (hc : Ctx M Q Z B)
   exact (Nat.card_le_card_of_injective g hginj).trans (le_of_eq (Nat.card_congr
     (Equiv.refl K)))
 
+omit [CharP K 2] in
 private theorem card_D_le (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -854,7 +873,7 @@ private theorem card_D_le (hc : Ctx M Q Z B)
   · exact card_D_le_of_stabilizer hc hD φ hφπ hf D hDmem hA0mem hA0eq (hbV := hbV) (hbW := hbW) hbB
   · have hle : A0 ≤ f.range := fun t ht => (hA0mem t).mp ht |>.1
     have hlt : A0 < f.range := lt_of_le_of_ne hle hA0eq
-    obtain ⟨s₀, hs₀A, hs₀A0⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨s₀, hs₀A, hs₀A0⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hs₀not : ¬ ∀ w ∈ W, s₀ w ∈ W := fun h => hs₀A0 ((hA0mem s₀).mpr ⟨hs₀A, h⟩)
     have hs₀swap : (∀ w ∈ W, s₀ w ∈ W') ∧ (∀ w ∈ W', s₀ w ∈ W) := by
       rcases hdich s₀ hs₀A with h | h
@@ -862,6 +881,7 @@ private theorem card_D_le (hc : Ctx M Q Z B)
       · exact h
     exact card_D_le_of_swap hc hD φ hφπ hf hW D hDmem hs₀A hs₀swap hbB
 
+omit [CharP K 2] in
 private theorem exists_hyperplane (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -908,6 +928,7 @@ private theorem exists_hyperplane (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z
     omega
   exact ⟨H, hHmem, hH⟩
 
+omit [CharP K 2] [Finite K] in
 private theorem flag_data (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -976,6 +997,7 @@ private theorem flag_data (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀
     exact Subtype.ext ((hf l (d : ↥(cmComm M Q Z B K γ M₀ φ))).trans hfix)
   exact ⟨h1A0, h2A0, h3A0⟩
 
+omit [CharP K 2] in
 private theorem eq_one_of_fixes_of_preserves (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -1023,6 +1045,7 @@ private theorem eq_one_of_fixes_of_preserves (hc : Ctx M Q Z B)
   rw [map_add, hfix w hw, hfix' w' hw']
   rfl
 
+omit [CharP K 2] in
 private theorem res_injective (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -1076,6 +1099,7 @@ private theorem res_injective (hc : Ctx M Q Z B)
   calc s = s * t⁻¹ * t := by group
     _ = t := by rw [this, one_mul]
 
+omit [CharP K 2] in
 private theorem count_of_summand (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -1131,7 +1155,7 @@ private theorem count_of_summand (hc : Ctx M Q Z B)
     res_injective hc hD φ hφπ hf hW hWs hm hdimV hWfin res hA0mem hrescoe hdich
   have hcomm : ∀ s t : A0, s.1 * t.1 = t.1 * s.1 := fun s t =>
     mul_comm_range hc φ f hfker s.1 ((hA0mem s.1).mp s.2 |>.1) t.1 ((hA0mem t.1).mp t.2 |>.1)
-  haveI : Finite ↥W := Module.finite_of_finite K
+  have : Finite ↥W := Module.finite_of_finite K
   have hcardA0 : Nat.card A0 ≤ Nat.card K ^ (Module.finrank K W - 1) :=
     card_le_of_flag_restriction A0 res hfaith hcomm hH hℓ hℓH h1A0 h2A0' h3A0'
   rw [hWfin] at hcardA0
@@ -1139,6 +1163,7 @@ private theorem count_of_summand (hc : Ctx M Q Z B)
     _ ≤ 2 * Nat.card A0 := hcard2
     _ ≤ 2 * Nat.card K ^ (m - 1) := Nat.mul_le_mul_left 2 hcardA0
 
+omit [CharP K 2] in
 theorem Ctx.exists_b_mem_cmComm (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -1168,6 +1193,7 @@ theorem Ctx.exists_b_mem_cmComm (hc : Ctx M Q Z B)
   rw [← hcπ]
   exact hpi.2
 
+omit [CharP K 2] in
 theorem Ctx.cmComm_eq_top_of_rt1 (hc : Ctx M Q Z B) (ha2 : ∃ a ∈ LB M Q B, IsA2 Q Z a)
     (hD : GlobalModelData M Q Z γ M₀) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →

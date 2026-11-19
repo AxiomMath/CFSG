@@ -162,7 +162,7 @@ theorem key_eq {w a b : ℕ} (hw : w < 32) (ha : a < 128) (hb : b < 64) :
 theorem map_getD_range (L : List ℕ) : (List.range L.length).map (fun i => L.getD i 0) = L := by
   apply List.ext_getElem (by simp)
   intro i h1 h2
-  simp [List.getD_eq_getElem _ _ h2, List.getElem?_eq_getElem h2]
+  simp [List.getElem?_eq_getElem h2]
 
 theorem keys_eq {w : ℕ} (hw : w < 32) :
     keys2 fratLevels (fun t => profKey zArr (compA 2300 (yArr w) t)) =

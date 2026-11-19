@@ -92,11 +92,10 @@ theorem exists_normal_index_three_containing_of_semilinear_card_twenty_seven_ind
     have hconj := hconjmap (z : linearKernel rho) hzZ
     have hjeq : j' = (z : linearKernel rho)⁻¹ := by
       apply htau_inj
-      change tau j' = tau ((z : linearKernel rho)⁻¹)
       rw [hconj, map_inv]
     have hval := congrArg (fun w : linearKernel rho => (w : A)) hjeq
     simpa [j'] using hval
-  haveI : (linearKernel rho).Normal :=
+  have : (linearKernel rho).Normal :=
     MonoidHom.normal_ker (SemidirectProduct.rightHom.comp rho)
   exact CFSG.GroupTheory.exists_normal_index_three_containing_of_nonabelian_card_twenty_seven_index_two
     (P := linearKernel rho) hcard hnc hindex t ht hZinv

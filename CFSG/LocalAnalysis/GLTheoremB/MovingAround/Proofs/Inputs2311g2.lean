@@ -149,8 +149,8 @@ theorem uniPlaneGen_twistedA5_three_of_card_ne_two
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 5 Q (twistedA5Index Q).2
       (MulEquiv.refl (Cat (twistedA5Index Q)))
   have h : UnitaryFieldData Q.p Q.exponent F := ⟨hℓ, hf, by rw [hKF, ← pow_mul, mul_comm]⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F Q.p := h.charP
+  have : Finite F := h.finite
+  have : CharP F Q.p := h.charP
   set e : Cat (twistedA5Index Q) ≃* primeFormP h (idGram F (5 + 1)) :=
     eT.trans (BalanceLp.statedProjEquivPrimeFormP h (by omega)) with he
   set E' := E.map (MulAut.congr e).toMonoidHom with hE'
@@ -182,8 +182,8 @@ theorem closure_pow_eq_top_twistedA5 {Q : TauCeti.PrimePower} (hQ : Q.card ≠ 2
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 5 Q (twistedA5Index Q).2
       (MulEquiv.refl (Cat (twistedA5Index Q)))
   have h : UnitaryFieldData Q.p Q.exponent F := ⟨hℓ, hf, by rw [hKF, ← pow_mul, mul_comm]⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F Q.p := h.charP
+  have : Finite F := h.finite
+  have : CharP F Q.p := h.charP
   set e : Cat (twistedA5Index Q) ≃* primeFormP h (idGram F (5 + 1)) :=
     eT.trans (BalanceLp.statedProjEquivPrimeFormP h (by omega)) with he
   have hq : Q.p ^ Q.exponent ≠ 2 := by rw [← TauCeti.PrimePower.card_def]; exact hQ
@@ -444,8 +444,8 @@ theorem twE6DiagRegular_uniPlaneGen_of_ne_two
     (D : TwLangData K σ q (twPlanePre K σ E)) (hreg : D.IsRegular) :
     UniPlaneGen (ringChar K) E := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨X, Xm, hpair, hSinv, e, heE, he1, hSfix, R, hRQ, hRfix, hRX⟩ :=
     (twE6InnerLineLongRoot_of_lie twE6LiftBridge_holds twE6InnerLineLie_holds) K σ q hK3 hσ hK E hE hEab
       hcard hnin D hreg
@@ -483,7 +483,7 @@ theorem twE6DiagRegular_uniPlaneGen_of_ne_two
     have h3q : 3 ∣ Q.card + 1 := by
       rw [hQcard]
       exact three_dvd_of_not_le_innerAut K σ q hσ hK E hE hnin
-    haveI := hEab
+    have := hEab
     exact levi_le_uniPlaneClosure_twA5_of_card_ne_two (twE6LongRootLevi X Xm) E
       CFSG.Open.isElemAbelian_of_isElementaryAbelian hcard
       (fun ε hε u hu => commutator_centralizer_invariant _ ε (hSinv ε hε) hu) hperf hZ (Q := Q)
@@ -619,7 +619,7 @@ theorem uniPlaneGen_twE6_three_diag_of_model
     (hdiag : E.map (MulAut.congr e).toMonoidHom ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ)
     (hnpar : ¬ Inputs2311d.IsTwE6DiagParabolicPlane ⟨.twistedE6 q, hv⟩ E) :
     UniPlaneGen q.p E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK' : Nat.card K = q.p ^ (2 * q.exponent) := by rw [hK, ← pow_mul, mul_comm]
   have hq2' : q.p ^ q.exponent ≠ 2 := by
     rw [← TauCeti.PrimePower.card_def]
@@ -1042,13 +1042,13 @@ theorem not_isSolvable_rClosure_of_layer {τ : Tag} {K L : Type} [Field K] [Fini
   intro hsol
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hr, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hr⟩
+  have : Fact (ringChar K).Prime := ⟨hr⟩
   have : Finite (ModGL τ K) := finite_modGL
   have hPle : Pt ≤ ψ.range := by
     rw [← hcomm]
     exact ThirdLineAux.commutator_le_self' _
-  haveI : Finite Pt := by
-    haveI : Finite ψ.range := Set.Finite.to_subtype (Set.finite_range ψ)
+  have : Finite Pt := by
+    have : Finite ψ.range := Set.Finite.to_subtype (Set.finite_range ψ)
     exact Finite.of_injective _ (Subgroup.inclusion_injective hPle)
   obtain ⟨Y, hY1, hYr⟩ := exists_sl2_rElement_ne_one K
   have hzP := hroot Y
@@ -1094,16 +1094,16 @@ theorem not_isSolvable_rClosure_of_layer {τ : Tag} {K L : Type} [Field K] [Fini
         (Subgroup.equivMapOfInjective _ _
           (Subgroup.centralizer ({x} : Set (adjointGroup τ K))).subtype_injective).toMonoidHom) :=
       (Subgroup.inclusion_injective hle).comp (MulEquiv.injective _)
-    haveI := hsol
-    exact solvable_of_solvable_injective hf
+    have := hsol
+    exact Group.isSolvable_of_isSolvable_injective hf
   have hmapsol : Group.IsSolvable ↥((Subgroup.closure {y : Subgroup.centralizer ({x} : Set (adjointGroup τ K)) |
       ∃ m : ℕ, y ^ (ringChar K ^ m) = 1}).map ψ) := by
-    haveI := hSsol
+    have := hSsol
     exact Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective _ ψ hψ).toMonoidHom)
       (MulEquiv.surjective _)
   have hPsol : Group.IsSolvable ↥Pt := by
-    haveI := hmapsol
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hPS)
+    have := hmapsol
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPS)
   exact CFSG.HardMathSupport.Foote.Coordinator.SplitFrame.not_isSolvable_of_isQuasisimple' hPq hPsol
 
 theorem exists_offLine_rgen_F4_aux (K : Type) [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
@@ -1223,10 +1223,10 @@ theorem exists_offLine_rgen_F4_phi6 (K : Type) [Field K] [Finite K] (hK3 : 3 ≤
       ¬ Group.IsSolvable ↥(Subgroup.closure {y : adjointGroup .F4 K | Commute y e ∧
         ∃ m : ℕ, y ^ (ringChar K ^ m) = 1}) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hcm := canonicalRep_mem_monomialSubgroup L (f4Cox ^ 10)
   have hπ : weylQuotientHom .F4 L ⟨canonicalRep (coxeterSystem .F4) L
       (f4Cox ^ 10), hcm⟩ = f4Cox ^ 10 :=
@@ -1391,10 +1391,10 @@ theorem exists_offLine_rgen_E8_phi10 (K : Type) [Field K] [Finite K] {p : ℕ} (
       ¬ Group.IsSolvable ↥(Subgroup.closure {y : adjointGroup .E8 K | Commute y e ∧
         ∃ m : ℕ, y ^ (ringChar K ^ m) = 1}) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := fun h => by
     rw [h, orderOf_zero] at hord
     omega
@@ -1495,7 +1495,7 @@ theorem uniClosure_eq_top_of_twSubgroups_rgen {τ : Tag} {K : Type} [Field K] [F
   have : Finite (ModGL τ K) := CFSG.LieType.Chevalley.finite_modGL
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hr, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hr⟩
+  have : Fact (ringChar K).Prime := ⟨hr⟩
   have hinj : Function.Injective (adjointGroup τ K).subtype :=
     (adjointGroup τ K).subtype_injective
   have hY : ((Subgroup.inclusion h₁).range ⊔ (Subgroup.inclusion h₂).range).map
@@ -1561,7 +1561,7 @@ theorem f4Phi6UniNative (K : Type) [Field K] [Finite K] (hK3 : 3 ≤ Nat.card K)
     Subgroup.closure {k : adjointGroup .F4 K | ∃ x ∈ E, x ≠ 1 ∧ Commute k x ∧
       ∃ m : ℕ, k ^ (ringChar K ^ m) = 1} = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have hrK : ringChar K ∣ Nat.card K := by
@@ -1628,7 +1628,7 @@ theorem e8Phi10UniNative (K : Type) [Field K] [Finite K]
     Subgroup.closure {k : adjointGroup .E8 K | ∃ x ∈ E, x ≠ 1 ∧ Commute k x ∧
       ∃ m : ℕ, k ^ (ringChar K ^ m) = 1} = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have hrK : ringChar K ∣ Nat.card K := by
@@ -1897,7 +1897,7 @@ theorem uniSeitzPlanes_F4_inner_five :
       d.1.characteristic ≠ 2 ∧ ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hpq⟩, hch, hn⟩
   obtain rfl : d = .F4 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_F4]; exact h)
   have hq1 := one_le_primePower_card_excFive q
   set e := orderOf ((q.card : ℕ) : ZMod p) with he
@@ -1941,7 +1941,7 @@ theorem uniSeitzPlanes_E8_inner_five_frames :
       d.1.characteristic ≠ 2 ∧ ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hch, hn⟩
   obtain rfl : d = .E8 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E8]; exact h)
   rcases hcls with h5 | h10 | hcnt
   · exact uniPlaneGen_E8_of_native hv hch (fun K _ _ hKq _ E₀ h1 h2 _ =>
@@ -1959,7 +1959,7 @@ theorem uniSeitzPlanes_E6_inner_five_vacuous :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hn⟩
   obtain rfl : d = .E6 q := hq
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E6]; exact h)
   have hq1 := one_le_primePower_card_excFive q
   set e := orderOf ((q.card : ℕ) : ZMod p) with he
@@ -1991,7 +1991,7 @@ theorem uniSeitzPlanes_E7_inner_five_vacuous :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hn⟩
   obtain rfl : d = .E7 q := hq
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E7]; exact h)
   have hq1 := one_le_primePower_card_excFive q
   set e := orderOf ((q.card : ℕ) : ZMod p) with he
@@ -2021,7 +2021,7 @@ theorem uniSeitzPlanes_twE6_inner_five_vacuous :
       ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hn⟩
   obtain rfl : d = .twistedE6 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_twistedE6]; exact h)
   exfalso
   rcases hcls with h1 | hcnt
@@ -2247,7 +2247,7 @@ theorem uniClosure_d4PlaneInTorusMinus_three (ℓ f : ℕ) (hℓ : ℓ.Prime) (h
 
 theorem uniPlaneGen_of_inner_uniClosure {C : Type*} [Group C]
     (hinj : Function.Injective (MulAut.conj : C →* MulAut C)) {r : ℕ} {E : Subgroup (MulAut C)}
-    (hin : E ≤ (MulAut.conj : C →* MulAut C).range)
+    (_hin : E ≤ (MulAut.conj : C →* MulAut C).range)
     (htop : Subgroup.closure {k : C | ∃ x ∈ E.comap (MulAut.conj : C →* MulAut C), x ≠ 1 ∧ Commute k x ∧
       ∃ n : ℕ, k ^ (r ^ n) = 1} = ⊤) : UniPlaneGen r E := by
   rw [UniPlaneGen, eq_top_iff, ← htop, Subgroup.closure_le]
@@ -2268,9 +2268,9 @@ theorem uniPlaneGen_triality_three_twistedTorus {q : TauCeti.PrimePower}
     (hT : CFSG.GH74.GLS.Stage2.Bender.Thm1.D4PlaneInTorusMinus q.p q.exponent q.prime_p K σ
       ((E.comap (MulAut.conj : CFSG.LieType.SeitzGeneration.Cat ⟨.trialityD4 q, hv⟩ →* _)).map e.toMonoidHom)) :
     UniPlaneGen q.p E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p (by
       have := q.exponent_pos; omega) hK3
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -2396,8 +2396,8 @@ theorem fixedSubgroup_d4Twist_le_closure_rElements_excD4 {K : Type} [Field K] [F
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hℓ, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   let Upos : Subgroup (ModGL Tag.D4 K) := graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom
   let Uneg : Subgroup (ModGL Tag.D4 K) := graphFixedNegUnipotent TwistTag.D4 K σ.toRingHom
   have hΓA : twistedFixedGroup TwistTag.D4 K σ.toRingHom ≤ adjointGroup Tag.D4 K := inf_le_left
@@ -2634,7 +2634,7 @@ theorem uniPlaneClosure_d4_field_excD4 {K : Type} [Field K] [Finite K] (hK2 : ri
     uniPlaneClosure (ringChar K) E = ⊤ := by
   obtain ⟨α, hαE, g, a, σ, ε, -, hσ3, ⟨hε0, hσ1⟩, hα⟩ := hex
   classical
-  haveI := hE
+  have := hE
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hℓ⟩
@@ -2682,7 +2682,7 @@ theorem uniPlaneClosure_d4_graphField_excD4 {K : Type} [Field K] [Finite K] (hK2
     uniPlaneClosure (ringChar K) E = ⊤ := by
   obtain ⟨β, hβE, g, a, σ, ε, hε, hσ3, ⟨hε0, hσ1⟩, hβ⟩ := hGF
   classical
-  haveI := hE
+  have := hE
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hℓ⟩
@@ -2734,7 +2734,7 @@ theorem uniPlaneClosure_d4_graphField_excD4 {K : Type} [Field K] [Finite K] (hK2
     intro h
     rw [h, fixedSubgroup_conj_one] at hFb
     exact hΓne hFb.symm
-  haveI := inner_normal (adjointGroup Tag.D4 K)
+  have := inner_normal (adjointGroup Tag.D4 K)
   obtain ⟨hcube, hodd⟩ := d4GfTwist_cube_odd_excD4 (hℓ.odd_of_ne_two hK2) T σ ε hT hT3
   have hΓgen := fixedSubgroup_d4Twist_le_closure_rElements_excD4 (d4GfTwist T σ ε) hcube (Or.inr hodd)
   refine eq_top_of_fixed_le_of_kernel_escape_excD4 (N := inner (adjointGroup Tag.D4 K))
@@ -2774,7 +2774,7 @@ theorem uniSeitzPlanes_dFour_twistField :
   have hchar : (TauCeti.LieTypeIndex.D 4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_D]
   have hK' : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       q.exponent_pos hK'
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -2927,7 +2927,7 @@ theorem uniSeitzPlanes_dFour_graphLong :
   have hchar : (TauCeti.LieTypeIndex.D 4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_D]
   have hK' : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       q.exponent_pos hK'
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -3012,7 +3012,7 @@ theorem HSL_conj_uSL_excD4 (s : Kˣ) (c : K) : HSL s * uSL c * (HSL s)⁻¹ = uS
     Matrix.SpecialLinearGroup.coe_inv, coe_HSL, coe_uSL, coe_uSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two, pow_two] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two, pow_two]; ring
 
 theorem HSL_conj_vSL_excD4 (s : Kˣ) (c : K) :
     HSL s * vSL c * (HSL s)⁻¹ = vSL (((s⁻¹ : Kˣ) : K) ^ 2 * c) := by
@@ -3021,7 +3021,7 @@ theorem HSL_conj_vSL_excD4 (s : Kˣ) (c : K) :
     Matrix.SpecialLinearGroup.coe_inv, coe_HSL, coe_vSL, coe_vSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two, pow_two] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two, pow_two]; ring
 
 theorem HSL_mul_excD4 (s s' : Kˣ) : HSL s * HSL s' = HSL (s * s') := by
   apply Subtype.ext
@@ -3325,7 +3325,7 @@ theorem uniSeitzPlanes_dFour_graphShortSplit :
   have hchar : (TauCeti.LieTypeIndex.D 4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_D]
   have hK' : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       q.exponent_pos hK'
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -3580,7 +3580,7 @@ theorem uniPlaneClosure_triality_tauA_excD4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (h�
       _ = ℓ ^ 1 := (pow_one ℓ).symm
       _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf
   have h3 : Module.finrank F K = 3 := by
-    haveI : Module.Finite F K := Module.Finite.of_finite
+    have : Module.Finite F K := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := F) (V := K)
     rw [hK, hcardF] at h
     exact Nat.pow_right_injective hq2 h.symm
@@ -3674,7 +3674,7 @@ theorem uniSeitzPlanes_triality_tauB :
   have hq2 : q.p ≠ 2 := fun h => hchar2 (by rw [hchar, h])
   have hq3 : q.p ≠ 3 := fun h => hpd (by rw [hchar, h])
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       (by have := q.exponent_pos; omega) hK3
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -3698,7 +3698,7 @@ theorem uniSeitzPlanes_triality_tauA :
   have hq2 : q.p ≠ 2 := fun h => hchar2 (by rw [hchar, h])
   have hq3 : q.p ≠ 3 := fun h => hpd (by rw [hchar, h])
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       (by have := q.exponent_pos; omega) hK3
   have hring : ringChar K = q.p := ringChar.eq K q.p

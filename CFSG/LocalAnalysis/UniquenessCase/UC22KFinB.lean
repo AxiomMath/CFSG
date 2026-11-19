@@ -43,7 +43,7 @@ theorem uc22k_omegaZJ22_eq (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) 
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {Y : Subgroup (MBar D.M D.U)} {H : Subgroup G}
     (hpkg : HiPkgK D Y H) (hY : preN D Y = proofN D) :
     omegaZJ22 (pCoreOf 2 H) = omegaZJ22 (D.T ⊓ (proofN D ⊓ centralizer (D.U : Set G))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hSH, hG, -, -, -, -, -, -, -, B, -, hOB, hCB, -, hBU, hNB⟩ := hpkg
   set S : Subgroup G := proofS D with hSdef
   set R : Subgroup G := pCoreOf 2 H with hRdef
@@ -93,8 +93,8 @@ theorem uc22k_normalizer_le (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     normalizer (W : Set G) ≤ D.M := by
   classical
   obtain ⟨hpP, -⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup G := proofN D ⊓ centralizer (D.U : Set G) with hXdef
   have hV := uc22p22xf_hV D
   have hMN := uc22p22t_M_le_normalizer_jOf D
@@ -118,7 +118,7 @@ theorem uc22k_normalizer_le (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   exact le_iSup_of_le W (le_iSup_of_le hW (le_iSup_of_le hWle (le_iSup_of_le hWc le_rfl)))
 
 theorem uc22k_omegaZJ22_characteristic (R : Subgroup G) : ((omegaZJ22 R).subgroupOf R).Characteristic := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : (omegaZJ22 R).subgroupOf R = CFSG.elemThompsonCenterTorsion ↥R 2 := by
     unfold omegaZJ22 CFSG.inSubgroup
     exact Subgroup.comap_map_eq_self_of_injective R.subtype_injective _
@@ -137,7 +137,7 @@ theorem uc22k_le_M_of_inClassG (D : Data G) (Ch : Choice2011 G) (hx : DataExt D)
       CFSG.Quasithin.IsMaxElemAbelian D.T ((A ⊓ centralizer (W : Set G)) ⊔ W))
     (hOW : pCoreOf 2 X ≤ centralizer (W : Set G)) (hCW : proofS D ⊓ centralizer (W : Set G) ≤ pCoreOf 2 X) :
     L ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hLM
   set S : Subgroup G := proofS D with hSdef
   have hS2 : IsPGroup 2 ↥S := D.sylowM.isPGroup.to_le inf_le_left
@@ -238,7 +238,7 @@ theorem uc22k_le_M (h69 : CFSG.ASVolI.B_6_9) (hTC : CFSG.RankThree.PartOne.TauCe
     (hLsub : CFSG.Open.IsSubnormal L (c.L0 ⊔ D.T)) (hLL0 : L ≤ c.L0) (hL0L : c.L0 ≤ normalizer (L : Set G))
     (hLp : ⁅L, L⁆ = L) (hLq : CFSG.Open.IsQuasisimple (Bar2 L)) (hshape : NParamSingle (Bar2 L) c.n) :
     L ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := c.L0 ⊔ D.T with hHdef
   set V₀ : Subgroup G := VZ D.T H with hV₀
   set S : Subgroup G := proofS D with hSdef
@@ -357,29 +357,29 @@ theorem uc22k_le_M (h69 : CFSG.ASVolI.B_6_9) (hTC : CFSG.RankThree.PartOne.TauCe
 
 theorem uc22k_s22_2_finHat (D : Data G) (Ch : Choice2011 G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     (h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch) (h51 : S22_5_1 D Ch) (h204 : S20_4 D)
-    (hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n)
-    (hHi : H1930 D → ∀ c : Ctx22c D Ch, ∀ (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U)), NbarSplit D Nb →
+    (hn3 : H1930 D → ∀ _c : Ctx21 D Ch, 3 ≤ _c.n)
+    (hHi : H1930 D → ∀ _c : Ctx22c D Ch, ∀ (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U)), NbarSplit D Nb →
       ∀ i, ∃ H : Subgroup G, HiPkgK D (Nb i) H)
     (hK : K339Z)
     (h69 : CFSG.ASVolI.B_6_9) (hTC : CFSG.RankThree.PartOne.TauCetiCatalogBridge) : S22_2_finHat D Ch := by
-  intro hH c p hp m Nb hNb hNne _ _ _ h6 hS7
-  have hn : 3 ≤ c.n := hn3 hH c.toCtx21
-  have hcomp : ∀ L : Subgroup G, CFSG.Open.IsSubnormal L (c.L0 ⊔ D.T) → L ≤ c.L0 →
-      c.L0 ≤ normalizer (L : Set G) → ⁅L, L⁆ = L → CFSG.Open.IsQuasisimple (Bar2 L) →
-      NParamSingle (Bar2 L) c.n → L ≤ D.M := fun L hLsub hLL0 hL0L hLp hLq hshape =>
-    uc22k_le_M h69 hTC hx h61 h2 h3 h51 h204 hK hH c hS7 hn hp hNb (hHi hH c m Nb hNb) hNne h6 hLsub hLL0
+  intro hH _c p hp m Nb hNb hNne _ _ _ h6 hS7
+  have hn : 3 ≤ _c.n := hn3 hH _c.toCtx21
+  have hcomp : ∀ L : Subgroup G, CFSG.Open.IsSubnormal L (_c.L0 ⊔ D.T) → L ≤ _c.L0 →
+      _c.L0 ≤ normalizer (L : Set G) → ⁅L, L⁆ = L → CFSG.Open.IsQuasisimple (Bar2 L) →
+      NParamSingle (Bar2 L) _c.n → L ≤ D.M := fun L hLsub hLL0 hL0L hLp hLq hshape =>
+    uc22k_le_M h69 hTC hx h61 h2 h3 h51 h204 hK hH _c hS7 hn hp hNb (hHi hH _c m Nb hNb) hNne h6 hLsub hLL0
       hL0L hLp hLq hshape
-  have hL0n : c.L0 ⊔ D.T ≤ normalizer (c.L0 : Set G) := sup_le Subgroup.le_normalizer c.hL0.1.1
-  have hL0sub : CFSG.Open.IsSubnormal c.L0 (c.L0 ⊔ D.T) :=
+  have hL0n : _c.L0 ⊔ D.T ≤ normalizer (_c.L0 : Set G) := sup_le Subgroup.le_normalizer _c.hL0.1.1
+  have hL0sub : CFSG.Open.IsSubnormal _c.L0 (_c.L0 ⊔ D.T) :=
     CFSG.Quasithin.A3.subnormal_of_normal le_sup_left
       ((Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hL0n)
-  apply (uc22p22se_mem_hSet c.toCtx21).2.1
+  apply (uc22p22se_mem_hSet _c.toCtx21).2.1
   refine sup_le ?_ D.sylowM.le
-  rcases c.hn with hs | ⟨L₁, L₂, hL₁, hL₂, hL0eq, -, hshape⟩
-  · exact hcomp c.L0 hL0sub le_rfl Subgroup.le_normalizer c.hL0.1.2.1
-      (uc22p22sg_isQuasisimple_bar2_of_shape c.hL0.1.2.1 hs) hs
-  · have hfac : ∀ L' : Subgroup G, L' ∈ calC c.L0 → c.L0 ≤ normalizer (L' : Set G) →
-        (IsSz (Bar2 L') c.n ∨ IsL2 (Bar2 L') c.n ∨ (c.n = 3 ∧ IsSU3 (Bar2 L') 3)) → L' ≤ D.M := by
+  rcases _c.hn with hs | ⟨L₁, L₂, hL₁, hL₂, hL0eq, -, hshape⟩
+  · exact hcomp _c.L0 hL0sub le_rfl Subgroup.le_normalizer _c.hL0.1.2.1
+      (uc22p22sg_isQuasisimple_bar2_of_shape _c.hL0.1.2.1 hs) hs
+  · have hfac : ∀ L' : Subgroup G, L' ∈ calC _c.L0 → _c.L0 ≤ normalizer (L' : Set G) →
+        (IsSz (Bar2 L') _c.n ∨ IsL2 (Bar2 L') _c.n ∨ (_c.n = 3 ∧ IsSU3 (Bar2 L') 3)) → L' ≤ D.M := by
       intro L' hLc hL0L hsh
       refine hcomp L' (hLc.1.trans hL0sub) (isSubnormal_le hLc.1) hL0L hLc.2.1 hLc.2.2 ?_
       rcases hsh with h | h | ⟨h3', h⟩

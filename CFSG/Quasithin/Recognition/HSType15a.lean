@@ -301,9 +301,9 @@ private theorem enc_evalAB (w : List Bool) : enc (evalAB w) = evalABK w := by
   | cons b w ih =>
     rw [evalAB, enc_mul six_le, ih]
     cases b
-    · rw [if_neg Bool.false_ne_true, enc_αS']
+    · rw [ite_eq_right Bool.false_ne_true, enc_αS']
       rfl
-    · rw [if_pos rfl, enc_βS']
+    · rw [ite_eq_left rfl, enc_βS']
       rfl
 
 private theorem abWords_codes : (abWords.map evalABK == wordC) = true := by decide +kernel

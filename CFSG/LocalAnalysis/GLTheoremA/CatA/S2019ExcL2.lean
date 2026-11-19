@@ -19,8 +19,8 @@ theorem dvd_of_lt_card_aut_L2 {F : Type} [Field F] [Finite F]
     (hpr : p ≠ r) (hFn : Nat.card F = r ^ n) {A : Subgroup (MulAut K)} (hA : IsElemAbelian p A)
     (hcard : p < Nat.card A) : p ∣ n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
     (fun f g h => MulEquiv.ext (congrFun h))
   have hpF : ¬ p ∣ Nat.card F := by
     rw [hFn]
@@ -28,7 +28,7 @@ theorem dvd_of_lt_card_aut_L2 {F : Type} [Field F] [Finite F]
     exact hpr ((Nat.prime_dvd_prime_iff_eq hp hr).1 (hp.dvd_of_dvd_pow hd))
   set Δ := CFSG.GH74.GLS.IVK.innDiagSub e with hΔ
   set I := CFSG.GH74.GLS.IVK.innAut K with hI
-  haveI hΔn : Δ.Normal := CFSG.GH74.GLS.IVK.innDiagSub_normal e
+  have hΔn : Δ.Normal := CFSG.GH74.GLS.IVK.innDiagSub_normal e
   have hsup : Δ ⊔ CFSG.GH74.GLS.IVK.fieldAutSub e = ⊤ :=
     CFSG.GH74.GLS.IVK.innDiagSub_sup_fieldAutSub e
   have hrel : I.relIndex Δ = 2 := CFSG.GH74.GLS.IVK.innAut_relIndex_two e hF
@@ -101,13 +101,13 @@ theorem dvd_of_lt_card_aut_L2 {F : Type} [Field F] [Finite F]
       have := hA.2 _ hx
       simpa [map_pow] using this
     have hX'p : IsPGroup p ↥X' := fun x => ⟨1, by simpa using hX'pow x⟩
-    haveI : Group.IsNilpotent ↥X' := hX'p.isNilpotent
+    have : Group.IsNilpotent ↥X' := hX'p.isNilpotent
     obtain ⟨m, hm⟩ := hX'p.exists_card_eq
     have hX'odd : Odd (Nat.card ↥X') := hm ▸ (hp.odd_of_ne_two hp2).pow
     rw [← hcardX']
     rcases CFSG.GH74.GLS.IVK.Proofs2.ivk_1_2l F hF K e X' hX'odd inferInstance with
       ⟨hcycX, -⟩ | ⟨p', -, -, hdvdF⟩
-    · haveI := hcycX
+    · have := hcycX
       exact card_le_of_isCyclic_of_pow_eq_one hp.pos hX'pow
     · rcases Nat.eq_zero_or_pos m with h0 | hpos
       · rw [hm, h0, pow_zero]; exact hp.one_lt.le
@@ -175,12 +175,12 @@ theorem false_of_L2_of_card_le {J : Type} [Group J] [Finite J] {F : Type} [Field
     (hW : ∀ w : W, w * w = 1) (hW17 : Nat.card W ≤ 2 ^ 17) (ρ : J →* MulAut W)
     (hρ : ∀ x : J, x ^ q = 1 → ρ x = 1 → x ∈ Subgroup.center J) : False := by
   classical
-  haveI : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
+  have : Finite (MulAut W) := Finite.of_injective (fun f : MulAut W => (f : W → W))
     (fun f g h => MulEquiv.ext (congrFun h))
   have hqp : q.Prime := hq.out
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hFcard : Fintype.card F = q ^ n := by rw [← Nat.card_eq_fintype_card]; exact hFn
-  haveI : CharP F q := charP_of_card_eq_prime_pow hFcard
+  have : CharP F q := charP_of_card_eq_prime_pow hFcard
   have h2 : (2 : F) ≠ 0 := by
     intro h
     have : ((2 : ℕ) : F) = 0 := by exact_mod_cast h

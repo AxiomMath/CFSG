@@ -53,11 +53,11 @@ theorem false_of_matching (GS : Hat2A7.GoldschmidtStronglyClosedExponent) (hs : 
   obtain ⟨S₀, hS₀⟩ : ∃ S : Sylow 2 ↥C, Subgroup.zpowers (⟨z, hzC⟩ : ↥C) ≤ (S : Subgroup ↥C) :=
     IsPGroup.exists_le_sylow (T8.isPGroup_zpowers_of_sq hzCsq)
   set P : Subgroup G := (S₀ : Subgroup ↥C).map C.subtype with hPdef
-  have hP2 : IsPGroup 2 P := S₀.isPGroup'.map C.subtype
+  have hP2 : IsPGroup 2 P := S₀.isPGroup.map C.subtype
   have hPC : P ≤ C := Subgroup.map_subtype_le _
   have hzP : z ∈ P := ⟨⟨z, hzC⟩, hS₀ (Subgroup.mem_zpowers _), rfl⟩
   obtain ⟨T, hPT⟩ := hP2.exists_le_sylow
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hCT : ∀ x ∈ (T : Subgroup G), x ∈ C → x ∈ P := by
     intro x hxT hxC
     have hQ2 : IsPGroup 2 (((T : Subgroup G) ⊓ C).subgroupOf C) :=

@@ -269,10 +269,10 @@ theorem kgL4_clause {K : Type} [Field K] [Finite K] (h4 : KGAdjL4)
 
 theorem kgM_clause {K : Type} [Field K] [Finite K] (hM : KGAdjM)
     (hchar : ringChar K = 2) {L' : Type} [Group L'] [Finite L']
-    (ψ : L' →* RecipeGroup Tag.E6 K) (A : Subgroup (MulAut L'))
+    (_ψ : L' →* RecipeGroup Tag.E6 K) (A : Subgroup (MulAut L'))
     (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3) (g : ModGL Tag.E6 K)
     (hg : g ∈ adjointGroup Tag.E6 K) (κ : A →* Multiplicative (Fin 6 → ZMod 3))
-    (hF : KGAutFrame A κ) {a b : A}
+    (_hF : KGAutFrame A κ) {a b : A}
     (α β : Fin Tag.E6.rank → ℤ) (hα : IsRoot Tag.E6 α) (hβ : IsRoot Tag.E6 β)
     (hαβ : iform α β = 0) (ha : Multiplicative.toAdd (κ a) = kgExpVec α)
     (hb : Multiplicative.toAdd (κ b) = kgExpVec β) :

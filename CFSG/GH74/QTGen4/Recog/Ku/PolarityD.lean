@@ -37,8 +37,9 @@ theorem kuPolar_one_right (x : G) : kuPolar P H z x 1 = 0 := by
   have hp : kuPred P H z x 1 := by
     intro n _ _
     simp
-  rw [if_pos hp]
+  rw [ite_eq_left hp]
 
+omit [Finite G] in
 theorem kuPolar_one_left (h : KuHyp G T M H P z) (y : G) : kuPolar P H z 1 y = 0 := by
   apply kuPolar_of_not_orbit
   rintro ⟨n, -, hn⟩
@@ -48,13 +49,14 @@ theorem kuPolar_one_left (h : KuHyp G T M H P z) (y : G) : kuPolar P H z 1 y = 0
     exact mul_inv_eq_one.mp hn
   exact mul_left_cancel h1
 
+omit [Finite G] in
 theorem kuPolar_z_eq_zero_iff (h : KuHyp G T M H P z) (v : G) :
     kuPolar P H z z v = 0 ↔ v ∈ kuW P H := by
   unfold kuPolar
   by_cases hp : kuPred P H z z v
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     exact ⟨fun _ => (h.kuPred_z_iff v).mp hp, fun _ => rfl⟩
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     exact ⟨fun h1 => absurd h1 (by decide), fun hv => absurd ((h.kuPred_z_iff v).mpr hv) hp⟩
 
 theorem exists_kuW_polar_zero [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA]

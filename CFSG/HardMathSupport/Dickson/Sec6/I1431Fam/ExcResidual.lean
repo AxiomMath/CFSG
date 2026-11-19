@@ -59,7 +59,7 @@ theorem y1431_noCfg_of_excResidual {Fam : StatedLieTag → ℕ → ℕ → ℕ �
   have hin := c.mem_innerAut_of_outDerived (MulEquiv.refl _)
     (fun _ => hOut (Y ⧸ Subgroup.center Y) t n p f hadm ht hF hm)
   have cS := c.descend (MulEquiv.refl (Y ⧸ Subgroup.center Y))
-  haveI : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
+  have : Group.IsPerfect Y := ⟨c.quasisimple.1⟩
   have hcen : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
   have hinj : Function.Injective

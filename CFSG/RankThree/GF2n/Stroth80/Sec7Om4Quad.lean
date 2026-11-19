@@ -42,7 +42,7 @@ theorem sec7_minusTwo_singular_perp {K : Type} [Field K] [Finite K] [CharP K 2] 
   rw [Submodule.mem_span_range_iff_exists_fun] at hvU
   obtain ⟨α, rfl⟩ := hvU
   apply hv
-  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one]
   rw [hadd, QuadraticMap.map_smul, QuadraticMap.map_smul, polar_smul_left, polar_smul_right,
     hu, hd, hud]
   simp

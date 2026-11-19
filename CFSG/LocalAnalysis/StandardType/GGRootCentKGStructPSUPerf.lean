@@ -37,6 +37,7 @@ private noncomputable def suMat (f : ℕ) {k : ℕ} (a : Fin k → K) (s : K) :
 private noncomputable def SuAdm (f : ℕ) {k : ℕ} (a : Fin k → K) (s : K) : Prop :=
   s + unitaryInvolution K 2 f s = aform (unitaryInvolution K 2 f) a a
 
+omit [Finite K] [CharP K 2] in
 private theorem antidiag_mulVec_midExt_comp_rev {k : ℕ} (a : Fin k → K) :
     (antidiag (k + 2) : Matrix (Fin (k + 2)) (Fin (k + 2)) K) *ᵥ
         midExt (a ∘ Fin.rev) = midExt a := by
@@ -100,14 +101,14 @@ private theorem antidiag_eMat_antidiag {k : ℕ} (a : Fin k → K) (s : K) :
     _ = J * J + vecMulVec (J *ᵥ y) (eL ᵥ* J) +
           vecMulVec (J *ᵥ e0) ((s • eL - w ᵥ* J) ᵥ* J) := by
           dsimp only [w]
-          simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul,
-            mul_vecMulVec, vecMulVec_mul]
+          simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, mul_vecMulVec, vecMulVec_mul]
     _ = 1 + vecMulVec (suA a) e0 + vecMulVec eL (s • e0 - suW f a) := by
           rw [hJJ, hJy, hJe0, heLJ, hrow]
     _ = suMat f a s := by
           rw [suMat, suN, vecMulVec_sub, vecMulVec_smul, sub_eq_add_neg, CharTwo.neg_eq]
           abel
 
+omit [Finite K] [CharP K 2] in
 private theorem midExt_eq_zero_of_not_mem {k : ℕ} {w : Fin k → K} {p : Fin (k + 2)}
     (hp : p ∉ Set.range (mid (m := k))) : midExt w p = 0 := by
   rw [midExt, dite_eq_right]
@@ -147,7 +148,7 @@ private theorem aform_mat_SU {k : ℕ} (B : SU (unitaryInvolution K 2 f) k) (a :
       aform (unitaryInvolution K 2 f) a a :=
   aform_mat B a a
 
-private theorem SuAdm.mulVec (h : UnitaryFieldData 2 f K) {k : ℕ} {a : Fin k → K} {s : K}
+private theorem SuAdm.mulVec (_h : UnitaryFieldData 2 f K) {k : ℕ} {a : Fin k → K} {s : K}
     (B : SU (unitaryInvolution K 2 f) k) (hAdm : SuAdm (f := f) a s) :
     SuAdm (f := f) (mat (unitaryInvolution K 2 f) k B *ᵥ a) s := by
   unfold SuAdm at *
@@ -167,6 +168,7 @@ private theorem exists_suAdm (h : UnitaryFieldData 2 f K) {k : ℕ} (a : Fin k �
   rw [← RootDetectSU.bar_eq h]
   exact hs
 
+omit [Finite K] in
 private theorem det_antidiag_eq_one (n : ℕ) :
     (antidiag n : Matrix (Fin n) (Fin n) K).det = 1 := by
   have h : (antidiag n : Matrix (Fin n) (Fin n) K).det *
@@ -176,15 +178,16 @@ private theorem det_antidiag_eq_one (n : ℕ) :
     rw [pow_two, h, one_pow]
   exact CharTwo.sq_inj.1 h2
 
+omit [Finite K] [CharP K 2] in
 private theorem antidiag_transpose (n : ℕ) :
     (antidiag n : Matrix (Fin n) (Fin n) K)ᵀ = antidiag n := by
   ext i j
   simp only [transpose_apply, antidiag, of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h', if_pos h]
+    rw [ite_eq_left h', ite_eq_left h]
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h', if_neg h]
+    rw [ite_eq_right h', ite_eq_right h]
 
 private theorem antidiag_map (n : ℕ) :
     (antidiag n : Matrix (Fin n) (Fin n) K).map (unitaryInvolution K 2 f) = antidiag n := by
@@ -193,9 +196,9 @@ private theorem antidiag_map (n : ℕ) :
   change unitaryInvolution K 2 f (if j = Fin.rev i then (1 : K) else 0) =
     (if j = Fin.rev i then (1 : K) else 0)
   by_cases h : j = Fin.rev i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact map_one _
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact map_zero _
 
 private noncomputable def suJ {k : ℕ} : SU (unitaryInvolution K 2 f) (k + 2) :=
@@ -208,7 +211,7 @@ private noncomputable def suJ {k : ℕ} : SU (unitaryInvolution K 2 f) (k + 2) :
       rw [Matrix.mul_assoc, antidiag_mul_self, Matrix.mul_one]⟩⟩
 
 private noncomputable def suHeis (h : UnitaryFieldData 2 f K) {k : ℕ} (i j : Fin k)
-    (hi : i ≠ Fin.rev i) (hij : i ≠ j) (hj : Fin.rev j = j) (b : K) (hb : b + b = 0)
+    (hi : i ≠ Fin.rev i) (hij : i ≠ j) (hj : Fin.rev j = j) (b : K) (_hb : b + b = 0)
     (hb1 : b + unitaryInvolution K 2 f b = 1) :
     SU (unitaryInvolution K 2 f) k :=
   let M := heisenbergMatrix (unitaryInvolution K 2 f) i j 1 b
@@ -275,6 +278,7 @@ private theorem mat_suB' {k : ℕ} (B : SU (unitaryInvolution K 2 f) k) :
         antidiag k := by
   simp only [suB', map_mul, inv_suJn, mat_suJn]
 
+omit [Finite K] [CharP K 2] in
 private theorem mul_antidiag_apply {n : ℕ} (C : Matrix (Fin n) (Fin n) K) (a b : Fin n) :
     (C * (antidiag n : Matrix (Fin n) (Fin n) K)) a b = C a (Fin.rev b) := by
   rw [Matrix.mul_apply, Finset.sum_eq_single (Fin.rev b)]
@@ -284,6 +288,7 @@ private theorem mul_antidiag_apply {n : ℕ} (C : Matrix (Fin n) (Fin n) K) (a b
     simp [antidiag, hkb]
   · simp
 
+omit [Finite K] [CharP K 2] in
 private theorem antidiag_mul_mul_antidiag {n : ℕ} (C : Matrix (Fin n) (Fin n) K) (a b : Fin n) :
     ((antidiag n : Matrix (Fin n) (Fin n) K) * C *
       (antidiag n : Matrix (Fin n) (Fin n) K)) a b = C (Fin.rev a) (Fin.rev b) := by
@@ -346,6 +351,7 @@ private theorem suB'_mulVec_midExt {k : ℕ} (B : SU (unitaryInvolution K 2 f) k
     CFSG.LieType.Steinberg.CentralExt.SUOddFieldThree.antidiag_mulVec]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem iotaMat_mulVec_midExt {k : ℕ} (A : Matrix (Fin k) (Fin k) K)
     (v : Fin k → K) : iotaMat A *ᵥ midExt v = midExt (A *ᵥ v) := by
   funext p
@@ -376,7 +382,7 @@ private theorem iotaMat_mulVec_midExt {k : ℕ} (A : Matrix (Fin k) (Fin k) K)
       by_cases ht : t ∈ Set.range (mid (m := k))
       · obtain ⟨j, rfl⟩ := ht
         rw [iotaMat_isBlkOn A (Fin.last (k + 1)) (mid j) (Or.inl hp), Matrix.one_apply]
-        simp [mid_ne_last j, Ne.symm (mid_ne_last j)]
+        simp [Ne.symm (mid_ne_last j)]
       · rw [midExt_eq_zero_of_not_mem ht, mul_zero]
 
 private theorem suMat_apply {k : ℕ} (a : Fin k → K) (s : K) (i j : Fin (k + 2)) :
@@ -398,6 +404,7 @@ private theorem suMat_apply {k : ℕ} (a : Fin k → K) (s : K) (i j : Fin (k + 
 
 private def suE {k : ℕ} : Matrix (Fin (k + 2)) (Fin (k + 2)) K := vecMulVec eL e0
 
+omit [Finite K] [CharP K 2] in
 private theorem suE_eq_single {k : ℕ} :
     suE (K := K) (k := k) = Matrix.single (Fin.last (k + 1)) 0 1 := by
   ext i j
@@ -405,23 +412,25 @@ private theorem suE_eq_single {k : ℕ} :
   · subst hi
     by_cases hj : j = 0
     · subst hj
-      simp [suE, vecMulVec, e0, eL, Pi.single_apply, Matrix.single_apply]
-    · simp [suE, vecMulVec, e0, eL, Pi.single_apply, Matrix.single_apply, hj,
+      simp [suE, vecMulVec, e0, eL, Pi.single_apply]
+    · simp [suE, vecMulVec, e0, eL, Pi.single_apply, hj,
         Ne.symm hj]
   · by_cases hj : j = 0
     · subst hj
-      simp [suE, vecMulVec, e0, eL, Pi.single_apply, Matrix.single_apply, hi,
+      simp [suE, vecMulVec, e0, eL, Pi.single_apply, hi,
         Ne.symm hi]
-    · simp [suE, vecMulVec, e0, eL, Pi.single_apply, Matrix.single_apply, hi, hj,
+    · simp [suE, vecMulVec, e0, eL, Pi.single_apply, hj,
         Ne.symm hi, Ne.symm hj]
 
+omit [Finite K] [CharP K 2] in
 private theorem e0_dot_eL {k : ℕ} : (e0 : Fin (k + 2) → K) ⬝ᵥ eL = 0 := by
   rw [dotProduct, Finset.sum_eq_single 0]
-  · simp [e0, eL, zero_ne_last]
+  · simp [e0, eL]
   · intro i _ hi
     simp [e0, Pi.single_eq_of_ne hi]
   · simp
 
+omit [Finite K] [CharP K 2] in
 private theorem e0_dot_suA {k : ℕ} (a : Fin k → K) :
     (e0 : Fin (k + 2) → K) ⬝ᵥ suA a = 0 := by
   rw [dotProduct, Finset.sum_eq_single 0]
@@ -442,40 +451,40 @@ private theorem suN_mul_suE {k : ℕ} (a : Fin k → K) (s : K) :
     suN f a s * suE (K := K) (k := k) = 0 := by
   rw [suN, suE, add_mul, add_mul, smul_mul, vecMulVec_mul_vecMulVec,
     vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec]
-  simp [e0_dot_eL, suW_dot_eL, suW, suA, Fin.rev_last, midExt_zero_apply]
+  simp [suW, suA, Fin.rev_last, midExt_zero_apply]
 
 private theorem suE_mul_suN {k : ℕ} (a : Fin k → K) (s : K) :
     suE (K := K) (k := k) * suN f a s = 0 := by
   rw [suN, suE, mul_add, mul_add, Matrix.mul_smul, vecMulVec_mul_vecMulVec,
     vecMulVec_mul_vecMulVec, vecMulVec_mul_vecMulVec]
-  simp [e0_dot_suA, e0_dot_eL, suA, midExt_zero_apply]
+  simp [suA, midExt_zero_apply]
 
 private theorem suMat_mid_mid {k : ℕ} (a : Fin k → K) (s : K) (i j : Fin k) :
     suMat f a s (mid i) (mid j) =
       (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) K) (mid i) (mid j) := by
-  rw [suMat_apply, if_neg (mid_ne_zero j), if_neg (mid_ne_last i),
-    if_neg (mid_ne_last i)]
+  rw [suMat_apply, ite_eq_right (mid_ne_zero j), ite_eq_right (mid_ne_last i),
+    ite_eq_right (mid_ne_last i)]
   simp
 
 private theorem suMat_last_last {k : ℕ} (a : Fin k → K) (s : K) :
     suMat f a s (Fin.last (k + 1)) (Fin.last (k + 1)) = 1 := by
   rw [suMat_apply]
-  simp [Fin.last_ne_zero, suW, suA, Fin.rev_last, midExt_zero_apply]
+  simp [suW, suA, Fin.rev_last, midExt_zero_apply]
 
 private theorem suMat_mid_zero {k : ℕ} (a : Fin k → K) (s : K) (i : Fin k) :
     suMat f a s (mid i) 0 = a i := by
   rw [suMat_apply]
-  simp [Matrix.one_apply, mid_ne_zero i, mid_ne_last i, suA, midExt_mid]
+  simp [mid_ne_zero i, mid_ne_last i, suA, midExt_mid]
 
 private theorem suMat_last_zero {k : ℕ} (a : Fin k → K) (s : K) :
     suMat f a s (Fin.last (k + 1)) 0 = s := by
   rw [suMat_apply]
-  simp [Matrix.one_apply, zero_ne_last, suA, midExt_last, suW, midExt_zero, map_zero]
+  simp [suA, midExt_last, suW, map_zero]
 
 private theorem suMat_last_mid {k : ℕ} (a : Fin k → K) (s : K) (j : Fin k) :
     suMat f a s (Fin.last (k + 1)) (mid j) = suW f a (mid j) := by
   rw [suMat_apply]
-  simp [Matrix.one_apply, mid_ne_zero j, mid_ne_last j, Ne.symm (mid_ne_last j), suA, midExt_last]
+  simp [mid_ne_zero j, Ne.symm (mid_ne_last j)]
 
 private theorem suMat_row_zero {k : ℕ} (a : Fin k → K) (s : K) (j : Fin (k + 2)) :
     suMat f a s 0 j = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) K) 0 j := by
@@ -544,6 +553,7 @@ private theorem sum_univ_eq_zero_add_last_add_mid {M : Type*} [AddCommMonoid M] 
   rw [hmid]
   abel
 
+omit [Finite K] [CharP K 2] in
 private theorem suA_add {k : ℕ} (a a' : Fin k → K) : suA (a + a') = suA a + suA a' := by
   funext p
   exact congrFun (midExt_add a a') p
@@ -572,6 +582,7 @@ private theorem suW_dot_suA {k : ℕ} (a a' : Fin k → K) :
     intro l
     simp only [Fin.revPerm_apply, Fin.rev_rev]
 
+omit [Finite K] [CharP K 2] in
 private theorem suA_zero {k : ℕ} (a : Fin k → K) : suA a 0 = 0 := midExt_zero_apply a
 
 private theorem suW_zero {k : ℕ} : suW f (0 : Fin k → K) = 0 := by
@@ -587,7 +598,7 @@ private theorem suN_mul {k : ℕ} (a a' : Fin k → K) (s s' : K) :
       (aform (unitaryInvolution K 2 f) a a') • suE (K := K) (k := k) := by
   simp only [suN, suE, add_mul, mul_add, smul_mul, Matrix.mul_smul,
     vecMulVec_mul_vecMulVec]
-  simp [e0_dot_suA, e0_dot_eL, suW_dot_eL, suW_dot_suA, suA_zero, suW_last]
+  simp [suW_dot_suA, suA_zero, suW_last]
 
 private theorem SuAdm.add (h : UnitaryFieldData 2 f K) {k : ℕ} {a a' : Fin k → K} {s s' : K}
     (ha : SuAdm (f := f) a s) (ha' : SuAdm (f := f) a' s') :
@@ -660,11 +671,10 @@ private theorem suLongRoot_mulVec {k : ℕ} (i : Fin k) (hi : i ≠ Fin.rev i) (
       c • (Pi.single (Fin.rev i) 1 : Fin k → K) + c • (Pi.single i 1 : Fin k → K) := by
   rw [mat_suLongRoot]
   funext p
-  simp only [longRootMatrix, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.smul_mulVec,
-    Matrix.single_mulVec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Function.update_apply,
+  simp only [longRootMatrix, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Function.update_apply,
     Pi.single_apply, Pi.zero_apply]
   by_cases h1 : p = i <;> by_cases h2 : p = Fin.rev i <;>
-    simp [h1, h2, hi, Ne.symm hi] <;> ring
+    simp [h1, h2, hi, Ne.symm hi]
 
 private theorem suHeis_mulVec (h : UnitaryFieldData 2 f K) {k : ℕ} (i j : Fin k)
     (hi : i ≠ Fin.rev i) (hij : i ≠ j) (hj : Fin.rev j = j) (b : K) (hb : b + b = 0)
@@ -676,12 +686,11 @@ private theorem suHeis_mulVec (h : UnitaryFieldData 2 f K) {k : ℕ} (i j : Fin 
   rw [mat_suHeis]
   funext p
   simp only [heisenbergMatrix, Matrix.add_mulVec, Matrix.sub_mulVec, Matrix.one_mulVec,
-    Matrix.mulVec_smul, Matrix.smul_mulVec, Matrix.single_mulVec, Pi.add_apply,
+    Matrix.mulVec_smul, Matrix.single_mulVec, Pi.add_apply,
     Pi.smul_apply, smul_eq_mul, Function.update_apply, Pi.single_apply, Pi.zero_apply]
   have hrij : Fin.rev i ≠ j := fun hh => hij (by rw [← hj, ← hh, Fin.rev_rev])
   by_cases hp : p = i <;> by_cases hpj : p = j <;> by_cases hpr : p = Fin.rev i <;>
-    simp [hp, hpj, hpr, hij, Ne.symm hij, hrij, Ne.symm hrij, hi, Ne.symm hi, hj,
-      hb1, map_one, mul_comm, CharTwo.neg_eq] <;> ring
+    simp [hp, hpj, hpr, hij, Ne.symm hij, hrij, Ne.symm hrij, hi, Ne.symm hi, map_one, mul_comm, CharTwo.neg_eq]
 
 private theorem mat_suElt (h : UnitaryFieldData 2 f K) {k : ℕ} (a : Fin k → K) (s : K)
     (hAdm : SuAdm (f := f) a s) :
@@ -725,7 +734,7 @@ private theorem conj_suM (h : UnitaryFieldData 2 f K) {k : ℕ}
             (iotaHom (suB' B) * suElt h a s hAdm * (iotaHom (suB' B))⁻¹) *
             suJ (K := K) (f := f) (k := k) := by
           rw [hinv, iotaHom_eq_suJ_mul B]
-          simp only [suM, inv_suJ]
+          simp only [suM]
           group
           have hAssoc : suJ (K := K) (f := f) (k := k) * iotaHom (suB' B) *
               suJ (K := K) (f := f) (k := k) * suJ (K := K) (f := f) (k := k) *
@@ -752,7 +761,7 @@ private theorem suM_zero (h : UnitaryFieldData 2 f K) {k : ℕ} :
     suM h (0 : Fin k → K) 0 (suAdm_zero (f := f) (k := k)) = 1 := by
   apply mat_injective
   rw [mat_suM, map_one, suMat, suN]
-  simp [suA, suW, suW_zero, midExt_zero, map_zero, vecMulVec_zero]
+  simp [suA, suW_zero, midExt_zero, vecMulVec_zero]
 
 private theorem suM_mul_inv (h : UnitaryFieldData 2 f K) {k : ℕ} (a : Fin k → K) (s : K)
     (hAdm : SuAdm (f := f) a s) :
@@ -766,7 +775,7 @@ private theorem suM_mul_inv (h : UnitaryFieldData 2 f K) {k : ℕ} (a : Fin k �
       aform (unitaryInvolution K 2 f) a a = 0 := by
     rw [hAdm, CharTwo.add_self_eq_zero]
   rw [ha, hs, suMat, suN]
-  simp [suA, suW, suW_zero, midExt_zero, map_zero, vecMulVec_zero]
+  simp [suA, suW_zero, midExt_zero, vecMulVec_zero]
 
 private theorem suM_inv (h : UnitaryFieldData 2 f K) {k : ℕ} (a : Fin k → K) (s : K)
     (hAdm : SuAdm (f := f) a s) :
@@ -844,7 +853,7 @@ private theorem suRad_exists_suM (h : UnitaryFieldData 2 f K) {k : ℕ}
       intro i
       rw [rev_mid]
     rw [h0, hl, Finset.sum_congr rfl (fun i _ => hm i)] at hsum
-    simp [Fin.rev_zero, zero_ne_last] at hsum
+    simp [Fin.rev_zero] at hsum
     exact CharTwo.add_eq_zero.mp hsum
   have hlastmid : ∀ j : Fin k,
       mat (unitaryInvolution K 2 f) (k + 2) x (Fin.last (k + 1)) (mid j) =
@@ -863,22 +872,22 @@ private theorem suRad_exists_suM (h : UnitaryFieldData 2 f K) {k : ℕ}
         (mat (unitaryInvolution K 2 f) (k + 2) x (Fin.last (k + 1)) 0) *
         mat (unitaryInvolution K 2 f) (k + 2) x (Fin.rev (Fin.last (k + 1))) (mid j) = 0 := by
       rw [Fin.rev_last, hrow (mid j)]
-      simp [Matrix.one_apply, mid_ne_zero j, Ne.symm (mid_ne_zero j)]
+      simp [Ne.symm (mid_ne_zero j)]
     have hm : ∑ i : Fin k, unitaryInvolution K 2 f
         (mat (unitaryInvolution K 2 f) (k + 2) x (mid i) 0) *
         mat (unitaryInvolution K 2 f) (k + 2) x (Fin.rev (mid i)) (mid j) =
           unitaryInvolution K 2 f (a (Fin.rev j)) := by
       rw [Finset.sum_eq_single (Fin.rev j)]
       · rw [rev_mid, hmid']
-        simp [Fin.rev_rev, Matrix.one_apply, mid_injective.eq_iff]
+        simp [Fin.rev_rev, Matrix.one_apply]
         rfl
       · intro i _ hi
         rw [rev_mid, hmid']
         have hne : ¬ mid (Fin.rev i) = mid j := fun h => hi (by
           rw [← Fin.rev_rev i, mid_injective h])
-        simp [Matrix.one_apply, hne]
+        simp [hne]
       · simp
-    rw [h0, hl, hm, Fin.rev_zero, if_neg (mid_ne_last j), add_zero] at hsum
+    rw [h0, hl, hm, Fin.rev_zero, ite_eq_right (mid_ne_last j), add_zero] at hsum
     have hxlast := CharTwo.add_eq_zero.mp hsum
     rw [hxlast]
     rw [suW, suA, rev_mid, midExt_mid]
@@ -1051,7 +1060,7 @@ private theorem exists_commutator_suVec_nonself (h : UnitaryFieldData 2 f K) {k 
         (suM_mem_suRad h (c • (Pi.single (Fin.rev j) 1 : Fin k → K)) s hAdm))
   · rw [suVec_suCommutator, suLongRoot_mulVec]
     funext p
-    simp [Pi.add_apply, Pi.smul_apply, CharTwo.add_self_eq_zero, add_assoc, add_comm,
+    simp [Pi.add_apply, Pi.smul_apply, CharTwo.add_self_eq_zero, add_comm,
       add_left_comm]
 
 private theorem exists_commutator_suVec_self (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 ≤ k)
@@ -1060,7 +1069,7 @@ private theorem exists_commutator_suVec_self (h : UnitaryFieldData 2 f K) {k : �
       (y : SU (unitaryInvolution K 2 f) (k + 2)) ∈
         suHP (K := K) (f := f) (k := k) ∧
       suVec y = c • (Pi.single j 1 : Fin k → K) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   have hi : (0 : Fin k) ≠ Fin.rev 0 := by
     intro h0
     have hv := congrArg Fin.val h0
@@ -1100,8 +1109,7 @@ private theorem exists_commutator_suVec_self (h : UnitaryFieldData 2 f K) {k : �
       (Subgroup.inv_mem (H := suHP (K := K) (f := f) (k := k)) hy2mem)
   · rw [suVec_mul h, suVec_inv h, hy1vec, hy2vec]
     funext p
-    simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, CharTwo.add_self_eq_zero, add_assoc,
-      add_comm, add_left_comm, mul_comm]
+    simp [Pi.add_apply, Pi.smul_apply, smul_eq_mul, CharTwo.add_self_eq_zero, add_comm, add_left_comm, mul_comm]
 
 private theorem exists_commutator_suM_zero (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 ≤ k)
     (t : K) (ht : t + unitaryInvolution K 2 f t = 0) :
@@ -1113,7 +1121,7 @@ private theorem exists_commutator_suM_zero (h : UnitaryFieldData 2 f K) {k : ℕ
           unfold SuAdm
           rw [aform_zero_left]
           exact ht) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   have ht' : h.bar t = t := by
     rw [RootDetectSU.bar_eq h]
     exact (CharTwo.add_eq_zero.mp ht).symm
@@ -1158,20 +1166,19 @@ private theorem exists_commutator_suM_zero (h : UnitaryFieldData 2 f K) {k : ℕ
       mul_suM, mul_suM, mul_suM]
     have hav : a + b + a + b = 0 := by
       funext p
-      simp [a, b, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
-        CharTwo.add_self_eq_zero, add_assoc, add_comm, add_left_comm]
+      simp [a, b, Pi.add_apply, CharTwo.add_self_eq_zero, add_comm, add_left_comm]
     have hab : aform (unitaryInvolution K 2 f) a b =
         unitaryInvolution K 2 f α := by
       rw [aform_apply, Finset.sum_eq_single 0]
-      · simp [a, b, Pi.single_apply, Fin.rev_zero]
+      · simp [a, b]
       · intro x _ hx
-        simp [a, Pi.smul_apply, Pi.single_apply, hx]
+        simp [a, Pi.smul_apply, hx]
       · simp
     have hba : aform (unitaryInvolution K 2 f) b a = α := by
       rw [aform_apply, Finset.sum_eq_single (Fin.rev (0 : Fin k))]
-      · simp [a, b, Pi.single_apply, Fin.rev_zero]
+      · simp [a, b]
       · intro x _ hx
-        simp [b, Pi.single_apply, hx]
+        simp [b, hx]
       · simp
     have h1 := hAdm1
     have h2 := hAdm2
@@ -1196,11 +1203,11 @@ private theorem exists_commutator_suM_zero (h : UnitaryFieldData 2 f K) {k : ℕ
           (unitaryInvolution K 2 f α + unitaryInvolution K 2 f α) := by
         abel
       rw [hgroup, h1, h2, hα']
-      simp [CharTwo.add_self_eq_zero, add_assoc, add_comm, add_left_comm]
+      simp [CharTwo.add_self_eq_zero, add_comm, add_left_comm]
     apply mat_injective
     rw [mat_suM, mat_suM, hav, hsv]
 
-private theorem suAdm_zero_of_trace (h : UnitaryFieldData 2 f K) {k : ℕ} {t : K}
+private theorem suAdm_zero_of_trace (_h : UnitaryFieldData 2 f K) {k : ℕ} {t : K}
     (ht : t + unitaryInvolution K 2 f t = 0) :
     SuAdm (f := f) (0 : Fin k → K) t := by
   unfold SuAdm

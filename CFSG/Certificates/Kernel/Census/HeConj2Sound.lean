@@ -501,9 +501,9 @@ theorem repF_bpcAt {nfp : Nat → Nat → Nat} {uf : Nat → Nat} :
       xp nfp uf f F z, z)) = _
     rw [strictN_val, pcG]
     by_cases hm : m % 2 = 1
-    · rw [nbeqT hm, if_pos hm]
+    · rw [nbeqT hm, ite_eq_left hm]
       exact (hx.comp ih) y hy
-    · rw [nbeqF hm, if_neg hm, one_mul]
+    · rw [nbeqF hm, ite_eq_right hm, one_mul]
       exact ih y hy
   | [], _ :: _, _, h1, h2, _, _ | _ :: _, [], _, h1, h2, _, _ | _ :: _, _, [], h1, h2, _, _
   | [], [], _ :: _, h1, h2, _, _ => by
@@ -737,10 +737,10 @@ theorem hwOK_sound {n : Nat} {bs : List Nat} {X : Subgroup (Equiv.Perm (Fin n))}
       obtain ⟨v1, v2, e2⟩ := hGv _ hj'
       by_cases hm : j % 2 = 0
       · have hb : Nat.beq (Nat.mod j 2) 0 = true := nbeqT hm
-        simp only [hb, cond_true, lE, if_pos hm]
+        simp only [hb, _root_.Bool.cond_true, lE, ite_eq_left hm]
         exact ⟨hgR _ v1, hgX _ v1⟩
       · have hb : Nat.beq (Nat.mod j 2) 0 = false := nbeqF hm
-        simp only [hb, cond_false, lE, if_neg hm]
+        simp only [hb, Bool.cond_false, lE, ite_eq_right hm]
         have := hgR _ v2
         rw [e2] at this
         exact ⟨this, inv_mem (hgX _ v1)⟩
@@ -749,9 +749,9 @@ theorem hwOK_sound {n : Nat} {bs : List Nat} {X : Subgroup (Equiv.Perm (Fin n))}
       intro j hj'
       have hm : g (G.getD (j / 2) 0) ∈ P := subset_closure ⟨j / 2, hj', rfl⟩
       by_cases h0 : j % 2 = 0
-      · simp only [lE, if_pos h0]
+      · simp only [lE, ite_eq_left h0]
         exact hm
-      · simp only [lE, if_neg h0]
+      · simp only [lE, ite_eq_right h0]
         exact inv_mem hm
     have hlt : ∀ wd, lettersLt (2 * G.length) wd = true → ∀ j ∈ wd, j / 2 < gens.length := by
       intro wd hw j hjw
@@ -789,8 +789,8 @@ theorem hwOK_sound {n : Nat} {bs : List Nat} {X : Subgroup (Equiv.Perm (Fin n))}
         refine List.map_congr_left fun i _ => ?_
         simp only [Function.comp_apply, lE, xor_one_div, xor_one_mod]
         by_cases h0 : i % 2 = 0
-        · rw [if_pos h0, if_neg (by omega)]
-        · rw [if_neg h0, if_pos (by omega), inv_inv]
+        · rw [ite_eq_left h0, ite_eq_right (by omega)]
+        · rw [ite_eq_right h0, ite_eq_left (by omega), inv_inv]
       rwa [he] at this
     have hPP : P ≤ ⁅P, P⁆ := by
       refine (closure_le _).2 ?_

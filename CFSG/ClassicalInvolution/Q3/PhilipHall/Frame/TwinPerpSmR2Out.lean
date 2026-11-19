@@ -27,8 +27,8 @@ theorem finite_ringEquiv_self' (K : Type*) [Field K] [Finite K] : Finite (K ≃+
 
 theorem rankLeTwo_outer_psl2 (K : Type) [Field K] [Finite K] (hK : IsOddPrimePower (Nat.card K))
     (h3 : 3 < Nat.card K) : RankLeTwo (Outer (PSL2 K)) := by
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
-  haveI := finite_ringEquiv_self' K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have := finite_ringEquiv_self' K
   set ε := (odd_outerEquivSemilinearQuotient K hK h3).symm with hε
   set f : Outer (PSL2 K) →* (K ≃+* K) := (quotientFieldProjection K).comp ε.toMonoidHom with hf
   refine rankLeTwo_of_pred (fun u => f u = 1) ?_ ?_
@@ -56,7 +56,7 @@ theorem rankLeTwo_outer_psl3 (K : Type) [Field K] [Finite K] :
   obtain ⟨hgenTop, -⟩ := automorphism_generation (K := K) (n := 3) le_rfl
   obtain ⟨hID, -, hDn, -, -, ⟨g, hgE, hg⟩, -, -, -, -⟩ :=
     standard_outer_quotients (n := 3) (K := K)
-  haveI : Finite (MulAut (projectiveSL 3 K)) := ProjectivePlane.finite_mulAut_projectiveSL 3
+  have : Finite (MulAut (projectiveSL 3 K)) := ProjectivePlane.finite_mulAut_projectiveSL 3
   set I := inner (projectiveSL 3 K) with hI
   set D := linearAutGroup 3 K with hD
   set E := semilinearAutGroup 3 K with hE
@@ -69,11 +69,11 @@ theorem rankLeTwo_outer_psl3 (K : Type) [Field K] [Finite K] :
     have hd' : d ∈ standardAutGroup 3 K := hgenTop ▸ Subgroup.mem_top d
     have := hDn.conj_mem ⟨d, hd'⟩ (Subgroup.mem_subgroupOf.mpr hd) ⟨γ, hγ⟩
     exact Subgroup.mem_subgroupOf.mp this
-  haveI hN : (D.subgroupOf E).Normal := by
+  have hN : (D.subgroupOf E).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hDE]
     intro d k hd _
     exact hDnorm d hd k
-  haveI hcyc : IsCyclic (↥E ⧸ D.subgroupOf E) := by
+  have hcyc : IsCyclic (↥E ⧸ D.subgroupOf E) := by
     refine ⟨⟨QuotientGroup.mk ⟨g, hgE⟩, fun x => ?_⟩⟩
     obtain ⟨⟨x, hx⟩, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨k, hk⟩ := hg x hx
@@ -139,12 +139,12 @@ theorem rankLeTwo_cent_l2 {Y : Type} [Group Y] {T : Subgroup Y} (hF : SmallL2 �
     (htT : t ∈ T) (ht : orderOf t = 2) :
     RankLeTwo ↥(T ⊓ Subgroup.centralizer ({t} : Set Y)) := by
   obtain ⟨p, f, K, _, _, hp, hpodd, hf, h3, hK, ⟨e⟩⟩ := soc_l2_data hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ht' : orderOf (e ⟨t, htT⟩) = 2 := by
     rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk]
     exact ht
   obtain ⟨m, hm, ⟨ψ⟩⟩ := soc_l2_centralizer_dihedral K hK hpodd hf h3 ht'
-  haveI := hm
+  have := hm
   have hmem : ∀ x : ↥(T ⊓ Subgroup.centralizer ({t} : Set Y)),
       e ⟨(x : Y), (Subgroup.mem_inf.mp x.2).1⟩ ∈
         Subgroup.centralizer ({e ⟨t, htT⟩} : Set (PSL2 K)) := by

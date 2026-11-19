@@ -23,7 +23,7 @@ variable {n : ℕ} {F : Type} [Field F]
 theorem symS_transpose (x : Fin 4 → F) : (symS (n := n) x)ᵀ = symS x := by
   ext i j
   simp only [Matrix.transpose_apply, symS]
-  split_ifs <;> first | rfl | (exfalso; omega) | simp_all
+  split_ifs <;> first | rfl | (exfalso; omega)
 
 theorem symS_add (x y : Fin 4 → F) : symS (n := n) (x + y) = symS x + symS y := by
   ext i j
@@ -80,7 +80,7 @@ theorem tGL_mem : tGL (n := n) (F := F) ∈ StatedSp n F := by
 theorem sgnVec_mul_symS (x : Fin 4 → F) (i j : Fin n) :
     sgnVec (n := n) (F := F) i * symS x i j = symS x i j * sgnVec (n := n) (F := F) j := by
   simp only [symS, sgnVec]
-  split_ifs <;> first | (exfalso; omega) | ring1 | simp
+  split_ifs <;> first | (exfalso; omega) | ring1
 
 theorem tGL_mul_uGL (x : Fin 4 → F) :
     tGL (n := n) (F := F) * uGL (symS x) = uGL (symS x) * tGL := by

@@ -11,6 +11,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem (coord coord_injective exists_coor
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_cen_sign {b₁ b₂ b₃ t : G} (h12 : b₁ * b₂ = b₂ * b₁) (h13 : b₁ * b₃ = b₃ * b₁)
     (h23 : b₂ * b₃ = b₃ * b₂) (h1 : b₁ ^ 3 = 1) (h2 : b₂ ^ 3 = 1) (h3 : b₃ ^ 3 = 1)
     (hcard : Nat.card (Subgroup.closure ({b₁, b₂, b₃} : Set G)) = 27)
@@ -104,6 +105,7 @@ section Kappa
 
 variable {B₁ B₂ : Subgroup G} {b : G}
 
+omit [Finite G] in
 theorem kappa_mul (hB₁B₂ : B₁ ≤ B₂) (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x)
     (hbB₂ : ∀ x ∈ B₂, b * x * b⁻¹ * x⁻¹ ∈ B₁) {x y : G} (hx : x ∈ B₂) (hy : y ∈ B₂) :
     b * (x * y) * b⁻¹ * (x * y)⁻¹ = (b * x * b⁻¹ * x⁻¹) * (b * y * b⁻¹ * y⁻¹) := by
@@ -113,12 +115,14 @@ theorem kappa_mul (hB₁B₂ : B₁ ≤ B₂) (hB₂ab : ∀ x ∈ B₂, ∀ y �
       = (b * x * b⁻¹ * x⁻¹) * (x * (b * y * b⁻¹ * y⁻¹) * x⁻¹) := by group
     _ = (b * x * b⁻¹ * x⁻¹) * (b * y * b⁻¹ * y⁻¹) := by rw [hc, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem kappa_conj {g : G} (hgb : g * b * g⁻¹ = b) (x : G) :
     b * (g * x * g⁻¹) * b⁻¹ * (g * x * g⁻¹)⁻¹ = g * (b * x * b⁻¹ * x⁻¹) * g⁻¹ := by
   calc b * (g * x * g⁻¹) * b⁻¹ * (g * x * g⁻¹)⁻¹
       = (g * b * g⁻¹) * (g * x * g⁻¹) * (g * b * g⁻¹)⁻¹ * (g * x * g⁻¹)⁻¹ := by rw [hgb]
     _ = g * (b * x * b⁻¹ * x⁻¹) * g⁻¹ := by group
 
+omit [Finite G] in
 theorem kappa_eq_one (hbB₁ : ∀ y ∈ B₁, y * b = b * y)
     (hker : ∀ x ∈ B₂, x * b = b * x → x ∈ B₁) {x : G} (hx : x ∈ B₂) :
     b * x * b⁻¹ * x⁻¹ = 1 ↔ x ∈ B₁ := by
@@ -135,6 +139,7 @@ theorem kappa_eq_one (hbB₁ : ∀ y ∈ B₁, y * b = b * y)
     calc b * x * b⁻¹ * x⁻¹ = x * b * b⁻¹ * x⁻¹ := by rw [e]
       _ = 1 := by group
 
+omit [Finite G] in
 theorem kappa_inv (hB₁B₂ : B₁ ≤ B₂) (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x)
     (hbB₂ : ∀ x ∈ B₂, b * x * b⁻¹ * x⁻¹ ∈ B₁) {x : G} (hx : x ∈ B₂) :
     b * x⁻¹ * b⁻¹ * x⁻¹⁻¹ = (b * x * b⁻¹ * x⁻¹)⁻¹ := by
@@ -142,6 +147,7 @@ theorem kappa_inv (hB₁B₂ : B₁ ≤ B₂) (hB₂ab : ∀ x ∈ B₂, ∀ y �
   simp only [mul_inv_cancel, mul_one, inv_one] at h0
   exact eq_inv_of_mul_eq_one_right h0.symm
 
+omit [Finite G] in
 theorem irreducible_of_kappa {T : Set G} (hB₁B₂ : B₁ ≤ B₂)
     (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x)
     (hbB₂ : ∀ x ∈ B₂, b * x * b⁻¹ * x⁻¹ ∈ B₁) (hbB₁ : ∀ y ∈ B₁, y * b = b * y)
@@ -327,6 +333,7 @@ theorem four_le_localRank
 
 end Main
 
+omit [Finite G] in
 theorem ker_of_cenS {B₂ : Subgroup G} {b b₁ b₂ b₃ : G}
     (hB₁B₂ : Subgroup.closure ({b₁, b₂, b₃} : Set G) ≤ B₂)
     (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x) (hB₂p : IsPGroup 3 B₂)

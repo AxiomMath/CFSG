@@ -52,10 +52,10 @@ theorem l3_e3_full {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
         CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.IsE3LeviIndex d.1 ∧
         ∃ φ : ↥H →* (CFSGIndex.lie d).Group, Function.Surjective φ ∧
           φ.ker = N.subgroupOf H := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : ringChar (GaloisField q.p q.exponent) = 2 :=
     (ringChar.eq (GaloisField q.p q.exponent) q.p).trans hq2
-  haveI : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
+  have : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
   let e0 : ↥K ≃* projectiveSL 3 (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 _))
@@ -102,12 +102,12 @@ theorem u4_e3_full {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
     have h1 := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv e
     rw [hq2] at h1
     exact Or.inl ⟨by decide, h1⟩
-  haveI : IsSimpleGroup ↥K :=
+  have : IsSimpleGroup ↥K :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
   obtain ⟨K', _, h, ⟨e1⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hmodel
   obtain ⟨f, hf, -, -, hfr⟩ := exists_prime_two_le_pRank_hypSU h
-  haveI : Finite (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0) := by
-    haveI := h.finite
+  have : Finite (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0) := by
+    have := h.finite
     exact CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hfr' : 2 ≤ CFSG.Open.pRank f (⊤ : Subgroup ↥K) := by
     rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hf.one_lt e1]

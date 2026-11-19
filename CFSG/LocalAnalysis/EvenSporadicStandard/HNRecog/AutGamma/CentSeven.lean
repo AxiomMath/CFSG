@@ -87,7 +87,7 @@ theorem sq_eq_one_of_centralizes_sym7 {H : Type} [Group H] {S : Subgroup H}
     simp at hw'ord
   have hcard7 : Nat.card (Multiplicative (ZMod 7)) = 7 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have he4 : (ψ y').2 ^ 4 = 1 := by
     rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, elem2_two_sq]
   have hmem : (ψ (y' ^ 4)).1 ∈ Submonoid.powers ((ψ w').1) := by
@@ -162,8 +162,8 @@ theorem sq_eq_one_of_centralizes_sym7 {H : Type} [Group H] {S : Subgroup H}
     apply ψ.injective
     rw [map_pow, map_one]
     apply Prod.ext
-    · simp [prod_fst_pow, hz_one]
-    · simp [prod_snd_pow, elem2_two_sq]
+    · simp [hz_one]
+    · simp [elem2_two_sq]
   have : y ^ 2 = 1 := by
     have := congrArg Subtype.val hy'2
     simpa [y', Subgroup.coe_pow] using this

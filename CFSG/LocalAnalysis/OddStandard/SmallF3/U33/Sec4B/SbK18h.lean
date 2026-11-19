@@ -14,10 +14,12 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma comm_of_conj_eq_self {u g : G} (h : u * g * u⁻¹ = g) : u * g = g * u := by
   calc u * g = (u * g * u⁻¹) * u := by group
     _ = g * u := by rw [h]
 
+omit [Finite G] in
 private lemma mem_centralizer_singleton {u g : G} (h : u * g = g * u) :
     g ∈ centralizer ({u} : Set G) := by
   rw [Subgroup.mem_centralizer_iff]

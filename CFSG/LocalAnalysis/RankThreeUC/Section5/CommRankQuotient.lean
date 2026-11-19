@@ -11,6 +11,7 @@ namespace Section5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commRank_eq_fixedQuot_finrank {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) G V) (t : G) :
     commRank ρ t = Module.finrank (ZMod 2) (V ⧸ fixedSubmodule ρ (Subgroup.zpowers t)) := by
@@ -27,7 +28,7 @@ theorem commRank_eq_fixedQuot_finrank {V : Type} [AddCommGroup V] [Module (ZMod 
         calc ρ t⁻¹ v = ρ t⁻¹ (ρ t v) := by rw [h]
           _ = v := by
             have := congrArg (fun f => f v) (map_mul ρ t⁻¹ t)
-            simpa using this.symm
+            simp
       show ρ (t ^ k) v = v
       induction k using Int.induction_on with
       | zero => simp
@@ -37,7 +38,7 @@ theorem commRank_eq_fixedQuot_finrank {V : Type} [AddCommGroup V] [Module (ZMod 
         exact ih (by simp)
       | pred n ih =>
         rw [zpow_sub_one, map_mul]
-        simp only [Module.End.mul_apply, map_inv, hi]
+        simp only [Module.End.mul_apply, hi]
         exact ih (by simp)
   unfold commRank
   rw [hker]

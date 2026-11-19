@@ -44,11 +44,11 @@ theorem iS_lt : iS < D.N := by decide
 theorem iT_lt : iT < D.N := by decide
 
 theorem rowAt_iS : rowAt (gDag aR bR).1 iS = U SK := by
-  rw [rowAt_eq, if_pos iS_lt]
+  rw [rowAt_eq, ite_eq_left iS_lt]
   rfl
 
 theorem rowAt_iT : rowAt (gDag aR bR).1 iT = U TK := by
-  rw [rowAt_eq, if_pos iT_lt]
+  rw [rowAt_eq, ite_eq_left iT_lt]
   rfl
 
 theorem xGen_eq (k : Nat) : xGen (gDag aR bR).1 k = U (xGK k) := by
@@ -60,10 +60,10 @@ theorem xGen_eq (k : Nat) : xGen (gDag aR bR).1 k = U (xGK k) := by
   · by_cases h1 : k = 1
     · subst h1
       rfl
-    · rw [if_neg h0, if_neg h1, MatL.nIf_eq, MatL.nIf_eq]
+    · rw [ite_eq_right h0, ite_eq_right h1, MatL.nIf_eq, MatL.nIf_eq]
       have e0 : (Nat.beq k 0 = true) = False := by simp [h0]
       have e1 : (Nat.beq k 1 = true) = False := by simp [h1]
-      simp only [e0, e1, if_false]
+      simp only [e0, e1, ite_false]
       rw [← mul_unpackW, unpack_powWK]
       rfl
 
@@ -72,15 +72,15 @@ theorem rowAt_fus (k : Nat) : rowAt (gDag aR bR).1 (fusG.getD k 0) = U (cK k) :=
   unfold cK
   rw [MatL.strictN_eq, MatL.nIf_eq]
   by_cases h : fusG.getD k 0 < D.N
-  · rw [if_pos h, if_pos (by rw [Nat.blt_eq]; exact h)]
-  · rw [if_neg h, if_neg (by rw [Nat.blt_eq]; exact h), MatL.unpack_idM]
+  · rw [ite_eq_left h, ite_eq_left (by rw [Nat.blt_eq]; exact h)]
+  · rw [ite_eq_right h, ite_eq_right (by rw [Nat.blt_eq]; exact h), MatL.unpack_idM]
 
 theorem tgtRow_eq (k : Nat) : tgtRow (gDag aR bR).1 k = U (tK k) := by
   unfold tgtRow tK
   rw [MatL.nIf_eq]
   by_cases h : fusTgt.getD k 0 = 0
-  · rw [if_pos h, if_pos (by rw [Nat.beq_eq]; exact h), rowAt_iS]
-  · rw [if_neg h, if_neg (by rw [Nat.beq_eq]; exact h), rowAt_iT]
+  · rw [ite_eq_left h, ite_eq_left (by rw [Nat.beq_eq]; exact h), rowAt_iS]
+  · rw [ite_eq_right h, ite_eq_right (by rw [Nat.beq_eq]; exact h), rowAt_iT]
 
 theorem gens_eq : (gensArr 2 GP) = [U SK, U TK].toArray := by
   apply Array.ext

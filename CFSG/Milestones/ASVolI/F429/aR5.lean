@@ -427,8 +427,8 @@ theorem burnsideF429a_r5_line {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (_hev : ¬ Odd Gp.index) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     pCoreOf 2 (oPPrime 2 (Gp ⊓ M₂) ⊔ T) = pCoreOf 2 (oPPrime 2 (Gp ⊓ M₂)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
   obtain ⟨Φ, e1, e2⟩ := burnsideF4gU4_exists_equiv marking
   exact burnsideF429a_c5_of_key (burnsideF429a_U4_sylow_of_model _ Φ (h1.trans e1) (h2.trans e2))

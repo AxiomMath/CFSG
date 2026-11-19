@@ -45,9 +45,9 @@ private theorem sMul_code {gA : Array (Fin 8)} {dA : Array (Nat × Fin 8)} {dct 
       fget DO (8 * pd.val + qd.val) 1 := by
     rw [ho']
     by_cases h : (fget DO (8 * pd.val + qd.val) 1).beq 1 = true
-    · rw [if_pos h, Nat.eq_of_beq_eq_true h]
+    · rw [ite_eq_left h, Nat.eq_of_beq_eq_true h]
       rfl
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have h1 : fget DO (8 * pd.val + qd.val) 1 ≠ 1 := fun h' => h (by rw [h']; rfl)
       have h0 : fget DO (8 * pd.val + qd.val) 1 = 0 := by omega
       rw [h0]

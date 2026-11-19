@@ -36,18 +36,18 @@ theorem gRep : GRep RG gP := by
   · have e : gl RG c = CertificateChecks.KernelO8.AP.S c := by
       unfold gl RG
       interval_cases c <;> rfl
-    rw [e, gP, if_pos hc]
+    rw [e, gP, ite_eq_left hc]
     exact prep_gen hc
   · have e : gl RG c = pidn 360 9 := by
       unfold gl
       rw [List.getD_eq_default]
       simp only [RG, List.length_cons, List.length_nil]
       omega
-    rw [e, gP, if_neg hc]
+    rw [e, gP, ite_eq_right hc]
     exact Orb.prep_pidn (by norm_num) (by norm_num)
 
 theorem coe_curtisGen (i : Fin 8) : (A6.curtisGen i : Equiv.Perm (Fin 360)) = gP i.val := by
-  rw [gP, if_pos i.isLt]
+  rw [gP, ite_eq_left i.isLt]
   rfl
 
 @[expose] noncomputable def SM : Array (Array Nat) :=

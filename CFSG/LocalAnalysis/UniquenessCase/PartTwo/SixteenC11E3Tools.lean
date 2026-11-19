@@ -54,7 +54,7 @@ theorem s1611e3_tiConj_of_dvd {D : Data G} (h : S1611e3Std D) {V₀ V : Subgroup
     (h16 : Hyp16 D V₀ V) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded q D.M)
     (hK : q ∣ Nat.card ↥(F11.CTilde D.M V₀ V)) : S16C11TI D V₀ V :=
-  s16c11_tiConj_of_stronglyEmbedded D h16.hyp125 hsp fun _ w hw hw0 =>
+  s16c11_tiConj_of_stronglyEmbedded D h16.hyp125 hsp fun _ _w hw hw0 =>
     s16c11_dvd_card_cent_of_dvd_cTilde D (Hyp125.hyp11 h.h127 h16.hyp125)
       (c23_card_v0_le_four D h16) hq hq2 hK hw hw0
 

@@ -61,7 +61,7 @@ theorem sq_dvd_card_centralizer_inf_uc6 {p : ℕ} [Fact p.Prime] (T : Subgroup G
         exact Subgroup.mem_centralizer_singleton_iff.2
           (congrArg Subtype.val (Subgroup.mem_center_iff.1 hz ⟨s, hs⟩)).symm
     have hZne : Z' ≠ ⊥ := by
-      haveI : Nontrivial T := by
+      have : Nontrivial T := by
         rw [← Finite.one_lt_card_iff_nontrivial]
         have : 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp.one_lt
         omega
@@ -86,7 +86,7 @@ theorem card_le_of_centralizer_le {N R : Subgroup G} (hNR : N ≤ normalizer (R 
     (he1 : e ≠ 1) (hC : ∀ n ∈ N, n * e = e * n → n ∈ R) : Nat.card N ≤ (Nat.card R - 1) * Nat.card R := by
   classical
   let φ : ↥N →* MulAut ↥R := R.normalizerMonoidHom.comp (Subgroup.inclusion hNR)
-  letI : MulAction ↥N ↥R := MulAction.compHom ↥R φ
+  let : MulAction ↥N ↥R := MulAction.compHom ↥R φ
   have hsmul : ∀ (n : ↥N) (x : ↥R), ((n • x : ↥R) : G) = (n : G) * x * (n : G)⁻¹ := by
     intro n x
     show ((φ n) x : G) = _
@@ -126,12 +126,14 @@ section Torus
 
 variable {Q : Type*} [Group Q] [Finite Q] {N R : Subgroup Q} {t : Q}
 
+omit [Finite Q] in
 theorem comm_of_card_eq_25 (hRcard : Nat.card R = 25) {x y : Q} (hx : x ∈ R) (hy : y ∈ R) :
     x * y = y * x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  exact congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq (p := 5) (G := ↥R)
-    (by rw [hRcard]; norm_num) ⟨x, hx⟩ ⟨y, hy⟩)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  exact congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) (G := ↥R)
+    (by rw [hRcard]; norm_num)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite Q] in
 theorem exists_ne_one_of_card_eq_25 (hRcard : Nat.card R = 25) : ∃ e ∈ R, e ≠ 1 := by
   by_contra h
   push Not at h
@@ -139,6 +141,7 @@ theorem exists_ne_one_of_card_eq_25 (hRcard : Nat.card R = 25) : ∃ e ∈ R, e 
   rw [hb, Subgroup.card_bot] at hRcard
   omega
 
+omit [Finite Q] in
 theorem conj_pow_three_mul_uc6 (ht3 : ∀ x ∈ R, t ^ 3 * x * (t ^ 3)⁻¹ = x ^ 2) (a : ℕ) :
     ∀ x ∈ R, t ^ (3 * a) * x * (t ^ (3 * a))⁻¹ = x ^ (2 ^ a) := by
   induction a with
@@ -191,7 +194,7 @@ theorem twelve_dvd_of_commute (hRcard : Nat.card R = 25) (htR : t ∈ normalizer
     (hline : ∀ k : ℕ, 0 < k → k < 3 → ∀ Y₀ : Subgroup Q, Y₀ ≤ R → Nat.card Y₀ = 5 →
       t ^ k ∉ normalizer (Y₀ : Set Q))
     {e : Q} (he : e ∈ R) (he1 : e ≠ 1) {j : ℕ} (hj : t ^ j * e = e * t ^ j) : 12 ∣ j := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have he5 : e ^ 5 = 1 := pow_five_of_torus hRcard htR
     (fun Y₀ hY hY5 => by simpa using hline 1 one_pos (by norm_num) Y₀ hY hY5) he
   have heo : orderOf e = 5 := orderOf_eq_prime he5 he1
@@ -458,7 +461,7 @@ theorem factorization_three : (Nat.card titsD).factorization 3 = 3 := by
 
 theorem nine_dvd_card_centralizer {s : Equiv.Perm (Fin 1755)} (hs : s ∈ titsD) (h3 : orderOf s = 3) :
     9 ∣ Nat.card ↥(centralizer {s} ⊓ titsD) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set s' : ↥titsD := ⟨s, hs⟩ with hs'
   have hs'3 : orderOf s' = 3 := by rw [hs', Subgroup.orderOf_mk]; exact h3
   have hp : IsPGroup 3 (zpowers s') := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hs'3, pow_one])
@@ -467,7 +470,7 @@ theorem nine_dvd_card_centralizer {s : Equiv.Perm (Fin 1755)} (hs : s ∈ titsD)
     rw [Sylow.card_eq_multiplicity, factorization_three]
     norm_num
   have hsP : s' ∈ (P3 : Subgroup ↥titsD) := hP3 (mem_zpowers s')
-  have h9 := sq_dvd_card_centralizer_inf_uc6 (p := 3) (P3 : Subgroup ↥titsD) P3.isPGroup'
+  have h9 := sq_dvd_card_centralizer_inf_uc6 (p := 3) (P3 : Subgroup ↥titsD) P3.isPGroup
     (by rw [hP3card]; norm_num) hsP
   have hdvd1 : Nat.card ↥(centralizer {s'} ⊓ (P3 : Subgroup ↥titsD)) ∣
       Nat.card ↥(centralizer ({s'} : Set ↥titsD)) := Subgroup.card_dvd_of_le inf_le_left

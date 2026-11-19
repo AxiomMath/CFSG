@@ -23,7 +23,7 @@ namespace OrthoF2
 theorem orderOf_eichler_mul_eichler_of_nonsingular {a b c : V} (ha : q a = 0) (hb : q b = 0)
     (hab : polar q a b = 1) (hac : polar q a c = 0) (hbc : polar q b c = 0) (hc : q c = 1) :
     orderOf (eichler q a c * eichler q b c) = 3 := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   set t₁ := eichler q a c with ht₁def
   set t₂ := eichler q b c with ht₂def
   have ht₁ : t₁ * t₁ = 1 := by rw [ht₁def]; exact eichler_mul_self hac
@@ -92,7 +92,7 @@ theorem orderOf_eichler_mul_eichler_of_hyperbolic {a b c d : V} (ha : q a = 0) (
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
     (hbd : polar q b d = 0) :
     orderOf (eichler q a c * eichler q b d) = 3 := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   set t₁ := eichler q a c with ht₁def
   set t₂ := eichler q b d with ht₂def
   have ht₁ : t₁ * t₁ = 1 := by rw [ht₁def]; exact eichler_mul_self hac
@@ -177,7 +177,7 @@ theorem orderOf_eichler_mul_eichler_of_hyperbolic_swap {a b c d : V} (ha : q a =
     (by rw [polar_comm q d c]; exact hcd) had hac hbd hbc
 
 theorem commute_eichler_mul_eichler_of_hyperbolic {a b c d : V} (ha : q a = 0) (hb : q b = 0)
-    (hc : q c = 0) (hd : q d = 0) (hab : polar q a b = 1) (hcd : polar q c d = 1)
+    (hc : q c = 0) (hd : q d = 0) (_hab : polar q a b = 1) (_hcd : polar q c d = 1)
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
     (hbd : polar q b d = 0) :
     Commute (eichler q a c * eichler q b d) (eichler q a d * eichler q b c) := by
@@ -204,7 +204,7 @@ theorem eichler_mul_eichler_not_mem_zpowers_of_hyperbolic {a b c d : V} (ha : q 
     (hcd : polar q c d = 1) (hac : polar q a c = 0) (had : polar q a d = 0)
     (hbc : polar q b c = 0) (hbd : polar q b d = 0) :
     eichler q a d * eichler q b c ∉ Subgroup.zpowers (eichler q a c * eichler q b d) := by
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   set t₁ := eichler q a c with ht₁def
   set t₂ := eichler q b d with ht₂def
   set t₃ := eichler q a d with ht₃def

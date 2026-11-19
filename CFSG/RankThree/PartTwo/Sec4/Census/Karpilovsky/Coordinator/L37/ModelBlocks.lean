@@ -16,10 +16,10 @@ attribute [local irreducible] dotProduct
 
 theorem coe_letG {s : ℕ} (hs : s < 16) : ((letG s : GM) : Mat45ˣ) = letU s := by
   have h8 : s / 2 < 8 := by omega
-  rw [letG, letU, dif_pos h8]
+  rw [letG, letU, dite_eq_left h8]
   by_cases h : s % 2 = 0
-  · rw [if_pos h, if_pos h, Subgroup.coe_inv, coe_gMG h8]
-  · rw [if_neg h, if_neg h, coe_gMG h8]
+  · rw [ite_eq_left h, ite_eq_left h, Subgroup.coe_inv, coe_gMG h8]
+  · rw [ite_eq_right h, ite_eq_right h, coe_gMG h8]
 
 theorem ptS_step {k : ℕ} (hk : k < nPt) (h0 : k ≠ 0) :
     ptS k = letG (rLet (ptRec k)) • ptS (rPar (ptRec k)) := by
@@ -43,7 +43,7 @@ theorem exists_mH_smul : ∀ k < nPt, ∃ h ∈ mH, h • ptS (startOf k) = ptS 
     obtain ⟨h', hh', e'⟩ := ih _ hp (hp.trans hk)
     rw [startOf_of_le hge hp.le] at e'
     have hl : letG (rLet (ptRec k)) = gMG (rLet (ptRec k) / 2) := by
-      rw [letG, if_neg (by omega)]
+      rw [letG, ite_eq_right (by omega)]
     refine ⟨letG (rLet (ptRec k)) * h', mH.mul_mem ?_ hh', ?_⟩
     · rw [hl]
       exact gMG_mem_mH (by omega)
@@ -340,7 +340,7 @@ theorem isBlock_W_cases
     have e2 : Fin.val '' {i : Fin nPt | rangeOf i ∈ S} =
         ↑(S.biUnion fun o => Finset.Ico (orbStart o) (orbStart ((o : ℕ) + 1))) := by
       ext k
-      simp only [Set.mem_image, Set.mem_setOf_eq, Finset.coe_biUnion, Finset.coe_Ico,
+      simp only [Set.mem_image, Set.mem_ofPred_eq, Finset.coe_biUnion, Finset.coe_Ico,
         Set.mem_iUnion, Set.mem_Ico, Finset.mem_coe, exists_prop]
       constructor
       · rintro ⟨i, hi, rfl⟩

@@ -145,7 +145,7 @@ theorem centralizer_std_transvection_solvable (K : Type) [Field K] [Finite K] [C
       have h1 : (Pi.single 1 (1 : K) : Fin 3 → K) 1 = 0 := by
         simpa [LinearMap.proj_apply] using
           congrArg (fun f : (Fin 3 → K) →ₗ[K] K => f (Pi.single 1 1)) h
-      simpa using h1
+      simp at h1
     have h := Module.Dual.finrank_ker_add_one_of_ne_zero
       (f := (LinearMap.proj (1 : Fin 3) : (Fin 3 → K) →ₗ[K] K)) hφ_ne
     have h3 : Module.finrank K (Fin 3 → K) = 3 := by
@@ -153,11 +153,11 @@ theorem centralizer_std_transvection_solvable (K : Type) [Field K] [Finite K] [C
     dsimp [J₂]
     omega
   have hcard_exists : ∃ n : ℕ+, Nat.card K = 2 ^ (n : ℕ) := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hcard⟩ := FiniteField.card (K := K) 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hcard]⟩
   obtain ⟨n, hcard⟩ := hcard_exists
-  haveI : Group.IsSolvable ↥(stabilizer J ⊓ stabilizer J₂) :=
+  have : Group.IsSolvable ↥(stabilizer J ⊓ stabilizer J₂) :=
     isSolvable_stabilizer_inf_stabilizer (K := K) (p := 2) (k := (n : ℕ))
       Nat.prime_two hcard hJJ hJ hJ₂
   exact Group.isSolvable_of_isSolvable_injective
@@ -371,7 +371,7 @@ theorem centralizer_proj_involution_solvable (K : Type) [Field K] [Finite K] [Ch
         (proj 3 K) := le_antisymm hge hle
   have hmap_sol : Group.IsSolvable ↥((Subgroup.centralizer
       ({t} : Set (SpecialLinearGroup (Fin 3) K))).map (proj 3 K)) := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer
+    have : Group.IsSolvable ↥(Subgroup.centralizer
         ({t} : Set (SpecialLinearGroup (Fin 3) K))) := hCsol_t
     let f : ↥(Subgroup.centralizer ({t} : Set (SpecialLinearGroup (Fin 3) K))) →* P :=
       (proj 3 K).comp (Subgroup.subtype _)

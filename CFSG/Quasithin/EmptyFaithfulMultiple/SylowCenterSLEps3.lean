@@ -384,7 +384,7 @@ theorem isCyclic_center_sylow {D : Type*} [Group D] [Finite D] {i : K} (hi : i ^
   refine isCyclic_of_injective_ringHom f ((injective_iff_map_eq_one f).mpr fun z hz => ?_)
   have h3 : E z ^ 3 = 1 := pow_three_eq_one_of_ratio hZ hdet (hE z) hz
   have hz3 : z ^ 3 = 1 := hEinj (by rw [map_pow, h3, map_one])
-  exact eq_one_of_pow_three (P.isPGroup'.to_subgroup _) hz3
+  exact eq_one_of_pow_three (P.isPGroup.to_subgroup _) hz3
 
 section Models
 

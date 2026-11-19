@@ -64,7 +64,7 @@ theorem le_Q_of_le (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     M.subtype_injective).exists_le_sylow
   set S := (P₀ : Subgroup ↥M).map M.subtype with hSdef
   have hSM : S ≤ M := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := P₀.isPGroup'.map M.subtype
+  have hS2 : IsPGroup 2 S := P₀.isPGroup.map M.subtype
   have hA₀S : conjSubgroup h (PartTwo.omegaOneSub U) ≤ S := fun z hz =>
     ⟨⟨z, hhM hz⟩, hP₀ hz, rfl⟩
   have hQS : inSubgroup (pCore 2) M ≤ S := by

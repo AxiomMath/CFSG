@@ -32,7 +32,7 @@ variable {X : Setup Γ G}
 
 private theorem s46g2q_not_Q1_le_Q0 (A : X.CaseAGen) : ¬ X.Q 1 ≤ X.Q 0 := by
   intro hle
-  haveI : Finite ↥(X.Q 0) :=
+  have : Finite ↥(X.Q 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
   have hcardle : Nat.card ↥(X.Q 1) ≤ Nat.card ↥(X.Q 0) :=
     Nat.card_le_card_of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
@@ -229,11 +229,11 @@ private theorem s46g2q_isNatSecOf (A : X.CaseAGen) (hn : X.n 1 = X.n 0)
     (hker : α.ker = (pCoreOf 2 (X.L 1)).subgroupOf (X.L 1)) :
     CFSG.Quasithin.F112R.St84.IsNatSecOf (X.L 1) (X.Q 1) (X.Q 0 ⊓ X.Q 2) α := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hF
-  haveI : Finite ↥(X.L 1) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow hF
+  have : Finite ↥(X.L 1) :=
     finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hL : X.L 1 ≤ Subgroup.normalizer (X.Q 1 : Set G) ⊓
       Subgroup.normalizer (X.Q 0 ⊓ X.Q 2 : Set G) :=
@@ -266,7 +266,7 @@ private theorem s46g2q_isNatSecOf (A : X.CaseAGen) (hn : X.n 1 = X.n 0)
     have h := Subgroup.relIndex_mul_card (H := X.Q 0 ⊓ X.Q 2)
       (K := relCent (X.Q 1) (X.Q 0 ⊓ X.Q 2) X.S)
     rw [h0, zero_mul] at h
-    haveI : Finite ↥(relCent (X.Q 1) (X.Q 0 ⊓ X.Q 2) X.S) :=
+    have : Finite ↥(relCent (X.Q 1) (X.Q 0 ⊓ X.Q 2) X.S) :=
       Finite.of_injective
         (Subgroup.inclusion (relCent_le (X.Q 1) (X.Q 0 ⊓ X.Q 2) X.S))
         (Subgroup.inclusion_injective _)
@@ -282,10 +282,10 @@ theorem CaseAGen.natQuot_W1 (A : X.CaseAGen) (hn : X.n 1 = X.n 0) :
     NatQuot (X.L 1) (X.Q 1) (X.Q 0 ⊓ X.Q 2) (X.n 1) := by
   classical
   obtain ⟨F, hFfield, hFint, hFcard, α, hα, hker, -⟩ := A.nat_right
-  letI := hFfield
-  letI := hFint
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
-  haveI : Finite ↥(X.L 1) :=
+  let := hFfield
+  let := hFint
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  have : Finite ↥(X.L 1) :=
     finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
   have hker' : α.ker = (pCoreOf 2 (X.L 1)).subgroupOf (X.L 1) := by
     have hpcs : (pCoreOf 2 (X.L 1)).subgroupOf (X.L 1) = CFSG.pCore 2 ↥(X.L 1) :=
@@ -302,11 +302,11 @@ theorem CaseAGen.natQuot_W1 (A : X.CaseAGen) (hn : X.n 1 = X.n 0) :
 theorem CaseAGen.special_Q1 (A : X.CaseAGen) (hn : X.n 1 = X.n 0) :
     IsSpecialPGroup 2 ↥(X.Q 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(X.Q 1) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hQ1p : IsPGroup 2 (X.Q 1) := pCoreOf_isPGroup' (X.Gi 1)
-  haveI : Fact (IsPGroup 2 ↥(X.Q 1)) := ⟨hQ1p⟩
+  have : Fact (IsPGroup 2 ↥(X.Q 1)) := ⟨hQ1p⟩
   have hQL : X.Q 1 ≤ X.L 1 :=
     le_oTwoPrime_of_isPGroup (pCoreOf_isPGroup' (X.Gi 1)) (X.Q_le_Gi 1)
   have hZA : X.Z 1 ≤ X.Q 0 ⊓ X.Q 2 := by
@@ -316,7 +316,7 @@ theorem CaseAGen.special_Q1 (A : X.CaseAGen) (hn : X.n 1 = X.n 0) :
     (X.hyp.isLocL2_oTwoPrime (X.vert 1)).quot
   have hnat : NatQuot (X.L 1) (X.Q 1) (X.Q 0 ⊓ X.Q 2) (X.n 1) :=
     CaseAGen.natQuot_W1 A hn
-  haveI : Finite ↥(X.L 1) :=
+  have : Finite ↥(X.L 1) :=
     finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
   have hZN : IsElemSec (X.Z 1) (X.Q 0 ⊓ X.Q 2) := by
     refine ⟨hZA, ?_, ?_⟩
@@ -397,9 +397,9 @@ private theorem s46g2q_nat_right (A : X.CaseAGen) (hn : X.n 1 = X.n 0) :
           IsNatSecOf (X.L 1) (pCoreOf 2 (X.L 1)) W α := by
   classical
   obtain ⟨F, hFfield, hFint, hFcard, α, hα, hker, hnatZ⟩ := A.nat_right
-  letI := hFfield
-  letI := hFint
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  let := hFfield
+  let := hFint
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   have hp1 : pCoreOf 2 (X.L 1) = X.Q 1 :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 1)).pCoreOf_eq
   have hZA : X.Z 1 ≤ X.Q 0 ⊓ X.Q 2 := by

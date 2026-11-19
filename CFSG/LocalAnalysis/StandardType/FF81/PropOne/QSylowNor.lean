@@ -275,7 +275,7 @@ theorem maximal_in_normalizer {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} 
     hQisP.of_equiv (Subgroup.subgroupOfEquivOfLe hQW).symm
   obtain ⟨S, hQS⟩ := IsPGroup.exists_le_sylow hQsub_isP
   have hSmap_le_W : (S : Subgroup ↥W).map W.subtype ≤ W := Subgroup.map_subtype_le _
-  have hSmap_isP : IsPGroup 3 ((S : Subgroup ↥W).map W.subtype) := S.isPGroup'.map W.subtype
+  have hSmap_isP : IsPGroup 3 ((S : Subgroup ↥W).map W.subtype) := S.isPGroup.map W.subtype
   have hQ_le_Smap : Q ≤ (S : Subgroup ↥W).map W.subtype := by
     intro q hq
     have hqW : q ∈ W := hQW hq

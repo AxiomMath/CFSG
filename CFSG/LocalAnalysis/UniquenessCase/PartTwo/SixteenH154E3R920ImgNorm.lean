@@ -24,7 +24,7 @@ theorem normalizer_le_img9_of_pGroup {D : Data G} {L D₃ A H : Subgroup G}
   have hBH : B ≤ H := hBL.trans hLH
   let Γ := ↥H
   let N : Subgroup Γ := CFSG.pPrimeCore 3 Γ
-  haveI hNnorm : N.Normal := CFSG.pPrimeCore_normal
+  have hNnorm : N.Normal := CFSG.pPrimeCore_normal
   let π : Γ →* Γ ⧸ N := QuotientGroup.mk' N
   let H₁ : Subgroup Γ := Pb.comap π
   have hB'card : Nat.card (B.subgroupOf H) = p := by

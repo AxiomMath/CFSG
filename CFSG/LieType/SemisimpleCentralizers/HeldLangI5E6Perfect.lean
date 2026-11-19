@@ -22,7 +22,7 @@ theorem apply_eq_of_mem_center_of_card_three {L : Type} [Group L] (β : MulAut L
     calc g * β z = β (β.symm g * z) := by simp
       _ = β (z * β.symm g) := by rw [hz (β.symm g)]
       _ = β z * g := by simp
-  haveI : Finite (Subgroup.center L) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Finite (Subgroup.center L) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hord : orderOf z = 3 := by
     have h1 : orderOf (⟨z, hz⟩ : Subgroup.center L) ∣ 3 := hZ ▸ orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk] at h1
@@ -183,7 +183,7 @@ theorem exists_elemAbelian_of_perfect_fixed_subgroup {L : Type} [Group L] [Finit
   have hZcard : Nat.card ((Subgroup.center L).subgroupOf P) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZP).toEquiv, hZ]
   have h3 : 3 ∣ Nat.card (Subgroup.center P) := hZcard ▸ Subgroup.card_dvd_of_le hZle
-  haveI : Finite P := inferInstance
+  have : Finite P := inferInstance
   obtain ⟨EP, -, hEPab, m, hEPcard, hm⟩ :=
     exists_elemAbelian_of_le_pRank (⊤ : Subgroup P) (hrank P π' hπ's hker h3)
   refine ⟨EP.map P.subtype, ?_, isElemAbelian_map_of_injective _ hEPab, m, ?_, hm⟩

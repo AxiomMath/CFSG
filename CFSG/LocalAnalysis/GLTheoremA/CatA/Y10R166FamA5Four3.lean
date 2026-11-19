@@ -26,6 +26,7 @@ private theorem i25 : (2 : Fin 6) ≠ 5 := by decide
 private def sigmaMat (v : Fin 3 → F) : Matrix (Fin 6) (Fin 6) F :=
   1 + single 2 3 (v 0) + single 2 4 (v 1) + single 2 5 (v 2)
 
+omit [Finite F] in
 private theorem sigmaMat_eq_prod (v : Fin 3 → F) :
     sigmaMat v =
       (SpecialLinearGroup.transvection i23 (v 0) : Matrix (Fin 6) (Fin 6) F) *
@@ -37,6 +38,7 @@ private theorem sigmaMat_eq_prod (v : Fin 3 → F) :
   fin_cases i <;> fin_cases j <;>
     simp [sigmaMat, Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_six]
 
+omit [Finite F] in
 private theorem det_sigmaMat (v : Fin 3 → F) : (sigmaMat v).det = 1 := by
   rw [sigmaMat_eq_prod, Matrix.det_mul, Matrix.det_mul]
   simp
@@ -44,10 +46,12 @@ private theorem det_sigmaMat (v : Fin 3 → F) : (sigmaMat v).det = 1 := by
 private noncomputable def sigmaFun (v : Fin 3 → F) : SpecialLinearGroup (Fin 6) F :=
   ⟨sigmaMat v, det_sigmaMat v⟩
 
+omit [Finite F] in
 @[simp]
 private theorem coe_sigmaFun (v : Fin 3 → F) :
     (sigmaFun v : Matrix (Fin 6) (Fin 6) F) = sigmaMat v := rfl
 
+omit [Finite F] in
 private theorem sigmaFun_eq_prod (v : Fin 3 → F) :
     sigmaFun v = SpecialLinearGroup.transvection i23 (v 0) *
       SpecialLinearGroup.transvection i24 (v 1) * SpecialLinearGroup.transvection i25 (v 2) := by
@@ -58,14 +62,17 @@ private theorem sigmaFun_eq_prod (v : Fin 3 → F) :
         (SpecialLinearGroup.transvection i25 (v 2) : Matrix (Fin 6) (Fin 6) F)
   exact sigmaMat_eq_prod v
 
+omit [Finite F] in
 private theorem sigmaMat_zero : sigmaMat (0 : Fin 3 → F) = 1 := by
   simp [sigmaMat]
 
+omit [Finite F] in
 private theorem sigmaFun_zero : sigmaFun (0 : Fin 3 → F) = 1 := by
   apply Subtype.ext
   change sigmaMat (0 : Fin 3 → F) = (1 : Matrix (Fin 6) (Fin 6) F)
   exact sigmaMat_zero
 
+omit [Finite F] in
 private theorem sigmaMat_add (v w : Fin 3 → F) :
     sigmaMat (v + w) = sigmaMat v * sigmaMat w := by
   ext i j
@@ -73,12 +80,14 @@ private theorem sigmaMat_add (v w : Fin 3 → F) :
     simp [sigmaMat, Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_six, Pi.add_apply]
     <;> ring
 
+omit [Finite F] in
 private theorem sigmaFun_add (v w : Fin 3 → F) :
     sigmaFun (v + w) = sigmaFun v * sigmaFun w := by
   apply Subtype.ext
   change sigmaMat (v + w) = sigmaMat v * sigmaMat w
   exact sigmaMat_add v w
 
+omit [Finite F] in
 private theorem sigmaFun_neg (v : Fin 3 → F) : sigmaFun (-v) = (sigmaFun v)⁻¹ := by
   have h : sigmaFun (-v) * sigmaFun v = 1 := by
     rw [← sigmaFun_add, neg_add_cancel, sigmaFun_zero]
@@ -87,6 +96,7 @@ private theorem sigmaFun_neg (v : Fin 3 → F) : sigmaFun (-v) = (sigmaFun v)⁻
     _ = (sigmaFun (-v) * sigmaFun v) * (sigmaFun v)⁻¹ := by group
     _ = (sigmaFun v)⁻¹ := by rw [h, one_mul]
 
+omit [Finite F] in
 private theorem sigmaFun_mem_block (v : Fin 3 → F) :
     sigmaFun v ∈ blockSpecialLinear I01ᶜ := by
   rw [mem_blockSpecialLinear]
@@ -94,8 +104,9 @@ private theorem sigmaFun_mem_block (v : Fin 3 → F) :
   have hmat : (sigmaFun v : Matrix (Fin 6) (Fin 6) F) = sigmaMat v := rfl
   rw [hmat]
   fin_cases i <;> fin_cases j <;>
-    simp_all [sigmaMat, I01, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp_all [sigmaMat, I01, Matrix.add_apply]
 
+omit [Finite F] in
 private theorem sigmaFun_injective : Function.Injective (sigmaFun (F := F)) := by
   intro v w h
   have hmat : sigmaMat v = sigmaMat w := by
@@ -111,7 +122,7 @@ private theorem sigmaFun_injective : Function.Injective (sigmaFun (F := F)) := b
   · have h' := congrFun (congrFun hmat 2) 5
     simpa [sigmaMat, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] using h'
 
-private noncomputable def sigmaHom (hF : Nat.card F = 4) :
+private noncomputable def sigmaHom (_hF : Nat.card F = 4) :
     Multiplicative (Fin 3 → F) →* SpecialLinearGroup (Fin 6) F where
   toFun v := sigmaFun v.toAdd
   map_one' := by
@@ -123,9 +134,11 @@ noncomputable def sigmaProj (hF : Nat.card F = 4) :
     Multiplicative (Fin 3 → F) →* LinearFlag.projectiveSL 6 F :=
   (LinearFlag.proj 6 F).comp (sigmaHom hF)
 
+omit [Finite F] in
 private theorem sigmaProj_apply (hF : Nat.card F = 4) (v : Multiplicative (Fin 3 → F)) :
     sigmaProj hF v = LinearFlag.proj 6 F (sigmaFun v.toAdd) := rfl
 
+omit [Finite F] in
 private theorem sigmaProj_injective (hF : Nat.card F = 4) :
     Function.Injective (sigmaProj hF) := by
   intro x y hxy
@@ -165,7 +178,7 @@ noncomputable def S (hF : Nat.card F = 4) :
   (sigmaProj hF).range
 
 private theorem card_S (hF : Nat.card F = 4) : Nat.card (S hF) = 64 := by
-  haveI : Finite (Multiplicative (Fin 3 → F)) := inferInstance
+  have : Finite (Multiplicative (Fin 3 → F)) := inferInstance
   rw [S, MonoidHom.range_eq_map,
     Subgroup.card_map_of_injective (sigmaProj_injective hF), Subgroup.card_top]
   change Nat.card (Fin 3 → F) = 64
@@ -175,11 +188,13 @@ private theorem card_S (hF : Nat.card F = 4) : Nat.card (S hF) = 64 := by
 theorem isPGroup_S (hF : Nat.card F = 4) : IsPGroup 2 (S hF) :=
   IsPGroup.of_card (n := 6) (by rw [card_S]; norm_num)
 
+omit [Finite F] in
 theorem S_le_J (hF : Nat.card F = 4) : S hF ≤ J (F := F) := by
   intro s hs
   obtain ⟨v, rfl⟩ := MonoidHom.mem_range.mp hs
   exact Subgroup.mem_map_of_mem _ (sigmaFun_mem_block v.toAdd)
 
+omit [Finite F] in
 private theorem transvection_mem_S (hF : Nat.card F = 4) (j : Fin 6) (hj : j = 3 ∨ j = 4 ∨ j = 5) :
     LinearFlag.proj 6 F (SpecialLinearGroup.transvection (show (2 : Fin 6) ≠ j by
       rcases hj with rfl | rfl | rfl <;> decide) 1) ∈ S hF := by
@@ -273,6 +288,7 @@ theorem Bs_le_normalizer_S (hF : Nat.card F = 4) :
     have h := bs_conj_mem_S hF (inv_mem hb) hs
     simpa [mul_assoc] using h
 
+omit [Finite F] in
 private theorem apply_eq_of_commute_transvection {u : SpecialLinearGroup (Fin 6) F}
     {i j : Fin 6} (hij : i ≠ j)
     (h : u * SpecialLinearGroup.transvection hij 1 =
@@ -284,7 +300,7 @@ private theorem apply_eq_of_commute_transvection {u : SpecialLinearGroup (Fin 6)
       (t : Matrix (Fin 6) (Fin 6) F)) h
     simpa [SpecialLinearGroup.coe_mul, SpecialLinearGroup.transvection_coe] using h2
   have h2 := congrFun (congrFun h1 i) j
-  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, Matrix.add_apply,
+  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.add_apply,
     Matrix.mul_single_apply_same, Matrix.single_mul_apply_same, mul_one, one_mul] at h2
   exact add_left_cancel h2
 
@@ -304,10 +320,12 @@ theorem psi_eq_one_iff (hF : Nat.card F = 4) (p : Fˣ × Fˣ × Fˣ × Fˣ) :
     rw [h]
     exact map_one _
 
+omit [Finite F] in
 theorem tuple_pow_three (a u v w : Fˣ) :
     ((a, u, v, w) : Fˣ × Fˣ × Fˣ × Fˣ) ^ 3 = (a ^ 3, u ^ 3, v ^ 3, w ^ 3) := by
   ext <;> simp
 
+omit [Finite F] in
 theorem tuple_omega_zpow (ω : Fˣ) (k : ℤ) :
     ((ω, 1, 1, 1) : Fˣ × Fˣ × Fˣ × Fˣ) ^ k = (ω ^ k, 1, 1, 1) := by
   ext <;> simp
@@ -449,7 +467,7 @@ noncomputable def scalarHom : (Fˣ × Fˣ × Fˣ × Fˣ) →* Fˣ where
   map_mul' p q := by
     obtain ⟨a, u, v, w⟩ := p
     obtain ⟨a', u', v', w'⟩ := q
-    simp only [Prod.fst_mul, Prod.snd_mul, mul_pow, pow_two]
+    simp only [Prod.fst_mul, Prod.snd_mul, pow_two]
     ac_rfl
 
 @[expose]
@@ -501,7 +519,8 @@ theorem B2_le_scalarHom {ω : Fˣ} (hω : orderOf ω = 3) :
   · exact Subgroup.zpowers_le.mpr (z1_mem_scalarHom hω)
   · exact Subgroup.zpowers_le.mpr (z2_mem_scalarHom hω)
 
-private theorem orderOf_x0 (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
+omit [Finite F] in
+private theorem orderOf_x0 (_hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
     orderOf (x0 ω) = 3 := by
   apply orderOf_eq_prime
   · rw [show x0 ω = (ω, 1, 1, 1) from rfl, tuple_pow_three, omega_pow_three hω]
@@ -513,7 +532,7 @@ private theorem orderOf_x0 (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 
 
 theorem card_E (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
     Nat.card (E hF ω) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have htop : CFSG.Open.IsElemAbelian 3 (⊤ : Subgroup (Fˣ × Fˣ × Fˣ × Fˣ)) := by
     constructor
     · rw [isMulCommutative_iff]
@@ -564,9 +583,11 @@ theorem card_E (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3) :
     rw [h, hcard1]
   rw [E, Subgroup.card_map_of_injective (psi_injective hF), hcard2]
 
+omit [Finite F] in
 private theorem x0_mem_zpowers (ω : Fˣ) : x0 ω ∈ Subgroup.zpowers (x0 ω) :=
   Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
 
+omit [Finite F] in
 private theorem z1_mem_zpowers (ω : Fˣ) : z1 ω ∈ Subgroup.zpowers (z1 ω) :=
   Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
 

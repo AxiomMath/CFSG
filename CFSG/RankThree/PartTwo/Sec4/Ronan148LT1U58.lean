@@ -41,7 +41,7 @@ theorem noSz_centralizer_of_mulEquiv {S T : Type} [Group S] [Group T] [Finite S]
   have heq : (Y.subgroupOf C).map (eC : ↥C →* ↥(C.map (φ : S →* T))) =
       (Y.map (φ : S →* T)).subgroupOf (C.map (φ : S →* T)) := by
     ext ⟨x, hx⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨y, hyY, hyx⟩
       refine ⟨y, hyY, ?_⟩
@@ -96,7 +96,7 @@ theorem no7_of_outer {σ : MulAut SUI} (hσ3 : σ ^ 3 = 1)
     simp
   have hφform : (∀ x : K, φ x = x ^ 4) ∨ ∀ x : K, φ x = x ^ 16 := by
     obtain ⟨σf, hσf, hord, hzp⟩ := RonanK432.exists_frob_gen
-    haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
+    have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
     have hφmem : φ ∈ Submonoid.powers σf := by
       rw [mem_powers_iff_mem_zpowers, hzp]
       exact Subgroup.mem_top φ
@@ -273,7 +273,7 @@ section Row
 
 theorem kT1_eight_SU5_8 : RowOf143 (projSU 5 2 3) := by
   intro S _ _ hs hna ⟨e⟩ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set q : PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩ with hqdef
   have hv : (LieTypeIndex.twistedA 4 q).Valid := valid_twistedA (by norm_num) (by omega)
   let eX := (Census.typeTwistedAGroupEquivProjSU 4 q hv).symm

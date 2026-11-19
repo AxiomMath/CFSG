@@ -27,7 +27,7 @@ theorem orderOf_eq_two_of_center_eq_zpowers {H : Type*} [Group H] [Finite H] (S 
     exact y.2
   have hr2 : 2 ≤ 2 ^ (r - 2) := by
     simpa using Nat.pow_le_pow_right (show 0 < 2 by norm_num) (show 1 ≤ r - 2 by omega)
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hz1 : z ≠ 1 := by
     rintro rfl
     have hdvdQ : 2 ∣ Nat.card (Q : Subgroup K) := by
@@ -39,8 +39,8 @@ theorem orderOf_eq_two_of_center_eq_zpowers {H : Type*} [Group H] [Finite H] (S 
     have hdvd : 2 ∣ Nat.card H :=
       hdvdQ.trans ((Subgroup.card_subgroup_dvd_card _).trans (Subgroup.card_subgroup_dvd_card K))
     have hne : (S : Subgroup H) ≠ ⊥ := S.ne_bot_of_dvd_card hdvd
-    haveI : Nontrivial ↥(S : Subgroup H) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-    have hcS := S.isPGroup'.center_nontrivial
+    have : Nontrivial ↥(S : Subgroup H) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have hcS := S.isPGroup.center_nontrivial
     rw [zpowers_one_eq_bot,
       Subgroup.map_eq_bot_iff_of_injective _ (S : Subgroup H).subtype_injective] at hZ
     exact ((Subgroup.nontrivial_iff_ne_bot _).1 hcS) hZ
@@ -48,9 +48,9 @@ theorem orderOf_eq_two_of_center_eq_zpowers {H : Type*} [Group H] [Finite H] (S 
   have hcomm : ∀ x : K, x * zK = zK * x := fun x =>
     Subtype.ext (mem_centralizer_singleton_iff.1 (hKC x.2))
   have hcen : zpowers zK ≤ center K := zpowers_le.2 (mem_center_iff.2 hcomm)
-  haveI : (zpowers zK).Normal := normal_of_le_center hcen
+  have : (zpowers zK).Normal := normal_of_le_center hcen
   have hp : IsPGroup 2 (zpowers zK) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' ⟨z, hzS⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup ⟨z, hzS⟩
     refine IsPGroup.of_card (n := k) ?_
     rw [Nat.card_zpowers, ← Subgroup.orderOf_coe zK, ← hk, ← Subgroup.orderOf_coe]
   have hzQ : zK ∈ (Q : Subgroup K) := hp.le_sylow_of_normal Q (mem_zpowers zK)
@@ -72,7 +72,7 @@ theorem inCatalog_of_hasPSL6Sylow
     (hCIT : CFSG.ComponentClassification.StandardRecognition.ClassicalInvolutionTheoremModels)
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S) (h : HasPSL6Sylow S) :
     CFSG.Assembly.InCatalog S := by
-  haveI := hs
+  have := hs
   obtain ⟨p, f, L, instL, hp, hf, hq, hL, P, P', hPP'⟩ := h
   obtain ⟨z, hZ, hQ⟩ := hFM S P ⟨p, f, L, instL, hp, hf, hq, hL, P', hPP'⟩
   by_cases hab : ∀ a b : S, a * b = b * a

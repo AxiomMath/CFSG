@@ -45,7 +45,7 @@ def sSp : Sp62 := mkSp3 sMat sMat sMat_sq sMat_sq sMat_symp
 
 theorem sp62_exists_order3_normalizes_two : ∃ y : Sp62, orderOf y = 3 ∧
     ∃ W : Subgroup Sp62, IsPGroup 2 W ∧ W ≠ ⊥ ∧ y ∈ Subgroup.normalizer (W : Set Sp62) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : ySp ^ 3 = 1 := Subtype.ext (Units.ext (by
     simp only [pow_succ, pow_zero, one_mul, Subgroup.coe_mul, Units.val_mul, Subgroup.coe_one,
       Units.val_one]

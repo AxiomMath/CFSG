@@ -42,8 +42,8 @@ theorem natSUn_map_congrHom {S T : Type} [CommGroup S] [CommGroup T]
     {H : Subgroup (MulAut S)} (f : S ≃* T) {d a : ℕ} (h : NatSUn H ⊤ ⊥ d a) :
     NatSUn (H.map (CFSG.Quasithin.H.congrHom f)) ⊤ ⊥ d a := by
   obtain ⟨K, hF, hFin, hcard, hR⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   exact ⟨K, hF, hFin, hcard, CFSG.Quasithin.H.LU.realizes_map _ f hR⟩
 
 section Transport
@@ -53,23 +53,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem su4Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V)) (n : ℕ)
     (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : SU4Line V H' n) : SU4Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -243,7 +243,7 @@ end Transport
 
 theorem kTab23b_SU4_line_uncond (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : ∃ a : ℕ, n = 2 * a ∧ IsSUn ↥H 4 a ∧ NatSUn H ⊤ ⊥ 4 a)
     (hSU4 : SU4NaturalLine) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
@@ -268,8 +268,8 @@ theorem kTab23b_SU4_line_uncond (W : Type) [CommGroup W] [Finite W]
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨a, hn, -, hNat⟩ := hline
   obtain ⟨K, hF, hFin, hK, hReal⟩ := hNat
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, hπ⟩ : ∃ π : ↥(CFSG.Open.StatedSU 4 (2 ^ a) K) →* ↥H,
       (FFModel.nat (CFSG.Open.StatedSU 4 (2 ^ a) K)).RealizesVia H ⊤ ⊥ π := hReal
   obtain ⟨e, he⟩ :=

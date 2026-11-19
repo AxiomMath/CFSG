@@ -52,7 +52,7 @@ theorem ncard_rootChar_le_ncard_torus_E6
           exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun l _ => by ring
       _ = γ m * ((3 * s : ℕ) : ℤ) := by
           simp only [adjE6_mul_cartan m, mul_ite, ite_mul, mul_zero, zero_mul,
-            Finset.sum_ite_eq, Finset.mem_univ, if_true]
+            Finset.sum_ite_eq, Finset.mem_univ, ite_true]
           push_cast
           ring
   have hpow : ∀ b : Fin Tag.E6.rank → kˣ, (∀ i, b i ^ p = 1) → ∀ γ,

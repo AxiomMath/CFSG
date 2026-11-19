@@ -176,6 +176,7 @@ section Translates
 
 variable {U H : Subgroup K} {σ : K}
 
+omit [Fintype K] in
 theorem isHyp_map_conj {g : K} (hg : g ∈ normalizer (U : Set K)) (hH : IsHyp p U H) :
     IsHyp p U (H.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨?_, ?_⟩
@@ -184,6 +185,7 @@ theorem isHyp_map_conj {g : K} (hg : g ∈ normalizer (U : Set K)) (hH : IsHyp p
   · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
     exact hH.2
 
+omit [Fintype K] in
 theorem translate_ne (hσ : MovesHyperplanes p U σ) (hH : IsHyp p U H) {i d : ℕ} (hd1 : 1 ≤ d)
     (hd3 : d ≤ 3) :
     H.map (MulAut.conj (σ ^ i)).toMonoidHom ≠ H.map (MulAut.conj (σ ^ (i + d))).toMonoidHom := by
@@ -330,14 +332,14 @@ theorem exists_hyperplane_fixed_not_fixed {J : Type} [Group J] [Finite J] {A : T
     ∃ H : Subgroup J, H ≤ U ∧ Nat.card U = p * Nat.card H ∧
       ∃ a : A, (∀ h ∈ H, h • a = a) ∧ ∃ u ∈ U, u • a ≠ a := by
   classical
-  haveI : CFSG.IsElementaryAbelian p U := CFSG.IsElementaryAbelian.of_forall hcomm hexp
+  have : CFSG.IsElementaryAbelian p U := CFSG.IsElementaryAbelian.of_forall hcomm hexp
   obtain ⟨u₀, hu₀, a₀, ha₀⟩ := hnt
-  haveI : Nontrivial U := nontrivial_of_ne (⟨u₀, hu₀⟩ : U) 1 (fun h => ha₀ (by
+  have : Nontrivial U := nontrivial_of_ne (⟨u₀, hu₀⟩ : U) 1 (fun h => ha₀ (by
     have h1 : u₀ = 1 := congrArg Subtype.val h
     rw [h1, one_smul]))
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := ↥U) (H := A) hpA
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : (⨆ (B : Subgroup U) (_ : B.index = p), CFSG.fixedPointSubgroup B A) ≤
       CFSG.fixedPointSubgroup (⊤ : Subgroup U) A := by
     refine iSup₂_le fun B hB a ha g => ?_

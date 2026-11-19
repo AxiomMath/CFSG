@@ -37,10 +37,10 @@ theorem genStepY_spec {n w N : Nat} {ps : List Nat} {T : Nat → Nat} {t row g k
   by_cases h2 : fget row k 16 < c
   · simp only [h2, ↓reduceIte] at hr
     by_cases h3 : fget row k 16 < N ∧ keyCK n w ps g t = keyK n w ps (T (fget row k 16))
-    · rw [if_pos h3] at hr
+    · rw [ite_eq_left h3] at hr
       subst hr
       exact ⟨h1, le_refl _, fun j a b => absurd (lt_of_le_of_lt a b) (lt_irrefl _)⟩
-    · rw [if_neg h3] at hr
+    · rw [ite_eq_right h3] at hr
       exact absurd hr.symm h0
   · simp only [h2, ↓reduceIte] at hr
     by_cases h4 : fget row k 16 = c
@@ -68,8 +68,8 @@ theorem genStep_of_genStepY {n w N : Nat} {ps : List Nat} {T : Nat → Nat} {t r
   by_cases h2 : fget row k 16 < c
   · simp only [h2, ↓reduceIte] at h0 ⊢
     by_cases h3 : fget row k 16 < N ∧ keyCK n w ps g t = keyK n w ps (T (fget row k 16))
-    · rw [if_pos h3, if_pos (hb _ h3.1 h3.2)]
-    · rw [if_neg h3] at h0
+    · rw [ite_eq_left h3, ite_eq_left (hb _ h3.1 h3.2)]
+    · rw [ite_eq_right h3] at h0
       exact absurd rfl h0
   · simp only [h2, ↓reduceIte]
 
@@ -224,7 +224,6 @@ theorem runF_of_runFY {n w ng N : Nat} {ps : List Nat} {G T E : Nat → Nat}
       rw [runFY_zero] at h0
       exact absurd rfl h0
     · try rw [hb'] at h0
-      try rw [hb']
       change runFY n w ng N ps G T E len (Nat.succ lo) (pointStepY n w ng N ps G T E lo c) ≠ 0
         at h0
       change runF n w (mask w) ng G T E len (Nat.succ lo) (pointStep n w (mask w) ng G T E lo c) =

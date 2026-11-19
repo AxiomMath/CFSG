@@ -149,6 +149,7 @@ theorem Sec510Ab.cyc_z (hab : Sec510Ab t z a b φ A) (h : Sec510Ctx G t L S z r 
     _ = z := hab.prod
 
 
+omit [Finite G] in
 theorem sec5p510_ab_coords (hab : Sec510Ab t z a b φ A) :
     ∃ i j : Fin 6, i ≠ j ∧ φ (Pi.single i 1) = a ∧ φ (Pi.single j 1) = b := by
   obtain ⟨u, hu, hua⟩ := hab.mem₁

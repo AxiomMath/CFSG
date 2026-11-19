@@ -17,7 +17,7 @@ open scoped commutatorElement
 theorem exists_field_mirror_pump_in_normalizer
     (hS : CFSG.LocalAnalysis.ComponentInitial.SchreierFor Blueprint.Catalog)
     (h13 : Sol76T13.SolomonThm13Simple)
-    (hmult : Quasithin.SchurMult2L3)
+    (_hmult : Quasithin.SchurMult2L3)
     (hglue : L34FieldSignalizerGluing)
     {G : Type} [Group G] [Finite G] {t v : G} {P W : Subgroup G}
     (hset : L34FieldNormalSetting G t P)
@@ -149,7 +149,7 @@ theorem exists_field_mirror_pump_in_normalizer
     rw [hcard]
     exact Nat.coprime_two_left.mp (pPrimeCore_coprime_card (G := ↥P) (p := 2))
   have hbot : R ⊓ oddIn P = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR2
     rw [hn]
     exact (hoddP.coprime_two_left).pow_left n

@@ -19,7 +19,7 @@ theorem card_le_nine_of_fieldType {K : Type} [Field K] [Finite K]
   classical
   obtain ⟨ω, hω3, hω1⟩ := hω
   have hωp : IsPrimitiveRoot (ω : K) 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := IsPrimitiveRoot.orderOf ω
     rw [orderOf_eq_prime hω3 hω1] at h
     exact IsPrimitiveRoot.coe_units_iff.mpr h

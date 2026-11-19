@@ -77,7 +77,7 @@ theorem lettersH_closure_eq {K : Subgroup G} (ψ : ↥K ≃* SL(2, ZMod 3)) {x y
   have hmap : S.map ψ.toMonoidHom = ⊤ := by
     rw [hS, MonoidHom.map_closure]
     have himg : ψ.toMonoidHom '' ({x, y} : Set ↥K) = {ψ x, ψ y} := by
-      simp [Set.image_pair]
+      simp
     rw [himg, h]
   have hS_top : S = ⊤ := by
     rw [eq_top_iff]
@@ -186,7 +186,7 @@ theorem lettersH_cancel {g g' : M2} (h2 : g' * g = 1) (X : M2) :
 theorem lettersH_side {H K : Subgroup G} {w : G} (hw2 : w * w = 1)
     (hw : ∀ u ∈ K, w * u * w⁻¹ ∈ K) (ψ : ↥K ≃* SL(2, ZMod 3))
     {p q z : G} (hp : p ∈ K) (hq : q ∈ K) (hz : z ∈ K)
-    (hψp : ψ ⟨p, hp⟩ = slX) (hψq : ψ ⟨q, hq⟩ = slY) (hψz : ψ ⟨z, hz⟩ = slZ)
+    (hψp : ψ ⟨p, hp⟩ = slX) (_hψq : ψ ⟨q, hq⟩ = slY) (hψz : ψ ⟨z, hz⟩ = slZ)
     (hpin : w * p * w⁻¹ * p ∈ CFSG.Open.pCoreOf 2 H) :
     ∃ p' q' : G, p' ∈ K ∧ q' ∈ K ∧ Subgroup.closure ({p', q'} : Set G) = K ∧
       w * p' * w⁻¹ = p'⁻¹ ∧ w * q' * w⁻¹ = q'⁻¹ ∧
@@ -346,7 +346,7 @@ theorem lettersH_side {H K : Subgroup G} {w : G} (hw2 : w * w = 1)
     have hβZ : β slZ = slZ := by
       apply Subtype.ext
       rw [hβapp, lettersH_slZ_val]
-      simp [Matrix.mul_neg, Matrix.neg_mul, hkh1]
+      simp [hkh1]
     have hβXY : β slX * β slY * (β slX * β slY) = slZ := by
       have h := congrArg β rXY
       simp only [map_mul] at h

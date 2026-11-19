@@ -57,15 +57,15 @@ private theorem l05nCJ_cartan_of_reindex {m : ℕ} {Λ : Type} [Fintype Λ] [Dec
     have hne : eA i ≠ eA j := fun h => hij (eA.injective h)
     by_cases h3 : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
     · have hM3 : ML (eA i) (eA j) = 3 := by
-        rw [hentryM, l05nCJ_coxeterA_entry, if_neg hij]
-        rw [if_pos (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
+        rw [hentryM, l05nCJ_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_left (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
       have hthree := l05nCJ_intCartan_three hCL hne hM3
-      rw [hthree.1, l05nCJ_cartanA_entry, if_neg hij, if_pos h3]
+      rw [hthree.1, l05nCJ_cartanA_entry, ite_eq_right hij, ite_eq_left h3]
     · have hM2 : ML (eA i) (eA j) = 2 := by
-        rw [hentryM, l05nCJ_coxeterA_entry, if_neg hij]
-        rw [if_neg (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
+        rw [hentryM, l05nCJ_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_right (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
       have htwo := l05nCJ_intCartan_two hCL hne hM2
-      rw [htwo.1, l05nCJ_cartanA_entry, if_neg hij, if_neg h3]
+      rw [htwo.1, l05nCJ_cartanA_entry, ite_eq_right hij, ite_eq_right h3]
 
 private def l05nCJ_Padj (N : ℕ) (hN : 5 ≤ N) :
     Fin (N - 3) ≃ {i : Fin (N - 1) // ggTWInJ N GGTWPos.adj i.val} where
@@ -113,8 +113,8 @@ private theorem l05nCJ_bulk {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.
     (hAJ : ggAutomizer J Bs = Subgroup.closure (Set.range φJ)) :
     p ^ (N - 3) ≤ Nat.card ↥(Bs ⊓ J) := by
   classical
-  letI : CommMonoid ↥Bs := { (inferInstance : Monoid ↥Bs) with mul_comm := hcomm }
-  letI : CommMonoid ↥(Bs ⊓ J) :=
+  let : CommMonoid ↥Bs := { (inferInstance : Monoid ↥Bs) with mul_comm := hcomm }
+  let : CommMonoid ↥(Bs ⊓ J) :=
     { (inferInstance : Monoid ↥(Bs ⊓ J)) with
       mul_comm := fun a b => Subtype.ext (by
         show a.1 * b.1 = b.1 * a.1
@@ -254,8 +254,8 @@ private theorem l05nCJ_datum {G : Type} [Group G] [Finite G] {p N k : ℕ} [Fact
   obtain ⟨pos, Λ, hΛF, hΛD, b₁, b₂, Λa, hΛaF, hΛaD, ML, CL, MK, CK, V, hVadd, hVmod, ι, φ,
     h, α, e, hb, hΛa, hiff, hML, hWM, hCL, hWMK, hCK, hk2, hlin, hrefl, hpairL, hpairK, hAL,
     hAK, hAJ⟩ := hA
-  haveI : Fintype Λ := hΛF
-  haveI : DecidableEq Λ := hΛD
+  have : Fintype Λ := hΛF
+  have : DecidableEq Λ := hΛD
   have hN5 : 5 ≤ N := by rcases hN with h | h | h | h | h <;> omega
   have hcartan : ∀ i j : Fin (N - 1), CL (e i) (e j) = CartanMatrix.A (N - 1) i j :=
     l05nCJ_cartan_of_reindex (m := N - 1) e hCL hML
@@ -291,7 +291,7 @@ private theorem l05nCJ_datum {G : Type} [Group G] [Finite G] {p N k : ℕ} [Fact
 
 theorem ggTW_inf_J_ge {G : Type} [Group G] [Finite G] {p N k : ℕ} [Fact p.Prime] (hp : 3 ≤ p)
     (hpN : p ∣ N) (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10) {B Bs : Subgroup G} {x y : G}
-    {L D J K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K) (hk : k = 1 ∨ k = 2)
+    {L D J K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K) (_hk : k = 1 ∨ k = 2)
     (hA : GGTWAligned p N k Bs L J K ∨ GGTWAligned p N k Bs K J L) :
     p ^ (N - 3) ≤ Nat.card ↥(Bs ⊓ J) := by
   obtain ⟨⟨hI, hBsB, hDJ⟩, hOp, hInnAll, hNoT, hNbr, hRG, hSW⟩ := hH

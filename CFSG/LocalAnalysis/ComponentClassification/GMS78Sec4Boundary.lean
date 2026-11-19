@@ -326,7 +326,7 @@ theorem false_of_rightConjugate_le
     (ha₀ : a₀ ∈ gmsA L T) (ha₀1 : a₀ ≠ 1) (ha₀P : ∀ s ∈ (P : Subgroup G), s * a₀ = a₀ * s)
     (ha₀k : k * a₀ * k⁻¹ ∉ gmsA L T) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP := P.isPGroup'
+  have hP := P.isPGroup
   have hPW := hE.le_normalizer_W h hF hf e hX hq hP hS₀P
   have hPA : (P : Subgroup G) ≤ normalizer (gmsA L T : Set G) :=
     hPW.trans (hE.normalizer_W_le_normalizer_gmsA h hF hf e hX h313 hq)
@@ -497,7 +497,7 @@ theorem false_of_conj_mem_of_commute
     (hS₀P : U₁ ⊔ T ≤ P) {x : G} (hxA' : x ∉ gmsA L T) (hxA : ∀ a ∈ gmsA L T, x * a = a * x)
     {g : G} (hg : g * x * g⁻¹ ∈ gmsA L T) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP := P.isPGroup'
+  have hP := P.isPGroup
   have hPA : (P : Subgroup G) ≤ normalizer (gmsA L T : Set G) :=
     (hE.le_normalizer_W h hF hf e hX hq hP hS₀P).trans
       (hE.normalizer_W_le_normalizer_gmsA h hF hf e hX h313 hq)
@@ -569,7 +569,7 @@ theorem false_of_root
       (gmsA L T).relIndex X * Nat.card (gmsA L T ⊓ centralizer ({z} : Set G) : Subgroup G)) :
     False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP := P.isPGroup'
+  have hP := P.isPGroup
   have hPA : (P : Subgroup G) ≤ normalizer (gmsA L T : Set G) :=
     (hE.le_normalizer_W h hF hf e hX hq hP hS₀P).trans
       (hE.normalizer_W_le_normalizer_gmsA h hF hf e hX h313 hq)
@@ -654,7 +654,7 @@ theorem false_of_push28Out
   have hAc := (hX.sylow h).1
   obtain ⟨P, hS₀P⟩ := hE.sylow.isPGroup.exists_le_sylow
   have hNA : (P : Subgroup G) ≤ normalizer (gmsA L T : Set G) :=
-    (hE.le_normalizer_W h hF hf e hX hq P.isPGroup' hS₀P).trans
+    (hE.le_normalizer_W h hF hf e hX hq P.isPGroup hS₀P).trans
       (hE.normalizer_W_le_normalizer_gmsA h hF hf e hX h313 hq)
   have hwc : ∀ g : G, rightConjugate (gmsA L T) g ≤ (P : Subgroup G) →
       rightConjugate (gmsA L T) g = gmsA L T := by

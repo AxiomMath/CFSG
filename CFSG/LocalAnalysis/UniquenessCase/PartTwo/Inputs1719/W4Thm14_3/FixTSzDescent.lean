@@ -16,7 +16,7 @@ variable {G : Type} [Group G] {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [F
 
 private theorem exists_retraction {D E : Type*} [Field D] [Field E] (ι : D →+* E) :
     ∃ t : E →+ D, (∀ r x, t (ι r * x) = r * t x) ∧ t 1 = 1 := by
-  letI : Algebra D E := ι.toAlgebra
+  let : Algebra D E := ι.toAlgebra
   have hker : LinearMap.ker (Algebra.linearMap D E) = ⊥ := by
     rw [LinearMap.ker_eq_bot]
     intro x y h
@@ -34,7 +34,7 @@ private theorem exists_retraction {D E : Type*} [Field D] [Field E] (ι : D →+
 
 private theorem coordMap_of_retraction {m : ℕ} (b : Module.Basis (Fin m) (EndRing ρ) M)
     {E : Type} [Field E] (ιD : EndRing ρ →+* E) (t : E →+ EndRing ρ)
-    (ht : ∀ r x, t (ιD r * x) = r * t x) (ht1 : t 1 = 1) :
+    (ht : ∀ r x, t (ιD r * x) = r * t x) (_ht1 : t 1 = 1) :
     ∃ T : (Fin m → E) →+ M,
       (∀ z, b.equivFun (T z) = fun i => t (z i)) ∧
       (∀ (g : G) (w : M), b.equivFun (ρ g w) = (matRep b g).mulVec (b.equivFun w)) ∧

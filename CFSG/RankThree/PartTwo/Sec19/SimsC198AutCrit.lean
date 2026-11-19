@@ -42,6 +42,7 @@ private theorem isElemAbelian_sup {A B : Subgroup S} (hA : CFSG.Open.IsElemAbeli
     have hab : Commute a b := hc a ha b hb
     rw [hab.mul_pow, hA.2 a ha, hB.2 b hb, one_mul]
 
+omit [Finite S] in
 private theorem isPGroup_of_isElemAbelian {A : Subgroup S} (hA : CFSG.Open.IsElemAbelian 3 A) :
     IsPGroup 3 A := fun x => ⟨1, Subtype.ext (by simpa using hA.2 x x.2)⟩
 
@@ -59,6 +60,7 @@ private theorem isPGroup_sup {A B : Subgroup S} (hA : IsPGroup 3 A) (hB : IsPGro
   refine ⟨m + n, Subtype.ext ?_⟩
   rw [Subgroup.coe_pow, Subgroup.coe_one, ← hx, hab.mul_pow, ha', hb', one_mul]
 
+omit [Finite S] in
 private theorem isElemAbelian_of_le {E F : Subgroup S} (hEF : E ≤ F)
     (hF : CFSG.Open.IsElemAbelian 3 F) : CFSG.Open.IsElemAbelian 3 E := by
   have hFF : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
@@ -88,14 +90,14 @@ theorem AutDatum.exists_fixed_elemAbelian (h : AutDatum S c L 𝒟) :
 
 theorem AutDatum.exists_fixed_pGroup (h : AutDatum S c L 𝒟) :
     ∃ P : Subgroup S, P ≤ fixIn 𝒟 L ∧ IsPGroup 3 P ∧ 27 ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 (L ⧸ aschbacherSolvableCore 3 L)) := inferInstance
   have h27 : 3 ^ 3 ∣ Nat.card (Q : Subgroup (L ⧸ aschbacherSolvableCore 3 L)) :=
     Q.pow_dvd_card_of_pow_dvd_card (by simpa using IsType198.twentySeven_dvd h.quasisimple h.type)
   have hQ27 : 27 ≤ Nat.card (Q : Subgroup (L ⧸ aschbacherSolvableCore 3 L)) :=
     Nat.le_of_dvd Nat.card_pos (by simpa using h27)
   obtain ⟨P, hPle, hP, ⟨e⟩⟩ := h.exists_lift (Q : Subgroup (L ⧸ aschbacherSolvableCore 3 L))
-    Q.isPGroup'
+    Q.isPGroup
   exact ⟨P, hPle, hP, by rw [Nat.card_congr e.toEquiv]; exact hQ27⟩
 
 theorem AutDatum.fixIn_eq (h : AutDatum S c L 𝒟) (hθ : aschbacherSolvableCore 3 L = ⊥) :
@@ -173,7 +175,7 @@ private theorem card_mul_nine_le [IsSimpleGroup S] (h : AutDatum S c L 𝒟)
 theorem AutDatum.exists_elemAbelian_27 [IsSimpleGroup S] (h : AutDatum S c L 𝒟)
     (hinn : 𝒟 ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner S) :
     ∃ E : Subgroup S, CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B, hBle, hBel, hB9⟩ := h.exists_fixed_elemAbelian
   have hZ := h.center_eq_bot
   have hDSel : CFSG.Open.IsElemAbelian 3 (𝒟.comap (MulAut.conj : S →* MulAut S)) :=
@@ -236,7 +238,7 @@ theorem noAutDatum_of_out_card [IsSimpleGroup S]
     (hout : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer S))
     (h81 : ¬ 81 ∣ Nat.card S) : NoAutDatum S := by
   intro c L 𝒟 h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, D', hP, hP81, -, -, -, -⟩ :=
     h.exists_central_nine (le_inner_of_not_dvd h.pow_three hout)
   obtain ⟨n, hn⟩ := hP.exists_card_eq
@@ -255,7 +257,7 @@ theorem noAutDatum_of_out_sylow [IsSimpleGroup S]
       CFSG.Open.IsElemAbelian 3 D' → (∀ x ∈ D', ∀ y ∈ P, x * y = y * x) → Nat.card D' ≤ 3) :
     NoAutDatum S := by
   intro c L 𝒟 h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, D', hP, hP81, hD'P, hD'el, hD'9, hD'c⟩ :=
     h.exists_central_nine (le_inner_of_not_dvd h.pow_three hout)
   obtain ⟨n, hn⟩ := hP.exists_card_eq

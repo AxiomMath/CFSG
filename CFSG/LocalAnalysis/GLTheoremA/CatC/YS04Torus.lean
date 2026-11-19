@@ -90,11 +90,11 @@ theorem permMatrix_mul_diagonal (σ : Equiv.Perm (Fin n)) (e : Fin n → F)
   ext i j
   simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_toPEquiv_mul,
     PEquiv.mul_toMatrix_toPEquiv, Matrix.submatrix_apply, Matrix.diagonal_apply,
-    id_eq, Equiv.symm_apply_eq]
+    id_eq]
   by_cases h : σ i = j
   · subst h
     simp [he]
-  · have h' : ¬ i = σ.symm j := fun h' => h ((Equiv.apply_eq_iff_eq_symm_apply σ).2 h')
+  · have h' : ¬ i = σ.symm j := fun h' => h (((Iff.symm (_root_.Equiv.eq_symm_apply σ))).2 h')
     simp [h, h']
 
 @[expose] def sgn (F : Type) [Field F] (i2 : Fin n) : Fin n → F := fun i => if i = i2 then -1 else 1
@@ -147,7 +147,7 @@ theorem tMat_det (h01 : i0 ≠ i1) :
   unfold sgn
   simp [Finset.prod_ite_eq']
 
-theorem tMat_commute (h20 : i2 ≠ i0) (h21 : i2 ≠ i1) (e : Fin n → F)
+theorem tMat_commute (_h20 : i2 ≠ i0) (_h21 : i2 ≠ i1) (e : Fin n → F)
     (he : ∀ i, e (Equiv.swap i0 i1 i) = e i) :
     (tMat i0 i1 i2 : Matrix (Fin n) (Fin n) F) * Matrix.diagonal e =
       Matrix.diagonal e * tMat i0 i1 i2 := by
@@ -157,7 +157,7 @@ theorem tMat_commute (h20 : i2 ≠ i0) (h21 : i2 ≠ i1) (e : Fin n → F)
   funext i
   exact mul_comm _ _
 
-theorem tMat_apply_01 (h20 : i2 ≠ i0) (h01 : i0 ≠ i1) :
+theorem tMat_apply_01 (h20 : i2 ≠ i0) (_h01 : i0 ≠ i1) :
     (tMat i0 i1 i2 : Matrix (Fin n) (Fin n) F) i0 i1 = 1 := by
   rw [tMat_def, Matrix.diagonal_mul]
   simp [sgn, h20.symm, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply]
@@ -169,8 +169,8 @@ theorem tMat_map_pow (q : ℕ) (hq : q ≠ 0) (hneg : (-1 : F) ^ q = -1) :
   simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, sgn]
   by_cases hij : Equiv.swap i0 i1 i = j
   · by_cases hi : i = i2
-    · simp [hij, hi, hneg, zero_pow hq]
-    · simp [hij, hi, zero_pow hq]
+    · simp [hi, hneg, zero_pow hq]
+    · simp [hij, hi]
   · simp [Option.mem_def, hij, zero_pow hq]
 
 theorem diagonal_unitary (e : Fin n → F) (q : ℕ) (hq : q ≠ 0) (he : ∀ i, e i ^ q * e i = 1) :
@@ -180,7 +180,7 @@ theorem diagonal_unitary (e : Fin n → F) (q : ℕ) (hq : q ≠ 0) (he : ∀ i,
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [Matrix.diagonal_apply, hij, zero_pow hq]
+    · simp [hij, zero_pow hq]
   rw [h1, Matrix.diagonal_transpose, Matrix.diagonal_mul_diagonal]
   convert Matrix.diagonal_one
   exact he _
@@ -210,7 +210,7 @@ theorem pow_le_card_ker_constraint {p : ℕ} (hp : p.Prime) {ω : Fˣ} (hω : or
     (hn : 2 ≤ n) (i0 i1 : Fin n) :
     p ^ (n - 2) ≤ Nat.card (constraint n i0 i1 ω).ker := by
   have hZ : Nat.card (Subgroup.zpowers ω) = p := by rw [Nat.card_zpowers, hω]
-  haveI : Finite (Subgroup.zpowers ω) := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
+  have : Finite (Subgroup.zpowers ω) := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
   have hT : Nat.card (Fin n → Subgroup.zpowers ω) = p ^ n := by
     rw [Nat.card_pi]
     simp [hZ]
@@ -252,7 +252,7 @@ theorem exists_torus [Finite F] {n p : ℕ} (hn : 3 ≤ n) (hp : p.Prime) {ω : 
         (∀ a ∈ E, ((a : Matrix (Fin n) (Fin n) F).map (· ^ q))ᵀ *
             (a : Matrix (Fin n) (Fin n) F) = 1) ∧
         ((t : Matrix (Fin n) (Fin n) F).map (· ^ q))ᵀ * (t : Matrix (Fin n) (Fin n) F) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set i0 : Fin n := ⟨0, by omega⟩ with hi0
   set i1 : Fin n := ⟨1, by omega⟩ with hi1
   set i2 : Fin n := ⟨2, by omega⟩ with hi2

@@ -102,10 +102,10 @@ theorem quotFrame_of_transfer
     show (g : Q) * (t : Q) * (g : Q)⁻¹ ∈ T.map ι
     rw [← hgn, ← htt, ← map_inv, ← map_mul, ← map_mul]
     exact Subgroup.mem_map_of_mem ι hcj'
-  haveI hTn : ((T.map ι).subgroupOf (N.map ι)).Normal := hTnorm
+  have hTn : ((T.map ι).subgroupOf (N.map ι)).Normal := hTnorm
   have hcox' : ∃ (ι' : Type) (M : CoxeterMatrix ι'),
       Nonempty (CoxeterSystem M (↥(N.map ι) ⧸ (T.map ι).subgroupOf (N.map ι))) := by
-    haveI := hn
+    have := hn
     obtain ⟨cs⟩ := hcox
     let e : ↥N ≃* ↥(N.map ι) := Subgroup.equivMapOfInjective N ι hι
     have he : (T.subgroupOf N).map e.toMonoidHom = (T.map ι).subgroupOf (N.map ι) := by

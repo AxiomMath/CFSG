@@ -32,12 +32,12 @@ namespace Prop121
 
 @[expose] def PrintedOJNorm : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {K : Subgroup G} (hK : GLAPComponent 3 (Cg a) K)
-    (hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
-    (hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
-    (hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
+    (_h : Cex121 G m p B M E A a) {K : Subgroup G} (_hK : GLAPComponent 3 (Cg a) K)
+    (_hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
+    (_hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
+    (_hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩))
-    (hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K) {Js : Subgroup G},
+    (_hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K) {Js : Subgroup G},
     IsTwoPrimeComp ((GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G))) ⊔
         ⨆ (x : G) (_ : x ∈ centBar 3 A K) (_ : x ≠ 1), M ⊓ Cg x) Js →
       GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G)) ≤ Js →
@@ -45,22 +45,22 @@ namespace Prop121
 
 @[expose] def PrintedKLeKx : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {K : Subgroup G} (hK : GLAPComponent 3 (Cg a) K)
-    (hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
-    (hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
-    (hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
+    (_h : Cex121 G m p B M E A a) {K : Subgroup G} (_hK : GLAPComponent 3 (Cg a) K)
+    (_hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
+    (_hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
+    (_hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩))
-    (hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K),
+    (_hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K),
     K ≤ Kx 3 (GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G))) a
 
 @[expose] def PrintedY2c : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {K : Subgroup G} (hK : GLAPComponent 3 (Cg a) K)
-    (hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
-    (hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
-    (hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
+    (_h : Cex121 G m p B M E A a) {K : Subgroup G} (_hK : GLAPComponent 3 (Cg a) K)
+    (_hK3 : IsLThreeFour (barOf 3 K ⧸ Subgroup.center (barOf 3 K)))
+    (_hKM : ¬ Covers 3 (Cg a) (M ⊓ Cg a) K)
+    (_hu₀ : ∃ u ∈ Tof p M a ⊓ Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩))
-    (hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K) {Js : Subgroup G},
+    (_hA0 : Nat.card (E ⊓ A : Subgroup G) = 9 ∧ InducesFaithfulInner 3 (E ⊓ A) K) {Js : Subgroup G},
     IsTwoPrimeComp ((GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G))) ⊔
         ⨆ (x : G) (_ : x ∈ centBar 3 A K) (_ : x ≠ 1), M ⊓ Cg x) Js →
       GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G)) ≤ Js →
@@ -138,7 +138,7 @@ theorem prop121_of_cex_of_inputs (h123 : Lemma123Statement) (h124 : Lemma124Stat
   intro G _ _ m p B M E A a h
   obtain ⟨hp3, K, hK, ⟨hK3, hKM⟩, hu₀, hA0, -⟩ := h123 h
   subst hp3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp3' : (3 : ℕ).Prime := by norm_num
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1

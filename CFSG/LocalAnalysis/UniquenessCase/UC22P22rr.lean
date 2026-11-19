@@ -21,7 +21,7 @@ theorem uc22p22r_eq_top_of_isSimple [IsSimpleGroup X] {K' : Subgroup X} (hq : CF
 
 theorem uc22p22r_eq_top_of_quasisimple (hX : CFSG.Open.IsQuasisimple X) {K' : Subgroup X}
     (hq : CFSG.Open.IsQuasisimple ↥K') (hsub : CFSG.Open.IsSubnormal K' ⊤) : K' = ⊤ := by
-  haveI : Group.IsPerfect ↥K' := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K' := ⟨hq.1⟩
   exact (CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top hX K' hsub).resolve_left
     (uc22p22r_ne_bot_of_equiv (MulEquiv.refl _) hq)
 
@@ -41,8 +41,8 @@ theorem uc22p22r_components_of_szL2Product [Finite X] {n : ℕ} (h : IsSzL2Produ
     rcases hC with hC | hC
     · exact uc22p22r_lieModel_isSimple_twistedB2 hC
     · exact uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hC
-  haveI : IsSimpleGroup A := hsimp hA
-  haveI : IsSimpleGroup B := hsimp hB
+  have : IsSimpleGroup A := hsimp hA
+  have : IsSimpleGroup B := hsimp hB
   set N₁ : Subgroup X := ((MonoidHom.snd A B).comp f.toMonoidHom).ker with hN₁
   set N₂ : Subgroup X := ((MonoidHom.fst A B).comp f.toMonoidHom).ker with hN₂
   have hsup : N₁ ⊔ N₂ = ⊤ := by
@@ -73,8 +73,8 @@ theorem uc22p22r_components_of_suCentralSquare [Finite X] (h : IsSU3CentralSquar
     ∃ C₁ C₂ : Subgroup X, ∀ K' : Subgroup X, CFSG.Open.IsQuasisimple ↥K' → CFSG.Open.IsSubnormal K' ⊤ →
       K' = C₁ ∨ K' = C₂ := by
   obtain ⟨K₁, K₂, hsup, hcomm, hK₁, hK₂, -⟩ := h
-  haveI : K₁.Normal := uc22p22r_normal_of_commuting hsup hcomm
-  haveI : K₂.Normal :=
+  have : K₁.Normal := uc22p22r_normal_of_commuting hsup hcomm
+  have : K₂.Normal :=
     uc22p22r_normal_of_commuting (by rwa [sup_comm]) fun a ha b hb => (hcomm b hb a ha).symm
   have hc₁ : CFSG.Open.IsComponentOf K₁ ⊤ :=
     ⟨le_top, CFSG.Open.IsSubnormal.of_mathlib (Subgroup.Normal.isSubnormal ‹K₁.Normal›), hK₁.1⟩
@@ -101,7 +101,7 @@ theorem uc22p22r_components_two (D : Data G) (h207 : S20_7 D) (h1930 : H1930 D) 
       ∃ C₁ C₂ : Subgroup (Bar2 L), ∀ K' : Subgroup (Bar2 L), CFSG.Open.IsQuasisimple ↥K' →
         CFSG.Open.IsSubnormal K' ⊤ → K' = C₁ ∨ K' = C₂ := by
     intro t m n ht h
-    haveI : IsSimpleGroup (Bar2 L) := uc22p22r_lieModel_isSimple ht h
+    have : IsSimpleGroup (Bar2 L) := uc22p22r_lieModel_isSimple ht h
     exact ⟨⊤, ⊤, fun K' hq hsub => Or.inl (uc22p22r_eq_top_of_isSimple hq hsub)⟩
   have hQ : CFSG.Open.IsQuasisimple (Bar2 L) →
       ∃ C₁ C₂ : Subgroup (Bar2 L), ∀ K' : Subgroup (Bar2 L), CFSG.Open.IsQuasisimple ↥K' →

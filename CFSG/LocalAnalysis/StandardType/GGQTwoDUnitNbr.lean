@@ -165,8 +165,7 @@ theorem ggQTwoDUnit_normalizer_N (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L
     refine Subgroup.mem_map.mpr ⟨s⁻¹ * z * s, ?_, ?_⟩
     · exact qtwoDB16_map_conj_J_le hbase (Subgroup.inv_mem Bs hs)
         (Subgroup.mem_map.mpr ⟨z, hz, by
-          change (MulAut.conj s⁻¹).toMonoidHom z = s⁻¹ * z * s
-          simp [MulAut.conj_apply]⟩)
+          simp⟩)
     · show s * (s⁻¹ * z * s) * s⁻¹ = z
       group
   obtain ⟨u, humem, hu1, hu3⟩ := qtwoDB16_J_order_three (by omega) hbase
@@ -251,7 +250,7 @@ theorem ggQTwoDUnit_cent_E (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε
     rw [hβLs_eq, Pi.add_apply, Pi.smul_apply, Pi.smul_apply]
     rw [qtwoDB16_dSign_one_apply m a b a,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) hdel.hca.symm (1 : ZMod 3)]
-    rw [if_pos (Or.inl rfl), smul_eq_mul, smul_zero, add_zero]
+    rw [ite_eq_left (Or.inl rfl), smul_eq_mul, smul_zero, add_zero]
     calc u' * -1 = -(u' * 1) := mul_neg u' 1
       _ = -u' := by rw [mul_one]
   obtain ⟨kk, -, hkk⟩ := Finset.exists_mem_notMem_of_card_lt_card
@@ -269,7 +268,7 @@ theorem ggQTwoDUnit_cent_E (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε
     rw [hβLs_eq, Pi.add_apply, Pi.smul_apply, Pi.smul_apply]
     rw [qtwoDB16_dSign_one_apply m a b kk,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) hkc (1 : ZMod 3)]
-    rw [if_neg (by tauto), smul_eq_mul, mul_one, smul_zero, add_zero]
+    rw [ite_eq_right (by tauto), smul_eq_mul, mul_one, smul_zero, add_zero]
   have h1 : u = -u' := by rw [← hva, hva']
   have h2 : u = u' := by rw [← hvk, hvk']
   have h1' : u = -u := by

@@ -14,7 +14,7 @@ open CFSG.KC.Enum CFSG.KC.OrbRow CFSG.KC.FrameE78.Refl CFSG.KS.PK Matrix
 theorem ln_addV3 {n p : ℕ} (u v : ℕ) (hp : p < n) :
     ln (addV3 n u v) p = (ln u p + ln v p) % 3 := by
   have h := ln_pack (fun p => ln u p + ln v p) n p
-  rw [if_pos hp] at h
+  rw [ite_eq_left hp] at h
   exact h
 
 theorem dec_addV3 (n u v : ℕ) : dec n (addV3 n u v) = dec n u + dec n v := by
@@ -63,7 +63,7 @@ theorem rtPlane_sound {n m RP M x xn Tm y : ℕ} (h : rtPlane n m RP M x xn Tm y
     (h13 : 13 ≤ rtCnt n m RP Tm y) :
     M.testBit y = true ∨ M.testBit (addV3 n y x) = true ∨ M.testBit (addV3 n y xn) = true := by
   unfold rtPlane at h
-  rw [bIf_eq, if_neg (fun e => absurd (bltT.1 e) (Nat.not_lt.2 h13)), orB_eq, orB_eq, bitB_eq,
+  rw [bIf_eq, ite_eq_right (fun e => absurd (bltT.1 e) (Nat.not_lt.2 h13)), orB_eq, orB_eq, bitB_eq,
     bitB_eq, bitB_eq] at h
   simpa only [Bool.or_eq_true] using h
 
@@ -76,7 +76,7 @@ theorem rtRep_sound {n m RP V b Tm lo len : ℕ} (h : rtRep n m RP V b Tm lo len
       (Nat.beq (cntN m (bitB Tm)) (nat_lit 36)) = true := by
     rw [orB_eq, Bool.or_eq_true, beqT, beqT]
     exact ht
-  rw [strictB_eq, bIf_eq, if_pos hc, strictB_eq, strictB_eq, strictB_eq] at h
+  rw [strictB_eq, bIf_eq, ite_eq_left hc, strictB_eq, strictB_eq, strictB_eq] at h
   exact fun j hj => allN_iff.1 h j hj
 
 @[expose] def RootP {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) (x : Fin n → ZMod 3) : Prop :=
@@ -174,7 +174,7 @@ private theorem rtNormV_lead {x : ℕ} (hn : n ≤ 8) (hx : VOK n x) (hx0 : x �
   · have hle := hx.2 q0 hq0
     rw [normV_ite]
     by_cases h2 : lead n x = 2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       refine ⟨VOK_negL hn hx, ?_⟩
       have hneg : ∀ q < n, (ln (negL x) q = 0 ↔ ln x q = 0) := fun q hq => by
         rw [ln_negL (by omega) (hx.2 q hq)]
@@ -186,7 +186,7 @@ private theorem rtNormV_lead {x : ℕ} (hn : n ≤ 8) (hx : VOK n x) (hx0 : x �
         · exact absurd ((hneg q1 hq1).2 (hbelow q1 h)) hne1
         · rw [hl1, ln_negL (by omega) hle, ← hl, h2]
         · exact absurd ((hneg q0 hq0).1 (hbelow1 q0 h)) hne
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       refine ⟨hx, ?_⟩
       rw [hl] at h2 ⊢
       omega

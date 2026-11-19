@@ -13,6 +13,7 @@ open CFSG CFSG.Open CFSG.RankThree.GF2n.Tim79a CFSG.LargeExtraspecial.Timmesfeld
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem mem_Q_of_mem_H_of_commute (S : Setting z E F) {x : G} (hx : x ∈ H z)
     (hc : ∀ y ∈ Q z, x * y = y * x) : x ∈ Q z := by
   refine (S.hyp.centralizer_quotient x).mp ⟨hx, fun y hy => ?_⟩
@@ -74,6 +75,7 @@ theorem pPrimeCore_two_H_eq_bot (S : Setting z E F) : CFSG.pPrimeCore 2 ↥(H z)
   exact Subgroup.mem_bot.mpr (Subtype.ext hx1)
 
 
+omit [Finite G] in
 private theorem map_centralizer_conj_singleton (g z : G) :
     (Subgroup.centralizer ({z} : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ({g * z * g⁻¹} : Set G) := by
@@ -190,14 +192,14 @@ theorem odd_index_map_subtype_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {w 
     (h : Sec3Hyp S a w) (hZ : Nat.card ↥(ZQ z) = 4) (P : Sylow 2 ↥(H z)) :
     Odd ((P : Subgroup ↥(H z)).map (H z).subtype).index := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P' : Subgroup G := (P : Subgroup ↥(H z)).map (H z).subtype with hP'
   have hP'H : P' ≤ H z := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map (H z).subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map (H z).subtype
   have hQP : Q z ≤ P' := by
-    haveI : ((Q z).subgroupOf (H z)).Normal := instNormalQH z
+    have : ((Q z).subgroupOf (H z)).Normal := instNormalQH z
     have hN2 : IsPGroup 2 ((Q z).subgroupOf (H z)) := (Q_isPGroup S).comap_subtype
     have hle := hN2.le_sylow_of_normal P
     intro x hx
@@ -236,8 +238,8 @@ theorem odd_index_map_subtype_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {w 
       intro x hx
       have : (⟨x, hx⟩ : ↥(T : Subgroup G)) ∈ P'.subgroupOf (T : Subgroup G) := by rw [htop]; trivial
       exact Subgroup.mem_subgroupOf.mp this
-    haveI : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
-    obtain ⟨x, hxN, hxP⟩ := SetLike.exists_of_lt
+    have : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
+    obtain ⟨x, hxN, hxP⟩ := _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hxNG : (x : G) ∈ Subgroup.normalizer (P' : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
@@ -260,7 +262,7 @@ theorem odd_index_map_subtype_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {w 
     let L : Subgroup G := P' ⊔ Subgroup.zpowers (x : G)
     have hLT : L ≤ (T : Subgroup G) :=
       sup_le hPT ((Subgroup.zpowers_le).mpr x.2)
-    have hL2 : IsPGroup 2 (L.comap (H z).subtype) := (T.isPGroup'.to_le hLT).comap_subtype
+    have hL2 : IsPGroup 2 (L.comap (H z).subtype) := (T.isPGroup.to_le hLT).comap_subtype
     have hPL : (P : Subgroup ↥(H z)) ≤ L.comap (H z).subtype := by
       intro y hy
       exact (le_sup_left : P' ≤ L) ⟨y, hy, rfl⟩

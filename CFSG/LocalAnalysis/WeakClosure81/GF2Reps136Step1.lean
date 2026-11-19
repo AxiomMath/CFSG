@@ -20,9 +20,9 @@ theorem step1 (h133N : R4_133N) (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulA
     (hne : ⁅pCoreOf p Y, Subgroup.zpowers t⁆ ≠ ⊥) :
     ∃ L : Subgroup (MulAut W), Conc4_136W Y t L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hw2' : ∀ w : W, w * w = 1 := fun w => by rw [← pow_two]; exact hw2 w
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hleP2 : pCoreOf 2 Y ≤ Y := CFSG.LieType.BorelTits.pCoreOf_le 2 Y
   have hpCore2 : pCoreOf 2 Y = ⊥ :=
     S.o2 (pCoreOf 2 Y) hleP2

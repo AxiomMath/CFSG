@@ -25,7 +25,7 @@ theorem sporadic_M22 {G L Γ A : Subgroup (GLV V)} {m : ℕ} [Finite ↥G] (h : 
         IsMathieu22CodeOrCocode L) ∨
       (Module.finrank (ZMod 2) V = 12 ∧ ∃ N : Subgroup ↥G, N.Normal ∧ N.index = 2 ∧
         IsHat ↥N ↥NativeSporadic.M22) := by
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     CFSG.Quasithin.Background.Harris.OrdinaryProofs.finite_GLV_of_finite (V := V)
   have hperf : Group.IsPerfect ↥L := ⟨h.L_comp.2.2.1⟩
   obtain ⟨e⟩ := hM
@@ -51,7 +51,7 @@ theorem sporadic_M22 {G L Γ A : Subgroup (GLV V)} {m : ℕ} [Finite ↥G] (h : 
     obtain ⟨hm5, hAL⟩ := case2_rank h e
     have hm : m = 5 := by omega
     have hAL' : ¬ A ≤ L := hAL hm
-    obtain ⟨a, haA, haL⟩ := SetLike.not_le_iff_exists.1 hAL'
+    obtain ⟨a, haA, haL⟩ := IsConcreteLE.not_le_iff_exists.1 hAL'
     have haG : a ∈ G := hΓG (h.A_le haA)
     have hLn : (L.subgroupOf G).Normal :=
       (Subgroup.normal_subgroupOf_iff hLG).2 fun l g hl hg => hnorm g hg l hl

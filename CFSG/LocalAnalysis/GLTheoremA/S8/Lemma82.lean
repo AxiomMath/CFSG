@@ -31,18 +31,21 @@ structure Sp82 (G : Type) [Group G] [Finite G] (p : ℕ) (B : Subgroup G) (x : G
   hT : ∃ T : Subgroup G, T ≤ L ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
     (⁅T, B⁆ : Subgroup G) = T ∧ ¬ T ≤ GLAPPrimeCoreOf p L
 
+omit [Finite G] in
 theorem orderOf_eq_of_isElemAbelian {B : Subgroup G} {x : G} (hp : p.Prime) (hB : IsElemAbelian p B)
     (hx : x ∈ B) (hx1 : x ≠ 1) : orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (hB.2 x hx) hx1
 
+omit [Finite G] in
 theorem le_cx_of_isElemAbelian {B : Subgroup G} {x : G} (hB : IsElemAbelian p B) (hx : x ∈ B) :
     B ≤ cx x := by
   intro b hb
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact isElemAbelian_commute hB hb hx
 
-theorem barX_conj_eq {p : ℕ} {X L J : Subgroup G} (hLX : L ≤ X) (hJX : J ≤ X)
+omit [Finite G] in
+theorem barX_conj_eq {p : ℕ} {X L J : Subgroup G} (_hLX : L ≤ X) (hJX : J ≤ X)
     (hcomm : ⁅L, J⁆ ≤ GLAPPrimeCoreOf p X) {j : G} (hj : j ∈ J) :
     barX p X (GLBConj j L) = barX p X L := by
   have hmem : ∀ x : ↥X, x ∈ GLAPPrimeCore p ↥X ↔ (x : G) ∈ GLAPPrimeCoreOf p X := fun x =>
@@ -109,9 +112,9 @@ theorem centMod_of_other_component {p : ℕ} (hp : p.Prime) {x : G} {L J : Subgr
 theorem not_mem_of_cyclic_sylow {p : ℕ} (hp : p.Prime) {X J : Subgroup G} (hJ : GLAPComponent p X J)
     (hcyc : ∀ P : Sylow p ↥J, IsCyclic (P : Subgroup ↥J)) {x : G} (hx : orderOf x = p) (hxJ : x ∈ J)
     (hcen : ∀ y ∈ J, x * y = y * x) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
   let π : ↥J →* PQuot p J := QuotientGroup.mk' (GLAPPrimeCore p ↥J)
   let f : PQuot p J →* PQuot p J ⧸ Subgroup.center (PQuot p J) := QuotientGroup.mk' _
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -155,12 +158,12 @@ theorem not_mem_of_cyclic_sylow {p : ℕ} (hp : p.Prime) {X J : Subgroup G} (hJ 
       have h2 : (Ph : Subgroup (PQuot p J)).map f = (Q : Subgroup _) := by
         rw [← Sylow.coe_mapSurjective hfsurj Ph, hPh]
       have h3 : IsCyclic ((P : Subgroup ↥J).map π) := by
-        haveI := hcyc P
+        have := hcyc P
         exact isCyclic_of_surjective (π.subgroupMap (P : Subgroup ↥J))
           (π.subgroupMap_surjective _)
       rw [h1] at h3
       have h4 : IsCyclic ((Ph : Subgroup (PQuot p J)).map f) := by
-        haveI := h3
+        have := h3
         exact isCyclic_of_surjective (f.subgroupMap (Ph : Subgroup (PQuot p J)))
           (f.subgroupMap_surjective _)
       rw [h2] at h4
@@ -177,13 +180,13 @@ theorem unique_pcomponent (hc : S8Ctx G p) {B : Subgroup G} {x : G} {L : Subgrou
   by_contra hne
   obtain ⟨hB, hxB, hx1, hL, -, -, hcyc, -⟩ := sStarFacts hc h
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJcm : ∀ j ∈ J, CentMod p L j := centMod_of_other_component hp hL hJ hne
   have hxord : orderOf x = p := orderOf_eq_of_isElemAbelian hp hB.1 hxB hx1
   have hx5 : x ^ p = 1 := by rw [← hxord]; exact pow_orderOf_eq_one x
   have hcycJ : ∀ P : Sylow p ↥J, IsCyclic (P : Subgroup ↥J) := by
     intro P
-    have hP'p : IsPGroup p ((P : Subgroup ↥J).map J.subtype) := P.isPGroup'.map J.subtype
+    have hP'p : IsPGroup p ((P : Subgroup ↥J).map J.subtype) := P.isPGroup.map J.subtype
     have hcm : ∀ g ∈ (P : Subgroup ↥J).map J.subtype, CentMod p L g := by
       rintro g ⟨y, -, rfl⟩
       exact hJcm y y.2
@@ -243,6 +246,7 @@ theorem unique_pcomponent (hc : S8Ctx G p) {B : Subgroup G} {x : G} {L : Subgrou
   exact S3.not_isCyclic_of_card hp hSel (by
     rw [hk]; exact Nat.pow_le_pow_right hp.pos hk2) hcycS
 
+omit [Finite G] in
 theorem normalizer_of_unique {X L : Subgroup G} (hL : GLAPComponent p X L)
     (huniq : ∀ J : Subgroup G, GLAPComponent p X J → J = L) :
     X ≤ Subgroup.normalizer (L : Set G) := by
@@ -255,6 +259,7 @@ theorem normalizer_of_unique {X L : Subgroup G} (hL : GLAPComponent p X L)
 
 open CFSG.HardMathSupport.Solomon.LocalBalance CFSG.ComponentClassification.PerfectAutomorphisms
   CFSG.ComponentClassification.OuterAutomorphisms in
+omit [Finite G] in
 theorem inducesInnerMod_of_inner' {J : Subgroup G}
     [Group.IsPerfect (PQuot p J)] {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G))
     (h : centerQuotientHom (PQuot p J) (barAut p J ⟨g⁻¹, Subgroup.inv_mem _ hg⟩) ∈
@@ -292,7 +297,7 @@ theorem inducesInner_spor (hc : S8Ctx G p) (hOut : SporadicOuterLeTwo) {B : Subg
   have hp := hc.ctx.prime
   obtain ⟨hsimple, hnonab, -⟩ := catalog_of_component hc.ctx hx1 hL
   have hq : CFSG.Open.IsQuasisimple (PQuot p L) := isQuasisimple_pQuot_of_glaPComponent hp hL
-  haveI : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
   have hbN : b ∈ Subgroup.normalizer (L : Set G) := hBN hb
   have hbp : b ^ p = 1 := hB.1.2 b hb
   obtain ⟨i, hi, ⟨e⟩⟩ := hsp
@@ -325,6 +330,7 @@ theorem inducesInner_spor (hc : S8Ctx G p) (hOut : SporadicOuterLeTwo) {B : Subg
   | alternating _ _ => exact absurd hi (by simp [isSporIndex])
   | lie _ => exact absurd hi (by simp [isSporIndex])
 
+omit [Finite G] in
 theorem centMod_of_inducesInner {p : ℕ} {L : Subgroup G} {b l₀ : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) (hl₀ : l₀ ∈ L)
     (h : ∀ y ∈ L, (l₀⁻¹ * y * l₀)⁻¹ * (b⁻¹ * y * b) ∈ GLAPPrimeCoreOf p L) :
@@ -346,11 +352,12 @@ theorem centMod_of_inducesInner {p : ℕ} {L : Subgroup G} {b l₀ : G}
     rwa [inv_inv] at this
   exact centMod_iff.2 hmem
 
+omit [Finite G] in
 theorem mul_pow_mem_core {O : Subgroup G} {l c : G} (hl : l ∈ Subgroup.normalizer (O : Set G))
     (hc : c ∈ Subgroup.normalizer (O : Set G)) (hlc : ⁅l, c⁆ ∈ O) (n : ℕ) :
     ((l * c) ^ n)⁻¹ * (l ^ n * c ^ n) ∈ O := by
   set H := Subgroup.normalizer (O : Set G) with hH
-  haveI : (O.subgroupOf H).Normal := Subgroup.normal_in_normalizer
+  have : (O.subgroupOf H).Normal := Subgroup.normal_in_normalizer
   have hO : ∀ g : H, (g : G) ∈ O ↔ g ∈ O.subgroupOf H := fun g => Iff.rfl
   let l' : H := ⟨l, hl⟩
   let c' : H := ⟨c, hc⟩
@@ -384,7 +391,7 @@ theorem exists_pparts {p : ℕ} (hp : p.Prime) {O : Subgroup G} {l c b : G}
     (hlc : ⁅l, c⁆ ∈ O) (hb : b ^ p = 1) (hbl : b⁻¹ * (l * c) ∈ O) :
     ∃ m n : ℕ, (∃ k : ℕ, (l ^ m) ^ (p ^ k) = 1) ∧ (∃ k : ℕ, (c ^ n) ^ (p ^ k) = 1) ∧
       b⁻¹ * (l ^ m * c ^ n) ∈ O := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hl0 : 0 < orderOf l := orderOf_pos l
   have hc0 : 0 < orderOf c := orderOf_pos c
   set N := p * orderOf l * orderOf c with hN
@@ -484,7 +491,7 @@ theorem exists_decomp_mod_core (hc : S8Ctx G p) {B : Subgroup G} {x : G} {L : Su
 theorem mem_zpowers_of_cyclic {p : ℕ} (hp : p.Prime) {L : Subgroup G} {x c : G}
     (hcyc : CycModSylow p L) (hx : orderOf x = p) (hxcm : CentMod p L x) (hcx : c ∈ cx x)
     (hcm : CentMod p L c) (hcp : c ^ p = 1) : c ∈ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx5 : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hxc : x * c = c * x := (Subgroup.mem_centralizer_singleton_iff.1 hcx).symm
   set S : Subgroup G := Subgroup.zpowers x ⊔ Subgroup.zpowers c with hS
@@ -517,7 +524,7 @@ theorem mem_zpowers_of_cyclic {p : ℕ} (hp : p.Prime) {L : Subgroup G} {x c : G
 theorem central_pth_power_mem_core (h66 : I66At) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgroup G}
     (hL : GLAPComponent p X L) (hsp : catalogIs (PSimple p L) isSporIndex) {l : G} (hl : l ∈ L)
     (hcen : ∀ y ∈ L, ⁅y, l ^ p⁆ ∈ GLAPPrimeCoreOf p L) : l ^ p ∈ GLAPPrimeCoreOf p L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p L) := isQuasisimple_pQuot_of_glaPComponent hp hL
   have hO : GLAPPrimeCore p (PQuot p L) = ⊥ := glaPPrimeCore_quotient_eq_bot hp
   have hmem : ∀ x : ↥L, x ∈ GLAPPrimeCore p ↥L ↔ (x : G) ∈ GLAPPrimeCoreOf p L := fun x =>
@@ -618,6 +625,7 @@ theorem central_pth_power_mem_core (h66 : I66At) {p : ℕ} (hp : p.Prime) (hp2 :
   rw [hu, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, hmem] at hu1
   simpa [ha] using hu1
 
+omit [Finite G] in
 theorem lpow_mul_cpow_mem_core {p : ℕ} {L : Subgroup G} {b l c : G}
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hl : l ∈ L) (hcm : CentMod p L c) (hb : b ^ p = 1)
     (hbo : b⁻¹ * (l * c) ∈ GLAPPrimeCoreOf p L) : l ^ p * c ^ p ∈ GLAPPrimeCoreOf p L := by
@@ -724,7 +732,7 @@ theorem exists_T (hc : S8Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
   obtain ⟨hB, hxB, hx1, hL, hBN, -, -, -⟩ := sStarFacts hc h
   obtain ⟨-, -, T₀, hT₀x, hT₀2, hBT₀, hne, -⟩ := h.1.1.1.2.1
   have hp := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : (⁅T₀, B⁆ : Subgroup G) ≤ T₀ := commutator_le_left_of_normalizes hBT₀
   have hcop : Nat.Coprime p (Nat.card T₀) := by
     obtain ⟨k, hk⟩ := hT₀2.exists_card_eq
@@ -744,6 +752,7 @@ theorem exists_T (hc : S8Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     ?_, ?_⟩
   · exact i321UsedAt_holds p hp T₀ B hcop hBT₀ hres
   · exact hne
+omit [Finite G] in
 theorem comm_eq_of_decomp {t l x : G} (i : ℤ) (htx : t * x ^ i = x ^ i * t) :
     ⁅t, l * x ^ i⁆ = (t * l * t⁻¹) * l⁻¹ := by
   have hxt : x ^ i * t⁻¹ = t⁻¹ * x ^ i := by
@@ -756,6 +765,7 @@ theorem comm_eq_of_decomp {t l x : G} (i : ℤ) (htx : t * x ^ i = x ^ i * t) :
     _ = t * l * (t⁻¹ * x ^ i) * (x ^ i)⁻¹ * l⁻¹ := by rw [hxt]
     _ = (t * l * t⁻¹) * l⁻¹ := by group
 
+omit [Finite G] in
 theorem T_le_L {B T L : Subgroup G} {x : G} (hTx : T ≤ cx x) (hTB : (⁅T, B⁆ : Subgroup G) = T)
     (hBL : ∀ b ∈ B, ∃ l ∈ L, ∃ i : ℤ, b = l * x ^ i)
     (hLn : cx x ≤ Subgroup.normalizer (L : Set G)) : T ≤ L := by

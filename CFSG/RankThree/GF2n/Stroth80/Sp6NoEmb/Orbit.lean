@@ -39,8 +39,8 @@ theorem isLabel_threeLabel {s l : Fin 3} {A B : Finset ℕ} (hA : ∀ i ∈ A, i
   split_ifs
   exacts [hA, hB, fun i hi => absurd hi (Finset.notMem_empty i)]
 
-theorem singleton_lt {a : ℕ} (ha : a < n) : ∀ i ∈ ({a} : Finset ℕ), i < n :=
-  fun i hi => (Finset.mem_singleton.mp hi) ▸ ha
+theorem singleton_lt {a : ℕ} (ha : a < n) : ∀ _i ∈ ({a} : Finset ℕ), _i < n :=
+  fun _i hi => (Finset.mem_singleton.mp hi) ▸ ha
 
 theorem pair_lt {a b : ℕ} (ha : a < n) (hb : b < n) : ∀ i ∈ ({a, b} : Finset ℕ), i < n := by
   intro i hi
@@ -129,6 +129,7 @@ variable (hshift : ∀ J, IsLabel n J → p (shiftL n J) = p J)
   (hsum : ∑ J ∈ labels n, p J * 2 ^ lsize J ≤ 8 * n)
 include hshift hperm hsum
 
+omit hshift hsum in
 theorem p_twoLabel_perm {l l' : Fin 3} {A B : Finset ℕ} (hA : ∀ i ∈ A, i < n)
     (hB : ∀ i ∈ B, i < n) : p (twoLabel l' A B) = p (twoLabel l A B) := by
   rw [← hperm _ (isLabel_twoLabel hA hB) (Equiv.swap l l'), twoLabel_comp_perm,
@@ -146,12 +147,12 @@ theorem p_twoLabel_empty_zero (hn : 1 ≤ n) (l : Fin 3) : p (twoLabel l ∅ {0}
     have hl : l₁ = l₂ := by
       by_contra hl
       have := congrFun h l₁
-      simp only [twoLabel, if_pos rfl, if_neg hl] at this
+      simp only [twoLabel, ite_eq_right hl] at this
       exact Finset.singleton_ne_empty k₂ this.symm
     subst hl
     obtain ⟨t, ht⟩ : ∃ t, t ≠ l₁ := ⟨l₁ + 1, by fin_cases l₁ <;> decide⟩
     have := congrFun h t
-    simp only [twoLabel, if_neg ht] at this
+    simp only [twoLabel, ite_eq_right ht] at this
     rw [Finset.singleton_injective this]
   · rintro ⟨l', k⟩ hx
     simp only [Finset.mem_product, Finset.mem_univ, true_and, Finset.mem_range] at hx
@@ -160,7 +161,7 @@ theorem p_twoLabel_empty_zero (hn : 1 ≤ n) (l : Fin 3) : p (twoLabel l ∅ {0}
         rw [shiftL_iter_twoLabel, shift_iter_empty, shift_iter_singleton (by omega), zero_add,
           Nat.mod_eq_of_lt hx]
       rw [h1, p_shift_iter p hshift (isLabel_twoLabel h0 (singleton_lt (by omega))),
-        p_twoLabel_perm hshift hperm hsum h0 (singleton_lt (by omega))]
+        p_twoLabel_perm hperm h0 (singleton_lt (by omega))]
       exact Nat.one_le_iff_ne_zero.mpr hne
     · obtain ⟨t, ht⟩ : ∃ t, t ≠ l' := ⟨l' + 1, by fin_cases l' <;> decide⟩
       fin_cases l' <;> simp [lsize, twoLabel]
@@ -179,13 +180,13 @@ theorem p_twoLabel_one_zero (hn : 2 ≤ n) (l : Fin 3) : p (twoLabel l {1} {0}) 
         | exact ⟨0, by decide, by decide⟩ | exact ⟨1, by decide, by decide⟩
         | exact ⟨2, by decide, by decide⟩
     have hk := congrFun h t
-    simp only [twoLabel, if_neg ht1, if_neg ht2] at hk
+    simp only [twoLabel, ite_eq_right ht1, ite_eq_right ht2] at hk
     have hk' := Finset.singleton_injective hk
     subst hk'
     by_contra hne'
     have hl : l₁ ≠ l₂ := fun h' => hne' (by rw [h'])
     have := congrFun h l₁
-    simp only [twoLabel, if_pos rfl, if_neg hl] at this
+    simp only [twoLabel, ite_eq_right hl] at this
     have h2 := Finset.singleton_injective this
     have : (1 + k₁) % n ≠ k₁ := by
       rcases Nat.lt_or_ge (1 + k₁) n with h3 | h3
@@ -200,11 +201,12 @@ theorem p_twoLabel_one_zero (hn : 2 ≤ n) (l : Fin 3) : p (twoLabel l {1} {0}) 
         rw [shiftL_iter_twoLabel, shift_iter_singleton (by omega),
           shift_iter_singleton (by omega), zero_add, Nat.mod_eq_of_lt hx]
       rw [h1, p_shift_iter p hshift (isLabel_twoLabel (singleton_lt (by omega))
-        (singleton_lt (by omega))), p_twoLabel_perm hshift hperm hsum (singleton_lt (by omega))
+        (singleton_lt (by omega))), p_twoLabel_perm hperm (singleton_lt (by omega))
         (singleton_lt (by omega))]
       exact Nat.one_le_iff_ne_zero.mpr hne
     · fin_cases l' <;> simp [lsize, twoLabel]
 
+omit hperm in
 theorem p_twoLabel_pair_single {a : ℕ} (ha0 : 0 < a) (ha : a < n) (l : Fin 3) :
     p (twoLabel l {0, a} {a}) = 0 := by
   by_contra hne
@@ -245,7 +247,7 @@ theorem p_twoLabel_pair_single {a : ℕ} (ha0 : 0 < a) (ha : a < n) (l : Fin 3) 
     simp only [Finset.coe_range, Set.mem_Iio] at hk₁ hk₂
     obtain ⟨t, ht⟩ : ∃ t, t ≠ l := ⟨l + 1, by fin_cases l <;> decide⟩
     have := congrFun h t
-    simp only [twoLabel, if_neg ht] at this
+    simp only [twoLabel, ite_eq_right ht] at this
     have h2 := Finset.singleton_injective this
     have : k₁ ≡ k₂ [MOD n] := Nat.ModEq.add_left_cancel' a h2
     exact Nat.ModEq.eq_of_lt_of_lt this hk₁ hk₂

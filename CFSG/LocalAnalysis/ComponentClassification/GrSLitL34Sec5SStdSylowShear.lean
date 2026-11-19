@@ -64,7 +64,7 @@ theorem exists_sylow_shear_of_standard [IsSimpleGroup G] (hnonab : ∃ g h : G, 
     rw [hSdef, ← Subgroup.comap_subtype, Subgroup.comap_map_eq_self_of_injective
       C.subtype_injective]
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 S C := ⟨S₁, rfl⟩
-  have hSp : IsPGroup 2 S := S₁.isPGroup'.map _
+  have hSp : IsPGroup 2 S := S₁.isPGroup.map _
   have htC : t ∈ C := mem_centralizer_singleton_iff.mpr rfl
   have htc : ∀ s ∈ S, s * t = t * s := fun s hs => mem_centralizer_singleton_iff.mp (hS.1 hs)
   have htS : t ∈ S := by
@@ -158,7 +158,7 @@ theorem exists_sylow_shear_of_standard [IsSimpleGroup G] (hnonab : ∃ g h : G, 
       have hJp : Group.IsPerfect ↥J := hst.1.1
       have h2elt : ∀ b ∈ (P : Subgroup G), ∃ k : ℕ, b ^ 2 ^ k = 1 := by
         intro b hb
-        obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨b, hb⟩
+        obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨b, hb⟩
         refine ⟨k, ?_⟩
         rw [← hk, Subgroup.orderOf_mk]
         exact pow_orderOf_eq_one b
@@ -173,11 +173,11 @@ theorem exists_sylow_shear_of_standard [IsSimpleGroup G] (hnonab : ∃ g h : G, 
         exact mem_or_mul_mem_of_eq_mul hZ hC2 ht htJ (h2elt b hb) (htc b (hPS b hb)) hj hc' hbjc
   obtain ⟨P, hSP⟩ := hSp.exists_le_sylow
   have hlt : S < (P : Subgroup G) := lt_of_le_of_ne hSP fun h' => hnotSyl ⟨P, h'.symm⟩
-  obtain ⟨x, hxP, -, hxt, hxz⟩ := exists_shear_of_lt ht hS P.isPGroup' hlt hzS.1 hzc hz hzt hZ'
+  obtain ⟨x, hxP, -, hxt, hxz⟩ := exists_shear_of_lt ht hS P.isPGroup hlt hzS.1 hzc hz hzt hZ'
     hnot
   have hzP : ∀ p ∈ (P : Subgroup G), p * z = z * p :=
     commute_of_shear ht hz hS P hSP hZ' hxP hxt hxz
-  have hPS : (P : Subgroup G) ⊓ C = S := inf_centralizer_eq_of_isSylowTwoIn hS P.isPGroup' hSP
+  have hPS : (P : Subgroup G) ⊓ C = S := inf_centralizer_eq_of_isSylowTwoIn hS P.isPGroup hSP
   refine ⟨P, z, hzS.2, hz, hSP hzS.1, hzP, hSP htS, hPS ▸ hS,
     isExtremalIn_of_isSylowTwoIn hS hPS, ?_, hnot, ?_, ?_⟩
   · intro w hw hwc hw2

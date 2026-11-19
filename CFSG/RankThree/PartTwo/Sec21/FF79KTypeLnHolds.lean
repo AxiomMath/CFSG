@@ -15,7 +15,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 private theorem sylowOf_card {G : Type} [Group G] [Finite G] {H P : Subgroup G}
     (h : IsSylowOf 3 P H) : Nat.card P = 3 ^ (Nat.card H).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hcop⟩ := h
   obtain ⟨a, ha⟩ := hp.exists_card_eq
   have h1 := Subgroup.relIndex_mul_card P H
@@ -35,7 +35,7 @@ theorem liftData_of_equiv {G : Type} [Group G] [Finite G] {J P : Subgroup G}
     {S : Type} [Group S] [Finite S] (e : (↥J ⧸ Subgroup.center ↥J) ≃* S) {R : Subgroup S}
     (hsyl : Nat.card R = 3 ^ (Nat.card S).factorization 3) :
     Nonempty (LiftData J P S R) ∧ Nat.card P = 3 ^ (Nat.card S).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := Subgroup.center ↥J with hZ
   let ϕ₀ : ↥J →* S := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hϕ₀ : ∀ x, ϕ₀ x = e (QuotientGroup.mk x) := fun _ => rfl
@@ -125,7 +125,7 @@ theorem exists_liftData
   obtain ⟨e'⟩ : Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃*
       Matrix.SpecialLinearGroup (Fin n) (ZMod 2)) := by
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := Hering214.exists_mulEquiv_projectiveSL_of_psl_two_one hm
-    haveI := Hering214.charP_two_of_natCard_eq_two hK
+    have := Hering214.charP_two_of_natCard_eq_two hK
     exact ⟨e.trans (MulEquiv.ofBijective (Hering214.embedTwo K n)
       (embedTwo_bijective hK hn)).symm⟩
   rcases hn with rfl | rfl
@@ -148,9 +148,9 @@ theorem ff79KTypeLn_holds :
   have hZ := card_center_dvd_two_of_typeLn hq hn hm
   refine ⟨Nat.Coprime.coprime_dvd_right hZ (by norm_num), ?_, ?_⟩
   · intro P'
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hQ : IsSylowOf 3 ((P' : Subgroup ↥J).map J.subtype) J := by
-      refine ⟨Subgroup.map_subtype_le _, P'.isPGroup'.map J.subtype, ?_⟩
+      refine ⟨Subgroup.map_subtype_le _, P'.isPGroup.map J.subtype, ?_⟩
       rw [Subgroup.relIndex, Subgroup.subgroupOf,
         Subgroup.comap_map_eq_self_of_injective J.subtype_injective]
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr P'.not_dvd_index

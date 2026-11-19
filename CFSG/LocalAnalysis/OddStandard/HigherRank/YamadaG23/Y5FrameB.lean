@@ -71,7 +71,7 @@ private theorem closure_sq_comm_le {H : Type*} [Group H] {D : Subgroup H} {T : S
   intro x hx
   induction hx using Subgroup.closure_induction with
   | mem t ht => exact hsq t ht
-  | one => simpa using D.one_mem
+  | one => simp
   | mul x y hx hy ihx ihy =>
       have hc : ⁅x, y⁆ ∈ D := hstep2 x hx y hy
       have e : (x * y) ^ 2 = ⁅x, y⁆ * (y * x ^ 2 * y⁻¹) * y ^ 2 := by

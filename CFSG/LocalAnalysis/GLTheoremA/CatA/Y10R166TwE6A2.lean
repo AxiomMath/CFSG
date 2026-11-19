@@ -19,10 +19,11 @@ variable {ℓ f : ℕ} [Fact ℓ.Prime] {K : Type} [Field K] [Finite K]
   {σ : K →+* K} {Ω : Type} [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] [CharP Ω ℓ]
   {Fr : Ω →+* Ω}
 
-theorem twE6EnnolaConj (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = (ℓ ^ f) ^ 2)
+omit [Finite K] in
+theorem twE6EnnolaConj (_hℓ : ℓ.Prime) (hf : 1 ≤ f) (_hK : Nat.card K = (ℓ ^ f) ^ 2)
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) :
     ∃ g ∈ adjointGroup Tag.E6 Ω, g⁻¹ * twistE6 Ω Fr g = n0 Ω := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hmem : canonicalRep (coxeterSystem Tag.E6) Ω twE6W0 ∈ adjointGroup Tag.E6 Ω :=
     canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) Ω twE6W0
   exact exists_inv_mul_twistE6_eq hf hFr hmem
@@ -43,6 +44,7 @@ theorem thetaFixed_eq_map_Rgrp {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Ta
     rw [show (MulAut.conj g⁻¹).toMonoidHom y = g⁻¹ * y * g from rfl, h]
     exact hy
 
+omit [Fact (Nat.Prime ℓ)] [Finite K] [CharP Ω ℓ] in
 theorem rgrp_derived_eq_map_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Tag.E6 Ω)
@@ -52,6 +54,7 @@ theorem rgrp_derived_eq_map_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (twisted_E6_full_rational_fixed_group_order hℓ hf K hK σ hσ Ω Fr hFr).2.2.1
   rw [thetaFixed_eq_map_Rgrp hg hgn, ← Subgroup.map_commutator, hder]
 
+omit [Fact ℓ.Prime] [CharP Ω ℓ] in
 theorem rgrp_derived_relIndex_eq_gcd (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Tag.E6 Ω)
@@ -63,8 +66,8 @@ theorem rgrp_derived_relIndex_eq_gcd (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (exceptional_ambient_twisted_Frobenius_fixed_normalizer TwistTag.E6 hℓ hf K hK σ hσ Ω Fr hFr).2.1
   have hfinR : Finite (Rgrp Ω Fr) :=
     (twisted_E6_full_rational_fixed_group_order hℓ hf K hK σ hσ Ω Fr hFr).1
-  haveI : Finite (Rgrp Ω Fr) := hfinR
-  haveI : Finite (Cgrp K σ Ω) :=
+  have : Finite (Rgrp Ω Fr) := hfinR
+  have : Finite (Cgrp K σ Ω) :=
     Finite.of_injective (Subgroup.inclusion hCR) (Subgroup.inclusion_injective hCR)
   have hCg : Nat.card (Cgrp K σ Ω) * Nat.gcd 3 (ℓ ^ f + 1) = Nat.card (Rgrp Ω Fr) := by
     rw [hRcard]
@@ -84,6 +87,7 @@ theorem rgrp_derived_relIndex_eq_gcd (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g⁻¹).injective]
   exact hidx
 
+omit [Fact ℓ.Prime] [CharP Ω ℓ] in
 theorem rgrp_pow_three_mem_derived (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {g : ModGL Tag.E6 Ω} (hg : g ∈ adjointGroup Tag.E6 Ω)
@@ -92,7 +96,7 @@ theorem rgrp_pow_three_mem_derived (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   have hidx : (⁅thetaFixed Fr, thetaFixed Fr⁆.subgroupOf (thetaFixed Fr)).index =
       Nat.gcd 3 (ℓ ^ f + 1) :=
     rgrp_derived_relIndex_eq_gcd hℓ hf hK hσ hFr hg hgn
-  haveI hN : (⁅thetaFixed Fr, thetaFixed Fr⁆.subgroupOf (thetaFixed Fr)).Normal := by
+  have hN : (⁅thetaFixed Fr, thetaFixed Fr⁆.subgroupOf (thetaFixed Fr)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hg : (g : ModGL Tag.E6 Ω) ∈ thetaFixed Fr := g.2
@@ -125,10 +129,11 @@ theorem rgrp_pow_three_mem_derived (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   rw [hk, pow_mul]
   exact Subgroup.pow_mem _ hx3 k
 
-theorem rootDiagUnit_mem_thetaFixed (hK : Nat.card K = (ℓ ^ f) ^ 2) {q : ℕ}
+omit [Fact (Nat.Prime ℓ)] [Finite K] [CharP Ω ℓ] in
+theorem rootDiagUnit_mem_thetaFixed (_hK : Nat.card K = (ℓ ^ f) ^ 2) {q : ℕ}
     (hFr : ∀ c, Fr c = c ^ q) {a : Fin Tag.E6.rank → Ωˣ} (ha : ∀ i, a i ^ (q + 1) = 1) :
     rootDiagUnit Tag.E6 a ∈ thetaFixed Fr := by
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   rw [mem_thetaFixed]
   exact ⟨rootDiagUnit_mem_adjointGroup_of_isAlgClosed a,
     (theta_rootDiagUnit_eq_iff Fr hFr a).2 ha⟩
@@ -140,7 +145,7 @@ theorem twE6_rootDiagUnit_mem_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     {a : Fin Tag.E6.rank → Ωˣ} (ha : ∀ i, a i ^ q = 1) :
     rootDiagUnit Tag.E6 a ∈ ⁅thetaFixed Fr, thetaFixed Fr⁆ := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   obtain ⟨g, hg, hgn⟩ := twE6EnnolaConj hℓ hf hK hFr
   have hQ : ∀ i, a i ^ (ℓ ^ f + 1) = 1 := by
     intro i
@@ -168,7 +173,7 @@ theorem twE6_rootDiagUnit_mem_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       have hpow : (3 : ℕ) ∣ 3 ^ f := dvd_pow_self 3 (by omega)
       have h1 : (3 : ℕ) ∣ 1 := by
         have := Nat.dvd_sub h3 hpow
-        simpa using this
+        simp at this
       exact absurd (Nat.dvd_one.1 h1) (by norm_num)
     have h9ne : (9 : Ω) ≠ 0 := by
       have h3ne : (3 : Ω) ≠ 0 := by
@@ -178,9 +183,9 @@ theorem twE6_rootDiagUnit_mem_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       have h9eq : (9 : Ω) = 3 * 3 := by norm_num
       rw [h9eq]
       exact mul_ne_zero h3ne h3ne
-    haveI : NeZero (9 : Ω) := ⟨h9ne⟩
-    haveI : HasEnoughRootsOfUnity Ω 9 := IsSepClosed.hasEnoughRootsOfUnity Ω 9
-    obtain ⟨η, hη⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω 9
+    have : NeZero (9 : Ω) := ⟨h9ne⟩
+    have : HasEnoughRootsOfUnity Ω 9 := IsSepClosed.hasEnoughRootsOfUnity Ω 9
+    obtain ⟨η, hη⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω 9
     have hη0 : η ≠ 0 := hη.ne_zero (by norm_num)
     have hω : IsPrimitiveRoot (η ^ 3) 3 := hη.pow_of_dvd (p := 3) (by norm_num) (by norm_num)
     have hex : ∀ i, ∃ kk : ℕ, kk < 3 ∧ η ^ (3 * kk) = (a i : Ω) := by
@@ -240,7 +245,7 @@ theorem twE6_rootDiagUnit_mem_cgrp (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hqdvd : q ∣ ℓ ^ f + 1) (hq3 : q ≠ 3 ∨ 9 ∣ ℓ ^ f + 1) {ζ : Ωˣ} (hζq : ζ ^ q = 1)
-    (hζ1 : ζ ≠ 1) : ↥(⁅thetaFixed Fr, thetaFixed Fr⁆) :=
+    (_hζ1 : ζ ≠ 1) : ↥(⁅thetaFixed Fr, thetaFixed Fr⁆) :=
   ⟨rootDiagUnit Tag.E6 (twE6omega1Tuple ζ),
     twE6_rootDiagUnit_mem_cgrp hℓ hf hK hσ hFr hq hq2 hqdvd hq3 (fun i => by
       simp only [twE6omega1Tuple]
@@ -279,7 +284,7 @@ theorem twE6xStar_ne_one (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   have h3' : twE6omega1Tuple ζ = 1 :=
     CFSG.LieType.Chevalley.rootDiagUnit_injective h2
   have h4 := congrFun h3' (0 : Fin Tag.E6.rank)
-  simp only [twE6omega1Tuple, Pi.one_apply, if_pos rfl] at h4
+  simp only [twE6omega1Tuple, Pi.one_apply] at h4
   exact hζ1 h4
 
 end Certs

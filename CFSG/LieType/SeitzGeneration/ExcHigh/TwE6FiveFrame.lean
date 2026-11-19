@@ -48,7 +48,7 @@ theorem exists_elemAbelian_six {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (
   have hq2 : 2 ≤ ℓ ^ f := Nat.one_lt_pow (by omega) hℓ.one_lt
   have hkcard : Nat.card (RingHom.eqLocusField σ.toRingHom (RingHom.id K)) = ℓ ^ f :=
     CFSG.RankThree.Chevalley.card_eqLocusField_of_pow hℓ hf hK hσ'
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hSL : 5 ∣ Nat.card SL(2, RingHom.eqLocusField σ.toRingHom (RingHom.id K)) := by
     rw [card_specialLinear_fin_two, hkcard, nat_sq_sub_one_eq_mul (ℓ ^ f) (by omega)]
     exact Dvd.dvd.mul_left (Dvd.dvd.mul_left h5 (ℓ ^ f - 1)) (ℓ ^ f)

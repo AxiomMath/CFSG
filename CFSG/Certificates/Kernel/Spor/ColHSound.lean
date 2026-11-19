@@ -203,7 +203,7 @@ theorem testBit_expP {kL P : Nat} {u r : Nat} (hu : u < kL + 4) (hr : r < 2 ^ (k
   have hA : ∀ v < 4, idPlane (2 ^ (kL + 4)) v < 2 ^ 2 ^ (kL + 4) := fun v hv =>
     CFSG.KC.YModel.Sem.idPlane_lt (by omega)
   by_cases h4 : u < 4
-  · rw [if_pos h4]
+  · rw [ite_eq_left h4]
     have e1 := testBit_planesAt (fun v => idPlane (2 ^ (kL + 4)) v)
       (fun v => Nat.mul (2 ^ (kL + 4)) v) (c := 0) (n := 4) (v := u)
       (q := 2 ^ (kL + 4) * u + r)
@@ -214,7 +214,7 @@ theorem testBit_expP {kL P : Nat} {u r : Nat} (hu : u < kL + 4) (hr : r < 2 ^ (k
           rw [← Nat.mul_succ]; exact Nat.mul_le_mul_left _ (by omega)
         omega), Bool.or_false, decide_eq_true h4, Bool.true_and,
       CFSG.KC.Benes.idPlane_testBit (by omega), decide_eq_true hr, Bool.true_and]
-  · rw [if_neg h4]
+  · rw [ite_eq_right h4]
     have e2 := testBit_planesAt
       (fun v => Nat.mul (Nat.land (Nat.shiftRight P v) (repU 16 (2 ^ kL))) 65535)
       (fun v => Nat.mul (2 ^ (kL + 4)) (Nat.add v 4)) (c := 4) (n := kL) (v := u - 4)
@@ -477,7 +477,7 @@ theorem hashColK_lanes {M n : Nat} (C : Nat → Nat) : ∀ r ≤ n,
       rw [hO]
       split <;> omega
     · change ln (offK M) _ = _
-      rw [hO, if_pos (hq j hj), Nat.fold_zero]
+      rw [hO, ite_eq_left (hq j hj), Nat.fold_zero]
       rfl
   | succ r ih =>
     intro hr
@@ -502,7 +502,7 @@ theorem hashColK_lanes {M n : Nat} (C : Nat → Nat) : ∀ r ≤ n,
       split
       · exact Nat.mod_lt _ (Nat.two_pow_pos 64)
       · exact Nat.two_pow_pos 64
-    · rw [hstep, if_pos (hq j hj), Nat.fold_succ, hv j hj, UInt64.toNat_mul, UInt64.toNat_xor,
+    · rw [hstep, ite_eq_left (hq j hj), Nat.fold_succ, hv j hj, UInt64.toNat_mul, UInt64.toNat_xor,
         UInt32.toNat_toUInt64, colT_toNat (by omega)]
       have e : ln (vecK M (C r)) (qf M j) = lane16 (C r) j := by
         unfold qf
@@ -537,7 +537,7 @@ theorem laneH_inj {M H cnt HS HSI : Nat} (h : allN cnt (hsortK M H cnt HS HSI) =
   simp only [Bool.and_eq_true] at h'
   obtain ⟨h1, h2, h3⟩ := h'
   refine ⟨Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true h2, fun hc => ?_⟩
-  rw [if_pos (Nat.blt_eq.mpr hc)] at h3
+  rw [ite_eq_left (Nat.blt_eq.mpr hc)] at h3
   exact Nat.blt_eq.mp h3
 
 theorem surj_of_inj {n : Nat} {f : Nat → Nat} (hf : ∀ i < n, f i < n)
@@ -570,21 +570,21 @@ theorem idxK_spec {cnt PAR LAB POS : Nat} {PI : Nat → Nat} {i : Nat}
   obtain ⟨hA, hB⟩ := h
   refine ⟨fun h0 => ?_, fun h0 => ?_, fun l hl => ?_⟩
   · subst h0
-    rw [bIf_eq, if_pos (Nat.beq_refl 0), Bool.and_eq_true] at hA
+    rw [bIf_eq, ite_eq_left (Nat.beq_refl 0), Bool.and_eq_true] at hA
     exact ⟨Nat.eq_of_beq_eq_true hA.1, Nat.eq_of_beq_eq_true hA.2⟩
-  · rw [bIf_eq, if_neg (by rw [Nat.beq_eq]; omega)] at hA
-    simp only [bAnd_eq, Bool.and_eq_true] at hA
+  · rw [bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; omega)] at hA
+    simp only [Bool.and_eq_true] at hA
     obtain ⟨a1, a2, a3, a4⟩ := hA
     refine ⟨Nat.blt_eq.mp a1, Nat.blt_eq.mp a2, Nat.eq_of_beq_eq_true a3, fun hc => ?_⟩
-    rw [bIf_eq, if_pos (Nat.blt_eq.mpr hc), bIf_eq] at a4
+    rw [bIf_eq, ite_eq_left (Nat.blt_eq.mpr hc), bIf_eq] at a4
     unfold CFSG.KS.BfsReplay.LexLt
     by_cases h5 : Nat.blt (lane16 PAR i) (lane16 PAR (Nat.succ i)) = true
     · exact Or.inl (Nat.blt_eq.mp h5)
-    · rw [if_neg h5, Bool.and_eq_true] at a4
+    · rw [ite_eq_right h5, Bool.and_eq_true] at a4
       exact Or.inr ⟨Nat.eq_of_beq_eq_true a4.1, Nat.blt_eq.mp a4.2⟩
   · have hb := CFSG.KS.allN_spec hB l hl
     rw [strictB_eq] at hb
-    simp only [bAnd_eq, Bool.and_eq_true] at hb
+    simp only [Bool.and_eq_true] at hb
     have e2 : Nat.add (Nat.mul 2 i) l = 2 * i + l := rfl
     rw [e2] at hb
     obtain ⟨b1, b2, b3⟩ := hb
@@ -594,17 +594,17 @@ theorem idxK_spec {cnt PAR LAB POS : Nat} {PI : Nat → Nat} {i : Nat}
     by_cases h0 : Nat.beq q 0 = true
     · exact Or.inl (Nat.eq_of_beq_eq_true h0)
     · right
-      rw [if_neg h0, bIf_eq] at b3
+      rw [ite_eq_right h0, bIf_eq] at b3
       unfold CFSG.KS.BfsReplay.LexLt
       generalize lane16 PAR q = p at b3 ⊢
       generalize lane16 LAB q = b at b3 ⊢
       by_cases h1 : Nat.blt i p = true
-      · rw [if_pos h1] at b3
+      · rw [ite_eq_left h1] at b3
         exact absurd b3 (by decide)
-      · rw [if_neg h1, bIf_eq] at b3
+      · rw [ite_eq_right h1, bIf_eq] at b3
         have h1' : ¬ i < p := fun hlt => h1 (Nat.blt_eq.mpr hlt)
         by_cases h2 : Nat.beq i p = true
-        · rw [if_pos h2] at b3
+        · rw [ite_eq_left h2] at b3
           have := Nat.le_of_ble_eq_true b3
           omega
         · have h2' : ¬ i = p := fun e => h2 (by rw [Nat.beq_eq]; exact e)

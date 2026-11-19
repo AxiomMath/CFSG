@@ -36,8 +36,7 @@ theorem kl_mul' : ∀ x ∈ sqF, ∀ y ∈ sqF, x * y = y * x →
   have hc'' : ∀ z, y * (x * z) = x * (y * z) := fun z => by rw [← mul_assoc, hc', mul_assoc]
   simp only [kl, Finset.mem_insert, Finset.mem_singleton] at ha hb ⊢
   rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
-    simp only [mul_one, one_mul, mul_assoc, hx, hy, hc', hx', hy', hc'', eq_self_iff_true,
-      true_or, or_true]
+    simp only [mul_one, one_mul, mul_assoc, hx, hy, hc', hx', hc'', true_or, or_true]
 
 theorem kl_sq' : ∀ x ∈ sqF, ∀ y ∈ sqF, x * y = y * x → ∀ a ∈ kl x y, a * a = 1 := by
   intro x hx y hy hc a ha
@@ -48,7 +47,7 @@ theorem kl_sq' : ∀ x ∈ sqF, ∀ y ∈ sqF, x * y = y * x → ∀ a ∈ kl x 
   have hc'' : ∀ z, y * (x * z) = x * (y * z) := fun z => by rw [← mul_assoc, hc', mul_assoc]
   simp only [kl, Finset.mem_insert, Finset.mem_singleton] at ha
   rcases ha with rfl | rfl | rfl | rfl <;>
-    simp only [mul_one, one_mul, mul_assoc, hx, hy, hc', hx', hy', hc'']
+    simp only [mul_one, mul_assoc, hx, hy, hc'']
 
 theorem kl_mul {x y : Perm (Fin 5)} (hx : x * x = 1) (hy : y * y = 1) (hc : x * y = y * x) :
     ∀ a ∈ kl x y, ∀ b ∈ kl x y, a * b ∈ kl x y :=

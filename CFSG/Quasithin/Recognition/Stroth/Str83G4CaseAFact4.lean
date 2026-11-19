@@ -10,6 +10,7 @@ namespace CFSG.Quasithin.Stroth
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 private theorem theta0_stabEquiv0_symm (p : G) (hp : p ∈ P1 L1 L2 S) :
     (((f112Completion L1 L2 S).theta0 (f112Completion_isFaithful L1 L2 S)
       ((f112StabEquiv0 L1 L2 S).symm ⟨p, hp⟩ : f112Acting L1 L2 S) :
@@ -18,6 +19,7 @@ private theorem theta0_stabEquiv0_symm (p : G) (hp : p ∈ P1 L1 L2 S) :
   rw [← coe_f112StabEquiv0]
   rw [MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private theorem theta0_stabEquiv1_symm (p : G) (hp : p ∈ P2 L1 L2 S) :
     (((f112Completion L1 L2 S).theta0 (f112Completion_isFaithful L1 L2 S)
       ((f112StabEquiv1 L1 L2 S).symm ⟨p, hp⟩ : f112Acting L1 L2 S) :
@@ -35,6 +37,7 @@ private noncomputable def theta0ConjAct (a1 : G) (ha1 : a1 ∈ P1 L1 L2 S)
    (((f112StabEquiv0 L1 L2 S).symm ⟨a1, ha1⟩ : f112Acting L1 L2 S) *
     ((f112StabEquiv1 L1 L2 S).symm ⟨a2, ha2⟩ : f112Acting L1 L2 S)))
 
+omit [Finite G] in
 private theorem theta0_conjAct_eq (a1 : G) (ha1 : a1 ∈ P1 L1 L2 S)
     (a2 : G) (ha2 : a2 ∈ P2 L1 L2 S) (w : G) (hw : w ∈ P2 L1 L2 S) :
     (((f112Completion L1 L2 S).theta0 (f112Completion_isFaithful L1 L2 S)
@@ -50,8 +53,9 @@ private theorem theta0_conjAct_eq (a1 : G) (ha1 : a1 ∈ P1 L1 L2 S)
       theta0_stabEquiv1_symm (p := w) hw]
   group
 
+omit [Finite G] in
 private theorem str83R_le_Q1_of_boundAt_three
-    {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
+    {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a)
     (hb : caseABoundAt L1 L2 S 3) : str83R L1 L2 S ≤ Q1 L1 L2 S := by
   refine conjClosure_le ?_
   intro h hh x hx

@@ -45,7 +45,7 @@ theorem isMulCommutative_sylow_of_notMem_sigmaPrimes
     ·
       have hPrank : elementaryAbelianPRank q ↥(P : Subgroup ↥M) = elementaryAbelianPRank q ↥M :=
         elementaryAbelianPRank_eq_of_natCard_eq_pow_factorization hq hPcard
-      exact (isCyclic_of_elementaryAbelianPRank_le_one hq hqodd P.isPGroup'
+      exact (isCyclic_of_elementaryAbelianPRank_le_one hq hqodd P.isPGroup
         (by omega)).isMulCommutative
     ·
       have hr2 : elementaryAbelianPRank q ↥M = 2 := by omega

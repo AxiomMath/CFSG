@@ -59,7 +59,7 @@ theorem r1_mul :
         (hRec 6156 13 J3R1S.cnt J3R1S.T J3R1S.PL).1 (hRec 6156 13 J3R1S.cnt J3R1S.T J3R1S.PL).2.1
         (hRec 6156 13 J3R1S.cnt J3R1S.T J3R1S.PL).2.2 = true ∧
       hkeysDistinct 6156 (hRec 6156 13 J3R1S.cnt J3R1S.T J3R1S.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2) s_tabs base.2.2.2.2 s_pe s_hs
+  mulH_sound base.1 (fun _j hj => (gen hj).2.2) s_tabs base.2.2.2.2 s_pe s_hs
 
 theorem hT {i : Nat} (hi : i < 32) : canonK 6156 13 (mask 13) (6156 * 13) (J3R1S.T i) = true :=
   penumPt_canon (s_pe i (by rw [hcnt]; exact hi))
@@ -95,7 +95,7 @@ theorem cgR1_get {j : Nat} (hj : j < 4) :
     rfl
 
 theorem cgR1_tabs : TabsOK 6156 13 4 cgR1 CFSG.EvenSporadicStandard.HypOne.J3.cgR1 :=
-  ⟨rfl, fun j hj => ⟨cgR1_get hj, (canonK_of_invEqK base.1 (cgR1_perm hj)).1⟩⟩
+  ⟨rfl, fun _j hj => ⟨cgR1_get hj, (canonK_of_invEqK base.1 (cgR1_perm hj)).1⟩⟩
 
 theorem r1_row {i : Nat} (hi : i < 32) : r1Row i = true := by
   rcases Nat.lt_or_ge i 16 with h0 | h0

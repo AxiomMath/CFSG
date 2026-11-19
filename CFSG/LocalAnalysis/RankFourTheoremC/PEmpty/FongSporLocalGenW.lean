@@ -63,7 +63,7 @@ theorem commute_of_mem_zpowers {G : Type} [Group G] {x y t : G} (hy : y ∈ zpow
 theorem exists_sylow_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) {z : G} (hz : orderOf z = p) :
     ∃ P : Sylow p G, P.toSubgroup = zpowers z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨⟨zpowers z, IsPGroup.of_card (n := 1) ?_, ?_⟩, rfl⟩
   · rw [Nat.card_zpowers, hz, pow_one]
   · intro Q hQ hle
@@ -84,8 +84,8 @@ theorem exists_sylow_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.
 theorem exists_conj_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) {z z' : G} (hz : orderOf z = p) (hz' : orderOf z' = p) :
     ∃ g : G, g * z * g⁻¹ ∈ zpowers z' := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Sylow p G) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Sylow p G) :=
     Finite.of_injective (fun P : Sylow p G => (P : Set G)) SetLike.coe_injective
   obtain ⟨P, hP⟩ := exists_sylow_zpowers hp hsyl hz
   obtain ⟨Q, hQ⟩ := exists_sylow_zpowers hp hsyl hz'
@@ -188,7 +188,7 @@ theorem exists_witness_for {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
 
 theorem false_of_genW {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) (hW : GenW G p) {K : Subgroup G} {z : G} (hz : orderOf z = p)
-    (hzK : z ∈ K) (hN : normalizer (zpowers z : Set G) ≤ K)
+    (_hzK : z ∈ K) (hN : normalizer (zpowers z : Set G) ≤ K)
     (hcl : ∀ U : Subgroup G, IsPGroup 2 U → z ∈ normalizer (U : Set G) → U ⊓ K ≠ ⊥ →
       normalizer (U : Set G) ≤ K) (hK : K ≠ ⊤) : False := by
   obtain ⟨ns, ms, hns, hms, hgen⟩ := exists_witness_for hp hsyl hW hz
@@ -196,7 +196,7 @@ theorem false_of_genW {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
 
 theorem kxSection_of_secW {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hsyl : ¬ p ^ 2 ∣ Nat.card G) (hW : SecW G p) {K : Subgroup G} {z : G} (hz : orderOf z = p)
-    (hzK : z ∈ K) (hN : normalizer (zpowers z : Set G) ≤ K)
+    (_hzK : z ∈ K) (hN : normalizer (zpowers z : Set G) ≤ K)
     (hcl : ∀ U : Subgroup G, IsPGroup 2 U → z ∈ normalizer (U : Set G) → U ⊓ K ≠ ⊥ →
       normalizer (U : Set G) ≤ K) : KxSection z K 3 := by
   obtain ⟨z₀, ns, ms, H, hord, hns, hms, hHle, hsimp, hnc, hz₀H, h3⟩ := hW
@@ -234,7 +234,7 @@ theorem kxSection_of_secW {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prim
     by_contra hcon
     exact hnc' (isMulCommutative_iff.mpr fun a b => by_contra fun hab => hcon ⟨a, b, hab⟩)
   have hS : S622IsSimpleSection (H.map c.toMonoidHom) (⊥ : Subgroup G) := by
-    haveI := hsimp'
+    have := hsimp'
     have h := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.S622IsSimpleSection.of_surjective
       (MonoidHom.id ↥(H.map c.toMonoidHom)) Function.surjective_id hnab
     rwa [(MonoidHom.ker_eq_bot_iff (MonoidHom.id ↥(H.map c.toMonoidHom))).mpr

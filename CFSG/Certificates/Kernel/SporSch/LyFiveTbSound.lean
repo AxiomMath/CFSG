@@ -169,7 +169,7 @@ theorem tbArr_eq {G0 G1 PAR GEN KS : Nat} (hA : fiveArr4 lyFiveAbar = dec G0)
     · subst h0
       simp only [Nat.beq_refl] at h
       unfold lyFiveTbStep
-      rw [if_pos rfl, hI, Nat.eq_of_beq_eq_true h]
+      rw [ite_eq_left rfl, hI, Nat.eq_of_beq_eq_true h]
     · have hb : Nat.beq k 0 = false := Bool.eq_false_iff.mpr fun e => h0 (Nat.eq_of_beq_eq_true e)
       rw [hb] at h
       simp only at h
@@ -181,13 +181,13 @@ theorem tbArr_eq {G0 G1 PAR GEN KS : Nat} (hA : fiveArr4 lyFiveAbar = dec G0)
       have es : ∀ acc, lyFiveTbStep k acc = fiveMul4 (fiveArr4 (if lyFiveGenArr[k]! = 1 then
           lyFiveBbar else lyFiveAbar)) acc[lyFiveParArr[k]!]! := fun acc => by
         unfold lyFiveTbStep
-        rw [if_neg h0]
+        rw [ite_eq_right h0]
       rw [es, ep, eg, ih k hk (by omega) _ hpk, Nat.eq_of_beq_eq_true h3]
       by_cases hg : pg 12 (mask 12) GEN k = 1
-      · rw [if_pos hg, hB, fiveMul4_dec]
+      · rw [ite_eq_left hg, hB, fiveMul4_dec]
         have : Nat.beq (pg 12 (mask 12) GEN k) 1 = true := by rw [hg]; rfl
         rw [this]
-      · rw [if_neg hg, hA, fiveMul4_dec]
+      · rw [ite_eq_right hg, hA, fiveMul4_dec]
         have : Nat.beq (pg 12 (mask 12) GEN k) 1 = false :=
           Bool.eq_false_iff.mpr fun e => hg (Nat.eq_of_beq_eq_true e)
         rw [this]
@@ -263,7 +263,7 @@ theorem tb_nodup {G0 G1 PAR GEN KS SK RHO : Nat} (hA : fiveArr4 lyFiveAbar = dec
   have ha : a.val < 2880 := by simpa [hsz] using a.isLt
   have hb : b.val < 2880 := by simpa [hsz] using b.isLt
   simp only [Array.getElem_toList, List.get_eq_getElem] at e
-  rw [← getElem!_pos _ _ (by simpa using a.isLt), ← getElem!_pos _ _ (by simpa using b.isLt)] at e
+  rw [← getElem!_pos _ _ (by simp), ← getElem!_pos _ _ (by simp)] at e
   have e1 : lyFiveTbArr[a.val]! = dec (key48 KS a.val) := hget a.val ha
   have e2 : lyFiveTbArr[b.val]! = dec (key48 KS b.val) := hget b.val hb
   rw [e1, e2] at e

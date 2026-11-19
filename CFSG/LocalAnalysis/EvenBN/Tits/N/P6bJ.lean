@@ -82,7 +82,7 @@ theorem Jb_map_eq (h49 : d.Thm49Statement) (hd : d.Hyp) :
           (g : MulAut ↥d.s56V) * (n : MulAut ↥d.s56V) * (g : MulAut ↥d.s56V)⁻¹ := rfl
       rw [e3, ← e2, ← hjn]
       exact e1
-    haveI := hnorm
+    have := hnorm
     have hx : xB h49 hd ∈ (img d (Jg d)).subgroupOf (Hs d) := by
       rw [Subgroup.mem_subgroupOf]
       exact (mem_Js_iff).2 ⟨d.x₅, x5_mem_Jg h49 hd, rfl⟩
@@ -128,7 +128,7 @@ theorem Wb_le_Jb (h49 : d.Thm49Statement) (hd : d.Hyp) (hWJ : Ws d ≤ img d (Jg
   rwa [← this]
 
 theorem jb_quot_equiv (h49 : d.Thm49Statement) (hd : d.Hyp)
-    [hWb : ((Ws d).subgroupOf (Hs d)).Normal] (hWJ : Ws d ≤ img d (Jg d))
+    [hWb : ((Ws d).subgroupOf (Hs d)).Normal] (_hWJ : Ws d ≤ img d (Jg d))
     [hN : ((Ws d).subgroupOf (img d (Jg d))).Normal] (A : Type*) [Group A]
     (e : ↥(img d (Jg d)) ⧸ (Ws d).subgroupOf (img d (Jg d)) ≃* A) :
     Nonempty (↥(normalClosure ({xB h49 hd} : Set ↥(Hs d))) ⧸
@@ -184,7 +184,7 @@ theorem jp_quot_equiv (hz : d.S56Z0 z₀) (hWimg : img d (Wg d z₀) = Ws d)
       exact (mem_preIn_iff d.s56V _).2 ⟨((mem_preIn_iff d.s56V _).1 g.2).1, h⟩
     · intro h
       exact ((mem_preIn_iff d.s56V _).1 h).2
-  haveI : ((Wg d z₀).subgroupOf (Jp d)).Normal := hcomap ▸ Subgroup.normal_comap _
+  have : ((Wg d z₀).subgroupOf (Jp d)).Normal := hcomap ▸ Subgroup.normal_comap _
   obtain ⟨e'⟩ := nonempty_quotEquiv_comap (jpHom d) jpHom_surjective ((Ws d).subgroupOf (img d (Jg d)))
   exact ⟨‹_›, ⟨(QuotientGroup.quotientMulEquivOfEq hcomap.symm).trans (e'.trans e)⟩⟩
 

@@ -125,7 +125,7 @@ theorem conclK_of_isHatA6
     (hhat : CFSG.Quasithin.IsHat (↥L ⧸ V.subgroupOf L) ↥(alternatingGroup (Fin 6)))
     (MK : Subgroup K) : ConclK K L V MK := by
   unfold ConclK
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hO : pCoreOf 2 L = V :=
     pCoreOf_eq_of_surj hVL (IsPGroup.of_card (n := 6) (by rw [hVc]; norm_num))
       (QuotientGroup.mk' (V.subgroupOf L)) (QuotientGroup.mk'_surjective _)
@@ -148,7 +148,7 @@ theorem conclK_of_isHatA6
       (Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L))
     rw [hhat'.2.1, Nat.card_congr hhat'.2.2.some.toEquiv, M24.card_alt6] at h1
     omega
-  letI : IsMulCommutative ↥V := hEA.1
+  let : IsMulCommutative ↥V := hEA.1
   have hFF : IsFFModule (autOn L V) := isFFModule_of_isHatA6 hEA hLV hVc hO hblock
   have hFFN : IsFFModule (V := ↥V)
       (autOn (Subgroup.normalizer (V : Set K)) V) :=

@@ -40,7 +40,7 @@ theorem lines_isElemTwo_closure_three {G : Type} [Group G] {p q r : G} (hp : p ^
     · exact hpr.symm
     · exact hqr.symm
     · exact absurd rfl hab
-  haveI : IsMulCommutative E := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative E := Subgroup.isMulCommutative_closure hpair
   have hsq : ∀ e ∈ E, e ^ 2 = 1 := by
     intro e he
     rcases eq_of_mem_closure_three hp hq hr hpq hpr hqr he with
@@ -57,7 +57,7 @@ theorem lines_isElemTwo_closure_three {G : Type} [Group G] {p q r : G} (hp : p ^
         Commute.mul_pow (show Commute p q from hpq) 2, hp, hq, hr]
       simp
   have hDcard : Nat.card ↥D = 4 := card_closure_pair hp hq hpq hp1 hq1 hne
-  haveI : Finite ↥D := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
+  have : Finite ↥D := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
   let f : ↥D × Bool → ↥E := fun x =>
     match x.2 with
     | false => ⟨(x.1 : G), hDE x.1.2⟩
@@ -82,7 +82,7 @@ theorem lines_isElemTwo_closure_three {G : Type} [Group G] {p q r : G} (hp : p ^
     · exact ⟨(⟨p * q, D.mul_mem (Subgroup.subset_closure (by simp))
           (Subgroup.subset_closure (by simp))⟩, true),
         Subtype.ext (by simp [f, h1])⟩
-  haveI : Finite ↥E := Finite.of_surjective f hf
+  have : Finite ↥E := Finite.of_surjective f hf
   have hcard_le : Nat.card ↥E ≤ Nat.card (↥D × Bool) :=
     Nat.card_le_card_of_surjective f hf
   have hcard_le' : Nat.card ↥E ≤ 8 := by

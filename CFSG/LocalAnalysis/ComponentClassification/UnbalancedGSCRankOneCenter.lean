@@ -210,7 +210,7 @@ theorem centralizer_sylow_rank_one_center {G : Type*} [Group G] [Finite G] {p : 
     have htZ := (hcenter T ⟨Q, hQT⟩).2
     have hTp : IsPGroup p T := by
       rw [← hQT]
-      exact Q.isPGroup'.map C.subtype
+      exact Q.isPGroup.map C.subtype
     obtain ⟨P, hTP⟩ := hTp.exists_le_sylow
     refine ⟨P, ?_⟩
     by_contra hne
@@ -221,14 +221,14 @@ theorem centralizer_sylow_rank_one_center {G : Type*} [Group G] [Finite G] {p : 
       have : (⟨g, hg⟩ : P) ∈ T.subgroupOf P := htop ▸ mem_top _
       exact this
     have hnc := CFSG.LocalAnalysis.ComponentInitial.p_group_normalizer_condition
-      (P := (P : Subgroup G)) P.isPGroup' hlt
+      (P := (P : Subgroup G)) P.isPGroup hlt
     obtain ⟨u, hu_norm, hu_not⟩ := IsConcreteLE.exists_of_lt hnc
     have hconj : ∀ v ∈ normalizer ((T.subgroupOf P : Subgroup P) : Set P), ∀ y ∈ T,
         (v : G) * y * (v : G)⁻¹ ∈ T := by
       intro v hv y hy
       have := (mem_normalizer_iff.mp hv ⟨y, hTP hy⟩).mp (mem_subgroupOf.mpr hy)
       exact mem_subgroupOf.mp this
-    obtain ⟨m, hm⟩ := P.isPGroup' u
+    obtain ⟨m, hm⟩ := P.isPGroup u
     have hum : (u : G) ^ (p ^ m) = 1 := by
       rw [← Subgroup.coe_pow, hm, Subgroup.coe_one]
     have hcomm := commute_of_normalizes hrank.le htZ ht (hconj u hu_norm)
@@ -238,7 +238,7 @@ theorem centralizer_sylow_rank_one_center {G : Type*} [Group G] [Finite G] {p : 
     have hNC : N ≤ C := sup_le hTC (zpowers_le.mpr huC)
     have hNP : N ≤ P := sup_le hTP (zpowers_le.mpr u.2)
     have hNp : IsPGroup p (N.subgroupOf C) :=
-      (P.isPGroup'.to_le hNP).of_equiv (subgroupOfEquivOfLe hNC).symm
+      (P.isPGroup.to_le hNP).of_equiv (subgroupOfEquivOfLe hNC).symm
     have hQN : (Q : Subgroup C) ≤ N.subgroupOf C := by
       intro c hc
       exact mem_subgroupOf.mpr (le_sup_left (a := T) (hQT ▸ mem_map_of_mem _ hc))

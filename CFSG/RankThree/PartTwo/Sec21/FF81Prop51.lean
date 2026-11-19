@@ -19,9 +19,11 @@ theorem isPGroup_zpowers_of_pow {H : Type} [Group H] {z : H} {e : ℕ} (h : z ^ 
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one h)
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
 
+omit [Finite G] in
 theorem commute_of_conj {x y : G} (h : x * y * x⁻¹ = y) : Commute x y :=
   mul_inv_eq_iff_eq_mul.mp h
 
+omit [Finite G] in
 theorem mem_normalizer_of_comm {B H : Subgroup G} (hcomm : ∀ a ∈ B, ∀ c ∈ B, a * c = c * a)
     (hHB : H ≤ B) {g : G} (hg : g ∈ B) : g ∈ Subgroup.normalizer (H : Set G) := by
   have fw : ∀ g ∈ B, ∀ k ∈ H, g * k * g⁻¹ ∈ H := fun g hg k hk => by
@@ -30,10 +32,12 @@ theorem mem_normalizer_of_comm {B H : Subgroup G} (hcomm : ∀ a ∈ B, ∀ c �
   have := fw g⁻¹ (B.inv_mem hg) _ hh
   rwa [show g⁻¹ * (g * h * g⁻¹) * g⁻¹⁻¹ = h by group] at this
 
+omit [Finite G] in
 theorem comm_of_isElemAb {p k : ℕ} {B : Subgroup G} (hB : IsElemAb p k B) :
     ∀ a ∈ B, ∀ c ∈ B, a * c = c * a := fun a ha c hc =>
   congrArg Subtype.val (hB.1.toIsMulCommutative.is_comm.comm (⟨a, ha⟩ : B) ⟨c, hc⟩)
 
+omit [Finite G] in
 theorem nor_le_normalizer_cenS (B : Subgroup G) :
     Nor B ≤ Subgroup.normalizer ((CenS B : Subgroup G) : Set G) := by
   have key : ∀ g ∈ Nor B, ∀ h ∈ CenS B, g * h * g⁻¹ ∈ CenS B := by
@@ -205,7 +209,7 @@ theorem idx3 {B H : Subgroup G} (hB : IsElemAb 3 4 B) (hHB : H ≤ B) (hH : Nat.
   have hK81 : Nat.card ↥(Subgroup.zpowers x ⊔ H) = 81 := by
     obtain ⟨m, hm, e⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hd
     rw [e] at hd27 hne ⊢
-    interval_cases m <;> simp_all <;> omega
+    interval_cases m <;> simp_all
   have hKeq : Subgroup.zpowers x ⊔ H = B :=
     Subgroup.eq_of_le_of_card_ge hKB (by rw [hK81, hB.2]; norm_num)
   have hyK : y ∈ ((Subgroup.zpowers x ⊔ H : Subgroup G) : Set G) := by rw [hKeq]; exact hyB
@@ -276,11 +280,13 @@ theorem no27 {B H : Subgroup G} (hB : IsElemAb 3 4 B) (hHB : H ≤ B) (hH : Nat.
           _ = (b * b₁⁻¹)⁻¹ * (s * b⁻¹) := by rw [e1]
       rw [this]; exact H.mul_mem (H.inv_mem h) h2
 
+omit [Finite G] in
 theorem conj_comm_mul {g h y : G} (hg : Commute g (h * y * h⁻¹)) :
     (g * h) * y * (g * h)⁻¹ = h * y * h⁻¹ := by
   calc (g * h) * y * (g * h)⁻¹ = g * (h * y * h⁻¹) * g⁻¹ := by group
     _ = h * y * h⁻¹ := by rw [hg.eq]; group
 
+omit [Finite G] in
 theorem conj4 (g p q r t : G) :
     g * (p * q * r * t) * g⁻¹ = (g * p * g⁻¹) * (g * q * g⁻¹) * (g * r * g⁻¹) * (g * t * g⁻¹) := by
   group
@@ -293,7 +299,7 @@ theorem card_sylow_le (hB : FF81Basis b L B b₁ b₂ b₃) (haut : autOrder B �
     (P : Sylow 3 (Nor B)) : Nat.card ((P : Subgroup (Nor B)).map (Nor B).subtype) ≤ 729 := by
   set P' := (P : Subgroup (Nor B)).map (Nor B).subtype with hP'def
   have hP'N : P' ≤ Nor B := Subgroup.map_subtype_le _
-  have hPp : IsPGroup 3 P' := P.isPGroup'.map _
+  have hPp : IsPGroup 3 P' := P.isPGroup.map _
   have hPC : P' ⊓ CenS B ≤ B := fun y hy =>
     hB.cenSyl y hy.2 (hPp.to_le (Subgroup.zpowers_le.mpr hy.1))
   have e := card_sup_mul_card_inf P' (CenS B) (hP'N.trans (nor_le_normalizer_cenS B))
@@ -394,7 +400,7 @@ theorem ff81_5_1 :
   have hAN : A ≤ Nor B := hAP.trans (Subgroup.map_subtype_le _)
   have hnot : ∀ n ∈ Nor B, n * b * n⁻¹ ∉ A := fun n hn => not_mem_of_ne hB hA hAN hne hn
   have hBP : B ≤ P' := by
-    haveI : (B.subgroupOf (Nor B)).Normal :=
+    have : (B.subgroupOf (Nor B)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).mpr le_rfl
     have hBp : IsPGroup 3 (B.subgroupOf (Nor B)) :=
       (IsPGroup.of_card hB4.2).comap_of_injective (Nor B).subtype Subtype.val_injective

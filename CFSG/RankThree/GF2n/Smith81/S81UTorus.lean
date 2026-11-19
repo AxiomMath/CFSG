@@ -41,7 +41,7 @@ theorem exists_nonzero_fixed {R A : Type*} [Semiring R] [AddCommGroup A] [Module
     have h := hY (g : A ≃ₗ[R] A) g.2
     apply Subtype.ext
     simpa using h
-  letI act : MulAction (Subgroup.closure Y) S :=
+  let act : MulAction (Subgroup.closure Y) S :=
     { smul := fun g s => ⟨(g : A ≃ₗ[R] A) s.1, hstab (g : A ≃ₗ[R] A) g.2 s.1 s.2⟩
       one_smul := fun s => Subtype.ext (by
         show (1 : A ≃ₗ[R] A) s.1 = s.1
@@ -65,7 +65,8 @@ theorem exists_nonzero_fixed {R A : Type*} [Semiring R] [AddCommGroup A] [Module
   refine ⟨b.1, b.2, fun h => hab (Subtype.ext h.symm), fun y hy => ?_⟩
   exact congrArg Subtype.val (MulAction.mem_fixedPoints.1 hb ⟨y, Subgroup.subset_closure hy⟩)
 
-theorem diagGL_unitary_hyp (hσ : ∀ c, σ (σ c) = c) (d : Fin 6 → F) (hd : ∀ i, d i ≠ 0)
+omit [CharP F 2] in
+theorem diagGL_unitary_hyp (_hσ : ∀ c, σ (σ c) = c) (d : Fin 6 → F) (hd : ∀ i, d i ≠ 0)
     (hu : ∀ i, σ (d i) * d (partner i) = 1) :
     conjTr σ ((diagGL d hd : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) * hypGram F *
       ((diagGL d hd : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = hypGram F := by
@@ -118,6 +119,7 @@ private theorem h72_dtor_val (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω +
       frameGL σ ω hω * diagGL d hd * (frameGL σ ω hω)⁻¹ :=
   rfl
 
+omit [CharP F 2] in
 private theorem h72_key (d : Fin 6 → F) (hd : ∀ i, d i ≠ 0)
     (hu : ∀ i, σ (d i) * d (partner i) = 1) {a b : Fin 6} (hab : a ≠ b) (c : F) :
     ⁅diagGL d hd, transvGL F a b hab c *

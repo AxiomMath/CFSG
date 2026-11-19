@@ -735,7 +735,7 @@ theorem eq_one_or_eq_z_of_central (h : IsCover8 ρ z) [Finite E] (S : Sylow 2 E)
         have hw : y ^ 2 ∈ (S : Subgroup E) := Subgroup.pow_mem _ hyS 2
         have hwc : ∀ s ∈ (S : Subgroup E), s * y ^ 2 = y ^ 2 * s :=
           fun s hs => Commute.pow_right (hy s hs) 2
-        have hpg : IsPGroup 2 (S : Subgroup E) := S.isPGroup'
+        have hpg : IsPGroup 2 (S : Subgroup E) := S.isPGroup
         obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hpg) ⟨y, hyS⟩
         have hk' : orderOf y = 2 ^ k :=
           (Subgroup.orderOf_coe (⟨y, hyS⟩ : (S : Subgroup E))).trans hk

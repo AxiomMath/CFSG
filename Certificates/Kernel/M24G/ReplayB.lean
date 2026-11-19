@@ -19,13 +19,13 @@ theorem findK_eq_B (k : Nat) : ∀ t : KTree (Nat × Nat), findK k t = findKB k 
     rw [findK_eq_B k l, findK_eq_B k r]
     by_cases h1 : k = x.1
     · have hb : Nat.beq k x.1 = true := by rw [h1]; exact Nat.beq_refl x.1
-      (rw [if_pos h1, hb]) <;> rfl
+      (rw [ite_eq_left h1, hb]) <;> rfl
     · have hb : Nat.beq k x.1 = false := Bool.eq_false_iff.mpr fun h => h1 (Nat.eq_of_beq_eq_true h)
       by_cases h2 : k < x.1
       · have hl : Nat.blt k x.1 = true := Nat.blt_eq.mpr h2
-        (rw [if_neg h1, if_pos h2, hb, hl]) <;> rfl
+        (rw [ite_eq_right h1, ite_eq_left h2, hb, hl]) <;> rfl
       · have hl : Nat.blt k x.1 = false := Bool.eq_false_iff.mpr fun h => h2 (Nat.blt_eq.mp h)
-        (rw [if_neg h1, if_neg h2, hb, hl]) <;> rfl
+        (rw [ite_eq_right h1, ite_eq_right h2, hb, hl]) <;> rfl
 
 @[expose] def insertB {α : Type} (key : α → Nat) (y : α) : KTree α → KTree α
   | .leaf => .node .leaf y .leaf
@@ -40,10 +40,10 @@ theorem insert_eq_B {α : Type} (key : α → Nat) (y : α) :
     rw [insert_eq_B key y l, insert_eq_B key y r]
     by_cases h2 : key y < key x
     · have hl : Nat.blt (key y) (key x) = true := Nat.blt_eq.mpr h2
-      (rw [if_pos h2, hl]) <;> rfl
+      (rw [ite_eq_left h2, hl]) <;> rfl
     · have hl : Nat.blt (key y) (key x) = false :=
         Bool.eq_false_iff.mpr fun h => h2 (Nat.blt_eq.mp h)
-      (rw [if_neg h2, hl]) <;> rfl
+      (rw [ite_eq_right h2, hl]) <;> rfl
 
 @[expose] def posTreeB {α : Type} (key : α → Nat) (L : List α) : KTree (Nat × Nat) :=
   ((L.zipIdx).map fun e => (key e.1, e.2)).foldl (fun t y => insertB Prod.fst y t) .leaf

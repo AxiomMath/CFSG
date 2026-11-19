@@ -69,15 +69,15 @@ theorem a5n_card_alt5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
 theorem a5n_false_of_zpowers_normal {Q : Type} [Group Q] [Finite Q] {Zq : Subgroup Q} {f : Q}
     (φ : ↥Zq ≃* alternatingGroup (Fin 5)) (hfZ : f ∈ Zq) (hf3 : f ^ 3 = 1) (hf1 : f ≠ 1)
     (hnorm : ((Subgroup.zpowers f).subgroupOf Zq).Normal) : False := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Zq := φ.isSimpleGroup
+  have : IsSimpleGroup ↥Zq := φ.isSimpleGroup
   rcases Subgroup.Normal.eq_bot_or_eq_top ((Subgroup.zpowers f).subgroupOf Zq) with hbot | htop
   · have hmem : (⟨f, hfZ⟩ : ↥Zq) ∈ (Subgroup.zpowers f).subgroupOf Zq :=
       Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers f)
     rw [hbot, Subgroup.mem_bot] at hmem
     have hval := congrArg Subtype.val hmem
-    simp only [ZeroMemClass.coe_zero, OneMemClass.coe_one] at hval
+    simp only [OneMemClass.coe_one] at hval
     exact hf1 hval
   · have hle : Zq ≤ Subgroup.zpowers f := by
       intro z hz

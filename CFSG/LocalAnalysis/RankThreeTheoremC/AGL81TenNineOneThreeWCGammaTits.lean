@@ -84,10 +84,10 @@ end Fuse
 
 theorem kFactTenNineWCGammaTits : KFactTenNineWCGammaTits := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDc : Nat.card titsD = 17971200 := card_titsD
   have hZD : Subgroup.center titsD = ⊥ := by
-    haveI : IsSimpleGroup titsD := titsD_simple
+    have : IsSimpleGroup titsD := titsD_simple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center titsD) with h | h
     · exact h
     · exfalso

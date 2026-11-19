@@ -40,6 +40,7 @@ theorem mbarImage_preMbar (D : Data G) (Y : Subgroup (MBar D.M D.U)) :
     obtain ⟨z, rfl⟩ := QuotientGroup.mk_surjective a
     exact ⟨z, (mem_preMbar D).2 ⟨z.2, ha⟩, rfl⟩
 
+omit [Finite G] in
 theorem map_conj_eq_of_mem_normalizer {A : Subgroup G} {n : G} (hn : n ∈ normalizer (A : Set G)) :
     A.map (MulAut.conj n).toMonoidHom = A := by
   ext z
@@ -50,6 +51,7 @@ theorem map_conj_eq_of_mem_normalizer {A : Subgroup G} {n : G} (hn : n ∈ norma
     refine ⟨n⁻¹ * z * n, ?_, by simp [mul_assoc]⟩
     exact (Subgroup.mem_normalizer_iff.1 hn (n⁻¹ * z * n)).2 (by simpa [mul_assoc] using hz)
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {A B : Subgroup G} {n : G} (hA : n ∈ normalizer (A : Set G))
     (hB : n ∈ normalizer (B : Set G)) : n ∈ normalizer ((⁅A, B⁆ : Subgroup G) : Set G) := by
   have hmap : (⁅A, B⁆ : Subgroup G).map (MulAut.conj n).toMonoidHom = ⁅A, B⁆ := by
@@ -93,6 +95,7 @@ theorem mem_normalizer_preMbar (D : Data G) {Y : Subgroup (MBar D.M D.U)} {y : G
     rw [e] at hzY
     exact (Subgroup.mem_normalizer_iff.1 hyY _).2 hzY
 
+omit [Finite G] in
 theorem mem_normalizer_inf {A B : Subgroup G} {n : G} (hA : n ∈ normalizer (A : Set G))
     (hB : n ∈ normalizer (B : Set G)) : n ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -168,6 +171,7 @@ theorem NatDec.exists_isMax_proj_ne_bot (D : Data G)
   subst this
   exact hw' y hy
 
+omit [Finite G] in
 theorem bsub_injective_of_le {V : Subgroup G} {Vmod : Type} [AddCommGroup Vmod] [Module (ZMod 2) Vmod]
     (e : ↥V ≃* Multiplicative Vmod) {W W' : Subgroup G} (hW : W ≤ V) (hW' : W' ≤ V)
     (h : bsub e W = bsub e W') : W = W' :=
@@ -235,7 +239,7 @@ theorem uc22p22xh_mem_normalizer (D : Data G) {Y Q : Subgroup (MBar D.M D.U)} {y
   exact mem_normalizer_commutator (mem_normalizer_commutator (mem_normalizer_commutator hU hN) hNi)
     (mem_normalizer_preMbar D hy hyQ)
 
-theorem uc22p22xh_conj (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch)
+theorem uc22p22xh_conj (D : Data G) (Ch : Choice2011 G) (_h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch)
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) (m : ℕ)
     (Nb : Fin m → Subgroup (MBar D.M D.U)) (hNb : NbarSplit D Nb) (i : Fin m)
     (Q : Sylow 2 ↥(Nb i)) :

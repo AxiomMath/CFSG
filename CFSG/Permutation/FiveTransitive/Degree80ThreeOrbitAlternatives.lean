@@ -20,7 +20,7 @@ theorem exists_triple
   let Q := sylowImage X P s S
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite _
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 5 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact (Degree80ThreeFixed.three_fixed_card_and_image P hcard h5 hnotAlt s hs S hS).1

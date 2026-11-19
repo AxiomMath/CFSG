@@ -341,7 +341,7 @@ theorem gap_18_11_W_of (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgrou
     · have hsub : (⟨g * y * g⁻¹, hconjS⟩ : ↥(stabTil ⊥ V)) =
           ⟨g, hgs⟩ * ⟨y, hys⟩ * ⟨g, hgs⟩⁻¹ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       have e : actTil ⊥ V hV ⟨g * y * g⁻¹, hconjS⟩ =
           actTil ⊥ V hV ⟨g, hgs⟩ * actTil ⊥ V hV ⟨y, hys⟩ *
             (actTil ⊥ V hV ⟨g, hgs⟩)⁻¹ := by

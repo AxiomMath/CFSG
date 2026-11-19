@@ -220,7 +220,7 @@ theorem isKleinFour_of_card_four {H : Type*} [Group H] (h4 : Nat.card H = 4)
 
 theorem isKleinFour_prod_zmod_two :
     _root_.IsKleinFour (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) :=
-  isKleinFour_of_card_four (by simp [Nat.card_prod]) (by decide)
+  isKleinFour_of_card_four (by simp) (by decide)
 
 theorem nonempty_mulEquiv_of_isKleinFour {H : Type*} [Group H] [_root_.IsKleinFour H] :
     Nonempty (H ≃* (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) :=

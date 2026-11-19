@@ -12,7 +12,7 @@ open Subgroup CFSG.ComponentClassification.UnbalancedLayer
 
 variable {X : Type} [Group X] {L : Subgroup X}
 
-theorem center_eq_bot_of_simple (hs : IsSimpleGroup ↥L) (M : SDModel ↥L) : center ↥L = ⊥ := by
+theorem center_eq_bot_of_simple (_hs : IsSimpleGroup ↥L) (M : SDModel ↥L) : center ↥L = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
   have h : (MulAut.conj : ↥L →* MulAut ↥L) x = (MulAut.conj : ↥L →* MulAut ↥L) 1 := by
@@ -24,8 +24,8 @@ theorem center_eq_bot_of_simple (hs : IsSimpleGroup ↥L) (M : SDModel ↥L) : c
 
 theorem pPrimeCore_eq_bot_of_simple (hs : IsSimpleGroup ↥L) (M : SDModel ↥L) :
     pPrimeCore 2 ↥L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [M.card_L]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [M.card_L]; norm_num)
   rcases (pPrimeCore_normal (p := 2) (G := ↥L)).eq_bot_or_eq_top with h | h
   · exact h
   · exfalso

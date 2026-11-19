@@ -47,8 +47,8 @@ theorem false_of_sylow_three_bound (S : Setting z E F) {a : G} {w : ℕ} (h : Se
           (t : ↥(Xsub S a)) * x * (t : ↥(Xsub S a))⁻¹ ∈ A) →
         Nat.card ↥A ≤ 8) : False := by
   classical
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
-  haveI hXn : (Xsub S a).Normal := Xsub_normal S a
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have hXn : (Xsub S a).Normal := Xsub_normal S a
   have hZX0 : Subgroup.center ↥(Xsub S a) = ⊥ := center_Xsub_eq_bot_of_threeFourPlus S h h217 h34
   have hD := rootClass_Xsub S h h217 h34
   have hA := a2Action_Xsub S a
@@ -66,7 +66,7 @@ theorem false_of_sylow_three_bound (S : Setting z E F) {a : G} {w : ℕ} (h : Se
   by_cases htrans : ∀ u ∈ commSpace (rhoX S a r), u ≠ 0 →
       ∃ c : ↥(Xsub S a), c * r = r * c ∧ rhoX S a c (aVec S h.mem_Q) = u
   · exact hD.false_of_transitive hA hrD haT0 haL htrans hT2
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨P⟩ := (inferInstance :
       Nonempty (Sylow 3 ↥(Subgroup.centralizer ({r} : Set ↥(Xsub S a)))))
     set C : Subgroup ↥(Xsub S a) := Subgroup.centralizer ({r} : Set ↥(Xsub S a)) with hC

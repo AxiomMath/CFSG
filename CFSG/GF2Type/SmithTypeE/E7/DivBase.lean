@@ -199,11 +199,12 @@ open Classical in
     (g : G) : Fin 75735 :=
   if h : ∃ i : Fin 75735, φ (S.cl (g * S.z * g⁻¹)) = wtV i.val then h.choose else 0
 
+omit [Finite G] in
 theorem planeOf_eq_of {g : G} {i : Fin 75735} (h : φ (S.cl (g * S.z * g⁻¹)) = wtV i.val) :
     planeOf S φ g = i := by
   have hex : ∃ i : Fin 75735, φ (S.cl (g * S.z * g⁻¹)) = wtV i.val := ⟨i, h⟩
   unfold planeOf
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact Fin.ext (wtV_injective hex.choose.2 i.2 (hex.choose_spec.symm.trans h))
 
 variable [IsSimpleGroup G]

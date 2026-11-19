@@ -135,13 +135,13 @@ theorem exists_unique_involution_of_card_eight {H : Type*} [Group H] [Fintype H]
   let C : Subgroup H :=
     { carrier := {x | φ x = x}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact map_one φ
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hCcard' : Nat.card C = Nat.card {x : H // φ x = x} :=
     Nat.card_congr (Equiv.subtypeEquivRight fun x => Iff.rfl)
@@ -334,8 +334,8 @@ theorem quatLike_of_commutator {G : Type*} [Group G] {Q : Subgroup G} {u : G}
     (hc : ⁅Q, Subgroup.zpowers u⁆ = Q) :
     ∃ z ∈ Q, z ≠ 1 ∧ ∀ x ∈ Q, x ≠ 1 → x = z ∨ x ^ 2 = z := by
   classical
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
-  letI : Fintype Q := Fintype.ofFinite Q
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
+  let : Fintype Q := Fintype.ofFinite Q
   have hH : Fintype.card Q = 8 := by
     rw [← Nat.card_eq_fintype_card]
     exact hQ

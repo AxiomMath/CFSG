@@ -49,7 +49,7 @@ theorem kill_core_gl (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
           (D.c * y * D.c⁻¹ : ModGL τ K) * uL := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL τ (AlgebraicClosure K),
@@ -257,7 +257,7 @@ theorem kill_root_gl_E6 (K : Type) [Field K] [Finite K] (hp : ringChar K ≠ 3)
       ∀ x ∈ A, Commute u x := by
   obtain ⟨uL, huLad, huL1, huLp, huLF, huLc⟩ :=
     kill_core_gl (τ := Tag.E6) (Or.inr (Or.inl rfl)) K A D α hα hk
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hcop : ringChar K ≠ 3 → Nat.Coprime 3 (orderOf uL) := by
     intro _
     rw [orderOf_eq_prime huLp huL1]
@@ -270,8 +270,8 @@ theorem kill_root_gl_E6 (K : Type) [Field K] [Finite K] (hp : ringChar K ≠ 3)
 theorem closure_pair_eq_of_not_mem {M : Type*} [Group M] (D : Subgroup M) (hcard : Nat.card D = 3 ^ 2)
     {x y : M} (hx : x ∈ D) (hy : y ∈ D) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hyx : y ∉ Subgroup.zpowers x) : Subgroup.closure ({x, y} : Set M) = D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite D := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hzx : Nat.card (Subgroup.zpowers x) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hx3 hx1]
   set H := Subgroup.closure ({x, y} : Set M) with hH
@@ -281,7 +281,7 @@ theorem closure_pair_eq_of_not_mem {M : Type*} [Group M] (D : Subgroup M) (hcard
     rcases hz with rfl | rfl
     · exact hx
     · exact hy
-  haveI : Finite H := Finite.of_injective (fun h : H => (⟨h.1, hHD h.2⟩ : D))
+  have : Finite H := Finite.of_injective (fun h : H => (⟨h.1, hHD h.2⟩ : D))
     (fun a b hab => Subtype.ext (congrArg (fun z : D => (z : M)) hab))
   have hxH : x ∈ H := Subgroup.subset_closure (by simp)
   have hyH : y ∈ H := Subgroup.subset_closure (by simp)
@@ -304,9 +304,9 @@ theorem closure_pair_eq_of_not_mem {M : Type*} [Group M] (D : Subgroup M) (hcard
   exact Subgroup.eq_of_le_of_card_ge hHD (le_of_eq (by rw [hcard, hHcard]))
 
 theorem exists_mem_not_mem_zpowers {M : Type*} [Group M] (D : Subgroup M) (hcard : Nat.card D = 3 ^ 2)
-    {x : M} (hx : x ∈ D) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
+    {x : M} (_hx : x ∈ D) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     ∃ y ∈ D, y ∉ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hle : D ≤ Subgroup.zpowers x := fun y hy => hcon y hy

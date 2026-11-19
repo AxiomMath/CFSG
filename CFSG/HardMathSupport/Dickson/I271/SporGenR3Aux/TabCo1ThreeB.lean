@@ -168,7 +168,7 @@ theorem threeB_data {x : GL24} (hx : MRep (rootRows3B ()) x) :
     and_assoc, List.all_eq_true] at h
   obtain ⟨hD, hwx, hw1, hxr, hx1, hx3, hz3, hxa, hxb, hza, hzb, hxz, hwab, hwba, hab, hZok, hZsz,
     hrels, hiu1, hiv1, hiu2, hiv2, hcm1, hcm2, hb1, hcnt1, hb2, hcnt2⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have ra := rep_nd (ext := TabCo1ThreeB.ext) hD 88
   have rb := rep_nd (ext := TabCo1ThreeB.ext) hD 89
   have rx := rep_nd (ext := TabCo1ThreeB.ext) hD 90
@@ -423,7 +423,7 @@ theorem threeB_data {x : GL24} (hx : MRep (rootRows3B ()) x) :
       ⟨Subgroup.mem_centralizer_iff.2 hcl, (Subgroup.mem_inf.1 hc).2⟩
     rw [← hZseq] at hcZ
     exact pow_three_of_mem_closure_pair hx3' hz3' cxz hcZ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨J, hJC, conj_mem_of_card_le_two_mul hJC hCcard, hq, by rw [cardJ]; norm_num,
     IsPGroup.of_card (n := 2) (by rw [hcard3]; norm_num), hcentJ, ⟨eT⟩⟩
 
@@ -436,7 +436,7 @@ theorem tabCo1_threeB
     (hb : Nonempty (CFSG.Blueprint.NativeSporadic.Suz ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group))
     (x : ↥GA) (hx : MRep (rootRows3B ()) (x : GL24)) :
     ShapeRkAt 3 (GoodSpor 3 [.Suz]) (RkSpor 3 [.Suz]) x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨J, hJC, hJn, hq, hp3, hZ3, hcent, ⟨eJ⟩⟩ := threeB_data hx
   exact shapeRkAt_of_subgroup_data_quasi Nat.prime_three
     (fun _ _ _ _ e h => GoodSpor.of_equiv e h) (fun _ _ _ _ e h => RkSpor.of_equiv e h) GA x J hJC

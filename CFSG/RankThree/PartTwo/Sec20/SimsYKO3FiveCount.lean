@@ -117,6 +117,7 @@ theorem relIndex_centralizer_le_sq {V : Subgroup G} {e y : G}
     _ ≤ X.relIndex V * X'.relIndex V := Subgroup.relIndex_inf_le
     _ = (X.relIndex V) ^ 2 := by rw [hXX'eq, pow_two]
 
+omit [Finite G] in
 theorem mem_centralizer_of_stab {V C : Subgroup G} (hV : IsElemAbelian 2 V) (hCV : C ≤ V)
     {w : G} (hwC : ∀ c ∈ C, w * c = c * w) (hwV : ∀ v ∈ V, w * v * w⁻¹ * v⁻¹ ∈ C)
     {n : ℕ} (hn : Odd n) (hwn : w ^ n ∈ Subgroup.centralizer (V : Set G)) :
@@ -167,6 +168,7 @@ theorem not_dvd_card_mulAut_of_card_le {U : Type*} [Group U] [Finite U]
   rw [CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL e, CFSG.SectionRank.Ccomm.card_GL_zmod]
   interval_cases n <;> decide
 
+omit [Finite G] in
 private theorem exists_secAction {V C N : Subgroup G} [(C.subgroupOf V).Normal]
     (hNV : N ≤ Subgroup.normalizer (V : Set G)) (hNC : N ≤ Subgroup.normalizer (C : Set G)) :
     ∃ ρ : N →* MulAut (↥V ⧸ C.subgroupOf V), ∀ (g : N) (x y : ↥V), (y : G) = g * x * g⁻¹ →
@@ -216,8 +218,8 @@ theorem false_of_five_cube {V W : Subgroup G} {k : G} (hV : IsElemAbelian 2 V)
     (hk : ∀ w ∈ W, ¬ ∀ x ∈ W,
       (k * w⁻¹) * x * (k * w⁻¹)⁻¹ * x⁻¹ ∈ Subgroup.centralizer (V : Set G)) :
     False := by
-  haveI : IsMulCommutative ↥V := hV.1
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsMulCommutative ↥V := hV.1
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := V ⊓ Subgroup.centralizer (W : Set G)
   have hCV : C ≤ V := inf_le_left
   have hCW : ∀ c ∈ C, ∀ w ∈ W, w * c = c * w := fun c hc w hw =>

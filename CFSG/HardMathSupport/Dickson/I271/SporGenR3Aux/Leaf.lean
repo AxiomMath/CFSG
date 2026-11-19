@@ -53,10 +53,10 @@ theorem strong_alt {p : ℕ} {K B : Subgroup X} (h : CompHyp p K B)
     {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6) (hpn : p ∣ n)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin n)) : IsStronglyBalancedIn p B K := by
   have hp : p.Prime := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : p ≠ 2 := h.odd
   have hq : CFSG.Open.IsQuasisimple ↥K := h.quasi
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore p ↥K = ⊥ := h.primeCore
   have h73 : ¬ (p = 3 ∧ n = 7) := by
     rintro ⟨rfl, rfl⟩

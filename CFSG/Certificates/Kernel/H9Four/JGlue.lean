@@ -41,7 +41,7 @@ theorem nodup_decE (L : List ℕ) : decide (L.map decE).Nodup = nodupE L := by
     have e : nodupE (a :: L) = (!(memE a L) && nodupE L) := rfl
     rw [e, ← ih, ← contains_decE, List.map_cons]
     cases h : (L.map decE).contains (decE a) <;>
-      simp_all [List.nodup_cons, List.contains_iff_mem]
+      simp_all [List.nodup_cons]
 
 theorem valid_decE (t : ℕ) : (decE t).valid = validE t := (validE_iff t).symm
 
@@ -209,6 +209,7 @@ theorem e9Check_of (h : e9CheckK = true) : e9Check = true := by
     one_decE, contains_decE, nodup_decE]
   exact h
 
+omit hc in
 theorem ffRepCheck_of (h : ffRepCheckK = true) : ffRepCheck = true := by
   unfold ffRepCheckK at h
   unfold ffRepCheck reps

@@ -178,6 +178,7 @@ private lemma plane_alg (Qw Qz t : K) (hQw : Qw ≠ 0) (ht : t * t + t = Qw * Qz
   field_simp [hQw]
   linear_combination ht + (Qw * Qz) * h2
 
+omit [Fintype K] in
 private lemma plane_arf_fwd {V₂ : Type} [AddCommGroup V₂] [Module K V₂]
     [FiniteDimensional K V₂] {Q₂ : QuadraticForm K V₂}
     (hdim : Module.finrank K V₂ = 2) {w z : V₂}
@@ -227,6 +228,7 @@ private lemma plane_arf_fwd {V₂ : Type} [AddCommGroup V₂] [Module K V₂]
     rw [hQz]
     ring
 
+omit [Fintype K] in
 private lemma plane_arf_bwd {V₂ : Type} [AddCommGroup V₂] [Module K V₂]
     [FiniteDimensional K V₂] {Q₂ : QuadraticForm K V₂}
     (hdim : Module.finrank K V₂ = 2) {w z : V₂}
@@ -258,6 +260,7 @@ private lemma plane_arf_bwd {V₂ : Type} [AddCommGroup V₂] [Module K V₂]
     by_contra hplus
     exact hvec (CFSG.LocalAnalysis.GLTheoremA.H81Orth.eq_zero_of_not_isPlusType hdim hplus hQvec)
 
+omit [Fintype K] in
 private lemma plane_arf {V₂ : Type} [AddCommGroup V₂] [Module K V₂]
     [FiniteDimensional K V₂] {Q₂ : QuadraticForm K V₂}
     (hdim : Module.finrank K V₂ = 2) {w z : V₂}
@@ -413,6 +416,7 @@ private lemma restrict_orthogonal_eq {Q Q' : QuadraticForm K V} {w : V} {P : Sub
   rw [hx]
   simp
 
+omit [Fintype K] in
 private lemma restrict_plane_isPlusType_iff {Q Q' : QuadraticForm K V} {w z : V}
     {P : Submodule K V} (hQ' : ∀ x, Q' x = Q x + QuadraticMap.polar Q w x ^ 2)
     (hB : QuadraticMap.polar Q w z = 1) (hwP : w ∈ P) (hzP : z ∈ P)

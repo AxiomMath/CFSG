@@ -25,6 +25,7 @@ section Comp
 
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem pow_three_of_orderOf_three {ω : Lˣ} (hω : orderOf ω = 3) : ω ^ 3 = 1 := by
   have := pow_orderOf_eq_one ω
   rwa [hω] at this
@@ -34,12 +35,14 @@ theorem Std8.a0_mem_torus (D : Std8 L) {ω : Lˣ} (hω : orderOf ω = 3) :
   rw [← dV_x0_eq]
   exact D.dV_mem_torus (pow_three_of_orderOf_three hω) x0
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem a0_pow_three {ω : Lˣ} (hω : orderOf ω = 3) (j : Fin Tag.E6.rank) : a0 ω j ^ 3 = 1 := by
   by_cases hj : j = 3
   · subst hj
     simpa [a0] using pow_three_of_orderOf_three hω
-  · simp [a0, Pi.mulSingle_apply, hj]
+  · simp [a0, hj]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem a0_ne_one {ω : Lˣ} (hω : orderOf ω = 3) : rootDiagUnit Tag.E6 (a0 ω) ≠ 1 := by
   intro h
   rw [← dV_x0_eq, ← dV_zero (τ := Tag.E6) ω] at h
@@ -55,6 +58,7 @@ theorem Std8.hTame
   langSetup_hTame_of_prime D.S Nat.prime_three TwE6InnerAbs.natCast_three_ne_zero_of_charTwo
     (fun h => absurd h (by decide)) (D.a0_mem_torus hω) (a0_pow_three hω) (a0_ne_one hω)
 
+omit [CharP L 2] in
 theorem Std8.orbitLength_eq_one (D : Std8 L) {ω : Lˣ}
     (i : KernelComponent (rootCharHom (a0 ω))) :
     componentOrbitLength D.S.ρ (componentRoots (rootCharHom (a0 ω)) i) = 1 := by
@@ -93,12 +97,14 @@ theorem Std8.rationalComponent_quasisimple_lie
   rw [hs1, Nat.mul_one] at hmodel
   exact KSExact.isLieQuot_of_twistedA_model hmodel _ fun q hp hf => ⟨rfl, hp, hf⟩
 
+omit [CharP L 2] in
 theorem Std8.mem_component_of_rho (D : Std8 L) {ω : Lˣ} (i : KernelComponent (rootCharHom (a0 ω)))
     {γ : Fin Tag.E6.rank → ℤ} (hγ : γ ∈ componentRoots (rootCharHom (a0 ω)) i) :
     D.S.ρ γ ∈ componentRoots (rootCharHom (a0 ω)) i := by
   rw [D.hρ]
   exact (isRootComponent_componentRoots i).neg_mem γ hγ
 
+omit [CharP L 2] in
 theorem Std8.rationalRoots_eq (D : Std8 L) {ω : Lˣ} (i : KernelComponent (rootCharHom (a0 ω))) :
     rationalRoots D.S.ρ (rootCharHom (a0 ω)) i = componentRoots (rootCharHom (a0 ω)) i := by
   ext γ
@@ -112,6 +118,7 @@ theorem Std8.rationalRoots_eq (D : Std8 L) {ω : Lˣ} (i : KernelComponent (root
   · intro hγ
     exact ⟨0, γ, hγ, rfl⟩
 
+omit [CharP L 2] in
 theorem Std8.rationalComponent_le_rootSpan (D : Std8 L) {ω : Lˣ}
     (i : KernelComponent (rootCharHom (a0 ω))) :
     rationalComponent D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i ≤
@@ -122,6 +129,7 @@ theorem Std8.rationalComponent_le_rootSpan (D : Std8 L) {ω : Lˣ}
   refine h1.trans (inf_le_left.trans ?_)
   rw [D.rationalRoots_eq]
 
+omit [CharP L 2] in
 theorem Std8.rationalComponent_commute (D : Std8 L) {ω : Lˣ}
     {i j : KernelComponent (rootCharHom (a0 ω))} (hij : i ≠ j) {u v : ModGL Tag.E6 L}
     (hu : u ∈ rationalComponent D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i)
@@ -135,6 +143,7 @@ theorem Std8.rationalComponent_commute (D : Std8 L) {ω : Lˣ}
   rw [h, Subgroup.mem_bot] at hc
   exact commutatorElement_eq_one_iff_mul_comm.1 hc
 
+omit [CharP L 2] in
 theorem Std8.mem_rationalSpan_iff (D : Std8 L) {ω : Lˣ} (i : KernelComponent (rootCharHom (a0 ω)))
     {x : ModGL Tag.E6 L} : x ∈ rationalSpan D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i ↔
       x ∈ rootSpan Tag.E6 L (componentRoots (rootCharHom (a0 ω)) i) ∧ x ∈ D.S.Γ := by
@@ -175,6 +184,7 @@ theorem b3_mem_R6 : ∀ b : Fin 6, b3 b ∈ R6 ∧ 3 ∣ b3 b 3 := by decide +ke
 
 theorem b3_isRoot (b : Fin 6) : IsRoot Tag.E6 (b3 b) := isRoot_of_mem_R6 (b3_mem_R6 b).1
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootSL2_HSL_eq_rootDiagUnit' {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β) (u : Lˣ) :
     rootSL2 Tag.E6 L β (HSL u) =
       rootDiagUnit Tag.E6 (fun j => u ^ iform β (Pi.single j 1)) :=
@@ -251,10 +261,10 @@ theorem Std8.dV_mem_iSup_rationalComponent (D : Std8 L) {ω : Lˣ} (hω : orderO
           Finset.sum_congr rfl fun j' _ => h5 j'
       _ = 3 * ((x j).val : ℤ) := by
           rw [Finset.sum_eq_single j]
-          · rw [if_pos rfl]
+          · rw [ite_eq_left rfl]
             ring
           · intro j' _ hj'
-            rw [if_neg (Ne.symm hj'), mul_zero]
+            rw [ite_eq_right (Ne.symm hj'), mul_zero]
           · intro h
             exact absurd (Finset.mem_univ j) h
   have h5 : dV ω x =
@@ -278,11 +288,13 @@ theorem Std8.dV_mem_iSup_rationalComponent (D : Std8 L) {ω : Lˣ} (hω : orderO
     (i : KernelComponent (rootCharHom (a0 ω))) : Subgroup ↥D.S.Γ :=
   (rationalComponent D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i).comap D.S.Γ.subtype
 
+omit [CharP L 2] in
 theorem Std8.rationalComponent_le_Γ (D : Std8 L) {ω : Lˣ}
     (i : KernelComponent (rootCharHom (a0 ω))) :
     rationalComponent D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i ≤ D.S.Γ := fun _ hx =>
   ((D.mem_rationalSpan_iff i).1 (commutator_le_self_of_subgroup _ hx)).2
 
+omit [CharP L 2] in
 theorem Std8.map_Rc (D : Std8 L) {ω : Lˣ} (i : KernelComponent (rootCharHom (a0 ω))) :
     (D.Rc ω i).map D.S.Γ.subtype =
       rationalComponent D.S.ρ D.S.Γ (rootCharHom (a0 ω)) i := by
@@ -311,6 +323,7 @@ theorem Std8.Rc_quasisimple_lie
   exact ⟨CFSG.Open.IsQuasisimple.of_mulEquiv (D.RcEquiv ω i) (open_isQuasisimple hq),
     isLieQuot_of_mulEquiv_e6 (D.RcEquiv ω i).symm hl⟩
 
+omit [CharP L 2] in
 theorem Std8.Rc_commute (D : Std8 L) {ω : Lˣ} {i j : KernelComponent (rootCharHom (a0 ω))}
     (hij : i ≠ j) {u v : ↥D.S.Γ} (hu : u ∈ D.Rc ω i) (hv : v ∈ D.Rc ω j) : Commute u v :=
   Subtype.ext (D.rationalComponent_commute hij hu hv).eq

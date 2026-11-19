@@ -61,7 +61,7 @@ theorem testBit_foldr {C j b : Nat} {Fc : Nat → Nat} (m : Nat)
           have := Nat.div_add_mod p b
           rw [hq] at this
           omega
-        simp [h1, h2, show ¬ p < b * m by omega, hq, hr, mul_comm]
+        simp [h1, h2, show ¬ p < b * m by omega, hq, hr]
       · have hz : (Fc (C * j + m)).testBit (p - b * m) = false := by
           apply Nat.testBit_lt_two_pow
           calc Fc (C * j + m) < 2 ^ b := hlt m (by omega)
@@ -138,7 +138,7 @@ theorem join_parts {c n₀ w N j : Nat} {Fc F : Nat → Nat}
   rw [Nat.shiftRight_eq_div_pow] at h
   exact (Nat.div_eq_zero_iff_lt (by positivity)).1 h
 
-theorem index_split {c n₀ j i : Nat} (hn : 0 < n₀) :
+theorem index_split {c n₀ j i : Nat} (_hn : 0 < n₀) :
     n₀ * (c * j + i / n₀) + i % n₀ = c * n₀ * j + i := by
   have := Nat.div_add_mod i n₀
   nlinarith

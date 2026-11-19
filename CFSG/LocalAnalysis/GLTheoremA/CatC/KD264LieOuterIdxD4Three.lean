@@ -28,9 +28,9 @@ theorem idxCoreAt_entrywiseAdjointAut_D4 {K : Type} [Field K] [Finite K]
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) :
     IdxCoreAt 3 (.D 4 q) (entrywiseAdjointAut Tag.D4 σ) := by
   classical
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   let k := fixSubfield σ
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨q₀, -, hq₀card, hqcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.exists_primePower_fixSubfield
@@ -40,12 +40,12 @@ theorem idxCoreAt_entrywiseAdjointAut_D4 {K : Type} [Field K] [Finite K]
   have hperf : Group.IsPerfect (adjointGroup Tag.D4 k) :=
     ExcCopy.isPerfect_adjointGroup .D4 k (fun h => absurd h (by decide))
   obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect .D4 k hperf
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.D4 k) := hs
+  have : IsSimpleGroup ↥(adjointGroup Tag.D4 k) := hs
   have hq : CFSG.IsQuasisimple ↥(adjointGroup Tag.D4 k) :=
     LieSemisimple.isQuasisimple_of_isSimpleGroup hs hnc
   let e : ↥(adjointGroup Tag.D4 k) ≃* ι.range := MonoidHom.ofInjective hι
   have hTq : CFSG.IsQuasisimple ι.range := CFSG.LocalCores.isQuasisimple_of_mulEquiv e hq
-  haveI : IsSimpleGroup ι.range := e.symm.isSimpleGroup
+  have : IsSimpleGroup ι.range := e.symm.isSimpleGroup
   have hncT : ∃ a b : ι.range, a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
@@ -80,11 +80,11 @@ theorem twistedFixedGroup_eq_graphFixedRootGroup_of_frobenius {ℓ e : ℕ} (h�
       IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ∧
       ∃ x y : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom), x * y ≠ y * x := by
   intro σ r hr hσ
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ (k := e * 3)
       (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, hfixeq, hs, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ e hℓ he K hK
@@ -108,7 +108,7 @@ theorem exists_fixedSubgroup_twistedEntrywiseAut_D4_equiv_graphFixed {ℓ e : �
     Nonempty (↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 j T)) ≃*
       ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq3 : ∀ c : K, c ^ ((ℓ ^ e) ^ 3) = c := fun c => by
     rw [← hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hT3 : T ^ 3 = 1 := by
@@ -165,8 +165,8 @@ theorem idxCoreAt_twistedEntrywiseAut_D4 {ℓ e : ℕ} (hℓ : ℓ.Prime) (he : 
     obtain ⟨-, -, hnc⟩ := twistedFixedGroup_eq_graphFixedRootGroup_of_frobenius hℓ he hK T 1
       (Or.inl rfl) (fun c => by rw [hT, pow_one])
     exact hnc
-  haveI : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom) := hGsimple
-  haveI : IsSimpleGroup ↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 j T)) :=
+  have : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom) := hGsimple
+  have : IsSimpleGroup ↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 j T)) :=
     eT.isSimpleGroup
   have hTnc : ∃ a b : ↥(fixedSubgroup (twistedEntrywiseAut TwistTag.D4 j T)), a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hGnc
@@ -208,7 +208,7 @@ theorem idxCoreAt_graphField_D4 {K : Type} [Field K] [Finite K] {q : TauCeti.Pri
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     IdxCoreAt 3 (.D 4 q) α := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓp, hKf⟩ := FiniteField.card K (ringChar K)
   have hKf' : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -228,8 +228,8 @@ theorem idxCoreAt_graphField_D4 {K : Type} [Field K] [Finite K] {q : TauCeti.Pri
     have h3r : ringChar K = 3 :=
       ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hℓp).1 h37).symm
     exact h3K h3r
-  haveI : Fact (ringChar K).Prime := ⟨hℓp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   rcases hσT with hσT | hσT
   · have hαT : α = MulAut.conj g * (exactNormalAut Tag.D4 K a T 0 * d4Graph K ε) := by
       rw [hαeq, hσT]
@@ -248,13 +248,13 @@ theorem idxCoreAt_graphField_D4 {K : Type} [Field K] [Finite K] {q : TauCeti.Pri
 
 theorem outerIdxAt_pomegaPlus_four_three {ℓ f : ℕ} (h3ℓ : 3 ≠ ℓ) {q : TauCeti.PrimePower}
     (hq : q.card = ℓ ^ f) {G : Type} [Group G] [Finite G]
-    (h : CFSG.Open.StatedClassicalModel G .POmegaPlus 4 ℓ f) (h3 : 3 ∣ Nat.card G) :
+    (h : CFSG.Open.StatedClassicalModel G .POmegaPlus 4 ℓ f) (_h3 : 3 ∣ Nat.card G) :
     OuterIdxAt 3 (.D 4 q) G := by
   obtain ⟨⟨hℓ, hf, -⟩, K, hfield, hfinite, hK, ⟨eG⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  let := hfield
+  let := hfinite
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have hKq : Nat.card K = q.card := hK.trans hq.symm
   have hK3 : ringChar K ≠ 3 := by
@@ -262,7 +262,7 @@ theorem outerIdxAt_pomegaPlus_four_three {ℓ f : ℕ} (h3ℓ : 3 ≠ ℓ) {q : 
     exact fun h' => h3ℓ h'.symm
   obtain ⟨eC⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   have hcore : ∀ x : MulAut (adjointGroup Tag.D4 K), x ^ 3 = 1 →
       x ∉ innAutDerived (adjointGroup Tag.D4 K) → IdxCoreAt 3 (.D 4 q) x := by
     intro α hα3 hαout

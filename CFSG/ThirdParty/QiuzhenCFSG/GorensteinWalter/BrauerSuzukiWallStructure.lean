@@ -951,7 +951,7 @@ private theorem exists_conjugate_mem_of_prime_order_of_coprime_card_index
   have hPsubP : IsPGroup p Psub := by
     simpa [Psub] using
       (IsPGroup.map (p := p) (H := (PH : Subgroup H))
-        PH.isPGroup' H.subtype)
+        PH.isPGroup H.subtype)
   have hpNotHindex : ¬ p ∣ H.index := by
     exact hpPrime.coprime_iff_not_dvd.mp
       (Nat.Coprime.of_dvd_left hpH hHall)
@@ -2146,7 +2146,7 @@ private theorem selected_centralizer_isHall
   let : Fact (Nat.Prime p) := ⟨hp⟩
   let P : Sylow p F := default
   let PG : Subgroup G := (P : Subgroup F).map F.subtype
-  have hPGp : IsPGroup p PG := P.isPGroup'.map F.subtype
+  have hPGp : IsPGroup p PG := P.isPGroup.map F.subtype
   have hpPGIndex : p ∣ PG.index := by
     change p ∣ ((P : Subgroup F).map F.subtype).index
     rw [Subgroup.index_map_subtype]
@@ -2160,7 +2160,7 @@ private theorem selected_centralizer_isHall
     lt_of_le_of_ne hPGQ hPGneQ
   obtain ⟨Y, hPGY, _hYQ, hYNorm, hYp⟩ :=
     section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup
-      Q.isPGroup' hPGltQ
+      Q.isPGroup hPGltQ
   have hPne : (P : Subgroup F) ≠ ⊥ := by
     intro hPbot
     apply P.not_dvd_index
@@ -2710,7 +2710,7 @@ private theorem centralizer_involution_card_eq_card_H
     _ = Nat.card ((⊤ : Subgroup G) ⊓
         Subgroup.centralizer ({h.t} : Set G) : Subgroup G) :=
       Nat.card_congr he
-    _ = Nat.card h.H := by simpa [h.H_eq_centralizer]
+    _ = Nat.card h.H := by simp [h.H_eq_centralizer]
 
 /-- Conjugating an involution to `t` identifies the involutions in its
 centralizer with the involutions in `H = C_G(t)`. -/
@@ -3388,11 +3388,11 @@ private noncomputable def selected_centralizer_involutions_equiv_partition
         rcases q with u | q
         · change toFun ⟨(u : G), u.property.2⟩ = Sum.inl u
           dsimp only [toFun]
-          rw [dif_pos u.property.1]
+          rw [dite_eq_left u.property.1]
         · rcases q with y | y
           · change toFun ⟨(y : G), y.property.1⟩ = Sum.inr (Sum.inl y)
             dsimp only [toFun]
-            rw [dif_neg y.property.2.1, dif_pos y.property.2.2]
+            rw [dite_eq_right y.property.2.1, dite_eq_left y.property.2.2]
           · have hyM : (y : G) ∉ M :=
               not_mem_of_coset_ne_base (y : G) y.property.2.1
             have hfix : ¬ ∃ u : U,
@@ -3401,7 +3401,7 @@ private noncomputable def selected_centralizer_involutions_equiv_partition
               exact y.property.2.2 u huFix
             change toFun ⟨(y : G), y.property.1⟩ = Sum.inr (Sum.inr y)
             dsimp only [toFun]
-            rw [dif_neg hyM, dif_neg hfix] }
+            rw [dite_eq_right hyM, dite_eq_right hfix] }
 
 /-- Commuting pairs `(u,y)`, with `u` in the selected normalizer and `y`
 outside it, are exactly the involutions lying in occupied non-base cosets. -/
@@ -4131,7 +4131,6 @@ private theorem selected_centralizer_card_le_unoccupied_of_nonempty
   let omega : Extra := Classical.choice hNonempty
   have base_fix (m : G) (hmM : m ∈ M) : m • base = base := by
     dsimp [base, Omega]
-    change ((((m * 1 : G)) : G ⧸ M) = ((1 : G) : G ⧸ M))
     rw [QuotientGroup.eq]
     simpa using M.inv_mem hmM
   let orbitMap : F → Extra := fun a =>
@@ -4334,7 +4333,6 @@ private theorem selected_centralizer_occupied_nonbase_cosets_card
       _ = r * Nat.card (h.K ⊓ M : Subgroup G) := hrMul.symm
   have hbaseFix (u : U) : (u : G) • base = base := by
     dsimp [base, Omega]
-    change ((((u : G) * 1 : G) : G ⧸ M) = ((1 : G) : G ⧸ M))
     rw [QuotientGroup.eq]
     simpa using M.inv_mem u.property.1
   have houtCard (u : U) : Nat.card (NonbaseFixed u) = r - 1 := by
@@ -4342,9 +4340,7 @@ private theorem selected_centralizer_occupied_nonbase_cosets_card
     have hcomp : Nat.card {omega : Fixed u // omega ≠ baseFixed} =
         Nat.card (Fixed u) - 1 := by
       let : Fintype (Fixed u) := Fintype.ofFinite (Fixed u)
-      simpa [Nat.card_eq_fintype_card] using
-        (Fintype.card_subtype_compl
-          (fun omega : Fixed u => omega = baseFixed))
+      simp [Nat.card_eq_fintype_card]
     let e : {omega : Fixed u // omega ≠ baseFixed} ≃ NonbaseFixed u :=
       Equiv.subtypeEquiv (Equiv.refl (Fixed u)) (by
         intro omega
@@ -4485,7 +4481,7 @@ private theorem natCard_dvd_card_sub_one_of_fixedPointFree_action
     have hane : a ≠ 1 := by
       intro haeq
       apply ha1
-      simpa [haeq]
+      simp [haeq]
     exact x.2 (hfree a hane (x : N) (congrArg Subtype.val hax))
   let Omega := Quotient (MulAction.orbitRel A X)
   have hcard :=
@@ -4912,7 +4908,7 @@ private theorem selected_centralizer_bender_3_4_card_data
   have hglobal : M.index * (f * n) = (2 * k) * h.H.index := by
     calc
       M.index * (f * n) = M.index * Nat.card M := by rw [hMcard]
-      _ = Nat.card G := by simpa [mul_comm] using M.card_mul_index
+      _ = Nat.card G := by simp [mul_comm]
       _ = Nat.card h.H * h.H.index := h.H.card_mul_index.symm
       _ = (2 * k) * h.H.index := by rw [h.card_H]
   have hn2 : 2 ≤ n := by
@@ -5098,7 +5094,7 @@ into the same punctured conjugate union. -/
 private theorem bender_3_5_residual_centralizer_card_dvd
     {G : Type u} [Group G] [Finite G]
     (h : BrauerSuzukiWallHypotheses G)
-    (hk : 4 < Nat.card h.K) (F : Subgroup G)
+    (_hk : 4 < Nat.card h.K) (F : Subgroup G)
     (hFcard : Nat.card F = Nat.card h.K - 1)
     (hFCent : ∀ a : G, a ∈ F → a ≠ 1 →
       Subgroup.centralizer ({a} : Set G) = F)
@@ -5587,7 +5583,7 @@ private theorem bender_3_5_residual_orbit_data
     let omega : Omega := Quotient.mk'' y
     have hquot :
         (Quotient.mk'' (Quotient.out omega) : Omega) = Quotient.mk'' y := by
-      simpa [omega] using Quotient.out_eq' omega
+      simp [omega]
     have hrel :
         MulAction.orbitRel (ConjAct G) Y (Quotient.out omega) y :=
       Quotient.exact' hquot
@@ -6075,13 +6071,13 @@ private theorem bender_3_6_residual_prime_data
     rcases hpPrime.dvd_mul.mp hpRest with hpTwoK | hpPred
     · have hpOne : p ∣ 1 := by
         have hsub := Nat.dvd_sub hpTwoK hpq
-        convert hsub using 1 <;> omega
+        convert hsub using 1; omega
       exact hpPrime.not_dvd_one hpOne
     · have hpTwoPred : p ∣ 2 * (k - 1) :=
         dvd_mul_of_dvd_right hpPred 2
       have hpOne : p ∣ 1 := by
         have hsub := Nat.dvd_sub hpq hpTwoPred
-        convert hsub using 1 <;> omega
+        convert hsub using 1; omega
       exact hpPrime.not_dvd_one hpOne
   exact ⟨p, hpPrime, hpC, by simpa [k] using hpq, hpOdd,
     by simpa [k] using hpCop⟩
@@ -6142,7 +6138,7 @@ private theorem exists_nontrivial_inverted_of_involution_normalizes_not_centrali
     (hzNorm : z ∈ Subgroup.normalizer (W : Set H))
     (hnot : ¬ W ≤ Subgroup.centralizer ({z} : Set H)) :
     ∃ x : H, x ∈ W ∧ x ≠ 1 ∧ z * x * z⁻¹ = x⁻¹ := by
-  rcases SetLike.not_le_iff_exists.mp hnot with ⟨w, hwW, hwNot⟩
+  rcases IsConcreteLE.not_le_iff_exists.mp hnot with ⟨w, hwW, hwNot⟩
   have hzwW : z * w * z⁻¹ ∈ W :=
     (Subgroup.mem_normalizer_iff.mp hzNorm w).mp hwW
   let x : H := w⁻¹ * (z * w * z⁻¹)
@@ -6422,7 +6418,7 @@ private theorem sylow_normal_and_quotient_commutative_of_commutative_sylow_norma
     have : Fact q.val.val.Prime := ⟨q.val.property⟩
     have hq_not_dvd_P : ¬ q.val.val ∣ Nat.card (P : Subgroup H) := by
       intro hq_dvd
-      rcases P.isPGroup'.exists_card_eq with ⟨n, hcardP⟩
+      rcases P.isPGroup.exists_card_eq with ⟨n, hcardP⟩
       have hq_dvd_pow : q.val.val ∣ p ^ n := by
         simpa [hcardP] using hq_dvd
       have hq_eq_p : q.val.val = p :=
@@ -6545,9 +6541,7 @@ private theorem sup_normalizer_eq_top_of_commutator_le
           (((RC : Subgroup C).map C.subtype : Subgroup H) : Set H) ⊔ C = ⊤ :=
     Sylow.normalizer_sup_eq_top RC
   have hRCmap : (RC : Subgroup C).map C.subtype = (R : Subgroup H) := by
-    simpa [RC, C] using
-      (Subgroup.map_subgroupOf_eq_of_le
-        (H := (R : Subgroup H)) (K := C) le_sup_right)
+    simp [RC, C]
   rw [hRCmap] at hfrattini
   rw [← hfrattini]
   change (P : Subgroup H) ⊔
@@ -6686,7 +6680,7 @@ private theorem bender_3_6_sylow_normalizer_commutative
   let : Nontrivial R0 :=
     (Subgroup.nontrivial_iff_ne_bot R0).mpr hRne
   have hcenterNontrivial : Nontrivial (Subgroup.center R0) :=
-    R.isPGroup'.center_nontrivial
+    R.isPGroup.center_nontrivial
   have hcenterNe : Subgroup.center R0 ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot (Subgroup.center R0)).mp
       hcenterNontrivial
@@ -6739,7 +6733,7 @@ private theorem bender_3_6_sylow_normalizer_commutative
     have hpOrder : p ∣ orderOf z := by
       simpa [zZ, Subgroup.orderOf_coe] using hzP.dvd_orderOf hzZne
     obtain ⟨n, hn⟩ :=
-      (IsPGroup.iff_orderOf (p := r) (G := R0)).mp R.isPGroup' zR
+      (IsPGroup.iff_orderOf (p := r) (G := R0)).mp R.isPGroup zR
     have hzOrder : orderOf z = r ^ n := by
       simpa [z, zN, zR, Subgroup.orderOf_coe] using hn
     have hpPow : p ∣ r ^ n := by rwa [hzOrder] at hpOrder
@@ -6939,7 +6933,7 @@ private theorem sylow_disjoint_of_normal_local_sylow
       rw [← hEq]
       exact inf_le_right
     have hP₂eqP₁ : (P₂ : Subgroup G) = (P₁ : Subgroup G) :=
-      P₁.maximal_isPGroup.eq_of_ge P₂.isPGroup' hP₁leP₂
+      P₁.maximal_isPGroup.eq_of_ge P₂.isPGroup hP₁leP₂
     exact hP₁neP₂ (Sylow.ext hP₂eqP₁.symm)
   have hXltP₂ : X < (P₂ : Subgroup G) := by
     refine lt_of_le_of_ne inf_le_right ?_
@@ -6948,15 +6942,15 @@ private theorem sylow_disjoint_of_normal_local_sylow
       rw [← hEq]
       exact inf_le_left
     have hP₁eqP₂ : (P₁ : Subgroup G) = (P₂ : Subgroup G) :=
-      P₂.maximal_isPGroup.eq_of_ge P₁.isPGroup' hP₂leP₁
+      P₂.maximal_isPGroup.eq_of_ge P₁.isPGroup hP₂leP₁
     exact hP₁neP₂ (Sylow.ext hP₁eqP₂)
-  have hXp : IsPGroup p X := P₁.isPGroup'.to_le inf_le_left
+  have hXp : IsPGroup p X := P₁.isPGroup.to_le inf_le_left
   obtain ⟨Y₁, hXY₁, hY₁P₁, hY₁N, hY₁p⟩ :=
     section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup
-      P₁.isPGroup' hXltP₁
+      P₁.isPGroup hXltP₁
   obtain ⟨Y₂, hXY₂, hY₂P₂, hY₂N, hY₂p⟩ :=
     section10_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup
-      P₂.isPGroup' hXltP₂
+      P₂.isPGroup hXltP₂
   let N : Subgroup G := Subgroup.normalizer (X : Set G)
   let S : Sylow p N := default
   have hSnormal : (S : Subgroup N).Normal := hlocal X hXne hXp S
@@ -6979,7 +6973,7 @@ private theorem sylow_disjoint_of_normal_local_sylow
       Subgroup.map_mono hY₂subS
     rw [← Subgroup.map_subgroupOf_eq_of_le hY₂N]
     exact hmap
-  have hSGp : IsPGroup p SG := S.isPGroup'.map N.subtype
+  have hSGp : IsPGroup p SG := S.isPGroup.map N.subtype
   obtain ⟨P₃, hSGP₃⟩ := hSGp.exists_le_sylow
   have hXP₁P₃ : X < (P₁ : Subgroup G) ⊓ (P₃ : Subgroup G) :=
     hXY₁.trans_le (le_inf hY₁P₁ (hY₁SG.trans hSGP₃))
@@ -7384,7 +7378,7 @@ private theorem bender_3_8_residual_sylow_index_data
     intro a haP hane
     have haResidual : a ∈ bswResidualSet h F :=
       mem_bswResidualSet_of_mem_residualPrimeSubgroup
-        h F hFcard hpPrime hpCop (P : Subgroup G) P.isPGroup'
+        h F hFcard hpPrime hpCop (P : Subgroup G) P.isPGroup
           haP hane
     exact bender_3_5_residual_isConj_or_inv
       h hk F hFcard hFCent hFHall hMcard hFTI hHindex hy haResidual
@@ -7398,7 +7392,7 @@ private theorem bender_3_8_residual_sylow_index_data
     intro x hxP hxne
     have hxResidual : x ∈ bswResidualSet h F :=
       mem_bswResidualSet_of_mem_residualPrimeSubgroup
-        h F hFcard hpPrime hpCop (P : Subgroup G) P.isPGroup'
+        h F hFcard hpPrime hpCop (P : Subgroup G) P.isPGroup
           hxP hxne
     have hCxcard : Nat.card (Subgroup.centralizer ({x} : Set G)) = q := by
       simpa [q, k] using
@@ -7849,7 +7843,7 @@ private theorem conclusion_nonempty_of_bender_3_8
       have hybot : y ∈ (⊥ : Subgroup G) := by simpa [hbot] using hyQ
       simpa using hybot
     exact hyne this
-  have hQp : IsPGroup p Q := by simpa [Q] using P.isPGroup'
+  have hQp : IsPGroup p Q := by simpa [Q] using P.isPGroup
   have hQindex : (Q.subgroupOf N).index = k - 1 := by
     simpa [Q, N, k] using hPindex
   let PN : Sylow p N := P.subtype (hPQ.trans_le Subgroup.le_normalizer)

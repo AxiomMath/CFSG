@@ -101,7 +101,7 @@ theorem uniSeitzPlanes_dFour_graphNonsplit_of (h : D4NonsplitGraphPlanes) :
   have hchar : (TauCeti.LieTypeIndex.D 4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_D]
   have hK' : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       q.exponent_pos hK'
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -117,7 +117,7 @@ theorem uniSeitzPlanes_dFour_graphNonsplit_of (h : D4NonsplitGraphPlanes) :
     omega
   have hqK : Nat.card K % 3 = 2 := by rw [hK]; exact hq2
   set E' := E.map (MulAut.congr e).toMonoidHom with hE'
-  haveI hE'ea : CFSG.IsElementaryAbelian 3 ↥E' :=
+  have hE'ea : CFSG.IsElementaryAbelian 3 ↥E' :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 _).mpr (isElemAbelian_map_congr e hE)
   have hc' : Nat.card E' = 3 ^ 2 := by rw [hE', card_map_congr, hc]
   obtain ⟨β, hβE, hβout⟩ : ∃ β ∈ E', β ∉ CFSG.Fischer.innerAut ↥(adjointGroup Tag.D4 K) := by
@@ -202,7 +202,7 @@ theorem uniSeitzPlanes_dFour_graphNonsplit_of (h : D4NonsplitGraphPlanes) :
     intro h0
     rw [hx₁def, conj_eq_one_iff] at h0
     exact hx1 (ψ.injective (h0.trans (map_one ψ).symm))
-  haveI hE₁ea : CFSG.IsElementaryAbelian 3 ↥E₁ :=
+  have hE₁ea : CFSG.IsElementaryAbelian 3 ↥E₁ :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 _).mpr (isElemAbelian_map_congr f₁ hE)
   have hx₁3 : x₁ ^ 3 = 1 := by
     apply conj_injective_adj
@@ -224,7 +224,7 @@ theorem uniSeitzPlanes_dFour_graphNonsplit_of (h : D4NonsplitGraphPlanes) :
     rw [hf₂, Inputs2311k.mulAut_congr_trans_excD4, hcongr₁, Inputs2311q.mulAut_congr_self_inputs2311q]
     group
   set E₂ := E.map (MulAut.congr f₂).toMonoidHom with hE₂
-  haveI hE₂ea : CFSG.IsElementaryAbelian 3 ↥E₂ :=
+  have hE₂ea : CFSG.IsElementaryAbelian 3 ↥E₂ :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 _).mpr (isElemAbelian_map_congr f₂ hE)
   have hc₂ : Nat.card E₂ = 3 ^ 2 := by rw [hE₂, card_map_congr, hc]
   have hstep₂ : ∀ φ₀ : MulAut (Cat ⟨.D 4 q, hv⟩), (MulAut.congr f₂).toMonoidHom φ₀ =

@@ -76,9 +76,9 @@ theorem card_mulAut_eq_inner_mul_outer (X : Type) [Group X] :
 
 theorem card_mulAut_dvd_two_mul_of_outer {X : Type} [Group X] [Finite X]
     (hO : Nat.card (Outer X) ≤ 2) : Nat.card (MulAut X) ∣ 2 * Nat.card X := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
-  haveI : Finite (Outer X) :=
+  have : Finite (Outer X) :=
     Finite.of_surjective (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner X))
       (QuotientGroup.mk'_surjective _)
   have hpos : 0 < Nat.card (Outer X) := Nat.card_pos

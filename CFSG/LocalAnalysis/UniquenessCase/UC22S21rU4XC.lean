@@ -31,6 +31,7 @@ theorem u4x_conj_injective {X : Type*} [Group X] (hZ : center X = ⊥) :
   rw [hZ, Subgroup.mem_bot] at hc
   exact (inv_mul_eq_one.1 hc).symm
 
+omit [Finite Q] in
 theorem u4x_inner_part {F : Subgroup Q} (hZ : center ↥F = ⊥) {q : ℕ}
     (hinn : ∀ α : MulAut ↥F, α ^ q = 1 → α ∈ (MulAut.conj : ↥F →* MulAut ↥F).range)
     {β : Q} (hβ : β ∈ normalizer (F : Set Q)) (hβq : β ^ q = 1) :
@@ -50,6 +51,7 @@ theorem u4x_inner_part {F : Subgroup Q} (hZ : center ↥F = ⊥) {q : ℕ}
     rw [map_pow, hy, hαq, map_one]
   simpa using congrArg Subtype.val (u4x_conj_injective hZ h2)
 
+omit [Finite Q] in
 theorem u4x_mul_inv_mem_centralizer {F₀ F₁ : Subgroup Q}
     (hcomm : ∀ x ∈ F₀, ∀ y ∈ F₁, x * y = y * x) {β x₀ x₁ : Q} (hx₀ : x₀ ∈ F₀) (hx₁ : x₁ ∈ F₁)
     (h₀ : ∀ f ∈ F₀, β * f * β⁻¹ = x₀ * f * x₀⁻¹) (h₁ : ∀ f ∈ F₁, β * f * β⁻¹ = x₁ * f * x₁⁻¹) :
@@ -81,6 +83,7 @@ theorem u4x_mul_inv_mem_centralizer {F₀ F₁ : Subgroup Q}
   obtain ⟨f₀, hf₀, f₁, hf₁, rfl⟩ := u4x_mem_sup hcomm hh
   rw [mul_assoc, k₁ f₁ hf₁, ← mul_assoc, k₀ f₀ hf₀, mul_assoc]
 
+omit [Finite Q] in
 theorem u4x_commute_of_conj {F : Subgroup Q} {β x : Q} (hx : x ∈ F)
     (h : ∀ f ∈ F, β * f * β⁻¹ = x * f * x⁻¹) : Commute β x := by
   have h1 := h x hx
@@ -88,6 +91,7 @@ theorem u4x_commute_of_conj {F : Subgroup Q} {β x : Q} (hx : x ∈ F)
     _ = x * x * x⁻¹ * β := by rw [h1]
     _ = x * β := by group
 
+omit [Finite Q] in
 theorem u4x_pow_eq_one {F₀ F₁ : Subgroup Q} (hcomm : ∀ x ∈ F₀, ∀ y ∈ F₁, x * y = y * x)
     {β x₀ x₁ : Q} (hx₀ : x₀ ∈ F₀) (hx₁ : x₁ ∈ F₁) (h₀ : ∀ f ∈ F₀, β * f * β⁻¹ = x₀ * f * x₀⁻¹)
     (h₁ : ∀ f ∈ F₁, β * f * β⁻¹ = x₁ * f * x₁⁻¹) {q : ℕ} (hβ : β ^ q = 1) (h0 : x₀ ^ q = 1)
@@ -102,8 +106,8 @@ theorem u4x_dvd_of_borel {F S : Subgroup Q} {n : ℕ}
     (hF : IsL2 ↥F n ∨ IsSz ↥F n) (hS : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ F) F) {x : Q}
     (hxF : x ∈ F) (hx1 : x ≠ 1) (hxN : ∀ s ∈ S ⊓ F, x * s * x⁻¹ ∈ S) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hxq : x ^ q = 1) : q ∣ 2 ^ n - 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
   have e1 : ((S ⊓ F).subgroupOf F).map F.subtype = S ⊓ F := by
     rw [Subgroup.subgroupOf_map_subtype, inf_assoc, inf_idem]
   have e2 : (⊤ : Subgroup ↥F).map F.subtype = F := by
@@ -129,7 +133,7 @@ theorem u4x_dvd_of_borel {F S : Subgroup Q} {n : ℕ}
 theorem u4x_isSylowOf_inf {F₀ F₁ T : Subgroup Q} (hcomm : ∀ x ∈ F₀, ∀ y ∈ F₁, x * y = y * x)
     (hN : (F₀ ⊔ F₁).Normal) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ F₀) F₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := hT.inf_of_le_normalizer le_top (u4x_top_le_normalizer hN)
   have hle : F₀ ⊔ F₁ ≤ normalizer (F₀ : Set Q) := sup_le Subgroup.le_normalizer fun y hy =>
     Subgroup.mem_normalizer_iff.2 fun f => by
@@ -150,6 +154,7 @@ theorem u4x_isSylowOf_inf {F₀ F₁ T : Subgroup Q} (hcomm : ∀ x ∈ F₀, �
 
 end Generic
 
+omit [Finite G] in
 theorem u4x_shape_barImage {M L : Subgroup G} (hL : L ∈ calC M) {n : ℕ}
     (hS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) :
     IsL2 ↥(barImage M L) n ∨ IsSz ↥(barImage M L) n := by

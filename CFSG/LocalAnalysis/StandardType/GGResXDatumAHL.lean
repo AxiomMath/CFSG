@@ -87,7 +87,7 @@ lemma ggHLT_not_excl_of_S {p : ℕ} {lab : LargeEvenLabel}
   · rcases h.1 with h | h <;> rw [h] at hBC <;> exact absurd hBC (by decide)
 
 lemma ggHLT_ne_two_of_S {p : ℕ} {lab : LargeEvenLabel}
-    (hpp : p.Prime) (hlab : LargeEvenInLambda2 lab)
+    (_hpp : p.Prime) (hlab : LargeEvenInLambda2 lab)
     (h : (lab.tag = .A ∨ lab.tag = .twA) ∧ 6 ≤ lab.rank ∧ p ∣ lab.rank + 1 ∧
       p ∣ ggTorM lab) :
     p ≠ 2 := by
@@ -106,12 +106,12 @@ lemma ggHLT_split_of_S {p : ℕ} {lab : LargeEvenLabel}
   · left
     refine ⟨?_, ?_⟩
     · rw [hA]; simp [LargeEvenUntwisted]
-    · rwa [if_neg (by rw [hA]; decide)] at hdvdM
+    · rwa [ite_eq_right (by rw [hA]; decide)] at hdvdM
   · right; left
     refine ⟨?_, ?_, ?_⟩
     · rw [htwA]; simp [LargeEvenUntwisted]
     · rw [htwA]; decide
-    · rwa [if_pos (by rw [htwA]; decide)] at hdvdM
+    · rwa [ite_eq_left (by rw [htwA]; decide)] at hdvdM
 
 lemma ggHLT_not_twisted_of_S {p : ℕ} {lab : LargeEvenLabel}
     (h : (lab.tag = .A ∨ lab.tag = .twA) ∧ 6 ≤ lab.rank ∧ p ∣ lab.rank + 1 ∧
@@ -123,7 +123,7 @@ lemma ggHLT_not_twisted_of_S {p : ℕ} {lab : LargeEvenLabel}
   · rcases h.1 with h | h <;> rw [h] at h2 <;> exact absurd h2 (by decide)
 
 theorem ggResXDatumA_compat
-    (hRig : GGLabelRigidInput) (hT : GGTBTorANarrow) (hLift : GGTBTorLiftADepRows)
+    (_hRig : GGLabelRigidInput) (hT : GGTBTorANarrow) (hLift : GGTBTorLiftADepRows)
     (hW : GGTBWNormLabelInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
@@ -174,8 +174,8 @@ theorem ggResXDatumA_compat
           ⟨ggHLT_not_twisted_of_S hP.1, ggHLT_split_of_S hP.1, hBBs.trans hP.2.1,
             fun b hb => hP.2.2 b (hBBs hb)⟩) h)
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   have hxL : x ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]

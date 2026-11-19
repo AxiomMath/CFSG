@@ -18,7 +18,7 @@ theorem exists_sylow_map_subtype_eq_inf {p : ℕ} [Fact p.Prime] (K : Subgroup Y
     (Rb : Sylow p Y) :
     ∃ T : Sylow p K, (T : Subgroup K).map K.subtype = (Rb : Subgroup Y) ⊓ K := by
   have hR : CFSG.ABGLocalTools.IsSylowOf p (Rb : Subgroup Y) ⊤ :=
-    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, Rb.isPGroup', by
+    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, Rb.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact Rb.not_dvd_index⟩
   exact hR.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top (H := K)).ge
@@ -184,7 +184,7 @@ theorem primeComplementCore_eq_bot_of_psl2GF (hKL1 : KFactL2UnipotentCentralizer
         (by rw [hWsub]; infer_instance))
       (by rw [Subgroup.card_map_of_injective Y₀.subtype_injective]
           exact primeComplementCore_coprime p)
-      Rb.isPGroup'.to_inf_left (Subgroup.le_normalizer.trans hN) inf_le_right
+      Rb.isPGroup.to_inf_left (Subgroup.le_normalizer.trans hN) inf_le_right
       (inf_le_normalizer_of_psl2GF hred.ne_two hn1 e Rb hN hKY₀)
       (centralizer_sylow_inf_le_of_psl2GF hKL1 hred.ne_two hn1 hKn ⟨e⟩ hC Rb)
   exact (Subgroup.map_eq_bot_iff_of_injective _ Y₀.subtype_injective).mp hW

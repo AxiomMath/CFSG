@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 theorem comm_P_eq (c : Core1 E t z) (rp : RPData E t z) :
     ⁅Pg E z, Pg E z⁆ = Rg t z ⊓ E := by
   have hCNz_le_normP : CNz E z ≤ normalizer (Pg E z : Set G) := by
-    haveI : ((Pg E z).subgroupOf (CNz E z)).Normal := TwoB.normal_subgroupOf_O2In (CNz E z)
+    have : ((Pg E z).subgroupOf (CNz E z)).Normal := TwoB.normal_subgroupOf_O2In (CNz E z)
     exact Subgroup.le_normalizer_of_normal_subgroupOf (Pg_le_CNz E z)
   have hDinv : InvUnder (CNz E z) ⁅Pg E z, Pg E z⁆ := by
     intro n hn u hu
@@ -41,7 +41,7 @@ theorem comm_P_eq (c : Core1 E t z) (rp : RPData E t z) :
   have hDR : ⁅Pg E z, Pg E z⁆ ≤ Rg t z := by
     have hP_le_normR : Pg E z ≤ normalizer (Rg t z : Set G) :=
       rp.P_le_J.trans (Subgroup.le_set_normalizer_iff.mpr c.jr.R_normal)
-    haveI : ((Rg t z).subgroupOf (Pg E z)).Normal :=
+    have : ((Rg t z).subgroupOf (Pg E z)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hP_le_normR
     have hEcomm : IsMulCommutative (E.subgroupOf (Pg E z)) := by
       rw [isMulCommutative_iff]
@@ -57,7 +57,7 @@ theorem comm_P_eq (c : Core1 E t z) (rp : RPData E t z) :
       rw [hx]
       exact mul_mem (Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.mpr hr))
         (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mpr he))
-    haveI : IsMulCommutative (E.subgroupOf (Pg E z)) := hEcomm
+    have : IsMulCommutative (E.subgroupOf (Pg E z)) := hEcomm
     have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     have h2 := Subgroup.map_mono (f := (Pg E z).subtype) hcomm
     rw [Subgroup.map_subtype_commutator, Subgroup.subgroupOf_map_subtype,

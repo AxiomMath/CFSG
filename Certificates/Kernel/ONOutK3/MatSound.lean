@@ -203,7 +203,7 @@ private theorem rep_matT (hc : consts3OK 154 9 23716 LO RM CI ONE UP = true) {PI
   refine ⟨(mul_eq hc hPI cF).1, fun i hi => ⟨(hM i hi).1, ?_⟩⟩
   rw [e3, Matrix.transpose_transpose, (hM i hi).2]
 
-private theorem rep_letter (hc : consts3OK 154 9 23716 LO RM CI ONE UP = true) {MT : Nat → Nat}
+private theorem rep_letter (_hc : consts3OK 154 9 23716 LO RM CI ONE UP = true) {MT : Nat → Nat}
     {G GI : Nat → Nat → Nat} {m : Nat}
     (hl : ∀ h < m, Rep (MT (2 * h)) (G h) ∧ Rep (MT (2 * h + 1)) (GI h)) {l : Int}
     (hl0 : l ≠ 0 ∧ l.natAbs ≤ m) : Rep (MT (lcode l)) (CFSG.KS.TW.GZ G GI l) := by
@@ -217,7 +217,7 @@ private theorem rep_letter (hc : consts3OK 154 9 23716 LO RM CI ONE UP = true) {
     have eG : CFSG.KS.TW.GZ G GI (Int.ofNat k) = G (k - 1) := by
       funext y
       unfold CFSG.KS.TW.GZ
-      rw [if_pos (by simp only [Int.ofNat_eq_coe]; omega)]
+      rw [ite_eq_left (by simp only [Int.ofNat_eq_natCast]; omega)]
       rfl
     rw [e, eG]
     exact (hl (k - 1) (by omega)).1
@@ -226,7 +226,7 @@ private theorem rep_letter (hc : consts3OK 154 9 23716 LO RM CI ONE UP = true) {
     have eG : CFSG.KS.TW.GZ G GI (Int.negSucc k) = GI k := by
       funext y
       unfold CFSG.KS.TW.GZ
-      rw [if_neg (by simp [Int.negSucc_lt_zero, le_of_lt])]
+      rw [ite_eq_right (by simp)]
       simp [Int.neg_negSucc]
     rw [e, eG]
     exact (hl k (by omega)).2

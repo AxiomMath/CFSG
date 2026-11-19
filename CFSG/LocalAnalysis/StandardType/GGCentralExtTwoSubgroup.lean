@@ -18,12 +18,12 @@ private theorem sylow_sup_eq_top_of_quotient_isPGroup {G : Type*} [Group G] [Fin
   exact Subgroup.index_eq_one.mp (Nat.eq_one_of_dvd_coprimes hcop hQP (hNindex ▸ hQN))
 
 theorem exists_normal_two_subgroup_of_central_ext {X : Type*} [Group X] [Finite X]
-    {N R U : Subgroup X} (hRN : R ≤ N) (hR : ∀ n ∈ N, ∀ x ∈ R, n * x * n⁻¹ ∈ R)
+    {N R U : Subgroup X} (_hRN : R ≤ N) (hR : ∀ n ∈ N, ∀ x ∈ R, n * x * n⁻¹ ∈ R)
     (hcent : ∀ x ∈ R ⊓ U, ∀ y ∈ R, x * y = y * x)
     (h2 : ∀ y ∈ R, ∃ k : ℕ, y ^ (2 ^ k) ∈ U) :
     ∃ P : Subgroup X, P ≤ R ∧ IsPGroup 2 P ∧ (∀ n ∈ N, ∀ x ∈ P, n * x * n⁻¹ ∈ P) ∧
       R ≤ P ⊔ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup R := (R ⊓ U).subgroupOf R
   have hZcenter : Z ≤ Subgroup.center R := by
     intro z hz
@@ -31,7 +31,7 @@ theorem exists_normal_two_subgroup_of_central_ext {X : Type*} [Group X] [Finite 
     intro y
     exact (Subtype.ext
       (hcent z.1 (show (z : X) ∈ R ⊓ U from hz) y.1 y.2)).symm
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZcenter
+  have : Z.Normal := Subgroup.normal_of_le_center hZcenter
   have hquot : IsPGroup 2 (R ⧸ Z) := by
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective Z q
@@ -39,21 +39,21 @@ theorem exists_normal_two_subgroup_of_central_ext {X : Type*} [Group X] [Finite 
     refine ⟨k, ?_⟩
     rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact ⟨(x ^ 2 ^ k).2, hk⟩
-  haveI : Group.IsNilpotent R := by
-    haveI : Group.IsNilpotent (R ⧸ Z) := hquot.isNilpotent
+  have : Group.IsNilpotent R := by
+    have : Group.IsNilpotent (R ⧸ Z) := hquot.isNilpotent
     exact Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' Z)
       (by rw [QuotientGroup.ker_mk']; exact hZcenter)
   let P0 : Sylow 2 R := Classical.arbitrary _
-  haveI : Finite (Sylow 2 R) := Sylow.finite_of_finiteIndex P0
+  have : Finite (Sylow 2 R) := Sylow.finite_of_finiteIndex P0
   have hP0normal : (P0 : Subgroup R).Normal := inferInstance
-  haveI : Unique (Sylow 2 R) := Sylow.unique_of_normal P0 hP0normal
+  have : Unique (Sylow 2 R) := Sylow.unique_of_normal P0 hP0normal
   have hsuptop : (P0 : Subgroup R) ⊔ Z = ⊤ :=
     sylow_sup_eq_top_of_quotient_isPGroup Z P0 hquot
   let P : Subgroup X := (P0 : Subgroup R).map R.subtype
   have hPR : P ≤ R := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
-  have hP2 : IsPGroup 2 P := P0.isPGroup'.map R.subtype
+  have hP2 : IsPGroup 2 P := P0.isPGroup.map R.subtype
   have hnorm : ∀ n ∈ N, ∀ x ∈ P, n * x * n⁻¹ ∈ P := by
     intro n hn x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx

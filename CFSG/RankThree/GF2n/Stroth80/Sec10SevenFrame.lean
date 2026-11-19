@@ -75,6 +75,7 @@ theorem Good103.exists_two_roots {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n
     hc.hyp.sup_inf_sup_eq hD₁.conj hD₂.conj hne hD₁C hD₂C
       (inf_le_left.trans inf_le_left) hCZ⟩
 
+omit [Finite G] in
 private theorem Sit.exists_root_conj {X : Subgroup G} {y : G} (hsy : Sit M Q Z X y) :
     ∃ g : G, ∃ z ∈ Z, z ≠ 1 ∧ g * z * g⁻¹ = y := by
   obtain ⟨g, hg⟩ := hsy.conj

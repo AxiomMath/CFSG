@@ -21,7 +21,7 @@ theorem ker_eq_bot_of_odd_alt {P : Type*} [Group P] [Finite P] (hP : commutator 
     (hN : 8 ≤ N) (η : P →* alternatingGroup (Fin N)) (hη : Function.Surjective η)
     (hK : η.ker ≤ Subgroup.center P) (hodd : Odd (Nat.card η.ker)) : η.ker = ⊥ := by
   obtain ⟨m, rfl⟩ : ∃ m, N = m + 2 := ⟨N - 2, by omega⟩
-  haveI : Group.IsPerfect P := Group.isPerfect_def.2 hP
+  have : Group.IsPerfect P := Group.isPerfect_def.2 hP
   exact Subgroup.eq_bot_of_card_eq _
     (CFSG.Alternating.Multipliers.card_ker_eq_one_of_odd (by omega) η hη hK hodd)
 
@@ -65,7 +65,7 @@ theorem ker_eq_bot_of_odd_omegaMinus_of_card_dvd
     {P : Type*} [Group P] [Finite P] (hP : commutator P = ⊤)
     (η : P →* ↥(omegaMinusTwo 2)) (hη : Function.Surjective η) (hK : η.ker ≤ Subgroup.center P)
     (hodd : Odd (Nat.card η.ker)) : η.ker = ⊥ := by
-  haveI : Group.IsPerfect P := Group.isPerfect_def.2 hP
+  have : Group.IsPerfect P := Group.isPerfect_def.2 hP
   have hdvd : Nat.card η.ker ∣ 2 :=
     (Subgroup.card_dvd_of_surjective
       (CFSG.RankThree.PerfectCover.hopfMultiplierToKer_surjective η hη hK)).trans hM

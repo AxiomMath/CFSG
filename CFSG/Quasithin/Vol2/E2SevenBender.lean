@@ -57,7 +57,7 @@ theorem sylow_inf_smul_eq_bot {X : Type} [Group X] [Finite X] {q k : ℕ}
     rw [hconj, hN, Subgroup.map_equiv_normalizer_eq]
     exact Subgroup.le_normalizer
   have h2 : IsPGroup 2 ↥((P : Subgroup X) ⊓ ((y • P : Sylow 2 X) : Subgroup X)) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   obtain ⟨m, hm⟩ := h2.exists_card_eq
   have hodd' := hodd.of_dvd_nat (Subgroup.card_dvd_of_le hle)
   rw [hm] at hodd'

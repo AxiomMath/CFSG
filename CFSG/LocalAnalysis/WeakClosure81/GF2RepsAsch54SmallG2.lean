@@ -88,7 +88,7 @@ theorem isSolvable_normalizer_of_g2 [Finite Q] {E : Subgroup Q} [E.Normal]
     exact (congrArg Subtype.val (mem_centralizer_singleton_iff.1 (a * b).2)).symm
   refine isSolvable_normalizer_of_card_le_four hq (natCard_sup_zpowers_le_four hz2 hu2 hzu) ?_
   set B := (centralizer ({a * b} : Set ↥(centralizer ({(⟨z, hzE⟩ : ↥E)} : Set ↥E)))).map φ
-  have : Group.IsSolvable ↥B := solvable_of_surjective (MonoidHom.subgroupMap_surjective φ _)
+  have : Group.IsSolvable ↥B := Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective φ _)
   have hB : ∀ y ∈ E, y ∈ centralizer (V : Set Q) → y ∈ B := by
     intro y hyE hyV
     have hyz : y * z = z * y := ((mem_centralizer_iff.1 hyV) z hzV).symm
@@ -101,7 +101,7 @@ theorem isSolvable_normalizer_of_g2 [Finite Q] {E : Subgroup Q} [E.Normal]
     { toFun := fun x => ⟨x.1.1, hB _ (mem_subgroupOf.1 x.2) x.1.2⟩
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
-  refine solvable_of_solvable_injective (f := g) fun x y h => ?_
+  refine Group.isSolvable_of_isSolvable_injective (f := g) fun x y h => ?_
   have h' : ((g x : ↥B) : Q) = ((g y : ↥B) : Q) := congrArg Subtype.val h
   exact Subtype.ext (Subtype.ext h')
 

@@ -30,7 +30,7 @@ theorem suzukiS_eq_unipotent (m : ℕ) (a b : GaloisField 2 (2 * m + 1)) :
       a ^ 2 * a ^ 2 ^ (m + 1) + a * b + b ^ 2 ^ (m + 1) := by
     rw [CFSG.Blueprint.suzukiN, hv, hA2, hA1, mul_add]
     ring_nf
-    simp [htwo, hthree]
+    simp [hthree]
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [CFSG.Blueprint.suzukiS, hN, TauCeti.Suzuki.unipotentMatrix_apply]

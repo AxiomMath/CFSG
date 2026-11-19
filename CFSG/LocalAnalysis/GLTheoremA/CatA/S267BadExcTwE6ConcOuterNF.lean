@@ -32,7 +32,7 @@ theorem exists_fieldTransport_twistedE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1
         (MulAut.conj : ↥(twistedE6RootGroup K σ) →* MulAut ↥(twistedE6RootGroup K σ)).range ∧
       Function.Injective φ' ∧ φ'.range = S ∧
       ∀ x, b * φ' x * b⁻¹ = φ' (fieldActor σ ε x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβk : ∀ k : ℕ, ∀ x, φ ((β ^ k) x) = b ^ k * φ x * (b ^ k)⁻¹ := by
     intro k
     induction k with
@@ -96,7 +96,7 @@ theorem concA_of_twistedE6_of_outer_of_modelBGen {K : Type} [Field K] [Finite K]
   have hφS : φ.range = S := by
     rw [hφdef, MonoidHom.range_comp, MonoidHom.range_eq_top.2 (eX.trans eS).surjective,
       ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_injective φ hφ
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_injective φ hφ
   have hZX : Subgroup.center ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) = ⊥ :=
     center_graphFixedRootGroup_eq_bot (unitaryInvolution K ℓ f).surjective
   obtain ⟨b, hb, β, hβ, hβφ⟩ := exists_outer_mem_of_card hp hS hcore hB hBc hBC φ hφ hφS hZX hX

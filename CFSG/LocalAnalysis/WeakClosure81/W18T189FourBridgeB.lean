@@ -264,9 +264,9 @@ theorem pglb_isPerfect_of_isL2_seven {Q : Type} [Group Q] {L : Subgroup Q}
     (hL : F6.IsL2 7 1 ↥L) : ⁅L, L⁆ = L := by
   have hcard : Nat.card ↥L = 168 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_seven hL
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hshape : Socle185Shape ↥L := Or.inr (Or.inr hL)
-  haveI : IsSimpleGroup ↥L := hshape.isSimpleGroup
+  have : IsSimpleGroup ↥L := hshape.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hshape.exists_not_commute
   rcases Subgroup.Normal.eq_bot_or_eq_top (commutator ↥L) with hbot | htop
   · exfalso

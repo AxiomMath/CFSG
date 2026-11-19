@@ -40,12 +40,12 @@ namespace Hyp
 
 theorem linearShape (h : Hyp X S)
     (hwc : CFSG.CGT.Timmesfeld75.IsWC (S.map (QuotientGroup.mk' (Subgroup.center X))))
-    {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f)
+    {n f : ℕ} (hn : 3 ≤ n) (_hf : 1 ≤ f)
     (hL : StatedClassicalModel (X ⧸ Subgroup.center X) .PSL n 2 f) :
     SevenElevenLinearShape X S := by
   have hLc := hL
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hL
-  haveI : CharP K 2 := CFSG.CGT.Timmesfeld75.charP_two_of_card hK
+  have : CharP K 2 := CFSG.CGT.Timmesfeld75.charP_two_of_card hK
   have hSne : S.map (QuotientGroup.mk' (Subgroup.center X)) ≠ ⊥ := by
     intro hbot
     have h1 : Nat.card (S.map (QuotientGroup.mk' (Subgroup.center X))) = 1 := by

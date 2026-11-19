@@ -13,6 +13,7 @@ open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.Steinberg
 variable {K S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite S] in
 private theorem map_map_symm_mulAut (α : MulAut S) (X : Subgroup S) :
     (X.map α.toMonoidHom).map α.symm.toMonoidHom = X := by
   rw [Subgroup.map_map]
@@ -20,6 +21,7 @@ private theorem map_map_symm_mulAut (α : MulAut S) (X : Subgroup S) :
     MonoidHom.ext fun x => MulEquiv.symm_apply_apply α x
   rw [hid, Subgroup.map_id]
 
+omit [Finite S] in
 private theorem map_symm_map_mulAut (α : MulAut S) (X : Subgroup S) :
     (X.map α.symm.toMonoidHom).map α.toMonoidHom = X := by
   rw [Subgroup.map_map]
@@ -27,12 +29,14 @@ private theorem map_symm_map_mulAut (α : MulAut S) (X : Subgroup S) :
     MonoidHom.ext fun x => MulEquiv.apply_symm_apply α x
   rw [hid, Subgroup.map_id]
 
+omit [Finite S] in
 private theorem map_mulAut_injective (α : MulAut S) {X Y : Subgroup S}
     (e : X.map α.toMonoidHom = Y.map α.toMonoidHom) : X = Y :=
   calc X = (X.map α.toMonoidHom).map α.symm.toMonoidHom := (map_map_symm_mulAut α X).symm
     _ = (Y.map α.toMonoidHom).map α.symm.toMonoidHom := by rw [e]
     _ = Y := map_map_symm_mulAut α Y
 
+omit [Finite S] in
 theorem isMinOverBorel_map_of_map_eq (α : MulAut S) {T A : Subgroup S}
     (hT : T.map α.toMonoidHom = T) (hA : IsMinOverBorel (⊤ : Subgroup S) T A) :
     IsMinOverBorel (⊤ : Subgroup S) T (A.map α.toMonoidHom) := by
@@ -75,6 +79,7 @@ theorem isMinOverBorel_map_of_map_eq (α : MulAut S) {T A : Subgroup S}
       calc Q = (Q.map α.symm.toMonoidHom).map α.toMonoidHom := (map_symm_map_mulAut α Q).symm
         _ = A.map α.toMonoidHom := by rw [e]
 
+omit [Finite S] in
 private theorem exists_map_parJ_mulAut (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     ∃ i, ((parJ D H {j}).map π).map α.toMonoidHom = (parJ D H {i}).map π :=
@@ -85,11 +90,13 @@ private noncomputable def nodeImg (h : BorelQuotient D n H π M) (α : MulAut S)
     Fin D.rank :=
   Classical.choose (exists_map_parJ_mulAut h α hα j)
 
+omit [Finite S] in
 private theorem nodeImg_spec (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     ((parJ D H {j}).map π).map α.toMonoidHom = (parJ D H {nodeImg h α hα j}).map π :=
   Classical.choose_spec (exists_map_parJ_mulAut h α hα j)
 
+omit [Finite S] in
 private theorem nodeImg_injective (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) :
     Function.Injective (nodeImg h α hα) := by
@@ -104,17 +111,20 @@ noncomputable def nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     Equiv.Perm (Fin D.rank) :=
   Equiv.ofBijective (nodeImg h α hα) (Finite.injective_iff_bijective.1 (nodeImg_injective h α hα))
 
+omit [Finite S] in
 private theorem nodePerm_apply (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     nodePerm h α hα j = nodeImg h α hα j :=
   rfl
 
+omit [Finite S] in
 theorem map_parJ_singleton_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     ((parJ D H {j}).map π).map α.toMonoidHom = (parJ D H {nodePerm h α hα j}).map π := by
   rw [nodePerm_apply]
   exact nodeImg_spec h α hα j
 
+omit [Finite S] in
 theorem nodePerm_eq_iff (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j k : Fin D.rank) :
     nodePerm h α hα j = k ↔
@@ -126,6 +136,7 @@ theorem nodePerm_eq_iff (h : BorelQuotient D n H π M) (α : MulAut S)
   · intro e
     exact parJ_map_injective h ((nodeImg_spec h α hα j).symm.trans e)
 
+omit [Finite K] in
 private theorem parJ_eq_sup_iSup_singleton (J : Set (Fin D.rank)) :
     parJ D H J = borel D H ⊔ ⨆ j ∈ J, parJ D H {j} := by
   have hsingle : ∀ j : Fin D.rank, parJ D H {j} = borel D H ⊔ rankOne D.rootGroup j := by
@@ -141,12 +152,14 @@ private theorem parJ_eq_sup_iSup_singleton (J : Set (Fin D.rank)) :
     rw [hsingle j]
     exact sup_le (borel_le_parJ J) (rankOne_le_parJ hj)
 
+omit [Finite S] [Finite K] in
 private theorem map_parJ_eq_sup (J : Set (Fin D.rank)) :
     (parJ D H J).map π = (borel D H).map π ⊔ ⨆ j ∈ J, (parJ D H {j}).map π := by
   rw [parJ_eq_sup_iSup_singleton J, Subgroup.map_sup]
   congr 1
   simp only [Subgroup.map_iSup]
 
+omit [Finite S] in
 theorem map_parJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (J : Set (Fin D.rank)) :
@@ -159,6 +172,7 @@ theorem map_parJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
   simp only [Subgroup.map_iSup]
   exact iSup_congr fun j => iSup_congr fun _ => map_parJ_singleton_nodePerm h α hα j
 
+omit [Finite S] in
 theorem map_unipJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (J : Set (Fin D.rank)) :
@@ -167,16 +181,19 @@ theorem map_unipJ_nodePerm (h : BorelQuotient D n H π M) (α : MulAut S)
     ← CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.ChevGen.pElementSubgroup_map_equiv α,
     map_parJ_nodePerm h α hα J]
 
+omit [Finite S] in
 private theorem mulAut_toMonoidHom_mul (α β : MulAut S) :
     (α * β).toMonoidHom = α.toMonoidHom.comp β.toMonoidHom :=
   MonoidHom.ext fun _ => rfl
 
+omit [Finite K] [Finite S] in
 theorem posUnipotent_map_mulAut_mul (α β : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (hβ : ((posUnipotent D).map π).map β.toMonoidHom = (posUnipotent D).map π) :
     ((posUnipotent D).map π).map (α * β).toMonoidHom = (posUnipotent D).map π := by
   rw [mulAut_toMonoidHom_mul, ← Subgroup.map_map, hβ, hα]
 
+omit [Finite S] in
 theorem nodePerm_mul (h : BorelQuotient D n H π M) (α β : MulAut S)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (hβ : ((posUnipotent D).map π).map β.toMonoidHom = (posUnipotent D).map π) :
@@ -193,6 +210,7 @@ theorem nodePerm_mul (h : BorelQuotient D n H π M) (α β : MulAut S)
   MonoidHom.mk' (fun α => nodePerm h α.1 (h𝒜 α.1 α.2)) fun α β =>
     nodePerm_mul h α.1 β.1 (h𝒜 α.1 α.2) (h𝒜 β.1 β.2)
 
+omit [Finite S] in
 theorem nodeHom_apply (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut S))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (α : ↥𝒜) (j : Fin D.rank) :

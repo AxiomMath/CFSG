@@ -213,7 +213,7 @@ theorem exists_lift (y : Cd) (hy : orderOf y = 3) :
   have hy3' : y * y * y = 1 := by rw [← pow_three']; exact hy3
   obtain ⟨t, ht⟩ : rho y ∈ pi22.range := by rw [← range_rho]; exact ⟨y, rfl⟩
   refine ⟨t, ?_, ht, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · apply pi22_injective
       rw [map_pow, ht, ← map_pow, hy3, map_one, map_one]

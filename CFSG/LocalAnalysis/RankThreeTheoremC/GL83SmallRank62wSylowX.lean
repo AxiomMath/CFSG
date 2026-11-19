@@ -18,9 +18,9 @@ theorem sr630e_exists_rank_three_of_sylow {p : ℕ} [Fact p.Prime] (P R : Sylow 
     ∃ A : Subgroup G, A ≤ (R : Subgroup G) ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 3 := by
   obtain ⟨A, hAP, hAe, hAc⟩ := hA
   have hPs : IsSylowOf p (P : Subgroup G) ⊤ := isSylowOf_iff.mpr
-    ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hRs : IsSylowOf p (R : Subgroup G) ⊤ := isSylowOf_iff.mpr
-    ⟨le_top, R.isPGroup', by rw [Subgroup.relIndex_top_right]; exact R.not_dvd_index⟩
+    ⟨le_top, R.isPGroup, by rw [Subgroup.relIndex_top_right]; exact R.not_dvd_index⟩
   obtain ⟨g, -, hg⟩ := hPs.exists_mem_conj hRs
   refine ⟨A.map (MulAut.conj g).toMonoidHom, ?_, sr630e_isElemAbelian_map hAe _, ?_⟩
   · rintro _ ⟨a, ha, rfl⟩
@@ -158,7 +158,7 @@ theorem sr630e_zpowers_isSylowOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : S
           _ = q ^ ((p : ℤ) * j) := by rw [mul_comm]
           _ = (q ^ (p : ℤ)) ^ j := zpow_mul q p j
           _ = (q ^ p) ^ j := by rw [zpow_natCast]
-      exact sr630b_not_pow_of_rank hp hp2 R.isPGroup' hxp (hWR (W.zpow_mem hq.1 j)) hroot hAR hCx
+      exact sr630b_not_pow_of_rank hp hp2 R.isPGroup hxp (hWR (W.zpow_mem hq.1 j)) hroot hAR hCx
   have hQx : W ⊓ C = zpowers x :=
     le_antisymm (fun q hq => key _ q hq rfl) (zpowers_le.mpr hxQ)
   rw [← hQx]

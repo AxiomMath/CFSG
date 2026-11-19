@@ -50,7 +50,7 @@ private lemma sframe_Z_le_F {Γ : Type} [Group Γ] (fr : SFrame Γ) : fr.Z ≤ f
 
 private theorem s3_A_le_normIn_F (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : s.fr.A ≤ normIn L s.fr.F := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
   have hAS : s.fr.A ≤ s.fr.S := s3_A_le_S s
   have hFS : s.fr.F ≤ s.fr.S := (s3_F_le_A s).trans hAS
@@ -91,7 +91,7 @@ private theorem s3_A_le_normIn_F (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(ce
 
 theorem lf18_5a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_5a s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h5 := s.facts.2.2.2.2.2.2.2.1.2.2.2.2
   obtain ⟨h5a, -, -, -, -⟩ := h5
   have hFS : s.fr.F ≤ s.fr.S := (s3_F_le_A s).trans (s3_A_le_S s)
@@ -113,7 +113,7 @@ theorem lf18_5a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_5b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_5b s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h5 := s.facts.2.2.2.2.2.2.2.1.2.2.2.2
   obtain ⟨-, h5b, -, -, -⟩ := h5
   have hFS : s.fr.F ≤ s.fr.S := (s3_F_le_A s).trans (s3_A_le_S s)
@@ -139,7 +139,7 @@ theorem lf18_5b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_5c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_5c s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h5 := s.facts.2.2.2.2.2.2.2.1.2.2.2.2
   obtain ⟨-, -, h5c, -, -⟩ := h5
   have hFS : s.fr.F ≤ s.fr.S := (s3_F_le_A s).trans (s3_A_le_S s)
@@ -157,7 +157,7 @@ theorem lf18_5c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_5e_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_5e s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h5 := s.facts.2.2.2.2.2.2.2.1.2.2.2.2
   obtain ⟨-, -, -, h5d, -⟩ := h5
   have hAS : s.fr.A ≤ s.fr.S := s3_A_le_S s

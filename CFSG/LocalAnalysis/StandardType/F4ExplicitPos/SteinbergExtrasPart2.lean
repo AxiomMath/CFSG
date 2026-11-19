@@ -59,6 +59,7 @@ theorem f4_steinbergExtras_without117 :
       (iSup₂_le fun γ hγ => rootGroup_le_unipN (rootOperatorFamily Tag.F4) htHom hγ.2)).trans
       (iSup_torus_inf_unipN htHom).le)
 
+omit [CharP K 2] in
 theorem f4_bruhatExtras_without117 :
     BruhatExtras (f4Datum K) (torus (τ := Tag.F4) K) where
   borel_inf_negUnipotent := eq_bot_iff.2 ((inf_le_inf
@@ -69,6 +70,7 @@ theorem f4_bruhatExtras_without117 :
       rw [AddMonoidHom.neg_apply, htHom_apply]
       exact neg_pos.2 hγ.2))).trans (tri_inf_unip_negN htHom).le)
 
+omit [CharP K 2] in
 theorem f4_rootGroupCommutators_without117 :
     RootGroupCommutators (f4Datum K) := by
   refine RootGroupCommutators.of_divisible_eq_empty (D := f4Datum K) rfl fun γ hγ x hx y hy => ?_

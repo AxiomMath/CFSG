@@ -24,7 +24,7 @@ theorem exists_noncyclic_cent_of_perfect_bar (D : Data G) {p : ℕ} (hpp : p.Pri
     (hpP₀ : p ∣ Nat.card P₀) (hpker : p ∣ Nat.card (F11.CTilde D.M V₀ V)) :
     ∃ X : Subgroup G, X ≤ D.M ⊓ centralizer ({x.val} : Set G) ∧ IsPGroup p X ∧ ¬ IsCyclic X := by
   classical
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have h113 : ∃ n ≤ 2, (D.M ⊓ centralizer ({x.val} : Set G)).relIndex
       (F11.CElt D.M V₀ x.val) = 2 ^ n := by
     rcases hcase with rfl | h
@@ -82,7 +82,7 @@ theorem exists_noncyclic_cent_of_perfect_bar (D : Data G) {p : ℕ} (hpp : p.Pri
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCT_le).toEquiv
     rw [hcard]
     exact hpker
-  haveI : Group.IsPerfect ↥P₀ := hperf
+  have : Group.IsPerfect ↥P₀ := hperf
   have hperf' : Group.IsPerfect ↥(P₀.subgroupOf
       (ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV x))) :=
     Group.IsPerfect.ofSurjective
@@ -117,7 +117,7 @@ theorem pRank_le_pRank_mbar_of_not_dvd {M V₀ V : Subgroup G} (hV : IsElemAbeli
     (actTil V₀ V hV).comp (Subgroup.inclusion (le_stabTil hP.le_normalizer hP.le_normalizer₀))
   let fE : ↥E →* MulAut (Vtil V₀ V hV) := f.comp (Subgroup.inclusion hEM)
   have hcomm : ∀ a b : ↥E, a * b = b * a := by
-    haveI : IsMulCommutative ↥E := hE.1
+    have : IsMulCommutative ↥E := hE.1
     exact fun a b => mul_comm' a b
   have hpow : ∀ a : ↥E, a ^ p = 1 := fun a =>
     Subtype.ext (by simpa using hE.2 (a : G) a.2)

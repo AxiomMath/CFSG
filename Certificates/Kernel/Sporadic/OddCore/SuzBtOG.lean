@@ -49,7 +49,7 @@ theorem le_norm_of_gens {n k m : Nat} {cg mg : Nat → Equiv.Perm (Fin n)}
   | mem y hy =>
     obtain ⟨l, hl, rfl⟩ := hy
     exact h j hj l hl
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     have e : (cg j)⁻¹ * (a * b) * cg j = ((cg j)⁻¹ * a * cg j) * ((cg j)⁻¹ * b * cg j) := by
       group
@@ -149,9 +149,9 @@ theorem conj_facts {g : Equiv.Perm (Fin 1782)} (hg : g ∈ genSub 1782 2 ngp) :
     rw [h]
     exact Subgroup.one_mem _
 
-theorem hX : ∀ y ∈ genSub 1782 8 mgp, ∀ g ∈ genSub 1782 2 ngp,
-    (∀ t, y (c1Base t) = (g * wP * g⁻¹) (c1Base t)) → y = g * wP * g⁻¹ :=
-  fun y hy g hg e => invE1_ext (m1_le hy)
+theorem hX : ∀ _y ∈ genSub 1782 8 mgp, ∀ _g ∈ genSub 1782 2 ngp,
+    (∀ t, _y (c1Base t) = (_g * wP * _g⁻¹) (c1Base t)) → _y = _g * wP * _g⁻¹ :=
+  fun _y hy _g hg e => invE1_ext (m1_le hy)
     (Subgroup.mul_mem _ (Subgroup.mul_mem _ (nl1_le hg) w_mem) (Subgroup.inv_mem _ (nl1_le hg))) e
 
 theorem card_orb_ge : 288 ≤ Nat.card {x : Equiv.Perm (Fin 1782) |

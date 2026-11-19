@@ -195,7 +195,7 @@ private theorem rckCov_rationalComponent_eq_rangeT
         exact Subtype.ext (hιinj (by simpa using h4)))
   refine ⟨f, hf1, hf2, fun hperf => hf3 (Subgroup.isPerfect_iff.2 hperf), ?_⟩
   intro hs1 x
-  haveI : Subsingleton (ZMod s) := ZMod.subsingleton_iff.2 hs1
+  have : Subsingleton (ZMod s) := ZMod.subsingleton_iff.2 hs1
   rw [hform x, rckCov_norm_eq_self_of_subsingleton P (θ.codRestrict (P.S 0) hθS0 x)]
   rfl
 
@@ -233,12 +233,12 @@ theorem rckInnerCoverExplicit
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨σ, z, hσ, hzZ, hnorm, hz⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.exists_untwistT_Z S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP GGL r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP GGL r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.finite_card_fixSubfield

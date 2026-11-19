@@ -64,8 +64,8 @@ theorem indLin_eq_of_rep_ind
             (FDRep.ofLinearChar (k := k) ψ)
        let τind : Rep k G := Rep.ind H.subtype A
        have h_fin_τ : Module.Finite k τind.V := by
-         letI : Fintype G := Fintype.ofFinite G
-         haveI : Module.Finite k A.V := by
+         let : Fintype G := Fintype.ofFinite G
+         have : Module.Finite k A.V := by
            change Module.Finite k (FDRep.ofLinearChar (k := k) ψ)
            infer_instance
          exact Module.Finite.of_surjective

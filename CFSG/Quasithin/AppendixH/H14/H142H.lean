@@ -167,7 +167,7 @@ theorem rhoH_pretransitive : MulAction.IsPretransitive (↥rhoH.range) (Fin 7) :
     rw [Equiv.Perm.mul_apply, ← hjx, hinv, hjy]
 
 theorem rhoH_isPreprimitive : MulAction.IsPreprimitive (↥rhoH.range) (Fin 7) := by
-  haveI := rhoH_pretransitive
+  have := rhoH_pretransitive
   exact MulAction.IsPreprimitive.of_prime_card (by simpa using Nat.prime_seven)
 
 theorem rhoH_h3_fix (x : Fin 24) (hx : x ∈ stdH) (h11 : x ≠ (11 : Fin 24))
@@ -396,8 +396,8 @@ theorem stdEH_selfCentralizing :
           rw [hcomm']
       _ = (↑(g * n * g⁻¹) : S24) * e := by
           simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group
-  haveI : (C.map π).Normal := hCnormal.map π hsurj
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (C.map π).Normal := hCnormal.map π hsurj
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   have hxmem : (⟨g, hg⟩ : ↥stdMH) ∈ C := by
     rw [hCmem, Subgroup.mem_centralizer_iff]
     exact fun e he => (hcomm e he).symm

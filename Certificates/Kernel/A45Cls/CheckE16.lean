@@ -70,7 +70,7 @@ theorem omegaCE16_model :
   let V : Subgroup P45 := S.map (MulAut.conj g⁻¹).toMonoidHom
   have hmem : ∀ x, x ∈ V ↔ ∃ y ∈ S, g⁻¹ * y * g = x := by
     intro x
-    simp [V, Subgroup.mem_map, MulAut.conj_apply]
+    simp [V, Subgroup.mem_map]
   have hfix : ∀ y : P45, fixC (g⁻¹ * y * g) = fixCnt y := by
     intro y
     have h := fixC_conj y g⁻¹

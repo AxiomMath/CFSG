@@ -105,14 +105,14 @@ theorem derived_le_of_two {G : Type} [Group G] [Finite G] (h4 : CatCentFour)
     (hcent : centralizer (S : Set G) = ⊥) {t v : G} {J : Subgroup G} (h : TwoCfg t v J) :
     centralizerDerived t ≤ S := by
   classical
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   by_contra hnot
   obtain ⟨e⟩ := h.hJ
   have hPeq : centralizerDerived t = (alternatingGroup (Fin 5)).map (embJ J e) := by
     rw [h.centralizerDerived_eq htop, commutator_eq_map_alt J e]
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := rhyp_perm5.simple
-  haveI hPsimple : IsSimpleGroup ↥(centralizerDerived t) := by
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := rhyp_perm5.simple
+  have hPsimple : IsSimpleGroup ↥(centralizerDerived t) := by
     rw [hPeq]
     exact (Subgroup.equivMapOfInjective _ _ (embJ_injective J e)).symm.isSimpleGroup
   have hPS : ∀ x ∈ centralizerDerived t, x ∈ S → x = 1 := by
@@ -213,7 +213,7 @@ theorem fivePumpOutcome_two {G : Type} [Group G] [Finite G] (hleaf : FivePumpLea
     (hnab : ∃ a b : ↥S, a * b ≠ b * a) (hcat : Blueprint.Catalog ↥S)
     (hcent : centralizer (S : Set G) = ⊥) {t v : G} {J : Subgroup G} (h : TwoCfg t v J) :
     FivePumpOutcome ↥S := by
-  haveI := hSn
+  have := hSn
   refine fivePumpOutcome_of_derived hleaf hS hnab hcat hcent h.ht
     (derived_le_of_two h4 hSn hS hnab hcat hcent h) ?_
   obtain ⟨e⟩ := h.hJ

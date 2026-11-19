@@ -132,9 +132,9 @@ theorem normalizer_zpowers_le_normalizer [Finite G] {b₀ : G} {K A : Subgroup G
     intro k hk x hx
     exact ⟨K.mul_mem (K.mul_mem hk hx.1) (K.inv_mem hk),
       (Subgroup.le_normalizer_iff.mp hKK' k hk x hx.2)⟩
-  haveI hHn : ((K ⊓ K').subgroupOf K).Normal :=
+  have hHn : ((K ⊓ K').subgroupOf K).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hKnorm
-  haveI : IsSimpleGroup ↥K := hKs
+  have : IsSimpleGroup ↥K := hKs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((K ⊓ K').subgroupOf K) with hbot | htop
   · have hdisj : K ⊓ K' = ⊥ := by
       have hd : Disjoint (K ⊓ K') K := Subgroup.subgroupOf_eq_bot.mp hbot

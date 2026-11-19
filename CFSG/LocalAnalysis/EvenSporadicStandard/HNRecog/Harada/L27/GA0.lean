@@ -33,6 +33,7 @@ private theorem toW_proof_irrel (h : Setting25 G t z z₁ ι zv R0 F) {x : G}
     (h1 h2 : x ∈ Rgrp h) : toW h x h1 = toW h x h2 :=
   congrArg (toW h x) (Subsingleton.elim h1 h2)
 
+omit [Finite G] in
 theorem z_mem_Cgrp (h : Setting25 G t z z₁ ι zv R0 F) : z ∈ Cgrp ι zv := by
   rw [← h.coord_z]
   exact (coordElt_mem_Cgrp h.injective_ι).mpr (bil_self zv)

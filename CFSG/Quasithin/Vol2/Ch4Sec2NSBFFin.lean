@@ -43,6 +43,7 @@ theorem exists_flip_group (h22 : ASC22Three G) (hc : Conf4212 G T M L I H K) (hI
   rw [hcc, hTeq] at this
   exact this.symm
 
+omit [Finite G] in
 theorem coG_conjK (D : StdData G T L I K m k n j)
     (hKU : ∀ x : ↥K, ∀ z ∈ uZero I K, (x : G) * z * (x : G)⁻¹ ∈ uZero I K) (x : ↥K) {z : G}
     (hz : z ∈ uZero I K) :
@@ -63,6 +64,7 @@ variable {D : StdData G T L I K m k n j}
 
 include hKU hCF
 
+omit [Finite G] in
 theorem z1_pure
     (hκ : ∀ a : Fin n → ZMod 2, (∀ b : Fin n, m ≤ b.val → a b = 0) →
       ((D.α κ : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)).mulVec a ∈ U)
@@ -112,6 +114,7 @@ theorem z1_pure
   rw [h1, Matrix.one_mulVec]
 
 
+omit [Finite G] in
 theorem z1_conj_B
     (hκ : ∀ a : Fin n → ZMod 2, (∀ b : Fin n, m ≤ b.val → a b = 0) →
       ((D.α κ : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)).mulVec a ∈ U)
@@ -134,7 +137,7 @@ theorem z1_conj_B
       obtain ⟨hU', hc'⟩ := z1_pure hKU hCF κ kk hκ hkk hz₁ ha x
       exact ⟨zEn D (tens a x), zEn_mem D _, coG_zEn D _, hU', by rw [hc', twistM_tens]⟩
     | zero =>
-      refine ⟨1, one_mem _, coG_one D, by simpa using one_mem _, ?_⟩
+      refine ⟨1, one_mem _, coG_one D, by simp, ?_⟩
       have h1 : z₁ * (1 : G) * z₁⁻¹ = 1 := by group
       rw [h1, coG_one D, twistM_zero]
     | add Y₁ Y₂ _ _ ih₁ ih₂ =>
@@ -167,7 +170,7 @@ theorem z1_conj_B
         intro h
         subst h
         exact hb hb'
-      simp [Pi.single_apply, hne]
+      simp [hne]
   obtain ⟨c', hc', hcc', hU', hc''⟩ := hP _ hYB
   have hcc : c' = c := coG_injOn D hc' hcU hcc'
   subst hcc
@@ -249,7 +252,7 @@ theorem false_of_flip_data (h323 : Lemma323') (hd : NoSumBigData G T M L Mm I H 
         intro h
         subst h
         simp at hb
-      simp [ha₁, Pi.single_apply, hne]
+      simp [ha₁, hne]
     obtain ⟨v₁, hv₁V, hv₁c⟩ := hV₁ a₁ ha₁A
     refine ⟨v₁, hv₁V, fun heq => ?_⟩
     obtain ⟨hzU, hzc⟩ := hconj v₁ (hVU hv₁V) (hVB v₁ hv₁V)

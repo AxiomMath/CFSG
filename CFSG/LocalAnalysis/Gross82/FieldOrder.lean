@@ -41,7 +41,7 @@ private theorem cube_sub_one_val {x : ℕ} (hx : 2 ≤ x) :
       padicValNat 3 (x - 1) + if 3 ∣ x - 1 then 1 else 0 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hdiv : 3 ∣ x - 1
-  · rw [if_pos hdiv]
+  · rw [ite_eq_left hdiv]
     have hnx : ¬ 3 ∣ x := by omega
     have h := padicValNat.pow_sub_pow (p := 3) (by decide) (x := x) (y := 1)
       (by omega) hdiv hnx (n := 3) (by decide)
@@ -51,7 +51,7 @@ private theorem cube_sub_one_val {x : ℕ} (hx : 2 ≤ x) :
       omega
     have hm := cube_mod_three x
     have hdiv' : ¬ 3 ∣ x ^ 3 - 1 := by omega
-    rw [if_neg hdiv, padicValNat.eq_zero_of_not_dvd hdiv,
+    rw [ite_eq_right hdiv, padicValNat.eq_zero_of_not_dvd hdiv,
       padicValNat.eq_zero_of_not_dvd hdiv']
 
 private theorem cube_add_one_val (x : ℕ) :
@@ -59,14 +59,14 @@ private theorem cube_add_one_val (x : ℕ) :
       padicValNat 3 (x + 1) + if 3 ∣ x + 1 then 1 else 0 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hdiv : 3 ∣ x + 1
-  · rw [if_pos hdiv]
+  · rw [ite_eq_left hdiv]
     have hnx : ¬ 3 ∣ x := by omega
     have h := padicValNat.pow_add_pow (p := 3) (by decide) (x := x) (y := 1)
       hdiv hnx (n := 3) (by decide)
     simpa [padicValNat_self] using h
   · have hm := cube_mod_three x
     have hdiv' : ¬ 3 ∣ x ^ 3 + 1 := by omega
-    rw [if_neg hdiv, padicValNat.eq_zero_of_not_dvd hdiv,
+    rw [ite_eq_right hdiv, padicValNat.eq_zero_of_not_dvd hdiv,
       padicValNat.eq_zero_of_not_dvd hdiv']
 
 private theorem minus_factor_cube {s i : ℕ} (hs : 2 ≤ s) (hi : 0 < i) :
@@ -161,9 +161,9 @@ private theorem numerator_psu_cube {s n : ℕ} (hs : 2 ≤ s) :
     rw [← Finset.sum_add_distrib]
     refine Finset.sum_congr rfl fun i hi => ?_
     by_cases he : Even i
-    · simp only [if_pos he]
+    · simp only [ite_eq_left he]
       exact minus_factor_cube hs (by have := (mem_Icc.mp hi).1; omega)
-    · simp only [if_neg he]
+    · simp only [ite_eq_right he]
       exact plus_factor_cube _ _
   rw [hsum]
   ring
@@ -175,7 +175,7 @@ private theorem sum_psl_mod_one {s n : ℕ} (hs : 2 ≤ s) (hm : s % 3 = 1) :
     refine Finset.sum_congr rfl fun i hi => ?_
     have hp := pow_mod_three_one hm i
     have hpos : 1 ≤ s ^ i := Nat.one_le_pow _ _ (by omega)
-    rw [if_pos (by omega : 3 ∣ s ^ i - 1)]
+    rw [ite_eq_left (by omega : 3 ∣ s ^ i - 1)]
   rw [hsum, Finset.sum_const, Nat.card_Icc]
   simp only [smul_eq_mul, mul_one]
   omega
@@ -188,13 +188,13 @@ private theorem sum_psu_mod_two {s n : ℕ} (hs : 2 ≤ s) (hm : s % 3 = 2) :
       ∑ i ∈ Icc 2 n, (1 : ℕ) := by
     refine Finset.sum_congr rfl fun i hi => ?_
     by_cases he : Even i
-    · simp only [if_pos he]
+    · simp only [ite_eq_left he]
       have hp := even_pow_mod_three_two hm he
       have hpos : 1 ≤ s ^ i := Nat.one_le_pow _ _ (by omega)
-      rw [if_pos (by omega : 3 ∣ s ^ i - 1)]
-    · simp only [if_neg he]
+      rw [ite_eq_left (by omega : 3 ∣ s ^ i - 1)]
+    · simp only [ite_eq_right he]
       have hp := odd_pow_mod_three_two hm (Nat.not_even_iff_odd.mp he)
-      rw [if_pos (by omega : 3 ∣ s ^ i + 1)]
+      rw [ite_eq_left (by omega : 3 ∣ s ^ i + 1)]
   rw [hsum, Finset.sum_const, Nat.card_Icc]
   simp only [smul_eq_mul, mul_one]
   omega
@@ -214,7 +214,7 @@ private theorem sum_psl_pos {s n : ℕ} (hs : 2 ≤ s) (hn : 2 ≤ n) (h3 : ¬ 3
   have hdiv : 3 ∣ s ^ 2 - 1 := by omega
   have h := Finset.single_le_sum (f := fun i => if 3 ∣ s ^ i - 1 then 1 else 0)
     (fun i _ => Nat.zero_le _) (show 2 ∈ Icc 2 n by simp [hn])
-  simpa only [if_pos hdiv] using h
+  simpa only [ite_eq_left hdiv] using h
 
 private theorem sum_psu_pos {s n : ℕ} (hs : 2 ≤ s) (hn : 2 ≤ n) (h3 : ¬ 3 ∣ s) :
     1 ≤ ∑ i ∈ Icc 2 n,
@@ -227,7 +227,7 @@ private theorem sum_psu_pos {s n : ℕ} (hs : 2 ≤ s) (hn : 2 ≤ n) (h3 : ¬ 3
   have h := Finset.single_le_sum
     (f := fun i => if 3 ∣ (if Even i then s ^ i - 1 else s ^ i + 1) then 1 else 0)
     (fun i _ => Nat.zero_le _) (show 2 ∈ Icc 2 n by simp [hn])
-  simpa only [show Even 2 from by decide, if_pos, if_pos hdiv] using h
+  simpa only [show Even 2 from by decide, ite_eq_left, ite_eq_left hdiv] using h
 
 theorem padicValNat_three_lieOrder_psl_cube_lt {s n : ℕ} (hs : 2 ≤ s) (hn : 2 ≤ n) :
     padicValNat 3 (lieOrderNumerator .PSL n s) +

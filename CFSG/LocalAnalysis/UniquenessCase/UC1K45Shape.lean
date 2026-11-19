@@ -14,14 +14,14 @@ variable {p : ℕ} {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
 theorem uc45_quotient_pPrimeCore_isPerfect (c : Front45 p G D) :
     Group.IsPerfect (G ⧸ CFSG.pPrimeCore 3 G) := by
-  haveI : Group.IsPerfect G := ⟨c.perfect⟩
+  have : Group.IsPerfect G := ⟨c.perfect⟩
   infer_instance
 
 theorem uc45_quotient_pPrimeCore_nonabelian (c : Front45 p G D) :
     ∃ a b : G ⧸ CFSG.pPrimeCore 3 G, a * b ≠ b * a := by
-  haveI : IsSimpleGroup (G ⧸ CFSG.pPrimeCore 3 G) :=
+  have : IsSimpleGroup (G ⧸ CFSG.pPrimeCore 3 G) :=
     isSimpleGroup_quotient_pPrimeCore (D := D) c.card_three c.gen c.rank
-  haveI : Group.IsPerfect (G ⧸ CFSG.pPrimeCore 3 G) :=
+  have : Group.IsPerfect (G ⧸ CFSG.pPrimeCore 3 G) :=
     uc45_quotient_pPrimeCore_isPerfect c
   by_contra h
   simp only [not_exists, not_not] at h
@@ -30,7 +30,7 @@ theorem uc45_quotient_pPrimeCore_nonabelian (c : Front45 p G D) :
 
 theorem uc45_quotient_pPrimeCore_pRank (c : Front45 p G D) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (G ⧸ CFSG.pPrimeCore 3 G)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (CFSG.pPrimeCore 3 G)) :=
     CFSG.pPrimeCore_coprime_card (p := 3) (G := G)
   rw [CFSG.SectionRank.pRank_quotient_eq (p := 3) (G := G) (N := CFSG.pPrimeCore 3 G)
@@ -59,6 +59,7 @@ theorem uc45_card_D_map_pPrimeCore (c : Front45 p G D)
               (QuotientGroup.quotientMulEquivOfEq hW).injective
       _ = 3 := uc45_card_D_map c.toPre45
 
+omit [Finite G] in
 theorem uc45_map_conj_mk' (g : G) :
     (D.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 G))).map
         (MulAut.conj (QuotientGroup.mk' (CFSG.pPrimeCore 3 G) g)).toMonoidHom =

@@ -49,7 +49,7 @@ theorem sylow_normal_of_card_dvd [Finite X] {p a m : ℕ} [hp : Fact p.Prime]
       (Nat.Coprime.pow_left a
         ((Nat.Prime.coprime_iff_not_dvd hp.out).mpr S.not_dvd_index)).symm
     exact hcop.dvd_of_dvd_mul_left ((Subgroup.index_dvd_card _).trans h)
-  haveI : Subsingleton (Sylow p X) :=
+  have : Subsingleton (Sylow p X) :=
     (Nat.card_eq_one_iff_unique.mp
       (card_sylow_eq_one_of_index_le S ((Nat.le_of_dvd hm0 hidx).trans hm))).1
   exact Sylow.normal_of_subsingleton S
@@ -84,7 +84,7 @@ theorem sylow_normal_of_quotient [Finite X] {p : ℕ} [hp : Fact p.Prime] (N : S
     change (S : Subgroup X).relIndex (N ⊔ (S : Subgroup X)) ≤ p
     rw [relIndex_sup_left_of_normal N (S : Subgroup X)]
     exact (Nat.le_of_dvd Nat.card_pos (Subgroup.relIndex_dvd_card _ _)).trans hN
-  haveI : Subsingleton (Sylow p ↥(N ⊔ (S : Subgroup X))) :=
+  have : Subsingleton (Sylow p ↥(N ⊔ (S : Subgroup X))) :=
     (Nat.card_eq_one_iff_unique.mp (card_sylow_eq_one_of_index_le _ hidx)).1
   have hall : ∀ P : Sylow p X, (P : Subgroup X) ≤ N ⊔ (S : Subgroup X) := by
     intro P
@@ -93,7 +93,7 @@ theorem sylow_normal_of_quotient [Finite X] {p : ℕ} [hp : Fact p.Prime] (N : S
     rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hx
     have h' := hT.conj_mem _ (hST hx) g
     simpa [MulAut.smul_def, MulAut.conj_symm_apply, mul_assoc] using h'
-  haveI : Subsingleton (Sylow p X) := ⟨fun P Q =>
+  have : Subsingleton (Sylow p X) := ⟨fun P Q =>
     Sylow.subtype_injective (Subsingleton.elim (P.subtype (hall P)) (Q.subtype (hall Q)))⟩
   exact Sylow.normal_of_subsingleton S
 

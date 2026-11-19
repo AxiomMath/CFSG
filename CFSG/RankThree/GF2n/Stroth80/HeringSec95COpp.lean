@@ -23,7 +23,7 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem comm_mem_V_of_mem_sup {hc : Ctx M Q Z B} {V : Subgroup G} (hVQ : V ≤ Q)
+theorem comm_mem_V_of_mem_sup {hc : Ctx M Q Z B} {V : Subgroup G} (_hVQ : V ≤ Q)
     (hBV : B ⊔ Z ≤ V) (hLV : ∀ l ∈ LB M Q B, ∀ v ∈ V, l * v * l⁻¹ ∈ V) {l x : G}
     (hl : l ∈ LB M Q B) (hx : x ∈ (QB B ⊓ Wt Q V) ⊔ V) : ⁅l, x⁆ ∈ V := by
   have hn : QB B ⊓ Wt Q V ≤ Subgroup.normalizer (V : Set G) := fun a ha =>
@@ -47,7 +47,7 @@ theorem comm_mem_V_of_mem_sup {hc : Ctx M Q Z B} {V : Subgroup G} (hVQ : V ≤ Q
   rw [e, h3]
   exact V.mul_mem h1 h2
 
-theorem isOppDecomp95 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
+theorem isOppDecomp95 (_h34 : Stroth34Statement) (h91b : Stroth91bStatement)
     {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) {r : G} (hr : Sec7A hc t r) :
     IsOppDecomp (Wt Q (Vt M (LB M Q B) B Z t)) (Vt M (LB M Q B) B Z t)
       (LB M Q (conjSubgroup r B)) (LB M Q B)

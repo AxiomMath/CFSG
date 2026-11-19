@@ -77,7 +77,7 @@ theorem ObstructionSetting.mem_of_mem_centralizer_of_isMulCommutative (hS : Obst
   have hprime := sigmaA_prime p hp
   have hfact : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hM, hDP, hD2, hDM⟩ := hext.obstruction
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hiso := hext.isIsolatedPlane_of_isMulCommutative hprime hDab
   obtain ⟨hDe, hDc⟩ := hext.isElemAbelian_of_isMulCommutative hprime hDab
   by_contra hyD
@@ -152,7 +152,7 @@ theorem ObstructionSetting.exists_mem_normalizer_not_mem_centralizer (hS : Obstr
   set A : Subgroup G := (P : Subgroup G) ⊓ normalizer (D : Set G) with hA
   have hAP : A < P := lt_of_le_of_ne inf_le_left fun heq => hPD (by rw [← heq]; exact inf_le_right)
   obtain ⟨m, hmN, hmA⟩ := IsConcreteLE.exists_of_lt
-    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P A P.isPGroup' hAP)
+    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P A P.isPGroup hAP)
   apply hmA
   refine ⟨hmN.1, ?_⟩
   have hmD : ∀ d ∈ D, m * d * m⁻¹ ∈ D := by

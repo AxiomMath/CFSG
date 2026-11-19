@@ -264,7 +264,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
   have hZcard : Nat.card Z = 3 := by
     rw [Nat.card_zpowers, hyHord]
   have hZp : IsPGroup 3 Z := IsPGroup.of_card (n := 1) (by rw [hZcard, pow_one])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hyP⟩ := hZp.exists_le_sylow
   have hyP' : yH ∈ (P : Subgroup H) := hyP (Subgroup.mem_zpowers yH)
   let Q : Subgroup H := (P : Subgroup H) ⊓ Subgroup.centralizer ({yH} : Set H)
@@ -328,7 +328,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
         rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQP).toEquiv, htop,
           Subgroup.card_top]
       exact (Subgroup.eq_of_le_of_card_ge hQP hcardEq.ge).ge
-    haveI : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup H))
       (Q.subgroupOf (P : Subgroup H)) hlt
     obtain ⟨n', hn'N, hn'Q⟩ := IsConcreteLE.exists_of_lt hnc
@@ -378,7 +378,7 @@ theorem E6QTwo.isCyclic_of_le_centralizer_of_nbr {Bs K' : Subgroup G} {y : G}
   obtain ⟨P', hP'⟩ := hS'.exists_le_sylow
   have hP'cyc : IsCyclic (P' : Subgroup H) :=
     (Sylow.equiv P P').isCyclic.mp hPcyc
-  haveI : IsCyclic (P' : Subgroup H) := hP'cyc
+  have : IsCyclic (P' : Subgroup H) := hP'cyc
   have hS'cyc : IsCyclic (S.subgroupOf Ck) := Subgroup.isCyclic_of_le hP'
   exact (Subgroup.subgroupOfEquivOfLe hSK).isCyclic.mp hS'cyc
 

@@ -26,7 +26,7 @@ theorem eq_bot_of_normal_isPGroup_two_of_isWBlock {X : Type} [Group X] [Finite X
       (hodd.of_dvd_nat (Subgroup.card_dvd_of_le hcen))
   · have h3 : ¬ 3 ∣ Nat.card N := by
       intro h3dvd
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := h2.exists_card_eq
       rw [hn] at h3dvd
       exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3dvd) (by norm_num)
@@ -79,7 +79,7 @@ theorem pCore_two_eq_bot_of_le_normalizer_of_odd_relIndex {k : ℕ} {G : Fin k �
     have h2 : IsPGroup 2 (((CFSG.pCore 2 ↥Λ).subgroupOf N).map (coord j)) :=
       ((CFSG.pCore_isPGroup (p := 2) (G := ↥Λ)).comap_subtype).map (coord j)
     rcases hS j with hbot | hW
-    · haveI : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
+    · have : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
       exact Subgroup.eq_bot_of_subsingleton _
     · exact eq_bot_of_normal_isPGroup_two_of_isWBlock hW hnormal h2
   rw [eq_bot_iff]
@@ -104,8 +104,8 @@ theorem le_sup_pCore_two_of_central_odd_quotient_two {Q : Type*} [Group Q] [Fini
     (hquot : IsPGroup 2 (↥H ⧸ Z.subgroupOf H)) :
     H ≤ Z ⊔ CFSG.pCore 2 Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : H.Normal := hHN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : H.Normal := hHN
   have hZnormal : Z.Normal := Subgroup.normal_of_le_center hZc
   let f : ↥H →* ↥H ⧸ Z.subgroupOf H := QuotientGroup.mk' (Z.subgroupOf H)
   have hfker : f.ker ≤ Subgroup.center ↥H := by
@@ -115,8 +115,8 @@ theorem le_sup_pCore_two_of_central_odd_quotient_two {Q : Type*} [Group Q] [Fini
     intro w
     apply Subtype.ext
     exact Subgroup.mem_center_iff.mp (hZc hz) (w : Q)
-  haveI hquotNil : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := hquot.isNilpotent
-  haveI hHnil : Group.IsNilpotent ↥H :=
+  have hquotNil : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := hquot.isNilpotent
+  have hHnil : Group.IsNilpotent ↥H :=
     Subgroup.isNilpotent_of_ker_le_center f hfker
   have htop := CFSG.nilpotent_top_le_pCore_sup_pPrimeCore (Q := ↥H) (p := 2) hHnil
   have hZ'card : Nat.card ↥(Z.subgroupOf H) = Nat.card Z :=
@@ -215,7 +215,7 @@ theorem exists_levi_quotient_of_pCore_eq_bot {Q R : Type*} [Group Q] [Finite Q] 
       rw [MonoidHom.mem_ker] at hz
       rw [hz]
       exact (CFSG.pCore 2 R).one_mem
-    haveI hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
+    have hZn : (σ.ker.subgroupOf H).Normal := (inferInstance : σ.ker.Normal).subgroupOf H
     have hquot : IsPGroup 2 (↥H ⧸ σ.ker.subgroupOf H) := by
       let g : ↥H →* R := σ.domRestrict H
       have hker : g.ker = σ.ker.subgroupOf H := MonoidHom.ker_domRestrict H σ
@@ -255,15 +255,16 @@ theorem exists_levi_quotient_of_pCore_eq_bot {Q R : Type*} [Group Q] [Finite Q] 
     rfl
   exact ⟨ψ, hψsurj, hψβ, hψker⟩
 
+omit [Finite R] in
 theorem HasLeviCensus.not_two_dvd_index_wSup (h : HasLeviCensus R IsWBlock) :
     ¬ 2 ∣ (wSup (R ⧸ CFSG.pCore 2 R)).index := by
   classical
   obtain ⟨Q, hQgroup, hQfin, σ, k, G, hGgroup, hGfin, S, β, hσ, hc, ho, hβ, hle, hn, hi, hS,
     hZ⟩ := h
-  letI : Group Q := hQgroup
-  letI : Finite Q := hQfin
-  letI : ∀ j, Group (G j) := hGgroup
-  letI : ∀ j, Finite (G j) := hGfin
+  let : Group Q := hQgroup
+  let : Finite Q := hQfin
+  let : ∀ j, Group (G j) := hGgroup
+  let : ∀ j, Finite (G j) := hGfin
   let Λ : Subgroup (∀ j, G j) := β.range
   let NΛ : Subgroup ↥Λ := (Subgroup.pi Set.univ S).subgroupOf Λ
   let Rhat := R ⧸ CFSG.pCore 2 R
@@ -346,7 +347,7 @@ theorem HasLeviCensus.not_two_dvd_index_wSup (h : HasLeviCensus R IsWBlock) :
         intro x hx
         obtain ⟨s, -, rfl⟩ := Subgroup.mem_map.mp hx
         have hs1 : s = 1 := by
-          haveI : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
+          have : Subsingleton ↥(S j) := by rw [hbot]; infer_instance
           exact Subsingleton.elim s 1
         rw [hs1, map_one]
         exact Subgroup.one_mem _
@@ -361,7 +362,7 @@ theorem HasLeviCensus.not_two_dvd_index_wSup (h : HasLeviCensus R IsWBlock) :
         by_cases hbotB : (B j).map ψN = ⊥
         · rw [hbotB]
           exact bot_le
-        · haveI : Nontrivial ↥((B j).map ψN) :=
+        · have : Nontrivial ↥((B j).map ψN) :=
             (Subgroup.nontrivial_iff_ne_bot _).mpr hbotB
           let f : ↥(B j) →* ↥((B j).map ψN) :=
             (ψN.comp (B j).subtype).codRestrict _ fun x =>

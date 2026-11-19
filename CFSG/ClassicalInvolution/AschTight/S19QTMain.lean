@@ -121,7 +121,7 @@ theorem inf_centralizer_le_centralizer_t (h11b : C19_11bTmp p f)
     rw [hζ2]
     intro hz
     have hmem : z ∈ W ⊓ sec19Y K z ⊓ oddCoreOf (sec19Y K z) := ⟨hzZ.mem, hz⟩
-    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) _,
+    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) _,
       Subgroup.mem_bot] at hmem
     exact hzZ.ne_one hmem
   have huH := not_mem_signSub_of_inv hζO (huinv ζ hζ)

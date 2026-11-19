@@ -17,8 +17,8 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem charP_two_of_card_two_pow {K : Type} [Field K] [Finite K] {k : ℕ}
     (h : Nat.card K = 2 ^ k) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact _root_.charP_of_card_eq_prime_pow (f := k) (by rw [← Nat.card_eq_fintype_card, h])
 
 private theorem scalar_eq_one_of_sq_eq_one {K : Type} [Field K] [CharP K 2] {n : ℕ}
@@ -71,7 +71,7 @@ theorem LinSetup.Lgen_eq_of_le_V₁ (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n 
     have h2 := hA.sq_mem_Q_of_mem_LB ht
     rwa [pow_two] at h2
   obtain ⟨K, hK, hfin, hcard, φ, hrange, hker, -, -, -, -, -, -, -, -, -, -⟩ := hS
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨m, -, hZ2, -⟩ := hc.hyp.cp
     exact charP_two_of_card_two_pow (hcard.trans hZ2)
   have hsurj : ∀ g : GL (Fin n) K, g ∈ φ.range →
@@ -140,7 +140,7 @@ theorem LinSetup.Lgen_eq_of_le_V₁ (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n 
     show (a : Matrix (Fin n) (Fin n) K) = 1
     exact hr.symm.trans hone
   have hNStop : NS = ⊤ := by
-    haveI := hNSn
+    have := hNSn
     exact CFSG.LieType.SeitzGeneration.eq_top_of_normal_of_not_mem_center hn haNS hncent
   refine le_antisymm hle ?_
   intro g hg
@@ -159,6 +159,7 @@ theorem LinSetup.Lgen_eq_of_le_V₁ (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n 
     (Lgen M (LB M Q A)).mul_mem hyA (hQL hk)
   simpa using hmul
 
+omit [Finite G] in
 private theorem linSetup_of_Lgen_eq {A : Subgroup G} (hS : LinSetup M Q Z B n V₁ V₂)
     (h : Lgen M (LB M Q A) = Lgen M (LB M Q B)) : LinSetup M Q Z A n V₁ V₂ := by
   unfold LinSetup at hS ⊢

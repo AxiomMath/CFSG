@@ -235,7 +235,7 @@ private theorem lpEps_core {p n ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn 
     rcases Nat.eq_zero_or_pos m with h | h
     · exact absurd (by omega : m + 2 = 2) hp2
     · exact h
-  haveI : Fact (m + 2).Prime := ⟨hp⟩
+  have : Fact (m + 2).Prime := ⟨hp⟩
   rw [show m + 2 - 2 = m by omega]
   by_cases hZ : m + 2 ∣ Nat.card (Subgroup.center K)
   ·
@@ -351,9 +351,9 @@ theorem genLpEpsLocal_holds :
     have hQ' : p ∣ Q.p ^ Q.exponent + 1 := by rwa [← TauCeti.PrimePower.card_def]
     obtain ⟨-, F, _, _, hF, ⟨θ⟩⟩ :=
       CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA (p - 1) Q hv ι
-    haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+    have : Fact Q.p.Prime := ⟨Q.prime_p⟩
     have : Fintype F := Fintype.ofFinite F
-    haveI : CharP F Q.p := charP_of_card_eq_prime_pow (f := 2 * Q.exponent) (by
+    have : CharP F Q.p := charP_of_card_eq_prime_pow (f := 2 * Q.exponent) (by
       rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, mul_comm])
     have hq : (p - 1 + 1, Q.p ^ Q.exponent) ≠ (3, 2) := by
       intro h

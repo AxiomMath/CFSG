@@ -32,9 +32,9 @@ theorem u6_core {L K : Type} [Group L] [Group K] [Finite L] [Finite K]
     (h3L : 3 ∣ Nat.card (Subgroup.center L)) (h3K : 3 ∣ Nat.card (Subgroup.center K)) :
     CFSG.Open.GLATwoLocalRank 3 L + 1 + CFSG.Open.pRank 3 (Subgroup.center K) ≤
       CFSG.Open.GLATwoLocalRank 3 K + CFSG.Open.pRank 3 (⊤ : Subgroup K) := by
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) := ⟨hcX⟩
-  haveI : Group.IsPerfect L := ⟨hLp⟩
-  haveI : Group.IsPerfect K := ⟨hKp⟩
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) := ⟨hcX⟩
+  have : Group.IsPerfect L := ⟨hLp⟩
+  have : Group.IsPerfect K := ⟨hKp⟩
   let qL : L →* K ⧸ Subgroup.center K := centralQuotientMap e
   let qK : K →* K ⧸ Subgroup.center K := centralQuotientMap (MulEquiv.refl _)
   have hqL : Function.Surjective qL := centralQuotientMap_surjective e
@@ -69,8 +69,8 @@ theorem u6_two_le_localRank_PSU {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 
     2 ≤ CFSG.Assembly.RankThreeEven.localRank 3 X := by
   rcases hX with ⟨-, hX⟩ | ⟨h0, -⟩ | ⟨h0, -⟩ | ⟨h0, -⟩
   · obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hX
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2 * n) (by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (p := 2) (f := 2 * n) (by
       rw [hK, ← pow_mul, mul_comm])
     have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
       ⟨Nat.prime_two, hn.pos, by rw [hK, ← pow_mul, mul_comm]⟩
@@ -99,7 +99,7 @@ theorem u6_marking_facts {K : Type} [Group K] [Finite K] {lab : GLALabel}
   obtain ⟨hcomm, lab', hlam, R, _, I, F, θ, hs, -, ⟨rfl, hm⟩⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists
       (CFSG.StandardType.Canonical.largeEvenMarking_markedModel h)
-  haveI := hs
+  have := hs
   exact ⟨hcomm, hlam.1, ⟨hcomm, θ.isSimpleGroup⟩,
     CFSG.StandardType.MarkedModel.of_mulEquiv θ.symm hm⟩
 theorem u6_griess_of_PSU (X : Type) [Group X] {n : ℕ} (hn : Odd n)
@@ -121,7 +121,7 @@ theorem u6_griess_of_PSU (X : Type) [Group X] {n : ℕ} (hn : Odd n)
       rw [u6_exc_PSU_one]
       norm_num
     · rw [u6_exc_PSU_ne h1]
-      simp only [if_neg h1]
+      simp only [ite_eq_right h1]
 theorem u6_griess_of_twE6 (X : Type) [Group X] {n : ℕ} (hn : Odd n)
     (hX : CFSG.Blueprint.LieModel X .twistedE6 0 2 n) :
     commutator X = ⊤ ∧ ∃ m : ℕ, (m = 1 ∨ m = 4) ∧
@@ -141,7 +141,7 @@ theorem u6_griess_of_twE6 (X : Type) [Group X] {n : ℕ} (hn : Odd n)
       rw [u6_exc_twE6_one]
       norm_num
     · rw [u6_exc_twE6_ne h1]
-      simp only [if_neg h1]
+      simp only [ite_eq_right h1]
 theorem u6_iso_of_twE6 {X Y : Type} [Group X] [Group Y] {n : ℕ}
     (hX : CFSG.Blueprint.LieModel X .twistedE6 0 2 n) (hY : CFSG.Blueprint.LieModel Y .twistedE6 0 2 n) :
     Nonempty (X ≃* Y) := by

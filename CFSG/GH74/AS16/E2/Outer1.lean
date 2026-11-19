@@ -146,7 +146,7 @@ theorem Cfg.decomp_inner0 (h : Cfg G T z L) (hZ : center ↥L = ⊥) :
     · rintro ⟨hxT, hxL⟩
       exact ⟨⟨hxT, InnerAt.of_mem hxL⟩, hxL⟩
   have hdec := exists_decomp_of_inner (T := innerSub (T : Subgroup G) L) (L := L)
-    (T.isPGroup'.to_le innerSub_le) (center_trivial' hZ)
+    (T.isPGroup.to_le innerSub_le) (center_trivial' hZ)
     (fun P hP hPL hle => by
       rw [hT0L]
       rw [hT0L] at hle

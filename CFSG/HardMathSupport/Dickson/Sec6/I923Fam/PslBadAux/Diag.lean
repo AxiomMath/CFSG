@@ -79,9 +79,9 @@ theorem mem_innAutDerived_of_diag_psl {n : ℕ} {K : Type} [Field K] [Finite K] 
     (hM : IsCyclic (hopfMultiplier (Y ⧸ Subgroup.center Y))) {α : MulAut Y} (h3 : α ^ 3 = 1)
     (hD : MulAut.congr e (centerDescend Y α) ∈ linearAutGroup n K) : α ∈ innAutDerived Y := by
   classical
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
-  haveI : Finite (Y ⧸ Subgroup.center Y) := inferInstance
-  haveI : Group.IsPerfect (Y ⧸ Subgroup.center Y) :=
+  have : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Finite (Y ⧸ Subgroup.center Y) := inferInstance
+  have : Group.IsPerfect (Y ⧸ Subgroup.center Y) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center Y))
       (QuotientGroup.mk'_surjective _)
   set π : Y →* (Y ⧸ Subgroup.center Y) := QuotientGroup.mk' (Subgroup.center Y) with hπdef

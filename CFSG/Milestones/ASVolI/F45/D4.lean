@@ -21,6 +21,7 @@ variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {p f : ℕ} (hp : p.Pr
 
 include hp hf hK hσq
 
+omit [Finite K] hK hσq in
 theorem burnsideF45_two_le_q : 2 ≤ p ^ f :=
   calc 2 ≤ p := hp.two_le
     _ = p ^ 1 := (pow_one p).symm
@@ -29,7 +30,7 @@ theorem burnsideF45_two_le_q : 2 ≤ p ^ f :=
 theorem burnsideF45_d4Model_equiv :
     Nonempty ((twistedGroup σ.toRingHom ⧸ Subgroup.center (twistedGroup σ.toRingHom)) ≃*
       ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
-  have hq : 2 ≤ p ^ f := burnsideF45_two_le_q σ hp hf hK hσq
+  have hq : 2 ≤ p ^ f := burnsideF45_two_le_q hp hf
   have hZ := CFSG.LieType.Steinberg.CentralExt.TrialityClosed.twistedGroup_center_eq_bot_of_card
     (σ := σ.toRingHom) hq hK hσq
   have hm : (twistedGroup σ.toRingHom).map (adjointGroup d4 K).subtype =
@@ -41,6 +42,7 @@ theorem burnsideF45_d4Model_equiv :
     ((Subgroup.equivMapOfInjective (twistedGroup σ.toRingHom) (adjointGroup d4 K).subtype
         Subtype.val_injective).trans (MulEquiv.subgroupCongr hm))⟩
 
+omit [Finite K] hK hσq in
 theorem burnsideF45_not_dvd_d4_index :
     ¬ p ∣ ((p ^ f) ^ 2 - 1) * (((p ^ f) ^ 6 - 1) * ((p ^ f) ^ 8 + (p ^ f) ^ 4 + 1)) := by
   have hdq : p ∣ p ^ f := dvd_pow_self p (by omega)
@@ -78,7 +80,7 @@ theorem burnsideF45_d4ModelSystem_isSylow (hq : 2 ≤ p ^ f) :
     ChF.IsSylowOf p (d4ModelSystem σ.toRingHom hq hK hσq).U ⊤ := by
   have hσ3 : ∀ c, σ.toRingHom (σ.toRingHom (σ.toRingHom c)) = c :=
     sigma_three_of_card hK hσq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨eC⟩ := burnsideF45_d4Model_equiv σ hp hf hK hσq
   have hU : Nat.card (d4ModelSystem σ.toRingHom hq hK hσq).U = (p ^ f) ^ 12 := by
     have h := (hexQuotRGD2 (twistedData σ.toRingHom hσ3)).card_U
@@ -114,7 +116,7 @@ theorem burnsideF45_d4ModelSystem_isSylow (hq : 2 ≤ p ^ f) :
     exact Nat.eq_of_mul_eq_mul_left (by positivity) h
   refine ⟨le_top, hpg, ?_⟩
   rw [Subgroup.relIndex_top_right, hidx]
-  exact burnsideF45_not_dvd_d4_index σ hp hf hK hσq
+  exact burnsideF45_not_dvd_d4_index hp hf
 
 end Model
 
@@ -136,14 +138,14 @@ theorem burnsideF45_facts45L_D4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
   · exact absurd hk (by cases c' <;> decide)
   · exact absurd hk (by decide)
   · exact absurd hk (by decide)
-  · letI := fK
-    haveI := finK
+  · let := fK
+    have := finK
     obtain ⟨hp', hd, hK, hσ⟩ := hscope
     obtain ⟨σ, rfl⟩ : ∃ σ : K ≃+* K, σ.toRingHom = sigma :=
       ⟨RingEquiv.ofBijective sigma ⟨sigma.injective,
         Finite.surjective_of_injective sigma.injective⟩, rfl⟩
     have hσ' : ∀ c, σ.toRingHom c = c ^ (p ^ f) := hσ
-    have hq : 2 ≤ p ^ f := burnsideF45_two_le_q σ hp hd hK hσ'
+    have hq : 2 ≤ p ^ f := burnsideF45_two_le_q hp hd
     obtain ⟨f₀, hf₀, hrange, -⟩ := burnsideF4h_tri_exists_embedding hp hd hK σ hσ
     let e₁ : CFSG.Blueprint.DerivedCentralQuotient
         (CFSG.Blueprint.twistedFixedGroup TwistTag.D4 K σ.toRingHom) ≃*

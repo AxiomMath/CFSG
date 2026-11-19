@@ -93,13 +93,13 @@ private theorem tw27_hatY_e6Y27 (c : orbitField TwistTag.E6 K σ twN0) :
   have h5 : e6Data.rootOp K (-Pi.single tw27n5 1) (e6Y27 : Fin e6Data.d →₀ K) = 0 := by
     have hw : e6Data.wt tw27v0 tw27n5 ≠ 1 := by decide +kernel
     show e6Data.rootOp K (-Pi.single tw27n5 1) (Finsupp.single tw27v0 1) = 0
-    rw [e6Data_valid.rootOp_neg_single_apply (R := K), if_neg hw]
+    rw [e6Data_valid.rootOp_neg_single_apply (R := K), ite_eq_right hw]
   have h0 : e6Data.rootOp K (-Pi.single tw27n0 1) (e6Y27 : Fin e6Data.d →₀ K) =
       Finsupp.single idx1 1 := by
     have hw : e6Data.wt tw27v0 tw27n0 = 1 := by decide +kernel
     show e6Data.rootOp K (-Pi.single tw27n0 1) (Finsupp.single tw27v0 1) =
       Finsupp.single idx1 1
-    rw [e6Data_valid.rootOp_neg_single_apply (R := K), if_pos hw]
+    rw [e6Data_valid.rootOp_neg_single_apply (R := K), ite_eq_left hw]
     rfl
   rw [tw27_hatY_eq hf hK σ hσ c]
   simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, h5, h0, smul_zero,
@@ -129,9 +129,9 @@ private theorem tw27_rootOp_neg_e0_lw (w : Fin e6Data.d →₀ K) :
   | single b c =>
     rw [← Finsupp.smul_single_one b c, map_smul, e6Data_valid.rootOp_neg_single_apply (R := K)]
     by_cases hb : e6Data.wt b tw27n0 = 1
-    · rw [if_pos hb, Finsupp.smul_apply, Finsupp.single_apply, if_neg (tw27_e0_no_lw b hb),
+    · rw [ite_eq_left hb, Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (tw27_e0_no_lw b hb),
         smul_zero]
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       simp
 
 private theorem tw27_lw1_eq : lw1Idx = e6Data_valid.sRefl tw27n5 lwIdx := rfl
@@ -155,18 +155,17 @@ private theorem tw27_rootOp_neg_e5_lw (x : Fin e6Data.d →₀ K) :
   | single b c =>
     rw [← Finsupp.smul_single_one b c, map_smul, e6Data_valid.rootOp_neg_single_apply (R := K)]
     by_cases hb : e6Data.wt b tw27n5 = 1
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       simp only [Finsupp.smul_apply, Finsupp.single_apply, tw27_sRefl5_iff]
     · have hne : b ≠ lw1Idx := fun e => hb (by rw [e]; exact hw1)
-      rw [if_neg hb]
-      simp [Finsupp.single_apply, hne]
+      rw [ite_eq_right hb]
+      simp [hne]
 
 private theorem tw27_hatY_lw (c : orbitField TwistTag.E6 K σ twN0) (x : Fin e6Data.d →₀ K) :
     twRep27 σ (hatY hf hK σ hσ twN0 c) x lwIdx = x lwIdx + σ (c : K) * x lw1Idx := by
   rw [tw27_hatY_eq hf hK σ hσ c]
   simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, Finsupp.add_apply,
-    Finsupp.smul_apply, smul_eq_mul, tw27_rootOp_neg_e0_lw, tw27_rootOp_neg_e5_lw, smul_zero,
-    mul_zero, add_zero]
+    Finsupp.smul_apply, smul_eq_mul, tw27_rootOp_neg_e0_lw, tw27_rootOp_neg_e5_lw, mul_zero, add_zero]
 
 private theorem tw27_injective_foldr (L : List (Fin TwistTag.E6.tag.rank)) :
     Function.Injective
@@ -199,7 +198,7 @@ private theorem tw27_perm_coord {π : Fin e6Data.d → Fin e6Data.d} (hπ : Func
     · subst hba
       simp
     · have hne : π b ≠ π a := fun e => hba (hπ e)
-      simp [Finsupp.single_apply, hba, hne]
+      simp [hba, hne]
 
 open Classical in
 theorem twChi27_entry (w0 : List (Fin TwistTag.E6.foldedTag.rank))

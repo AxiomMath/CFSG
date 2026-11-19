@@ -16,7 +16,7 @@ variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →*
 
 theorem y7c_lemmaZ (c : K7Abs ρ t J Q P M6 M7)
     (hq : CFSG.IsQuasisimple ↥(Subgroup.normalClosure (J : Set Γ))) {z : Γ}
-    (hz : z ∈ Subgroup.normalClosure (J : Set Γ))
+    (_hz : z ∈ Subgroup.normalClosure (J : Set Γ))
     (hzc : ∀ n ∈ Subgroup.normalClosure (J : Set Γ), z * n = n * z) (hρz : ρ z ≠ 1) :
     ∀ m : M, ρ z m = m → m = 1 := by
   let V : Subgroup M :=
@@ -24,11 +24,11 @@ theorem y7c_lemmaZ (c : K7Abs ρ t J Q P M6 M7)
       one_mem' := map_one (ρ z)
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hVinv : ∀ n ∈ Subgroup.normalClosure (J : Set Γ), ∀ v ∈ V, ρ n v ∈ V := by
     intro n hn v hv

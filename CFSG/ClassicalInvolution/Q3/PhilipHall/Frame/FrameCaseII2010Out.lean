@@ -163,7 +163,7 @@ theorem frame_TX (c8 : Concl20_8 S K' R) {g : G} (hg : g ∈ (S : Subgroup G))
     ⟨d.hyp.conjInvariant, d.viol.hzK, d.twins, d.ne, d.hSz, d.hV, d.hVS, hV2⟩
   have hvN : v ∈ Subgroup.normalizer (K : Set G) := hXN (tw.hVX hvV)
   set T : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G) with hT
-  have hT2 : IsPGroup 2 T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 T := S.isPGroup.to_le inf_le_left
   have hvT : v ∈ T := ⟨d.hVS hvV, hvN⟩
   have hgT : g ∈ T := ⟨hg, mem_normalizer_iff_conjSub_eq.mpr hgK⟩
   have hvout : ¬ InnerOn K v :=

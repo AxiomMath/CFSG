@@ -103,9 +103,9 @@ theorem MatP_letS {c : Nat} (hc : c / 2 < lim) :
   unfold letS letG
   rw [nrec_eq, bit_zero_eq, shiftRight_one_eq]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     exact (hE _ hc).2
-  · simp only [h, decide_false, Bool.false_eq_true, if_false]
+  · simp only [h, decide_false, Bool.false_eq_true, ite_false]
     exact (hE _ hc).1
 
 theorem MatP_wordFromS : ∀ (w : List Nat) (acc : Nat), (∀ c ∈ w, c / 2 < lim) →
@@ -144,14 +144,14 @@ theorem slpK_sound {e : ℕ → G} {B Bi M Mi : List Nat} {W : List (List Nat)}
       unfold entS
       rw [nrec_eq, nrec_eq, getL_zero_eq, getL_zero_eq, getL_zero_eq, getL_zero_eq]
       by_cases hkB : k < B.length
-      · simp only [Nat.blt_eq.mpr hkB, if_true]
+      · simp only [Nat.blt_eq.mpr hkB, ite_true]
         exact hB k hkB
       · have hlt : k - B.length < t := by omega
         obtain ⟨-, h2, h3⟩ := ih (k - B.length) hlt (by omega)
         have ek : B.length + (k - B.length) = k := by omega
         rw [ek] at h2 h3
         have hf : Nat.blt k B.length = false := Bool.eq_false_iff.2 fun h => hkB (Nat.blt_eq.mp h)
-        simp only [hf, Bool.false_eq_true, if_false]
+        simp only [hf, Bool.false_eq_true, ite_false]
         exact ⟨h2, h3⟩
     have hw := MatP_wordFromS (φ := φ) (e := e) hE (W.getD t []) oneS hr
     rw [MatP_oneS, one_mul, ← he t ht] at hw

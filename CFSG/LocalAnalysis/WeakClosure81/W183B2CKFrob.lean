@@ -23,7 +23,7 @@ theorem w183b2_frob_descent {k : Type} [Field k] [CharP k 2] {U : Type} [AddComm
     (a : Module.End k U) (ha : a * a = 1) (haS : ∀ s ∈ S, ∃ s' ∈ S, a * s = s' * a) :
     ∀ i j, LinearMap.toMatrix b b a i j ∈ F := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨m, -, hm⟩ := FiniteField.card F 2
   have hmF : Nat.card F = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   let φ : Matrix (Fin n) (Fin n) k →+* Matrix (Fin n) (Fin n) k :=

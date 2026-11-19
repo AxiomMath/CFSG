@@ -39,7 +39,7 @@ theorem natCard_le_mul_natCard_range {α β : Type} [Fintype α] [Fintype β]
   have himg : Nat.card (Set.range f) = ((Finset.univ : Finset α).image f).card := by
     have hset : (Set.range f) = ((Finset.univ : Finset α).image f : Set β) := by
       ext b
-      simp [Set.mem_range, Finset.mem_image]
+      simp [Set.mem_range]
     rw [hset, Nat.card_coe_set_eq, Set.ncard_coe_finset]
   calc Nat.card α = Fintype.card α := Nat.card_eq_fintype_card
     _ ≤ n * ((Finset.univ : Finset α).image f).card := hle
@@ -253,7 +253,7 @@ theorem diagNeg_mem_realized {G : Type} [Group G] [Finite G] {b₀ : G} {K E : S
     intro j
     have h := hM0coord (Pi.single j.succ (1 : ZMod 3))
     rw [show (Pi.single j.succ (1 : ZMod 3) : Coords 7) 0 = 0 by
-      simp [Pi.single_eq_of_ne (Fin.succ_ne_zero j).symm]] at h
+      simp] at h
     rwa [Matrix.mulVec_single_one, Matrix.col_apply] at h
   have h2root : ∀ i j : Fin 6, i ≠ j →
       wt ((d6Refl e0 * A) *ᵥ (Pi.single i.succ (1 : ZMod 3) +
@@ -265,13 +265,11 @@ theorem diagNeg_mem_realized {G : Type} [Group G] [Finite G] {b₀ : G} {K E : S
     · refine wt_eq_two_of_isD6Root_of_zero
         (hMroot _ (isD6Root_single_add_single hij)) ?_
       rw [hM0coord]
-      simp [Pi.add_apply, Pi.single_eq_of_ne (Fin.succ_ne_zero i).symm,
-        Pi.single_eq_of_ne (Fin.succ_ne_zero j).symm]
+      simp [Pi.add_apply]
     · refine wt_eq_two_of_isD6Root_of_zero
         (hMroot _ (isD6Root_single_sub_single hij)) ?_
       rw [hM0coord]
-      simp [Pi.sub_apply, Pi.single_eq_of_ne (Fin.succ_ne_zero i).symm,
-        Pi.single_eq_of_ne (Fin.succ_ne_zero j).symm]
+      simp [Pi.sub_apply]
   have hMinv : ∃ N : Matrix (Fin 7) (Fin 7) (ZMod 3), N * (d6Refl e0 * A) = 1 := by
     refine ⟨Bm * d6Refl e0, ?_⟩
     rw [mul_assoc, ← mul_assoc (d6Refl e0) (d6Refl e0) A,

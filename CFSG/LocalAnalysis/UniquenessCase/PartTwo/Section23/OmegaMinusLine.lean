@@ -19,9 +19,9 @@ theorem isOmegaMinus_of_natOmegaMinus_four {W : Type} [CommGroup W]
     IsOmegaMinus ↥H 4 m := by
   obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, hR⟩ := h
   rw [show (4 / 2 : ℕ) = 2 from rfl] at hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   obtain ⟨π₀, hπ₀⟩ := hR
   let π : ↥(StatedOmega (StatedQuadMinus 2 K b c)) →* ↥H := π₀
   have hπ : (CFSG.Quasithin.FFModel.nat
@@ -62,8 +62,8 @@ variable {D : Data G} {Ch : Choice2011 G}
 theorem ker_phiL_eq_pCore_of_isSimpleGroup (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {k : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) k)
     (hSimple : IsSimpleGroup (Bar2 c.L)) : (c.phiL hV).ker = CFSG.pCore 2 ↥c.L := by
-  haveI : IsSimpleGroup (↥c.L ⧸ CFSG.pCore 2 ↥c.L) := hSimple
-  haveI : Nontrivial ↥(c.H hV) := hK.2.1 hnat
+  have : IsSimpleGroup (↥c.L ⧸ CFSG.pCore 2 ↥c.L) := hSimple
+  have : Nontrivial ↥(c.H hV) := hK.2.1 hnat
   have hO : CFSG.pCore 2 ↥c.L ≤ (c.phiL hV).ker := by
     intro x hx
     rw [MonoidHom.mem_ker]
@@ -93,8 +93,8 @@ theorem inf_centralizer_V_eq_pCoreOf (D : Data G) (Ch : Choice2011 G) (h2 : S23_
   obtain ⟨hV, hnat⟩ := Ctx23L.exists_isNaturalClassicalModule D Ch h2 h3 h4 h1930 c
   have hn1 : 1 ≤ CFSG.Open.pRank 2 D.Z := by
     obtain ⟨-, K, hKfield, hKfin, b, q, hKcard, -, -⟩ := hOm
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard] at hKgt
     exact Nat.one_le_iff_ne_zero.mpr (Nat.one_lt_two_pow_iff.mp hKgt)
@@ -131,8 +131,8 @@ theorem omegaMinus_lineData (D : Data G) (Ch : Choice2011 G) (h2 : S23_2_natural
   obtain ⟨hV, hnat⟩ := exists_isNaturalClassicalModule D Ch h2 h3 h4 h1930 c
   have hn1 : 1 ≤ CFSG.Open.pRank 2 D.Z := by
     obtain ⟨-, K, hKfield, hKfin, b, q, hKcard, -, -⟩ := hOm
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard] at hKgt
     exact Nat.one_le_iff_ne_zero.mpr (Nat.one_lt_two_pow_iff.mp hKgt)

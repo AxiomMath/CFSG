@@ -101,7 +101,7 @@ theorem IsCrossSimilarity.conj_mem_similarityPairs (h : IsCrossSimilarity Q Q' m
   refine ⟨μ * Units.map m.right.toMonoidHom (ν * Units.map g.val.right.toMonoidHom μ'),
     fun v => ?_⟩
   rw [coordinateSemilinearMap_mul, coordinateSemilinearMap_mul, hμ, multiplier_spec, hμ']
-  simp only [Units.coe_map, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, Units.val_mul,
+  simp only [Units.coe_map, Units.val_mul,
     map_mul, SemidirectProduct.mul_right, SemidirectProduct.inv_right, ← hν]
   have e1 : ∀ x : K, m.right.toMonoidHom x = m.right x := fun _ => rfl
   have e2 : ∀ x : K, g.val.right.toMonoidHom x = g.val.right x := fun _ => rfl

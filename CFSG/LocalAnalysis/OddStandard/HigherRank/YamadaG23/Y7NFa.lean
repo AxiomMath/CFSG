@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F M : Subgroup G}
 
+omit [Finite G] in
 theorem y7n_fuFacts (h : NtTwo t g P U S F M) : FUFacts g U := by
   have hFleS : F ≤ S := by
     rw [← h.sg.cent_eq]

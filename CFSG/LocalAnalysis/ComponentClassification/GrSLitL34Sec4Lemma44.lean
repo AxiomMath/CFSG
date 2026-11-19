@@ -394,8 +394,7 @@ theorem isSylowTwoIn_sup_odd [Finite G] {E O : Subgroup G} (hE : IsPGroup 2 E)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨le_sup_left, ⟨E.subgroupOf (E ⊔ O),
     hE.of_equiv (subgroupOfEquivOfLe le_sup_left).symm, ?_⟩, rfl⟩
-  intro Q hQ hEQ
-  intro q hq
+  intro Q hQ hEQ q hq
   have hq' : (q : G) ∈ (E : Set G) * (O : Set G) := by
     rw [← coe_mul_of_left_le_normalizer_right E O hEO]
     exact q.2

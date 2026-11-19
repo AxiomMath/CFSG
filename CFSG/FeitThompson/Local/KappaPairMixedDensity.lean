@@ -4,7 +4,7 @@ public import CFSG.FeitThompson.Statements.KappaCandidateStatements
 import CFSG.FeitThompson.Local.TwoCoreMixedSaturationMeasure
 import CFSG.FeitThompson.Local.FittingOverlapPrimeCoreNoncyclic
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.ENatToNat
 public import Std.Tactic.BVDecide.Normalize.Prop

@@ -35,7 +35,7 @@ theorem forall_endo_w0_iff [CharP K 2] {δ : Fin (Tag.rank .E7) → ℤ} (hδ : 
     obtain ⟨c, rfl⟩ := (e7Data_valid.mem_rootGroup K).1 hx
     change ((e7Data_valid.xu K δ c : (Module.End K (V K))ˣ) : Module.End K (V K)) w0 = w0
     have h2 := rootOp_single (K := K) hδ ⟨0, by decide⟩
-    rw [if_neg (fun h => hδ7 (hpr.symm.trans h))] at h2
+    rw [ite_eq_right (fun h => hδ7 (hpr.symm.trans h))] at h2
     rw [e7Data_valid.xu_apply, h2, smul_zero, add_zero]
 
 theorem endo_inv_w0 {n : e7Data_valid.minGroup K} {c : K} (hc : endoE n w0 = c • w0) :
@@ -132,7 +132,7 @@ theorem rootGroup_le_p7Gen {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 �
 theorem nt_mem_p7Gen {i : Fin (Tag.rank .E7)} (hi : i ≠ node7) (t : Kˣ) :
     e7Data_valid.nt K i t ∈ p7Gen K := by
   have h0 : (Pi.single i 1 : Fin (Tag.rank .E7) → ℤ) node7 = 0 := by
-    simp [Pi.single_apply, Ne.symm hi]
+    simp [Ne.symm hi]
   have hr : IsRoot .E7 (Pi.single i 1) := IsRoot.basis i
   have h1 : (Pi.single i 1 : Fin (Tag.rank .E7) → ℤ) node7 ≠ -1 := by rw [h0]; decide
   have h2 : (-Pi.single i 1 : Fin (Tag.rank .E7) → ℤ) node7 ≠ -1 := by

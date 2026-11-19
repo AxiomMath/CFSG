@@ -32,7 +32,7 @@ theorem uc22s213_not_centralizesBar_of_isSpor (hS : Standing4 G) (hU : uniqueFou
     {a : G} (hodd : Odd (orderOf a)) (hpr : (orderOf a).Prime)
     (hN : CFSG.Open.pRank S.p (normalizer ((zpowers a : Subgroup G) : Set G) ⊓ S.M) ≤ 1) :
     ¬ CentralizesBar a L := by
-  haveI := (uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)).1
+  have := (uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)).1
   have hsJ : s ≠ .J1 := by rcases hs with rfl | rfl | rfl | rfl <;> decide
   exact uc22s213_not_centralizesBar_of_inner hS hU S hσ hPart hSE hOut hL hZ
     (fun σ hσ' => uc22s216_mem_range_conj_of_isSpor hout hL hX hσ') (hord (BarInf L) s hs hX)

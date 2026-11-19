@@ -14,6 +14,7 @@ section PresAAux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ggPresentsG0_typeA_of_system_aux {n f : ℕ} (hn : 3 ≤ n) (hq : 4 ≤ 2 ^ f)
     {H : Subgroup G} {U : Fin n → Subgroup ↥H}
     (hcomm : ∀ i j : Fin n, (i : ℕ) + 1 < j → ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)
@@ -54,6 +55,7 @@ section PresA
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggPresentsG0_typeA_of_system {n f : ℕ} (hn : 3 ≤ n) (hq : 4 ≤ 2 ^ f) {H : Subgroup G}
     {U : Fin n → Subgroup ↥H}
     (hcomm : ∀ i j : Fin n, (i : ℕ) + 1 < j → ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)

@@ -116,7 +116,7 @@ theorem false_of_type2_mat {ε : K} (hε : ε ≠ 1) (h2 : (2 : K) ≠ 0)
     have q12 := congrFun (congrFun hX 1) 2
     have q21 := congrFun (congrFun hX 2) 1
     have q22 := congrFun (congrFun hX 2) 2
-    simp only [mul_apply, Fin.sum_univ_three, h10, h20, h01, h02, zero_mul, mul_zero, zero_add,
+    simp only [mul_apply, Fin.sum_univ_three, h10, h20, h01, h02, mul_zero, zero_add,
       one_apply_eq, one_apply_ne (show (1 : Fin 3) ≠ 2 by decide),
       one_apply_ne (show (2 : Fin 3) ≠ 1 by decide)] at q11 q12 q21 q22
     have hdet := hdet3 X h01 h02 h10 h20
@@ -413,6 +413,7 @@ section Fix
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} [hLn : L.Normal] {K : Type} [Field K]
   {p f : ℕ}
 
+omit [Finite G] in
 theorem false_of_fix_four (hK : PiField true p f K) (hq : ModThree true (p ^ f))
     (h2 : (2 : K) ≠ 0) [Group.IsPerfect (projImage (slPi true 3 (p ^ f) K))]
     (e : L ≃* projImage (slPi true 3 (p ^ f) K)) {a : G} {y : GL (Fin 3) K}

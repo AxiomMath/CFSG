@@ -112,7 +112,7 @@ theorem rhoLin_mem_commSpace_of_commute (S : Setting z E F) {β ℓ : Hbar z}
   exact CFSG.LargeExtraspecial.AS35ZS.apply_mem_commSpace_of_commute hρ hw
 
 theorem conj_mem_fixer_of_mapsTo (S : Setting z E F) {β y k : Hbar z}
-    (hy : ∀ w ∈ commSpace (rhoLin S β), rhoLin S y w ∈ commSpace (rhoLin S β))
+    (_hy : ∀ w ∈ commSpace (rhoLin S β), rhoLin S y w ∈ commSpace (rhoLin S β))
     (hyi : ∀ w ∈ commSpace (rhoLin S β), rhoLin S y⁻¹ w ∈ commSpace (rhoLin S β))
     (hk : ∀ w ∈ commSpace (rhoLin S β), rhoLin S k w = w) :
     ∀ w ∈ commSpace (rhoLin S β), rhoLin S (y * k * y⁻¹) w = w := by
@@ -241,7 +241,7 @@ theorem mem_normalizer_commSpaceFixer (S : Setting z E F) {β ℓ : Hbar z}
     simpa [mul_assoc] using h
 
 theorem mem_normalizer_kernelTwo_of_commute (S : Setting z E F) (a : G) {β ℓ : Hbar z}
-    (hβ : β ∈ A2set S) (hℓβ : ℓ * β = β * ℓ) :
+    (_hβ : β ∈ A2set S) (hℓβ : ℓ * β = β * ℓ) :
     ℓ ∈ Subgroup.normalizer (kernelTwo S a β : Set (Hbar z)) := by
   have hℓinvβ : ℓ⁻¹ * β = β * ℓ⁻¹ := by
     have h := congrArg (fun t => ℓ⁻¹ * t * ℓ⁻¹) hℓβ

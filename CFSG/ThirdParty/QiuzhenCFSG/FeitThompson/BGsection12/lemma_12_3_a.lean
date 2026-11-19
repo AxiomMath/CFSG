@@ -37,7 +37,7 @@ public theorem CFSG.section12_rankTwo_subgroupOf_isPGroup
   rcases section12_rankTwo_elementary hA with ⟨_hcard, hElem⟩
   let e : A.subgroupOf M ≃* A := Subgroup.subgroupOfEquivOfLe hAM
   have hAp : IsPGroup p.val A := by
-    haveI : IsElementaryAbelian p.val A := hElem
+    have : IsElementaryAbelian p.val A := hElem
     exact IsElementaryAbelian.isPGroup p.val A
   exact hAp.of_equiv e.symm
 
@@ -65,7 +65,7 @@ public theorem CFSG.section12_pSubgroup_le_normal_hall_of_prime_mem
     (hAp : IsPGroup p.val A) :
     A ≤ H := by
   classical
-  letI : Fact p.val.Prime := ⟨p.property⟩
+  let : Fact p.val.Prime := ⟨p.property⟩
   rw [← QuotientGroup.ker_mk' H]
   rw [← Subgroup.map_eq_bot_iff (f := QuotientGroup.mk' H) (H := A)]
   by_contra hmap_ne_bot
@@ -269,7 +269,7 @@ public theorem CFSG.section12_isPiGroup_singleton_of_isPGroup_pre
     {R : Type*} [Group R] [Finite R] {p : Nat.Primes}
     (hR : IsPGroup p.val R) :
     IsPiGroup ({p} : Set Nat.Primes) R := by
-  letI : Fact p.val.Prime := ⟨p.property⟩
+  let : Fact p.val.Prime := ⟨p.property⟩
   rw [IsPiGroup_iff]
   intro q hq
   obtain ⟨n, hn⟩ := hR.exists_card_eq
@@ -281,7 +281,7 @@ public theorem CFSG.section12_isPGroup_of_isPiSubgroup_singleton
     {H : Subgroup G} {q : Nat.Primes}
     (hH : IsPiSubgroup (G := G) ({q} : Set Nat.Primes) H) :
     IsPGroup q.val H := by
-  letI : Fact q.val.Prime := ⟨q.2⟩
+  let : Fact q.val.Prime := ⟨q.2⟩
   rw [IsPGroup.iff_card]
   have hcard_ne_zero : Nat.card H ≠ 0 := Nat.card_pos.ne'
   refine ⟨(Nat.card H).primeFactorsList.length, ?_⟩
@@ -301,7 +301,7 @@ public theorem CFSG.section12_pSubgroup_le_pCore_of_nilpotent_pre
   obtain ⟨S, hB_le_S⟩ := IsPGroup.exists_le_sylow (G := R) (p := p) hBp
   have hS_normal : (S : Subgroup R).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) inferInstance S
-  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup'⟩)
+  exact hB_le_S.trans (le_sSup ⟨hS_normal, S.isPGroup⟩)
 
 omit [Finite G] [IsMinCE G] in
 public theorem CFSG.section12_eq_bot_of_isPiSubgroup_map_of_isPiGroup_pre
@@ -353,7 +353,7 @@ public theorem CFSG.section12_commutator_le_left_of_le_normalizer_pre
   have hKnorm : (K.subgroupOf L).Normal := by
     simpa [L] using
       Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := A) (N := K) hAK
-  haveI : (K.subgroupOf L).Normal := hKnorm
+  have : (K.subgroupOf L).Normal := hKnorm
   intro x hx
   have hxmap : x ∈ (⁅K.subgroupOf L, A.subgroupOf L⁆).map L.subtype := by
     rw [commutator_subgroupOf_map_eq L A K le_sup_left le_sup_right]
@@ -399,7 +399,7 @@ public theorem CFSG.section12_commutator_le_msigma_of_sigma_rankTwo_pre
   have hσsub_norm : ((section10Msigma M).subgroupOf M).Normal := by
     simpa [section12Msigma_subgroupOf_eq] using
       section10MsigmaSubgroup_normal (M := M)
-  haveI : ((section10Msigma M).subgroupOf M).Normal := hσsub_norm
+  have : ((section10Msigma M).subgroupOf M).Normal := hσsub_norm
   exact section12_commutator_le_right_of_normal_subgroupOf_pre
     (M := M) (N := section10Msigma M) (K := K) (A := A)
     hσM hKle hAσ
@@ -455,7 +455,7 @@ public theorem CFSG.section12_commutator_le_msigma_of_not_sigma_rankTwo_pre
     simpa [L, N, sup_comm] using theorem_11_7 (M := M) (A0 := A₀) (A := A) (p := p)
       (P := P) h11
   rcases hnormIn with ⟨hLleM, hLnorm⟩
-  haveI : (L.subgroupOf M).Normal := hLnorm
+  have : (L.subgroupOf M).Normal := hLnorm
   have hAleL : A ≤ L := by
     intro x hx
     exact Subgroup.mem_sup_left hx
@@ -475,11 +475,11 @@ public theorem CFSG.section12_commutator_le_msigma_of_not_sigma_rankTwo_pre
     section12_rankTwo_elementary hA
   have hAp : IsPGroup p.val A := by
     rcases hAelem with ⟨_hcard, hElem⟩
-    haveI : IsElementaryAbelian p.val A := hElem
+    have : IsElementaryAbelian p.val A := hElem
     exact IsElementaryAbelian.isPGroup p.val A
-  haveI : (N.subgroupOf A).Normal :=
+  have : (N.subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hAN
-  haveI : (N.subgroupOf L).Normal := by
+  have : (N.subgroupOf L).Normal := by
     simpa [L] using
       Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := A) (N := N) hAN
   have hAquot : IsPGroup p.val (A ⧸ N.subgroupOf A) :=
@@ -508,13 +508,13 @@ public theorem CFSG.section12_commutator_le_malpha_of_sigma_rankTwo_pre
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     ⁅K, A⁆ ≤ section10Malpha M := by
   classical
-  letI : Fact p.val.Prime := ⟨p.2⟩
+  let : Fact p.val.Prime := ⟨p.2⟩
   let α : Subgroup M := section10MalphaSubgroup M
   let D : Subgroup M := derivedSubgroup M
   rcases (theorem_10_2_d (M := M) hM).2 with ⟨hαD, hαDnorm, hDquot_nil⟩
-  haveI : (α.subgroupOf D).Normal := by
+  have : (α.subgroupOf D).Normal := by
     simpa [α, D] using hαDnorm
-  haveI : α.Normal := by
+  have : α.Normal := by
     dsimp [α]
     infer_instance
   let qM : M →* M ⧸ α := QuotientGroup.mk' α
@@ -522,7 +522,7 @@ public theorem CFSG.section12_commutator_le_malpha_of_sigma_rankTwo_pre
   have hDbar_norm : Dbar.Normal := by
     dsimp [Dbar]
     exact Subgroup.Normal.map (H := D) inferInstance qM (QuotientGroup.mk'_surjective α)
-  haveI : Dbar.Normal := hDbar_norm
+  have : Dbar.Normal := hDbar_norm
   have hDbar_nil : Group.IsNilpotent Dbar := by
     let e : D ⧸ α.subgroupOf D ≃* Dbar := quotientSubgroupRangeEquiv D α
     exact Group.nilpotent_of_mulEquiv (G := D ⧸ α.subgroupOf D) (G' := Dbar) e
@@ -530,7 +530,7 @@ public theorem CFSG.section12_commutator_le_malpha_of_sigma_rankTwo_pre
   have hPbarSub_char : PbarSub.Characteristic := by
     dsimp [PbarSub]
     exact pCore_characteristic (G := Dbar) (p := p.val)
-  haveI : PbarSub.Characteristic := hPbarSub_char
+  have : PbarSub.Characteristic := hPbarSub_char
   let Pbar : Subgroup (M ⧸ α) := PbarSub.map Dbar.subtype
   have hPbar_norm : Pbar.Normal := by
     dsimp [Pbar]
@@ -574,7 +574,7 @@ public theorem CFSG.section12_commutator_le_malpha_of_sigma_rankTwo_pre
       Subgroup.subgroupOfEquivOfLe hAbar_le_Dbar
     exact hAbar_p.of_equiv e.symm
   have hAbarD_le_pcore : AbarM.subgroupOf Dbar ≤ PbarSub := by
-    haveI : Group.IsNilpotent Dbar := hDbar_nil
+    have : Group.IsNilpotent Dbar := hDbar_nil
     simpa [PbarSub] using
       section12_pSubgroup_le_pCore_of_nilpotent_pre (R := Dbar) (p := p.val)
         (B := AbarM.subgroupOf Dbar) hAbarD_p
@@ -599,7 +599,7 @@ public theorem CFSG.section12_commutator_le_malpha_of_sigma_rankTwo_pre
     simpa [C] using section12_commutator_le_left_of_le_normalizer_pre hAK
   have hC_le_M : C ≤ M := hC_le_K.trans hKle
   have hC_le_N : C ≤ N := by
-    haveI : (N.subgroupOf M).Normal := hNnorm
+    have : (N.subgroupOf M).Normal := hNnorm
     simpa [C] using
       section12_commutator_le_right_of_normal_subgroupOf_pre
         (M := M) (N := N) (K := K) (A := A) hNle hKle hA_le_N
@@ -666,7 +666,7 @@ public theorem CFSG.section12_not_conjugate_of_sigma_rankTwo_pre
     section12_rankTwo_elementary hAstar
   have hAp : IsPGroup p.val A := by
     rcases hAelem with ⟨_hcard, hElem⟩
-    haveI : IsElementaryAbelian p.val A := hElem
+    have : IsElementaryAbelian p.val A := hElem
     exact IsElementaryAbelian.isPGroup p.val A
   have hAne : A ≠ ⊥ := by
     rcases hAelem with ⟨hcard, _hElem⟩

@@ -19,7 +19,7 @@ section Cyclic
 
 theorem twE6ZpowersEq {G : Type*} [Group G] [Finite G] {a b c : G} (hc : Subgroup.zpowers c = ⊤)
     (h : orderOf a = orderOf b) : Subgroup.zpowers a = Subgroup.zpowers b := by
-  haveI : IsCyclic G := isCyclic_iff_exists_zpowers_eq_top.2 ⟨c, hc⟩
+  have : IsCyclic G := isCyclic_iff_exists_zpowers_eq_top.2 ⟨c, hc⟩
   exact IsCyclic.subgroup_eq_iff_card_eq.2 (by rw [Nat.card_zpowers, Nat.card_zpowers, h])
 
 theorem twE6ApplyEqOfMemZpowers {K : Type} [Field K] {κ σ₀ : K ≃+* K}
@@ -118,7 +118,7 @@ theorem twE6SigmaZero {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     rw [card_twistedH, largeEvenIsRoot_eq_isRoot, twCardS_eq K n σe.toRingHom hσe' hperf, hcardF]
   have hcenH : Nat.card (Subgroup.center ↥(twH[n, K])) = 1 := by
     rw [card_center_twistedH, largeEvenIsRoot_eq_isRoot, twCenterS_eq K n σe hσe hperf hσσ]
-  haveI : Finite ↥(twH[n, K]) := by
+  have : Finite ↥(twH[n, K]) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [hcardH]
     obtain ⟨r, hr, h⟩ := (CFSG.SeitzReduction.F4Pilot.EvenExc.profile_ordTwistedE6' hn).two

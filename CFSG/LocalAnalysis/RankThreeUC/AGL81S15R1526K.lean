@@ -18,14 +18,14 @@ theorem weak_closure_of_normal {M H : Subgroup G} (hM : rankThreeIsMaxTwoLocal M
         Subgroup.normalizer ((A.map M.subtype : Subgroup G) : Set G) ⊓ (H ⊓ M) →
       (A.map M.subtype).map (MulAut.conj h).toMonoidHom = A.map M.subtype := by
   intro h _ hle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup G := A.map M.subtype with hP
   set Q : Subgroup G := P.map (MulAut.conj h).toMonoidHom
   have hQN : Q ≤ Subgroup.normalizer (P : Set G) := hle.trans inf_le_left
   have hQM : Q ≤ M := hle.trans (inf_le_right.trans inf_le_right)
   have hPle : P ≤ M.map (MulAut.conj h⁻¹).toMonoidHom := by
     intro x hx
-    exact ⟨h * x * h⁻¹, hQM ⟨x, hx, rfl⟩, by simp [MulAut.conj_apply]; group⟩
+    exact ⟨h * x * h⁻¹, hQM ⟨x, hx, rfl⟩, by simp; group⟩
   have hhM : h ∈ M := by
     have hMh := hAU.2 h⁻¹ hPle
     have : h⁻¹ ∈ Subgroup.normalizer (M : Set G) := mem_normalizer_iff_map_conj_eq.2 hMh

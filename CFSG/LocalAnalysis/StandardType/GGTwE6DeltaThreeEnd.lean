@@ -29,7 +29,7 @@ theorem rho_mem_range_twConj_iff {K : Type} [Field K] [Finite K] {n : ℕ} {σ :
     (hψ' : Function.Surjective ψ') (hZ' : Subgroup.center ↥(twistedE6RootGroup K σ) = ⊥)
     (hker' : ψ'.ker ≤ Subgroup.center L') (a : MulAut L') :
     Induces ψ a ↔ ggIE_indAutHom hψ' hZ' hker' a ∈ (RecipeExcLang.twConj K σ).range := by
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_surjective ψ' hψ'
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_surjective ψ' hψ'
   have hc : ∀ l, ggIE_indAutHom hψ' hZ' hker' a (ψ' l) = ψ' (a l) := fun l =>
     indAutHom_apply_mk hψ' hZ' hker' a l
   constructor
@@ -56,8 +56,8 @@ section End
 theorem endNodeInput_of_core (hCore : TwE6RootAs.TwE6CorootCore) : EndNodeInput := by
   intro K _ _ n hn hK h3 _ L' _ _ ψ hψ hker hperf _ Y hY hYc hInd
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef

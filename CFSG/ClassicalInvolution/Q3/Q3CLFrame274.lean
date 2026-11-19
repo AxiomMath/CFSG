@@ -108,7 +108,7 @@ theorem exists_orderFour_centralizes_mul_conj (hΩ : HypOmegaGen Ω) {M P : Subg
     exact hbq.symm
   have hqS : r * r' ∈ (S : Subgroup G) := S.mul_mem (hPS hrP) (hPbS hr'mem)
   have hq2 : IsPGroup 2 (Subgroup.zpowers (r * r')) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hqS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hqS)
   obtain ⟨x, hxL, hxo, hx⟩ := Q3CL.T8.exists_orderFour_centralizes_sq hΩ hL hb hq2 hqL
   have hsq : (r * r') * (r * r') = m * (b * m * b⁻¹) := by
     have h1 : r' * r' = b * m * b⁻¹ := by
@@ -145,7 +145,7 @@ theorem mem_dComp_of_four_le_card (hΩ : HypOmegaGen Ω)
   have hUKord : 4 ≤ Nat.card ↥(K ⊓ ⨆ V ∈ η, V) := by
     obtain ⟨-, -, -, -, -, -, -, -, h4⟩ := hΩ.exists_data_of_mem_USet (hUSet _ hUK)
     exact h4
-  have hUK2 : IsPGroup 2 ↥(K ⊓ ⨆ V ∈ η, V) := S.isPGroup'.to_le (inf_le_right.trans hWS)
+  have hUK2 : IsPGroup 2 ↥(K ⊓ ⨆ V ∈ η, V) := S.isPGroup.to_le (inf_le_right.trans hWS)
   have hzU : z ∈ K ⊓ ⨆ V ∈ η, V := T3.mem_of_isPGroup hz inf_le_left hUK2 (by omega)
   have hUN : (L ⊓ ⨆ V ∈ η, V) ≤ Subgroup.normalizer (K : Set G) := by
     intro y hy
@@ -251,7 +251,7 @@ theorem mem_H274_of_conj_mem_sylow {K J : Subgroup G} {S : Sylow 2 G} {R T W : S
       calc t * b = (b * t * b⁻¹) * b := by rw [hbt]
         _ = b * t := by group
     obtain ⟨x, hxL, hxo, hxc⟩ := exists_orderFour_centralizes_one_of_three hΩ hLΩ hb
-      S.isPGroup' (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
+      S.isPGroup (hRS hzR) (hTS htT) (mem_normalizer_iff_conjSub_eq.mp (hCb hzb))
       (mem_normalizer_iff_conjSub_eq.mp (hCb htb))
     refine ⟨x, hxL, hxo, ?_⟩
     rcases hxc with h | h | h
@@ -381,7 +381,7 @@ theorem sylow_le_H274_of_good_four {K J : Subgroup G} {S : Sylow 2 G} {R T W : S
     have := conjSub_mono (n := g) hRS
     rwa [hg] at this
   obtain ⟨x₀, hx₀, hx₀1⟩ := exists_mul_self_ne_one_of_mem_RSet hΩ hXR
-  have h310 := lemma_3_10 (S := (S₂ : Subgroup G)) S₂.isPGroup'
+  have h310 := lemma_3_10 (S := (S₂ : Subgroup G)) S₂.isPGroup
     (Δ := {Y | Y ∈ RSet Ω ∧ Y ≤ (S₂ : Subgroup G)}) (fun Y hY => hY.2)
     (fun Y hY s hs' => ⟨RSet.conj hΩ.conjInvariant hY.1 s, by
       have := conjSub_mono (n := s) hY.2
@@ -454,12 +454,12 @@ theorem exists_sylow_centralizer {K J : Subgroup G} {S : Sylow 2 G} {R T W : Sub
     ∃ S' : Sylow 2 G, R ≤ (S' : Subgroup G) ∧
       IsSylow2In ((S' : Subgroup G) ⊓ Subgroup.centralizer ({z * t} : Set G))
         (Subgroup.centralizer ({z * t} : Set G)) := by
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_le hs.hR.2.2
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_le hs.hR.2.2
   obtain ⟨V, hV, hRV⟩ := IsSylow2In.exists_ge hR2 (le_centralizer_mul hs)
   obtain ⟨S', hVS'⟩ := IsPGroup.exists_le_sylow hV.2.1
   refine ⟨S', hRV.trans hVS', ?_⟩
   have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ Subgroup.centralizer ({z * t} : Set G)) :=
-    S'.isPGroup'.to_le inf_le_left
+    S'.isPGroup.to_le inf_le_left
   have heq := hV.eq_of_le hp2 inf_le_right (le_inf hVS' hV.1)
   rw [heq]
   exact hV
@@ -577,7 +577,7 @@ theorem exists_normalized_conj {K J : Subgroup G} {S : Sylow 2 G} {R T W : Subgr
       D = conjSub g₁ ((S' : Subgroup G) ⊓ Subgroup.centralizer ({d₁} : Set G)) := ⟨_, rfl⟩
   have hD2 : IsPGroup 2 ↥D := by
     rw [hD]
-    exact (S'.isPGroup'.to_le inf_le_left).map _
+    exact (S'.isPGroup.to_le inf_le_left).map _
   have hDC : D ≤ Subgroup.centralizer ({z * t} : Set G) := by
     rw [hD]
     rintro x ⟨s, hs', rfl⟩

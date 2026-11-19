@@ -14,7 +14,7 @@ variable {G : Type*} [Group G]
 theorem frattini_map_subtype_le_of_commutator_le_of_pow_mem {p : ℕ} [Fact p.Prime]
     {V Z : Subgroup G} [Finite ↥V] (hV : IsPGroup p V) (hc : ⁅V, V⁆ ≤ Z)
     (hs : ∀ v ∈ V, v ^ p ∈ Z) : (frattini ↥V).map V.subtype ≤ Z := by
-  haveI : Fact (IsPGroup p ↥V) := ⟨hV⟩
+  have : Fact (IsPGroup p ↥V) := ⟨hV⟩
   rw [Subgroup.map_le_iff_le_comap,
     CFSG.frattini_eq_closure_commutator_union_powers (p := p), Subgroup.closure_le]
   rintro x (hx | ⟨y, rfl⟩)
@@ -34,8 +34,8 @@ variable [Finite G]
 theorem frattini_map_subtype_mono {A B : Subgroup G}
     (hB : IsPGroup 2 B) (hAB : A ≤ B) :
     (frattini ↥A).map A.subtype ≤ (frattini ↥B).map B.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥B) := ⟨hB⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥B) := ⟨hB⟩
   refine frattini_map_subtype_le_of_commutator_le_of_pow_mem
     (p := 2) (V := A) (Z := (frattini ↥B).map B.subtype) (hB.to_le hAB) ?_ ?_
   · rw [Subgroup.commutator_le]
@@ -55,7 +55,7 @@ private theorem sq_mem_frattini_map_of_le_sup {W R P H : Subgroup G}
     (hcomm : ∀ r ∈ R, ∀ p ∈ P, r * p = p * r)
     (hHW : H ≤ W) {x : G} (hx : x ∈ H) :
     x ^ 2 ∈ (frattini ↥P).map P.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, hr, p, hp, hxrp⟩ :=
     CFSG.GroupTheory.exists_mul_of_mem_sup_of_commute (A := R) (B := P) hcomm
       (hW ▸ hHW hx)
@@ -63,7 +63,7 @@ private theorem sq_mem_frattini_map_of_le_sup {W R P H : Subgroup G}
   have hcp : Commute r p := (commute_iff_eq r p).mpr (hcomm r hr p hp)
   have hx2 : x ^ 2 = p ^ 2 := by
     rw [← hxrp, hcp.mul_pow 2, hr2, one_mul]
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hW2.to_le (hW.symm ▸ le_sup_right)⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hW2.to_le (hW.symm ▸ le_sup_right)⟩
   rw [hx2]
   exact Subgroup.mem_map.mpr
     ⟨(⟨p, hp⟩ : P) ^ 2, CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥P) (p := 2) _, by simp⟩
@@ -73,7 +73,7 @@ private theorem commutator_mem_frattini_map_of_le_sup {W R P H : Subgroup G}
     (hcomm : ∀ r ∈ R, ∀ p ∈ P, r * p = p * r)
     (hHW : H ≤ W) {x y : G} (hx : x ∈ H) (hy : y ∈ H) :
     ⁅x, y⁆ ∈ (frattini ↥P).map P.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, hr, p, hp, hxrp⟩ :=
     CFSG.GroupTheory.exists_mul_of_mem_sup_of_commute (A := R) (B := P) hcomm
       (hW ▸ hHW hx)
@@ -87,7 +87,7 @@ private theorem commutator_mem_frattini_map_of_le_sup {W R P H : Subgroup G}
       CFSG.GroupTheory.commutatorElement_mul_of_commute (A := R) (B := P) hcomm hr hs hp hq,
       commutatorElement_eq_one_iff_mul_comm.mpr hrs, one_mul]
   rw [hcommut]
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hW2.to_le (hW.symm ▸ le_sup_right)⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hW2.to_le (hW.symm ▸ le_sup_right)⟩
   refine Subgroup.mem_map.mpr ⟨⁅(⟨p, hp⟩ : P), (⟨q, hq⟩ : P)⁆, ?_, ?_⟩
   · have hcommP : _root_.commutator ↥P ≤ frattini ↥P :=
       CFSG.commutator_le_frattini_of_isPGroup (R := ↥P) (p := 2)
@@ -150,8 +150,8 @@ theorem frattini_map_subtype_ne_bot_of_not_isMulCommutative {P : Subgroup G}
     (hP2 : IsPGroup 2 P) (hP : ¬ IsMulCommutative P) :
     (frattini ↥P).map P.subtype ≠ ⊥ := by
   intro hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   have hfr : frattini ↥P = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (frattini ↥P) P.subtype_injective).mp hbot
   have hElem : IsElementaryAbelian 2 ↥P :=
@@ -159,6 +159,7 @@ theorem frattini_map_subtype_ne_bot_of_not_isMulCommutative {P : Subgroup G}
   exact hP hElem.toIsMulCommutative
 
 
+omit [Finite G] in
 theorem natCard_frattini_map_conj (H : Subgroup G) (g : G) :
     Nat.card ((frattini ↥(H.map (MulAut.conj g).toMonoidHom)).map
         (H.map (MulAut.conj g).toMonoidHom).subtype) =

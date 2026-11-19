@@ -108,7 +108,7 @@ theorem sel_eq {p : Nat → Bool} : ∀ xs : List Nat, (∀ x ∈ xs, x < 4060) 
           (if ELf x = l then (if p l then 1 else 0) else 0) := fun l _ => by
       by_cases hp : p l <;> by_cases he : ELf x = l <;> simp [hp, he, Nat.beq_eq]
     rw [Finset.sum_congr rfl e1, Finset.sum_add_distrib, Finset.sum_ite_eq,
-      if_pos (Finset.mem_range.2 hlt)]
+      ite_eq_left (Finset.mem_range.2 hlt)]
 
 open Certificates in
 open CFSG CFSG.Quasithin CFSG.Quasithin.RuRank3 CFSG.Sporadic.Schreier.Tits CFSG.Sporadic.RuSchreier in

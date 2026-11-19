@@ -20,8 +20,8 @@ theorem isPGroup_three_of_permutes_spor (hK : K105Spor) {X : Type} [Group X] [Fi
     (hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤) (hBn : Group.IsNilpotent ↥B)
     (hBo : Odd (Nat.card ↥B)) (hBS : (B : Set X) * (S : Set X) = (S : Set X) * (B : Set X)) :
     IsPGroup 3 ↥B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS2 : IsPGroup 2 ↥S := hS.2.1
   have hcoe : ((B ⊔ S : Subgroup X) : Set X) = (B : Set X) * (S : Set X) :=
     CFSG.Quasithin.H23P4.coe_sup_eq_mul_of_mul_comm hBS
@@ -31,7 +31,7 @@ theorem isPGroup_three_of_permutes_spor (hK : K105Spor) {X : Type} [Group X] [Fi
   have hsolv : Group.IsSolvable ↥(B ⊔ S) := by
     have eB : ↥(B.subgroupOf (B ⊔ S)) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBY
     have eS : ↥(S.subgroupOf (B ⊔ S)) ≃* ↥S := Subgroup.subgroupOfEquivOfLe hSY
-    haveI := hBn
+    have := hBn
     refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf (B ⊔ S))
       (S.subgroupOf (B ⊔ S)) (Group.nilpotent_of_mulEquiv eB.symm)
       ((hS2.of_equiv eS.symm).isNilpotent) ?_ ?_

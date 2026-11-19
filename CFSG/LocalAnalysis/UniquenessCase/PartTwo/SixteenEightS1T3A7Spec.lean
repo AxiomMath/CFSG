@@ -29,7 +29,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 private theorem s16t3_isSimpleGroup_of_isAlt {X : Type} [Group X] {n : ℕ} (h : IsAlt X n)
     (hn : 5 ≤ n) : IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (α := Fin n) (by simpa [Nat.card_fin] using hn)
   exact e.isSimpleGroup
 
@@ -58,7 +58,7 @@ theorem s16t3_exists_coverL_alt (hset : Setting16 D V₀ V L) (h127 : R127 D)
     · exact s16t3_isSimpleGroup_of_isAlt h7 (by norm_num)
   have hLnc : ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
     intro hc
-    haveI := hc
+    have := hc
     have hp : (Nat.card ↥(lBar V₀ V hV L)).Prime :=
       Group.is_simple_iff_prime_card.mp hLs
     have h360 : ¬ (360 : ℕ).Prime := by norm_num
@@ -74,7 +74,7 @@ theorem s16t3_exists_coverL_alt (hset : Setting16 D V₀ V L) (h127 : R127 D)
     by_cases hp2 : p = 2
     · exact Or.inl hp2
     · right
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨x, hxord⟩ :=
         exists_prime_orderOf_dvd_card' p (G := ↥(YL ⊓ F11.CTilde D.M V₀ V)) hpdvd
       have hxmem : (x : G) ∈ YL ⊓ F11.CTilde D.M V₀ V := x.2
@@ -92,7 +92,7 @@ theorem s16t3_exists_coverL_alt (hset : Setting16 D V₀ V L) (h127 : R127 D)
         by_contra hnot
         exact hxne ((hYLbound p hp hp2 (x : G) hxmem 1 hxpow).1 hnot)
       have hp50 : p ≤ 50 := by
-        haveI : Nonempty ↥(lBar V₀ V hV L) := ⟨1⟩
+        have : Nonempty ↥(lBar V₀ V hV L) := ⟨1⟩
         have hle : p ^ 2 ≤ Nat.card ↥(lBar V₀ V hV L) :=
           Nat.le_of_dvd Nat.card_pos hp2dvd
         have hle' : p ^ 2 ≤ 2520 := by
@@ -131,7 +131,7 @@ theorem s16t3_exists_covers_alt (hset : Setting16 D V₀ V L) (h127 : R127 D)
     · exact hsimp
   have hKnc : ¬ IsMulCommutative ↥(s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L)) := by
     intro hc
-    haveI := hc
+    have := hc
     have hp : (Nat.card ↥(s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L))).Prime :=
       Group.is_simple_iff_prime_card.mp hKs
     rw [hK] at hp
@@ -164,7 +164,7 @@ theorem s16t3_exists_covers_alt (hset : Setting16 D V₀ V L) (h127 : R127 D)
       by_cases hd2 : d = 2
       · exact hd2
       · exfalso
-        haveI : Fact d.Prime := ⟨hd⟩
+        have : Fact d.Prime := ⟨hd⟩
         obtain ⟨x, hxord⟩ :=
           exists_prime_orderOf_dvd_card' d (G := ↥(YK ⊓ F11.CTilde D.M V₀ V)) hddvd
         have hxmem : (x : G) ∈ YK ⊓ F11.CTilde D.M V₀ V := x.2

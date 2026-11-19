@@ -13,6 +13,7 @@ open Polynomial Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.Co
 
 variable {n : ℕ} {K : Type} [Field K] [Finite K] {a : SpecialLinearGroup (Fin n) K}
 
+omit [Finite K] in
 theorem sl_block_split (hpk : (3 : K) ≠ 0) (hap : a ^ 3 = 1) {h : K[X]}
     (hh : h ∈ primaryFactors ((slGL n K a : LinearMap.GeneralLinearGroup K (Fin n → K)) :
       Module.End K (Fin n → K)))

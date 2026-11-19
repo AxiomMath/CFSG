@@ -13,6 +13,7 @@ open CFSG.QuasithinUnique.Claim2526
 section T
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem center_char_of_aut (L : Subgroup G) (α : ↥L ≃* ↥L) (z : ↥L)
     (hz : z ∈ Subgroup.center ↥L) : α z ∈ Subgroup.center ↥L := by
   rw [Subgroup.mem_center_iff] at hz ⊢
@@ -32,19 +33,23 @@ private noncomputable def T0Quot (L : Subgroup G) (n : ↥(Nor L)) :
         exact ⟨(L.normalizerMonoidHom n : ↥L ≃* ↥L).symm z,
           center_char_of_aut L _ z hz, MulEquiv.apply_symm_apply _ z⟩)
 
+omit [Finite G] in
 private theorem T0Quot_mk (L : Subgroup G) (n : ↥(Nor L)) (x : ↥L) :
     T0Quot L n (QuotientGroup.mk x) = QuotientGroup.mk (L.normalizerMonoidHom n x) :=
   QuotientGroup.congr_mk _ _ _ _ x
 
+omit [Finite G] in
 private theorem T0_coe_Cn (L : Subgroup G) (n : ↥(Nor L)) (x : ↥L) :
     ((L.normalizerMonoidHom n x : ↥L) : G) = (n : G) * x * (n : G)⁻¹ := by
   simp
 
+omit [Finite G] in
 private theorem T0Quot_one (L : Subgroup G) (q : ↥L ⧸ Subgroup.center ↥L) :
     T0Quot L 1 q = q := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
   rw [T0Quot_mk, map_one, MulAut.one_apply]
 
+omit [Finite G] in
 private theorem T0Quot_mul (L : Subgroup G) (n m : ↥(Nor L))
     (q : ↥L ⧸ Subgroup.center ↥L) : T0Quot L (n * m) q = T0Quot L n (T0Quot L m q) := by
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
@@ -55,6 +60,7 @@ private noncomputable def T0Aut (L : Subgroup G)
     MulAut (alternatingGroup (Fin 8)) :=
   e.symm.trans ((T0Quot L n).trans e)
 
+omit [Finite G] in
 private theorem T0Aut_apply (L : Subgroup G)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) (n : ↥(Nor L))
     (y : alternatingGroup (Fin 8)) :
@@ -74,6 +80,7 @@ private noncomputable def T0Hom (L : Subgroup G)
     rw [MulAut.mul_apply, T0Aut_apply, T0Aut_apply, T0Aut_apply, MulEquiv.symm_apply_apply,
       T0Quot_mul]
 
+omit [Finite G] in
 private theorem T0Hom_apply (L : Subgroup G)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) (n : ↥(Nor L)) :
     T0Hom L e n = T0Aut L e n := rfl
@@ -83,6 +90,7 @@ private noncomputable def T0Theta (L : Subgroup G)
   (conjEquiv8.symm : MulAut (alternatingGroup (Fin 8)) ≃* Equiv.Perm (Fin 8)).toMonoidHom.comp
     (T0Hom L e)
 
+omit [Finite G] in
 private theorem T0Theta_conj (L : Subgroup G)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) (n : ↥(Nor L)) :
     MulAut.conjNormal (T0Theta L e n) = T0Hom L e n :=
@@ -93,6 +101,7 @@ private theorem conjNormal_val (σ : Equiv.Perm (Fin 8)) (h : alternatingGroup (
       σ * (h : Equiv.Perm (Fin 8)) * σ⁻¹ := by
   simp [MulAut.conjNormal_apply]
 
+omit [Finite G] in
 private theorem T0Quot_mk_conj (L : Subgroup G) (x w : ↥L) (hx : (x : G) ∈ Nor L) :
     T0Quot L ⟨(x : G), hx⟩ (QuotientGroup.mk w) =
       QuotientGroup.mk x * QuotientGroup.mk w * (QuotientGroup.mk x)⁻¹ := by
@@ -100,6 +109,7 @@ private theorem T0Quot_mk_conj (L : Subgroup G) (x w : ↥L) (hx : (x : G) ∈ N
     Subtype.ext (by simp)
   rw [T0Quot_mk, h, QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
 
+omit [Finite G] in
 private theorem cen_of_quot_trivial (L : Subgroup G) (hL : ⁅L, L⁆ = L) (n : ↥(Nor L))
     (hfix : ∀ x : ↥L, x⁻¹ * L.normalizerMonoidHom n x ∈ Subgroup.center ↥L) :
     (n : G) ∈ CenS L := by
@@ -129,6 +139,7 @@ private theorem cen_of_quot_trivial (L : Subgroup G) (hL : ⁅L, L⁆ = L) (n : 
   refine Subgroup.mem_centralizer_iff.2 (fun l hl => ?_)
   exact (perfect_centralizes_of_comm_central L hL (n : G) hxL hz l hl).symm
 
+omit [Finite G] in
 private theorem T0Hom_eq_one_iff (L : Subgroup G) (hL : ⁅L, L⁆ = L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) (n : ↥(Nor L)) :
     T0Hom L e n = 1 ↔ (n : G) ∈ CenS L := by
@@ -154,6 +165,7 @@ private theorem T0Hom_eq_one_iff (L : Subgroup G) (hL : ⁅L, L⁆ = L)
       Subtype.ext (by rw [T0_coe_Cn, hc]; group)
     rw [MulAut.one_apply, T0Hom_apply, T0Aut_apply, MulEquiv.symm_apply_apply, T0Quot_mk, hw]
 
+omit [Finite G] in
 theorem T0_thetaBar (L : Subgroup G) (hL : ⁅L, L⁆ = L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) :
     ∃ θ : ↥(Nor L) →* P8,

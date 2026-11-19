@@ -18,6 +18,7 @@ theorem mRel_add_rk (H K : Subgroup V) : mRel H K + rk ↥(H ⊓ K) = rk K := by
   rw [← padicValNat.mul (relIndex_ne_zero_of_finite H K) Nat.card_pos.ne',
     Subgroup.relIndex_mul_card]
 
+omit [Finite V] in
 theorem apply_mem_of_mem_stabSub {W : Subgroup V} {y : MulAut V} (hy : y ∈ stabSub W) {w : V}
     (hw : w ∈ W) : y w ∈ W :=
   (hy w).mpr hw
@@ -45,7 +46,7 @@ theorem five_le_card {W : Subgroup V} {a b c d e : V} (ha : a ∈ W) (hb : b ∈
   convert h using 1
 
 theorem two_mul_rk_fixV_inf_le (hV : ∀ v : V, v ^ 2 = 1) {W : Subgroup V} {a y : MulAut V}
-    (hay : a * y * a⁻¹ = y⁻¹) (hodd : Odd (orderOf y)) (ha : a ∈ stabSub W)
+    (hay : a * y * a⁻¹ = y⁻¹) (hodd : Odd (orderOf y)) (_ha : a ∈ stabSub W)
     (hy : y ∈ stabSub W) (hfpf : ∀ w ∈ W, y w = w → w = 1) :
     2 * rk ↥(fixV (Subgroup.zpowers a) ⊓ W) ≤ rk W := by
   obtain ⟨k, hk⟩ := hodd
@@ -163,6 +164,7 @@ theorem three_dvd_orderOf_of_card_four (hV : ∀ v : V, v ^ 2 = 1) {W : Subgroup
     | succ n ih => rw [pow_succ, MulAut.mul_apply, hcube u hu, ih]
   exact hu1 (hfpf u hu (by rw [← hyj]; exact hfix j))
 
+omit [Finite V] in
 theorem mem_stabSub_commSub {Y : Subgroup V} {Z : Subgroup (MulAut V)} {g : MulAut V}
     (hgY : g ∈ stabSub Y) (hgZ : g ∈ Subgroup.normalizer (Z : Set (MulAut V))) :
     g ∈ stabSub (commSub Y Z) := by

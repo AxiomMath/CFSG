@@ -92,8 +92,8 @@ theorem mb2_std_row4 :
     Nonempty (↥(commutant (maskSub 11 mb4L9) UT
       ((img11 trQ : Subgroup (MulAut W11)) : Set (MulAut W11))) ≃+*
         Matrix (Fin 2) (Fin 2) (ZMod 2)) := by
-  haveI := mb2Model4.finite_commutant
-  haveI := mb2Model4.nontrivial_commutant (by norm_num : 0 < 6)
+  have := mb2Model4.finite_commutant
+  have := mb2Model4.nontrivial_commutant (by norm_num : 0 < 6)
   have h := exists_matrix2_of_data (mb2Model4.matrix2Data mb2E4 mb2c4_lenE mb2c4_ltE mb2c4_commE
     mb2c4_mulE mb2c4_sumE [1] mb2W4 mb2c4_hW mb2c4_count)
   rwa [genGroup_mb2Gens4] at h

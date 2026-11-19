@@ -17,7 +17,7 @@ open scoped commutatorElement
 section Setup
 
 theorem exists_psl2_setup {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup ↥(genFittingFStar X))
-    {p f : ℕ} (hp2 : p ≠ 2) (hl : LieModel (TL4.FStarQuot X) .PSL 2 p f) :
+    {p f : ℕ} (_hp2 : p ≠ 2) (hl : LieModel (TL4.FStarQuot X) .PSL 2 p f) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = p ^ f ∧ 4 ≤ p ^ f ∧ p.Prime ∧
       Subgroup.centralizer ((genFittingFStar X : Subgroup X) : Set X) = ⊥ ∧
       Nonempty (↥(genFittingFStar X) ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) := by
@@ -432,7 +432,7 @@ theorem ringEquiv_pow_eq_one {F : Type} [Field F] [Finite F] {p f : ℕ} [hp : F
   have := Fintype.ofFinite F
   have hcardF : Fintype.card F = p ^ f := by rw [← Nat.card_eq_fintype_card, hF]
   have : CharP F p := charP_of_card_eq_prime_pow hcardF
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   let e : (F ≃+* F) ≃* (F ≃ₐ[ZMod p] F) := {
     toFun := fun τ =>
       AlgEquiv.ofRingEquiv (f := τ) (by
@@ -457,7 +457,6 @@ theorem ringEquiv_pow_eq_one {F : Type} [Field F] [Finite F] {p f : ℕ} [hp : F
     exact pow_orderOf_eq_one _
   have h1 : e (σ ^ f) = 1 := by
     rw [map_pow]
-    change (e σ) ^ f = 1
     rw [← hn]
     dsimp only
     rw [← pow_mul, mul_comm, pow_mul, hfrob, one_pow]
@@ -513,6 +512,7 @@ open CFSG.GorensteinWalter
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem inl_inj' {a b : PGL2 F} (h : (SemidirectProduct.inl a : PGammaL2 F) = SemidirectProduct.inl b) :
     a = b :=
   SemidirectProduct.inl_injective h
@@ -619,6 +619,7 @@ open CFSG.GorensteinWalter
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem pgl2_eq_of_comm_four (h2 : (2 : F) ≠ 0) {c g : PGL2 F} (hc2 : c ^ 2 ≠ 1)
     (hc4 : c ^ 4 = 1) (hgc : g * c = c * g) (hg2 : g ^ 2 ≠ 1) (hg4 : g ^ 4 = 1) :
     g = c ∨ g = c⁻¹ := by
@@ -644,6 +645,7 @@ theorem pgl2_eq_of_comm_four (h2 : (2 : F) ≠ 0) {c g : PGL2 F} (hc2 : c ^ 2 �
     rw [h]
     exact eq_inv_of_mul_eq_one_left (by rw [← pow_succ]; exact hc4)
 
+omit [Finite F] in
 theorem pgl2_eq_of_comm_quat (h2 : (2 : F) ≠ 0) {c g : PGL2 F} {y : PGammaL2 F}
     (hc2 : c ^ 2 ≠ 1) (hc4 : c ^ 4 = 1)
     (hy : y * SemidirectProduct.inl c * y⁻¹ = (SemidirectProduct.inl c)⁻¹)
@@ -700,6 +702,7 @@ theorem q8_exists_inverter : ∀ c : QuaternionGroup 2, c ^ 2 = QuaternionGroup.
     ∃ y : QuaternionGroup 2, y * c * y⁻¹ = c⁻¹ := by
   decide
 
+omit [Finite F] in
 theorem right_pow (b : PGammaL2 F) (n : ℕ) : (b ^ n).right = b.right ^ n := by
   induction n with
   | zero => rfl
@@ -834,6 +837,7 @@ variable {F : Type} [Field F] [Finite F]
 noncomputable abbrev pslRange (F : Type) [Field F] : Subgroup (PGL2 F) :=
   (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range
 
+omit [Finite F] in
 theorem fieldAut_mem_pslRange_iff (σ : F ≃+* F) (x : PGL2 F) :
     pgl2FieldAut F σ x ∈ pslRange F ↔ x ∈ pslRange F := by
   constructor
@@ -849,6 +853,7 @@ theorem left_mul_mem_iff (hK : IsOddPrimePower (Nat.card F)) (x y : PGammaL2 F) 
   rw [SemidirectProduct.mul_left, Subgroup.mul_mem_iff_of_index_two
     (pgl2_psl2Range_index_eq_two F hK), fieldAut_mem_pslRange_iff]
 
+omit [Finite F] in
 theorem left_inv_mem_iff (x : PGammaL2 F) :
     (x⁻¹).left ∈ pslRange F ↔ x.left ∈ pslRange F := by
   rw [SemidirectProduct.inv_left, fieldAut_mem_pslRange_iff, inv_mem_iff]
@@ -1070,7 +1075,7 @@ theorem comm_pD_neg_one (h2 : (2 : F) ≠ 0) {g : PGL2 F} (hg : g * pD (-1) = pD
     refine ⟨Units.mk0 ((G : Matrix (Fin 2) (Fin 2) F) 1 0)⁻¹ (inv_ne_zero hc),
       Matrix.GeneralLinearGroup.ext fun i j => ?_⟩
     rw [Matrix.GeneralLinearGroup.coe_mul, scalar_val', glA_val]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, ha, hd, hc] <;>
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, ha, hd, hc];
       field_simp
   ·
     left
@@ -1102,7 +1107,7 @@ theorem comm_pD_neg_one (h2 : (2 : F) ≠ 0) {g : PGL2 F} (hg : g * pD (-1) = pD
     refine ⟨Units.mk0 ((G : Matrix (Fin 2) (Fin 2) F) 1 1)⁻¹ (inv_ne_zero hd),
       Matrix.GeneralLinearGroup.ext fun i j => ?_⟩
     rw [Matrix.GeneralLinearGroup.coe_mul, scalar_val', glD_val]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hb, hc, hd] <;>
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, hb, hc, hd];
       field_simp
 
 theorem fieldAut_pD (σ : F ≃+* F) (x : Fˣ) :
@@ -1195,6 +1200,7 @@ theorem exists_sq_eq_neg_one_units (h4 : 4 ∣ Nat.card Fˣ) : ∃ i : Fˣ, i ^ 
   · exact absurd h h1
   · exact h
 
+omit [Finite F] in
 theorem neg_one_ne_one_units (h2 : (2 : F) ≠ 0) : (-1 : Fˣ) ≠ 1 := by
   intro h
   have h1 := congrArg Units.val h
@@ -1239,6 +1245,7 @@ theorem eight_dvd_sub_one {k : ℤ} (h16 : (16 : ℤ) ∣ k * k - 1) (h4 : (4 : 
     simpa using this
   omega
 
+omit [Finite F] in
 theorem orderOf_eq_four_of_sq (h2 : (2 : F) ≠ 0) {x₀ : Fˣ} (hx₀ : x₀ ^ 2 = -1) :
     orderOf x₀ = 4 := by
   have hx4 : x₀ ^ 4 = 1 := by
@@ -1321,22 +1328,27 @@ open CFSG.GorensteinWalter
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem inl_mul_left (A : PGL2 F) (w : PGammaL2 F) :
     (SemidirectProduct.inl A * w).left = A * w.left := by
   rw [SemidirectProduct.mul_left, SemidirectProduct.left_inl, SemidirectProduct.right_inl, map_one,
     MulAut.one_apply]
 
+omit [Finite F] in
 theorem inl_mul_right (A : PGL2 F) (w : PGammaL2 F) :
     (SemidirectProduct.inl A * w).right = w.right := by
   rw [SemidirectProduct.mul_right, SemidirectProduct.right_inl, one_mul]
 
+omit [Finite F] in
 theorem mul_inl_left (w : PGammaL2 F) (A : PGL2 F) :
     (w * SemidirectProduct.inl A).left = w.left * pgl2FieldAut F w.right A := by
   rw [SemidirectProduct.mul_left, SemidirectProduct.left_inl]
 
+omit [Finite F] in
 theorem pD_inv (x : Fˣ) : (pD x)⁻¹ = pD x⁻¹ :=
   (eq_inv_of_mul_eq_one_left (by rw [pD_mul, inv_mul_cancel, pD_one])).symm
 
+omit [Finite F] in
 theorem units_map_neg_one (φ : F ≃+* F) : Units.map φ.toRingHom.toMonoidHom (-1 : Fˣ) = -1 := by
   apply Units.ext
   simp

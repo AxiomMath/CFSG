@@ -17,7 +17,7 @@ open CFSG.Open (monsterOrder)
 
 theorem twoRankLe_thirteen_M : TwoRankLe 13 .M 2 := by
   have hG := CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder
-  haveI : Finite Gmat := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num [monsterOrder])
+  have : Finite Gmat := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num [monsterOrder])
   have hrk := CFSG.AGLEmbedding.pRank_le_two_of_hasNoncommPair (by norm_num)
     (by rw [hG]; norm_num [monsterOrder])
     CFSG.AGLEmbedding.Norton.MON11_13.hasNoncommPair_thirteen_Gmat

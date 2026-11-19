@@ -27,9 +27,9 @@ theorem isTwoU43_omegaGroup (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
 
 theorem isTwoU43_of_isOmegaCover {Y : Type} [Group Y] (h : IsOmegaCover Y 6 (-1)) : IsTwoU43 Y := by
   obtain ⟨V', i1, i2, i3, Q', hQ', hdim, hs, ⟨f⟩⟩ := h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact isTwoU43_of_mulEquiv f.symm (isTwoU43_omegaGroup hQ' hdim hs)
 
 theorem isOmegaCover_iff_isTwoU43 (hS : Asc82SchurU43) {Y : Type} [Group Y] [Finite Y]

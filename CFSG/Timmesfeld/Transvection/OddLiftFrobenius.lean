@@ -61,7 +61,7 @@ theorem suCongr_comp_su3Chord (hFn : Nat.card F = (2 ^ n) ^ 2) (τ : F ≃+* F)
       suCongr_suHeis hσ (Nat.not_even_two_mul_add_one 1 : ¬ Even 3) τ hτ a 0 c, map_zero,
       suHeis_zero_left (σ := σ) hσ (Nat.not_even_two_mul_add_one 1 : ¬ Even 3) a (τ c)]
   have h := su3Chord_comp_of_aligned hFn (α := 1) (β := suCongr τ hτ 3) (ε := 1) (τ := τ)
-    (fun c hc => by simp only [MulAut.one_apply, inv_one, one_mul, hfix c hc])
+    (fun c hc => by simp only [MulAut.one_apply, one_mul, hfix c hc])
     (fun c hc => by simp only [MulAut.one_apply, inv_one, one_mul, hfix c hc])
     (fun c _ => by rw [one_mul]; exact hβ (Sum.inl (0 : Fin (3 / 2))) c)
     (fun c _ => by rw [inv_one, one_mul]; exact hβ (Sum.inr (0 : Fin (3 / 2))) c)

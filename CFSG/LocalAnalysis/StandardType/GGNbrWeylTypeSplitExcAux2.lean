@@ -23,7 +23,7 @@ theorem ggWTSX_recipeChevalleyF4_weylTypeW
     TableBF4.ggTorusLift_F4 hp hp2 (by rw [hK]; exact hpn), ggWTEx1_weylTypeW_F4_four hp hp2 K⟩
 
 theorem ggWTSX_largeEvenLabelAll_weylTypeW_F4
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (h : GGTableBF4Label p lab) :
     LargeEvenLabelAll lab fun R _ I _ => ∃ r, GGTorusLift p r R ∧ GGTorusWeylTypeW p r R I := by
   obtain ⟨t, l, n⟩ := lab
@@ -75,7 +75,7 @@ theorem ggWTSX_recipeChevalleyExc_weylTypeW
       ggWTSX_weylTypeW_E8 hp hp2 hpq⟩
 
 theorem ggWTSX_largeEvenLabelAll_weylTypeW_excSplit
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (h : GGTableBNbrInnerExcSplitLabel p lab) :
     LargeEvenLabelAll lab fun R _ I _ => ∃ r, GGTorusLift p r R ∧ GGTorusWeylTypeW p r R I := by

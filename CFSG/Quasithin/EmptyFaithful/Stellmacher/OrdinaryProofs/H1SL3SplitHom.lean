@@ -14,9 +14,9 @@ namespace CFSG.Quasithin.EmptyFaithful.Stellmacher.OrdinaryProofs.H1SL3
 theorem hom_trivial_of_hom_zmod2 {L : Type} [Group L] {M : Type} [AddCommGroup M]
     [Module (ZMod 2) M] (hL2 : ∀ f : L →* Multiplicative (ZMod 2), f = 1)
     (f : L →* Multiplicative M) (l : L) : f l = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
-  haveI : Module.Projective (ZMod 2) M := Module.Projective.of_free
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
+  have : Module.Projective (ZMod 2) M := Module.Projective.of_free
   have key : ∀ φ : Module.Dual (ZMod 2) M, φ (Multiplicative.toAdd (f l)) = 0 := by
     intro φ
     let g : L →* Multiplicative (ZMod 2) :=

@@ -69,7 +69,7 @@ theorem exists_polar_eq_one {q : QuadraticForm (ZMod 2) V}
   exact key _ (fun h => hcon ⟨y, h⟩)
 
 theorem polar_map_sub_self {q : QuadraticForm (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V}
-    (hg : ∀ u, q (g u) = q u) {v y : V} (hgv : g v = v) (hy : polar q v y = 1) :
+    (hg : ∀ u, q (g u) = q u) {v y : V} (hgv : g v = v) (_hy : polar q v y = 1) :
     polar q v (g y - y) = 0 := by
   have h1 : polar q v (g y) = polar q v y := by
     have h := polar_map_isometry hg v y
@@ -78,7 +78,7 @@ theorem polar_map_sub_self {q : QuadraticForm (ZMod 2) V} {g : V ≃ₗ[ZMod 2] 
   rw [QuadraticMap.polar_sub_right, h1, sub_self]
 
 theorem eq_one_of_fix {q : QuadraticForm (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V}
-    (hg : ∀ u, q (g u) = q u) {v y : V} (hgv : g v = v) (hy : polar q v y = 1) (hgy : g y = y)
+    (hg : ∀ u, q (g u) = q u) {v y : V} (_hgv : g v = v) (hy : polar q v y = 1) (hgy : g y = y)
     (hgt : ∀ u, polar q u v = 0 → g u - u ∈ Submodule.span (ZMod 2) {v}) : g = 1 := by
   have key : ∀ w : V, polar q v w = 0 → g w = w := by
     intro w hw
@@ -260,9 +260,9 @@ private theorem eichK_eq_one_of_delta {q : QuadraticForm (ZMod 2) V} {v y : V}
     exact absurd ha.symm (map_sub_self_ne (hSq g hS) hqv hy)
 
 theorem card_eichK_of_span_eq [Finite V] {q : QuadraticForm (ZMod 2) V}
-    (hnd : (QuadraticMap.polarBilin q).Nondegenerate) {v : V} (hv : v ≠ 0) (hqv : q v = 0)
+    (_hnd : (QuadraticMap.polarBilin q).Nondegenerate) {v : V} (hv : v ≠ 0) (hqv : q v = 0)
     (S : Subgroup (V ≃ₗ[ZMod 2] V)) (hSq : ∀ g ∈ S, ∀ u, q (g u) = q u)
-    (hSv : ∀ g ∈ S, g v = v) {y : V} (hy : polar q v y = 1)
+    (_hSv : ∀ g ∈ S, g v = v) {y : V} (hy : polar q v y = 1)
     (hspan : Submodule.span (ZMod 2) ({v} ∪ {u | ∃ g ∈ eichK q v S, u = g y - y}) =
       LinearMap.ker (QuadraticMap.polarBilin q v)) :
     Nat.card (eichK q v S) = 2 ^ (Module.finrank (ZMod 2) V - 2) := by
@@ -503,7 +503,7 @@ theorem exists_fixed_mod {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finit
     exact hUs g.1 g.2 _ hx
   let gQ : N → (Y ⧸ W) →ₗ[ZMod 2] (Y ⧸ W) := fun g =>
     Submodule.mapQ W W (gY g) (fun x hx => (Submodule.mem_comap).2 (hWs g x hx))
-  letI act : MulAction N (Y ⧸ W) :=
+  let act : MulAction N (Y ⧸ W) :=
     { smul := fun g x => gQ g x
       one_smul := fun x => by
         refine Submodule.Quotient.induction_on W x (fun z => ?_)
@@ -514,16 +514,16 @@ theorem exists_fixed_mod {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finit
         show Submodule.Quotient.mk (gY (g * h) z) = Submodule.Quotient.mk (gY g (gY h z))
         rw [show gY (g * h) z = gY g (gY h z) from Subtype.ext rfl] }
   obtain ⟨y0, hy0Y, hy0U⟩ : ∃ y ∈ Y, y ∉ U := by
-    obtain ⟨y, hyY, hyU⟩ := SetLike.exists_of_lt hUY
+    obtain ⟨y, hyY, hyU⟩ := _root_.IsConcreteLE.exists_of_lt hUY
     exact ⟨y, hyY, hyU⟩
   have hne : (Submodule.Quotient.mk (⟨y0, hy0Y⟩ : Y) : Y ⧸ W) ≠ 0 := by
     intro h
     rw [Submodule.Quotient.mk_eq_zero] at h
     exact hy0U ((hWmem _).1 h)
-  haveI : Nontrivial (Y ⧸ W) := ⟨⟨_, 0, hne⟩⟩
-  haveI : Finite (Y ⧸ W) :=
+  have : Nontrivial (Y ⧸ W) := ⟨⟨_, 0, hne⟩⟩
+  have : Finite (Y ⧸ W) :=
     Finite.of_surjective (Submodule.Quotient.mk : Y → Y ⧸ W) (Submodule.Quotient.mk_surjective W)
-  haveI : Module.Finite (ZMod 2) (Y ⧸ W) := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) (Y ⧸ W) := Module.finite_iff_finite.mpr inferInstance
   have hcard : Nat.card (Y ⧸ W) = 2 ^ Module.finrank (ZMod 2) (Y ⧸ W) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
   have hk : Module.finrank (ZMod 2) (Y ⧸ W) ≠ 0 := by

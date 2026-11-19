@@ -28,12 +28,12 @@ theorem isExtraspecial_sup_of_two_extraspecial_27
     {A B : Subgroup G}
     (hA : CFSG.IsExtraspecial 3 A) (hB : CFSG.IsExtraspecial 3 B)
     (hAc : Nat.card A = 27) (hBc : Nat.card B = 27)
-    (hAexp : ∀ a : A, a ^ 3 = 1) (hBexp : ∀ b : B, b ^ 3 = 1)
+    (_hAexp : ∀ a : A, a ^ 3 = 1) (_hBexp : ∀ b : B, b ^ 3 = 1)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hZA : A ⊓ B = (Subgroup.center A).map A.subtype)
-    (hZB : A ⊓ B = (Subgroup.center B).map B.subtype) :
+    (_hZB : A ⊓ B = (Subgroup.center B).map B.subtype) :
     CFSG.IsExtraspecial 3 ↥(A ⊔ B) ∧ Nat.card ↥(A ⊔ B) = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hAcardZ : Nat.card (Subgroup.center A) = 3 := hA.center_order_p
   have hBcardZ : Nat.card (Subgroup.center B) = 3 := hB.center_order_p
   have hZAcard : Nat.card ↥((Subgroup.center A).map A.subtype) = 3 := by
@@ -46,7 +46,7 @@ theorem isExtraspecial_sup_of_two_extraspecial_27
       calc Nat.card ↥(A ⊔ B) * 3 = 27 * 27 := h
         _ = 3 ^ 5 * 3 := by norm_num
     exact Nat.eq_of_mul_eq_mul_right (by norm_num) h'
-  haveI : Finite ↥(A ⊔ B) := Nat.finite_of_card_ne_zero (by rw [hsupcard]; norm_num)
+  have : Finite ↥(A ⊔ B) := Nat.finite_of_card_ne_zero (by rw [hsupcard]; norm_num)
   let P : Subgroup G := A ⊔ B
   let A' : Subgroup ↥P := A.subgroupOf P
   let B' : Subgroup ↥P := B.subgroupOf P
@@ -89,8 +89,8 @@ theorem isExtraspecial_sup_of_two_extraspecial_27
       hB.quotient_elementary_abelian
   have hQelem : CFSG.IsElementaryAbelian 3
       ((A' ⧸ Subgroup.center A') × (B' ⧸ Subgroup.center B')) := by
-    haveI := hAq
-    haveI := hBq
+    have := hAq
+    have := hBq
     exact isElementaryAbelian_prod
   have hPelem : CFSG.IsElementaryAbelian 3 (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsElementaryAbelian.of_mulEquiv hIso.symm hQelem
@@ -113,7 +113,7 @@ theorem exists_elemAbelian_card_nine_of_extraspecial
     (hAexp : ∀ a : A, a ^ 3 = 1) :
     ∃ E : Subgroup G, E ≤ A ∧ CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       (Subgroup.center A).map A.subtype ≤ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hZcard : Nat.card (Subgroup.center A) = 3 := hA.center_order_p
   have hZtop : Subgroup.center A ≠ ⊤ := by
     intro h
@@ -155,7 +155,7 @@ theorem exists_elemAbelian_card_nine_of_extraspecial
   have hZcardG : Nat.card Z = 3 := by
     rw [Subgroup.card_map_of_injective A.subtype_injective, hZcard]
   have hinf : Z ⊓ Subgroup.zpowers (x : G) = ⊥ := by
-    haveI : Finite ↥(Subgroup.zpowers (x : G)) :=
+    have : Finite ↥(Subgroup.zpowers (x : G)) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hxord]; norm_num)
     have hdvd : Nat.card ↥(Z ⊓ Subgroup.zpowers (x : G)) ∣ 3 := by
       have h := Subgroup.card_dvd_of_le (H := Z ⊓ Subgroup.zpowers (x : G))
@@ -212,9 +212,9 @@ theorem exponent_sup_eq_three
     (hAexp : ∀ a : A, a ^ 3 = 1) (hBexp : ∀ b : B, b ^ 3 = 1)
     (hsupcard : Nat.card ↥(A ⊔ B) = 3 ^ 5) :
     Monoid.exponent ↥(A ⊔ B) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite ↥(A ⊔ B) := Nat.finite_of_card_ne_zero (by rw [hsupcard]; norm_num)
-  haveI : Nontrivial ↥(A ⊔ B) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite ↥(A ⊔ B) := Nat.finite_of_card_ne_zero (by rw [hsupcard]; norm_num)
+  have : Nontrivial ↥(A ⊔ B) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hsupcard]; norm_num)
   have hdvd : Monoid.exponent ↥(A ⊔ B) ∣ 3 := by
     refine Monoid.exponent_dvd_of_forall_pow_eq_one ?_
@@ -254,26 +254,26 @@ theorem pRank_three_sup_of_two_extraspecial_27 [Finite G]
     (hZA : A ⊓ B = (Subgroup.center A).map A.subtype)
     (hZB : A ⊓ B = (Subgroup.center B).map B.subtype) :
     CFSG.Open.pRank 3 (A ⊔ B) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hPext, hsupcard⟩ :=
     isExtraspecial_sup_of_two_extraspecial_27 hA hB hAc hBc hAexp hBexp hcomm hZA hZB
   let P : Subgroup G := A ⊔ B
   have hPext' : CFSG.IsExtraspecial 3 ↥P := by simpa [P] using hPext
   have hsupcard' : Nat.card ↥P = 3 ^ 5 := by simpa [P] using hsupcard
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   have htriple : ⁅⁅P, P⁆, P⁆ = ⊥ :=
     triple_commutator_eq_bot_of_isExtraspecial hPext'
   have hexpP : Monoid.exponent ↥P = 3 := by
     simpa [P] using exponent_sup_eq_three hcomm hAexp hBexp hsupcard
-  haveI hclass : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨htriple⟩
-  haveI hexpFact : Fact (Monoid.exponent ↥P = 3) := ⟨hexpP⟩
+  have hclass : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨htriple⟩
+  have hexpFact : Fact (Monoid.exponent ↥P = 3) := ⟨hexpP⟩
   have hPQcard : Nat.card (↥P ⧸ Subgroup.center ↥P) = 81 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥P)
     rw [hsupcard', hPext'.center_order_p] at h
     omega
   let V := Additive (↥P ⧸ Subgroup.center ↥P)
-  haveI : Finite (↥P ⧸ Subgroup.center ↥P) := inferInstance
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite (↥P ⧸ Subgroup.center ↥P) := inferInstance
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVcard : Nat.card V = 81 := by
     exact (Nat.card_congr (Additive.ofMul (α := ↥P ⧸ Subgroup.center ↥P))).symm.trans hPQcard
   have hVfr : Module.finrank (ZMod 3) V = 4 := by
@@ -300,7 +300,7 @@ theorem pRank_three_sup_of_two_extraspecial_27 [Finite G]
   have hupper : CFSG.Open.pRank 3 P ≤ 3 := by
     refine CFSG.SectionRank.pRank_le (p := 3) (H := P) (k := 3) (by norm_num) ?_
     intro E hEP hE
-    haveI hEcomm : IsMulCommutative E := hE.1
+    have hEcomm : IsMulCommutative E := hE.1
     let q : ↥P →* (↥P ⧸ Subgroup.center ↥P) := QuotientGroup.mk' _
     let incl : E →* ↥P := Subgroup.inclusion hEP
     let f : E →* (↥P ⧸ Subgroup.center ↥P) := q.comp incl
@@ -334,8 +334,8 @@ theorem pRank_three_sup_of_two_extraspecial_27 [Finite G]
       · intro x
         apply Subtype.ext
         exact ofMul_toMul x.1
-    haveI : Finite U := Subtype.finite
-    haveI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+    have : Finite U := Subtype.finite
+    have : Module.Finite (ZMod 3) U := Module.Finite.of_finite
     have hKUcard : Nat.card K = 3 ^ Module.finrank (ZMod 3) U := by
       rw [hKU, Module.natCard_eq_pow_finrank (K := ZMod 3) (V := U), Nat.card_zmod]
     have hform_zero : ∀ a ∈ U, ∀ b ∈ U,
@@ -418,9 +418,9 @@ theorem pRank_three_sup_of_two_extraspecial_27 [Finite G]
       rw [Subgroup.mem_centralizer_iff]
       intro a ha
       exact hcomm a (hEAleA ha) b (hEBleB hb)
-    haveI hEAclass : CFSG.IsElementaryAbelian 3 EA :=
+    have hEAclass : CFSG.IsElementaryAbelian 3 EA :=
       CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hEAelem
-    haveI hEBclass : CFSG.IsElementaryAbelian 3 EB :=
+    have hEBclass : CFSG.IsElementaryAbelian 3 EB :=
       CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hEBelem
     have hEABclass : CFSG.IsElementaryAbelian 3 ↥(EA ⊔ EB) :=
       CFSG.IsElementaryAbelian.sup_of_le_centralizer (p := 3) (E := EA) (C := EB) hcent

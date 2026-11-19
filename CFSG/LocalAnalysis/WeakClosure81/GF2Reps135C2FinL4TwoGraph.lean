@@ -75,7 +75,7 @@ theorem exists_uSL_of_isUpperGL {B : GL (Fin 4) (ZMod 2)} (hB : IsUpperGL B) :
     fun i j hij => hB i j hij
   have hdiag : ∀ i, (B : Matrix (Fin 4) (Fin 4) (ZMod 2)) i i = 1 := by
     intro i
-    have h := Matrix.det_of_upperTriangular hup
+    have h := det_of_isUpperTriangular hup
     rw [hdet] at h
     have hne : ∏ i, (B : Matrix (Fin 4) (Fin 4) (ZMod 2)) i i ≠ 0 := by
       rw [← h]

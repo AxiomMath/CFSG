@@ -113,7 +113,7 @@ theorem not_dvd_index_of_odd_extremalClasses [Finite G] {M Q : Subgroup G} {z : 
   obtain ⟨Q', hQQ'⟩ := hQ.exists_le_sylow
   have hlt : Q < (Q' : Subgroup G) :=
     lt_of_le_of_ne hQQ' (fun h => Q'.not_dvd_index (h ▸ hdvd))
-  obtain ⟨n, hnQ', hnQ, hn2, hnorm⟩ := exists_two_mod Q'.isPGroup' hlt
+  obtain ⟨n, hnQ', hnQ, hn2, hnorm⟩ := exists_two_mod Q'.isPGroup hlt
   have hn1 : ∀ q ∈ Q, n * q * n⁻¹ ∈ Q := fun q hq => (hnorm q hq).1
   have hn1' : ∀ q ∈ Q, n⁻¹ * q * n ∈ Q := fun q hq => (hnorm q hq).2
   let f : Function.End (extremalClasses M Q z c) := fun O =>
@@ -166,7 +166,7 @@ theorem not_dvd_index_of_odd_extremalClasses [Finite G] {M Q : Subgroup G} {z : 
       _ = q⁻¹ * (q * y * q⁻¹ * n) := by rw [h1]
       _ = y * (q⁻¹ * n) := by group
   have hR2 : IsPGroup 2 ((Q' : Subgroup G) ⊓ centralizer ({y} : Set G) : Subgroup G) :=
-    Q'.isPGroup'.to_le inf_le_left
+    Q'.isPGroup.to_le inf_le_left
   have hRc : Nat.card ((Q' : Subgroup G) ⊓ centralizer ({y} : Set G) : Subgroup G) ≤ c :=
     hc m _ hR2 (by rw [← hym]; exact inf_le_right)
   have hle : Q ⊓ centralizer ({y} : Set G) ≤ (Q' : Subgroup G) ⊓ centralizer ({y} : Set G) :=

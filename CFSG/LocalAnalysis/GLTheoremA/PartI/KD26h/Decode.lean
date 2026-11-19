@@ -29,7 +29,7 @@ theorem exists_psl_of_isLnEps {S : Type} [Group S] {n q : ℕ} (h : IsLnEps S n 
   cases d <;> simp only [isLnEps] at hd
   rename_i r qq
   obtain ⟨hr, hqq⟩ := hd
-  haveI : Fact qq.p.Prime := ⟨qq.prime_p⟩
+  have : Fact qq.p.Prime := ⟨qq.prime_p⟩
   refine ⟨r, GaloisField qq.p qq.exponent, inferInstance, inferInstance, hr, ?_,
     ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r qq hv)⟩⟩
   rw [GaloisField.card qq.p qq.exponent (ne_of_gt qq.exponent_pos), ← hqq,
@@ -53,7 +53,7 @@ theorem exists_psu_of_isLnEps {S : Type} [Group S] {n q : ℕ} (h : IsLnEps S n 
       TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA r qq, hv⟩ = q := by
     rw [hc, hf, ← hqq, TauCeti.PrimePower.card_def]
   have hfpos := TauCeti.ValidLieTypeIndex.fieldExponent_pos ⟨.twistedA r qq, hv⟩
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA r qq, hv⟩).Prime :=
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA r qq, hv⟩).Prime :=
     ⟨TauCeti.ValidLieTypeIndex.characteristic_prime _⟩
   refine ⟨r, TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA r qq, hv⟩,
     TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA r qq, hv⟩,

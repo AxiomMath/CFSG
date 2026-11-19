@@ -14,7 +14,7 @@ variable {G : Type} [Group G] {a z : G}
 
 theorem cycleType_two_two {σ : Perm (Fin 8)} (h2 : σ ^ 2 = 1) (hc : σ.support.card = 4) :
     σ.cycleType = {2, 2} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn := Equiv.Perm.cycleType_of_pow_prime_eq_one h2
   have hs := Equiv.Perm.sum_cycleType σ
   rw [hn, hc, Multiset.sum_replicate] at hs
@@ -24,7 +24,7 @@ theorem cycleType_two_two {σ : Perm (Fin 8)} (h2 : σ ^ 2 = 1) (hc : σ.support
 
 theorem cycleType_two_four {σ : Perm (Fin 8)} (h2 : σ ^ 2 = 1) (hc : σ.support.card = 8) :
     σ.cycleType = {2, 2, 2, 2} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn := Equiv.Perm.cycleType_of_pow_prime_eq_one h2
   have hs := Equiv.Perm.sum_cycleType σ
   rw [hn, hc, Multiset.sum_replicate] at hs

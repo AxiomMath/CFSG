@@ -65,7 +65,7 @@ theorem l3_shape_of_commutator {Y' X' : Type} [Group Y'] [Finite Y'] [Group X']
   obtain ⟨eY⟩ := h
   have hnc : ∃ a b : X', a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : _root_.commutator X' = ⊥ := by
       rw [eq_bot_iff]
       refine Subgroup.commutator_le.mpr fun a _ b _ => ?_
@@ -73,18 +73,18 @@ theorem l3_shape_of_commutator {Y' X' : Type} [Group Y'] [Finite Y'] [Group X']
       calc a * b * a⁻¹ * b⁻¹ = b * a * a⁻¹ * b⁻¹ := by rw [hcon a b]
         _ = 1 := by group
     exact hns (by
-      haveI : Subsingleton ↥(_root_.commutator X') := by
+      have : Subsingleton ↥(_root_.commutator X') := by
         rw [hbot]; infer_instance
-      haveI : Subsingleton Y' := eY.toEquiv.subsingleton
+      have : Subsingleton Y' := eY.toEquiv.subsingleton
       infer_instance)
   rcases hX with ⟨h1, ⟨f⟩⟩ | ⟨h2, ⟨f⟩⟩
   · have hS : IsSimpleGroup X' := by
-      haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
+      have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
         (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
       exact f.isSimpleGroup
     have e' := equivOfCommutatorTop hS hnc eY
     refine ⟨Or.inl ⟨h1, ⟨e'.trans f⟩⟩, ?_⟩
-    haveI : IsSimpleGroup Y' := e'.isSimpleGroup
+    have : IsSimpleGroup Y' := e'.isSimpleGroup
     exact Hering129HLift.center_eq_bot_of_simple this (by
       obtain ⟨a, b, hab⟩ := hnc
       exact ⟨e'.symm a, e'.symm b, fun hc => hab (e'.symm.injective (by simpa using hc))⟩)
@@ -92,20 +92,20 @@ theorem l3_shape_of_commutator {Y' X' : Type} [Group Y'] [Finite Y'] [Group X']
     · exfalso
       obtain ⟨hp2, he1⟩ := (Nat.Prime.pow_eq_iff Nat.prime_two).mp hpe
       subst hp2 he1
-      haveI : Group.IsSolvable (projSU 3 2 1) := Sec13.isSolvable_projSU_two
-      haveI : Group.IsSolvable X' :=
-        solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
-      exact hns (solvable_of_solvable_injective (f := eY.toMonoidHom) eY.injective)
+      have : Group.IsSolvable (projSU 3 2 1) := Sec13.isSolvable_projSU_two
+      have : Group.IsSolvable X' :=
+        Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
+      exact hns (Group.isSolvable_of_isSolvable_injective (f := eY.toMonoidHom) eY.injective)
     · have hadm : CFSG.Assembly.LowTwoRank.StatedLieAdmissible .PSU 3 p e := by
         refine ⟨Fact.out, he, le_rfl, ?_⟩
         intro hh
         exact hpe (by simpa using congrArg Prod.snd hh)
       have hS : IsSimpleGroup X' := by
-        haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
+        have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
         exact f.isSimpleGroup
       have e' := equivOfCommutatorTop hS hnc eY
       refine ⟨Or.inr ⟨h2, ⟨e'.trans f⟩⟩, ?_⟩
-      haveI : IsSimpleGroup Y' := e'.isSimpleGroup
+      have : IsSimpleGroup Y' := e'.isSimpleGroup
       exact Hering129HLift.center_eq_bot_of_simple this (by
         obtain ⟨a, b, hab⟩ := hnc
         exact ⟨e'.symm a, e'.symm b, fun hc => hab (e'.symm.injective (by simpa using hc))⟩)

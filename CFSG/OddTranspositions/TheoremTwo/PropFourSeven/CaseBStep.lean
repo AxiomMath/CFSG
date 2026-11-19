@@ -22,6 +22,7 @@ theorem ne_of_mem_of_ne_block {α β γ : Set G} (hα : IsBlock D α) (hβ : β 
   rintro rfl
   exact hne (eq_of_mem_of_mem_blockClass hα hβ hγ ⟨x, hx, hy⟩)
 
+omit [Finite G] in
 theorem mem_Dalpha_of_commute (hN : IsNormalSet D) (hD : IsOddTransp D) {α θ ξ : Set G}
     (hα : IsBlock D α) (hθ : θ ∈ blockClass α) (hξ : ξ ∈ blockClass α) (hne : ξ ≠ θ)
     {x y : G} (hx : x ∈ ξ) (hy : y ∈ θ) (hxy : Commute x y) : ξ ∈ Dalpha D θ :=
@@ -144,6 +145,7 @@ section CaseB
 
 variable {α δ ε β : Set G} {ψ ψδ ψε : G → Perm (Fin 5)} {u v b : G}
 
+omit [Finite G] in
 theorem caseB_label_of_commute (hN : IsNormalSet D) (hD : IsOddTransp D) (hα : IsBlock D α)
     (hL : S5Labelling D α ψ) (hLδ : S5Labelling D δ ψδ) (hδ : δ ∈ Dalpha D α)
     (hu : u ∈ α) (hv : v ∈ δ) {x : G} (hx : x ∈ DalphaStar D δ) (hxu : Commute x u)
@@ -167,6 +169,7 @@ theorem caseB_commute_block (hL : S5Labelling D α ψ) (hβ : β ∈ Dalpha D α
   hL.commute_of_label hx (subset_DalphaStar hβ hy) (by rw [hlab y hy]; exact hne)
     (by rw [hlab y hy]; exact hc)
 
+omit [Finite G] in
 theorem caseB_commute_block_of_commute (hN : IsNormalSet D) (hD : IsOddTransp D)
     (hα : IsBlock D α) (hL : S5Labelling D α ψ) (hLδ : S5Labelling D δ ψδ)
     (hδ : δ ∈ Dalpha D α) (hu : u ∈ α) (hv : v ∈ δ) (hβ : β ∈ Dalpha D α)
@@ -175,6 +178,7 @@ theorem caseB_commute_block_of_commute (hN : IsNormalSet D) (hD : IsOddTransp D)
   obtain ⟨hx', h1, h2⟩ := caseB_label_of_commute hN hD hα hL hLδ hδ hu hv hx hxu hne
   exact caseB_commute_block hL hβ hlab hx' h1 h2
 
+omit [Finite G] in
 theorem caseB_mem_and_commute (hN : IsNormalSet D) (hD : IsOddTransp D) (hα : IsBlock D α)
     (hL : S5Labelling D α ψ) (hLε : S5Labelling D ε ψε) (hδ : δ ∈ Dalpha D α)
     (hε : ε ∈ Dalpha D α) (hδε : ε ∈ Dalpha D δ) (hβ : β ∈ Dalpha D α)

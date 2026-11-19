@@ -87,7 +87,7 @@ theorem lab10_sound {CA : Nat → Nat} {R Y s : Nat} (h : lab10 CA R Y s ≠ 5) 
   simp only [strictN_eq', selN_eq, andK_eq, beq_dec, Nat.add_eq] at h ⊢
   by_cases hr : (rkS (Nat.xor (mulV Y R) IDP) (CA (s + 1)) &&
       rkS (mulV (Nat.xor R IDP) (Nat.xor Y IDP)) (CA (s + 2))) = true
-  · rw [if_pos hr]
+  · rw [ite_eq_left hr]
     rw [Bool.and_eq_true] at hr
     have h1 := rkS_sound hr.1
     have h2 := rkS_sound hr.2
@@ -95,7 +95,7 @@ theorem lab10_sound {CA : Nat → Nat} {R Y s : Nat} (h : lab10 CA R Y s ≠ 5) 
     rw [MatP_mulV, MatP_nxor, MatP_nxor, MatP_IDP] at h2
     simp only [Bool.and_eq_true, decide_eq_true_eq]
     split_ifs <;> omega
-  · rw [if_neg hr] at h
+  · rw [ite_eq_right hr] at h
     exact absurd rfl h
 
 theorem labY_sound {CA : Nat → Nat} {R Y s : Nat} (hY : Y < 2 ^ 484) (h : labY CA R Y s ≠ 5) :
@@ -104,10 +104,10 @@ theorem labY_sound {CA : Nat → Nat} {R Y s : Nat} (hY : Y < 2 ^ 484) (h : labY
   simp only [strictN_eq', selN_eq, beq_dec] at h ⊢
   unfold labM
   by_cases hi : involK Y = true
-  · rw [if_pos hi] at h ⊢
-    rw [if_pos ((involK_iff hY).1 hi)]
+  · rw [ite_eq_left hi] at h ⊢
+    rw [ite_eq_left ((involK_iff hY).1 hi)]
     by_cases hr : rkS (Nat.xor Y IDP) (CA s) = true
-    · rw [if_pos hr] at h ⊢
+    · rw [ite_eq_left hr] at h ⊢
       have hk := rkS_sound hr
       rw [MatP_nxor, MatP_IDP] at hk
       unfold labT kappa
@@ -115,12 +115,12 @@ theorem labY_sound {CA : Nat → Nat} {R Y s : Nat} (hY : Y < 2 ^ 484) (h : labY
       split_ifs at h ⊢ <;>
         first
         | omega
-        | (rw [lab10_sound h, if_pos ‹_›])
-        | (rw [lab10_sound h, if_neg ‹_›])
-    · rw [if_neg hr] at h
+        | (rw [lab10_sound h, ite_eq_left ‹_›])
+        | (rw [lab10_sound h, ite_eq_right ‹_›])
+    · rw [ite_eq_right hr] at h
       exact absurd rfl h
-  · rw [if_neg hi]
-    rw [if_neg fun e => hi ((involK_iff hY).2 e)]
+  · rw [ite_eq_right hi]
+    rw [ite_eq_right fun e => hi ((involK_iff hY).2 e)]
 
 @[expose] def pairJ (j lY lZ : ℕ) : Prop :=
   (j = 0 ∧ lY = 3 ∧ lZ = 4) ∨ (j = 1 ∧ lY = 3 ∧ (lZ = 2 ∨ lZ = 4)) ∨
@@ -143,18 +143,18 @@ theorem tripC_eq (lY lZ : Nat) : tripC lY lZ = if lY = 5 ∨ lZ = 5 ∨ (lY = 4 
   simp only [selN_eq, orF_eq, andK_eq, beq_dec, Bool.or_eq_true, Bool.and_eq_true,
     decide_eq_true_eq]
   by_cases h : lY = 5 ∨ lZ = 5 ∨ (lY = 4 ∧ lZ = 3)
-  · rw [if_pos (by tauto), if_pos h]
-  · rw [if_neg (by tauto), if_neg h]
+  · rw [ite_eq_left (by tauto), ite_eq_left h]
+  · rw [ite_eq_right (by tauto), ite_eq_right h]
     simp only [Nat.add_eq]
     split_ifs <;> omega
 
 theorem labM_one_iff {r x : M22} : labM r x = 1 ↔ (x * x = 1 ∧ x ≠ 1) ∧ (x + 1).rank = 6 := by
   unfold labM labT kappa
   by_cases hi : x * x = 1 ∧ x ≠ 1
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     simp only
     split_ifs <;> simp_all
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     simp [hi]
 
 theorem contribF_sound {CF PT CI CA : Nat → Nat} {R S N k : Nat}
@@ -169,36 +169,36 @@ theorem contribF_sound {CF PT CI CA : Nat → Nat} {R S N k : Nat}
   simp only [selN_eq, strictN_eq'] at h ⊢
   by_cases hk : k < N
   swap
-  · rw [if_neg (by simpa using hk)]
+  · rw [ite_eq_right (by simpa using hk)]
     simp [hk]
-  rw [if_pos (by simpa using hk)] at h ⊢
-  simp only [if_pos hk, hk, forall_const]
+  rw [ite_eq_left (by simpa using hk)] at h ⊢
+  simp only [hk, forall_const]
   set X := elemAt CF k with hX
   have hXl : X < 2 ^ 484 := elemAt_lt CF k
   by_cases hi : involK X = true
   swap
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have h0 : ∀ y, labM y (MatP 22 X) ≠ 1 := fun y e =>
       hi ((involK_iff hXl).2 (labM_one_iff.1 e).1)
     simp [hitJ, h0]
-  rw [if_pos hi] at h ⊢
+  rw [ite_eq_left hi] at h ⊢
   by_cases hr : rkS (Nat.xor X IDP) (CI (PT k)) = true
   swap
-  · rw [if_neg hr] at h
+  · rw [ite_eq_right hr] at h
     exact absurd h (lt_irrefl _)
-  rw [if_pos hr] at h ⊢
+  rw [ite_eq_left hr] at h ⊢
   have hrk := rkS_sound hr
   rw [MatP_nxor, MatP_IDP] at hrk
   simp only [beq_dec] at h ⊢
   by_cases h6 : kS (CI (PT k)) = 6
   swap
-  · rw [if_neg (by simpa using h6)]
+  · rw [ite_eq_right (by simpa using h6)]
     have h0 : ∀ y, labM y (MatP 22 X) ≠ 1 := fun y e => by
       have := (labM_one_iff.1 e).2
       rw [hrk] at this
       exact h6 ((min22 (by norm_num)).1 this)
     simp [hitJ, h0]
-  rw [if_pos (by simpa using h6)] at h ⊢
+  rw [ite_eq_left (by simpa using h6)] at h ⊢
   have hA : labM (MatP 22 R) (MatP 22 X) = 1 :=
     labM_one_iff.2 ⟨(involK_iff hXl).1 hi, by rw [hrk]; exact (min22 (by norm_num)).2 h6⟩
   unfold contribA at h ⊢
@@ -207,9 +207,9 @@ theorem contribF_sound {CF PT CI CA : Nat → Nat} {R S N k : Nat}
   set lY := labY CA R (mulV X R) (6 * aS (CI (PT k)))
   set lZ := labY CA R (mulV X S) (6 * aS (CI (PT k)) + 3)
   by_cases hb : lY = 5 ∨ lZ = 5 ∨ (lY = 4 ∧ lZ = 3)
-  · rw [if_pos hb] at h
+  · rw [ite_eq_left hb] at h
     exact absurd h (lt_irrefl _)
-  rw [if_neg hb]
+  rw [ite_eq_right hb]
   have eY : lY = labM (MatP 22 R) (MatP 22 X * MatP 22 R) := by
     rw [← MatP_mulV]
     exact labY_sound (mulV_lt _ _) (fun e => hb (Or.inl e))
@@ -244,7 +244,7 @@ theorem hitR_le (CF : Nat → Nat) (R S N j k : Nat) : hitR CF R S N j k ≤ 1 :
 
 theorem hitR_ge {CF : Nat → Nat} {R S N j k : Nat} (hk : N ≤ k) : hitR CF R S N j k = 0 := by
   unfold hitR
-  exact if_neg (by omega)
+  exact ite_eq_right (by omega)
 
 theorem fuseB_sound {CF PT CI CA CNT : Nat → Nat} {R S N b : Nat}
     (h : fuseB CF PT CI CA R S CNT N b = true) :
@@ -329,7 +329,7 @@ theorem fuse_card (hR : TreeRecs CF G N) (hc : Nat.card (genMon G) ≤ N) (R S j
   rw [h0, h1, Nat.card_eq_fintype_card, Fintype.card_subtype, Finset.card_filter, Finset.sum_range]
   refine Finset.sum_congr rfl fun k _ => ?_
   unfold hitR
-  rw [if_pos k.isLt]
+  rw [ite_eq_left k.isLt]
   unfold hitJ
   exact if_congr Iff.rfl rfl rfl
 
@@ -368,8 +368,8 @@ theorem labM_conj {r g x y : M22} (hg : IsUnit g) (hr : g * r = r * g) (h : g * 
   unfold labM
   rw [kappa_conj u.isUnit hr h]
   by_cases hx : x * x = 1 ∧ x ≠ 1
-  · rw [if_pos hx, if_pos (hinv.2 hx)]
-  · rw [if_neg hx, if_neg (fun e => hx (hinv.1 e))]
+  · rw [ite_eq_left hx, ite_eq_left (hinv.2 hx)]
+  · rw [ite_eq_right hx, ite_eq_right (fun e => hx (hinv.1 e))]
 
 theorem labM_iff {r : M22} {C : Set M22} (hU : ∀ g ∈ C, IsUnit g) (hr : ∀ g ∈ C, g * r = r * g)
     {reps : ℕ → M22} {L : ℕ → ℕ} (hL : ∀ i < 10, labM r (reps i) = L i)
@@ -384,7 +384,7 @@ theorem labM_iff {r : M22} {C : Set M22} (hU : ∀ g ∈ C, IsUnit g) (hr : ∀ 
     have hi : x * x = 1 ∧ x ≠ 1 := by
       by_contra hn
       unfold labM at hxV
-      rw [if_neg hn] at hxV
+      rw [ite_eq_right hn] at hxV
       exact hV hxV
     obtain ⟨i, hi10, g, hg, e⟩ := hcen x hx hi.1 hi.2
     refine ⟨i, hi10, ?_, g, hg, e⟩

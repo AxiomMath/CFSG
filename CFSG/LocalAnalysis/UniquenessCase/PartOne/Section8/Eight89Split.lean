@@ -270,7 +270,7 @@ private theorem k89sp_perfect_central_sylow {J : Type} [Group J] [Finite J]
   have h3 : g ^ (P : Subgroup J).index = 1 := by
     have := congrArg Subtype.val h2
     simpa using this.symm
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
   have h4 : g ^ (p ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
@@ -314,7 +314,7 @@ private theorem k89sp_noncentral {V : Type} [Group V] [Finite V]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥J) := inferInstance
   refine ⟨(P : Subgroup ↥J).map J.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map _, ?_⟩
+    P.isPGroup.map _, ?_⟩
   intro hS
   have hPc : (P : Subgroup ↥J) ≤ Subgroup.center ↥J := by
     intro x hx
@@ -359,7 +359,7 @@ private theorem k89sp_layer_cases {V : Type} [Group V] [Finite V]
         exact k89sp_component_unique hO hrk hC hJ
       · intro hC
         rw [Set.mem_singleton_iff] at hC
-        rw [Set.mem_setOf_eq, hC]
+        rw [Set.mem_ofPred_eq, hC]
         exact hJ
     rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup, hset, sSup_singleton]
   · left
@@ -657,7 +657,7 @@ private theorem k89sp_frattini {H : Type} [Group H] [Finite H] (I Z : Subgroup H
   let φ : ↥H' →* H ⧸ I := q.comp H'.subtype
   have hSker : (S : Subgroup ↥H') ⊓ φ.ker = ⊥ := by
     have hUp : IsPGroup 3 ↥(((S : Subgroup ↥H') ⊓ φ.ker).map H'.subtype) :=
-      (S.isPGroup'.to_inf_left).map H'.subtype
+      (S.isPGroup.to_inf_left).map H'.subtype
     have hUI : ((S : Subgroup ↥H') ⊓ φ.ker).map H'.subtype ≤ I := by
       rintro _ ⟨s, hs, rfl⟩
       exact (QuotientGroup.eq_one_iff _).mp (MonoidHom.mem_ker.mp hs.2)
@@ -860,7 +860,7 @@ private theorem k89sp_five_rank {G : Type} [Group G] [Finite G] (D : Data G) (hS
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hfXo]; norm_num)
   obtain ⟨Q, hQ⟩ := hZp.exists_le_sylow
   let F : Subgroup G := (Q : Subgroup ↥X).map X.subtype
-  have hFp : IsPGroup 5 F := Q.isPGroup'.map X.subtype
+  have hFp : IsPGroup 5 F := Q.isPGroup.map X.subtype
   have hFX : F ≤ X := Subgroup.map_subtype_le _
   have hfF : (f : G) ∈ F := ⟨fX, hQ (Subgroup.mem_zpowers fX), rfl⟩
   have hne : F ⊓ D.M ≠ ⊥ := by

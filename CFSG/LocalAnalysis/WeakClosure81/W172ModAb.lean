@@ -82,7 +82,7 @@ private lemma w172_card_hyp_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [hbot, Subgroup.relIndex_bot_left] at hle
   have hprod : ∏ K : ↥(w172K p Y), ((K.1).1).relIndex Y = p ^ (w172K p Y).card := by
     rw [Finset.prod_congr rfl (fun K _ => K.1.2.2)]
-    simp [Finset.prod_const, Fintype.card_coe]
+    simp [Finset.prod_const]
   rw [hprod] at hle
   exact (Nat.pow_le_pow_iff_right hp.one_lt).1 (hcard ▸ hle)
 
@@ -99,7 +99,7 @@ theorem w172_ab_exists_moving {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have : 2 ≤ p := hp.two_le
     omega
   have ho : 0 < orderOf (2 : ZMod p) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h2 : (2 : ZMod p) ≠ 0 := by
       intro h
       have hdvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).mp h
@@ -119,7 +119,7 @@ theorem w172_ab_exists_moving {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       exact w172_orderOf_two_le_finrank_X hp hp2 hcomm hexp K.2 (w172_mem_w172K.mp hK)
     have h2 : ∑ K ∈ w172K p Y, orderOf (2 : ZMod p) =
         (w172K p Y).card * orderOf (2 : ZMod p) := by
-      simp [Finset.sum_const, nsmul_eq_mul]
+      simp [Finset.sum_const]
     have h3 : a * orderOf (2 : ZMod p) ≤
         (w172K p Y).card * orderOf (2 : ZMod p) := Nat.mul_le_mul_right _ hsq
     exact h3.trans (h2 ▸ h1)
@@ -262,7 +262,7 @@ theorem w172_ab_exists_moving {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         apply Finset.sum_congr rfl
         intro K _hK
         rw [← Finset.sum_filter]
-        simp [Finset.sum_const, nsmul_eq_mul]
+        simp [Finset.sum_const]
       rw [hswap]
       calc ∑ K ∈ w172K p Y, (Finset.univ.filter (fun y : ↥Y => y.1 ∉ K.1)).card *
               Module.finrank (ZMod 2) (w172X Y K.1)

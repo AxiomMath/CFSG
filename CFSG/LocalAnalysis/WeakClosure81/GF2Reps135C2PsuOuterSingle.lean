@@ -16,14 +16,14 @@ private theorem w135c2_labelStar_ne_of_natural {n : ℕ} (hn : 3 ≤ n) (j : Fin
   intro h
   have h1 := congrArg Fin.val h
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   rcases hj with h | h <;> omega
 
 private theorem w135c2_two_mul_of_labelStar_eq {n : ℕ} {j : Fin n} (hj0 : (j : ℕ) ≠ 0)
     (h : labelStar j = j) : 2 * (j : ℕ) = n := by
   have h1 := congrArg Fin.val h
   rw [labelStar_eq_of_ne_zero hj0] at h1
-  simp only [Fin.val_mk] at h1
+  simp only at h1
   have := j.isLt
   omega
 

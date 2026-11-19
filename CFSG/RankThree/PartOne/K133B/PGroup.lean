@@ -26,7 +26,7 @@ theorem false_of_pGroup_plane' {Q : Type} [Group Q] [Finite Q] {p : ℕ} [Fact p
     have h1 : p ^ 3 ≤ Nat.card (P : Subgroup Q) := Nat.le_of_dvd Nat.card_pos hPcard
     have h2 : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hp.one_lt (by norm_num)
     omega
-  have hPnil : Group.IsNilpotent (P : Subgroup Q) := (P.isPGroup').isNilpotent
+  have hPnil : Group.IsNilpotent (P : Subgroup Q) := (P.isPGroup).isNilpotent
   set H : Subgroup (P : Subgroup Q) := Ē.subgroupOf P with hH
   have hHtop : H < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => ?_
@@ -59,7 +59,7 @@ theorem false_of_pGroup_plane' {Q : Type} [Group Q] [Finite Q] {p : ℕ} [Fact p
   have hwmem : w ∈ torusImage Ē ⊤ := by
     rw [torusImage_top_eq_range]
     exact ⟨⟨y, hyN⟩, rfl⟩
-  obtain ⟨k, hk⟩ := (P.isPGroup') ⟨y, hyP⟩
+  obtain ⟨k, hk⟩ := (P.isPGroup) ⟨y, hyP⟩
   have hyk : y ^ p ^ k = 1 := congrArg Subtype.val hk
   have hord_w : orderOf w ∣ p ^ k := by
     have h1 : orderOf w ∣ orderOf (⟨y, hyN⟩ : Subgroup.normalizer (Ē : Set Q)) :=

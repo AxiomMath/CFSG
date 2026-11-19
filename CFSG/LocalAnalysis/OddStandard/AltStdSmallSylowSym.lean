@@ -112,7 +112,7 @@ theorem eq_of_mem_center_sylow_sym (hn8 : 8 ≤ n) (hn9 : n ≤ 9) {P : Subgroup
   obtain ⟨P₀, hEP₀⟩ := (isPGroup_closure_pairSwap hn8).exists_le_sylow
   obtain ⟨P₁, hPP₁⟩ := hP.exists_le_sylow
   have hP₁card : Nat.card P₁ ∣ 2 ^ 7 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P₁.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P₁.isPGroup
     have hdvd : Nat.card (P₁ : Subgroup (Perm (Fin n))) ∣ Nat.card (Perm (Fin n)) :=
       card_subgroup_dvd_card _
     rw [hk, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin] at hdvd

@@ -23,11 +23,11 @@ private def divisorNinetyEightPredicate
 private theorem divisorNinetyEight_cases :
     ∀ c : DivisorNinetyEight,
       divisorNinetyEightPredicate c := by
-  letI (c : DivisorNinetyEight) :
+  let (c : DivisorNinetyEight) :
       Decidable (divisorNinetyEightPredicate c) := by
     dsimp only [divisorNinetyEightPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ c : DivisorNinetyEight,
         divisorNinetyEightPredicate c) :=
     Fintype.decidableForallFintype
@@ -48,11 +48,11 @@ private def divisorSixPredicate (r : DivisorSix) : Prop :=
 
 private theorem divisorSix_cases :
     ∀ r : DivisorSix, divisorSixPredicate r := by
-  letI (r : DivisorSix) :
+  let (r : DivisorSix) :
       Decidable (divisorSixPredicate r) := by
     dsimp only [divisorSixPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ r : DivisorSix, divisorSixPredicate r) :=
     Fintype.decidableForallFintype
   decide
@@ -106,7 +106,7 @@ theorem global_orderSevenSupportFourteen_card_eq_sylow_count_mul
         Nat.card
           (Sylow 7 (fixingSubgroup P s)) := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let n := Nat.card (Sylow 7 H)
   have hAllCard :
@@ -147,7 +147,7 @@ theorem global_orderSevenSupportFourteen_card_eq_sylow_count_mul
             X P s 7 14) =
         n * 6 := by
     rw [← Nat.card_congr localEquiv, hAllCard]
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -240,7 +240,7 @@ theorem selected_sylowSeven_normalizer_le_centralizer
       Subgroup.centralizer
         (S : Set (fixingSubgroup P s)) := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let h := Nat.card H
   let n := Nat.card (Sylow 7 H)
@@ -254,7 +254,7 @@ theorem selected_sylowSeven_normalizer_le_centralizer
         sylow_card_eq_prime_of_card_eq_prime_mul
           H 7 155520 (by norm_num) (by norm_num)
             (by simpa only [H] using hH) S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   have hGlobalCard :
       Nat.card
@@ -308,7 +308,7 @@ theorem selected_sylowSeven_normalizer_le_centralizer
     change n % 7 = 1 % 7 at hmod
     norm_num at hmod
     simpa only [n, Nat.card_eq_fintype_card] using hmod
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup H :=
     Subgroup.centralizer (S : Set H)
@@ -348,7 +348,7 @@ theorem selected_sylowSeven_normalizer_le_centralizer
   have hrDvd : r ∣ 6 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrel :
       r * N.index = C.index := by

@@ -31,6 +31,6 @@ theorem l34GFResidue_of_torus (hT : uc22pwTorusSU3) (hgr : GriessAllModelsStatem
 theorem l34GFResidueAt_of_torus (hT : uc22pwTorusSU3) (hgr : GriessAllModelsStatement)
     (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (h846 : F08.R846 (UC6.dataOfSetup4 hS hU S)) : L34GFResidueAt hS hU S :=
-  fun hp hsp => l34GFResidue_of_torus hT hgr _ h846
+  fun _hp _hsp => l34GFResidue_of_torus hT hgr _ h846
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

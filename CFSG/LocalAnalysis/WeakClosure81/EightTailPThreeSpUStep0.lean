@@ -44,9 +44,9 @@ private theorem wc85s0_eq_of_ne_one {S : Subgroup X} (hS : Nat.card S = 2)
 
 private theorem wc85s0_subsingleton_statedSp_zero {F : Type} [Field F] :
     Subsingleton (StatedSp 0 F) := by
-  haveI : IsEmpty (Fin 0 ⊕ Fin 0) := inferInstance
-  haveI : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) := inferInstance
-  haveI : Subsingleton (GL (Fin 0 ⊕ Fin 0) F) :=
+  have : IsEmpty (Fin 0 ⊕ Fin 0) := inferInstance
+  have : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) := inferInstance
+  have : Subsingleton (GL (Fin 0 ⊕ Fin 0) F) :=
     Subsingleton.units_of_isUnit (fun a _ => Subsingleton.elim a 1)
   infer_instance
 
@@ -57,16 +57,17 @@ private theorem wc85s0_not_transvection_zero {F : Type} [Field F]
   have h0 : (((g : GL (Fin 0 ⊕ Fin 0) F) :
       Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) - 1) = 0 := Subsingleton.elim _ _
   rw [h0] at h
-  simpa using h
+  simp at h
 
 private theorem wc85s0_subsingleton_of_isSpGp_zero {Y : Type} [Group Y] {n : ℕ}
     (h : IsSpGp Y 0 n) : Subsingleton Y := by
   obtain ⟨k, hk, F, hFld, hFin, hFcard, ⟨e⟩⟩ := h
   have hk0 : k = 0 := by omega
   subst hk0
-  haveI : Subsingleton (StatedSp 0 F) := wc85s0_subsingleton_statedSp_zero
+  have : Subsingleton (StatedSp 0 F) := wc85s0_subsingleton_statedSp_zero
   exact e.toEquiv.subsingleton
 
+omit [Finite G] in
 private theorem wc85s0_sympRoot_of_card_two_transvection {m : ℕ}
     (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2)
     (htr : ∀ s ∈ barSub (kGenIn V H) φ V, s ≠ 1 → IsSymplecticTransvection X m 1 s) :
@@ -78,6 +79,7 @@ private theorem wc85s0_sympRoot_of_card_two_transvection {m : ℕ}
   rw [wc85s0_eq_of_ne_one hS2 hs hs1 hw hw1]
   exact htrs
 
+omit [Finite G] in
 private theorem wc85s0_unitRoot_of_card_two_transvection {m : ℕ}
     (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2)
     (htr : ∀ s ∈ barSub (kGenIn V H) φ V, s ≠ 1 → IsUnitaryTransvection X m 1 s) :
@@ -89,6 +91,7 @@ private theorem wc85s0_unitRoot_of_card_two_transvection {m : ℕ}
   rw [wc85s0_eq_of_ne_one hS2 hs hs1 hw hw1]
   exact htrs
 
+omit [Finite G] in
 private theorem wc85s0_false_of_sympRoot_zero {n n' : ℕ}
     (hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n) (hn1 : 1 ≤ n)
     (hroot : IsSymplecticRootGroup X 0 n' (barSub (kGenIn V H) φ V)) : False := by
@@ -115,11 +118,11 @@ private theorem wc85s0_ordBC_two_pow (k n : ℕ) (hn : 1 ≤ n) :
     rw [← pow_mul, show n * (2 * i) = 2 * i * n by ring]
   rw [h1, h2]
 
-private theorem wc85s0_card_of_isSpGp {Y : Type} [Group Y] {k n : ℕ} (hk : 2 ≤ k)
+private theorem wc85s0_card_of_isSpGp {Y : Type} [Group Y] {k n : ℕ} (_hk : 2 ≤ k)
     (h : IsSpGp Y (2 * k) n) : Nat.card Y = ordBC k (2 ^ n) := by
   obtain ⟨k', hk', F, hFld, hFin, hFcard, ⟨e⟩⟩ := h
-  haveI := hFld
-  haveI := hFin
+  have := hFld
+  have := hFin
   have hn1 : 1 ≤ n := by
     have h2 : 1 < 2 ^ n := by rw [← hFcard]; exact Finite.one_lt_card
     rcases Nat.eq_zero_or_pos n with rfl | h
@@ -166,6 +169,7 @@ private theorem wc85s0_not_isSpGp_isPSUGp {Y : Type} [Group Y] {m n : ℕ} (hm :
   · exact (CFSG.Timmesfeld.Orders.ordBC_ne_ordTwistedA (n := k) (f := n) (u := m - 1) (g := n)
       hk3 hn1 (by omega) hn1) (hcardSp.symm.trans hcardPSU)
 
+omit [Finite G] in
 private theorem wc85s0_sp_of_shape {m n m' n' : ℕ}
     (hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n) (hm : 3 < m) (hn1 : 1 ≤ n)
     (h : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
@@ -183,6 +187,7 @@ private theorem wc85s0_sp_of_shape {m n m' n' : ℕ}
     subst hmn; subst hnn
     exact (wc85s0_not_isSpGp_isPSUGp hm hSp'0 hPSU).elim
 
+omit [Finite G] in
 private theorem wc85s0_sp_small_of_shape {m n m' n' : ℕ}
     (hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n) (hm : 3 < m) (hn1 : 1 ≤ n)
     (h : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
@@ -200,6 +205,7 @@ private theorem wc85s0_sp_small_of_shape {m n m' n' : ℕ}
     subst hm'2
     exact (notSpPSU_of_isSpGp_two (by simpa using hSp'0) ⟨m, n, hm, h⟩).elim
 
+omit [Finite G] in
 private theorem wc85s0_psu_of_shape {m n m' n' : ℕ} (hm : 3 < m)
     (h : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
     (hPSU' : IsPSUGp (X ⧸ Subgroup.center X) m' n')
@@ -220,6 +226,7 @@ private theorem wc85s0_psu_of_shape {m n m' n' : ℕ} (hm : 3 < m)
       subst hmn; subst hnn
       exact Or.inr ⟨hPSU, hroot'⟩
 
+omit [Finite G] in
 private theorem wc85s0_sp_of_transvection {m n m' n' : ℕ}
     (hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n) (hm : 3 < m)
     (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2)
@@ -244,6 +251,7 @@ private theorem wc85s0_sp_of_transvection {m n m' n' : ℕ}
     subst hmn; subst hnn
     exact (wc85s0_not_isSpGp_isPSUGp hm hSp'0 hPSU).elim
 
+omit [Finite G] in
 private theorem wc85s0_sp_small_of_transvection {m n m' n' : ℕ}
     (hm : 3 < m) (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2)
     (h : IsSpGp (X ⧸ Subgroup.center X) m n ∨ IsPSUGp (X ⧸ Subgroup.center X) m n)
@@ -265,6 +273,7 @@ private theorem wc85s0_sp_small_of_transvection {m n m' n' : ℕ}
     subst hm'2
     exact (notSpPSU_of_isSpGp_two (by simpa using hSp'0) ⟨m, n, hm, h⟩).elim
 
+omit [Finite G] in
 private theorem wc85s0_psu_of_transvection {m n m' n' : ℕ}
     (hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n) (hm : 3 < m)
     (hS2 : Nat.card (barSub (kGenIn V H) φ V) = 2)
@@ -343,7 +352,7 @@ private theorem wc85s0_rank_longRoot (c : ZMod 2) (hc : c ≠ 0) :
   intro h0
   rw [Matrix.rank, Submodule.finrank_eq_zero, LinearMap.range_eq_bot] at h0
   have := congrFun (congrArg (fun f => f (Pi.single (Sum.inr 0) 1)) h0) (Sum.inl 0)
-  simp [Matrix.mulVecLin_apply, mulVec_single_one, vecMulVec_apply] at this
+  simp [vecMulVec_apply] at this
   exact hc this
 
 private abbrev wc85s0_antiSpU01 : ↥(antiSp (ZMod 2)) :=
@@ -400,7 +409,7 @@ theorem wc85s0_symGp_case {m n n' : ℕ} (d : ShapeData V H T φ)
         IsSymplecticRootGroup X m n (barSub (kGenIn V H) φ V)) ∨
       (IsPSUGp (X ⧸ Subgroup.center X) m n ∧
         IsUnitaryRootGroup X m n (barSub (kGenIn V H) φ V)) := by
-  haveI := d.finite
+  have := d.finite
   change wc85s0_root X m n (barSub (kGenIn V H) φ V)
   obtain ⟨t, ht2, ht1, hSt, hD⟩ :=
     barSituation_map_two d.situation hS2 (MonoidHom.id X) Function.surjective_id (by simp)
@@ -423,7 +432,7 @@ theorem wc85s0_symGp_case {m n n' : ℕ} (d : ShapeData V H T φ)
       CFSG.EvenSporadicStandard.Fin76b.fusionOddCore_eq_bot_of_mulEquiv e₁ hperm6
     refine le_antisymm ?_ (CFSG.EvenSporadicStandard.Fin76b.le_fusionOddCore d.odd_card_center)
     intro x hx
-    haveI : ((fusionOddCore X).map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
+    have : ((fusionOddCore X).map (QuotientGroup.mk' (Subgroup.center X))).Normal :=
       Subgroup.Normal.map inferInstance (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     have hodd : Odd
         (Nat.card ((fusionOddCore X).map (QuotientGroup.mk' (Subgroup.center X)))) :=
@@ -497,7 +506,7 @@ theorem step0_root (g4 : W3Lem85TwoGap4)
         IsSymplecticRootGroup X m n (barSub (kGenIn V H) φ V)) ∨
       (IsPSUGp (X ⧸ Subgroup.center X) m n ∧
         IsUnitaryRootGroup X m n (barSub (kGenIn V H) φ V)) := by
-  haveI := d.finite
+  have := d.finite
   change wc85s0_root X m n (barSub (kGenIn V H) φ V)
   have hcardV : Nat.card (barSub (kGenIn V H) φ V) = 2 ^ n := by
     rw [← hr]

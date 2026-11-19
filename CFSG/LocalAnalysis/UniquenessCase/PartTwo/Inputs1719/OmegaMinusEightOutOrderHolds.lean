@@ -46,14 +46,14 @@ theorem k_OmegaMinusEightOutOrder_holds :
   intro K _ _ f hK
   obtain ⟨-, F, hFld, hFin, hcard, b, c, hirr, ⟨e⟩⟩ :=
     hK.statedClassicalModel_of_ne_zero (n := 4) (p := 2) (by norm_num)
-  letI := hFld
-  letI := hFin
-  haveI : Fintype F := Fintype.ofFinite F
+  let := hFld
+  let := hFin
+  have : Fintype F := Fintype.ofFinite F
   have hchar : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := f) (by
       rw [← Nat.card_eq_fintype_card]
       exact hcard)
-  letI := hchar
+  let := hchar
   have hn : 4 ≤ 4 := le_rfl
   have hQ : ∃ v, Qm 4 hn b c v ≠ 0 :=
     ⟨CFSG.StandardType.AutOm.tailVec 4 (by norm_num),

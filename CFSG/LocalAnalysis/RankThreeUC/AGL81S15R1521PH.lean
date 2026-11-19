@@ -13,10 +13,11 @@ open KFactsSmall
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem false_of_centralProd_gn_aux1 (T : Subgroup X) :
     ∃ ρ : (X ⧸ gnC T) →* MulAut ↥(gnV T), Function.Injective ρ ∧
       ∀ (x : X) (v : ↥(gnV T)), ((ρ (QuotientGroup.mk x) v : ↥(gnV T)) : X) = x * v * x⁻¹ := by
-  haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  have : (gnV T).Normal := Subgroup.normalClosure_normal
   have hker : gnC T ≤ (MulAut.conjNormal : X →* MulAut ↥(gnV T)).ker := by
     intro x hx
     rw [MonoidHom.mem_ker]

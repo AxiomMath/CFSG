@@ -195,12 +195,12 @@ theorem mem_iSup_of_blocks [FiniteDimensional K V] {m : ℕ} (Fr : Fin m → Fra
       rw [List.map_cons, List.prod_cons, LinearEquiv.mul_apply, ih hl.2 k x hx]
       by_cases hkl : k ∈ l
       · have hjk : j ≠ k := fun h => hl.1 (h ▸ hkl)
-        simp only [hkl, if_true, List.mem_cons, or_true]
+        simp only [hkl, ite_true, List.mem_cons, or_true]
         exact hTfix j k hjk (f x) (hfs k x hx)
       · by_cases hjk : j = k
         · subst hjk
           simp [hkl, hTspan j x hx]
-        · simp [hkl, hjk, hTfix j k hjk x hx, Ne.symm hjk]
+        · simp [hkl, hTfix j k hjk x hx, Ne.symm hjk]
   have hprod : ((List.finRange m).map T).prod = f := by
     refine LinearEquiv.ext fun x => ?_
     have hx : x ∈ ⨆ i, (Fr i).span := by
@@ -406,8 +406,8 @@ theorem exists_spin_conj_of_goodPlanes_charTwo {n : ℕ} (hn : 3 ≤ n) {k : ℕ
     (hGP : GoodPlanes (quadPlus n K) {g | ∃ e ∈ Ep, g = spinAction (quadPlus n K) e} Pl) :
     ∃ x : spinGroup (quadPlus n K), ∀ e ∈ Ep, x * e * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hinj : Function.Injective (spinAction (quadPlus n K)) :=
     CFSG.StandardType.RootCentOmega.spinAction_quadPlus_injective
   obtain ⟨Fr, horth, hspan, hFE⟩ := exists_frames_of_goodPlanes_charTwo hp hp2
@@ -457,7 +457,7 @@ theorem exists_spin_conj_of_goodPlanes_charTwo {n : ℕ} (hn : 3 ≤ n) {k : ℕ
         intro y hy
         obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hy
         rw [polar_add_left, polar_smul_left, polar_smul_left, hv.polar_eq, hv.polar_eq,
-          if_neg (fun hh => hj hh.1.symm), if_neg (fun hh => hj hh.1.symm)]
+          ite_eq_right (fun hh => hj hh.1.symm), ite_eq_right (fun hh => hj hh.1.symm)]
         simp
       have hgv : ∀ s, g (v j s) = (plusFrame n K hn).vec j s := fun s => by
         rw [hg, hxv j s, hfix s]
@@ -507,8 +507,8 @@ theorem exists_spin_conj_frameGroup_charTwo {n : ℕ} (hn : 3 ≤ n) {k : ℕ}
       (∀ v ∈ T, quadPlus n K v = 0) → T = ⊥) :
     ∃ x : spinGroup (quadPlus n K), ∀ e ∈ Ep, x * e * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd : (polarBilin (quadPlus n K)).Nondegenerate := nondegenerate_polarBilin_quadPlus n K
   have hinj : Function.Injective (spinAction (quadPlus n K)) :=
     CFSG.StandardType.RootCentOmega.spinAction_quadPlus_injective
@@ -524,8 +524,8 @@ theorem exists_spin_conj_frameGroup_charTwo {n : ℕ} (hn : 3 ≤ n) {k : ℕ}
   set E : Subgroup (orthDerived (quadPlus n K)) := Ep.map sa with hE
   have hcardE : Nat.card E = p ^ 2 := by
     rw [hE, card_map_of_disjoint_ker sa hdisj, hcard]
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hcomm' := IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := Ep) hcard
+  have : Fact p.Prime := ⟨hp⟩
+  have hcomm' := IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := Ep) hcard
   have hcommEp : ∀ a ∈ Ep, ∀ b ∈ Ep, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hcomm'.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
@@ -554,10 +554,10 @@ theorem exists_spin_conj_frameGroup_cyclic_charTwo {n : ℕ} (hn : 3 ≤ n) {k :
       (∀ v ∈ T, quadPlus n K v = 0) → T = ⊥) :
     ∃ x : spinGroup (quadPlus n K), x * b * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd : (polarBilin (quadPlus n K)).Nondegenerate := nondegenerate_polarBilin_quadPlus n K
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   set g := spinAction (quadPlus n K) b with hg
   have hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus n K) :=

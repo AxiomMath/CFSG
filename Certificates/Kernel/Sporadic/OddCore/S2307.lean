@@ -424,11 +424,11 @@ theorem cnt_eq {c : Nat} (hc : c < 22) :
   change Nat.sub (r32 SSF.O (Nat.succ c)) (r32 SSF.O c) = _
   rw [h, nif_eq, nget_eq]
   by_cases h21 : c < 21
-  · rw [if_pos (Nat.blt_eq.mpr h21), if_pos h21]
-  · rw [if_neg (fun e => h21 (Nat.blt_eq.mp e)), if_neg h21]
+  · rw [ite_eq_left (Nat.blt_eq.mpr h21), ite_eq_left h21]
+  · rw [ite_eq_right (fun e => h21 (Nat.blt_eq.mp e)), ite_eq_right h21]
 
 theorem cnt_fus {r : Nat} (hr : r < 21) : cnt r = invFusionSizes.getD r 0 := by
-  rw [cnt_eq (by omega), if_pos hr]
+  rw [cnt_eq (by omega), ite_eq_left hr]
 
 theorem cnt_le {c : Nat} (hc : c < 22) : cnt c ≤ 128 := by
   rw [cnt_eq hc]
@@ -761,7 +761,7 @@ theorem cases_ok {i : Nat} (hi : i < 4) :
 theorem facts2307 : sylowChecks sylowEnum fusionEnums = true := by
   rw [sylowEnum_eq.1, fusionEnums_eq]
   unfold sylowChecks
-  simp only [ER_tabs, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq]
+  simp only [ER_tabs, Bool.and_eq_true, beq_iff_eq]
   refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩, ?_⟩
   · exact gens_ok
   · exact sylowEnum_eq.2

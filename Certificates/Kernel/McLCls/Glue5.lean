@@ -95,7 +95,7 @@ theorem M_le_eNorm : F.M ≤ eNorm basis_fact := by
   change closure (tp 275 '' {x | x ∈ mGens.toArray}) ≤ _
   rw [closure_le]
   rintro _ ⟨T, hT, rfl⟩
-  simp only [mGens, List.toArray, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons,
+  simp only [mGens, List.toArray, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons,
     List.not_mem_nil, or_false] at hT
   rcases hT with rfl | rfl
   · exact norm_of (prep_cls (k := 4) (by norm_num)) nrm_parts.1
@@ -129,7 +129,7 @@ theorem M_le_norm : F.M ≤ normalizer (F.W : Set (Equiv.Perm (Fin 275))) := by
   rw [W_eq]
   exact M_le_eNorm
 
-theorem M_le_setStab : F.M ≤ setStab F.O := fun g hg =>
+theorem M_le_setStab : F.M ≤ setStab F.O := fun _g hg =>
   mem_setStab_of_normalizer basis_fact (fun i => fixO i) (M_le_eNorm hg)
 
 theorem W_fix : ∀ w ∈ F.W, ∀ i ∈ F.O, w i = i := by
@@ -175,7 +175,7 @@ theorem card_normP : Nat.card ↥(mclP ⊓ normalizer (F.W : Set (Equiv.Perm (Fi
     rw [← Nat.card_coe_set_eq]
     exact card_W
   have h15 : ((F.W : Set (Equiv.Perm (Fin 275))) \ {1}).ncard = 15 := by
-    rw [Set.ncard_diff_singleton_of_mem (one_mem F.W), hW]
+    rw [Set.ncard_sdiff_singleton_of_mem (one_mem F.W), hW]
   rw [h15] at h1
   have h2 : Nat.card ↥(mclP ⊓ normalizer (F.W : Set (Equiv.Perm (Fin 275))) ⊓
       centralizer {F.t0}) ≤ 2688 := by

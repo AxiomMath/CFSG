@@ -101,7 +101,7 @@ theorem planeL_flat {j : ℕ} (hj : j < 75735) :
     intro c hc'
     rw [hl] at hc'
     have hc37 : c < 37 := by omega
-    rw [← (planes c hc37).1, (SmithD6Kc.pbC_chunk_length hc37).1, if_pos hc']
+    rw [← (planes c hc37).1, (SmithD6Kc.pbC_chunk_length hc37).1, ite_eq_left hc']
   have e3 : J.wt64C.flatten.getD j 0 = (J.wt64C.getD (j / 2048) []).getD (j % 2048) 0 := by
     have e : 2048 * (j / 2048) + j % 2048 = j := Nat.div_add_mod j 2048
     rw [← SmithD6Kc.flatten_getD_chunk 0 2048 J.wt64C hlen _ _ (by rw [hl]; exact hc) hk', e]
@@ -260,7 +260,7 @@ theorem ubK_model {j : ℕ} (hj : j < 75735) :
   generalize J.wtC.flatten[j]'hjl = s at hsj hmemj ⊢
   by_cases hne : s = 2 ^ 31
   · subst hne
-    rw [exC_top, bne_self_eq_false, Bool.and_false, if_neg Bool.false_ne_true]
+    rw [exC_top, bne_self_eq_false, Bool.and_false, ite_eq_right Bool.false_ne_true]
     unfold ubKOf
     rw [fld_one_eq, show ubTop.testBit 63 = true by decide, Nat.beq_refl]
     rfl
@@ -308,9 +308,9 @@ include hW in
 theorem inB_iff {j : ℕ} (hj : j < 75735) : uw7InB JB.bE0 j = true ↔ pkGet JB.bK 2 j ≠ 0 := by
   rw [ubK_model hW hj]
   by_cases h : uw7InB JB.bE0 j = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨fun _ => uw7BCls_pos _ _, fun _ => h⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun h' => absurd h' h, fun h' => absurd rfl h'⟩
 
 include hW in
@@ -318,8 +318,8 @@ theorem bkey {j : ℕ} (hj : j < 75735) (c : ℕ) :
     (uw7InB JB.bE0 j && uw7BCls JB.bE0 j == c + 1) = (pkGet JB.bK 2 j == c + 1) := by
   rw [ubK_model hW hj]
   by_cases h : uw7InB JB.bE0 j = true
-  · rw [if_pos h, h, Bool.true_and]
-  · rw [if_neg h, Bool.eq_false_iff.2 h, Bool.false_and]
+  · rw [ite_eq_left h, h, Bool.true_and]
+  · rw [ite_eq_right h, Bool.eq_false_iff.2 h, Bool.false_and]
     exact (beq_eq_false_iff_ne.2 (by omega)).symm
 
 include hW hpb hpp in
@@ -429,7 +429,7 @@ theorem uw7B_of_pinned : ∀ v < 75735, uw7InB (uw7E0 ()) v = true → Relation.
   intro v hv hin
   have hv64 : v < J.wt64C.flatten.length := by rw [hn64]; exact hv
   have hk := (inB_iff hW hv).1 hin
-  have hkv : uw7BCls JB.bE0 v = pkGet JB.bK 2 v := by rw [ubK_model hW hv, if_pos hin]
+  have hkv : uw7BCls JB.bE0 v = pkGet JB.bK 2 v := by rw [ubK_model hW hv, ite_eq_left hin]
   have hc : uw7BCls JB.bE0 v - 1 < 3 := by
     have := uw7BCls_le JB.bE0 v
     have := uw7BCls_pos JB.bE0 v
@@ -455,7 +455,7 @@ theorem uw7B_of_pinned : ∀ v < 75735, uw7InB (uw7E0 ()) v = true → Relation.
     refine Relation.ReflTransGen.tail (ih ha' haK) ⟨g, hg, (inB_iff hW ha').2 (by omega),
       (inB_iff hW hb).2 (by omega), ?_, ?_⟩
     · rw [ubK_model hW ha', ubK_model hW hb] at hkab
-      rw [if_pos ((inB_iff hW ha').2 (by omega)), if_pos ((inB_iff hW hb).2 (by omega))] at hkab
+      rw [ite_eq_left ((inB_iff hW ha').2 (by omega)), ite_eq_left ((inB_iff hW hb).2 (by omega))] at hkab
       exact hkab
     · have ha32 : a < J.wtC.flatten.length := by rw [hn]; exact ha'
       have hb32 : b < J.wtC.flatten.length := by rw [hn]; exact hb
@@ -475,7 +475,7 @@ theorem uw7Wit_of_pinned : ∀ v < 75735, uw7InB (uw7E0 ()) v = true → uw7BCls
   intro v hv hin hc
   have hv64 : v < J.wt64C.flatten.length := by rw [hn64]; exact hv
   have hv32 : v < J.wtC.flatten.length := by rw [hn]; exact hv
-  have hk1 : pkGet JB.bK 2 v = 1 := by rw [ubK_model hW hv, if_pos hin, hc]
+  have hk1 : pkGet JB.bK 2 v = 1 := by rw [ubK_model hW hv, ite_eq_left hin, hc]
   obtain ⟨K, hmem, h1, h2, h3, hu, hw, hrho⟩ := ubWit v hv64 hk1
   have hK : 4096 * (K / 4096) + K % 4096 = K := Nat.div_add_mod K 4096
   obtain ⟨hlt, hpair⟩ := hL (K / 4096) (K % 4096) (by omega) (by omega) (by rw [hK]; exact hmem)

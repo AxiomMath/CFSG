@@ -171,7 +171,7 @@ theorem psu34_sylow_facts (h32 : S_G32) (hLq : CFSG.Open.IsQuasisimple L)
   set PT := (P : Subgroup L) with hPT
   have hPZ : ∀ t ∈ PT, t ∈ Z → t = 1 := by
     intro t ht htZ
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨t, ht⟩
     exact hZ2 t htZ k (by simpa using congrArg Subtype.val hk)
   have hinj : ∀ s ∈ PT, ∀ t ∈ PT, π s = π t → s = t := by
     intro s hs t ht hst

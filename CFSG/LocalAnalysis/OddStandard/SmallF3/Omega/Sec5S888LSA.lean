@@ -50,6 +50,7 @@ section Ctx
 
 variable [Finite G] {t : G} {L S : Subgroup G} {z r : G} {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem l515S_twoRes_le (H : Subgroup G) : twoRes H ≤ H := by
   rw [twoRes]
   exact (Subgroup.closure_le H).mpr fun _ hx => hx.1
@@ -58,9 +59,11 @@ theorem l515S_sup_le_L (c : Sec5HCtx G t L S z r B A K₁ K₂ h) : K₁ ⊔ K�
   rw [c.prod]
   exact (l515S_twoRes_le _).trans inf_le_left
 
+omit [Finite G] in
 private theorem l515S_sq_of_orderOf {d : G} (hd : orderOf d = 2) : d * d = 1 := by
   rw [← pow_two, ← hd, pow_orderOf_eq_one]
 
+omit [Finite G] in
 private theorem l515S_ne_one_of_orderOf {d : G} (hd : orderOf d = 2) : d ≠ 1 := by
   rintro rfl
   rw [orderOf_one] at hd

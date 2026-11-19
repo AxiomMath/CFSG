@@ -13,12 +13,14 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple
 
 variable {Γ : Type} [Group Γ] [Finite Γ] (X : Subgroup Γ)
 
+omit [Finite Γ] in
 theorem subgroupOf_normal_of_conj {N : Subgroup Γ} (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) :
     (N.subgroupOf X).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
   exact hN g.1 g.2 n.1 hn
 
+omit [Finite Γ] in
 theorem conj_mem_zpowers_of_central {Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g)
     {g : Γ} (hg : g ∈ Zc) {x n : Γ} (hn : n ∈ Subgroup.zpowers g) :
     x * n * x⁻¹ ∈ Subgroup.zpowers g := by
@@ -48,11 +50,13 @@ theorem exists_split_two_odd {G : Type*} [Group G] (k : G) {a m : ℕ} (hm : Odd
     rw [hn]
     exact ⟨Nat.gcdB m (2 ^ a), by push_cast; ring⟩
 
+omit [Finite Γ] in
 theorem pCoreOf_two_le : pCoreOf 2 X ≤ X := by
   intro x hx
   obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact y.2
 
+omit [Finite Γ] in
 theorem pCoreOf_two_conj {x : Γ} (hx : x ∈ X) {t : Γ} (ht : t ∈ pCoreOf 2 X) :
     x * t * x⁻¹ ∈ pCoreOf 2 X := by
   obtain ⟨t₀, ht₀, rfl⟩ := Subgroup.mem_map.mp ht
@@ -61,12 +65,13 @@ theorem pCoreOf_two_conj {x : Γ} (hx : x ∈ X) {t : Γ} (ht : t ∈ pCoreOf 2 
     ⟨(⟨x, hx⟩ : X) * t₀ * (⟨x, hx⟩ : X)⁻¹, hN.conj_mem t₀ ht₀ _, rfl⟩
 
 theorem pCoreOf_two_isPGroup : IsPGroup 2 (pCoreOf 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp (CFSG.pCore_isPGroup (p := 2) (G := ↥X))
   refine IsPGroup.of_card (n := n) ?_
   unfold pCoreOf
   rw [Subgroup.card_map_of_injective X.subtype_injective, hn]
 
+omit [Finite Γ] in
 theorem le_pCoreOf_two {N : Subgroup Γ} (hNX : N ≤ X) (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     (hN2 : IsPGroup 2 N) : N ≤ pCoreOf 2 X := by
   have hM : (N.subgroupOf X).Normal := subgroupOf_normal_of_conj X hN
@@ -81,6 +86,7 @@ theorem le_pCoreOf_two {N : Subgroup Γ} (hNX : N ≤ X) (hN : ∀ x ∈ X, ∀ 
     _ ≤ (CFSG.pCore 2 ↥X).map X.subtype := Subgroup.map_mono hle
     _ = pCoreOf 2 X := rfl
 
+omit [Finite Γ] in
 theorem primeCore_two_le : rankThreePrimeCore 2 X ≤ X :=
   relPPrimeCore_le X
 
@@ -95,6 +101,7 @@ theorem primeCore_two_conj {x : Γ} (hx : x ∈ X) {y : Γ} (hy : y ∈ rankThre
 theorem primeCore_two_coprime : Nat.Coprime 2 (Nat.card (rankThreePrimeCore 2 X)) :=
   coprime_card_relPPrimeCore Nat.prime_two X
 
+omit [Finite Γ] in
 theorem le_primeCore_two {N : Subgroup Γ} (hNX : N ≤ X) (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     (hN2 : Nat.Coprime 2 (Nat.card N)) : N ≤ rankThreePrimeCore 2 X := by
   have hM : (N.subgroupOf X).Normal := subgroupOf_normal_of_conj X hN
@@ -200,13 +207,13 @@ theorem inf_central_le_sup {Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g
 theorem exists_mem_normalizer_not_mem {T R : Subgroup Γ} (hT : IsPGroup 2 T) (hRT : R ≤ T)
     (hne : R ≠ T) :
     ∃ t ∈ T, t ∉ R ∧ ∀ r : Γ, r ∈ R ↔ t * r * t⁻¹ ∈ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hlt : R.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
     exact le_antisymm hRT (Subgroup.subgroupOf_eq_top.mp h)
   obtain ⟨g, hgN, hgR⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥T) (R.subgroupOf T) hlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥T) (R.subgroupOf T) hlt)
   have hgN' := Subgroup.mem_normalizer_iff.mp hgN
   refine ⟨(g : Γ), g.2, fun hmem => hgR (Subgroup.mem_subgroupOf.mpr hmem), fun r => ?_⟩
   by_cases hr : r ∈ T

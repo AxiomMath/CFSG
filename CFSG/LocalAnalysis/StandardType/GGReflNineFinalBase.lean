@@ -94,11 +94,11 @@ theorem vec9_alpha (i : Fin 8) (j : Fin 9) :
   show _ = ((((alpha8 i.val ++ [if i.val = 0 then 1 else 0]).getD j.val 0 : ℕ)) : ZMod 3)
   by_cases hj : j.val < 8
   · rw [getD_append_left' (alpha8 i.val) _ j.val (by rw [pk5_alpha8_length]; exact hj),
-      if_neg (by omega), add_zero]
+      ite_eq_right (by omega), add_zero]
   · have hj8 : j.val = 8 := by have := j.isLt; omega
     rw [hj8, getD_append_right' (alpha8 i.val) _ 8 (by rw [pk5_alpha8_length])
       (by simp [pk5_alpha8_length]), pk5_alpha8_length, Nat.sub_self,
-      List.getD_eq_default (alpha8 i.val) 0 (by simp [pk5_alpha8_length]), if_pos rfl]
+      List.getD_eq_default (alpha8 i.val) 0 (by simp [pk5_alpha8_length]), ite_eq_left rfl]
     by_cases hi0 : (i : ℕ) = 0
     · simp [hi0]
     · simp [hi0]
@@ -124,7 +124,7 @@ theorem lr6NineAll_of_frames
   rcases hD with rfl | rfl
   ·
     obtain ⟨T, hT⟩ := h8
-    haveI : Fact (nineFrame8 ()).p.Prime := ⟨Nat.prime_three⟩
+    have : Fact (nineFrame8 ()).p.Prime := ⟨Nat.prime_three⟩
     exact nine_core (nineFrame8 ()) (by show (3 : ℕ) ≠ 2; decide) hT (fun k => ⟨alpha8 k, hvec8 k⟩) rfl
       C0.e h α x r hr A hrA (fun i => funext fun j => C0.h_eq i j)
       (fun i w => by
@@ -132,14 +132,14 @@ theorem lr6NineAll_of_frames
         apply Finset.sum_congr rfl
         intro j _
         have hj : j.val ≠ 8 := by have := j.isLt; omega
-        rw [if_neg hj, add_zero]
+        rw [ite_eq_right hj, add_zero]
         rfl)
       (funext fun j => by rw [C0.x_eq j]; fin_cases j <;> rfl)
       hrg hnt hcard' hstab' t htA htr htm
   ·
     obtain ⟨C1⟩ := ninedep_chart_norm h α x u C0 hF.fix
     obtain ⟨T, hT⟩ := h9
-    haveI : Fact (nineFrame9 ()).p.Prime := ⟨Nat.prime_three⟩
+    have : Fact (nineFrame9 ()).p.Prime := ⟨Nat.prime_three⟩
     exact nine_core (nineFrame9 ()) (by show (3 : ℕ) ≠ 2; decide) hT
       (fun k => ⟨alpha8 k ++ [if k = 0 then 1 else 0], hvec8 k ++ [0]⟩) rfl
       C1.e h α x r hr A hrA

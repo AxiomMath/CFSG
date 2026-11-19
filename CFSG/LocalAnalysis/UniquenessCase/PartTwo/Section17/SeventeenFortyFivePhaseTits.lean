@@ -16,7 +16,7 @@ theorem phase45_false_of_tits {X : Type} [Group X] [Finite X] {L A₁ : Subgroup
     (hLn : L.Normal) (hLs : IsSimpleGroup L) (hLnab : ¬ IsMulCommutative L)
     (hCL : centralizer (L : Set X) = ⊥) {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tits)
     (e : ↥L ≃* (TauCeti.CFSGIndex.lie d).Group) (hA1 : Nat.card A₁ = 31) : False := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra h
     push Not at h

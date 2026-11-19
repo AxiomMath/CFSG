@@ -43,7 +43,7 @@ theorem pCoreOf_le_of_mem_scriptQPiStar_normalizer {A : Subgroup G}
 
 private theorem isQuasisimple_quotient_sup_of_scriptY4 {A : Subgroup G}
     {LB : Subgroup G → Subgroup G} {K₁ K₂ : Subgroup G}
-    (hK₁ : K₁ ∈ scriptY4 A LB) (hK₂ : K₂ ∈ scriptY4 A LB)
+    (hK₁ : K₁ ∈ scriptY4 A LB) (_hK₂ : K₂ ∈ scriptY4 A LB)
     (h₁₂ : K₁ ≤ Subgroup.normalizer (K₂ : Set G))
     (h₂₁ : K₂ ≤ Subgroup.normalizer (K₁ : Set G))
     (hcov : K₂ ≤ K₁ ⊔ CFSG.Open.pCoreOf 2 K₂) :
@@ -77,7 +77,7 @@ private theorem isQuasisimple_quotient_sup_of_scriptY4 {A : Subgroup G}
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (K₁ ⊔ K₂)).to_le inf_le_left)
     exact (le_inf hK₁_N Subgroup.le_normalizer).trans
       Subgroup.inf_normalizer_le_normalizer_inf
-  haveI : (N.subgroupOf (K₁ ⊔ K₂)).Normal :=
+  have : (N.subgroupOf (K₁ ⊔ K₂)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hX_N
   let f : ↥K₁ →* ↥(K₁ ⊔ K₂) ⧸ N.subgroupOf (K₁ ⊔ K₂) :=
     (QuotientGroup.mk' (N.subgroupOf (K₁ ⊔ K₂))).comp
@@ -157,6 +157,7 @@ theorem eq_of_mem_scriptY0Star {A : Subgroup G} {LB : Subgroup G → Subgroup G}
   · exact le_sup_left.trans (hK₂.2 hsup le_sup_right)
   · exact le_sup_right.trans (hK₁.2 hsup le_sup_left)
 
+omit [Finite G] in
 private theorem commutator_mem_of_eq_sup_pCoreOf {K M : Subgroup G} {b : G}
     (hcov : K = M ⊔ CFSG.Open.pCoreOf 2 K)
     (hMb : M ≤ Subgroup.centralizer ({b} : Set G))

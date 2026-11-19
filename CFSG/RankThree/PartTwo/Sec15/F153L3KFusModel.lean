@@ -259,7 +259,7 @@ private theorem not_inner_aux {Q : Type} [Group Q] [Finite Q] {Kg : Subgroup Q} 
 theorem not_inner_of_field_plus {Q : Type} [Group Q] [Finite Q] {Kg : Subgroup Q} {x : Q} {j : ℕ}
     (hjE : Even j) (hj3 : 3 ≤ j) (hθ : aschbacherSolvableCore 3 Kg = ⊥)
     (e : ↥Kg ≃* projImage (slPi true 3 (2 ^ j) (GaloisField 2 j)))
-    (hx : x ∈ Subgroup.normalizer (Kg : Set Q)) (hx3 : x ^ 3 = 1)
+    (hx : x ∈ Subgroup.normalizer (Kg : Set Q)) (_hx3 : x ^ 3 = 1)
     (hkind : KFacts.InducesStdKind Kg x .field) :
     ¬ ∃ y ∈ glPi true 3 (2 ^ j) (GaloisField 2 j),
         ∀ m : projImage (slPi true 3 (2 ^ j) (GaloisField 2 j)),
@@ -333,7 +333,7 @@ section Certs
 theorem not_inner_of_field_minus {Q : Type} [Group Q] [Finite Q] {Kg : Subgroup Q} {x : Q} {j : ℕ}
     (hjO : Odd j) (hj3 : 3 ≤ j) (hθ : aschbacherSolvableCore 3 Kg = ⊥)
     (e : ↥Kg ≃* projImage (slPi false 3 (2 ^ j) (GaloisField 2 (2 * j))))
-    (hx : x ∈ Subgroup.normalizer (Kg : Set Q)) (hx3 : x ^ 3 = 1)
+    (hx : x ∈ Subgroup.normalizer (Kg : Set Q)) (_hx3 : x ^ 3 = 1)
     (hkind : KFacts.InducesStdKind Kg x .field) :
     ¬ ∃ y ∈ glPi false 3 (2 ^ j) (GaloisField 2 (2 * j)),
         ∀ m : projImage (slPi false 3 (2 ^ j) (GaloisField 2 (2 * j))),
@@ -468,7 +468,7 @@ theorem exists_fieldAct_model {Q : Type} [Group Q] [Finite Q] {Kg : Subgroup Q} 
               ((e k' : projImage (slPi π 3 (2 ^ (3 * n)) K)) :
                 Matrix.ProjGenLinGroup (Fin 3) K) =
                 Matrix.ProjGenLinGroup.mk (g * frobGL σ s * g⁻¹) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ := solvableCore_eq_bot hn hiso
   have h3n : 3 ≤ 3 * n := by omega
   have hxN : (⟨x, hx⟩ : Subgroup.normalizer (Kg : Set Q)) ^ 3 = 1 := Subtype.ext hx3

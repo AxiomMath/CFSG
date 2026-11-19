@@ -169,6 +169,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p k : ℕ} {U : Fin k → Submodule K V}
   {e : Fin k → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
 
+omit [CharP K 2] in
 private theorem p9Frame_pow_eq_zero (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb) (j : Fin k)
     {n : ℕ} (hn : ¬ p ∣ n) {x : V} (hx : x ∈ U j) (hfix : ((e j : V ≃ₗ[K] V) ^ n) x = x) :
     x = 0 := by
@@ -178,6 +179,7 @@ private theorem p9Frame_pow_eq_zero (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb
   rw [fixedSpace_eq_of_mem_zpowers hp hord (Subgroup.npow_mem_zpowers _ n) hne] at hx'
   exact hF.eq_zero_of_apply_eq j x hx (mem_fixedSpace.1 hx')
 
+omit [CharP K 2] in
 private theorem p9Frame_prod_eq_zero (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb)
     (hc : ∀ i j, Commute (e i : V ≃ₗ[K] V) (e j : V ≃ₗ[K] V)) (s : Fin k → ZMod p) (j : Fin k)
     (hs : s j ≠ 0) {x : V} (hx : x ∈ U j) (hfix : p9Frame_prod e hc s x = x) : x = 0 := by
@@ -187,6 +189,7 @@ private theorem p9Frame_prod_eq_zero (hp : p.Prime) (hF : IsPlaneFrame Q p U e B
   exact p9Frame_pow_eq_zero hp hF j hn hx
     ((p9Frame_prod_apply_of_mem hF hc s j hx).symm.trans hfix)
 
+omit [CharP K 2] in
 private theorem p9Frame_mem_polarPerp (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb)
     (hc : ∀ i j, Commute (e i : V ≃ₗ[K] V) (e j : V ≃ₗ[K] V)) (s : Fin k → ZMod p) {v : V}
     (hv : p9Frame_prod e hc s v = v) (j : Fin k) (hs : s j ≠ 0) : v ∈ polarPerp Q (U j) := by
@@ -211,6 +214,7 @@ private theorem p9Frame_mem_polarPerp (hp : p.Prime) (hF : IsPlaneFrame Q p U e 
   rw [p9Frame_prod_eq_zero hp hF hc s j hs ha (sub_eq_zero.1 h0), zero_add]
   exact hb
 
+omit [CharP K 2] in
 private theorem p9Frame_injective (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb)
     (hc : ∀ i j, Commute (e i : V ≃ₗ[K] V) (e j : V ≃ₗ[K] V)) :
     Function.Injective (p9Frame_iota hp hF hc) := by
@@ -223,6 +227,7 @@ private theorem p9Frame_injective (hp : p.Prime) (hF : IsPlaneFrame Q p U e Bb)
   have h0' : toAdd s = 0 := funext h0
   rw [← ofAdd_toAdd s, h0', ofAdd_zero]
 
+omit [CharP K 2] in
 theorem exists_frame_of_isPlaneFrame {Q : QuadraticForm K V} {p : ℕ} (hp : p.Prime) {k : ℕ}
     {U : Fin k → Submodule K V} {e : Fin k → ↥(CFSG.RankThree.Classical2.orthDerived Q)}
     {E : Subgroup (V ≃ₗ[K] V)} (hEΩ : E ≤ CFSG.RankThree.Classical2.orthDerived Q)

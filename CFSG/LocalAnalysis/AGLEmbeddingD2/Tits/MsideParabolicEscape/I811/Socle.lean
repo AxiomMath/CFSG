@@ -30,7 +30,7 @@ theorem eq_one_of_mem_center_of_isPerfect {p : ℕ} [Fact p.Prime] {K : Type*} [
   have hpow : z ^ (P : Subgroup K).index = 1 := by
     have := congrArg Subtype.val ht
     simpa using this.symm
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨z, hzP⟩
   have hzk : z ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hcop : Nat.Coprime (p ^ k) (P : Subgroup K).index :=
     Nat.Coprime.pow_left _ ((Nat.Prime.coprime_iff_not_dvd Fact.out).mpr P.not_dvd_index)
@@ -108,7 +108,7 @@ theorem exists_simple_socle {B : Type} [Group B] [Finite B]
         rw [Nat.card_zpowers, Subgroup.orderOf_coe, hz, pow_one]
       obtain ⟨P, hP⟩ := hzp.exists_le_sylow
       have hPc : IsCyclic ↥(P : Subgroup ↥K) := by
-        have h1 := hcycY ((P : Subgroup ↥K).map K.subtype) (P.isPGroup'.map _)
+        have h1 := hcycY ((P : Subgroup ↥K).map K.subtype) (P.isPGroup.map _)
         exact isCyclic_of_map_injective K.subtype K.subtype_injective _
       have : IsMulCommutative ↥(P : Subgroup ↥K) := inferInstance
       have hz1 := eq_one_of_mem_center_of_isPerfect P z.2 (hP (Subgroup.mem_zpowers _))
@@ -194,7 +194,7 @@ theorem exists_simple_socle {B : Type} [Group B] [Finite B]
       exact ⟨x, hxQ (Subgroup.mem_zpowers x), rfl⟩
     have hx'K : x' ∈ K := hKn.conj_mem x hxK g
     have hx'o : orderOf x' = 3 := by rw [hx', ← MulAut.conj_apply, MulEquiv.orderOf_eq, hxo]
-    have hPc : IsCyclic ↥(P : Subgroup Y) := hcycY _ P.isPGroup'
+    have hPc : IsCyclic ↥(P : Subgroup Y) := hcycY _ P.isPGroup
     have : IsCyclic ↥X := isCyclic_of_prime_card (p := 3) hX3
     obtain ⟨y, hy⟩ := IsCyclic.exists_generator (α := ↥X)
     have hyo : orderOf (y : Y) = 3 := by

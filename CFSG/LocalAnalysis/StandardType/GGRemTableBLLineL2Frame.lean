@@ -54,7 +54,7 @@ theorem exists_normalizer_move (hK : Nat.card K = 2)
   have hp3 : ((3 : ℕ) : K) ≠ 0 :=
     TableBSymp.natCast_ne_zero_of_charTwo Nat.prime_three (by norm_num)
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_factor_cyclotomic_three K
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hnsplit : ¬ 3 ∣ Nat.card K - 1 := by rw [hK]; decide
   have hζ : AdjoinRoot.root g ^ 3 = 1 :=
     (root_isPrimitiveRoot Nat.prime_three hp3 hgd).pow_eq_one
@@ -127,9 +127,9 @@ theorem exists_normalizer_move (hK : Nat.card K = 2)
     intro i f hf
     obtain ⟨w, hwN, hw⟩ := hmove 1 (fun j => if j = i then -1 else 1) (fun j => by
       by_cases hj : j = i
-      · simp only [hj, if_true]
+      · simp only [hj, ite_true]
         exact neg_one_mem_galExp hK hζ
-      · simp only [hj, if_false]
+      · simp only [hj, ite_false]
         exact (galExp g hζ).one_mem)
     have h1 := hw fun j => toAdd (f j)
     have h2 : ι₀ (Function.update f i (f i)⁻¹) = w⁻¹ * ι₀ f * w := by
@@ -139,7 +139,7 @@ theorem exists_normalizer_move (hK : Nat.card K = 2)
       by_cases hj : j = i
       · subst hj
         simp
-      · simp [Function.update_of_ne hj, hj]
+      · simp [hj]
     rw [hmemF, h2]
     have := hcon w⁻¹ (Subgroup.inv_mem _ hwN) (ι₀ f) hf
     simpa using this

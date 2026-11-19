@@ -56,7 +56,7 @@ theorem exists_commuting_lifts {K : Subgroup G} (hKM : K ≤ M)
       have := congrArg Subtype.val h1
       simpa [hψapp] using this
     have hmem := hφker (s : ↥K) hφ1
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hsk : (s : G) ^ (3 ^ k) = 1 := by
       have := congrArg (fun z : ↥S => ((z : ↥R) : ↥K).1) hk
       simpa using this

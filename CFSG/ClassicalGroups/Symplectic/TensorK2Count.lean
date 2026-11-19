@@ -72,6 +72,7 @@ section Core
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ} {E : Type*} [AddCommGroup E]
   [Module K E] {D : Type*} [Group D]
 
+omit [CharP K 2] in
 theorem card_le_pow_of_decomp (hm : 2 ≤ m) (ι₁ ι₂ : (Fin m ⊕ Fin m → K) →ₗ[K] E)
     {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0) {k₀ k₁ : Fin 2 → K}
     (T : D →* (E ≃ₗ[K] E)) (S : D →* GL (Fin m ⊕ Fin m) K) (H : D →* GL (Fin 2) K)
@@ -166,6 +167,7 @@ theorem card_le_pow_of_decomp (hm : 2 ≤ m) (ι₁ ι₂ : (Fin m ⊕ Fin m →
   exact hcard
 
 
+omit [CharP K 2] in
 theorem pow_le_card_of_translate [Finite E] (hm : 2 ≤ m)
     (ι₁ ι₂ : (Fin m ⊕ Fin m → K) →ₗ[K] E) {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0)
     {k₀ k₁ : Fin 2 → K}
@@ -235,6 +237,7 @@ theorem pow_le_card_of_translate [Finite E] (hm : 2 ≤ m)
   rw [e, pow_succ]
   exact hcard
 
+omit [Finite K] [CharP K 2] in
 theorem false_of_H_trivial (hm : 2 ≤ m)
     (ι₁ ι₂ : (Fin m ⊕ Fin m → K) →ₗ[K] E) {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0)
     {k₀ k₁ : Fin 2 → K}

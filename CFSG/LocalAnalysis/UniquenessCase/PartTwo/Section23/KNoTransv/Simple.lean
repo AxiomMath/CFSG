@@ -17,9 +17,9 @@ theorem isSimpleGroup_of_isMcLaughlinGroup {W : Type} [Group W] [Finite W]
   classical
   have hWnsolv : ¬ Group.IsSolvable W := by
     intro hsol
-    haveI := hsol
-    haveI : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hT
-    haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
+    have := hsol
+    have : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.mpr hT
+    have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
     exact Group.IsPerfect.not_isSolvable ↥T inferInstance
   obtain ⟨⟨hDsimple, hDnonab⟩, -⟩ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.inputMcLaughlinTypeFacts_holds W hW).2 hWnsolv
@@ -33,7 +33,7 @@ theorem isSimpleGroup_of_isMcLaughlinGroup {W : Type} [Group W] [Finite W]
           _ ≤ ⁅derivedSeries W n, derivedSeries W n⁆ := Subgroup.commutator_mono ih ih
           _ = derivedSeries W (n + 1) := (derivedSeries_succ W n).symm
   have hTDtop : T.subgroupOf D = ⊤ := by
-    haveI : T.Normal := hTn
+    have : T.Normal := hTn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf D) with h | h
     · exfalso
       rw [Subgroup.subgroupOf_eq_bot] at h
@@ -55,14 +55,14 @@ theorem isSimpleGroup_of_isMcLaughlinGroup {W : Type} [Group W] [Finite W]
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
   refine ⟨hTsimple, hTnonab, ?_⟩
   intro n ⟨eW⟩ hTtop
-  haveI : Group.IsPerfect W := by
+  have : Group.IsPerfect W := by
     rw [Group.isPerfect_def, commutator_def, ← hTtop, hT]
   by_cases hn : n ≤ 1
-  · haveI : Subsingleton (Fin n) := Fin.subsingleton_iff_le_one.mpr hn
-    haveI : Subsingleton W := eW.toEquiv.subsingleton
+  · have : Subsingleton (Fin n) := Fin.subsingleton_iff_le_one.mpr hn
+    have : Subsingleton W := eW.toEquiv.subsingleton
     exact hT1 (Subgroup.eq_bot_of_subsingleton T)
   · have hn2 : 2 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
     let f : W →* ℤˣ := Equiv.Perm.sign.comp eW.toMonoidHom
     have hsurj : Function.Surjective f := by
       intro y

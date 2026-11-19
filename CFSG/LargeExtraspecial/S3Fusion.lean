@@ -103,7 +103,7 @@ theorem lemma_3_12 [Finite X] {p : ℕ} [Fact p.Prime] {A : Subgroup X} (hA : Is
   obtain ⟨T', hT'⟩ := hpA'.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq K T' T
   set TG := (T : Subgroup K).map K.subtype with hTG
-  have hTGp : IsPGroup p TG := T.isPGroup'.map _
+  have hTGp : IsPGroup p TG := T.isPGroup.map _
   have hATG : A ≤ TG := fun a ha => ⟨⟨a, hAK ha⟩, hT (mem_subgroupOf.mpr ha), rfl⟩
   have hcA' : A'.map (MulAut.conj (c : X)).toMonoidHom ≤ TG := by
     rintro _ ⟨a', ha', rfl⟩

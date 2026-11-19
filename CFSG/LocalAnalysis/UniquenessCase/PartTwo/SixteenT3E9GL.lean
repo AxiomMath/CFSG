@@ -33,7 +33,7 @@ theorem s16t_exists_inv_of_aut_E9 {E : Type} [Group E] [Finite E]
     (φ : E →* MulAut (Multiplicative (Fin 2 → ZMod 3))) (hφ : Function.Injective φ)
     (h3 : 2 < Nat.card E) : ∃ z : E, ∀ a, φ z a = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let e : MulAut (Multiplicative (Fin 2 → ZMod 3)) ≃* GL (Fin 2) (ZMod 3) :=
     CFSG.Sporadic.RuSchreier.ruMulAutEquivGL (p := 3) 2
   let ι : MulAut (Multiplicative (Fin 2 → ZMod 3)) :=
@@ -57,7 +57,7 @@ theorem s16t_exists_inv_of_aut_E9 {E : Type} [Group E] [Finite E]
     obtain ⟨α, rfl⟩ := e.surjective x
     rw [← map_mul, ← map_mul, hιcen α]
   have heι : e ι = -1 := s16t_gl_central_eq_neg_one (e ι) heι_inv heι_cen
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   rw [Nat.card_eq_fintype_card] at h3
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.mp h3
   set x : E := a⁻¹ * b with hxdef

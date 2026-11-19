@@ -119,7 +119,7 @@ theorem ProjData.eq_bot_of_isPGroup [Finite H] [Nonempty ι] [Finite K] {r : ℕ
     rw [injective_iff_map_eq_one]
     intro s hs
     have hs1 : (s : Vt) ∈ Zs := MonoidHom.mem_ker.mpr hs
-    have hord : ∃ k, orderOf s = r ^ k := IsPGroup.iff_orderOf.mp S.isPGroup' s
+    have hord : ∃ k, orderOf s = r ^ k := IsPGroup.iff_orderOf.mp S.isPGroup s
     obtain ⟨k, hk⟩ := hord
     have h2 : orderOf (s : Vt) ∣ Nat.card K - 1 := by
       apply orderOf_dvd_of_pow_eq_one
@@ -144,8 +144,8 @@ theorem ProjData.eq_bot_of_isPGroup [Finite H] [Nonempty ι] [Finite K] {r : ℕ
     have hzc : ∀ w : Vt, (c * (p'' : Vt)⁻¹) * w = w * (c * (p'' : Vt)⁻¹) := fun w =>
       Subtype.ext (P.ker_central _ ((hZsmem _).mp hz) w.1)
     have hcomm : Commute (c * (p'' : Vt)⁻¹) (p'' : Vt) := hzc _
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨p, hp⟩
-    obtain ⟨k', hk'⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' p''
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨p, hp⟩
+    obtain ⟨k', hk'⟩ := IsPGroup.iff_orderOf.mp S.isPGroup p''
     have hpk : p ^ (r ^ k) = 1 := by
       have := pow_orderOf_eq_one (⟨p, hp⟩ : S)
       rw [hk] at this
@@ -234,7 +234,7 @@ theorem ProjData.eq_bot_of_isPGroup [Finite H] [Nonempty ι] [Finite K] {r : ℕ
         show (P.ρ ((a * b : (S : Subgroup Vt)) : Vt).1 : Matrix ι ι K) *ᵥ n =
           (P.ρ (a : Vt).1 : Matrix ι ι K) *ᵥ ((P.ρ (b : Vt).1 : Matrix ι ι K) *ᵥ n)
         simp [Matrix.mulVec_mulVec] }
-  have hfix := IsPGroup.card_modEq_card_fixedPoints S.isPGroup' (ι → K)
+  have hfix := IsPGroup.card_modEq_card_fixedPoints S.isPGroup (ι → K)
   have hrK : r ∣ Nat.card K := by
     have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K r

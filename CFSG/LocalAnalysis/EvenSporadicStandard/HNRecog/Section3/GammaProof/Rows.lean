@@ -10,6 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private lemma gamma_comm_of_comm_mul_cube {b u y g : G} (hb : Commute b g)
     (hu : Commute u g) (hcube : (b * u) ^ 3 = y) : Commute y g := by
   have hbu : Commute (b * u) g := hb.mul_left hu
@@ -17,6 +18,7 @@ private lemma gamma_comm_of_comm_mul_cube {b u y g : G} (hb : Commute b g)
   rw [hcube] at h
   exact h
 
+omit [Finite G] in
 theorem gamma_rows (H : GammaHyps a z) {b y t : G} (hb : IsConj a b) (hy : y ∈ orb2A a b)
     (ht : t ∈ orb2A a y) :
     t * b = b * t ∨ ((b * t) ^ 2 = y ∧ IsShapeZ2TimesSym 6 ↥(Gxyz b y t)) ∨
@@ -102,6 +104,7 @@ theorem gamma_rows (H : GammaHyps a z) {b y t : G} (hb : IsConj a b) (hy : y ∈
         (show Commute t g from mem_Gx.mp hgt) hcube5
     exact mem_Gxyz.mpr ⟨hgb, mem_Gx.mpr hgy, hgt⟩
 
+omit [Finite G] in
 theorem gamma_rows_classes (H : GammaHyps a z) {b y t : G} (hb : IsConj a b)
     (hy : y ∈ orb2A a b) (ht : t ∈ orb2A a y) :
     t = b ∨ t ∈ orb2A a b ∪ orb2B a z b ∪ orb3A a b ∪ orb4B a b ∪ orb6A a b ∨

@@ -40,7 +40,7 @@ theorem corB_centralizes_normalClosure {Y : Type} [Group Y] [Finite Y] {T H X : 
   have hSn : (Subgroup.normalClosure (T : Set Y)).Normal := inferInstance
   have hTS : T ≤ Subgroup.normalClosure (T : Set Y) := Subgroup.le_normalClosure
   generalize Subgroup.normalClosure (T : Set Y) = S at hList hSn hTS ⊢
-  haveI : IsSimpleGroup ↥S := hsimple _ hList
+  have : IsSimpleGroup ↥S := hsimple _ hList
   have hZS : Subgroup.center ↥S = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center ↥S) with h0 | h0
     · exact h0
@@ -73,6 +73,7 @@ section Cent
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {hc : Ctx M Q Z B} {n : ℕ} {t : G} {m : ℕ} {X : Subgroup G}
 
+omit [Finite G] in
 theorem Env.bar_X_simple (e : Env hc n t m X)
     (hsat : (OmegaPlusNat hc t m ∧ QuotSat X Q (IsOmegaPlus m (Nat.card Z))) ∨
       (OmegaMinusNat hc t m ∧ QuotSat X Q (IsOmegaMinus m (Nat.card Z)))) :
@@ -81,11 +82,11 @@ theorem Env.bar_X_simple (e : Env hc n t m X)
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
   rcases hsat with ⟨-, hnQ, K, fK, finK, hK, ⟨eΩ⟩⟩ | ⟨-, hnQ, K, fK, finK, hK, b, c, hirr, ⟨eΩ⟩⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
     obtain ⟨hs, h16, -⟩ := endg_omegaPlus_facts (K := K) (by rw [hK]; exact hq4) e.hm
     let f : ↥(bar M Q X) ≃* ↥(StatedOmega (StatedQuadPlus m K)) := eXB.symm.trans eΩ
     exact ⟨f.isSimpleGroup, by rw [Nat.card_congr f.toEquiv]; exact h16⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
     obtain ⟨hs, h16, -⟩ := endg_omegaMinus_facts (K := K) (m := m) (by rw [hK]; exact hq4)
       (by have := e.hm; omega) hirr
     let f : ↥(bar M Q X) ≃* ↥(StatedOmega (StatedQuadMinus m K b c)) := eXB.symm.trans eΩ
@@ -103,8 +104,8 @@ theorem Env.cent_of_corB (I : Inputs) (e : Env hc n t m X) (h44 : Stroth44Statem
   have hNM : hc.CN t ≤ M := e.CN_le_M
   have hQN : Q ≤ hc.CN t := hc.Q_le_CN e.hs.toSec5.mem
   have hXM : X ≤ M := e.X_le_M
-  haveI hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
-  haveI hZV : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+  have hZV : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer sec39_Z_le_Vt).mpr fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hc.Vt_le_Q t hv))
   have hNbH : bar M Q (hc.CN t) ≤ bar M Q (H0 M Z) := bar_mono (e.CN_le_H0 I)
@@ -120,7 +121,7 @@ theorem Env.cent_of_corB (I : Inputs) (e : Env hc n t m X) (h44 : Stroth44Statem
   have hLB : bar M Q (LB M Q B) ≤ bar M Q (H0 M Z) :=
     hc.bar_LB_le_bar_Lgen.trans hc.bar_Lgen_le_bar_H0
   obtain ⟨hXs, h16⟩ := e.bar_X_simple hsat
-  haveI := hXs
+  have := hXs
   have hXT : ∀ x ∈ bar M Q X, ∀ y ∈ bar M Q (hc.CN t), x * y = y * x := by
     intro x hx y hy
     obtain ⟨x', hx'X, hx'M, rfl⟩ := (mem_bar x).mp hx

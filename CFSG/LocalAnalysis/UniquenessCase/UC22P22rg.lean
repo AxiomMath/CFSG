@@ -90,8 +90,8 @@ theorem uc22p22r_fo_le_of_conj_mem {Q : Type*} [Group Q] [Finite Q] {M S κ : Su
     have h2 : (Subgroup.center κ).index ∣ (S.subgroupOf κ).index := Subgroup.index_dvd_of_le hSZ
     rw [← Subgroup.index_eq_card]
     exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 fun h3 => h1 (h3.trans h2))
-  haveI : Group.IsPerfect κ := ⟨hκ.1⟩
-  haveI : Nontrivial (κ ⧸ Subgroup.center κ) := hκ.2.toNontrivial
+  have : Group.IsPerfect κ := ⟨hκ.1⟩
+  have : Nontrivial (κ ⧸ Subgroup.center κ) := hκ.2.toNontrivial
   exact Group.IsPerfect.not_isSolvable (κ ⧸ Subgroup.center κ) (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd)
 
 theorem uc22p22r_free_orbit {Q : Type} [Group Q] [Finite Q] {q : ℕ} (hq : q.Prime) (x : Q)

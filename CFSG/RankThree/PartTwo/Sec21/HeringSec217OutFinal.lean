@@ -108,6 +108,7 @@ theorem IsTransvectionOn.pow_three {P : Type*} [Group P] {φ : MulAut P}
   rw [h2, hφy, e1, e2, e3, h3, mul_one]
   rfl
 
+omit [Finite G] in
 theorem transvection_elementwise {A F : Subgroup G} {d t : G}
     (ht : t ∈ Subgroup.normalizer (A : Set G))
     (hF : (fixedSubgroupOf (A.normalizerMonoidHom ⟨t, ht⟩)).map A.subtype = F)
@@ -176,7 +177,7 @@ theorem CoverOut.frame_decomp (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) {a :
   intro h1
   apply hfr.not_mem
   rw [hai, ← hl₀, h1]
-  simpa using Subgroup.zpow_mem_zpowers c i
+  simp
 
 set_option maxRecDepth 20000 in
 theorem CoverOut.dgroup_decomp (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) {a : G}

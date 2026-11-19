@@ -54,7 +54,7 @@ theorem cq_abstract (hom5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.Om5StabDia
   have hsimple : IsSimpleGroup L.X :=
     CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.isSimpleGroup_of_om5Data hd
   have hcenter : Subgroup.center L.X = ⊥ := by
-    haveI := hsimple
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center L.X) with h | h
     · exact h
     · exfalso

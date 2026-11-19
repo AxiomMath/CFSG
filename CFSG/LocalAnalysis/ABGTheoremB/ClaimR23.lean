@@ -85,7 +85,7 @@ private theorem cr23_not_hasWreathedSylow {G : Type} [Group G] [Finite G] {n : �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨e⟩ := hW P
-  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+  have hP' : IsPGroup 2 ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
   obtain ⟨S', hS'⟩ := hP'.exists_le_sylow
   obtain ⟨f'⟩ := hG.2 S'
   let ι : Wreath (2 ^ m) →* SemidihedralGroup n :=
@@ -319,9 +319,9 @@ theorem claimR23_of_imageForm (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (hh :
     rintro ⟨n, hn⟩
     rw [CFSG.ABGDGroups.hasWreathedSylow_quotient_oddCore_iff] at hn
     exact cr23_not_hasWreathedSylow hSD K n hn
-  have hDp : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hDp : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨SK, hSK⟩ := (hDp.comap_subtype (K := K)).exists_le_sylow
-  obtain ⟨S₁, hS₁⟩ := (SK.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S₁, hS₁⟩ := (SK.isPGroup.map K.subtype).exists_le_sylow
   have hDS₁ : σ.D ≤ (S₁ : Subgroup G) := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hDK]
     exact (Subgroup.map_mono hSK).trans hS₁

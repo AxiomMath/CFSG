@@ -22,11 +22,11 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 theorem tail_false (hr3 : m.r = 3) (hK : UCK.K634)
     (hQ : CFSG.Open.IsQuasisimple (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 m.K))
     (h625 : m.C625) (h626 : m.C626) (hVC : m.V ⊓ centralizer (m.Z : Set G) = ⊥) : False := by
-  haveI := m.hS.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := m.hS.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMg : CFSG.Open.IsKGroup ↥m.M := m.hS.kProper.isKGroup m.M m.M_ne_top
-  haveI hQn : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hQn : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hQ2 : IsPGroup 2 (CFSG.pCore 2 ↥m.M) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hchar : centralizer ((CFSG.pCore 2 ↥m.M : Subgroup ↥m.M) : Set ↥m.M) ≤
       CFSG.pCore 2 ↥m.M := by
@@ -42,14 +42,14 @@ theorem tail_false (hr3 : m.r = 3) (hK : UCK.K634)
     obtain ⟨q, hq, hqx⟩ := h1 hxG
     have : q = x := Subtype.ext hqx
     exact this ▸ hq
-  haveI : IsElementaryAbelian 2 (↥(CFSG.pCore 2 ↥m.M) ⧸ frattini ↥(CFSG.pCore 2 ↥m.M)) :=
+  have : IsElementaryAbelian 2 (↥(CFSG.pCore 2 ↥m.M) ⧸ frattini ↥(CFSG.pCore 2 ↥m.M)) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ2).2.2.2.1
   set Q₀ : Subgroup ↥m.M := CFSG.pCore 2 ↥m.M with hQ₀
   set ρ := frattiniRep Q₀ with hρ
   set ι : ↥m.K →* ↥m.M := Subgroup.inclusion m.K_le_M with hιdef
   have hι : Function.Injective ι := Subgroup.inclusion_injective m.K_le_M
   set ρK := MonoidHom.comp ρ ι with hρK
-  haveI hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hTn : (CFSG.pCore 2 ↥m.K).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hTp : IsPGroup 2 (CFSG.pCore 2 ↥m.K) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hOK : pCoreOf 2 m.K ≤ pCoreOf 2 m.M := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
@@ -130,7 +130,7 @@ theorem tail_false (hr3 : m.r = 3) (hK : UCK.K634)
   have hrankK : ∀ p : ℕ, p.Prime → p ≠ 2 → CFSG.Open.pRank p
       (⊤ : Subgroup (↥m.K ⧸ CFSG.pCore 2 ↥m.K)) = CFSG.Open.pRank p m.K := by
     intro p hp hp2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hnd : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥m.K) := by
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hTp
       rw [hn]
@@ -152,7 +152,7 @@ theorem tail_false (hr3 : m.r = 3) (hK : UCK.K634)
   have hpr : (m.S.p).Prime := hp.1.1
   have hp2 : m.S.p ≠ 2 := hp.1.2.1
   have hp3 : m.S.p ≠ 3 := fun h => m.hrσ (by rw [hr3, ← h]; exact hp)
-  haveI : Fact (m.S.p).Prime := ⟨hpr⟩
+  have : Fact (m.S.p).Prime := ⟨hpr⟩
   obtain ⟨P, hP⟩ := exists_isSylowOf m.S.p m.M
   have hodd : Odd m.r := m.hr.odd_of_ne_two m.d.odd
   have hPK : P ≤ m.K := m.sylow_le_K hp (m.sylow_cyclic_of_pRank_eq_one h625 hodd) h626 hP

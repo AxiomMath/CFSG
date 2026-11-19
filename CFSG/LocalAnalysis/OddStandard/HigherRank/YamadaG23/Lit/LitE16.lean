@@ -13,8 +13,8 @@ open Subgroup
 theorem lit_card_modEq_fix {α : Type*} [Finite α] (σ : Equiv.Perm α) (h : σ ^ 5 = 1) :
     Nat.card α ≡ Nat.card {a // σ a = a} [MOD 5] := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h1 := Equiv.Perm.card_compl_support_modEq (p := 5) (n := 1) (σ := σ) (by simpa using h)
   have h2 : Nat.card {a // σ a = a} = σ.supportᶜ.card := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -34,7 +34,7 @@ variable {X : Type*} [Group X]
 @[expose] def litConjOn (W : Subgroup X) {n : X} (hn : ∀ x, x ∈ W ↔ n * x * n⁻¹ ∈ W) :
     Equiv.Perm {x // x ∈ W} where
   toFun w := ⟨n * w * n⁻¹, (hn w).mp w.2⟩
-  invFun w := ⟨n⁻¹ * w * n, (hn _).mpr (by simpa [mul_assoc] using w.2)⟩
+  invFun w := ⟨n⁻¹ * w * n, (hn _).mpr (by simp [mul_assoc])⟩
   left_inv w := by
     apply Subtype.ext
     group
@@ -128,7 +128,7 @@ theorem lit_irreducible_of_five [Finite X] {A : Subgroup X} (hA : Nat.card A = 1
 
 theorem lit_exists_five {N : Type*} [Group N] (φ : N →* Equiv.Perm (Fin 6))
     (hφ : Function.Surjective φ) : ∃ g : N, φ g ^ 5 = 1 ∧ φ g ≠ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := Equiv.Perm (Fin 6)) 5
     (by rw [Nat.card_perm, Nat.card_fin]; decide)
   obtain ⟨g, rfl⟩ := hφ σ

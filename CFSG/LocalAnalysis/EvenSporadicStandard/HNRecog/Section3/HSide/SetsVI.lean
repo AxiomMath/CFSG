@@ -56,19 +56,19 @@ theorem tBase_eq (L : HLab b z z₀ b₀ u₀) {y : ↥(Gx b)} (hy : IsConj (GxS
       ha2 hz2 hba.symm hca (Or.inr hcz)
   apply Set.Subset.antisymm
   · intro c hc
-    simp only [tBase, Set.mem_setOf_eq] at hc
+    simp only [tBase, Set.mem_ofPred_eq] at hc
     obtain ⟨hca, hcz, hcne⟩ := hc
     have hcGx : c ∈ Gx b := memGx hca hcz
     refine ⟨⟨c, hcGx⟩, ?_, rfl⟩
-    simp only [tab6Base, Set.mem_setOf_eq]
+    simp only [tab6Base, Set.mem_ofPred_eq]
     refine ⟨(L.isConj_bz₀_iff ⟨c, hcGx⟩).mpr ⟨IsConj.trans hba hca, hcz⟩, ?_⟩
     intro h
     exact hcne (congrArg Subtype.val h)
   · rintro d ⟨c', hc', rfl⟩
-    simp only [tab6Base, Set.mem_setOf_eq] at hc'
+    simp only [tab6Base, Set.mem_ofPred_eq] at hc'
     obtain ⟨hconj, hne⟩ := hc'
     obtain ⟨hbc', hzbc'⟩ := (L.isConj_bz₀_iff c').mp hconj
-    simp only [tBase, Set.mem_setOf_eq]
+    simp only [tBase, Set.mem_ofPred_eq]
     exact ⟨IsConj.trans hba.symm hbc', hzbc', fun h => hne (Subtype.ext h)⟩
 
 private theorem image_tBase_of_pred (L : HLab b z z₀ b₀ u₀) {y : ↥(Gx b)}

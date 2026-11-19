@@ -21,7 +21,7 @@ variable {G : Type*} [Group G]
 private theorem mul_card_dvd_card_of_not_mem_threeAdic {H K : Subgroup G} (hHK : H ≤ K)
     (hK : K ≤ Subgroup.normalizer (H : Set G)) {g : G} (hgK : g ∈ K) (hgH : g ∉ H) {p : ℕ}
     [Fact p.Prime] (hg : g ^ p = 1) : p * Nat.card H ∣ Nat.card K := by
-  haveI : (H.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hK
+  have : (H.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hK
   have hgp : (⟨g, hgK⟩ : ↥K) ^ p = 1 := Subtype.ext (by simpa using hg)
   have hp : orderOf (QuotientGroup.mk ⟨g, hgK⟩ : ↥K ⧸ H.subgroupOf K) = p := by
     refine orderOf_eq_prime ?_ ?_
@@ -35,7 +35,7 @@ private theorem mul_card_dvd_card_of_not_mem_threeAdic {H K : Subgroup G} (hHK :
 private theorem three_mul_card_dvd_card_sup_threeAdic {J : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.centralizer (J : Set G)) (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) :
     3 * Nat.card (↥J ⧸ Subgroup.center ↥J) ∣ Nat.card ↥(J ⊔ Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hxJ : x ∈ J
   · have hz : (⟨x, hxJ⟩ : ↥J) ∈ Subgroup.center ↥J := Subgroup.mem_center_iff.2 fun l =>
       Subtype.ext (Subgroup.mem_centralizer_iff.1 hx l l.2)
@@ -60,7 +60,7 @@ theorem mem_sup_zpowers_of_threeAdic [Finite G] {J : Subgroup G} {x y : G}
     (hv : padicValNat 3 (Nat.card G) ≤
       padicValNat 3 (Nat.card (↥J ⧸ Subgroup.center ↥J)) + 1) :
     y ∈ J ⊔ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hyM
   have hyx : y ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) :=
     Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun h hh => by

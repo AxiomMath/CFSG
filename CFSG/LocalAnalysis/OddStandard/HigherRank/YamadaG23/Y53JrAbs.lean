@@ -18,6 +18,7 @@ private def MaxRank (T U : Subgroup Γ) : Prop :=
 private def IsMaxAb (T U : Subgroup Γ) : Prop :=
   U ≤ T ∧ IsMulCommutative U ∧ MaxRank T U
 
+omit [Finite Γ] in
 private lemma thompsonRank_eq_sSup (T : Subgroup Γ) :
     thompsonRank T = sSup {U : Subgroup Γ | IsMaxAb T U} := by
   rw [thompsonRank]
@@ -37,6 +38,7 @@ private lemma isElemAbelian_of_isElemAbelian_top {G : Type*} [Group G] (E : Subg
     have h2 : (⟨x, hx⟩ : ↥E) ^ 2 = 1 := h.2 ⟨x, hx⟩ (Subgroup.mem_top _)
     simpa using congrArg (fun y : E => (y : G)) h2
 
+omit [Finite Γ] in
 private lemma isElemAbelian_inf_left {E W' : Subgroup Γ} (hE : IsElemAbelian 2 E) :
     IsElemAbelian 2 (E ⊓ W') := by
   refine ⟨?_, ?_⟩
@@ -48,14 +50,15 @@ private lemma isElemAbelian_inf_left {E W' : Subgroup Γ} (hE : IsElemAbelian 2 
   · intro x hx
     exact hE.2 x hx.1
 
+omit [Finite Γ] in
 private lemma isElemAbelian_sup_of_le_centralizer {A B : Subgroup Γ}
     (hA : IsElemAbelian 2 A) (hB : IsElemAbelian 2 B)
     (hle : B ≤ Subgroup.centralizer (A : Set Γ)) : IsElemAbelian 2 (A ⊔ B) := by
-  haveI hAc : IsElementaryAbelian 2 ↥A :=
+  have hAc : IsElementaryAbelian 2 ↥A :=
     { toIsMulCommutative := hA.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
         (fun x => Subtype.ext (hA.2 x.1 x.2)) }
-  haveI hBc : IsElementaryAbelian 2 ↥B :=
+  have hBc : IsElementaryAbelian 2 ↥B :=
     { toIsMulCommutative := hB.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
         (fun x => Subtype.ext (hB.2 x.1 x.2)) }
@@ -75,8 +78,8 @@ private lemma openPRank_eq_of_isElemAbelian_card {E : Subgroup Γ} (hE : IsElemA
 
 private lemma card_eq_two_pow_pRank {E : Subgroup Γ} (hE : IsElemAbelian 2 E) :
     Nat.card ↥E = 2 ^ CFSG.Open.pRank 2 E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hEc : IsElementaryAbelian 2 ↥E :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hEc : IsElementaryAbelian 2 ↥E :=
     { toIsMulCommutative := hE.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
         (fun x => Subtype.ext (hE.2 x.1 x.2)) }
@@ -88,7 +91,7 @@ theorem y53_jr_abs {W Ab K : Subgroup Γ} (hWn : W.Normal) (hWK : W ⊔ K = ⊤)
     (hAb : IsE 4 ↥Ab) (hK : IsE 2 ↥K) (hKA : ∀ k ∈ K, ∀ a ∈ Ab, k * a = a * k)
     (hAK : Ab ⊓ K = ⊥) (hCW : ∀ w ∈ W, (∀ a ∈ Ab, w * a = a * w) → w ∈ Ab)
     (hJ : thompsonRank W = Ab) : thompsonRank (⊤ : Subgroup Γ) = Ab ⊔ K := by
-  haveI hWnI : W.Normal := hWn
+  have hWnI : W.Normal := hWn
   have hAb_ea : IsElemAbelian 2 Ab := isElemAbelian_of_isElemAbelian_top Ab hAb.1
   have hK_ea : IsElemAbelian 2 K := isElemAbelian_of_isElemAbelian_top K hK.1
   have hAb_card : Nat.card ↥Ab = 16 := by rw [hAb.2]; norm_num

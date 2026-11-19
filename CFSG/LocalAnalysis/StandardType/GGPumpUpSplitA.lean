@@ -36,7 +36,7 @@ private theorem pptp5_innDiag_linear_not_u52_of
   obtain ⟨K, hK, hKf, d, hd, hcard, A, u, e, hβu, hgraph⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.innDiag_linear_data hcen hFam hin
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, n, hqp, hqcard⟩ := FiniteField.card' K
     rw [Nat.card_eq_fintype_card, hqcard] at hcard
     have hdvd : q ∣ 2 ^ (CFSG.LocalAnalysis.GLTheoremA.canonLabel labK).n := by
@@ -95,7 +95,7 @@ private theorem pptp5_innDiagKind_linear_of_inner
     (hinner : β ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (K ⧸ Subgroup.center K)) :
     InnDiagKind (K ⧸ Subgroup.center K) (⟨.A, m - 1, 1⟩ : GLALabel) β := by
-  haveI : Group.IsPerfect K := ⟨hquasi.1⟩
+  have : Group.IsPerfect K := ⟨hquasi.1⟩
   have hSperf : commutator (K ⧸ Subgroup.center K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

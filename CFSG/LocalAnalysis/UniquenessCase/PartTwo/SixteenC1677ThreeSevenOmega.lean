@@ -28,7 +28,7 @@ theorem s168e3_seven_omega_eq {M K T Y : Subgroup G} {p : ℕ} (hp : p.Prime) (h
       have hyM : y ∈ M := hYM hyY
       have htM : t ∈ M := hTM htT
       have hgM : g ∈ M := hKM hgK
-      haveI : (K.subgroupOf M).Normal := ⟨by
+      have : (K.subgroupOf M).Normal := ⟨by
         intro n hn m
         exact hK m.1 m.2 n.1 hn⟩
       let φ := QuotientGroup.mk' (K.subgroupOf M)
@@ -153,7 +153,7 @@ theorem s168e3_seven_omega_eq {M K T Y : Subgroup G} {p : ℕ} (hp : p.Prime) (h
       intro h
       exact hN (le_antisymm inf_le_left h)
     have hlt : N < Ω := lt_of_le_of_ne inf_le_left hN
-    obtain ⟨a, haΩ, haN⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨a, haΩ, haN⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨a, haΩ, ?_⟩
     have hQ_le : Subgroup.zpowers a ⊔ N ≤ Ω :=
       sup_le (Subgroup.zpowers_le_of_mem haΩ) inf_le_left

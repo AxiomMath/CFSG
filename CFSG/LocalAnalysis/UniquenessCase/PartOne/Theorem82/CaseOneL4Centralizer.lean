@@ -74,7 +74,7 @@ private noncomputable def Omega : Subgroup G :=
 
 private theorem mem_Omega_iff {x : G} :
     x ∈ Omega t ↔ x ∈ Q t ∧ x ^ 3 = 1 := by
-  haveI : IsMulCommutative ↥(Q t) := Q_comm t
+  have : IsMulCommutative ↥(Q t) := Q_comm t
   constructor
   · intro hx
     rw [Omega, Subgroup.mem_map] at hx
@@ -93,8 +93,8 @@ private theorem A_le_Omega : t.A ≤ Omega t := by
   exact (mem_Omega_iff t).mpr ⟨(A_le_Q t) hx, A_pow_three t x hx⟩
 
 private theorem Omega_elemAbelian : IsElemAbelian 3 (Omega t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : IsMulCommutative ↥(Q t) := Q_comm t
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : IsMulCommutative ↥(Q t) := Q_comm t
   have h : IsElemAbelian 3 (CFSG.omega₁ ↥(Q t) (p := 3)) :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr
       (CFSG.IsElementaryAbelian.omega₁_of_isMulCommutative (p := 3) ↥(Q t))
@@ -293,7 +293,7 @@ private theorem isElemAbelian_of_le_Q_of_pow_three {U : Subgroup G} (hUQ : U ≤
     (hUexp : ∀ u ∈ U, u ^ 3 = 1) : IsElemAbelian 3 U := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, hUexp⟩
   exact Subtype.ext (by
-    haveI : IsMulCommutative ↥(Q t) := Q_comm t
+    have : IsMulCommutative ↥(Q t) := Q_comm t
     simpa using congrArg Subtype.val
       (mul_comm' (⟨a.1, hUQ a.2⟩ : Q t) ⟨b.1, hUQ b.2⟩))
 
@@ -317,7 +317,7 @@ private theorem two_le_pRank_sup_zpowers_a2_of_not_le {U : Subgroup G} (hUQ : U 
   obtain ⟨u, huU, huNot⟩ := Set.not_subset.mp hUne
   have hu1 : u ≠ 1 := by
     intro h
-    exact huNot (by simpa [h] using Subgroup.one_mem (Subgroup.zpowers t.a2))
+    exact huNot (by simp [h])
   have huord : orderOf u = 3 := orderOf_eq_prime (hUexp u huU) hu1
   have hEu := CFSG.GroupTheory.isElemAbelian_sup_zpowers_of_commute
     (X := Subgroup.zpowers t.a2) (v := u) (card_zpowers_a2 t) huord huNot
@@ -374,7 +374,7 @@ private theorem pPrimeCore_H_le_M
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     (CFSG.pPrimeCore 3 ↥(H t)).map (H t).subtype ≤ c.S.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥(H t)).map (H t).subtype
   change O ≤ c.S.M
   have hHnorm : H t ≤ Subgroup.normalizer (O : Set G) := by
@@ -454,7 +454,7 @@ private theorem weaklyClosed_zpowers_in_Q {x : G} (hxQ : x ∈ Q t) (hxH : x ∈
     (hle : CFSG.conjugate (Subgroup.zpowers x) h ≤ Q t) :
     CFSG.conjugate (Subgroup.zpowers x) h = Subgroup.zpowers x := by
   classical
-  haveI : IsMulCommutative ↥(Q t) := Q_comm t
+  have : IsMulCommutative ↥(Q t) := Q_comm t
   obtain ⟨S, hS⟩ := (Q_sylow_H t hN1 hN3).exists_sylow_eq_subgroupOf
   let hH : ↥(H t) := ⟨h, hh⟩
   let xH : ↥(H t) := ⟨x, hxH⟩
@@ -512,7 +512,7 @@ private theorem weaklyClosed_zpowers_in_Q {x : G} (hxQ : x ∈ Q t) (hxH : x ∈
   rw [hconjEq, CFSG.conjugate_eq_self_of_mem_normalizer hnD]
 
 private theorem H_ne_top : H t ≠ ⊤ := by
-  haveI : IsSimpleGroup G := c.standing.simple
+  have : IsSimpleGroup G := c.standing.simple
   intro htop
   have ha2center : t.a2 ∈ Subgroup.center G := by
     rw [Subgroup.mem_center_iff]
@@ -529,7 +529,7 @@ private theorem H_ne_top : H t ≠ ⊤ := by
         calc g * n * g⁻¹ = n * g * g⁻¹ := by rw [hc]
           _ = n := by group
       rwa [hconj]
-  haveI : (Subgroup.zpowers t.a2).Normal := hnormal
+  have : (Subgroup.zpowers t.a2).Normal := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers t.a2) with hbot | hDtop
   · have ha2bot : t.a2 ∈ (⊥ : Subgroup G) := by rw [← hbot]; exact Subgroup.mem_zpowers t.a2
     have ha21 : t.a2 = 1 := Subgroup.mem_bot.mp ha2bot
@@ -559,7 +559,7 @@ private theorem QH_comm : IsMulCommutative ↥((Q t).subgroupOf (H t)) := by
   refine ⟨⟨fun a b => ?_⟩⟩
   apply Subtype.ext
   apply Subtype.ext
-  haveI : IsMulCommutative ↥(Q t) := Q_comm t
+  have : IsMulCommutative ↥(Q t) := Q_comm t
   simpa using congrArg Subtype.val
     (mul_comm' (⟨a.1.1, a.2⟩ : Q t) (⟨b.1.1, b.2⟩ : Q t))
 
@@ -600,7 +600,7 @@ private theorem weaklyClosed_a1_in_Q_subgroupOf
       ((Subgroup.zpowers t.a1).subgroupOf (H t)) ((Q t).subgroupOf (H t)) :=
   weaklyClosed_zpowers_in_Q_subgroupOf t (a1_mem_Q t)
     (A_le_H t (a1_mem_A t))
-    (fun n hnA hncent =>
+    (fun _n hnA hncent =>
       (mem_normalizer_zpowers_of_mem_normalizer_A t hN1 hN3 hnA hncent).1)
     hN1 hN3
 
@@ -611,7 +611,7 @@ private theorem weaklyClosed_d2_in_Q_subgroupOf
       ((Subgroup.zpowers t.d2).subgroupOf (H t)) ((Q t).subgroupOf (H t)) :=
   weaklyClosed_zpowers_in_Q_subgroupOf t (d2_mem_Q t)
     (A_le_H t (d2_mem_A t))
-    (fun n hnA hncent =>
+    (fun _n hnA hncent =>
       (mem_normalizer_zpowers_of_mem_normalizer_A t hN1 hN3 hnA hncent).2)
     hN1 hN3
 
@@ -623,7 +623,7 @@ private theorem pRank_normalClosure_eq_one_of_weaklyClosed_in_Q
     (hZQ : Z ≤ (Q t).subgroupOf (H t))
     (hwc : CFSG.ASVolI.ChIJK.IsWeaklyClosedIn Z ((Q t).subgroupOf (H t))) :
     CFSG.Open.pRank 3 (Subgroup.normalClosure (Z : Set ↥(H t))) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hK : CFSG.Open.IsKGroup ↥(H t) :=
     CFSG.Open.IsKProper.isKGroup c.standing.kProper (H t) (H_ne_top t)
   have htop3 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(H t)) = 3 := by
@@ -635,7 +635,7 @@ private theorem pRank_normalClosure_eq_one_of_weaklyClosed_in_Q
   have hΩ : ∀ x ∈ (Q t).subgroupOf (H t), x ^ 3 = 1 →
       ∀ y ∈ (Q t).subgroupOf (H t), y ^ 3 = 1 → x * y = y * x := by
     intro x hx _ y hy _
-    haveI : IsMulCommutative ↥((Q t).subgroupOf (H t)) := QH_comm t
+    have : IsMulCommutative ↥((Q t).subgroupOf (H t)) := QH_comm t
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥((Q t).subgroupOf (H t)))
       (⟨y, hy⟩ : ↥((Q t).subgroupOf (H t))))
   exact hK332 ↥(H t) hK ((Q t).subgroupOf (H t)) (QH_sylow_top t hN1 hN3)
@@ -844,7 +844,7 @@ private noncomputable abbrev O3'H : Subgroup ↥(H t) := CFSG.pPrimeCore 3 ↥(H
 private noncomputable abbrev piH : ↥(H t) →* (↥(H t) ⧸ O3'H t) := QuotientGroup.mk' (O3'H t)
 
 private theorem QH_isPGroup : IsPGroup 3 (QH t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact (Q_isPGroup t).of_equiv (Subgroup.subgroupOfEquivOfLe (Q_le_H t)).symm
 
 private theorem pRank_N1H_eq_one
@@ -924,7 +924,7 @@ private theorem eq_D1H_of_le_QH_inf_N1H_of_card_three
     {U : Subgroup ↥(H t)} (hU : U ≤ QH t ⊓ N1H t) (hUcard : Nat.card U = 3) :
     U = D1H t := by
   let C : Subgroup ↥(H t) := QH t ⊓ N1H t
-  haveI : IsCyclic ↥C := isCyclic_QH_inf_N1H t hK332 hN1 hN3
+  have : IsCyclic ↥C := isCyclic_QH_inf_N1H t hK332 hN1 hN3
   have hD1C : D1H t ≤ C := le_inf (D1H_le_QH t) (D1H_le_N1H t)
   have hUC : U ≤ C := hU
   have hsub : U.subgroupOf C = (D1H t).subgroupOf C := by
@@ -942,7 +942,7 @@ private theorem eq_D2H_of_le_QH_inf_N2H_of_card_three
     {U : Subgroup ↥(H t)} (hU : U ≤ QH t ⊓ N2H t) (hUcard : Nat.card U = 3) :
     U = D2H t := by
   let C : Subgroup ↥(H t) := QH t ⊓ N2H t
-  haveI : IsCyclic ↥C := isCyclic_QH_inf_N2H t hK332 hN1 hN3
+  have : IsCyclic ↥C := isCyclic_QH_inf_N2H t hK332 hN1 hN3
   have hD2C : D2H t ≤ C := le_inf (D2H_le_QH t) (D2H_le_N2H t)
   have hUC : U ≤ C := hU
   have hsub : U.subgroupOf C = (D2H t).subgroupOf C := by
@@ -972,7 +972,7 @@ private theorem QH_inf_N1H_inf_N2H_eq_bot
   have hdvd : 3 ∣ Nat.card E := by
     rw [hn]
     exact dvd_pow_self 3 (by omega)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card 3 (G := E)
     (by simpa [Nat.card_eq_fintype_card] using hdvd)
   let X : Subgroup ↥(H t) := Subgroup.zpowers (x : ↥(H t))
@@ -1000,8 +1000,8 @@ private theorem QH_inf_N1H_sylow
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (QH t ⊓ N1H t) (N1H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N1H t).Normal := Subgroup.normalClosure_normal
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N1H t).Normal := Subgroup.normalClosure_normal
   exact (QH_sylow_top t hN1 hN3).inf_of_le_normalizer (by simp)
     (by rw [Subgroup.normalizer_eq_top])
 
@@ -1010,17 +1010,17 @@ private theorem QH_inf_sup_N1H_sylow
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (QH t ⊓ (N1H t ⊔ O3'H t))
       (N1H t ⊔ O3'H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N1H t).Normal := Subgroup.normalClosure_normal
-  haveI : (O3'H t).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N1H t).Normal := Subgroup.normalClosure_normal
+  have : (O3'H t).Normal := CFSG.pPrimeCore_normal
   exact (QH_sylow_top t hN1 hN3).inf_of_le_normalizer (by simp)
     (by rw [Subgroup.normalizer_eq_top])
 
 private theorem factorization_card_sup_O3'H_eq (N : Subgroup ↥(H t)) [N.Normal] :
     (Nat.card ↥(N ⊔ O3'H t)).factorization 3 = (Nat.card ↥N).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (O3'H t).Normal := CFSG.pPrimeCore_normal
-  haveI : (N ⊔ O3'H t).Normal := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (O3'H t).Normal := CFSG.pPrimeCore_normal
+  have : (N ⊔ O3'H t).Normal := inferInstance
   have hOcop : Nat.Coprime 3 (Nat.card (O3'H t)) := CFSG.pPrimeCore_coprime_card
   have hOnot : ¬ 3 ∣ Nat.card ↥(O3'H t) :=
     (Nat.prime_three.coprime_iff_not_dvd).mp hOcop
@@ -1047,10 +1047,10 @@ private theorem card_QH_inf_sup_N1H_eq
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     Nat.card ↥(QH t ⊓ (N1H t ⊔ O3'H t)) = Nat.card ↥(QH t ⊓ N1H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N1H t).Normal := Subgroup.normalClosure_normal
-  haveI : (O3'H t).Normal := CFSG.pPrimeCore_normal
-  haveI : (N1H t ⊔ O3'H t).Normal := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N1H t).Normal := Subgroup.normalClosure_normal
+  have : (O3'H t).Normal := CFSG.pPrimeCore_normal
+  have : (N1H t ⊔ O3'H t).Normal := inferInstance
   rw [(QH_inf_sup_N1H_sylow t hN1 hN3).card_eq,
     (QH_inf_N1H_sylow t hN1 hN3).card_eq,
     factorization_card_sup_O3'H_eq (t := t) (N := N1H t)]
@@ -1067,8 +1067,8 @@ private theorem QH_inf_N2H_sylow
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (QH t ⊓ N2H t) (N2H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N2H t).Normal := Subgroup.normalClosure_normal
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N2H t).Normal := Subgroup.normalClosure_normal
   exact (QH_sylow_top t hN1 hN3).inf_of_le_normalizer (by simp)
     (by rw [Subgroup.normalizer_eq_top])
 
@@ -1077,9 +1077,9 @@ private theorem QH_inf_sup_N2H_sylow
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (QH t ⊓ (N2H t ⊔ O3'H t))
       (N2H t ⊔ O3'H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N2H t).Normal := Subgroup.normalClosure_normal
-  haveI : (O3'H t).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N2H t).Normal := Subgroup.normalClosure_normal
+  have : (O3'H t).Normal := CFSG.pPrimeCore_normal
   exact (QH_sylow_top t hN1 hN3).inf_of_le_normalizer (by simp)
     (by rw [Subgroup.normalizer_eq_top])
 
@@ -1087,10 +1087,10 @@ private theorem card_QH_inf_sup_N2H_eq
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     Nat.card ↥(QH t ⊓ (N2H t ⊔ O3'H t)) = Nat.card ↥(QH t ⊓ N2H t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : (N2H t).Normal := Subgroup.normalClosure_normal
-  haveI : (O3'H t).Normal := CFSG.pPrimeCore_normal
-  haveI : (N2H t ⊔ O3'H t).Normal := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : (N2H t).Normal := Subgroup.normalClosure_normal
+  have : (O3'H t).Normal := CFSG.pPrimeCore_normal
+  have : (N2H t ⊔ O3'H t).Normal := inferInstance
   rw [(QH_inf_sup_N2H_sylow t hN1 hN3).card_eq,
     (QH_inf_N2H_sylow t hN1 hN3).card_eq,
     factorization_card_sup_O3'H_eq (t := t) (N := N2H t)]
@@ -1104,8 +1104,8 @@ private theorem QH_inf_sup_N2H_eq
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [card_QH_inf_sup_N2H_eq t hN1 hN3])).symm
 
 private theorem comap_images_eq
-    (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
-    (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
+    (_hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
+    (_hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     Subgroup.comap (piH t) ((N1H t).map (piH t) ⊓ (N2H t).map (piH t)) =
       (N1H t ⊔ O3'H t) ⊓ (N2H t ⊔ O3'H t) := by
   rw [Subgroup.comap_inf, Subgroup.comap_map_eq, Subgroup.comap_map_eq]
@@ -1125,8 +1125,8 @@ private theorem W_le_O3'H
     have h1 : ((N1H t).map (piH t) ⊓ (N2H t).map (piH t)).Normal := by
       infer_instance
     exact Subgroup.Normal.comap h1 (piH t)
-  haveI : W.Normal := hWnorm
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : W.Normal := hWnorm
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hQWsyl : CFSG.ABGLocalTools.IsSylowOf 3 (QH t ⊓ W) W :=
     (QH_sylow_top t hN1 hN3).inf_of_le_normalizer (by simp)
       (by rw [Subgroup.normalizer_eq_top])
@@ -1190,7 +1190,7 @@ theorem centralizer_a2_le
     (hN1 : Subgroup.normalizer ((Subgroup.zpowers t.a1 : Subgroup G) : Set G) ≤ c.S.M)
     (hN3 : Subgroup.normalizer ((Subgroup.zpowers t.a3 : Subgroup G) : Set G) ≤ c.S.M) :
     Subgroup.centralizer ({t.a2} : Set G) ≤ c.S.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let z : ↥(H t) := ⟨t.a2, by
     rw [Subgroup.mem_centralizer_iff]
     intro y hy

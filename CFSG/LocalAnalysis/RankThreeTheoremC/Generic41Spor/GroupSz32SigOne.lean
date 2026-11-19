@@ -24,7 +24,7 @@ theorem sz32_sigOne :
     Sz32SigOne := by
   intro K _ _ hK x hx W hW hxW
   obtain ⟨-, hiso⟩ := hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSz := CFSG.RankThree.PartOne.K159.SzAbs.szSylow_of_isoLie hiso
   have hmodel := CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hiso
   obtain ⟨-, a, ha, F, _, _, hfa, hF, ⟨eF⟩⟩ := hmodel

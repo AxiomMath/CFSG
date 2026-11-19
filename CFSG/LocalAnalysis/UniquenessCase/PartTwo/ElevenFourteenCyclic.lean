@@ -45,7 +45,7 @@ theorem isCyclic_quotient_of_card_le_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     (hV₀ : Nat.card V₀ ≤ 4)
     [((P ⊓ centralizer (V₀ : Set G)).subgroupOf P).Normal] :
     IsCyclic (↥P ⧸ (P ⊓ centralizer (V₀ : Set G)).subgroupOf P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : Nat.card (↥P ⧸ (P ⊓ centralizer (V₀ : Set G)).subgroupOf P) ∣ 24 := by
     have h1 := index_inf_centralizer_dvd_factorial hPV₀
     have h2 : (Nat.card V₀).factorial ∣ (4 : ℕ).factorial := Nat.factorial_dvd_factorial hV₀
@@ -61,11 +61,11 @@ theorem isCyclic_quotient_of_card_le_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   rcases (Nat.dvd_prime Nat.prime_three).1 h3 with h | h
   · have hc : Nat.card (↥P ⧸ (P ⊓ centralizer (V₀ : Set G)).subgroupOf P) = 1 := by
       rw [hk, h]
-    haveI := (Nat.card_eq_one_iff_unique.1 hc).1
+    have := (Nat.card_eq_one_iff_unique.1 hc).1
     exact isCyclic_of_subsingleton
   · have hc : Nat.card (↥P ⧸ (P ⊓ centralizer (V₀ : Set G)).subgroupOf P) = 3 := by
       rw [hk, h]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card hc
 
 end ElevenFourteen

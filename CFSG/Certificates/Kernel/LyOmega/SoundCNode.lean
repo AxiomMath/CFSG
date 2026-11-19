@@ -152,7 +152,7 @@ private theorem witOK_sound {C : BConsts} (hC : bConstsOK C = true) {WC : ℕ �
     (hN : LCanon 12 7 111 N) (hWC : ∀ e < c, LCanon 12 111 111 (WC (c + 8 * e)))
     (h : witOK C WC N c w = true) :
     ∀ e < c, ¬ IsUnit (lastCols (blkM N * bigM (WC (c + 8 * e)))).det := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, -, -, -, hLW, hHW, -⟩ := bc_facts hC
   intro e he
   unfold witOK at h
@@ -223,7 +223,6 @@ private theorem witOK_sound {C : BConsts} (hC : bConstsOK C = true) {WC : ℕ �
       simp only [e1, Finset.mul_sum, Finset.sum_mul]
       rw [Finset.sum_comm, ← sum_fin]
       refine Finset.sum_congr rfl fun k _ => ?_
-      beta_reduce
       rw [← sum_fin]
       refine Finset.sum_congr rfl fun l _ => ?_
       ring

@@ -132,7 +132,7 @@ theorem gcd_two_pow_two_pow_add_one {k f : ℕ} (hf : 1 ≤ f) :
 theorem exceptionalOrders_psu_eq_one {m f : ℕ} (hf : 2 ≤ f) :
     exceptionalOrders .PSU m 2 f = (1, 1) := by
   unfold exceptionalOrders
-  split <;> simp_all <;> omega
+  split <;> simp_all
 
 end Orders
 

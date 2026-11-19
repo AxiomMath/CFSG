@@ -69,7 +69,7 @@ theorem E_inf_L_ne_bot (h620 : m.C620) : m.E ⊓ m.L ≠ ⊥ := by
   omega
 
 theorem six19 (h69 : R6_9 Dat) (h620 : m.C620) : m.C619 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hRH : m.R ≤ m.H := m.hZ.R_le_centralizer h69
   have hRsyl : IsSylowOf m.r m.R m.H := m.hZ.R_sylow hRH
   have hLH : m.L ≤ m.H := m.L_le_H

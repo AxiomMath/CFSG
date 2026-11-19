@@ -36,7 +36,7 @@ theorem exists_two_subgroup_normalized {Y : Type*} [Group Y] [Finite Y]
   obtain ⟨S⟩ : Nonempty (Sylow 2 U) := inferInstance
   have hSn : (S : Subgroup U).Normal := instNormalOfIsNilpotentOfFactPrime
   have : (S : Subgroup U).Characteristic := Sylow.characteristic_of_normal S hSn
-  refine ⟨(S : Subgroup U).map U.subtype, ?_, S.isPGroup'.map _, fun w hw => ?_⟩
+  refine ⟨(S : Subgroup U).map U.subtype, ?_, S.isPGroup.map _, fun w hw => ?_⟩
   · intro hbot
     have h2R : 2 ∣ Nat.card R := by
       rcases hR2.card_eq_or_dvd with h | h

@@ -45,9 +45,9 @@ private lemma map_foldl {Γ A : Type*} [Group Γ] [Group A] (θ : Γ →* A) (e 
       intro acc
       rw [List.foldl_cons, List.foldl_cons]
       by_cases h : a.testBit i
-      · simp only [h, if_true]
+      · simp only [h, ite_true]
         rw [ih (acc * e i), map_mul]
-      · simp only [h, if_false]
+      · simp only [h]
         exact ih acc
 
 private lemma map_sp {Γ A : Type*} [Group Γ] [Group A] (θ : Γ →* A) (e : ℕ → Γ) (a n : ℕ) :
@@ -63,7 +63,7 @@ private lemma sp_eq_one_of_bits_false {Γ : Type*} [Group Γ] (e : ℕ → Γ) (
   | succ n ih =>
       intro h
       rw [sp_succ, h n (Nat.lt_succ_self n)]
-      simpa only [Bool.false_eq_true, if_false, mul_one] using
+      simpa only [Bool.false_eq_true, ite_false, mul_one] using
         ih fun j hj => h j (Nat.lt_trans hj (Nat.lt_succ_self n))
 
 private lemma commute_sp {Γ : Type*} [Group Γ] (e : ℕ → Γ)
@@ -77,7 +77,7 @@ private lemma commute_sp {Γ : Type*} [Group Γ] (e : ℕ → Γ)
       rw [sp_succ]
       refine Commute.mul_right (ih a i (Nat.le_of_succ_le hni) hi) ?_
       cases h : a.testBit n
-      · simpa using Commute.one_right (e i)
+      · simp
       · simpa using hc i hi n (by omega)
 
 private lemma rearrange {G : Type*} [Group G] (A B ca cb c : G)
@@ -105,7 +105,7 @@ private lemma sp_mul {Γ : Type*} [Group Γ] (e : ℕ → Γ)
       rw [sp_succ, sp_succ, sp_succ]
       have h1 : Commute (if a.testBit n then e n else 1) (sp e b n) := by
         cases h : a.testBit n
-        · simpa using Commute.one_left (sp e b n)
+        · simp
         · simpa using commute_sp e hc n b n le_rfl hn5
       have h2 : (if a.testBit n then e n else 1) * (if b.testBit n then e n else 1)
           = (if (a ^^^ b).testBit n then e n else 1) := by
@@ -129,7 +129,7 @@ private lemma sp_two_pow {Γ : Type*} [Group Γ] (e : ℕ → Γ) :
           rw [Nat.testBit_two_pow, decide_eq_false_iff_not]
           omega
         rw [hbit]
-        simpa only [Bool.false_eq_true, if_false, mul_one] using ih hlt
+        simpa only [Bool.false_eq_true, ite_false, mul_one] using ih hlt
       · rw [heq]
         have hbit : (2 ^ n).testBit n = true := by
           rw [Nat.testBit_two_pow]; simp
@@ -251,7 +251,7 @@ theorem exists_isElemAbelian_card_thirtyTwo {Γ Γ' A : Type*} [Group Γ] [Group
     exact h.symm
   have hcommE : IsMulCommutative E := by
     rw [hE]
-    haveI := hcommE₀
+    have := hcommE₀
     exact isMulCommutative_of_mulEquiv (Subgroup.equivMapOfInjective E₀ ι hι)
   have hsqE : ∀ x ∈ E, x ^ 2 = 1 := by
     intro x hx

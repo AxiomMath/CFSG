@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b5_FiveOne_conjSubgroup_inv_eq_conjSub (X : Subgroup G) (g : G) :
     conjSubgroup X g⁻¹ = B6.conjSub g X := by
   ext x

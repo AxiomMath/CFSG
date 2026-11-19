@@ -20,8 +20,8 @@ theorem SlNsRootGen.ggTorusReflGenW_projectiveSL {K : Type} [Field K] [Finite K]
     [CharP K 2] {d p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.card K + 1) (r : ℕ) :
     GGTorusReflGenW p r (projectiveSL d K) (Set.range (conjAut d K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := SpNS.ne_two_of_dvd_card_add_one hpK
   have hpK' : ¬ p ∣ Nat.card K - 1 := by
     intro hK1
@@ -37,7 +37,7 @@ theorem SlNsRootGen.ggTorusReflGenW_projectiveSL {K : Type} [Field K] [Finite K]
     norm_cast
     omega
   obtain ⟨g, hg, hgd⟩ := WfDvdMonoid.exists_irreducible_factor hne (cyclotomic_ne_zero p _)
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hC : (rootMat g).det = 1 := det_rootMat hp hpK' hpK0 hgd
   have hCp : rootMat g ^ p = 1 := rootMat_pow_eq_one hp hpK0 hgd
   have hζ : AdjoinRoot.root g ^ p = 1 := (root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one

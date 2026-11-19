@@ -15,8 +15,8 @@ theorem KConfig.not_parP {m : ℕ} {K : Type} [Field K]
     {L V : Subgroup (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0)}
     (hc : KConfig (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0) L V
       (CFSG.Quasithin.H13.U4Par.parP h)) : False := by
-  haveI := h.finite
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hLne : L ≠ ⊥ := fun hL =>
     hc.ne_bot (by rw [hc.eq_commutator, hL, Subgroup.commutator_bot_right])
   have hLle : L ≤ perfectCore (CFSG.Quasithin.H13.U4Par.parP h) :=

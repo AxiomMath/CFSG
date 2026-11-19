@@ -326,7 +326,7 @@ theorem reeF4InSitu_normalizer_of_solvable {Y : Type} [Group Y] [Finite Y] (T : 
   refine ⟨hNT, ?_, ?_, ?_, hsolv, hZe, hZc, htr, ?_⟩
   ·
     intro W hW hWN hcop
-    have hWT : W ⊓ (T : Subgroup Y) = ⊥ := inf_eq_bot_of_coprime T.isPGroup' hcop
+    have hWT : W ⊓ (T : Subgroup Y) = ⊥ := inf_eq_bot_of_coprime T.isPGroup hcop
     have h1 : W ≤ Subgroup.centralizer ((T : Subgroup Y) : Set Y) :=
       le_centralizer_of_disjoint (hW.trans hNT) (hTN.trans hWN) hWT
     have h3 : W ≤ (T : Subgroup Y) :=
@@ -335,7 +335,7 @@ theorem reeF4InSitu_normalizer_of_solvable {Y : Type} [Group Y] [Finite Y] (T : 
     exact le_inf le_rfl h3
   ·
     intro W hW hWN
-    exact normal_dichotomy_of_lines T.isPGroup' hZe.2 hC hNT hTN le_rfl hW hWN htr
+    exact normal_dichotomy_of_lines T.isPGroup hZe.2 hC hNT hTN le_rfl hW hWN htr
   ·
     exact inf_le_right.trans hC.le
   ·

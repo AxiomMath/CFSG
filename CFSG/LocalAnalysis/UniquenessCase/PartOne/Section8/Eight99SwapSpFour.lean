@@ -60,7 +60,7 @@ theorem r899_sp_of_facts_swap {D : Data G}
   have hKfne : ∀ i j, i ≠ j → Kf i ≠ Kf j := by
     intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     exacts [hne, h31.symm, hne.symm, h32.symm, h31, h32]
   have hKfC : ∀ i, Kf i ∈ calC D.M := fun i => uc22p2214_calC_of_mem_conjSetOf hL (hKfS i)
   have hKfM : ∀ i, Kf i ≤ D.M := fun i => uc22p22a_le_of_isSubnormal (hKfC i).1

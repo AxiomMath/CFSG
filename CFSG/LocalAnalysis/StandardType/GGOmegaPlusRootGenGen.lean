@@ -246,7 +246,7 @@ private theorem map_conj_permSp_swap_siegelBlockGL [CharP K 2] {a b : Fin m}
     ← Subgroup.map_map, map_conj_permSp_swap_siegelBlock]
 
 private theorem siegelBlockGL_le_sup_pair [CharP K 2] {a b k : Fin m}
-    (hab : a ≠ b) (hak : a ≠ k) (hkb : k ≠ b) :
+    (hab : a ≠ b) (hak : a ≠ k) (_hkb : k ≠ b) :
     OmegaPilot.siegelBlockGL K ({a, b} : Finset (Fin m)) ≤
       OmegaPilot.siegelBlockGL K ({a, k} : Finset (Fin m)) ⊔
         OmegaPilot.siegelBlockGL K ({k, b} : Finset (Fin m)) := by
@@ -426,7 +426,6 @@ theorem statedOmega_quadPlus_le_iSup_omPlusBlock_ne {K : Type} [Field K] [Finite
     set b : Fin m := ⟨m - 1, by omega⟩ with hb
     have hab : a < b := by
       rw [Fin.lt_def]
-      change a.val < b.val
       rw [show a.val = m - 2 from by rw [ha], show b.val = m - 1 from by rw [hb]]
       omega
     have hset : OmegaPilot.plusNodeSet m j = ({a, b} : Finset (Fin m)) := by
@@ -452,12 +451,10 @@ theorem statedOmega_quadPlus_le_iSup_omPlusBlock_ne {K : Type} [Field K] [Finite
         omega
       have hza : z < a := by
         rw [Fin.lt_def]
-        change z.val < a.val
         rw [show z.val = (0 : ℕ) from rfl, show a.val = m - 2 from by rw [ha]]
         omega
       have hzb : z < b := by
         rw [Fin.lt_def]
-        change z.val < b.val
         rw [show z.val = (0 : ℕ) from rfl, show b.val = m - 1 from by rw [hb]]
         omega
       have hpair₀ : idxPair x₀ = ({a, b} : Finset (Fin m)) := by

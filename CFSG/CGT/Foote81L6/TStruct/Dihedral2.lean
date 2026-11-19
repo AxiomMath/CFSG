@@ -91,7 +91,7 @@ theorem conj_of_not_mem_of_index_two {k : ℕ} (hk : 2 ≤ k)
     {u w : DihedralGroup (2 ^ k)} (hu : u ∉ H) (hw : w ∉ H) (hu2 : u * u = 1)
     (hw2 : w * w = 1) : ∃ h ∈ H, h * u * h⁻¹ = w := by
   obtain ⟨c₀, rfl⟩ : ∃ c₀, k = c₀ + 1 + 1 := ⟨k - 2, by omega⟩
-  haveI : NeZero (2 ^ (c₀ + 1 + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (c₀ + 1 + 1)) := ⟨by positivity⟩
   have hr2 : r 2 ∈ H := by
     have := mul_self_mem_of_index_two hH (r 1)
     rwa [r_mul_r, one_add_one_eq_two] at this

@@ -23,7 +23,7 @@ variable {n : Nat}
 @[expose] def Rp (T U : Nat → Nat → Nat) (g : Nat → Equiv.Perm (Fin n)) (m : Nat) : Prop :=
   ∀ k < m, ∀ x : Fin n, T k x = (g k x : Nat) ∧ U k x = ((g k)⁻¹ x : Nat)
 
-@[expose] abbrev Lm (m : Nat) (w : List Int) : Prop :=
+abbrev Lm (m : Nat) (w : List Int) : Prop :=
   w.all (fun z => decide (z ≠ 0 ∧ z.natAbs ≤ m)) = true
 
 @[expose] def Sep (K : Subgroup (Equiv.Perm (Fin n))) (p0 p1 p2 : Fin n) : Prop :=
@@ -154,7 +154,7 @@ private theorem nbeq {a b : Nat} (h : Bool.not (Nat.beq a b) = true) : a ≠ b :
   rw [e, Nat.beq_refl] at h
   exact absurd h (by decide)
 
-@[expose] abbrev ItemsOK (D : Nat → Nat) : Prop :=
+abbrev ItemsOK (D : Nat → Nat) : Prop :=
   (∀ j < 19, Lm 7 (wd (D j))) ∧ ∀ j < 132, Lm 7 (wd (D (77 + j)))
 
 @[expose] def gI (g : Nat → Equiv.Perm (Fin 245520)) (D : Nat → Nat) (j : Nat) :

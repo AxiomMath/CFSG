@@ -57,13 +57,13 @@ theorem s2019_A (hFull : S2019Full) {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     (hJT : J ≤ Subgroup.normalizer ((T ⊔ GLAPPrimeCoreOf p K : Subgroup A) : Set A)) :
     ⁅T, J⁆ ≤ GLAPPrimeCoreOf p K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKn : K.Normal := by
     refine Subgroup.normalizer_eq_top_iff.1 (eq_top_iff.2 ?_)
     rw [← hKB]
     exact sup_le Subgroup.le_normalizer hBK
   set N₀ : Subgroup A := GLAPPrimeCoreOf p K with hN₀def
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K
     rw [Subgroup.normalizer_eq_top_iff.2 hKn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h

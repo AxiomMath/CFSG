@@ -25,15 +25,15 @@ theorem cubicFieldBlock_holds : CubicFieldBlockContract := by
   have hirr : Irreducible P := by
     rw [hP]
     exact TableBU63.irreducible_X_pow_three_sub_C hc
-  haveI : Fact (Irreducible P) := ⟨hirr⟩
+  have : Fact (Irreducible P) := ⟨hirr⟩
   have hdeg : P.natDegree = 3 := by
     rw [hP]
     exact natDegree_X_pow_sub_C
   have hP0 : P ≠ 0 := by
     rw [hP]
     exact X_pow_sub_C_ne_zero (by norm_num) (κ : K)
-  haveI hfinK : Module.Finite K (AdjoinRoot P) := (AdjoinRoot.powerBasis hP0).finite
-  haveI hfinE : Finite (AdjoinRoot P) := Module.finite_of_finite K
+  have hfinK : Module.Finite K (AdjoinRoot P) := (AdjoinRoot.powerBasis hP0).finite
+  have hfinE : Finite (AdjoinRoot P) := Module.finite_of_finite K
   set x : Module.End K (Fin d → K) :=
     Matrix.toLinAlgEquiv' (S : Matrix (Fin d) (Fin d) K) with hx
   have hx3 : x ^ 3 = algebraMap K (Module.End K (Fin d → K)) (κ : K) := by

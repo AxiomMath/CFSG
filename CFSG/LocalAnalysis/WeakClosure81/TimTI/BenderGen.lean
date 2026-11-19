@@ -84,7 +84,7 @@ theorem bender_gen
           (QuotientGroup.mk' (Subgroup.center X) '' dSet S)
           (QuotientGroup.mk' (Subgroup.center X) s)) :=
         CFSG.Timmesfeld.isPGroup_rootGroup h.isRootInvolutionSet_image hpsD
-      haveI : Group.IsNilpotent ↥(CFSG.Timmesfeld.rootGroup
+      have : Group.IsNilpotent ↥(CFSG.Timmesfeld.rootGroup
           (QuotientGroup.mk' (Subgroup.center X) '' dSet S)
           (QuotientGroup.mk' (Subgroup.center X) s)) := IsPGroup.isNilpotent hp
       infer_instance

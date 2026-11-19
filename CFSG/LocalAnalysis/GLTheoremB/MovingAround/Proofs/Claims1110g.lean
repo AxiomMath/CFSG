@@ -228,7 +228,7 @@ theorem omegaT_nonabelian : ∃ a b : omegaT, a * b ≠ b * a := by
   norm_num at h1
 
 theorem omegaN_perfect : ⁅omegaN, omegaN⁆ = omegaN := by
-  haveI : IsSimpleGroup ↥omegaN := @MulEquiv.isSimpleGroup _ _ _ _ isSimpleGroup_omegaT omegaNEquiv
+  have : IsSimpleGroup ↥omegaN := @MulEquiv.isSimpleGroup _ _ _ _ isSimpleGroup_omegaT omegaNEquiv
   have hnab : ∃ a b : ↥omegaN, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := omegaT_nonabelian
     refine ⟨omegaNEquiv.symm a, omegaNEquiv.symm b, fun h => hab ?_⟩
@@ -253,7 +253,7 @@ instance isSolvable_autT_quot : Group.IsSolvable (↥autT ⧸ omegaN) := by
   have hcard : Nat.card (↥autT ⧸ omegaN) = 2 ^ 1 * 3 ^ 1 := by
     rw [← Subgroup.index, index_omegaN]
     norm_num
-  haveI : Fintype (↥autT ⧸ omegaN) := Fintype.ofFinite _
+  have : Fintype (↥autT ⧸ omegaN) := Fintype.ofFinite _
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact hcard)
 
@@ -674,7 +674,7 @@ theorem lieModelM_omegaT :
 
 theorem inputGammaD4_holds : Claims1110f.InputGammaD4 := by
   intro X _ _ hX P hPp hPc
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, hf5, h25, -⟩ := CFSG.HardMathSupport.Solomon.Proving.fi22Facts_holds X hX
   have hPc' : Nat.card P = 5 ^ (Nat.card X).factorization 5 := by rw [hPc, hf5]
   have hPsyl : IsSylowIn 5 ⊤ P :=

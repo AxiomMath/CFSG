@@ -174,6 +174,7 @@ variable {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y] [Finite Y] {c : α.Compl
 
 include T
 
+omit [Finite Y] in
 theorem card_nbrs_xv : Nat.card (CosetGeom.nbrs c.xv) = 5 := by
   obtain ⟨lab, A⟩ := T.aff
   have e : Nat.card (ZMod 5) = Nat.card (CosetGeom.nbrs c.xv) :=
@@ -184,6 +185,7 @@ theorem card_nbrs_xv : Nat.card (CosetGeom.nbrs c.xv) = 5 := by
   rw [← e]
   simp [Nat.card_eq_fintype_card, ZMod.card]
 
+omit [Finite Y] in
 theorem card_nbrs_lv : Nat.card (CosetGeom.nbrs c.lv) = 3 := by
   obtain ⟨b₇, b₁, b₂, L⟩ := T.ln
   rw [Nat.card_coe_set_eq]
@@ -206,14 +208,17 @@ theorem qTwo_eq : α.qTwo = 2 := by
 theorem hval : ∀ v a b : c.Γ, ∃ w, c.graph.Adj v w ∧ w ≠ a ∧ w ≠ b :=
   exists_nbr_ne T.faithful (by rw [T.qOne_eq]; norm_num) (by rw [T.qTwo_eq])
 
+omit [Finite Y] in
 theorem transX : c.PathTrans c.xv 8 := by
   obtain ⟨b₀, P⟩ := T.pt
   exact fun q q' hq hq' => P.pathTrans T.poly hq hq'
 
+omit [Finite Y] in
 theorem transL : c.PathTrans c.lv 7 := by
   obtain ⟨b₇, b₁, b₂, L⟩ := T.ln
   exact fun q q' hq hq' => L.pathTrans7 T.poly hq hq'
 
+omit [Finite Y] in
 theorem orbit_lv : MulAction.orbit (stv c c.xv) c.lv = CosetGeom.nbrs c.xv := by
   obtain ⟨b₀, P⟩ := T.pt
   ext u
@@ -227,28 +232,34 @@ theorem orbit_lv : MulAction.orbit (stv c c.xv) c.lv = CosetGeom.nbrs c.xv := by
     obtain ⟨k, hk1, -, hk3⟩ := P.trans u hu
     exact ⟨⟨k, MulAction.mem_stabilizer_iff.mpr hk1⟩, hk3⟩
 
+omit [Finite Y] in
 theorem card_borel : Nat.card ↥(stv c c.xv ⊓ stv c c.lv) = 2048 := by
   have h1 := Subgroup.relIndex_mul_card (stv c c.lv) (stv c c.xv)
   rw [burnsideF45_relIndex_stv, T.orbit_lv, ← Nat.card_coe_set_eq, T.card_nbrs_xv, T.cardx,
     inf_comm] at h1
   omega
 
+omit [Finite Y] in
 theorem isPGroup_borel : IsPGroup 2 ↥(stv c c.xv ⊓ stv c c.lv) :=
   IsPGroup.of_card (n := 11) (by rw [T.card_borel]; norm_num)
 
+omit [Finite Y] T in
 theorem nbrKer_le_borel_x : burnsideF45_nbrKer c c.xv ≤ stv c c.xv ⊓ stv c c.lv := fun _ hg =>
   ⟨MulAction.mem_stabilizer_iff.mpr hg.1,
     MulAction.mem_stabilizer_iff.mpr (hg.2 _ CosetGeom.adj_γ₀_γ₁)⟩
 
+omit [Finite Y] T in
 theorem nbrKer_le_borel_l : burnsideF45_nbrKer c c.lv ≤ stv c c.xv ⊓ stv c c.lv := fun _ hg =>
   ⟨MulAction.mem_stabilizer_iff.mpr (hg.2 _ CosetGeom.adj_γ₀_γ₁.symm),
     MulAction.mem_stabilizer_iff.mpr hg.1⟩
 
+omit [Finite Y] in
 theorem nbrKer_x_le : burnsideF45_nbrKer c c.xv ≤ pCoreOf 2 (stv c c.xv) :=
-  burnsideF45_nbrKer_le_pCoreOf c c.xv (T.isPGroup_borel.to_le T.nbrKer_le_borel_x)
+  burnsideF45_nbrKer_le_pCoreOf c c.xv (T.isPGroup_borel.to_le burnsideF45_TitsData.nbrKer_le_borel_x)
 
+omit [Finite Y] in
 theorem nbrKer_l_le : burnsideF45_nbrKer c c.lv ≤ pCoreOf 2 (stv c c.lv) :=
-  burnsideF45_nbrKer_le_pCoreOf c c.lv (T.isPGroup_borel.to_le T.nbrKer_le_borel_l)
+  burnsideF45_nbrKer_le_pCoreOf c c.lv (T.isPGroup_borel.to_le burnsideF45_TitsData.nbrKer_le_borel_l)
 
 theorem six_x_trans {w₁ w₂ : c.Γ} (h₁ : c.graph.Adj c.xv w₁) (h₁' : w₁ ≠ c.lv)
     (h₂ : c.graph.Adj c.xv w₂) (h₂' : w₂ ≠ c.lv) :
@@ -276,6 +287,7 @@ theorem six_l_trans {w₁ w₂ : c.Γ} (h₁ : c.graph.Adj c.lv w₁) (h₁' : w
     simpa [e1] using this
   exact ⟨g, ⟨MulAction.mem_stabilizer_iff.mpr hgl, MulAction.mem_stabilizer_iff.mpr hgx⟩, hgw⟩
 
+omit [Finite Y] in
 theorem six_x_free {g : c.G0} (hg : g ∈ stv c c.xv ⊓ stv c c.lv) {w : c.Γ}
     (hw : c.graph.Adj c.xv w) (hwl : w ≠ c.lv) (hgw : g • w = w) :
     g ∈ pCoreOf 2 (stv c c.xv) := by
@@ -293,6 +305,7 @@ theorem six_x_free {g : c.G0} (hg : g ∈ stv c c.xv ⊓ stv c c.lv) {w : c.Γ}
   obtain ⟨k, rfl⟩ := A.surj u hu
   rw [hab, ha, hb, one_mul, add_zero]
 
+omit [Finite Y] in
 theorem six_l_free {g : c.G0} (hg : g ∈ stv c c.lv ⊓ stv c c.xv) {w : c.Γ}
     (hw : c.graph.Adj c.lv w) (hwx : w ≠ c.xv) (hgw : g • w = w) :
     g ∈ pCoreOf 2 (stv c c.lv) := by
@@ -315,6 +328,7 @@ theorem six_l_free {g : c.G0} (hg : g ∈ stv c c.lv ⊓ stv c c.xv) {w : c.Γ}
   · exact hgw
   · exact hgR
 
+omit [Finite Y] in
 theorem line_moves {v : c.Γ} (hv : c.graph.dist c.lv v = 8) {u : c.Γ} (hu : c.graph.Adj c.lv u) :
     ∃ k ∈ stv c c.lv ⊓ stv c v, k • u = u ∧ ∃ w, c.graph.Adj c.lv w ∧ k • w ≠ w := by
   obtain ⟨b₇, b₁, b₂, L⟩ := T.ln
@@ -341,6 +355,7 @@ theorem line_moves {v : c.Γ} (hv : c.graph.dist c.lv v = 8) {u : c.Γ} (hu : c.
   · exact key b₁ L.moves1 hb
   · exact key b₂ L.moves2 hb
 
+omit [Finite Y] in
 theorem line_two_trans {v : c.Γ} (hv : c.graph.dist c.lv v = 8) {a b a' b' : c.Γ}
     (ha : c.graph.Adj c.lv a) (hb : c.graph.Adj c.lv b) (hab : a ≠ b)
     (ha' : c.graph.Adj c.lv a') (hb' : c.graph.Adj c.lv b') (hab' : a' ≠ b') :
@@ -381,6 +396,7 @@ theorem line_two_trans {v : c.Γ} (hv : c.graph.dist c.lv v = 8) {a b a' b' : c.
   · rw [mul_smul, hg₁a, hta']
   · rw [mul_smul, htb]
 
+omit [Finite Y] in
 theorem line_two_trans_paths {v : c.Γ} (hv : c.graph.dist c.lv v = 8)
     {q₁ q₂ r₁ r₂ : GPath c.graph 8} (hq₁ : q₁ ∈ GPath.nbPaths c.graph c.lv 8) (hq₁v : q₁ 8 = v)
     (hq₂ : q₂ ∈ GPath.nbPaths c.graph c.lv 8) (hq₂v : q₂ 8 = v) (hq : q₁ ≠ q₂)
@@ -419,14 +435,14 @@ theorem card_nbPaths_lv : Nat.card ↥(GPath.nbPaths c.graph c.lv 8) = 6144 := b
   rw [card_nbPaths T.faithful, hv, show (8 : ℕ) = 2 * 3 + 2 from rfl,
     RankTwoAmalgam.pathNum_even]
   simp only [RankTwoAmalgam.qv, Bool.not_true, ↓reduceIte, Bool.false_eq_true, T.qOne_eq,
-    T.qTwo_eq] <;> norm_num
+    T.qTwo_eq]; norm_num
 
 theorem card_nbPaths_xv : Nat.card ↥(GPath.nbPaths c.graph c.xv 8) = 5120 := by
   have hv : CosetGeom.vtype c.xv = false := rfl
   rw [card_nbPaths T.faithful, hv, show (8 : ℕ) = 2 * 3 + 2 from rfl,
     RankTwoAmalgam.pathNum_even]
   simp only [RankTwoAmalgam.qv, Bool.not_false, ↓reduceIte, Bool.false_eq_true, T.qOne_eq,
-    T.qTwo_eq] <;> norm_num
+    T.qTwo_eq]; norm_num
 
 theorem line_card_orbit_le {q : GPath c.graph 8} (hq : q ∈ GPath.nbPaths c.graph c.lv 8) :
     Nat.card ↥{r : GPath c.graph 8 | ∃ g ∈ stv c c.lv, g • q = r} ≤ 3072 := by
@@ -450,7 +466,7 @@ theorem line_orbits : ∃ q₁ ∈ GPath.nbPaths c.graph c.lv 8, ∃ q₂ ∈ GP
     Nat.card ↥{r | ∃ g ∈ stv c c.lv, g • q₁ = r} =
       Nat.card ↥{r | ∃ g ∈ stv c c.lv, g • q₂ = r} := by
   obtain ⟨b₇, b₁, b₂, L⟩ := T.ln
-  haveI := finite_gpath (c := c) 8
+  have := finite_gpath (c := c) 8
   set O : GPath c.graph 8 → Set (GPath c.graph 8) :=
     fun q => {r | ∃ g ∈ stv c c.lv, g • q = r} with hO
   have hsub : ∀ q ∈ GPath.nbPaths c.graph c.lv 8, O q ⊆ GPath.nbPaths c.graph c.lv 8 := by
@@ -515,7 +531,7 @@ theorem line_orbits : ∃ q₁ ∈ GPath.nbPaths c.graph c.lv 8, ∃ q₂ ∈ GP
 theorem line_card_stabPath {q : GPath c.graph 8} (hq : q ∈ GPath.nbPaths c.graph c.lv 8) :
     Nat.card (q.stabPath : Subgroup c.G0) = 2 := by
   obtain ⟨q₁, hq₁, q₂, hq₂, hcov, hdisj, heq⟩ := T.line_orbits
-  haveI := finite_gpath (c := c) 8
+  have := finite_gpath (c := c) 8
   have hc := T.card_nbPaths_lv
   rw [hcov, Nat.card_coe_set_eq, Set.ncard_union_eq hdisj (Set.toFinite _) (Set.toFinite _),
     ← Nat.card_coe_set_eq, ← Nat.card_coe_set_eq] at hc
@@ -592,6 +608,7 @@ theorem point_card_stabPath {q : GPath c.graph 8} (hq : q ∈ GPath.nbPaths c.gr
   rw [inf_of_le_left (GPath.stabPath_le_stabilizer q hq.1), T.cardx, h] at h1
   omega
 
+omit [Finite Y] in
 theorem point_orbit {v : c.Γ} (hv : c.graph.dist c.xv v = 8) :
     MulAction.orbit ↥(stv c c.xv ⊓ stv c v) c.lv = CosetGeom.nbrs c.xv := by
   ext u

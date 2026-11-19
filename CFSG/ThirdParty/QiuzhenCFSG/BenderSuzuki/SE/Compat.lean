@@ -16,7 +16,7 @@ namespace CommGroup
 Mathlib v4.32 keeps the underlying instance in the scoped
 `IsMulCommutative` namespace but no longer exposes the old projection-style
 name used by the source proof. -/
-@[expose] public noncomputable abbrev ofIsMulCommutative
+public noncomputable abbrev ofIsMulCommutative
     {G : Type*} [Group G] [IsMulCommutative G] : CommGroup G :=
   IsMulCommutative.instCommGroup
 

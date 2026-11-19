@@ -69,6 +69,7 @@ theorem herm_eq_zero_of_form_zero (hσ : IsUnitaryInvolution σ) {H : Matrix (Fi
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hd0, hd1, hd2, hc01, hc02, hc12, hl10, hl20, hl21]
 
+omit [CharP F 2] in
 theorem exists_matrix_row (ρ : Fin 3 → F) (hρ : ρ ≠ 0) :
     ∃ A : Matrix (Fin 3) (Fin 3) F, A.det = 1 ∧ A 0 = ρ := by
   by_cases h0 : ρ 0 = 0
@@ -105,7 +106,7 @@ theorem lemmaS_U (H : HermK σ e₀) (hH : H ≠ 0) :
   have hHm : H.mat ≠ 0 := fun h => hH (HermK.ext (h.trans HermK.mat_zero.symm))
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Fin 3 → F, ∑ i, ∑ j, ρ i * H.mat i j * σ (ρ j) ≠ 0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hHm (herm_eq_zero_of_form_zero hσ H.cT_mat hall)
   have hρ0 : ρ ≠ 0 := by
     rintro rfl

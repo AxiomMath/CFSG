@@ -84,8 +84,8 @@ theorem termK_mat (TS : Nat → Nat) (p : Nat) (GLs : List (List Nat)) (t : Nat)
     (Nat.shiftRight t 3) oneK) (TS (Nat.shiftRight t 1)) (Nat.beq (Nat.land t 1) 0)) = _
   rw [nrec_eq, h1, h2, h3, h4, getLL_eq, termM]
   by_cases ht : t % 2 = 0
-  · rw [if_pos (Nat.beq_eq_true_eq _ _ ▸ ht), if_pos ht]
-  · rw [if_neg (fun h => ht (Nat.eq_of_beq_eq_true h)), if_neg ht, epK_mat, matK_oneK]
+  · rw [ite_eq_left (Nat.beq_eq_true_eq _ _ ▸ ht), ite_eq_left ht]
+  · rw [ite_eq_right (fun h => ht (Nat.eq_of_beq_eq_true h)), ite_eq_right ht, epK_mat, matK_oneK]
 
 theorem eqsK_sound {TS : Nat → Nat} {p : Nat} {GLs : List (List Nat)} :
     ∀ {Q : List (List Nat)}, eqsK TS p GLs Q = true → ∀ q ∈ Q, q.length = 4 ∧

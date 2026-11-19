@@ -19,6 +19,7 @@ namespace CFSG.OddTranspositions.PartThree
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem Halpha_le_centralizer_d (hC : HypothesisC D) :
     Halpha D hC.alpha ≤ Subgroup.centralizer ({hC.d} : Set G) :=
   (Halpha_le_centralizer D hC.alpha).trans

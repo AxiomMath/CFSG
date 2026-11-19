@@ -52,9 +52,9 @@ theorem card_of_le {Y : Subgroup CFSG.Sporadic.He.J} (hSY : heCtxK.S ≤ Y) (hY 
   obtain ⟨j, -, rfl⟩ := heK_complete Y hSY
   unfold memberOrTop at hY ⊢
   by_cases h : j < 11
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨j, h, heK_member_card j h⟩
-  · rw [if_neg h] at hY
+  · rw [ite_eq_right h] at hY
     exact absurd rfl hY
 
 theorem dvd_of_le {Y : Subgroup CFSG.Sporadic.He.J} (hSY : heCtxK.S ≤ Y) (hY : Y ≠ ⊤) :

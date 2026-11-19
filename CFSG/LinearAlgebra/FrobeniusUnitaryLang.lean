@@ -12,6 +12,7 @@ open Matrix
 
 variable {L : Type} [Field L] [IsAlgClosed L] {n : ℕ}
 
+omit [IsAlgClosed L] in
 private lemma frobUni_tau_apply {p f : ℕ} {σ : L →+* L}
     (hσ : ∀ c, σ c = c ^ p ^ f) (c : L) :
     (σ.comp σ) c = c ^ ((p ^ f) * (p ^ f)) := by
@@ -22,6 +23,7 @@ private lemma frobUni_Q_two_le {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) :
   have h1 : 1 < p ^ f := Nat.one_lt_pow (by omega) (Fact.out : p.Prime).one_lt
   nlinarith
 
+omit [IsAlgClosed L] in
 private lemma frobUni_invTransposeHom_mul_transpose (X : GL (Fin n) L) :
     ((CFSG.RankThree.Classical2.invTransposeHom X : GL (Fin n) L) :
       Matrix (Fin n) (Fin n) L) * ((X : Matrix (Fin n) (Fin n) L)ᵀ) = 1 := by
@@ -29,12 +31,14 @@ private lemma frobUni_invTransposeHom_mul_transpose (X : GL (Fin n) L) :
     ← Matrix.transpose_mul, ← Matrix.coe_units_inv X, ← Units.val_mul,
     mul_inv_cancel, Units.val_one, Matrix.transpose_one]
 
+omit [IsAlgClosed L] in
 private lemma frobUni_inv_invTransposeHom (X : GL (Fin n) L) :
     (((CFSG.RankThree.Classical2.invTransposeHom X)⁻¹ : GL (Fin n) L) :
       Matrix (Fin n) (Fin n) L) = (X : Matrix (Fin n) (Fin n) L)ᵀ := by
   rw [Matrix.coe_units_inv]
   exact Matrix.inv_eq_right_inv (frobUni_invTransposeHom_mul_transpose X)
 
+omit [IsAlgClosed L] in
 private lemma frobUni_herm {σ : L →+* L} (C Y : GL (Fin n) L)
     (hY : ((Y : Matrix (Fin n) (Fin n) L).map (σ.comp σ)) =
       (Y : Matrix (Fin n) (Fin n) L) * (C : Matrix (Fin n) (Fin n) L) *
@@ -111,6 +115,7 @@ private lemma frobUni_exists_H {p f : ℕ} [Fact p.Prime] [CharP L p] (hf : 1 �
     simpa [Matrix.map_apply, Matrix.transpose_apply] using h
   exact ⟨Y, Hunit, hHmat, hHherm, hHentry⟩
 
+omit [IsAlgClosed L] in
 private lemma frobUni_subtype_unitaryInvolution {p f : ℕ} [Fact p.Prime] {K : Subfield L}
     [Finite K] [CharP K p] {σ : L →+* L} (hσ : ∀ c, σ c = c ^ p ^ f) (c : K) :
     ((CFSG.LieType.BorelTits.unitaryInvolution K p f c : K) : L) = σ (c : L) := by
@@ -119,6 +124,7 @@ private lemma frobUni_subtype_unitaryInvolution {p f : ℕ} [Fact p.Prime] {K : 
   rw [map_pow]
   exact (hσ (c : L)).symm
 
+omit [IsAlgClosed L] in
 private lemma frobUni_subtype_tau {p f : ℕ} [Fact p.Prime] {K : Subfield L}
     {σ : L →+* L} (hmemK : ∀ c : L, c ∈ K ↔ c ^ (p ^ f) ^ 2 = c)
     (hσ : ∀ c, σ c = c ^ p ^ f) (c : K) :
@@ -127,6 +133,7 @@ private lemma frobUni_subtype_tau {p f : ℕ} [Fact p.Prime] {K : Subfield L}
   rw [hσ, hσ, ← pow_mul]
   simpa [pow_two] using hmem
 
+omit [IsAlgClosed L] in
 private lemma frobUni_map_conjTr {p f : ℕ} [Fact p.Prime] {K : Subfield L}
     [Finite K] [CharP K p] {σ : L →+* L} (hσ : ∀ c, σ c = c ^ p ^ f)
     (A : Matrix (Fin n) (Fin n) K) :
@@ -138,11 +145,12 @@ private lemma frobUni_map_conjTr {p f : ℕ} [Fact p.Prime] {K : Subfield L}
     Matrix.transpose_apply, Matrix.map_apply, Matrix.map_apply]
   exact frobUni_subtype_unitaryInvolution (p := p) (f := f) (K := K) hσ (A j i)
 
+omit [IsAlgClosed L] in
 private lemma frobUni_descent {p f : ℕ} [Fact p.Prime] [CharP L p]
     {K : Subfield L} [Finite K] [CharP K p]
     (hmemK : ∀ c : L, c ∈ K ↔ c ^ (p ^ f) ^ 2 = c)
     {σ : L →+* L} (hσ : ∀ c, σ c = c ^ p ^ f) (H : GL (Fin n) L)
-    (hHherm : (((H : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).map σ)ᵀ =
+    (_hHherm : (((H : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).map σ)ᵀ =
       (H : Matrix (Fin n) (Fin n) L))
     (hHentry : ∀ i j, σ ((H : Matrix (Fin n) (Fin n) L) j i) =
       (H : Matrix (Fin n) (Fin n) L) i j) :
@@ -180,12 +188,11 @@ private lemma frobUni_descent {p f : ℕ} [Fact p.Prime] [CharP L p]
       (CFSG.LieType.BorelTits.unitaryInvolution K p f) H' = H' := by
     ext i j
     rw [CFSG.LieType.Universal.Unitary.conjTr, Matrix.transpose_apply, Matrix.map_apply]
-    change ((CFSG.LieType.BorelTits.unitaryInvolution K p f (H' j i) : K) : L) =
-      ((H' i j : K) : L)
     rw [frobUni_subtype_unitaryInvolution (p := p) (f := f) (K := K) hσ,
       hH'entry j i, hHentry i j, hH'entry i j]
   exact ⟨H', hH'map, hH'det, hH'herm⟩
 
+omit [IsAlgClosed L] in
 private lemma frobUni_orthonormal {p f : ℕ} [Fact p.Prime] [CharP L p]
     {K : Subfield L} [Finite K] [CharP K p]
     (hcard : Nat.card K = (p ^ f) ^ 2) {H' : Matrix (Fin n) (Fin n) K}
@@ -200,6 +207,7 @@ private lemma frobUni_orthonormal {p f : ℕ} [Fact p.Prime] [CharP L p]
   CFSG.LieType.Steinberg.exists_conjTr_mul_mul_eq_one (F := K) (p := p) (f := f)
     hcard hH'herm hH'det
 
+omit [IsAlgClosed L] in
 private lemma frobUni_unitary_conj {p f : ℕ} [Fact p.Prime] [CharP L p]
     {K : Subfield L} [Finite K] [CharP K p]
     (hmemK : ∀ c : L, c ∈ K ↔ c ^ (p ^ f) ^ 2 = c)
@@ -244,6 +252,7 @@ private lemma frobUni_unitary_conj {p f : ℕ} [Fact p.Prime] [CharP L p]
       ((P : Matrix (Fin n) (Fin n) K) i j)
   exact ⟨PL, hPL, hPherm, hPLτ⟩
 
+omit [IsAlgClosed L] in
 private lemma frobUni_final (C : GL (Fin n) L) {σ : L →+* L}
     {Y H PL : GL (Fin n) L}
     (hHmat : (H : Matrix (Fin n) (Fin n) L) =
@@ -306,10 +315,10 @@ theorem exists_mul_mul_transpose_map_frobenius_eq_one {L : Type} [Field L] [IsAl
       ((Z : Matrix (Fin n) (Fin n) L).map σ)ᵀ = 1 := by
   let K : Subfield L :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.KSE8Five.Two.subfieldSq p L f
-  haveI hFinK : Finite K :=
+  have hFinK : Finite K :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.KSE8Five.Two.finite_subfieldSq
       (Ω := L) (ℓ := p) (f := f) hf
-  haveI hCharK : CharP K p := Subfield.charP K p
+  have hCharK : CharP K p := Subfield.charP K p
   have hmemK : ∀ c : L, c ∈ K ↔ c ^ (p ^ f) ^ 2 = c := by
     intro c
     change c ∈ CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.KSE8Five.Two.subfieldSq p L f ↔ _

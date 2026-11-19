@@ -30,7 +30,7 @@ theorem exists_frame {X : Subgroup (GL (Fin 3) K)} (h : IsTransitiveMonomial X) 
   choose f hfL hf0 hfspan using hex
   have hli : LinearIndependent K f := hint.submodule_iSupIndep.linearIndependent L hfL hf0
   let P0 : Matrix (Fin 3) (Fin 3) K := Matrix.of fun i j => f j i
-  have hP0 : IsUnit P0 := Matrix.linearIndependent_cols_iff_isUnit.mp hli
+  have hP0 : IsUnit P0 := Matrix.linearIndependent_col_iff_isUnit.mp hli
   let P : GL (Fin 3) K := hP0.unit
   have hPval : (P : Matrix (Fin 3) (Fin 3) K) = P0 := rfl
   have hPe : ∀ j, (P : Matrix (Fin 3) (Fin 3) K) *ᵥ Pi.single j 1 = f j := by

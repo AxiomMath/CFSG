@@ -107,7 +107,7 @@ theorem q13c_inv_PT (h : Q13Om t L S x₁ x₂ lam rho tau om) {w : G} (hwS : w 
       k * a * k⁻¹ ∈ twoCore t := by
     intro k hk a ha
     rcases q13c_zpowers_t h a ha with ha1 | hat
-    · rw [ha1]; simpa using Subgroup.one_mem (twoCore t)
+    · rw [ha1]; simp
     · rw [hat]
       have hkH : k ∈ invCent t :=
         S4A.L_le_invCent h.c11.hyp (q13c_wreathGrp_le_L h hk)

@@ -34,7 +34,7 @@ theorem e16_ncard_conjugatesOf_modEq {K : Type} [Group K] [Finite K] {τ : MulAu
     (hτ : τ * τ = 1) {κ : K} (hκ : τ κ = κ) :
     (conjugatesOf κ).ncard ≡ Nat.card {x : K // IsConj κ x ∧ τ x = x} [MOD 2] := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hττ : ∀ x : K, τ (τ x) = x := fun x => by
     have := congrArg (fun ψ : MulAut K => ψ x) hτ
     simpa using this

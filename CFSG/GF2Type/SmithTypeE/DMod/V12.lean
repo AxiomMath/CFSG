@@ -59,7 +59,7 @@ theorem dec12_surj (v : V12) : ∃ c < 4096, dec12 c = v := by
     intro m n hmn
     exact Fin.ext (eq_of_dec12_eq m.isLt n.isLt hmn)
   have hcard : Fintype.card (Fin 4096) = Fintype.card V12 := by
-    simp [Fintype.card_prod, Fintype.card_fun, ZMod.card]
+    simp [Fintype.card_prod, ZMod.card]
   obtain ⟨n, hn⟩ := ((Fintype.bijective_iff_injective_and_card
     (fun n : Fin 4096 => dec12 n.val)).2 ⟨hf, hcard⟩).2 v
   exact ⟨n.val, n.isLt, hn⟩

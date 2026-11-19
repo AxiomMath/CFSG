@@ -133,7 +133,7 @@ theorem induced_nontrivial_order_three
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) (e : MulAut L') (he1 : e ≠ 1) (he3 : e ^ 3 = 1)
     (φ : MulAut R) (hφ : ∀ l : L', φ (ψ l) = ψ (e l)) : φ ≠ 1 ∧ φ ^ 3 = 1 := by
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hne : φ ≠ 1 := by
     intro hφ1
     apply he1

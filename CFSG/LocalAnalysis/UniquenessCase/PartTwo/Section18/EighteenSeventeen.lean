@@ -20,7 +20,7 @@ theorem le_deltaN_of_centralizer_commElt (D : Data G) {V₀ V : Subgroup G}
       Nat.card V < 2 ^ d * Nat.card (centMod V₀ V (t : G)) →
       ∀ z ∈ commElt V (t : G), z ≠ 1 → Subgroup.centralizer ({z} : Set G) ≤ D.M) :
     (d : ℕ∞) ≤ deltaN n D.M V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV : IsElemAbelian 2 V := h.isElemAbelian
   have hV2 : IsPGroup 2 V := hV.isPGroup
   have hVM : V ≤ D.M := h.hyp62.le_M
@@ -29,7 +29,7 @@ theorem le_deltaN_of_centralizer_commElt (D : Data G) {V₀ V : Subgroup G}
   refine le_iInf fun U => le_iInf fun hU => ?_
   obtain ⟨hUV, t, ⟨htM, htC⟩, ⟨k, hk⟩, W, hWV, -, hUW, hWt, hP⟩ := hU
   have htS : t ∈ stabTil V₀ V := le_stabTil hMN hM0 htM
-  obtain ⟨w, hwW, hwt⟩ := SetLike.not_le_iff_exists.1 hWt
+  obtain ⟨w, hwW, hwt⟩ := IsConcreteLE.not_le_iff_exists.1 hWt
   have hwM : w ∈ D.M := hVM (hWV hwW)
   have hz1 : w⁻¹ * t⁻¹ * w * t ≠ 1 := by
     intro h1

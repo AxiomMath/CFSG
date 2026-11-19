@@ -138,7 +138,7 @@ theorem exists_conj_of_card27 (h243 : ¬ 3 ^ 5 ∣ Nat.card L)
     by_contra h
     exact h243 ((Nat.prime_three.pow_dvd_iff_le_factorization hL0).2 (by omega))
   by_cases h81d : (Nat.card L).factorization 3 = 4
-  · refine exists_conj_eq (fun Q => h81 Q Q.isPGroup' ?_) hA hB hcA hcB
+  · refine exists_conj_eq (fun Q => h81 Q Q.isPGroup ?_) hA hB hcA hcB
     rw [Sylow.card_eq_multiplicity, h81d]
     norm_num
   · have h3 : (Nat.card L).factorization 3 = 3 := by omega
@@ -164,8 +164,7 @@ variable {K : Type} [Group K]
   ((MulAut.conj g).subgroupMap (centralizer ({x} : Set K))).trans
     (MulEquiv.subgroupCongr (by
       ext y
-      simp only [mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
-        mem_centralizer_singleton_iff]
+      simp only [mem_map, mem_centralizer_singleton_iff]
       constructor
       · rintro ⟨z, hz, rfl⟩
         calc g * z * g⁻¹ * (g * x * g⁻¹) = g * (z * x) * g⁻¹ := by group

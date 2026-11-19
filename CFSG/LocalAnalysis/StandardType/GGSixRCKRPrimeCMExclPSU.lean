@@ -33,7 +33,7 @@ private lemma rckPSU_exists_normOne_ne_one {E : Type} [Field E] [Finite E] {Q : 
     rw [Nat.card_units (α := E), hE, ← hsq]
     exact Nat.dvd_mul_right (Q + 1) (Q - 1)
   obtain ⟨r, hrprime, hrdvd⟩ := Nat.exists_prime_and_dvd (by omega : Q + 1 ≠ 1)
-  haveI : Fact r.Prime := ⟨hrprime⟩
+  have : Fact r.Prime := ⟨hrprime⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' r (G := Eˣ) (hrdvd.trans hdvd)
   have hpow : u ^ (Q + 1) = 1 := by
     rw [← orderOf_dvd_iff_pow_eq_one, hu]
@@ -79,9 +79,9 @@ private lemma rckPSU_diagonal_mem_GUFull {m Q : ℕ} {E : Type} [Field E] (hQ : 
   rw [Matrix.diagonal_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, if_pos rfl, ← pow_succ]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ← pow_succ]
     exact hd i
-  · rw [if_neg hij, if_neg hij]
+  · rw [ite_eq_right hij, ite_eq_right hij]
 
 private lemma rckPSU_perm_mem_GUFull {m Q : ℕ} {E : Type} [Field E] (hQ : 0 < Q)
     (σ : Equiv.Perm (Fin m)) :
@@ -98,8 +98,6 @@ private lemma rckPSU_perm_mem_GUFull {m Q : ℕ} {E : Type} [Field E] (hQ : 0 < 
     rw [hPval]
     ext i j
     rw [Matrix.map_apply]
-    change (((σ⁻¹).toPEquiv.toMatrix : Matrix (Fin m) (Fin m) E) i j) ^ Q =
-      ((σ⁻¹).toPEquiv.toMatrix : Matrix (Fin m) (Fin m) E) i j
     rw [PEquiv.toMatrix_apply]
     split_ifs <;> simp [hQ.ne']
   rw [hmap, hPval]
@@ -140,8 +138,8 @@ private lemma rckPSU_center_offdiag {m Q : ℕ} {E : Type} [Field E] [Finite E] 
 private lemma rckPSU_center_diag_eq {m Q : ℕ} {E : Type} [Field E] [Finite E] [CharP E 2]
     (hE : Nat.card E = Q ^ 2) {z : ↥(ClassicalBlocks.GUFull m Q E)}
     (hz : z ∈ Subgroup.center ↥(ClassicalBlocks.GUFull m Q E))
-    (hoff : ∀ i j : Fin m, i ≠ j → (z.1 : Matrix (Fin m) (Fin m) E) i j = 0)
-    {i j : Fin m} (hij : i ≠ j) :
+    (_hoff : ∀ i j : Fin m, i ≠ j → (z.1 : Matrix (Fin m) (Fin m) E) i j = 0)
+    {i j : Fin m} (_hij : i ≠ j) :
     (z.1 : Matrix (Fin m) (Fin m) E) i i = (z.1 : Matrix (Fin m) (Fin m) E) j j := by
   have hQ : 0 < Q := by
     have h1 : 1 < Nat.card E := Finite.one_lt_card
@@ -210,7 +208,7 @@ private noncomputable abbrev rckPSU_Gt {n g : ℕ} (s : GL (Fin n) (PSUF g))
 
 private lemma rckPSU_block_mul {ι F : Type} [Fintype ι] [DecidableEq ι] [Ring F]
     {ε : Matrix ι ι F} (hε : IsIdempotentElem ε) {x y : Matrix ι ι F}
-    (hx : x * ε = ε * x) (hy : y * ε = ε * y) :
+    (_hx : x * ε = ε * x) (hy : y * ε = ε * y) :
     (x * ε + (1 - ε)) * (y * ε + (1 - ε)) = (x * y) * ε + (1 - ε) := by
   have hε' : ε * ε = ε := hε.eq
   have h1 : (1 - ε) * (1 - ε) = 1 - ε := by
@@ -375,8 +373,8 @@ private lemma rckPSU_unitary_range_card_le {X : Type} [Group X] [Finite X] {p : 
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
   rcases Nat.eq_zero_or_pos m with hm0 | hmpos
   · subst m
-    haveI : Subsingleton (GL (Fin 0) E) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
-    haveI : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) := inferInstance
+    have : Subsingleton (GL (Fin 0) E) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
+    have : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) := inferInstance
     have hle1 : Nat.card β'.range ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     exact hle1.trans (Nat.one_le_pow 2 p hp.pos)
@@ -484,7 +482,7 @@ private theorem rckPSU_beta_apply {X : Type} [Group X] {n g p : ℕ}
     rw [← hker, MulEquiv.symm_apply_apply]
   unfold rckPSU_beta
   dsimp only
-  simp only [MonoidHom.comp_apply, Subgroup.coe_inclusion, MulEquiv.coe_toMonoidHom]
+  simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
   rw [show (Subgroup.inclusion hB₁A) b = (⟨b, hB₁A b.2⟩ : ↥A) from rfl]
   rw [heq]
   rfl

@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem Ctx.M_le_normalizer_commXbarPre (hc : Ctx M Q Z B) :
     M ≤ Subgroup.normalizer ((⁅Q, XbarPre M Q Z B⁆ : Subgroup G) : Set G) := by
   intro m hm

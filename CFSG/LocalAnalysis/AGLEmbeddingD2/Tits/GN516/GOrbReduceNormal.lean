@@ -148,7 +148,7 @@ theorem exists_centerQuot_hom (L : Subgroup Y) [L.Normal] :
       (∀ x : ↥L, ψ (QuotientGroup.mk' (Subgroup.center ↥L) x) =
         QuotientGroup.mk' (Subgroup.centralizer (L : Set Y)) (x : Y)) ∧
       ψ.range = L.map (QuotientGroup.mk' (Subgroup.centralizer (L : Set Y))) := by
-  haveI : (Subgroup.centralizer (L : Set Y)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (L : Set Y)).Normal := Subgroup.normal_centralizer
   have hker : Subgroup.center ↥L ≤
       ((QuotientGroup.mk' (Subgroup.centralizer (L : Set Y))).comp L.subtype).ker := by
     intro z hz
@@ -207,7 +207,7 @@ theorem gOrbConcl_of_normal (h : KFactChevGraphOrbitSimple) {L R P : Subgroup Y}
     (hS : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L)) (hC : IsChevTwo (↥L ⧸ Subgroup.center ↥L))
     (hR2 : IsPGroup 2 R) (hSyl : IsSylowTwoOf (R ⊓ L) L) (hMin : IsMinOverBorel L (R ⊓ L) P)
     (hnP : ¬ R ≤ Subgroup.normalizer (P : Set Y)) : GOrbConcl R P := by
-  haveI : (Subgroup.centralizer (L : Set Y)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (L : Set Y)).Normal := Subgroup.normal_centralizer
   obtain ⟨ψ, hψinj, -, hψrange⟩ := exists_centerQuot_hom L
   have hMin' := isMinOverBorel_map_centralizer hSyl hMin
   set f := QuotientGroup.mk' (Subgroup.centralizer (L : Set Y)) with hf
@@ -242,7 +242,7 @@ theorem gOrbConcl_of_normal (h : KFactChevGraphOrbitSimple) {L R P : Subgroup Y}
           L.mul_mem (L.mul_mem (L.inv_mem hz) (Subgroup.mem_inf.1 hx).2) hz
         rwa [show z⁻¹ * (z * x * z⁻¹) * z = x by group] at h1
       rwa [hz' x hxL] at hx
-  · haveI := hS
+  · have := hS
     exact e.symm.isSimpleGroup
   · exact isChevTwo_congr e hC
 

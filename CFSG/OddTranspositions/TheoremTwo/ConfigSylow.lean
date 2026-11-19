@@ -77,7 +77,7 @@ theorem exists_sylow_conj_data (hS : Setup G D)
   have hconj := conj_eq_of_isBenderGroup hS hu hv huv hc huvz hzD htrans hR hZ2 hB
   obtain ⟨S₀, hu₀, hv₀, hd₀, hzS, hz2, hzuvd⟩ := exists_sylow_inter_data hS hu hv huv hc hmul
   have hLcomm : ∀ d ∈ D ∩ (S₀ : Set G), ∀ e ∈ D ∩ (S₀ : Set G), Commute d e :=
-    fun d hd e he => hS.oddT.commute_of_isPGroup S₀.isPGroup' hd.1 he.1 hd.2 he.2
+    fun d hd e he => hS.oddT.commute_of_isPGroup S₀.isPGroup hd.1 he.1 hd.2 he.2
   have hLC : D ∩ (S₀ : Set G) ⊆ centSet D z :=
     sylow_inter_le_centSet hS.oddT S₀ hu₀ hv₀ hd₀ hzuvd
   have hLz : ∀ d ∈ D ∩ (S₀ : Set G), Commute d z := fun d hd => (hLC hd).2

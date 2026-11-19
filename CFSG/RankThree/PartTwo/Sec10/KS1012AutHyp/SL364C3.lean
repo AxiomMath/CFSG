@@ -53,7 +53,7 @@ theorem coe_slFieldSL (K : Type) [Field K] (σ : K ≃+* K) (x : CFSG.Open.State
       ((x : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) := by
     rw [← CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL_coe 3 K (E.symm x),
       E.apply_symm_apply]
-  simp only [slFieldSL, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [slFieldSL, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     MulAut.congr_apply, MulEquiv.trans_apply]
   rw [CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL_coe]
   exact congrArg σ (congrFun (congrFun h1 i) j)

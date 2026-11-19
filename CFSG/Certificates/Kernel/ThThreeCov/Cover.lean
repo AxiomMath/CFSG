@@ -18,7 +18,7 @@ theorem inv_conj_mem {G : Type*} [Group G] {p : ℕ} (P : Sylow p G) (k : G) {x 
 
 theorem mem_conjPre {G : Type*} [Group G] (Y : Subgroup G) (k g : G) :
     g ∈ Y.comap (MulAut.conj k⁻¹).toMonoidHom ↔ k⁻¹ * g * k ∈ Y := by
-  simp [Subgroup.mem_comap, MulAut.conj_apply]
+  simp [Subgroup.mem_comap]
 
 theorem controlsAt_of_isConj {K : Type} [Group K] {x y : K} {Y : Subgroup K}
     (hY : SporKRestControlsAt x Y) (hxy : IsConj x y) (hyY : y ∈ Y) :

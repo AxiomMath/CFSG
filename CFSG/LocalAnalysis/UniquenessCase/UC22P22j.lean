@@ -79,8 +79,8 @@ theorem uc22p22j_odd_abelian
     (hY : Y ≠ ⊤) {W : Subgroup X} (hWY : W ≤ Y) (hW : Odd (Nat.card W)) {a b : X}
     (ha : a ∈ W) (hb : b ∈ W) : a * b = b * a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite H := Finite.of_surjective q hq
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite H := Finite.of_surjective q hq
   let S' : Sylow 2 H := S.mapSurjective hq
   obtain ⟨D, hDN, hDcyc, -, -, hsup, -, -, -, -, -, -, -, -, -, -, -, -, hmax⟩ :=
     G32 H hI S'
@@ -113,7 +113,7 @@ theorem uc22p22j_odd_abelian
     rw [hsup]
     exact hmax _ hSq hYq
   set N : Subgroup H := (S' : Subgroup H) ⊔ D with hNdef
-  haveI hnorm : ((S' : Subgroup H).subgroupOf N).Normal :=
+  have hnorm : ((S' : Subgroup H).subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (sup_le Subgroup.le_normalizer hDN)
   have hsurjD : Function.Surjective ((QuotientGroup.mk' ((S' : Subgroup H).subgroupOf N)).comp
@@ -129,8 +129,8 @@ theorem uc22p22j_odd_abelian
       Subgroup.mem_subgroupOf]
     have h := (Subgroup.mem_normalizer_iff''.mp (hDN hv) u).mp hu
     simpa [mul_assoc] using h
-  haveI : IsCyclic ↥D := hDcyc
-  haveI : IsCyclic (↥N ⧸ (S' : Subgroup H).subgroupOf N) := isCyclic_of_surjective _ hsurjD
+  have : IsCyclic ↥D := hDcyc
+  have : IsCyclic (↥N ⧸ (S' : Subgroup H).subgroupOf N) := isCyclic_of_surjective _ hsurjD
   have hWN : ∀ w : W, q (w : X) ∈ N := fun w => hYN ⟨w, hWY w.2, rfl⟩
   let g : W →* N := (q.comp W.subtype).codRestrict N hWN
   let f : W →* ↥N ⧸ (S' : Subgroup H).subgroupOf N := (QuotientGroup.mk' _).comp g
@@ -142,7 +142,7 @@ theorem uc22p22j_odd_abelian
     have h2 : Odd (orderOf (q (w : X))) := by
       have h3 : Odd (orderOf (w : X)) := hW.of_dvd_nat (Subgroup.orderOf_dvd_natCard W w.2)
       exact h3.of_dvd_nat (orderOf_map_dvd q _)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S'.isPGroup') ⟨q (w : X), h1⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S'.isPGroup) ⟨q (w : X), h1⟩
     rw [Subgroup.orderOf_mk] at hk
     have hk0 : k = 0 := by
       by_contra hk0
@@ -155,14 +155,14 @@ theorem uc22p22j_odd_abelian
     rw [Subgroup.mem_center_iff]
     intro v
     exact Subtype.ext (Subgroup.mem_center_iff.1 h5 v)
-  exact congrArg Subtype.val (commutative_of_cyclic_center_quotient f hfker ⟨a, ha⟩ ⟨b, hb⟩)
+  exact congrArg Subtype.val ((MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f hfker).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
 theorem uc22p22j_typeI_quot {X : Type} [Group X] [Finite X] (hperf : _root_.commutator X = ⊤)
     (h : (∃ n : ℕ, 3 ≤ n ∧ Nonempty (X ⧸ center X ≃* PSL(2, GaloisField 2 n))) ∨
       (∃ n : ℕ, 1 ≤ n ∧ Nonempty (X ⧸ center X ≃* Sz n)) ∨
       (∃ n : ℕ, 2 ≤ n ∧ Nonempty (X ⧸ center X ≃* PSU3 2 n))) :
     IsSimpleGroup (X ⧸ center X) ∧ IsGoldTypeI (X ⧸ center X) := by
-  haveI : Group.IsPerfect X := ⟨hperf⟩
+  have : Group.IsPerfect X := ⟨hperf⟩
   have hB : fusionIsBenderGroup (X ⧸ center X) := by
     rcases h with ⟨n, hn, e⟩ | ⟨n, hn, e⟩ | ⟨n, hn, e⟩
     · exact Or.inl ⟨n, by omega, e⟩
@@ -179,8 +179,8 @@ theorem uc22p22j_typeI_quot {X : Type} [Group X] [Finite X] (hperf : _root_.comm
 
 theorem uc22p22j_center_bot {X : Type} [Group X] [Finite X] (hperf : _root_.commutator X = ⊤)
     (hB : fusionIsBenderGroup X) : center X = ⊥ := by
-  haveI : Group.IsPerfect X := ⟨hperf⟩
-  haveI := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
+  have : Group.IsPerfect X := ⟨hperf⟩
+  have := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center X) with h | h
   · exact h
   · exfalso
@@ -190,7 +190,7 @@ theorem uc22p22j_center_bot {X : Type} [Group X] [Finite X] (hperf : _root_.comm
 theorem uc22p22j_typeI_of_shape {X : Type} [Group X] [Finite X] (hperf : _root_.commutator X = ⊤)
     {n : ℕ} (h : IsSz X n ∨ (IsL2 X n ∧ 3 ≤ n) ∨ IsSU3 X n) :
     IsSimpleGroup (X ⧸ center X) ∧ IsGoldTypeI (X ⧸ center X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases h with hSz | ⟨hL2, hn3⟩ | ⟨-, hU⟩
   ·
     obtain ⟨-, a, ha, K, _, _, hf, hcard, ⟨e⟩⟩ := (CFSG.Blueprint.LieModel.suzukiModel hSz).2
@@ -227,7 +227,7 @@ theorem uc22p22j_oddAbelianProper_of_typeI_shape
     (hperf : _root_.commutator X = ⊤) {n : ℕ}
     (h : IsSz X n ∨ (IsL2 X n ∧ 3 ≤ n) ∨ IsSU3 X n) : OddAbelianProper X := by
   obtain ⟨hsimple, hI⟩ := uc22p22j_typeI_of_shape hperf h
-  haveI := hsimple
+  have := hsimple
   intro S Y hSY hY W hWY hW a ha b hb
   exact uc22p22j_odd_abelian hI hperf (QuotientGroup.mk' (center X))
     (QuotientGroup.mk'_surjective _) (QuotientGroup.ker_mk' _).le S hSY hY hWY hW ha hb
@@ -235,7 +235,7 @@ theorem uc22p22j_oddAbelianProper_of_typeI_shape
 theorem uc22p22j_oddAbelianProper_sixty {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     (hX : Nat.card X = 60) : OddAbelianProper X := by
   intro S Y hSY hY W hWY hW a ha b hb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card (S : Subgroup X) = 4 := by
     rw [Sylow.card_eq_multiplicity, hX]
     have h60 : (60 : ℕ) = 2 ^ 2 * 15 := by norm_num
@@ -255,7 +255,7 @@ theorem uc22p22j_oddAbelianProper_sixty {X : Type} [Group X] [Finite X] [IsSimpl
       have := Subgroup.card_mul_index Y
       rw [h20, hX] at this
       omega
-    haveI : Y.FiniteIndex := ⟨by omega⟩
+    have : Y.FiniteIndex := ⟨by omega⟩
     have hcore : Y.normalCore = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y.normalCore with h | h
       · exact h
@@ -281,20 +281,20 @@ theorem uc22p22j_oddAbelianProper_sixty {X : Type} [Group X] [Finite X] [IsSimpl
     omega
   have hcyc : IsCyclic W := by
     rcases hW13 with h | h
-    · haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.1 h).1
+    · have : Subsingleton W := (Nat.card_eq_one_iff_unique.1 h).1
       infer_instance
-    · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact isCyclic_of_prime_card h
   exact congrArg Subtype.val
-    (commutative_of_cyclic_center_quotient (MonoidHom.id W) (by simp) ⟨a, ha⟩ ⟨b, hb⟩)
+    ((MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (MonoidHom.id W) (by simp)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
 theorem uc22p22j_oddAbelianProper_L2_four {X : Type} [Group X] [Finite X] (h : IsL2 X 2) :
     OddAbelianProper X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 2 2) 2 2
     (by omega) (GaloisField.card 2 2 (by omega)) h
   have hB : fusionIsBenderGroup X := Or.inl ⟨2, le_rfl, ⟨E⟩⟩
-  haveI := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
+  have := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   have hX : Nat.card X = 60 := by
     rw [Nat.card_congr E.toEquiv, CFSG.Walter.psl2_even_card (by omega)]
     norm_num
@@ -323,7 +323,7 @@ theorem uc22p22j_odd_abelian_lift {Λ : Type} [Group Λ] [Finite Λ]
     (hTΩ : (T₁ : Subgroup Λ) ≤ Ω) (hΩ : Ω ≠ ⊤) {V : Subgroup Λ} (hVΩ : V ≤ Ω)
     (hV : Odd (Nat.card V)) {a b : Λ} (ha : a ∈ V) (hb : b ∈ V) : a * b = b * a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup Λ := CFSG.pCore 2 Λ with hO
   let π : Λ →* Λ ⧸ O := QuotientGroup.mk' O
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective O
@@ -368,10 +368,11 @@ section Main
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22j_perfect_bar2 (L : Subgroup G) (hperf : ⁅L, L⁆ = L) :
     _root_.commutator (Bar2 L) = ⊤ := by
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
-  haveI : Group.IsPerfect (Bar2 L) :=
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect (Bar2 L) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L))
   exact Group.IsPerfect.commutator_eq_top
 
@@ -394,7 +395,7 @@ theorem uc22p22j_oddAbelianL0_rankOne
     (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) (hsh : S2010RankOne L) :
     OddAbelianL0 D L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro V hVL hVM hVodd a ha b hb
   obtain ⟨hTN, hperf, hLT, -⟩ := hL
   have hTM : D.T ≤ D.M := D.sylowM.le
@@ -426,7 +427,7 @@ theorem uc22p22j_cent2010_of_oddAbelian (D : Data G) (Ch : Choice2011 G) (c : Ct
     (hL : OddAbelianL0 D c.L0) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G}
     (hPp : IsPGroup p ↥P) (hPL : P ≤ c.L0) (hPM : P ≤ D.M)
     (hBP : c.B ≤ normalizer (P : Set G)) : ⁅c.B, P⁆ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBL : c.B ≤ c.L0 := c.hB.1
   have hBM : c.B ≤ D.M := c.hle.trans c.hBM
   set V : Subgroup G := P ⊔ c.B with hV

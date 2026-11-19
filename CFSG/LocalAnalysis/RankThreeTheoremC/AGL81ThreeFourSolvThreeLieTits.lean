@@ -22,7 +22,7 @@ theorem threeFourSolvThreeNoneAt_tits (d : TauCeti.ValidLieTypeIndex) (hd : d.1 
     subst hd
     exact CFSG.Sporadic.Schreier.Tits.titsModelEquiv L 2 1
       (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨e⟩⟩)
-  haveI : IsSimpleGroup ↥CFSG.Sporadic.Schreier.Tits.titsD :=
+  have : IsSimpleGroup ↥CFSG.Sporadic.Schreier.Tits.titsD :=
     CFSG.Sporadic.Schreier.Tits.titsD_simple
   refine ⟨eS.isSimpleGroup, ?_, CFSG.AGLEmbeddingD2.kFactTitsThreeCore L d hd ⟨e⟩,
     CFSG.AGLEmbedding.CoreE1.Datum.of_mulEquiv eS CFSG.AGLEmbeddingD2.coreE1Datum_titsD⟩

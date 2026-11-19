@@ -28,8 +28,8 @@ theorem exists_cyclic_of_dihedral {X : Type} [Group X] {z : X} {n : ℕ} [NeZero
     cases hk
   have hzz : z ∈ Cz := Subgroup.mem_centralizer_singleton_iff.mpr rfl
   refine ⟨(R.comap e.toMonoidHom).map Cz.subtype, ?_, ?_, ?_⟩
-  · haveI : IsCyclic ↥R := Subgroup.isCyclic_zpowers _
-    haveI : IsCyclic ↥(R.comap e.toMonoidHom) :=
+  · have : IsCyclic ↥R := Subgroup.isCyclic_zpowers _
+    have : IsCyclic ↥(R.comap e.toMonoidHom) :=
       isCyclic_of_surjective ((R.equivMapOfInjective e.symm.toMonoidHom e.symm.injective).trans
         (MulEquiv.subgroupCongr (by
           ext x
@@ -72,7 +72,7 @@ theorem l2CentDihedral : L2CentDihedral := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hM
   let φ : X ≃* PSL(2, K) :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp8 : p ^ f % 8 = 1 := by
     obtain ⟨k, rfl⟩ := hfe
     have h2 : p ^ 2 % 8 = 1 := by
@@ -100,7 +100,7 @@ theorem l2CentDihedral : L2CentDihedral := by
       rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
       exact hy
   have hn0 : (p ^ f - 1) / 2 ≠ 0 := by omega
-  haveI : NeZero ((p ^ f - 1) / 2) := ⟨hn0⟩
+  have : NeZero ((p ^ f - 1) / 2) := ⟨hn0⟩
   exact exists_cyclic_of_dihedral (Nat.even_iff.mpr (by omega)) (by omega)
     (((φ.subgroupMap _).trans (MulEquiv.subgroupCongr hmap)).trans eD)
 

@@ -37,13 +37,13 @@ theorem innGoodAt_reeG2 {m : ℕ} (hv : (TauCeti.LieTypeIndex.reeG2 m).Valid) {p
   let S := Cat ⟨.reeG2 m, hv⟩
   obtain ⟨X, _, _, _, hm1, hX, ⟨e⟩⟩ :=
     exists_reeG2_model (K := S) ⟨hv, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite (ModGL ReeTag.G2.tag X) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.G2.reeGamma X m) := Subtype.finite
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (ModGL ReeTag.G2.tag X) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ReeTag.G2.reeGamma X m) := Subtype.finite
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
   have hcyc : IsCyclic (Outer S) :=
     (MulEquiv.isCyclic (equivalence e)).2 (isCyclic_outer_reeG2 hm1 hX)
   have hout : OutPNice p S := outPNice_of_isCyclic_outer hp hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine innGoodAt_of_forall_card_ne (fun D hD hDle hcard => ?_)
   have hDi : D ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner S := fun β hβ =>
     mem_inner_of_mem_innAutDerived_of_outPNice hout (hDle hβ) (hD.2 β hβ)
@@ -74,9 +74,9 @@ theorem innGoodAt_reeF4 {m : ℕ} (hv : (TauCeti.LieTypeIndex.reeF4 m).Valid) {p
   obtain ⟨K, _, _, _, hm1, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.SEITZX.exists_reeGamma_model (K := S)
       ⟨hv, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K m) := Subtype.finite
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (ModGL ReeTag.F4.tag K) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K m) := Subtype.finite
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
   have hZ : Subgroup.center S = ⊥ := by
     rw [← Subgroup.map_center_eq e.symm, ReeTag.large_Ree_fixed_group_center_trivial m K hK,
       Subgroup.map_bot]

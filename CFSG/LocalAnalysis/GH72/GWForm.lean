@@ -14,6 +14,7 @@ open CFSG.GorensteinWalter (HasDihedralSylowTwo IsOddPrimePower PSL2 PGL2)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem two_dvd_card_of_hasDihedralSylowTwo (hD : HasDihedralSylowTwo G) :
     2 ∣ Nat.card G := by
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 G))
@@ -22,13 +23,14 @@ theorem two_dvd_card_of_hasDihedralSylowTwo (hD : HasDihedralSylowTwo G) :
   rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
   exact dvd_mul_right 2 _
 
+omit [Finite G] in
 theorem index_ne_two_of_normal_index_ne_two (h2 : ∀ N : Subgroup G, N.Normal → N.index ≠ 2)
     (M : Subgroup G) : M.index ≠ 2 := fun hM => h2 M (normal_of_index_eq_two hM) hM
 
 theorem nonempty_ringEquiv_galoisField {K : Type} [Field K] [Finite K] {p n : ℕ} [Fact p.Prime]
     (hn : n ≠ 0) (hK : Nat.card K = p ^ n) : Nonempty (K ≃+* GaloisField p n) := by
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite (GaloisField p n)
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite (GaloisField p n)
   exact ⟨FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, GaloisField.card p n hn])⟩
 
@@ -47,7 +49,7 @@ theorem false_of_normal_pgl2 (h2 : ∀ N : Subgroup G, N.Normal → N.index ≠ 
     (hL : Odd L.index) (e : L ≃* PGL2 K) : False := by
   obtain ⟨M, hMn, -, ⟨eM⟩⟩ : ∃ M : Subgroup G, M.Normal ∧ M ≤ L ∧ Nonempty (M ≃* PSL2 K) := by
     by_cases h3 : Nat.card K = 3
-    · letI := Fintype.ofFinite K
+    · let := Fintype.ofFinite K
       let eK : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_three
         (by simpa [Nat.card_eq_fintype_card] using h3)
       obtain ⟨M, hMn, hML, ⟨eM⟩⟩ :=
@@ -119,7 +121,7 @@ theorem gw_alternatingGroup_four_or_commutator
   · rcases hL with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
     swap
     · exact (false_of_normal_pgl2 h2 hK L hLn hLodd e).elim
-    haveI := hLn
+    have := hLn
     have hC : centralizer (L : Set G) = ⊥ :=
       CFSG.GorensteinWalter.centralizer_eq_bot_of_normal_centerless_dihedral_of_pPrimeCore_eq_bot
         hD hO2 L hLn
@@ -139,7 +141,7 @@ theorem gw_alternatingGroup_four_or_commutator
             ⟨3, 1, Nat.prime_three, by decide, le_rfl, by simp⟩
           rw [Nat.card_congr eG.toEquiv, card_pgl2_eq_two_mul_card_psl2 hK3,
             Nat.card_congr e.toEquiv]
-          letI := Fintype.ofFinite K
+          let := Fintype.ofFinite K
           let eK : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_three
             (by simpa [Nat.card_eq_fintype_card] using h3)
           rw [Nat.card_congr (CFSG.GorensteinWalter.psl2RingEquiv eK).toEquiv]
@@ -153,7 +155,7 @@ theorem gw_alternatingGroup_four_or_commutator
     ·
       right
       obtain ⟨p, n, hp, hpodd, hn, hq⟩ := hK
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hgt : 3 < Nat.card K := by
         have hodd : Odd (Nat.card K) := hq ▸ hpodd.pow
         have hone : 1 < Nat.card K := Finite.one_lt_card

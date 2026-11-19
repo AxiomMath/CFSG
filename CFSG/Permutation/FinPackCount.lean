@@ -77,9 +77,9 @@ theorem blt_land_iff (m j : ℕ) :
       · simp [h, hk]
   rw [hx, Nat.blt_eq]
   by_cases h : m.testBit j = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨fun _ => h, fun _ => Nat.two_pow_pos j⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun h0 => absurd h0 (Nat.lt_irrefl 0), fun h' => absurd h' h⟩
 
 variable {n : ℕ}
@@ -92,7 +92,7 @@ noncomputable def ofVals (p : ℕ → ℕ) (hp : ∀ i < n, p i < n)
 theorem valF_ofVals (p : ℕ → ℕ) (hp : ∀ i < n, p i < n)
     (hi : ∀ i < n, ∀ j < n, p i = p j → i = j) {i : ℕ} (h : i < n) :
     valF (ofVals p hp hi) i = p i := by
-  rw [valF, dif_pos h]
+  rw [valF, dite_eq_left h]
   rfl
 
 open Classical in
@@ -119,7 +119,7 @@ theorem cntK_card_base (Q : ℕ → Bool) (p : ℕ → ℕ) (hp : ∀ i < n, p i
         refine Equiv.ext fun i => Fin.ext ?_
         have e1 := h1 i i.2
         have e2 := valF_ofVals p hp hi i.2
-        rw [valF, dif_pos i.2] at e1 e2
+        rw [valF, dite_eq_left i.2] at e1 e2
         rw [e1, ← e2]
       · rintro rfl
         refine ⟨Finset.mem_univ _, fun i h => valF_ofVals p hp hi h, ?_⟩
@@ -159,8 +159,8 @@ theorem cntK_card_aux (Q : ℕ → Bool) : ∀ r d (p : ℕ → ℕ), d + r = n 
         Bool.eq_false_iff.2 fun h => hu ((blt_land_iff _ _).1 h)
       rw [hb]
       let p' : ℕ → ℕ := fun i => if i < d then p i else j
-      have hpp : ∀ i < d, p' i = p i := fun i h => if_pos h
-      have hpd : p' d = j := if_neg (Nat.lt_irrefl d)
+      have hpp : ∀ i < d, p' i = p i := fun i h => ite_eq_left h
+      have hpd : p' d = j := ite_eq_right (Nat.lt_irrefl d)
       have hm : maskP p' (d + 1) = Nat.lor (maskP p d) (Nat.shiftLeft 1 j) := by
         change Nat.lor (maskP p' d) (Nat.shiftLeft 1 (p' d)) = _
         rw [maskP_congr hpp, hpd]

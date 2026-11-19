@@ -126,10 +126,10 @@ theorem abL_eq (A B B4 : V) (z : Int) :
   · rfl
   · rfl
   · change B4 = _
-    rw [Int.ofNat_eq_coe, if_neg (by omega), if_neg (by omega)]
+    rw [Int.ofNat_eq_natCast, ite_eq_right (by omega), ite_eq_right (by omega)]
   · rfl
   · change B4 = _
-    rw [Int.negSucc_eq, if_neg (by omega), if_neg (by omega)]
+    rw [Int.negSucc_eq, ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem abK_spec (hd : 0 < d) {I A B B4 : V} (hI : IdL d I) (hA : WF d A) (hB : WF d B)
     (hB4 : WF d B4) (w : List Int) :

@@ -24,6 +24,7 @@ section InducedDiagonal
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
   {ψ : Su F0 2 1 m →* G}
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB19_diag_mul (c c' : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag (c * c') =
       qTwoChartTwoThree_diag c * qTwoChartTwoThree_diag c' := by
@@ -32,6 +33,7 @@ theorem qtwoDB19_diag_mul (c c' : Fin m → F0ˣ) :
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB19_diag_one :
     qTwoChartTwoThree_diag (1 : Fin m → F0ˣ) = 1 := by
   apply Units.ext
@@ -39,12 +41,14 @@ theorem qtwoDB19_diag_one :
   rw [← Matrix.diagonal_one]
   congr 1
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB19_diag_inv (c : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag c⁻¹ = (qTwoChartTwoThree_diag c)⁻¹ := by
   have h : qTwoChartTwoThree_diag c * qTwoChartTwoThree_diag c⁻¹ = 1 := by
     rw [← qtwoDB19_diag_mul, mul_inv_cancel, qtwoDB19_diag_one]
   exact eq_inv_of_mul_eq_one_right h
 
+omit [Finite G] in
 theorem qtwoDB19_induces_mul {b₁ b₂ : G} {c₁ c₂ : Fin m → F0ˣ}
     (h₁ : qTwoChartTwoThree_induces ψ b₁ c₁) (h₂ : qTwoChartTwoThree_induces ψ b₂ c₂) :
     qTwoChartTwoThree_induces ψ (b₁ * b₂) (c₁ * c₂) := by
@@ -57,6 +61,7 @@ theorem qtwoDB19_induces_mul {b₁ b₂ : G} {c₁ c₂ : Fin m → F0ˣ}
   · rw [hψ₁, hψ₂]
     group
 
+omit [Finite G] in
 theorem qtwoDB19_induces_inv (hF0 : Nat.card F0 = 4) {b : G} {c : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_induces ψ b c) :
     qTwoChartTwoThree_induces ψ b⁻¹ c⁻¹ := by
@@ -72,6 +77,7 @@ theorem qtwoDB19_induces_inv (hF0 : Nat.card F0 = 4) {b : G} {c : Fin m → F0ˣ
   · rw [← hwv, hwψ]
     group
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB19_unit_sq_eq_one (hF0 : Nat.card F0 = 4) {x : F0ˣ} (hx : x * x = 1) :
     x = 1 := by
   have hcard : Nat.card F0ˣ = 3 := by rw [Nat.card_units F0, hF0]
@@ -82,6 +88,7 @@ theorem qtwoDB19_unit_sq_eq_one (hF0 : Nat.card F0 = 4) {x : F0ˣ} (hx : x * x =
     rwa [show Nat.gcd 2 3 = 1 from rfl] at h)
   exact orderOf_eq_one_iff.mp h1
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB19_diag_apply_eq_of_comm {e : Fin m → F0} {σ : Equiv.Perm (Fin m)}
     {P : Matrix (Fin m) (Fin m) F0} (hP : ∀ i, P *ᵥ Pi.single i 1 = Pi.single (σ i) 1)
     (h : Matrix.diagonal e * P = P * Matrix.diagonal e) (i : Fin m) : e (σ i) = e i := by
@@ -94,6 +101,7 @@ theorem qtwoDB19_diag_apply_eq_of_comm {e : Fin m → F0} {σ : Equiv.Perm (Fin 
   rw [h1] at h2
   simpa using h2
 
+omit [Finite G] in
 theorem qtwoDB19_induces_one_const (hF0 : Nat.card F0 = 4)
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) (hm : 3 ≤ m) {c : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_induces ψ (1 : G) c) : ∃ lam : F0ˣ, ∀ i, c i = lam := by
@@ -113,7 +121,7 @@ theorem qtwoDB19_induces_one_const (hF0 : Nat.card F0 = 4)
       funext x
       simp only [Function.comp_apply, Pi.single_apply]
       have hiff : σ x = k ↔ x = σ k := by
-        rw [Equiv.apply_eq_iff_eq_symm_apply, hσself]
+        rw [← _root_.Equiv.eq_symm_apply, hσself]
       exact if_congr hiff rfl rfl
     obtain ⟨u', hu', hu'ψ⟩ := h P
     have hzmem : u' * P⁻¹ ∈ Subgroup.center (Su F0 2 1 m) := by
@@ -167,6 +175,7 @@ theorem qtwoDB19_induces_one_const (hF0 : Nat.card F0 = 4)
       simpa [mul_assoc] using this
     exact this
 
+omit [Finite G] in
 theorem qtwoDB19_induces_div_const (hF0 : Nat.card F0 = 4)
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) (hm : 3 ≤ m) {b : G} {c c' : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_induces ψ b c) (h' : qTwoChartTwoThree_induces ψ b c') :
@@ -194,6 +203,7 @@ variable {Bs : Subgroup G} {L : Subgroup G} {𝒦 : Finset (Subgroup G)} {m : �
 theorem qtwoDB19_ofMul_toMul {α : Type*} [Mul α] (s : Additive α) :
     Additive.ofMul (Additive.toMul s) = s := rfl
 
+omit [Finite G] in
 theorem qtwoDB19_dEven_le_map (e' : Fin m ≃ ι)
     (hM : M = (ggCoxeterMatrixD m).reindex e')
     (hβ : ∀ (t : Fin m) (s : ↥Bs),
@@ -235,6 +245,7 @@ theorem qtwoDB19_dEven_le_map (e' : Fin m ≃ ι)
   have : Ψ u = w := by simpa [u] using h
   simpa [Ψ, a] using this
 
+omit [Finite G] in
 theorem qtwoDB19_map_le_dEven (e' : Fin m ≃ ι)
     (hM : M = (ggCoxeterMatrixD m).reindex e')
     (hβ : ∀ (t : Fin m) (s : ↥Bs),
@@ -275,6 +286,7 @@ theorem qtwoDB19_map_le_dEven (e' : Fin m ≃ ι)
   rw [← haw]
   exact hgen (Subgroup.mem_top w)
 
+omit [Finite G] in
 theorem qtwoDB19_coxRoot (e' : Fin m ≃ ι) (hM : M = (ggCoxeterMatrixD m).reindex e')
     (hβ : ∀ (t : Fin m) (s : ↥Bs),
       β (Additive.ofMul (((e (M.simple (e' t)) : ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) s)) =
@@ -339,6 +351,7 @@ theorem qtwoDB19_cox {B : Subgroup G} {x : G} {D J : Subgroup G}
   exact ggCoxRefl_of_cfg hcfg (ggAutomizerJoin_le_top L Bs 𝒦) hpres
     (reindexD_M_le_three e') hr hrefl
 
+omit [Finite G] in
 theorem qtwoDB19_node (e' : Fin m ≃ ι) (hM : M = (ggCoxeterMatrixD m).reindex e')
     (hβ : ∀ (t : Fin m) (s : ↥Bs),
       β (Additive.ofMul (((e (M.simple (e' t)) : ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) s)) =

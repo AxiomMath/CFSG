@@ -66,7 +66,7 @@ theorem ggSecFiveData_of_ff81b_typeA
     (hmark : LargeEvenMarking ↥L (fun lab _ _ _ _ _ => lab.tag = .A ∧ lab.rank = n ∧ lab.n = 1)) :
     GGSecFiveData 3 B x L D J := by
   obtain ⟨⟨hsimp, hna, hKP, hchar, -, -, hS, -⟩, hBs, -⟩ := hR.1
-  haveI := hsimp
+  have := hsimp
   have hxB : x ∈ B := hS.2.1
   have hx1 : x ≠ 1 := hS.2.2.1
   have hox : orderOf x = 3 := orderOf_eq_prime (hS.1.1.2 x hxB) hx1
@@ -131,7 +131,7 @@ theorem ggSecFiveData_of_ff81b_nbr
     GGSecFiveData 3 B x L D J := by
   have hAt : GGSecFiveWeylAt 3 B Bs x L D J CoxeterMatrix.F₄ := ⟨y, K, hNb, hWK⟩
   obtain ⟨⟨hsimp, hna, hKP, hchar, -, hβ, hS, -⟩, hBs, -⟩ := hR.1
-  haveI := hsimp
+  have := hsimp
   obtain ⟨hBmax, hyB, hy1, hKy, hPC, -⟩ := hNb.1
   have hy3 : y ^ 3 = 1 := hS.1.1.2 y hyB
   have hoy : orderOf y = 3 := orderOf_eq_prime hy3 hy1

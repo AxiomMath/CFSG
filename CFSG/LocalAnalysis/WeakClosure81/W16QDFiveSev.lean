@@ -43,8 +43,8 @@ theorem w16q_seven_fifteen_apply [Finite X] (d : DichCfg M V₀ V U S H φ)
         iSub (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))
           (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let V' : Subgroup (VG (D.img H)) := UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V)
   let E' : Subgroup (VG (D.img H)) := vHat (D.img H)
   let K' : Subgroup (VG (D.img H)) := kSub V' ⊤ E'
@@ -93,7 +93,7 @@ theorem w16q_seven_fifteen_apply [Finite X] (d : DichCfg M V₀ V U S H φ)
     let ρK : ↥(conjClosure V H) →* ↥(D.img (conjClosure V H)) :=
       (D.ρ.comp (Subgroup.inclusion d.cfg.conjClosure_le_H)).codRestrict _
         (fun k => D.mem_img.mpr
-          ⟨Subgroup.inclusion d.cfg.conjClosure_le_H k, by simpa using k.2, rfl⟩)
+          ⟨Subgroup.inclusion d.cfg.conjClosure_le_H k, by simp, rfl⟩)
     have hθρK : θ.toMonoidHom.comp φ = ρK :=
       MonoidHom.ext fun k => Subtype.ext (congrArg Subtype.val (hθφ k))
     rw [SevenK.barSub, Subgroup.map_map, hθρK]
@@ -171,7 +171,7 @@ theorem w16q_seven_fifteen_apply [Finite X] (d : DichCfg M V₀ V U S H φ)
       (MonoidHom.range_eq_map (Subgroup.inclusion hQK)).symm.trans
         (Subgroup.inclusion_range hQK)]
     exact hQ'map
-  haveI hInorm : (I'.subgroupOf Q').Normal := hkerψQ ▸ MonoidHom.normal_ker ψQ
+  have hInorm : (I'.subgroupOf Q').Normal := hkerψQ ▸ MonoidHom.normal_ker ψQ
   let ψQ' : ↥Q' →* ↥Oθ :=
     ψQ.codRestrict Oθ (fun q => hψQrange ▸ MonoidHom.mem_range.mpr ⟨q, rfl⟩)
   have hkerψQ' : ψQ'.ker = I'.subgroupOf Q' := by
@@ -186,8 +186,8 @@ theorem w16q_seven_fifteen_apply [Finite X] (d : DichCfg M V₀ V U S H φ)
   let e : (↥Q' ⧸ I'.subgroupOf Q') ≃* ↥Oθ :=
     (QuotientGroup.quotientMulEquivOfEq hkerψQ').symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective ψQ' hsurjψQ')
-  haveI hextOθ : CFSG.IsExtraspecial p ↥Oθ := by
-    haveI : CFSG.IsExtraspecial p ↥O := h.ext
+  have hextOθ : CFSG.IsExtraspecial p ↥Oθ := by
+    have : CFSG.IsExtraspecial p ↥O := h.ext
     exact w16q_isExtraspecial_of_mulEquiv
       (Subgroup.equivMapOfInjective O θ.toMonoidHom θ.injective)
   have hcardOθ : Nat.card ↥Oθ = Nat.card ↥O :=
@@ -198,7 +198,7 @@ theorem w16q_seven_fifteen_apply [Finite X] (d : DichCfg M V₀ V U S H φ)
     (Nat.card_congr e.toEquiv).trans (hcardOθ.trans h.card_O)
   have hexp' : Monoid.exponent (↥Q' ⧸ I'.subgroupOf Q') = p :=
     (Monoid.exponent_eq_of_mulEquiv e).trans (hexpOθ.trans hexp)
-  haveI hext : CFSG.IsExtraspecial p (↥Q' ⧸ I'.subgroupOf Q') :=
+  have hext : CFSG.IsExtraspecial p (↥Q' ⧸ I'.subgroupOf Q') :=
     w16q_isExtraspecial_of_mulEquiv e.symm
   obtain ⟨k, hk1, hk2, hk3, hk4⟩ :=
     seven_fifteen (G := VG (D.img H)) (p := p) h.ne_two hHyp.toHyp73.elemAbelian

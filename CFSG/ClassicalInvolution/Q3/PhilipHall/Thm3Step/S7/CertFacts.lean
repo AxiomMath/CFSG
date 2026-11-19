@@ -35,7 +35,7 @@ theorem le_centralizer_of_inf_eq_bot {A B : Subgroup Y} [A.Normal] [B.Normal] (h
 theorem inf_eq_bot_or_le {N H : Subgroup Y} [N.Normal] [H.Normal] (hs : IsSimpleGroup ↥N) :
     H ⊓ N = ⊥ ∨ N ≤ H := by
   have hn : ((H ⊓ N).subgroupOf N).Normal := Subgroup.Normal.subgroupOf inferInstance N
-  haveI := hs
+  have := hs
   rcases hn.eq_bot_or_eq_top with h | h
   · left
     rw [eq_bot_iff]
@@ -66,7 +66,7 @@ theorem oddCore_eq_bot_of_normal {N : Subgroup Y} [N.Normal] (hs : IsSimpleGroup
 theorem omegaGen_q8Fam_eq_top {N : Subgroup Y} [N.Normal] (hs : IsSimpleGroup ↥N)
     (hC : Subgroup.centralizer (N : Set Y) = ⊥) (hidx : N = ⊤ ∨ N.index = 2) {T : Subgroup Y}
     (hT : T ∈ q8Fam Y) (hTN : N.index = 2 → ¬ T ≤ N) : omegaGen (q8Fam Y) = ⊤ := by
-  haveI : (omegaGen (q8Fam Y)).Normal := omegaGen_normal conjInvariant_q8Fam
+  have : (omegaGen (q8Fam Y)).Normal := omegaGen_normal conjInvariant_q8Fam
   have hTH : T ≤ omegaGen (q8Fam Y) := le_omegaGen hT
   rcases inf_eq_bot_or_le (H := omegaGen (q8Fam Y)) hs with h | h
   · exfalso
@@ -104,7 +104,7 @@ theorem rowClassAEmpty_of_g23 (hG : RowClassAEmptyG23) : S7.RowClassAEmpty := by
   obtain ⟨z, hz⟩ := (hK.hyp.omega1 K hKm).1
   rcases hmod with hG23 | ⟨N, hN, hidx, hLie⟩ | hM12
   · exact hG X hO hG23 K hK
-  · haveI := hN
+  · have := hN
     have hC := S5.centralizer_eq_bot_of_u33 hidx hLie h2
     obtain ⟨θ, -⟩ := S5.exists_u33_model hidx hLie hC
     obtain ⟨a, haK, haz⟩ := S3.exists_mul_self_eq hK hKm hz
@@ -137,7 +137,7 @@ theorem rowClassAEmpty_proved : S7.RowClassAEmpty :=
 theorem inspectionFacts_proved : S7.InspectionFacts := by
   intro Y _ _ hmod K hK
   rcases hmod with ⟨N, hN, hidx, hLie, hC⟩ | hM12
-  · haveI := hN
+  · have := hN
     obtain ⟨θ, hθ⟩ := S5.exists_u33_model hidx hLie hC
     obtain ⟨hA, hV⟩ := U33S7.aStar_vStar θ K hK
     refine thm3RConclG_of_aStar_vStar hA hV ?_
@@ -174,8 +174,8 @@ theorem inspectionFacts_proved : S7.InspectionFacts := by
     obtain ⟨hA, hV⟩ := M12S7.aStar_vStar θ K hK
     refine thm3RConclG_of_aStar_vStar hA hV ?_
     obtain ⟨h1, -, hz1, -, -⟩ := M12S7.basic_spec
-    haveI : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-    haveI : IsSimpleGroup Y := θ.isSimpleGroup
+    have : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+    have : IsSimpleGroup Y := θ.isSimpleGroup
     have hs : IsSimpleGroup ↥(⊤ : Subgroup Y) := Subgroup.topEquiv.isSimpleGroup
     have hC : Subgroup.centralizer ((⊤ : Subgroup Y) : Set Y) = ⊥ := by
       rw [Subgroup.coe_top, Subgroup.centralizer_univ, eq_bot_iff]

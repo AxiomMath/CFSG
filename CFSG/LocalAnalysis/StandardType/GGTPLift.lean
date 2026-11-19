@@ -59,7 +59,7 @@ theorem ggTPLift {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] 
     have hc := (Subgroup.mem_center_iff.mp hx2) (Subgroup.inclusion hJK y)
     exact Subgroup.inclusion_injective hJK (by simpa only [map_mul] using hc)
   have hIperf : ⁅Ī, Ī⁆ = Ī := by
-    haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.1
+    have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.1
     exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.range (f := j))
   have hmapI : Ĩ.map (QuotientGroup.mk' Z₀) = Ī :=
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective Z₀) Ī
@@ -120,7 +120,7 @@ theorem ggTPLift {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] 
       iso.injective) hg2ker_dvd
   let π0 : ↥X₀ →* ↥J ⧸ Subgroup.center ↥J := g2'.comp f
   have hπ0surj : Function.Surjective π0 := hg2'surj.comp hfsurj
-  haveI : Finite ↥X₀ := inferInstance
+  have : Finite ↥X₀ := inferInstance
   have hπ0card : Nat.card π0.ker = Nat.card f.ker * Nat.card g2'.ker := by
     change Nat.card (g2'.comp f).ker = Nat.card f.ker * Nat.card g2'.ker
     exact ggTP_card_ker_comp hfsurj hg2'surj

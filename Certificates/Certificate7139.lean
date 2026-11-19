@@ -18,6 +18,6 @@ theorem certificate7139 : s0Check = true ∧ j0Check = true ∧ x0Check = true �
     x0Check_of ch7139_canon ch7139_x0, oddGenCheck_of ch7139_canon ch7139_odd,
     lineCheck_of ch7139_canon ch7139_line, fixCheck_of ch7139_canon ch7139_fix,
     kerCheck_of ch7139_canon ch7139_ker, e9Check_of ch7139_canon ch7139_e9,
-    ffRepCheck_of ch7139_canon ch7139_ff, u0Check_of ch7139_canon ch7139_u0⟩
+    ffRepCheck_of ch7139_ff, u0Check_of ch7139_canon ch7139_u0⟩
 
 end Certificates

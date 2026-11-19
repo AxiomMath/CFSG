@@ -128,19 +128,19 @@ theorem centSplitOn_M5 : CentSplitOn M5 := by
       have h := Subgroup.map_mono (f := (τ : M5 →* M5)) hK
       rwa [map_centralizer_singleton (e := τ)] at h
     have hKmapSolv : Group.IsSolvable ↥(K.map (τ : M5 →* M5)) := by
-      haveI := hCsolv
+      have := hCsolv
       exact Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion hKmaple) (Subgroup.inclusion_injective hKmaple)
     have hKsolv : Group.IsSolvable ↥K := by
       let e : ↥K ≃* ↥(K.map (τ : M5 →* M5)) :=
         K.equivMapOfInjective (τ : M5 →* M5) τ.injective
-      haveI := hKmapSolv
+      have := hKmapSolv
       exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     have hKbot : K = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hne
-      haveI : Group.IsPerfect ↥K := hKperf
-      haveI := hKsolv
+      have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hne
+      have : Group.IsPerfect ↥K := hKperf
+      have := hKsolv
       exact (Group.IsPerfect.not_isSolvable ↥K) hKsolv
     rw [hKbot, Subgroup.card_bot] at h5
     exact absurd h5 (by norm_num)

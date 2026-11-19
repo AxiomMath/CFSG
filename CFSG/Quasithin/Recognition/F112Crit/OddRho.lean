@@ -16,17 +16,17 @@ variable {G : Type} [Group G] {G₀ G₁ G₂ : Subgroup G}
 theorem rhoNbrs_eq_zero_iff {x : G} {δ : CosetGeom G₀ G₁ G₂} :
     rhoNbrs x δ = 0 ↔ x ∈ ballStab 1 δ := by
   by_cases h : x ∈ ballStab 1 δ
-  · simp only [rhoNbrs, if_pos h]
+  · simp only [rhoNbrs, ite_eq_left h]
     exact ⟨fun _ => h, fun _ => trivial⟩
-  · simp only [rhoNbrs, if_neg h]
+  · simp only [rhoNbrs, ite_eq_right h]
     exact ⟨fun h0 => absurd h0 (by decide), fun hb => absurd hb h⟩
 
 theorem rhoNbrs_eq_one_iff {x : G} {δ : CosetGeom G₀ G₁ G₂} :
     rhoNbrs x δ = 1 ↔ x ∉ ballStab 1 δ := by
   by_cases h : x ∈ ballStab 1 δ
-  · simp only [rhoNbrs, if_pos h]
+  · simp only [rhoNbrs, ite_eq_left h]
     exact ⟨fun h0 => absurd h0 (by decide), fun hb => absurd h hb⟩
-  · simp only [rhoNbrs, if_neg h]
+  · simp only [rhoNbrs, ite_eq_right h]
     exact ⟨fun _ => h, fun _ => trivial⟩
 
 private theorem smul_mem_nbrs_of_mem_stab {δ : CosetGeom G₀ G₁ G₂} {g : ↥G₀}
@@ -104,8 +104,8 @@ private theorem rhoNbrs_eq_ite (hG : G₀ = G₁ ⊔ G₂) {δ μ ε ε' : Coset
     rhoNbrs (g : G) δ = if g • ε = ε then 0 else 1 := by
   have h := mem_ballStab_one_iff_smul hG hS hμε hμε' hee' hg
   by_cases hc : g • ε = ε
-  · rw [rhoNbrs_eq_zero_iff.mpr (h.mpr hc), if_pos hc]
-  · rw [rhoNbrs_eq_one_iff.mpr (fun hb => hc (h.mp hb)), if_neg hc]
+  · rw [rhoNbrs_eq_zero_iff.mpr (h.mpr hc), ite_eq_left hc]
+  · rw [rhoNbrs_eq_one_iff.mpr (fun hb => hc (h.mp hb)), ite_eq_right hc]
 
 theorem rhoNbrs_mul (hG : G₀ = G₁ ⊔ G₂) {δ μ : CosetGeom G₀ G₁ G₂} (h3 : (nbrs δ).ncard = 3)
     (hμ : μ ∈ nbrs δ) {x y : G} (hx : x ∈ stab δ ⊓ stab μ) (hy : y ∈ stab δ ⊓ stab μ) :

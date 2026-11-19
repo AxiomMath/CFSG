@@ -74,9 +74,9 @@ theorem j2C_mem : j2C ∈ P := by
   refine P.list_prod_mem fun g hg => ?_
   obtain ⟨b, -, rfl⟩ := List.mem_map.1 hg
   cases b
-  · rw [if_neg Bool.false_ne_true]
+  · rw [ite_eq_right Bool.false_ne_true]
     exact permA_mem
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact permB_mem
 
 @[expose] noncomputable def j2X : Equiv.Perm (Fin 315) := permOfArr 315 uStrong[0]!

@@ -203,14 +203,14 @@ theorem k0Reach_spec (D : K0Diag) {nodes : List ℕ} (hnd : nodes.Nodup) {start 
 
 private theorem k0CompsAux_cons_of_mem (D : K0Diag) (i : ℕ) (rest seen : List ℕ)
     (h : i ∈ seen) : k0CompsAux D (i :: rest) seen = k0CompsAux D rest seen := by
-  rw [k0CompsAux.eq_2, if_pos h]
+  rw [k0CompsAux.eq_2, ite_eq_left h]
 
 private theorem k0CompsAux_cons_of_not_mem (D : K0Diag) (i : ℕ) (rest seen : List ℕ)
     (h : i ∉ seen) :
     k0CompsAux D (i :: rest) seen =
       k0SortNat (k0Reach D (i :: rest) false i 0) ::
         k0CompsAux D rest (seen ++ k0SortNat (k0Reach D (i :: rest) false i 0)) := by
-  rw [k0CompsAux.eq_2, if_neg h]
+  rw [k0CompsAux.eq_2, ite_eq_right h]
 
 private theorem k0EqvGen_restrict (D : K0Diag) {zero l : List ℕ} {i : ℕ}
     (hC : ∀ a, Relation.EqvGen (fun a b => a ∈ zero ∧ b ∈ zero ∧ 0 < D.adj a b) i a → a ∈ l) :

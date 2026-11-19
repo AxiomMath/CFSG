@@ -119,7 +119,7 @@ theorem involution_eq_of_centralizing_of_two_part_one
   obtain ⟨S, htS⟩ := httwo.exists_le_sylow
   have hzS : zC ∈ (S : Subgroup C) := hztwo.le_sylow_of_normal S (Subgroup.mem_zpowers zC)
   have htS' : tC ∈ (S : Subgroup C) := htS (Subgroup.mem_zpowers tC)
-  obtain ⟨P, hSP⟩ := (S.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨P, hSP⟩ := (S.isPGroup.map C.subtype).exists_le_sylow
   have hcardle : Nat.card (S : Subgroup C) ≤ 2 := by
     have h := Subgroup.card_le_of_le hSP
     rw [Subgroup.card_map_of_injective C.subtype_injective, P.card_eq_multiplicity,

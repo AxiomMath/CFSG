@@ -33,7 +33,7 @@ theorem qX2_surjective (a : S23_9_AdjData D Ch c hV d b hb r)
 theorem qX2_ker (a : S23_9_AdjData D Ch c hV d b hb r) :
     (qX2 a).ker = (CFSG.pCore 2 ↥a.X).comap (Subgroup.inclusion (X2_le_X a)) := by
   ext x
-  simp [qX2, S23_9_AdjData.qX, QuotientGroup.ker_mk']
+  simp [qX2, S23_9_AdjData.qX]
 
 theorem isPGroup_ker_qX2 (a : S23_9_AdjData D Ch c hV d b hb r) :
     IsPGroup 2 (qX2 a).ker := by
@@ -64,7 +64,7 @@ theorem rhoW_irreducible (a : S23_9_AdjData D Ch c hV d b hb r)
   unfold Representation.IsIrreducible
   rw [isSimpleOrder_iff_isAtom_top, isAtom_iff_le_of_ge]
   refine ⟨?_, ?_⟩
-  · haveI : Nontrivial ↥W := by
+  · have : Nontrivial ↥W := by
       rwa [Submodule.nontrivial_iff_ne_bot]
     exact top_ne_bot
   · intro τ hτne hτle
@@ -171,9 +171,9 @@ theorem map_ker_rhoW_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
     (hWU : W ≤ d.fixV (barImage D.M (Subgroup.zpowers (ctilde a)))) (hWne : W ≠ ⊥) :
     (rhoW a hWinv).ker.map (qX2 a) = ⊥ := by
   by_contra hne
-  haveI : IsSimpleGroup (Bar2 a.X) := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two a.hm2 a.hXsl
+  have : IsSimpleGroup (Bar2 a.X) := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two a.hm2 a.hXsl
   have hq2surj : Function.Surjective (qX2 a) := qX2_surjective a hbr hr3
-  haveI : ((rhoW a hWinv).ker.map (qX2 a)).Normal :=
+  have : ((rhoW a hWinv).ker.map (qX2 a)).Normal :=
     (MonoidHom.normal_ker (rhoW a hWinv)).map (qX2 a) hq2surj
   have htop : (rhoW a hWinv).ker.map (qX2 a) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((rhoW a hWinv).ker.map (qX2 a)) with h | h
@@ -192,7 +192,7 @@ theorem map_ker_rhoW_eq_bot (a : S23_9_AdjData D Ch c hV d b hb r)
       (T := (qX2 a).ker) hm hk
   have hP : IsPGroup 2 (qX2 a).ker := isPGroup_ker_qX2 a
   have hperf : ⁅(⊤ : Subgroup ↥(X2 a)), (⊤ : Subgroup ↥(X2 a))⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
+    have : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
     rw [← _root_.commutator_def]
     exact Group.IsPerfect.commutator_eq_top
   have hle : (⊤ : Subgroup ↥(X2 a)) ≤ (rhoW a hWinv).ker :=
@@ -246,9 +246,9 @@ theorem normalClosure_zpowers_dRoot_eq_top (a : S23_9_AdjData D Ch c hV d b hb r
   let x : ↥(X2 a) := ⟨a.dRoot, a.dRoot_mem_X2 hbr hr3⟩
   let M : Subgroup ↥(X2 a) := Subgroup.normalClosure (Subgroup.zpowers x : Set ↥(X2 a))
   have hq2surj : Function.Surjective (qX2 a) := qX2_surjective a hbr hr3
-  haveI : IsSimpleGroup (Bar2 a.X) := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two a.hm2 a.hXsl
+  have : IsSimpleGroup (Bar2 a.X) := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two a.hm2 a.hXsl
   have hMnormal : M.Normal := Subgroup.normalClosure_normal
-  haveI : (M.map (qX2 a)).Normal := hMnormal.map (qX2 a) hq2surj
+  have : (M.map (qX2 a)).Normal := hMnormal.map (qX2 a) hq2surj
   have hq2x : (qX2 a) x = a.dhat := rfl
   have hq2x_ne : (qX2 a) x ≠ 1 := by
     have hord : orderOf ((qX2 a) x) = 3 := by
@@ -281,7 +281,7 @@ theorem normalClosure_zpowers_dRoot_eq_top (a : S23_9_AdjData D Ch c hV d b hb r
       (T := (qX2 a).ker) hm hk
   have hP : IsPGroup 2 (qX2 a).ker := isPGroup_ker_qX2 a
   have hperf : ⁅(⊤ : Subgroup ↥(X2 a)), (⊤ : Subgroup ↥(X2 a))⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
+    have : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
     rw [← _root_.commutator_def]
     exact Group.IsPerfect.commutator_eq_top
   have hle : (⊤ : Subgroup ↥(X2 a)) ≤ M :=
@@ -323,7 +323,7 @@ theorem card_Dsub (a : S23_9_AdjData D Ch c hV d b hb r)
     rw [rhoW_apply, rhoX_apply] at h2
     exact hne h2
   have hdisj : Subgroup.zpowers x ⊓ (rhoW a hWinv).ker = ⊥ := by
-    haveI : Fact (Nat.card ↥(Subgroup.zpowers x)).Prime := ⟨by rw [hzx]; norm_num⟩
+    have : Fact (Nat.card ↥(Subgroup.zpowers x)).Prime := ⟨by rw [hzx]; norm_num⟩
     have h := Subgroup.eq_bot_or_eq_top_of_prime_card
       ((Subgroup.zpowers x ⊓ (rhoW a hWinv).ker).subgroupOf (Subgroup.zpowers x))
     rcases h with hbot | htop
@@ -356,8 +356,8 @@ theorem isElemAbelian_Dsub (a : S23_9_AdjData D Ch c hV d b hb r)
     IsElemAbelian 3 (Dsub a hbr hr3 hWinv) := by
   have hcard := card_Dsub a hbr hr3 hfixb hWinv hWU hWne
   constructor
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥(Dsub a hbr hr3 hWinv) := isCyclic_of_prime_card (p := 3) hcard
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥(Dsub a hbr hr3 hWinv) := isCyclic_of_prime_card (p := 3) hcard
     exact IsCyclic.isMulCommutative
   · intro x hx
     have h := pow_card_eq_one' (x := (⟨x, hx⟩ : ↥(Dsub a hbr hr3 hWinv)))
@@ -365,7 +365,7 @@ theorem isElemAbelian_Dsub (a : S23_9_AdjData D Ch c hV d b hb r)
     simpa using h
 
 theorem exists_k462_quotient (a : S23_9_AdjData D Ch c hV d b hb r)
-    (hbr : orderOf b = r) (hr3 : r = 3) (hq3 : r ≠ d.q)
+    (hbr : orderOf b = r) (hr3 : r = 3) (_hq3 : r ≠ d.q)
     (hfixb : d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥)
     (hc : d.fixV (barImage D.M (Subgroup.zpowers (ctilde a))) ≠ ⊥)
     (hK462 : CFSG.LocalAnalysis.UniquenessCase.UCK.K462) :
@@ -379,12 +379,12 @@ theorem exists_k462_quotient (a : S23_9_AdjData D Ch c hV d b hb r)
       ∃ f : H →* Bar2 a.X, Function.Surjective f := by
   classical
   obtain ⟨W, hWU, hWne, hWinv, hWmin⟩ := a.exists_W hc
-  haveI : Fact d.q.Prime := ⟨d.hq⟩
+  have : Fact d.q.Prime := ⟨d.hq⟩
   have h2q : 2 < d.q := by
     rcases lt_or_eq_of_le d.hq.two_le with h | h
     · exact h
     · exact absurd h.symm d.hq2
-  haveI hIrrW : Representation.IsIrreducible (rhoW a hWinv) :=
+  have hIrrW : Representation.IsIrreducible (rhoW a hWinv) :=
     a.rhoW_irreducible hWinv hWne hWmin
   have hFaith : Function.Injective (rhoH a hWinv) := a.rhoH_faithful hWinv
   have hIrrH : Representation.IsIrreducible (rhoH a hWinv) := a.rhoH_irreducible hWinv
@@ -400,7 +400,7 @@ theorem exists_k462_quotient (a : S23_9_AdjData D Ch c hV d b hb r)
   have hN3 : ¬ 3 ∣ Nat.card (rhoW a hWinv).ker :=
     a.not_three_dvd_ker_rhoW hbr hr3 hfixb hWinv hWU hWne
   have hpRank_le : CFSG.Open.pRank 3 (⊤ : Subgroup (Hq a hWinv)) ≤ 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     calc CFSG.Open.pRank 3 (⊤ : Subgroup (Hq a hWinv))
         = CFSG.Open.pRank 3 (⊤ : Subgroup ↥(X2 a)) :=
           CFSG.SectionRank.pRank_quotient_eq (rhoW a hWinv).ker hN3
@@ -425,8 +425,8 @@ theorem exists_k462_quotient (a : S23_9_AdjData D Ch c hV d b hb r)
     CFSG.Open.IsKGroup.of_le (H := D.M) hKG (X2_le_DM a)
   have hKH : CFSG.Open.IsKGroup (Hq a hWinv) := hKX2.quotient (rhoW a hWinv).ker
   have hcomm : commutator (Hq a hWinv) = ⊤ := by
-    haveI : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
-    haveI : Group.IsPerfect (Hq a hWinv) := inferInstance
+    have : Group.IsPerfect ↥(X2 a) := Subgroup.isPerfect_iff.mpr (X2_perfect a)
+    have : Group.IsPerfect (Hq a hWinv) := inferInstance
     exact Group.IsPerfect.commutator_eq_top
   have hconc := hK462 d.q h2q (Hq a hWinv) hKH ↥W (rhoH a hWinv) hFaith hIrrH
     (Dsub a hbr hr3 hWinv) hDcard hDnc hFixD hpRank hcomm
@@ -452,8 +452,8 @@ theorem s23_9_A4_of (D : Data G) (Ch : Choice2011 G) : S23_9_A4 D Ch := by
     a.fixV_ctilde_ne_bot hbr hr3 hrq hfixb
   obtain ⟨H, hHgrp, hHfin, hHalt, f, hfsurj⟩ :=
     a.exists_k462_quotient hbr hr3 hrq hfixb hc hK462
-  letI : Group H := hHgrp
-  letI : Finite H := hHfin
+  let : Group H := hHgrp
+  let : Finite H := hHfin
   exact CFSG.GroupTheory.not_surjective_of_k462_alternative
     (a.hparity hpow hnsu44).1 (a.hparity hpow hnsu44).2 a.hXsl hHalt f hfsurj
 

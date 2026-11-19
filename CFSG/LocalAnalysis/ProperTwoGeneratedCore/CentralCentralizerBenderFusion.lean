@@ -155,13 +155,13 @@ theorem coreSetting_exists_central_involution_mem_component :
     apply hTne
     apply (Subgroup.map_eq_bot_iff_of_injective _ J.subtype_injective).mp
     rw [hT, inf_comm, ← Subgroup.subgroupOf_map_subtype, h, Subgroup.map_bot]
-  obtain ⟨rb, hrbJ, hrbZ, hrb2⟩ := exists_involution_mem_inf_center Sbar.isPGroup' hR
+  obtain ⟨rb, hrbJ, hrbZ, hrb2⟩ := exists_involution_mem_inf_center Sbar.isPGroup hR
   have hrbS : (rb : EscapingQuotient z) ∈ ((S : Subgroup G).subgroupOf M).map (escapingMk z) :=
     hSbar ▸ rb.property
   obtain ⟨r, hrS, hrmk⟩ := Subgroup.mem_map.mp hrbS
   rw [Subgroup.mem_subgroupOf] at hrS
   have hinj := fun {a b : M} (ha : (a : G) ∈ (S : Subgroup G)) (hb : (b : G) ∈ (S : Subgroup G))
-    (hab : escapingMk z a = escapingMk z b) => escapingMk_injOn_twoGroup S.isPGroup' ha hb hab
+    (hab : escapingMk z a = escapingMk z b) => escapingMk_injOn_twoGroup S.isPGroup ha hb hab
   have hr1 : r ≠ 1 := by
     rintro rfl
     rw [map_one] at hrmk

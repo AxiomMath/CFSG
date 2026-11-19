@@ -69,6 +69,7 @@ theorem actN_G (e : ↥K ≃* S3) (n : ↥(Subgroup.normalizer (K : Set G))) (s 
   rw [actN_apply, e.symm_apply_apply]
   rfl
 
+omit [Finite G] in
 theorem actN_eq_iff (e : ↥K ≃* S3) (n : ↥(Subgroup.normalizer (K : Set G))) (s t : S3) :
     actN e n s = t ↔ (n : G) * ((e.symm s : ↥K) : G) * (n : G)⁻¹ = ((e.symm t : ↥K) : G) := by
   rw [← actN_G e n s]
@@ -78,10 +79,12 @@ theorem actN_eq_iff (e : ↥K ≃* S3) (n : ↥(Subgroup.normalizer (K : Set G))
   · intro h
     exact e.symm.injective (Subtype.ext h)
 
+omit [Finite G] in
 theorem actN_k (e : ↥K ≃* S3) (n : ↥(Subgroup.normalizer (K : Set G))) (k : ↥K) :
     ((e.symm (actN e n (e k)) : ↥K) : G) = (n : G) * (k : G) * (n : G)⁻¹ := by
   rw [actN_G, e.symm_apply_apply]
 
+omit [Finite G] in
 theorem actN_of_mem (e : ↥K ≃* S3) {k : G} (hk : k ∈ K) :
     actN e ⟨k, Subgroup.le_normalizer hk⟩ = MulAut.conj (e ⟨k, hk⟩) := by
   apply MulEquiv.ext
@@ -92,6 +95,7 @@ theorem actN_of_mem (e : ↥K ≃* S3) {k : G} (hk : k ∈ K) :
   rw [this]
   rfl
 
+omit [Finite G] in
 theorem actN_eq_one_iff (e : ↥K ≃* S3) (n : ↥(Subgroup.normalizer (K : Set G))) :
     actN e n = 1 ↔ ∀ k ∈ K, (n : G) * k = k * (n : G) := by
   constructor
@@ -136,6 +140,7 @@ theorem inv_class_of
     group
   exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem z4_of
     (e : ↥K ≃* S3) (hb : Nat.card (MulAut S3) ≤ 2 * Nat.card S3) :
     ∀ u ∈ K, u ≠ 1 → u ^ 2 = 1 → ∀ y ∈ Subgroup.normalizer (K : Set G),
@@ -219,6 +224,7 @@ omit [Finite G] in
 theorem actA_apply (e : ↥K ≃* S3) {A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (K : Set G))
     (a : ↥A) : actA e hAN a = actN e ⟨(a : G), hAN a.2⟩ := rfl
 
+omit [Finite G] in
 theorem actA_injective (e : ↥K ≃* S3) {A : Subgroup G} (hA : IsAutPair K A)
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) : Function.Injective (actA e hAN) := by
   rw [injective_iff_map_eq_one]
@@ -230,6 +236,7 @@ theorem actA_injective (e : ↥K ≃* S3) {A : Subgroup G} (hA : IsAutPair K A)
   rw [hA.2.2, Subgroup.mem_bot] at this
   exact Subtype.ext this
 
+omit [Finite G] in
 theorem actA_surjective (e : ↥K ≃* S3) (hb : Nat.card (MulAut S3) ≤ 2 * Nat.card S3)
     {A : Subgroup G} (hA : IsAutPair K A) (hAN : A ≤ Subgroup.normalizer (K : Set G)) :
     Function.Surjective (actA e hAN) := by
@@ -238,10 +245,12 @@ theorem actA_surjective (e : ↥K ≃* S3) (hb : Nat.card (MulAut S3) ≤ 2 * Na
   have := (actA_injective e hA hAN).bijective_of_nat_card_le (by rw [hcard]; exact hb)
   exact this.2
 
+omit [Finite G] in
 theorem actA_of_mem (e : ↥K ≃* S3) {A : Subgroup G} (hA : IsAutPair K A)
     (hAN : A ≤ Subgroup.normalizer (K : Set G)) {k : G} (hk : k ∈ K) :
     actA e hAN ⟨k, hA.1 hk⟩ = MulAut.conj (e ⟨k, hk⟩) := actN_of_mem e hk
 
+omit [Finite G] in
 theorem outer_decomp
     (e : ↥K ≃* S3) (hb : Nat.card (MulAut S3) ≤ 2 * Nat.card S3)
     {A : Subgroup G} (hA : IsAutPair K A) (hAN : A ≤ Subgroup.normalizer (K : Set G)) {f : G}

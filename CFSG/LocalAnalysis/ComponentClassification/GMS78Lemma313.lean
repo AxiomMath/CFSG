@@ -46,7 +46,7 @@ theorem exists_mem_normalizer_of_not_isSylowOf {P : Subgroup G} (hP : IsPGroup 2
       rw [htop]
       trivial
     exact mem_subgroupOf.mp this
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt := Group.normalizerCondition_of_isNilpotent (G := (S : Subgroup G)) I hIlt
   obtain ⟨x, hxN, hxI⟩ := IsConcreteLE.exists_of_lt hlt
   have hxN' : (x : G) ∈ normalizer (P : Set G) := by
@@ -85,7 +85,7 @@ theorem exists_mem_normalizer_not_mem (h : Sec3 G L T) (hTG : ¬ IsSylowOf 2 T �
     ∃ y ∈ normalizer (T : Set G), y ∉ normalizer (L : Set G) := by
   obtain ⟨S, hTS, z, hzS, hzN, hzT⟩ :=
     exists_mem_normalizer_of_not_isSylowOf h.sylow.isPGroup hTG
-  exact ⟨z, hzN, fun hzM => hzT (h.mem_of_mem_normalizer S.isPGroup' hTS hzS hzM)⟩
+  exact ⟨z, hzN, fun hzM => hzT (h.mem_of_mem_normalizer S.isPGroup hTS hzS hzM)⟩
 
 theorem exists_mem_normalizer_sq_mem (h : Sec3 G L T) (hTG : ¬ IsSylowOf 2 T ⊤) :
     ∃ S : Sylow 2 G, T ≤ S ∧ ∃ y ∈ (S : Subgroup G), y ∈ normalizer (T : Set G) ∧
@@ -93,7 +93,7 @@ theorem exists_mem_normalizer_sq_mem (h : Sec3 G L T) (hTG : ¬ IsSylowOf 2 T �
   classical
   obtain ⟨S, hTS, z, hzS, hzN, hzT⟩ :=
     exists_mem_normalizer_of_not_isSylowOf h.sylow.isPGroup hTG
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨z, hzS⟩
   have hn' : z ^ 2 ^ n ∈ T := by
     have := congrArg Subtype.val hn
     simp only [SubmonoidClass.coe_pow, OneMemClass.coe_one] at this
@@ -113,7 +113,7 @@ theorem exists_mem_normalizer_sq_mem (h : Sec3 G L T) (hTG : ¬ IsSylowOf 2 T �
     exact hjT
   have hyS : y ∈ (S : Subgroup G) := pow_mem hzS _
   refine ⟨S, hTS, y, hyS, pow_mem hzN _, fun hyM => hyT ?_, hy2⟩
-  exact h.mem_of_mem_normalizer S.isPGroup' hTS hyS hyM
+  exact h.mem_of_mem_normalizer S.isPGroup hTS hyS hyM
 
 namespace Facts
 

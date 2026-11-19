@@ -24,6 +24,7 @@ structure Hyp78 (V H E J L : Subgroup G) : Prop extends Hyp73 V H E J where
 
 section General
 
+omit [Finite G] in
 private theorem relIndex_conjSubgroup_eq (A B : Subgroup G) (k : G) :
     (conjSubgroup A k).relIndex (conjSubgroup B k) = A.relIndex B := by
   simp only [CFSG.Quasithin.conjSubgroup]
@@ -33,7 +34,7 @@ theorem commutator_le_of_two_lt_relIndex {V H E J L N : Subgroup G} (h : Hyp73 V
     (htr : ∀ U ∈ omegaSet V H E, ∃ k ∈ kSub V H E, U = conjSubgroup V k)
     (hbig : 2 < J.relIndex V) (hLK : L ≤ kSub V H E) (hL : IsGeneratedByOmega V H E L)
     (hNK : N ≤ kSub V H E) (hNnorm : kSub V H E ≤ Subgroup.normalizer (N : Set G))
-    (hJN : kSub V H E ⊓ J ≤ N) (hNodd : Odd ((kSub V H E ⊓ J).relIndex N)) :
+    (_hJN : kSub V H E ⊓ J ≤ N) (hNodd : Odd ((kSub V H E ⊓ J).relIndex N)) :
     ⁅L, N⁆ ≤ J := by
   have hKleH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
   have hJleH : J ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
@@ -50,7 +51,7 @@ theorem commutator_le_of_two_lt_relIndex {V H E J L N : Subgroup G} (h : Hyp73 V
     rwa [hJk] at hstep
   have hNleH : N ≤ H := hNK.trans hKleH
   have hRodd : Odd (J.relIndex (N ⊔ J)) := by
-    haveI : (J.subgroupOf H).Normal := h.jnormal
+    have : (J.subgroupOf H).Normal := h.jnormal
     have hsup_le : N ⊔ J ≤ H := sup_le hNleH hJleH
     have h1 : (J.subgroupOf H).relIndex (N.subgroupOf H ⊔ J.subgroupOf H) =
         (J.subgroupOf H).relIndex (N.subgroupOf H) :=
@@ -114,6 +115,7 @@ theorem commutator_le_of_two_lt_relIndex {V H E J L N : Subgroup G} (h : Hyp73 V
       (by rw [hgen]; exact hl) hmem hone hmul
   exact hCl.2 n hn
 
+omit [Finite G] in
 theorem seven_eight_relIndex_conjSubgroup_eq_two {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
     (hV2 : J.relIndex V = 2) {x : G} (hx : x ∈ pCoreOf 2 L) :
     J.relIndex (conjSubgroup V x) = 2 := by

@@ -67,7 +67,7 @@ theorem exists_sylow_quot (hZ : Odd (Nat.card (center L))) {P : Subgroup G}
   let R : Sylow 2 (rankTwoQuot L) := Q.mapSurjective (f := π) (QuotientGroup.mk'_surjective _)
   have hR : (R : Subgroup (rankTwoQuot L)) = (Q : Subgroup L).map π := rfl
   have hbot : (Q : Subgroup L) ⊓ center L = ⊥ :=
-    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup'.to_inf_left hZ
+    AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) Q.isPGroup.to_inf_left hZ
       inf_le_right
   refine ⟨R, fun x hx => ?_, fun x y hx hy hxy => ?_, ?_, fun n hn r hr => ?_⟩
   · rw [hR]

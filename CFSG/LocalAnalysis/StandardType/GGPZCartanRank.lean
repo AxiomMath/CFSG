@@ -87,7 +87,7 @@ theorem ggIntCartan_card_le_rank_add_one {Λ : Type} [Fintype Λ] [DecidableEq �
   · by_cases hp3 : p = 3
     · subst hp3
       refine key e _ hE6 ⟨![1, 0, 2, 0, 1, 2], fun c hc => ?_⟩
-      have hcE : ∀ j, ∑ k, (CartanMatrix.E₆ j k : ZMod 3) * c k = 0 := by
+      have hcE : ∀ j, ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * c k = 0 := by
         intro j
         have := hc j
         simpa [CartanMatrix.E_six_eq] using this

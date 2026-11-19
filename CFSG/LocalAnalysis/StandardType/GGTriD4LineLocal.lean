@@ -47,7 +47,7 @@ theorem triD4LineX_fix_or_torus (k K : Type) [Field k] [Field K] [Algebra k K]
   by_cases hEN : E ≤ triD4LineN0 k K
   · exact Or.inl (triD4LineX_fix_of_le_N0 k K hdeg σ hσ z₀ hz₀ hzc E hE hEc hzE x hx hx3 hEN)
   · right
-    obtain ⟨e₁, he₁E, he₁N⟩ := SetLike.not_le_iff_exists.mp hEN
+    obtain ⟨e₁, he₁E, he₁N⟩ := IsConcreteLE.not_le_iff_exists.mp hEN
     have hz₀N : z₀ ∈ triD4LineN0 k K := by
       obtain ⟨ζ, -, -, h, hζ⟩ := triD4Line_eq_mk_of_mem_center k K h3 hzc hz₀
       exact (mem_triD4LineN0_iff k K z₀).2 ⟨_, h, hζ⟩

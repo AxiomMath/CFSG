@@ -182,9 +182,11 @@ section Counting
 
 variable [Finite K]
 
+omit [Field K] [Finite K] in
 theorem card_fin_fun (n : ℕ) : Nat.card (Fin n → K) = Nat.card K ^ n := by
   rw [Nat.card_fun, Nat.card_eq_fintype_card (α := Fin n), Fintype.card_fin]
 
+omit [Field K] [Finite K] in
 theorem card_prod_self : Nat.card (K × K) = Nat.card K ^ 2 := by
   rw [Nat.card_prod]; ring
 
@@ -224,11 +226,13 @@ theorem card_le_sq_of_row {m : ℕ} (𝓛 : AddSubgroup (Fin m → Fin 2 → K))
 @[expose] def coef {m : ℕ} (w : Fin 2 → K) (k : Fin 2) (L : Fin m → Fin 2 → K) (i : Fin m) : K :=
   (w k)⁻¹ * L i k
 
+omit [Finite K] in
 theorem coef_spec {m : ℕ} {w : Fin 2 → K} {k : Fin 2} (hk : w k ≠ 0) {L : Fin m → Fin 2 → K}
     {a : Fin m → K} (h : ∀ i, L i = a i • w) (i : Fin m) : coef w k L i = a i := by
   simp only [coef, h i, Pi.smul_apply, smul_eq_mul]
   field_simp
 
+omit [Finite K] in
 theorem eq_of_coef_eq {m : ℕ} {w : Fin 2 → K} {k : Fin 2} (hk : w k ≠ 0)
     {L L' : Fin m → Fin 2 → K} {a a' : Fin m → K} (h : ∀ i, L i = a i • w)
     (h' : ∀ i, L' i = a' i • w) (hc : coef w k L = coef w k L') : L = L' := by
@@ -237,6 +241,7 @@ theorem eq_of_coef_eq {m : ℕ} {w : Fin 2 → K} {k : Fin 2} (hk : w k ≠ 0)
   rw [coef_spec hk h, coef_spec hk h'] at e
   rw [h i, h' i, e]
 
+omit [Finite K] in
 theorem exists_ne_zero_coord {w : Fin 2 → K} (hw : w ≠ 0) : ∃ k : Fin 2, w k ≠ 0 := by
   by_contra hcon
   push Not at hcon

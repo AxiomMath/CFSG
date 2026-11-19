@@ -53,11 +53,11 @@ theorem nonempty_statedProj_equiv_of_card_two {K : Type} [Field K] (hK : Nat.car
   apply nonempty_statedProj_equiv_of_bot H
   rw [CFSG.Open.StatedAPI.statedScalars_eq_bot_of_card_two hK ι]
   ext x
-  simp [Subgroup.mem_subgroupOf]
+  simp
 
 theorem nonempty_ringEquiv_zmod_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nonempty (K ≃+* ZMod 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Nat.card K = 2 ^ 1 := by rw [pow_one]; exact hK
   exact ⟨(CFSG.ClassicalModels.finiteFieldEquivGaloisField K 2 1 Nat.one_pos h1).trans
     (GaloisField.equivZmodP 2).toRingEquiv⟩
@@ -87,7 +87,7 @@ theorem nonempty_D_of_isOmegaTwo_true {n : ℕ} (hn : 4 ≤ n) {L : Type} [Group
     (h : CFSG.LocalAnalysis.GLTheoremB.IsOmegaTwo true n L) :
     Nonempty (L ≃* TauCeti.ValidLieTypeIndex.Group ⟨.D n twoPP, valid_D_of_four_le hn twoPP⟩) := by
   obtain ⟨eL⟩ := nonempty_statedProj_of_isOmegaTwo_true h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eD⟩ := CFSG.RankThree.PartTwo.Census.Carrier.SpinD.nonempty_typeDGroupEquivProjOmegaPlus
     n 1 twoPP (valid_D_of_four_le hn twoPP) rfl rfl
   let φ : ZMod 2 ≃+* GaloisField 2 1 := (GaloisField.equivZmodP 2).toRingEquiv.symm
@@ -106,8 +106,8 @@ theorem nonempty_twistedD_of_isOmegaTwo_false {n : ℕ} (hn : 4 ≤ n) {L : Type
       ⟨.twistedD n twoPP, valid_twistedD_of_four_le hn twoPP⟩) := by
   obtain ⟨eL⟩ := nonempty_statedProj_of_isOmegaTwo_false h
   have hv := valid_twistedD_of_four_le hn twoPP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.twistedD n twoPP, hv⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.twistedD n twoPP, hv⟩
   obtain ⟨b, c, hbc, ⟨eD⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.exists_typeTwistedDGroupEquivStatedProj n
       twoPP hv rfl

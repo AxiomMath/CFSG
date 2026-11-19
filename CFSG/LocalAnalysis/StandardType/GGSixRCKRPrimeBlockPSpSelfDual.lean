@@ -23,7 +23,7 @@ private lemma rckRPb1_J_mul_self {n : ℕ} {F : Type} [Field F] [CharP F 2] :
     (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
         Matrix.fromBlocks 0 1 (-1) 0 = 1 := by
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul, Matrix.zero_mul, zero_add,
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add,
     add_zero, Matrix.mul_neg, neg_zero]
   rw [rckRPb1_neg_one_matrix_eq_one, Matrix.fromBlocks_one]
 
@@ -344,7 +344,7 @@ private theorem rckRPb1m_case_one
     (ι : (ggU .PSp 1 f).K →* ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
     (hcent : ∀ y, ι y ∈ Subgroup.center ↥(CFSG.Open.StatedSp n (GaloisField 2 f)) →
       y ∈ Subgroup.center (ggU .PSp 1 f).K)
-    (hrange : ι.range = J') (hroot : rckRPb1_SpRootData ι) :
+    (hrange : ι.range = J') (_hroot : rckRPb1_SpRootData ι) :
     RCKRPModelII (RCKRPRootSubOf (ggU .PSp n f)) J' := by
   obtain ⟨e⟩ := rckRP_nonempty_mulEquiv_PSL_two_PSp_one (f := f) hf
   let κ : (ggU .PSL 2 f).K →* ↥(CFSG.Open.StatedSp n (GaloisField 2 f)) :=

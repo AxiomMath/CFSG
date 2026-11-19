@@ -41,11 +41,11 @@ def commGL (M : Matrix (Fin n) (Fin n) F) : Subgroup (GL (Fin n) F) where
   one_mem' := by simp
   mul_mem' := by
     intro A B hA hB
-    simp only [Set.mem_setOf_eq, Units.val_mul] at hA hB ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul] at hA hB ⊢
     rw [Matrix.mul_assoc, hB, ← Matrix.mul_assoc, hA, Matrix.mul_assoc]
   inv_mem' := by
     intro A hA
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     have h1 : ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) * (A : Matrix (Fin n) (Fin n) F) =
         1 := by rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
     have h2 : (A : Matrix (Fin n) (Fin n) F) * ((A⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) =
@@ -343,6 +343,7 @@ theorem exists_indep_of_card_cube {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     omega
   exact ⟨x, hxE, y, hyE, hy1, hx⟩
 
+omit [Finite F] in
 theorem eq_smul_one_of_commute_lifts {p : ℕ} (hζ : ∃ ζ : F, IsPrimitiveRoot ζ p) (hp : 0 < p)
     (hn : 0 < n) {E : Subgroup (MulAut (projectiveSL n F))}
     (hirr : ∀ W : Submodule F (Fin n → F), LiftStable E W → W = ⊥ ∨ W = ⊤)

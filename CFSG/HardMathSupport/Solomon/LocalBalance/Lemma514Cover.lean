@@ -315,7 +315,7 @@ theorem gl_barOf_equiv_of_centreless {X J F : Subgroup G} (hFJ : F ≤ J) (hF3 :
     (hF : F ≠ ⊥) (hJX : J ≤ X) (hq : CFSG.Open.IsQuasisimple ↥(barX 3 X J))
     (hZ : Subgroup.center ↥(barX 3 X J) = ⊥) : Nonempty (barOf 3 J ≃* ↥(barX 3 X J)) := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set f := barMap 3 hJX with hf
   have hsurj : Function.Surjective f := barMap_surjective hJX
   have hkerc : Nat.Coprime 3 (Nat.card f.ker) := by
@@ -453,8 +453,8 @@ theorem gl_indInn_pow {V : InndiagVocab} {K : Subgroup G} {g : G} (hg : IndInn V
     IndInn V K (g ^ j) := by
   induction j with
   | zero =>
-    refine ⟨by simpa using one_mem _, ?_⟩
-    have : (⟨g ^ 0, by simpa using one_mem (Subgroup.normalizer (K : Set G))⟩ :
+    refine ⟨by simp, ?_⟩
+    have : (⟨g ^ 0, by simp⟩ :
         ↥(Subgroup.normalizer (K : Set G))) = 1 := by ext; simp
     rw [this, map_one]
     exact one_mem _
@@ -1138,7 +1138,7 @@ theorem p4a_barX_le_centralizer {X K : Subgroup G} {g : G} (hK : GLAPComponent 3
     (QuotientGroup.eq_one_iff n).2 hn, one_mul]
 
 theorem s4_all {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
-    (s2 : S2Facts V B b L A x) (s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
+    (s2 : S2Facts V B b L A x) (_s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
     (s4 : S4Facts V L A b x q q0) :
     ∀ a ∈ A, a ≠ 1 → GLAPComponent 3 (Cs a) (KOf L A a) ∧
       ∃ r : ℕ, (r = q ∨ r = q0) ∧ IsL3Eps r (barOf 3 (KOf L A a)) ∧
@@ -1270,11 +1270,11 @@ theorem p5_CD_sup_zpowers (A : Subgroup G) (y : G) :
     have hle : A ⊔ Subgroup.zpowers y ≤ Subgroup.centralizer ({z} : Set G) := by
       refine sup_le ?_ ?_
       · intro a ha
-        simp only [SetLike.mem_coe, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff,
+        simp only [Subgroup.mem_centralizer_iff, Set.mem_singleton_iff,
           forall_eq]
         exact (h1 a ha).symm
       · rw [Subgroup.zpowers_le]
-        simp only [SetLike.mem_coe, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff,
+        simp only [Subgroup.mem_centralizer_iff, Set.mem_singleton_iff,
           forall_eq]
         exact h2.symm
     have := hle hg
@@ -1513,7 +1513,7 @@ theorem p6_yKnt {V : InndiagVocab} (hi : Inputs V) (s1 : S1Facts B b L A x)
   exact hi.l3l2 (barOf 3 (JOf L A)) q0 q0 s4.tJ (p6_isTypeL2_of_equiv e s5.J0type)
 
 theorem s6_y {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
-    (s2 : S2Facts V B b L A x) (s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
+    (s2 : S2Facts V B b L A x) (_s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
     (s4 : S4Facts V L A b x q q0)
     (s4a : ∀ a ∈ A, a ≠ 1 → GLAPComponent 3 (Cs a) (KOf L A a) ∧
       ∃ r : ℕ, (r = q ∨ r = q0) ∧ IsL3Eps r (barOf 3 (KOf L A a)) ∧
@@ -1756,12 +1756,12 @@ theorem p7a_core {V : InndiagVocab} (hi : Inputs V) (kp : CFSG.Open.IsKProper G)
   · exact h.2
 
 theorem s7a_Ia {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
-    (s2 : S2Facts V B b L A x) (s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
+    (_s2 : S2Facts V B b L A x) (_s3 : ¬ TrivOn (KOf L A x) b ∧ ¬ TrivOn L x) {q q0 : ℕ}
     (s4 : S4Facts V L A b x q q0)
     (s4a : ∀ a ∈ A, a ≠ 1 → GLAPComponent 3 (Cs a) (KOf L A a) ∧
       ∃ r : ℕ, (r = q ∨ r = q0) ∧ IsL3Eps r (barOf 3 (KOf L A a)) ∧
         CFSG.Open.IsQuasisimple (barOf 3 (KOf L A a)))
-    {y0 y : G} {J0 : Subgroup G} (s5 : S5Facts V L A b x q0 y0 J0) (s6 : S6Facts V L A b x y0 y J0) :
+    {y0 y : G} {J0 : Subgroup G} (_s5 : S5Facts V L A b x q0 y0 J0) (s6 : S6Facts V L A b x y0 y J0) :
     S7aFacts L A b x y q J0 := by
   have kp := ctx_kproper c
   have hMel := s6.Mel
@@ -1902,7 +1902,7 @@ theorem p7b_gLBConj_eq_of_comm {J : Subgroup G} {e : G} (hJ : ∀ j ∈ J, e * j
     exact h
 
 theorem s7b_I1 {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
-    {q q0 : ℕ} {y0 y : G} {J0 : Subgroup G} (s5 : S5Facts V L A b x q0 y0 J0)
+    {q q0 : ℕ} {y0 y : G} {J0 : Subgroup G} (_s5 : S5Facts V L A b x q0 y0 J0)
     (s6 : S6Facts V L A b x y0 y J0) (s7a : S7aFacts L A b x y q J0) : S7bFacts A y J0 := by
   classical
   have hKP := ctx_kproper c
@@ -2271,10 +2271,10 @@ theorem p7c_nontriv_I1 {V : InndiagVocab} {y : G} (hi : Inputs V) {I1 Ia Ia' : S
 
 theorem p7c_cd_of_mel {M S : Subgroup G} (hMel : IsElemAbelian 3 M) {g : G} (hg : g ∈ M)
     (hS : S ≤ M) : g ∈ CD S :=
-  Subgroup.mem_centralizer_iff.2 fun h hh => comm_of_isElemAbelian' hMel (hS hh) hg
+  Subgroup.mem_centralizer_iff.2 fun _h hh => comm_of_isElemAbelian' hMel (hS hh) hg
 
 theorem p7c_cd_J0 {M J0 : Subgroup G} (hJ : J0 ≤ CD M) {g : G} (hg : g ∈ M) : g ∈ CD J0 :=
-  Subgroup.mem_centralizer_iff.2 fun j hj => ((Subgroup.mem_centralizer_iff.1 (hJ hj)) g hg).symm
+  Subgroup.mem_centralizer_iff.2 fun _j hj => ((Subgroup.mem_centralizer_iff.1 (hJ hj)) g hg).symm
 
 theorem p7c_cs_symm {z y : G} (h : z ∈ Cs y) : y ∈ Cs z := by
   rw [Subgroup.mem_centralizer_singleton_iff] at h ⊢
@@ -2351,7 +2351,7 @@ theorem s7c_fields {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : 
 theorem s7d_inn {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
     {q q0 : ℕ} (s4 : S4Facts V L A b x q q0) {y0 y : G} {J0 : Subgroup G}
     (s5 : S5Facts V L A b x q0 y0 J0) (s6 : S6Facts V L A b x y0 y J0)
-    (s7a : S7aFacts L A b x y q J0) (s7b : S7bFacts A y J0) (s7c : S7cFacts A b x y J0) :
+    (s7a : S7aFacts L A b x y q J0) (s7b : S7bFacts A y J0) (_s7c : S7cFacts A b x y J0) :
     ∀ a ∈ A, IndInn V (Iof y J0 ⊥) a := by
   have hy : y ≠ 1 := fun h => s6.yA (h ▸ A.one_mem)
   have hKG : CFSG.IsKGroup ↥(Iof y J0 ⊥) := by
@@ -2457,7 +2457,7 @@ theorem s7d_inn {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1F
       rw [← pow_succ', Nat.sub_add_cancel hpos, pow_orderOf_eq_one]
     rw [this]; exact gl_indInn_pow hu _
 
-def S8Facts (A : Subgroup G) (b y : G) (q0 : ℕ) (J0 : Subgroup G) : Prop :=
+def S8Facts (A : Subgroup G) (b y : G) (_q0 : ℕ) (J0 : Subgroup G) : Prop :=
   ∃ (a : G) (H1 H2 H3 : Subgroup G), a ∈ A ∧ a ≠ 1 ∧ a ∉ Subgroup.zpowers b ∧
     GLAPComponent 3 (Iof y J0 ⊥ ⊓ Cs a) H1 ∧ GLAPComponent 3 (Iof y J0 ⊥ ⊓ Cs a) H2 ∧
     GLAPComponent 3 (Iof y J0 ⊥ ⊓ Cs a) H3 ∧ H1 ≠ H2 ∧ H1 ≠ H3 ∧ H2 ≠ H3 ∧
@@ -2632,7 +2632,7 @@ theorem p8_fieldHyp {u v : G} {A J : Subgroup G} (hA : Subgroup.zpowers u ⊔ Su
 
 theorem s8_apply {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
     {q q0 : ℕ} (s4 : S4Facts V L A b x q q0) {y0 y : G} {J0 : Subgroup G}
-    (s5 : S5Facts V L A b x q0 y0 J0) (s6 : S6Facts V L A b x y0 y J0)
+    (_s5 : S5Facts V L A b x q0 y0 J0) (s6 : S6Facts V L A b x y0 y J0)
     (s7a : S7aFacts L A b x y q J0) (s7b : S7bFacts A y J0) (s7c : S7cFacts A b x y J0)
     (s7d : ∀ a ∈ A, IndInn V (Iof y J0 ⊥) a) : S8Facts A b y q0 J0 := by
   have hKP := ctx_kproper c
@@ -2794,9 +2794,9 @@ theorem p9a_ncl_conj {L J : Subgroup G} {e : G} (hL : ∀ g ∈ L, e⁻¹ * g * 
   convert this using 1
   group
 
-theorem s9a_H_le {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1Facts B b L A x)
-    {q q0 : ℕ} {y0 y : G} {J0 : Subgroup G} (s5 : S5Facts V L A b x q0 y0 J0)
-    (s6 : S6Facts V L A b x y0 y J0) (s7a : S7aFacts L A b x y q J0) (s7b : S7bFacts A y J0)
+theorem s9a_H_le {V : InndiagVocab} (_hi : Inputs V) (_c : Ctx B b L A x) (_s1 : S1Facts B b L A x)
+    {q q0 : ℕ} {y0 y : G} {J0 : Subgroup G} (_s5 : S5Facts V L A b x q0 y0 J0)
+    (s6 : S6Facts V L A b x y0 y J0) (_s7a : S7aFacts L A b x y q J0) (s7b : S7bFacts A y J0)
     (s8 : S8Facts A b y q0 J0) :
     ∃ a ∈ A, a ≠ 1 ∧ ∃ H : Subgroup G, H ≤ Iof y J0 (Subgroup.zpowers a) ∧
       ∃ E : Subgroup (↥(Cs a) ⧸ GLAPPrimeCore 3 ↥(Cs a)), IsElemAbelian 3 E ∧ Nat.card E = 27 ∧
@@ -2830,10 +2830,10 @@ theorem s9a_H_le {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) (s1 : S1
   have fin : ∀ Hi Hj : Subgroup G, Hi ≠ Hj → GLAPComponent 3 (Iof y J0 ⊥ ⊓ Cs a) Hi →
       GLAPComponent 3 (Iof y J0 ⊥ ⊓ Cs a) Hj → Iof y J0 (Subgroup.zpowers a) = Hi →
       (∃ e ∈ A, GLBConj e Hi = Hj) → False := by
-    intro Hi Hj hne hi hj heq ⟨e, he, hconj⟩
+    intro Hi Hj hne _hi hj heq ⟨e, he, hconj⟩
     have := hnorm e he
     rw [heq, hconj] at this
-    exact hne (gl_comp_eq_of_le hi hj this).symm
+    exact hne (gl_comp_eq_of_le _hi hj this).symm
   rcases hmem with h | h | h
   · obtain ⟨e, he, hconj⟩ := htr H1 H2 (Or.inl rfl) (Or.inr (Or.inl rfl))
     exact fin H1 H2 h12 hc1 hc2 h ⟨e, he, hconj⟩
@@ -2856,7 +2856,7 @@ theorem p9b_isL3Eps_congr {r : ℕ} {Y Z : Type*} [Group Y] [Group Z] (e : Y ≃
     (h : IsL3Eps r Y) : IsL3Eps r Z :=
   h.imp (fun h => ⟨h.1, p9b_isPSLn_congr e h.2⟩) (fun h => ⟨h.1, p9b_isPSUn_congr e h.2⟩)
 
-theorem s9b_rank {V : InndiagVocab} (hi : Inputs V) (c : Ctx B b L A x) {q q0 : ℕ}
+theorem s9b_rank {V : InndiagVocab} (hi : Inputs V) (_c : Ctx B b L A x) {q q0 : ℕ}
     (s4a : ∀ a ∈ A, a ≠ 1 → GLAPComponent 3 (Cs a) (KOf L A a) ∧
       ∃ r : ℕ, (r = q ∨ r = q0) ∧ IsL3Eps r (barOf 3 (KOf L A a)) ∧
         CFSG.Open.IsQuasisimple (barOf 3 (KOf L A a))) :

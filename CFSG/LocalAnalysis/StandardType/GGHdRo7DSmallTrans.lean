@@ -116,11 +116,11 @@ private lemma hdRo7DSmTransAux_d_notfull {n : ℕ} {h g' : DV n}
     intro i
     dsimp [A]
     by_cases hi : h i.succ ≠ 0
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact hdRo7DSmTransAux_mul_sign
         (CFSG.StandardType.HdRo7C.hdRo7CSmallAux_zmod3_ne_zero ((hmem i).mpr hi))
         (CFSG.StandardType.HdRo7C.hdRo7CSmallAux_zmod3_ne_zero hi)
-    · rw [if_neg hi]; exact Or.inl rfl
+    · rw [ite_eq_right hi]; exact Or.inl rfl
   have hP_sign : P = 1 ∨ P = -1 := hdRo7DSmTransAux_prod_sign hA_sign
   have hP_ne : P ≠ 0 := by rcases hP_sign with h | h <;> simp [h]
   refine ⟨d, ?_, ?_, ?_⟩
@@ -128,15 +128,15 @@ private lemma hdRo7DSmTransAux_d_notfull {n : ℕ} {h g' : DV n}
     dsimp [d]
     refine hdRo7DSmTransAux_mul_sign (hA_sign i) ?_
     by_cases hit : i = t
-    · rw [if_pos hit]; exact hdRo7DSmTransAux_inv_sign hP_sign
-    · rw [if_neg hit]; exact Or.inl rfl
+    · rw [ite_eq_left hit]; exact hdRo7DSmTransAux_inv_sign hP_sign
+    · rw [ite_eq_right hit]; exact Or.inl rfl
   · intro i
     dsimp [d]
     by_cases hi : h i.succ ≠ 0
     · have hit : i ≠ t := by rintro rfl; exact hi ht
-      rw [if_neg hit, mul_one]
+      rw [ite_eq_right hit, mul_one]
       dsimp [A]
-      rw [if_pos hi, mul_assoc, CFSG.StandardType.HdRo7C.hdRo7CSmallAux_zmod3_sq hi, mul_one]
+      rw [ite_eq_left hi, mul_assoc, CFSG.StandardType.HdRo7C.hdRo7CSmallAux_zmod3_sq hi, mul_one]
     · have hgi : g' (τ i).succ = 0 := by
         have : ¬ (g' (τ i).succ ≠ 0) := by rw [hmem i]; exact hi
         simpa using this

@@ -35,8 +35,10 @@ namespace burnsideC121_p4_Hyp
 variable {X L T R V Y : Subgroup Ω} (h : burnsideC121_p4_Hyp X L T R V Y)
 include h
 
+omit [Finite Ω] in
 theorem hV : IsElemAbelian 2 V := h.red.2.2.1
 
+omit [Finite Ω] in
 theorem hR2 : IsPGroup 2 R := h.hT.to_le h.hRT
 
 theorem baum_eq : baum T = baum R := baum_eq_of_le h.hSR h.hRT
@@ -45,26 +47,34 @@ theorem J_le_S : thompsonJ R ≤ baum T := by
   rw [h.baum_eq]
   exact B6.thompsonJ_le_baum R
 
+omit [Finite Ω] in
 theorem S_le_R : baum T ≤ R := h.hSR
 
+omit [Finite Ω] in
 theorem S_le_X : baum T ≤ X := h.hSR.trans h.hRX
 
 theorem J_le_X : thompsonJ R ≤ X := h.J_le_S.trans h.S_le_X
 
+omit [Finite Ω] in
 theorem X_le_NV : X ≤ Subgroup.normalizer (V : Set Ω) := h.red.2.1
 
+omit [Finite Ω] in
 theorem V_le_Q : V ≤ pCoreOf 2 X := C124.le_pCoreOf_of_reduced h.red
 
 theorem Q_le_CV : pCoreOf 2 X ≤ Subgroup.centralizer (V : Set Ω) := C124.pCoreOf_le_centralizer h.red
 
+omit [Finite Ω] h in
 theorem Q_le_X : pCoreOf 2 X ≤ X := pCoreOf_le 2 X
 
+omit h in
 theorem Q_two : IsPGroup 2 (pCoreOf 2 X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact pCoreOf_isPGroup 2 X
 
+omit [Finite Ω] in
 theorem V_le_R : V ≤ R := h.V_le_Q.trans h.hQR
 
+omit h in
 theorem mem_thompsonJ_of {z : Ω} (hzR : z ∈ R) (hz2 : z ^ 2 = 1)
     (hzC : z ∈ Subgroup.centralizer (thompsonJ R : Set Ω)) : z ∈ thompsonJ R := by
   obtain ⟨A, hA⟩ := exists_isMaxElemAbelian R
@@ -96,7 +106,7 @@ theorem mem_thompsonJ_of {z : Ω} (hzR : z ∈ R) (hz2 : z ^ 2 = 1)
 theorem ZV_le_omega :
     V ⊓ Subgroup.centralizer (thompsonJ R : Set Ω) ≤ omegaOneCenterOf (thompsonJ R) := by
   intro z hz
-  have hzJ := h.mem_thompsonJ_of (h.V_le_R hz.1) (h.hV.2 z hz.1) hz.2
+  have hzJ := burnsideC121_p4_Hyp.mem_thompsonJ_of (h.V_le_R hz.1) (h.hV.2 z hz.1) hz.2
   exact Subgroup.subset_closure ⟨⟨hzJ, hz.2⟩, h.hV.2 z hz.1⟩
 
 theorem S_le_CZ : baum T ≤ R ⊓ Subgroup.centralizer
@@ -125,10 +135,12 @@ theorem S_le_JC : baum T ≤ thompsonJ R ⊔ (X ⊓ Subgroup.centralizer (V : Se
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hgJ) (Subgroup.mem_sup_right h4)
 
+omit [Finite Ω] in
 theorem X_le_N_CX : X ≤ Subgroup.normalizer
     ((X ⊓ Subgroup.centralizer (V : Set Ω) : Subgroup Ω) : Set Ω) :=
   B2F.le_normalizer_inf Subgroup.le_normalizer (B2F.le_normalizer_centralizer h.X_le_NV)
 
+omit [Finite Ω] in
 theorem Y_le_L : Y ≤ L := by
   rw [h.hL, h.hYperf]
   exact oTwoUpper_mono h.hYX
@@ -176,7 +188,7 @@ theorem le_Q {P : Subgroup Ω} (hP : P ≤ X ⊓ Subgroup.centralizer (V : Set �
 
 theorem SQ_le_NY : baum T ⊔ pCoreOf 2 X ≤ Subgroup.normalizer (Y : Set Ω) :=
   sup_le (h.S_le_JC.trans h.hYN)
-    ((le_inf h.Q_le_X h.Q_le_CV).trans (le_sup_right.trans h.hYN))
+    ((le_inf CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X h.Q_le_CV).trans (le_sup_right.trans h.hYN))
 
 end burnsideC121_p4_Hyp
 

@@ -35,12 +35,15 @@ section Lifts
 variable {A : Submodule K E} (bA : Module.Basis ι K A) (bQ : Module.Basis κ K (E ⧸ A))
   (f : κ → E) (hf : ∀ j, A.mkQ (f j) = bQ j)
 
+omit [Fintype ι] [Fintype κ] [DecidableEq ι] [DecidableEq κ] in
 theorem basisOfLifts_inl (i : ι) : basisOfLifts bA bQ f hf (Sum.inl i) = bA i := by
   simp [basisOfLifts]
 
+omit [Fintype ι] [Fintype κ] [DecidableEq ι] [DecidableEq κ] in
 theorem basisOfLifts_inr (j : κ) : basisOfLifts bA bQ f hf (Sum.inr j) = f j := by
   simp [basisOfLifts]
 
+omit [Fintype ι] [Fintype κ] [DecidableEq ι] in
 theorem basisOfLifts_repr_inr (v : E) (j : κ) :
     (basisOfLifts bA bQ f hf).repr v (Sum.inr j) = bQ.repr (A.mkQ v) j := by
   classical
@@ -55,9 +58,10 @@ theorem basisOfLifts_repr_inr (v : E) (j : κ) :
         basisOfLifts_inr, hf, Module.Basis.coord_apply, Module.Basis.repr_self]
       by_cases h : j' = j
       · subst h; simp
-      · simp [Finsupp.single_apply, h]
+      · simp [h]
   exact LinearMap.congr_fun key v
 
+omit [Fintype ι] [Fintype κ] [DecidableEq κ] in
 theorem basisOfLifts_repr_inl_of_mem (v : E) (hv : v ∈ A) (i : ι) :
     (basisOfLifts bA bQ f hf).repr v (Sum.inl i) = bA.repr ⟨v, hv⟩ i := by
   classical
@@ -68,9 +72,10 @@ theorem basisOfLifts_repr_inl_of_mem (v : E) (hv : v ∈ A) (i : ι) :
       Module.Basis.repr_self]
     by_cases h : i' = i
     · subst h; simp
-    · simp [Finsupp.single_apply, h]
+    · simp [h]
   exact LinearMap.congr_fun key ⟨v, hv⟩
 
+omit [Fintype ι] [Fintype κ] [DecidableEq ι] in
 theorem mem_iff_basisOfLifts_repr_inr (v : E) :
     v ∈ A ↔ ∀ j, (basisOfLifts bA bQ f hf).repr v (Sum.inr j) = 0 := by
   simp only [basisOfLifts_repr_inr]
@@ -116,6 +121,7 @@ theorem toBlocks₁₂_basisOfLifts_eq_zero (g : Module.End K E) (d : κ → K)
 
 end Lifts
 
+omit [Fintype κ] [DecidableEq κ] in
 theorem exists_weight_lifts {Z : Type*} [Group Z] [Finite Z] (hZ : (Nat.card Z : K) ≠ 0)
     (σ : Z →* Module.End K E) (A : Submodule K E) (hA : ∀ z, ∀ a ∈ A, σ z a ∈ A)
     (bQ : Module.Basis κ K (E ⧸ A)) (d : Z → κ → K)

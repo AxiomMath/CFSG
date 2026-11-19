@@ -150,10 +150,10 @@ theorem nontrivCount_eq_zero_of_trivial [Module.Finite k V] (ρ : Representation
     (h : ∀ g, ρ g = 1) : nontrivCount ρ = 0 := by
   have key := rep_induction (k := k) (G := G)
     (fun {V} _ _ _ ρ => (∀ g, ρ g = 1) → nontrivCount ρ = 0)
-    (fun {V} _ _ _ ρ hsub _ => by haveI := hsub; exact nontrivCount_of_subsingleton ρ)
+    (fun {V} _ _ _ ρ hsub _ => by have := hsub; exact nontrivCount_of_subsingleton ρ)
     (fun {V} _ _ _ ρ hρ htriv => by
       rw [nontrivCount_of_isIrreducible ρ hρ,
-        if_pos (equiv_trivial_of_trivial_isIrreducible ρ hρ htriv)])
+        ite_eq_left (equiv_trivial_of_trivial_isIrreducible ρ hρ htriv)])
     (fun {V} _ _ _ ρ W hW1 hW2 htriv => by
       rw [nontrivCount_sub_quot ρ W, hW1 (toRepresentation_trivial W htriv),
         hW2 (quotient_trivial W htriv)])
@@ -197,12 +197,12 @@ theorem trivial_of_nontrivCount_eq_zero (hperf : commutator G = ⊤) [Module.Fin
     (ρ : Representation k G V) (h : nontrivCount ρ = 0) : ∀ g, ρ g = 1 := by
   have key := rep_induction (k := k) (G := G)
     (fun {V} _ _ _ ρ => nontrivCount ρ = 0 → ∀ g, ρ g = 1)
-    (fun {V} _ _ _ ρ hsub _ g => by haveI := hsub; exact Subsingleton.elim _ _)
+    (fun {V} _ _ _ ρ hsub _ g => by have := hsub; exact Subsingleton.elim _ _)
     (fun {V} _ _ _ ρ hρ h0 g => by
       rw [nontrivCount_of_isIrreducible ρ hρ] at h0
       have hne : Nonempty (ρ.Equiv (Representation.trivial k G k)) := by
         by_contra hn
-        rw [if_neg hn] at h0
+        rw [ite_eq_right hn] at h0
         exact one_ne_zero h0
       obtain ⟨φ⟩ := hne
       refine LinearMap.ext fun v => ?_

@@ -30,7 +30,7 @@ namespace Setup
 variable (X : Setup Γ G)
 variable {r : ℕ}
 
-private theorem hasB_self_of_even (H : X.Sec4Hyp s r) {d₀ : ℕ} (hd₀ : X.HasB 0 d₀)
+private theorem hasB_self_of_even (_H : X.Sec4Hyp s r) {d₀ : ℕ} (hd₀ : X.HasB 0 d₀)
     (hev : Even d₀) : X.HasB (d₀ : ℤ) d₀ := by
   refine (X.hasB_iff_of_even (i := (d₀ : ℤ)) (j := 0) ?_ d₀).mpr hd₀
   obtain ⟨k, hk⟩ := hev
@@ -215,7 +215,7 @@ private theorem sq_mem_centerOf_L_zero_of_comm (H : X.Sec4Hyp s r) {d₀ : ℕ}
 private theorem relIndex_relCent_S_le (H : X.Sec4Hyp s r) {d₀ : ℕ} (hd₀ : X.HasB 0 d₀)
     (hev : Even d₀) :
     (relCent (X.Z 0) (centerOf (X.L 0)) (X.S)).relIndex (X.Z 0) ≤ 2 ^ X.n 0 := by
-  haveI hfinZ : Finite ↥(X.Z 0) :=
+  have hfinZ : Finite ↥(X.Z 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hd0ge2 : 2 ≤ d₀ := by
     have h1 := X.one_le_of_hasB hd₀
@@ -340,10 +340,10 @@ private theorem natQuot_Z_zero_of_relIndex_le
     (hT4' : (relCent (X.Z 0) (centerOf (X.L 0)) (X.edgeSylow (-1))).relIndex (X.Z 0) ≤
       2 ^ X.n 0) :
     NatQuot (X.L 0) (X.Z 0) (centerOf (X.L 0)) (X.n 0) := by
-  haveI hfinGi : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI hfinL : Finite ↥(X.L 0) :=
+  have hfinGi : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have hfinL : Finite ↥(X.L 0) :=
     finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
-  haveI hfinZ : Finite ↥(X.Z 0) :=
+  have hfinZ : Finite ↥(X.Z 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hQ0L : X.Q 0 ≤ X.L 0 := X.Q_le_L 0
   have hEZ : X.Z 0 ≤ Subgroup.normalizer (centerOf (X.L 0) : Set G) :=
@@ -737,9 +737,9 @@ private theorem cube_le_card_Z_one (H : X.Sec4Hyp s r)
     (hYcard : Nat.card (centerOf (X.S)) = 2 ^ X.n 0 * 2 ^ X.n 0)
     (hcenter_le_Y : centerOf (X.L 0) ≤ centerOf (X.S)) :
     2 ^ X.n 0 * 2 ^ X.n 0 * 2 ^ X.n 0 ≤ Nat.card ↥(X.Z 1) := by
-  haveI hfinZ1 : Finite ↥(X.Z 1) :=
+  have hfinZ1 : Finite ↥(X.Z 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
-  haveI hfinY : Finite ↥(centerOf (X.S)) :=
+  have hfinY : Finite ↥(centerOf (X.S)) :=
     finite_of_le_stabilizer X.hyp (H := centerOf (X.S))
       ((inf_le_left : centerOf (X.S) ≤ X.S).trans
         (by simpa [Setup.S, Setup.edgeSylow] using
@@ -1321,9 +1321,9 @@ theorem s45_step8 (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     have hcardle : Nat.card ↥(X.Z 0 ⊓ Subgroup.centralizer (X.Z 2 : Set G)) ≤
         Nat.card ↥(X.Z 1) :=
       hcard.trans_le (le_of_eq h7.2.2.symm)
-    haveI hfinZ0 : Finite ↥(X.Z 0) :=
+    have hfinZ0 : Finite ↥(X.Z 0) :=
       finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
-    haveI hfinR : Finite ↥(X.Z 0 ⊓ Subgroup.centralizer (X.Z 2 : Set G)) :=
+    have hfinR : Finite ↥(X.Z 0 ⊓ Subgroup.centralizer (X.Z 2 : Set G)) :=
       Finite.of_injective
         (Subgroup.inclusion
           (inf_le_left : X.Z 0 ⊓ Subgroup.centralizer (X.Z 2 : Set G) ≤ X.Z 0))

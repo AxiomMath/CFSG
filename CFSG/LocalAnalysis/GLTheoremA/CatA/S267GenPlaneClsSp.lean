@@ -61,13 +61,13 @@ theorem compNormal_conj_proj_sp {p ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     (hs : s ^ p = 1) (hs1 : s ≠ 1) : CompNormal (MulAut.conj (SymplecticFlag.proj r K s)) := by
   classical
   have hq0 : ℓ ^ f ≠ 0 := pow_ne_zero f hℓ.ne_zero
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
   have hq : 2 ≤ ℓ ^ f := hℓ.two_le.trans (Nat.le_self_pow (by omega) ℓ)
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   set π := SymplecticFlag.proj r K with hπdef
   have hZc : π.ker ≤ Subgroup.center (StatedSp r K) := by
@@ -95,7 +95,7 @@ theorem compNormal_conj_proj_sp {p ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   have blocks := (symplectic_cross_prime_primary_centralizer_blocks hℓ hf hK hp hp2 hpℓ hr _
     ha).2 s rfl hsp
   have hsq := (altPrimaryData_spLin hpK hs).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd s)) :=
+  have : Finite (reciprocalOrbits (spEnd s)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   let A : reciprocalOrbits (spEnd s) → Subgroup (StatedSp r K) :=
@@ -125,8 +125,8 @@ theorem compNormal_fieldAut_sp {p : ℕ} (hp : Odd p) (hr : 2 ≤ r) (σ : K ≃
     (hex : ¬(r = 2 ∧ Nat.card ↥(descentField σ) = 2)) :
     CompNormal (SymplecticHigher.fieldAut r K σ) := by
   classical
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Finite ↥(descentField σ) := Subtype.finite
+  have : NeZero r := ⟨by omega⟩
+  have : Finite ↥(descentField σ) := Subtype.finite
   have hfix : fixSubgroup (SymplecticHigher.fieldAut r K σ) =
       (CFSG.RankThree.PartOne.KCSpComm.subfieldInj (r := r) σ).range := by
     rw [CFSG.RankThree.PartOne.KCSpComm.range_subfieldInj,
@@ -139,7 +139,7 @@ theorem compNormal_fieldAut_sp {p : ℕ} (hp : Odd p) (hr : 2 ≤ r) (σ : K ≃
       (MonoidHom.ofInjective (CFSG.RankThree.PartOne.KCSpComm.subfieldInj_injective (r := r) σ)).symm
   obtain ⟨hs, hperf⟩ :=
     CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := descentField σ) hr hex
-  haveI := hs
+  have := hs
   have hnc : ∃ a b : StatedProj (StatedSp r (descentField σ)), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -166,7 +166,7 @@ section Dispatch
 private theorem center_statedProj_sp_eq_bot {r : ℕ} {K : Type} [Field K] [Finite K] (hr : 2 ≤ r)
     (hne : ¬(r = 2 ∧ Nat.card K = 2)) : Subgroup.center (StatedProj (StatedSp r K)) = ⊥ := by
   obtain ⟨hs, hperf⟩ := CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := K) hr hne
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (StatedProj (StatedSp r K)))
     with h | h
   · exact h
@@ -188,8 +188,8 @@ private theorem card_descentField_ne_two {K : Type} [Field K] [Finite K] {ℓ f 
     (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hK : Nat.card K = ℓ ^ f) (σ : K ≃+* K) :
     Nat.card ↥(descentField σ) ≠ 2 := by
   intro h2
-  haveI := Fintype.ofFinite K
-  haveI : Fintype ↥(descentField σ) := Fintype.ofFinite _
+  have := Fintype.ofFinite K
+  have : Fintype ↥(descentField σ) := Fintype.ofFinite _
   have hpow : Fintype.card K =
       Fintype.card ↥(descentField σ) ^ Module.finrank ↥(descentField σ) K :=
     Module.card_eq_pow_finrank
@@ -203,7 +203,7 @@ theorem compNormal_of_statedPSp {G : Type} [Group G] {r ℓ f p : ℕ}
     (hpℓ : p ≠ ℓ) (β : MulAut G) (hβ : β ^ p = 1) (hβ1 : β ≠ 1) : CompNormal β := by
   classical
   obtain ⟨⟨hℓ, hf, hr, -⟩, K, _, _, hK, ⟨e'⟩⟩ := hG
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : ¬(r = 2 ∧ Nat.card K = 2) := fun h => by
     have := h.2
     rw [hK] at this

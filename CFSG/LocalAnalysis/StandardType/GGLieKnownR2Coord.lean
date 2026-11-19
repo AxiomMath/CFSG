@@ -158,11 +158,11 @@ theorem heisCoord_conj_param
       intro β _
       by_cases hνβ : ν - γ = β
       · subst hνβ
-        simp only [add_sub_cancel, if_true]
+        simp only [add_sub_cancel, ite_true]
         split_ifs <;> simp
-      · rw [if_neg hνβ]
+      · rw [ite_eq_right hνβ]
         split_ifs with hr
-        · rw [Pi.single_apply, if_neg]
+        · rw [Pi.single_apply, ite_eq_right]
           rintro rfl
           exact hνβ (by abel)
         · rfl

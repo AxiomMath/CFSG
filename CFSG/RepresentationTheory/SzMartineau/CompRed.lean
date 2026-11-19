@@ -12,6 +12,7 @@ open CFSG.CGT.PushingUpLit.SolKNA
 
 variable {G : Type*} [Group G] {W₀ : Type*} [AddCommGroup W₀] [Module (ZMod 2) W₀]
 
+omit [Module (ZMod 2) W₀] in
 theorem exists_equivariant_of_cocycle (act : G →* AddMonoid.End W₀)
     (hcob : ∀ Y : G → AddMonoid.End W₀, (∀ g h, Y (g * h) = act g * Y h + Y g * act h) →
       ∃ X : AddMonoid.End W₀, ∀ g, Y g = act g * X - X * act g)
@@ -227,6 +228,7 @@ private theorem sup_ker_sup_iSup_eq_top {ι : Type*} {W : ι → Submodule (ZMod
 
 end LatticeBookkeeping
 
+omit [Module (ZMod 2) W₀] in
 private theorem exists_equivariant_lift
     (act : G →* AddMonoid.End W₀)
     (hcob : ∀ Y : G → AddMonoid.End W₀, (∀ g h, Y (g * h) = act g * Y h + Y g * act h) →
@@ -384,8 +386,8 @@ private theorem lift_family
     (θ₁ : W₀ →+ V) (hθ₁inj : Function.Injective θ₁)
     (hθ₁eq : ∀ g v, θ₁ (act g v) = ρ g (θ₁ v))
     (hθ₁range : θ₁.range = U.toAddSubgroup)
-    (sq : Finset (Submodule (ZMod 2) Q)) (hsqInd : sq.SupIndep id)
-    (hsqSup : sq.sup id = ⊤)
+    (sq : Finset (Submodule (ZMod 2) Q)) (_hsqInd : sq.SupIndep id)
+    (_hsqSup : sq.sup id = ⊤)
     (hsqMem : ∀ W ∈ sq, ∃ θ : W₀ →+ Q, Function.Injective θ ∧
       θ.range = W.toAddSubgroup ∧ ∀ g v, θ (act g v) = ρQ g (θ v)) :
     ∃ (C : ↥sq → Submodule (ZMod 2) V) (θi : ↥sq → W₀ →+ V),
@@ -490,7 +492,7 @@ private theorem exists_decomp_nontrivial
       ∀ W ∈ s, ∃ θ : W₀ →+ V, Function.Injective θ ∧ θ.range = W.toAddSubgroup ∧
         ∀ g v, θ (act g v) = ρ g (θ v) := by
   obtain ⟨U, hUinv, hUne, hUmin⟩ := exists_minimal_invariant ρ
-  haveI hUneN : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
+  have hUneN : Nontrivial U := Submodule.nontrivial_iff_ne_bot.mpr hUne
   let ρU : Representation (ZMod 2) G U := restrictRep ρ U hUinv
   have hfpfU : ∀ u : U, ρU g₀ u = u → u = 0 := fpf_restrict ρ U hUinv hfpf
   have hirr : ∀ W : Submodule (ZMod 2) U,
@@ -516,7 +518,7 @@ private theorem exists_decomp_nontrivial
   let ρQ : Representation (ZMod 2) G Q := ρ.quotient U (fun g w hw => hUinv g w hw)
   have hfpfQ : ∀ q : Q, ρQ g₀ q = q → q = 0 :=
     fpf_quotient ρ U hUinv hg₀ hfpf
-  haveI hfinQ : Finite Q :=
+  have hfinQ : Finite Q :=
     Finite.of_surjective (Submodule.mkQ U) (Submodule.mkQ_surjective U)
   have hcardQ : Nat.card Q < Nat.card V := by
     have h : Nat.card V = Nat.card U * Nat.card Q :=
@@ -556,7 +558,7 @@ private theorem exists_decomp_aux (act : G →* AddMonoid.End W₀) {g₀ : G}
     classical
     by_cases hnt : Nontrivial V
     · exact exists_decomp_nontrivial act hg₀ hsimple hcob ih V hcard ρ hfpf hnt
-    · haveI hsub : Subsingleton V := not_nontrivial_iff_subsingleton.mp hnt
+    · have hsub : Subsingleton V := not_nontrivial_iff_subsingleton.mp hnt
       refine ⟨∅, by simp, ?_, by simp⟩
       have htop : (⊤ : Submodule (ZMod 2) V) = ⊥ := by
         rw [eq_bot_iff]

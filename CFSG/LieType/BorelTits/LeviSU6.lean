@@ -23,7 +23,7 @@ theorem map_parabolic_clauses {G G' : Type*} [Group G] [Group G'] [Finite G] (π
     O₀.map π ≤ P₀.map π ∧ A ≤ O₀.map π ∧ IsPGroup p (O₀.map π) ∧
       (∀ x ∈ P₀.map π, ∀ o ∈ O₀.map π, x * o * x⁻¹ ∈ O₀.map π) ∧
       ∀ g : G', (∀ a ∈ A, g * a * g⁻¹ ∈ A) → g ∈ P₀.map π := by
-  haveI : Finite G' := Finite.of_surjective π hπ
+  have : Finite G' := Finite.of_surjective π hπ
   refine ⟨Subgroup.map_mono hOP, ?_, IsPGroup.map hO π, ?_, ?_⟩
   · rw [← hA]
     exact Subgroup.map_mono hAO
@@ -239,7 +239,7 @@ theorem exists_levi_statedProj_su6 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K]
             ((2 ^ f) ^ 6 * ((2 ^ f) ^ 4 - 1) * ((2 ^ f) ^ 6 - 1)) := by
   have hUF : UnitaryFieldData 2 f K :=
     ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, Nat.mul_comm f 2]⟩
-  haveI : CharP K 2 := hUF.charP
+  have : CharP K 2 := hUF.charP
   exact exists_levi_statedProj_su6_of_bound hK
     (fun A₀ hA₀ hne => exists_levi_bound_statedSU6 hUF hK A₀ hA₀ hne) hA hA2
 

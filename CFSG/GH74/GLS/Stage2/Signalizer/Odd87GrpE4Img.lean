@@ -19,6 +19,7 @@ variable {A : Type} [Group A] [Finite A] {a : A} {p : ℕ} {X J : Subgroup A}
 @[expose] def secImg (a : A) (X J S : Subgroup A) : Subgroup (secB a X J) :=
   (S.subgroupOf (secY a X J)).map (QuotientGroup.mk' (pPrimeCore 2 ↥(secY a X J)))
 
+omit [Finite A] in
 theorem mem_secImg_iff {S : Subgroup A} (hS : S ≤ secY a X J) {b : secB a X J} :
     b ∈ secImg a X J S ↔ ∃ (s : A) (hs : s ∈ S), b = secMk a X J s (hS hs) := by
   constructor
@@ -28,19 +29,23 @@ theorem mem_secImg_iff {S : Subgroup A} (hS : S ≤ secY a X J) {b : secB a X J}
   · rintro ⟨s, hs, rfl⟩
     exact Subgroup.mem_map.mpr ⟨⟨s, hS hs⟩, hs, rfl⟩
 
+omit [Finite A] in
 theorem secImg_sup {S T : Subgroup A} (hS : S ≤ secY a X J) (hT : T ≤ secY a X J) :
     secImg a X J (S ⊔ T) = secImg a X J S ⊔ secImg a X J T := by
   unfold secImg
   rw [Subgroup.subgroupOf_sup hS hT, Subgroup.map_sup]
 
+omit [Finite A] in
 theorem secMk_inj (hN : pPrimeCore 2 ↥(secY a X J) = ⊥) {y y' : A} (hy : y ∈ secY a X J)
     (hy' : y' ∈ secY a X J) : secMk a X J y hy = secMk a X J y' hy' ↔ y = y' := by
   rw [secMk_eq_iff, hN, Subgroup.mem_bot, inv_mul_eq_one]
   exact Subtype.mk_eq_mk
 
+omit [Finite A] in
 theorem secMk_zpow {y : A} (hy : y ∈ secY a X J) (m : ℤ) :
     secMk a X J (y ^ m) ((secY a X J).zpow_mem hy m) = (secMk a X J y hy) ^ m := rfl
 
+omit [Finite A] in
 theorem secImg_zpowers : secImg a X J (zpowers a) = zpowers (secZ a X J) := by
   have hS : zpowers a ≤ secY a X J := Subgroup.zpowers_le.mpr (z_mem_secY a X J)
   ext b
@@ -53,6 +58,7 @@ theorem secImg_zpowers : secImg a X J (zpowers a) = zpowers (secZ a X J) := by
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
     exact ⟨a ^ m, Subgroup.zpow_mem_zpowers a m, secMk_zpow (z_mem_secY a X J) m⟩
 
+omit [Finite A] in
 theorem secMk_injective (hN : pPrimeCore 2 ↥(secY a X J) = ⊥) :
     Function.Injective (QuotientGroup.mk' (pPrimeCore 2 ↥(secY a X J))) := by
   rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', hN]
@@ -62,6 +68,7 @@ theorem secMk_injective (hN : pPrimeCore 2 ↥(secY a X J) = ⊥) :
   (Subgroup.subgroupOfEquivOfLe hS).symm.trans
     (Subgroup.equivMapOfInjective _ _ (secMk_injective hN))
 
+omit [Finite A] in
 theorem mem_secY_cases (ha2 : a * a = 1) (haM : a ∈ normalizer ((J ⊔ X : Subgroup A) : Set A)) {y : A}
     (hy : y ∈ secY a X J) : ∃ m ∈ J ⊔ X, y = m ∨ y = m * a := by
   have hle : zpowers a ≤ normalizer ((J ⊔ X : Subgroup A) : Set A) := Subgroup.zpowers_le.mpr haM
@@ -72,6 +79,7 @@ theorem mem_secY_cases (ha2 : a * a = 1) (haM : a ∈ normalizer ((J ⊔ X : Sub
   · exact ⟨m, hm, Or.inl (mul_one m)⟩
   · exact ⟨m, hm, Or.inr rfl⟩
 
+omit [Finite A] in
 theorem mem_of_sq_mem_of_odd {M : Subgroup A} {n : A} (hodd : Odd (orderOf n)) (h : n * n ∈ M) :
     n ∈ M := by
   obtain ⟨r, hr⟩ := hodd

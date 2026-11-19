@@ -30,27 +30,27 @@ private lemma lk0xu7d_twistKind_eq_suN {τ : Tag} {L : Type} [Field L]
         componentOrbitLength ρ (componentRoots χ i)]) := by
     rw [horb, Function.iterate_one]
     simpa using hnotinner
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   have h2 : ¬ ((compRank (componentRoots χ i) = 6 ∧ (componentRoots χ i).ncard = 72) ∨
       (compRank (componentRoots χ i) = 4 ∧ (componentRoots χ i).ncard = 24 ∧
         ¬ twistInner (componentRoots χ i)
           ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[
             (2 * componentOrbitLength ρ (componentRoots χ i))]))) := by
     rintro (⟨h, _⟩ | ⟨h, _, _⟩) <;> omega
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
   have h3 : ¬ (4 ≤ compRank (componentRoots χ i) ∧
       (componentRoots χ i).ncard =
         2 * compRank (componentRoots χ i) * (compRank (componentRoots χ i) - 1)) := by
     rintro ⟨_, h⟩
     rw [hrk, hnc] at h
     omega
-  rw [if_neg h3]
+  rw [ite_eq_right h3]
   have h4 : 2 ≤ compRank (componentRoots χ i) ∧
       (componentRoots χ i).ncard =
         compRank (componentRoots χ i) * (compRank (componentRoots χ i) + 1) := by
     rw [hrk, hnc]
     norm_num
-  rw [if_pos h4]
+  rw [ite_eq_left h4]
 
 private lemma lk0xu7d_rootsJ_nonempty {X : Type} [Group X] {f p : ℕ}
     {G₀ B₁ D J : Subgroup X} {x : X} {R Rm : Subgroup X}

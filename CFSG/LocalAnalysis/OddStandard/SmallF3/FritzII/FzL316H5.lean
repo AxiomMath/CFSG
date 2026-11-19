@@ -11,6 +11,7 @@ open Subgroup CFSG.GH74.GLS.Bg.TwoGroups CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem fzl_prod_sup_equiv_aux {H₁ H₂ : Subgroup G}
     (hcomm : ∀ x ∈ H₁, ∀ y ∈ H₂, Commute x y) (hdisj : H₁ ⊓ H₂ = ⊥) :
     Nonempty ((H₁ × H₂) ≃* (H₁ ⊔ H₂ : Subgroup G)) := by
@@ -35,7 +36,7 @@ theorem fzl_twoCore_cases (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (
   rw [htP] at hk
   exact S4A.pt_eq_one_or_of_mem_zpowers h.hyp.ord_t hk
 
-theorem fzl_t_notin_E (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore t) = 2) :
+theorem fzl_t_notin_E (h : Ctx t L S x₁ x₂ lam rho tau) (_hK : Nat.card (twoCore t) = 2) :
     t ∉ baseGrp x₁ x₂ := by
   intro ht
   have hmem : t ∈ twoCore t ⊓ baseGrp x₁ x₂ := ⟨h.hyp.mem_twoCore, ht⟩

@@ -15,11 +15,11 @@ private theorem isSection_of_outer_solvable {S G A : Type} [Group S] [Group G] [
     (hO : Group.IsSolvable (OuterAutomorphisms.Outer S))
     (ρ : G →* MulAut S) (φ : G →* A) (hφ : Function.Surjective φ) (hker : ρ.ker ≤ φ.ker) :
     ∃ (H : Subgroup S) (f : H →* A), Function.Surjective f := by
-  haveI := hO
+  have := hO
   set χ : G →* OuterAutomorphisms.Outer S :=
     (QuotientGroup.mk' (OuterAutomorphisms.inner S)).comp ρ with hχ
   have hK : χ.ker.map φ = ⊤ := by
-    haveI : (χ.ker.map φ).Normal := Subgroup.Normal.map (MonoidHom.normal_ker χ) φ hφ
+    have : (χ.ker.map φ).Normal := Subgroup.Normal.map (MonoidHom.normal_ker χ) φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (χ.ker.map φ) with h | h
     · exfalso
       have hle : χ.ker ≤ φ.ker := fun g hg => by
@@ -121,6 +121,7 @@ variable [Finite X] [IsSimpleGroup X] {t : X} {J : Subgroup X} {n : ℕ}
   {e : J ⧸ pPrimeCore 2 J ≃* alternatingGroup (Fin n)} {E : Subgroup X} {D : Finset (Fin n)}
   {M : Subgroup X} {e₀ : X} {F : Subgroup X} {DF : Finset (Fin n)} {r : X} {N₁ : Subgroup X}
 
+omit [IsSimpleGroup X] in
 theorem a9_section_of_action (hS : LocalAnalysis.ComponentInitial.SchreierFor Blueprint.Catalog)
     {N₁ G : Subgroup X} (hq : IsQuasisimple (↥N₁ ⧸ pPrimeCore 2 ↥N₁))
     (hcat : Blueprint.Catalog (↥N₁ ⧸ Open.fusionZStar ↥N₁)) (hG : G ≤ normalizer (N₁ : Set X))
@@ -143,7 +144,7 @@ theorem a9_section_of_action (hS : LocalAnalysis.ComponentInitial.SchreierFor Bl
       (↥N₁ ⧸ pPrimeCore 2 ↥N₁) ⧸ center (↥N₁ ⧸ pPrimeCore 2 ↥N₁) :=
     (QuotientGroup.quotientQuotientEquivQuotient (pPrimeCore 2 ↥N₁) (Open.fusionZStar ↥N₁)
       hOZ).symm.trans (QuotientGroup.quotientMulEquivOfEq hmap)
-  haveI hSimpS : IsSimpleGroup (↥N₁ ⧸ Open.fusionZStar ↥N₁) := eS.isSimpleGroup
+  have hSimpS : IsSimpleGroup (↥N₁ ⧸ Open.fusionZStar ↥N₁) := eS.isSimpleGroup
   have hnabS : ∃ a b : ↥N₁ ⧸ Open.fusionZStar ↥N₁, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnabQ
     refine ⟨eS.symm a, eS.symm b, fun h => hab ?_⟩
@@ -193,11 +194,11 @@ theorem a9_section_of_action (hS : LocalAnalysis.ComponentInitial.SchreierFor Bl
     have hmem := mem_coreActionKernel_of_perfect_quot hperf (inv_mem hgN) hz
     simpa using inv_mem hmem
   have hA : ¬ Group.IsSolvable (alternatingGroup (Fin 9)) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : Group.IsPerfect (alternatingGroup (Fin 9)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+    have : Group.IsPerfect (alternatingGroup (Fin 9)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
     exact Group.IsPerfect.not_isSolvable (alternatingGroup (Fin 9))
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   exact isSection_of_outer_solvable hA hO ρ φ hφ hker'
 
 end Exotic

@@ -89,7 +89,7 @@ theorem IsPerm6.wclass_zero (h : IsPerm6 φ A H) : wclass φ 0 = {1} := by
     subst hx
     exact ⟨0, sec5b6_vecWeight_zero, h.map_zero⟩
 
-theorem IsPerm6.wclass_six (h : IsPerm6 φ A H) : wclass φ 6 = {φ 1} := by
+theorem IsPerm6.wclass_six (_h : IsPerm6 φ A H) : wclass φ 6 = {φ 1} := by
   ext x
   constructor
   · rintro ⟨v, hv, rfl⟩
@@ -116,7 +116,7 @@ theorem IsPerm6.wclass_subset_of_inter (h : IsPerm6 φ A H) {T : Set G}
   rw [← hay]
   exact hT a ha x hxT
 
-theorem IsPerm6.mul_mem_wclass (h : IsPerm6 φ A H) {k : ℕ} (hk : k ≤ 6) {x : G}
+theorem IsPerm6.mul_mem_wclass (h : IsPerm6 φ A H) {k : ℕ} (_hk : k ≤ 6) {x : G}
     (hx : x ∈ wclass φ k) : φ 1 * x ∈ wclass φ (6 - k) := by
   obtain ⟨v, hv, rfl⟩ := hx
   refine ⟨(1 : Fin 6 → ZMod 2) + v, ?_, h.map_add 1 v⟩

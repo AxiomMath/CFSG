@@ -75,8 +75,7 @@ theorem ofBl_one : ofBl 1 0 1 = 1 := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [ofBl]
 
 theorem det_ofBl (A B C : B2) : (ofBl A B C).det = A.det * C.det := by
-  simp only [Matrix.det_succ_row_zero, Fin.sum_univ_succ, ofBl, Matrix.det_fin_two,
-    Matrix.det_fin_three]
+  simp only [Matrix.det_succ_row_zero, Fin.sum_univ_succ, ofBl]
   simp [Fin.succAbove, Matrix.submatrix]
   ring
 

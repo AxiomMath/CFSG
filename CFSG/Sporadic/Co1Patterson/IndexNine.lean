@@ -20,13 +20,13 @@ open CFSG.QuasithinUnique CFSG.Blueprint
 theorem co1_index_nine_package :
     IndexNinePackage (CFSG.Blueprint.NativeSporadic.Co1) := by
   classical
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Co1) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Co1) :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co1.card_Co1]; norm_num)
-  haveI : Finite ↥L₀ := Nat.finite_of_card_ne_zero (by rw [card_L₀]; norm_num)
+  have : Finite ↥L₀ := Nat.finite_of_card_ne_zero (by rw [card_L₀]; norm_num)
   have hΔ : InnerIndexNinePackage L₀ := Certificates.certificate744110
   obtain ⟨Ubar, -, -, hUbar, -⟩ := id hΔ
   have hcardUbar : Nat.card Ubar = 2 ^ 12 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨-, hU2, hidx⟩ := hUbar
     rw [show (Ubar.subgroupOf ⊤).index = Ubar.index from Subgroup.relIndex_top_right _] at hidx
     obtain ⟨j, hj⟩ := hU2.exists_card_eq

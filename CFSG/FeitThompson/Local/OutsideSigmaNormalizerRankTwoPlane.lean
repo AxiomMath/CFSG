@@ -91,7 +91,7 @@ theorem exists_isElementaryAbelian_natCard_eq_sq_of_notMem_sigmaPrimes [Finite G
   have hXP : X ≤ P := by
     rw [hPdef, ← Subgroup.map_subgroupOf_eq_of_le hXM]
     exact Subgroup.map_mono hS
-  have hPp : IsPGroup p P := S.isPGroup'.map M.subtype
+  have hPp : IsPGroup p P := S.isPGroup.map M.subtype
   have hYcard : Nat.card (X.subgroupOf P) = p := by
     rw [Nat.card_congr (subgroupOfEquivOfLe hXP).toEquiv, hX]
   rcases characteristic_or_exists_isElementaryAbelian_natCard_eq_sq hp hPp hYcard with hchar | hA

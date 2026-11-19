@@ -482,7 +482,7 @@ theorem binary_linear_four_five_nine_Sylow_products_have_abelian_inner_common_ac
   have hRnormal : (R.subgroupOf (D ⊔ (B₂ : Subgroup (SpecialLinearGroup (Fin n) K)))).Normal :=
     hφker ▸ φ.normal_ker
   have hRp : IsPGroup 2 R := by
-    refine IsPGroup.to_le B₂.isPGroup' ?_
+    refine IsPGroup.to_le B₂.isPGroup ?_
     rw [hR', hB]
     exact Subgroup.map_mono (blockRadical_le_unitriangular _)
   refine ⟨coe_sup_eq_mul_of_permute D _ hDB, ⟨g, a, ha_sum, ha12, ha2, hYQ', hB, hRle, hRnormal,

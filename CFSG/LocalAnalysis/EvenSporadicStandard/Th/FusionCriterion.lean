@@ -28,7 +28,7 @@ theorem ThCyc.not_two_dvd_relIndex_centralizer {K : Subgroup G} (hK : SL ⊔ R �
     IsPGroup.comap_of_ker_isPGroup (H.pgroup_sup hS) C.subtype hker
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   have hQle : (Q : Subgroup ↥C).map C.subtype ≤ SL ⊔ R := by
-    refine H.sup_max hS (X := (Q : Subgroup ↥C).map C.subtype) ?_ (Q.isPGroup'.map _) ?_
+    refine H.sup_max hS (X := (Q : Subgroup ↥C).map C.subtype) ?_ (Q.isPGroup.map _) ?_
     · rintro _ ⟨y, -, rfl⟩
       exact y.2
     · intro x hx

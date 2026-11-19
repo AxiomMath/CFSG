@@ -54,12 +54,15 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
       have hpi : (piOrth Q)⁻¹ = piOrth Q := inv_eq_of_mul_eq_one_right piOrth_mul_self
       rw [mul_inv_rev, hpi, hc a⁻¹]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_ff6mTwistSub_iff {ρ : ↥(simGroup Q)} {g : OGroup Q} :
     g ∈ ff6mTwistSub ρ ↔ simAct Q ρ g = g ∨ simAct Q ρ g = piOrth Q * g := Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem piOrth_cancel_left (x : OGroup Q) : piOrth Q * (piOrth Q * x) = x := by
   rw [← mul_assoc, piOrth_mul_self, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem piOrth_mul_mul (a b : OGroup Q) :
     (piOrth Q * a) * (piOrth Q * b) = a * b := by
   rw [show (piOrth Q * a) * (piOrth Q * b) = piOrth Q * (a * (piOrth Q * b)) by
@@ -67,6 +70,7 @@ private theorem piOrth_mul_mul (a b : OGroup Q) :
   rw [← mul_assoc a (piOrth Q) b, mul_piOrth_comm a, mul_assoc]
   exact piOrth_cancel_left (a * b)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem piOrth_conj_mul (a b : OGroup Q) :
     (piOrth Q * a) * b * (piOrth Q * a)⁻¹ = a * b * a⁻¹ := by
   have hci : (piOrth Q * a)⁻¹ = piOrth Q * a⁻¹ := by
@@ -78,6 +82,7 @@ private theorem piOrth_conj_mul (a b : OGroup Q) :
     ← mul_assoc a (b * a⁻¹) (piOrth Q), mul_piOrth_comm (a * (b * a⁻¹))]
   exact piOrth_cancel_left (a * (b * a⁻¹))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fixSub_simAct_orthToSim (t : OGroup Q) :
     fixSub (simAct Q (orthToSim Q t)) = Subgroup.centralizer ({t} : Set (OGroup Q)) := by
   ext g
@@ -174,6 +179,7 @@ theorem ff6mTwistHom_eq_one_iff (g : ↥(omegaGroup hQ ⊓ ff6mTwistSub ρ)) :
   · intro h
     exact Subtype.ext h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6mTwist_mul_self_mem {g : OGroup Q} (hg : g ∈ ff6mTwistSub ρ) :
     g * g ∈ fixSub (simAct Q ρ) := by
   rw [mem_fixSub_iff, map_mul]
@@ -183,6 +189,7 @@ theorem ff6mTwist_mul_self_mem {g : OGroup Q} (hg : g ∈ ff6mTwistSub ρ) :
   · rw [h]
     exact piOrth_mul_mul g g
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6mTwist_conj_mem_fixSub {g h : OGroup Q} (hg : g ∈ ff6mTwistSub ρ)
     (hh : h ∈ fixSub (simAct Q ρ)) : g * h * g⁻¹ ∈ fixSub (simAct Q ρ) := by
   rw [mem_fixSub_iff, map_mul, map_mul, map_inv]
@@ -194,6 +201,7 @@ theorem ff6mTwist_conj_mem_fixSub {g h : OGroup Q} (hg : g ∈ ff6mTwistSub ρ)
   · rw [hz]
     exact piOrth_conj_mul g h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6mTwist_conj_mem_commutator {g h : OGroup Q} (hg : g ∈ ff6mTwistSub ρ)
     (hh : h ∈ ⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆) :
     g * h * g⁻¹ ∈ ⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ := by
@@ -214,7 +222,7 @@ theorem ff6mTwist_conj_mem_commutator {g h : OGroup Q} (hg : g ∈ ff6mTwistSub 
 theorem ff6m_solvable_of_twist
     (hA : Group.IsSolvable ↥(omegaGroup hQ ⊓ fixSub (simAct Q ρ))) :
     Group.IsSolvable ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) := by
-  haveI : Finite (OGroup Q) := inferInstance
+  have : Finite (OGroup Q) := inferInstance
   let A : Subgroup (OGroup Q) := omegaGroup hQ ⊓ fixSub (simAct Q ρ)
   let Nsub : Subgroup (OGroup Q) := omegaGroup hQ ⊓ ff6mTwistSub ρ
   let φ : ↥Nsub →* ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) :=
@@ -224,7 +232,7 @@ theorem ff6m_solvable_of_twist
     exact Subgroup.mem_inf.mpr
       ⟨hxω, mem_ff6mTwistSub_iff.mpr (Or.inl (mem_fixSub_iff.mp hxf))⟩
   let A' : Subgroup ↥Nsub := A.subgroupOf Nsub
-  haveI hA'norm : A'.Normal := by
+  have hA'norm : A'.Normal := by
     show (A.subgroupOf Nsub).Normal
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hAle, Subgroup.le_normalizer_iff]
     intro x hx y hy
@@ -232,8 +240,8 @@ theorem ff6m_solvable_of_twist
     obtain ⟨hyω, hyf⟩ := Subgroup.mem_inf.mp hy
     exact Subgroup.mem_inf.mpr ⟨(omegaGroup_normal hQ).conj_mem y hyω x,
       ff6mTwist_conj_mem_fixSub ρ hxtw hyf⟩
-  haveI hAsol : Group.IsSolvable ↥A := hA
-  haveI hA'sol : Group.IsSolvable ↥A' :=
+  have hAsol : Group.IsSolvable ↥A := hA
+  have hA'sol : Group.IsSolvable ↥A' :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hAle).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hAle).injective
@@ -242,14 +250,14 @@ theorem ff6m_solvable_of_twist
     obtain ⟨hgω, hgtw⟩ := Subgroup.mem_inf.mp g.2
     rw [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_inf.mpr ⟨mul_mem hgω hgω, ff6mTwist_mul_self_mem ρ hgtw⟩
-  haveI : Group.IsSolvable ↥Nsub := ff6m_solvable_of_sq_mem A' hA'sol hsq'
+  have : Group.IsSolvable ↥Nsub := ff6m_solvable_of_sq_mem A' hA'sol hsq'
   refine Group.isSolvable_of_surjective (f := φ) ?_
   exact ff6mTwistHomAux_surjective (hQ := hQ) (hdim := hdim) (ρ := ρ)
 
 theorem ff6m_xTwoCore_of_twist
     (hA : XTwoCore ↥(omegaGroup hQ ⊓ fixSub (simAct Q ρ))) :
     XTwoCore ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) := by
-  haveI : Finite (OGroup Q) := inferInstance
+  have : Finite (OGroup Q) := inferInstance
   let A : Subgroup (OGroup Q) := omegaGroup hQ ⊓ fixSub (simAct Q ρ)
   let Nsub : Subgroup (OGroup Q) := omegaGroup hQ ⊓ ff6mTwistSub ρ
   let φ : ↥Nsub →* ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) :=
@@ -259,7 +267,7 @@ theorem ff6m_xTwoCore_of_twist
     exact Subgroup.mem_inf.mpr
       ⟨hxω, mem_ff6mTwistSub_iff.mpr (Or.inl (mem_fixSub_iff.mp hxf))⟩
   let A' : Subgroup ↥Nsub := A.subgroupOf Nsub
-  haveI hA'norm : A'.Normal := by
+  have hA'norm : A'.Normal := by
     show (A.subgroupOf Nsub).Normal
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hAle, Subgroup.le_normalizer_iff]
     intro x hx y hy
@@ -300,7 +308,7 @@ theorem ff6m_layerModel_of_twist {tg : CFSG.Open.StatedLieTag} {n k : ℕ}
     (hsq : ∀ g ∈ omegaGroup hQ ⊓ fixSub (simAct Q ρ), g * g ∈ G1)
     (hpi : piOrth Q ∉ G1) :
     LayerModel ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) tg n k := by
-  haveI : Finite (OGroup Q) := inferInstance
+  have : Finite (OGroup Q) := inferInstance
   let Nsub : Subgroup (OGroup Q) := omegaGroup hQ ⊓ ff6mTwistSub ρ
   let φ : ↥Nsub →* ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) :=
     ff6mTwistHomAux (hQ := hQ) (hdim := hdim) (ρ := ρ)
@@ -309,7 +317,7 @@ theorem ff6m_layerModel_of_twist {tg : CFSG.Open.StatedLieTag} {n k : ℕ}
     exact Subgroup.mem_inf.mpr
       ⟨hxω, mem_ff6mTwistSub_iff.mpr (Or.inl (mem_fixSub_iff.mp hxf))⟩
   let E0 : Subgroup ↥Nsub := G1.subgroupOf Nsub
-  haveI hE0n : E0.Normal := by
+  have hE0n : E0.Normal := by
     show (G1.subgroupOf Nsub).Normal
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hG1N, Subgroup.le_normalizer_iff]
     intro x hx y hy

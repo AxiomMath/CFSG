@@ -244,12 +244,12 @@ private lemma diagAut_E6_eq_one_or_gamma (π : Equiv.Perm (Fin 6))
     intro a
     rcases (by decide : ∀ a : Fin 6, a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 5) a with
       rfl | rfl | rfl | rfl | rfl | rfl
-    · simpa [h00]
-    · simpa [h1]
-    · simpa [h22]
-    · simpa [h3]
-    · simpa [h44]
-    · simpa [h55]
+    · simp [h00]
+    · simp [h1]
+    · simp [h22]
+    · simp [h3]
+    · simp [h44]
+    · simp [h55]
   · right
     have h42 : π 4 = 2 := by
       rcases h4 with h | h
@@ -301,7 +301,7 @@ private lemma latPlane_F4 (f : ℕ) (π : Equiv.Perm (Fin (ggU .F4 6 f).D.rank))
     exact nodesConnected_of_parent
       (G := SimpleGraph.fromRel fun i j : Fin 4 => F4M i j ≠ 0)
       (T := {m : Fin 4 | m ≠ 0 ∧ m ≠ 3}) (base := 1) (b := 1) (by decide) rfl
-      (by intro m hm h2; fin_cases m <;> simp_all <;> decide)
+      (by intro m hm h2; fin_cases m <;> simp_all; decide)
   · right
     exact ⟨1, 2, by decide, ⟨by decide, by decide⟩, ⟨by decide, by decide⟩, by decide⟩
 
@@ -335,7 +335,7 @@ private lemma latPlane_E7 (f : ℕ) (π : Equiv.Perm (Fin (ggU .E7 6 f).D.rank))
         {m : Fin 7 | m ≠ 0 ∧ m ≠ 1} := by
       intro m hm
       simp only [Finset.mem_coe, Finset.mem_insert, Finset.mem_singleton,
-        Set.mem_setOf_eq] at hm ⊢
+        Set.mem_ofPred_eq] at hm ⊢
       rcases hm with rfl | rfl | rfl <;> decide
     calc 3 = (↑({2, 3, 4} : Finset (Fin 7)) : Set (Fin 7)).ncard := by
           rw [Set.ncard_coe_finset]; decide
@@ -372,7 +372,7 @@ private lemma latPlane_E8 (f : ℕ) (π : Equiv.Perm (Fin (ggU .E8 6 f).D.rank))
         {m : Fin 8 | m ≠ 0 ∧ m ≠ 1} := by
       intro m hm
       simp only [Finset.mem_coe, Finset.mem_insert, Finset.mem_singleton,
-        Set.mem_setOf_eq] at hm ⊢
+        Set.mem_ofPred_eq] at hm ⊢
       rcases hm with rfl | rfl | rfl <;> decide
     calc 3 = (↑({2, 3, 4} : Finset (Fin 8)) : Set (Fin 8)).ncard := by
           rw [Set.ncard_coe_finset]; decide
@@ -409,7 +409,7 @@ private lemma latPlane_E6 (f : ℕ) (π : Equiv.Perm (Fin (ggU .E6 6 f).D.rank))
           {m : Fin 6 | m ≠ 0 ∧ m ≠ 1} := by
         intro m hm
         simp only [Finset.mem_coe, Finset.mem_insert, Finset.mem_singleton,
-          Set.mem_setOf_eq] at hm ⊢
+          Set.mem_ofPred_eq] at hm ⊢
         rcases hm with rfl | rfl | rfl <;> decide
       calc 3 = (↑({2, 3, 4} : Finset (Fin 6)) : Set (Fin 6)).ncard := by
             rw [Set.ncard_coe_finset]; decide
@@ -420,7 +420,7 @@ private lemma latPlane_E6 (f : ℕ) (π : Equiv.Perm (Fin (ggU .E6 6 f).D.rank))
     have hset : {m : Fin 6 | ¬ gamma.SameCycle 0 m ∧ ¬ gamma.SameCycle 1 m} =
         {m : Fin 6 | m = 2 ∨ m = 3 ∨ m = 4} := by
       ext m
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [sameCycle_gamma_0 m, sameCycle_gamma_1 m]
       fin_cases m <;> decide
     refine ⟨0, 1, 3, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -439,7 +439,7 @@ private lemma latPlane_E6 (f : ℕ) (π : Equiv.Perm (Fin (ggU .E6 6 f).D.rank))
           {m : Fin 6 | m = 2 ∨ m = 3 ∨ m = 4} := by
         intro m hm
         simp only [Finset.mem_coe, Finset.mem_insert, Finset.mem_singleton,
-          Set.mem_setOf_eq] at hm ⊢
+          Set.mem_ofPred_eq] at hm ⊢
         rcases hm with rfl | rfl | rfl <;> decide
       calc 3 = (↑({2, 3, 4} : Finset (Fin 6)) : Set (Fin 6)).ncard := by
             rw [Set.ncard_coe_finset]; decide
@@ -509,48 +509,48 @@ private lemma gam_indicator_0 :
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_0]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_0]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_0]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_0]; decide)]) <;> decide
 
 private lemma gam_indicator_1 :
     (fun m : Fin 6 => if gamma.SameCycle 1 m then (1 : ZMod 3) else 0) = gamInd1 := by
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_1]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_1]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_1]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_1]; decide)]) <;> decide
 
 private lemma gam_indicator_2 :
     (fun m : Fin 6 => if gamma.SameCycle 2 m then (1 : ZMod 3) else 0) = gamInd2 := by
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_2]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_2]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_2]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_2]; decide)]) <;> decide
 
 private lemma gam_indicator_3 :
     (fun m : Fin 6 => if gamma.SameCycle 3 m then (1 : ZMod 3) else 0) = gamInd3 := by
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_3]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_3]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_3]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_3]; decide)]) <;> decide
 
 private lemma gam_indicator_4 :
     (fun m : Fin 6 => if gamma.SameCycle 4 m then (1 : ZMod 3) else 0) = gamInd2 := by
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_4]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_4]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_4]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_4]; decide)]) <;> decide
 
 private lemma gam_indicator_5 :
     (fun m : Fin 6 => if gamma.SameCycle 5 m then (1 : ZMod 3) else 0) = gamInd0 := by
   funext m
   fin_cases m <;>
     (first
-      | rw [if_pos (by rw [sameCycle_gamma_5]; decide)]
-      | rw [if_neg (by rw [sameCycle_gamma_5]; decide)]) <;> decide
+      | rw [ite_eq_left (by rw [sameCycle_gamma_5]; decide)]
+      | rw [ite_eq_right (by rw [sameCycle_gamma_5]; decide)]) <;> decide
 
 private def corootSpanE6 : Set (Fin 6 → ZMod 3) :=
   {g | ∃ c : Fin 6 → ℤ, ∀ i, g i = ∑ j, (c j : ZMod 3) * (E6M j i : ZMod 3)}
@@ -698,7 +698,7 @@ private lemma e6_independent :
   exact ⟨h1, h4⟩
 
 private lemma e6alpha_mem : e6alpha ∈ (rootFinset Tag.E6 : Set (Fin Tag.E6.rank → ℤ)) := by
-  haveI : NeZero Tag.E6.rank := ⟨by decide⟩
+  have : NeZero Tag.E6.rank := ⟨by decide⟩
   exact mem_rootFinset.mpr (IsRoot.basis (0 : Fin Tag.E6.rank))
 
 private lemma e6f1_latChar_alpha : latChar 3 e6f1 e6alpha = 0 := by decide
@@ -791,7 +791,7 @@ private lemma e6ClosedCheck_sound (L : List (Fin 6 → ℤ)) (α : Fin 6 → ℤ
 
 private lemma latLinked_mem_right {S : Matrix (Fin 6) (Fin 6) ℤ} {Φ : Set (Fin 6 → ℤ)}
     {α β : Fin 6 → ℤ} (hα : α ∈ Φ) (h : latLinked S Φ α β) : β ∈ Φ := by
-  haveI : IsEquiv (Fin 6 → ℤ) (fun a b => (a ∈ Φ → b ∈ Φ) ∧ (b ∈ Φ → a ∈ Φ)) :=
+  have : IsEquiv (Fin 6 → ℤ) (fun a b => (a ∈ Φ → b ∈ Φ) ∧ (b ∈ Φ → a ∈ Φ)) :=
     { refl := fun a => ⟨fun h => h, fun h => h⟩
       trans := fun a b c hab hbc =>
         ⟨fun ha => hbc.1 (hab.1 ha), fun hc => hab.2 (hbc.2 hc)⟩

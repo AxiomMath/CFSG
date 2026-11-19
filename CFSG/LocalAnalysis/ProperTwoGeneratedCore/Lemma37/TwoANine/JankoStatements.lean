@@ -88,15 +88,15 @@ theorem exists_sylow_le_centralizer (hz : orderOf z = 2)
   set C := centralizer ({z} : Set G)
   obtain ⟨T⟩ : Nonempty (Sylow 2 C) := inferInstance
   set T' : Subgroup G := (T : Subgroup C).map C.subtype
-  obtain ⟨Q, hQ⟩ := (T.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (T.isPGroup.map C.subtype).exists_le_sylow
   refine ⟨Q, ?_⟩
   suffices h : T' = Q by rw [← h]; exact Subgroup.map_subtype_le _
   by_contra hne
-  have hlt := lt_inf_normalizer_of_lt Q.isPGroup' (lt_of_le_of_ne hQ hne)
+  have hlt := lt_inf_normalizer_of_lt Q.isPGroup (lt_of_le_of_ne hQ hne)
   have hle : (Q : Subgroup G) ⊓ normalizer (T' : Set G) ≤ C := fun x hx =>
     mem_centralizer_of_mem_normalizer hz hH T hx.2
   have hR : IsPGroup 2 (((Q : Subgroup G) ⊓ normalizer (T' : Set G)).subgroupOf C) :=
-    (Q.isPGroup'.to_inf_left).comap_subtype
+    (Q.isPGroup.to_inf_left).comap_subtype
   have hTR : (T : Subgroup C) ≤ ((Q : Subgroup G) ⊓ normalizer (T' : Set G)).subgroupOf C :=
     fun c hc => Subgroup.mem_subgroupOf.mpr ⟨hQ ⟨c, hc, rfl⟩, Subgroup.le_normalizer ⟨c, hc, rfl⟩⟩
   have heq : ((Q : Subgroup G) ⊓ normalizer (T' : Set G)).subgroupOf C = (T : Subgroup C) :=

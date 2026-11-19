@@ -91,12 +91,13 @@ theorem TwoPTwo.coe_sup_eq_mul (h : TwoPTwo K S X p) {Y : Subgroup G} (hYX : Y �
   · rintro z ⟨s, hs, y, hy, rfl⟩
     exact (S ⊔ Y).mul_mem (Subgroup.mem_sup_left hs) (Subgroup.mem_sup_right hy)
 
+omit [Finite G] in
 private theorem nineThree_card_mul {S Y K : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hS : IsPGroup 2 S) (hY : IsPGroup p Y) (hSK : S ≤ K) (hYK : Y ≤ K)
     (hKSY : (K : Set G) = (S : Set G) * (Y : Set G)) :
     Nat.card ↥K = Nat.card ↥S * Nat.card ↥Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : IsPGroup 2 (S.subgroupOf K) := hS.comap_subtype
   have hY' : IsPGroup p (Y.subgroupOf K) := hY.comap_subtype
   have hdisj' : Disjoint (S.subgroupOf K) (Y.subgroupOf K) :=
@@ -119,8 +120,8 @@ theorem TwoPTwo.of_sup (h : TwoPTwo K S X p) {Y : Subgroup G} (hYX : Y ≤ X)
     (hY : ∀ s ∈ S ⊓ normalizer (X : Set G), ∀ y ∈ Y, s * y * s⁻¹ ∈ Y) :
     TwoPTwo (S ⊔ Y) S Y p := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R := pCoreOf 2 K
   let L := R ⊔ Y
   let K₀ := S ⊔ Y
@@ -170,9 +171,9 @@ theorem TwoPTwo.of_sup (h : TwoPTwo K S X p) {Y : Subgroup G} (hYX : Y ≤ X)
     rw [hYi] at hdvd
     exact h.odd ((Nat.prime_dvd_prime_iff_eq h.prime Nat.prime_two).mp
       (h.prime.dvd_of_dvd_pow hdvd))
-  haveI hN₂ : (R.subgroupOf K₀).Normal :=
+  have hN₂ : (R.subgroupOf K₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRK₀).mpr hK₀R
-  haveI hN₂p : (L.subgroupOf K₀).Normal :=
+  have hN₂p : (L.subgroupOf K₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLK₀).mpr hK₀L
   have h2R : IsPGroup 2 (R.subgroupOf K₀) :=
     (hS2.to_le hRS).comap_subtype
@@ -240,7 +241,7 @@ theorem Nine3Seed.exists_minimal (h : Nine3Seed V T A K S X p) :
 theorem Nine3Seed.irred (h : Nine3Seed V T A K S X p) {Y : Subgroup G} (hY : Nine3Fam K S X A Y)
     (hmin : ∀ Y' : Subgroup G, Nine3Fam K S X A Y' → Y' ≤ Y → Y' = Y) :
     IrredOnFrattiniQuot S Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpY : IsPGroup p Y := h.two.sylowP.isPGroup.to_le hY.1
   have hY1 : Y ≠ ⊥ := by
     rintro rfl

@@ -37,7 +37,7 @@ theorem cmk_le_cmbar [Finite G] {K L M : Subgroup G} (hLM : L ≤ M) (hsub : IsS
       ((Subgroup.mem_normalizer_iff.1 (hNO c hcM) _).1 ((pPrimeCoreOf 2 M).inv_mem hb))
 
 theorem cmbar_le_normalizer [Finite G] {K L M : Subgroup G}
-    (hcomp : IsPCompIn 2 M L) (hsub : IsSubnormalIn L M)
+    (hcomp : IsPCompIn 2 M L) (_hsub : IsSubnormalIn L M)
     (hLeq : L = pPrimeCoreOf 2 L ⊔ K) :
     CMbar M K ≤ normalizer (L : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -131,7 +131,7 @@ theorem centralizer_le_M_of_sylow_cmbar [Finite G] {K L M Q : Subgroup G}
   CFSG.GH74.GLS.C3.Layer1.U1a.centralizer_le_of_gammaK
     (isSylowOf_cmk_of_cmbar hcomp hsub hLeq hQ) hgam
 
-theorem L_normal_of_sylow_card_four [Finite G] {K T M L Q : Subgroup G} (hTM : T ≤ M)
+theorem L_normal_of_sylow_card_four [Finite G] {K T M L Q : Subgroup G} (_hTM : T ≤ M)
     (hT2 : IsPGroup 2 ↥T) (hP8 : Nat.card ↥(T ⊓ K) = 8) (hKL : K ≤ L)
     (hLcomp : IsPCompIn 2 M L) (hsub : IsSubnormalIn L M) (hLeq : L = pPrimeCoreOf 2 L ⊔ K)
     (hQ : IsSylowOf 2 Q (CMbar M K)) (hQ4 : Nat.card ↥Q = 4) :

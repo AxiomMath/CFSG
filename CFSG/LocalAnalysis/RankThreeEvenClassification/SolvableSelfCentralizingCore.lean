@@ -28,7 +28,7 @@ theorem normal_nilpotent_isPGroup_of_trivial_primeComplementCore {G : Type u} [G
   have : (sylow : Subgroup subgroup).Characteristic := sylow.characteristic_of_normal hsylowNormal
   let ambient := (sylow : Subgroup subgroup).map subgroup.subtype
   have hambientNormal : ambient.Normal := ConjAct.normal_of_characteristic_of_normal
-  have hambientPGroup : IsPGroup divisor ambient := sylow.isPGroup'.map subgroup.subtype
+  have hambientPGroup : IsPGroup divisor ambient := sylow.isPGroup.map subgroup.subtype
   obtain ⟨dimension, hcard⟩ := hambientPGroup.exists_card_eq
   have hcomplement : ¬prime ∣ Nat.card ambient := by
     rw [hcard]

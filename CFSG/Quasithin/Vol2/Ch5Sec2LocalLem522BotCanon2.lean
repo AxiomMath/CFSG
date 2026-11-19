@@ -28,6 +28,7 @@ theorem borelOf_eq_of_perm_three {Y S : Subgroup G} (hS : IsSylowTwoOf S Y)
   rw [inf_eq_left.mpr hS.1]
   exact h
 
+omit [Finite G] in
 theorem sup_bigB_eq_of_borelOf_eq {L1 L2 S : Subgroup G} (h : borelOf L2 S = S) :
     L1 ⊔ bigB L1 L2 S = L1 ⊔ S := by
   unfold bigB

@@ -146,7 +146,7 @@ theorem odd_prime_support {G : Type*} [Group G] [Finite G] {z u : G} (hz : order
     (closure ({z, u} : Set G)) O (IsPGroup.of_card (card_closure_pair hz hu hzu hne)) hcompl
     (closure_pair_le_normalizer hz hu hzu O hOz hOu) r hr
   have hRO : (S : Subgroup O).map O.subtype ≤ O := Subgroup.map_subtype_le _
-  have hRp : IsPGroup r ((S : Subgroup O).map O.subtype) := S.isPGroup'.map O.subtype
+  have hRp : IsPGroup r ((S : Subgroup O).map O.subtype) := S.isPGroup.map O.subtype
   have hRcompl : ¬ 2 ∣ Nat.card ((S : Subgroup O).map O.subtype) :=
     fun h => hcompl (h.trans (Subgroup.card_dvd_of_le hRO))
   have hgen := coprime_centralizer_generation_of_plane 2 Nat.prime_two

@@ -14,21 +14,25 @@ open Subgroup
 variable {C : Type} [Group C] [Finite C] {c : CInv C} {t : C} {R J : Subgroup C}
   {L1 : Subgroup c.Qt}
 
+omit [Finite C] in
 theorem zpowers_le_J (hR : RData c R) (hJ : JData c t R J) : zpowers c.z ≤ J := by
   exact Subgroup.zpowers_le.mpr (hJ.R_le hR.z_mem)
 
+omit [Finite C] in
 theorem qmap_t_mem (hJ : JData c t R J) (h : UniqueComp c R L1) : c.qmap t ∈ L1 := by
   apply h.R_le
   change c.qmap t ∈ R.map c.qmap
   exact Subgroup.mem_map.mpr ⟨t, hJ.t_mem, rfl⟩
 
+omit [Finite C] in
 theorem orderOf_qmap_t (hJ : JData c t R J) : orderOf (c.qmap t) = 2 := by
   apply orderOf_eq_prime
   · rw [← map_pow, hJ.t_sq, map_one]
   · intro h
     exact hJ.t_not (c.qmap_eq_one_iff.mp h)
 
-theorem centralizer_qmap_t (hR : RData c R) (hJ : JData c t R J) :
+omit [Finite C] in
+theorem centralizer_qmap_t (_hR : RData c R) (hJ : JData c t R J) :
     centralizer ({c.qmap t} : Set c.Qt) = c.bar J := by
   apply le_antisymm
   · intro g hg

@@ -29,7 +29,7 @@ theorem cover_properties (hG : IsQuasisimple G) {φ : G →* H} (hφ : Function.
 theorem coprime_three_card_center [Finite H] (h : ∀ x ∈ Subgroup.center H, x * x = 1) :
     (Nat.card (Subgroup.center H)).Coprime 3 := by
   refine Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 fun h3 => ?_)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center H) 3 h3
   have hx2 : x ^ 2 = 1 := Subtype.ext (by simpa [pow_two] using h x x.2)
   have := orderOf_dvd_of_pow_eq_one hx2
@@ -40,7 +40,7 @@ end Cover
 
 private theorem charP_of_card_sq {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime]
     (hK : Nat.card K = (p ^ f) ^ 2) : CharP K p := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])
 
@@ -66,8 +66,8 @@ theorem mem_center_SU_iff {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {q : 
   constructor
   · intro hz
     obtain ⟨p, f, hp, rfl⟩ := hq
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : CharP K p := charP_of_card_sq hK
+    have : Fact p.Prime := ⟨hp⟩
+    have : CharP K p := charP_of_card_sq hK
     obtain rfl := eq_unitaryInvolution hσ
     set P := (exists_wittMatrix hK 6).choose
     let e : SU (unitaryInvolution K p f) 6 ≃* StatedSU 6 (p ^ f) K :=
@@ -111,25 +111,25 @@ theorem su6_cover {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {q : ℕ}
     ⁅(⊤ : Subgroup H), (⊤ : Subgroup H)⁆ = ⊤ ∧ (Nat.card (Subgroup.center H)).Coprime 3 ∧
       Nonempty (H ⧸ Subgroup.center H ≃*
         (TauCeti.CFSGIndex.lie (⟨.twistedA 5 Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group) := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   subst hQ
   have hK' : Nat.card K = (Q.p ^ Q.exponent) ^ 2 := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K Q.p := charP_of_card_sq hK'
+  have : CharP K Q.p := charP_of_card_sq hK'
   obtain rfl := eq_unitaryInvolution fun c => (hσ c).trans (by rw [TauCeti.PrimePower.card_def])
   have hnq : (6, Q.p ^ Q.exponent) ≠ (3, 2) := by simp
   have hqs := isQuasisimple_statedSU_of_card (n := 6) hK' (by norm_num) hnq
   have hQS : IsQuasisimple (SU (unitaryInvolution K Q.p Q.exponent) 6) :=
     isQuasisimple_SU hK' (by norm_num) hnq
   obtain ⟨hperf, hcen, ⟨e₀⟩⟩ := cover_properties hQS hφ fun x hx => hker x hx
-  haveI : Finite H := Finite.of_surjective φ hφ
+  have : Finite H := Finite.of_surjective φ hφ
   refine ⟨hperf, coprime_three_card_center fun x hx => ?_, ?_⟩
   · rw [hcen] at hx
     obtain ⟨z, hz, rfl⟩ := hx
     rw [← map_mul]
     exact hsq z hz
   · let e₁ := centerQuotientEquivStatedProj hK' hqs.2
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype (GaloisField Q.p (2 * Q.exponent)) := Fintype.ofFinite _
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype (GaloisField Q.p (2 * Q.exponent)) := Fintype.ofFinite _
     have hcard : Fintype.card K = Fintype.card (GaloisField Q.p (2 * Q.exponent)) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
         GaloisField.card Q.p (2 * Q.exponent) (by have := Q.exponent_pos; omega), hK', pow_mul']

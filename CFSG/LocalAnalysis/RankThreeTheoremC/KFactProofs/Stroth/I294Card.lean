@@ -18,7 +18,7 @@ theorem card_eq_eightyOne_of_sylowLine {Y : Type} [Group Y] [Finite Y] {D : Subg
     {P : Subgroup Y} (hP : IsPGroup 3 P) (hDP : D ≤ P) (hrk : CFSG.Open.pRank 3 P = 3) :
     Nat.card P = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   have hxP : x ∈ P := hDP hx
   have hx3 : x ^ 3 = 1 := hDe.2 x hx
@@ -57,10 +57,10 @@ theorem card_eq_eightyOne_of_sylowLine {Y : Type} [Group Y] [Finite Y] {D : Subg
 theorem I294Cfg.card_sylow_eq_eightyOne {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y}
     [L.Normal] {z g : Y} {D : Subgroup Y} (h : I294Cfg 3 L z g D) (P : Sylow 3 Y)
     (hDP : D ≤ (P : Subgroup Y)) : Nat.card P = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxD, hx1, hS⟩ := h.sylowLine
   have hrk : CFSG.Open.pRank 3 (P : Subgroup Y) = 3 :=
     (CFSG.SectionRank.pRank_sylow P).1.trans h.rank
-  exact card_eq_eightyOne_of_sylowLine h.elem h.card hxD hx1 hS P.isPGroup' hDP hrk
+  exact card_eq_eightyOne_of_sylowLine h.elem h.card hxD hx1 hS P.isPGroup hDP hrk
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3

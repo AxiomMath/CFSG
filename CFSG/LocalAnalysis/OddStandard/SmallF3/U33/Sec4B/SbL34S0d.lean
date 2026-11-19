@@ -71,12 +71,12 @@ theorem conjIn_U_eq {s : G} (hsO : s ∈ ctxO t tau x₁ x₂) (hs1 : s * s = 1)
   · rintro u ⟨v, hv, rfl⟩
     change s * v ∈ conjIn (ctxU t tau x₁ x₂ lam) s
     obtain ⟨b, hb, hbv⟩ := exists_comm_eq hc hsO hs1 hcomm hv
-    refine ⟨b, O_le_U hc (hc.Q_le_O hb), ?_⟩
+    refine ⟨b, O_le_U (hc.Q_le_O hb), ?_⟩
     have h1 : b * s * b⁻¹ = v * s := by
       rw [← hbv]; group
     rw [h1, V_comm_O hc hsO hv]
 
-theorem normal_CQ {s : G} (hsO : s ∈ ctxO t tau x₁ x₂)
+theorem normal_CQ {s : G} (_hsO : s ∈ ctxO t tau x₁ x₂)
     (hM : conjIn (ctxM t tau x₁ x₂) s = s • (fourGrp x₁ x₂ : Set G)) :
     NormalIn (ctxQ t tau x₁ x₂ rho ⊓ centralizer ({s} : Set G)) (ctxM t tau x₁ x₂) := by
   refine ⟨?_, ?_⟩

@@ -44,14 +44,14 @@ theorem exists_thCyc (h : StdHyp G L) (hD : ThData ↥L) :
     (by rw [Nat.card_zpowers, ht₀, pow_one]) : IsPGroup 2 (zpowers (⟨t, ht⟩ : C))).exists_le_sylow
   have htQ : (⟨t, ht⟩ : C) ∈ (Q : Subgroup C) := hQ (mem_zpowers _)
   have hQcyc : IsCyclic (Q : Subgroup C) :=
-    isCyclic_of_isPGroup_of_cyclicSylow h.cyclicSylow Q.isPGroup'
+    isCyclic_of_isPGroup_of_cyclicSylow h.cyclicSylow Q.isPGroup
   have hR := inf_centralizer_singleton_eq_map_sylow ht hN hcore Q hQcyc htQ
   have hLt : L ≤ centralizer ({t} : Set G) := fun l hl =>
     mem_centralizer_singleton_iff.2 (mem_centralizer_iff.1 ht l hl)
   have hRt : (Q : Subgroup C).map C.subtype ≤ centralizer ({t} : Set G) := hR ▸ inf_le_right
   have hRC : (Q : Subgroup C).map C.subtype ≤ C := hR ▸ inf_le_left
   refine ⟨(Q : Subgroup C).map C.subtype, t, ⟨h.simple, h.nonabelian, hD, ?_, ht2,
-    Q.isPGroup'.map _, ?_, hRC, ?_, ?_⟩⟩
+    Q.isPGroup.map _, ?_, hRC, ?_, ?_⟩⟩
   · exact hR ▸ ⟨ht, mem_centralizer_singleton_iff.2 rfl⟩
   · let e := Subgroup.equivMapOfInjective (Q : Subgroup C) C.subtype C.subtype_injective
     exact isCyclic_of_surjective e.toMonoidHom e.surjective

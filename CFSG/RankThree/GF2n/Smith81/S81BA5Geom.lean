@@ -25,7 +25,7 @@ theorem s81A12_single_mem_S0 {j : Fin 6} (hj : j.val % 2 = 0) (c : K) :
   have hkj : k ≠ j := by
     rintro rfl
     omega
-  rw [Pi.single_apply, if_neg hkj]
+  rw [Pi.single_apply, ite_eq_right hkj]
 
 theorem s81A12_transvection_mulVec (a b : Fin 6) (c : K) (v : Fin 6 → K) (i : Fin 6) :
     (Matrix.transvection a b c *ᵥ v) i = v i + (if i = a then c * v b else 0) := by
@@ -44,7 +44,7 @@ theorem s81A12_mem_UnipGL_root {a b : Fin 6} (hab : a.val % 2 = 0 ∧ b.val % 2 
       rintro rfl
       have := hab.1
       omega
-    rw [Pi.sub_apply, s81A12_transvection_mulVec, if_neg hja]
+    rw [Pi.sub_apply, s81A12_transvection_mulVec, ite_eq_right hja]
     simp
   · intro s hs
     rw [transvGL_val]
@@ -81,10 +81,10 @@ theorem s81A12_matrix_eq (g : GL (Fin 6) K) (hg : g ∈ UnipGL K (S0 K)) :
       rintro rfl
       omega
     rw [Finset.sum_eq_single_of_mem (i, j) hmem]
-    · simp [Matrix.single_apply, Matrix.one_apply_ne hne]
+    · simp [Matrix.one_apply_ne hne]
     · intro p _ hp
       have hnot : ¬ (p.1 = i ∧ p.2 = j) := fun h => hp (Prod.ext h.1 h.2)
-      simp [Matrix.single_apply, hnot]
+      simp [hnot]
   · have hsum : ∑ p ∈ Finset.univ.filter
         (fun p : Fin 6 × Fin 6 => p.1.val % 2 = 0 ∧ p.2.val % 2 = 1),
           Matrix.single p.1 p.2 ((g : Matrix (Fin 6) (Fin 6) K) p.1 p.2) i j = 0 := by
@@ -96,7 +96,7 @@ theorem s81A12_matrix_eq (g : GL (Fin 6) K) (hg : g ∈ UnipGL K (S0 K)) :
         have hp2 := (Finset.mem_filter.1 hp).2
         rw [h1, h2] at hp2
         exact hp2
-      simp [Matrix.single_apply, hnot]
+      simp [hnot]
     rw [hsum, add_zero]
     exact s81A12_entry_of_mem hg i j (by omega)
 
@@ -310,7 +310,7 @@ theorem det_one_add_of_mul_self_eq_zero {N : Matrix (Fin 6) (Fin 6) K} (hN : N *
     · subst hij
       simp
       ring
-    · simp [Matrix.one_apply, hij]
+    · simp [hij]
       ring
   have h0 : r = 1 := by
     have h := hev 0
@@ -440,7 +440,7 @@ theorem natCard_linearMap_quot (S S' : Submodule K (Fin 6 → K)) :
   rw [h3, mul_comm]
 
 theorem card_Urad_inf [Finite K] (S S' : Submodule K (Fin 6 → K)) (hS : Module.finrank K S = 3)
-    (hS' : Module.finrank K S' = 3) :
+    (_hS' : Module.finrank K S' = 3) :
     Nat.card ↥(Urad K S ⊓ Urad K S') =
       Nat.card K ^ (Module.finrank K ↥(S ⊓ S') * (6 - Module.finrank K ↥(S ⊔ S'))) := by
   have hSne : S ≠ ⊥ := by
@@ -487,7 +487,7 @@ theorem imgS0_eq_of_rho_p0 {G : GL (Fin 6) K} {c : K} (hc : c ≠ 0)
   have hS024 : coord K (ιMulti K 3 w) S024 = c := by
     rw [← hrho, h, coord_smul]
     unfold p0
-    rw [coord_cubeBasis, if_pos rfl, mul_one]
+    rw [coord_cubeBasis, ite_eq_left rfl, mul_one]
   have hdet : M.det = c := by
     rw [hM, ← hS024, coord_ιMulti]
     simp only [hs]
@@ -496,7 +496,7 @@ theorem imgS0_eq_of_rho_p0 {G : GL (Fin 6) K} {c : K} (hc : c ≠ 0)
     have hSI : S024 ≠ I := fun h' => hI h'.symm
     rw [← hrho, h, coord_smul]
     unfold p0
-    rw [coord_cubeBasis, if_neg hSI, mul_zero]
+    rw [coord_cubeBasis, ite_eq_right hSI, mul_zero]
   have key : ∀ (I : Set.powersetCard (Fin 6) 3) (i j k : Fin 6), i ≠ j → i ≠ k → j ≠ k →
       I.val = {i, j, k} → I ≠ S024 → minor3 w i j k = 0 := by
     intro I i j k hij hik hjk hI hne
@@ -535,15 +535,15 @@ theorem imgS0_eq_of_rho_p0 {G : GL (Fin 6) K} {c : K} (hc : c ≠ 0)
     have hu0 : M.updateCol 0 (fun i => w i b) = Matrix.of fun i j => w i (![b, 2, 4] j) := by
       rw [hM]
       ext i j
-      fin_cases j <;> simp [Matrix.updateCol_apply]
+      fin_cases j <;> simp
     have hu1 : M.updateCol 1 (fun i => w i b) = Matrix.of fun i j => w i (![0, b, 4] j) := by
       rw [hM]
       ext i j
-      fin_cases j <;> simp [Matrix.updateCol_apply]
+      fin_cases j <;> simp
     have hu2 : M.updateCol 2 (fun i => w i b) = Matrix.of fun i j => w i (![0, 2, b] j) := by
       rw [hM]
       ext i j
-      fin_cases j <;> simp [Matrix.updateCol_apply]
+      fin_cases j <;> simp
     have hz0 : (M.updateCol 0 (fun i => w i b)).det = 0 := by
       rw [hu0]
       exact hm1
@@ -593,10 +593,10 @@ theorem imgS0_eq_of_rho_p0 {G : GL (Fin 6) K} {c : K} (hc : c ≠ 0)
           revert hj
           decide
         have hxj : x j = 0 := hx j hj
-        simp [hxj, e, Pi.single_apply, h0, h2, h4]
-      · simp [e, Pi.single_apply]
-      · simp [e, Pi.single_apply]
-      · simp [e, Pi.single_apply]
+        simp [hxj, e, h0, h2, h4]
+      · simp [e]
+      · simp [e]
+      · simp [e]
     show (G : Matrix (Fin 6) (Fin 6) K) *ᵥ x ∈ S0 K
     have hGx : (G : Matrix (Fin 6) (Fin 6) K) *ᵥ x =
         x 0 • ((G : Matrix (Fin 6) (Fin 6) K) *ᵥ e K 0) +
@@ -621,7 +621,7 @@ theorem rho_p0_mem_span_of_imgS0 {G : GL (Fin 6) K} (h : imgS0 G = S0 K) :
     have hne : j ≠ i := by
       rintro rfl
       omega
-    simp [e, Pi.single_apply, hne]
+    simp [e, hne]
   have hcol : ∀ i : Fin 3, (G : Matrix (Fin 6) (Fin 6) K) *ᵥ (![e K 0, e K 2, e K 4] i) ∈ S0 K := by
     intro i
     have hmem : (![e K 0, e K 2, e K 4] : Fin 3 → Fin 6 → K) i ∈ S0 K := by
@@ -673,12 +673,12 @@ theorem rho_p0_mem_span_of_imgS0 {G : GL (Fin 6) K} (h : imgS0 G = S0 K) :
     · rw [hI]
       have h1 : coord K (p0 K) S024 = 1 := by
         unfold p0
-        rw [coord_cubeBasis, if_pos rfl]
+        rw [coord_cubeBasis, ite_eq_left rfl]
       rw [h1, mul_one, sub_self]
     · have hSI : S024 ≠ I := fun h' => hI h'.symm
       have h1 : coord K (p0 K) I = 0 := by
         unfold p0
-        rw [coord_cubeBasis, if_neg hSI]
+        rw [coord_cubeBasis, ite_eq_right hSI]
       rw [hzero I hI, h1, mul_zero, sub_zero]
   have hmul : rho K G (p0 K) = coord K (rho K G (p0 K)) S024 • p0 K := sub_eq_zero.mp hx
   rw [hmul]

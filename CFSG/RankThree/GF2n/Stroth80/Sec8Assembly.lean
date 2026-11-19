@@ -42,7 +42,7 @@ theorem step81close_of_parts (hE : Close81EStatement) (hS : Close81SylowStatemen
   have h' := h
   obtain ⟨hs, hr, ha, hx⟩ := h'
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre hs.toSec5.mem
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   exact hF G M Q Z B hc n t hs ha Z0 hZ0 (hTI G M Q Z B hc n t hs Z0 hZ0)
     (hS G M Q Z B hc n t r h Z0 hZ0) (hE G M Q Z B hc n t r h Z0 hZ0)
 

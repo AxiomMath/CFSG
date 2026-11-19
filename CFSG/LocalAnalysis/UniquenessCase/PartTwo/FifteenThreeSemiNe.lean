@@ -16,6 +16,7 @@ section Clifford
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s15_semi_isIrrOn_map {N : Subgroup (MulAut W)} {x : MulAut W}
     (hx : ∀ n ∈ N, x⁻¹ * n * x ∈ N) (hx' : ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     {J : Subgroup W} (hJ : IsIrrOn N J ⊥) : IsIrrOn N (J.map x.toMonoidHom) ⊥ := by
@@ -62,7 +63,7 @@ theorem s15_semi_isIrrOn_Mbar (h : Hyp125 D V₀ V) (hV₀ : V₀ ≠ ⊥) :
     · exact absurd h0 hV₀
     · exact h0
   obtain ⟨v, hvV, hv0⟩ :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hle (by rintro rfl; exact hnTI hTI₀))
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle (by rintro rfl; exact hnTI hTI₀))
   have hq : mkTil V₀ V hV (IntMod.mk hV ⟨v, hvV⟩) ≠ 1 := fun h1 =>
     hv0 ((QuotientGroup.eq_one_iff (N := modNull V₀ V hV) _).1 h1)
   refine ⟨?_, fun _ _ _ _ => Subgroup.mem_top _, ?_, fun J hJ _ _ =>

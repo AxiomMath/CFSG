@@ -49,7 +49,7 @@ theorem ggRootCentKGStructTag_PSU_of
       simp only [ggU, lieUniversal, hf, ↓reduceDIte]
     rw [e]
     intro ψ _ _ _ hrank hker _ _ hC _ hBs r hr _ E hEN hEC _ hEinn
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hn : 4 ≤ n := by
       change 2 ≤ n / 2 at hrank
       omega

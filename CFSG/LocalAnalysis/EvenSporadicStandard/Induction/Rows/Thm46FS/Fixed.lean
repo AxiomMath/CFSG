@@ -43,7 +43,7 @@ theorem fixedComponent_of_solStd {Y : Type} [Group Y] [Finite Y] {N' : Subgroup 
   have hQq : CFSG.IsQuasisimple ↥Q := CFSG.LocalCores.isQuasisimple_of_mulEquiv eQP.symm hPq
   have hO : CFSG.pPrimeCore 2 ↥Q ≠ ⊤ := by
     intro htop
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h1 : Odd (Nat.card (CFSG.pPrimeCore 2 ↥Q)) :=
       Nat.coprime_two_left.1 CFSG.pPrimeCore_coprime_card
     rw [htop, Subgroup.card_top] at h1

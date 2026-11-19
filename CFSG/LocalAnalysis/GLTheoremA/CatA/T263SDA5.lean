@@ -33,7 +33,7 @@ theorem sd_card_three_group_le {G : Type} [Group G] [Finite G]
       exact (Nat.card_congr (Equiv.ofInjective _ hinj)).symm
     rw [← h1]
     exact Subgroup.card_subgroup_dvd_card _
-  haveI : Finite (MulAut G) := Finite.of_injective (fun σ : MulAut G => (σ : G → G)) DFunLike.coe_injective
+  have : Finite (MulAut G) := Finite.of_injective (fun σ : MulAut G => (σ : G → G)) DFunLike.coe_injective
   have hpos : 0 < Nat.card (MulAut G) := Nat.card_pos
   obtain ⟨j, hj⟩ := hA.exists_card_eq
   have hjdvd : 3 ^ j ∣ Nat.card (MulAut G) := by

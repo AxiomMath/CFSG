@@ -255,7 +255,7 @@ theorem twNcard_kernel_eq (b : Fin Tag.E6.rank → ZMod 3) :
   have hset : {α | IsRoot .E6 α ∧ triPairing b α = 0} =
       e6Certificate.root '' (↑l.toFinset : Set ℕ) := by
     ext α
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
     constructor
     · rintro ⟨hα, h0⟩
       obtain ⟨k, hk, rfl⟩ := exists_root_eq e6Certificate_check hα
@@ -279,7 +279,7 @@ theorem twNcard_kernel_conj {f b₀ : Fin Tag.E6.rank → ZMod 3} {t : WeylGroup
   have hset : {α | IsRoot .E6 α ∧ triPairing f α = 0} =
       (t • ·) '' {α | IsRoot .E6 α ∧ triPairing b₀ α = 0} := by
     ext α
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨hα, h0⟩
       exact ⟨t⁻¹ • α, ⟨IsRoot.smul hα t⁻¹, by rw [← hpair]; exact h0⟩, smul_inv_smul t α⟩

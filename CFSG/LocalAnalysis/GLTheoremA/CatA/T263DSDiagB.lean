@@ -15,6 +15,7 @@ section Y
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem t263_mem_normalizer_diagK_of {E J : Subgroup Y} {g : Y}
     (hgJ : g ∈ Subgroup.normalizer (J : Set Y)) (hgE : g ∈ Subgroup.centralizer (E : Set Y)) :
     g ∈ Subgroup.normalizer (diagK E J : Set Y) := by
@@ -39,6 +40,7 @@ theorem t263_mem_normalizer_diagK_of {E J : Subgroup Y} {g : Y}
   have h := CFSG.LocalAnalysis.GLTheoremB.gLBConj_mono g (key g⁻¹ hgJ' hgE')
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h
 
+omit [Finite Y] in
 theorem t263_gLBConj_layer_le {X : Subgroup Y} {g : Y} (hg : g ∈ Subgroup.normalizer (X : Set Y)) :
     GLBConj g (GLALayer X) ≤ GLALayer X := by
   unfold GLALayer
@@ -79,13 +81,13 @@ theorem T263DiagData.mem_normalizer {E J : Subgroup Y} {d : ↥J →* Y} (hd : T
   rwa [hd.layer] at this
 
 theorem T263DiagData.le_normalizer {p : ℕ} {E J : Subgroup Y} {d : ↥J →* Y} (hd : T263DiagData E J d)
-    (hE : IsElemAbelian p E) : E ≤ Subgroup.normalizer (d.range : Set Y) := fun g hg =>
+    (hE : IsElemAbelian p E) : E ≤ Subgroup.normalizer (d.range : Set Y) := fun _g hg =>
   hd.mem_normalizer (t263_mem_normalizer_diagK hg)
-    (Subgroup.mem_centralizer_iff.2 fun h hh => isElemAbelian_commute hE hh hg)
+    (Subgroup.mem_centralizer_iff.2 fun _h hh => isElemAbelian_commute hE hh hg)
 
 theorem t263_eq_bot_of_pGroup_coprime {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {N : Subgroup G} (hN : IsPGroup p ↥N) (hc : Nat.Coprime p (Nat.card ↥N)) : N = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hN.exists_card_eq
   rw [hn] at hc
   have hn0 : n = 0 := by
@@ -109,19 +111,21 @@ theorem t263_centerQuot_nonempty {G H : Type*} [Group G] [Group H] [Group.IsPerf
     obtain ⟨g, rfl⟩ := hφ h
     exact ⟨QuotientGroup.mk g, by simp [QuotientGroup.map_mk]⟩
 
+omit [Finite Y] in
 theorem T263DiagData.center_eq {E J : Subgroup Y} {d : ↥J →* Y} (hd : T263DiagData E J d)
     (hJq : CFSG.Open.IsQuasisimple ↥J) :
     Subgroup.center ↥d.range = (Subgroup.center ↥J).map d.rangeRestrict := by
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
   refine (CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel d.rangeRestrict
     d.rangeRestrict_surjective ?_).symm
   rw [MonoidHom.ker_rangeRestrict]
   exact hd.ker
 
+omit [Finite Y] in
 theorem T263DiagData.centerQuot_nonempty {E J : Subgroup Y} {d : ↥J →* Y} (hd : T263DiagData E J d)
     (hJq : CFSG.Open.IsQuasisimple ↥J) :
     Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* (↥d.range ⧸ Subgroup.center ↥d.range)) := by
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
   refine t263_centerQuot_nonempty d.rangeRestrict d.rangeRestrict_surjective ?_
   rw [MonoidHom.ker_rangeRestrict]
   exact hd.ker
@@ -136,7 +140,7 @@ theorem T263DiagData.isPGroup_center {p : ℕ} (hp : p.Prime) {E J : Subgroup Y}
 theorem T263DiagData.core_eq_bot {p : ℕ} (hp : p.Prime) {E J : Subgroup Y} {d : ↥J →* Y}
     (hd : T263DiagData E J d) (hJq : CFSG.Open.IsQuasisimple ↥J) (hcore : GLAPPrimeCore p ↥J = ⊥)
     (hdvd : p ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) : GLAPPrimeCore p ↥d.range = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥d.range)) := CFSG.pPrimeCore_coprime_card
   have hpΔ : p ∣ Nat.card ↥d.range := by
     obtain ⟨e⟩ := hd.centerQuot_nonempty hJq

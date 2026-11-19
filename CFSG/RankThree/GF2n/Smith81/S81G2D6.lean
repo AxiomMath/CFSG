@@ -19,6 +19,7 @@ variable (K : Type) [Field K]
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem range_resV0 : (resV0 K).range = LamW K := by
   ext g
   rw [MonoidHom.mem_range]

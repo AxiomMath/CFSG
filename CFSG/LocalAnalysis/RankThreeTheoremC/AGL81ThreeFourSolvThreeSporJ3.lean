@@ -27,11 +27,11 @@ theorem threeFourSolvThreeNoneAt_j3 :
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ hrk _ hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb
     hcond _
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJdef
   by_contra hJC
   have hOR := kFactJ3OuterRank_closed CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
@@ -39,7 +39,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
   obtain ⟨β⟩ : Nonempty (Blueprint.NativeSporadic.Carrier .J3 ≃*
       (TauCeti.CFSGIndex.sporadic .J3).Group) := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   have := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI hKs : IsSimpleGroup ↥K :=
+  have hKs : IsSimpleGroup ↥K :=
     MulEquiv.isSimpleGroup (H := Blueprint.NativeSporadic.J3) (e.trans β.symm)
   have hcardK : Nat.card ↥K = 50232960 := by
     rw [Nat.card_congr (e.trans β.symm).toEquiv]
@@ -53,7 +53,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
     rw [Subgroup.card_top, Subgroup.card_bot, hcardK] at h1
     norm_num at h1
   have hKY : ¬ K ≤ Y₀ := by
-    haveI : Group.IsPerfect ↥K :=
+    have : Group.IsPerfect ↥K :=
       ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
     exact hcomp K ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩ le_rfl
@@ -87,13 +87,13 @@ theorem threeFourSolvThreeNoneAt_j3 :
     rw [h2, orderOf_one] at hc
     norm_num at hc
   set θ : Y →* MulAut ↥K := MulAut.conjNormal with hθ
-  haveI : Finite (MulAut ↥K) := MulEquiv.finite_left
+  have : Finite (MulAut ↥K) := MulEquiv.finite_left
   set π : Y →* θ.range := θ.rangeRestrict with hπdef
   have hπ : Function.Surjective π := MonoidHom.rangeRestrict_surjective θ
   have hπker : π.ker = C := ker_rangeRestrict_conjNormal K
   have hker' : Nat.Coprime 3 (Nat.card π.ker) := by rw [hπker]; exact hC3
   set K' : Subgroup θ.range := K.map π with hK'def
-  haveI hK'n : K'.Normal := Subgroup.Normal.map hKn π hπ
+  have hK'n : K'.Normal := Subgroup.Normal.map hKn π hπ
   have hK'X : Nonempty (↥K' ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) := by
     obtain ⟨f⟩ := nonempty_mulEquiv_map_rangeRestrict_conjNormal hZ
     exact ⟨f.trans e⟩
@@ -109,7 +109,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
   have hNR : normalizer ((R : Subgroup Y) : Set Y) ≤ Y₀ :=
     (normalizer_sylow_le_threeFourCore Nat.prime_three R hER hE hEc).trans hcore
   have hNR' : normalizer ((R' : Subgroup θ.range) : Set θ.range) ≤ Y₀.map π := by
-    rw [hR'eq, ← map_normalizer_eq_of_coprime hπ hker' R.isPGroup']
+    rw [hR'eq, ← map_normalizer_eq_of_coprime hπ hker' R.isPGroup]
     exact Subgroup.map_mono hNR
   have hne : Y₀.map π ≠ ⊤ := by
     intro htop
@@ -125,7 +125,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
   have hIS := j3InSitu_of kFactJ3Sylow kFactJ3OuterInvolution hOR hK'n hK'X hC' R' hNR' hne
   have hR'Y₀ : (R' : Subgroup θ.range) ≤ Y₀.map π :=
     Subgroup.le_normalizer.trans hNR'
-  haveI : Finite (MulAut ↥K') := MulEquiv.finite_left
+  have : Finite (MulAut ↥K') := MulEquiv.finite_left
   have hOut3 : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K') :=
     fun hd => by
       have h1 := Nat.le_of_dvd Nat.card_pos hd
@@ -133,7 +133,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
       omega
   have hR'K' : (R' : Subgroup θ.range) ≤ K' := by
     intro x hx
-    obtain ⟨n, hn⟩ := R'.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := R'.isPGroup ⟨x, hx⟩
     have hx' : x ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have h1 := mem_sup_centralizer_of_pow Nat.prime_three hOut3 hx'
     rwa [hC', sup_bot_eq] at h1
@@ -145,7 +145,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
     rintro y hy ⟨k, hk⟩
     exact mem_of_mem_normalizer_of_pow_eq_one R' (hIS.le_normalizer ⟨y, hy, rfl⟩)
       (by rw [← map_pow, hk, map_one])
-  obtain ⟨f⟩ := symThree_of_autCond σ hσY hIS.le_normalizer R'.isPGroup' hN3 hkerσ hcond
+  obtain ⟨f⟩ := symThree_of_autCond σ hσY hIS.le_normalizer R'.isPGroup hN3 hkerσ hcond
   set σ' : I₀ →* θ.range := π.comp σ with hσ'
   have hD'eq : σ'.range = σ.range.map π := MonoidHom.range_comp π σ
   have hD's : IsSubnormal σ'.range (Y₀.map π) := by rw [hD'eq]; exact hσs.map π
@@ -212,7 +212,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
   have htN : t ∈ normalizer ((R' : Subgroup θ.range) : Set θ.range) :=
     hIS.le_normalizer (hD'Y₀ htD)
   have hidx : (centralizer ({t} : Set θ.range)).relIndex (R' : Subgroup θ.range) ≤ 3 := by
-    have h1 := relIndex_centralizer_le_of_isSubnormal hD's hR'Y₀ R'.isPGroup' htD ht2 htN hW
+    have h1 := relIndex_centralizer_le_of_isSubnormal hD's hR'Y₀ R'.isPGroup htD ht2 htN hW
     rw [inf_comm, Subgroup.inf_relIndex_right] at h1
     exact h1.trans hcardW
   have hidx0 : (centralizer ({t} : Set θ.range)).relIndex (R' : Subgroup θ.range) ≠ 0 :=
@@ -272,7 +272,7 @@ theorem threeFourSolvThreeNoneAt_j3 :
       apply Subtype.ext
       exact (Subgroup.mem_centralizer_singleton_iff.mp hbC).symm
     rw [hcent, hT'', Sylow.coe_subtype, Subgroup.mem_subgroupOf] at ht'
-    obtain ⟨n, hn⟩ := R'.isPGroup' ⟨t, ht'⟩
+    obtain ⟨n, hn⟩ := R'.isPGroup ⟨t, ht'⟩
     have hn' : t ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     apply ht1
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes

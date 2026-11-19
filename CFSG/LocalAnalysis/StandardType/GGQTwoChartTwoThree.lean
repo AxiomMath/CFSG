@@ -29,6 +29,7 @@ private theorem qTwoChartTwoThree_mem_map_toEmbedding
   · intro hy
     exact ⟨π.symm y, hy, by simp⟩
 
+omit [Finite G] in
 private theorem qTwoChartTwoThree_mem_fixI_iff_supported
     (ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦))
     (I : Finset (Fin (n + 1))) (b : ↥Bs) :
@@ -44,6 +45,7 @@ private theorem qTwoChartTwoThree_mem_fixI_iff_supported
     rw [← hσs]
     exact h σ hσ
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_fixI_conj
     (ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦))
     (I : Finset (Fin (n + 1))) {π : Equiv.Perm (Fin (n + 1))} {g : G}
@@ -145,6 +147,7 @@ theorem qTwoChartTwoThree_fixI_conj
     rw [hval]
     exact hb₀
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_map_inf_centralizer (g : G) (X F : Subgroup G) :
     (X ⊓ Subgroup.centralizer (F : Set G)).map (MulAut.conj g).toMonoidHom =
       X.map (MulAut.conj g).toMonoidHom ⊓
@@ -171,6 +174,7 @@ theorem qTwoChartTwoThree_map_inf_centralizer (g : G) (X F : Subgroup G) :
     rw [hx]
     exact hy ((MulAut.conj g) w) (Subgroup.mem_map_of_mem _ hw)
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_oTwoPrime_map_conj (g : G) (X : Subgroup G) :
     qTwoOTwoPrime (X.map (MulAut.conj g).toMonoidHom) =
       (qTwoOTwoPrime X).map (MulAut.conj g).toMonoidHom := by
@@ -206,8 +210,8 @@ theorem qTwoChartTwoThree_two_elt_mem (S : QTwoChartSetting B Bs x L D J 𝒦 m 
     (hyC : y ∈ Subgroup.centralizer ((qTwoFixI S.ρA (T.map ε0) : Subgroup G) : Set G))
     {a : ℕ} (hy : y ^ (2 ^ a) = 1) : y ∈ (coordBlockSU F0 2 1 T).map ψ := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
-  haveI : Fintype F0ˣ := Fintype.ofFinite F0ˣ
+  have : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0ˣ := Fintype.ofFinite F0ˣ
   obtain ⟨u, huQ, hψu⟩ := Subgroup.mem_map.mp hyQ
   have hperm : ∀ σ : Equiv.Perm (Fin m), ∃ u : Su F0 2 1 m, ∀ i : Fin m,
       ((u : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ Pi.single i 1 =
@@ -239,7 +243,7 @@ theorem qTwoChartTwoThree_two_elt_mem (S : QTwoChartSetting B Bs x L D J 𝒦 m 
       intro i hi j hj
       have hik : i ≠ k := by rintro rfl; exact hkT hi
       have hjk : j ≠ k := by rintro rfl; exact hkT hj
-      rw [Function.update_apply, Function.update_apply, if_neg hik, if_neg hjk]
+      rw [Function.update_apply, Function.update_apply, ite_eq_right hik, ite_eq_right hjk]
       rfl
     have hbF : (b : G) ∈ qTwoFixI S.ρA (T.map ε0) :=
       qTwoChartTwoThree_mem_fixI S hε0 hb hconst
@@ -281,6 +285,7 @@ theorem qTwoChartTwoThree_chart (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
     rintro y ⟨hy, a, hya⟩
     exact qTwoChartTwoThree_two_elt_mem S hF0 hψ hε0 hTQ hQ hy.1 hy.2 hya
 
+omit [Finite G] in
 private theorem qTwoChartTwoThree_blockOf_map (ψ : Su F0 2 1 m →* G) (g : G)
     (T : Finset (Fin m)) :
     qTwoBlockOf ψ g T =

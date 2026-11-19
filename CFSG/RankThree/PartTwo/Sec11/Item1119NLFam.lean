@@ -106,7 +106,7 @@ theorem isSL2_D4 {Z : Type} [Group Z] [Finite Z]
   have hσK3 : σK ^ 3 = 1 := by
     apply RingEquiv.ext
     intro c
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h1 : σK (σK (σK c)) = c := by
       rw [hσK, hσK, hσK, ← pow_mul, ← pow_mul]
       have h2 : 2 ^ n * (2 ^ n * 2 ^ n) = Fintype.card K := by
@@ -114,8 +114,8 @@ theorem isSL2_D4 {Z : Type} [Group Z] [Finite Z]
         ring
       rw [h2, FiniteField.pow_card]
     exact h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σK.toRingHom) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimple : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σK.toRingHom) :=
     Item1120V0Bar.isSimpleGroup_graphFixedRootGroup_d4 (ℓ := 2) hn1 hKcard hσK
   have hz1 : z ≠ 1 := by
     rintro rfl

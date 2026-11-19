@@ -45,9 +45,9 @@ theorem exists_conj_torus_of_twNormTwo (hT : ExcFramesHalf.BigElemAbelianToralBa
     ∃ g ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K₀), ∀ x ∈ A,
       g⁻¹ * baseChangeGL j x * g ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K₀) := by
   set L := AlgebraicClosure K₀
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
-  haveI : CharP L 2 := charP_of_injective_ringHom j.injective 2
-  haveI := finite_modGL (τ := TwistTag.E6.tag) (K := K)
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : CharP L 2 := charP_of_injective_ringHom j.injective 2
+  have := finite_modGL (τ := TwistTag.E6.tag) (K := K)
   obtain ⟨k, hk⟩ := hA.isPGroup.exists_card_eq
   obtain ⟨h, hhC, J, hJ, hhL⟩ :=
     exists_conj_le_levi_of_twNormTwo hK hσ hAI (by rw [hk]; exact Odd.pow ⟨1, rfl⟩) hU

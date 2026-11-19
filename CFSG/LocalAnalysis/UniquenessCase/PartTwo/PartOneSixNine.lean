@@ -49,12 +49,12 @@ private theorem six9_key_data (D : Data G) (hK : UCK.K47) {p : ℕ} (hp : p.Prim
     {P : Subgroup G} (hPM : P ≤ D.M) (hPp : IsPGroup p P) (hXP : X ≤ P) {y : G} (hy : y ∈ P)
     (hyc : ∀ x ∈ X, ∀ w ∈ P, (y * x * y⁻¹ * x⁻¹) * w = w * (y * x * y⁻¹ * x⁻¹)) :
     ∀ x ∈ X, y * x = x * y := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hMtop : D.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
   have hMg : CFSG.Open.IsKGroup ↥D.M := D.standing.kProper.isKGroup D.M hMtop
-  haveI hQn : (CFSG.pCore 2 ↥D.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQn : (CFSG.pCore 2 ↥D.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (CFSG.pCore 2 ↥D.M) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hchar : centralizer ((CFSG.pCore 2 ↥D.M : Subgroup ↥D.M) : Set ↥D.M) ≤
       CFSG.pCore 2 ↥D.M := by

@@ -88,7 +88,7 @@ theorem z_ne : z ≠ 1 := h.conf.cfg.z_ne
 
 theorem z_ne_t : z ≠ t := h.conf.cfg.z_ne_t
 
-theorem S_comm_E : ∀ s ∈ S, ∀ e ∈ E, s * e = e * s := fun s hs e he =>
+theorem S_comm_E : ∀ _s ∈ S, ∀ e ∈ E, _s * e = e * _s := fun _s hs e he =>
   (mem_centralizer_iff.1 (h.SC hs) e he).symm
 
 theorem t_comm_S : ∀ s ∈ S, s * t = t * s := fun s hs => h.S_comm_E s hs t h.t_mem_E

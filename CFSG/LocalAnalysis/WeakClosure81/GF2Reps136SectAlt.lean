@@ -16,7 +16,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 theorem w1369_second_alt_transfer (hw2 : ∀ w : W, w ^ 2 = 1) {U C : Subgroup W}
     (hCU : C ≤ U) {Λ X : Subgroup (MulAut W)} (hΛ : StabPair Λ U C) (hX : StabPair X U C)
-    {k : ℕ} (hk : k ≤ 3) {J : Fin k → Subgroup W} (hCJ : ∀ i, C ≤ J i)
+    {k : ℕ} (_hk : k ≤ 3) {J : Fin k → Subgroup W} (hCJ : ∀ i, C ≤ J i)
     (hJU : ∀ i, J i ≤ U)
     (h : k = 3 ∧
       (∀ i j, SecIsoOn (secSub U C Λ) (w1369_im U C (J i)) ⊥

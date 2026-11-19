@@ -149,7 +149,7 @@ theorem config17_26a_II_inf_le_ker
     rw [hEq, E3.mQuot_self] at hmqU
     omega
   have hlt : nVSub A h < A := lt_of_le_of_ne inf_le_left hne
-  obtain ⟨a, haA, haU⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a, haA, haU⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hAhN : ¬ conjSubgroup A h ≤ normalizer (A : Set G) := hO1.1.1
   have hex : ∃ a' ∈ conjSubgroup A h, a' ∉ normalizer (A : Set G) := by
     by_contra hc

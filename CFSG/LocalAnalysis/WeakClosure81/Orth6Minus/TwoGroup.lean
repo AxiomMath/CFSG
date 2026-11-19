@@ -154,7 +154,7 @@ theorem isPGroup_closure_gens (K : Type*) [Field K] :
       (dihedralGL_le_normalizer K)
   · rw [Subgroup.closure_le]
     intro g hg
-    simp only [gens, Set.mem_union, Set.mem_setOf_eq, Set.mem_insert_iff,
+    simp only [gens, Set.mem_union, Set.mem_ofPred_eq, Set.mem_insert_iff,
       Set.mem_singleton_iff] at hg
     rcases hg with ⟨r, s, -, rfl⟩ | rfl | rfl
     · exact Subgroup.mem_sup_right (mem_diagSign_negCoordGL K r s)

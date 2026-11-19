@@ -30,7 +30,7 @@ private theorem s16c13bcA_derived_normal {A : Type*} [Group A] {Mb F : Subgroup 
     intro a ha b hb
     rw [Subgroup.mem_comap]
     have h : (MulAut.conj m).toMonoidHom ⁅a, b⁆ = ⁅m * a * m⁻¹, m * b * m⁻¹⁆ := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
         commutatorElement_def]
       group
     rw [h]
@@ -68,7 +68,7 @@ private theorem s16c13bcA_eq_derived {W : Type} [CommGroup W] [Finite W]
     {Mb Lb : Subgroup (MulAut W)} (hP : _root_.commutator ↥Lb = ⊤)
     (e : ↥(Fstar Mb) ≃* Multiplicative (ZMod 3) × ↥Lb) (hLF : Lb ≤ Fstar Mb) :
     Lb = ⁅Fstar Mb, Fstar Mb⁆ := by
-  haveI : Group.IsPerfect ↥Lb := Group.isPerfect_def.mpr hP
+  have : Group.IsPerfect ↥Lb := Group.isPerfect_def.mpr hP
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · calc Lb = ⁅Lb, Lb⁆ := Subgroup.commutator_eq_self.symm
       _ ≤ ⁅Fstar Mb, Fstar Mb⁆ := Subgroup.commutator_mono hLF hLF
@@ -102,8 +102,8 @@ theorem s16c13bcA_case168_5 (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 
     exact s16c13bcA_derived_normal hFn m hm l hl
   obtain ⟨X, hXF, -, hXcard, hXn, hXc⟩ :=
     s16c1610_center_fstar (Mb := Mbar D.M ⊥ V hV) (p := 3) hQ e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card hXcard
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥X := isCyclic_of_prime_card hXcard
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥X)
   have hgord : orderOf g = 3 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, hXcard]

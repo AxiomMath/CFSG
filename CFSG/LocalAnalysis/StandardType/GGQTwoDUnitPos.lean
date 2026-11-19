@@ -43,9 +43,9 @@ theorem ggQTwoDUnit_position_ne
       (fun _ _ hh => hh) hU
   have hne : ¬ (f = 1 ∧ (n = 4 ∨ n = 6)) := fun ⟨hf1, hn46⟩ =>
     hlab.2 ⟨by rw [← hfl]; exact hf1, by omega⟩
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have h : GGNSLocalHyp p B Bs K f n ψ :=
     ggNSLocalHyp_of_nbr hcfg (hX.imp_right (hcfg.2.2.2.1.2 X)) hcard hn hker hrange hdvd hacts
   obtain ⟨c, hc⟩ := ggNSLocal_exists_diag ggSecFiveNSCornerInput_holds h

@@ -10,11 +10,13 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem b12_TwelveOddPart_add_self_eq_zero (x : V) : x + x = 0 := by
   have h := two_smul (ZMod 2) x
   rw [show (2 : ZMod 2) = 0 by decide, zero_smul] at h
   exact h.symm
 
+omit [Finite V] in
 private theorem b12_TwelveOddPart_exists_fixMod_aux (k : ℕ) :
     ∀ (w : LGL 2 V) (W S : Submodule (ZMod 2) V), W ≤ S → (∀ v ∈ W, w v ∈ W) →
       (∀ v ∈ S, w v ∈ S) → S ≠ W → w ^ 2 ^ k = 1 →
@@ -58,12 +60,14 @@ private theorem b12_TwelveOddPart_exists_fixMod_aux (k : ℕ) :
           b12_TwelveOddPart_add_self_eq_zero s, sub_zero, add_zero]
         exact hs2
 
+omit [Finite V] in
 theorem exists_fixMod_of_two_element {w : LGL 2 V} (hw : ∃ k : ℕ, w ^ 2 ^ k = 1)
     {W S : Submodule (ZMod 2) V} (hWS : W ≤ S) (hW : ∀ v ∈ W, w v ∈ W)
     (hS : ∀ v ∈ S, w v ∈ S) (hne : S ≠ W) : ∃ s ∈ S, s ∉ W ∧ w s - s ∈ W := by
   obtain ⟨k, hk⟩ := hw
   exact b12_TwelveOddPart_exists_fixMod_aux k w W S hWS hW hS hne hk
 
+omit [Finite V] in
 theorem fixMod_inf_commSub_le_of_two_part {G : Subgroup (LGL 2 V)} {c w y : LGL 2 V}
     (hcG : c ∈ G) (hc : c = w * y) (hw : w ∈ Subgroup.zpowers c) (hy : y ∈ Subgroup.zpowers c)
     (hw2 : ∃ k : ℕ, w ^ 2 ^ k = 1) (hfix : fixMod (cE G) c ⊓ commSub G ≤ cE G) :
@@ -110,6 +114,7 @@ theorem fixMod_inf_commSub_le_of_two_part {G : Subgroup (LGL 2 V)} {c w y : LGL 
     exact (cE G).add_mem htw (map_mem_cE G hwG htS.1)
   exact htW (hfix ⟨hcs, htS.2⟩)
 
+omit [Finite V] in
 theorem fixMod_inf_commSub_le_conj {G : Subgroup (LGL 2 V)} {y x : LGL 2 V} (hx : x ∈ G)
     (hfix : fixMod (cE G) y ⊓ commSub G ≤ cE G) :
     fixMod (cE G) (x⁻¹ * y * x) ⊓ commSub G ≤ cE G := by

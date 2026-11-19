@@ -127,9 +127,9 @@ theorem exists_ne_one_of_two_le {Q : Type} [Group Q] [Finite Q] (C : Subgroup Q)
 
 theorem fusion_b_vacuous
     {Q : Type} [Group Q] [Finite Q] (K : Subgroup Q) (x : Q) (hx3 : orderOf x = 3)
-    (hxK : x ∉ K) (A₀ : Subgroup Q) (hA₀K : A₀ ≤ K)
-    (hxA : ∀ a ∈ A₀, a * x = x * a) (hcard : Nat.card A₀ = 9)
-    (hel : CFSG.Assembly.IsElemAbelian 3 A₀)
+    (_hxK : x ∉ K) (A₀ : Subgroup Q) (_hA₀K : A₀ ≤ K)
+    (hxA : ∀ a ∈ A₀, a * x = x * a) (_hcard : Nat.card A₀ = 9)
+    (_hel : CFSG.Assembly.IsElemAbelian 3 A₀)
     (hnoinv : ∀ a ∈ A₀, a ≠ 1 → ∀ t ∈ K, orderOf t = 2 → t * a ≠ a * t) :
     ∀ B : Subgroup Q, B ≤ A₀ ⊔ Subgroup.zpowers x → Nat.card B = 9 →
       (∃ t ∈ K, orderOf t = 2 ∧ ∀ b ∈ B, t * b = b * t) → False := by
@@ -145,7 +145,7 @@ theorem fusion_b_vacuous
 
 theorem fusion_b_of_noInvolution
     {Q : Type} [Group Q] [Finite Q] (K : Subgroup Q) (x : Q) (hx3 : orderOf x = 3)
-    (hxK : x ∉ K) (A₀ : Subgroup Q) (hA₀K : A₀ ≤ K)
+    (_hxK : x ∉ K) (A₀ : Subgroup Q) (_hA₀K : A₀ ≤ K)
     (hxA : ∀ a ∈ A₀, a * x = x * a) (hcard : Nat.card A₀ = 9)
     (hel : CFSG.Assembly.IsElemAbelian 3 A₀) {r : Q} (hr : r ∈ A₀) (hr1 : r ≠ 1)
     (hnoinv : ∀ t ∈ K, orderOf t = 2 → t * r ≠ r * t) :

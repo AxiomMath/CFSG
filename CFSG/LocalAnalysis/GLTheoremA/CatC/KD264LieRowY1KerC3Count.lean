@@ -71,11 +71,12 @@ theorem mem_subEl (F : Subgroup Γ) (g : Γ) : g ∈ subEl F ↔ g ∈ F := by
 
 theorem subEl_card (F : Subgroup Γ) : (subEl F).card = Nat.card F := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card]
   unfold subEl
   simp [Fintype.card_subtype]
 
+omit [Fintype Γ] in
 theorem card_of_index_eq_three (hΓ : Nat.card Γ = 27) {F : Subgroup Γ} (h : F.index = 3) :
     Nat.card F = 9 := by
   have h1 := F.card_mul_index
@@ -123,10 +124,10 @@ theorem card_filter_contains (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 
     (hcomm : ∀ g h : Γ, g * h = h * g) {e : Γ} (he : e ≠ 1) :
     ((idx3 Γ).filter (fun F => e ∈ F)).card = 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsMulCommutative Γ := ⟨⟨hcomm⟩⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsMulCommutative Γ := ⟨⟨hcomm⟩⟩
   set N : Subgroup Γ := Subgroup.zpowers e with hN
-  haveI : N.Normal := Subgroup.normal_of_comm N
+  have : N.Normal := normal_of_isMulCommutative N
   have hord : orderOf e = 3 := orderOf_eq_prime (hexp e) he
   have hNcard : Nat.card N = 3 := by rw [hN, Nat.card_zpowers, hord]
   have hQcard : Nat.card (Γ ⧸ N) = 9 := by
@@ -147,21 +148,18 @@ theorem card_filter_contains (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 
   apply Finset.card_nbij' (fun F : Subgroup Γ => F.map (QuotientGroup.mk' N))
     (fun M : Subgroup (Γ ⧸ N) => M.comap (QuotientGroup.mk' N))
   · intro F hF
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_coe] at hF
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hF
     obtain ⟨hF1, hF2⟩ := hF
     rw [mem_idx3] at hF1
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter,
-      Finset.mem_univ, true_and]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and]
     have hidx : (F.map (QuotientGroup.mk' N)).index = 3 := by
       rw [Subgroup.index_map_eq F hsurj (by rw [QuotientGroup.ker_mk']; exact hNle F hF2), hF1]
     have h1 := (F.map (QuotientGroup.mk' N)).card_mul_index
     rw [hQcard, hidx] at h1
     omega
   · intro M hM
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter,
-      Finset.mem_univ, true_and] at hM
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_coe, mem_idx3, Finset.mem_filter,
-      Finset.mem_univ, true_and]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_univ, true_and] at hM
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_idx3]
     have hMidx : M.index = 3 := by
       have h1 := M.card_mul_index
       rw [hQcard, hM] at h1
@@ -172,8 +170,7 @@ theorem card_filter_contains (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 
       rw [Subgroup.mem_comap, QuotientGroup.mk'_apply, he1]
       exact M.one_mem
   · intro F hF
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter,
-      Finset.mem_univ, true_and] at hF
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hF
     simp only
     rw [QuotientGroup.comap_map_mk', sup_eq_right.2 (hNle F hF.2)]
   · intro M _
@@ -200,7 +197,7 @@ theorem card_idx3 (hΓ : Nat.card Γ = 27) (hexp : ∀ g : Γ, g ^ 3 = 1)
     by_cases hg : g = 1
     · subst hg
       simp
-    · rw [if_pos hg, if_pos hg, smul_eq_mul, mul_one]
+    · rw [ite_eq_left hg, ite_eq_left hg, smul_eq_mul, mul_one]
       exact card_filter_contains hΓ hexp hcomm hg
   have hsum104 : ∑ g : Γ, (if g ≠ 1 then 4 else 0) = 104 := by
     rw [Finset.sum_ite, Finset.sum_const_zero, add_zero, Finset.sum_const, Finset.filter_ne',

@@ -29,7 +29,7 @@ theorem unitarySylowRoots : UnitarySylowRoots := by
   · intro T _ hT
     exact SUTrans.inSubgroup_pCore_le_normalizer_map_lowRad hσ htr hN2 hker' hrange' hΔ' hT
   · intro A hA hAc
-    exact SUTrans.le_map_lowRad_of_le_centralizer (X₀ := X₀) hσ hN2 hker' hΔ' hA hAc
+    exact SUTrans.le_map_lowRad_of_le_centralizer (_X₀ := X₀) hσ hN2 hker' hΔ' hA hAc
   · intro E hE hEc hE2 hcard
     rw [← hrange'] at hE
     exact SUTrans.eq_map_lowRad_of_le_normalizer hF hf hN hker' hE hEc hE2 hcard

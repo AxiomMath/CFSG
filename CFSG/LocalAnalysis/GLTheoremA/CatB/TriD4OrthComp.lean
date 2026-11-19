@@ -51,7 +51,7 @@ theorem eq_fixedComponentImage_of_card_two {K : Type} [Field K] [Finite K] [Char
   have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     have h1 : x = 1 := Subtype.ext (LinearEquiv.ext fun _ => Subsingleton.elim _ _)
     rw [h1, orderOf_one] at hx3
     omega
@@ -63,7 +63,7 @@ theorem eq_fixedComponentImage_of_card_two {K : Type} [Field K] [Finite K] [Char
   ·
     exfalso
     set xe : V ≃ₗ[K] V := (x : V ≃ₗ[K] V)
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+    have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
       ⟨irreducible_of_mem_primaryFactors hmem⟩
     have hm2 : 2 ≤ primaryMultiplicity xe.toLinearMap (X ^ 2 + X + 1) := by
       have h1 := hx.primaryMultiplicity_pos hmem
@@ -156,7 +156,7 @@ theorem eq_fixedComponentImage_of_card_two {K : Type} [Field K] [Finite K] [Char
         obtain ⟨_, _, _, _, -, ρ, -, -, -, -, hcomm, hsimple, -, hnab, hcardρ, -, -, -⟩ :=
           even_minus_six_actual_derived_extraction R hR h6 hts
         have he : orthDerived R = ρ.range := hcomm
-        haveI := hsimple
+        have := hsimple
         have hZ1 : Nat.card (Subgroup.center ↥ρ.range) = 1 := by
           rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥ρ.range) with hb | ht
           · rw [hb]

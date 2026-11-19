@@ -60,7 +60,7 @@ theorem innerPlaneBalance_Gamma_of_lift (S : LangSetup .E8 L 5) {Fr : L →+* L}
           localDeltaIn 5 H ((Subgroup.zpowers u).map (MulAut.conj : ↥S.Γ →* MulAut ↥S.Γ)) = ⊥) :
     InnerPlaneBalance 5 ↥S.Γ := by
   classical
-  haveI := S.finite_Γ
+  have := S.finite_Γ
   obtain ⟨v, hvT, hvp, hvn, hvc⟩ := exists_lift_Γ S hFr hΦ hn hMΓ
   have hTc : ∀ x ∈ S.D.torus.subgroupOf S.Γ, ∀ y ∈ S.D.torus.subgroupOf S.Γ, x * y = y * x := by
     intro x hx y hy

@@ -62,7 +62,7 @@ private theorem nsPerp_linearIndependent_isotropic_pair {V : Type} [AddCommGroup
   intro s t hst
   have ht : t = 0 := by
     have h := congrArg (fun z => polar Q z x) hst
-    simp only [polar_add_left, polar_smul_left, polar_smul_right, polar_self, hqx,
+    simp only [polar_add_left, polar_smul_left, polar_self, hqx,
       polar_zero_left, smul_zero, zero_add] at h
     rw [polar_comm Q u x, smul_eq_mul] at h
     exact (mul_eq_zero.mp h).resolve_right hpol

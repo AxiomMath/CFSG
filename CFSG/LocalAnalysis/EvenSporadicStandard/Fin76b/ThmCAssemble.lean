@@ -38,7 +38,7 @@ theorem exists_outerConfig (h : StdHyp G L)
     rw [hker]; exact hT₁
   let S : Subgroup (MulAut (L ⧸ center L)) :=
     (T₁ : Subgroup (centralizer ({z} : Set G))).map (thetaH hMN)
-  have hSp : IsPGroup 2 S := T₁.isPGroup'.map (thetaH hMN)
+  have hSp : IsPGroup 2 S := T₁.isPGroup.map (thetaH hMN)
   have hSidx : ¬ 2 ∣ S.index := by
     have h1 : S.index = ((T₁ : Subgroup (centralizer ({z} : Set G))) ⊔ (thetaH hMN).ker).index *
         (thetaH hMN).range.index := Subgroup.index_map _ (thetaH hMN)
@@ -78,7 +78,7 @@ theorem exists_outerConfig (h : StdHyp G L)
     cent_le := hMN
     index_two := hrel
     T_le := Subgroup.map_subtype_le _
-    T_pgroup := T₁.isPGroup'.map _
+    T_pgroup := T₁.isPGroup.map _
     T_max := by
       intro P hPH hP hTP x hx
       have hxH : x ∈ centralizer ({z} : Set G) := hPH hx

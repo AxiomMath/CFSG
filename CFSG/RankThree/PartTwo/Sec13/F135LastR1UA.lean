@@ -71,7 +71,7 @@ theorem u1_sylow_lift {A B : Type*} [Group A] [Group B] [Finite A] {p : ℕ} [Fa
     obtain ⟨k, hk⟩ := hE x.1
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
   have hmap : P.toSubgroup.map g = ⊤ := ((P.mapSurjective hgs).maximal_isPGroup.eq_of_ge htop le_top).symm
-  refine ⟨P.toSubgroup.map (E.comap f).subtype, P.isPGroup'.map (E.comap f).subtype, ?_⟩
+  refine ⟨P.toSubgroup.map (E.comap f).subtype, P.isPGroup.map (E.comap f).subtype, ?_⟩
   ext b
   constructor
   · intro hb
@@ -119,7 +119,7 @@ theorem u1_alg {T : Type*} [Group T] (z : T) (hz2 : z * z = 1) (hzc : ∀ m : T,
     (hbc : (b * c) * (b * c) = 1 ∨ (b * c) * (b * c) = z)
     (cab : a * b * a⁻¹ * b⁻¹ = 1 ∨ a * b * a⁻¹ * b⁻¹ = z)
     (cac : a * c * a⁻¹ * c⁻¹ = 1 ∨ a * c * a⁻¹ * c⁻¹ = z)
-    (cbc : b * c * b⁻¹ * c⁻¹ = 1 ∨ b * c * b⁻¹ * c⁻¹ = z) :
+    (_cbc : b * c * b⁻¹ * c⁻¹ = 1 ∨ b * c * b⁻¹ * c⁻¹ = z) :
     a * a = 1 ∨ b * b = 1 ∨ c * c = 1 ∨ (a * b) * (a * b) = 1 ∨ (a * c) * (a * c) = 1 ∨
       (b * c) * (b * c) = 1 ∨ (a * b * c) * (a * b * c) = 1 := by
   by_contra hne
@@ -268,7 +268,7 @@ theorem u1_lift {N : Type*} [Group N] [Finite N] (R : Subgroup N) [R.Normal]
     (hR : Odd (Nat.card R)) {a b : N ⧸ R} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) :
     ∃ x y : N, x * x = 1 ∧ y * y = 1 ∧ x * y = y * x ∧ (x : N ⧸ R) = a ∧ (y : N ⧸ R) = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ∀ z ∈ ({a, b} : Set (N ⧸ R)), z * z = 1 := by
     intro z hz
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz

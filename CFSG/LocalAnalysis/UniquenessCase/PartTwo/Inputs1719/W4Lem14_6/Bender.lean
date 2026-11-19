@@ -23,14 +23,14 @@ theorem aCandidate_le_of_benderType {H : Type} [Group H]
     [Finite H] {n i e : ℕ} (hB : BenderType H n i e) (hi : i ≠ 3) {k : ℕ}
     (c : ACandidate H k) : k ≤ n := by
   classical
-  letI := c.commGroup
-  letI := c.finiteW
-  haveI : Finite (MulAut c.W) :=
+  let := c.commGroup
+  let := c.finiteW
+  have : Finite (MulAut c.W) :=
     Finite.of_injective (fun φ : MulAut c.W => (φ : c.W → c.W)) DFunLike.coe_injective
-  haveI : Finite ↥c.Y := Subtype.finite
-  haveI := hB.isSimple
+  have : Finite ↥c.Y := Subtype.finite
+  have := hB.isSimple
   have hft : fstarTop H = ⊤ := by
-    haveI := c.hLn
+    have := c.hLn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (fstarTop H) with h | h
     · exfalso
       obtain ⟨a, b, hab⟩ :=
@@ -46,7 +46,7 @@ theorem aCandidate_le_of_benderType {H : Type} [Group H]
   let eTop : ↥(fstarTop H) ≃* H := (MulEquiv.subgroupCongr hft).trans (Subgroup.topEquiv (G := H))
   have hBtop : BenderType ↥(fstarTop H) n i e := hB.of_mulEquiv eTop.symm
   obtain ⟨Z₀, hZ₀, hZ₀c, ⟨e₀⟩⟩ := c.central_factor
-  letI : Z₀.Normal := hZ₀
+  let : Z₀.Normal := hZ₀
   have hZ₀bot : Z₀ = ⊥ := le_bot_iff.mp (hBtop.center_eq_bot ▸ hZ₀c)
   let eF : ↥(fstarTop H) ≃* ↥(fstarSubOf c.Y) :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ₀bot.symm)).trans
@@ -59,7 +59,7 @@ theorem aCandidate_le_of_benderType {H : Type} [Group H]
       fstarSubOf c.Y := by
     rw [hFstar]
     exact CFSG.Adapters.generalized_fitting_self_centralizing ↥c.Y
-  letI : (fstarSubOf c.Y).Normal := c.hLgn
+  let : (fstarSubOf c.Y).Normal := c.hLgn
   let ρ : ↥c.Y →* MulAut ↥(fstarSubOf c.Y) := MulAut.conjNormal
   have hρ : Function.Injective ρ := by
     rw [injective_iff_map_eq_one]
@@ -116,14 +116,14 @@ theorem dMinDeg_eq_six_of_isL2_three {L : Type} [Group L] (h : UC22.IsL2 L 3) :
 
 theorem twenty_le_dMinDeg_of_isSz_five {L : Type} [Group L]
     [Finite L] (h : UC22.IsSz L 5) : 20 ≤ dMinDeg L := by
-  haveI hs : IsSimpleGroup L := UC22.uc22p22r_lieModel_isSimple_twistedB2 h
+  have hs : IsSimpleGroup L := UC22.uc22p22r_lieModel_isSimple_twistedB2 h
   have hcard : Nat.card L = CFSG.Open.ordSuzuki (2 ^ 5) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.card_eq_ordSuzuki_of_lieModel_twistedB2 h
   have h41 : 41 ∣ Nat.card L := by
     rw [hcard]
     unfold CFSG.Open.ordSuzuki
     norm_num
-  haveI : Fact (Nat.Prime 41) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 41) := ⟨by norm_num⟩
   obtain ⟨s, hs41⟩ := exists_prime_orderOf_dvd_card' (G := L) 41 h41
   refine CFSG.LocalAnalysis.UniquenessCase.UC22.MinDegLow.le_dMinDeg (fun d f hf => ?_)
   have hker : f.ker = ⊥ := by

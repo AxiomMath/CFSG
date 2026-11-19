@@ -11,24 +11,27 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem weylElt_conj_zetaVec_eq {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (i : Fin Tag.E6.rank)
     (x : Fin Tag.E6.rank → ZMod 3) :
     (fun j => zetaVec ζ hζ x j * (zetaVec ζ hζ x i) ^ (-Tag.E6.cartan i j)) =
       zetaVec ζ hζ (adRefl .E6 3 i x) := by
   funext j
-  simp only [zetaVec, Pi.mul_apply, Pi.pow_apply]
+  simp only [zetaVec]
   rw [zmodPowHom_zpow, ← map_mul, ← ofAdd_add, adRefl]
   congr 1
   congr 1
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Int.cast_neg]
   ring
 
+omit [Finite K] in
 private theorem zetaVec_sub {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (a b : Fin Tag.E6.rank → ZMod 3) :
     zetaVec ζ hζ (a - b) = zetaVec ζ hζ a * (zetaVec ζ hζ b)⁻¹ := by
   funext j
   simp only [zetaVec, Pi.sub_apply, Pi.mul_apply, Pi.inv_apply]
   rw [← map_inv, ← map_mul, ← ofAdd_neg, ← ofAdd_add, ← sub_eq_add_neg]
 
+omit [Finite K] in
 private theorem conj_weylElt_rootDiagAut (i : Fin Tag.E6.rank) (a : Fin Tag.E6.rank → Kˣ) :
     MulAut.conj (⟨weylElt .E6 K i 1, weylElt_mem_adjointGroup (τ := .E6) (K := K) i 1⟩ :
         adjointGroup .E6 K) * rootDiagAut .E6 K a *
@@ -45,6 +48,7 @@ private theorem conj_weylElt_rootDiagAut (i : Fin Tag.E6.rank) (a : Fin Tag.E6.r
   rw [← hconj]
   group
 
+omit [Finite K] in
 private theorem rootDiagUnit_zetaVec_mem_torusGroup {ζ : Kˣ} (hζ : ζ ^ 3 = 1)
     {v : Fin Tag.E6.rank → ZMod 3} (hv : v ∈ NoOffRest.hypE6) :
     rootDiagUnit .E6 (zetaVec ζ hζ v) ∈ torusGroup .E6 K := by
@@ -54,6 +58,7 @@ private theorem rootDiagUnit_zetaVec_mem_torusGroup {ζ : Kˣ} (hζ : ζ ^ 3 = 1
     obtain ⟨j, -, rfl⟩ := List.mem_map.1 hg
     exact Subgroup.subset_closure ⟨(j, zetaVec ζ hζ y j), rfl⟩
 
+omit [Finite K] in
 private theorem coboundary_eq_rootDiagUnit {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (i : Fin Tag.E6.rank)
     (x : Fin Tag.E6.rank → ZMod 3) :
     ((⟨weylElt .E6 K i 1, weylElt_mem_adjointGroup (τ := .E6) (K := K) i 1⟩ : adjointGroup .E6 K) *
@@ -78,7 +83,8 @@ private theorem coboundary_eq_rootDiagUnit {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (i : Fi
           rw [rootDiagUnit_mul, rootDiagUnit_inv]
     _ = rootDiagUnit .E6 (zetaVec ζ hζ (adRefl .E6 3 i x - x)) := by rw [zetaVec_sub]
 
-theorem eFrame_weyl [CharP K 2] {ζ : Kˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
+omit [Finite K] in
+theorem eFrame_weyl [CharP K 2] {ζ : Kˣ} (_hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
     (eFrame K ζ hζ).WeylOK := by
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro i

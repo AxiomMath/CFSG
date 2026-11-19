@@ -23,7 +23,7 @@ variable {K : Type} [Field K]
 theorem tStdMat_mul_self : tStdMat * tStdMat = (1 : Matrix V₄ V₄ K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [tStdMat, stdSign, Matrix.one_apply]
+    simp [tStdMat, stdSign]
 
 @[expose] def tStd : GL V₄ K := ⟨tStdMat, tStdMat, tStdMat_mul_self, tStdMat_mul_self⟩
 
@@ -54,7 +54,7 @@ theorem isNCInv_tStd (h2 : (2 : K) ≠ 0) : IsNCInv (tStd : GL V₄ K) := by
 theorem stdSign_sq (i : V₄) : stdSign i * stdSign i = (1 : K) := by
   rcases i with i | i <;> fin_cases i <;> simp [stdSign]
 
-theorem entry_eq_zero_of_commute_tStd (h2 : (2 : K) ≠ 0) {M : Matrix V₄ V₄ K}
+theorem entry_eq_zero_of_commute_tStd (_h2 : (2 : K) ≠ 0) {M : Matrix V₄ V₄ K}
     (hM : M * tStdMat = tStdMat * M) {i j : V₄} (hij : stdSign i ≠ (stdSign j : K)) :
     M i j = 0 := by
   have h := congrFun (congrFun hM i) j
@@ -79,7 +79,7 @@ theorem one_ne_neg_one_of_two (h2 : (2 : K) ≠ 0) : (1 : K) ≠ -1 := by
   linear_combination h
 
 theorem plusBlock_mul (h2 : (2 : K) ≠ 0) {M N : Matrix V₄ V₄ K}
-    (hM : M * tStdMat = tStdMat * M) (hN : N * tStdMat = tStdMat * N) :
+    (hM : M * tStdMat = tStdMat * M) (_hN : N * tStdMat = tStdMat * N) :
     plusBlock (M * N) = plusBlock M * plusBlock N := by
   have hne := one_ne_neg_one_of_two h2
   have z1 : M (Sum.inl 0) (Sum.inl 1) = 0 := entry_eq_zero_of_commute_tStd h2 hM
@@ -96,7 +96,7 @@ theorem plusBlock_mul (h2 : (2 : K) ≠ 0) {M N : Matrix V₄ V₄ K}
 
 theorem plusBlock_one : plusBlock (1 : Matrix V₄ V₄ K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [plusBlock, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [plusBlock]
 
 theorem det_plusBlock (h2 : (2 : K) ≠ 0) {g : GL V₄ K} (hg : g ∈ StatedSp 2 K)
     (hgt : (g : Matrix V₄ V₄ K) * tStdMat = tStdMat * (g : Matrix V₄ V₄ K)) :
@@ -112,7 +112,7 @@ theorem det_plusBlock (h2 : (2 : K) ≠ 0) {g : GL V₄ K} (hg : g ∈ StatedSp 
     entry_eq_zero_of_commute_tStd h2 hgt (by rw [stdSign_inr_zero, stdSign_inr_one]; exact hne.symm)
   have h := congrFun (congrFun (transpose_mul_spGram_mul hg) (Sum.inl 0)) (Sum.inr 0)
   simp [Matrix.mul_apply, Fintype.sum_sum_type, spGram, Matrix.fromBlocks, Matrix.one_apply,
-    z1, z2, z3, z4] at h
+    z1, z2] at h
   rw [plusBlock, Matrix.det_fin_two_of]
   linear_combination h
 
@@ -218,13 +218,12 @@ theorem exists_conj_eq_tStd (h2 : (2 : K) ≠ 0) {u : GL V₄ K} (hu : IsNCInv u
     have key : ∀ j k, (Hᵀ * spGram 2 K * H) j k = spForm 2 K (c j) (c k) := by
       intro j k
       rw [spForm, Matrix.toBilin'_apply']
-      simp [H, Matrix.mul_apply, dotProduct, Matrix.mulVec, Finset.mul_sum, Finset.sum_mul,
-        mul_comm, mul_left_comm, mul_assoc]
+      simp [H, Matrix.mul_apply, dotProduct, Matrix.mulVec, mul_comm]
       ring
     ext j k
     rw [key]
     rcases j with j | j <;> rcases k with k | k <;> fin_cases j <;> fin_cases k <;>
-      simp [c, spGram, Matrix.fromBlocks, Matrix.one_apply, spForm_self, hab₁, hab₂,
+      simp [c, spGram, Matrix.fromBlocks, spForm_self, hab₁, hab₂,
         hanti a₁ b₁, hanti a₂ b₂, (horth _ ha₁ _ ha₂).1, (horth _ ha₁ _ hb₂).1,
         (horth _ hb₁ _ ha₂).1, (horth _ hb₁ _ hb₂).1, (horth _ ha₁ _ ha₂).2,
         (horth _ ha₁ _ hb₂).2, (horth _ hb₁ _ ha₂).2, (horth _ hb₁ _ hb₂).2]
@@ -278,7 +277,7 @@ theorem mul_swapMat_apply (M : Matrix V₄ V₄ K) (i j : V₄) :
   rw [Finset.sum_eq_single (swapIdx j)]
   · simp [swapIdx_swapIdx]
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hb
     rw [h, swapIdx_swapIdx]
@@ -299,9 +298,9 @@ theorem swapMat_transpose : (swapMat : Matrix V₄ V₄ K)ᵀ = swapMat := by
   simp only [Matrix.transpose_apply, swapMat, Matrix.of_apply]
   by_cases h : j = swapIdx i
   · have h' : i = swapIdx j := by rw [h, swapIdx_swapIdx]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ i = swapIdx j := fun h' => h (by rw [h', swapIdx_swapIdx])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 @[expose] def swapGL : GL V₄ K := ⟨swapMat, swapMat, swapMat_mul_self, swapMat_mul_self⟩
 
@@ -320,14 +319,14 @@ theorem swapGL_mem : (swapGL : GL V₄ K) ∈ StatedSp 2 K := by
   ext i j
   rw [swap_conj_apply]
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [swapIdx, Matrix.fromBlocks, Matrix.one_apply, Equiv.swap_apply_def]
+    simp [swapIdx, Matrix.fromBlocks]
 
 theorem swap_conj_tStdMat :
     (swapMat : Matrix V₄ V₄ K) * tStdMat * swapMat = -(tStdMat : Matrix V₄ V₄ K) := by
   ext i j
   rw [swap_conj_apply]
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [tStdMat, stdSign, swapIdx, Equiv.swap_apply_def]
+    simp [tStdMat, stdSign, swapIdx]
 
 @[expose] def minusBlock (M : Matrix V₄ V₄ K) : Matrix (Fin 2) (Fin 2) K :=
   !![M (Sum.inl 1) (Sum.inl 1), M (Sum.inl 1) (Sum.inr 1);
@@ -337,7 +336,7 @@ theorem plusBlock_swap_conj (M : Matrix V₄ V₄ K) :
     plusBlock ((swapMat : Matrix V₄ V₄ K) * M * swapMat) = minusBlock M := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [plusBlock, minusBlock, swap_conj_apply, swapIdx, Equiv.swap_apply_def]
+    simp [plusBlock, minusBlock, swap_conj_apply, swapIdx]
 
 theorem eq_of_blocks (h2 : (2 : K) ≠ 0) {M : Matrix V₄ V₄ K} (hM : M * tStdMat = tStdMat * M)
     {a b : K} (hp : plusBlock M = a • 1) (hm : minusBlock M = b • 1) :
@@ -351,7 +350,7 @@ theorem eq_of_blocks (h2 : (2 : K) ≠ 0) {M : Matrix V₄ V₄ K} (hM : M * tSt
   ext i j
   have h22 : (2 : K)⁻¹ * 2 = 1 := inv_mul_cancel₀ h2
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [tStdMat, stdSign, Matrix.one_apply] <;>
+    simp [tStdMat, stdSign] <;>
     first
     | (have := hp' 0 0; simp at this; rw [this]; field_simp; ring)
     | (have := hp' 0 1; simp at this; rw [this])

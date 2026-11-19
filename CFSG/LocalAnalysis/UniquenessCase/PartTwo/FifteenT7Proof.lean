@@ -27,7 +27,7 @@ theorem s15_T7_isElemAbelian_biSup {A : Type*} [Group A] (p : ℕ) (S : Set (Sub
     intro Y hY Z hZ y hy z hz
     by_cases hYZ : Y = Z
     · subst hYZ
-      haveI := (hS Y hY).1
+      have := (hS Y hY).1
       exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : Y) ⟨z, hz⟩)
     · have h1 : ⁅y, z⁆ ∈ ⁅Y, Z⁆ := Subgroup.commutator_mem_commutator hy hz
       rw [hc Y hY Z hZ hYZ, Subgroup.mem_bot] at h1
@@ -116,7 +116,7 @@ theorem s15_T7_card_eight {V : Type*} [CommGroup V] {H : Subgroup (MulAut V)} {U
 
 theorem s15_T7_rk_binaryNatural {V : Type*} [CommGroup V] {H : Subgroup (MulAut V)}
     {U : Subgroup V} (h : BinaryNaturalSL H U ⊥ 3 1) : rk ↥U = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold rk
   rw [s15_T7_card_eight h, show (8 : ℕ) = 2 ^ 3 by norm_num, padicValNat.prime_pow]
 
@@ -140,7 +140,7 @@ theorem s15_T7_not_group_of_elemAbelian3 (D : Data G) {V₀ V L : Subgroup G}
   have hsq : ∀ w : vStar D.M V₀ V hV L, w ^ 2 = 1 := s15_LP_vtil_sq_eq_one _ V hV
   have hsqW : ∀ w : ↥(wStar D.M V₀ V hV L), w ^ 2 = 1 := fun w => Subtype.ext (hsq w.1)
   have hodd : Odd (Nat.card ↥(lStar D.M V₀ V hV L)) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := hL3.isPGroup.exists_card_eq
     rw [hn]
     exact Odd.pow (by decide)

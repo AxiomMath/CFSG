@@ -385,7 +385,7 @@ theorem exists_smul_eq {W₁ W₂ : Subgroup G} (h₁ : W₁ ∈ hyperplaneFixed
     ∃ a ∈ P ⊔ R, ConjAct.toConjAct a • W₁ = W₂ := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set O : Set (Subgroup G) := {W | ∃ a ∈ P ⊔ R, ConjAct.toConjAct a • W₁ = W} with hO
   have hOsub : O ⊆ hyperplaneFixedSubgroups q V K := by
     rintro W ⟨a, ha, rfl⟩
@@ -395,7 +395,7 @@ theorem exists_smul_eq {W₁ W₂ : Subgroup G} (h₁ : W₁ ∈ hyperplaneFixed
     rintro a ha W ⟨b, hb, rfl⟩
     exact ⟨a * b, mul_mem ha hb, by rw [map_mul, mul_smul]⟩
   set O' : Set (Subgroup G) := hyperplaneFixedSubgroups q V K \ O with hO'
-  have hO'sub : O' ⊆ hyperplaneFixedSubgroups q V K := Set.diff_subset
+  have hO'sub : O' ⊆ hyperplaneFixedSubgroups q V K := Set.sdiff_subset
   have hW₂O' : W₂ ∈ O' := ⟨h₂, fun ⟨a, ha, hae⟩ => hcon a ha hae⟩
   have hO'stable : ∀ a ∈ P ⊔ R, ∀ W ∈ O', ConjAct.toConjAct a • W ∈ O' := by
     rintro a ha W ⟨hW, hWO⟩
@@ -507,6 +507,7 @@ def permutationKernel (q : ℕ) (V K P R : Subgroup G) : Subgroup G where
     rw [map_inv, eq_comm, ← smul_eq_iff_eq_inv_smul, ha W hW]
 
 omit hc in
+omit [Finite G] in
 @[simp] theorem mem_permutationKernel {a : G} :
     a ∈ permutationKernel q V K P R ↔ a ∈ P ⊔ R ∧
       ∀ W ∈ hyperplaneFixedSubgroups q V K, ConjAct.toConjAct a • W = W := Iff.rfl
@@ -515,7 +516,7 @@ theorem exists_not_fixed :
     ∃ W ∈ hyperplaneFixedSubgroups q V K, ∃ r ∈ R, ConjAct.toConjAct r • W ≠ W := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   set Ker : Subgroup G := permutationKernel q V K P R with hKer
   have hRle : R ≤ Ker := fun r hr =>
     ⟨Subgroup.mem_sup_right hr, fun W hW => hcon W hW r hr⟩

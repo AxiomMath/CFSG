@@ -13,7 +13,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 
 theorem gomi_untwisted_F4E8_false
     {τ : Tag} (hτ : τ = .F4 ∨ τ = .E8) {p f : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hf : 1 ≤ f) {F : Type} [Field F] [Finite F] (hF : Nat.card F = p ^ f)
+    (hp2 : p ≠ 2) (_hf : 1 ≤ f) {F : Type} [Field F] [Finite F] (hF : Nat.card F = p ^ f)
     (β : MulAut (adjointGroup τ F)) (hβ1 : β ≠ 1) (hβ2 : β ^ 2 = 1)
     (hdvd : Nat.card ↥(β.toMonoidHom.eqLocus (MonoidHom.id (adjointGroup τ F))) ∣ 51840) :
     False := by

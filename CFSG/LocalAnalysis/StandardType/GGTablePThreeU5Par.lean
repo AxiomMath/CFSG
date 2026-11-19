@@ -59,10 +59,10 @@ private lemma eigenspace_orthogonal_of_unitary {K : Type} [Field K] [Finite K] [
     (hD : ∀ u v : Fin n → K,
       (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β (D u) (D v) =
       (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β u v)
-    {μ ν : K} (hμ3 : μ ^ 3 = 1) (hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν) (hq3 : 3 ∣ 2 ^ f + 1)
+    {μ ν : K} (hμ3 : μ ^ 3 = 1) (_hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν) (hq3 : 3 ∣ 2 ^ f + 1)
     {u v : Fin n → K} (hu : u ∈ D.eigenspace μ) (hv : v ∈ D.eigenspace ν) :
     (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β u v = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := CFSG.LieType.BorelTits.unitaryForm 2 f hKf n with hF
   rw [Module.End.mem_eigenspace_iff] at hu hv
   have h1 : F.β (D u) (D v) = F.β u v := hD u v
@@ -135,7 +135,7 @@ private lemma eigenspace_sup_disjoint_of_ne {K : Type} [Field K] {V : Type} [Add
   rw [hx0, hy0, zero_add]
 
 private lemma two_eq_zero_of_char_two {K : Type} [Field K] [CharP K 2] : (2 : K) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CharP.cast_eq_zero K 2
 
 private lemma three_eq_one_of_char_two {K : Type} [Field K] [CharP K 2] : (3 : K) = 1 := by
@@ -151,27 +151,27 @@ private lemma matrix_eq_smul_one_of_cube_eq_one {K : Type} [Field K] [CharP K 2]
   have h21 : M 2 1 = 0 := htri 2 1 (by decide)
   have h01 : M 0 1 = 0 := by
     have h := congrFun (congrFun hM3 0) 1
-    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 0 1 = 0 from by simp [Matrix.one_apply]] at h
+    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 0 1 = 0 from by simp] at h
     rw [show M ^ 3 = M * M * M by rw [pow_succ, pow_two]] at h
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h11, h22, zero_mul, mul_zero,
-      add_zero, zero_add] at h
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h11, h22, mul_zero,
+      add_zero] at h
     ring_nf at h
     rw [three_eq_one_of_char_two, mul_one] at h
     exact (mul_eq_zero.mp h).resolve_left (pow_ne_zero 2 hc0)
   have h02 : M 0 2 = 0 := by
     have h := congrFun (congrFun hM3 0) 2
-    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 0 2 = 0 from by simp [Matrix.one_apply]] at h
+    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 0 2 = 0 from by simp] at h
     rw [show M ^ 3 = M * M * M by rw [pow_succ, pow_two]] at h
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h11, h22, h01, zero_mul,
-      mul_zero, add_zero, zero_add] at h
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h20, h21, h22, h01, zero_mul,
+      mul_zero, add_zero] at h
     ring_nf at h
     rw [three_eq_one_of_char_two, mul_one] at h
     exact (mul_eq_zero.mp h).resolve_left (pow_ne_zero 2 hc0)
   have h12 : M 1 2 = 0 := by
     have h := congrFun (congrFun hM3 1) 2
-    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 1 2 = 0 from by simp [Matrix.one_apply]] at h
+    rw [show (1 : Matrix (Fin 3) (Fin 3) K) 1 2 = 0 from by simp] at h
     rw [show M ^ 3 = M * M * M by rw [pow_succ, pow_two]] at h
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h11, h22, h01, h02, zero_mul,
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h10, h20, h21, h11, h22, h02, zero_mul,
       mul_zero, add_zero, zero_add] at h
     ring_nf at h
     rw [three_eq_one_of_char_two, mul_one] at h
@@ -185,7 +185,7 @@ private lemma matrix_eq_smul_one_of_cube_eq_one {K : Type} [Field K] [CharP K 2]
       · exact htri i j hlt
       · fin_cases i <;> fin_cases j <;> simp_all
     rw [hz]
-    simp [Matrix.smul_apply, Matrix.one_apply, hij]
+    simp [Matrix.smul_apply, hij]
 
 theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1)
@@ -206,7 +206,7 @@ theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
   obtain ⟨f, hf1, hq⟩ := CFSG.AGLEmbedding.ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
   have hKf : Nat.card K = (2 ^ f) ^ 2 := by rw [hq] at hK; exact hK
   rw [hq] at hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Module.End K (Fin 5 → K) := Matrix.toLin' (d : Matrix (Fin 5) (Fin 5) K)
   have hd3M : (d : Matrix (Fin 5) (Fin 5) K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, hAe.2 d hdA, Units.val_one]
@@ -229,7 +229,7 @@ theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     have h1 : q ^ 2 % 3 = 1 := by rw [Nat.pow_mod, hqmod]
     rw [Nat.dvd_iff_mod_eq_zero]
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ωu, hωu⟩ := exists_prime_orderOf_dvd_card' 3 h3card
   have hω3u : ωu ^ 3 = 1 := by rw [← hωu]; exact pow_orderOf_eq_one ωu
   have hω1u : ωu ≠ 1 := by rintro rfl; rw [orderOf_one] at hωu; omega
@@ -322,8 +322,7 @@ theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     simp
   have hEμ_anis : ∀ μ : K, μ ^ 3 = 1 → μ ≠ α →
       ∀ v : Fin 5 → K, v ∈ D.eigenspace μ → v ≠ 0 → F.β v v ≠ 0 := by
-    intro μ hμ3 hμα v hv hv0
-    intro hvβ0
+    intro μ hμ3 hμα v hv hv0 hvβ0
     have hμ1 : Module.finrank K (D.eigenspace μ) = 1 := hshape.2 μ hμ3 hμα
     have hnd : D.eigenspace μ ⊓ F.perp (D.eigenspace μ) = ⊥ := by
       rw [Submodule.eq_bot_iff]
@@ -649,10 +648,10 @@ theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     constructor
     · rw [show Mhm a 1 0 = b.repr (rEα a (b 0)) 1 from LinearMap.toMatrix_apply b b (rEα a) 1 0]
       rw [hE0, map_smul, Module.Basis.repr_self]
-      simp [Finsupp.smul_apply]
+      simp
     · rw [show Mhm a 2 0 = b.repr (rEα a (b 0)) 2 from LinearMap.toMatrix_apply b b (rEα a) 2 0]
       rw [hE0, map_smul, Module.Basis.repr_self]
-      simp [Finsupp.smul_apply]
+      simp
   have hcol1 : ∀ a : A, Mhm a 2 1 = 0 := by
     intro a
     rw [show Mhm a 2 1 = b.repr (rEα a (b 1)) 2 from LinearMap.toMatrix_apply b b (rEα a) 2 1]
@@ -820,8 +819,8 @@ theorem u5_par_impossible {K : Type} [Field K] [Finite K] [CharP K 2] {q : ℕ}
     have h3 : orderOf d ≤ 3 := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one hd3)
     omega
   have hrange3 : Nat.card g.range ≤ 3 := by
-    haveI : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
-    haveI : IsCyclic g.range := Subgroup.isCyclic g.range
+    have : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
+    have : IsCyclic g.range := Subgroup.isCyclic g.range
     obtain ⟨γ, hγ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := g.range)
     have hγ3 : γ ^ 3 = 1 := by
       obtain ⟨a, ha⟩ := γ.2

@@ -73,9 +73,9 @@ private theorem exists_orderOf_eq_four_of_projSU_odd {S : Type} [Group S] {r f :
     (φ : S ≃* CFSG.Assembly.RankThreeEven.projSU 3 r f) : ∃ s : S, orderOf s = 4 := by
   let K := GaloisField r (2 * f)
   have hUF : UnitaryFieldData r f K := ⟨Fact.out, hf, GaloisField.card r (2 * f) (by omega)⟩
-  haveI : CharP K r := hUF.charP
+  have : CharP K r := hUF.charP
   have hneg : (-1 : K) ≠ 1 := by
-    haveI : Fact (2 < r) := ⟨by have := (Fact.out : r.Prime).two_le; omega⟩
+    have : Fact (2 < r) := ⟨by have := (Fact.out : r.Prime).two_le; omega⟩
     exact CharP.neg_one_ne_one K r
   let A : Matrix (Fin 3) (Fin 3) K := !![0, 1, 0; -1, 0, 0; 0, 0, 1]
   have hdet : A.det = 1 := by simp [A, det_fin_three]
@@ -105,7 +105,7 @@ private theorem exists_orderOf_eq_four_of_projSU_odd {S : Type} [Group S] {r f :
   have hunit : ((g : Matrix (Fin 3) (Fin 3) K).map hUF.bar)ᵀ * (g : Matrix (Fin 3) (Fin 3) K) = 1 := by
     rw [hgA, hmap]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [A, mul_apply, Fin.sum_univ_three, one_apply] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [A, mul_apply, Fin.sum_univ_three, one_apply]; ring
   have hg : g ∈ Sec4.slPi false 3 (r ^ f) K := by
     rw [Sec4.mem_slPi_false hUF]
     exact ⟨by rw [hgA, hdet], hunit⟩
@@ -116,7 +116,7 @@ private theorem exists_orderOf_eq_four_of_projSU_odd {S : Type} [Group S] {r f :
 private theorem det_charTwo {K : Type} [Field K] (h2 : (2 : K) = 0) (s : K) :
     (!![s, s + 1, 1; s + 1, s, 1; 1, 1, 1] : Matrix (Fin 3) (Fin 3) K).det = 1 := by
   rw [det_fin_three]
-  simp [vecHead, vecTail]
+  simp
   linear_combination (-s) * h2
 
 private theorem sq_charTwo {K : Type} [Field K] (h2 : (2 : K) = 0) (s : K) :
@@ -154,7 +154,7 @@ private theorem exists_orderOf_eq_four_of_projSU_two {S : Type} [Group S] {f : �
     ∃ s : S, orderOf s = 4 := by
   let K := GaloisField 2 (2 * f)
   have hUF : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, GaloisField.card 2 (2 * f) (by omega)⟩
-  haveI : CharP K 2 := hUF.charP
+  have : CharP K 2 := hUF.charP
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   obtain ⟨s, hs⟩ := hUF.traceLin_surjective (1 : hUF.fixedField)
   have htrace : s + hUF.bar s = 1 := by

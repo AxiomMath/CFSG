@@ -141,10 +141,10 @@ theorem ta0 :
   choose ai hai hayi using fun i => mem_lset.1 ((hq (y i)).1 (hy i))
   set z : Nat → Nat := fun t => if h : t < 6 then ai ⟨t, h⟩ else 0 with hzdef
   have hz6 : ∀ t < 6, z t < 168 := fun t ht => by
-    simp only [hzdef, dif_pos ht]
+    simp only [hzdef, dite_eq_left ht]
     exact hai _
   have hzy : ∀ i : Fin 6, ℓ (z i.val) = (y i : Equiv.Perm (Fin 360)) := fun i => by
-    simp only [hzdef, dif_pos i.2]
+    simp only [hzdef, dite_eq_left i.2]
     exact hayi i
   have hgen' : ∀ i : Fin 6, ℓ (nthN taTI i.val) = ((ae6Word (ae6TriGen₀ i) : AE6Om) :
       Equiv.Perm (Fin 360)) := fun i => (hgen i).2

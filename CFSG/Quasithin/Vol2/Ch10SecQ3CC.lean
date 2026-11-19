@@ -177,7 +177,7 @@ theorem factOddAutCentSylow_holds :
     obtain ⟨s, hs, rfl⟩ := hp
     change β (ψ (s : X ⧸ N)) = ψ (s : X ⧸ N)
     rw [hβ, hfix s hs]
-  have hsq := sq_eq_of_fix_sylow hF β P.isPGroup' P.not_dvd_index hPfix
+  have hsq := sq_eq_of_fix_sylow hF β P.isPGroup P.not_dvd_index hPfix
   have hq : ∀ x : X, α₂ x * x⁻¹ ∈ N := by
     intro x
     have h1 := hsq (ψ (x : X ⧸ N))

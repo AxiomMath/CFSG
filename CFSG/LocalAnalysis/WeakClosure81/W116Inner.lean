@@ -20,7 +20,7 @@ theorem w116_inner_ge
     {s : MulAut W} (hsL : s ∈ L) (hs2 : orderOf s = 2) :
     4 ≤ rkIdx (fixV (Subgroup.zpowers s)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨z0, hz0ord⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.center ↥L)) 3 (by rw [hZ])
   let zL : ↥L := (z0 : ↥L)
@@ -69,7 +69,7 @@ theorem w116_inner_ge
       exact (QuotientGroup.eq_one_iff sL).mp h
     exact hs_not_center hmem
   have hZLbar : Subgroup.center Lbar = ⊥ := by
-    haveI : Group.IsPerfect ↥L := hq.1
+    have : Group.IsPerfect ↥L := hq.1
     exact Group.IsPerfect.center_quotient_center_eq_bot (G := ↥L)
   obtain ⟨e₀⟩ := hSp
   let e : Lbar ≃* ↥H.Mathieu.mog22 := e₀.trans H.Mathieu.mog22EquivM22.symm

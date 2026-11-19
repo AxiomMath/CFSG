@@ -115,7 +115,7 @@ theorem ggLieSU3Fixed_exists_block {K : Type} [Field K] [Finite K] [CharP K 2]
       (orthDerived Q ⊓ Subgroup.centralizer (Subgroup.zpowers d : Set (V ≃ₗ[K] V))) := by
     rw [hCzp]
     exact hD
-  haveI : IsMulCommutative ↥(Subgroup.zpowers d) := Subgroup.zpowers_isMulCommutative d
+  have : IsMulCommutative ↥(Subgroup.zpowers d) := Subgroup.zpowers_isMulCommutative d
   have hEcomm : ∀ a ∈ Subgroup.zpowers d, ∀ b ∈ Subgroup.zpowers d, a * b = b * a :=
     fun a ha b hb => setLike_mul_comm ha hb
   obtain ⟨h, hh, hDBd⟩ :=
@@ -148,7 +148,7 @@ theorem ggLieSU3Fixed_exists_block {K : Type} [Field K] [Finite K] [CharP K 2]
       · rw [ha, hb]
         exact (commute_iff_eq z d).mpr hzd.symm
       · rw [ha, hb]
-    haveI : IsMulCommutative ↥E' := Subgroup.isMulCommutative_closure hpair
+    have : IsMulCommutative ↥E' := Subgroup.isMulCommutative_closure hpair
     have hE'comm : ∀ a ∈ E', ∀ b ∈ E', a * b = b * a :=
       fun a ha b hb => setLike_mul_comm ha hb
     have hD_E'_le : D ≤ orthDerived Q ⊓ Subgroup.centralizer (E' : Set (V ≃ₗ[K] V)) := by

@@ -33,8 +33,8 @@ theorem mem_center_cases (hZ : Nat.card (Subgroup.center L) = 3) {z : L}
     (hz : z ∈ Subgroup.center L) (hz1 : z ≠ 1) {w : L} (hw : w ∈ Subgroup.center L) :
     w = 1 ∨ w = z ∨ w = z ^ 2 := by
   classical
-  haveI : Finite (Subgroup.center L) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Subgroup.center L) := Nat.finite_of_card_ne_zero (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : (⟨z, hz⟩ : Subgroup.center L) ^ 3 = 1 :=
     Subtype.ext (pow_three_eq_one_of_mem_center hZ hz)
   have hz1' : (⟨z, hz⟩ : Subgroup.center L) ≠ 1 := fun h => hz1 (congrArg Subtype.val h)
@@ -93,8 +93,8 @@ theorem injective_of_center_ne_one {M : Type*} [Group M] (hq : CFSG.Open.IsQuasi
     · exact hfz (by rw [h, map_pow, MonoidHom.mem_ker.mp hwK, one_pow])
   rw [← MonoidHom.ker_eq_bot_iff]
   by_contra hker
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
-  haveI hnorm : (f.ker.map (QuotientGroup.mk' (Subgroup.center L))).Normal :=
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
+  have hnorm : (f.ker.map (QuotientGroup.mk' (Subgroup.center L))).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   rcases Subgroup.Normal.eq_bot_or_eq_top (f.ker.map (QuotientGroup.mk' (Subgroup.center L)))
     with h | h

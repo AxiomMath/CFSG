@@ -12,18 +12,20 @@ section Defs
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] abbrev wcSub (T L V V₁ : Subgroup G) : Subgroup G :=
+abbrev wcSub (T L V V₁ : Subgroup G) : Subgroup G :=
   centerOf (i128 T L V V₁) ⊔ V₁
 
-@[expose] abbrev kcSub (T L V V₁ : Subgroup G) (g : G) : Subgroup G :=
+abbrev kcSub (T L V V₁ : Subgroup G) (g : G) : Subgroup G :=
   centerOf (i128 T L V V₁) ⊔ CFSG.conjugate V₁ g
 
+omit [Finite G] in
 theorem mem_centerOf_iff' {X : Subgroup G} {x : G} :
     x ∈ centerOf X ↔ x ∈ X ∧ ∀ y ∈ X, y * x = x * y := by
   unfold centerOf
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   exact Iff.rfl
 
+omit [Finite G] in
 theorem conj_centerOf_mem {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G))
     {x : G} (hx : x ∈ centerOf X) : g * x * g⁻¹ ∈ centerOf X := by
   rw [mem_centerOf_iff'] at hx ⊢
@@ -36,6 +38,7 @@ theorem conj_centerOf_mem {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normaliz
     _ = g * (x * (g⁻¹ * y * g)) * g⁻¹ := by rw [hc]
     _ = g * x * g⁻¹ * y := by group
 
+omit [Finite G] in
 theorem conj_centerOf_eq {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     CFSG.conjugate (centerOf X) g = centerOf X := by
   apply le_antisymm
@@ -203,11 +206,11 @@ theorem F_star (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemma12_8_9W
     (D : HatModelU (u128 V V₁))
     (hTΩ : ∀ t ∈ T, ∀ htU : t ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨t, htU⟩ ∈ D.img K₁)
-    (hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+    (hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
       D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁)
     (S : Submodule (ZMod 2) D.V)
     (hSV : ∀ v ∈ V, D.π v ∈ S) (hSπ : ∀ s ∈ S, ∃ v ∈ V, D.π v = s)
-    {a : G} (haV₂ : a ∈ V₂) (haV₁ : a ∉ V₁)
+    {a : G} (haV₂ : a ∈ V₂) (_haV₁ : a ∉ V₁)
     {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Finite M]
     (hM : Module.finrank (ZMod 2) M = 4)
     (kap : ↥(D.img K₁) ≃* (M ≃ₗ[ZMod 2] M))
@@ -223,7 +226,7 @@ theorem F_star (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h1289 : Lemma12_8_9W
     {x : G} (hx : x ∈ zU128 V V₁) (hxW : y₀ * x * y₀⁻¹ * x⁻¹ ∈ wcSub T L V V₁) :
     x ∈ wcSub T L V V₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := hcx.hyp.hyp.irrPlus.2.2.1
   have hTN : T ≤ Subgroup.normalizer (L : Set G) := hcx.hyp.hyp.normalizes
   have hgL : g ∈ Subgroup.normalizer (L : Set G) :=

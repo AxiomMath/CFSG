@@ -18,9 +18,9 @@ variable {G : Type} [Group G] {M Q Z B : Subgroup G}
 theorem Ctx.normal_isPGroup_two_Xbar_eq_bot [Finite G]
     [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) (S : Subgroup ↥(Xbar M Q Z B)) [S.Normal]
     (hS : IsPGroup 2 S) : S = ⊥ := by
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   let P : Subgroup (Mbar M Q) := (CFSG.pCore 2 ↥(Xbar M Q Z B)).map (Xbar M Q Z B).subtype
-  haveI : P.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : P.Normal := ConjAct.normal_of_characteristic_of_normal
   have hP : IsPGroup 2 P :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(Xbar M Q Z B))).map _
   have hP1 : P = ⊥ := hc.normal_isPGroup_two_Mbar_eq_bot P inferInstance hP
@@ -40,7 +40,7 @@ theorem Ctx.not_Xbar_le_normalizer_bar_LB_of_isA2 [Finite G]
       bar M Q (LB M Q B) :=
     Subgroup.mem_map.mpr ⟨⟨a, hc.LB_le_M haLB⟩, Subgroup.mem_subgroupOf.mpr haLB, rfl⟩
   let S : Subgroup ↥(Xbar M Q Z B) := (bar M Q (LB M Q B)).subgroupOf (Xbar M Q Z B)
-  haveI hSn : S.Normal :=
+  have hSn : S.Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have h := (Subgroup.mem_normalizer_iff.mp (hX g.2) (n : Mbar M Q)).mp hn

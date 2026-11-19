@@ -10,7 +10,7 @@ public section
 
 namespace CFSG.LinearAlgebra.CoprimeActions.PrimeCyclicFixedFreeDimension
 
-theorem orderOf_two_dvd_finrank (p : ℕ) [hp : Fact p.Prime] (hp2 : p ≠ 2)
+theorem orderOf_two_dvd_finrank (p : ℕ) [hp : Fact p.Prime] (_hp2 : p ≠ 2)
     {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
     (σ : W ≃ₗ[ZMod 2] W) (hσ : σ ^ p = 1)
     (hfix : LinearMap.ker (σ.toLinearMap - 1) = ⊥) :
@@ -22,7 +22,7 @@ theorem orderOf_two_dvd_finrank (p : ℕ) [hp : Fact p.Prime] (hp2 : p ≠ 2)
     rcases (Nat.dvd_prime hp.out).1 hord with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [hcard, h]; simp)
     · exact IsPGroup.of_card (n := 1) (by rw [hcard, h]; simp)
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hmod := hpg.card_modEq_card_fixedPoints (α := W)
   have hfp : Nat.card (MulAction.fixedPoints (Subgroup.zpowers σ) W) = 1 := by
     have : MulAction.fixedPoints (Subgroup.zpowers σ) W = {0} := by

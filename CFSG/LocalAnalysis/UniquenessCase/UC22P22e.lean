@@ -22,6 +22,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22e_isElemAbelian_map {p : ℕ} {B : Subgroup G} (hB : IsElemAbelian p B) (f : G →* G) :
     IsElemAbelian p (B.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
@@ -34,6 +35,7 @@ theorem uc22p22e_isElemAbelian_map {p : ℕ} {B : Subgroup G} (hB : IsElemAbelia
   · rintro _ ⟨x, hx, rfl⟩
     rw [← map_pow, hB.2 x hx, map_one]
 
+omit [Finite G] in
 theorem uc22p22e_isPGroup_of_elem {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) :
     IsPGroup p E := by
   intro g
@@ -43,7 +45,7 @@ theorem uc22p22e_isPGroup_of_elem {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian
 
 theorem uc22p22e_jOf_le {M T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     jOf T ≤ jOf M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ∀ S : Subgroup G, jOf S = CFSG.Quasithin.thompsonJ S := fun S =>
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ S
   rw [h1, h1]
@@ -61,14 +63,17 @@ theorem uc22p22e_jOf_le {M T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 
   have h2 := hAmax _ hB'T (uc22p22e_isElemAbelian_map hBel _)
   rwa [Subgroup.card_map_of_injective (MulAut.conj k⁻¹).injective] at h2
 
+omit [Finite G] in
 theorem uc22p22e_jOf_le_self (X : Subgroup G) : jOf X ≤ X := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem uc22p22e_uCore_le {M T : Subgroup G} (hTM : T ≤ M) : uCore M T ≤ M := by
   refine iSup_le fun m => ?_
   rintro _ ⟨z, hz, rfl⟩
   have hzT : z ∈ T := CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le T hz
   exact M.mul_mem (M.mul_mem m.2 (hTM hzT)) (M.inv_mem m.2)
 
+omit [Finite G] in
 theorem uc22p22e_omegaOneCenterIn_le_uCore (M T : Subgroup G) :
     CFSG.RankThree.PartOne.omegaOneCenterIn T ≤ uCore M T := by
   refine le_iSup_of_le (1 : M) ?_
@@ -84,7 +89,7 @@ theorem uc22p22e_inCalV_U (D : Data G) : InCalV D.M D.U := by
   exact le_bot_iff.1 (h ▸ uc22p22e_omegaOneCenterIn_le_uCore D.M D.T)
 
 theorem uc22p22e_pCoreOf_le_T (D : Data G) : pCoreOf 2 D.M ≤ D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := D.sylowM.exists_sylow_eq_subgroupOf
   have h := CFSG.fitting_pCore_le_sylow S
   rw [hS] at h
@@ -110,6 +115,7 @@ theorem uc22p22e_conj_jOf {T : Subgroup G} {y : G} (h : ∀ x ∈ jOf T, y * x *
   intro x hx
   exact key hx
 
+omit [Finite G] in
 theorem uc22p22e_mem_omegaZJ {T : Subgroup G} {z : G} :
     z ∈ omegaZJ22 T ↔ z ∈ jOf T ∧ (∀ j ∈ jOf T, j * z = z * j) ∧ z ^ 2 = 1 := by
   constructor
@@ -139,9 +145,11 @@ theorem uc22p22e_mem_omegaZJ' {T : Subgroup G} {z : G} :
       exact Subtype.ext (hc (j : G) ⟨j, hj, rfl⟩)
     · exact Subtype.ext (by simpa using h2)
 
+omit [Finite G] in
 theorem uc22p22e_omegaZJ_le_jOf (T : Subgroup G) : omegaZJ22 T ≤ jOf T :=
   fun _ hz => (uc22p22e_mem_omegaZJ.1 hz).1
 
+omit [Finite G] in
 theorem uc22p22e_conj_omegaZJ {T : Subgroup G} {y : G} (hy : ∀ x ∈ jOf T, y * x * y⁻¹ ∈ jOf T)
     (hy' : ∀ x ∈ jOf T, y⁻¹ * x * y ∈ jOf T) :
     ∀ z ∈ omegaZJ22 T, y * z * y⁻¹ ∈ omegaZJ22 T := by
@@ -165,7 +173,7 @@ theorem uc22p22e_thompson {Y Vm : Type} [Group Y] [Finite Y] [Group Vm] [Finite 
     (φ : Y →* MulAut Vm) (hV : IsPGroup 2 Vm) {B : Subgroup Y} (hB : IsPGroup 2 B) {c : Y}
     (hc : Odd (orderOf c)) (hcB : ∀ b ∈ B, φ c * φ b = φ b * φ c)
     (hfix : ∀ r : Vm, (∀ b ∈ B, φ b r = r) → φ c r = r) : φ c = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A := Subgroup.zpowers c
   let α : ↥A →* MulAut Vm := φ.comp A.subtype
   let β : ↥B →* MulAut Vm := φ.comp B.subtype
@@ -238,7 +246,7 @@ theorem uc22p22e_frattini {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fact p.P
     rw [Sylow.coe_mapSurjective] at h1
     obtain ⟨x, hx, hxq⟩ := h1
     exact ⟨(x : H), ⟨x, hx, rfl⟩, congrArg Subtype.val hxq⟩
-  refine ⟨X, X₀.isPGroup'.map W.subtype, ?_, fun x hx => (hXW hx).1⟩
+  refine ⟨X, X₀.isPGroup.map W.subtype, ?_, fun x hx => (hXW hx).1⟩
   intro hXc
   apply hnc
   let g : ↥X →* ↥Q := (π.comp X.subtype).codRestrict Q (fun x => (hXW x.2).2)
@@ -246,7 +254,7 @@ theorem uc22p22e_frattini {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fact p.P
     rintro ⟨q', hq'⟩
     obtain ⟨x, hx, hxq⟩ := hsurj q' hq'
     exact ⟨⟨x, hx⟩, Subtype.ext hxq⟩
-  haveI : IsCyclic ↥Q := isCyclic_of_surjective g hg
+  have : IsCyclic ↥Q := isCyclic_of_surjective g hg
   let h : ↥P →* ↥Q := (π.comp P.subtype).codRestrict Q (fun x => Subgroup.mem_map_of_mem _ x.2)
   have hinj : Function.Injective h := by
     intro a b hab
@@ -264,7 +272,7 @@ theorem uc22p22e_frattini_sub {p q : ℕ} [Fact p.Prime] [Fact q.Prime]
     (hS : CFSG.ABGLocalTools.IsSylowOf q S K) (hP : IsPGroup p P) (hPH : P ≤ H₀)
     (hPK : P ⊓ K = ⊥) (hnc : ¬ IsCyclic P) :
     ∃ X : Subgroup G, X ≤ H₀ ∧ IsPGroup p X ∧ ¬ IsCyclic X ∧ X ≤ normalizer (S : Set G) := by
-  haveI : (K.subgroupOf H₀).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
+  have : (K.subgroupOf H₀).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   obtain ⟨hSK, hSp, hSidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hS
   have hSH : S ≤ H₀ := hSK.trans hKH
   have hS' : CFSG.ABGLocalTools.IsSylowOf q (S.subgroupOf H₀) (K.subgroupOf H₀) := by
@@ -304,7 +312,7 @@ theorem uc22p22e_frattini_sub {p q : ℕ} [Fact p.Prime] [Fact q.Prime]
 theorem uc22p22e_not_isCyclic_sylow {p : ℕ} (hp : p.Prime) {M P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P M) (hr : 2 ≤ CFSG.Open.pRank p M) :
     ¬ IsCyclic P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt M
   obtain ⟨k, hk, hkE⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC6.exists_conj_le_of_isSylowOf hP hEM
@@ -314,8 +322,8 @@ theorem uc22p22e_not_isCyclic_sylow {p : ℕ} (hp : p.Prime) {M P : Subgroup G}
     rintro _ ⟨x, hx, rfl⟩
     have := hkE x hx
     simpa using this
-  haveI : IsCyclic ↥P := hcyc
-  haveI : IsCyclic ↥(E.map (MulAut.conj k⁻¹).toMonoidHom) := Subgroup.isCyclic_of_le hE'P
+  have : IsCyclic ↥P := hcyc
+  have : IsCyclic ↥(E.map (MulAut.conj k⁻¹).toMonoidHom) := Subgroup.isCyclic_of_le hE'P
   have hE'el := uc22p22e_isElemAbelian_map hEel (MulAut.conj k⁻¹).toMonoidHom
   have hexp : Monoid.exponent ↥(E.map (MulAut.conj k⁻¹).toMonoidHom) ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by
@@ -335,7 +343,7 @@ theorem uc22p22e_calCGS_le (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈
     (hST : S ≤ D.T) : UC6.calCGS S ≤ D.M := by
   unfold UC6.calCGS
   refine iSup_le fun C => iSup_le fun hC1 => iSup_le fun hC2 => iSup_le fun hC3 => ?_
-  haveI := hC3
+  have := hC3
   have hCmap : (C.subgroupOf S).map S.subtype = C := Subgroup.map_subgroupOf_eq_of_le hC2
   have key : ∀ y ∈ normalizer (S : Set G), ∀ c ∈ C, y * c * y⁻¹ ∈ C := by
     intro y hy c hc
@@ -358,8 +366,8 @@ theorem uc22p22e_calCGS_le (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈
 theorem uc22p22e_solvable_autOn (D : Data G) (hsolv : Group.IsSolvable ↥D.M) :
     Group.IsSolvable ↥(CFSG.Quasithin.autOn D.M D.U) := by
   have hMN : D.M ≤ normalizer (D.U : Set G) := le_normalizer_uCore D.M D.T
-  haveI := hsolv
-  haveI : Group.IsSolvable ↥(D.M.subgroupOf (normalizer (D.U : Set G))) :=
+  have := hsolv
+  have : Group.IsSolvable ↥(D.M.subgroupOf (normalizer (D.U : Set G))) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hMN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hMN).symm.surjective
   exact Group.isSolvable_of_surjective
@@ -368,7 +376,7 @@ theorem uc22p22e_solvable_autOn (D : Data G) (hsolv : Group.IsSolvable ↥D.M) :
 
 theorem uc22p22e_pow_six (D : Data G) (hsolv : Group.IsSolvable ↥D.M) :
     ∀ x ∈ jOf D.M, x ^ 6 ∈ centralizer (D.U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCT : CFSG.QuasithinUnique.CharTwo D.M := D.standing.charTwo D.M D.maxLocal.1
   have hT : CFSG.QuasithinUnique.IsSylowTwoOf D.T D.M :=
     CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowM
@@ -382,7 +390,7 @@ theorem uc22p22e_pow_six (D : Data G) (hsolv : Group.IsSolvable ↥D.M) :
 
 theorem uc22p22e_jOf_M_le_centralizer (D : Data G) (h : jOf D.T ≤ centralizer (D.U : Set G)) :
     jOf D.M ≤ centralizer (D.U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ∀ S : Subgroup G, jOf S = CFSG.Quasithin.thompsonJ S := fun S =>
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ S
   have hV : D.M ≤ normalizer (D.U : Set G) := le_normalizer_uCore D.M D.T
@@ -441,10 +449,10 @@ theorem uc22p22e_main613 (D : Data G) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
   have hQbar : mbarImage D.M D.U (Q₁ ⊔ pCoreOf 2 D.M) = mbarImage D.M D.U Q₁ := by
     unfold mbarImage at hbot ⊢
     rw [Subgroup.subgroupOf_sup hQM hOM, Subgroup.map_sup, hbot, sup_bot_eq]
-  haveI hQn : (mbarImage D.M D.U Q₁).Normal := by
+  have hQn : (mbarImage D.M D.U Q₁).Normal := by
     rw [← hQbar]
     exact uc22br4_mbarImage_normal D.M D.U _ (sup_le hQM hOM) hnorm
-  haveI hNn : (mbarImage D.M D.U (jOf D.M)).Normal :=
+  have hNn : (mbarImage D.M D.U (jOf D.M)).Normal :=
     uc22br4_mbarImage_normal D.M D.U _ (uc22p22e_jOf_le_self D.M) hJM
   have hcomm : ∀ t ∈ jOf D.M, ∀ z ∈ Q₁, t * z * t⁻¹ * z⁻¹ ∈ centralizer (D.U : Set G) := by
     intro t ht z hz

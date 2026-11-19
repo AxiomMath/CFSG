@@ -108,8 +108,7 @@ private theorem conjTr_normOneTorusMat (hσ : ∀ c, σ (σ c) = c) :
   have h2σ : σ (2 : K) = 2 := by simpa using map_ofNat σ 2
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [conjTr, normOneTorusMat, sigma_normOneTorusA u hσ, sigma_normOneTorusB u hσ,
-      h2σ, map_ofNat, map_natCast]
+    simp [conjTr, normOneTorusMat, sigma_normOneTorusA u hσ, sigma_normOneTorusB u hσ]
 
 theorem conjTr_normOneTorusMat_mul_self (hσ : ∀ c, σ (σ c) = c) (h2 : (2 : K) ≠ 0) :
     conjTr σ (normOneTorusMat u) * normOneTorusMat u = 1 := by
@@ -118,7 +117,6 @@ theorem conjTr_normOneTorusMat_mul_self (hσ : ∀ c, σ (σ c) = c) (h2 : (2 : 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [normOneTorusMat, Matrix.mul_apply, Fin.sum_univ_three]
-  all_goals try rfl
   all_goals try ring
   all_goals linear_combination h
 
@@ -214,7 +212,7 @@ section ConjSign
 
 variable (u : normOne σ)
 
-theorem normOneTorusMat_conj_sign₃ (hσ : ∀ c, σ (σ c) = c) :
+theorem normOneTorusMat_conj_sign₃ (_hσ : ∀ c, σ (σ c) = c) :
     Matrix.diagonal (![(-1 : K), -1, 1]) * normOneTorusMat u *
         Matrix.diagonal (![(-1 : K), -1, 1]) = normOneTorusMat (u⁻¹) := by
   ext i j

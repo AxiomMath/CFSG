@@ -32,7 +32,7 @@ private lemma exists_unit_ne_one (hf : 2 ≤ f) :
     ∃ lam : (GaloisField 2 f)ˣ, lam ≠ 1 := by
   classical
   let F := GaloisField 2 f
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card F = 2 ^ f := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 f (by omega : f ≠ 0)]
   have hf1 : 1 < f := Nat.lt_of_lt_of_le (by norm_num) hf
@@ -67,6 +67,7 @@ private lemma second_coord_eq_zero_of_mem_inf (hH : Hyp111 L1 L2 S)
   exact (c.mem_centralizer_iff (hD.le_left hH) z).mp
     (fun s hs => (Subgroup.mem_centralizer_iff.mp hcent) s hs)
 
+omit [Finite G] in
 private lemma conj_mem_blockZ_of_mem_normalizer (hD : Sp4qLocalData L1 L2 S f)
     {d : G} (hd : d ∈ Subgroup.normalizer (L2 : Set G)) {w : G} (hw : w ∈ blockZ L2) :
     d * w * d⁻¹ ∈ blockZ L2 := by
@@ -131,7 +132,7 @@ private lemma exists_blockZ_right_datum (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
 
 private noncomputable def blockZRightKappa (hD : Sp4qLocalData L1 L2 S f)
     {b : ↥L1} (hdL2 : (b : G) ∈ Subgroup.normalizer (L2 : Set G))
-    (hconj : ∀ w : ↥(blockZ L2), (b : G) * (w : G) * (b : G)⁻¹ ∈ pCoreOf 2 L1)
+    (_hconj : ∀ w : ↥(blockZ L2), (b : G) * (w : G) * (b : G)⁻¹ ∈ pCoreOf 2 L1)
     (w : ↥(blockZ L2)) : ↥(blockZ L2) :=
   ⟨(b : G) * (w : G) * (b : G)⁻¹ * (w : G)⁻¹,
     (blockZ L2).mul_mem (conj_mem_blockZ_of_mem_normalizer hD hdL2 w.2)
@@ -315,8 +316,8 @@ private lemma mem_blockZ_right_backward (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
       have h := congrArg (fun x : ↥(blockZ L2) => x * w2) hbot
       simpa [w] using h
     exact hww
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype ↥(blockZ L2) := Fintype.ofFinite ↥(blockZ L2)
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype ↥(blockZ L2) := Fintype.ofFinite ↥(blockZ L2)
   have hcardZ : Fintype.card ↥(blockZ L2) = Fintype.card F := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hD.card_blockZ_right,
       GaloisField.card 2 f (by omega : f ≠ 0)]
@@ -376,7 +377,7 @@ private lemma uSL_mul {F : Type*} [Field F] (s t : F) : uSL s * uSL t = uSL (s +
   rw [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_uSL, coe_uSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uMat, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    simp [uMat, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 private lemma uSL_zero {F : Type*} [Field F] : uSL (0 : F) = 1 := by
   apply Subtype.ext
@@ -643,17 +644,19 @@ private lemma pairingA_bijective (hH : Hyp111 L1 L2 S)
     exact uSL_injective hstUL
   exact ⟨hinj, Finite.injective_iff_surjective.mp hinj⟩
 
-private noncomputable def pairingLineElem (hH : Hyp111 L1 L2 S)
-    (hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
+private noncomputable def pairingLineElem (_hH : Hyp111 L1 L2 S)
+    (_hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     (u : GaloisField 2 f) : ↥(pCoreOf 2 L1) :=
   c₁.γ.symm (Multiplicative.ofAdd ![u, 0, 0])
 
+omit [Finite G] in
 private lemma pairingLineElem_coord (hH : Hyp111 L1 L2 S)
     (hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     (u : GaloisField 2 f) :
     Multiplicative.toAdd (c₁.γ (pairingLineElem hH hD c₁ u)) = ![u, 0, 0] := by
   simp [pairingLineElem]
 
+omit [Finite G] in
 private lemma pairingLineElem_add (hH : Hyp111 L1 L2 S)
     (hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     (u v : GaloisField 2 f) :
@@ -665,6 +668,7 @@ private lemma pairingLineElem_add (hH : Hyp111 L1 L2 S)
   ext i
   fin_cases i <;> simp
 
+omit [Finite G] in
 private lemma pairingLineElem_mem_blockZ (hH : Hyp111 L1 L2 S)
     (hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
     (u : GaloisField 2 f) :
@@ -793,7 +797,7 @@ private lemma pairingL_eq_coord (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
       rw [show z₂ = z₁⁻¹ * z from rfl, map_mul, toAdd_mul, map_inv, toAdd_inv]
     rw [hγ, hz₁vec, hzvec]
     funext i
-    fin_cases i <;> simp [Pi.add_apply, Pi.neg_apply]
+    fin_cases i <;> simp [Pi.add_apply]
   have hz₂Z2 : (z₂ : G) ∈ blockZ L2 :=
     (Sp4qLocalData.mem_blockZ_right_iff (f := f) hf hH hD c₁ z₂).mpr (by
       rw [hz₂vec]
@@ -906,7 +910,7 @@ private noncomputable def pairingAMap (hH : Hyp111 L1 L2 S)
   map_add' y z := by
     rw [map_add, add_sq]
     have h2 : (2 : GaloisField 2 f) = 0 := CharTwo.two_eq_zero
-    simp [h2, add_assoc, add_left_comm, add_comm]
+    simp [h2, add_comm]
 
 private lemma pairingL_pairingA (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
     (hD : Sp4qLocalData L1 L2 S f) (c₁ : Sp4VertexCoord L1 S (GaloisField 2 f))
@@ -932,7 +936,7 @@ private lemma pairingL_pairingA (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
   rw [hz_eq] at hL
   rw [hcomm.2.1] at hL
   rw [hcomm.1] at hL
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply] at hL
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hL
   change s ^ 2 * Multiplicative.toAdd (c₂.γ y) 2 =
     pairingL hH hD c₁ c₂ (t * (pairingA hH hD c₁ c₂ s)) at hL
   exact hL.symm

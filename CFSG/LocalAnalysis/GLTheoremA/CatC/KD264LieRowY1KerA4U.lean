@@ -43,7 +43,7 @@ theorem KD264Y1KerU4_holds : KD264Y1KerU4 := by
     with hp
   set f := TauCeti.ValidLieTypeIndex.fieldExponent ⟨TauCeti.LieTypeIndex.twistedA 3 q, hd1⟩
     with hf
-  haveI : Fact p.Prime := ⟨hPrime⟩
+  have : Fact p.Prime := ⟨hPrime⟩
   have hf0 : f ≠ 0 := by omega
   have hdiv : 3 ∣ p ^ f + 1 := by rw [hQ]; exact h3
   have hUcard : Nat.card (GaloisField p (2 * f)) = p ^ (2 * f) :=

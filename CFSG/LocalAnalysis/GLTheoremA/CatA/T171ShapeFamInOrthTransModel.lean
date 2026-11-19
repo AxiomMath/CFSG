@@ -40,7 +40,7 @@ noncomputable def orthModelEquivMinus (m : ℕ) (K : Type) [Field K] (b c : K) :
     (CFSG.HardMathSupport.Dickson.Sec6.OrthBlocks.projOrthEquiv
       (coe_quadMinus m K b c))
 
-theorem isComponentOf_map_piCenterQuot_of_conj {G : Type} [Group G] [Finite G] {p : ℕ}
+theorem isComponentOf_map_piCenterQuot_of_conj {G : Type} [Group G] [Finite G] {_p : ℕ}
     {L J : Subgroup G} {d : G} {R : Type} [Group R] [Finite R]
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) (hd : d ∈ Subgroup.normalizer (L : Set G)) (x : R)
     (hind : LargeEvenInduces θ (conjRel d) (MulAut.conj x))

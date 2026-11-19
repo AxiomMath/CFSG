@@ -10,8 +10,8 @@ namespace CFSG.RankThree.GF2n.Stroth80
 
 theorem isCyclic_ringEquiv (K : Type) [Field K] [Finite K] : IsCyclic (K ≃+* K) := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   have hfin : Finite (ZMod (ringChar K)) := inferInstance
   let f : (K ≃ₐ[ZMod (ringChar K)] K) →* (K ≃+* K) :=
     { toFun := fun e => e.toRingEquiv
@@ -28,12 +28,12 @@ theorem isCyclic_ringEquiv (K : Type) [Field K] [Finite K] : IsCyclic (K ≃+* K
 theorem ringEquiv_eq_of_sq_eq_one {K : Type} [Field K] [Finite K] (σ τ : K ≃+* K)
     (hσ : σ * σ = 1) (hτ : τ * τ = 1) (hσ1 : σ ≠ 1) (hτ1 : τ ≠ 1) : σ = τ := by
   classical
-  haveI := isCyclic_ringEquiv K
-  haveI : Finite (K ≃+* K) := by
-    haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have := isCyclic_ringEquiv K
+  have : Finite (K ≃+* K) := by
+    have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
     exact Finite.of_injective (fun σ : K ≃+* K => (σ : K → K))
       (fun a b h => RingEquiv.ext (congrFun h))
-  haveI := Fintype.ofFinite (K ≃+* K)
+  have := Fintype.ofFinite (K ≃+* K)
   by_contra hne
   have hcard := IsCyclic.card_pow_eq_one_le (α := K ≃+* K) (n := 2) (by norm_num)
   have hsub : ({1, σ, τ} : Finset (K ≃+* K)) ⊆ Finset.univ.filter (fun a => a ^ 2 = 1) := by

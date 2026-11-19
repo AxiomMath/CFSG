@@ -36,7 +36,7 @@ theorem exists_pElement_of_nodes {L S₀ : Subgroup W} (hL : Open.IsQuasisimple 
   intro i p hp hpN
   have hp2 : p ≠ 2 := fun h2 => hN (h2 ▸ hpN)
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z := Subgroup.center ↥L with hZ
   set q : ↥L →* ↥L ⧸ Z := QuotientGroup.mk' Z with hqdef
   obtain ⟨w, hwR, m, hmR, hwp, hw1, hm⟩ := hnodes i p hp hp2 hpN
@@ -71,6 +71,7 @@ theorem exists_pElement_of_nodes {L S₀ : Subgroup W} (hL : Open.IsQuasisimple 
   rw [Subgroup.orderOf_coe]
   exact orderOf_pow_orderOf_div (orderOf_pos a).ne' hpa
 
+omit [Finite W] in
 theorem psSet_of_nodes {S₀ L : Subgroup W} {m : ℕ} {Q : Subgroup W → Prop}
     {P : Fin m → Subgroup W} (hmin : ∀ i, IsMinOverBorel L S₀ (P i))
     (hgen : L = ⨆ i, pElementSubgroup 2 (P i)) (hQ : ∀ i, Q (P i)) :

@@ -13,18 +13,18 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem seitzEvenCentre_twE6 {K : Type} [Group K] [Finite K]
     (hK : Rk2IsLabel K ⟨.twE6, 0, 1⟩) : NoncentralWitness K 3 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hkfield, hkfin, σ, ⟨e⟩, hS, hL⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.exists_twDerived_data_one K ⟨.twE6, 0, 1⟩ hK rfl rfl
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
+  let : Field k := hkfield
+  let : Finite k := hkfin
   let Z : Subgroup K := Subgroup.center K
   let P : Sylow 2 Z := default
   let N : Subgroup K := (P : Subgroup Z).map Z.subtype
   have hNZ : N ≤ Z := Subgroup.map_subtype_le _
   have hNnormal : N.Normal := CFSG.GroupTheory.normal_of_le_center hNZ
-  haveI : N.Normal := hNnormal
-  have hNP2 : IsPGroup 2 N := P.isPGroup'.map Z.subtype
+  have : N.Normal := hNnormal
+  have hNP2 : IsPGroup 2 N := P.isPGroup.map Z.subtype
   have hN3 : ¬ 3 ∣ Nat.card N := by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hNP2
     rw [hm]

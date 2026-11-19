@@ -159,7 +159,7 @@ theorem principal_finrank_eq_finrank_invariants_add_card_mul
     exact ⟨⟨h, hSN hh⟩ * r * ⟨h, hSN hh⟩⁻¹,
       (inferInstance : R.Normal).conj_mem r hr ⟨h, hSN hh⟩, rfl⟩
   · intro h hh h1 r hr
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨h, hh⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨h, hh⟩
     have hk2 : orderOf h ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       simpa using congrArg Subtype.val hk

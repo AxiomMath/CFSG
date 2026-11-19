@@ -117,7 +117,7 @@ theorem ggOrdPToralE6RestHard_of_F4
     (hF4 : GGOrdPToralF4RestHard) : GGOrdPToralE6RestHard := by
   intro f p hf hp hcase hA
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
+  have : Finite (adjointGroup .E6 (GaloisField 2 f)) := generated_group_finite .E6 _
   have hker := CFSG.ClassicalInvolution.ModelFacts.ChevAut.e6Isogeny_ker_le_center
     (GaloisField 2 f)
   have hcop5 : Nat.Coprime (Nat.card (e6Isogeny (GaloisField 2 f)).ker) 5 :=

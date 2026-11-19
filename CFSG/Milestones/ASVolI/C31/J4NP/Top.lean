@@ -29,7 +29,7 @@ theorem burnsideJ4NP_top_card_C_Rep_one :
     rw [burnsideJ4NP_top_Rep_eq]
     refine congrArg Subgroup.closure (Set.ext fun g => ?_)
     simp only [burnsideJ4NP_topRepElts, hb, List.map_cons, List.map_nil, List.mem_singleton,
-      Set.mem_setOf_eq, Set.mem_singleton_iff, burnsideJ4NP_treeElt, burnsideJ4NP_Kel_zero, mul_one]
+      Set.mem_ofPred_eq, Set.mem_singleton_iff, burnsideJ4NP_treeElt, burnsideJ4NP_Kel_zero, mul_one]
   rw [hR, Subgroup.centralizer_closure, inf_comm]
   have h := card_eq_card_mul_centralizer Hj (eta uJ 11 1131) Zl z0_mem_Zl
     (fun h hh x hx => (Zl_conj hM h hh).1 x hx) (fun x hx => Zl_trans hM _ z0_mem_Zl x hx)

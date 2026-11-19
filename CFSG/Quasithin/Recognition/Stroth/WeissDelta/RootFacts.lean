@@ -48,12 +48,13 @@ theorem isRootAt_pathRootGroup [Finite H] {n : ℕ} (hn : 3 ≤ n) (hM : Moufang
     intro t ht x hx
     exact pathRootGroup_torus_conj_mem hn hM hne hK hq hω' hω'ne t ht x hx
 
+omit [GraphAction H Γ] in
 private theorem le_sup_of_map_le {z : V} {X : Type} [Group X]
     [MulAction X {w : V // Γ.Adj z w}] [FaithfulSMul X {w : V // Γ.Adj z w}]
     (π : ↥(MulAction.stabilizer H z) →* X)
     (hker : π.ker = (fixingSubgroup H (Γ.neighborSet z)).subgroupOf
       (MulAction.stabilizer H z))
-    {U Q : Subgroup H} (hU : U ≤ MulAction.stabilizer H z)
+    {U Q : Subgroup H} (_hU : U ≤ MulAction.stabilizer H z)
     (hQ : Q ≤ MulAction.stabilizer H z)
     (hle : (Q.subgroupOf (MulAction.stabilizer H z)).map π ≤
       (U.subgroupOf (MulAction.stabilizer H z)).map π) :
@@ -101,7 +102,7 @@ private theorem pathRootGroup_map_eq_root [Finite H] {n : ℕ} (hn : 3 ≤ n)
     ((pathRootGroup H Γ q).subgroupOf (MulAction.stabilizer H z)).map π = Rω := by
   subst z
   classical
-  letI : Fintype {w : V // Γ.Adj (q n) w} := Fintype.ofFinite {w : V // Γ.Adj (q n) w}
+  let : Fintype {w : V // Γ.Adj (q n) w} := Fintype.ofFinite {w : V // Γ.Adj (q n) w}
   let Gz := MulAction.stabilizer H (q n)
   let F := fixingSubgroup H (Γ.neighborSet (q n))
   let U := pathRootGroup H Γ q
@@ -356,9 +357,9 @@ private theorem rankOneData_l2 [Finite H] {z : V} {m : ℕ} (hm : 2 ≤ m)
       RankOneRoot ↥(localGroup H Γ z) {w : V // Γ.Adj z w} N := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ m + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -369,7 +370,7 @@ private theorem rankOneData_l2 [Finite H] {z : V} {m : ℕ} (hm : 2 ≤ m)
   have hR : RankOneRoot ↥(localGroup H Γ z) {w : V // Γ.Adj z w} N :=
     RankOneLocal.rankOneRoot_of_zassenhaus hL hZ
   have hNs : IsSimpleGroup ↥N := by
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 m)) := by
       have hKcard : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
       have hq4 : 4 ≤ Nat.card (GaloisField 2 m) := by
@@ -388,9 +389,9 @@ private theorem rankOneData_sz [Finite H] {z : V} {a : ℕ}
       RankOneNonabelian ↥(localGroup H Γ z) {w : V // Γ.Adj z w} := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ (2 * (2 * a + 1)) + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -406,7 +407,7 @@ private theorem rankOneData_sz [Finite H] {z : V} {a : ℕ}
     have hSuz : IsSimpleGroup (Sz a) := by
       have hK : Nat.card (GaloisField 2 (2 * a + 1)) = 2 ^ (2 * a + 1) :=
         GaloisField.card 2 (2 * a + 1) (by omega)
-      haveI : IsSimpleGroup (suzukiGroup a (GaloisField 2 (2 * a + 1))) :=
+      have : IsSimpleGroup (suzukiGroup a (GaloisField 2 (2 * a + 1))) :=
         (suzuki_simple ha hK).2.2
       exact MulEquiv.isSimpleGroup (szToSuzukiGroup a)
     exact MulEquiv.isSimpleGroup e
@@ -420,9 +421,9 @@ private theorem rankOneData_u3 [Finite H] {z : V} {k : ℕ} (hk : 2 ≤ k) (F : 
       RankOneNonabelian ↥(localGroup H Γ z) {w : V // Γ.Adj z w} := by
   classical
   obtain ⟨hcard, h2, N, hN, ⟨e⟩⟩ := h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact Nat.succ_ne_zero _)
-  letI : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
+  let : Fintype {w : V // Γ.Adj z w} := Fintype.ofFinite _
   have hΩ : Fintype.card {w : V // Γ.Adj z w} = 2 ^ (3 * k) + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -438,7 +439,7 @@ private theorem rankOneData_u3 [Finite H] {z : V} {k : ℕ} (hk : 2 ≤ k) (F : 
       have h2k : 2 ^ k = 2 := (Prod.mk.inj hh).2
       have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
       omega
-    haveI : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) :=
+    have : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ k) F)) :=
       isSimpleGroup_statedProj_statedSU F 2 k (by rw [hF]) 3 le_rfl hne32
     exact MulEquiv.isSimpleGroup e
   exact ⟨N, hN, hNs, hL, hR, hNa⟩
@@ -465,7 +466,7 @@ theorem rootFacts_of_isLocalL2 [Finite H] {n : ℕ} (hn : 3 ≤ n) (hM : Moufang
     (hK : ∀ z : V, FixingNeighbourhoodFixesVertex (H := H) (Γ := Γ) z) {z : V} {m : ℕ}
     (hm : 2 ≤ m) (h : IsLocalL2 H Γ z m) : RootFacts H Γ n z := by
   obtain ⟨N, hN, hNs, hL, hR⟩ := rankOneData_l2 hm h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [h.1]; exact Nat.succ_ne_zero _)
   refine rootFacts_of_localGroup hn hM hW hne hval hK hN hNs hL hR ?_
   rw [h.1]
@@ -482,7 +483,7 @@ theorem rootFacts_of_isLocalSz [Finite H] {n : ℕ}
     (hK : ∀ z : V, FixingNeighbourhoodFixesVertex (H := H) (Γ := Γ) z) {z : V} {a : ℕ}
     (ha : 1 ≤ a) (h : IsLocalSz H Γ z a) : RootFacts H Γ n z := by
   obtain ⟨N, hN, hNs, hL, hR, -⟩ := rankOneData_sz ha h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [h.1]; exact Nat.succ_ne_zero _)
   refine rootFacts_of_localGroup hn hM hW hne hval hK hN hNs hL hR ?_
   rw [h.1]
@@ -500,7 +501,7 @@ theorem rootFacts_of_isLocalU3 [Finite H] {n : ℕ} (hn : 3 ≤ n)
     (hk : 2 ≤ k) (F : Type) [Field F] [Finite F] (hF : Nat.card F = (2 ^ k) ^ 2)
     (h : IsLocalU3 H Γ z k F) : RootFacts H Γ n z := by
   obtain ⟨N, hN, hNs, hL, hR, -⟩ := rankOneData_u3 hk F hF h
-  haveI : Finite {w : V // Γ.Adj z w} :=
+  have : Finite {w : V // Γ.Adj z w} :=
     Nat.finite_of_card_ne_zero (by rw [h.1]; exact Nat.succ_ne_zero _)
   refine rootFacts_of_localGroup hn hM hW hne hval hK hN hNs hL hR ?_
   rw [h.1]
@@ -552,7 +553,7 @@ theorem exists_not_comm_pathRootGroup_of_isLocalSz [Finite H]
     {q : GPath Γ n} (hq : q.NoBack) (h : IsLocalSz H Γ (q n) a) :
     ∃ x ∈ pathRootGroup H Γ q, ∃ y ∈ pathRootGroup H Γ q, x * y ≠ y * x := by
   obtain ⟨N, -, -, hL, hR, hNa⟩ := rankOneData_sz (z := q n) ha h
-  haveI : Finite {w : V // Γ.Adj (q n) w} :=
+  have : Finite {w : V // Γ.Adj (q n) w} :=
     Nat.finite_of_card_ne_zero (by rw [h.1]; exact Nat.succ_ne_zero _)
   exact exists_not_comm_of_localGroup hn hM hW hne hval hK hq hL hR hNa
 
@@ -566,7 +567,7 @@ theorem exists_not_comm_pathRootGroup_of_isLocalU3 [Finite H]
     {q : GPath Γ n} (hq : q.NoBack) (h : IsLocalU3 H Γ (q n) k F) :
     ∃ x ∈ pathRootGroup H Γ q, ∃ y ∈ pathRootGroup H Γ q, x * y ≠ y * x := by
   obtain ⟨N, -, -, hL, hR, hNa⟩ := rankOneData_u3 (z := q n) hk F hF h
-  haveI : Finite {w : V // Γ.Adj (q n) w} :=
+  have : Finite {w : V // Γ.Adj (q n) w} :=
     Nat.finite_of_card_ne_zero (by rw [h.1]; exact Nat.succ_ne_zero _)
   exact exists_not_comm_of_localGroup hn hM hW hne hval hK hq hL hR hNa
 

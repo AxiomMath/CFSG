@@ -132,13 +132,13 @@ theorem s8_mem_sup_of_commute {X : Type} [Group X] {A B : Subgroup X}
     have e5 : (a * b) * (a * b) = 1 := by
       rw [mul_assoc, ← mul_assoc b a b, hba, mul_assoc a b b, hb2, mul_one, ha2]
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;> rw [hx, hy] <;>
       simp [ha2, hb2, hba, e1, e2, e3, e4, e5]
   inv_mem' := by
     have hba : b * a = a * b := hab.symm
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     have ia : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
     have ib : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb2
     rcases hx with hx | hx | hx | hx <;> rw [hx]

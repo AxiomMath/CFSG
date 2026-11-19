@@ -18,7 +18,7 @@ theorem card_pCoreOf_normalizer_sylow {Y : Type} [Group Y] [Finite Y] (T : Sylow
   have hTN : (T : Subgroup Y) ≤ N := Subgroup.le_normalizer
   have hnorm : (((T : Subgroup Y)).subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTN).mpr le_rfl
-  have hT2 : IsPGroup 2 (((T : Subgroup Y)).subgroupOf N) := T.isPGroup'.comap_subtype
+  have hT2 : IsPGroup 2 (((T : Subgroup Y)).subgroupOf N) := T.isPGroup.comap_subtype
   have hle : (T : Subgroup Y) ≤ CFSG.Open.pCoreOf 2 N := by
     have h1 : ((T : Subgroup Y).subgroupOf N) ≤ CFSG.pCore 2 N := le_sSup ⟨hnorm, hT2⟩
     intro x hx

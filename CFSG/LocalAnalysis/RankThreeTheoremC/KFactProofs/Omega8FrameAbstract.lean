@@ -20,7 +20,7 @@ theorem omega8_frameProps (hM : Omega8FrameModel) {J' : Subgroup omegaT}
   refine FrameProps.of_sylow (J₀ := J₀.subgroupOf omegaT) (T₀ := T₀.subgroupOf omegaT)
     (fun g x => ?_) (IsPGroup.of_card (n := 4) (by rw [hT1]; norm_num)) ?_ ?_
     (hF.subgroupOf hJΩ) hab hcard
-  · simp [Equiv.Perm.card_support_conj]
+  · simp
   · have h := (T₀.subgroupOf omegaT).card_mul_index
     rw [hT1, hM.card] at h
     omega
@@ -35,7 +35,7 @@ theorem omega8_frameProps (hM : Omega8FrameModel) {J' : Subgroup omegaT}
 
 theorem kFactOmega8Frame_of_model (hM : Omega8FrameModel) : KFactOmega8Frame := by
   intro Y _ _ L d hd hLn hne J hJL hJab hJcard
-  haveI := hLn
+  have := hLn
   classical
   obtain ⟨φ⟩ := hM.bridge L d hd hne
   let ν : Y → ℕ := fun y =>
@@ -46,7 +46,7 @@ theorem kFactOmega8Frame_of_model (hM : Omega8FrameModel) : KFactOmega8Frame := 
   have hνθ : ∀ x : omegaT, ν (θ x) = ((x : omegaT) : Equiv.Perm (Fin 136)).support.card := by
     intro x
     have h1 : (⟨θ x, hθL x⟩ : L) = φ.symm x := rfl
-    simp only [ν, dif_pos (hθL x), h1, MulEquiv.apply_symm_apply]
+    simp only [ν, dite_eq_left (hθL x), h1, MulEquiv.apply_symm_apply]
   have hconj : ∀ (y : Y), ∀ x ∈ L, ν (y * x * y⁻¹) = ν x := by
     intro y x hx
     have hx' : y * x * y⁻¹ ∈ L := hLn.conj_mem x hx y
@@ -56,11 +56,11 @@ theorem kFactOmega8Frame_of_model (hM : Omega8FrameModel) : KFactOmega8Frame := 
       simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
       exact congrArg φ (Subtype.ext (MulAut.conjNormal_apply y ⟨x, hx⟩))
     rw [h2] at h1
-    simpa only [ν, dif_pos hx, dif_pos hx'] using h1
+    simpa only [ν, dite_eq_left hx, dite_eq_left hx'] using h1
   have hinv : ∀ x ∈ L, ν x⁻¹ = ν x := by
     intro x hx
     have h1 : (⟨x⁻¹, L.inv_mem hx⟩ : L) = (⟨x, hx⟩ : L)⁻¹ := rfl
-    simp only [ν, dif_pos hx, dif_pos (L.inv_mem hx), h1, map_inv, Subgroup.coe_inv,
+    simp only [ν, dite_eq_left hx, dite_eq_left (L.inv_mem hx), h1, map_inv, Subgroup.coe_inv,
       Equiv.Perm.support_inv]
   have hJ'ab : IsElemAbelian 3 ((J.subgroupOf L).map φ.toMonoidHom) :=
     (hJab.subgroupOf L).map _

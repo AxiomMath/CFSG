@@ -54,24 +54,29 @@ theorem P0_gram : (P0 : Matrix (Fin 3) (Fin 3) F)ᵀ * P0 = Gm := by
 @[expose] def ext1 (M : Matrix (Fin 2) (Fin 2) F) : Matrix (Fin 3) (Fin 3) F :=
   !![1, 0, 0; 0, M 0 0, M 0 1; 0, M 1 0, M 1 1]
 
+omit [CharP F 2] in
 theorem ext1_mul (M N : Matrix (Fin 2) (Fin 2) F) : ext1 M * ext1 N = ext1 (M * N) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [ext1, Matrix.mul_apply, Fin.sum_univ_three, Fin.sum_univ_two]
 
+omit [CharP F 2] in
 theorem ext1_one : ext1 (1 : Matrix (Fin 2) (Fin 2) F) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ext1]
 
+omit [CharP F 2] in
 theorem ext1_transpose (M : Matrix (Fin 2) (Fin 2) F) : (ext1 M)ᵀ = ext1 Mᵀ := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ext1]
 
+omit [CharP F 2] in
 theorem ext1_injective {M N : Matrix (Fin 2) (Fin 2) F} (h : ext1 M = ext1 N) : M = N := by
   ext i j
   have := congrFun (congrFun h i.succ) j.succ
   fin_cases i <;> fin_cases j <;> simpa [ext1] using this
 
+omit [CharP F 2] in
 theorem ext1_J : ext1 (!![0, 1; 1, 0] : Matrix (Fin 2) (Fin 2) F) = Gm := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ext1, Gm]

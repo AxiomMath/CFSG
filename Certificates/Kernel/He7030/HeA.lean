@@ -188,12 +188,12 @@ theorem he_aK : ∃ R W₁ W₂ W₃ : Subgroup J, Nat.card R = 2 ^ 10 ∧ R ≤
   obtain ⟨j, -, rfl⟩ := heK_complete Y hSY
   unfold memberOrTop at hY ⊢
   by_cases h : j < 11
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rcases incl_cover h with h3 | h4 | h7
     · exact Or.inl ((heK_Y_le_iff h (by decide)).2 h3)
     · exact Or.inr (Or.inl ((heK_Y_le_iff h (by decide)).2 h4))
     · exact Or.inr (Or.inr ((heK_Y_le_iff h (by decide)).2 h7))
-  · rw [if_neg h] at hY
+  · rw [ite_eq_right h] at hY
     exact absurd rfl hY
 
 theorem heAutInner_JK :

@@ -12,7 +12,7 @@ theorem two_le_pRank_of_commuting {G : Type*} [Group G] [Finite G] {p : ℕ} (hp
     {H : Subgroup G} {a b : G} (ha : a ∈ H) (hb : b ∈ H) (hao : orderOf a = p)
     (hbo : orderOf b = p) (hab : Commute a b) (hnot : b ∉ Subgroup.zpowers a) :
     2 ≤ CFSG.Open.pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E : Subgroup G := Subgroup.closure {a, b} with hE
   have hEH : E ≤ H := (Subgroup.closure_le H).2 (by
     rintro x (rfl | rfl)
@@ -68,6 +68,7 @@ private theorem det_su3GM : (su3GM : Matrix (Fin 3) (Fin 3) F).det = 1 := by
   simp [su3GM, Matrix.det_fin_three]
   linear_combination -h2
 
+omit [CharP F 2] in
 private theorem det_su3UM : (su3UM : Matrix (Fin 3) (Fin 3) F).det = 1 := by
   simp [su3UM, Matrix.det_fin_three]
 
@@ -94,6 +95,7 @@ private theorem su3GM_cube : (su3GM : Matrix (Fin 3) (Fin 3) F) ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [su3GM, pow_succ, Matrix.mul_apply, Fin.sum_univ_three, h2]
 
+omit [CharP F 2] in
 private theorem su3GM_su3UM_ne : (su3GM : Matrix (Fin 3) (Fin 3) F) * su3UM ≠ su3UM * su3GM := by
   intro h
   have := congrFun (congrFun h 0) 0
@@ -117,7 +119,7 @@ private theorem su3U_mem : su3U ∈ SU σ 3 := by
 
 private theorem exists_su3_order_three :
     ∃ g u : SU σ 3, orderOf g = 3 ∧ g * u ≠ u * g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨⟨su3G, su3G_mem⟩, ⟨su3U, su3U_mem⟩, ?_, ?_⟩
   · refine orderOf_eq_prime ?_ ?_
     · apply Subtype.ext
@@ -141,8 +143,8 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
 private theorem su3_two_le_pRank (hF : Nat.card F = (2 ^ 1) ^ 2) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (SU (unitaryInvolution F 2 1) 3)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num
@@ -167,7 +169,7 @@ private theorem su3_two_le_pRank (hF : Nat.card F = (2 ^ 1) ^ 2) :
       ext i j
       by_cases hij : i = j
       · subst hij; simp [conjTr, hsM]
-      · simp [conjTr, hsM, Matrix.one_apply, hij, Ne.symm hij]
+      · simp [conjTr, hsM, hij, Ne.symm hij]
     rw [h1, hsM, smul_mul_assoc, Matrix.one_mul, mul_smul_comm, Matrix.mul_one, smul_smul,
       mul_comm ω (σ ω), hσω, one_smul]
   let s : GL (Fin 3) F := Matrix.GeneralLinearGroup.mkOfDetNeZero sM (by rw [hdet]; exact one_ne_zero)
@@ -178,7 +180,7 @@ private theorem su3_two_le_pRank (hF : Nat.card F = (2 ^ 1) ^ 2) :
     change sM * (x : Matrix (Fin 3) (Fin 3) F) = (x : Matrix (Fin 3) (Fin 3) F) * sM
     rw [hsM, smul_mul_assoc, Matrix.one_mul, mul_smul_comm, Matrix.mul_one]
   obtain ⟨g, u, hg3, hgu⟩ := exists_su3_order_three (σ := σ)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : orderOf (⟨s, hsmem⟩ : SU σ 3) = 3 := by
     refine orderOf_eq_prime ?_ ?_
     · apply Subtype.ext
@@ -211,7 +213,7 @@ private theorem su3_dvd_card_inn (hF : Nat.card F = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^
     (hp2 : p ≠ 2) (hpΛ : p ∣ Nat.card (SU (unitaryInvolution F 2 f) 3)) :
     p ∣ Nat.card (MulAut.conj : SU (unitaryInvolution F 2 f) 3 →*
       MulAut (SU (unitaryInvolution F 2 f) 3)).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hex : ∃ x : SU (unitaryInvolution F 2 f) 3, orderOf x = p ∧
       ∃ u : SU (unitaryInvolution F 2 f) 3, x * u ≠ u * x := by
     by_cases hp3 : p = 3
@@ -249,7 +251,7 @@ private theorem su3_dvd_card_inn (hF : Nat.card F = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^
 theorem nodeGood_su3 (h2 : K518RkSU3) (hf : 1 ≤ f) (hF : Nat.card F = (2 ^ f) ^ 2) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpΛ : p ∣ Nat.card (SU (unitaryInvolution F 2 f) 3)) :
     NodeGood (SU (unitaryInvolution F 2 f) 3) p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hf1 : f = 1
   · subst hf1
     right
@@ -275,7 +277,7 @@ theorem nodeGood_su3 (h2 : K518RkSU3) (hf : 1 ≤ f) (hF : Nat.card F = (2 ^ f) 
     have hqs : CFSG.Open.IsQuasisimple (SU (unitaryInvolution F 2 f) 3) :=
       ⟨hqs'.1.commutator_eq_top, hqs'.2.1⟩
     refine ⟨fun N hN hN2 => ?_, fun ψ hψ hnot => ?_, su3_dvd_card_inn hF hq hp hp2 hpΛ⟩
-    · haveI := hN
+    · have := hN
       exact normal_two_eq_bot_of_quasisimple hqs
         (fun z hz => ⟨3, by decide, su_three_center_pow_three hF hq hz⟩) N hN2
     · exact h2 F f hf hF p hp hp2 hpΛ ψ hψ hnot

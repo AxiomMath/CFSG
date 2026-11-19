@@ -25,12 +25,12 @@ theorem center_eq_bot_of_card_hopf_two {J X : Type} [Group J] [Group X] [Finite 
     Subgroup.center J = ⊥ := by
   have hCQ : CFSG.IsQuasisimple J :=
     CFSG.ComponentClassification.CatalogueBAlternating.quasisimple_iff_native.mpr hJq
-  haveI : Finite J :=
+  have : Finite J :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hCQ e
   have hdvd := CFSG.GH74.Generic.card_center_dvd_hopfMultiplier hCQ e
   rw [← Nat.card_congr (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess X).toEquiv,
     hM] at hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZ
   rw [hn] at hdvd
   apply Subgroup.eq_bot_of_card_eq
@@ -47,7 +47,7 @@ theorem schurF4_holds :
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
   let eQ : AdjointQuotient Tag.F4 K ≃* ↥(adjointGroup Tag.F4 K) :=
     (QuotientGroup.quotientMulEquivOfEq hZK).trans QuotientGroup.quotientBot
-  haveI : Finite (AdjointQuotient Tag.F4 K) := Finite.of_equiv _ eQ.symm.toEquiv
+  have : Finite (AdjointQuotient Tag.F4 K) := Finite.of_equiv _ eQ.symm.toEquiv
   exact center_eq_bot_of_card_hopf_two hJq hZ (e.trans eQ.symm)
     (CFSG.LieType.Steinberg.CentralExt.GriessExceptional.f4_two_card_griessHopfMultiplier hK).2
 

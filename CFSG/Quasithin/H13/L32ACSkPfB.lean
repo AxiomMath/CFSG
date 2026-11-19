@@ -426,7 +426,7 @@ variable {M : Type} [Group M] [Finite M]
 
 theorem isSylowTwoOf_sylow (P : Sylow 2 M) : IsSylowTwoOf (P : Subgroup M) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup M).subgroupOf ⊤).index = (P : Subgroup M).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index

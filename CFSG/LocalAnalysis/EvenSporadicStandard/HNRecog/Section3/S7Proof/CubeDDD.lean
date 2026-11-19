@@ -20,7 +20,7 @@ theorem s7_DDD {a z x t t' t'' : G} (H : S7Hyps a z) (hx : IsConj a x)
       IsConj a b ∧ IsConj a (a * b) := by
     intro b hb
     have h : b ∈ orb2A a a := hb.1
-    simpa only [orb2A, Set.mem_setOf_eq] using h
+    simpa only [orb2A, Set.mem_ofPred_eq] using h
   have htA : IsConj a t := (hmem ht).1
   have htaA : IsConj a (a * t) := (hmem ht).2
   have ht'A : IsConj a t' := (hmem ht').1

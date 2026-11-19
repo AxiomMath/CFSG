@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16h_e3_omega_mem_uniqueSet_of_card_prime (D : Data G) {p : ℕ} (hp : p.Prime)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) {A : Subgroup G} (hAM : A ≤ D.M)
     (hAc : Nat.card A = p) : A ∈ uniqueSet D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine uc22p22r_mem_uniqueSet_of_sp D hp hsp hAM
     (IsPGroup.of_card (n := 1) (by rw [hAc, pow_one])) ?_
   intro hA

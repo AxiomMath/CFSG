@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {A T : Subgroup G}
   {S H : Subgroup G} {b : G}
 
+omit [Finite G] in
 theorem card_zpowers_involution {z : G} (hz1 : z ≠ 1) (hzz : z * z = 1) :
     Nat.card (zpowers z) = 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

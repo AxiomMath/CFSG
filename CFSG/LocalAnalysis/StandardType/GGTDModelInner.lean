@@ -19,7 +19,7 @@ private lemma l48g3_pair_pow {p : ℕ} {ζ : Kˣ} (hζp : ζ ^ p = 1)
   split_ifs <;> simp [hζp]
 
 private lemma l48g3_c13 (M : GGTDModel K N m L') (A : Subgroup (MulAut L'))
-    (hN : ∀ σ, MulAut.conj (M.φ (M.Pm σ)) ∈ Subgroup.normalizer (A : Set (MulAut L')))
+    (_hN : ∀ σ, MulAut.conj (M.φ (M.Pm σ)) ∈ Subgroup.normalizer (A : Set (MulAut L')))
     (hAT : ∀ a ∈ A, ∃ t, M.Act a t) :
     ∀ a ∈ A, a ∈ (MulAut.conj : L' →* MulAut L').range →
       ∃ t ∈ ⨆ k, (ggTDcor M k).range, a = MulAut.conj t := by

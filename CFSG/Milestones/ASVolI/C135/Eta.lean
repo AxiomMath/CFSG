@@ -24,14 +24,14 @@ section Layers
   carrier := {x | ∀ i : Fin k, j ≤ (i : ℕ) → Multiplicative.toAdd x i = 0}
   mul_mem' := by
     intro x y hx hy i hi
-    simp only [Set.mem_setOf_eq] at hx hy
+    simp only [Set.mem_ofPred_eq] at hx hy
     rw [toAdd_mul, Pi.add_apply, hx i hi, hy i hi, add_zero]
   one_mem' := by
     intro i _
     rfl
   inv_mem' := by
     intro x hx i hi
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [toAdd_inv, Pi.neg_apply, hx i hi, neg_zero]
 
 @[expose] def burnsideC135_layer {V : Subgroup G} {F : Type} [Field F] {k : ℕ}
@@ -421,6 +421,7 @@ variable [Finite G]
       Fintype.card F = 2 ^ n ∧ IsModO2Surj L α) →
       ∃ i : ℕ, (i ≠ 4 ∧ MS93.IsC134CaseCorr i G₀ R L) ∨ (i = 4 ∧ burnsideC135_Case4W G₀ R L)
 
+omit [Finite G] in
 theorem burnsideC135_isChiefSeriesFrom_mono {L Q P N : Subgroup G} {m : ℕ} (hQP : Q ≤ P)
     (h : IsChiefSeriesFrom L Q N m) : IsChiefSeriesFrom L P N m := by
   have hstep : ∀ {L' N' : Subgroup G}, IsChiefStep L Q L' N' → IsChiefStep L P L' N' := by

@@ -21,7 +21,7 @@ private lemma mulAut_conj_inv {G : Type*} [Group G] (r : G) :
     (MulAut.conj r)⁻¹ = MulAut.conj r⁻¹ :=
   inv_eq_of_mul_eq_one_right (by
     ext x
-    simp [MulAut.conj_apply])
+    simp)
 
 private lemma transport_id {G : Type*} [Group G] (a : MulAut G) (r i : G) :
     (MulAut.conj ((a i)⁻¹ * r * i))⁻¹ * a =
@@ -55,8 +55,8 @@ theorem ggCoverPTableBRk_twE6_three
     (h3 : 3 ∣ 2 ^ n + 1) :
     GGCoverPTableBRk 3 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) 6 := by
   intro M _ _ L' E θ hE hP hr6 a ha
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
-  haveI : Finite (MulAut (TwE6Delta.RecipeR K n)) := TwE6Delta.finite_mulAut_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (MulAut (TwE6Delta.RecipeR K n)) := TwE6Delta.finite_mulAut_recipeR hK
   have hr : 3 ^ 5 ≤ Nat.card (ggLAutImage L' θ E) := by
     simpa using pow_pred_le_card_ggLAutImage hP Nat.prime_three hr6
   have hA : IsElemAbelian 3 (ggLAutImage L' θ E) :=
@@ -64,7 +64,7 @@ theorem ggCoverPTableBRk_twE6_three
   have hI : (ggLAutImage L' θ E : Set (MulAut (TwE6Delta.RecipeR K n))) ⊆
       TwE6Delta.RecipeI K n := by
     intro a ha
-    simp only [ggLAutImage, Subgroup.mem_map] at ha
+    simp only [ggLAutImage] at ha
     obtain ⟨x, hx, rfl⟩ := ha
     have hxe : (⟨(x : M), hE hx⟩ : Subgroup.normalizer (L' : Set M)) = x :=
       Subtype.ext rfl

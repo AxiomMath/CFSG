@@ -37,7 +37,7 @@ theorem isExtremalIn_of_isSylowTwoIn {t : G} {S P : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS.2
   have hp : IsPGroup 2 S := by
-    have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({t} : Set G))) := hQ ▸ Q.isPGroup'
+    have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({t} : Set G))) := hQ ▸ Q.isPGroup
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1)
   have hidx : ¬ 2 ∣ S.relIndex (centralizer ({t} : Set G)) := by
     have h1 : S.relIndex (centralizer ({t} : Set G)) =
@@ -62,7 +62,7 @@ theorem commute_of_shear {t z x : G} (ht : orderOf t = 2) (hz : orderOf z = 2)
   obtain ⟨Q, hQ⟩ := hS.2
   have htC : t ∈ C := Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have hSp : IsPGroup 2 S := by
-    have h1 : IsPGroup 2 (S.subgroupOf C) := hQ ▸ Q.isPGroup'
+    have h1 : IsPGroup 2 (S.subgroupOf C) := hQ ▸ Q.isPGroup
     exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1)
   have htS : t ∈ S := by
     have htCent : t ∈ Subgroup.centralizer (S : Set G) := by
@@ -97,9 +97,9 @@ theorem commute_of_shear {t z x : G} (ht : orderOf t = 2) (hz : orderOf z = 2)
   have : Nontrivial ↥(P : Subgroup G) :=
     (Subgroup.nontrivial_iff_ne_bot (P : Subgroup G)).mpr hPne
   have hcenter : Nontrivial (Subgroup.center ↥(P : Subgroup G)) :=
-    IsPGroup.center_nontrivial P.isPGroup'
+    IsPGroup.center_nontrivial P.isPGroup
   have hcentP : IsPGroup 2 (Subgroup.center ↥(P : Subgroup G)) :=
-    P.isPGroup'.to_subgroup (Subgroup.center ↥(P : Subgroup G))
+    P.isPGroup.to_subgroup (Subgroup.center ↥(P : Subgroup G))
   have hcard : 2 ∣ Nat.card (Subgroup.center ↥(P : Subgroup G)) := by
     obtain ⟨n, hn0, hn⟩ := (IsPGroup.nontrivial_iff_card hcentP).mp hcenter
     exact hn.symm ▸ dvd_pow_self 2 (ne_of_gt hn0)
@@ -117,7 +117,7 @@ theorem commute_of_shear {t z x : G} (ht : orderOf t = 2) (hz : orderOf z = 2)
   have hwP : w ∈ (P : Subgroup G) := wC.1.2
   have hwt : t * w = w * t := hwcentral t htP
   have hwC : w ∈ C := Subgroup.mem_centralizer_singleton_iff.mpr hwt.symm
-  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   have hPSinf : (P : Subgroup G) ⊓ C = S :=
     inf_centralizer_eq_of_isSylowTwoIn hS hPp hSP
   have hwS : w ∈ S := by

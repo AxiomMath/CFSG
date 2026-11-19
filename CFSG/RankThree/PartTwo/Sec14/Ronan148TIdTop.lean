@@ -22,7 +22,7 @@ theorem l3IdentHeis_of (hθ : ThetaHeis148) (hS : SimpleHeis148) : L3IdentHeis :
   have hZK : Subgroup.center K₀ = ⊥ :=
     center_eq_bot_of_isoLThreePi he hiso hKq' (isPGroup_center_of_theta_eq_bot hθ')
   have : IsSimpleGroup (K₀ ⧸ Subgroup.center K₀) := hKq'.2.1
-  haveI hKs : IsSimpleGroup K₀ := MulEquiv.isSimpleGroup
+  have hKs : IsSimpleGroup K₀ := MulEquiv.isSimpleGroup
     ((QuotientGroup.quotientMulEquivOfEq hZK).trans QuotientGroup.quotientBot).symm
   have hnonab : ∃ a b : K₀, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hKq'.2.2

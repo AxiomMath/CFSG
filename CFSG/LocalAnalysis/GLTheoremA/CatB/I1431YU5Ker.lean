@@ -14,16 +14,20 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] noncomputable def act (g : GL (HypIndex 2 1) K) : Module.End K (HypIndex 2 1 → K) :=
   Matrix.toLinAlgEquiv' (g : Matrix (HypIndex 2 1) (HypIndex 2 1) K)
 
+omit [Finite K] [CharP K 2] in
 theorem act_apply (g : GL (HypIndex 2 1) K) (v : HypIndex 2 1 → K) :
     act g v = (g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ v := by
   simp [act]
 
+omit [Finite K] [CharP K 2] in
 theorem act_one : act (1 : GL (HypIndex 2 1) K) = 1 := by
   simp [act]
 
+omit [Finite K] [CharP K 2] in
 theorem act_pow (g : GL (HypIndex 2 1) K) (n : ℕ) : act (g ^ n) = act g ^ n := by
   simp [act, Units.val_pow_eq_pow_val, map_pow]
 
+omit [Finite K] [CharP K 2] in
 theorem hyp_isometry (h : UnitaryFieldData 2 1 K) (g : GL (HypIndex 2 1) K)
     (hg : g ∈ hypSU h 2 1) (x y : HypIndex 2 1 → K) :
     hypForm h 2 1 ((g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ x)
@@ -36,32 +40,38 @@ theorem hyp_isometry (h : UnitaryFieldData 2 1 K) (g : GL (HypIndex 2 1) K)
 @[expose] def FixesPt (W : Submodule K (HypIndex 2 1 → K)) (g : GL (HypIndex 2 1) K) : Prop :=
   ∀ w ∈ W, (g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ w = w
 
+omit [Finite K] [CharP K 2] in
 theorem fixesPt_mul {W : Submodule K (HypIndex 2 1 → K)} {g g' : GL (HypIndex 2 1) K}
     (hg : FixesPt W g) (hg' : FixesPt W g') : FixesPt W (g * g') := by
   intro w hw
   rw [Units.val_mul, ← Matrix.mulVec_mulVec, hg' w hw, hg w hw]
 
+omit [Finite K] [CharP K 2] in
 theorem fixesPt_one (W : Submodule K (HypIndex 2 1 → K)) : FixesPt W (1 : GL (HypIndex 2 1) K) := by
   intro w _
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem fixesPt_pow {W : Submodule K (HypIndex 2 1 → K)} {g : GL (HypIndex 2 1) K}
     (hg : FixesPt W g) (n : ℕ) : FixesPt W (g ^ n) := by
   induction n with
   | zero => simpa using fixesPt_one W
   | succ n ih => rw [pow_succ]; exact fixesPt_mul ih hg
 
-@[expose] noncomputable abbrev perpW (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K)) :
+noncomputable abbrev perpW (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K)) :
     Submodule K (HypIndex 2 1 → K) :=
   W.orthogonalBilin (hypForm h 2 1)
 
+omit [Finite K] [CharP K 2] in
 theorem mem_perpW {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     {y : HypIndex 2 1 → K} : y ∈ perpW h W ↔ ∀ n ∈ W, hypForm h 2 1 n y = 0 :=
   Iff.rfl
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_V : Module.finrank K (HypIndex 2 1 → K) = 5 := by
   rw [Module.finrank_fintype_fun_eq_card, card_hypIndex]
 
+omit [CharP K 2] in
 theorem finrank_perpW (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K))
     (hk : Module.finrank K W = 2) : Module.finrank K (perpW h W) = 3 := by
   show Module.finrank K (W.orthogonalBilin (hypForm h 2 1)) = 3
@@ -79,6 +89,7 @@ structure Frame (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → 
   ell_W : ∀ w ∈ W, ℓ w = 0
   decomp : ∀ y ∈ perpW h W, y - ℓ y • m ∈ W
 
+omit [CharP K 2] in
 theorem exists_frame (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1 → K))
     (hW : ∀ x ∈ W, ∀ y ∈ W, hypForm h 2 1 x y = 0) (hk : Module.finrank K W = 2) :
     Nonempty (Frame h W) := by
@@ -88,7 +99,7 @@ theorem exists_frame (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1
     have h3 := finrank_perpW h W hk
     rw [← heq, hk] at h3
     omega
-  obtain ⟨m, hm, hmW⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hle hne)
+  obtain ⟨m, hm, hmW⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle hne)
   have hm0 : m ≠ 0 := fun h0 => hmW (h0 ▸ W.zero_mem)
   have hinf : W ⊓ (K ∙ m) = ⊥ := by
     rw [eq_bot_iff]
@@ -135,6 +146,7 @@ theorem exists_frame (h : UnitaryFieldData 2 1 K) (W : Submodule K (HypIndex 2 1
     (g : GL (HypIndex 2 1) K) : K :=
   F.ℓ ((g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ F.m)
 
+omit [Finite K] [CharP K 2] in
 theorem shift_mem_perp (h : UnitaryFieldData 2 1 K) {W : Submodule K (HypIndex 2 1 → K)}
     {g : GL (HypIndex 2 1) K} (hg : g ∈ hypSU h 2 1) (hfix : FixesPt W g)
     (x : HypIndex 2 1 → K) :
@@ -148,6 +160,7 @@ theorem shift_mem_perp (h : UnitaryFieldData 2 1 K) {W : Submodule K (HypIndex 2
           ((g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ x) := by rw [hgn]
     _ = hypForm h 2 1 n x := hyp_isometry h g hg n x
 
+omit [Finite K] [CharP K 2] in
 theorem act_m_mem_perp {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (F : Frame h W) {g : GL (HypIndex 2 1) K} (hg : g ∈ hypSU h 2 1) (hfix : FixesPt W g) :
     (g : Matrix (HypIndex 2 1) (HypIndex 2 1) K) *ᵥ F.m ∈ perpW h W := by
@@ -155,8 +168,9 @@ theorem act_m_mem_perp {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2
   have h2 := (perpW h W).add_mem h1 F.mem_perp
   simpa using h2
 
+omit [Finite K] [CharP K 2] in
 theorem cc_mul {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
-    (F : Frame h W) {a b : GL (HypIndex 2 1) K} (ha : a ∈ hypSU h 2 1) (hb : b ∈ hypSU h 2 1)
+    (F : Frame h W) {a b : GL (HypIndex 2 1) K} (_ha : a ∈ hypSU h 2 1) (hb : b ∈ hypSU h 2 1)
     (hfa : FixesPt W a) (hfb : FixesPt W b) : cc F (a * b) = cc F a * cc F b := by
   unfold cc
   rw [Units.val_mul, ← Matrix.mulVec_mulVec]
@@ -174,6 +188,7 @@ theorem cc_mul {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K
     rw [Matrix.mulVec_add, Matrix.mulVec_smul, hfa _ hw]
   rw [hsplit, map_add, map_smul, F.ell_W _ hw, zero_add, smul_eq_mul, mul_comm]
 
+omit [Finite K] in
 theorem pow_four_of_cc_one {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypIndex 2 1 → K)}
     (F : Frame h W) {g : GL (HypIndex 2 1) K} (hg : g ∈ hypSU h 2 1) (hfix : FixesPt W g)
     (hc : cc F g = 1) : g ^ 4 = 1 := by
@@ -212,8 +227,8 @@ theorem pow_four_of_cc_one {h : UnitaryFieldData 2 1 K} {W : Submodule K (HypInd
     simpa [pow_succ, Module.End.mul_apply] using h3
   have hN4 : N ^ 4 = 0 := by
     rw [pow_succ', hN3, mul_zero]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (Module.End K (HypIndex 2 1 → K)) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (Module.End K (HypIndex 2 1 → K)) 2 :=
     charP_of_injective_algebraMap (algebraMap K (Module.End K (HypIndex 2 1 → K))).injective 2
   have hact : act g = 1 + N := by
     rw [hNdef]
@@ -249,7 +264,7 @@ theorem not_order_five {h : UnitaryFieldData 2 1 K} (hK : Nat.card K = 4)
     intro h0
     rw [h0, zero_pow (by norm_num)] at h5
     exact zero_ne_one h5
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -272,7 +287,7 @@ theorem not_five_dvd_pointwise {h : UnitaryFieldData 2 1 K} (hK : Nat.card K = 4
     (hY : ∀ y ∈ Y, FixesPt W ((y : hypSU h 2 1) : GL (HypIndex 2 1) K)) :
     ¬ 5 ∣ Nat.card Y := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := Y) 5 h5
   have hord : orderOf ((y : hypSU h 2 1) : GL (HypIndex 2 1) K) = 5 := by
     rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hy]

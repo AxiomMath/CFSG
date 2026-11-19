@@ -36,7 +36,7 @@ theorem threeFreeBorelDatum_adjoint
     obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem τ).length
     obtain ⟨⟨P, hP⟩, -⟩ := exceptional_ordinary_Sylow_opposition τ K 2 w₀ hw₀
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   three_free D hUD h3 := by
     have hle := Quasithin.SteinbergCD.even_ordinary_three_free_posUnipotent_overgroups_le_borelGroup
       (τ := τ) (K := K) (D := D.map (adjointGroup τ K).subtype) (Subgroup.map_subtype_le D)

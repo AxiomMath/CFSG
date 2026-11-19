@@ -15,6 +15,7 @@ section Torus
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem torusGroup_le_adjointGroup' : torusGroup Tag.E6 K ≤ adjointGroup Tag.E6 K :=
   (Subgroup.closure_le _).2 (by
     rintro _ ⟨q, rfl⟩
@@ -27,11 +28,13 @@ theorem torusGroup_le_adjointGroup' : torusGroup Tag.E6 K ≤ adjointGroup Tag.E
   map_one' := Subtype.ext (by simp)
   map_mul' c d := Subtype.ext (by simp)
 
+omit [Finite K] in
 theorem coe_torusCoordAdj (c : Fin Tag.E6.rank → Kˣ) :
     ((torusCoordAdj (K := K) c : adjointGroup Tag.E6 K) :
       (Module.End K (RootModule Tag.E6 K))ˣ) =
       (torusCoordHom Tag.E6 K c : (Module.End K (RootModule Tag.E6 K))ˣ) := rfl
 
+omit [Finite K] in
 theorem torusCoordAdj_eq_one_iff (c : Fin Tag.E6.rank → Kˣ) :
     torusCoordAdj (K := K) c = 1 ↔ zpowMatrix Tag.E6.cartan c = 1 := by
   rw [← torusCoordHom_eq_one_iff]
@@ -111,6 +114,7 @@ theorem mem_zpowers_of_pow_three {ζ : Kˣ} (hζ : orderOf ζ = 3) (h3 : 3 ∣ N
   rw [this, MonoidHom.mem_ker, powMonoidHom_apply]
   exact hy
 
+omit [Finite K] in
 theorem weylElt_conj_torusCoordAdj (i : Fin Tag.E6.rank) (c : Fin Tag.E6.rank → Kˣ) :
     (⟨weylElt Tag.E6 K i 1, weylElt_mem_adjointGroup i 1⟩ : adjointGroup Tag.E6 K) *
         torusCoordAdj c *
@@ -144,7 +148,7 @@ theorem six_le_pRank_of_cover_E6 (h3 : 3 ∣ Nat.card K - 1) {L : Type} [Group L
       rw [Finset.prod_eq_single j]
       · simp
       · intro k _ hk
-        simp [Pi.mulSingle_apply, hk]
+        simp [hk]
       · simp
     calc n i * e j * (n i)⁻¹ = g (coordReflect Tag.E6 i (Pi.mulSingle j ζ)) :=
           weylElt_conj_torusCoordAdj i _
@@ -166,7 +170,7 @@ theorem six_le_pRank_of_cover_E6 (h3 : 3 ∣ Nat.card K - 1) {L : Type} [Group L
       funext j
       by_cases hj : j = i
       · subst hj; simp [hζ3]
-      · simp [Pi.mulSingle_apply, hj]
+      · simp [hj]
     rw [this, map_one]
   obtain ⟨R, hR3, hRc, hRmap⟩ := exists_elemAbelian_of_reflection_lifts π hπ
     (fun x hx => (hker x).1 hx) e n hcomm he3 hinv hrel

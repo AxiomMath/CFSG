@@ -243,7 +243,7 @@ theorem e6AntiIdSL_eq_word : e6AntiIdSL (Ω := Ω) = e6AntiIdWord (Ω := Ω) := 
       Matrix.SpecialLinearGroup.map f
         (Matrix.SpecialLinearGroup.transvection h (1 : ZMod 2)) =
       Matrix.SpecialLinearGroup.transvection h (1 : Ω) := by
-    simpa using Matrix.SpecialLinearGroup.map_transvection f h (1 : ZMod 2)
+    simp
   have htrans : ∀ i : Fin 5,
       Matrix.SpecialLinearGroup.map f (e6AdjSwap (Ω := ZMod 2) i) =
         e6AdjSwap (Ω := Ω) i := by
@@ -259,7 +259,7 @@ theorem e6AntiIdSL_eq_word : e6AntiIdSL (Ω := Ω) = e6AntiIdWord (Ω := Ω) := 
     simp [map_mul, htrans_one]
   have hright : Matrix.SpecialLinearGroup.map f (e6AntiIdWord (Ω := ZMod 2)) =
       e6AntiIdWord (Ω := Ω) := by
-    simp [e6AntiIdWord, List.map_map, Function.comp_def, map_list_prod, htrans]
+    simp [e6AntiIdWord, htrans]
   have hmap := congrArg (Matrix.SpecialLinearGroup.map f) e6AntiIdWord_zmod2
   rw [hleft, hright] at hmap
   exact hmap
@@ -267,12 +267,14 @@ theorem e6AntiIdSL_eq_word : e6AntiIdSL (Ω := Ω) = e6AntiIdWord (Ω := Ω) := 
 @[expose] def e6AntiIdPathWord : List (Fin TwistTag.E6.tag.rank) :=
   [0, 2, 3, 4, 5, 0, 2, 3, 4, 0, 2, 3, 0, 2, 0]
 
+omit [CharP Ω 2] in
 theorem e6AdjSwap_realize (h2 : (2 : Ω) = 0) (i : Fin 5) :
     E6GraphLevi.realize h2 (e6AdjSwap (Ω := Ω) i) =
       weylElt TwistTag.E6.tag Ω (E6GraphLevi.pathIdx i) 1 := by
   simp [e6AdjSwap, map_mul, E6GraphLevi.realize_x, E6GraphLevi.realize_y,
     LieType.Chevalley.weylElt_eq_xUnit_mul, neg_eq_self_of_two h2]
 
+omit [CharP Ω 2] in
 theorem e6AntiIdWord_realize (h2 : (2 : Ω) = 0) :
     E6GraphLevi.realize h2 (e6AntiIdWord (Ω := Ω)) =
       E6GraphHighestRoot.wordElt Ω e6AntiIdPathWord := by
@@ -408,11 +410,13 @@ open CFSG.Blueprint.Chevalley
 @[expose] def e6ThetaTorus (r : Ωˣ) : ModGL Tag.E6 Ω :=
   thetaTorusHom Ω r
 
+omit [CharP Ω 2] in
 theorem e6ThetaTorus_mul (a b : Ωˣ) :
     e6ThetaTorus (a * b) = e6ThetaTorus a * e6ThetaTorus b := by
   unfold e6ThetaTorus
   exact map_mul (thetaTorusHom Ω) a b
 
+omit [CharP Ω 2] in
 theorem e6ThetaTorus_zpow (r : Ωˣ) (n : ℤ) :
     e6ThetaTorus (r ^ n) = (e6ThetaTorus r) ^ n := by
   change (thetaTorusHom Ω (r ^ n) : ModGL Tag.E6 Ω) =
@@ -435,6 +439,7 @@ theorem e6FrobEnd_apply (σQ : Ω →+* Ω) (η : Ωˣ)
         twistHom TwistTag.E6 Ω σQ g *
         (((thetaTorusHom Ω η : ModGL Tag.E6 Ω) : ModGL Tag.E6 Ω) * e6ThetaN * e6AntiIdJ)⁻¹ := rfl
 
+omit [CharP Ω 2] in
 private theorem e6Vuv (h2 : (2 : Ω) = 0) (a : Ωˣ) :
     vSL ((a⁻¹ : Ωˣ) : Ω) * uSL (a : Ω) * vSL ((a⁻¹ : Ωˣ) : Ω) = nSL a := by
   have h12 : (1 : Ω) + 1 = 0 := by
@@ -466,12 +471,14 @@ theorem e6AntiIdJ_mul_thetaSL2 (B : SL2 Ω) :
     (CharP.cast_eq_zero Ω 2) e6AntiIdJ_mem_subsystem
   exact ((Subgroup.mem_centralizer_iff.1 hcent) (thetaSL2 Ω B) ⟨B, rfl⟩).symm
 
+omit [CharP Ω 2] in
 theorem e6ThetaTorus_eq_rootDiagUnit (r : Ωˣ) :
     ((thetaTorusHom Ω r : ModGL Tag.E6 Ω) : ModGL Tag.E6 Ω) =
       rootDiagUnit Tag.E6 (e6ThetaTorusChar r) := by
   unfold e6ThetaTorusChar thetaTorusHom
   rfl
 
+omit [CharP Ω 2] in
 theorem e6BetaTorus_eq_rootDiagUnit (r : Ωˣ) :
     (e6BetaTorus r : ModGL Tag.E6 Ω) =
       rootDiagUnit Tag.E6 (e6BetaTorusChar r) := by
@@ -484,6 +491,7 @@ theorem e6BetaTorus_eq_rootDiagUnit (r : Ωˣ) :
         CFSG.HardMathSupport.Timmesfeld.CrossChar.corootPair_eq_sum
           (isRoot_single Tag.E6 1) δ) r
 
+omit [CharP Ω 2] in
 theorem e6BetaTorus_mul (a b : Ωˣ) :
     e6BetaTorus (a * b) = e6BetaTorus a * e6BetaTorus b := by
   unfold e6BetaTorus
@@ -492,6 +500,7 @@ theorem e6BetaTorus_mul (a b : Ωˣ) :
       map_mul (CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.HSLHom Ω) a b
   rw [hHSL, map_mul]
 
+omit [CharP Ω 2] in
 theorem e6ThetaTorus_mem (r : Ωˣ) :
     ((thetaTorusHom Ω r : ModGL Tag.E6 Ω) : ModGL Tag.E6 Ω) ∈ e6LineFactor Ω 2 := by
   rw [thetaTorusHom_apply]
@@ -503,6 +512,7 @@ theorem e6ThetaTorus_mem (r : Ωˣ) :
   · rw [Set.mem_singleton_iff.1 hα]
     exact neg_mem_e6LineRoots e6BlockPlaneTheta_mem
 
+omit [CharP Ω 2] in
 theorem e6BetaTorus_mem (r : Ωˣ) :
     (e6BetaTorus r : ModGL Tag.E6 Ω) ∈ e6LineFactor Ω 2 := by
   refine rootSpan_mono ?_ (rootSL2_mem_rootSpan_pair (isRoot_single Tag.E6 1) (HSL r))
@@ -519,22 +529,26 @@ theorem e6ThetaN_conj_pinnedX {α : Fin Tag.E6.rank → ℤ}
   rw [e6ThetaN]
   exact thetaSL2_WSL_conj (E := Ω) (CharP.cast_eq_zero Ω 2) hα c
 
+omit [CharP Ω 2] in
 theorem e6ThetaN_mem_monomial :
     e6ThetaN ∈ monomialSubgroup Tag.E6 Ω := by
   change rootSL2 Tag.E6 Ω (highRoot .E6) WSL ∈ monomialSubgroup Tag.E6 Ω
   exact rootSL2_WSL_mem_monomialSubgroup (isRoot_highRoot .E6)
 
+omit [CharP Ω 2] in
 theorem e6ThetaN_mapsRootLines :
     MapsRootLines (R := Ω) e6ThetaN (rootReflection e6BlockPlaneTheta) := by
   change MapsRootLines (R := Ω) (rootSL2 Tag.E6 Ω (highRoot .E6) WSL)
     (rootReflection (highRoot .E6))
   exact mapsRootLines_rootSL2_WSL (isRoot_highRoot .E6)
 
+omit [CharP Ω 2] in
 theorem e6ThetaN_weylQuotient :
     weylQuotientHom Tag.E6 Ω ⟨e6ThetaN, e6ThetaN_mem_monomial⟩ =
       rootReflection e6BlockPlaneTheta :=
   weylQuotientHom_eq e6ThetaN_mapsRootLines
 
+omit [CharP Ω 2] in
 theorem e6WeylAct_rootReflection_theta_betaChar (r : Ωˣ) :
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.weylAct (τ := Tag.E6)
         (rootReflection e6BlockPlaneTheta) (e6BetaTorusChar r) =
@@ -550,7 +564,7 @@ theorem e6WeylAct_rootReflection_theta_betaChar (r : Ωˣ) :
   have hθchar : e6ThetaTorusChar r = e6BlockPlaneChar r 1 := by
     change (Pi.mulSingle (1 : Fin 6) r : Fin 6 → Ωˣ) = ![1, r, 1, 1, 1, 1]
     funext i
-    fin_cases i <;> simp [Pi.mulSingle_apply]
+    fin_cases i <;> simp
   have harg : (r ^ 2)⁻¹ * (r⁻¹) ^ (-3 : ℤ) = r := by group
   have hmul : e6BlockPlaneChar (r ^ 2) (r⁻¹) * (e6BlockPlaneChar r 1)⁻¹ =
       e6BlockPlaneChar r (r⁻¹) := by
@@ -560,6 +574,7 @@ theorem e6WeylAct_rootReflection_theta_betaChar (r : Ωˣ) :
     fin_cases i <;> simp [Pi.mul_apply, Pi.inv_apply, pow_two]
   rw [hβchar, hθchar, weylAct_rootReflection_theta, harg, hmul]
 
+omit [CharP Ω 2] in
 theorem e6ThetaN_conj_betaTorus (r : Ωˣ) :
     (e6ThetaN : ModGL Tag.E6 Ω) * (e6BetaTorus r : ModGL Tag.E6 Ω) *
         (e6ThetaN : ModGL Tag.E6 Ω)⁻¹ =
@@ -784,17 +799,20 @@ theorem e6FrobEnd_thetaN (σQ : Ω →+* Ω) (η : Ωˣ) :
     _ = rootSL2 Tag.E6 Ω e6BlockPlaneTheta (HSL (η ^ 2)) *
           rootSL2 Tag.E6 Ω e6BlockPlaneTheta WSL := by rw [map_mul]
 
+omit [CharP Ω 2] in
 theorem e6ThetaTorusChar_eq_blockPlaneChar (r : Ωˣ) :
     e6ThetaTorusChar r = e6BlockPlaneChar r 1 := by
   change (Pi.mulSingle (1 : Fin 6) r : Fin 6 → Ωˣ) = ![1, r, 1, 1, 1, 1]
   funext i
-  fin_cases i <;> simp [Pi.mulSingle_apply]
+  fin_cases i <;> simp
 
+omit [CharP Ω 2] in
 theorem rootChar_e6ThetaTorusChar_beta (r : Ωˣ) :
     rootChar (e6ThetaTorusChar r) e6BlockPlaneBeta = r := by
   rw [e6ThetaTorusChar_eq_blockPlaneChar, rootChar_e6BlockPlaneChar]
   simp [e6BlockPlaneBeta]
 
+omit [CharP Ω 2] in
 theorem rootChar_e6ThetaTorusChar_negBeta (r : Ωˣ) :
     rootChar (e6ThetaTorusChar r) (-e6BlockPlaneBeta) = r⁻¹ := by
   rw [e6ThetaTorusChar_eq_blockPlaneChar, rootChar_e6BlockPlaneChar]
@@ -914,11 +932,13 @@ theorem e6FrobEnd_pinnedNegBeta (σQ : Ω →+* Ω) (η : Ωˣ) (c : Ω) :
     _ = H * Y * H⁻¹ := by rw [hN]
     _ = Yout := hHconj
 
+omit [CharP Ω 2] in
 theorem e6Beta_rootSL2_nSL (t : Ωˣ) :
     rootSL2 Tag.E6 Ω e6BlockPlaneBeta (nSL t) = e6BetaTorus t * e6BetaN := by
   rw [CFSG.LieType.Chevalley.nSL_eq_HSL_mul, map_mul]
   rfl
 
+omit [CharP Ω 2] in
 theorem e6BetaTorus_inv (r : Ωˣ) : (e6BetaTorus r)⁻¹ = e6BetaTorus r⁻¹ := by
   unfold e6BetaTorus
   rw [← map_inv]
@@ -926,6 +946,7 @@ theorem e6BetaTorus_inv (r : Ωˣ) : (e6BetaTorus r)⁻¹ = e6BetaTorus r⁻¹ :
   simpa only [CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.HSLHom_apply] using
     (map_inv (CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.HSLHom Ω) r).symm
 
+omit [CharP Ω 2] in
 theorem e6BetaTorus_zpow (r : Ωˣ) (n : ℤ) :
     e6BetaTorus (r ^ n) = (e6BetaTorus r) ^ n := by
   unfold e6BetaTorus
@@ -1018,6 +1039,7 @@ theorem e6FrobEnd_betaTorus (σQ : Ω →+* Ω) (η : Ωˣ) (r : Ωˣ) :
         rw [mul_comm (η : Ωˣ) s⁻¹]
         group
 
+omit [CharP Ω 2] in
 theorem e6BlockPlaneN_eq_thetaN_mul_betaN :
     e6BlockPlaneN Ω = e6ThetaN * e6BetaN := by
   unfold e6BlockPlaneN e6ThetaN e6BetaN e6BlockPlaneTheta
@@ -1068,6 +1090,7 @@ theorem e6BlockPlaneN_frob (σQ : Ω →+* Ω) (η : Ωˣ) :
     _ = e6ThetaTorus η * e6BetaTorus η * e6BlockPlaneN Ω := by
         rw [← e6BlockPlaneN_eq_thetaN_mul_betaN]
 
+omit [CharP Ω 2] in
 theorem e6ThetaBetaTorus_eq_rootDiagUnit (r : Ωˣ) :
     e6ThetaTorus r * e6BetaTorus r =
       rootDiagUnit Tag.E6 (e6ThetaTorusChar r * e6BetaTorusChar r) := by
@@ -1077,6 +1100,7 @@ theorem e6ThetaBetaTorus_eq_rootDiagUnit (r : Ωˣ) :
     exact e6ThetaTorus_eq_rootDiagUnit r
   rw [hθ, e6BetaTorus_eq_rootDiagUnit, rootDiagUnit_mul]
 
+omit [CharP Ω 2] in
 theorem e6ThetaBetaTorus_commute (r : Ωˣ) :
     Commute (e6ThetaTorus r) (e6BetaTorus r) := by
   have hθ : e6ThetaTorus r = rootDiagUnit Tag.E6 (e6ThetaTorusChar r) := by
@@ -1103,6 +1127,7 @@ theorem e6ThetaBetaTorus_commute (r : Ωˣ) :
 @[expose] def e6BlockPlaneActor (r : Ωˣ) : ModGL Tag.E6 Ω :=
   e6ThetaTorus r * e6BetaTorus r * e6BlockPlaneN Ω
 
+omit [CharP Ω 2] in
 theorem e6BlockPlaneActor_mem (r : Ωˣ) :
     e6BlockPlaneActor r ∈ e6LineFactor Ω 2 := by
   refine mul_mem (mul_mem ?_ ?_) (e6BlockPlaneN_mem (K := Ω))
@@ -1110,6 +1135,7 @@ theorem e6BlockPlaneActor_mem (r : Ωˣ) :
     exact e6ThetaTorus_mem r
   · exact e6BetaTorus_mem r
 
+omit [CharP Ω 2] in
 theorem e6BlockPlaneActor_conj_rootDiagUnit (r : Ωˣ)
     (u : Fin Tag.E6.rank → Ωˣ) :
     e6BlockPlaneActor r * rootDiagUnit Tag.E6 u * (e6BlockPlaneActor r)⁻¹ =
@@ -1129,6 +1155,7 @@ theorem e6BlockPlaneActor_conj_rootDiagUnit (r : Ωˣ)
         rw [e6ThetaBetaTorus_eq_rootDiagUnit]
         exact rootDiagUnit_conj_rootDiagUnit _ _
 
+omit [CharP Ω 2] in
 theorem e6BlockPlaneActor_sq_conj (r : Ωˣ) (u : Fin Tag.E6.rank → Ωˣ) :
     (e6BlockPlaneActor r) ^ 2 * rootDiagUnit Tag.E6 u *
         ((e6BlockPlaneActor r) ^ 2)⁻¹ =

@@ -85,7 +85,6 @@ theorem eq_one_of_preserves_sylow_of_twoPow
             ((MulAut.conjNormal (H := Alt5) σ)⁻¹ x) = x := by
           apply Subtype.ext
           rw [MulAut.conjNormal_apply, MulAut.conjNormal_inv_apply]
-          push_cast
           group
         rwa [hfixx]
       exact ⟨(MulAut.conjNormal (H := Alt5) σ)⁻¹ x, (hV _).mpr hx', by simp⟩
@@ -159,7 +158,7 @@ theorem eq_one_of_preserves_sylow_of_twoPow
     have hxeq : τ * x * τ⁻¹ = (w' : Perm (Fin 5)) := by
       show (g⁻¹ * σ * g) * x * (g⁻¹ * σ * g)⁻¹ =
         ((MulAut.conjNormal (H := Alt5) g⁻¹ v' : Alt5) : Perm (Fin 5))
-      simp only [v', v, w, MulAut.conjNormal_apply, Subtype.coe_mk, hwcoe]
+      simp only [v', v, w, MulAut.conjNormal_apply]
       push_cast
       group
     rw [hxeq]
@@ -193,7 +192,7 @@ theorem eq_one_of_preserves_sylow_of_twoPow
       show ((g⁻¹ * k * g : Alt5) : Perm (Fin 5)) * x *
         (((g⁻¹ * k * g : Alt5) : Perm (Fin 5)))⁻¹ =
         ((MulAut.conjNormal (H := Alt5) g⁻¹ v' : Alt5) : Perm (Fin 5))
-      simp only [v', v, w, MulAut.conjNormal_apply, Subtype.coe_mk, hwcoe]
+      simp only [v', v, w, MulAut.conjNormal_apply]
       push_cast
       group
     rw [hxeq]
@@ -284,7 +283,7 @@ theorem exists_mem_sylow_of_fixes (φ : MulAut Alt5) (V : Sylow 2 Alt5)
           = g⁻¹ * (σ * (g * x * g⁻¹) * σ⁻¹) * g := by push_cast; group
         _ = g⁻¹ * (g * x * g⁻¹) * g := by rw [hσv']
         _ = x := by push_cast; group
-    calc τ * x = (τ * x * τ⁻¹) * τ := by push_cast; group
+    calc τ * x = (τ * x * τ⁻¹) * τ := by group
       _ = x * τ := by rw [hconj]
   have hτmem : τ ∈ kleinSet := mem_kleinSet_of_centralizes τ hτW
   let t : Alt5 := ⟨τ, by rw [Equiv.Perm.mem_alternatingGroup]; exact kleinSet_alt τ hτmem⟩
@@ -292,7 +291,7 @@ theorem exists_mem_sylow_of_fixes (φ : MulAut Alt5) (V : Sylow 2 Alt5)
   let v : Alt5 := g * t * g⁻¹
   have hvcoe' : (v : Perm (Fin 5)) = g * τ * g⁻¹ := by
     change (g * t * g⁻¹ : Perm (Fin 5)) = g * τ * g⁻¹
-    simp only [t, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [t, Subgroup.coe_inv]
   have hσeq : σ = g * τ * g⁻¹ := by
     simp [τ, mul_assoc]
   have hvcoe : (v : Perm (Fin 5)) = σ := hvcoe'.trans hσeq.symm
@@ -309,7 +308,7 @@ theorem eq_one_of_preserves_sylow_of_twoPow_of_mulEquiv
     (hkN : k ∈ Subgroup.normalizer (V : Set A))
     (hfix : φ k = k) : φ = 1 := by
   classical
-  haveI : Finite A := Finite.of_equiv Alt5 e.symm
+  have : Finite A := Finite.of_equiv Alt5 e.symm
   have hsurj : Function.Surjective (e.toMonoidHom : A →* Alt5) := fun x => e.surjective x
   let V' : Sylow 2 Alt5 := V.mapSurjective (f := e.toMonoidHom) hsurj
   have hV'coe : (V' : Subgroup Alt5) = (V : Subgroup A).map e.toMonoidHom := rfl
@@ -376,7 +375,7 @@ theorem exists_mem_sylow_of_fixes_of_mulEquiv
     (hfix : ∀ v : A, v ∈ V → φ v = v) :
     ∃ v : A, v ∈ V ∧ φ = MulAut.conj v := by
   classical
-  haveI : Finite A := Finite.of_equiv Alt5 e.symm
+  have : Finite A := Finite.of_equiv Alt5 e.symm
   have hsurj : Function.Surjective (e.toMonoidHom : A →* Alt5) := fun x => e.surjective x
   let V' : Sylow 2 Alt5 := V.mapSurjective (f := e.toMonoidHom) hsurj
   have hV'coe : (V' : Subgroup Alt5) = (V : Subgroup A).map e.toMonoidHom := rfl

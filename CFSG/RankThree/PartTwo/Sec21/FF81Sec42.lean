@@ -16,6 +16,7 @@ open Q42
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ : G}
 
+omit [Finite G] in
 theorem conj_inv_of_conj {a x y : G} (h : a * x * a⁻¹ = y) : a⁻¹ * y * a = x := by
   rw [← h]; group
 

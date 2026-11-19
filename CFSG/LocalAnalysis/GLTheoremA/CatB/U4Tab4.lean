@@ -19,7 +19,7 @@ theorem conj_mk_eq_barAut (K : Subgroup G) (k : ↥K) (hk : (k : G) ∈ Subgroup
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
   congr 1
 
-theorem innerAut_le_autBar (K W : Subgroup G) (hKW : K ≤ W) (hWN : W ≤ Subgroup.normalizer (K : Set G)) :
+theorem innerAut_le_autBar (K W : Subgroup G) (hKW : K ≤ W) (_hWN : W ≤ Subgroup.normalizer (K : Set G)) :
     innerAut (↥K ⧸ GLAPPrimeCore 3 ↥K) ≤ autBar 3 W K := by
   rintro φ ⟨q, rfl⟩
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective q
@@ -32,7 +32,7 @@ theorem u4TableAt_of_S (G : Type) [Group G] [Finite G] (h : U4TabS) : U4TableAt 
   intro K W u hWN huW hX hKW hu3 hK hJ
   obtain ⟨X, hXK⟩ := hX
   obtain ⟨J, hJ, hJcat⟩ := hJ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hu : u ∈ Subgroup.normalizer (K : Set G) := hWN huW
   have hQq : CFSG.Open.IsQuasisimple (PQuot 3 K) :=
     isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hXK

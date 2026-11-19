@@ -181,9 +181,9 @@ private theorem card_le_card_mul_card_image {G Y : Type} [Group G] [Fintype G] [
       if h : f a = y then ⟨g₀⁻¹ * a, hfib g₀ a (by rw [hg₀.2, h])⟩ else ⟨1, K.one_mem⟩
     have hinj : Set.InjOn F ↑(Finset.filter (fun a => f a = y) Finset.univ) := by
       intro a ha b hb hab
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at ha hb
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at ha hb
       simp only [F] at hab
-      rw [dif_pos ha, dif_pos hb] at hab
+      rw [dite_eq_left ha, dite_eq_left hb] at hab
       exact mul_left_cancel (congrArg Subtype.val hab)
     have h1 : (Finset.filter (fun a => f a = y) Finset.univ).card
         = ((Finset.filter (fun a => f a = y) Finset.univ).image F).card :=

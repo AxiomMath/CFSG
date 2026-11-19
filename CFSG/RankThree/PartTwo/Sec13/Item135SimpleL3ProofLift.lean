@@ -170,7 +170,7 @@ theorem exists_involution_of_q8 {x₁ x₂ n₁ n₂ : Y} (h12 : x₁ * x₂ = x
   obtain ⟨a, haS, hρa⟩ := hlift α (Subgroup.mem_sup_left (Subgroup.mem_zpowers α))
   obtain ⟨b, hbS, hρb⟩ := hlift β (Subgroup.mem_sup_right (Subgroup.mem_zpowers β))
   set SY : Subgroup Y := ((S : Subgroup H).map H.subtype).map N.subtype with hSY
-  have hSY2 : IsPGroup 2 SY := (S.isPGroup'.map _).map _
+  have hSY2 : IsPGroup 2 SY := (S.isPGroup.map _).map _
   have hmemSY : ∀ s ∈ (S : Subgroup H), (((s : H) : N) : Y) ∈ SY := fun s hs =>
     ⟨(s : N), ⟨s, hs, rfl⟩, rfl⟩
   set A : Y := (((a : H) : N) : Y) with hA

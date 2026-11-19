@@ -27,6 +27,7 @@ private lemma exists_ne_pair (i m : Fin 6) : ∃ k : Fin 6, k ≠ i ∧ k ≠ m 
   revert i m
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem signChange_perm_mul {fr : NFrame Q (Fin 6) 1} {J : Finset (Fin 6)}
     {ρ : Equiv.Perm (Fin 6)} (hρ : J.map ρ.toEmbedding = J) :
     fr.signChange J * fr.permOrth ρ = fr.permOrth ρ * fr.signChange J := by
@@ -34,6 +35,7 @@ private theorem signChange_perm_mul {fr : NFrame Q (Fin 6) 1} {J : Finset (Fin 6
   rw [hρ] at h
   exact h.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem signChange_central_monoP {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
     (hP : ∀ g, g ∈ P ↔ ∃ σ ∈ monoD, ∃ J : Finset (Fin 6), Even J.card ∧
       g = fr.permOrth σ * fr.signChange J)
@@ -50,13 +52,15 @@ private theorem signChange_central_monoP {fr : NFrame Q (Fin 6) 1} {P : Subgroup
           rw [fr.signChange_comm J K]
     _ = (fr.permOrth ρ * fr.signChange K) * fr.signChange J := (mul_assoc _ _ _).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.piOrth_eq_signChange_univ {ι : Type} [Fintype ι] [DecidableEq ι] {c : ZMod 3}
     (fr : NFrame Q ι c) : piOrth Q = fr.signChange Finset.univ := by
   apply Subtype.ext
   apply fr.b.ext'
   intro i
-  rw [coe_piOrth_apply, fr.signChange_basis Finset.univ i, if_pos (Finset.mem_univ i)]
+  rw [coe_piOrth_apply, fr.signChange_basis Finset.univ i, ite_eq_left (Finset.mem_univ i)]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem t5_mono_center {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
     (hP : ∀ g, g ∈ P ↔ ∃ σ ∈ monoD, ∃ J : Finset (Fin 6), Even J.card ∧
       g = fr.permOrth σ * fr.signChange J)
@@ -136,6 +140,7 @@ theorem t5_mono_center {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
     · exact signChange_central_monoP (fr := fr) (P := P) hP (J := Finset.univ)
         (fun ρ hρ => Finset.map_univ_equiv ρ)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem t5_mono_cent {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
     (hP : ∀ g, g ∈ P ↔ ∃ σ ∈ monoD, ∃ J : Finset (Fin 6), Even J.card ∧
       g = fr.permOrth σ * fr.signChange J)
@@ -172,10 +177,10 @@ theorem t5_mono_cent {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
       exact even_two
     have happ := congrArg (fun f : V ≃ₗ[ZMod 3] V => f (fr.b i)) (hXK {i, k} hK)
     simp only [LinearEquiv.mul_apply] at happ
-    rw [fr.signChange_basis ({i, k}) i, if_pos hiK, map_neg] at happ
+    rw [fr.signChange_basis ({i, k}) i, ite_eq_left hiK, map_neg] at happ
     have hcoord := congrArg (fun v : V => fr.b.repr v m) happ
     rw [map_neg, Finsupp.neg_apply, fr.repr_signChange ({i, k}) (X (fr.b i)) m,
-      if_neg hmK] at hcoord
+      ite_eq_right hmK] at hcoord
     have h2 : (2 : ZMod 3) * fr.b.repr (X (fr.b i)) m = 0 := by
       rw [two_mul]
       exact eq_neg_iff_add_eq_zero.mp hcoord.symm
@@ -221,8 +226,8 @@ theorem t5_mono_cent {fr : NFrame Q (Fin 6) 1} {P : Subgroup (OGroup Q)}
     · have hdi : fr.b.repr (X (fr.b i)) i = -1 := by
         rw [hJdef] at hi
         exact (Finset.mem_filter.mp hi).2
-      rw [if_pos hi, hdi]; simp
-    · rw [if_neg hi]
+      rw [ite_eq_left hi, hdi]; simp
+    · rw [ite_eq_right hi]
       rcases hd_pm i with h | h
       · rw [h]; simp
       · exfalso

@@ -169,6 +169,7 @@ section ThetaKernel
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem center_subgroupOf_comm {L : Subgroup X} (n : L)
     (hn : n ∈ (Subgroup.center X).subgroupOf L) (l : L) : l * n = n * l :=
   Subtype.ext (Subgroup.mem_center_iff.mp hn (l : X))
@@ -179,16 +180,16 @@ private theorem center_subgroupOf_le_theta {c : X} {L : Subgroup X}
     (hcZ : c ∉ Subgroup.center X) :
     (Subgroup.center X).subgroupOf L ≤ aschbacherSolvableCore 3 L := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨-, -, hθ3, hmax, -⟩ := solvable_prime_complement_core_characterization (H := L) hp
   set θ := aschbacherSolvableCore 3 L with hθdef
   set N := (Subgroup.center X).subgroupOf L with hNdef
   have hNsolv : Group.IsSolvable N :=
-    isSolvable_of_comm fun a b => Subtype.ext (center_subgroupOf_comm (b : L) b.2 (a : L))
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext (center_subgroupOf_comm (b : L) b.2 (a : L))
   apply hmax N inferInstance hNsolv
   intro h3
   have hnot : ¬ N ≤ θ := fun hle => hθ3 (h3.trans (Subgroup.card_dvd_of_le hle))
-  obtain ⟨n, hnN, hnθ⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨n, hnN, hnθ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   let ρ : L →* L ⧸ θ := QuotientGroup.mk' θ
   have hρn : ρ n ≠ 1 := fun h => hnθ ((QuotientGroup.eq_one_iff n).mp h)
   have hρcentral : ∀ x : L, (∀ l : L, l * x = x * l) → ρ x ∈ Subgroup.center (L ⧸ θ) := by
@@ -248,9 +249,11 @@ private abbrev cq (X : Type) [Group X] : X →* X ⧸ Subgroup.center X :=
 
 private abbrev psi (L : Subgroup X) : L →* L.map (cq X) := (cq X).subgroupMap L
 
+omit [Finite X] in
 private theorem psi_surjective (L : Subgroup X) : Function.Surjective (psi L) :=
   MonoidHom.subgroupMap_surjective _ L
 
+omit [Finite X] in
 private theorem psi_ker (L : Subgroup X) :
     (psi L).ker = (Subgroup.center X).subgroupOf L := by
   ext l
@@ -341,6 +344,7 @@ private abbrev cenQ (c : X) : Subgroup (X ⧸ Subgroup.center X) :=
 
 private abbrev cenT (c : X) : Subgroup X := (cenQ c).comap (cq X)
 
+omit [Finite X] in
 private theorem comm_mem_center_of_mem_cenT {c y : X} (hy : y ∈ cenT c) :
     ⁅y, c⁆ ∈ Subgroup.center X := by
   have h : (cq X) y ∈ cenQ c := hy
@@ -365,6 +369,7 @@ private noncomputable def commHom (c : X) : cenT c →* Subgroup.center X where
     rw [commutatorElement_mul_left_eq_conj_mul, h1]
     exact (Subgroup.mem_center_iff.mp hb ⁅(a : X), c⁆).symm
 
+omit [Finite X] in
 private theorem centralizer_subgroupOf_cenT_normal (c : X) :
     ((Subgroup.centralizer ({c} : Set X)).subgroupOf (cenT c)).Normal := by
   have h : (Subgroup.centralizer ({c} : Set X)).subgroupOf (cenT c) = (commHom c).ker := by
@@ -375,8 +380,7 @@ private theorem centralizer_subgroupOf_cenT_normal (c : X) :
       refine Subtype.ext ?_
       change ⁅(y : X), c⁆ = 1
       exact commutatorElement_eq_one_iff_mul_comm.mpr (hy c (Set.mem_singleton c)).symm
-    · intro hy
-      intro g hg
+    · intro hy g hg
       rw [Set.mem_singleton_iff] at hg
       subst hg
       have := congrArg Subtype.val hy
@@ -385,6 +389,7 @@ private theorem centralizer_subgroupOf_cenT_normal (c : X) :
   rw [h]
   exact MonoidHom.normal_ker _
 
+omit [Finite X] in
 private theorem centralizer_le_cenT (c : X) : Subgroup.centralizer ({c} : Set X) ≤ cenT c := by
   intro y hy
   change (cq X) y ∈ cenQ c
@@ -394,6 +399,7 @@ private theorem centralizer_le_cenT (c : X) : Subgroup.centralizer ({c} : Set X)
   subst hg
   exact congrArg (cq X) (Subgroup.mem_centralizer_iff.mp hy c (Set.mem_singleton c))
 
+omit [Finite X] in
 private theorem isSubnormal_subgroupOf_cenT {c : X} {L : Subgroup X}
     (hLc : L ≤ Subgroup.centralizer ({c} : Set X))
     (h : (L.subgroupOf (Subgroup.centralizer ({c} : Set X))).IsSubnormal) :
@@ -406,6 +412,7 @@ private theorem isSubnormal_subgroupOf_cenT {c : X} {L : Subgroup X}
   ext k
   rfl
 
+omit [Finite X] in
 private theorem isSubnormal_map_cq {c : X} {L : Subgroup X}
     (hLc : L ≤ Subgroup.centralizer ({c} : Set X))
     (h : (L.subgroupOf (Subgroup.centralizer ({c} : Set X))).IsSubnormal) :
@@ -432,12 +439,12 @@ theorem LocalDatum.descent {c : X} {L : Subgroup X} (h : LocalDatum X c L)
       (L.map (QuotientGroup.mk' (Subgroup.center X))) := by
   have hN := center_subgroupOf_le_theta h.orderOf_eq h.mem h.le_centralizer
     (card_center_eq_three_of_isType198 h.type) hc
-  haveI := h.perfect
+  have := h.perfect
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · have h3 : (cq X c) ^ 3 = 1 := by
       rw [← map_pow, ← h.orderOf_eq, pow_orderOf_eq_one, map_one]
     have h1 : (cq X c) ≠ 1 := fun h1 => hc ((QuotientGroup.eq_one_iff c).mp h1)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime h3 h1
   · rintro _ ⟨l, hl, rfl⟩
     exact centralizer_le_cenT c (h.le_centralizer hl)

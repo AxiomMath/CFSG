@@ -140,7 +140,7 @@ theorem enum_sound {a0 a1 : Array ℕ} {g0 g1 N : ℕ} {E PA SG CT : ℕ → ℕ
     unfold grpN
     congr 1
     ext g
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.mem_nil_iff, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.mem_nil_iff, or_false,
       permsA]
     constructor
     · rintro ⟨y, hy | hy, rfl⟩

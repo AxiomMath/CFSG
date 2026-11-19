@@ -349,7 +349,7 @@ variable (K) in
 
 theorem ιTw_apply (Q : SL2 K₂) (h : ↥(adjointGroup Tag.D4 K)) :
     ιTw K Q h = (gTw Q)⁻¹ * bcAd (algebraMap K K₂) h * gTw Q := by
-  simp [ιTw, MulAut.conj_apply]
+  simp [ιTw]
 
 theorem ιTw_injective (Q : SL2 K₂) : Function.Injective (ιTw K Q) := by
   intro x y hxy

@@ -65,7 +65,7 @@ theorem Hyp20A.exists_sylow_le_H (hyp : Hyp20A z S L A) :
   have hTN : (T : Subgroup G) ≤ normalizer (A : Set G) := fun s hs =>
     normalizer_le_of_strongly_closed hAT hcl (Subgroup.le_normalizer hs)
   have hTp : IsPGroup 2 ↥((T : Subgroup G).subgroupOf (normalizer (A : Set G))) :=
-    T.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hTN).symm
+    T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hTN).symm
   have hTidx : ¬ 2 ∣ ((T : Subgroup G).subgroupOf (normalizer (A : Set G))).index := by
     intro h2
     have h3 : ((T : Subgroup G).relIndex (normalizer (A : Set G))) ∣ (T : Subgroup G).index :=

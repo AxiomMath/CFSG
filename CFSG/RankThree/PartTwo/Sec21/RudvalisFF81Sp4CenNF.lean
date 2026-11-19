@@ -41,17 +41,17 @@ private theorem eq_add_of_add_add_V6 {x y z : V6} (h : x + y + z = 0) : z = y + 
 private def fixSub (M : M6) : Submodule (ZMod 2) V6 where
   carrier := {v | M *ᵥ v = v}
   add_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [mulVec_add, ha, hb]
   zero_mem' := by simp
   smul_mem' := fun c v hv => by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     rw [mulVec_smul, hv]
 
 private theorem exists_fix_family {M : M6} (hfix : 16 ≤ Nat.card {v : V6 // M *ᵥ v = v}) :
     ∃ b : Fin 4 → V6, LinearIndependent (ZMod 2) b ∧ ∀ j, M *ᵥ b j = b j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (fixSub M) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (fixSub M) := Fintype.ofFinite _
   have hcard : 16 ≤ Nat.card (fixSub M) := hfix
   have h := Module.card_eq_pow_finrank (K := ZMod 2) (V := fixSub M)
   rw [ZMod.card, ← Nat.card_eq_fintype_card] at h
@@ -156,7 +156,7 @@ private theorem exists_Q {M : M6} (hM3 : M ^ 3 = 1) (hM1 : M ≠ 1)
     · exact hc4
     · exact hc5
   refine ⟨colMat b w (M *ᵥ w), ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine (Matrix.mulVec_injective_iff_isUnit (K := ZMod 2)).mp fun c c' h => ?_
     have h0 := hker (c - c') (by rw [mulVec_sub, h, sub_self])
     exact sub_eq_zero.mp h0

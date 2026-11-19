@@ -42,7 +42,7 @@ theorem sec10C_exists_weight4_outer [Finite G] (hf : Asc82Facts10) (hb : Asc82Ba
   obtain ⟨r, hrS, hr2, hrty, hne, hX, hconj⟩ := sec10C_exists_A2 h107c hctx
   have hzL : z ∈ L := (hctx.pocket1.2.1 hctx.pocket1.1).1
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hB : secB S L ≤ CFSG.conjugate (L ⊔ centralizer (L : Set G)) g⁻¹ :=
     sec10C_B_le_of_weight4 hφ fun v hv hw => by
       rw [mem_conjugate_iff']

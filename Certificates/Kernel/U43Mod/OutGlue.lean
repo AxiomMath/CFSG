@@ -315,11 +315,11 @@ theorem hG_T : ∀ l < 10, ∀ q (hq : q < 820), GkT l q = ((sFP tGensG l)⁻¹ 
   obtain ⟨j, ⟨rfl, h1, h2⟩ | ⟨rfl, h1, h2⟩⟩ := half_cases (l := l)
   · have hj : j < 5 := by omega
     unfold GkT GrT sFP
-    rw [if_pos h1, h2, xor_one_even5 hj]
+    rw [ite_eq_left h1, h2, xor_one_even5 hj]
     exact ⟨(TT_eq hj q hq).2, (TT_eq hj q hq).1⟩
   · have hj : j < 5 := by omega
     unfold GkT GrT sFP
-    rw [if_neg (by omega), h2, xor_one_odd5 hj, inv_inv]
+    rw [ite_eq_right (by omega), h2, xor_one_odd5 hj, inv_inv]
     exact ⟨(TT_eq hj q hq).1, (TT_eq hj q hq).2⟩
 
 theorem tElt_eq (k : ℕ) : tElt k = treeP 1 (mulStepP tGensG) tPar tLab 10 fuel k := by

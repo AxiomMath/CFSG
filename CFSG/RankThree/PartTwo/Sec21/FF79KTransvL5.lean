@@ -25,7 +25,7 @@ private theorem qM_comm (c a1 a2 a3 w1 w2 w3 c' a1' a2' a3' w1' w2' w3' : ZMod 2
   · left
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [qM, invT0M, Matrix.mul_apply, Fin.sum_univ_five] <;>
+      simp [qM, Matrix.mul_apply, Fin.sum_univ_five] <;>
       first | ring1 | (rw [← CharTwo.add_eq_zero]; ring_nf; reduce_mod_char; linear_combination hd)
   · right
     have hd1 := key _ hd
@@ -65,12 +65,12 @@ theorem mid_eq_one {R : Subgroup G52} (hp : IsPGroup 2 R)
     ∀ r ∈ R, invMid ((r : G52) : M5) = 1 := by
   let C : Subgroup G52 := Subgroup.centralizer {invT0}
   let R' : Subgroup C := R.subgroupOf C
-  haveI : R'.Normal := ⟨fun x hx g => by
+  have : R'.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hn g g.2 x hx⟩
   have hp' : IsPGroup 2 R' := hp.of_equiv (Subgroup.subgroupOfEquivOfLe hRC).symm
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI hnormal : (R'.map piHom).Normal := Subgroup.Normal.map inferInstance piHom piHom_surjective
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have hnormal : (R'.map piHom).Normal := Subgroup.Normal.map inferInstance piHom piHom_surjective
   have h2 : IsPGroup 2 (R'.map piHom) := hp'.map piHom
   intro r hr
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (R'.map piHom) with hbot | htop
@@ -139,7 +139,7 @@ private theorem transv_normal2 {s : G52} (hs : s ^ 2 = 1) (h1 : commDim s = 1)
     ∀ r₁ ∈ R, ∀ r₂ ∈ R, r₁ * r₂ * r₁⁻¹ * r₂⁻¹ ∈ Subgroup.zpowers s := by
   obtain ⟨c, hc⟩ := isConj_iff.1 (inv_isConj_t0 hs h1)
   set f : G52 →* G52 := (MulAut.conj c⁻¹).toMonoidHom with hf
-  have hfx : ∀ x, f x = c⁻¹ * x * c := fun x => by simp [hf, MulAut.conj_apply]
+  have hfx : ∀ x, f x = c⁻¹ * x * c := fun x => by simp [hf]
   have hinj : Function.Injective f := (MulAut.conj c⁻¹).injective
   have hscomm : ∀ x, x ∈ Subgroup.centralizer {s} → f x ∈ Subgroup.centralizer {invT0} := by
     intro x hx
@@ -200,7 +200,7 @@ private theorem commDim_le_one {x : G52}
         by_cases h0 : (fun r => N r c) = 0
         · have : N r c = 0 := congrFun h0 r
           simp [t, h0, this]
-        · simp only [t, h0, if_false, one_mul]
+        · simp only [t, h0, ite_false, one_mul]
           exact congrFun h r
     refine ⟨∑ c, t c * v c, ?_⟩
     ext r
@@ -278,7 +278,7 @@ private theorem exists_conj_normalizer {y z s : G52} (hy : orderOf y = 3) (hz : 
     (hsz : s * z = z * s) :
     ∃ c : G52, c⁻¹ * y * c ∈ syl3R ∧ c⁻¹ * z * c ∈ syl3R ∧
       c⁻¹ * s * c ∈ Subgroup.normalizer (syl3R : Set G52) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := exists_sylow_zpowers_sup hy hz hyz hzy
   obtain ⟨Q0, hQ0⟩ := exists_sylow_eq_of_card_pow (p := 3) (k := 2) (H := syl3R)
     (by rw [syl3_card_R]; norm_num) (fun P => by rw [syl3_card_sylow P]; norm_num)

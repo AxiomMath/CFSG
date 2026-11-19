@@ -18,6 +18,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_mem_iSup_of_perm {ι : Sort*} (H : Subgroup G) (K : ι → Subgroup G)
     (hK : ∀ i, ∀ h ∈ H, ∀ k ∈ K i, ∃ k' ∈ K i, ∃ h' ∈ H, h * k = k' * h')
     {v : G} (hv : v ∈ ⨆ i, K i) :
@@ -51,6 +52,7 @@ theorem pRank_bot {p : ℕ} (hp : 1 < p) : CFSG.Open.pRank p (⊥ : Subgroup G) 
       omega
   · exact Nat.zero_le _
 
+omit [Finite G] in
 theorem cent_le_cent_of_mem {F : Subgroup G} {x : G} (hx : x ∈ F) :
     Subgroup.centralizer (F : Set G) ≤ Subgroup.centralizer ({x} : Set G) := by
   intro g hg
@@ -60,15 +62,18 @@ theorem cent_le_cent_of_mem {F : Subgroup G} {x : G} (hx : x ∈ F) :
   subst hy
   exact hg y hx
 
+omit [Finite G] in
 theorem layer_le (p : ℕ) (X : Subgroup G) [Finite G] : GLAPLayer p X ≤ X := by
   unfold GLAPLayer
   apply sSup_le
   intro L hL
   exact hL.1
 
+omit [Finite G] in
 theorem comp_le {p : ℕ} {X L : Subgroup G} (h : GLAPComponent p X L) : L ≤ X :=
   h.1
 
+omit [Finite G] in
 theorem le_kx {p : ℕ} (x : G) (J : Subgroup G) : J ≤ Kx p J x := by
   unfold Kx
   have h1 : GLBConj 1 J ≤ ⨆ g ∈ GLAPLayer p (Subgroup.centralizer ({x} : Set G)), GLBConj g J :=
@@ -87,9 +92,9 @@ theorem kx_le_cent {p : ℕ} {x : G} {J : Subgroup G}
   rw [hy']
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hgC) (hJ hy)) hgC
 
-theorem cent_ne_top {m p : ℕ} (hS : GLStanding G m p) {a : G} (ha : a ≠ 1) [Finite G] :
+theorem cent_ne_top {m p : ℕ} (hS : GLStanding G m p) {a : G} (ha : a ≠ 1) :
     Subgroup.centralizer ({a} : Set G) ≠ ⊤ := by
-  haveI := hS.simple
+  have := hS.simple
   intro htop
   have hac : a ∈ Subgroup.center G := by
     rw [Subgroup.mem_center_iff]
@@ -115,7 +120,8 @@ section Cover
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem mem_mul_glaPPrimeCoreOf_of_barX {p : ℕ} {X J : Subgroup G} (hJX : J ≤ X)
+omit [Finite G] in
+theorem mem_mul_glaPPrimeCoreOf_of_barX {p : ℕ} {X J : Subgroup G} (_hJX : J ≤ X)
     (hcov : barX p X J = ⊤) {k : G} (hk : k ∈ X) :
     ∃ j ∈ J, ∃ o ∈ GLAPPrimeCoreOf p X, k = j * o := by
   have hmem : QuotientGroup.mk' (GLAPPrimeCore p ↥X) (⟨k, hk⟩ : ↥X) ∈ barX p X J := by
@@ -174,13 +180,14 @@ section Prop121Steps
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_mono {p : ℕ} {H K : Subgroup G} (hHK : H ≤ K) (hK : IsElemAbelian p K) :
     IsElemAbelian p H := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => hK.2 x (hHK hx)⟩
   have h2 := congrArg Subtype.val (hK.1.is_comm.comm (⟨a.1, hHK a.2⟩ : K) ⟨b.1, hHK b.2⟩)
   exact Subtype.ext h2
 
-theorem exists_ne_one_of_index {F A : Subgroup G} (hA : A ≤ F) (hidx : (A.subgroupOf F).index = 3)
+theorem exists_ne_one_of_index {F A : Subgroup G} (_hA : A ≤ F) (hidx : (A.subgroupOf F).index = 3)
     {E : Subgroup G} (hEF : E ≤ F) (hE9 : Nat.card E = 9) : ∃ x ∈ A, x ≠ 1 := by
   by_contra hcon
   push Not at hcon
@@ -332,7 +339,7 @@ theorem noncommute_of_inputs (h123 : Lemma123Statement) (h124 : Lemma124Statemen
     exact hS.charTwo M hTwoLocal ⟨hbM, hbC⟩
   have hB2 : IsPGroup 2 ↥(A ⊓ GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G))) :=
     hS2.to_le hBS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hB2
   rw [hcard'] at hn
   have hn4 : n < 4 := by
@@ -364,7 +371,7 @@ theorem lemma125_i_of_inputs (h123 : Lemma123Statement) (h124 : Lemma124Statemen
   obtain ⟨hp3, -⟩ := h123 h
   subst hp3
   have hS : GLStanding G m 3 := h.standing
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   obtain ⟨⟨-, -, -, -, -, hF2, -⟩, hII, -, -⟩ := h124 h hK hK3 hKM hu₀ hA0
   have hF2' : CFSG.Open.pRank 3 F = 2 := hF2
   have hII' : ∀ x ∈ F, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤

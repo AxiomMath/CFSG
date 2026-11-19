@@ -32,11 +32,11 @@ theorem levi_main_pair {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Model 
       c⁻¹ * y₀ * c ∈ Subgroup.normalizer ((S₁ : Subgroup (D4Model K)) : Set (D4Model K)) ∧
       c⁻¹ * y₁ * c ∈ Subgroup.normalizer ((S₁ : Subgroup (D4Model K)) : Set (D4Model K)) := by
   classical
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨ψ, x, α', g, a, σ, ε, hmem, hψα, hα'3, hε, hα'eq, hgB⟩ := exists_sylow_nf hK ht3 htE hS₁t
   obtain ⟨PC, hPCdef⟩ : ∃ PC : Subgroup ↥(adjointGroup Tag.D4 K),
       PC = (P.map ψ.symm.toMonoidHom).map (MulAut.conj x)⁻¹.toMonoidHom := ⟨_, rfl⟩

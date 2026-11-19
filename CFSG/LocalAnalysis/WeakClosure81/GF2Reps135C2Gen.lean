@@ -33,7 +33,7 @@ theorem w135c2_card_le_of_generation (W : Type) [CommGroup W] [Finite W]
     (hc : ∀ x ∈ T, E3.mQuot ⊤ (fixV (Subgroup.zpowers x)) ≤ c) :
     Nat.card W ≤ 2 ^ (T.card * c) := by
   have hp : IsPGroup 2 W := fun g => ⟨1, by simpa using h2 g⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ∀ x ∈ T, (fixV (Subgroup.zpowers x)).index ≤ 2 ^ c := by
     intro x hx
     have hd : (fixV (Subgroup.zpowers x)).index ∣ Nat.card W := Subgroup.index_dvd_card _
@@ -76,7 +76,7 @@ theorem w135c2_rk_le_of_generation (W : Type) [CommGroup W] [Finite W]
   have hle := w135c2_card_le_of_generation W h2 L hirr hL T hT c hc
   rw [hk] at hle
   have hk' : k ≤ T.card * c := (Nat.pow_le_pow_iff_right (by norm_num)).1 hle
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   simpa [rk, hk] using hk'
 
 private theorem w135c2_fixV_conj {W : Type} [CommGroup W] (g x : MulAut W) :
@@ -88,7 +88,7 @@ private theorem w135c2_fixV_conj {W : Type} [CommGroup W] (g x : MulAut W) :
     intro u t
     rw [show u ∈ fixV (Subgroup.zpowers t) ↔
         Subgroup.zpowers t ≤ MulAction.stabilizer (MulAut W) u by
-      simp only [mem_fixV, SetLike.le_def, MulAction.mem_stabilizer_iff, MulAut.smul_def]]
+      simp only [mem_fixV, _root_.IsConcreteLE.le_iff, MulAction.mem_stabilizer_iff, MulAut.smul_def]]
     rw [Subgroup.zpowers_le, MulAction.mem_stabilizer_iff, MulAut.smul_def]
   constructor
   · intro hv

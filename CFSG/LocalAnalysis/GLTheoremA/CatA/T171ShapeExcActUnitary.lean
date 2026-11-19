@@ -113,7 +113,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame [CharP L 2]
       innAutDerived (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc2 : CharP L 2 := inferInstance
   obtain ⟨σ₂, hσ₂⟩ := exists_ringEquiv_frob (L := L) 2 1
   have hσ₂c : ∀ c, σ₂ c = c ^ 2 := by
@@ -121,12 +121,12 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame [CharP L 2]
     have h1 : σ₂ c = iterateFrobenius L 2 1 c := by rw [← hσ₂]; rfl
     rw [h1, iterateFrobenius_def, pow_one]
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
+  have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   set R := rationalComponent S.ρ S.Γ (rootCharHom a) i with hR
   obtain ⟨r, e, hr, hchar, he, hq⟩ := S.exists_char_pow
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, z, hσQ, hzZ, hnorm, hconj⟩ :=
     exists_unitary_untwist_kd264alg S hT i hν hψ hΨ π hπ hr hchar he hq
   have hσQc : ∀ c, σQ c = c ^ (r ^ (e * s)) := hσQ
@@ -278,7 +278,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame [CharP L 2]
     group
   have hperfSL : Group.IsPerfect SL(ν, L) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hν
-  haveI := hperfSL
+  have := hperfSL
   have hDtriv : ∀ B : SL(ν, L), conjSLn Dm B = B := by
     have hcentralD : ∀ B : SL(ν, L), B⁻¹ * conjSLn Dm B ∈ Subgroup.center SL(ν, L) := by
       intro B
@@ -292,7 +292,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame [CharP L 2]
   have hc0 : c ≠ 0 := by
     rintro rfl
     have h1 := congrArg Matrix.det hc
-    haveI : Nonempty (Fin ν) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin ν) := ⟨⟨0, by omega⟩⟩
     rw [Matrix.scalar_apply, Matrix.diagonal_zero, Matrix.det_zero] at h1
     exact (Matrix.isUnits_det_units _).ne_zero h1
   set u : Lˣ := Units.mk0 c hc0 with hu
@@ -378,7 +378,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame [CharP L 2]
     intro c
     rw [hσqs, hσ₂c, hσqs, hσ₂c, ← pow_mul, ← pow_mul, mul_comm]
   have hφinn : φ ∈ innAutDerived C := by
-    haveI := hc2
+    have := hc2
     exact mem_innAutDerived_of_unitary_conj_kd264alg (ν := ν) (by omega) σQ σ₂ hσ₂c hσσ₂
       G hGu φ hφ
   have hθφ : ∀ c : C, θ (φ c) = y * θ c * y⁻¹ := by

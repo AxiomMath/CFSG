@@ -38,8 +38,8 @@ theorem omegaModelOfCoords_omega_le {W : Type} [CommGroup W] {H : Subgroup (MulA
 
 theorem k_K_Omega4Plus_nonsingPoint_holds : K_Omega4Plus_nonsingPoint := by
   intro W _ _ H p n hn2 _hΩ _hN hp hcong F _ _ hF ε ψ hψ v hv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hF
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num

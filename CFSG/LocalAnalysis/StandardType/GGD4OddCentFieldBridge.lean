@@ -23,7 +23,7 @@ theorem d4Recipe_isSimpleGroup (K : Type) [Field K] :
   have hsimple : IsSimpleGroup (D4Recipe K) :=
     isSimpleGroup_statedProj_statedOmega_quadPlus (K := K) (n := 4) (by norm_num)
   refine ⟨hsimple, ?_⟩
-  haveI hperfOmega : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus K 4)) :=
+  have hperfOmega : Group.IsPerfect (LargeEvenOmega (LargeEvenQPlus K 4)) :=
     isPerfect_statedOmega_quadPlus (K := K) (n := 4) (by norm_num)
   have hperf : Group.IsPerfect (D4Recipe K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)

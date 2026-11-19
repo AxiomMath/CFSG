@@ -31,7 +31,7 @@ theorem LayerGood.of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H) (h
     refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e'.symm hq, fun hL => hno ?_⟩
     exact IsLThreeFour.of_mulEquiv (QuotientGroup.congr _ _ e' (Subgroup.map_center_eq e')) hL
   · right
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem layerGood_of_commutator_eq {H : Type} [Group H] (N : Subgroup H) (hN : commutator H = N)

@@ -80,12 +80,12 @@ theorem mem_center_lbar_of_mem_centralizerOnQuotient_wPS5b
       _ = QuotientGroup.mk (⟨x, hxL⟩ : ↥c.L) * QuotientGroup.mk l := hright.symm
 
 theorem SevenRankCentralizerLeOne_proved'
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     CFSG.Open.pRank 7 (CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
       (CFSG.Open.pCoreOf 2 c.L) c.L) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨-, hZcard, hSpor⟩ := hON
   let O2G : Subgroup G := CFSG.Open.pCoreOf 2 c.L
   let C : Subgroup G := CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M O2G c.L
@@ -160,7 +160,7 @@ theorem SevenRankCentralizerLeOne_proved'
     fun h => hO2Lnot (h.trans hker_dvd)
   have hLbar_rank : 2 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup c.Lbar) := by
     obtain ⟨eON⟩ := hSpor
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.ONan) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.ONan) :=
       CFSG.Sporadic.finite_carrier_of_ne_M TauCeti.SporadicName.ONan (by decide)
     obtain ⟨x, y, -, hx, hy, hne, hzx, hzy, hQ, -, -, -⟩ :=
       CFSG.RankThree.PartOne.MultRes.ON_sylow7_cubic_witness
@@ -267,11 +267,11 @@ variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 theorem pRank_seven_centralizer_le_one'''
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (haL : a ∈ P ⊓ c.L) (haZ : a ∉ zSub P c.L) :
     CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let H : Subgroup G := Subgroup.centralizer ({a} : Set G)
   obtain ⟨y, hyM, hyCent, hy7⟩ := F10SevenElement_proved' c hON h7 hP
   have hya : a * y = y * a :=
@@ -287,7 +287,7 @@ theorem pRank_seven_centralizer_le_one'''
     norm_num
   obtain ⟨S₀, hES₀⟩ := hE7.exists_le_sylow
   let S : Subgroup G := (S₀ : Subgroup ↥H).map H.subtype
-  have hS7 : IsPGroup 7 S := (S₀.isPGroup').map H.subtype
+  have hS7 : IsPGroup 7 S := (S₀.isPGroup).map H.subtype
   have hyS : y ∈ S := by
     refine ⟨⟨y, hyH⟩, ?_, rfl⟩
     exact hES₀ (Subgroup.mem_zpowers (⟨y, hyH⟩ : ↥H))
@@ -298,7 +298,7 @@ theorem pRank_seven_centralizer_le_one'''
       simpa using hybot
     rw [hy1] at hy7
     simp at hy7
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
   have hcenterNontriv : Nontrivial (Subgroup.center ↥S) :=
     IsPGroup.center_nontrivial hS7
   let Z : Subgroup G := (Subgroup.center ↥S).map S.subtype
@@ -335,7 +335,7 @@ theorem pRank_seven_centralizer_le_one'''
     intro h1
     exact haZ (h1 ▸ Subgroup.one_mem (zSub P c.L))
   have ha3 : orderOf a = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ha1
     simpa using c.pow_three_eq_one_of_mem_inf_L_of_onan hON hP a haL
   have hρane : (CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L)
@@ -459,11 +459,11 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (ThreeCover)
 variable {G : Type} [Group G] [Finite G] {D : Data G}
 
 theorem pcore_centralizer_le_theta_P3'
-    (hK4 : K4) (c : Ctx82E3 D)
+    (_hK4 : K4) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    {e : G} (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) :
+    {e : G} (he : e ∈ P ⊓ c.L) (_he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) :
     CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1 := by
   exact pRank_seven_centralizer_le_one''' (c := c) hON h7 hP hNZ he heZ
 

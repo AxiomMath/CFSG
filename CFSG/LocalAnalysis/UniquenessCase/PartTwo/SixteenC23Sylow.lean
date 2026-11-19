@@ -11,16 +11,17 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23_exists_noncyclic_le_of_not_dvd_relIndex {p : ℕ} (hp : p.Prime) {K H B : Subgroup G}
     (hBK : B ≤ K) (hindex : ¬ p ∣ H.relIndex K) (hB : IsPGroup p B) (hBc : ¬ IsCyclic ↥B) :
     ∃ B' : Subgroup G, B' ≤ H ∧ IsPGroup p B' ∧ ¬ IsCyclic ↥B' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Hk : Subgroup ↥K := H.subgroupOf K
   have hBk : IsPGroup p (B.subgroupOf K) :=
     hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBK).symm
   have hBkc : ¬ IsCyclic ↥(B.subgroupOf K) := by
     intro hc
-    haveI := hc
+    have := hc
     exact hBc (isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hBK).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hBK).surjective)
   have hindexK : ¬ p ∣ Nat.card (↥K ⧸ Hk) := by
@@ -62,7 +63,7 @@ theorem c23_exists_noncyclic_le_of_not_dvd_relIndex {p : ℕ} (hp : p.Prime) {K 
     exact Subgroup.mem_subgroupOf.mp (hBk'le hy)
   · exact hBk'p.of_equiv (Subgroup.equivMapOfInjective Bk' K.subtype K.subtype_injective)
   · intro hc
-    haveI := hc
+    have := hc
     exact hBk'c (isCyclic_of_surjective
       (Subgroup.equivMapOfInjective Bk' K.subtype K.subtype_injective).symm.toMonoidHom
       (Subgroup.equivMapOfInjective Bk' K.subtype K.subtype_injective).symm.surjective)
@@ -136,7 +137,7 @@ theorem c23_not_isCyclic_inf_centralizer {p : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p
 theorem c23_exists_elemAbelian_card_pow {p : ℕ} (hp : p.Prime) {M : Subgroup G} {k : ℕ}
     (hk : k ≤ pRank p M) :
     ∃ E : Subgroup G, E ≤ M ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbot : CFSG.IsElementaryAbelian p (⊥ : Subgroup ↥M) :=
     { toIsMulCommutative := ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
       exponent_dvd_p :=
@@ -154,7 +155,7 @@ theorem c23_exists_elemAbelian_card_pow {p : ℕ} (hp : p.Prime) {M : Subgroup G
         _ ≤ Nat.card ↥M := Subgroup.card_le_card_group A
     exact hlt.le
   obtain ⟨A₀, hA₀ea, hA₀card⟩ := Nat.sSup_mem hne hbdd
-  haveI : CFSG.IsElementaryAbelian p ↥A₀ := hA₀ea
+  have : CFSG.IsElementaryAbelian p ↥A₀ := hA₀ea
   have hle : p ^ k ≤ Nat.card A₀ := by
     have hk' : k ≤ sSup {r : ℕ | ∃ A : Subgroup ↥M, CFSG.IsElementaryAbelian p A ∧
         Nat.card A = p ^ r} := by
@@ -169,7 +170,7 @@ theorem c23_exists_elemAbelian_card_pow {p : ℕ} (hp : p.Prime) {M : Subgroup G
       rw [Subgroup.card_top]
       exact hle)
   have hA₀ea_open : IsElemAbelian p A₀ := by
-    haveI := hA₀ea
+    have := hA₀ea
     exact isElemAbelian_of_isElementaryAbelian
   refine ⟨(F.map A₀.subtype).map M.subtype, ?_, ?_, ?_⟩
   · exact Subgroup.map_subtype_le (F.map A₀.subtype)

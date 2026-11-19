@@ -247,7 +247,7 @@ theorem exists_elemAbelian_of_quot {Le : Subgroup G} {Eb : Subgroup (lBar Le)}
     have hsθ : (((s : P₀) : Le)) ∈ θ := by
       have h1 : π ((s : P₀) : Le) = 1 := congrArg Subtype.val hs
       rwa [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
-    obtain ⟨k, hk⟩ := S.isPGroup' s
+    obtain ⟨k, hk⟩ := S.isPGroup s
     have h1 : orderOf (((s : P₀) : Le)) ∣ 3 ^ k := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe]
       exact orderOf_dvd_of_pow_eq_one hk

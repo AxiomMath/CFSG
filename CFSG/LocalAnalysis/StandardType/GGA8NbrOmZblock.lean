@@ -59,18 +59,18 @@ open CFSG.RankThree.Classical2 (orthDerived)
 namespace A8Coord
 
 theorem omZblock_thirteen_dvd {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (hAΩ : A ≤ omΩ)
-    (F : SevOm.Frame omQ 7 A 3) (hdim : ∀ i, finrank (GaloisField 2 3) (F.U i) = 2)
-    {β : Fin 3 → ZMod 7} {j : Fin 3} (hβj : β j ≠ 0) (hβ0 : ∀ i, i ≠ j → β i = 0)
+    (F : SevOm.Frame omQ 7 A 3) (_hdim : ∀ i, finrank (GaloisField 2 3) (F.U i) = 2)
+    {β : Fin 3 → ZMod 7} {j : Fin 3} (_hβj : β j ≠ 0) (_hβ0 : ∀ i, i ≠ j → β i = 0)
     {J : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)}
     (hJ : IsComponentOf J (omΩ ⊓ Subgroup.centralizer {F.ι (ofAdd β)}))
     (hfix : finrank (GaloisField 2 3) (fixedSpace (F.ι (ofAdd β))) = 6)
     (hJB : J ≤ supportedBlock omQ (F.ι (ofAdd β)) (X - 1))
-    (hall : ∀ u ∈ supportedBlock omQ (F.ι (ofAdd β)) (X - 1), u ^ 7 = 1 → u ∈ J) :
+    (_hall : ∀ u ∈ supportedBlock omQ (F.ι (ofAdd β)) (X - 1), u ^ 7 = 1 → u ∈ J) :
     13 ∣ Nat.card J ∧ Subgroup.center J = ⊥ := by
   let a : OmV ≃ₗ[GaloisField 2 3] OmV := F.ι (ofAdd β)
   let W : Submodule (GaloisField 2 3) OmV := fixedSpace a
   let R : QuadraticForm (GaloisField 2 3) W := omQ.comp W.subtype
-  haveI : Finite (OmV ≃ₗ[GaloisField 2 3] OmV) :=
+  have : Finite (OmV ≃ₗ[GaloisField 2 3] OmV) :=
     Finite.of_injective (fun e : OmV ≃ₗ[GaloisField 2 3] OmV => (e : OmV → OmV))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hK8 : Nat.card (GaloisField 2 3) = 8 := by
@@ -115,7 +115,7 @@ theorem omZblock_thirteen_dvd {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] OmV)} (
   have hJne : J ≠ ⊥ := by
     rintro hbot
     obtain ⟨p, q, hpq⟩ := hJperf.2.2
-    haveI : Subsingleton ↥J := by rw [hbot]; infer_instance
+    have : Subsingleton ↥J := by rw [hbot]; infer_instance
     exact hpq (Subsingleton.elim (p * q) (q * p))
   have hJeq : J = supportedFixedDerived omQ a := by
     rcases CFSG.LocalAnalysis.ComponentInitial.isComponentOf_eq_or_commute hJ hSFcomp with
@@ -186,7 +186,7 @@ theorem ggA8Nbr_omZblock_not_le_K {G : Type} [Group G] [Finite G] (φ : ↥omΩ 
       let x' : ↥omΩ := ⟨(x : OmV ≃ₗ[GaloisField 2 3] OmV), hJΩ x.2⟩
       have hx'mem : x' ∈ J.comap omΩ.subtype := by
         rw [Subgroup.mem_comap]
-        simpa [x'] using x.2
+        simp [x']
       have hmem : φ x' ∈ K :=
         hJ'K (Subgroup.mem_map.mpr ⟨x', hx'mem, rfl⟩)
       have hc := Subgroup.mem_center_iff.mp hkcenter ⟨φ x', hmem⟩

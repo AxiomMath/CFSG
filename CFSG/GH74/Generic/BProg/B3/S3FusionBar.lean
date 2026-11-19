@@ -86,7 +86,7 @@ theorem BarShape.exists_sylow (h : BarShape X xh Kb) {y : X} (hy : y ∈ Kb) (hy
       _ = g * v * g⁻¹ * (g * r₀ * g⁻¹) := by group
   obtain ⟨Q, hRQ⟩ := hR.isPGroup.exists_le_sylow
   set T : Subgroup X := (Q : Subgroup X) with hTdef
-  have hTp : IsPGroup 2 ↥T := Q.isPGroup'
+  have hTp : IsPGroup 2 ↥T := Q.isPGroup
   have hRT : R ≤ T := hRQ
   have hTR : T ⊓ Kb = R := hR.eq_of_le (le_inf hRT hRK) inf_le_right hTp.to_inf_left
   obtain ⟨hcyc, -, -, hksplit⟩ := b_L3_sylow X t p f ht hp hp2 h5 Kb h.quasi h.odd_center hmod R hR

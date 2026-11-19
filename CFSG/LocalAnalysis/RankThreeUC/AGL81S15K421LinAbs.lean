@@ -66,7 +66,7 @@ theorem exists_indep [Finite G] {H : Subgroup G} (hHA : H ≤ D.A0) (h9 : Nat.ca
     have h3 := Subgroup.card_le_of_le hle
     rw [Nat.card_zpowers, orderOf_av D hu0, h9] at h3
     omega
-  obtain ⟨h', hh'H, hh'n⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨h', hh'H, hh'n⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨v, rfl⟩ := D.mem_A0_iff.1 (hHA hh'H)
   have hv0 : v ≠ 0 := fun h0 => hh'n (av_mem_zpowers D (Or.inl h0))
   have hvu : v ≠ u := fun h0 => hh'n (av_mem_zpowers D (Or.inr (Or.inl h0)))
@@ -89,7 +89,7 @@ variable [Finite G] {k : ℕ}
 
 theorem exists_type (hk3 : ¬ 3 ∣ k) (hk : Nat.card G = 81 * k) (hSP : SignedPerms D) {e : G}
     (he : orderOf e = 3) : ∃ t : Fin 3, IsType D e t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : IsElemAbelian 3 (Subgroup.zpowers e) := by
     refine ⟨inferInstance, fun x hx => ?_⟩
     have hx3 : (⟨x, hx⟩ : Subgroup.zpowers e) ^ Nat.card (Subgroup.zpowers e) = 1 :=

@@ -37,9 +37,9 @@ theorem bz_two_pow (a b : ℕ) : bz (Nat.shiftLeft 1 a) b = if a = b then 1 else
   change (if (1 <<< a).testBit b then _ else _) = _
   rw [Nat.one_shiftLeft, Nat.testBit_two_pow]
   by_cases h : a = b
-  · rw [if_pos h, decide_eq_true h]
+  · rw [ite_eq_left h, decide_eq_true h]
     rfl
-  · rw [if_neg h, decide_eq_false h]
+  · rw [ite_eq_right h, decide_eq_false h]
     rfl
 
 theorem xorK_succ (x : ℕ) (F : ℕ → ℕ) (n : ℕ) :
@@ -53,7 +53,7 @@ theorem sum_bz_xorK (x : ℕ) (F : ℕ → ℕ) (i n : ℕ) :
     exact (bz_zero i).symm
   | succ n ih =>
     rw [Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last]
+    simp only [Fin.val_castSucc, Fin.val_last]
     rw [ih, xorK_succ]
     cases h : bitK x n
     · have h0 : bz x n = 0 := by
@@ -66,7 +66,7 @@ theorem sum_bz_xorK (x : ℕ) (F : ℕ → ℕ) (i n : ℕ) :
         unfold bz
         rw [h]
         rfl
-      rw [h1, one_mul, cond_true, bz_xor]
+      rw [h1, one_mul, _root_.Bool.cond_true, bz_xor]
 
 theorem mul_bz {I C J : Type*} [Fintype C] {n : ℕ} (e : C ≃ Fin n) (A : Matrix I C (ZMod 2))
     (B : Matrix C J (ZMod 2)) (a : I → ℕ) (F : ℕ → ℕ) (kj : J → ℕ)
@@ -119,8 +119,8 @@ theorem spanOK_of {R C K : Type*} [Fintype R] [DecidableEq R] [Fintype C] [Decid
       hy (fun r u => hm r u) a b,
     add_comm, ← bz_xor, spanK_spec hs _ (eC a).isLt, bz_two_pow, Matrix.one_apply]
   by_cases h : a = b
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg fun e => h (eC.injective (Fin.ext e))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right fun e => h (eC.injective (Fin.ext e))]
 
 @[expose] noncomputable def eqvOf {α : Type*} [Fintype α] (L : List α) (key : α → ℕ)
     (hL : ∀ x, L[key x]? = some x) (hc : Fintype.card α = L.length) : α ≃ Fin L.length :=
@@ -184,7 +184,7 @@ theorem bitK_packC : ∀ (l : List Char) (j : ℕ),
   | c :: l, j + 1 => by
     rw [bitK_eq, packC_cons, Nat.testBit_succ, List.getD_cons_succ, ← bitK_packC l j, bitK_eq]
     congr 1
-    cases Nat.beq c.toNat 49 <;> simp <;> omega
+    cases Nat.beq c.toNat 49 <;> simp; omega
 
 end CFSG.KC.G24Lin
 

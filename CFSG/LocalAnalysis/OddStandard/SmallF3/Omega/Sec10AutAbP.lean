@@ -102,7 +102,7 @@ theorem card_le_16_of_psp43
     exact M.ι_mem x
   have h2 : IsPGroup 2 (X.map M.ι) :=
     hp.of_equiv (Subgroup.equivMapOfInjective X M.ι M.ι_injective)
-  haveI := hc
+  have := hc
   have h3 : Nat.card (X.map M.ι) = Nat.card X := Subgroup.card_map_of_injective M.ι_injective
   rw [← h3]
   exact card_abelian_two_le_16_A0 h1 h2 (Subgroup.map_isMulCommutative X M.ι)

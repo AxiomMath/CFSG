@@ -67,11 +67,11 @@ theorem ggTWR3_false
     hb, hcardΛa, hWML, hIntL, hWMK, hIntK, hlin, hrefl, hpairL, hpairK, hfLex, _hfKex,
     hclosL, hclosK, hdel, _hclosJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_two ggWeylSimpleSystemsConjInput_holds hp2 hLd hK
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨ΛL, i1L, i2L, ML0, CL0, VL, i3L, i4L, ιL, φL0, hL0, αL0, eL, hMLeqL, hWML0,
     hIntL0, hlinL0, hreflL0, hpairL0, hfL0ex, _hclosL0⟩ := hdatL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL0, hfL0⟩ := hfL0ex
   have hN2 : 2 ≤ N - 1 := by omega
   obtain ⟨e, hMLeq⟩ :=
@@ -93,9 +93,9 @@ theorem ggTWR3_false
       (ι := ι) (φ := fun i : Λ => φ (Sum.inl i)) (h := fun i : Λ => h (Sum.inl i))
       (α := fun i : Λ => α (Sum.inl i)) (hφ := fun i w => hlin (Sum.inl i) w)
       (hpair := fun i j => hpairL i j) (hAL := hclosL) (hdep := hdep)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hfinrank : Module.finrank (ZMod p) V = N := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h

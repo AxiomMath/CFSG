@@ -115,6 +115,7 @@ open scoped Classical
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private lemma g71_odd_nsmul {n : ℕ} (hn : Odd n) (v : V) : n • v = v := by
   rw [← Nat.cast_smul_eq_nsmul (ZMod 2) n v, (ZMod.natCast_eq_one_iff_odd).mpr hn, one_smul]
 
@@ -203,6 +204,7 @@ private lemma mem_g71X {A K : Subgroup (GLV V)} {x : V} :
   rw [Submodule.mem_inf, LinearMap.mem_ker]
   exact Iff.rfl
 
+omit [Finite V] in
 private lemma g71_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (GLV V)}
     (hK : K.relIndex A = p) (hKM : K ≤ M) (hMA : M ≤ A) (hne : M ≠ K) : M = A := by
   have h1 := Subgroup.relIndex_mul_relIndex K M A hKM hMA
@@ -213,6 +215,7 @@ private lemma g71_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (GLV V)}
   have h2 : M.relIndex A = 1 := Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1)
   exact le_antisymm hMA (Subgroup.relIndex_eq_one.mp h2)
 
+omit [Finite V] in
 private lemma g71_hyp_eq {p : ℕ} (hp : p.Prime) {A K L : Subgroup (GLV V)}
     (hK : K.relIndex A = p) (hL : L.relIndex A = p) (hKA : K ≤ A) (hLK : L ≤ K) : L = K := by
   have h1 := Subgroup.relIndex_mul_relIndex L K A hLK hKA
@@ -220,6 +223,7 @@ private lemma g71_hyp_eq {p : ℕ} (hp : p.Prime) {A K L : Subgroup (GLV V)}
   have h2 : L.relIndex K = 1 := Nat.eq_of_mul_eq_mul_right hp.pos (by rw [one_mul]; exact h1)
   exact le_antisymm hLK (Subgroup.relIndex_eq_one.mp h2)
 
+omit [Finite V] in
 private lemma g71_hyp_sup {p : ℕ} (hp : p.Prime) {A K K' : Subgroup (GLV V)}
     (hK' : K'.relIndex A = p) (hK : K.relIndex A = p) (hK'A : K' ≤ A) (hKA : K ≤ A)
     (hne : K ≠ K') : K' ⊔ K = A := by
@@ -282,7 +286,7 @@ private lemma g71_orbit_dvd {p : ℕ} (hp : p.Prime) (W : Type) [AddCommGroup W]
     [Module (ZMod 2) W] [Finite W] (c : W ≃ₗ[ZMod 2] W) (hc : c ^ p = 1)
     (hfix : ∀ w, c w = w → w = 0) :
     orderOf (2 : ZMod p) ∣ Module.finrank (ZMod 2) W := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hP : IsPGroup p (Subgroup.zpowers c) := by
     rintro ⟨x, k, rfl⟩
     refine ⟨1, Subtype.ext ?_⟩
@@ -310,10 +314,10 @@ private lemma g71_ord_le {p : ℕ} (hp : p.Prime) {A K : Subgroup (GLV V)}
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAexp : ∀ a ∈ A, a ^ p = 1)
     (hAodd : Odd (Nat.card A)) (hKA : K ≤ A) (hK : K.relIndex A = p) (hX : g71X A K ≠ ⊥) :
     orderOf (2 : ZMod p) ≤ Module.finrank (ZMod 2) (g71X A K) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨g, hgA, hgK⟩ : ∃ g ∈ A, g ∉ K := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hKA' : K = A := le_antisymm hKA fun g hg => hcon g hg
     rw [hKA', Subgroup.relIndex_self] at hK
     have := hp.one_lt
@@ -404,7 +408,7 @@ private lemma g71_sum_conj {A : Subgroup (GLV V)} {g : GLV V}
       apply Subtype.ext
       exact (MulAut.conj g).injective (congrArg Subtype.val h)
     · intro b
-      have hb : g⁻¹ * (b : GLV V) * g ∈ A := (hg _).mpr (by simpa [mul_assoc] using b.2)
+      have hb : g⁻¹ * (b : GLV V) * g ∈ A := (hg _).mpr (by simp [mul_assoc])
       exact ⟨⟨g⁻¹ * (b : GLV V) * g, hb⟩, Subtype.ext (by simp [mul_assoc])⟩
   rw [g71Sum_apply A x, g71Sum_apply A (g x), map_sum]
   refine Fintype.sum_bijective _ hbij _ _ fun a => ?_
@@ -412,6 +416,7 @@ private lemma g71_sum_conj {A : Subgroup (GLV V)} {g : GLV V}
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   simp
 
+omit [Finite V] in
 private lemma g71_map_conj_self {A : Subgroup (GLV V)} {g : GLV V}
     (hgN : g ∈ Subgroup.normalizer (A : Set (GLV V))) :
     A.map (MulAut.conj g).toMonoidHom = A := by
@@ -428,6 +433,7 @@ private lemma g71_map_conj_self {A : Subgroup (GLV V)} {g : GLV V}
     show g * (g⁻¹ * a * g⁻¹⁻¹) * g⁻¹ = a
     group
 
+omit [Finite V] in
 private lemma g71_conj_hyp {p : ℕ} {A K : Subgroup (GLV V)} {g : GLV V}
     (hgN : g ∈ Subgroup.normalizer (A : Set (GLV V))) (hKA : K ≤ A) (hK : K.relIndex A = p) :
     K.map (MulAut.conj g).toMonoidHom ≤ A ∧
@@ -442,6 +448,7 @@ private lemma g71_conj_hyp {p : ℕ} {A K : Subgroup (GLV V)} {g : GLV V}
     rw [hAc, hK] at h
     exact h
 
+omit [Finite V] in
 private lemma g71_inv_apply (g : GLV V) (y : V) : g⁻¹ (g y) = y :=
   LinearEquiv.symm_apply_apply g y
 
@@ -472,7 +479,7 @@ private lemma g71X_conj {A K : Subgroup (GLV V)} {g : GLV V}
       rw [← g71_sum_conj hgN y, h2, map_zero]
 
 private lemma g71_X_ne_bot {A K : Subgroup (GLV V)}
-    (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hKA : K ≤ A) (hAodd : Odd (Nat.card A))
+    (_hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hKA : K ≤ A) (hAodd : Odd (Nat.card A))
     {w : V} (hw : ∀ k ∈ K, k w = w) (hwA : ∃ a ∈ A, a w ≠ w) : g71X A K ≠ ⊥ := by
   intro hbot
   obtain ⟨a, haA, haw⟩ := hwA
@@ -573,7 +580,7 @@ private lemma g71_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGrou
     rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ _
     show E (ψ g) * E (ψ h) = E (ψ h) * E (ψ g)
     rw [← hEmul, ← hEmul, hcomm g h]
-  letI : CommRing (Subring.closure S) :=
+  let : CommRing (Subring.closure S) :=
     haveI : IsMulCommutative (Subring.closure S) := Subring.isMulCommutative_closure hScomm
     IsMulCommutative.instCommRing
   have hRS : ∀ r ∈ S, ∀ a : Subring.closure S,
@@ -620,8 +627,8 @@ private lemma g71_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGrou
         exact Submodule.mem_top
       rw [LinearMap.mem_ker] at hx
       simpa using hx
-  haveI : NoZeroDivisors (Subring.closure S) := hnzd
-  haveI : IsDomain (Subring.closure S) := NoZeroDivisors.to_isDomain _
+  have : NoZeroDivisors (Subring.closure S) := hnzd
+  have : IsDomain (Subring.closure S) := NoZeroDivisors.to_isDomain _
   let f : Polynomial (Subring.closure S) := Polynomial.X ^ p - Polynomial.C 1
   have hf0 : f ≠ 0 := Polynomial.X_pow_sub_C_ne_zero hp.pos 1
   have hfdeg : f.natDegree = p := Polynomial.natDegree_X_pow_sub_C
@@ -669,12 +676,12 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAexp : ∀ a ∈ A, a ^ p = 1)
     (hAodd : Odd (Nat.card A)) (hAp : IsPGroup p A) {z : GLV V} (hzA : z ∈ A) (hz1 : z ≠ 1) :
     ∃ K : Subgroup (GLV V), K ≤ A ∧ K.relIndex A = p ∧ z ∉ K ∧ g71X A K ≠ ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨u0, hu0⟩ : ∃ u : V, z u ≠ u := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hz1 (LinearEquiv.ext fun u => h u)
-  haveI : WellFoundedLT (Submodule (ZMod 2) V) := Finite.to_wellFoundedLT
+  have : WellFoundedLT (Submodule (ZMod 2) V) := Finite.to_wellFoundedLT
   let 𝒰 : Set (Submodule (ZMod 2) V) :=
     {U | (∀ a ∈ A, ∀ u ∈ U, a u ∈ U) ∧ ∃ u ∈ U, z u ≠ u}
   have hne : 𝒰.Nonempty := ⟨⊤, fun a _ u _ => Submodule.mem_top, u0, Submodule.mem_top, hu0⟩
@@ -683,7 +690,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
       W = ⊥ ∨ W = U := by
     intro W hWU hWinv
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hW0, hWU'⟩ := hcon
     obtain ⟨W'', hW''inv, hcompl⟩ := g71_avg hAodd W hWinv
     have hUeq : W ⊔ (W'' ⊓ U) = U := by
@@ -700,7 +707,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
           rw [h, inf_eq_left.mpr hWU] at h0
           exact hW0 h0
         exact hmin (W'' ⊓ U) ⟨hU''inv, hzU⟩ hlt
-      · push_neg at hzW hzU
+      · push Not at hzW hzU
         apply hu1
         rw [← hUeq] at hu1U
         obtain ⟨w, hw, u'', hu'', hsum⟩ := Submodule.mem_sup.mp hu1U
@@ -735,7 +742,7 @@ private lemma g71_exists_hyp {p : ℕ} (hp : p.Prime) {A : Subgroup (GLV V)}
     intro h
     apply hu1
     rw [h, map_zero]
-  haveI : Nontrivial U := ⟨⟨⟨u1, hu1U⟩, 0, fun h => hu1pos (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial U := ⟨⟨⟨u1, hu1U⟩, 0, fun h => hu1pos (congrArg Subtype.val h)⟩⟩
   have hsimpleψ : ∀ N : Submodule (ZMod 2) U, (∀ g : A, ∀ x ∈ N, ψ g x ∈ N) →
       N = ⊥ ∨ N = ⊤ := by
     intro N hN
@@ -819,7 +826,7 @@ private lemma g71_zpowers_inter {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
 private lemma g71_center_comm {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hG : Nat.card G = p ^ 3) (hnc : ∃ a b : G, a * b ≠ b * a) (x y : G) :
     y * x * y⁻¹ * x⁻¹ ∈ Subgroup.center G := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hZne : Subgroup.center G ≠ ⊤ := by
     intro h
     obtain ⟨a, b, hab⟩ := hnc
@@ -849,7 +856,7 @@ private lemma g71_center_comm {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.
         rw [hidx]
         ring
       exact Nat.eq_of_mul_eq_mul_left (pow_pos hp.pos 2) h2
-    haveI : IsCyclic (G ⧸ Subgroup.center G) := isCyclic_of_prime_card hind
+    have : IsCyclic (G ⧸ Subgroup.center G) := isCyclic_of_prime_card hind
     have hcomm := isMulCommutative_of_isCyclic_quotient_center_self (G := G)
     obtain ⟨a, b, hab⟩ := hnc
     exact hab (hcomm.is_comm.comm a b)
@@ -859,7 +866,7 @@ private lemma g71_center_comm {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.
       rw [hidx]
       ring
     exact Nat.eq_of_mul_eq_mul_left hp.pos h2
-  haveI : IsMulCommutative (G ⧸ Subgroup.center G) :=
+  have : IsMulCommutative (G ⧸ Subgroup.center G) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq hind
   have key : ∀ a b : G, (a * b)⁻¹ * (b * a) ∈ Subgroup.center G := by
     intro a b
@@ -888,6 +895,7 @@ private def g71HeiSub {x z : GLV V} (hxz : Commute x z) : Subgroup (GLV V) where
     rw [mul_inv_rev, ← zpow_neg, ← zpow_neg]
     exact ((hxz.zpow_zpow (-i) (-c)).eq).symm
 
+omit [Finite V] in
 private lemma g71Hei_comm {x z : GLV V} (hxz : Commute x z) {a b : GLV V}
     (ha : a ∈ g71HeiSub hxz) (hb : b ∈ g71HeiSub hxz) : a * b = b * a := by
   obtain ⟨i, c, rfl⟩ := ha
@@ -898,6 +906,7 @@ private lemma g71Hei_comm {x z : GLV V} (hxz : Commute x z) {a b : GLV V}
   have h4 : Commute (z ^ c) (z ^ d) := (Commute.refl z).zpow_zpow c d
   exact ((h1.mul_right h2).mul_left (h3.mul_right h4)).eq
 
+omit [Finite V] in
 private lemma g71Hei_pow {x z : GLV V} {p : ℕ} (hxz : Commute x z) (hxp : x ^ p = 1)
     (hzp : z ^ p = 1) {a : GLV V} (ha : a ∈ g71HeiSub hxz) : a ^ p = 1 := by
   have hzpow : ∀ (g : GLV V), g ^ p = 1 → ∀ n : ℤ, (g ^ n) ^ p = 1 := by
@@ -906,6 +915,7 @@ private lemma g71Hei_pow {x z : GLV V} {p : ℕ} (hxz : Commute x z) (hxp : x ^ 
   obtain ⟨i, c, rfl⟩ := ha
   rw [(hxz.zpow_zpow i c).mul_pow, hzpow x hxp i, hzpow z hzp c, one_mul]
 
+omit [Finite V] in
 private lemma g71_conj_formula {x y z : GLV V} (hxz : Commute x z) (hyx : y * x * y⁻¹ = z * x)
     (hyz : Commute y z) (i c : ℤ) : y * (x ^ i * z ^ c) * y⁻¹ = z ^ i * (x ^ i * z ^ c) := by
   have hzx : Commute z x := hxz.symm
@@ -981,10 +991,10 @@ private lemma g71_orbit_inj {G : Type*} [Group G] [Finite G] {p : ℕ} [hpf : Fa
   omega
 
 private lemma g71_heis {p : ℕ} (hp : p.Prime) (hpodd : Odd p) {P : Subgroup (GLV V)}
-    (hPP : IsPGroup p P) (hcardP : Nat.card P = p ^ 3) (hexpP : ∀ g ∈ P, g ^ p = 1)
+    (_hPP : IsPGroup p P) (hcardP : Nat.card P = p ^ 3) (hexpP : ∀ g ∈ P, g ^ p = 1)
     {a b : GLV V} (ha : a ∈ P) (hb : b ∈ P) (hab : a * b ≠ b * a) :
     p * orderOf (2 : ZMod p) ≤ Module.finrank (ZMod 2) V := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨y, x, hy, hx, hyx⟩ : ∃ y x : GLV V, y ∈ P ∧ x ∈ P ∧ y * x ≠ x * y :=
     ⟨a, b, ha, hb, hab⟩
   have hnc : ∃ u v : P, u * v ≠ v * u :=
@@ -1195,7 +1205,7 @@ end G71Aux
 
 theorem as_G_7_1 : G_7_1 := by
   intro V _ _ hfin G d hd p hp hp2 P hPG hPP
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hPodd : Odd (Nat.card P) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hPP
@@ -1238,7 +1248,7 @@ theorem as_G_7_1 : G_7_1 := by
     have hXne : g71X (Subgroup.zpowers (x : GLV V)) ⊥ ≠ ⊥ := by
       obtain ⟨v, hv⟩ : ∃ v : V, (x : GLV V) v ≠ v := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hg1 (LinearEquiv.ext h)
       refine g71_X_ne_bot hAc bot_le hAodd (w := v) (fun k hk => ?_)
         ⟨(x : GLV V), Subgroup.mem_zpowers _, hv⟩

@@ -23,6 +23,7 @@ private noncomputable def cartanN0 {D : Data G} {Ch : Choice2011 G} (c : Ctx23L 
     (FL : Subgroup G) : Subgroup G :=
   cartanL1 c FL ⊓ CFSG.Open.pCoreOf 2 c.L
 
+omit [Finite G] in
 private theorem eq_of_bar2_eq_of_inf_pCore_bot {L DL : Subgroup G} (hDLleL : DL ≤ L)
     (hdisj : DL ⊓ CFSG.Open.pCoreOf 2 L = ⊥) {a b : G} (ha : a ∈ DL) (hb : b ∈ DL)
     (h : QuotientGroup.mk' (CFSG.pCore 2 ↥L) ⟨a, hDLleL ha⟩ =
@@ -64,7 +65,7 @@ private theorem inf_cartan_eq_bot (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D
     (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL : Subgroup G}
     (hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1) :
     DL ⊓ (D.T ⊓ c.L) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let TL : Subgroup G := D.T ⊓ c.L
   have hT2 : IsPGroup 2 TL :=
     IsPGroup.to_inf_left (p := 2) (H := D.T) (K := c.L)
@@ -77,7 +78,7 @@ private theorem inf_cartan_eq_bot (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D
     rw [hk, hDLcard]
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr (hDLcard ▸ hDLodd))
   rw [show DL ⊓ (D.T ⊓ c.L) = DL ⊓ TL from rfl, inf_comm]
-  exact Subgroup.inf_eq_bot_of_coprime hcopTL
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcopTL))
 
 private theorem cartan_image_disj (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
     (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL : Subgroup G}
@@ -224,7 +225,7 @@ private theorem exists_cartan_inner_action (D : Data G) (Ch : Choice2011 G)
     ∃ y ∈ Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)) (DL.subgroupOf c.L),
       UC6S846.rhoL c.L ⟨f, hFNL f.2⟩ = MulAut.conj y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hL2, -⟩ := h23 h1930 c
   have hL2' : IsL2 (Bar2 c.L) (CFSG.Open.pRank 2 D.Z) := by simpa using hL2
   obtain ⟨S, H, hS, hHdef, hHle, hHcard⟩ :=
@@ -282,13 +283,13 @@ private theorem exists_cartan_decomp (D : Data G) (Ch : Choice2011 G)
     (hFNT : F ≤ Subgroup.normalizer (D.T : Set G))
     (φ : ↥F →* MulAut (Bar2 c.L))
     (hφ : ∀ f : ↥F, φ f = UC6S846.rhoL c.L ⟨f, hFNL f.2⟩) (f : ↥F) :
-    ∃ d : G, ∃ hd : d ∈ DL,
+    ∃ d : G, ∃ _hd : d ∈ DL,
       (f : G) * d⁻¹ ∈ φ.ker.map F.subtype := by
-  obtain ⟨d, hd, heq⟩ :=
+  obtain ⟨d, _hd, heq⟩ :=
     exists_cartan_image_eq D Ch h23 h1930 c h3 hDLleB hDLcard hDLF hFodd hFcomm
       hFNL hFNT φ hφ f
-  have hdF : d ∈ F := hDLF hd
-  refine ⟨d, hd, ?_⟩
+  have hdF : d ∈ F := hDLF _hd
+  refine ⟨d, _hd, ?_⟩
   have hmem : φ (f * ⟨d, hdF⟩⁻¹) = 1 := by
     rw [map_mul, map_inv, heq, mul_inv_cancel]
   exact Subgroup.mem_map_of_mem F.subtype (MonoidHom.mem_ker.mpr hmem)
@@ -326,7 +327,7 @@ private theorem exists_cartan_kernel (D : Data G) (Ch : Choice2011 G)
       (∀ r ∈ FL, ∀ x ∈ c.L, ⁅x, r⁆ ∈ CFSG.Open.pCoreOf 2 c.L) ∧
       (∀ f ∈ F, ∃ d ∈ DL, ∃ e ∈ FL, f = d * e) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hL2, -⟩ := h23 h1930 c
   let n := CFSG.Open.pRank 2 D.Z
   have hL2' : IsL2 (Bar2 c.L) n := by simpa [n] using hL2
@@ -367,7 +368,7 @@ private theorem exists_centralizing_translate (D : Data G) (Ch : Choice2011 G)
     ∃ n ∈ CFSG.Open.pCoreOf 2 c.L,
       x * n ∈ c.L ⊓ Subgroup.centralizer (FL : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P := CFSG.Open.pCoreOf 2 c.L
   have hPleL : P ≤ c.L := CFSG.LieType.BorelTits.pCoreOf_le 2 c.L
   have hPn : (P.subgroupOf c.L).Normal :=
@@ -380,7 +381,7 @@ private theorem exists_centralizing_translate (D : Data G) (Ch : Choice2011 G)
   have hFLn : FL ≤ Subgroup.normalizer (P : Set G) :=
     ((hFLF.trans hFN).trans hNL).trans (UC6S846.normalizer_le_normalizer_pCoreOf c.L)
   have hP2 : IsPGroup 2 P := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 c.L
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hsolv : Group.IsSolvable ↥P := inferInstance
   have hFLodd : Odd (Nat.card FL) := hFodd.of_dvd_nat (Subgroup.card_dvd_of_le hFLF)
   have hcop : Nat.Coprime (Nat.card P) (Nat.card FL) := by
@@ -472,19 +473,19 @@ private theorem lift_w0_normalizes_cartanN0 (D : Data G) (Ch : Choice2011 G)
 
 private theorem exists_lift_involution (D : Data G) (Ch : Choice2011 G)
     (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h208 : S20_8 D) (h1930 : H1930 D)
-    (c : Ctx23L D Ch) (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
+    (c : Ctx23L D Ch) (_h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
     {DL F FL : Subgroup G} (hDLleB : DL ≤ CFSG.Quasithin.borelOf c.L D.T)
-    (hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1)
+    (_hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1)
     (hDLF : DL ≤ F) (hFcomm : IsMulCommutative F)
     (hFLleF : FL ≤ F) (hFodd : Odd (Nat.card F)) (hFN : F ≤ c.N)
     (hFLcomm : ∀ r ∈ FL, ∀ x ∈ c.L, ⁅x, r⁆ ∈ CFSG.Open.pCoreOf 2 c.L)
     {w : Bar2 c.L} (hw2 : w * w = 1) :
-    ∃ (w0 : G) (hw0L : w0 ∈ c.L) (hw0C : w0 ∈ Subgroup.centralizer (FL : Set G)),
+    ∃ (w0 : G) (hw0L : w0 ∈ c.L) (_hw0C : w0 ∈ Subgroup.centralizer (FL : Set G)),
       (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L) ⟨w0, hw0L⟩ = w) ∧
       w0 ^ 2 ∈ cartanN0 c FL ∧ w0 ∈ Subgroup.normalizer (cartanN0 c FL : Set G) ∧
       DL ≤ Subgroup.normalizer (cartanN0 c FL : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P := CFSG.Open.pCoreOf 2 c.L
   let q := QuotientGroup.mk' (CFSG.pCore 2 ↥c.L)
   have hPleL : P ≤ c.L := CFSG.LieType.BorelTits.pCoreOf_le 2 c.L
@@ -493,17 +494,17 @@ private theorem exists_lift_involution (D : Data G) (Ch : Choice2011 G)
     exists_centralizing_translate D Ch h4 h23 h208 h1930 c hFLleF hFodd hFN hFLcomm xL.2
   let w0 : G := (xL : G) * n
   have hw0L : w0 ∈ c.L := hxn.1
-  have hw0C : w0 ∈ Subgroup.centralizer (FL : Set G) := hxn.2
+  have _hw0C : w0 ∈ Subgroup.centralizer (FL : Set G) := hxn.2
   have hnq : q ⟨n, hPleL hnP⟩ = 1 :=
     (QuotientGroup.eq_one_iff _).mpr ((CFSG.mem_openPCoreOf_iff ⟨n, hPleL hnP⟩).mp hnP)
   have hw0q : q ⟨w0, hw0L⟩ = q xL := by
     rw [show (⟨w0, hw0L⟩ : ↥c.L) = xL * ⟨n, hPleL hnP⟩ by rfl]
     rw [map_mul, hnq, mul_one]
   have hw02N0 : w0 ^ 2 ∈ cartanN0 c FL :=
-    lift_w0_sq_mem_cartanN0 hw2 hw0L hw0C (hw0q.trans hxLq)
+    lift_w0_sq_mem_cartanN0 hw2 hw0L _hw0C (hw0q.trans hxLq)
   obtain ⟨hw0N0, hDLN0⟩ :=
-    lift_w0_normalizes_cartanN0 D Ch c hDLleB hDLF hFcomm hFLleF hw0L hw0C
-  exact ⟨w0, hw0L, hw0C, hw0q.trans hxLq, hw02N0, hw0N0, hDLN0⟩
+    lift_w0_normalizes_cartanN0 D Ch c hDLleB hDLF hFcomm hFLleF hw0L _hw0C
+  exact ⟨w0, hw0L, _hw0C, hw0q.trans hxLq, hw02N0, hw0N0, hDLN0⟩
 
 private theorem conj_lift_mul_mem_cartanN0 (D : Data G) (Ch : Choice2011 G)
     (c : Ctx23L D Ch) {DL F FL : Subgroup G}
@@ -568,10 +569,10 @@ private theorem conj_lift_maps_cartan (D : Data G) (Ch : Choice2011 G)
   rwa [sup_comm] at hmem
 
 private theorem lift_normalizes_cartan_join (D : Data G) (Ch : Choice2011 G)
-    (h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
-    (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
+    (_h23 : S23_23 D Ch) (_h1930 : H1930 D) (c : Ctx23L D Ch)
+    (_h3 : 3 ≤ CFSG.Open.pRank 2 D.Z)
     {DL F FL : Subgroup G} (hDLleB : DL ≤ CFSG.Quasithin.borelOf c.L D.T)
-    (hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1)
+    (_hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1)
     (hDLF : DL ≤ F) (hFcomm : IsMulCommutative F) (hFLleF : FL ≤ F)
     {w : Bar2 c.L} {w0 : G} (hw0L : w0 ∈ c.L)
     (hw0C : w0 ∈ Subgroup.centralizer (FL : Set G))
@@ -581,7 +582,7 @@ private theorem lift_normalizes_cartan_join (D : Data G) (Ch : Choice2011 G)
     (hw0N0 : w0 ∈ Subgroup.normalizer (cartanN0 c FL : Set G)) :
     w0 ∈ Subgroup.normalizer ((DL ⊔ cartanN0 c FL : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P := CFSG.Open.pCoreOf 2 c.L
   let L1 := cartanL1 c FL
   let N0 := cartanN0 c FL
@@ -621,7 +622,7 @@ private theorem corrected_weyl_same_image {D : Data G} {Ch : Choice2011 G}
   rw [map_mul, map_inv, hn0q, inv_one, mul_one]
 
 private theorem corrected_weyl_inverts (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
-    (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL FL : Subgroup G}
+    (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL _FL : Subgroup G}
     (hDLleB : DL ≤ CFSG.Quasithin.borelOf c.L D.T)
     (hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1)
     {v w0 : G} {w : Bar2 c.L} (hw0L : w0 ∈ c.L)
@@ -685,7 +686,7 @@ private theorem exists_corrected_weyl (D : Data G) (Ch : Choice2011 G)
       (∀ d ∈ DL, v * d * v⁻¹ = d⁻¹) ∧
       (∀ e ∈ FL, v * e * v⁻¹ = e) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P := CFSG.Open.pCoreOf 2 c.L
   let L1 : Subgroup G := c.L ⊓ Subgroup.centralizer (FL : Set G)
   let N0 : Subgroup G := L1 ⊓ P
@@ -711,7 +712,7 @@ private theorem exists_corrected_weyl (D : Data G) (Ch : Choice2011 G)
   have hvq : q ⟨v, hvL⟩ = q ⟨w0, hw0L⟩ :=
     corrected_weyl_same_image hvN hw0L hvL1
   have hvinv : ∀ d ∈ DL, v * d * v⁻¹ = d⁻¹ :=
-    corrected_weyl_inverts D Ch c h3 (FL := FL) hDLleB hDLcard hw0L hw0q hvL hvq
+    corrected_weyl_inverts D Ch c h3 (_FL := FL) hDLleB hDLcard hw0L hw0q hvL hvq
       hvnormDL hwinv
   have hvcent : ∀ e ∈ FL, v * e * v⁻¹ = e :=
     conj_eq_self_of_mem_cartanL1 hvL1
@@ -726,7 +727,7 @@ private theorem exists_involution_inverting_cartan (D : Data G) (Ch : Choice2011
       ∀ h ∈ Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L))
           (DL.subgroupOf c.L), w * h * w⁻¹ = h⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hL2, -⟩ := h23 h1930 c
   let n := CFSG.Open.pRank 2 D.Z
   have hL2' : IsL2 (Bar2 c.L) n := by simpa [n] using hL2
@@ -748,7 +749,7 @@ private theorem exists_involution_inverting_cartan (D : Data G) (Ch : Choice2011
     _ = (x0 ^ i)⁻¹ := by rw [inv_zpow]
 
 private theorem exists_nontrivial_mem_cartan (D : Data G) (Ch : Choice2011 G)
-    (c : Ctx23L D Ch) (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL : Subgroup G}
+    (_c : Ctx23L D Ch) (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) {DL : Subgroup G}
     (hDLcard : Nat.card DL = 2 ^ CFSG.Open.pRank 2 D.Z - 1) :
     ∃ b ∈ DL, b ≠ 1 := by
   have hcardgt : 1 < Nat.card DL := by
@@ -761,7 +762,7 @@ private theorem exists_nontrivial_mem_cartan (D : Data G) (Ch : Choice2011 G)
     intro hbot
     have h1 : Nat.card DL = 1 := by rw [hbot]; simp
     omega
-  haveI : Nontrivial ↥DL := (Subgroup.nontrivial_iff_ne_bot DL).mpr hDLne
+  have : Nontrivial ↥DL := (Subgroup.nontrivial_iff_ne_bot DL).mpr hDLne
   exact Subgroup.exists_ne_one_of_nontrivial DL
 
 private theorem not_mem_M_of_inverts_cartan (D : Data G) (Ch : Choice2011 G)
@@ -772,7 +773,7 @@ private theorem not_mem_M_of_inverts_cartan (D : Data G) (Ch : Choice2011 G)
     (hDLF : DL ≤ F) (hFM : F ≤ D.M) (hFodd : Odd (Nat.card F))
     {v : G} (hvM : v ∈ D.M) (hvord : ∃ k : ℕ, orderOf v = 2 ^ k)
     (hvinv : ∀ d ∈ DL, v * d * v⁻¹ = d⁻¹) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     have h4c := h4 h1930 c
     simpa [h4c.1] using h4c.2.2

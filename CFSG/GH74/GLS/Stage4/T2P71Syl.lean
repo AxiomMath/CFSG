@@ -28,7 +28,7 @@ theorem p71Sylow_proved : P71Sylow := by
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥N.F) := inferInstance
   let P₀ : Subgroup G := (Q : Subgroup ↥N.F).map N.F.subtype
   have hP₀F : P₀ ≤ N.F := Subgroup.map_subtype_le _
-  have hP₀p : IsPGroup 3 ↥P₀ := Q.isPGroup'.map _
+  have hP₀p : IsPGroup 3 ↥P₀ := Q.isPGroup.map _
   have hP₀c : Nat.card ↥P₀ = 3 ^ (Nat.card ↥N.F).factorization 3 := by
     rw [Subgroup.card_map_of_injective N.F.subtype_injective, Sylow.card_eq_multiplicity]
   obtain ⟨S, hS⟩ := T6.P71.Pst_sylow' hctx ⟨hcard⟩ hnab hΩ hMod hm hn hP₀F hP₀p hP₀c

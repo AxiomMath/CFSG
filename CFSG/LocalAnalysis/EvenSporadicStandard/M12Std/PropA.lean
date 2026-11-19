@@ -53,7 +53,7 @@ theorem not_isComp_jOf_of_outer (h : StdHyp G L) (hL : IsSporadic L .M12) {t x :
   have hn : ∀ c ∈ centralizer ({x} : Set G), (jOf L x).map (MulAut.conj c).toMonoidHom = jOf L x :=
     fun c hc => map_conj_eq_of_isCompIn_alt5 hx2' hx1 ht2' hxt ha hJA hJt hG0 hF.card_Y hF.G3 hc
   have hz : ∃ z ∈ jOf L x, z ≠ 1 ∧ z * z = 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2
       (show 2 ∣ Nat.card ↥(jOf L x) by rw [hF.card_J]; norm_num)
     have hz' : orderOf (z : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hz

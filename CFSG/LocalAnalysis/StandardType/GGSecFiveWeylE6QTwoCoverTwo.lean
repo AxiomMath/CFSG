@@ -70,7 +70,7 @@ theorem center_eq_bot_of_isPGroup_two (hG : IsCharTwoType G) (hK : Nat.card K = 
     apply le_antisymm
     · have h := Subgroup.map_centralizer_le_centralizer_image ({b} : Set G) c.toMonoidHom
       have himg : c.toMonoidHom '' ({b} : Set G) = ({e} : Set G) := by
-        simpa [c, e, MulAut.conj_apply]
+        simp [c, e, MulAut.conj_apply]
       rw [himg] at h
       simpa [Cb, Ce] using h
     · intro y hy
@@ -132,7 +132,7 @@ theorem center_eq_bot_of_isPGroup_two (hG : IsCharTwoType G) (hK : Nat.card K = 
     intro Q hQ2 hQCe hQN
     have hOeN : (Oe.subgroupOf Ce).Normal :=
       relPPrimeCore_normal (p := 3) (by norm_num) Ce
-    haveI : (Oe.subgroupOf Ce).Normal := hOeN
+    have : (Oe.subgroupOf Ce).Normal := hOeN
     have hOele : Oe ≤ Ce := relPPrimeCore_le Ce
     have hNle : Q ⊔ Oe ≤ Ce := sup_le hQCe hOele
     have hQnorm : Q.subgroupOf Ce ≤ Subgroup.normalizer ((Oe.subgroupOf Ce) : Set ↥Ce) :=

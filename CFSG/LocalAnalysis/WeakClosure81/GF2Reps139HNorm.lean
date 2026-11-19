@@ -57,7 +57,7 @@ private theorem w1369_norm_bilin {E V : Type} [Field E] [AddCommGroup V] [Module
     exact sub_eq_zero.mp hzero
   obtain ⟨c, hc⟩ := habs T hTcomm
   by_cases hc0 : c = 0
-  · haveI : Subsingleton V := by
+  · have : Subsingleton V := by
       refine ⟨fun u v => ?_⟩
       have hz : u - v = 0 := by
         apply hb.2
@@ -81,7 +81,7 @@ private theorem w1369_norm_bilin {E V : Type} [Field E] [AddCommGroup V] [Module
 
 theorem normalizer_preserves_alt {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup V]
     [Module E V] [Module.Finite E V] (Kb : Subgroup (V ≃ₗ[E] V))
-    (hirr : ∀ S : Submodule E V, (∀ k ∈ Kb, ∀ x ∈ S, k x ∈ S) → S = ⊥ ∨ S = ⊤)
+    (_hirr : ∀ S : Submodule E V, (∀ k ∈ Kb, ∀ x ∈ S, k x ∈ S) → S = ⊥ ∨ S = ⊤)
     (habs : ∀ f : V →ₗ[E] V, (∀ k ∈ Kb, ∀ x, f (k x) = k (f x)) → ∃ c : E, ∀ x, f x = c • x)
     (b : LinearMap.BilinForm E V) (hb : b.Nondegenerate)
     (hinv : ∀ k ∈ Kb, ∀ x y, b (k x) (k y) = b x y) (g : V ≃ₗ[E] V)
@@ -90,7 +90,7 @@ theorem normalizer_preserves_alt {E V : Type} [Field E] [Finite E] [CharP E 2] [
 
 theorem normalizer_preserves_herm {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup V]
     [Module E V] [Module.Finite E V] (θ : E →+* E) (Kb : Subgroup (V ≃ₗ[E] V))
-    (hirr : ∀ S : Submodule E V, (∀ k ∈ Kb, ∀ x ∈ S, k x ∈ S) → S = ⊥ ∨ S = ⊤)
+    (_hirr : ∀ S : Submodule E V, (∀ k ∈ Kb, ∀ x ∈ S, k x ∈ S) → S = ⊥ ∨ S = ⊤)
     (habs : ∀ f : V →ₗ[E] V, (∀ k ∈ Kb, ∀ x, f (k x) = k (f x)) → ∃ c : E, ∀ x, f x = c • x)
     (h : V →ₗ[E] V →ₛₗ[θ] E) (hnd : ∀ x, (∀ y, h x y = 0) → x = 0)
     (hherm : ∀ x y, h y x = θ (h x y))
@@ -119,7 +119,7 @@ theorem normalizer_preserves_herm {E V : Type} [Field E] [Finite E] [CharP E 2] 
       intro y
       rw [map_sub, LinearMap.sub_apply, hz'' y, sub_self]
     exact sub_eq_zero.mp hzero
-  haveI : Finite V := Module.finite_of_finite E
+  have : Finite V := Module.finite_of_finite E
   let e : V ≃ Module.Dual E V :=
     (LinearEquiv.ofFinrankEq (M := V) (M' := Module.Dual E V)
       Subspace.dual_finrank_eq.symm).toEquiv
@@ -180,7 +180,7 @@ theorem normalizer_preserves_herm {E V : Type} [Field E] [Finite E] [CharP E 2] 
     exact sub_eq_zero.mp hzero
   obtain ⟨c, hc⟩ := habs T hTcomm
   by_cases hc0 : c = 0
-  · haveI : Subsingleton V := by
+  · have : Subsingleton V := by
       refine ⟨fun u v => ?_⟩
       have hz : u - v = 0 := by
         apply hnd

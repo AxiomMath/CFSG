@@ -646,7 +646,7 @@ theorem zpowers_cE6_iff_of_position {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ 3)
     ∀ w, w ∈ Subgroup.zpowers cE6 ↔ ∃ e, ∃ he : e ∈ E, weylQuotientHom .E6 L ⟨e, hEM he⟩ = w := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : weylQuotientHom .E6 L ⟨n, hEM hn⟩ = cE6 := by
-    rw [hw, positionWord, if_pos hk]
+    rw [hw, positionWord, ite_eq_left hk]
     rfl
   set ψ := (weylQuotientHom .E6 L).comp (Subgroup.inclusion hEM) with hψ
   have hψcard : Nat.card ψ.range = 3 := by

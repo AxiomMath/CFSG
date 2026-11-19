@@ -46,7 +46,7 @@ theorem prAll : ∀ a < 56, ∀ b < 56,
   rw [ha'] at e
   simp only [CFSG.KC.Pack.strictB_eq] at e
   have e2 := CFSG.KC.Pack.allBlk_spec e b hb'
-  simp only [Nat.add_eq, Nat.zero_add, CFSG.KC.Pack.strictB_eq] at e2
+  simp only [Nat.add_eq, Nat.zero_add] at e2
   exact e2
 
 theorem sqL : (List.range 512).filter (fun i => eqQ (mulQ (T i) (T i)) T0Q) =

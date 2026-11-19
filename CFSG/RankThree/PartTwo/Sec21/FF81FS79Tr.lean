@@ -13,25 +13,30 @@ variable {b t b₁ b₂ : H} {J : Subgroup H}
 
 def HC (u v : H) : Prop := ∃ g : H, g * u * g⁻¹ = v
 
+omit [Finite H] in
 theorem HC.symm {u v : H} (h : HC u v) : HC v u := by
   obtain ⟨g, hg⟩ := h
   exact ⟨g⁻¹, by rw [← hg]; group⟩
 
+omit [Finite H] in
 theorem HC.trans {u v w : H} (h₁ : HC u v) (h₂ : HC v w) : HC u w := by
   obtain ⟨g, rfl⟩ := h₁
   obtain ⟨g', rfl⟩ := h₂
   exact ⟨g' * g, by group⟩
 
+omit [Finite H] in
 theorem FS79Hyp.t_sq (h : FS79Hyp b t b₁ b₂ J) : t * t = 1 := by
   rw [← pow_two, ← h.ord_t]
   exact pow_orderOf_eq_one t
 
+omit [Finite H] in
 theorem FS79Hyp.t_ne_one (h : FS79Hyp b t b₁ b₂ J) : t ≠ 1 := by
   intro h1
   have := h.ord_t
   rw [h1, orderOf_one] at this
   omega
 
+omit [Finite H] in
 theorem FS79Hyp.t_not_mem_J (h : FS79Hyp b t b₁ b₂ J) : t ∉ J := by
   intro htJ
   have hc : t * b = b * t := Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b htJ)
@@ -46,6 +51,7 @@ theorem FS79Hyp.t_not_mem_J (h : FS79Hyp b t b₁ b₂ J) : t ∉ J := by
   rw [h.ord_b] at hdvd
   norm_num at hdvd
 
+omit [Finite H] in
 theorem FS79Hyp.mem_zpowers_t (h : FS79Hyp b t b₁ b₂ J) {x : H} (hx : x ∈ Subgroup.zpowers t) :
     x = 1 ∨ x = t := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -62,16 +68,20 @@ namespace Std
 
 variable (S : Std b t b₁ b₂ J)
 
+omit [Finite H] in
 theorem ι_comm_t (σ : J6.S6) : S.ι σ * t = t * S.ι σ :=
   Subgroup.mem_centralizer_singleton_iff.mp (S.hyp.J_le_cen_t (S.ι_mem σ))
 
+omit [Finite H] in
 theorem ι_comm_b (σ : J6.S6) : S.ι σ * b = b * S.ι σ :=
   Subgroup.mem_centralizer_singleton_iff.mp (S.hyp.J_le_cen_b (S.ι_mem σ))
 
+omit [Finite H] in
 theorem ι_φ (y : ↥J) : S.ι (S.φ y) = (y : H) := by
   rw [Std.ι_apply]
   simp
 
+omit [Finite H] in
 theorem mem_B₁_iff (z : H) :
     z ∈ Subgroup.closure ({b₁, b₂} : Set H) ↔ ∃ e ∈ J6.Efin, z = S.ι e := by
   constructor
@@ -83,6 +93,7 @@ theorem mem_B₁_iff (z : H) :
     have := (S.hyp.mem_B₁_iff_std S.φ S.φ₁ S.φ₂ (S.φ.symm e)).mpr (by simpa using he)
     exact this
 
+omit [Finite H] in
 theorem norm6 {j : H} (hj : j ∈ J)
     (hjB : ∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
       j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) :
@@ -102,17 +113,21 @@ theorem norm6 {j : H} (hj : j ∈ J)
   rw [e1, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply] at h2
   exact h2
 
+omit [Finite H] in
 theorem conj_ι {j : H} (hj : j ∈ J) (e : J6.S6) :
     j * S.ι e * j⁻¹ = S.ι (S.φ ⟨j, hj⟩ * e * (S.φ ⟨j, hj⟩)⁻¹) := by
   rw [map_mul, map_mul, map_inv, S.ι_φ]
 
+omit [Finite H] in
 theorem ι_conj (γ σ : J6.S6) : S.ι (γ * σ * γ⁻¹) = S.ι γ * S.ι σ * (S.ι γ)⁻¹ := by
   rw [map_mul, map_mul, map_inv]
 
+omit [Finite H] in
 theorem HC_ι {σ τ : J6.S6} (hστ : ∃ γ : J6.S6, γ * σ * γ⁻¹ = τ) : HC (S.ι σ) (S.ι τ) := by
   obtain ⟨γ, rfl⟩ := hστ
   exact ⟨S.ι γ, (S.ι_conj γ σ).symm⟩
 
+omit [Finite H] in
 theorem HC_tι {σ τ : J6.S6} (hστ : ∃ γ : J6.S6, γ * σ * γ⁻¹ = τ) :
     HC (t * S.ι σ) (t * S.ι τ) := by
   obtain ⟨γ, rfl⟩ := hστ
@@ -127,11 +142,13 @@ end Std
 
 def E0 (b w₀ : H) : Subgroup H := Subgroup.zpowers b ⊔ Subgroup.zpowers w₀
 
+omit [Finite H] in
 theorem FS79Hyp.zpowers_le_J (h : FS79Hyp b t b₁ b₂ J) {w₀ : H}
     (hw₀ : w₀ ∈ Subgroup.closure ({b₁, b₂} : Set H)) : Subgroup.zpowers w₀ ≤ J :=
   Subgroup.zpowers_le.mpr (h.B₁_le_J hw₀)
 
-theorem FS79Hyp.E0_le_B (h : FS79Hyp b t b₁ b₂ J) {w₀ : H}
+omit [Finite H] in
+theorem FS79Hyp.E0_le_B (_h : FS79Hyp b t b₁ b₂ J) {w₀ : H}
     (hw₀ : w₀ ∈ Subgroup.closure ({b₁, b₂} : Set H)) :
     E0 b w₀ ≤ Subgroup.closure ({b, b₁, b₂} : Set H) :=
   sup_le (FS79Hyp.zpowers_le_B b b₁ b₂)
@@ -139,11 +156,12 @@ theorem FS79Hyp.E0_le_B (h : FS79Hyp b t b₁ b₂ J) {w₀ : H}
 
 theorem FS79Hyp.E0_pgroup (h : FS79Hyp b t b₁ b₂ J) {w₀ : H}
     (hw₀ : w₀ ∈ Subgroup.closure ({b₁, b₂} : Set H)) : IsPGroup 3 (E0 b w₀) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE := h.isElemAb_B
-  haveI := hE.1
+  have := hE.1
   exact (IsElementaryAbelian.isPGroup 3 _).to_le (h.E0_le_B hw₀)
 
+omit [Finite H] in
 theorem FS79Hyp.b_comm_of_mem_J (h : FS79Hyp b t b₁ b₂ J) {w : H} (hw : w ∈ J) :
     w * b = b * w := Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_b hw)
 

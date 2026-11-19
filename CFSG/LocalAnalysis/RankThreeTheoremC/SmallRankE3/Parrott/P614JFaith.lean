@@ -69,8 +69,8 @@ theorem lt_relIndex_centralizer {G : Type*} [Group G] [Finite G] {Y R : Subgroup
     (hzR : ∃ r ∈ R, z * r ≠ r * z) :
     16 < (centralizer (zpowers z : Set G)).relIndex R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hle
   push Not at hle
   let ρ : ↥Y →* MulAut ↥R := R.normalizerMonoidHom.comp (Subgroup.inclusion hYR)
@@ -141,7 +141,7 @@ theorem lt_relIndex_centralizer {G : Type*} [Group G] [Finite G] {Y R : Subgroup
     rw [injective_iff_map_eq_one]
     intro y hy
     by_contra hy1
-    haveI : Group.IsNilpotent ↥Y := hY.isNilpotent
+    have : Group.IsNilpotent ↥Y := hY.isNilpotent
     have hKne : σ.ker ≠ ⊥ := by
       intro h
       apply hy1

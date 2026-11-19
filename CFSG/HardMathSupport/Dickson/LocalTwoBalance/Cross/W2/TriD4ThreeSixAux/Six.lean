@@ -107,7 +107,7 @@ theorem orderOf_two_zmod_seven_aux : orderOf ((2 : ℕ) : ZMod 7) = 3 := by
 theorem orderOf_two_ne_six {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) :
     orderOf ((2 : ℕ) : ZMod p) ≠ 6 := by
   intro he
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h6 : ((2 : ℕ) : ZMod p) ^ 6 = 1 := by
     rw [← he]
     exact pow_orderOf_eq_one _

@@ -71,7 +71,7 @@ theorem chain_shape22 {V : Type*} [CommGroup V] [Finite V] (e : V ≃* W10)
   have hF' := hF
   rw [hd] at hF'
   simp only [predOff22, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true, Bool.not_eq_true',
-    decide_eq_false_iff_not, bne_iff_ne, ne_eq, beq_iff_eq] at hpred
+    decide_eq_false_iff_not, beq_iff_eq] at hpred
   obtain ⟨-, hrest⟩ := hpred
   rcases hrest with hnot | hboth
   · exact absurd hF' hnot

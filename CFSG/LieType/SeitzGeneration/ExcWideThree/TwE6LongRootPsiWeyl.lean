@@ -92,14 +92,14 @@ theorem Psi.piD_weylElt
       by_cases h : μ = reflect TwistTag.E6.tag j γ.1 - e6HighestRoot
       · have h' : reflect TwistTag.E6.tag j μ = γ.1 - e6HighestRoot := by
           rw [h, reflect_sub_highest hj, reflect_reflect]
-        rw [if_pos h, if_pos h', ← h]
+        rw [ite_eq_left h, ite_eq_left h', ← h]
       · have h' : ¬ reflect TwistTag.E6.tag j μ = γ.1 - e6HighestRoot := by
           intro e
           apply h
           have := congrArg (reflect TwistTag.E6.tag j) e
           rw [reflect_reflect, reflect_sub_highest hj] at this
           exact this
-        rw [if_neg h, if_neg h']
+        rw [ite_eq_right h, ite_eq_right h']
         simp
   exact congrFun (LinearMap.congr_fun key y) γ
 
@@ -153,7 +153,7 @@ theorem Psi.psi_conj_of_isStep (n : ModGL TwistTag.E6.tag K)
 theorem Psi.reflD_eq_of {a : Fin TwistTag.E6.foldedTag.rank} {γ γ' : Dr}
     (h : reflOrb a γ.1 = γ'.1) : reflD a γ = γ' := by
   unfold reflD
-  rw [dif_pos (h ▸ γ'.2)]
+  rw [dite_eq_left (h ▸ γ'.2)]
   exact Subtype.ext h
 
 theorem Psi.sD_comm_zero_five (γ : Dr) :

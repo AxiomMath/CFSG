@@ -369,7 +369,7 @@ theorem GGSecFiveBPermOmKFrame.isComponentOf_map_normBlock_inf_centralizer_of_su
     have hvQ : ∀ i ∈ Q, v i = 1 := by
       intro i hi
       show (if i ∈ Q then u i else Multiplicative.ofAdd 1) * (u i)⁻¹ = 1
-      rw [if_pos hi, mul_inv_cancel]
+      rw [ite_eq_left hi, mul_inv_cancel]
     let Q' : Finset (Fin r) := Finset.univ.filter fun i => v i = 1
     have hQQ' : Q ⊆ Q' := by
       intro i hi
@@ -711,7 +711,7 @@ private theorem image_castSucc_erase_eq_compl_pair {n r : ℕ} (π : Fin (r + 1)
     (fun i : Fin r => π i.castSucc) '' ((Finset.univ.erase ic : Finset (Fin r)) : Set (Fin r)) =
       ({i0, c} : Set (Fin n))ᶜ := by
   ext j
-  simp only [Finset.coe_erase, Finset.coe_univ, Set.mem_image, Set.mem_diff, Set.mem_univ,
+  simp only [Finset.coe_erase, Finset.coe_univ, Set.mem_image, Set.mem_sdiff, Set.mem_univ,
     Set.mem_singleton_iff, true_and, Set.mem_compl_iff, Set.mem_insert_iff, not_or]
   constructor
   · rintro ⟨i, hi, rfl⟩

@@ -183,7 +183,7 @@ theorem le_normalizer (h : D2Reduced p X R A X₀) {K : Subgroup X} (hK : IsComp
     (R : Subgroup X) ≤ Subgroup.normalizer (K : Set X) := by
   intro r hr
   obtain ⟨k, hk⟩ : ∃ k : ℕ, r ^ (p ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨r, hr⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨m, hm⟩ : Odd (p ^ k) := (h.prime.eq_two_or_odd'.resolve_left h.ne_two).pow
   by_contra hrn
@@ -239,7 +239,7 @@ theorem exists_mem_A_of_isComponentOf (h : D2Reduced p X R A X₀) {K : Subgroup
     (hK : IsComponentOf K ⊤) :
     ∃ z ∈ K, z ∈ A ∧ z ∈ (R : Subgroup X) ∧ orderOf z = p := by
   obtain ⟨z, ⟨hzR, hzK⟩, hz, hzC⟩ := exists_orderOf_eq_mem_centralizer_of_le_normalizer
-    h.prime R.isPGroup' inf_le_left (h.le_normalizer_inf_of_isComponentOf hK)
+    h.prime R.isPGroup inf_le_left (h.le_normalizer_inf_of_isComponentOf hK)
     (h.inf_ne_bot_of_isComponentOf hK)
   exact ⟨z, hzK, h.mem_A_of_mem_center hzR hzC hz, hzR, hz⟩
 
@@ -281,7 +281,7 @@ theorem eq_of_isComponentOf (h : D2Reduced p X R A X₀) {K L : Subgroup X}
       (Subgroup.le_centralizer_iff.mp ((Subgroup.zpowers_le.mpr hzKK).trans hKC) hzLL) hzLK
       ⟨hzKR, Subgroup.mem_sup_left hzKK⟩ ⟨hzLR, Subgroup.mem_sup_right hzLL⟩
   have hN₀ : Subgroup.normalizer (((R : Subgroup X) ⊓ (K ⊔ L) : Subgroup X) : Set X) ≤ X₀ :=
-    h.normalizer_le_of_rank _ (inf_le_left.trans h.sylow_le) R.isPGroup'.to_inf_left hrank
+    h.normalizer_le_of_rank _ (inf_le_left.trans h.sylow_le) R.isPGroup.to_inf_left hrank
   exact not_le_of_normalizer_inf_le R hN₀ h.ne_top
     (sup_le (h.le_of_ne_isComponentOf hK hL hKL) (h.le_of_ne_isComponentOf hL hK (Ne.symm hKL)))
 

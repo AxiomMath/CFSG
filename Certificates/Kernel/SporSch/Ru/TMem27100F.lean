@@ -119,7 +119,7 @@ theorem word_of {S : Array (Array Nat)} {k : Nat} {PS PSI : Nat → Nat} {wd : L
     wordA 4060 S (rawInvs 4060 S) wd = unpack 4060 12 (wordK 4060 12 (mask 12) e PS PSI wd) := by
   refine (wordEqK_sound hS (CFSG.KS.Raw.Orb.allN_iff.2 hp) ?_).1
   unfold wordEqK
-  simp only [bAnd_iff, hsz, hl, true_and]
+  simp only [hsz, hl]
   exact Nat.beq_refl _
 
 theorem a0_c : ruA0A = unpack 4060 12 A0 := a0_eq

@@ -28,7 +28,7 @@ section Final
 theorem chevTwoPClosureOddReeF4Split_of_three (hThree : ChevTwoPClosureOddReeF4Three) :
     ChevTwoPClosureOddReeF4Split := by
   intro p hp hp2 L _ _ hs hnab hrk hSE d hF hdi ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := d
   cases d with
   | reeF4 m =>

@@ -133,9 +133,9 @@ theorem l_conj_y1 {y₁ y₂ l₁ l₂ : Γ} (hy : y₁ * y₂ = y₂ * y₁) (h
     _ = (l₁ * y₂ * l₁⁻¹)⁻¹ * (l₁ * y₁ * l₁⁻¹)⁻¹ := by group
     _ = y₂ := by rw [hA, hc1, inv_inv, hy, mul_inv_cancel_right]
 
-theorem l_conj_y2 {y₁ y₂ l₁ l₂ : Γ} (hy : y₁ * y₂ = y₂ * y₁) (h1 : y₁ ^ 3 = 1) (h2 : y₂ ^ 3 = 1)
+theorem l_conj_y2 {y₁ y₂ l₁ l₂ : Γ} (hy : y₁ * y₂ = y₂ * y₁) (h1 : y₁ ^ 3 = 1) (_h2 : y₂ ^ 3 = 1)
     (hl₁y₁ : l₁ * y₁ = y₁ * l₁) (hl₁y₀ : l₁ * (y₁ * y₂⁻¹) * l₁⁻¹ = (y₁ * y₂⁻¹)⁻¹)
-    (hl₂y₂ : l₂ * y₂ = y₂ * l₂) (hl₂y₀ : l₂ * (y₁ * y₂⁻¹) * l₂⁻¹ = (y₁ * y₂⁻¹)⁻¹) :
+    (hl₂y₂ : l₂ * y₂ = y₂ * l₂) (_hl₂y₀ : l₂ * (y₁ * y₂⁻¹) * l₂⁻¹ = (y₁ * y₂⁻¹)⁻¹) :
     (l₁ * l₂) * y₂ * (l₁ * l₂)⁻¹ = (y₁ * y₂)⁻¹ := by
   calc (l₁ * l₂) * y₂ * (l₁ * l₂)⁻¹ = l₁ * (l₂ * y₂ * l₂⁻¹) * l₁⁻¹ := by group
     _ = l₁ * y₂ * l₁⁻¹ := by rw [he42al_conj_self hl₂y₂]
@@ -148,8 +148,8 @@ theorem l_cube_comm {y₁ y₂ l₁ l₂ : Γ} (hy : y₁ * y₂ = y₂ * y₁) 
   he42al_cube_comm (l_conj_y1 hy h1 h2 hl₁y₁ hl₁y₀ hl₂y₂ hl₂y₀)
     (l_conj_y2 hy h1 h2 hl₁y₁ hl₁y₀ hl₂y₂ hl₂y₀)
 
-theorem commutator_comm {y₁ y₂ l v : Γ} (hy : y₁ * y₂ = y₂ * y₁) (h1 : y₁ ^ 3 = 1)
-    (h2 : y₂ ^ 3 = 1) (hv : v * v = 1) (hv₁ : v * y₁ * v⁻¹ = y₁⁻¹) (hv₂ : v * y₂ * v⁻¹ = y₂⁻¹)
+theorem commutator_comm {y₁ y₂ l v : Γ} (hy : y₁ * y₂ = y₂ * y₁) (_h1 : y₁ ^ 3 = 1)
+    (_h2 : y₂ ^ 3 = 1) (hv : v * v = 1) (hv₁ : v * y₁ * v⁻¹ = y₁⁻¹) (hv₂ : v * y₂ * v⁻¹ = y₂⁻¹)
     (hl₁ : l * y₁ * l⁻¹ = y₂) (hl₂ : l * y₂ * l⁻¹ = (y₁ * y₂)⁻¹) :
     (v * l * v⁻¹ * l⁻¹) * y₁ = y₁ * (v * l * v⁻¹ * l⁻¹) ∧
       (v * l * v⁻¹ * l⁻¹) * y₂ = y₂ * (v * l * v⁻¹ * l⁻¹) := by
@@ -204,8 +204,8 @@ private lemma he42al_zpow_cube_comm {y₀ l : Γ} (hly : l * y₀ = y₀ * l) (k
     Commute (y₀ ^ k) l :=
   Commute.zpow_left (show Commute y₀ l from hly.symm) k
 
-theorem pow_three_eq_one {y₀ l v : Γ} (hv : v * v = 1) (hvy : v * y₀ * v⁻¹ = y₀⁻¹)
-    (hy3 : y₀ ^ 3 = 1) (hy1 : y₀ ≠ 1) (hly : l * y₀ = y₀ * l)
+theorem pow_three_eq_one {y₀ l v : Γ} (_hv : v * v = 1) (hvy : v * y₀ * v⁻¹ = y₀⁻¹)
+    (hy3 : y₀ ^ 3 = 1) (_hy1 : y₀ ≠ 1) (hly : l * y₀ = y₀ * l)
     (hl3 : l ^ 3 ∈ Subgroup.zpowers y₀) (hvl : ∃ t ∈ Subgroup.zpowers y₀, v * l * v⁻¹ = t * l) :
     l ^ 3 = 1 := by
   by_contra hz

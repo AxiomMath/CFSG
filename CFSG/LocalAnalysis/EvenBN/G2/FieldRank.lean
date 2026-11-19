@@ -27,7 +27,7 @@ variable
 
 theorem exists_isElemAbelian_of_mem_yamadaM₆_or_yamadaD₇ (hW : CFSG.Walter.WalterOrderForm)
     (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d)
-    {x : G} (hx : x ∈ yamadaM₆ d t ∨ x ∈ yamadaD₇ d t) (hx2 : x * x = 1) :
+    {x : G} (hx : x ∈ yamadaM₆ d t ∨ x ∈ yamadaD₇ d t) (_hx2 : x * x = 1) :
     ∃ E : Subgroup G, IsElemAbelian 2 E ∧ E ≤ centralizer ({x} : Set G) ∧
       2 * Nat.card K ^ 3 < Nat.card E := by
   have hD := hQ.doubling

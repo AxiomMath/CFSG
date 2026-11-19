@@ -127,6 +127,7 @@ theorem fixC_iff (cs : List (CV n)) (ψ : CV n) :
     fixC cs ψ = true ↔ ∀ c ∈ cs, ψ * c = c * ψ := by
   simp only [fixC, List.all_eq_true, eq22C_eq, decide_eq_true_eq]
 
+omit [Small n] in
 theorem inC_iff (L : List (CV n)) (x : CV n) : inC L x = true ↔ x ∈ L := by
   simp only [inC, List.any_eq_true, decide_eq_true_eq, exists_eq_right]
 
@@ -303,7 +304,7 @@ theorem conj4_of_check {LS refs : List (CV n)} (hLS' : ∀ x ∈ S, ∃ y ∈ LS
     rw [powOneC_eq, decide_eq_false_iff_not]
     exact fun e => h2 ((ev_pow_eq_one_iff a 2).2 e)
   rw [h4', h2'] at h1
-  simp only [Bool.not_false, Bool.and_true, Bool.true_and, Bool.not_true, Bool.false_or,
+  simp only [Bool.not_false, Bool.and_true, Bool.not_true, Bool.false_or,
     List.any_eq_true, Bool.and_eq_true, powOneC_eq, eq22C_eq, decide_eq_true_eq, Bool.not_eq_true',
     decide_eq_false_iff_not] at h1
   obtain ⟨c, hc, ⟨hc3, hca⟩, hna⟩ := h1

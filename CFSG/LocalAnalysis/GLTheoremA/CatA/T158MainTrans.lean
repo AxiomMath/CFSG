@@ -18,6 +18,7 @@ section MainTransport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem main_map_top (X : Subgroup G) : (⊤ : Subgroup X).map X.subtype = X := by
   ext x
   rw [Subgroup.mem_map]
@@ -27,6 +28,7 @@ theorem main_map_top (X : Subgroup G) : (⊤ : Subgroup X).map X.subtype = X := 
   · intro hx
     exact ⟨⟨x, hx⟩, Subgroup.mem_top _, rfl⟩
 
+omit [Finite G] in
 theorem main_map_inf_cent {X L : Subgroup G} (hLX : L ≤ X) {x : G} (hx : x ∈ X) :
     (L.subgroupOf X ⊓ Subgroup.centralizer ({(⟨x, hx⟩ : X)} : Set X)).map X.subtype =
       L ⊓ Subgroup.centralizer ({x} : Set G) := by
@@ -38,6 +40,7 @@ theorem main_map_inf_cent {X L : Subgroup G} (hLX : L ≤ X) {x : G} (hx : x ∈
   simp only [Subgroup.mem_inf]
   exact ⟨fun h => ⟨h.1, h.2.2⟩, fun h => ⟨h.1, hLX h.1, h.2⟩⟩
 
+omit [Finite G] in
 theorem main_subgroupOf_inf_cent {X L : Subgroup G} (hLX : L ≤ X) {x : G} (hx : x ∈ X) :
     (L ⊓ Subgroup.centralizer ({x} : Set G)).subgroupOf X =
       L.subgroupOf X ⊓ Subgroup.centralizer ({(⟨x, hx⟩ : X)} : Set X) := by
@@ -45,6 +48,7 @@ theorem main_subgroupOf_inf_cent {X L : Subgroup G} (hLX : L ≤ X) {x : G} (hx 
   apply Subgroup.map_injective X.subtype_injective
   rw [main_map_inf_cent hLX hx, Y10F.subgroupOf_map_subtype_of_le hLC]
 
+omit [Finite G] in
 theorem main_subgroupOf_zpowers {X : Subgroup G} {x : G} (hx : x ∈ X) :
     (Subgroup.zpowers x).subgroupOf X = Subgroup.zpowers (⟨x, hx⟩ : X) := by
   have h : (Subgroup.zpowers (⟨x, hx⟩ : X)).map X.subtype = Subgroup.zpowers x :=
@@ -110,6 +114,7 @@ theorem main_fgOn_subgroupOf {p : ℕ} (hp : p.Prime) {X L : Subgroup G} (hLX : 
     · rw [main_centCard2_subgroupOf hp hLX hx h1.1, main_card2_subgroupOf hp hLX]
       exact h3
 
+omit [Finite G] in
 theorem main_mem_centMod_subgroupOf {p : ℕ} {X K : Subgroup G} (hKX : K ≤ X) (y : X) :
     y ∈ centModSubgroup p (K.subgroupOf X) ↔ (y : G) ∈ centModSubgroup p K := by
   rw [← centMod_iff, ← centMod_iff]
@@ -117,6 +122,7 @@ theorem main_mem_centMod_subgroupOf {p : ℕ} {X K : Subgroup G} (hKX : K ≤ X)
   rw [Y10F.subgroupOf_map_subtype_of_le hKX] at h
   exact h.symm
 
+omit [Finite G] in
 theorem main_map_inf_centModSubgroup {p : ℕ} {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X) :
     (B.subgroupOf X ⊓ centModSubgroup p (K.subgroupOf X)).map X.subtype = B ⊓ centModSubgroup p K := by
   ext g
@@ -130,6 +136,7 @@ theorem main_map_inf_centModSubgroup {p : ℕ} {X K B : Subgroup G} (hKX : K ≤
     exact ⟨⟨g, hBX hg.1⟩, Subgroup.mem_inf.2 ⟨Subgroup.mem_subgroupOf.2 hg.1,
       (main_mem_centMod_subgroupOf hKX ⟨g, hBX hg.1⟩).2 hg.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem main_card_inf_centModSubgroup {p : ℕ} {X K B : Subgroup G} (hKX : K ≤ X) (hBX : B ≤ X) :
     Nat.card ↥(B.subgroupOf X ⊓ centModSubgroup p (K.subgroupOf X)) =
       Nat.card ↥(B ⊓ centModSubgroup p K) := by

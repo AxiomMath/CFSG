@@ -136,7 +136,7 @@ theorem nine_dvd_card_centralizer_of_orderOf_eq_three {G : Type*} [Group G] [Fin
     have := P.pow_dvd_card_of_pow_dvd_card (n := 2) (by norm_num; exact h9)
     norm_num at this
     exact this
-  have hQ : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hQ : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hQpos : 9 ≤ Nat.card (P : Subgroup G) :=
     Nat.le_of_dvd (Nat.card_pos) h9Q
   have : Nontrivial (P : Subgroup G) :=

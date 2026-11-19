@@ -91,7 +91,7 @@ theorem vanishesOn_iff_sgn_mulVec {S0 : Finset (Fin 8)} {v : Fin 8 → ZMod 3} :
   · intro h
     funext i
     by_cases hi : i ∈ S0
-    · rw [if_pos hi, h i hi]
+    · rw [ite_eq_left hi, h i hi]
       exact neg_zero
     · simp [hi]
   · intro h i hi

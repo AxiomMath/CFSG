@@ -90,11 +90,10 @@ theorem penumPtB_spec {m k cnt i : Nat} {GI T PL POS SRT SRI : Nat → Nat}
   refine ⟨fun hi => ?_, fun j hj => ?_⟩
   · have e : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi (Nat.eq_of_beq_eq_true h)
     rw [e] at ht
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq,
-      Bool.and_eq_true, Nat.blt_eq] at ht
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, Bool.and_eq_true, Nat.blt_eq] at ht
     exact ⟨ht.1, ht.2.1, Nat.eq_of_beq_eq_true ht.2.2.1⟩
   · have hq := CFSG.KS.Raw.Orb.allN_iff.1 hpos j hj
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Nat.mul_eq, Nat.add_eq,
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Nat.mul_eq, Nat.add_eq,
       Bool.and_eq_true, Nat.blt_eq] at hq
     exact ⟨hq.1, hq.2.1⟩
 
@@ -193,7 +192,7 @@ theorem hsortPtK_of_V {m cnt : Nat} {T HV HS HSI : Nat → Nat}
       cases e : Nat.blt (Nat.succ i) cnt
       · rfl
       · exact absurd (Nat.blt_eq.mp e) h1
-    simp only [CFSG.KS.Raw.Orb.bAnd_eq, CFSG.KS.Raw.Orb.bIf_eq, e] at h ⊢
+    simp only [CFSG.KS.Raw.Orb.bIf_eq, e] at h ⊢
     simpa using h
 
 theorem div_lt_of {c cnt K : Nat} (hc : c < cnt * K) : c / K < cnt := by

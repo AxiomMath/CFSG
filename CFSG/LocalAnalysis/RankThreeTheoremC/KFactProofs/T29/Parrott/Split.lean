@@ -37,6 +37,7 @@ theorem three_le_of_E9 {A : Subgroup X} (hA : IsElemAbelian 3 A) (hA9 : Nat.card
     · exact mem_centralizer_singleton_iff.2 rfl
   exact CFSG.SectionRank.le_pRank (by norm_num) hle hV hV27
 
+omit [Finite X] in
 theorem mem_of_conjNormal_mem_range {L : Subgroup X} [L.Normal]
     (hC : centralizer (L : Set X) = ⊥) {g : X}
     (hg : (MulAut.conjNormal g : MulAut ↥L) ∈ (MulAut.conj : ↥L →* MulAut ↥L).range) : g ∈ L := by
@@ -153,7 +154,7 @@ theorem centRankAt_of_parts {d : ValidLieTypeIndex}
   intro X _ _ L hLn hs hnab he hC hX x hx
   by_cases hxL : x ∈ L
   · exact hin X L hLn hs hnab he hC hX x hx hxL
-  · haveI := hLn
+  · have := hLn
     exact three_le_of_outer_fixed hC (hout ↥L he) hx hxL
 
 end Generic

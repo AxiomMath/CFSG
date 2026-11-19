@@ -119,7 +119,7 @@ theorem transport (T : S.Qt ≃ₗ[ZMod 2] Vm)
       (∀ v ∈ D, ((ℓ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v) → ℓ = 1) :
     (T a ∈ Nsub ∨ T a ∈ Nssub) ∧
       ∀ ℓ ∈ L, ℓ ≠ 1 → IsTypeA S.q ((ℓ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) 2 := by
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   have hinj : Function.Injective (cT (S := S) T) := cT_injective T
   have hmem : ∀ {ℓh : Vm ≃ₗ[ZMod 2] Vm}, ℓh ∈ L.map (cT (S := S) T) →
       ∃ ℓ ∈ L, cT (S := S) T ℓ = ℓh := fun h => by

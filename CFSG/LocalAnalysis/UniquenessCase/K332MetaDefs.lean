@@ -27,10 +27,10 @@ theorem commute_of_pow_three_of_isMetacyclic {R : Type} [Group R] [Finite R]
     (hR : IsPGroup 3 R) (hmeta : CFSG.IsMetacyclic R) {x y : R} (hx : x ^ 3 = 1)
     (hy : y ^ 3 = 1) : Commute x y := by
   by_cases hcyc : IsCyclic R
-  · letI := hcyc.commGroup
+  · let := hcyc.commGroup
     exact mul_comm x y
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Fact (IsPGroup 3 R) := ⟨hR⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (IsPGroup 3 R) := ⟨hR⟩
     have hel := (CFSG.lemma_4_10 (R := R) (p := 3) (by norm_num) hmeta hcyc).2
     have hxO : x ∈ CFSG.omega₁ (G := R) (p := 3) := Subgroup.subset_closure (by simpa using hx)
     have hyO : y ∈ CFSG.omega₁ (G := R) (p := 3) := Subgroup.subset_closure (by simpa using hy)

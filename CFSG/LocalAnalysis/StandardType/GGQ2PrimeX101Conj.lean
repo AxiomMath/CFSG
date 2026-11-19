@@ -64,7 +64,7 @@ private theorem x101_false_of_split_embedding {G : Type} [Group G] [Finite G] {L
     (hdec : ∀ y, ∃ e ∈ L, ∃ c ∈ centralizer (L : Set G), ψ y = e * c)
     (hinj : ∀ y, ψ y ∈ L → y = 1) (E : Subgroup X) (hEcard : Nat.card E = 9)
     (hEexp : ∀ e ∈ E, e ^ 3 = 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f0 := (QuotientGroup.mk' (L.subgroupOf (normalizer (L : Set G)))).comp
     (Subgroup.inclusion (x101_centralizer_le_normalizer L))
   let φQ := (QuotientGroup.mk' (L.subgroupOf (normalizer (L : Set G)))).comp
@@ -106,7 +106,7 @@ private theorem x101_outer_hom_trivial
     [IsSimpleGroup X] (hcard : 6 < Nat.card X) (Φ : X →* Outer L) : ∀ y, Φ y = 1 := by
   obtain ⟨e0⟩ := CFSG.LieType.Multipliers.U62.nonempty_mulEquiv_T46 hm
   have hdvd := CFSG.ComponentClassification.RankTwoHypIICover.U62.card_outer_T46_dvd
-  haveI : Finite (Outer T46) := Nat.finite_of_card_ne_zero fun h0 => by
+  have : Finite (Outer T46) := Nat.finite_of_card_ne_zero fun h0 => by
     rw [h0] at hdvd
     norm_num at hdvd
   have hker : MonoidHom.ker Φ = ⊤ := by
@@ -130,8 +130,8 @@ private theorem x101_psu52_data {G : Type} [Group G] {X : Subgroup G}
     · exact h
     · exact absurd h0 (by norm_num)
   obtain ⟨K, hF, hfin, hK, ⟨e⟩⟩ := hc.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := ringChar.of_eq (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := ringChar.of_eq (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq
     (f := 2) Nat.prime_two (by norm_num) (hK.trans (by norm_num)))
   have hsimp : IsSimpleGroup X := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity X 5 2 1 hc).2
   have hrank :=
@@ -152,10 +152,10 @@ theorem le_map_conj_of_lieModel
     (hX : LieModel X .PSU 5 2 1) (hXz : X ≤ centralizer ({g * x * g⁻¹} : Set G)) :
     X ≤ L.map (MulAut.conj g).toMonoidHom := by
   obtain ⟨-, -, -, -, hcyc, hperf, -, -⟩ := ggThmIHyp_unpack h.hyp
-  haveI : Group.IsPerfect L := ⟨hperf⟩
+  have : Group.IsPerfect L := ⟨hperf⟩
   have hN : centralizer ({x} : Set G) ≤ normalizer (L : Set G) := L_norm_of_U62 h.hyp h.model
   obtain ⟨ψ, hψ⟩ : ∃ ψ : X →* G, ∀ y : X, ψ y = g⁻¹ * (y : G) * g :=
-    ⟨(MulAut.conj g⁻¹).toMonoidHom.comp X.subtype, fun y => by simp [MulAut.conj_apply]⟩
+    ⟨(MulAut.conj g⁻¹).toMonoidHom.comp X.subtype, fun y => by simp⟩
   have hψC : ∀ y : X, ψ y ∈ centralizer ({x} : Set G) := by
     intro y
     have hc := mem_centralizer_singleton_iff.1 (hXz y.2)
@@ -165,7 +165,7 @@ theorem le_map_conj_of_lieModel
       _ = x * (g⁻¹ * (y : G) * g) := by group
   have hψN : ∀ y : X, ψ y ∈ normalizer (L : Set G) := fun y => hN (hψC y)
   obtain ⟨hsimp, E, hEcard, hEexp⟩ := x101_psu52_data hX
-  haveI : IsSimpleGroup X := hsimp
+  have : IsSimpleGroup X := hsimp
   have hcard : 6 < Nat.card X := by
     have hle : Nat.card E ≤ Nat.card X := by apply Subgroup.card_le_card_group
     omega
@@ -187,7 +187,7 @@ theorem le_map_conj_of_lieModel
       have h1 := congrArg (fun t : MulAut L => ((t ⟨l, hl⟩ : L) : G)) he
       exact (hactG y ⟨l, hl⟩).symm.trans h1.symm
     exact ⟨(e : G), e.2, (e : G)⁻¹ * ψ y, x101_mem_centralizer_of_conj L hs, by group⟩
-  haveI hKn : (L.comap ψ).Normal := ⟨fun k hk y => by
+  have hKn : (L.comap ψ).Normal := ⟨fun k hk y => by
     rw [Subgroup.mem_comap] at hk ⊢
     rw [map_mul, map_mul, map_inv]
     exact (mem_normalizer_iff.1 (hψN y) (ψ k)).1 hk⟩

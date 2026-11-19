@@ -53,10 +53,10 @@ private theorem exists_coord_fixed_of_sylow_le_lineStab {W : Type} [CommGroup W]
           (((π.symm s : ↥Γ) : GL ι K) : Matrix ι ι K) *ᵥ v = v) ↔
           ∃ c : K, v = c • e₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Sbar : Subgroup (MulAut W) := (S : Subgroup ↥H).map H.subtype
   have hSbar : IsSylowIn 2 Sbar H := by
-    refine ⟨Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, S.isPGroup.map _, ?_⟩
     rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact S.not_dvd_index

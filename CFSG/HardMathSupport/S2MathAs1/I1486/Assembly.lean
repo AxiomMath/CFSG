@@ -185,12 +185,11 @@ theorem ggF4RecipeCoreInput_of_adjoint
 
 theorem ggF4AdjointCoreInput_of_geom
     (hgeo : GGF4GeomCoreInput) : GGF4AdjointCoreInput := by
-  intro p hp hp2 f hf K hField hFinite hK
-  intro s hs hs1 S0 hS0 hlab g hg
+  intro p hp hp2 f hf K hField hFinite hK s hs hs1 S0 hS0 hlab g hg
   classical
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     intro h
@@ -216,7 +215,7 @@ theorem ggF4AdjointCoreInput_of_geom
   have hL2 : ringChar (AlgebraicClosure K) = 2 := by
     rw [CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.ringChar_algebraicClosure' K,
       ringChar.eq K 2]
-  haveI : CharP (AlgebraicClosure K) 2 := ringChar.of_eq hL2
+  have : CharP (AlgebraicClosure K) 2 := ringChar.of_eq hL2
   have hpL : ((p : ℕ) : AlgebraicClosure K) ≠ 0 :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.natCast_ne_zero_algebraicClosure_of_ne
       (ℓ := 2) (f := f) (m := 1) Nat.prime_two hp (by simpa using hK) hp2

@@ -17,7 +17,7 @@ private theorem exists_normal_complement_central_odd {G : Type*} [Group G] [Fini
     (hZc : ∀ z ∈ Z, ∀ r ∈ R₀, z * r = r * z)
     (hZodd : Odd (Nat.card Z)) (hR2 : ∀ r ∈ R₀, ∃ n : ℕ, r ^ 2 ^ n ∈ Z) :
     ∃ Rc : Subgroup ↥R₀, (Z.subgroupOf R₀).IsComplement' Rc ∧ Rc.Normal := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥R₀ := Z.subgroupOf R₀
   have hNcenter : N ≤ Subgroup.center ↥R₀ := by
     intro z hz
@@ -26,7 +26,7 @@ private theorem exists_normal_complement_central_odd {G : Type*} [Group G] [Fini
     apply Subtype.ext
     exact (hZc z.1 (Subgroup.mem_subgroupOf.mp hz) r.1 r.2).symm
   have hNnormal : N.Normal := Subgroup.normal_of_le_center hNcenter
-  haveI := hNnormal
+  have := hNnormal
   have hquot2 : IsPGroup 2 (↥R₀ ⧸ N) := by
     intro q
     obtain ⟨r, rfl⟩ := QuotientGroup.mk'_surjective N q
@@ -61,7 +61,7 @@ private theorem exists_normal_complement_central_odd {G : Type*} [Group G] [Fini
 
 private theorem exists_isPGroup_two_complement_of_normalComplement {G : Type*} [Group G]
     [Finite G] {R₀ Z : Subgroup G} {Rc : Subgroup ↥R₀}
-    (hZR : Z ≤ R₀) (hZc : ∀ z ∈ Z, ∀ r ∈ R₀, z * r = r * z)
+    (hZR : Z ≤ R₀) (_hZc : ∀ z ∈ Z, ∀ r ∈ R₀, z * r = r * z)
     (hR2 : ∀ r ∈ R₀, ∃ n : ℕ, r ^ 2 ^ n ∈ Z)
     (hRc : (Z.subgroupOf R₀).IsComplement' Rc) (hRcNormal : Rc.Normal) :
     ∃ R : Subgroup G, R ≤ R₀ ∧ IsPGroup 2 R ∧ R₀ ≤ Subgroup.normalizer (R : Set G) ∧
@@ -181,8 +181,8 @@ private theorem exists_expThree_noncyclic_of_central_commutator
   have hK3sub : ∀ k : ↥K, k ^ 3 = 1 := fun k => Subtype.ext (hKmem k.1 k.2)
   have hKnoncyc : ¬ IsCyclic ↥K := by
     intro hcyc
-    haveI := hcyc
-    haveI : Fintype ↥K := Fintype.ofFinite ↥K
+    have := hcyc
+    have : Fintype ↥K := Fintype.ofFinite ↥K
     have hfilter : Finset.univ.filter (fun a : ↥K => a ^ 3 = 1) = Finset.univ :=
       Finset.filter_eq_self.mpr (fun a _ => hK3sub a)
     have hle := IsCyclic.card_pow_eq_one_le (α := ↥K) (n := 3) (by norm_num)
@@ -199,10 +199,10 @@ private theorem exists_expThree_complement_of_pow_three {X : Type*} [Group X] [F
     (hK3 : ∀ k ∈ K, k ^ 3 ∈ R) :
     ∃ E : Subgroup X, E ≤ K ∧ E ⊓ R = ⊥ ∧ E ⊔ R = K ∧ (∀ x ∈ E, x ^ 3 = 1) ∧
       IsPGroup 3 ↥E ∧ Nat.card ↥E = R.relIndex K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥K := R.subgroupOf K
   have hNnormal : N.Normal := (inferInstance : R.Normal).subgroupOf K
-  haveI := hNnormal
+  have := hNnormal
   have hquot3 : IsPGroup 3 (↥K ⧸ N) := by
     intro q
     obtain ⟨k, rfl⟩ := QuotientGroup.mk'_surjective N q
@@ -282,7 +282,7 @@ private theorem exists_sylow_two_data {S X R₀ Z : Subgroup Y}
       Z ⊔ R = R₀ ∧ R.relIndex R₀ = Nat.card Z ∧
       (∀ P : Subgroup Y, P ≤ R₀ → IsPGroup 2 P → P ≤ R) ∧
       S ≤ Subgroup.normalizer (R : Set Y) ∧ X ≤ Subgroup.normalizer (R : Set Y) ∧ R ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZcR : ∀ z ∈ Z, ∀ r ∈ R₀, z * r = r * z := fun z hz r hr => hZc z hz r (hRX hr)
   obtain ⟨R, hRR₀, hR2grp, hRnorm, hZsup, -, hRrel⟩ :=
     exists_isPGroup_two_complement_central_odd hZR hZcR hZodd hR2
@@ -334,6 +334,7 @@ private theorem exists_sylow_two_data {S X R₀ Z : Subgroup Y}
     exact Subgroup.mem_sup_right hr
   exact ⟨R, hRR₀, hR2grp, hRnorm, hZsup, hRrel, huniq, hSRnorm, hXRnorm, hRS⟩
 
+omit [Finite Y] in
 private theorem image_subgroupOf_le_center_quotient {X R R₀ Z : Subgroup Y}
     [(R.subgroupOf X).Normal]
     (hRR₀ : R ≤ R₀) (hR₀X : R₀ ≤ X) (hZR : Z ≤ R₀)
@@ -375,8 +376,9 @@ private theorem image_subgroupOf_le_center_quotient {X R R₀ Z : Subgroup Y}
   congr 1
   exact Subtype.ext (hZc z hz x.1 x.2).symm
 
+omit [Finite Y] in
 private theorem card_image_subgroupOf_quotient {X R R₀ : Subgroup Y}
-    [(R.subgroupOf X).Normal] (hRR₀ : R ≤ R₀) (hR₀X : R₀ ≤ X) :
+    [(R.subgroupOf X).Normal] (_hRR₀ : R ≤ R₀) (hR₀X : R₀ ≤ X) :
     Nat.card ((R₀.subgroupOf X).map (QuotientGroup.mk' (R.subgroupOf X))) = R.relIndex R₀ := by
   have h := Subgroup.relIndex_ker (K := R₀.subgroupOf X) (QuotientGroup.mk' (R.subgroupOf X))
   rw [QuotientGroup.ker_mk'] at h
@@ -416,7 +418,7 @@ private theorem exists_expThree_quotientK {X R R₀ Z : Subgroup Y}
     ∃ K : Subgroup (↥X ⧸ R.subgroupOf X), K ≠ ⊥ ∧ IsPGroup 3 ↥K ∧
       (∀ k : ↥X ⧸ R.subgroupOf X, k ∈ K ↔ k ^ 3 = 1) ∧ ¬ IsCyclic ↥K ∧
       9 ≤ Nat.card ↥K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥X := R.subgroupOf X
   let Q := ↥X ⧸ N
   let mk : ↥X →* Q := QuotientGroup.mk' N
@@ -443,7 +445,7 @@ private theorem exists_expThree_quotientK {X R R₀ Z : Subgroup Y}
 
 private theorem exists_expThree_preimage_complement {X R R₀ : Subgroup Y}
     [(R.subgroupOf X).Normal] (hRR₀ : R ≤ R₀) (hR₀X : R₀ ≤ X)
-    (hXR : X ≤ Subgroup.normalizer (R : Set Y)) (hR2 : IsPGroup 2 R)
+    (_hXR : X ≤ Subgroup.normalizer (R : Set Y)) (hR2 : IsPGroup 2 R)
     (K : Subgroup (↥X ⧸ R.subgroupOf X))
     (hKchar : ∀ k : ↥X ⧸ R.subgroupOf X, k ∈ K ↔ k ^ 3 = 1) :
     ∃ Wx E₀ : Subgroup ↥X,
@@ -494,6 +496,7 @@ private theorem exists_expThree_preimage_complement {X R R₀ : Subgroup Y}
   exact ⟨Wx, E₀, hE₀inf, hE₀sup, hE₀exp, hE₀grp, hEcard, hWx3,
     fun w => Subgroup.mem_comap⟩
 
+omit [Finite Y] in
 private theorem sylow_le_normalizer_of_cubePreimage {S X R : Subgroup Y}
     [(R.subgroupOf X).Normal] {K : Subgroup (↥X ⧸ R.subgroupOf X)} {Wx : Subgroup ↥X}
     (hSX : S ≤ Subgroup.normalizer (X : Set Y)) (hSR : S ≤ Subgroup.normalizer (R : Set Y))
@@ -533,12 +536,12 @@ theorem exists_permutes_of_centralExt {S X R₀ Z : Subgroup Y}
     (hcard : 9 * Nat.card R₀ ≤ Nat.card X) :
     ∃ E : Subgroup Y, E ≤ X ∧ E ≠ ⊥ ∧ IsPGroup 3 ↥E ∧ (∀ x ∈ E, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥E ∧ Permutes E S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hRR₀, hR2grp, -, hZsup, -, -, hSRnorm', hXRnorm, hRS⟩ :=
     exists_sylow_two_data hS hSR hRX hXR hZR hZc hZodd hR2
   have hNnormalX : (R.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hRR₀.trans hRX)).mpr hXRnorm
-  haveI := hNnormalX
+  have := hNnormalX
   obtain ⟨K, -, -, hKchar, -, hKcard⟩ :=
     exists_expThree_quotientK hRR₀ hRX hZR hZc hZsup hexp hcomm hcard
   obtain ⟨Wx, E₀, hE₀inf, hE₀sup, hE₀exp, hE₀grp, hEcard, hWx3, hWxmem⟩ :=
@@ -557,8 +560,8 @@ theorem exists_permutes_of_centralExt {S X R₀ Z : Subgroup Y}
   have hEnoncyc : ¬ IsCyclic ↥(E₀.map X.subtype) := by
     classical
     intro hcyc
-    haveI := hcyc
-    haveI : Fintype ↥(E₀.map X.subtype) := Fintype.ofFinite _
+    have := hcyc
+    have : Fintype ↥(E₀.map X.subtype) := Fintype.ofFinite _
     have hfilter : Finset.univ.filter (fun a : ↥(E₀.map X.subtype) => a ^ 3 = 1) = Finset.univ :=
       Finset.filter_eq_self.mpr (fun a _ => hEexp' a)
     have hle := IsCyclic.card_pow_eq_one_le (α := ↥(E₀.map X.subtype)) (n := 3) (by norm_num)

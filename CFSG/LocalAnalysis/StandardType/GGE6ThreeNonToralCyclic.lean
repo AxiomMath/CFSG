@@ -63,7 +63,7 @@ private theorem normFun_mul
     (hcomm : ∀ x y : torusGroup .E6 L, x * y = y * x)
     (s t : torusGroup .E6 L) :
     normFun φ (s * t) = normFun φ s * normFun φ t := by
-  haveI : IsMulCommutative (torusGroup .E6 L) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative (torusGroup .E6 L) := ⟨⟨hcomm⟩⟩
   simp only [normFun, map_mul]
   ac_rfl
 
@@ -99,7 +99,7 @@ private theorem normFun_fixed_n
       _ = S := by rw [hn3']; group
   have hNfix : φ (normFun φ S) = normFun φ S := by
     rw [normFun, map_mul, map_mul, hφ3]
-    haveI : IsMulCommutative (torusGroup .E6 L) := ⟨⟨hTcomm⟩⟩
+    have : IsMulCommutative (torusGroup .E6 L) := ⟨⟨hTcomm⟩⟩
     ac_rfl
   have h := congrArg (fun x : torusGroup .E6 L => (x : ModGL .E6 L)) hNfix
   rw [hφ_apply (normFun φ S)] at h
@@ -649,8 +649,7 @@ private theorem vec3Eq_eq_true {n : ℕ} {x y : Fin n → ZMod 3} :
   · intro h
     funext i
     exact zmod3Eq_eq_true.mp (h i (List.mem_finRange i))
-  · intro h
-    intro i _
+  · intro h i _
     rw [h]
     exact zmod3Eq_eq_true.mpr rfl
 
@@ -665,8 +664,7 @@ private theorem vecIntEq_eq_true {n : ℕ} {x y : Fin n → ℤ} :
   · intro h
     funext i
     exact of_decide_eq_true (h i (List.mem_finRange i))
-  · intro h
-    intro i _
+  · intro h i _
     rw [h]
     exact decide_eq_true rfl
 
@@ -1158,7 +1156,7 @@ private theorem card_betaHom_ker
     rw [mul_assoc, inv_mul_cancel₀ hf0, mul_one]
   have hV : Nat.card (fixSubmodule A) = 27 :=
     card_fixSubmodule hEM hE hcard hEA hAS hAcard hAne hAgA hζo
-  letI : AddCommGroup (ZMod 3) := (ZMod.instField 3).toAddCommGroup
+  let : AddCommGroup (ZMod 3) := (ZMod.instField 3).toAddCommGroup
   have hcard := Submodule.card_eq_card_quotient_mul_card (R := ZMod 3)
     (M := fixSubmodule A) f.ker
   have hquot : Nat.card (fixSubmodule A ⧸ f.ker) = 3 := by

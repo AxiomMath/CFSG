@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 @[expose] def hatT1 (D : ModDataE H (iSub16 V H)) (S : Subgroup G) : Subgroup (VG (D.img H)) :=
   (D.img S).comap (projG (D.img H))
 
+omit [Finite G] in
 private theorem w16l_projG_range (D : ModDataE H (iSub16 V H)) :
     (projG (D.img H)).range = D.img H := by
   ext g
@@ -29,7 +30,7 @@ private theorem w16l_projG_range (D : ModDataE H (iSub16 V H)) :
     exact ⟨SemidirectProduct.inr ⟨g, hg⟩, rfl⟩
 
 private theorem w16l_commSub_img_V_le_sp_V₀ (h1 : W16One G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (D : ModDataE H (iSub16 V H)) :
     commSub (D.img V) ≤ D.sp V₀ := by
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
@@ -54,7 +55,7 @@ theorem IsMinFam16.hatT1_sylow (h1 : W16One G) (hS : Std15 G)
     (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H)
     (D : ModDataE H (iSub16 V H)) :
     IsSylowIn 2 (hatT1 D S) (⊤ : Subgroup (VG (D.img H))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker2 : IsPGroup 2 (projG (D.img H)).ker :=
     (isElemAbelian_wHat (G := D.img H) ⊤).isPGroup.to_le
       (ker_projG_le_vHat (V := D.W))
@@ -129,6 +130,7 @@ theorem IsMinFam16.hatT1_le_normalizer (h1 : W16One G) (h5 : W16Five G) (hS : St
     hVnorm (mem_wHat.mpr ⟨v, Submodule.mem_top, rfl⟩)
   exact (Subgroup.normalizer _).mul_mem hvN hgN
 
+omit [Finite G] in
 theorem IsMinFam16.charTwo_hat (D : ModDataE H (iSub16 V H)) :
     CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup (VG (D.img H))) :=
   charTwo_top_VG (V := D.W) (G := D.img H)

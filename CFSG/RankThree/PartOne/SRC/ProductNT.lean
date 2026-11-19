@@ -3,7 +3,7 @@ module
 public import CFSG.RankThree.PartOne.SRC.RankOneAux
 public import CFSG.LinearAlgebra.SL2MinimalFaithfulMatrix
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

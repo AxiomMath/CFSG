@@ -117,8 +117,8 @@ theorem l3_isSylow_unitriangular [Finite K] [CharP K 2] :
 
 theorem l3_isSylow_projUnitriangular [Finite K] [CharP K 2] :
     CFSG.QuasithinUnique.IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 3) K) := inferInstance
-  haveI : Finite (projectiveSL 3 K) := Finite.of_surjective (proj 3 K) (proj_surjective 3 K)
+  have : Finite (Matrix.SpecialLinearGroup (Fin 3) K) := inferInstance
+  have : Finite (projectiveSL 3 K) := Finite.of_surjective (proj 3 K) (proj_surjective 3 K)
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) 2 (by norm_num : 1 ≤ 3)
   rw [← hP]
   exact CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow P

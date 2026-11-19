@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem closure_prod_le_Qof (D : Set G) (d x : G) :
     Subgroup.closure {g : G | ∃ a ∈ rootSet D d, ∃ b ∈ rootSet D d,
       a ≠ b ∧ a * b ∈ Qof D d x ∧ g = a * b} ≤ Qof D d x := by
@@ -19,6 +20,7 @@ private theorem closure_prod_le_Qof (D : Set G) (d x : G) :
   rintro g ⟨a, ha, b, hb, -, hQ, rfl⟩
   exact hQ
 
+omit [Finite G] in
 private theorem closure_prod_le_rootGroup (D : Set G) (d x : G) :
     Subgroup.closure {g : G | ∃ a ∈ rootSet D d, ∃ b ∈ rootSet D d,
       a ≠ b ∧ a * b ∈ Qof D d x ∧ g = a * b} ≤ rootGroup D d := by
@@ -27,6 +29,7 @@ private theorem closure_prod_le_rootGroup (D : Set G) (d x : G) :
   exact (rootGroup D d).mul_mem (rootSet_subset_rootGroup D d ha)
     (rootSet_subset_rootGroup D d hb)
 
+omit [Finite G] in
 private theorem sylow_le_normalizer_closure_prod {d x : G} (hd : d ∈ D)
     {C S : Subgroup G} (hC : GoodCompl D d x C S) :
     S ≤ Subgroup.normalizer (Subgroup.closure {g : G | ∃ a ∈ rootSet D d,
@@ -68,7 +71,6 @@ private theorem rootSet_subset_closure_prod_sup
       intro hs1'
       have heQ : e ∈ Qof D d x := by
         rw [← heq']
-        change w * s ∈ Qof D d x
         rw [hs1', mul_one]
         exact hw.2
       exact not_mem_Qof_of_mem_rootSet h.setup.oddT hx hdx he heQ
@@ -132,6 +134,7 @@ theorem Wof_eq_closure
   rw [← hfs, hs1, mul_one]
   exact hf
 
+omit [Finite G] in
 private theorem compl_inf_normalizer_sylow_le_normalizer_rootSet (h : Hyp G D) {d x : G}
     (hx : x ∈ D) {C S : Subgroup G} (hC : GoodCompl D d x C S) :
     C ⊓ Subgroup.normalizer (S : Set G) ≤ Subgroup.normalizer (rootSet D d) := by
@@ -149,7 +152,7 @@ private theorem compl_inf_normalizer_sylow_le_normalizer_rootSet (h : Hyp G D) {
       · exact isPGroup_two_zpowers_of_mul_self_eq_one hx2
     have hxS : x ∈ S := by rw [← hEq]; exact Subgroup.mem_zpowers x
     exact h.setup.oddT.ne_one hx (by rw [hbot] at hxS; exact Subgroup.mem_bot.mp hxS)
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
   obtain ⟨s, hs1⟩ := exists_ne (1 : ↥S)
   have hsS : (s : G) ∈ S := s.2
   have hs1' : (s : G) ≠ 1 := fun h1 => hs1 (Subtype.ext h1)
@@ -183,6 +186,7 @@ private theorem compl_inf_normalizer_sylow_le_normalizer_rootSet (h : Hyp G D) {
       simpa [mul_assoc] using h2
     rwa [hee] at he0
 
+omit [Finite G] in
 private theorem compl_inf_normalizer_sylow_le_normalizer_rootGroup (h : Hyp G D) {d x : G}
     (hx : x ∈ D) {C S : Subgroup G} (hC : GoodCompl D d x C S) :
     C ⊓ Subgroup.normalizer (S : Set G) ≤ Subgroup.normalizer (rootGroup D d) := by
@@ -203,6 +207,7 @@ private theorem compl_inf_normalizer_sylow_le_normalizer_rootGroup (h : Hyp G D)
     Subgroup.closure (rootSet D d)
   rw [himg]
 
+omit [Finite G] in
 private theorem compl_inf_normalizer_sylow_le_normalizer_Qof {d x : G} {C S : Subgroup G}
     (hC : GoodCompl D d x C S) :
     C ⊓ Subgroup.normalizer (S : Set G) ≤ Subgroup.normalizer (Qof D d x) := by
@@ -210,6 +215,7 @@ private theorem compl_inf_normalizer_sylow_le_normalizer_Qof {d x : G} {C S : Su
   intro b hb q hq
   exact conj_mem_Qof d x (hC.le hb.1) hq
 
+omit [Finite G] in
 private theorem compl_inf_normalizer_sylow_le_normalizer_Wof (h : Hyp G D) {d x : G}
     (hx : x ∈ D) {C S : Subgroup G} (hC : GoodCompl D d x C S) :
     C ⊓ Subgroup.normalizer (S : Set G) ≤ Subgroup.normalizer (Wof D d x) := by
@@ -228,6 +234,7 @@ private theorem compl_inf_normalizer_sylow_le_normalizer_Wof (h : Hyp G D) {d x 
     rw [Subgroup.mem_inf] at hw ⊢
     exact ⟨(hbE w).mpr hw.1, (hbQ w).mpr hw.2⟩
 
+omit [Finite G] in
 private theorem conj_prod_mem_normalizer (h : Hyp G D) {d x : G} (hd : d ∈ D) {t a b : G}
     (htD : t ∈ D) (htX : t ∈ rootGen D d x) (ht2 : t * t = 1) (ha : a ∈ rootSet D d)
     (hb : b ∈ rootSet D d) (hab : a ≠ b) (hQ : a * b ∈ Qof D d x) :
@@ -275,6 +282,7 @@ private theorem conj_Wof_le_normalizer
   simpa [MulAut.conj_apply, mul_assoc] using
     conj_prod_mem_normalizer h hd htD htX ht2 ha hb hab hQ
 
+omit [Finite G] in
 theorem GoodCompl.exists_sylow_map_eq (h : Hyp G D) {d x : G} {C S : Subgroup G}
     (hC : GoodCompl D d x C S) :
     ∃ SC : Sylow 2 ↥C, Subgroup.map C.subtype (SC : Subgroup ↥C) = S := by
@@ -302,11 +310,11 @@ theorem GoodCompl.exists_sylow_map_eq (h : Hyp G D) {d x : G} {C S : Subgroup G}
 private theorem exists_distinct_sylow_compl (h : Hyp G D) {d x : G} (hpx : PSL2Pair D d x)
     {C S : Subgroup G} (hC : GoodCompl D d x C S) {g : G} (hg : g ∈ C)
     (hgS : conjSubgroup g S ≠ S) :
-    ∃ (SC SCg : Sylow 2 ↥C) (n : ℕ) (eC : ↥C ≃* PSL2Model n),
+    ∃ (SC SCg : Sylow 2 ↥C) (n : ℕ) (_eC : ↥C ≃* PSL2Model n),
       2 ≤ n ∧ SC ≠ SCg ∧
         Subgroup.map C.subtype (SC : Subgroup ↥C) = S ∧
         Subgroup.map C.subtype (SCg : Subgroup ↥C) = conjSubgroup g S := by
-  obtain ⟨n, hn, ⟨eC⟩⟩ := exists_mulEquiv_PSL2Model_of_compl hpx hC.le hC.inf hC.sup
+  obtain ⟨n, hn, ⟨_eC⟩⟩ := exists_mulEquiv_PSL2Model_of_compl hpx hC.le hC.inf hC.sup
   obtain ⟨SC, hmapSC⟩ := hC.exists_sylow_map_eq h
   let gC : ↥C := ⟨g, hg⟩
   let SCg : Sylow 2 ↥C := Sylow.mapSurjective (f := (MulAut.conj gC).toMonoidHom)
@@ -330,7 +338,7 @@ private theorem exists_distinct_sylow_compl (h : Hyp G D) {d x : G} (hpx : PSL2P
       Subgroup.map C.subtype (P : Subgroup ↥C)) hEq
     rw [hmapSC, hmapSCg] at h
     exact h.symm
-  exact ⟨SC, SCg, n, eC, hn, hne, hmapSC, hmapSCg⟩
+  exact ⟨SC, SCg, n, _eC, hn, hne, hmapSC, hmapSCg⟩
 
 private theorem exists_swap_involution_compl (h : Hyp G D) {d x : G} (hx : x ∈ D)
     (hpx : PSL2Pair D d x) {C S : Subgroup G} (hC : GoodCompl D d x C S) {g : G}

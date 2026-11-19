@@ -58,7 +58,7 @@ private lemma injective_piSylowToProd (S : Sylow 2 (ι → A5)) :
     congrArg (fun f => (f i : A5)) h
 
 private lemma isPGroup_piSylow (S : Sylow 2 (ι → A5)) : IsPGroup 2 (piSylow S) :=
-  (IsPGroup.pi (fun i => (coordSylow S i).isPGroup')).of_injective
+  (IsPGroup.pi (fun i => (coordSylow S i).isPGroup)).of_injective
     (piSylowToProd S) (injective_piSylowToProd S)
 
 private lemma piSylow_eq (S : Sylow 2 (ι → A5)) :

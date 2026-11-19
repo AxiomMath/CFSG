@@ -43,7 +43,7 @@ theorem eq_bot_of_normal_isPGroup_sym_five (T : Subgroup (Equiv.Perm (Fin 5))) (
 theorem isShapeZ2Z4StarExtra_pCoreOf {H : Type} [Group H] {K : Subgroup H} (h : IsShapeK ↥K) :
     IsShapeZ2Z4StarExtra ↥(CFSG.Open.pCoreOf 2 K) := by
   obtain ⟨N, hN, hNp, hNcard, ⟨φ⟩, hcen, Q, hQplus, hQsup, hQcard⟩ := h
-  haveI := hN
+  have := hN
   have hpCore : CFSG.pCore 2 ↥K = N := by
     apply le_antisymm
     · let π : ↥K →* Equiv.Perm (Fin 5) := φ.toMonoidHom.comp (QuotientGroup.mk' N)

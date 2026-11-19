@@ -81,7 +81,7 @@ theorem comm_W_t_mul {w₁ w₂ : G} (h₁ : w₁ ∈ ctxWN t tau x₁ x₂ rho)
 theorem comm_W_t_mem_Qm {w : G} (hw : w ∈ ctxWN t tau x₁ x₂ rho) :
     w * t * w⁻¹ * t⁻¹ ∈ ctxQm t tau x₁ x₂ rho := by
   obtain ⟨_, hcQ⟩ := hz.mem_ctxWN_iff.mp hw
-  refine ⟨hcQ, (hz.nGood.mem_cent_ttau_iff hz.tau_inv_Q hcQ).mpr ?_⟩
+  refine ⟨hcQ, (CFSG.OddStandard.SmallF3.HarrisU33.Z4Good.mem_cent_ttau_iff hz.tau_inv_Q hcQ).mpr ?_⟩
   have h1 : (w * t * w⁻¹ * t⁻¹) * (t * (w * t * w⁻¹ * t⁻¹) * t) = 1 := by
     rw [show (w * t * w⁻¹ * t⁻¹) * (t * (w * t * w⁻¹ * t⁻¹) * t) =
       (w * t * w⁻¹) * (w * t * w⁻¹) by group]

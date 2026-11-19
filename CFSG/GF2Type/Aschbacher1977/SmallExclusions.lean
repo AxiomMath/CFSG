@@ -107,7 +107,7 @@ theorem not_lieModel_twistedB2_0_2_3
   apply false_of_two_lt_card_inf_centralizer S
   intro P
   have h8 : Nat.card ↥((P : Subgroup G) ⊓ centralizer (P : Set G)) = 8 :=
-    CFSG.GH74.KGroups.Sz8.bender_card h (P : Subgroup G) P.isPGroup' P.not_dvd_index
+    CFSG.GH74.KGroups.Sz8.bender_card h (P : Subgroup G) P.isPGroup P.not_dvd_index
   rw [h8]
   norm_num
 

@@ -29,7 +29,7 @@ theorem svRankG2der_holds :
   let H := LargeEvenChevH LargeEvenCartanG2 K true
   let R := LargeEvenCenterQuot H
   obtain ⟨e⟩ := TableBExcSmallRest.nonempty_g2der_equiv_su3 K hK
-  haveI : Finite R := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite R := Finite.of_equiv _ e.symm.toEquiv
   have hZ : Subgroup.center R = ⊥ :=
     TableBExcSmallRest.center_eq_bot_of_mulEquiv e TableBExcSmallRest.center_su3_eq_bot
   have : Subsingleton Kˣ := CFSG.Monster.Existence.Compat.subsingleton_units_of_card_two hK

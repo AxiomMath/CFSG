@@ -32,7 +32,7 @@ theorem sec126_conjugate_zpowers (x g : G) :
     CFSG.conjugate (zpowers x) g = zpowers (g⁻¹ * x * g) := by
   unfold CFSG.conjugate
   rw [MonoidHom.map_zpowers]
-  simp [MulAut.conj_apply]
+  simp
 
 theorem sec126_conjugate_inv_cancel (A : Subgroup G) (g : G) :
     CFSG.conjugate (CFSG.conjugate A g) g⁻¹ = A := by

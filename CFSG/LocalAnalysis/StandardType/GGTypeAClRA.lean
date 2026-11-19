@@ -31,7 +31,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Solomon.Coord
       ds.length ≤ 2
 
 @[expose] def GGRAPrimaryCount : Prop :=
-  ∀ (p N : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (K : Type) [Field K] [Finite K]
+  ∀ (p N : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2) (K : Type) [Field K] [Finite K]
     (X : Type) [Group X] [Finite X] (A : Subgroup (MulAut X)) (σ : MulAut X) (J : Subgroup X)
     (θ : X ⧸ Subgroup.center X ≃* projectiveSL N K) (g : GL (Fin N) K) (ε : K),
     (p : K) ≠ 0 →
@@ -74,7 +74,7 @@ theorem tara_le_twoLocalRank_of_torusLift {X R : Type} [Group X] [Finite X] [Gro
 private theorem tara_nonsplit_rank_bound {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Type}
     [Group X] [Finite X] {A Ab : Subgroup (MulAut X)} {labX : LargeEvenLabel} {b : ℕ}
     (hperf : commutator X = ⊤) (hAb : Ab ≤ A) (hrank : GGTPNRank p X Ab)
-    (hΛX : LargeEvenInLambda2 labX) (htag : labX.tag = .A) (hpn : p ∣ 2 ^ labX.n - 1)
+    (_hΛX : LargeEvenInLambda2 labX) (htag : labX.tag = .A) (hpn : p ∣ 2 ^ labX.n - 1)
     (hNb : p * b = labX.rank + 1) (hcardA : Nat.card A ≤ p ^ (b + 1))
     (hhX : GGHasLabel labX (X ⧸ Subgroup.center X)) : b ≤ 2 := by
   by_contra hb
@@ -88,7 +88,7 @@ private theorem tara_nonsplit_rank_bound {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hAll := largeEvenLabelAll_torusLift_typeA (p := p) hp htag hr4 hpn
   have hRaw := hAll (fun R _ _ _ => Nonempty (X ⧸ Subgroup.center X ≃* R)) hhX
   obtain ⟨R, hR, I, F, ⟨⟨e⟩, hT⟩⟩ := largeEvenRawDatum_exists hRaw
-  letI := hR
+  let := hR
   have hlift : labX.rank + 1 - 2 ≤ LargeEvenTwoLocalRank p X :=
     tara_le_twoLocalRank_of_torusLift hp hT e hperf
   obtain ⟨m, hcardAb, hrankle⟩ := hrank
@@ -233,7 +233,7 @@ private theorem tara_c_eq_one {N : ℕ} {K : Type} [Field K] [Finite K]
         tara_map_primaryComponent_le hB
   have hfinV : Module.finrank K (primaryComponent (glA g : Module.End K (Fin N → K)) (X - C ε)) =
       primaryMultiplicity (glA g : Module.End K (Fin N → K)) (X - C ε) := by
-    haveI : Fact (Irreducible (X - C ε : K[X])) := ⟨irreducible_X_sub_C ε⟩
+    have : Fact (Irreducible (X - C ε : K[X])) := ⟨irreducible_X_sub_C ε⟩
     rw [finrank_primaryComponent, show (X - C ε : K[X]).natDegree = 1 by simp, one_mul]
   have hfinW : Module.finrank K (primaryComponent (glA g : Module.End K (Fin N → K)) (X - C ε)) ≤
       Module.finrank K (primaryComponent (glA g : Module.End K (Fin N → K))
@@ -280,7 +280,7 @@ private theorem tara_c_eq_one {N : ℕ} {K : Type} [Field K] [Finite K]
       (X - C ((c : K)⁻¹ * ε)) = 1 := huniq_mult _ hmemW hne
   have hfinW1 : Module.finrank K (primaryComponent (glA g : Module.End K (Fin N → K)) (X - C ((c :
     K)⁻¹ * ε))) = 1 := by
-    haveI : Fact (Irreducible (X - C ((c : K)⁻¹ * ε) : K[X])) := ⟨irreducible_X_sub_C _⟩
+    have : Fact (Irreducible (X - C ((c : K)⁻¹ * ε) : K[X])) := ⟨irreducible_X_sub_C _⟩
     rw [finrank_primaryComponent,
       show (X - C ((c : K)⁻¹ * ε) : K[X]).natDegree = 1 from Polynomial.natDegree_X_sub_C _,
       one_mul]
@@ -310,7 +310,7 @@ private theorem tara_exists_sl_section {N : ℕ} {K : Type} [Field K] [Finite K]
   exact ⟨φ, hφ⟩
 
 private theorem tara_section_centralizes {N : ℕ} {K : Type} [Field K] [Finite K]
-    {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut X)}
+    {X : Type} [Group X] [Finite X] {_A : Subgroup (MulAut X)}
     {θ : X ⧸ Subgroup.center X ≃* projectiveSL N K} (hN : 5 ≤ N)
     {φ : SpecialLinearGroup (Fin N) K →* X}
     (hφ : ∀ g, θ ((φ g : X) : X ⧸ Subgroup.center X) = proj N K g)
@@ -445,12 +445,12 @@ private theorem tara_split_structure_rankTwo {p N : ℕ} {K : Type} [Field K] [F
     squarefree_minpoly_glA hpk (c := 1) (by simpa using hg)
   obtain ⟨h, ε, hh, hgood, hform, hε0, hdeg, hdegS, -, hK4, -, hTeq⟩ :=
     raLin_split_factor hp hp2 hpk hpq hg hT
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨hEcard, hm2, ⟨eT⟩⟩ := raLin_split_centralQuot hpk hg hh hgood hdeg hTeq
   have hmult1 := raLin_split_mult_one hp hpq hsq hTonly hh hgood hTeq hdegS hK4
   have hN := raLin_split_finrank hsq hh hdeg hdegS hmult1
   have hcard2 := raLin_split_card_ge_two hsq hh hform hε0 hgne
-  haveI hEfin : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have hEfin : Finite (AdjoinRoot h) := Module.finite_of_finite K
   refine ⟨primaryMultiplicity (glA g : Module.End K (Fin N → K)) h,
     List.replicate ((primaryFactors (glA g : Module.End K (Fin N → K))).card - 1) 1,
     AdjoinRoot h, inferInstance, Fintype.ofFinite (AdjoinRoot h), hEcard, hm2, ?_, ?_, ?_, ?_,
@@ -483,7 +483,7 @@ private theorem tara_primaryCount_of_core : GGRAPrimaryCount := by
     have hcent : ∀ a ∈ A, a (φ τ) = φ τ := by
       intro a ha
       obtain ⟨B, hB, hBg⟩ := hT8 a ha
-      exact tara_section_centralizes (N := N) (K := K) (X := X) (A := A) hN5 hφ hB
+      exact tara_section_centralizes (N := N) (K := K) (X := X) (_A := A) hN5 hφ hB
         (hUcomm τ τ.2 B hBg)
     have hp1 : (φ τ) ^ p = 1 := by rw [← map_pow, hUpow τ τ.2, map_one]
     exact hself (φ τ) hcent hp1
@@ -616,8 +616,7 @@ private theorem tara_labelIso_A_A {r1 n1 r2 n2 : ℕ}
 
 private theorem tara_rankTwo_of_primaryCount
     (hC : GGRAPrimaryCount) : GGRARankTwo := by
-  intro p hp hp2 X _ _ A σ J labX hloc honly hk hself hRA htag hm
-  intro a ds hsum hne hlen hmem hbr
+  intro p hp hp2 X _ _ A σ J labX hloc honly hk hself hRA htag hm a ds hsum hne hlen hmem hbr
   obtain ⟨tX, rX, nX⟩ := labX
   dsimp only at htag hRA hm hsum hmem hbr
   by_cases hp3 : p = 3
@@ -642,15 +641,15 @@ private theorem tara_rankTwo_of_primaryCount
       · exact absurd (hbad.symm.trans htag) (by simp)
     obtain ⟨K, hFld, hFin, hKcard, θ, hAll, g, ⟨u, hgu⟩, hgl, hcomm⟩ :=
       raLin_model hp hloc htag hm
-    letI : Field K := hFld
-    haveI : Finite K := hFin
+    let : Field K := hFld
+    have : Finite K := hFin
     dsimp only at hKcard θ hAll g hgu hgl hcomm
     obtain ⟨hp2', hpk, hn1, hpq⟩ := raLin_arith (K := K) hp hKcard hpq2
     have hn2 := raLin_two_le_n hp hn1 hpq2
     have hN5 : 5 ≤ rX + 1 := by
       have hle : p ≤ rX + 1 := Nat.le_of_dvd (by omega) hpN
       omega
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hJcomp : IsComponentOf J (ggAutFixedSubgroup σ) := hloc.2.2.2.1
     have hσbar : ggInducedAut θ σ = conjAut (rX + 1) K g := by
       ext x
@@ -678,7 +677,7 @@ private theorem tara_rankTwo_of_primaryCount
         exact huniq Q hQ hpQ
       obtain ⟨h, ε, hh, hgood, hform, hε0, hdeg, hdegS, hEcard, hK4, hm2, hTeq⟩ :=
         raLin_split_factor (N := rX + 1) hp hp2 hpk hpq hg' hJbarOpen'
-      haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+      have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
       have hmult1 := raLin_split_mult_one (N := rX + 1) hp hpq
         (squarefree_minpoly_glA hpk (c := 1) (by simpa using hg')) huniq' hh hgood hTeq hdegS hK4
       have hgood' : (Polynomial.X - Polynomial.C ε) ∈
@@ -736,8 +735,8 @@ private theorem tara_rankTwo_of_primaryCount
       obtain ⟨a0, ds0, E, hEfld, hEfin, hEcardE, ha0, hN0, hds0ne, hds0le, hds0one, heT⟩ :=
         tara_split_structure_rankTwo (N := rX + 1) hp hp2 hpk hpq hg' hgne' hJbarOpen' huniq'
           hcard3
-      letI : Field E := hEfld
-      haveI : Fintype E := hEfin
+      let : Field E := hEfld
+      have : Fintype E := hEfin
       have hEcardE' : Nat.card E = 2 ^ nX := by rw [hEcardE, hKcard]
       obtain ⟨eJZ⟩ := hequiv
       obtain ⟨eT⟩ := heT

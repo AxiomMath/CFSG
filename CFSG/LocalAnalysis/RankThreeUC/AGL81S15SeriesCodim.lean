@@ -15,7 +15,7 @@ section Step
 variable {K : Type*} [Group K] {V : Type u} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {ρ : Representation (ZMod 2) K V}
 
-theorem finrank_inf_fixSub_le (A : Subgroup K) {U U' : Subrepresentation ρ} (h : U ≤ U') :
+theorem finrank_inf_fixSub_le (A : Subgroup K) {U U' : Subrepresentation ρ} (_h : U ≤ U') :
     finrank (ZMod 2) ↥(U'.toSubmodule ⊓ fixSub ρ A) ≤
       finrank (ZMod 2) ↥(U.toSubmodule ⊓ fixSub ρ A) +
         finrank (ZMod 2) ↥(fixSub (factorRep U U') A) := by

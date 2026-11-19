@@ -90,8 +90,7 @@ theorem enumOK_sound {gens : List ℕ} {E : Array ℕ} {par : Array (ℕ × ℕ)
     rw [hgs]
     exact list_toArray_getElem! hj
   unfold enumOK at h
-  simp only [Bool.and_eq_true, List.all_eq_true, Array.all_eq_true, decide_eq_true_eq,
-    beq_iff_eq, bne_iff_ne, ne_eq] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, Array.all_eq_true, beq_iff_eq, bne_iff_ne, ne_eq] at h
   obtain ⟨⟨⟨⟨⟨⟨hne, hone⟩, _⟩, hpar⟩, hset⟩, hclosed⟩, hinv⟩ := h
   have hpar_ne : ∀ i, i ≠ 0 → i < E.size →
       par[i]!.1 < i ∧ par[i]!.2 < gens.length ∧

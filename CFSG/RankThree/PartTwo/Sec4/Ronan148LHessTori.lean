@@ -14,6 +14,7 @@ variable {X : Type} [Group X] [Finite X]
 
 section General
 
+omit [Finite X] in
 theorem map_pCoreOf_mulAut (p : ℕ) (φ : MulAut X) (H : Subgroup X) :
     (pCoreOf p H).map φ.toMonoidHom = pCoreOf p (H.map φ.toMonoidHom) := by
   have hpc : (CFSG.pCore p ↥H).map (φ.subgroupMap H).toMonoidHom =
@@ -22,6 +23,7 @@ theorem map_pCoreOf_mulAut (p : ℕ) (φ : MulAut X) (H : Subgroup X) :
   erw [← hpc, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite X] in
 theorem map_conj_centralizer_singleton (n b : X) :
     (Subgroup.centralizer ({b} : Set X)).map (MulAut.conj n).toMonoidHom =
       Subgroup.centralizer ({n * b * n⁻¹} : Set X) := by
@@ -38,17 +40,20 @@ theorem map_conj_centralizer_singleton (n b : X) :
       _ = n⁻¹ * (n * b * n⁻¹ * g) * n := by rw [h]
       _ = b * (n⁻¹ * g * n) := by group
 
+omit [Finite X] in
 theorem centralizer_singleton_eq_of_zpowers_eq {y y' : X}
     (h : Subgroup.zpowers y = Subgroup.zpowers y') :
     Subgroup.centralizer ({y} : Set X) = Subgroup.centralizer ({y'} : Set X) := by
   rw [← Subgroup.centralizer_closure, ← Subgroup.zpowers_eq_closure, h,
     Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite X] in
 theorem map_conj_hessU (n b : X) :
     (pCoreOf 2 (Subgroup.centralizer ({b} : Set X))).map (MulAut.conj n).toMonoidHom =
       pCoreOf 2 (Subgroup.centralizer ({n * b * n⁻¹} : Set X)) := by
   rw [map_pCoreOf_mulAut, map_conj_centralizer_singleton]
 
+omit [Finite X] in
 theorem map_conj_hessU_of_map_zpowers {n x x' : X}
     (h : (Subgroup.zpowers x).map (MulAut.conj n).toMonoidHom = Subgroup.zpowers x') :
     (pCoreOf 2 (Subgroup.centralizer ({x} : Set X))).map (MulAut.conj n).toMonoidHom =
@@ -84,7 +89,7 @@ theorem hessU_one_eq_bot : pCoreOf 2 (Subgroup.centralizer ({1} : Set X)) = ⊥ 
     intro h
     exact ⟨hmem g h, fun hh => by simpa [mul_assoc] using hmem g⁻¹ _ hh⟩
   obtain ⟨b, hbE, hb1, hNb⟩ := hessU_exists he hp2 hiso hEe hE9 htr hN2 hEN
-  obtain ⟨c, hcE, hcb⟩ := exists_mem_not_mem_zpowers_of_hessian he hp2 hiso hEe hE9 htr hbE
+  obtain ⟨c, hcE, hcb⟩ := exists_mem_not_mem_zpowers_of_hessian hEe hE9 hbE
   have hc1 : c ≠ 1 := fun h => hcb (h ▸ Subgroup.one_mem _)
   obtain ⟨w, -, hwc⟩ := htr b hbE hb1 c hcE hc1
   have hNc : N ≤ Subgroup.centralizer ({c} : Set X) := by
@@ -94,7 +99,7 @@ theorem hessU_one_eq_bot : pCoreOf 2 (Subgroup.centralizer ({1} : Set X)) = ⊥ 
   rw [eq_bot_iff]
   intro u hu
   rw [Subgroup.mem_bot]
-  refine hessU_fixed he hp2 hiso hEe hE9 htr hbE hb1 hcE hcb u (hNb hu) ?_
+  refine hessU_fixed he hiso hEe hE9 htr hbE hb1 hcE hcb u (hNb hu) ?_
   have huc := Subgroup.mem_centralizer_singleton_iff.mp (hNc hu)
   calc c * u * c⁻¹ = u * c * c⁻¹ := by rw [huc]
     _ = u := by group

@@ -213,7 +213,7 @@ theorem t230_u_fixes_ab_half (s : ℕ) :
           uMat ![-1 + 2 * (2 : ℤ) ^ s, 0, 0]
             (-2 * Type120.FV (s + 4) + 2 * (2 : ℤ) ^ s) from rfl, uMat_mulVec]
       funext r
-      fin_cases r <;> simp <;> ring
+      fin_cases r <;> simp; ring
     rw [hmul, Torus.ofInt_eq_ofInt_iff]
     intro r
     fin_cases r
@@ -288,8 +288,7 @@ theorem t230_uv_preimage (s : ℕ) (hs : 1 ≤ s) :
   obtain ⟨hi, hF, -, -⟩ := Type230.data s
   intro r
   fin_cases r <;>
-    simp only [Pi.sub_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Pi.sub_apply]
   · show ((2 : ℤ) ^ s * (-Type120.iV (s + 4)) +
         (2 : ℤ) ^ (s + 2) *
           (2 * (2 : ℤ) ^ s + Type120.FV (s + 4) * Type120.iV (s + 4)) -
@@ -370,8 +369,8 @@ theorem t230_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (s + 3) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (s + 2) * ab ^ 2 ^ (s + 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (s + 4) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -630,8 +629,8 @@ theorem t230_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

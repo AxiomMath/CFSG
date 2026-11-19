@@ -116,7 +116,7 @@ private theorem BigEndHyp.psi_mem_P_imp_spForm_eq_zero [Finite G] (h : BigEndHyp
     (hw : ((Additive.toMul (ψ w) : ↥(wOf V H)) : G) ∈ P) : CaseM.spForm a w = 0 := by
   have hc : MinCex M V Q P H := h.setup.mc.toMinCex
   have hVH : V ≤ H := hc.V_le_H
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hvX : v ∈ xOf V H := le_xOf (V_mem_omegaOf V H) hvV
   have hxmem : xToXbar hVH ⟨v, hvX⟩ ∈ Vy V H :=
     Subgroup.mem_subgroupOf.mpr
@@ -221,7 +221,7 @@ private theorem BigEndHyp.exists_mem_xOf_mul_cPbar [Finite G] (h : BigEndHyp M V
   have hcH : cPbar V H P ≤ H := inf_le_left.trans hc.PleH
   let Xh : Subgroup ↥H := (xOf V H).subgroupOf H
   let Ch : Subgroup ↥H := (cPbar V H P).subgroupOf H
-  haveI : Xh.Normal :=
+  have : Xh.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (xOf_le_H hVH)).2 (H_le_normalizer_xOf V H)
   have hsup : Xh ⊔ Ch = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (xOf_le_H hVH) hcH, h.concl.2.1, Subgroup.subgroupOf_self]
@@ -437,7 +437,7 @@ private theorem BigEndHyp.bigPAct_mem_T_of_mem_sup [Finite G] (h : BigEndHyp M V
   have hPc : P ≤ Subgroup.centralizer (V : Set G) := by
     rw [hc.hP]
     exact inf_le_right
-  haveI : Vp.Normal :=
+  have : Vp.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hc.V_le_P).2
       (hPc.trans (Subgroup.centralizer_le_normalizer (V : Set G)))
   have hsup : Vp ⊔ Ep = (V ⊔ Eof V H P).subgroupOf P := by

@@ -19,7 +19,7 @@ theorem ka6syl_sylow_conj {G : Type*} [Group G] [Finite G] {K P Q : Subgroup G}
   refine ⟨(SP : Subgroup K).map K.subtype, ?_, ?_, ?_, k, k.2, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact SP.isPGroup'.map _
+  · exact SP.isPGroup.map _
   · intro x hx
     exact ⟨⟨x, hPK hx⟩, hSP hx, rfl⟩
   · intro q hq

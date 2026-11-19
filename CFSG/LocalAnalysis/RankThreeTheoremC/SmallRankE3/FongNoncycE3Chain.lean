@@ -34,13 +34,13 @@ theorem n4_false_of_kgData3_nc3 (hzj : CFSG.LocalAnalysis.RankFourTheoremC.KFact
     (h241 : KFact2401ThreeOmega) {A : Type} [Group A] [Finite A] {p : ℕ}
     {H D S B L M : Subgroup A} {z : A} (d3 : KGC.KGData3 p H D S B L M z)
     (hG : KGC.KGStrongEmb p M z) (hH3 : CFSG.Open.pRank 3 H ≤ 3) : False := by
-  haveI : (D.subgroupOf H).Normal := d3.toData.normal_subgroupOf
+  have : (D.subgroupOf H).Normal := d3.toData.normal_subgroupOf
   have hchev := d3.chev_or_alt hzj
   have hc := KGQ.kgroup_step4 d3.toData.cfg (d3.toData.strong_img hG) hAutO hAutE h2024 h2401
     hAlt6 hchev
   by_cases hbot : KGC.img H D S ⊓ KGC.img H D L = ⊥
   · by_cases hcyc : IsCyclic ↥(KGC.img H D S)
-    · haveI := hcyc
+    · have := hcyc
       exact KGSix.false_of_data hT h241 d3 hG hc hbot
     · exact h6n _ p _ _ _ _ _ d3.toData.cfg hc hbot hcyc
         (pRank_three_img_le L d3.toData.D_two hH3)
@@ -79,7 +79,7 @@ theorem n4_false_of_centralizing_nc3
     (hb1 : b ≠ 1) (hbL : ∀ l ∈ L, b * l * b⁻¹ * l⁻¹ ∈ D)
     (hbS : ∀ s ∈ S, b * s * b⁻¹ * s⁻¹ ∈ D)
     (hγ : CFSG.HallHigman.IsPSolvable p ↥(M ⊓ centralizer ({b} : Set G))) : False := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hbH : b ∈ H := d.B_le_H hbB
   obtain ⟨hBc, hBp⟩ := SU1.isElemAbelian_iff.mp d.B_elem
   have hbo : orderOf b = p := orderOf_eq_prime (hBp b hbB) hb1
@@ -112,7 +112,7 @@ theorem n4_false_of_centralizing_nc3
       CFSG.Open.GLBStronglyEmbedded f (M.subgroupOf Gs) := by
     intro f _ _ _ Y hYM hzY hsec _
     exfalso
-    haveI hDn : (D.subgroupOf Gs).Normal :=
+    have hDn : (D.subgroupOf Gs).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hDGs).mpr (hGH.trans d.H_le_D)
     have hD2 : IsPGroup 2 (D.subgroupOf Gs) :=
       d.D_two.of_equiv (Subgroup.subgroupOfEquivOfLe hDGs).symm
@@ -178,13 +178,13 @@ theorem n5_false_of_kgData3_E3_nc3
       ¬ ((∀ l ∈ L, b * l * b⁻¹ * l⁻¹ ∈ D) ∧ (∀ s ∈ S, b * s * b⁻¹ * s⁻¹ ∈ D)))
     (hcent : ∀ b ∈ B, b ∉ zpowers z →
       CFSG.HallHigman.IsPSolvable p ↥(M ⊓ centralizer ({b} : Set G))) : False := by
-  haveI : Fact p.Prime := ⟨d3.toData.prime⟩
+  have : Fact p.Prime := ⟨d3.toData.prime⟩
   have hnb := n5_hnb d3 hfield
   have hchev := d3.chev_or_alt hzj
   have hc := n5_kgroup_step4 d3.toData.cfg hnb hAutO hchev
   by_cases hbot : KGC.img H D S ⊓ KGC.img H D L = ⊥
   · by_cases hcyc : IsCyclic ↥(KGC.img H D S)
-    · haveI := hcyc
+    · have := hcyc
       exact n5_false_of_cyclic hT d3 hc hbot hnb
     · exact h6n _ p _ _ _ _ _ d3.toData.cfg hc hbot hcyc (hrk 3 Nat.prime_three (by norm_num))
   · by_cases hsyl : CFSG.ABGLocalTools.IsSylowOf 2
@@ -220,7 +220,7 @@ theorem slotP614GammaFieldAutE3U0_of_facts_E3_nc3 (hβ : NoTwoComponentsGen)
     SlotP614GammaFieldAutE3U0 := by
   intro G _ _ hS hD1 hU0 p hp5 P M hsit x z hx hz H S L hopt hO h2 hcon d hfield
   have d3 := d.toKGData3
-  haveI : ((rankThreePrimeCore p H).subgroupOf H).Normal := d3.toData.normal_subgroupOf
+  have : ((rankThreePrimeCore p H).subgroupOf H).Normal := d3.toData.normal_subgroupOf
   exact n5_false_of_kgData3_E3_nc3 hzj hAutO h2715 h131 h282 h6n hT hPara (by omega) d3
     (n5_pRank_img_le_three hS L hopt.ext.pair.isTwoLocal h2) hfield
     (fun b hbB hbZ => n4_pSolvable_centralizer_of_gammaCent hγc hβ hS hsit hp5 hcon hx hz hbB hbZ)

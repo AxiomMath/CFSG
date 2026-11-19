@@ -52,8 +52,8 @@ theorem orderOf_xPar_zero_mul_five_E6 {K : Type} [Field K] [Finite K] (hK : Nat.
     Nat.prime_three le_rfl (by rw [hK, pow_one])
   refine (isExtraGood_xPar_single_mul_E6 hK 1 (-1)).orderOf_eq_three fun h1 => ?_
   let b : Fin Tag.E6.rank → Kˣ := fun i => if i = ⟨0, by decide⟩ then -1 else 1
-  have hb0 : b ⟨0, by decide⟩ = -1 := if_pos rfl
-  have hb5 : b ⟨5, by decide⟩ = 1 := if_neg (by decide)
+  have hb0 : b ⟨0, by decide⟩ = -1 := ite_eq_left rfl
+  have hb5 : b ⟨5, by decide⟩ = 1 := ite_eq_right (by decide)
   have h := congrArg (rootDiagAut Tag.E6 K b) h1
   rw [map_mul, map_one, rootDiagAut_xPar b (isRoot_single Tag.E6 ⟨0, by decide⟩),
     rootDiagAut_xPar b (isRoot_single Tag.E6 ⟨5, by decide⟩), rootChar_single_eq,

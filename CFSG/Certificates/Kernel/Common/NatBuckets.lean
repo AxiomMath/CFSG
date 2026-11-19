@@ -37,8 +37,8 @@ theorem memB_insB {B : List (List Nat)} (hB : B.length = 37) (y z : Nat) :
   have hy : Nat.mod y 37 < B.length := by rw [hB]; exact Nat.mod_lt _ (by decide)
   rw [getD_set' B _ _ hy]
   by_cases hm : Nat.mod y 37 = Nat.mod z 37
-  · rw [if_pos hm, memN, List.any_cons, ← memN, hm]
-  · rw [if_neg hm]
+  · rw [ite_eq_left hm, memN, List.any_cons, ← memN, hm]
+  · rw [ite_eq_right hm]
     have : Nat.beq z y = false := by
       cases h : Nat.beq z y
       · rfl
@@ -48,7 +48,7 @@ theorem memB_insB {B : List (List Nat)} (hB : B.length = 37) (y z : Nat) :
 theorem memB_replicate (z : Nat) : memB (List.replicate 37 []) z = false := by
   unfold memB
   have : Nat.mod z 37 < 37 := Nat.mod_lt _ (by decide)
-  rw [List.getD_eq_getElem?_getD, List.getElem?_replicate, if_pos this]
+  rw [List.getD_eq_getElem?_getD, List.getElem?_replicate, ite_eq_left this]
   rfl
 
 theorem memB_bucketsOf_aux : ∀ (l : List Nat) (B : List (List Nat)), B.length = 37 →

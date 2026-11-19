@@ -72,6 +72,7 @@ theorem isUnA_facts {m q : ℕ} {i : TauCeti.CFSGIndex} (h : isUnA m q i) :
   · have := isLnA_facts h
     omega
 
+omit [Finite G] in
 theorem type167J_of_type172 {p : ℕ} {L K J K₁ KE : Subgroup G} (h : Type172 p L K J K₁ KE) : Type167J p K₁ := by
   rcases h with ⟨hp3, n, hn, -, -, -, hK₁, ⟨i, hi, -⟩⟩ | ⟨hp3, n, hn, -, -, -, hK₁, ⟨i, hi, -⟩⟩ |
     ⟨n, k, hn, hk, hpk, -, -, -, hK₁, ⟨i, hi, -⟩⟩

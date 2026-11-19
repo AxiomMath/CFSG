@@ -110,7 +110,7 @@ theorem pow_three_eq_one (a : Multiplicative (Fin Tag.E6.rank → ZMod 3)) : a ^
 theorem isElemAbelian_vAd (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : IsElemAbelian 3 (vAd (K := K) ζ hζ) :=
   isElemAbelian_range (fun a b => mul_comm a b) pow_three_eq_one (diag3 ζ hζ)
 
-theorem hypIncl_injective : Function.Injective hypIncl := fun x y h =>
+theorem hypIncl_injective : Function.Injective hypIncl := fun _x _y h =>
   Multiplicative.toAdd.injective (Subtype.ext (Multiplicative.toAdd.injective h))
 
 theorem pow_three_eq_one_hyp (a : Multiplicative NoOffRest.hypE6) : a ^ 3 = 1 :=
@@ -133,7 +133,7 @@ variable {K : Type} [Field K]
 
 theorem rootDiagAutHom_mem_hatAut_range (a : Fin Tag.E6.rank → Kˣ) :
     rootDiagAutHom .E6 K a ∈ (hatAut .E6 K).range :=
-  ⟨⟨rootDiagUnit .E6 a, rootDiagUnit_mem_hatGroup a⟩, MulEquiv.ext fun h => Subtype.ext rfl⟩
+  ⟨⟨rootDiagUnit .E6 a, rootDiagUnit_mem_hatGroup a⟩, MulEquiv.ext fun _h => Subtype.ext rfl⟩
 
 theorem vAd_le_hatAut_range (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     vAd (K := K) ζ hζ ≤ (hatAut .E6 K).range := by

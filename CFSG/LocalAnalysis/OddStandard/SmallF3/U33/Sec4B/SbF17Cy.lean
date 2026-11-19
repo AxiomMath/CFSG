@@ -14,6 +14,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma fourGrp_le_baseGrp' (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, Subgroup.closure_le]
   rintro g (rfl | rfl)
@@ -70,7 +71,7 @@ private lemma card_CY_le_four (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     fun a ha b hb => IsZ4Z4E4.comm hc.q_iso (ctxYq_le_ctxQ ha) (ctxYq_le_ctxQ hb)
   have hYnorm : ∀ a ∈ Y, lam * a * lam⁻¹ ∈ Y := lam_normalizes_Yq hc
   obtain ⟨N, _hNle, himg, _hpre, hcardCN⟩ := exists_comm_image (A := Y) hYcomm (g := lam) hYnorm
-  letI : Fintype ↥N := Fintype.ofFinite ↥N
+  let : Fintype ↥N := Fintype.ofFinite ↥N
   obtain ⟨V', v₁, v₂, hV'⟩ := hc.data_V
   obtain ⟨hV'el, _hV'card, _hQeq, hV'inf, _hrho_norm, _hlamt_norm, hYeq, _hCv1, hv1V, hv1ne,
     htv1, hv2V, _hv2ne, _hV'clos, htv2, hltv2, _hCttau, _hom1, _hom2⟩ := hV'

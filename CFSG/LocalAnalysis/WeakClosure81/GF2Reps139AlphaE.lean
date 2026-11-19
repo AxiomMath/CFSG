@@ -72,7 +72,7 @@ private theorem w1369_four_le_card {E : Type} [Finite E] {a b c d : E}
     (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d)
     (hcd : c ≠ d) : 4 ≤ Nat.card E := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hmem1 : a ∉ ({b, c, d} : Finset E) := by
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
     exact ⟨hab, hac, had⟩
@@ -92,19 +92,19 @@ theorem Std139.alpha_centralizer (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D 
     (hn : 3 ≤ n) {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) (hirr : IsIrrOn K ⊤ ⊥) :
     Subgroup.centralizer (K : Set (MulAut W)) = X := by
   classical
-  letI : Module (ZMod 2) (Additive W) := addModTwo hw2
-  haveI : Nontrivial W := by
+  let : Module (ZMod 2) (Additive W) := addModTwo hw2
+  have : Nontrivial W := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hs
     exact absurd (Subsingleton.elim (⊥ : Subgroup W) ⊤) (ne_of_lt hirr.1)
-  haveI : Finite (Module.End (ZMod 2) (Additive W)) :=
+  have : Finite (Module.End (ZMod 2) (Additive W)) :=
     Finite.of_injective
       (fun f : Module.End (ZMod 2) (Additive W) => (f : Additive W → Additive W))
       DFunLike.coe_injective
-  haveI : Finite (w1369E hw2 K) :=
+  have : Finite (w1369E hw2 K) :=
     Finite.of_injective (fun e : w1369E hw2 K => (e : Module.End (ZMod 2) (Additive W)))
       Subtype.val_injective
-  letI : Fintype (w1369E hw2 K) := Fintype.ofFinite _
+  let : Fintype (w1369E hw2 K) := Fintype.ofFinite _
   have h01 : (0 : w1369E hw2 K) ≠ 1 := by
     intro h
     obtain ⟨m, hm⟩ : ∃ m : W, m ≠ 1 := exists_ne 1
@@ -116,7 +116,7 @@ theorem Std139.alpha_centralizer (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D 
   have hDgt : 1 < Nat.card D := by
     rw [S.Dcard]
     exact Nat.one_lt_pow (by omega) (by norm_num : 1 < 2)
-  letI : Fintype ↥D := Fintype.ofFinite _
+  let : Fintype ↥D := Fintype.ofFinite _
   obtain ⟨dD, hdD1⟩ := Fintype.exists_ne_of_one_lt_card
     (by rw [← Nat.card_eq_fintype_card]; exact hDgt) (1 : ↥D)
   let d : MulAut W := dD

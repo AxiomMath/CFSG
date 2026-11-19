@@ -154,7 +154,7 @@ theorem sec7_tame_false_of_comm (h34 : Stroth34Statement) (hRoot : Stroth310Root
         Nat.card Z ^ (1 + d) → False := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 htame hcardV
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hguM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
@@ -167,7 +167,7 @@ theorem sec7_tame_false_of_comm (h34 : Stroth34Statement) (hRoot : Stroth310Root
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
   obtain ⟨ψs, hψs, hrs, hker⟩ := sec7_pair_psi hc M₀ ρ b hS ht ψ hψ hrange hgM hsM hs1
@@ -176,7 +176,7 @@ theorem sec7_tame_false_of_comm (h34 : Stroth34Statement) (hRoot : Stroth310Root
   obtain ⟨hf, hr⟩ := sec7_model_form M₀
   have hk1 := sec7_ker_psi_eq_orth hc M₀ ρ b hS ψ hW
   have hvan := sec7_pair_vanish h71 hc hs hno hgM hs1 hs2
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   have hsH : s ∈ H0 M Z :=
@@ -263,7 +263,7 @@ theorem sec7_tame_false_of_comm (h34 : Stroth34Statement) (hRoot : Stroth310Root
           have e : r * (x * y) * r⁻¹ = (r * x * r⁻¹) * (r * y * r⁻¹) := by group
           rw [e]
           exact H.mul_mem (hxr r hr) (hyr r hr)
-        one_mem' := ⟨H.one_mem, fun r _ => by simpa using H.one_mem⟩
+        one_mem' := ⟨H.one_mem, fun r _ => by simp⟩
         inv_mem' := by
           rintro x ⟨hx, hxr⟩
           refine ⟨H.inv_mem hx, fun r hr => ?_⟩

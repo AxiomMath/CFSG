@@ -146,12 +146,12 @@ theorem burnsideF48s_u42e_rels :
 
 theorem burnsideF48s_u42e_ev_aa :
     burnsideF48s_ev burnsideF48s_u42eG (burnsideF48s_u42eWord "aa") = burnsideF48s_u42eG 0 ^ 2 := by
-  simp [burnsideF48s_u42eWord, burnsideF48s_u42eLetter, burnsideF48s_ev, pow_succ, mul_assoc]
+  simp [burnsideF48s_u42eWord, burnsideF48s_u42eLetter, burnsideF48s_ev, pow_succ]
 
 theorem burnsideF48s_u42e_ev_AA :
     burnsideF48s_ev burnsideF48s_u42eG (burnsideF48s_u42eWord "AA") =
       (burnsideF48s_u42eG 0 ^ 2)⁻¹ := by
-  simp [burnsideF48s_u42eWord, burnsideF48s_u42eLetter, burnsideF48s_ev, pow_succ, mul_assoc]
+  simp [burnsideF48s_u42eWord, burnsideF48s_u42eLetter, burnsideF48s_ev, pow_succ]
 
 theorem burnsideF48s_u42e_a6 : burnsideF48s_u42eG 0 ^ 6 = 1 := by
   have h := burnsideF48s_u42e_rels.1 (burnsideF48s_u42eWord "aaaaaa") (by
@@ -194,7 +194,7 @@ theorem burnsideF48s_u42e_C0_mem {l : ℕ} (hl : l < burnsideF48s_u42eC0W.length
     exact Subgroup.mem_zpowers _
 
 theorem burnsideF48s_u42e_card_C0 : Nat.card ↥burnsideF48s_u42eC0 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rw [burnsideF48s_u42eC0, Nat.card_zpowers]
   refine orderOf_eq_prime (by rw [← pow_mul]; exact burnsideF48s_u42e_a6) ?_
   rw [← burnsideF48s_u42e_ev_aa]
@@ -343,9 +343,9 @@ theorem burnsideF48s_u42e_cands {j : ℕ} (hj : j < 7) : burnsideF48s_ECands bur
     refine ⟨hfin, ?_⟩
     rw [hX]
     by_cases hh : k ∈ [0, 5, 8, 11, 17, 22, 27, 67, 73, 77, 83]
-    · rw [if_pos hh] at hcard
+    · rw [ite_eq_left hh] at hcard
       exact Or.inr ⟨hcard.trans (by norm_num), r2 k hh⟩
-    · rw [if_neg hh] at hcard
+    · rw [ite_eq_right hh] at hcard
       exact Or.inl (lt_of_le_of_lt hcard (by norm_num))
   · exfalso
     have h0 : (burnsideF48s_u42eU j).length = 0 := by
@@ -435,7 +435,7 @@ theorem burnsideF48s_u42e_classify
       ∃ j : Fin 7, ∃ t ∈ burnsideF48s_u42eP1 ⊓ burnsideF48s_u42eP2, ∀ z, z ∈ K'' ↔
         t * z * t⁻¹ ∈ burnsideF48s_u42eK j := by
   intro K'' hle hcard
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set Bh := burnsideF48s_u42eP1 ⊓ burnsideF48s_u42eP2 with hBh
   set C₀ := burnsideF48s_u42eC0 with hC₀
   have hC0le : C₀ ≤ Bh := burnsideF48s_u42e_C0_le

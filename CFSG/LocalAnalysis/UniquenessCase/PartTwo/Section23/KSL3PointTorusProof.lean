@@ -23,6 +23,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 variable [Finite K]
 
+omit [CharP K 2] [Finite K] in
 theorem mem_hinf_stabilizer_iff {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -36,6 +37,7 @@ theorem mem_hinf_stabilizer_iff {W : Type} [CommGroup W] [Finite W]
     rfl
   rw [hP, mem_Hinf_subgroupOf_iff inf_le_left]
 
+omit [CharP K 2] [Finite K] in
 private theorem mem_pCore_hinf_iff {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -64,6 +66,7 @@ private theorem mem_pCore_hinf_iff {W : Type} [CommGroup W] [Finite W]
   rw [hHinf, ← Subgroup.mem_map_iff_mem H.subtype_injective, hmap]
   rfl
 
+omit [CharP K 2] [Finite K] in
 private theorem exists_uSL_of_quot_trivial {B : Matrix.SpecialLinearGroup (Fin 3) K}
     (hBquot : ∀ v : Fin 3 → K, ((B : Matrix (Fin 3) (Fin 3) K) *ᵥ v) 1 = v 1 ∧
       ((B : Matrix (Fin 3) (Fin 3) K) *ᵥ v) 2 = v 2) :
@@ -291,6 +294,7 @@ private theorem mem_stabilizer_of_pCore_fix {W : Type} [CommGroup W]
       exact (forall_smul_eq_iff_conj hPinv).mp hw'
     · exact MulAut.apply_inv_self W (g : MulAut W) w
 
+omit [CharP K 2] [Finite K] in
 theorem exists_smul_e0_of_mem_stabW {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -364,6 +368,7 @@ private theorem exists_quot_trivial_of_commutator {W : Type} [CommGroup W] [Fini
   change D * B * D⁻¹ * B⁻¹ = C
   exact hmat.symm
 
+omit [CharP K 2] [Finite K] in
 private theorem lev_mul_of_mem_stdLine {A B : Matrix (Fin 3) (Fin 3) K}
     (hA : A *ᵥ ![1, 0, 0] ∈ stdLine K) : lev (A * B) = lev A * lev B := by
   have h10 : A 1 0 = 0 := by
@@ -374,6 +379,7 @@ private theorem lev_mul_of_mem_stdLine {A B : Matrix (Fin 3) (Fin 3) K}
     simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_three] using h
   exact lev_mul h10 h20
 
+omit [CharP K 2] [Finite K] in
 private theorem mem_stdLine_mul {A B : Matrix (Fin 3) (Fin 3) K}
     (hA : A *ᵥ ![1, 0, 0] ∈ stdLine K) (hB : B *ᵥ ![1, 0, 0] ∈ stdLine K) :
     (A * B) *ᵥ ![1, 0, 0] ∈ stdLine K := by
@@ -392,6 +398,7 @@ private theorem mem_stdLine_mul {A B : Matrix (Fin 3) (Fin 3) K}
   · rw [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
     simp [hA20, hB1, hB2]
 
+omit [CharP K 2] [Finite K] in
 private theorem inv_mulVec_e0 {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0]) (hμ : μ ≠ 0) :
     ((D⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ
@@ -403,6 +410,7 @@ private theorem inv_mulVec_e0 {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ : K}
   rw [smul_smul, inv_mul_cancel₀ hμ, one_smul] at h'
   exact h'.symm
 
+omit [CharP K 2] [Finite K] in
 private theorem lev_conj_commutator {D B : Matrix.SpecialLinearGroup (Fin 3) K} {μ : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0]) (hμ : μ ≠ 0)
     (hB : B ∈ stabE0 K) :
@@ -446,6 +454,7 @@ private theorem lev_conj_commutator {D B : Matrix.SpecialLinearGroup (Fin 3) K} 
             lev ((B⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) := by
         rw [lev_mul_of_mem_stdLine hDmem]
 
+omit [CharP K 2] [Finite K] in
 private theorem lev_eq_one_of_quot_trivial {C : Matrix.SpecialLinearGroup (Fin 3) K}
     (hC : ∀ v : Fin 3 → K, ((C : Matrix (Fin 3) (Fin 3) K) *ᵥ v) 1 = v 1 ∧
       ((C : Matrix (Fin 3) (Fin 3) K) *ᵥ v) 2 = v 2) :
@@ -473,6 +482,7 @@ private theorem lev_commutator_eq_one {W : Type} [CommGroup W] [Finite W]
   rw [hCeq]
   exact hClev
 
+omit [CharP K 2] [Finite K] in
 private theorem lev_inv_mul_eq_one {D : Matrix.SpecialLinearGroup (Fin 3) K}
     (hDmem : ((D⁻¹ : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ
       ![1, 0, 0] ∈ stdLine K) :
@@ -486,6 +496,7 @@ private theorem lev_inv_mul_eq_one {D : Matrix.SpecialLinearGroup (Fin 3) K}
   ext i j
   fin_cases i <;> fin_cases j <;> simp [lev]
 
+omit [CharP K 2] [Finite K] in
 private theorem commute_of_mul_eq_one {L A Linv Ainv : Matrix (Fin 2) (Fin 2) K}
     (hprod : L * A * Linv * Ainv = 1) (hAinvA : Ainv * A = 1) (hLinvL : Linv * L = 1) :
     L * A = A * L := by
@@ -546,6 +557,7 @@ private theorem lev_conj_commute {W : Type} [CommGroup W] [Finite W]
     rw [hLinv]; exact lev_inv_mul_eq_one hDimem
   exact commute_of_mul_eq_one hprod hAinvA hLinvL
 
+omit [CharP K 2] [Finite K] in
 private theorem matrix_eq_smul_one_of_mulVec {L : Matrix (Fin 2) (Fin 2) K} {c : K}
     (hL : ∀ x : Fin 2 → K, L *ᵥ x = c • x) : L = c • (1 : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
@@ -597,6 +609,7 @@ theorem exists_smul_one_lev {W : Type} [CommGroup W] [Finite W]
     have h := hc x
     simpa using h
 
+omit [CharP K 2] [Finite K] in
 theorem eq_tSL_mul_uSL {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0])
     (hlev : lev (D : Matrix (Fin 3) (Fin 3) K) = c • (1 : Matrix (Fin 2) (Fin 2) K))
@@ -634,6 +647,7 @@ theorem eq_tSL_mul_uSL {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
       h00, h10, h20, h11, h12, h21, h22, hμ] <;>
     field_simp [hc0]
 
+omit [CharP K 2] [Finite K] in
 private theorem eq_zero_of_fixed_of_scalar {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0])
     (hlev : lev (D : Matrix (Fin 3) (Fin 3) K) = c • (1 : Matrix (Fin 2) (Fin 2) K))
@@ -680,6 +694,7 @@ private theorem eq_zero_of_fixed_of_scalar {D : Matrix.SpecialLinearGroup (Fin 3
     exact (mul_eq_zero.mp hz).resolve_left hμ
   exact vec3_eq h0 h1 h2
 
+omit [CharP K 2] [Finite K] in
 private theorem uSL_eq_one_of_conj_fixed {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0])
     (hlev : lev (D : Matrix (Fin 3) (Fin 3) K) = c • (1 : Matrix (Fin 2) (Fin 2) K))
@@ -696,13 +711,13 @@ private theorem uSL_eq_one_of_conj_fixed {D : Matrix.SpecialLinearGroup (Fin 3) 
   have hNB : N * B * N⁻¹ = B := by
     have hcomm : N * B = B * N := by
       simp only [N, B, uSL_mul]
-      congr 1 <;> simp [add_comm, add_left_comm, mul_zero]
+      congr 1 <;> simp [add_comm, mul_zero]
     rw [hcomm]
     group
   have hTconj : T * B * T⁻¹ = uSL ((c ^ 3)⁻¹ * a) ((c ^ 3)⁻¹ * b) 0 := by
     simp only [T, B, tSL_conj_uSL, Units.val_mul, Units.val_inv_eq_inv_val,
       Units.val_mk0]
-    congr 2 <;> field_simp [hc0] <;> ring
+    congr 2 <;> field_simp [hc0]
   have hDB : D * B * D⁻¹ = T * B * T⁻¹ := by
     calc D * B * D⁻¹ = (T * N) * B * (T * N)⁻¹ := by rw [hD_eq']
       _ = T * (N * B * N⁻¹) * T⁻¹ := by group
@@ -722,6 +737,7 @@ private theorem uSL_eq_one_of_conj_fixed {D : Matrix.SpecialLinearGroup (Fin 3) 
     exact (mul_eq_zero.mp hz).resolve_left (sub_ne_zero.mpr hc3inv1)
   rw [ha0, hb0, uSL_zero]
 
+omit [CharP K 2] [Finite K] in
 theorem mu_mul_sq_of_line_lev {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0])
     (hlev : lev (D : Matrix (Fin 3) (Fin 3) K) = c • (1 : Matrix (Fin 2) (Fin 2) K)) :
@@ -751,6 +767,7 @@ theorem mu_mul_sq_of_line_lev {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : 
   rw [Matrix.det_fin_three] at hdet
   simpa [h00, h10, h20, h11, h12, h21, h22, pow_two, mul_assoc] using hdet
 
+omit [Finite K] in
 private theorem uSL_sq_eq_one (a b : K) : (uSL a b 0) ^ 2 = 1 := by
   rw [sq, uSL_mul]
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -758,6 +775,7 @@ private theorem uSL_sq_eq_one (a b : K) : (uSL a b 0) ^ 2 = 1 := by
   have hb : b + b + a * 0 = 0 := by rw [mul_zero, add_zero, ← two_mul, h2, zero_mul]
   rw [ha, hb, zero_add, uSL_zero]
 
+omit [Finite K] in
 private theorem eq_one_of_lev_eq_one_of_odd {E : Matrix.SpecialLinearGroup (Fin 3) K} {ν : K}
     (hE : (E : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = ν • ![1, 0, 0])
     (hlev : lev (E : Matrix (Fin 3) (Fin 3) K) = 1) (hodd : Odd (orderOf E)) : E = 1 := by
@@ -803,6 +821,7 @@ private theorem eq_one_of_lev_eq_one_of_odd {E : Matrix.SpecialLinearGroup (Fin 
   · rw [h2] at hodd
     exact absurd hodd (by norm_num)
 
+omit [CharP K 2] [Finite K] in
 private theorem lev_pow_three {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0]) :
     lev (((D ^ 3 : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) =
@@ -829,6 +848,7 @@ private theorem lev_pow_three {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ : K}
     lev (D : Matrix (Fin 3) (Fin 3) K) * lev (D : Matrix (Fin 3) (Fin 3) K) *
       lev (D : Matrix (Fin 3) (Fin 3) K) by rw [pow_succ, pow_two]]
 
+omit [Finite K] in
 private theorem pow_three_eq_one_of_scalar {D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
     (hD : (D : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = μ • ![1, 0, 0])
     (hlev : lev (D : Matrix (Fin 3) (Fin 3) K) = c • (1 : Matrix (Fin 2) (Fin 2) K))
@@ -870,6 +890,7 @@ private theorem pow_three_eq_one_of_scalar {D : Matrix.SpecialLinearGroup (Fin 3
       Matrix.SpecialLinearGroup.coe_pow, hD3_10, hD3_20]
   exact eq_one_of_lev_eq_one_of_odd hD3e0 hlevD3 (hodd.of_dvd_nat (orderOf_pow_dvd 3))
 
+omit [CharP K 2] [Finite K] in
 private theorem g_cube_eq_one_of_D_cube {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H}
     {h M D : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -880,6 +901,7 @@ private theorem g_cube_eq_one_of_D_cube {W : Type} [CommGroup W] [Finite W]
     group
   rw [← map_pow, hM3, map_one]
 
+omit [CharP K 2] [Finite K] in
 private theorem pointTorus_fixed_W {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
     {h M D : Matrix.SpecialLinearGroup (Fin 3) K} {μ c : K}
@@ -957,6 +979,7 @@ private theorem pointTorus_fixed_U {W : Type} [CommGroup W] [Finite W]
   rw [show uSL a b 0 = B from rfl, hBone]
   simp
 
+omit [Finite K] in
 theorem kSL3PointTorus_scalar_properties {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
     {h : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -970,7 +993,7 @@ theorem kSL3PointTorus_scalar_properties {W : Type} [CommGroup W] [Finite W]
   have hμc : μ * c ^ 2 = 1 := mu_mul_sq_of_line_lev hDe0 hclev
   have hc0 : c ≠ 0 := by
     intro hc
-    have h01 : (0 : K) = 1 := by simpa [hc] using hμc
+    have h01 : (0 : K) = 1 := by simp [hc] at hμc
     exact zero_ne_one h01
   have hoddD : Odd (orderOf D) := by
     have h1 : orderOf (rho3 ρ M) = orderOf M :=
@@ -1027,9 +1050,9 @@ theorem mem_stabilizer_of_commutator {W : Type} [CommGroup W] [Finite W]
 theorem kSL3PointTorus_holds : KSL3PointTorus := by
   intro W _ _ H n hSLn hnat hn S ℓ Pℓ Kstar g hodd hg3 hcomm
   obtain ⟨K, hfield, hfinite, hK, ρ, hρ⟩ := hnat
-  letI : Field K := hfield; letI : Finite K := hfinite
-  letI : CharP K 2 := charP_two_of_card (by omega) hK
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  let : Field K := hfield; let : Finite K := hfinite
+  let : CharP K 2 := charP_two_of_card (by omega) hK
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hSL := commutator_SL2_eq_top (four_le_card (by omega) hK)
   obtain ⟨f, hf⟩ := exists_isCoord (linModelNat (StatedSL 3 K)) hρ
   obtain ⟨h, hh⟩ := exists_sylow_eq_conj_Usl hK (by omega) hf

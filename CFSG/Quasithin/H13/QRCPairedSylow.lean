@@ -155,7 +155,7 @@ theorem exists_fieldPerm_coords [CharP k 2] [Finite k] (hk : Nat.card k = 2 ^ n)
   have hc' : ∀ a ∈ K₂, ∀ b ∈ K₁, a * b = b * a := fun a ha b hb => (hc b hb a ha).symm
   have hKR : K ⊓ R = ⊥ := sup_inf_fieldPermGroup_eq_bot hk hc hd θ₁ θ₂
   have hKRt : K ⊔ R = ⊤ := sup_sup_fieldPermGroup_eq_top hk hn hc hd hKn θ₁ θ₂
-  have hR2 : IsPGroup 2 R := isPGroup_of_complement hKS S.isPGroup' hKR
+  have hR2 : IsPGroup 2 R := isPGroup_of_complement hKS S.isPGroup hKR
   have hRU : R ≤ normalizer (U : Set A) :=
     fieldPerm_le_normalizer (fun r hr => hr) upperUnipotent_fieldStable
   have hUK : U ≤ K := sup_le_sup (stdSub_le _ _) (stdSub_le _ _)

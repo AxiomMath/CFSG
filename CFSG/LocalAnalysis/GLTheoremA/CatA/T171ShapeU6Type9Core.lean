@@ -70,7 +70,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 open CFSG.StandardType.Line63.H5 CFSG.StandardType.TableBUD
 
 @[expose] def U6Type9LayerInner : Prop :=
-  ∀ (n : ℕ) (K : Type) [Field K] [Finite K] (h : UnitaryFieldData 2 n K), 3 ∣ 2 ^ n + 1 →
+  ∀ (n : ℕ) (K : Type) [Field K] [Finite K] (_h : UnitaryFieldData 2 n K), 3 ∣ 2 ^ n + 1 →
     ∀ (M N : GL (Fin 6) K) (_ : M ∈ LargeEvenGUSet (Fin 6) K (2 ^ n))
       (_ : N ∈ LargeEvenGUSet (Fin 6) K (2 ^ n))
       (hMN : M ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
@@ -124,7 +124,7 @@ theorem u6Type9Core_of_descent_of_layerInner (hD : ComponentDescent)
     (hInner : U6Type9LayerInner) : U6Type9Core := by
   intro G _ _ L J A d b n K _ _ h θ hS hpq hmark M hMgu hMN hM3 hφd
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hdA : d ∈ A := hS.d_mem
   have hbA : b ∈ A := hS.b_mem
   have hbd : b * d = d * b := by
@@ -257,7 +257,7 @@ theorem u6Type9Core_of_descent_of_layerInner (hD : ComponentDescent)
       rw [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [h9]
     group
-  haveI hJperf : Group.IsPerfect ↥J := ⟨hS.comp.1.2.2.1⟩
+  have hJperf : Group.IsPerfect ↥J := ⟨hS.comp.1.2.2.1⟩
   set σb : MulAut ↥J := J.normalizerMonoidHom ⟨b⁻¹, Subgroup.inv_mem _ hS.b_norm⟩ with hσbdef
   set σx : MulAut ↥J := J.normalizerMonoidHom ⟨((x : ↥L) : G), Subgroup.le_normalizer hxG⟩
     with hσxdef

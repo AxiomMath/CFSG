@@ -88,7 +88,7 @@ theorem MinCex.goodFourD_of_commute (c : MinCex r Ω K S R W H) {z g t : G}
   have hmemR' : ∀ u : G, u ∈ K' → u ∈ W → u ∈ R' := fun u huK huW => by
     have : u ∈ K' ⊓ (S : Subgroup G) := ⟨huK, hWS huW⟩
     rwa [inf_S_eq_of_mem_RSet' hΩ hK'Ω hR' hR'K' hR'S] at this
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   have hswap : ∀ {K₀ R₀ : Subgroup G} {u : G}, K₀ ∈ twinSet Ω K → R₀ ∈ RSet Ω → R₀ ≤ K₀ →
       R₀ ≤ (S : Subgroup G) → conjSub t K₀ ≠ K₀ → u ∈ R₀ → u ∈ W → orderOf u = 4 →
       (∀ a ∈ R₀ ⊔ conjSub t R₀, a ∈ W → a ≠ 1 → a * a = 1 →

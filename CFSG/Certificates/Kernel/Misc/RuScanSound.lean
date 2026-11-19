@@ -60,9 +60,9 @@ theorem listRec_false {l : List Nat} {f : Nat → Bool}
       rw [← RuBase.bIf_eq]
       exact h
     by_cases ha : f a = true
-    · rw [if_pos ha] at h'
+    · rw [ite_eq_left ha] at h'
       exact absurd h' Bool.false_ne_true
-    · rw [if_neg ha] at h'
+    · rw [ite_eq_right ha] at h'
       intro e he
       rcases List.mem_cons.mp he with rfl | he
       · exact Bool.eq_false_iff.mpr ha
@@ -187,7 +187,7 @@ theorem chk3_all {LR TR W : Nat → Nat} {H T K cnt : Nat}
 
 theorem witKD_eq {ys : List Nat} {T r : Nat} (hr : Nat.land r 3 ≠ 2) : witKD ys T r = witK ys T r := by
   unfold witKD
-  rw [RuBase.bIf_eq, if_neg (fun h => hr (Nat.eq_of_beq_eq_true h))]
+  rw [RuBase.bIf_eq, ite_eq_right (fun h => hr (Nat.eq_of_beq_eq_true h))]
 
 theorem chk2D_all {LR TR W : Nat → Nat} {H T K cnt : Nat}
     (h : ∀ q < K, chk2D LR TR W H T (cnt * q) cnt = true) :
@@ -245,8 +245,6 @@ theorem leafStep_spec {ys : List Nat} {T : Nat} {K V : Nat → Nat} {r s : Nat}
     first
     | exact absurd rfl h
     | exact ⟨Nat.le_of_ble_eq_true (by assumption), by assumption⟩
-    | exact absurd rfl (by assumption)
-    | simp_all
 
 theorem foldr_le' {f : Nat → Nat → Nat} (hle : ∀ d s, f d s ≤ s) (s : Nat) :
     ∀ l : List Nat, l.foldr f s ≤ s
@@ -288,8 +286,8 @@ theorem leafOK_sound {ys : List Nat} {gs : List G} (h : PL ys gs) {T : Nat} {τ 
       Bool.rec (motive := fun _ => Nat) e t (Nat.beq a b) = if a = b then t else e := by
     intro a b t e
     by_cases h : a = b
-    · rw [if_pos h, Nat.beq_eq.mpr h]
-    · rw [if_neg h, P.beq_false_of_ne h]
+    · rw [ite_eq_left h, Nat.beq_eq.mpr h]
+    · rw [ite_eq_right h, P.beq_false_of_ne h]
   have step : ∀ i < V (64 + 32 * l + 28),
       yAp ys (Kh (32 * p + (4 * i + b))) =
         (if i = 0 then b else Kh (32 * p + (4 * (i - 1) + b))) ∧
@@ -297,7 +295,7 @@ theorem leafOK_sound {ys : List Nat} {gs : List G} (h : PL ys gs) {T : Nat} {τ 
         (if i + 1 = V (64 + 32 * l + 28) then apP T b else V (64 + 32 * l + (4 * i + b))) := by
     intro i hi
     have hbi := RuBase.allN_iff.1 (RuBase.allN_iff.1 hall b hb) i hi
-    simp only [strictB_eq, bAnd_eq', Bool.and_eq_true, nIf_beq] at hbi
+    simp only [Bool.and_eq_true, nIf_beq] at hbi
     exact ⟨Nat.eq_of_beq_eq_true hbi.1, Nat.eq_of_beq_eq_true hbi.2⟩
   have hx : ∀ i < V (64 + 32 * l + 28), Kh (32 * p + (4 * i + b)) < 4060 :=
     fun i hi => hK _ (by omega)
@@ -308,13 +306,13 @@ theorem leafOK_sound {ys : List Nat} {gs : List G} (h : PL ys gs) {T : Nat} {τ 
     | zero =>
       intro hi
       have e := (step 0 hi).1
-      rw [if_pos rfl, yAp_eq h ⟨_, hx 0 hi⟩] at e
+      rw [ite_eq_left rfl, yAp_eq h ⟨_, hx 0 hi⟩] at e
       rw [zero_add, pow_one]
       exact Fin.ext e
     | succ i ih =>
       intro hi
       have e := (step (i + 1) hi).1
-      rw [if_neg (by omega : i + 1 ≠ 0), Nat.add_sub_cancel, yAp_eq h ⟨_, hx _ hi⟩] at e
+      rw [ite_eq_right (by omega : i + 1 ≠ 0), Nat.add_sub_cancel, yAp_eq h ⟨_, hx _ hi⟩] at e
       have ey : gs.prod ⟨_, hx _ hi⟩ = ⟨_, hx i (by omega)⟩ := Fin.ext e
       rw [pow_succ, Equiv.Perm.mul_apply, ey]
       exact ih (by omega)
@@ -330,10 +328,10 @@ theorem leafOK_sound {ys : List Nat} {gs : List G} (h : PL ys gs) {T : Nat} {τ 
   refine ⟨fun j hj1 hjq => ?_, ?_⟩
   · obtain ⟨i, rfl⟩ : ∃ i, j = i + 1 := ⟨j - 1, by omega⟩
     rw [conj i (by omega), (step i (by omega)).2,
-      if_neg (by omega : i + 1 ≠ V (64 + 32 * l + 28)), Nat.add_sub_cancel, Nat.add_assoc _ (4 * i)]
+      ite_eq_right (by omega : i + 1 ≠ V (64 + 32 * l + 28)), Nat.add_sub_cancel, Nat.add_assoc _ (4 * i)]
   · have e : V (64 + 32 * l + 28) = V (64 + 32 * l + 28) - 1 + 1 := (Nat.sub_add_cancel hq1').symm
     rw [e, conj (V (64 + 32 * l + 28) - 1) (by omega), (step (V (64 + 32 * l + 28) - 1) (by omega)).2,
-      if_pos (Nat.sub_add_cancel hq1')]
+      ite_eq_left (Nat.sub_add_cancel hq1')]
     exact apP_eq hT ⟨b, hb'⟩
 
 theorem chkL3_sound {LR TR W Kh V : Nat → Nat} {H T lo cnt s1 s0 : Nat}
@@ -494,7 +492,7 @@ theorem enum3 (hb : Binds 4060 12 PS kS 3 BP S base)
 
 end Enum
 
-theorem scan2_sound {n0 : Nat} {Q : RawSchreierDatum 4060} {O S : Array (Array Nat)}
+theorem scan2_sound {_n0 : Nat} {Q : RawSchreierDatum 4060} {O S : Array (Array Nat)}
     {base : Array Nat} {Wd : Array (List ℤ)} {chunks : Nat} (hA : ChainArrays Q O S base Wd)
     (hc0 : 0 < chunks) (hchk : rawChainOK 4060 O S base Wd chunks = true) (hQ : Q.baseCount = 2)
     {PS PSI LR TR TRI : Nat → Nat} {kS BP : Nat} (hb : Binds 4060 12 PS kS 2 BP S base)
@@ -513,7 +511,7 @@ theorem scan2_sound {n0 : Nat} {Q : RawSchreierDatum 4060} {O S : Array (Array N
   have hpl : PL [H, TR (roff 4060 48720 (LR 0) + i / rcnt (LR 1)),
       TR (roff 4060 48720 (LR 1) + i % rcnt (LR 1))] [h, g₀, g₁] :=
     .cons hH (.cons P0 (.cons P1 .nil))
-  have e : [h, g₀, g₁].prod = h * (g₀ * g₁) := by simp [mul_assoc]
+  have e : [h, g₀, g₁].prod = h * (g₀ * g₁) := by simp
   have := witK_sound hpl hT (bnd_all hbd i hi') (chk2_all hck i hi')
   rwa [e] at this
 
@@ -651,7 +649,7 @@ theorem p3K_sound {H T : Nat} {Ls : Nat → Nat} {k : Nat} {h τ : G} {gens : Na
   have fW := cjF_eq hH hHI fU
   refine ⟨fun l hl => ?_, (eqF_sound fW fT).1 h3, fun e => ?_, fun e => ?_⟩
   · have := RuBase.allN_iff.1 hcomm l hl
-    simp only [bAnd_eq', Bool.and_eq_true] at this
+    simp only [Bool.and_eq_true] at this
     exact ⟨commP_sound fS (hL l hl) this.1, commP_sound fU (hL l hl) this.2⟩
   · rw [(eqF_sound fS fT).2 e] at hs
     exact Bool.false_ne_true hs

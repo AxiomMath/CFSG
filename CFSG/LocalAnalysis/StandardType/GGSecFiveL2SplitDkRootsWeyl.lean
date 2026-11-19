@@ -121,13 +121,13 @@ theorem ggD_exists_negPair {k : ℕ} (hk : 2 ≤ k) {x y : Fin k} (hxy : x ≠ y
   funext c
   rw [Function.comp_apply, ggDReflect_apply, ggDDot_comm, ggDDot_single_add_single]
   by_cases hcx : c = x
-  · rw [hcx, Equiv.swap_apply_left, ggDPair_apply_right hxy, if_pos (Or.inl rfl)]
+  · rw [hcx, Equiv.swap_apply_left, ggDPair_apply_right hxy, ite_eq_left (Or.inl rfl)]
     ring
   by_cases hcy : c = y
-  · rw [hcy, Equiv.swap_apply_right, ggDPair_apply_left hxy, if_pos (Or.inr rfl)]
+  · rw [hcy, Equiv.swap_apply_right, ggDPair_apply_left hxy, ite_eq_left (Or.inr rfl)]
     ring
   rw [Equiv.swap_apply_of_ne_of_ne hcx hcy, ggDPair_apply_of_ne hcx hcy,
-    if_neg (not_or.2 ⟨hcx, hcy⟩)]
+    ite_eq_right (not_or.2 ⟨hcx, hcy⟩)]
   ring
 
 end CFSG.StandardType

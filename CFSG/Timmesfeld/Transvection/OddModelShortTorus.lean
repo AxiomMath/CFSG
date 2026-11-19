@@ -74,25 +74,23 @@ private theorem shortSign_shortTorusFun {a b : Fin n} (hab : a ≠ b) (ha : a �
   have hσc : σ c ≠ 0 := (map_ne_zero σ).mpr hc
   by_cases hsa : s = a
   · rw [hsa, hp_a]
-    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, haa, hb, hbb, hba, ha'b, hab',
-      hb'a, hrev, hrev.symm, ite_true, ite_false]
+    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, hb, hba, hab',
+      ite_true, ite_false]
     field_simp
   by_cases hsb : s = b
   · rw [hsb, hp_b]
-    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, haa, hb, hbb, hba, ha'b, hab',
-      hb'a, hrev, hrev.symm, ite_true, ite_false]
+    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, hb, hba, hab',
+      ite_true, ite_false]
     field_simp
   by_cases hsa' : s = Fin.rev a
   · rw [hsa', hp_a']
-    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, haa, hb, hbb, hba, ha'b, hab',
-      hb'a, hrev, hrev.symm, ite_true, ite_false]
+    simp only [shortSign, shortTorusFun, haa, hbb, ha'b, hb'a, hrev, hrev.symm, ite_true, ite_false]
     field_simp [hσκ, hσc]
     simp only [map_mul, map_neg]
     ring
   by_cases hsb' : s = Fin.rev b
   · rw [hsb', hp_b']
-    simp only [shortSign, shortTorusFun, hab, hba_ne, ha, haa, hb, hbb, hba, ha'b, hab',
-      hb'a, hrev, hrev.symm, ite_true, ite_false]
+    simp only [shortSign, shortTorusFun, haa, hbb, ha'b, hb'a, hrev, hrev.symm, ite_true, ite_false]
     field_simp [hσκ, hσc]
     simp only [map_mul, map_neg]
     ring
@@ -100,8 +98,7 @@ private theorem shortSign_shortTorusFun {a b : Fin n} (hab : a ≠ b) (ha : a �
     rw [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hsa' hsb',
       Equiv.swap_apply_of_ne_of_ne hsa hsb]
   rw [hp_s]
-  simp only [shortSign, shortTorusFun, hsa, hsb, hsa', hsb', hba_ne, haa, hbb, hba, ha'b,
-    hab', hb'a, hrev, ite_false]
+  simp only [shortSign, shortTorusFun, hsa, hsb, hsa', hsb', ite_false]
   ring
 
 theorem mat_shortWeyl_inv_mul_shortWeyl {a b : Fin n} (hab : a ≠ b) (ha : a ≠ Fin.rev a)
@@ -141,12 +138,12 @@ theorem exists_conj_suHeis_eq_pow_three {F : Type} [Field F] [Finite F] [CharP F
         h * suLong (unitaryInvolution F 2 n) a c * h⁻¹ =
           suLong (unitaryInvolution F 2 n) a c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ := unitaryInvolution F 2 n
   have hσ : ∀ c, σ (σ c) = c := unitaryInvolution_involutive hFn
   have hb0 : b ≠ 0 := by
     rintro rfl
-    simpa using hb
+    simp at hb
   have hσb : σ b = b⁻¹ := eq_inv_of_mul_eq_one_left hb
   have hHcard : Nat.card (uc22pwsu3H σ) = Nat.card Fˣ := by
     rw [card_levelTorus_three (p := 2) (f := n) hFn,
@@ -157,7 +154,7 @@ theorem exists_conj_suHeis_eq_pow_three {F : Type} [Field F] [Finite F] [CharP F
     simpa [d, Units.val_mk0] using hmat
   have hd : ∀ s, σ (d s) * d (Fin.rev s) = 1 := by
     intro s
-    fin_cases s <;> simp [d, hσ, hσb, hb0] <;> field_simp [hσb, hb0]
+    fin_cases s <;> simp [d, hσb, hb0]; field_simp [hσb, hb0]
   refine ⟨h, ?_, ?_⟩
   · intro u v huv
     rw [conj_suHeis_of_mat_diagonal hσ (Nat.not_even_iff_odd.mpr ⟨1, rfl⟩) hmatd hd

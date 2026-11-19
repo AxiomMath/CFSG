@@ -15,15 +15,16 @@ section Syl
 
 variable {Ω : Type*} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem exists_isSylowOf_two_ge {R H : Subgroup Ω} (hR : IsPGroup 2 R) (hRH : R ≤ H) :
     ∃ T : Subgroup Ω, R ≤ T ∧ IsSylowOf 2 T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hR.comap_subtype (K := H)).exists_le_sylow
   exact ⟨Q.map H.subtype, fun x hx => ⟨⟨x, hRH hx⟩, hQ hx, rfl⟩, Q, rfl⟩
 
 theorem exists_conj_of_isSylowOf_two {T₁ T₂ H : Subgroup Ω} (h₁ : IsSylowOf 2 T₁ H)
     (h₂ : IsSylowOf 2 T₂ H) : ∃ x ∈ H, ∀ y : Ω, y ∈ T₂ ↔ x⁻¹ * y * x ∈ T₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₁, rfl⟩ := h₁
   obtain ⟨Q₂, rfl⟩ := h₂
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq H Q₁ Q₂
@@ -58,7 +59,7 @@ theorem normalizer_le_of_central_involution {W Y₁ : Subgroup Ω} (hYW : Y₁ �
     (huniq : ∀ S₁ : Subgroup Ω, S₁ ≤ Y₁ → ¬ 2 ∣ S₁.relIndex Y₁ → ∀ t ∈ S₁,
       (∀ s ∈ S₁, s * t = t * s) → t * t = 1 → t = 1 ∨ t = z)
     {S : Subgroup Ω} (hS : IsSylowOf 2 S W) : Subgroup.normalizer (S : Set Ω) ≤ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzp : IsPGroup 2 (Subgroup.zpowers z) := by
     have hord : orderOf z = 2 := orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1
     exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])

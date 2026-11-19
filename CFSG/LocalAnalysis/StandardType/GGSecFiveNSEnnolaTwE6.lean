@@ -33,7 +33,7 @@ theorem ggTorusFork_of_twE6Model {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R :
     ∀ (L' : Type) [Group L'] [Finite L'] (ψ : L' →* R) (A : Subgroup (MulAut L')),
       GGTorusTBGroup p r R I L' ψ A → GGTorusFork p A := by
   intro L' _ _ ψ A hA
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨hψ, hker, hperf, hAe, hAI, hr, h3, hsc⟩ := hA
   obtain ⟨Φ, w, hw, hact⟩ := h L' ψ hψ hker hperf A hAe hAI hr h3 hsc
   refine ggNEE_torusFork_of_weyl (τ := .E6) (Or.inl rfl) hp hp2 hsc Φ w hw ?_
@@ -50,7 +50,7 @@ theorem ggRowFork_ETwE6_ge5
     : GGRowFork fun p lab => ggRowP_ETwE6 p lab ∧ 5 ≤ p := by
   intro p hp hp2 lab hlab hS
   obtain ⟨hrow, hp5⟩ := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine TwE6Delta.labelAll hrow.1 fun K _ _ hK => ⟨5, ?_, ?_⟩
   · have hl := ggTorusLift_twE6Add_holds hlab.1 hK hp hrow.2
     rwa [TwE6Delta.liftRank_of_ne (by omega)] at hl

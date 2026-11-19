@@ -104,13 +104,13 @@ theorem Mx_gEl {i : ℕ} (hi : i < 3) :
       simpa [gMat, baseMats] using Mx_a hM
     ·
       show Mx a⁻¹ = rowsMatrix (if (0 : ℕ) == 2 then _ else _)
-      rw [if_neg (by decide)]
+      rw [ite_eq_right (by decide)]
       exact Mx_a_inv hM
   · refine ⟨?_, ?_⟩
     · show Mx b = rowsMatrix (if (1 : ℕ) == 2 then _ else _)
       simpa [gMat, baseMats] using Mx_b hM
     · show Mx b⁻¹ = rowsMatrix (if (1 : ℕ) == 2 then _ else _)
-      rw [if_neg (by decide)]
+      rw [ite_eq_right (by decide)]
       exact Mx_b_inv hM
   · refine ⟨?_, ?_⟩
     · show Mx b⁻¹ = rowsMatrix (if (2 : ℕ) == 2 then _ else _)

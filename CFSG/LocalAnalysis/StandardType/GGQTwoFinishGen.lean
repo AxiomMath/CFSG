@@ -42,7 +42,7 @@ theorem ggQ2_finish_of_le {G : Type} [Group G] [Finite G] {p : ℕ} (hLB : GGLBa
     rwa [hψφg ⟨y, hyBs⟩] at h
   let E : Subgroup G :=
     { carrier := {d : G | (k * g) * d * (k * g)⁻¹ ∈ D}
-      one_mem' := by simpa using D.one_mem
+      one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
         change (k * g) * (a * b) * (k * g)⁻¹ ∈ D

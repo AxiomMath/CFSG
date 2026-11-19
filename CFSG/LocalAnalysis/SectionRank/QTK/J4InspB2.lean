@@ -11,8 +11,8 @@ theorem faithful_not_forall_apply_apply {V : Type} [CommGroup V] {X : Subgroup (
     ¬ ∀ x : ↥X, ∀ v : V, (x : MulAut V) ((x : MulAut V) v) = v := by
   intro hall
   have hcard : Nat.card ↥X = 20160 := CFSG.Quasithin.H13.A5.card_of_isPSL34 hX
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 (by rw [hcard]; norm_num)
   have hsq : g * g = 1 := Subtype.ext (MulEquiv.ext fun v => hall g v)
   have h3 : g ^ 3 = 1 := by
@@ -54,9 +54,9 @@ noncomputable def faithful_restrictAut {V : Type} [CommGroup V] (e : MulAut V) (
 noncomputable def faithful_restrictHom {V : Type} [CommGroup V] (X : Subgroup (MulAut V))
     (W : Subgroup V) (hW : CFSG.Quasithin.XMod.IsInv ↥X W) : X →* MulAut ↥W :=
   MonoidHom.mk'
-    (fun x => faithful_restrictAut (x : MulAut V) W (fun w hw => hW x w hw)
-      (fun w hw => hW x⁻¹ w hw))
-    (fun a b => MulEquiv.ext fun w => Subtype.ext rfl)
+    (fun x => faithful_restrictAut (x : MulAut V) W (fun _w hw => hW x _w hw)
+      (fun _w hw => hW x⁻¹ _w hw))
+    (fun _a _b => MulEquiv.ext fun _w => Subtype.ext rfl)
 
 theorem faithful_map_eq {V : Type} [CommGroup V] (X : Subgroup (MulAut V)) (W : Subgroup V)
     (hW : CFSG.Quasithin.XMod.IsInv ↥X W) (x : ↥X) :
@@ -73,7 +73,7 @@ noncomputable def faithful_quotHom {V : Type} [CommGroup V] (X : Subgroup (MulAu
     (W : Subgroup V) (hW : CFSG.Quasithin.XMod.IsInv ↥X W) : X →* MulAut (V ⧸ W) :=
   MonoidHom.mk'
     (fun x => QuotientGroup.congr W W (x : MulAut V) (faithful_map_eq X W hW x))
-    (fun a b => MulEquiv.ext fun q => QuotientGroup.induction_on q fun v => rfl)
+    (fun _a _b => MulEquiv.ext fun q => QuotientGroup.induction_on q fun _v => rfl)
 
 theorem faithful_injective_or_eq_one {X Y : Type} [Group X] [IsSimpleGroup X] [Group Y]
     (φ : X →* Y) : Function.Injective φ ∨ ∀ x, φ x = 1 := by
@@ -89,7 +89,7 @@ theorem faithfulL34ModDim_aux (n : ℕ) :
   induction n using Nat.strong_induction_on with
   | _ n ih =>
   intro V _ _ hn hV X hX
-  haveI : IsSimpleGroup ↥X := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hX
+  have : IsSimpleGroup ↥X := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hX
   by_cases hlt : (⊥ : Subgroup V) < ⊤
   · by_cases hirr : CFSG.Quasithin.XMod.IsIrrSec ↥X (⊥ : Subgroup V) ⊤
     · exact two_pow_nine_le_of_irreducible' V hV X hX hirr
@@ -166,7 +166,7 @@ theorem faithfulL34ModDim_aux (n : ℕ) :
       have hvtop : v ∈ (⊤ : Subgroup V) := Subgroup.mem_top v
       rw [← h] at hvtop
       exact Subgroup.mem_bot.mp hvtop
-    haveI : Subsingleton V := ⟨fun a b => (hsub a).trans (hsub b).symm⟩
+    have : Subsingleton V := ⟨fun a b => (hsub a).trans (hsub b).symm⟩
     exact faithful_not_forall_apply_apply hX fun _ _ => Subsingleton.elim _ _
 
 theorem faithfulL34ModDim_holds : FaithfulL34ModDim := by

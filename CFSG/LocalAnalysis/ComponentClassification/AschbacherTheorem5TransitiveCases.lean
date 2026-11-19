@@ -273,7 +273,7 @@ theorem not_dihedral (hC : Counterexample G D r Abar)
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 (bar D' W)))
     refine ⟨P, ?_⟩
     have hPb : IsPGroup 2 ((P : Subgroup (bar D' W)).map (bar D' W).subtype) :=
-      P.isPGroup'.map _
+      P.isPGroup.map _
     obtain ⟨V, hVW, hV2, hVP⟩ := lift_two_subgroup hWH' hPb (Subgroup.map_subtype_le _)
     have hVc : IsCyclic V := Factor.conj_inter_isCyclic hC h3 hab hHa haq hg hV2
       (le_inf (hVW.trans (inf_le_left.trans hA'eq.le)) (hVW.trans (inf_le_right.trans hCx)))

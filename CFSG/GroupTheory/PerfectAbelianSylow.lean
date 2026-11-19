@@ -20,16 +20,16 @@ private theorem two_dvd_card_of_perfect (X : Type*) [Group X] [Finite X] [Group.
 
 private theorem four_dvd_card_of_perfect (X : Type*) [Group X] [Finite X] [Group.IsPerfect X]
     [Nontrivial X]
-    (hab : ∀ P : Sylow 2 X, ∀ x ∈ (P : Subgroup X), ∀ y ∈ (P : Subgroup X), x * y = y * x)
-    (h16 : ¬ 16 ∣ Nat.card X)
-    (hsq : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ^ 2 ∣ Nat.card X) :
+    (_hab : ∀ P : Sylow 2 X, ∀ x ∈ (P : Subgroup X), ∀ y ∈ (P : Subgroup X), x * y = y * x)
+    (_h16 : ¬ 16 ∣ Nat.card X)
+    (_hsq : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ^ 2 ∣ Nat.card X) :
     4 ∣ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card X := two_dvd_card_of_perfect X
   by_contra h4
   obtain ⟨T⟩ : Nonempty (Sylow 2 X) := inferInstance
-  obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
   have hidx : ¬ 2 ∣ (T : Subgroup X).index := T.not_dvd_index
   have hmul : Nat.card (T : Subgroup X) * (T : Subgroup X).index = Nat.card X :=
     Subgroup.card_mul_index _
@@ -72,7 +72,7 @@ private theorem exists_nontrivial_perfect_subgroup {X : Type*} [Group X] [Finite
     (hX : ¬ Group.IsSolvable X) :
     ∃ D : Subgroup X, D ≠ ⊥ ∧ Group.IsPerfect ↥D := by
   classical
-  haveI : WellFoundedLT (Subgroup X) := Finite.to_wellFoundedLT
+  have : WellFoundedLT (Subgroup X) := Finite.to_wellFoundedLT
   by_contra h
   apply hX
   rw [Group.isSolvable_iff_commutator_lt]
@@ -120,16 +120,16 @@ private theorem exists_normal_torsion_subgroup {G : Type*} [Group G] [Finite G]
     ∃ (r : ℕ) (_ : r.Prime) (Ar : Subgroup G),
       Ar.Normal ∧ Ar ≠ ⊥ ∧ Ar ≤ N ∧ (∀ x ∈ Ar, x ^ r = 1) := by
   classical
-  haveI : A.Characteristic := hAchar
-  haveI : IsMulCommutative ↥A := hAcomm
+  have : A.Characteristic := hAchar
+  have : IsMulCommutative ↥A := hAcomm
   let AG : Subgroup G := A.map N.subtype
   have hAGnormal : AG.Normal :=
     ConjAct.normal_of_characteristic_of_normal (G := G) (H := N) (K := A)
-  haveI : IsMulCommutative AG := Subgroup.map_isMulCommutative A N.subtype
+  have : IsMulCommutative AG := Subgroup.map_isMulCommutative A N.subtype
   have hAGle : AG ≤ N := Subgroup.map_subtype_le A
   have hAcard : Nat.card ↥A ≠ 1 := fun h => hAne (Subgroup.card_eq_one.mp h)
   obtain ⟨r, hr, hrdvd⟩ := Nat.exists_prime_and_dvd hAcard
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨a, haord⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) r hrdvd
   let aG : G := ((a : ↥N) : G)
   have haG_mem : aG ∈ AG := ⟨a, a.2, rfl⟩
@@ -185,7 +185,7 @@ private theorem isPGroup_of_forall_pow_eq_one {G : Type*} [Group G] {r : ℕ} [F
   · exact ⟨1, by rw [h', pow_one]⟩
 
 private theorem card_eq_prime_of_isPGroup {G : Type*} [Group G] [Finite G]
-    (h16 : ¬ 16 ∣ Nat.card G)
+    (_h16 : ¬ 16 ∣ Nat.card G)
     (hsq : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ^ 2 ∣ Nat.card G)
     {N : Subgroup G} (h4N : ¬ 4 ∣ Nat.card N)
     {r : ℕ} [Fact r.Prime] {Ar : Subgroup G} (hArne : Ar ≠ ⊥) (hArleN : Ar ≤ N)
@@ -230,11 +230,11 @@ private theorem exists_normal_subgroup_card_prime {G : Type*} [Group G] [Finite 
     ∃ (r : ℕ) (_ : r.Prime) (Ar : Subgroup G),
       Ar.Normal ∧ Ar ≠ ⊥ ∧ Ar ≤ N ∧ Nat.card Ar = r := by
   classical
-  haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNbot
+  have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNbot
   obtain ⟨A, hAne, hAchar, hAcomm⟩ := exists_abelian_characteristic_subgroup ↥N hNsolv
   obtain ⟨r, hr, Ar, hArn, hArne, hArleN, hArpow⟩ :=
     exists_normal_torsion_subgroup hAchar hAcomm hAne
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   exact ⟨r, hr, Ar, hArn, hArne, hArleN,
     card_eq_prime_of_isPGroup h16 hsq h4N hArne hArleN
       (isPGroup_of_forall_pow_eq_one hArpow)⟩
@@ -243,8 +243,8 @@ private theorem le_center_of_normal_subgroup_card_prime {G : Type*} [Group G] [F
     [Group.IsPerfect G] {r : ℕ} [Fact r.Prime] {Ar : Subgroup G} (hArn : Ar.Normal)
     (hArcard : Nat.card Ar = r) : Ar ≤ Subgroup.center G := by
   classical
-  haveI : Ar.Normal := hArn
-  haveI : IsCyclic Ar := isCyclic_of_prime_card hArcard
+  have : Ar.Normal := hArn
+  have : IsCyclic Ar := isCyclic_of_prime_card hArcard
   have hAutComm : IsMulCommutative (MulAut Ar) := by
     refine IsMulCommutative.of_comm ?_
     intro f g
@@ -277,7 +277,7 @@ private theorem false_of_solvable_normal {G : Type*} [Group G] [Finite G] [Group
   classical
   obtain ⟨r, hr, Ar, hArn, hArne, hArleN, hArcard⟩ :=
     exists_normal_subgroup_card_prime h16 hsq hNbot h4N hNsolv
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hArcenter : Ar ≤ Subgroup.center G :=
     le_center_of_normal_subgroup_card_prime hArn hArcard
   have hdvd : r ∣ Nat.card Ar := by rw [hArcard]
@@ -295,7 +295,7 @@ private theorem false_of_solvable_normal {G : Type*} [Group G] [Finite G] [Group
     · cases hr2
       exact fun x hx y hy => hab R x hx y hy
     · have hRcard : Nat.card (R : Subgroup G) = r := by
-        obtain ⟨m, hm⟩ := R.isPGroup'.exists_card_eq
+        obtain ⟨m, hm⟩ := R.isPGroup.exists_card_eq
         have hmpos : 0 < m := by
           by_contra h
           have hm0 : m = 0 := by omega
@@ -312,8 +312,8 @@ private theorem false_of_solvable_normal {G : Type*} [Group G] [Finite G] [Group
           exact hsq r hr hr2 (hdvd.trans (Subgroup.card_subgroup_dvd_card (R : Subgroup G)))
         have hm_eq : m = 1 := by omega
         rw [hm, hm_eq, pow_one]
-      haveI : IsCyclic (R : Subgroup G) := isCyclic_of_prime_card hRcard
-      haveI : IsMulCommutative (R : Subgroup G) := IsCyclic.isMulCommutative
+      have : IsCyclic (R : Subgroup G) := isCyclic_of_prime_card hRcard
+      have : IsMulCommutative (R : Subgroup G) := IsCyclic.isMulCommutative
       exact fun x hx y hy => setLike_mul_comm hx hy
   have ha1 : ((a : Ar) : G) = 1 :=
     CFSG.Quasithin.QP.eq_one_of_mem_center_of_isPerfect R hRcomm hacentral
@@ -339,7 +339,7 @@ theorem isSimpleGroup_of_isPerfect_of_card {G : Type*} [Group G] [Finite G] [Gro
   exfalso
   have h4N : ¬ 4 ∣ Nat.card N := by
     intro h4Ndiv
-    haveI : Nontrivial (G ⧸ N) := QuotientGroup.nontrivial_iff.mpr htop
+    have : Nontrivial (G ⧸ N) := QuotientGroup.nontrivial_iff.mpr htop
     have hcard : Nat.card G = Nat.card N * Nat.card (G ⧸ N) := by
       rw [← Subgroup.card_mul_index N, Subgroup.index_eq_card]
     have hQhab : HasAbelianSylowTwo (G ⧸ N) := hGHab.quotient N
@@ -355,8 +355,8 @@ theorem isSimpleGroup_of_isPerfect_of_card {G : Type*} [Group G] [Finite G] [Gro
   have hNsolv : Group.IsSolvable ↥N := by
     by_contra hns
     obtain ⟨D, hDne, hDperf⟩ := exists_nontrivial_perfect_subgroup hns
-    haveI : Group.IsPerfect ↥D := hDperf
-    haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
+    have : Group.IsPerfect ↥D := hDperf
+    have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
     have hDhab : HasAbelianSylowTwo ↥D := (hGHab.subgroup N).subgroup D
     have hDdvdN : Nat.card ↥D ∣ Nat.card ↥N := by
       have := Subgroup.card_dvd_of_le (H := D) (K := ⊤) le_top

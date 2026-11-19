@@ -74,6 +74,7 @@ theorem join_spec (h : IsEnc enc) (c : LatCert G) (hcl : c.closedOK enc = true)
     simp
   rw [hset, Subgroup.closure_union]
 
+omit [Group G] [Finite G] in
 theorem joinsOK_of_check {c : LatCert G} (hc : c.check enc = true) : c.joinsOK enc = true := by
   simp only [LatCert.check, Bool.and_eq_true] at hc
   exact hc.1.1.2
@@ -328,7 +329,7 @@ theorem m22_A5 : ∃ V' : Subgroup (Perm (Fin 22)),
     Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) V₀
   rw [h1]
   ext x
-  simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+  simp
 
 theorem m22_data : ∃ A V P : Subgroup ↥Mgrp, IsSylowTwoOf Ugrp ⊤ ∧ IsA5Ext A V ∧ Ugrp ≤ P ∧
     Nat.card P = 3 * Nat.card Ugrp ∧ (A ⊔ Ugrp) ⊔ P = ⊤ ∧

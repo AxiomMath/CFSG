@@ -54,7 +54,7 @@ theorem exists_spinCoord_A (h : Tim79a.ParrottHypA z)
   have hκ₀def : ∀ x, κ₀ x = ((P⁻¹ : GL8) : Mat8) *ᵥ wf x := fun x => rfl
   have hwf : ∀ x (hx : x ∈ J z), wf x =
       Multiplicative.toAdd (mulEquivV h2 (QuotientV.pi (CaseIIDouble.zz z)
-        ⟨(x, 1), CaseIIDouble.mk_mem_J_zz hx⟩)) := fun x hx => dif_pos hx
+        ⟨(x, 1), CaseIIDouble.mk_mem_J_zz hx⟩)) := fun x hx => dite_eq_left hx
   have hκ₀spin : ∀ x (hx : x ∈ J z), spinVecToV h2 P (κ₀ x) =
       QuotientV.pi (CaseIIDouble.zz z) ⟨(x, 1), CaseIIDouble.mk_mem_J_zz hx⟩ := by
     intro x hx
@@ -173,9 +173,9 @@ theorem exists_spinCoord_A (h : Tim79a.ParrottHypA z)
       rw [hqeq]
       exact CaseIIDouble.qVZMod_zz_eq_zero_iff h2 j 1 (CaseIIDouble.mk_mem_J_zz hj)
     by_cases h0 : q (κ j) = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       exact hiff.mp h0
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hne : j * j ≠ 1 := fun h1 => h0 (hiff.mpr h1)
       rcases (Subgroup.mem_zpowers_iff_of_orderOf_eq_two (orderOf_z_A h)).mp hmem with h1 | h1
       · exact absurd h1 hne
@@ -217,11 +217,11 @@ theorem exists_spinCoord_A (h : Tim79a.ParrottHypA z)
         rwa [h.commutator] at hmem'
       rwa [commutatorElement_def] at hc
     by_cases hb0 : b (κ j) (κ k) = 0
-    · rw [if_pos hb0]
+    · rw [ite_eq_left hb0]
       have hc := hbiff.mp hb0
       calc j * k * j⁻¹ * k⁻¹ = k * j * j⁻¹ * k⁻¹ := by rw [hc.eq]
         _ = 1 := by group
-    · rw [if_neg hb0]
+    · rw [ite_eq_right hb0]
       have hne : j * k * j⁻¹ * k⁻¹ ≠ 1 := by
         intro h1
         apply hb0

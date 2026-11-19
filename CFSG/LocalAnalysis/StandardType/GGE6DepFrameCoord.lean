@@ -17,6 +17,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem pow_mul_comm {x l : G} (h : l * x = x * l) (k : ℕ) :
     x ^ k * l = l * x ^ k := by
   induction k with
@@ -30,6 +31,7 @@ private theorem pow_mul_comm {x l : G} (h : l * x = x * l) (k : ℕ) :
       _ = l * (x ^ k * x) := by rw [mul_assoc]
       _ = l * x ^ (k + 1) := by rw [pow_succ]
 
+omit [Finite G] in
 private theorem decomp_unique {x : G} {L : Subgroup G} {k k' : ℕ} {l l' : G}
     (hxinf : Subgroup.zpowers x ⊓ L = ⊥)
     (hxord : orderOf x = 3)
@@ -323,7 +325,7 @@ theorem ggE6Dep_exists_coordinates {B Bs : Subgroup G} {x : G} {L D J : Subgroup
   · change ι0 (Additive.ofMul y') = Pi.single 5 1
     have hφ0y : φ0 (Additive.ofMul y') = 0 := by
       apply (hφ0_zero (Additive.ofMul y')).mpr
-      exact Subgroup.mem_subgroupOf.mpr (by simpa [y'] using Subgroup.mem_zpowers x)
+      exact Subgroup.mem_subgroupOf.mpr (by simp [y'])
     rw [hι0_apply (Additive.ofMul y'), hφ0y, hκ_x]
     simp
   · intro b

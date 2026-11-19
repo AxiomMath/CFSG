@@ -18,6 +18,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {U : Type} [CommGroup U] [Finite U]
 
 
+omit [Finite U] in
 private theorem s16h_e3_l3_exists_not_mem {L : Subgroup (MulAut U)} [IsSimpleGroup ↥L]
     {Z X : Subgroup U} {k : ℕ} (hZ : Z ≤ fixV L)
     (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z 3 1) L ⊤ Z k)
@@ -38,7 +39,7 @@ private theorem s16h_e3_l3_exists_not_mem {L : Subgroup (MulAut U)} [IsSimpleGro
     have hmem : (⟨γ, hγL⟩ : ↥L) ∈ (L ⊓ centSec X Z).subgroupOf L := hγmem
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hγ1 (congrArg Subtype.val hmem)
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((L ⊓ centSec X Z).subgroupOf L) with hbot | htop
   · exact hne hbot
   · exact hx₀Z (s16h_e3_l3_mem_of_comm_mem_sum hZ hsum (x := x₀) fun l hl => by
@@ -48,8 +49,8 @@ private theorem s16h_e3_l3_exists_not_mem {L : Subgroup (MulAut U)} [IsSimpleGro
 
 theorem s16h_L3_sum_three_seven_quotient {L : Subgroup (MulAut U)}
     (helem : ∀ u : U, u * u = 1)
-    (hquasi : CFSG.Open.IsQuasisimple ↥L) (hsl3 : IsSLn ↥L 3 1)
-    (hcomm : commSub ⊤ L = ⊤)
+    (_hquasi : CFSG.Open.IsQuasisimple ↥L) (_hsl3 : IsSLn ↥L 3 1)
+    (_hcomm : commSub ⊤ L = ⊤)
     (hsum : ∃ k : ℕ, k ≤ 3 ∧
       SumOfNat (fun H U Z => BinaryNaturalSL H U Z 3 1) L ⊤ (fixV L) k)
     {g : MulAut U}
@@ -75,7 +76,7 @@ theorem s16h_L3_sum_three_seven_quotient {L : Subgroup (MulAut U)}
     have hnat₀ : BinaryNaturalSL L (I i₀) Z 3 1 := hnat i₀
     have hcoord : L3Coord L (I i₀) Z := BinaryNaturalSL.toL3Coord hnat₀
     have hpsl : IsPSL 3 2 1 ↥L := s16h_e3_l3_isPSL_of_coord hcoord
-    haveI hsimple : IsSimpleGroup ↥L :=
+    have hsimple : IsSimpleGroup ↥L :=
       (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hpsl).2
     obtain ⟨D⟩ := hcoord
     let γ : MulAut U := D.rho L3.x12

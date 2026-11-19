@@ -76,11 +76,11 @@ theorem enc_pwA (g : ↥(alternatingGroup (Fin 7))) (d : ℕ) :
   by_cases h0 : d = 0
   · subst h0
     rfl
-  · rw [if_neg h0, beq_false_of_ne h0]
+  · rw [ite_eq_right h0, beq_false_of_ne h0]
     by_cases h1 : d = 1
     · subst h1
       rfl
-    · rw [if_neg h1, beq_false_of_ne h1]
+    · rw [ite_eq_right h1, beq_false_of_ne h1]
       rfl
 
 theorem enc_wordA {g₁ g₂ : ↥(alternatingGroup (Fin 7))}

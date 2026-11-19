@@ -46,7 +46,7 @@ structure TBFacts (T S₀ D : Subgroup G) (z : G) : Prop where
 
 @[expose] def Sec4CentSylowCard : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L Q : Subgroup G) (n : ℕ)
-    (θ : L ≃* alternatingGroup (Fin n)) (z : G) (c : Config G L Q n θ z)
+    (θ : L ≃* alternatingGroup (Fin n)) (z : G) (_c : Config G L Q n θ z)
     (P : Sylow 2 (centralizer ({z} : Set G))),
       (IsASmall L n z → Nat.card P = 2 ^ 7) ∧ (¬ IsASmall L n z → Nat.card P = 2 ^ 8)
 

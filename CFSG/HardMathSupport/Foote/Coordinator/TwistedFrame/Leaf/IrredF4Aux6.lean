@@ -187,14 +187,14 @@ theorem Sfun_single {L : Type} [Field L] (Fr : L →+* L) (ε : (Fin Tag.F4.rank
   funext μ
   simp only [Sfun]
   by_cases hμ : μ ∈ Deg1 Tag.F4
-  · rw [if_pos hμ]
+  · rw [ite_eq_left hμ]
     by_cases h : μ = wF • ν
     · subst h
       rw [wF_invol, Pi.single_eq_same, Pi.single_eq_same]
     · have h' : wF • μ ≠ ν := fun e => h (by rw [← e, wF_invol])
       rw [Pi.single_eq_of_ne h', Pi.single_eq_of_ne h]
       simp
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     have h : μ ≠ wF • ν := fun e => hμ (e ▸ wF_mem_Deg1 hν)
     rw [Pi.single_eq_of_ne h]
 
@@ -211,14 +211,14 @@ theorem Sfun_fixed {L : Type} [Field L] (Fr : L →+* L) {ε : (Fin Tag.F4.rank 
   funext μ
   simp only [Sfun]
   by_cases hμ : μ ∈ Deg1 Tag.F4
-  · rw [if_pos hμ]
+  · rw [ite_eq_left hμ]
     have hα := wF_mem_Deg1 hμ
     have h1 : heisCoord Tag.F4 L (Units.map (entrywiseHom Fr) q) (wF • μ) =
         Fr (heisCoord Tag.F4 L q (wF • μ)) := congrFun (coord_frob Fr hq).2 (wF • μ)
     have h2 := hn (wF • μ)
-    rw [← hF, h1, if_pos hα, wF_invol] at h2
+    rw [← hF, h1, ite_eq_left hα, wF_invol] at h2
     rw [h2, ← mul_assoc, hε (wF • μ) hα.1, one_mul]
-  · rw [if_neg hμ]
+  · rw [ite_eq_right hμ]
     exact ((heisCoord_spec Tag.F4 L).support q hq μ hμ).symm
 
 end CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.IrredF4Aux

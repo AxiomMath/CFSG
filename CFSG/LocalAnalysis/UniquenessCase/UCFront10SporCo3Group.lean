@@ -238,8 +238,8 @@ theorem quot_comm_of_index_dvd_four {H K : Subgroup G} (hidx : (K.subgroupOf H).
   · have : Subsingleton (↥H ⧸ K.subgroupOf H) := (Nat.card_eq_one_iff_unique.1 hk').1
     exact Subsingleton.elim _ _
   · have : IsCyclic (↥H ⧸ K.subgroupOf H) := isCyclic_of_prime_card (p := 2) (by simpa using hk')
-    exact IsCyclic.commutative.is_comm.comm a b
-  · exact IsPGroup.commutative_of_card_eq_prime_sq hk' a b
+    exact _root_.IsCyclic.isMulCommutative.is_comm.comm a b
+  · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk').is_comm.comm a b
 
 theorem commutator_mem_of_index_dvd_four {H K : Subgroup G} [K.Normal]
     (hidx : (K.subgroupOf H).index ∣ 4) {x y : G} (hx : x ∈ H) (hy : y ∈ H) :

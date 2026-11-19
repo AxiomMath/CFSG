@@ -31,7 +31,7 @@ theorem eq_one_of_commute_of_fixing [Finite S] {p : ℕ} (hp : p.Prime) {a : Mul
     (hout : a ∉ innerAut S) {J : Subgroup S}
     (hfix : ∀ w : MulAut S, (∀ x ∈ J, w x = x) → w ∈ Subgroup.zpowers a)
     (hZ : Subgroup.center S = ⊥) {x : S} (hx : ∀ m ∈ J, x * m = m * x) : x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : (MulAut.conj x : MulAut S) = 1 := by
     by_contra hne
     have hfixc : ∀ m ∈ J, (MulAut.conj x : MulAut S) m = m := fun m hm => by
@@ -72,7 +72,7 @@ theorem normal_subgroupOf_self (H : Subgroup S) : (H.subgroupOf H).Normal := by
 
 theorem isSolvable_quotient_self (H : Subgroup S) [(H.subgroupOf H).Normal] :
     Group.IsSolvable (↥H ⧸ H.subgroupOf H) := by
-  haveI : Subsingleton (↥H ⧸ H.subgroupOf H) := by
+  have : Subsingleton (↥H ⧸ H.subgroupOf H) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with | H a => ?_
     induction b using QuotientGroup.induction_on with | H b => ?_

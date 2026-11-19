@@ -193,7 +193,7 @@ theorem yconf_of_model [Finite Gs] {F : Type} [Field F] [Finite F] (hodd : Odd (
     exact h2.symm.symm
   have hS'syl : IsSylowOf 2 (S' : Subgroup Gs) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, S'.isPGroup', ?_⟩
+    refine ⟨le_top, S'.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S'.not_dvd_index
   have hE : E₁ ⊔ E₂ = IVK.Ez z' := hdat.Ez_eq.symm

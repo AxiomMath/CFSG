@@ -18,7 +18,7 @@ theorem mem_of_pow_two_pow_eq_one_of_mem_sup {G : Type*} [Group G] {N T' : Subgr
     (hTM : ∀ t ∈ T', t ^ M = 1) {a : G} (ha : a ∈ N ⊔ T') {k : ℕ} (hk : a ^ 2 ^ k = 1) :
     a ∈ N := by
   have hNT : N ⊔ T' ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT
-  haveI : (N.subgroupOf (N ⊔ T')).Normal :=
+  have : (N.subgroupOf (N ⊔ T')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hNT
   obtain ⟨x, hx, t, ht, rfl⟩ : ∃ x ∈ N, ∃ t ∈ T', a = x * t := by
     have h := ha
@@ -169,7 +169,7 @@ theorem not_rankOne_le_normalizer_radical (k : Fin D.rank) :
 include hct hext in
 theorem parJ_le_normalizer_radical {J : Set (Fin D.rank)} {k : Fin D.rank} (hk : k ∉ J) :
     parJ D H J ≤ Subgroup.normalizer (radical D k : Set K) :=
-  sup_le (borel_le_normalizer_radical hct hext k) (iSup₂_le fun j hj =>
+  sup_le (borel_le_normalizer_radical hct hext k) (iSup₂_le fun _j hj =>
     rankOne_le_normalizer_radical hext (fun e => hk (e ▸ hj)))
 
 include hct hext in
@@ -191,7 +191,7 @@ theorem torus_le_normalizer_unipJ (J : Set (Fin D.rank)) :
 
 theorem parJ_eq_sup (J : Set (Fin D.rank)) : parJ D H J = unipJ D J ⊔ ⨆ i, H i := by
   rw [parJ, unipJ, LieType.Steinberg.borel]
-  simp only [sup_assoc, sup_comm, sup_left_comm]
+  simp only [sup_assoc, sup_comm]
 
 include hct hext in
 theorem not_rankOne_le_borel (i : Fin D.rank) : ¬ rankOne D.rootGroup i ≤ borel D H := fun h => by

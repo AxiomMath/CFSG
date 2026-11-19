@@ -45,6 +45,7 @@ theorem c23a_cent_union (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V₀ 
     rw [h3]
     exact D.M.mul_mem (D.M.mul_mem (D.M.inv_mem hx) h2) hx
 
+omit [Finite G] in
 theorem c23a_inf_blocks_eq_bot {M V W W' : Subgroup G} (hP : C23APair M V W W')
     {A X : Subgroup G} (hA : ¬ A ≤ M) (hX : ∀ x ∈ X, ∀ a ∈ A, a * x = x * a) :
     X ⊓ W = ⊥ ∧ X ⊓ W' = ⊥ := by

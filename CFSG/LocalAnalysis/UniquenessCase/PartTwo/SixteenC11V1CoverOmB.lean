@@ -19,7 +19,7 @@ private theorem s16c11_v1_minusQuadCore_map {m : ℕ} {K : Type} [Field K] (e : 
     (b c : K) (hb : e.symm b = 1) (hc : e.symm c = 1) (v : Fin m ⊕ Fin m ⊕ Fin 2 → K) :
     CFSG.MatrixModel.minusQuadCore m (ZMod 2) 1 1 (fun i => e.symm (v i)) =
       e.symm (CFSG.MatrixModel.minusQuadCore m K b c v) := by
-  simp only [CFSG.MatrixModel.minusQuadCore, map_add, map_mul, map_pow, map_sum, map_one, hb, hc,
+  simp only [CFSG.MatrixModel.minusQuadCore, map_add, map_mul, map_pow, map_sum, hb, hc,
     one_mul]
 
 private theorem s16c11_v1_zmod2_eq_zero_or_eq_one (a : ZMod 2) : a = 0 ∨ a = 1 := by
@@ -38,7 +38,7 @@ theorem s16c11_v1_statedOmega_minus_ringEquiv {m : ℕ} {K : Type} [Field K] [Fi
         γ ∈ StatedOmega (StatedQuadMinus (m + 1) K b c) ↔
           ψ γ ∈ StatedOmega (StatedQuadMinus (m + 1) (ZMod 2) 1 1) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hK'
   let θ : (Fin m ⊕ Fin m ⊕ Fin 2 → K) ≃+

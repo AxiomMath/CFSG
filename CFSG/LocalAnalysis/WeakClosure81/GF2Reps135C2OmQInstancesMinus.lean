@@ -17,7 +17,7 @@ theorem omqMinusWeightVectorLong_of_interpolation (hG1 : OmqRootInterpolation) :
     OmqMinusWeightVectorLong := by
   intro n hn K _ _ _ b c hirr k _ _ ι ι' hι' V _ _ σ hσ y χ μ ht hμ cc j hcc1 hccle hχ hodd
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let D := SmallO8mCurtis.curtisDatum n hn hirr
   obtain ⟨φ, hφ1, hφ⟩ := omq_omMinus_hcoeff_long hn hirr ι hσ ht hμ hcc1 hχ
   obtain ⟨α, hconj, hαι⟩ := omq_omMinus_exists_alpha_long hn hirr
@@ -55,9 +55,9 @@ theorem omqMinusWeightVectorShort_of_interpolation (hG1 : OmqRootInterpolation) 
     OmqMinusWeightVectorShort := by
   intro n hn K _ _ _ b c hirr k _ _ ι ι' hι' V _ _ σ hσ y χ μ ht hex C j hC1 hCle hχ hodd
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
-  letI : Fintype (ShortField b c) := Fintype.ofFinite (ShortField b c)
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
+  let : Fintype (ShortField b c) := Fintype.ofFinite (ShortField b c)
   let D := SmallO8mCurtis.curtisDatum n hn hirr
   obtain ⟨φ, hφ1, hφ⟩ := omq_omMinus_hcoeff_short hn hirr ι' hσ ht hex hC1 hχ
   obtain ⟨α, hconj, hαι⟩ := omq_omMinus_exists_alpha_short hn hirr ⟨0, by omega⟩

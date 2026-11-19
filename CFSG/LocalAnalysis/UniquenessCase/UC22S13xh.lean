@@ -45,7 +45,7 @@ theorem uc22s13xh_exists_lift {L B : Subgroup G} (hBN : B ≤ normalizer (L : Se
       exact hy'
   have hNp : IsPGroup 2 ↥(CFSG.pCore 2 ↥L) := CFSG.pCore_isPGroup
   have hNsolv : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) := by
-    haveI := hNp.isNilpotent
+    have := hNp.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card ↥B) (Nat.card ↥(CFSG.pCore 2 ↥L)) := by
     obtain ⟨k, hk⟩ := hNp.exists_card_eq

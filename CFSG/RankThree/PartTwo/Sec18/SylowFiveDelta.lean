@@ -182,7 +182,7 @@ theorem pow_three {a : G} (ha : a ∈ A) : a ^ 3 = 1 := hS.isElemAbelian.2 a ha
 theorem pow_three_of_mem_plane {b : G} (hb : b ∈ B) : b ^ 3 = 1 := hS.pow_three (hS.le hb)
 
 theorem le_qOf : A ≤ qOf P B :=
-  le_inf hS.le_sylow fun a ha => Subgroup.mem_centralizer_iff.mpr fun b hb =>
+  le_inf hS.le_sylow fun _a ha => Subgroup.mem_centralizer_iff.mpr fun _b hb =>
     hS.comm (hS.le hb) ha
 
 theorem plane_le : B ≤ P := hS.le.trans hS.le_sylow
@@ -194,6 +194,7 @@ theorem exists_pow_eq {x : G} (hx : x ∈ P) : ∃ k : ℕ, x ^ 3 ^ k = 1 := by
 theorem conj_mem_plane {x b : G} (hx : x ∈ P) (hb : b ∈ B) : x * b * x⁻¹ ∈ B :=
   (Subgroup.mem_normalizer_iff.mp (hS.le_normalizer_plane hx) b).mp hb
 
+omit hS in
 theorem commute_of_mem_qOf {x b : G} (hx : x ∈ qOf P B) (hb : b ∈ B) : x * b = b * x :=
   ((mem_qOf_iff.mp hx).2 b hb).symm
 
@@ -208,7 +209,7 @@ theorem commutator_mul {x y : G} (hx : x ∈ qOf P B) (hy : y ∈ P) :
   have hyc := hS.commutator_mem hy
   have e : ⁅x * y, c⁆ = x * ⁅y, c⁆ * x⁻¹ * ⁅x, c⁆ := by
     simp only [commutatorElement_def]; group
-  rw [e, hS.commute_of_mem_qOf hx hyc, mul_inv_cancel_right]
+  rw [e, CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx hyc, mul_inv_cancel_right]
   exact hS.comm (hS.le hyc) (hS.le (hS.commutator_mem hx.1))
 
 theorem mem_of_commute_plane {x : G} (hx : x ∈ P) (hxc : x * c = c * x)
@@ -226,7 +227,7 @@ theorem mem_of_commute_plane {x : G} (hx : x ∈ P) (hxc : x * c = c * x)
 theorem commutator_eq_one_iff {x : G} (hx : x ∈ qOf P B) : ⁅x, c⁆ = 1 ↔ x ∈ A := by
   constructor
   · intro h
-    refine hS.mem_of_commute_plane hx.1 ?_ fun b hb => hS.commute_of_mem_qOf hx hb
+    refine hS.mem_of_commute_plane hx.1 ?_ fun b hb => CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx hb
     rwa [commutatorElement_eq_one_iff_mul_comm] at h
   · intro h
     rw [commutatorElement_eq_one_iff_mul_comm]
@@ -312,7 +313,7 @@ theorem card_qOf [Finite G] : Nat.card (qOf P B) = 243 := by
 theorem commutator_pow_mul {t b : G} (ht : t ∈ qOf P B) (hb : b ∈ B) (i : ℕ) :
     ⁅t, c ^ i * b⁆ = ⁅t, c⁆ ^ i := by
   refine commutator_pow_mul_of ?_ (hS.comm (hS.le (hS.commutator_mem ht.1)) hS.mem)
-    (hS.commute_of_mem_qOf ht hb) i
+    (CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf ht hb) i
   rw [commutatorElement_def, inv_mul_cancel_right]
 
 theorem commutator_pow {t : G} (ht : t ∈ qOf P B) (n : ℕ) : ⁅t ^ n, c⁆ = ⁅t, c⁆ ^ n := by
@@ -329,7 +330,7 @@ theorem commutator_conj {y q : G} (hy : y ∈ P) (hq : q ∈ qOf P B) :
   have hdB : d ∈ B := hS.commutator_mem hq.1
   have e1 : y⁻¹ * c * y = β * c := by
     rw [hβ, commutatorElement_def, inv_inv, inv_mul_cancel_right]
-  have e2 : q * β = β * q := hS.commute_of_mem_qOf hq hβB
+  have e2 : q * β = β * q := CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hq hβB
   have e3 : q * c * q⁻¹ = d * c := by rw [hd, commutatorElement_def, inv_mul_cancel_right]
   have e4 : β * d = d * β := hS.comm (hS.le hβB) (hS.le hdB)
   calc ⁅y * q * y⁻¹, c⁆ = y * q * (y⁻¹ * c * y) * q⁻¹ * y⁻¹ * c⁻¹ := by
@@ -345,7 +346,7 @@ theorem conj_mem_qOf {y q : G} (hy : y ∈ P) (hq : q ∈ qOf P B) : y * q * y�
   have hb' : y⁻¹ * b * y ∈ B := by
     have h := hS.conj_mem_plane (P.inv_mem hy) hb
     rwa [inv_inv] at h
-  have e := hS.commute_of_mem_qOf hq hb'
+  have e := CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hq hb'
   calc b * (y * q * y⁻¹) = y * ((y⁻¹ * b * y) * q) * y⁻¹ := by group
     _ = y * (q * (y⁻¹ * b * y)) * y⁻¹ := by rw [e]
     _ = y * q * y⁻¹ * b := by group
@@ -419,9 +420,11 @@ theorem exists_flag : ∃ b₀ b₁ : G, Flag P B b₀ b₁ := by
 
 variable {b₀ b₁ : G}
 
+omit [Finite G] in
 theorem orderOf_flag (hF : Flag P B b₀ b₁) : orderOf b₀ = 3 :=
   orderOf_eq_prime (hS.pow_three_of_mem_plane hF.mem_zero) hF.ne_one
 
+omit [Finite G] in
 theorem isElemAbelian_plane : CFSG.Assembly.IsElemAbelian 3 B :=
   CFSG.Open.IsElemAbelian.mono hS.isElemAbelian hS.le
 
@@ -465,7 +468,7 @@ theorem mem_qOf_iff_commutator (hF : Flag P B b₀ b₁) {x : G} (hx : x ∈ P) 
   rw [commutatorElement_eq_one_iff_mul_comm]
   constructor
   · intro h
-    exact hS.commute_of_mem_qOf h hF.mem_one
+    exact CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf h hF.mem_one
   · intro h
     refine mem_qOf_iff.mpr ⟨hx, fun b hb => ?_⟩
     have hle : B ≤ Subgroup.centralizer ({x} : Set G) := by
@@ -544,7 +547,7 @@ theorem pow_three_mem (hF : Flag P B b₀ b₁) {x : G} (hx : x ∈ P) : x ^ 3 �
       _ = c := by rw [hS.pow_three_of_mem_plane hβB, hS.pow_three_of_mem_plane hzB, one_mul,
           one_mul]
   have hQ := hS.pow_three_mem_qOf hF hx
-  refine hS.mem_of_commute_plane hQ.1 ?_ fun b hb => hS.commute_of_mem_qOf hQ hb
+  refine hS.mem_of_commute_plane hQ.1 ?_ fun b hb => CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hQ hb
   calc x ^ 3 * c = x ^ 3 * c * (x ^ 3)⁻¹ * x ^ 3 := by group
     _ = c * x ^ 3 := by rw [hc]
 

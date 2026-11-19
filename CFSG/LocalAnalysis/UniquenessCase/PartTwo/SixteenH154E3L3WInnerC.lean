@@ -107,7 +107,7 @@ private theorem s16h_e3_l3_realizes_summand {U Z I : Subgroup W} {L : Subgroup (
   exact ⟨ψ.toMonoidHom.comp π,
     CFSG.Quasithin.Vol2.Ch10.SecC.realizesVia_transport hπ ψ e heZ bot_le hU hZ hc⟩
 
-theorem s16h_e3_l3_quotient_natSum3 (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
+theorem s16h_e3_l3_quotient_natSum3 (_hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     (hL3 : s16h_H5L3Sum L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3) :
     L ⊓ centSec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = ⊥ ∧
     SumOfNat (fun H A B => BinaryNaturalSL H A B 3 1)

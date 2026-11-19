@@ -92,6 +92,7 @@ theorem rep_o2_F4 (h6210 : Stmt6_2_10_F4) :
 
 include h in
 
+omit [Fact (IsElemAbelianMod (UU T L V) (quasithinOmegaOneCenter T))] in
 theorem isQuotientOfSQTK_HH_F4 (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10_F4) :
     IsQuotientOfSQTK ↥(HH T) := by
   have hO2 : pCoreOf 2 (HH T) ≠ ⊥ := by

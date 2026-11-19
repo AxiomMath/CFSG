@@ -77,7 +77,7 @@ theorem fg_exists_sigma {B : LinearMap.BilinForm (ZMod 3) V} {ρ : V →ₗ[ZMod
   have hBπxπy : ∀ x y : V, B (π x) (π y) = B x (π y) := by
     intro x y
     rw [hπ y]
-    simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul]
+    simp only [map_add, map_smul, smul_eq_mul]
     rw [hBπv x, hBπρv x]
   have hself : ∀ x y : V, B (π x) y = B x (π y) := by
     intro x y

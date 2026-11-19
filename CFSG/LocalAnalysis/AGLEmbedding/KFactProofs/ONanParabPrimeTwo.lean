@@ -471,7 +471,7 @@ theorem openCone_pair_subset {i j : Fin D.rank} (hij : i ≠ j) (hAij : D.cartan
     have hprop := (RootSystem.ofCartan D.isFiniteType D.divisible).proportional _ hεr _ hδ hnot
     rcases hprop with h | h | h | h | h | h <;>
     · have := congrFun h i
-      simp [pair_apply_left hij] at this <;> omega
+      simp [pair_apply_left hij] at this; try omega
   · have : b = 1 ∨ b = 2 := by omega
     rcases this with rfl | rfl
     · exact Or.inl (by simp)

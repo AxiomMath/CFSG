@@ -155,7 +155,7 @@ theorem frobenius_error_rootSL2_data_of_c3 {f : ℕ}
         rootSL2R Ω := by
     have hid : (MulAut.conj (1 : ModGL .F4 Ω)).toMonoidHom = MonoidHom.id _ := by
       ext g
-      simp [MulAut.conj_apply]
+      simp
     simpa only [hid, Subgroup.map_id] using
       centralizer_conjIM_eq (Ω := Ω) 1 (Subgroup.one_mem _)
   refine ⟨isRoot_rootR, rootSL2_rootR_injective, ?_, ?_⟩
@@ -185,7 +185,7 @@ theorem frobenius_error_rootSL2_data_of_b3 {f : ℕ}
         rootSubgroup .F4 Ω rootS ⊔ rootSubgroup .F4 Ω (-rootS) := by
     have hid : (MulAut.conj (1 : ModGL .F4 Ω)).toMonoidHom = MonoidHom.id _ := by
       ext g
-      simp [MulAut.conj_apply]
+      simp
     simpa only [hid, Subgroup.map_id] using
       centralizer_conjBM_eq (Ω := Ω) 1 (Subgroup.one_mem _)
   have hroot := CFSG.RankThree.Chevalley.even_Chevalley_pinned_root_SL2_maps .F4 Ω isRoot_rootS

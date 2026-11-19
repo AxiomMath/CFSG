@@ -94,7 +94,7 @@ theorem exists_quotient_datum {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Bs L : S
     ∃ (Q : Type) (_ : Group Q) (_ : Finite Q) (f : ↥(Subgroup.normalizer (L : Set G)) →* Q),
       NsQuot.Datum p (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L) := by
   set N := Subgroup.normalizer (L : Set G) with hN
-  haveI hnorm : ((twoCentral L).subgroupOf N).Normal :=
+  have hnorm : ((twoCentral L).subgroupOf N).Normal :=
     ⟨fun a ha n => conj_mem_twoCentral n.2 ha⟩
   exact ⟨↥N ⧸ (twoCentral L).subgroupOf N, inferInstance, inferInstance, QuotientGroup.mk' _,
     { prime := hp

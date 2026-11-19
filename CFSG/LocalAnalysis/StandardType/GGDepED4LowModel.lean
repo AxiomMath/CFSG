@@ -22,24 +22,24 @@ private lemma l05nLM_ELα_last (i : Fin 6) : ggDepELα i (Fin.last 5) = 0 := by
 private noncomputable def l05nLMψ {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (h : Fin 6 → V) (x : V) : (Fin 6 → ZMod 3) →ₗ[ZMod 3] V :=
   ∑ k : Fin 6, (LinearMap.proj k).smulRight
-    (if hk : k.val < 5 then h k else x)
+    (if _hk : k.val < 5 then h k else x)
 
 private lemma l05nLMψ_apply {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (h : Fin 6 → V) (x : V) (w : Fin 6 → ZMod 3) :
     l05nLMψ h x w = ∑ k : Fin 6, w k •
-      (if hk : k.val < 5 then h k else x) := by
-  simp [l05nLMψ, Finset.sum_apply, LinearMap.smulRight_apply]
+      (if _hk : k.val < 5 then h k else x) := by
+  simp [l05nLMψ, Finset.sum_apply]
 
 private lemma l05nLMψ_single {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (h : Fin 6 → V) (x : V) (k : Fin 6) :
     l05nLMψ h x (Pi.single k (1 : ZMod 3)) =
-      (if hk : k.val < 5 then h k else x) := by
+      (if _hk : k.val < 5 then h k else x) := by
   rw [l05nLMψ_apply, Finset.sum_eq_single k]
   · simp
   · intro b _ hb
     rw [Pi.single_eq_of_ne hb, zero_smul]
-  · intro hk
-    exact absurd (Finset.mem_univ k) hk
+  · intro _hk
+    exact absurd (Finset.mem_univ k) _hk
 
 private lemma l05nLMψ_ker {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {h : Fin 6 → V} {x : V}
@@ -102,10 +102,10 @@ private lemma l05nLM_α_ψ {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   rw [mul_comm (ggDepELα i k) (w k)]
   congr 1
   by_cases hk : k.val < 5
-  · rw [dif_pos hk, F.pair i k]
+  · rw [dite_eq_left hk, F.pair i k]
     have hkk : k = (⟨k.val, hk⟩ : Fin 5).castSucc := Fin.ext rfl
     rw [hkk, l05nLM_ELα_castSucc]
-  · rw [dif_neg hk]
+  · rw [dite_eq_right hk]
     have hk5 : k.val = 5 := by have := k.isLt; omega
     have hkk : k = Fin.last 5 := Fin.ext (by simpa [Fin.val_last] using hk5)
     rw [hkk, F.x_ker, l05nLM_ELα_last]
@@ -131,10 +131,10 @@ private lemma l05nLM_ψ_ELh_last {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     l05nLMψ h x (ggDepELh (Fin.last 5)) = h (Fin.last 5) := by
   rw [l05nLM_ELh_last]
   simp only [map_add, map_smul, l05nLMψ_single]
-  rw [dif_pos (show (0 : Fin 6).val < 5 by decide),
-    dif_pos (show (2 : Fin 6).val < 5 by decide),
-    dif_pos (show (4 : Fin 6).val < 5 by decide)]
-  have hlast : (Fin.last 5 : Fin 6) = 5 := Fin.ext (by simp [Fin.val_last])
+  rw [dite_eq_left (show (0 : Fin 6).val < 5 by decide),
+    dite_eq_left (show (2 : Fin 6).val < 5 by decide),
+    dite_eq_left (show (4 : Fin 6).val < 5 by decide)]
+  have hlast : (Fin.last 5 : Fin 6) = 5 := Fin.ext (by simp)
   rw [hlast, h5eq]
 
 theorem ggDepELModel_iso {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -189,7 +189,7 @@ theorem ggDepELModel_iso {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     by_cases hi : i.val < 5
     · have hii : i = (⟨i.val, hi⟩ : Fin 5).castSucc := Fin.ext rfl
       rw [hii, l05nLM_ELh_castSucc, l05nLMψ_single,
-        dif_pos (show ((⟨i.val, hi⟩ : Fin 5).castSucc).val < 5 from hi)]
+        dite_eq_left (show ((⟨i.val, hi⟩ : Fin 5).castSucc).val < 5 from hi)]
     · have hi5 : i.val = 5 := by have := i.isLt; omega
       have hii : i = Fin.last 5 := Fin.ext (by simpa [Fin.val_last] using hi5)
       rw [hii]

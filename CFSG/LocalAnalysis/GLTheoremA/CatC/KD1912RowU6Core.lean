@@ -78,7 +78,7 @@ theorem u6TwoOddCoreThree_of_cenD
 theorem pPrimeCore_cenD_diag (hblocks : U6TwoBlockCore) {D : GL (Fin 6) F4} {d : Fin 6 → F4}
     (hD : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d) :
     pPrimeCore 3 (CenD D) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.pPrimeCore_eq_bot_of_pi_range_eq_bot (fun c : F4 => blkHom hD c)
     (CFSG.LocalAnalysis.GLTheoremA.LevelLieU6.blkPi_injective hD)
     (fun c => hblocks hD c)

@@ -42,16 +42,16 @@ theorem burnsideF4nB_F420_G2d (h46 : F_4_6) (h419 : F_4_19) :
   intro κ p f E _ Gp M₁ M₂ hyp hGp hκ Y _ β hβ hsmall cc hcc hccl y hy hyx y' hy' hy'x
   subst hGp
   subst hκ
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨hp2, -, -⟩ := hyp.model
   subst hp2
   obtain ⟨hi1, hi2, Z, hZ12, hZQ, hZc, hinv⟩ := burnsideF4nB_E_facts hyp
   obtain ⟨hq1, hq2⟩ := burnsideF4nB_q_eq hi1 hi2
   have F : β.Facts46 6 := burnsideF4a_facts46 h46 hyp ⟨by omega, by omega⟩ β hβ
   have hs : β.IsSmall 6 := hsmall
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   have hval : ∀ u : β.Γ, Nat.card (CosetGeom.nbrs u) = 3 := by
     intro u
     rw [card_nbrs hβ u]
@@ -60,7 +60,7 @@ theorem burnsideF4nB_F420_G2d (h46 : F_4_6) (h419 : F_4_19) :
   have hTits : GLKind.G2d ≠ GLKind.Tits := by decide
   have hN1 : N1set β GLKind.G2d cc y = burnsideF4nB_N1 β y := by
     unfold N1set
-    rw [if_neg hTits]
+    rw [ite_eq_right hTits]
     rfl
   obtain ⟨b₀, hb₀, hb₀T⟩ := burnsideF4nB_exists_b₀ β hβ hy hyx
   have hN1card : (burnsideF4nB_N1 β y).ncard = 4 :=
@@ -73,7 +73,7 @@ theorem burnsideF4nB_F420_G2d (h46 : F_4_6) (h419 : F_4_19) :
       (fun s => f1 (c := β) a₀ * s * (f1 (c := β) a₀)⁻¹) ''
         burnsideF4nB_N1 β ((f1 (c := β) a₀)⁻¹ • y') := by
     unfold N2set
-    rw [if_neg hTits]
+    rw [ite_eq_right hTits]
     exact burnsideF4nB_N2_eq β a₀ y'
   have hy'' : (f1 (c := β) a₀)⁻¹ • y' ∈ CosetGeom.nbrs β.lv := by
     have h := (CosetGeom.smul_adj (f1 (c := β) a₀)⁻¹).mpr (hy' : β.graph.Adj _ y')
@@ -112,7 +112,7 @@ theorem burnsideF4nB_F420_G2d (h46 : F_4_6) (h419 : F_4_19) :
       {S : Set β.Γ | β.IsApartment 6 S ∧ ∀ i ≤ 4, π i ∈ S} := by
     unfold Bset
     ext S
-    simp only [Set.mem_setOf_eq, if_neg hTits, Set.insert_subset_iff, Set.singleton_subset_iff]
+    simp only [Set.mem_ofPred_eq, ite_eq_right hTits, Set.insert_subset_iff, Set.singleton_subset_iff]
     constructor
     · rintro ⟨hS, h0, h1, h2, h3, h4⟩
       refine ⟨hS, fun i hi => ?_⟩

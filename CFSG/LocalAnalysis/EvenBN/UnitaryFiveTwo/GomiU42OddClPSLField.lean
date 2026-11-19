@@ -39,8 +39,8 @@ theorem u42_psl_field_eq {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K
     ∃ e : ℕ, e ∣ Nat.gcd n (Nat.card K - 1) ∧
       Nat.card ↥(fixedSubgroup (pslFieldAut (Fin n) K τ)) * e *
           (Nat.card (fixedField K τ) - 1) = Nat.card (GL (Fin n) (fixedField K τ)) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
-  haveI : Finite (fixedField K τ) := Finite.of_injective (fixedField K τ).subtype
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Finite (fixedField K τ) := Finite.of_injective (fixedField K τ).subtype
     (fixedField K τ).subtype_injective
   refine ⟨(fixedT n K τ).index, ?_, ?_⟩
   · have h1 : (fixedT n K τ).index ∣ (pslRange n K).index :=

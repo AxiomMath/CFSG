@@ -23,8 +23,8 @@ theorem le_of_isPerfect_le_normalizer {X₀ V F U T : Subgroup G}
   have hVP : P ≤ Subgroup.normalizer (V : Set G) := by
     dsimp only [P]
     exact sup_le hX₀V Subgroup.le_normalizer
-  letI : (V.subgroupOf X₀).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hX₀V
-  letI : (V.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hVP
+  let : (V.subgroupOf X₀).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hX₀V
+  let : (V.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hVP
   have hVX₀ : V.subgroupOf X₀ = ⊥ :=
     Subgroup.subgroupOf_eq_bot.mpr (disjoint_iff.mpr (by rw [inf_comm]; exact hX₀V1))
   have e₁ := QuotientGroup.quotientInfEquivProdNormalizerQuotient X₀ V hX₀V
@@ -41,7 +41,7 @@ theorem le_of_isPerfect_le_normalizer {X₀ V F U T : Subgroup G}
     rw [← h, hcard]
   let ρ : ↥P →* ↥P ⧸ V.subgroupOf P := QuotientGroup.mk' (V.subgroupOf P)
   have hF' : Group.IsPerfect ↥(F.subgroupOf P) := by
-    haveI : Group.IsPerfect ↥F := hF
+    have : Group.IsPerfect ↥F := hF
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hFP).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hFP).symm.surjective
   have hU' : IsPGroup 2 ↥(U.subgroupOf P) :=
@@ -50,7 +50,7 @@ theorem le_of_isPerfect_le_normalizer {X₀ V F U T : Subgroup G}
     rw [← Subgroup.subgroupOf_normalizer_eq hUP]
     exact Subgroup.subgroupOf_mono P hFU
   have hFbar_perf : Group.IsPerfect ↥((F.subgroupOf P).map ρ) := by
-    haveI : Group.IsPerfect ↥(F.subgroupOf P) := hF'
+    have : Group.IsPerfect ↥(F.subgroupOf P) := hF'
     exact Group.IsPerfect.map ρ
   have hUbar : IsPGroup 2 ↥((U.subgroupOf P).map ρ) := IsPGroup.map hU' ρ
   have hFUbar : (F.subgroupOf P).map ρ ≤

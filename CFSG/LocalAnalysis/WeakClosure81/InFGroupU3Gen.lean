@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase
 
 variable {Q : Type} [Group Q] [Finite Q] {C : Subgroup Q} {n : ℕ}
 
+omit [Finite Q] in
 private theorem conj_map_eq_of_mem_normalizer_image (h : Setting C n)
     {S₀ : Subgroup Q} (hS₀ : IsSylowIn 2 S₀ C) {x : Q} (hxC : x ∈ C)
     (hxN : QuotientGroup.mk' (center ↥C) ⟨x, hxC⟩ ∈
@@ -55,9 +56,10 @@ private theorem conj_map_eq_of_mem_normalizer_image (h : Setting C n)
       _ = S₀ := by rw [hconj, Subgroup.map_subgroupOf_eq_of_le hS₀.le]
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr hconjQ
 
-private theorem le_of_image_eq_top (h : Setting C n) {X : Subgroup Q} (hXC : X ≤ C)
+omit [Finite Q] in
+private theorem le_of_image_eq_top (h : Setting C n) {X : Subgroup Q} (_hXC : X ≤ C)
     (hH : (X.subgroupOf C).map (QuotientGroup.mk' (center ↥C)) = ⊤) : C ≤ X := by
-  haveI := h.normal
+  have := h.normal
   refine UCK.Odd.le_of_mul_centerOf C h.quasisimple.1 ?_
   intro y hy
   have hyH : (QuotientGroup.mk' (center ↥C)) ⟨y, hy⟩ ∈
@@ -76,7 +78,7 @@ theorem Setting.eq_of_sylow_le (h : Setting C n)
     {S₀ X : Subgroup Q} (hS₀ : IsSylowIn 2 S₀ C) (hS₀X : S₀ ≤ X) (hXC : X ≤ C)
     (hX : ¬ X ≤ normalizer (S₀ : Set Q)) : X = C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := ↥C ⧸ center ↥C
   let π : ↥C →* Y := QuotientGroup.mk' (center ↥C)
   let S : Subgroup ↥C := S₀.subgroupOf C

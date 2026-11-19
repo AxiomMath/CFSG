@@ -80,8 +80,8 @@ private theorem ggSL9W_mul_diag_mul_W {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j
   funext l
   rcases ggSL9_fin3_cases hij hki hkj (l := l) with h | h | h <;> rw [h] <;>
     simp [ggSL9W_apply, ggSL9Diag_apply, mul_pow, ggSL9_pow_two_pow_mul_neg,
-      ggSL9_pow_two_pow_mul_neg', Units.val_pow_eq_pow_val, neg_neg, hij, hij.symm,
-      hki, hki.symm, hkj, hkj.symm]
+      ggSL9_pow_two_pow_mul_neg', Units.val_pow_eq_pow_val, hij.symm,
+      hki, hkj]
 
 private theorem ggSL9W_mul_diag_mul_W_self {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (t : Fin 3 → (GaloisField 2 3)ˣ) (ht : t j = t i ^ 2 ^ e.val) :
@@ -91,10 +91,10 @@ private theorem ggSL9W_mul_diag_mul_W_self {k : Fin 3} (hki : k ≠ i) (hkj : k 
       else if l = j then t i ^ 2 ^ e.val else t l) = t := by
     funext l
     rcases ggSL9_fin3_cases hij hki hkj (l := l) with h | h | h
-    · rw [h, if_pos rfl, ht]
+    · rw [h, ite_eq_left rfl, ht]
       exact ggSL9_units_pow_two_pow_mul_neg e (t i)
-    · rw [h, if_neg (Ne.symm hij), if_pos rfl, ht]
-    · rw [h, if_neg hki, if_neg hkj]
+    · rw [h, ite_eq_right (Ne.symm hij), ite_eq_left rfl, ht]
+    · rw [h, ite_eq_right hki, ite_eq_right hkj]
   rw [ht'] at h
   calc ggSL9W i j hij e * ggSL9Diag t
       = ggSL9W i j hij e * ggSL9Diag t * 1 := (mul_one _).symm
@@ -109,7 +109,7 @@ private theorem ggSL9W_mul_D1 {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     ggSL9W i j hij e * ggSL9D1 i j e x = ggSL9D1 i j e x * ggSL9W i j hij e :=
   ggSL9W_mul_diag_mul_W_self hij e hki hkj
     (fun l => if l = i then x else if l = j then x ^ 2 ^ e.val else 1) (by
-      rw [if_neg (Ne.symm hij), if_pos rfl, if_pos rfl])
+      rw [ite_eq_right (Ne.symm hij), ite_eq_left rfl, ite_eq_left rfl])
 
 private theorem ggSL9W_mul_D2 {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (y : (GaloisField 2 3)ˣ) :
@@ -180,8 +180,7 @@ private theorem ggSL9_mem_E_diag {y : GGSL9V ≃ₗ[ZMod 2] GGSL9V}
     rw [← hs, ggSL9DiagHom_apply] at hy2
     exact hy2
   have h1 := congrArg (fun (g : GGSL9V ≃ₗ[ZMod 2] GGSL9V) => g (Pi.single i 1) j) h
-  simp [ggSL9W_apply, ggSL9Diag_apply, Pi.single_eq_same, Pi.single_eq_of_ne, hij,
-    hij.symm] at h1
+  simp [ggSL9W_apply, ggSL9Diag_apply, Pi.single_eq_same, hij.symm] at h1
   apply Units.ext
   rw [Units.val_pow_eq_pow_val]
   exact h1.symm
@@ -247,28 +246,28 @@ private theorem ggSL9D1_apply (x : (GaloisField 2 3)ˣ) (v : GGSL9V) (l : Fin 3)
       else v l := by
   rw [ggSL9D1, ggSL9Diag_apply]
   by_cases hli : l = i
-  · simp only [if_pos hli]
+  · simp only [ite_eq_left hli]
   · by_cases hlj : l = j
-    · simp only [if_neg hli, if_pos hlj]
-    · simp only [if_neg hli, if_neg hlj, Units.val_one, one_mul]
+    · simp only [ite_eq_right hli, ite_eq_left hlj]
+    · simp only [ite_eq_right hli, ite_eq_right hlj, Units.val_one, one_mul]
 
 private theorem ggSL9D1_single_i (hij : i ≠ j) {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (x : (GaloisField 2 3)ˣ) (s : GaloisField 2 3) :
     ggSL9D1 i j e x (Pi.single i s) = Pi.single i ((x : GaloisField 2 3) * s) := by
   apply ggSL9_fun_ext3 hij hki hkj
-  · rw [ggSL9D1_apply, if_pos rfl, Pi.single_eq_same, Pi.single_eq_same]
-  · rw [ggSL9D1_apply, if_neg (Ne.symm hij), if_pos rfl, Pi.single_eq_of_ne (Ne.symm hij),
+  · rw [ggSL9D1_apply, ite_eq_left rfl, Pi.single_eq_same, Pi.single_eq_same]
+  · rw [ggSL9D1_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl, Pi.single_eq_of_ne (Ne.symm hij),
       Pi.single_eq_of_ne (Ne.symm hij), mul_zero]
-  · rw [ggSL9D1_apply, if_neg hki, if_neg hkj, Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hki]
+  · rw [ggSL9D1_apply, ite_eq_right hki, ite_eq_right hkj, Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hki]
 
 private theorem ggSL9D1_single_j (hij : i ≠ j) {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (x : (GaloisField 2 3)ˣ) (s : GaloisField 2 3) :
     ggSL9D1 i j e x (Pi.single j s) = Pi.single j
       (((x ^ 2 ^ e.val : (GaloisField 2 3)ˣ) : GaloisField 2 3) * s) := by
   apply ggSL9_fun_ext3 hij hki hkj
-  · rw [ggSL9D1_apply, if_pos rfl, Pi.single_eq_of_ne hij, Pi.single_eq_of_ne hij, mul_zero]
-  · rw [ggSL9D1_apply, if_neg (Ne.symm hij), if_pos rfl, Pi.single_eq_same, Pi.single_eq_same]
-  · rw [ggSL9D1_apply, if_neg hki, if_neg hkj, Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hkj]
+  · rw [ggSL9D1_apply, ite_eq_left rfl, Pi.single_eq_of_ne hij, Pi.single_eq_of_ne hij, mul_zero]
+  · rw [ggSL9D1_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl, Pi.single_eq_same, Pi.single_eq_same]
+  · rw [ggSL9D1_apply, ite_eq_right hki, ite_eq_right hkj, Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hkj]
 
 private theorem ggSL9_eq_single_of_block_zero (hij : i ≠ j) {k : Fin 3} (hki : k ≠ i)
     (hkj : k ≠ j) {v : GGSL9V} (hvi : v i = 0) (hvj : v j = 0) : v = Pi.single k (v k) := by
@@ -360,11 +359,11 @@ private theorem ggSL9D1_c_ei {c : GGSL9V ≃ₗ[ZMod 2] GGSL9V} (hc : c ∈ ggSL
       Pi.single j (((u ^ 2 ^ e.val : (GaloisField 2 3)ˣ) : GaloisField 2 3) *
         (c (Pi.single i 1)) j) := by
   apply ggSL9_fun_ext3 hij hki hkj
-  · rw [ggSL9D1_apply, if_pos rfl, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
+  · rw [ggSL9D1_apply, ite_eq_left rfl, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
       add_zero]
-  · rw [ggSL9D1_apply, if_neg (Ne.symm hij), if_pos rfl, Pi.add_apply,
+  · rw [ggSL9D1_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl, Pi.add_apply,
       Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_same, zero_add]
-  · rw [ggSL9D1_apply, if_neg hki, if_neg hkj, Pi.add_apply, Pi.single_eq_of_ne hki,
+  · rw [ggSL9D1_apply, ite_eq_right hki, ite_eq_right hkj, Pi.add_apply, Pi.single_eq_of_ne hki,
       Pi.single_eq_of_ne hkj, add_zero]
     exact ggSL9_c_apply_of_H hij e hc hki hkj (v := Pi.single i 1) (Pi.single_eq_of_ne hki 1)
 
@@ -375,11 +374,11 @@ private theorem ggSL9D1_c_ej {c : GGSL9V ≃ₗ[ZMod 2] GGSL9V} (hc : c ∈ ggSL
       Pi.single j (((u ^ 2 ^ e.val : (GaloisField 2 3)ˣ) : GaloisField 2 3) *
         (c (Pi.single j 1)) j) := by
   apply ggSL9_fun_ext3 hij hki hkj
-  · rw [ggSL9D1_apply, if_pos rfl, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
+  · rw [ggSL9D1_apply, ite_eq_left rfl, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
       add_zero]
-  · rw [ggSL9D1_apply, if_neg (Ne.symm hij), if_pos rfl, Pi.add_apply,
+  · rw [ggSL9D1_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl, Pi.add_apply,
       Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_same, zero_add]
-  · rw [ggSL9D1_apply, if_neg hki, if_neg hkj, Pi.add_apply, Pi.single_eq_of_ne hki,
+  · rw [ggSL9D1_apply, ite_eq_right hki, ite_eq_right hkj, Pi.add_apply, Pi.single_eq_of_ne hki,
       Pi.single_eq_of_ne hkj, add_zero]
     exact ggSL9_c_apply_of_H hij e hc hki hkj (v := Pi.single j 1) (Pi.single_eq_of_ne hkj 1)
 
@@ -463,7 +462,7 @@ private theorem ggSL9BlockFun_apply_i (M : Matrix (Fin 2) (Fin 2) (GaloisField 2
 private theorem ggSL9BlockFun_apply_j (hij : i ≠ j) (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3))
     (v : GGSL9V) :
     ggSL9BlockFun i j e M v j = (M 1 0 * v i + M 1 1 * v j ^ 2 ^ (-e).val) ^ 2 ^ e.val := by
-  simp [ggSL9BlockFun, hij, hij.symm]
+  simp [ggSL9BlockFun, hij.symm]
 
 private theorem ggSL9BlockFun_apply_k {k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (M : Matrix (Fin 2) (Fin 2) (GaloisField 2 3)) (v : GGSL9V) :
@@ -525,21 +524,16 @@ private theorem ggSL9_c_eq_block {c : GGSL9V ≃ₗ[ZMod 2] GGSL9V} (hc : c ∈ 
   apply ggSL9_fun_ext3 hij hki hkj
   · rw [ggSL9BlockFun_apply_i, hwi, hwj]
     simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
-      Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hki.symm,
-      Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hkj.symm, add_zero, zero_add,
-      hN00, hN01, hN10, hN11]
+      Pi.single_eq_of_ne hki.symm,
+      add_zero, hN00, hN01]
     ring
   · rw [ggSL9BlockFun_apply_j e hij, hwi, hwj]
-    simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
-      Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hki.symm,
-      Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hkj.symm, add_zero, zero_add,
-      hN00, hN01, hN10, hN11]
+    simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_of_ne hkj.symm, add_zero, zero_add,
+      hN10, hN11]
     rw [hsq]
     ring
   · rw [ggSL9BlockFun_apply_k e hki hkj, hwk]
-    simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,
-      Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hki.symm,
-      Pi.single_eq_of_ne hkj, Pi.single_eq_of_ne hkj.symm, add_zero, zero_add]
+    simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hki, Pi.single_eq_of_ne hkj, add_zero, zero_add]
     ring
 
 private theorem ggSL9D2_apply_i {k : Fin 3} (hki : k ≠ i) (y : (GaloisField 2 3)ˣ) (u : GGSL9V) :
@@ -594,7 +588,7 @@ private theorem ggSL9BlockFun_single_i (e : ZMod 3) (hij : i ≠ j) {k : Fin 3} 
       Pi.single i (M 0 0) + Pi.single j ((M 1 0) ^ 2 ^ e.val) := by
   apply ggSL9_fun_ext3 hij hki hkj
   · simp [ggSL9BlockFun_apply_i, Pi.single_eq_of_ne, hij, hij.symm]
-  · simp [ggSL9BlockFun_apply_j e hij, Pi.single_eq_of_ne, hij, hij.symm]
+  · simp [ggSL9BlockFun_apply_j e hij, Pi.single_eq_of_ne, hij.symm]
   · simp [ggSL9BlockFun_apply_k e hki hkj, Pi.single_eq_of_ne, hki, hkj]
 
 private theorem ggSL9BlockFun_single_j (e : ZMod 3) (hij : i ≠ j) {k : Fin 3} (hki : k ≠ i)
@@ -602,7 +596,7 @@ private theorem ggSL9BlockFun_single_j (e : ZMod 3) (hij : i ≠ j) {k : Fin 3} 
     ggSL9BlockFun i j e M (Pi.single j 1) =
       Pi.single i (M 0 1) + Pi.single j ((M 1 1) ^ 2 ^ e.val) := by
   apply ggSL9_fun_ext3 hij hki hkj
-  · simp [ggSL9BlockFun_apply_i, Pi.single_eq_of_ne, hij, hij.symm]
+  · simp [ggSL9BlockFun_apply_i, Pi.single_eq_of_ne, hij]
   · simp [ggSL9BlockFun_apply_j e hij, Pi.single_eq_of_ne, hij, hij.symm]
   · simp [ggSL9BlockFun_apply_k e hki hkj, Pi.single_eq_of_ne, hki, hkj]
 
@@ -682,7 +676,7 @@ private theorem ggSL9_det_isUnit {c : GGSL9V ≃ₗ[ZMod 2] GGSL9V} (hc : c ∈ 
   have hmul : N₁ * N₂ = 1 := by
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [Matrix.one_apply, h00, h01, h10, h11]
+      simp [h00, h01, h10, h11]
   exact ⟨N₁, lu₁, Matrix.isUnit_det_of_right_inverse hmul, h₁⟩
 
 end GGSL9J7c
@@ -714,7 +708,7 @@ theorem isComponentOf_ggSL9J {i j : Fin 3} (hij : i ≠ j) (e : ZMod 3) :
       group
     have hXrange : X ∈ Set.range (Matrix.SpecialLinearGroup.toGL (n := Fin 2)
         (R := GaloisField 2 3)) := by
-      rw [Matrix.SpecialLinearGroup.range_toGL]
+      rw [← MonoidHom.coe_range, Matrix.SpecialLinearGroup.range_toGL_eq_ker_det, MonoidHom.coe_ker]
       simpa using hXdet
     obtain ⟨Y', hY'⟩ := hXrange
     have hconj : c * h * c⁻¹ =

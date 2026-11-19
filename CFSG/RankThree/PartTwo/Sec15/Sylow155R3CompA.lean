@@ -201,7 +201,7 @@ theorem three_dvd_card (h : Res3QBase c d A B₀ K) {J : Subgroup Q} (hJ : CFSG.
     3 ∣ Nat.card J := by
   by_contra h3
   have hJ1 : J = ⊥ := h.eq_bot_of_isSubnormal hJ.2 h3
-  haveI := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
+  have := CFSG.LocalCores.isQuasisimple_nontrivial hJ.1
   exact (Subgroup.nontrivial_iff_ne_bot J).mp this hJ1
 
 theorem isPGroup_center (h : Res3QBase c d A B₀ K) {J : Subgroup Q} (hJ : CFSG.IsComponent J) :
@@ -234,7 +234,7 @@ theorem isPGroup_center (h : Res3QBase c d A B₀ K) {J : Subgroup Q} (hJ : CFSG
 
 theorem exists_pow_three_noncomm_of_isComponent (h : Res3QBase c d A B₀ K) {J : Subgroup Q}
     (hJ : CFSG.IsComponent J) : ∃ u ∈ J, u ^ 3 = 1 ∧ ∃ x ∈ J, u * x ≠ x * u := by
-  haveI : Group.IsPerfect ↥J := hJ.1.1
+  have : Group.IsPerfect ↥J := hJ.1.1
   obtain ⟨u, hu3, huZ⟩ := CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center
     (p := 3) (L := ↥J) (by norm_num) (h.three_dvd_card hJ)
   refine ⟨u, u.2, by simpa using congrArg Subtype.val hu3, ?_⟩

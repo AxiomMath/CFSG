@@ -38,7 +38,7 @@ theorem step7_core_cs5 {H T M V L : Subgroup G} {h x : G}
     (hxH : x ∈ H) (hxM : x ∈ M) (hx5 : ∃ a : ℕ, x ^ 5 ^ a = 1)
     (hxI : ∀ i ∈ ch82I V h, x * i * x⁻¹ * i⁻¹ ∈ kerIn (H ⊓ M) H) :
     ∀ i ∈ ch82I V h, x * i = i * x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set I := ch82I V h with hIdef
   set U := ch82U V h with hUdef
   set P := pCoreOf 2 I with hPdef

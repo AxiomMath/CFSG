@@ -175,9 +175,9 @@ private theorem epsFun_spec {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L
       z i ^ (((epsFun h m i : (ZMod 3)ˣ) : ZMod 3)).val := by
   classical
   by_cases hcase : toL (m : ↥(LN z)) * z i * (toL (m : ↥(LN z)))⁻¹ = z i
-  · rw [epsFun, if_pos hcase, hcase,
+  · rw [epsFun, ite_eq_left hcase, hcase,
       show (((1 : (ZMod 3)ˣ) : ZMod 3)).val = 1 by decide, pow_one]
-  · rw [epsFun, if_neg hcase]
+  · rw [epsFun, ite_eq_right hcase]
     have hm : rhoHom h (m : ↥(LN z)) = 1 := m.2
     have hmi : monoIndex h (m : ↥(LN z)) i = i := by
       have := congrArg (fun e : Equiv.Perm (Fin 3) => e i) hm
@@ -230,7 +230,7 @@ private noncomputable def epsHom {G : Type} [Group G] [Finite G] {n : ℕ} {b : 
     classical
     funext i
     show epsFun h 1 i = 1
-    rw [epsFun, if_pos (show toL (↑(1 : ↥(rhoHom h).ker) : ↥(LN z)) * z i *
+    rw [epsFun, ite_eq_left (show toL (↑(1 : ↥(rhoHom h).ker) : ↥(LN z)) * z i *
       (toL (↑(1 : ↥(rhoHom h).ker) : ↥(LN z)))⁻¹ = z i from by
         show (1 : ↥L) * z i * (1 : ↥L)⁻¹ = z i
         group)]
@@ -284,7 +284,7 @@ private theorem epsHom_ker {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L 
       apply Subtype.ext
       simpa using hcommG
     show epsFun h m i = 1
-    rw [epsFun, if_pos (by rw [hcomm]; group)]
+    rw [epsFun, ite_eq_left (by rw [hcomm]; group)]
 
 private abbrev Bsub {G : Type} [Group G] {L : Subgroup G} (z : Fin 3 → ↥L) :
     Subgroup ↥(LN z) :=
@@ -413,7 +413,7 @@ private theorem card_subgroup_dvd {G : Type} [Group G] [Finite G] {n : ℕ} {b :
     _ ∣ 48 * Nat.card (X ⊓ B : Subgroup ↥(LN z)) := Nat.mul_dvd_mul_right hkey _
 
 private theorem isSolvable_LN {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgroup G}
-    {z : Fin 3 → ↥L} (h : Counterexample G n b L z) : IsSolvable ↥(LN z) := by
+    {z : Fin 3 → ↥L} (h : Counterexample G n b L z) : Group.IsSolvable ↥(LN z) := by
   let K := (rhoHom h).ker
   let B := Bsub z
   have hBK : B ≤ K := Bsub_le_ker h
@@ -435,14 +435,14 @@ private theorem isSolvable_LN {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} 
         (Subgroup.mem_normalizer_iff.mp hkN _).mp (by simpa using hb)
       simpa [mul_assoc, inv_inv] using hmem
   have : (B.subgroupOf K).Normal := hBnorm
-  have hB_sol : IsSolvable ↥(B.subgroupOf K) :=
+  have hB_sol : Group.IsSolvable ↥(B.subgroupOf K) :=
     Group.isSolvable_of_comm fun x y => by
       apply Subtype.ext
       apply Subtype.ext
       exact Bsub_comm h (Subgroup.mem_subgroupOf.mp x.2) (Subgroup.mem_subgroupOf.mp y.2)
-  have : IsSolvable ↥(B.subgroupOf K) := hB_sol
-  have hKB' : IsSolvable (K ⧸ (epsHom h).ker) := by
-    have hpi : IsSolvable (Fin 3 → (ZMod 3)ˣ) :=
+  have : Group.IsSolvable ↥(B.subgroupOf K) := hB_sol
+  have hKB' : Group.IsSolvable (K ⧸ (epsHom h).ker) := by
+    have hpi : Group.IsSolvable (Fin 3 → (ZMod 3)ˣ) :=
       Group.isSolvable_of_comm fun f g => by
         ext i
         simp [mul_comm]
@@ -451,15 +451,15 @@ private theorem isSolvable_LN {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} 
         (Subgroup.subtype_injective _) hpi
     exact Group.isSolvable_of_isSolvable_injective
       (QuotientGroup.quotientKerEquivRange (epsHom h)).injective
-  have hKB : IsSolvable (K ⧸ B.subgroupOf K) :=
+  have hKB : Group.IsSolvable (K ⧸ B.subgroupOf K) :=
     @Group.isSolvable_of_isSolvable_injective (K ⧸ B.subgroupOf K) (K ⧸ (epsHom h).ker) _ _
       (QuotientGroup.quotientMulEquivOfEq (epsHom_ker h)).symm.toMonoidHom
       (QuotientGroup.quotientMulEquivOfEq (epsHom_ker h)).symm.injective hKB'
-  have : IsSolvable (K ⧸ B.subgroupOf K) := hKB
-  have hK : IsSolvable K :=
+  have : Group.IsSolvable (K ⧸ B.subgroupOf K) := hKB
+  have hK : Group.IsSolvable K :=
     @Group.isSolvable_of_subgroup_quotient _ _ (B.subgroupOf K) hBnorm hB_sol hKB
-  have : IsSolvable K := hK
-  have hMK : IsSolvable (↥(LN z) ⧸ K) := by
+  have : Group.IsSolvable K := hK
+  have hMK : Group.IsSolvable (↥(LN z) ⧸ K) := by
     have hperm : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
       Equiv.Perm.isSolvable (α := Fin 3)
         (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
@@ -468,7 +468,7 @@ private theorem isSolvable_LN {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} 
         (Subgroup.subtype_injective _) hperm
     exact Group.isSolvable_of_isSolvable_injective
       (QuotientGroup.quotientKerEquivRange (rhoHom h)).injective
-  have : IsSolvable (↥(LN z) ⧸ K) := hMK
+  have : Group.IsSolvable (↥(LN z) ⧸ K) := hMK
   exact @Group.isSolvable_of_subgroup_quotient _ _ K inferInstance hK hMK
 
 private noncomputable def dGrpHom {G : Type} [Group G] [Finite G] {n : ℕ} {b : G}
@@ -566,7 +566,7 @@ private theorem card_LN_dvd {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L
   exact htop
 
 theorem isSolvable_dGrp {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgroup G}
-    {z : Fin 3 → ↥L} (h : Counterexample G n b L z) : IsSolvable ↥(dGrp b z) := by
+    {z : Fin 3 → ↥L} (h : Counterexample G n b L z) : Group.IsSolvable ↥(dGrp b z) := by
   have : Group.IsSolvable ↥(Subgroup.zpowers b) :=
     Group.isSolvable_of_comm fun x y => by
       obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp x.2

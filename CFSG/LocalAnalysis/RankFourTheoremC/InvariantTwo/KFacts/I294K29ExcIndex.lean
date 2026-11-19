@@ -22,7 +22,7 @@ theorem geom_sum_mul_sub_one (hq : 1 ≤ q) (d : ℕ) :
     (∑ i ∈ Finset.range d, q ^ i) * (q - 1) = q ^ d - 1 :=
   geom_sum_mul_of_one_le hq d
 
-theorem geom_sum_ne_zero (hq : 1 ≤ q) {d : ℕ} (hd : d ≠ 0) : ∑ i ∈ Finset.range d, q ^ i ≠ 0 := by
+theorem geom_sum_ne_zero (_hq : 1 ≤ q) {d : ℕ} (hd : d ≠ 0) : ∑ i ∈ Finset.range d, q ^ i ≠ 0 := by
   intro h
   have : 0 ∈ Finset.range d := Finset.mem_range.2 (Nat.pos_of_ne_zero hd)
   have h1 := Finset.sum_eq_zero_iff.1 h 0 this
@@ -110,7 +110,7 @@ theorem not_dvd_index_monomialSub [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p �
     ¬ p ∣ (monomialSub τ K).index := by
   classical
   have : Fintype (WeylGroup τ) := Fintype.ofFinite _
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
   set q := Nat.card K with hqdef
   have hq : 1 < q := Finite.one_lt_card
   have hpq' : ¬ p ∣ q := fun h => by

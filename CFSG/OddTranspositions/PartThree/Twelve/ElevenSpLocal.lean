@@ -119,7 +119,7 @@ theorem inf_centralizer_le_Halpha_conj (c : SpChart hC B.hα k F) (g : G)
   rw [hdecomp]
   exact Subgroup.mul_mem _ hxmem h'v
 
-omit [Fintype F] in
+omit [Fintype F] [Finite G] in
 private theorem exists_mem_Halpha_commute_of_spForm_eq_zero
     {g : G} (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (hdv : hC.d ∈ commSet D (hC.conj g).d)
@@ -244,7 +244,7 @@ private noncomputable def Fusion.beta (g : G)
     (cv : SpChart (hC.conj g) (B.conj g).hα k F) (x : G) : F :=
   spForm k F (cv.vec hC.d) (cv.vec x)
 
-omit [Fintype F] [DecidableEq F] in
+omit [Fintype F] [DecidableEq F] [Finite G] in
 private theorem Fusion.beta_ne_zero (g : G)
     (hv : (hC.conj g).d ∈ commSet D hC.d)
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
@@ -257,6 +257,7 @@ private theorem Fusion.beta_ne_zero (g : G)
     rw [CFSG.RankThree.PartOne.OddIso.alt_comm spForm_isAlt]
     exact h0))
 
+omit [Finite G] in
 private theorem Fusion.exists_beta (g : G)
     (hv : (hC.conj g).d ∈ commSet D hC.d)
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
@@ -1165,7 +1166,7 @@ private theorem lineMem_subset_commSet {w v : G} (hvd : v ∈ commSet D hC.d)
     ⟨mem_perpMem.mpr ⟨hvd.1, hvd.2.1⟩, mem_perpMem.mpr ⟨hvw.1, hvw.2.1⟩⟩)).2
   exact ⟨(mem_lineMem.mp hx).1, hxv.symm, fun h0 => hvdℓ (h0 ▸ hx)⟩
 
-omit [Fintype F] in
+omit [Fintype F] [Finite G] in
 private theorem vec_mem_plane_of_mem_line {g v w : G}
     (hgv : (hC.conj g).d = v) (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (hdv : hC.d ∈ commSet D v) (hwv : w ∈ commSet D v)
@@ -1247,7 +1248,7 @@ private theorem orderOf_mul_dvd_ncard_lineMem_radical
   exact CFSG.Timmesfeld.Bridge.OddTransp.eq_one_of_mul_self_of_odd hsq2
     (Odd.of_dvd_nat hodd (orderOf_pow_dvd n))
 
-omit [Fintype F] [DecidableEq F] in
+omit [Fintype F] [DecidableEq F] [Finite G] in
 private theorem orderOf_mul_dvd_ncard_lineMem_inv
     {w : G}
     {g : G}
@@ -1350,7 +1351,7 @@ private theorem orderOf_mul_dvd_ncard_lineMem_orbit (t : G) (ℓ : Set G)
     (H := Subgroup.zpowers t) (X := ℓ) hX hfree
   rwa [Nat.card_zpowers] at hdvd
 
-omit [Fintype F] [DecidableEq F] in
+omit [Fintype F] [DecidableEq F] [Finite G] in
 private theorem orderOf_mul_dvd_ncard_lineMem_fixW (t : G) {w : G} (ht : t = hC.d * w)
     {g : G} (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     {a b : Fin k ⊕ Fin k → F} (ha : cv.vec hC.d = a) (hb : cv.vec w = b)
@@ -1451,6 +1452,7 @@ private theorem orderOf_mul_dvd_ncard_lineMem_sem (t : G) (ℓ : Set G)
       hfix hxcvH hxvec' hxne hab' hfixW' hodd
   exact orderOf_mul_dvd_ncard_lineMem_radical (htnHv := htnHv) hC hgv (B.conj g) hvd hρ1 hodd
 
+omit [Finite G] in
 private theorem exists_conj_mem_Halpha (B : SpBranch hC) {v w : G}
     (hv : v ∈ commSet D hC.d) (hvw : w ∈ commSet D v) :
     ∃ g : G,

@@ -29,6 +29,7 @@ open CFSG.StandardType CFSG.Open CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) {z : G} (hzX : z ∈ X)
     (hzC : z ∈ Subgroup.centralizer (X : Set G)) : z = 1 := by
@@ -56,6 +57,7 @@ private def hdRo7CLCoordAux_prodHom (Bs X : Subgroup G) :
       _ = (q.1 : G) * ((q.2 : G) * (r.1 : G)) * (r.2 : G) := by rw [h]
       _ = ((q.1 : G) * (q.2 : G)) * ((r.1 : G) * (r.2 : G)) := by group
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_prodHom_bijective {p : ℕ} {B Bs X : Subgroup G} (hBs : GGBstar p B Bs)
     (hZ : Subgroup.center X = ⊥) (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
@@ -97,10 +99,11 @@ private noncomputable def hdRo7CLCoordAux_subgroupOfEquiv (Bs X : Subgroup G) :
     ↥((Bs ⊓ X).subgroupOf X) ≃* ↥(Bs ⊓ X) where
   toFun x := ⟨((x : ↥X) : G), Subgroup.mem_subgroupOf.mp x.2⟩
   invFun x := ⟨⟨(x : G), x.2.2⟩, Subgroup.mem_subgroupOf.mpr x.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_card_subgroupOf (Bs X : Subgroup G) :
     Nat.card ↥((Bs ⊓ X).subgroupOf X) = Nat.card ↥(Bs ⊓ X) :=
   Nat.card_congr (hdRo7CLCoordAux_subgroupOfEquiv Bs X).toEquiv
@@ -119,6 +122,7 @@ private def hdRo7CLCoordAux_SignedData (p : ℕ) (Bs X : Subgroup G) : Prop :=
         ∀ f f', (g : G) * (τ f : G) * (g : G)⁻¹ = (τ f' : G) →
           ∀ i, Multiplicative.toAdd (f' (π i)) = ε i * Multiplicative.toAdd (f i)
 
+omit [Finite G] in
 private lemma hdRo7CLCoordAux_signedData_of_signedEltSC {p : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center X = ⊥)
     (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
@@ -353,7 +357,7 @@ theorem hdRo7CLCoordAux_signedModelSC_data_of_outdiagPrime
   classical
   have hp : Nat.Prime p := hH.1.tableB_facts.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A : Subgroup (MulAut ↥L) := (ggGamma L hBsN).range with hAdef
   have hAab : IsElemAbelian p A := by
     refine isElemAbelian_range (fun a b => ?_) (fun a => ?_) (ggGamma L hBsN)

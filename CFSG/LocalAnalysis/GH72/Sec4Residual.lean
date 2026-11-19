@@ -43,7 +43,7 @@ theorem closure_odd_normal : (closure {x : X | Odd (orderOf x)}).Normal := by
     rw [MonoidHom.map_closure]
     congr 1
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     constructor
     · rintro ⟨y, hy, rfl⟩
       rwa [orderOf_conj_eq]
@@ -58,8 +58,8 @@ theorem closure_odd_normal : (closure {x : X | Odd (orderOf x)}).Normal := by
 theorem sInf_normal_two_pow_index_eq_closure [Finite X] :
     sInf {N : Subgroup X | N.Normal ∧ ∃ n : ℕ, N.index = 2 ^ n} =
       closure {x : X | Odd (orderOf x)} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := closure_odd_normal (X := X)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := closure_odd_normal (X := X)
   apply le_antisymm
   · refine sInf_le ⟨inferInstance, ?_⟩
     have h2 : IsPGroup 2 (X ⧸ closure {x : X | Odd (orderOf x)}) := by
@@ -72,7 +72,7 @@ theorem sInf_normal_two_pow_index_eq_closure [Finite X] :
     intro x hx
     rw [SetLike.mem_coe, mem_sInf]
     rintro N ⟨hNn, n, hn⟩
-    haveI := hNn
+    have := hNn
     exact mem_of_odd_of_index_eq_two_pow hn hx
 
 theorem sInf_normal_two_pow_index_normal [Finite X] :
@@ -91,7 +91,7 @@ theorem twoResidualOf_eq_closure (H : Subgroup G) :
   rw [twoResidualOf, sInf_normal_two_pow_index_eq_closure, MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, coe_subtype]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, coe_subtype]
   constructor
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y.2, by rwa [Subgroup.orderOf_coe]⟩
@@ -123,13 +123,13 @@ theorem twoResidualOf_le_of_forall {H L : Subgroup G}
 
 theorem twoResidualOf_subgroupOf_normal (H : Subgroup G) :
     ((twoResidualOf H).subgroupOf H).Normal := by
-  haveI := sInf_normal_two_pow_index_normal (X := ↥H)
+  have := sInf_normal_two_pow_index_normal (X := ↥H)
   rw [twoResidualOf, subgroupOf, comap_map_eq_self_of_injective H.subtype_injective]
   infer_instance
 
 theorem le_normalizer_twoResidualOf (H : Subgroup G) :
     H ≤ normalizer (twoResidualOf H : Set G) := by
-  haveI := sInf_normal_two_pow_index_normal (X := ↥H)
+  have := sInf_normal_two_pow_index_normal (X := ↥H)
   exact CFSG.ABGLocalTools.le_normalizer_map_subtype H _
 
 theorem exists_pow_mem_twoResidualOf {H : Subgroup G} {h : G} (hh : h ∈ H) :
@@ -139,8 +139,8 @@ theorem exists_pow_mem_twoResidualOf {H : Subgroup G} {h : G} (hh : h ∈ H) :
 
 theorem exists_relIndex_twoResidualOf (H : Subgroup G) :
     ∃ n : ℕ, (twoResidualOf H).relIndex H = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := twoResidualOf_subgroupOf_normal H
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := twoResidualOf_subgroupOf_normal H
   have h2 : IsPGroup 2 (↥H ⧸ (twoResidualOf H).subgroupOf H) := by
     intro q
     obtain ⟨⟨h, hh⟩, rfl⟩ := QuotientGroup.mk_surjective q
@@ -159,7 +159,7 @@ theorem twoResidualOf_twoResidualOf (H : Subgroup G) :
 theorem index_ne_two_of_twoResidualOf (H : Subgroup G) (N : Subgroup ↥(twoResidualOf H))
     (hN : N.Normal) : N.index ≠ 2 := by
   intro h2
-  haveI := hN
+  have := hN
   have hle : twoResidualOf (twoResidualOf H) ≤ N.map (twoResidualOf H).subtype := by
     apply twoResidualOf_le_of_forall
     intro x hx hodd
@@ -186,7 +186,7 @@ theorem bar_twoResidualOf (H : Subgroup G) :
     twoResidualOf_top_eq_closure]
   congr 1
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨x, hx, rfl⟩
     exact Odd.of_dvd_nat hx (orderOf_map_dvd _ x)

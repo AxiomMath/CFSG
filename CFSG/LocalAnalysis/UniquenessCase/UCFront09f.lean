@@ -12,12 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_isAlt_bar2 {L X B : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hBL : B ≤ L)
     (hB3 : ¬ 3 ∣ Nat.card ↥B) (hXB : X ≤ normalizer (B : Set G)) : B ≤ pCoreOf 2 L := by
   have h60 := card_bar2_of_isAlt hA5
   obtain ⟨e⟩ := hA5
-  haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+  have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
   have hφ := surjective_bar2 hXL hcov
   have hJ : ((B.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -46,7 +47,7 @@ theorem le_pCoreOf_of_isAlt_bar2 {L X B : Subgroup G} (hXL : X ≤ L)
 theorem commutator_le_pCoreOf_of_mem_inv9' {M L X A : Subgroup G}
     (hLN : M ≤ normalizer (L : Set G)) (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hA5 : IsAlt (Bar2 L) 5) (hA : A ∈ Inv9' M X 3) : ⁅A, X⁆ ≤ pCoreOf 2 A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hAM, hA3, hXA⟩ := hA
   have hAL : A ≤ normalizer (L : Set G) := hAM.trans hLN
   have hc : ⁅A, X⁆ ≤ A ⊓ L := by

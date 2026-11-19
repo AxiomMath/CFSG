@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16c167_cfg4_map_eq_of_le_fixV {Y : Subgroup W} {t : MulAut W}
     (h : Y ≤ fixV (Subgroup.zpowers t)) : Y.map t.toMonoidHom = Y := by
   ext y
@@ -24,6 +25,7 @@ private theorem s16c167_cfg4_map_eq_of_le_fixV {Y : Subgroup W} {t : MulAut W}
   · intro hy
     exact ⟨y, hy, (mem_fixV_zpowers_iff_apply).mp (h hy)⟩
 
+omit [Finite W] in
 private theorem s16c167_cfg4_cent_of_fix {X : Subgroup (MulAut W)} {Z : Subgroup W}
     {Y₁ Y₂ Y₃ Y₄ : Subgroup W} (hT : conjSubs X Z \ {Y₁, Y₂} = {Y₃, Y₄}) {t : MulAut W}
     (h₁ : Y₁ ≤ fixV (Subgroup.zpowers t)) (h₂ : Y₂ ≤ fixV (Subgroup.zpowers t))
@@ -51,9 +53,9 @@ private theorem s16c167_cfg4_cent_of_fix {X : Subgroup (MulAut W)} {Z : Subgroup
 
 private theorem s16c167_cfg4_swap {X L : Subgroup (MulAut W)} {Z : Subgroup W}
     (F : Cfg4Setting X L Z) {Y₁ Y₂ Y₃ Y₄ : Subgroup W}
-    (hY₁ : Y₁ ∈ conjSubs X Z) (hY₂ : Y₂ ∈ conjSubs X Z)
+    (hY₁ : Y₁ ∈ conjSubs X Z) (_hY₂ : Y₂ ∈ conjSubs X Z)
     (hY₃ : Y₃ ∈ conjSubs X Z) (hY₄ : Y₄ ∈ conjSubs X Z)
-    (hne : Y₁ ≠ Y₂) (hT : conjSubs X Z \ {Y₁, Y₂} = {Y₃, Y₄}) (h34 : Y₃ ≠ Y₄)
+    (_hne : Y₁ ≠ Y₂) (hT : conjSubs X Z \ {Y₁, Y₂} = {Y₃, Y₄}) (h34 : Y₃ ≠ Y₄)
     {t : MulAut W} (htX : t ∈ X) (ht : t * t = 1) (htne : t ≠ 1)
     (h₁ : Y₁ ≤ fixV (Subgroup.zpowers t)) (h₂ : Y₂ ≤ fixV (Subgroup.zpowers t)) :
     Y₃.map t.toMonoidHom = Y₄ ∧ Y₄.map t.toMonoidHom = Y₃ := by

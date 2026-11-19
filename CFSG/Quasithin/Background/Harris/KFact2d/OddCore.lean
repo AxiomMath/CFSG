@@ -22,7 +22,7 @@ theorem mk_pow_eq_one_iff {Q Y : Subgroup G} (hQn : Y ≤ Subgroup.normalizer (Q
     (hy : y ∈ Y) (n : ℕ) :
     haveI := normal_subgroupOf_of_le_normalizer hQn
     (QuotientGroup.mk' (Q.subgroupOf Y) (⟨y, hy⟩ : ↥Y)) ^ n = 1 ↔ y ^ n ∈ Q := by
-  haveI := normal_subgroupOf_of_le_normalizer hQn
+  have := normal_subgroupOf_of_le_normalizer hQn
   rw [← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   rfl
 
@@ -38,7 +38,7 @@ theorem mk_pow_eq_one_iff {Q Y : Subgroup G} (hQn : Y ≤ Subgroup.normalizer (Q
   mul_mem' := by
     rintro a b ⟨ha, i, hi⟩ ⟨hb, j, hj⟩
     refine ⟨Y.mul_mem ha hb, i + j, ?_⟩
-    haveI := normal_subgroupOf_of_le_normalizer hQn
+    have := normal_subgroupOf_of_le_normalizer hQn
     let φ : ↥Y →* ↥Y ⧸ Q.subgroupOf Y := QuotientGroup.mk' (Q.subgroupOf Y)
     have hcomm : Commute (φ ⟨a, ha⟩) (φ ⟨b, hb⟩) := by
       show φ ⟨a, ha⟩ * φ ⟨b, hb⟩ = φ ⟨b, hb⟩ * φ ⟨a, ha⟩

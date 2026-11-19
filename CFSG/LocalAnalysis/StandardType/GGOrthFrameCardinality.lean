@@ -18,8 +18,8 @@ theorem OrthFrameCore.pow_rank_succ_le_card_bstar
     p ^ (Φ.r + 1) ≤ Nat.card Bs := by
   classical
   obtain ⟨hp, hBs, hxBs, hxL, -⟩ := hcfg.tableB_facts
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   let τ := Φ.Δ.τΩ Φ.hA
   let ξ := Φ.ψ.comp τ
   let E : Subgroup G := ξ.range

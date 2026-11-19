@@ -37,7 +37,7 @@ theorem fixSubgroup_conj (x : X) :
 
 theorem card_statedSp_quot {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2) :
     Nat.card (↥(StatedSp 3 F) ⧸ Subgroup.center ↥(StatedSp 3 F)) = 1451520 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hF, ZMod.card]
   let φ : F ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hc
@@ -46,7 +46,7 @@ theorem card_statedSp_quot {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
       (ι := Fin 3 ⊕ Fin 3) φ) (StatedSp 3 F)).trans
       (MulEquiv.subgroupCongr (CFSG.Adapters.RankTwoModelTransports.glCongr_statedSp
         (φ := φ) 3))
-  haveI : IsSimpleGroup H6 := Sp8.isSimpleGroup_H6
+  have : IsSimpleGroup H6 := Sp8.isSimpleGroup_H6
   have hZ : Subgroup.center H6 = ⊥ := center_eq_bot_of_simple_nonab Sp8.exists_not_comm_H6
   have hZ' : Subgroup.center ↥(StatedSp 3 F) = ⊥ := by
     have h := Subgroup.map_center_eq e.symm
@@ -64,11 +64,11 @@ theorem good429_of_compShape
   set C := Subgroup.centralizer ({x} : Set X) with hCdef
   have hfix : fixSubgroup (MulAut.conj x) = C := fixSubgroup_conj x
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   set T := K ⧸ CFSG.pCore 2 K
-  haveI : Group.IsPerfect T := inferInstance
-  haveI hTs : IsSimpleGroup T := isSimpleGroup_of_isType429 hT
-  haveI : Nontrivial T := nontrivial_of_isType429 hT
+  have : Group.IsPerfect T := inferInstance
+  have hTs : IsSimpleGroup T := isSimpleGroup_of_isType429 hT
+  have : Nontrivial T := nontrivial_of_isType429 hT
   have hcompN : ∀ L : Subgroup X, CFSG.Open.IsComponentOf L (fixSubgroup (MulAut.conj x)) →
       ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L := by
     intro L hL g hg l hl
@@ -121,10 +121,10 @@ theorem good429_of_compShape
     have hab : ⁅K, K⁆ = ⊥ :=
       Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (hlay.trans hcent)
     rw [Subgroup.commutator_eq_self] at hab
-    haveI : Subsingleton K := by
+    have : Subsingleton K := by
       rw [hab]
       infer_instance
-    haveI : Subsingleton T := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) |>.subsingleton
+    have : Subsingleton T := QuotientGroup.mk'_surjective (CFSG.pCore 2 K) |>.subsingleton
     exact not_subsingleton T inferInstance
   have hLq : IsQuasisimple L := isQuasisimple_of_open hL.2.2
   have hLC : L ≤ C := hfix ▸ hL.1
@@ -138,8 +138,8 @@ theorem good429_of_compShape
     show π (Subgroup.inclusion hLK _) = π k * π (Subgroup.inclusion hLK l) * (π k)⁻¹
     rw [← map_inv, ← map_mul, ← map_mul]
     rfl
-  haveI : Group.IsPerfect L := hLq.1
-  haveI : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hLq
+  have : Group.IsPerfect L := hLq.1
+  have : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hLq
   have hψs : Function.Surjective ψ := by
     rcases hψn.eq_bot_or_eq_top with h1 | h1
     · exfalso
@@ -147,7 +147,7 @@ theorem good429_of_compShape
         have : ψ l ∈ ψ.range := ⟨l, rfl⟩
         rw [h1, Subgroup.mem_bot] at this
         exact this
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2 : IsPGroup 2 L := by
         intro l
         have hl : (Subgroup.inclusion hLK l) ∈ CFSG.pCore 2 K := by
@@ -225,14 +225,14 @@ theorem noCfgS429_f42
     (e : S ≃* (TauCeti.CFSGIndex.lie CFSG.Assembly.RankThreeEven.f4TwoIndex).Group) :
     NoCfgS429 S := by
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := Item434F42.exists_model e
-  haveI : Finite ↥(adjointGroup Tag.F4 K) := Finite.of_equiv S φ.toEquiv
+  have : Finite ↥(adjointGroup Tag.F4 K) := Finite.of_equiv S φ.toEquiv
   exact noCfgS429_of_model φ (center_eq_bot_of_simple_nonab hna)
     (Item434F42.not_three_dvd_card_outer e) (good429_adjointF4 hK)
 
 theorem eight_F4 :
     RowSOf429 (TauCeti.CFSGIndex.lie CFSG.Assembly.RankThreeEven.f4TwoIndex).Group :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_f42 hna e
 
 end Row

@@ -34,7 +34,7 @@ private theorem coe_eq_mul_of_sup_inf_normalizer {D : Data G} {P K H R' : Subgro
       (pCoreOf 2 (((R' ⊓ normalizer (pCoreOf 2 H : Set G)) ⊔ H) : Subgroup G) : Set G) *
         ((K ⊓ ((R' ⊓ normalizer (pCoreOf 2 H : Set G)) ⊔ H) : Subgroup G) : Set G) *
         (P : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 H with hR
   set R₁ := R' ⊓ normalizer (R : Set G) with hR₁
   set H₁ := R₁ ⊔ H with hH₁
@@ -80,7 +80,7 @@ private theorem exists_mem_calK8104_gt {D : Data G} {P K H R' : Subgroup G}
     (hR'M : R' ≤ D.M) (hR'2 : IsPGroup 2 R') (hHR' : H ≤ normalizer (R' : Set G))
     (hlt : pCoreOf 2 H < R') :
     ∃ H₁ ∈ calK8104 D P K, H < H₁ ∧ H₁ ≤ R' ⊔ H ∧ H₁ ≤ normalizer (pCoreOf 2 H : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 H with hR
   set R₁ := R' ⊓ normalizer (R : Set G) with hR₁
   set H₁ := R₁ ⊔ H with hH₁
@@ -126,6 +126,7 @@ private theorem exists_mem_calK8104_gt {D : Data G} {P K H R' : Subgroup G}
   · rw [hH₁]
     exact sup_le inf_le_right hHR
 
+omit [Finite G] in
 private theorem normalizer_le_calCGS {R : Subgroup G} (hR : R ≠ ⊥) :
     normalizer (R : Set G) ≤ UC6.calCGS R := by
   unfold UC6.calCGS
@@ -163,7 +164,7 @@ private theorem eq_pCoreOf_of_le_inf {D : Data G} {L P B H N R' : Subgroup G}
 theorem calCGS_le_of_lt_mem {D : Data G} {L P B H N H₂ : Subgroup G} (c : Cex8105 D L P B H N)
     (hH₂ : H₂ ∈ calK8104 D P (F08.KOf8103 L B)) (hlt : H < H₂) :
     UC6.calCGS (pCoreOf 2 H) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 H with hR
   set R₂ := pCoreOf 2 H₂ with hR₂
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
@@ -203,7 +204,7 @@ private theorem eq_pCoreOf_of_le_N {D : Data G} {L P B H N R' : Subgroup G}
     (c : Cex8105 D L P B H N)
     (hC : UC6.calCGS (pCoreOf 2 H) ≤ D.M) (hR'N : R' ≤ N) (hR'2 : IsPGroup 2 R')
     (hHR' : H ≤ normalizer (R' : Set G)) (hle : pCoreOf 2 H ≤ R') : R' = pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 H with hR
   refine le_antisymm ?_ hle
   by_contra hnot
@@ -240,7 +241,7 @@ private theorem eq_pCoreOf_of_le_N {D : Data G} {L P B H N R' : Subgroup G}
 
 theorem pCoreOf_le_of_calCGS_le {D : Data G} {L P B H N : Subgroup G} (c : Cex8105 D L P B H N)
     (hC : UC6.calCGS (pCoreOf 2 H) ≤ D.M) : pCoreOf 2 N ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 H with hR
   set Q := pCoreOf 2 N with hQ
   have hRN : R ≤ N := (CFSG.LieType.BorelTits.pCoreOf_le 2 H).trans c.memN.2
@@ -274,6 +275,7 @@ theorem eq_pCoreOf_of_maximal {D : Data G} {P K H R' : Subgroup G} (hH : H ∈ c
     exists_mem_calK8104_gt (D := D) (P := P) (K := K) hH hR'M hR'2 hHR' hlt
   exact (hmax H₁ hH₁) hHlt
 
+omit [Finite G] in
 private theorem exists_char_normalizer_not_le_of_not_le_calCGS {R M : Subgroup G}
     (hC : ¬ UC6.calCGS R ≤ M) :
     ∃ C : Subgroup G, C ≠ ⊥ ∧ C ≤ R ∧ (C.subgroupOf R).Characteristic ∧
@@ -289,7 +291,7 @@ theorem exists_sylow_le_inf {D : Data G} {L P B H N T₁ : Subgroup G} (c : Cex8
     (hC : ¬ UC6.calCGS (pCoreOf 2 H) ≤ D.M) (hT₁ : IsSylowOf 2 T₁ D.M)
     (hT₁R : T₁ ≤ normalizer (pCoreOf 2 H : Set G)) :
     ∃ T : Subgroup G, IsSylowOf 2 T ⊤ ∧ T ≤ D.M ⊓ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨C, hC1, hCR, hCchar, hCNM⟩ :=
     exists_char_normalizer_not_le_of_not_le_calCGS hC
   have hR2 : IsPGroup 2 (pCoreOf 2 H) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H

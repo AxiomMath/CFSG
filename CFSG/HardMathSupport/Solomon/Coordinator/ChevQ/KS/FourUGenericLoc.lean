@@ -26,7 +26,7 @@ theorem pairSub_eq_sup {X : Type} [Group X] {x y : X} (hxy : Commute x y) :
     (F : ∀ (S : Type) [Group S], MulAut S → Prop) : Prop :=
   ∀ (X : Type) [Group X] [Finite X], CFSG.Open.IsKGroup X → ∀ (K B : Subgroup X) (x : X),
     IsComponentOf K ⊤ → IsSCp 3 ⊤ B → ∀ (hBN : B ≤ Subgroup.normalizer (K : Set X)),
-      GLATwoLocalRank 3 X ≤ CFSG.Open.pRank 3 B → IsLieQuot ↥K P → ∀ (hx : x ∈ B), ¬ InnerAt K x →
+      GLATwoLocalRank 3 X ≤ CFSG.Open.pRank 3 B → IsLieQuot ↥K P → ∀ (_hx : x ∈ B), ¬ InnerAt K x →
       (∀ b ∈ B, ∃ i : ℕ, InnerAt K (x ^ i * b)) →
       (∀ (a : X) (ha : a ∈ B), ¬ InnerAt K a →
         F (↥K ⧸ Subgroup.center ↥K) (actHom K ⟨a, hBN ha⟩)) →

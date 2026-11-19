@@ -92,7 +92,7 @@ private theorem qdloc_exists_sd_model {n : ℕ} (hn : 4 ≤ n) (S : Sylow 2 G)
   · exact ⟨m, hm, hf⟩
   · exfalso
     let P' : Subgroup G := (P : Subgroup H).map H.subtype
-    have hP' : IsPGroup 2 P' := P.isPGroup'.map H.subtype
+    have hP' : IsPGroup 2 P' := P.isPGroup.map H.subtype
     obtain ⟨S', hS'⟩ := hP'.exists_le_sylow
     let f' : SemidihedralGroup n ≃* (S' : Subgroup G) := fS.trans (Sylow.equiv S S')
     let ι : Wreathed.Wreath (2 ^ k) →* SemidihedralGroup n :=
@@ -1168,7 +1168,7 @@ theorem frontier_qCoverFact [IsSimpleGroup G]
     refine ⟨hYK hy, ?_⟩
     obtain ⟨x, hx, hxy⟩ := hy
     have hxK₀ : (y : C t) ∈ K₀C := ⟨x, hx.1, hxy⟩
-    obtain ⟨j, hj⟩ := (R.isPGroup' : IsPGroup 2 (R : Subgroup K)) ⟨x, hx.2⟩
+    obtain ⟨j, hj⟩ := (R.isPGroup : IsPGroup 2 (R : Subgroup K)) ⟨x, hx.2⟩
     have hy2 : (y : C t) ^ 2 ^ j = 1 := by
       have hxy' : (x : G) = (y : G) := hxy
       have h1 : (x : G) ^ 2 ^ j = 1 := by

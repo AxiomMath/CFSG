@@ -100,7 +100,7 @@ private theorem openCone_last_ge {δ γ ε : Fin (Tag.rank .F4) → ℤ} {l : �
   obtain ⟨-, a, b, -, hb, heq⟩ := hε
   have hlev : ε twE6Last = (a : ℤ) * (δ twE6Last) + (b : ℤ) * (γ twE6Last) := by
     rw [heq]
-    simp only [Pi.add_apply, Pi.smul_apply, Pi.zero_apply]
+    simp only [Pi.add_apply, Pi.smul_apply]
     simp only [nsmul_eq_mul]
   rw [hlev, hδ0, mul_zero, zero_add]
   have hl0 : (0 : ℤ) ≤ l := le_trans (by norm_num) hl1
@@ -295,7 +295,7 @@ private theorem reflect_shortNode_alpha :
 private theorem reflect_last_of_ne (i : Fin (Tag.rank .F4)) (hi : i ≠ twE6Last)
     (v : Fin (Tag.rank .F4) → ℤ) :
     (reflect .F4 i v) twE6Last = v twE6Last := by
-  simp only [reflect, Pi.sub_apply, Pi.smul_apply, Pi.zero_apply]
+  simp only [reflect, Pi.sub_apply, Pi.smul_apply]
   simp only [zsmul_eq_mul]
   rw [Pi.single_eq_of_ne (Ne.symm hi), mul_zero, sub_zero]
 

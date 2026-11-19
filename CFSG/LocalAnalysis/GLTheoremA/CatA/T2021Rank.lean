@@ -15,7 +15,7 @@ theorem exists_comm_fail {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime
     {b : G} (hb : b ∈ A) (hb1 : b ≠ 1) :
     ∃ a ∈ A, a ∉ Subgroup.zpowers b ∧ ∃ t ∈ T, a * t = t * a ∧ b * t ≠ t * b := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_contra hcon
   push Not at hcon
   have hord : ∀ g ∈ A, g ≠ 1 → orderOf g = p := fun g hg hg1 =>

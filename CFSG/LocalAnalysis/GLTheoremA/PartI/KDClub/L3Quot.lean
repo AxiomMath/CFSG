@@ -20,7 +20,7 @@ theorem kdClub_of_iso_quasisimple {Y : Type} [Group Y] [Finite Y] {J : Subgroup 
   have hnt : GLAPPrimeCore 3 ↥J ≠ ⊤ := by
     intro htop
     have e := QuotientGroup.quotientMulEquivOfEq htop
-    haveI : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
     have hsub : Subsingleton (PQuot 3 J) := e.toEquiv.subsingleton
     have hntriv : Nontrivial (PQuot 3 J) := by
       have := hQ.2.toNontrivial

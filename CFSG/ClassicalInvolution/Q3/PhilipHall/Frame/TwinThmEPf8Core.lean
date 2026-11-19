@@ -47,7 +47,7 @@ theorem secOf_mem_hullFam {J : Subgroup G} (hJ : J ∈ tqMembers3 Ω w) :
     secOf Ω w J ∈ hullFam Ω w :=
   subgroupOf_mem_hullFam hJ
 
-theorem mem_RSet_of_coreFamily (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers w))
+theorem mem_RSet_of_coreFamily (_hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers w))
     {R : Subgroup G} (hR : R ∈ RSet (TwinADescent.coreFamily Ω w)) : R ∈ RSet Ω := by
   obtain ⟨M, hM, hRM⟩ := exists_isSylow2In_of_mem_RSet hR
   obtain ⟨J, hJ, rfl⟩ := hM

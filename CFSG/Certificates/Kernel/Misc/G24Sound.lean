@@ -123,7 +123,7 @@ private theorem gen_shape {rows : List (List ℕ)} (hs : shape4 (digitsOf rows) 
   simpa using this
 
 private theorem toNat_ofNat_lt {c : ℕ} (hc : c < 128) : (Char.ofNat c).toNat = c := by
-  rw [Char.toNat_ofNat, if_pos]
+  rw [Char.toNat_ofNat, ite_eq_left]
   exact Or.inl (by omega)
 
 private theorem rowsArr_f4 {rows : List (List ℕ)} (ha : asciiK rows = true)
@@ -172,7 +172,7 @@ private theorem rowsArr_f4 {rows : List (List ℕ)} (ha : asciiK rows = true)
 private theorem digitRows_getD (M : Matrix (Fin 14) (Fin 14) F4) (i j : Fin 14) :
     ((digitRows M).getD i.val []).getD j.val 0 = (M i j).code.val := by
   unfold digitRows ofMat
-  simp [List.map_map, Function.comp_def, List.getD_eq_getElem?_getD, List.getElem?_map]
+  simp [List.map_map, Function.comp_def, List.getD_eq_getElem?_getD]
 
 private theorem f4_ext {x y : F4} (h : x.code.val = y.code.val) : x = y := by
   obtain ⟨⟨a, ha⟩⟩ := x
@@ -467,9 +467,9 @@ theorem g24F3_sound {LRs : List (List String)} {RSs : List String}
       congr 1
       funext l
       by_cases hl : l.2 = true
-      · simp only [hl, if_true, hFl]
+      · simp only [hl, ite_true, hFl]
         rw [(hArr l.1.val l.1.isLt).1, toMat_ofMat]
-      · simp only [hl, Bool.false_eq_true, if_false, hFl]
+      · simp only [hl, Bool.false_eq_true, ite_false, hFl]
         rw [(hArr l.1.val l.1.isLt).2, toMat_ofMat]
     rw [h2] at h1
     exact h1

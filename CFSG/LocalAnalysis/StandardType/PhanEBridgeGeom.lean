@@ -80,9 +80,9 @@ private theorem q2nPE_geom_smul_conj (c : PhanEConfig K f M G) [MulAction G c.C]
 
 private noncomputable def q2nPE_geomFun (c : PhanEConfig K f M G) [MulAction G c.C]
     (d : c.Geom) : G ⧸ c.S.torus → ↥(flipOpSet c.δ c.w₀ c.t) :=
-  fun q => Quotient.liftOn' q (fun a => (⟨a • d.c₀, q2nPE_geom_mem c d a⟩ :
+  fun q => Quotient.liftOn' q (fun _a => (⟨_a • d.c₀, q2nPE_geom_mem c d _a⟩ :
       ↥(flipOpSet c.δ c.w₀ c.t)))
-    (fun a b hab => Subtype.ext (q2nPE_geom_smul_eq c d (QuotientGroup.leftRel_apply.mp hab)))
+    (fun _a _b hab => Subtype.ext (q2nPE_geom_smul_eq c d (QuotientGroup.leftRel_apply.mp hab)))
 
 private theorem q2nPE_geomFun_apply (c : PhanEConfig K f M G) [MulAction G c.C]
     (d : c.Geom) (a : G) :

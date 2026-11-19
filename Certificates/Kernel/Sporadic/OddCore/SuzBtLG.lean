@@ -96,8 +96,8 @@ theorem isPerm_sg {j : Nat} (hj : j < 2) : PK.IsPermN 16 (fun x => pg 4 (mask 4)
 @[expose] noncomputable def sgP (j : Nat) : Equiv.Perm (Fin 16) :=
   PK.permOf 16 (fun x => pg 4 (mask 4) (SuzBtLS.G j) x)
 
-theorem hgS : ∀ j < 2, ∀ x : Fin 16, pg 4 (mask 4) (SuzBtLS.G j) x = sgP j x :=
-  fun j hj x => (PK.permOf_apply (isPerm_sg hj) x).symm
+theorem hgS : ∀ _j < 2, ∀ x : Fin 16, pg 4 (mask 4) (SuzBtLS.G _j) x = sgP _j x :=
+  fun _j hj x => (PK.permOf_apply (isPerm_sg hj) x).symm
 
 theorem sgP_xs {j : Nat} (hj : j < 2) (s : Fin 16) :
     xs (sgP j s) = ngp j * xs s * (ngp j)⁻¹ := by
@@ -144,7 +144,6 @@ theorem hbS : ∀ t : Fin 4, pg 4 (mask 4) SuzBtLS.B t = sb t := fun t =>
 theorem xs_sb (i : Fin 4) : xs (sb i) = lgp i := by
   refine invE1_ext (l1_le (xs_mem _)) (l1_le (gp_mem i.2)) fun t => Fin.ext ?_
   rw [← xs_key, ← mov_base hbL (hgL i i.2) (kSB_at i).2 t]
-  change _ = pg 11 (mask 11) (btKey 33 (mask 33) SuzBtL1.K (pg 4 (mask 4) SuzBtLS.B i)) t
   rw [hbS i]
 
 theorem hpS : ∀ i < SuzBtLS.cnt, btPtK 16 4 (mask 4) 4 16 (mask 16) 2 SuzBtLS.cnt SuzBtLS.B
@@ -200,12 +199,12 @@ theorem sum_gk (k : Fin 45) :
     (fun s hs => by
       rw [SuzBtZF.kL1Cnt] at hs
       unfold xsN
-      rw [dif_pos hs]
+      rw [dite_eq_left hs]
       exact xs_mem _)
     (fun s hs t => by
       rw [SuzBtZF.kL1Cnt] at hs
       unfold xsN
-      rw [dif_pos hs]
+      rw [dite_eq_left hs]
       exact xs_key ⟨s, hs⟩ t)
   rw [SuzBtZF.kL1Cnt] at h
   exact h.2
@@ -221,7 +220,7 @@ theorem sumConj_gk (k : Fin 45) : ConjCount.sumConj LL kp (gk k) = btSv SuzBtLC.
     exact ⟨s, Subtype.ext hs⟩
   · change kp (gk k * xsN s * (gk k)⁻¹) = kp (gk k * xs s * (gk k)⁻¹)
     unfold xsN
-    rw [dif_pos s.2]
+    rw [dite_eq_left s.2]
 
 theorem gk_sep (k k' : Fin 45) (h : ConjCount.sumConj LL kp (gk k) = ConjCount.sumConj LL kp (gk k')) :
     k = k' := by

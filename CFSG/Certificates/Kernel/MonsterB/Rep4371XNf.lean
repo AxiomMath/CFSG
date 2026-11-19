@@ -32,8 +32,8 @@ theorem coeffC_scaleT (c : Nat) (m : Int) (L : Terms) : coeffC c (scaleT m L) = 
   | cons e L ih =>
     rw [List.map_cons, coeffC_cons, coeffC_cons, ih, Int.mul_add]
     by_cases h : e.1 = c
-    · rw [if_pos h, if_pos h]
-    · rw [if_neg h, if_neg h, Int.mul_zero]
+    · rw [ite_eq_left h, ite_eq_left h]
+    · rw [ite_eq_right h, ite_eq_right h, Int.mul_zero]
 
 theorem actVecT_cons (g : Nat → Terms) (e : Nat × Int) (L : Terms) :
     actVecT g (e :: L) = appT (scaleT e.2 (g e.1)) (actVecT g L) := rfl
@@ -92,16 +92,16 @@ theorem coeffC_insT (c a : Nat) (m : Int) (L : Terms) :
         · change coeffC c ((a, m + e.2) :: rest) = _
           rw [coeffC_cons, coeffC_cons, ← hae, ← Int.add_assoc]
           by_cases h : a = c
-          · rw [if_pos h, if_pos h, if_pos h]
-          · rw [if_neg h, if_neg h, if_neg h]
+          · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
+          · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h]
             omega
         · change coeffC c rest = _
           have h0 := isZI_true hz
           rw [coeffC_cons, ← hae, ← Int.add_assoc]
           by_cases h : a = c
-          · rw [if_pos h, if_pos h, h0]
+          · rw [ite_eq_left h, ite_eq_left h, h0]
             omega
-          · rw [if_neg h, if_neg h]
+          · rw [ite_eq_right h, ite_eq_right h]
             omega
     · rfl
 
@@ -119,8 +119,8 @@ theorem coeffOf_td (κ : Nat) (L : Terms) : Model.coeffOf (kd κ) (L.map td) = c
     rw [List.map_cons, coeffC_cons, ← ih]
     change (if kd e.1 = kd κ then e.2 else 0) + Model.coeffOf (kd κ) (L.map td) = _
     by_cases h : e.1 = κ
-    · rw [if_pos h, if_pos (congrArg kd h)]
-    · rw [if_neg h, if_neg (fun h' => h (kd_inj h'))]
+    · rw [ite_eq_left h, ite_eq_left (congrArg kd h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h (kd_inj h'))]
 
 theorem eqModel_of_coeff {D₁ D₂ : Int} {A B : Terms} (h : ∀ c, coeffC c A * D₂ = coeffC c B * D₁) :
     Model.eqModel D₁ (A.map td) D₂ (B.map td) = true := by
@@ -217,7 +217,7 @@ theorem scInv_step {f : Nat → Terms} {TH : Nat} {rr : Array (Array (Nat × Int
     have ex : entStep rr v =
         (rr.1.push (rr.2.push (v % 8192, CFSG.Monster.B.Native.numOfCode (v / 8192 % 8))), #[]) := by
       unfold entStep
-      rw [if_pos hv]
+      rw [ite_eq_left hv]
     rw [ex]
     refine ⟨by rw [Array.size_push, e1], rfl, ?_⟩
     intro hok j hj
@@ -227,10 +227,10 @@ theorem scInv_step {f : Nat → Terms} {TH : Nat} {rr : Array (Array (Nat × Int
     change rowP f TH j ((rr.1.push _)[j]!).toList
     rw [CFSG.KC.BM.Pkt.getElem!_push]
     by_cases h1 : j < rr.1.size
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       exact e3 hok1 j h1
     · have h2 : j = rr.1.size := by omega
-      rw [if_neg h1, if_pos h2]
+      rw [ite_eq_right h1, ite_eq_left h2]
       apply rowP_of_reverse
       rw [Array.toList_push, List.reverse_append, List.reverse_singleton, List.singleton_append, ← e2,
         h2, ← e1]
@@ -239,7 +239,7 @@ theorem scInv_step {f : Nat → Terms} {TH : Nat} {rr : Array (Array (Nat × Int
     have ex : entStep rr v =
         (rr.1, rr.2.push (v % 8192, CFSG.Monster.B.Native.numOfCode (v / 8192 % 8))) := by
       unfold entStep
-      rw [if_neg hv]
+      rw [ite_eq_right hv]
     rw [ex]
     refine ⟨e1, ?_, e3⟩
     change _ :: st.2.1 = (rr.2.push _).toList.reverse

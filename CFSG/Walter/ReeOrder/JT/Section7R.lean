@@ -83,8 +83,8 @@ theorem sylow_facts
     rwa [hq] at hpq
   have hP1 : (P : Subgroup G) ≠ ⊥ :=
     P.ne_bot_of_dvd_card (hpC.trans (Subgroup.card_subgroup_dvd_card _))
-  have hsolv := h.isSolvable_normalizer_of_isPGroup_pi hp3 hpq P.isPGroup' hP1
-  have h8 := h.not_eight_dvd_card_normalizer_of_pi hp3 hpq P.isPGroup' hP1
+  have hsolv := h.isSolvable_normalizer_of_isPGroup_pi hp3 hpq P.isPGroup hP1
+  have h8 := h.not_eight_dvd_card_normalizer_of_pi hp3 hpq P.isPGroup hP1
   obtain ⟨P₀, -, hT₀P₀⟩ := h.exists_sylow_invariant hp3 c hpq
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P₀ P
   have hPmap : (P : Subgroup G) = (P₀ : Subgroup G).map (MulAut.conj g).toMonoidHom := by
@@ -150,7 +150,7 @@ theorem ne_inv_of_mem_normalizer_sylow
     rw [hfac]
     norm_num
   have hVsq : ∀ x : VG, x * x = 1 := fun x => Subtype.ext
-    (h.mul_self_of_isPGroup_two hp3 (V.isPGroup'.map HG.subtype) x.2)
+    (h.mul_self_of_isPGroup_two hp3 (V.isPGroup.map HG.subtype) x.2)
   have hV : IsKleinFour VG := isKleinFour_of_card_four hVcard hVsq
   have hyHG : y ∈ HG := ⟨⟨y, hyN⟩, hyH (by
     rw [Subgroup.mem_subgroupOf]

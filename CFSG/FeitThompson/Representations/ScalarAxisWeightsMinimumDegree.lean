@@ -116,18 +116,22 @@ def core : Subgroup S.amb := (SemidirectProduct.inl : S.scalar.grp →* S.amb).r
 
 instance core_normal : (S.core).Normal := range_inl_normal
 
+omit [Finite U] in
 theorem inl_mem_core (x : S.scalar.grp) : (inl x : S.amb) ∈ S.core := ⟨x, rfl⟩
 
+omit [Finite U] in
 theorem mem_core {z : S.amb} : z ∈ S.core ↔ ∃ x : S.scalar.grp, inl x = z := Iff.rfl
 
 noncomputable def coreMulEquiv : S.scalar.grp ≃* S.core :=
   MonoidHom.ofInjective (f := (SemidirectProduct.inl : S.scalar.grp →* S.amb)) inl_injective
 
+omit [Finite U] in
 @[simp] theorem coe_coreMulEquiv_apply (x : S.scalar.grp) :
     (S.coreMulEquiv x : S.amb) = inl x := (rfl)
 
 noncomputable def pushChar (θ : S.scalar.grp → ℂ) : S.core → ℂ := θ ∘ S.coreMulEquiv.symm
 
+omit [Finite U] in
 theorem pushChar_apply (θ : S.scalar.grp → ℂ) (x : S.scalar.grp) :
     S.pushChar θ (S.coreMulEquiv x) = θ x := by
   simp only [pushChar, Function.comp_apply, MulEquiv.symm_apply_apply]
@@ -163,6 +167,7 @@ theorem mem_axisFamily {f : S.amb → ℂ} :
 theorem indClassFun_mem_axisFamily {θ : S.scalar.grp → ℂ} (hθ : θ ∈ S.axisIrr) :
     indClassFun S.core (S.pushChar θ) ∈ S.axisFamily := ⟨θ, hθ, rfl⟩
 
+omit [Finite U] in
 theorem pushChar_mem_Irr {θ : S.scalar.grp → ℂ} (hθ : θ ∈ Irr S.scalar.grp) :
     S.pushChar θ ∈ Irr S.core :=
   FrobeniusInduction.mem_Irr_comp_mulEquiv hθ S.coreMulEquiv.symm
@@ -175,10 +180,12 @@ theorem axisFamily_subset_indFam :
 theorem axisFamily_finite : (S.axisFamily).Finite :=
   (finite_Irr.subset S.axisIrr_subset_Irr).image _
 
+omit [Finite U] in
 theorem pushChar_one (θ : S.scalar.grp → ℂ) : S.pushChar θ 1 = θ 1 := by
   have h : S.pushChar θ (S.coreMulEquiv 1) = θ 1 := S.pushChar_apply θ 1
   simpa using h
 
+omit [Finite U] in
 theorem natCard_core : Nat.card S.core = Nat.card S.scalar.grp :=
   (Nat.card_congr S.coreMulEquiv.toEquiv).symm
 
@@ -199,6 +206,7 @@ theorem indClassFun_pushChar_one (θ : S.scalar.grp → ℂ) :
   push_cast
   field_simp
 
+omit [Finite U] in
 theorem pushChar_star (θ : S.scalar.grp → ℂ) : S.pushChar (star θ) = star (S.pushChar θ) := by
   funext x
   have h1 : S.pushChar (star θ) (S.coreMulEquiv (S.coreMulEquiv.symm x))
@@ -234,6 +242,7 @@ theorem star_mem_axisFamily {f : S.amb → ℂ} (hf : f ∈ S.axisFamily) :
   refine S.mem_axisFamily.2 ⟨star θ, S.star_mem_axisIrr hθ, ?_⟩
   rw [S.pushChar_star, DisjointCoherentFamilies.indClassFun_star]
 
+omit [Finite U] in
 theorem mem_baseCore {x : S.core} :
     x ∈ S.baseCore ↔ ∃ y ∈ S.scalar.base, S.coreMulEquiv y = x := by
   refine ⟨fun h => ?_, fun ⟨y, hy, h⟩ => ?_⟩
@@ -241,6 +250,7 @@ theorem mem_baseCore {x : S.core} :
     exact ⟨y, hy, h⟩
   · exact Subgroup.mem_map.2 ⟨y, hy, h⟩
 
+omit [Finite U] in
 theorem subset_charValueKernel_pushChar_iff (θ : S.scalar.grp → ℂ) :
     (S.baseCore : Set S.core) ⊆ charValueKernel (S.pushChar θ) ↔
       (S.scalar.base : Set S.scalar.grp) ⊆ charValueKernel θ := by
@@ -265,13 +275,14 @@ theorem not_subset_charValueKernel_of_mem_axisIrr {θ : S.scalar.grp → ℂ}
     have h0 : cfInner (resClassFun S.scalar.base θ) lam = 0 := by
       rw [hres, cfInner_smul_left,
         cfInner_eq_ite_of_mem_Irr CFSG.FeitThompson.one_mem_Irr
-        (mem_resConstituents.1 hlam).1, if_neg (Ne.symm hne1), mul_zero]
+        (mem_resConstituents.1 hlam).1, ite_eq_right (Ne.symm hne1), mul_zero]
     have hpos := (mem_resConstituents.1 hlam).2
     rw [h0] at hpos
     exact absurd hpos (by simp)
   rw [h1] at hne
   simp at hne
 
+omit [Finite U] in
 theorem commCentralizer_le_commutator : S.commCentralizer ≤ commutator U := by
   rw [AxisSystem.commCentralizer, commutator_def]
   exact Subgroup.commutator_mono le_top le_top
@@ -295,11 +306,13 @@ open NormalInduction (conjClassFun conjClassFun_apply)
 open scoped ComplexOrder
 
 include S in
+omit [Finite U] in
 theorem orderOf_perm : orderOf S.perm = q := by
   classical
   rw [S.isCycle_perm.orderOf, S.support_perm, Finset.card_univ, Fintype.card_fin]
 
 include S in
+omit [Finite U] in
 theorem orderOf_gen : orderOf S.gen = q := by
   have hB : Finite B := S.finite_complement
   have htop : Subgroup.zpowers S.gen = ⊤ := le_antisymm le_top fun x _ => S.mem_zpowers_gen x
@@ -308,6 +321,7 @@ theorem orderOf_gen : orderOf S.gen = q := by
   rw [← Nat.card_zpowers, hc, S.card_B]
 
 include S in
+omit [Finite U] in
 theorem pow_gen_eq_one_of_perm_pow_apply_eq {k : ℕ} {i : Fin q}
     (h : (S.perm ^ k) i = i) : S.gen ^ k = 1 := by
   have hperm : S.perm ^ k = 1 := by
@@ -320,6 +334,7 @@ theorem pow_gen_eq_one_of_perm_pow_apply_eq {k : ℕ} {i : Fin q}
   exact orderOf_dvd_iff_pow_eq_one.1 hdvd
 
 include S in
+omit [Finite U] in
 theorem exists_pow_gen_eq (g : B) : ∃ k : ℕ, S.gen ^ k = g := by
   have hB : Finite B := S.finite_complement
   exact (mem_powers_iff_mem_zpowers (x := S.gen) (y := g)).2 (S.mem_zpowers_gen g)
@@ -327,13 +342,16 @@ theorem exists_pow_gen_eq (g : B) : ∃ k : ℕ, S.gen ^ k = g := by
 noncomputable def charActB (g : B) (χ : Multiplicative V →* ℂˣ) : Multiplicative V →* ℂˣ :=
   χ.comp (S.mulAutV g).toMonoidHom
 
+omit [Finite U] in
 theorem charActB_apply (g : B) (χ : Multiplicative V →* ℂˣ) (v : Multiplicative V) :
     S.charActB g χ v = χ (S.mulAutV g v) := (rfl)
 
+omit [Finite U] in
 theorem charActB_apply_ofAdd (g : B) (χ : Multiplicative V →* ℂˣ) (v : V) :
     S.charActB g χ (Multiplicative.ofAdd v) = χ (Multiplicative.ofAdd (S.actB g v)) := by
   rw [S.charActB_apply, S.mulAutV_apply]
 
+omit [Finite U] in
 theorem charActB_mul (g h : B) (χ : Multiplicative V →* ℂˣ) :
     S.charActB (g * h) χ = S.charActB h (S.charActB g χ) := by
   refine MonoidHom.ext fun x => ?_
@@ -343,24 +361,28 @@ theorem charActB_mul (g h : B) (χ : Multiplicative V →* ℂˣ) :
     congr 2
     rw [map_mul]; rfl
 
+omit [Finite U] in
 theorem charActB_one (χ : Multiplicative V →* ℂˣ) : S.charActB 1 χ = χ := by
   refine MonoidHom.ext fun x => ?_
   induction x using Multiplicative.rec with
   | _ v => rw [S.charActB_apply_ofAdd, map_one]; rfl
 
 include S in
+omit [Finite U] in
 theorem actB_gen_mem_line (i : Fin q) {v : V} (hv : v ∈ S.scalar.line i) :
     S.actB S.gen v ∈ S.scalar.line (S.perm i) := by
   rw [← S.map_line_gen i]
   exact Submodule.mem_map_of_mem hv
 
 include S in
+omit [Finite U] in
 theorem exists_actB_gen_eq_of_mem_line (i : Fin q) {w : V}
     (hw : w ∈ S.scalar.line (S.perm i)) : ∃ v ∈ S.scalar.line i, S.actB S.gen v = w := by
   rw [← S.map_line_gen i] at hw
   obtain ⟨v, hv, hvw⟩ := Submodule.mem_map.1 hw
   exact ⟨v, hv, hvw⟩
 
+omit [Finite U] in
 theorem isAxisChar_charActB_gen {i : Fin q} {χ : Multiplicative V →* ℂˣ}
     (h : S.scalar.IsAxisChar (S.perm i) χ) :
     S.scalar.IsAxisChar i (S.charActB S.gen χ) := by
@@ -373,6 +395,7 @@ theorem isAxisChar_charActB_gen {i : Fin q} {χ : Multiplicative V →* ℂˣ}
     intro hcon
     exact hj (S.perm.injective hcon)
 
+omit [Finite U] in
 theorem isAxisChar_charActB_pow (k : ℕ) {i : Fin q} {χ : Multiplicative V →* ℂˣ}
     (h : S.scalar.IsAxisChar ((S.perm ^ k) i) χ) :
     S.scalar.IsAxisChar i (S.charActB (S.gen ^ k) χ) := by
@@ -386,6 +409,7 @@ theorem isAxisChar_charActB_pow (k : ℕ) {i : Fin q} {χ : Multiplicative V →
     rw [h2, S.charActB_mul]
     exact S.isAxisChar_charActB_gen (ih h)
 
+omit [Finite U] in
 theorem isAxisChar_of_isAxisChar_charActB_gen {i : Fin q} {χ : Multiplicative V →* ℂˣ}
     (h : S.scalar.IsAxisChar i (S.charActB S.gen χ)) :
     S.scalar.IsAxisChar (S.perm i) χ := by
@@ -400,6 +424,7 @@ theorem isAxisChar_of_isAxisChar_charActB_gen {i : Fin q} {χ : Multiplicative V
     intro hcon
     exact hj' (by rw [← hcon, Equiv.apply_symm_apply])
 
+omit [Finite U] in
 theorem isAxisChar_charActB_pow_iff (k : ℕ) {i : Fin q} {χ : Multiplicative V →* ℂˣ} :
     S.scalar.IsAxisChar i (S.charActB (S.gen ^ k) χ) ↔
       S.scalar.IsAxisChar ((S.perm ^ k) i) χ := by
@@ -416,21 +441,25 @@ theorem isAxisChar_charActB_pow_iff (k : ℕ) {i : Fin q} {χ : Multiplicative V
     rw [h4, ← Equiv.Perm.mul_apply, ← pow_succ', pow_succ, Equiv.Perm.mul_apply]
     exact ih h3
 
+omit [Finite U] in
 theorem autCore_inr (g : B) (u : U) : S.autCore g (inr u) = inr (S.autB g u) :=
   SemidirectProduct.ext (by rw [S.autCore_apply_left, left_inr, left_inr, map_one])
     (by rw [S.autCore_apply_right, right_inr, right_inr])
 
+omit [Finite U] in
 theorem autB_mem_commutator (g : B) {u : U} (hu : u ∈ commutator U) :
     S.autB g u ∈ commutator U := by
   have h := (instCharacteristicCommutator U).fixed (S.autB g).symm
   rw [← h, Subgroup.mem_comap]
   simpa using hu
 
+omit [Finite U] in
 theorem autCore_inl (g : B) (v : Multiplicative V) :
     S.autCore g (inl v) = inl (S.mulAutV g v) :=
   SemidirectProduct.ext (by rw [S.autCore_apply_left, left_inl, left_inl])
     (by rw [S.autCore_apply_right, right_inl, right_inl, map_one])
 
+omit [Finite U] in
 theorem mulAutV_mul (g h : B) (x : Multiplicative V) :
     S.mulAutV (g * h) x = S.mulAutV g (S.mulAutV h x) := by
   induction x using Multiplicative.rec with
@@ -439,10 +468,12 @@ theorem mulAutV_mul (g h : B) (x : Multiplicative V) :
     congr 1
     rw [map_mul]; rfl
 
+omit [Finite U] in
 theorem mulAutV_one (x : Multiplicative V) : S.mulAutV 1 x = x := by
   induction x using Multiplicative.rec with
   | _ v => rw [S.mulAutV_apply, map_one]; rfl
 
+omit [Finite U] in
 theorem mulAutV_symm_apply (g : B) (x : Multiplicative V) :
     (S.mulAutV g).symm x = S.mulAutV g⁻¹ x := by
   have h2 : S.mulAutV g (S.mulAutV g⁻¹ x) = x := by
@@ -450,6 +481,7 @@ theorem mulAutV_symm_apply (g : B) (x : Multiplicative V) :
   conv_lhs => rw [← h2]
   rw [MulEquiv.symm_apply_apply]
 
+omit [Finite U] in
 theorem conjClassFun_inr_pushChar (g : B) (θ : S.scalar.grp → ℂ) :
     conjClassFun S.core (inr g) (S.pushChar θ) = S.pushChar (θ ∘ S.autCore g⁻¹) := by
   funext y
@@ -519,6 +551,7 @@ theorem eq_one_of_comp_autCore_eq {θ : S.scalar.grp → ℂ} {i : Fin q}
     exact hj
   exact S.pow_gen_eq_one_of_perm_pow_apply_eq hfix
 
+omit [Finite U] in
 theorem pushChar_injective : Function.Injective S.pushChar := by
   intro θ θ' h
   funext x
@@ -587,6 +620,7 @@ theorem comp_autCore_mem_axisIrr {θ : S.scalar.grp → ℂ} (hθ : θ ∈ S.axi
         S.charActB_one]
       exact hres
 
+omit [Finite U] in
 theorem pushChar_mem_classFun {θ : S.scalar.grp → ℂ} (hθ : θ ∈ classFun S.scalar.grp) :
     S.pushChar θ ∈ classFun S.core := by
   refine mem_classFun.2 fun g x hgx => ?_
@@ -600,6 +634,7 @@ theorem pushChar_mem_classFun {θ : S.scalar.grp → ℂ} (hθ : θ ∈ classFun
   rw [map_mul, map_mul, map_inv]
   exact hc
 
+omit [Finite U] in
 theorem comp_autCore_mem_classFun {θ : S.scalar.grp → ℂ} (hθ : θ ∈ classFun S.scalar.grp)
     (g : B) : θ ∘ S.autCore g ∈ classFun S.scalar.grp := by
   refine mem_classFun.2 fun x y hxy => ?_
@@ -608,6 +643,7 @@ theorem comp_autCore_mem_classFun {θ : S.scalar.grp → ℂ} (hθ : θ ∈ clas
   refine mem_classFun.1 hθ _ _ (isConj_iff.2 ⟨S.autCore g c, ?_⟩)
   rw [← map_inv, ← map_mul, ← map_mul, hc]
 
+omit [Finite U] in
 theorem conjClassFun_pushChar (t : S.amb) {θ : S.scalar.grp → ℂ}
     (hθ : θ ∈ classFun S.scalar.grp) :
     conjClassFun S.core t (S.pushChar θ) = S.pushChar (θ ∘ S.autCore t.right⁻¹) := by

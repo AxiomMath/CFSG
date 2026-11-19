@@ -23,7 +23,7 @@ theorem forceV7_eq {β : Sort _} (v : N7) (k : N7 → β) : forceV7 v k = k v :=
 @[expose] def VtxL (c : N7) (L : Nat) : Prop :=
   vtxF c (herN c c) (laneVec c L) (hDiag (laneVec c L)) = true
 
-theorem rowCore_lanes {c : N7} (hc : Lt49 c) (hc3 : c.x3 = 1) {rootL : Nat}
+theorem rowCore_lanes {c : N7} (hc : Lt49 c) (_hc3 : c.x3 = 1) {rootL : Nat}
     {lvls : List (List Nat)} (hr : rootL < NL) (h : rowCore c rootL lvls = true) :
     VtxL c rootL ∧ ∀ L < NL, VtxL c L → ∃ n, n ≤ lvls.length ∧
       Wk colN (fun u => ∃ L' < NL, u = laneVec c L' ∧ VtxL c L') n (laneVec c rootL)
@@ -32,20 +32,20 @@ theorem rowCore_lanes {c : N7} (hc : Lt49 c) (hc3 : c.x3 = 1) {rootL : Nat}
 
 theorem laneArgs_A {L : Nat} (h : L < 117649) :
     laneArgs L = (1, L / 2401, gfAdd (gfNeg (gfMul (L / 2401) (L / 49 % 49)))
-      (gfMul (L % 49) (L % 49)), L / 49 % 49, L % 49) := if_pos h
+      (gfMul (L % 49) (L % 49)), L / 49 % 49, L % 49) := ite_eq_left h
 
 theorem laneArgs_B {L : Nat} (h1 : ¬L < 117649) (h2 : L < 120050) :
     laneArgs L = (0, 1, (L - 117649) / 49, gfMul ((L - 117649) % 49) ((L - 117649) % 49),
       (L - 117649) % 49) := by
-  rw [laneArgs, if_neg h1, if_pos h2]
+  rw [laneArgs, ite_eq_right h1, ite_eq_left h2]
 
 theorem laneArgs_C {L : Nat} (h1 : ¬L < 117649) (h2 : ¬L < 120050) (h3 : L < 120099) :
     laneArgs L = (0, 0, 1, L - 120050, 0) := by
-  rw [laneArgs, if_neg h1, if_neg h2, if_pos h3]
+  rw [laneArgs, ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]
 
 theorem laneArgs_D {L : Nat} (h1 : ¬L < 117649) (h2 : ¬L < 120050) (h3 : ¬L < 120099) :
     laneArgs L = (0, 0, 0, 1, 0) := by
-  rw [laneArgs, if_neg h1, if_neg h2, if_neg h3]
+  rw [laneArgs, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 theorem laneVec_spec {c : N7} {L : Nat} (hL : L < NL) :
     laneVec c L ∈ q7Cands c ∧ (laneArgs L).1 < 49 ∧ (laneArgs L).2.1 < 49 ∧

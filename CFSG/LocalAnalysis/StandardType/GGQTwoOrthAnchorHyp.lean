@@ -105,7 +105,7 @@ theorem exists_hypPair_of_normFrame {F : Type} [Field F] [Finite F] (hF : Nat.ca
         · change rInv (rLin (b 1)) = b 1
           rw [hr1, map_add, hri0, hri1, add_comm (b 0 + b 1) (b 0), ← add_assoc,
             hselfU (b 0), zero_add]
-      let r : U ≃ₗ[F] U := LinearEquiv.ofLinear rLin rInv hcomp1 hcomp2
+      let r : U ≃ₗ[F] U := LinearEquiv.ofLinearMap rLin rInv hcomp1 hcomp2
       have hr_apply : ∀ x, r x = rLin x := fun _ => rfl
       have hr0' : r (b 0) = b 1 := by rw [hr_apply, hr0]
       have hr1' : r (b 1) = b 0 + b 1 := by rw [hr_apply, hr1]
@@ -135,7 +135,7 @@ theorem exists_hypPair_of_normFrame {F : Type} [Field F] [Finite F] (hF : Nat.ca
           rw [hs0, hs1]
         · change sLin (sLin (b 1)) = b 1
           rw [hs1, hs0]
-      let s : U ≃ₗ[F] U := LinearEquiv.ofLinear sLin sLin hss hss
+      let s : U ≃ₗ[F] U := LinearEquiv.ofLinearMap sLin sLin hss hss
       have hs_apply : ∀ x, s x = sLin x := fun _ => rfl
       have hs0' : s (b 0) = b 1 := by rw [hs_apply, hs0]
       have hs1' : s (b 1) = b 0 := by rw [hs_apply, hs1]
@@ -159,8 +159,8 @@ theorem exists_hypPair_of_normFrame {F : Type} [Field F] [Finite F] (hF : Nat.ca
       have hsinv : s⁻¹ = s := inv_eq_of_mul_eq_one_left hss2
       have hrinv_apply : ∀ x, r⁻¹ x = rInv x := by
         intro x
-        change (LinearEquiv.ofLinear rLin rInv hcomp1 hcomp2).symm x = rInv x
-        rw [LinearEquiv.ofLinear_symm_apply]
+        change (LinearEquiv.ofLinearMap rLin rInv hcomp1 hcomp2).symm x = rInv x
+        rw [_root_.LinearEquiv.symm_ofLinearMap, _root_.LinearEquiv.coe_ofLinearMap]
       have hrinv0 : r⁻¹ (b 0) = b 0 + b 1 := by rw [hrinv_apply, hri0]
       have hrinv1 : r⁻¹ (b 1) = b 0 := by rw [hrinv_apply, hri1]
       have hsrs : s * r * s⁻¹ = r⁻¹ := by

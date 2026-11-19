@@ -55,6 +55,7 @@ theorem forIn_loop_unfold {β : Type} (f : Unit → β → Id (ForInStep β)) (b
       (match f () b with | .done v => v | .yield v => forIn (m := Id) Lean.Loop.mk v f) :=
   Lean.Loop.forIn_eq_of_monadTail
 
+omit [Hashable Lab] [Inhabited Lab] in
 theorem idxL_append (x M : Lab) : ∀ l : List Lab, idxL x (l ++ [M]) =
     match idxL x l with
     | some j => some j
@@ -78,6 +79,7 @@ def Rel5 (t : St5 Lab) (s : St4 Lab) : Prop :=
   t.1 = s.1 ∧ t.2.2.1 = s.2.1 ∧ t.2.2.2.1 = s.2.2.1 ∧ t.2.2.2.2 = s.2.2.2 ∧
     ∀ x, t.2.1[x]? = idxL x s.1.toList
 
+omit [Inhabited Lab] in
 theorem rel5_step {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)}
     {actF : Nat → Lab → Lab} {P : Lab → Prop} {L : Lab} {i l : Nat} {t : St5 Lab} {s : St4 Lab}
     (hL : P L) (hl : l < letters.size)
@@ -110,6 +112,7 @@ theorem rel5_step {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)
       · exact hP x hx
       · exact hPM
 
+omit [Inhabited Lab] in
 theorem rel5_loop {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)}
     {actF : Nat → Lab → Lab} {P : Lab → Prop} {L : Lab} {i : Nat} (hL : P L)
     (hcl : ∀ l < letters.size, ∀ x, P x → P (actF l x) ∧ act letters[l]! x = actF l x) :
@@ -123,6 +126,7 @@ theorem rel5_loop {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)
     rw [List.forIn_cons, e, List.foldl_cons]
     exact rel5_loop hL hcl ls t' _ (fun l' h => hls l' (List.mem_cons_of_mem _ h)) R' hP'
 
+omit [DecidableEq Lab] [Hashable Lab] in
 theorem getElem!_mem {a : Array Lab} {i : Nat} (h : i < a.size) : a[i]! ∈ a.toList := by
   rw [getElem!_pos a i h]
   exact Array.getElem_mem_toList h
@@ -144,7 +148,7 @@ theorem run_eq {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)} {
     unfold bodyF
     rw [r1]
     by_cases hc : (decide (u.2.2.2.2.2 < s.1.size) && decide (s.1.size ≤ cap)) = true
-    · rw [if_pos hc] at h ⊢
+    · rw [ite_eq_left hc] at h ⊢
       have hi : u.2.2.2.2.2 < s.1.size := by
         simp only [Bool.and_eq_true, decide_eq_true_eq] at hc
         exact hc.1
@@ -153,7 +157,7 @@ theorem run_eq {act : Array Nat → Lab → Lab} {letters : Array (Array Nat)} {
         (s.1, u.2.1, u.2.2.1, u.2.2.2.1, u.2.2.2.2.1) s
         (fun l hl => by simpa using (List.mem_range'.1 hl)) ⟨rfl, r2, r3, r4, r5⟩ hP
       exact run_eq hcl f _ _ R R' hP' h
-    · rw [if_neg hc] at h ⊢
+    · rw [ite_eq_right hc] at h ⊢
       simp only [Option.some.injEq] at h
       subst h
       refine ⟨?_, hP⟩
@@ -278,7 +282,7 @@ theorem rChkF_sound {n : Nat} {Δ : List Nat} {sTabs : List (Array Nat)} {ta tb 
       have hk : k < uWords.length := by omega
       have e : ((sTabs ++ uWords.map (wordTabA #[ta, tb] n)).toArray).getD (sTabs.length + k) #[] =
           wordTabA #[ta, tb] n (uWords.getD k []) := by
-        simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, hk]
+        simp [Array.getD_eq_getD_getElem?, hk]
       rw [e]
       have hmem : uWords.getD k [] ∈ uWords := by
         rw [List.getD_eq_getElem _ _ hk]
@@ -343,7 +347,7 @@ theorem rChkF_sound {n : Nat} {Δ : List Nat} {sTabs : List (Array Nat)} {ta tb 
       have g := hLet _ hk'
       have e : ((sTabs ++ uWords.map (wordTabA #[ta, tb] n)).toArray).getD (sTabs.length + k) #[] =
           wordTabA #[ta, tb] n uWords[k] := by
-        simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, hk]
+        simp [Array.getD_eq_getD_getElem?, hk]
       rw [e] at g
       have hc := good_comm g hz
       rw [beq_iff_eq]

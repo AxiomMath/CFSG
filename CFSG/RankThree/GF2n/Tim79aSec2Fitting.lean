@@ -65,6 +65,7 @@ namespace MinCex
 variable (hc : MinCex M V Q P H)
 include hc
 
+omit [Finite G] hc in
 theorem H_le_normalizer_pCore_xOf :
     H ≤ Subgroup.normalizer (inSubgroup (pCore 2) (xOf V H) : Set G) :=
   (H_le_normalizer_xOf V H).trans
@@ -183,7 +184,7 @@ theorem odd_eq_one {y : G} (hyX : y ∈ xOf V H)
       (Subgroup.mem_normalizer_iff.mp (H_le_normalizer_xOf V H hpH) y).mp hyX
     have hy'C : p * y * p⁻¹ ∈ Subgroup.centralizer (K : Set G) :=
       (Subgroup.mem_normalizer_iff.mp
-        (mem_normalizer_centralizer (hc.H_le_normalizer_pCore_xOf hpH)) y).mp hy
+        (mem_normalizer_centralizer (MinCex.H_le_normalizer_pCore_xOf hpH)) y).mp hy
     have hy'odd : Odd (orderOf (p * y * p⁻¹)) := by
       rw [← MulAut.conj_apply, MulEquiv.orderOf_eq]; exact hodd
     have hy'c := hc.odd_centralizes_xOf hy'X hy'C hy'odd

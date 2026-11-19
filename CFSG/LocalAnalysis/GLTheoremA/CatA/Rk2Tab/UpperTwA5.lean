@@ -28,7 +28,7 @@ private lemma rk2Mult_twA_five_le_three {n m : ℕ} (hm : 1 ≤ m) (hm2 : m ≠ 
 
 private lemma rkLin_six_false_three_eq_four {n : ℕ} (ho : Odd n) (h3 : ¬ 3 ∣ n) :
     rkLin 6 false (2 ^ n) 3 1 = 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : ((2 : ZMod 3) ^ n) = -1 := by
     have h2eq : (2 : ZMod 3) = -1 := by
       have h31 : (2 : ZMod 3) + 1 = 0 := by
@@ -62,8 +62,8 @@ private lemma rkLin_six_false_three_eq_four {n : ℕ} (ho : Odd n) (h3 : ¬ 3 �
     refine ⟨by norm_num, by norm_num, by norm_num, ?_⟩
     rw [hv3, h36]
   unfold rkLin
-  simp only [Bool.false_eq_true, if_false]
-  rw [if_pos hem, if_pos hcond]
+  simp only [Bool.false_eq_true, ite_false]
+  rw [ite_eq_left hem, ite_eq_left hcond]
 
 theorem rk2_pRank_twa5_le_three (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group K]
     [Finite K] {lab : GLALabel} (hK : Rk2IsLabel K lab) (ht : lab.tag = .twA ∧ lab.rank = 5)
@@ -169,9 +169,9 @@ theorem rk2_up_twa5 {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2Is
           CFSG.StandardType.markDeg, ht.1, ht.2] using hM
       obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ :=
         hM'.statedClassicalModel (by decide : StatedLieTag.PSU ∈ classicalTags)
-      letI : Field F := hF
-      letI : Finite F := hFin
-      haveI : CharP F 2 :=
+      let : Field F := hF
+      let : Finite F := hFin
+      have : CharP F 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (k := 2 * lab.n) (by omega)
           (by rw [hFcard, show 2 * lab.n = lab.n * 2 by omega, ← pow_mul])

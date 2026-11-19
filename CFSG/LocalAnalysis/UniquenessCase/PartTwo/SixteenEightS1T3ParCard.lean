@@ -52,7 +52,7 @@ theorem s16t3_card_of_surjective_isPGroup_ker {E H : Type*} [Group E] [Finite E]
     (hYP : Y ≤ P) (β : ↥P →* H) (hβ : Function.Surjective β) (hker : IsPGroup 2 β.ker)
     (hH : Nat.card H = 2 ^ x * 3 ^ a) :
     Nat.card ↥P = 3 ^ a * 2 ^ (Nat.card ↥G).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP0 : Nat.card ↥P ≠ 0 := Nat.card_pos.ne'
   have hG0 : Nat.card ↥G ≠ 0 := Nat.card_pos.ne'
   obtain ⟨u, hu⟩ := hker.exists_card_eq

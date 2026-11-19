@@ -96,7 +96,7 @@ private theorem unpackP_ppcA {l : List Nat} (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w)
     obtain ⟨hcx, hcl⟩ := hcan
     rw [ppcA_cons, List.map_cons]
     simp only [pcA]
-    by_cases hm : m % 2 = 1 <;> simp only [hm, if_true, if_false]
+    by_cases hm : m % 2 = 1 <;> simp only [hm, ite_true, ite_false]
     · rw [unpackP_pc hn hw hcx, ih hcl (m / 2)]
     · exact ih hcl (m / 2)
 
@@ -191,7 +191,7 @@ private theorem pcOK_of_ppcOK {xs : List Nat} {rs : List Nat} {cjs : List (List 
             rw [SP.unpackP_get_canon (List.all_eq_true.1 hcl y hyl) pp]
             exact hp'
           simp only [List.map_cons, pcOK, hv, h2, hlen, hzip, hlt, hb20, hbx, hlall, hrec,
-            Bool.and_true, Bool.true_and]
+            Bool.and_true]
 
 private theorem pvalid_of_ppcOK {xs : List Nat} {rs : List Nat} {cjs : List (List Nat)}
     {bs : List (Nat × Nat)} (h : ppcOK n w xs rs cjs bs = true) :
@@ -216,12 +216,12 @@ private theorem pvalid_of_ppcOK {xs : List Nat} {rs : List Nat} {cjs : List (Lis
 
 private theorem permOfArr_idA : permOfArr n (idA n) = 1 := by
   unfold permOfArr
-  rw [dif_pos ⟨fun i hi => by rw [idA_get hi]; exact hi, fun i hi j hj hij => by
+  rw [dite_eq_left ⟨fun i hi => by rw [idA_get hi]; exact hi, fun i hi j hj hij => by
     rw [idA_get hi, idA_get hj] at hij; exact hij⟩]
   apply Equiv.ext
   intro i
   apply Fin.ext
-  simp only [Equiv.ofBijective_apply, Equiv.refl_apply]
+  simp only [Equiv.ofBijective_apply]
   rw [idA_get i.2]
   rfl
 
@@ -301,7 +301,7 @@ private theorem at'_eq_toP_inv {q x p : Nat} (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w
     rw [hxi', SP.unpackP_get_canon hcq p]
   have h2 : at' w (pc n w q x) (i : Nat) = (i : Nat) := by
     have e1 : at' w (pc n w q x) (i : Nat) = (unpackP n w (pc n w q x))[(i : Nat)]! :=
-      ((SP.unpackP_get (pc n w q x) (i : Nat)).trans (if_pos hi)).symm
+      ((SP.unpackP_get (pc n w q x) (i : Nat)).trans (ite_eq_left hi)).symm
     rw [e1, hqx, hpid, idA_get hi]
   exact h1.symm.trans h2
 
@@ -356,7 +356,7 @@ private theorem canon1_ppcA {l : List Nat} (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w)
   | nil => simpa [ppcA] using hcpid
   | cons x l ih =>
     rw [ppcA_cons]
-    by_cases hm : m % 2 = 1 <;> simp only [hm, if_true, if_false]
+    by_cases hm : m % 2 = 1 <;> simp only [hm, ite_true, ite_false]
     · exact SP.canon_pc hn hw
     · exact ih (m / 2)
 
@@ -370,7 +370,7 @@ private theorem pvalid_ppcA {l : List Nat} (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w)
     rw [List.all_cons, Bool.and_eq_true] at hcl
     obtain ⟨hcx, hcl⟩ := hcl
     rw [ppcA_cons]
-    by_cases hm : m % 2 = 1 <;> simp only [hm, if_true, if_false]
+    by_cases hm : m % 2 = 1 <;> simp only [hm, ite_true, ite_false]
     · exact pvalid_pc hn hw hcx (hpv x List.mem_cons_self)
         (canon1_ppcA hn hw hcpid (m / 2))
         (ih hcl (fun y hy => hpv y (List.mem_cons_of_mem x hy)) (m / 2))
@@ -390,7 +390,7 @@ private theorem toP_ppcA {l : List Nat} (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w)
     rw [List.all_cons, Bool.and_eq_true] at hcl
     obtain ⟨hcx, hcl⟩ := hcl
     rw [ppcA_cons, List.map_cons, pcG]
-    by_cases hm : m % 2 = 1 <;> simp only [hm, if_true, if_false, one_mul]
+    by_cases hm : m % 2 = 1 <;> simp only [hm, ite_true, ite_false, one_mul]
     · rw [toP_pc hn hw hcx (canon1_ppcA hn hw hcpid (m / 2))
         (hpv x List.mem_cons_self)
         (pvalid_ppcA hn hw hcl (fun y hy => hpv y (List.mem_cons_of_mem x hy)) hcpid hvpid
@@ -409,7 +409,7 @@ private theorem ppcAt_eq {l : List Nat} (hw : n ≤ 2 ^ w) (hcl : l.all (canon1 
     rw [List.all_cons, Bool.and_eq_true] at hcl
     obtain ⟨hcx, hcl⟩ := hcl
     rw [ppcAt_cons, List.map_cons, pcG]
-    by_cases hm : m % 2 = 1 <;> simp only [hm, if_true, if_false, one_mul]
+    by_cases hm : m % 2 = 1 <;> simp only [hm, ite_true, ite_false, one_mul]
     · rw [ih hcl (fun y hy => hpv y (List.mem_cons_of_mem x hy)) (m / 2),
         Equiv.Perm.mul_apply]
       exact at'_eq_toP hw hcx (hpv x List.mem_cons_self) _
@@ -579,7 +579,7 @@ private theorem uPerm_of_rep {r : RootConjP} {j : Nat} (h0 : (r.e j).1 = 0) :
     uPerm n w r j = toP n w (ppcA n w r.xs (r.e j).2.1) := by
   unfold uPerm
   rw [uPermF]
-  rw [if_pos h0]
+  rw [ite_eq_left h0]
 
 private theorem uPerm_of_conj {r : RootConjP} {j : Nat} (h0 : (r.e j).1 ≠ 0)
     (hd : (r.e j).2.2.2 = (r.e (r.e j).2.1).2.2.2 + 1) :
@@ -587,21 +587,21 @@ private theorem uPerm_of_conj {r : RootConjP} {j : Nat} (h0 : (r.e j).1 ≠ 0)
       (toP n w r.xs[(r.e j).2.2.1]!)⁻¹ := by
   unfold uPerm
   rw [hd, uPermF]
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
 
 private theorem puAt_of_rep {r : RootConjP} {j p : Nat} (h0 : (r.e j).1 = 0) :
     puAt w r j p = ppcAt w r.xs (r.e j).2.1 p := by
-  simp only [puAt, puAtF, Nat.rec_add_one, h0, Nat.beq_refl, cond_true]
+  simp only [puAt, puAtF, h0, Nat.beq_refl, _root_.Bool.cond_true]
 
 private theorem puAt_of_conj {r : RootConjP} {j p : Nat} (h0 : (r.e j).1 ≠ 0)
     (hd : (r.e j).2.2.2 = (r.e (r.e j).2.1).2.2.2 + 1) :
     puAt w r j p = at' w r.xs[(r.e j).2.2.1]!
       (puAt w r (r.e j).2.1 (at' w r.xi[(r.e j).2.2.1]! p)) := by
-  simp only [puAt, puAtF, hd, Nat.rec_add_one]
+  simp only [puAt, puAtF, hd]
   have hb : Nat.beq (r.e j).1 0 = false := by
     rw [Bool.eq_false_iff]
     exact fun hh => h0 (Nat.eq_of_beq_eq_true hh)
-  rw [hb, cond_false]
+  rw [hb, Bool.cond_false]
 
 private theorem pentryOKB_spec {inXP : Nat → Bool} {bmode : Nat} {skip : List Nat}
     {pG : Array (Array Nat)} {k : Nat} {r : RootConjP} {j : Nat}
@@ -615,14 +615,14 @@ private theorem pentryOKB_spec {inXP : Nat → Bool} {bmode : Nat} {skip : List 
   simp only [pentryOKB] at h
   by_cases hk : (r.e j).1 = 0
   · have hb : Nat.beq (r.e j).1 0 = true := by rw [hk]; exact Nat.beq_refl 0
-    rw [hb, cond_true] at h
+    rw [hb, _root_.Bool.cond_true] at h
     simp only [Bool.and_eq_true] at h
     obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
     exact Or.inl ⟨hk, Nat.eq_of_beq_eq_true h1, h2, Nat.blt_eq.mp h3, h4⟩
   · have hb : Nat.beq (r.e j).1 0 = false := by
       rw [Bool.eq_false_iff]
       exact fun hh => hk (Nat.eq_of_beq_eq_true hh)
-    rw [hb, cond_false] at h
+    rw [hb, Bool.cond_false] at h
     simp only [Bool.and_eq_true] at h
     obtain ⟨⟨h1, h2⟩, h3⟩ := h
     exact Or.inr ⟨hk, Nat.blt_eq.mp h1, Nat.eq_of_beq_eq_true h2, Nat.blt_eq.mp h3⟩
@@ -711,7 +711,7 @@ private theorem uPerm_spec {ps : List Nat} {inXP inWP : Nat → Bool} {pw : Bool
           have ht : toP n w r.xs[(r.e j).2.2.1]! ∈ T := by
             rw [hTdef]
             exact subset_closure (by
-              rw [Set.mem_setOf_eq, List.mem_map]
+              rw [Set.mem_ofPred_eq, List.mem_map]
               exact ⟨_, hb_mem_xs, rfl⟩)
           exact mul_mem (mul_mem ht iha_mem) (inv_mem ht)
         · rw [uPerm_of_conj h0 hd]
@@ -878,11 +878,11 @@ private theorem pcG_mem_iff_bit {G : Type*} [Group G] {X : Subgroup G} :
       have hx : x ∉ X := by simpa only [List.getElem_cons_zero] using hnot
       rw [pcG]
       by_cases hm : m % 2 = 1
-      · rw [if_pos hm]
+      · rw [ite_eq_left hm]
         refine ⟨fun h => absurd ((X.mul_mem_cancel_right hpl).mp h) hx, fun h => ?_⟩
         simp only [Nat.shiftRight_eq', Nat.shiftRight_zero, Nat.land_eq, Nat.and_one_is_mod] at h
         omega
-      · rw [if_neg hm, one_mul]
+      · rw [ite_eq_right hm, one_mul]
         refine ⟨fun _ => ?_, fun _ => hpl⟩
         rcases Nat.mod_two_eq_zero_or_one m with h0 | h1
         · simpa only [Nat.shiftRight_eq', Nat.shiftRight_zero, Nat.land_eq, Nat.and_one_is_mod]
@@ -897,8 +897,8 @@ private theorem pcG_mem_iff_bit {G : Type*} [Group G] {X : Subgroup G} :
         simpa only [List.getElem_cons_zero] using h
       have hhead : (if m % 2 = 1 then x else 1) ∈ X := by
         by_cases hm : m % 2 = 1
-        · rwa [if_pos hm]
-        · rw [if_neg hm]; exact one_mem X
+        · rwa [ite_eq_left hm]
+        · rw [ite_eq_right hm]; exact one_mem X
       have hmem' : ∀ i (hi : i < l.length), i ≠ k' → l[i] ∈ X := by
         intro i hi hne
         have h := hmem (i + 1) (by rw [List.length_cons]; exact Nat.add_lt_add_right hi 1)
@@ -983,7 +983,7 @@ private theorem leafConcl_conj {X : Subgroup (Equiv.Perm (Fin n))} {pw : Bool} {
 private theorem orderOf_of_pord4 {y : Nat} {g : Equiv.Perm (Fin n)} (G : SP.Good n w)
     (hcy : canon1 n w y = true) (hy : Rep n (unpackP n w y) g) (h : pord4 n w y = true) :
     orderOf g = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   simp only [pord4, Bool.and_eq_true, Bool.not_eq_true'] at h
   obtain ⟨hne, h4⟩ := h
   have hne' : pc n w y y ≠ pid n w := beq_eq_false_iff_ne.mp hne
@@ -1101,16 +1101,16 @@ private theorem cand_ord4_spec {ps : List Nat} {inXP inWP : Nat → Bool} {pw : 
     {bmode : Nat} {skip : List Nat} {k : Nat} {r : RootConjP}
     (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (hc : canonR n w r = true)
     (h : prootConjOKB n w ps inXP inWP pw bmode skip k r = true)
-    (X : Subgroup (Equiv.Perm (Fin n))) (hps : ∀ p ∈ ps, p < n)
+    (X : Subgroup (Equiv.Perm (Fin n))) (_hps : ∀ p ∈ ps, p < n)
     (hsX : ∀ P, canon1 n w P = true → pvalid n w P = true → inXP P = true →
       permOfArr n (unpackP n w P) ∈ X)
     {b : Nat} (hcb : canon1 n w b = true) (hvb : pvalid n w b = true)
-    (hb2 : toP n w b ^ 2 = 1) (hb1 : toP n w b ≠ 1) (hbx : toP n w b ≠ toP n w r.x)
+    (hb2 : toP n w b ^ 2 = 1) (_hb1 : toP n w b ≠ 1) (_hbx : toP n w b ≠ toP n w r.x)
     {l m : Nat} (hin : RootWitP.inRange r (.ord4 l m) = true)
     (hcand : pcandOK n w inXP r.x r.ga r.gi (r.perfs.map (pperfGens n w r.ga)) b
       (.ord4 l m) = true) :
     MonoW X pw (closure {toP n w r.x, toP n w b}) := by
-  letI : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
+  let : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
   obtain ⟨G, -⟩ := good_of_check hn hw hc h
   obtain ⟨hcx, hpvx, hx2, hx1⟩ := x_facts hn hw hc h
   have hl : l < r.gams.size := Nat.blt_eq.mp (by simpa [RootWitP.inRange] using hin)
@@ -1147,16 +1147,16 @@ private theorem cand_ord4p_spec {ps : List Nat} {inXP inWP : Nat → Bool} {pw :
     {bmode : Nat} {skip : List Nat} {k : Nat} {r : RootConjP}
     (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (hc : canonR n w r = true)
     (h : prootConjOKB n w ps inXP inWP pw bmode skip k r = true)
-    (X : Subgroup (Equiv.Perm (Fin n))) (hps : ∀ p ∈ ps, p < n)
+    (X : Subgroup (Equiv.Perm (Fin n))) (_hps : ∀ p ∈ ps, p < n)
     (hsX : ∀ P, canon1 n w P = true → pvalid n w P = true → inXP P = true →
       permOfArr n (unpackP n w P) ∈ X)
     {b : Nat} (hcb : canon1 n w b = true) (hvb : pvalid n w b = true)
-    (hb2 : toP n w b ^ 2 = 1) (hb1 : toP n w b ≠ 1) (hbx : toP n w b ≠ toP n w r.x)
+    (hb2 : toP n w b ^ 2 = 1) (_hb1 : toP n w b ≠ 1) (_hbx : toP n w b ≠ toP n w r.x)
     {ls : List Nat} {m : Nat} (hin : RootWitP.inRange r (.ord4p ls m) = true)
     (hcand : pcandOK n w inXP r.x r.ga r.gi (r.perfs.map (pperfGens n w r.ga)) b
       (.ord4p ls m) = true) :
     MonoW X pw (closure {toP n w r.x, toP n w b}) := by
-  letI : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
+  let : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
   obtain ⟨G, -⟩ := good_of_check hn hw hc h
   obtain ⟨hcx, hpvx, hx2, hx1⟩ := x_facts hn hw hc h
   have hls : ls.all (fun l => Nat.blt l r.gams.size) = true := by
@@ -1210,16 +1210,16 @@ private theorem cand_ord4c_spec {ps : List Nat} {inXP inWP : Nat → Bool} {pw :
     {bmode : Nat} {skip : List Nat} {k : Nat} {r : RootConjP}
     (hn : n < 2 ^ 32) (hw : n ≤ 2 ^ w) (hc : canonR n w r = true)
     (h : prootConjOKB n w ps inXP inWP pw bmode skip k r = true)
-    (X : Subgroup (Equiv.Perm (Fin n))) (hps : ∀ p ∈ ps, p < n)
+    (X : Subgroup (Equiv.Perm (Fin n))) (_hps : ∀ p ∈ ps, p < n)
     (hsX : ∀ P, canon1 n w P = true → pvalid n w P = true → inXP P = true →
       permOfArr n (unpackP n w P) ∈ X)
     {b : Nat} (hcb : canon1 n w b = true) (hvb : pvalid n w b = true)
-    (hb2 : toP n w b ^ 2 = 1) (hb1 : toP n w b ≠ 1) (hbx : toP n w b ≠ toP n w r.x)
+    (_hb2 : toP n w b ^ 2 = 1) (hb1 : toP n w b ≠ 1) (hbx : toP n w b ≠ toP n w r.x)
     {e c₁ c₂ m : Nat} (hcw : canonWitP n w (.ord4c e c₁ c₂ m) = true)
     (hcand : pcandOK n w inXP r.x r.ga r.gi (r.perfs.map (pperfGens n w r.ga)) b
       (.ord4c e c₁ c₂ m) = true) :
     MonoW X pw (closure {toP n w r.x, toP n w b}) := by
-  letI : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
+  let : Bracket (Equiv.Perm (Fin n)) (Equiv.Perm (Fin n)) := commutatorElement
   obtain ⟨G, -⟩ := good_of_check hn hw hc h
   obtain ⟨hcx, hpvx, hx2, hx1⟩ := x_facts hn hw hc h
   have hxinv : (toP n w r.x)⁻¹ = toP n w r.x :=
@@ -1370,7 +1370,7 @@ private theorem perf_gens_canon {ga : Array Nat} {P : PerfCertP} (G : SP.Good n 
     (hgl : P.gens.all (fun gl => gl.1.all fun l => Nat.blt l ga.size) = true) :
     ∀ x ∈ (pperfGens n w ga P).toList, canon1 n w x = true := by
   intro x hx
-  simp only [pperfGens, Array.mem_toList_iff, List.mem_toArray, List.mem_map] at hx
+  simp only [pperfGens, List.mem_map] at hx
   obtain ⟨gl, hglmem, rfl⟩ := hx
   have hglall := List.all_eq_true.1 hgl gl hglmem
   have hcan_map : ∀ y ∈ gl.1.map (fun l => ga[l]!), canon1 n w y = true := by
@@ -1426,7 +1426,7 @@ private theorem pperfOK_spec {ps : List Nat} {ga : Array Nat} {P : PerfCertP}
   have hqscan : ∀ q ∈ ((P.comms.map fun ij =>
       pcomm n w P.cP.pts[ij.1]! P.cP.pts[ij.2]!).toArray).toList, canon1 n w q = true := by
     intro y hy
-    simp only [Array.mem_toList_iff, List.mem_toArray, List.mem_map] at hy
+    simp only [List.mem_map] at hy
     obtain ⟨ij, -, rfl⟩ := hy
     exact perf_canon_pcomm G _ _
   have hQ' : enumOK n (((P.comms.map fun ij =>
@@ -1436,7 +1436,7 @@ private theorem pperfOK_spec {ps : List Nat} {ga : Array Nat} {P : PerfCertP}
   have hrscan : ∀ q ∈ rs.toList, canon1 n w q = true := by
     intro y hy
     rw [hrsdef] at hy
-    simp only [Array.mem_toList_iff, List.mem_toArray, List.mem_map] at hy
+    simp only [List.mem_map] at hy
     obtain ⟨p, -, rfl⟩ := hy
     exact perf_canon_pconj G _ _
   have hR' : enumOK n (rs.map (unpackP n w)) ps (ArrCertP.toMain n w P.cR) = true :=
@@ -1617,7 +1617,7 @@ private theorem cand_perf_spec {ps : List Nat} {inXP inWP : Nat → Bool} {pw : 
     (hsX : ∀ P, canon1 n w P = true → pvalid n w P = true → inXP P = true →
       permOfArr n (unpackP n w P) ∈ X)
     {b : Nat} (hcb : canon1 n w b = true) (hvb : pvalid n w b = true)
-    (hb2 : toP n w b ^ 2 = 1) (hb1 : toP n w b ≠ 1) (hbx : toP n w b ≠ toP n w r.x)
+    (_hb2 : toP n w b ^ 2 = 1) (_hb1 : toP n w b ≠ 1) (_hbx : toP n w b ≠ toP n w r.x)
     {l : Nat} (hin : RootWitP.inRange r (.perf l) = true)
     (hcand : pcandOK n w inXP r.x r.ga r.gi (r.perfs.map (pperfGens n w r.ga)) b
       (.perf l) = true) :
@@ -2014,7 +2014,7 @@ private theorem rootConjB_facts_gap {ps : List Nat} {inXP inWP : Nat → Bool} {
   have hxsk_mem : toP n w (r.xs[k]!) ∈ T := by
     rw [hTdef]
     refine subset_closure ?_
-    rw [Set.mem_setOf_eq, List.mem_map]
+    rw [Set.mem_ofPred_eq, List.mem_map]
     have hmem : r.xs[k]! ∈ r.xs := by
       rw [getElem!_pos r.xs k hk]; exact List.getElem_mem hk
     exact ⟨r.xs[k]!, hmem, rfl⟩

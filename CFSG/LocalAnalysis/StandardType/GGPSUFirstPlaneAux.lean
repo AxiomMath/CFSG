@@ -181,7 +181,7 @@ private theorem ggPSUFP_planeVec_apply_eq_zero_of_lt {K : Type} [Field K] {n k :
   simp only [ggPSUFP_planeVec, Pi.add_apply]
   have h0 : ¬ 2 * k = i.val := by omega
   have h1 : ¬ 2 * k + 1 = i.val := by omega
-  simp [Pi.single_eq_of_ne, Fin.ext_iff, h0, h1]
+  simp [Fin.ext_iff, h0, h1]
 
 private theorem ggPSUFP_wittCol_apply_eq_zero {K : Type} [Field K] {n : ℕ} (hn : 3 ≤ n) (u ω : K) {i j : Fin n}
     (hj : j.val = 0 ∨ j.val = n - 1) (hi : 2 ≤ i.val) :

@@ -18,7 +18,7 @@ theorem kf7_l28_case {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K.Norma
     (hKC : Subgroup.centralizer (K : Set X) = ⊥)
     (e : ↥K ≃* CFSG.Quasithin.F6.L28Res.G8)
     (T : Sylow 3 ↥K)
-    (hN : IsStronglyPEmbedded 3 N)
+    (_hN : IsStronglyPEmbedded 3 N)
     (hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K)
     (hne : N.subgroupOf K ≠ ⊤) : Group.IsSolvable ↥N := by
   have hdata : L28Data ↥K (T : Subgroup ↥K) := l28Data_of_equiv e T
@@ -34,7 +34,7 @@ theorem kf7_l28_case {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K.Norma
   have hsol : Group.IsSolvable (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K)) :=
     hdata.isSolvable_normalizer
   have hout : Group.IsSolvable (Outer ↥K) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hAut : Nat.card (MulAut ↥K) = 1512 := by
       rw [Nat.card_congr (MulAut.congr e).toEquiv]
       exact CFSG.Quasithin.F6.L28Res.card_mulAut
@@ -49,8 +49,8 @@ theorem kf7_l28_case {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K.Norma
       change Nat.card (MulAut ↥K ⧸ inner ↥K) = 3
       rw [hAut, hinner] at hdec
       omega
-    haveI : IsCyclic (Outer ↥K) := isCyclic_of_prime_card h3
-    letI : CommGroup (Outer ↥K) := IsCyclic.commGroup
+    have : IsCyclic (Outer ↥K) := isCyclic_of_prime_card h3
+    let : CommGroup (Outer ↥K) := IsCyclic.commGroup
     exact Group.isSolvable_of_comm fun a b => mul_comm a b
   exact isSolvable_of_isCoatom_normalizer hKC hout hmax hsol hle hne
 
@@ -60,14 +60,14 @@ theorem kf7_l28_case {X : Type} [Group X] [Finite X] {K N : Subgroup X} [K.Norma
       IsStronglyPEmbedded 3 N → Nonempty (↥(genFittingFStar X) ≃* CFSG.Quasithin.F6.L28Res.G8)
 
 theorem kf7_reeType_one_of_recognition (hRec : KF7ReeTypeOneRecognition) :
-    ∀ {X : Type} [Group X] [Finite X] (hO : CFSG.pPrimeCore 3 X = ⊥) {L N : Subgroup X},
+    ∀ {X : Type} [Group X] [Finite X] (_hO : CFSG.pPrimeCore 3 X = ⊥) {L N : Subgroup X},
       L.Normal → genFittingFStar X ≤ L → F07.IsReeType ↥L 1 →
         IsStronglyPEmbedded 3 N → Group.IsSolvable ↥N := by
-  intro X _ _ hO L N hLN hKL hshape hN
+  intro X _ _ _hO L N hLN hKL hshape hN
   obtain ⟨-, -, hKn, hKC, ⟨_, T, _, _, _, hle, hne⟩⟩ :=
-    kf7_setup (p := 3) (by norm_num) (by norm_num) hO hLN hKL hN
-  haveI : (genFittingFStar X).Normal := hKn
-  obtain ⟨e⟩ := hRec hO hLN hKL hshape hN
+    kf7_setup (p := 3) (by norm_num) (by norm_num) _hO hLN hKL hN
+  have : (genFittingFStar X).Normal := hKn
+  obtain ⟨e⟩ := hRec _hO hLN hKL hshape hN
   exact kf7_l28_case (K := genFittingFStar X) (N := N) hKC e T hN hle hne
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

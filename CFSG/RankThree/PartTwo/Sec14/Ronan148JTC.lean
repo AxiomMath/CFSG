@@ -12,8 +12,8 @@ open CFSG.ComponentClassification
 theorem fixed_of_mem_center_of_pow_three {T : Type*} [Group T]
     (hZ : Nat.card (Subgroup.center T) = 3) {σ : MulAut T} (hσ3 : σ ^ 3 = 1) {z : T}
     (hz : z ∈ Subgroup.center T) : σ z = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Subgroup.center T) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Subgroup.center T) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   by_cases hz1 : z = 1
   · subst hz1
     exact map_one σ
@@ -123,9 +123,9 @@ theorem eq_one_of_commute_tripleCover {X : Type} [Group X] [Finite X] {K : Subgr
     (he : ∃ k ∈ K, e * k ≠ k * e) {x : X} (hxK : x ∈ K) (hxe : x * e = e * x)
     (hx : Nat.Coprime (orderOf x) 3) : x = 1 := by
   obtain ⟨hZ, ⟨eQ⟩⟩ := hK
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
-  haveI : Group.IsPerfect (↥K ⧸ Subgroup.center ↥K) :=
+  have : Group.IsPerfect (↥K ⧸ Subgroup.center ↥K) :=
     Group.IsPerfect.ofSurjective (f := eQ.symm.toMonoidHom) eQ.symm.surjective
   obtain ⟨σ, hσ⟩ : ∃ σ : MulAut ↥K, σ = Subgroup.normalizerMonoidHom K ⟨e, heK⟩ := ⟨_, rfl⟩
   have hσapp : ∀ t : ↥K, ((σ t : ↥K) : X) = e * (t : X) * e⁻¹ := fun t => by

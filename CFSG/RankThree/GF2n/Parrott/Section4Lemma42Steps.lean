@@ -12,6 +12,7 @@ open CFSG CFSG.Open CFSG.ABGLocalTools CFSG.GroupTheory Subgroup
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem z_mem_centerIn_J (h : Tim79a.ParrottHyp z) : z ∈ centerIn (J z) :=
   Subgroup.mem_inf.mpr ⟨z_mem_J h, z_centralizes_J h⟩
 

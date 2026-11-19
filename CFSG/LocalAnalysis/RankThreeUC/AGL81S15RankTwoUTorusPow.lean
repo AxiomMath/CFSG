@@ -26,9 +26,9 @@ theorem fieldAut_hypTorus_eq_pow {f : ℕ} {K : Type} [Field K] (h : UnitaryFiel
 private theorem exists_pow_of_involutive {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (τ : K ≃+* K) (hτ : ∀ a, τ (τ a) = a) :
     ∃ N : ℕ, (N = 1 ∨ N = 2 ^ f) ∧ ∀ a : K, τ a = a ^ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   by_cases hrefl : τ = RingEquiv.refl K
   · refine ⟨1, Or.inl rfl, fun a => ?_⟩
     rw [hrefl]

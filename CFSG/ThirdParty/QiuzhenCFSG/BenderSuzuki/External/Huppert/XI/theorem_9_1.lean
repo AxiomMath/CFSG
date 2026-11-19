@@ -825,7 +825,7 @@ private theorem xi91_odd_twoPointStabilizer_cyclic_and_commutator_eq
       simpa [Qg, hDgRange] using
         (Subgroup.map_le_range iotaD (Qd : Subgroup D))
     have hQgT : Qg ≤ T := hQgDg.trans Subgroup.le_normalizer
-    have hQgP : IsPGroup q Qg := Qd.isPGroup'.map iotaD
+    have hQgP : IsPGroup q Qg := Qd.isPGroup.map iotaD
     let QTsub : Subgroup T := Qg.subgroupOf T
     have hQTsubP : IsPGroup q QTsub :=
       hQgP.of_equiv (Subgroup.subgroupOfEquivOfLe hQgT).symm
@@ -1647,7 +1647,7 @@ private theorem xi91_frobenius_normal_subgroup_le_kernel_or_kernel_le
   by_cases hNF : N ≤ F
   · exact Or.inl hNF
   right
-  obtain ⟨n, hnN, hnnotF⟩ := SetLike.not_le_iff_exists.mp hNF
+  obtain ⟨n, hnN, hnnotF⟩ := IsConcreteLE.not_le_iff_exists.mp hNF
   let : F.Normal := hFrob.normal
   have hcentD :
       ∀ r : D, r ≠ 1 → Section2.centralizerIn F (r : H) = ⊥ := by
@@ -2877,13 +2877,13 @@ private theorem xi91_sum_stabilizerSquareTerm_of_odd_card
       apply Finset.sum_congr rfl
       intro y _hy
       by_cases hyH : y ∈ H
-      · simp only [xi91_stabilizerSquareTerm, dif_pos hyH, if_pos hyH]
-      · simp only [xi91_stabilizerSquareTerm, dif_neg hyH, if_neg hyH]
+      · simp only [xi91_stabilizerSquareTerm, dite_eq_left hyH, ite_eq_left hyH]
+      · simp only [xi91_stabilizerSquareTerm, dite_eq_right hyH, ite_eq_right hyH]
     _ = ∑ h : H, xi91_stabilizerSquareTerm H theta h := hsub
     _ = ∑ h : H, theta (h⁻¹ * h⁻¹) := by
       apply Finset.sum_congr rfl
       intro h _hh
-      simp only [xi91_stabilizerSquareTerm, dif_pos h.property]
+      simp only [xi91_stabilizerSquareTerm, dite_eq_left h.property]
       congr 1
     _ = 0 := hthetaSqSum
 
@@ -2907,13 +2907,13 @@ private theorem xi91_sum_involutionTerm
       apply Finset.sum_congr rfl
       intro y _hy
       by_cases hyOrder : orderOf y = 2
-      · simp only [xi91_involutionTerm, if_pos hyOrder]
-      · simp only [xi91_involutionTerm, if_neg hyOrder]
+      · simp only [xi91_involutionTerm, ite_eq_left hyOrder]
+      · simp only [xi91_involutionTerm, ite_eq_right hyOrder]
     _ = ∑ t : Inv, xi91_involutionTerm c (t : G) := hsub
     _ = ∑ _t : Inv, c := by
       apply Finset.sum_congr rfl
       intro t _ht
-      simp only [xi91_involutionTerm, if_pos t.property]
+      simp only [xi91_involutionTerm, ite_eq_left t.property]
     _ = (Nat.card Inv : ℂ) * c := by
       rw [Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card]
       simp [nsmul_eq_mul]
@@ -3408,7 +3408,7 @@ private theorem xi91_indicatorInt_cast
       rw [hm1]
       norm_num
     unfold xi91_indicatorInt
-    rw [if_neg hm10, if_neg hm11, hm1]
+    rw [ite_eq_right hm10, ite_eq_right hm11, hm1]
     norm_num
 
 private theorem xi91_indicatorInt_cases
@@ -3428,7 +3428,7 @@ private theorem xi91_indicatorInt_cases
       rw [hm1]
       norm_num
     unfold xi91_indicatorInt
-    rw [if_neg hm10, if_neg hm11]
+    rw [ite_eq_right hm10, ite_eq_right hm11]
 
 private theorem xi91_positive_decomposition_unique_nonreal
     {G I : Type*} [Group G] [Finite G] [Fintype I] [DecidableEq I]
@@ -3454,7 +3454,7 @@ private theorem xi91_positive_decomposition_unique_nonreal
       simp [scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))
@@ -4079,7 +4079,7 @@ private theorem xi91_inducedSquareTerm_decomposition
       H.mul_mem (H.inv_mem hyH) (H.inv_mem hyH)
     unfold xi91_inducedSquareTerm xi91_stabilizerSquareTerm
       xi91_involutionTerm
-    rw [dif_pos hySqH, dif_pos hyH, if_neg hyOrderNe, add_zero]
+    rw [dite_eq_left hySqH, dite_eq_left hyH, ite_eq_right hyOrderNe, add_zero]
   · by_cases hyOrder : orderOf y = 2
     · have hySq : y⁻¹ * y⁻¹ = 1 := by
         have hpow := pow_orderOf_eq_one y
@@ -4132,7 +4132,7 @@ private theorem xi91_inducedSquareTerm_decomposition
             exact hyH (MulAction.mem_stabilizer_iff.mpr hyFix)
         next => rfl
       unfold xi91_stabilizerSquareTerm xi91_involutionTerm
-      rw [dif_neg hyH, if_neg hyOrder, hzero, zero_add]
+      rw [dite_eq_right hyH, ite_eq_right hyOrder, hzero, zero_add]
 
 set_option maxHeartbeats 800000 in
 /-- The Frobenius--Schur indicator of the ambient induction of a
@@ -4704,7 +4704,7 @@ private theorem xi91_norm_two_principal_split
       simp [scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (theta i) (htheta i))]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_isBookIrreducible_ne
         (theta i) (theta j) (htheta i) (htheta j) (hpair hij)
   have hnormSumC : ∑ i : J, ((m i : ℂ) ^ 2) = 2 := by
@@ -4733,11 +4733,11 @@ private theorem xi91_norm_two_principal_split
         if theta i = principalCharacter G then 1 else 0 := by
     intro i
     by_cases hi : theta i = principalCharacter G
-    · rw [if_pos hi, hi]
+    · rw [ite_eq_left hi, hi]
       exact scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (principalCharacter G) hprincipalBook)
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact scalarProduct_isBookIrreducible_ne
         (theta i) (principalCharacter G) (htheta i) hprincipalBook hi
   let P : Finset J :=
@@ -4861,11 +4861,11 @@ private theorem xi91_decomposition_index_of_scalar_one
       scalarProduct G (psi i) alpha = if psi i = alpha then 1 else 0 := by
     intro i
     by_cases hi : psi i = alpha
-    · rw [if_pos hi, hi]
+    · rw [ite_eq_left hi, hi]
       exact scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           alpha halpha)
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact scalarProduct_isBookIrreducible_ne
         (psi i) alpha (hpsi i) halpha hi
   let S : Finset I := Finset.univ.filter (fun i => psi i = alpha)
@@ -5865,7 +5865,7 @@ private theorem xi91_nonreal_restriction_degree_multiple
     by_cases hjk : j = k
     · subst k
       simp [scalarProduct_irreducibleCharacter_self (hthetaIrr j)]
-    · rw [if_neg hjk]
+    · rw [ite_eq_right hjk]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (hthetaIrr j) (hthetaIrr k) (hthetaPair hjk)
   have hcoefficient : ∀ j : J,
@@ -6059,7 +6059,7 @@ private theorem xi91_nonreal_restriction_degree_coprime
     by_cases hjk : j = k
     · subst k
       simp [scalarProduct_irreducibleCharacter_self (hthetaIrr j)]
-    · rw [if_neg hjk]
+    · rw [ite_eq_right hjk]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (hthetaIrr j) (hthetaIrr k) (hthetaPair hjk)
   have hcoefficient : ∀ j : J,
@@ -6390,7 +6390,7 @@ private theorem xi91_nonreal_restriction_degree_odd
     by_cases hjk : j = k
     · subst k
       simp [scalarProduct_irreducibleCharacter_self (hthetaIrr j)]
-    · rw [if_neg hjk]
+    · rw [ite_eq_right hjk]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (hthetaIrr j) (hthetaIrr k) (hthetaPair hjk)
   have hcoefficient : ∀ j : J,
@@ -6773,7 +6773,7 @@ private theorem xi91_zassenhaus_restriction_degree_coprime
       simp [scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))
@@ -6896,7 +6896,7 @@ private theorem xi91_zassenhaus_restriction_degree_odd
       simp [scalarProduct_irreducibleCharacter_self
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
           (psi i) (hpsi i))
@@ -7436,7 +7436,7 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
     have hetaInvNe : eta ≠ eta⁻¹ := by
       intro hfix
       have hnorm := hpair eta eta
-      rw [if_pos rfl, if_pos hfix] at hnorm
+      rw [ite_eq_left rfl, ite_eq_left hfix] at hnorm
       have hirrNorm := scalarProduct_irreducibleCharacter_self hirrEta
       rw [hirrNorm] at hnorm
       norm_num at hnorm
@@ -7454,7 +7454,7 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
     have hirrInv : IsIrreducibleCharacterOnGroup (ind eta⁻¹) :=
       hBirr ⟨ind eta⁻¹, hInvMem⟩
     have hpairInv : scalarProduct G (ind eta) (ind eta⁻¹) = 1 := by
-      rw [hpair, if_neg hetaInvNe, if_pos (inv_inv eta).symm]
+      rw [hpair, ite_eq_right hetaInvNe, ite_eq_left (inv_inv eta).symm]
       norm_num
     have hIndInv : ind eta⁻¹ = ind eta := by
       by_contra hne
@@ -7711,9 +7711,9 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
     intro z
     by_cases hz : z = 1
     · subst z
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simpa [subgroupRestriction, degree] using hlambdaDegree
-    · rw [if_neg hz]
+    · rw [ite_eq_right hz]
       apply xi91_induced_linearCharacter_support F chi
       intro hzF
       have hzbot : ((z : H) : H) ∈ (⊥ : Subgroup H) :=
@@ -7855,7 +7855,7 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
               simpa [z] using congrArg (fun w : F => ((w : H) : G)) hzOne
             have hregular := characterInflationByHom_regular_sum
               F q hker rfl zH
-            rw [if_pos hzF, hFindex] at hregular
+            rw [ite_eq_left hzF, hFindex] at hregular
             change lambda zH - regH zH = 0
             rw [hzHOne] at hregular ⊢
             change degree lambda - regH 1 = 0
@@ -7877,7 +7877,7 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
             xi91_induced_linearCharacter_support F chi zH hzF
           have hregular := characterInflationByHom_regular_sum
             F q hker rfl zH
-          rw [if_neg hzF] at hregular
+          rw [ite_eq_right hzF] at hregular
           change lambda zH - regH zH = 0
           rw [hlambdaZero]
           simpa [regH, inflate, familySum] using hregular
@@ -8213,7 +8213,7 @@ private theorem huppert_XI_9_1_noncommutativeKernel_zGroupComplement_aux
       by_cases hij : i = j
       · subst j
         simp [scalarProduct_irreducibleCharacter_self (hthetaIrr i)]
-      · rw [if_neg hij]
+      · rw [ite_eq_right hij]
         exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
           (hthetaIrr i) (hthetaIrr j) (hthetaPair hij)
     have hmultTheta : ∀ j : J,

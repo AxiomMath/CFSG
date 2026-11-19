@@ -79,9 +79,9 @@ theorem l154_blockRestrict_mem_sesqUnitaryGroup (a : primaryFactors (x : Module.
     {ξ : LinearMap.GeneralLinearGroup K V} (hξ : ξ ∈ unitaryCentralizer B x) :
     blockRestrict x (a : K[X]) ⟨ξ, hξ.2⟩ ∈ sesqUnitaryGroup Hf := by
   classical
-  haveI : Finite K := hK.finite
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Finite K := hK.finite
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   rw [mem_sesqUnitaryGroup]
   intro v w
   apply eq_of_trace_eq
@@ -95,8 +95,6 @@ theorem l154_blockRestrict_mem_sesqUnitaryGroup (a : primaryFactors (x : Module.
   have hβbw : ((b • (βE w) : primaryComponent (x : Module.End K V) (a : K[X])) : V) =
       ((ξ : Module.End K V) ((b • w : primaryComponent (x : Module.End K V) (a : K[X])) : V)) := by
     have hsmul : (b • (βE w) : primaryComponent (x : Module.End K V) (a : K[X])) = βE (b • w) := by
-      change (b • (βE w) : primaryComponent (x : Module.End K V) (a : K[X])) =
-        βE (b • w)
       rw [map_smul]
     rw [hsmul]
     exact (blockApply_blockRestrict x (a : K[X]) ⟨ξ, hξ.2⟩
@@ -143,7 +141,7 @@ theorem l154_selfDual_model_block (H : UnitaryPrimaryData hK.bar B x)
             Matrix (Fin m) (Fin m) (AdjoinRoot (a : K[X])))) := by
   classical
   subst hm
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   obtain ⟨hE, hbarE, -, Hf, hHf, hHfl, htrace, ⟨e, he⟩, φ, hφ, hdet⟩ :=
     (selfDualPrimaryBlock H a hself).unitaryForm
   let T := Matrix.GeneralLinearGroup.toLin' e
@@ -189,12 +187,12 @@ theorem l154_selfDual_model_block (H : UnitaryPrimaryData hK.bar B x)
         (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X]))) i j =
         algebraMap K (AdjoinRoot (a : K[X])) z * e.equivFun (e j) i := by
       rw [← smul_eq_mul, ← Pi.smul_apply, ← h3]
-      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self, Pi.single_apply]
+      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self]
     rw [h4]
     by_cases hij : i = j
     · subst hij
-      simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply]
-    · simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply, hij, Ne.symm hij]
+      simp [Module.Basis.equivFun_self, Matrix.smul_apply]
+    · simp [Module.Basis.equivFun_self, Matrix.smul_apply, hij, Ne.symm hij]
   · intro ξ hξ
     refine fun P => ?_
     show l154BlockExt H.squarefree a (T ((Matrix.GeneralLinearGroup.toLin' e).symm
@@ -246,7 +244,7 @@ theorem l154_paired_model_block (H : UnitaryPrimaryData hK.bar B x)
           ξ * ι P * ξ⁻¹) := by
   classical
   subst hm
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   let e : Module.Basis (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X])))
       (AdjoinRoot (a : K[X])) (primaryComponent (x : Module.End K V) (a : K[X])) :=
     Module.finBasisOfFinrankEq _ _ rfl
@@ -336,12 +334,12 @@ theorem l154_paired_model_block (H : UnitaryPrimaryData hK.bar B x)
         (Fin (primaryMultiplicity (x : Module.End K V) (a : K[X]))) (AdjoinRoot (a : K[X]))) i j =
         algebraMap K (AdjoinRoot (a : K[X])) z * e.equivFun (e j) i := by
       rw [← smul_eq_mul, ← Pi.smul_apply, ← h3]
-      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self, Pi.single_apply]
+      simp [Matrix.mulVec, dotProduct, Module.Basis.equivFun_self]
     rw [h4]
     by_cases hij : i = j
     · subst hij
-      simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply]
-    · simp [Module.Basis.equivFun_self, Matrix.one_apply, Matrix.smul_apply, hij, Ne.symm hij]
+      simp [Module.Basis.equivFun_self, Matrix.smul_apply]
+    · simp [Module.Basis.equivFun_self, Matrix.smul_apply, hij, Ne.symm hij]
   · intro ξ hξ P
     set β := blockRestrict x (a : K[X]) ⟨ξ, hξ.2⟩ with hβdef
     set B₁ := (Matrix.GeneralLinearGroup.toLin' e).symm β with hB₁def

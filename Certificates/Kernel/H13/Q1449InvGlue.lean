@@ -40,7 +40,7 @@ theorem mem_invsP {G : List ℕ} {X : ℕ} (hX : X ∈ G) (h1 : X ≠ oneP) (h2 
         cases h : Nat.beq X oneP
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true h) h1
-      rw [e1, h2, Nat.beq_refl, Bool.not_false, Bool.and_true, cond_true]
+      rw [e1, h2, Nat.beq_refl, Bool.not_false, Bool.and_true, _root_.Bool.cond_true]
       exact List.mem_cons_self
     · cases (!(Nat.beq Y oneP) && Nat.beq (mulP Y Y) oneP)
       · exact ih hX
@@ -84,7 +84,7 @@ theorem all_take_drop {f : ℕ → Bool} (n : ℕ) {I : List ℕ} (h1 : (I.take 
 theorem invRkB_of (h0 : o5L 0 = D.o5L0.map unpackM) (h1 : o5L 1 = D.o5L1.map unpackM) :
     invRkB = true := by
   simp only [invRkB, List.all_cons, List.all_nil, Bool.and_true, h0, h1, gamE, h2E_eq, omNE_eq,
-    ↓reduceIte, Nat.one_ne_zero, if_false]
+    ↓reduceIte, Nat.one_ne_zero]
   rw [invRk_of _ _ _ (eq_of_beq invsL0_beq) (all_take_drop 160 invOK0a invOK0b),
     invRk_of _ _ _ (eq_of_beq invsL1_beq) (all_take_drop 240 invOK1a invOK1b), Bool.and_self]
 

@@ -49,7 +49,7 @@ theorem concA_twistedE6_three_of_center_ne_bot_of_card_le {K : Type} [Field K] [
     (e : PSimple 3 S ≃* ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)))
     (hBle : Nat.card B ≤ 3 ^ 6) : S267ConcA 3 S B := by
   classical
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_equiv _ e.toEquiv
   obtain ⟨Γ, hΓ, hΓker⟩ := ModelGen.exists_actHom_pSimple hS hperf e
   set π : ↥S →* ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) :=
     e.toMonoidHom.comp (chevQuotHom 3 S) with hπdef
@@ -148,7 +148,7 @@ theorem concA_twistedE6_three_of_center_ne_bot_of_not_mem_inndiag {K : Type} [Fi
     S267ConcA 3 S B := by
   classical
   have hσ : ∀ c, unitaryInvolution K ℓ f c = c ^ (ℓ ^ f) := fun c => unitaryInvolution_apply K ℓ f c
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_equiv _ e.toEquiv
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_equiv _ e.toEquiv
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨Γ₀, hΓ₀, hΓ₀ker⟩ := ModelGen.exists_actHom_pSimple hS hperf e

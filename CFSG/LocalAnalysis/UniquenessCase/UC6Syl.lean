@@ -11,6 +11,7 @@ open Subgroup CFSG.ABGLocalTools
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {K Q : Subgroup G} (hQK : Q ≤ K)
     (hQ : IsPGroup p Q) : ∃ P : Subgroup G, IsSylowOf p P K ∧ Q ≤ P := by
   obtain ⟨S, hS⟩ := (hQ.comap_subtype (K := K)).exists_le_sylow

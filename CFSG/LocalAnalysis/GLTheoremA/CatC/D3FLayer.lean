@@ -61,7 +61,7 @@ theorem exists_layerAct_of_stable (α : MulAut ↥(adjointGroup Tag.D4 K)) (hα3
       have e : (MulAut.conj g)⁻¹ (⟨(g : ModGL Tag.D4 K) * x * (g : ModGL Tag.D4 K)⁻¹, hxG'⟩ :
           ↥(adjointGroup Tag.D4 K)) = ⟨x, hxG⟩ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e] at h1
       exact (hmemH _).1 h1
   have hgB : (g : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K := by

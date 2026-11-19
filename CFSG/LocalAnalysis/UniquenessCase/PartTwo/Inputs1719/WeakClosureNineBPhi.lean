@@ -43,7 +43,7 @@ variable {L : Subgroup X} {β : MulAut L →* Equiv.Perm (Fin 8)}
 
 theorem rhoB_of_mem {x : X} (hx : x ∈ normalizer (L : Set X)) :
     rhoB L β x = β (conjAut L hx) := by
-  rw [rhoB, dif_pos hx]
+  rw [rhoB, dite_eq_left hx]
 
 theorem rhoB_mul {x y : X} (hx : x ∈ normalizer (L : Set X)) (hy : y ∈ normalizer (L : Set X)) :
     rhoB L β (x * y) = rhoB L β x * rhoB L β y := by
@@ -102,12 +102,12 @@ open scoped Classical in
 theorem phiFun_of_mem {L : Subgroup X} {β : MulAut L →* Equiv.Perm (Fin 8)} {t₀ x : X}
     (hx : x ∈ normalizer (L : Set X)) :
     phiFun L β t₀ x = blk (rhoB L β x, rhoB L β (t₀⁻¹ * x * t₀)) := by
-  rw [phiFun, if_pos hx]
+  rw [phiFun, ite_eq_left hx]
 
 theorem phiFun_of_not_mem {L : Subgroup X} {β : MulAut L →* Equiv.Perm (Fin 8)} {t₀ x : X}
     (hx : x ∉ normalizer (L : Set X)) :
     phiFun L β t₀ x = blk (rhoB L β (x * t₀), rhoB L β (t₀⁻¹ * x)) * sig := by
-  rw [phiFun, if_neg hx]
+  rw [phiFun, ite_eq_right hx]
 
 theorem blk_mul_blk (a b c d : Equiv.Perm (Fin 8)) : blk (a, b) * blk (c, d) = blk (a * c, b * d) := by
   rw [← map_mul, Prod.mk_mul_mk]

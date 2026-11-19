@@ -100,13 +100,14 @@ variable {M : Type} [Group M] [Finite M] {m : ℕ} {x n : Fin m → M}
 @[expose] def lowerClosure (x : Fin m → M) (k : ℕ) : Subgroup M :=
   Subgroup.closure (x '' {i | i.val < k})
 
+omit [Finite M] in
 theorem lowerClosure_succ (x : Fin m → M) {k : ℕ} (hk : k < m) :
     lowerClosure x (k + 1) = lowerClosure x k ⊔ Subgroup.zpowers (x ⟨k, hk⟩) := by
   unfold lowerClosure
   rw [Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, hi, rfl⟩
     rcases Nat.lt_succ_iff_lt_or_eq.1 hi with h | h
@@ -116,11 +117,12 @@ theorem lowerClosure_succ (x : Fin m → M) {k : ℕ} (hk : k < m) :
     · exact ⟨i, Nat.lt_succ_of_lt hi, rfl⟩
     · exact ⟨⟨k, hk⟩, Nat.lt_succ_self k, rfl⟩
 
+omit [Finite M] in
 theorem lowerClosure_eq (x : Fin m → M) : lowerClosure x m = Subgroup.closure (Set.range x) := by
   unfold lowerClosure
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_range]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_range]
   exact ⟨fun ⟨i, _, h⟩ => ⟨i, h⟩, fun ⟨i, h⟩ => ⟨i, i.2, h⟩⟩
 
 theorem card_closure_of_triangular (hx3 : ∀ i, x i ^ 3 = 1) (hx1 : ∀ i, x i ≠ 1)
@@ -128,7 +130,7 @@ theorem card_closure_of_triangular (hx3 : ∀ i, x i ^ 3 = 1) (hx1 : ∀ i, x i 
     (hfix : ∀ i j, i < j → n j * x i * (n j)⁻¹ = x i) :
     3 ^ m ≤ Nat.card (Subgroup.closure (Set.range x)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← lowerClosure_eq]
   suffices h : ∀ k ≤ m, 3 ^ k ≤ Nat.card (lowerClosure x k) from h m le_rfl
   intro k

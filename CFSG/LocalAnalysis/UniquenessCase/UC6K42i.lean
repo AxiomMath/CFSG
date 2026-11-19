@@ -16,7 +16,7 @@ theorem isIrreducible_of_invariant_uc6 {F : Type} [Field F] {Γ : Type} [Group �
     [AddCommGroup M] [Module F M] [Nontrivial M] (π : Representation F Γ M)
     (h : ∀ U : Submodule F M, (∀ g : Γ, ∀ u ∈ U, π g u ∈ U) → U = ⊥ ∨ U = ⊤) :
     π.IsIrreducible := by
-  haveI : Nontrivial (Subrepresentation π) := ⟨⊥, ⊤, fun h' => by
+  have : Nontrivial (Subrepresentation π) := ⟨⊥, ⊤, fun h' => by
     have := congrArg Subrepresentation.toSubmodule h'
     exact bot_ne_top this⟩
   refine { eq_bot_or_eq_top := fun a => ?_ }
@@ -52,7 +52,7 @@ theorem restrict_data_uc6 {p r : ℕ} [Fact p.Prime] (hr : r.Prime) {V : Type} [
   let ρ₂ : Representation (ZMod p) ↥φ.range ↥W :=
     (Units.coeHom (Module.End (ZMod p) ↥W)).comp φ.range.subtype
   have hρ₂ : ∀ (h : ↥H) (w : ↥W), ρ₂ (φ' h) w = ψ h w := fun h w => rfl
-  haveI : Finite ↥φ.range := Finite.of_surjective φ' hφ'surj
+  have : Finite ↥φ.range := Finite.of_surjective φ' hφ'surj
   let Q' : Subgroup ↥H := Q.subgroupOf H
   let D' : Subgroup ↥H := D.subgroupOf H
   have hD'card : Nat.card D' = r :=
@@ -63,7 +63,7 @@ theorem restrict_data_uc6 {p r : ℕ} [Fact p.Prime] (hr : r.Prime) {V : Type} [
   have hw₀0 : w₀ ≠ 0 := by
     rintro rfl
     exact hw₀ (map_zero _)
-  haveI : Nontrivial ↥W := ⟨⟨w₀, hw₀W⟩, 0, fun h => hw₀0 (congrArg Subtype.val h)⟩
+  have : Nontrivial ↥W := ⟨⟨w₀, hw₀W⟩, 0, fun h => hw₀0 (congrArg Subtype.val h)⟩
   have hDact : ∀ w : ↥W, (∀ a ∈ D'.map φ', ρ₂ a w = w) → (w : V) ∈ fixV ρ D := by
     intro w hw d hd
     have hdH : d ∈ H := hDH hd

@@ -22,7 +22,7 @@ theorem pkOKB_iff (n : Nat) (p : Nat × Nat) : pkOKB n p = true ↔ PkOK n p := 
 
 theorem mkVP_val {n : Nat} (s : VP n) : mkVP n s.1 = s := by
   unfold mkVP
-  rw [dif_pos ((pkOKB_iff n s.1).2 s.2)]
+  rw [dite_eq_left ((pkOKB_iff n s.1).2 s.2)]
 
 theorem map_mkVP_val {n : Nat} (l : List (VP n)) : (l.map Subtype.val).map (mkVP n) = l := by
   rw [List.map_map]

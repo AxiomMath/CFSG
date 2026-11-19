@@ -60,7 +60,7 @@ theorem fzl59c_abs {Z : Subgroup G} (hg : Fz59Grid t s lam rho b)
     (hZ : Z = closure {b 0 0 ^ 2, b 1 0 ^ 2}) (hZe : CFSG.Open.IsElemAbelian 2 Z)
     (hZc : Nat.card ↥Z = 4) : fzl59c_Abs Z s t where
   Z_comm := fun z hz z' hz' => by
-    haveI := hZe.1
+    have := hZe.1
     exact setLike_mul_comm hz hz'
   Z_sq := hZe.2
   card_Z := hZc

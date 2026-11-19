@@ -32,6 +32,7 @@ section Existence
 
 variable {p : ℕ}
 
+omit [Finite G] in
 theorem isPGroup_zpowers {b : G} (hb : b ^ p = 1) : IsPGroup p (zpowers b) := fun g => ⟨1, by
   obtain ⟨i, hi⟩ := mem_zpowers_iff.1 g.2
   apply Subtype.ext
@@ -154,13 +155,17 @@ section Consequences
 
 variable {p : ℕ} {A W S H : Subgroup G} {b : G}
 
+omit [Finite G] in
 theorem Atom.pow_p (a : Atom p A W b S H) : b ^ p = 1 := a.elem.2 b a.hb
 
+omit [Finite G] in
 theorem Atom.isPGroup_S (a : Atom p A W b S H) : IsPGroup 2 S := a.two.to_le a.le
 
+omit [Finite G] in
 theorem Atom.isPGroup_X (a : Atom p A W b S H) : IsPGroup p (zpowers b) :=
   isPGroup_zpowers a.pow_p
 
+omit [Finite G] in
 theorem Atom.b_ne_one (a : Atom p A W b S H) : b ≠ 1 := by
   intro h
   apply a.ne
@@ -168,11 +173,13 @@ theorem Atom.b_ne_one (a : Atom p A W b S H) : b ≠ 1 := by
   rw [h, zpowers_one_eq_bot, commutator_bot_right] at this
   exact this.symm
 
+omit [Finite G] in
 theorem Atom.card_X (a : Atom p A W b S H) : Nat.card (zpowers b) = p := by
   have : Fact p.Prime := ⟨a.prime⟩
   rw [Nat.card_zpowers]
   exact orderOf_eq_prime a.pow_p a.b_ne_one
 
+omit [Finite G] in
 theorem Atom.le_normalizer_X (a : Atom p A W b S H) :
     zpowers b ≤ normalizer (S : Set G) :=
   (zpowers_le.2 a.hb).trans a.inv
@@ -226,7 +233,8 @@ theorem Atom.idem (a : Atom p A W b S H) {Y : Subgroup G} (hY : IsPGroup 2 Y)
   exact CFSG.RankThreeEvenClassification.Helpers.coprime_commutator_idempotent p a.prime _ Y
     a.isPGroup_X hcop ((zpowers_le.2 a.hb).trans hAY)
 
-theorem Atom.squares_le (a : Atom p A W b S H) : squares S ≤ S :=
+omit [Finite G] in
+theorem Atom.squares_le (_a : Atom p A W b S H) : squares S ≤ S :=
   CFSG.RankThree.PartTwo.Sec3.squares_le S
 
 end Consequences

@@ -10,6 +10,7 @@ open CFSG.Open CFSG.LieType.BorelTits CFSG.GH74.GLS.Stage2.OddAut
 
 variable {q : ℕ} [Fact q.Prime]
 
+omit [Fact (Nat.Prime q)] in
 theorem radSeq_eq_of_pCoreOf {S : Type*} [Group S] {R : Subgroup S}
     (hc : pCoreOf q (Subgroup.normalizer (R : Set S)) = R) : ∀ n, radSeq q R n = R
   | 0 => rfl
@@ -18,6 +19,7 @@ theorem radSeq_eq_of_pCoreOf {S : Type*} [Group S] {R : Subgroup S}
     rw [radSeq_eq_of_pCoreOf hc n]
     exact hc
 
+omit [Fact q.Prime] in
 theorem radInf_eq_of_pCoreOf {S : Type*} [Group S] {R : Subgroup S}
     (hc : pCoreOf q (Subgroup.normalizer (R : Set S)) = R) : radInf q R = R :=
   le_antisymm (iSup_le fun n => (radSeq_eq_of_pCoreOf hc n).le) (le_radInf R)
@@ -87,6 +89,7 @@ theorem fixes_normalizer_of_fixes {S : Type*} [Group S] [Finite S] (R : Subgroup
   Subgroup.closure {x : S | ∃ R : Subgroup S, IsPGroup q R ∧ R ≤ U ∧
     (∀ y : S, (∀ r ∈ R, y * r = r * y) → y ∈ R) ∧ x ∈ Subgroup.normalizer (R : Set S)} = ⊤
 
+omit [Fact (Nat.Prime q)] in
 theorem RadicalGen.map_conj {S : Type*} [Group S] {U : Subgroup S} (h : RadicalGen q S U) (g : S) :
     RadicalGen q S (U.map (MulAut.conj g).toMonoidHom) := by
   unfold RadicalGen at h ⊢

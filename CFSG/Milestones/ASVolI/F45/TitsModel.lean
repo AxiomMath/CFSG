@@ -41,9 +41,9 @@ theorem burnsideF45_tits_theta {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
   have hyp4 := hyp.toHypF_4_4g
   have hGp : Gp = ⊤ := hyp.canonical (Or.inr rfl)
   obtain ⟨K, fK, finK, charK, hscope, marking, h1, h2⟩ := burnsideF4gF4Two_chart_tits hyp4
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   obtain ⟨Φ, hΦ⟩ := burnsideF4gF4Two_key hK
@@ -150,7 +150,7 @@ theorem burnsideF45_titsData {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Su
   subst hp2
   subst hf1
   have hGp : Gp = ⊤ := hyp.canonical (Or.inr rfl)
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   obtain ⟨θ, hθ1, hθ2⟩ := burnsideF45_tits_theta hyp
   obtain ⟨-, -, -, -, -, hPt, ⟨_, hAff⟩, hLn, hpoly⟩ :=
     tits_geometry Certificates.certificate4190

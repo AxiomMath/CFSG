@@ -67,12 +67,12 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Sec7Core4
 variable {G : Type} [Group G] [Finite G]
 
 theorem M_ne_top (k : Sec7Core4 G) : k.M ≠ ⊤ := by
-  haveI := k.standing.simple
+  have := k.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top (H := k.M) k.standing.nonab
     k.maxLocal.1
 
 theorem pPrimeCore_le_of_not_le (k : Sec7Core4 G) {H : Subgroup G}
-    (hHM : ¬ H ≤ k.M) (hrank : 2 ≤ CFSG.Open.pRank k.p (H ⊓ k.M)) :
+    (_hHM : ¬ H ≤ k.M) (hrank : 2 ≤ CFSG.Open.pRank k.p (H ⊓ k.M)) :
     (CFSG.pPrimeCore k.p ↥H).map H.subtype ≤ k.M :=
   CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.pPrimeCore_le k.strong k.prime hrank
 

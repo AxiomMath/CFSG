@@ -24,7 +24,7 @@ theorem eq_scalar_of_commute_diag2n_permMatrix
     rw [SpecialLinearGroup.diag2n_coe, Matrix.mul_diagonal, Matrix.diagonal_mul] at h
     have hji : j ≠ i := Ne.symm hij
     have hjk : j ≠ k := Ne.symm hkj
-    simp only [if_neg hji, if_neg hjk, if_true, mul_one] at h
+    simp only [ite_eq_right hji, ite_eq_right hjk, ite_true, mul_one] at h
     have he : M i j * ((omega : F) - 1) = 0 := by
       rw [mul_sub, mul_one, mul_comm (M i j) (omega : F), ← h, sub_self]
     have hval : (omega : F) ≠ 1 := fun ho => hne (Units.ext ho)

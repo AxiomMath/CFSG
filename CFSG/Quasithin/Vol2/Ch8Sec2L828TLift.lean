@@ -113,7 +113,7 @@ private lemma lift_exists_conj_mem {N : Type*} [Group N] [Finite N] (Y K : Subgr
     IsPGroup.of_card_dvd_pow (n := 1)
       (by rw [Nat.card_zpowers, pow_one]; exact orderOf_dvd_of_pow_eq_one haY2)
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hZ
-  haveI : Finite (Sylow 2 ↥Y) := inferInstance
+  have : Finite (Sylow 2 ↥Y) := inferInstance
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥Y SK Q
   have haQ : aY ∈ Q := hQ (Subgroup.mem_zpowers aY)
   have h1 : aY ∈ ((g • SK : Sylow 2 ↥Y) : Subgroup ↥Y) := by

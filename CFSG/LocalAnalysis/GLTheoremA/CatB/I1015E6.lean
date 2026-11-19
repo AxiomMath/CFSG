@@ -20,7 +20,7 @@ section Field
 
 theorem exists_field {n : ℕ} (hn : 0 < n) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : CharP k 2), Nat.card k = (2 ^ n) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨GaloisField 2 (2 * n), inferInstance, inferInstance, inferInstance, by
     rw [GaloisField.card 2 (2 * n) (by omega), ← pow_mul, mul_comm]⟩
 
@@ -28,9 +28,9 @@ theorem field_data_of_card {k : Type} [Field k] [Finite k] [CharP k 2] {n : ℕ}
     (hk : Nat.card k = (2 ^ n) ^ 2) :
     ∃ (θ : k →+* k) (t : kˣ), (∀ c, θ c = c ^ 2 ^ n) ∧ (∀ c, θ (θ c) = c) ∧ t ^ 3 = 1 ∧ t ≠ 1 ∧
       Units.map (θ : k →* k) t = t ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype k := Fintype.ofFinite k
   have hK : Fintype.card k = 2 ^ n * 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, hk, sq]
   obtain ⟨c, hc⟩ := three_dvd_two_pow_add_one hn
@@ -67,8 +67,8 @@ section Fixed
 
 theorem finite_fixedGroup {k : Type} [Field k] [Finite k] (θ : k →+* k) :
     Finite (fixedGroup k θ) := by
-  haveI : Finite (Module.End k (Fin e6Data.d →₀ k)) := Module.finite_of_finite k
-  haveI : Finite (e6Data_valid.minGroup k) := inferInstance
+  have : Finite (Module.End k (Fin e6Data.d →₀ k)) := Module.finite_of_finite k
+  have : Finite (e6Data_valid.minGroup k) := inferInstance
   infer_instance
 
 end Fixed
@@ -114,7 +114,7 @@ theorem te6Rank_holds : TE6Rank := by
     rw [hk]
     have h2 : 2 ≤ 2 ^ n := Nat.le_self_pow (by omega) 2
     nlinarith
-  haveI := finite_fixedGroup θ
+  have := finite_fixedGroup θ
   have hU : Group.IsPerfect (fixedGroup k θ) := fixedGroup_isPerfect_of_four_le_card θ hθ hk4
   obtain ⟨e1⟩ := fixedGroup_equiv_tauCeti θ hθ ⟨2, n, hp', hex'⟩ hv hk hθq
   have hm : CFSG.Models.LieModel
@@ -122,7 +122,7 @@ theorem te6Rank_holds : TE6Rank := by
     CFSG.Models.lieModel_of_namesTag ⟨hp', hex', rfl⟩ ⟨_, hv⟩ ⟨rfl, rfl⟩ e1
   obtain ⟨hfin, hcard⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.finite_and_card_hopf hGA hm
-  haveI := hfin
+  have := hfin
   have hord : Nat.card (hopfMultiplier
       (↥(fixedGroup k θ) ⧸ Subgroup.center ↥(fixedGroup k θ))) ∣ 24 := by
     rw [hcard]

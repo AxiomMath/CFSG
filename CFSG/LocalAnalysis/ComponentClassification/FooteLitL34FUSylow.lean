@@ -148,7 +148,7 @@ theorem exists_sylow_eq (h13 : Sol76T13.SolomonThm13Simple) [IsSimpleGroup X]
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm (fun x hx => ?_) hST)
     have : (⟨x, hx⟩ : ↥(T : Subgroup X)) ∈ S.subgroupOf (T : Subgroup X) := h ▸ mem_top _
     exact mem_subgroupOf.mp this
-  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup.isNilpotent
   obtain ⟨t', ht'N, ht'S⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   set t : X := (t' : X) with htdef
@@ -177,7 +177,7 @@ theorem exists_sylow_eq (h13 : Sol76T13.SolomonThm13Simple) [IsSimpleGroup X]
   obtain ⟨hSC, Q, hQ⟩ := hS
   have hQ' : IsPGroup 2 ↥((S ⊔ zpowers t).subgroupOf (centralizer ({b} : Set X))) := by
     have h1 : IsPGroup 2 ↥(S ⊔ zpowers t) :=
-      T.isPGroup'.to_le (sup_le hST (zpowers_le.mpr htT))
+      T.isPGroup.to_le (sup_le hST (zpowers_le.mpr htT))
     exact h1.comap_subtype (K := centralizer ({b} : Set X))
   have hle : (Q : Subgroup ↥(centralizer ({b} : Set X))) ≤
       (S ⊔ zpowers t).subgroupOf (centralizer ({b} : Set X)) := by

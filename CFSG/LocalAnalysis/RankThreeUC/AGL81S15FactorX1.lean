@@ -11,7 +11,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.Quasithin
 
 variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
 
-theorem t_le_borelPre (hX : GNSetting X T) {Ls : Subgroup (X ⧸ gnC T)} :
+theorem t_le_borelPre (_hX : GNSetting X T) {Ls : Subgroup (X ⧸ gnC T)} :
     T ≤ borelPre T Ls := by
   intro t ht
   rw [borelPre, Subgroup.mem_comap]

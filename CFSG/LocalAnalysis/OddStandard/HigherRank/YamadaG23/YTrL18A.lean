@@ -28,14 +28,14 @@ private lemma mem_jSub_iff_mem_of_mem_A (s : Setting3 G L) [Group.IsPerfect ↥L
 private lemma jSub_normIn_A (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) :
     jSub L (normIn L s.fr.A) = normIn (innerAut (L ⧸ center L)) s.fr'.A := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
   have hA2 : IsPGroup 2 ↥s.fr.A := s3_isPGroup_of_le s (s3_A_le_S s)
   rw [jSub_normIn hZ hAL hA2, jSub_self L, s3_jSub_A s]
 
 theorem lf18_2a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_2a s := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
   have hzL : s.fr.z ∈ L := s3_S_le_L s (s3_z_mem_S s)
@@ -50,7 +50,7 @@ theorem lf18_2a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_2b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_2b s := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
   have hAN : s.fr.A ≤ normIn L s.fr.A := le_inf hAL Subgroup.le_normalizer
@@ -68,7 +68,7 @@ theorem lf18_2b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_2c s := by
-  haveI := isPerfect_of_hrSetting hS
+  have := isPerfect_of_hrSetting hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
   have hA2 : IsPGroup 2 ↥s.fr.A := s3_isPGroup_of_le s (s3_A_le_S s)
@@ -80,14 +80,14 @@ theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   obtain ⟨hO1, hO2, hO3⟩ := h18.2.1.2.2 (jSub L T) hT'
   refine ⟨?_, ?_, ?_⟩
   · have hOA : ((closure {s.fr.a₁, s.fr.b₁} : Set G) \ (s.fr.Z : Set G)) ⊆ s.fr.A :=
-      Set.diff_subset.trans (s3_K1_le_A s)
+      Set.sdiff_subset.trans (s3_K1_le_A s)
     refine isOrbitMod_of_jSub hZ (A := s.fr.A) (T := T) (Z := s.fr.Z)
       (O := (closure {s.fr.a₁, s.fr.b₁} : Set G) \ (s.fr.Z : Set G))
       (O' := (closure {s.fr'.a₁, s.fr'.b₁} : Set (MulAut (L ⧸ center L))) \
         (s.fr'.Z : Set (MulAut (L ⧸ center L))))
       hAL hA2 hT.1 (s3_Z_le_A s) hOA ?_ ?_ ?_
     · intro α hα
-      rw [Set.mem_diff] at hα
+      rw [Set.mem_sdiff] at hα
       have hα1 : α ∈ closure {s.fr'.a₁, s.fr'.b₁} := hα.1
       rw [← s3_jSub_K1 hS hZ s] at hα1
       exact jSub_mono L (s3_K1_le_A s) hα1
@@ -99,17 +99,17 @@ theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
       have hZ' : (α ∈ (s.fr'.Z : Set (MulAut (L ⧸ center L)))) ↔ (w ∈ (s.fr.Z : Set G)) := by
         rw [← s3_jSub_Z s]
         exact mem_jSub_iff_mem_of_mem_A s hZ (s3_Z_le_A s) hwA hwα
-      rw [Set.mem_diff, Set.mem_diff, hK1, hZ']
+      rw [Set.mem_sdiff, Set.mem_sdiff, hK1, hZ']
     · rwa [s3_jSub_Z s]
   · have hOA : ((closure {s.fr.a₂, s.fr.b₂} : Set G) \ (s.fr.Z : Set G)) ⊆ s.fr.A :=
-      Set.diff_subset.trans (s3_K2_le_A s)
+      Set.sdiff_subset.trans (s3_K2_le_A s)
     refine isOrbitMod_of_jSub hZ (A := s.fr.A) (T := T) (Z := s.fr.Z)
       (O := (closure {s.fr.a₂, s.fr.b₂} : Set G) \ (s.fr.Z : Set G))
       (O' := (closure {s.fr'.a₂, s.fr'.b₂} : Set (MulAut (L ⧸ center L))) \
         (s.fr'.Z : Set (MulAut (L ⧸ center L))))
       hAL hA2 hT.1 (s3_Z_le_A s) hOA ?_ ?_ ?_
     · intro α hα
-      rw [Set.mem_diff] at hα
+      rw [Set.mem_sdiff] at hα
       have hα1 : α ∈ closure {s.fr'.a₂, s.fr'.b₂} := hα.1
       rw [← s3_jSub_K2 hS hZ s] at hα1
       exact jSub_mono L (s3_K2_le_A s) hα1
@@ -121,10 +121,10 @@ theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
       have hZ' : (α ∈ (s.fr'.Z : Set (MulAut (L ⧸ center L)))) ↔ (w ∈ (s.fr.Z : Set G)) := by
         rw [← s3_jSub_Z s]
         exact mem_jSub_iff_mem_of_mem_A s hZ (s3_Z_le_A s) hwA hwα
-      rw [Set.mem_diff, Set.mem_diff, hK2, hZ']
+      rw [Set.mem_sdiff, Set.mem_sdiff, hK2, hZ']
     · rwa [s3_jSub_Z s]
   · have hOA : ((s.fr.A : Set G) \ ((closure {s.fr.a₁, s.fr.b₁} : Set G) ∪
-        (closure {s.fr.a₂, s.fr.b₂} : Set G))) ⊆ s.fr.A := Set.diff_subset
+        (closure {s.fr.a₂, s.fr.b₂} : Set G))) ⊆ s.fr.A := Set.sdiff_subset
     refine isOrbitMod_of_jSub hZ (A := s.fr.A) (T := T) (Z := s.fr.Z)
       (O := (s.fr.A : Set G) \ ((closure {s.fr.a₁, s.fr.b₁} : Set G) ∪
         (closure {s.fr.a₂, s.fr.b₂} : Set G)))
@@ -133,7 +133,7 @@ theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
          (closure {s.fr'.a₂, s.fr'.b₂} : Set (MulAut (L ⧸ center L)))))
       hAL hA2 hT.1 (s3_Z_le_A s) hOA ?_ ?_ ?_
     · intro α hα
-      rw [Set.mem_diff] at hα
+      rw [Set.mem_sdiff] at hα
       have hα1 : α ∈ s.fr'.A := hα.1
       rwa [← s3_jSub_A s] at hα1
     · intro w hwA α hwα
@@ -148,7 +148,7 @@ theorem lf18_2c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
           (w ∈ (closure {s.fr.a₂, s.fr.b₂} : Set G)) := by
         rw [← s3_jSub_K2 hS hZ s]
         exact mem_jSub_iff_mem_of_mem_A s hZ (s3_K2_le_A s) hwA hwα
-      rw [Set.mem_diff, Set.mem_diff, Set.mem_union, Set.mem_union, hA', hK1, hK2]
+      rw [Set.mem_sdiff, Set.mem_sdiff, Set.mem_union, Set.mem_union, hA', hK1, hK2]
     · rwa [s3_jSub_Z s]
 
 end CFSG.OddStandard.HigherRank.YamadaG23

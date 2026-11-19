@@ -14,7 +14,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 theorem eq_of_orderOf_two {G : Type*} [Group G] [IsCyclic G] [Finite G] {a b : G}
     (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hd : 2 ∣ Fintype.card G := by
     rw [← ha, ← Nat.card_eq_fintype_card]
     exact orderOf_dvd_natCard a
@@ -33,7 +33,7 @@ theorem barAut_apply {r f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData r f 
 
 theorem orderOf_barAut {r f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData r f K) :
     orderOf (barAut h) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ ?_
   · refine RingEquiv.ext fun c => ?_
     change barAut h (barAut h c) = c
@@ -82,7 +82,7 @@ theorem mem_primeFormD_of_commute (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ r ^ f = 2)) 
     (hc : α * primeFormConjHom h _ y = primeFormConjHom h _ y * α) :
     α ∈ primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hC1 : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   set F := primeFormFieldFactor h hC1 hn hq with hF
   by_contra hα
@@ -112,11 +112,11 @@ theorem mem_primeFormD_of_commute (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ r ^ f = 2)) 
     rw [hψeq, ← pow_mul, ← pow_succ]
     exact hj
   have hψ1 : ψ ≠ 1 := by rw [hψeq]; exact hjne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψord : orderOf ψ = 2 := orderOf_eq_prime hψ2 hψ1
   obtain ⟨hcardAut, hcyc⟩ := card_ringAut_and_isCyclic h.prime K (n := 2 * f) h.card
-  haveI : IsCyclic (K ≃+* K) := hcyc
-  haveI : Finite (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) := hcyc
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; have := h.one_le; omega)
   have hψbar : ψ = barAut h := eq_of_orderOf_two hψord (orderOf_barAut h)
   obtain ⟨φ0, ⟨B, hB⟩, -⟩ := existsUnique_primeFormFieldFactor h hC1 hn hq α'
@@ -166,7 +166,7 @@ theorem mem_primeFormD_of_commute (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ r ^ f = 2)) 
     rw [e2, ← RingHom.map_det] at e1
     rw [Units.val_mul, Matrix.det_mul, det_scalar_eq] at e1
     have := det_conj_eq (y : GL (Fin n) K) B
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at e1
+    simp only [Subgroup.coe_inv] at e1
     rw [this] at e1
     exact e1
   have hnorm : h.norm d = 1 := norm_det_eq_one h 1 y.2

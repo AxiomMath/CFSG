@@ -22,6 +22,7 @@ private noncomputable def actionOnQuot (Li S : Subgroup G)
     ↥(Li ⊔ S) →* MulAut (oTwoQuot ↥Li) :=
   (oTwoQuotConj Li).comp (Subgroup.inclusion (sup_le Subgroup.le_normalizer hS))
 
+omit [Finite G] in
 private theorem oTwoQuotConj_of_mem {L : Subgroup G} (x : ↥L) :
     oTwoQuotConj L ⟨(x : G), Subgroup.le_normalizer x.2⟩ =
       MulAut.conj (QuotientGroup.mk' (CFSG.pCore 2 ↥L) x) := by
@@ -45,6 +46,7 @@ private theorem isSylowTwoOf_sup_of_hyp111At {Li Lj S : Subgroup G} (h : Hyp111A
     simpa [Subgroup.subgroupOf_self] using
       Subgroup.relIndex_subgroupOf (H := Li ⊓ S) (K := Li) (L := Li) le_rfl] at h1
 
+omit [Finite G] in
 private theorem ker_action_inf_eq {Li Lj S : Subgroup G} (h : Hyp111At Li Lj S)
     (hZ : Subgroup.center (oTwoQuot ↥Li) = ⊥) :
     (actionOnQuot Li S h.normalizes).ker ⊓ Li.subgroupOf (Li ⊔ S) =
@@ -117,7 +119,7 @@ private theorem ker_action_le_pCoreOf {Li Lj S : Subgroup G} (h : Hyp111At Li Lj
       rw [show P = S ⊔ Li from by rw [show P = Li ⊔ S from rfl, sup_comm]]
       rw [CFSG.Quasithin.F1.relIndex_sup_eq_of_le_normalizer (D := Li) (T := S) h.normalizes]
       exact (Subgroup.inf_relIndex_right Li S).symm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := h.pgroup.index ((Li ⊓ S).subgroupOf S)
     refine ⟨n, ?_⟩
     rw [h1, h2, ← hn]
@@ -148,7 +150,7 @@ private theorem ker_action_le_pCoreOf {Li Lj S : Subgroup G} (h : Hyp111At Li Lj
     simpa [pow_mul] using hn'
   exact CFSG.LieType.BorelTits.le_pCoreOf 2 (N := σ.ker) (H := ⊤) le_top
     (by
-      haveI : σ.ker.Normal := MonoidHom.normal_ker σ
+      have : σ.ker.Normal := MonoidHom.normal_ker σ
       exact Subgroup.normal_comap (f := (⊤ : Subgroup ↥P).subtype)) hK2
 
 private theorem exists_mem_inf_of_mem {Li Lj S : Subgroup G} (h : Hyp111At Li Lj S)
@@ -173,7 +175,7 @@ private theorem exists_mem_inf_of_mem {Li Lj S : Subgroup G} (h : Hyp111At Li Lj
     simp only [α]
     rw [← map_pow, hkP, map_one]
   have hαmem : α ∈ (MulAut.conj : oTwoQuot ↥Li →* MulAut (oTwoQuot ↥Li)).range := by
-    haveI : (MulAut.conj : oTwoQuot ↥Li →* MulAut (oTwoQuot ↥Li)).range.Normal :=
+    have : (MulAut.conj : oTwoQuot ↥Li →* MulAut (oTwoQuot ↥Li)).range.Normal :=
       CFSG.ComponentClassification.OuterAutomorphisms.inner_normal (oTwoQuot ↥Li)
     have hP2 : IsPGroup 2 (Subgroup.zpowers α) := by
       rw [isPGroup_iff_exists_orderOf_dvd_pow]
@@ -372,7 +374,7 @@ private theorem relIndex_pCoreOf_sylow_l2
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]]
     exact hT.2.2
   have hcard : Nat.card (T1.map π) = 2 ^ f := by
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let P1 : Sylow 2 K1 := hT1syl.2.1.toSylow (by
       have h := hT1syl.2.2
       rwa [show (T1.subgroupOf ⊤).index = T1.index from by

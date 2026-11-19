@@ -109,7 +109,7 @@ theorem unitaryLongRoot_odd {r : ℕ} (h : 2 ≤ 2 * r + 1) :
     apply Fin.ext
     simp [bcLastIdx]
     omega
-  rw [if_neg hmod, hidx]
+  rw [ite_eq_right hmod, hidx]
 
 theorem statedLieAdmissible_psu_odd {r : ℕ} (hr : 2 ≤ r) {f : ℕ} (hf : 1 ≤ f) :
     CFSG.Open.StatedLieAdmissible .PSU (2 * r + 1) 2 f := by
@@ -239,7 +239,7 @@ private lemma roots_of_bc2_coeffs_pos {r : ℕ} (hr : 2 ≤ r) {x y : ℤ}
   · refine mem_roots_of_weight_sub (n := 2 * r + 1)
       (a := lowIdx (bcLastIdx r (by omega))) (b := midIdx (2 * r + 1) hodd) ?_ ?_
     · apply Fin.ne_of_val_ne
-      simp [lowIdx, bcPrevIdx, bcLastIdx, midIdx]
+      simp [lowIdx, bcLastIdx, midIdx]
       omega
     · rw [toStd_bc2_formula hr 0 1, weight_lowIdx, hwmid]
       module
@@ -253,7 +253,7 @@ private lemma roots_of_bc2_coeffs_pos {r : ℕ} (hr : 2 ≤ r) {x y : ℤ}
   · refine mem_roots_of_weight_sub (n := 2 * r + 1)
       (a := lowIdx (bcPrevIdx r hr)) (b := midIdx (2 * r + 1) hodd) ?_ ?_
     · apply Fin.ne_of_val_ne
-      simp [lowIdx, bcPrevIdx, bcLastIdx, midIdx]
+      simp [lowIdx, bcPrevIdx, midIdx]
       omega
     · rw [toStd_bc2_formula hr 1 1, weight_lowIdx, hwmid]
       module
@@ -434,7 +434,7 @@ theorem mem_pairRoots_bc2 {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Pr
           (γ (bcLastIdx r (by omega)) - γ (bcPrevIdx r hr)) •
             Pi.single (bcLastIdx r (by omega)) 1 := by
       rw [hγeq, toStd_bc2_formula hr (γ (bcPrevIdx r hr)) (γ (bcLastIdx r (by omega)))]
-      simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hPL, Ne.symm hPL]
+      simp [Pi.add_apply, hPL, Ne.symm hPL]
     have hne0 : γ ≠ 0 :=
       CFSG.LieType.RootSystem.ne_zero_of_mem_roots (isFiniteType_cartan (2 * r + 1))
         (divisible (2 * r + 1)) hroots
@@ -889,7 +889,7 @@ theorem mem_pairRoots_a1bc1 {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.
         γ i • Pi.single i 1 - γ i • Pi.single (nextI i hi) 1 +
           γ (bcLastIdx r (by omega)) • Pi.single (bcLastIdx r (by omega)) 1 := by
       rw [hγeq, toStd_a1bc1_formula hi (γ i) (γ (bcLastIdx r (by omega)))]
-      simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, hiL, hiNext, hnextL]
+      simp [Pi.add_apply, hiL]
     have hne0 : γ ≠ 0 :=
       CFSG.LieType.RootSystem.ne_zero_of_mem_roots (isFiniteType_cartan (2 * r + 1))
         (divisible (2 * r + 1)) hroots

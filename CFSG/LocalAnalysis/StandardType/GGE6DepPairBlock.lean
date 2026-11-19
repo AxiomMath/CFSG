@@ -18,6 +18,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem gg6B_map_ggFix_mul {Bs L : Subgroup G}
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (a b : ↥Bs) :
     Subgroup.map L.subtype (ggFix ((ggGamma L hBsN a) * (ggGamma L hBsN b))) =
@@ -25,6 +26,7 @@ private theorem gg6B_map_ggFix_mul {Bs L : Subgroup G}
   rw [← map_mul]
   simpa only [Subgroup.coe_mul] using map_ggFix_ggGamma L hBsN (a * b)
 
+omit [Finite G] in
 private theorem gg6B_centralizer_pair (a b : G) :
     Subgroup.centralizer ({(a : G), (b : G)} : Set G) =
       Subgroup.centralizer ({a} : Set G) ⊓ Subgroup.centralizer ({b} : Set G) := by
@@ -38,6 +40,7 @@ private theorem gg6B_centralizer_pair (a b : G) :
     · exact h1 _ rfl
     · exact h2 _ rfl
 
+omit [Finite G] in
 private theorem gg6B_map_ggFix_inf {Bs L : Subgroup G}
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (a b : ↥Bs) :
     Subgroup.map L.subtype (ggFix (ggGamma L hBsN a) ⊓ ggFix (ggGamma L hBsN b)) =
@@ -50,6 +53,7 @@ private theorem gg6B_map_ggFix_inf {Bs L : Subgroup G}
   simp only [Subgroup.mem_inf]
   tauto
 
+omit [Finite G] in
 private theorem gg6B_component_transport {L : Subgroup G} {M D : Subgroup ↥L} {C : Subgroup G}
     (hmap : Subgroup.map L.subtype M = C)
     (huniq : ∀ J : Subgroup ↥L, IsComponentOf J M → J = D)

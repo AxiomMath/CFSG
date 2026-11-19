@@ -19,6 +19,7 @@ structure IsPlus (Q : QuadraticForm K V) (m : ℕ) : Prop where
   finrank_eq : finrank K V = 2 * m
   pairs : ∃ P : Fin m → HypPair Q, ∀ i j, i ≠ j → (P i).Orth (P j)
 
+omit [Finite K] [CharP K 2] in
 theorem IsPlus.perp [FiniteDimensional K V] {m : ℕ} (hm : 1 ≤ m) (h : IsPlus Q (m + 1))
     (Ph : HypPair Q) : IsPlus (Q.restrict Ph.perp) m := by
   have hdim : finrank K Ph.perp = 2 * m := by
@@ -46,6 +47,7 @@ theorem IsPlus.perp [FiniteDimensional K V] {m : ℕ} (hm : 1 ≤ m) (h : IsPlus
     intro h'; exact hij (Fin.ext (by simpa [Fin.ext_iff] using h'))
   exact HypPair.Orth.restrict ((hP _ _ hne).mapGom g) (hmem i).1 (hmem i).2 (hmem j).1 (hmem j).2
 
+omit [Finite K] [CharP K 2] in
 theorem exists_plus_data {m : ℕ} (hm : 2 ≤ m) (h : IsPlus Q m) :
     ∃ x x' w : V, Q x = 0 ∧ Q x' = 0 ∧ polar Q x x' = 1 ∧ polar Q x w = 0 ∧
       polar Q x' w = 0 ∧ Q w ≠ 0 := by

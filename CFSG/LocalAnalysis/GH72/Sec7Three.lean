@@ -100,9 +100,9 @@ theorem not_quotIs_psl2_five_of_isSolvable (hsolv : Group.IsSolvable (𝔖.N A))
     ¬ QuotIs (𝔖.N₀ A) (O (𝔖.N A)) (fun L _ => Nonempty (L ≃* PSL(2, ZMod 5))) := by
   rintro ⟨L, _, f, hf, -, ⟨e⟩⟩
   have : Group.IsSolvable (𝔖.N₀ A) :=
-    solvable_of_solvable_injective (f := inclusion 𝔖.N₀_le_N) (inclusion_injective _)
-  have : Group.IsSolvable L := solvable_of_surjective hf
-  exact not_isSolvable_psl2_five (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+    Group.isSolvable_of_isSolvable_injective (f := inclusion 𝔖.N₀_le_N) (inclusion_injective _)
+  have : Group.IsSolvable L := Group.isSolvable_of_surjective hf
+  exact not_isSolvable_psl2_five (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 theorem prop_7_3_of
     (h412 : ∀ (H : Subgroup G), H ≠ ⊤ → 𝔖.M A ≤ H → 𝔖.N A ≤ H →

@@ -11,7 +11,7 @@ open Subgroup CFSG.Blueprint
 theorem sec8t84_exists_T {G : Type} [Group G] [Finite G] {t : G} {X R : Subgroup G}
     (hR : IsSylow2Of R (X ⊓ centralizer ({t} : Set G))) :
     ∃ T : Subgroup G, IsSylow2Of T X ∧ R ≤ T ∧ T ⊓ centralizer ({t} : Set G) = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer ({t} : Set G)
   set Y : Subgroup G := X ⊓ C
   have hRX : R ≤ X := hR.1.trans inf_le_left

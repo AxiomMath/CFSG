@@ -239,7 +239,7 @@ theorem bridge_twF4_model
   have hfixed : adjointGroup ReeTag.F4.tag L ⊓
       (Units.map (entrywiseHom (iterateFrobenius L ReeTag.F4.prime (2 * a + 1)))).eqLocus
         (MonoidHom.id _) = (adjointGroup ReeTag.F4.tag K).map (baseChangeGL ι) := by
-    haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+    have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
     exact fixed_eq_map (K := K) (L := L) (τ := ReeTag.F4.tag) (Or.inr (Or.inl rfl)) _ hFr hbij
   set Γ := (endPowU F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L)) with hΓ
   have hmemΓ : ∀ c : C₀, bcA ι _ (incl c) ∈ Γ := fun c => by
@@ -336,7 +336,7 @@ theorem bridge_twF4_chev
       BridgeSub p (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H a K))
         (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K))
         ReeTag.F4.tag L (ReeTag.F4.reeEndo L hf a₀) := by
-  haveI : CharP K ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := charP_two_of_card hK
   have hH := TwistedF4Diag.twF4H_isRoot_eq_reeGamma ha hK
   have h1 : ∀ S : (Fin 4 → ℤ) → Prop, S = IsRoot .F4 →
       markIDImage S K (MarkChev.twF4H S a K) ⊆ LargeEvenInnSet _ →

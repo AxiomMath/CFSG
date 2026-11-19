@@ -26,7 +26,7 @@ open scoped commutatorElement Pointwise
     intro c x hx
     have : c = 0 ∨ c = 1 := by revert c; decide
     rcases this with rfl | rfl
-    · simpa using B.zero_mem
+    · simp
     · simpa using hx
 
 theorem mem_subgroupToSubmodule {n : ℕ} (B : AddSubgroup (Fin n → ZMod 2)) (x : Fin n → ZMod 2) :

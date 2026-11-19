@@ -22,17 +22,17 @@ private theorem natOrderClass_of_natural_low {W : Type} [CommGroup W]
   rcases h with ⟨-, h⟩ | ⟨-, h⟩ | ⟨a, hn, -, h⟩
   · obtain ⟨-, K, hKfield, hKfin, hKcard, hR⟩ := h
     rw [show (4 / 2 : ℕ) = 2 from rfl] at hR
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     exact natOrderClass_of_pow_three_dvd hKcard hR pow_three_dvd_card_statedSp_two
   · obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := h
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     exact natOrderClass_of_pow_three_dvd hKcard hR pow_three_dvd_card_statedSL_three
   · subst hn
     obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := h
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hK' : Nat.card K = 2 ^ (2 * a) := by rw [hKcard, ← pow_mul, mul_comm]
     exact natOrderClass_of_pow_three_dvd hK' hR (pow_three_dvd_card_statedSU_four hKcard)
 
@@ -47,31 +47,31 @@ private theorem natOrderClass_of_natural_high {W : Type} [CommGroup W]
   rcases h with ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩
   · obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, hR⟩ := h
     rw [show (6 / 2 : ℕ) = 3 from rfl] at hR
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
     exact natOrderClass_of_pow_three_dvd hKcard hR
       (pow_three_dvd_card_statedOmega_quadMinus_three hirr)
   · obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := h
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     exact natOrderClass_of_pow_three_dvd hKcard hR pow_three_dvd_card_statedSL_four
   · obtain ⟨-, K, hKfield, hKfin, hKcard, hR⟩ := h
     rw [show (6 / 2 : ℕ) = 3 from rfl] at hR
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
     exact natOrderClass_of_pow_three_dvd hKcard hR pow_three_dvd_card_statedOmega_quadPlus_three
   · obtain ⟨-, K, hKfield, hKfin, hKcard, hR⟩ := h
     rw [show (6 / 2 : ℕ) = 3 from rfl] at hR
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     exact natOrderClass_of_pow_three_dvd hKcard hR pow_three_dvd_card_statedSp_three
   · obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, hR⟩ := h
     rw [show (8 / 2 : ℕ) = 4 from rfl] at hR
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+    let : Field K := hKfield
+    let : Finite K := hKfin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
     exact natOrderClass_of_pow_three_dvd hKcard hR
       (pow_three_dvd_card_statedOmega_quadMinus_four hirr)
 

@@ -55,7 +55,7 @@ theorem factorization_three_576 : (576 : ℕ).factorization 3 = 2 := by
 
 theorem exists_conj_E0 {F : Subgroup (Equiv.Perm (Fin 45))} (hF : F ≤ H0) (hFc : Nat.card F = 9) :
     ∃ h ∈ H0, F = E0.map (MulAut.conj h).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact exists_conj_eq_of_card E0_le_H0 hF
     (by rw [card_E0, card_H0, factorization_three_576]; norm_num)
     (by rw [hFc, card_H0, factorization_three_576]; norm_num)
@@ -77,7 +77,7 @@ theorem exists_noncomm_conj_E0 {h : Equiv.Perm (Fin 45)} (hh : h ∈ H0) :
 theorem exists_conj_of_sylow {z : Equiv.Perm (Fin 45)} (hz1 : z ≠ 1)
     {S : Subgroup (Equiv.Perm (Fin 45))} (hSP : S ≤ P) (hScard : Nat.card S = 64) (hzS : z ∈ S)
     (hSc : ∀ s ∈ S, z * s = s * z) : ∃ g ∈ P, z = g * tauPerm 0 * g⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hgP, hSg⟩ := exists_conj_eq_of_card S0_le_P hSP card_S0_eq_P
     (by rw [hScard, card_P, factorization_two_25920]; norm_num)
   refine ⟨g, hgP, ?_⟩
@@ -106,7 +106,7 @@ theorem exists_conj_of_sylow {z : Equiv.Perm (Fin 45)} (hz1 : z ≠ 1)
   · rw [← h]; group
 
 theorem finite_P_part {z : Equiv.Perm (Fin 45)} (hzP : z ∈ P) (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1)
-    {S : Subgroup (Equiv.Perm (Fin 45))} (hSP : S ≤ P) (hS2 : IsPGroup 2 S)
+    {S : Subgroup (Equiv.Perm (Fin 45))} (hSP : S ≤ P) (_hS2 : IsPGroup 2 S)
     (hScard : Nat.card S = 64) (hzS : z ∈ S) (hSc : ∀ s ∈ S, z * s = s * z)
     {F : Subgroup (Equiv.Perm (Fin 45))} (hFP : F ≤ P) (hFc : ∀ f ∈ F, z * f = f * z)
     (hFcard : Nat.card F = 9) :
@@ -168,7 +168,7 @@ theorem finite_P_part {z : Equiv.Perm (Fin 45)} (hzP : z ∈ P) (hz2 : z ^ 2 = 1
     _ = y₀ * x₀ := by group
 
 theorem finite_psp43_part {z : CFSG.GH74.Exceptional.PSp43} (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1)
-    {S : Subgroup CFSG.GH74.Exceptional.PSp43} (hS2 : IsPGroup 2 S)
+    {S : Subgroup CFSG.GH74.Exceptional.PSp43} (_hS2 : IsPGroup 2 S)
     (hScard : Nat.card S = 64) (hzS : z ∈ S) (hSc : ∀ s ∈ S, z * s = s * z)
     {F : Subgroup CFSG.GH74.Exceptional.PSp43} (hFc : ∀ f ∈ F, z * f = f * z)
     (hFcard : Nat.card F = 9) :

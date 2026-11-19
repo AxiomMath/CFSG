@@ -92,12 +92,12 @@ theorem isSylowOf_top_of_forall_pow [Finite G] {p : ℕ} [Fact p.Prime] {R M : S
   have hRS' : R = S := by
     by_contra hne
     obtain ⟨y, hyS, hyR, hyN⟩ :=
-      exists_mem_normalizer_not_mem_of_lt_of_isPGroup S.isPGroup' (lt_of_le_of_ne hRS hne)
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hyS⟩
+      exists_mem_normalizer_not_mem_of_lt_of_isPGroup S.isPGroup (lt_of_le_of_ne hRS hne)
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hyS⟩
     have hyM := hN y hyN k (by simpa using congrArg Subtype.val hk)
     have hQ : R ⊔ Subgroup.zpowers y = R :=
       hR.eq_of_le le_sup_left (sup_le hR.le (Subgroup.zpowers_le.mpr hyM))
-        (S.isPGroup'.to_le (sup_le hRS (Subgroup.zpowers_le.mpr hyS)))
+        (S.isPGroup.to_le (sup_le hRS (Subgroup.zpowers_le.mpr hyS)))
     exact hyR (hQ ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, hR.isPGroup, ?_⟩

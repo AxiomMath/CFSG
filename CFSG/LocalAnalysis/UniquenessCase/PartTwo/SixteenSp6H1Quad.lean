@@ -31,7 +31,7 @@ theorem s16sp_exists_invariant_quad [Finite G] [Finite M] [Finite E]
   have hsq : ∀ x, q (s x) = x := fun x => LinearMap.congr_fun hs x
   have hq00 : q₀ 0 = 0 := by
     have h := hq₀ 0 0
-    simp only [zero_add, map_zero, LinearMap.zero_apply, add_zero] at h
+    simp only [map_zero, add_zero] at h
     generalize h0 : q₀ 0 = a at h ⊢
     clear h0
     revert h a

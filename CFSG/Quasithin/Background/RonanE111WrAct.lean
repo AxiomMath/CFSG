@@ -84,7 +84,8 @@ theorem wr_indep_key (h : DiagSetting X T A J C) {Y : Subgroup G} (hYJ : Y ≤ J
   rw [hxy]
   exact hy
 
-theorem wr_delta_mem_dimg_iff (h : DiagSetting X T A J C) {U : Subgroup G} (hU : U ≤ J)
+omit [Finite G] in
+theorem wr_delta_mem_dimg_iff (h : DiagSetting X T A J C) {U : Subgroup G} (_hU : U ≤ J)
     {u : G} (hu : u ∈ J) :
     diagHom J C h.diagComm ⟨u, hu⟩ ∈ dimg h.diagComm U ↔ u ∈ U := by
   constructor
@@ -110,6 +111,7 @@ theorem wr_delta_mem_wrY_iff (h : DiagSetting X T A J C) {Y : Subgroup G} (hYJ :
   · intro huY
     exact wr_dimg_le_wrY h ((wr_delta_mem_dimg_iff h hYJ hu).mpr huY)
 
+omit [Finite G] in
 theorem wr_dimg_le_dimg_iff (h : DiagSetting X T A J C) {U V : Subgroup G} (hU : U ≤ J)
     (hV : V ≤ J) : dimg h.diagComm U ≤ dimg h.diagComm V ↔ U ≤ V := by
   constructor
@@ -119,6 +121,7 @@ theorem wr_dimg_le_dimg_iff (h : DiagSetting X T A J C) {U V : Subgroup G} (hU :
     exact (wr_delta_mem_dimg_iff h hV hxJ).mp hmem
   · exact dimg_mono h.diagComm
 
+omit [Finite G] in
 theorem wr_cv_conj_delta (h : DiagSetting X T A J C) {c v : G} (hc : c ∈ C)
     (hv : v ∈ A ⊓ Subgroup.normalizer (J : Set G)) {x : G} (hx : x ∈ J) :
     (c * v) * diagHom J C h.diagComm ⟨x, hx⟩ * (c * v)⁻¹ =
@@ -132,17 +135,20 @@ theorem wr_cv_conj_delta (h : DiagSetting X T A J C) {c v : G} (hc : c ∈ C)
   rw [conj_diagHom_of_comm h.diagComm ⟨x, hx⟩ hvN hvC]
   exact conj_diagHom_of_mem h.diagComm _ hc
 
+omit [Fintype ↥C] [Finite G] in
 theorem wr_A_mem_actT (h : DiagSetting X T A J C) {a : G} (ha : a ∈ A) : a ∈ actT T A :=
-  mem_actT_iff.mpr ⟨h.AT ha, Subgroup.mem_centralizer_iff.mpr fun b hb => h.comm hb ha⟩
+  mem_actT_iff.mpr ⟨h.AT ha, Subgroup.mem_centralizer_iff.mpr fun _b hb => h.comm hb ha⟩
 
+omit [Finite G] in
 theorem wr_A_conj_wrY (h : DiagSetting X T A J C) {Y : Subgroup G} {a : G} (ha : a ∈ A)
     {y : G} (hy : y ∈ wrY h.diagComm T A Y) : a * y * a⁻¹ ∈ wrY h.diagComm T A Y := by
   have hk := wr_A_mem_actT h ha
   have := A1b.mem_conjSub_of_mem (g := a) hy
   rwa [wr_conjSub_wrY h hk] at this
 
+omit [Finite G] in
 theorem wr_normal_subgroupOf_comm {W K : Subgroup G} (hWA : ∀ g ∈ W, ∀ n ∈ W, g * n = n * g)
-    (hKW : K ≤ W) : (K.subgroupOf W).Normal := by
+    (_hKW : K ≤ W) : (K.subgroupOf W).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hn' : (n : G) ∈ K := Subgroup.mem_subgroupOf.mp hn
   have hc : (g : G) * (n : G) = (n : G) * (g : G) := hWA (g : G) g.2 (n : G) n.2
@@ -153,6 +159,7 @@ theorem wr_normal_subgroupOf_comm {W K : Subgroup G} (hWA : ∀ g ∈ W, ∀ n �
   rw [e]
   exact hn'
 
+omit [Finite G] in
 theorem wr_relIndex_CX {W X B₁ C : Subgroup G} (hWA : ∀ g ∈ W, ∀ n ∈ W, g * n = n * g)
     (hXW : X ≤ W) (hB₁X : B₁ ≤ X) (hCW : C ≤ W) (hW : C ⊔ X = W) (hCX : C ⊓ X = ⊥) :
     (C ⊔ B₁).relIndex W = B₁.relIndex X := by
@@ -180,7 +187,7 @@ theorem wr_relIndex_CX {W X B₁ C : Subgroup G} (hWA : ∀ g ∈ W, ∀ n ∈ W
     refine le_antisymm (sup_le hXW hBW) ?_
     rw [← hW]
     exact sup_le (le_sup_of_le_right le_sup_left) le_sup_left
-  haveI : ((C ⊔ B₁).subgroupOf W).Normal := wr_normal_subgroupOf_comm hWA hBW
+  have : ((C ⊔ B₁).subgroupOf W).Normal := wr_normal_subgroupOf_comm hWA hBW
   have htop : X.subgroupOf W ⊔ (C ⊔ B₁).subgroupOf W = ⊤ := by
     rw [eq_top_iff]
     rintro x -
@@ -385,12 +392,14 @@ theorem wr_W_stab (h : DiagSetting X T A J C) {Y S₀ : Subgroup G} (hYJ : Y ≤
   have hS₀Y : S₀ ≤ Y := (wr_dimg_le_dimg_iff h hS₀J hYJ).mp hSI
   exact hnab ((E111R.commutator_le_self S₀).trans hS₀Y)
 
+omit [Finite G] in
 theorem wr_C_normalizes (h : DiagSetting X T A J C) {Y S₀ : Subgroup G} (hS₀J : S₀ ≤ J) {c : G}
     (hc : c ∈ C) :
     c ∈ Subgroup.normalizer ((dimg h.diagComm S₀ ⊔ wrY h.diagComm T A Y : Subgroup G) : Set G) := by
   refine E111R.mem_normalizer_of_conjSub_eq ?_
   rw [wr_conjSub_sup, dimg_fix h hS₀J hc, wr_conjSub_wrY h (wr_A_mem_actT h (h.CA hc))]
 
+omit [Finite G] in
 theorem wr_X_normalizes (h : DiagSetting X T A J C) {Y S₀ : Subgroup G} (hS₀J : S₀ ≤ J)
     {v : G} (hv : v ∈ A ⊓ Subgroup.normalizer (J : Set G))
     (hvS : v ∈ Subgroup.normalizer (S₀ : Set G)) :
@@ -483,7 +492,8 @@ theorem wr_W_decomp (h : DiagSetting X T A J C) {Y S₀ : Subgroup G} (hYS₀ : 
     _ = c' * (c⁻¹ * e) := by rw [← hce]
     _ = c' * c⁻¹ * e := (mul_assoc _ _ _).symm
 
-theorem wr_inf_normalizer_conjSub (h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A)
+omit [Fintype ↥C] [Finite G] in
+theorem wr_inf_normalizer_conjSub (_h : DiagSetting X T A J C) {k : G} (hk : k ∈ actT T A)
     (U : Subgroup G) :
     A ⊓ Subgroup.normalizer ((A1b.conjSub k U : Subgroup G) : Set G) =
       A ⊓ Subgroup.normalizer (U : Set G) := by

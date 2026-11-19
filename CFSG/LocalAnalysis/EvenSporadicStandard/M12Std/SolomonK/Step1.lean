@@ -19,17 +19,17 @@ theorem GoodE.weaklyClosed (hP : P12Facts) (hK : SolomonA12HypK K) {E : Subgroup
   obtain ⟨S, hUS⟩ := hU.exists_le_sylow
   exact GoodE.conj_eq_of_le hP hK hE (hEU.trans hUS) (hg.trans hUS)
 
-theorem GoodE.le_of_normal_isPGroup (hP : P12Facts) (hK : SolomonA12HypK K) {E : Subgroup K}
+theorem GoodE.le_of_normal_isPGroup (_hP : P12Facts) (_hK : SolomonA12HypK K) {E : Subgroup K}
     (hE : GoodE E) {Q : Subgroup K} (hQ : Q.Normal) (hQ2 : IsPGroup 2 Q) : Q ≤ E := by
   by_contra hQE
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   obtain ⟨S, hES⟩ := hE.isPGroup.exists_le_sylow
   have hQS : Q ≤ S := IsPGroup.le_sylow_of_normal hQ2 S
   set N : Subgroup K := normalizer (E : Set K) with hN
   set T : Subgroup K := Q ⊔ E with hT
   have hQT : Q ≤ T := by rw [hT]; exact le_sup_left
   have hET : E ≤ T := by rw [hT]; exact le_sup_right
-  have hT2 : IsPGroup 2 T := (S.isPGroup').to_le (by rw [hT]; exact sup_le hQS hES)
+  have hT2 : IsPGroup 2 T := (S.isPGroup).to_le (by rw [hT]; exact sup_le hQS hES)
   set M : Subgroup K := (Q ⊓ N) ⊔ E with hM
   have hEM : E ≤ M := by rw [hM]; exact le_sup_right
   have hMN : M ≤ N := by
@@ -55,7 +55,7 @@ theorem GoodE.le_of_normal_isPGroup (hP : P12Facts) (hK : SolomonA12HypK K) {E :
   have hQNE : Q ⊓ N ≤ E := by
     have h1 : Q ⊓ N ≤ M := by rw [hM]; exact le_sup_left
     rwa [hME] at h1
-  haveI : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT2
+  have : Group.IsNilpotent ↥T := IsPGroup.isNilpotent hT2
   have hnc : NormalizerCondition ↥T := Group.normalizerCondition_of_isNilpotent
   set H : Subgroup ↥T := E.subgroupOf T with hH
   have hHtop : H ≠ ⊤ := by
@@ -64,7 +64,7 @@ theorem GoodE.le_of_normal_isPGroup (hP : P12Facts) (hK : SolomonA12HypK K) {E :
     rw [hH] at htop
     exact hQT.trans (Subgroup.subgroupOf_eq_top.mp htop)
   have hHlt : H < ⊤ := lt_top_iff_ne_top.mpr hHtop
-  obtain ⟨x, hxnorm, hxH⟩ := (SetLike.lt_iff_le_and_exists.mp (hnc H hHlt)).2
+  obtain ⟨x, hxnorm, hxH⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp (hnc H hHlt)).2
   have hxmem : ∀ e ∈ E, (x : K) * e * (x : K)⁻¹ ∈ E := by
     intro e he
     have hH' : (⟨e, hET he⟩ : ↥T) ∈ H := by
@@ -100,13 +100,13 @@ theorem GoodE.le_of_normal_isPGroup (hP : P12Facts) (hK : SolomonA12HypK K) {E :
 
 theorem eq_bot_of_normal_isPGroup (hP : P12Facts) (hK : SolomonA12HypK K) {Q : Subgroup K}
     (hQ : Q.Normal) (hQ2 : IsPGroup 2 Q) : Q = ⊥ := by
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   obtain ⟨E, hE⟩ := hK.exists_goodE
   have hQE : Q ≤ E := hE.le_of_normal_isPGroup hP hK hQ hQ2
   set N : Subgroup K := normalizer (E : Set K) with hN
   set C : Subgroup K := Subgroup.centralizer (Q : Set K) with hC
   have hCnormal : C.Normal := inferInstance
-  haveI : C.Normal := hCnormal
+  have : C.Normal := hCnormal
   have hEC : E ≤ C := by
     intro e he
     rw [hC, Subgroup.mem_centralizer_iff]

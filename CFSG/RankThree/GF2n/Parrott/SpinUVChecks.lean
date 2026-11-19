@@ -82,7 +82,7 @@ private theorem Fc_succ (σ : Mat8) (c : V) (n : ℕ) (hn : n < 8) (v : V) :
   rw [show Fc σ c (n + 1) v = Fc σ c n v +
       (if h : n < 8 then (if v ⟨n, h⟩ = 1 then c ⟨n, h⟩ +
         b (trunc n v) ((σ + 1) *ᵥ Pi.single ⟨n, h⟩ (1 : ZMod 2)) else 0) else 0) from rfl,
-    dif_pos hn]
+    dite_eq_left hn]
 
 private theorem trunc_succ (n : ℕ) (hn : n < 8) (v : V) :
     trunc (n + 1) v = trunc n v +
@@ -93,20 +93,20 @@ private theorem trunc_succ (n : ℕ) (hn : n < 8) (v : V) :
   by_cases hi : (i : ℕ) = n
   · have hii : i = ⟨n, hn⟩ := Fin.ext (by simpa using hi)
     subst hii
-    simp only [trunc, lt_self_iff_false, if_false, Nat.lt_succ_self, if_true, zero_add]
+    simp only [trunc, lt_self_iff_false, ite_false, Nat.lt_succ_self, ite_true, zero_add]
     rcases hz (v ⟨n, hn⟩) with h | h <;> simp [h]
   · have hsingle :
         (if v ⟨n, hn⟩ = 1 then (Pi.single ⟨n, hn⟩ (1 : ZMod 2) : V) else 0) i = 0 := by
       by_cases hv : v ⟨n, hn⟩ = 1
-      · rw [if_pos hv]
+      · rw [ite_eq_left hv]
         exact Pi.single_eq_of_ne (by intro h; exact hi (by rw [h])) 1
-      · rw [if_neg hv]
+      · rw [ite_eq_right hv]
         rfl
     rw [hsingle, add_zero]
     simp only [trunc]
     by_cases hlt : (i : ℕ) < n
-    · rw [if_pos (by omega), if_pos hlt]
-    · rw [if_neg (by omega), if_neg hlt]
+    · rw [ite_eq_left (by omega), ite_eq_left hlt]
+    · rw [ite_eq_right (by omega), ite_eq_right hlt]
 
 private theorem trunc_eight (v : V) : trunc 8 v = v := by
   funext i
@@ -139,9 +139,9 @@ theorem spinMuv_no_psi : ¬ ∃ ψ : V → ZMod 2,
       have hn8 : n < 8 := by omega
       rw [trunc_succ n hn8 v, hc, ih (by omega) v, Fc_succ spinMuv c n hn8 v]
       by_cases hv : v ⟨n, hn8⟩ = 1
-      · simp only [if_pos hv]
+      · simp only [ite_eq_left hv]
         rw [add_assoc]
-      · simp only [if_neg hv]
+      · simp only [ite_eq_right hv]
         simp [hpsi0, b_zero_right]
   apply psi_check c
   intro j

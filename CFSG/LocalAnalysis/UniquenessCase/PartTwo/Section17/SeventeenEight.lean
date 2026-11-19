@@ -49,7 +49,7 @@ theorem list880_of_psu33 {X : Type} [Group X] (h : LieModel X .PSU 3 3 1) : List
 theorem k_eq_one_of_list880 {D : Data G} (h880 : F08.R880 D) {L : Subgroup G}
     (hL : L ∈ calC D.M) (hlist : List880 (Bar2 L)) (hJ2 : ¬ IsSpor (Bar2 L) .J2) :
     D.k = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstr : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := by
     by_contra hns
     obtain ⟨P, hP⟩ :=

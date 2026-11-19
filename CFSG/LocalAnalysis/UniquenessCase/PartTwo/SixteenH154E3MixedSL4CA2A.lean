@@ -45,8 +45,8 @@ theorem s16h_sl4_cClos_isPGroup_two
     hbad hrow hZ4 hxM hxn hZ0 hYM hY3 hYcard hYnc hperm hYL
   let R : Subgroup G := (Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G)
   have hno3R : ∀ r ∈ R, orderOf r ≠ 3 := fun r hr => hno3 r hr
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hY3
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hT2

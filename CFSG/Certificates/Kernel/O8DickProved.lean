@@ -27,12 +27,12 @@ theorem ofVec_lt (v : Vd) : ofVec v < 64 := by
   have : ofVec v < 2 ^ 6 := by
     apply Nat.lt_pow_two_of_testBit
     intro i hi
-    rw [testBit_ofVec, dif_neg (by omega)]
+    rw [testBit_ofVec, dite_eq_right (by omega)]
   simpa using this
 
 theorem dtoVec_ofVec (v : Vd) : toVec 6 (ofVec v) = v := by
   funext j
-  rw [toVec, testBit_ofVec, dif_pos j.isLt, bz_beq_one]
+  rw [toVec, testBit_ofVec, dite_eq_left j.isLt, bz_beq_one]
 
 theorem testBit_lt64 {x : ℕ} (hx : x < 64) {i : ℕ} (hi : 6 ≤ i) : x.testBit i = false :=
   Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hx (Nat.pow_le_pow_right (by omega) hi : 2 ^ 6 ≤ 2 ^ i))
@@ -42,10 +42,10 @@ theorem ofVec_toVec {x : ℕ} (hx : x < 64) : ofVec (toVec 6 x) = x := by
   intro i
   rw [testBit_ofVec]
   by_cases hi : i < 6
-  · rw [dif_pos hi]
+  · rw [dite_eq_left hi]
     change (bz (x.testBit i) == 1) = x.testBit i
     cases x.testBit i <;> rfl
-  · rw [dif_neg hi, testBit_lt64 hx (by omega)]
+  · rw [dite_eq_right hi, testBit_lt64 hx (by omega)]
 
 theorem dtoVec_inj {x y : ℕ} (hx : x < 64) (hy : y < 64) (h : toVec 6 x = toVec 6 y) : x = y := by
   rw [← ofVec_toVec hx, ← ofVec_toVec hy, h]
@@ -443,7 +443,7 @@ theorem dick_gen {q : ℕ → Bool} {h0 : q 0 = false}
     {C : List ℕ} (hc : ∀ x ∈ C, x < 64) (hl : C.length = 6) (hP : LeafP q C)
     (hdC : dickC C = false) : dickC (C.map (bmulVec 6 6 A)) = false := by
   obtain ⟨eA, heA⟩ : ∃ e : Vd ≃ₗ[ZMod 2] Vd, ∀ v, e v = toMat 6 6 A *ᵥ v :=
-    ⟨LinearEquiv.ofLinear (mulVecLin (toMat 6 6 A)) (mulVecLin (toMat 6 6 B))
+    ⟨LinearEquiv.ofLinearMap (mulVecLin (toMat 6 6 A)) (mulVecLin (toMat 6 6 B))
       (LinearMap.ext fun v => by simp [mulVec_mulVec, hAB])
       (LinearMap.ext fun v => by simp [mulVec_mulVec, hBA]), fun v => rfl⟩
   have hT1 : ∀ j, qForm q h0 hb (mulVecLin (colMat C) (Pi.single j 1)) =

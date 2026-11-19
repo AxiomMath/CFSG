@@ -105,7 +105,7 @@ theorem u38_sigma_mP (σ : K ≃+* K) (i j : Fin 3) : σ ((mP : Matrix (Fin 3) (
     (mP : Matrix (Fin 3) (Fin 3) K) i j := by
   fin_cases i <;> fin_cases j <;> simp [mP]
 
-theorem u38_not_comm_uP_uQ : ¬ (ρ (uP h hω) * ρ (uQ h hω) = ρ (uQ h hω) * ρ (uP h hω)) := by
+theorem u38_not_comm_uP_uQ : ¬ (ρ (uP h) * ρ (uQ h hω) = ρ (uQ h hω) * ρ (uP h)) := by
   intro hc
   obtain ⟨c, hc⟩ := primeFormUnitary_exists_comm_scalar h le_rfl u38_hne hc
   have e : mP * mQ ω = (c : K) • (mQ ω * mP) := by
@@ -130,25 +130,25 @@ theorem u38_uA_comm_uQ : ρ (uA h hω) * ρ (uQ h hω) = ρ (uQ h hω) * ρ (uA 
   fin_cases i <;> fin_cases j <;> simp [mA, mQ, Matrix.mul_apply, Fin.sum_univ_three]
 
 noncomputable abbrev E₀ : Subgroup (MulAut (primeFormP h (idGram K 3))) :=
-  Subgroup.closure {ρ (uA h hω), ρ (uP h hω)}
+  Subgroup.closure {ρ (uA h hω), ρ (uP h)}
 
 theorem u38_E₀_comm {x y : MulAut (primeFormP h (idGram K 3))} (hx : x ∈ E₀ h hω)
     (hy : y ∈ E₀ h hω) : x * y = y * x := by
   obtain ⟨i, j, -, -, rfl⟩ := mem_plane_iff h hω hx
   obtain ⟨k, l, -, -, rfl⟩ := mem_plane_iff h hω hy
-  have hap : Commute (ρ (uA h hω)) (ρ (uP h hω)) := rho_uA_comm_uP h hω
-  have c1 : Commute (ρ (uA h hω) ^ i * ρ (uP h hω) ^ j) (ρ (uA h hω) ^ k) :=
+  have hap : Commute (ρ (uA h hω)) (ρ (uP h)) := rho_uA_comm_uP h hω
+  have c1 : Commute (ρ (uA h hω) ^ i * ρ (uP h) ^ j) (ρ (uA h hω) ^ k) :=
     ((Commute.refl _).pow_pow i k).mul_left ((hap.pow_pow k j).symm)
-  have c2 : Commute (ρ (uA h hω) ^ i * ρ (uP h hω) ^ j) (ρ (uP h hω) ^ l) :=
+  have c2 : Commute (ρ (uA h hω) ^ i * ρ (uP h) ^ j) (ρ (uP h) ^ l) :=
     (hap.pow_pow i l).mul_left ((Commute.refl _).pow_pow j l)
   exact (c1.mul_right c2).eq
 
 theorem u38_E₀_pow_three {x : MulAut (primeFormP h (idGram K 3))} (hx : x ∈ E₀ h hω) :
     x ^ 3 = 1 := by
   obtain ⟨i, j, -, -, rfl⟩ := mem_plane_iff h hω hx
-  have hap : Commute (ρ (uA h hω)) (ρ (uP h hω)) := rho_uA_comm_uP h hω
+  have hap : Commute (ρ (uA h hω)) (ρ (uP h)) := rho_uA_comm_uP h hω
   rw [((hap.pow_left i).pow_right j).mul_pow, ← pow_mul, ← pow_mul, mul_comm i, mul_comm j,
-    pow_mul, pow_mul, rho_uA_pow_three h hω, rho_uP_pow_three h hω, one_pow, one_pow, one_mul]
+    pow_mul, pow_mul, rho_uA_pow_three h hω, rho_uP_pow_three h, one_pow, one_pow, one_mul]
 
 theorem u38_three_lt_card_E₀ : 3 < Nat.card (E₀ h hω) := by
   have := h.finite
@@ -158,7 +158,7 @@ theorem u38_three_lt_card_E₀ : 3 < Nat.card (E₀ h hω) := by
   have ha1 : a ≠ 1 := by
     intro e
     apply u38_not_comm_uP_uQ h hω
-    have hz : ρ (uP h hω) ∈ Subgroup.zpowers a ∨ True := Or.inr trivial
+    have hz : ρ (uP h) ∈ Subgroup.zpowers a ∨ True := Or.inr trivial
     obtain ⟨c, -, hc⟩ := (primeFormConjHom_eq_one_iff_of_ne le_rfl u38_hne _).1 e
     have hm := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) hc
     simp only [coe_uA, GeneralLinearGroup.coe_scalar] at hm
@@ -169,7 +169,7 @@ theorem u38_three_lt_card_E₀ : 3 < Nat.card (E₀ h hω) := by
   have hao : orderOf a = 3 := orderOf_eq_prime (rho_uA_pow_three h hω) ha1
   have hz : Subgroup.zpowers a ≤ E₀ h hω :=
     (Subgroup.zpowers_le).2 (Subgroup.subset_closure (Set.mem_insert _ _))
-  have hpz : ρ (uP h hω) ∉ Subgroup.zpowers a := by
+  have hpz : ρ (uP h) ∉ Subgroup.zpowers a := by
     intro hp
     apply u38_not_comm_uP_uQ h hω
     obtain ⟨k, hk⟩ := hp

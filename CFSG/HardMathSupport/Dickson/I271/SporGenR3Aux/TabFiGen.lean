@@ -301,12 +301,12 @@ section Normal
 
 variable {Q : Type} [Group Q] [Finite Q]
 
-theorem eq_of_glaPComponent_of_normal_quasisimple_solvable {p : ℕ} (hp : p.Prime)
+theorem eq_of_glaPComponent_of_normal_quasisimple_solvable {p : ℕ} (_hp : p.Prime)
     {C L J : Subgroup Q} (hLC : L ≤ C) (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L)
     (hLq : CFSG.Open.IsQuasisimple ↥L) (hcore : GLAPPrimeCore p ↥C = ⊥)
     (hcent : Group.IsSolvable ↥(C ⊓ Subgroup.centralizer (L : Set Q)))
     (hJ : GLAPComponent p C J) : J = L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   have hL : GLAPComponent p C L := glaPComponent_of_normal_quasisimple hLC hLn hLq hcore
   by_contra hne
   have hb : barX p C J ≠ barX p C L := fun h => hne (glaPComponent_unique hJ hL h)
@@ -340,11 +340,11 @@ theorem eq_of_glaPComponent_of_normal_quasisimple_solvable {p : ℕ} (hp : p.Pri
     let e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
     let e2 : ↥(J.subgroupOf C) ≃* ↥(barX p C J) :=
       (J.subgroupOf C).equivMapOfInjective _ hinj
-    haveI : Group.IsSolvable ↥(J.subgroupOf C) :=
+    have : Group.IsSolvable ↥(J.subgroupOf C) :=
       Group.isSolvable_of_isSolvable_injective (f := e1.toMonoidHom) e1.injective
     exact Group.isSolvable_of_isSolvable_injective (f := e2.symm.toMonoidHom) e2.symm.injective
   have hq := hJ.2.2.1.2.2
-  haveI : Nontrivial ↥(barX p C J) := by
+  have : Nontrivial ↥(barX p C J) := by
     have := hq.2.exists_pair_ne
     obtain ⟨a, b, hab⟩ := this
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
@@ -363,7 +363,7 @@ theorem shapeRkAt_of_normal_quasisimple_solvable {p : ℕ} (hp : p.Prime)
       Subgroup.centralizer (L : Set Q)))
     (hG : Good (PSimple p L)) (hR : Rk (PQuot p L)) : ShapeRkAt p Good Rk t :=
   Or.inr ⟨L, glaPComponent_of_normal_quasisimple hLC hLn hLq hcore,
-    fun I hI => eq_of_glaPComponent_of_normal_quasisimple_solvable hp hLC hLn hLq hcore hcent hI,
+    fun _I hI => eq_of_glaPComponent_of_normal_quasisimple_solvable hp hLC hLn hLq hcore hcent hI,
     hG, hR⟩
 
 end Normal
@@ -385,7 +385,7 @@ theorem shapeRkAt_of_subgroup_data_solvable {p : ℕ} (hp : p.Prime)
     (hm : m ∣ 6)
     (hG : Good ↥L) (hR : Rk ↥L) : ShapeRkAt p Good Rk x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
   let C' : Subgroup ↥P := Subgroup.centralizer ({x} : Set ↥P)
   let L' : Subgroup ↥P := L.comap P.subtype
@@ -406,7 +406,7 @@ theorem shapeRkAt_of_subgroup_data_solvable {p : ℕ} (hp : p.Prime)
       exact ⟨g, g.2, rfl⟩
     have := hLn _ hgC _ he
     exact this
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L' := Subgroup.map_subgroupOf_eq_of_le hL'C
   have eL : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLP
   have eE : ↥(E.map C'.subtype) ≃* ↥L := (MulEquiv.subgroupCongr hEmap).trans eL
@@ -417,10 +417,10 @@ theorem shapeRkAt_of_subgroup_data_solvable {p : ℕ} (hp : p.Prime)
   have hpE : p ∣ Nat.card ↥(E.map C'.subtype) := by
     rw [Nat.card_congr eE.toEquiv]; exact hpL
   have hZE : Subgroup.center ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact center_eq_bot_of_simple_nonab hnabE
   have hcoreE : GLAPPrimeCore p ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact glaPPrimeCore_eq_bot_of_simple hp hpE
   have hq : Group.IsSolvable (↥C' ⧸ E) := by
     have hcardC : Nat.card ↥C' = Nat.card ↥L * m := by
@@ -440,7 +440,7 @@ theorem shapeRkAt_of_subgroup_data_solvable {p : ℕ} (hp : p.Prime)
     rintro g hg _ ⟨e, he, rfl⟩
     exact ⟨⟨g, hg⟩ * e * ⟨g, hg⟩⁻¹, ‹E.Normal›.conj_mem e he ⟨g, hg⟩, rfl⟩
   have hLq : CFSG.Open.IsQuasisimple ↥(E.map C'.subtype) := by
-    haveI := hsE
+    have := hsE
     exact isOpenQuasisimple_of_simple_nonab hnabE
   refine shapeRkAt_of_normal_quasisimple_solvable hp hLCP hLnP hLq hcore
     (isSolvable_inf_centralizer_of_normal_solvable E hZE hq) ?_ ?_
@@ -531,8 +531,8 @@ theorem isSimpleGroup_X₀ : IsSimpleGroup X₀ :=
 theorem nonabelian_X₀ : ∃ a b : X₀, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI := isSimpleGroup_X₀
-  letI : CommGroup X₀ := { (inferInstance : Group X₀) with mul_comm := hc }
+  have := isSimpleGroup_X₀
+  let : CommGroup X₀ := { (inferInstance : Group X₀) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := X₀)
   rw [card_X₀] at hp
   norm_num at hp

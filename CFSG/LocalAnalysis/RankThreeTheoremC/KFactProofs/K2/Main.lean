@@ -20,7 +20,7 @@ theorem k2Grp_of_core (hcore : KFactRankThreeCore) : K2Grp := by
   obtain ⟨L, hLn, hLs, hLnab, hL3, hLc⟩ := hbar.exists_simple_normal hBot
   have hLY : ¬ L ≤ Y.map (barMk G) := fun hle => hbar.not_normal_le hLn hL3 hle
   have hγ := hbar.gammaQ_le
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let QS : Sylow 3 (Bar G) := hbar.pgroup.toSylow hbar.index
   obtain ⟨he, hidx⟩ := hcore (Bar G) hbar.catalog hBot L hLn hLs hLnab hLc QS hbar.rank hbar.elt
     (fun hle => hLY (hle.trans hγ))

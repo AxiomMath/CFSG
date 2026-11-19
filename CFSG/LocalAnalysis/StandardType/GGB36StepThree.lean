@@ -95,7 +95,7 @@ private theorem ltqS3_A22_contra {X : Type} [Group X] [Finite X]
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
@@ -225,7 +225,7 @@ private theorem ltqS3_center_twA41 {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.Assembly.IsQuasisimple Y)
     (h : GGHasLabel ⟨.twA, 4, 1⟩ (Y ⧸ Subgroup.center Y)) :
     ¬ 3 ∣ Nat.card (Subgroup.center Y) := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hmod : CFSG.Open.StatedClassicalModel (Y ⧸ Subgroup.center Y) .PSU 5 2 1 :=
     ltqS3_statedClassicalModel_twA41 h
   obtain ⟨-, hrow⟩ :=
@@ -239,7 +239,7 @@ private theorem ltqS3_center_D4 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : 
     (hY : CFSG.Assembly.IsQuasisimple Y)
     (h : GGHasLabel ⟨.D, 4, n⟩ (Y ⧸ Subgroup.center Y)) :
     ¬ 3 ∣ Nat.card (Subgroup.center Y) := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hSC : CFSG.Open.StatedClassicalModel (Y ⧸ Subgroup.center Y) .POmegaPlus 4 2 n :=
     ltqS3_statedClassicalModel_D4 hn h
   have hdvd : Nat.card (Subgroup.center Y) ∣
@@ -252,9 +252,7 @@ private theorem ltqS3_center_D4 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : 
       CFSG.LieType.Steinberg.CentralExt.GriessClassical.pomegaPlus_four_two_row
         (X := Y ⧸ Subgroup.center Y) ⟨hSC.1, Or.inl hSC⟩
     have hcard : Nat.card (generic .POmegaPlus 4 2 1 × exceptional .POmegaPlus 4 2 1) = 4 := by
-      simp only [generic, exceptional, genericOrders, exceptionalOrders, ↓reduceIte,
-        Nat.card_prod, Nat.card_congr (Multiplicative.ofAdd (α := ZMod 1)),
-        Nat.card_congr (Multiplicative.ofAdd (α := ZMod 2))]
+      simp only [generic, exceptional, genericOrders, exceptionalOrders, Nat.card_prod]
       norm_num
     have h4 : 3 ∣ 4 := by
       have h := h3.trans hdvd
@@ -270,7 +268,7 @@ private theorem ltqS3_center_D4 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : 
       simp only [genericOrders, hEven, ↓reduceIte]
     have he : exceptionalOrders .POmegaPlus 4 2 n = (1, 1) := by
       unfold exceptionalOrders
-      split <;> simp_all <;> omega
+      split <;> simp_all
     have hbot := CFSG.OddStandard.SmallF3.HypA2Leaves.a2l_center_eq_bot_of_row ⟨e⟩ hg he
     rw [hbot, Subgroup.card_bot]
     norm_num
@@ -305,7 +303,7 @@ private theorem ltqS3_inner_twA41 {X : Type} [Group X] [Finite X]
     {A Ab : Subgroup (MulAut X)} {σ : MulAut X} {J : Subgroup X}
     (hd : GGTPNBasicB 3 (3 ^ 6) (fun _ _ => True) A Ab σ J)
     (hhJ : GGHasLabel ⟨.twA, 4, 1⟩ (↥J ⧸ Subgroup.center ↥J))
-    (hZ : ¬ 3 ∣ Nat.card (Subgroup.center ↥J)) :
+    (_hZ : ¬ 3 ∣ Nat.card (Subgroup.center ↥J)) :
     ∀ a ∈ A, ∃ u ∈ J, ∀ v ∈ J, a v = u * v * u⁻¹ := by
   classical
   obtain ⟨hlocCore, hflat, -, -, hnum, hselfC, honly, hmarked⟩ := hd
@@ -415,7 +413,7 @@ private theorem ltqS3_card_image {X : Type} [Group X] [Finite X]
   obtain ⟨hlocCore, hflat, -, -, hnum, hselfC, honly, hmarked⟩ := hd
   have hraw := hself (fun R _ _ _ => Nonempty (↥J ⧸ Subgroup.center ↥J ≃* R)) hhJ
   obtain ⟨R, hR, I, F, ⟨⟨e⟩, hselfR⟩⟩ := largeEvenRawDatum_exists hraw
-  letI := hR
+  let := hR
   let Inn : Subgroup (MulAut ↥J) := (MulAut.conj : ↥J →* MulAut ↥J).range
   have hker_conj : (MulAut.conj : ↥J →* MulAut ↥J).ker = Subgroup.center ↥J := by
     ext x
@@ -443,7 +441,7 @@ private theorem ltqS3_card_image {X : Type} [Group X] [Finite X]
   have hEelem : IsElemAbelian 3 E := by
     have hAtop : IsElemAbelian 3 (⊤ : Subgroup ↥A) := by
       obtain ⟨hc, hp⟩ := hlocCore.1
-      haveI : IsMulCommutative A := hc
+      have : IsMulCommutative A := hc
       refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x _ => ?_⟩
       · apply Subtype.ext
         apply Subtype.ext

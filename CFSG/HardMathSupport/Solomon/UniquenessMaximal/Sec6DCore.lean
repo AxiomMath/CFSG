@@ -543,7 +543,7 @@ theorem exists_section [Finite Q] (hW : Nat.card (W σ R₁) ≤ 9) {a : Q} (ha 
     calc ⁅a₂, b₂⁆ * ⁅a₃, b₃⁆ * ⁅a₂, b₂⁆⁻¹ * ⁅a₃, b₃⁆⁻¹ = ⁅⁅a₂, b₂⁆, ⁅a₃, b₃⁆⁆ := rfl
       _ = 1 := commutatorElement_eq_one_iff_mul_comm.2 c23z.eq
   have hsB : b₁ * b₂ * b₃ ∈ S σ R₁ a b₁ :=
-    hS_mem hb₁ hb₂ hb₃ hw (by simp [commutatorElement_def])
+    hS_mem hb₁ hb₂ hb₃ hw (by simp)
   have hb₁R : b₁ ∈ R σ R₁ := h.R₁_le_R hb₁
   have hb₂R : b₂ ∈ R σ R₁ := h.R₂_le_R hb₂
   have hb₃R : b₃ ∈ R σ R₁ := h.R₃_le_R hb₃
@@ -553,7 +553,7 @@ theorem exists_section [Finite Q] (hW : Nat.card (W σ R₁) ≤ 9) {a : Q} (ha 
   have hcaseA : (⁅a₂, b₂⁆ = ⁅a₁, b₁⁆ ∧ ⁅a₃, b₃⁆ = ⁅a₁, b₁⁆) →
       (b₁ * b₂⁻¹ * 1 ∈ S σ R₁ a b₁ ∧ 1 * b₂ * b₃⁻¹ ∈ S σ R₁ a b₁) := by
     rintro ⟨e2, e3⟩
-    refine ⟨hS_mem hb₁ ((cj σ R₁).inv_mem hb₂) (one_mem _) ?_ (by simp [commutatorElement_def]),
+    refine ⟨hS_mem hb₁ ((cj σ R₁).inv_mem hb₂) (one_mem _) ?_ (by simp),
       hS_mem (one_mem _) hb₂ ((cj σ (cj σ R₁)).inv_mem hb₃) ?_ (by simp [commutatorElement_def])⟩
     · rw [hC.inv_left hb₂R ha₂R, ← commutatorElement_inv' (x := a₁) (y := b₁),
         ← commutatorElement_inv' (x := a₂) (y := b₂), e2]
@@ -629,7 +629,7 @@ theorem exists_section [Finite Q] (hW : Nat.card (W σ R₁) ≤ 9) {a : Q} (ha 
     have hv1a2 : ⁅b₁ * b₂⁻¹, a₂⁆ = ⁅a₂, b₂⁆ := by
       have := hc.comm_prod3 hb₁ (one_mem _) ((cj σ R₁).inv_mem hb₂) ha₂ (one_mem (cj σ (cj σ R₁)))
         (one_mem _)
-      simp only [mul_one, one_mul, commutatorElement_one_left, commutatorElement_one_right] at this
+      simp only [mul_one, one_mul, commutatorElement_one_right] at this
       rw [this, hC.inv_left hb₂R ha₂R, commutatorElement_inv']
     have hv1a3 : ⁅b₁ * b₂⁻¹, a₃⁆ = 1 := by
       have := hc.comm_prod3 hb₁ (one_mem _) ((cj σ R₁).inv_mem hb₂) (one_mem _) (one_mem _) ha₃
@@ -637,7 +637,7 @@ theorem exists_section [Finite Q] (hW : Nat.card (W σ R₁) ≤ 9) {a : Q} (ha 
       exact this
     have hv2a3 : ⁅b₂ * b₃⁻¹, a₃⁆ = ⁅a₃, b₃⁆ := by
       have := hc.comm_prod3 (one_mem _) (one_mem _) hb₂ (one_mem _) ((cj σ (cj σ R₁)).inv_mem hb₃) ha₃
-      simp only [mul_one, one_mul, commutatorElement_one_left, commutatorElement_one_right] at this
+      simp only [mul_one, one_mul, commutatorElement_one_right] at this
       rw [this, hC.inv_left hb₃R ha₃R, commutatorElement_inv']
     have hWcent : ∀ {y : Q}, y ∈ R σ R₁ → W σ R₁ ≤ Subgroup.centralizer ({y} : Set Q) := by
       intro y hy w hw

@@ -66,11 +66,8 @@ theorem eq_smul_or_inv_smul (F : FanTree Γ G) {a β ξ ν : V} {u : G}
     fin_cases i <;> fin_cases j <;> simp only [b, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk] at hij ⊢
     all_goals first
-      | rfl
       | exact absurd hij hξβ.symm
       | exact absurd hij.symm hξβ.symm
-      | exact absurd hij hξβ
-      | exact absurd hij.symm hξβ
       | exact absurd hij.symm (e0 u huβ)
       | exact absurd hij (e0 u huβ)
       | exact absurd hij.symm (e0 (u * u) hsβ)

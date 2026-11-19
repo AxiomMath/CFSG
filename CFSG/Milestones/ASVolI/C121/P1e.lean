@@ -28,8 +28,7 @@ theorem burnsideC121_sl2_irreducible {F : Type} [Field F] (A : Subgroup (Multipl
     convert this using 2
     rw [CFSG.Quasithin.SL2Model.e12_coe]
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.vecHead,
-      Matrix.vecTail, div_mul_cancel₀ _ h1]
+    fin_cases i <;> simp [dotProduct, Fin.sum_univ_two, div_mul_cancel₀ _ h1]
   have hline0 : ∀ x ∈ A, Multiplicative.toAdd x 0 ≠ 0 → ∀ t : F,
       Multiplicative.ofAdd ![0, t] ∈ A := by
     intro x hx h0 t
@@ -37,8 +36,7 @@ theorem burnsideC121_sl2_irreducible {F : Type} [Field F] (A : Subgroup (Multipl
     convert this using 2
     rw [CFSG.Quasithin.SL2Model.e21_coe]
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.vecHead,
-      Matrix.vecTail, div_mul_cancel₀ _ h0]
+    fin_cases i <;> simp [dotProduct, Fin.sum_univ_two, div_mul_cancel₀ _ h0]
   obtain ⟨x, hxA, hx1⟩ := (Subgroup.bot_or_exists_ne_one A).resolve_left hne
   have hboth : (∀ t : F, Multiplicative.ofAdd ![t, 0] ∈ A) ∧
       (∀ t : F, Multiplicative.ofAdd ![0, t] ∈ A) := by
@@ -55,7 +53,7 @@ theorem burnsideC121_sl2_irreducible {F : Type} [Field F] (A : Subgroup (Multipl
         rw [this]
         exact A.one_mem
       · exact hline0 _ (hl1 t) (by simpa using ht) t
-    · push_neg at h1
+    · push Not at h1
       have h0 : Multiplicative.toAdd (x : Multiplicative (Fin 2 → F)) 0 ≠ 0 := by
         intro h0
         apply hx1

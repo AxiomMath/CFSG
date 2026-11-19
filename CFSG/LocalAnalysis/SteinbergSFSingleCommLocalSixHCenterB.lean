@@ -154,6 +154,7 @@ theorem sixH_h3_w_fix (hS : SCSetting L K n φ t i) :
   have hc : u * w φ i = w φ i * u := (FullCenterWeyl.w_facts hS.fc i).2.2.2.2.2 u hu
   rw [inv_inv, mul_assoc, hc, inv_mul_cancel_left]
 
+omit [Finite G] [Finite K] in
 theorem sixH_h3_conj_Vtor (h2b : H2bConcl φ t i) {a : G} (ha : a ∈ Vtor φ t i i) :
     (w φ i)⁻¹⁻¹ * a * (w φ i)⁻¹ ∈ Vtor φ t i i := by
   have hwi : (w φ i)⁻¹ = w φ i := FullCenterWeyl.w_inv (φ := φ) i
@@ -173,6 +174,7 @@ theorem sixH_h3_Mc_le_closure (hS : SCSetting L K n φ t i) :
   exact mul_mem (subset_closure (Set.mem_union_left _ (SetLike.mem_coe.mpr ha)))
     (subset_closure (Set.mem_union_right _ (SetLike.mem_coe.mpr hwF)))
 
+omit [Finite G] [Finite K] in
 theorem sixH_h3_conj_Vtor' (h2b : H2bConcl φ t i) {a : G} (ha : a ∈ Vtor φ t i i) :
     (w φ i)⁻¹ * a * (w φ i)⁻¹⁻¹ ∈ Vtor φ t i i := by
   have hwi : (w φ i)⁻¹ = w φ i := FullCenterWeyl.w_inv (φ := φ) i
@@ -181,6 +183,7 @@ theorem sixH_h3_conj_Vtor' (h2b : H2bConcl φ t i) {a : G} (ha : a ∈ Vtor φ t
   rw [e]
   exact sixH_h3_conj_Vtor h2b ha
 
+omit [Finite G] [Finite K] in
 theorem sixH_h3_Fw_elem {a : G} (ha : a ∈ Fw φ t i) :
     ∃ f ∈ F φ t, a = (w φ i)⁻¹ * f * (w φ i)⁻¹⁻¹ := by
   obtain ⟨f, hf, hfa⟩ := Subgroup.mem_map.mp ha
@@ -189,12 +192,13 @@ theorem sixH_h3_Fw_elem {a : G} (ha : a ∈ Fw φ t i) :
 theorem sixH_h3_Fw_le_Mw (hS : SCSetting L K n φ t i) : Fw φ t i ≤ Mw φ t i i :=
   Subgroup.map_mono (sixH_h3_F_le_Mc hS)
 
+omit [Finite G] [Finite K] in
 theorem sixH_h3_Vtor_le_Mc {a : G} (ha : a ∈ Vtor φ t i i) : a ∈ Mc φ t i :=
   (Subgroup.mem_inf.mp ha).1
 
 theorem sixH_h3_Mc_le_S (hS : SCSetting L K n φ t i) :
     Mc φ t i ≤ closure ((Vtor φ t i i : Set G) ∪ (F φ t : Set G) ∪ (Fw φ t i : Set G)) :=
-  (sixH_h3_Mc_le_closure hS).trans (Subgroup.closure_mono (fun x hx => Set.mem_union_left _ hx))
+  (sixH_h3_Mc_le_closure hS).trans (Subgroup.closure_mono (fun _x hx => Set.mem_union_left _ hx))
 
 theorem sixH_h3_Mw_le_S (hS : SCSetting L K n φ t i) (h2b : H2bConcl φ t i) :
     Mw φ t i i ≤ closure ((Vtor φ t i i : Set G) ∪ (F φ t : Set G) ∪ (Fw φ t i : Set G)) := by
@@ -241,6 +245,7 @@ theorem sixH_h3_V_W (hS : SCSetting L K n φ t i) (h2a : H2aConcl φ t i) (h2b :
 theorem sixH_h3_Mhat_le_P₁ (hS : SCSetting L K n φ t i) : Mhat φ t i i ≤ P₁ φ t i :=
   SixF.Mhat_le_P₁ hS.fc i hS.ne_bot hS.eq_bot
 
+omit [Finite G] [Finite K] in
 theorem sixH_h3_P₁_le_Tplus {x : G} (hx : x ∈ P₁ φ t i) : x ∈ Tplus φ t i :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_sup_right hx))
 
@@ -310,6 +315,7 @@ theorem sixH_h3 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x 
   · rw [← h2a.sq_M]
     exact Subgroup.closure_mono fun x ⟨y, hy, hx⟩ => ⟨y, Subgroup.mem_sup_left hy, hx⟩
 
+omit [Finite G] in
 theorem sixH_h4a_aux {x w t u : G} (hx : x⁻¹ * t⁻¹ * x * t = u) (hw : w⁻¹ * t⁻¹ * w * t = u) :
     (x * w⁻¹)⁻¹ * t⁻¹ * (x * w⁻¹) * t = 1 := by
   calc (x * w⁻¹)⁻¹ * t⁻¹ * (x * w⁻¹) * t
@@ -351,11 +357,12 @@ theorem sixH_h4a_comm_U_mem_K (hS : SCSetting L K n φ t i) {x : G} (hxM : x ∈
   rw [hx']
   exact mul_mem (Subgroup.mem_sup_left hyA) hwK
 
-theorem sixH_h4a (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
-    (h1 : H1Concl φ t i) (h3 : H3Concl φ t i) : H4aConcl φ t i :=
+theorem sixH_h4a (hS : SCSetting L K n φ t i) (_hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
+    (_h1 : H1Concl φ t i) (_h3 : H3Concl φ t i) : H4aConcl φ t i :=
   ⟨sixH_h4a_K_le_Mhat hS, fun _ hx =>
     ⟨sixH_h4a_comm_U_mem_K hS hx, sixH_h4a_K_comm_U hS⟩⟩
 
+omit [Finite G] [Finite K] in
 theorem sixH_h4_he1 (h3 : H3Concl φ t i) :
     ∀ x ∈ Mhat φ t i i, ∀ y ∈ Mhat φ t i i, x * y * x⁻¹ * y⁻¹ ∈ U φ i ∧ x * x ∈ U φ i := by
   intro x hx y hy
@@ -477,7 +484,7 @@ theorem sixH_h4_classify (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i)
   by_cases hEM : E ≤ Mhat φ t i i
   · exact Or.inl hEM
   right
-  obtain ⟨x, hxE, hxM⟩ := SetLike.not_le_iff_exists.mp hEM
+  obtain ⟨x, hxE, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp hEM
   rcases sixH_h4_P₁_cases hS (hEP hxE) with h | ⟨v, hv, rfl⟩
   · exact absurd h hxM
   intro z hz
@@ -519,7 +526,8 @@ theorem sixH_h4_U_le_D (hS : SCSetting L K n φ t i) : U φ i ≤ D φ t i :=
 theorem sixH_h4_U_le_P₁ (hS : SCSetting L K n φ t i) : U φ i ≤ P₁ φ t i :=
   (sixH_h4_U_le_Mhat hS).trans (sixH_h3_Mhat_le_P₁ hS)
 
-theorem sixH_h4_normal (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i) :
+omit [Finite G] [Finite K] in
+theorem sixH_h4_normal (_hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i) :
     ((U φ i).subgroupOf (P₁ φ t i)).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -578,7 +586,7 @@ theorem sixH_h4_T₁_le (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i) (h3 
     exact hm
   · exact absurd (hcard ▸ Subgroup.card_le_of_le hED) (not_le.mpr (sixH_h4_card_D_lt hS))
 
-theorem sixH_h4 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
+theorem sixH_h4 (hS : SCSetting L K n φ t i) (_hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
     (h1 : H1Concl φ t i) (h3 : H3Concl φ t i) (h4a : H4aConcl φ t i) : H4Concl φ t i := by
   have hnorm : ((U φ i).subgroupOf (P₁ φ t i)).Normal := sixH_h4_normal hS h1
   refine ⟨⟨hnorm, ?_⟩, sixH_h4_T₁_le hS h1 h3 h4a⟩

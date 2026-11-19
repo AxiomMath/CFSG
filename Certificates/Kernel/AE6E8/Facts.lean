@@ -26,9 +26,9 @@ theorem curtis_getD (l : Nat) : (curtisPerms ()).getD l 1 = gP l := by
   by_cases hl : l < 8
   · have h1 := CertificateChecks.KernelAE6F.prep_curtis hl
     have h2 := prep_gen hl
-    rw [gP, if_pos hl]
+    rw [gP, ite_eq_left hl]
     exact Equiv.ext fun x => Fin.ext ((h1 x).symm.trans (h2 x))
-  · rw [List.getD_eq_default _ _ (by simp [curtisPerms]; omega), gP, if_neg hl]
+  · rw [List.getD_eq_default _ _ (by simp [curtisPerms]; omega), gP, ite_eq_right hl]
 
 theorem aeWord_eq (w : List Nat) : aeWord (curtisPerms ()) w = wv gP w := by
   rw [aeWord, wv]
@@ -86,7 +86,7 @@ theorem card16 : Nat.card (Subgroup.closure {g | g ∈ ae8Gens16 ()}) = 2580480 
   have e : {g | ∃ k < (S16.extract 0 7).size, permOfArr 16 (S16.extract 0 7)[k]! = g} =
       {g | g ∈ ae8Gens16 ()} := by
     ext g
-    simp only [Set.mem_setOf_eq, ae8Gens16, List.mem_map, List.mem_ofFn,
+    simp only [Set.mem_ofPred_eq, ae8Gens16, List.mem_map, List.mem_ofFn,
       CFSG.Sporadic.Schreier.tab_eq]
     rw [extract_size16]
     constructor
@@ -136,9 +136,9 @@ theorem piP_rep : ∀ x : Fin 16, pg 5 (mask 5) piP x.val =
 theorem prepA : ∀ j < grL.length, Orb.PRep 16 5 (wSel E8.S j) (aP j) := by
   intro j hj
   by_cases h : j < 7
-  · rw [wSel_lt _ h, aP, dif_pos h]
+  · rw [wSel_lt _ h, aP, dite_eq_left h]
     exact prepW ⟨j, h⟩
-  · rw [wSel_ge _ (by omega), aP, dif_neg h]
+  · rw [wSel_ge _ (by omega), aP, dite_eq_right h]
     exact piP_rep
 
 theorem genR : ∀ k < 8, permOfArr 376 SR[k]! = rP k := by
@@ -150,15 +150,15 @@ theorem genR : ∀ k < 8, permOfArr 376 SR[k]! = rP k := by
 theorem grL_getD : ∀ i : Fin 7, grL.getD i.val 0 = ae8Letter.getD i.val 0 := by decide
 
 theorem gP_eight : gP 8 = 1 := by
-  rw [gP, if_neg (by norm_num)]
+  rw [gP, ite_eq_right (by norm_num)]
 
 theorem mem_grGens {g : Equiv.Perm (Fin 376)} : g ∈ grGens () ↔ ∃ k < 8, rP k = g := by
   have e1 : ∀ i : Fin 7, CFSG.Sporadic.Schreier.tab (sumPerm (wr16 (ae8Gen i))
       ((curtisPerms ()).getD (ae8Letter.getD i 0) 1)) = rP i.val := fun i => by
-    rw [CFSG.Sporadic.Schreier.tab_eq, curtis_getD, rP, aP, dif_pos i.isLt, grL_getD i]
+    rw [CFSG.Sporadic.Schreier.tab_eq, curtis_getD, rP, aP, dite_eq_left i.isLt, grL_getD i]
   have e2 : CFSG.Sporadic.Schreier.tab
       (sumPerm (wr16 (CFSG.ClassicalInvolution.Q3.AE.Wr.allOnes 8)) 1) = rP 7 := by
-    rw [CFSG.Sporadic.Schreier.tab_eq, rP, aP, dif_neg (by norm_num)]
+    rw [CFSG.Sporadic.Schreier.tab_eq, rP, aP, dite_eq_right (by norm_num)]
     have e : grL.getD 7 0 = 8 := rfl
     rw [e, gP_eight]
   change g ∈ (List.ofFn fun i : Fin 7 => CFSG.Sporadic.Schreier.tab (sumPerm (wr16 (ae8Gen i))
@@ -190,7 +190,7 @@ theorem cardGr : Nat.card (Subgroup.closure {g | g ∈ grGens ()}) = 2580480 := 
   have e : {g | ∃ k < (SR.extract 0 8).size, permOfArr 376 (SR.extract 0 8)[k]! = g} =
       {g | g ∈ grGens ()} := by
     ext g
-    rw [Set.mem_setOf_eq, Set.mem_setOf_eq, mem_grGens, extract_sizeR]
+    rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, mem_grGens, extract_sizeR]
     constructor
     · rintro ⟨k, hk, rfl⟩
       exact ⟨k, hk, by rw [extract_getR hk, genR k hk]⟩
@@ -214,7 +214,7 @@ theorem card_pairSub : Nat.card pairSub = 2580480 := by
     rw [pairSub, MonoidHom.map_closure]
     congr 1
     ext g
-    rw [Set.mem_image, Set.mem_setOf_eq, mem_grGens]
+    rw [Set.mem_image, Set.mem_ofPred_eq, mem_grGens]
     constructor
     · rintro ⟨_, ⟨k, hk, rfl⟩, rfl⟩
       exact ⟨k, hk, rfl⟩
@@ -234,7 +234,7 @@ theorem map_snd_pairSub :
     by_cases h : k < 7
     · apply Subgroup.subset_closure
       have e := grL_getD ⟨k, h⟩
-      simp only [MonoidHom.coe_snd, Set.mem_setOf_eq, List.mem_map]
+      simp only [MonoidHom.coe_snd, Set.mem_ofPred_eq, List.mem_map]
       have hk' : k < ae8Letter.length := by simp [ae8Letter]; omega
       exact ⟨ae8Letter.getD k 0, by rw [List.getD_eq_getElem _ _ hk']; exact List.getElem_mem _,
         congrArg gP e.symm⟩
@@ -263,7 +263,7 @@ theorem one_lt_card_ker : 1 < Nat.card ↥((MonoidHom.snd (Equiv.Perm (Fin 16)) 
     rw [e2, gP_eight]
   rw [h, Subgroup.mem_bot, Prod.mk_eq_one] at hm
   have hne : aP 7 ≠ 1 := by
-    rw [aP, dif_neg (by norm_num)]
+    rw [aP, dite_eq_right (by norm_num)]
     intro e
     have e3 := congrArg (fun f : Equiv.Perm (Fin 16) => (f 0).val) e
     revert e3
@@ -287,7 +287,7 @@ theorem map_ae6ModelV0 : (ae6ModelV 0).map omegaT.subtype = Subgroup.closure {g 
   rw [CertificateChecks.KernelAE6Tri.vertexV0, MonoidHom.map_closure, v0Gens_eq]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_map, Finset.mem_coe]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_map, Finset.mem_coe]
   constructor
   · rintro ⟨_, ⟨i, hi, rfl⟩, rfl⟩
     refine ⟨i.val, ?_, (coe_curtisGen i).symm⟩

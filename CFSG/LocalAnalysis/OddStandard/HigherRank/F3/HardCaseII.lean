@@ -78,7 +78,7 @@ theorem isMTypeSchur_of_caseII (hKR : T1.KnownRowThree) (hC3 : LinUnitInvolution
   refine Or.inl ⟨hY2, hF, hG, ?_⟩
   intro m r _ _ hPS
   exfalso
-  haveI : IsSimpleGroup (Y ⧸ center Y) := hY.2.1
+  have : IsSimpleGroup (Y ⧸ center Y) := hY.2.1
   have hPS' : Blueprint.LieModel (Y ⧸ center Y) .PSL (2 * m) 3 r ∨
       Blueprint.LieModel (Y ⧸ center Y) .PSU (2 * m) 3 r := by
     rcases hPS with h | h

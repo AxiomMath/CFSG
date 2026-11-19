@@ -694,7 +694,7 @@ private lemma comap_lt_top {G : Subgroup Ω} {φ : ↥G →* Y} {M : Subgroup Y}
     (M.comap φ).map G.subtype < G := by
   refine lt_of_le_of_ne (Subgroup.map_subtype_le _) ?_
   intro hEq
-  obtain ⟨y, hyrange, hyM⟩ := (SetLike.lt_iff_le_and_exists.mp hMmax.1).2
+  obtain ⟨y, hyrange, hyM⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hMmax.1).2
   obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hyrange
   have hxM' : (x : Ω) ∈ (M.comap φ).map G.subtype := by rw [hEq]; exact x.2
   obtain ⟨c, hc, hcx⟩ := Subgroup.mem_map.mp hxM'
@@ -772,7 +772,7 @@ private lemma map_subgroupOf_max {G : Subgroup Ω} {φ : ↥G →* Y} {H : Subgr
     IsMaxSubgroupIn φ.range (Subgroup.map φ (H.subgroupOf G)) := by
   refine ⟨map_subgroupOf_lt_range hHmax hkerH', ?_⟩
   intro U hU hUle
-  obtain ⟨y, hyU, hyNot⟩ := (SetLike.lt_iff_le_and_exists.mp hU).2
+  obtain ⟨y, hyU, hyNot⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hU).2
   obtain ⟨g, rfl⟩ := MonoidHom.mem_range.mp (hUle hyU)
   let K : Subgroup Ω := (U.comap φ).map G.subtype
   have hHKle : H ≤ K := by

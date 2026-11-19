@@ -277,12 +277,14 @@ theorem yG_mem_centralizer {a : Fin TwistTag.E6.foldedTag.rank} (ha : a ≠ 3)
   exact commute_yUnit_highest (ne_one_of_mem_orbit ha
     (TwistTag.E6.perm_pow_mem_orbit (TwistTag.E6.orbitMin_mem a) k)) _ hy
 
+omit [Finite K] in
 theorem nG_eq (a : Fin TwistTag.E6.foldedTag.rank) :
     nG σ a = xG σ a 1 * yG σ a (-1) * xG σ a 1 := by
   apply Subtype.ext
   rw [coe_nG, canonicalRep_orbitReflection_eq_orbitN TwistTag.E6 σ.toRingHom a]
   rfl
 
+omit [Finite K] in
 theorem hG_eq (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) :
     hG σ a u = (xG σ a u * yG σ a (-((u⁻¹ : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) :
@@ -304,6 +306,7 @@ theorem hG_mem_centralizer {a : Fin TwistTag.E6.foldedTag.rank} (ha : a ≠ 3)
     (xG_mem_centralizer σ ha _)) (inv_mem (mul_mem (mul_mem (xG_mem_centralizer σ ha _)
       (yG_mem_centralizer σ ha _)) (xG_mem_centralizer σ ha _)))
 
+omit [Finite K] in
 theorem hG_mul_xG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     hG σ a u * xG σ a c * (hG σ a u)⁻¹ =
@@ -312,6 +315,7 @@ theorem hG_mul_xG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
   have h := orbitH_mul_orbitX_mul_inv TwistTag.E6 σ.toRingHom a u c
   exact congrArg (Subtype.val : adjointGroup TwistTag.E6.tag K → ModGL TwistTag.E6.tag K) h
 
+omit [Finite K] in
 theorem hG_mul_yG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     hG σ a u * yG σ a c * (hG σ a u)⁻¹ =
@@ -322,12 +326,14 @@ theorem hG_mul_yG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
   rw [← orbitRankOneHom_HSL, ← orbitRankOneHom_vSL, ← map_inv, ← map_mul, ← map_mul,
     HSL_mul_vSL_mul_inv, orbitRankOneHom_vSL]
 
+omit [Finite K] in
 theorem nG_mul_xG_mul_inv (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     nG σ a * xG σ a (-c) * (nG σ a)⁻¹ = yG σ a c := by
   apply Subtype.ext
   exact canonicalRep_orbitReflection_conj_orbitX TwistTag.E6 σ.toRingHom a c
 
+omit [Finite K] in
 theorem xG_neg (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     xG σ a (-c) = (xG σ a c)⁻¹ := by
   rw [eq_inv_iff_mul_eq_one, ← xG_add, neg_add_cancel, xG_zero]

@@ -12,11 +12,11 @@ open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 open CFSG.Sporadic.Recognition.PresentedWords
 
 theorem get1_ofFn {n : ℕ} (f : Fin n → Array V4) (i : Fin n) : get1 (Array.ofFn f) i = f i := by
-  simp [get1, Array.getElem?_ofFn, i.isLt]
+  simp [get1, i.isLt]
 
 theorem get2_ofFn {n k : ℕ} (f : Fin n → Fin k → Array V4) (i : Fin n) (m : Fin k) :
     get2 (Array.ofFn fun i => Array.ofFn (f i)) i m = f i m := by
-  simp [get2, Array.getElem?_ofFn, i.isLt, m.isLt]
+  simp [get2, i.isLt, m.isLt]
 
 section Elements
 

@@ -61,7 +61,7 @@ private theorem q2cFG_exists_vec (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ fa
     ∃ v : Fin n → K, v ∈ E.E (k.val + 1) ∧
       v ∈ Vsub n (d.getD (q2cFG_blkFin hd k + 1) 0) ∧ v ∉ E.E k.val := by
   have hE' := hE
-  simp only [farSet, Set.mem_setOf_eq] at hE'
+  simp only [farSet, Set.mem_ofPred_eq] at hE'
   have hb := q2cFG_blkFin_lt hd k
   have hble := q2cFG_le_n hd hb
   have hbr : q2cFG_r hd k = k.val + 1 + d.getD (q2cFG_blkFin hd k + 1) 0 - n := rfl
@@ -163,7 +163,7 @@ private theorem q2cFG_E_eq_span (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ far
   have hle : Submodule.span K (q2cFG_b hd hE '' {k : Fin n | k.val < i}) ≤ E.E i := by
     rw [Submodule.span_le]
     rintro v ⟨k, hk, rfl⟩
-    simp only [Set.mem_setOf_eq] at hk
+    simp only [Set.mem_ofPred_eq] at hk
     exact E.mono (by omega) (q2cFG_b_mem_E_succ hd hE k)
   have hdim : finrank K (Submodule.span K (q2cFG_b hd hE '' {k : Fin n | k.val < i})) = i := by
     rw [show {k : Fin n | k.val < i} = ↑(Finset.univ.filter fun k : Fin n => k.val < i) by
@@ -179,7 +179,7 @@ private noncomputable def q2cFG_x (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ f
     intro i j hij
     apply Submodule.span_mono
     rintro v ⟨k, hk, rfl⟩
-    exact ⟨k, by simp only [Set.mem_setOf_eq] at hk ⊢; omega, rfl⟩
+    exact ⟨k, by simp only [Set.mem_ofPred_eq] at hk ⊢; omega, rfl⟩
   dim := by
     intro j hj
     rw [show {k : Fin n | (q2cFG_tau hd k).val < j} =
@@ -191,7 +191,7 @@ private noncomputable def q2cFG_x (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ f
     intro j hj
     rw [show {k : Fin n | (q2cFG_tau hd k).val < j} = Set.univ by
       ext k
-      simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+      simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
       exact lt_of_lt_of_le (q2cFG_tau hd k).isLt hj]
     rw [Set.image_univ]
     exact Submodule.eq_top_of_finrank_eq (by
@@ -204,7 +204,7 @@ private theorem q2cFG_blockU_last (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ f
   have hle := q2cFG_le_n hd hb
   have hleb : d.getD b 0 ≤ n := q2cFG_le_n hd (by omega)
   have hE' := hE
-  simp only [farSet, Set.mem_setOf_eq] at hE'
+  simp only [farSet, Set.mem_ofPred_eq] at hE'
   have hfinA : finrank K ↥(E.E (n - d.getD b 0) ⊓ Vsub n (d.getD (b + 1) 0)) =
       blockSize d b := by
     have h := hE' (b + 1) hb (n - d.getD b 0) (by omega)
@@ -257,7 +257,7 @@ private theorem q2cFG_x_E (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet n 
       rw [blockSize]; exact Nat.add_sub_cancel' hmono
     omega
   have hE' := hE
-  simp only [farSet, Set.mem_setOf_eq] at hE'
+  simp only [farSet, Set.mem_ofPred_eq] at hE'
   have hc : n - d.getD (b + 1) 0 + r ≤ n := by omega
   have hU : finrank K ↥(E.E (n - d.getD (b + 1) 0 + r) ⊓ Vsub n (d.getD (b + 1) 0)) = r := by
     have h := hE' (b + 1) hb (n - d.getD (b + 1) 0 + r) hc
@@ -284,7 +284,7 @@ private theorem q2cFG_x_E (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet n 
       ((E.E (n - d.getD (b + 1) 0 + r) ⊓ Vsub n (d.getD (b + 1) 0)) ⊔ Vsub n (d.getD b 0))
     rw [Submodule.span_le]
     rintro v ⟨k, hk, rfl⟩
-    simp only [Set.mem_setOf_eq] at hk
+    simp only [Set.mem_ofPred_eq] at hk
     have htau := q2cFG_tau_val hd k
     have hspec := q2cFG_r_spec hd k
     have hrp := q2cFG_r_pos hd k
@@ -327,9 +327,9 @@ private theorem q2cFG_x_window (hd : IsCut n d) (k : Fin n) {b : ℕ}
   omega
 
 theorem exists_gateFlag (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet n d) :
-    ∃ x : FlagK K n, ∀ b r, b + 1 < d.length → r ≤ blockSize d b →
-      x.E (d.getD b 0 + r) = blockU K n d E.E b r :=
-  ⟨q2cFG_x hd hE, fun b r hb hr => q2cFG_x_E hd hE hb hr⟩
+    ∃ x : FlagK K n, ∀ _b _r, _b + 1 < d.length → _r ≤ blockSize d _b →
+      x.E (d.getD _b 0 + _r) = blockU K n d E.E _b _r :=
+  ⟨q2cFG_x hd hE, fun _b _r hb hr => q2cFG_x_E hd hE hb hr⟩
 
 @[expose] noncomputable def gateFlag (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet n d) :
     FlagK K n :=
@@ -359,7 +359,7 @@ private theorem q2cFG_x_eq_gateFlag (hd : IsCut n d) {E : FlagK K n} (hE : E ∈
 theorem gateFlag_mem_refSet (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet n d) :
     gateFlag hd hE ∈ refSet K n d := by
   rw [← q2cFG_x_eq_gateFlag hd hE]
-  simp only [refSet, Set.mem_setOf_eq]
+  simp only [refSet, Set.mem_ofPred_eq]
   intro i hi
   rcases Nat.eq_zero_or_pos i with rfl | hipos
   · rw [hd.head, Vsub_zero]
@@ -373,10 +373,10 @@ theorem gateFlag_mem_refSet (hd : IsCut n d) {E : FlagK K n} (hE : E ∈ farSet 
     rw [hi_eq, ← hbs, q2cFG_x_E hd hE hb le_rfl, q2cFG_blockU_last hd hE hb, hbs]
 
 theorem exists_blockRev (hd : IsCut n d) :
-    ∃ τ : Equiv.Perm (Fin n), ∀ (k : Fin n) (b : ℕ), b + 1 < d.length →
-      n - d.getD (b + 1) 0 ≤ k.val → k.val < n - d.getD b 0 →
-        (τ k).val = k.val + d.getD b 0 + d.getD (b + 1) 0 - n :=
-  ⟨q2cFG_tau hd, fun k b hb hk₁ hk₂ => q2cFG_x_window hd k hb hk₁ hk₂⟩
+    ∃ τ : Equiv.Perm (Fin n), ∀ (k : Fin n) (_b : ℕ), _b + 1 < d.length →
+      n - d.getD (_b + 1) 0 ≤ k.val → k.val < n - d.getD _b 0 →
+        (τ k).val = k.val + d.getD _b 0 + d.getD (_b + 1) 0 - n :=
+  ⟨q2cFG_tau hd, fun k _b hb hk₁ hk₂ => q2cFG_x_window hd k hb hk₁ hk₂⟩
 
 @[expose] noncomputable def blockRev (hd : IsCut n d) : Equiv.Perm (Fin n) :=
   Classical.choose (exists_blockRev hd)

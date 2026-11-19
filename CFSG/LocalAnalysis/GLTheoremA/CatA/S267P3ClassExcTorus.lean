@@ -31,7 +31,7 @@ private theorem three_pow_four_le_torus {k : Type} [Field k] {ζ : kˣ} (hζo : 
 
 private theorem exists_orderOf_eq_three {F : Type} [Field F] [Finite F] (h3 : 3 ∣ Nat.card F - 1) :
     ∃ ζ : Fˣ, orderOf ζ = 3 ∧ ζ ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' 3 (by rwa [Nat.card_units F])
   exact ⟨ζ, hζ, by rw [← hζ, pow_orderOf_eq_one]⟩
 
@@ -71,7 +71,7 @@ theorem p3At_A_of_dvd_sub_one {n : ℕ} (hn4 : 4 ≤ n) (hn6 : n ≤ 6) {Q : Tau
     (hv : (TauCeti.LieTypeIndex.A n Q).Valid) (h3 : 3 ∣ Q.card - 1) : P3At ⟨_, hv⟩ := by
   intro q Ω _ _ S B H hchar ⟨e⟩
   exfalso
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set F := GaloisField Q.p Q.exponent with hFdef
   have hQq : Q.p = q := (TauCeti.LieTypeIndex.characteristic_A n Q).symm.trans hchar
   have hFcard : Nat.card F = Q.card := by
@@ -109,7 +109,7 @@ theorem p3At_twistedA_of_dvd_add_one {n : ℕ} (hn4 : 4 ≤ n) (hn6 : n ≤ 6) {
   set d : TauCeti.ValidLieTypeIndex := ⟨.twistedA n Q, hv⟩ with hd
   set p := d.characteristic with hpdef
   set f := d.fieldExponent with hfdef
-  haveI : Fact p.Prime := ⟨d.characteristic_prime⟩
+  have : Fact p.Prime := ⟨d.characteristic_prime⟩
   have hpQ : p = Q.p := TauCeti.LieTypeIndex.characteristic_twistedA n Q
   have hfQ : f = Q.exponent := TauCeti.LieTypeIndex.fieldExponent_twistedA n Q
   have hpq : p = q := hchar
@@ -117,7 +117,7 @@ theorem p3At_twistedA_of_dvd_add_one {n : ℕ} (hn4 : 4 ≤ n) (hn6 : n ≤ 6) {
   have hqQ : p ^ f = Q.card := by rw [hpQ, hfQ, TauCeti.PrimePower.card_def]
   set K := GaloisField p (2 * f) with hKdef
   have hK : UnitaryFieldData p f K := ⟨Fact.out, hf1, GaloisField.card p (2 * f) (by omega)⟩
-  haveI := hK.finite
+  have := hK.finite
   have hp2 : p ≠ 2 := hpq ▸ H.two
   have hqodd : Odd (p ^ f) := (Nat.Prime.odd_of_ne_two Fact.out hp2).pow
   set e₁ := e.trans (CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj n Q hv)

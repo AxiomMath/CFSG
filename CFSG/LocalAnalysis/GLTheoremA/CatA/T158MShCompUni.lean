@@ -227,7 +227,7 @@ private theorem uni_catalogue_linear {G : Type} [Group G] [Finite G] {p N m : �
     calc 2 ^ (m * p) ≥ 2 ^ 2 :=
         Nat.pow_le_pow_right (by norm_num) (le_trans (by norm_num : 2 ≤ 3) hmp3)
       _ = 4 := by norm_num
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F ⧸
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4F
   obtain ⟨ePJ⟩ := uni_centralQuotient_equiv hUF hpre θ hJbar hcompJbar eJ g hg hgk
@@ -272,10 +272,10 @@ private theorem uni_catalogue_unitary {G : Type} [Group G] [Finite G] {p N m : �
       calc 2 ^ (m * p) ≥ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) hmp3
         _ = 8 := by norm_num
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (F := E) (p := 2) (f := m * p) (n := N / p) hNat h3Np hne
-  haveI : IsSimpleGroup (↥(StatedSU (N / p) (2 ^ (m * p)) E) ⧸
+  have : IsSimpleGroup (↥(StatedSU (N / p) (2 ^ (m * p)) E) ⧸
       Subgroup.center ↥(StatedSU (N / p) (2 ^ (m * p)) E)) := hQ.1.2.1
   obtain ⟨ePJ⟩ := uni_centralQuotient_equiv hUF hpre θ hJbar hcompJbar eJ g hg hgk
   obtain ⟨q', hv', hq'p, hq'card, ⟨eCat⟩⟩ :=
@@ -322,11 +322,11 @@ private theorem uni_catalogue_field {G : Type} [Group G] [Finite G] {p N m : ℕ
   rcases hcase with
       ⟨hNp2, F, hF, hFt, hcardF, ⟨g, hg, hgk⟩⟩ |
       ⟨h3Np, E, hE, hEt, hcardE, ⟨g, hg, hgk⟩⟩
-  · letI := hF
-    letI := hFt
+  · let := hF
+    let := hFt
     exact uni_catalogue_linear hUF hpre θ hJbar hcompJbar eJ hNp2 hcardF hg hgk
-  · letI := hE
-    letI := hEt
+  · let := hE
+    let := hEt
     exact uni_catalogue_unitary hUF hpre θ hJbar hcompJbar eJ h3Np hcardE hg hgk
 
 private theorem uni_typeOne_false {G : Type} [Group G] [Finite G] {p N m : ℕ}
@@ -360,8 +360,8 @@ theorem t158CompUni_of (hUM : T171Sh.UniMarking) (hMI : T158MISetup)
     hpre.toWSetup
   obtain ⟨K, hK, hKfin, hUF, θ, hact⟩ :=
     hUM G p L J (Subgroup.zpowers d ⊔ Subgroup.zpowers b) d b N m hw hcatUni
-  letI := hK
-  letI := hKfin
+  let := hK
+  let := hKfin
   have hS : LargeEvenGUSet (Fin N) K (2 ^ m) ⊆ Subgroup.normalizer
       (unitarySU 2 m K N : Set (GL (Fin N) K)) :=
     TableBUE.gu_subset_normalizer (d := N) hUF

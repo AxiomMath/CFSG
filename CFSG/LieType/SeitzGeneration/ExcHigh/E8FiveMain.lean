@@ -115,7 +115,7 @@ theorem e8Five_two_native (hC : E8FiveTwoClosing) (hF : E8FiveTwoFrameDatum) :
   obtain ⟨D, hD⟩ := e8Five_regular_datum hpK hE₀p hE₀c hn'
   by_cases hw : ∀ u : Fin Tag.E8.rank → ℤ, D.w • u = -u
   · obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D (hF K hpq D.Fr D.hFr D.w hw)
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
     exact closure_centralizers_eq_top_of_two_conj (p := 5) (⨆ k, e8D8Chain K k) (e8FrameGroup K)
       (weylWordElt .E8 K e8Word) e8FrameGroup_le_d8 e8FrameGroup_le_conj_d8
@@ -137,7 +137,7 @@ theorem e8Five_four_native (hSq : E8FiveFourSquare) (hF : E8FiveFourFrameDatum) 
   obtain ⟨D, hD⟩ := e8Five_regular_datum hpK hE₀p hE₀c hn'
   obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D
     (hF K he D.Fr D.hFr D.w (hSq K he E₀ hE₀p hE₀c D hD))
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   exact closure_centralizers_eq_top_of_two_conj (p := 5) (⨆ k, e8D8Chain K k) (e8D4Group K)
     (weylWordElt .E8 K e8Word) e8D4Group_le_d8 e8D4Group_le_conj_d8

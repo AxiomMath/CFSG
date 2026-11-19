@@ -110,8 +110,7 @@ theorem checkMat_sound {n : ℕ} {a b : Perm (Fin n)} {sylowOrder : ℕ} {d : Da
   rw [sgMat_eq, tabMat_eq] at h
   simp only [tableOkMat, classesOkMat, censusOkMat, repMat_eq, lettersMat_eq,
     Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, permEq_iff, permMem_iff, permNodup_iff,
-    Bool.not_eq_true_eq_eq_false, Bool.eq_false_iff] at h
+    Bool.or_eq_true, permEq_iff, permMem_iff, permNodup_iff] at h
   obtain ⟨⟨⟨⟨hlen, hnodup⟩, hgetD⟩, hmem⟩, hall⟩ := h.1.1.1
   have hclasses := h.1.1.2
   have hcensus := h.1.2

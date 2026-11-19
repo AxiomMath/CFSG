@@ -31,14 +31,14 @@ private theorem no_invariant_line_of_perfect
   have hcomm : ⁅H, H⁆ = H := Subgroup.commutator_eq_self
   have hfixline :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Lin.perfect_fixes_line hcomm hP1 hP
-  haveI : Nontrivial ↥P := Module.nontrivial_of_finrank_pos (R := F)
+  have : Nontrivial ↥P := Module.nontrivial_of_finrank_pos (R := F)
     (by rw [hP1]; norm_num)
   obtain ⟨v, hv0⟩ := exists_ne (0 : ↥P)
   exact hv0 (Subtype.ext (hfix v.val fun g hg => hfixline g hg v.val v.2))
 
 private theorem range_ne_top_of_pow_eq_zero {R M : Type*} [DivisionRing R] [AddCommGroup M]
     [Module R M] [FiniteDimensional R M] [Nontrivial M] (f : Module.End R M) {m : ℕ}
-    (hm : 0 < m) (h : f ^ m = 0) : f.range ≠ ⊤ := by
+    (_hm : 0 < m) (h : f ^ m = 0) : f.range ≠ ⊤ := by
   intro htop
   have hsurj : Function.Surjective f := LinearMap.range_eq_top.mp htop
   have hinj : Function.Injective f := LinearMap.injective_iff_surjective.mpr hsurj
@@ -98,15 +98,15 @@ private theorem eq_bot_of_pow_eq_zero_of_disjoint_ker {F V : Type*} [Field F]
 
 private theorem exists_alternating_plane_form {F : Type*} [Field F] {U : Type*}
     [AddCommGroup U] [Module F U] (hU : Module.finrank F U = 2) :
-    ∃ (b : Module.Basis (Fin 2) F U) (ω : LinearMap.BilinForm F U),
+    ∃ (_b : Module.Basis (Fin 2) F U) (ω : LinearMap.BilinForm F U),
       ω.IsAlt ∧ ω.Nondegenerate ∧ ω ≠ 0 := by
-  haveI : FiniteDimensional F U :=
+  have : FiniteDimensional F U :=
     FiniteDimensional.of_finrank_pos (by rw [hU]; norm_num)
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (R := F) (by rw [hU]; norm_num)
-  let b : Module.Basis (Fin 2) F U := (Module.finBasis F U).reindex (finCongr hU)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (R := F) (by rw [hU]; norm_num)
+  let _b : Module.Basis (Fin 2) F U := (Module.finBasis F U).reindex (finCongr hU)
   let J : Matrix (Fin 2) (Fin 2) F := !![0, 1; -1, 0]
   let Bc : LinearMap.BilinForm F (Fin 2 → F) := Matrix.toBilin' J
-  let ω : LinearMap.BilinForm F U := BilinForm.congr b.equivFun.symm Bc
+  let ω : LinearMap.BilinForm F U := BilinForm.congr _b.equivFun.symm Bc
   have hBcalt : Bc.IsAlt := by
     intro x
     rw [show Bc = Matrix.toBilin' J from rfl, Matrix.toBilin'_apply']
@@ -119,21 +119,21 @@ private theorem exists_alternating_plane_form {F : Type*} [Field F] {U : Type*}
     intro u
     dsimp only [ω]
     rw [BilinForm.congr_apply]
-    exact hBcalt (b.equivFun u)
-  have hωnd : ω.Nondegenerate := hBcnd.congr b.equivFun.symm
+    exact hBcalt (_b.equivFun u)
+  have hωnd : ω.Nondegenerate := hBcnd.congr _b.equivFun.symm
   have hωsep : ∀ u : U, (∀ v : U, ω u v = 0) → u = 0 := hωnd.1
   have hωne : ω ≠ 0 := by
     intro h
     obtain ⟨u, hu⟩ := exists_ne (0 : U)
     exact hu (hωsep u (by rw [h]; simp))
-  exact ⟨b, ω, hωalt, hωnd, hωne⟩
+  exact ⟨_b, ω, hωalt, hωnd, hωne⟩
 
 private theorem det_eq_one_of_perfect_isometry {F : Type*} [Field F] {U : Type*}
-    [AddCommGroup U] [Module F U] (hU : Module.finrank F U = 2) {L : Type*} [Group L]
+    [AddCommGroup U] [Module F U] (_hU : Module.finrank F U = 2) {L : Type*} [Group L]
     (hL : Group.IsPerfect L) (ρ : L →* (Module.End F U)ˣ) :
     ∀ g : L, LinearMap.det (ρ g : Module.End F U) = 1 := by
-  haveI : FiniteDimensional F U :=
-    FiniteDimensional.of_finrank_pos (by rw [hU]; norm_num)
+  have : FiniteDimensional F U :=
+    FiniteDimensional.of_finrank_pos (by rw [_hU]; norm_num)
   have hχ : (Units.map (LinearMap.det (A := F) (M := U))).comp ρ = 1 :=
     CFSG.GH74.GLS.IVK.Proofs2.ivk95l_hom_one_of_perfect hL _
   intro g
@@ -161,9 +161,9 @@ private theorem exists_adjoint_nonscalar {F : Type*} [Field F] {U : Type*}
     ∃ eT : U ≃ₗ[F] U,
       (∀ u v : U, β (eT u) v = ω u v) ∧
         ∀ t : F, (eT : Module.End F U) ≠ t • 1 := by
-  haveI : FiniteDimensional F U :=
+  have : FiniteDimensional F U :=
     FiniteDimensional.of_finrank_pos (by rw [hU]; norm_num)
-  haveI : Nontrivial U :=
+  have : Nontrivial U :=
     Module.nontrivial_of_finrank_pos (R := F) (by rw [hU]; norm_num)
   have hβnd' : β.Nondegenerate := BilinForm.Nondegenerate.ofSeparatingLeft hβnd
   let eT : U ≃ₗ[F] U := (ω.toDual hωnd).trans (β.toDual hβnd').symm
@@ -263,7 +263,7 @@ private theorem centralizer_pairwise_commute {F : Type*} [Field F] {U : Type*}
     rw [map_smul, map_one, ← hcoea, ← ht]
     ext i j
     simp [Matrix.scalar_apply, Matrix.diagonal, Matrix.smul_apply, Matrix.one_apply]
-  haveI hcent : IsMulCommutative ↥(Subgroup.centralizer ({a} : Set (GL (Fin 2) F))) :=
+  have hcent : IsMulCommutative ↥(Subgroup.centralizer ({a} : Set (GL (Fin 2) F))) :=
     TauCeti.isMulCommutative_centralizer_of_notMem_range_scalar (g := a) hA_not
   intro g h
   let bg : GL (Fin 2) F := Units.map φ.toMulEquiv.toMonoidHom (ρ g)
@@ -301,7 +301,7 @@ theorem eq_one_of_perfect_of_isSymm {F : Type*} [Field F] (h2 : (2 : F) ≠ 0) {
     exists_adjoint_nonscalar hU h2 β hβ hβnd ω hωalt hωnd hωne
   have hTcomm := adjoint_commutes β hβnd ρ hρ ω hωiso eT hTapply
   have hpair := centralizer_pairwise_commute b ρ eT hTcomm hT_not_scalar
-  haveI : IsMulCommutative ρ.range :=
+  have : IsMulCommutative ρ.range :=
     IsMulCommutative.mk (Std.Commutative.mk fun x y => by
       obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp x.2
       obtain ⟨h, hh⟩ := MonoidHom.mem_range.mp y.2
@@ -310,13 +310,14 @@ theorem eq_one_of_perfect_of_isSymm {F : Type*} [Field F] (h2 : (2 : F) ≠ 0) {
       rw [← hg, ← hh]
       apply Units.ext
       simpa only [Units.val_mul] using hpair g h)
-  haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
-  haveI : Subsingleton ρ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+  have : Subsingleton ρ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   intro g
   apply Units.ext
   have h : (⟨ρ g, MonoidHom.mem_range.mpr ⟨g, rfl⟩⟩ : ρ.range) = 1 := Subsingleton.elim _ _
   simpa using congrArg Subtype.val h
 
+omit [Finite F] in
 private theorem range_ker_invariant_of_commute {V : Type*} [AddCommGroup V] [Module F V]
     {H : Subgroup (LinearMap.GeneralLinearGroup F V)} {N : Module.End F V}
     (hcomm : ∀ g ∈ H, N * (g : Module.End F V) = (g : Module.End F V) * N) :
@@ -331,6 +332,7 @@ private theorem range_ker_invariant_of_commute {V : Type*} [AddCommGroup V] [Mod
     rw [LinearMap.mem_ker] at hv ⊢
     rw [← Module.End.mul_apply, hcomm g hg, Module.End.mul_apply, hv, map_zero]
 
+omit [Finite F] in
 private theorem range_eq_ker_of_perfect {V : Type*} [AddCommGroup V] [Module F V]
     [FiniteDimensional F V] [Finite F] (hV : Module.finrank F V = 4)
     (H : Subgroup (LinearMap.GeneralLinearGroup F V)) (hH : Group.IsPerfect ↥H)
@@ -338,7 +340,7 @@ private theorem range_eq_ker_of_perfect {V : Type*} [AddCommGroup V] [Module F V
     {N : Module.End F V} (hN : N ≠ 0) {m : ℕ} (hm : 0 < m) (hNm : N ^ m = 0)
     (hcomm : ∀ g ∈ H, N * (g : Module.End F V) = (g : Module.End F V) * N) :
     LinearMap.range N = LinearMap.ker N ∧ Module.finrank F (LinearMap.range N) = 2 := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
   have hinv := range_ker_invariant_of_commute hcomm
   let I : Submodule F V := LinearMap.range N
   let K : Submodule F V := LinearMap.ker N
@@ -361,7 +363,7 @@ private theorem range_eq_ker_of_perfect {V : Type*} [AddCommGroup V] [Module F V
       exact no_invariant_line_of_perfect H hH hfix (P := K) hinv.2 hK1
     omega
   have hfinK : Module.finrank F K = 2 := by omega
-  haveI : Nontrivial I := Submodule.nontrivial_iff_ne_bot.mpr hInebot
+  have : Nontrivial I := Submodule.nontrivial_iff_ne_bot.mpr hInebot
   have hIK_ne_bot : I ⊓ K ≠ ⊥ := by
     intro hbot
     exact hInebot (eq_bot_of_pow_eq_zero_of_disjoint_ker N (fun x _ => ⟨x, rfl⟩) hbot hNm)
@@ -382,6 +384,7 @@ private theorem range_eq_ker_of_perfect {V : Type*} [AddCommGroup V] [Module F V
     exact inf_le_right
   exact ⟨Submodule.eq_of_le_of_finrank_eq hI_le_K (by rw [hfinI, hfinK]), hfinI⟩
 
+omit [Finite F] in
 private theorem adjoint_of_isometry {V : Type*} [AddCommGroup V] [Module F V]
     {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
     {N : Module.End F V} (hN2 : N * N = 0)
@@ -423,6 +426,7 @@ private theorem adjoint_of_isometry {V : Type*} [AddCommGroup V] [Module F V]
   rw [h', neg_zero] at hneg
   exact hneg
 
+omit [Finite F] in
 private theorem exists_form_on_range {V : Type*} [AddCommGroup V] [Module F V]
     {B : LinearMap.BilinForm F V} {N : Module.End F V}
     (hN2 : N * N = 0) (hker : LinearMap.ker N ≤ LinearMap.range N)
@@ -454,6 +458,7 @@ private theorem exists_form_on_range {V : Type*} [AddCommGroup V] [Module F V]
     simp
   rwa [map_sub, sub_eq_zero] at hzero
 
+omit [Finite F] in
 private theorem form_on_range_symm {V : Type*} [AddCommGroup V] [Module F V]
     {B : LinearMap.BilinForm F V} {N : Module.End F V}
     {β : LinearMap.BilinForm F (LinearMap.range N)}
@@ -467,6 +472,7 @@ private theorem form_on_range_symm {V : Type*} [AddCommGroup V] [Module F V]
   rw [hx, hy, hβ, hβ]
   exact hadj v w
 
+omit [Finite F] in
 private theorem form_on_range_nondegenerate {V : Type*} [AddCommGroup V] [Module F V]
     {B : LinearMap.BilinForm F V} (hBnd : B.Nondegenerate)
     {N : Module.End F V} {β : LinearMap.BilinForm F (LinearMap.range N)}
@@ -482,6 +488,7 @@ private theorem form_on_range_nondegenerate {V : Type*} [AddCommGroup V] [Module
   have h := hx ⟨N w, w, rfl⟩
   rwa [hβ] at h
 
+omit [Finite F] in
 private theorem form_on_range_invariant {V : Type*} [AddCommGroup V] [Module F V]
     {B : LinearMap.BilinForm F V} {N : Module.End F V}
     {β : LinearMap.BilinForm F (LinearMap.range N)}
@@ -506,6 +513,7 @@ private theorem form_on_range_invariant {V : Type*} [AddCommGroup V] [Module F V
   rw [e1, e2, hβ, hβ, ← hgv]
   exact hg (N v) w
 
+omit [Finite F] in
 private theorem eq_bot_of_perfect_of_isSymm {V : Type*} [AddCommGroup V] [Module F V]
     (h2 : (2 : F) ≠ 0) (H : Subgroup (LinearMap.GeneralLinearGroup F V))
     (hH : Group.IsPerfect ↥H)
@@ -521,7 +529,7 @@ private theorem eq_bot_of_perfect_of_isSymm {V : Type*} [AddCommGroup V] [Module
           Module.End F I) y) = β x y) :
     I = ⊥ := by
   by_contra hbot
-  haveI : Nontrivial I := Submodule.nontrivial_iff_ne_bot.mpr hbot
+  have : Nontrivial I := Submodule.nontrivial_iff_ne_bot.mpr hbot
   obtain ⟨v, hv0⟩ := exists_ne (0 : I)
   apply hv0
   apply Subtype.ext
@@ -544,6 +552,7 @@ private noncomputable def sp4Image (L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)) :
     Subgroup (LinearMap.GeneralLinearGroup F (Sp4VecF F)) :=
   (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp L.subtype).range
 
+omit [Finite F] in
 private theorem sp4Diff_ne_zero {c : GL (Fin 2 ⊕ Fin 2) F} (hc : c ≠ 1) :
     sp4Diff c ≠ 0 := by
   intro h
@@ -554,6 +563,7 @@ private theorem sp4Diff_ne_zero {c : GL (Fin 2 ⊕ Fin 2) F} (hc : c ≠ 1) :
     simpa [sp4Diff, LinearMap.toMatrix'_toLin'] using h'
   simpa using sub_eq_zero.mp hA
 
+omit [Finite F] in
 private theorem sp4Diff_pow_eq_zero {c : GL (Fin 2 ⊕ Fin 2) F} {k : ℕ}
     (hcp : c ^ p ^ k = 1) : sp4Diff c ^ p ^ k = 0 := by
   have hcmat : (c : Sp4MatF F) ^ (p ^ k) = 1 := by
@@ -564,6 +574,7 @@ private theorem sp4Diff_pow_eq_zero {c : GL (Fin 2 ⊕ Fin 2) F} {k : ℕ}
     rwa [hcmat, one_pow, sub_self] at h
   rw [sp4Diff, ← Matrix.toLin'_pow, hA, map_zero]
 
+omit [Finite F] in
 private theorem sp4Diff_isometry {c : GL (Fin 2 ⊕ Fin 2) F}
     (hc : c ∈ CFSG.Open.StatedSp 2 F) :
     ∀ u v : Sp4VecF F,
@@ -577,6 +588,7 @@ private theorem sp4Diff_isometry {c : GL (Fin 2 ⊕ Fin 2) F}
     abel
   simpa [hC] using h
 
+omit [Finite F] in
 private theorem sp4Image_fix {L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)}
     (hfix : ∀ v : Sp4VecF F, (∀ g ∈ L, (g : Sp4MatF F) *ᵥ v = v) → v = 0) :
     ∀ v : Sp4VecF F,
@@ -591,6 +603,7 @@ private theorem sp4Image_fix {L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)}
   have h := hv (Matrix.GeneralLinearGroup.toLin g) hmem
   simpa [Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVec_mulVec] using h
 
+omit [Finite F] in
 private theorem sp4Diff_commutes {L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)}
     {c : GL (Fin 2 ⊕ Fin 2) F} (hcomm : ∀ g ∈ L, c * g = g * c) :
     ∀ g ∈ sp4Image L,
@@ -622,6 +635,7 @@ private theorem sp4Diff_commutes {L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)}
   rw [sp4Diff, hgval, Module.End.mul_eq_comp, Module.End.mul_eq_comp,
     ← Matrix.toLin'_mul, ← Matrix.toLin'_mul, hmatA]
 
+omit [Finite F] in
 private theorem sp4Image_isometry {L : Subgroup (GL (Fin 2 ⊕ Fin 2) F)}
     (hLS : L ≤ CFSG.Open.StatedSp 2 F) :
     ∀ g ∈ sp4Image L, ∀ u v : Sp4VecF F,

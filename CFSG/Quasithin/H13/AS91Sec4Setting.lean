@@ -84,7 +84,7 @@ theorem exists_gen_of_isAutTripleM22 {X : Type} [Group X]
       IsHat ↥(centralizer ({ζ} : Set X)) (CFSG.Blueprint.NativeSporadic.Carrier .M22) ∧
       (∃ τ : X, τ * ζ ≠ ζ * τ) ∧ Nat.card X = 2661120 := by
   obtain ⟨Z, hZn, hZ3, hidx, hperf, hcen, -, ψ, -, hψs, hψk, -⟩ := hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top Z).mp (isCyclic_of_prime_card hZ3)
   have hord : orderOf ζ = 3 := by rw [← Nat.card_zpowers, hζ, hZ3]
   have hζZ : ζ ∈ Z := hζ ▸ mem_zpowers ζ
@@ -161,7 +161,7 @@ theorem HypJ4.exists_center_gen (h : HypJ4 G z) :
       (∀ m ∈ h.setting.Mbar, m * θ * m⁻¹ ∈ zpowers θ) ∧
       IsHat ↥(cMbar h.setting θ) (CFSG.Blueprint.NativeSporadic.Carrier .M22) ∧
       (∃ τ ∈ h.setting.Mbar, τ * θ ≠ θ * τ) ∧ Nat.card h.setting.Mbar = 2661120 := by
-  haveI : Finite ↥h.setting.Mbar := Bridge.finite_Mbar h.setting
+  have : Finite ↥h.setting.Mbar := Bridge.finite_Mbar h.setting
   obtain ⟨θ, hθM, hθ3, hθ1, hθn, hθH, hτ, hcard⟩ :=
     exists_gen_of_isAutTripleM22_sub _ h.autTriple_Mbar
   exact ⟨θ, hθM, hθ3, hθ1, hθn,

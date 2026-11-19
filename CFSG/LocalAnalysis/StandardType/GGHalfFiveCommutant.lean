@@ -50,13 +50,13 @@ private theorem commutant_W (T : Matrix (Fin 2) (Fin 2) F2)
   rcases f2_cases (T 0 0) with h00 | h00 <;> rcases f2_cases (T 0 1) with h01v | h01v
   · refine ⟨0, ?_⟩
     rw [map_zero, hT, h00, h01v]
-    ext i j <;> fin_cases i <;> fin_cases j <;> simp
+    ext i j; fin_cases i <;> fin_cases j <;> simp
   · refine ⟨f4Omega, ?_⟩
     rw [f4Eps_omega, hT, h00, h01v]
-    ext i j <;> fin_cases i <;> fin_cases j <;> simp
+    ext i j; fin_cases i <;> fin_cases j <;> simp
   · refine ⟨1, ?_⟩
     rw [map_one, hT, h00, h01v]
-    ext i j <;> fin_cases i <;> fin_cases j <;> simp
+    ext i j; fin_cases i <;> fin_cases j <;> simp
   · refine ⟨f4Omega ^ 2, ?_⟩
     rw [map_pow, f4Eps_omega, hW2, hT, h00, h01v, one_add_one_f2]
 
@@ -77,7 +77,7 @@ private theorem exists_resMat_of_mem_centralizer (Y : SpecialLinearGroup (Fin 6)
     rw [show (omegaScalar : Matrix (Fin 3) (Fin 3) F4) = Matrix.diagonal (fun _ : Fin 3 => f4Omega) by
       simp [omegaScalar, Matrix.scalar_apply]]
     ext i j
-    by_cases hij : i = j <;> simp [Zs, RingHom.mapMatrix_apply, Matrix.diagonal_apply, hij]
+    by_cases hij : i = j <;> simp [Zs, RingHom.mapMatrix_apply, hij]
   have hBZs : B * Zs = Zs * B := by
     apply resBlocks_injective 3
     rw [map_mul, map_mul, hB, ← hzeta]
@@ -136,7 +136,7 @@ theorem sl3four_le_centralizer :
 theorem card_sl3four : Nat.card sl3four = 60480 := by
   have h1 : Nat.card sl3four = Nat.card (SpecialLinearGroup (Fin 3) F4) :=
     (Nat.card_congr sl3fourEquiv.toEquiv).symm
-  letI : Fintype F4 := Fintype.ofFinite F4
+  let : Fintype F4 := Fintype.ofFinite F4
   rw [h1, Matrix.card_SL_field (𝔽 := F4) 3]
   have hF4 : Fintype.card F4 = 4 := by
     rw [← Nat.card_eq_fintype_card]

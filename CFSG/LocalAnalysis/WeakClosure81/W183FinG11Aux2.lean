@@ -162,7 +162,7 @@ private theorem w183finTrace_mul_self_char_two {n : Type*} [Fintype n] [Decidabl
         2 * (M p.1 p.2 * M p.2 p.1) := by ring
     rw [this, h2, zero_mul]
   · intro p hp hne
-    rintro h
+      h
     have h1 : p.2 = p.1 := congrArg Sigma.fst h
     have hp' := (Finset.mem_sigma.1 hp).2
     simp [Finset.mem_erase] at hp'
@@ -213,7 +213,7 @@ private theorem w183finTrace_pow_four_of_stable {X : Type} [Group X] [Finite X]
       _ = Matrix.trace (ρ s : Matrix (Fin n) (Fin n) Kc) ^ 4 := by rw [← e2]
       _ = Matrix.trace (ρ s : Matrix (Fin n) (Fin n) Kc) := h4
       _ = _ := e2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact iterateFrobenius_inj Kc 2 k (by simpa [iterateFrobenius_def] using e4)
 
 private theorem w183finAbsIrrOverF4_of_stable {X : Type} [Group X] [Finite X]
@@ -324,7 +324,7 @@ private theorem w183finA6_stable : ∀ s : w183finA6, Odd (orderOf s) →
 
 theorem w183finAbsIrrOverF4_alt6 {M : Type} [Group M] (hM : IsAlt M 6) : AbsIrrOverF4 M := by
   obtain ⟨e⟩ := hM
-  haveI : Finite M := Finite.of_equiv w183finA6 e.symm.toEquiv
+  have : Finite M := Finite.of_equiv w183finA6 e.symm.toEquiv
   refine w183finAbsIrrOverF4_of_stable (fun s hs => ?_)
   have hs' : Odd (orderOf (e s)) := by rwa [MulEquiv.orderOf_eq]
   obtain ⟨h, hh⟩ := w183finA6_stable (e s) hs'
@@ -335,9 +335,9 @@ theorem w183finAbsIrrOverF4_cover_A6 {X : Type} [Group X]
     (hZ : Nat.card (Subgroup.center X) = 3) (hA : IsAlt (X ⧸ Subgroup.center X) 6) :
     AbsIrrOverF4 X := by
   obtain ⟨e⟩ := hA
-  haveI : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite (X ⧸ Subgroup.center X) := Finite.of_equiv w183finA6 e.symm.toEquiv
-  haveI : Finite X := Finite.of_equiv _
+  have : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (X ⧸ Subgroup.center X) := Finite.of_equiv w183finA6 e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _
     (Subgroup.groupEquivQuotientProdSubgroup (s := Subgroup.center X)).symm
   refine w183finAbsIrrOverF4_of_stable (w183finOdd_stable_of_central_extension
     (Subgroup.center X) (fun z hz x => Subgroup.mem_center_iff.1 hz x) ?_

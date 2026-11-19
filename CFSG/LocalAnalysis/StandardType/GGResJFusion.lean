@@ -40,7 +40,7 @@ theorem ggFusion_exists_automizer {G : Type} [Group G] [Finite G] {p : ℕ}
       _ = n * u * n⁻¹ * (n * b * n⁻¹) := by group
   obtain ⟨Q, hQ⟩ := (hBsp.comap_of_injective Y.subtype Subtype.coe_injective).exists_le_sylow
   set S : Subgroup G := (Q : Subgroup Y).map Y.subtype with hSdef
-  have hSp : IsPGroup p S := Q.isPGroup'.map _
+  have hSp : IsPGroup p S := Q.isPGroup.map _
   have hSY : S ≤ Y := Subgroup.map_subtype_le _
   have hBsS : Bs ≤ S := fun b hb => ⟨⟨b, hBsY hb⟩, hQ (Subgroup.mem_comap.mpr hb), rfl⟩
   have hSC' : S ≤ Subgroup.centralizer (Bs : Set G) :=

@@ -41,12 +41,12 @@ theorem linear_case (hGA : GriessAllModelsStatement) (hL : IsComponentOf L ⊤)
     · obtain ⟨p, k, hp, hk⟩ := q
       change p = 2 at hd
       subst hd
-      haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+      have : Fact (Nat.Prime 2) := ⟨hp⟩
       let e' : ↥L ⧸ Subgroup.center ↥L ≃* LinearFlag.projectiveSL (r + 1) (GaloisField 2 k) :=
         (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r ⟨2, k, hp, hk⟩ hv)).trans
           (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
             _ _)
-      haveI : Fintype (GaloisField 2 k) := Fintype.ofFinite _
+      have : Fintype (GaloisField 2 k) := Fintype.ofFinite _
       have hdvd := oddCenterLinear_of_griess hGA Y L hL hodd (r + 1) (GaloisField 2 k) ⟨e'⟩
       have h3n : 3 ∣ r + 1 := (h3.trans hdvd).trans (Nat.gcd_dvd_left _ _)
       have h3K : 3 ∣ Fintype.card (GaloisField 2 k) - 1 :=
@@ -72,16 +72,16 @@ theorem unitary_case (hL : IsComponentOf L ⊤) (hodd : Odd (Nat.card (Subgroup.
     · have hc := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
       rw [hd] at hc
       obtain ⟨⟨-, -, hn3, hnq⟩, K, hK, hKfin, hcard, ⟨e'⟩⟩ := hc
-      letI : Field K := hK
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
+      let : Field K := hK
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fintype K := Fintype.ofFinite K
+      have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
         (by rw [← Nat.card_eq_fintype_card, hcard, ← pow_mul, mul_comm])
       obtain ⟨ρ, hρs, hker, -⟩ :=
         kFactCoverUnitary Y L hL hodd (r + 1) (2 ^ q.exponent) K hcard hn3 hnq e'
       have hperf := CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard hn3 hnq
       have hcomap := CFSG.LocalCores.comap_center_eq_of_perfect hperf ρ hρs hker
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center ↥L) 3 h3
       obtain ⟨s, hs⟩ := hρs (z : ↥L)
       have hsC : s ∈ Subgroup.center (StatedSU (r + 1) (2 ^ q.exponent) K) := by
@@ -121,14 +121,14 @@ end Core
 theorem kFactCentralThreeClassical_holds : KFactCentralThreeClassical := by
   intro Y _ _ hY hcl h3
   have hGA := CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYq : CFSG.IsQuasisimple Y :=
     ⟨⟨hY.1⟩, hY.2,
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY⟩
   set A : Subgroup Y := LinearCover.twoPart (Subgroup.center Y) le_rfl with hAdef
   have hAc : A ≤ Subgroup.center Y := LinearCover.twoPart_le_center
-  haveI : A.Normal := ⟨fun n hn g => by
+  have : A.Normal := ⟨fun n hn g => by
     have hc := Subgroup.mem_center_iff.mp (hAc hn) g
     rw [hc, mul_inv_cancel_right]
     exact hn⟩

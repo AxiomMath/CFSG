@@ -66,6 +66,7 @@ namespace KuA6Model
 variable [Finite G] {E W V2 N : Subgroup G} {z : G} (Ψ : KuA6Model E W V2 N z)
 include Ψ
 
+omit [Finite G] in
 theorem perm_order_three {x : G} (hHN : Subgroup.centralizer ({z} : Set G) ≤ N)
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) :
     Equiv.Perm.sign (Ψ.π ⟨x, hHN hxH⟩) = 1 ∧ Ψ.π ⟨x, hHN hxH⟩ ^ 3 = 1 ∧
@@ -104,6 +105,7 @@ theorem perm_order_three {x : G} (hHN : Subgroup.centralizer ({z} : Set G) ≤ N
     rw [h] at hv
     exact mul_inv_eq_iff_eq_mul.mp hv
 
+omit [Finite G] in
 theorem card_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) :
     Nat.card (kuDelta E x) = 4 := by
@@ -130,6 +132,7 @@ theorem card_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (Nat.card_congr (Equiv.ofBijective _ hbij)).symm
   rw [hcard, Nat.card_eq_fintype_card, Fintype.card_subtype, hF]
 
+omit [Finite G] in
 theorem no_invert_centralize_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) {d : G}
     (hdx : d * x * d⁻¹ = x⁻¹) (hdΔ : ∀ e ∈ kuDelta E x, d * e * d⁻¹ = e) : False := by
@@ -172,6 +175,7 @@ theorem no_invert_centralize_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤
   have hact : d * Ψ.Φ v * d⁻¹ = Ψ.Φ (actS6 (Ψ.π ⟨d, hdN⟩) v) := Ψ.act ⟨d, hdN⟩ v
   exact hσv (Ψ.inj (hact.symm.trans hdv))
 
+omit [Finite G] in
 theorem perm_fix_e0 {x : G} (hHN : Subgroup.centralizer ({z} : Set G) ≤ N)
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) :
     actS6 (Ψ.π ⟨x, hHN hxH⟩) (spE 0) = spE 0 := by
@@ -182,6 +186,7 @@ theorem perm_fix_e0 {x : G} (hHN : Subgroup.centralizer ({z} : Set G) ≤ N)
     rw [← Ψ.act ⟨x, hN⟩ (spE 0), Ψ.e0, h1]
   exact Ψ.inj h2
 
+omit [Finite G] in
 theorem centralizer_inf_eq (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) :
     Subgroup.centralizer ({z} : Set G) ⊓ Subgroup.centralizer ({x} : Set G) =
@@ -271,6 +276,7 @@ theorem centralizer_inf_eq (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x :
       obtain ⟨heE, heC⟩ := Subgroup.mem_inf.mp he
       exact Subgroup.mem_inf.mpr ⟨Ψ.E_le_centralizer_z heE, heC⟩
 
+omit [Finite G] in
 theorem card_centralizer_inf (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
     (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) :
     Nat.card ↥(Subgroup.centralizer ({z} : Set G) ⊓ Subgroup.centralizer ({x} : Set G)) = 12 := by
@@ -298,8 +304,9 @@ theorem card_centralizer_inf (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x
     exact Subgroup.mem_bot.mpr (orderOf_eq_one_iff.mp h1)
   rw [card_sup_of_commute hcomm hdisj, Nat.card_zpowers, hx, Ψ.card_delta hHN hxH hx]
 
+omit [Finite G] in
 theorem card_centralizer_delta (hHN : Subgroup.centralizer ({z} : Set G) ≤ N) {x : G}
-    (hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) {i : G}
+    (_hxH : x ∈ Subgroup.centralizer ({z} : Set G)) (hx : orderOf x = 3) {i : G}
     (hi : i ∈ kuDelta E x) (hi1 : i ≠ 1) :
     Nat.card ↥(Subgroup.centralizer ({i} : Set G) ⊓ Subgroup.centralizer ({x} : Set G)) = 12 := by
   obtain ⟨g, hg⟩ := Ψ.exists_conj_z (Subgroup.mem_inf.mp hi).1 hi1

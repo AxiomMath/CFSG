@@ -57,7 +57,7 @@ theorem y7a_M3_le_X (c : Ctx7 G L) (hF : c.toCtx5.Facts5) : M3 c.s ≤ y7aX c :=
   obtain ⟨-, ⟨⟨hC3, -, hcomm⟩, -⟩⟩ := hF.2.2.1
   have hcommC1 : ⁅C1 c.e, C3 c.s⁆ ≤ C1 c.e :=
     hcomm.trans (sup_le_sup_right (s3_F_le_A c.s) (C0 c.e))
-  haveI : IsMulCommutative ↥(M3 c.s) := by
+  have : IsMulCommutative ↥(M3 c.s) := by
     rcases hF.2.2.2.2.2.2 with ⟨-, hE⟩ | ⟨-, hMC, -⟩
     · exact hE.1
     · exact hMC

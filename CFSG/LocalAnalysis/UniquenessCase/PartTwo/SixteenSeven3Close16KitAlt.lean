@@ -65,7 +65,7 @@ private theorem exists_three_normalizer_alt_eight
   let c0 : Equiv.Perm (Fin 8) := Fin.cycleRange (6 : Fin 8)
   have hc0 : c0.cycleType = ({7} : Multiset ℕ) := by
     have := Fin.cycleType_cycleRange (n := 8) (i := (6 : Fin 8)) (by decide)
-    simpa [c0] using this
+    simp [c0]
   have hconj : IsConj cp c0 :=
     Equiv.Perm.isConj_iff_cycleType_eq.mpr (hcyc.trans hc0.symm)
   obtain ⟨σ, hσ⟩ := isConj_iff.mp hconj
@@ -93,9 +93,7 @@ private theorem exists_three_normalizer_alt_eight
     have h24 : (Equiv.swap (2 : Fin 8) (4 : Fin 8)).IsSwap := ⟨2, 4, by decide, rfl⟩
     have h36 : (Equiv.swap (3 : Fin 8) (6 : Fin 8)).IsSwap := ⟨3, 6, by decide, rfl⟩
     have h65 : (Equiv.swap (6 : Fin 8) (5 : Fin 8)).IsSwap := ⟨6, 5, by decide, rfl⟩
-    simpa [y0] using (alternatingGroup (Fin 8)).mul_mem
-      (Equiv.Perm.mul_mem_alternatingGroup_of_isSwap h12 h24)
-      (Equiv.Perm.mul_mem_alternatingGroup_of_isSwap h36 h65)
+    simp [y0]
   let yperm : Equiv.Perm (Fin 8) := σ⁻¹ * y0 * σ
   have hyperm_mem : yperm ∈ alternatingGroup (Fin 8) := by
     have hN : (alternatingGroup (Fin 8)).Normal := alternatingGroup.normal

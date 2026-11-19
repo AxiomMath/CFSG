@@ -69,7 +69,7 @@ theorem exists_scalar_of_map_U3Eight (ι : k →+* F) {Z : GL (Fin 3) k} {c : F�
     simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_apply] at h1
     exact h1
-  have h00 : ι ((Z : Matrix (Fin 3) (Fin 3) k) 0 0) = c := by rw [hent, if_pos rfl]
+  have h00 : ι ((Z : Matrix (Fin 3) (Fin 3) k) 0 0) = c := by rw [hent, ite_eq_left rfl]
   have hne : (Z : Matrix (Fin 3) (Fin 3) k) 0 0 ≠ 0 := by
     intro h0
     rw [h0, map_zero] at h00
@@ -81,8 +81,8 @@ theorem exists_scalar_of_map_U3Eight (ι : k →+* F) {Z : GL (Fin 3) k} {c : F�
   rw [hent]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, Matrix.diagonal_apply_eq, h00]
-  · rw [if_neg hab, Matrix.diagonal_apply_ne _ hab, map_zero]
+    rw [ite_eq_left rfl, Matrix.diagonal_apply_eq, h00]
+  · rw [ite_eq_right hab, Matrix.diagonal_apply_ne _ hab, map_zero]
 
 end Mat
 
@@ -112,11 +112,11 @@ theorem reg_or_frame_proj_U3Eight (hK : Nat.card K = (2 ^ 3) ^ 2) {σ : K ≃+* 
           σ₀ u ≠ σ₀ v := by
   classical
   have h₀K : UnitaryFieldData 2 3 K := TableBU.unitaryFieldData_of_card hK (by norm_num)
-  haveI : CharP K 2 := h₀K.charP
+  have : CharP K 2 := h₀K.charP
   have hNK := TableBUE.gu_subset_normalizer (d := 3) h₀K
   have hσodd : Odd (orderOf σ) := by rw [hσ3]; decide
   obtain ⟨-, hm1, hk⟩ := fixF_data (by norm_num : 1 ≤ 3) hK σ hσodd
-  haveI : CharP (fixF σ) 2 := charP_fixF (by norm_num) hK σ hσodd
+  have : CharP (fixF σ) 2 := charP_fixF (by norm_num) hK σ hσodd
   have hm : 3 / orderOf σ = 1 := by rw [hσ3]
   have h₀ : UnitaryFieldData 2 (3 / orderOf σ) (fixF σ) :=
     TableBU.unitaryFieldData_of_card hk hm1

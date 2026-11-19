@@ -63,9 +63,9 @@ section Main
 theorem f437FourIIU4_of_lie (hlie : LieOfAutCtx) : F437FourIIU4 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp Tb _hTb fb _hfbT hfbS hfb2 _hIII hsyl _hnoti
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hfbG : (fb : E) ∉ Gp := by
     intro hG
     apply hfbS

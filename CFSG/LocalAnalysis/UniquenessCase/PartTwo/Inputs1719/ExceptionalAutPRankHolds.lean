@@ -250,12 +250,12 @@ theorem k_ExceptionalAutPRank_holds :
     have hdiv : (if Even (orderOf (Nat.card F : ZMod p)) then 2 * 2 else 2) /
         orderOf (Nat.card F : ZMod p) ≤ 1 := by
       by_cases he : Even (orderOf (Nat.card F : ZMod p))
-      · rw [if_pos he]
+      · rw [ite_eq_left he]
         have h4 : 4 ≤ orderOf (Nat.card F : ZMod p) := by
           rcases he with ⟨k, hk⟩
           omega
         exact Nat.div_le_of_le_mul (by omega)
-      · rw [if_neg he]
+      · rw [ite_eq_right he]
         exact Nat.div_le_of_le_mul (by omega)
     have : Finite (StatedProj (StatedSp 2 F)) :=
       Finite.of_equiv (X ⧸ Subgroup.center X) e.toEquiv

@@ -238,7 +238,7 @@ theorem ggTorusData_of_datum {t : StatedLieTag} {n f p : ℕ} [NeZero p] (ht : G
         (fun k => z (Fin.cast hR.symm k)) (ggFixed_reidx hR (piB .twistedE6 p f) z hz)
 
 theorem ggRho_of_datum {t : StatedLieTag} {f p : ℕ} (ht : GGExcFive t)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hreg : GGExcRegime p f) (w : WeylGroup (langTag t))
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (_hreg : GGExcRegime p f) (w : WeylGroup (langTag t))
     (hw : GGWeylLaw t p f ht w) (D : LangDatum (langTag t) GGL) (hΦ : D.Φ = ggPhi t f)
     (hn : D.n = canonicalRep (coxeterSystem (langTag t)) GGL w)
     (ρ : Equiv.Perm (Fin (langTag t).rank → ℤ)) (hρ : FrobRootMap D ρ) :

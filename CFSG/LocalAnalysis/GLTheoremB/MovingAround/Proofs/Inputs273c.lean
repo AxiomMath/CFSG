@@ -254,7 +254,7 @@ theorem cubePairHolds_of_onePair {name : TauCeti.SporadicName} {p : ℕ} (hp : p
     (hOut : SporadicOuterLeTwo) (hBr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges)
     (h : SporadicOnePairHolds name p) : CubePairHolds name p := by
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   exact isLocallyOneBalancedAbs_of_parts hp hp2 hcen (hOut S hS hnab name ⟨e.trans (hBr name).some⟩)
     (h.1 S ⟨e⟩) (h.2 S ⟨e⟩)
@@ -290,7 +290,7 @@ theorem coreBot_mcl275 : ∀ y : ↥mcl275P, orderOf y = 5 →
 
 theorem cubePairHolds_HS_five : CubePairHolds .HS 5 := by
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   let θ : S ≃* hs100P := e.trans hs100Equiv
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 :=
@@ -299,7 +299,7 @@ theorem cubePairHolds_HS_five : CubePairHolds .HS 5 := by
 
 theorem cubePairHolds_McL_five : CubePairHolds .McL 5 := by
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   let θ : S ≃* mcl275P := e.trans mcl275Equiv
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 :=
@@ -332,7 +332,7 @@ theorem coreBot_heP : ∀ y : ↥heP, orderOf y = 7 →
 theorem cubePairHolds_He_seven (hOut : SporadicOuterLeTwo)
     (hBr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : CubePairHolds .He 7 := by
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 := hOut S hS hnab .He ⟨e.trans (hBr .He).some⟩
   exact isLocallyOneBalancedAbs_of_autModel (by norm_num) (by norm_num) heAutModel (e.trans heEquivP) hcen
@@ -356,7 +356,7 @@ theorem cubePairHolds_Ru_five :
       · exact Or.inr (Fin.ext h)
     exact gLAPPrimeCoreOf_ruFiveRecord_eq_bot _ hr)
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   have θ : S ≃* ruP := e.trans ruEquivP
   exact isLocallyOneBalancedAbs_of_inner_eq_top Nat.prime_five (by norm_num) (center_eq_bot_of_isSimpleGroup hnab)
     (innerAut_eq_top_of_card_outer θ card_outer_ruP)
@@ -481,7 +481,7 @@ theorem oPrimeCoreTrivialAt_carrier_J4 : OPrimeCoreTrivialAt 11 (CFSG.Blueprint.
 
 theorem cubePairHolds_J4_eleven : CubePairHolds .J4 11 := by
   intro S _ _ hS hnab ⟨e⟩
-  haveI := hS
+  have := hS
   exact isLocallyOneBalancedAbs_of_inner_eq_top (by norm_num) (by norm_num) (center_eq_bot_of_isSimpleGroup hnab)
     (innerAut_eq_top_of_card_outer e CFSG.AGLEmbedding.card_outer_J4)
     (OPrimeCoreTrivialAt.of_mulEquiv e oPrimeCoreTrivialAt_carrier_J4)
@@ -529,7 +529,7 @@ theorem le_of_isPGroup_of_normal_full {G : Type*} [Group G] [Finite G] {p : ℕ}
     exact ⟨fun t ht k => Subgroup.mem_subgroupOf.2 (by
       have := hTn k k.2 t (Subgroup.mem_subgroupOf.1 ht)
       simpa using this)⟩
-  haveI := Sylow.unique_of_normal S0 hn
+  have := Sylow.unique_of_normal S0 hn
   have hX' : IsPGroup p (X.subgroupOf K) := hX.comap_of_injective K.subtype K.subtype_injective
   obtain ⟨S, hS⟩ := hX'.exists_le_sylow
   have hSS : S = S0 := Subsingleton.elim _ _
@@ -634,7 +634,7 @@ theorem eq_one_of_fixes_centralizer_Pv (σ : MulAut ↥Pv) (hσ2 : σ ^ 2 = 1) {
     (hfix : ∀ t : ↥Pv, s * t = t * s → σ t = t) : σ = 1 := by
   obtain ⟨hFC, hFn, hFcent, hFcard, hCcard, hxF, hCiff⟩ := on_record0_facts
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   have hFp : IsPGroup 7 ((onSevenF 0).subgroupOf Pv) := IsPGroup.of_card hFcard
   have hodd : ∀ t ∈ (onSevenF 0).subgroupOf Pv, t * t = 1 → t = 1 := by
     intro t ht htt
@@ -741,7 +741,7 @@ theorem noOuterFixesCentralizer_Pv_seven : NoOuterFixesCentralizer 7 ↥Pv := by
   push Not at hno
   obtain ⟨hFC, -, -, hFcard, -, -, -⟩ := on_record0_facts
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   have hFfull : Nat.card ((onSevenF 0).subgroupOf Pv) =
       7 ^ (Nat.card (⊤ : Subgroup ↥Pv)).factorization 7 := by
     rw [hFcard, Subgroup.card_top, factorization_card_Pv_seven]
@@ -782,16 +782,16 @@ section CubeGeneric
 theorem exists_pSubgroup_sq_le_centralizer {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (h3 : (Nat.card G).factorization p = 3) {s : G} (hs : orderOf s = p) :
     ∃ X : Subgroup G, X ≤ Subgroup.centralizer ({s} : Set G) ∧ IsPGroup p X ∧ Nat.card X = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsp : IsPGroup p (Subgroup.zpowers s) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hs, pow_one])
   obtain ⟨P, hP⟩ := hsp.exists_le_sylow
   have hPcard : Nat.card (P : Subgroup G) = p ^ 3 := by rw [P.card_eq_multiplicity, h3]
   have hsP : s ∈ (P : Subgroup G) := hP (Subgroup.mem_zpowers s)
-  haveI : Nontrivial ↥(P : Subgroup G) :=
+  have : Nontrivial ↥(P : Subgroup G) :=
     Finite.one_lt_card_iff_nontrivial.1 (by rw [hPcard]; exact Nat.one_lt_pow (by norm_num) hp.one_lt)
-  have hZ := P.isPGroup'.bot_lt_center
-  have hZp : IsPGroup p (Subgroup.center ↥(P : Subgroup G)) := P.isPGroup'.to_subgroup _
+  have hZ := P.isPGroup.bot_lt_center
+  have hZp : IsPGroup p (Subgroup.center ↥(P : Subgroup G)) := P.isPGroup.to_subgroup _
   obtain ⟨k, hk⟩ := hZp.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -1092,7 +1092,7 @@ theorem cubePairHolds_of_row
 theorem sporOneBalanceCube_holds :
     Inputs273.SporOneBalanceCube :=
   sporOneBalanceCube_of_pairs CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
-    (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card)
+    (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card)
     (cubePairHolds_of_row CFSG.HardMathSupport.Timmesfeld.Proving.sporadicOuterLeTwo_holds
       CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group)
 

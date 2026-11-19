@@ -55,6 +55,7 @@ section Six
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem card_rankOne_eq_six {k : Fin D.rank} {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2)
     {x : (Fin D.rank → ℤ) → F → K}
     (hx : IsParametrization (Φ := RootSystem.ofCartan D.isFiniteType D.divisible) D.rootGroup x)

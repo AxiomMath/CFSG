@@ -54,7 +54,7 @@ theorem fusion32_of_RT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)
     rw [hAeq] at h1
     simpa [MulAut.conj_apply] using h1
   refine ⟨⟨hAT, hAnorm⟩, ⟨hST, hSnorm⟩, ?_, ?_⟩
-  · rw [Setting3.Ext.R₁, if_pos hRT]
+  · rw [Setting3.Ext.R₁, ite_eq_left hRT]
     exact (inf_eq_right.mpr e.T_le).trans hRT.symm
   · intro hne
     exact absurd hRT hne

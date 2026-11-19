@@ -13,7 +13,7 @@ namespace FiveTransitive.NormalizerOrbitFamily
 open MulAction
 open scoped BigOperators
 
-@[expose] abbrev Family {G X : Type*} [Group G] [MulAction G X] (Q : Subgroup G) (m : ℕ) :=
+abbrev Family {G X : Type*} [Group G] [MulAction G X] (Q : Subgroup G) (m : ℕ) :=
   {O : orbitRel.Quotient Q X // Nat.card O.orbit = m}
 
 @[expose] def toPermHom {G X : Type*} [Group G] [MulAction G X] (Q : Subgroup G) (m : ℕ) :

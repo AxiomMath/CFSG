@@ -32,7 +32,7 @@ theorem conj_mem_QG_of_mem_M_of_good (hA : MaxEA S A) (hM : S.M ≤ normalizer (
   let y : G := h * S.z * h⁻¹
   change y ∈ S.QG
   by_contra hyQ
-  haveI : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt (S := S)
+  have : FiniteDimensional (ZMod 2) S.Qt := finiteDimensional_Qt (S := S)
   have hyM0 : h * S.z * h⁻¹ ∈ S.M := hyM
   have hyQ0 : h * S.z * h⁻¹ ∉ S.QG := hyQ
   have hyy : h * S.z * h⁻¹ * (h * S.z * h⁻¹) = 1 := by

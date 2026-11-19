@@ -46,8 +46,8 @@ theorem isSylowTwoOf_exists_conj_le_loc {T H : Subgroup G} [Finite ↥H] (h : Is
 
 theorem exists_isMaxSubgroupIn_loc {H X : Subgroup G} [Finite ↥H] (h : X < H) :
     ∃ N, IsMaxSubgroupIn H N ∧ X ≤ N := by
-  haveI : Finite ↥{K : Subgroup G | X ≤ K ∧ K < H} := by
-    haveI : Finite (Subgroup ↥H) :=
+  have : Finite ↥{K : Subgroup G | X ≤ K ∧ K < H} := by
+    have : Finite (Subgroup ↥H) :=
       Finite.of_injective (fun K : Subgroup H => (K : Set H)) SetLike.coe_injective
     refine Finite.of_injective
       (fun K : {K : Subgroup G | X ≤ K ∧ K < H} => K.1.subgroupOf H) ?_
@@ -77,9 +77,9 @@ theorem twoResidual_isTwoQuotient_loc {H : Subgroup G} [Finite ↥H] :
       exact ⟨k, fun _ => hk⟩
     · exact ⟨0, fun h' => absurd h' h⟩
   choose f hf using hex
-  haveI : Finite (Subgroup ↥H) :=
+  have : Finite (Subgroup ↥H) :=
     Finite.of_injective (fun K : Subgroup H => (K : Set H)) SetLike.coe_injective
-  haveI : Finite {N : Subgroup G // N ≤ H} :=
+  have : Finite {N : Subgroup G // N ≤ H} :=
     Finite.of_injective (fun N : {N : Subgroup G // N ≤ H} => N.1.subgroupOf H) (by
       rintro ⟨N₁, h₁⟩ ⟨N₂, h₂⟩ hN
       have hN' : N₁.subgroupOf H = N₂.subgroupOf H := hN

@@ -78,10 +78,10 @@ theorem exists_minimal_supplement {Y : Type} [Group Y] [Finite Y] (Chat E₂ : S
     apply Subgroup.map_injective V.subtype_injective
     rw [hWeq, Subgroup.map_top, Subgroup.range_subtype]
   have hnil : Group.IsNilpotent ↥(V ⊓ Chat) := by
-    haveI : Group.IsNilpotent ↥(frattini ↥V) := frattini_nilpotent
-    haveI h1 : Group.IsNilpotent ↥(((V ⊓ Chat).subgroupOf V).subgroupOf (frattini ↥V)) :=
+    have : Group.IsNilpotent ↥(frattini ↥V) := frattini_nilpotent
+    have h1 : Group.IsNilpotent ↥(((V ⊓ Chat).subgroupOf V).subgroupOf (frattini ↥V)) :=
       inferInstance
-    haveI h2 : Group.IsNilpotent ↥((V ⊓ Chat).subgroupOf V) :=
+    have h2 : Group.IsNilpotent ↥((V ⊓ Chat).subgroupOf V) :=
       Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hfrat)
     exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe (inf_le_left : V ⊓ Chat ≤ V))
   have hVC : V ≤ ⁅V, V⁆ ⊔ Chat := by
@@ -139,7 +139,7 @@ theorem exists_minimal_supplement {Y : Type} [Group Y] [Finite Y] (Chat E₂ : S
 
 theorem quasisimple_normal_le_center_or_eq {W : Type} [Group W] (hq : CFSG.Open.IsQuasisimple W)
     (N : Subgroup W) [N.Normal] : N ≤ Subgroup.center W ∨ N = ⊤ := by
-  haveI := hq.2
+  have := hq.2
   have hmapN : (N.map (QuotientGroup.mk' (Subgroup.center W))).Normal :=
     Subgroup.Normal.map ‹N.Normal› _ (QuotientGroup.mk'_surjective _)
   rcases hmapN.eq_bot_or_eq_top with h | h
@@ -211,7 +211,7 @@ theorem centralizes_or_solvable {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π 
     obtain ⟨d, hd, rfl⟩ := hx
     refine ⟨v * d * v⁻¹, ⟨V.mul_mem (V.mul_mem hv hd.1) (V.inv_mem hv),
       centralizer_conj_mem Q hd.2⟩, by simp⟩
-  haveI hN : ((D.map π).subgroupOf Ls).Normal :=
+  have hN : ((D.map π).subgroupOf Ls).Normal :=
     ⟨fun n hn g => by
       have := hnorm g.1 g.2 n.1 hn
       exact this⟩
@@ -222,12 +222,12 @@ theorem centralizes_or_solvable {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π 
       have hxL : x ∈ Ls := hle hx
       exact ⟨⟨x, hxL⟩, h (show (⟨x, hxL⟩ : ↥Ls) ∈ (D.map π).subgroupOf Ls from hx), rfl⟩
     refine ⟨?_, hcent⟩
-    haveI hKnil : Group.IsNilpotent ↥(D ⊓ π.ker) := by
-      haveI : Group.IsNilpotent ↥((D ⊓ π.ker).subgroupOf (V ⊓ π.ker)) := inferInstance
+    have hKnil : Group.IsNilpotent ↥(D ⊓ π.ker) := by
+      have : Group.IsNilpotent ↥((D ⊓ π.ker).subgroupOf (V ⊓ π.ker)) := inferInstance
       exact Group.nilpotent_of_mulEquiv
         (Subgroup.subgroupOfEquivOfLe (inf_le_inf_right _ hDV : D ⊓ π.ker ≤ V ⊓ π.ker))
-    haveI : Group.IsSolvable ↥(D ⊓ π.ker) := inferInstance
-    haveI : Group.IsSolvable ↥(D.map π) := by
+    have : Group.IsSolvable ↥(D ⊓ π.ker) := inferInstance
+    have : Group.IsSolvable ↥(D.map π) := by
       apply Group.isSolvable_of_comm
       intro a b
       obtain ⟨z, hz, hza⟩ := hcent a.2
@@ -240,7 +240,7 @@ theorem centralizes_or_solvable {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π 
     let g : ↥D →* ↥(D.map π) :=
       (π.comp D.subtype).codRestrict (D.map π) (fun d => ⟨d.1, d.2, rfl⟩)
     let f : ↥(D ⊓ π.ker) →* ↥D := Subgroup.inclusion inf_le_left
-    refine solvable_of_ker_le_range f g ?_
+    refine Group.isSolvable_of_ker_le_range f g ?_
     intro x hx
     rw [MonoidHom.mem_ker] at hx
     have h1 : π x.1 = 1 := congrArg Subtype.val hx
@@ -327,7 +327,7 @@ theorem commutator_eq_self_of_isQuasisimple {Z : Type} [Group Z] {Ls : Subgroup 
 theorem quotient_center_nonabelian_of_isQuasisimple {W : Type} [Group W]
     (h : CFSG.Open.IsQuasisimple W) : ¬ IsMulCommutative (W ⧸ Subgroup.center W) := by
   intro hc
-  haveI := h.2
+  have := h.2
   have hZ : Subgroup.center W = ⊤ := by
     apply top_le_iff.1
     have h1 : ⁅(⊤ : Subgroup W), (⊤ : Subgroup W)⁆ = ⊤ := by
@@ -422,9 +422,9 @@ theorem ShapeI1.of_equiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S') (h :
   · exact Or.inl ⟨isClassicalTwoOrG2_of_equiv e h1, fun h => h2 (rankOneChevTwo_of_equiv e.symm h)⟩
   · exact Or.inr ⟨n, hn, ⟨e.symm.trans f⟩⟩
 
-theorem pCoreOf_isPGroup {Y : Type} [Group Y] [Finite Y] (r : ℕ) (hr : r.Prime) (Chat : Subgroup Y) :
+theorem pCoreOf_isPGroup {Y : Type} [Group Y] [Finite Y] (r : ℕ) (_hr : r.Prime) (Chat : Subgroup Y) :
     IsPGroup r ↥(CFSG.Open.pCoreOf r Chat) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨_hr⟩
   exact (CFSG.pCore_isPGroup (p := r) (G := ↥Chat)).map Chat.subtype
 
 theorem pCoreOf_normal {Y : Type} [Group Y] [Finite Y] (r : ℕ) (Chat : Subgroup Y) [Chat.Normal] :
@@ -441,7 +441,7 @@ theorem solvable_centralizer_amb {G : Type} [Group G] [Finite G] (Q V : Subgroup
     [Q.Normal] {r : ℕ} (hr : r.Prime) (hQ : IsPGroup r Q)
     (hD : Group.IsSolvable ↥(V ⊓ Subgroup.centralizer (Q : Set G))) :
     Group.IsSolvable ↥((Q ⊔ V) ⊓ Subgroup.centralizer (Q : Set G)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set C : Subgroup G := Subgroup.centralizer (Q : Set G) with hC
   set D : Subgroup G := V ⊓ C with hDdef
   set T : Subgroup G := V ⊓ (Q ⊔ C) with hT
@@ -468,12 +468,12 @@ theorem solvable_centralizer_amb {G : Type} [Group G] [Finite G] (Q V : Subgroup
       refine ⟨⟨q, hq⟩, ?_⟩
       change ρ q = ρ t.1
       rw [← hqc, map_mul, hcent c hc, mul_one]
-    haveI : Group.IsSolvable ↥g.range := by
-      haveI := (hI.to_le hgI).isNilpotent
+    have : Group.IsSolvable ↥g.range := by
+      have := (hI.to_le hgI).isNilpotent
       infer_instance
     let g' : ↥T →* ↥g.range := g.rangeRestrict
     let f : ↥D →* ↥T := Subgroup.inclusion hDT
-    refine solvable_of_ker_le_range f g' ?_
+    refine Group.isSolvable_of_ker_le_range f g' ?_
     intro x hx
     rw [MonoidHom.mem_ker] at hx
     have h1 : ρ x.1 = 1 := by
@@ -491,12 +491,12 @@ theorem solvable_centralizer_amb {G : Type} [Group G] [Finite G] (Q V : Subgroup
     exact ⟨⟨x.1, x.2.1, hxC⟩, rfl⟩
   set C₀ : Subgroup G := (Q ⊔ V) ⊓ C with hC₀
   let φ : ↥C₀ →* G ⧸ Q := (QuotientGroup.mk' Q).comp C₀.subtype
-  haveI hCQ : Group.IsSolvable ↥(C₀ ⊓ Q) := by
+  have hCQ : Group.IsSolvable ↥(C₀ ⊓ Q) := by
     apply Group.isSolvable_of_comm
     intro a b
     apply Subtype.ext
     exact ((Subgroup.mem_centralizer_iff.1 a.2.1.2) b.1 b.2.2).symm
-  haveI hrange : Group.IsSolvable ↥φ.range := by
+  have hrange : Group.IsSolvable ↥φ.range := by
     let ψ : ↥T →* ↥φ.range := ((QuotientGroup.mk' Q).comp T.subtype).codRestrict φ.range (by
       intro t
       obtain ⟨q, hq, c, hc, hqc⟩ := Subgroup.mem_sup_of_normal_left.1 t.2.2
@@ -520,11 +520,11 @@ theorem solvable_centralizer_amb {G : Type} [Group G] [Finite G] (Q V : Subgroup
       change (QuotientGroup.mk' Q) v = (QuotientGroup.mk' Q) c
       have hq1 : (QuotientGroup.mk' Q) q = 1 := (QuotientGroup.eq_one_iff q).2 hq
       rw [← hqv, map_mul, hq1, one_mul]
-    haveI := hTsolv
-    exact solvable_of_surjective hψ
+    have := hTsolv
+    exact Group.isSolvable_of_surjective hψ
   let φ' : ↥C₀ →* ↥φ.range := φ.rangeRestrict
   let f₂ : ↥(C₀ ⊓ Q) →* ↥C₀ := Subgroup.inclusion inf_le_left
-  refine solvable_of_ker_le_range f₂ φ' ?_
+  refine Group.isSolvable_of_ker_le_range f₂ φ' ?_
   intro x hx
   rw [MonoidHom.mem_ker] at hx
   have h1 : (QuotientGroup.mk' Q) x.1 = 1 := congrArg Subtype.val hx
@@ -535,12 +535,12 @@ theorem constrained_quotient {r : ℕ} (hr : r.Prime) {G : Type} [Group G] [Fini
     (hC : Group.IsSolvable ↥(Subgroup.centralizer (Q : Set G))) :
     Subgroup.centralizer (CFSG.pCore r (G ⧸ CFSG.pPrimeCore r G) : Set (G ⧸ CFSG.pPrimeCore r G)) ≤
       CFSG.pCore r (G ⧸ CFSG.pPrimeCore r G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set K₀ : Subgroup G := CFSG.pPrimeCore r G with hK₀
-  haveI hK₀n : K₀.Normal := CFSG.pPrimeCore_normal
+  have hK₀n : K₀.Normal := CFSG.pPrimeCore_normal
   let π : G →* G ⧸ K₀ := QuotientGroup.mk' K₀
   set P : Subgroup (G ⧸ K₀) := CFSG.pCore r (G ⧸ K₀) with hP
-  haveI hPn : P.Normal := CFSG.pCore_normal
+  have hPn : P.Normal := CFSG.pCore_normal
   set U : Subgroup (G ⧸ K₀) := Subgroup.centralizer (P : Set (G ⧸ K₀)) with hU
   have hQP : Q.map π ≤ P :=
     le_sSup ⟨Subgroup.Normal.map ‹Q.Normal› π (QuotientGroup.mk'_surjective _), hQ.map π⟩
@@ -576,14 +576,14 @@ theorem constrained_quotient {r : ℕ} (hr : r.Prime) {G : Type} [Group G] [Fini
       calc q * u = q * u * q⁻¹ * u⁻¹ * (u * q) := by group
         _ = u * q := by rw [hx1, one_mul]
     exact this
-  haveI hUn : U.Normal := ⟨fun n hn g => centralizer_conj_mem P hn⟩
-  haveI hUs : Group.IsSolvable ↥U := by
+  have hUn : U.Normal := ⟨fun n hn g => centralizer_conj_mem P hn⟩
+  have hUs : Group.IsSolvable ↥U := by
     have h1 : Group.IsSolvable ↥(U.comap π) :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hU1) (Subgroup.inclusion_injective hU1)
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hU1) (Subgroup.inclusion_injective hU1)
     have h2 : (U.comap π).map π = U :=
       Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective K₀) U
     have h3 : Group.IsSolvable ↥((U.comap π).map π) :=
-      solvable_of_surjective (MonoidHom.subgroupMap_surjective π (U.comap π))
+      Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective π (U.comap π))
     rw [h2] at h3
     exact h3
   have hF : CFSG.fittingSubgroup (G ⧸ K₀) = P :=
@@ -639,7 +639,7 @@ theorem shapeI1_not_alt5 {S : Type} [Group S] (h : ShapeI1 S) :
   rcases h with ⟨_, h2⟩ | ⟨n, hn, ⟨f⟩⟩
   · exact h2 (Or.inr ⟨e⟩)
   · have hn2 : 2 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn2
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn2
     have hcard : Nat.card (alternatingGroup (Fin 5)) = Nat.card (alternatingGroup (Fin n)) :=
       Nat.card_congr (e.symm.trans f).toEquiv
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, card_alternatingGroup,
@@ -666,7 +666,7 @@ theorem isKGroup_barO2 {X : Type} [Group X] [Finite X] (hX : CFSG.IsKGroup X) :
 
 theorem pCore_two_quotient_eq_bot {X : Type} [Group X] [Finite X] :
     CFSG.pCore 2 (X ⧸ CFSG.pCore 2 X) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.GH74.GLS.Stage2.Signalizer.pCore_quotient_pCore 2
 
 theorem three_dvd_card_of_gnThree {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
@@ -723,7 +723,7 @@ theorem shapeI1_of_gnShape {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgro
 theorem pRank_top_bar_le {G : Type} [Group G] [Finite G] (M : Subgroup G) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) ≤ CFSG.Open.pRank r M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : ¬ r ∣ Nat.card (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).ker := by
     rw [QuotientGroup.ker_mk']
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := ↥M))

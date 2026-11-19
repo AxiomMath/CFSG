@@ -255,11 +255,11 @@ private theorem four_le_pRank_of_top (hGA : CFSG.Open.GriessAllModelsStatement)
   classical
   by_contra hr
   have hr3 : CFSG.Open.pRank 3 (⊤ : Subgroup Y) ≤ 3 := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   have := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   let e' : ↥C ≃* ↥(StatedSU 3 (2 ^ 1) K) :=
     e.trans (MulEquiv.subgroupCongr (show StatedSU 3 2 K = StatedSU 3 (2 ^ 1) K by norm_num))
@@ -275,18 +275,18 @@ private theorem four_le_pRank_of_top (hGA : CFSG.Open.GriessAllModelsStatement)
   set Rd := CFSG.solvableRadical (↥P ⧸ CFSG.pCore 2 ↥P) with hRd
   have hCR : C ≤ Rd := CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical_of_isSubnormal
     (CFSG.Open.IsSubnormal.top_iff.mp hC) hCs
-  haveI : Rd.Normal := CFSG.ABGLocalTools.solvableRadical_normal
-  haveI : Group.IsSolvable Rd := CFSG.ABGLocalTools.solvableRadical_isSolvable
+  have : Rd.Normal := CFSG.ABGLocalTools.solvableRadical_normal
+  have : Group.IsSolvable Rd := CFSG.ABGLocalTools.solvableRadical_isSolvable
   set D₀ : Subgroup ↥P := Rd.comap q with hD₀
-  haveI hD₀n : D₀.Normal := Subgroup.Normal.comap inferInstance q
+  have hD₀n : D₀.Normal := Subgroup.Normal.comap inferInstance q
   have hpD : CFSG.pCore 2 ↥P ≤ D₀ := fun z hz => by
     show q z ∈ Rd
     rw [hq, QuotientGroup.mk'_apply, (QuotientGroup.eq_one_iff z).mpr hz]
     exact one_mem _
   have hD₀s : Group.IsSolvable D₀ := by
-    haveI : Group.IsSolvable (CFSG.pCore 2 ↥P) := by
+    have : Group.IsSolvable (CFSG.pCore 2 ↥P) := by
       have hp : IsPGroup 2 (CFSG.pCore 2 ↥P) := CFSG.pCore_isPGroup
-      haveI := hp.isNilpotent
+      have := hp.isNilpotent
       infer_instance
     let g : D₀ →* Rd := (q.comp D₀.subtype).codRestrict Rd (fun z => z.2)
     refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hpD) g ?_

@@ -21,7 +21,7 @@ theorem three_dvd_of_five_dvd {n : ℕ} (h : 5 ∣ 2 ^ n - 1) : 3 ∣ 2 ^ n - 1 
   have hg4 : g ∣ 4 := hg ▸ Nat.gcd_dvd_right n 4
   have h4 : g = 4 := by
     have hle : g ≤ 4 := Nat.le_of_dvd (by norm_num) hg4
-    interval_cases g <;> simp_all <;> omega
+    interval_cases g <;> simp_all
   have h2 : Nat.gcd n 2 = 2 :=
     Nat.gcd_eq_right ((show 2 ∣ 4 by norm_num).trans (h4 ▸ hg ▸ Nat.gcd_dvd_left n 4))
   have h3 := Nat.gcd_dvd_left (2 ^ n - 1) (2 ^ 2 - 1)
@@ -33,7 +33,7 @@ theorem seven_le_of_dvd_card_B0 (D : Data G) {Ch : Choice2011 G} (c : Ctx21 D Ch
     (h3 : ¬ 3 ∣ Nat.card c.B0) {r : ℕ} (hr : r.Prime) (hrB : r ∣ Nat.card c.B0) : 7 ≤ r := by
   have hη : ∀ q : ℕ, q.Prime → (q ∣ Nat.card c.B0 ↔ q ∣ 2 ^ c.n - 1) := fun q hq => by
     have h := Set.ext_iff.1 c.hpi q
-    simp only [piSet, etaSet, Set.mem_setOf_eq] at h
+    simp only [piSet, etaSet, Set.mem_ofPred_eq] at h
     exact ⟨fun hd => (h.1 ⟨hq, hd⟩).2, fun hd => (h.2 ⟨hq, hd⟩).2⟩
   have hr' := (hη r hr).1 hrB
   have hr2 : r ≠ 2 := by
@@ -63,7 +63,7 @@ theorem exists_orderOf_mem_B0 (D : Data G) {Ch : Choice2011 G} (c : Ctx21 D Ch)
 theorem exists_commute_orderOf {A Y B : Subgroup G} (hBA : B ≤ A) (hA : IsMulCommutative A)
     (hAYB : A ⊓ Y ⊓ B = ⊥) (e : ↥(A ⊓ Y) ≃* ↥B) {r : ℕ} (hr : r.Prime) {b : G} (hb : b ∈ B)
     (hbr : orderOf b = r) : ∃ a ∈ A ⊓ Y, orderOf a = r ∧ Commute a b ∧ a ∉ zpowers b := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrd : r ∣ Nat.card ↥(A ⊓ Y) := by
     rw [Nat.card_congr e.toEquiv, ← hbr]
     exact Subgroup.orderOf_dvd_natCard B hb

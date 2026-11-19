@@ -24,7 +24,7 @@ theorem mem_fixSub {α : MulAut V} {v : V} : v ∈ fixSub α ↔ α v = v := Iff
 
 theorem card_fixSub_eq_two [Finite V] (hcard : Nat.card V = 8) {α : MulAut V}
     (hα3 : α ^ 3 = 1) (hα1 : α ≠ 1) : Nat.card (fixSub α) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime α hα3
   have hfx : Nat.card {x : V // α x = x} = Nat.card (fixSub α) :=
     Nat.card_congr (Equiv.subtypeEquivRight fun x => mem_fixSub)
@@ -114,7 +114,7 @@ theorem ncard_fibre_normHom [Finite V] (hV2 : ∀ v : V, v * v = 1) (hcard : Nat
   have hνt : normHom α t = t := normHom_of_fixed hV2 ((hfix t).2 (Or.inr rfl))
   have himg : {a : V | normHom α a = t} = (fun k => t * k) '' ((normHom α).ker : Set V) := by
     ext a
-    simp only [Set.mem_setOf_eq, Set.mem_image, SetLike.mem_coe, MonoidHom.mem_ker]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, SetLike.mem_coe, MonoidHom.mem_ker]
     constructor
     · intro h
       refine ⟨t * a, ?_, ?_⟩
@@ -137,7 +137,7 @@ theorem cap_dichotomy_aux [Finite V] (hV2 : ∀ v : V, v * v = 1) (hcard : Nat.c
   have hsub : Δ ⊆ {a : V | normHom α a = t} := by
     intro d hd
     by_cases hdt : d = t
-    · rw [Set.mem_setOf_eq, hdt]
+    · rw [Set.mem_ofPred_eq, hdt]
       exact normHom_of_fixed hV2 hαt
     · have hd1 : d ≠ 1 := fun h => h1Δ (h ▸ hd)
       have hnf : α d ≠ d := fun h => ((hfix d).1 h).elim hd1 hdt
@@ -359,7 +359,7 @@ theorem card_inf_centralizer_eq_two (A : Subgroup X) (hA : Nat.card A = 8) {θ :
     (hθ : θ ∈ Subgroup.normalizer (A : Set X)) (hθ3 : θ ^ 3 = 1)
     (hθA : ¬ ∀ a ∈ A, θ * a = a * θ) :
     Nat.card ↥(A ⊓ Subgroup.centralizer {θ}) = 2 := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
   have h2 := card_fixSub_eq_two hA (conjAut_pow_three A hθ hθ3)
     (conjAut_ne_one_of_not_forall hθ hθA)
   have hiff : ∀ y : A,
@@ -380,8 +380,8 @@ theorem centralizes_of_commute_three (A : Subgroup X) (hA : Nat.card A = 8)
     (hθ : θ ∈ Subgroup.normalizer (A : Set X)) (hθ3 : θ ^ 3 = 1)
     (hθA : ¬ ∀ a ∈ A, θ * a = a * θ) {s : X} (hs : s ∈ Subgroup.normalizer (A : Set X))
     (hss : s * s = 1) (hsθ : s * θ = θ * s) : ∀ a ∈ A, s * a = a * s := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
   have hV2 : ∀ v : A, v * v = 1 := fun v => Subtype.ext (hA2 v v.2)
   have hτ2 : conjAut A s hs * conjAut A s hs = 1 := by
     have h : (⟨s, hs⟩ * ⟨s, hs⟩ : Subgroup.normalizer (A : Set X)) = 1 := Subtype.ext hss
@@ -402,8 +402,8 @@ theorem eq_or_ncard_four_of_cap (A : Subgroup X) (hA : Nat.card A = 8)
     (htΔ : t ∈ Δ) (h1Δ : 1 ∉ Δ) (hinv : ∀ d ∈ Δ, θ * d * θ⁻¹ ∈ Δ)
     (hcap : ∀ d ∈ Δ, ∀ d' ∈ Δ, d ≠ d' → d * d' ∉ Δ) :
     Δ = {t} ∨ (Δ.ncard = 4 ∧ ∀ a ∈ A, a ∈ Δ ↔ a * (θ * a * θ⁻¹) * (θ⁻¹ * a * θ) = t) := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
   have hV2 : ∀ v : A, v * v = 1 := fun v => Subtype.ext (hA2 v v.2)
   have hα3 := conjAut_pow_three A hθ hθ3
   have hα1 := conjAut_ne_one_of_not_forall hθ (not_forall_commute_of_cases A hA ht)
@@ -454,8 +454,8 @@ theorem exists_eq_comm_of_norm_eq_one (A : Subgroup X) (hA : Nat.card A = 8)
     (ht : ∀ a ∈ A, θ * a = a * θ ↔ a = 1 ∨ a = t) {k : X} (hk : k ∈ A)
     (hnorm : k * (θ * k * θ⁻¹) * (θ⁻¹ * k * θ) = 1) :
     ∃ a ∈ A, k = a⁻¹ * (θ * a * θ⁻¹) := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
+  have : Finite A := Nat.finite_of_card_ne_zero (by omega)
+  have : IsMulCommutative A := IsMulCommutative.of_comm fun a b => Subtype.ext (hAc a a.2 b b.2)
   have hV2 : ∀ v : A, v * v = 1 := fun v => Subtype.ext (hA2 v v.2)
   have hα3 := conjAut_pow_three A hθ hθ3
   have hα1 := conjAut_ne_one_of_not_forall hθ (not_forall_commute_of_cases A hA ht)

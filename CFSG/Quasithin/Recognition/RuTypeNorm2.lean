@@ -71,7 +71,7 @@ theorem Q_le_T [Group G] [Finite G] (N : RuDataN G) : ruQ N.T ≤ (N.T : Subgrou
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : (pCore 2 (ruH N.T)).Normal := pCore_normal 2
   have hTp : IsPGroup 2 ((N.T : Subgroup G).subgroupOf (ruH N.T)) :=
-    N.T.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe N.toRuData.T_le_H).symm
+    N.T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe N.toRuData.T_le_H).symm
   have hidx : ¬ 2 ∣ ((N.T : Subgroup G).subgroupOf (ruH N.T)).index := by
     intro h
     have h1 := Subgroup.relIndex_mul_index N.toRuData.T_le_H

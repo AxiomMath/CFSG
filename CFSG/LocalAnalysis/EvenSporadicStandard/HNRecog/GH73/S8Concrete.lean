@@ -156,8 +156,7 @@ private theorem Wj_subset : ∀ n p, p ∈ Wj n → p ∈ CJ := by
     exact Subgroup.one_mem _
   | succ n ih =>
     intro p hp
-    simp only [Wj, Finset.mem_union, Finset.mem_biUnion, Finset.mem_image,
-      Finset.mem_singleton] at hp
+    simp only [Wj, Finset.mem_union, Finset.mem_biUnion, Finset.mem_image] at hp
     rcases hp with (hp | hp) | hp
     · exact ih p hp
     · obtain ⟨x, hx, g, hg, rfl⟩ := hp

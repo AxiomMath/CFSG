@@ -49,7 +49,7 @@ theorem fold_xor (c : List Nat) (i j : Nat) : ∀ (l : List Nat) (a b : Nat),
     unfold stepV
     rw [Nat.testBit_xor]
     cases i.testBit k <;> cases j.testBit k <;> simp only [Bool.xor_true, Bool.xor_false,
-      Bool.not_true, Bool.not_false, if_true, if_false, Bool.false_eq_true] <;>
+      Bool.not_true, Bool.not_false, ite_true, ite_false, Bool.false_eq_true] <;>
       (apply Nat.eq_of_testBit_eq; intro m; simp only [Nat.testBit_xor];
         cases a.testBit m <;> cases b.testBit m <;> cases (c.getD k 0).testBit m <;> rfl)
 
@@ -60,7 +60,7 @@ theorem linV_xor (n : Nat) (c : List Nat) (i j : Nat) :
 theorem fold_zero (c : List Nat) : ∀ (l : List Nat), l.foldl (stepV c 0) 0 = 0
   | [] => rfl
   | k :: l => by
-    simp only [List.foldl_cons, stepV, Nat.zero_testBit, Bool.false_eq_true, if_false]
+    simp only [List.foldl_cons, stepV, Nat.zero_testBit, Bool.false_eq_true, ite_false]
     exact fold_zero c l
 
 theorem linV_zero (n : Nat) (c : List Nat) : linV n c 0 = 0 := by
@@ -241,7 +241,7 @@ theorem eqA_lin {n : Nat} (c d : List Nat) :
   · intro h k hk
     have hk' := List.mem_range.1 hk
     have := h (2 ^ k) (Nat.pow_lt_pow_right (by decide) hk')
-    rw [beq_iff_eq, linV_basis, linV_basis, if_pos hk', if_pos hk'] at this
+    rw [beq_iff_eq, linV_basis, linV_basis, ite_eq_left hk', ite_eq_left hk'] at this
     simpa using this
   · intro h i _
     rw [beq_iff_eq]
@@ -309,6 +309,7 @@ theorem conjA_lin {c x : List Nat} (hc : Good n c) (hx : Good n x) :
   unfold conjA conjL
   rw [pow20L_eq hid hc, powA_lin hid hc, compA_lin x (good_powL hc 20), compA_lin c (good_cmp hx _)]
 
+omit hid in
 theorem meet3_lin (x a b : List Nat) :
     meet3 (2 ^ n) (linA n x) (linA n a) (linA n b) = meet3L n x a b := by
   unfold meet3 meet3L
@@ -334,8 +335,9 @@ theorem ptW_lin {x a b : List Nat} (hx : Good n x) (ha : Good n a) (hb : Good n 
 theorem pairT_lin {x a b : List Nat} (hx : Good n x) (ha : Good n a) (hb : Good n b) (r : Nat) :
     pairT (2 ^ n) (linA n x) (linA n a) (linA n b) r = pairTL n x a b r := by
   unfold pairT pairTL
-  rw [meet3_lin hid, ptW_lin hid hx ha hb, evalWA_lin hid hx ha, eqA_lin]
+  rw [meet3_lin, ptW_lin hid hx ha hb, evalWA_lin hid hx ha, eqA_lin]
 
+omit hid in
 theorem fixCount_lin (c : List Nat) : fixCount (2 ^ n) (linA n c) = fixCountL n c := by
   unfold fixCount fixCountL
   rw [linVR_fun]
@@ -390,13 +392,13 @@ theorem pairWL_eq {x c : List Nat} (hx : Good n x) (hc : Good n c) (r : Nat) :
   unfold pairWL pairW
   rw [linAG_eq, linAG_eq]
   dsimp only
-  rw [hm, fixCount_lin hid, compA_lin x hc, compA_lin c hx, eqA_lin,
+  rw [hm, fixCount_lin, compA_lin x hc, compA_lin c hx, eqA_lin,
     evalWA_lin hid hx hc, critA_lin hid hx hc (good_evalL hx hc _), genW_lin hid hx hc]
 
 theorem pre1_lin {x c : List Nat} (hx : Good n x) (hc : Good n c) :
     pre1 n (linA n x) (linA n c) = pre1L n x c := by
   unfold pre1 pre1L ord3A lawsOK
-  rw [powA_lin hid hc, hid, eqA_lin, fixCount_lin hid, compA_lin x hc, compA_lin c hx, eqA_lin]
+  rw [powA_lin hid hc, hid, eqA_lin, fixCount_lin, compA_lin x hc, compA_lin c hx, eqA_lin]
   have e : (fun w => ord21A (2 ^ n) (evalWA (2 ^ n) (linA n x) (linA n c) w)) =
       (fun w => ord21L n (evalL n x c w)) := funext fun w => by
     rw [evalWA_lin hid hx hc, ord21A_lin hid (good_evalL hx hc w)]

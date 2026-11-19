@@ -20,9 +20,11 @@ namespace Hyp
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem e18d_zGroup_normal (H : Hyp Ω) : (zGroup Ω).Normal :=
   zGroup_normal_of_conjInvariant H.endHyp.thmD.hyp.conjInvariant
 
+omit [Finite G] in
 private theorem e18d_mem_zGroup {L : Subgroup G} {u : G} (hL : L ∈ Ω)
     (hu : IsUniqueInvolution L u) : u ∈ zGroup Ω :=
   Subgroup.subset_closure ⟨L, hL, hu⟩
@@ -31,6 +33,7 @@ private theorem e18d_conj_conj (H : Hyp Ω) {s : G} (hs : s ∈ zGroup Ω) (X : 
     conjSub s (conjSub s X) = X := by
   rw [← conjSub_mul, H.endHyp.zGroup_mul_self H.perp9 s hs, conjSub_one]
 
+omit [Finite G] in
 private theorem e18d_conj_mem_twinSet (H : Hyp Ω) {M : Subgroup G} {r : G}
     (hr : r ∈ Subgroup.centralizer (zGroup Ω : Set G)) {X : Subgroup G}
     (hX : X ∈ twinSet Ω M) : conjSub r X ∈ twinSet Ω M := by
@@ -42,16 +45,19 @@ private theorem e18d_conj_mem_twinSet (H : Hyp Ω) {M : Subgroup G} {r : G}
   rw [e] at hconj
   exact ⟨H.endHyp.thmD.hyp.conjInvariant r X hXΩ, z', hz'M, hconj⟩
 
+omit [Finite G] in
 private theorem e18d_iter_conjSub (r : G) (n : ℕ) (X : Subgroup G) :
     (conjSub r)^[n] X = conjSub (r ^ n) X := by
   induction n with
   | zero => simp
   | succ n ih => rw [Function.iterate_succ_apply', ih, ← conjSub_mul, pow_succ']
 
+omit [Finite G] in
 private theorem e18d_conjSub_sup (q : G) (A B : Subgroup G) :
     conjSub q (A ⊔ B) = conjSub q A ⊔ conjSub q B :=
   Subgroup.map_sup A B _
 
+omit [Finite G] in
 private theorem e18d_commutes_sup_right {A B C : Subgroup G} (h1 : Commutes A B)
     (h2 : Commutes A C) : Commutes A (B ⊔ C) := by
   intro x hx y hy
@@ -73,6 +79,7 @@ private theorem e18d_commutes_sup_right {A B C : Subgroup G} (h1 : Commutes A B)
       _ = a⁻¹ * (x * a) * a⁻¹ := by rw [ha]
       _ = a⁻¹ * x := by group
 
+omit [Finite G] in
 private theorem e18d_le_normalizer {A B : Subgroup G} (h : Commutes B A) :
     A ≤ Subgroup.normalizer (B : Set G) := by
   intro x hx
@@ -151,6 +158,7 @@ private theorem e18d_center_le (H : Hyp Ω) {L : Subgroup G} (hL : L ∈ Ω) {u 
   · rw [h1]
     exact Subgroup.mem_zpowers u
 
+omit [Finite G] in
 private theorem e18d_swap_conj {K : Subgroup G} {s k₁ : G} (hc : Commutes K (conjSub s K))
     (hk₁ : k₁ ∈ K) (k' : G) (hk' : k' ∈ K) :
     (s * k₁ * s⁻¹ * k₁⁻¹) * k' * (s * k₁ * s⁻¹ * k₁⁻¹)⁻¹ = k₁⁻¹ * k' * k₁ := by
@@ -162,6 +170,7 @@ private theorem e18d_swap_conj {K : Subgroup G} {s k₁ : G} (hc : Commutes K (c
     _ = (k₁⁻¹ * k' * k₁) * (s * k₁ * s⁻¹) * (s * k₁ * s⁻¹)⁻¹ := by rw [← hcm]
     _ = k₁⁻¹ * k' * k₁ := by group
 
+omit [Finite G] in
 private theorem e18d_comm_mem (H : Hyp Ω) {s k₁ : G} (hs : s ∈ zGroup Ω) :
     s * k₁ * s⁻¹ * k₁⁻¹ ∈ zGroup Ω := by
   have hN := e18d_zGroup_normal H
@@ -499,7 +508,7 @@ theorem centralizer_zGroup_eq_pCore (H : Hyp Ω) :
     Subgroup.centralizer (zGroup Ω : Set G) = pCore 2 G := by
   have hD := e18d_zGroup_normal H
   apply le_antisymm
-  · haveI := hD
+  · have := hD
     have hpg : IsPGroup 2 ↥(Subgroup.centralizer (zGroup Ω : Set G)) := by
       intro g
       obtain ⟨k, hk⟩ := e18d_exists_two_pow g.2
@@ -508,6 +517,7 @@ theorem centralizer_zGroup_eq_pCore (H : Hyp Ω) :
     exact (le_sSup ⟨inferInstance, hpg⟩ : Subgroup.centralizer (zGroup Ω : Set G) ≤ pCore 2 G)
   · exact H.endHyp.pCore_le_centralizer_zGroup H.perp9
 
+omit [Finite G] in
 private theorem e18d_le_of_conj {q : G} (hqC : q ∈ Subgroup.centralizer (zGroup Ω : Set G))
     {S T : Subgroup G} (hST : conjSub q S = T) : zGroup Ω ⊓ S ≤ T := by
   intro x hx
@@ -613,7 +623,7 @@ theorem commutator_pCore_mem_zGroup (H : Hyp Ω) {K : Subgroup G} (hK : K ∈ Ω
     rw [e]
     exact (K ⊔ conjSub s K).mul_mem (hKS hk) h1
   have hmemQ : k * q * k⁻¹ * q⁻¹ ∈ pCore 2 G := by
-    haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+    have : (pCore 2 G).Normal := CFSG.pCore_normal
     exact (pCore 2 G).mul_mem ((show (pCore 2 G).Normal from CFSG.pCore_normal).conj_mem q hq k)
       ((pCore 2 G).inv_mem hq)
   have hmem : k * q * k⁻¹ * q⁻¹ ∈ (K ⊔ conjSub s K) ⊓ pCore 2 G :=
@@ -628,7 +638,7 @@ theorem commutator_pCore_mem_zGroup_all (H : Hyp Ω) (g : G) {q : G} (hq : q ∈
     { carrier := {x | x * q * x⁻¹ * q⁻¹ ∈ zGroup Ω}
       one_mem' := by
         show (1 : G) * q * (1 : G)⁻¹ * q⁻¹ ∈ zGroup Ω
-        simpa using (zGroup Ω).one_mem
+        simp
       mul_mem' := by
         intro a b ha hb
         show a * b * q * (a * b)⁻¹ * q⁻¹ ∈ zGroup Ω

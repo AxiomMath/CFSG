@@ -56,8 +56,8 @@ theorem center_eq_bot_and_involution_mem_of_dim36 {K : Type} [Field K] [Finite K
     Subgroup.center ↥J = ⊥ ∧
       ∀ v ∈ fixedPoints (Subgroup.zpowers (twistedE6InndiagConj K σ h)), v * v = 1 → v ∈ J := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by rw [hchar]; decide

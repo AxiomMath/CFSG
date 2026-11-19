@@ -33,10 +33,10 @@ theorem perfectInLayer_inv_iff (β : MulAut S) : PerfectInLayer β⁻¹ ↔ Perf
 
 theorem perfectInLayer_of_isQuasisimple_fixSubgroup (β : MulAut S)
     (h : CFSG.IsQuasisimple ↥(fixSubgroup β)) : PerfectInLayer β := by
-  haveI : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
+  have : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
     rw [Subgroup.subgroupOf_self]
     infer_instance
-  haveI : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
+  have : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with | H a => ?_
     induction b using QuotientGroup.induction_on with | H b => ?_
@@ -45,7 +45,7 @@ theorem perfectInLayer_of_isQuasisimple_fixSubgroup (β : MulAut S)
 
 theorem perfectInLayer_of_isSimpleGroup_commutator (β : MulAut S)
     (hs : IsSimpleGroup ↥(commutator ↥(fixSubgroup β))) : PerfectInLayer β := by
-  haveI := hs
+  have := hs
   by_cases hnc : ∃ a b : ↥(commutator ↥(fixSubgroup β)), a * b ≠ b * a
   · set C := fixSubgroup β with hC
     set D : Subgroup ↥C := commutator ↥C with hD
@@ -55,18 +55,18 @@ theorem perfectInLayer_of_isSimpleGroup_commutator (β : MulAut S)
       exact x.2
     have hJD : J.subgroupOf C = D :=
       Subgroup.comap_map_eq_self_of_injective C.subtype_injective D
-    haveI : (J.subgroupOf C).Normal := by
+    have : (J.subgroupOf C).Normal := by
       rw [hJD]
       infer_instance
     let e : ↥D ≃* ↥J := D.equivMapOfInjective C.subtype C.subtype_injective
-    haveI : IsSimpleGroup ↥D := hs
+    have : IsSimpleGroup ↥D := hs
     have hsJ : IsSimpleGroup ↥J := e.symm.isSimpleGroup
     have hncJ : ∃ a b : ↥J, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnc
       exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
     have hJq : CFSG.IsQuasisimple ↥J := isQuasisimple_of_isSimpleGroup hsJ hncJ
     have hsol : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := by
-      refine isSolvable_of_comm fun x y => ?_
+      refine _root_.Group.isSolvable_of_comm fun x y => ?_
       induction x using QuotientGroup.induction_on with | H a => ?_
       induction y using QuotientGroup.induction_on with | H b => ?_
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq, hJD]

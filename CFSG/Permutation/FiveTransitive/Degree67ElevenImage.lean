@@ -29,7 +29,7 @@ private theorem not_alternating_image
   let rho := toPermHom N F
   have hF := Degree67ElevenFixed.fixed_card_eq_twelve P hcard h5 hnotAlt s hs S hS
   change Nat.card F = 12 at hF
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map _
+  have hQ : IsPGroup 11 Q := S.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective
     (fixingSubgroup P s).subtype_injective
   have hfixeq : (F : Set X) = fixedPoints Q X := by

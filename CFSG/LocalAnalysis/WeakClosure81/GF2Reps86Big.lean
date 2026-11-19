@@ -113,13 +113,13 @@ private theorem exists_subgroup_lift_twist {m n : ℕ} (ι : Fin m ↪ Fin n) {�
   refine ⟨(twistSub ι τ hτ2).map (permSetStab (Set.range ι)).subtype,
     Subgroup.map_subtype_le _, ?_, fun σ => ?_, fun g hg hfix => ?_⟩
   · refine Subgroup.mem_map.2 ⟨⟨τ, hτ⟩, mem_twistSub.2 fun x _ => ?_, rfl⟩
-    rw [hs, if_neg (by decide)]
+    rw [hs, ite_eq_right (by decide)]
   · have hσ : restrictPerm ι ⟨altLift ι σ, altLift_mem_permSetStab ι σ⟩ = (σ : Perm (Fin m)) :=
       Equiv.ext fun i => ι.injective
         ((restrictPerm_apply_apply ι _ i).trans (altLift_apply_apply ι σ i))
     refine Subgroup.mem_map.2 ⟨⟨altLift ι σ, altLift_mem_permSetStab ι σ⟩,
       mem_twistSub.2 fun x hx => ?_, rfl⟩
-    rw [hσ, mem_alternatingGroup.1 σ.2, if_pos rfl]
+    rw [hσ, mem_alternatingGroup.1 σ.2, ite_eq_left rfl]
     exact altLift_apply_of_notMem ι σ hx
   · obtain ⟨g₀, hg₀, rfl⟩ := Subgroup.mem_map.1 hg
     have h1 : restrictPerm ι g₀ = 1 :=
@@ -129,7 +129,7 @@ private theorem exists_subgroup_lift_twist {m n : ℕ} (ι : Fin m ↪ Fin n) {�
     · obtain ⟨i, rfl⟩ := hx
       exact hfix i
     · have h2 := mem_twistSub.1 hg₀ x hx
-      rw [h1, map_one, if_pos rfl] at h2
+      rw [h1, map_one, ite_eq_left rfl] at h2
       exact h2
 
 theorem noFpf_of_ten_le (h10 : NoFpf 10) {n : ℕ} (hn : 10 ≤ n) : NoFpf n := by

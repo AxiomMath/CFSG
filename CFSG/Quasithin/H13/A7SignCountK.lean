@@ -22,12 +22,12 @@ theorem check_fix56 : Nat.beq (cntK 7 (fun c => fix56B c && evenK 7 c) 7 0 0 0) 
 
 theorem fix6B_iff (σ : Perm (Fin 7)) : fix6B (enc σ) = true ↔ σ 6 = 6 := by
   have h6 : rd (enc σ) 6 = σ 6 := rd_enc (by norm_num) σ 6
-  simp only [fix6B, h6, Nat.beq_eq, Fin.ext_iff] <;> exact Iff.rfl
+  simp only [fix6B, h6, Nat.beq_eq, Fin.ext_iff]; exact Iff.rfl
 
 theorem fix56B_iff (σ : Perm (Fin 7)) : fix56B (enc σ) = true ↔ σ 5 = 5 ∧ σ 6 = 6 := by
   have h5 : rd (enc σ) 5 = σ 5 := rd_enc (by norm_num) σ 5
   have h6 : rd (enc σ) 6 = σ 6 := rd_enc (by norm_num) σ 6
-  simp only [fix56B, h5, h6, Bool.and_eq_true, Nat.beq_eq, Fin.ext_iff] <;> exact Iff.rfl
+  simp only [fix56B, h5, h6, Bool.and_eq_true, Nat.beq_eq, Fin.ext_iff]; exact Iff.rfl
 
 theorem card_sign_fix6 : (Finset.univ.filter fun σ : Perm (Fin 7) =>
     sign σ = 1 ∧ σ 6 = 6).card = 360 := by

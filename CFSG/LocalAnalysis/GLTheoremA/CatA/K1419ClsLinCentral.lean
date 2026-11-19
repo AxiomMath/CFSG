@@ -60,7 +60,7 @@ theorem k1419ClsLinCentral {F : Type} [Field F] [Finite F] {n r : ℕ} {D : Fin 
   · exact Or.inl hfin
   · right
     rintro ⟨h3d, h3card⟩
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have h3u : 3 ∣ Nat.card (D i)ˣ := by rw [Nat.card_units]; exact h3card
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := (D i)ˣ) 3 h3u
     have hω3 : ω ^ 3 = 1 := by simpa [hω] using pow_orderOf_eq_one ω
@@ -154,7 +154,7 @@ theorem k1419ClsLinCentral {F : Type} [Field F] [Finite F] {n r : ℕ} {D : Fin 
         have hc1 : c.1 = 1 := by
           have hp : Fin (d j) := ⟨0, by have := hd j; omega⟩
           have hentry := congrFun (congrFun hmat hp) hp
-          rw [Matrix.algebraMap_matrix_apply, Matrix.one_apply_eq, if_pos rfl] at hentry
+          rw [Matrix.algebraMap_matrix_apply, Matrix.one_apply_eq, ite_eq_left rfl] at hentry
           exact RingHom.injective (algebraMap F (D j)) (by simpa using hentry)
         have hΩmat : (Ω : Matrix (Fin (d i)) (Fin (d i)) (D i)) = 1 := by
           have hcoordi := congrFun hcoords i
@@ -224,11 +224,11 @@ theorem k1419ClsLinCentral {F : Type} [Field F] [Finite F] {n r : ℕ} {D : Fin 
           have hentry := congrFun (congrFun hcoord_i hp) hp
           rw [show ((algebraMap F (∀ j, Matrix (Fin (d j)) (Fin (d j)) (D j))) c₀) i
               = algebraMap F (Matrix (Fin (d i)) (Fin (d i)) (D i)) c₀ from rfl] at hentry
-          rw [Matrix.algebraMap_matrix_apply, if_pos rfl] at hentry
+          rw [Matrix.algebraMap_matrix_apply, ite_eq_left rfl] at hentry
           rw [← ha₀, ← map_pow, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
             Matrix.diagonal_apply_eq] at hentry
           exact hentry
-        haveI : FiniteDimensional F (D i) :=
+        have : FiniteDimensional F (D i) :=
           (Module.finite_iff_finite (R := F) (M := D i)).2 inferInstance
         exact hfin (k1419ClsLinField_dvd_finrank ⟨c.1, hc3, hcne⟩ ha₀_notmem ha₀_pow_mem)
 

@@ -290,7 +290,7 @@ theorem isSolvable_twoElemGp_of_rankOne
     (hz : ∀ g ∈ rootSpan τ L (componentRoots χ i),
       iterHom D.step 1 (z * g * z⁻¹) = z * frobGL σ g * z⁻¹)
     (h2 : (componentRoots χ i).ncard = 2) :
-    IsSolvable ↥(twoElemGp (rootSpan τ L (componentRoots χ i) ⊓ D.model)) := by
+    Group.IsSolvable ↥(twoElemGp (rootSpan τ L (componentRoots χ i) ⊓ D.model)) := by
   classical
   have hΨ := isRootComponent_componentRoots (χ := χ) i
   have hrank :=

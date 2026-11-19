@@ -132,7 +132,7 @@ theorem exists_fixed (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 
   classical
   rcases card_center_eq_one_or_three hn hK hψ hker hperf hodd with hZ1 | hZ3
   ·
-    haveI := TwE6Delta.finite_recipeR hK
+    have := TwE6Delta.finite_recipeR hK
     have hZbot : Subgroup.center L' = ⊥ := Subgroup.card_eq_one.1 hZ1
     have hψinj : Function.Injective ψ :=
       (MonoidHom.ker_eq_bot_iff ψ).1 (le_bot_iff.1 (hZbot ▸ hker))

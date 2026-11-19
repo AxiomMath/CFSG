@@ -62,11 +62,12 @@ theorem IsRootB.Rt_ne {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {D E : Su
     Subgroup.eq_of_le_of_card_ge hle hcard.ge
   exact hne ((IsRootB.LB_eq_iff H hD (IsRootB.conj hD hgM)).mp heq.symm)
 
+omit [Finite G] in
 theorem IsRootB.exists_good101 (hc : Ctx M Q Z B) {E : Subgroup G} (hE : IsRootB M B E) {t : G}
     (ht : Good101 M Q Z E t) : ∃ s : G, Good101 M Q Z B s := by
   obtain ⟨m, hmM, rfl⟩ := hE
   refine ⟨m⁻¹ * t * (m⁻¹)⁻¹, ?_⟩
-  have h := Good101.conjG (hc := hc.conj_of_mem hmM) ht m⁻¹
+  have h := Good101.conjG (_hc := hc.conj_of_mem hmM) ht m⁻¹
   simpa only [hc.conj_M_eq (M.inv_mem hmM), hc.conj_Q_eq (M.inv_mem hmM),
     hc.conj_Z_eq (M.inv_mem hmM), conjSubgroup_conjSubgroup, inv_inv,
     inv_mul_cancel, conjSubgroup_one] using h

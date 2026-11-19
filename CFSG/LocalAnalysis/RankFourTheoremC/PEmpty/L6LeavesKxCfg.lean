@@ -24,10 +24,12 @@ structure KxCfg {G : Type} [Group G] [Finite G] (p : ℕ) (P : Sylow p G) (M : S
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
   {T S L : Subgroup G}
 
+omit [Finite G] in
 theorem isSimpleGroup_of_section_bot {L : Subgroup G} (hs : S622IsSimpleSection L ⊥) :
     IsSimpleGroup ↥L :=
   Subgroup.isSimpleGroup_iff.mpr ⟨hs.2.2.1.symm, fun H' hH' hn => hs.2.2.2.1 H' bot_le hH' hn⟩
 
+omit [Finite G] in
 theorem exists_not_comm_of_section_bot {L : Subgroup G} (hs : S622IsSimpleSection L ⊥) :
     ∃ a b : ↥L, a * b ≠ b * a := by
   have h := hs.2.2.2.2
@@ -38,6 +40,7 @@ theorem exists_not_comm_of_section_bot {L : Subgroup G} (hs : S622IsSimpleSectio
   rw [Subgroup.mem_bot]
   rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul, h2]
 
+omit [Finite G] in
 theorem commutator_zpowers_le_of_le_normalizer {z : G} {L S' : Subgroup G} (hz : z ∈ L)
     (hS : S' ≤ normalizer (L : Set G)) : ⁅zpowers z, S'⁆ ≤ L := by
   refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
@@ -49,6 +52,7 @@ theorem commutator_zpowers_le_of_le_normalizer {z : G} {L S' : Subgroup G} (hz :
   rw [h2]
   exact L.mul_mem haL h1
 
+omit [Finite G] in
 theorem exists_not_commute_of_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {z : G}
     (hzp : z ^ p = 1) {S' : Subgroup G} (hS2 : IsPGroup 2 S')
     (hzS : z ∈ normalizer (S' : Set G)) (hne : ⁅zpowers z, S'⁆ ≠ ⊥) :
@@ -136,7 +140,7 @@ theorem normalizer_zpowers_le (c : KxCfg p P M x z T S L) :
   inf_le_left.trans c.conf.config.normalizer_zpowers_le'
 
 theorem orderOf_z (c : KxCfg p P M x z T S L) : orderOf z = p := by
-  haveI : Fact p.Prime := ⟨c.conf.config.prime⟩
+  have : Fact p.Prime := ⟨c.conf.config.prime⟩
   exact orderOf_eq_prime c.conf.config.central.pow_eq_one c.conf.config.central.ne_one
 
 theorem exists_not_commute (c : KxCfg p P M x z T S L) :

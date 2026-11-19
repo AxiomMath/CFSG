@@ -153,7 +153,7 @@ private theorem card_of_ambiguous (hO : LieOrderFormulasInput) {r : ℕ} (hr2 : 
   | sporadic s => exact (show False from hj).elim
   | alternating n hn =>
     have f' : S ≃* alternatingGroup (Fin n) := f
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hc : Nat.card S = n.factorial / 2 := by
       rw [Nat.card_congr f'.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     have hj' : (n = 5 ∧ (r = 2 ∨ r = 5)) ∨ (n = 6 ∧ (r = 2 ∨ r = 3)) ∨ (n = 8 ∧ r = 2) := hj

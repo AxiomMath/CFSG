@@ -95,7 +95,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] {Ω : Set (Subgroup G)}
 
 theorem omegaStarNbr_symm
-    [Finite G] (h62 : Q3T8.Asc77.L6_2) (hΩ : Q3T8.Asc77.HypOmegaMod Ω) {K J :
+    [Finite G] (_h62 : Q3T8.Asc77.L6_2) (hΩ : Q3T8.Asc77.HypOmegaMod Ω) {K J :
     Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ Ω)
     (h : J ∈ omegaStarNbr Ω K) : K ∈ omegaStarNbr Ω J := Q3T6.Mu.omegaStarNbr_symm hΩ hK hJ h
 end Asc77.T3
@@ -259,7 +259,7 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   {K J K' : Subgroup G} {z t z' : G}
 
 theorem exists_noncomm_of_isClassicalMember
-    [Finite G] {L : Subgroup G} {w : G}
+    {L : Subgroup G} {w : G}
     (hw : Q3T8.Generic.IsClassicalMember L w) : ∃ x y : G, x * y ≠ y * x := by
   obtain ⟨x, -, y, -, h⟩ := Q3T8.Asc77.ih8_exists_noncomm hw
   exact ⟨x, y, h⟩
@@ -274,7 +274,7 @@ namespace Asc77
 open CFSG.ClassicalInvolution.Asc77
 
 theorem l7_17_proved
-    : Q3T8.Asc77.L7_17 := fun G _ _ Ω hP K hK =>
+    : Q3T8.Asc77.L7_17 := fun G _ _ Ω hP _K hK =>
   (Classical.em _).elim Or.inl fun h => Or.inr fun W hW =>
     Q3T8.Asc77.l7_10_proved G Ω hP W hW (Q3T8.Asc77.thompsonGraphAll G Ω hP hK h hW)
 end Asc77

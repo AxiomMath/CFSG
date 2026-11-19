@@ -80,7 +80,7 @@ theorem constructed_generators_satisfy_relators [Finite G] :
     rcases hr with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
       rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
     all_goals simp only [FreeGroup.lift_mk, List.map_cons, List.map_nil, List.prod_cons,
-      List.prod_nil, cond_true, cond_false, mul_one, gens, Matrix.cons_val]
+      List.prod_nil, _root_.Bool.cond_true, Bool.cond_false, mul_one, gens, Matrix.cons_val]
     · calc _ = D.q1 (.ofAdd 1) ^ 5 := by
             simp only [pow_succ, pow_zero, one_mul, mul_assoc]
         _ = 1 := hpow5 _

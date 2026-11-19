@@ -99,7 +99,7 @@ theorem goldschmidtSimpleType_of_isSimpleGroup (hGold : Goldschmidt1974) {X : Ty
     · exfalso
       have hodd := odd_card_goldschmidtOddCore ↥M
       rw [h0, Subgroup.card_top, hcardM] at hodd
-      have hAp : IsPGroup 2 ↥A := S.isPGroup'.to_le hAS
+      have hAp : IsPGroup 2 ↥A := S.isPGroup.to_le hAS
       have hne : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hA1
       obtain ⟨m, hm, hcard⟩ := hAp.nontrivial_iff_card.mp hne
       have h2 : 2 ∣ Nat.card X :=
@@ -182,7 +182,7 @@ theorem eight_dvd_card_of_seitzRankOne {X : Type} [Group X] [Finite X] (h : Seit
     8 ∣ Nat.card X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 X) := inferInstance
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
   have h8 := eight_le_card_sylow_of_seitzRankOne h T
   rw [hn] at h8
   have hn3 : 3 ≤ n := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp (by simpa using h8)
@@ -222,7 +222,7 @@ theorem sixteen_dvd_card_of_involution {X : Type*} [Group X] [Finite X] {L : Sub
   set T : Subgroup X := (T₁ : Subgroup L).map L.subtype
   have hcardT : Nat.card T = Nat.card T₁ := Subgroup.card_map_of_injective L.subtype_injective
   have hTL : T ≤ L := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₁.isPGroup'.map L.subtype
+  have hT2 : IsPGroup 2 T := T₁.isPGroup.map L.subtype
   have hz2 : IsPGroup 2 (Subgroup.zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
   have htT : t ∈ Subgroup.centralizer (T : Set X) := Subgroup.centralizer_le hTL htC

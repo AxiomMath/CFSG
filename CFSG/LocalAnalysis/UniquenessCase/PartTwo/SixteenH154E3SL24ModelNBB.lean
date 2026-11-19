@@ -82,7 +82,7 @@ theorem s16h_orth3_normalizer_quotient_faithful {n m : MulAut Orth3}
     have hconj : γ * (n * m⁻¹)⁻¹ * γ⁻¹ ∈ s16h_quotK := s16h_conj_quotK hγ hu_inv
     have hδK : (n * m⁻¹) * γ * (n * m⁻¹)⁻¹ * γ⁻¹ ∈ s16h_quotK := by
       have h := s16h_quotK.mul_mem hq hconj
-      convert h using 1 <;> group
+      convert h using 1; group
     have hδL : (n * m⁻¹) * γ * (n * m⁻¹)⁻¹ * γ⁻¹ ∈ orth3L := by
       have h1 : (n * m⁻¹) * γ * (n * m⁻¹)⁻¹ ∈ orth3L :=
         ((Subgroup.mem_normalizer_iff).mp hu_mem γ).mp hγ

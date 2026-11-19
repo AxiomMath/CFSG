@@ -113,9 +113,9 @@ theorem ncard_spForm_eq_zero_and_ne_zero (hk : 1 ≤ k) {u w : Fin k ⊕ Fin k �
   have hset : {v | spForm k F v u = 0 ∧ spForm k F v w ≠ 0} =
       {v | spForm k F v u = 0} \ {v | spForm k F v u = 0 ∧ spForm k F v w = 0} := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_diff, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, not_and]
     tauto
-  rw [hset, Set.ncard_diff (s := {v | spForm k F v u = 0 ∧ spForm k F v w = 0})
+  rw [hset, Set.ncard_sdiff (s := {v | spForm k F v u = 0 ∧ spForm k F v w = 0})
       (t := {v | spForm k F v u = 0}) (fun v hv => hv.1) (Set.toFinite _),
     ncard_spForm_eq_zero hk hu, ncard_spForm_eq_zero_and_eq_zero hk huw]
 
@@ -156,14 +156,14 @@ theorem ncard_smul_add_smul_le (u w : Fin k ⊕ Fin k → F) :
   have : {β : F | β ≠ 0} = Set.univ \ {0} := by
     ext x
     simp
-  rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
+  rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
 
 omit [Fintype F] in
 theorem ncard_setOf_ne_zero : {a : F | a ≠ 0}.ncard = Nat.card F - 1 := by
   have : {a : F | a ≠ 0} = Set.univ \ {0} := by
     ext x
     simp
-  rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
+  rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ]
 
 omit [Fintype F] in
 theorem injOn_smul_of_nonproportional {A : Set (Fin k ⊕ Fin k → F)} (hA0 : ∀ x ∈ A, x ≠ 0)
@@ -201,7 +201,7 @@ theorem ncard_le_of_vectorConfig (hk : 1 ≤ k)
     intro c hc
     have hsub : I ⊆ {v | spForm k F v va = 0 ∧ spForm k F v c ≠ 0} := by
       rintro _ ⟨⟨x, a⟩, ⟨hx, ha⟩, rfl⟩
-      simp only [Set.mem_setOf_eq, map_smul, LinearMap.smul_apply, smul_eq_mul]
+      simp only [Set.mem_ofPred_eq, map_smul, LinearMap.smul_apply, smul_eq_mul]
       exact ⟨by rw [hAva x hx, mul_zero], mul_ne_zero ha (hAC x hx c hc)⟩
     have hvac : spForm k F va c ≠ 0 := by
       rw [spForm_swap]
@@ -362,7 +362,7 @@ theorem ncard_class_of_isSymplecticTransvection {X : Type} [Group X] {E : Set X}
   have h0 : {v : Fin k ⊕ Fin k → F | v ≠ 0} = Set.univ \ {0} := by
     ext v
     simp
-  rw [hE, hinj.ncard_image, h0, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+  rw [hE, hinj.ncard_image, h0, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
     natCard_vec, hF, hmk, ← pow_mul]
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
@@ -468,7 +468,7 @@ theorem exists_vec_commSet (hC : HypothesisC D)
       τ (vec z) = QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha))
         (⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ : Halpha D hC.alpha) := by
     intro z hz
-    simp only [vec, dif_pos hz]
+    simp only [vec, dite_eq_left hz]
     exact Classical.choose_spec (hτs _ (hmem z hz))
   refine ⟨k, F, inferInstance, inferInstance, vec, hnk, hF, fun z hz => (hvec z hz).1, ?_, ?_⟩
   · intro z hz z' hz' h

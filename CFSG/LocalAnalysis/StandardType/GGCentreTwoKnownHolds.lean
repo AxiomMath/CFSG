@@ -32,7 +32,7 @@ private theorem gct_torsBound_psp {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (n f 
     tors_of_not_dvd fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 h)
   have hex : exceptionalOrders .PSp n 2 f = (2, 1) ∨ exceptionalOrders .PSp n 2 f = (1, 1) := by
     unfold exceptionalOrders
-    split <;> first | exact Or.inl rfl | exact Or.inr rfl | (exfalso; simp_all) | simp_all
+    split <;> first | exact Or.inl rfl | exact Or.inr rfl | (exfalso; simp_all)
   unfold torsBound
   rw [hg]
   rcases hex with hex | hex <;> rw [hex] <;> simp [h1, h2]
@@ -46,7 +46,7 @@ private theorem gct_torsBound_f4 {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (f : �
     tors_of_not_dvd fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 h)
   have hex : exceptionalOrders .F4 0 2 f = (2, 1) ∨ exceptionalOrders .F4 0 2 f = (1, 1) := by
     unfold exceptionalOrders
-    split <;> first | exact Or.inl rfl | exact Or.inr rfl | (exfalso; simp_all) | simp_all
+    split <;> first | exact Or.inl rfl | exact Or.inr rfl | (exfalso; simp_all)
   unfold torsBound
   rw [hg]
   rcases hex with hex | hex <;> rw [hex] <;> simp [h1, h2]

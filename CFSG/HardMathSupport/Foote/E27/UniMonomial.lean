@@ -403,7 +403,7 @@ theorem monomial_data (hn : 1 ≤ n) (P : Sylow 3 (Equiv.Perm (Fin n))) (zb : �
       (∀ a ∈ Amono hU n, ∀ b ∈ Amono hU n, a * b = b * a) ∧
       (∀ a ∈ Amono hU n, a ^ 3 = 1) ∧ 3 ^ (n - 1) ≤ Nat.card (Amono hU n) * zb :=
   by
-    have := monomial_data_of_pgroup hU hn (P : Subgroup _) P.isPGroup' zb hZ
+    have := monomial_data_of_pgroup hU hn (P : Subgroup _) P.isPGroup zb hZ
     exact this
 
 end CFSG.HardMathSupport.Foote.E27.Uni

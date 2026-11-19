@@ -60,7 +60,7 @@ theorem card_bs {ψL : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2 →* G}
     · rw [Subgroup.zpowers_le]
       exact ⟨hxBs, Subgroup.mem_centralizer_iff.mpr fun l hl => (hLx l hl).symm⟩
   have hxord : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime (hpow3 x hxBs) hxne
   have hCcard : Nat.card C = 3 := by
     rw [hCeq, Nat.card_zpowers, hxord]
@@ -227,13 +227,13 @@ theorem weylRank_eq {ψL ψK : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2 →* 
     let a : Fin ((m + 1 + 1 + 1) / 2) → Multiplicative (ZMod 3) := Φ.symm Tb
     have hΦa : (Φ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) = t := by
       have h1 : Φ (Φ.symm Tb) = Tb := by
-        simpa using (Equiv.apply_symm_apply (e := Φ.toEquiv) Tb)
+        simp
       show ((Φ (Φ.symm Tb)) : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) = t
       exact congrArg Subtype.val h1
     have ha_ne : a ≠ 1 := by
       intro ha1
       have h1 : Φ (Φ.symm Tb) = Tb := by
-        simpa using (Equiv.apply_symm_apply (e := Φ.toEquiv) Tb)
+        simp
       have h2 : Φ a = 1 := by rw [ha1, map_one]
       have h3 : Tb = 1 := h1.symm.trans h2
       have h4 : t = 1 := congrArg Subtype.val h3

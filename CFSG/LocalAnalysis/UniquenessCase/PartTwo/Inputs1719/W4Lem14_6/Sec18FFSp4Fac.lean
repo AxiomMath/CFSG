@@ -28,8 +28,8 @@ theorem sp4_lemmaR [Finite G] [Finite V]
     (hnt : ∃ l ∈ L, ∃ y ∈ Y, ρ l y - y ∉ Z) (hcost : secCost ρ B Y Z ≤ m) :
     ∀ W : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L W → Z ≤ W → W ≤ Y → W = Z ∨ W = Y := by
   classical
-  haveI : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   obtain ⟨hBc, hB2⟩ := elemAb_facts hBe
   have hLB : L ≤ L ⊔ B := le_sup_left
   have hBLB : B ≤ L ⊔ B := le_sup_right
@@ -246,14 +246,14 @@ theorem sp4_secCoords [Finite G] [Finite V]
       φ (secHom hY hZ (Subgroup.inclusion (le_sup_left : L ≤ L ⊔ B) l) q) =
         (glMat (((minorAut K ^ i) (e l) : antiSp K) : GL (Fin 4) K)).mulVec (φ q) := by
   classical
-  haveI : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
+  have : IsSimpleGroup (antiSp K) := isSimpleGroup_antiSp_of_four_le (four_le_card hn hK)
   have hYL : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L Y := fun l hl => hY l (Subgroup.mem_sup_left hl)
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hk := inf_secKer_eq hBN hYL hZ hCB hnt le_rfl inf_le_left
   have hd : Nat.card ↥B = 2 ^ m * Nat.card ↥(B ⊓ secKer ρ Y Z) := by rw [hk]; exact hm
   have hLH : L ≤ L ⊔ B := le_sup_left
   have hBH : B ≤ L ⊔ B := le_sup_right
-  haveI : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
+  have : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
   let π : antiSp K →* (SecQ Y Z ≃ₗ[ZMod 2] SecQ Y Z) :=
     (secHom hY hZ).comp ((Subgroup.inclusion hLH).comp e.symm.toMonoidHom)
   have hπx : ∀ x, π x = secHom hY hZ (Subgroup.inclusion hLH (e.symm x)) := fun x => rfl

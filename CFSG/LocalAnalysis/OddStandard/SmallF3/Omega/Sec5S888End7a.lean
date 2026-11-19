@@ -10,7 +10,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 private lemma function_eq_id_of_iterate_eq_id_of_coprime {X : Type*} [Finite X] (g : X → X)
     (hg : Function.Injective g) {p : ℕ} (hp : g^[p] = id)
     (hcop : Nat.Coprime p (Nat.factorial (Nat.card X))) : g = id := by
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hsurj : Function.Surjective g := Finite.injective_iff_surjective.mp hg
   let ge : Equiv.Perm X := Equiv.ofBijective g ⟨hg, hsurj⟩
   have hge_pow : ge ^ p = 1 := by
@@ -35,7 +35,7 @@ private lemma function_eq_id_of_iterate_eq_id_of_coprime {X : Type*} [Finite X] 
   exact hx
 
 theorem centralizes_of_pow_centralizes {Y : Type} [Group Y] {D : Subgroup Y}
-    {W : Fin 4 → Subgroup Y} (hP : IsPlanes D W) (y : Y) (hy : ∀ x ∈ D, y * x * y⁻¹ ∈ D)
+    {W : Fin 4 → Subgroup Y} (hP : IsPlanes D W) (y : Y) (_hy : ∀ x ∈ D, y * x * y⁻¹ ∈ D)
     (hperm : ∀ i, ∃ j, ∀ w ∈ W i, y * w * y⁻¹ ∈ W j) {p : ℕ} (hp : p = 5 ∨ p = 7)
     (hyp : ∀ d ∈ D, y ^ p * d * (y ^ p)⁻¹ = d) : ∀ d ∈ D, y * d * y⁻¹ = d := by
   classical
@@ -57,7 +57,7 @@ theorem centralizes_of_pow_centralizes {Y : Type} [Group Y] {D : Subgroup Y}
     exact hyp x hx
   have hmap : ∀ i, (W i).map (c : Y →* Y) = W (σ i) := by
     intro i
-    haveI : Finite (W (σ i)) := Nat.finite_of_card_ne_zero (by rw [hP.card (σ i)]; decide)
+    have : Finite (W (σ i)) := Nat.finite_of_card_ne_zero (by rw [hP.card (σ i)]; decide)
     have hcard_map : Nat.card ((W i).map (c : Y →* Y)) = Nat.card (W i) :=
       Subgroup.card_map_of_injective (K := W i) (f := (c : Y →* Y)) hc_inj
     apply Subgroup.eq_of_le_of_card_ge
@@ -80,7 +80,7 @@ theorem centralizes_of_pow_centralizes {Y : Type} [Group Y] {D : Subgroup Y}
       simp only [hP.card, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
       decide
     have hφ_bij : Function.Bijective φ := by
-      haveI : Finite (∀ i : Fin 4, W i) :=
+      have : Finite (∀ i : Fin 4, W i) :=
         Nat.finite_of_card_ne_zero (by rw [hcard_dom]; decide)
       refine Function.Surjective.bijective_of_nat_card_le hφ_surj ?_
       rw [hcard_dom, hP.card_D]
@@ -136,7 +136,7 @@ theorem centralizes_of_pow_centralizes {Y : Type} [Group Y] {D : Subgroup Y}
       rw [← hiter_image i]
       exact hiter_sub p i
     have heq : W i = W (σ^[p] i) := by
-      haveI : Finite (W (σ^[p] i)) :=
+      have : Finite (W (σ^[p] i)) :=
         Nat.finite_of_card_ne_zero (by rw [hP.card (σ^[p] i)]; decide)
       refine Subgroup.eq_of_le_of_card_ge hle ?_
       rw [hP.card (σ^[p] i), hP.card i]
@@ -163,7 +163,7 @@ theorem centralizes_of_pow_centralizes {Y : Type} [Group Y] {D : Subgroup Y}
       exact ⟨w, hw, rfl⟩
   have hfixW : ∀ i, ∀ w ∈ W i, c w = w := by
     intro i w hw
-    haveI : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
+    have : Finite (W i) := Nat.finite_of_card_ne_zero (by rw [hP.card i]; decide)
     let g : W i → W i := fun x => ⟨c x, by
       have hx : c x ∈ (W i).map (c : Y →* Y) := Subgroup.mem_map_of_mem (c : Y →* Y) x.2
       rwa [hmap_id i] at hx⟩

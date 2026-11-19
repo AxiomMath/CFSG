@@ -25,6 +25,7 @@ theorem ff_k4iv_comm4 {G : Type*} [Group G] {a b c d : G} (hab : Commute a b)
     _ = a * b * (c * d) := by rw [hcd.eq]
     _ = a * b * c * d := by group
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k4iv_krefl_fixed {ρ : ↥(simGroup Q)} (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) {u : V} (hu : Q u ≠ 0)
     (hup : polar Q u ((ρ : V ≃ₗ[ZMod 3] V) u) = 0) :
@@ -39,9 +40,9 @@ theorem ff_mem_X_of_simple_hom {G : Type} [Group G] (C : Subgroup G) {S : Type} 
     [Finite S] (f : S →* G) (hf : Function.Injective f) (hfC : ∀ s, f s ∈ C)
     (hS : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a) {w : G} (hw : w ∈ f.range)
     (hw2 : w * w = 1) : w ∈ twoPrimeRes (twoRes C) := by
-  haveI := hS
-  haveI : IsSimpleGroup ↥f.range := (MonoidHom.ofInjective hf).symm.isSimpleGroup
-  haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have := hS
+  have : IsSimpleGroup ↥f.range := (MonoidHom.ofInjective hf).symm.isSimpleGroup
+  have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨a, b, hab⟩ := hnc
   refine ff_mem_X_of_simple C f.range (fun x ⟨s, hs⟩ => hs ▸ hfC s) inferInstance
     ⟨⟨f a, a, rfl⟩, ⟨f b, b, rfl⟩, fun h => hab (hf ?_)⟩ hw hw2
@@ -165,7 +166,7 @@ theorem ff_K4IV_cover_of_data (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
   have hfC : ∀ s : ↥G1, f s ∈ ffFix hQ h2dim (QuotientGroup.mk ρ : ProjSim Q) :=
     fun s => (e _).2
   obtain ⟨hGfin, hGsimple⟩ := ff_fin_simple_psl2 hG1Lie
-  haveI := hGfin
+  have := hGfin
   obtain ⟨-, hnc⟩ := ff_simple_of_lieModel_psl2 hG1Lie
   let w : ↥(omegaProj hQ) := ⟨toProj Q t, (mem_omegaProj_iff hQ).mpr ⟨t, ht_Ω, rfl⟩⟩
   have hw_self : w * w = 1 := by

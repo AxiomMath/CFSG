@@ -101,7 +101,7 @@ end Model
 
 theorem ae6Om_center (hSmall : AE6ModelSmall) {z : AE6Om} (hz : ∀ g : AE6Om, g * z = z * g) :
     z = 1 := by
-  haveI := A6.curtisOmegaT_isSimple
+  have := A6.curtisOmegaT_isSimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center AE6Om) with h | h
   · have hz' : z ∈ Subgroup.center AE6Om := Subgroup.mem_center_iff.mpr hz
     rw [h] at hz'
@@ -167,7 +167,7 @@ theorem card_W_aux {W : Subgroup Y} {t τ : Y} {M : Fin 4 → Subgroup Y} {a r :
     (hCP : ∀ w ∈ W, (∀ i, ∀ x ∈ M i, w * x = x * w) → w = 1 ∨ w = t) :
     Nat.card W = 64 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htt : t * t = 1 := (hq 0).z_sq
   have hcyc : ∀ i, ∀ x ∈ M i, x ∈ W → x = 1 ∨ x = a i ∨ x = t ∨ x = a i * t := fun i x hxM hxW =>
     (hq i).cent_cyc (a i) (haM i) (haa i) x hxM (hWc x hxW (a i) (haW i))
@@ -313,14 +313,14 @@ theorem card_W_aux {W : Subgroup Y} {t τ : Y} {M : Fin 4 → Subgroup Y} {a r :
     have hi := congrFun h i
     simp only [g₁] at hi
     cases hσ : σ i <;> cases hσ' : σ' i <;> simp only [hσ, hσ'] at hi ⊢ <;>
-      first | rfl | exact absurd hi (Ne.symm ht1) | exact absurd hi ht1
+      first | exact absurd hi (Ne.symm ht1) | exact absurd hi ht1
   have hg₂inj : Function.Injective g₂ := by
     intro σ σ' h
     funext i
     have hi := congrFun h i
     simp only [g₂] at hi
     cases hσ : σ i <;> cases hσ' : σ' i <;> simp only [hσ, hσ'] at hi ⊢ <;>
-      first | rfl | exact absurd hi (Ne.symm (hat i)) | exact absurd hi (hat i)
+      first | exact absurd hi (Ne.symm (hat i)) | exact absurd hi (hat i)
   have hcard16 : Nat.card (Fin 4 → Bool) = 16 := by
     rw [Nat.card_fun]; simp
   have hT : (Set.range g₁).ncard = 16 := by rw [Set.ncard_range_of_injective hg₁inj, hcard16]
@@ -381,7 +381,7 @@ theorem card_W_aux {W : Subgroup Y} {t τ : Y} {M : Fin 4 → Subgroup Y} {a r :
       have := Nat.pow_le_pow_right (show 0 < 2 by norm_num) (show 7 ≤ k by omega)
       norm_num at this
       omega
-    interval_cases k <;> first | rfl | (norm_num at h1) | (norm_num at h2)
+    interval_cases k <;> first | rfl | (norm_num at h1)
   rw [hk, hk6]
   norm_num
 
@@ -393,7 +393,7 @@ theorem E4_mul {G : Type*} [Group G] {t τ x x' : G} (htt : t * t = 1) (hττ : 
   have h2 : ∀ z : G, τ * (τ * z) = z := fun z => by rw [← mul_assoc, hττ, one_mul]
   have h3 : ∀ z : G, τ * (t * z) = t * (τ * z) := fun z => by rw [← mul_assoc, hc, mul_assoc]
   rcases hx with rfl | rfl | rfl | rfl <;> rcases hx' with rfl | rfl | rfl | rfl <;>
-    simp only [mul_assoc, htt, hττ, hc, h1, h2, h3, mul_one, one_mul, true_or, or_true]
+    simp only [mul_assoc, htt, hττ, hc, h1, h3, mul_one, one_mul, true_or, or_true]
 
 theorem E4_sq {G : Type*} [Group G] {t τ x : G} (htt : t * t = 1) (hττ : τ * τ = 1)
     (hc : τ * t = t * τ) (hx : x = 1 ∨ x = t ∨ x = τ ∨ x = t * τ) : x * x = 1 := by
@@ -809,7 +809,7 @@ theorem exists_sq_tau (H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
     Subgroup.mem_centralizer_iff.mpr fun x hx =>
       Q3CL.Thompson.commutes_of_mem_WSet hP.hyp H.hW x hx _ hv
   obtain ⟨m, hmN, hm⟩ := Sec7.control_centralizer_of_weaklyClosed
-    (S₀.isPGroup'.to_le hWS₀) hWC (hWab htW) (g := y) (hWab hτW)
+    (S₀.isPGroup.to_le hWS₀) hWC (hWab htW) (g := y) (hWab hτW)
   have hJΩ : conjSub m K ∈ Ω[R] := hΩ.conjInvariant m K hd.mem
   have hJz : IsUniqueInvolution (conjSub m K) (y * t * y⁻¹) := by
     have := A6jB.isUniqueInvolution_conjSub hd.hz m
@@ -913,7 +913,7 @@ theorem exists_W_of_dstarAdj (H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W
     have hRJ : R₁ = J' := (hR₁J'.2.2 J' le_rfl (h2g J' hJ'Ω) hR₁J'.1).symm
     exact ⟨W₁, hW₁, htW₁, hRJ ▸ hR₁⟩
 
-theorem member_le (H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W) {Hε : Subgroup Y}
+theorem member_le (_H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W) {Hε : Subgroup Y}
     (hPH : ae6P Ω[R] t ≤ Hε) {J : Subgroup Y} (hJ : J ∈ Ω[R]) {g : Y} (hg : g ∈ Hε)
     (hz : IsUniqueInvolution J (g⁻¹ * t * g)) : J ≤ Hε := by
   have hinv := conjInvariant_conjClass (tightCore R)
@@ -953,7 +953,7 @@ theorem exists_N_conj_t (H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W) {s 
     Subgroup.mem_centralizer_iff.mpr fun x hx =>
       Q3CL.Thompson.commutes_of_mem_WSet hP.hyp H.hW x hx _ hv
   obtain ⟨m, hmN, hm⟩ := Sec7.control_centralizer_of_weaklyClosed
-    (S₀.isPGroup'.to_le hWS₀) hWC (hWab htW) (g := g) (by rw [hg]; exact hWab hsW)
+    (S₀.isPGroup.to_le hWS₀) hWC (hWab htW) (g := g) (by rw [hg]; exact hWab hsW)
   exact ⟨m, hmN, hm.trans hg⟩
 
 theorem exists_M_conj_of_D (H : AE6Hyp n R S t K K' K₃ u₁ u₂ u₃ K₄ W) {J : Subgroup Y}
@@ -1576,7 +1576,7 @@ theorem v3AE6OmegaHA_of (hQ8 : AE6ModelQ8) (hSmall : AE6ModelSmall) (hFW : AE6Mo
         exact ⟨i, Subtype.ext hi⟩
     rw [hrange]
     exact Subgroup.closure_closure_coe_preimage
-  haveI : Nontrivial ↥Hε :=
+  have : Nontrivial ↥Hε :=
     ⟨⟨⟨t, htH⟩, 1, fun h1 => hd.hz.ne_one (congrArg Subtype.val h1)⟩⟩
   obtain ⟨e₀⟩ := A6.curtisD42_recognition ε' hrel' hgen'
   obtain ⟨e, hT, hTW⟩ := exists_transp hQ8 hSmall hFW hC2 H fr hPH hWH e₀

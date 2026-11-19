@@ -55,7 +55,7 @@ theorem lit_s3_comm [Finite Γ] (h : LitGam Gh Zh Ah t)
         map_mul' := by
           intro x y
           apply Subtype.ext
-          simp only [Subgroup.coe_mul, Subtype.coe_mk]
+          simp only [Subgroup.coe_mul]
           group }
     have hchar : (CFSG.oddCore ↥Gh).comap c.toMonoidHom = CFSG.oddCore ↥Gh :=
       (lit_oddCore_characteristic ↥Gh).fixed c
@@ -76,7 +76,7 @@ theorem lit_s3_comm [Finite Γ] (h : LitGam Gh Zh Ah t)
   obtain ⟨S, hSN, hS2, hSidx, _htS, hStA⟩ := lit_s3_sylow h
   have hnotle : ¬ S ≤ Gh ⊓ centralizerSection (Zh ⊔ zpowers t) Zh :=
     lit_s3_not_le_T h hq hT hSN hS2 hSidx
-  obtain ⟨s, hsS, hsTn⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨s, hsS, hsTn⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hsG : s ∈ Gh := (hSN hsS).1
   have hsC : s ∉ centralizerSection (Zh ⊔ zpowers t) Zh := fun hsc => hsTn ⟨hsG, hsc⟩
   have hts_notZh : ⁅t, s⁆ ∉ Zh := fun hz =>

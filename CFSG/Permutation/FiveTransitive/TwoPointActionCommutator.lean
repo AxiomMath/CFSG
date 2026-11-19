@@ -15,7 +15,7 @@ theorem apply_eq_one
     (a : G) (ha : a ∈ commutator G) : f a = 1 := by
   have hc : IsMulCommutative (Equiv.Perm Y) :=
     Equiv.Perm.isMulCommutative_iff_card_le_two.mpr hcard
-  letI : CommGroup (Equiv.Perm Y) :=
+  let : CommGroup (Equiv.Perm Y) :=
     { Equiv.Perm.permGroup with mul_comm := isMulCommutative_iff.mp hc }
   exact Abelianization.commutator_subset_ker f ha
 

@@ -34,7 +34,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G}
 
 theorem sec5p510_isSylow2Of_inf_subnormal {X P K : Subgroup G} (hP : IsSylow2Of P X)
     (hKX : K ≤ X) (hK : (K.subgroupOf X).IsSubnormal) : IsSylow2Of (P ⊓ K) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Ps, hPs⟩ := hP.exists_sylow
   obtain ⟨P', hP'⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal Ps hK
   let e : ↥(K.subgroupOf X) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKX
@@ -61,15 +61,16 @@ theorem sec5p510_isSylow2Of_inf_cent (hy : Sec5B59Hyp) (h : Sec5Ctx G t L S z) :
     (L := L) hle inf_le_left
   exact h2.trans ⟨_, h1.symm⟩
 
+omit [Finite G] in
 theorem sec5p510_twoCoreIn_le {K P : Subgroup G} (hP : IsSylow2Of P K) : twoCoreIn K ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hP.exists_sylow
   rw [← hQ]
   exact Subgroup.map_mono ((pCore_isPGroup (p := 2) (G := ↥K)).le_sylow_of_normal Q)
 
 private theorem sec5p510_odd_card_oddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -85,7 +86,7 @@ private theorem sec5p510_card_pocket {K : Subgroup G} (hK : IsSL23Mod K) :
 
 theorem sec5p510_sylow_eq_twoCore {K P : Subgroup G} (hK : IsSL23Mod K) (hP : IsSylow2Of P K)
     (hQ : Nonempty (↥(twoCoreIn K) ≃* QuaternionGroup 2)) : P = twoCoreIn K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle := sec5p510_twoCoreIn_le hP
   obtain ⟨m, hm, hmc⟩ := sec5p510_card_pocket hK
   obtain ⟨k, hk⟩ := hP.2.1.exists_card_eq

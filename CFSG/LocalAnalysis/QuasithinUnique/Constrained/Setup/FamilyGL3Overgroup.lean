@@ -70,7 +70,7 @@ theorem GL3_overgroup_data : ∃ U Q₁ Q₂ : Subgroup GL32, IsSylowOf 2 U ⊤ 
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hS]
       exact S.not_dvd_index
   have hB : unitriangular 3 (ZMod 2) ≤ upperTriangular 3 (ZMod 2) :=

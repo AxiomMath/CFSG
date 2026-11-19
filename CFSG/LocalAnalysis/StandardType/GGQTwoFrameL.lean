@@ -30,10 +30,10 @@ theorem qTwo_frameL {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G
     show ((b : ↥Bs) : G) ^ 3 = 1
     exact hE.2 (b : G) b.2)
   obtain ⟨F0, hF0field, hF0finite, hF0char, hF0fact, hcardF0, he⟩ := qTwoFrameL_fieldIso hL
-  letI : Field F0 := hF0field
-  letI : Finite F0 := hF0finite
-  letI : CharP F0 2 := hF0char
-  letI : Fact (Nat.Prime 2) := hF0fact
+  let : Field F0 := hF0field
+  let : Finite F0 := hF0finite
+  let : CharP F0 2 := hF0char
+  let : Fact (Nat.Prime 2) := hF0fact
   obtain ⟨e⟩ := he
   have hInnAll : GGInnerDiagAll 3 B Bs x L D J := hcfg.1.2.2.1
   have hMark : GGInnerDiagOn Bs L := hInnAll.1
@@ -46,7 +46,7 @@ theorem qTwo_frameL {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G
   have hBsN : Bs ≤ Subgroup.normalizer (L : Set G) := hP.1
   obtain ⟨Δ, hΔN, hΔle, hΔ2, hΔmax, ψ, hψsurj, hψker, hψcompat⟩ :=
     qTwoFrameL_cover (L := ↥L) hm hcomL hcardF0 e
-  letI : Δ.Normal := hΔN
+  let : Δ.Normal := hΔN
   have hΔchar : Δ.Characteristic :=
     qTwoFrameLP_characteristic_of_central_twoPower hΔle hΔ2 hΔmax
   let ρ : ↥Bs →* MulAut (↥L ⧸ Δ) :=
@@ -173,7 +173,7 @@ theorem qTwo_frameL {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G
     apply e.injective
     rw [MulEquiv.apply_symm_apply]
     exact hψproj v
-  haveI : Group.IsPerfect ↥(LargeEvenSUGroup (Fin m) F0 (2 ^ 1)) :=
+  have : Group.IsPerfect ↥(LargeEvenSUGroup (Fin m) F0 (2 ^ 1)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcardEq (by omega) hdq
   have hcommH : commutator ↥(LargeEvenSUGroup (Fin m) F0 (2 ^ 1)) = ⊤ :=
     Group.IsPerfect.commutator_eq_top
@@ -235,7 +235,6 @@ theorem qTwo_frameL {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G
         rw [hρb]
         first
           | rfl
-          | exact congrArg e.symm (CFSG.StandardType.TableBUD.projConj_mk_coe D v)
       have hB : πZ (ψ ((LargeEvenSUGroup (Fin m) F0 (2 ^ 1)).normalizerMonoidHom D v)) =
           e.symm (LargeEvenProjMk (LargeEvenSUGroup (Fin m) F0 (2 ^ 1))
             ((LargeEvenSUGroup (Fin m) F0 (2 ^ 1)).normalizerMonoidHom D v)) :=

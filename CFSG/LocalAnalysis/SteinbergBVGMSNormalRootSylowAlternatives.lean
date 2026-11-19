@@ -426,7 +426,7 @@ theorem gms_two_conjugates_interchange [Finite D] (h : GMSNormalRootData J R X U
       fun x hx => ⟨⟨x, hP₁L hx⟩, hT hx, rfl⟩
     have hT'2 : IsPGroup 2
         ((T : Subgroup _).map (normalizer ((U ⊔ R : Subgroup D) : Set D)).subtype) :=
-      T.isPGroup'.map _
+      T.isPGroup.map _
     have hT'R : (T : Subgroup _).map (normalizer ((U ⊔ R : Subgroup D) : Set D)).subtype ⊓
         normalizer (R : Set D) = P :=
       eq_of_sylow_le TP hTP hPN inf_le_right (le_inf (hPP₁.trans hP₁T') hPN)

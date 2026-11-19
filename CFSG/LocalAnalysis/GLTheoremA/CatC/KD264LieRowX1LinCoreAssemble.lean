@@ -36,10 +36,12 @@ def Fset (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hp₁ : Module.finrank (ZM
     have e2 : expo ρf X p₂ a⁻¹ = - expo ρf X p₂ a := eq_neg_of_add_eq_zero_right h2.symm
     rw [e1, e2, ha']
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_Fset (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hp₁ : Module.finrank (ZMod 2) (X p₁) = 2)
     (hp₂ : Module.finrank (ZMod 2) (X p₂) = 2) {g : V ≃ₗ[ZMod 2] V} :
     g ∈ Fset D hp₁ hp₂ ↔ g ∈ E ∧ expo ρf X p₁ g = expo ρf X p₂ g := Iff.rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_eq_one (D : PieceData E X ρf) {p : Fin k} (hp : Module.finrank (ZMod 2) (X p) = 2)
     {e : V ≃ₗ[ZMod 2] V} (he : e ∈ E) (h : ∀ x ∈ X p, e x = ρf p x) :
     expo ρf X p e = 1 :=
@@ -64,6 +66,7 @@ noncomputable def chi (D : PieceData E X ρf) {p₁ p₂ : Fin k}
     congr 1
     exact add_sub_add_comm _ _ _ _
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem chi_surjective (D : PieceData E X ρf) {p₁ p₂ : Fin k}
     (hp₁ : Module.finrank (ZMod 2) (X p₁) = 2) (hp₂ : Module.finrank (ZMod 2) (X p₂) = 2)
     {e₁ : V ≃ₗ[ZMod 2] V} (he₁ : e₁ ∈ E) (he₁a : ∀ x ∈ X p₁, e₁ x = ρf p₁ x)
@@ -88,6 +91,7 @@ theorem chi_surjective (D : PieceData E X ρf) {p₁ p₂ : Fin k}
   obtain ⟨g, hg⟩ := key (Multiplicative.toAdd y)
   exact ⟨g, hg.trans (ofAdd_toAdd y)⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem card_eq_three_mul (D : PieceData E X ρf) {p₁ p₂ : Fin k}
     (hp₁ : Module.finrank (ZMod 2) (X p₁) = 2) (hp₂ : Module.finrank (ZMod 2) (X p₂) = 2)
     {e₁ : V ≃ₗ[ZMod 2] V} (he₁ : e₁ ∈ E) (he₁a : ∀ x ∈ X p₁, e₁ x = ρf p₁ x)

@@ -34,7 +34,7 @@ theorem s16c1_G47_A9 {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 
     rw [h120] at h
     rw [← h]
     exact Dvd.dvd.mul_right (by norm_num) _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' (G := ↥(xInf L x.val)) 3 h3X
   have hd3 : orderOf (d : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hd
   intro c hc
@@ -79,7 +79,7 @@ theorem s16c1_G47_odd_module_false {Hs : Type} [Group Hs] [Finite Hs] {Xs Ys Vs 
   obtain ⟨N, hNY, hNn, hNodd, hYeq⟩ := hodd
   obtain ⟨N₀, hN₀, hN₀odd, hNN₀, hN₀Y, hXN₀⟩ := s16c1_G47_oddNormal hY hXY hX hNY hNn hNodd
   obtain ⟨hX120, hperf, -⟩ := s16c1_sl2five_facts hX
-  haveI : Group.IsPerfect ↥Xs := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
+  have : Group.IsPerfect ↥Xs := Group.isPerfect_def.2 (by simpa [commutator_def] using hperf)
   have h3 : ¬ 3 ∣ Nat.card ↥N₀ :=
     s16c1_G47_no_three hXY hN₀Y (Subgroup.Normal.subgroupOf hN₀ Ys) hXN₀
       (by rw [hX120]; norm_num) hr3

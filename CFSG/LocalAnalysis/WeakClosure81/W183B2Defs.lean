@@ -15,6 +15,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 @[expose] noncomputable def mOfG {G : Type*} [Group G] (A B : Subgroup G) : ℕ :=
   Nat.log 2 ((B.subgroupOf A).index)
 
+omit [Finite V] in
 theorem mOf_eq_mOfG (A B : Subgroup (LGL 2 V)) : mOf A B = mOfG A B := rfl
 
 @[expose] def PairQuotOK {G : Type} [Group G] (k₁ k₂ : ℕ) (X : Subgroup G) : Prop :=

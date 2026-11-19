@@ -36,6 +36,7 @@ private lemma conj_t_eq_t_or_t_mul_z (h : Ctx t L S x₁ x₂ lam rho tau) {n : 
     exact t_not_mem_L h.hyp (htz ▸ (y_z_mem_L h.toCtx0).2)
   · exact Or.inr h1
 
+omit [Finite G] in
 private lemma mem_zpowers_z_cases {z g : G} (hz : z * z = 1) (hg : g ∈ zpowers z) :
     g = 1 ∨ g = z := by
   let H : Subgroup G :=
@@ -59,7 +60,7 @@ private lemma sylow_inf_invCent_eq (h : Ctx t L S x₁ x₂ lam rho tau) (𝒮 :
     (h𝒮 : S < (𝒮 : Subgroup G)) : invCent t ⊓ (𝒮 : Subgroup G) = S := by
   exact eq_of_isPGroup_of_odd_relIndex (H := invCent t)
     (fun s hs => ⟨h.toCtx0.le_invCent hs, h𝒮.le hs⟩) inf_le_left
-    ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup').to_le inf_le_right)
+    ((show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup).to_le inf_le_right)
     h.toCtx0.relIndex_odd
 
 private lemma exists_conj_swap (h : Ctx t L S x₁ x₂ lam rho tau) (𝒮 : Sylow 2 G)
@@ -67,7 +68,7 @@ private lemma exists_conj_swap (h : Ctx t L S x₁ x₂ lam rho tau) (𝒮 : Syl
     ∃ a ∈ normalizer (S : Set G) ⊓ (𝒮 : Subgroup G),
       a * t * a⁻¹ = t * (x₁ * x₂) ^ 2 := by
   obtain ⟨a, haSyl, haN, ha_notS⟩ :=
-    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup') h𝒮
+    exists_mem_normalizer_not_mem (show IsPGroup 2 (𝒮 : Subgroup G) from 𝒮.isPGroup) h𝒮
   refine ⟨a, ⟨haN, haSyl⟩, ?_⟩
   rcases conj_t_eq_t_or_t_mul_z h haN with h1 | h1
   · exfalso
@@ -161,7 +162,7 @@ private lemma sylow_relIndex_ctxS1_eq_two (h : Ctx t L S x₁ x₂ lam rho tau)
   have hne1 : S.relIndex (ctxS1 S (𝒮 : Subgroup G)) ≠ 1 := by
     intro h1
     exact ha_notS ((Subgroup.relIndex_eq_one.mp h1) haS1)
-  haveI : S.IsFiniteRelIndex (ctxS1 S (𝒮 : Subgroup G)) :=
+  have : S.IsFiniteRelIndex (ctxS1 S (𝒮 : Subgroup G)) :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hne0 : S.relIndex (ctxS1 S (𝒮 : Subgroup G)) ≠ 0 := Subgroup.relIndex_ne_zero
   omega
@@ -210,7 +211,7 @@ private lemma sylow_relIndex_normalizer_odd (h : Ctx t L S x₁ x₂ lam rho tau
       have h' := congrArg (fun u => t⁻¹ * u) hfix
       simpa using h'
     exact (z_mul_self_ne_one h.toCtx0).2 hz1
-  haveI : NH.IsFiniteRelIndex N := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : NH.IsFiniteRelIndex N := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hNH_N_ne0 : NH.relIndex N ≠ 0 := Subgroup.relIndex_ne_zero
   have hNH_N_eq2 : NH.relIndex N = 2 := by omega
   have hS₁rel : S.relIndex S₁ = 2 := sylow_relIndex_ctxS1_eq_two h 𝒮 h𝒮
@@ -250,7 +251,7 @@ theorem fusion_tz_of_l42 (h : Ctx t L S x₁ x₂ lam rho tau) (h2 : 2 ∣ S.ind
     · rw [hwz]
       exact exists_swap_of_l42 h h2
 
-theorem sylow_facts_of_l42 (h : Ctx t L S x₁ x₂ lam rho tau) (h2 : 2 ∣ S.index) (𝒮 : Sylow 2 G)
+theorem sylow_facts_of_l42 (h : Ctx t L S x₁ x₂ lam rho tau) (_h2 : 2 ∣ S.index) (𝒮 : Sylow 2 G)
     (h𝒮 : S < (𝒮 : Subgroup G)) :
     invCent t ⊓ (𝒮 : Subgroup G) = S ∧ S.relIndex (ctxS1 S (𝒮 : Subgroup G)) = 2 ∧
     ¬ 2 ∣ (ctxS1 S (𝒮 : Subgroup G)).relIndex (normalizer (S : Set G)) :=

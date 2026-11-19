@@ -32,6 +32,7 @@ private theorem f4WR_smul_single_one : f4WR • (Pi.single 1 1 : Fin Tag.F4.rank
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem map_conj_canonicalRep_rootPair_one :
     (rootSubgroup .F4 F (Pi.single 1 1) ⊔ rootSubgroup .F4 F (-Pi.single 1 1)).map
         (MulAut.conj (canonicalRep (coxeterSystem .F4) F f4WR)).toMonoidHom = rootSL2R F := by
@@ -100,8 +101,8 @@ private theorem exists_conj_mem_rootSL2R [CharP F 2] (g : ↥(StatedSp 3 F)) :
 theorem false_of_stdLayer_le_C3Levi (hF : Nat.card F = 2) [Finite ↥(adjointGroup .F4 F)]
     {A : Subgroup ↥(adjointGroup .F4 F)} {d : ↥(adjointGroup .F4 F)} (hd : IsStdElt 3 A d)
     (hAM : A ≤ C3Levi F) (hKM : stdLayer d ≤ C3Levi F) : False := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   obtain ⟨hdA, hd1, hd3, hcompd, -⟩ := hd
   have hdM : d ∈ C3Levi F := hAM hdA
@@ -138,10 +139,10 @@ theorem false_of_stdLayer_le_C3Levi (hF : Nat.card F = 2) [Finite ↥(adjointGro
 theorem false_of_stdLayer_le_B3Levi (hF : Nat.card F = 2) [Finite ↥(adjointGroup .F4 F)]
     {A : Subgroup ↥(adjointGroup .F4 F)} {d : ↥(adjointGroup .F4 F)} (hd : IsStdElt 3 A d)
     (hAM : A ≤ B3Levi F) (hKM : stdLayer d ≤ B3Levi F) : False := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
-  haveI : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := ‹CharP F 2›
+  have : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := ‹CharP F 2›
   have hB : (B3Levi F).map (graphAutF4 F).symm.toMonoidHom = C3Levi F := by
     rw [← map_graphAutF4_C3Levi]
     exact CFSG.RankThreeEvenClassification.Helpers.subgroup_map_equiv_symm _ _

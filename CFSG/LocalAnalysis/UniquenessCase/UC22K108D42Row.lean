@@ -17,9 +17,10 @@ section Abstract
 
 variable {Gh : Type} [Group Gh] [Finite Gh]
 
+omit [Finite Gh] in
 theorem k108D42_odd_index {S B : Subgroup Gh} (hSn : S.Normal) (hSB : S ⊔ B = ⊤) (hB : Odd (Nat.card B)) :
     Odd S.index := by
-  haveI := hSn
+  have := hSn
   have h : S.index = S.relIndex B := by
     rw [← relIndex_top_right S, ← hSB, relIndex_sup_left B S]
   rw [h]
@@ -27,8 +28,8 @@ theorem k108D42_odd_index {S B : Subgroup Gh} (hSn : S.Normal) (hSB : S ⊔ B = 
 
 theorem k108D42_le_of_isPGroup_two {S P : Subgroup Gh} (hSn : S.Normal) (hS : Odd S.index)
     (hP : IsPGroup 2 P) : P ≤ S := by
-  haveI := hSn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hSn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hP
   have h1 : S.relIndex P ∣ 2 ^ n := hn ▸ relIndex_dvd_card S P
   have h2 : S.relIndex P ∣ S.index := by
@@ -44,7 +45,7 @@ theorem k108D42_le_of_isPGroup_two {S P : Subgroup Gh} (hSn : S.Normal) (hS : Od
 
 theorem k108D42_index_le_three {S : Subgroup Gh} (hSn : S.Normal) (hC : centralizer (S : Set Gh) = ⊥)
     (hAut : Nat.card (MulAut ↥S) ≤ 3 * Nat.card ↥S) : S.index ≤ 3 := by
-  haveI := hSn
+  have := hSn
   have h1 := CFSG.EvenSporadicStandard.HSStd.InvCent.Harada.card_le_card_mulAut hC
   have h2 : S.index * Nat.card ↥S ≤ 3 * Nat.card ↥S := by
     rw [S.index_mul_card]
@@ -72,7 +73,7 @@ theorem k108D42_prime_dvd_card {S : Subgroup Gh} (hS3 : S.index ≤ 3) (h3 : 3 �
 theorem k108D42_le_of_isPGroup {X M P : Subgroup Gh} {p : ℕ} [Fact p.Prime] (hXp : Nat.card X = p)
     (hXM : X ≤ M) (hstar : ∀ g : Gh, (∀ x ∈ X, g⁻¹ * x * g ∈ M) → g ∈ M) (hP : IsPGroup p P)
     (hXP : X ≤ P) : P ≤ M := by
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card hXp
+  have : IsCyclic ↥X := isCyclic_of_prime_card hXp
   obtain ⟨⟨t, htX⟩, ht⟩ := IsCyclic.exists_generator (α := ↥X)
   have hmem : ∀ x ∈ X, ∃ k : ℤ, t ^ k = x := fun x hx => by
     obtain ⟨k, hk⟩ := ht ⟨x, hx⟩
@@ -89,22 +90,22 @@ theorem k108D42_le_of_sylowGen {S : Subgroup Gh} (hSn : S.Normal) (hC : centrali
     (hAut : Nat.card (MulAut ↥S) ≤ 3 * Nat.card ↥S) (h3 : 3 ∣ Nat.card ↥S)
     (hgen : ∀ p : ℕ, p.Prime → Odd p → p ∣ Nat.card ↥S →
       ∀ (R : Sylow p ↥S) (Q : Sylow 2 ↥S), (R : Subgroup ↥S) ⊔ Q = ⊤)
-    {T B : Subgroup Gh} (hTB : Hyp10 T B) (hSB : S ⊔ B = ⊤) {X M : Subgroup Gh} (hXB : X ≤ B)
+    {T B : Subgroup Gh} (hTB : Hyp10 T B) (hSB : S ⊔ B = ⊤) {X M : Subgroup Gh} (_hXB : X ≤ B)
     (hXp : (Nat.card X).Prime) (hXo : Odd (Nat.card X)) (hTM : T ≤ M) (hXM : X ≤ M)
     (hstar : ∀ g : Gh, (∀ x ∈ X, g⁻¹ * x * g ∈ M) → g ∈ M) : S ≤ M := by
-  haveI := hSn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.card X).Prime := ⟨hXp⟩
+  have := hSn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.card X).Prime := ⟨hXp⟩
   have hTS : T ≤ S :=
     k108D42_le_of_isPGroup_two hSn (k108D42_odd_index hSn hSB hTB.2.2.1) hTB.1.isPGroup
   have hpS : Nat.card X ∣ Nat.card ↥S :=
     k108D42_prime_dvd_card (k108D42_index_le_three hSn hC hAut) h3 hXp hXo (card_subgroup_dvd_card X)
   have hXpg : IsPGroup (Nat.card X) X := IsPGroup.of_card (n := 1) (pow_one _).symm
   obtain ⟨P, hXP⟩ := hXpg.exists_le_sylow
-  have hPM : (P : Subgroup Gh) ≤ M := k108D42_le_of_isPGroup rfl hXM hstar P.isPGroup' hXP
+  have hPM : (P : Subgroup Gh) ≤ M := k108D42_le_of_isPGroup rfl hXM hstar P.isPGroup hXP
   have hnorm : (⊤ : Subgroup Gh) ≤ normalizer (S : Set Gh) := (normalizer_eq_top (H := S)).ge
   have hPS : CFSG.ABGLocalTools.IsSylowOf (Nat.card X) ((P : Subgroup Gh) ⊓ S) S := by
-    refine (CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨le_top, P.isPGroup', ?_⟩).inf_of_le_normalizer le_top hnorm
+    refine (CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨le_top, P.isPGroup, ?_⟩).inf_of_le_normalizer le_top hnorm
     rw [relIndex_top_right]
     exact P.not_dvd_index
   have hTS' : CFSG.ABGLocalTools.IsSylowOf 2 T S := by

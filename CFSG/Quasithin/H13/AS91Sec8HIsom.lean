@@ -312,7 +312,7 @@ theorem exists_muLin_of_commute_CX (c : Loc49 G z)
           c.ψ ((c.S.ρ (c.toSM h) : c.S.Qt ≃ₗ[ZMod 2] c.S.Qt) (c.ψ.symm v)) by
         rw [c.piC_spec, AddEquiv.apply_symm_apply]]
       rw [AddEquiv.symm_apply_apply]
-    simp only [hφ_apply, hsymm, hL h (c.ψ.symm v), c.piC_spec, AddEquiv.apply_symm_apply]
+    simp only [hφ_apply, hsymm, hL h (c.ψ.symm v), c.piC_spec]
   obtain ⟨e, he⟩ := exists_eq_smul_of_commute_hatM22Γ₀ φ hφ
   refine ⟨e, ?_⟩
   apply LinearMap.ext
@@ -533,7 +533,7 @@ theorem Psub_eq_top {G : Type} [Group G] [Finite G] {z : G}
   intro n _
   let S : Subgroup ↥c.NX := c.CX.subgroupOf c.NX
   let T : Subgroup ↥c.NX := (Subgroup.zpowers t).subgroupOf c.NX
-  haveI hSnormal : S.Normal := c.CX_normal_NX
+  have hSnormal : S.Normal := c.CX_normal_NX
   have hST : S ⊔ T = ⊤ := by
     rw [show S ⊔ T = (c.CX ⊔ Subgroup.zpowers t).subgroupOf c.NX from by
       rw [Subgroup.subgroupOf_sup c.CX_le_NX (Subgroup.zpowers_le.mpr htN)]]
@@ -602,7 +602,7 @@ theorem isometry_of_equivariant_CX
     exact TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (c'.S.ρ (c'.toSM (θ h))).2 (a v)
   have hne : q₂ ≠ 0 := by
     intro h0
-    haveI : Nontrivial c'.S.Qt := by
+    have : Nontrivial c'.S.Qt := by
       have hcard : Nat.card c'.S.Qt = 2 ^ 12 := by
         rw [Nat.card_congr c'.ψ.toEquiv, Nat.card_fun,
           CFSG.CharacterTheory.SteinbergBY.FieldFour.natCard_eq]
@@ -751,7 +751,7 @@ theorem exists_isometry_NX
               rw [hD_apply]
     obtain ⟨e₀, he₀⟩ := c'.exists_muLin_of_commute_CX D.toLinearMap
       (fun h v => hD_comm h v)
-    haveI hntQt : Nontrivial c'.S.Qt := by
+    have hntQt : Nontrivial c'.S.Qt := by
       have hcard : Nat.card c'.S.Qt = 2 ^ 12 := by
         rw [Nat.card_congr c'.ψ.toEquiv, Nat.card_fun,
           CFSG.CharacterTheory.SteinbergBY.FieldFour.natCard_eq]

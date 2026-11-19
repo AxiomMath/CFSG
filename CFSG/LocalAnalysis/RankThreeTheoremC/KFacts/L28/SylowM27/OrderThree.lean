@@ -15,6 +15,7 @@ open Subgroup CFSG.ABGLocalTools
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem eq_one_or_eq_or_eq_inv {y z : X} (hz : orderOf z = 3) (hy : y ∈ zpowers z) :
     y = 1 ∨ y = z ∨ y = z⁻¹ := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hy
@@ -28,6 +29,7 @@ theorem eq_one_or_eq_or_eq_inv {y z : X} (hz : orderOf z = 3) (hy : y ∈ zpower
     rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) by norm_num, zpow_natCast, ← pow_succ]
     exact h3
 
+omit [Finite X] in
 theorem conj_eq_self_of_odd {x d : X} (hd : orderOf d = 3) (hx : Odd (orderOf x))
     (hxd : x * d * x⁻¹ ∈ zpowers d) : x * d * x⁻¹ = d := by
   rcases eq_one_or_eq_or_eq_inv hd hxd with h | h | h

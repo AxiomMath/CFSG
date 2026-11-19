@@ -74,8 +74,8 @@ public theorem exists_regular_elementaryAbelian_normal_of_solvable_normal
   classical
   obtain ⟨F, hFnorm, hF_le_N, hF_ne_bot, hFmin⟩ :=
     exists_minimal_normal_le (G := G) N hNnormal hN_ne_bot
-  letI : F.Normal := hFnorm
-  letI : IsMinimalNormal F := {
+  let : F.Normal := hFnorm
+  let : IsMinimalNormal F := {
     minimal := by
       intro K hKnormal hKle
       by_cases hKbot : K = ⊥
@@ -84,18 +84,18 @@ public theorem exists_regular_elementaryAbelian_normal_of_solvable_normal
   }
   let FN : Subgroup N := F.subgroupOf N
   let eFN : FN ≃* F := Subgroup.subgroupOfEquivOfLe hF_le_N
-  letI : Group.IsSolvable N := hNsolv
+  let : Group.IsSolvable N := hNsolv
   have hFNsolv : Group.IsSolvable FN := inferInstance
-  letI : Group.IsSolvable FN := hFNsolv
+  let : Group.IsSolvable FN := hFNsolv
   have hFsolv : Group.IsSolvable F :=
     Group.isSolvable_of_surjective (f := eFN.toMonoidHom) eFN.surjective
-  letI : Group.IsSolvable F := hFsolv
+  let : Group.IsSolvable F := hFsolv
   obtain ⟨p, hp, hFelem⟩ :=
     minimalNormal_solvable_exists_isElementaryAbelian F
-  letI : IsElementaryAbelian p F := hFelem
-  letI : MulAction.IsPreprimitive G Omega :=
+  let : IsElementaryAbelian p F := hFelem
+  let : MulAction.IsPreprimitive G Omega :=
     MulAction.isPreprimitive_of_is_two_pretransitive htwo
-  letI : MulAction.IsQuasiPreprimitive G Omega :=
+  let : MulAction.IsQuasiPreprimitive G Omega :=
     MulAction.IsPreprimitive.isQuasiPreprimitive
   have hfixed_ne_univ : MulAction.fixedPoints F Omega ≠ Set.univ := by
     intro hfixed
@@ -117,7 +117,7 @@ public theorem exists_regular_elementaryAbelian_normal_of_solvable_normal
     exact Subgroup.mem_bot.mpr hf_one
   have hFtrans : MulAction.IsPretransitive F Omega :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfixed_ne_univ
-  letI : MulAction.IsPretransitive F Omega := hFtrans
+  let : MulAction.IsPretransitive F Omega := hFtrans
   have hFregular : ∀ omega : Omega, MulAction.stabilizer F omega = ⊥ := by
     intro omega
     rw [eq_bot_iff]
@@ -161,9 +161,9 @@ public theorem regular_normal_sup_centralizer_eq_top
     (huunique : ∀ omega : Omega, u0 • omega = omega → omega = alpha) :
     Q ⊔ Subgroup.centralizer ({u0} : Set G) = ⊤ := by
   classical
-  letI : Q.Normal := hQnormal
-  letI : IsMulCommutative Q := hQcomm
-  letI : MulAction.IsPretransitive Q Omega := hQtrans
+  let : Q.Normal := hQnormal
+  let : IsMulCommutative Q := hQcomm
+  let : MulAction.IsPretransitive Q Omega := hQtrans
   have hconj_fixed_one {q : G} (hq : q ∈ Q)
       (hqu : rightConjugateElem q u0 = q) : q = 1 := by
     let qQ : Q := ⟨q, hq⟩
@@ -330,8 +330,8 @@ public theorem elementaryAbelian_card_odd_of_not_twoRank_of_three_le
     (hQcard : 3 ≤ Nat.card Q) :
     Odd (Nat.card Q) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsElementaryAbelian p Q := hQelem
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsElementaryAbelian p Q := hQelem
   have hp_ne_two : p ≠ 2 := by
     intro hp2
     subst p

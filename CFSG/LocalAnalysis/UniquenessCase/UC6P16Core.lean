@@ -26,15 +26,18 @@ private def p16Prod {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y
     rw [mul_inv_rev]
     exact ((show Commute h k from hc h hh k hk).inv_inv).eq.symm
 
+omit [Finite G] in
 private theorem p16Prod_ge {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) :
     H ⊔ K ≤ p16Prod hc :=
   sup_le (fun h hh => ⟨h, hh, 1, K.one_mem, (mul_one h).symm⟩)
     (fun k hk => ⟨1, H.one_mem, k, hk, (one_mul k).symm⟩)
 
+omit [Finite G] in
 private theorem p16_sup_decomp {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) {u : G}
     (hu : u ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, u = h * k :=
   p16Prod_ge hc hu
 
+omit [Finite G] in
 private theorem p16_sup_comm {H K : Subgroup G} (hH : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x)
     (hK : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x)
     {u v : G} (hu : u ∈ H ⊔ K) (hv : v ∈ H ⊔ K) : u * v = v * u := by
@@ -48,12 +51,14 @@ private theorem p16_sup_comm {H K : Subgroup G} (hH : ∀ x ∈ H, ∀ y ∈ H, 
     _ = h2 * (k2 * h1) * k1 := by rw [hc h1 hh1 k2 hk2]
     _ = h2 * k2 * (h1 * k1) := by simp only [mul_assoc]
 
+omit [Finite G] in
 private theorem p16_sup_pow {r : ℕ} {H K : Subgroup G} (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x)
     (hH : ∀ x ∈ H, x ^ r = 1) (hK : ∀ x ∈ K, x ^ r = 1) {u : G} (hu : u ∈ H ⊔ K) :
     u ^ r = 1 := by
   obtain ⟨h, hh, k, hk, rfl⟩ := p16_sup_decomp hc hu
   rw [(show Commute h k from hc h hh k hk).mul_pow, hH h hh, hK k hk, one_mul]
 
+omit [Finite G] in
 private theorem p16_sup_isElemAbelian {r : ℕ} {H K : Subgroup G}
     (hH : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) (hK : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x)
     (hc : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) (hHe : ∀ x ∈ H, x ^ r = 1)
@@ -61,13 +66,14 @@ private theorem p16_sup_isElemAbelian {r : ℕ} {H K : Subgroup G}
   ⟨IsMulCommutative.of_comm fun a b => Subtype.ext (p16_sup_comm hH hK hc a.2 b.2),
     fun _ hx => p16_sup_pow hc hHe hKe hx⟩
 
+omit [Finite G] in
 private theorem p16_zpow_exp {r : ℕ} {x : G} (hx : x ^ r = 1) (i : ℤ) : (x ^ i) ^ r = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
 
 private theorem p16_card_le {r : ℕ} (hr : r.Prime) {R B : Subgroup G}
     (hrank : Open.pRank r R ≤ 3) (hBR : B ≤ R) (hB : IsElemAbelian r B) :
     Nat.card B ≤ r ^ 3 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpB : IsPGroup r B := by
     refine isPGroup_iff_pow_pow_eq_one.2 fun g => ⟨1, ?_⟩
     apply Subtype.ext
@@ -77,6 +83,7 @@ private theorem p16_card_le {r : ℕ} (hr : r.Prime) {R B : Subgroup G}
   rw [hn]
   exact Nat.pow_le_pow_right hr.pos (hnle.trans hrank)
 
+omit [Finite G] in
 private theorem p16_iter (E : Subgroup G) (y z0 : G) (a : ℤ) (e₁ : G) (he₁ : e₁ ∈ E)
     (hyE : ∀ f ∈ E, y * f * y⁻¹ = f) (hzc : ∀ f ∈ E, z0 * f = f * z0)
     (ha : y * z0 * y⁻¹ = z0 ^ a * e₁) (k : ℕ) :
@@ -95,12 +102,13 @@ private theorem p16_iter (E : Subgroup G) (y z0 : G) (a : ℤ) (e₁ : G) (he₁
       _ = (z0 ^ a) ^ (a ^ k) * e₁ ^ (a ^ k) * f := by rw [hce.mul_zpow]
       _ = z0 ^ (a ^ (k + 1)) * (e₁ ^ (a ^ k) * f) := by rw [← zpow_mul, pow_succ', mul_assoc]
 
+omit [Finite G] in
 private theorem p16_conj_gen {r : ℕ} (hr : r.Prime) {E : Subgroup G} {z0 y : G}
     (hz0 : orderOf z0 = r) (hzE : ∀ m : ℤ, z0 ^ m ∈ E → (r : ℤ) ∣ m) {k : ℕ}
     (hyk : y ^ (r ^ k) = 1) (hyE : ∀ f ∈ E, y * f * y⁻¹ = f)
     (hzc : ∀ f ∈ E, z0 * f = f * z0) {a : ℤ} {e₁ : G} (he₁ : e₁ ∈ E)
     (ha : y * z0 * y⁻¹ = z0 ^ a * e₁) : y * z0 * y⁻¹ = z0 * e₁ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨f, hf, hfk⟩ := p16_iter E y z0 a e₁ he₁ hyE hzc ha (r ^ k)
   simp only [hyk, inv_one, one_mul, mul_one] at hfk
   have hz1 : z0 ^ (a ^ (r ^ k) - 1) = f⁻¹ := by
@@ -129,10 +137,12 @@ private theorem p16_conj_gen {r : ℕ} (hr : r.Prime) {E : Subgroup G} {z0 y : G
     rw [show a = (a - 1) + 1 by ring, zpow_add, h1, one_mul, zpow_one]
   rw [ha, hza]
 
+omit [Finite G] in
 private theorem p16_fix {R E : Subgroup G} (hER : ∀ e ∈ E, ∀ x ∈ R, e * x = x * e) {x c : G}
     (hx : x ∈ R) (hc : c ∈ E) : x * c * x⁻¹ = c := by
   rw [← hER c hc x hx, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem p16_fix' {R E : Subgroup G} (hER : ∀ e ∈ E, ∀ x ∈ R, e * x = x * e) {x c : G}
     (hx : x ∈ R) (hc : c ∈ E) : x⁻¹ * c * x = c := by
   have h := p16_fix hER (R.inv_mem hx) hc
@@ -156,6 +166,7 @@ private def p16Good (Z : Subgroup G) {R E : Subgroup G}
     rw [key, p16_fix' hER hgR (E.inv_mem (hg z hz))]
     exact E.inv_mem (hg z hz)
 
+omit [Finite G] in
 private theorem p16Good_iff {Z R E : Subgroup G} (hER : ∀ e ∈ E, ∀ x ∈ R, e * x = x * e)
     (g : G) : g ∈ p16Good Z hER ↔ g ∈ R ∧ ∀ z ∈ Z, z * g * z⁻¹ * g⁻¹ ∈ E := Iff.rfl
 
@@ -168,7 +179,7 @@ theorem p16_core {r : ℕ} (hr : r.Prime) {R E Z : Subgroup G} (hR : IsPGroup r 
       (∀ z ∈ Z, ∀ p ∈ P, ∀ q ∈ P, (z * p * z⁻¹ * p⁻¹) * q = q * (z * p * z⁻¹ * p⁻¹)) →
       ∀ z ∈ Z, ∀ p ∈ P, z * p = p * z) :
     (∀ a ∈ Z ⊔ E, ∀ x ∈ R, a * x = x * a) ∧ (∀ x ∈ R, x ^ r = 1 → x ∈ Z ⊔ E) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hAR : Z ⊔ E ≤ R := sup_le hZR hER'
   obtain ⟨z0, hz0Z, hz0⟩ : ∃ z0 ∈ Z, orderOf z0 = r := by
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r
@@ -276,7 +287,7 @@ theorem p16_core {r : ℕ} (hr : r.Prime) {R E Z : Subgroup G} (hR : IsPGroup r 
   have hXeqR : X = R := by
     by_contra hne
     have hlt : X < R := lt_of_le_of_ne hXle hne
-    obtain ⟨-, y, hy, hyX⟩ := SetLike.lt_iff_le_and_exists.1
+    obtain ⟨-, y, hy, hyX⟩ := IsConcreteLE.lt_iff_le_and_exists.1
       (CFSG.RankThreeCoreUniqueness.Helpers.pGroup_proper_subgroup_lt_internal_normalizer
         r hr R X hR hlt)
     have hyR : y ∈ R := (Subgroup.mem_inf.1 hy).1

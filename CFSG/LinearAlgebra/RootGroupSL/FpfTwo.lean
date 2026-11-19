@@ -146,8 +146,8 @@ theorem exists_fpf_of_two_le_finrank (hd : 2 ≤ Module.finrank k E) :
       rw [blockDiag_one]
     have hdvd : orderOf h ∣ orderOf ν' := orderOf_dvd_iff_pow_eq_one.mpr hpow
     have hEodd : Odd (Nat.card Eˣ) := by
-      haveI : Fintype E := Fintype.ofFinite E
-      haveI : CharP E 2 := charP_of_injective_algebraMap' k 2
+      have : Fintype E := Fintype.ofFinite E
+      have : CharP E 2 := charP_of_injective_algebraMap' k 2
       rw [Nat.card_units]
       obtain ⟨n, _, hcard⟩ := FiniteField.card E 2
       rw [Nat.card_eq_fintype_card, hcard]

@@ -61,7 +61,7 @@ theorem sylowCenterLeOmegaComm_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e :
 
 theorem sylowCenterLeOmegaComm_J2 :
     SylowCenterLeOmegaComm CFSG.Blueprint.NativeSporadic.J2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, -, hx3, hy3, -, -, -, hcardP, -, -, -⟩ :=
     CFSG.SectionRank.J2_sylow3_cubic_witness
   let P : Subgroup CFSG.Blueprint.NativeSporadic.J2 :=
@@ -141,7 +141,7 @@ theorem sylowCenterLeOmegaComm_J2 :
           exact Subgroup.subset_closure (by simp [xT])
         · subst u
           exact Subgroup.subset_closure (by simp [yT])
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul a b ha hb iha ihb =>
         rw [map_mul]
         exact Subgroup.mul_mem _ iha ihb
@@ -169,7 +169,7 @@ theorem false_of_sylowCenterLeOmegaComm {S Z H : Subgroup G} [H.Normal]
     (hwc : IsWeaklyClosedIn Z S) {Q : Type} [Group Q] (hQ : CFSG.IsMetacyclic Q)
     (φ : ↥S →* Q) (hd : Disjoint (Z.subgroupOf S) φ.ker)
     (h : SylowCenterLeOmegaComm ↥H) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSH : IsSylowOf 3 (S ⊓ H) H :=
     hS.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top (H := H)).ge
   obtain ⟨T, hT⟩ := hSH.exists_sylow_eq_subgroupOf
@@ -205,12 +205,12 @@ theorem false_of_sylowCenterLeOmegaComm {S Z H : Subgroup G} [H.Normal]
   let g : ↥(T : Subgroup ↥H) →* Q := φ.comp f
   have hker : ⁅CFSG.omega₁ (G := ↥(T : Subgroup ↥H)) (p := 3),
       CFSG.omega₁ (G := ↥(T : Subgroup ↥H)) (p := 3)⁆ ≤ g.ker := by
-    haveI : Finite ↥(T : Subgroup ↥H) := Subtype.finite
-    haveI : Finite ↥(g.range) := Finite.of_surjective g.rangeRestrict g.rangeRestrict_surjective
-    letI : IsPGroup 3 ↥(T : Subgroup ↥H) := T.isPGroup'
+    have : Finite ↥(T : Subgroup ↥H) := Subtype.finite
+    have : Finite ↥(g.range) := Finite.of_surjective g.rangeRestrict g.rangeRestrict_surjective
+    let : IsPGroup 3 ↥(T : Subgroup ↥H) := T.isPGroup
     let E : Set ↥(T : Subgroup ↥H) := {u | u ^ 3 = 1}
     have hRpg : IsPGroup 3 ↥(g.range) :=
-      IsPGroup.of_surjective (p := 3) T.isPGroup' g.rangeRestrict
+      IsPGroup.of_surjective (p := 3) T.isPGroup g.rangeRestrict
         g.rangeRestrict_surjective
     have hRmeta : CFSG.IsMetacyclic ↥(g.range) :=
       (CFSG.GroupTheory.SteinbergBK.isMetacyclic_subgroup hQ g.range).1

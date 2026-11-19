@@ -23,8 +23,8 @@ theorem sec35_sigma_core {b : G} {U U₂ : Subgroup G} (hb : b ∈ Nor U) (hb3 :
     (hσ'i : ∀ s : ↥(layer (CQ U)), (s : CQ U) ∈ cqImg U U₂ → σ' * s * σ'⁻¹ = s⁻¹) :
     ∃ σ : G, orderOf σ = 2 ∧ σ ∈ Cen b ∧ σ ∈ CenS U ∧ ∀ x ∈ U₂, σ * x * σ⁻¹ = x⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hQn : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hQn : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   have hU₂C : U₂ ≤ CenS U := fun x hx => OppE_le _ (hU₂E hx)
   have hU₂3 : IsPGroup 3 U₂ := IsPGroup.of_card hU₂.2
   have hbU₂' : ∀ x : G, x ∈ U₂ ↔ b * x * b⁻¹ ∈ U₂ := fun x =>
@@ -142,7 +142,7 @@ theorem sec35_sigma (hKL : FF79KL35a) (hG : IsSimpleGroup G) (hna : ∃ x y : G,
     ∃ σ : G, orderOf σ = 2 ∧ σ ∈ Cen b ∧ σ ∈ CenS (U34 b a J A) ∧
       ∀ x ∈ A ⊓ OppE 3 (CenS (U34 b a J A)), σ * x * σ⁻¹ = x⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb3 : b ^ 3 = 1 := by rw [← h.hyp.ord]; exact pow_orderOf_eq_one b
   have hd := sec34_APData hG hna hKp hs h hU hoa hK haC
   have hKE := (ap_E_simple hd).2.2.1

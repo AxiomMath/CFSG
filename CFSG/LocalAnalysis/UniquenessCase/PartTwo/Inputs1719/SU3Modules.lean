@@ -50,12 +50,14 @@ section U34Consequences
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem card_quot_center_eq_of_isSU3_two (h : IsSU3 X 2) :
     Nat.card (X ⧸ Subgroup.center X) = 62400 := by
   rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (t := .PSU) (n := 3) (p := 2) (f := 2)
     (by norm_num) h.2]
   decide
 
+omit [Finite X] in
 theorem card_eq_mul_center_of_isSU3_two (h : IsSU3 X 2) :
     Nat.card X = 62400 * Nat.card (Subgroup.center X) := by
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center X),
@@ -94,6 +96,7 @@ theorem card_eq_of_isSU3_two (hZ : UCK.U3Center) (hC : K_U34ThreeCentralizer)
   rw [card_eq_mul_center_of_isSU3_two h, center_eq_bot_of_isSU3_two hZ hC h,
     Subgroup.card_bot, mul_one]
 
+omit [Finite X] in
 theorem three_dvd_card_of_isSU3_two (h : IsSU3 X 2) : 3 ∣ Nat.card X := by
   have hq : 3 ∣ Nat.card (X ⧸ Subgroup.center X) := by
     rw [card_quot_center_eq_of_isSU3_two h]

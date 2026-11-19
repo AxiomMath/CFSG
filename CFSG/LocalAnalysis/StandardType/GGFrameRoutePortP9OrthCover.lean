@@ -185,7 +185,7 @@ theorem native_orth_equiv_of_innerDiagOnLabel
     have hrawFold := hraw0
     dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw0
     by_cases h3 : rank = 3
-    · rw [if_pos h3] at hraw0
+    · rw [ite_eq_left h3] at hraw0
       obtain ⟨K0, hfield, hfin, hKcard, hq⟩ := hraw0
       obtain ⟨-, -, θ, hP⟩ := hq
       obtain ⟨-, hBsN, hind⟩ := hP
@@ -205,7 +205,7 @@ theorem native_orth_equiv_of_innerDiagOnLabel
         ⟨hperf, ⟨.D, rank, 1⟩, hlab,
           largeEvenRawDatum_mono (lab := ⟨.D, rank, 1⟩) (fun R' _ I' F'
             ⟨hs, hna, θ', hP'⟩ => ⟨hs, hna, θ', ⟨⟨rfl, rfl, rfl⟩, hP'.2⟩⟩) hrawFold⟩
-      rw [if_neg h3] at hraw0
+      rw [ite_eq_right h3] at hraw0
       obtain ⟨K0, hfield, hfin, hKcard, hq⟩ := hraw0
       obtain ⟨hsimple, hnab, θ, hP⟩ := hq
       obtain ⟨-, hBsN, hind⟩ := hP
@@ -235,7 +235,7 @@ theorem native_orth_equiv_of_innerDiagOnLabel
     subst hn1S
     dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw0
     by_cases h2 : rank = 2
-    · rw [if_pos h2] at hraw0
+    · rw [ite_eq_left h2] at hraw0
       obtain ⟨K0, hfield, hfin, hKcard, hq⟩ := hraw0
       obtain ⟨-, -, θ, hP⟩ := hq
       obtain ⟨-, hBsN, hind⟩ := hP
@@ -250,9 +250,9 @@ theorem native_orth_equiv_of_innerDiagOnLabel
       exact orthCoverAux_false_of_matConj (F := K0) (H := LargeEvenSLGroup (Fin 2) K0)
         (S := Set.univ) hSsub (not_dvd_card_GL_two_of_card_four hKcard2) hBs hBstar hperf hN
         θ hind hrk hA6
-    · rw [if_neg h2] at hraw0
+    · rw [ite_eq_right h2] at hraw0
       by_cases h3 : rank = 3
-      · rw [if_pos h3] at hraw0
+      · rw [ite_eq_left h3] at hraw0
         obtain ⟨K0, hfield, hfin, hKcard, hq⟩ := hraw0
         obtain ⟨-, -, θ, hP⟩ := hq
         obtain ⟨-, hBsN, hind⟩ := hP
@@ -268,7 +268,7 @@ theorem native_orth_equiv_of_innerDiagOnLabel
           (H := LargeEvenSUGroup (Fin 4) K0 (2 ^ 1))
           (S := LargeEvenGUSet (Fin 4) K0 (2 ^ 1)) hSsub
           (not_dvd_card_GL_four_of_card_four hKcard2) hBs hBstar hperf hN θ hind hrk hA6
-      · rw [if_neg h3] at hraw0
+      · rw [ite_eq_right h3] at hraw0
         obtain ⟨K0, hfield, hfin, hKcard, b, c, hirr, hq⟩ := hraw0
         obtain ⟨hsimple, hnab, θ, hP⟩ := hq
         obtain ⟨-, hBsN, hind⟩ := hP

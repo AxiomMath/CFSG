@@ -20,7 +20,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
-private theorem s65_SixFiveK_mQuot {W V : Subgroup G} (hWV : W ≤ V)
+private theorem s65_SixFiveK_mQuot {W V : Subgroup G} (_hWV : W ≤ V)
     (hV : IsElemAbelian 2 V) : W.relIndex V = 2 ^ E3.mQuot V W := by
   have hdvd : W.relIndex V ∣ 2 ^ mSub V := by
     simpa only [card_eq_two_pow_mSub hV.isPGroup] using Subgroup.relIndex_dvd_card W V
@@ -101,8 +101,8 @@ theorem mSub_le_rMV (h : Hyp65 n M V₀ V g) : (mSub V₀ : ℕ∞) ≤ rMV M V 
       subst hz
       exact hx.2
     exact hnc (hWle.trans hcen)
-  haveI : IsMulCommutative ↥V := h.elemAbelian.1
-  haveI : (W.subgroupOf V).Normal := Subgroup.normal_of_isMulCommutative _
+  have : IsMulCommutative ↥V := h.elemAbelian.1
+  have : (W.subgroupOf V).Normal := Subgroup.normal_of_isMulCommutative _
   let f : ↥V₀ → (↥V ⧸ (W.subgroupOf V)) :=
     fun v => QuotientGroup.mk (⟨(v : G), h.le v.2⟩ : ↥V)
   have hf : Function.Injective f := by
@@ -131,7 +131,7 @@ section Certified
 
 theorem V_le_V₀_sup_K (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M V g) :
     V ≤ V₀ ⊔ KOf M V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   let L := LOf V g
   let π : ↥L →* (↥L ⧸ (KOf M V g).subgroupOf L) :=
     QuotientGroup.mk' ((KOf M V g).subgroupOf L)
@@ -140,7 +140,7 @@ theorem V_le_V₀_sup_K (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M V g
   have hT₀T : T₀ ≤ T := by
     unfold T T₀ imgK
     exact Subgroup.map_mono (Subgroup.subgroupOf_mono L h.le)
-  obtain ⟨v₀, hv₀V₀, hv₀K⟩ := SetLike.not_le_iff_exists.1 hV₀K
+  obtain ⟨v₀, hv₀V₀, hv₀K⟩ := IsConcreteLE.not_le_iff_exists.1 hV₀K
   have hv₀L : v₀ ∈ L := (h.le.trans le_sup_left) hv₀V₀
   let v₀L : ↥L := ⟨v₀, hv₀L⟩
   let t₀ : ↥L ⧸ (KOf M V g).subgroupOf L := π v₀L
@@ -332,8 +332,8 @@ theorem rMV_le_mSub (h : Hyp65 n M V₀ V g) (hV₀K : ¬ V₀ ≤ KOf M V g) :
   have hVnormN : V₀ ≤ normalizer (NOf M V g : Set G) :=
     (h.le.trans (le_sup_left.trans hcent)).trans
       (Subgroup.centralizer_le_normalizer (NOf M V g : Set G))
-  haveI : IsMulCommutative ↥V := h.elemAbelian.1
-  haveI : ((NOf M V g).subgroupOf V).Normal := Subgroup.normal_of_isMulCommutative _
+  have : IsMulCommutative ↥V := h.elemAbelian.1
+  have : ((NOf M V g).subgroupOf V).Normal := Subgroup.normal_of_isMulCommutative _
   let f : ↥V₀ → (↥V ⧸ ((NOf M V g).subgroupOf V)) :=
     fun v => QuotientGroup.mk (⟨(v : G), h.le v.2⟩ : ↥V)
   have hsurj : Function.Surjective f := by

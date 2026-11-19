@@ -107,7 +107,7 @@ theorem z_pow_eq_one (h : Lemma212ConfigGe n p P z D) : z ^ p = 1 :=
 
 theorem mem_of_normal_of_dvd (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {N : Subgroup X}
     [N.Normal] (hN : p ∣ Nat.card N) : z ∈ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨R, hR⟩ := CFSG.Glauberman.sylow_inf_normal P (N := N)
   have hRne : (R : Subgroup N) ≠ ⊥ := R.ne_bot_of_dvd_card hN
   have hPN : (P : Subgroup X) ⊓ N ≠ ⊥ := by
@@ -123,13 +123,13 @@ theorem mem_of_normal_of_dvd (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {N 
     have h2 : ((⟨t, t.2.1⟩ : ↥(P : Subgroup X)) : X) = ((1 : ↥(P : Subgroup X)) : X) :=
       congrArg Subtype.val hmem
     exact Subtype.ext h2
-  haveI : Group.IsNilpotent (↥(P : Subgroup X)) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (↥(P : Subgroup X)) := P.isPGroup.isNilpotent
   have hW : N.subgroupOf (P : Subgroup X) ⊓ center (↥(P : Subgroup X)) ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   set W : Subgroup (↥(P : Subgroup X)) :=
     N.subgroupOf (P : Subgroup X) ⊓ center (↥(P : Subgroup X))
-  have hWp : IsPGroup p W := P.isPGroup'.to_subgroup W
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
+  have hWp : IsPGroup p W := P.isPGroup.to_subgroup W
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
   obtain ⟨m, hm, hmcard⟩ := hWp.nontrivial_iff_card.mp inferInstance
   have hdvdW : p ∣ Nat.card W := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := W) p hdvdW
@@ -156,16 +156,16 @@ theorem mem_of_normal_of_dvd (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {N 
 
 theorem mem_pCore_of_pCore_ne_bot (hp : p.Prime) (h : Lemma212ConfigGe n p P z D)
     (hpc : CFSG.pCore p X ≠ ⊥) : z ∈ CFSG.pCore p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pCore p X).Normal := CFSG.pCore_normal
-  haveI : Nontrivial (CFSG.pCore p X) := (Subgroup.nontrivial_iff_ne_bot _).2 hpc
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pCore p X).Normal := CFSG.pCore_normal
+  have : Nontrivial (CFSG.pCore p X) := (Subgroup.nontrivial_iff_ne_bot _).2 hpc
   obtain ⟨m, hm, hmcard⟩ := (CFSG.pCore_isPGroup (p := p) (G := X)).nontrivial_iff_card.mp
     inferInstance
   exact h.mem_of_normal_of_dvd hp (hmcard ▸ dvd_pow_self p hm.ne')
 
 theorem mem_of_pElement_mem_centralizer (hp : p.Prime) (h : Lemma212ConfigGe n p P z D) {x : X}
     (hx : x ∈ centralizer (D : Set X)) (hxp : ∃ k : ℕ, x ^ p ^ k = 1) : x ∈ D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hxp
   have hxN : zpowers x ≤ normalizer (D : Set X) := by
     rw [zpowers_le]
@@ -182,7 +182,7 @@ theorem center_ne_bot_of_isComponentOf (hp : p.Prime) (h : Lemma212ConfigGe n p 
     (hcore : primeComplementCore (G := X) p = ⊥) (hz : z ∈ CFSG.pCore p X) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) : center K ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hKz
   set F : Set (Subgroup X) := {K | IsComponentOf K ⊤ ∧ center K = ⊥}
   have hfin : F.Finite := Set.toFinite _
@@ -211,7 +211,7 @@ theorem center_ne_bot_of_isComponentOf (hp : p.Prime) (h : Lemma212ConfigGe n p 
   have hdvdY : p ∣ Nat.card Y :=
     ((exists_pElement_not_central hp hcore hK).1.trans (Subgroup.card_quotient_dvd_card _)).trans
       (card_dvd_of_le hKY)
-  haveI := hYn
+  have := hYn
   have hzY : z ∈ Y := h.mem_of_normal_of_dvd hp hdvdY
   have hYfin : Y = ⨆ K ∈ hfin.toFinset, K :=
     le_antisymm (sSup_le fun K hK => le_iSup₂_of_le K (hfin.mem_toFinset.2 hK) le_rfl)

@@ -112,11 +112,11 @@ theorem iota_mul_initialWedge_mem_span {d r : ℕ} (b : Module.Basis (Fin d) k W
     omega
   change ExteriorAlgebra.ι k (b j) * (initialWedge b r _ : ExteriorAlgebra k W) ∈ _
   simp only [initialWedge_coe]
-  rw [TauCeti.ExteriorAlgebra.ι_mul_basis, if_neg hj, hs]
+  rw [TauCeti.ExteriorAlgebra.ι_mul_basis, ite_eq_right hj, hs]
   rcases Int.units_eq_one_or
       (TauCeti.ExteriorAlgebra.basisEraseSign j (firstIndices d (r + 1))) with hsign | hsign
-  · simp [hsign]
-  · simp [hsign]
+  · simp
+  · simp
 
 theorem exists_basis_of_wedge_extension [FiniteDimensional k W] {d r : ℕ}
     (b : Module.Basis (Fin d) k W) (hr : r + 1 ≤ d) (q : ⋀[k]^(r + 1) W)

@@ -185,7 +185,7 @@ theorem caseIIData (hN : OmegaMinusSixNormalizer) (hG1 : OmegaMinusSixA6Centrali
   obtain ⟨eL⟩ := eL
   set φ := sectHom (bbH₁ G L z v) h.inv₀ h.inv₁ with hφ
   obtain ⟨φΩ, ψW, hψW⟩ := hΩ
-  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, h.z_mem_H₁⟩ := ⟨_, rfl⟩
+  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ := ⟨_, rfl⟩
   let M : ↥(bbH₁ G L z v) →* GL (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (ZMod 2) := (conjMat ψW).comp φ
   have hMx : ∀ g x, ((M g : GL (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (ZMod 2)) :
       Matrix (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (ZMod 2)) *ᵥ x =
@@ -255,7 +255,7 @@ theorem caseIIData (hN : OmegaMinusSixNormalizer) (hG1 : OmegaMinusSixA6Centrali
     exact absurd h2 (by decide)
   have hrefl : dimComm (M z₁) = 1 := by
     refine hG1 ((L.subgroupOf (bbH₁ G L z v)).map M)
-      ((Subgroup.map_mono (Subgroup.comap_mono h.L_le_L₀)).trans hMΩ.le)
+      ((Subgroup.map_mono (Subgroup.comap_mono CFSG.CGT.Foote82.BranchB.Hyp.L_le_L₀)).trans hMΩ.le)
       ⟨(((L.subgroupOf (bbH₁ G L z v)).equivMapOfInjective M hMinj).symm.trans
         (((L.subgroupOf (bbH₁ G L z v)).equivMapOfInjective φ h.injective).trans eL))⟩
       (M z₁) hMzO (fun h1 => hz1 (hMinj (h1.trans (map_one M).symm))) ?_
@@ -287,20 +287,20 @@ theorem caseIIData (hN : OmegaMinusSixNormalizer) (hG1 : OmegaMinusSixA6Centrali
   refine ⟨ψ, ?_⟩
   have hq : CFSG.Open.IsQuasisimple ↥(bbL₀ G L v) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv
-      (((Subgroup.subgroupOfEquivOfLe h.L₀_le_H₁).symm.trans
+      (((Subgroup.subgroupOfEquivOfLe CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁).symm.trans
         (((bbL₀ G L v).subgroupOf (bbH₁ G L z v)).equivMapOfInjective M hMinj)).trans
         (MulEquiv.subgroupCongr hMΩ))
       isQuasisimple_omegaMinusTwo_two
   refine
     { le := h.H₁_le_H₀
-      z_mem := h.z_mem_H₁
+      z_mem := CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁
       ψ_z := by
-        show dimComm ((ψ ⟨z, h.z_mem_H₁⟩ : ↥(orthogonalMinus 2 (ZMod 2) 1 1)) :
+        show dimComm ((ψ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ : ↥(orthogonalMinus 2 (ZMod 2) 1 1)) :
           GL (Fin 2 ⊕ Fin 2 ⊕ Fin 2) (ZMod 2)) = 1
         rw [hψ, ← hz₁]
         exact hrefl
-      L_le := h.L_le_H₁
-      L_iso := ⟨(Subgroup.subgroupOfEquivOfLe h.L_le_H₁).symm.trans
+      L_le := CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁
+      L_iso := ⟨(Subgroup.subgroupOfEquivOfLe CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁).symm.trans
         (((L.subgroupOf (bbH₁ G L z v)).equivMapOfInjective φ h.injective).trans eL)⟩
       ψ_H := by
         have hc : ((omegaMinusTwo 2).subgroupOf (orthogonalMinus 2 (ZMod 2) 1 1)).comap
@@ -310,7 +310,7 @@ theorem caseIIData (hN : OmegaMinusSixNormalizer) (hG1 : OmegaMinusSixA6Centrali
           show M g ∈ omegaMinusTwo 2 ↔ _
           rw [← hMΩ]
           exact Subgroup.mem_map_iff_mem hMinj
-        rw [hc, Subgroup.map_subgroupOf_eq_of_le h.L₀_le_H₁]
+        rw [hc, Subgroup.map_subgroupOf_eq_of_le CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁]
       component := ⟨h.L₀_le_H₀, h.isSubnormal_L₀, hq⟩
       natural := ?_ }
   let mk : ↥(bbW₁ G L v) →+ Sect (bbW₀ G L v) (bbW₁ G L v) :=

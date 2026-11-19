@@ -44,8 +44,8 @@ theorem scalars_eq_one_of_units_subsingleton (hK : ∀ c : Kˣ, c = 1)
 
 theorem units_eq_one_of_card_le_three [Finite K] (h2 : (2 : K) = 0) {E : Type*} [Field E] [Algebra K E]
     [Finite E] (hE : Nat.card E ≤ 3) : Nat.card K = 2 ∧ ∀ c : Kˣ, c = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  haveI := Fintype.ofFinite K
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have := Fintype.ofFinite K
   have hle : Nat.card K ≤ Nat.card E :=
     Nat.card_le_card_of_injective (algebraMap K E) (algebraMap K E).injective
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
@@ -67,7 +67,7 @@ theorem units_eq_one_of_card_le_three [Finite K] (h2 : (2 : K) = 0) {E : Type*} 
 
 theorem units_pow_eq_one_of_not_dvd {E : Type*} [Field E] [Algebra K E] [Finite E] {p : ℕ}
     (hp : p.Prime) (hpq : ¬ p ∣ Nat.card E - 1) {ζ : Kˣ} (hζ : ζ ^ p = 1) : ζ = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hord : orderOf ζ = p := orderOf_eq_prime hζ hne
   have hinj : Function.Injective (Units.map (algebraMap K E : K →* E)) :=
@@ -90,7 +90,7 @@ theorem scalar_eq_one_iff (hn : 0 < n) {c : Kˣ} :
   constructor
   · intro h
     have h1 := congrArg (fun X : GL (Fin n) K => (X : Matrix (Fin n) (Fin n) K) ⟨0, hn⟩ ⟨0, hn⟩) h
-    simp only [Matrix.GeneralLinearGroup.scalar, MonoidHom.coe_mk, OneHom.coe_mk, Units.val_one,
+    simp only [Matrix.GeneralLinearGroup.scalar, Units.val_one,
       Matrix.one_apply_eq] at h1
     refine Units.ext ?_
     simpa [Matrix.scalar_apply, Matrix.diagonal_apply_eq] using h1

@@ -55,7 +55,7 @@ theorem w3Lem85TwoDispatch_of_split_at3 (h711 : ∀ H : Subgroup G, W3Lem711Alt 
   obtain ⟨X, _, φ, hφ⟩ : ∃ (X : Type) (_ : Group X) (φ : ↥(kGenIn V H) →* X),
       IsBarMap (kGenIn V H) (pCoreOf 2 (kGenIn V H)) φ :=
     ⟨_, inferInstance, QuotientGroup.mk' (CFSG.pCore 2 ↥(kGenIn V H)), isBarMap_mk_pCore _⟩
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨φ', A, Z₁, hφ', hS, hF, hZ⟩ := barFacts_of_dispatchHyp_at3 hRU hRL hD hφ
   have hAlt := ((h711 H) _ _ _ (AmbientH.hyp711 h83 hKT)).2 X φ' hφ'
   rw [hS] at hAlt

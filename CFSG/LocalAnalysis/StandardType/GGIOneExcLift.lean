@@ -61,13 +61,13 @@ theorem ggIE_exists_twoSubgroup (ψ : L' →* R) (hψ : Function.Surjective ψ)
     exact congrArg Subtype.val (Subgroup.mem_bot.mp this)
   · rintro ⟨x, hx⟩
     obtain ⟨h, hP, rfl⟩ := Subgroup.mem_map.mp hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨h, hP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨h, hP⟩
     refine ⟨k, Subtype.ext ?_⟩
     have := congrArg (fun z : (P : Subgroup H) => ((z : H) : L')) hk
     simpa using this
   · intro a ha t ht
     obtain ⟨h, hP, rfl⟩ := Subgroup.mem_map.mp ht
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨h, hP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨h, hP⟩
     have hk' : (h : H) ^ 2 ^ k = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => ((z : H)) ) hk
       simpa using this
@@ -91,6 +91,7 @@ section Induced
 
 variable {L' : Type} [Group L'] [Finite L'] {R : Type} [Group R]
 
+omit [Finite L'] in
 theorem ggIE_center_le_ker {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center R = ⊥) : Subgroup.center L' ≤ ψ.ker := by
   intro z hz
@@ -103,11 +104,13 @@ theorem ggIE_center_le_ker {ψ : L' →* R} (hψ : Function.Surjective ψ)
   rw [hZ, Subgroup.mem_bot] at hr
   exact hr
 
+omit [Finite L'] in
 theorem ggIE_ker_eq_center {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center R = ⊥) (hker : ψ.ker ≤ Subgroup.center L') :
     ψ.ker = Subgroup.center L' :=
   le_antisymm hker (ggIE_center_le_ker hψ hZ)
 
+omit [Finite L'] in
 theorem ggIE_map_ker (ψ : L' →* R) (hψ : Function.Surjective ψ) (hZ : Subgroup.center R = ⊥)
     (hker : ψ.ker ≤ Subgroup.center L') (a : MulAut L') :
     ψ.ker.map (a : L' →* L') = ψ.ker := by
@@ -121,6 +124,7 @@ theorem ggIE_map_ker (ψ : L' →* R) (hψ : Function.Surjective ψ) (hZ : Subgr
     ((QuotientGroup.congr ψ.ker ψ.ker a (ggIE_map_ker ψ hψ hZ hker a)).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ))
 
+omit [Finite L'] in
 theorem ggIE_indAut_apply {ψ : L' →* R} (hψ : Function.Surjective ψ) (hZ : Subgroup.center R = ⊥)
     (hker : ψ.ker ≤ Subgroup.center L') (a : MulAut L') (l : L') :
     ggIE_indAut hψ hZ hker a (ψ l) = ψ (a l) := by
@@ -132,6 +136,7 @@ theorem ggIE_indAut_apply {ψ : L' →* R} (hψ : Function.Surjective ψ) (hZ : 
   rw [MulEquiv.trans_apply, MulEquiv.trans_apply, h1]
   rfl
 
+omit [Finite L'] in
 theorem ggIE_eq_indAut_of_forall {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center R = ⊥) (hker : ψ.ker ≤ Subgroup.center L') {a : MulAut L'}
     {φ : MulAut R} (h : ∀ l : L', φ (ψ l) = ψ (a l)) : φ = ggIE_indAut hψ hZ hker a := by
@@ -153,6 +158,7 @@ theorem ggIE_eq_indAut_of_forall {ψ : L' →* R} (hψ : Function.Surjective ψ)
     obtain ⟨l, rfl⟩ := hψ r
     rw [MulAut.mul_apply, ggIE_indAut_apply, ggIE_indAut_apply, ggIE_indAut_apply, MulAut.mul_apply]
 
+omit [Finite L'] in
 theorem ggIE_eq_one_of_indAut {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center R = ⊥) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) {a : MulAut L'} (ha : ggIE_indAut hψ hZ hker a = 1) : a = 1 := by
@@ -173,11 +179,11 @@ theorem ggIE_eq_one_of_indAut {ψ : L' →* R} (hψ : Function.Surjective ψ)
   let S : Subgroup L' :=
     { carrier := {l | a l * l⁻¹ = 1}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [hmul, hx, hy, one_mul]
       one_mem' := by simp
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         have h := hmul x x⁻¹
         rw [mul_inv_cancel, map_one, inv_one, mul_one, hx, one_mul] at h
         exact h.symm }
@@ -205,10 +211,11 @@ theorem ggIE_eq_one_of_indAut {ψ : L' →* R} (hψ : Function.Surjective ψ)
   rw [MulAut.one_apply]
   exact mul_inv_eq_one.mp (hall l)
 
+omit [Finite L'] in
 theorem ggIE_indAutHom_injective {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center R = ⊥) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) : Function.Injective (ggIE_indAutHom hψ hZ hker) :=
-  (injective_iff_map_eq_one (ggIE_indAutHom hψ hZ hker)).mpr fun a ha =>
+  (injective_iff_map_eq_one (ggIE_indAutHom hψ hZ hker)).mpr fun _a ha =>
     ggIE_eq_one_of_indAut hψ hZ hker hperf ha
 
 theorem ggIE_isElemAbelian_map {p : ℕ} {G H : Type*} [Group G] [Group H] (f : G →* H)

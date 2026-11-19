@@ -25,7 +25,7 @@ private theorem proposition_4_a_mem_H_decompose_QD
     ∃ q : Q, ∃ d : D, (q : G) * (d : G) = h := by
   let QH : Subgroup H := Q.subgroupOf H
   let DH : Subgroup H := D.subgroupOf H
-  haveI : QH.Normal := by
+  have : QH.Normal := by
     simpa [QH] using hA1.Q_normal_in_H
   have hsupH : QH ⊔ DH = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (A := Q) (A' := D) (B := H)

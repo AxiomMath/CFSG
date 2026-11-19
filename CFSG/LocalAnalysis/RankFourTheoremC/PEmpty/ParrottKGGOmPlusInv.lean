@@ -129,6 +129,7 @@ end KGC
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n f : ℕ}
 
+omit [CharP F 2] in
 theorem exists_field_and_linear_involution (hn : 4 ≤ n) (hf : 1 ≤ f) (hF : Nat.card F = 2 ^ f)
     {S : Subgroup (MulAut (matrixProjectiveDerived (coordinateQuadPlus n F)))}
     (hSE : S ≤ matrixProjectiveImage (coordinateQuadPlus n F))

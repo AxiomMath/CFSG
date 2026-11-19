@@ -39,7 +39,7 @@ theorem map_pairNormalizers (e : A ≃* B) (K J : Subgroup A) (zK zJ : A) :
       Subgroup.closure ({e zK, e zJ} : Set B) := by
     rw [MonoidHom.map_closure]
     congr 1
-    simp [Set.image_pair]
+    simp
   have hN : (Subgroup.normalizer ((Subgroup.closure ({zK, zJ} : Set A) : Subgroup A) : Set A)).map
       e.toMonoidHom = Subgroup.normalizer
         ((Subgroup.closure ({e zK, e zJ} : Set B) : Subgroup B) : Set B) := by

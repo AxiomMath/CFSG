@@ -134,7 +134,7 @@ theorem action_rho_eq_type200 (τ : StrothTypeIndex) (hrel : τ.m + 2 = τ.n) :
     exfalso
     simp [StrothTypeIndex.m, StrothTypeIndex.n, StrothTypeIndex.k, Type331.k] at hrel
 
-theorem map_rho_sub_omegaOne_type200_coeff (m : ℕ) (hm : 2 ≤ m) (z : ℤ) :
+theorem map_rho_sub_omegaOne_type200_coeff (m : ℕ) (_hm : 2 ≤ m) (z : ℤ) :
     AddSubgroup.map ((Type200.action m).φρ - AddMonoidHom.id (Torus (Type200.k m)))
       (AddSubgroup.closure ({ z • Torus.c, (2 : ℤ) ^ (m + 1) • Torus.a,
         (2 : ℤ) ^ (m + 1) • Torus.b } : Set (Torus (Type200.k m))))
@@ -186,7 +186,7 @@ theorem map_rho_sub_omegaOne_type200_coeff (m : ℕ) (hm : 2 ≤ m) (z : ℤ) :
     apply Torus.ofInt_eq_zero_iff.mpr
     intro i
     fin_cases i <;>
-      simp [Type200.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+      simp [Type200.ρM]
   have hfa : f ((2 : ℤ) ^ (m + 1) • Torus.a) =
       (2 : ℤ) ^ (m + 1) • Torus.b - (2 : ℤ) ^ (m + 1) • Torus.a := by
     calc f ((2 : ℤ) ^ (m + 1) • Torus.a)
@@ -200,7 +200,7 @@ theorem map_rho_sub_omegaOne_type200_coeff (m : ℕ) (hm : 2 ≤ m) (z : ℤ) :
           congr 1
           funext i
           fin_cases i <;>
-            simp [Type200.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+            simp [Type200.ρM]
       _ = (2 : ℤ) ^ (m + 1) • Torus.b - (2 : ℤ) ^ (m + 1) • Torus.a := by
           rw [hb_coord, ha_coord]
   have hfb : f ((2 : ℤ) ^ (m + 1) • Torus.b) =
@@ -215,7 +215,7 @@ theorem map_rho_sub_omegaOne_type200_coeff (m : ℕ) (hm : 2 ≤ m) (z : ℤ) :
           apply Torus.ofInt_eq_ofInt_iff.mpr
           intro i
           fin_cases i <;>
-            simp [Type200.ρM, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Type200.k]
+            simp [Type200.ρM, Type200.k]
           · rw [Int.modEq_zero_iff_dvd]
             refine dvd_neg.mpr ?_
             rw [show (2 : ℤ) ^ (m + 1) = (2 : ℤ) ^ m * 2 by rw [pow_succ]]
@@ -409,9 +409,9 @@ theorem closure_deviation_range_eq_of_deviation_form_familyTwo (Z : StrothDatum 
       rw [hdev_mul, hdev_mul, hdev_zpow, hdev_zpow, hdev_zpow]
     rw [hy, hφa, hφb, hφc]
     have haH : (Z.dataD.a : G) ^ (2 ^ (Z.τ.m + 1)) ∈ H :=
-      Subgroup.subset_closure (by simp [H])
+      Subgroup.subset_closure (by simp)
     have hbH : (Z.dataD.b : G) ^ (2 ^ (Z.τ.m + 1)) ∈ H :=
-      Subgroup.subset_closure (by simp [H])
+      Subgroup.subset_closure (by simp)
     simpa using H.mul_mem (H.mul_mem (H.one_mem) (H.zpow_mem haH j)) (H.zpow_mem hbH l)
   · rw [Subgroup.closure_le]
     intro y hy
@@ -557,8 +557,8 @@ theorem e_commutator_rho_familyTwo (Z : StrothDatum X) (x : Z.D) :
     abel]
 
 theorem phi_rho_sq_sub_two_torsion_familyTwo (Z : StrothDatum X)
-    (hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) (ε : Fin 3 → ℤ)
-    (hε : ∀ i, ε i = 0 ∨ ε i = 1) :
+    (_hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) (ε : Fin 3 → ℤ)
+    (_hε : ∀ i, ε i = 0 ∨ ε i = 1) :
     Z.τ.action.φρ (Z.τ.action.φρ
         (Torus.ofInt Z.τ.k (fun i => ε i * 2 ^ (Z.τ.k i - 1)))) -
         Torus.ofInt Z.τ.k (fun i => ε i * 2 ^ (Z.τ.k i - 1)) =
@@ -579,8 +579,7 @@ theorem phi_rho_sq_sub_two_torsion_familyTwo (Z : StrothDatum X)
         -(ε 1 + ε 2) * (2 : ℤ) ^ (Z.τ.m + 1)] := by
     funext i
     fin_cases i <;>
-      simp [v, hk1, hk2, type200_rhoM_mulVec, Matrix.mulVec, dotProduct,
-        Fin.sum_univ_three] <;> ring
+      simp [v, hk1, hk2, type200_rhoM_mulVec] <;> ring
   rw [hvec]
 
 theorem e_commutator_rho_ofInt_familyTwo (Z : StrothDatum X)
@@ -635,9 +634,8 @@ theorem rho_commutator_mem_closure_familyTwo (Z : StrothDatum X)
   let hρinv : Z.dataD.ρ⁻¹ ∈ Subgroup.normalizer (Z.D : Set G) :=
     Subgroup.inv_mem (Subgroup.normalizer (Z.D : Set G)) Z.dataD.ρ_mem
   have hρinv_val : ((conjBy hρinv d * d⁻¹ : Z.D) : G) = ⁅(Z.dataD.ρ : G), x⁆ := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjBy, Subtype.coe_mk,
-      commutatorElement_def]
-    simp only [d, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, conjBy, commutatorElement_def]
+    simp only [d]
     group
   have hcube := DFunLike.congr_fun Z.τ.action.rels.rho_cube
     (Z.dataD.e (Additive.ofMul d))
@@ -669,7 +667,7 @@ theorem rho_commutator_mem_closure_familyTwo (Z : StrothDatum X)
       ⟨ε 2 - 2 * ε 1, -(ε 1 + ε 2), ?_⟩
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add]
+      Matrix.cons_val_two, Matrix.tail_cons]
     rw [hczero, zero_add]
     rw [show (ε 2 - 2 * ε 1) •
         ((2 : ℤ) ^ (Z.τ.m + 1) • (Torus.a : Torus Z.τ.k)) =
@@ -720,7 +718,7 @@ theorem commutator_zpowers_rho_le_familyTwo (Z : StrothDatum X)
     exact rho_commutator_mem_closure_familyTwo Z hk hrel hx
 
 theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
-    (hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) :
+    (_hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) :
     ⁅(Z.dataD.ρ : G), (Z.dataD.a : G) ^ (2 ^ (Z.τ.m + 1))⁆ =
       ((Z.dataD.b : G)⁻¹) ^ (2 ^ (Z.τ.m + 1)) := by
   classical
@@ -731,7 +729,7 @@ theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
     Subgroup.inv_mem (Subgroup.normalizer (Z.D : Set G)) Z.dataD.ρ_mem
   have hval : ((conjBy hρinv ya * ya⁻¹ : Z.D) : G) =
       ⁅(Z.dataD.ρ : G), (Z.dataD.a : G) ^ (2 ^ (Z.τ.m + 1))⁆ := by
-    simp only [conjBy, ya, Subtype.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [conjBy, ya, Subgroup.coe_mul, Subgroup.coe_inv,
       commutatorElement_def]
     group
   have hk1 : Z.τ.k 1 = Z.τ.m + 2 := by
@@ -746,8 +744,8 @@ theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
     rw [hya_eq, Z.dataD.e_pow, Z.dataD.e_a]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add, one_mul,
-      hk1sub, Torus.a, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, one_mul,
+      hk1sub, Torus.a, gen]
     module
   have hbb : Z.dataD.e (Additive.ofMul bb) =
       Torus.ofInt Z.τ.k ![0, 0, -(2 : ℤ) ^ (Z.τ.m + 1)] := by
@@ -757,8 +755,8 @@ theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
     rw [hbb_eq, Z.dataD.e_pow, ofMul_inv, map_neg, Z.dataD.e_b]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add,
-      Torus.b, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, zero_smul, zero_add,
+      Torus.b, gen]
     module
   have heq : Z.dataD.e (Additive.ofMul (conjBy hρinv ya * ya⁻¹)) =
       Z.dataD.e (Additive.ofMul bb) := by
@@ -768,13 +766,11 @@ theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
     intro i
     fin_cases i
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1]
       rw [Int.modEq_zero_iff_dvd]
       exact dvd_neg.mpr (pow_dvd_pow (2 : ℤ) (by omega : Z.τ.m ≤ Z.τ.m + 1))
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1]
       rw [Int.modEq_zero_iff_dvd]
       refine ⟨-1, ?_⟩
       rw [show (2 : ℤ) ^ (Z.τ.m + 2) =
@@ -782,15 +778,14 @@ theorem rho_commutator_a_pow_familyTwo (Z : StrothDatum X)
         rw [show Z.τ.m + 2 = (Z.τ.m + 1) + 1 by omega, pow_succ]; ring]
       ring
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1]
   have hEqD : (conjBy hρinv ya * ya⁻¹ : Z.D) = bb :=
     Additive.ofMul.injective (Z.dataD.e.injective heq)
   rw [← hval, hEqD]
   rfl
 
 theorem rho_commutator_ab_pow_familyTwo (Z : StrothDatum X)
-    (hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) :
+    (_hk : ∀ i, 2 ≤ Z.τ.k i) (hrel : Z.τ.m + 2 = Z.τ.n) :
     ⁅(Z.dataD.ρ : G),
         (Z.dataD.a : G) ^ (2 ^ (Z.τ.m + 1)) *
           (Z.dataD.b : G) ^ (2 ^ (Z.τ.m + 1))⁆ =
@@ -808,7 +803,7 @@ theorem rho_commutator_ab_pow_familyTwo (Z : StrothDatum X)
       ⁅(Z.dataD.ρ : G),
         (Z.dataD.a : G) ^ (2 ^ (Z.τ.m + 1)) *
           (Z.dataD.b : G) ^ (2 ^ (Z.τ.m + 1))⁆ := by
-    simp only [conjBy, y2, ya, yb, Subtype.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [conjBy, y2, ya, yb, Subgroup.coe_mul, Subgroup.coe_inv,
       commutatorElement_def]
     group
   have hk1 : Z.τ.k 1 = Z.τ.m + 2 := by
@@ -831,8 +826,8 @@ theorem rho_commutator_ab_pow_familyTwo (Z : StrothDatum X)
       hya_eq, hyb_eq, Z.dataD.e_pow, Z.dataD.e_pow, Z.dataD.e_a, Z.dataD.e_b]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add, one_mul,
-      hk1sub, hk2sub, Torus.a, Torus.b, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, one_mul,
+      hk1sub, hk2sub, Torus.a, Torus.b, gen]
     module
   have haa : Z.dataD.e (Additive.ofMul aa) =
       Torus.ofInt Z.τ.k ![0, -(2 : ℤ) ^ (Z.τ.m + 1), 0] := by
@@ -843,8 +838,8 @@ theorem rho_commutator_ab_pow_familyTwo (Z : StrothDatum X)
     rw [haa_eq, Z.dataD.e_pow, ofMul_inv, map_neg, Z.dataD.e_a]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add,
-      Torus.a, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, zero_smul, zero_add,
+      Torus.a, gen]
     module
   have heq : Z.dataD.e (Additive.ofMul (conjBy hρinv y2 * y2⁻¹)) =
       Z.dataD.e (Additive.ofMul aa) := by
@@ -854,16 +849,13 @@ theorem rho_commutator_ab_pow_familyTwo (Z : StrothDatum X)
     intro i
     fin_cases i
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2]
       rw [Int.modEq_zero_iff_dvd]
       exact dvd_neg.mpr (pow_dvd_pow (2 : ℤ) (by omega : Z.τ.m ≤ Z.τ.m + 1))
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2]
     · simp [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+        Matrix.cons_val_two, Matrix.tail_cons, type200_rhoM_mulVec, hk1, hk2]
       rw [Int.modEq_zero_iff_dvd]
       refine ⟨-1, ?_⟩
       rw [show (2 : ℤ) ^ (Z.τ.m + 2) =
@@ -893,8 +885,8 @@ theorem omegaIn_a_pow_familyTwo (Z : StrothDatum X)
     rw [hya_eq, Z.dataD.e_pow, Z.dataD.e_a]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add, one_mul,
-      hk1sub, Torus.a, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, one_mul,
+      hk1sub, Torus.a, gen]
     module
   have hk1all : ∀ i, 1 ≤ Z.τ.k i := fun i => by have := hk i; omega
   have h2 : (2 : ℤ) • Z.dataD.e (Additive.ofMul ya) = 0 := by
@@ -927,8 +919,8 @@ theorem omegaIn_b_pow_familyTwo (Z : StrothDatum X)
     rw [hyb_eq, Z.dataD.e_pow, Z.dataD.e_b]
     rw [Torus.ofInt_eq_zsmul_gens]
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Pi.zero_apply, zero_smul, zero_add, one_mul,
-      hk2sub, Torus.b, gen, Pi.single_apply]
+      Matrix.cons_val_two, Matrix.tail_cons, one_mul,
+      hk2sub, Torus.b, gen]
     module
   have hk1all : ∀ i, 1 ≤ Z.τ.k i := fun i => by have := hk i; omega
   have h2 : (2 : ℤ) • Z.dataD.e (Additive.ofMul yb) = 0 := by

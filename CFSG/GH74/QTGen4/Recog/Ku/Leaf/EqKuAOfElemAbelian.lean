@@ -24,8 +24,8 @@ variable [Finite G] {T M H P : Subgroup G} {z : G}
 
 theorem card_le_eight_of_isMulCommutative_le_P (h : KuHyp G T M H P z) {B : Subgroup G}
     (hBP : B ≤ P) (hB : IsMulCommutative B) : Nat.card B ≤ 8 := by
-  haveI := h.isEA_quot_P
-  haveI : Module.Finite (ZMod 2) (Additive (↥P ⧸ Subgroup.center ↥P)) := Module.Finite.of_finite
+  have := h.isEA_quot_P
+  have : Module.Finite (ZMod 2) (Additive (↥P ⧸ Subgroup.center ↥P)) := Module.Finite.of_finite
   let S : Submodule (ZMod 2) (Additive (↥P ⧸ Subgroup.center ↥P)) :=
     { carrier := {v | ∃ b : G, ∃ hb : b ∈ B, psi (⟨b, hBP hb⟩ : ↥P) = v}
       add_mem' := by
@@ -68,7 +68,7 @@ theorem card_le_eight_of_isMulCommutative_le_P (h : KuHyp G T M H P z) {B : Subg
   have hS2 : Module.finrank (ZMod 2) S ≤ 2 := by omega
   have hcardS : Nat.card S ≤ 4 := by
     have hpow : Nat.card S = 2 ^ Module.finrank (ZMod 2) S := by
-      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)] <;> simp [ZMod.card]
+      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)]; simp [ZMod.card]
     rw [hpow]
     calc 2 ^ Module.finrank (ZMod 2) S ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hS2
       _ = 4 := by norm_num
@@ -85,8 +85,8 @@ theorem leafEqKuAOfElemAbelian
     [KuLeaf LeafCardKuA]
     : LeafEqKuAOfElemAbelian := by
   intro G _ _ T M H P z h E' hE' hel hc
-  haveI := h.isEA_quot_P
-  haveI : Module.Finite (ZMod 2) (Additive (↥P ⧸ Subgroup.center ↥P)) := Module.Finite.of_finite
+  have := h.isEA_quot_P
+  have : Module.Finite (ZMod 2) (Additive (↥P ⧸ Subgroup.center ↥P)) := Module.Finite.of_finite
   have hA : Nat.card (kuA P H) = 16 := KuLeaf.holds (L := LeafCardKuA) h
   obtain ⟨u, huQ, hcos⟩ := h.exists_u_coset
   have hnu : u ∉ P := fun hup =>
@@ -133,7 +133,7 @@ theorem leafEqKuAOfElemAbelian
     have h4 : Nat.card (LinearMap.range (kuDeltaLin (actV hun))) = 4 := by omega
     have hpow : Nat.card (LinearMap.range (kuDeltaLin (actV hun))) =
         2 ^ Module.finrank (ZMod 2) (LinearMap.range (kuDeltaLin (actV hun))) := by
-      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)] <;> simp [ZMod.card]
+      rw [Module.natCard_eq_pow_finrank (K := ZMod 2)]; simp [ZMod.card]
     have h16 : 2 ^ Module.finrank (ZMod 2) (LinearMap.range (kuDeltaLin (actV hun))) = 2 ^ 2 :=
       (hpow.symm.trans h4).trans (by norm_num)
     exact Nat.pow_right_injective (le_refl 2) h16

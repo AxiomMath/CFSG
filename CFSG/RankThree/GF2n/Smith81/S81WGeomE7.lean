@@ -68,14 +68,14 @@ theorem rootSet7_fix [CharP K 2] :
   rintro s ⟨γ, hγ, hpr, c, rfl⟩
   have hpr' : pr i7 γ = 1 := hpr
   have hne : ¬ (pr i7 γ = -1) := by rw [hpr']; norm_num
-  rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, if_neg hne, smul_zero, add_zero]
+  rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, ite_eq_right hne, smul_zero, add_zero]
 
 theorem far7_witness [CharP K 2] {b : Fin e7Data.d} (hb : Far7 b) :
     ∃ s ∈ rootSet7 K, ∃ b' : Fin e7Data.d, b' ≠ i7 ∧ ∀ v : V K, (s v - v) b' = v b := by
   obtain ⟨γ, hγ, h1, h2, h3⟩ := far7_root hb
   refine ⟨vAut K (e7Data_valid.xu K γ 1), ⟨γ, hγ, h1, 1, rfl⟩, shift γ b, h3, fun v => ?_⟩
   rw [Finsupp.sub_apply, vAut_apply, xu_apply_coord hγ (1 : K) v (shift γ b), pr_shift_self hγ h2,
-    if_pos rfl, shift_neg_shift hγ h2]
+    ite_eq_left rfl, shift_neg_shift hγ h2]
   ring
 
 theorem mu7_W [CharP K 2] {μ : Fin e7Data.d}
@@ -87,12 +87,12 @@ theorem mu7_W [CharP K 2] {μ : Fin e7Data.d}
   have hpr' : pr i7 γ = 1 := hpr
   rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ]
   by_cases h : pr μ γ = -1
-  · rw [if_pos h, hμ γ hγ hpr' h]
+  · rw [ite_eq_left h, hμ γ hγ hpr' h]
     have hmem : c • (Finsupp.single i7 1 : V K) ∈ Submodule.span K {(Finsupp.single i7 1 : V K)} :=
       Submodule.smul_mem _ c (Submodule.mem_span_singleton_self _)
     convert hmem using 1
     abel
-  · rw [if_neg h, smul_zero, add_zero, sub_self]
+  · rw [ite_eq_right h, smul_zero, add_zero, sub_self]
     exact Submodule.zero_mem _
 
 theorem plane7 [CharP K 2] {μ : Fin e7Data.d} {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ)
@@ -112,10 +112,10 @@ theorem plane7 [CharP K 2] {μ : Fin e7Data.d} {γ : Fin (Tag.rank .E7) → ℤ}
     rw [hsh] at h
     exact h
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, if_neg hne1, smul_zero, add_zero]
-  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, if_pos hpμ, hsh]
-  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single (isRoot_neg hγ), if_pos hpi', hsh']
-  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single (isRoot_neg hγ), if_neg hne4, smul_zero,
+  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, ite_eq_right hne1, smul_zero, add_zero]
+  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single hγ, ite_eq_left hpμ, hsh]
+  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single (isRoot_neg hγ), ite_eq_left hpi', hsh']
+  · rw [vAut_apply, e7Data_valid.xu_apply, rootOp_single (isRoot_neg hγ), ite_eq_right hne4, smul_zero,
       add_zero]
 
 theorem e7MinuscGeom [Finite K] [CharP K 2] :

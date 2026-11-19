@@ -41,6 +41,7 @@ section Polar
 
 variable {R ι : Type*} [CommRing R] [Fintype ι] [DecidableEq ι]
 
+omit [DecidableEq ι] in
 theorem dot_alt_eq_zero (D : Matrix ι ι R) (hd : ∀ a, D a a = 0)
     (hs : ∀ a b, D a b + D b a = 0) (v : ι → R) : v ⬝ᵥ D *ᵥ v = 0 := by
   simp only [dotProduct, mulVec, Finset.mul_sum]
@@ -59,6 +60,7 @@ theorem dot_alt_eq_zero (D : Matrix ι ι R) (hd : ∀ a, D a a = 0)
     apply hp
     simp [hd]
 
+omit [DecidableEq ι] in
 theorem quad_eq_of_polar (P H : Matrix ι ι R) (hd : ∀ a, P a a = H a a)
     (hp : ∀ a b, P a b + P b a = H a b + H b a) (v : ι → R) : v ⬝ᵥ P *ᵥ v = v ⬝ᵥ H *ᵥ v := by
   have h := dot_alt_eq_zero (P - H) (fun a => by simp [hd]) (fun a b => by
@@ -72,12 +74,14 @@ theorem quad_eq_of_polar (P H : Matrix ι ι R) (hd : ∀ a, P a a = H a a)
   (∀ a, (Mᵀ * H * M) a a = H a a) ∧
     ∀ a b, (Mᵀ * H * M) a b + (Mᵀ * H * M) b a = H a b + H b a
 
+omit [DecidableEq ι] in
 theorem PolarOK.dot_eq {H M : Matrix ι ι R} (h : PolarOK H M) (v : ι → R) :
     (M *ᵥ v) ⬝ᵥ H *ᵥ (M *ᵥ v) = v ⬝ᵥ H *ᵥ v := by
   rw [← quad_eq_of_polar _ H h.1 h.2 v, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec,
     Matrix.mulVec_transpose, dotProduct_comm v, dotProduct_comm (M *ᵥ v),
     Matrix.dotProduct_mulVec]
 
+omit [DecidableEq ι] in
 theorem PolarOK.map {S : Type*} [CommRing S] (f : R →+* S) {H M : Matrix ι ι R}
     (h : PolarOK H M) : PolarOK (H.map f) (M.map f) := by
   have key : (M.map f)ᵀ * H.map f * M.map f = (Mᵀ * H * M).map f := by
@@ -110,7 +114,7 @@ theorem quadMinus_eq_dot {K : Type} [Field K] (b c : K) (v : OmI → K) :
 theorem Hq_map {R S : Type*} [CommRing R] [CommRing S] (f : R →+* S) (b c : R) :
     (Hq R b c).map f = Hq S (f b) (f c) := by
   ext x y
-  rcases x with i | i | i <;> rcases y with j | j | j <;> simp [Hq, Matrix.map_apply] <;>
+  rcases x with i | i | i <;> rcases y with j | j | j <;> simp [Hq, Matrix.map_apply];
     split_ifs <;> simp
 
 @[expose] def e12 : OmI ≃ Fin 12 :=
@@ -418,7 +422,7 @@ theorem torZ_add (v w : Fin 3 → ZMod 5) : torZ (v + w) = torZ v * torZ w := by
   simp only [Pi.add_apply, TG_pow_val_add]
 
 @[expose] noncomputable def torHomZ : Multiplicative (Fin 3 → ZMod 5) →* GL OmI (ZMod 2) :=
-  MonoidHom.mk' (fun v => torZ (Multiplicative.toAdd v)) (fun v w => torZ_add _ _)
+  MonoidHom.mk' (fun _v => torZ (Multiplicative.toAdd _v)) (fun _v _w => torZ_add _ _)
 
 theorem frame_mul (X Y : Matrix OmI OmI (ZMod 2)) :
     PM * X * PiM * (PM * Y * PiM) = PM * (X * Y) * PiM := by
@@ -445,7 +449,7 @@ theorem torZ_matrix (v : Fin 3 → ZMod 5) :
     ← bd_mul, frame_mul, ← bd_mul]
   congr 3
   funext l
-  fin_cases l <;> simp [Pi.mulSingle_apply]
+  fin_cases l <;> simp
 
 abbrev matZ (x : GL OmI (ZMod 2)) : Matrix OmI OmI (ZMod 2) := (x : Matrix OmI OmI (ZMod 2))
 
@@ -493,7 +497,7 @@ theorem eight_le_finrank_ker {v : Fin 3 → ZMod 5} {i j : Fin 3} (hij : i ≠ j
     simp only [Prod.mk.injEq] at h1
     obtain ⟨h2, h3⟩ := h1
     subst h2
-    fin_cases b <;> fin_cases b' <;> simp_all [hij, hij.symm]
+    fin_cases b <;> fin_cases b' <;> simp_all [hij.symm]
   have hM := torZ_sub_one v
   have hmem : ∀ s, PM *ᵥ (Pi.single (x s) (1 : ZMod 2) : OmI → ZMod 2) ∈
       LinearMap.ker (Matrix.toLin' (matZ (torZ v) - 1)) := by
@@ -743,8 +747,8 @@ theorem charP_two (hF : Fintype.card F = 2) : CharP F 2 :=
 
 theorem factorization_card_omega (hF : Fintype.card F = 2) :
     (Nat.card ↥(StatedOmega (StatedQuadMinus 6 F 1 1))).factorization 5 = 3 := by
-  haveI : Finite F := Finite.of_fintype F
-  haveI : CharP F 2 := charP_two hF
+  have : Finite F := Finite.of_fintype F
+  have : CharP F 2 := charP_two hF
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have hirr : ∀ s : F, s ^ 2 + 1 * s + 1 ≠ 0 := by
     intro s
@@ -801,13 +805,13 @@ theorem FF_conj_torGL (hF : Fintype.card F = 2) (x : Fin 3) (v : Fin 3 → ZMod 
   rcases hx with rfl | rfl | rfl
   · rw [FF_conj_TF_pow_same, FF_conj_TF_pow_other hF (by decide),
       FF_conj_TF_pow_other hF (by decide)]
-    simp [Function.update_apply, TF_pow_val_two_mul]
+    simp [TF_pow_val_two_mul]
   · rw [FF_conj_TF_pow_other hF (by decide), FF_conj_TF_pow_same,
       FF_conj_TF_pow_other hF (by decide)]
-    simp [Function.update_apply, TF_pow_val_two_mul]
+    simp [TF_pow_val_two_mul]
   · rw [FF_conj_TF_pow_other hF (by decide), FF_conj_TF_pow_other hF (by decide),
       FF_conj_TF_pow_same]
-    simp [Function.update_apply, TF_pow_val_two_mul]
+    simp [TF_pow_val_two_mul]
 
 theorem FF_pow_conj_torGL (hF : Fintype.card F = 2) (x : Fin 3) (m : ℕ) (v : Fin 3 → ZMod 5) :
     FF hF x ^ m * torGL hF (Multiplicative.ofAdd v) * (FF hF x ^ m)⁻¹ =
@@ -881,7 +885,7 @@ theorem four_lines (hF : Fintype.card F = 2) {i j k : Fin 3} (hij : i ≠ j) {S 
           rw [hk']
       _ = _ := FF_pow_conj_torGL hF i m v
   · intro m m' n hn
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hj := congrFun hn j
     have hi := congrFun hn i
     simp only [Function.update_of_ne hij.symm] at hj
@@ -896,6 +900,7 @@ abbrev matO (x : ↥(StatedOmega (StatedQuadMinus 6 F 1 1))) : Matrix OmI OmI F 
 theorem matO_torHom (hF : Fintype.card F = 2) (v : Fin 3 → ZMod 5) :
     matO (torHom hF (Multiplicative.ofAdd v)) = (matZ (torZ v)).map (psi2 hF) := rfl
 
+omit [Fintype F] in
 theorem finrank_ker_conj_om (g A : ↥(StatedOmega (StatedQuadMinus 6 F 1 1))) :
     Module.finrank F (LinearMap.ker (Matrix.toLin' (matO (g⁻¹ * A * g) - 1))) =
       Module.finrank F (LinearMap.ker (Matrix.toLin' (matO A - 1))) := by

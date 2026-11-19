@@ -30,7 +30,7 @@ private theorem le_of_isSimpleGroup_of_le_normalizer' {Γ : Type} [Group Γ] {D 
     obtain ⟨hhK, hhD⟩ := Subgroup.mem_inf.mp hh
     refine Subgroup.mem_inf.mpr ⟨?_, D.mul_mem (D.mul_mem hk hhD) (D.inv_mem hk)⟩
     exact (Subgroup.mem_normalizer_iff.mp (hDN hk) h).mp hhK
-  haveI := hnorm
+  have := hnorm
   rcases hD.eq_bot_or_eq_top_of_normal ((K ⊓ D).subgroupOf D) with h | h
   · exfalso
     have hmem : (⟨e, heD⟩ : ↥D) ∈ (K ⊓ D).subgroupOf D :=
@@ -131,7 +131,7 @@ theorem le_img148_deltaZero_of_ne_botQ (h134 : Item134) (h48 : Sec4.Item4_8)
   have hlt : Nat.card (Ronan148M.centPre148 A Y J) < Nat.card Y :=
     Ronan148M.card_centPre148_lt hJY (Ronan148M.exists_ne_comm_of_isPerfect hJp hJne)
   have h148₁ : Item148At A (lB A) (Ronan148M.centPre148 A Y J) hY₁ := ih _ hY₁ hlt
-  letI := ker148_normal hY₁.2
+  let := ker148_normal hY₁.2
   have hX1Y₁ : deltaZero A (lB A) (Ronan148M.centPre148 A Y J) ≤
       Ronan148M.centPre148 A Y J := sSup_le fun _ hQ => hQ.2
   have hN₁ := img148_le_normalizer_of_map_normal (A := A) hX1Y₁ h148₁.1
@@ -154,7 +154,7 @@ theorem step148PGLConjQ_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.It
     Step148PGLConj := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq hpq heΩ hLeA y hy D
     hDne hDC hAD heD
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨p, f, hf, hpgl⟩ := hpq
   have hA : Late.IsE27 A := h.isE27'
   have hAF : A ∈ partTwoF G := h.mem_partTwoF
@@ -173,7 +173,7 @@ theorem step148PGLConjQ_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.It
     rw [hJeq] at h1
     exact h1
   have hDs : IsSimpleGroup ↥D := by
-    haveI := hJs
+    have := hJs
     exact ((img148 A Y J).equivMapOfInjective _ (MulAut.conj _).injective).symm.isSimpleGroup
   have hDY : D ≤ img148 A Y Y := by
     rintro _ ⟨j, hj, rfl⟩
@@ -226,7 +226,7 @@ theorem step148PGLConjQ_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.It
       (fun v hv => Subgroup.mem_centralizer_singleton_iff.mpr
         (Subgroup.mem_centralizer_iff.mp (hDC (hVD hv)) _ ha₀J).symm) hV3 hAV)
   obtain ⟨hp, hJpi⟩ := Ronan148N.isoLThreePi_of_isZ3PGLThreeAt148 hpgl' hJp hJnt hAN
-  haveI := hp
+  have := hp
   have hDpi : Sec4.IsoLThreePi ↥D p f :=
     isoLThreePi_of_mulEquiv148
       ((img148 A Y J).equivMapOfInjective _ (MulAut.conj _).injective).symm hJpi

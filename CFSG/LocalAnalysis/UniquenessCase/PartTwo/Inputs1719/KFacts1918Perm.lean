@@ -30,10 +30,10 @@ theorem alternatingGroup_le_of_normal_perm {k : ℕ} (hk : k = 3 ∨ 5 ≤ k)
     {N : Subgroup (Equiv.Perm (Fin k))} (hN : N.Normal) (hne : N ≠ ⊥) :
     alternatingGroup (Fin k) ≤ N := by
   rcases hk with rfl | hk5
-  · haveI : N.Normal := hN
+  · have : N.Normal := hN
     exact CFSG.Quasithin.F53.normal_ge_alt3 N hne
-  · haveI : N.Normal := hN
-    haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
+  · have : N.Normal := hN
+    have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
     exact Equiv.Perm.alternatingGroup_le_of_normal (by simpa using hk5) inferInstance
 
 theorem kFacts1918_of_perm {X : Type} [Group X] [Finite X] (Y : Subgroup X) {k : ℕ}
@@ -54,7 +54,7 @@ theorem kFacts1918_of_perm {X : Type} [Group X] [Finite X] (Y : Subgroup X) {k :
   refine ⟨?_, ?_⟩
   · intro Nn hNnY hNn hNnQ
     exact oUpperTwo_le_sup_pCoreOf_of_quot Y φ hφ (le_of_eq hker) hmin Nn hNnY hNn hNnQ
-  · haveI : Nontrivial (Fin k) :=
+  · have : Nontrivial (Fin k) :=
       Fintype.one_lt_card_iff_nontrivial.mp (by
         rw [Fintype.card_fin]
         rcases hk with h3 | h5 <;> omega)

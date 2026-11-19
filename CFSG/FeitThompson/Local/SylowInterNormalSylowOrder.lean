@@ -42,7 +42,7 @@ theorem pow_factorization_dvd_natCard_inf_sylow [Finite G] (N : Subgroup G) [N.N
 
 theorem natCard_inf_sylow [Finite G] (N : Subgroup G) [N.Normal] (S : Sylow p G) :
     Nat.card (N ⊓ (S : Subgroup G) : Subgroup G) = p ^ (Nat.card N).factorization p := by
-  have hp : IsPGroup p (N ⊓ (S : Subgroup G) : Subgroup G) := IsPGroup.to_inf_right S.isPGroup'
+  have hp : IsPGroup p (N ⊓ (S : Subgroup G) : Subgroup G) := IsPGroup.to_inf_right S.isPGroup
   obtain ⟨n, hn⟩ := hp.exists_card_eq
   have hdvd : p ^ (Nat.card N).factorization p ∣ p ^ n :=
     hn ▸ pow_factorization_dvd_natCard_inf_sylow N S

@@ -124,7 +124,7 @@ theorem ggTorsionKnownOverTagsE67_exc
           (Nat.pow_le_pow_right (by norm_num) (Nat.le_mul_of_pos_right _ (by omega))) 70
       exact lt_of_le_of_lt hleA (lt_of_lt_of_le hlt (le_trans hqle hRTpow))
     obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θA hδ1 hcomp.1
-    haveI : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
+    have : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
     have hHleR : Nat.card ↥H ≤ Nat.card RA :=
       Nat.card_le_card_of_injective H.subtype H.subtype_injective
     have hHneR : Nat.card ↥H ≠ Nat.card RA := by

@@ -427,9 +427,9 @@ theorem exists_low_family_of_typeIII
     intro i j
     rw [hvvdef, hνiso, cfInner_eq_ite_of_mem_Irr (hζIrr i) (hζIrr j)]
     by_cases hij : i = j
-    · subst hij; rw [if_pos rfl, if_pos rfl]
-    · rw [if_neg (fun h' => hij (hζinj i j h')), if_neg hij]
-  have hvnorm : ∀ i, cfInner (vv i) (vv i) = 1 := fun i => by rw [hvorth i i, if_pos rfl]
+    · subst hij; rw [ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right (fun h' => hij (hζinj i j h')), ite_eq_right hij]
+  have hvnorm : ∀ i, cfInner (vv i) (vv i) = 1 := fun i => by rw [hvorth i i, ite_eq_left rfl]
   have hvsigned : ∀ i, vv i ∈ signedIrr G := fun i =>
     mem_signedIrr_of_mem_span_Irr_of_cfInner_self_eq_one (hvspan i) (hvnorm i)
   have hvdiff : ∀ i j, vv i - vv j = dadeTau T W₂ W₁ (ζ i) - dadeTau T W₂ W₁ (ζ j) := by
@@ -497,7 +497,7 @@ theorem exists_low_family_of_typeIII
     have hk' : ζ i = star (ζ k) := by rw [hk, star_star]
     have hsik := hψstar i k hk
     have hski := hψstar k i hk'
-    have hYX : cfInner (vv k) (vv i) = 0 := by rw [hvorth k i, if_neg hki]
+    have hYX : cfInner (vv k) (vv i) = 0 := by rw [hvorth k i, ite_eq_right hki]
     have hsum : vv i + (fun g => conj (vv i g)) = vv k + (fun g => conj (vv k g)) := by
       have e1 := hΦ i k
       have e2 : star (ψ i + vv i) = star (ψ k + vv k) := by rw [e1]
@@ -518,7 +518,7 @@ theorem exists_low_family_of_typeIII
     have him := Complex.conj_eq_iff_im.1 hg'
     simp only [Pi.sub_apply, Pi.one_apply, Complex.sub_im, Complex.one_im, sub_zero]
     exact him
-  · rw [isOrthogonal_iff, cfInner_sub_left, cfInner_add_left, hv1, h1η, hψη, if_pos rfl, ← h1η,
+  · rw [isOrthogonal_iff, cfInner_sub_left, cfInner_add_left, hv1, h1η, hψη, ite_eq_left rfl, ← h1η,
       cfInner_one_one]
     ring
   · rw [hβeq, hψη]

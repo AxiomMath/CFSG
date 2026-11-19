@@ -58,7 +58,7 @@ theorem exists_mem_nextLayer {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W
           apply Subtype.ext
           simpa [pow_two] using hA.2 (a : MulAut W) a.2))
   have hbot : (⊥ : Subgroup (W ⧸ P)) ≠ ⊤ := by
-    haveI : Nontrivial (W ⧸ P) := QuotientGroup.nontrivial_iff.mpr hPW
+    have : Nontrivial (W ⧸ P) := QuotientGroup.nontrivial_iff.mpr hPW
     intro h
     have hsub : Subsingleton (W ⧸ P) := by
       refine ⟨fun x y => ?_⟩
@@ -219,7 +219,7 @@ private lemma card_toAddSubgroup_toSubgroup {F : Type} [Field F]
         ⟨x.1.toAdd, (Multiplicative.mem_toSubgroup P.toAddSubgroup x.1).mp x.2⟩
       invFun := fun x =>
         ⟨Multiplicative.ofAdd x.1,
-          (Multiplicative.mem_toSubgroup P.toAddSubgroup _).mpr (by simpa using x.2)⟩
+          (Multiplicative.mem_toSubgroup P.toAddSubgroup _).mpr (by simp)⟩
       left_inv := ?_
       right_inv := ?_ }
   · intro x

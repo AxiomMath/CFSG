@@ -89,8 +89,8 @@ theorem sl2_of_card {Y : Type} [Group Y] [Finite Y] {J K : Subgroup Y} (hJ : Nat
     (hx3 : x ^ 3 = 1) (hxr : orderOf (x * r * x⁻¹ * r⁻¹) = 4) :
     Nonempty (↥J ⧸ classicalInvolutionOddCore ↥J ≃* SL(2, ZMod 3)) := by
   obtain ⟨eK⟩ := eK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥J :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥J :=
     CFSG.GH74.KGroups.isSolvable_of_two_primes (by rw [hJ]; decide +kernel)
   have hKcard : Nat.card ↥(K.subgroupOf J) = 2 ^ (Nat.card ↥J).factorization 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKJ).toEquiv, Nat.card_congr eK.toEquiv,
@@ -384,8 +384,8 @@ theorem false_of_A (h : PerpHypS n Y R S t) {f : Y →* P45} (hf : Function.Inje
 
 theorem leaf_psp43 {n : ℕ} : TwinLeafS n fun F _ => CFSG.Blueprint.LieModel F .PSp 2 3 1 := by
   intro Y _ _ R S t h _ hF
-  haveI := h.core.simple
-  haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   obtain ⟨hcovL, hlocL, hcovA, hlocA, hsig⟩ := check_parts Certificates.certificate397501
   obtain ⟨f₀, hf₀, hA, hN₀, hP⟩ := model_embedding h.core.nonab hF
   rcases range_cases hf₀ hA hP with ⟨-, hL⟩ | ⟨hcard, hL⟩

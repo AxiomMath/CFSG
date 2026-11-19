@@ -127,7 +127,7 @@ theorem adj_mem_normalizer_of_comm {G : Type*} [Group G] {x : G} {N : Subgroup G
   rwa [e] at h2
 
 theorem adj_parJ_mono {J J' : Set (Fin D.rank)} (h : J ⊆ J') : parJ D H J ≤ parJ D H J' :=
-  sup_le (borel_le_parJ J') (iSup₂_le fun i hi => rankOne_le_parJ (h hi))
+  sup_le (borel_le_parJ J') (iSup₂_le fun _i hi => rankOne_le_parJ (h hi))
 
 theorem borel_mul_cells (i : Fin D.rank) {b g : K} (hb : b ∈ borel D H)
     (hg : g ∈ bruhatCell hct 1 ∪ bruhatCell hct ((cs).simple i)) :
@@ -271,7 +271,7 @@ theorem simple_mul_simple_ne_one {j k : Fin D.rank} (hjk : j ≠ k) :
   rw [weylAction_mul_apply, weylAction_simple_single D.isFiniteType, map_neg,
     weylAction_simple_single_eq k j] at h1
   have h2 := congrFun h1 j
-  simp [Pi.single_apply, hjk, Ne.symm hjk] at h2
+  simp [hjk] at h2
 
 theorem cartan_eq_zero_of_simple_comm {j k : Fin D.rank} (hjk : j ≠ k)
     (hc : (cs).simple k * (cs).simple j = (cs).simple j * (cs).simple k) : D.cartan j k = 0 := by
@@ -283,7 +283,7 @@ theorem cartan_eq_zero_of_simple_comm {j k : Fin D.rank} (hjk : j ≠ k)
     weylAction_simple_single D.isFiniteType, weylAction_simple_single_eq j k] at h1
   have h2 := congrFun h1 k
   have hkj : D.cartan k j = 0 := by
-    simp [Pi.single_apply, hjk, Ne.symm hjk] at h2
+    simp [Ne.symm hjk] at h2
     omega
   exact D.isFiniteType.apply_eq_zero_symm hkj
 
@@ -324,7 +324,7 @@ theorem parJ_mul_eq_of_cartan_eq_zero {j k : Fin D.rank} (hjk : j ≠ k)
     (h : D.cartan j k = 0) :
     (parJ D H {j} : Set K) * (parJ D H {k} : Set K) = (parJ D H {j, k} : Set K) := by
   have hcomm : ∀ x ∈ rankOne D.rootGroup j, ∀ y ∈ rankOne D.rootGroup k, x * y = y * x :=
-    fun x hx y hy => rankOne_commute hct hext hjk h hx hy
+    fun x hx y hy => rankOne_commute hext hjk h hx hy
   have hLjn : rankOne D.rootGroup j ≤ Subgroup.normalizer (rankOne D.rootGroup k : Set K) :=
     fun x hx => adj_mem_normalizer_of_comm fun y hy => hcomm x hx y hy
   have hTj : (⨆ i, H i) ≤ Subgroup.normalizer (rankOne D.rootGroup j : Set K) :=
@@ -338,7 +338,7 @@ theorem parJ_mul_eq_of_cartan_eq_zero {j k : Fin D.rank} (hjk : j ≠ k)
     le_normalizer_sup hTj hTk
   have hsplit : parJ D H {j, k} = unipRad D {j, k} ⊔
       ((rankOne D.rootGroup j ⊔ rankOne D.rootGroup k) ⊔ ⨆ i, H i) := by
-    simp only [parJ_eq_sup, unipJ_eq_sup hct hext, iSup_pair, sup_assoc]
+    simp only [parJ_eq_sup, unipJ_eq_sup hct, iSup_pair, sup_assoc]
   have hR : (rankOne D.rootGroup j ⊔ rankOne D.rootGroup k) ⊔ ⨆ i, H i ≤ parJ D H {j, k} :=
     sup_le (sup_le (rankOne_le_parJ (Set.mem_insert j {k}))
       (rankOne_le_parJ (Set.mem_insert_of_mem j (Set.mem_singleton k))))

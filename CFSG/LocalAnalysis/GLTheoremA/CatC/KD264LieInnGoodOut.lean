@@ -53,7 +53,7 @@ theorem mem_inner_of_mem_innAutDerived_of_outPNice {p : ℕ} [Fact p.Prime] {X :
 theorem innGoodAt_of_outPNice {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite S]
     (hZ : Subgroup.center S = ⊥) (hout : OutPNice p S) (h : PerfectCentralizerPlanes p S)
     (d : TauCeti.LieTypeIndex) : InnGoodAt p d S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact innGoodAt_of_inner_planes hZ
     (fun β hβ hβp => mem_inner_of_mem_innAutDerived_of_outPNice hout hβ hβp) h d
 

@@ -15,10 +15,10 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
 theorem b_mem_ZZ (h : FF84Hyp b L) : b ∈ Cen b ⊓ CenS L :=
   Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 rfl,
-    Subgroup.mem_centralizer_iff.2 fun l hl => Subgroup.mem_centralizer_singleton_iff.1 (h.hLC hl)⟩
+    Subgroup.mem_centralizer_iff.2 fun _l hl => Subgroup.mem_centralizer_singleton_iff.1 (h.hLC hl)⟩
 
 theorem pSolv3_ZZ (h : FF84Hyp b L) : IsPSolvable 3 ↥(Cen b ⊓ CenS L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ZZ := Cen b ⊓ CenS L with hZZ
   have hb3 : b ^ 3 = 1 := by rw [← h.ord]; exact pow_orderOf_eq_one b
   set bt : ↥ZZ := ⟨b, b_mem_ZZ h⟩ with hbt
@@ -34,9 +34,9 @@ theorem pSolv3_ZZ (h : FF84Hyp b L) : IsPSolvable 3 ↥(Cen b ⊓ CenS L) := by
     intro P
     set ι : ↥ZZ →* ↥(CenS L) := Subgroup.inclusion (inf_le_right : ZZ ≤ CenS L) with hι
     have hinj : Function.Injective ι := Subgroup.inclusion_injective _
-    obtain ⟨Q, hQ⟩ := (P.isPGroup'.map ι).exists_le_sylow
-    haveI := h.cyc Q
-    haveI : IsCyclic ↥((P : Subgroup ↥ZZ).map ι) := Subgroup.isCyclic_of_le hQ
+    obtain ⟨Q, hQ⟩ := (P.isPGroup.map ι).exists_le_sylow
+    have := h.cyc Q
+    have : IsCyclic ↥((P : Subgroup ↥ZZ).map ι) := Subgroup.isCyclic_of_le hQ
     exact isCyclic_of_surjective (Subgroup.equivMapOfInjective _ ι hinj).symm.toMonoidHom
       (Subgroup.equivMapOfInjective _ ι hinj).symm.surjective
   have hcen : ∀ x : ↥ZZ, orderOf x = 3 → x ∈ Subgroup.center ↥ZZ := by
@@ -48,7 +48,7 @@ theorem pSolv3_ZZ (h : FF84Hyp b L) : IsPSolvable 3 ↥(Cen b ⊓ CenS L) := by
       exact hn⟩
     have hbP : Subgroup.zpowers bt ≤ P :=
       (isPGroup_zpowers (p := 3) (k := 1) (by simpa using hbt3)).le_sylow_of_normal P
-    haveI := hcyc P
+    have := hcyc P
     have hxP : x ∈ (P : Subgroup ↥ZZ) := hP (Subgroup.mem_zpowers x)
     have hbP' : bt ∈ (P : Subgroup ↥ZZ) := hbP (Subgroup.mem_zpowers bt)
     set x' : ↥(P : Subgroup ↥ZZ) := ⟨x, hxP⟩

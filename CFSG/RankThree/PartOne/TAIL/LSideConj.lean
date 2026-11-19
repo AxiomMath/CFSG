@@ -20,7 +20,7 @@ theorem exists_sylow_card_forty_nine (hM : ¬ 7 ^ 3 ∣ Nat.card M) (H : Subgrou
   have hp : IsPGroup 7 H := IsPGroup.of_card (n := 2) (by rw [hH]; norm_num)
   obtain ⟨P, hHP⟩ := hp.exists_le_sylow
   refine ⟨P, ?_⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have h1 : 7 ^ k ∣ Nat.card M := hk ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup M)
   have h2 : 7 ^ 2 ∣ 7 ^ k := by
     have := Subgroup.card_dvd_of_le hHP

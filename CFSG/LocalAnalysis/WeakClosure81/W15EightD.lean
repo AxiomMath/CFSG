@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjClosure_sup_le_conjClosure_sup (X Y H : Subgroup G) :
     conjClosure (X ⊔ Y) H ≤ conjClosure X H ⊔ conjClosure Y H := by
   refine conjClosure_le fun k hk z hz => ?_
@@ -45,10 +46,13 @@ namespace Fam15
 
 variable {V₀ V U S H' : Subgroup G}
 
+omit [Finite G] in
 theorem S_le (hF : Fam15 V₀ V U S H') : S ≤ H' := hF.1
 
+omit [Finite G] in
 theorem not_V_le_pCoreOf (hF : Fam15 V₀ V U S H') : ¬ V ≤ pCoreOf 2 H' := hF.2.1
 
+omit [Finite G] in
 theorem comm (hF : Fam15 V₀ V U S H') :
     ∀ x ∈ zSub15 V₀ U H', ∀ y ∈ zSub15 V₀ U H', x * y = y * x := hF.2.2
 
@@ -103,6 +107,7 @@ theorem isElemAbelian_conjClosure_v1Sub15 (h : Cex15 M V₀ V U S) {H : Subgroup
     rw [conj_pow, hsq y hy]
     group
 
+omit [Finite G] in
 theorem zSub15_le_sup (V₀ U : Subgroup G) {H : Subgroup G} (hH : H ≤ centralizer (U : Set G)) :
     zSub15 V₀ U H ≤ U ⊔ conjClosure (v1Sub15 V₀ U) H := by
   refine (conjClosure_sup_le_conjClosure_sup U (v1Sub15 V₀ U) H).trans (sup_le_sup_right ?_ _)
@@ -138,6 +143,7 @@ namespace Fam15
 
 variable {M V₀ V U S H' : Subgroup G}
 
+omit [Finite G] in
 theorem isElemAbelian_zSub15 (h : Cex15 M V₀ V U S)
     (hF : Fam15 V₀ V U S H') : IsElemAbelian 2 (zSub15 V₀ U H') := by
   have hUV : U ⊔ v1Sub15 V₀ U ≤ V :=
@@ -152,9 +158,10 @@ theorem isElemAbelian_zSub15 (h : Cex15 M V₀ V U S)
   rw [conj_pow, hsq z hz]
   group
 
+omit [Finite G] in
 theorem zSub15_le_pCoreOf (h : Cex15 M V₀ V U S) (hF : Fam15 V₀ V U S H') :
     zSub15 V₀ U H' ≤ pCoreOf 2 H' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUS : U ⊔ v1Sub15 V₀ U ≤ H' :=
     sup_le (h.le.trans (h.V_le_S.trans hF.S_le))
       (((v1Sub15_le_left V₀ U).trans h.V₀_le_S).trans hF.S_le)
@@ -162,10 +169,12 @@ theorem zSub15_le_pCoreOf (h : Cex15 M V₀ V U S) (hF : Fam15 V₀ V U S H') :
     (le_normalizer_conjClosure _ _) (B2F.isPGroup_of_isElemAbelian (hF.isElemAbelian_zSub15 h))
   exact conjClosure_le fun k hk z hz => H'.mul_mem (H'.mul_mem hk (hUS hz)) (H'.inv_mem hk)
 
+omit [Finite G] in
 theorem U_le_pCoreOf (h : Cex15 M V₀ V U S) (hF : Fam15 V₀ V U S H') :
     U ≤ pCoreOf 2 H' :=
   (le_sup_left.trans (le_conjClosure _ _)).trans (hF.zSub15_le_pCoreOf h)
 
+omit [Finite G] in
 theorem v1_le_pCoreOf (h : Cex15 M V₀ V U S) (hF : Fam15 V₀ V U S H') :
     v1Sub15 V₀ U ≤ pCoreOf 2 H' :=
   (le_sup_right.trans (le_conjClosure _ _)).trans (hF.zSub15_le_pCoreOf h)

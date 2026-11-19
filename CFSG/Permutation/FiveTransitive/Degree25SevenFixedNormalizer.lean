@@ -98,7 +98,7 @@ private theorem sylow_seven_card_eq_seven_of_dvd_not_square
     (hnotSevenSq : ¬7 ^ 2 ∣ Nat.card G)
     (S : Sylow 7 G) :
     Nat.card S = 7 := by
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨m, hm⟩ := hseven
   have hmPos : m ≠ 0 := by
     intro hmZero
@@ -130,7 +130,7 @@ private theorem alternating_card_dvd_of_seven_dvd_five_point_stabilizer
     19958400 ∣ Nat.card P ∧
       5 ∣ Nat.card (fixingSubgroup P s) := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hnotSevenSq :
       ¬7 ^ 2 ∣ Nat.card H := by
@@ -142,7 +142,7 @@ private theorem alternating_card_dvd_of_seven_dvd_five_point_stabilizer
     sylow_seven_card_eq_seven_of_dvd_not_square
       H (by simpa only [H] using hseven)
         hnotSevenSq S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -225,9 +225,9 @@ private theorem alternating_card_dvd_of_seven_dvd_five_point_stabilizer
       Equiv.Perm.sum_cycleType, hcard, hgSupport]
   let N : Subgroup P :=
     Subgroup.normalizer (SP : Set P)
-  letI : SMul N F :=
+  let : SMul N F :=
     Degree24.NormalizerFixedPoints.normalizerSMul X P SP
-  letI : MulAction N F :=
+  let : MulAction N F :=
     Degree24.NormalizerFixedPoints.normalizerMulAction X P SP
   let ρ : N →* Equiv.Perm F :=
     MulAction.toPermHom N F
@@ -534,7 +534,7 @@ private theorem alternating_card_dvd_of_seven_dvd_five_point_stabilizer
     hAltDvdN.trans N.card_subgroup_dvd_card
   have hAltCard :
       Nat.card (alternatingGroup F) = 19958400 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     rw [Nat.card_eq_fintype_card,
       card_alternatingGroup, hFcard]

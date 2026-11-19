@@ -116,7 +116,7 @@ theorem zuPtN_mul (m m' : ℕ) :
 
 theorem zuPtN_zero : ∀ n, zuPtN n 0 = 1
   | 0 => rfl
-  | n + 1 => by rw [zuPtN, zuPtN_zero n, zuBit, Nat.zero_testBit, if_neg Bool.false_ne_true, mul_one]
+  | n + 1 => by rw [zuPtN, zuPtN_zero n, zuBit, Nat.zero_testBit, ite_eq_right Bool.false_ne_true, mul_one]
 
 theorem zuPt_mul {m m' : ℕ} (_hm : m < 16) (_hm' : m' < 16) : zuPt m * zuPt m' = zuPt (m ^^^ m') :=
   zuPtN_mul m m' 4 le_rfl

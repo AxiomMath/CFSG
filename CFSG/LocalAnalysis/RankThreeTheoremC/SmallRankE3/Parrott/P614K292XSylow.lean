@@ -106,7 +106,7 @@ theorem exists_sylow_le_normalizer (M : LModel L π p f K ν) (hν : Function.In
     (hind : ¬ 3 ∣ (normalizer (threeFrame y v : Set (GL (Fin 3) K))).relIndex
       (slPi π 3 (p ^ f) K)) :
     ∃ Q : Sylow 3 X, (Q : Subgroup X) ≤ normalizer (threeFrameIn ν y v : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact exists_sylow_le_of_not_dvd_index (not_three_dvd_index M hν hF hconj hind)
 
 end P614K292X

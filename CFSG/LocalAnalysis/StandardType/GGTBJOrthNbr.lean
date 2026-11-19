@@ -460,7 +460,7 @@ theorem ggTBJOrthNbr_exists_markedDeletionChart_of_conj_of_three_le
 theorem ggTBJOrthNbr_exists_markedDeletionChart_of_conj
     (hr : 4 ≤ r) (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (Bs L K : Subgroup G) (eta : ↥Bs ≃* (I → Multiplicative (ZMod p)))
-    (ell : Equiv.Perm I) (u : I) (h0u : (0 : I) ≠ u)
+    (ell : Equiv.Perm I) (u : I) (_h0u : (0 : I) ≠ u)
     (w : G) (hw : w ∈ Subgroup.normalizer (Bs : Set G))
     (hact : MulAut.congr eta (ggConjAut Bs hw) =
       SpCoord.permAut (ell * Equiv.swap 0 u * ell⁻¹))

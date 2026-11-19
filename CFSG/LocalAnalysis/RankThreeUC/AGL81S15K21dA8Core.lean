@@ -43,7 +43,7 @@ theorem factorization_576_three : Nat.factorization 576 3 = 2 := by
 theorem exists_conj_of_card_nine {G : Type} [Group G] [Finite G] {D E E' : Subgroup G}
     (hD : Nat.card D = 576) (hE : E ≤ D) (hE' : E' ≤ D) (h9 : Nat.card E = 9)
     (h9' : Nat.card E' = 9) : ∃ d ∈ D, E = E'.map (MulAut.conj d).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ {F : Subgroup G}, F ≤ D → Nat.card F = 9 →
       Nat.card (F.subgroupOf D) = 3 ^ (Nat.card D).factorization 3 := by
     intro F hF h

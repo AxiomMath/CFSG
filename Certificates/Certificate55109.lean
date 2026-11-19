@@ -17,7 +17,7 @@ open CertificateChecks
 
 private theorem ng_eq55109 : ngCheck () = ngC := by
   rw [ngCheck.eq_1, L0_ev, rho_ev, jay_ev, ngWit_ev, E2_ev, ngC.eq_1, ngT.eq_1]
-  simp only [List.all_map, Function.comp_def, ngBad.eq_1, norms_ev, ev_mul', ev_inv', ev_pow',
+  simp only [List.all_map, Function.comp_def, ngBad.eq_1, norms_ev, ev_mul', ev_pow',
     one_eq_ev, decide_ev_eq]
 
 theorem certificate55109 : CFSG.ClassicalInvolution.Q3.TL4.E4Sp6.ngCheck () = true := by

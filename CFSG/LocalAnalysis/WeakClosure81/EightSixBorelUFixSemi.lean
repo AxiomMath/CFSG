@@ -40,6 +40,7 @@ open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher (glAut)
 
 variable {m n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private lemma borel86_ufs_hform_add_smul (h : UnitaryFieldData 2 n F) {a b : Fin m → F} (l : F)
     (haa : hform h.bar a a = 0) (hbb : hform h.bar b b = 0) (hab : hform h.bar a b = 0) :
     hform h.bar (a + l • b) (a + l • b) = 0 := by
@@ -48,6 +49,7 @@ private lemma borel86_ufs_hform_add_smul (h : UnitaryFieldData 2 n F) {a b : Fin
   rw [haa, hform_comm h.bar_bar a b, hab, hbb, map_zero]
   simp
 
+omit [Finite F] in
 theorem borel86_ufs_refl_or_bar (h : UnitaryFieldData 2 n F) {σ : F ≃+* F} {A : GL (Fin m) F}
     {u : Fin m → F} (hu : u ≠ 0)
     (hE : ∀ b : F, b ≠ 0 → h.bar b = b →
@@ -73,7 +75,7 @@ theorem borel86_ufs_exists_pair (h : UnitaryFieldData 2 n F) (hm : 4 ≤ m)
     ∃ a b : Fin m → F, (G : GL (Fin m) F).val *ᵥ a = a ∧ (G : GL (Fin m) F).val *ᵥ b = b ∧
       hform h.bar a a = 0 ∧ hform h.bar b b = 0 ∧ hform h.bar a b = 0 ∧
       ∀ x y : F, x • a + y • b = 0 → x = 0 ∧ y = 0 := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨a, ha0, haa, hGa, hperp⟩ := borel86_ud_exists_fixed_isotropic h hG hG1
   by_cases hcase : ∃ x : Fin m → F, ∀ μ : F, (G : GL (Fin m) F).val *ᵥ x + x ≠ μ • a
   · obtain ⟨x, hx⟩ := hcase
@@ -185,6 +187,7 @@ theorem borel86_ufs_exists_pair (h : UnitaryFieldData 2 n F) (hm : 4 ≤ m)
       exact h1
     exact ⟨hx0, hy0⟩
 
+omit [Finite F] in
 theorem borel86_ufs_false_of_pencil (h : UnitaryFieldData 2 n F) (A : GL (Fin m) F)
     {a b : Fin m → F} (hab : ∀ x y : F, x • a + y • b = 0 → x = 0 ∧ y = 0)
     (hb : ∃ κ : F, (A : Matrix (Fin m) (Fin m) F) *ᵥ (h.bar ∘ b) = κ • b)
@@ -262,6 +265,7 @@ theorem borel86_ufs_false_of_bar (h : UnitaryFieldData 2 n F) (hm : 4 ≤ m)
     rw [Matrix.mulVec_add, Matrix.mulVec_smul, hGa, hGb]
   exact hE (a + l • b) hv0 hviso hGv
 
+omit [Finite F] in
 theorem borel86_ufs_mem_range_conj_of_refl (h : UnitaryFieldData 2 n F) {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)
     {α : MulAut (StatedProj (StatedSU m (2 ^ n) F))}

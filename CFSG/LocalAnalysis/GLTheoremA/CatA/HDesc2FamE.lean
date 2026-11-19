@@ -37,7 +37,7 @@ theorem td4_none_lu (ctx : LvCtx) (hbridge : LieOrderBridge) {S : Type} [Group S
         obtain ⟨-, hM⟩ := model_data ctx.ord hS
         obtain ⟨-, hM'⟩ := model_data ctx.ord hm
         exact td4_excl_lu he hS.admissible hM hM' ht
-      · haveI : Finite S := (ctx.ord S t n 2 f hS.admissible hS).1
+      · have : Finite S := (ctx.ord S t n 2 f hS.admissible hS).1
         have hcard : Nat.card S = orderTrialityD4 q.card := hbridge ⟨.trialityD4 q, hv⟩ S ⟨e⟩
         have hadm' : StatedLieAdmissible .trialityD4 0 q.p q.exponent :=
           ⟨q.prime_p, q.exponent_pos, rfl⟩

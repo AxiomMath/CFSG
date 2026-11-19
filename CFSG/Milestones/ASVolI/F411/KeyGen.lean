@@ -78,9 +78,9 @@ theorem burnsideF411_map_pCoreOf_self {H : Subgroup E} (p : ℕ) (φ : ↥H →*
 
 theorem burnsideF411_ctr_ne_bot [Finite E] {p : ℕ} [Fact p.Prime] {H : Subgroup E}
     (hp : IsPGroup p H) (hH : H ≠ ⊥) : burnsideF411_ctr H ≠ ⊥ := by
-  haveI : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hH
+  have : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hH
   have hp' : IsPGroup p ↥H := hp
-  haveI := hp'.center_nontrivial
+  have := hp'.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center ↥H)
   intro hbot
   apply hz
@@ -123,7 +123,7 @@ theorem burnsideF411_pCoreOf_borel_ne_bot [Finite E] {p : ℕ} [Fact p.Prime]
     simpa [mul_assoc] using this
 
 theorem burnsideF411_swap_of_center [Finite E] {p : ℕ} [Fact p.Prime] {Gp M₁ M₂ : Subgroup E}
-    (hN : Gp.Normal) (hsplit : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₁ ⊓ M₂, e = n * h)
+    (_hN : Gp.Normal) (hsplit : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₁ ⊓ M₂, e = n * h)
     (hP : IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂))
     (hBT : burnsideF411_BorelTitsIn p Gp)
     (hB : pCoreOf p (M₁ ⊓ M₂) = pCoreOf p (Gp ⊓ (M₁ ⊓ M₂)))

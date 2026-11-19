@@ -403,7 +403,7 @@ theorem sl_gf4_facts {E : Type} [Field E] [Finite E] {j : ℕ} (hj : 1 ≤ j) (h
   · by_cases h24 : m = 2 ∧ j = 1
     · obtain ⟨rfl, rfl⟩ := h24
       left
-      haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) E) :=
+      have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) E) :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hEc]; norm_num)
       have hcard : Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) E) = 60 := by
         rw [CFSG.OrderReductions.LinearOrders.card_projectiveSpecialLinear E 2 (by norm_num), hEc]
@@ -441,13 +441,13 @@ theorem sl_gf4_facts {E : Type} [Field E] [Finite E] {j : ℕ} (hj : 1 ≤ j) (h
         · exact hodd 9 (by decide) h9
         · exact h4j' 2 (by norm_num) h2
         · exact h4j' 2 (by norm_num) h2
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hK : Nat.card E = 2 ^ (2 * j) := by
         rw [hEc, pow_mul]
         norm_num
       let eF := CFSG.ClassicalModels.finiteFieldEquivGaloisField E 2 (2 * j) (by omega) hK
       let eP := CFSG.ClassicalModels.projectiveSpecialLinearFieldEquiv eF (Fin (r + 1))
-      haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+      have : Fact Q.p.Prime := ⟨Q.prime_p⟩
       let eC := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r Q hv
       exact ⟨⟨TauCeti.LieTypeIndex.A r Q, hv⟩, TauCeti.LieTypeIndex.characteristic_A r Q, ⟨j, hj, hQc⟩,
         ⟨e₂.symm.trans (eP.trans eC.symm)⟩⟩
@@ -458,7 +458,7 @@ theorem exists_card_eq_four_pow_of_algebra {k E : Type} [Field k] [Finite k] [Fi
   by_contra h0
   have hc := Module.natCard_eq_pow_finrank (K := k) (V := E)
   rw [show Module.finrank k E = 0 by omega, pow_zero] at hc
-  haveI : Finite E := Module.finite_of_finite k
+  have : Finite E := Module.finite_of_finite k
   have := Finite.one_lt_card (α := E)
   omega
 
@@ -493,7 +493,7 @@ theorem mem_iSup_specialFactor_of_gf4 (hk : ringChar k = 2) (hk4 : Nat.card k = 
       have hb := b.2
       unfold IsGoodFactor at hb
       omega
-    haveI : Finite (blockGL (glA A : Module.End k (Fin n → k)) (b.1 : k[X])) :=
+    have : Finite (blockGL (glA A : Module.End k (Fin n → k)) (b.1 : k[X])) :=
       Nat.finite_of_card_ne_zero (Nat.pos_of_ne_zero (fun h0 => by
         have := Inputs256e.coprime_card_gl_of_finrank_le_one (W := primaryComponent (glA A :
           Module.End k (Fin n → k)) (b.1 : k[X])) Nat.prime_two hchar hle
@@ -534,7 +534,7 @@ theorem gf4Gen_projectiveSL (hk : ringChar k = 2) (hk4 : Nat.card k = 4) {n : �
     (β : MulAut (LinearFlag.projectiveSL n k)) (hβ : orderOf β = 3) :
     ∀ s : LinearFlag.projectiveSL n k, β s = s → (∃ m : ℕ, s ^ 2 ^ m = 1) →
       s ∈ ⨆ (J : Subgroup (LinearFlag.projectiveSL n k)) (_ : IsGF4Comp β J), J := by
-  haveI : CharP k 2 := hk ▸ ringChar.charP k
+  have : CharP k 2 := hk ▸ ringChar.charP k
   have hK : Nat.card k = 2 ^ 2 := by rw [hk4]; norm_num
   have hdesc := CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent Nat.prime_two
     (by norm_num : 1 ≤ 2) hn hK

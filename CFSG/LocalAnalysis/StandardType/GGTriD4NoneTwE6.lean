@@ -24,6 +24,7 @@ theorem le_twoLocalRank_of_normalizes {p : ℕ} (hp : p.Prime) {U E : Subgroup G
   exact (CFSG.SectionRank.le_pRank hp.one_lt hEU hE hk).trans
     (CFSG.LargeEvenClassification.Helpers.pRank_le_twoLocalPRank hp.one_lt _ hloc)
 
+omit [Finite G] in
 theorem isElemAbelian_sup_zpowers_of_card {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) {k : ℕ} (hk : Nat.card E = p ^ k) {z : G} (hzp : z ^ p = 1)
     (hzE : z ∉ E) (hz : ∀ e ∈ E, e * z = z * e) :

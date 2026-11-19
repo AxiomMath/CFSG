@@ -73,7 +73,7 @@ private theorem outer_two_fixed_scalars_mul_one [CharP L 2]
     (hu : ∀ t, φ₁ (pinnedX τ L δ t) = pinnedX τ L δ (μ * t ^ 2))
     (hv : ∀ t, φ₁ (pinnedX τ L (-δ) t) = pinnedX τ L (-δ) (μ' * t ^ 2)) :
     μ * μ' = 1 := by
-  haveI : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
+  have : PerfectRing L 2 := IsAlgClosed.perfectRing L 2
   obtain ⟨a, rfl⟩ : ∃ a : Lˣ, (a : L) = μ := ⟨Units.mk0 μ hμ, rfl⟩
   obtain ⟨b, rfl⟩ : ∃ b : Lˣ, (b : L) = μ' := ⟨Units.mk0 μ' hμ', rfl⟩
   have hinj : Function.Injective (rootSL2 τ L δ) := rootSL2_injective_of_field δ
@@ -195,6 +195,7 @@ section FixedCommute
 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 private theorem pinnedX_fixed_of_scalar [CharP L 2] {φ₁ : ModGL τ L →* ModGL τ L}
     {β : Fin τ.rank → ℤ} {c s : L}
     (hc : ∀ t, φ₁ (pinnedX τ L β t) = pinnedX τ L β (c * t ^ 2)) (hs : c * s ^ 2 = s) :
@@ -321,6 +322,7 @@ private theorem outer_two_cube_root_data [CharP L 2] {μ μ' : L} (hμ : μ ≠ 
           _ = 1 := by rw [zero_add]
   exact ⟨t₀, ζ, ht₀0, ht₀, hζ2, hζsum, hζ3⟩
 
+omit [IsAlgClosed L] in
 private theorem outer_two_fixed_point_scalar {μ μ' t : L} (hμμ : μ' * μ ^ 2 ≠ 0)
     (ht : t ^ 3 = (μ' * μ ^ 2)⁻¹) : μ' * (μ * t ^ 2) ^ 2 = t := by
   calc μ' * (μ * t ^ 2) ^ 2 = (μ' * μ ^ 2) * (t * t ^ 3) := by ring
@@ -329,6 +331,7 @@ private theorem outer_two_fixed_point_scalar {μ μ' t : L} (hμμ : μ' * μ ^ 
       rw [← mul_assoc, mul_comm (μ' * μ ^ 2) t, mul_assoc,
         mul_inv_cancel₀ hμμ, mul_one]
 
+omit [IsAlgClosed L] in
 private theorem outer_two_nonfixed_fixed_element [CharP L 2]
     {φ₁ : ModGL τ L →* ModGL τ L} {γ γ' : Fin τ.rank → ℤ} {μ μ' : L}
     (hcomm : ∀ a b : L, Commute (pinnedX τ L γ a) (pinnedX τ L γ' b))
@@ -418,6 +421,7 @@ private theorem outer_two_scaled_point {γ γ' δ : Fin τ.rank → ℤ} {μ : L
       exact h'
     rwa [e2] at hconj
 
+omit [IsAlgClosed L] in
 private theorem outer_two_span_coeffs {μ u : L} {t₀ ζ : L}
     (hζsum : ζ ^ 2 + ζ = 1) (h2L : (2 : L) = 0) (ht₀0 : t₀ ≠ 0) :
     ∃ c₁ c₂ : L, c₁ * t₀ + c₂ * (ζ * t₀) = u ∧
@@ -443,6 +447,7 @@ private theorem outer_two_span_coeffs {μ u : L} {t₀ ζ : L}
     rw [e, hc₁sum, mul_zero]
   exact ⟨c₁, c₂, hsum1, hsum2⟩
 
+omit [IsAlgClosed L] in
 private theorem outer_two_pair_product {γ γ' : Fin τ.rank → ℤ} {μ u c₁ c₂ t₀ ζ : L}
     (hcomm : ∀ a b : L, Commute (pinnedX τ L γ a) (pinnedX τ L γ' b))
     (hsum1 : c₁ * t₀ + c₂ * (ζ * t₀) = u)
@@ -474,6 +479,7 @@ private theorem outer_two_pair_product {γ γ' : Fin τ.rank → ℤ} {μ u c₁
     _ = pinnedX τ L γ u := by
       rw [hsum1, hsum2, pinnedX_zero, mul_one]
 
+omit [IsAlgClosed L] in
 private theorem outer_two_nonfixed_span {γ γ' : Fin τ.rank → ℤ} {μ μ' : L} {z z₀ : ModGL τ L}
     (hcomm : ∀ a b : L, Commute (pinnedX τ L γ a) (pinnedX τ L γ' b))
     (hpoint : ∀ t : L, t ^ 3 = (μ' * μ ^ 2)⁻¹ → ∀ c₀ : L,
@@ -514,7 +520,7 @@ theorem outer_two_commute_nonfixed [CharP L 2] (hsl : SimplyLacedTag τ)
     {f : (Fin τ.rank → ℤ) → Fin τ.rank → ℤ} (hf : IsIsometry Ψ f)
     {φ₁ : ModGL τ L →* ModGL τ L} (hpin : OuterPinned φ₁ f 2) {z z₀ : ModGL τ L}
     (hfixc : ∀ g ∈ rootSpan τ L Ψ, φ₁ g = g → g * g = 1 → Commute z (z₀ * g * z₀⁻¹))
-    {γ δ : Fin τ.rank → ℤ} (hγ : γ ∈ Ψ) (hfγ : f γ ≠ γ) (hinv : f (f γ) = γ)
+    {γ δ : Fin τ.rank → ℤ} (hγ : γ ∈ Ψ) (_hfγ : f γ ≠ γ) (hinv : f (f γ) = γ)
     (horth : iform γ (f γ) = 0) (hδ : δ ∈ Ψ) (hfδ : f δ = δ) (hγδ : iform γ δ = -1)
     (hδc : ∀ x ∈ rootRankOneGroup τ L δ, Commute z (z₀ * x * z₀⁻¹)) :
     ∀ u, Commute z (z₀ * pinnedX τ L γ u * z₀⁻¹) := by
@@ -598,6 +604,7 @@ theorem outer_two_fixed_central {a : Fin τ.rank → Lˣ}
     exact hc
   exact hcomm _ (hmem _ hrat hmodel h2pow)
 
+omit [IsAlgClosed L] in
 private theorem outer_two_rootSpan_completion {Ψ : Set (Fin τ.rank → ℤ)} {z₀ z : ModGL τ L}
     (hz₀n : ∀ g, g ∈ rootSpan τ L Ψ ↔ z₀ * g * z₀⁻¹ ∈ rootSpan τ L Ψ)
     (hall : ∀ β ∈ Ψ, ∀ t, Commute z (z₀ * pinnedX τ L β t * z₀⁻¹)) :

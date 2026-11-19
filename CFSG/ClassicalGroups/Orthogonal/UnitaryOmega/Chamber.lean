@@ -60,7 +60,7 @@ private theorem polar_normHypForm_single_single_of_ne (E : QuadExt F K (unitaryI
 private theorem normHypForm_single_add_single (E : QuadExt F K (unitaryInvolution K 2 f))
     {n : ℕ} {a b : Fin n} (hab : a ≠ b) (t : F) (x : K) :
     normHypForm E n (((t, 0), Pi.single a x + Pi.single b x) : (F × F) × (Fin n → K)) = 0 := by
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hsum : (∑ i, normQuad E ((Pi.single a x + Pi.single b x : Fin n → K) i)) =
       normQuad E x + normQuad E x := by
@@ -110,8 +110,8 @@ private theorem smul_normChamber_eq_iff {n : ℕ} {j : Fin n} {g : normOmega E n
 private theorem mem_span_one_omega (E : QuadExt F K (unitaryInvolution K 2 f)) (ω : K)
     (hω : polar (normQuad E) 1 ω = 1) (x : K) :
     x ∈ Submodule.span F ({1, ω} : Set K) := by
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have h11 : polar (normQuad E) 1 1 = 0 := by
     rw [CFSG.ClassicalGroups.Orthogonal.polar_self_eq_two_mul, normQuad_one, h2, zero_mul]
@@ -140,6 +140,7 @@ private theorem mem_span_one_omega (E : QuadExt F K (unitaryInvolution K 2 f)) (
   rw [htop]
   trivial
 
+omit [Finite K] [CharP K 2] in
 private theorem single_eq_smul_add (ω : K) {n : ℕ} (j : Fin n) (c d : F) :
     ((0, Pi.single j (c • (1 : K) + d • ω)) : (F × F) × (Fin n → K)) =
       c • ((0, Pi.single j 1) : (F × F) × (Fin n → K)) +
@@ -194,8 +195,8 @@ theorem exists_totallySingular_coordSupport {n : ℕ} (S : Finset (Fin n)) (hS :
     ∃ T : Submodule F ((F × F) × (Fin n → K)),
       T ≤ coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S ∧
         finrank F T = 3 ∧ ∀ x ∈ T, normHypForm E n x = 0 := by
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   obtain ⟨a, ha, b, hb, hab⟩ := Finset.one_lt_card.mp (by omega : 1 < S.card)
   let ℓ : (F × K) →ₗ[F] ((F × F) × (Fin n → K)) :=
     ((LinearMap.inl F F F).comp (LinearMap.fst F F K)).prod
@@ -307,9 +308,9 @@ private theorem fixes_normChamber_of_apply_eq {n : ℕ} (S : Finset (Fin n)) {g 
 theorem parabolic_normChamber_compl {n : ℕ} (S : Finset (Fin n)) (hS : 2 ≤ S.card) :
     parabolic ↥(normOmega E n) (normChamber E ω hω n) (↑(Sᶜ) : Set (Fin n)) =
       normBlock E n S := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   ext g
   rw [normBlock, Subgroup.mem_subgroupOf,
     mem_supportedDerived_iff_mem_orthDerived (Q := normHypForm E n)
@@ -449,9 +450,9 @@ theorem normPerm_swap_mem_normBlock {r : ℕ} (hr : 3 ≤ r) (i j : Fin r) :
 theorem flagTransitive_normChamber {n : ℕ} (hn : 2 ≤ n) :
     FlagTransitive ↥(normOmega E n) (frameGraph (normHypForm E n) (normQuad E ω) n)
       (normChamber E ω hω n) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   obtain ⟨T, -, hT3, hT0⟩ := exists_totallySingular_coordSupport E (Finset.univ : Finset (Fin n))
     (by rw [Finset.card_univ, Fintype.card_fin]; omega)
   refine flagTransitive_frameGraph (Q := normHypForm E n) (ν := normQuad E ω)
@@ -469,10 +470,10 @@ theorem flagTransitive_normChamber {n : ℕ} (hn : 2 ≤ n) :
 
 theorem iSup_stabilizer_normChamber {n : ℕ} (hn : 5 ≤ n) :
     (⨆ i, MulAction.stabilizer ↥(normOmega E n) (normChamber E ω hω n i)) = ⊤ := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hV : 12 ≤ Module.finrank F ((F × F) × (Fin n → K)) := by
     rw [finrank_normHypForm E n]
     omega
@@ -484,9 +485,9 @@ theorem iSup_stabilizer_normChamber {n : ℕ} (hn : 5 ≤ n) :
 
 theorem triangulable_normFrameGraph {n : ℕ} (hn : 5 ≤ n) :
     CFSG.Monster.B.Recog.Triangulable (frameGraph (normHypForm E n) (normQuad E ω) n) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   have hV : 12 ≤ Module.finrank F ((F × F) × (Fin n → K)) := by
     rw [finrank_normHypForm E n]
     omega

@@ -47,13 +47,13 @@ theorem twE6_torus_gamma_le_image
   intro s hs
   obtain ⟨hsT, hsΓ⟩ := Subgroup.mem_inf.1 hs
   obtain ⟨K, hKfield, hKalg, σ, hKcard, hσ, hAC⟩ := exists_gf4_algClosure halg
-  letI : Field K := hKfield
-  letI : Algebra K L := hKalg
-  haveI : IsAlgClosure K L := hAC
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Algebra K L := hKalg
+  have : IsAlgClosure K L := hAC
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hK4 : Nat.card K = 4 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK4]; norm_num)
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ c]; norm_num
   have hFr' : ∀ c, Fr c = c ^ (2 ^ 1) := fun c => by rw [hFr]; norm_num
@@ -80,8 +80,8 @@ theorem twE6_torus_gamma_le_image
   obtain ⟨u₀, hu₀⟩ := exists_e6RootParams_eq a
   obtain ⟨k, hkfin, ι, g₃, u₃, hι, hg₃mem, hg₃, hu₃⟩ :=
     twE6_descent_packet (K := K) (g₀ := D.g0) D.g0_mem u₀
-  haveI : Finite k := hkfin
-  haveI : CharP k 2 := Subfield.charP k 2
+  have : Finite k := hkfin
+  have : CharP k 2 := Subfield.charP k 2
   have hg₃' : baseChangeGL k.subtype g₃ = g0' := hg₃
   have hcomp : Fr.comp k.subtype = k.subtype.comp (iterateFrobenius k 2 1) := by
     ext c

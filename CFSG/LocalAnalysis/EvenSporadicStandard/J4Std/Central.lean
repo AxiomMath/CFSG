@@ -265,7 +265,7 @@ theorem false_of_central [Finite G] [IsSimpleGroup G] (hnonab : ∃ a b : G, a *
   have hTeq : T = (P : Subgroup G) := by
     by_contra hne
     have hlt : T < (P : Subgroup G) := lt_of_le_of_ne hTP hne
-    have hP2 : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+    have hP2 : IsPGroup 2 (P : Subgroup G) := P.isPGroup
     have : Group.IsNilpotent (P : Subgroup G) := hP2.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := (P : Subgroup G))
     have hbot : T.subgroupOf (P : Subgroup G) < ⊤ := by

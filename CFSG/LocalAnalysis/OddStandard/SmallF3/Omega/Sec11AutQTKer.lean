@@ -88,7 +88,7 @@ theorem aqt_ker_iff {K1 K2 : Subgroup G} (e1 : ↥K1 ≃* SL23) (e2 : ↥K2 ≃*
       exact ⟨congrArg Prod.fst h', congrArg Prod.snd h'⟩
   · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩)
     · exact map_one Ψ
-    · haveI : Nontrivial ↥Ψ.ker := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    · have : Nontrivial ↥Ψ.ker := Finite.one_lt_card_iff_nontrivial.mp (by omega)
       obtain ⟨⟨u, hu⟩, hne⟩ := exists_ne (1 : ↥Ψ.ker)
       have hu1 : u ≠ 1 := fun h => hne (Subtype.ext h)
       have h := key u hu hu1

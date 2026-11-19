@@ -135,9 +135,9 @@ theorem ggQ2n_absorb {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput) {p 
   classical
   obtain ⟨hcfg, -, -, -, -⟩ := hHyp
   obtain ⟨hI, hBs, -⟩ := hcfg
-  haveI : IsSimpleGroup G := hI.1
+  have : IsSimpleGroup G := hI.1
   have hpp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hBsabel : IsElemAbelian p Bs := hBs.2.1
   have hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hBsabel.1.is_comm.comm (⟨a, ha⟩ : ↥Bs) ⟨b, hb⟩)

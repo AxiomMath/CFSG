@@ -235,7 +235,7 @@ theorem s16k_z3_frame (h : S16kBase D V₀ V L hV) (hZ : IsCyclicOrd ↥(lBar V�
         MonoidHom.id _ := by
       apply MonoidHom.ext
       intro x
-      simp [MulAut.conj_apply]
+      simp
     have h0S : (0 : Fin 3) ∈ S := ⟨1, Mb.one_mem, by rw [hconj_one, Subgroup.map_id]⟩
     have hS_inv : ∀ j ∈ S, ∀ y ∈ Mb, ∃ j' ∈ S,
         (E j).map (MulAut.conj y).toMonoidHom = E j' := by

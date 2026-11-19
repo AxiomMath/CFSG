@@ -15,6 +15,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isASimple_map_quot {S K U W : Subgroup G} [(W.subgroupOf S).Normal] (hUS : U ≤ S)
     (hKS : K ≤ S) (hUK : K ≤ normalizer (U : Set G)) (hWle : W ≤ U)
     (hWmax : ∀ X : Subgroup G, W ≤ X → X ≤ U → U ≤ normalizer (X : Set G) →
@@ -210,6 +211,7 @@ theorem eq_map_quot_of_mem {S K Z W : Subgroup G} [(W.subgroupOf S).Normal] (hKS
   subst hyb'
   exact Subgroup.mem_comap.mp hy.1
 
+omit [Finite G] in
 theorem commutator_map_quot {S K W : Subgroup G} [(W.subgroupOf S).Normal] (hKS : K ≤ S)
     (hKperf : ⁅K, K⁆ = K) :
     ⁅(K.subgroupOf S).map (QuotientGroup.mk' (W.subgroupOf S)),
@@ -221,6 +223,7 @@ theorem commutator_map_quot {S K W : Subgroup G} [(W.subgroupOf S).Normal] (hKS 
       Subgroup.map_subgroupOf_eq_of_le (by rw [hKperf]; exact hKS), hKperf]
   rw [← Subgroup.map_commutator, hsub, hKperf]
 
+omit [Finite G] in
 theorem not_three_dvd_card_map_quot {S U W : Subgroup G} [(W.subgroupOf S).Normal]
     (hUS : U ≤ S) (hU3 : ¬ 3 ∣ Nat.card U) :
     ¬ 3 ∣ Nat.card ((U.subgroupOf S).map (QuotientGroup.mk' (W.subgroupOf S))) := by
@@ -234,7 +237,7 @@ theorem not_three_dvd_card_map_quot {S U W : Subgroup G} [(W.subgroupOf S).Norma
 theorem isSolvable_outer_of_mem_simpleComponents (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
     {Γ : Type} [Group Γ] [Finite Γ] (hΓ : CFSG.Open.IsKGroup Γ) {L T : Subgroup Γ}
     (hT : T ∈ simpleComponents L) : Group.IsSolvable (Outer ↥T) := by
-  haveI : IsSimpleGroup ↥T := hT.2.2.1
+  have : IsSimpleGroup ↥T := hT.2.2.1
   have hTnonab : ∃ a b : ↥T, a * b ≠ b * a := by
     obtain ⟨x, hx, y, hy, hxy⟩ := hT.2.2.2
     exact ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hxy (congrArg Subtype.val h)⟩

@@ -24,8 +24,8 @@ theorem ch18004_classSizes_z : ∀ i < 3, classSizes.getD (7 - i) 0 = classSizes
   decide
 
 theorem card_isConj_congr {a b : W8} (h : IsConj a b) :
-    Nat.card {u : W8 // IsConj a u} = Nat.card {u : W8 // IsConj b u} :=
-  Nat.card_congr (Equiv.subtypeEquivRight fun u => ⟨h.symm.trans, h.trans⟩)
+    Nat.card {_u : W8 // IsConj a _u} = Nat.card {_u : W8 // IsConj b _u} :=
+  Nat.card_congr (Equiv.subtypeEquivRight fun _u => ⟨h.symm.trans, h.trans⟩)
 
 theorem card_isConj_z (t : W8) :
     Nat.card {u : W8 // IsConj (z * t) u} = Nat.card {u : W8 // IsConj t u} := by

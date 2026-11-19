@@ -64,7 +64,7 @@ theorem quaternion_sylow_of_rank_one_image {X Δ : Type} [Group X] [Group Δ] [F
   have hZc : Z ≤ Subgroup.center X := by
     rintro _ ⟨p, hp, rfl⟩
     exact hker ((hgker p).mp hp)
-  have hZp : IsPGroup 2 Z := (P.isPGroup'.to_subgroup g.ker).map _
+  have hZp : IsPGroup 2 Z := (P.isPGroup.to_subgroup g.ker).map _
   have htr := AschbacherToolkit.central_sylow_commutator P hZc hZp
   rw [(Group.IsPerfect.commutator_eq_top (G := X)), inf_top_eq] at htr
   have hZbot : Z = ⊥ := by
@@ -164,7 +164,7 @@ theorem unique_involution_of_rank_one_image {Q : Type} [Group Q] [Finite Q] {X :
         rw [hc, Subgroup.mem_bot] at this
         exact this, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hxy
       exact hxy)
-    (isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by
+    (isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩) (Or.inr (Or.inr hPq))
   have hk1 : k = 1 := by

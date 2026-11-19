@@ -15,13 +15,13 @@ open CFSG.ComponentClassification.CatalogueBGraphForm (pureGraphAction)
 open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 open CFSG.ComponentClassification.CatalogueBLinearHigherB
 
-theorem a6_psl_pureGraph_small_three (hO : LieOrderFormulasInput) {f : ℕ} {K : Type} [Field K]
+theorem a6_psl_pureGraph_small_three (_hO : LieOrderFormulasInput) {f : ℕ} {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 3 ^ f) (hs : A6Shape .PSL 3 f) (A : GL (Fin 3) K)
     (hsigma : orderOf (pureGraphAction 3 K A) = 2)
     (D : Subgroup ↥(fixedSubgroup (pureGraphAction 3 K A)))
     (hD : A6Hyp (pureGraphAction 3 K A) D) :
     A6SmallConcl .PSL 3 f (pureGraphAction 3 K A) D := by
-  clear hO
+  clear _hO
   have hf : f = 2 := PSLSmallGraph3.shape_f hs
   subst hf
   have hK9 : Nat.card K = 9 := by rw [hK]; norm_num

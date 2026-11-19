@@ -20,7 +20,7 @@ theorem exists_Q [Finite G] [Finite V] (hρ : Function.Injective ρ) (hO : CFSG.
     ∃ Q : Subgroup G, ∃ b ∈ A, Nat.card ↥Q = 3 ∧
       Module.finrank (ZMod 2) ↥(commOn ρ Q ⊤) = 2 ∧ Q ≤ CFSG.pCore 3 G ∧
       A ≤ Subgroup.normalizer (Q : Set G) ∧ ∀ q ∈ Q, b * q * b⁻¹ = q⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAF : A ≤ Subgroup.normalizer ((CFSG.fittingSubgroup G : Subgroup G) : Set G) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -52,7 +52,7 @@ theorem normalizes_Q [Finite G] [Finite V] (hρ : Function.Injective ρ) {S Q : 
     (hS : IsPGroup 3 ↥S) (hSn : S.Normal) (hQS : Q ≤ S) (hQ3 : Nat.card ↥Q = 3)
     (hQV : Module.finrank (ZMod 2) ↥(commOn ρ Q ⊤) = 2) {D : Subgroup G} (hD : D ∈ calP ρ) :
     D ≤ Subgroup.normalizer (Q : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD2 := isElementaryAbelian_of_mem_calP hD
   have hDcomm : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hD2.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)

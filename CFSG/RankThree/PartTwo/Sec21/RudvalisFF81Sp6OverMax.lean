@@ -44,12 +44,12 @@ theorem testBit_bitsOf (f : ℕ → Bool) (n i : ℕ) :
     rcases lt_trichotomy i k with h | rfl | h
     · have h1 : ¬ k = i := by omega
       have h2 : i < k + 1 := by omega
-      cases hf : f k <;> simp [h, h2, Nat.testBit_two_pow, h1]
-    · cases hf : f i <;> simp [Nat.testBit_two_pow, hf]
+      cases hf : f k <;> simp [h, h2, h1]
+    · cases hf : f i <;> simp
     · have h1 : ¬ i < k := by omega
       have h2 : ¬ i < k + 1 := by omega
       have h3 : ¬ k = i := by omega
-      cases hf : f k <;> simp [h1, h2, Nat.testBit_two_pow, h3]
+      cases hf : f k <;> simp [h1, h2, h3]
 
 theorem length_formAct (w g : List ℕ) : (formAct w g).length = 6 := by
   simp [formAct]
@@ -108,7 +108,7 @@ theorem ncard_mat_mem {l : List M6} (hl : l.Nodup) : {w : Form6 | w.mat ∈ l}.n
   classical
   have e : {w : Form6 | w.mat ∈ l} = ((l.map Form6.mk).toFinset : Set Form6) := by
     ext w
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
     exact ⟨fun h => ⟨w.mat, h, rfl⟩, fun ⟨a, ha, e⟩ => by subst e; exact ha⟩
   rw [e, Set.ncard_coe_finset, List.toFinset_card_of_nodup (hl.map mk_injective), List.length_map]
 
@@ -116,7 +116,6 @@ theorem flatMap_six (T : ℕ → List M6) :
     (List.range 6).flatMap T = T 0 ++ (T 1 ++ (T 2 ++ (T 3 ++ (T 4 ++ (T 5 ++ []))))) := by
   first
   | rfl
-  | simp [List.range_succ]
 
 theorem subset_sum_dvd : ∀ a ∈ [0, 315], ∀ b ∈ [0, 2880], ∀ c ∈ [0, 2880], ∀ d ∈ [0, 3780],
     ∀ e ∈ [0, 4032], 1 + a + b + c + d + e ∣ 13888 →

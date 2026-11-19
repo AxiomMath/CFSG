@@ -146,7 +146,7 @@ theorem Ctx.not_three_dvd_index (hC : Ctx Γ A) {P' : Subgroup ↥Γ} (hP' : Nat
   have hS := S.card_eq_multiplicity
   have hSle : Nat.card (S : Subgroup ↥Γ) ≤ 27 := by
     have := hC.three ((S : Subgroup ↥Γ).map Γ.subtype) (Subgroup.map_subtype_le _)
-      (S.isPGroup'.map Γ.subtype)
+      (S.isPGroup.map Γ.subtype)
     rwa [Subgroup.card_map_of_injective Γ.subtype_injective] at this
   have hΓcard : Nat.card ↥Γ = 27 * P'.index := by rw [← hP', Subgroup.card_mul_index]
   have h81 : 3 ^ 4 ∣ Nat.card ↥Γ := by

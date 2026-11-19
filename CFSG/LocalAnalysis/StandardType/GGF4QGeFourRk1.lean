@@ -184,7 +184,7 @@ private theorem nodes_spinMinus {F : Type} [Field F] [Finite F] [CharP F 2] {n :
   by_cases hk : k.val + 1 < n - 1
   · exact ⟨F, inferInstance, inferInstance, _, inferInstance,
       CFSG.LieType.Steinberg.SpinFrame.longSL2_injective _ (Spin.Twisted.succ_ne_of_lt n hk) true
-        false, (Spin.Twisted.rankOne_minusRootGroup_of_lt n hirr hk).symm, (if_pos hk).symm⟩
+        false, (Spin.Twisted.rankOne_minusRootGroup_of_lt n hirr hk).symm, (ite_eq_left hk).symm⟩
   · have := Spin.Twisted.fact_shortField hirr
     have := Spin.Twisted.finite_shortField (b := b) (c := c)
     have : CharP (Spin.Twisted.ShortField b c) 2 :=
@@ -234,7 +234,7 @@ private theorem nodes_spinMinus {F : Type} [Field F] [Finite F] [CharP F 2] {n :
         exact hle (CFSG.LieType.Steinberg.Sp.mem_closure_sl2 A)
     exact ⟨Spin.Twisted.ShortField b c, inferInstance, inferInstance, φ, inferInstance, hinj,
       hr.symm, by
-        rw [if_neg hk]
+        rw [ite_eq_right hk]
         exact CFSG.LieType.Steinberg.CentralExt.SpinMinusClosed.card_shortField⟩
 
 private theorem nodes_POmegaMinus
@@ -271,7 +271,7 @@ private theorem nodes_SU {F : Type} [Field F] [Finite F] [CharP F 2] {f n : ℕ}
       (rankOne (Unitary.rootGroup _ hσ n) k).subtype.comp e.symm.toMonoidHom, inferInstance,
       Subtype.val_injective.comp e.symm.injective,
       range_subtype_comp_symm' e, ?_⟩
-    rw [if_pos hk, hF, ← pow_mul, mul_comm]
+    rw [ite_eq_left hk, hF, ← pow_mul, mul_comm]
   · obtain ⟨ζ, hζ0, hζ⟩ := CFSG.LieType.BorelTits.exists_unitaryInvolution_eq_neg hF
     let e := (CFSG.LieType.Steinberg.rankOneLastEvenEquiv hF he hk).trans
       (CFSG.LieType.Steinberg.hypEquiv hζ0 hζ).symm
@@ -279,7 +279,7 @@ private theorem nodes_SU {F : Type} [Field F] [Finite F] [CharP F 2] {f n : ℕ}
       (rankOne (Unitary.rootGroup _ hσ n) k).subtype.comp e.symm.toMonoidHom, inferInstance,
       Subtype.val_injective.comp e.symm.injective,
       range_subtype_comp_symm' e,
-      by rw [if_neg hk]; exact CFSG.LieType.Steinberg.card_fixedSubfield hF⟩
+      by rw [ite_eq_right hk]; exact CFSG.LieType.Steinberg.card_fixedSubfield hF⟩
 
 private theorem ggU_PSU_eq
     {n f : ℕ} (hf : 1 ≤ f) :
@@ -314,7 +314,7 @@ private theorem ggIsWeylMatrix_PSU
   refine ⟨?_, by show 6 / 2 ≠ 2; decide⟩
   show GGIsWeylMatrix (coxeterMatrix (Unitary.isFiniteType_cartan 6))
   have hC : GGIntCartan (CoxeterMatrix.B (6 / 2)) (Unitary.cartan 6) := by
-    rw [show Unitary.cartan 6 = Symplectic.cartanC (6 / 2) from if_pos (by decide),
+    rw [show Unitary.cartan 6 = Symplectic.cartanC (6 / 2) from ite_eq_left (by decide),
       cartanC_eq_cartanMatrixB]
     exact ggIntCartan_B _
   rw [coxeterMatrix_eq_of_ggIntCartan _ hC]

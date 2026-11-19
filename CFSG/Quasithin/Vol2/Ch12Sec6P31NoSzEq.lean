@@ -57,8 +57,8 @@ theorem false_of_isSz_eq_w31
       hH.hyp.sylow.1 hES hEodd
   have hq : CFSG.IsQuasisimple ↥(star H K) :=
     CFSG.Quasithin.H13.P31Sec.isQuasisimple_star hKc h918.K_quasisimple
-  haveI hNn : (star H K).Normal := normal_star (by simpa [hKK] using h918.K₀_normal)
-  haveI : Group.IsPerfect ↥(star H K) := hq.1
+  have hNn : (star H K).Normal := normal_star (by simpa [hKK] using h918.K₀_normal)
+  have : Group.IsPerfect ↥(star H K) := hq.1
   have hSzN : IsSz n ↥(star H K) :=
     suzukiModel_of_normal (fun M hM hMp => eq_bot_of_isPGroup hM hMp) (star H K) hSz
   have hs : IsSimpleGroup ↥(star H K) := isSimpleGroup_of_psl2_or_sz (Or.inr hSzN)

@@ -13,6 +13,7 @@ open CFSG.Open CFSG.LieType.BorelTits CFSG.QuasithinUnique CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 private lemma le_normalizer_sup_of_commutator_mem {L N Q : Subgroup G}
     (hNQ : N ≤ Subgroup.normalizer (Q : Set G)) (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
     (hLN : ∀ l ∈ L, ∀ n ∈ N, l * n * l⁻¹ * n⁻¹ ∈ Q) :

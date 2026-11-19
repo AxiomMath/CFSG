@@ -10,7 +10,7 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly
 
 @[expose] def GGQ2S08Res {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (H : Submodule (ZMod 3) V)
-    (R : Subgroup (V ≃ₗ[ZMod 3] V)) (hRH : ∀ a ∈ R, ∀ h ∈ H, a h ∈ H) :
+    (R : Subgroup (V ≃ₗ[ZMod 3] V)) (_hRH : ∀ a ∈ R, ∀ h ∈ H, a h ∈ H) :
     Subgroup (↥H ≃ₗ[ZMod 3] ↥H) where
   carrier := {b | ∃ a ∈ R, ∀ h : ↥H, ((b h : ↥H) : V) = a h}
   mul_mem' := by
@@ -28,7 +28,7 @@ open CFSG CFSG.Assembly
     intro h
     have hb1 : ((b (b⁻¹ h) : ↥H) : V) = a ((b⁻¹ h : ↥H) : V) := hb (b⁻¹ h)
     have hbb : b (b⁻¹ h) = h := by
-      simpa [LinearEquiv.coe_inv] using LinearEquiv.apply_symm_apply b h
+      simp [LinearEquiv.coe_inv]
     have key : a ((b⁻¹ h : ↥H) : V) = (h : V) := by
       rw [← hb1, hbb]
     have key2 : ((b⁻¹ h : ↥H) : V) = a⁻¹ (h : V) := by
@@ -56,14 +56,14 @@ private theorem ggQ2s08k11_res_mem_aux {V : Type} [AddCommGroup V] [Module (ZMod
     ext x
     change a⁻¹ (a (x : V)) = (x : V)
     exact LinearEquiv.symm_apply_apply a (x : V)
-  let b : ↥H ≃ₗ[ZMod 3] ↥H := LinearEquiv.ofLinear f g h₁ h₂
+  let b : ↥H ≃ₗ[ZMod 3] ↥H := LinearEquiv.ofLinearMap f g h₁ h₂
   refine ⟨b, ?_, ?_⟩
   · refine ⟨a, haR, ?_⟩
     intro h
-    rw [LinearEquiv.ofLinear_apply]
+    rw [LinearEquiv.coe_ofLinearMap]
     rfl
   · intro h
-    rw [LinearEquiv.ofLinear_apply]
+    rw [LinearEquiv.coe_ofLinearMap]
     rfl
 
 theorem ggQ2s08core_res_refl {V : Type} [AddCommGroup V] [Module (ZMod 3) V]

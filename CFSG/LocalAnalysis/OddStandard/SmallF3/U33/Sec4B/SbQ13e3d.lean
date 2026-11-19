@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma q13e_commutator_mul_left_of_comm {a b x : G} (h : Commute b x) :
     ⁅a * b, x⁆ = ⁅a, x⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul, h.commutator_eq]

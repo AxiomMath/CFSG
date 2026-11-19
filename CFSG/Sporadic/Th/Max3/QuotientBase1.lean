@@ -27,7 +27,7 @@ namespace AltQuot
 
 abbrev MQ : Type := ↥M ⧸ Q.subgroupOf M
 
-@[expose] noncomputable def proj [(CFSG.Sporadic.Th.Max3.Q.subgroupOf CFSG.Sporadic.Th.Max3.M).Normal] :
+noncomputable def proj [(CFSG.Sporadic.Th.Max3.Q.subgroupOf CFSG.Sporadic.Th.Max3.M).Normal] :
     ↥M →* MQ := QuotientGroup.mk' (Q.subgroupOf M)
 
 theorem proj_surjective [(CFSG.Sporadic.Th.Max3.Q.subgroupOf CFSG.Sporadic.Th.Max3.M).Normal] :

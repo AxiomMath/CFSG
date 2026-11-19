@@ -106,7 +106,7 @@ theorem exists_eq_map_conj_of_card_eq {F L P : Subgroup X} (hF : Odd (Nat.card F
     obtain ⟨S, hS⟩ := hQ'.exists_le_sylow
     refine ⟨S, le_antisymm ?_ hS⟩
     have hSc : Nat.card S ≤ Nat.card L := by
-      have h1 := card_le_of_isPGroup_le_sup hF hLF (S.isPGroup'.map Y.subtype)
+      have h1 := card_le_of_isPGroup_le_sup hF hLF (S.isPGroup.map Y.subtype)
         (by rintro _ ⟨y, -, rfl⟩; exact y.2)
       rwa [card_map_of_injective Y.subtype_injective] at h1
     have hQc' : Nat.card (Q.subgroupOf Y) = Nat.card Q := by

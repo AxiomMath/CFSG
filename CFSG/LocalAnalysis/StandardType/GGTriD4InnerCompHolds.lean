@@ -38,11 +38,11 @@ private theorem ggTriD4InnerCompAux_threeA_solvable
     refine RingEquiv.ext fun c => ?_
     have := CFSG.LieType.Chevalley.ringEquiv_cube_apply_eq hK hσ c
     simpa [pow_succ] using this
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓp
       (k := f * 3) (by omega) (by rw [hK, pow_mul])
   set L := AlgebraicClosure K with hL
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have h3L : (3 : L) ≠ 0 := by
     intro h
     have h' : ((3 : ℕ) : L) = 0 := by exact_mod_cast h
@@ -132,7 +132,7 @@ private theorem ggTriD4InnerCompAux_threeA_solvable
         CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom))) :=
     ((Subgroup.centralizer ({z} : Set _)).equivMapOfInjective _ (MulAut.conj c).injective).trans
       (MulEquiv.subgroupCongr hmap)
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({x} :
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({x} :
       Set (CFSG.LieType.Chevalley.graphFixedRootGroup CFSG.Blueprint.Chevalley.TwistTag.D4 K
         σ.toRingHom))) := hsol
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
@@ -170,7 +170,7 @@ private theorem ggTriD4InnerCompAux_model
     ·
       subst hn_eq
       exfalso
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hsol : Group.IsSolvable (Subgroup.centralizer ({g * z * g⁻¹} :
           Set (CFSG.LieType.Chevalley.graphFixedRootGroup
             CFSG.Blueprint.Chevalley.TwistTag.D4 K Fr.toRingHom))) :=
@@ -200,8 +200,8 @@ private theorem ggTriD4InnerCompAux_model
       obtain ⟨c, R, hRc, hRcent, hcomm, hRq, F, hFld, hFfin, hF, ⟨eRU⟩⟩ :=
         CFSG.RankThree.PartTwo.Sec21.Item219LieProof.d4_threeA_model Nat.prime_two hn1
           (by norm_num : (2 : ℕ) ≠ 3) hq1 hK hFr hg hy3 hy1
-      letI : Field F := hFld
-      letI : Finite F := hFfin
+      let : Field F := hFld
+      let : Finite F := hFfin
       set ψ' : X ≃* CFSG.LieType.Chevalley.graphFixedRootGroup
           CFSG.Blueprint.Chevalley.TwistTag.D4 K Fr.toRingHom :=
         ψ.trans (MulAut.conj (c * g)) with hψ'def
@@ -273,11 +273,11 @@ private theorem ggTriD4InnerCompAux_model
     set F : Subfield K := CFSG.LieType.Chevalley.orbitField
       CFSG.Blueprint.Chevalley.TwistTag.D4 K Fr.toRingHom
       CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.d4Outer with hFdef
-    haveI : Finite ↥F := Subtype.finite
+    have : Finite ↥F := Subtype.finite
     have hFcard : Nat.card ↥F = 2 ^ (3 * n) := by
       rw [hFdef, CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.natCard_orbitField_d4Outer hσ3,
         hK, ← pow_mul, mul_comm]
-    haveI : CharP ↥F 2 :=
+    have : CharP ↥F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (k := 3 * n) (by omega) hFcard
     let isoQ : ↥Q ≃* LargeEvenProj (LargeEvenSLGroup (Fin 2) ↥F) :=
@@ -298,7 +298,7 @@ private theorem ggTriD4InnerCompAux_model
 theorem ggTriD4InnerCompInput_holds :
     GGTriD4InnerCompInput := by
   intro n hn1 hn3 K _ _ hK h hh1 hh3 Q hQ
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := n * 3) (by omega) (by rw [hK, pow_mul])
   set σ₀ := iterateFrobeniusEquiv K 2 n with hσ₀def

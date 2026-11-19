@@ -39,6 +39,7 @@ theorem omegaToProj_eq_one_iff (hQ : Q.Nondegenerate) (g : omegaGroup hQ) :
     · rw [h, map_one]
     · rw [h, toProj_piOrth]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mul_piOrth_comm (g : OGroup Q) : g * piOrth Q = piOrth Q * g :=
   Subgroup.mem_center_iff.mp piOrth_mem_center g
 

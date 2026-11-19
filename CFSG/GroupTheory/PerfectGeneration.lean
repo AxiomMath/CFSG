@@ -11,13 +11,13 @@ theorem eq_top_of_isPerfect_of_forall_not_dvd_orderOf_mem {X : Type*} [Group X] 
     {q : ℕ} (hq : q.Prime) (hX : Group.IsPerfect X) {C : Subgroup X} [C.Normal]
     (hC : ∀ x : X, ¬ q ∣ orderOf x → x ∈ C) : C = ⊤ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Group.IsPerfect X := hX
+  have : Fact q.Prime := ⟨hq⟩
+  have : Group.IsPerfect X := hX
   have hquot : IsPGroup q (X ⧸ C) :=
     CFSG.Glauberman.isPGroup_quotient_of_pPrime_order_elements_mem C hC
-  haveI : Group.IsNilpotent (X ⧸ C) := hquot.isNilpotent
-  haveI : Group.IsSolvable (X ⧸ C) := inferInstance
-  haveI : Group.IsPerfect (X ⧸ C) :=
+  have : Group.IsNilpotent (X ⧸ C) := hquot.isNilpotent
+  have : Group.IsSolvable (X ⧸ C) := inferInstance
+  have : Group.IsPerfect (X ⧸ C) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' C) (QuotientGroup.mk'_surjective C)
   have hsub : Subsingleton (X ⧸ C) := by
     by_contra h

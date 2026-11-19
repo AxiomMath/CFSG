@@ -48,7 +48,7 @@ theorem centShapeRk'_five_of_centNoComp {G : Type} [Group G] (hE : MonsterExiste
     (hSpM : CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.SporadicMultipliers)
     (hBr : SporadicBridges) (hA : CentFiveA G) (hB : CentFiveBNoComp G) :
     CentShapeRk' 5 (GoodSpor 5 [.HN]) (RkSpor 5 [.HN]) G := by
-  haveI : Finite G := (twoA_data_of_existence hE).1
+  have : Finite G := (twoA_data_of_existence hE).1
   intro k hk1 hk5
   have hk : orderOf k = 5 := orderOf_eq_prime hk5 hk1
   by_cases hinv : InvertedByTwoA k
@@ -69,7 +69,7 @@ theorem centShapeRk'_five_of_centNoComp {G : Type} [Group G] (hE : MonsterExiste
     have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
-      letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
+      let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
       have hpr := IsSimpleGroup.prime_card (α := ↥H)
       rw [hcard] at hpr
       norm_num at hpr
@@ -93,8 +93,8 @@ theorem mFiveShape_of_tabNoComp (hOut : SporadicOuterLeTwo)
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := (twoA_data_of_existence hE).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite MGriess := (twoA_data_of_existence hE).1
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   exact CentShapeRk'.of_equiv Nat.prime_five (fun T T' _ _ f h => GoodSpor.of_equiv f h)
     (fun T T' _ _ f h => RkSpor.of_equiv f h) e
     (centShapeRk'_five_of_centNoComp hE hOut hSpM hBr (CentFiveA.of_equiv e hA)

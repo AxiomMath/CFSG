@@ -99,7 +99,7 @@ theorem hyp_four_f4Two {S : Type} [Group S] [Finite S] {q : TauCeti.PrimePower}
       ∃ H : Subgroup S, H ≤ D ∧ Nat.card H = 3 ^ 3 ∧
         ∃ t : S, t ≠ 1 ∧ t * t = 1 ∧ ∀ h ∈ H, h * t = t * h := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_equiv_adjointF4_two hv hq2 hqe eS
   obtain ⟨ι, hinj, hc⟩ :=
     CFSG.RankThree.Chevalley.even_higher_ordinary_exceptional_four_commuting_faithful_SL2 (ZMod 2) Tag.F4
@@ -112,7 +112,7 @@ theorem hyp_four_f4Two {S : Type} [Group S] [Finite S] {q : TauCeti.PrimePower}
     I102UniqAux.threeUniq4_of_injective e.toMonoidHom e.injective
       (I102UniqAux.threeUniq4_adjointF4_two (K := ZMod 2) (Nat.card_zmod 2))
   obtain ⟨g, hg⟩ := CartanConjAux.conj_eq_of_sylow_unique (p := 3) (n := 4) (N := (⊤ : Subgroup S))
-    (fun P E' F' h1 h2 h3 h4 h5 h6 _ _ => hUS P P.isPGroup' E' F' h1 h2 h3 h4 h5 h6)
+    (fun P E' F' h1 h2 h3 h4 h5 h6 _ _ => hUS P P.isPGroup E' F' h1 h2 h3 h4 h5 h6)
     hA₀el hD hA₀c hDc le_top le_top
   refine ⟨H₀.map (MulAut.conj g).toMonoidHom, ?_, ?_, g * t₀ * g⁻¹, ?_, ?_, ?_⟩
   · rw [hg]
@@ -155,7 +155,7 @@ theorem f4Two_inner_of_cube_one
     (β : MulAut ↥(adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag (ZMod 2))) (hβ : β ^ 3 = 1) :
     β ∈ (MulAut.conj : ↥(adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag (ZMod 2)) →*
       MulAut ↥(adjointGroup CFSG.LieType.Ree.ReeTag.F4.tag (ZMod 2))).range := by
-  haveI : CharP (ZMod 2) CFSG.LieType.Ree.ReeTag.F4.prime := (inferInstance : CharP (ZMod 2) 2)
+  have : CharP (ZMod 2) CFSG.LieType.Ree.ReeTag.F4.prime := (inferInstance : CharP (ZMod 2) 2)
   have hKcard : Nat.card (ZMod 2) = 2 ^ 1 := by rw [Nat.card_zmod, pow_one]
   obtain ⟨-, hB, ⟨Θ, hΘ, -, hker⟩, -⟩ :=
     CFSG.LieType.Chevalley.even_F4_exact_automorphism_normal_form (f := 1) le_rfl (ZMod 2) hKcard
@@ -184,7 +184,7 @@ theorem le_glbCore_of_f4Two (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgroup X} (
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hC : B ⊓ Subgroup.centralizer (K : Set X) = ⊥) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     by_contra hZ
     exact InputsSeitz7.cen_ne_bot_of_center_ne_bot hcore hB hrk hK hZ hBN hC
@@ -229,7 +229,7 @@ theorem le_glbCore_of_twE6Four (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgroup X
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hperf : commutator ↥K = ⊤ := hK.2.2.1
   have hAel : IsElemAbelian 3 (CFSG.HardMathSupport.Dickson.I271.autImage B K) := isElemAbelian_autImage hB
   have hstab := InputsSeitz7.card_stab_eq (B := B) (K := K) hperf
@@ -271,7 +271,7 @@ theorem exists_not_innerAt_of_not_le_f4Eight {X : Type} [Group X] {B K : Subgrou
 variable {X : Type} [Group X] [Finite X]
 
 theorem le_glbCore_of_f4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgroup X}
-    (hB : IsElemAbelian 3 B) (hB4 : 4 ≤ CFSG.Open.pRank 3 B)
+    (hB : IsElemAbelian 3 B) (_hB4 : 4 ≤ CFSG.Open.pRank 3 B)
     (hrk : CFSG.Open.pRank 3 B = CFSG.Open.pRank 3 (⊤ : Subgroup X)) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) (d : TauCeti.ValidLieTypeIndex)
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) (hd : IsF4EightIndex d.1)
@@ -280,7 +280,7 @@ theorem le_glbCore_of_f4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgr
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     by_contra hZ
     exact InputsSeitz7.cen_ne_bot_of_center_ne_bot hcore hB hrk hK hZ hBN hC
@@ -296,7 +296,7 @@ theorem le_glbCore_of_f4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgr
   obtain ⟨hLs, hLq, -, ⟨d', hd', ⟨eL'⟩⟩⟩ := f4Fixed_holds X K b hK ⟨d, hd, ⟨e⟩⟩ hbN hb3 hbout
   set L : Subgroup X := K ⊓ Subgroup.centralizer ({b} : Set X) with hLdef
   have hZL : Subgroup.center ↥L = ⊥ := by
-    haveI := hLs
+    have := hLs
     refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative fun hc => ?_
     have h1 := (commutator_eq_bot_iff ↥L).2 hc
     rw [hLq.1] at h1
@@ -346,8 +346,8 @@ theorem le_glbCore_of_f4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgr
     rw [hrk]
     omega
   obtain ⟨-, -, -, -, ⟨Θ, hΘ⟩, -⟩ := F4InnerExAux.chevalley_data hK.2.2 ⟨d, hd, ⟨e⟩⟩
-  haveI : Finite (MulAut ↥K) := CartanConjAux.finite_mulAut ↥K
-  haveI := CartanConjAux.inn_normal ↥K
+  have : Finite (MulAut ↥K) := CartanConjAux.finite_mulAut ↥K
+  have := CartanConjAux.inn_normal ↥K
   have hidx : (MulAut.conj : ↥K →* MulAut ↥K).range.index ∣ 2 * 3 := by
     have h1 : (MulAut.conj : ↥K →* MulAut ↥K).range.index ∣ Θ.ker.index := Subgroup.index_dvd_of_le hΘ
     have h2 : Θ.ker.index ∣ 2 * 3 := by

@@ -25,13 +25,13 @@ theorem rootRefl_apply_eq (i : E6Idx) (α : E6Idx → ℤ) (j : E6Idx) :
   by_cases hji : j = i
   · subst hji
     have h1 : rootRefl j α j = α j - ∑ k, α k * cartanE6 k j := by
-      exact if_pos rfl
+      exact ite_eq_left rfl
     have h2 : reflect Tag.E6 j α j = α j - ∑ l, Tag.E6.cartan j l * α l := by
       unfold reflect
       rw [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     rw [h1, h2, hsum]
   · have h1 : rootRefl i α j = α j := by
-      exact if_neg hji
+      exact ite_eq_right hji
     have h2 : reflect Tag.E6 i α j = α j := by
       unfold reflect
       rw [Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hji, smul_zero, sub_zero]
@@ -226,7 +226,7 @@ theorem pow_three_eq_one (u : Multiplicative (Fin 6 → ZMod 3)) : u ^ 3 = 1 := 
 theorem exists_closure_pair {G : Subgroup (Multiplicative (Fin 6 → ZMod 3))}
     (hG : Nat.card G = 9) {u : Multiplicative (Fin 6 → ZMod 3)} (hu : u ∈ G) (hu1 : u ≠ 1) :
     ∃ v ∈ G, v ∉ Subgroup.zpowers u ∧ G = Subgroup.closure {u, v} := by
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite G := Nat.finite_of_card_ne_zero (by omega)
   have hord : orderOf u = 3 := orderOf_eq_prime (pow_three_eq_one u) hu1
   have hz : Nat.card (Subgroup.zpowers u) = 3 := by rw [Nat.card_zpowers, hord]
   have hzG : Subgroup.zpowers u ≤ G := (Subgroup.zpowers_le).2 hu
@@ -258,7 +258,7 @@ theorem exists_closure_pair {G : Subgroup (Multiplicative (Fin 6 → ZMod 3))}
     exact hvz (this ▸ hvH)
   have h9 : Nat.card H = 9 := by
     have hle : Nat.card H ≤ 9 := Nat.le_of_dvd (by norm_num) hd1
-    haveI : Finite H := Finite.of_injective (Subgroup.inclusion hHG)
+    have : Finite H := Finite.of_injective (Subgroup.inclusion hHG)
       (Subgroup.inclusion_injective hHG)
     have hpos : 0 < Nat.card H := Nat.card_pos
     obtain ⟨k, hk⟩ := hd2

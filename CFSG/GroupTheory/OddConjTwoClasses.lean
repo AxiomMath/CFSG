@@ -25,7 +25,7 @@ theorem exists_conj_eq_of_odd_of_two_classes {G : Type*} [Group G] (J : Subgroup
   have hTS : T ⊆ S := by
     have ha_inv : a⁻¹ = a := mul_eq_one_iff_inv_eq.mp ha
     intro x hx
-    simp only [T, Set.mem_setOf_eq] at hx
+    simp only [T, Set.mem_ofPred_eq] at hx
     obtain ⟨k, hk, rfl⟩ := hx
     constructor
     · have hka : a * k * a ∈ J := by simpa [ha_inv] using haJ k hk
@@ -39,7 +39,7 @@ theorem exists_conj_eq_of_odd_of_two_classes {G : Type*} [Group G] (J : Subgroup
         _ = 1 := by rw [ha]; group
   have hT_conj_inv : ∀ {k x : G}, k ∈ J → k * x * k⁻¹ ∈ T → x ∈ T := by
     intro k x hk hx
-    simp only [T, Set.mem_setOf_eq] at hx ⊢
+    simp only [T, Set.mem_ofPred_eq] at hx ⊢
     obtain ⟨j, hj, hjk⟩ := hx
     refine ⟨k⁻¹ * j, J.mul_mem (J.inv_mem hk) hj, ?_⟩
     calc
@@ -48,7 +48,7 @@ theorem exists_conj_eq_of_odd_of_two_classes {G : Type*} [Group G] (J : Subgroup
       _ = (k⁻¹ * j) * a * (k⁻¹ * j)⁻¹ := by group
   have hφS : ∀ {x : G}, x ∈ S → φ x ∈ S := by
     intro x hx
-    simp only [S, Set.mem_setOf_eq] at hx ⊢
+    simp only [S, Set.mem_ofPred_eq] at hx ⊢
     obtain ⟨hxJ, hx2⟩ := hx
     constructor
     · have hEq : a⁻¹ * (r * x * r⁻¹) =
@@ -64,12 +64,12 @@ theorem exists_conj_eq_of_odd_of_two_classes {G : Type*} [Group G] (J : Subgroup
   by_contra hconcl
   have hφaT : φ a ∉ T := by
     intro hmem
-    simp only [T, Set.mem_setOf_eq] at hmem
+    simp only [T, Set.mem_ofPred_eq] at hmem
     obtain ⟨k, hk, hkφ⟩ := hmem
     exact hconcl ⟨k, hk, by simpa [φ] using hkφ⟩
   have hT_forward : ∀ {x : G}, x ∈ T → φ x ∉ T := by
     intro x hxT hφxT
-    simp only [T, Set.mem_setOf_eq] at hxT
+    simp only [T, Set.mem_ofPred_eq] at hxT
     obtain ⟨k, hk, rfl⟩ := hxT
     have hm : r * k * r⁻¹ ∈ J := hrJ k hk
     have hEq : φ (k * a * k⁻¹) =
@@ -81,17 +81,17 @@ theorem exists_conj_eq_of_odd_of_two_classes {G : Type*} [Group G] (J : Subgroup
     intro x hxS hφxT
     have hφxS : φ x ∈ S := hφS hxS
     have hφx_b : ∃ k ∈ J, φ x = k * b * k⁻¹ := by
-      simp only [S, Set.mem_setOf_eq] at hφxS
+      simp only [S, Set.mem_ofPred_eq] at hφxS
       rcases hS (φ x) hφxS.1 hφxS.2 with ⟨k, hk, h | h⟩
       · exfalso
-        exact hφxT (by simp only [T, Set.mem_setOf_eq]; exact ⟨k, hk, h⟩)
+        exact hφxT (by simp only [T, Set.mem_ofPred_eq]; exact ⟨k, hk, h⟩)
       · exact ⟨k, hk, h⟩
     have hφa_b : ∃ k ∈ J, φ a = k * b * k⁻¹ := by
       have hφaS : φ a ∈ S := hφS haS
-      simp only [S, Set.mem_setOf_eq] at hφaS
+      simp only [S, Set.mem_ofPred_eq] at hφaS
       rcases hS (φ a) hφaS.1 hφaS.2 with ⟨k, hk, h | h⟩
       · exfalso
-        exact hφaT (by simp only [T, Set.mem_setOf_eq]; exact ⟨k, hk, h⟩)
+        exact hφaT (by simp only [T, Set.mem_ofPred_eq]; exact ⟨k, hk, h⟩)
       · exact ⟨k, hk, h⟩
     obtain ⟨k, hk, hkx⟩ := hφx_b
     obtain ⟨k', hk', hka⟩ := hφa_b

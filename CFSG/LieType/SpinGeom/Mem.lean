@@ -77,11 +77,11 @@ theorem spinElt_single_zero_one (j : Fin 3) (t : K) (v : Fin (2 * 4) → K) :
     refine Fin.cases ?_ (fun l => ?_) k
     · rw [coordX_spinElt_zero, coordX_elemMap]
       simp [xvec, single_dotProduct, mul_comm]
-    · rw [coordX_spinElt_succ, coordX_elemMap, if_neg (Fin.succ_ne_zero l).symm]
+    · rw [coordX_spinElt_succ, coordX_elemMap, ite_eq_right (Fin.succ_ne_zero l).symm]
       simp [xvec]
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k
-    · rw [coordY_spinElt_zero, coordY_elemMap, if_neg (Fin.succ_ne_zero j)]
+    · rw [coordY_spinElt_zero, coordY_elemMap, ite_eq_right (Fin.succ_ne_zero j)]
       ring
     · rw [coordY_spinElt_succ, coordY_elemMap]
       by_cases h : l = j
@@ -190,13 +190,13 @@ theorem spinElt_transvection (i j : Fin 3) (hij : i ≠ j) (t : K) (v : Fin (2 *
   apply vec_ext
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k
-    · rw [coordX_spinElt_zero, coordX_elemMap, if_neg (Fin.succ_ne_zero i)]
+    · rw [coordX_spinElt_zero, coordX_elemMap, ite_eq_right (Fin.succ_ne_zero i)]
       simp
     · rw [coordX_spinElt_succ, coordX_elemMap]
       simp [transvection_mulVec_apply, xvec, Fin.succ_inj]
   · intro k
     refine Fin.cases ?_ (fun l => ?_) k
-    · rw [coordY_spinElt_zero, coordY_elemMap, if_neg (Fin.succ_ne_zero j)]
+    · rw [coordY_spinElt_zero, coordY_elemMap, ite_eq_right (Fin.succ_ne_zero j)]
       simp
     · rw [coordY_spinElt_succ, coordY_elemMap, adjugate_transvection i j hij,
         transvection_transpose]

@@ -23,7 +23,7 @@ theorem map_range_getElem! (l : List Nat) : (List.range l.length).map (fun i => 
   apply List.ext_getElem
   · simp
   · intro i h1 h2
-    simp [List.getElem_map, List.getElem_range, getElem!_pos l i h2, List.getElem?_eq_getElem h2]
+    simp [List.getElem_map, List.getElem_range, List.getElem?_eq_getElem h2]
 
 theorem key_zero : J.lineKeysC.flatten[0]! = 4098 := by
   obtain ⟨h0, h⟩ := List.getElem?_eq_some_iff.1 lineKeysC_head
@@ -83,8 +83,8 @@ theorem d6s_forIn_flag (q : Nat → Bool) (b : Bool) (L : List Nat) :
     simp only [List.forIn_cons, List.any_cons]
     by_cases ha : q a = true
     · simp [ha]
-    · simp only [ha, if_false, Bool.false_or] at ih ⊢
-      simp [ha, ih]
+    · simp only [ha, Bool.false_or] at ih ⊢
+      simp [ih]
 
 theorem d6s_mf7All_iff (n : Nat) (p : Nat → Bool) :
     mf7All n p = true ↔ ∀ i < n, p i = true := by
@@ -97,7 +97,7 @@ theorem d6s_mf7All_iff (n : Nat) (p : Nat → Bool) :
     · simp [hA] <;> rfl
     · simp [hA] <;> rfl
   rw [this]
-  simp [List.any_eq_true, List.mem_range'_1]
+  simp [List.mem_range'_1]
 
 section Model
 

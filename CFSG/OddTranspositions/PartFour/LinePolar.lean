@@ -248,7 +248,7 @@ theorem ncard_blockLine_le (h89 : PartThree.Lemma8_9) (h113 : PartThree.Theorem1
     obtain ⟨e, he⟩ := nonempty_of_mem_blockClass hC.isBlock_alpha.nonempty hεD.1
     have hex : ∃ e : Halpha D hC.alpha, (e : G) ∈ ε :=
       ⟨⟨e, Subgroup.subset_closure ⟨ε, hεD, he⟩⟩, he⟩
-    simp only [rep, dif_pos hex]
+    simp only [rep, dite_eq_left hex]
     exact Classical.choose_spec hex
   let f : Set G → Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha) :=
     fun ε => QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) (rep ε)

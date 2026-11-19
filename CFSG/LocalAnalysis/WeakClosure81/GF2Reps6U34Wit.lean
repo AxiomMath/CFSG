@@ -228,13 +228,13 @@ private theorem w'2_ne_one : w' ^ 2 ≠ 1 := by
   exact w'2M_ne_one h'
 
 private theorem orderOf_w : orderOf w = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hnot : ¬ w ^ 2 ^ 1 = 1 := by simpa using w2_ne_one
   have hfin : w ^ 2 ^ (1 + 1) = 1 := by simpa using w4
   simpa using orderOf_eq_prime_pow (p := 2) (n := 1) hnot hfin
 
 private theorem orderOf_w' : orderOf w' = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hnot : ¬ w' ^ 2 ^ 1 = 1 := by simpa using w'2_ne_one
   have hfin : w' ^ 2 ^ (1 + 1) = 1 := by simpa using w'4
   simpa using orderOf_eq_prime_pow (p := 2) (n := 1) hnot hfin

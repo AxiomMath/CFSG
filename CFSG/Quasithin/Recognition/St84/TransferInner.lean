@@ -15,11 +15,13 @@ variable {H : Type} [Group H] [Finite H]
 @[expose] noncomputable def f112saW (L1 L2 S : Subgroup H) : Subgroup H :=
   centerOf (S ⊓ f112saK L1 L2 S) ⊓ Subgroup.centralizer (f112saK L1 L2 S : Set H)
 
+omit [Finite H] in
 theorem f112saK_le_P1' (L1 L2 S : Subgroup H) :
     f112saK L1 L2 S ≤ f112saP1' L1 L2 S := by
   rw [f112saK, f112saP1']
   exact sup_le ((f112sa_X1_le_oTwoRes L1 L2 S).trans le_sup_left) le_sup_right
 
+omit [Finite H] in
 theorem f112saK_le_P2' (L1 L2 S : Subgroup H) :
     f112saK L1 L2 S ≤ f112saP2' L1 L2 S := by
   rw [f112saK, f112saP2']
@@ -104,6 +106,7 @@ theorem f112sa_exists_center_conj_eq_P2'_of_hyp111R
       (f112sa_T_sylow_P2'_of_hyp111R hF hR).2.1 hTodd hgX hcT
   exact ⟨z, hz, hzconj⟩
 
+omit [Finite H] in
 theorem f112sa_inv_mul_mem_W {L1 L2 S : Subgroup H} {c z z' : H}
     (hz : z ∈ centerOf (S ⊓ f112saK L1 L2 S))
     (hz' : z' ∈ centerOf (S ⊓ f112saK L1 L2 S))

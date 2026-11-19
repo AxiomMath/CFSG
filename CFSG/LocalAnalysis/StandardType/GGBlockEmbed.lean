@@ -40,11 +40,11 @@ private lemma gbeAux_exists_blockField {n : ℕ} {K : Type} [Field K] [Finite K]
     exact hodd
   obtain ⟨F, hFld, hAlg, hFin, π, hπ, hker, hdim⟩ :=
     exists_blockField (S := ({B} : Set (GL (Fin n) K))) hS hodd' he
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
   have hChar : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   refine ⟨F, inferInstance, inferInstance, inferInstance, hChar, π, hπ, hker, hdim, ?_⟩
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
@@ -108,7 +108,7 @@ private lemma gbeAux_comm_of_mem_alg {n : ℕ} {K : Type} [Field K]
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (gbeAux_alg B) := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative (gbeAux_alg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha
   have h := congrArg Subtype.val
     (mul_comm' (⟨a, ha⟩ : gbeAux_alg B) (⟨e, he⟩ : gbeAux_alg B))
@@ -174,7 +174,7 @@ private lemma gbeAux_module {n : ℕ} {K : Type} [Field K]
   obtain ⟨φ, hφ⟩ := @gbeAux_factor (gbeAux_alg B) F (Module.End K (gbeAux_Ve e))
     _ _ _ π.toRingHom hπ ρA hker''
   have hφ' : ∀ a : gbeAux_alg B, φ (π a) = ρA a := fun a => hφ a
-  letI : Module F (gbeAux_Ve e) := Module.compHom (gbeAux_Ve e) φ
+  let : Module F (gbeAux_Ve e) := Module.compHom (gbeAux_Ve e) φ
   have hsmul : ∀ (κ : F) (w : gbeAux_Ve e), κ • w = φ κ w := fun _ _ => rfl
   refine ⟨inferInstance, ?_, ?_⟩
   · refine IsScalarTower.of_algebraMap_smul fun c w => ?_
@@ -433,7 +433,7 @@ private lemma gbeAux_rank_pos {n : ℕ} {K : Type} [Field K]
       have := congrArg (fun f : (Fin n → K) →ₗ[K] (Fin n → K) => f (Pi.single j 1)) h0
       simpa [Matrix.mulVecLin_apply, Matrix.mulVec_single_one] using this
     simpa using congrFun h1 i
-  haveI : Nontrivial (gbeAux_Ve e) := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Nontrivial (gbeAux_Ve e) := Submodule.nontrivial_iff_ne_bot.mpr hne
   exact Module.finrank_pos (R := K) (M := gbeAux_Ve e)
 
 private noncomputable def gbeAux_psi {n : ℕ} {K F : Type} [Field K] [Field F] [Algebra K F]
@@ -502,21 +502,21 @@ theorem exists_blockEmbed {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] 
   subst hA
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hπ, hker, hdim, hcard⟩ :=
     gbeAux_exists_blockField hodd he
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
+  let : Field F := hFld
+  let : Algebra K F := hAlg
   have he' : e * e = e := IsIdempotentElem.eq he.2.1
   have hcomm : ∀ a ∈ gbeAux_alg B, e * a = a * e := gbeAux_comm_of_mem_alg B he.1
   obtain ⟨hM, hT, hact⟩ := gbeAux_module hcomm π hπ hker
-  letI : Module F (gbeAux_Ve e) := hM
-  letI : IsScalarTower K F (gbeAux_Ve e) := hT
+  let : Module F (gbeAux_Ve e) := hM
+  let : IsScalarTower K F (gbeAux_Ve e) := hT
   have hBmem : (B : Matrix (Fin n) (Fin n) K) ∈ gbeAux_alg B :=
     Algebra.subset_adjoin ⟨B, Set.mem_singleton B, rfl⟩
   have hBe : e * (B : Matrix (Fin n) (Fin n) K) = (B : Matrix (Fin n) (Fin n) K) * e :=
     hcomm (B : Matrix (Fin n) (Fin n) K) hBmem
-  haveI : Module.Finite K (gbeAux_Ve e) := Module.Finite.of_finite
-  haveI : Module.Finite F (gbeAux_Ve e) :=
+  have : Module.Finite K (gbeAux_Ve e) := Module.Finite.of_finite
+  have : Module.Finite F (gbeAux_Ve e) :=
     Module.Finite.of_restrictScalars_finite K F (gbeAux_Ve e)
-  haveI : Module.Free F (gbeAux_Ve e) := Module.Free.of_divisionRing F (gbeAux_Ve e)
+  have : Module.Free F (gbeAux_Ve e) := Module.Free.of_divisionRing F (gbeAux_Ve e)
   have hrank : Matrix.rank e = Module.finrank K F * Module.finrank F (gbeAux_Ve e) := by
     rw [show Matrix.rank e = Module.finrank K (gbeAux_Ve e) from rfl,
       ← Module.finrank_mul_finrank K F (gbeAux_Ve e)]

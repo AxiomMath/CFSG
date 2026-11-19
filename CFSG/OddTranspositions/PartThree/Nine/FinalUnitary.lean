@@ -60,7 +60,7 @@ theorem card_sylow_le_mul_card_regularCore {hC : HypothesisC D}
   have hsplit := Subgroup.relIndex_mul_card (H := ℓ.ker) (K := SN)
   rw [Subgroup.relIndex_ker] at hsplit
   have himg : Nat.card (SN.map ℓ) ≤ k := by
-    have h2 : IsPGroup 2 (SN.map ℓ) := (S.isPGroup'.comap_subtype).map ℓ
+    have h2 : IsPGroup 2 (SN.map ℓ) := (S.isPGroup.comap_subtype).map ℓ
     have : Finite (SN.map ℓ) := Finite.of_surjective _ (ℓ.subgroupMap_surjective SN)
     obtain ⟨j, hj⟩ := h2.exists_card_eq
     have hdvd : Nat.card (SN.map ℓ) ∣ (2 ^ k - 1) * d := by
@@ -108,7 +108,7 @@ theorem card_sylow_map_le_of_psl2 {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC
     obtain ⟨m, hm⟩ := h2
     exact ⟨m - 1, by omega⟩
   rw [Subgroup.card_map_of_injective (Halpha D hC.alpha).subtype_injective]
-  obtain ⟨a, ha⟩ := (T.isPGroup').exists_card_eq
+  obtain ⟨a, ha⟩ := (T.isPGroup).exists_card_eq
   have hdvd : 2 ^ a ∣ 2 ^ (n + 1) * ((2 ^ n) ^ 2 - 1) := by
     rw [← ha, ← hHcard]
     exact Subgroup.card_subgroup_dvd_card _

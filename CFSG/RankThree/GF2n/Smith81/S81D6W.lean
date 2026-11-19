@@ -19,7 +19,7 @@ variable {K : Type} [Field K]
 @[expose] def emb (K : Type) [Field K] : W K →ₗ[K] V K :=
   Finsupp.lmapDomain K K (Subtype.val : Idx0 → Fin e7Data.d)
 
-theorem emb_injective : Function.Injective (emb K) := fun w w' h =>
+theorem emb_injective : Function.Injective (emb K) := fun _w _w' h =>
   Finsupp.mapDomain_injective Subtype.val_injective h
 
 theorem emb_apply_coe (w : W K) (a : Idx0) : emb K w (a : Fin e7Data.d) = w a :=

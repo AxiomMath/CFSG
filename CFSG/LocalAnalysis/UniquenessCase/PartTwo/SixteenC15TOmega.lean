@@ -19,8 +19,8 @@ theorem s16c15t_noTrans_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W]
     (htr : ∀ x ∈ J, e x = x ∨ e x = x * c) : ∀ x ∈ J, e x = x := by
   classical
   obtain ⟨-, K, hK, hKf, b, c', hK2, hpoly, hReal⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hdiv : (6 : ℕ) / 2 = 3 := by norm_num
   rw [hdiv] at hReal
   obtain ⟨π, hπ⟩ := hReal

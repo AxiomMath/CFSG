@@ -111,9 +111,9 @@ theorem evT_spec {W : ℕ → List ℕ} (hW : ∀ t, ∀ c ∈ W t, c < 10) : �
     have e : tv W rs ⟨x, hx⟩ = ⟨_, hy⟩ := Fin.ext ih
     rw [e]
     by_cases hr : r % 2 = 1
-    · rw [if_pos hr, beq_one_true hr]
+    · rw [ite_eq_left hr, beq_one_true hr]
       exact evR_spec _ (hW _) _ hy
-    · rw [if_neg hr, beq_one_false hr]
+    · rw [ite_eq_right hr, beq_one_false hr]
       exact evL_spec _ (hW _) _ hy
 
 theorem evTI_spec {W : ℕ → List ℕ} (hW : ∀ t, ∀ c ∈ W t, c < 10) : ∀ (refs : List ℕ)
@@ -128,9 +128,9 @@ theorem evTI_spec {W : ℕ → List ℕ} (hW : ∀ t, ∀ c ∈ W t, c < 10) : �
         (evL CFSG.KD.B4A.LP (W (Nat.div r 2)) x) (Nat.beq (Nat.mod r 2) 1)) < 31671,
         (if r % 2 = 1 then (vw (W (r / 2)))⁻¹ else vw (W (r / 2)))⁻¹ ⟨x, hx⟩ = ⟨_, hy⟩ := by
       by_cases hr : r % 2 = 1
-      · rw [if_pos hr, inv_inv, beq_one_true hr]
+      · rw [ite_eq_left hr, inv_inv, beq_one_true hr]
         exact ⟨by rw [← evL_spec _ (hW _) x hx]; exact Fin.isLt _, Fin.ext (evL_spec _ (hW _) x hx)⟩
-      · rw [if_neg hr, beq_one_false hr]
+      · rw [ite_eq_right hr, beq_one_false hr]
         exact ⟨by rw [← evR_spec _ (hW _) x hx]; exact Fin.isLt _, Fin.ext (evR_spec _ (hW _) x hx)⟩
     obtain ⟨hy, e⟩ := key
     rw [e]
@@ -168,7 +168,7 @@ theorem fix5_spec {g : Equiv.Perm (Fin 31671)} (hg : g ∈ rho432F.range) {f : �
   refine base_eq_one hg fun m hm => ?_
   unfold fix5 at h
   rw [belowAll_iff] at h
-  have hb : β5 m = ⟨b5 m, b5_lt m hm⟩ := by rw [β5, dif_pos hm]
+  have hb : β5 m = ⟨b5 m, b5_lt m hm⟩ := by rw [β5, dite_eq_left hm]
   rw [hb]
   apply Fin.ext
   rw [hf]
@@ -218,13 +218,13 @@ theorem evRecI_spec : ∀ (refs : List ℕ), (∀ r ∈ refs, wInH (CFSG.KD.B4A.
         (wRev (CFSG.KD.B4A.RW (Nat.div r 2))) (CFSG.KD.B4A.RW (Nat.div r 2))
         (Nat.beq (Nat.mod r 2) 1)) x < 31671, (recV r)⁻¹ ⟨x, hx⟩ = ⟨_, hy⟩ := by
       by_cases ho : r % 2 = 1
-      · rw [recV, if_pos ho, inv_inv, beq_one_true ho]
+      · rw [recV, ite_eq_left ho, inv_inv, beq_one_true ho]
         have e := ev1_spec tables hr hx
         change ∃ hy : ev1 CFSG.KD.B4A.LP (CFSG.KD.B4A.RW (r / 2)) x < 31671,
           (rho432F (wVal (yGen 4 3 2) (CFSG.KD.B4A.RW (r / 2)))) ⟨x, hx⟩ =
             ⟨ev1 CFSG.KD.B4A.LP (CFSG.KD.B4A.RW (r / 2)) x, hy⟩
         exact ⟨by rw [← e]; exact Fin.isLt _, Fin.ext e⟩
-      · rw [recV, if_neg ho, beq_one_false ho]
+      · rw [recV, ite_eq_right ho, beq_one_false ho]
         have e := ev1_spec tables (stL_wInH_rev hr) hx
         rw [wVal, stL_val_wRev (yGen_mul_self 4 3 2), map_inv] at e
         change ∃ hy : ev1 CFSG.KD.B4A.LP (wRev (CFSG.KD.B4A.RW (r / 2))) x < 31671,

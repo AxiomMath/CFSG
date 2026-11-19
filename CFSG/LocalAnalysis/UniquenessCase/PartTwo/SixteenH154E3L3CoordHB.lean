@@ -32,7 +32,7 @@ private theorem s16h_e3_le_homComp_of_iso {Γ : Type*} [Group Γ] {Q : Type*} [C
   le_sSup ⟨hJ, h⟩
 
 private theorem s16h_e3_iso_of_le_homComp {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q]
-    [MulDistribMulAction Γ Q] {Λ : Subgroup Γ} {I J : Subgroup Q} (hI : XMod.IsIrr ↥Λ I)
+    [MulDistribMulAction Γ Q] {Λ : Subgroup Γ} {I J : Subgroup Q} (_hI : XMod.IsIrr ↥Λ I)
     (hJ : XMod.IsIrr ↥Λ J) (h : J ≤ s16h_e3_homComp Λ I) : XMod.Iso ↥Λ J I := by
   rw [s16h_e3_homComp, sSup_eq_iSup'] at h
   obtain ⟨K, hK⟩ := CFSG.Quasithin.SmithD391.exists_iso_of_le_iSup
@@ -104,6 +104,7 @@ private theorem s16h_e3_eq_of_iso_of_iSup {Γ : Type*} [Group Γ] {Q : Type*} [C
   · exact absurd h hJ.2.1.ne'
   · exact h
 
+omit [Finite W] in
 private theorem s16h_e3_pair_isInv_of_commSub_eq {L : Subgroup (MulAut W)} {X : Subgroup W}
     (h : commSub X L = X) : H.Pair.IsInv L X := by
   intro l hl w hw
@@ -114,15 +115,18 @@ private theorem s16h_e3_pair_isInv_of_commSub_eq {L : Subgroup (MulAut W)} {X : 
   rw [h1]
   exact X.mul_mem hmem hw
 
+omit [Finite W] in
 private theorem s16h_e3_pair_isInv_xmod {L : Subgroup (MulAut W)} {X : Subgroup W}
     (h : H.Pair.IsInv L X) : XMod.IsInv ↥L X :=
   fun a x hx => h a a.2 x hx
 
+omit [Finite W] in
 private theorem s16h_e3_pair_isIrr_xmod {L : Subgroup (MulAut W)} {X : Subgroup W}
     (hInv : XMod.IsInv ↥L X) (h : H.Pair.IsIrr L X) : XMod.IsIrr ↥L X :=
   ⟨hInv, ⟨bot_lt_iff_ne_bot.mpr h.1,
     fun U hUi _ hU => h.2 U hU fun l hl x hx => hUi ⟨l, hl⟩ x hx⟩⟩
 
+omit [Finite W] in
 private theorem s16h_e3_pair_iso_xmod {L : Subgroup (MulAut W)} {X Y : Subgroup W}
     (h : H.Pair.IsoMod L X Y) : XMod.Iso ↥L X Y := by
   obtain ⟨e, he⟩ := h
@@ -134,6 +138,7 @@ private theorem s16h_e3_pair_iso_xmod {L : Subgroup (MulAut W)} {X Y : Subgroup 
   rw [hsub] at h1
   exact h1.symm
 
+omit [Finite W] in
 private theorem s16h_e3_xmod_iso_pair {L : Subgroup (MulAut W)} {X Y : Subgroup W}
     (h : XMod.Iso ↥L X Y) : H.Pair.IsoMod L X Y := by
   obtain ⟨e, he⟩ := h
@@ -141,6 +146,7 @@ private theorem s16h_e3_xmod_iso_pair {L : Subgroup (MulAut W)} {X Y : Subgroup 
   have h1 := he (⟨l, hl⟩ : ↥L) w ⟨l w, hw⟩ rfl
   exact h1.symm
 
+omit [Finite W] in
 private theorem s16h_e3_fixV_eq_bot_of_pair_iso {L : Subgroup (MulAut W)} {X Y : Subgroup W}
     (hfixY : Y ⊓ fixV L = ⊥) (h : H.Pair.IsoMod L X Y) : X ⊓ fixV L = ⊥ := by
   obtain ⟨e, he⟩ := h
@@ -177,7 +183,7 @@ private theorem s16h_e3_fin3_eq_of_ne {i j k m : Fin 3} (hij : i ≠ j) (hik : i
 theorem s16h_e3_eq_of_iso_of_irr {L : Subgroup (MulAut W)} {I : Fin 3 → Subgroup W}
     {i j k : Fin 3} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
     (hirr : ∀ m, I m ∈ irrSet L) (hfix : ∀ m, I m ⊓ fixV L = ⊥)
-    (hind : ∀ m, I m ⊓ (⊥ ⊔ ⨆ (n : Fin 3) (_ : n ≠ m), I n) ≤ ⊥)
+    (_hind : ∀ m, I m ⊓ (⊥ ⊔ ⨆ (n : Fin 3) (_ : n ≠ m), I n) ≤ ⊥)
     (hU : (⊥ ⊔ ⨆ m, I m) = commSub ⊤ L)
     (hnotik : ¬ H.Pair.IsoMod L (I k) (I i)) (hnotjk : ¬ H.Pair.IsoMod L (I k) (I j))
     {J : Subgroup W} (hJ : J ∈ irrSet L) (hJiso : H.Pair.IsoMod L J (I k)) :

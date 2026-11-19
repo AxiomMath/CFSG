@@ -70,6 +70,7 @@ theorem hcov (S : Setup x y K Q t K' Λ hxY) : ∀ r ∈ Q ⊓ centralizer ({t} 
   · exact Or.inl ⟨hr.1, h1⟩
   · exact Or.inr ⟨mul_mem S.hxQ hr.1, h1⟩
 
+omit [Finite G] in
 theorem hyR (S : Setup x y K Q t K' Λ hxY) :
     y ∈ normalizer ((Q ⊓ centralizer ({t} : Set G) : Subgroup G) : Set G) := by
   have hyCt : y ∈ normalizer ((centralizer ({t} : Set G) : Subgroup G) : Set G) := by

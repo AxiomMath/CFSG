@@ -405,7 +405,7 @@ theorem exists_involution_of_frattini {C : Subgroup G} {D Z g : G}
   have hsq : ∀ y ∈ (S₀ : Subgroup M).map M.subtype, y * y = 1 ∨ y * y = D := by
     rintro _ ⟨y, hy, rfl⟩
     have hyM : (y : G) ∈ C ⊓ normalizer (P : Set G) := hMdef ▸ y.2
-    obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := S₀.isPGroup ⟨y, hy⟩
     have hk1 : y ^ 2 ^ k = 1 := by
       have h := congrArg (fun w : (S₀ : Subgroup M) => (w : M)) hk
       simpa using h
@@ -611,7 +611,7 @@ theorem exists_outer_involution_of_rootElevenTest
   obtain ⟨P₀⟩ : Nonempty (Sylow 11 C) := inferInstance
   obtain ⟨P, hPdef⟩ : ∃ P : Subgroup G, P = (P₀ : Subgroup C).map C.subtype := ⟨_, rfl⟩
   have hPC : P ≤ C := hPdef ▸ map_subtype_le _
-  have hP11 : IsPGroup 11 P := hPdef ▸ P₀.isPGroup'.map C.subtype
+  have hP11 : IsPGroup 11 P := hPdef ▸ P₀.isPGroup.map C.subtype
   have hPL : P ≤ L := by
     intro p hp
     obtain ⟨k, hk⟩ := hP11 ⟨p, hp⟩

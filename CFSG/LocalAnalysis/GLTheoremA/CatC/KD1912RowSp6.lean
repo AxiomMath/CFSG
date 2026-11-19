@@ -99,7 +99,7 @@ theorem oddCoreFact_three_of_B3_two {S : Type} [Group S] [Finite S]
         (TauCeti.LieTypeIndex.fieldExponent_B 3 q)]
     rw [hA, hB]
     norm_num
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hKc]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hKc]; norm_num)
   have eT : S ≃* StatedProj (StatedSp 3 K) :=
     e.trans (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj 3 q hv hA
       (le_refl 3))

@@ -141,7 +141,7 @@ theorem six_of_open :
 theorem k432Rows_of_open
     (O : K432OpenRows) : K432Rows :=
   {
-    one := fun p e [Fact p.Prime] _ he => by haveI : NeZero e := ⟨by omega⟩; exact rowOf_projSL_two (GaloisField p e)
+    one := fun p e [Fact p.Prime] _ he => by have : NeZero e := ⟨by omega⟩; exact rowOf_projSL_two (GaloisField p e)
     two_SL := fun p e [Fact p.Prime] hp he he2 => by
       by_cases h : p ^ e % 3 = 2
       · exact rowOf_two_SL_of_mod_two p e hp he he2 h
@@ -167,7 +167,7 @@ theorem k432Rows_of_open
           (by have := pow_mod_three_ne_zero (e := 1) (Fact.out : p.Prime) hp; simp at this; omega)
     five := row_five
     six := six_of_open
-    seven_SL2 := fun n hn => by haveI : NeZero n := ⟨by omega⟩; exact rowOf_projSL_two (GaloisField 2 n)
+    seven_SL2 := fun n hn => by have : NeZero n := ⟨by omega⟩; exact rowOf_projSL_two (GaloisField 2 n)
     seven_SL3 := fun n hn => by
       by_cases h : n % 2 = 1
       · exact rowOf_seven_SL3_of_odd n hn h

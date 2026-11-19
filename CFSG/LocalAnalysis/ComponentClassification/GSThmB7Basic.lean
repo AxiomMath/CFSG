@@ -20,7 +20,7 @@ variable [Finite X]
 omit [Finite X] in
 theorem IsSylowIn.isPGroup {S Y : Subgroup X} (hS : IsSylowIn S Y) : IsPGroup 2 S := by
   obtain ⟨hSY, R, hR⟩ := hS
-  have h1 := R.isPGroup'.map Y.subtype
+  have h1 := R.isPGroup.map Y.subtype
   rwa [hR, map_subgroupOf_eq_of_le hSY] at h1
 
 theorem exists_normalizer_conj_of_central {S : Subgroup X}
@@ -54,7 +54,7 @@ theorem exists_sylow_of_normalizer_le {S Y : Subgroup X} (hS : IsSylowIn S Y)
       intro y hy
       have : (⟨y, hy⟩ : R) ∈ S.subgroupOf R := he ▸ mem_top _
       exact this
-    have hnil : Group.IsNilpotent R := R.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent R := R.isPGroup.isNilpotent
     obtain ⟨⟨w, hwR⟩, hwN, hwS⟩ := Set.exists_of_ssubset
       (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hwN' : w ∈ normalizer (S : Set X) := by
@@ -76,7 +76,7 @@ theorem exists_sylow_of_normalizer_le {S Y : Subgroup X} (hS : IsSylowIn S Y)
       mem_subgroupOf.mpr (mem_sup_left (mem_subgroupOf.mp hy))
     have h2 : IsPGroup 2 ((S ⊔ zpowers w).subgroupOf Y) := by
       have hsub : S ⊔ zpowers w ≤ (R : Subgroup X) := sup_le hR (zpowers_le.mpr hwR)
-      exact (R.isPGroup'.to_le hsub).comap_subtype
+      exact (R.isPGroup.to_le hsub).comap_subtype
     have heq := RY.maximal_isPGroup.eq_of_le h2 (hRY ▸ hle)
     have hwS' : w ∈ S := by
       have : (⟨w, hwY⟩ : Y) ∈ (S ⊔ zpowers w).subgroupOf Y :=

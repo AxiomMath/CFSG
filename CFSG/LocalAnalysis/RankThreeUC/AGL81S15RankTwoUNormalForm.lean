@@ -127,7 +127,7 @@ theorem isScalarTorus_of_fieldBorelDiagData {Y : Type} [Group Y] {n e q : ℕ}
     (hFinv : ∀ σ ∈ F, σ * σ = 1 → ∀ x ∈ A, σ x = x) : IsScalarTorus q U A :=
   isScalarTorus_of_normalForm (F := F) (D := Eg) D.borel.H_le D.borel.U_inf_H
     hAH hA hcard D.borel.F_H D.borel.F_faithful D.borel.E_triv D.borel.F_E
-    D.borel.normal_form (fun α hα => D.pow_action hα) hFinv
+    D.borel.normal_form (fun _α hα => D.pow_action hα) hFinv
 
 end CFSG.LocalAnalysis.RankThreeUC.S15
 

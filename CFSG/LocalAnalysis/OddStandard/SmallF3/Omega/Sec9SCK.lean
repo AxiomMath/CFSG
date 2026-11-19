@@ -19,6 +19,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem sec9c_mem_normalizer_of_conjugate_eq {H : Subgroup G} {c : G}
     (h : CFSG.conjugate H c = H) : c ∈ normalizer (H : Set G) := by
   have h2 : c⁻¹ ∈ normalizer (H : Set G) := by
@@ -28,10 +29,11 @@ private theorem sec9c_mem_normalizer_of_conjugate_eq {H : Subgroup G} {c : G}
 
 private theorem sec9c_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
+omit [Finite G] in
 private theorem sec9c_simple_oddCore_of_shape {X : Subgroup G}
     (h : IsOmega5 X ∨ IsOmega6Plus X ∨ IsOmega6Minus X) :
     IsSimpleGroup (X ⧸ oddCore X) := by

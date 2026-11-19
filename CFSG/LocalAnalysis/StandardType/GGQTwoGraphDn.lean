@@ -365,8 +365,8 @@ private lemma ggQ2gd_z_linearIndependent {n : ℕ} (δ : GGBCV n) :
       · have hmj : m < j := lt_of_le_of_ne (hmin j hcj) (Ne.symm hjm)
         have hval : (m : ℕ) < (j : ℕ) := hmj
         rw [ggQ2gd_z_apply]
-        rw [if_neg (by omega : ¬ ((m : ℕ) = (j : ℕ))),
-          if_neg (by omega : ¬ ((m : ℕ) = (j : ℕ) + 1))]
+        rw [ite_eq_right (by omega : ¬ ((m : ℕ) = (j : ℕ))),
+          ite_eq_right (by omega : ¬ ((m : ℕ) = (j : ℕ) + 1))]
         ring
     · intro h
       exact absurd (Finset.mem_univ m) h
@@ -610,7 +610,7 @@ private lemma ggQ2gd_negCoord_apply {n : ℕ} (a : Fin n) (v : GGBCV n) (k : Fin
   · subst h
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
     exact (by decide : ∀ x : ZMod 3, x + x = -x) (v k)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_of_ne h, smul_eq_mul, mul_zero,
       add_zero]
 
@@ -704,7 +704,7 @@ private lemma ggQ2gd_pair_flip_apply {n : ℕ} (hn : 1 ≤ n) (i : Fin n)
   by_cases hk : k = ggQ2gd_last n hn
   · subst hk
     simp [Ne.symm hi]
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     by_cases hki : k = i
     · subst hki
       simp [hxi]
@@ -766,10 +766,10 @@ private theorem ggQ2gd_caseB {n : ℕ} (hn : 5 ≤ n) {U : Type} [AddCommGroup U
         funext k
         rw [ggQ2gd_negLast_apply]
         by_cases hk : k = ggQ2gd_last n (by omega : 1 ≤ n)
-        · rw [if_pos hk]
+        · rw [ite_eq_left hk]
           have hki : k = i := hk.trans hil.symm
           rw [hki, hzi, neg_zero]
-        · rw [if_neg hk]
+        · rw [ite_eq_right hk]
       rw [hsdeq]
       rfl
     · have hi' : i ≠ ggQ2gd_last n (by omega : 1 ≤ n) := hil

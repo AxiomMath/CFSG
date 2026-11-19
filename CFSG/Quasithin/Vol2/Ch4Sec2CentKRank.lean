@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem pRank_quotient_two_top {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y)
     [N.Normal] (hN : IsPGroup 2 N) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (Y ⧸ N)) = CFSG.Open.pRank p (⊤ : Subgroup Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnd : ¬ p ∣ Nat.card N := by
     intro h
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 hN
@@ -25,7 +25,7 @@ theorem false_of_elemAbelian_quotient (hK : quasithinIsQTKECat G) {H : Subgroup 
     (hH : pCoreOf 2 H ≠ ⊥) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup (↥H ⧸ CFSG.pCore 2 ↥H)} (hE : IsElemAbelian p E)
     (hcard : Nat.card E = p ^ 3) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : CFSG.Open.pRank p H ≤ 2 :=
     CFSG.Quasithin.pRank_le_two_of_pCoreOf_ne_bot hK hH hp hp2
   have hH' : CFSG.Open.pRank p (⊤ : Subgroup ↥H) = CFSG.Open.pRank p H :=

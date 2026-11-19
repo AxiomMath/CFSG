@@ -36,9 +36,11 @@ private noncomputable def othersForm (Q : QuadraticForm K V) (x : V ≃ₗ[K] V)
   (QuadraticMap.polarBilin Q).compl₁₂ (othersSpace x.toLinearMap (X - 1)).subtype
     ((x.toLinearMap - x.symm.toLinearMap) ∘ₗ (othersSpace x.toLinearMap (X - 1)).subtype)
 
+omit [FiniteDimensional K V] in
 private theorem othersForm_apply (u v : othersSpace x.toLinearMap (X - 1)) :
     othersForm Q x u v = QuadraticMap.polar Q u (x v - x.symm v) := rfl
 
+omit [FiniteDimensional K V] in
 private theorem othersForm_isAlt (hx : OddOrderIsometry Q p x) : (othersForm Q x).IsAlt := by
   intro v
   rw [othersForm_apply, QuadraticMap.polar_sub_right, ← hx.polar_apply,
@@ -61,6 +63,7 @@ private theorem eq_zero_of_apply_eq_symm (hx : OddOrderIsometry Q p x) (hp : Odd
     exact hp1
   exact Submodule.disjoint_def.mp hx.fixed_others.1.disjoint v (mem_fixedSpace.mpr h1) hv
 
+omit [FiniteDimensional K V] in
 private theorem mem_others_of_mem_centralizer {g : V ≃ₗ[K] V}
     (hg : g ∈ Subgroup.centralizer ({x} : Set (V ≃ₗ[K] V))) {r : V}
     (hr : r ∈ othersSpace x.toLinearMap (X - 1)) : g r ∈ othersSpace x.toLinearMap (X - 1) :=
@@ -187,7 +190,7 @@ theorem det_tau : LinearEquiv.det (tau (K := K)).val = -1 := by
   have hdet : determinantForm K J = 1 := by
     rw [determinantForm_apply, hJ, Matrix.det_fin_two_of]
     ring
-  letI : Invertible (determinantForm K J) := ⟨1, by rw [hdet, one_mul], by rw [hdet, one_mul]⟩
+  let : Invertible (determinantForm K J) := ⟨1, by rw [hdet, one_mul], by rw [hdet, one_mul]⟩
   have heq : (tau (K := K)).val = TauCeti.QuadraticMap.reflection (determinantForm K) J := by
     refine LinearEquiv.ext fun X => ?_
     rw [tau_apply, TauCeti.QuadraticMap.reflection_apply]

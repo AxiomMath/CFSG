@@ -181,7 +181,7 @@ theorem gOrbConcl_map [Finite G] {ι : G →* G'} (hι : Function.Injective ι) 
   set W₁ := pElementSubgroup 2 (conjClosure P R) with hW₁
   rcases h with h | ⟨C, hCW, hWN, hWC, hcomm⟩ | h
   · left
-    haveI := h
+    have := h
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.equivMapOfInjective W₁ ι hι).symm.toMonoidHom)
       (Subgroup.equivMapOfInjective W₁ ι hι).symm.injective

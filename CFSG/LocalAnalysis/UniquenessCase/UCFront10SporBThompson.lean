@@ -37,7 +37,7 @@ theorem hJ_B_of_rank
   set T : Subgroup Cbar := (P : Subgroup Jbar).map Jbar.subtype
   have hT : IsSylowTwoOf T ⊤ := by
     rw [← hQ]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     change ¬ 2 ∣ (Q : Subgroup Cbar).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact Sylow.not_dvd_index Q

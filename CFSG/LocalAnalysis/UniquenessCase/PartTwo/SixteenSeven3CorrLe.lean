@@ -42,6 +42,7 @@ theorem s16c167_le_conj_of_rk_le_gen (D : Data G) {V L : Subgroup G} (hV : IsEle
   intro c hc'
   exact (Subgroup.mem_centralizer_iff.1 hc'.2 v hv).symm
 
+omit [Finite G] in
 theorem s16c167_relIndex_dvd_two_of_sq_mem {H : Subgroup G} {t : G}
     (hn : t ∈ normalizer (H : Set G)) (hsq : t ^ 2 ∈ H) :
     H.relIndex (H ⊔ zpowers t) ∣ 2 := by

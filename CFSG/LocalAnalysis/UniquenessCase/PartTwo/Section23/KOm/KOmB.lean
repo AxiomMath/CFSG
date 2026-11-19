@@ -87,9 +87,9 @@ theorem kOmB_holds : KOmB := by
   intro W _ _ H n S Tstar hF E hET hE hEne hcard
   obtain ⟨K, hKfield, hKfin, hKchar, b, c, hKcard, hirr, e, T, hH, hTstar, hTfix, hT2, -, hℓ⟩ :=
     exists_minusModel hF
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   classical
   have hι : Nat.card ιM = 4 := by simp [Nat.card_eq_fintype_card, Fintype.card_sum]
   have hq : 4 ≤ Nat.card K := by
@@ -115,7 +115,7 @@ theorem kOmB_holds : KOmB := by
           rw [hE'card, hE'fixcard]
   have hE'U : ¬ E' ≤ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K) :=
     not_le_rootGroupGL_of_weak hirr hE'ne hq hEweak
-  obtain ⟨t₀, ht₀E', ht₀U⟩ := SetLike.not_le_iff_exists.mp hE'U
+  obtain ⟨t₀, ht₀E', ht₀U⟩ := IsConcreteLE.not_le_iff_exists.mp hE'U
   have hq4le : Nat.card K ^ 4 ≤ 4 * Nat.card K ^ 3 := by
     have hbound := card_mul_card_fix_le_two_mul (K := K) hirr hE'fix hE'2 hE'ne
     calc Nat.card K ^ 4 = Nat.card W := hW.symm

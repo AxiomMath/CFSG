@@ -48,7 +48,7 @@ theorem sixH_g3_core {Ω : Type*} [Group Ω] {V : Subgroup Ω} {a b : Ω} (ha : 
     _ = ((a * a)⁻¹ * (b * b)⁻¹) * ((a * b) * (a * b)) := by rw [hinv]
     _ = a⁻¹ * b⁻¹ * a * b := hc
 
-theorem sixH_g3_quadratic {Ω : Type*} [Group Ω] {V : Subgroup Ω} {t : Ω} (ht : t * t = 1)
+theorem sixH_g3_quadratic {Ω : Type*} [Group Ω] {V : Subgroup Ω} {t : Ω} (_ht : t * t = 1)
     (hN : t ∈ normalizer (V : Set Ω)) (hsq : ∀ x ∈ V, ∀ y ∈ V, (x * x) * y = y * (x * x))
     (hsqt : ∀ x ∈ V, (x * x) * t = t * (x * x)) {x : Ω} (hx : x ∈ V) :
     (t⁻¹ * (x⁻¹ * t * x)) * (t⁻¹ * (x⁻¹ * t * x)) =
@@ -81,7 +81,7 @@ theorem sixH_g4_normalizer {G : Type*} [Group G] {Ω N T : Subgroup G}
   intro ω hω
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   constructor
   · rintro ⟨hC, hT'⟩
     exact ⟨key ω hω h hC, (Subgroup.mem_normalizer_iff.mp (hT hω) h).mp hT'⟩

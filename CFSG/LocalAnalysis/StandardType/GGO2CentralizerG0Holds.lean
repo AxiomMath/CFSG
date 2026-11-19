@@ -27,7 +27,7 @@ theorem ggChevTwo_pCoreOf_inf_centralizer_eq_bot {X : Type} [Group X] [Finite X]
   have hφ : ∀ (a : ↥(Subgroup.zpowers b)) (g : ↥G₀),
       ((φ a) g : X) = (a : X) * (g : X) * (a : X)⁻¹ :=
     fun a g => Subgroup.normalizerMonoidHom_apply_apply_coe G₀ (Subgroup.inclusion hAN a) g
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hR : IsPGroup p φ.range :=
     (IsElemAbelian.isPGroup (isElemAbelian_zpowers hbp)).of_surjective φ.rangeRestrict
       φ.rangeRestrict_surjective
@@ -68,7 +68,7 @@ theorem ggG0_pCoreOf_two_centralizer_eq_bot {G : Type} [Group G] [Finite G] {p :
     (hbN : b ∈ Subgroup.normalizer (ggG0 p B x L D J : Set G)) (hbr : b ^ r = 1) :
     pCoreOf 2 (ggG0 p B x L D J ⊓ Subgroup.centralizer {b}) = ⊥ := by
   obtain ⟨hsimp, -, hM⟩ := ggIVFlatData_of_ctx hctx s1
-  haveI := hsimp
+  have := hsimp
   have hnc : ∃ a b : ↥(ggG0 p B x L D J), a * b ≠ b * a := by
     by_contra h
     push Not at h

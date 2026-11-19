@@ -57,6 +57,7 @@ theorem exists_inv_mul_mem_of_not_dvd_relIndex' {p : ℕ} [Fact p.Prime]
     ⟨g, hBY hg⟩ hg
   exact ⟨s, hs, hsg⟩
 
+omit [Finite G] in
 theorem centModTwo_normal (J : Subgroup G) :
     ((RankOne.centModTwo J).subgroupOf (Subgroup.normalizer (J : Set G))).Normal := by
   refine ⟨fun c hc n => ?_⟩
@@ -85,7 +86,7 @@ theorem AGL81ElevenNineData.split_of_inner {p : ℕ} {P : Sylow p G} {M H Q : Su
     ∀ g ∈ Subgroup.zpowers a₀ ⊔ (W ⊓ jZero H L), ∃ u ∈ W ⊓ jZero H L,
       ∀ y ∈ jZero H L, ⁅u⁻¹ * g, y⁆ ∈ pCoreOf 2 (jZero H L) := by
   obtain ⟨H₁, R₁, hesc⟩ := hd.data.escape
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   set J := jZero H L with hJdef
   set Y := Subgroup.normalizer (J : Set G)
   obtain ⟨hWp, hWHM, hWmax⟩ := hd.sylow
@@ -94,7 +95,7 @@ theorem AGL81ElevenNineData.split_of_inner {p : ℕ} {P : Sylow p G} {M H Q : Su
     (le_inf inf_le_left (inf_le_right.trans hd.block.toIsTwoPrimeComponent.le))
   have hWsyl : CFSG.ABGLocalTools.IsSylowOf p W (H ⊓ M) := by
     obtain ⟨Q', hQ'⟩ := (hWp.comap_subtype (K := H ⊓ M)).exists_le_sylow
-    refine ⟨Q', hWmax _ (Q'.isPGroup'.map _) (Subgroup.map_subtype_le _) fun w hw => ?_⟩
+    refine ⟨Q', hWmax _ (Q'.isPGroup.map _) (Subgroup.map_subtype_le _) fun w hw => ?_⟩
     exact ⟨⟨w, hWHM hw⟩, hQ' (Subgroup.mem_subgroupOf.mpr hw), rfl⟩
   have hWJ := hWsyl.inf_of_le_normalizer hJHM hHMY
   have hidx : ¬ p ∣ (W ⊓ J).relIndex J :=
@@ -126,6 +127,7 @@ theorem AGL81ElevenNineData.split_of_inner {p : ℕ} {P : Sylow p G} {M H Q : Su
   rw [commutatorElement_def]
   exact RankOne.comm_of_mem_centModTwo hug.1 y hy
 
+omit [Finite G] in
 theorem hasNormalIndex_of_quotient {M : Subgroup G} {p : ℕ}
     {N : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hN : N.Normal) (hNi : N.index = p) :
     HasNormalIndex M p := by

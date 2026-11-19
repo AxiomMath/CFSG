@@ -21,7 +21,7 @@ theorem case2ab_core_fact (h : Case2DataAb p P T D F x) : Fact p.Prime := ⟨h.p
 
 theorem case2ab_core_D_comm (h : Case2DataAb p P T D F x) :
     ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := by
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   intro a ha b hb
   have := (IsCyclic.isMulCommutative (α := D)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact congrArg Subtype.val this
@@ -77,10 +77,10 @@ theorem case2ab_core_P_comm (h : Case2DataAb p P T D F x) :
 theorem case2ab_core_isPGroup_P (h : Case2DataAb p P T D F x) : IsPGroup p P := by
   obtain ⟨S, hS⟩ := h.sylow
   subst hS
-  exact S.isPGroup'
+  exact S.isPGroup
 
 theorem case2ab_core_pCore_le_P (h : Case2DataAb p P T D F x) : CFSG.pCore p Y ≤ P := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   obtain ⟨S, hS⟩ := h.sylow
   rw [← hS]
   exact (CFSG.pCore_isPGroup (p := p) (G := Y)).le_sylow_of_normal S
@@ -88,9 +88,9 @@ theorem case2ab_core_pCore_le_P (h : Case2DataAb p P T D F x) : CFSG.pCore p Y �
 theorem case2ab_core_mem_zpowers_of_pow_eq_one (h : Case2DataAb p P T D F x) :
     ∀ d ∈ D, d ^ p = 1 → d ∈ zpowers x := by
   classical
-  haveI := case2ab_core_fact h
-  haveI : IsCyclic D := h.pdata.D_cyc
-  haveI : Fintype D := Fintype.ofFinite D
+  have := case2ab_core_fact h
+  have : IsCyclic D := h.pdata.D_cyc
+  have : Fintype D := Fintype.ofFinite D
   intro d hd hdp
   obtain ⟨x', hx'⟩ : ∃ x' : D, (x' : Y) = x := ⟨⟨x, h.pdata.x_mem⟩, rfl⟩
   have hx'ord : orderOf x' = p := by
@@ -133,13 +133,13 @@ theorem case2ab_core_mem_zpowers_of_pow_eq_one (h : Case2DataAb p P T D F x) :
 
 theorem case2ab_core_x_mem_of_ne_bot (h : Case2DataAb p P T D F x) :
     ∀ C : Subgroup Y, C ≤ D → C ≠ ⊥ → x ∈ C := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   intro C hCD hC
   have hCP : C ≤ P := hCD.trans h.pdata.D_le
   have hCp : IsPGroup p C :=
     (case2ab_core_isPGroup_P h).of_injective (Subgroup.inclusion hCP)
       (Subgroup.inclusion_injective hCP)
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
   obtain ⟨n, hn, hcard⟩ := hCp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card C := by
     rw [hcard]
@@ -203,7 +203,7 @@ theorem case2ab_core_le_centralizer (h : Case2DataAb p P T D F x) (hInn : KFactI
     T ≤ centralizer (L₀ : Set Y) := by
   classical
   by_contra hTL₀
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   have h5 := h.five
   let 𝒳 : Set (Subgroup Y) := {L | IsComponentOf L ⊤ ∧ ¬ T ≤ centralizer (L : Set Y)}
   have hfin : 𝒳.Finite := Set.toFinite _
@@ -220,7 +220,7 @@ theorem case2ab_core_le_centralizer (h : Case2DataAb p P T D F x) (hInn : KFactI
   have hL₀X : L₀ ∈ X := (hmemX L₀).mpr ⟨hL₀, hTL₀⟩
   obtain ⟨a₀, ha₀, ha₀1⟩ : ∃ a₀ ∈ T ⊓ centralizer (L₀ : Set Y), a₀ ≠ 1 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hbot : T ⊓ centralizer (L₀ : Set Y) = ⊥ :=
       eq_bot_iff.mpr (fun a ha => Subgroup.mem_bot.mpr (hne a ha))
     have h1 := hline L₀ hL₀X
@@ -241,12 +241,12 @@ theorem case2ab_core_le_centralizer (h : Case2DataAb p P T D F x) (hInn : KFactI
     obtain ⟨L, hLX, haL⟩ := hcover a ha.1 ha.2
     exact Set.mem_biUnion hLX ⟨haL, ha.2⟩
   have hTcard : ((T : Set Y) \ {1}).ncard = p ^ 2 - 1 := by
-    rw [Set.ncard_diff_singleton_of_mem T.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem T.one_mem, ← Nat.card_coe_set_eq]
     exact congrArg (· - 1) h.pdata.T_card
   have hAcard : ∀ L ∈ X, (A L).ncard = p - 1 := by
     intro L hL
     show (((T ⊓ centralizer (L : Set Y) : Subgroup Y) : Set Y) \ {1}).ncard = p - 1
-    rw [Set.ncard_diff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
     exact congrArg (· - 1) (hline L hL)
   have hle : p ^ 2 - 1 ≤ 3 * (p - 1) := by
     calc p ^ 2 - 1 = ((T : Set Y) \ {1}).ncard := hTcard.symm
@@ -262,7 +262,7 @@ theorem case2ab_core_le_centralizer (h : Case2DataAb p P T D F x) (hInn : KFactI
 
 theorem case2ab_core_le_pCore (h : Case2DataAb p P T D F x) (hInn : KFactInnerAction)
     (hWC : KFactWeakClosure) : T ≤ CFSG.pCore p Y := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   have hT : ∀ L : Subgroup Y, IsComponentOf L ⊤ → T ≤ centralizer (L : Set Y) :=
     fun L hL => case2ab_core_le_centralizer h hInn hWC hL
   have hTE : T ≤ centralizer (CFSG.layer Y : Set Y) := by
@@ -285,6 +285,7 @@ theorem case2ab_core_le_pCore (h : Case2DataAb p P T D F x) (hInn : KFactInnerAc
     exact case2ab_core_P_comm h o (case2ab_core_pCore_le_P h ho) t (h.pdata.T_le ht)
   exact centralizer_layer_inf_centralizer_pCore_le h.core ⟨hTE ht, h2⟩
 
+omit [Finite Y] in
 theorem case2ab_core_exists_mul_of_mem_sup (A C : Subgroup Y)
     (hcomm : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) :
     ∀ v ∈ A ⊔ C, ∃ a ∈ A, ∃ c ∈ C, v = a * c := by
@@ -328,7 +329,7 @@ theorem case2ab_core_V_le_P (h : Case2DataAb p P T D F x) : T ⊔ zpowers x ≤ 
 theorem case2ab_core_V_normal (h : Case2DataAb p P T D F x) (hT : T ≤ CFSG.pCore p Y)
     (hx : x ∈ CFSG.pCore p Y) :
     ∀ y : Y, ∀ v ∈ T ⊔ zpowers x, y * v * y⁻¹ ∈ T ⊔ zpowers x := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   have key : ∀ v : Y, v ∈ T ⊔ zpowers x ↔ v ∈ CFSG.pCore p Y ∧ v ^ p = 1 := by
     intro v
     constructor
@@ -362,7 +363,7 @@ theorem case2ab_core_eq_of_complement (h : Case2DataAb p P T D F x) {T' : Subgro
     (hT'V : T' ≤ T ⊔ zpowers x) (hT'Λ : T' ⊓ zpowers x = ⊥)
     (hT'Λ' : T' ⊔ zpowers x = T ⊔ zpowers x) (hF : ∀ f ∈ F, ∀ a ∈ T', f * a * f⁻¹ ∈ T') :
     T' = T := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   have hcommV : ∀ v ∈ T ⊔ zpowers x, ∀ c ∈ zpowers x, v * c = c * v := by
     intro v hv c hc
     obtain ⟨t, ht, c', hc', rfl⟩ := case2ab_core_exists_mul_of_mem_sup T (zpowers x)
@@ -384,7 +385,7 @@ theorem case2ab_core_eq_of_complement (h : Case2DataAb p P T D F x) {T' : Subgro
     · right
       obtain ⟨b, hb, hb1⟩ : ∃ b ∈ T ⊓ T', b ≠ 1 := by
         by_contra hne
-        push_neg at hne
+        push Not at hne
         exact hbot (eq_bot_iff.mpr (fun a ha => Subgroup.mem_bot.mpr (hne a ha)))
       refine le_antisymm inf_le_left (fun a ha => ?_)
       by_cases ha1 : a = 1
@@ -441,6 +442,7 @@ theorem case2ab_core_eq_of_complement (h : Case2DataAb p P T D F x) {T' : Subgro
     rw [hc1, mul_one]
     exact ht
 
+omit [Finite Y] in
 theorem case2ab_core_comm_mem_bot {a b : Y} (hab : a * b = b * a) :
     a * b * a⁻¹ * b⁻¹ ∈ (⊥ : Subgroup Y) := by
   rw [Subgroup.mem_bot, hab]
@@ -448,14 +450,14 @@ theorem case2ab_core_comm_mem_bot {a b : Y} (hab : a * b = b * a) :
 
 theorem case2ab_core_normal_of_le_pCore (h : Case2DataAb p P T D F x) (hT : T ≤ CFSG.pCore p Y) :
     ∀ y : Y, ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
-  haveI := case2ab_core_fact h
+  have := case2ab_core_fact h
   by_cases hx : x ∈ CFSG.pCore p Y
   ·
     obtain ⟨S, hS⟩ := h.sylow
     have hV := case2ab_core_V_normal h hT hx
     have hΛ := case2ab_core_zpowers_normal h hV
-    haveI hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
-    haveI hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
+    have hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
+    have hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
     obtain ⟨T', hT'n, -, hT'V, hT'Λ, hT'sup⟩ :=
       exists_normal_complement h.prime S (T ⊔ zpowers x) (zpowers x) ⊥ hVn hΛn inferInstance
         le_sup_right bot_le

@@ -23,6 +23,7 @@ open QuadraticMap Module CFSG.Open CFSG.ClassicalGroups.Orthogonal CFSG.GroupThe
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem isPlusType_iff_even_pred {n : ℕ} (htype : IsPlusType Q ↔ Odd n) (hn : 1 ≤ n) :
     IsPlusType Q ↔ Even (n - 1) := by
   rw [htype, Nat.odd_iff, Nat.even_iff]
@@ -63,7 +64,7 @@ private theorem exists_rotations_card_aux (hQ : (polarBilin Q).Nondegenerate) {n
       (∀ i, (ρ i : V ≃ₗ[F] V) = reflect Q (x i) * reflect Q (y i)) ∧
       IsElemAbelian p (Subgroup.closure (Set.range ρ)) ∧
       Nat.card (Subgroup.closure (Set.range ρ)) = p ^ (n - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxy : ∀ i, polar Q (x i) (y i) ≠ 0 := fun i =>
     polar_ne_zero_of_orderOf_reflect_mul_reflect hp hp2 (hrot i).2.2
   let ρ : Fin (n - 1) → ↥(orthDerived Q) := fun i =>
@@ -89,6 +90,7 @@ private theorem exists_rotations_card_aux (hQ : (polarBilin Q).Nondegenerate) {n
       exact reflect_mul_reflect_apply_of_polar_eq_zero h1 h3
   exact isElemAbelian_card_closure_range ρ hcomm hord hindep
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem rotations_normalize_rootGroup_aux {n : ℕ} {x y : Fin (n - 1) → V} {u v : V} (hn : 2 ≤ n)
     (hrot : ∀ i, Q (x i) ≠ 0 ∧ Q (y i) ≠ 0 ∧ orderOf (reflect Q (x i) * reflect Q (y i)) = p)
     (hporth : ∀ i, polar Q u (x i) = 0 ∧ polar Q u (y i) = 0 ∧ polar Q v (x i) = 0 ∧

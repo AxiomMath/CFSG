@@ -121,7 +121,7 @@ theorem exp4_of_twin {Y : Type} [Group Y] {P : Type} [Group P] (ψ : StatedSp 2 
     rw [hL'] at hy
     obtain ⟨b, -, rfl⟩ := hx
     obtain ⟨b', -, rfl⟩ := hy
-    simp only [MonoidHom.comp_apply, Subgroup.subtype_apply]
+    simp only [MonoidHom.comp_apply]
     rw [← map_mul, ← map_mul, commute_L 0 (⟨b, rfl⟩ : longBlock F 2 0 b ∈ longRootSp2 F 2 0)
       (⟨b', rfl⟩ : longBlock F 2 1 b' ∈ longRootSp2 F 2 (Fin.rev 0))]
   obtain ⟨x, hx, y, hy, hxe⟩ := mem_sup_of_commute hcomm hm
@@ -130,12 +130,12 @@ theorem exp4_of_twin {Y : Type} [Group Y] {P : Type} [Group P] (ψ : StatedSp 2 
   have hx4 : x ^ 4 = 1 := by
     rw [hL] at hx
     obtain ⟨b, hb, rfl⟩ := hx
-    simp only [MonoidHom.comp_apply, Subgroup.subtype_apply]
+    simp only [MonoidHom.comp_apply]
     rw [← map_pow, ← map_pow, Qsub_one_pow r hb, map_one, map_one]
   have hy4 : y ^ 4 = 1 := by
     rw [hL'] at hy
     obtain ⟨b, hb, rfl⟩ := hy
-    simp only [MonoidHom.comp_apply, Subgroup.subtype_apply]
+    simp only [MonoidHom.comp_apply]
     rw [← map_pow, ← map_pow, Qsub_one_pow r hb, map_one, map_one]
   rw [(show Commute x y from hxy).mul_pow, hx4, hy4, one_mul]
 
@@ -192,7 +192,7 @@ theorem TwinShareQ.setup
   obtain ⟨fr₂⟩ := Q3T8.Asc77.C5O.M.exists_frame hT.data₂
   have h2 : (2 : GaloisField 3 1) ≠ 0 := two_ne_zero_gf 1 (by norm_num)
   have hF : Nat.card (GaloisField 3 1) = 3 := Q3T7P25.natCard_gf3
-  haveI : Finite (GaloisField 3 1) := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite (GaloisField 3 1) := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   obtain ⟨r⟩ := nonempty_ringEquiv hF
   have hL₁ := sub_eq_map_Qsub r fr₁ h2 0 (H := L.map π₁)
     (by rw [← fr₁.hA]; exact hT.map₁.1) hT.card₁.1
@@ -266,12 +266,12 @@ theorem TwinShareQ.setup
     have hbQ : b ∈ Qsub r := (mem_Qsub r b).mpr hb
     rcases (by decide : ∀ k : Fin 2, k = 0 ∨ k = 1) k with rfl | rfl
     · have h1 := hθ₀ m ⟨b, hbQ⟩ hm
-      simp only [if_true]
+      simp only [ite_true]
       rw [h1]
       show fr₂.ψ (longBlock (GaloisField 3 1) 2 0 ((θ₀ ⟨b, hbQ⟩ : ↥(Qsub r)) : SL(2, GaloisField 3 1))) = _
       rw [hθc₀]
     · have h1 := hθ₁ m ⟨b, hbQ⟩ hm
-      simp only [one_ne_zero, if_false]
+      simp only [one_ne_zero, ite_false]
       rw [h1]
       show fr₂.ψ (longBlock (GaloisField 3 1) 2 1 ((θ₁ ⟨b, hbQ⟩ : ↥(Qsub r)) : SL(2, GaloisField 3 1))) = _
       rw [hθc₁]
@@ -421,7 +421,7 @@ section Main
 variable {F : Type} [Field F]
   {Y : Type} [Group Y] {Φ : Set (Subgroup Y)} {A A' : Subgroup Y} {z' : Y}
 
-theorem pow_two_mul_of_inner (r : ZMod 3 ≃+* F) [Finite F] (fr : Frame F Y Φ A A' z') {w₀ w₁ : SL(2, F)}
+theorem pow_two_mul_of_inner (_r : ZMod 3 ≃+* F) [Finite F] (fr : Frame F Y Φ A A' z') {w₀ w₁ : SL(2, F)}
     {N : ℕ} (h : (fr.ψ (longBlock F 2 0 w₀ * longBlock F 2 1 w₁)) ^ N = 1) :
     w₀ ^ (2 * N) = 1 ∧ w₁ ^ (2 * N) = 1 := by
   have hcomm : Commute (longBlock F 2 0 w₀) (longBlock F 2 1 w₁) :=

@@ -12,8 +12,8 @@ open CFSG.Assembly CFSG.Open CFSG.LieType.Universal.Symplectic CFSG.StandardType
 
 theorem ggSpEnd_mem (hMp : GGInnerDiagMpInput) (hlift : GGSpLiftInput) {G : Type} [Group G]
     [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {m f : ℕ} {y : G}
-    {K : Subgroup G} (hcfg : GGConfig p B Bs x L D J) (hOp : GGOpAutTrivial p Bs)
-    (hInn : GGInnerDiagAll p B Bs x L D J) (hNoTr : GGNoTransvection p Bs)
+    {K : Subgroup G} (hcfg : GGConfig p B Bs x L D J) (_hOp : GGOpAutTrivial p Bs)
+    (hInn : GGInnerDiagAll p B Bs x L D J) (_hNoTr : GGNoTransvection p Bs)
     (hN : GGTypeCNbr p B Bs x L D J (m + 1) f y K) : y ∈ L ∧ x ∈ K := by
   classical
   have hp : p.Prime := hcfg.1.2.2.2.2.2.1.1
@@ -65,7 +65,7 @@ theorem ggSpEnd_mem (hMp : GGInnerDiagMpInput) (hlift : GGSpLiftInput) {G : Type
   have hx1 : x ≠ 1 := hS.2.2.1
   have hxK : x ∉ Subgroup.centralizer (K : Set G) := ggNbr_x_not_mem_centralizer hnbr
   have hy1 : y ≠ 1 := hnbr.1.2.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x := by
     have hxord : orderOf x = p := orderOf_eq_prime (hBs.2.1.2 x hxBs) hx1
     have hcardzx : Nat.card (Subgroup.zpowers x) = p := by rw [Nat.card_zpowers, hxord]

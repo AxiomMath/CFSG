@@ -23,22 +23,22 @@ public theorem CFSG.lemma_4_5_b {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
   let Ω : Subgroup R := omega₁ (G := R) (p := p)
   obtain ⟨S, hScyc, hSquot⟩ := hindex
   have hR_p : IsPGroup p R := Fact.out
-  letI : IsCyclic S := hScyc
+  let : IsCyclic S := hScyc
   have hp_one_lt : 1 < p := (Fact.out : Nat.Prime p).one_lt
   have hSidx : S.index = p := by simpa [Subgroup.index_eq_card] using hSquot
   obtain ⟨n, hnR⟩ := IsPGroup.iff_card.mp hR_p
   have hn_ne_zero : n ≠ 0 := by
     intro hn0
     have hR_card_one : Nat.card R = 1 := by simpa [hn0] using hnR
-    letI : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hR_card_one).1
+    let : Subsingleton R := (Nat.card_eq_one_iff_unique.mp hR_card_one).1
     exact hncyc (isCyclic_of_subsingleton (α := R))
   have hS_normal : S.Normal := by
     refine Subgroup.normal_of_index_eq_minFac_card ?_
     rw [hSidx, hnR]
     simpa using ((Fact.out : Nat.Prime p).pow_minFac hn_ne_zero).symm
-  letI : S.Normal := hS_normal
+  let : S.Normal := hS_normal
   obtain ⟨A, hA_normal, hAcard, hAelem⟩ := lemma_4_5_a (R := R) (p := p) hpodd hncyc
-  letI : A.Normal := hA_normal
+  let : A.Normal := hA_normal
   let q : R →* R ⧸ S := QuotientGroup.mk' S
   have hA_le_Ω : A ≤ Ω := by
     intro a ha
@@ -58,7 +58,7 @@ public theorem CFSG.lemma_4_5_b {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
     intro hbot
     have hAleKer : A ≤ q.ker := (Subgroup.map_eq_bot_iff (H := A) (f := q)).mp hbot
     exact hA_not_le_S (by simpa [q, QuotientGroup.ker_mk'] using hAleKer)
-  letI : Fact (Nat.card (R ⧸ S)).Prime := ⟨by simpa [hSquot] using (Fact.out : Nat.Prime p)⟩
+  let : Fact (Nat.card (R ⧸ S)).Prime := ⟨by simpa [hSquot] using (Fact.out : Nat.Prime p)⟩
   have hAmap_top : A.map q = ⊤ := by
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (H := A.map q) with hbot | htop
     · exact False.elim (hAmap_ne_bot hbot)
@@ -106,7 +106,7 @@ public theorem CFSG.lemma_4_5_b {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
       _ = p := hC0_card
   have hC_le_A : C ≤ A := inf_le_left
   have hC_le_S : C ≤ S := inf_le_right
-  letI : C.Normal := by infer_instance
+  let : C.Normal := by infer_instance
   have hAS_top : A ⊔ S = ⊤ := by
     apply (Subgroup.eq_top_iff' (H := A ⊔ S)).2
     intro r
@@ -125,7 +125,7 @@ public theorem CFSG.lemma_4_5_b {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
     have hrSup : r ∈ A ⊔ S := by simp [hAS_top]
     rcases (Subgroup.mem_sup_of_normal_right (s := A) (t := S)).1 hrSup with
       ⟨a, haA, s, hsS, har⟩
-    letI : IsMulCommutative A := hAelem.toIsMulCommutative
+    let : IsMulCommutative A := hAelem.toIsMulCommutative
     have hca : c * a = a * c := by
       exact congrArg Subtype.val (mul_comm (⟨c, hC_le_A hc⟩ : A) ⟨a, haA⟩)
     have hcs : c * s = s * c := by
@@ -177,7 +177,7 @@ public theorem CFSG.lemma_4_5_b {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
             exact (commutatorElement_eq_one_iff_mul_comm).2 ((Subgroup.mem_center_iff.mp hc_cent) z)
           simp [hc_pow, hz_pow, hcomm_eq_one]
     have hTexp_dvd : Monoid.exponent T ∣ p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 hTpow
-    letI : IsCyclic T := hTcyc
+    let : IsCyclic T := hTcyc
     have hT_card_dvd : Nat.card T ∣ p := by
       simpa [hTcyc.exponent_eq_card] using hTexp_dvd
     have hC_le_T : C ≤ T := le_sup_left

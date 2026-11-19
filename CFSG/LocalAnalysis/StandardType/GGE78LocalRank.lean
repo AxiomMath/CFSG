@@ -54,7 +54,7 @@ private lemma ltqRk_e8_recipe_data {R : Type} [Group R] {n : ℕ}
 private lemma ltqRk_rank_goal {X : Type} [Group X] [Finite X]
     (hZ : Subgroup.center X = ⊥) {k : ℕ} (hk : k ≤ LargeEvenTwoLocalRank 3 X) (h6 : 6 ≤ k) :
     6 + (if 3 ∣ Nat.card (Subgroup.center X) then 1 else 0) ≤ LargeEvenTwoLocalRank 3 X := by
-  rw [hZ, Subgroup.card_bot, if_neg (by decide : ¬ 3 ∣ (1 : ℕ)), add_zero]
+  rw [hZ, Subgroup.card_bot, ite_eq_right (by decide : ¬ 3 ∣ (1 : ℕ)), add_zero]
   omega
 
 theorem ggE78LocalRankThree_holds :
@@ -76,9 +76,9 @@ theorem ggE78LocalRankThree_holds :
     let eAdj : ↥(adjointGroup Tag.E7 K) ≃* AdjointQuotient Tag.E7 K :=
       ((QuotientGroup.quotientMulEquivOfEq hZk).trans QuotientGroup.quotientBot).symm
     let eC : (X ⧸ Subgroup.center X) ≃* AdjointQuotient Tag.E7 K := eθ.trans (eR.trans eAdj)
-    haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn hKcard
+    have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn hKcard
     have hsimple : IsSimpleGroup (X ⧸ Subgroup.center X) := by
-      haveI : IsSimpleGroup (AdjointQuotient Tag.E7 K) :=
+      have : IsSimpleGroup (AdjointQuotient Tag.E7 K) :=
         (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e7 K).2.1
       exact (MulEquiv.isSimpleGroup_congr eC).mpr inferInstance
     have hq : CFSG.IsQuasisimple X :=
@@ -120,9 +120,9 @@ theorem ggE78LocalRankThree_holds :
     let eAdj : ↥(adjointGroup Tag.E8 K) ≃* AdjointQuotient Tag.E8 K :=
       ((QuotientGroup.quotientMulEquivOfEq hZk).trans QuotientGroup.quotientBot).symm
     let eC : (X ⧸ Subgroup.center X) ≃* AdjointQuotient Tag.E8 K := eθ.trans (eR.trans eAdj)
-    haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn hKcard
+    have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hn hKcard
     have hsimple : IsSimpleGroup (X ⧸ Subgroup.center X) := by
-      haveI : IsSimpleGroup (AdjointQuotient Tag.E8 K) :=
+      have : IsSimpleGroup (AdjointQuotient Tag.E8 K) :=
         CFSG.LieType.Simplicity.isSimpleGroup_adjointQuotient_e8 K
       exact (MulEquiv.isSimpleGroup_congr eC).mpr inferInstance
     have hq : CFSG.IsQuasisimple X :=

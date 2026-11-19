@@ -30,7 +30,7 @@ theorem spEnd_exists_lift_lam_zero_mul_inv {F : Type} [Field F] [Finite F] {p m 
         ∃ s ∈ X, s ∈ Subgroup.normalizer (Bs : Set G) ∧
           s * ψ (lam (0 : Fin (m + 1)) g) * s⁻¹ = (ψ (lam (0 : Fin (m + 1)) g))⁻¹ := by
   classical
-  haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
   have hZ : Subgroup.center X = ⊥ := by
     have hZsp : Subgroup.center (StatedSp (m + 1) F) = ⊥ := by
       rw [CFSG.LieType.Universal.Symplectic.center_eq,

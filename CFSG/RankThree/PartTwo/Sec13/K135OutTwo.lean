@@ -98,7 +98,7 @@ theorem kFactOutTwo_of_inputs (hI : OutTwoInputs) : KFactOutTwo := by
         (CFSG.RankThree.PartOne.card_outer_alternating_le_four hn5))
   ·
     obtain ⟨f⟩ := hf
-    haveI := hS
+    have := hS
     exact outTwoGen_of_card_dvd (m := 1) (by decide) ((hI.spor s f).trans (by norm_num))
   ·
     rcases hc7 with ⟨n, hn, hf | hf | hf | hf | hf⟩ | ⟨q, hq2, hG2⟩ | ⟨q, hqv, hq2, hf⟩ |

@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem conjSubgroup_Rt_of_conjMod (hc : Ctx M Q Z B) {g s e : G} (hg : g ∈ M) (hsM : s ∈ M)
     (hq : e * (g * s * g⁻¹)⁻¹ ∈ Q) :
     conjSubgroup g (Rt M (LB M Q B) s) = Rt M (LB M Q B) e := by
@@ -40,6 +41,7 @@ theorem conjSubgroup_Rt_of_conjMod (hc : Ctx M Q Z B) {g s e : G} (hg : g ∈ M)
   rw [conjSubgroup_Rt_eq hg s]
   exact h.symm
 
+omit [Finite G] in
 theorem conjSubgroup_Vt_of_conjMod (hc : Ctx M Q Z B) {g s e : G} (hg : g ∈ M) (hsM : s ∈ M)
     (hq : e * (g * s * g⁻¹)⁻¹ ∈ Q) :
     conjSubgroup g (Vt M (LB M Q B) B Z s) = Vt M (LB M Q B) B Z e := by

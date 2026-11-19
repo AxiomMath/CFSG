@@ -98,7 +98,7 @@ open Module
     ![1, 2, 1, 0, 0, 2],
     ![2, 1, 0, 2, 1, 0]}
 
-@[expose] abbrev qd6a_NonAxis (c : Fin 6 → ZMod 3) : Prop :=
+abbrev qd6a_NonAxis (c : Fin 6 → ZMod 3) : Prop :=
   (∀ b : Fin 6, c ≠ qd6a_cOfEps b ∧ c ≠ - qd6a_cOfEps b) ∧ c ≠ 0
 
 set_option maxRecDepth 100000 in
@@ -166,10 +166,9 @@ lemma qd6a_toVec_gen (j : Fin 6) (c : Fin 6 → ZMod 3) :
   | succ m =>
     by_cases hm : m = j
     · subst hm
-      simp [qd6a_toVec_apply, qd6a_avec_toVec, qd6a_gen, Function.update_apply, hvec,
-        Pi.single_apply]
-    · simp [qd6a_toVec_apply, qd6a_avec_toVec, qd6a_gen, Function.update_apply, hvec,
-        Pi.single_apply, hm, Ne.symm hm, Fin.succ_inj]
+      simp [qd6a_toVec_apply, qd6a_avec_toVec, qd6a_gen, hvec]
+    · simp [qd6a_toVec_apply, qd6a_avec_toVec, qd6a_gen, hvec,
+        hm, Fin.succ_inj]
 
 @[expose] noncomputable def qd6a_applyWord : List (Fin 6) → V7 ≃ₗ[ZMod 3] V7
   | [] => 1

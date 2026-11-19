@@ -62,6 +62,7 @@ theorem caseA_stab_γ₁ (L1 L2 S : Subgroup G) :
     CosetGeom.stab (f112Gamma1 L1 L2 S) = (f112Amalgam L1 L2 S).Ghat2 :=
   CosetGeom.stab_γ₁ le_sup_right
 
+omit [Finite G] in
 theorem caseA_mem_Qy_γ₀_iff
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :
     ((h : f112Acting L1 L2 S) : (f112Amalgam L1 L2 S).Ghat) ∈
@@ -77,6 +78,7 @@ theorem caseA_mem_Qy_γ₀_iff
     (Subgroup.subtype ((f112Amalgam L1 L2 S).Ghat1 ⊔ (f112Amalgam L1 L2 S).Ghat2))
     (Subgroup.subtype_injective _) (L1 ⊔ bigB L1 L2 S) (f112StabEquiv0 L1 L2 S) h
 
+omit [Finite G] in
 theorem caseA_mem_Z_γ₀_iff
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :
     ((h : f112Acting L1 L2 S) : (f112Amalgam L1 L2 S).Ghat) ∈ caseAZ (f112Gamma0 L1 L2 S) ↔
@@ -92,6 +94,7 @@ theorem caseA_mem_Z_γ₀_iff
     (Subgroup.subtype ((f112Amalgam L1 L2 S).Ghat1 ⊔ (f112Amalgam L1 L2 S).Ghat2))
     (Subgroup.subtype_injective _) (L1 ⊔ bigB L1 L2 S) (f112StabEquiv0 L1 L2 S) h
 
+omit [Finite G] in
 theorem caseA_mem_Qy_γ₁_iff
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)) :
     ((h : f112Acting L1 L2 S) : (f112Amalgam L1 L2 S).Ghat) ∈
@@ -107,6 +110,7 @@ theorem caseA_mem_Qy_γ₁_iff
     (Subgroup.subtype ((f112Amalgam L1 L2 S).Ghat1 ⊔ (f112Amalgam L1 L2 S).Ghat2))
     (Subgroup.subtype_injective _) (L2 ⊔ bigB L1 L2 S) (f112StabEquiv1 L1 L2 S) h
 
+omit [Finite G] in
 theorem caseA_mem_Z_γ₁_iff
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)) :
     ((h : f112Acting L1 L2 S) : (f112Amalgam L1 L2 S).Ghat) ∈ caseAZ (f112Gamma1 L1 L2 S) ↔

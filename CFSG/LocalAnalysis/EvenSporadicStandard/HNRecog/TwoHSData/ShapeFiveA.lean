@@ -11,8 +11,8 @@ open Subgroup
 theorem isExtraspecial_five_of_data {G : Type*} [Group G] (N : Subgroup G)
     (hN : Nat.card ↥N = 125) (hexp : ∀ x ∈ N, x ^ 5 = 1) {u v : G} (hu : u ∈ N) (hv : v ∈ N)
     (huv : u * v ≠ v * u) : CFSG.IsExtraspecial 5 ↥N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hN]; norm_num)
   let Z : Subgroup ↥N := Subgroup.center ↥N
   have hZproper : Z ≠ ⊤ := by
     intro hZtop
@@ -41,7 +41,7 @@ theorem isExtraspecial_five_of_data {G : Type*} [Group G] (N : Subgroup G)
         omega
       have hquot : Nat.card (↥N ⧸ Z) = 5 := by
         rw [← Subgroup.index_eq_card, hidx]
-      haveI : IsCyclic (↥N ⧸ Z) := isCyclic_of_prime_card hquot
+      have : IsCyclic (↥N ⧸ Z) := isCyclic_of_prime_card hquot
       have hcomm : IsMulCommutative ↥N :=
         isMulCommutative_of_isCyclic_quotient_center_self ↥N
       exact huv (congrArg Subtype.val (mul_comm' (⟨u, hu⟩ : ↥N) (⟨v, hv⟩ : ↥N)))
@@ -93,7 +93,7 @@ theorem isShapeCentralizerFiveA_of_data {G : Type} [Group G] [Finite G] (X N S :
     isExtraspecial_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hNX).symm hExtN
   have hS'iso : Nonempty (S' ≃* Multiplicative (ZMod 2) × QuaternionGroup 2) :=
     ⟨(Subgroup.subgroupOfEquivOfLe hSX).trans hSiso.some⟩
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX, hN, hS]; norm_num)
+  have : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX, hN, hS]; norm_num)
   have hdisj : Disjoint N' S' := Subgroup.disjoint_of_coprime_natCard (by
     rw [hN'card, hS'card, hN, hS]; norm_num)
   have hcardmul : Nat.card ↥N' * Nat.card ↥S' = Nat.card ↥X := by

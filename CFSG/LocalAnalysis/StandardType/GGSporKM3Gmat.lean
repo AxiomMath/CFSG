@@ -140,7 +140,7 @@ private theorem gkm3_component_of_inverted
     ∃ J : Subgroup Gmat, LargeEvenPComponent 3 (Subgroup.centralizer ({s} : Set Gmat)) J := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   let φ : Gmat ≃* MGriess :=
     (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
   have hs' : orderOf (φ s) = 3 := by rwa [MulEquiv.orderOf_eq]
@@ -169,7 +169,7 @@ private theorem gkm3_component_of_inverted
         rcases (Nat.dvd_prime Nat.prime_three).1 hZ with h | h
         · exact ⟨0, by simpa using h⟩
         · exact ⟨1, by simpa using h⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact bmPComponent_of_quasisimple_centralizer Nat.prime_three hs' hq (IsPGroup.of_card hn)
     · obtain ⟨e⟩ := hsh
       have hbound := hC (φ s) α hs' hα2 hαc hαk ⟨e⟩
@@ -184,7 +184,7 @@ private theorem gkm3_component_of_inverted
       have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
         by_contra hcon
         push Not at hcon
-        letI : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
+        let : CommGroup ↥H := { (inferInstance : Group ↥H) with mul_comm := hcon }
         have hpr := IsSimpleGroup.prime_card (α := ↥H)
         rw [hcard] at hpr
         norm_num at hpr

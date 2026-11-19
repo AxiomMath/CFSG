@@ -41,12 +41,12 @@ theorem d5_actual_AL_eq_DSP
           (Nat.card_congr (Subgroup.equivMapOfInjective AL (ggLin (p := 3) ι)
             (ggLin_injective (p := 3) ι)).toEquiv).symm
       _ = 1920 := hcardAL
-  haveI : Fintype V := Fintype.ofEquiv (Fin 6 → ZMod 3) b.equivFun.symm.toEquiv
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod 3] V) := Finite.of_injective
+  have : Fintype V := Fintype.ofEquiv (Fin 6 → ZMod 3) b.equivFun.symm.toEquiv
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod 3] V) := Finite.of_injective
     (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
     (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
-  haveI : Finite P := inferInstance
+  have : Finite P := inferInstance
   have hcardP : Nat.card P ≤ 1920 := card_dspSubgroup_le b
   have hcardPle : Nat.card P ≤ Nat.card mapAL := by
     rw [hcardMap]

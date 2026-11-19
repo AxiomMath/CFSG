@@ -102,7 +102,7 @@ theorem exists_equiv_alt_of_fixed_component {H : Type} [Group H] [Finite H] {M :
   have hηK2 : IsPGroup 2 η.ker := by
     rw [hηker]
     exact Sol78.center_isPGroup_two (pPrimeCore_quotient_pPrimeCore_eq_bot 2)
-  haveI : Group.IsPerfect G := hMq.1
+  have : Group.IsPerfect G := hMq.1
   have hηg : η g = eS u := by
     have h1 : π₂ (π ((a'' : ↥T') : M)) = u := (hψ a'').symm.trans hψa''
     change eS (π₂ (π ((a'' : ↥T') : M))) = eS u

@@ -19,7 +19,7 @@ theorem ch827_le_normalizer_inf {Λ A B : Subgroup G}
   have hB' : ∀ g, g ∈ B ↔ l * g * l⁻¹ ∈ B := fun g => Subgroup.mem_normalizer_iff.mp (hB hl) g
   rw [Subgroup.mem_normalizer_iff]
   intro g
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hA' g) (hB' g)
 
 theorem ch827_normal [Finite G] {Λ W₀ W₁ : Subgroup G} (hW0W1 : W₀ < W₁)
@@ -36,15 +36,15 @@ theorem ch827_normal [Finite G] {Λ W₀ W₁ : Subgroup G} (hW0W1 : W₀ < W₁
   rcases hch _ hW0NW inf_le_left hΛNW with hEq | hEq
   · exfalso
     have hlt : W₀.subgroupOf W₁ < ⊤ := by
-      obtain ⟨x, hxW1, hxW0⟩ := SetLike.exists_of_lt hW0W1
+      obtain ⟨x, hxW1, hxW0⟩ := _root_.IsConcreteLE.exists_of_lt hW0W1
       refine lt_top_iff_ne_top.mpr fun htop => hxW0 ?_
       have hmem : (⟨x, hxW1⟩ : ↥W₁) ∈ W₀.subgroupOf W₁ := by
         rw [htop]
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hmem
-    haveI : Group.IsNilpotent ↥W₁ := hP.isNilpotent
+    have : Group.IsNilpotent ↥W₁ := hP.isNilpotent
     have hNC : NormalizerCondition ↥W₁ := Group.normalizerCondition_of_isNilpotent
-    obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt (hNC _ hlt)
+    obtain ⟨x, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hNC _ hlt)
     have key : ∀ z : ↥W₁,
         z ∈ Subgroup.normalizer ((W₀.subgroupOf W₁ : Subgroup ↥W₁) : Set ↥W₁) →
         ∀ g : G, g ∈ W₀ → (z : G) * g * (z : G)⁻¹ ∈ W₀ := by
@@ -128,7 +128,7 @@ theorem ch827CQ_one (Λ W₀ W₁ : Subgroup G) [hN : (W₀.subgroupOf W₁).Nor
 
 theorem ch827_nontrivial_quot {W₀ W₁ : Subgroup G} [(W₀.subgroupOf W₁).Normal] (hW0W1 : W₀ < W₁) :
     Nontrivial (ch827Quot W₀ W₁) := by
-  obtain ⟨x0, hx0W1, hx0W0⟩ := SetLike.exists_of_lt hW0W1
+  obtain ⟨x0, hx0W1, hx0W0⟩ := _root_.IsConcreteLE.exists_of_lt hW0W1
   refine ⟨⟨((⟨x0, hx0W1⟩ : ↥W₁) : ch827Quot W₀ W₁), 1, fun h => hx0W0 ?_⟩⟩
   exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h)
 
@@ -149,8 +149,8 @@ theorem ch827_comm_quot [Finite G] {Λ W₀ W₁ : Subgroup G} [hN : (W₀.subgr
   have hcard : Nat.card (ch827Quot W₀ W₁) = 2 ^ n := by
     rw [← hn, Subgroup.index_eq_card]
   have hQp : IsPGroup 2 (ch827Quot W₀ W₁) := IsPGroup.iff_card.mpr ⟨n, hcard⟩
-  haveI := ch827_nontrivial_quot hW0W1
-  haveI := IsPGroup.center_nontrivial hQp
+  have := ch827_nontrivial_quot hW0W1
+  have := IsPGroup.center_nontrivial hQp
   obtain ⟨⟨z, hz⟩, hne⟩ := exists_ne (1 : Subgroup.center (ch827Quot W₀ W₁))
   have hz1 : z ≠ 1 := fun h => hne (Subtype.ext h)
   let M : Subgroup G :=
@@ -228,12 +228,12 @@ theorem ch827_exp2_quot [Finite G] {Λ W₀ W₁ : Subgroup G} [hN : (W₀.subgr
     (hcomm : ∀ a b : ch827Quot W₀ W₁, a * b = b * a) :
     ∀ a : ch827Quot W₀ W₁, a ^ 2 = 1 := by
   classical
-  letI : CommGroup (ch827Quot W₀ W₁) :=
+  let : CommGroup (ch827Quot W₀ W₁) :=
     { (inferInstance : Group (ch827Quot W₀ W₁)) with mul_comm := hcomm }
   obtain ⟨n, hn⟩ := hP.index (W₀.subgroupOf W₁)
   have hcard : Nat.card (ch827Quot W₀ W₁) = 2 ^ n := by
     rw [← hn, Subgroup.index_eq_card]
-  haveI := ch827_nontrivial_quot hW0W1
+  have := ch827_nontrivial_quot hW0W1
   have h2dvd : 2 ∣ Nat.card (ch827Quot W₀ W₁) := by
     have h1 : 1 < Nat.card (ch827Quot W₀ W₁) := Finite.one_lt_card
     rw [hcard] at h1 ⊢

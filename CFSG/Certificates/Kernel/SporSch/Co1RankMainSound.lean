@@ -40,7 +40,7 @@ theorem card_le_of_tables
   have hA : ∀ s ∈ elSub hMod h0, ∀ x, s * x * s⁻¹ ∈ {x : GL24 | (xFix x).ncard = 2280} ↔
       x ∈ {x : GL24 | (xFix x).ncard = 2280} := by
     intro s hs x
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [ncard_fix_conj (hSGA hs)]
   have hA2 : ∀ z < 2 ^ ((Co1RankTab.toC T).d + 7), Co1RankCand.in2A (candT T) z = true →
       el (Co1RankTab.toC T).d (bU T) (wU T gens) z * el (Co1RankTab.toC T).d (bU T) (wU T gens) z

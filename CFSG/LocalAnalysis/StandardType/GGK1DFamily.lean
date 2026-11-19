@@ -49,13 +49,13 @@ private lemma ggK1Df_lin_pow {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field
 
 private lemma ggK1Df_cast_ne_zero {p nf : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   intro hp0
   have h2dvd : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp hp0
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h2dvd).symm
 
 theorem ggK1Df_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} (hx : x ^ p = 1) :
     OddOrderIsometry (CFSG.StandardType.TableBOrth.qPlusForm K r) p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)) := by
@@ -76,7 +76,7 @@ theorem ggK1Df_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       exact hv w)
 
 theorem ggK1Df_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} (hx : x ^ p = 1) :
     OddOrderIsometry (CFSG.StandardType.TableBOrth.qMinusForm K (r - 1) b c) p
@@ -164,7 +164,7 @@ private lemma ggK1Df_map_tame {D R : Type*} [Group D] [Group R] (φ : D ≃* R)
     rw [← Subgroup.map_commutator S S φ.toMonoidHom]
     exact CFSG.LocalCores.isQuasisimple_of_mulEquiv (MulEquiv.subgroupMap φ ⁅S, S⁆) hq
   · right
-    haveI : Group.IsSolvable ↥S := hs
+    have : Group.IsSolvable ↥S := hs
     exact Group.isSolvable_of_surjective
       (f := (MulEquiv.subgroupMap φ S).toMonoidHom) (MulEquiv.subgroupMap φ S).surjective
 
@@ -266,8 +266,7 @@ private theorem ggK1Df_transport {p nf : ℕ} {K : Type} [Field K] {ι : Type} [
   have hxφ : φ ⟨ggK1DLin (x : GL ι K), hxD⟩ = LargeEvenProjMk (LargeEvenOmega Q) x := by
     show ggK1Df_derivedEquiv hQ hscal ⟨ggK1DLin (x : GL ι K), hxD⟩ = _
     rw [ggK1Df_derivedEquiv]
-    simp only [MulEquiv.trans_apply, MulEquiv.coe_subgroupMap_apply,
-      MulEquiv.subgroupCongr_apply, TableBOrth.projMkEquiv_apply]
+    simp only [MulEquiv.trans_apply, TableBOrth.projMkEquiv_apply]
     congr 1
     exact Subtype.ext (by
       show (toLinEquiv ι K).symm (ggK1DLin (x : GL ι K)) = (x : GL ι K)
@@ -307,7 +306,7 @@ private theorem ggK1Df_transport {p nf : ℕ} {K : Type} [Field K] {ι : Type} [
         exact Subgroup.subgroupOfEquivOfLe (Subgroup.commutator_le_of_le (hsubD q) (hsubD q))
       exact CFSG.LocalCores.isQuasisimple_of_mulEquiv hiso.symm hq
     · right
-      haveI : Group.IsSolvable ↥(P.sub q.1 q.2) := hs
+      have : Group.IsSolvable ↥(P.sub q.1 q.2) := hs
       exact Group.isSolvable_of_surjective
         (f := (Subgroup.subgroupOfEquivOfLe (hsubD q)).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe (hsubD q)).symm.surjective
@@ -356,7 +355,7 @@ private theorem ggK1Df_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} (hp : p.Pri
         (hc.associated_of_dvd (irreducible_X_sub_C 1) h1)).trans (by rw [C_1])
     exact hc1 heq
 
-private theorem ggK1Df_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (hp : p.Prime)
+private theorem ggK1Df_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (_hp : p.Prime)
     (h1 : p ∣ 2 ^ nf - 1) (hK : Nat.card K = 2 ^ nf) : OrdPNS.ordQ K p = 1 := by
   have hle : 1 ≤ 2 ^ nf := Nat.one_le_two_pow
   have hcast : ((Nat.card K : ℕ) : ZMod p) = 1 := by
@@ -550,16 +549,16 @@ private lemma ggK1Df_sl_orbitModel {nf : ℕ} {K : Type} [Field K] (hnf : 1 ≤ 
     rintro ⟨-, h⟩; omega
   rw [hba]
   simp only [ggK1CBl_Model, ggK1DCo_OrbitModel]
-  rw [if_neg hcond, show m - 1 + 1 = m from by omega]
+  rw [ite_eq_right hcond, show m - 1 + 1 = m from by omega]
 
-private lemma ggK1Df_su_orbitModel {nf : ℕ} {K : Type} [Field K] (hnf : 1 ≤ nf)
+private lemma ggK1Df_su_orbitModel {nf : ℕ} {K : Type} [Field K] (_hnf : 1 ≤ nf)
     {m : ℕ} (hm : 3 ≤ m) {H : Type} [Group H] :
     ggK1CBl_Model nf K (ggK1CCo_Kind.su m) H ↔
       ggK1DCo_OrbitModel nf K (ggMultBlockA (m - 1) nf 2) H := by
   have hba : ggMultBlockA (m - 1) nf 2 =
       (⟨⟨.twA, m - 1, nf⟩, decide (¬ (m - 1 = 2 ∧ nf = 1))⟩ : GGKacOrbit) := by
-    simp only [ggMultBlockA, if_neg (by omega : ¬ (2 : ℕ) = 1)]
-    rw [if_pos (by omega : 2 ≤ m - 1)]
+    simp only [ggMultBlockA, ite_eq_right (by omega : ¬ (2 : ℕ) = 1)]
+    rw [ite_eq_left (by omega : 2 ≤ m - 1)]
   rw [hba]
   simp only [ggK1CBl_Model, ggK1DCo_OrbitModel]
   rw [show m - 1 + 1 = m from by omega]
@@ -596,12 +595,12 @@ private theorem ggK1Df_sl_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
     (CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ ↔ ((P.blk i).get j).qs = true) ∧
       (CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ →
         ggK1DCo_OrbitModel nf K ((P.blk i).get j) ↥⁅P.sub i j, P.sub i j⁆) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hblk : P.blk i = [ggMultBlockA (m - 1) nf 1] := by
     rw [P.blk_eq i, hkind, ggK1Df_kindOrbits_sl hm2]
   obtain ⟨E, hEfield, hEfin, h, hh, hne, hcard, _hmult, ⟨he⟩⟩ := P.paired_model i m hkind
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
   have hpf : h ∈ primaryFactors (ggK1DLin (x : GL ι K)).toLinearMap := hh
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hpf
   have hmon : h.Monic := monic_of_mem_primaryFactors hpf
@@ -620,7 +619,7 @@ private theorem ggK1Df_sl_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
   have hclass := ggK1CBl_classical_sl (K := K) hK hnf (by omega : 1 ≤ m) hAi
   have hsub : P.sub i j = P.A i := by
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggMultBlockA (m - 1) nf 1 := by
     rw [List.get_of_eq hblk]
@@ -633,7 +632,7 @@ private theorem ggK1Df_sl_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
     exact hclass.2.2 hq
 
 private theorem ggK1Df_su_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {ι : Type} [Fintype ι] [DecidableEq ι]
     {Q : (ι → K) → K} {Qf : QuadraticForm K (ι → K)} {x : ↥(LargeEvenOmega Q)}
     (P : OrthPrimaryBlocks K Qf nf p (ggK1DLin (x : GL ι K)))
@@ -646,11 +645,11 @@ private theorem ggK1Df_su_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
     rw [P.blk_eq i, hkind, ggK1Df_kindOrbits_su (by omega)]
   obtain ⟨E, hEfield, hEfin, hE, W, hWadd, hWmod, hWfin, Hf, hsym, hsep, hdim, ⟨he⟩⟩ :=
     P.selfDual_model i m hkind
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
-  letI : AddCommGroup W := hWadd
-  letI : Module E W := hWmod
-  letI : FiniteDimensional E W := hWfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
+  let : AddCommGroup W := hWadd
+  let : Module E W := hWmod
+  let : FiniteDimensional E W := hWfin
   obtain ⟨b, hb⟩ := CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.exists_orthonormal_basis
     hE hsym hsep
   let b' : Module.Basis (Fin m) E W := b.reindex (finCongr hdim)
@@ -662,7 +661,7 @@ private theorem ggK1Df_su_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
   have hclass := ggK1CBl_classical_su (K := K) hK hnf (by omega : 1 ≤ m) hE hsym hsep b' hb' he
   have hsub : P.sub i j = P.A i := by
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggMultBlockA (m - 1) nf 2 := by
     rw [List.get_of_eq hblk]
@@ -676,13 +675,13 @@ private theorem ggK1Df_su_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
 
 private lemma ggK1Df_kindOrbits_om {nf m : ℕ} (hm : 2 ≤ m) (eps : Bool) :
     ggK1DCo_kindOrbits nf (ggK1DCo_Kind.om eps m) = ggMultV0 m eps nf := by
-  simp only [ggK1DCo_kindOrbits, if_neg (by omega : ¬ m ≤ 1)]
+  simp only [ggK1DCo_kindOrbits, ite_eq_right (by omega : ¬ m ≤ 1)]
 
 private lemma ggK1Df_ggMultV0_large {m nf : ℕ} (hm : 4 ≤ m) (eps : Bool) :
     ggMultV0 m eps nf = if eps then [(⟨⟨.D, m, nf⟩, true⟩ : GGKacOrbit)]
       else [⟨⟨.twD, m, nf⟩, true⟩] := by
-  simp only [ggMultV0, if_neg (by omega : ¬ m ≤ 1), if_neg (by omega : ¬ m = 2),
-    if_neg (by omega : ¬ m = 3)]
+  simp only [ggMultV0, ite_eq_right (by omega : ¬ m ≤ 1), ite_eq_right (by omega : ¬ m = 2),
+    ite_eq_right (by omega : ¬ m = 3)]
 
 private lemma ggK1Df_ggMultV0_three {nf : ℕ} (eps : Bool) :
     ggMultV0 3 eps nf = if eps then [(⟨⟨.A, 3, nf⟩, true⟩ : GGKacOrbit)]
@@ -706,14 +705,14 @@ private lemma ggK1Df_isQuasisimple_commutator {G : Type*} [Group G] {S : Subgrou
 
 private lemma ggK1Df_solvable_not_quasi {G : Type*} [Group G] {S : Subgroup G}
     (h : Group.IsSolvable ↥S) : ¬ CFSG.IsQuasisimple ↥⁅S, S⁆ := by
-  haveI := h
+  have := h
   intro hq
   have hle : ⁅S, S⁆ ≤ S := Subgroup.commutator_le_self S
-  haveI : Group.IsSolvable ↥⁅S, S⁆ :=
+  have : Group.IsSolvable ↥⁅S, S⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥⁅S, S⁆ := hq.1
-  haveI : Nontrivial ↥⁅S, S⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥⁅S, S⁆ := hq.1
+  have : Nontrivial ↥⁅S, S⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
   exact Group.IsPerfect.not_isSolvable ↥⁅S, S⁆ inferInstance
 
 private lemma ggK1Df_not_quasi_bot {G : Type*} [Group G] :
@@ -748,7 +747,7 @@ private theorem ggK1Df_om_large_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
       simp
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
     have hsub : P.sub i j = P.A i := by
-      haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+      have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
       rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
     have hget : (P.blk i).get j = (⟨⟨.twD, m, nf⟩, true⟩ : GGKacOrbit) := by
       have hj : (j : ℕ) = 0 := by omega
@@ -767,7 +766,7 @@ private theorem ggK1Df_om_large_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
       simp
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
     have hsub : P.sub i j = P.A i := by
-      haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+      have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
       rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
     have hget : (P.blk i).get j = (⟨⟨.D, m, nf⟩, true⟩ : GGKacOrbit) := by
       have hj : (j : ℕ) = 0 := by omega
@@ -807,19 +806,19 @@ private theorem ggK1Df_om_two_dict_plus {p nf : ℕ} {K : Type} [Field K] [Finit
   have hm : ggK1DCo_OrbitModel nf K
       (⟨⟨.A, 1, nf⟩, decide (¬ (nf = 1))⟩ : GGKacOrbit) ↥(P.sub i j) := by
     simp only [ggK1DCo_OrbitModel]
-    rw [if_neg (by omega : ¬ (True ∧ nf = 2 * nf))]
+    rw [ite_eq_right (by omega : ¬ (True ∧ nf = 2 * nf))]
     exact ⟨he⟩
   rw [hget]
   by_cases hnf1 : nf = 1
   · subst hnf1
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hsolvSL : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) := by
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K
           (Or.inl hK2)
       exact Group.isSolvable_of_isSolvable_injective
         (f := Matrix.SpecialLinearGroup.toGL) Matrix.SpecialLinearGroup.toGL_injective
-    haveI : Group.IsSolvable ↥(P.sub i j) :=
+    have : Group.IsSolvable ↥(P.sub i j) :=
       Group.isSolvable_of_surjective (f := he.symm.toMonoidHom) he.symm.surjective
     have hnotq : ¬ CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ :=
       ggK1Df_solvable_not_quasi (S := P.sub i j) inferInstance
@@ -856,7 +855,7 @@ private theorem ggK1Df_om_two_dict_minus {p nf : ℕ} {K : Type} [Field K] [Fini
     simp
   have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = (⟨⟨.A, 1, 2 * nf⟩, true⟩ : GGKacOrbit) := by
     have hj : (j : ℕ) = 0 := by omega
@@ -864,8 +863,8 @@ private theorem ggK1Df_om_two_dict_minus {p nf : ℕ} {K : Type} [Field K] [Fini
     simp [hj]
   obtain ⟨E, hEfield, hEfin, hEcard, ⟨he⟩⟩ :=
     (P.fixed_model i false 2 hkind).2.2.2.2.1 rfl rfl
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
   have h2K : 2 ≤ Nat.card K := by
     rw [hK]
     simpa using Nat.pow_le_pow_right (show (0 : ℕ) < 2 by norm_num) hnf
@@ -913,17 +912,17 @@ private theorem ggK1Df_om_dummy_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
     (j : Fin (P.blk i).length) :
     ((P.blk i).get j).qs = false ∧ ¬ CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ := by
   have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos hm]
+    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left hm]
   have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggK1DCo_dummyOrbit nf := by
     have hmem : (P.blk i).get j ∈ [ggK1DCo_dummyOrbit nf] := by
       rw [← hblk]; exact List.get_mem _ _
     simpa using hmem
   have habel := (P.fixed_model i eps m hkind).2.2.2.2.2 hm
-  haveI : IsMulCommutative ↥(P.sub i j) := by
+  have : IsMulCommutative ↥(P.sub i j) := by
     rw [hsub]
     exact isMulCommutative_iff.mpr (fun a b => Subtype.ext (habel a.1 a.2 b.1 b.2).eq)
   have hbot : ⁅P.sub i j, P.sub i j⁆ = ⊥ := Subgroup.commutator_self_eq_bot_iff.mpr inferInstance
@@ -939,23 +938,23 @@ private theorem ggK1Df_sl_dummy_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
     (j : Fin (P.blk i).length) :
     ((P.blk i).get j).qs = false ∧ ¬ CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ := by
   have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos hm]
+    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left hm]
   have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggK1DCo_dummyOrbit nf := by
     have hmem : (P.blk i).get j ∈ [ggK1DCo_dummyOrbit nf] := by
       rw [← hblk]; exact List.get_mem _ _
     simpa using hmem
   obtain ⟨E, hEfield, _hEfin, _h, _hh, _hne, _hcard, _hmult, ⟨he⟩⟩ := P.paired_model i m hkind
-  letI : Field E := hEfield
-  haveI : IsMulCommutative (Matrix.GeneralLinearGroup (Fin m) E) :=
+  let : Field E := hEfield
+  have : IsMulCommutative (Matrix.GeneralLinearGroup (Fin m) E) :=
     ggK1Df_gl_small_commutative hm
-  haveI : IsMulCommutative ↥(P.A i) :=
+  have : IsMulCommutative ↥(P.A i) :=
     isMulCommutative_iff.mpr
       (fun a b => he.injective (by rw [map_mul, map_mul]; exact mul_comm' (he a) (he b)))
-  haveI : IsMulCommutative ↥(P.sub i j) := by rw [hsub]; infer_instance
+  have : IsMulCommutative ↥(P.sub i j) := by rw [hsub]; infer_instance
   have hbot : ⁅P.sub i j, P.sub i j⁆ = ⊥ := Subgroup.commutator_self_eq_bot_iff.mpr inferInstance
   refine ⟨?_, ?_⟩
   · rw [hget]; rfl
@@ -970,10 +969,10 @@ private theorem ggK1Df_su_dummy_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
     (j : Fin (P.blk i).length) :
     ((P.blk i).get j).qs = false ∧ ¬ CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ := by
   have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos hm]
+    rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left hm]
   have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggK1DCo_dummyOrbit nf := by
     have hmem : (P.blk i).get j ∈ [ggK1DCo_dummyOrbit nf] := by
@@ -983,15 +982,15 @@ private theorem ggK1Df_su_dummy_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
   ·
     obtain ⟨E, hEfield, hEfin, hE, W, hWadd, hWmod, hWfin, Hf, hsym, hsep, hdim, ⟨he⟩⟩ :=
       P.selfDual_model i 0 hkind
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
-    letI : AddCommGroup W := hWadd
-    letI : Module E W := hWmod
-    letI : FiniteDimensional E W := hWfin
-    haveI : Subsingleton W := Module.finrank_zero_iff.mp hdim
-    haveI : Subsingleton ↥(CFSG.LocalAnalysis.ComponentInitial.sesqUnitaryGroup Hf) :=
+    let : Field E := hEfield
+    let : Fintype E := hEfin
+    let : AddCommGroup W := hWadd
+    let : Module E W := hWmod
+    let : FiniteDimensional E W := hWfin
+    have : Subsingleton W := Module.finrank_zero_iff.mp hdim
+    have : Subsingleton ↥(CFSG.LocalAnalysis.ComponentInitial.sesqUnitaryGroup Hf) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
-    haveI : Subsingleton ↥(P.A i) :=
+    have : Subsingleton ↥(P.A i) :=
       ⟨fun a b => he.injective (Subsingleton.elim (he a) (he b))⟩
     have hnotq : ¬ CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ := by
       rw [hsub]
@@ -1000,11 +999,11 @@ private theorem ggK1Df_su_dummy_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
   ·
     obtain ⟨E, hEfield, hEfin, hE, W, hWadd, hWmod, hWfin, Hf, hsym, hsep, hdim, ⟨he⟩⟩ :=
       P.selfDual_model i 1 hkind
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
-    letI : AddCommGroup W := hWadd
-    letI : Module E W := hWmod
-    letI : FiniteDimensional E W := hWfin
+    let : Field E := hEfield
+    let : Fintype E := hEfin
+    let : AddCommGroup W := hWadd
+    let : Module E W := hWmod
+    let : FiniteDimensional E W := hWfin
     obtain ⟨b, hb⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.exists_orthonormal_basis hE hsym hsep
     let b' : Module.Basis (Fin 1) E W := b.reindex (finCongr hdim)
@@ -1034,13 +1033,13 @@ private theorem ggK1Df_su_two_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
     (CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ ↔ ((P.blk i).get j).qs = true) ∧
       (CFSG.IsQuasisimple ↥⁅P.sub i j, P.sub i j⁆ →
         ggK1DCo_OrbitModel nf K ((P.blk i).get j) ↥⁅P.sub i j, P.sub i j⁆) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   subst hm2
   have hblk : P.blk i = [ggMultBlockA 1 nf 2] := by
     rw [P.blk_eq i, hkind, ggK1Df_kindOrbits_su (le_refl 2)]
   have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hget : (P.blk i).get j = ggMultBlockA 1 nf 2 := by
     have hmem : (P.blk i).get j ∈ [ggMultBlockA 1 nf 2] := by
@@ -1048,11 +1047,11 @@ private theorem ggK1Df_su_two_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
     simpa using hmem
   obtain ⟨E, hEfield, hEfin, hE, W, hWadd, hWmod, hWfin, Hf, hsym, hsep, hdim, ⟨he⟩⟩ :=
     P.selfDual_model i 2 hkind
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
-  letI : AddCommGroup W := hWadd
-  letI : Module E W := hWmod
-  letI : FiniteDimensional E W := hWfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
+  let : AddCommGroup W := hWadd
+  let : Module E W := hWmod
+  let : FiniteDimensional E W := hWfin
   obtain ⟨b, hb⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.exists_orthonormal_basis hE hsym hsep
   let b' : Module.Basis (Fin 2) E W := b.reindex (finCongr hdim)
@@ -1071,14 +1070,14 @@ private theorem ggK1Df_su_two_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
   · intro hq
     obtain ⟨E', hE'field, hE'fin, hE'card, ⟨eSU⟩⟩ := hclass.2.2 hq
     rw [hK] at eSU
-    letI : Field E' := hE'field
-    letI : Fintype E' := hE'fin
+    let : Field E' := hE'field
+    let : Fintype E' := hE'fin
     have hcardE' : Nat.card E' = (2 ^ nf) ^ 2 := by
       rw [Nat.card_eq_fintype_card, hE'card, hK]
     have hcardE'' : Nat.card E' = 2 ^ (2 * nf) := by
       rw [hcardE', ← pow_mul, mul_comm]
-    haveI : CharP E' 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcardE''
-    letI : Fintype ↥(CFSG.LieType.Steinberg.fixedSubfield E' 2 nf) := Fintype.ofFinite _
+    have : CharP E' 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcardE''
+    let : Fintype ↥(CFSG.LieType.Steinberg.fixedSubfield E' 2 nf) := Fintype.ofFinite _
     have hcardfix : Nat.card (CFSG.LieType.Steinberg.fixedSubfield E' 2 nf) = 2 ^ nf :=
       CFSG.LieType.Steinberg.card_fixedSubfield hcardE'
     have hcardfix' : Fintype.card ↥(CFSG.LieType.Steinberg.fixedSubfield E' 2 nf) =
@@ -1096,7 +1095,7 @@ private theorem ggK1Df_su_two_dict {p nf : ℕ} {K : Type} [Field K] [Finite K]
       simp [ggMultBlockA]
     rw [hba]
     simp only [ggK1DCo_OrbitModel]
-    rw [if_neg (by omega : ¬ (True ∧ nf = 2 * nf))]
+    rw [ite_eq_right (by omega : ¬ (True ∧ nf = 2 * nf))]
     exact ⟨(eSU.trans e2.symm).trans eSL⟩
 
 private theorem ggK1Df_orbitModel_congr {nf : ℕ} {K : Type} [Field K] {o : GGKacOrbit}
@@ -1107,10 +1106,10 @@ private theorem ggK1Df_orbitModel_congr {nf : ℕ} {K : Type} [Field K] {o : GGK
   cases tag <;> simp only [ggK1DCo_OrbitModel] at h ⊢
   case A =>
     by_cases hc : r = 1 ∧ n = 2 * nf
-    · rw [if_pos hc] at h ⊢
+    · rw [ite_eq_left hc] at h ⊢
       obtain ⟨E, hEfield, hEfin, hEcard, ⟨eH⟩⟩ := h
       exact ⟨E, hEfield, hEfin, hEcard, ⟨e.symm.trans eH⟩⟩
-    · rw [if_neg hc] at h ⊢
+    · rw [ite_eq_right hc] at h ⊢
       obtain ⟨eH⟩ := h
       exact ⟨e.symm.trans eH⟩
   case twA =>
@@ -1122,7 +1121,6 @@ private theorem ggK1Df_orbitModel_congr {nf : ℕ} {K : Type} [Field K] {o : GGK
   case twD =>
     obtain ⟨b, c, hirr, ⟨eH⟩⟩ := h
     exact ⟨b, c, hirr, ⟨e.symm.trans eH⟩⟩
-  all_goals exact h.elim
 
 private noncomputable def ggK1Df_commutatorEquiv {G R : Type} [Group G] [Group R]
     {S : Subgroup G} {T : Subgroup R} (φ : ↥S ≃* ↥T) : ↥⁅S, S⁆ ≃* ↥⁅T, T⁆ :=
@@ -1190,7 +1188,7 @@ private theorem ggK1Df_sl2_witness {K : Type} [Field K] :
     intro i j
     rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one, htcoe]
     fin_cases i <;> fin_cases j <;>
-      simp [tm, Matrix.mul_apply, Fin.sum_univ_two, pow_succ, Matrix.one_apply]
+      simp [tm, Matrix.mul_apply, Fin.sum_univ_two, pow_succ]
   · intro hcon
     have h := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
       (x : Matrix (Fin 2) (Fin 2) K) 0 1) hcon
@@ -1273,7 +1271,7 @@ private theorem ggK1Df_mulVec_map {ι K K' : Type} [Fintype ι] [DecidableEq ι]
 private theorem ggK1Df_statedQuadPlus_map {K K' : Type} [Field K] [Field K']
     (e : K ≃+* K') (v : Fin 3 ⊕ Fin 3 → K) :
     StatedQuadPlus 3 K' (ggK1Df_vecMap e v) = e (StatedQuadPlus 3 K v) := by
-  simp only [StatedQuadPlus, MatrixModel.plusQuadCore, ggK1Df_vecMap, map_sum, map_mul]
+  simp only [StatedQuadPlus, ggK1Df_vecMap, map_sum, map_mul]
 
 private theorem ggK1Df_isometryCore_map {K K' : Type} [Field K] [Field K'] (e : K ≃+* K') :
     (MatrixModel.isometryCore (StatedQuadPlus 3 K)).map
@@ -1282,7 +1280,7 @@ private theorem ggK1Df_isometryCore_map {K K' : Type} [Field K] [Field K'] (e : 
   rw [MatrixModel.isometryCore, MonoidHom.map_closure]
   congr 1
   ext A
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨B, hB, rfl⟩
     intro w
@@ -1305,7 +1303,7 @@ private theorem ggK1Df_isometryCore_map {K K' : Type} [Field K] [Field K'] (e : 
         (A : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K').mulVec (ggK1Df_vecMap e v) := by
       funext i
       simp only [ggK1Df_vecMap, mulVec, dotProduct, ggK1Df_glMapEquiv_symm_coe,
-        Matrix.map_apply, map_sum, map_mul, map_inv₀]
+        Matrix.map_apply, map_sum, map_mul]
       apply Finset.sum_congr rfl
       intro j _
       simp
@@ -1345,7 +1343,7 @@ private theorem ggK1Df_om_three_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
       simp
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
     have hsub : P.sub i j = P.A i := by
-      haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+      have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
       rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
     have hget : (P.blk i).get j = (⟨⟨.twA, 3, nf⟩, true⟩ : GGKacOrbit) := by
       have hj : (j : ℕ) = 0 := by omega
@@ -1355,9 +1353,9 @@ private theorem ggK1Df_om_three_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
     obtain ⟨E, hEfield, hE, ⟨eSU⟩⟩ :=
       CFSG.ComponentClassification.RankTwoClassical.nonempty_statedOmega_quadMinus_three_equiv
         (K := K) hK hirr
-    letI : Field E := hEfield
-    haveI : Finite E := hE.finite
-    letI : Fintype E := Fintype.ofFinite E
+    let : Field E := hEfield
+    have : Finite E := hE.finite
+    let : Fintype E := Fintype.ofFinite E
     have hEcard : Nat.card E = (2 ^ nf) ^ 2 := hE.card_eq_sq
     have hqSU : CFSG.IsQuasisimple ↥(StatedSU 4 (2 ^ nf) E) :=
       (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card hEcard (by norm_num)
@@ -1374,7 +1372,7 @@ private theorem ggK1Df_om_three_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
       simp
     have hlen : (P.blk i).length = 1 := by rw [hblk]; rfl
     have hsub : P.sub i j = P.A i := by
-      haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+      have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
       rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
     have hget : (P.blk i).get j = (⟨⟨.A, 3, nf⟩, true⟩ : GGKacOrbit) := by
       have hj : (j : ℕ) = 0 := by omega
@@ -1401,7 +1399,7 @@ private theorem ggK1Df_om_three_dict {p nf : ℕ} {K : Type} [Field K] [Finite K
         have hnf1 : nf < 2 := (Nat.pow_lt_pow_iff_right (by norm_num : 1 < 2)).mp hlt
         have hnf1' : nf = 1 := by omega
         rw [hK, hnf1']; norm_num
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have e : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq (by
         rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h2]; norm_num)
       obtain ⟨eOmega⟩ := ggK1Df_statedOmega_plus_three_mapEquiv e
@@ -1431,11 +1429,11 @@ private theorem ggK1Df_su_kindWitness {p nf : ℕ} {K : Type} [Field K] [Finite 
     ggK1CBl_KindWitness nf K (ggK1CCo_Kind.su m) (P.A i) := by
   obtain ⟨E, hEfield, hEfin, hE, W, hWadd, hWmod, hWfin, Hf, hsym, hsep, hdim, ⟨he⟩⟩ :=
     P.selfDual_model i m hkind
-  letI : Field E := hEfield
-  letI : Fintype E := hEfin
-  letI : AddCommGroup W := hWadd
-  letI : Module E W := hWmod
-  letI : FiniteDimensional E W := hWfin
+  let : Field E := hEfield
+  let : Fintype E := hEfin
+  let : AddCommGroup W := hWadd
+  let : Module E W := hWmod
+  let : FiniteDimensional E W := hWfin
   obtain ⟨b, hb⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.exists_orthonormal_basis hE hsym hsep
   let b' : Module.Basis (Fin m) E W := b.reindex (finCongr hdim)
@@ -1461,13 +1459,13 @@ private theorem ggK1Df_su_witness {p nf : ℕ} {K : Type} [Field K] [Finite K]
     rw [P.blk_eq i, hkind]
     exact ggK1Df_kindOrbits_su_length
   have hsub : P.sub i j = P.A i := by
-    haveI : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Fin (P.blk i).length) := ⟨fun a b => Fin.ext (by omega)⟩
     rw [← P.sub_join i, ggK1Df_iSup_subsingleton]
   have hm2 : 2 ≤ m := by
     by_contra h
     have hm1 : m ≤ 1 := by omega
     have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos hm1]
+      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left hm1]
     exact ho (ggK1Df_get_dummy hblk j)
   have hblk : P.blk i = [ggMultBlockA (m - 1) nf 2] := by
     rw [P.blk_eq i, hkind, ggK1Df_kindOrbits_su hm2]
@@ -1503,7 +1501,7 @@ private theorem ggK1Df_dict_su {p nf : ℕ} {K : Type} [Field K] [Finite K]
     refine Or.inr ⟨hqs, hnotq, ?_⟩
     intro ho
     have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos (by omega)]
+      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left (by omega)]
     exact absurd (ggK1Df_get_dummy hblk j) ho
   · rcases eq_or_lt_of_le hm2 with hm2' | hm3
     · subst hm2'
@@ -1533,7 +1531,7 @@ private theorem ggK1Df_dict_sl {p nf : ℕ} {K : Type} [Field K] [Finite K]
     refine Or.inr ⟨hqs, hnotq, ?_⟩
     intro ho
     have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos (by omega)]
+      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left (by omega)]
     exact absurd (ggK1Df_get_dummy hblk j) ho
   · obtain ⟨hiff, hmodel⟩ := ggK1Df_sl_dict hp hp2 hnf hK h1 hxO P i m hkind hm2 j
     refine ggK1Df_dict_of_iff_model hiff hmodel ?_
@@ -1570,7 +1568,7 @@ private theorem ggK1Df_dict_om {p nf : ℕ} {K : Type} [Field K] [Finite K]
     refine Or.inr ⟨hqs, hnotq, ?_⟩
     intro ho
     have hblk : P.blk i = [ggK1DCo_dummyOrbit nf] := by
-      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, if_pos (by omega)]
+      rw [P.blk_eq i, hkind, ggK1DCo_kindOrbits, ite_eq_left (by omega)]
     exact absurd (ggK1Df_get_dummy hblk j) ho
   · rcases eq_or_lt_of_le hm2 with hm2' | hm3
     · subst hm2'
@@ -1614,7 +1612,7 @@ private theorem ggK1Df_dict_om {p nf : ℕ} {K : Type} [Field K] [Finite K]
         exact ggK1Df_witness_subgroup he (ggK1Df_sl2_witness (K := K))
     · rcases eq_or_lt_of_le (show 3 ≤ m from hm3) with hm3' | hm4
       · subst hm3'
-        haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+        have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
         obtain ⟨hiff, hmodel⟩ := ggK1Df_om_three_dict (hnf := hnf) (hK := hK) P i eps 3 hkind rfl j
         refine ggK1Df_dict_of_iff_model hiff hmodel ?_
         intro hqs _
@@ -1674,19 +1672,19 @@ private lemma ggK1Df_hasOrbit_of_qs {nf : ℕ} {k : ggK1DCo_Kind} {o : GGKacOrbi
   cases k with
   | om eps m =>
       by_cases hm : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos hm, List.mem_singleton] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left hm, List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs
       · rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq]; omega
   | sl m =>
       by_cases hm : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos hm, List.mem_singleton] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left hm, List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs
       · rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq]; omega
   | su m =>
       by_cases hm : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos hm, List.mem_singleton] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left hm, List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs
       · rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq]; omega
@@ -1697,16 +1695,16 @@ private lemma ggK1Df_dummy_not_mem_kindOrbits {nf : ℕ} {k : ggK1DCo_Kind}
   cases k with
   | om eps m =>
       rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq] at hhas
-      rw [ggK1DCo_kindOrbits, if_neg (by omega : ¬ m ≤ 1)]
+      rw [ggK1DCo_kindOrbits, ite_eq_right (by omega : ¬ m ≤ 1)]
       rcases m with _ | _ | _ | _ | k <;> cases eps <;>
         simp [ggMultV0, ggK1DCo_dummyOrbit]
   | sl m =>
       rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq] at hhas
-      rw [ggK1DCo_kindOrbits, if_neg (by omega : ¬ m ≤ 1)]
+      rw [ggK1DCo_kindOrbits, ite_eq_right (by omega : ¬ m ≤ 1)]
       rcases m with _ | _ | k <;> simp [ggMultBlockA, ggK1DCo_dummyOrbit]
   | su m =>
       rw [ggK1DCo_Kind.hasOrbit, decide_eq_true_eq] at hhas
-      rw [ggK1DCo_kindOrbits, if_neg (by omega : ¬ m ≤ 1)]
+      rw [ggK1DCo_kindOrbits, ite_eq_right (by omega : ¬ m ≤ 1)]
       rcases m with _ | _ | k <;>
         simp only [ggMultBlockA, ggK1DCo_dummyOrbit]
       all_goals split_ifs <;> simp_all
@@ -1756,12 +1754,12 @@ private lemma ggK1Df_dummy_not_mem_datum {p nf d : ℕ} {tw : Bool} {m : List �
   obtain ⟨k, _hk, hhas, hok⟩ := ggK1Df_exists_kind_of_mem_expectedOrbits h
   exact ggK1Df_dummy_not_mem_kindOrbits hhas hok
 
-private theorem ggK1Df_fields_of_dict {p nf d r : ℕ} {tw : Bool} {m : List ℕ}
+private theorem ggK1Df_fields_of_dict {p nf d _r : ℕ} {tw : Bool} {m : List ℕ}
     {K : Type} [Field K] [Finite K]
     {ιQ : Type} [Fintype ιQ] [DecidableEq ιQ] {Q : (ιQ → K) → K}
-    {x : ↥(LargeEvenOmega Q)}
+    {_x : ↥(LargeEvenOmega Q)}
     {ι : Type} [Fintype ι] [DecidableEq ι]
-    (hp : p.Prime) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (_hp : p.Prime) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (kind : ι → ggK1DCo_Kind)
     (A : (i : ι) → Fin (ggK1DCo_kindOrbits nf (kind i)).length →
       Subgroup (LargeEvenProj (LargeEvenOmega Q)))
@@ -1780,7 +1778,7 @@ private theorem ggK1Df_fields_of_dict {p nf d r : ℕ} {tw : Bool} {m : List ℕ
         CFSG.IsQuasisimple ↥⁅A q.1 q.2, A q.1 q.2⁆ →
         ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true) ∧
     (∀ (q : Σ i : ι, Fin (ggK1DCo_kindOrbits nf (kind i)).length)
-        (hq : CFSG.IsQuasisimple ↥⁅A q.1 q.2, A q.1 q.2⁆),
+        (_hq : CFSG.IsQuasisimple ↥⁅A q.1 q.2, A q.1 q.2⁆),
         GGHasLabel ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).lab
           (↥⁅A q.1 q.2, A q.1 q.2⁆ ⧸ Subgroup.center ↥⁅A q.1 q.2, A q.1 q.2⁆)) ∧
     (∀ o ∈ (ggMultDatumD p nf d tw m).orbits, o.qs = true →
@@ -1806,8 +1804,8 @@ private theorem ggK1Df_fields_of_dict {p nf d r : ℕ} {tw : Bool} {m : List ℕ
       CFSG.IsQuasisimple ↥⁅A q.1 q.2, A q.1 q.2⁆ ↔
         ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true := by
     intro q
-    rcases hdict q with ⟨hqs, hq, _⟩ | ⟨hqs, hnq, _⟩
-    · exact ⟨fun _ => hqs, fun _ => hq⟩
+    rcases hdict q with ⟨hqs, _hq, _⟩ | ⟨hqs, hnq, _⟩
+    · exact ⟨fun _ => hqs, fun _ => _hq⟩
     · refine ⟨fun h => absurd h hnq, fun h => ?_⟩
       rw [hqs] at h
       exact (Bool.false_eq_true.mp h).elim
@@ -1819,19 +1817,19 @@ private theorem ggK1Df_fields_of_dict {p nf d r : ℕ} {tw : Bool} {m : List ℕ
     rw [hkind_multiset] at this
     exact Multiset.mem_coe.mp this
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
-  · intro q hq
-    have hqs : ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true := (hiff q).mp hq
+  · intro q _hq
+    have hqs : ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true := (hiff q).mp _hq
     exact ggK1Df_mem_datum (hkind_mem q) (List.get_mem _ _) hqs
-  · intro q hq
-    exact (hiff q).mp hq
-  · intro q hq
-    have hqs : ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true := (hiff q).mp hq
+  · intro q _hq
+    exact (hiff q).mp _hq
+  · intro q _hq
+    have hqs : ((ggK1DCo_kindOrbits nf (kind q.1)).get q.2).qs = true := (hiff q).mp _hq
     rcases hdict q with ⟨_, hq', hm⟩ | ⟨_, hnq, _⟩
     · exact ggK1DCo_orbit_label hnf hK
         (ggK1DCo_kindOrbits_n nf (kind q.1) (List.get_mem _ _))
         (ggK1DCo_kindOrbits_rank nf (kind q.1) (List.get_mem _ _) hqs)
         hqs ⁅A q.1 q.2, A q.1 q.2⁆ hq' hm
-    · exact absurd hq hnq
+    · exact absurd _hq hnq
   · intro o ho hqs
     obtain ⟨k, hk⟩ := List.mem_iff_get.mp ho
     let k' : {k : Fin (ggMultDatumD p nf d tw m).orbits.length //
@@ -1864,7 +1862,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (hd : d = ggMultOrd p nf)
     (tw : Bool) {Q : (ι → K) → K} {Qf : QuadraticForm K (ι → K)} (hQ : Q = ⇑Qf)
     {x : ↥(LargeEvenOmega Q)} {m : List ℕ}
-    (hm : GGK1DMultOf p nf d r K (x : GL ι K) m) (hx : x ^ p = 1)
+    (hm : GGK1DMultOf p nf d r K (x : GL ι K) m) (_hx : x ^ p = 1)
     (hxO : OddOrderIsometry Qf p (ggK1DLin (x : GL ι K)))
     (hscal : (LargeEvenScalars ι K).subgroupOf (LargeEvenOmega Q) = ⊥)
     (heps0 : CFSG.GroupTheory.WeirSylow.IsPlusType
@@ -1874,8 +1872,8 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
 
     Nonempty (ggK1DCo_Family p nf d tw r m K Q x) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   obtain ⟨P⟩ := hob
   obtain ⟨AP, hcommP, hjoinP, hindepP, htameP, hisoP⟩ := ggK1Df_transport hQ hscal P
   obtain ⟨Rep, e, hRep, hkind⟩ := P.rep
@@ -1890,7 +1888,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
     · simp [hp_, heps0.mp hp_]
     · have hne : ggMultEps0 p d tw m ≠ true := fun h => hp_ (heps0.mpr h)
       cases hb : ggMultEps0 p d tw m
-      · rw [if_neg hp_]
+      · rw [ite_eq_right hp_]
       · exact absurd hb hne
   have hhead : headKind = ggK1DCo_Kind.om (ggMultEps0 p d tw m) (m.headD 0) := by
     dsimp only [headKind, W, xL]
@@ -1910,7 +1908,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
     · exact P.hcomm i i' hi a (P.hsub_le i j ha) b (P.hsub_le i' j' hb)
   have hkHead : ∀ i : P.ι, (e i : K[X]) = X - 1 → P.kind i = headKind := by
     intro i hi
-    rw [hkind i, if_pos hi]
+    rw [hkind i, ite_eq_left hi]
   let headIdx : Option {i : P.ι // (e i : K[X]) = X - 1} :=
     if h : ∃ i : P.ι, (e i : K[X]) = X - 1 then
       some ⟨Classical.choose h, Classical.choose_spec h⟩
@@ -1964,7 +1962,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
           rw [hxO.reciprocal_reciprocal_eq (h := (e (φ t) : K[X])) (hRep.1 hrmem)] at h2
           have hr : (e (φ t) : K[X]) = reciprocalPolynomial t.1 := h2.symm
           rw [hr, hpm]
-      rw [hkind (φ t), if_neg hrX, if_neg hrpair, hmult]
+      rw [hkind (φ t), ite_eq_right hrX, ite_eq_right hrpair, hmult]
     have hφ_inj : Function.Injective φ := by
       intro t t' h
       have ht := (hφ t).2
@@ -2041,7 +2039,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       have hmd : ggMultOrd p nf = 1 := by rw [← hd, hd1]
       have h1 : p ∣ 2 ^ nf - 1 := by
         by_contra h1
-        rw [ggMultOrd, if_neg h1] at hmd
+        rw [ggMultOrd, ite_eq_right h1] at hmd
         split at hmd <;> omega
       have heipf : (e i : K[X]) ∈ primaryFactors (ggK1DLin (x : GL ι K)).toLinearMap :=
         hRep.1 (e i).2
@@ -2053,7 +2051,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       have hdeg : (e i : K[X]).natDegree = 1 :=
         ggK1Df_natDegree_eq_one hp (ggK1Df_cast_ne_zero hp hp2 hK) h1 hK hirr hdvd2
       have hord : orderOf (AdjoinRoot.root (e i : K[X])) = p := P.nontrivial (e i) heipf hne
-      haveI : Fact (Irreducible (e i : K[X])) := ⟨hirr⟩
+      have : Fact (Irreducible (e i : K[X])) := ⟨hirr⟩
       exact ggK1Df_not_selfDual_of_degree_one hp hp2 hmon hdeg hord
     have hΦ_cover : ∀ a : Σ i : P.ι, Fin (P.blk i).length, ∃ q, Φ q = some a := by
       rintro ⟨i, j⟩
@@ -2061,7 +2059,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       · have hex : ∃ i : P.ι, (e i : K[X]) = X - 1 := ⟨i, hXi⟩
         let hd : {i : P.ι // (e i : K[X]) = X - 1} :=
           ⟨Classical.choose hex, Classical.choose_spec hex⟩
-        have hhd : headIdx = some hd := by dsimp only [headIdx]; rw [dif_pos hex]
+        have hhd : headIdx = some hd := by dsimp only [headIdx]; rw [dite_eq_left hex]
         have hdii : hd.1 = i := e.injective (Subtype.ext (hd.2.trans hXi.symm))
         have hblk : (P.blk hd.1).length = (P.blk i).length := congrArg (fun i => (P.blk i).length)
             hdii
@@ -2135,14 +2133,14 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       rw [ggK1DCo_expectedKinds, ggK1DCo_expectedKindList, ← hm.length_eq]
       rw [show (fun j => if d = 1 then ggK1DCo_Kind.sl (m.getD j 0)
             else ggK1DCo_Kind.su (m.getD j 0)) = (fun j => ggK1DCo_Kind.sl (m.getD j 0)) from by
-        funext j; rw [if_pos hd1]]
+        funext j; rw [ite_eq_left hd1]]
       rw [ggK1CBl_tail_filter_map m (fun j => ggK1DCo_Kind.sl j)]
       rw [hhead, ← Multiset.coe_add, Multiset.coe_singleton, List.drop_one]
       exact Multiset.add_comm _ _
     have h1 : p ∣ 2 ^ nf - 1 := by
       have hmd : ggMultOrd p nf = 1 := by rw [← hd, hd1]
       by_contra h
-      rw [ggMultOrd, if_neg h] at hmd
+      rw [ggMultOrd, ite_eq_right h] at hmd
       split at hmd <;> omega
     have hdict : ∀ q : Σ i : blkIdx, Fin (ggK1DCo_kindOrbits nf (kind i)).length,
         let o := (ggK1DCo_kindOrbits nf (kind q.1)).get q.2
@@ -2180,7 +2178,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
             have hex : ∃ i, (e i : K[X]) = X - 1 :=
               ⟨e.symm ⟨r, hrRep⟩, by simp only [Equiv.apply_symm_apply]; exact hrX⟩
             have hsome : headIdx = some ⟨Classical.choose hex, Classical.choose_spec hex⟩ := by
-              dsimp only [headIdx]; rw [dif_pos hex]
+              dsimp only [headIdx]; rw [dite_eq_left hex]
             rw [hsome] at hh
             cases hh
           have hWbot : W = ⊥ :=
@@ -2254,11 +2252,11 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
         rw [hcard]
         have hd2' : ggMultOrd p nf = 2 := by rw [← hd]; exact hd2
         by_cases h1 : p ∣ 2 ^ nf - 1
-        · rw [ggMultOrd, if_pos h1] at hd2'
+        · rw [ggMultOrd, ite_eq_left h1] at hd2'
           omega
         · by_cases h2 : p ∣ 2 ^ nf + 1
           · exact h2
-          · rw [ggMultOrd, if_neg h1, if_neg h2] at hd2'
+          · rw [ggMultOrd, ite_eq_right h1, ite_eq_right h2] at hd2'
             omega
       have hpchar : p ≠ ringChar K := by
         rw [ringChar.eq K 2]
@@ -2279,7 +2277,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       have hrpair : reciprocalPolynomial (e (φ t) : K[X]) = e (φ t) := by rw [hr, hself]
       have hmult : primaryMultiplicity xL.toLinearMap (e (φ t)) =
           primaryMultiplicity xL.toLinearMap t.1 := by rw [hr]
-      rw [hkind (φ t), if_neg hrX, if_pos hrpair, hmult]
+      rw [hkind (φ t), ite_eq_right hrX, ite_eq_left hrpair, hmult]
     let Φ : (Σ i : blkIdx, Fin (blk i).length) → Option (Σ i : P.ι, Fin (P.blk i).length)
       | ⟨Sum.inl t, j⟩ => some ⟨φ t, Fin.cast (by rw [P.blk_eq (φ t), hkφ t]) j⟩
       | ⟨Sum.inr _, j⟩ => headIdx.map (fun hd =>
@@ -2296,10 +2294,10 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
         rw [hcard]
         have hd2' : ggMultOrd p nf = 2 := by rw [← hd]; exact hd2
         by_cases h1 : p ∣ 2 ^ nf - 1
-        · rw [ggMultOrd, if_pos h1] at hd2'; omega
+        · rw [ggMultOrd, ite_eq_left h1] at hd2'; omega
         · by_cases h2 : p ∣ 2 ^ nf + 1
           · exact h2
-          · rw [ggMultOrd, if_neg h1, if_neg h2] at hd2'; omega
+          · rw [ggMultOrd, ite_eq_right h1, ite_eq_right h2] at hd2'; omega
       have hpchar : p ≠ ringChar K := by rw [ringChar.eq K 2]; exact hp2
       have hself : reciprocalPolynomial t.1 = t.1 :=
         ggK1CBl_ff_selfDual (K := K) hp hpchar hpq
@@ -2359,7 +2357,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       · have hex : ∃ i : P.ι, (e i : K[X]) = X - 1 := ⟨i, hXi⟩
         let hd : {i : P.ι // (e i : K[X]) = X - 1} :=
           ⟨Classical.choose hex, Classical.choose_spec hex⟩
-        have hhd : headIdx = some hd := by dsimp only [headIdx]; rw [dif_pos hex]
+        have hhd : headIdx = some hd := by dsimp only [headIdx]; rw [dite_eq_left hex]
         have hdii : hd.1 = i := e.injective (Subtype.ext (hd.2.trans hXi.symm))
         have hblk : (P.blk hd.1).length = (P.blk i).length := congrArg (fun i => (P.blk i).length)
             hdii
@@ -2392,7 +2390,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
       rw [ggK1DCo_expectedKinds, ggK1DCo_expectedKindList, ← hm.length_eq]
       rw [show (fun j => if d = 1 then ggK1DCo_Kind.sl (m.getD j 0)
             else ggK1DCo_Kind.su (m.getD j 0)) = (fun j => ggK1DCo_Kind.su (m.getD j 0)) from by
-        funext j; rw [if_neg (by rw [hd2]; decide)]]
+        funext j; rw [ite_eq_right (by rw [hd2]; decide)]]
       rw [ggK1CBl_tail_filter_map m (fun j => ggK1DCo_Kind.su j)]
       rw [hhead, ← Multiset.coe_add, Multiset.coe_singleton, List.drop_one]
       exact Multiset.add_comm _ _
@@ -2433,7 +2431,7 @@ theorem ggK1Df_family_of_orthBlocks {p nf d r : ℕ} {K : Type} [Field K] [Finit
             have hex : ∃ i, (e i : K[X]) = X - 1 :=
               ⟨e.symm ⟨r, hrRep⟩, by simp only [Equiv.apply_symm_apply]; exact hrX⟩
             have hsome : headIdx = some ⟨Classical.choose hex, Classical.choose_spec hex⟩ := by
-              dsimp only [headIdx]; rw [dif_pos hex]
+              dsimp only [headIdx]; rw [dite_eq_left hex]
             rw [hsome] at hh
             cases hh
           have hWbot : W = ⊥ :=
@@ -2493,7 +2491,7 @@ theorem ggK1DCo_family_of_orthBlocks_plus {p nf d r : ℕ} {K : Type} [Field K] 
     (hob : Nonempty (OrthPrimaryBlocks K (CFSG.StandardType.TableBOrth.qPlusForm K r) nf p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)))) :
     Nonempty (ggK1DCo_Family p nf d false r m K (LargeEvenQPlus K r) x) := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   exact ggK1Df_family_of_orthBlocks hp hp2 hdvd hnf hK hd false
     (Q := LargeEvenQPlus K r) (Qf := CFSG.StandardType.TableBOrth.qPlusForm K r)
     (by rw [CFSG.StandardType.TableBOrth.coe_qPlusForm])
@@ -2522,7 +2520,7 @@ theorem ggK1DCo_family_of_orthBlocks_minus {p nf d r : ℕ} {K : Type} [Field K]
       (CFSG.StandardType.TableBOrth.qMinusForm K (r - 1) b c) nf p
       (ggK1DLin (x : GL (LargeEvenMinusIdx (r - 1)) K)))) :
     Nonempty (ggK1DCo_Family p nf d true r m K (LargeEvenQMinus (r - 1) b c) x) := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   exact ggK1Df_family_of_orthBlocks hp hp2 hdvd hnf hK hd true
     (Q := LargeEvenQMinus (r - 1) b c)
     (Qf := CFSG.StandardType.TableBOrth.qMinusForm K (r - 1) b c)

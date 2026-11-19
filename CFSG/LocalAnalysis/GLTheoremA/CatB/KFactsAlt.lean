@@ -74,11 +74,11 @@ theorem E0_le_alt : vecEHom.range ≤ alternatingGroup (Fin 12) := by
 @[expose] def V4 : Subgroup (Perm (Fin 12)) where
   carrier := {x | x = 1 ∨ x = u1 ∨ x = u2 ∨ x = u3}
   mul_mem' := by
-    rintro a b (rfl | rfl | rfl | rfl) (rfl | rfl | rfl | rfl) <;> simp only [Set.mem_setOf_eq] <;>
+    rintro a b (rfl | rfl | rfl | rfl) (rfl | rfl | rfl | rfl) <;> simp only [Set.mem_ofPred_eq] <;>
       decide +kernel
   one_mem' := Or.inl rfl
   inv_mem' := by
-    rintro a (rfl | rfl | rfl | rfl) <;> simp only [Set.mem_setOf_eq] <;> decide +kernel
+    rintro a (rfl | rfl | rfl | rfl) <;> simp only [Set.mem_ofPred_eq] <;> decide +kernel
 
 theorem V4_sq : ∀ x ∈ V4, x ^ 2 = 1 := by
   rintro x (rfl | rfl | rfl | rfl) <;> decide +kernel
@@ -105,7 +105,7 @@ theorem gen_mem_normalizer {g : Perm (Fin 12)} (hg : g = c1 12 ∨ g = c3 12 ∨
     g ∈ Subgroup.normalizer (V4 : Set (Perm (Fin 12))) := by
   apply mem_normalizer_of_forall_conj_mem
   rintro y (rfl | rfl | rfl | rfl)
-  · simpa using one_mem V4
+  · simp
   · exact gen_conj hg (Or.inl rfl)
   · exact gen_conj hg (Or.inr (Or.inl rfl))
   · exact gen_conj hg (Or.inr (Or.inr rfl))

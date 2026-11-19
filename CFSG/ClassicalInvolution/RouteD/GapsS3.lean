@@ -86,7 +86,7 @@ theorem exists_diag_of_fixed_block_three [Finite F] (hodd : Odd (Nat.card F))
     simp only [eC, eS] at e1 e2 e3 e4 e5
     have hoff : ∀ i j : Fin (2 + 1), i ≠ j → (g : Matrix (Fin (2 + 1)) (Fin (2 + 1)) F) i j = 0 := by
       intro i j hij
-      fin_cases i <;> fin_cases j <;> first | exact absurd rfl hij | skip
+      fin_cases i <;> fin_cases j <;> try exact absurd rfl hij
       · exact e4 1 (by decide)
       · exact e4 2 (by decide)
       · exact e5 0 (by decide)

@@ -20,7 +20,7 @@ theorem exists_fixed_mem_of_pow {M : Type*} [CommGroup M] (a : MulAut M) (ha : a
   have hpowD : ∀ i : ℕ, (a ^ i) x * x⁻¹ ∈ D := by
     intro i
     induction i with
-    | zero => simp [Subgroup.one_mem]
+    | zero => simp
     | succ i ih =>
       have h1 : a ((a ^ i) x * x⁻¹) ∈ D := hD _ ih
       have h2 : (a ^ (i + 1)) x * x⁻¹ = a ((a ^ i) x * x⁻¹) * (a x * x⁻¹) := by
@@ -107,7 +107,7 @@ theorem eq_one_or_allOnes_of_perm23 {σ : Equiv.Perm (Fin 24)} (hσ : orderOf σ
     have h1 : ∀ i, Multiplicative.toAdd u i = a + (if i = p then b - a else 0) := by
       intro i
       by_cases hi : i = p
-      · rw [if_pos hi, hi]
+      · rw [ite_eq_left hi, hi]
         show b = a + (b - a)
         ring
       · simp [hi, hconst i hi]

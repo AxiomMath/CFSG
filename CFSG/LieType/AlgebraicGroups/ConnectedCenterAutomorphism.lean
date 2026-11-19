@@ -116,7 +116,7 @@ theorem identityComponentHopfIdeal_comapOfSurjective_eq_self
   let eRing : H ≃+* H := eB.toAlgEquiv.toRingEquiv
   have hfun : (eRing : H → H) = (e.hom.hom : H → H) := by
     ext y
-    simp only [eRing, eB, AlgEquiv.coe_ringEquiv', BialgEquiv.coe_toAlgEquiv,
+    simp only [eRing, eB, AlgEquiv.coe_toRingEquiv, BialgEquiv.coe_toAlgEquiv,
       _root_.CommHopfAlgCat.ofIso_apply]
   have hmap_ideal' : Ideal.map (eRing : H →+* H) I.toIdeal = I.toIdeal := by
     rw [show (eRing : H →+* H) = (e.hom.hom : H →+* H) from by
@@ -151,7 +151,7 @@ theorem comap_nilradical_eq_self_of_bialg_iso
   let eRing : H ≃+* H := eB.toAlgEquiv.toRingEquiv
   have hfun : (eRing : H → H) = (e.hom.hom : H → H) := by
     ext y
-    simp only [eRing, eB, AlgEquiv.coe_ringEquiv', BialgEquiv.coe_toAlgEquiv,
+    simp only [eRing, eB, AlgEquiv.coe_toRingEquiv, BialgEquiv.coe_toAlgEquiv,
       _root_.CommHopfAlgCat.ofIso_apply]
   have hmap : Ideal.map (eRing : H →+* H) (nilradical H) = nilradical H := by
     have hker : RingHom.ker (eRing : H →+* H) ≤ (⊥ : Ideal H) :=

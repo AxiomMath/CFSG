@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_toMonoidHom_one : (1 : MulAut W).toMonoidHom = MonoidHom.id W := rfl
 
 theorem s16t3_map_mem_irrSet (h : ThreeNat A L T) {a : MulAut W}
@@ -331,10 +332,10 @@ theorem s16t3_exists_section_hom_of_mem (h : ThreeNat A L T)
     (h7 : Nat.card ↥(irrSet L) = 7) {J₀ : Subgroup W} (hJ₀ : J₀ ∈ irrSet L) :
     ∃ g : ↥A →* MulAut (s16t3_U L J₀),
       g.ker = (s1t3KBar A L).subgroupOf A ∧
-      ∀ l : ↥A, (l : MulAut W) ∈ L → ∀ u : ↥J₀, ∀ hu : (l : MulAut W) (u : W) ∈ J₀,
-        g l (QuotientGroup.mk u) = QuotientGroup.mk ⟨(l : MulAut W) (u : W), hu⟩ :=
+      ∀ _l : ↥A, (_l : MulAut W) ∈ L → ∀ u : ↥J₀, ∀ hu : (_l : MulAut W) (u : W) ∈ J₀,
+        g _l (QuotientGroup.mk u) = QuotientGroup.mk ⟨(_l : MulAut W) (u : W), hu⟩ :=
   ⟨s16t3_sectionHom h h7 hJ₀, s16t3_sectionHom_ker h h7 hJ₀,
-    fun l hl u hu => s16t3_sectionHom_l h h7 hJ₀ hl u hu⟩
+    fun _l hl u hu => s16t3_sectionHom_l h h7 hJ₀ hl u hu⟩
 
 end Fixed
 

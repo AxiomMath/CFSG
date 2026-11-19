@@ -114,7 +114,7 @@ theorem exists_sylow_eq [Finite G] : ∃ T : Sylow 2 G, (T : Subgroup G) = C.pre
   have hz4 : C.elt z4 ∈ (T : Subgroup G) := hST (C.Q_le_pre D8 (C.elt_mem z4))
   have : Nontrivial ↥(T : Subgroup G) :=
     ⟨⟨1, ⟨C.elt z4, hz4⟩, fun h => C.elt_ne_one z4_ne_zero (congrArg Subtype.val h).symm⟩⟩
-  have := T.isPGroup'.center_nontrivial
+  have := T.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(T : Subgroup G)))
   have hcT : ∀ t ∈ (T : Subgroup G), t * ((c : ↥(T : Subgroup G)) : G) =
       ((c : ↥(T : Subgroup G)) : G) * t := by
@@ -148,7 +148,7 @@ theorem exists_sylow_eq [Finite G] : ∃ T : Sylow 2 G, (T : Subgroup G) = C.pre
       (C.pre D8).relIndex M := Subgroup.relIndex_mul_relIndex _ _ _ hST' hTM
   rw [C.relIndex_S] at h1
   have h2 : ∃ n, (C.pre D8).relIndex (T : Subgroup G) = 2 ^ n := by
-    have := T.isPGroup'.index ((C.pre D8).subgroupOf (T : Subgroup G))
+    have := T.isPGroup.index ((C.pre D8).subgroupOf (T : Subgroup G))
     exact this
   obtain ⟨n, hn⟩ := h2
   rw [hn] at h1

@@ -25,8 +25,8 @@ theorem twE6OuterRankFour_of_coord
     TwE6OuterRankFour := by
   intro K _ _ σ q hK hσ h2 h3q A hAI hel hcard hU
   obtain ⟨U, hU1, hU2, hUI, hAU⟩ := hU
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := ringChar.of_eq h2
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ringChar.of_eq h2
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hdvd : q ∣ 2 ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -69,13 +69,13 @@ theorem twE6OuterRankFour_of_coord
     rw [show g * c * x * (g * c)⁻¹ = g * (c * x * c⁻¹) * g⁻¹ by group]
     exact ⟨hgT _ hy, (mem_twistedFixedGroup_id_iff.1
       (mul_mem (mul_mem hgΓ (hYΓ hy)) (inv_mem hgΓ))).2⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3
     (by rw [Nat.card_units]; exact h3)
   have hζ3 : ζ ^ 3 = 1 := by rw [← hζ]; exact pow_orderOf_eq_one ζ
   obtain ⟨x₀, hx₀A, hx₀⟩ := hCoord hel hcard hN hζ3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ a, iterateFrobenius (AlgebraicClosure K) 2 f a = a ^ 2 ^ f :=
     fun a => iterateFrobenius_def 2 f a

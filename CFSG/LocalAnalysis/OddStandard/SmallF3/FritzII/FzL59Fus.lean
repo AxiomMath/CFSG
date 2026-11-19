@@ -29,7 +29,7 @@ private theorem baseGrp_isMulCommutative (h : Ctx t L S x₁ x₂ lam rho tau) :
 
 private theorem baseGrp_comm (h : Ctx t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ baseGrp x₁ x₂) (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI := baseGrp_isMulCommutative h
+  have := baseGrp_isMulCommutative h
   simpa using congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(baseGrp x₁ x₂))
     (⟨b, hb⟩ : ↥(baseGrp x₁ x₂)))
 
@@ -78,6 +78,7 @@ private theorem t_comm (h : Ctx t L S x₁ x₂ lam rho tau) :
         (by simp : t ∈ ({t, (x₁ * x₂) ^ 2} : Set G)))).2
     exact (Subgroup.mem_centralizer_iff.mp hZ tau h.tau_mem).symm
 
+omit [Finite G] in
 private theorem tau_mul_tau (h44 : tau ^ 2 = 1) : tau * tau = 1 := by
   simpa [pow_two] using h44
 

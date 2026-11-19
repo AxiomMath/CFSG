@@ -11,7 +11,7 @@ public section
 namespace CertificateChecks.KernelMisc.GL4A5
 
 open Matrix CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 Certificates.A5GL42
-open Certificates.GL4 (GL4)
+open Certificates.GL4Sub (GL4)
 open CertificateChecks.KernelMisc.GL4EA (EA eaAt_ok ea_exact)
 open CertificateChecks.KernelMisc.GL4Cls (clAt clS clA0 clX clY invWit pairWit CW CB)
 

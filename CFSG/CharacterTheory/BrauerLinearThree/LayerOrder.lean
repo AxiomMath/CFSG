@@ -26,7 +26,7 @@ theorem exists_sylow_eq_of_sylow_centralizer [Finite G] (P : Subgroup G)
     exact Subgroup.map_subtype_le _
   have hPp : IsPGroup 2 P := by
     rw [← hSC]
-    exact SC.isPGroup'.map _
+    exact SC.isPGroup.map _
   obtain ⟨S, hPS⟩ := hPp.exists_le_sylow
   have hJP : J ∈ P := by
     obtain ⟨hJS, -⟩ := sylow_center_involution φ hZ hZodd h2 hJ SC
@@ -48,7 +48,7 @@ theorem exists_sylow_eq_of_sylow_centralizer [Finite G] (P : Subgroup G)
   by_contra hne'
   have hne : P ≠ (S : Subgroup G) := fun h => hne' h.symm
   have hlt : P < (S : Subgroup G) := lt_of_le_of_ne hPS hne
-  have hSnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hSnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hK : P.subgroupOf (S : Subgroup G) < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
@@ -124,7 +124,7 @@ theorem exists_sylow_eq_of_sylow_centralizer [Finite G] (P : Subgroup G)
       _ = J * x := by rw [hxJ]
   have hQS : P ⊔ Subgroup.zpowers x ≤ (S : Subgroup G) :=
     sup_le hPS (Subgroup.zpowers_le.mpr y.2)
-  have hQp : IsPGroup 2 (P ⊔ Subgroup.zpowers x : Subgroup G) := S.isPGroup'.to_le hQS
+  have hQp : IsPGroup 2 (P ⊔ Subgroup.zpowers x : Subgroup G) := S.isPGroup.to_le hQS
   have hQC : P ⊔ Subgroup.zpowers x ≤ Subgroup.centralizer {J} :=
     sup_le hle (Subgroup.zpowers_le.mpr hxC)
   have hPQ : P < P ⊔ Subgroup.zpowers x := by

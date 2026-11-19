@@ -142,12 +142,12 @@ theorem exists_conj_of_inner_omega_two {t : StatedLieTag}
       (CFSG.Timmesfeld.card_statedClassicalModel_two (D4XF.statedModel_of_d4two hT)).2.2.2.1 rfl,
       pow_one]
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hK, ⟨e⟩⟩ := exists_projOrth_model_gf2 ht hG
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two le_rfl (hK.trans (pow_one 2).symm)
   have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     refine ha1 (e.injective ?_)
     obtain ⟨g, hg⟩ := piOrth_surjective (Q := Q) (e a)
     have hg1 : g = 1 := Subtype.ext (LinearEquiv.ext fun _ => Subsingleton.elim _ _)
@@ -186,7 +186,7 @@ theorem exists_conj_of_inner_omega_two {t : StatedLieTag}
   obtain ⟨j, hj, rfl⟩ := hj'
   refine ⟨j, hj, fun z hz => e.injective ?_⟩
   have h1 := hconj ((e : S →* ProjOrthDerived Q) z) ⟨z, hz, rfl⟩
-  simpa only [hy, map_mul, map_inv, MonoidHom.coe_coe] using h1
+  simpa only [hy, map_mul, map_inv, _root_.MonoidHom.coe_ofClass] using h1
 
 end CFSG.LocalAnalysis.GLTheoremA.TriD4
 

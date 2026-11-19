@@ -49,7 +49,7 @@ theorem mem_sigmaPrimes_of_mem_alphaPrimes [Finite G] [IsSimpleGroup G]
     rw [h, Subgroup.card_bot] at hcard
     exact hpp.one_lt.ne' (by simpa using hcard.symm)
   have hPbot : P ≠ ⊥ := fun h => hEbot (le_bot_iff.1 (h ▸ hEP))
-  have hlt := normalizer_lt_top_of_isPGroup hna hpp hPbot (S.isPGroup'.map M.subtype)
+  have hlt := normalizer_lt_top_of_isPGroup hna hpp hPbot (S.isPGroup.map M.subtype)
   refine mem_sigmaPrimes_iff.2 ⟨hpp, ?_, S, hN'.le_of_ne_top Subgroup.le_normalizer hlt.ne⟩
   exact (one_le_elementaryAbelianPRank_iff hpp).1 (le_trans (by norm_num) hrank)
 

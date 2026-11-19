@@ -19,9 +19,9 @@ theorem k11_holds :
       · exact h
       all_goals omega
     obtain ⟨hadm, K, instK, instFinK, hKcard, ⟨eX⟩⟩ := hmodel
-    haveI : Fact p.Prime := ⟨hadm.1⟩
-    letI : Field K := instK
-    letI : Finite K := instFinK
+    have : Fact p.Prime := ⟨hadm.1⟩
+    let : Field K := instK
+    let : Finite K := instFinK
     have eK : X ≃* PSL2MatrixGroup K :=
       eX.trans
         (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
@@ -32,18 +32,18 @@ theorem k11_holds :
         by_contra h
         have hf1 : f = 1 := by omega
         exact hne (by rw [hf1]; norm_num)
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨H, hHcard, hHel⟩ :=
         CFSG.Glauberman.Dickson.exists_elementaryAbelian_subgroup (F := K) (p := 3) (f := f)
           hKcard (m := 2) (by omega)
       let HX : Subgroup X := H.map eK.symm.toMonoidHom
-      haveI : IsElementaryAbelian 3 H := hHel
+      have : IsElementaryAbelian 3 H := hHel
       have hHXel : IsElementaryAbelian 3 HX :=
         IsElementaryAbelian.map (A := H) eK.symm.toMonoidHom
       have hHXcard : Nat.card HX = 3 ^ 2 := by
         change Nat.card (H.map eK.symm.toMonoidHom) = 3 ^ 2
         rw [Subgroup.card_map_of_injective eK.symm.injective, hHcard]
-      haveI : IsElementaryAbelian 3 HX := hHXel
+      have : IsElementaryAbelian 3 HX := hHXel
       have hHXp : IsPGroup 3 HX := IsElementaryAbelian.isPGroup 3 ↥HX
       exact (IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq (A := ↥HX) (p := 3)
         hHXcard) (hcyc HX hHXp)

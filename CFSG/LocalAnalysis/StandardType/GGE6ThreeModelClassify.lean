@@ -37,6 +37,7 @@ private theorem three_smul_eq_zero (x : Fin Tag.E6.rank → ZMod 3) : x + x + x 
   calc (x + x + x) i = 3 * x i := by simp only [Pi.add_apply]; ring
     _ = 0 := by rw [h3, zero_mul]
 
+omit [Finite R] in
 private theorem pow_three_eq_one_of_mem_V0 (hD : D.Good) {v : R} (hv : v ∈ D.V0) : v ^ 3 = 1 := by
   obtain ⟨-, x, -, hx⟩ := (FrameData.mem_V0 D).1 hv
   have h3 : MulAut.conj (v ^ 3) = 1 := by
@@ -50,6 +51,7 @@ private theorem pow_three_eq_one_of_mem_V0 (hD : D.Good) {v : R} (hv : v ∈ D.V
   have := hD.center ▸ hcen
   simpa using this
 
+omit [Finite R] in
 theorem abelianLift_apply (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)
@@ -97,6 +99,7 @@ theorem abelianLift_apply (hAL : GGAbelianLift) (hD : D.Good)
   · rw [map_mul, map_mul, map_inv, hvx]
     exact hnbact i x
 
+omit [Finite R] in
 theorem innerPoints_realized (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)

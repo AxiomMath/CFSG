@@ -19,6 +19,7 @@ variable {W : Type} [CommGroup W] [Finite W] {n : ℕ} {F : Type} [Field F] [Fin
   {σ : F ≃+* F} {H : Subgroup (MulAut W)}
   {ε : ↥H ≃* ↥(StatedSU 4 (2 ^ n) F)} {ψ : W ≃* Multiplicative (Fin 4 → F)}
 
+omit [Finite W] [Finite F] in
 private theorem coordsE_zpowers_T3J4 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F)
     {a : MulAut W} (haH : a ∈ H) (hza : Subgroup.zpowers a ≤ H) :
     coordsE (ε := ε) hza hS = Subgroup.zpowers (coordsEps (ε := ε) hS ⟨a, haH⟩) := by
@@ -44,6 +45,7 @@ private theorem coordsE_zpowers_T3J4 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F)
     rw [← map_zpow]
     congr 1
 
+omit [Finite W] [Finite F] in
 private theorem card_commV_coords_T3J4 {A : Subgroup (MulAut W)} (hAH : A ≤ H)
     (hψ : NatCoordsSU4 H n F ε ψ) (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) :
     Nat.card ↥(commV A) = Nat.card ↥(commSp (coordsE (ε := ε) hAH hS)) := by
@@ -53,7 +55,7 @@ private theorem card_commV_coords_T3J4 {A : Subgroup (MulAut W)} (hAH : A ≤ H)
         (mem_commV_coords hAH hψ hS x.1).mp x.2⟩
       invFun := fun y => ⟨ψ.symm (Multiplicative.ofAdd y.1), by
         refine (mem_commV_coords hAH hψ hS _).mpr ?_
-        simpa using y.2⟩
+        simp⟩
       left_inv := fun x => by apply Subtype.ext; simp
       right_inv := fun y => by apply Subtype.ext; simp }
 
@@ -100,6 +102,7 @@ private theorem setup_T3J4 {A : Subgroup (MulAut W)}
     rw [hEcardA, hAcard]
     exact Nat.pow_le_pow_right (by norm_num) hrk
 
+omit [Finite W] [Finite F] in
 private theorem ne_sup_T3J4 {A : Subgroup (MulAut W)} {a₁ a₂ : ↥A}
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (hψ : NatCoordsSU4 H n F ε ψ)
     (f : ↥A →* ↥(SUid σ 4))
@@ -141,6 +144,7 @@ private theorem ne_sup_T3J4 {A : Subgroup (MulAut W)} {a₁ a₂ : ↥A}
     rw [hwyz]
     exact Subgroup.mul_mem_sup ((hmem₁ _).2 (by simpa using hy)) ((hmem₂ _).2 (by simpa using hz))
 
+omit [Finite W] in
 private theorem pullback_T3J4 {A : Subgroup (MulAut W)} {E : Subgroup (SUid σ 4)}
     (hAH : A ≤ H) (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (hψ : NatCoordsSU4 H n F ε ψ)
     (hEeq : E = ((coordsEps (ε := ε) hS).toMonoidHom.comp (Subgroup.inclusion hAH)).range)
@@ -196,8 +200,8 @@ theorem exists_two_transvections_of_natSUn {W : Type} [CommGroup W] [Finite W]
       fixV (Subgroup.zpowers a₁) ≠ fixV (Subgroup.zpowers a₂) ∧
       fixV (Subgroup.zpowers a₁) ⊔ fixV (Subgroup.zpowers a₂) = ⊤ := by
   obtain ⟨F, hFld, hFfin, hF, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   classical
   obtain ⟨σ, hσ, h2, hS, E, hEeq, hE2, hEc, hcard⟩ := setup_T3J4 hF hAH hA hrk
   obtain ⟨a₁, a₂, h₁, h₂, h₃, h₄, h₅, h₆⟩ :=

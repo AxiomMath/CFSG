@@ -199,7 +199,7 @@ theorem false_of_trivial (hc : P23Cfg n Y R S t K' W u e g)
     F7C.rLayer_le_cover hΩ hV2 (Subgroup.zpowers_le.mpr hyC) (by
       intro v hv a ha
       rcases mem_zpowers_of_sq hy2 hv with rfl | rfl
-      · simpa using (oddCoreOf E).one_mem
+      · simp
       · exact hVE a ha)
   have hey : e ∈ rLayerSub (Om R) (Subgroup.zpowers y) :=
     F7C.mem_rLayerSub_of_cover hcov heE (hc2e_of hc)

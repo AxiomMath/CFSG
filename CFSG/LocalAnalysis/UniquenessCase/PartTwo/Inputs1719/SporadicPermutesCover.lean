@@ -23,7 +23,7 @@ theorem exists_permutes_of_normalizer_cover {Y : Type} [Group Y] [Finite Y] {K S
     ∃ E : Subgroup Y, E ≤ K ∧ E ≠ ⊥ ∧ IsPGroup 3 ↥E ∧ (∀ x ∈ E, x ^ 3 = 1) ∧
       ¬ IsCyclic ↥E ∧ CFSG.LocalAnalysis.UniquenessCase.UC22.Permutes E S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSK : CFSG.QuasithinUnique.IsSylowTwoOf (S ⊓ K) K :=
     CFSG.Quasithin.B6.isSylowTwoOf_inf_normal hS le_top fun x _ => by
       rw [Subgroup.normalizer_eq_top_iff.mpr hK]; trivial
@@ -126,7 +126,7 @@ theorem exists_permutes_of_normalizer_cover {Y : Type} [Group Y] [Finite Y] {K S
     dsimp only [H₀]
     rw [hH'eq, Subgroup.subgroupOf_map_subtype,
       inf_eq_left.mpr (inf_le_left : K ⊓ Subgroup.normalizer (T₀ : Set Y) ≤ K)]
-  letI : Fintype ↥(Subgroup.center ↥K) := Fintype.ofFinite _
+  let : Fintype ↥(Subgroup.center ↥K) := Fintype.ofFinite _
   have hZnt : 1 < Fintype.card ↥(Subgroup.center ↥K) := by
     rw [← Nat.card_eq_fintype_card, hZ]
     norm_num

@@ -22,7 +22,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {k : Type} [Field k] [Algeb
 @[expose] def upperHom (K : Type) [Field K] : Multiplicative K →* SL(2, K) where
   toFun c := uElt (Multiplicative.toAdd c)
   map_one' := uElt_zero
-  map_mul' a b := uElt_add _ _
+  map_mul' _a _b := uElt_add _ _
 
 theorem isPGroup_range_upperHom : IsPGroup 2 (upperHom K).range := by
   rintro ⟨_, c, rfl⟩
@@ -83,7 +83,7 @@ theorem tensorRep_dElt_single {ι : Type*} [Fintype ι] [DecidableEq ι] (e : ι
     tensorRep K k e (dElt z) (Pi.single y0 1) =
       (algebraMap K k (z : K)) ^ (((∑ i, 2 ^ e i : ℕ) : ℤ) - 2 * (aexp e y0 : ℤ)) •
         (Pi.single y0 1 : (ι → Fin 2) → k) := by
-  have hz : (algebraMap K k (z : K)) ≠ 0 := by simpa using z.ne_zero
+  have hz : (algebraMap K k (z : K)) ≠ 0 := by simp
   funext x'
   rw [tensorRep_apply, Finset.sum_eq_single y0]
   · rw [Pi.single_eq_same, mul_one, Pi.smul_apply, smul_eq_mul]
@@ -137,7 +137,7 @@ theorem string_data {n : ℕ} (hK : Nat.card K = 2 ^ n) (σ : Representation k S
       (∀ b ∈ J, ∃ e ∈ orbitSpan σ v, e ≠ 0 ∧ ∀ z : Kˣ, σ (dElt z) e =
         (algebraMap K k (z : K)) ^ (((∑ i ∈ J, 2 ^ i : ℕ) : ℤ) - 2 ^ (b + 1)) • e) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hK
   set N := orbitSpan σ v with hNdef
   have hNst : ∀ g : SL(2, K), ∀ w ∈ N, σ g w ∈ N := fun g w hw => orbitSpan_stable σ v g hw

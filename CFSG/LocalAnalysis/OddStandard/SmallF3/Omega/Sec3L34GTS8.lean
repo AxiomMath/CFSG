@@ -127,7 +127,7 @@ private lemma l34g_card_closure_three_le_24 {E : Type*} [Group E] [Finite E] {it
   let C := Subgroup.zpowers ct
   let M := Subgroup.closure ({it, jt, ct} : Set E)
   change Nat.card M ≤ 24
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hQle8 : Nat.card Q ≤ 8 := by
     change Nat.card (Subgroup.closure ({it, jt} : Set E)) ≤ 8
     exact l34g_card_closure_pair_le_eight hit4 hjt2 hconj

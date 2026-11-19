@@ -57,7 +57,7 @@ theorem twExists_cube_root_unity {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) (h
       hℓ3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three h.prime).mp h3).symm
     omega
   have hp2 : ℓ ^ 2 % 3 = 1 := by
-    rcases hp' with h1 | h1 <;> (rw [Nat.pow_mod, h1]; try decide)
+    rcases hp' with h1 | h1 <;> (rw [Nat.pow_mod, h1])
   have hmod : ℓ ^ (2 * f) % 3 = 1 := by
     rw [pow_mul, Nat.pow_mod, hp2, one_pow]
     try decide
@@ -275,7 +275,7 @@ theorem twSeven_le_finrank_supported {S : Set (Label Tag.E6)} {γ : Fin Tag.E6.r
     (hS : ∀ j, (Sum.inl j : Label Tag.E6) ∈ S) :
     7 ≤ Module.finrank Ω ↥(Finsupp.supported Ω Ω S) := by
   classical
-  haveI : Fintype S := Fintype.ofFinite _
+  have : Fintype S := Fintype.ofFinite _
   rw [(Finsupp.supportedEquivFinsupp (M := Ω) (R := Ω) S).finrank_eq,
     Module.finrank_finsupp_self, ← Nat.card_eq_fintype_card]
   have h7 := Nat.card_le_card_of_injective

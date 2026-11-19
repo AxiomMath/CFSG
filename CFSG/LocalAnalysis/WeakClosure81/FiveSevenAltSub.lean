@@ -31,10 +31,10 @@ lemma b5_FiveSevenAltSub_index_eq_three_or_nine {m : ℕ} (h : m ∣ 9) (h1 : m 
 theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X]
     (e : X ≃* alternatingGroup (Fin 6)) {N : Subgroup X} (h8 : 8 ∣ Nat.card N)
     (h5 : 5 ∣ Nat.card N) : N = ⊤ := by
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup X := e.isSimpleGroup
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_cases hN : N = ⊤
   · exact hN
   · exfalso
@@ -59,7 +59,7 @@ theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X
     have hidx1 : N.index ≠ 1 := fun h => hN (Subgroup.index_eq_one.mp h)
     rcases b5_FiveSevenAltSub_index_eq_three_or_nine hidx_dvd9 hidx1 with hidx3 | hidx9
     ·
-      haveI : N.FiniteIndex := Subgroup.finiteIndex_of_finite
+      have : N.FiniteIndex := Subgroup.finiteIndex_of_finite
       have hcore : N.normalCore.index ∣ 6 := by
         have h : N.normalCore.index ∣ Nat.factorial N.index := by
           rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker, Subgroup.index_eq_card,
@@ -67,7 +67,7 @@ theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X
           exact Subgroup.card_subgroup_dvd_card _
         rw [hidx3] at h
         simpa [Nat.factorial] using h
-      haveI : N.normalCore.Normal := Subgroup.normalCore_normal N
+      have : N.normalCore.Normal := Subgroup.normalCore_normal N
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N.normalCore with hbot | htop
       · rw [hbot, Subgroup.index_bot, hXcard] at hcore
         norm_num at hcore
@@ -97,7 +97,7 @@ theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X
           exact Sylow.card_dvd_index P
         · have h := card_sylow_modEq_one 5 ↥N
           simpa [Nat.ModEq] using h
-      haveI : Subsingleton (Sylow 5 ↥N) := (Nat.card_eq_one_iff_unique.mp hnsyl).1
+      have : Subsingleton (Sylow 5 ↥N) := (Nat.card_eq_one_iff_unique.mp hnsyl).1
       have hPnormal : (P : Subgroup ↥N).Normal := Sylow.normal_of_subsingleton P
       set Q : Subgroup X := (P : Subgroup ↥N).map N.subtype with hQdef
       have hQcard : Nat.card ↥Q = 5 := by
@@ -132,11 +132,11 @@ theorem eq_top_of_dvd_card_of_mulEquiv_alternatingGroup_six {X : Type*} [Group X
         apply b5_FiveSevenAltSub_eq_one_of_dvd_nine_of_modeq_five hn'9
         have h := card_sylow_modEq_one 5 X
         simpa [Nat.ModEq] using h
-      haveI : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp hn'1).1
+      have : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp hn'1).1
       have hQnormal : Q.Normal := by
         have h := Sylow.normal_of_subsingleton (Sylow.ofCard Q hQeq)
         rwa [Sylow.coe_ofCard Q hQeq] at h
-      haveI : Q.Normal := hQnormal
+      have : Q.Normal := hQnormal
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Q with hQbot | hQtop
       · rw [hQbot, Subgroup.card_bot] at hQcard
         norm_num at hQcard

@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
   toFun x := ⟨g * x * g⁻¹, (Subgroup.mem_normalizer_iff.mp hg x).mp x.2⟩
   invFun x := ⟨g⁻¹ * x * g, by
     have h := (Subgroup.mem_normalizer_iff.mp hg (g⁻¹ * x * g)).mpr
-      (by simpa [mul_assoc] using x.2)
+      (by simp [mul_assoc])
     exact h⟩
   left_inv x := by ext; simp [mul_assoc]
   right_inv x := by ext; simp [mul_assoc]
@@ -120,7 +120,7 @@ section Finite
 variable [Finite G]
 
 theorem coprime_three_card_opp (N : Subgroup G) : Nat.Coprime 3 (Nat.card (Opp 3 N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold Opp inSubgroup
   rw [Subgroup.card_map_of_injective N.subtype_injective]
   exact pPrimeCore_coprime_card
@@ -128,8 +128,8 @@ theorem coprime_three_card_opp (N : Subgroup G) : Nat.Coprime 3 (Nat.card (Opp 3
 noncomputable def kerLπEquiv (N : Subgroup G) : (Lπ N).ker ≃ Opp 3 N where
   toFun l := ⟨(l : ↥(OppE 3 N)), (Lπ_eq_one_iff N l).mp l.2⟩
   invFun x := ⟨⟨x, Opp_le_OppE N x.2⟩, (Lπ_eq_one_iff N _).mpr x.2⟩
-  left_inv l := rfl
-  right_inv x := rfl
+  left_inv _l := rfl
+  right_inv _x := rfl
 
 theorem coprime_three_card_ker (N : Subgroup G) : Nat.Coprime 3 (Nat.card (Lπ N).ker) := by
   rw [Nat.card_congr (kerLπEquiv N)]
@@ -137,7 +137,7 @@ theorem coprime_three_card_ker (N : Subgroup G) : Nat.Coprime 3 (Nat.card (Lπ N
 
 theorem eq_one_of_mem_opp {N U : Subgroup G} (hU : IsPGroup 3 U) {x : G} (hx : x ∈ U)
     (hxo : x ∈ Opp 3 N) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hU ⟨x, hx⟩
   have h1 : orderOf x ∣ 3 ^ k := by
     have : orderOf (⟨x, hx⟩ : U) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
@@ -152,6 +152,7 @@ theorem eq_one_of_mem_opp {N U : Subgroup G} (hU : IsPGroup 3 U) {x : G} (hx : x
 @[expose] noncomputable def Uπ {N U : Subgroup G} (hUL : U ≤ OppE 3 N) : ↥U →* LayerQ N :=
   (Lπ N).comp (Subgroup.inclusion hUL)
 
+omit [Finite G] in
 theorem Uπ_injective_of {N W : Subgroup G} (hWL : W ≤ OppE 3 N)
     (h : ∀ x ∈ W, x ∈ Opp 3 N → x = 1) : Function.Injective (Uπ hWL) := by
   rw [injective_iff_map_eq_one]

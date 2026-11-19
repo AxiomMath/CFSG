@@ -108,7 +108,7 @@ private theorem lift_involution_in_sylow_of_quotient
     exact Odd.of_dvd_nat hZodd (Subgroup.orderOf_dvd_natCard Z hs2Z)
   let sP : P := ⟨s, hsP⟩
   have hordP : ∃ k : ℕ, orderOf sP = 2 ^ k :=
-    (IsPGroup.iff_orderOf.mp P.isPGroup') sP
+    (IsPGroup.iff_orderOf.mp P.isPGroup) sP
   rcases hordP with ⟨k, hk⟩
   have hs2pow : orderOf (s ^ 2) ∣ 2 ^ k := by
     have hordSE : orderOf (s : E) = orderOf sP :=
@@ -520,7 +520,7 @@ public theorem secondCase_psl2_alignedSylow_decomposition
   let Iamb : Subgroup G := (c.S : Subgroup G) ⊓ w.M
   let IM : Subgroup w.M := Iamb.subgroupOf w.M
   have hIMp : IsPGroup 2 IM := by
-    have hIp : IsPGroup 2 Iamb := c.S.isPGroup'.to_inf_left
+    have hIp : IsPGroup 2 Iamb := c.S.isPGroup.to_inf_left
     exact hIp.comap_subtype
   have hSMleIM : (SM : Subgroup w.M) ≤ IM := by
     intro x hx
@@ -1071,7 +1071,7 @@ public theorem secondCase_psl2_alignedSylow_decomposition
         (G := Subgroup.center d.E)
         (Nat.coprime_two_left.mpr d.center_odd) hzsqc
     have hz_one : z = 1 := congrArg Subtype.val hzc_one
-    simpa [hz_one]
+    simp [hz_one]
   -- join `X = K ⊔ B` via Fact 1.5(ii) and normality of `K` in `X`
   have hKnormal : IsNormalIn K X :=
     (fact_1_5_iii_inverted_subgroup_abelian_normal (X := X) (s := sG)

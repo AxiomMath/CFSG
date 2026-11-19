@@ -99,7 +99,7 @@ theorem pumpingUpFacts_of_leaves
   have hres : LieComp.ExcRationalLieTypes := LieComp.excRationalLieTypes_of_residualsD hD hF2
   have hExc5 : LieComp.LieCompsOn 5 .exceptional :=
     LieComp.lieCompsOn_exceptional_of_two_residuals (by norm_num) le_rfl hD5 hF5
-  have hLie : LieComp.LieComp :=
+  have hLie : LieComp.LieCompAll :=
     LieComp.lieComp_of_classical lieOrderBridge_holds YS08.LieQ.lieQConstrainedInner_three_holds
         (LieComp.d4OuterExport_holds hodd)
         (LieComp.lieCompOn_exceptional hres (LieComp.trialityOuterExport_of hodd)

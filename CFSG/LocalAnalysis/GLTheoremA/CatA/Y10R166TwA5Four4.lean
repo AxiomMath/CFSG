@@ -22,7 +22,7 @@ variable {F : Type} [Field F]
     unitaryTorusParam h ({0, 1} : Finset (Fin 6)) →* Fˣ where
   toFun c := c.1 5
   map_one' := rfl
-  map_mul' c d := rfl
+  map_mul' _c _d := rfl
 
 private theorem pow_five_eq_one_of_norm_one {h : UnitaryFieldData 2 2 F} {u : Fˣ}
     (hu : h.norm ((u : Fˣ) : F) = 1) : u ^ 5 = 1 := by
@@ -47,8 +47,7 @@ private theorem range_fiveTorusEvalUnit {h : UnitaryFieldData 2 2 F} :
     · refine ⟨?_, ?_, ?_⟩
       · intro i
         fin_cases i <;>
-          simp [h.norm_eq_pow, hu5, hnormu, Units.val_pow_eq_pow_val,
-            CFSG.ClassicalGroups.UnitaryFlag.norm_inv_eq h]
+          simp [h.norm_eq_pow, hu5]
       · rw [Fin.prod_univ_six]
         dsimp
         change (1 : Fˣ) * 1 * 1 * 1 * (u : Fˣ)⁻¹ * (u : Fˣ) = 1
@@ -114,7 +113,7 @@ private theorem fiveLineSubgroup_le_unitaryBlock (h : UnitaryFieldData 2 2 F) :
   intro i j hij
   rw [coe_torusDiagSU]
   fin_cases i <;> fin_cases j <;>
-    simp_all [Matrix.diagonal_apply, hc05']
+    simp_all
 
 theorem fiveLineSubgroup_eq_inf (h : UnitaryFieldData 2 2 F) :
     fiveLineSubgroup h =
@@ -127,7 +126,7 @@ theorem fiveLineSubgroup_eq_inf (h : UnitaryFieldData 2 2 F) :
     have h1 := (mem_unitaryBlock h).1 hAJ 5 5 (Or.inl (by simp))
     have hmat : (((torusDiagSU h c : unitarySU 2 2 F 6) : GL (Fin 6) F) :
         Matrix (Fin 6) (Fin 6) F) 5 5 = ((c.1 5 : Fˣ) : F) := by
-      rw [coe_torusDiagSU, Matrix.diagonal_apply, if_pos rfl]
+      rw [coe_torusDiagSU, Matrix.diagonal_apply, ite_eq_left rfl]
     rw [← hcA] at h1
     rw [hmat] at h1
     exact Units.ext h1
@@ -153,7 +152,7 @@ theorem diagFiveLast_mem_fiveLineSubgroup {h : UnitaryFieldData 2 2 F} {ζu : F�
     intro i j hij
     rw [coe_diagFiveLast]
     fin_cases i <;> fin_cases j <;>
-      simp_all [Matrix.diagonal_apply, diagFiveLastEntries, hz5]
+      simp_all [diagFiveLastEntries]
   rw [fiveLineSubgroup_eq_inf]
   exact ⟨diagFiveLast_mem_unitaryTorusSU hζu, hxJ⟩
 

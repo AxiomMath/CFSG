@@ -140,16 +140,16 @@ theorem exists_conj_diagProj_of_isIdempotentElem
         rw [hbleft]; exact (hf.isProj_range f).map_id _ (bP a).2
       rw [hfb, Basis.repr_self_apply]
       by_cases h : i = ε (Sum.inl a)
-      · subst h; rw [if_pos rfl, if_pos rfl, hεleft a, if_pos a.2]
-      · rw [if_neg (Ne.symm h), if_neg h]
+      · subst h; rw [ite_eq_left rfl, ite_eq_left rfl, hεleft a, ite_eq_left a.2]
+      · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
     | inr c =>
       have hfb : f (b (ε (Sum.inr c))) = 0 := by rw [hbright]; exact (bK c).2
       rw [hfb, map_zero]
       by_cases h : i = ε (Sum.inr c)
       · subst h
-        rw [if_pos rfl, Finsupp.coe_zero, Pi.zero_apply, if_neg]
+        rw [ite_eq_left rfl, Finsupp.coe_zero, Pi.zero_apply, ite_eq_right]
         rw [hεright]; omega
-      · rw [if_neg h, Finsupp.coe_zero, Pi.zero_apply]
+      · rw [ite_eq_right h, Finsupp.coe_zero, Pi.zero_apply]
   set E : Basis (Fin d) R (Fin d → R) := Pi.basisFun R (Fin d) with hE
   have hTmat : LinearMap.toMatrix E E f = T := by
     rw [hE, LinearMap.toMatrix_eq_toMatrix']

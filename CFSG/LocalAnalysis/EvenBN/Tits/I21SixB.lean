@@ -40,6 +40,7 @@ theorem zx_eq : x ^ 2 ^ (n - 2) = u ^ 2 := by
   · exact absurd (h2 ▸ h1) h.z_ne_one
   · rw [← h1, h2]
 
+omit [Finite G] in
 theorem Q_le_P : closure ({t, x} : Set G) ≤ P := by
   rw [closure_le]
   intro g hg
@@ -47,6 +48,7 @@ theorem Q_le_P : closure ({t, x} : Set G) ≤ P := by
   · rw [h1]; exact C.R_le SecTwoHyp.t_mem_R
   · rw [h1]; exact hG.x_mem
 
+omit [Finite G] in
 theorem u₀_comm {q : G} (hq : q ∈ closure ({t, x} : Set G)) : u₀ * q = q * u₀ := by
   have hle : closure ({t, x} : Set G) ≤ centralizer ({u₀} : Set G) := by
     rw [closure_le]
@@ -56,6 +58,9 @@ theorem u₀_comm {q : G} (hq : q ∈ closure ({t, x} : Set G)) : u₀ * q = q *
     · rw [h1, SetLike.mem_coe, mem_centralizer_singleton_iff]; exact hG.u₀_x.symm
   exact (mem_centralizer_singleton_iff.mp (hle hq)).symm
 
+omit hG in
+include C in
+variable (C) in
 theorem y₀_inv : y₀⁻¹ = y₀ * u ^ 2 := by
   have h := C.secTwo
   refine inv_eq_of_mul_eq_one_right ?_
@@ -78,13 +83,14 @@ theorem sq_eq_z {q : G} (hq : q ∈ closure ({t, x} : Set G)) (hq2 : q ^ 2 = u ^
       exact h1
     · right
       rw [hG.zx_eq, zpow_sub, hm, mul_inv_eq_iff_eq_mul] at h1
-      rw [y₀_inv hG, h1]
+      rw [y₀_inv C, h1]
       exact (C.z_central C.y₀_mem_P).symm
   · exfalso
     have := hG.dih.refl_sq k
     rw [hq2] at this
     exact h.z_ne_one this
 
+omit [Finite G] in
 theorem Q_le_normalizer_U :
     closure ({t, x} : Set G) ≤ normalizer (zpowers u₀ : Set G) := by
   intro q hq
@@ -94,6 +100,7 @@ theorem Q_le_normalizer_U :
   have hc : u₀ * q = q * u₀ := hG.u₀_comm hq
   exact (Commute.zpow_left (show Commute u₀ q from hc) k).eq
 
+omit [Finite G] in
 theorem mem_PP_iff {s : G} :
     s ∈ zpowers u₀ ⊔ closure ({t, x} : Set G) ↔
       ∃ (k : ℤ) (q : G), q ∈ closure ({t, x} : Set G) ∧ s = u₀ ^ k * q := by
@@ -106,9 +113,14 @@ theorem mem_PP_iff {s : G} :
   · rintro ⟨k, q, hq, rfl⟩
     exact ⟨u₀ ^ k, ⟨k, rfl⟩, q, hq, rfl⟩
 
+omit [Finite G] in
 theorem PP_le_P : zpowers u₀ ⊔ closure ({t, x} : Set G) ≤ P :=
   sup_le ((zpowers_le).mpr C.u₀_mem_P) hG.Q_le_P
 
+omit hG in
+include C in
+variable (C) in
+omit [Finite G] in
 theorem R_le_PP : secTwoR t u ≤ zpowers u₀ ⊔ closure ({t, x} : Set G) := by
   intro r hr
   obtain ⟨a, b, rfl⟩ := C.R_nf hr
@@ -167,11 +179,13 @@ theorem mem_U_of_centralizes {k : ℤ} {q : G} (hq : q ∈ closure ({t, x} : Set
     have := Nat.le_of_dvd (by norm_num) this
     omega
 
+omit [Finite G] in
 theorem y₀_mem_Q : y₀ ∈ closure ({t, x} : Set G) := by
   have : zpowers x ≤ closure ({t, x} : Set G) := by
     rw [zpowers_le]; exact subset_closure (by simp)
   exact this hG.y₀_mem
 
+omit [Finite G] in
 theorem sq_u₀_zpow_mul {q : G} (hq : q ∈ closure ({t, x} : Set G)) (k : ℤ) :
     (u₀ ^ k * q) ^ 2 = u₀ ^ (2 * k) * q ^ 2 := by
   have hc : u₀ ^ k * q = q * u₀ ^ k :=
@@ -200,7 +214,7 @@ theorem no_mixed' {s q : G} {k : ℤ} (hq : q ∈ closure ({t, x} : Set G)) (hs 
   have hzc : ∀ p : G, p ∈ P → p * u ^ 2 = u ^ 2 * p := fun p hp => C.z_central hp
   have hw₁ := C.u₀_y₀_mem_V
   have hzV := C.z_mem_V
-  have hyinv := hG.y₀_inv
+  have hyinv := GoodCore.y₀_inv C
   have hodd : ∀ m : ℤ, (m = 1 ∨ m = 3) → s = u₀ ^ m * q → False := by
     intro m hm hsm
     have hsq2 : (u₀ ^ m * q) ^ 2 = u ^ 2 * q ^ 2 := by
@@ -294,6 +308,7 @@ variable {C : SixAY t u P V v u₀ y₀} {x : G} {n : ℕ} (hG : Good C x n)
 include hG
 
 omit hG in
+omit [Finite G] in
 theorem conj_Q_of_gens (hG : Good C x n) (s : G)
     (hgens : ∀ g : G, TConj t g → g ∈ closure ({t, x} : Set G) →
       s * g * s⁻¹ ∈ closure ({t, x} : Set G))
@@ -303,7 +318,7 @@ theorem conj_Q_of_gens (hG : Good C x n) (s : G)
     ?_ ?_ ?_ ?_ hq
   · rintro g ⟨hgT, hgQ⟩
     exact hgens g hgT hgQ
-  · simpa using one_mem (closure ({t, x} : Set G))
+  · simp
   · rintro a b - - ha hb
     rw [show s * (a * b) * s⁻¹ = (s * a * s⁻¹) * (s * b * s⁻¹) by group]
     exact mul_mem ha hb
@@ -424,7 +439,7 @@ theorem commute_u₀_ext {s : G} (hsP : s ∈ P) (hsT : TConj t s)
       _ = s * (u₀ * y₀) * s⁻¹ := by group
       _ = u₀ * y₀ * u ^ 2 := hsw
       _ = u₀ * (y₀ * u ^ 2) := by rw [mul_assoc]
-      _ = u₀ * y₀⁻¹ := by rw [← hG.y₀_inv]
+      _ = u₀ * y₀⁻¹ := by rw [← GoodCore.y₀_inv C]
   have h6 := mul_right_cancel h5
   rw [← he, h6]
 
@@ -477,7 +492,7 @@ theorem extend {s : G} (hsP : s ∈ P) (hsT : TConj t s)
     apply hsn
     have : s = x ^ (-j) * (x ^ j * s) := by group
     rw [this]
-    exact mul_mem (Subgroup.mem_sup_right (zpow_mem hxQ (-j))) (hG.toGoodCore.R_le_PP hR)
+    exact mul_mem (Subgroup.mem_sup_right (zpow_mem hxQ (-j))) (GoodCore.R_le_PP C hR)
   obtain ⟨hd₁, hord₁, hpow₁, hxmem⟩ := hG.dih.ext_step hG.ord hn3 hs2 hodd ha
   have hy₁ : y₀ ∈ zpowers (s * t) := (zpowers_le).mpr hxmem hG.y₀_mem
   have hx₁Q : s * t ∈ closure ({t, s * t} : Set G) := subset_closure (by simp)
@@ -573,7 +588,7 @@ theorem close
     have hu₀R : m * u₀ * m⁻¹ ∈ secTwoR t u := by
       refine h.mem_R_of_commute C.pgroup C.R_le hu₀H.1 ?_
       exact hcommQ t htQ
-    obtain ⟨k', q', hq', hk'⟩ := (hG.toGoodCore.mem_PP_iff).mp (hG.toGoodCore.R_le_PP hu₀R)
+    obtain ⟨k', q', hq', hk'⟩ := (hG.toGoodCore.mem_PP_iff).mp (GoodCore.R_le_PP C hu₀R)
     have hU : m * u₀ * m⁻¹ ∈ zpowers u₀ := by
       rw [hk']
       refine hG.toGoodCore.mem_U_of_centralizes hq' fun q'' hq'' => ?_

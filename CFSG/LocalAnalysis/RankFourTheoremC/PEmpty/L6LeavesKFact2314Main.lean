@@ -20,7 +20,6 @@ theorem coe_mem_normalizer_map {A : Type} [Group A] {L : Subgroup A} {R : Subgro
     (g : A) ∈ Subgroup.normalizer ((R.map L.subtype : Subgroup A) : Set A) := by
   rw [Subgroup.mem_normalizer_iff] at hg ⊢
   change ∀ y : L, y ∈ R ↔ g * y * g⁻¹ ∈ R at hg
-  change ∀ h : A, h ∈ R.map L.subtype ↔ (g : A) * h * (g : A)⁻¹ ∈ R.map L.subtype
   have hinj : Function.Injective L.subtype := Subtype.val_injective
   have hle : R.map L.subtype ≤ L := Subgroup.map_subtype_le R
   intro h
@@ -28,7 +27,7 @@ theorem coe_mem_normalizer_map {A : Type} [Group A] {L : Subgroup A} {R : Subgro
   · obtain ⟨y, rfl⟩ : ∃ y : L, (y : A) = h := ⟨⟨h, hh⟩, rfl⟩
     have e1 : (y : A) ∈ R.map L.subtype ↔ y ∈ R := by
       have := Subgroup.mem_map_iff_mem (f := L.subtype) hinj (K := R) (x := y)
-      simpa using this
+      simp
     have e2 : (g : A) * (y : A) * (g : A)⁻¹ ∈ R.map L.subtype ↔ g * y * g⁻¹ ∈ R := by
       have hc : (g : A) * (y : A) * (g : A)⁻¹ = ((g * y * g⁻¹ : L) : A) := by simp
       rw [hc]

@@ -21,7 +21,7 @@ private theorem z4i_card_mod_three_of_fpf {S : Type*} [Group S] [Finite S] (ρ :
     (hρ : ρ ^ 3 = 1) (hfpf : ∀ g : S, ρ g = g → g = 1) (H : Subgroup S)
     (hH : ∀ h ∈ H, ρ h ∈ H) : Nat.card H % 3 = 1 := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun h => ⟨ρ h, hH h h.2⟩
   have hf : ∀ k : ℕ, ∀ h : H, ((f ^ k) h : S) = (ρ ^ k) h := by
     intro k
@@ -86,7 +86,7 @@ theorem z4i_card_mod_three {A : Type*} [Group A] (K : Subgroup A) [Finite K] (σ
 
 theorem z4i_card_pow_two {A : Type*} [Group A] (K : Subgroup A) [Finite K]
     (hsq : ∀ k ∈ K, k * k = 1) : ∃ n : ℕ, Nat.card K = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 K := by
     intro g
     refine ⟨1, ?_⟩
@@ -119,7 +119,7 @@ theorem z4i_card_le {Q : Type*} [Group Q] [Finite Q] (V : Subgroup Q) (x₁ x₂
     (K : Subgroup (MulAut Q)) (hKF : K ≤ z4iFixY Q) (hKV : ∀ σ ∈ K, ∀ q : Q, σ q * q⁻¹ ∈ V) :
     Nat.card K ≤ Nat.card V ^ 2 := by
   classical
-  haveI : Finite V := Finite.of_injective (Subtype.val : V → Q) Subtype.val_injective
+  have : Finite V := Finite.of_injective (Subtype.val : V → Q) Subtype.val_injective
   have hf : Function.Injective (z4iMap V x₁ x₂ K hKV) := z4iMap_injective V x₁ x₂ hdet K hKF hKV
   calc Nat.card K ≤ Nat.card (V × V) := Nat.card_le_card_of_injective _ hf
     _ = Nat.card V ^ 2 := by rw [Nat.card_prod, ← pow_two]
@@ -130,7 +130,7 @@ theorem z4i_mem_of_card_eq {Q : Type*} [Group Q] [Finite Q] (V : Subgroup Q) (x�
     (hcard : Nat.card K = Nat.card V ^ 2) {τ : MulAut Q} (hτF : τ ∈ z4iFixY Q)
     (hτV : ∀ q : Q, τ q * q⁻¹ ∈ V) : τ ∈ K := by
   classical
-  haveI : Finite V := Finite.of_injective (Subtype.val : V → Q) Subtype.val_injective
+  have : Finite V := Finite.of_injective (Subtype.val : V → Q) Subtype.val_injective
   have hf : Function.Injective (z4iMap V x₁ x₂ K hKV) := z4iMap_injective V x₁ x₂ hdet K hKF hKV
   have hcard' : Nat.card (V × V) ≤ Nat.card K := by
     rw [Nat.card_prod, ← pow_two, ← hcard]

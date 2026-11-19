@@ -80,6 +80,7 @@ section Mixed
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem exists_mixed_vector_rot {H : Subgroup (V ≃ₗ[K] V)}
     (hH : H ≤ TauCeti.QuadraticMap.orthogonalGroup Q) {g : V ≃ₗ[K] V}
     (hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)

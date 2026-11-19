@@ -75,7 +75,7 @@ theorem y4CoreMemSolvHJProdR_of_steps (h148 : Item148R) (h149 : Sec16.Item149S14
   intro G _ _ A c L h hall M hM hF hq J hJ hAJ
   have h14 := h.toSec14Std
   have hAM : A ≤ Subgroup.normalizer (M : Set G) := hM.1.2
-  letI := ker148_normal hAM
+  let := ker148_normal hAM
   obtain ⟨U, V, hsup, hc, hperf, hJU, htype⟩ :=
     step148ProdShape_of h148 h149 hbot G A c L h hall M hM hF hq J hJ hAJ
   subst hJU

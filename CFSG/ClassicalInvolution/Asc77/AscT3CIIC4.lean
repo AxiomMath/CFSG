@@ -95,12 +95,12 @@ theorem z_mem_cent : z ∈ centralizerModOdd (S : Subgroup G) (K ⊔ K') := by
 
 theorem cent_comm_t {a : G} (ha : a ∈ centralizerModOdd (S : Subgroup G) (K ⊔ K')) :
     a * t = t * a :=
-  commutes_of_mem_centModOddCore S.isPGroup' (mem_centModOddCore_of_mem_centralizerModOdd ha)
+  commutes_of_mem_centModOddCore S.isPGroup (mem_centModOddCore_of_mem_centralizerModOdd ha)
     ha.1 d.htKK d.t_mem_S
 
 theorem cent_comm_WK {a w : G} (ha : a ∈ centralizerModOdd (S : Subgroup G) (K ⊔ K'))
     (hw : w ∈ W ⊓ K) : a * w = w * a :=
-  commutes_of_mem_centModOddCore S.isPGroup' (mem_centModOddCore_of_mem_centralizerModOdd ha)
+  commutes_of_mem_centModOddCore S.isPGroup (mem_centModOddCore_of_mem_centralizerModOdd ha)
     ha.1 (Subgroup.mem_sup_left hw.2) (d.hWS hw.1)
 
 theorem cent_le_normalizer {a : G} (ha : a ∈ centralizerModOdd (S : Subgroup G) (K ⊔ K')) :
@@ -113,7 +113,7 @@ theorem cent_le_normalizer {a : G} (ha : a ∈ centralizerModOdd (S : Subgroup G
     have hRle : R ≤ conjSub a R := fun r hr => by
       rw [mem_conjSub_iff]
       have hrM : r ∈ K ⊔ K' := Subgroup.mem_sup_left (d.hR.1 hr)
-      have hcomm := commutes_of_mem_centModOddCore S.isPGroup'
+      have hcomm := commutes_of_mem_centModOddCore S.isPGroup
         (mem_centModOddCore_of_mem_centralizerModOdd ha) haS hrM (d.hRS hr)
       have : a⁻¹ * r * a = r := by
         calc a⁻¹ * r * a = a⁻¹ * (r * a) := by group
@@ -220,10 +220,10 @@ theorem Std20.concl20_4_of_98 (d : Std20 p f K K' J S R R' W V z t)
       simpa using this
     have hwS : w ∈ (S : Subgroup G) := d.hWS hw
     have hwR : ∀ r ∈ R, w * r = r * w := fun r hr =>
-      commutes_of_mem_centModOddCore S.isPGroup' hw_cent hwS
+      commutes_of_mem_centModOddCore S.isPGroup hw_cent hwS
         (Subgroup.mem_sup_left (d.hR.1 hr)) (d.hRS hr)
     have hwR' : ∀ r ∈ R', w * r = r * w := fun r hr =>
-      commutes_of_mem_centModOddCore S.isPGroup' hw_cent hwS
+      commutes_of_mem_centModOddCore S.isPGroup hw_cent hwS
         (Subgroup.mem_sup_right (d.hR'.1 hr)) (d.hR'S hr)
     obtain ⟨r, hr, r', hr', hinv, hrt⟩ := htor
     have hsq : w * w = 1 := by
@@ -253,7 +253,7 @@ theorem Std20.concl20_4_of_98 (d : Std20 p f K K' J S R R' W V z t)
     have hKJ : K ≠ J := fun h => d.viol.ne h.symm
     have hxsq : (a₁ * a₁) * (a₁ * a₁) = 1 := by
       refine mul_self_eq_one_of_card_zpowers_le_two ?_
-      exact d.hyp.card_le_two_of_le_inf hKΩ hJΩ hKJ (S.isPGroup'.to_le
+      exact d.hyp.card_le_two_of_le_inf hKΩ hJΩ hKJ (S.isPGroup.to_le
         (Subgroup.zpowers_le.mpr hxS)) (Subgroup.zpowers_le.mpr hxK) (Subgroup.zpowers_le.mpr hxJ)
     have hxone : a₁ * a₁ = 1 := by
       rcases hzK.unique _ hxK hxsq with h1 | h1
@@ -313,7 +313,7 @@ theorem c20_4 (hex : HexAll p f) : C20_4 p f := by
   have hH := hex G K K' J S R R' W V z t d
   refine d.concl20_4_of_98 hH ?_ (d.late_tor hH.JW hH.hW)
   exact (d.late_98 hH.JW hH.hW (X := centralizerModOdd (S : Subgroup G) (K ⊔ K'))
-    (S.isPGroup'.to_le (fun x hx => hx.1)) (fun x hx => hx.1) (fun x hx => d.cent_comm_t hx)
+    (S.isPGroup.to_le (fun x hx => hx.1)) (fun x hx => hx.1) (fun x hx => d.cent_comm_t hx)
     (fun x hx => mem_normalizer_iff_conjSub_eq.mp (d.cent_le_normalizer hx))).2
 
 end Main

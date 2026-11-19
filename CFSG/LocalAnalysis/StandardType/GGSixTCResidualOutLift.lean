@@ -66,7 +66,7 @@ theorem ggU62_out {G : Type} [Group G] [Finite G] {L : Subgroup G} (hperf : comm
         t ∈ Subgroup.centralizer (L : Set G)) →
       Nat.card T' ≤ 2 * Nat.card (T' ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) := by
   intro T' hT'2 hT'N hT'inn
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   have hmodel : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSU 6 2 1 :=
     hmod.statedClassicalModel (by decide)
   have hdvdOut64 : Nat.card (Outer (↥L ⧸ Subgroup.center ↥L)) ∣ 6 :=
@@ -115,7 +115,7 @@ theorem ggU62_out {G : Type} [Group G] [Finite G] {L : Subgroup G} (hperf : comm
       apply Subtype.ext
       have hc := Subgroup.mem_centralizer_iff.mp ht (g : G) g.2
       rw [MulAut.conj_apply, hνcoe t g]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one, one_mul, inv_one,
+      simp only [one_mul, inv_one,
         mul_one]
       rw [← hc]
       group
@@ -133,7 +133,7 @@ theorem ggU62_out {G : Type} [Group G] [Finite G] {L : Subgroup G} (hperf : comm
     hT'2.of_surjective π.rangeRestrict π.rangeRestrict_surjective
   have hdvd6 : Nat.card π.range ∣ 6 :=
     (Subgroup.card_subgroup_dvd_card π.range).trans hdvdOut
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hπ2.exists_card_eq
   have hk_le : k ≤ 1 := two_pow_dvd_six_le_one (hk ▸ hdvd6)
   have hrange : Nat.card π.range ≤ 2 := by

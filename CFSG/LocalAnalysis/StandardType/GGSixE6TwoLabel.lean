@@ -27,8 +27,8 @@ theorem nonempty_mulEquiv_EC_of_ggHasLabel {X : Type} [Group X]
     have hcenK : Subgroup.center (CFSG.Blueprint.Chevalley.adjointGroup .E6 K) = ⊥ :=
       CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite K
-    haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+    have := Fintype.ofFinite K
+    have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
     have hcardF : Fintype.card (GaloisField 2 1) = 2 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num)]
       norm_num

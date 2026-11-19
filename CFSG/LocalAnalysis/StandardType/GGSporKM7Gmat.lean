@@ -120,7 +120,7 @@ private theorem m7r_comm4 :
   m7r_comm5_of 4 (by norm_num) (by norm_num) (by decide +kernel)
 
 private theorem m7r_bcomm_of_conj {a b z : Gmat} {w : ℕ}
-    (h : a * b * a⁻¹ = b * z ^ w) (ha : a * z = z * a) (hb : b * z = z * b) :
+    (h : a * b * a⁻¹ = b * z ^ w) (ha : a * z = z * a) (_hb : b * z = z * b) :
     bcomm a b = z ^ w := by
   have haz : Commute a z := ha
   have h2 : a * b = b * z ^ w * a := (mul_inv_eq_iff_eq_mul).1 h
@@ -319,7 +319,7 @@ private theorem m7r_conj4 :
       (wq2 ++ m7hW, m7hW ++ wq3 ++ wq2)
       (by simp [m7hPairs])
     have h1 : gw m7hW * gw wq2 = (gw wq2 * gw wq3) * gw m7hW := by
-      simp only [gw_append, gw_powL'] at h
+      simp only [gw_append] at h
       rw [h]; group
     rw [m7r_intro_gq2, m7r_intro_gq3]
     exact m7r_conj h1
@@ -362,7 +362,7 @@ theorem gq_commData :
     · exact gq_pow (i := 2) (by norm_num)
     · exact gq_pow (i := 3) (by norm_num)
     · exact gq_pow (i := 4) (by norm_num)
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime (gq_pow (i := 5) (by norm_num)) hz5
   · intro i
     fin_cases i
@@ -506,9 +506,7 @@ private theorem m7l_q0_conj_mem
   fin_cases i
   · have hc := gq_conj (i := 0) (j := 1) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw1] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.zero_eta, Fin.isValue, Matrix.cons_val_zero]
     rw [hc]
     refine Subgroup.list_prod_mem _ fun x hx => ?_
     simp only [List.mem_map] at hx
@@ -519,9 +517,7 @@ private theorem m7l_q0_conj_mem
     exact m7l_gq_mem hD ⟨k, hklt⟩ (by rintro h; exact hk0 (Fin.ext_iff.1 h))
   · have hc := gq_conj (i := 0) (j := 2) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw2] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.mk_one, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hc]
     refine Subgroup.list_prod_mem _ fun x hx => ?_
     simp only [List.mem_map] at hx
@@ -532,9 +528,7 @@ private theorem m7l_q0_conj_mem
     exact m7l_gq_mem hD ⟨k, hklt⟩ (by rintro h; exact hk0 (Fin.ext_iff.1 h))
   · have hc := gq_conj (i := 0) (j := 3) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw3] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.reduceFinMk, Matrix.cons_val]
     rw [hc]
     refine Subgroup.list_prod_mem _ fun x hx => ?_
     simp only [List.mem_map] at hx
@@ -545,9 +539,7 @@ private theorem m7l_q0_conj_mem
     exact m7l_gq_mem hD ⟨k, hklt⟩ (by rintro h; exact hk0 (Fin.ext_iff.1 h))
   · have hc := gq_conj (i := 0) (j := 4) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw4] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.reduceFinMk, Matrix.cons_val]
     rw [hc]
     refine Subgroup.list_prod_mem _ fun x hx => ?_
     simp only [List.mem_map] at hx
@@ -563,31 +555,23 @@ private theorem m7l_h_conj_mem
       Subgroup.closure (Set.range ![gq 1, gq 2, gq 3, gq 4]) := by
   have hh := m7h_conj
   fin_cases i
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.zero_eta, Fin.isValue, Matrix.cons_val_zero]
     rw [hh.1]
     exact Subgroup.mul_mem _
       (Subgroup.mul_mem _ (m7l_gq_mem hD (k := 1) (by decide))
         (m7l_gq_mem hD (k := 2) (by decide)))
       (Subgroup.pow_mem _ (m7l_gq_mem hD (k := 4) (by decide)) 2)
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.mk_one, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hh.2.1]
     exact Subgroup.mul_mem _ (m7l_gq_mem hD (k := 2) (by decide))
       (m7l_gq_mem hD (k := 3) (by decide))
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.reduceFinMk, Matrix.cons_val]
     rw [hh.2.2.1]
     exact Subgroup.mul_mem _
       (Subgroup.mul_mem _ (Subgroup.pow_mem _ (m7l_gq_mem hD (k := 1) (by decide)) 4)
         (m7l_gq_mem hD (k := 3) (by decide)))
       (Subgroup.pow_mem _ (m7l_gq_mem hD (k := 4) (by decide)) 5)
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.reduceFinMk, Matrix.cons_val]
     rw [hh.2.2.2.1]
     exact Subgroup.mul_mem _
       (Subgroup.pow_mem _ (m7l_gq_mem hD (k := 1) (by decide)) 2)
@@ -669,46 +653,36 @@ private theorem m7l_actMat_q0 :
   · have hc := gq_conj (i := 0) (j := 1) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw1] at hc
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.zero_eta, Fin.isValue, inv_inv,
+      Matrix.cons_val_zero]
     rw [hc]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
-      show (1 : ZMod 7).val = 1 by decide +kernel]
+      Matrix.cons_val_zero, show (1 : ZMod 7).val = 1 by decide +kernel]
   · have hc := gq_conj (i := 0) (j := 2) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw2] at hc
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.mk_one, Fin.isValue, inv_inv,
+      Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hc]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
+      Matrix.cons_val_zero, Matrix.cons_val_one,
       show (1 : ZMod 7).val = 1 by decide +kernel]
   · have hc := gq_conj (i := 0) (j := 3) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw3] at hc
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.reduceFinMk, Fin.isValue, inv_inv,
+      Matrix.cons_val]
     rw [hc]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
       Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
       show (1 : ZMod 7).val = 1 by decide +kernel]
   · have hc := gq_conj (i := 0) (j := 4) (by norm_num) (by norm_num) (by norm_num)
     rw [m7l_cw4] at hc
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at hc
-    simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+    simp only [Fin.reduceFinMk, Fin.isValue, inv_inv,
+      Matrix.cons_val]
     rw [hc]
-    simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
+    simp [List.ofFn_succ, List.prod_cons, pow_succ, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
       show (1 : ZMod 7).val = 1 by decide +kernel]
 
 private theorem m7l_actMat_h :
@@ -720,40 +694,30 @@ private theorem m7l_actMat_h :
     (c := fun _ => 0)
   intro i
   fin_cases i
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.zero_eta, Fin.isValue, inv_inv,
+      Matrix.cons_val_zero]
     rw [hh.1]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
-      show (1 : ZMod 7).val = 1 by decide +kernel,
+      Matrix.cons_val_zero, show (1 : ZMod 7).val = 1 by decide +kernel,
       show (2 : ZMod 7).val = 2 by decide +kernel]
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.mk_one, Fin.isValue, inv_inv,
+      Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hh.2.1]
-    simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
+    simp [List.ofFn_succ, List.prod_cons, pow_succ, Matrix.cons_val_zero, Matrix.cons_val_one,
       show (1 : ZMod 7).val = 1 by decide +kernel]
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.reduceFinMk, Fin.isValue, inv_inv,
+      Matrix.cons_val]
     rw [hh.2.2.1]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
       Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
       show (1 : ZMod 7).val = 1 by decide +kernel,
       show (4 : ZMod 7).val = 4 by decide +kernel,
       show (5 : ZMod 7).val = 5 by decide +kernel]
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, inv_inv,
-      Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Fin.reduceFinMk, Fin.isValue, inv_inv,
+      Matrix.cons_val]
     rw [hh.2.2.2.1]
     simp [List.ofFn_succ, List.prod_cons, pow_succ, mul_assoc,
       Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.tail_cons,
       show (2 : ZMod 7).val = 2 by decide +kernel,
       show (3 : ZMod 7).val = 3 by decide +kernel]
 
@@ -765,8 +729,8 @@ private theorem m7l_f1f4_of_dich
     (hno : ∀ C : Subgroup Gmat,
       ¬ LargeEvenPComponent 7 (Subgroup.centralizer ({gq 5} : Set Gmat)) C) :
     BMPCentralF1At 7 (gq 5) ∧ BMPCentralF4At 7 (gq 5) := by
-  haveI hp7 : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI hfin : Finite Gmat := inferInstance
+  have hp7 : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have hfin : Finite Gmat := inferInstance
   have hD : CommData 7 ![gq 1, gq 2, gq 3, gq 4] (gq 5) m7M := gq_commData
   have hG : (Nat.card Gmat).factorization 7 = 6 := m7l_factorization
   let Q : Subgroup Gmat := Subgroup.closure (Set.range ![gq 1, gq 2, gq 3, gq 4])
@@ -797,8 +761,7 @@ private theorem m7l_f1f4_of_dich
     have h2 : (!![1, 1, 0, 0; 0, 1, 1, 0; 0, 0, 1, 1; 0, 0, 0, 1] :
         Matrix (Fin 4) (Fin 4) (ZMod 7)) = 1 := m7l_actMat_q0.symm.trans h1
     have h01 := congrFun (congrFun h2 0) 1
-    simp [Matrix.one_apply, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Fin.reduceFinMk] at h01
+    simp [Matrix.cons_val_zero, Matrix.cons_val_one] at h01
   have hgq0ne : gq 0 ≠ 1 := by
     intro h1
     exact hx0not (by dsimp only [x0]; rw [h1, inv_one]; exact Subgroup.one_mem Q)
@@ -851,8 +814,7 @@ private theorem m7l_f1f4_of_dich
     have h2 : (!![1, 1, 0, 0; 0, 1, 1, 0; 0, 0, 1, 1; 0, 0, 0, 1] :
         Matrix (Fin 4) (Fin 4) (ZMod 7)) = 1 := m7l_actMat_q0.symm.trans h1
     have h01 := congrFun (congrFun h2 0) 1
-    simp [Matrix.one_apply, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Fin.reduceFinMk] at h01
+    simp [Matrix.cons_val_zero, Matrix.cons_val_one] at h01
   have hSC : S ⊓ Subgroup.centralizer (Q : Set Gmat) = Subgroup.zpowers (gq 5) := by
     dsimp only [S, Q]
     exact commData_sup_zpowers_inf_centralizer hD hx0pow7 hx0conj hx0M
@@ -1002,7 +964,7 @@ private theorem m7d_dich :
         N ≤ Subgroup.zpowers (gq 5) ∨
           N = Subgroup.closure (Set.range ![gq 1, gq 2, gq 3, gq 4]) := by
   intro N hNQ h0 hh
-  haveI hp7 : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have hp7 : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hD : CommData 7 ![gq 1, gq 2, gq 3, gq 4] (gq 5) m7M := gq_commData
   refine commData_dich_of_irred (hD := hD) (i₀ := 0) (j₀ := 2) (hz := m7l_hz hD)
     (a := ![gq 0 ^ 6, gw m7hW ^ 6]) (m7d_conj_mem hD) (m7d_irreducible hD) N hNQ ?_

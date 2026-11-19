@@ -100,7 +100,7 @@ private theorem paramMap_mulSingle (m : ℕ) (hm : 3 ≤ m) (i : Fin (m + 1))
   · rw [show t i = u by rw [show t = Pi.mulSingle i u from rfl, Pi.mulSingle_eq_same]]
   · intro j hj
     rw [show t j = 1 by
-      rw [show t = Pi.mulSingle i u from rfl, Pi.mulSingle_apply, if_neg hj]]
+      rw [show t = Pi.mulSingle i u from rfl, Pi.mulSingle_apply, ite_eq_right hj]]
     exact map_one _
 
 private theorem prod_nodeTuple_apply_zero (m : ℕ) (hm : 3 ≤ m)
@@ -118,7 +118,7 @@ private theorem prod_nodeTuple_apply_zero (m : ℕ) (hm : 3 ≤ m)
     have := congrArg Fin.val h
     simp only at this
     omega
-  rw [nodeTuple_apply_last, if_neg hja, if_neg hjlast, one_mul, Finset.prod_apply]
+  rw [nodeTuple_apply_last, ite_eq_right hja, ite_eq_right hjlast, one_mul, Finset.prod_apply]
   have hfirst : (∏ k : Fin m,
       (if (⟨0, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) =
       t ⟨0, by omega⟩ := by
@@ -126,9 +126,9 @@ private theorem prod_nodeTuple_apply_zero (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (⟨0, by omega⟩ : Fin (m + 1)) = Fin.castSucc k0 := Fin.ext rfl
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (⟨0, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) k0]
-    · rw [if_pos hjk0, ← hjk0]
+    · rw [ite_eq_left hjk0, ← hjk0]
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       exact Fin.ext (by simpa [k0] using (congrArg Fin.val h).symm)
@@ -136,7 +136,7 @@ private theorem prod_nodeTuple_apply_zero (m : ℕ) (hm : 3 ≤ m)
       (if (⟨0, by omega⟩ : Fin (m + 1)) = k.succ then (t (Fin.castSucc k))⁻¹ else 1)) = 1 := by
     refine Finset.prod_eq_one ?_
     intro k _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have := congrArg Fin.val h
     simp only [Fin.val_succ] at this
@@ -170,7 +170,7 @@ private theorem prod_nodeTuple_apply_succ (m : ℕ) (hm : 3 ≤ m)
     have := congrArg Fin.val h
     simp only at this
     omega
-  rw [nodeTuple_apply_last, if_neg hja, if_neg hjlast, one_mul, Finset.prod_apply]
+  rw [nodeTuple_apply_last, ite_eq_right hja, ite_eq_right hjlast, one_mul, Finset.prod_apply]
   have hfirst : (∏ k : Fin m,
       (if (⟨j + 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) =
       t ⟨j + 1, by omega⟩ := by
@@ -178,9 +178,9 @@ private theorem prod_nodeTuple_apply_succ (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (⟨j + 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k0 := Fin.ext rfl
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (⟨j + 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) k0]
-    · rw [if_pos hjk0, ← hjk0]
+    · rw [ite_eq_left hjk0, ← hjk0]
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       exact Fin.ext (by simpa [k0] using (congrArg Fin.val h).symm)
@@ -191,10 +191,10 @@ private theorem prod_nodeTuple_apply_succ (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (⟨j + 1, by omega⟩ : Fin (m + 1)) = k0.succ := Fin.ext (by simp [k0])
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (⟨j + 1, by omega⟩ : Fin (m + 1)) = k.succ then (t (Fin.castSucc k))⁻¹ else 1)) k0]
-    · rw [if_pos hjk0]
+    · rw [ite_eq_left hjk0]
       congr 1
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       have := congrArg Fin.val h
@@ -227,7 +227,7 @@ private theorem prod_nodeTuple_apply_pred (m : ℕ) (hm : 3 ≤ m)
     have := congrArg Fin.val h
     simp only [Fin.val_last] at this
     omega
-  rw [nodeTuple_apply_last, if_pos hja, if_neg hjl, Finset.prod_apply]
+  rw [nodeTuple_apply_last, ite_eq_left hja, ite_eq_right hjl, Finset.prod_apply]
   have hfirst : (∏ k : Fin m,
       (if (⟨m - 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) =
       t ⟨m - 1, by omega⟩ := by
@@ -235,9 +235,9 @@ private theorem prod_nodeTuple_apply_pred (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (⟨m - 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k0 := Fin.ext rfl
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (⟨m - 1, by omega⟩ : Fin (m + 1)) = Fin.castSucc k then t (Fin.castSucc k) else 1)) k0]
-    · rw [if_pos hjk0, ← hjk0]
+    · rw [ite_eq_left hjk0, ← hjk0]
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       exact Fin.ext (by simpa [k0] using (congrArg Fin.val h).symm)
@@ -248,10 +248,10 @@ private theorem prod_nodeTuple_apply_pred (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (⟨m - 1, by omega⟩ : Fin (m + 1)) = k0.succ := Fin.ext (by simp [k0]; omega)
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (⟨m - 1, by omega⟩ : Fin (m + 1)) = k.succ then (t (Fin.castSucc k))⁻¹ else 1)) k0]
-    · rw [if_pos hjk0]
+    · rw [ite_eq_left hjk0]
       congr 1
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       have := congrArg Fin.val h
@@ -281,12 +281,12 @@ private theorem prod_nodeTuple_apply_last (m : ℕ) (hm : 3 ≤ m)
     have := congrArg Fin.val h
     simp only [Fin.val_last] at this
     omega
-  rw [nodeTuple_apply_last, if_neg hla, if_pos rfl, one_mul, Finset.prod_apply]
+  rw [nodeTuple_apply_last, ite_eq_right hla, ite_eq_left rfl, one_mul, Finset.prod_apply]
   have hfirst : (∏ k : Fin m,
       (if (Fin.last m) = Fin.castSucc k then t (Fin.castSucc k) else 1)) = 1 := by
     refine Finset.prod_eq_one ?_
     intro k _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have := congrArg Fin.val h
     simp only [Fin.val_last, Fin.val_castSucc] at this
@@ -298,10 +298,10 @@ private theorem prod_nodeTuple_apply_last (m : ℕ) (hm : 3 ≤ m)
     have hjk0 : (Fin.last m : Fin (m + 1)) = k0.succ := Fin.ext (by simp [k0]; omega)
     rw [Fintype.prod_eq_single (f := fun k : Fin m =>
       (if (Fin.last m) = k.succ then (t (Fin.castSucc k))⁻¹ else 1)) k0]
-    · rw [if_pos hjk0]
+    · rw [ite_eq_left hjk0]
       congr 1
     · intro k hk
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       apply hk
       have := congrArg Fin.val h
@@ -586,11 +586,11 @@ private theorem iSupIndep_mulSingle (m : ℕ) :
     refine iSup₂_le fun j hj => ?_
     rintro x ⟨u, rfl⟩
     rw [MonoidHom.mem_ker, Pi.evalMonoidHom_apply, MonoidHom.mulSingle_apply,
-      Pi.mulSingle_apply, if_neg (Ne.symm hj)]
+      Pi.mulSingle_apply, ite_eq_right (Ne.symm hj)]
   have hxE : x ∈ E := hle hxrest
   rcases hxi with ⟨u, rfl⟩
   rw [MonoidHom.mem_ker, Pi.evalMonoidHom_apply, MonoidHom.mulSingle_apply,
-    Pi.mulSingle_apply, if_pos rfl] at hxE
+    Pi.mulSingle_apply, ite_eq_left rfl] at hxE
   rw [hxE]
   exact Subgroup.mem_bot.mpr (map_one _)
 

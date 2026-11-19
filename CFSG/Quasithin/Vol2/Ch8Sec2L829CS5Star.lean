@@ -85,7 +85,7 @@ private theorem le_kerIn_subgroupOf_of_normal_cs5 {H M : Subgroup G} {D : Subgro
 theorem normal_twoGroup_starQuot_eq_bot_cs5 [Finite G] {H T M : Subgroup G}
     (hT : IsSylowTwoOf T H) (hTM : T ≤ M) (N : Subgroup (E2.StarQuot (H ⊓ M) H)) [N.Normal]
     (hN : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hπ : Function.Surjective (QuotientGroup.mk' ((kerIn (H ⊓ M) H).subgroupOf H) :
       ↥H →* E2.StarQuot (H ⊓ M) H) := QuotientGroup.mk'_surjective _
   have hT' : IsPGroup 2 (T.subgroupOf H) := hT.2.1.comap_subtype

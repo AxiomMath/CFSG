@@ -64,9 +64,9 @@ theorem fi23_moore_A7 :
 theorem exists_comp_five :
     ∃ w : CFSG.Sporadic.Fi23.J, orderOf w = 5 ∧
       ∃ J₀ : Subgroup CFSG.Sporadic.Fi23.J, GLAPComponent 5 (Subgroup.centralizer ({w} : Set CFSG.Sporadic.Fi23.J)) J₀ := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   have hn : (31671 : ℕ) < 2 ^ 32 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨-, hc⟩ := fi23Five_parts
   unfold fi23FiveCore at hc
   simp only [Bool.and_eq_true, Bool.not_eq_true', List.all_eq_true, List.mem_range,

@@ -36,11 +36,11 @@ theorem ePrK_spec {ET : ℕ → ℕ} {PR : ℕ} (h : ePrK ET PR = true) :
   obtain ⟨h21, h5, hj⟩ := h
   refine ⟨h21, h5, fun j hjl => ?_⟩
   have h1 := hj j hjl
-  simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
+  simp only [strictB_eq, Bool.and_eq_true] at h1
   obtain ⟨h1, h2, h3⟩ := h1
   refine ⟨Nat.le_of_ble_eq_true h1, h2, fun hj1 => ?_⟩
   have hj1' : Nat.blt (Nat.succ j) 5 = true := Nat.blt_eq.mpr hj1
-  rw [bIf_eq, if_pos hj1'] at h3
+  rw [bIf_eq, ite_eq_left hj1'] at h3
   exact Nat.blt_eq.mp h3
 
 theorem eAnyN_iff {n : ℕ} {f : ℕ → Bool} : eAnyN n f = true ↔ ∃ i < n, f i = true := by
@@ -50,14 +50,14 @@ theorem eAnyN_iff {n : ℕ} {f : ℕ → Bool} : eAnyN n f = true ↔ ∃ i < n,
   · rw [allN_iff] at h
     refine ⟨fun h' => by simp at h', fun ⟨i, hi, hf⟩ => ?_⟩
     have h1 := h i hi
-    rw [bIf_eq, if_pos hf] at h1
+    rw [bIf_eq, ite_eq_left hf] at h1
     exact absurd h1 Bool.false_ne_true
   · rw [allN_iff] at h
     refine ⟨fun _ => ?_, fun _ => rfl⟩
     by_contra hn
     refine h fun i hi => ?_
     have hf : ¬ f i = true := fun e => hn ⟨i, hi, e⟩
-    rw [bIf_eq, if_neg hf]
+    rw [bIf_eq, ite_eq_right hf]
 
 theorem eKerK_spec {ET T INN : ℕ → ℕ} {PR cnt ni : ℕ} (h : eKerK ET PR cnt T ni INN = true) :
     ∀ i < cnt, eG (T i) 21 = 21 ∧ (eTriv ET PR (T i) = true ↔ ∃ u < ni, INN u = i) := by
@@ -75,7 +75,7 @@ theorem foldUp_last {n j₀ : ℕ} {g : ℕ → Bool} (hj₀ : j₀ < n) (hg : �
   simp only [nIf_eq]
   suffices H : ∀ m ≤ n, (List.range m).foldl
       (fun s j => if g j = true then j else s) 0 = if j₀ < m then j₀ else 0 by
-    rw [H n le_rfl, if_pos hj₀]
+    rw [H n le_rfl, ite_eq_left hj₀]
   intro m hm
   induction m with
   | zero => simp
@@ -84,12 +84,12 @@ theorem foldUp_last {n j₀ : ℕ} {g : ℕ → Bool} (hj₀ : j₀ < n) (hg : �
     rw [ih (by omega)]
     by_cases hmj : m = j₀
     · subst hmj
-      rw [if_pos ((hg m (by omega)).2 rfl), if_pos (by omega)]
+      rw [ite_eq_left ((hg m (by omega)).2 rfl), ite_eq_left (by omega)]
     · have hgm : ¬ g m = true := fun h => hmj ((hg m (by omega)).1 h)
-      rw [if_neg hgm]
+      rw [ite_eq_right hgm]
       by_cases hj : j₀ < m
-      · rw [if_pos hj, if_pos (by omega)]
-      · rw [if_neg hj, if_neg (by omega)]
+      · rw [ite_eq_left hj, ite_eq_left (by omega)]
+      · rw [ite_eq_right hj, ite_eq_right (by omega)]
 
 @[expose] noncomputable def evenOf (σ : ℕ → ℕ) : Bool :=
   Nat.beq (Nat.land (foldUp 5 (fun i acc => strictN (σ i) (fun si =>
@@ -172,6 +172,7 @@ theorem kind_m21 {k : ℕ} (hk : k < 32) (h : eKind ET 0 k = true) : eKind ET 0 
       _ = 1 := by rw [e, t_sq R hM hpr]
 
 include hpr in
+omit [Group H] R hM in
 theorem pr_mono : ∀ i j, i < j → j < 5 → eG PR i < eG PR j := by
   have hs := (ePrK_spec hpr).2.2
   intro i j hij hj
@@ -216,9 +217,9 @@ theorem pair_unique {j j' k : ℕ} (hj : j < 5) (hj' : j' < 5)
   have hpj' := (hs j' hj').1
   have hinj : eG PR j = eG PR j' → j = j' := fun e => by
     rcases Nat.lt_trichotomy j j' with h1 | h1 | h1
-    · exact absurd e (Nat.ne_of_lt (pr_mono R hM hpr j j' h1 hj'))
+    · exact absurd e (Nat.ne_of_lt (pr_mono hpr j j' h1 hj'))
     · exact h1
-    · exact absurd e.symm (Nat.ne_of_lt (pr_mono R hM hpr j' j h1 hj))
+    · exact absurd e.symm (Nat.ne_of_lt (pr_mono hpr j' j h1 hj))
   rcases h with rfl | rfl <;> rcases h' with e | e
   · exact hinj e
   · have h1 := hlt j' hj'
@@ -297,7 +298,7 @@ theorem eEven_of_mem {φ : MulAut H} {p : ℕ} (hφ : Acts R φ p)
     (h : π φ ∈ alternatingGroup (Fin 5)) : eEven ET PR p = true := by
   have hσ : ∀ j < 5, eSigAt ET PR p j =
       (fun j => if h : j < 5 then ((π φ ⟨j, h⟩ : Fin 5) : ℕ) else 0) j := fun j hj => by
-    simp only [dif_pos hj]
+    simp only [dite_eq_left hj]
     exact ePidx_eq R hM hpr hπ hφ hj
   rw [eEven_eq, evenOf_congr hσ]
   exact evenOf_of_sign _ (Equiv.Perm.mem_alternatingGroup.1 h)
@@ -346,7 +347,7 @@ theorem eBInv_of {φ : MulAut H} {p : ℕ} (hφ : Acts R φ p) (hcan : canonK 32
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, bIf_eq]
   refine ⟨(hφ.eInvK_iff hcan).2 ⟨h1, fun e => h3 (by rw [e, map_one])⟩,
     eEven_of_mem R hM hpr hπ hφ h2, ?_⟩
-  rw [if_neg fun e => h3 ((pi_eq_one_iff R hM hpr hπ hφ).2 e)]
+  rw [ite_eq_right fun e => h3 ((pi_eq_one_iff R hM hpr hπ hφ).2 e)]
 
 end Epi
 

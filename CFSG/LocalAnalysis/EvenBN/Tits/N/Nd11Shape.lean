@@ -116,7 +116,7 @@ theorem abelian_shape {Γ : Type*} [Group Γ] [Finite Γ] [IsMulCommutative Γ]
     Nonempty (Γ ≃* Multiplicative (Fin 6 → ZMod 2) ×
       (Multiplicative (ZMod 4) × Multiplicative (ZMod 4))) := by
   classical
-  letI : CommGroup Γ :=
+  let : CommGroup Γ :=
     { (inferInstance : Group Γ) with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   obtain ⟨ι, hι, n, hn1, ⟨e⟩⟩ := CommGroup.equiv_prod_multiplicative_zmod_of_finite Γ
   have hdvd : ∀ i, n i ∣ 4 := by
@@ -178,14 +178,14 @@ theorem frattini_eq_squares {Γ : Type*} [Group Γ] [Finite Γ] [IsMulCommutativ
     (h2 : IsPGroup 2 Γ) (S : Subgroup Γ) (hsq : ∀ x : Γ, x * x ∈ S)
     (hsq' : ∀ s ∈ S, ∃ x : Γ, x * x = s) : frattini Γ = S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent Γ := h2.isNilpotent
-  letI : CommGroup Γ :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent Γ := h2.isNilpotent
+  let : CommGroup Γ :=
     { (inferInstance : Group Γ) with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   apply le_antisymm
   · intro x hx
     by_contra hxS
-    haveI : Module (ZMod 2) (Additive (Γ ⧸ S)) := AddCommGroup.zmodModule (n := 2) (fun q => by
+    have : Module (ZMod 2) (Additive (Γ ⧸ S)) := AddCommGroup.zmodModule (n := 2) (fun q => by
       obtain ⟨y, hy⟩ := QuotientGroup.mk_surjective (Additive.toMul q)
       have hq : q = Additive.ofMul (QuotientGroup.mk y : Γ ⧸ S) := by
         rw [hy]; rfl

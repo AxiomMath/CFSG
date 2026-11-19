@@ -12,7 +12,7 @@ open scoped Pointwise
 
 theorem card_le_four_mul_of_index_le_eight {G : Type} [Group G] [Finite G] (N : Subgroup G)
     [N.Normal] (hidx : N.index ≤ 8) (g₀ : G) (hg₀ : g₀ * g₀ ∉ N) (B : Subgroup G)
-    (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hs : ∀ x ∈ B, x * x = 1) :
+    (_hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hs : ∀ x ∈ B, x * x = 1) :
     Nat.card B ≤ 4 * Nat.card ↥(B ⊓ N) := by
   have hmul := Subgroup.relIndex_mul_card (H := N) (K := B)
   rw [inf_comm] at hmul

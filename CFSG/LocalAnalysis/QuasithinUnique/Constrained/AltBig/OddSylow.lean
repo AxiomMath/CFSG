@@ -148,9 +148,10 @@ theorem swap_mul_swap_mem_sylOddSub (p : OddInv α) (x y : α) :
   mul_mem (mem_sylOddSub.mpr (ao1_swap_pair_apply p x))
     (mem_sylOddSub.mpr (ao1_swap_pair_apply p y))
 
+omit [DecidableEq α] in
 private theorem ao2_fixed_point {Y : Subgroup (Perm α)} (hdvd : ¬ 2 ∣ Fintype.card α)
     (hY : IsPGroup 2 ↥Y) : ∃ z : α, ∀ g ∈ Y, g z = z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd' : ¬ 2 ∣ Nat.card α := by
     rwa [Nat.card_eq_fintype_card]
   obtain ⟨z, hz⟩ := hY.nonempty_fixed_point_of_prime_not_dvd_card α hdvd'
@@ -170,7 +171,7 @@ private theorem ao2_exists_outside (p : OddInv α) (h5 : 5 ≤ Fintype.card α) 
 theorem exists_contained_of_sylow_odd (hα : Odd (Fintype.card α))
     {T : Subgroup ↥(alternatingGroup α)} (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) :
     ∃ p : OddInv α, p.Contained (T.map (alternatingGroup α).subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨p₀⟩ := exists_oddInv hα
   obtain ⟨S, hBS⟩ := (isPGroup_two_sylOddSub p₀).exists_le_sylow
   have hidx : ¬ 2 ∣ T.index := by

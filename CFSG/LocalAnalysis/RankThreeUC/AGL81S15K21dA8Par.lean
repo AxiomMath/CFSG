@@ -36,7 +36,7 @@ theorem LL_inv {g : SL4} (h : LL (g : M4)) : LL ((g⁻¹ : SL4) : M4) := by
     rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one]
   have h2 : (g : M4) * ((g⁻¹ : SL4) : M4) = 1 := by
     rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
-  letI : Invertible (g : M4) := ⟨((g⁻¹ : SL4) : M4), h1, h2⟩
+  let : Invertible (g : M4) := ⟨((g⁻¹ : SL4) : M4), h1, h2⟩
   have hinv := Matrix.blockTriangular_inv_of_blockTriangular hbt
   rw [Matrix.inv_eq_left_inv h1] at hinv
   exact ⟨hinv (i := 2) (j := 0) (by decide), hinv (i := 2) (j := 1) (by decide),
@@ -108,8 +108,8 @@ theorem D_char (hns : ¬ Group.IsSolvable SL4) {D : Subgroup SL4} (hUD : upperSu
     rw [h, Subgroup.index_top] at hmul
     have hDtop : D = ⊤ := (Subgroup.card_eq_iff_eq_top D).1 (by rw [hSL]; omega)
     subst hDtop
-    haveI := hDs
-    exact hns (solvable_of_solvable_injective
+    have := hDs
+    exact hns (Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.topEquiv (G := SL4)).symm.toMonoidHom)
       (Subgroup.topEquiv (G := SL4)).symm.injective)
   · exfalso
@@ -161,7 +161,7 @@ theorem card_upperSub : Nat.card upperSub = 64 := by
 
 theorem exists_conj_upperSub {U : Subgroup SL4} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) :
     ∃ c : SL4, U = upperSub.map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right] at hU
   obtain ⟨-, hp, hodd⟩ := hU
   have hcU : Nat.card U = 64 := natCard_of_two_group_odd_index card_SL4 hp hodd

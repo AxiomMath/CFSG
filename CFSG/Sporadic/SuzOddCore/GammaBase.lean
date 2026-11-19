@@ -78,10 +78,10 @@ theorem replicate_getElem! {i : ℕ} (hi : i < 22880) : (Array.replicate 22880 1
 theorem rep_certGs {k : ℕ} (hk : k < 2) :
     Rep 22880 (certArr k) (certGs k) := by
   interval_cases k
-  · have e : certGs 0 = suzA0 := if_pos rfl
+  · have e : certGs 0 = suzA0 := ite_eq_left rfl
     rw [e]
     exact rep_suzA0
-  · have e : certGs 1 = suzA1 := if_neg (by norm_num)
+  · have e : certGs 1 = suzA1 := ite_eq_right (by norm_num)
     rw [e]
     exact rep_suzA1
 

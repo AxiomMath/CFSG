@@ -26,7 +26,7 @@ theorem tim79aIdentL2SzStatement_of_certs :
   have hEZ : VZ V H = sylowCenter (S : Subgroup (XbarZ V H)) := by
     by_contra hne
     have hlt : VZ V H < sylowCenter (S : Subgroup (XbarZ V H)) := lt_of_le_of_ne hES hne
-    obtain ⟨z, hzZ, hzE⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨z, hzZ, hzE⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hz1 : z ≠ 1 := fun h => hzE (h ▸ (VZ V H).one_mem)
     obtain ⟨⟨v, hvE⟩, hv1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hE1
     have hv1' : v ≠ 1 := fun h => hv1 (Subtype.ext h)
@@ -62,7 +62,7 @@ theorem tim79aIdentL2SzStatement_of_certs :
         exact Subgroup.one_mem _
       obtain ⟨n, hn, hzn⟩ := exists_normalizer_conj_mem hBG S hE1 hES hz' hz'1
       exact Subgroup.mem_iSup_of_mem n (Subgroup.mem_iSup_of_mem hn hzn)
-  have hcard : Nat.card (VZ V H) = Nat.card (barOf V H V) := hc.card_Vtilde hd
+  have hcard : Nat.card (VZ V H) = Nat.card (barOf V H V) := CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd
   rcases hK with ⟨n, hn, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩
   · left
     refine ⟨n, hn, ?_, ⟨e⟩, S, ?_⟩

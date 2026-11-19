@@ -98,19 +98,19 @@ theorem goodBlock_of_le_blockImage [Finite K] {y : Module.End K (Fin n → K)}
     (hy : Squarefree (minpoly K y)) {b : primaryFactors y} {P : Subgroup (GL (Fin n) K)}
     (hP : CFSG.IsQuasisimple ↥P) (hPb : P ≤ blockImage hy b) : GoodBlock b := by
   by_contra hg
-  haveI := isSolvable_of_not_goodBlock hg
-  haveI : Group.IsSolvable (SpecialLinearGroup (Fin (mult y b)) (Efac y b)) :=
+  have := isSolvable_of_not_goodBlock hg
+  have : Group.IsSolvable (SpecialLinearGroup (Fin (mult y b)) (Efac y b)) :=
     Group.isSolvable_of_isSolvable_injective SpecialLinearGroup.toGL_injective
   set φ : SpecialLinearGroup (Fin (mult y b)) (Efac y b) →* GL (Fin n) K :=
     (blockTheta hy).comp (blockEmbed (Efac y) (mult y) b) with hφ
   have hle : P ≤ φ.range := fun g hg => by
     obtain ⟨s, hs⟩ := mem_blockImage.mp (hPb hg)
     exact ⟨s, hs⟩
-  haveI : Group.IsSolvable ↥φ.range := Group.isSolvable_of_surjective φ.rangeRestrict_surjective
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥φ.range := Group.isSolvable_of_surjective φ.rangeRestrict_surjective
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-  haveI := hP.1
-  haveI := hP.2.1
+  have := hP.1
+  have := hP.2.1
   obtain ⟨u, v, huv⟩ := exists_pair_ne (↥P ⧸ Subgroup.center ↥P)
   obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective u
   obtain ⟨v, rfl⟩ := QuotientGroup.mk_surjective v
@@ -165,7 +165,7 @@ variable (hP : IsPlane p E0)
 include hP
 
 omit [IsMulCommutative E0] in
-theorem not_mem_zpowers_of_mem {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {a' : ↥E0}
+theorem not_mem_zpowers_of_mem {L : Subgroup ↥E0} (_hL : L ∈ lines p E0) {a' : ↥E0}
     (ha'L : a' ∈ L) (ha'1 : a' ≠ 1) {b : ↥E0} (hbL : b ∉ L) : a' ∉ Subgroup.zpowers b := by
   intro h
   have hb1 : b ≠ 1 := by
@@ -186,6 +186,7 @@ theorem eq_zpowers_of_mem {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {b : ↥E
 variable (hpK : (p : K) ≠ 0)
 include hpK
 
+omit [IsMulCommutative E0] in
 theorem not_exists_aeval_fixed [Finite K] (hq1 : ¬ p ∣ Nat.card K - 1) {L' : Subgroup ↥E0}
     (hL' : L' ∈ lines p E0) {a' : ↥E0} (ha' : a' ∈ L') {b : ↥E0} (hb : b ∉ L') {y : Fin n → K}
     (hy : y ∈ LinearMap.range (projLine ρ₀ L')) (hy0 : y ≠ 0) :
@@ -210,12 +211,13 @@ theorem not_exists_aeval_fixed [Finite K] (hq1 : ¬ p ∣ Nat.card K - 1) {L' : 
     by_contra hne
     have h3 : (f.eval 1 ^ p - 1) • y = 0 := by rw [sub_smul, one_smul, ← h2, sub_self]
     exact hy0 ((smul_eq_zero.mp h3).resolve_left (sub_ne_zero.mpr hne))
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h4 : f.eval 1 = 1 :=
     eq_one_of_pow_eq_one_of_not_dvd hP.prime (by rwa [← Nat.card_eq_fintype_card]) h1
   rw [h4, one_smul] at hby
   exact hy0 (eq_zero_of_mem_range_projLine hP hpK hL' hb hy hby)
 
+omit [IsMulCommutative E0] in
 theorem not_exists_aeval_mixed {L M : Subgroup ↥E0} (hM : M ∈ lines p E0) {b : ↥E0}
     (hbL : b ∈ L) (hbM : b ∉ M) {a' : ↥E0} {h : K[X]} (hh : h ∈ primaryFactors (act ρ₀ a'))
     {u : Fin n → K} (hu : u ∈ primaryComponent (act ρ₀ a') h)
@@ -224,7 +226,7 @@ theorem not_exists_aeval_mixed {L M : Subgroup ↥E0} (hM : M ∈ lines p E0) {b
     (hy0 : y ≠ 0) :
     ¬ ∃ f : K[X], ∀ v ∈ primaryComponent (act ρ₀ a') h, act ρ₀ b v = aeval (act ρ₀ a') f v := by
   rintro ⟨f, hf⟩
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hfu : aeval (act ρ₀ a') f u = u := by
     rw [← hf u hu]
     exact fix_range_projLine E0 hbL u huL
@@ -374,18 +376,18 @@ variable {n : ℕ} {K : Type} [Field K]
 theorem slInnerBlockAt [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : (p : K) ≠ 0)
     (hq1 : ¬ p ∣ Nat.card K - 1) (hq2 : p ∣ Nat.card K ^ 2 - 1) : SLInnerBlockAt p n K := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   intro E0 hE0 hcard a haE ha1 hns
-  haveI := hE0
-  letI : Fintype ↥E0 := Fintype.ofFinite _
+  have := hE0
+  let : Fintype ↥E0 := Fintype.ofFinite _
   have hP : IsPlane p ↥E0 := isPlane E0 hp hcard
   set â : ↥E0 := ⟨a, haE⟩ with hâdef
   have hâ1 : â ≠ 1 := fun h => ha1 (congrArg Subtype.val h)
   obtain ⟨D, hDp, hD⟩ := exists_isPerfect_ne_bot hns
-  haveI := hDp
+  have := hDp
   set R : Subgroup (GL (Fin n) K) := D.map (SpecialLinearGroup.toGL.comp
     (Subgroup.centralizer (E0 : Set (SpecialLinearGroup (Fin n) K))).subtype) with hR
-  haveI : Group.IsPerfect ↥R := Group.IsPerfect.map _
+  have : Group.IsPerfect ↥R := Group.IsPerfect.map _
   have hinj : Function.Injective (SpecialLinearGroup.toGL.comp
       (Subgroup.centralizer (E0 : Set (SpecialLinearGroup (Fin n) K))).subtype) :=
     fun x y h => Subtype.ext (SpecialLinearGroup.toGL_injective h)
@@ -409,10 +411,10 @@ theorem slInnerBlockAt [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK 
   obtain ⟨cL, hcL, hcLâ⟩ : ∃ cL : Subgroup ↥E0 → ↥E0, (∀ L ∈ lines p ↥E0, cL L ∉ L) ∧
       cL (Subgroup.zpowers â) = c₁ := by
     refine ⟨fun L => if L = Subgroup.zpowers â then c₁ else
-      if h : ∃ c : ↥E0, c ∉ L then h.choose else 1, fun L hL => ?_, if_pos rfl⟩
+      if h : ∃ c : ↥E0, c ∉ L then h.choose else 1, fun L hL => ?_, ite_eq_left rfl⟩
     dsimp only
     by_cases hLa : L = Subgroup.zpowers â
-    · rw [if_pos hLa, hLa]
+    · rw [ite_eq_left hLa, hLa]
       exact hc₁â
     · have hex : ∃ c : ↥E0, c ∉ L := by
         obtain ⟨M, hM, hML, c, hcM, hc1⟩ := exists_other_line E0 hP L
@@ -420,7 +422,7 @@ theorem slInnerBlockAt [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK 
         have hc : c ∈ L ⊓ M := ⟨hcL, hcM⟩
         rwa [hP.inf_eq_bot (mem_lines.mp hL) (mem_lines.mp hM) (Ne.symm hML),
           Subgroup.mem_bot] at hc
-      rw [if_neg hLa, dif_pos hex]
+      rw [ite_eq_right hLa, dite_eq_left hex]
       exact hex.choose_spec
   have hzp : ∀ y : ↥E0, y ∉ Subgroup.zpowers â →
       (y : SpecialLinearGroup (Fin n) K) ∉ Subgroup.zpowers a := by
@@ -526,7 +528,7 @@ theorem slInnerBlockAt [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK 
 
 theorem innerBlockAt_projectiveSL_of_dvd_succ [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hn : 1 ≤ n) (hdvd : p ∣ Nat.card K + 1) : InnerBlockAt p (projectiveSL n K) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
   have hq1 : ¬ p ∣ Nat.card K - 1 := by
     intro h

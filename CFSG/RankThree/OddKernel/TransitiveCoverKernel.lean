@@ -600,7 +600,7 @@ theorem ker_eq_bot_of_minimal_cover (ρ : Γ →* T) (hρ : Function.Surjective 
       hmap ▸ ⟨c, mem_top c, rfl⟩
     have h1 : orderOf (QuotientGroup.mk' K c) ∣ Nat.card ρ.ker :=
       (orderOf_map_dvd _ c).trans (Subgroup.orderOf_dvd_natCard _ hc)
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have h2 : orderOf (QuotientGroup.mk' K c) ∣ 3 ^ n := by
       rw [← hpc, ← hn]
       exact (orderOf_map_dvd _ p).trans (Subgroup.orderOf_dvd_natCard _ hp)

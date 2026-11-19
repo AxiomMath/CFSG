@@ -53,6 +53,7 @@ theorem hypF_9_18_of (h : HypF918 T V L V₁ Vp H K) :
 
 variable [Finite G] [IsMulCommutative ↥V]
 
+omit [IsMulCommutative ↥V] in
 theorem isSQTKCat_of_hypF918 (hH : Hyp126 G T L V) (h918 : HypF918 T V L V₁ Vp H K) :
     CFSG.SectionRank.IsSQTKCat ↥H := by
   have hSQTK : SQTKGroup ↥H :=
@@ -60,6 +61,7 @@ theorem isSQTKCat_of_hypF918 (hH : Hyp126 G T L V) (h918 : HypF918 T V L V₁ Vp
       (pCoreOf_ne_bot h918.toHypF98.toHypF91)
   exact ⟨CFSG.SectionRank.isStronglyQuasithin_iff.2 hSQTK.1, hSQTK.2⟩
 
+omit [IsMulCommutative ↥V] in
 theorem nonempty_starEquivKst (h918 : HypF918 T V L V₁ Vp H K) :
     Nonempty (↥(S126.star H K) ≃* ↥(CFSG.ASVolI.ChF.KstOf V₁ (conjClosure Vp H) K)) := by
   have h := h918.toHypF98.toHypF91

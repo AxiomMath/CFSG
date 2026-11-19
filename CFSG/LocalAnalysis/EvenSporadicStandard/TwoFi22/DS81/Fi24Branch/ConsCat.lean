@@ -27,7 +27,7 @@ theorem Cz_ne_top (hs : StdHyp G L) {z : G} (hz : z ≠ 1) : Cz z ≠ ⊤ := by
     rcases hs.simple.eq_bot_or_eq_top_of_normal (center G) with h | h
     · exact absurd h hne
     · exact h
-  letI : CommGroup G := Group.commGroupOfCenterEqTop htopc
+  let : CommGroup G := Group.commGroupOfCenterEqTop htopc
   obtain ⟨a, b, hab⟩ := hs.nonabelian
   exact hab (mul_comm a b)
 

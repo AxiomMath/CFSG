@@ -97,16 +97,16 @@ theorem tight_factor (P : Subgroup (Equiv.Perm α)) [Finite P] (b : ℕ → α) 
       obtain ⟨f, hf, hfe⟩ := ih (i + 1) (by omega) _ hh
       refine ⟨fun s => if s = i then j else f s, fun s hs hs' => ?_, ?_⟩
       · by_cases hsi : s = i
-        · simp only [hsi, if_true]
+        · simp only [hsi, ite_true]
           exact hj
-        · simp only [hsi, if_false]
+        · simp only [hsi, ite_false]
           exact hf s (by omega) hs'
-      · simp only [List.range'_succ, List.map_cons, List.prod_cons, if_true]
+      · simp only [List.range'_succ, List.map_cons, List.prod_cons, ite_true]
         have hmap : (List.range' (i + 1) d).map (fun s => t s (if s = i then j else f s)) =
             (List.range' (i + 1) d).map (fun s => t s (f s)) := by
           refine List.map_congr_left (fun s hs => ?_)
           have : i + 1 ≤ s := (List.mem_range'_1.mp hs).1
-          rw [if_neg (by omega)]
+          rw [ite_eq_right (by omega)]
         rw [hmap, ← hfe, mul_inv_cancel_left]
   intro g hg
   have hg0 : g ∈ G 0 := by

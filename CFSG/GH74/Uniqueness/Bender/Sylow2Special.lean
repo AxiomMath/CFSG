@@ -226,7 +226,7 @@ theorem BenderType.lemma_3_5_a_unitary
   have hq : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  exact hc.special_of_sq_mem Q.isPGroup' (by norm_num) hq
+  exact hc.special_of_sq_mem Q.isPGroup (by norm_num) hq
     (fun x hx => h.sq_mem_rootCenter_unitary Q hx)
 
 end Unitary

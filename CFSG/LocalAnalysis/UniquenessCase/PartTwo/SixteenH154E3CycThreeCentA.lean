@@ -12,6 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_e3_CycThreeCentA_isPGroup_two_of_le {V U : Subgroup G}
     (hV : IsElemAbelian 2 V) (hUV : U ≤ V) : IsPGroup 2 U := by
   intro g
@@ -26,6 +27,7 @@ private theorem s16h_e3_CycThreeCentA_wConj_le_v (D : Data G) {V₀ V L : Subgro
     conjSubgroup_eq_iff_mem_normalizer.mpr (h.hyp125.pairFacts.le_normalizer hm)
   exact (Subgroup.map_mono hW).trans (le_of_eq hVm)
 
+omit [Finite G] in
 private theorem s16h_e3_CycThreeCentA_orderOf_eq_three_of_mem_barSub
     {V₀ V E : Subgroup G} (hV : IsElemAbelian 2 V) (hEab : IsElemAbelian 3 E)
     {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ barSub V₀ V hV E) (hφ1 : φ ≠ 1) :
@@ -52,7 +54,7 @@ theorem s16h_e3_CycThreeCentA_three_dvd_cElt
       ∀ u ∈ X ⊔ Y, 3 ∣ Nat.card ↥(F11.CElt D.M V₀ u) := by
   have h3mem : 3 ∈ D.sig := by rw [h3]; exact Set.mem_singleton 3
   have hp3 : CFSG.Open.pRank 3 D.M = 3 := s16h_pRank_eq_three D S hr3 h3mem
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEM, hEab, hEcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) D.M
   have hE27 : Nat.card ↥E = 3 ^ 3 := by rw [hEcard, hp3]
   intro X hX Y hY hXY u hu
@@ -88,7 +90,7 @@ theorem s16h_e3_CycThreeCent_exists_three_fix
       h.hyp151.hyp125.pairFacts.le_normalizer₀
   have h3mem : 3 ∈ D.sig := by rw [h3]; exact Set.mem_singleton 3
   have hp3 : CFSG.Open.pRank 3 D.M = 3 := s16h_pRank_eq_three D S hr3 h3mem
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) D.M
   have hE27 : Nat.card E = 3 ^ 3 := by rw [hEcard, hp3]
   obtain ⟨Eb, hEbM, -, hEbcard⟩ :=

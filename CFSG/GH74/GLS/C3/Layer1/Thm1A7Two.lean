@@ -126,6 +126,7 @@ theorem A7Env.hzT (E : A7Env x y K T f z) : ∀ t ∈ T, z * t = t * z := by
       _ = p * q * (f * z) := by rw [h3]
       _ = p * q * f * z := by group
 
+omit [Finite G] in
 theorem A7Env.hfQ (E : A7Env x y K T f z) :
     ∀ q ∈ T ⊓ CxK x K, f * q * f ∈ T ⊓ CxK x K := by
   intro q hq
@@ -133,9 +134,10 @@ theorem A7Env.hfQ (E : A7Env x y K T f z) :
   have e1 : f⁻¹ = f := inv_eq_of_mul_eq_one_right E.hf2'
   rwa [e1] at this
 
-def A7Env.InC (E : A7Env x y K T f z) (c : G) : Prop :=
+def A7Env.InC (_E : A7Env x y K T f z) (c : G) : Prop :=
   c ∈ T ⊓ CxK x K ∨ ∃ q ∈ T ⊓ CxK x K, c = q * f
 
+omit [Finite G] in
 theorem A7Env.InC_mul (E : A7Env x y K T f z) {c c' : G} (hc : E.InC c) (hc' : E.InC c') :
     E.InC (c * c') := by
   have hff := E.hf2'
@@ -150,6 +152,7 @@ theorem A7Env.InC_mul (E : A7Env x y K T f z) {c c' : G} (hc : E.InC c) (hc' : E
     rw [h1]
     exact (T ⊓ CxK x K).mul_mem hq (E.hfQ q' hq')
 
+omit [Finite G] in
 theorem A7Env.InC_inv (E : A7Env x y K T f z) {c : G} (hc : E.InC c) : E.InC c⁻¹ := by
   have hff := E.hf2'
   rcases hc with hc | ⟨q, hq, rfl⟩
@@ -161,6 +164,7 @@ theorem A7Env.InC_inv (E : A7Env x y K T f z) {c : G} (hc : E.InC c) : E.InC c�
       _ = f * q⁻¹ * (f * f) := by rw [hff, mul_one]
       _ = f * q⁻¹ * f * f := by group
 
+omit [Finite G] in
 theorem A7Env.InC_T (E : A7Env x y K T f z) {c : G} (hc : E.InC c) : c ∈ T := by
   rcases hc with hc | ⟨q, hq, rfl⟩
   · exact hc.1
@@ -208,6 +212,7 @@ theorem A7Env.T_PC (E : A7Env x y K T f z) :
   · exact ⟨p, hp, q, Or.inl hq, rfl⟩
   · exact ⟨p, hp, q * f, Or.inr ⟨q, hq, rfl⟩, mul_assoc p q f⟩
 
+omit [Finite G] in
 theorem A7Env.InC_sq (E : A7Env x y K T f z) {c : G} (hc : E.InC c) : c * c ∈ T ⊓ CxK x K := by
   rcases hc with hc | ⟨q, hq, rfl⟩
   · exact (T ⊓ CxK x K).mul_mem hc hc
@@ -316,6 +321,7 @@ theorem A7Env.hQa_unique (E : A7Env x y K T f z) {a : G} :
     calc w = a * (a⁻¹ * w * a) * a⁻¹ := by group
       _ = a * x * a⁻¹ := by rw [h]
 
+omit [Finite G] in
 theorem A7Env.hQa_norm (E : A7Env x y K T f z) {a : G} (haN2 : ∀ t ∈ T, a⁻¹ * t * a ∈ T) :
     ∀ t ∈ T, ∀ w, a⁻¹ * w * a ∈ T ⊓ CxK x K →
       a⁻¹ * (t * w * t⁻¹) * a ∈ T ⊓ CxK x K := by
@@ -324,6 +330,7 @@ theorem A7Env.hQa_norm (E : A7Env x y K T f z) {a : G} (haN2 : ∀ t ∈ T, a⁻
   rw [this]
   exact E.hQnorm _ (haN2 t ht) _ hw
 
+omit [Finite G] in
 theorem A7Env.hPa_norm (E : A7Env x y K T f z) {a : G} (haN2 : ∀ t ∈ T, a⁻¹ * t * a ∈ T) :
     ∀ t ∈ T, ∀ w, a⁻¹ * w * a ∈ T ⊓ K → a⁻¹ * (t * w * t⁻¹) * a ∈ T ⊓ K := by
   intro t ht w hw
@@ -331,13 +338,15 @@ theorem A7Env.hPa_norm (E : A7Env x y K T f z) {a : G} (haN2 : ∀ t ∈ T, a⁻
   rw [this]
   exact E.hPnorm _ (haN2 t ht) _ hw
 
-theorem A7Env.hQa_T {a : G} (E : A7Env x y K T f z) (haN1 : ∀ t ∈ T, a * t * a⁻¹ ∈ T) {w : G}
+omit [Finite G] in
+theorem A7Env.hQa_T {a : G} (_E : A7Env x y K T f z) (haN1 : ∀ t ∈ T, a * t * a⁻¹ ∈ T) {w : G}
     (hw : a⁻¹ * w * a ∈ T ⊓ CxK x K) : w ∈ T := by
   have := haN1 _ hw.1
   have e1 : a * (a⁻¹ * w * a) * a⁻¹ = w := by group
   rwa [e1] at this
 
-theorem A7Env.hPa_T {a : G} (E : A7Env x y K T f z) (haN1 : ∀ t ∈ T, a * t * a⁻¹ ∈ T) {w : G}
+omit [Finite G] in
+theorem A7Env.hPa_T {a : G} (_E : A7Env x y K T f z) (haN1 : ∀ t ∈ T, a * t * a⁻¹ ∈ T) {w : G}
     (hw : a⁻¹ * w * a ∈ T ⊓ K) : w ∈ T := by
   have := haN1 _ hw.1
   have e1 : a * (a⁻¹ * w * a) * a⁻¹ = w := by group
@@ -498,6 +507,7 @@ section ArgD
 
 variable {G : Type} [Group G] [Finite G] {x y : G} {K T : Subgroup G} {f z : G}
 
+omit [Finite G] in
 theorem A7Env.hz_e (E : A7Env x y K T f z) (e : ↥(T ⊓ K) ≃* D8) :
     e ⟨z, E.hzP⟩ = DihedralGroup.r 2 := by
   have hcent : ∀ v : D8, e ⟨z, E.hzP⟩ * v = v * e ⟨z, E.hzP⟩ := by

@@ -22,6 +22,7 @@ theorem crossExcU_dvd_pow_sub_one_iff (ha : 1 ≤ a) (j : ℕ) :
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem crossExcU_card_cast_eq (h : UnitaryFieldData ℓ f K) :
     ((Nat.card K : ℕ) : ZMod p) = (-((ℓ ^ f : ℕ) : ZMod p)) ^ 2 := by
   rw [h.card_eq_sq]
@@ -54,7 +55,7 @@ theorem unitaryAbelianAt_of_odd (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p
     (hpℓ : ¬ p ∣ ℓ) (hodd : Odd (unitaryOrder ℓ f p)) (n : ℕ) :
     UnitaryAbelianAt ℓ f K n p (unitaryOrder ℓ f p) := by
   intro hne P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [h.card_eq_sq]
     exact fun hd => hpℓ (hp.dvd_of_dvd_pow (hp.dvd_of_dvd_pow hd))

@@ -29,7 +29,7 @@ private lemma l6m1_A_diag (i : Fin 8) : CartanMatrix.A 8 i i = 2 := by
 private lemma l6m1_A_adj {i j : Fin 8} (hij : i ≠ j) (h : i.val + 1 = j.val) :
     CartanMatrix.A 8 i j = -1 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hij, if_pos (Or.inl h)]
+  rw [ite_eq_right hij, ite_eq_left (Or.inl h)]
 
 private lemma l6m1_sum_smul_single {p : ℕ} (x : Fin 8 → ZMod p) :
     (∑ j, x j • Pi.single j (1 : ZMod p)) = x := by
@@ -206,17 +206,17 @@ theorem ggMaxRank_movedSpan_eq {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Typ
 theorem ggMaxRank_finrank_of_datum {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs X : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) (h : Fin 8 → V) (α : Fin 8 → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (hsep : ∀ b : ↥Bs, (∀ i, α i (ι (Additive.ofMul b)) = 0) ↔
       (b : G) ∈ Subgroup.centralizer (X : Set G))
     (hcard : Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) = p) :
     Module.finrank (ZMod p) V = 9 := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI hBsfin : Finite ↥Bs := inferInstance
-  haveI : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs (Equiv.refl ↥Bs)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Fintype V := Fintype.ofFinite V
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hBsfin : Finite ↥Bs := inferInstance
+  have : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs (Equiv.refl ↥Bs)
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Fintype V := Fintype.ofFinite V
   let F : V →ₗ[ZMod p] (Fin 8 → ZMod p) := LinearMap.pi fun i => α i
   have hF_apply : ∀ v i, F v i = α i v := by
     intro v i
@@ -257,7 +257,7 @@ theorem ggMaxRank_finrank_of_datum {G : Type} [Group G] [Finite G] {p : ℕ} [Fa
       _ = M *ᵥ (∑ j, (C *ᵥ w) j • Pi.single j (1 : ZMod p)) := by
             conv_rhs => rw [← Matrix.mulVecLin_apply]
             rw [map_sum]
-            simp [Matrix.mulVecLin_apply, map_smul]
+            simp [map_smul]
       _ = M *ᵥ (C *ᵥ w) := by
             congr 1
             exact l6m1_sum_smul_single (C *ᵥ w)
@@ -294,15 +294,15 @@ theorem ggMaxRank_finrank_of_datum {G : Type} [Group G] [Finite G] {p : ℕ} [Fa
     let e : ↥(LinearMap.ker F) ≃ ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) :=
       ⟨φ, ψ, hφψ, hψφ⟩
     rw [Nat.card_congr e, hcard]
-  haveI : Module.Finite (ZMod p) V := by
+  have : Module.Finite (ZMod p) V := by
     rw [Module.finite_def]
     exact ⟨Finset.univ, by rw [Finset.coe_univ, Submodule.span_univ]⟩
-  haveI : Fintype ↥(LinearMap.ker F) := Fintype.ofFinite _
+  have : Fintype ↥(LinearMap.ker F) := Fintype.ofFinite _
   have hkerfin : Module.Finite (ZMod p) ↥(LinearMap.ker F) := by
     rw [Module.finite_def]
     exact ⟨Finset.univ, by rw [Finset.coe_univ, Submodule.span_univ]⟩
   have hkerrank : Module.finrank (ZMod p) ↥(LinearMap.ker F) = 1 := by
-    haveI := hkerfin
+    have := hkerfin
     have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := ↥(LinearMap.ker F))
     rw [Nat.card_zmod, hker_card] at h
     have hp2' : 2 ≤ p := (Fact.out : p.Prime).two_le

@@ -96,16 +96,16 @@ theorem isSolvable_normalizer_threeFrameIn (M : LModel L π p f K ν) (hν : Fun
   set N := normalizer (threeFrameIn ν y v : Set X)
   set C := centralizer (L : Set X)
   set S := slPi π 3 (p ^ f) K ⊓ normalizer (threeFrame y v : Set (GL (Fin 3) K))
-  haveI : Group.IsSolvable ↥C := by
+  have : Group.IsSolvable ↥C := by
     rw [hcent]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI := (CFSG.pCore_isPGroup (p := 3) (G := X)).isNilpotent
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have := (CFSG.pCore_isPGroup (p := 3) (G := X)).isNilpotent
     infer_instance
   let f₁ : ↥S →* X := L.subtype.comp (ν.comp (Subgroup.inclusion inf_le_left))
   have hcomm₁ : ∀ s c, Commute (f₁ s) (C.subtype c) := fun s c =>
     (Subgroup.mem_centralizer_iff.1 c.2 _ (ν _).2)
   let μ : ↥S × ↥C →* X := f₁.noncommCoprod C.subtype hcomm₁
-  haveI : Group.IsSolvable ↥μ.range := Group.isSolvable_of_surjective μ.rangeRestrict_surjective
+  have : Group.IsSolvable ↥μ.range := Group.isSolvable_of_surjective μ.rangeRestrict_surjective
   have hD : derivedSeries ↥N 2 ≤ μ.range.comap N.subtype := by
     intro d hd
     have hdX : (d : X) ∈ derivedSeries X 2 :=
@@ -129,7 +129,7 @@ theorem isSolvable_normalizer_threeFrameIn (M : LModel L π p f K ν) (hν : Fun
   have hψ : Function.Injective ψ := fun a b h => by
     have h' := congrArg Subtype.val h
     exact Subtype.ext (Subtype.ext h')
-  haveI : Group.IsSolvable ↥(μ.range.comap N.subtype) := Group.isSolvable_of_isSolvable_injective hψ
+  have : Group.IsSolvable ↥(μ.range.comap N.subtype) := Group.isSolvable_of_isSolvable_injective hψ
   exact isSolvable_of_derivedSeries_le hD
 
 end Normalizer
@@ -143,7 +143,7 @@ theorem kD292FrameNormX3_holds : KD292FrameNormX3 := by
   have M := hS.model
   obtain ⟨hF, hconj, hind, hsol, -⟩ :=
     h5 π p f K y M.piField M.modThree M.two_lt hS.typeThree v hv horth
-  haveI := hcfg.setup.normal
+  have := hcfg.setup.normal
   obtain ⟨hFSL, -, hF9, -, hFy⟩ := id hF
   exact ⟨le_normalizer_threeFrameIn M hS.inj hS.lift hS.plane hFy,
     isSolvable_normalizer_threeFrameIn M hS.inj hS.cent hS.comm hFSL hF9 hsol,

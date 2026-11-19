@@ -15,7 +15,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.Blueprint
 
 theorem leaf_ly {n : ℕ} : TwinLeafS n fun F _ => NativeSporadic.IsSporadic F .Ly :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hF => by
-    haveI := h.core.simple
+    have := h.core.simple
     obtain ⟨e⟩ := hF
     exact false_of_outTwoCyclic_of_noTwinPair h
       (Nobq.OutTwoCyclic.of_mulEquiv e outTwoCyclic_ly) (not_twinPair_ly ⟨e⟩)

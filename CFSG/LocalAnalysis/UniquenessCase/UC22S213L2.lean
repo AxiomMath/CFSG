@@ -80,7 +80,7 @@ theorem uc22s213_false_of_closedL2 (hGA : GriessAllModelsStatement) {M L : Subgr
       · exact absurd rfl h23
       · exact absurd rfl h9
       · exact he3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (⊤ : Subgroup (BarInf L))
     obtain ⟨hPel, hPc⟩ := uc22p22q_psl2_sylow_elem Nat.prime_three (by norm_num) hX hP
     have hr := CFSG.SectionRank.le_pRank (by norm_num) le_top hPel hPc

@@ -233,7 +233,7 @@ theorem grep_xIdx {j q : ℕ} (hj : j < 2) (hq : q < 36) : GRep (xIdx j q) (xQ j
 
 @[expose] def XS (j a : ℕ) : Subgroup GM := Subgroup.closure {xQ j (3 * a), xQ j (3 * a + 1)}
 
-theorem XS_eq {j l m : ℕ} (hl : l < 4) (hm : m < 3) :
+theorem XS_eq {j l m : ℕ} (_hl : l < 4) (hm : m < 3) :
     XS j (3 * l + m) = Subgroup.closure {xE j l m 0, xE j l m 1} := by
   have h1 : (3 * l + m) / 3 = l := by omega
   have h2 : (3 * l + m) % 3 = m := by omega
@@ -281,7 +281,7 @@ theorem closure_pair_eq {G : Type*} [Group G] {x₀ x₁ x₂ : G} (h₀ : x₀ 
     · exact key.1
     · exact key.2
 
-theorem XS_eq_pair {j b : ℕ} (hj : j < 2) (hb : b < 12) {i i' : ℕ} (hi : i < 3) (hi' : i' < 3)
+theorem XS_eq_pair {j b : ℕ} (hj : j < 2) (_hb : b < 12) {i i' : ℕ} (hi : i < 3) (hi' : i' < 3)
     (hne : i ≠ i') : Subgroup.closure {xQ j (3 * b + i), xQ j (3 * b + i')} = XS j b := by
   have hm : b % 3 < 3 := Nat.mod_lt _ (by norm_num)
   have e0 := xQ_eq (j := j) (a := b) (i := 0) (by norm_num)
@@ -312,7 +312,7 @@ theorem map_cjM_top (g : GM) : (⊤ : Subgroup GM).map (cjM g) = ⊤ := by
 @[expose] def regG : Array GM := Array.ofFn (n := 200) fun r => eG r.val
 
 theorem regG_getD {r : ℕ} (hr : r < 200) : regG.getD r 1 = eG r := by
-  simp [regG, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, hr]
+  simp [regG, Array.getD_eq_getD_getElem?, hr]
 
 theorem grep_reg {r : ℕ} (hr : r < 200) :
     GRep (rM r) (regG.getD r 1) ∧ GRep (rIM r) (regG.getD r 1)⁻¹ := by
@@ -507,7 +507,7 @@ theorem getD_toArray_map {n r : ℕ} (g : ℕ → GM) (hr : r < n) :
 
 theorem getD_toArray_map_ge {n r : ℕ} (g : ℕ → GM) (hr : n ≤ r) :
     ((List.range n).map g).toArray.getD r 1 = 1 := by
-  simp [Array.getD_eq_getD_getElem?, Array.getElem?_eq_none, hr]
+  simp [Array.getD_eq_getD_getElem?, hr]
 
 theorem mem_toArray_map {n : ℕ} (g : ℕ → GM) {K : Subgroup GM} (h : ∀ r < n, g r ∈ K) (k : ℕ) :
     ((List.range n).map g).toArray.getD k 1 ∈ K := by
@@ -651,19 +651,19 @@ theorem grep_topX {j q : ℕ} (hj : j < 2) (hq : q < 6) : GRep (topX j q) (topE 
   rw [e, topE]
   by_cases h : q < 4
   · have hb : ¬ Nat.blt 3 q = true := by rw [Nat.blt_eq]; omega
-    rw [if_neg hb, if_pos h]
+    rw [ite_eq_right hb, ite_eq_left h]
     exact grep_inX hj (by omega)
   · have hb : Nat.blt 3 q = true := by rw [Nat.blt_eq]; omega
-    rw [if_pos hb, if_neg h]
+    rw [ite_eq_left hb, ite_eq_right h]
     exact grep_xC hj hL hM (by omega)
 
 theorem topE_sq {j q : ℕ} (hj : j < 2) (hq : q < 6) : topE j q * topE j q = 1 := by
   obtain ⟨-, -, -, -, -, hM⟩ := prog_facts j hj
   unfold topE
   by_cases h : q < 4
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact inE_sq hj (by omega)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact xE_sq hj hM (by omega)
 
 theorem base_top {j : ℕ} (hT : chkTopM j = true) (hj : j < 2) :
@@ -679,9 +679,9 @@ theorem base_top {j : ℕ} (hT : chkTopM j = true) (hj : j < 2) :
     intro r hr
     unfold topE
     by_cases h : r < 4
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact hl (inE_mem h)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have h' : r - 4 = 0 ∨ r - 4 = 1 := by omega
       rcases h' with h' | h'
       · rw [h']; exact hx (Subgroup.subset_closure (Or.inl rfl))

@@ -217,7 +217,7 @@ theorem exists_ctx (I : ModInput d Wl κ₀ ρ Hgl Xgl) : Nonempty (Ctx I) := by
   obtain ⟨Q, hQ⟩ := hD2.exists_le_sylow
   have hQtop : IsSylowOf 2 (Q : Subgroup ↥(normalizer (Wl : Set G))) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   have hYn : (Hgl.comap ρ).Normal := I.normal_comap

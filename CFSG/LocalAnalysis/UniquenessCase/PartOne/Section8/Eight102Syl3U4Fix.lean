@@ -316,7 +316,7 @@ private theorem L0_eq_pair (h : UnitaryFieldData 2 n K) (hn : Even n) {z : hypSU
   ext w
   constructor
   · intro hw
-    rw [Set.mem_diff] at hw
+    rw [Set.mem_sdiff] at hw
     obtain ⟨hwL, hw1⟩ := hw
     rw [Set.mem_singleton_iff] at hw1
     obtain ⟨b, hb, hb1, rfl⟩ := hwL
@@ -361,7 +361,7 @@ private theorem L1_eq_pair (h : UnitaryFieldData 2 n K) (hn : Even n) {z : hypSU
   ext w
   constructor
   · intro hw
-    rw [Set.mem_diff] at hw
+    rw [Set.mem_sdiff] at hw
     obtain ⟨hwL, hw1⟩ := hw
     rw [Set.mem_singleton_iff] at hw1
     obtain ⟨b, hb, hb0, rfl⟩ := hwL
@@ -423,11 +423,11 @@ private def lineB (h : UnitaryFieldData 2 n K) (hn : Even n) : Set (hypSU h 2 0)
 
 private theorem mem_lineA_iff (h : UnitaryFieldData 2 n K) (hn : Even n)
     {s : hypSU h 2 0} : s ∈ lineA h hn ↔ s ∈ L0 h hn ∧ s ≠ 1 := by
-  rw [lineA, Set.mem_diff, Set.mem_singleton_iff]
+  rw [lineA, Set.mem_sdiff, Set.mem_singleton_iff]
 
 private theorem mem_lineB_iff (h : UnitaryFieldData 2 n K) (hn : Even n)
     {s : hypSU h 2 0} : s ∈ lineB h hn ↔ s ∈ L1 h hn ∧ s ≠ 1 := by
-  rw [lineB, Set.mem_diff, Set.mem_singleton_iff]
+  rw [lineB, Set.mem_sdiff, Set.mem_singleton_iff]
 
 private theorem alpha_union (h : UnitaryFieldData 2 n K) (hn : Even n)
     (α : MulAut (hypSU h 2 0))

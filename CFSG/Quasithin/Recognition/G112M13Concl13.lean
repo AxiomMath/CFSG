@@ -160,8 +160,8 @@ theorem g112Concl13Mod_of_N {Γ : Subgroup (V ≃ₗ[ZMod 2] V)} [Finite V]
     have hm := N.card_mul_index
     rw [hi, hcardN] at hm
     omega
-  haveI : Finite ↥hatM22Γ₀ := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
-  haveI : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
+  have : Finite ↥hatM22Γ₀ := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
+  have : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
   have hsub : ∀ k : ↥N, ((k : ↥Γ) : V ≃ₗ[ZMod 2] V) ∈ N.map Γ.subtype :=
     fun k => Subgroup.mem_map_of_mem _ k.2
   let Fm : ↥N → ↥hatM22Γ₀ := fun k => (hψ _ (hsub k)).choose

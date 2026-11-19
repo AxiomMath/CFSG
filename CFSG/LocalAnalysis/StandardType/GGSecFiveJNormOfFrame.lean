@@ -38,13 +38,13 @@ theorem s2jn_ne_one_of_isReflection {G : Type} [Group G] [Finite G]
   omega
 
 theorem s2jn_refl_pair_eq_or_transvection {G : Type} [Group G] [Finite G]
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {Bs : Subgroup G} (hBs : IsElemAbelian p Bs) (Es : Subgroup ↥Bs) (hEs : IsCyclic Es)
     {r₁ r₂ : MulAut ↥Bs} (h₁ : r₁ * r₁ = 1) (h₂ : r₂ * r₂ = 1) (n₁ : r₁ ≠ 1) (n₂ : r₂ ≠ 1)
     (hE₁ : ∀ b, b⁻¹ * r₁ b ∈ Es) (hE₂ : ∀ b, b⁻¹ * r₂ b ∈ Es) :
     r₁ * r₂ = 1 ∨ GGIsTransvection p (r₁ * r₂) := by
-  haveI : IsMulCommutative Bs := hBs.1
-  haveI := Fact.mk hp
+  have : IsMulCommutative Bs := hBs.1
+  have := Fact.mk hp
   have hpow : ∀ a : ↥Bs, a ^ p = 1 := fun a => Subtype.ext (by simpa using hBs.2 a a.2)
   have hrr : ∀ r : MulAut ↥Bs, r * r = 1 → ∀ b, r (r b) = b := fun r h b => by
     have := congrArg (fun f : MulAut ↥Bs => f b) h
@@ -76,7 +76,7 @@ theorem s2jn_refl_pair_eq_or_transvection {G : Type} [Group G] [Finite G]
     have hu : b⁻¹ * r b ≠ 1 := fun h => hb (inv_mul_eq_one.mp h).symm
     have hru : r (b⁻¹ * r b) = (b⁻¹ * r b)⁻¹ := by
       rw [map_mul, map_inv, hrr r hr b]
-      simp [mul_comm]
+      simp
     have hz : Subgroup.zpowers (b⁻¹ * r b) = Es := by
       apply Subgroup.eq_of_le_of_card_ge
       · rw [Subgroup.zpowers_le]; exact hE b
@@ -97,7 +97,7 @@ theorem s2jn_refl_pair_eq_or_transvection {G : Type} [Group G] [Finite G]
       conv_lhs => rw [e2]
       rw [map_mul, k₁ _ (hE₂ b)]
     rw [this]
-    simp [mul_assoc, mul_comm, mul_left_comm]
+    simp [mul_assoc]
   have hνE : ∀ b, b⁻¹ * φ b ∈ Es := fun b => by
     rw [hν]; exact Es.mul_mem (hE₁ b) (Es.inv_mem (hE₂ b))
   have hφE : ∀ b, φ (b⁻¹ * φ b) = b⁻¹ * φ b := fun b => by

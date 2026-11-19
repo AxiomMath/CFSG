@@ -1627,7 +1627,7 @@ theorem exists_isRoot_mem_of_index_three (M : GGFrameModelData Bs n) (hn : n = 7
       Finite.of_injective (fun x : ↥F => (⟨(x : G), hF x.2⟩ : ↥Bs))
         (fun a b h => Subtype.ext (congrArg (fun x : ↥Bs => (x : G)) h))
     have : IsMulCommutative ↥Bs := hBs.1
-    have : (F.subgroupOf Bs).Normal := Subgroup.normal_of_comm _
+    have : (F.subgroupOf Bs).Normal := Subgroup.normal_of_isMulCommutative _
     have hno' : ∀ z : G, z ∈ F → ¬ M.IsRoot z := by
       intro z hz hzr
       exact hno ⟨z, hz, hzr⟩
@@ -1732,7 +1732,7 @@ theorem exists_isRoot_mem_of_index_three (M : GGFrameModelData Bs n) (hn : n = 7
       Finite.of_injective (fun x : ↥F => (⟨(x : G), hF x.2⟩ : ↥Bs))
         (fun a b h => Subtype.ext (congrArg (fun x : ↥Bs => (x : G)) h))
     have : IsMulCommutative ↥Bs := hBs.1
-    have : (F.subgroupOf Bs).Normal := Subgroup.normal_of_comm _
+    have : (F.subgroupOf Bs).Normal := Subgroup.normal_of_isMulCommutative _
     have hno' : ∀ z : G, z ∈ F → ¬ M.IsRoot z := by
       intro z hz hzr
       exact hno ⟨z, hz, hzr⟩

@@ -134,7 +134,7 @@ private theorem exists_sylow_eq_of_normalizer_le {R D : Subgroup G} (hR : IsPGro
   obtain ⟨T, hRT⟩ := hR.exists_le_sylow
   refine ⟨T, le_antisymm ?_ hRT⟩
   by_contra hle
-  have hnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
   have hproper : R.subgroupOf (T : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hle ?_
     intro x hx
@@ -151,7 +151,7 @@ private theorem exists_sylow_eq_of_normalizer_le {R D : Subgroup G} (hR : IsPGro
     exact this
   have hP₁T : R ⊔ Subgroup.zpowers (x : G) ≤ T := sup_le hRT (Subgroup.zpowers_le.mpr x.2)
   have hP₁2 : IsPGroup 2 (R ⊔ Subgroup.zpowers (x : G) : Subgroup G) :=
-    T.isPGroup'.to_le hP₁T
+    T.isPGroup.to_le hP₁T
   have hP₁N : R ⊔ Subgroup.zpowers (x : G) ≤ Subgroup.normalizer (R : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hxN)
   have hxR := hmax _ hP₁2 (hP₁N.trans hND) le_sup_left
@@ -171,7 +171,7 @@ theorem isStronglyEmbeddedOrder_of_forall_normalizer_le {M : Subgroup G} (hM : M
   obtain ⟨R₀, hR₀⟩ := hZ.exists_le_sylow
   set R : Subgroup G := (R₀ : Subgroup D).map D.subtype
   have hRD : R ≤ D := Subgroup.map_subtype_le _
-  have hR2 : IsPGroup 2 R := R₀.isPGroup'.map _
+  have hR2 : IsPGroup 2 R := R₀.isPGroup.map _
   have hxR : (x : G) ∈ R := ⟨x, hR₀ (Subgroup.mem_zpowers x), rfl⟩
   have hR1 : R ≠ ⊥ := by
     intro hb

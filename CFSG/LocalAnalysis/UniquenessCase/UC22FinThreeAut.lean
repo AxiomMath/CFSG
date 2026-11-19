@@ -34,7 +34,7 @@ theorem inner_or_commute_orderOf_three {Γ : Type} [Group Γ] [Finite Γ] {X : S
     (hb : b ∈ normalizer (X : Set Γ)) (hbr : b ^ r = 1) :
     (∃ y ∈ X, orderOf y = r ∧ ∀ x ∈ X, b * x * b⁻¹ = y * x * y⁻¹) ∨
       ∃ x ∈ X, orderOf x = 3 ∧ Commute b x := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set z : MulAut ↥X := X.normalizerMonoidHom ⟨b, hb⟩ with hz
   have hza : ∀ a : ↥X, ((z a : ↥X) : Γ) = b * a * b⁻¹ := fun a =>
     Subgroup.normalizerMonoidHom_apply_apply_coe X ⟨b, hb⟩ a
@@ -44,7 +44,7 @@ theorem inner_or_commute_orderOf_three {Γ : Type} [Group Γ] [Finite Γ] {X : S
   have hEv := (P22fin.isL2Ev_of_isL2 hX).1
   by_cases hz1 : z = 1
   · right
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 (three_dvd_card_of_isL2 hX)
     refine ⟨x, x.2, (Subgroup.orderOf_coe x).trans hx, ?_⟩
     have h := hza x

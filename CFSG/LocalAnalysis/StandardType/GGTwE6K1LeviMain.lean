@@ -147,7 +147,7 @@ private theorem e6Levi_monomial_toral {L : Type} [Field L] [IsAlgClosed L] (hL :
 theorem e6LeviThreeToralBar : E6LeviThreeToralBar := by
   classical
   intro L _ _ ℓ hℓp _ hℓ halg a ha hk X hX hXM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL3 : ringChar L ≠ 3 := by rw [ringChar.eq L ℓ]; exact hℓ
   have h3 : ((3 : ℕ) : L) ≠ 0 := fun h0 =>
     hℓ ((Nat.prime_dvd_prime_iff_eq hℓp.out Nat.prime_three).1

@@ -23,7 +23,7 @@ theorem s16ae_inf_fixV_eq_bot_of_irr {L : Subgroup (MulAut W)} {I : Subgroup W}
     have hfix : ∀ x ∈ I, ∀ g ∈ L, g x = x := fun x hx g hg => by
       have hx' : x ∈ I ⊓ fixV L := by rw [h]; exact hx
       exact hx'.2 g hg
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : 2 ∣ Nat.card ↥I := by rw [hcard]; norm_num
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥I) 2 h2
     have hto : orderOf (t : W) = 2 := (Subgroup.orderOf_coe t).trans ht

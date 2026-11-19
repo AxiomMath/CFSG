@@ -11,8 +11,8 @@ theorem eq_top_of_normal_order_three {K : Type} [Group K] [Finite K] (hKp : Grou
     (f : K →* alternatingGroup (Fin 6)) (hf : Function.Surjective f) (hR : IsPGroup 2 f.ker)
     {N : Subgroup K} [N.Normal] {b : K} (hbN : b ∈ N) (hb1 : b ≠ 1) (hb3 : b ^ 3 = 1) :
     N = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   have hfb : f b ≠ 1 := by
     intro hfb1
@@ -22,7 +22,7 @@ theorem eq_top_of_normal_order_three {K : Type} [Group K] [Finite K] (hKp : Grou
     rw [hord] at h3
     have h32 := Nat.prime_three.dvd_of_dvd_pow h3
     norm_num at h32
-  haveI hNf : (N.map f).Normal := Subgroup.Normal.map inferInstance f hf
+  have hNf : (N.map f).Normal := Subgroup.Normal.map inferInstance f hf
   have hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hNf_top : N.map f = ⊤ := by
@@ -246,7 +246,7 @@ theorem eq_one_of_A6_act_solvable
       rcases h2or3 with rfl | rfl
       · rw [hV2, Subgroup.mem_bot] at hx
         rw [hx, map_one]
-      · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+      · have : Fact (Nat.Prime 3) := ⟨hq⟩
         rw [pCore_eq_bot_of_not_dvd_card hV3, Subgroup.mem_bot] at hx
         rw [hx, map_one]
   have hfix : ∀ k : K, ∀ x ∈ CFSG.fittingSubgroup V, φ k x = x :=

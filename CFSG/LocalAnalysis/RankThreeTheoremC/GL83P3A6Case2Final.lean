@@ -106,7 +106,7 @@ theorem a6VICase2_of_layer (h2811 : KFact2811) (hLe8 : KFactPSp43ElemLe8)
     ⟨hJC, hCJ, hperf, hnot, hlt, hmin, Q, inferInstance, ψ, hψ, hker, hQ⟩
   obtain ⟨hxM, hN, hL⟩ := hLayer 3 hp P M hM hfail hIH x hgen rfl J hJC hCJ hperf hlt hmin hnot Q
     ψ hψ hker hQ h34 hnwc hC1 U hU Y hY2 hYM hUY hYO hYN hbig
-  haveI := hN
+  have := hN
   obtain ⟨e₂, e₃, t, ρ, s, hf, hQeq, -, -⟩ := a6vi_frame hS hU0 hD1 hp hM hgen hJ h34 hnwc
   have hUQ : U ≤ Qf x e₂ e₃ := hQeq ▸ hU.1
   have hU9 : Nat.card U = 9 := by simpa using hU.2.2.1

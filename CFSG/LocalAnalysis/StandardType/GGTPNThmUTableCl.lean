@@ -86,7 +86,7 @@ private theorem ggTUClAsm_B {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D : G
       GGLabelIso ⟨.B, k, n⟩ labX ∧ LargeEvenInLambda2 labJ ∧ LargeEvenInLambda2 labX ∧
         GGTablePRow p labJ labX := by
   simp only [ggKacTypeClOfLabel] at hTlab
-  rw [if_pos hlab'.1] at hTlab
+  rw [ite_eq_left hlab'.1] at hTlab
   obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
   rw [← hT, ← htw, ← hm] at hDm
   have hX' : o.lab ≠ ⟨.C, k, n⟩ := ggTUClAsm_ne_of_iso hX (by simp [GGLabelIso])
@@ -102,7 +102,7 @@ private theorem ggTUClAsm_C {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D : G
       GGLabelIso ⟨.C, k, n⟩ labX ∧ LargeEvenInLambda2 labJ ∧ LargeEvenInLambda2 labX ∧
         GGTablePRow p labJ labX := by
   simp only [ggKacTypeClOfLabel] at hTlab
-  rw [if_pos hlab'.1] at hTlab
+  rw [ite_eq_left hlab'.1] at hTlab
   obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
   rw [← hT, ← htw, ← hm] at hDm
   have hX' : o.lab ≠ ⟨.C, k, n⟩ := ggTUClAsm_ne_of_iso hX (Or.inl rfl)
@@ -119,16 +119,16 @@ private theorem ggTUClAsm_D {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D : G
         GGTablePRow p labJ labX := by
   simp only [ggKacTypeClOfLabel] at hTlab
   by_cases hk4 : 4 ≤ k
-  · rw [if_pos hk4] at hTlab
+  · rw [ite_eq_left hk4] at hTlab
     obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
     rw [← hT, ← htw, ← hm] at hDm
     have hX' : o.lab ≠ ⟨.D, k, n⟩ := ggTUClAsm_ne_of_iso hX (Or.inl rfl)
     obtain ⟨ho, labJ, hisoJ, hlabJ, hrow⟩ :=
       ggTablePRow_of_mem_ggMultTableCl_D hn hk4 hDm hrZ hDo hqs hX'
     exact ⟨ho, labJ, ⟨.D, k, n⟩, hisoJ, Or.inl rfl, hlabJ, ⟨hn, hlab'⟩, hrow⟩
-  · rw [if_neg hk4] at hTlab
+  · rw [ite_eq_right hk4] at hTlab
     by_cases hk3eq : k = 3
-    · rw [if_pos hk3eq] at hTlab
+    · rw [ite_eq_left hk3eq] at hTlab
       obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
       rw [← hT, ← htw, ← hm] at hDm
       subst hk3eq
@@ -138,7 +138,7 @@ private theorem ggTUClAsm_D {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D : G
         show 1 ≤ n ∧ 1 ≤ 3 ∧ (3 = 1 → 2 ≤ n)
         exact ⟨hn, by norm_num, by omega⟩
       exact ggTUClAsm_pack (L := ⟨.A, 3, n⟩) (by simp [GGLabelIso]) hL ⟨ho, hrow⟩
-    · rw [if_neg hk3eq] at hTlab
+    · rw [ite_eq_right hk3eq] at hTlab
       simp at hTlab
 
 private theorem ggTUClAsm_twD {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D : GGKacDatum}
@@ -151,16 +151,16 @@ private theorem ggTUClAsm_twD {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D :
         GGTablePRow p labJ labX := by
   simp only [ggKacTypeClOfLabel] at hTlab
   by_cases hk4 : 4 ≤ k
-  · rw [if_pos hk4] at hTlab
+  · rw [ite_eq_left hk4] at hTlab
     obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
     rw [← hT, ← htw, ← hm] at hDm
     have hX' : o.lab ≠ ⟨.twD, k, n⟩ := ggTUClAsm_ne_of_iso hX (Or.inl rfl)
     obtain ⟨ho, labJ, hisoJ, hlabJ, hrow⟩ :=
       ggTablePRow_of_mem_ggMultTableCl_D hn hk4 hDm hrZ hDo hqs hX'
     exact ⟨ho, labJ, ⟨.twD, k, n⟩, hisoJ, Or.inl rfl, hlabJ, ⟨hn, hlab'⟩, hrow⟩
-  · rw [if_neg hk4] at hTlab
+  · rw [ite_eq_right hk4] at hTlab
     by_cases hk3eq : k = 3
-    · rw [if_pos hk3eq] at hTlab
+    · rw [ite_eq_left hk3eq] at hTlab
       obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
       rw [← hT, ← htw, ← hm] at hDm
       subst hk3eq
@@ -171,9 +171,9 @@ private theorem ggTUClAsm_twD {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D :
         show 1 ≤ n ∧ 2 ≤ 3 ∧ (3 = 2 → 2 ≤ n)
         exact ⟨hn, by norm_num, by omega⟩
       exact ggTUClAsm_pack (L := ⟨.twA, 3, n⟩) (by simp [GGLabelIso]) hL ⟨ho, hrow⟩
-    · rw [if_neg hk3eq] at hTlab
+    · rw [ite_eq_right hk3eq] at hTlab
       by_cases hk2eq : k = 2
-      · rw [if_pos hk2eq] at hTlab
+      · rw [ite_eq_left hk2eq] at hTlab
         obtain ⟨hT, htw, hm⟩ := ggTUClAsm_some_eq hTlab
         rw [← hT, ← htw, ← hm] at hDm
         subst hk2eq
@@ -185,7 +185,7 @@ private theorem ggTUClAsm_twD {T : GGKacTypeCl} {tw : Bool} {m p n k : ℕ} {D :
           show 1 ≤ 2 * n ∧ 1 ≤ 1 ∧ (1 = 1 → 2 ≤ 2 * n)
           exact ⟨by omega, by norm_num, by omega⟩
         exact ggTUClAsm_pack (L := ⟨.A, 1, 2 * n⟩) (by simp [GGLabelIso]) hL ⟨ho, hrow⟩
-      · rw [if_neg hk2eq] at hTlab
+      · rw [ite_eq_right hk2eq] at hTlab
         simp at hTlab
 
 theorem ggTablePRow_of_ggMultValidCl {lab : LargeEvenLabel} {p : ℕ} {c : Prop}

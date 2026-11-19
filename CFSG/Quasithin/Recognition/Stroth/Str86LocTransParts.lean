@@ -17,8 +17,8 @@ theorem str86LocTrans5_of_pathFix (hO : Str86Orders)
     (hP : Str86PathFix) : Str86LocTrans5 := by
   intro G _ _ L1 L2 S hF hU3 hBig hL2
   obtain ⟨k, hk, F, hField, hFin, hFc, hU3'⟩ := hU3
-  letI : Field F := hField
-  haveI : Finite F := hFin
+  let : Field F := hField
+  have : Finite F := hFin
   obtain ⟨hRL2, hQ1, hQ2, hS⟩ := hO G L1 L2 S k F hF hk hFc hU3' hBig hL2
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hv1 : (bigB L1 L2 S).relIndex (L1 ⊔ bigB L1 L2 S) = 2 ^ (3 * k) + 1 := by

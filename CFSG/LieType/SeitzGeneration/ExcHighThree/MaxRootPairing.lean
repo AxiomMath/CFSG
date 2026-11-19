@@ -59,7 +59,7 @@ theorem exists_max_root_pairing (l : Fin 6 → ℤ) (hl : l ≠ 0) :
 
 theorem not_isRoot_add_of_max_pairing (l : Fin 6 → ℤ) {m : ℤ} (hm : 0 < m)
     (hmax : ∀ γ, IsRoot Tag.E6 γ → ∑ i, l i * γ i ≤ m) {α β : Fin 6 → ℤ}
-    (hα : IsRoot Tag.E6 α) (hβ : IsRoot Tag.E6 β) (hαm : ∑ i, l i * α i = m)
+    (_hα : IsRoot Tag.E6 α) (_hβ : IsRoot Tag.E6 β) (hαm : ∑ i, l i * α i = m)
     (hβm : ∑ i, l i * β i = m) : ¬ IsRoot Tag.E6 (α + β) := by
   intro h
   have h1 : ∑ i, l i * (α + β) i ≤ m := hmax (α + β) h
@@ -78,7 +78,7 @@ theorem iform_nonneg_of_max_pairing
     (l : Fin 6 → ℤ) {m : ℤ} (hm : 0 < m)
     (hmax : ∀ γ, IsRoot Tag.E6 γ → ∑ i, l i * γ i ≤ m) {α β : Fin 6 → ℤ}
     (hα : IsRoot Tag.E6 α) (hβ : IsRoot Tag.E6 β) (hαm : ∑ i, l i * α i = m)
-    (hβm : ∑ i, l i * β i = m) (hne : α ≠ β) :
+    (hβm : ∑ i, l i * β i = m) (_hne : α ≠ β) :
     0 ≤ iform (τ := Tag.E6) α β := by
   have hnot := not_isRoot_add_of_max_pairing l hm hmax hα hβ hαm hβm
   have hne0 : α + β ≠ 0 := by

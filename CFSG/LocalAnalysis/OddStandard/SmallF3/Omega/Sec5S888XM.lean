@@ -31,22 +31,22 @@ private theorem s888XM_fixedSet_card (hS : PlaneSys V W) (y : normalizer (V : Se
   classical
   by_cases hπ : planeHom hS y i = i
   · rw [s888XM_fixedSet]
-    simp only [if_pos hπ]
+    simp only [ite_eq_left hπ]
     by_cases hn : ActsNontriv (W i) (y : X)
-    · simp only [if_pos hn]
+    · simp only [ite_eq_left hn]
       refine card_fixed_of_actsNontriv (hS.card i) (fun a ha => hS.sq a (hS.le i ha)) ?_ hn
       exact ⟨fun a ha => (mem_plane_conj_iff hS y hπ a).mpr ha,
         fun a ha => hy2 a (hS.le i ha)⟩
-    · simp only [if_neg hn]
+    · simp only [ite_eq_right hn]
       have hset : ({w : ↥(W i) | (y : X) * (w : X) * (y : X)⁻¹ = w} : Set ↥(W i)) =
           Set.univ := by
         ext w
-        simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+        simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
         exact not_actsNontriv_iff.mp hn (w : X) w.2
       rw [hset, Nat.card_congr (Equiv.Set.univ (↥(W i)))]
       exact hS.card i
   · rw [s888XM_fixedSet]
-    simp only [if_neg hπ]
+    simp only [ite_eq_right hπ]
     rw [Nat.card_congr (Equiv.Set.univ (↥(W i)))]
     exact hS.card i
 
@@ -71,11 +71,11 @@ theorem card_centralizer_le_mval (hS : PlaneSys V W) (y : normalizer (V : Set X)
     fun v i => ⟨⟨comp hS (v : V) i.val, comp_mem hS (v : V) i.val⟩, by
       rw [s888XM_fixedSet]
       by_cases hfix : planeHom hS y i.val = i.val
-      · rw [if_pos hfix]
+      · rw [ite_eq_left hfix]
         have hcf := comp_fixed hS (v : V) y v.2 i.val
         rw [hfix] at hcf
         exact hcf.symm
-      · rw [if_neg hfix]
+      · rw [ite_eq_right hfix]
         exact Set.mem_univ _⟩
   have hΦinj : Function.Injective Φ := by
     intro v v' h
@@ -105,18 +105,18 @@ theorem card_centralizer_le_mval (hS : PlaneSys V W) (y : normalizer (V : Set X)
       have hcf' := comp_fixed hS (v' : V) y v'.2 (planeHom hS y j)
       rw [hππj] at hcf'
       rw [hcf, hvi, ← hcf']
-  haveI : Finite (∀ i : ↥M, ↥(s888XM_fixedSet hS y i.val)) := by
+  have : Finite (∀ i : ↥M, ↥(s888XM_fixedSet hS y i.val)) := by
     apply Nat.finite_of_card_ne_zero
     rw [Nat.card_pi]
     apply Finset.prod_ne_zero_iff.mpr
     intro i _
     rw [s888XM_fixedSet_card hS y hy2 i.val]
     by_cases h1 : planeHom hS y i.val = i.val
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       by_cases h2 : ActsNontriv (W i.val) (y : X)
-      · rw [if_pos h2]; decide
-      · rw [if_neg h2]; decide
-    · rw [if_neg h1]; decide
+      · rw [ite_eq_left h2]; decide
+      · rw [ite_eq_right h2]; decide
+    · rw [ite_eq_right h1]; decide
   have hle := Nat.card_le_card_of_injective Φ hΦinj
   rw [Nat.card_pi] at hle
   have hprod : (∏ i : ↥M, Nat.card ↥(s888XM_fixedSet hS y i.val)) = 2 ^ (8 - mval hS y) := by

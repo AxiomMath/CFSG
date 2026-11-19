@@ -270,7 +270,7 @@ theorem le_zpowers_of_le_sup_simple {G : Type} [Group G] [Finite G] {t a b : G}
       _ = (((n * α) * β) * j) * τ := by rw [hx_eq]
   obtain ⟨n, hnN, α, hαA, β, hβB, j, hjJ, τ, hτTz, hq_eq⟩ := hdecomp
   have hQN : Q ⊓ N = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := isPGroup_iff_card_dvd_pow.mp hQ
     exact (hN.coprime_two_left.pow_left k).of_dvd_left hk
   have hqC_t : q ∈ Subgroup.centralizer ({t} : Set G) :=

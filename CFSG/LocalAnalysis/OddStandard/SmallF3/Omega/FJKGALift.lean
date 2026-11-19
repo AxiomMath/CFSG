@@ -47,7 +47,7 @@ theorem fj_lift_pocket {A C : Type} [Group A] [Group C] [Finite A] (φ : A →* 
     rw [hφb₁, map_one] at h1
     rw [h1, orderOf_one] at hb2
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb₁ord : orderOf (d ^ orderOf (d ^ 2)) = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact hb₁sq) hb₁ne
   refine ⟨d ^ orderOf (d ^ 2), hφb₁, hb₁ord, ?_⟩
@@ -100,8 +100,8 @@ theorem fj_lift_pocket_omega (hQ : Q.Nondegenerate) {y : omegaProj hQ}
     {B : Subgroup (omegaProj hQ)} (hy : orderOf y = 2) (hB : Sl23PocketIn ⊤ y B) :
     ∃ z : omegaGroup hQ, omegaToProj hQ z = y ∧ orderOf z = 2 ∧
       Sl23PocketIn ⊤ z (l34g_oddHull (omegaToProj hQ) B) := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   exact fj_lift_pocket (omegaToProj hQ) (omegaToProj_surjective hQ)
     (fun m hm => Subgroup.mem_center_iff.mpr fun g =>
       omegaToProj_ker_central hQ (MonoidHom.mem_ker.mp hm) g)

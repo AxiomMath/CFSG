@@ -30,26 +30,26 @@ private lemma p0f_card_ctxN_le (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
       · have h2 : (n : G) = (m : G) := by
           have h := congrArg (fun z : ↥(fourGrp x₁ x₂) × Bool => (z.1 : G)) hnm
           simp only [f] at h
-          rw [dif_pos hn, dif_pos hm] at h
+          rw [dite_eq_left hn, dite_eq_left hm] at h
           exact h
         exact Subtype.ext h2
       · have h2 : (true : Bool) = false := by
           have h := congrArg (fun z : ↥(fourGrp x₁ x₂) × Bool => z.2) hnm
           simp only [f] at h
-          rw [dif_pos hn, dif_neg hm] at h
+          rw [dite_eq_left hn, dite_eq_right hm] at h
           exact h
         exact absurd h2 (by decide)
     · by_cases hm : (m : G) ∈ fourGrp x₁ x₂
       · have h2 : (false : Bool) = true := by
           have h := congrArg (fun z : ↥(fourGrp x₁ x₂) × Bool => z.2) hnm
           simp only [f] at h
-          rw [dif_neg hn, dif_pos hm] at h
+          rw [dite_eq_right hn, dite_eq_left hm] at h
           exact h
         exact absurd h2 (by decide)
       · have h2 : tau * (n : G) = tau * (m : G) := by
           have h := congrArg (fun z : ↥(fourGrp x₁ x₂) × Bool => (z.1 : G)) hnm
           simp only [f] at h
-          rw [dif_neg hn, dif_neg hm] at h
+          rw [dite_eq_right hn, dite_eq_right hm] at h
           exact h
         exact Subtype.ext (mul_left_cancel h2)
   have hle := Nat.card_le_card_of_injective f hf
@@ -72,26 +72,26 @@ private lemma p0f_card_ctxX_le (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
       · have h2 : (z : G) = (z' : G) := by
           have h := congrArg (fun w : ↥(ctxN tau x₁ x₂) × Bool => (w.1 : G)) hzz
           simp only [f] at h
-          rw [dif_pos hz, dif_pos hz'] at h
+          rw [dite_eq_left hz, dite_eq_left hz'] at h
           exact h
         exact Subtype.ext h2
       · have h2 : (true : Bool) = false := by
           have h := congrArg (fun w : ↥(ctxN tau x₁ x₂) × Bool => w.2) hzz
           simp only [f] at h
-          rw [dif_pos hz, dif_neg hz'] at h
+          rw [dite_eq_left hz, dite_eq_right hz'] at h
           exact h
         exact absurd h2 (by decide)
     · by_cases hz' : (z' : G) ∈ ctxN tau x₁ x₂
       · have h2 : (false : Bool) = true := by
           have h := congrArg (fun w : ↥(ctxN tau x₁ x₂) × Bool => w.2) hzz
           simp only [f] at h
-          rw [dif_neg hz, dif_pos hz'] at h
+          rw [dite_eq_right hz, dite_eq_left hz'] at h
           exact h
         exact absurd h2 (by decide)
       · have h2 : t * (z : G) = t * (z' : G) := by
           have h := congrArg (fun w : ↥(ctxN tau x₁ x₂) × Bool => (w.1 : G)) hzz
           simp only [f] at h
-          rw [dif_neg hz, dif_neg hz'] at h
+          rw [dite_eq_right hz, dite_eq_right hz'] at h
           exact h
         exact Subtype.ext (mul_left_cancel h2)
   have hle := Nat.card_le_card_of_injective f hf
@@ -133,7 +133,7 @@ theorem p0_R_quot (hc : Ctx8c t L S x₁ x₂ lam rho tau) :
       ∀ a ∈ ctxR t tau x₁ x₂, ∀ b ∈ ctxR t tau x₁ x₂,
         a * b * a⁻¹ * b⁻¹ ∈ ctxX t tau x₁ x₂ := by
   obtain ⟨φ, hφ⟩ := p0_exists_hom hc
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := hc.wreath.fourGrp_eq_omega.2.1.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := hc.wreath.fourGrp_eq_omega.2.1.1
   have hExpV : ∀ x ∈ fourGrp x₁ x₂, x ^ 2 = 1 :=
     fun x hx => (hc.wreath.fourGrp_eq_omega.2.1).2 x hx
   have hsq_prod : ∀ z : ↥(fourGrp x₁ x₂) × ↥(fourGrp x₁ x₂), z ^ 2 = 1 := by

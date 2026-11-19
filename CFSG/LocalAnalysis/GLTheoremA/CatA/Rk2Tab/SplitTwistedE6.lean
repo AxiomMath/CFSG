@@ -26,8 +26,8 @@ theorem rk2_card_center_dvd_twE6 {K : Type} [Group K] [Finite K] {lab : GLALabel
   obtain ⟨-, -, hT⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twistedChevalleyModel_of_lieModel hM'
   obtain ⟨k, hkfield, hkfin, hkcard, σ, hσ, ⟨e⟩⟩ := hT
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
+  let : Field k := hkfield
+  let : Finite k := hkfin
   have hMcardF : Nat.card (CFSG.Open.griessHopfMultiplier
       (DerivedCentralQuotient (twistedFixedGroup .E6 k σ))) = Nat.gcd 3 (2 ^ lab.n + 1) :=
     card_griessHopfMultiplier_twE6 (q := 2 ^ lab.n) (by
@@ -37,7 +37,7 @@ theorem rk2_card_center_dvd_twE6 {K : Type} [Group K] [Finite K] {lab : GLALabel
       Nat.gcd 3 (2 ^ lab.n + 1) := by
     rw [Nat.card_congr
       (CFSG.LieType.Steinberg.CentralExt.griessHopfMultiplierCongr e).toEquiv, hMcardF]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero
       (by rw [hcardM]; exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
   have hZk := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ'
@@ -59,9 +59,9 @@ theorem rk2_split_low_twE6_strong {K : Type} [Group K] [Finite K] {lab : GLALabe
   obtain ⟨-, hf, hT⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twistedChevalleyModel_of_lieModel hM'
   obtain ⟨k, hkfield, hkfin, hkcard, σ, hσ, ⟨e⟩⟩ := hT
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
-  letI : Fintype k := Fintype.ofFinite k
+  let : Field k := hkfield
+  let : Finite k := hkfin
+  let : Fintype k := Fintype.ofFinite k
   have hkcard' : Nat.card k = (2 ^ lab.n) ^ 2 := by
     rw [hkcard]
     rfl
@@ -80,7 +80,6 @@ theorem rk2_split_low_twE6_strong {K : Type} [Group K] [Finite K] {lab : GLALabe
     exact (hσ c).trans (hσ₀ c).symm
   have hθ : ∀ c, σ (σ c) = c := by
     intro c
-    change (σ : k →+* k) ((σ : k →+* k) c) = c
     rw [hσeq]
     have h2 := congrArg (fun f : k ≃+* k => f c) hσ₀2
     simpa [pow_two, RingAut.mul_apply] using h2
@@ -94,11 +93,11 @@ theorem rk2_split_low_twE6_strong {K : Type} [Group K] [Finite K] {lab : GLALabe
     have hx : (x : k) ∈ (σ : k →+* k).eqLocusField (RingHom.id k) := by
       rw [hSs]; exact x.2
     exact RingHom.mem_eqLocusField.mp hx
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
+  have : CharP k 2 := charP_of_card_eq_prime_pow (f := 2 * lab.n) (by
     rw [← Nat.card_eq_fintype_card, hkcard', ← pow_mul, mul_comm])
-  haveI : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
+  have : CharP S 2 := (RingHom.charP_iff S.subtype S.subtype.injective 2).mpr inferInstance
   have hF2 : ringChar S = 2 := ringChar.eq S 2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd2 : p ∣ 2 ^ (2 * lab.n) - 1 := by
     have h1 : (2 : ℕ) ^ (2 * lab.n) = (2 ^ lab.n) ^ 2 := by
       rw [mul_comm 2 lab.n, pow_mul]

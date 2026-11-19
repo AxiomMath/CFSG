@@ -26,7 +26,7 @@ theorem pCoreOf_oTwoPrime (Y : Subgroup G) [Finite ↥Y] :
   refine le_antisymm ?_ ?_
   · have hle : pCoreOf 2 (oTwoPrime Y) ≤ Y :=
       (CFSG.LieType.BorelTits.pCoreOf_le 2 (oTwoPrime Y)).trans (oTwoPrime_le Y)
-    haveI hchar : (CFSG.pCore 2 ↥(oTwoPrime Y)).Characteristic :=
+    have hchar : (CFSG.pCore 2 ↥(oTwoPrime Y)).Characteristic :=
       CFSG.LieType.BorelTits.pCore_characteristic 2
     have hnorm : Y ≤ Subgroup.normalizer (pCoreOf 2 (oTwoPrime Y) : Set G) :=
       (le_normalizer_oTwoPrime Y).trans
@@ -56,7 +56,7 @@ theorem oTwoPrime_eq_sup_pCoreOf_of_isL2Quot_of_two_le {A E : Subgroup G} [Finit
     (hAQ : ¬ A ≤ pCoreOf 2 E) (hq : IsL2Quot n (oTwoQuot ↥(oTwoPrime E))) :
     oTwoPrime E = A ⊔ pCoreOf 2 E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := oTwoPrime E
   let Q := pCoreOf 2 E
   have hAL : A ≤ L := hA
@@ -71,13 +71,13 @@ theorem oTwoPrime_eq_sup_pCoreOf_of_isL2Quot_of_two_le {A E : Subgroup G} [Finit
   have hQnormal : (Q.subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       ((oTwoPrime_le E).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 E))
-  haveI : (Q.subgroupOf L).Normal := hQnormal
+  have : (Q.subgroupOf L).Normal := hQnormal
   let π : ↥L →* (↥L ⧸ Q.subgroupOf L) := QuotientGroup.mk' (Q.subgroupOf L)
   let Abar : Subgroup (↥L ⧸ Q.subgroupOf L) := (A.subgroupOf L).map π
   have hAbarNormal : Abar.Normal :=
     hAnormal.map π (QuotientGroup.mk'_surjective (N := Q.subgroupOf L))
-  haveI : Abar.Normal := hAbarNormal
-  haveI : IsSimpleGroup (↥L ⧸ Q.subgroupOf L) := by
+  have : Abar.Normal := hAbarNormal
+  have : IsSimpleGroup (↥L ⧸ Q.subgroupOf L) := by
     have e : (↥L ⧸ Q.subgroupOf L) ≃* oTwoQuot ↥L :=
       QuotientGroup.quotientMulEquivOfEq hQeq
     exact e.isSimpleGroup_congr.mpr
@@ -146,10 +146,12 @@ theorem mem_normalizer_oTwoPrime {G : Type*} [Group G] {X : Subgroup G} {g : G}
   rw [conjSub_oTwoPrime]
   rw [show conjSub g X = X from hg]
 
+omit [Finite H] in
 theorem f112saP2'_eq_P1'_swap (L1 L2 S : Subgroup H) :
     f112saP2' L1 L2 S = f112saP1' L2 L1 S := by
   simp only [f112saP1', f112saP2', f112saX1, f112saX2, bigB_comm]
 
+omit [Finite H] in
 theorem f112saP1'_eq_P2'_swap (L1 L2 S : Subgroup H) :
     f112saP1' L1 L2 S = f112saP2' L2 L1 S :=
   (f112saP2'_eq_P1'_swap L2 L1 S).symm
@@ -206,7 +208,7 @@ theorem f112sa_oTwoRes_le_oTwoPrime_P1'_of_isL2Quot {L1 L2 S : Subgroup H} {m : 
   le_oTwoPrime_of_isL2Quot_of_two_le hm le_sup_left (f112sl_oTwoRes_quot hm h1)
 
 theorem f112sa_oTwoRes_le_oTwoPrime_P1' {L1 L2 S : Subgroup H}
-    (hF : F112HypW L1 L2 S) (h1 : VA5 L1) :
+    (_hF : F112HypW L1 L2 S) (h1 : VA5 L1) :
     oTwoRes L1 ≤ oTwoPrime (f112saP1' L1 L2 S) :=
   f112sa_oTwoRes_le_oTwoPrime_P1'_of_isL2Quot (m := 2) le_rfl h1
 
@@ -217,7 +219,7 @@ theorem f112sa_oTwoRes_le_oTwoPrime_P2'_of_isL2Quot {L1 L2 S : Subgroup H} {n : 
   exact f112sa_oTwoRes_le_oTwoPrime_P1'_of_isL2Quot hn h2
 
 theorem f112sa_oTwoRes_le_oTwoPrime_P2' {L1 L2 S : Subgroup H}
-    (hF : F112HypW L1 L2 S) (h2 : VA5 L2) :
+    (_hF : F112HypW L1 L2 S) (h2 : VA5 L2) :
     oTwoRes L2 ≤ oTwoPrime (f112saP2' L1 L2 S) :=
   f112sa_oTwoRes_le_oTwoPrime_P2'_of_isL2Quot (n := 2) le_rfl h2
 

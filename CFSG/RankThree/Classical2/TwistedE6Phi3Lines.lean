@@ -220,7 +220,7 @@ theorem phi3_prime_setup [IsAlgClosed Ω] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP 
   refine ⟨hpΩ, ?_, ?_⟩
   · have : NeZero (p : Ω) := ⟨hpΩ⟩
     have := IsSepClosed.hasEnoughRootsOfUnity Ω p
-    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω p
+    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω p
     refine ⟨(hζ₀.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.mp ?_⟩
     rw [IsUnit.unit_spec]
     exact hζ₀

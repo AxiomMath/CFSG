@@ -115,7 +115,7 @@ theorem cs6_outcome_group
     (hOut : CS6Outcome d ha aa yv) :
     φa ∈ ggAutomizer L Bs := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let AL : Subgroup (MulAut ↥Bs) := ggAutomizer L Bs
   let AK : Subgroup (MulAut ↥Bs) := ggAutomizer K Bs
   let A : Subgroup (MulAut ↥Bs) := AL ⊔ AK

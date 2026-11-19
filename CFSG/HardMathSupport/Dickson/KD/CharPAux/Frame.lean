@@ -20,7 +20,7 @@ open CFSG.Open
 theorem kdCharPAt_of_frame {S Y : Type} [Group S] [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     (e : S ≃* Y) (hZ : Subgroup.center Y = ⊥) (hF : ∀ y : Y, orderOf y = p → Frame p y) :
     KDCharPAt p S := by
-  haveI : Finite S := Finite.of_equiv Y e.symm.toEquiv
+  have : Finite S := Finite.of_equiv Y e.symm.toEquiv
   intro u hu
   obtain ⟨Gen, T, h1, hT, hGen, huniq, hMp⟩ := hF (e u) (by rw [MulEquiv.orderOf_eq]; exact hu)
   have hZS : Subgroup.center S = ⊥ := by
@@ -81,10 +81,10 @@ theorem kdCharPAt_of_frame {S Y : Type} [Group S] [Group Y] [Finite Y] {p : ℕ}
 theorem kdCharPAt_of_frame_simple {S Y : Type} [Group S] [Group Y] [Finite Y] {p : ℕ}
     [Fact p.Prime] (e : S ≃* Y) (hs : IsSimpleGroup Y) (hF : ∀ y : Y, orderOf y = p → Frame p y) :
     KDCharPAt p S := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with h | h
   · exact kdCharPAt_of_frame e h hF
-  · haveI : Finite S := Finite.of_equiv Y e.symm.toEquiv
+  · have : Finite S := Finite.of_equiv Y e.symm.toEquiv
     intro u _
     refine le_bot_iff.1 (sSup_le fun L hL => ?_)
     exfalso

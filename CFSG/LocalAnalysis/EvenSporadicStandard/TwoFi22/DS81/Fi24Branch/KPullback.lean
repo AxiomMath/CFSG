@@ -127,7 +127,7 @@ variable {A B : Type*} [Group A] [Group B]
 
 theorem commutator_sup_eq_of_le_center {M N : Subgroup A} (hN : N ≤ center A) :
     ⁅M ⊔ N, M ⊔ N⁆ = ⁅M, M⁆ := by
-  haveI : N.Normal := normal_of_le_center hN
+  have : N.Normal := normal_of_le_center hN
   refine le_antisymm ?_ (commutator_mono le_sup_left le_sup_left)
   rw [commutator_le]
   intro a ha b hb

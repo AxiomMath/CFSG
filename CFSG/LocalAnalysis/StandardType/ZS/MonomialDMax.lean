@@ -181,12 +181,12 @@ private theorem zsmd_twist_self_mul (f : Module.Basis (Fin n) (ZMod p) U)
     rw [Pi.mul_apply, Pi.one_apply, Function.comp_apply, Equiv.symm_swap]
     rw [pairUnit, pairUnit]
     by_cases hli : l = i
-    · rw [hli, Equiv.swap_apply_left, if_pos rfl, if_neg (Ne.symm hij), if_pos rfl]
+    · rw [hli, Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
       exact mul_inv_cancel c
     · by_cases hlj : l = j
-      · rw [hlj, Equiv.swap_apply_right, if_neg (Ne.symm hij), if_pos rfl, if_pos rfl]
+      · rw [hlj, Equiv.swap_apply_right, ite_eq_right (Ne.symm hij), ite_eq_left rfl, ite_eq_left rfl]
         exact inv_mul_cancel c
-      · rw [Equiv.swap_apply_of_ne_of_ne hli hlj, if_neg hli, if_neg hlj]
+      · rw [Equiv.swap_apply_of_ne_of_ne hli hlj, ite_eq_right hli, ite_eq_right hlj]
         simp
   rw [hE, diagMap_one, Equiv.swap_mul_self, zsmd_permMap_one, mul_one]
 
@@ -254,10 +254,10 @@ private theorem zsmd_pairUnit_comp_swap_disjoint_left {i j i' j' : Fin n}
   rw [Function.comp_apply, Equiv.symm_swap]
   by_cases hli : l = i
   · rw [hli, Equiv.swap_apply_left, pairUnit, pairUnit]
-    rw [if_neg hji', if_neg hjj', if_neg hii', if_neg hij']
+    rw [ite_eq_right hji', ite_eq_right hjj', ite_eq_right hii', ite_eq_right hij']
   · by_cases hlj : l = j
     · rw [hlj, Equiv.swap_apply_right, pairUnit, pairUnit]
-      rw [if_neg hii', if_neg hij', if_neg hji', if_neg hjj']
+      rw [ite_eq_right hii', ite_eq_right hij', ite_eq_right hji', ite_eq_right hjj']
     · rw [Equiv.swap_apply_of_ne_of_ne hli hlj]
 
 private theorem zsmd_pairUnit_comp_swap_disjoint_right {i j i' j' : Fin n}
@@ -267,12 +267,12 @@ private theorem zsmd_pairUnit_comp_swap_disjoint_right {i j i' j' : Fin n}
   rw [Function.comp_apply, Equiv.symm_swap]
   by_cases hli : l = i'
   · rw [hli, Equiv.swap_apply_left, pairUnit, pairUnit]
-    rw [if_neg (Ne.symm hij'), if_neg (Ne.symm hjj'),
-      if_neg (Ne.symm hii'), if_neg (Ne.symm hji')]
+    rw [ite_eq_right (Ne.symm hij'), ite_eq_right (Ne.symm hjj'),
+      ite_eq_right (Ne.symm hii'), ite_eq_right (Ne.symm hji')]
   · by_cases hlj : l = j'
     · rw [hlj, Equiv.swap_apply_right, pairUnit, pairUnit]
-      rw [if_neg (Ne.symm hii'), if_neg (Ne.symm hji'),
-        if_neg (Ne.symm hij'), if_neg (Ne.symm hjj')]
+      rw [ite_eq_right (Ne.symm hii'), ite_eq_right (Ne.symm hji'),
+        ite_eq_right (Ne.symm hij'), ite_eq_right (Ne.symm hjj')]
     · rw [Equiv.swap_apply_of_ne_of_ne hli hlj]
 
 private theorem zsmd_twist_disjoint_pow_two (f : Module.Basis (Fin n) (ZMod p) U)
@@ -379,7 +379,7 @@ private theorem zsmd_sign_comp_swap {i j k : Fin n} (hki : k ≠ i) (hkj : k ≠
       · by_cases hlj : l = j
         · rw [hlj, Equiv.swap_apply_right] at h; exact hki h.symm
         · rw [Equiv.swap_apply_of_ne_of_ne hli hlj] at h; exact hlk h
-    rw [if_neg hlk, if_neg hne]
+    rw [ite_eq_right hlk, ite_eq_right hne]
 
 private theorem zsmd_perm_mul_sign (f : Module.Basis (Fin n) (ZMod p) U) {i j k : Fin n}
     (hki : k ≠ i) (hkj : k ≠ j) :
@@ -430,7 +430,7 @@ private theorem zsmd_sign_twist_orbits {i j : Fin n} (hij : i ≠ j) (c : (ZMod 
         (Equiv.swap i j l))) ^ 2 = 1 := by
   have hei : ((fun m => if m = i then (-1 : (ZMod p)ˣ) else 1) * pairUnit p i j c) i = -c := by
     simp only [Pi.mul_apply, pairUnit]
-    rw [if_pos trivial, if_pos trivial, neg_one_mul]
+    rw [ite_eq_left trivial, ite_eq_left trivial, neg_one_mul]
   have hej : ((fun m => if m = i then (-1 : (ZMod p)ˣ) else 1) * pairUnit p i j c) j = c⁻¹ := by
     simp only [Pi.mul_apply, pairUnit]
     split_ifs with h
@@ -548,17 +548,17 @@ private theorem zsmd_extract_twist (f : Module.Basis (Fin n) (ZMod p) U)
       Equiv.swap_apply_left, diagMap_apply_basis, diagMap_apply_basis, zsmd_equivFun_smul_apply,
       zsmd_equivFun_smul_apply] at h1
     have hc : pairUnit p i j c j = c⁻¹ := by
-      rw [pairUnit, if_neg (Ne.symm hij), if_pos rfl]
+      rw [pairUnit, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
     rw [hc] at h1
     exact h1
   have hσ : σ i = j := by
     by_contra hne
     have h1 := hcoord (σ i)
-    rw [if_neg (Ne.symm hne), mul_zero, if_pos rfl, mul_one] at h1
+    rw [ite_eq_right (Ne.symm hne), mul_zero, ite_eq_left rfl, mul_one] at h1
     exact (d (σ i)).ne_zero h1
   refine ⟨hσ, ?_⟩
   have h2 := hcoord j
-  rw [if_pos hσ, if_pos rfl] at h2
+  rw [ite_eq_left hσ, ite_eq_left rfl] at h2
   simp only [mul_one] at h2
   exact Units.ext h2
 
@@ -581,12 +581,12 @@ private theorem zsmd_sign_not_mem_gmmn (hp : p ≠ 2) (f : Module.Basis (Fin n) 
     intro i
     by_contra hne
     have h1 := hcoord i (σ i)
-    rw [if_neg (Ne.symm hne), mul_zero, if_pos rfl, mul_one] at h1
+    rw [ite_eq_right (Ne.symm hne), mul_zero, ite_eq_left rfl, mul_one] at h1
     exact (d (σ i)).ne_zero h1.symm
   have hd_eq : d = (fun j => if j = k then (-1 : (ZMod p)ˣ) else 1) := by
     funext i
     have h1 := hcoord i i
-    rw [hsigma i, if_pos rfl] at h1
+    rw [hsigma i, ite_eq_left rfl] at h1
     simp only [mul_one] at h1
     exact Units.ext h1.symm
   have hprod_sign : (∏ j, (fun j => if j = k then (-1 : (ZMod p)ˣ) else 1) j) = -1 := by
@@ -596,7 +596,7 @@ private theorem zsmd_sign_not_mem_gmmn (hp : p ≠ 2) (f : Module.Basis (Fin n) 
       apply Finset.prod_eq_one
       intro j hj
       simp only [Finset.mem_compl, Finset.mem_singleton] at hj
-      exact if_neg hj
+      exact ite_eq_right hj
     rw [h1, mul_one]
     simp
   rw [hd_eq, hprod_sign] at hprod

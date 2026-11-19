@@ -16,7 +16,7 @@ theorem one_add_single_mem (k : Fin 5) :
     (1 + Pi.single k 1 : Fin 5 → ZMod 2) ∈ permCore 5 := by
   show ∑ i, (1 + Pi.single k 1 : Fin 5 → ZMod 2) i = 0
   simp only [Pi.add_apply, Pi.one_apply, Finset.sum_add_distrib, Finset.sum_const,
-    Finset.card_univ, Fintype.card_fin, Finset.sum_pi_single', Finset.mem_univ, if_true]
+    Finset.card_univ, Fintype.card_fin, Finset.sum_pi_single', Finset.mem_univ, ite_true]
   decide
 
 @[expose] def coreImg (σ : Perm (Fin 5)) (k : Fin 5) : Fin 5 → ZMod 2 :=
@@ -50,10 +50,10 @@ theorem exists_pair_of_ne_one {σ : Perm (Fin 5)} (hσ : σ ∈ alternatingGroup
     constructor
     · by_contra hc
       push Not at hc
-      simp [Ne.symm hk, hc.1, hc.2] at h1 <;> exact absurd h1 (by decide)
+      simp [Ne.symm hk, hc.1, hc.2] at h1
     · by_contra hc
       push Not at hc
-      simp [hk, hc.1, hc.2] at h2 <;> exact absurd h2 (by decide)
+      simp [hk, hc.1, hc.2] at h2
   have hsq : σ (σ p) = p := by
     have hmq : σ (σ p) ≠ σ p := fun h => hp (σ.injective h)
     rcases (hmov _ hmq).2 with h | h
@@ -79,7 +79,7 @@ theorem five_le_card_permCore : 5 ≤ Nat.card (permCore 5) := by
     intro i j hij
     have h := congrFun (congrArg Subtype.val hij) i
     by_contra hne
-    simp [Pi.single_apply, Ne.symm hne] at h
+    simp [Ne.symm hne] at h
   have := Nat.card_le_card_of_injective _ hf
   simpa using this
 
@@ -89,15 +89,18 @@ section Linear
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem mem_commSpanOf {L : Subgroup (V ≃ₗ[ZMod 2] V)} {γ : V ≃ₗ[ZMod 2] V} (hγ : γ ∈ L) (v : V) :
     γ v - v ∈ commSpanOf L :=
   Submodule.subset_span ⟨γ, hγ, v, rfl⟩
 
+omit [Finite V] in
 theorem map_mem_commSpanOf_self {L : Subgroup (V ≃ₗ[ZMod 2] V)} {γ : V ≃ₗ[ZMod 2] V}
     (hγ : γ ∈ L) {v : V} (hv : v ∈ commSpanOf L) : γ v ∈ commSpanOf L := by
   have := (commSpanOf L).add_mem hv (mem_commSpanOf hγ v)
   rwa [add_sub_cancel] at this
 
+omit [Finite V] in
 theorem map_mem_commSpanOf_of_commute {L' : Subgroup (V ≃ₗ[ZMod 2] V)} {γ : V ≃ₗ[ZMod 2] V}
     (hγ : ∀ δ ∈ L', γ * δ = δ * γ) {v : V} (hv : v ∈ commSpanOf L') : γ v ∈ commSpanOf L' := by
   induction hv using Submodule.span_induction with
@@ -111,6 +114,7 @@ theorem map_mem_commSpanOf_of_commute {L' : Subgroup (V ≃ₗ[ZMod 2] V)} {γ :
   | add u w _ _ hu hw => rw [map_add]; exact add_mem hu hw
   | smul c u _ hu => rw [map_smul]; exact Submodule.smul_mem _ c hu
 
+omit [Finite V] in
 theorem map_mem_commSpanOf_conj {L : Subgroup (V ≃ₗ[ZMod 2] V)} (x : V ≃ₗ[ZMod 2] V) {v : V}
     (hv : v ∈ commSpanOf L) : x v ∈ commSpanOf (L.map (MulAut.conj x).toMonoidHom) := by
   have hinv : ∀ u, x⁻¹ (x u) = u := fun u => by
@@ -125,6 +129,7 @@ theorem map_mem_commSpanOf_conj {L : Subgroup (V ≃ₗ[ZMod 2] V)} (x : V ≃�
   | add u w _ _ hu hw => rw [map_add]; exact add_mem hu hw
   | smul c u _ hu => rw [map_smul]; exact Submodule.smul_mem _ c hu
 
+omit [Finite V] in
 theorem fix_of_commute {L L' : Subgroup (V ≃ₗ[ZMod 2] V)}
     (hc : ∀ a ∈ L, ∀ b ∈ L', a * b = b * a) (hcompl : IsCompl (commSpanOf L) (commSpanOf L'))
     {a : V ≃ₗ[ZMod 2] V} (ha : a ∈ L) {v : V} (hv : v ∈ commSpanOf L') : a v = v := by
@@ -343,7 +348,7 @@ theorem finrank_ne_two_of_concl12 {Γ X : Subgroup (V ≃ₗ[ZMod 2] V)}
     have hf : Function.Injective f := by
       intro u w huw
       have h := congrArg Subtype.val huw
-      simp only [f, LinearMap.codRestrict_apply, LinearMap.domRestrict_apply, sub_apply_eq] at h
+      simp only [f] at h
       have h' : t ((u : V) - w) = ((u : V) - w) := by
         rw [map_sub]
         exact sub_eq_sub_iff_sub_eq_sub.mp h

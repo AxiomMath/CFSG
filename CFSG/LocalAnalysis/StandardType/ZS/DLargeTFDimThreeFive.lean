@@ -104,7 +104,7 @@ private theorem false_of_normal_p_subgroup {J : Type*} [Group J] [Finite J] {p :
     exact hPne ((Subgroup.eq_bot_iff_forall (P : Subgroup J)).mpr h)
   obtain ⟨z, hzP, hzne⟩ := hex
   exact hzne (hinj z (CFSG.GroupTheory.SteinbergBK.normal_p_subgroup_irreducible_trivial
-    (p := p) (G := J) (P := (P : Subgroup J)) P.isPGroup' ρ hirr z hzP))
+    (p := p) (G := J) (P := (P : Subgroup J)) P.isPGroup ρ hirr z hzP))
 
 private theorem dvd_card_of_isOrthType [Module.Finite (ZMod p) V] (hp7 : 7 ≤ p)
     (h3 : Module.finrank (ZMod p) V = 3) {J : Subgroup (V ≃ₗ[ZMod p] V)}

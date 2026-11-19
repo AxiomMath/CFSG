@@ -172,7 +172,7 @@ private theorem claim_4_g_image_mem_Q0_obligation
       ∀ z a : G, z ∈ Q0 → a ∈ H → rightConjugateElem z a ∈ Q0 := by
     intro z a hzQ0 haH
     rcases (hsec2.Q0_def z).1 hzQ0 with rfl | ⟨hzH, hzI⟩
-    · simpa [rightConjugateElem] using Q0.one_mem
+    · simp [rightConjugateElem]
     · exact (hsec2.Q0_def _).2 (Or.inr
         ⟨H.mul_mem (H.mul_mem (H.inv_mem haH) hzH) haH,
           isInvolution_rightConjugateElem hzI⟩)
@@ -245,7 +245,7 @@ private theorem claim_4_g_image_reflects_Q0_obligation
     ∀ omega : G, omega ∈ Q → g omega ∈ Q0 → omega ∈ Q0 := by
   intro omega homega hgomegaQ0
   by_cases homega1 : omega = 1
-  · simpa [homega1] using Q0.one_mem
+  · simp [homega1]
   · have homega_invQ : omega⁻¹ ∈ Q := Q.inv_mem homega
     have homega_inv1 : omega⁻¹ ≠ 1 := by
       simpa using homega1

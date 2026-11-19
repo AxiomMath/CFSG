@@ -100,7 +100,7 @@ private theorem barSub_inf_conj_eq (h208 : S20_8 D) (h1930 : H1930 D)
     _ ≤ barSub ⊥ A hA J := barSub_mono ⊥ A hA hcommJ
 
 private theorem le_sup_centralizer_of_barSub_inf_eq {A : Subgroup G} (hA : IsElemAbelian 2 A)
-    (hAN : c.N ≤ Subgroup.normalizer (A : Set G)) {x : G} (hx : x ∈ c.N)
+    (hAN : c.N ≤ Subgroup.normalizer (A : Set G)) {x : G} (_hx : x ∈ c.N)
     (hbar : barSub ⊥ A hA (c.L ⊓ c.L.map (MulAut.conj x).toMonoidHom) =
       barSub ⊥ A hA c.L) :
     c.L ≤ (c.L ⊓ c.L.map (MulAut.conj x).toMonoidHom) ⊔
@@ -131,7 +131,7 @@ private theorem le_sup_centralizer_of_barSub_inf_eq {A : Subgroup G} (hA : IsEle
   exact Subgroup.mul_mem_sup hsJ hmemC
 
 private theorem normal_inf_conj_and_solvable_centralizer (h208 : S20_8 D) (h1930 : H1930 D)
-    {A : Subgroup G} (hA : IsElemAbelian 2 A)
+    {A : Subgroup G} (_hA : IsElemAbelian 2 A)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
     (hLA : ¬ c.L ≤ Subgroup.centralizer (A : Set G)) {x : G} (hx : x ∈ c.N) :
     ((c.L ⊓ c.L.map (MulAut.conj x).toMonoidHom).subgroupOf c.L).Normal ∧
@@ -189,18 +189,18 @@ theorem normal_L_N_of_barSub_eq (h208 : S20_8 D) (h1930 : H1930 D)
   have hCJ : C ⊔ J = c.L := le_antisymm (sup_le hCL hJleL) (by rwa [sup_comm])
   have hCnormJ : C ≤ Subgroup.normalizer (J : Set G) :=
     hCL.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hJleL).mp hJn)
-  haveI : (J.subgroupOf (C ⊔ J)).Normal :=
+  have : (J.subgroupOf (C ⊔ J)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hCnormJ Subgroup.le_normalizer)
-  haveI : (J.subgroupOf c.L).Normal := hJn
-  haveI : (J.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hCnormJ
-  haveI : Group.IsSolvable ↥C := hCsolv
+  have : (J.subgroupOf c.L).Normal := hJn
+  have : (J.subgroupOf C).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hCnormJ
+  have : Group.IsSolvable ↥C := hCsolv
   let e := (QuotientGroup.quotientInfEquivProdNormalizerQuotient C J hCnormJ).trans
     (QuotientGroup.equivQuotientSubgroupOfOfEq (A := C ⊔ J) (B := c.L)
       (A' := J) (B' := J) rfl hCJ)
   have hQsolv : Group.IsSolvable (↥c.L ⧸ (J.subgroupOf c.L)) :=
     Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
-  haveI : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
-  haveI : Group.IsPerfect (↥c.L ⧸ (J.subgroupOf c.L)) := inferInstance
+  have : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+  have : Group.IsPerfect (↥c.L ⧸ (J.subgroupOf c.L)) := inferInstance
   have hsub : Subsingleton (↥c.L ⧸ (J.subgroupOf c.L)) := by
     rcases subsingleton_or_nontrivial (↥c.L ⧸ (J.subgroupOf c.L)) with h | h
     · exact h

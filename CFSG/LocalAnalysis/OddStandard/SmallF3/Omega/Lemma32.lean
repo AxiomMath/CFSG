@@ -72,7 +72,7 @@ private theorem not_dvd_of_isFGroup_order {a n : ℕ}
       6531840} : Finset ℕ))
     (hn : n = 360 ∨ n = 265680 ∨ n = 5616 ∨ n = 6048) : ¬ a ∣ n := by
   rintro hdvd
-  simp only [Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty, or_false] at ha
+  simp only [Finset.mem_insert, Finset.mem_singleton] at ha
   rcases ha with rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     rcases hn with rfl | rfl | rfl | rfl <;>
     exact absurd hdvd (by decide +kernel)

@@ -64,7 +64,7 @@ theorem exists_fpf_subgroup_of_abelian_preimage
     rw [hfπ, hβE, hequiv, ← hfπ, hθι]
   obtain ⟨Q⟩ : Nonempty (Sylow q ↥E) := inferInstance
   have hQchar : (Q : Subgroup ↥E).Characteristic :=
-    Sylow.characteristic_of_normal Q (Subgroup.normal_of_comm _)
+    Sylow.characteristic_of_normal Q (normal_of_isMulCommutative _)
   have hQβ : (Q : Subgroup ↥E).map βE.toMonoidHom = Q :=
     Subgroup.characteristic_iff_map_eq.1 hQchar βE
   let βQ : MulAut ↥(Q : Subgroup ↥E) :=
@@ -110,7 +110,7 @@ theorem exists_fpf_subgroup_of_abelian_preimage
     exact MonoidHom.mem_ker.2 (hκ _ ((hfQβ x).symm.trans (congrArg fQ hx)))
   obtain ⟨B, hBβ, hBq, hBc, _, γ, hγ, hβγ⟩ :=
     CFSG.GroupTheory.CoprimeActionSupport.AbelianFixedPointFreeLift.exists_invariant_fpf_noncyclic_map_quotient_of_abelian
-      (inferInstance : IsMulCommutative ↥(Q : Subgroup ↥E)) Q.isPGroup' fQ.ker βQ
+      (inferInstance : IsMulCommutative ↥(Q : Subgroup ↥E)) Q.isPGroup fQ.ker βQ
       (orderOf_eq_prime hβQr hβQ1) hr hqr hfix hquot
   let j : ↥B →* H := E.subtype.comp ((Q : Subgroup ↥E).subtype.comp B.subtype)
   have hj : Function.Injective j :=

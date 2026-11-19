@@ -125,11 +125,11 @@ theorem gamma_one_le_iff_isStronglyPEmbedded {p : ℕ} [Fact p.Prime] {P : Sylow
       CFSG.RankThree.PartOne.IsStronglyPEmbedded p M := by
   refine ⟨fun hΓ => isStronglyPEmbedded_of_normalizer_le hM ?_
     fun Q hQ hQp hQM => normalizer_le_of_gamma_one_le hPM hΓ hQ hQp hQM, fun hY => ?_⟩
-  · exact (P.isPGroup'.card_eq_or_dvd.resolve_left fun h =>
+  · exact (P.isPGroup.card_eq_or_dvd.resolve_left fun h =>
       hP (Subgroup.card_eq_one.mp h)).trans (Subgroup.card_dvd_of_le hPM)
   · refine (gamma_le_iff 1 p (P : Subgroup G) M).mpr fun Q hQP hQ1 => ?_
     exact hY.normalizer_le (ne_bot_of_one_le_pRank (Fact.out : p.Prime).one_lt hQ1)
-      (P.isPGroup'.to_le hQP) (hQP.trans hPM)
+      (P.isPGroup.to_le hQP) (hQP.trans hPM)
 
 theorem IsWitnessGen.gamma_one_le_iff (hS : CFSG.LocalAnalysis.AGL81TheoremCD.StandingGen G)
     {p : ℕ} {P : Sylow p G} (hp : IsWitnessPrime p P) {M : Subgroup G}

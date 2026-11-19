@@ -26,7 +26,7 @@ theorem localRank_quotient_le_of_surjective {G : Type*} [Group G] [Finite G] {p 
   obtain ⟨T', hT'⟩ : ∃ T' : Subgroup G, T' = (T : Subgroup (U.comap (QuotientGroup.mk' N))).map
       (U.comap (QuotientGroup.mk' N)).subtype := ⟨_, rfl⟩
   rw [← hT'] at hmapT hnorm
-  have hT'2 : IsPGroup 2 T' := hT' ▸ T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := hT' ▸ T.isPGroup.map _
   have hT'0 : T' ≠ ⊥ := fun h => hU0 (by rw [← hmapT, h, Subgroup.map_bot])
   let ψ := ((QuotientGroup.mk' N).domRestrict (normalizer (T' : Set G))).codRestrict
       (normalizer (U : Set (G ⧸ N))) (fun x => hnorm ▸ mem_map_of_mem _ x.2)
@@ -46,14 +46,14 @@ theorem pRank_le_one_of_surjective {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L
   obtain ⟨P₀⟩ : Nonempty (Sylow p M) := inferInstance
   have hP₀ : pRank p (P₀ : Subgroup M) ≤ 1 := (pRank_sylow P₀).2 ▸ hM
   have hcyc : IsCyclic (P₀ : Subgroup M) :=
-    ((CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp P₀.isPGroup').1
+    ((CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp P₀.isPGroup).1
       hP₀).resolve_right fun h => hp2 h.1
   have hQ : IsCyclic ((P₀.mapSurjective hψ : Sylow p L) : Subgroup L) := by
     rw [Sylow.coe_mapSurjective]
     exact isCyclic_of_surjective (ψ.subgroupMap _) (ψ.subgroupMap_surjective _)
   rw [← (pRank_sylow (P₀.mapSurjective hψ)).2]
   exact (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification hp
-    (P₀.mapSurjective hψ).isPGroup').2 (Or.inl hQ)
+    (P₀.mapSurjective hψ).isPGroup).2 (Or.inl hQ)
 
 theorem odd_prime_two_local_rank_one_quotients {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {G : Type u} [Group G] [Finite G] (N : Subgroup G) [N.Normal] (hloc : localRank p G ≤ 1) :

@@ -31,7 +31,7 @@ variable {C : Type} [Group C] [Finite C]
 theorem exists_le_of_glaPComponent_le_iSup {q : ℕ} (hq : q.Prime) {X J : Subgroup C}
     (hJ : GLAPComponent q X J) {ι : Type*} (N : ι → Subgroup C)
     (hN : ∀ i, CFSG.Open.IsComponentOf (N i) X) (hle : J ≤ ⨆ i, N i) : ∃ i, J ≤ N i := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hJX, hJp⟩ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hq).1 hJ
   have hNX : ∀ i, N i ≤ X := fun i => (hN i).1
@@ -173,7 +173,7 @@ theorem langData_of_centralSurjection {X J : Subgroup G} {b : G} (hJ : GLAPCompo
       (centerQuotientHom ↥K (subgroupStabRestrict K ⟨MulAut.conj y, hyStab⟩) ∈
           innAutDerived (↥K ⧸ Subgroup.center ↥K) →
         MI.indAut 3 J b hb ∈ innAutDerived (PSimple 3 J)) := by
-  haveI : Group.IsPerfect ↥J :=
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.2 (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   let e₀ : (↥J ⧸ Subgroup.center ↥J) ≃* (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence f hf hker
@@ -207,6 +207,7 @@ theorem langData_of_centralSurjection {X J : Subgroup G} {b : G} (hJ : GLAPCompo
   rw [← hcompat]
   exact (mem_innAutDerived_congr e₁).2 h1
 
+omit [Finite G] in
 theorem mem_inner_of_inducesInnerMod {L : Subgroup G} {d : G} (hcore : GLAPPrimeCore 3 ↥L = ⊥)
     {C : Type} [Group C] (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) {β : MulAut C}
     (hind : CFSG.Assembly.LargeEvenInduces θ (fun l l' : ↥L => (l' : G) = d⁻¹ * (l : G) * d) β)

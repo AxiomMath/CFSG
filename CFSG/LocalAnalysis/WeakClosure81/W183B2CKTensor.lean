@@ -99,7 +99,7 @@ theorem w183b2_map_eq_map [FiniteDimensional k U₁] [FiniteDimensional k U₂]
 theorem w183b2_map_eq_one [FiniteDimensional k U₁] [FiniteDimensional k U₂] [Nontrivial U₁]
     [Nontrivial U₂] {a : Module.End k U₁} {b : Module.End k U₂}
     (h : TensorProduct.map a b = 1) : ∃ c : k, c ≠ 0 ∧ a = c • 1 ∧ b = c⁻¹ • 1 := by
-  haveI : Nontrivial (U₁ ⊗[k] U₂) := by
+  have : Nontrivial (U₁ ⊗[k] U₂) := by
     obtain ⟨x, hx⟩ := exists_ne (0 : U₁)
     obtain ⟨y, hy⟩ := exists_ne (0 : U₂)
     exact ⟨0, x ⊗ₜ[k] y, (w183b2_tmul_ne_zero hx hy).symm⟩

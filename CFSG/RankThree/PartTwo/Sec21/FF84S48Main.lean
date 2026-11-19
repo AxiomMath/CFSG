@@ -17,11 +17,14 @@ variable (c : S48Ctx b L B K b₁ b₂) {U : Subgroup G} (hU : U ∈ PiStar (Cen
 
 include c hU
 
+omit c [Finite G] in
 theorem U_le_S : U ≤ Op 2 (Nor U) :=
   op2_of_normal Subgroup.le_normalizer (normal_subgroupOf_of le_rfl Subgroup.le_normalizer) hU.2.1
 
+omit c [Finite G] in
 theorem B_le_nor_S : B ≤ Nor (Op 2 (Nor U)) := hU.2.2.1.trans (le_nor_op2 _)
 
+omit hU in
 theorem B_nor_inf_cen {x : G} (hx : x ∈ B) {Y : Subgroup G} (hBY : B ≤ Nor Y) :
     B ≤ Nor (Y ⊓ Cen x) := by
   intro g hg
@@ -35,14 +38,14 @@ theorem U_ne_bot : U ≠ ⊥ := by
   simp at this
 
 theorem S48_CSb : Op 2 (Nor U) ⊓ Cen b = U :=
-  hU.2.2.2 _ (le_inf (U_le_S c hU) hU.1) inf_le_right ((op2_isPGroup _).to_le inf_le_left)
-    (B_nor_inf_cen c hU (mem_b c.sec) (B_le_nor_S c hU))
+  hU.2.2.2 _ (le_inf (U_le_S hU) hU.1) inf_le_right ((op2_isPGroup _).to_le inf_le_left)
+    (B_nor_inf_cen c (mem_b c.sec) (B_le_nor_S hU))
 
 theorem S48_charTwo : Nor U ⊓ CenS (Op 2 (Nor U)) ≤ Op 2 (Nor U) :=
   B_charTwo c.sec.hyp.char2 hU.2.1 (U_ne_bot c hU)
 
 theorem S48_index4 : 4 ≤ (Op 2 (Nor U) ⊓ Cen b).relIndex (Op 2 (Nor U)) := by
-  refine B_coprime_index_four (op2_isPGroup _) c.ord_b (B_le_nor_S c hU (mem_b c.sec)) ?_
+  refine B_coprime_index_four (op2_isPGroup _) c.ord_b (B_le_nor_S hU (mem_b c.sec)) ?_
   intro hle
   have hbS : b ∈ Op 2 (Nor U) := by
     apply S48_charTwo c hU
@@ -59,13 +62,13 @@ theorem S48_index4 : 4 ≤ (Op 2 (Nor U) ⊓ Cen b).relIndex (Op 2 (Nor U)) := b
 
 theorem X_cen {X : Subgroup G} (hX : IsPGroup 2 X) (hBX : B ≤ Nor X)
     (hSX : Op 2 (Nor U) ≤ X) : X ⊓ Cen b = U :=
-  hU.2.2.2 _ (le_inf ((U_le_S c hU).trans hSX) hU.1) inf_le_right (hX.to_le inf_le_left)
-    (B_nor_inf_cen c hU (mem_b c.sec) hBX)
+  hU.2.2.2 _ (le_inf ((U_le_S hU).trans hSX) hU.1) inf_le_right (hX.to_le inf_le_left)
+    (B_nor_inf_cen c (mem_b c.sec) hBX)
 
 theorem S48_elemab : IsElemAb 2 6 (Op 2 (Nor U)) ∧ Op 2 (Nor U) ∈ PiStar ⊤ B 2 := by
   set S := Op 2 (Nor U) with hSdef
   have hSp : IsPGroup 2 S := op2_isPGroup _
-  have hBS : B ≤ Nor S := B_le_nor_S c hU
+  have hBS : B ≤ Nor S := B_le_nor_S hU
   obtain ⟨X, hX, hSX⟩ := exists_piStar_ge (X := (⊤ : Subgroup G)) (A := B) le_top hSp hBS
   have hXp : IsPGroup 2 X := hX.2.1
   have hBX : B ≤ Nor X := hX.2.2.1
@@ -74,7 +77,7 @@ theorem S48_elemab : IsElemAb 2 6 (Op 2 (Nor U)) ∧ Op 2 (Nor U) ∈ PiStar ⊤
   have hXle : Nat.card X ≤ 64 := by omega
   have hrel := Subgroup.relIndex_mul_card (H := S ⊓ Cen b) (K := S)
   have e : (S ⊓ Cen b) ⊓ S = U := by
-    rw [S48_CSb c hU]; exact inf_eq_left.2 (U_le_S c hU)
+    rw [S48_CSb c hU]; exact inf_eq_left.2 (U_le_S hU)
   rw [e, c.piU_card hU] at hrel
   have h4 : 4 ≤ (S ⊓ Cen b).relIndex S := S48_index4 c hU
   have hS64 : 64 ≤ Nat.card S := by omega
@@ -89,7 +92,7 @@ theorem S48_elemab : IsElemAb 2 6 (Op 2 (Nor U)) ∧ Op 2 (Nor U) ∈ PiStar ⊤
 theorem S_card_W {cc : G} (hcc : cc = b₁ ∨ cc = b₂) :
     EA2 (Op 2 (Nor U) ⊓ Cen cc) ∧ Nat.card ↥(Op 2 (Nor U) ⊓ Cen cc) = 16 := by
   obtain ⟨hEA6, hSPi⟩ := S48_elemab c hU
-  obtain ⟨n, d⟩ := c.core_ex hU (op2_isPGroup _) (B_le_nor_S c hU) (S48_CSb c hU) hcc
+  obtain ⟨n, d⟩ := c.core_ex hU (op2_isPGroup _) (B_le_nor_S hU) (S48_CSb c hU) hcc
   obtain ⟨-, -, hX4, -⟩ := d.core
   refine ⟨d.hW.1, ?_⟩
   rw [hEA6.2] at hX4

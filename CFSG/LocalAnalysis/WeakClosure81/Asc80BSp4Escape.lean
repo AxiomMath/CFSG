@@ -21,8 +21,8 @@ theorem not_inf_centralizer_le_normalizer_of_isSimpleGroup {Q : Type} [Group Q] 
     (hnab : ∃ x y : ↥(L ⊓ centralizer ({a} : Set Q)), x * y ≠ y * x) :
     ¬ L ⊓ centralizer ({a} : Set Q) ≤ normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : L.Normal := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : L.Normal := hLn
   rintro hX
   have haNorm : a ∈ Subgroup.normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -53,7 +53,7 @@ theorem not_inf_centralizer_le_normalizer_of_isSimpleGroup {Q : Type} [Group Q] 
       rw [← hbot]
       exact Subgroup.mem_inf.mpr ⟨huU, huX⟩
     exact hu1 (Subgroup.mem_bot.mp hmem)
-  haveI hNorm : ((T ⊓ L).subgroupOf (L ⊓ centralizer ({a} : Set Q))).Normal := by
+  have hNorm : ((T ⊓ L).subgroupOf (L ⊓ centralizer ({a} : Set Q))).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf, Subgroup.le_normalizer_iff]
     intro x hx y hy
     exact Subgroup.mem_inf.mpr
@@ -61,7 +61,7 @@ theorem not_inf_centralizer_le_normalizer_of_isSimpleGroup {Q : Type} [Group Q] 
         (L ⊓ centralizer ({a} : Set Q)).mul_mem
           ((L ⊓ centralizer ({a} : Set Q)).mul_mem hx hy.2)
           ((L ⊓ centralizer ({a} : Set Q)).inv_mem hx)⟩
-  haveI : IsSimpleGroup ↥(L ⊓ centralizer ({a} : Set Q)) := hs
+  have : IsSimpleGroup ↥(L ⊓ centralizer ({a} : Set Q)) := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((T ⊓ L).subgroupOf (L ⊓ centralizer ({a} : Set Q))) with hbot | htop
   · exact hne (disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp hbot))
@@ -69,7 +69,7 @@ theorem not_inf_centralizer_le_normalizer_of_isSimpleGroup {Q : Type} [Group Q] 
     have hXle : L ⊓ centralizer ({a} : Set Q) ≤ T ⊓ L :=
       Subgroup.subgroupOf_eq_top.mp htop
     have hX2 : IsPGroup 2 (L ⊓ centralizer ({a} : Set Q) : Subgroup Q) := hU2.to_le hXle
-    haveI hNtriv : Nontrivial ↥(L ⊓ centralizer ({a} : Set Q)) := by
+    have hNtriv : Nontrivial ↥(L ⊓ centralizer ({a} : Set Q)) := by
       obtain ⟨x, y, hxy⟩ := hnab
       exact ⟨x, y, fun h => hxy (by rw [h])⟩
     have hcenter : Subgroup.center ↥(L ⊓ centralizer ({a} : Set Q)) = ⊤ := by
@@ -128,7 +128,7 @@ theorem sp4_graph_involution_centralizer_escape {Q : Type}
     (haT : a ∈ T) (ha : a * a = 1) (haD : ActsOnDynkinMod ⊥ L a) :
     ¬ L ⊓ centralizer ({a} : Set Q) ≤ normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨haNL, R, hR, hRmoved⟩ := haD
   have haL : a ∉ L := by
     intro h
@@ -236,8 +236,8 @@ theorem sp4_graph_involution_centralizer_escape {Q : Type}
   have hswap : SwapsParabolics T L := ⟨a, haT, R', hR'par, hR'moved⟩
   obtain ⟨P₀, P₁, F, hFld, hFin, w, hset⟩ :=
     SwapSp4.exists_setting (Q := Q) (L := L) (T := T) (n := f) hF hLs hSp hf2 hT hLT hswap
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hpar : ∀ Y : Subgroup Q, IsMaxParabolicOver L (T ⊓ L) Y → Y = P₀ ∨ Y = P₁ := by
     intro Y hY
     have hUY : T ⊓ L ≤ Y :=

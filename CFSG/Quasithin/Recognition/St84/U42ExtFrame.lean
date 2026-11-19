@@ -270,7 +270,7 @@ theorem dsuce_complement_conj {M : Type*} [Group M] [Finite M] (C : CoordData M)
     (hAV : A ⊓ C.V = ⊥) (hAL : C.V ⊔ A = ⊤) (hBV : B ⊓ C.V = ⊥) (hBL : C.V ⊔ B = ⊤) :
     ∃ w ∈ C.V, ∀ x : M, x ∈ B ↔ w⁻¹ * x * w ∈ A := by
   classical
-  haveI hVnormal : C.V.Normal := C.hV
+  have hVnormal : C.V.Normal := C.hV
   have one_sign : (1 : Equiv.Perm (Fin 5)).sign = 1 := by simp
   have eq_of_rho_eq : ∀ {K : Subgroup M}, K ⊓ C.V = ⊥ → ∀ {x y : M}, x ∈ K → y ∈ K →
       C.ρ x = C.ρ y → x = y := by
@@ -321,7 +321,7 @@ theorem dsuce_complement_conj {M : Type*} [Group M] [Finite M] (C : CoordData M)
   have c_eq : ∀ {σ : Equiv.Perm (Fin 5)} (h : σ.sign = 1),
       c σ = C.ψ ⟨pick B σ * (pick A σ)⁻¹, u_mem hAL h⟩ := by
     intro σ h
-    simp only [c, dif_pos h]
+    simp only [c, dite_eq_left h]
   have hc1 : c 1 = 1 := by
     rw [c_eq one_sign]
     have e0 : pick B 1 * (pick A 1)⁻¹ = 1 := by
@@ -462,7 +462,7 @@ theorem dsuce_alphaOf_one {E P : Subgroup G} (hEP : P ≤ Subgroup.normalizer (E
   have h : (⟨((1 : ↥P) : G), hEP (1 : ↥P).2⟩ :
       ↥(Subgroup.normalizer (E : Set G))) = 1 := Subtype.ext rfl
   simp only [dsuce_alphaOf, MulEquiv.trans_apply, h, map_one, MulAut.one_apply,
-    MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    MulEquiv.apply_symm_apply]
 
 theorem dsuce_alphaOf_pact {E P L1 : Subgroup G}
     (hEP : P ≤ Subgroup.normalizer (E : Set G)) (ψ : ↥E ≃* W5)
@@ -560,12 +560,12 @@ theorem dsuce_alphaOf_L {E P L1 : Subgroup G}
     MulEquiv.apply_symm_apply]
 
 theorem u42ExtFrame_of_local [Finite G] {L1 L2 S : Subgroup G}
-    (h : Hyp111R L1 L2 S) (hS : ¬ S ≤ L1) (hb6 : F112B6Loc L2 L1)
+    (h : Hyp111R L1 L2 S) (_hS : ¬ S ≤ L1) (hb6 : F112B6Loc L2 L1)
     (hE1 : pCoreOf 2 L1 = dsQ L1 L2 S) (hE16 : Nat.card ↥(pCoreOf 2 L1) = 16)
     (h5 : Nonempty (oTwoQuot ↥(L1 ⊔ bigB L1 L2 S) ≃* Equiv.Perm (Fin 5)))
     (hsylS : IsSylowTwoOf S (L1 ⊔ bigB L1 L2 S)) : U42ExtFrame L1 L2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P1 : Subgroup G := L1 ⊔ bigB L1 L2 S with hP1
   set B : Subgroup G := bigB L1 L2 S with hB
   set E : Subgroup G := pCoreOf 2 L1 with hE
@@ -906,7 +906,7 @@ theorem u42ExtFrame_of_local [Finite G] {L1 L2 S : Subgroup G}
       (g : Equiv.Perm (Fin 5))⁻¹ = k
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
-  haveI : CL.V.Normal := CL.hV
+  have : CL.V.Normal := CL.hV
   obtain ⟨A0, hA0V, hA0top⟩ := CL.exists_complement_plain TL hVTL hTL2 hTLi hρTL hK4TL
   let A0G : Subgroup G := A0.map L1.subtype
   have hA0G_le : A0G ≤ L1 := Subgroup.map_subtype_le A0

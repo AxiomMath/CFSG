@@ -18,7 +18,7 @@ theorem par_exists_fixed_aux {α : Type*} [Finite α] (ι σ : α → α) (hι2 
   classical
   by_contra hcon
   push Not at hcon
-  letI := Fintype.ofFinite α
+  let := Fintype.ofFinite α
   have hpos : 0 < Fintype.card α := by
     rw [← Nat.card_eq_fintype_card, hcard]
     norm_num

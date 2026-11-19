@@ -25,7 +25,7 @@ theorem embE6F4_xE_coe (L : Type) [Field L] (j : Fin Tag.F4.rank) (c : L) :
       (((e6FixedF4EquivAll L).symm (xE Tag.F4 L j c) :
         twistedFixedGroup TwistTag.E6 L (RingHom.id L)) : ModGL TwistTag.E6.tag L) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply, Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl
@@ -38,7 +38,7 @@ theorem embE6F4_yE_coe (L : Type) [Field L] (j : Fin Tag.F4.rank) (c : L) :
       (((e6FixedF4EquivAll L).symm (yE Tag.F4 L j c) :
         twistedFixedGroup TwistTag.E6 L (RingHom.id L)) : ModGL TwistTag.E6.tag L) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply, Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl
@@ -428,7 +428,7 @@ theorem mulSingle_apply_zpow {L : Type} [Field L] {n : ℕ} (i j : Fin n) (x : L
   by_cases h : j = i
   · subst h
     simp
-  · rw [if_neg h, zpow_zero, Pi.mulSingle_eq_of_ne h]
+  · rw [ite_eq_right h, zpow_zero, Pi.mulSingle_eq_of_ne h]
 
 theorem zSplit_eq_torusAdj (L : Type) [Field L] (ω : Lˣ) :
     zSplit L ω = torusAdj L 0 (ω ^ (3 : ℤ)) * torusAdj L 1 (ω ^ (6 : ℤ)) *

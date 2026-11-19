@@ -94,7 +94,7 @@ theorem excU7_of_pieces (hC1 : TwE6U7C1) (hC2 : TwE6U7C2) (hDict : ExcNbrDictTwo
     simp only [hSρ, hΓ, ExcPacket.chiAt]
   have hφ : φ.range = (K.subgroupOf G₀).map P.η :=
     hφr.trans (hrational.trans hKη.symm)
-  haveI : Finite (ggU .PSU 6 f).K := hfin
+  have : Finite (ggU .PSU 6 f).K := hfin
   obtain ⟨ψ', hψ'surj, hψ'⟩ := exists_cover_lift hKG P.η P.ker_η hodd0 hsplit φ hφ hperfK
   let φ'' : (ggU .PSU 6 f).K →* X := K.subtype.comp ψ'
   have hφ''range : φ''.range = K := by

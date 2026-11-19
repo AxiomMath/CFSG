@@ -10,7 +10,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 
 theorem l2_la_frame {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ}
     (a₁ b₁ a₂ b₂ : Matrix (Fin n) (Fin n) K) (hb₁ : b₁ * b₁ = 1) (hb₂ : b₂ * b₂ = 1)
-    (h₁ : a₁ * b₁ = -(b₁ * a₁)) (h₂ : a₂ * b₂ = -(b₂ * a₂)) (h₁₂ : a₁ * a₂ = a₂ * a₁)
+    (h₁ : a₁ * b₁ = -(b₁ * a₁)) (h₂ : a₂ * b₂ = -(b₂ * a₂)) (_h₁₂ : a₁ * a₂ = a₂ * a₁)
     (h₁₂' : a₁ * b₂ = b₂ * a₁) (h₂₁ : b₁ * a₂ = a₂ * b₁) (hbb : b₁ * b₂ = b₂ * b₁)
     {e₁ e₂ : K} (he₁ : e₁ * e₁ = 1) (he₂ : e₂ * e₂ = 1) {w ψ : Fin n → K}
     (hw₁ : Matrix.mulVec a₁ w = e₁ • w) (hw₂ : Matrix.mulVec a₂ w = e₂ • w)
@@ -79,22 +79,22 @@ theorem l2_la_frame {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ}
   have ha1X : ∀ j, a₁ * X j = s j • (X j * a₁) := by
     intro j
     fin_cases j <;>
-      simp [X, s, h₁, h₁₂', hab12, Matrix.one_mul, Matrix.mul_one, neg_smul, one_smul]
+      simp [X, s, h₁, h₁₂', hab12, neg_smul, one_smul]
   have ha1X' : ∀ j, X j * a₁ = s j • (a₁ * X j) := by
     intro j
     fin_cases j <;>
-      simp [X, s, h₁, h₁₂', hab12, Matrix.one_mul, Matrix.mul_one, neg_smul, one_smul,
+      simp [X, s, h₁, h₁₂', hab12, neg_smul, one_smul,
         neg_neg]
 
   let t : Fin 4 → K := ![1, 1, -1, -1]
   have ha2X : ∀ j, a₂ * X j = t j • (X j * a₂) := by
     intro j
     fin_cases j <;>
-      simp [X, t, h₂, h₂₁, hab12', Matrix.one_mul, Matrix.mul_one, neg_smul, one_smul]
+      simp [X, t, h₂, h₂₁, hab12', neg_smul, one_smul]
   have ha2X' : ∀ j, X j * a₂ = t j • (a₂ * X j) := by
     intro j
     fin_cases j <;>
-      simp [X, t, h₂, h₂₁, hab12', Matrix.one_mul, Matrix.mul_one, neg_smul, one_smul,
+      simp [X, t, h₂, h₂₁, hab12', neg_smul, one_smul,
         neg_neg]
 
   let σ : Fin 4 → Fin 4 := ![1, 0, 3, 2]
@@ -107,11 +107,11 @@ theorem l2_la_frame {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ}
   have hb1X : ∀ j, b₁ * X j = X (σ j) := by
     intro j
     fin_cases j <;>
-      simp [X, σ, hb₁, hbb', hb1_12, Matrix.one_mul, Matrix.mul_one]
+      simp [X, σ, hb₁, hb1_12]
   have hb1X' : ∀ j, X j * b₁ = X (σ j) := by
     intro j
     fin_cases j <;>
-      simp [X, σ, hb₁, hbb', hb12_1, Matrix.one_mul, Matrix.mul_one]
+      simp [X, σ, hb₁, hbb', hb12_1]
 
   let σ' : Fin 4 → Fin 4 := ![2, 3, 0, 1]
   have hσ' : ∀ j, σ' (σ' j) = j := by
@@ -123,11 +123,11 @@ theorem l2_la_frame {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ}
   have hb2X : ∀ j, b₂ * X j = X (σ' j) := by
     intro j
     fin_cases j <;>
-      simp [X, σ', hb₂, hbb', hb2_12, Matrix.one_mul, Matrix.mul_one]
+      simp [X, σ', hb₂, hbb', hb2_12]
   have hb2X' : ∀ j, X j * b₂ = X (σ' j) := by
     intro j
     fin_cases j <;>
-      simp [X, σ', hb₂, hb12_2, Matrix.one_mul, Matrix.mul_one]
+      simp [X, σ', hb₂, hb12_2]
 
   have hcomm_smul : ∀ (c : Matrix (Fin n) (Fin n) K) (lam : Fin 4 → K),
       (∀ j, c *ᵥ (X j *ᵥ w) = lam j • (X j *ᵥ w)) →
@@ -217,7 +217,7 @@ theorem l2_la_frame {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ}
     rw [hΦU j k]
     fin_cases j <;> fin_cases k <;>
       simp [X, hb₁, hb₂, hbb', hb1_12, hb2_12, hb12_1, hb12_2, hb12_12, hψw, hb1w,
-        hb2w, hb12w, Matrix.one_mulVec, Matrix.one_mul, Matrix.mul_one]
+        hb2w, hb12w, Matrix.one_mulVec]
   refine ⟨U, Φ, hFU, ?_, ?_, ?_, ?_, hP⟩
   · rw [hP]
     exact (hcomm_smul a₁ (fun j => s j * e₁) hu1 hv1).symm

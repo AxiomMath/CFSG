@@ -55,7 +55,7 @@ theorem fixedFreeFive_of_torus {p f : ℕ} [Fact p.Prime] (hf : f ≠ 0) (h6 : 6
 theorem coverActsTriviallyOnSmall_of_isoLie_unitary {L : Type} [Group L] [Finite L]
     [IsSimpleGroup L] {q : TauCeti.PrimePower} (hq3 : q.p = 3) (h2 : 2 ≤ q.exponent)
     (hI : IsoLie L (.twistedA 2 q)) : CoverActsTriviallyOnSmall 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hv, ⟨e⟩⟩ := hI
   obtain ⟨U⟩ := Sylow.nonempty (p := 3) (G := L)
   obtain ⟨ψ, hψ, -, hc⟩ := CFSG.AGLEmbedding.kFactUnitarySylowCenterTorus L 3

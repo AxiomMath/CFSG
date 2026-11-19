@@ -25,7 +25,7 @@ theorem sup_comm_mem (h : S8Data V1 V2 φ1 φ2 α β) {y y' : P} (hy : y ∈ V1 
 
 theorem act_mod (h : S8Data V1 V2 φ1 φ2 α β) {n y : P} (hn : n ∈ centralizer (V2 : Set P))
     (hy : y ∈ V1 ⊔ V2) : ((n * y * n⁻¹ : P) : P ⧸ V1) = (y : P ⧸ V1) := by
-  haveI := h.normal1
+  have := h.normal1
   obtain ⟨v1, hv1, v2, hv2, rfl⟩ := s8_mem_sup_of_commute h.comm hy
   have h2 : n * v2 * n⁻¹ = v2 := by
     rw [← Subgroup.mem_centralizer_iff.mp hn v2 hv2]; group
@@ -58,7 +58,7 @@ theorem cross_mul_mod [V1.Normal] (h : S8Data V1 V2 φ1 φ2 α β) {x n n' : P}
 theorem cross_comm_mem (h : S8Data V1 V2 φ1 φ2 α β)
     (hperf : centralizer (V2 : Set P) ≤ s8H V2) {x m : P} (hx : x ∈ centralizer (V1 : Set P))
     (hm : m ∈ centralizer (V2 : Set P)) : x * m * x⁻¹ * m⁻¹ ∈ V1 := by
-  haveI := h.normal1
+  have := h.normal1
   let S : Subgroup P :=
     { carrier := {n | n ∈ centralizer (V2 : Set P) ∧ x * n * x⁻¹ * n⁻¹ ∈ V1}
       mul_mem' := by
@@ -106,11 +106,11 @@ theorem cross_comm_mem (h : S8Data V1 V2 φ1 φ2 α β)
   exact (hM1S hm).2
 
 theorem H_inf_V2 (h : S8Data V1 V2 φ1 φ2 α β) : s8H V2 ⊓ V2 = ⊥ := by
-  haveI := h.normal2
-  haveI := h.H_normal
+  have := h.normal2
+  have := h.H_normal
   rw [Subgroup.eq_bot_iff_forall]
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨d, hd, hd1⟩ := hne
   have hV2H : V2 ≤ s8H V2 := by
     obtain ⟨u, hu, rfl⟩ := h.coord2.surj d hd.2

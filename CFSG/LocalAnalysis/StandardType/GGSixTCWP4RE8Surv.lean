@@ -120,7 +120,7 @@ theorem tc_lang_survivors_E8_comp
   have hforb : famOrbit S₁.ρ (fun _ : PUnit.{1} => a xg) ixp =
       rationalRoots S₁.ρ (rootCharHom (a xg)) ix₀ := by
     ext γ
-    simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+    simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
     rw [hixp]
   have hspanL : fr₁.JLang L ≤ rootSpan .E8 (AlgebraicClosure K)
       (famOrbit S₁.ρ (fun _ : PUnit.{1} => a xg) ixp) := by
@@ -226,7 +226,7 @@ theorem tc_lang_survivors_E8_comp
     have hforbd : famOrbit S₁.ρ (fun _ : PUnit.{1} => a ud) idp =
         rationalRoots S₁.ρ (rootCharHom (a ud)) ik' := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hidp]
     have hspanRC : rationalComponent S₁.ρ S₁.Γ (rootCharHom (a ud)) ik' ≤ rootSpan .E8
         (AlgebraicClosure K) (famOrbit S₁.ρ (fun _ : PUnit.{1} => a ud) idp) := by

@@ -121,8 +121,8 @@ theorem card_center_sylow_of_isSzGp
     Nat.card (Subgroup.center (P : Subgroup Y)) = 2 ^ n := by
   unfold IsSzGp CFSG.Blueprint.SuzukiModel at hY
   obtain ⟨-, a, ha, K, hKfield, hKfin, hn, hKcard, ⟨e⟩⟩ := hY
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by
     rw [hKcard, hn]
   have hcenterU : Nat.card (Subgroup.center (suzukiU a K)) = 2 ^ n := by
@@ -138,10 +138,10 @@ theorem card_center_sylow_of_isSzGp
   have hcenterQ (Q : Sylow 2 (suzukiGroup a K)) :
       Nat.card (Subgroup.center (Q : Subgroup (suzukiGroup a K))) =
         Nat.card (Subgroup.center (suzukiU a K)) := by
-    haveI : Finite (Subgroup (suzukiGroup a K)) :=
+    have : Finite (Subgroup (suzukiGroup a K)) :=
       Finite.of_injective (fun H : Subgroup (suzukiGroup a K) =>
         (H : Set (suzukiGroup a K))) SetLike.coe_injective
-    haveI : Finite (Sylow 2 (suzukiGroup a K)) :=
+    have : Finite (Sylow 2 (suzukiGroup a K)) :=
       Finite.of_injective (fun Q : Sylow 2 (suzukiGroup a K) =>
         (Q : Subgroup (suzukiGroup a K))) (fun _ _ h => Sylow.ext h)
     have hUsylow : ((suzukiUSylow hK : Sylow 2 (suzukiGroup a K)) :
@@ -166,9 +166,9 @@ theorem card_center_sylow_of_isSzGp
 
 
 theorem w3Lem85TwoGap1_of_PSU3
-    (hU3 : ∀ (Y : Type) [Group Y] [Finite Y] (n : ℕ), IsPSUGp Y 3 n →
-      ∀ A : Subgroup (MulAut Y), IsElemAbelian 2 A → Nat.card A ≤ 2 ^ (n + 1)) :
+    (hU3 : ∀ (_Y : Type) [Group _Y] [Finite _Y] (_n : ℕ), IsPSUGp _Y 3 _n →
+      ∀ A : Subgroup (MulAut _Y), IsElemAbelian 2 A → Nat.card A ≤ 2 ^ (_n + 1)) :
     W3Lem85TwoGap1 :=
-  ⟨hU3, fun Y _ _ n hY P => card_center_sylow_of_isSzGp hY P⟩
+  ⟨hU3, fun _Y _ _ _n hY P => card_center_sylow_of_isSzGp hY P⟩
 
 end CFSG.LocalAnalysis.WeakClosure81

@@ -25,8 +25,8 @@ private theorem l6_setup
     (h : IsLie811 Y .l6 2 1) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K),
       Nat.card K = 2 ∧ center Y = ⊥ ∧ ¬ 3 ∣ Nat.card (center Y) ∧
-      ∃ e : Y ⧸ center Y ≃* StatedProj (StatedSL 6 K),
-        ∃ h₀ : IsSignedCoords ((c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)).range)
+      ∃ _e : Y ⧸ center Y ≃* StatedProj (StatedSL 6 K),
+        ∃ _h₀ : IsSignedCoords ((c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)).range)
             (c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)),
           UniqueElemSylow 3 3 (StatedProj (StatedSL 6 K)) ∧
           ¬ 3 ∣ Nat.card ((StatedScalars (Fin 6) K).subgroupOf (StatedSL 6 K)) ∧
@@ -37,11 +37,11 @@ private theorem l6_setup
     rw [hZ, Subgroup.card_bot]; norm_num
   obtain ⟨-, -, -, hm⟩ := h
   rcases hm with ⟨-, hLM⟩ | ⟨h1, -⟩
-  · obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ :=
+  · obtain ⟨K, _, _, _, hK, ⟨_e⟩⟩ :=
       Theorem82.ModelUnpack.exists_model_of_lieModel_psl (by norm_num) hLM
     have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
     have hK3 : Nat.card K % 3 = 2 := by rw [hK2]
-    have h₀ : IsSignedCoords ((c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)).range)
+    have _h₀ : IsSignedCoords ((c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)).range)
         (c₀ K (Or.inl rfl : 6 = 6 ∨ 6 = 7)) :=
       c₀_signedCoords (three_ne_zero_of_natCard_mod_three hK3) (Or.inl rfl)
     have hU : UniqueElemSylow 3 3 (StatedProj (StatedSL 6 K)) :=
@@ -52,7 +52,7 @@ private theorem l6_setup
         (by rw [hK2]; norm_num) _
     have hN : (StatedScalars (Fin 6) K).subgroupOf (StatedSL 6 K) = ⊥ := by
       rw [StatedAPI.statedScalars_eq_bot_of_card_two hK2, Subgroup.bot_subgroupOf]
-    exact ⟨K, inferInstance, inferInstance, hK2, hZ, hZ3, e, h₀, hU, hN3, hN⟩
+    exact ⟨K, inferInstance, inferInstance, hK2, hZ, hZ3, _e, _h₀, hU, hN3, hN⟩
   · exact absurd h1 (by decide)
 
 private theorem exists_perfect_map_le_centralizer {H Y : Type} [Group H] [Group Y]

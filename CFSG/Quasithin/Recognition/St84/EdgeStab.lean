@@ -26,7 +26,7 @@ theorem pCoreOf_isPGroup' {G : Type*} [Group G] (H : Subgroup G) :
 
 theorem finite_of_le_stabilizer (h : Hyp30 Γ G) {α : V} {H : Subgroup G}
     (hH : H ≤ MulAction.stabilizer G α) : Finite H := by
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
   exact Finite.of_injective
     (fun x : H => (⟨(x : G), hH x.2⟩ : MulAction.stabilizer G α))
     (fun a b hab => Subtype.ext (congrArg (fun z : MulAction.stabilizer G α => (z : G)) hab))
@@ -46,9 +46,9 @@ theorem subgroupOf_map_subtype_eq {N : Subgroup G} {A : Subgroup N} :
 
 theorem isSylowTwoOf_map_of_sylow {N : Subgroup G} [Finite N] (S : Sylow 2 N) :
     IsSylowTwoOf ((S : Subgroup N).map N.subtype) N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine F7.isSylowTwoOf_of_relIndex (Subgroup.map_subtype_le _)
-    (S.isPGroup'.map N.subtype) ?_
+    (S.isPGroup.map N.subtype) ?_
   rw [Subgroup.relIndex, subgroupOf_map_subtype_eq]
   exact S.not_dvd_index
 
@@ -154,8 +154,8 @@ theorem relIndex_pCoreOf_vertexSylowMap (h : Hyp30 Γ G) {α : V} {N : Subgroup 
     (pCoreOf 2 (MulAction.stabilizer G α)).relIndex (vertexSylowMap h hN β) =
       2 ^ nOf Γ α := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -213,9 +213,9 @@ theorem vertexSylowMap_fixes {h : Hyp30 Γ G} {α : V} {N : Subgroup G}
 theorem isSylowTwoOf_vertexSylowMap_edge {h : Hyp30 Γ G} {α : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β) :
     IsSylowTwoOf (vertexSylowMap h hN β) (N ⊓ MulAction.stabilizer G β) := by classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
   classical
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -242,15 +242,15 @@ theorem edgeLocal_le_normalizer_vertexSylow (h : Hyp30 Γ G) {α : V} {N : Subgr
 theorem edgeSylow_eq_vertexSylowMap (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β) :
     pCoreOf 2 (N ⊓ MulAction.stabilizer G β) = vertexSylowMap h hN β := by classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
   classical
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
         (congrArg (fun z : MulAction.stabilizer G α => (z : G)) h))
   have hSylow := isSylowTwoOf_vertexSylowMap_edge (h := h) hN hαβ
-  haveI : Finite ↥(N ⊓ MulAction.stabilizer G β) :=
+  have : Finite ↥(N ⊓ MulAction.stabilizer G β) :=
     finite_of_le_stabilizer (h := h) (α := α) (H := N ⊓ MulAction.stabilizer G β)
       (inf_le_left.trans hN.le)
   have hnorm := edgeLocal_le_normalizer_vertexSylow h hN hαβ
@@ -260,11 +260,11 @@ theorem edgeSylow_eq_vertexSylowMap (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (Subgroup.normal_subgroupOf_of_le_normalizer hnorm) hp
 
 theorem isSylowTwoOf_vertexSylowMap (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
-    (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β) :
+    (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (_hαβ : Γ.Adj α β) :
     IsSylowTwoOf (vertexSylowMap h hN β) N := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -294,7 +294,7 @@ theorem edgeSylow_fixes_unique (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     exact (huniq b ⟨hb.1, hbS⟩).trans (huniq a0 ⟨ha0.1, ha0.2⟩).symm
 
 theorem edgeSylow_fixes_unique_of_not_pcore (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
-    (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β)
+    (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (_hαβ : Γ.Adj α β)
     {x : G} (hxS : x ∈ vertexSylowMap h hN β)
     (hxQ : x ∉ pCoreOf 2 (MulAction.stabilizer G α)) :
     ∃! a : V, Γ.Adj α a ∧ x • a = a := by
@@ -362,10 +362,10 @@ theorem ncard_neighborSet_diff (h : Hyp30 Γ G) {α β : V} (hαβ : Γ.Adj α �
   have hβ : β ∈ Γ.neighborSet α := by
     rw [SimpleGraph.mem_neighborSet]
     exact hαβ
-  haveI : Finite (Γ.neighborSet α) := hfin
-  haveI : Fintype (Γ.neighborSet α) := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) = β} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) ≠ β} := Fintype.ofFinite _
+  have : Finite (Γ.neighborSet α) := hfin
+  have : Fintype (Γ.neighborSet α) := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) = β} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) ≠ β} := Fintype.ofFinite _
   have hone : Fintype.card {a : Γ.neighborSet α // (a : V) = β} = 1 := by
     rw [Fintype.card_eq_one_iff]
     refine ⟨⟨⟨β, hβ⟩, rfl⟩, ?_⟩
@@ -473,7 +473,7 @@ theorem edgeSylow_transitive (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     simpa [aΔ] using this
   rw [hval, hxb]
 
-theorem edgeLocal_normal (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
+theorem edgeLocal_normal (_h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} :
     ((N ⊓ MulAction.stabilizer G β).subgroupOf
       (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β)).Normal := by
@@ -522,14 +522,14 @@ theorem le_edgeSylow_of_isPGroup (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     {P : Subgroup G} (hP : IsPGroup 2 P) (hPB : P ≤ N ⊓ MulAction.stabilizer G β) :
     P ≤ pCoreOf 2 (N ⊓ MulAction.stabilizer G β) := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
         (congrArg (fun z : MulAction.stabilizer G α => (z : G)) h))
   let B := N ⊓ MulAction.stabilizer G β
-  haveI : Finite ↥B := finite_of_le_stabilizer (h := h) (α := α) (H := N ⊓ MulAction.stabilizer G β)
+  have : Finite ↥B := finite_of_le_stabilizer (h := h) (α := α) (H := N ⊓ MulAction.stabilizer G β)
       (inf_le_left.trans hN.le)
   have hSylow : IsSylowTwoOf (vertexSylowMap h hN β) B :=
     isSylowTwoOf_vertexSylowMap_edge (h := h) hN hαβ
@@ -539,7 +539,7 @@ theorem le_edgeSylow_of_isPGroup (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   obtain ⟨S, hS⟩ := F7.isSylowTwoOf_exists_sylow hSylow
   have hSnormal' : S.Normal := hS ▸ hSnormal
-  haveI : S.Normal := hSnormal'
+  have : S.Normal := hSnormal'
   have hPB' : IsPGroup 2 (P.subgroupOf B) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPB).symm
   obtain ⟨Q, hQ⟩ := hPB'.exists_le_sylow
@@ -569,7 +569,7 @@ theorem edgeSylow_normal_swap (h : Hyp30 Γ G) {α β : V} {N : Subgroup G}
 
 theorem isPGroup_sup_edgeSylow (h : Hyp30 Γ G) {α β : V} {Nα Nβ : Subgroup G}
     (hNα : IsLocL2 Γ G α (nOf Γ α) Nα) (hNβ : IsLocL2 Γ G β (nOf Γ β) Nβ)
-    (hαβ : Γ.Adj α β) :
+    (_hαβ : Γ.Adj α β) :
     IsPGroup 2 ↥((pCoreOf 2 (Nα ⊓ MulAction.stabilizer G β) : Subgroup G) ⊔
       (pCoreOf 2 (Nβ ⊓ MulAction.stabilizer G α) : Subgroup G)) := by
   classical
@@ -593,7 +593,7 @@ theorem isPGroup_sup_edgeSylow (h : Hyp30 Γ G) {α β : V} {Nα Nβ : Subgroup 
 
 theorem sup_edgeSylow_normal (h : Hyp30 Γ G) {α β : V} {Nα Nβ : Subgroup G}
     (hNα : IsLocL2 Γ G α (nOf Γ α) Nα) (hNβ : IsLocL2 Γ G β (nOf Γ β) Nβ)
-    (hαβ : Γ.Adj α β) :
+    (_hαβ : Γ.Adj α β) :
     ((pCoreOf 2 (Nα ⊓ MulAction.stabilizer G β) ⊔
       pCoreOf 2 (Nβ ⊓ MulAction.stabilizer G α)).subgroupOf
         (MulAction.stabilizer G α ⊓ MulAction.stabilizer G β)).Normal := by
@@ -648,14 +648,14 @@ theorem exists_edgeTorus (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
   let B := N ⊓ MulAction.stabilizer G β
   let S := vertexSylowMap h hN β
   have hSB : S ≤ B := le_inf (vertexSylowMap_le hN β) (vertexSylowMap_fixes hN hαβ)
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥B := finite_of_le_stabilizer (h := h) (α := α) (H := B)
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥B := finite_of_le_stabilizer (h := h) (α := α) (H := B)
     (inf_le_left.trans hN.le)
   let Ssub : Subgroup B := S.subgroupOf B
   have hSnormal : Ssub.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (edgeLocal_le_normalizer_vertexSylow h hN hαβ)
-  haveI : Ssub.Normal := hSnormal
+  have : Ssub.Normal := hSnormal
   have hSylow : IsSylowTwoOf S B := isSylowTwoOf_vertexSylowMap_edge hN hαβ
   have hSp : IsPGroup 2 Ssub :=
     hSylow.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hSB).symm
@@ -733,8 +733,8 @@ theorem edgeTorus_cyclic (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (hN : IsLocL2 Γ G α (nOf Γ α) N) {β : V} (hαβ : Γ.Adj α β) :
     IsCyclic (edgeTorus h hN hαβ) ∧ Nat.card (edgeTorus h hN hαβ) = 2 ^ nOf Γ α - 1 := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -769,8 +769,6 @@ theorem edgeTorus_cyclic (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
   have hKSsup : KN ⊔ (S' : Subgroup N) = Subgroup.normalizer (S' : Subgroup N) := by
     apply (Subgroup.map_subtype_inj).mp
     rw [Subgroup.map_sup, hKmap, hSmap, edgeTorus_sup]
-    change N ⊓ MulAction.stabilizer G β =
-      (Subgroup.normalizer (S' : Subgroup N)).map N.subtype
     exact hBnorm
   have hcyc := hN.torus_cyclic h.adj_smul (h.finite_stab α) (h.valency α).2
     (h.valency α).1 S' KN hKSinf hKSsup
@@ -778,7 +776,7 @@ theorem edgeTorus_cyclic (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKle)).symm
   refine ⟨?_, hcard.trans hcyc.2⟩
   change IsCyclic ↥K
-  haveI : IsCyclic ↥KN := hcyc.1
+  have : IsCyclic ↥KN := hcyc.1
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hKle)
     (Subgroup.subgroupOfEquivOfLe hKle).surjective
 
@@ -793,8 +791,8 @@ theorem edgeTorus_N_facts (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
       KN ⊔ (S' : Subgroup N) = Subgroup.normalizer (S' : Subgroup N) ∧
       IsCyclic KN ∧ Nat.card KN = 2 ^ nOf Γ α - 1 := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -830,8 +828,6 @@ theorem edgeTorus_N_facts (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
   have hKSsup : KN ⊔ (S' : Subgroup N) = Subgroup.normalizer (S' : Subgroup N) := by
     apply (Subgroup.map_subtype_inj).mp
     rw [Subgroup.map_sup, hKmap, hSmap, edgeTorus_sup]
-    change N ⊓ MulAction.stabilizer G β =
-      (Subgroup.normalizer (S' : Subgroup N)).map N.subtype
     exact hBnorm
   have hcyc := hN.torus_cyclic h.adj_smul (h.finite_stab α) (h.valency α).2
     (h.valency α).1 S' KN hKSinf hKSsup
@@ -844,8 +840,8 @@ theorem exists_edgeGamma (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     ∃ γ : V, Γ.Adj α γ ∧ γ ≠ β ∧
       edgeTorus h hN hαβ ≤ MulAction.stabilizer G γ := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -941,15 +937,15 @@ theorem ncard_neighborSet_diff_two (h : Hyp30 Γ G) {α β γ : V}
   have hfin : (Γ.neighborSet α).Finite := h.finite_neighborSet α
   have hβ : β ∈ Γ.neighborSet α := by rw [SimpleGraph.mem_neighborSet]; exact hαβ
   have hγ : γ ∈ Γ.neighborSet α := by rw [SimpleGraph.mem_neighborSet]; exact hαγ
-  haveI : Finite (Γ.neighborSet α) := hfin
-  haveI : Fintype (Γ.neighborSet α) := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) = β} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // ¬(a : V) = β} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) = γ} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // ¬(a : V) = γ} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) = β ∨ (a : V) = γ} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // ¬((a : V) = β ∨ (a : V) = γ)} := Fintype.ofFinite _
-  haveI : Fintype {a : Γ.neighborSet α // (a : V) ≠ β ∧ (a : V) ≠ γ} := Fintype.ofFinite _
+  have : Finite (Γ.neighborSet α) := hfin
+  have : Fintype (Γ.neighborSet α) := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) = β} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // ¬(a : V) = β} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) = γ} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // ¬(a : V) = γ} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) = β ∨ (a : V) = γ} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // ¬((a : V) = β ∨ (a : V) = γ)} := Fintype.ofFinite _
+  have : Fintype {a : Γ.neighborSet α // (a : V) ≠ β ∧ (a : V) ≠ γ} := Fintype.ofFinite _
   have honeβ : Fintype.card {a : Γ.neighborSet α // (a : V) = β} = 1 := by
     rw [Fintype.card_eq_one_iff]
     refine ⟨⟨⟨β, hβ⟩, rfl⟩, ?_⟩
@@ -1006,8 +1002,8 @@ theorem stabilizer_edgeTorus_neighbor (h : Hyp30 Γ G) {α : V} {N : Subgroup G}
     let δΔ : Δ := ⟨δ, by change δ ∈ Γ.neighborSet α; rw [SimpleGraph.mem_neighborSet]; exact hδ⟩
     MulAction.stabilizer K δΔ = ⊥ := by
   classical
-  haveI : Finite (MulAction.stabilizer G α) := h.finite_stab α
-  haveI : Finite ↥N :=
+  have : Finite (MulAction.stabilizer G α) := h.finite_stab α
+  have : Finite ↥N :=
     Finite.of_injective
       (fun x : N => (⟨(x : G), hN.le x.2⟩ : MulAction.stabilizer G α))
       (fun a b h => Subtype.ext
@@ -1447,7 +1443,7 @@ theorem kernelOnNeighbors_of_fixes_edgeGamma (h : Hyp30 Γ G) {α β : V} {Nα N
         · obtain ⟨k, hkK, hk⟩ :=
             edgeTorus_transitive h hNα hαβ hδ₀adj hb hδ₀β hδ₀γ hbβ hbγ
           have hc := commute_on_neighbors h hNα hNβ hαβ ht hkK hγt δ₀ hδ₀adj
-          haveI : IsMulCommutative ↥K := (edgeTorus_cyclic h hNα hαβ).1.isMulCommutative
+          have : IsMulCommutative ↥K := (edgeTorus_cyclic h hNα hαβ).1.isMulCommutative
           have hcommK : k * k₁ = k₁ * k := by
             have h' : (⟨k, hkK⟩ : K) * ⟨k₁, hk₁K⟩ = ⟨k₁, hk₁K⟩ * ⟨k, hkK⟩ :=
               mul_comm' _ _
@@ -1475,13 +1471,13 @@ theorem kernelOnNeighbors_of_fixes_edgeGamma (h : Hyp30 Γ G) {α β : V} {Nα N
             MulAction.subgroup_smul_def]
         rw [h1, h2]
         exact hact (aΔ : V) haΔ
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hR2 : IsPGroup 2 ↥(T ⊔ S) := by
         have h' := isPGroup_sup_edgeSylow (h := h) (α := α) (β := β)
           (Nα := Nα) (Nβ := Nβ) hNα hNβ hαβ
         rw [sup_comm] at h'
         exact h'
-      haveI : Finite ↥(T ⊔ S) := finite_of_le_stabilizer h (α := α) (H := T ⊔ S)
+      have : Finite ↥(T ⊔ S) := finite_of_le_stabilizer h (α := α) (H := T ⊔ S)
         (sup_le hTleα hSleα)
       obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hR2
       have htorder : orderOf tα ∣ 2 ^ m := by
@@ -1719,7 +1715,7 @@ theorem isSylowTwoOf_edgeSylow (h : Hyp30 Γ G) {α β : V}
     have hsub := Subgroup.subgroupOf_sup hBαG hBβG
     rw [hsup] at hsub
     simpa [Bα', Bβ'] using hsub.symm
-  haveI : Bα'.Normal := hBα'_normal
+  have : Bα'.Normal := hBα'_normal
   have hrel1 : Bα'.relIndex ⊤ = Bα'.relIndex Bβ' := by
     rw [← hsup']
     exact Subgroup.relIndex_sup_left (H := Bβ') (K := Bα')
@@ -1752,7 +1748,7 @@ theorem edgeSylow_eq_pCoreOf_edge (h : Hyp30 Γ G) {α β : V}
   classical
   let Gαβ := MulAction.stabilizer G α ⊓ MulAction.stabilizer G β
   let Bα := Nα ⊓ MulAction.stabilizer G β
-  haveI : Finite ↥Gαβ := finite_of_le_stabilizer h (α := α) (H := Gαβ) inf_le_left
+  have : Finite ↥Gαβ := finite_of_le_stabilizer h (α := α) (H := Gαβ) inf_le_left
   have hSylow : IsSylowTwoOf (pCoreOf 2 Bα) Gαβ :=
     isSylowTwoOf_edgeSylow h hαβ hNα hNβ
   refine le_antisymm (pCoreOf_le_of_isSylowTwoOf hSylow) ?_

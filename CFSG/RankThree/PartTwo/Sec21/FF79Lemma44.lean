@@ -227,9 +227,9 @@ theorem sec4_facts [Finite G] {b : G} {J B : Subgroup G} {b₁ b₂ : G}
     b₁ ^ 3 = 1 ∧ b₂ ^ 3 = 1 ∧ b₁ * b₂ = b₂ * b₁ ∧ b₂ ∉ Subgroup.zpowers b₁ ∧
       Nat.card (Subgroup.closure ({b₁, b₂} : Set G)) = 3 ^ 2 ∧
       (∀ x ∈ Subgroup.closure ({b₁, b₂} : Set G), x ^ 3 = 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hEl, hcardB⟩ := h4.mono.1
-  haveI := hEl
+  have := hEl
   have hB3 : ∀ g ∈ B, g ^ 3 = 1 := fun g hg =>
     elemPow_eq_one_of_isElementaryAbelian (A := B) g hg
   have hb₁B : b₁ ∈ B := (Subgroup.mem_inf.mp h4.hb₁).1
@@ -332,7 +332,7 @@ theorem gen_by_cent [Finite G] {T : Subgroup G} (hTp : IsPGroup 2 ↥T) {b₁ b�
     (hP : ∀ x, (x = b₁ * b₂ ∨ x = b₁ ^ 2 * b₂) → ∀ z ∈ T, z * x = x * z →
       z * b₁ = b₁ * z ∧ z * b₂ = b₂ * z)
     (W : Subgroup G) (hW : ∀ z ∈ T, (z * b₁ = b₁ * z ∨ z * b₂ = b₂ * z) → z ∈ W) : T ≤ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcompl : ¬ 3 ∣ Nat.card ↥T := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hTp
     intro h3
@@ -366,7 +366,7 @@ theorem extraspecial_aux [Finite G] (h16 : FF79_1_6) {t : G} (ht : orderOf t = 2
     (hb' : ∀ x, (x = b₁ ∨ x = b₂) → ∀ y ∈ T ⊓ Cen x, ∀ z ∈ T ⊓ Cen x,
       y * z * y⁻¹ * z⁻¹ ∈ Subgroup.zpowers t) :
     IsExtraspecialPGroup 2 ↥T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hβC : b₁ * b₂ ∈ Cen t := hJC hβJ
   have hJT : J ≤ Nor T := le_nor_of_conj_mem fun j hj s hs => hTconj j (hJC hj) s hs
   have hTcomm : ∀ y ∈ T, y ^ 2 ∈ Subgroup.zpowers t ∧
@@ -488,7 +488,7 @@ theorem ff79_4_4X_of (h16 : FF79_1_6) (hJ5 : FF79_JL5) (hJ : FF79_4_4J) (hβ : F
   intro G _ _ b J B b₁ b₂ h4 t ht hc1 hc2 hinv
   have hI : FF79Inv b b₁ b₂ t := ⟨ht, hc1, hc2, hinv⟩
   obtain ⟨hb13, hb23, hcomm, hK1, hcardA, hA3⟩ := sec4_facts h4
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJC : J ≤ Cen t := hJ G b J B b₁ b₂ h4 t hI
   have hJL : IsLnq 5 2 1 J := hJ5 G b J h4.hyp
   have hβJ : b₁ * b₂ ∈ J :=

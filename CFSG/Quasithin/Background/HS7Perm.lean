@@ -350,7 +350,7 @@ theorem two_le_nPrime : 2 ≤ E3.nPrime (⊤ : Subgroup (Perm (Fin 4 ⊕ Fin 3))
     exact x.2
   have hS₀ : IsSylowIn 2 S H := by
     refine ⟨hSH, ?_, ?_⟩
-    · exact IsPGroup.map S₀.isPGroup' H.subtype
+    · exact IsPGroup.map S₀.isPGroup H.subtype
     · have : S.subgroupOf H = S₀ := by
         rw [hS]
         exact Subgroup.comap_map_eq_self_of_injective H.subtype_injective (S₀ : Subgroup ↥H)

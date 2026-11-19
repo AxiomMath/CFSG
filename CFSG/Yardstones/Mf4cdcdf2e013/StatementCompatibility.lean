@@ -12,15 +12,14 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem quasisimpleModOTwo_subgroupOf {M L : Subgroup G} (containment : L ≤ M)
     (hyp : QuasisimpleModOTwo L) : QuasisimpleModOTwo (L.subgroupOf M) := by
   obtain ⟨normalCore, quasisimple⟩ := hyp
-  letI := normalCore
+  let := normalCore
   let equivalence := (Subgroup.subgroupOfEquivOfLe containment).symm
   have coreMap : (CFSG.Open.pCore 2 ↥L).map equivalence.toMonoidHom =
       CFSG.Open.pCore 2 ↥(L.subgroupOf M) := by
-    change (CFSG.pCore 2 ↥L).map equivalence.toMonoidHom =
-      CFSG.pCore 2 ↥(L.subgroupOf M)
     exact CFSG.pCore_map_iso 2 equivalence
   let quotientEquivalence := QuotientGroup.congr (CFSG.Open.pCore 2 ↥L)
     (CFSG.Open.pCore 2 ↥(L.subgroupOf M)) equivalence coreMap
@@ -28,7 +27,7 @@ theorem quasisimpleModOTwo_subgroupOf {M L : Subgroup G} (containment : L ≤ M)
 
 theorem asc83CComponent_isCComponent {M L : Subgroup G} (hyp : Asc83CComponent M L) :
     CFSG.IsCComponent (L.subgroupOf M) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hyp with ⟨containment, subnormal, perfect, quasisimple⟩
   let component : Subgroup M := L.subgroupOf M
   let kernel : Subgroup M := (CFSG.pCore 2 ↥component).map component.subtype
@@ -38,14 +37,14 @@ theorem asc83CComponent_isCComponent {M L : Subgroup G} (hyp : Asc83CComponent M
   have kernelNormal : (kernel.subgroupOf component).Normal := by
     rw [kernelEq]
     infer_instance
-  letI := kernelNormal
+  let := kernelNormal
   have componentPerfect : Group.IsPerfect component := by
     apply Subgroup.isPerfect_iff.mpr
     apply Subgroup.map_injective M.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le containment, perfect]
   obtain ⟨normalCore, quotientQuasisimple⟩ :=
     quasisimpleModOTwo_subgroupOf containment quasisimple
-  letI := normalCore
+  let := normalCore
   have quotientCanonical : CFSG.IsQuasisimple (component ⧸ kernel.subgroupOf component) := by
     have sourceQuasisimple : CFSG.IsQuasisimple
         (component ⧸ CFSG.pCore 2 ↥component) :=

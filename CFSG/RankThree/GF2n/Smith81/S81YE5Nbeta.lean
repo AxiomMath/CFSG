@@ -41,10 +41,10 @@ theorem act7_nBeta_single [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : I
   have hB := act7_xm_one_single (K := K) hβn ν
   have hC := act7_xm_one_single (K := K) hβn (shift β ν)
   have hD := act7_xm_one_single (K := K) hβ (shift β ν)
-  rw [if_pos h] at hA
-  rw [if_neg h1, add_zero] at hB
-  rw [if_pos h3, h4] at hC
-  rw [if_neg h5, add_zero] at hD
+  rw [ite_eq_left h] at hA
+  rw [ite_eq_right h1, add_zero] at hB
+  rw [ite_eq_left h3, h4] at hC
+  rw [ite_eq_right h5, add_zero] at hD
   have hX : act7 (e7Data_valid.xm K (-β) 1) (act7 (e7Data_valid.xm K β 1) (Finsupp.single ν 1)) =
       Finsupp.single (shift β ν) 1 := by
     rw [hA, map_add, hB, hC, ← add_assoc,

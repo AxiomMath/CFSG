@@ -40,7 +40,7 @@ theorem z4_not_weaklyClosed_of_weak (hE9 : HallWeaklyClosedFourWeak)
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       intro hQT
       exact hne (le_antisymm hTQ hQT)
-    have hnil : Group.IsNilpotent ↥(Q : Subgroup G) := Q.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent ↥(Q : Subgroup G) := Q.isPGroup.isNilpotent
     obtain ⟨⟨n, hnQ⟩, hnN, hnT⟩ := IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥(Q : Subgroup G)) _ hlt)
     have hnT' : n ∉ T := fun hn => hnT hn
@@ -63,7 +63,7 @@ theorem z4_not_weaklyClosed_of_weak (hE9 : HallWeaklyClosedFourWeak)
       sup_le hTQ ((Subgroup.zpowers_le).2 hnQ)
     have hP'M : T ⊔ Subgroup.zpowers n ≤ M :=
       sup_le hT.le ((Subgroup.zpowers_le).2 hnM)
-    have heq := hT.eq_of_le le_sup_left hP'M (Q.isPGroup'.to_le hP'Q)
+    have heq := hT.eq_of_le le_sup_left hP'M (Q.isPGroup.to_le hP'Q)
     exact hnT' (heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers n))
   have hTG : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ := by
     refine (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, hT.isPGroup, ?_⟩

@@ -60,6 +60,7 @@ theorem comp_unique (h : Hyp326 G n P)
   · exact hna₁' hc
   · exact hna₂' hc
 
+omit [Finite G] in
 theorem comp_normal
     (hu : ∀ L₁ L₂ : Subgroup G, CFSG.Open.IsComponentOf L₁ ⊤ → CFSG.Open.IsComponentOf L₂ ⊤ →
       L₁ = L₂) {L : Subgroup G} (hL : CFSG.Open.IsComponentOf L ⊤) : L.Normal := by

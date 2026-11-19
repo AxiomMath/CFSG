@@ -24,6 +24,7 @@ theorem N1_comm_alpha {g : G} (hg : g ∈ c.N1) : g * α = α * g := by
 
 variable {π : MulAut ↥E →* Equiv.Perm (Fin 5)}
 
+omit [Finite G] c in
 theorem pi_conj_eq_one (hπ : EPi E π) (e : ↥E) : π (MulAut.conj e) = 1 :=
   (hπ.ker _).2 ⟨e, rfl⟩
 
@@ -60,9 +61,9 @@ theorem pi_qb {π : MulAut ↥E →* Equiv.Perm (Fin 5)} (hπ : EPi E π) {q b :
   rw [hsplit, hb', hq']
   constructor
   · show π (MulAut.conj e₁ * c.kappa ⟨b, hb⟩) = _
-    rw [map_mul, pi_conj_eq_one c hπ, one_mul]
+    rw [map_mul, pi_conj_eq_one hπ, one_mul]
   · show π (MulAut.conj e₂ * c.kappa ⟨b, hb⟩) = _
-    rw [map_mul, pi_conj_eq_one c hπ, one_mul]
+    rw [map_mul, pi_conj_eq_one hπ, one_mul]
 
 theorem pi_qbσ {π : MulAut ↥E →* Equiv.Perm (Fin 5)} (hπ : EPi E π) {q b : G}
     (hq : q ∈ c.Qs) (hb : b ∈ B) (hm : q * b * σ ∈ c.N1) :
@@ -77,9 +78,9 @@ theorem pi_qbσ {π : MulAut ↥E →* Equiv.Perm (Fin 5)} (hπ : EPi E π) {q b
   rw [hsplit, hb', hq', c.rho_sigma]
   constructor
   · show π (MulAut.conj e₁ * c.kappa ⟨b, hb⟩ * convN ⟨σ, c.hσ.norm_E⟩) = _
-    rw [map_mul, map_mul, pi_conj_eq_one c hπ, one_mul]
+    rw [map_mul, map_mul, pi_conj_eq_one hπ, one_mul]
   · show π (MulAut.conj e₂ * c.kappa ⟨b, hb⟩ * convN ⟨σ, c.hσ.norm_E⟩) = _
-    rw [map_mul, map_mul, pi_conj_eq_one c hπ, one_mul]
+    rw [map_mul, map_mul, pi_conj_eq_one hπ, one_mul]
 
 theorem pi_eq_of_mem_M (hπ : EPi E π) {m : G}
     (hm : m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G)) (hmN1 : m ∈ c.N1) :

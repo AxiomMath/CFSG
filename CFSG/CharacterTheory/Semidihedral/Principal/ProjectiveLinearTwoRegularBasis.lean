@@ -48,7 +48,7 @@ theorem sylow_two_le_coordinateD {p f : ℕ} (hp : p.Prime) (hodd : Odd p) (hf :
   have hyΓ' : y ∈ Γ' := s.2
   have himg : fieldProjection F y ∈ SemilinearOddExtensions.fieldImage F Γ' :=
     Subgroup.mem_map_of_mem _ hyΓ'
-  obtain ⟨n, hn⟩ := (Sylow.isPGroup' S) ⟨s, hs⟩
+  obtain ⟨n, hn⟩ := (Sylow.isPGroup S) ⟨s, hs⟩
   have hsn : s ^ 2 ^ n = 1 := by
     have := congrArg Subtype.val hn
     simpa using this

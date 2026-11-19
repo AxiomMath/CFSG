@@ -106,9 +106,9 @@ theorem r4_card_eOf {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {D 
     (hΦc : ∀ x ∈ (frattini ↥D).map D.subtype, ∀ d ∈ D, x * d = d * x)
     (hYD : Y ≤ D) (hY : Nat.card Y = p) (hrank : 4 ≤ CFSG.pRank p (↥D ⧸ frattini ↥D)) :
     p ^ 4 ≤ Nat.card (eOf D Y) := by
-  haveI : Fact (IsPGroup p ↥D) := ⟨hD⟩
+  have : Fact (IsPGroup p ↥D) := ⟨hD⟩
   have hQcard : p ^ 4 ≤ Nat.card (↥D ⧸ frattini ↥D) := by
-    haveI := CFSG.isElementaryAbelian_quotient_frattini (R := ↥D) (p := p)
+    have := CFSG.isElementaryAbelian_quotient_frattini (R := ↥D) (p := p)
     rw [r4c_card_eq_pow_of_pRank (p := p) (A := ↥D ⧸ frattini ↥D) (k := CFSG.pRank p (↥D ⧸ frattini ↥D)) rfl]
     exact Nat.pow_le_pow_right (Fact.out : p.Prime).pos hrank
   obtain ⟨y, hyY, hgen⟩ := r4c_exists_gen hY (fun x hx => hexp x (hYD hx))

@@ -42,7 +42,7 @@ theorem index_normalizer_le [Finite G] {X Γ J : Subgroup G}
   by_contra hlt
   replace hlt := not_le.1 hlt
   set H : Subgroup Γ := (Subgroup.normalizer (J : Set G)).subgroupOf Γ with hH
-  letI : Fintype (Γ ⧸ H) := Fintype.ofFinite _
+  let : Fintype (Γ ⧸ H) := Fintype.ofFinite _
   have hidx : H.index = Fintype.card (Γ ⧸ H) := by
     rw [Subgroup.index, Nat.card_eq_fintype_card]
   obtain ⟨e⟩ : Nonempty (Fin (k + 1) ↪ Γ ⧸ H) :=
@@ -113,7 +113,7 @@ variable {J : Subgroup G}
 theorem not_comm_quotient_center (hJ : CFSG.Open.IsQuasisimple J) :
     ¬ ∀ a b : J ⧸ Subgroup.center J, a * b = b * a := by
   intro hcomm
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2
   have h1 : commutator J ≤ Subgroup.center J := by
     refine Subgroup.commutator_le.2 fun g₁ _ g₂ _ => ?_
     rw [← QuotientGroup.eq_one_iff]
@@ -150,7 +150,7 @@ theorem exists_prime_ge_five_dvd_index_center [Finite G] (hJ : CFSG.Open.IsQuasi
   by_contra hno
   have hno' : ∀ r : ℕ, r.Prime → 5 ≤ r → ¬ r ∣ (Subgroup.center J).index := fun r hr h5 hd =>
     hno ⟨r, hr, h5, hd⟩
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.2
   have hne : (Subgroup.center J).index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hpr : ∀ r : ℕ, r.Prime → r ∣ (Subgroup.center J).index → r = 2 ∨ r = 3 := by
     intro r hr hrd
@@ -162,7 +162,7 @@ theorem exists_prime_ge_five_dvd_index_center [Finite G] (hJ : CFSG.Open.IsQuasi
     have h5 : 5 ≤ r := by omega
     exact hno' r hr h5 hrd
   have hform := eq_two_pow_mul_three_pow hne hpr
-  letI : Fintype (J ⧸ Subgroup.center J) := Fintype.ofFinite _
+  let : Fintype (J ⧸ Subgroup.center J) := Fintype.ofFinite _
   have hsolv : Group.IsSolvable (J ⧸ Subgroup.center J) := by
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       Nat.prime_two Nat.prime_three (by norm_num)
@@ -182,7 +182,7 @@ theorem exists_pComplement_of_central_order_prime {H : Type*} [Group H] [Finite 
     ∃ K : Subgroup H, K.Normal ∧ commutator H ≤ K ∧ Nat.card K * p = Nat.card H ∧
       ¬ p ∣ Nat.card K ∧ ∀ h : H, h ∈ K ↔ ¬ p ∣ orderOf h := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpd : p ∣ Nat.card H := by
     rw [← hz]
     exact orderOf_dvd_natCard z
@@ -211,7 +211,7 @@ theorem exists_pComplement_of_central_order_prime {H : Type*} [Group H] [Finite 
   let φ : H →* P := MonoidHom.transferSylow P hnorm
   have hcompl := MonoidHom.ker_transferSylow_isComplement' P hnorm
   have hcard : Nat.card φ.ker * p = Nat.card H := by
-    have := hcompl.card_mul
+    have := hcompl.card_mul_card
     rwa [hPcard] at this
   have hcomm_ker : commutator H ≤ φ.ker := by
     refine Subgroup.commutator_le.2 fun g₁ _ g₂ _ => ?_
@@ -256,14 +256,14 @@ theorem not_sq_dvd_card_of_le_centralizer [Finite G] {p : ℕ} (hp : p.Prime) {Q
       Nat.card P ≤ p)
     (hC : C ≤ Subgroup.centralizer (Q : Set G)) : ¬ p ^ 2 ∣ Nat.card C := by
   intro h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p C))
   have hcard : Nat.card ((P : Subgroup C).map C.subtype) = p ^ (Nat.card C).factorization p := by
     rw [Subgroup.card_map_of_injective C.subtype_injective, Sylow.card_eq_multiplicity]
   have hf : 2 ≤ (Nat.card C).factorization p :=
     (hp.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 h2
   have hle := hCQ ((P : Subgroup C).map C.subtype) ((Subgroup.map_subtype_le _).trans hC)
-    (P.isPGroup'.map C.subtype)
+    (P.isPGroup.map C.subtype)
   rw [hcard] at hle
   have h3 : p ^ 2 ≤ p ^ (Nat.card C).factorization p := Nat.pow_le_pow_right hp.pos hf
   have h4 : p ^ 2 ≤ p := h3.trans hle
@@ -278,7 +278,7 @@ theorem not_dvd_card_of_perfect_le_centralizer [Finite G] {p : ℕ} (hp : p.Prim
     (hperf : commutator J = ⊤) : ¬ p ∣ Nat.card J := by
   classical
   intro hpJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := J) p hpJ
   have hxo : orderOf (x : G) = p := by rw [Subgroup.orderOf_coe]; exact hx
   have hwJ' : w ∈ J := by
@@ -374,7 +374,7 @@ theorem pow_dvd_card_centralizer [Finite G] {p : ℕ} (hp : p.Prime) {w : G} (hw
     {n : ℕ} (hn : p ^ n ∣ Nat.card L) :
     p ^ n ∣ Nat.card (Subgroup.centralizer ({w} : Set G)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ψ : L →* MulAut (Subgroup.zpowers w) :=
     (normalizerToMulAut (Subgroup.zpowers w)).comp (Subgroup.inclusion hL)
   have hker : ((ψ.ker).map L.subtype) ≤ Subgroup.centralizer ({w} : Set G) := by
@@ -386,7 +386,7 @@ theorem pow_dvd_card_centralizer [Finite G] {p : ℕ} (hp : p.Prime) {w : G} (hw
   have hcardmul := Subgroup.card_mul_index ψ.ker
   have hind : ψ.ker.index ∣ p - 1 := by
     rw [Subgroup.index_ker]
-    haveI : Finite (MulAut (Subgroup.zpowers w)) :=
+    have : Finite (MulAut (Subgroup.zpowers w)) :=
       Finite.of_injective (fun φ : MulAut (Subgroup.zpowers w) => (φ : _ → _))
         DFunLike.coe_injective
     have h1 : Nat.card ψ.range ∣ Nat.card (MulAut (Subgroup.zpowers w)) :=

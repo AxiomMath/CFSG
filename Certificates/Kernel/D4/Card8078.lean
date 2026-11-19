@@ -108,7 +108,7 @@ theorem eq_one_of_d4Rho_eq_one (g : lineGroup) (hg : d4Rho g = 1) : g = 1 := by
     have hfx := horb _ hmem
     obtain ⟨-, -, hne, -⟩ := validV_spec hv
     unfold decL at hfx
-    rw [dif_pos hne] at hfx
+    rw [dite_eq_left hne] at hfx
     obtain ⟨c, hc⟩ := exists_eigen_of_fixed_line _ _ hne hfx
     have hvec : vecOf (unpack 8 3 (pk8078 (faithDigits.getD t []))) = wv t := by
       funext j

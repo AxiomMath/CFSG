@@ -149,7 +149,7 @@ theorem mem_normalizer_of_conjAct_mem_normalizer (hA : Asc81bHyp M S) (hL : IsWe
 
 theorem isSylowTwoOf_inf_of_relIndex (hA : Asc81bHyp M S) (hL : IsWeakSBlock M S L)
     (hSL : S ≤ Subgroup.normalizer (L : Set G)) (hZ : Subgroup.center ↥(barM (L ⊔ S) L) = ⊥)
-    (hSs : autOn S (blockV S L) ≤ autOn L (blockV S L))
+    (_hSs : autOn S (blockV S L) ≤ autOn L (blockV S L))
     (hodd : ¬ 2 ∣ (autOn S (blockV S L)).relIndex (autOn L (blockV S L))) :
     IsSylowTwoOf (S ⊓ L) L := by
   have hLV : L ≤ Subgroup.normalizer (blockV S L : Set G) :=

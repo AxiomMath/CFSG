@@ -164,7 +164,7 @@ theorem isSylowOf_yamadaU₁_sup (h : Setup G L f t) (d : G2Data L K) (hK : Nat.
   have hTH := h.yamadaU₁_sup_le_centralizer_J₁ d h8
   obtain ⟨S, hS⟩ := ((h.isPGroup_yamadaU₁_sup d hK hD).of_equiv
     (subgroupOfEquivOfLe hTH).symm).exists_le_sylow
-  exact ⟨S, h.eq_yamadaU₁_sup_of_isPGroup d hK h8 (S.isPGroup'.map _) (map_subtype_le _)
+  exact ⟨S, h.eq_yamadaU₁_sup_of_isPGroup d hK h8 (S.isPGroup.map _) (map_subtype_le _)
     fun x hx => ⟨⟨x, hTH hx⟩, hS (mem_subgroupOf.2 hx), rfl⟩⟩
 
 theorem conj_t_not_mem_yamadaU₁ (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f)

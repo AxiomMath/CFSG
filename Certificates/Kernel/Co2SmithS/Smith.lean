@@ -148,8 +148,8 @@ theorem elements_ok : elementsOK seedRowsArr = true := by
       eqK (mulV (hS i) zmS) zmS) && t) (KernelCo2Smith.all_congr_mem fun j hj => ?_)
     rw [hRows_get (List.mem_range.1 hj)]
     by_cases hc : hypC i j = true
-    · rw [if_pos hc, if_pos hc, mulRows_unpack, mulRows_unpack, mulRows_unpack, beq_unpack]
-    · rw [if_neg hc, if_neg hc, mulRows_unpack, mulRows_unpack, beq_unpack]
+    · rw [ite_eq_left hc, ite_eq_left hc, mulRows_unpack, mulRows_unpack, mulRows_unpack, beq_unpack]
+    · rw [ite_eq_right hc, ite_eq_right hc, mulRows_unpack, mulRows_unpack, beq_unpack]
   · simp only [nfRows_eq, colAct_eq]
     have hs := sorted_of_nodupB _ (by simpa using e10a) e10b
     unfold sigS at hs
@@ -250,7 +250,7 @@ theorem chain_ok' : chainOK seedRowsArr = true := by
     rw [hG l hl, colAct_eq]
     rfl
   unfold chainRecOK at hrec
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, List.all_eq_true,
+  simp only [Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
     List.mem_range] at hrec
   obtain ⟨⟨⟨hr, hl⟩, hpos⟩, hle⟩ := hrec
   have hs := orbRec_sound (cap := 100) hpos hle hstep (Nat.eq_of_beq_eq_true hl) (by

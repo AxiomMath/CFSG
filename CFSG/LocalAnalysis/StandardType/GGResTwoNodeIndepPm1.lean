@@ -176,12 +176,12 @@ theorem ggIndep_pm1_join_of_deleted_connected (hJr : GGForkJr) (hPump : GGForkPu
   have hBs : IsElemAbelian p Bs := hH.1.2.1.2.1
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V', i3, i4, ι', φX, hX, αX, hb, hWM, hC, hWMJ, hMJ,
     hlinX, hreflX, hpairX, hfX, hclosX, hfJ, hclosJ, hconj⟩ := hXs
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   obtain ⟨fX, hfX⟩ := hfX
   obtain ⟨fJ, hfJ⟩ := hfJ
   obtain ⟨Λ₁, iΛ₁f, iΛ₁d, M₁, C₁, V₁, iV₁add, iV₁mod, ι₁, φ₁, h₁, α₁, e₁, hM₁, hWM₁, hC₁, hlin₁,
     hrefl₁, hpair₁, ⟨f₁, hf₁⟩, hclos₁⟩ := hXd
-  letI := iΛ₁f; letI := iΛ₁d; letI := iV₁add; letI := iV₁mod
+  let := iΛ₁f; let := iΛ₁d; let := iV₁add; let := iV₁mod
   have hn2 : 2 ≤ N - 1 := by omega
   obtain ⟨e₂, hM₂⟩ :=
     ggTW_typeA_of_datum (p := p) (n := N - 1) hp2 hn2 hBs (ggAutomizer X Bs) e₁ hM₁ hWM₁ f₁ φ₁
@@ -195,7 +195,7 @@ theorem ggIndep_pm1_join_of_deleted_connected (hJr : GGForkJr) (hPump : GGForkPu
         (hM₂ ▸ hdel)
     exact ⟨j, j', hj1, hj2, hj'1, hj'2, hjne, by rw [hM₂]; exact hM3⟩
   let Λa := {ψ : MulAut ↥Bs // ψ ∈ ggAutomizer Y Bs ∧ GGIsReflection p ψ}
-  haveI : Finite V' := Finite.of_equiv (Additive ↥Bs) ι'.toEquiv
+  have : Finite V' := Finite.of_equiv (Additive ↥Bs) ι'.toEquiv
   have hex : ∀ a : Λa, ∃ (x : V') (f : Module.Dual (ZMod p) V'),
       f x = 2 ∧ ∀ w, ggLin (p := p) ι' a.1 w = w - f w • x :=
     fun a => exists_of_ggIsReflection (p := p) ι' a.2.2

@@ -98,7 +98,7 @@ theorem openQuasisimple_of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃*
     have h1 := Subgroup.map_commutator (f := e.toMonoidHom) (H₁ := (⊤ : Subgroup A)) (H₂ := ⊤)
     rw [hA1, htop] at h1
     exact h1.symm
-  · haveI := hA.2
+  · have := hA.2
     exact MulEquiv.isSimpleGroup (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).symm
 

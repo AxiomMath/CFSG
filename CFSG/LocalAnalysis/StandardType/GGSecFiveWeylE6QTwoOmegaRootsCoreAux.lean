@@ -78,7 +78,7 @@ theorem rootRefl_noComm (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod
           Set.ncard_image_le (Set.toFinite Set.univ)
       _ = Nat.card (ZMod 3 × ZMod 3) := Set.ncard_univ _
       _ = 9 := by rw [Nat.card_prod, Nat.card_zmod]
-  have hDdiff : (D \ {0}).ncard = D.ncard - 1 := Set.ncard_diff_singleton_of_mem h0D
+  have hDdiff : (D \ {0}).ncard = D.ncard - 1 := Set.ncard_sdiff_singleton_of_mem h0D
   have hψsub : ψ '' Φ ⊆ D \ {0} := by
     rintro z ⟨v, hvΦ, rfl⟩
     have hD : ∃ a b : ZMod 3, ψ v = a • x + b • y :=

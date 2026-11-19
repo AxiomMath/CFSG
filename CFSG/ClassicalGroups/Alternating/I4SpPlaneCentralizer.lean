@@ -51,7 +51,7 @@ theorem app_eq_of_commute_planeGroup (hBN : BN.IsAlt) (hBNnd : BN.Nondegenerate)
       have h3 := Submodule.finrank_mono hle
       rw [hπ.2, hfr] at h3
       omega
-    obtain ⟨w, hwπ, hw⟩ := SetLike.not_le_iff_exists.mp hspan
+    obtain ⟨w, hwπ, hw⟩ := IsConcreteLE.not_le_iff_exists.mp hspan
     have hxw : LinearIndependent K ![x, w] := by
       rw [LinearIndependent.pair_iff' hx0]
       intro a ha

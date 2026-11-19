@@ -197,10 +197,10 @@ noncomputable def signalizerOn [Finite G] (A : Set G) (x : G) : Subgroup G :=
   if x ∈ A then signalizer x else ⊥
 
 theorem signalizerOn_of_mem [Finite G] {A : Set G} {x : G} (hx : x ∈ A) :
-    signalizerOn A x = signalizer x := by classical rw [signalizerOn, if_pos hx]
+    signalizerOn A x = signalizer x := by classical rw [signalizerOn, ite_eq_left hx]
 
 theorem signalizerOn_of_notMem [Finite G] {A : Set G} {x : G} (hx : x ∉ A) :
-    signalizerOn A x = ⊥ := by classical rw [signalizerOn, if_neg hx]
+    signalizerOn A x = ⊥ := by classical rw [signalizerOn, ite_eq_right hx]
 
 @[expose]
 noncomputable def sigSignalizer [Finite G] (X : Subgroup G) : G → Subgroup G :=
@@ -345,7 +345,7 @@ theorem conj_mul_eq (hρ : IsConjModule p H X V e ρ) (x y : ↥X) (h : ↥H)
 theorem apply_mul (x y : ↥X) (v : V) : ρ (x * y) v = ρ x (ρ y v) := by
   rw [map_mul]; rfl
 
-theorem conj_one_eq (hρ : IsConjModule p H X V e ρ) (h : ↥H) :
+theorem conj_one_eq (_hρ : IsConjModule p H X V e ρ) (h : ↥H) :
     ρ (1 : ↥X) (Multiplicative.toAdd (e h)) = Multiplicative.toAdd (e h) := by
   simp
 

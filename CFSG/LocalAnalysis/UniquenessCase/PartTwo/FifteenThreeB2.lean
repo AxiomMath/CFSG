@@ -552,18 +552,18 @@ theorem s15_Three_abstract_AW (hMcL : RMcLaughlin) (hDer : RJPrime153) (hNorm : 
     (hsemi : s15Semisimple (s15AW h))
     (htrans : ∀ I I' : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L),
       IsIrrOn (s15AW h) I ⊥ → IsIrrOn (s15AW h) I' ⊥ →
-        ∃ n ∈ s15NW h, s15SecIso (s15AW h) (I.map (n : MulAut _).toMonoidHom) ⊥ I' ⊥)
+        ∃ _n ∈ s15NW h, s15SecIso (s15AW h) (I.map (_n : MulAut _).toMonoidHom) ⊥ I' ⊥)
     {t : MulAut ↥(wStar D.M V₀ V h.isElemAbelian L)} (htN : t ∈ s15NW h)
     (ht : InducesTransvection t (⊤ : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L))) :
     ∃ B : Subgroup (MulAut ↥(wStar D.M V₀ V h.isElemAbelian L)),
       B = ⁅s15AW h, Subgroup.zpowers t⁆ ∧ B ≤ s15AW h ∧
       IsDirectProdOfConj (s15AW h) B (s15NW h) ∧ s15KNat ↥B B (commSub ⊤ B) ∧
-      sSupIndep {Z : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L) | ∃ n ∈ s15NW h,
-        Z = commSub ⊤ (B.map (MulAut.conj n).toMonoidHom)} ∧
-      sSup {Z : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L) | ∃ n ∈ s15NW h,
-        Z = commSub ⊤ (B.map (MulAut.conj n).toMonoidHom)} = ⊤ :=
+      sSupIndep {Z : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L) | ∃ _n ∈ s15NW h,
+        Z = commSub ⊤ (B.map (MulAut.conj _n).toMonoidHom)} ∧
+      sSup {Z : Subgroup ↥(wStar D.M V₀ V h.isElemAbelian L) | ∃ _n ∈ s15NW h,
+        Z = commSub ⊤ (B.map (MulAut.conj _n).toMonoidHom)} = ⊤ :=
   s15_Three_abstract hMcL hDer hNorm (s15_Three_wStar_exp h)
-    (s15_Three_AW_le_NW h) (fun n hn a => s15_Three_NW_normalizes h1217 h hn a)
+    (s15_Three_AW_le_NW h) (fun _n hn a => s15_Three_NW_normalizes h1217 h hn a)
     htN ht (s15_Three_fstar_AW h1217 h hL) (s15_Three_twoCore_AW h1217 h hL)
     (s15_Three_commSub_AW h) hsemi htrans
 

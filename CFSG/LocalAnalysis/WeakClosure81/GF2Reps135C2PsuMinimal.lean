@@ -35,13 +35,13 @@ private theorem c2psumin_not_mem_zero {f n : ℕ} (hf : 0 < f) (hn : 0 < n)
   | succ p ih =>
     rw [Function.iterate_succ_apply']
     by_cases hr : (r : ℕ) = 0
-    · rw [rotEps, dif_pos hr, mem_image_labelStar_iff]
+    · rw [rotEps, dite_eq_left hr, mem_image_labelStar_iff]
       have hz : labelStar (⟨0, hn⟩ : Fin n) = ⟨0, hn⟩ := by
         ext
         simp [labelStar]
       rw [hz]
       exact ih _
-    · rw [rotEps, dif_neg hr]
+    · rw [rotEps, dite_eq_right hr]
       exact ih _
 
 private theorem c2psumin_isFullNode_iterate {f n : ℕ} (hf : 0 < f)
@@ -74,7 +74,7 @@ theorem w135c2_psu_char_of_hasUnitaryLabel {m f : ℕ} (hm : 2 ≤ m) {K : Type}
       ∀ p : ℕ, 0 < p → (∀ h ∈ ⨆ i, levelTorus (unitaryInvolution K 2 f) i,
         chiEps φ₀ ε h ^ 2 ^ p = chiEps φ₀ ε h) → s ≤ p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk, hchar, halg, φ₀, ζ, hζ, y, χ, μ, htype, h0, hχ, -⟩ := hε
   have hH : (curtisDatum hK m hm ζ hζ).H = ⨆ i, levelTorus (unitaryInvolution K 2 f) i := by
     unfold curtisDatum
@@ -96,7 +96,7 @@ theorem w135c2_psu_char_of_hasUnitaryLabel {m f : ℕ} (hm : 2 ≤ m) {K : Type}
     have hrange := isCurtisType_fieldRange_eq_closure (ρ := ρ)
       (D := curtisDatum hK m hm ζ hζ) (k := k) htype
     let C : Subfield k := TauCeti.frobeniusFixedSubfield k 2 p
-    haveI : Finite C := TauCeti.finite_frobeniusFixedSubfield k 2 p hp0.ne'
+    have : Finite C := TauCeti.finite_frobeniusFixedSubfield k 2 p hp0.ne'
     have hle : (algebraMap E k).fieldRange ≤ C := by
       rw [hrange]
       refine Subfield.closure_le.mpr ?_

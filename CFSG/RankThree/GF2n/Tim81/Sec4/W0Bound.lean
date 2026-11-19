@@ -230,11 +230,11 @@ theorem false_of_card_lt_fixedSub
   classical
   rcases hL with ⟨F, hField, hFintype, hCharP, h4, ⟨ψ⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, ha, hF, ⟨ψ⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     set ρ : Representation (ZMod 2) SL(2, F) (subW hW W₀) := subRepW hW ψ hW₀ hN
-    haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+    have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
     have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
     obtain ⟨n, -, hFn⟩ := FiniteField.card F 2
     have hn : 1 ≤ (n : ℕ) :=
@@ -254,12 +254,12 @@ theorem false_of_card_lt_fixedSub
       have hlt' : Nat.card ↥(subW hW W₀) < Nat.card ↥(V ⊓ W₀) ^ 4 := h1.symm ▸ hlt
       simpa only [hfix] using hlt'
     exact not_isNaturalModule_subRepW h hPH hVH hH hnM ψ hW₀ hN hW₀ne hnat
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     set ρ : Representation (ZMod 2) ↥(CFSG.Blueprint.suzukiGroup a F) (subW hW W₀) :=
       subRepW hW ψ hW₀ hN
-    haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+    have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
     have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
     have hK : Nat.card F = 2 ^ (2 * a + 1) := by
       rw [Nat.card_eq_fintype_card]
@@ -360,6 +360,7 @@ private theorem card_inf_centralizer_le_of_swap {X : Type} [Group X] [Finite X]
   rw [hxy] at hx
   exact Subtype.ext (hx.trans hy.symm)
 
+omit [Finite G] in
 private theorem inf_centralizer_mul_kOf_eq {W₀ : Subgroup G} {x y k : G}
     (hW₀ : W₀ ≤ Tim79a.xOf V H) (hk : k ∈ kOf V H) (hx : x = y * k) :
     W₀ ⊓ Subgroup.centralizer ({x} : Set G) =
@@ -390,6 +391,7 @@ private theorem inf_centralizer_mul_kOf_eq {W₀ : Subgroup G} {x y k : G}
       rw [h2, h3, hwy]
     exact ⟨hw, by rwa [hx]⟩
 
+omit [Finite G] in
 private theorem inf_centralizer_conj_eq_conj {W₀ : Subgroup G} {g t : G}
     (hN : H ≤ Subgroup.normalizer (W₀ : Set G)) (hg : g ∈ H) :
     W₀ ⊓ Subgroup.centralizer ({g * t * g⁻¹} : Set G) =
@@ -426,6 +428,7 @@ private theorem commute_of_le_xOf (h : RootHyp M V) (hPH : Pc M V ≤ H)
       _ = (a : G) * ((x * (a : G) * x⁻¹) * (b : G)) * (x * (b : G) * x⁻¹) := by rw [hba]
       _ = ((a : G) * (x * (a : G) * x⁻¹)) * ((b : G) * (x * (b : G) * x⁻¹)) := by group
 
+omit [Finite G] in
 private theorem twistMap_ker {W₀ : Subgroup G} (hWcomm : ∀ u ∈ W₀, ∀ v ∈ W₀, u * v = v * u)
     (hWsq : ∀ u ∈ W₀, u * u = 1) {x : G}
     (hxN : x ∈ Subgroup.normalizer (W₀ : Set G)) :
@@ -500,6 +503,7 @@ private theorem twistMap_range_eq
   exact Subgroup.eq_of_le_of_card_ge (H := φ.range) (K := A.subgroupOf W₀) hrange_le_A
     (by rw [hcardA]; exact hcardRange)
 
+omit [Finite G] in
 private theorem twistMap_range_le_centralizer
     {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H) {A : Subgroup G}
     (hA : A = Pc M V ⊓ W₀) {x : G}
@@ -838,7 +842,7 @@ theorem isEmpty_hBar_equiv_suzuki
   refine ⟨fun ψ => ?_⟩
   set ρ : Representation (ZMod 2) ↥(CFSG.Blueprint.suzukiGroup a F) (subW hW W₀) :=
     subRepW hW ψ hW₀ hN
-  haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+  have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
   have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
   have hK' : Nat.card F = 2 ^ (2 * a + 1) := by
     rw [Nat.card_eq_fintype_card]
@@ -880,7 +884,7 @@ theorem exists_isOrthModule_subRepW
       Sec2.IsOrthModule hl (subRepW hW ψ hW₀ hN) := by
   classical
   set ρ : Representation (ZMod 2) SL(2, F) (subW hW W₀) := subRepW hW ψ hW₀ hN
-  haveI : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
+  have : Fact ρ.IsIrreducible := ⟨isIrreducible_subRepW hW ψ hW₀ hN hW₀ne hmin⟩
   have hnt := exists_apply_subRepW_ne_one h hPH hH hnM ψ hW₀ hN hW₀ne
   obtain ⟨n, -, hFn⟩ := FiniteField.card F 2
   have hn : 1 ≤ (n : ℕ) := by
@@ -945,9 +949,9 @@ theorem exists_field_orth_of_kOf_abelian
   have hL' := hL
   rcases hL with ⟨F, hField, hFintype, hCharP, h4, ⟨ψ⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, ha, hcard, ⟨ψ⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     obtain ⟨l, hl, horth⟩ := exists_isOrthModule_subRepW (hW := hW) h hPH hVH hH hnM
       hK hab hL' ψ hW₀ hN hW₀ne hmin
     have hl1 : 1 ≤ l := by
@@ -955,9 +959,9 @@ theorem exists_field_orth_of_kOf_abelian
       have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h2
       omega
     exact ⟨F, hField, hFintype, hCharP, l, hl1, hl, ψ, horth⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     exact (isEmpty_hBar_equiv_suzuki (hW := hW) h hPH hVH hH hnM hK hab hL' hW₀ hN hW₀ne
       hmin a F hcard).elim ψ
 

@@ -109,7 +109,7 @@ theorem one_mem_JGlobalLattice [CharZero k] [IsAlgClosed k] :
     (1 : ClassFun.IntegerValued (k := k) (G := G)) ∈ JGlobalLattice := by
   apply Submodule.mem_of_forall_primePow_congr
   intro p hp N
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let F := localSumPower (k := k) (G := G) p N
   let d : ClassFun.IntegerValued :=
     ClassFun.IntegralCyclotomicCharacterRing.toIntegerValuedClassFun (F - 1)

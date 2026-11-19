@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgr
 @[expose] def tripleNormalizer (W₁ W₂ W₃ : Subgroup G) : Subgroup G :=
   normalizer (W₁ : Set G) ⊓ normalizer (W₂ : Set G) ⊓ normalizer (W₃ : Set G)
 
+omit [Finite G] in
 private theorem conj_eq_or_inv_of_mem_normalizer_of_card_three {W : Subgroup G}
     (hW : Nat.card W = 3) {h : G} (hh : h ∈ Subgroup.normalizer (W : Set G)) :
     (∀ w ∈ W, h * w * h⁻¹ = w) ∨ (∀ w ∈ W, h * w * h⁻¹ = w⁻¹) := by
@@ -60,6 +61,7 @@ private theorem conj_eq_or_inv_of_mem_normalizer_of_card_three {W : Subgroup G}
       rw [eq_inv_iff_mul_eq_one, zpow_two, ← h3', pow_three, mul_assoc]
     rw [← conj_zpow, ← hk, hinv, inv_zpow]
 
+omit [Finite G] in
 private theorem mem_normalizer_of_conj_eq_inv {W : Subgroup G} {t : G}
     (h : ∀ w ∈ W, t * w * t⁻¹ = w⁻¹) : t ∈ Subgroup.normalizer (W : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -82,6 +84,7 @@ private theorem mem_normalizer_of_conj_eq_inv {W : Subgroup G} {t : G}
     rw [hw']
     exact W.inv_mem hmem
 
+omit [Finite G] in
 private theorem mem_normalizer_of_comm {W U : Subgroup G} {t : G}
     (h : ∀ w ∈ U, t * w = w * t) (hWU : W ≤ U) :
     t ∈ Subgroup.normalizer (W : Set G) := by
@@ -91,6 +94,7 @@ private theorem mem_normalizer_of_comm {W U : Subgroup G} {t : G}
     (Subgroup.centralizer_le (s := (W : Set G)) (t := (U : Set G))
       (fun x hx => hWU hx) htU)
 
+omit [Finite G] in
 private theorem sq_mem_centralizer_of_mem_normalizer_of_card_three {W : Subgroup G}
     (hW : Nat.card W = 3) {t : G} (ht : t ∈ Subgroup.normalizer (W : Set G)) :
     t ^ 2 ∈ Subgroup.centralizer (W : Set G) := by
@@ -171,6 +175,7 @@ private theorem four_dvd_card_of_commute {X : Type*} [Group X] [Finite X] {a b :
   rw [← hV]
   exact card_subgroup_dvd_card V
 
+omit [Finite G] in
 theorem IsE27InvConfig.t₁_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hc : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : t₁ ∈ tripleNormalizer W₁ W₂ W₃ := by
   rw [tripleNormalizer]
@@ -179,6 +184,7 @@ theorem IsE27InvConfig.t₁_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G}
   · exact mem_normalizer_of_comm hc.comm₁ le_sup_left
   · exact mem_normalizer_of_comm hc.comm₁ le_sup_right
 
+omit [Finite G] in
 theorem IsE27InvConfig.t₂_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hc : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : t₂ ∈ tripleNormalizer W₁ W₂ W₃ := by
   rw [tripleNormalizer]
@@ -187,6 +193,7 @@ theorem IsE27InvConfig.t₂_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G}
   · exact mem_normalizer_of_conj_eq_inv hc.inv₂
   · exact mem_normalizer_of_comm hc.comm₂ le_sup_right
 
+omit [Finite G] in
 theorem IsE27InvConfig.t₃_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hc : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) : t₃ ∈ tripleNormalizer W₁ W₂ W₃ := by
   rw [tripleNormalizer]
@@ -195,6 +202,7 @@ theorem IsE27InvConfig.t₃_mem_tripleNormalizer {V W₁ W₂ W₃ : Subgroup G}
   · exact mem_normalizer_of_comm hc.comm₃ le_sup_right
   · exact mem_normalizer_of_conj_eq_inv hc.inv₃
 
+omit [Finite G] in
 theorem IsE27InvConfig.tripleNormalizer_le_normalizer
     {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hc : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) :
@@ -210,6 +218,7 @@ theorem IsE27InvConfig.tripleNormalizer_le_normalizer
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, hc.join, Subgroup.map_sup,
     Subgroup.map_sup, h1, h2, h3]
 
+omit [Finite G] in
 theorem IsE27InvConfig.sq_mem_centralizer {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hc : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) {g : G}
     (hg : g ∈ tripleNormalizer W₁ W₂ W₃) : g ^ 2 ∈ centralizer (V : Set G) := by
@@ -244,10 +253,10 @@ theorem four_dvd_relindex_of_klein {Y : Type} [Group Y] [Finite Y] {B V : Subgro
     4 ∣ (B ⊓ centralizer (V : Set Y)).relIndex (B ⊓ normalizer (V : Set Y)) := by
   let N : Subgroup Y := B ⊓ Subgroup.normalizer (V : Set Y)
   let C : Subgroup Y := B ⊓ Subgroup.centralizer (V : Set Y)
-  haveI hnorm : (C.subgroupOf N).Normal :=
+  have hnorm : (C.subgroupOf N).Normal :=
     Subgroup.inf_subgroupOf_inf_normal_of_right B (Subgroup.centralizer (V : Set Y))
       (Subgroup.normalizer (V : Set Y))
-  haveI : Finite (↥N ⧸ C.subgroupOf N) := Quotient.finite _
+  have : Finite (↥N ⧸ C.subgroupOf N) := Quotient.finite _
   let aN : N := ⟨a, ha⟩
   let bN : N := ⟨b, hb⟩
   let qa : ↥N ⧸ C.subgroupOf N := QuotientGroup.mk aN

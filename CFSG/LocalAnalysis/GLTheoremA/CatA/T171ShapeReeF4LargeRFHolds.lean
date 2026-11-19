@@ -19,11 +19,11 @@ theorem rf_holds : LargeReeCentralizerActsInner := by
   have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
   obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
     CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-  letI := hfield
-  letI := hfinite
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
+  let := hfield
+  let := hfinite
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := hchar
   let e : S ≃* ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := eS.trans eK
-  letI : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := Subtype.finite
+  let : Finite ↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K m) := Subtype.finite
   have hX : orderOf (e x) = p :=
     (orderOf_injective e.toMonoidHom e.injective x).trans hx
   have hc' : e c ∈ Subgroup.centralizer ({e x} : Set ↥(ReeTag.F4.reeGamma K m)) := by
@@ -68,7 +68,7 @@ theorem rf_holds : LargeReeCentralizerActsInner := by
       (e c) hc'
   obtain ⟨n, hn, hne⟩ := Subgroup.mem_map.mp hn'
   have hsn : e.symm n' = n := by
-    simpa [← hne] using e.symm_apply_apply n
+    simp [← hne]
   refine ⟨e.symm n', hsn ▸ hn, fun y hy => ?_⟩
   apply e.injective
   have hy' : e y ∈ N.map e.toMonoidHom := Subgroup.mem_map_of_mem _ hy

@@ -42,8 +42,9 @@ theorem isPGroup_quotient_map_quotient {R : Type*} [Group R] {p : ℕ} {K M : Su
     IsPGroup p ((R ⧸ K) ⧸ M.map (QuotientGroup.mk' K)) :=
   IsPGroup.of_equiv h (QuotientGroup.quotientQuotientEquivQuotient K M hKM).symm
 
+omit [Finite G] in
 theorem isPGroup_quotient_inf_of_isPGroup_quotient {p : ℕ} {H R L : Subgroup G}
-    [hL : (L.subgroupOf H).Normal] [hN : ((R ⊓ L).subgroupOf R).Normal] (hLH : L ≤ H) (hRH : R ≤ H)
+    [hL : (L.subgroupOf H).Normal] [hN : ((R ⊓ L).subgroupOf R).Normal] (_hLH : L ≤ H) (hRH : R ≤ H)
     (h : IsPGroup p (↥H ⧸ L.subgroupOf H)) :
     IsPGroup p (↥R ⧸ (R ⊓ L).subgroupOf R) := by
   let N : Subgroup ↥R := (R ⊓ L).subgroupOf R
@@ -118,6 +119,7 @@ private theorem Ctx23L.isPGroup_sup_quotient_L0 {D : Data G} {Ch : Choice2011 G}
   CFSG.GroupTheory.isPGroup_quotient_sup_left (p := 2) (T := D.T) (C := c.L0)
     (CFSG.ABGLocalTools.IsSylowOf.isPGroup D.sylowG)
 
+omit [Finite G] in
 private theorem closure_twoElements_subgroup_eq_top {R : Subgroup G}
     (hgen : ∃ S : Set G, (∀ x ∈ S, ∃ n : ℕ, x ^ (2 ^ n) = 1) ∧ R = Subgroup.closure S) :
     (⊤ : Subgroup ↥R) ≤ Subgroup.closure {x : ↥R | ∃ n : ℕ, x ^ 2 ^ n = 1} := by
@@ -162,13 +164,13 @@ private theorem Ctx23L.odd_card_image_inf_M {D : Data G} {Ch : Choice2011 G}
   let R₀ : Subgroup G := R ⊓ c.L0
   let K₀ : Subgroup G := R₀ ⊓ CFSG.Open.pCoreOf 2 c.L0
   have hR₀n : (R₀.subgroupOf c.L0).Normal := normal_inf_L0_L0 c hR hRn
-  haveI : Group.IsSolvable ↥(c.L0 ⊓ D.M) :=
+  have : Group.IsSolvable ↥(c.L0 ⊓ D.M) :=
     isSolvable_inf_M c h2010 h207 h1930 kRankOneBorel_holds
   have hR₀solv : Group.IsSolvable ↥R₀ :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (le_inf inf_le_right (inf_le_left.trans hRM)))
       (Subgroup.inclusion_injective _)
-  haveI := hR₀solv
+  have := hR₀solv
   let f₁ : ↥R₀ →* ↥R ⧸ K₀.subgroupOf R :=
     (QuotientGroup.mk' (K₀.subgroupOf R)).comp (Subgroup.inclusion inf_le_left)
   let f₂ : ↥R₀ →* Bar2 c.L0 :=
@@ -267,19 +269,19 @@ private theorem Ctx23L.isPGroup_quotient_inf_M {D : Data G} {Ch : Choice2011 G}
     sup_le c.hL0.1.1 Subgroup.le_normalizer
   have hL0nH : (c.L0.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hHnL
-  haveI := hL0nH
+  have := hL0nH
   have hHL : IsPGroup 2 (↥H ⧸ c.L0.subgroupOf H) := isPGroup_sup_quotient_L0 c
   have hR' : R ≤ H := by
     rw [show H = c.L0 ⊔ D.T from sup_comm D.T c.L0]
     exact hR
   have hR₀n : (R₀.subgroupOf R).Normal := normal_inf_L0_R c hR hRn
-  haveI := hR₀n
+  have := hR₀n
   have hRR₀ : IsPGroup 2 (↥R ⧸ R₀.subgroupOf R) :=
     isPGroup_quotient_inf_of_isPGroup_quotient (p := 2) le_sup_right hR' hHL
   let K : Subgroup (↥R ⧸ K₀.subgroupOf R) :=
     (R₀.subgroupOf R).map (QuotientGroup.mk' (K₀.subgroupOf R))
   have hKnormal : K.Normal := hR₀n.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hKnormal
+  have := hKnormal
   have hquot : IsPGroup 2 ((↥R ⧸ K₀.subgroupOf R) ⧸ K) :=
     isPGroup_quotient_map_quotient (K := K₀.subgroupOf R) (M := R₀.subgroupOf R)
       (Subgroup.subgroupOf_mono R inf_le_left) hRR₀
@@ -302,7 +304,7 @@ theorem Ctx23L.le_pCore_of_normal {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D
   classical
   let K₀ : Subgroup G := R ⊓ c.L0 ⊓ CFSG.Open.pCoreOf 2 c.L0
   have hK₀n : (K₀.subgroupOf R).Normal := normal_inf_pCoreOf c hR hRn
-  haveI := hK₀n
+  have := hK₀n
   have hK₀p : IsPGroup 2 (K₀.subgroupOf R) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) c.L0).to_inf_right.of_equiv
       (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans inf_le_left)).symm

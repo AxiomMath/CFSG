@@ -112,7 +112,7 @@ theorem compAlgAtWith_of_mulEquiv {S S' : Type} [Group S] [Group S']
     obtain ⟨k, rfl⟩ : ∃ k, ε k = k' := ⟨ε.symm k', ε.apply_symm_apply k'⟩
     rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply,
       MulEquiv.symm_apply_apply]
-    simp [ε, Subgroup.coe_equivMapOfInjective_apply, MulEquiv.subgroupCongr_apply,
+    simp [ε, MulEquiv.subgroupCongr_apply,
       CFSG.GroupActions.subgroupStabRestrict_apply, hξ, MulAut.congr_apply]
   have hnat := centerQuotientHom_congr ε (CFSG.GroupActions.subgroupStabRestrict K ⟨ξ, hξstab⟩)
   rw [hα'] at hnat

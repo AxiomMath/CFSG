@@ -71,13 +71,13 @@ theorem card_Z_inf_T_le (ha : Ctx4P t L S x₁ x₂ lam rho tau) (Z : Subgroup G
       ·
         rw [h]
         have hyV : x₁ ^ 2 ∈ fourGrp x₁ x₂ := Subgroup.subset_closure (by simp)
-        have hcomm := P_comm_V ha p hp (x₁ ^ 2) hyV
+        have hcomm := P_comm_V p hp (x₁ ^ 2) hyV
         rw [show p * x₁ ^ 2 * p⁻¹ = x₁ ^ 2 by rw [hcomm]; group]
         exact Subgroup.subset_closure (by simp)
       ·
         rw [h]
         have hzV : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ := Subgroup.subset_closure (by simp)
-        have hcomm := P_comm_V ha p hp ((x₁ * x₂) ^ 2) hzV
+        have hcomm := P_comm_V p hp ((x₁ * x₂) ^ 2) hzV
         rw [show p * (x₁ * x₂) ^ 2 * p⁻¹ = (x₁ * x₂) ^ 2 by rw [hcomm]; group]
         exact Subgroup.subset_closure (by simp)
     have hcl := conj_mem_closure (S := ({t, tau, x₁ ^ 2, (x₁ * x₂) ^ 2} : Set G)) (g := p) hgen

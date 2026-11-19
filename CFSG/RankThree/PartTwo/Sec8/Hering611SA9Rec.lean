@@ -14,7 +14,7 @@ private lemma natCard_centralizer_replicate_three {σ : Perm (Fin 9)} {m : ℕ} 
   have h0 : m ≠ 0 := by omega
   rw [Equiv.Perm.nat_card_centralizer σ, hσ]
   simp only [Multiset.sum_replicate, smul_eq_mul, Multiset.prod_replicate,
-    Multiset.toFinset_replicate, if_neg h0, Finset.prod_singleton, Multiset.count_replicate_self,
+    Multiset.toFinset_replicate, ite_eq_right h0, Finset.prod_singleton, Multiset.count_replicate_self,
     Fintype.card_fin]
 
 private theorem isThreeCycle_of_orderOf_three_commute_five {σ κ : Perm (Fin 9)}

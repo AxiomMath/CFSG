@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail
 open CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration
 open scoped commutatorElement
 
-theorem s16t3_minus_cuts_orthCuts {r : ℕ} (hr : 1 ≤ r) : OrthCuts r (s16t3MinusCuts r) := by
+theorem s16t3_minus_cuts_orthCuts {r : ℕ} (_hr : 1 ≤ r) : OrthCuts r (s16t3MinusCuts r) := by
   refine ⟨?_, ?_, ?_⟩
   · intro i j hij
     have hdiv : 2 * ((r + 1) / 2) ≤ r + 1 := by
@@ -47,19 +47,19 @@ theorem s16t3_minus_cuts_last (r : ℕ) :
   have hdiv : r ≤ 2 * ((r + 1) / 2) := by omega
   exact hdiv
 
-theorem s16t3_minus_cuts_block_len {r : ℕ} (hr : 1 ≤ r) (l : Fin ((r + 1) / 2)) :
+theorem s16t3_minus_cuts_block_len {r : ℕ} (_hr : 1 ≤ r) (l : Fin ((r + 1) / 2)) :
     s16t3MinusCuts r l.succ - s16t3MinusCuts r l.castSucc =
       if (l : ℕ) < r / 2 then 2 else 1 := by
   simp only [s16t3MinusCuts, Fin.val_succ, Fin.val_castSucc]
   by_cases h : (l : ℕ) < r / 2
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h2 : 2 * ((l : ℕ) + 1) ≤ r := by
       have := Nat.div_mul_le_self r 2
       omega
     have h1 : 2 * (l : ℕ) ≤ r := by omega
     rw [min_eq_left h2, min_eq_left h1]
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hl : (l : ℕ) < (r + 1) / 2 := l.isLt
     have h1 : 2 * (l : ℕ) ≤ r := by
       have := Nat.div_mul_le_self r 2
@@ -74,11 +74,11 @@ private theorem s16t3_prod_ite_pow (s m : ℕ) (hm : m ≤ s) :
     ∏ l : Fin s, (if (l : ℕ) < m then (6 : ℕ) else 1) = 6 ^ m := by
   rw [← Finset.prod_range (fun i : ℕ => if i < m then (6 : ℕ) else 1) (n := s)]
   rw [show s = m + (s - m) by omega, Finset.prod_range_add]
-  rw [Finset.prod_congr rfl (fun i hi => if_pos (Finset.mem_range.1 hi))]
+  rw [Finset.prod_congr rfl (fun i hi => ite_eq_left (Finset.mem_range.1 hi))]
   rw [Finset.prod_const, Finset.card_range]
   have h1 : ∀ i ∈ Finset.range (s - m), (if m + i < m then (6 : ℕ) else 1) = 1 := by
     intro i hi
-    rw [if_neg]
+    rw [ite_eq_right]
     omega
   rw [Finset.prod_congr rfl h1, Finset.prod_const_one, mul_one]
 
@@ -104,9 +104,9 @@ theorem s16t3_minus_cuts_prod_gl {K : Type} [Field K] [Fintype K] (hK : Fintype.
     intro l
     rw [s16t3_minus_cuts_block_len hr l]
     by_cases h : (l : ℕ) < r / 2
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact s16t3_gl_card_two hK
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       exact s16t3_gl_card_one hK
   rw [Finset.prod_congr rfl (fun l _ => hcongr l)]
   exact s16t3_prod_ite_pow ((r + 1) / 2) (r / 2) (by omega)
@@ -136,8 +136,8 @@ theorem s16t3_orthLeviGroup_card_dvd_six {K : Type} [Field K] [Fintype K]
       (Fin (s16t3MinusCuts r l.succ - s16t3MinusCuts r l.castSucc)) K) ∣ 6
     rw [s16t3_minus_cuts_block_len hr l]
     by_cases h : (l : ℕ) < r / 2
-    · rw [if_pos h, s16t3_gl_card_two hK]
-    · rw [if_neg h, s16t3_gl_card_one hK]
+    · rw [ite_eq_left h, s16t3_gl_card_two hK]
+    · rw [ite_eq_right h, s16t3_gl_card_one hK]
       exact one_dvd 6
   · obtain rfl : u = () := rfl
     change Nat.card (((Fin (r - s16t3MinusCuts r (Fin.last ((r + 1) / 2))) ⊕
@@ -151,7 +151,7 @@ theorem s16t3_sl_card_eq_gl_card {K : Type} [Field K] [Fintype K] (hK : Fintype.
     {k : ℕ} (hk : 1 ≤ k) :
     Nat.card (Matrix.SpecialLinearGroup (Fin k) K) =
       Nat.card (Matrix.GeneralLinearGroup (Fin k) K) := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   rw [Matrix.card_SL_field, Matrix.card_GL_field, hK]
   norm_num
 
@@ -172,9 +172,9 @@ theorem s16t3_orthLeviBlock_card_inl {K : Type} [Field K] [Fintype K] (hK : Fint
     Nat.card_congr (slEquivToGLRange (K := K) _).symm.toEquiv]
   rw [s16t3_minus_cuts_block_len hr l]
   by_cases h : (l : ℕ) < r / 2
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact (s16t3_sl_card_eq_gl_card hK (by norm_num)).trans (s16t3_gl_card_two hK)
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     exact (s16t3_sl_card_eq_gl_card hK (by norm_num)).trans (s16t3_gl_card_one hK)
 
 theorem s16t3_orthLeviGroup_prod {K : Type} [Field K] [Fintype K] (hK : Fintype.card K = 2)
@@ -227,16 +227,16 @@ private noncomputable def s16t3_omegaA {K : Type} [Field K] [CharP K 2] :
   invFun a := ![a 0 + a 1, a 0]
   left_inv a := by
     ext i
-    fin_cases i <;> simp <;> linear_combination CharTwo.add_self_eq_zero (a 1)
+    fin_cases i <;> simp; linear_combination CharTwo.add_self_eq_zero (a 1)
   right_inv a := by
     ext i
-    fin_cases i <;> simp <;> linear_combination CharTwo.add_self_eq_zero (a 0)
+    fin_cases i <;> simp; linear_combination CharTwo.add_self_eq_zero (a 0)
   map_add' a b := by
     ext i
-    fin_cases i <;> simp <;> abel
+    fin_cases i <;> simp; abel
   map_smul' c a := by
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp; ring
 
 @[simp] private theorem s16t3_omegaA_apply_zero {K : Type} [Field K] [CharP K 2]
     (a : Fin 2 → K) : s16t3_omegaA a 0 = a 1 := by simp [s16t3_omegaA]
@@ -268,7 +268,7 @@ private theorem s16t3_tauA_mul_omegaA_ne {K : Type} [Field K] [CharP K 2] :
     (fun f : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K) => f (Pi.single 0 1)) h
   have h2 := congrArg (fun f : Fin 2 → K => f 1) h1
   simp [s16t3_tauA_apply_zero, s16t3_tauA_apply_one, s16t3_omegaA_apply_zero,
-    s16t3_omegaA_apply_one, Pi.single_apply] at h2
+    s16t3_omegaA_apply_one] at h2
 
 private theorem s16t3_commutator_minusTailForm_one_one_ne_bot {K : Type} [Field K]
     [CharP K 2] :
@@ -284,11 +284,11 @@ private theorem s16t3_commutator_minusTailForm_one_one_ne_bot {K : Type} [Field 
 
 theorem s16t3_orthResDer_zero_card {K : Type} [Field K] [Fintype K] (hK : Fintype.card K = 2) :
     Nat.card ↥(orthResDer K 1 1 0) = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsF2 K :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two
       (by rw [Nat.card_eq_fintype_card]; exact hK)
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hK
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) hK
   have hirr : ∀ s : K, s ^ 2 + 1 * s + 1 ≠ 0 :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.irreducible_one_one
   have hQ : (QuadraticMap.polarBilin (quadTail 0 (minusTailForm K 1 1))).Nondegenerate :=

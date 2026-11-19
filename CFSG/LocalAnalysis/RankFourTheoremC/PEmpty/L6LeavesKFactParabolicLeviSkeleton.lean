@@ -21,17 +21,20 @@ variable {A : Type} [Group A] [Finite A]
 noncomputable def pSectionTop (p : ℕ) (X : Subgroup A) : Subgroup A :=
   rankThreePrimeCore p X ⊔ closure {x : A | x ∈ X ∧ orderOf x = p}
 
+omit [Finite A] in
 theorem conj_mem_of_normal {N X : Subgroup A} (h : (N.subgroupOf X).Normal) {x n : A}
     (hx : x ∈ X) (hn : n ∈ N) (hnX : n ∈ X) : x * n * x⁻¹ ∈ N := by
   have := h.conj_mem ⟨n, hnX⟩ (mem_subgroupOf.mpr hn) ⟨x, hx⟩
   simpa [mem_subgroupOf] using this
 
+omit [Finite A] in
 theorem normal_of_conj {N X : Subgroup A} (h : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) :
     (N.subgroupOf X).Normal :=
   ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     simpa using h g g.2 n hn⟩
 
+omit [Finite A] in
 theorem conj_mem_closure {S : Set A} {g : A} (hS : ∀ s ∈ S, g * s * g⁻¹ ∈ S) {h : A}
     (hh : h ∈ closure S) : g * h * g⁻¹ ∈ closure S := by
   induction hh using Subgroup.closure_induction with
@@ -46,13 +49,17 @@ theorem conj_mem_closure {S : Set A} {g : A} (hS : ∀ s ∈ S, g * s * g⁻¹ �
 
 variable {p : ℕ}
 
+omit [Finite A] in
 theorem core_le (X : Subgroup A) : rankThreePrimeCore p X ≤ X := relPPrimeCore_le X
 
+omit [Finite A] in
 theorem pSectionTop_le (X : Subgroup A) : pSectionTop p X ≤ X :=
   sup_le (core_le X) ((closure_le X).mpr fun _ hx => hx.1)
 
+omit [Finite A] in
 theorem core_le_top (X : Subgroup A) : rankThreePrimeCore p X ≤ pSectionTop p X := le_sup_left
 
+omit [Finite A] in
 theorem gen_mem_top {X : Subgroup A} {x : A} (hx : x ∈ X) (ho : orderOf x = p) :
     x ∈ pSectionTop p X :=
   le_sup_right (a := rankThreePrimeCore p X) (subset_closure ⟨hx, ho⟩)
@@ -65,6 +72,7 @@ theorem core_conj (hp : p.Prime) {X : Subgroup A} {x n : A} (hx : x ∈ X)
     (hn : n ∈ rankThreePrimeCore p X) : x * n * x⁻¹ ∈ rankThreePrimeCore p X :=
   conj_mem_of_normal (relPPrimeCore_normal hp X) hx hn (core_le X hn)
 
+omit [Finite A] in
 theorem top_eq_closure (X : Subgroup A) : pSectionTop p X =
     closure ((rankThreePrimeCore p X : Set A) ∪ {x : A | x ∈ X ∧ orderOf x = p}) := by
   rw [Subgroup.closure_union, Subgroup.closure_eq]; rfl
@@ -79,12 +87,14 @@ theorem top_conj (hp : p.Prime) {X : Subgroup A} {x h : A} (hx : x ∈ X)
     have hsc : SemiconjBy x s (x * s * x⁻¹) := by unfold SemiconjBy; group
     rw [← hso]; exact (hsc.orderOf_eq).symm
 
+omit [Finite A] in
 theorem not_mem_of_orderOf {N : Subgroup A} {y : A} (hy : y ∈ N) (hpN : ¬ p ∣ Nat.card N)
     (ho : orderOf y = p) : False := by
   apply hpN
   rw [← ho, ← Subgroup.orderOf_mk y hy]
   exact orderOf_dvd_natCard _
 
+omit [Finite A] in
 theorem relIndex_eq_of_sup_eq {Y W M : Subgroup A} (hWY : W ≤ Y) (hWn : (W.subgroupOf Y).Normal)
     (hMY : M ≤ Y) (h : M ⊔ W = Y) : W.relIndex Y = W.relIndex M := by
   have := relIndex_sup_right (H := M.subgroupOf Y) (K := W.subgroupOf Y)
@@ -92,6 +102,7 @@ theorem relIndex_eq_of_sup_eq {Y W M : Subgroup A} (hWY : W ≤ Y) (hWn : (W.sub
     relIndex_top_right] at this
   exact this
 
+omit [Finite A] in
 theorem sup_normal_in {Y W M : Subgroup A} (hWY : W ≤ Y) (hWn : (W.subgroupOf Y).Normal)
     (hMY : M ≤ Y) (hMn : (M.subgroupOf Y).Normal) : ((M ⊔ W).subgroupOf Y).Normal := by
   rw [subgroupOf_sup hMY hWY]
@@ -104,7 +115,7 @@ theorem skeleton (hp : p.Prime) {X Y W : Subgroup A}
       S622IsSimpleSection (pSectionTop p X) (rankThreePrimeCore p X) ∧
       W.relIndex Y ∣ (rankThreePrimeCore p X).relIndex (pSectionTop p X) ∧
       ¬ p ∣ Nat.card (rankThreePrimeCore p X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := rankThreePrimeCore p X with hO
   set H := pSectionTop p X with hH
   obtain ⟨hWY, hWn, -, hsimp, hnab⟩ := hYW
@@ -170,7 +181,7 @@ theorem skeleton (hp : p.Prime) {X Y W : Subgroup A}
     intro hab
     apply hnab
     intro a ha b hb
-    haveI : (W.subgroupOf Y).Normal := hWn
+    have : (W.subgroupOf Y).Normal := hWn
     have hYnorm : Y ≤ normalizer (W : Set A) := (normal_subgroupOf_iff_le_normalizer hWY).mp hWn
     have hdec : ∀ c ∈ Y, ∃ m ∈ Y ⊓ H, ∃ w ∈ W, m * w = c := by
       intro c hc

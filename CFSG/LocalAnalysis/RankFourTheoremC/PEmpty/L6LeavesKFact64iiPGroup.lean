@@ -13,8 +13,8 @@ theorem isMetacyclic_of_omega_not_mem_frattini {A : Type} [Group A] [Finite A] {
     (hp : p.Prime) (hp2 : p ≠ 2) {Q B : Subgroup A} (hQ : IsPGroup p Q) (hBQ : B ≤ Q)
     (hBc : Nat.card B = p ^ 2) (hΩ : ∀ q ∈ Q, q ^ p = 1 → q ∈ B) {x : A} (hxB : x ∈ B)
     (hfr : x ∉ (frattini ↥Q).map Q.subtype) : CFSG.IsMetacyclic ↥Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p ↥Q) := ⟨hQ⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p ↥Q) := ⟨hQ⟩
   have hnil : Group.IsNilpotent ↥Q := hQ.isNilpotent
   set x' : ↥Q := ⟨x, hBQ hxB⟩ with hx'
   have hx'fr : x' ∉ frattini ↥Q := fun h => hfr ⟨x', h, rfl⟩
@@ -27,7 +27,7 @@ theorem isMetacyclic_of_omega_not_mem_frattini {A : Type} [Group A] [Finite A] {
     simp only [Subgroup.mem_iInf]
     exact fun m hm => hcon m hm
   have hidx : Q₁.index = p := (IsPGroup.isCoatom_iff_index_eq_prime hQ).mp hQ₁
-  haveI hQ₁n : Q₁.Normal :=
+  have hQ₁n : Q₁.Normal :=
     Subgroup.NormalizerCondition.normal_of_coatom Q₁ Group.normalizerCondition_of_isNilpotent hQ₁
   have hQ₁p : IsPGroup p Q₁ := hQ.to_subgroup Q₁
   have hrk : Open.pRank p Q₁ ≤ 1 := by
@@ -73,7 +73,7 @@ theorem isMetacyclic_of_omega_not_mem_frattini {A : Type} [Group A] [Finite A] {
       have := hp.one_lt
       nlinarith
     omega
-  haveI : IsCyclic Q₁ := P64Asm.isCyclic_of_pRank_le_one hp hp2 hQ₁p hrk
+  have : IsCyclic Q₁ := P64Asm.isCyclic_of_pRank_le_one hp hp2 hQ₁p hrk
   refine ⟨Q₁, hQ₁n, inferInstance, ?_⟩
   exact isCyclic_of_prime_card (p := p) (by rw [← Subgroup.index_eq_card, hidx])
 

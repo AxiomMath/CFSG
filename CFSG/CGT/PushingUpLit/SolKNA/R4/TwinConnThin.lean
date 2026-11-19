@@ -42,7 +42,7 @@ theorem false_of_WIn_eq_R {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) (h2 : �
   have hWS : W' ≤ (S : Subgroup X) := by
     rw [hW'eq]
     exact iSup₂_le fun U hU => (hη.1 hU).2
-  have hW2 : IsPGroup 2 ↥(W'.map X.subtype) := (S.isPGroup'.to_le hWS).map _
+  have hW2 : IsPGroup 2 ↥(W'.map X.subtype) := (S.isPGroup.to_le hWS).map _
   have hWX : W'.map X.subtype ≤ X := Subgroup.map_subtype_le _
   have hnorm : ∀ x ∈ X, ∀ q ∈ W'.map X.subtype, x * q * x⁻¹ ∈ W'.map X.subtype := by
     rintro x hx _ ⟨q, hq, rfl⟩
@@ -113,7 +113,7 @@ theorem false_of_WIn_eq_R {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) (h2 : �
   refine hthin J₀ hJ₀ ⟨U₀.map X.subtype,
     ⟨J₀, mem_RSet_of_isPGroup (hPΩ hJ₀) (h2 J₀ (hPΩ hJ₀)), hUle, ?_, ?_⟩, hUle, pCoreOf 2 X,
     TwinThin.isNormalTwoIn_pCore hXw hXn, hUW.trans hWQ⟩
-  · haveI := hU₀c
+  · have := hU₀c
     exact isCyclic_of_surjective _
       (Subgroup.equivMapOfInjective U₀ X.subtype X.subtype_injective).surjective
   · rw [← hRmap]

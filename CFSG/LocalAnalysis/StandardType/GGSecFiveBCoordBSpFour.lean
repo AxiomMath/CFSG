@@ -74,7 +74,7 @@ private theorem spFour_rotate {s : ℕ} (β : Fin (s + 3) ≃ Fin (s + 3)) :
       congr 1
       rw [Equiv.symm_apply_eq]
       ext
-      rw [coe_finRotate, if_neg (Fin.castSucc_lt_last m).ne, Fin.val_succ, Fin.coe_castSucc]
+      rw [coe_finRotate, ite_eq_right (Fin.castSucc_lt_last m).ne, Fin.val_succ, Fin.val_castSucc]
 
 private theorem spFour_agree {p s f : ℕ} {Bs : Subgroup G}
     {eta : ↥Bs ≃* (Fin (s + 3) → Multiplicative (ZMod p))}
@@ -157,12 +157,12 @@ private theorem spFour_crosses {p s f : ℕ} (hs : 1 ≤ s) {Bs : Subgroup G}
     exact hX _ _
       (hβ0 ▸ hβne (0 : Fin (s + 3)) ⟨1, by omega⟩ (by simp))
       (hβ0 ▸ hβne (0 : Fin (s + 3)) ⟨s + 1, by omega⟩
-        (by simp only [Fin.val_mk, Fin.val_zero]; omega))
-      (hβne ⟨1, by omega⟩ ⟨s + 1, by omega⟩ (by simp only [Fin.val_mk]; omega))
+        (by simp only [Fin.val_zero]; omega))
+      (hβne ⟨1, by omega⟩ ⟨s + 1, by omega⟩ (by simp only; omega))
       (hβl ▸ hβne ⟨1, by omega⟩ (Fin.last (s + 2))
-        (by simp only [Fin.val_mk, Fin.val_last]; omega))
+        (by simp only [Fin.val_last]; omega))
       (hβl ▸ hβne ⟨s + 1, by omega⟩ (Fin.last (s + 2))
-        (by simp only [Fin.val_mk, Fin.val_last]; omega))
+        (by simp only [Fin.val_last]; omega))
   · have hB : (κ₂.comp (longBlock (GaloisField 2 f) (s + 2) (Fin.last (s + 1)))).range.map
           (MulAut.conj g).toMonoidHom =
         (κ₁.comp (longBlock (GaloisField 2 f) (s + 2) (⟨2, by omega⟩ : Fin (s + 2)))).range := by
@@ -172,7 +172,7 @@ private theorem spFour_crosses {p s f : ℕ} (hs : 1 ≤ s) {Bs : Subgroup G}
         show β (Fin.last (s + 1)).succ = β (Fin.last (s + 2)) from rfl, hi0, hc, h2]
     refine spFour_commute_of_map hAfix hB (spFour_commute_range κ₁ fun A B => ?_)
     refine commute_shortBlock_longBlock _ ?_ ?_ A B <;>
-      simp only [ne_eq, Fin.ext_iff, Fin.coe_castSucc, Fin.val_succ, Fin.val_zero] <;>
+      simp only [ne_eq, Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Fin.val_zero] <;>
       omega
 
 theorem ggSecFiveBCoordBSpSp_charts_of_frames_of_cross {p s f : ℕ} (hs : 1 ≤ s)
@@ -271,10 +271,10 @@ theorem ggSecFiveBCoordBSpSp_charts_of_frames_of_cross {p s f : ℕ} (hs : 1 ≤
       (κ₁.comp (shortBlock (GaloisField 2 f)
         (Fin.castSucc_lt_succ (i := (0 : Fin (s + 1)))).ne)).range := by
     rw [← hS₁, ggReflComm_map_conj hgconj hwcoord,
-      hfix _ (by simp only [Fin.coe_castSucc, Fin.val_zero]; omega)
-        (by simp only [Fin.coe_castSucc, Fin.val_zero]; omega),
-      hfix _ (by simp only [Fin.coe_castSucc, Fin.val_succ, Fin.val_zero]; omega)
-        (by simp only [Fin.coe_castSucc, Fin.val_succ, Fin.val_zero]; omega)]
+      hfix _ (by simp only [Fin.val_castSucc, Fin.val_zero]; omega)
+        (by simp only [Fin.val_castSucc, Fin.val_zero]; omega),
+      hfix _ (by simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_zero]; omega)
+        (by simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_zero]; omega)]
   obtain ⟨hagree, hlong⟩ := spFour_agree hS₁ hS₂ hL₁ hL₂
   obtain ⟨hcross₁, hcross₂⟩ :=
     spFour_crosses hs hβ0 hβl hc hwcoord hgconj hAfix hS₁ hS₂ hL₁ hL₂ hX
@@ -313,7 +313,7 @@ theorem ggSecFiveBCoordBSpFourInput_of_cross (hfr : GGSecFiveBSpCoordFrameInput)
   intro G _ _ p B Bs x L D J 𝒦 hR hT1 n e hpres h4 eta i0 hBfull hLeta hLab hBB hnbr hG0
     f K hcell
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLK : ggG0 p B x L D J = L ⊔ K := hcell.ggG0_eq hJ hR e hpres hBfull hLeta hnbr
   have hdvd : p ∣ 2 ^ f - 1 := hcell.dvd_two_pow_sub_one hLab hRig
   have hcell' := hcell

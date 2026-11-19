@@ -16,8 +16,8 @@ variable {G : Type*} [Group G]
 theorem exists_zpow_of_normalizes {p : ℕ} [hp : Fact p.Prime] {A : Subgroup G}
     (hA : Nat.card A = p) {x : G} (hx : A.map (MulAut.conj x).toMonoidHom = A) :
     ∃ m : ℤ, ∀ a ∈ A, x * a * x⁻¹ = a ^ m := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; exact hp.out.ne_zero)
-  haveI : IsCyclic A := isCyclic_of_prime_card hA
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; exact hp.out.ne_zero)
+  have : IsCyclic A := isCyclic_of_prime_card hA
   have hmem : ∀ a ∈ A, x * a * x⁻¹ ∈ A := fun a ha => by
     rw [← hx]; exact ⟨a, ha, rfl⟩
   let σ : A →* A :=
@@ -71,7 +71,7 @@ theorem exists_not_normalizes_of_commutator_fpf {p : ℕ} [hp : Fact p.Prime] {E
     (hfpf : ∀ x ∈ E, ⁅c₁, c₂⁆ * x * ⁅c₁, c₂⁆⁻¹ = x → x = 1) :
     A.map (MulAut.conj c₁).toMonoidHom ≠ A ∨ A.map (MulAut.conj c₂).toMonoidHom ≠ A := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hcen := commutatorElement_centralizes_of_normalizes_line hA h.1 h.2
   have hbot : A = ⊥ := (Subgroup.eq_bot_iff_forall A).2 fun a ha => hfpf a (hAE ha) (hcen a ha)
   rw [hbot, Subgroup.card_bot] at hA

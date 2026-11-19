@@ -166,7 +166,7 @@ theorem bit_of_fld {X Y s t : Nat}
     X.testBit s = Y.testBit t := by
   have e := Nat.eq_of_beq_eq_true h
   rw [fld1_eq, fld1_eq] at e
-  cases h1 : X.testBit s <;> cases h2 : Y.testBit t <;> rw [h1, h2] at e <;> first | rfl | cases e
+  cases h1 : X.testBit s <;> cases h2 : Y.testBit t <;> rw [h1, h2] at e <;> (cases e)
 
 theorem transK_at {A T : Nat} (h : transK A T = true) (t : Nat) (ht : t < 36) :
     T.testBit t = A.testBit (6 * (t % 6) + t / 6) ∧
@@ -294,7 +294,7 @@ theorem enumK_sound {WP : Nat} {G : List (Nat × Nat)} (hc : constsK = true)
         Wm_congr _ j _ _ (fun i hi => by
           rw [Nat.add_comm]
           exact Nat.testBit_two_pow_add_gt hi e')
-      rw [hm2, hmat, Wm.eq_2, hb, if_pos rfl, hcg]
+      rw [hm2, hmat, Wm.eq_2, hb, ite_eq_left rfl, hcg]
 
 end CFSG.KS.Asc82Syl
 

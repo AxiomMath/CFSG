@@ -112,15 +112,15 @@ theorem str83_bottom_st8_false
     have hYbot : Y = ⊥ := le_bot_iff.mp (hYle.trans (le_of_eq hZ2bot))
     exact (ne_of_gt hstep.2.2.1) hYbot
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hYH hV.isPGroup
-  letI : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  let : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   obtain ⟨e₀⟩ := hL2sup
   let e : oTwoQuot ↥(L2 ⊔ S) ≃* SL(2, GaloisField 2 3) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 3))
   let ρ : Representation (ZMod 2) SL(2, GaloisField 2 3)
       (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionRep hstep hYH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hYH hE e⟩
+  have : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hYH hE e⟩
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstep hYH hE e hnc
   have hFcard : Fintype.card (GaloisField 2 3) = 2 ^ 3 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 3 (by norm_num)]

@@ -56,7 +56,7 @@ private lemma pathRootGroup_smul_end {V : Type} {Γ : SimpleGraph V} {D : Type} 
 
 private lemma littleGroup_stabilizer_transitive {V : Type} [Fintype V] {Γ : SimpleGraph V}
     [DecidableRel Γ.Adj] {D : Type} [Group D] [MulAction D V] [GraphAction D Γ] {n : ℕ}
-    (hn : 3 ≤ n) (hpoly : IsGeneralizedPolygon Γ n) (hthick : IsThick Γ)
+    (hn : 3 ≤ n) (_hpoly : IsGeneralizedPolygon Γ n) (hthick : IsThick Γ)
     (hmouf : MoufangCondition D Γ n) {u w w' : V}
     (hw : Γ.Adj u w) (hw' : Γ.Adj u w') :
     ∃ l ∈ littleGroup D Γ n, l • u = u ∧ l • w = w' := by
@@ -190,7 +190,7 @@ private lemma exists_mul_eq_of_normal {G : Type} [Group G] [Finite G]
       have h3 : y = p := by
         have h2 : k * y * k⁻¹ = k * p * k⁻¹ := by
           rw [← hpeq]
-          simpa using (MulAut.conj_apply k p)
+          simp
         have := congrArg (fun z => k⁻¹ * z * k) h2
         simpa [mul_assoc] using this
       rwa [h3]
@@ -240,7 +240,7 @@ private lemma conj_sylow_le_of_transitive
     (hUnorm : ∀ m ∈ M, ∀ p ∈ U, m * p * m⁻¹ ∈ U)
     (hψW : ψ.range = W) (hWDu : W ≤ Du) (hUleW : U ≤ W)
     (htrans : ∀ w : V, Γ.Adj u w → ∃ g : T, ψ g • v = w)
-    {x : D} (hxL : x ∈ L) (hxDu : x ∈ Du) :
+    {x : D} (_hxL : x ∈ L) (hxDu : x ∈ Du) :
     U.map (MulAut.conj x).toMonoidHom ≤ W := by
   have hxuv : x • u = u := (hmemDu x).mp hxDu
   have hadj : Γ.Adj u (x • v) := by
@@ -325,7 +325,7 @@ theorem stabilizersOfPolygon (n : ℕ) : StabilizersOfPolygon n := by
     htrans1 htrans2 R hRB hori hU hSyl hM3
   classical
   have hLnormal : (littleGroup D Γ n).Normal := hLnorm
-  haveI : (littleGroup D Γ n).Normal := hLnormal
+  have : (littleGroup D Γ n).Normal := hLnormal
   have hmemDu : ∀ d : D, d ∈ ((MulAction.stabilizer D u)) ↔ d • u = u := by
     intro d; rw [MulAction.mem_stabilizer_iff]
   have hmemDv : ∀ d : D, d ∈ ((MulAction.stabilizer D v)) ↔ d • v = v := by

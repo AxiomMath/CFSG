@@ -37,7 +37,7 @@ theorem exists_levAct_fixed [Finite F] [CharP F 2] {a d : Fin m → F} {T : Subg
     (Θ : SUThetaFacts σ a d T) (hG : SUGeomFacts σ a d) {R : Subgroup (SU σ m)}
     (hR : R ≤ uLine σ a) (hRp : IsPGroup 2 R) :
     ∃ w₀ ∈ perpPair σ a d, w₀ ≠ 0 ∧ ∀ x ∈ R, levAct σ a d x w₀ = w₀ := by
-  letI : MulAction R (perpPair σ a d) :=
+  let : MulAction R (perpPair σ a d) :=
     { smul := fun x w => ⟨levAct σ a d x w, Θ.levAct_mem (hR x.2) w.2⟩
       one_smul := fun w => Subtype.ext (Θ.levAct_one w.2)
       mul_smul := fun x y w => Subtype.ext (Θ.levAct_mul (hR x.2) (hR y.2) w.2) }

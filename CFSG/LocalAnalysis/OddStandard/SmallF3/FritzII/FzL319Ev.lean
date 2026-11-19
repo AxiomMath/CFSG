@@ -137,9 +137,9 @@ theorem fzIsAut_gens (σ : MulAut FzUT) : FzIsAut (fzGens σ) := by
 
 theorem fzAutOf_apply (d : FzAutD) (h : FzIsAut d) (x : FzUT) : fzAutOf d h x = fzEv d x := rfl
 
-private theorem fzPw_zero' {H : Type*} [Group H] (g : H) : fzPw 0 g = 1 := if_pos rfl
+private theorem fzPw_zero' {H : Type*} [Group H] (g : H) : fzPw 0 g = 1 := ite_eq_left rfl
 
-private theorem fzPw_one' {H : Type*} [Group H] (g : H) : fzPw 1 g = g := if_neg (by decide)
+private theorem fzPw_one' {H : Type*} [Group H] (g : H) : fzPw 1 g = g := ite_eq_right (by decide)
 
 theorem fzEv_gen (d : FzAutD) : fzEv d fzE1 = d.g1 ∧ fzEv d fzEW = d.g2 ∧
     fzEv d fzF1 = d.g3 ∧ fzEv d fzFW = d.g4 := by

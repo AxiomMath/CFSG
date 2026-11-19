@@ -26,6 +26,7 @@ section Generic
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_set_mul_six {R Y : Subgroup G} (hRY : R ⊓ Y = ⊥) :
     Nat.card ((R : Set G) * (Y : Set G)) = Nat.card R * Nat.card Y := by
   rw [Subgroup.card_mul_eq_card_subgroup_mul_card_quotient, mul_comm]
@@ -104,7 +105,7 @@ theorem six_of_indexThree {L X S F : Subgroup G} (hL : IndexThree L) (hLX : L �
     have h3 : 3 ∣ Nat.card F := by
       have := dvd_trans hB (Dvd.intro_left _ h1)
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥F) 3 h3
     have hox : orderOf (x : G) = 3 := by rw [Subgroup.orderOf_coe, hx]
     have := hcop (x : G) x.2
@@ -154,7 +155,7 @@ theorem code22SixNoPerm2_m22f_proved :
     have hle := Nat.le_of_dvd (by norm_num) h2
     have hpos : 0 < Nat.card ↥X := Nat.card_pos
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hSp
   have hrkS : rk ↥S = n := by
     unfold rk

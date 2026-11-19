@@ -14,17 +14,17 @@ namespace CFSG.StandardType
 private lemma psuGraphArith_rho_A {q d k : ℕ} (hA : k = 0 ∨ k = 1 ∨ k = 4) :
     psuRho q d k = q ^ d + 1 := by
   unfold psuRho
-  rw [if_pos hA]
+  rw [ite_eq_left hA]
 
 private lemma psuGraphArith_rho_three {q d k : ℕ} (h3 : k = 3) :
     psuRho q d k = q ^ d - 1 := by
   unfold psuRho
-  rw [if_neg (by rintro (h | h | h) <;> omega), if_pos h3]
+  rw [ite_eq_right (by rintro (h | h | h) <;> omega), ite_eq_left h3]
 
 private lemma psuGraphArith_rho_other {q d k : ℕ} (hA : ¬(k = 0 ∨ k = 1 ∨ k = 4)) (h3 : k ≠ 3) :
     psuRho q d k = q ^ (2 * d) - 1 := by
   unfold psuRho
-  rw [if_neg hA, if_neg h3]
+  rw [ite_eq_right hA, ite_eq_right h3]
 
 private lemma psuGraphArith_two_le_sq {q : ℕ} (hq : 2 ≤ q) : q + 2 ≤ q ^ 2 := by
   have h1 : q * 2 ≤ q * q := Nat.mul_le_mul_left q hq

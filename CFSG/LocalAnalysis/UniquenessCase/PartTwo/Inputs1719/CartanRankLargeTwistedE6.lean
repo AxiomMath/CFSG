@@ -23,7 +23,7 @@ theorem twistedE6_exists_fixed_prime_order {L : Type} [Field L] [Finite L] {f r 
     (hr : r.Prime) (hrdvd : r ∣ 2 ^ f - 1) (hK : Nat.card L = (2 ^ f) ^ 2)
     (σ : L →+* L) (hσ : ∀ c, σ c = c ^ 2 ^ f) :
     ∃ ζ : Lˣ, orderOf ζ = r ∧ ζ ^ r = 1 ∧ Units.map σ.toMonoidHom ζ = ζ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvdUnits : r ∣ Nat.card Lˣ := by
     rw [Nat.card_units, hK]
     exact hrdvd.trans (Nat.sub_one_dvd_pow_sub_one (2 ^ f) 2)
@@ -56,7 +56,7 @@ theorem cartanRankLarge_twistedE6_of_model {K : Type} [Group K] [Finite K] {f : 
     ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ f - 1 ∧
       3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   classical
-  haveI : CharP L 2 := uc22pwex_charP_two (m := f * 2) (by rw [hK, ← pow_mul])
+  have : CharP L 2 := uc22pwex_charP_two (m := f * 2) (by rw [hK, ← pow_mul])
   have hσs : Function.Surjective σ := Finite.surjective_of_injective σ.injective
   let φ : K →* ↥(graphFixedRootGroup TwistTag.E6 L σ) :=
     e₀.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
@@ -70,7 +70,7 @@ theorem cartanRankLarge_twistedE6_of_model {K : Type} [Group K] [Finite K] {f : 
     interval_cases f <;> norm_num at hq
   obtain ⟨r, hr, hr2, -, hrdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.exists_odd_prime_dvd_two_pow_sub_one_ne_five hf2
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   obtain ⟨ζ, hζo, hζ, hσζ⟩ := twistedE6_exists_fixed_prime_order hr hrdvd hK σ hσ
   let D : Subgroup ↥(graphFixedRootGroup TwistTag.E6 L σ) :=
     (foldedTorusHom TwistTag.E6 σ ζ hζ hσζ).range
@@ -96,7 +96,7 @@ theorem cartanRankLarge_twistedE6_of_model {K : Type} [Group K] [Finite K] {f : 
   let U : Subgroup ↥(graphFixedRootGroup TwistTag.E6 L σ) :=
     (graphFixedPosUnipotent TwistTag.E6 L σ).subgroupOf (graphFixedRootGroup TwistTag.E6 L σ)
   have hU : IsSylowTwoOf U ⊤ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine ⟨le_top, isPGroup_graphFixedPosUnipotent_subgroupOf 2, ?_⟩
     rw [CFSG.QuasithinUnique.index_subgroupOf_top]
     exact not_dvd_index_graphFixedPosUnipotent 2 hσs
@@ -116,8 +116,8 @@ theorem k_CartanRankLarge_twistedE6 :
   intro K _ _ f _ hq hL _ _ S hS _
   obtain ⟨-, L, hFld, hFin, σ, hK, hσ, ⟨e₀⟩⟩ :=
     CFSG.SeitzReduction.TwistedE6Pilot.exists_mulEquiv_graphFixedRootGroup_of_lieModel hL
-  letI := hFld
-  letI := hFin
+  let := hFld
+  let := hFin
   exact cartanRankLarge_twistedE6_of_model σ hσ hK e₀ hq S hS
 
 end Certificates

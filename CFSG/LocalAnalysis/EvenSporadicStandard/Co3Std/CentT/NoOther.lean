@@ -18,7 +18,7 @@ variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X →
 theorem no_commuting_component (h : CentConfig X a b E Fus) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) (hKE : ⁅E, K⁆ = ⊥) (hF : FixLarge ↥K) : False := by
   have ha : orderOf a = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by simpa [pow_two] using h.a_sq) h.a_ne
   have hKcE : K ≤ centralizer (E : Set X) :=
     Subgroup.le_centralizer_iff.mp (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hKE)
@@ -92,11 +92,11 @@ theorem no_commuting_component (h : CentConfig X a b E Fus) {K : Subgroup X}
         · rw [hxb, hya]
           exact (Subgroup.mem_center_iff.mp h.b_central a).symm
         · exact absurd (hxb.trans hyb.symm) hxy
-    haveI : IsMulCommutative (Subgroup.closure ({a, b} : Set X)) :=
+    have : IsMulCommutative (Subgroup.closure ({a, b} : Set X)) :=
       Subgroup.isMulCommutative_closure hpair
-    haveI : IsMulCommutative D := isMulCommutative_anti hDle
-    haveI : Group.IsPerfect ↥(D.subgroupOf C) := ⟨hDc.2.2.1⟩
-    haveI : Nontrivial ↥(D.subgroupOf C) :=
+    have : IsMulCommutative D := isMulCommutative_anti hDle
+    have : Group.IsPerfect ↥(D.subgroupOf C) := ⟨hDc.2.2.1⟩
+    have : Nontrivial ↥(D.subgroupOf C) :=
       CFSG.ComponentClassification.Quasisimple.nontrivial hDc.2.2
     exact Group.IsPerfect.not_isMulCommutative ↥(D.subgroupOf C) inferInstance
 

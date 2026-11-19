@@ -129,7 +129,7 @@ theorem principal_character_section_eq {G : Type} [Group G] [Fintype G]
   obtain ⟨R, hR⟩ := hcyc
   obtain ⟨K, hKn, hKc⟩ := exists_normal_isComplement'_of_isCyclic_sylow_two R hR
   have hcard : Nat.card K * Nat.card R = Nat.card Cw := hKc.card_mul_card
-  obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
   set v := (Nat.card Cw).factorization 2 with hv
   have hRfac : Nat.card R = 2 ^ v := Sylow.card_eq_multiplicity R
   have hKodd : Nat.Coprime 2 (Nat.card K) := by
@@ -515,7 +515,7 @@ theorem exists_cyclic_sylow_centralizer {t : G} {p f : ℕ} {F : Type} [Field F]
   obtain ⟨R₀, hR₀⟩ := hTp.exists_le_sylow
   have hR₀' : (R₀ : Subgroup Cw).map Cw.subtype = Subgroup.zpowers (r' : G) := by
     apply eq_zpowers_of_le_centralizer hD hr'H hr'NZ h2elt htr hPw
-    · exact R₀.isPGroup'.map _
+    · exact R₀.isPGroup.map _
     · intro x hx
       have hxC : x ∈ Cw := Subgroup.zpowers_le.mpr hr'Cw hx
       exact ⟨⟨x, hxC⟩, hR₀ hx, rfl⟩
@@ -569,7 +569,7 @@ theorem conj_eq_or_eq_inv {t : G} {p f : ℕ} {F : Type} [Field F] [Finite F]
     rw [Nat.card_zpowers, Subgroup.orderOf_coe, hr'o]
   obtain ⟨Q₁, hQ₁⟩ := (hr'p.comap_of_injective _ X.subtype_injective).exists_le_sylow
   have hQ₁G : (Q₁ : Subgroup X).map X.subtype = Subgroup.zpowers (r' : G) := by
-    apply hmax _ (Q₁.isPGroup'.map _)
+    apply hmax _ (Q₁.isPGroup.map _)
     · intro x hx
       have hxX : x ∈ X := Subgroup.zpowers_le.mpr hr'X hx
       exact ⟨⟨x, hxX⟩, hQ₁ hx, rfl⟩
@@ -720,7 +720,7 @@ theorem exists_torus_sylow_odd {t : G} {p f : ℕ} {F : Type} [Field F] [Finite 
     apply hPGne
     rw [hu₀, show u₀ = 1 from congrArg Subtype.val h, Subgroup.zpowers_one_eq_bot]
   have hcop : Nat.Coprime (orderOf ū₀) (2 * a) := by
-    have hp₀grp : IsPGroup p₀ PG := hPS ▸ PS.isPGroup'
+    have hp₀grp : IsPGroup p₀ PG := hPS ▸ PS.isPGroup
     obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hp₀grp ⟨u₀, hu₀PG⟩
     have hk' : orderOf u₀ = p₀ ^ k := by rw [← hk, Subgroup.orderOf_mk]
     rw [Subgroup.orderOf_mk, hk']
@@ -845,7 +845,7 @@ theorem not_dvd_orderOf_mul_of_dvd_sub_one {t : G} {p f : ℕ} {F : Type} [Field
   obtain ⟨ψ₁, ψ, δ, hδ, hψ₁ne, hψinj, hψne, hψ₁val, hψdeg, hψ₁real, hψreal, hψ3⟩ :=
     CFSG.CyclicBlocks.principal_block_cyclic_sylow_inertial_index_two basis ideal₀ p₀ hp₀2
       principal hprincipal P hPcyc hPidx
-  obtain ⟨kP, hkP⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨kP, hkP⟩ := P.isPGroup.exists_card_eq
   have hkP1 : 1 ≤ kP := by
     rcases kP with _ | kP
     · exfalso
@@ -976,7 +976,7 @@ theorem not_dvd_orderOf_mul_of_dvd_sub_one {t : G} {p f : ℕ} {F : Type} [Field
     set ū : C t := ⟨(u : G), huC⟩
     have hū1 : ū ≠ 1 := fun h' => hu1 (congrArg Subtype.val h')
     have hcomm : (r' : G) * u = u * r' := congrArg Subtype.val (hHcomm r' hr'H ū huH)
-    obtain ⟨ku, hku⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨u, huP⟩
+    obtain ⟨ku, hku⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨u, huP⟩
     have hku' : orderOf (u : G) = p₀ ^ ku := by rw [← hku, Subgroup.orderOf_mk]
     have hku1 : 1 ≤ ku := by
       rcases ku with _ | ku

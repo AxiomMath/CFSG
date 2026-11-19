@@ -24,7 +24,7 @@ theorem s7_cubeB_explicit {a z b t : G} (H : S7Hyps a z) (hb : b ∈ orb2A a a)
   have ha1 : a ≠ 1 := s7_ne_one_of_isConj_a H (IsConj.refl a)
   have hb1 : b ≠ 1 := s7_ne_one_of_isConj_a H hb.1
   have hbconj : IsConj a b ∧ IsConj a (a * b) := by
-    simpa only [orb2A, Set.mem_setOf_eq] using hb
+    simpa only [orb2A, Set.mem_ofPred_eq] using hb
   have hab : a * b = b * a := s7_comm_orb2A H (IsConj.refl a) hb
   have hne : a ≠ b := by
     intro h

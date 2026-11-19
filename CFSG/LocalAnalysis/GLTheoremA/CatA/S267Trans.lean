@@ -95,6 +95,7 @@ section Inj
 
 variable {A Ω : Type} [Group A] [Finite A] [Group Ω] [Finite Ω]
 
+omit [Finite A] [Finite Ω] in
 theorem map_inf_centralizer_inj (π : A →* Ω) (hπ : Function.Injective π) (M D : Subgroup A) :
     (M ⊓ Subgroup.centralizer (D : Set A)).map π =
       M.map π ⊓ Subgroup.centralizer ((D.map π : Subgroup Ω) : Set Ω) := by
@@ -156,6 +157,7 @@ section InjMore
 
 variable {A Ω : Type} [Group A] [Finite A] [Group Ω] [Finite Ω]
 
+omit [Finite A] [Finite Ω] in
 theorem mem_normalizer_map_iff_inj (π : A →* Ω) (hπ : Function.Injective π) {J : Subgroup A} {b : A} :
     π b ∈ Subgroup.normalizer ((J.map π : Subgroup Ω) : Set Ω) ↔
       b ∈ Subgroup.normalizer (J : Set A) := by
@@ -188,6 +190,7 @@ theorem mem_normalizer_map_iff_inj (π : A →* Ω) (hπ : Function.Injective π
       · simp only [map_mul, map_inv]
         rw [hjz]; group
 
+omit [Finite Ω] in
 theorem mem_centModSubgroup_map_iff_inj {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hπ : Function.Injective π)
     {J : Subgroup A} {b : A} :
     b ∈ centModSubgroup p J ↔ π b ∈ centModSubgroup p (J.map π) := by
@@ -200,6 +203,7 @@ theorem mem_centModSubgroup_map_iff_inj {p : ℕ} (hp : p.Prime) (π : A →* Ω
       hb ((mem_normalizer_map_iff_inj π hπ).1 h)
     exact ⟨fun h' => absurd h'.1 hb, fun h' => absurd h'.1 h2⟩
 
+omit [Finite Ω] in
 theorem map_glaPLayer {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣ Nat.card π.ker) (Y : Subgroup A) :
     (GLAPLayer p Y).map π = GLAPLayer p (Y.map π) := by
   unfold GLAPLayer
@@ -218,6 +222,7 @@ section CentModCard
 
 variable {A Ω : Type} [Group A] [Finite A] [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem map_inf_centModSubgroup {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣ Nat.card π.ker)
     {B₁ K₀ : Subgroup A} (hB : B₁ ≤ Subgroup.normalizer (K₀ : Set A)) :
     (B₁ ⊓ centModSubgroup p K₀).map π = B₁.map π ⊓ centModSubgroup p (K₀.map π) := by
@@ -227,6 +232,7 @@ theorem map_inf_centModSubgroup {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : 
   · rintro _ ⟨⟨x, hxB, rfl⟩, hyC⟩
     exact ⟨x, ⟨hxB, (mem_centModSubgroup_map_iff hp π hN (hB hxB)).2 hyC⟩, rfl⟩
 
+omit [Finite Ω] in
 theorem card_inf_centModSubgroup_map {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣ Nat.card π.ker)
     {B₁ K₀ : Subgroup A} (hB1 : IsPGroup p B₁) (hB : B₁ ≤ Subgroup.normalizer (K₀ : Set A)) :
     Nat.card ↥(B₁.map π ⊓ centModSubgroup p (K₀.map π)) = Nat.card ↥(B₁ ⊓ centModSubgroup p K₀) := by

@@ -30,19 +30,19 @@ private theorem dets : (mA Native.j3Data).det ≠ 0 ∧ (mB Native.j3Data).det �
 private theorem hA :
     MatP 80 SA.M = matOf (J Native.j3Data).subtype (![a Native.j3Data, b Native.j3Data] 0) := by
   rw [show (![a Native.j3Data, b Native.j3Data] 0 : J Native.j3Data) = a Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_a, gA, dif_pos dets.1,
+    matOf, Subgroup.subtype_apply, coe_a, gA, dite_eq_left dets.1,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
 
 private theorem hB :
     MatP 80 SB.M = matOf (J Native.j3Data).subtype (![a Native.j3Data, b Native.j3Data] 1) := by
   rw [show (![a Native.j3Data, b Native.j3Data] 1 : J Native.j3Data) = b Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_b, gB, dif_pos dets.2,
+    matOf, Subgroup.subtype_apply, coe_b, gB, dite_eq_left dets.2,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
 
 private theorem uJ_eq (i : Fin 7) : uJ i = segVal ![a Native.j3Data, b Native.j3Data] segs i.val := by
   have hi : i.val < (List.range 7).length := by simp
   unfold uJ uN segVal segs
-  rw [List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map, List.getElem_range]
+  rw [List.getD_eq_getElem _ _ (by simp), List.getElem_map, List.getElem_range]
   exact prod_pairLetter _ _ _
 
 theorem w4_eq_one : FreeGroup.lift uJ (FreeGroup.mk (wRel 4 1)) = 1 := by

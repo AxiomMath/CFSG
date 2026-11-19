@@ -67,12 +67,12 @@ theorem irg_tri_same
       R = ggRootSub (triD4Universal F σ).D φ β u ∧
         Rm = ggRootSub (triD4Universal F σ).D φ (-β) u := by
   obtain ⟨F', hF', hFin', σ', g', β', hT', hlong', hvia⟩ := hright
-  letI : Field F' := hF'
-  letI : Finite F' := hFin'
-  letI : Fintype F' := Fintype.ofFinite F'
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (ModGL d4 F) := inferInstance
-  haveI : Finite (triD4Universal F σ).K := (inferInstance : Finite ↥(twistedGroup σ))
+  let : Field F' := hF'
+  let : Finite F' := hFin'
+  let : Fintype F' := Fintype.ofFinite F'
+  let : Fintype F := Fintype.ofFinite F
+  have : Finite (ModGL d4 F) := inferInstance
+  have : Finite (triD4Universal F σ).K := (inferInstance : Finite ↥(twistedGroup σ))
   obtain ⟨ψ', hr', hk', u'', hR', hRm'⟩ := hvia
   have hcenter' : Subgroup.center (triD4Universal F' σ').K = ⊥ :=
     CFSG.ClassicalInvolution.RouteD.center_twistedGroup_eq_bot_of_card σ' Nat.prime_two
@@ -131,7 +131,7 @@ theorem irg_tri_same
     have hk : 1 ≤ 3 * g := by omega
     exact CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       (p := 2) (k := 3 * g) Nat.prime_two hk hKp
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   have hσ3 : ∀ c, σ (σ (σ c)) = c := sigma_three_of_card hT.2.1 hT.2.2
   have hP2 : ∀ β : Fin (triD4Universal F σ).D.rank → ℤ,
       (β ∈ (triD4Universal F σ).D.roots ∧ GGLongRoot (triD4Universal F σ).D β) →

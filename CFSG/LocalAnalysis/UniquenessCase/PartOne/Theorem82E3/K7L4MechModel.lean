@@ -43,6 +43,7 @@ open CFSG.ClassicalGroups.UnitaryFlag
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem isElemAbelian_D₀ (ζ : CubeRoot K) : IsElemAbelian 3 (D₀ ζ) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => D₀_pow_three ζ hx⟩
   obtain ⟨v, hv⟩ : ∃ v, stdDiagHom ζ v = (a : GL (Fin 4) K) := by
@@ -53,6 +54,7 @@ theorem isElemAbelian_D₀ (ζ : CubeRoot K) : IsElemAbelian 3 (D₀ ζ) := by
   change (a : GL (Fin 4) K) * b = (b : GL (Fin 4) K) * a
   rw [← hv, ← hw, ← map_mul, ← map_mul, mul_comm]
 
+omit [Finite K] in
 theorem diagUnit_comm_blkGL2L (X : GL (Fin 2) K) (u : Fin 4 → Kˣ) (h23 : u 2 = u 3) :
     diagUnit u * blkGL2L X = blkGL2L X * diagUnit u := by
   apply Units.ext
@@ -68,6 +70,7 @@ theorem diagUnit_comm_blkGL2L (X : GL (Fin 2) K) (u : Fin 4 → Kˣ) (h23 : u 2 
   exact CFSG.RankThree.PartTwo.Sec8.Hering418.blk2L_comm_diagonal
     (X : Matrix (Fin 2) (Fin 2) K) _ _ _
 
+omit [Finite K] in
 theorem diagUnit_comm_blkGL2 (X : GL (Fin 2) K) (u : Fin 4 → Kˣ) (h01 : u 0 = u 1) :
     diagUnit u * blkGL2 X = blkGL2 X * diagUnit u := by
   apply Units.ext
@@ -83,6 +86,7 @@ theorem diagUnit_comm_blkGL2 (X : GL (Fin 2) K) (u : Fin 4 → Kˣ) (h01 : u 0 =
   exact CFSG.RankThree.PartTwo.Sec8.Hering418.blk2_comm_diagonal
     (X : Matrix (Fin 2) (Fin 2) K) _ _ _
 
+omit [Finite K] in
 theorem blkGL2L_mem_centralizer_stdDiagHomH {H : Subgroup (GL (Fin 4) K)} {ζ : CubeRoot K}
     (hD : D₀ ζ ≤ H) (S : Set (Multiplicative (Fin 4 → ZMod 3)))
     (hS : ∀ v ∈ S, Multiplicative.toAdd v 2 = Multiplicative.toAdd v 3)
@@ -95,6 +99,7 @@ theorem blkGL2L_mem_centralizer_stdDiagHomH {H : Subgroup (GL (Fin 4) K)} {ζ : 
     blkGL2L X * (stdDiagHomH ζ hD v : GL (Fin 4) K)
   exact diagUnit_comm_blkGL2L X _ (by simp only [CubeRoot.pow, hS v hv])
 
+omit [Finite K] in
 theorem blkGL2_mem_centralizer_stdDiagHomH {H : Subgroup (GL (Fin 4) K)} {ζ : CubeRoot K}
     (hD : D₀ ζ ≤ H) (S : Set (Multiplicative (Fin 4 → ZMod 3)))
     (hS : ∀ v ∈ S, Multiplicative.toAdd v 0 = Multiplicative.toAdd v 1)
@@ -107,12 +112,14 @@ theorem blkGL2_mem_centralizer_stdDiagHomH {H : Subgroup (GL (Fin 4) K)} {ζ : C
     blkGL2 X * (stdDiagHomH ζ hD v : GL (Fin 4) K)
   exact diagUnit_comm_blkGL2 X _ (by simp only [CubeRoot.pow, hS v hv])
 
+omit [Finite K] in
 private theorem exists_diagUnit_of_mem_centralizer_D₀ {H : Subgroup (GL (Fin 4) K)}
     {ζ : CubeRoot K} (hD : D₀ ζ ≤ H) {g : H}
     (hg : g ∈ Subgroup.centralizer (((D₀ ζ).subgroupOf H : Subgroup H) : Set H)) :
     ∃ u : Fin 4 → Kˣ, diagUnit u = (g : GL (Fin 4) K) :=
   mem_D₀_of_diag_exists_diagUnit (centralizer_D₀_comm_diag ζ hD hg)
 
+omit [Finite K] in
 private theorem pow_eq_one_of_diagUnit {g : GL (Fin 4) K} {u : Fin 4 → Kˣ} {n : ℕ}
     (hu : diagUnit u = g) (hn : u ^ n = 1) : g ^ n = 1 := by
   rw [← hu, ← mem_D₀_of_diag_diagUnit_pow, hn, diagUnit_one]
@@ -124,7 +131,7 @@ theorem not_dvd_card_centralizer_D0_sl {q p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
         Set (StatedSL 4 K))) := by
   intro hdvd
   have hq : 1 ≤ q := by rw [← hK]; exact Nat.succ_le_of_lt (Nat.card_pos (α := K))
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup (StatedSL 4 K) := Subgroup.centralizer
     (((D₀ ζ).subgroupOf (StatedSL 4 K) : Subgroup (StatedSL 4 K)) : Set (StatedSL 4 K))
   have hdvd' : p ∣ Nat.card C := hdvd
@@ -132,7 +139,7 @@ theorem not_dvd_card_centralizer_D0_sl {q p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
   set g : StatedSL 4 K := (x : StatedSL 4 K) with hg
   have hgc : g ∈ C := by rw [hg]; exact x.2
   obtain ⟨u, hu⟩ := exists_diagUnit_of_mem_centralizer_D₀ hD hgc
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have huq : u ^ (q - 1) = 1 := by
     funext i
     apply Units.ext
@@ -155,8 +162,8 @@ private theorem pow_eq_one_of_diagUnit_mem_statedSU {f : ℕ}
     u ^ (2 ^ f + 1) = 1 := by
   have hF : Nat.card K = (2 ^ f) ^ 2 := by
     rw [hU.card, Nat.mul_comm 2 f, ← pow_mul]
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP K 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP K 2 := hU.charP
   have hSU : (diagUnit u : GL (Fin 4) K) ∈
       CFSG.LieType.Universal.Unitary.SUid
         (CFSG.LieType.BorelTits.unitaryInvolution K 2 f) 4 := by
@@ -187,7 +194,7 @@ theorem not_dvd_card_centralizer_D0_su {f p : ℕ}
         Set (StatedSU 4 (2 ^ f) K))) := by
   intro hdvd
   have hq : 1 ≤ 2 ^ f := Nat.one_le_pow f 2 (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup (StatedSU 4 (2 ^ f) K) := Subgroup.centralizer
     (((D₀ ζ).subgroupOf (StatedSU 4 (2 ^ f) K) : Subgroup (StatedSU 4 (2 ^ f) K)) :
       Set (StatedSU 4 (2 ^ f) K))
@@ -287,8 +294,8 @@ theorem one_le_pRank_centralizer_stdDiagHomH_su23 {f p : ℕ}
     1 ≤ CFSG.Open.pRank p (Subgroup.centralizer (stdDiagHomH ζ hD '' S)) := by
   have hF : Nat.card K = (2 ^ f) ^ 2 := by
     rw [hU.card, Nat.mul_comm 2 f, ← pow_mul]
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP K 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP K 2 := hU.charP
   have hsq : (2 ^ f) ^ 2 - 1 = ((2 ^ f) + 1) * ((2 ^ f) - 1) := by
     simpa using Nat.sq_sub_sq (2 ^ f) 1
   have hpdvd : p ∣ Nat.card (blkSU2L f K) := by
@@ -328,8 +335,8 @@ theorem one_le_pRank_centralizer_stdDiagHomH_su01 {f p : ℕ}
     1 ≤ CFSG.Open.pRank p (Subgroup.centralizer (stdDiagHomH ζ hD '' S)) := by
   have hF : Nat.card K = (2 ^ f) ^ 2 := by
     rw [hU.card, Nat.mul_comm 2 f, ← pow_mul]
-  haveI : Fact (Nat.Prime 2) := ⟨hU.prime⟩
-  haveI : CharP K 2 := hU.charP
+  have : Fact (Nat.Prime 2) := ⟨hU.prime⟩
+  have : CharP K 2 := hU.charP
   have hsq : (2 ^ f) ^ 2 - 1 = ((2 ^ f) + 1) * ((2 ^ f) - 1) := by
     simpa using Nat.sq_sub_sq (2 ^ f) 1
   have hpdvd : p ∣ Nat.card (blkSU2 f K) := by

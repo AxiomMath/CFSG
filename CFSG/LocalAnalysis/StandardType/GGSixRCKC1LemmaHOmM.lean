@@ -90,42 +90,51 @@ private noncomputable def rckHOmM2_z (b c : K) : CliffordAlgebra (quadMinus 2 K 
       (ι (quadMinus 2 K b c) (planeVec 2 ![1, 0]) *
         ι (quadMinus 2 K b c) (planeVec 2 ![0, 1]))
 
+omit [CharP K 2] in
 private theorem rckHOmM2_polar_e_f (b c : K) :
     polar (quadMinus 2 K b c) (eVec 2 (0 : Fin 1)) (fVec 2 (0 : Fin 1)) = 1 := by
   rw [polar_eVec_fVec]
   simp
 
+omit [CharP K 2] in
 private theorem rckHOmM2_quad_e (b c : K) :
     quadMinus 2 K b c (eVec 2 (0 : Fin 1)) = 0 :=
   quadMinus_eVec 2 b c 0
 
+omit [CharP K 2] in
 private theorem rckHOmM2_quad_f (b c : K) :
     quadMinus 2 K b c (fVec 2 (0 : Fin 1)) = 0 :=
   quadMinus_fVec 2 b c 0
 
+omit [CharP K 2] in
 private theorem rckHOmM2_quad_p (b c : K) :
     quadMinus 2 K b c (planeVec 2 ![1, 0]) = 1 := by
   rw [quadMinus_planeVec]
   simp
 
+omit [CharP K 2] in
 private theorem rckHOmM2_quad_q (b c : K) :
     quadMinus 2 K b c (planeVec 2 ![0, 1]) = c := by
   rw [quadMinus_planeVec]
   simp
 
+omit [CharP K 2] in
 private theorem rckHOmM2_polar_p_q (b c : K) :
     polar (quadMinus 2 K b c) (planeVec 2 ![1, 0]) (planeVec 2 ![0, 1]) = b := by
   rw [polar_planeVec_planeVec]
   simp [polarPlane]
 
+omit [CharP K 2] in
 private theorem rckHOmM2_polar_e_p (b c : K) (w : Fin 2 → K) :
     polar (quadMinus 2 K b c) (eVec 2 (0 : Fin 1)) (planeVec 2 w) = 0 :=
   polar_eVec_planeVec 2 b c 0 w
 
+omit [CharP K 2] in
 private theorem rckHOmM2_polar_f_p (b c : K) (w : Fin 2 → K) :
     polar (quadMinus 2 K b c) (fVec 2 (0 : Fin 1)) (planeVec 2 w) = 0 :=
   polar_fVec_planeVec 2 b c 0 w
 
+omit [CharP K 2] in
 private theorem rckHOmM2_z_mul_e (b c : K) :
     rckHOmM2_z b c * ι (quadMinus 2 K b c) (eVec 2 (0 : Fin 1)) =
       ι (quadMinus 2 K b c) (eVec 2 (0 : Fin 1)) * rckHOmM2_z b c +
@@ -411,7 +420,7 @@ private theorem rckHOmM2_z_mul_PE (b c : K) (hb : b ≠ 0) :
   rw [show A * (R * E) = b⁻¹ • (R * E) from by rw [hA, Algebra.smul_def]]
   rw [← add_assoc, CharTwo.add_self_eq_zero, zero_add]
 
-private theorem rckHOmM2_z_mul_RE (b c : K) (hb : b ≠ 0) :
+private theorem rckHOmM2_z_mul_RE (b c : K) (_hb : b ≠ 0) :
     rckHOmM2_z b c * (ι (quadMinus 2 K b c) (planeVec 2 ![0, 1]) *
         ι (quadMinus 2 K b c) (eVec 2 (0 : Fin 1))) =
       ι (quadMinus 2 K b c) (planeVec 2 ![0, 1]) *
@@ -455,6 +464,7 @@ private theorem rckHOmM2_z_mul_RE (b c : K) (hb : b ≠ 0) :
 private def rckHOmM2_J (b c : K) (w : Fin 2 → K) : Fin 2 → K :=
   ![b⁻¹ * c * w 1, w 1 + b⁻¹ * w 0]
 
+omit [CharP K 2] in
 private theorem rckHOmM2_planeVec_decomp (w : Fin 2 → K) :
     planeVec 2 w = w 0 • planeVec 2 ![1, 0] + w 1 • planeVec 2 ![0, 1] := by
   funext x
@@ -463,13 +473,14 @@ private theorem rckHOmM2_planeVec_decomp (w : Fin 2 → K) :
   · fin_cases i; simp [planeVec]
   · fin_cases t <;> simp [planeVec]
 
+omit [CharP K 2] in
 private theorem rckHOmM2_planeVec_J (b c : K) (w : Fin 2 → K) :
     planeVec 2 (rckHOmM2_J b c w) =
       (b⁻¹ * c * w 1) • planeVec 2 ![1, 0] + (w 1 + b⁻¹ * w 0) • planeVec 2 ![0, 1] := by
   funext x
   rcases x with i | i | t
-  · fin_cases i; simp [rckHOmM2_J, planeVec]
-  · fin_cases i; simp [rckHOmM2_J, planeVec]
+  · fin_cases i; simp [planeVec]
+  · fin_cases i; simp [planeVec]
   · fin_cases t <;> simp [rckHOmM2_J, planeVec]
 
 private theorem rckHOmM2_z_mul_plane (b c : K) (hb : b ≠ 0) (a d : K) :
@@ -496,13 +507,15 @@ private theorem rckHOmM2_z_mul_N (b c : K) (hb : b ≠ 0) (w : Fin 2 → K) :
   rw [rckHOmM2_planeVec_J b c w, map_add, map_smul, map_smul]
   exact rckHOmM2_z_mul_plane b c hb (w 0) (w 1)
 
+omit [CharP K 2] in
 private theorem rckHOmM2_J_det (b c : K) (hb : b ≠ 0) (w : Fin 2 → K) :
     w 0 * rckHOmM2_J b c w 1 + w 1 * rckHOmM2_J b c w 0 =
       b⁻¹ * (w 0 ^ 2 + b * w 0 * w 1 + c * w 1 ^ 2) := by
-  simp only [rckHOmM2_J, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [rckHOmM2_J, Matrix.cons_val_zero, Matrix.cons_val_one]
   field_simp
   ring
 
+omit [Field K] [CharP K 2] in
 private theorem rckHOmM2_range_pair (x y : Fin 2 → K) : Set.range ![x, y] = {x, y} := by
   ext z
   constructor
@@ -519,8 +532,7 @@ private theorem rckHOmM2_J_linearIndependent (b c : K) (hb : b ≠ 0)
   intro s t hst
   have h0 := congrFun hst 0
   have h1 := congrFun hst 1
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons] at h0 h1
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at h0 h1
   have hD : w 0 * rckHOmM2_J b c w 1 + w 1 * rckHOmM2_J b c w 0 ≠ 0 := by
     rw [rckHOmM2_J_det b c hb]
     exact mul_ne_zero (inv_ne_zero hb) (binary_ne_zero hirr hw)
@@ -539,10 +551,11 @@ private theorem rckHOmM2_J_span (b c : K) (hb : b ≠ 0)
     Submodule.span K ({w, rckHOmM2_J b c w} : Set (Fin 2 → K)) = ⊤ := by
   have hli := rckHOmM2_J_linearIndependent b c hb hirr hw
   have hcard : Fintype.card (Fin 2) = Module.finrank K (Fin 2 → K) := by
-    simp [Module.finrank_fin_fun]
+    simp
   have hspan := hli.span_eq_top_of_card_eq_finrank' hcard
   rwa [rckHOmM2_range_pair w (rckHOmM2_J b c w)] at hspan
 
+omit [CharP K 2] in
 private theorem rckHOmM2_N_linear (b c : K) (α β : K) (w w' : Fin 2 → K) :
     ι (quadMinus 2 K b c) (planeVec 2 (α • w + β • w')) *
         ι (quadMinus 2 K b c) (eVec 2 (0 : Fin 1)) =
@@ -669,7 +682,7 @@ private theorem rckHOmM2_z_mul_PF (b c : K) (hb : b ≠ 0) :
   rw [add_mul, hEFF, zero_add, hPRPF]
   rw [show A * (R * F) = b⁻¹ • (R * F) from by rw [hA, Algebra.smul_def]]
 
-private theorem rckHOmM2_z_mul_RF (b c : K) (hb : b ≠ 0) :
+private theorem rckHOmM2_z_mul_RF (b c : K) (_hb : b ≠ 0) :
     rckHOmM2_z b c * (ι (quadMinus 2 K b c) (planeVec 2 ![0, 1]) *
         ι (quadMinus 2 K b c) (fVec 2 (0 : Fin 1))) =
       (b⁻¹ * c) • (ι (quadMinus 2 K b c) (planeVec 2 ![1, 0]) *
@@ -721,13 +734,14 @@ private theorem rckHOmM2_z_mul_plane_f (b c : K) (hb : b ≠ 0) (a d : K) :
 private def rckHOmM2_Jf (b c : K) (w : Fin 2 → K) : Fin 2 → K :=
   ![w 0 + b⁻¹ * c * w 1, b⁻¹ * w 0]
 
+omit [CharP K 2] in
 private theorem rckHOmM2_planeVec_Jf (b c : K) (w : Fin 2 → K) :
     planeVec 2 (rckHOmM2_Jf b c w) =
       (w 0 + b⁻¹ * c * w 1) • planeVec 2 ![1, 0] + (b⁻¹ * w 0) • planeVec 2 ![0, 1] := by
   funext x
   rcases x with i | i | t
-  · fin_cases i; simp [rckHOmM2_Jf, planeVec]
-  · fin_cases i; simp [rckHOmM2_Jf, planeVec]
+  · fin_cases i; simp [planeVec]
+  · fin_cases i; simp [planeVec]
   · fin_cases t <;> simp [rckHOmM2_Jf, planeVec]
 
 private theorem rckHOmM2_z_mul_Nf (b c : K) (hb : b ≠ 0) (w : Fin 2 → K) :
@@ -739,10 +753,11 @@ private theorem rckHOmM2_z_mul_Nf (b c : K) (hb : b ≠ 0) (w : Fin 2 → K) :
   rw [rckHOmM2_planeVec_Jf b c w, map_add, map_smul, map_smul]
   exact rckHOmM2_z_mul_plane_f b c hb (w 0) (w 1)
 
+omit [CharP K 2] in
 private theorem rckHOmM2_Jf_det (b c : K) (hb : b ≠ 0) (w : Fin 2 → K) :
     w 0 * rckHOmM2_Jf b c w 1 + w 1 * rckHOmM2_Jf b c w 0 =
       b⁻¹ * (w 0 ^ 2 + b * w 0 * w 1 + c * w 1 ^ 2) := by
-  simp only [rckHOmM2_Jf, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [rckHOmM2_Jf, Matrix.cons_val_zero, Matrix.cons_val_one]
   field_simp
   ring
 
@@ -753,8 +768,7 @@ private theorem rckHOmM2_Jf_linearIndependent (b c : K) (hb : b ≠ 0)
   intro s t hst
   have h0 := congrFun hst 0
   have h1 := congrFun hst 1
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply, Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons] at h0 h1
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at h0 h1
   have hD : w 0 * rckHOmM2_Jf b c w 1 + w 1 * rckHOmM2_Jf b c w 0 ≠ 0 := by
     rw [rckHOmM2_Jf_det b c hb]
     exact mul_ne_zero (inv_ne_zero hb) (binary_ne_zero hirr hw)
@@ -773,10 +787,11 @@ private theorem rckHOmM2_Jf_span (b c : K) (hb : b ≠ 0)
     Submodule.span K ({w, rckHOmM2_Jf b c w} : Set (Fin 2 → K)) = ⊤ := by
   have hli := rckHOmM2_Jf_linearIndependent b c hb hirr hw
   have hcard : Fintype.card (Fin 2) = Module.finrank K (Fin 2 → K) := by
-    simp [Module.finrank_fin_fun]
+    simp
   have hspan := hli.span_eq_top_of_card_eq_finrank' hcard
   rwa [rckHOmM2_range_pair w (rckHOmM2_Jf b c w)] at hspan
 
+omit [CharP K 2] in
 private theorem rckHOmM2_Nf_linear (b c : K) (α β : K) (w w' : Fin 2 → K) :
     ι (quadMinus 2 K b c) (planeVec 2 (α • w + β • w')) *
         ι (quadMinus 2 K b c) (fVec 2 (0 : Fin 1)) =
@@ -904,7 +919,7 @@ private theorem rckHOmM2_minusCoeffs_fst_ne_zero (g : ℕ) :
   exact CharTwo.add_self_eq_zero _
 
 theorem rck_lemmaHC_POmegaMinus
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .POmegaMinus m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .POmegaMinus m g).D.rank → ℤ}
     (hβ : GGLongRoot (ggU .POmegaMinus m g).D β) :
     RCKLemmaHCent (ggU .POmegaMinus m g) β := by
   by_cases h1 : m ≤ 1

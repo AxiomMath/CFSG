@@ -23,7 +23,7 @@ theorem two_mul_le_modCommRank_of_isUnitaryTransvectionIn
     (hwt : IsUnitaryTransvectionIn m n (e (QuotientGroup.mk (w : X)))) :
     2 * n ≤ modCommRank (σ w) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 1 ≤ n := by
     by_contra h
     have hn0 : n = 0 := by omega
@@ -31,7 +31,7 @@ theorem two_mul_le_modCommRank_of_isUnitaryTransvectionIn
     rw [hn0, pow_zero, one_pow] at hc
     have h1 := Finite.one_lt_card (α := F₀)
     omega
-  haveI : CharP F₀ 2 :=
+  have : CharP F₀ 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcard
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F₀ :=
     ⟨Nat.prime_two, hn, by rw [hcard, ← pow_mul, mul_comm]⟩
@@ -68,7 +68,7 @@ theorem two_mul_le_modCommRank_of_isUnitaryTransvectionIn
       _ = (QuotientGroup.mk a)⁻¹ * QuotientGroup.mk g' * QuotientGroup.mk a := by
         rw [hxe, hαe P]
       _ = QuotientGroup.mk (a⁻¹ * g' * a) := by
-        simp [map_mul, map_inv]
+        simp
       _ = QuotientGroup.mk g := by rw [← hga]
       _ = e (QuotientGroup.mk (w : X)) := hge
   have hmyw : (QuotientGroup.mk y : X ⧸ Subgroup.center X) =
@@ -123,7 +123,7 @@ theorem two_mul_le_modCommRank_of_isUnitaryTransvectionIn
       simpa [CFSG.ComponentClassification.Burgoyne.Proj.projH,
         QuotientGroup.mk'_apply] using h2
     apply CFSG.OddStandard.GH71.S55.C5U.proj_blkSU_injective hU h3 (by omega : 3 < m)
-    simpa [MonoidHom.comp_apply, hblk]
+    simp [MonoidHom.comp_apply, hblk]
   have hbound :=
     two_mul_le_modCommRank_permSU_swap_of_injective (n := n) (F₀ := F₀) hn hcard
       (σ.comp α') hinj
@@ -135,7 +135,7 @@ theorem two_mul_le_modCommRank_of_isUnitaryTransvectionIn
 theorem unitaryRootCommutatorRankAt_of_four_le
     {m : ℕ} (hm : 4 ≤ m) : UnitaryRootCommutatorRankAt m := by
   intro G _ _ K I n hI hK hC X _ φ hφ hX v hv hvt
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hvtX : IsUnitaryTransvection X m n (φ v) := hvt
   obtain ⟨F₀, _, _, hcard, e, hvt'⟩ := hvt
   have hn : 1 ≤ n := by
@@ -149,13 +149,13 @@ theorem unitaryRootCommutatorRankAt_of_four_le
     intro h
     have h1 := congrArg Prod.fst h
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F₀)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F₀)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F₀ 2 n hcard m
       (by omega) hnq
-  haveI : Group.IsPerfect (StatedSU m (2 ^ n) F₀) :=
+  have : Group.IsPerfect (StatedSU m (2 ^ n) F₀) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard (by omega) hnq
-  haveI : Group.IsPerfect (StatedProj (StatedSU m (2 ^ n) F₀)) :=
+  have : Group.IsPerfect (StatedProj (StatedSU m (2 ^ n) F₀)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _)
       (QuotientGroup.mk'_surjective _)
   have hS : IsSimpleGroup (X ⧸ Subgroup.center X) := e.isSimpleGroup

@@ -27,7 +27,7 @@ theorem r34_of_conclusion
         Nor (Subgroup.zpowers b ⊔ Subgroup.zpowers (b₁ * b₂)), g = o * n) :
     R34Stmt b b₁ b₂ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := S.hyp
   obtain ⟨Ot, hZO, hOΓ, hOn, hO6, hdec⟩ := hcon
   have hZc : ∀ r ∈ Ot, ∀ z ∈ Subgroup.zpowers (b₁ * b₂), r * z = z * r := by
@@ -47,7 +47,7 @@ theorem r34_of_conclusion
       (fun g hg x hx => conj_mem_complement hZc S.card_Z hOR hOdec hOc hx
         (hOn g hg x (hOR hx))) hOc
     exact h1.trans (L14.Opp_le_Opp_of_normalized hΓN
-      (fun g hg c hc => S.Nor_beta_normalizes_cen hg hc))
+      (fun g hg c hc => CFSG.RankThree.PartTwo.Sec21.FF81.Std.Nor_beta_normalizes_cen hg hc))
   have hΓdec : ∀ γ ∈ Cen (b₁ * b₂), ∃ x ∈ Opp 3 (Nor (Subgroup.zpowers (b₁ * b₂))),
       ∃ m ∈ Nor (Subgroup.zpowers b) ⊓ Nor (Subgroup.zpowers (b₁ * b₂)), γ = x * m := by
     intro γ hγ
@@ -101,7 +101,7 @@ theorem r34_of_conclusion
 
 theorem r34K (hR1K : KF_FS79Prop2OneK) (hK : KCore.KGroupNonab InCatalog H) :
     R34Stmt b b₁ b₂ := by
-  haveI hN : ((Subgroup.zpowers (b₁ * b₂)).subgroupOf (Cen (b₁ * b₂))).Normal :=
+  have hN : ((Subgroup.zpowers (b₁ * b₂)).subgroupOf (Cen (b₁ * b₂))).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using S.qdata.Z_norm (g : H) g.2 (n : H) hn⟩

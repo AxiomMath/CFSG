@@ -27,7 +27,7 @@ theorem isSylow2Of_top_of_setup [Finite H] (hS : PlaneSetup z K α)
     (hT : IsSylow2Of T (normalizer (Sec5B517Q8 hS.quad : Set H))) :
     IsSylow2Of T (⊤ : Subgroup H) := by
   classical
-  haveI : Finite X := Finite.of_surjective α hS.surj
+  have : Finite X := Finite.of_surjective α hS.surj
   have hSys : PlaneSys (planeV hS.quad α) (planeW hS.quad α) :=
     planeSys_of_setup hS hperm
   have hparX : PlaneParity (planeV hS.quad α) (planeW hS.quad α) :=

@@ -50,7 +50,7 @@ theorem involutions_conjugate_of_no_four_group
     simpa only [MulAut.conj_apply, inv_inv] using ((MulAut.conj y⁻¹).orderOf_eq b).trans hb
   have heq : x⁻¹ * a * x = y⁻¹ * b * y :=
     congrArg Subtype.val (rank_one_twoGroup_involutions_eq (S : Subgroup T)
-      S.isPGroup' hrank ⟨_, hx⟩ ⟨_, hy⟩
+      S.isPGroup hrank ⟨_, hx⟩ ⟨_, hy⟩
       ((Subgroup.orderOf_coe _).symm.trans hax)
       ((Subgroup.orderOf_coe _).symm.trans hby))
   refine ⟨x * y⁻¹, ?_⟩

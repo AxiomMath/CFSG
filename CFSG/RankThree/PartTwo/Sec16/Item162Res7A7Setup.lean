@@ -42,7 +42,7 @@ theorem normalizer_x_eq_of_main (h153 : Item153Main A (lB A)) (hn : Claim153Norm
     exact hM
   exact le_antisymm (hn K hK _ hMmem) hNX
 
-theorem le_normalizer_of_isPLocal (h153 : Item153Main A (lB A)) (hn : Claim153Normal A (lB A))
+theorem le_normalizer_of_isPLocal (_h153 : Item153Main A (lB A)) (hn : Claim153Normal A (lB A))
     {K : Subgroup G} (hK : K ∈ scriptY0Star A (lB A)) {M : Subgroup G} (hM : IsPLocal 2 M)
     (hKM : K ≤ M) (hAM : A ≤ M) : M ≤ Subgroup.normalizer (K : Set G) := by
   obtain ⟨M', hMM', hM'⟩ := CFSG.CGT.PushingUp.exists_isMaximalTwoLocal_ge hM

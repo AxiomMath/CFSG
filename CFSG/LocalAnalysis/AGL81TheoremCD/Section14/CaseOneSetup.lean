@@ -30,7 +30,7 @@ private instance instSubgroupConjAction (Q : Subgroup G) : MulAction ↥Q (Subgr
 
 theorem S14Choice.isKComp {M H E Q J : Subgroup G} (h : S14Choice G M H E Q J) :
     IsKComp M H J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H', -, hK', -⟩ := h.J_star.1
   have hintr := (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff
     3 J (kSub 3 M H') hK'.1).mp hK'.2
@@ -38,6 +38,7 @@ theorem S14Choice.isKComp {M H E Q J : Subgroup G} (h : S14Choice G M H E Q J) :
     (CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_subgroupOf_iff
       3 J (kSub 3 M H) h.J_comp.1).mpr ⟨h.J_comp.2.1, hintr.2.1, hintr.2.2⟩⟩
 
+omit [Finite G] in
 theorem Is3A6Star.card_threeStar {J : Subgroup G} (h : Is3A6Star J) :
     Nat.card (threeStar J) = 1080 := by
   obtain ⟨e⟩ := h.1
@@ -82,6 +83,7 @@ theorem CaseOneCtx.isSL34Star
     (c : CaseOneCtx G M H E Q J R T) : IsSL34Star J :=
   c.choice.isSL34Star_of_typeA c.pre c.nine c.typeA
 
+omit [Finite G] in
 theorem isPComponentIn_conj_of_mem_normalizer {p : ℕ} {K J : Subgroup G} {y : G}
     (hJ : IsPComponentIn p J K) (hy : y ∈ Subgroup.normalizer (K : Set G)) :
     IsPComponentIn p (J.map (MulAut.conj y).toMonoidHom) K := by
@@ -105,6 +107,7 @@ theorem isPComponentIn_conj_of_mem_normalizer {p : ℕ} {K J : Subgroup G} {y : 
     rw [h1]
     exact isPComponent_map p φ hJ.2
 
+omit [Finite G] in
 private theorem le_normalizer_of_le_normalizer_subgroupOf {K A B : Subgroup G}
     (hAK : A ≤ K) (hBK : B ≤ K)
     (h : B.subgroupOf K ≤ Subgroup.normalizer ((A.subgroupOf K) : Set ↥K)) :
@@ -134,7 +137,7 @@ private theorem le_normalizer_of_le_normalizer_subgroupOf {K A B : Subgroup G}
         rw [hmap', Subgroup.map_subgroupOf_eq_of_le hAK]
 
 theorem S14Choice.Q_le_normalizer_kSub {M H E Q J : Subgroup G}
-    (h : S14Choice G M H E Q J) (hU : NineNineOneAt M) :
+    (h : S14Choice G M H E Q J) (_hU : NineNineOneAt M) :
     Q ≤ Subgroup.normalizer (kSub 3 M H : Set G) := by
   refine h.sylow.le.trans (sup_le (Subgroup.le_normalizer) ?_)
   intro e he
@@ -198,9 +201,9 @@ theorem orbit_card_one_of_two_components {K Q J₁ J₂ : Subgroup G}
     have h := Set.ncard_le_ncard (horbit J' hJ') (Set.toFinite _)
     rwa [Set.ncard_pair hne] at h
   have hdvd : Nat.card (MulAction.orbit ↥Q J') ∣ Nat.card ↥Q := by
-    haveI : Fintype ↥Q := Fintype.ofFinite _
-    haveI : Fintype ↥(MulAction.orbit ↥Q J') := Fintype.ofFinite _
-    haveI : Fintype ↥(MulAction.stabilizer ↥Q J') := Fintype.ofFinite _
+    have : Fintype ↥Q := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.orbit ↥Q J') := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.stabilizer ↥Q J') := Fintype.ofFinite _
     have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group ↥Q J'
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       ← Nat.card_eq_fintype_card] at h
@@ -208,8 +211,8 @@ theorem orbit_card_one_of_two_components {K Q J₁ J₂ : Subgroup G}
   obtain ⟨n, hn⟩ := hQ3.exists_card_eq
   have hdvd3 : Nat.card (MulAction.orbit ↥Q J') ∣ 3 ^ n := by
     simpa [hn] using hdvd
-  haveI : Nonempty ↥(MulAction.orbit ↥Q J') :=
-    ⟨⟨J', by simpa using MulAction.mem_orbit J' (1 : ↥Q)⟩⟩
+  have : Nonempty ↥(MulAction.orbit ↥Q J') :=
+    ⟨⟨J', by simp⟩⟩
   have hpos : 0 < Nat.card (MulAction.orbit ↥Q J') := Nat.card_pos
   have hnot2 : ¬ 2 ∣ Nat.card (MulAction.orbit ↥Q J') := by
     intro h2
@@ -222,6 +225,7 @@ theorem orbit_card_one_of_two_components {K Q J₁ J₂ : Subgroup G}
   · exfalso
     exact hnot2 (h ▸ dvd_rfl)
 
+omit [Finite G] in
 theorem le_normalizer_of_orbit_card_one {Q J : Subgroup G}
     (hcard : Nat.card (MulAction.orbit ↥Q J) = 1) :
     Q ≤ Subgroup.normalizer (J : Set G) := by
@@ -230,7 +234,7 @@ theorem le_normalizer_of_orbit_card_one {Q J : Subgroup G}
   have hcard' : Nat.card (MulAction.orbit ↥Q J) = 1 := hcard
   obtain ⟨Y, hY⟩ := Set.ncard_eq_one.mp (by simpa using hcard')
   have hJmem : J ∈ MulAction.orbit ↥Q J := by
-    simpa using MulAction.mem_orbit J (1 : ↥Q)
+    simp
   have hqmem : (⟨q, hq⟩ : ↥Q) • J ∈ MulAction.orbit ↥Q J :=
     MulAction.mem_orbit J (⟨q, hq⟩ : ↥Q)
   rw [hY, Set.mem_singleton_iff] at hJmem hqmem
@@ -423,7 +427,7 @@ theorem CaseOneCtx.R_le_M {M H E Q J R T : Subgroup G} (c : CaseOneCtx G M H E Q
 theorem commutator_le_pPrimeCore_of_distinct {K J J' : Subgroup G}
     (hJ : IsPComponentIn 3 J K) (hJ' : IsPComponentIn 3 J' K) (hne : J' ≠ J) :
     ⁅J', J⁆ ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hneK : J'.subgroupOf K ≠ J.subgroupOf K := by
     intro heq
     apply hne
@@ -539,7 +543,7 @@ theorem CaseOneCtx.R_le_normalizer_J
     rw [hn]
     exact (by norm_num : Nat.Coprime 27 2).pow_right n
   have hsolv : Group.IsSolvable ↥R := by
-    haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+    have : Group.IsNilpotent ↥R := hR2.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hmain := CFSG.AGLEmbedding.le_commutator_sup_inf_centralizer_of_coprime
     (R := R) (A := Q ⊓ J) hAR hcop hsolv
@@ -557,6 +561,7 @@ theorem CaseOneCtx.R_le_normalizer_J
     exact hcommK.trans (c.choice.kSub_le_normalizer_J c.pre c.nine)
   · exact inf_centralizer_le_normalizer_J c.choice c.pre c.nine c.typeA hRnormK
 
+omit [Finite G] in
 private theorem commutator_subgroup_normal_in_Q {Q J : Subgroup G}
     (hQN : Q ≤ Subgroup.normalizer ((Q ⊓ J : Subgroup G) : Set G))
     (hQJ : ¬ IsMulCommutative ↥(Q ⊓ J)) :
@@ -573,7 +578,7 @@ private theorem commutator_subgroup_normal_in_Q {Q J : Subgroup G}
       Subgroup.mem_normalizer_iff_map_conj_eq.mp (hQN hq)
     change C.map (MulAut.conj q).toMonoidHom = C
     rw [show C = ⁅Q ⊓ J, Q ⊓ J⁆ from rfl, Subgroup.map_commutator, hmapQJ]
-  haveI : (C.subgroupOf Q).Normal :=
+  have : (C.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCQ).mpr hQC
   have hCne : C ≠ ⊥ := by
     intro hCbot
@@ -591,7 +596,7 @@ private theorem center_map_le_of_normal_nontrivial {Q C : Subgroup G}
     (hAcard : Nat.card ↥((Subgroup.center ↥Q).map Q.subtype) = 3) :
     (Subgroup.center ↥Q).map Q.subtype ≤ C := by
   classical
-  haveI : (C.subgroupOf Q).Normal :=
+  have : (C.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCQ).mpr hQC
   have hneSub : C.subgroupOf Q ≠ ⊥ := by
     intro hbot
@@ -599,7 +604,7 @@ private theorem center_map_le_of_normal_nontrivial {Q C : Subgroup G}
     have h := (Subgroup.subgroupOf_eq_bot.mp hbot)
     rw [disjoint_iff, inf_eq_left.mpr hCQ] at h
     exact h
-  haveI : Group.IsNilpotent ↥Q := hQ3.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ3.isNilpotent
   have hmeet := Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥Q)
     (H := C.subgroupOf Q) hneSub
   obtain ⟨⟨z, hz⟩, hz_ne1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hmeet
@@ -1039,7 +1044,7 @@ theorem CaseOneCtx.inf_D_eq_bot {M H E Q J R T : Subgroup G}
 theorem CaseOneCtx.pRank_threeStar_le {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (threeStar M)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hquot := CFSG.SectionRank.pRank_quotient_eq (p := 3)
     (N := CFSG.pPrimeCore 3 ↥M) (by
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card)
@@ -1088,7 +1093,7 @@ theorem CaseOneCtx.mem_centerImg_of_centralizes
     (hzQ : threeStarImg M Q ≤ Subgroup.centralizer ({z} : Set (threeStar M))) :
     z ∈ threeStarImg M ((Subgroup.center ↥Q).map Q.subtype) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Ω, hΩQ, hΩea, hΩcard, hA_le_Ω⟩ := c.exists_E27 h142
   let A : Subgroup G := (Subgroup.center ↥Q).map Q.subtype
   have hQM : Q ≤ M := c.choice.Q_le_M c.nine

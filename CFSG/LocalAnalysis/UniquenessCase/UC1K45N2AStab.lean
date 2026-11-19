@@ -35,8 +35,8 @@ lemma mem_stab {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
 lemma card_stab {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w : W) :
-    Nat.card (stab ρ w) = Nat.card {g : Alt5 // ρ g w = w} :=
-  Nat.card_congr (Equiv.subtypeEquivRight (fun g => Iff.rfl))
+    Nat.card (stab ρ w) = Nat.card {_g : Alt5 // ρ _g w = w} :=
+  Nat.card_congr (Equiv.subtypeEquivRight (fun _g => Iff.rfl))
 
 def orderThreeStabEquiv {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w : W) :
@@ -285,7 +285,7 @@ theorem a5_exists_vector_stab_twelve (W : Type) [AddCommGroup W] [Module (ZMod 2
       Nat.card {w : W // ρ g w = w} = 4) :
     ∃ w : W, w ≠ 0 ∧ Nat.card {g : ↥(alternatingGroup (Fin 5)) // ρ g w = w} = 12 := by
   classical
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   by_contra hcon
   push Not at hcon
   have hW16 : Fintype.card W = 16 := by

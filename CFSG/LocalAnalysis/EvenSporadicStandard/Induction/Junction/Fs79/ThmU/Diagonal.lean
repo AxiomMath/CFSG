@@ -269,7 +269,7 @@ theorem diag_of_le_sup_conj [Finite G] (hx : x * x = 1) (hc : DiagComm x M) {K :
       rw [hdiag, diag_one]
     exact congrArg (fun x : M => (x : G)) (hinj h1)
 
-theorem centralizes_of_normalizes (hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅M, M⁆ = M) {g : G}
+theorem centralizes_of_normalizes (_hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅M, M⁆ = M) {g : G}
     (hgN : g ∈ normalizer (M : Set G)) (hg : ∀ m ∈ M, g * diag x m = diag x m * g) :
     (∀ m ∈ M, g * m = m * g) ∧ ∀ m ∈ M, g * (x * m * x⁻¹) = (x * m * x⁻¹) * g := by
   have hgn : ∀ n ∈ M, g * n * g⁻¹ ∈ M := fun n hn => (mem_normalizer_iff.mp hgN n).mp hn
@@ -348,7 +348,7 @@ theorem centralizes_of_normalizes (hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅
         _ = m * ((x * m * x⁻¹) * g) := by group
     exact mul_left_cancel h2
 
-theorem centralizes_of_central_diag (hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅M, M⁆ = M)
+theorem centralizes_of_central_diag (_hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅M, M⁆ = M)
     {m : G} (hm : m ∈ M) (hz : ∀ n ∈ M, diag x m * diag x n = diag x n * diag x m) :
     (∀ n ∈ M, diag x m * n = n * diag x m) ∧
       ∀ n ∈ M, diag x m * (x * n * x⁻¹) = (x * n * x⁻¹) * diag x m := by
@@ -457,7 +457,7 @@ theorem not_le_normalizer_diag (hx : x * x = 1) (hc : DiagComm x M) (hM : ⁅M, 
   calc x * b = (x * b * x⁻¹) * x := by group
     _ = b * x := by rw [hfixb]
 
-theorem diag_not_centralize_left (hx : x * x = 1) (hc : DiagComm x M)
+theorem diag_not_centralize_left (_hx : x * x = 1) (hc : DiagComm x M)
     (hM : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) :
     ¬ ∀ m ∈ M, ∀ n ∈ M, diag x m * n = n * diag x m := by
   intro h
@@ -475,7 +475,7 @@ theorem diag_not_centralize_left (hx : x * x = 1) (hc : DiagComm x M)
       _ = (b * a) * (x * a * x⁻¹) := by group
   exact mul_right_cancel h2
 
-theorem diag_not_centralize_right (hx : x * x = 1) (hc : DiagComm x M)
+theorem diag_not_centralize_right (_hx : x * x = 1) (hc : DiagComm x M)
     (hM : ¬ ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) :
     ¬ ∀ m ∈ M, ∀ n ∈ M, diag x m * (x * n * x⁻¹) = (x * n * x⁻¹) * diag x m := by
   intro h
@@ -546,7 +546,7 @@ theorem cj_eq_of_diag [Finite G] {L : Subgroup G} {y z : G} (hy : y * y = 1) (hc
     exact hcl m hm
   exact Subgroup.eq_of_le_of_card_ge hle (le_of_eq (card_cj z M).symm)
 
-theorem cj_le_sup_of_diag {L : Subgroup G} {y z : G} (hy : y * y = 1)
+theorem cj_le_sup_of_diag {L : Subgroup G} {y z : G} (_hy : y * y = 1)
     (hM : ∀ g : G, g ∈ M ↔ ∃ l ∈ L, g = diag y l) (hzy : z * y = y * z) :
     cj z M ≤ cj z L ⊔ cj y (cj z L) := by
   intro g hg

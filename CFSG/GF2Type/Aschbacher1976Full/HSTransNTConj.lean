@@ -14,10 +14,12 @@ namespace Transport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_eq_of_isConj {z u : G} (h : IsConj z u) : ∃ g : G, u = g⁻¹ * z * g := by
   obtain ⟨c, hc⟩ := isConj_iff.mp h
   exact ⟨c⁻¹, by rw [← hc]; simp⟩
 
+omit [Finite G] in
 theorem Hz_eq (z g : G) : Hz (g⁻¹ * z * g) = conjugate (Hz z) g := by
   ext x
   rw [Width.mem_conjugate_iff, mem_centralizer_singleton_iff, mem_centralizer_singleton_iff]
@@ -31,6 +33,7 @@ theorem Hz_eq (z g : G) : Hz (g⁻¹ * z * g) = conjugate (Hz z) g := by
       _ = g⁻¹ * (z * (g * x * g⁻¹)) * g := by rw [h]
       _ = g⁻¹ * z * g * x := by group
 
+omit [Finite G] in
 theorem Fz_eq (z g : G) : Fz (g⁻¹ * z * g) = conjugate (Fz z) g := by
   have h : (Hz z).map (MulAut.conj g⁻¹).toMonoidHom = Hz (g⁻¹ * z * g) := (Hz_eq z g).symm
   let e : ↥(Hz z) ≃* ↥(Hz (g⁻¹ * z * g)) :=
@@ -41,10 +44,12 @@ theorem Fz_eq (z g : G) : Fz (g⁻¹ * z * g) = conjugate (Fz z) g := by
   rw [← key, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem ZF_eq (u g : G) : ZF (g * u * g⁻¹) = conjugate (ZF u) g⁻¹ := by
   have := CFSG.GF2Type.CenterFour.centerAt_conj u g⁻¹
   rwa [inv_inv] at this
 
+omit [Finite G] in
 theorem mem_Dinv_iff (z g u : G) : u ∈ Dinv (g⁻¹ * z * g) ↔ g * u * g⁻¹ ∈ Dinv z := by
   show (IsConj (g⁻¹ * z * g) u ∧ u ≠ g⁻¹ * z * g ∧ ZF u ≤ Hz (g⁻¹ * z * g)) ↔
     (IsConj z (g * u * g⁻¹) ∧ g * u * g⁻¹ ≠ z ∧ ZF (g * u * g⁻¹) ≤ Hz z)
@@ -71,6 +76,7 @@ theorem mem_Dinv_iff (z g u : G) : u ∈ Dinv (g⁻¹ * z * g) ↔ g * u * g⁻�
       refine Width.mem_conjugate_iff.mpr (h (Width.mem_conjugate_iff.mpr ?_))
       rwa [show g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y by group]
 
+omit [Finite G] in
 theorem hsTI_of_isConj {z p : G} (hti : HSTI z) (hp : IsConj z p) : HSTI p := by
   obtain ⟨g, rfl⟩ := exists_eq_of_isConj hp
   refine ⟨?_, fun u hu => ?_⟩

@@ -162,12 +162,12 @@ theorem classify {β : Finset (Fin 6)} (hβ : β.card = 4) (w : Wr 6)
   set z := zOf (emb β hβ) with hzdef
   have hzon : ∀ i ∈ β, z.vec i = 1 := by
     intro i hi
-    rw [hzdef, zOf_vec_apply, if_pos]
+    rw [hzdef, zOf_vec_apply, ite_eq_left]
     rw [hrange]
     exact hi
   have hzoff : ∀ i, i ∉ β → z.vec i = 0 := by
     intro i hi
-    rw [hzdef, zOf_vec_apply, if_neg]
+    rw [hzdef, zOf_vec_apply, ite_eq_right]
     rw [hrange]
     exact hi
   have hwzperm : (w * z).perm = 1 := by

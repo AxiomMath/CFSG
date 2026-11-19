@@ -114,7 +114,7 @@ theorem p_group_sylow_in_normalizer_is_sylow {group : Type*} [Group group] [Fini
   let localNormalizer := Subgroup.normalizer (localPrimary : Set (sylow : Subgroup group))
   have hnormalizer : localNormalizer.map (sylow : Subgroup group).subtype = primary := by
     apply hmaximal
-    · exact (sylow.isPGroup'.to_subgroup localNormalizer).map _
+    · exact (sylow.isPGroup.to_subgroup localNormalizer).map _
     · rw [← Subgroup.map_subgroupOf_eq_of_le hcontains]
       exact Subgroup.map_mono Subgroup.le_normalizer
     · change (Subgroup.normalizer (primary.subgroupOf (sylow : Subgroup group) :
@@ -124,7 +124,7 @@ theorem p_group_sylow_in_normalizer_is_sylow {group : Type*} [Group group] [Fini
   have hequal : localNormalizer = localPrimary := by
     apply Subgroup.map_injective (Subgroup.subtype_injective (sylow : Subgroup group))
     rw [hnormalizer, Subgroup.map_subgroupOf_eq_of_le hcontains]
-  let : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup.isNilpotent
   have htop : localPrimary = ⊤ :=
     (normalizerCondition_iff_only_full_group_self_normalizing.mp
       Group.normalizerCondition_of_isNilpotent) localPrimary hequal

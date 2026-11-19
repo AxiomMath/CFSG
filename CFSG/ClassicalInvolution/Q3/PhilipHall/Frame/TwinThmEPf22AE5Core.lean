@@ -52,8 +52,8 @@ theorem zBar_mul_eq_embed_w0 (ι' : Fin 4 ↪ Fin 5) :
     have h2 := ite_miss_add (ι' 0) (ι' 1) y hne
     have h3 : (embed ι' w0).vec y = if (y = ι' 0 ∨ y = ι' 1) then 1 else 0 := by
       by_cases h : y = ι' 0 ∨ y = ι' 1
-      · rw [if_pos h]; exact (embed_w0_vec_eq_one_iff ι' y).mpr h
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; exact (embed_w0_vec_eq_one_iff ι' y).mpr h
+      · rw [ite_eq_right h]
         have : (embed ι' w0).vec y ≠ 1 := fun h1 => h ((embed_w0_vec_eq_one_iff ι' y).mp h1)
         generalize (embed ι' w0).vec y = r at this ⊢
         revert r; decide

@@ -17,6 +17,7 @@ theorem uc22p22qk_mem_normalizer {W : Subgroup G} {n : G} (h : ∀ w ∈ W, n * 
     rintro _ ⟨w, hw, rfl⟩
     exact h w hw)
 
+omit [Finite G] in
 theorem uc22p22qk_mem_sup_iff {A C : Subgroup G} (hAC : A ≤ normalizer (C : Set G)) {x : G} :
     x ∈ A ⊔ C ↔ ∃ a ∈ A, a * x ∈ C := by
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_left_le_normalizer_right A C hAC]
@@ -77,7 +78,7 @@ theorem uc22p22qk_P1_centralizes_V0 (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (h
       rcases hcase with h0 | ⟨h, -, -⟩
       · subst h0
         simp
-      · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (uc22p22e_isPGroup_of_elem h.2.2.2)
         have hk3 : k ≤ 2 := by
           by_contra hk3
@@ -126,7 +127,7 @@ theorem uc22p22qk_P1_inf_ctilde (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : 
 theorem uc22p22qk_D_inf_ctilde (D : Data G) {Dd V₀ V : Subgroup G} (hH : F11.Hyp11 D V₀ V) (hDM : Dd ≤ D.M)
     (hfpf : ∀ d ∈ Dd, d ≠ 1 → ∀ r ∈ pCoreOf 2 D.M, d * r * d⁻¹ = r → r = 1) :
     Dd ⊓ F11.CTilde D.M V₀ V = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hV₀V, hMV₀, -⟩ := uc22p22q_hyp11_unpack D hH
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1
   have hRM : pCoreOf 2 D.M ≤ D.M := Subgroup.map_subtype_le _

@@ -20,7 +20,6 @@ theorem card_le_card_fixV_sq {W : Type*} [CommGroup W] [Finite W] (hW : ∀ v : 
     { toFun := fun v => t v * v⁻¹
       map_one' := by rw [map_one, inv_one, mul_one]
       map_mul' := fun a b => by
-        change t (a * b) * (a * b)⁻¹ = t a * a⁻¹ * (t b * b⁻¹)
         rw [map_mul, mul_inv]
         exact mul_mul_mul_comm _ _ _ _ }
   have hφ : ∀ v, φ v = t v * v⁻¹ := fun v => rfl
@@ -101,6 +100,7 @@ omit [Finite K] in
 theorem pairMod_sq_eq_one (v : PairMod K) : v ^ 2 = 1 :=
   Prod.ext (stdMod_sq_eq_one v.1) (stdMod_sq_eq_one v.2)
 
+omit [CharP K 2] in
 theorem card_pairMod_two (hK : Nat.card K = 2) : Nat.card (PairMod K) = 2 ^ 6 := by
   rw [card_pairMod, hK]
 
@@ -221,6 +221,7 @@ theorem rkIdx_fixV_le_three {W : Type*} [CommGroup W] [Finite W] (hW : ∀ v : W
   have h2 := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h1
   omega
 
+omit [CharP K 2] in
 theorem mem_pairSL_of_mem_pairSub (hK : Nat.card K = 2) {x : MulAut (PairMod K)}
     (hxN : x ∈ pairNorm K) (hxS : x ∈ pairSub K) : x ∈ pairSL K := by
   have h01 : ∀ c : K, c = 0 ∨ c = 1 := by
@@ -270,7 +271,7 @@ theorem orderOf_pairHom_tGL :
     intro h
     have h' := congrFun (congrFun (congrArg
       (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) h) 0) 1
-    simp [coe_tGL, Matrix.transvection, Matrix.one_apply] at h'
+    simp [coe_tGL, Matrix.transvection] at h'
   have hp1 : pairHom (tGL (K := K) 0 1 (by decide) 1) ≠ 1 := by
     intro h
     apply ht1
@@ -321,12 +322,13 @@ theorem mParam_le_three (hK : Nat.card K = 2) {X : Subgroup (MulAut (PairMod K))
     rw [ht2] at h
     exact even_iff_two_dvd.mpr h
   unfold E3.mParam
-  rw [if_pos hev]
+  rw [ite_eq_left hev]
   refine le_trans (Nat.sInf_le ?_)
     (rkIdx_fixV_le_three pairMod_sq_eq_one (card_pairMod_two hK) htt)
   exact ⟨t, htX, ht2, rfl⟩
 
-theorem exists_mem_pairSub (hK : Nat.card K = 2) {E : Subgroup (MulAut (PairMod K))}
+omit [CharP K 2] in
+theorem exists_mem_pairSub (_hK : Nat.card K = 2) {E : Subgroup (MulAut (PairMod K))}
     (hEN : E ≤ pairNorm K) (h4 : 4 ≤ Nat.card E) :
     ∃ x ∈ E, x ∈ pairSub K ∧ x ≠ 1 := by
   have h5 := card_le_two_mul_card_inf_pairSub hEN
@@ -466,7 +468,7 @@ theorem card_fixV_le_four_of_swap (hK : Nat.card K = 2) {E : Subgroup (MulAut (P
   exact hfix.trans hq2
 
 theorem card_sup_ge_of_swap (hK : Nat.card K = 2) {E : Subgroup (MulAut (PairMod K))}
-    (hEN : E ≤ pairNorm K) (hE2 : IsElemAbelian2 E) (h4 : Nat.card E = 4)
+    (hEN : E ≤ pairNorm K) (hE2 : IsElemAbelian2 E) (_h4 : Nat.card E = 4)
     {x y : MulAut (PairMod K)} (hxE : x ∈ E) (hxS : x ∈ pairSub K) (hx1 : x ≠ 1) (hyE : y ∈ E)
     (hy : y ∉ pairSub K) :
     2 ^ 5 ≤ Nat.card ↥(fixV (Subgroup.zpowers x) ⊔ fixV (Subgroup.zpowers y)) := by

@@ -27,6 +27,7 @@ variable {h ω : V ≃ₗ[ZMod 2] V} (hc : ∀ x, h (ω x) = ω (h x))
   (h3 : ∀ x, h (h (h x)) = x) (w3 : ∀ x, ω (ω (ω x)) = x)
 include hc h3 w3
 
+omit h3 w3 in
 theorem eigP_sum {v : V} (r0 : ω (ω v) = ω v + v) :
     eigP0 h v + eigP1 h ω v + eigP2 h ω v = v := by
   have r1 : ω (ω (h v)) = ω (h v) + h v := by
@@ -46,6 +47,7 @@ theorem eigP_sum {v : V} (r0 : ω (ω v) = ω v + v) :
   have a5 := vec_add_self (ω (h (h v)))
   linear_combination (norm := module) a1 + a2 + a3 + a4 + a5
 
+omit hc w3 in
 theorem h_eigP0 (v : V) : h (eigP0 h v) = eigP0 h v := by
   unfold eigP0
   simp only [map_add, h3]
@@ -95,12 +97,12 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   carrier := {x | ω (ω x) + ω x + x = 0}
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, map_add] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, map_add] at ha hb ⊢
     linear_combination (norm := module) ha + hb
   zero_mem' := by simp
   smul_mem' := by
     intro c x hx
-    simp only [Set.mem_setOf_eq, map_smul] at hx ⊢
+    simp only [Set.mem_ofPred_eq, map_smul] at hx ⊢
     linear_combination (norm := module) c • hx
 
 theorem mem_omegaSpace {ω : V ≃ₗ[ZMod 2] V} {x : V} :
@@ -275,8 +277,8 @@ theorem key_orbit [Finite V] {E : Subgroup (V ≃ₗ[ZMod 2] V)}
   have hMω : ∀ x ∈ N ⊓ omegaSpace ω, ω x ∈ N ⊓ omegaSpace ω := fun x hx =>
     ⟨hN ω hg₀ x hx.1, omega_mem_omegaSpace hx.2⟩
   obtain ⟨m0, m1, m2⟩ := eigP_mem (h := h) (ω := ω) (N ⊓ omegaSpace ω) hMh hMω hvM
-  have hsum := eigP_sum hcomm hh3 hω3 r0
-  have e0 := h_eigP0 hcomm hh3 hω3 v
+  have hsum := eigP_sum hcomm r0
+  have e0 := h_eigP0 hh3 v
   have e1 := h_eigP1 hcomm hh3 hω3 v
   have e2 := h_eigP2 hcomm hh3 hω3 v
   have hhO := hEO hh

@@ -22,7 +22,7 @@ abbrev V : Subgroup H := layerIn (normalizer (h.B : Set H))
 theorem isPGroup_S : IsPGroup 2 h.S := by
   obtain ⟨P₀, hP₀⟩ := h.S_sylow
   have h1 : IsPGroup 2 ((P₀ : Subgroup _).map
-      (centralizer ({h.a} : Set H) ⊓ normalizer (h.J : Set H)).subtype) := P₀.isPGroup'.map _
+      (centralizer ({h.a} : Set H) ⊓ normalizer (h.J : Set H)).subtype) := P₀.isPGroup.map _
   rwa [hP₀, map_subgroupOf_eq_of_le h.S_le] at h1
 
 theorem comm_a {s : H} (hs : s ∈ h.S) : s * h.a = h.a * s :=

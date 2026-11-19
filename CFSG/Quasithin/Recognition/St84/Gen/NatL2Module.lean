@@ -116,8 +116,8 @@ private theorem card_sq_le_of_nontrivial_rep {n : ℕ} (hn : 2 ≤ n) {F : Type*
     [Module (ZMod 2) V] [Finite V] (ρ : Representation (ZMod 2) SL(2, F) V)
     (hnt : ∃ g, ρ g ≠ 1) : Nat.card F ^ 2 ≤ Nat.card V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card_eq hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card_eq hF
   let ρ' := representationMulAut ρ
   have hρ' : ρ' ≠ 1 := by
     intro h
@@ -170,7 +170,7 @@ theorem eq_one_of_sq_sub_one_eq_zero_of_odd_order {G V : Type*} [Group G]
     [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (ρ : Representation (ZMod 2) G V) {g : G} (hodd : Odd (orderOf g))
     (hsq : (ρ g - 1) ^ 2 = 0) : ρ g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let a : LinearMap.GeneralLinearGroup (ZMod 2) V := ρ.asGroupHom g
   have ha : ((a : V →ₗ[ZMod 2] V) - 1) ^ 2 = 0 := by
     simpa [a, Representation.asGroupHom_apply] using hsq
@@ -196,8 +196,8 @@ private theorem card_le_sq_of_offender {n : ℕ} {F : Type*} [Field F]
     (hoff : Nat.card W ≤ Nat.card A * Nat.card {w : W // ∀ a ∈ A, ρ a w = w}) :
     Nat.card W ≤ (2 ^ n) ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card_eq hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card_eq hF
   have hAcard : Nat.card A = Nat.card F := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, hF]
     simpa using hAq
@@ -319,7 +319,7 @@ private theorem card_eq_pow_of_offender_aux {n : ℕ} (hn : 2 ≤ n) {F : Type*}
       have hUtop' : U.toSubmodule ≠ ⊤ := by
         intro h
         exact hUtop (Subrepresentation.toSubmodule_injective (by rw [h]; rfl))
-      haveI : Nontrivial ↥U.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hUbot'
+      have : Nontrivial ↥U.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hUbot'
       have hfixU : ∀ u : U, (∀ g, U.toRepresentation g u = u) → u = (0 : U.toSubmodule) := by
         intro u hu
         have hzero : (u : W) = 0 :=
@@ -330,9 +330,9 @@ private theorem card_eq_pow_of_offender_aux {n : ℕ} (hn : 2 ≤ n) {F : Type*}
         card_le_mul_card_fixed_of_subrepresentation ρ U A hoff
       have hUN : Nat.card U < N := by
         rw [← hWN]
-        haveI : Finite (W ⧸ U.toSubmodule) :=
+        have : Finite (W ⧸ U.toSubmodule) :=
           Finite.of_surjective (Submodule.mkQ U.toSubmodule) (Submodule.mkQ_surjective _)
-        haveI : Nontrivial (W ⧸ U.toSubmodule) :=
+        have : Nontrivial (W ⧸ U.toSubmodule) :=
           (Submodule.Quotient.nontrivial_iff).mpr hUtop'
         have hq2 : 2 ≤ Nat.card (W ⧸ U.toSubmodule) := by
           have := Finite.one_lt_card (α := W ⧸ U.toSubmodule)
@@ -382,8 +382,8 @@ theorem exists_natural_of_offender {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F
     have hUtop' : U.toSubmodule ≠ ⊤ := by
       intro h
       exact hUtop (Subrepresentation.toSubmodule_injective (by rw [h]; rfl))
-    haveI : Nontrivial ↥U.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hUbot'
-    haveI : Finite (W ⧸ U.toSubmodule) :=
+    have : Nontrivial ↥U.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hUbot'
+    have : Finite (W ⧸ U.toSubmodule) :=
       Finite.of_surjective (Submodule.mkQ U.toSubmodule) (Submodule.mkQ_surjective _)
     have hFcard : Nat.card F = 2 ^ n := by
       rw [Nat.card_eq_fintype_card, hF]
@@ -391,10 +391,10 @@ theorem exists_natural_of_offender {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F
       rw [hFcard]
       exact hWle
     by_cases hUtriv : Representation.IsTrivial U.toRepresentation
-    · haveI : Representation.IsTrivial U.toRepresentation := hUtriv
+    · have : Representation.IsTrivial U.toRepresentation := hUtriv
       by_cases hQtriv : Representation.IsTrivial U.quotient
       ·
-        haveI : Representation.IsTrivial U.quotient := hQtriv
+        have : Representation.IsTrivial U.quotient := hQtriv
         exfalso
         have h4 : 4 ≤ Nat.card F := by
           rw [Nat.card_eq_fintype_card, hF]
@@ -432,7 +432,7 @@ theorem exists_natural_of_offender {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F
         have hU2 : 2 ≤ Nat.card ↥U.toSubmodule := by
           have := Finite.one_lt_card (α := ↥U.toSubmodule)
           omega
-        haveI : Nontrivial (W ⧸ U.toSubmodule) :=
+        have : Nontrivial (W ⧸ U.toSubmodule) :=
           (Submodule.Quotient.nontrivial_iff).mpr hUtop'
         have hq2 : 2 ≤ Nat.card (W ⧸ U.toSubmodule) := by
           have := Finite.one_lt_card (α := W ⧸ U.toSubmodule)
@@ -455,7 +455,7 @@ theorem exists_natural_of_offender {n : ℕ} (hn : 2 ≤ n) {F : Type*} [Field F
         le_antisymm hUle (by nlinarith [hWleF, hubound])
       have hUtopeq : U.toSubmodule = ⊤ := by
         by_contra hne
-        haveI : Nontrivial (W ⧸ U.toSubmodule) :=
+        have : Nontrivial (W ⧸ U.toSubmodule) :=
           (Submodule.Quotient.nontrivial_iff).mpr hne
         have hq2 : 1 < Nat.card (W ⧸ U.toSubmodule) := Finite.one_lt_card
         have hUpos : 0 < Nat.card ↥U.toSubmodule := Nat.card_pos

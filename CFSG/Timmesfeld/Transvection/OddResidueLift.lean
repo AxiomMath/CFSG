@@ -25,15 +25,15 @@ private theorem commutator_sup_eq_self_of_opposite [Finite H]
     rw [GaloisField.card (p := 2) (n := m) (ne_of_gt (lt_of_lt_of_le (by norm_num) hm))]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   have hfin : ∃ s : Finset (GaloisField 2 m), s.card = 4 := by
     have h : 4 ≤ (Finset.univ : Finset (GaloisField 2 m)).card := by
       rwa [Finset.card_univ, ← Nat.card_eq_fintype_card]
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq h
     exact ⟨s, hs⟩
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 m)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 m)) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect hfin
-  haveI : Group.IsPerfect ↥(X ⊔ Y) :=
+  have : Group.IsPerfect ↥(X ⊔ Y) :=
     Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
   exact Subgroup.commutator_eq_self
 
@@ -88,7 +88,7 @@ theorem IsMaxFrame.exists_su3_cover [Finite H]
         Odd (Nat.card
           ((QuotientGroup.mk' (Subgroup.center ↥(residueGroup Δ P Q k))).comp α).ker) := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   obtain ⟨n', hn', hcard', ⟨e⟩⟩ := hF.residueGroup_quotient_psu3 h hML hq hns
   have hn'n : n' = n := by
     have h1 : Nat.card (P k) = 2 ^ n' := hcard' (P k) (hF.toIsFrame.memP k)

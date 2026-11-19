@@ -23,7 +23,7 @@ theorem exists_fixed_singular_O6 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n 
     ∃ w : OW F, w ≠ 0 ∧ quadMinus 3 F b c w = 0 ∧
       ∀ g ∈ E, ((g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
         Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.StandardType.OrthRestEnd.exists_fixed_singular (quadMinus 3 F b c) E hE
     (fun g hg v => quadMinus_mulVec_of_mem_statedOmega (hEΩ hg) v) ?_
   have hcard : (Nat.card {v : OW F // quadMinus 3 F b c v = 0} : ℤ) =
@@ -51,6 +51,7 @@ theorem exists_fixed_singular_O6 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n 
   rw [hN] at h2
   exact (Int.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)
 
+omit [Finite F] [CharP F 2] in
 theorem polar_smul_fix {w : OW F} (g : ↥(StatedOmega (StatedQuadMinus 3 F b c)))
     (hg : g • w = w) (y : OW F) :
     polar (quadMinus 3 F b c) w (g • y) = polar (quadMinus 3 F b c) w y := by
@@ -83,6 +84,7 @@ def Qw (b c : F) (w : OW F) : Subgroup ↥(StatedOmega (StatedQuadMinus 3 F b c)
     have := Submodule.neg_mem _ h1
     simpa using this
 
+omit [Finite F] [CharP F 2] in
 theorem Qw_conj {w : OW F} {h : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (hh : h • w = w)
     {q : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (hq : q ∈ Qw b c w) :
     h * q * h⁻¹ ∈ Qw b c w := by
@@ -95,6 +97,7 @@ theorem Qw_conj {w : OW F} {h : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (hh 
   rw [e, ← hc, smul_comm, hh]
   exact Submodule.smul_mem _ c (Submodule.mem_span_singleton_self w)
 
+omit [Finite F] [CharP F 2] in
 theorem omega_ext_smul {g : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (h : ∀ x : OW F, g • x = x) :
     g = 1 := by
   apply Subtype.ext
@@ -107,6 +110,7 @@ theorem omega_ext_smul {g : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (h : ∀
   rw [e, Matrix.mulVec_single_one] at this
   simpa [Pi.single_apply, Matrix.one_apply, eq_comm] using this
 
+omit [Finite F] [CharP F 2] in
 theorem Qw_pow_four (h2 : (2 : F) = 0) {w : OW F}
     {q : ↥(StatedOmega (StatedQuadMinus 3 F b c))} (hq : q ∈ Qw b c w) : q * q * q * q = 1 := by
   refine omega_ext_smul fun x => ?_
@@ -129,11 +133,12 @@ theorem Qw_pow_four (h2 : (2 : F) = 0) {w : OW F}
   calc (q * q * q * q) • x = q • q • (q • q • x) := by simp only [mul_smul]
     _ = x := by rw [e3, e4]
 
+omit [CharP F 2] in
 theorem exists_perp_not_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {w : OW F} (hw0 : w ≠ 0) :
     ∃ z : OW F, polar (quadMinus 3 F b c) w z = 0 ∧ z ∉ Submodule.span F {w} := by
   have hQn := nondegenerate_polarBilin_quadMinus_of_finite 3 F hirr
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : LinearMap.BilinForm.orthogonal (polarBilin (quadMinus 3 F b c))
       (Submodule.span F {w}) ≤ Submodule.span F {w} := by
     intro z hz
@@ -209,7 +214,7 @@ theorem fix_Qw_subset (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {w : OW F} (hw
 theorem pgroup_le_sylow_of_normal {G : Type*} [Group G] [Finite G] {T M N : Subgroup G}
     (hT : IsSylowOf 2 T M) (hNM : N ≤ M) (hMN : M ≤ Subgroup.normalizer (N : Set G))
     (hN : IsPGroup 2 ↥N) : N ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsup := hT.isPGroup.to_sup_of_normal_right' hN (hT.le.trans hMN)
   have h := hT.eq_of_le le_sup_left (sup_le hT.le hNM) hsup
   exact (le_sup_right : N ≤ T ⊔ N).trans h.le
@@ -221,7 +226,7 @@ theorem chief_model_O6 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n p : ℕ}
       ∃ x : ↥(StatedOmega (StatedQuadMinus 3 F b c)),
         x ∈ Subgroup.normalizer (Q : Set ↥(StatedOmega (StatedQuadMinus 3 F b c))) ∧
         x ≠ 1 ∧ x ^ p = 1 ∧ ∀ y : OW F, (∀ s ∈ Q, s • y = y) → x • y = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   obtain ⟨w, hw0, hw, hwfix⟩ := exists_fixed_singular_O6 hirr hF hn
     (E := E.map (StatedOmega (StatedQuadMinus 3 F b c)).subtype)

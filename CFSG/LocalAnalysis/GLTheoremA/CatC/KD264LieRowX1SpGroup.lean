@@ -101,7 +101,7 @@ theorem sp_core_G (f : LinearMap.BilinForm (ZMod 2) W) (hfalt : f.IsAlt)
         Nonempty (↥L' ≃* alternatingGroup (Fin 6)) := by
   classical
   let EΓ : Subgroup (W ≃ₗ[ZMod 2] W) := E'.map (TauCeti.BilinForm.isometryGroup f).subtype
-  haveI : Fintype EΓ := Fintype.ofFinite _
+  have : Fintype EΓ := Fintype.ofFinite _
   have hEΓ : IsElemAbelian 3 EΓ :=
     isElemAbelian_map_hom 3 (TauCeti.BilinForm.isometryGroup f).subtype hE'
   have hcardΓ : Fintype.card EΓ = 3 ^ n := by

@@ -12,7 +12,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Prim CFSG.KS.Raw CFSG.KS.PEnum CFSG.KS.Row CFS
 @[expose] noncomputable def baseEqK (w m nb : Nat) (B : Nat → Nat) (p g t : Nat) : Bool :=
   allN nb (fun s => strictB (B s) (fun b => Nat.beq (pg w m p b) (pg w m g (pg w m t b))))
 
-@[expose] noncomputable def penumPtBK (n w m nw : Nat) (G : Nat → Nat) (k cnt nb : Nat)
+@[expose] noncomputable def penumPtBK (n w m _nw : Nat) (G : Nat → Nat) (k cnt nb : Nat)
     (B T PL POS SRT SRI : Nat → Nat) (i : Nat) : Bool :=
   strictB (T i) (fun t =>
   bAnd(bIf(Nat.beq i (nat_lit 0), true,

@@ -19,7 +19,7 @@ theorem eleven11_mem_of_comm_mem_blockZ {M V Q U L X : Subgroup G}
     (ht0 : t ∉ oTwoIn L) {w : G} (hw : w ∈ blockU L) (hc : t * w * t⁻¹ * w⁻¹ ∈ blockZ L) :
     w ∈ ⁅V, X⁆ ⊔ blockZ L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, ψ, p, -, hαk, -, hψk, hψe, hαS, hfix⟩ := eleven11_exists_model hd h8
   have htL : t ∈ L := (Subgroup.mem_inf.1 ht).1
   have htα : α ⟨t, htL⟩ ∈ CFSG.QuasithinUnique.Setup.Campbell.rootGrp p := by

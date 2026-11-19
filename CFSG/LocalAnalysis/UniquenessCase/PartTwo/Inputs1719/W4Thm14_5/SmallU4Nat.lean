@@ -87,7 +87,7 @@ theorem two_mul_le_disp_of_naturalSU4 [Finite I] [Fact (∀ s : I, s * s = 1)]
   have hρ : ∀ (l : ↥L) (w : Additive I), ρ l w = binaryLin (l : MulAut I) w := fun _ _ => rfl
   have hirrρ : Fact ρ.IsIrreducible := by
     refine ⟨(CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mpr ⟨?_, fun U hU => ?_⟩⟩
-    · obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+    · obtain ⟨x, -, hx⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
       refine ⟨⟨Additive.ofMul x, 0, fun h0 => hx ?_⟩⟩
       have : x = 1 := congrArg Additive.toMul h0
       rw [this]

@@ -48,7 +48,7 @@ theorem m22PD6_card_le :
   have := hfin
   exact ⟨Finite.of_surjective f hsurj, (Nat.card_le_card_of_surjective f hsurj).trans hle⟩
 
-@[expose] abbrev M22PDIndex : Prop :=
+abbrev M22PDIndex : Prop :=
   (genSub {r : FreeGroup (Fin 7) | r ∈ m22RelsPD.map FreeGroup.mk}
       (subsetOf 7 [0, 1, 2, 3, 4, 5])).FiniteIndex ∧
     (genSub {r : FreeGroup (Fin 7) | r ∈ m22RelsPD.map FreeGroup.mk}

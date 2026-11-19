@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem four_le_card [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a) (S : Sylow 2 G)
     {U : Subgroup G} (hUS : U ≤ S) (hU1 : U ≠ ⊥) (hsq : ∀ x ∈ U, x ^ 2 = 1)
     (hUcl : fusionStronglyClosed (U : Set G) (S : Subgroup G)) : 4 ≤ Nat.card U := by
-  have hUp : IsPGroup 2 U := (S.isPGroup').to_le hUS
+  have hUp : IsPGroup 2 U := (S.isPGroup).to_le hUS
   by_contra h4
   obtain ⟨n, hn⟩ := hUp.exists_card_eq
   have hn0 : n ≠ 0 := by
@@ -74,7 +74,7 @@ theorem normalizer_le_of_le (S : Sylow 2 G) {A U H E : Subgroup G} (hAS : A ≤ 
     (hE1 : E ≠ ⊥) : Subgroup.normalizer (E : Set G) ≤ H := by
   intro g hg
   have hNA : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (U : Set G) :=
-    N3a G S U A hUS hUcl ((S.isPGroup').to_le hAS) hUA
+    N3a G S U A hUS hUcl ((S.isPGroup).to_le hAS) hUA
   have hmap : E.map (MulAut.conj g⁻¹).toMonoidHom ≤ S := by
     intro y hy
     rw [mem_map_conj_inv_iff] at hy
@@ -276,9 +276,9 @@ theorem lemmaX :
   have hUS : U ≤ S := hUA.trans hAS
   have hU4 : 4 ≤ Nat.card U := four_le_card hnab S hUS hU1 hUel.2 hUcl
   have hNA : Subgroup.normalizer (A : Set G) ≤ H :=
-    (N3a G S U A hUS hUcl ((S.isPGroup').to_le hAS) hUA).trans hNH
+    (N3a G S U A hUS hUcl ((S.isPGroup).to_le hAS) hUA).trans hNH
   obtain ⟨z, hzU, hz1, hzS⟩ : ∃ z ∈ U, z ≠ 1 ∧ ∀ s ∈ (S : Subgroup G), s * z = z * s := by
-    have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
     have hn : (U.subgroupOf S).Normal := normal_subgroupOf_of_stronglyClosed hUS hUcl
     have hne : U.subgroupOf S ≠ ⊥ := by
       intro h
@@ -320,11 +320,11 @@ theorem lemmaX :
       have := Subgroup.normal_of_le_center hcent
       exact (isPGroup_zpowers_of_pow_eq_one (Subtype.ext htsq)).le_sylow_of_normal T₀
         (Subgroup.mem_zpowers _)
-    obtain ⟨S', hS'⟩ := (T₀.isPGroup'.map C.subtype).exists_le_sylow
+    obtain ⟨S', hS'⟩ := (T₀.isPGroup.map C.subtype).exists_le_sylow
     have hzS' : z ∈ (S' : Subgroup G) := hS' ⟨_, hzT₀, rfl⟩
     have htS' : t ∈ (S' : Subgroup G) := hS' ⟨_, htT₀, rfl⟩
     have hSyl : fusionIsSylowIn 2 ((S' : Subgroup G) ⊓ C) C := by
-      refine ⟨inf_le_right, S'.isPGroup'.to_le inf_le_left, fun P hPC hP hSP => ?_⟩
+      refine ⟨inf_le_right, S'.isPGroup.to_le inf_le_left, fun P hPC hP hSP => ?_⟩
       have hT₀P : (T₀ : Subgroup C) ≤ P.subgroupOf C := by
         intro x hx
         rw [Subgroup.mem_subgroupOf]
@@ -422,7 +422,7 @@ theorem lemmaX :
             simpa [mul_assoc] using this
         have htt : t * t = 1 := by rw [← sq]; simpa using htsq
         have hsq := card_le_card_inf_centralizer_sq hU'el.1 hU'el.2 htN htt
-        obtain ⟨m, hm⟩ := ((S'.isPGroup').to_le (inf_le_left.trans hU'S)).exists_card_eq
+        obtain ⟨m, hm⟩ := ((S'.isPGroup).to_le (inf_le_left.trans hU'S)).exists_card_eq
         rw [hcardU', hm] at hsq
         rw [hm]
         rcases Nat.lt_or_ge m 2 with hm2 | hm2

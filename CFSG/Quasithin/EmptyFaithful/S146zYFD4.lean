@@ -101,7 +101,7 @@ theorem facts134Five_d4Even :
       P.subgroupOf L := mul_mem (inv_mem hαx) (pow_mem hx' _)
   have hdisj : (U : Subgroup L) ⊓ P.subgroupOf L = ⊥ := by
     refine disjoint_iff.mp (Subgroup.disjoint_of_coprime_natCard ?_)
-    obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup'
+    obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 U.isPGroup
     rw [hm, hP']
     exact Nat.Coprime.pow_left m (by norm_num)
   have h3 : (MulAut.conjNormal t (⟨x, hcfg.le hx⟩ : L))⁻¹ * ⟨x, hcfg.le hx⟩ ^ (2 ^ k) = 1 := by

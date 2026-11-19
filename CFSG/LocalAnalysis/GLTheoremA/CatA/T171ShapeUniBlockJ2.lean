@@ -49,7 +49,7 @@ theorem isSimpleGroup_statedSU_good {E : Type} [Field E] [Finite E] {k m : ℕ}
     (hJy : y ∈ Subgroup.normalizer (J : Set Ω)) : Prop :=
   ∃ (m : ℕ) (E : Type) (_ : Field E) (_ : Finite E) (k : ℕ)
     (hE : UnitaryFieldData 2 k E) (B₁ : GL (Fin m) E)
-    (hB₁ : B₁ ∈ primeFormUnitary hE (idGram E m))
+    (_hB₁ : B₁ ∈ primeFormUnitary hE (idGram E m))
     (hconj : ∀ P : ↥(StatedSU m (2 ^ k) E),
       B₁ * (P : GL (Fin m) E) * B₁⁻¹ ∈ StatedSU m (2 ^ k) E)
     (e₀ : PSimple p J ≃* LargeEvenProj (StatedSU m (2 ^ k) E)),
@@ -63,7 +63,7 @@ theorem isSimpleGroup_statedSU_good {E : Type} [Field E] [Finite E] {k m : ℕ}
 @[expose] def UniJPairedModel {Ω : Type} [Group Ω] (p : ℕ) (J : Subgroup Ω) (y : Ω)
     (hJy : y ∈ Subgroup.normalizer (J : Set Ω)) : Prop :=
   ∃ (m : ℕ) (E : Type) (_ : Field E) (_ : Finite E) (k : ℕ)
-    (hk : Nat.card E = 2 ^ k) (B₁ : GL (Fin m) E)
+    (_hk : Nat.card E = 2 ^ k) (B₁ : GL (Fin m) E)
     (e₀ : PSimple p J ≃* LargeEvenProj (StatedSL m E)),
     2 ≤ m ∧ 2 ≤ k ∧
     ∀ P : ↥(StatedSL m E),
@@ -109,8 +109,8 @@ theorem uniJ_equiv_comm_selfDual {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω]
   have htot : m = primaryMultiplicity ((Matrix.GeneralLinearGroup.toLin A :
       LinearMap.GeneralLinearGroup K (Fin N → K)) : Module.End K (Fin N → K))
       (a.1 : K[X]) := hm
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
   obtain ⟨hE, Hf, e, ι, hHf, hHfl, he, hιinj, hSB, hscalK, hconjι, hiso⟩ :=
     l154_selfDual_model_block H a.1 hself htot
   let Hm : Subgroup (GL (Fin m) (AdjoinRoot (a.1 : K[X]))) :=
@@ -182,7 +182,7 @@ theorem uniJ_equiv_comm_selfDual {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω]
         (ι (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))) * B⁻¹
     rw [hconjι (Matrix.GeneralLinearGroup.toLin B) hξ
       (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))]
-    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply]
   have hscal : ∀ P : ↥Hm, (∃ z : Kˣ,
       (ιm P : GL (Fin N) K) = Matrix.GeneralLinearGroup.scalar (Fin N) z) →
       ∃ w : (AdjoinRoot (a.1 : K[X]))ˣ,
@@ -205,7 +205,7 @@ theorem uniJ_equiv_comm_selfDual {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω]
     have hz0 : algebraMap K (AdjoinRoot (a.1 : K[X])) (z : K) ≠ 0 := by
       intro h0
       refine z.ne_zero ((algebraMap K (AdjoinRoot (a.1 : K[X]))).injective ?_)
-      simpa using h0
+      simp at h0
     exact l154_scalar_of_matrix_eq (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))
       (algebraMap K (AdjoinRoot (a.1 : K[X])) (z : K)) hz0
       (hscalK (P : GL (Fin m) (AdjoinRoot (a.1 : K[X]))) (z : K) h1)
@@ -292,8 +292,8 @@ theorem uniJ_equiv_comm_paired {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [
   have htot : m = primaryMultiplicity ((Matrix.GeneralLinearGroup.toLin A :
       LinearMap.GeneralLinearGroup K (Fin N → K)) : Module.End K (Fin N → K))
       (a.1 : K[X]) := hm
-  haveI : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  have : Fact (Irreducible (a.1 : K[X])) := ⟨irreducible_of_mem_primaryFactors a.1.2⟩
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
   obtain ⟨e, ι, hιinj, hSB, hscalK, hconjι⟩ :=
     l154_paired_model_block H a.1 hne htot
   have hkpos : 1 ≤ n * (a.1 : K[X]).natDegree :=
@@ -367,7 +367,7 @@ theorem uniJ_equiv_comm_paired {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [
       B * Matrix.GeneralLinearGroup.toLin.symm
         (ι (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))) * B⁻¹
     rw [hconjι (Matrix.GeneralLinearGroup.toLin B) hξ (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))]
-    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    simp only [map_mul, map_inv, MulEquiv.symm_apply_apply]
   have hscal : ∀ P : ↥Hm, (∃ z : Kˣ,
       (ιm P : GL (Fin N) K) = Matrix.GeneralLinearGroup.scalar (Fin N) z) →
       ∃ w : (AdjoinRoot (a.1 : K[X]))ˣ,
@@ -390,7 +390,7 @@ theorem uniJ_equiv_comm_paired {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [
     have hz0 : algebraMap K (AdjoinRoot (a.1 : K[X])) (z : K) ≠ 0 := by
       intro h0
       refine z.ne_zero ((algebraMap K (AdjoinRoot (a.1 : K[X]))).injective ?_)
-      simpa using h0
+      simp at h0
     exact l154_scalar_of_matrix_eq (P : GL (Fin m) (AdjoinRoot (a.1 : K[X])))
       (algebraMap K (AdjoinRoot (a.1 : K[X])) (z : K)) hz0
       (hscalK (P : GL (Fin m) (AdjoinRoot (a.1 : K[X]))) (z : K) h1)
@@ -427,12 +427,12 @@ theorem uniJ_equiv_comm_paired {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [
 
 theorem uniJ_equiv_comm {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω]
     {S : Subgroup Ω} {x y : Ω} {J : Subgroup Ω}
-    (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (S : Set Ω))
-    (hyN : y ∈ Subgroup.normalizer (S : Set Ω))
+    (_hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (S : Set Ω))
+    (_hyN : y ∈ Subgroup.normalizer (S : Set Ω))
     (hJ : GLAPComponent p (S ⊓ Subgroup.centralizer ({x} : Set Ω)) J)
     (hJy : y ∈ Subgroup.normalizer (J : Set Ω))
     {N n : ℕ} {K : Type} [Field K] [Finite K] (hfield : UnitaryFieldData 2 n K)
-    (hN : 3 ≤ N) (hNq : (N, 2 ^ n) ≠ (3, 2))
+    (hN : 3 ≤ N) (_hNq : (N, 2 ^ n) ≠ (3, 2))
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (unitarySU 2 n K N))
     (A B : GL (Fin N) K) (hA : A ∈ primeFormUnitary hfield (idGram K N))
     (hB : B ∈ primeFormUnitary hfield (idGram K N))

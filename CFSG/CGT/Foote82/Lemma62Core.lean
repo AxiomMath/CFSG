@@ -27,9 +27,9 @@ structure Core62 (G L K : Subgroup (GLV V)) (s : GLV V) (p : ℕ) : Prop where
 
 private theorem exists_central_involution {S : Subgroup (GLV V)} (hS : IsPGroup 2 S)
     (hne : S ≠ ⊥) : ∃ s ∈ S, (∀ t ∈ S, t * s = s * t) ∧ orderOf s = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hne
-  haveI : Nontrivial (Subgroup.center S) := hS.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).2 hne
+  have : Nontrivial (Subgroup.center S) := hS.center_nontrivial
   have hZ : IsPGroup 2 (Subgroup.center S) := hS.to_subgroup _
   obtain ⟨n, hn, hcard⟩ := (IsPGroup.nontrivial_iff_card hZ).1 inferInstance
   have h2 : 2 ∣ Nat.card (Subgroup.center S) := by
@@ -218,6 +218,7 @@ private theorem mem_of_mul_self_mem {p : ℕ} (hp : Odd p) {Φ : Subgroup G} {k 
 
 end PlusMinus
 
+omit [Finite V] in
 private theorem le_normalizer_of_conj_mem {T H : Subgroup (GLV V)}
     (h : ∀ g ∈ T, ∀ n ∈ H, g * n * g⁻¹ ∈ H) : T ≤ Subgroup.normalizer (H : Set (GLV V)) := by
   intro g hg n
@@ -236,7 +237,7 @@ theorem exists_core {G S L K : Subgroup (GLV V)} (hc : Conf62 G S L K)
       Odd.of_dvd_nat hc.odd (Subgroup.card_dvd_of_le hK'.le), hSK', hLK'⟩
       (Subgroup.card_lt_of_lt hK')
   obtain ⟨hKL, ⟨p, hp, hp2, hpg⟩, hΦL, hΦc⟩ := hc.min_structure hmin hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hpg' : ∀ t ∈ K, ∃ N : ℕ, t ^ p ^ N = 1 := fun t ht => by
     obtain ⟨N, hN⟩ := hpg ⟨t, ht⟩

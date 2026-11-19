@@ -3263,7 +3263,7 @@ public theorem CFSG.minimalInvariantNormal_solvable_exists_isElementaryAbelian
       hPmap_inv hPmap_ne_bot (Subgroup.map_subtype_le (H := M) (K := (P : Subgroup (↥M))))
   have hMpgroup : IsPGroup p (↥M) := by
     have h : IsPGroup p (↥((P : Subgroup (↥M)).map M.subtype)) :=
-      P.isPGroup'.map M.subtype
+      P.isPGroup.map M.subtype
     simpa using (hPmap_eq_M ▸ h)
   have : Fact (IsPGroup p (↥M)) := ⟨hMpgroup⟩
   let Ω : Subgroup (↥M) := omega₁ (G := (↥M)) (p := p)
@@ -4137,7 +4137,7 @@ private theorem CFSG.exists_regular_elementaryAbelian_invariant_subgroup_of_solv
   have hS_ne_bot : S ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := H) (p := r) S₀ hr_dvd_H
   have hSsolv : Group.IsSolvable (↥S) := by
-    have hSp : IsPGroup r S := S₀.isPGroup'
+    have hSp : IsPGroup r S := S₀.isPGroup
     have hSnil : Group.IsNilpotent S :=
       IsPGroup.isNilpotent (p := r) (G := S) (h := hSp)
     let : Group.IsNilpotent S := hSnil
@@ -4587,7 +4587,7 @@ public theorem CFSG.prime_order_subgroup_le_centralizer_fitting_of_odd_regular_a
     have hcycSylow : ∀ S : Sylow qNat R, IsCyclic (S : Subgroup R) := by
       intro S
       exact isCyclic_of_odd_regular_pSubgroup (H := H) (R := R) (p := qNat)
-        hqprime hoddR hregular (P := (S : Subgroup R)) S.isPGroup'
+        hqprime hoddR hregular (P := (S : Subgroup R)) S.isPGroup
     exact pSubgroup_le_centralizer_pCore_of_cyclic_sylow_fitting
       (G := R) (p := qNat) (P := P) hPq hcycSylow
   · by_cases hQbot : pCore qNat R = ⊥
@@ -4626,7 +4626,7 @@ public theorem CFSG.isZGroup_of_frobenius_complement_of_odd
       (Subgroup.le_normalizer_of_normal (H := K))
   have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).2 hfrob.kernel_ne_bot
   exact isCyclic_of_odd_regular_pSubgroup (H := K) (R := R) (P := (P : Subgroup R))
-    hp hoddR hregularR P.isPGroup'
+    hp hoddR hregularR P.isPGroup
 
 private theorem CFSG.theorem_3_10_subambient_frobenius
     (hfrob : IsFrobeniusGroupWithKernelComplement K R)
@@ -4771,7 +4771,7 @@ private theorem CFSG.theorem_3_10_case2_elementaryAbelian
   have hP_top : (P : Subgroup M) = ⊤ :=
     hminv (P : Subgroup M) hP_normal hP_inv hP_ne_bot
   have htop_p : IsPGroup p (⊤ : Subgroup M) :=
-    P.isPGroup'.of_equiv (MulEquiv.subgroupCongr hP_top)
+    P.isPGroup.of_equiv (MulEquiv.subgroupCongr hP_top)
   have hMpgroup : IsPGroup p M := htop_p.of_equiv Subgroup.topEquiv
   let : Fact (IsPGroup p M) := ⟨hMpgroup⟩
   have hcenter_ne_bot : Subgroup.center M ≠ ⊥ := by
@@ -6961,7 +6961,7 @@ private theorem CFSG.theorem_3_10_case2_card_formula_rep_theory
     let p := κfix
     have : Module.Free E p := Module.Free.of_divisionRing E p
     have hbase_inj : Function.Injective (p.subtype.baseChange Falg) := by
-      simp [LinearMap.baseChange_eq_ltensor]
+      simp [LinearMap.baseChange_eq_lTensor]
     have hto_inj : Function.Injective (p.toBaseChange Falg) := by
       intro x y hxy
       apply hbase_inj

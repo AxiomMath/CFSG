@@ -21,10 +21,10 @@ theorem sec8t84FactI4m_holds : Sec8T84FactI4m := by
   obtain ⟨V, _, _, _, Q, hQ, e, x, hdim, hsgn, hs, hx⟩ := hind
   obtain ⟨ρ, hρ⟩ := ff6m_cover_of_model hL hdim hs hs2
   obtain ⟨E, hEn, hLie, hP⟩ := ff6m_N1_layerModel hQ hdim hsgn hx
-  haveI : E.Normal := hEn
+  have : E.Normal := hEn
   obtain ⟨hEs, hEnc⟩ := ff_simple_of_lieModel_psl2 hLie
   obtain ⟨ε, u, hu2, hεu⟩ := sec8t84t_KN1_char hQ hdim hsgn hx
-  haveI : Group.IsPerfect ↥E := (ff_isQuasisimple_of_simple hEs hEnc).1
+  have : Group.IsPerfect ↥E := (ff_isQuasisimple_of_simple hEs hEnc).1
   have huE : u ∉ E := sec8t84t_not_mem_of_char E ε (by rw [hεu]; decide)
   exact sec8t84t_outer_of_cover hρ E hEs hP
     (fun c hc => sec8t84t_centB_eq_one hQ hdim hsgn E hEs hEnc hP hc) hu2 huE hA

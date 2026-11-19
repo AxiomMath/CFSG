@@ -28,9 +28,9 @@ private theorem exists_selfDual_data [Fact (Irreducible (SpFin.h3 F))]
           ∀ (g : spSupported d {(SpFin.h3 F)}) (v : Fin ℓ ⊕ Fin ℓ → F)
             (hv : v ∈ primaryComponent (spEnd d) (SpFin.h3 F)),
             KCUnitary.blockApply (↑(φ g)) v hv = spEnd (↑g) v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hℓ1 : 1 ≤ ℓ := by
     by_contra h
@@ -58,8 +58,9 @@ private theorem exists_selfDual_data [Fact (Irreducible (SpFin.h3 F))]
   subst hm
   exact ⟨hE, Hf, hHf, hHfl, φ, hφ⟩
 
+omit [Finite F] in
 private theorem four_le_finrank_unitary [Fact (Irreducible (SpFin.h3 F))]
-    (hF : Nat.card F = 2) {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
+    (_hF : Nat.card F = 2) {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1) (_hd1 : d ≠ 1)
     (hQ : CFSG.Open.IsQuasisimple
       ↥⁅spSupported d ({X ^ 2 + X + 1} : Set F[X]),
         spSupported d ({X ^ 2 + X + 1} : Set F[X])⁆)
@@ -80,10 +81,10 @@ private theorem four_le_finrank_unitary [Fact (Irreducible (SpFin.h3 F))]
   by_contra hlt
   have hlt' : Module.finrank (AdjoinRoot (SpFin.h3 F))
       (primaryComponent (spEnd d) (SpFin.h3 F)) ≤ 3 := by omega
-  haveI : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
+  have : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
     CFSG.HardMathSupport.Curtis.UnitaryLevi.isSolvable_sesqUnitaryGroup_of_finrank_le_three
       hE hHf hHfl hlt'
-  haveI : Group.IsSolvable ↥(spSupported d {(SpFin.h3 F)}) :=
+  have : Group.IsSolvable ↥(spSupported d {(SpFin.h3 F)}) :=
     Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
   exact
     CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.LinUnitParab.not_isSolvable_of_isQuasisimple
@@ -111,6 +112,7 @@ private theorem exists_unitary_data [Fact (Irreducible (SpFin.h3 F))]
   obtain ⟨hE, Hf, hHf, hHfl, φ, hφ⟩ := exists_selfDual_data hF hd3 hd1
   exact ⟨hE, Hf, hHf, hHfl, four_le_finrank_unitary hF hd3 hd1 hQ hHf hHfl φ, φ, hφ⟩
 
+omit [Finite F] in
 private theorem unitaryDet_apply_eq_one_of_sq_eq_one [Fact (Irreducible (SpFin.h3 F))]
     {d : ↥(StatedSp ℓ F)}
     {hE : UnitaryFieldData 2 1 (AdjoinRoot (SpFin.h3 F))}
@@ -120,7 +122,7 @@ private theorem unitaryDet_apply_eq_one_of_sq_eq_one [Fact (Irreducible (SpFin.h
     (e : ↥(spSupported d {(SpFin.h3 F)}) →* sesqUnitaryGroup Hf)
     {t : ↥(StatedSp ℓ F)} (ht : t ∈ spSupported d {(SpFin.h3 F)}) (ht2 : t ^ 2 = 1) :
     CFSG.LinearGroups.unitaryDet Hf (e ⟨t, ht⟩) = 1 := by
-  haveI : CharP (AdjoinRoot (SpFin.h3 F)) 2 := hE.charP
+  have : CharP (AdjoinRoot (SpFin.h3 F)) 2 := hE.charP
   have hpow : e ⟨t, ht⟩ ^ 2 = 1 := by
     rw [← map_pow e]
     have hx2 : (⟨t, ht⟩ : ↥(spSupported d {(SpFin.h3 F)})) ^ 2 = 1 := Subtype.ext ht2
@@ -134,6 +136,7 @@ private theorem unitaryDet_apply_eq_one_of_sq_eq_one [Fact (Irreducible (SpFin.h
   · exact Units.ext h1
   · exact Units.ext (h1.trans (CharTwo.neg_eq 1))
 
+omit [Finite F] in
 private theorem mem_commutator_of_det_eq_one [Fact (Irreducible (SpFin.h3 F))]
     {d : ↥(StatedSp ℓ F)}
     {hE : UnitaryFieldData 2 1 (AdjoinRoot (SpFin.h3 F))}
@@ -213,11 +216,11 @@ theorem eight_le_finrank_unitary (hF : Nat.card F = 2) {d : ↥(StatedSp ℓ F)}
         spSupported d ({X ^ 2 + X + 1} : Set F[X])⁆) :
     8 ≤ Module.finrank F
       ↥(primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X])) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
-  haveI : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
+  have : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
   obtain ⟨hE, Hf, -, -, h4, -, -⟩ := exists_unitary_data hF hd3 hd1 hQ
   have hfin := finrank_primaryComponent (spEnd d) (SpFin.h3 F)
   rw [SpFin.h3_natDegree] at hfin
@@ -234,11 +237,11 @@ theorem mem_commutator_of_sq_eq_one (hF : Nat.card F = 2) {d : ↥(StatedSp ℓ 
     (ht : t ∈ spSupported d ({X ^ 2 + X + 1} : Set F[X])) (ht2 : t ^ 2 = 1) :
     t ∈ ⁅spSupported d ({X ^ 2 + X + 1} : Set F[X]),
       spSupported d ({X ^ 2 + X + 1} : Set F[X])⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
-  haveI : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
+  have : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
   obtain ⟨hE, Hf, hHf, hHfl, h4, φ, -⟩ := exists_unitary_data hF hd3 hd1 hQ
   have ht' : t ∈ spSupported d {(SpFin.h3 F)} := ht
   exact mem_commutator_of_det_eq_one hHf hHfl h4 φ.toMonoidHom φ.injective φ.surjective ht'
@@ -257,11 +260,11 @@ theorem exists_mul_pow_mem_commutator (hF : Nat.card F = 2) {d : ↥(StatedSp �
     ∃ i : ℕ, i < 3 ∧ a * x ^ i ∈
       ⁅spSupported d ({X ^ 2 + X + 1} : Set F[X]),
         spSupported d ({X ^ 2 + X + 1} : Set F[X])⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
-  haveI : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
+  have : Fact (Irreducible (SpFin.h3 F)) := ⟨SpFin.h3_irreducible hF⟩
   obtain ⟨hE, Hf, hHf, hHfl, h4, φ, -⟩ := exists_unitary_data hF hd3 hd1 hQ
   have hx' : x ∈ spSupported d {(SpFin.h3 F)} := hx
   have ha' : a ∈ spSupported d {(SpFin.h3 F)} := ha
@@ -270,7 +273,7 @@ theorem exists_mul_pow_mem_commutator (hF : Nat.card F = 2) {d : ↥(StatedSp �
     intro h1
     exact hxK' (mem_commutator_of_det_eq_one hHf hHfl h4 φ.toMonoidHom φ.injective
       φ.surjective hx' h1)
-  haveI : CharP (AdjoinRoot (SpFin.h3 F)) 2 := hE.charP
+  have : CharP (AdjoinRoot (SpFin.h3 F)) 2 := hE.charP
   have hEcard : Nat.card (AdjoinRoot (SpFin.h3 F)) = 4 := SpFin.card_adjoinRoot_h3 hF
   have hunits : Nat.card (AdjoinRoot (SpFin.h3 F))ˣ = 3 := by
     rw [Nat.card_units, hEcard]

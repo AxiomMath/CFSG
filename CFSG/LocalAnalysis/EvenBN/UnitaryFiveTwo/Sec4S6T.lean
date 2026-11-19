@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G} {K₀ : Subgroup G}
 
 theorem card_le_two_pow_six_of_dvd {X : Type*} [Group X] {T : Subgroup X} (hT : IsPGroup 2 ↥T)
     [Finite T] (hdvd : Nat.card ↥T ∣ 25920) : Nat.card ↥T ≤ 2 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
   rw [hn] at hdvd ⊢
   have hn6 : n ≤ 6 := by
@@ -60,7 +60,7 @@ theorem Data.I_le_Q₀ (h : d.Hyp) (hf : d.IsUnitaryFactor K₀) : d.Y ⊓ K₀ 
 
 theorem Data.card_Q₀ (h : d.Hyp) (hf : d.IsUnitaryFactor K₀) :
     Nat.card ↥(Data.Q₀ h hf) = 2 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : d.X₂ ⊔ d.F ≤ (Data.theta h hf).range := by
     rw [Data.range_theta h hKU hf]
     exact d.X₂_sup_F_le_K₃

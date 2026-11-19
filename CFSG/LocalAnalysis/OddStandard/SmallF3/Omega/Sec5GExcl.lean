@@ -71,7 +71,7 @@ theorem sec5g_not_caseIII {z : G} {H S Q R T : Subgroup G} (π : ↥H →* X)
   set SX : Subgroup X := (S.subgroupOf H).map π with hSX
   set A : Subgroup X := (T.subgroupOf H).map π with hA
   set M : Subgroup X := normalClosure (A : Set X) with hM
-  haveI : M.Normal := Subgroup.normalClosure_normal
+  have : M.Normal := Subgroup.normalClosure_normal
   let D' : Subgroup ↥H := S.subgroupOf H ⊓ M.comap π
   let D : Subgroup G := D'.map H.subtype
   have hDmem : ∀ d : G, d ∈ D ↔ ∃ hd : d ∈ H, d ∈ S ∧ π ⟨d, hd⟩ ∈ M := by
@@ -97,7 +97,7 @@ theorem sec5g_not_caseIII {z : G} {H S Q R T : Subgroup G} (π : ↥H →* X)
     have hle : SX ⊓ M ≤ D'.map π := by
       rintro y ⟨⟨s', hs', rfl⟩, hyM⟩
       exact ⟨s', ⟨hs', hyM⟩, rfl⟩
-    haveI : Finite ↥(D'.map π) := Finite.of_surjective _ (π.subgroupMap_surjective D')
+    have : Finite ↥(D'.map π) := Finite.of_surjective _ (π.subgroupMap_surjective D')
     calc Nat.card ↥(SX ⊓ M) ≤ Nat.card ↥(D'.map π) := Subgroup.card_le_of_le hle
       _ ≤ Nat.card ↥D' := Nat.le_of_dvd Nat.card_pos (Subgroup.card_map_dvd D' π)
       _ = Nat.card ↥D := (Subgroup.card_map_of_injective H.subtype_injective).symm

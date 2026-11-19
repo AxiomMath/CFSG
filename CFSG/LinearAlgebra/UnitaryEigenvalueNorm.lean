@@ -21,9 +21,9 @@ theorem unitary_eigenvalue_norm_one
       Module.End K (Fin n → K)) v = lam • v) :
     h.bar lam * lam = 1 := by
   classical
-  haveI : Fact q.Prime := ⟨h.prime⟩
-  haveI : CharP K q := h.charP
-  haveI := h.finite
+  have : Fact q.Prime := ⟨h.prime⟩
+  have : CharP K q := h.charP
+  have := h.finite
   have hiter : ∀ k : ℕ,
       (((toLinU h n x : LinearMap.GeneralLinearGroup K (Fin n → K)) :
         Module.End K (Fin n → K)) ^ k) v = lam ^ k • v := by
@@ -41,7 +41,7 @@ theorem unitary_eigenvalue_norm_one
     rw [hx']
     ext i
     simp [Matrix.GeneralLinearGroup.coe_toLin, Matrix.GeneralLinearGroup.coe_scalar,
-      Matrix.mulVecLin, Matrix.toLin'_apply]
+      Matrix.mulVecLin]
   have h1 : ((toLinU h n x : LinearMap.GeneralLinearGroup K (Fin n → K)) :
       Module.End K (Fin n → K)) ^ p = ((toLinU h n (x ^ p) :
         LinearMap.GeneralLinearGroup K (Fin n → K)) : Module.End K (Fin n → K)) := by
@@ -67,7 +67,7 @@ theorem unitary_eigenvalue_norm_one
   have hnorm := CFSG.GH74.GLS.Stage2.Bender.Thm1.uq_norm_of_pow
     (h := h) (n := n) (r := p) (w := (x : GL (Fin n) K)) (γ := γ)
     (by omega : 0 < n) hp hp2
-    (by simpa [CFSG.GH74.GLS.Stage2.Bender.Thm1.UqU, idGram] using x.2) hγ hpdvd
+    (by simp [CFSG.GH74.GLS.Stage2.Bender.Thm1.UqU]) hγ hpdvd
   simpa [γ] using hnorm
 
 end CFSG.LinearAlgebra

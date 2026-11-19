@@ -60,12 +60,12 @@ theorem sl3_cover_comm {M : Type*} [Group M] (R I K : Subgroup M) [R.Normal]
   group
 
 theorem exists_minimal_cover {M : Type*} [Group M] [Finite M] (R I N E : Subgroup M) [R.Normal]
-    (hRI : R ≤ I) (hNI : N ≤ I) (hcover : ∀ g ∈ I, ∃ r ∈ R, ∃ n ∈ N, g = r * n)
+    (_hRI : R ≤ I) (hNI : N ≤ I) (hcover : ∀ g ∈ I, ∃ r ∈ R, ∃ n ∈ N, g = r * n)
     (hEN : ∀ e ∈ E, e ∈ normalizer (N : Set M))
     (hperf : ⁅I.map (QuotientGroup.mk' R), I.map (QuotientGroup.mk' R)⁆ = I.map (QuotientGroup.mk' R)) :
     ∃ K : Subgroup M, K ≤ N ∧ (∀ e ∈ E, e ∈ normalizer (K : Set M)) ∧
       (∀ g ∈ I, ∃ r ∈ R, ∃ k ∈ K, g = r * k) ∧ ⁅K, K⁆ = K := by
-  haveI : Finite (Subgroup M) :=
+  have : Finite (Subgroup M) :=
     Finite.of_injective (fun K : Subgroup M => (K : Set M)) SetLike.coe_injective
   let fam : Set (Subgroup M) :=
     {K | K ≤ N ∧ (∀ e ∈ E, e ∈ normalizer (K : Set M)) ∧ (∀ g ∈ I, ∃ r ∈ R, ∃ k ∈ K, g = r * k)}

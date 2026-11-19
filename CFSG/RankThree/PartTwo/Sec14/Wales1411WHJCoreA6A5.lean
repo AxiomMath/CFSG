@@ -30,15 +30,15 @@ theorem map_eq_of_a6Cover_a5 {X : Type*} [Group X] [Finite X] {U V : Subgroup X}
   have hcenV : Function.Injective (MulAut.conj : ↥V →* MulAut ↥V) :=
     conj_injective_of_mulEquiv ψ a5_facts.1
   set N := V.map β.toMonoidHom with hN
-  haveI hNn : N.Normal := hVn.map _ β.surjective
+  have hNn : N.Normal := hVn.map _ β.surjective
   have hcardN : Nat.card N = 60 := by
     rw [hN, Subgroup.card_map_of_injective β.injective, Nat.card_congr ψ.toEquiv,
       card_alternatingGroup_five]
   have hcardV : Nat.card V = 60 := by
     rw [Nat.card_congr ψ.toEquiv, card_alternatingGroup_five]
-  haveI : IsSimpleGroup ↥N :=
+  have : IsSimpleGroup ↥N :=
     ((V.equivMapOfInjective β.toMonoidHom β.injective).symm.trans ψ).isSimpleGroup
-  haveI : ((N ⊓ V).subgroupOf N).Normal := (Subgroup.normal_inf_normal N V).subgroupOf N
+  have : ((N ⊓ V).subgroupOf N).Normal := (Subgroup.normal_inf_normal N V).subgroupOf N
   rcases Subgroup.Normal.eq_bot_or_eq_top ((N ⊓ V).subgroupOf N) with h | h
   · exfalso
     have hNV : N ⊓ V = ⊥ := by
@@ -83,13 +83,13 @@ theorem map_eq_of_a6Cover_a5 {X : Type*} [Group X] [Finite X] {U V : Subgroup X}
     set N' := N.subgroupOf U with hN'
     have hcardN' : Nat.card N' = 60 := by
       rw [hN', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNU).toEquiv, hcardN]
-    haveI hN'n : N'.Normal := hNn.subgroupOf U
+    have hN'n : N'.Normal := hNn.subgroupOf U
     set q := QuotientGroup.mk' (Subgroup.center ↥U) with hq
-    haveI : IsSimpleGroup (↥U ⧸ Subgroup.center ↥U) :=
+    have : IsSimpleGroup (↥U ⧸ Subgroup.center ↥U) :=
       haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
         alternatingGroup.isSimpleGroup (by simp)
       χ.isSimpleGroup
-    haveI : (N'.map q).Normal := hN'n.map q (QuotientGroup.mk'_surjective _)
+    have : (N'.map q).Normal := hN'n.map q (QuotientGroup.mk'_surjective _)
     rcases Subgroup.Normal.eq_bot_or_eq_top (N'.map q) with h' | h'
     · have hle : N' ≤ Subgroup.center ↥U := by
         have := (Subgroup.map_eq_bot_iff N').mp h'
@@ -113,7 +113,7 @@ theorem ks1411HJCoreA6A5 : KS1411HJCoreA6A5 := by
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST hsupp
   exfalso
   obtain ⟨U, V, hUn, hVn, hUV, hUVt, hU, ⟨ψ⟩⟩ := hX
-  haveI := HJInner.normal_X hset
+  have := HJInner.normal_X hset
   have hA3 : ∀ g ∈ Abar, g ^ 3 = 1 := hset.isElemAbelian.2
   set V' : Subgroup M := V.map Xbar.subtype with hV'
   set ψ' : ↥V' ≃* alternatingGroup (Fin 5) :=

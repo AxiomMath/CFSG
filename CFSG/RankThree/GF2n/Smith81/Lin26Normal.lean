@@ -17,6 +17,7 @@ section Scalar
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_pi_ne_zero (H : StrothHyp M Q Z) : ∃ e : M₀.E, e ≠ 0 := by
   have hZQ : Z ≤ Q := H.Z_normal.1
   have hne : Q ≠ Z := H.toHyp79.ne
@@ -26,6 +27,7 @@ private theorem exists_pi_ne_zero (H : StrothHyp M Q Z) : ∃ e : M₀.E, e ≠ 
     exact hne (le_antisymm hcon hZQ)
   exact ⟨M₀.π x, fun h => hxZ ((M₀.π_ker x hxQ).mp h)⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem exists_B_eq (e : M₀.E) (he : e ≠ 0) (s : K) : ∃ f : M₀.E, M₀.B e f = s := by
   obtain ⟨f₀, hf₀⟩ : ∃ f₀, M₀.B e f₀ ≠ 0 := by
     by_contra hcon
@@ -34,6 +36,7 @@ private theorem exists_B_eq (e : M₀.E) (he : e ≠ 0) (s : K) : ∃ f : M₀.E
   refine ⟨(s / M₀.B e f₀) • f₀, ?_⟩
   rw [map_smul, smul_eq_mul, div_mul_cancel₀ _ hf₀]
 
+omit [Finite K] in
 private theorem eq_one_of_sq_eq_one {x : K} (h : x ^ 2 = 1) : x = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have h3 : (x - 1) ^ 2 = 0 := by linear_combination h + (1 - x) * h2
@@ -65,6 +68,7 @@ private theorem exists_prime_power_ne_one {ν : Kˣ} (hν : ν ≠ 1) :
   rw [Units.val_pow_eq_pow_val, Units.val_one] at h3
   exact h3
 
+omit [Finite K] [CharP K 2] in
 private theorem perm_pow_apply {E : Type*} [AddCommGroup E] [Module K E] (f : Equiv.Perm E)
     (μ : K) (hf : ∀ e, f e = μ • e) (j : ℕ) (e : E) : (f ^ j) e = μ ^ j • e := by
   induction j generalizing e with
@@ -72,6 +76,7 @@ private theorem perm_pow_apply {E : Type*} [AddCommGroup E] [Module K E] (f : Eq
   | succ j ih =>
     rw [pow_succ, Equiv.Perm.mul_apply, hf, ih, smul_smul, pow_succ]
 
+omit [Finite K] [CharP K 2] in
 private theorem hactZ_aux (H : StrothHyp M Q Z) (gm : GlobalModelData M Q Z γ M₀)
     (Φ : ↥M →* Equiv.Perm M₀.E)
     (hΦπ : ∀ (m : ↥M) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = Φ m (M₀.π x))
@@ -112,7 +117,7 @@ theorem exists_scalar_normal_of_scalar (H : StrothHyp M Q Z) (gm : GlobalModelDa
     rw [← hΦπ c₀ x hx]
     exact hc x hx
   obtain ⟨p, hp, j, hp2, hνp, hνj⟩ := exists_prime_power_ne_one (K := K) hν
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ν' : K := ((ν ^ j : Kˣ) : K) with hν'
   have hν'1 : ν' ≠ 1 := fun h => hνj (Units.ext h)
   have hν'p : ν' ^ p = 1 := by
@@ -140,7 +145,7 @@ theorem exists_scalar_normal_of_scalar (H : StrothHyp M Q Z) (gm : GlobalModelDa
         rw [hμ] at h3
         exact ((inv_smul_eq_iff₀ hμ0).mpr h3.symm).symm }
   have hAmem : ∀ a, a ∈ A₀ ↔ ∃ μ : K, μ ^ p = 1 ∧ ∀ e, Φ a e = μ • e := fun a => Iff.rfl
-  haveI hAn : A₀.Normal := ⟨fun a ha g => by
+  have hAn : A₀.Normal := ⟨fun a ha g => by
     obtain ⟨μ, h₁, hμ⟩ := (hAmem a).mp ha
     obtain ⟨σ, hσ⟩ := hΦσ g
     refine (hAmem _).mpr ⟨σ μ, by rw [← map_pow, h₁, map_one], fun e => ?_⟩
@@ -252,7 +257,7 @@ theorem lin26Statement_of_scalar (h : Lin26ScalarStatement) :
   obtain ⟨K, _, _, _, γ, M₀, gm, c, hcM, ν, hν, hcπ⟩ := h G M Q Z B n V₁ V₂ hb hc hS hn
   obtain ⟨p, hp, hp2, A, hQA, hAM, hAn, hpow, -, c', hc'A, hfpf⟩ :=
     exists_scalar_normal_of_scalar hc.hyp gm (S := ⊥) bot_le hcM hν hcπ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : IsPGroup 2 Q := by
     rw [hc.hyp.hQ]
     exact (inSubgroup_pCore_two M).1

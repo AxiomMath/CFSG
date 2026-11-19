@@ -36,6 +36,7 @@ variable {G : Type} [Group G] [Finite G]
     exact (Subgroup.mem_normalizer_iff.1 ((normalizer (Q : Set G)).inv_mem hxN) _).1
       (Q.inv_mem (hxc k hk))
 
+omit [Finite G] in
 theorem mem_centralizerMod {S T Q : Subgroup G} {x : G} :
     x ∈ centralizerMod S T Q ↔ x ∈ S ∧ x ∈ normalizer (Q : Set G) ∧ ∀ k ∈ T, ⁅k, x⁆ ∈ Q :=
   Iff.rfl
@@ -47,28 +48,33 @@ theorem mem_centralizerMod {S T Q : Subgroup G} {x : G} :
   centralizerMod (LOf V g) (KOf M V g) (BOf M V g) ⊓
     centralizerMod (LOf V g) (BOf M V g) (NOf M V g)
 
+omit [Finite G] in
 theorem CKOf_swap (M V : Subgroup G) (g : G) :
     CKOf (conjSubgroup M g) (conjSubgroup V g) g⁻¹ = CKOf M V g := by
   unfold CKOf
   rw [LOf_swap, KOf_swap, NOf_swap]
 
+omit [Finite G] in
 theorem CKOf_le_LOf (M V : Subgroup G) (g : G) : CKOf M V g ≤ LOf V g := fun _ hx => hx.1
 
 namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem c612_SixTwelveCent_KOf_le_LOf (M V : Subgroup G) (g : G) :
     KOf M V g ≤ LOf V g := by
   unfold KOf LOf UOf BOf
   exact sup_le_sup inf_le_left inf_le_left
 
+omit [Finite G] in
 private theorem c612_SixTwelveCent_conj_eq_of_mem_NOf {m y : G} (h : Hyp612Sym n M V g)
     (hm : m ∈ NOf M V g) (hy : y ∈ LOf V g) : y * m * y⁻¹ = m := by
   have hc := mul_comm_of_mem_NOf h hm hy
   rw [← hc]
   group
 
+omit [Finite G] in
 private theorem c612_SixTwelveCent_mem_normalizer_NOf {x : G} (h : Hyp612Sym n M V g)
     (hx : x ∈ LOf V g) : x ∈ normalizer ((NOf M V g : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -86,6 +92,7 @@ private theorem c612_SixTwelveCent_mem_normalizer_NOf {x : G} (h : Hyp612Sym n M
     rw [h3]
     exact h2
 
+omit [Finite G] in
 private theorem c612_SixTwelveCent_mem_normalizer_BOf {x : G} (h : Hyp612Sym n M V g)
     (hx : x ∈ LOf V g) (hxB : ∀ b ∈ BOf M V g, ⁅b, x⁆ ∈ NOf M V g) :
     x ∈ normalizer ((BOf M V g : Subgroup G) : Set G) := by
@@ -123,6 +130,7 @@ private theorem c612_SixTwelveCent_mem_normalizer_BOf {x : G} (h : Hyp612Sym n M
     have h := hreverse (x * s * x⁻¹) hs
     rwa [show x⁻¹ * (x * s * x⁻¹) * x = s by group] at h⟩
 
+omit [Finite G] in
 theorem mem_CKOf_iff (h : Hyp612Sym n M V g) {x : G} :
     x ∈ CKOf M V g ↔ x ∈ LOf V g ∧ ∀ k ∈ KOf M V g, ⁅k, x⁆ ∈ NOf M V g := by
   refine ⟨fun hx => ⟨hx.1, hx.2.2⟩, fun hx => ⟨hx.1, ?_, hx.2⟩⟩
@@ -146,12 +154,14 @@ theorem mem_CKOf_iff (h : Hyp612Sym n M V g) {x : G} :
       exact hm
     exact hm'
 
+omit [Finite G] in
 theorem KOf_le_CKOf (h : Hyp612Sym n M V g) : KOf M V g ≤ CKOf M V g := by
   intro k hk
   rw [mem_CKOf_iff h]
   exact ⟨c612_SixTwelveCent_KOf_le_LOf M V g hk,
     fun k' hk' => commutator_KOf_KOf_mem_N h hk' hk⟩
 
+omit [Finite G] in
 theorem LOf_le_normalizer_CKOf (h : Hyp612Sym n M V g) :
     LOf V g ≤ normalizer ((CKOf M V g : Subgroup G) : Set G) := by
   have hconj : ∀ l ∈ LOf V g, ∀ x ∈ CKOf M V g, l * x * l⁻¹ ∈ CKOf M V g := by
@@ -181,6 +191,7 @@ theorem LOf_le_normalizer_CKOf (h : Hyp612Sym n M V g) :
     have h := hconj l⁻¹ ((LOf V g).inv_mem hl) (l * x * l⁻¹) hx
     rwa [show l⁻¹ * (l * x * l⁻¹) * (l⁻¹)⁻¹ = x by group] at h⟩
 
+omit [Finite G] in
 theorem commutator_KOf_V_mem_U (h : Hyp612Sym n M V g) {k v : G} (hk : k ∈ KOf M V g)
     (hv : v ∈ V) : ⁅k, v⁆ ∈ UOf M V g := by
   obtain ⟨u, hu, b, hb, rfl⟩ := (mem_KOf_iff h).1 hk
@@ -195,6 +206,7 @@ theorem commutator_KOf_V_mem_U (h : Hyp612Sym n M V g) {k v : G} (hk : k ∈ KOf
   rw [hmain]
   exact (UOf M V g).mul_mem ((UOf M V g).mul_mem hu hbv) ((UOf M V g).inv_mem hu)
 
+omit [Finite G] in
 theorem commutator_KOf_conjV_mem_B (h : Hyp612Sym n M V g) {k w : G} (hk : k ∈ KOf M V g)
     (hw : w ∈ conjSubgroup V g) : ⁅k, w⁆ ∈ BOf M V g := by
   have h1 := (swap h).commutator_KOf_V_mem_U (k := k) (v := w) (by rwa [KOf_swap]) hw
@@ -218,6 +230,7 @@ theorem conjV_inf_CKOf (h : Hyp612Sym n M V g) : conjSubgroup V g ⊓ CKOf M V g
   have h1 := (swap h).V_inf_CKOf
   rwa [CKOf_swap, UOf_swap] at h1
 
+omit [Finite G] in
 theorem CKOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
     CKOf M V g ≤ normalizer ((UOf M V g : Subgroup G) : Set G) := by
   have hstep : ∀ y ∈ CKOf M V g, ∀ u ∈ UOf M V g, y * u * y⁻¹ ∈ UOf M V g := by
@@ -240,6 +253,7 @@ theorem CKOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
     have h' := hstep x⁻¹ ((CKOf M V g).inv_mem hx) (x * u * x⁻¹) h
     rwa [show x⁻¹ * (x * u * x⁻¹) * (x⁻¹)⁻¹ = u by group] at h'⟩
 
+omit [Finite G] in
 theorem CKOf_le_M (h : Hyp612Sym n M V g) : CKOf M V g ≤ M :=
   h.CKOf_le_normalizer_UOf.trans h.normalizer_U_le
 
@@ -289,6 +303,7 @@ theorem commutator_CKOf_LOf_mem_KOf (h : Hyp612Sym n M V g) {x l : G} (hx : x �
   have hl' : l ∈ V ⊔ conjSubgroup V g := by rw [LOf] at hl; exact hl
   exact (mem_centralizerMod.1 ((sup_le hV hVg) hl')).2.2 x hx
 
+omit [Finite G] in
 theorem normalizer_UOf_of_commutator_mem_CKOf (h : Hyp612Sym n M V g) {a x : G} (ha : a ∈ V)
     (haU : a ∉ UOf M V g) (hx : x ∈ LOf V g) (hc : ⁅a, x⁆ ∈ CKOf M V g) :
     x ∈ normalizer ((UOf M V g : Subgroup G) : Set G) := by
@@ -343,6 +358,7 @@ theorem normalizer_UOf_of_commutator_mem_CKOf (h : Hyp612Sym n M V g) {a x : G} 
     have h := hstep x⁻¹ hxinv hcx (x * u * x⁻¹) hu'
     rwa [show x⁻¹ * (x * u * x⁻¹) * (x⁻¹)⁻¹ = u by group] at h⟩
 
+omit [Finite G] in
 theorem mem_EOf_iff (h : Hyp612Sym n M V g) {x : G} :
     x ∈ EOf M V g ↔ x ∈ LOf V g ∧ (∀ b ∈ BOf M V g, ⁅b, x⁆ ∈ NOf M V g) ∧
       ∀ k ∈ KOf M V g, ⁅k, x⁆ ∈ BOf M V g := by
@@ -362,6 +378,7 @@ theorem mem_EOf_iff (h : Hyp612Sym n M V g) {x : G} :
     exact Subgroup.mem_inf.2 ⟨mem_centralizerMod.2 ⟨hxL, hxB', hxK⟩,
       mem_centralizerMod.2 ⟨hxL, hxN, hxB⟩⟩
 
+omit [Finite G] in
 theorem conjV_le_EOf (h : Hyp612Sym n M V g) : conjSubgroup V g ≤ EOf M V g := by
   intro w hw
   rw [mem_EOf_iff h]
@@ -374,6 +391,7 @@ theorem conjV_le_EOf (h : Hyp612Sym n M V g) : conjSubgroup V g ≤ EOf M V g :=
   · intro k hk
     exact commutator_KOf_conjV_mem_B h hk hw
 
+omit [Finite G] in
 theorem conjV_le_EOf_of_conj_UOf_eq (h : Hyp612Sym n M V g) {l : G} (hl : l ∈ LOf V g)
     (hB : BOf M V g = conjSubgroup (UOf M V g) l) : conjSubgroup V l ≤ EOf M V g := by
   have hVL : V ≤ LOf V g := by rw [LOf]; exact le_sup_left
@@ -416,6 +434,7 @@ theorem conjV_le_EOf_of_conj_UOf_eq (h : Hyp612Sym n M V g) {l : G} (hl : l ∈ 
     rw [hB]
     exact mem_conjSubgroup_iff.2 h1
 
+omit [Finite G] in
 theorem commutator_mem_CKOf_of_mem_EOf (h : Hyp612Sym n M V g) {e e' : G} (he : e ∈ EOf M V g)
     (he' : e' ∈ EOf M V g) : ⁅e, e'⁆ ∈ CKOf M V g := by
   have heL : e ∈ LOf V g := ((mem_EOf_iff h).1 he).1
@@ -497,6 +516,7 @@ theorem commutator_mem_CKOf_of_mem_EOf (h : Hyp612Sym n M V g) {e e' : G} (he : 
   exact (LOf V g).mul_mem ((LOf V g).mul_mem ((LOf V g).mul_mem heL he'L)
     ((LOf V g).inv_mem heL)) ((LOf V g).inv_mem he'L)
 
+omit [Finite G] in
 theorem mem_CKOf_of_mem_EOf_of_commutator_mem_KOf (h : Hyp612Sym n M V g) {e v : G}
     (he : e ∈ EOf M V g) (hv : v ∈ V) (hvU : v ∉ UOf M V g) (hc : ⁅e, v⁆ ∈ KOf M V g) :
     e ∈ CKOf M V g := by

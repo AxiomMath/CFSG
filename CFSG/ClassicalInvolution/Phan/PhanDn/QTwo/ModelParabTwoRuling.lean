@@ -188,21 +188,19 @@ theorem qTwo_isometry_coordinate_correction (hK : Nat.card K = 4)
     · refine ⟨false, true, fun a w => ?_⟩
       ext i
       fin_cases i <;>
-        simp only [h01, h10, Fin.mk_zero, Fin.mk_one, Fin.isValue, Bool.false_eq_true, ↓reduceIte, one_mul, mul_one,
-          LinearEquiv.mul_apply, hfu, hfv, tauAt_apply, Pi.smul_apply,
-          E.isUnitary.invol, map_mul] <;> ring
+        simp only [h01, Fin.mk_zero, Fin.mk_one, Fin.isValue, Bool.false_eq_true, ↓reduceIte, one_mul, LinearEquiv.mul_apply, hfu, hfv, tauAt_apply, Pi.smul_apply,
+          E.isUnitary.invol] <;> ring
     · refine ⟨true, false, fun a w => ?_⟩
       ext i
       fin_cases i <;>
-        simp only [h01, h10, Fin.mk_zero, Fin.mk_one, Fin.isValue, Bool.false_eq_true, ↓reduceIte, one_mul, mul_one,
+        simp only [h10, Fin.mk_zero, Fin.mk_one, Fin.isValue, Bool.false_eq_true, ↓reduceIte, mul_one,
           LinearEquiv.mul_apply, hfu, hfv, tauAt_apply, Pi.smul_apply,
-          E.isUnitary.invol, map_mul] <;> ring
+          E.isUnitary.invol] <;> ring
     · refine ⟨true, true, fun a w => ?_⟩
       ext i
       fin_cases i <;>
-        simp only [h01, h10, Fin.mk_zero, Fin.mk_one, Fin.isValue, Bool.false_eq_true, ↓reduceIte, one_mul, mul_one,
-          LinearEquiv.mul_apply, hfu, hfv, tauAt_apply, Pi.smul_apply,
-          E.isUnitary.invol, map_mul] <;> ring
+        simp only [h01, h10, Fin.mk_zero, Fin.mk_one, Fin.isValue, ↓reduceIte, LinearEquiv.mul_apply, hfu, hfv, tauAt_apply, Pi.smul_apply,
+          E.isUnitary.invol] <;> ring
   rcases qTwo_isometry_permutes_axes E hK hg with h | h
   · exact axis hg h.1 h.2
   let s : (Fin 2 → K) ≃ₗ[F] (Fin 2 → K) :=

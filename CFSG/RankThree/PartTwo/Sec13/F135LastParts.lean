@@ -99,7 +99,7 @@ structure Cfg3 (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G) (L : Sub
   ∀ (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G) (L : Subgroup G) (p : ℕ)
     (C : Subgroup (CFSG.pCore p L)), Cfg2 G A c L p C → Nonempty (Cfg3 G A c L p C)
 
-@[expose] abbrev cM {G : Type} [Group G] (Y : Subgroup G) : Subgroup G :=
+abbrev cM {G : Type} [Group G] (Y : Subgroup G) : Subgroup G :=
   Subgroup.centralizer (Y : Set G)
 
 @[expose] noncomputable def eOf {G : Type} [Group G] (Dp Y : Subgroup G) : Subgroup (cM Y) :=

@@ -71,9 +71,9 @@ theorem kgLangTorA_coset_decomp {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
     ∀ α ∈ A, ∃ β ∈ B₀, ∃ j : ℕ, α = β * a ^ j := by
   intro α hα
   let B : Subgroup ↥A := B₀.subgroupOf A
-  haveI : IsMulCommutative ↥A := hA.1
-  haveI : B.Normal := Subgroup.normal_of_comm B
-  haveI : Nonempty ↥B₀ := ⟨1⟩
+  have : IsMulCommutative ↥A := hA.1
+  have : B.Normal := Subgroup.normal_of_isMulCommutative B
+  have : Nonempty ↥B₀ := ⟨1⟩
   have hcardB : Nat.card ↥B = Nat.card B₀ :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB₀A).toEquiv
   have hqcard : Nat.card (↥A ⧸ B) = p := by
@@ -82,8 +82,8 @@ theorem kgLangTorA_coset_decomp {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
     have h2 : Nat.card B₀ * p = Nat.card B₀ * Nat.card (↥A ⧸ B) := by
       rw [hcard, h1, Nat.mul_comm]
     exact (Nat.mul_left_cancel (Nat.card_pos (α := ↥B₀)) h2).symm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic (↥A ⧸ B) := isCyclic_of_prime_card hqcard
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic (↥A ⧸ B) := isCyclic_of_prime_card hqcard
   have haBne : (QuotientGroup.mk ⟨a, ha⟩ : ↥A ⧸ B) ≠ 1 := by
     intro h
     exact haB (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h))
@@ -154,7 +154,7 @@ theorem kgLangTorA_setup {p : ℕ} (hp : p.Prime) {R : Type} [Group R] {I Fd : S
       IsElemAbelian p X ∧ (∀ x ∈ X, x ∈ I) ∧ (∀ x ∈ X, f₀ * x = x * f₀) ∧
       ∀ β ∈ B₀, u₀⁻¹ * kgInducedAut θ β * u₀ ∈ X := by
   classical
-  haveI hfinK : Finite (MulAut K) :=
+  have hfinK : Finite (MulAut K) :=
     Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
   let ρ : ↥A →* MulAut R := (kgInducedAut θ).comp A.subtype
   have hb₀I : ρ ⟨α₀, hα₀⟩ ∉ I := by

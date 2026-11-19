@@ -264,7 +264,7 @@ theorem le_M_of_isPGroup {T : Subgroup G} (hT : IsPGroup 2 T) (hQT : S.QG ≤ T)
 theorem exists_sylow_le_M : ∃ P : Sylow 2 G, S.QG ≤ P ∧ (P : Subgroup G) ≤ S.M := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := S.isPGroup_QG.exists_le_sylow
-  exact ⟨P, hP, S.le_M_of_isPGroup P.isPGroup' hP⟩
+  exact ⟨P, hP, S.le_M_of_isPGroup P.isPGroup hP⟩
 
 omit [Finite G] in
 theorem exists_conj_eq_mul_z' {t : G} (ht : t ∈ S.QG) (ht1 : t ≠ 1) (htz : t ≠ S.z) :

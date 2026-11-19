@@ -38,7 +38,7 @@ theorem elementary_delta_witness {G : Type*} [Group G] [Fintype G]
         if conjugator⁻¹ * selected * conjugator = selected then (Nat.card cyclic : ℂ) else 0 := by
     intro conjugator hmember
     apply commutingProductDelta_regular_value cyclic primary hcommute hdisjoint cyclicSelected prime
-      (sylow.isPGroup'.map centralizer.subtype) ⟨_, hmember⟩
+      (sylow.isPGroup.map centralizer.subtype) ⟨_, hmember⟩
     have horder : orderOf (conjugator⁻¹ * selected * conjugator) = orderOf selected := by
       simpa only [MulAut.conj_apply, inv_inv] using (MulAut.conj conjugator⁻¹).orderOf_eq selected
     rw [horder]

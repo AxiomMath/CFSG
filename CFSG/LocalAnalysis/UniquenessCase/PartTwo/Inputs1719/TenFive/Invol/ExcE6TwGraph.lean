@@ -46,7 +46,7 @@ private lemma pinnedX_mul_eq_one_left {k : Type} [Field k] {γ δ : Fin TwistTag
         pinnedX TwistTag.E6.tag k ρ (if ρ = γ then (n : k) * c else (n' : k) * d)).prod =
       ([γ, δ].map fun ρ => pinnedX TwistTag.E6.tag k ρ (0 : k)).prod := by
     simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-      if_neg (Ne.symm hne), pinnedX_zero, mul_one]
+      ite_eq_right (Ne.symm hne), pinnedX_zero, mul_one]
     exact hcd
   have hkey := pinnedX_list_prod_injective (τ := TwistTag.E6.tag) (R := k) [γ, δ] hL hroots
     (fun ρ => if ρ = γ then (n : k) * c else (n' : k) * d) (fun _ => 0) heq

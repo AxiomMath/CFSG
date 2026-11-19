@@ -25,9 +25,9 @@ private theorem res1CentSL2_ker_le {X : Type*} [Group X] [Group.IsPerfect X] {N 
       Subgroup.mem_sup_of_normal_left.1 (hsup ▸ Subgroup.mem_top x)
     refine ⟨⟨n, hn⟩, ?_⟩
     simp [(QuotientGroup.eq_one_iff k).2 hk]
-  haveI : Group.IsSolvable N := hN
-  haveI : Group.IsSolvable (X ⧸ ρ.ker) := Group.isSolvable_of_surjective hg
-  haveI : Nontrivial (X ⧸ ρ.ker) := by
+  have : Group.IsSolvable N := hN
+  have : Group.IsSolvable (X ⧸ ρ.ker) := Group.isSolvable_of_surjective hg
+  have : Nontrivial (X ⧸ ρ.ker) := by
     obtain ⟨x, hx⟩ := hρ
     refine ⟨⟨QuotientGroup.mk' ρ.ker x, 1, fun h => hx ?_⟩⟩
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, MonoidHom.mem_ker] at h
@@ -52,7 +52,7 @@ theorem res1Cent_rho_eq_one_of_finrank_le_two {L : Type*} [Group L] [Finite L]
     (LinearMap.GeneralLinearGroup.generalLinearEquiv K V).toMonoidHom.comp ρ.toHomUnits
   have hdet : ∀ l, LinearEquiv.det (ρ' l) = 1 := fun l =>
     CFSG.SectionRank.Ccomm.perfect_hom_eq_one (LinearEquiv.det.comp ρ') l
-  haveI := hE.1
+  have := hE.1
   let φ : E →* (V ≃ₗ[K] V) := ρ'.comp E.subtype
   have hφ : Function.Injective φ := by
     rw [injective_iff_map_eq_one]

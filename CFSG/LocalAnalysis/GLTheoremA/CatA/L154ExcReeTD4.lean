@@ -24,7 +24,7 @@ open CFSG.LieType.Ree
 theorem l154_even_padicVal_ordTrialityD4 (Q : TauCeti.PrimePower) :
     Even (padicValNat 2 (ordTrialityD4 Q.card)) := by
   by_cases h2 : Q.p = 2
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hq : Q.card = 2 ^ Q.exponent := by rw [TauCeti.PrimePower.card_def, h2]
     rw [CFSG.ClassicalInvolution.RouteD.TWR.padicValNat_ordTrialityD4 hq Q.exponent_pos]
     exact ⟨Q.exponent * 6, by ring⟩
@@ -60,7 +60,7 @@ theorem l154_padicVal_quot_unitarySU {f : ℕ} (hf : 2 ≤ f) {F : Type} [Field 
     (hF : Nat.card F = (2 ^ f) ^ 2) :
     padicValNat 2 (Nat.card (↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 f F 3) ⧸
       Subgroup.center ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 f F 3))) = 3 * f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv := CFSG.RankThree.PartTwo.Sec8.Item82Proof.padicValNat_card_statedSU_three
     (m := f) (by omega) hF
   have hZ3 := (CFSG.RankThree.PartTwo.Sec8.Item87Proof.isQuasisimple_statedSU_three hF hf).2
@@ -86,7 +86,7 @@ theorem l154_ree_T_eq_centralizer_three {a : ℕ} (ha : 1 ≤ a) {K : Type} [Fie
     (hT : GLAPComponent 3
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj s)) T) :
     T = Subgroup.centralizer ({s} : Set (ReeTag.F4.reeGamma K a)) := by
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hC : CFSG.IsQuasisimple ↥(Subgroup.centralizer ({s} : Set (ReeTag.F4.reeGamma K a))) :=
     CFSG.RankThree.PartTwo.Sec19.SimsC198.reeGamma_isQuasisimple_centralizer ha hK s hs
   rw [CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj] at hT
@@ -101,12 +101,12 @@ theorem l154_ree_padicVal_centralizer_quot {a : ℕ} (ha : 1 ≤ a) {K : Type} [
     padicValNat 2 (Nat.card (↥(Subgroup.centralizer ({s} : Set (ReeTag.F4.reeGamma K a))) ⧸
       Subgroup.center ↥(Subgroup.centralizer ({s} : Set (ReeTag.F4.reeGamma K a))))) =
       3 * (2 * a + 1) := by
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨E⟩ :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU a K hK s hs
   have hF : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by omega), ← pow_mul, mul_comm]
-  haveI : Finite ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 (2 * a + 1)
+  have : Finite ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 (2 * a + 1)
       (GaloisField 2 (2 * (2 * a + 1))) 3) := Finite.of_equiv _ E.toEquiv
   rw [Nat.card_congr (QuotientGroup.congr _ _ E (Subgroup.map_center_eq E)).toEquiv]
   exact l154_padicVal_quot_unitarySU (by omega) hF

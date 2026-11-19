@@ -15,11 +15,11 @@ theorem centralizes {F : Type*} [Field F] [IsAlgClosed F] {G : Type*} [Group G] 
     (r : ℕ) [Fact r.Prime] (D : Subgroup G) (hDcard : Nat.card D = r)
     (hD : (⨅ d ∈ D, LinearMap.ker (ρ d - LinearMap.id)) = (⊥ : Submodule F V))
     (E : Subgroup G) [hE : IsMulCommutative E] (hDE : D ≤ Subgroup.normalizer (E : Set G))
-    (hEF : (Nat.card E : F) ≠ 0) (hrF : (r : F) ≠ 0) :
+    (hEF : (Nat.card E : F) ≠ 0) (_hrF : (r : F) ≠ 0) :
     D ≤ Subgroup.centralizer (E : Set G) := by
   classical
-  letI : CommGroup E := { (inferInstance : Group E) with mul_comm := fun a b => mul_comm' a b }
-  haveI : IsCyclic D := isCyclic_of_prime_card hDcard
+  let : CommGroup E := { (inferInstance : Group E) with mul_comm := fun a b => mul_comm' a b }
+  have : IsCyclic D := isCyclic_of_prime_card hDcard
   obtain ⟨⟨d, hdD⟩, hgen⟩ := IsCyclic.exists_generator (α := D)
   have hzp : Subgroup.zpowers d = D := by
     apply le_antisymm

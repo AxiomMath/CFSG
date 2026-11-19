@@ -18,6 +18,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem exists_bruhat_factor (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
     ∃ (w : WeylGroup TwistTag.D4.tag) (b u : ModGL TwistTag.D4.tag K),
       weylTwist TwistTag.D4 w = w ∧ b ∈ graphFixedBorel TwistTag.D4 K σ.toRingHom ∧
@@ -35,22 +36,24 @@ theorem exists_bruhat_factor (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom
     exists_fixed_bruhat_factor (σ := σ.toRingHom) σ.surjective hΓ hgw
   exact ⟨w, b, u, hδ, hb, hu, hbu.symm⟩
 
+omit [CharP K 3] in
 theorem fieldActor_eq_of_conj_mul_fixed {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
     (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
-    (hg : longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc * fieldActor (t := TwistTag.D4) σ σ g *
-      (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc)⁻¹ = g) :
+    (hg : longElt σ (Or.inr (Or.inr rfl)) c hc * fieldActor (t := TwistTag.D4) σ σ g *
+      (longElt σ (Or.inr (Or.inr rfl)) c hc)⁻¹ = g) :
     fieldActor (t := TwistTag.D4) σ σ g = g := by
-  obtain ⟨w, b, u, hw, hb, hu, hgbu⟩ := exists_bruhat_factor hf hK σ hσ g
+  obtain ⟨w, b, u, hw, hb, hu, hgbu⟩ := exists_bruhat_factor σ g
   by_cases hinv : rootD ∈ inversionSet w
   · exact (bruhat_caseA hf hK σ hσ hc hc0 g hg hw hb hu hgbu hinv).elim
   · exact bruhat_caseB hf hK σ hσ hc hc0 g hg hw hb hu hgbu hinv
 
+omit [CharP K 3] in
 theorem fixSubgroup_conj_mul_fieldActor_eq {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
-    fixSubgroup (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    fixSubgroup (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
         fieldActor (t := TwistTag.D4) σ σ) =
       fixSubgroup (fieldActor (t := TwistTag.D4) σ σ) ⊓
-        Subgroup.centralizer {longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc} := by
-  set z := longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc
+        Subgroup.centralizer {longElt σ (Or.inr (Or.inr rfl)) c hc} := by
+  set z := longElt σ (Or.inr (Or.inr rfl)) c hc
   ext g
   constructor
   · intro hg

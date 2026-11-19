@@ -89,7 +89,7 @@ theorem AT_Tits_derived_group_Schreier :
       hHN, map_top_titsD]
   obtain ⟨-, -, hsolv, hpgrp⟩ := tits_Sylow_local_Schreier_criterion P _ hH' _ hKS' _ hN' _ hJp
     hJS' hJH' hJn' hCJ' hCK' hgen
-  have hS2 : IsPGroup 2 (P : Subgroup titsD) := P.isPGroup'
+  have hS2 : IsPGroup 2 (P : Subgroup titsD) := P.isPGroup
   have e : Abelianization (P : Subgroup titsD) ≃*
       Multiplicative (ZMod (2 ^ 2)) × Multiplicative (ZMod 2) :=
     (((MulEquiv.subgroupCongr hP).trans

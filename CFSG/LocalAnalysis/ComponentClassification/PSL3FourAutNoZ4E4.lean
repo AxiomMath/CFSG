@@ -120,7 +120,7 @@ theorem noZ4E4_R
       · exact hc4
     · exact one_pow 4
     · intro y z hy hz ihy ihz
-      haveI : IsMulCommutative X := hXc
+      have : IsMulCommutative X := hXc
       have hyz : y * z = z * y :=
         setLike_mul_comm (s := X) hy hz
       rw [Commute.mul_pow (show Commute y z from hyz) 4, ihy, ihz, one_mul]

@@ -220,7 +220,7 @@ theorem false_of_plane (hc : D1IbCubeConfig p P M H R Rbar K z) (hI : D1IbCubeIn
     · simp only [map_mul, map_inv]
       rfl
   have hyp : ∃ k : ℕ, y ^ p ^ k = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
     refine ⟨k, ?_⟩
     have : (⟨x, hxM⟩ : ↥M) ^ p ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
     rw [← map_pow, this, map_one]

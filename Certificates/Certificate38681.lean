@@ -61,7 +61,7 @@ theorem certificate38681 :
     rfl
   have hRT : ∀ k < 5, Certificates.trRepT k =
       trCandT (trLift (repsC.getD k (0, 0)).1) (repsC.getD k (0, 0)).2 := fun k hk => by
-    interval_cases k <;> simp only [Certificates.trRepT, Certificates.trRep, repsC] <;> rfl
+    interval_cases k <;> simp only [Certificates.trRepT, Certificates.trRep, repsC]
   have h3 : Certificates.trRepT 3 = trCandT (trLift 4) 0 := by
     simp only [Certificates.trRepT, Certificates.trRep, List.getD_cons_succ, List.getD_cons_zero]
   refine ⟨fun j hj a ha hinv hne => ?_, fun k hk => ?_, ?_⟩

@@ -509,7 +509,7 @@ theorem false_of_t200_inv1_p_odd (h : F.IsD D dD) (hm : 1 ≤ m)
     @orderOf_eq_prime G _ k 2 hFact (by rw [pow_two]; exact hk2) hk1
   obtain ⟨g, hg⟩ := @EvenSporadicStandard.exists_conj_mem_complement G _ _ F.simple hnonab
     (S := (F.S : Subgroup G)) (U := D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u})
-    F.S.isPGroup' F.S.not_dvd_index hS₁_le h1S (t := k) hkS hkS₁ hkord
+    F.S.isPGroup F.S.not_dvd_index hS₁_le h1S (t := k) hkS hkS₁ hkord
   let y : G := g⁻¹ * k * g
   have hyS₁ : y ∈ D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} := hg
   have hy2 : y * y = 1 := by
@@ -602,7 +602,7 @@ theorem false_of_t200_inv1_p_odd (h : F.IsD D dD) (hm : 1 ≤ m)
     (T := (F.S : Subgroup G) ⊓ Subgroup.centralizer {c₁})
     (Du := D ⊔ Subgroup.zpowers dD.u) (Dk := D ⊔ Subgroup.zpowers k)
     (c₁ := c₁) (w₀ := w₀) (x₀ := dD.uv) (a₁ := a₁) (k := k)
-    F.S.isPGroup' rfl hsyl hc₁S hw₀S hw hw₀2 hw₀1 hc₁w₀ huvS hx₀c₁
+    F.S.isPGroup rfl hsyl hc₁S hw₀S hw hw₀2 hw₀1 hc₁w₀ huvS hx₀c₁
     hkT hkDk hkDu hk2 hkc₁ hk hc₁k hDu hT4 hDk ha₁ hT6 hZ hT78
 
 end StrothFrame.IsD

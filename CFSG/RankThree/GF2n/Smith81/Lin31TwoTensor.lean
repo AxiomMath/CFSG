@@ -259,7 +259,7 @@ theorem tensor_structure {K F E : Type} [Field K] [Finite K] [CharP K 2] [Field 
     [CharP F 2] (hKF : Nat.card K = Nat.card F) (h4 : 4 ≤ Nat.card F)
     [AddCommGroup E] [Module K E] (Qf : E → K) (B : E →ₗ[K] E →ₗ[K] K)
     (hQsmul : ∀ (a : K) e, Qf (a • e) = a ^ 2 * Qf e)
-    (hQadd : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) (halt : ∀ e, B e e = 0)
+    (hQadd : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f) (_halt : ∀ e, B e e = 0)
     (hnd : ∀ e, (∀ f, B e f = 0) → e = 0)
     {Γ : Type} [Group Γ] (ρ : Γ →* (E ≃ₗ[K] E)) (hρQ : ∀ s e, Qf (ρ s e) = Qf e)
     (g : Γ →* GL (Fin 2) F) (hg : ∀ A : GL (Fin 2) F, A ∈ StatedSL 2 F → ∃ s, g s = A)

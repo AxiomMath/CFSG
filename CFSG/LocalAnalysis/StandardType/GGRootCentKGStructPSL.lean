@@ -29,7 +29,7 @@ theorem ggRootCentKGStructTag_PSL_of
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by have := hadm.2.2.1; omega⟩
   have hf : 1 ≤ f := hadm.2.1
   have hm2 : 2 ≤ m := hrank
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ (ψ : SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f) →* G),
       ψ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 f)) →
       Subgroup.centralizer (ψ.range : Set G) = ⊥ →
@@ -151,7 +151,7 @@ theorem ggRootCentKGStructTag_PSL_of
               have hcardu : Nat.card (Units (GaloisField 2 1)) = 1 := by
                 rw [Nat.card_units, GaloisField.card 2 1 (by norm_num)]
                 norm_num
-              haveI : Subsingleton (Units (GaloisField 2 1)) :=
+              have : Subsingleton (Units (GaloisField 2 1)) :=
                 (Nat.card_eq_one_iff_unique.mp hcardu).1
               have hdet : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
               rw [← Matrix.GeneralLinearGroup.val_det_apply, hdet]

@@ -53,7 +53,7 @@ theorem step1521T_of (h1520 : Step1520R) (h1517 : Step1517R) (h138 : Item138N)
   have hTP := Proof1521T.coe_sup_eq_mul_of_two_p hp2 hHsolv hHp hQ hQab hPQ' hPe.2 hΩ hT
   have hPTH : P ⊔ T ≤ H := sup_le hPH hT.1
   have hsolv : Group.IsSolvable ↥(P ⊔ T) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hPTH)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPTH)
   have hprimes : ∀ r : ℕ, r.Prime → r ∣ Nat.card ↥(P ⊔ T) → r = 2 ∨ r = p :=
     fun r hr hrd => hHp r hr (hrd.trans (Subgroup.card_dvd_of_le hPTH))
   have hPA : P = ⁅P, A⁆ := step1520Comm_of_item138N h1517 h138 G A c L h Y hctx p P hP

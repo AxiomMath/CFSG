@@ -27,8 +27,8 @@ theorem exists_mulEquiv_adjointGroup_of_isLabel_E6_two {K : Type} [Group K] [Fin
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
   refine ⟨F, hFld, hFin, ?_, ?_⟩
   · simpa using hFcard
-  · letI : Field F := hFld
-    letI : Finite F := hFin
+  · let : Field F := hFld
+    let : Finite F := hFin
     exact ⟨((QuotientGroup.quotientMulEquivOfEq hz).trans QuotientGroup.quotientBot).symm.trans
       (φ.trans (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.adjointQuotientEquiv Tag.E6 F))⟩
 

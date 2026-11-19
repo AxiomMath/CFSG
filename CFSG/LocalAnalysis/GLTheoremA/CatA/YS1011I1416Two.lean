@@ -83,24 +83,24 @@ theorem sq_dvd_card_range {p : ℕ} (hp : p.Prime) {H S : Type} [Group H] [Finit
 
 theorem natCard_alt_fin (m : ℕ) (hm : 2 ≤ m) :
     Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 theorem not_sq_dvd_sixty {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 60) : False := by
   have hle : p ≤ 60 := Nat.le_of_dvd (by norm_num) ((dvd_pow_self p two_ne_zero).trans h)
-  interval_cases p <;> first | omega | (norm_num at hp; done) | (norm_num at h; done)
+  interval_cases p <;> first | omega | (norm_num at hp)
 
 theorem eq_three_of_sq_dvd_360 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 360) : p = 3 := by
   have hle : p ≤ 19 := by
     have : p ^ 2 ≤ 360 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | omega | (norm_num at hp)
 
 theorem eq_three_of_sq_dvd_20160 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 20160) : p = 3 := by
   have hle : p ≤ 142 := by
     have : p ^ 2 ≤ 20160 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | omega | (norm_num at hp)
 
 private theorem characteristic_prime' (d : TauCeti.LieTypeIndex) : d.characteristic.Prime := by
   cases d <;> simp <;> first | exact ‹TauCeti.PrimePower›.prime_p | exact Nat.prime_two | exact Nat.prime_three
@@ -111,9 +111,9 @@ theorem sq_dvd_pSimple_of_inner {G : Type} [Group G] [Finite G] {X K A : Subgrou
       chevAut p K ⟨a, ha⟩ ∈ (MulAut.conj : PSimple p K →* MulAut (PSimple p K)).range)
     (hcard : p ^ 2 * Nat.card ↥(A ⊓ centModSubgroup p K) ≤ Nat.card A) :
     p ^ 2 ∣ Nat.card (PSimple p K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hs, hnc⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs
+  have := hs
   have hcen : Subgroup.center (PSimple p K) = ⊥ := chev_center_eq_bot_of_simple_nonabelian hnc
   let N : Subgroup G := Subgroup.normalizer (K : Set G)
   let H : Subgroup N := A.subgroupOf N

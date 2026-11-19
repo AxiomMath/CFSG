@@ -29,7 +29,7 @@ private lemma closure_noncommutingProducts_normal (hP : Pair X E) :
   ⟨fun n hn g => by
     induction hn using Subgroup.closure_induction with
     | mem y hy => exact Subgroup.subset_closure (conj_mem_noncommutingProducts hP g hy)
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul y z _ _ ihy ihz =>
         have h : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
         rw [h]
@@ -115,7 +115,7 @@ theorem commutator_eq_closure_noncommuting (hP : Pair X E) :
     commutator X = Subgroup.closure {x : X | ∃ a ∈ E, ∃ b ∈ E, a * b ≠ b * a ∧ x = a * b} := by
   change commutator X = Subgroup.closure (noncommutingProducts E)
   refine le_antisymm ?_ ?_
-  · haveI : (Subgroup.closure (noncommutingProducts E)).Normal :=
+  · have : (Subgroup.closure (noncommutingProducts E)).Normal :=
       closure_noncommutingProducts_normal hP
     refine Pair.commutator_le_of_forall hP ?_
     intro e he f hf
@@ -144,12 +144,12 @@ theorem commutator_eq_closure_noncommuting (hP : Pair X E) :
 theorem isSimpleGroup_commutator_of_pair (hP : Pair X E) (hX : ¬ HasE9 X)
     (hO : CFSG.pPrimeCore 3 X = ⊥) (hnc : ∃ d ∈ E, ∃ e ∈ E, d * e ≠ e * d) :
     IsSimpleGroup ↥(commutator X) := by
-  haveI : Finite X := Pair.finite hP
+  have : Finite X := Pair.finite hP
   have hX' : ¬ HasE9 ↥(commutator X) := fun h =>
     hX (HasE9.map_injective (commutator X).subtype (commutator X).subtype_injective h)
   have hO' : CFSG.pPrimeCore 3 ↥(commutator X) = ⊥ :=
     pPrimeCore_eq_bot_of_normal Nat.prime_three hO (commutator X)
-  haveI : Nontrivial ↥(commutator X) := by
+  have : Nontrivial ↥(commutator X) := by
     obtain ⟨d, hd, e, he, hde⟩ := hnc
     refine nontrivial_of_ne (⟨⁅d, e⁆, ?_⟩ : ↥(commutator X)) 1 ?_
     · rw [commutator_def]

@@ -138,7 +138,7 @@ theorem isSylowOf_of_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
     {T K H : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf p T H) (hTK : T ≤ K) (hKH : K ≤ H) :
     CFSG.ABGLocalTools.IsSylowOf p T K := by
   obtain ⟨S, hS⟩ := hT
-  have hTp : IsPGroup p T := hS ▸ S.isPGroup'.map _
+  have hTp : IsPGroup p T := hS ▸ S.isPGroup.map _
   have hTH : T.subgroupOf H = S := by
     ext x
     rw [mem_subgroupOf, ← hS]

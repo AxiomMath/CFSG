@@ -174,7 +174,7 @@ theorem d4_fieldType_big {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 
     obtain ⟨-, hc⟩ := card_fixSubfield Nat.prime_two (f := 3) (by norm_num) hK σ
     rw [hord] at hc
     simpa using hc
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨ι, hιinj, hιfix, -⟩ := ExcCopy.exists_fixed_structure Tag.D4 σ
   obtain ⟨E₀, hE₀, hcard⟩ := bigElem_adjoint_D4_two hk
   refine ⟨(E₀.map ι).map (ψ⁻¹ : MulAut (adjointGroup Tag.D4 K)).toMonoidHom, ?_, ?_, ?_⟩
@@ -199,9 +199,9 @@ theorem d4_graphField_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     LieModel ↥(fixSubgroup α) .trialityD4 0 2 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : ringChar K = 2 := ringChar_eq_of_card_eq_pow Nat.prime_two (by norm_num) hK
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   have hK4 : 4 ≤ Nat.card K := by rw [hK]; norm_num
   obtain ⟨e, T, he, hef, hT, hσT⟩ :=

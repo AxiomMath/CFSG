@@ -50,6 +50,7 @@ section Abs
 
 variable {A : Type} [Group A] [Finite A] {zb : A} {p : ℕ} {X : Subgroup A}
 
+omit [Finite A] in
 theorem CellData.inf_centralizer_layer (hd : CellData zb p X) :
     X ⊓ centralizer ((layer A : Subgroup A) : Set A) = ⊥ := by
   have hK : (layer A).Normal := layer_normal
@@ -73,6 +74,7 @@ theorem CellData.inf_centralizer_layer (hd : CellData zb p X) :
   have hle : T ≤ pCore p A := le_sSup ⟨hnormT, hTp⟩
   exact le_bot_iff.mp (hd.op ▸ hle)
 
+omit [Finite A] in
 theorem CellData.inner_decomp (hd : CellData zb p X) (hZ : center ↥(layer A) = ⊥) {s : A}
     (hs : s ∈ layer A) (hact : ∀ k ∈ layer A, zb * k * zb⁻¹ = s * k * s⁻¹) :
     s * s = 1 ∧ zb * s = s * zb ∧ s⁻¹ * zb ∈ centralizer ((layer A : Subgroup A) : Set A) ∧

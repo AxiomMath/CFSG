@@ -26,7 +26,7 @@ theorem card_support_ne_nine {a : G} (haK : a ∈ kSub 3 M H) (ha : orderOf a = 
       ↥(kSub 3 M H ⊓ Subgroup.centralizer ({a} : Set G))) :
     ((c.φ ⟨a, haK⟩ : alternatingGroup (Fin 11)) : Equiv.Perm (Fin 11)).support.card ≠ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hs
   apply hns
   let K : Subgroup G := kSub 3 M H
@@ -35,7 +35,7 @@ theorem card_support_ne_nine {a : G} (haK : a ∈ kSub 3 M H) (ha : orderOf a = 
   have hmap : (D.subgroupOf K).map c.φ =
       Subgroup.centralizer ({c.φ ⟨a, haK⟩} : Set (alternatingGroup (Fin 11))) :=
     c.map_φ_centralizer_singleton haK ha
-  have hsolv : IsSolvable ↥(Subgroup.centralizer
+  have hsolv : Group.IsSolvable ↥(Subgroup.centralizer
       ({c.φ ⟨a, haK⟩} : Set (alternatingGroup (Fin 11)))) :=
     CFSG.Permutation.isSolvable_centralizer_alternatingGroup_of_card_support_eq_nine
       (c.orderOf_φ ha) hs
@@ -53,7 +53,7 @@ theorem card_support_ne_nine {a : G} (haK : a ∈ kSub 3 M H) (ha : orderOf a = 
     apply c.not_three_dvd_card_pPrimeCore
     rw [← Subgroup.card_map_of_injective (D.subgroupOf K).subtype_injective] at h3
     exact h3.trans (Subgroup.card_dvd_of_le hker_le)
-  haveI : Group.IsSolvable ↥φD.range := by rw [hrange]; exact hsolv
+  have : Group.IsSolvable ↥φD.range := by rw [hrange]; exact hsolv
   have hQ : Group.IsSolvable (↥(D.subgroupOf K) ⧸ φD.ker) :=
     Group.isSolvable_of_surjective
       (f := (QuotientGroup.quotientKerEquivRange φD).symm.toMonoidHom)
@@ -87,7 +87,7 @@ theorem centralizer_not_le {a : G} (ha : a ∈ kSub 3 M H ⊓ M) (ha3 : orderOf 
 private lemma exists_elem_E (c : Ctx G M H E Q) :
     ∃ e : G, e ∈ E ∧ e ≠ 1 ∧ orderOf e = 3 ∧ e ∈ kSub 3 M H ⊓ M := by
   have hcard : 1 < Nat.card E := by rw [c.choice.card]; norm_num
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp hcard
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp hcard
   obtain ⟨e, he1⟩ := exists_ne (1 : ↥E)
   have heG1 : (e : G) ≠ 1 := fun h => he1 (Subtype.ext (by simpa using h))
   refine ⟨(e : G), e.2, heG1, ?_, c.E_le e.2⟩
@@ -114,7 +114,7 @@ private lemma isSylowOf_zpowers_sup_pPrimeCore (c : Ctx G M H E Q) {z : ↥(kSub
     CFSG.ABGLocalTools.IsSylowOf 3 (Subgroup.zpowers z)
       (CFSG.pPrimeCore 3 ↥(kSub 3 M H) ⊔ Subgroup.zpowers z) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥(kSub 3 M H) := CFSG.pPrimeCore 3 ↥(kSub 3 M H)
   have hO : ¬ 3 ∣ Nat.card ↥O := c.not_three_dvd_card_pPrimeCore
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
@@ -150,7 +150,7 @@ private lemma exists_conj_mem_zpowers_of_mem_pPrimeCore (c : Ctx G M H E Q) {e y
       CFSG.pPrimeCore 3 ↥(kSub 3 M H)) :
     ∃ w : G, w ∈ M ∧ w⁻¹ * y * w ∈ Subgroup.zpowers e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let eK : ↥K := ⟨e, heK⟩

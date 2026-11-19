@@ -28,7 +28,7 @@ theorem matrix_core_lin {K : Type} [Field K] [Fintype K] [CharP K 2] {ι : Type}
     (hcard : p ^ 2 ≤ Nat.card E₀) :
     ClCoreConcl p E₀ (linSigmaGL σ₀) := by
   unfold ClCoreConcl
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   obtain ⟨a, ha⟩ := exists_pow_two_of_ringEquiv σ₀
   have hσp : σ₀ ^ p = 1 := hσ₀ ▸ pow_orderOf_eq_one σ₀
@@ -149,7 +149,7 @@ private lemma cL2_slMap_comp {K : Type} [Field K] {d : ℕ} (σ : K ≃+* K)
     Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_map]
   have h : (⇑σ.toRingHom ∘ ⇑(σ⁻¹).toRingHom : K → K) = id := by
     funext x
-    simpa using σ.apply_symm_apply x
+    simp
   rw [h, Matrix.map_id]
 
 private lemma cL2_slConjugation_map {K : Type} [Field K] {d : ℕ} (σ : K ≃+* K)
@@ -319,7 +319,7 @@ private theorem cL4_lift_commute {K : Type} [Field K] [Fintype K] [CharP K 2] {d
     (hd : 3 ≤ d) (hp : p.Prime) (hpd : ¬ p ∣ d ∨ ¬ p ∣ Fintype.card K - 1)
     (Ebar : Subgroup (MulAut (projectiveSL d K))) (hEab : IsElemAbelian p Ebar)
     {x y : GL (Fin d) K} (hx : conjAut d K x ∈ Ebar) (hy : conjAut d K y ∈ Ebar)
-    (hyp : y ^ p = 1) (hxp : x ^ p = 1) : x * y = y * x := by
+    (hyp : y ^ p = 1) (_hxp : x ^ p = 1) : x * y = y * x := by
   refine lin_commute_of_conjAut_commute hd hp hpd (Subgroup.zpowers y) ?_ x ?_ y
     (Subgroup.mem_zpowers y)
   · rw [Subgroup.forall_mem_zpowers]
@@ -337,8 +337,8 @@ private theorem cL4_lift_commute {K : Type} [Field K] [Fintype K] [CharP K 2] {d
     rwa [map_zpow]
 
 theorem lin_E0_lift {K : Type} [Field K] [Fintype K] [CharP K 2] {d p : ℕ} (hd : 3 ≤ d)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ d ∨ ¬ p ∣ Fintype.card K - 1) (σ₀ : K ≃+* K)
-    (hσ₀ : orderOf σ₀ = p) (Ebar : Subgroup (MulAut (projectiveSL d K)))
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : ¬ p ∣ d ∨ ¬ p ∣ Fintype.card K - 1) (σ₀ : K ≃+* K)
+    (_hσ₀ : orderOf σ₀ = p) (Ebar : Subgroup (MulAut (projectiveSL d K)))
     (hEab : IsElemAbelian p Ebar) (hEI : ∀ e ∈ Ebar, e ∈ Set.range (conjAut d K))
     (hcomm : ∀ e ∈ Ebar, e * fieldAut d K σ₀ = fieldAut d K σ₀ * e) :
     ∃ E₀ : Subgroup (GL (Fin d) K), IsElemAbelian p E₀ ∧

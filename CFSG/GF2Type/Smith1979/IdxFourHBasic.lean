@@ -45,7 +45,7 @@ theorem QG_le_pre (K : Subgroup S.O) : S.QG ≤ pre S K := by
   rw [(S.ρ_eq_one_iff ⟨x, S.QG_le_M hx⟩).mpr hx]
   exact K.one_mem
 
-theorem pre_relIndex {K : Subgroup S.O} (hK : K ≤ S.Mbar) (hidx : K.relIndex S.Mbar = 2) :
+theorem pre_relIndex {K : Subgroup S.O} (_hK : K ≤ S.Mbar) (hidx : K.relIndex S.Mbar = 2) :
     (pre S K).relIndex S.M = 2 := by
   have h1 : (pre S K).relIndex S.M = (K.comap S.ρ).relIndex ⊤ := by
     have h2 : S.M = (⊤ : Subgroup S.M).map S.M.subtype := by

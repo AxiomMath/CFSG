@@ -64,7 +64,7 @@ theorem mem_of_normalizes_of_dvd [Fact p.Prime]
   have hp : p.Prime := Fact.out
   have hPS : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup K) ⊤ :=
     (CFSG.ABGLocalTools.isSylowOf_iff).2
-      ⟨le_top, P.isPGroup', by simpa [Subgroup.relIndex_top_right] using P.not_dvd_index⟩
+      ⟨le_top, P.isPGroup, by simpa [Subgroup.relIndex_top_right] using P.not_dvd_index⟩
   have hPM : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup K) (N ⊔ P) :=
     hPS.of_le le_sup_right le_top
   have hMN : N ⊔ P ≤ normalizer (N : Set K) := sup_le le_normalizer hPN
@@ -77,7 +77,7 @@ theorem mem_of_normalizes_of_dvd [Fact p.Prime]
       (hp.dvd_iff_one_le_factorization Nat.card_pos.ne').1 hN
     have h1 : 1 < p ^ (Nat.card N).factorization p := Nat.one_lt_pow (by omega) hp.one_lt
     omega
-  haveI : (N.subgroupOf (P : Subgroup K)).Normal :=
+  have : (N.subgroupOf (P : Subgroup K)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hPN
   have hHne : N.subgroupOf (P : Subgroup K) ≠ ⊥ := by
     obtain ⟨t, ht1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hPNne
@@ -88,13 +88,13 @@ theorem mem_of_normalizes_of_dvd [Fact p.Prime]
     have h2 : ((⟨t, t.2.1⟩ : ↥(P : Subgroup K)) : K) = ((1 : ↥(P : Subgroup K)) : K) :=
       congrArg Subtype.val hmem
     exact Subtype.ext h2
-  haveI : Group.IsNilpotent (↥(P : Subgroup K)) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (↥(P : Subgroup K)) := P.isPGroup.isNilpotent
   have hW : N.subgroupOf (P : Subgroup K) ⊓ center (↥(P : Subgroup K)) ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   set W : Subgroup (↥(P : Subgroup K)) :=
     N.subgroupOf (P : Subgroup K) ⊓ center (↥(P : Subgroup K))
-  have hWp : IsPGroup p W := P.isPGroup'.to_subgroup W
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
+  have hWp : IsPGroup p W := P.isPGroup.to_subgroup W
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW
   obtain ⟨m, hm, hmcard⟩ := hWp.nontrivial_iff_card.mp inferInstance
   have hdvdW : p ∣ Nat.card W := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := W) p hdvdW
@@ -132,6 +132,7 @@ theorem π_congr {hZ : ∀ C : ComponentIndex K, center C.1 = ⊥} (C : Componen
 
 @[expose] def compJoin (S : Set (ComponentIndex K)) : Subgroup K := ⨆ C ∈ S, C.1
 
+omit [Finite K] in
 theorem le_compJoin {S : Set (ComponentIndex K)} {C : ComponentIndex K} (hC : C ∈ S) :
     C.1 ≤ compJoin S :=
   le_iSup₂ (f := fun (C : ComponentIndex K) (_ : C ∈ S) => C.1) C hC
@@ -162,7 +163,7 @@ variable [Fact p.Prime]
 
 theorem layer_normalizes (K : Type) [Group K] [Finite K] (H : Subgroup K) :
     H ≤ normalizer (layer K : Set K) := by
-  haveI := layer_normal K
+  have := layer_normal K
   exact le_normalizer_of_normal
 
 theorem z_mem_layer_of_conf (hcore : primeComplementCore (G := K) p = ⊥)
@@ -219,7 +220,7 @@ theorem g_z (R : Red n p K P z D) {g : K} (hg : g ∈ (P : Subgroup K)) : g * z 
 
 theorem isPretransitive (R : Red n p K P z D) :
     MulAction.IsPretransitive (P : Subgroup K) (ComponentIndex K) := by
-  haveI := R.fact
+  have := R.fact
   refine ⟨fun C₁ C₂ => ?_⟩
   by_contra hno
   push Not at hno
@@ -246,9 +247,9 @@ theorem isPretransitive (R : Red n p K P z D) :
   exact R.z_ne_one hz1
 
 theorem zc_ne_one (R : Red n p K P z D) (C : ComponentIndex K) : R.zc C ≠ 1 := by
-  haveI := R.fact
+  have := R.fact
   intro h1
-  haveI := R.isPretransitive
+  have := R.isPretransitive
   have hall : ∀ C' : ComponentIndex K, R.zc C' = 1 := by
     intro C'
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (P : Subgroup K) C C'

@@ -123,7 +123,7 @@ theorem map_invTab_of_K {n : Nat} {T S : Array Tab}
     rw [Array.getElem_map]
     exact invTab_eq_of_K (hall (T[i], S[i]) (by
       rw [List.mem_iff_getElem]
-      refine ⟨i, by simp [hsz, h1, h2], ?_⟩
+      refine ⟨i, by simp [hsz, h2], ?_⟩
       simp))
 
 end CFSG.KC.LocalComp.Perm

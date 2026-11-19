@@ -11,6 +11,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem s16k_commute_oRhoTwoGL_oRhoOneGL [CharP K 2] {ι₂ ι : Type} [Fintype ι₂]
     [DecidableEq ι₂] [Fintype ι] [DecidableEq ι] (oe : ι₂ ⊕ (Fin 2 ⊕ Fin 2) ≃ ι)
     (A B : SL(2, K)) : Commute (oRhoTwoGL oe A) (oRhoOneGL oe B) := by
@@ -19,6 +20,7 @@ theorem s16k_commute_oRhoTwoGL_oRhoOneGL [CharP K 2] {ι₂ ι : Type} [Fintype 
     oblk oe 1 (rhoOneMat B) * oblk oe 1 (rhoTwoMat A)
   rw [oblk_mul, oblk_mul, Matrix.one_mul, rhoOne_mul_rhoTwo]
 
+omit [Finite K] in
 theorem s16k_oRhoTwoGL_injective {ι₂ ι : Type} [Fintype ι₂] [DecidableEq ι₂]
     [Fintype ι] [DecidableEq ι] (oe : ι₂ ⊕ (Fin 2 ⊕ Fin 2) ≃ ι) :
     Function.Injective (oRhoTwoGL (K := K) oe) := by
@@ -29,6 +31,7 @@ theorem s16k_oRhoTwoGL_injective {ι₂ ι : Type} [Fintype ι₂] [DecidableEq 
   rw [rhoTwoMat_apply, rhoTwoMat_apply, fromBlocks_inj] at h2
   exact Subtype.ext h2.1
 
+omit [Finite K] in
 theorem s16k_oRhoOneGL_injective {ι₂ ι : Type} [Fintype ι₂] [DecidableEq ι₂]
     [Fintype ι] [DecidableEq ι] (oe : ι₂ ⊕ (Fin 2 ⊕ Fin 2) ≃ ι) :
     Function.Injective (oRhoOneGL (K := K) oe) := by
@@ -50,6 +53,7 @@ theorem s16k_oRhoOneGL_injective {ι₂ ι : Type} [Fintype ι₂] [DecidableEq 
   · exact f3
   · exact f4
 
+omit [Finite K] in
 theorem s16k_transpose_inv_pow {A : SL(2, K)} {n : ℕ} (h : A ^ n = 1) :
     (Matrix.SpecialLinearGroup.transpose A⁻¹) ^ n = 1 := by
   apply Subtype.ext
@@ -57,6 +61,7 @@ theorem s16k_transpose_inv_pow {A : SL(2, K)} {n : ℕ} (h : A ^ n = 1) :
     ← Matrix.transpose_pow, ← Matrix.SpecialLinearGroup.coe_pow, inv_pow, h, inv_one]
   simp
 
+omit [Finite K] in
 theorem s16k_single_ne_zero_om {ι : Type} [DecidableEq ι] (i : ι) :
     (Pi.single i 1 : ι → K) ≠ 0 := fun h => by
   have h1 := congrFun h i
@@ -68,6 +73,7 @@ theorem s16k_zpowers_pow_eq_one {G : Type*} [Group G] {x : G} {p : ℕ}
   rw [hx] at hdvd
   exact orderOf_dvd_iff_pow_eq_one.1 hdvd
 
+omit [Finite K] in
 theorem s16k_isometry_of_mem_zpowers {κ : Type} [Fintype κ] [DecidableEq κ]
     {R : (κ → K) → K} {x : Matrix.GeneralLinearGroup κ K}
     (hx : ∀ v, R ((x : Matrix κ κ K) *ᵥ v) = R v) {z : Matrix.GeneralLinearGroup κ K}
@@ -133,7 +139,7 @@ theorem s16k_omega_fixed_singular [CharP K 2] {ι₂ ι : Type} [Fintype ι₂]
     ∃ g : Matrix.GeneralLinearGroup ι K,
       (∀ v, Q ((g : Matrix ι ι K) *ᵥ v) = Q v) ∧ orderOf g = p ∧
       ∃ u : ι → K, u ≠ 0 ∧ Q u = 0 ∧ (g : Matrix ι ι K) *ᵥ u = u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, hA⟩ := CFSG.HardMathSupport.Seitz.Proving.exists_orderOf_eq_prime_SL2 hp hpK
   have hA1 : A ≠ 1 := by
     rintro rfl

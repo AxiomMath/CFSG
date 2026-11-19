@@ -141,7 +141,7 @@ private theorem elem2_closure_pair_eq_top {α β : Elem2 2} (hα : α ≠ 1) (h�
     _ = Nat.card (Elem2 2) := by rw [natCard_elem2_two]
 
 theorem exists_mul_eq_of_isShapeTwoTwoTimesA8 {G : Type} [Group G] {a b : G}
-    (hX : IsShapeTwoTwoTimesA8 ↥(Gxy a b)) (ha : a ^ 2 = 1) (hb : b ^ 2 = 1) (hab : a * b = b * a)
+    (hX : IsShapeTwoTwoTimesA8 ↥(Gxy a b)) (_ha : a ^ 2 = 1) (_hb : b ^ 2 = 1) (hab : a * b = b * a)
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hne : a ≠ b) :
     ∀ x ∈ Gxy a b, ∃ u ∈ Subgroup.closure ({a, b} : Set G), ∃ s ∈ derivedOf (Gxy a b), x = u * s := by
   classical
@@ -227,9 +227,9 @@ theorem exists_mul_eq_of_isShapeTwoTwoTimesA8 {G : Type} [Group G] {a b : G}
     · rw [h]; show b ∈ Subgroup.closure ({a, b} : Set G)
       exact Subgroup.subset_closure (by simp)
     · rw [h]; show a * b ∈ Subgroup.closure ({a, b} : Set G)
-      have ha : a ∈ Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)
-      have hb : b ∈ Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)
-      exact Subgroup.mul_mem (Subgroup.closure ({a, b} : Set G)) ha hb
+      have _ha : a ∈ Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)
+      have _hb : b ∈ Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)
+      exact Subgroup.mul_mem (Subgroup.closure ({a, b} : Set G)) _ha _hb
   have hderived_mem : ∀ y : alternatingGroup (Fin 8),
       ((e.symm (1, y) : ↥(Gxy a b)) : G) ∈ derivedOf (Gxy a b) := by
     intro y

@@ -26,13 +26,13 @@ theorem cSide_cent_elemAbelian_of_plane [Finite Q] (hE : IsExtraspecialPGroup 2 
     by_contra h
     have hvq' : extraspecialQuadForm hE (Additive.ofMul (Abelianization.of x)) = 0 := by
       rw [hx]; exact hvq
-    rw [extraspecialQuadForm_apply, if_neg (fun h2 => h (by rwa [pow_two] at h2))] at hvq'
+    rw [extraspecialQuadForm_apply, ite_eq_right (fun h2 => h (by rwa [pow_two] at h2))] at hvq'
     exact one_ne_zero hvq'
   have hysq : y * y = 1 := by
     by_contra h
     have hwq' : extraspecialQuadForm hE (Additive.ofMul (Abelianization.of y)) = 0 := by
       rw [hy]; exact hwq
-    rw [extraspecialQuadForm_apply, if_neg (fun h2 => h (by rwa [pow_two] at h2))] at hwq'
+    rw [extraspecialQuadForm_apply, ite_eq_right (fun h2 => h (by rwa [pow_two] at h2))] at hwq'
     exact one_ne_zero hwq'
   have hxycomm : x * y = y * x := by
     by_contra h
@@ -182,7 +182,7 @@ theorem cSide_plane_of_cent_elemAbelian [Finite Q] (hE : IsExtraspecialPGroup 2 
   have hEleQ : E ≤ Q := hEle.trans inf_le_left
   let φE : ↥E →* Multiplicative (Additive (Abelianization Q)) :=
     (cSide_ofMulHom Q).comp (Subgroup.inclusion hEleQ)
-  haveI hEfin : Finite ↥E := Finite.of_injective
+  have hEfin : Finite ↥E := Finite.of_injective
     (fun x : ↥E => (⟨(x : C), hEleQ x.2⟩ : ↥Q))
     (fun a b h => Subtype.ext (by
       have h1 := congrArg (fun t : ↥Q => (t : C)) h
@@ -198,7 +198,7 @@ theorem cSide_plane_of_cent_elemAbelian [Finite Q] (hE : IsExtraspecialPGroup 2 
       have h1 : ((a.1 : ↥E) : C) = ((b.1 : ↥E) : C) :=
         congrArg (fun t : ↥(centerOf Q) => (t : C)) hab
       exact Subtype.ext (Subtype.ext h1)
-    haveI : Finite ↥(centerOf Q) := Finite.of_injective
+    have : Finite ↥(centerOf Q) := Finite.of_injective
       (fun x : ↥(centerOf Q) => (⟨(x : C), (Subgroup.mem_inf.mp x.2).1⟩ : ↥Q))
       (fun a b h => Subtype.ext (by
         have h1 := congrArg (fun t : ↥Q => (t : C)) h
@@ -215,7 +215,7 @@ theorem cSide_plane_of_cent_elemAbelian [Finite Q] (hE : IsExtraspecialPGroup 2 
     exact h.symm
   have hrange_ge : 4 ≤ Nat.card φE.range := by
     have hk : Nat.card φE.ker = 1 ∨ Nat.card φE.ker = 2 := by
-      haveI : Nonempty φE.ker := ⟨⟨1, φE.ker.one_mem⟩⟩
+      have : Nonempty φE.ker := ⟨⟨1, φE.ker.one_mem⟩⟩
       have := Nat.card_pos (α := φE.ker)
       omega
     rcases hk with hk | hk <;> rw [hk] at hprod <;> omega
@@ -270,10 +270,10 @@ theorem cSide_plane_of_cent_elemAbelian [Finite Q] (hE : IsExtraspecialPGroup 2 
   · exact hxyne
   · rw [hxphi]
     exact (extraspecialQuadForm_apply hE (⟨(x : C), hxQ⟩ : ↥Q)).trans
-      (if_pos (Subtype.ext (hEa.2 (x : C) x.2)))
+      (ite_eq_left (Subtype.ext (hEa.2 (x : C) x.2)))
   · rw [hyphi]
     exact (extraspecialQuadForm_apply hE (⟨(y : C), hyQ⟩ : ↥Q)).trans
-      (if_pos (Subtype.ext (hEa.2 (y : C) y.2)))
+      (ite_eq_left (Subtype.ext (hEa.2 (y : C) y.2)))
   · rw [hxphi, hyphi]
     exact (polar_extraspecialQuadForm_eq_zero_iff hE (⟨(x : C), hxQ⟩ : ↥Q)
       (⟨(y : C), hyQ⟩ : ↥Q)).mpr (Subtype.ext hcomm)

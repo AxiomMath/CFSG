@@ -25,17 +25,20 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {x : G}
 
 @[expose] def conjFam (x : G) (M : Subgroup G) : Set (Subgroup G) := (fun e => GLBConj e M) '' (Subgroup.zpowers x : Set G)
 
+omit [Finite G] in
 theorem closureIn_zpowers_eq_iSup (x : G) (M : Subgroup G) :
     closureIn M (Subgroup.zpowers x) = ⨆ M' ∈ conjFam x M, M' := by
   rw [closureIn_eq_iSup_gLBConj]
   simp only [conjFam, iSup_image, SetLike.mem_coe]
 
+omit [Finite G] in
 theorem conjFam_comp {p : ℕ} {Y M : Subgroup G} {x : G} (hM : GLAPComponent p Y M) (hxY : x ∈ Y) :
     ∀ M' ∈ conjFam x M, GLAPComponent p Y M' := by
   rintro _ ⟨e, he, rfl⟩
   have h1 := glaPComponent_gLBConj hM e
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer ((Subgroup.zpowers_le.2 hxY) he))] at h1
 
+omit [Finite G] in
 theorem le_normalizer_closureIn_self (I H : Subgroup G) : H ≤ Subgroup.normalizer (closureIn I H : Set G) := by
   have hle : ∀ g ∈ H, GLBConj g (closureIn I H) ≤ closureIn I H := by
     intro g hg
@@ -52,11 +55,13 @@ theorem le_normalizer_closureIn_self (I H : Subgroup G) : H ≤ Subgroup.normali
   have h := gLBConj_mono (g := g) (hle g⁻¹ (Subgroup.inv_mem _ hg))
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h
 
+omit [Finite G] in
 theorem conjFam_inv (M : Subgroup G) {C : Subgroup G} (hC : C ∈ conjFam x M) {e : G}
     (he : e ∈ Subgroup.zpowers x) : GLBConj e C ∈ conjFam x M := by
   obtain ⟨a, ha, rfl⟩ := hC
   exact ⟨a * e, Subgroup.mul_mem _ ha he, (gLBConj_gLBConj e a M).symm⟩
 
+omit [Finite G] in
 theorem conjFam_trans (M : Subgroup G) {C C' : Subgroup G} (hC : C ∈ conjFam x M) (hC' : C' ∈ conjFam x M) :
     ∃ e ∈ Subgroup.zpowers x, GLBConj e C = C' := by
   obtain ⟨a, ha, rfl⟩ := hC
@@ -64,6 +69,7 @@ theorem conjFam_trans (M : Subgroup G) {C C' : Subgroup G} (hC : C ∈ conjFam x
   refine ⟨a⁻¹ * b, Subgroup.mul_mem _ (Subgroup.inv_mem _ ha) hb, ?_⟩
   rw [gLBConj_gLBConj, mul_inv_cancel_left]
 
+omit [Finite G] in
 theorem conjFam_ne {M : Subgroup G} (hxM : x ∉ Subgroup.normalizer (M : Set G)) {C : Subgroup G}
     (hC : C ∈ conjFam x M) : ∃ C₂ ∈ conjFam x M, C₂ ≠ C := by
   obtain ⟨a, ha, rfl⟩ := hC
@@ -121,7 +127,7 @@ theorem pcomp_of_barred_component (hp : p.Prime) (hHY : H ≤ Y)
     {Dl : Subgroup (↥Y ⧸ GLAPPrimeCore p ↥Y)} (hDl : IsComponentOf Dl (barX p Y H))
     (hdvd : p ∣ Nat.card Dl) : ∃ P : Subgroup G, GLAPComponent p H P := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ψ, hψs, hψ⟩ := exists_hom_barX_to_pquot (p := p) hHY
   have hDl' : IsComponentOf (Dl.subgroupOf (barX p Y H)) ⊤ := isComponentOf_top_subgroupOf hDl
   have hker : ψ.ker ≤ (GLAPPrimeCore p ↥H).map (barXHom p hHY) := by
@@ -152,6 +158,7 @@ section Barred
 
 variable {Y M : Subgroup G}
 
+omit [Finite G] in
 theorem closureIn_zpowers_le (hM : GLAPComponent p Y M) (hxY : x ∈ Y) : closureIn M (Subgroup.zpowers x) ≤ Y := by
   rw [closureIn_zpowers_eq_iSup]
   exact iSup₂_le fun M' hM' => (conjFam_comp hM hxY M' hM').1
@@ -174,6 +181,7 @@ theorem layer_isSubnormal {Q : Type*} [Group Q] (H : Subgroup Q) : IsSubnormal (
   exact IsSubnormal.step hle ((Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 hN) (IsSubnormal.refl H)
 
 open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns in
+omit [Finite G] in
 theorem barX_closure_eq (hM : GLAPComponent p Y M) (hxY : x ∈ Y) :
     barX p Y (closureIn M (Subgroup.zpowers x)) = ⨆ C' : conjFam x M, barX p Y (C' : Subgroup G) := by
   have hcomp := conjFam_comp hM hxY
@@ -185,6 +193,7 @@ theorem barX_closure_eq (hM : GLAPComponent p Y M) (hxY : x ∈ Y) :
   rw [closureIn_zpowers_eq_iSup]
   exact le_biSup (fun M' => M') C'.2
 
+omit [Finite G] in
 theorem centralizer_barX_zpowers (hxY : x ∈ Y) :
     Subgroup.centralizer (barX p Y (Subgroup.zpowers x) : Set (↥Y ⧸ GLAPPrimeCore p ↥Y)) =
       Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore p ↥Y) ⟨x, hxY⟩} :
@@ -217,7 +226,7 @@ theorem diag_barred (hp : p.Prime) (hM : GLAPComponent p Y M) (hxY : x ∈ Y) (h
     ∃ Dl : Subgroup (↥Y ⧸ GLAPPrimeCore p ↥Y),
       IsComponentOf Dl (barX p Y (closureIn M (Subgroup.zpowers x) ⊓ Subgroup.centralizer ({x} : Set G))) ∧
         p ∣ Nat.card Dl := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := fun h => hxM (h ▸ Subgroup.one_mem _)
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hcomp := conjFam_comp hM hxY
@@ -263,7 +272,7 @@ theorem diag_barred (hp : p.Prime) (hM : GLAPComponent p Y M) (hxY : x ∈ Y) (h
   · rw [hbar]
     exact ⟨i25_layer_le S, layer_isSubnormal S, hDq⟩
   · have h1 : p ∣ Nat.card (barX p Y M) := dvd_card_barX_of_component hp hM
-    haveI : Group.IsPerfect ↥(barX p Y M) := Group.isPerfect_def.mpr hX₁.2.2.1
+    have : Group.IsPerfect ↥(barX p Y M) := Group.isPerfect_def.mpr hX₁.2.2.1
     have h2 : p ∣ Nat.card (↥(barX p Y M) ⧸ Subgroup.center ↥(barX p Y M)) := by
       by_contra hn
       exact CFSG.RankThree.PerfectCover.perfect_central_quotient_prime_support hp hn h1

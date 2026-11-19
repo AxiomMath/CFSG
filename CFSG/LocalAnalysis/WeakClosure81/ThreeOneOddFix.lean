@@ -47,10 +47,10 @@ theorem overgroups_of_le_stabilizer {n : ℕ} (hn : 4 < n)
         (by rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
         (by norm_num)
       simpa using h
-    haveI : MulAction.IsPretransitive ↥H (Fin 5) := by
+    have : MulAction.IsPretransitive ↥H (Fin 5) := by
       apply MulAction.IsPretransitive.of_orbit (x₀ := α)
       intro y
-      haveI : MulAction.IsPretransitive (alternatingGroup (Fin 5)) (Fin 5) :=
+      have : MulAction.IsPretransitive (alternatingGroup (Fin 5)) (Fin 5) :=
         alternatingGroup.isPretransitive_of_three_le_card (Fin 5)
           (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
       obtain ⟨a, ha⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 5)) α y

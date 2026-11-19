@@ -63,7 +63,7 @@ theorem regularCore_le_sylow {Δ : Set G} {Q : Subgroup G} (hQ : IsRegularCore �
       have h := hQn s⁻¹ ((Subgroup.normalizer Δ).inv_mem (hSN hs)) _ hx
       simpa [mul_assoc] using h
   have h2 : IsPGroup 2 ((S : Subgroup G) ⊔ Q : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' S.isPGroup' hQ2 hSQ
+    IsPGroup.to_sup_of_normal_right' S.isPGroup hQ2 hSQ
   have heq := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   exact heq ▸ le_sup_right
 
@@ -113,7 +113,7 @@ theorem exists_central_mem_omega {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.
     have hPeq : P = (U : Set G) \ {1} := by
       ext x
       simp [hP]
-    rw [Nat.card_coe_set_eq, hPeq, Set.ncard_diff_singleton_of_mem (show (1 : G) ∈ (U : Set G)
+    rw [Nat.card_coe_set_eq, hPeq, Set.ncard_sdiff_singleton_of_mem (show (1 : G) ∈ (U : Set G)
       from U.one_mem), ← Nat.card_coe_set_eq]
     change Nat.card U - 1 = _
     rw [hcard]
@@ -134,7 +134,7 @@ theorem exists_central_mem_omega {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.
         simp only [Subgroup.coe_mul, mul_inv_rev]
         group) }
   obtain ⟨⟨z, hzU, hz1⟩, hzfix⟩ :=
-    (S.isPGroup').nonempty_fixed_point_of_prime_not_dvd_card P hPodd
+    (S.isPGroup).nonempty_fixed_point_of_prime_not_dvd_card P hPodd
   refine ⟨z, hzU, hz1, fun s hs => ?_⟩
   have h := congrArg Subtype.val (hzfix ⟨s, hs⟩)
   change s * z * s⁻¹ = z at h

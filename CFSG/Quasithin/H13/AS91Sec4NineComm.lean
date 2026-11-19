@@ -89,9 +89,11 @@ variable
 
 include hOut hTw hHat
 
+omit hHat in
 theorem c_mem_normalizer : (D.c : G) ∈ normalizer (D.E : Set G) :=
-  D.G13_le_normalizer hOut hTw (D.c_mem_G13 hOut hTw hHat)
+  D.G13_le_normalizer hOut hTw (D.c_mem_G13 hOut hTw)
 
+omit hOut hTw hHat in
 theorem map_Mz_eq (e : ↥D.E ≃* W11)
     (he : D.Mb.map (MulAut.congr e).toMonoidHom = img11 AutPerm) (hez : e D.zE = z0) :
     (D.Mz.map D.Mb.subtype).map (MulAut.congr e).toMonoidHom =
@@ -112,9 +114,9 @@ theorem map_Mz_eq (e : ↥D.E ≃* W11)
     exact D.mem_Mz.2 (e.injective h1)
 
 theorem toMb_c_mem_O23In :
-    ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ : ↥D.Mb) : MulAut ↥D.E) ∈
+    ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ : ↥D.Mb) : MulAut ↥D.E) ∈
       O23In (D.Mz.map D.Mb.subtype) := by
-  set cN : ↥(normalizer (D.E : Set G)) := ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ with hcN
+  set cN : ↥(normalizer (D.E : Set G)) := ⟨D.c, D.c_mem_normalizer hOut hTw⟩ with hcN
   set γ : MulAut ↥D.E := ((D.toMb cN : ↥D.Mb) : MulAut ↥D.E) with hγ
   set R : Subgroup (MulAut ↥D.E) := D.Qs.map D.Mb.subtype with hR
   have hQE_G13 : h.setting.QG ⊔ D.E ≤ D.G13 := by
@@ -162,7 +164,7 @@ theorem toMb_c_mem_O23In :
       rw [hR, Subgroup.card_map_of_injective D.Mb.subtype_injective, D.card_Qs hOut hTw hHat]
       norm_num
     exact IsPGroup.of_card hc
-  have hγMz : γ ∈ D.Mz.map D.Mb.subtype := hmemMz (D.c_mem_G13 hOut hTw hHat)
+  have hγMz : γ ∈ D.Mz.map D.Mb.subtype := hmemMz (D.c_mem_G13 hOut hTw)
   have hγ3 : γ ^ 3 = 1 := by
     have e1 : D.toMb cN ^ 3 = 1 := by
       rw [← map_pow]
@@ -202,7 +204,7 @@ theorem toMb_c_mem_O23In :
         have hqG : q ∈ h.setting.QG := by rw [h.setting_QG]; exact hq
         have hqN : q ∈ normalizer (D.E : Set G) := D.QG_le_N hqG
         have hck : (D.c : G) ^ k ∈ normalizer (D.E : Set G) :=
-          zpow_mem (D.c_mem_normalizer hOut hTw hHat) k
+          zpow_mem (D.c_mem_normalizer hOut hTw) k
         have e1 : (D.toMb ⟨m, D.G13_le_normalizer hOut hTw hm⟩ : ↥D.Mb) * D.toMb cN *
             (D.toMb ⟨m, D.G13_le_normalizer hOut hTw hm⟩)⁻¹ =
             D.toMb ⟨q, hqN⟩ * D.toMb cN ^ k := by
@@ -226,7 +228,7 @@ theorem toMb_c_mem_O23In :
 theorem exists_todd_std (hM : CFSG.CGT.T75P.M24SylowInput)
     (hJ : MathieuSmallIrr24) :
     ∃ e : ↥D.E ≃* W11, D.Mb.map (MulAut.congr e).toMonoidHom = img11 AutPerm ∧ e D.zE = z0 := by
-  letI : CommGroup ↥D.E := commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)
+  let : CommGroup ↥D.E := commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)
   obtain ⟨e₁, he₁⟩ := cocode24_std (D.mathieuCocode24_E hOut hTw hHat hM hJ)
   have he₁' : D.Mb.map (H.congrHom e₁) = img11 AutPerm := by
     rw [img11, Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map]
@@ -236,17 +238,18 @@ theorem exists_todd_std (hM : CFSG.CGT.T75P.M24SylowInput)
     exact congrArg Subtype.val h1)
   exact Nine.exists_equiv_std he₁' hz1 (D.card_orbit_zE hOut hTw hHat hM)
 
+omit hHat in
 theorem toMb_c_pow_three :
-    D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ ^ 3 = 1 := by
+    D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ ^ 3 = 1 := by
   have hc3 : (D.c : G) ^ 3 = 1 := by rw [← Subgroup.coe_pow, D.c_pow, Subgroup.coe_one]
   rw [← map_pow]
-  have : (⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ : ↥(normalizer (D.E : Set G))) ^ 3 = 1 :=
+  have : (⟨D.c, D.c_mem_normalizer hOut hTw⟩ : ↥(normalizer (D.E : Set G))) ^ 3 = 1 :=
     Subtype.ext (by
       rw [Subgroup.coe_pow]
       exact hc3)
   rw [this, map_one]
 
-theorem toMb_c_ne_one : D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ ≠ 1 := by
+theorem toMb_c_ne_one : D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ ≠ 1 := by
   intro h1
   have hcE : (D.c : G) ∈ D.E := (D.toMb_eq_one_iff hOut hTw hHat _).1 h1
   have hc2 := D.E_sq hHat hOut hTw hcE
@@ -255,6 +258,7 @@ theorem toMb_c_ne_one : D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ ≠ 1
   calc (D.c : G) = (D.c : G) ^ 3 * ((D.c : G) * (D.c : G))⁻¹ := by group
     _ = 1 := by rw [hc3, hc2]; group
 
+omit hOut hTw hHat in
 theorem mem_H_of_mem_E {y : G} (hy : y ∈ D.E) : y ∈ H z := by
   have hyM := D.E_le_M hy
   rw [← h.setting_z]
@@ -263,13 +267,13 @@ theorem mem_H_of_mem_E {y : G} (hy : y ∈ D.E) : y ∈ H z := by
 theorem exists_lift (e : ↥D.E ≃* W11)
     (he : D.Mb.map (MulAut.congr e).toMonoidHom = img11 AutPerm) (hez : e D.zE = z0)
     {τ : MulAut W11} (hτ : τ ∈ img11 AutPerm)
-    (hcomm : τ * (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ : ↥D.Mb) :
-      MulAut ↥D.E) = (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ :
+    (hcomm : τ * (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ : ↥D.Mb) :
+      MulAut ↥D.E) = (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ :
       ↥D.Mb) : MulAut ↥D.E) * τ)
     (hτz : τ z0 = z0) :
     ∃ g ∈ H z ⊓ centralizer (zpowers (D.c : G) : Set G),
       ∀ y : ↥D.E, g * y * g⁻¹ = (e.symm (τ (e y)) : G) := by
-  set cN : ↥(normalizer (D.E : Set G)) := ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ with hcN
+  set cN : ↥(normalizer (D.E : Set G)) := ⟨D.c, D.c_mem_normalizer hOut hTw⟩ with hcN
   rw [← he] at hτ
   obtain ⟨φ, hφ, rfl⟩ := hτ
   obtain ⟨mN, rfl⟩ := hφ
@@ -285,7 +289,7 @@ theorem exists_lift (e : ↥D.E ≃* W11)
     apply (MulAut.congr e).injective
     rw [map_mul, map_mul]
     exact hcomm
-  have hcE : (D.c : G) ∈ D.G13 := D.c_mem_G13 hOut hTw hHat
+  have hcE : (D.c : G) ∈ D.G13 := D.c_mem_G13 hOut hTw
   have ha1 : D.toMb (mN * cN * mN⁻¹ * cN⁻¹) = 1 := by
     apply Subtype.ext
     change conjNormalizer D.E (mN * cN * mN⁻¹ * cN⁻¹) = 1
@@ -348,15 +352,15 @@ theorem z_mem_commutator
     z ∈ ⁅H z ⊓ centralizer (zpowers (D.c : G) : Set G),
       H z ⊓ centralizer (zpowers (D.c : G) : Set G)⁆ := by
   obtain ⟨e, he, hez⟩ := D.exists_todd_std hOut hTw hHat hM hJ
-  set σ : MulAut W11 := (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ :
+  set σ : MulAut W11 := (MulAut.congr e) ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ :
     ↥D.Mb) : MulAut ↥D.E) with hσ
   have hσO : σ ∈ O23In (img11 AutPerm ⊓ centSub (Subgroup.zpowers z0)) := by
-    rw [← D.map_Mz_eq hOut hTw hHat e he hez,
+    rw [← D.map_Mz_eq e he hez,
       CFSG.EvenSporadicStandard.TwoFi22.DS81.Fi24Branch.O23In_map_of_injective _
         (MulAut.congr e).injective]
     exact mem_map_of_mem _ (D.toMb_c_mem_O23In hOut hTw hHat)
   have hσ3 : σ ^ 3 = 1 := by
-    rw [hσ, ← map_pow, ← Subgroup.coe_pow, D.toMb_c_pow_three hOut hTw hHat, Subgroup.coe_one,
+    rw [hσ, ← map_pow, ← Subgroup.coe_pow, D.toMb_c_pow_three hOut hTw, Subgroup.coe_one,
       map_one]
   have hσ1 : σ ≠ 1 := by
     intro h1
@@ -372,10 +376,10 @@ theorem z_mem_commutator
   have hy : ∀ v : W11, σ v = v →
       ((e.symm v : ↥D.E) : G) ∈ H z ⊓ centralizer (zpowers (D.c : G) : Set G) := by
     intro v hv
-    refine Subgroup.mem_inf.2 ⟨D.mem_H_of_mem_E hOut hTw hHat (e.symm v).2, ?_⟩
-    have h1 : ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ : ↥D.Mb) : MulAut ↥D.E)
+    refine Subgroup.mem_inf.2 ⟨D.mem_H_of_mem_E (e.symm v).2, ?_⟩
+    have h1 : ((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ : ↥D.Mb) : MulAut ↥D.E)
         (e.symm v) = e.symm v := by
-      have h2 : e (((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw hHat⟩ : ↥D.Mb) : MulAut ↥D.E)
+      have h2 : e (((D.toMb ⟨D.c, D.c_mem_normalizer hOut hTw⟩ : ↥D.Mb) : MulAut ↥D.E)
           (e.symm v)) = v := hv
       exact e.injective (h2.trans (MulEquiv.apply_symm_apply e v).symm)
     have h3 : (D.c : G) * (e.symm v : G) * (D.c : G)⁻¹ = (e.symm v : G) :=

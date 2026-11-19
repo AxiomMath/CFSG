@@ -76,7 +76,7 @@ theorem mem_sup_of_isPGroup_satU {z : Y} {L : Subgroup Y} (hz : IsClassicalMembe
   have hK3 : IsClassicalMember3 K z := hm.toQ3 (by norm_num)
   obtain ⟨e⟩ := hK3.nonempty_equiv
   have hQ'K : Q' ≤ K := (Subgroup.map_subtype_le _).trans le_satU
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map L.subtype
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map L.subtype
   have hP2 : IsPGroup 2 (Q'.subgroupOf K) := hQ'2.comap_of_injective K.subtype K.subtype_injective
   have hP8 : Nat.card (Q'.subgroupOf K) = 8 := by
     obtain ⟨eQ⟩ := Q3T6.quaternion_sylow_of_isClassicalMember3 hz Q
@@ -107,7 +107,7 @@ theorem normal_sup_oddCoreIn_of_le_normalizer {z : Y} {L : Subgroup Y}
   have hLC : L ≤ C := isSubnormal_le hz.subnormal
   have hQ'L : Q' ≤ L := Subgroup.map_subtype_le _
   have hQ'C : Q' ≤ C := hQ'L.trans hLC
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map L.subtype
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map L.subtype
   refine ⟨fun n hn c => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
   obtain ⟨q, hq, o, ho, hqo⟩ := mem_sup_oddCoreIn hQ'C hn

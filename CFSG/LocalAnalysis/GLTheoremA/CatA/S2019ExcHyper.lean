@@ -56,6 +56,7 @@ private theorem odd_card_of_le {q : ℕ} [Fact q.Prime] (hq : Odd q) {A N : Subg
   rw [hk]
   exact hq.pow
 
+omit [Finite M] in
 private theorem mem_map_conj {g x : M} {N : Subgroup M} :
     x ∈ N.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ N := by
   constructor
@@ -64,6 +65,7 @@ private theorem mem_map_conj {g x : M} {N : Subgroup M} :
   · intro h
     exact ⟨g⁻¹ * x * g, h, by simp [mul_assoc]⟩
 
+omit [Finite M] in
 private theorem conj_mem_iff {A : Subgroup M} {y : M} (hy : y ∈ Subgroup.normalizer (A : Set M))
     (x : M) :
     y⁻¹ * x * y ∈ A ↔ x ∈ A := by
@@ -79,7 +81,7 @@ private theorem exists_iterate_fixed {G : Type*} [CommGroup G] [Finite G] {q : �
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup N
     rw [hN] at h
     exact (Nat.eq_of_mul_eq_mul_right hNpos h).symm
-  haveI : IsCyclic (G ⧸ N) := isCyclic_of_prime_card hQ
+  have : IsCyclic (G ⧸ N) := isCyclic_of_prime_card hQ
   obtain ⟨m, hm⟩ := (QuotientGroup.map N N σ (fun n hn => hσN n hn)).map_cyclic
   have hmk : ∀ x : G, ((σ x : G) : G ⧸ N) = (x : G ⧸ N) ^ m := fun x =>
     (QuotientGroup.map_mk N N σ (fun n hn => hσN n hn) x).symm.trans (hm x)
@@ -128,7 +130,7 @@ private theorem exists_comm_pow_sub_one {q : ℕ} [Fact q.Prime] {A N : Subgroup
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hNA : N ≤ A) (hN : Nat.card A = q * Nat.card N)
     {y : M} (hy : y ∈ Subgroup.normalizer (A : Set M)) (hyN : ∀ n ∈ N, y * n * y⁻¹ ∈ N) :
     ∃ a ∈ A, a ≠ 1 ∧ y ^ (q - 1) * a = a * y ^ (q - 1) := by
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with mul_comm := fun a b => Subtype.ext (hA a a.2 b b.2) }
   let σ : A →* A :=
     { toFun := fun a => ⟨y * a * y⁻¹, (Subgroup.mem_normalizer_iff.1 hy a).1 a.2⟩
@@ -165,26 +167,30 @@ variable {W : Type} [CommGroup W] [Finite W] [Finite (MulAut W)]
     map_one' := by simp
     map_mul' := fun a b => by simp [Finset.prod_mul_distrib] }
 
+omit [Finite W] in
 theorem avgW_apply (H : Subgroup (MulAut W)) (w : W) :
     letI := Fintype.ofFinite H
     avgW H w = ∏ h : H, (h : MulAut W) w := rfl
 
 variable {H N N' A : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem apply_avgW {g : MulAut W} (hg : g ∈ H) (w : W) : g (avgW H w) = avgW H w := by
-  letI := Fintype.ofFinite H
+  let := Fintype.ofFinite H
   rw [avgW_apply, map_prod]
   exact Fintype.prod_equiv (Equiv.mulLeft (⟨g, hg⟩ : H)) _ _ fun b => rfl
 
+omit [Finite W] in
 theorem avgW_apply_apply {g : MulAut W} (hg : g ∈ H) (w : W) : avgW H (g w) = avgW H w := by
-  letI := Fintype.ofFinite H
+  let := Fintype.ofFinite H
   rw [avgW_apply, avgW_apply]
   exact Fintype.prod_equiv (Equiv.mulRight (⟨g, hg⟩ : H)) _ _ fun b => rfl
 
+omit [Finite W] in
 theorem avgW_comm (hc : ∀ n ∈ N, ∀ n' ∈ N', n * n' = n' * n) (w : W) :
     avgW N (avgW N' w) = avgW N' (avgW N w) := by
-  letI := Fintype.ofFinite N
-  letI := Fintype.ofFinite N'
+  let := Fintype.ofFinite N
+  let := Fintype.ofFinite N'
   calc avgW N (avgW N' w) = ∏ n' : N', ∏ n : N, (n : MulAut W) ((n' : MulAut W) w) := by
         simp only [avgW_apply, map_prod]
     _ = ∏ n' : N', ∏ n : N, (n' : MulAut W) ((n : MulAut W) w) := by
@@ -193,17 +199,19 @@ theorem avgW_comm (hc : ∀ n ∈ N, ∀ n' ∈ N', n * n' = n' * n) (w : W) :
     _ = ∏ n : N, ∏ n' : N', (n' : MulAut W) ((n : MulAut W) w) := Finset.prod_comm
     _ = avgW N' (avgW N w) := by simp only [avgW_apply, map_prod]
 
+omit [Finite W] in
 theorem apply_avgW_of_comm {g : MulAut W} (hc : ∀ n ∈ H, g * n = n * g) (w : W) :
     g (avgW H w) = avgW H (g w) := by
-  letI := Fintype.ofFinite H
+  let := Fintype.ofFinite H
   rw [avgW_apply, avgW_apply, map_prod]
   refine Finset.prod_congr rfl fun n _ => ?_
   rw [← MulAut.mul_apply, hc n n.2, MulAut.mul_apply]
 
+omit [Finite W] in
 theorem avgW_map_conj (g : MulAut W) (N : Subgroup (MulAut W)) (w : W) :
     avgW (N.map (MulAut.conj g).toMonoidHom) (g w) = g (avgW N w) := by
-  letI := Fintype.ofFinite N
-  letI := Fintype.ofFinite (N.map (MulAut.conj g).toMonoidHom)
+  let := Fintype.ofFinite N
+  let := Fintype.ofFinite (N.map (MulAut.conj g).toMonoidHom)
   rw [avgW_apply, avgW_apply, map_prod]
   refine (Fintype.prod_equiv
     (N.equivMapOfInjective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective).toEquiv _ _
@@ -211,6 +219,7 @@ theorem avgW_map_conj (g : MulAut W) (N : Subgroup (MulAut W)) (w : W) :
   change g ((n : MulAut W) w) = ((MulAut.conj g) (n : MulAut W)) (g w)
   rw [MulAut.conj_apply, MulAut.mul_apply, MulAut.mul_apply, MulAut.inv_apply_self]
 
+omit [Finite W] [Finite (MulAut W)] in
 private theorem fixed_sup {K L : Subgroup (MulAut W)} {w : W} (hK : ∀ g ∈ K, g w = w)
     (hL : ∀ g ∈ L, g w = w) : ∀ g ∈ K ⊔ L, g w = w := by
   have h : K ⊔ L ≤ MulAction.stabilizer (MulAut W) w :=
@@ -220,6 +229,7 @@ private theorem fixed_sup {K L : Subgroup (MulAut W)} {w : W} (hK : ∀ g ∈ K,
   have := h hg
   rwa [MulAction.mem_stabilizer_iff, MulAut.smul_def] at this
 
+omit [Finite W] [Finite (MulAut W)] in
 private theorem fixed_zpowers {a : MulAut W} {w : W} (h : a w = w) :
     ∀ g ∈ Subgroup.zpowers a, g w = w := by
   have hle : Subgroup.zpowers a ≤ MulAction.stabilizer (MulAut W) w :=
@@ -231,24 +241,28 @@ private theorem fixed_zpowers {a : MulAut W} {w : W} (h : a w = w) :
 variable (hW : ∀ w : W, w * w = 1)
 include hW
 
+omit [Finite W] in
 theorem avgW_of_fixed (hodd : Odd (Nat.card H)) {w : W} (hw : ∀ h ∈ H, h w = w) :
     avgW H w = w := by
-  letI := Fintype.ofFinite H
+  let := Fintype.ofFinite H
   rw [avgW_apply, Finset.prod_congr rfl fun (h : H) _ => hw h h.2, Finset.prod_const,
     Finset.card_univ, ← Nat.card_eq_fintype_card]
   exact pow_odd_eq_self_W hW hodd w
 
+omit [Finite W] in
 theorem avgW_avgW_of_le (hNA : N ≤ A) (hN : Odd (Nat.card N)) (w : W) :
     avgW N (avgW A w) = avgW A w :=
   avgW_of_fixed hW hN fun _ hn => apply_avgW (hNA hn) w
 
+omit [Finite W] in
 theorem avgW_of_le_avgW (hNA : N ≤ A) (hN : Odd (Nat.card N)) (w : W) :
     avgW A (avgW N w) = avgW A w := by
-  letI := Fintype.ofFinite N
+  let := Fintype.ofFinite N
   rw [avgW_apply N, map_prod, Finset.prod_congr rfl fun (n : N) _ => avgW_apply_apply (hNA n.2) w,
     Finset.prod_const, Finset.card_univ, ← Nat.card_eq_fintype_card]
   exact pow_odd_eq_self_W hW hN _
 
+omit [Finite W] in
 theorem avgW_avgW_of_sup (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hNA : N ≤ A) (hN'A : N' ≤ A) (hsup : N ⊔ N' = A) (hodd : Odd (Nat.card A))
     (hN : Odd (Nat.card N)) (hN' : Odd (Nat.card N')) (w : W) :
@@ -279,20 +293,23 @@ omit hW in
   avgW N * avgW A
 
 omit hW in
+omit [Finite W] in
 theorem eW_apply (w : W) : eW N A w = avgW N w * avgW A w := rfl
 
+omit [Finite W] in
 theorem eW_eW (hNA : N ≤ A) (hN : Odd (Nat.card N)) (hodd : Odd (Nat.card A)) (w : W) :
     eW N A (eW N A w) = eW N A w := by
   simp only [eW_apply, map_mul, avgW_avgW_of_le hW hNA hN, avgW_of_le_avgW hW hNA hN,
     avgW_avgW_of_le hW le_rfl hodd, avgW_avgW_of_le hW le_rfl hN]
   rw [mul_assoc, hW, mul_one]
 
+omit [Finite W] in
 theorem eW_eW_of_ne (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hNA : N ≤ A) (hN'A : N' ≤ A) (hsup : N ⊔ N' = A) (hodd : Odd (Nat.card A))
     (hN : Odd (Nat.card N)) (hN' : Odd (Nat.card N')) (w : W) : eW N A (eW N' A w) = 1 := by
   simp only [eW_apply, map_mul, avgW_avgW_of_sup hW hA hNA hN'A hsup hodd hN hN',
     avgW_avgW_of_le hW hNA hN, avgW_of_le_avgW hW hN'A hN', avgW_avgW_of_le hW le_rfl hodd]
-  simp only [hW, one_mul]
+  simp only [hW]
 
 omit hW in
 theorem card_range_eW_le_map_conj {g : MulAut W} (hg : g ∈ Subgroup.normalizer (A : Set (MulAut W)))
@@ -337,6 +354,7 @@ theorem prod_card_range_le (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hodd 
         rw [Nat.card_pi]
     _ ≤ Nat.card W := Nat.card_le_card_of_injective f hinj
 
+omit [Finite W] in
 theorem eq_one_of_mem_range_eW {q : ℕ} [Fact q.Prime] (hq : Odd q) (hAq : ∀ a ∈ A, a ^ q = 1)
     (hNA : N ≤ A) (hN : Nat.card A = q * Nat.card N) {a : MulAut W} (haA : a ∈ A) (haN : a ∉ N)
     {w : W} (hw : w ∈ (eW N A).range) (haw : a w = w) : w = 1 := by
@@ -374,13 +392,13 @@ theorem exists_range_eW_ne_bot {q : ℕ} [hq : Fact q.Prime] (hq2 : q ≠ 2)
     ∃ N ≤ A, Nat.card A = q * Nat.card N ∧ (eW N A).range ≠ ⊥ := by
   by_contra hcon
   push Not at hcon
-  letI : CommGroup A :=
+  let : CommGroup A :=
     { (inferInstance : Group A) with mul_comm := fun a b => Subtype.ext (hA a a.2 b b.2) }
-  haveI : @CFSG.IsElementaryAbelian q A CommGroup.toGroup :=
+  have : @CFSG.IsElementaryAbelian q A CommGroup.toGroup :=
     { toIsMulCommutative := ⟨⟨mul_comm⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
         Subtype.ext (by simpa using hAq a a.2) }
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hA1
   have hcop : ¬ q ∣ Nat.card W := by
     obtain ⟨m, hm⟩ := card_eq_two_pow_W hW (⊤ : Subgroup W)
     rw [Subgroup.card_top] at hm

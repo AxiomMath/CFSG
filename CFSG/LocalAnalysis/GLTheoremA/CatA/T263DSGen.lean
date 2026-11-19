@@ -27,12 +27,12 @@ theorem t263_inner_elt_pow {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Fini
     (hxC : x ∉ Subgroup.centralizer (S : Set Ω)) {s : PSimple p S}
     (hs : MI.indAut p S x (t263_normalizer_of_normal hSn) = MulAut.conj s) : s ^ p = 1 ∧ s ≠ 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
   have hcomp : GLAPComponent p S S := glaPComponent_self_p hSq hSp
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
-  haveI : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (PSimple p S) := (pSimpleEquiv hSp).isSimpleGroup
   have hnab : ∃ a b : PSimple p S, a * b ≠ b * a := by
     have := CFSG.StandardType.exists_mul_ne_mul_centerQuot_of_perfect hSq.1 inferInstance
     obtain ⟨a, b, hab⟩ := this
@@ -72,7 +72,7 @@ theorem t263_false_of_inner_comm_invol {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     (hinn : ∃ s : PSimple p S, MI.indAut p S x (t263_normalizer_of_normal hSn) = MulAut.conj s)
     (hno : ∀ s t : PSimple p S, s ^ p = 1 → s ≠ 1 → orderOf t = 2 → t * s = s * t → False) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN : x ∈ Subgroup.normalizer (S : Set Ω) := t263_normalizer_of_normal hSn
   have hxN' : x⁻¹ ∈ Subgroup.normalizer (S : Set Ω) := Subgroup.inv_mem _ hxN
   obtain ⟨s, hs⟩ := hinn
@@ -112,7 +112,7 @@ theorem t263_exists_invol_of_comm {Ω : Type} [Group Ω] [Finite Ω] {B₀ T' : 
     (hT'2 : IsPGroup 2 T') (hxcomm : (⁅B₀, T' ⊓ Subgroup.centralizer ({x} : Set Ω)⁆ : Subgroup Ω) ≠ ⊥) :
     ∃ w : Ω, w ∈ T' ∧ orderOf w = 2 ∧ x * w = w * x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : T' ⊓ Subgroup.centralizer ({x} : Set Ω) ≠ ⊥ := by
     intro h
     apply hxcomm

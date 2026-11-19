@@ -51,7 +51,7 @@ theorem locBal2_of_benderType_suzuki
     intro z hz hz1
     have hcz : centralizer ({z} : Set ↥N) = (Q : Subgroup ↥N) :=
       hc.centralizer_eq_of_e_one hz hz1
-    have hQ2 : IsPGroup 2 (Q : Subgroup ↥N) := Q.isPGroup'
+    have hQ2 : IsPGroup 2 (Q : Subgroup ↥N) := Q.isPGroup
     have hmemQ : ∀ q : ↥N, q ∈ (Q : Subgroup ↥N) ↔ (q : X) * (z : X) = (z : X) * (q : X) := by
       intro q
       rw [← hcz, Subgroup.mem_centralizer_singleton_iff]

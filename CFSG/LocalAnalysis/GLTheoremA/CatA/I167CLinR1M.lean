@@ -16,7 +16,7 @@ private noncomputable def i167CLin_r_one_aux1 (K : Type) [Field K] {d : ℕ} :
 private lemma i167CLin_r_one_aux2 {K : Type} [Field K] {d : ℕ}
     (A : GL (Fin d) K) (v : Fin d → K) :
     (i167CLin_r_one_aux1 K A) v = (A : Matrix (Fin d) (Fin d) K) *ᵥ v := by
-  simp [i167CLin_r_one_aux1, Matrix.mulVecLin_apply]
+  simp [i167CLin_r_one_aux1]
 
 private lemma i167CLin_r_one_aux3 {K : Type} [Field K] {d : ℕ} (g : GL (Fin d) K) :
     (i167CLin_r_one_aux1 K g : (Fin d → K) →ₗ[K] (Fin d → K))
@@ -37,7 +37,7 @@ private lemma i167CLin_r_one_aux3 {K : Type} [Field K] {d : ℕ} (g : GL (Fin d)
 private lemma i167CLin_r_one_aux4 {K : Type} [Field K] {d : ℕ}
     {Ã : Subgroup (GL (Fin d) K)} (hÃ : IsElemAbelian 3 Ã) :
     IsElemAbelian 3 (Ã.map (i167CLin_r_one_aux1 K).toMonoidHom) := by
-  haveI : IsMulCommutative Ã := hÃ.1
+  have : IsMulCommutative Ã := hÃ.1
   constructor
   · rw [isMulCommutative_iff]
     rintro ⟨x, hx⟩ ⟨y, hy⟩

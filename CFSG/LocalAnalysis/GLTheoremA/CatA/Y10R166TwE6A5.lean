@@ -41,11 +41,13 @@ variable {ℓ f : ℕ} [Fact ℓ.Prime] {K : Type} [Field K] [Finite K]
               twistE6 Ω Fr (Classical.choose (twE6EnnolaConj hℓ hf hK hFr))) := by group
       _ = Classical.choose (twE6EnnolaConj hℓ hf hK hFr) * n0 Ω := by rw [hgn]
 
+omit [Finite K] in
 theorem twE6EnnolaDatum_q (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) :
     (twE6EnnolaDatum (Ω := Ω) hℓ hf hK hFr).q = ℓ ^ f :=
   rfl
 
+omit [Finite K] in
 theorem twE6EnnolaDatum_torus (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hFr : ∀ c, Fr c = c ^ (ℓ ^ f))
     {a : Fin Tag.E6.rank → Ωˣ} :
@@ -64,11 +66,12 @@ theorem twE6EnnolaDatum_torus (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       rwa [h1] at hfix
     exact (theta_rootDiagUnit_eq_iff Fr hFr a).1 hfix'
   · intro ha
-    haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+    have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
     refine ⟨rootDiagUnit_mem_torusGroup a, ?_⟩
     show n0 Ω * twistE6 Ω Fr (rootDiagUnit Tag.E6 a) * (n0 Ω)⁻¹ = rootDiagUnit Tag.E6 a
     exact (theta_rootDiagUnit_eq_iff Fr hFr a).2 ha
 
+omit [Finite K] in
 theorem twE6EnnolaDatum_frob (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) :
     FrobRootMap (twE6EnnolaDatum (Ω := Ω) hℓ hf hK hFr) (Equiv.neg (Fin Tag.E6.rank → ℤ)) where
@@ -77,10 +80,10 @@ theorem twE6EnnolaDatum_frob (hℓ : ℓ.Prime) (hf : 1 ≤ f)
   iform_eq γ δ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.TwE6InnerAbs.iform_neg_neg' γ δ
   map_rootSubgroup γ hγ := by
-    haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-    haveI : PerfectField Ω := IsAlgClosed.perfectField Ω
-    haveI : ExpChar Ω ℓ := ExpChar.prime hℓ
-    haveI : PerfectRing Ω ℓ := PerfectField.toPerfectRing ℓ
+    have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+    have : PerfectField Ω := IsAlgClosed.perfectField Ω
+    have : ExpChar Ω ℓ := ExpChar.prime hℓ
+    have : PerfectRing Ω ℓ := PerfectField.toPerfectRing ℓ
     have hsurj : Function.Surjective Fr := by
       rw [show Fr = iterateFrobenius Ω ℓ f from
         RingHom.ext fun c => by rw [hFr, iterateFrobenius_def]]

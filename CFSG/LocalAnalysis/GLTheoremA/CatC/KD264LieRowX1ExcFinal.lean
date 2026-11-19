@@ -68,7 +68,7 @@ theorem isPGroup_of_isElemAbelian' {p : ℕ} {E : Subgroup G} (h : IsElemAbelian
 
 theorem card_eq_pow_of_isElemAbelian {p : ℕ} (hp : p.Prime) {E : Subgroup G} [Finite E]
     (h : IsElemAbelian p E) : ∃ k, Nat.card E = p ^ k := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   exact (isPGroup_of_isElemAbelian' h).exists_card_eq
 
 theorem le_pRank_of_card' [Finite G] {p k : ℕ} (hp : p.Prime) {E H : Subgroup G}

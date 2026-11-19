@@ -12,12 +12,15 @@ open CFSG.CGT.Stroth77.Arch76
 
 variable {G : Type*} [Group G] [Finite G] {K : Config G}
 
+omit [Finite G] in
 theorem sElt_one2 (D : IdxTwo K) : D.sElt one2 = 1 := by
   rw [one2, D.sElt_zero_fst, tElt_zero]
 
+omit [Finite G] in
 theorem sElt_mul_self (D : IdxTwo K) (hD : ∀ a b, D.smul a b = sm2 a b) (r : Sc) :
     D.sElt r * D.sElt r = D.sElt (sm2 r r) := by rw [← hD, D.sElt_mul]
 
+omit [Finite G] in
 theorem orderOf_sElt_of_isInv2 (D : IdxTwo K) (hD : ∀ a b, D.smul a b = sm2 a b) {r : Sc}
     (h : isInv2 r = true) : orderOf (D.sElt r) = 2 := by
   simp only [isInv2, Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq] at h
@@ -26,6 +29,7 @@ theorem orderOf_sElt_of_isInv2 (D : IdxTwo K) (hD : ∀ a b, D.smul a b = sm2 a 
   · intro h1
     exact h.2 (D.sElt_injective (h1.trans (sElt_one2 D).symm))
 
+omit [Finite G] in
 theorem isInv2_of_sElt (D : IdxTwo K) (hD : ∀ a b, D.smul a b = sm2 a b) {r : Sc}
     (h2 : D.sElt r * D.sElt r = 1) (h1 : D.sElt r ≠ 1) : isInv2 r = true := by
   simp only [isInv2, Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq]
@@ -48,7 +52,7 @@ theorem exists_conj_target [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b 
     rw [inf_of_le_left hUS, card_charSub, hcard, hS] at h
     omega
   have hr₀S : D.sElt r₀ ∈ (S : Subgroup G) := hSD ▸ D.sElt_mem r₀
-  obtain ⟨g, hg⟩ := CFSG.EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup'
+  obtain ⟨g, hg⟩ := CFSG.EvenSporadicStandard.exists_conj_mem_complement hnonab S.isPGroup
     S.not_dvd_index hUS hidx hr₀S (not_mem_charSub D hD χ hχ hr₀)
     (orderOf_sElt_of_isInv2 D hD hinv)
   obtain ⟨r, hr, hre⟩ := hg
@@ -79,20 +83,30 @@ section Names
 
 variable (K)
 
+omit [Finite G] in
 theorem tElt_z2 : tElt K ((0, 2, 2), (0, 0, 0)) = (K.x * K.y) ^ 2 := by
   rw [show ((0, 2, 2), (0, 0, 0)) = (((0, 2, 2), 0) : Tc) from rfl, tElt_ev, ev_022, K.xy_sq]
+omit [Finite G] in
 theorem tElt_x2 : tElt K ((0, 2, 0), (0, 0, 0)) = K.x ^ 2 := by
   rw [show ((0, 2, 0), (0, 0, 0)) = (((0, 2, 0), 0) : Tc) from rfl, tElt_ev, ev_020]
+omit [Finite G] in
 theorem tElt_y2 : tElt K ((0, 0, 2), (0, 0, 0)) = K.y ^ 2 := by
   rw [show ((0, 0, 2), (0, 0, 0)) = (((0, 0, 2), 0) : Tc) from rfl, tElt_ev, ev_002]
+omit [Finite G] in
 theorem tElt_wxuv : tElt K ((1, 1, 0), (1, 0, 0)) = K.w * K.x * K.uv := by
   rw [show ((1, 1, 0), (1, 0, 0)) = tmul (tmul ((1, 0, 0), 0) ((0, 1, 0), 0)) (0, (1, 0, 0))
     from rfl, tElt_mul, tElt_mul, tElt_w, tElt_x, tElt_gen_uv]
+omit [Finite G] in
 theorem tElt_t' : tElt K ((0, 0, 0), (0, 1, 0)) = K.t := tElt_gen_t K
+omit [Finite G] in
 theorem tElt_u' : tElt K ((0, 0, 0), (0, 0, 1)) = K.u := tElt_gen_u K
+omit [Finite G] in
 theorem tElt_w' : tElt K ((1, 0, 0), (0, 0, 0)) = K.w := tElt_w K
+omit [Finite G] in
 theorem tElt_one' : tElt K ((0, 0, 0), (0, 0, 0)) = 1 := tElt_zero K
+omit [Finite G] in
 theorem tElt_xyuv'' : tElt K ((0, 1, 1), (1, 0, 0)) = K.x * K.y * K.uv := tElt_xyuvC K
+omit [Finite G] in
 theorem tElt_wu' : tElt K ((1, 0, 0), (0, 0, 1)) = K.w * K.u := tElt_wu K
 
 end Names
@@ -113,15 +127,20 @@ theorem ne_x2c : (((0, 2, 0), (0, 0, 0)) : Tc) ≠ (0, 0) := by decide
 theorem ne_tc : ((0, (0, 1, 0)) : Tc) ≠ (0, 0) := by decide
 theorem ne_uvc : ((0, (1, 0, 0)) : Tc) ≠ (0, 0) := by decide
 
+omit [Finite G] in
 theorem x2_mem_E : K.x ^ 2 ∈ Subgroup.closure ({K.x ^ 2, K.y ^ 2, K.uv, K.t} : Set G) :=
   Subgroup.subset_closure (by simp)
+omit [Finite G] in
 theorem y2_mem_E : K.y ^ 2 ∈ Subgroup.closure ({K.x ^ 2, K.y ^ 2, K.uv, K.t} : Set G) :=
   Subgroup.subset_closure (by simp)
+omit [Finite G] in
 theorem t_mem_E : K.t ∈ Subgroup.closure ({K.x ^ 2, K.y ^ 2, K.uv, K.t} : Set G) :=
   Subgroup.subset_closure (by simp)
+omit [Finite G] in
 theorem uv_mem_E : K.uv ∈ Subgroup.closure ({K.x ^ 2, K.y ^ 2, K.uv, K.t} : Set G) :=
   Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem mem_normalizer_A_of_sq_char {Q : Subgroup G} (hAQ : K.A ≤ Q)
     (hsq : ∀ q ∈ Q, q * q ∈ K.A)
     (hchar : ∀ q ∈ Q, (∀ r ∈ Q, q * (r * r) = (r * r) * q) → q ∈ K.A)
@@ -196,7 +215,7 @@ theorem arch76Lemma7_self_centralizing [IsSimpleGroup G] (hnonab : ∃ a b : G, 
     (hs2 : s ^ 2 = 1) (hsw : s⁻¹ * K.w * s = K.w) (hsx : s⁻¹ * K.x * s = K.x⁻¹)
     (hsy : s⁻¹ * K.y * s = K.y⁻¹) (hsuv : s⁻¹ * K.uv * s = K.x * K.y * K.uv)
     (hst : s⁻¹ * K.t * s = K.x⁻¹ * K.t) (hsu : s⁻¹ * K.u * s = K.u) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set z := (K.x * K.y) ^ 2 with hzdef
   have hsT := s_not_mem_T K hsx hsy
   set D := idxTwo2 K hs2 hsw hsx hsy hsuv hst hsu hsT with hDdef
@@ -361,7 +380,7 @@ theorem arch76Lemma7_self_centralizing [IsSimpleGroup G] (hnonab : ∃ a b : G, 
     · rw [e1, tElt_u'] at hc1; exact Or.inr (hc1.trans hwsu.symm)
   set Q₁ := (S : Subgroup G) ⊓ Subgroup.centralizer {K.w} with hQ₁def
   have hQ₁c : Q₁ ≤ Subgroup.centralizer {K.w} := inf_le_right
-  have hQ₁p : IsPGroup 2 Q₁ := S.isPGroup'.to_le inf_le_left
+  have hQ₁p : IsPGroup 2 Q₁ := S.isPGroup.to_le inf_le_left
   have hcoordQ : ∀ g ∈ Q₁, ∃ r : Sc, inQ1 r = true ∧ D.sElt r = g := by
     intro g hg
     obtain ⟨hgS, hgw⟩ := Subgroup.mem_inf.1 hg
@@ -497,7 +516,7 @@ theorem arch76Lemma7_self_centralizing [IsSimpleGroup G] (hnonab : ∃ a b : G, 
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
       rcases hg with rfl | rfl | rfl
       exacts [hx2T, hy2T, htT])
-    have hMp : IsPGroup 2 M := S.isPGroup'.to_le (hMT.trans hTS)
+    have hMp : IsPGroup 2 M := S.isPGroup.to_le (hMT.trans hTS)
     have hMc : M ≤ Subgroup.centralizer {K.w * K.x * K.uv} := (Subgroup.closure_le _).2 (by
       intro g hg
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
@@ -595,7 +614,7 @@ theorem arch76Lemma7_self_centralizing [IsSimpleGroup G] (hnonab : ∃ a b : G, 
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
       rcases hg with rfl | rfl
       exacts [hTS hwxuvT, hwuS])
-    have hNp : IsPGroup 2 N := S.isPGroup'.to_le hNS
+    have hNp : IsPGroup 2 N := S.isPGroup.to_le hNS
     have hsu_el : D.sElt (1, ((0, 0, 0), (0, 0, 1))) = s * K.u := by rw [e1, tElt_u']
     have hwu_el : D.sElt (0, ((1, 0, 0), (0, 0, 1))) = K.w * K.u := by rw [e0, tElt_wu']
     obtain ⟨cf1, cf2⟩ := (Bool.and_eq_true _ _).mp comm_facts

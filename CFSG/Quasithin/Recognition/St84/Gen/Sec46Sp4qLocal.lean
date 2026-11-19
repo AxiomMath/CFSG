@@ -31,8 +31,8 @@ private theorem s46sp4q_pCoreOf_subgroupOf (L : Subgroup G) :
 theorem CaseBGen.isLin2Type (B : X.CaseBGen) (h8 : X.CaseBStep8) {i : ℤ} (hi : i = 0 ∨ i = 1) :
     IsLin2Type (X.L i) (X.n i) := by
   classical
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
   have hn := B.two_le_n i
   obtain ⟨hQZ, -, -⟩ := B.Q_eq_Z h8 hi
   have hnatQ : NatQuot (X.L i) (X.Q i) (centerOf (X.L i)) (X.n i) := hQZ ▸ h8.nat i hi
@@ -76,7 +76,7 @@ theorem CaseBGen.isLin2Type (B : X.CaseBGen) (h8 : X.CaseBStep8) {i : ℤ} (hi :
     rw [blockZ, hU]
     refine le_antisymm (fun x hx => ?_) (le_inf hZLQ inf_le_right)
     exact Subgroup.mem_inf.mpr ⟨X.Q_le_L i (Subgroup.mem_inf.mp hx).1, (Subgroup.mem_inf.mp hx).2⟩
-  letI : Fintype (GaloisField 2 (X.n i)) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (X.n i)) := Fintype.ofFinite _
   let e : ↥(blockU (X.L i)) ≃* ↥(X.Q i) := MulEquiv.subgroupCongr hU
   refine ⟨GaloisField 2 (X.n i), inferInstance, inferInstance, ?_, α, hα, ?_,
     β.comp e.toMonoidHom, hβ.comp e.surjective, ?_, ?_⟩

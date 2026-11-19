@@ -75,8 +75,8 @@ theorem rationalComponent_suN_model (hT : rootDiagUnit τ ta ∈ S.D.torus)
       .PSU ν r (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)) := by
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
@@ -99,7 +99,7 @@ theorem rationalComponent_suN_model (hT : rootDiagUnit τ ta ∈ S.D.torus)
     rw [MonoidHom.mem_ker] at hc ⊢
     exact congrArg Subtype.val hc
   obtain ⟨F, hFcard, ⟨eC⟩⟩ := two_suN_exists_equiv hr hes σQ hσc hν
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   obtain ⟨-, hZ⟩ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card

@@ -19,7 +19,7 @@ theorem cube_le_of_index_five {P : Type*} [Group P] [Finite P] (A : Subgroup P) 
     (E : Subgroup P) (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ 5 = 1)
     (hc : Nat.card E = 5 ^ 3) : E ≤ A := by
   by_contra hnot
-  obtain ⟨y, hyE, hyA⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨y, hyE, hyA⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hrel : A.relIndex E = 5 := by
     have hdvd : A.relIndex E ∣ A.index := Subgroup.relIndex_dvd_index_of_normal A E
     rw [hidx] at hdvd

@@ -19,10 +19,10 @@ private def shift (v : Fin 5 → ZMod 2) : Perm (Fin 5 × ZMod 2) where
     simp only [add_assoc, h, add_zero]
 
 private theorem shift_zero : shift 0 = 1 := by
-  ext p <;> simp [shift, Pi.zero_apply]
+  ext p <;> simp [shift]
 
 private theorem shift_add (v w : Fin 5 → ZMod 2) : shift v * shift w = shift (v + w) := by
-  ext p <;> simp [shift, Pi.add_apply] <;> abel
+  ext p <;> simp [shift, Pi.add_apply]; abel
 
 private theorem shift_sq (v : Fin 5 → ZMod 2) : shift v * shift v = 1 := by
   rw [shift_add]

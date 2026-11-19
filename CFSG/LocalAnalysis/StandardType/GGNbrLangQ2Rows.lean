@@ -73,8 +73,8 @@ theorem q2RowFits_orthogonalPlus_four_impossible {p Q : ℕ} {lab : LargeEvenLab
 @[expose] def Q2ResidualCensusInput : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G),
     GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
-      ∀ (hN : Bs ≤ Subgroup.normalizer (J : Set G)) (d : ℕ) (K : Type) [Field K] [Finite K]
-        (θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)),
+      ∀ (_hN : Bs ≤ Subgroup.normalizer (J : Set G)) (d : ℕ) (K : Type) [Field K] [Finite K]
+        (_θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K)),
         p ∣ d → p ∣ Nat.card K - 1 →
         ∃ kind : Q2RowKind,
           GGInnerDiagOnLab (fun p lab => q2RowFits kind p d (Nat.card K) lab) p Bs L

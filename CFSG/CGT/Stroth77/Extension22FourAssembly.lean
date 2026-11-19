@@ -11,6 +11,7 @@ variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : 
 variable (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
 variable (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
 
+omit [Finite S] in
 lemma uv0
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) : conjTorusFour D hBC E (hL D.uv_mem_L) (gen (Type200.k m) (0 : Fin 3)) =
     ((Type201.action m).φuv (gen (Type201.k m) (0 : Fin 3)) : Torus (Type200.k m)) := by
@@ -26,6 +27,7 @@ lemma uv0
       (-4 : ℤ) • gen (Type200.k m) 2
   rfl
 
+omit [Finite S] in
 lemma uv1 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
     (huv1 : cocycleUV (D := D) (hBC := hBC) (e := e) (f := f) E hL
       (gen (Type200.k m) 1) = β • gen (Type200.k m) 2) : conjTorusFour D hBC E (hL D.uv_mem_L) (gen (Type200.k m) (1 : Fin 3)) =
@@ -55,6 +57,7 @@ lemma uv1 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
           (2 * (2 : ℤ) ^ m + 2) • gen (Type200.k m) 2 := by
           rw [show (2 : ℤ) + 2 * (2 : ℤ) ^ m = 2 * (2 : ℤ) ^ m + 2 by ring]
 
+omit [Finite S] in
 lemma uv2 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
     (huv2 : cocycleUV (D := D) (hBC := hBC) (e := e) (f := f) E hL
       (gen (Type200.k m) 2) = β • gen (Type200.k m) 1) : conjTorusFour D hBC E (hL D.uv_mem_L) (gen (Type200.k m) (2 : Fin 3)) =
@@ -92,6 +95,7 @@ lemma uv2 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
   rw [hdiff, add_zsmul, add_zsmul, hbig, add_zero]
   abel
 
+omit [Finite S] in
 lemma t0
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) : conjTorusFour D hBC E (hL D.t_mem_L) (gen (Type200.k m) (0 : Fin 3)) =
     ((Type201.action m).φt (gen (Type201.k m) (0 : Fin 3)) : Torus (Type200.k m)) := by
@@ -105,6 +109,7 @@ lemma t0
     (1 : ℤ) • gen (Type200.k m) 0 + (4 : ℤ) • gen (Type200.k m) 1
   rfl
 
+omit [Finite S] in
 lemma t1 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
     (ht1 : cocycleT (D := D) (hBC := hBC) (e := e) (f := f) E hL
       (gen (Type200.k m) 1) = β • gen (Type200.k m) 1) : conjTorusFour D hBC E (hL D.t_mem_L) (gen (Type200.k m) (1 : Fin 3)) =
@@ -122,6 +127,7 @@ lemma t1 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
   rw [← add_zsmul]
   rw [show (-1 : ℤ) + 2 * (2 : ℤ) ^ m = 2 * (2 : ℤ) ^ m - 1 by ring]
 
+omit [Finite S] in
 lemma t2 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
     (ht2 : cocycleT (D := D) (hBC := hBC) (e := e) (f := f) E hL
       (gen (Type200.k m) 2) = β • gen (Type200.k m) 1 + β • gen (Type200.k m) 2) : conjTorusFour D hBC E (hL D.t_mem_L) (gen (Type200.k m) (2 : Fin 3)) =
@@ -175,6 +181,7 @@ lemma t2 (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
   rw [hident, hzero, add_zero]
   abel
 
+omit [Finite S] in
 lemma u0
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.u_mem_L) (gen (Type200.k m) (0 : Fin 3)) =
     ((Type201.action m).φu (gen (Type201.k m) (0 : Fin 3)) : Torus (Type200.k m)) := by
@@ -189,6 +196,7 @@ lemma u0
   change (1 : ℤ) • gen (Type200.k m) 0 = (1 : ℤ) • gen (Type200.k m) 0
   rfl
 
+omit [Finite S] in
 lemma u1
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.u_mem_L) (gen (Type200.k m) (1 : Fin 3)) =
     ((Type201.action m).φu (gen (Type201.k m) (1 : Fin 3)) : Torus (Type200.k m)) := by
@@ -204,6 +212,7 @@ lemma u1
       (gen (Type200.k m) 1) = 0 := by rw [hu]; rfl
   rw [hz, add_zero, Type200.u_a]
 
+omit [Finite S] in
 lemma u2
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.u_mem_L) (gen (Type200.k m) (2 : Fin 3)) =
     ((Type201.action m).φu (gen (Type201.k m) (2 : Fin 3)) : Torus (Type200.k m)) := by
@@ -219,6 +228,7 @@ lemma u2
       (gen (Type200.k m) 2) = 0 := by rw [hu]; rfl
   rw [hz, add_zero, Type200.u_b]
 
+omit [Finite S] in
 lemma rho0
     (hρ : cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.ρ_mem_L) (gen (Type200.k m) (0 : Fin 3)) =
     ((Type201.action m).φρ (gen (Type201.k m) (0 : Fin 3)) : Torus (Type200.k m)) := by
@@ -233,6 +243,7 @@ lemma rho0
   change (1 : ℤ) • gen (Type200.k m) 0 = (1 : ℤ) • gen (Type200.k m) 0
   rfl
 
+omit [Finite S] in
 lemma rho1
     (hρ : cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.ρ_mem_L) (gen (Type200.k m) (1 : Fin 3)) =
     ((Type201.action m).φρ (gen (Type201.k m) (1 : Fin 3)) : Torus (Type200.k m)) := by
@@ -248,6 +259,7 @@ lemma rho1
       (gen (Type200.k m) 1) = 0 := by rw [hρ]; rfl
   rw [hz, add_zero, Type200.rho_a]
 
+omit [Finite S] in
 lemma rho2
     (hρ : cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) : conjTorusFour D hBC E (hL D.ρ_mem_L) (gen (Type200.k m) (2 : Fin 3)) =
     ((Type201.action m).φρ (gen (Type201.k m) (2 : Fin 3)) : Torus (Type200.k m)) := by
@@ -265,6 +277,7 @@ lemma rho2
       (gen (Type200.k m) 2) = 0 := by rw [hρ]; rfl
   rw [hz, add_zero, Type200.rho_b]
 
+omit [Finite S] in
 theorem conjTorusFour_uv_type201
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
@@ -279,6 +292,7 @@ theorem conjTorusFour_uv_type201
   · exact uv1 E hL β hβ huv1
   · exact uv2 E hL β hβ huv2
 
+omit [Finite S] in
 theorem conjTorusFour_t_type201
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (β : ℤ) (hβ : β = (2:ℤ)^(m+1))
@@ -294,6 +308,7 @@ theorem conjTorusFour_t_type201
   · exact t1 E hL β hβ ht1
   · exact t2 E hL β hβ ht2
 
+omit [Finite S] in
 theorem conjTorusFour_u_type201
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) (j : Fin 3) :
     conjTorusFour D hBC E (hL D.u_mem_L) (gen (Type200.k m) j) =
@@ -303,6 +318,7 @@ theorem conjTorusFour_u_type201
   · exact u1 E hL hu
   · exact u2 E hL hu
 
+omit [Finite S] in
 theorem conjTorusFour_ρ_type201
     (hρ : cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0) (j : Fin 3) :
     conjTorusFour D hBC E (hL D.ρ_mem_L) (gen (Type200.k m) j) =
@@ -312,6 +328,7 @@ theorem conjTorusFour_ρ_type201
   · exact rho1 E hL hρ
   · exact rho2 E hL hρ
 
+omit [Finite S] in
 theorem type201Images_of_cocycle_forms
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0)
@@ -356,6 +373,7 @@ theorem type201Images_of_cocycle_forms
       (hgC := hL D.ρ_mem_L) (j := j)]
     exact conjTorusFour_ρ_type201 E hL hρ j
 
+omit [Finite S] in
 theorem type200Images_of_beta_zero
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (hu : cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0)
@@ -376,6 +394,7 @@ theorem type200Images_of_beta_zero
   · rw [ht1, hβ]; simp
   · rw [ht2, hβ]; simp
 
+omit [Finite S] in
 theorem hasType200Or201AdjustedBasis_of_torusBasis
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
     HasType200Or201AdjustedBasis D hBC hL e f he hf E := by
@@ -385,7 +404,7 @@ theorem hasType200Or201AdjustedBasis_of_torusBasis
     exists_rho_normalized_all E1 hL he1 hf1 hu1
   obtain ⟨β, hβcases, huv1, huv2, ht1, ht2⟩ :=
     cocycleUV_cocycleT_forms E2 hL he2 hf2 hu2 hρ2
-  haveI : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
+  have : IsMulCommutative C := isMulCommutative_of_torusBasisEquivFour E
   refine ⟨z * z', w * w', ?_, ?_, ?_⟩
   · calc (z * z') * (z * z') = (z * z) * (z' * z') := by
           rw [mul_mul_mul_comm]

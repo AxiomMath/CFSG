@@ -95,6 +95,7 @@ variable {K : Type} [Field K] {X Y : Type*} [AddCommGroup X] [Module K X] [AddCo
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem ranks_of_zorn (eX : X ≃ₗ[K] Oct K) (eY : Y ≃ₗ[K] Oct K)
     (eV : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] Oct K) (hV : ∀ v, octNorm (eV v) = StatedQuadPlus 4 K v)
     {l : K} (hl : l ≠ 0) (β : X →ₗ[K] Y →ₗ[K] (Fin 4 ⊕ Fin 4 → K))
@@ -188,12 +189,14 @@ theorem ranks_of_zorn (eX : X ≃ₗ[K] Oct K) (eY : Y ≃ₗ[K] Oct K)
     exact odd_finrank_range_mulLeft_inf_mulRight (hx0 x hx) ((hqXz x).1 hqx) (hy0 y hy)
       ((hqYz y).1 hqy)
 
+omit [CharP K 2] in
 theorem polar_octQuad_comp {S : Type*} [AddCommGroup S] [Module K S] (e : S ≃ₗ[K] Oct K)
     (x y : S) : QuadraticMap.polar ((octQuad K).comp (e : S →ₗ[K] Oct K)) x y =
       octPolar (e x) (e y) := by
   simp only [QuadraticMap.polar, QuadraticMap.comp_apply, LinearEquiv.coe_coe, map_add,
     octQuad_apply, octPolar]
 
+omit [CharP K 2] in
 theorem eq_zero_of_polar_octQuad_comp {S : Type*} [AddCommGroup S] [Module K S]
     (e : S ≃ₗ[K] Oct K) {x : S}
     (hx : ∀ x' : S, QuadraticMap.polar ((octQuad K).comp (e : S →ₗ[K] Oct K)) x x' = 0) :
@@ -205,6 +208,7 @@ theorem eq_zero_of_polar_octQuad_comp {S : Type*} [AddCommGroup S] [Module K S]
   have h0 : e x = 0 := octPolarBil_nondegenerate.1 (e x) (fun y => h y)
   exact e.injective (by rw [h0, map_zero])
 
+omit [CharP K 2] in
 theorem clauses_of_zorn (eX : X ≃ₗ[K] Oct K) (eY : Y ≃ₗ[K] Oct K)
     (eV : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] Oct K) (hV : ∀ v, octNorm (eV v) = StatedQuadPlus 4 K v)
     {l : K} (hl : l ≠ 0) (β : X →ₗ[K] Y →ₗ[K] (Fin 4 ⊕ Fin 4 → K))
@@ -239,11 +243,12 @@ section Coord
 
 variable {G : Type*} [Group G] {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem octNorm_funCongrLeft {e : ℕ} (P : ZLabPair e) (v : Fin 4 ⊕ Fin 4 → K) :
     octNorm (LinearEquiv.funCongrLeft K K P.σ v) = StatedQuadPlus 4 K v := by
   rw [octNorm_eq_statedQuadPlus]
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, LinearEquiv.funCongrLeft_apply,
-    LinearMap.funLeft_apply, Function.comp_apply]
+  simp only [StatedQuadPlus, LinearEquiv.funCongrLeft_apply,
+    LinearMap.funLeft_apply]
   refine Finset.sum_congr rfl fun i _ => ?_
   rcases P.σ_pair i with ⟨h1 | h1, h2⟩
   · rw [h2, h1]
@@ -267,14 +272,15 @@ theorem ZLabPair.σ_apply_eq_iff {e : ℕ} (P : ZLabPair e) (j x : Fin 4 ⊕ Fin
     P.σ j = x ↔ j = P.σ x :=
   ⟨fun h => by rw [← h, P.σ_σ], fun h => by rw [h, P.σ_σ]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem funCongrLeft_single {e : ℕ} (P : ZLabPair e) (x : Fin 4 ⊕ Fin 4) :
     LinearEquiv.funCongrLeft K K P.σ (Pi.single x 1 : Fin 4 ⊕ Fin 4 → K) =
       Pi.single (P.σ x) 1 := by
   funext j
-  simp only [LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, Function.comp_apply,
-    Pi.single_apply]
+  simp only [LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, Pi.single_apply]
   exact if_congr (P.σ_apply_eq_iff _ _) rfl rfl
 
+omit [Finite K] [CharP K 2] in
 theorem natBasis_zSgn (hN : 3 ≤ Nat.card Kˣ) (k : Fin 4) (r : Bool) :
     natBasis (Pi.single k (zSgn (ZMod (Nat.card Kˣ)) r) : Fin 4 → ZMod (Nat.card Kˣ)) =
       (Pi.single (natIdx k r) 1 : Fin 4 ⊕ Fin 4 → K) := by
@@ -296,7 +302,7 @@ theorem relabel_beta_basis (P : ZLabPair e) (hNX : SpinNF D ρX e b₀ CX bX)
     (m n : Fin 4 ⊕ Fin 4) :
     LinearEquiv.funCongrLeft K K P.σ (β (hNX.basis P.X m) (hNY.basis P.Y n)) =
       l • octMul (Pi.single m 1 : Oct K) (Pi.single n 1) := by
-  haveI := hNX.nontrivial
+  have := hNX.nontrivial
   rw [hNX.basis_apply, hNY.basis_apply, hβ _ (hNX.hsWeight_mem _ m) _ (hNY.hsWeight_mem _ n),
     octMul_single_single]
   by_cases hadm : ∃ k, ∀ i, P.X.lab m i = P.Y.lab n i ↔ i = k
@@ -309,7 +315,7 @@ theorem relabel_beta_basis (P : ZLabPair e) (hNX : SpinNF D ρX e b₀ CX bX)
       cases P.X.lab m k
       · exact Or.inr rfl
       · exact Or.inl rfl
-    rw [hsum, if_pos hmem, natBasis_zSgn hN3, P.mul_some m n k hk]
+    rw [hsum, ite_eq_left hmem, natBasis_zSgn hN3, P.mul_some m n k hk]
     simp only [Option.elim_some, map_smul, funCongrLeft_single]
   · have hnot : ¬ (hsWeight b₀ (P.X.lab m) + hsWeight b₀ (P.Y.lab n) ∈ natWts (K := K)) := by
       intro hmem
@@ -318,7 +324,7 @@ theorem relabel_beta_basis (P : ZLabPair e) (hNX : SpinNF D ρX e b₀ CX bX)
       rcases hk with hk | hk
       · exact ⟨k, agree_of_hsWeight_add hNX.two_mul (r := true) hk⟩
       · exact ⟨k, agree_of_hsWeight_add hNX.two_mul (r := false) hk⟩
-    rw [if_neg hnot, P.mul_none m n hadm]
+    rw [ite_eq_right hnot, P.mul_none m n hadm]
     simp
 
 end Coord

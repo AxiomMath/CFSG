@@ -30,7 +30,7 @@ theorem leafG4_alt5 (x : alternatingGroup (Fin 5)) : x ^ 2 = 1 ∨ x ^ 3 = 1 ∨
 
 theorem leafG4_comm_of_isCyclic {X : Type} [Group X] (h : IsCyclic X) (x y : X) :
     x * y = y * x := by
-  haveI : IsMulCommutative X := IsCyclic.commutative
+  have : IsMulCommutative X := _root_.IsCyclic.isMulCommutative
   exact Std.Commutative.comm x y
 
 theorem leafG4_iso_pow_ne_one {X Y : Type} [Group X] [Group Y] (ι : X ≃* Y) (x : X) (n : ℕ)
@@ -139,7 +139,7 @@ theorem leafG4_dihedral_overgroup {G : Type} [Group G] (F : Subgroup G) (t : G) 
     (ht3 : t ^ 3 ≠ 1) :
     F ≤ Subgroup.centralizer {t ^ 3} ∧
       ∀ x ∈ F, (∀ y ∈ F, x * y = y * x) → x = 1 ∨ x = t ^ 3 := by
-  haveI : NeZero z := ⟨hz⟩
+  have : NeZero z := ⟨hz⟩
   obtain ⟨tF, htF⟩ : ∃ tF : ↥F, (tF : G) = t := ⟨⟨t, ht⟩, rfl⟩
   have hF6 : tF ^ 6 = 1 := Subtype.ext (by simp [htF, ht6])
   have hF2 : tF ^ 2 ≠ 1 := fun h => ht2 (by
@@ -314,7 +314,7 @@ theorem leafG4_core (q : ℕ) [Fact q.Prime] (hq24 : q % 24 = 11 ∨ q % 24 = 13
     have hq2 : q ^ (2 * 1) % 16 = 9 := by
       rw [Nat.pow_mod]
       have : q % 16 = 3 ∨ q % 16 = 5 ∨ q % 16 = 11 ∨ q % 16 = 13 := by omega
-      rcases this with h | h | h | h <;> rw [h] <;> norm_num
+      rcases this with h | h | h | h <;> rw [h]
     omega
   ·
     exfalso
@@ -350,7 +350,7 @@ theorem leafG4_core (q : ℕ) [Fact q.Prime] (hq24 : q % 24 = 11 ∨ q % 24 = 13
 
 theorem nfa2_G4 : Leaf_G4 := by
   intro q hq hq24 Kb _ hM E F a _hE12 hE6 haE hcomm ha2 hEF hF
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, K, hKF, hKfin, hK, ⟨e⟩⟩ := hM
   obtain ⟨e6⟩ := hE6
   let ψ : Kb ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField q 1) :=

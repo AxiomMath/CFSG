@@ -43,7 +43,7 @@ theorem not_dvd_five_fixer
     intro he
     rw [← hQcardS, he, Subgroup.card_bot] at hdiv
     exact hp.not_dvd_one hdiv
-  have hQ : IsPGroup p Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup p Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixed : (F : Set X) = fixedPoints Q X := fixed_eq Q
   have hbase := SylowFixedActionPrimeFree.base_card_le_fixed_degree X P s S
   rw [hs] at hbase

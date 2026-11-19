@@ -22,17 +22,17 @@ theorem gapEndU33_holds :
   intro Q _ _ hQ2 L hLie hirrOn hcard
   have hirr : ∀ B : Subgroup Q, (∀ l ∈ L, ∀ b ∈ B, l b ∈ B) → B = ⊥ ∨ B = ⊤ :=
     fun B hB => hirrOn.2.2.2 B hB bot_le le_top
-  haveI : Module (ZMod 2) (Additive Q) :=
+  have : Module (ZMod 2) (Additive Q) :=
     AddCommGroup.zmodModule (G := Additive Q) (fun x => by
       have hx := hQ2 (Additive.toMul x)
       rw [two_nsmul]
       apply Additive.toMul.injective
       rw [toMul_add, ← pow_two]
       exact hx)
-  haveI : Nontrivial Q := by
+  have : Nontrivial Q := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
-  haveI : Nontrivial (Additive Q) := inferInstance
+  have : Nontrivial (Additive Q) := inferInstance
   have hcardV : Nat.card (Additive Q) = 2 ^ 6 :=
     (Nat.card_congr (Additive.ofMul : Q ≃ Additive Q)).symm.trans hcard
   have hdim : Module.finrank (ZMod 2) (Additive Q) = 6 := by
@@ -104,7 +104,7 @@ theorem gapEndU33_holds :
       have h1 : (γ : Additive Q →ₗ[ZMod 2] Additive Q) (γ.symm v) = 0 := by
         rw [h0']; simp
       have h2 : (γ : Additive Q →ₗ[ZMod 2] Additive Q) (γ.symm v) = v := by
-        simpa using γ.apply_symm_apply v
+        simp
       exact hv (h2.symm.trans h1)
     rcases eq_zero_or_eq_one_of_endIsField_one hEnd T with h0 | h1
     · exact absurd h0 hTne

@@ -109,13 +109,13 @@ theorem letHk_eq {l : Int} (h0 : l ≠ 0) (h17 : l.natAbs ≤ 17) :
   refine rows5_congr fun i hi => ?_
   unfold HNStrong.letK letHk
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     have h : Nat.beq (sg (3 + (l.toNat - 1)) i) (HNStrong.ss (13 + (l.toNat - 1)) i) = true :=
       allN_spec (allN_spec tieF (l.toNat - 1) (by omega)) i hi
     rw [show 3 + (l.toNat - 1) = 2 + l.toNat by omega,
       show 13 + (l.toNat - 1) = 12 + l.toNat by omega] at h
     exact (Nat.eq_of_beq_eq_true h).symm
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     have h : Nat.beq (sg (20 + ((-l).toNat - 1)) i) (HNStrong.ss (30 + ((-l).toNat - 1)) i) =
         true := allN_spec (allN_spec tieFI ((-l).toNat - 1) (by omega)) i hi
     rw [show 20 + ((-l).toNat - 1) = 19 + (-l).toNat by omega,
@@ -138,11 +138,11 @@ theorem mword_chain (w : List Int) (k : Nat) (h : hchk w k = true) :
     obtain ⟨⟨⟨⟨h0, h17⟩, hk⟩, hl⟩, hrest⟩ := h
     cases t with
     | nil =>
-      simp only [List.isEmpty_nil, cond_true, beq_iff_eq] at hrest
+      simp only [List.isEmpty_nil, _root_.Bool.cond_true, beq_iff_eq] at hrest
       rw [mword, mword, letHk_eq h0 h17, mulM5_idR (canon _ (letHk_lt h17))]
       exact rows5_congr (copyG hk hrest hl)
     | cons a t' =>
-      simp only [List.isEmpty_cons, cond_false, Bool.and_eq_true, beq_iff_eq] at hrest
+      simp only [List.isEmpty_cons, Bool.cond_false, Bool.and_eq_true, beq_iff_eq] at hrest
       obtain ⟨⟨ho, hr⟩, hw⟩ := hrest
       rw [mword, letHk_eq h0 h17, ih (k - 1) hw]
       exact mul_eq (letHk_lt h17) (by omega) hk ho hl hr

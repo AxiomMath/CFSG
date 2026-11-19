@@ -18,8 +18,8 @@ theorem w85g_exists_polar_sq_eq {Q : QuadraticForm K V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgg : g * g = 1) :
     ∃ u : V, ∀ x : V, (polar Q x u) ^ 2 = Q (g x - x) := by
   classical
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
-  haveI : PerfectRing K 2 := inferInstance
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : PerfectRing K 2 := inferInstance
   let ρ : K ≃+* K := (frobeniusEquiv K 2).symm
   have hρ : ∀ x : K, ρ x ^ 2 = x := fun x => frobeniusEquiv_symm_pow_p K 2 x
   have hρ2 : ∀ x : K, ρ (x ^ 2) = x := fun x => frobeniusEquiv_symm_pow K 2 x
@@ -45,6 +45,7 @@ theorem w85g_exists_polar_sq_eq {Q : QuadraticForm K V}
   rw [polar_comm Q x, ← polarBilin_apply_apply, h1]
   exact hρ _
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem w85g_apply_eq_of_polar_sq_eq {Q : QuadraticForm K V}
     (hQ : Q.polarBilin.Nondegenerate) {g : V ≃ₗ[K] V} {u : V}
     (hu : ∀ x : V, (polar Q x u) ^ 2 = Q (g x - x)) {h : V ≃ₗ[K] V}

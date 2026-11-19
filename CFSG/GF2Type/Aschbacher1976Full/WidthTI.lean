@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_conjugate_iff {H : Subgroup G} {g x : G} :
     x ∈ conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   unfold conjugate
@@ -25,6 +26,7 @@ theorem mem_conjugate_iff {H : Subgroup G} {g x : G} :
     show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x
     group
 
+omit [Finite G] in
 theorem conjugate_conjugate (H : Subgroup G) (g g' : G) :
     conjugate (conjugate H g) g' = conjugate H (g * g') := by
   ext x
@@ -35,7 +37,7 @@ section TI
 
 variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
-theorem conjugate_Z_of_mem_H (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))
+theorem conjugate_Z_of_mem_H (hD : Z4Data z w Z A) (hz : orderOf z = 2) (_hF2 : IsPGroup 2 (Fz z))
     {c : G} (hc : c ∈ Hz z) : conjugate Z c = Z := by
   ext x
   rw [mem_conjugate_iff]
@@ -55,7 +57,7 @@ theorem conjugate_Z_mul_of_mem (hD : Z4Data z w Z A) (hz : orderOf z = 2)
 
 theorem exists_gen_Z (hD : Z4Data z w Z A) (hz : orderOf z = 2) :
     ∃ k : G, k ∈ Z ∧ orderOf k = 4 ∧ (∀ x ∈ Z, ∃ i : ℤ, x = k ^ i) ∧ k ^ 2 = z := by
-  haveI := hD.cyc
+  have := hD.cyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Z)
   have hord : orderOf g = 4 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, hD.card_Z]
@@ -133,7 +135,7 @@ theorem conj_pair_eq_or_disjoint (hD : Z4Data z w Z A) (hz : orderOf z = 2)
   · exact Or.inl hne
   right
   by_contra hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : ∀ g : G, Nat.card ↥(conjugate Z g) = 4 := fun g => by
     unfold conjugate
     rw [Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective, hD.card_Z]

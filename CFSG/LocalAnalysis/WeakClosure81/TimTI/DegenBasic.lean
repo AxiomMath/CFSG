@@ -21,6 +21,7 @@ variable {X : Type} [Group X] [Finite X] {S : Subgroup X}
 
 namespace Hyp
 
+omit [Finite X] in
 theorem isOddTransp_dSet (h : Hyp X S) (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet S, orderOf (d * e) ≠ 4) :
     CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp (dSet S) := by
   refine ⟨fun d hd => h.root.orderOf_eq_two hd, fun d hd e he => ?_⟩
@@ -29,6 +30,7 @@ theorem isOddTransp_dSet (h : Hyp X S) (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet 
   · exact absurd h4 (hdeg d hd e he)
   · exact Or.inr hodd
 
+omit [Finite X] in
 theorem le_rootGroup (h : Hyp X S) (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet S, orderOf (d * e) ≠ 4)
     {s : X} (hs : s ∈ S) (hs1 : s ≠ 1) : S ≤ CFSG.Timmesfeld.rootGroup (dSet S) s := by
   intro t ht
@@ -52,6 +54,7 @@ theorem le_rootGroup (h : Hyp X S) (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet S, o
         (mem_dSet_of_mem hs hs1) (mem_dSet_of_mem ht ht1) hcomm
         (mem_dSet_of_mem (S.mul_mem hs ht) hst1))
 
+omit [Finite X] in
 theorem isElemAbelian_rootGroup (h : Hyp X S) {d : X} (hd : d ∈ dSet S) :
     IsElemAbelian 2 (CFSG.Timmesfeld.rootGroup (dSet S) d) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -219,11 +222,11 @@ theorem mem_dSet_of_mk_mem (h : Hyp X S) {w : X} (hw2 : w * w = 1)
   rw [← show d * (d⁻¹ * w) = w by group, hz1, mul_one]
   exact hd
 
-theorem setup_quot (h : Hyp X S) (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet S, orderOf (d * e) ≠ 4) :
+theorem setup_quot (h : Hyp X S) (hdeg : ∀ _d ∈ dSet S, ∀ e ∈ dSet S, orderOf (_d * e) ≠ 4) :
     CFSG.Timmesfeld.Bridge.Asc72.Setup (X ⧸ Subgroup.center X)
       (QuotientGroup.mk' (Subgroup.center X) '' dSet S) :=
   ⟨CFSG.Timmesfeld.image_isClass_center h.exists_isClass,
-   CFSG.Timmesfeld.image_isOddTransp_center h.root (fun d hd => h.not_mem_center hd) hdeg,
+   CFSG.Timmesfeld.image_isOddTransp_center h.root (fun _d hd => h.not_mem_center hd) hdeg,
    CFSG.Timmesfeld.image_closure_eq_top_center h.closure_dSet⟩
 
 theorem meetsSq_quot (h : Hyp X S) :
@@ -236,6 +239,7 @@ theorem meetsSq_quot (h : Hyp X S) :
   have hz : u⁻¹ * v ∈ Subgroup.center X := QuotientGroup.eq.mp hh
   rwa [h.root.inv_eq hu] at hz
 
+omit [Finite X] in
 theorem isOddTransp_conj_rootGroup (h : Hyp X S)
     (hdeg : ∀ d ∈ dSet S, ∀ e ∈ dSet S, orderOf (d * e) ≠ 4) {s : X}
     (hW : ∀ w ∈ CFSG.Timmesfeld.rootGroup (dSet S) s, w ≠ 1 → w ∈ dSet S) :

@@ -55,7 +55,7 @@ theorem center_eq_of_abelian_sylow {Y : Type*} [Group Y] [Finite Y] (K : Subgrou
   set P : Subgroup Y := (S : Subgroup Y) ⊓ K with hPdef
   have hPS : P ≤ (S : Subgroup Y) := inf_le_left
   have hPK : P ≤ K := inf_le_right
-  have hP5 : IsPGroup 5 P := IsPGroup.to_inf_left S.isPGroup'
+  have hP5 : IsPGroup 5 P := IsPGroup.to_inf_left S.isPGroup
   have hPσ_not : ¬ (P ≤ Subgroup.centralizer ({σ} : Set Y)) := by
     intro h
     have := hF P hP5 hPK h

@@ -83,7 +83,7 @@ theorem CfgSEps.false_of_autFix_g2 {S : Type} [Group S] [Finite S] {A : Subgroup
       rw [hk]
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
-    haveI hCs : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_perfect .G2 k
+    have hCs : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_perfect .G2 k
       (CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card k hk3)
     have hna : ∃ a b : adjointGroup .G2 k, a * b ≠ b * a :=
       (opposite_simple_root_noncommutativity .G2 k).2.2.1
@@ -124,7 +124,7 @@ theorem noCfgSEps_adjointG2 {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.
     have hz'o : orderOf z' = 3 := orderOf_eq_prime hz'3 hz'1
     have hfix : autFix (MulAut.conj z') = Subgroup.centralizer ({z'} : Set (adjointGroup Tag.G2 F)) :=
       RowV.autFix_conj_eq_centralizer z'
-    haveI := hc'.isPerfect
+    have := hc'.isPerfect
     have hKC : K.map (MulAut.conj g).toMonoidHom ≤ Subgroup.centralizer ({z'} : Set (adjointGroup Tag.G2 F)) :=
       hfix ▸ hc'.le_autFix
     rcases hg with hS | hM
@@ -186,7 +186,7 @@ theorem rowSEpsOf_seven_G2 : ∀ q : TauCeti.PrimePower, q.p = 2 →
   have eC : AdjointQuotient .G2 F ≃* adjointGroup .G2 F :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := .G2) (K := F))).trans
       QuotientGroup.quotientBot
-  haveI : Finite (adjointGroup .G2 F) := Finite.of_equiv _ (eA.trans eC).toEquiv
+  have : Finite (adjointGroup .G2 F) := Finite.of_equiv _ (eA.trans eC).toEquiv
   exact (noCfgSEps_adjointG2 hF hn).of_mulEquiv (eA.trans eC)
 
 end G2

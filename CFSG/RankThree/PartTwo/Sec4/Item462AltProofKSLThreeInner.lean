@@ -20,7 +20,7 @@ theorem core_inner {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π
     (hβ' : ∀ s, ((β' s : slPi π 3 (p ^ f) K) : GL (Fin 3) K) = y * s * y⁻¹)
     (hD : NoncyclicDatum β') :
     p ≠ 2 ∧ ∃ v : slPi π 3 (p ^ f) K, v ^ 3 = 1 ∧ β' = MulAut.conj v := by
-  haveI := hK.finite
+  have := hK.finite
   have hq3 : 3 < p ^ f := by
     cases π
     · change p ^ f % 3 = 2 at hq
@@ -52,7 +52,7 @@ theorem core_inner {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π
   · obtain ⟨-, ⟨hC⟩, -⟩ := h2
     exact (false_of_fixedDatum_glTwo hK hq3 (eF.trans hC) hFD).elim
   · obtain ⟨-, -, -, hcyc, -⟩ := h3
-    haveI : IsCyclic ↥(fixedSub β') := eF.isCyclic.mpr hcyc
+    have : IsCyclic ↥(fixedSub β') := eF.isCyclic.mpr hcyc
     exact (false_of_fixedDatum_cyclic hFD).elim
 
 end CFSG.RankThree.PartTwo.Sec4.Item462AltProof.KSLThree

@@ -23,6 +23,7 @@ section Original
 
 variable [Finite G] {p : ℕ} {B D : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem gamma_j_range (hJL : J ≤ L) :
     (ggGamma L (hJL.trans Subgroup.le_normalizer)).range =
       (J.subgroupOf L).map (MulAut.conj : L →* MulAut L) := by
@@ -94,7 +95,7 @@ theorem eq_one_of_overGamma_one_of_setting
       le_inf (inf_le_left.trans inf_le_left) inf_le_right
     have hcard : Nat.card (Bs ⊓ Subgroup.centralizer (L : Set G) : Subgroup G) = p := by
       rw [hCL, Nat.card_zpowers]
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       have hSS : CFSG.Assembly.LargeEvenSStar p B x L := hS.1.1.1.2.2.2.2.2.2.1
       exact orderOf_eq_prime (hBs.2 x (hS.1.1.2.1.1 hSS.2.1)) hSS.2.2.1
     exact (Subgroup.card_le_of_le hle).trans hcard.le

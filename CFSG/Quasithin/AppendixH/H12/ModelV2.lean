@@ -132,7 +132,7 @@ theorem isoPoint_conj_M0 {P : Subgroup Vec12} (hP : IsIsoPoint ι0 f0 P) (hPW : 
     · right
       have hline : mvN (tW w) r ∈ lineOf 1465 := by
         have := hwpos
-        rwa [if_pos hhyp] at this
+        rwa [ite_eq_left hhyp] at this
       rw [hcd]
       refine ⟨tU w, hwM, ?_⟩
       change smulSub (tU w) (ptSub r) = ptSub 1465
@@ -141,7 +141,7 @@ theorem isoPoint_conj_M0 {P : Subgroup Vec12} (hP : IsIsoPoint ι0 f0 P) (hPW : 
     · left
       have hline : mvN (tW w) r ∈ lineOf 5 := by
         have := hwpos
-        rwa [if_neg hhyp] at this
+        rwa [ite_eq_right hhyp] at this
       rw [hcd]
       refine ⟨tU w, hwM, ?_⟩
       change smulSub (tU w) (ptSub r) = ptSub 5

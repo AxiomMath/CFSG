@@ -88,7 +88,7 @@ theorem ggQ2s08k4_signScalar_ne
     ∀ k, ggQ2s08k4_signScalar S k ≠ 0 := by
   intro k
   simp only [ggQ2s08k4_signScalar]
-  by_cases h : k ∈ S <;> simp [h] <;> decide
+  by_cases h : k ∈ S <;> simp [h]
 
 theorem ggQ2s08k4_signScalar_insert
     {N : ℕ} (a : Fin N) (S : Finset (Fin N))
@@ -110,7 +110,7 @@ theorem ggQ2s08k4_pairScalar_ne
     ∀ k, ggQ2s08k4_pairScalar i0 j k ≠ 0 := by
   intro k
   simp only [ggQ2s08k4_pairScalar]
-  by_cases h1 : k = i0 <;> by_cases h2 : k = j <;> simp [h1, h2] <;> decide
+  by_cases h1 : k = i0 <;> by_cases h2 : k = j <;> simp [h1, h2]
 
 @[expose] noncomputable def ggQ2s08k4_pairDiag
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
@@ -160,13 +160,13 @@ theorem ggQ2s08k4_starScalar_apply
   rw [ggQ2s08k4_starScalar, Finset.prod_apply]
   by_cases hki0 : k = i0
   · subst hki0
-    rw [if_pos rfl, if_neg hi0, mul_one]
+    rw [ite_eq_left rfl, ite_eq_right hi0, mul_one]
     trans ∏ _j ∈ T, (-1 : ZMod 3)
     · apply Finset.prod_congr rfl
       intro j _
       simp [ggQ2s08k4_pairScalar]
     · rw [Finset.prod_const]
-  · rw [if_neg hki0, one_mul]
+  · rw [ite_eq_right hki0, one_mul]
     trans ∏ j ∈ T, (if k = j then (-1 : ZMod 3) else 1)
     · apply Finset.prod_congr rfl
       intro j _
@@ -206,7 +206,7 @@ theorem ggQ2s08k4_sgn_mul_diag_signScalar
       (ggQ2s08k4_signScalar_ne S)) (f k) = _
   rw [LinearEquiv.mul_apply, ggQ2s08k4_diag_apply, map_smul, ggQ2s08k4_sgn_apply,
     ggQ2s08k4_diag_apply, ggQ2s08k4_signScalar_insert a S ha]
-  simp only [Pi.mul_apply]
+  simp only
   rw [smul_smul, mul_comm]
 
 theorem ggQ2s08k4_pairDiag_mul_diag_starScalar
@@ -233,8 +233,8 @@ theorem ggQ2s08k4_starScalar_eq
       if k = i0 then (-1 : ZMod 3) ^ T.card else if k ∈ T then -1 else 1 := by
   rw [ggQ2s08k4_starScalar_apply i0 T hi0 k]
   by_cases hk : k = i0
-  · rw [if_pos hk]; simp [hk, hi0]
-  · rw [if_neg hk]; simp [hk]
+  · rw [ite_eq_left hk]; simp [hk, hi0]
+  · rw [ite_eq_right hk]; simp [hk]
 
 theorem ggQ2s08k4_diag_signScalar_mem
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
@@ -307,8 +307,8 @@ theorem ggQ2s08k4_mono_mem
   have hεS : ε = ggQ2s08k4_signScalar S := by
     funext k
     by_cases hk : ε k = -1
-    · rw [ggQ2s08k4_signScalar, if_pos ((hSmem k).mpr hk)]; exact hk
-    · rw [ggQ2s08k4_signScalar, if_neg (fun h => hk ((hSmem k).mp h))]
+    · rw [ggQ2s08k4_signScalar, ite_eq_left ((hSmem k).mpr hk)]; exact hk
+    · rw [ggQ2s08k4_signScalar, ite_eq_right (fun h => hk ((hSmem k).mp h))]
       rcases ggQ2s08k4_zmod3_eq_one_or_neg_one (ε k) (hε k) with h | h
       · exact h
       · exact absurd h hk
@@ -330,8 +330,8 @@ theorem ggQ2s08k4_monoEven_mem
   have hεfac : ∀ i, ε i = if i ∈ S then (-1 : ZMod 3) else 1 := by
     intro i
     by_cases hi : i ∈ S
-    · rw [if_pos hi]; exact (hSmem i).mp hi
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi]; exact (hSmem i).mp hi
+    · rw [ite_eq_right hi]
       have hne : ε i ≠ -1 := fun h => hi ((hSmem i).mpr h)
       rcases ggQ2s08k4_zmod3_eq_one_or_neg_one (ε i) (hε i) with h | h
       · exact h
@@ -360,13 +360,13 @@ theorem ggQ2s08k4_monoEven_mem
       rw [ggQ2s08k4_starScalar_eq i0 (S.erase i0) (by simp) k]
       by_cases hk : k = i0
       · rw [hk]
-        rw [if_pos rfl, show (-1 : ZMod 3) ^ (S.erase i0).card = -1 from Odd.neg_one_pow hodd]
+        rw [ite_eq_left rfl, show (-1 : ZMod 3) ^ (S.erase i0).card = -1 from Odd.neg_one_pow hodd]
         exact (hSmem i0).mp hi0
-      · rw [if_neg hk]
+      · rw [ite_eq_right hk]
         by_cases hkT : k ∈ S.erase i0
-        · rw [if_pos hkT]
+        · rw [ite_eq_left hkT]
           exact (hSmem k).mp (Finset.mem_of_mem_erase hkT)
-        · rw [if_neg hkT]
+        · rw [ite_eq_right hkT]
           have hkS : k ∉ S := fun h => hkT (Finset.mem_erase.mpr ⟨hk, h⟩)
           have hne : ε k ≠ -1 := fun h => hkS ((hSmem k).mpr h)
           rcases ggQ2s08k4_zmod3_eq_one_or_neg_one (ε k) (hε k) with h | h
@@ -379,16 +379,16 @@ theorem ggQ2s08k4_monoEven_mem
       rw [ggQ2s08k4_starScalar_eq i0 S hi0 k]
       by_cases hk : k = i0
       · rw [hk]
-        rw [if_pos rfl, show (-1 : ZMod 3) ^ S.card = 1 from Even.neg_one_pow hSeven]
+        rw [ite_eq_left rfl, show (-1 : ZMod 3) ^ S.card = 1 from Even.neg_one_pow hSeven]
         have hne : ε i0 ≠ -1 := fun h => hi0 ((hSmem i0).mpr h)
         rcases ggQ2s08k4_zmod3_eq_one_or_neg_one (ε i0) (hε i0) with h | h
         · exact h
         · exact absurd h hne
-      · rw [if_neg hk]
+      · rw [ite_eq_right hk]
         by_cases hkT : k ∈ S
-        · rw [if_pos hkT]
+        · rw [ite_eq_left hkT]
           exact (hSmem k).mp hkT
-        · rw [if_neg hkT]
+        · rw [ite_eq_right hkT]
           have hne : ε k ≠ -1 := fun h => hkT ((hSmem k).mpr h)
           rcases ggQ2s08k4_zmod3_eq_one_or_neg_one (ε k) (hε k) with h | h
           · exact h
@@ -399,28 +399,28 @@ theorem ggQ2s08k4_mono_data_eq
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
     (f : Module.Basis (Fin N) (ZMod 3) V)
     {g : V ≃ₗ[ZMod 3] V} {σ τ : Equiv.Perm (Fin N)} {ε δ : Fin N → ZMod 3}
-    (hε : ∀ i, ε i ≠ 0) (hδ : ∀ i, δ i ≠ 0)
+    (hε : ∀ i, ε i ≠ 0) (_hδ : ∀ i, δ i ≠ 0)
     (hg : ∀ i, g (f i) = ε i • f (σ i)) (hh : ∀ i, g (f i) = δ i • f (τ i)) :
     σ = τ ∧ ε = δ := by
   have hrepr : ∀ (a b : Fin N) (c : ZMod 3),
       f.repr (c • f a) b = c * (if a = b then 1 else 0) := by
     intro a b c
-    simp [map_smul, Module.Basis.repr_self_apply, smul_eq_mul, Finsupp.single_apply]
+    simp [map_smul, smul_eq_mul, Finsupp.single_apply]
   have hστ : ∀ i, σ i = τ i := by
     intro i
     by_contra h
     have h1 : f.repr (g (f i)) (σ i) = ε i := by
-      rw [hg i, hrepr, if_pos rfl, mul_one]
+      rw [hg i, hrepr, ite_eq_left rfl, mul_one]
     have h2 : f.repr (g (f i)) (σ i) = 0 := by
-      rw [hh i, hrepr, if_neg (Ne.symm h), mul_zero]
+      rw [hh i, hrepr, ite_eq_right (Ne.symm h), mul_zero]
     rw [h1] at h2
     exact hε i h2
   have hεδ : ε = δ := by
     funext i
     have h1 : f.repr (g (f i)) (σ i) = ε i := by
-      rw [hg i, hrepr, if_pos rfl, mul_one]
+      rw [hg i, hrepr, ite_eq_left rfl, mul_one]
     have h2 : f.repr (g (f i)) (σ i) = δ i := by
-      rw [hh i, hrepr, ← hστ i, if_pos rfl, mul_one]
+      rw [hh i, hrepr, ← hστ i, ite_eq_left rfl, mul_one]
     rw [h1] at h2
     exact h2
   exact ⟨Equiv.ext hστ, hεδ⟩

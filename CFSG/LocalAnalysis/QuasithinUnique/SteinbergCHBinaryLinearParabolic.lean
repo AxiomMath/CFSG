@@ -258,7 +258,7 @@ theorem cuts_cases {n : ℕ} (hn : n = 4 ∨ n = 5) {I : Set ℕ} (hI : ∀ c �
         fun h => (hS c (hSn c h).1 (hSn c h).2).mpr h⟩
   rcases hn with rfl | rfl
   · by_cases a1 : 1 ∈ I <;> by_cases a2 : 2 ∈ I <;> by_cases a3 : 3 ∈ I
-    all_goals first
+    all_goals try first
       | (exfalso; have h := h1 1 le_rfl (by norm_num); norm_num at h; tauto)
       | (exfalso; have h := h1 2 (by norm_num) (by norm_num); norm_num at h; tauto)
       | (exfalso; apply h2 1 le_rfl (by norm_num); intro c hc1 hcn hcj
@@ -267,7 +267,6 @@ theorem cuts_cases {n : ℕ} (hn : n = 4 ∨ n = 5) {I : Set ℕ} (hI : ∀ c �
          interval_cases c <;> first | assumption | exact absurd rfl hcj)
       | (exfalso; apply h2 3 (by norm_num) (by norm_num); intro c hc1 hcn hcj
          interval_cases c <;> first | assumption | exact absurd rfl hcj)
-      | skip
     have hI2 : I = {2} := hIe _ (fun c hc1 hcn => by interval_cases c <;> simp [*])
       (fun c hc => by rw [Set.mem_singleton_iff] at hc; omega)
     refine ⟨0, 2, [2, 2], le_rfl, le_rfl, ?_, rfl, by simp, rfl, ?_⟩
@@ -287,7 +286,7 @@ theorem cuts_cases {n : ℕ} (hn : n = 4 ∨ n = 5) {I : Set ℕ} (hI : ∀ c �
         exact ⟨1, by norm_num, by simp, by simp⟩
   · by_cases a1 : 1 ∈ I <;> by_cases a2 : 2 ∈ I <;> by_cases a3 : 3 ∈ I <;>
       by_cases a4 : 4 ∈ I
-    all_goals first
+    all_goals try first
       | (exfalso; have h := h1 1 le_rfl (by norm_num); norm_num at h; tauto)
       | (exfalso; have h := h1 2 (by norm_num) (by norm_num); norm_num at h; tauto)
       | (exfalso; have h := h1 3 (by norm_num) (by norm_num); norm_num at h; tauto)
@@ -299,7 +298,6 @@ theorem cuts_cases {n : ℕ} (hn : n = 4 ∨ n = 5) {I : Set ℕ} (hI : ∀ c �
          interval_cases c <;> first | assumption | exact absurd rfl hcj)
       | (exfalso; apply h2 4 (by norm_num) (by norm_num); intro c hc1 hcn hcj
          interval_cases c <;> first | assumption | exact absurd rfl hcj)
-      | skip
     ·
       have hI2 : I = {1, 3} := hIe _ (fun c hc1 hcn => by interval_cases c <;> simp [*])
         (fun c hc => by

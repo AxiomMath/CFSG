@@ -114,9 +114,9 @@ theorem tits_sq_not_normalizes_uc6 (hab : a * b = b * a) (ha : a ^ 5 = 1) (hb : 
     (hga : g * a * g⁻¹ = a ^ 3 * b ^ 4) (hgb : g * b * g⁻¹ = a ^ 2 * b ^ 4)
     {Y : Subgroup X} (hY : Y ≤ planeSub_uc6 hab ha hb) (hY5 : Nat.card Y = 5)
     (hgY : ∀ y ∈ Y, g ^ 2 * y * (g ^ 2)⁻¹ ∈ Y) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY5]; norm_num)
-  haveI : Nontrivial Y := Finite.one_lt_card_iff_nontrivial.1 (by rw [hY5]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY5]; norm_num)
+  have : Nontrivial Y := Finite.one_lt_card_iff_nontrivial.1 (by rw [hY5]; norm_num)
   obtain ⟨⟨x, hxY⟩, hx1⟩ := exists_ne (1 : Y)
   have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
   obtain ⟨i, j, rfl⟩ := hY hxY
@@ -323,7 +323,7 @@ theorem map_le_plane {X : Subgroup G} (hX : X ≤ m.A ⊓ m.L) :
   · rw [Subgroup.card_map_of_injective T.ψ.injective,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (hX.trans inf_le_right)).toEquiv]
 
-theorem map_normalized {X : Subgroup G} (hX : X ≤ m.A ⊓ m.L)
+theorem map_normalized {X : Subgroup G} (_hX : X ≤ m.A ⊓ m.L)
     (hXn : X.map (MulAut.conj (T.n ^ 2)).toMonoidHom = X) :
     ∀ u ∈ (X.subgroupOf m.L).map T.ψ.toMonoidHom, T.g ^ 2 * u * (T.g ^ 2)⁻¹ ∈
       (X.subgroupOf m.L).map T.ψ.toMonoidHom := by
@@ -376,7 +376,7 @@ theorem c621_of_titsSetup {m : Mz614 G} (T : TitsSetup m) (h620 : m.C620) (hr : 
 theorem exists_titsSetup (m : Mz614 G) (h620 : m.C620) (hr : m.r = 5)
     (hL : IsoLie ↥m.L .tits) : Nonempty (TitsSetup m) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := titsModelEquiv ↥m.L 2 1 (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits hL)
   obtain ⟨a, b, g, ha, hb, hab, hinj, hga, hgb⟩ := tits_plane_uc6
   set S₀ := planeSub_uc6 hab ha hb with hS₀def

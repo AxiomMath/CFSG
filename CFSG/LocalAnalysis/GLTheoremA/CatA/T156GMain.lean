@@ -47,7 +47,7 @@ theorem indAut_zpow {p : ℕ} {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.norm
   rw [← map_zpow]
   congr 1
   apply Subtype.ext
-  simp [zpow_neg, inv_zpow]
+  simp [zpow_neg]
 
 theorem indAut_pow_eq_one {p : ℕ} {L : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G))
     (hgp : g ^ p = 1) : indAut p L g hg ^ p = 1 := by
@@ -119,6 +119,7 @@ theorem card_le_range_mul {A₀ C : Subgroup Ω} {M : Type*} [Group M] (f : ↥A
     simpa using this
   exact Subtype.ext (Subtype.ext h1)
 
+omit [Finite Ω] in
 theorem isElemAbelian_range {p : ℕ} {A₀ : Subgroup Ω} {M : Type*} [Group M] (f : ↥A₀ →* M)
     (hcomm : ∀ a ∈ A₀, ∀ a' ∈ A₀, a * a' = a' * a) (hexp : ∀ a ∈ A₀, a ^ p = 1) :
     IsElemAbelian p f.range := by
@@ -140,9 +141,9 @@ theorem exists_decomp {p : ℕ} (hp : p.Prime) {A A₀ : Subgroup Ω} (hA₀A : 
     (hcard : Nat.card A ≤ p * Nat.card A₀) {b : Ω} (hbA : b ∈ A) (hb : b ∉ A₀) :
     ∀ a ∈ A, ∃ a₀ ∈ A₀, ∃ k : ℤ, a = a₀ * b ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A₀' : Subgroup ↥A := A₀.subgroupOf A with hA₀'
-  haveI hN : A₀'.Normal := ⟨fun n hn g => by
+  have hN : A₀'.Normal := ⟨fun n hn g => by
     have : g * n * g⁻¹ = n := by
       apply Subtype.ext
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -199,8 +200,8 @@ theorem t156_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S A A₀ : Subgroup 
         c ∈ Subgroup.zpowers b ⊔ (A ⊓ centModSubgroup p S)) ∧
       InnDiagOn p A (Ipart p S b) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite R := Finite.of_equiv (PSimple p S) θ.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite R := Finite.of_equiv (PSimple p S) θ.toEquiv
   set C := A ⊓ centModSubgroup p S with hCdef
   have hbN : b ∈ Subgroup.normalizer (S : Set Ω) := hAN hbA
   have hbp : b ^ p = 1 := hexp b hbA
@@ -263,7 +264,7 @@ theorem t156_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S A A₀ : Subgroup 
   have hraw₁ := cAll_innRank hp hp2 hlab₀ _ hraw₀
   obtain ⟨R₀, _, I₀, F₀, ⟨hs₀, hna₀, θ₀, hFG⟩, hIR⟩ :=
     CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw₁
-  haveI : Finite R₀ := Finite.of_equiv _ θ₀.toEquiv
+  have : Finite R₀ := Finite.of_equiv _ θ₀.toEquiv
   let Cx := Subgroup.centralizer ({x} : Set (MulAut R))
   let ψA₀' : ↥A₀ →* ↥Cx :=
     ψA₀.codRestrict Cx (fun a => Subgroup.mem_centralizer_singleton_iff.2 (hψx a))
@@ -295,7 +296,7 @@ theorem t156_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S A A₀ : Subgroup 
     (isElemAbelian_range r hcommA₀ hexpA₀) (fun φ hφ => by obtain ⟨a, rfl⟩ := hφ; exact hrI a)
     (hbig' _ r hrker)
   obtain ⟨r₀, rfl⟩ := hφinn
-  haveI := hs₀
+  have := hs₀
   have hZ₀ : Subgroup.center R₀ = ⊥ := center_eq_bot_of_simple' hna₀
   have hr₀p : r₀ ^ p = 1 := by
     have h1 : (MulAut.conj r₀) ^ p = 1 := (isElemAbelian_range r hcommA₀ hexpA₀).2 _ hφE
@@ -531,7 +532,7 @@ theorem t156_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S A A₀ : Subgroup 
 theorem t156FactOmega_of_geom (hG : T156Geom) (p : ℕ) : T156FactOmega p := by
   intro hp hp2 Ω _ _ S A b _ hSq hcore hchev hAN hAel hbA hR2 hG2 hrank hnt
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbN : b ∈ Subgroup.normalizer (S : Set Ω) := hAN hbA
   have hexp : ∀ a ∈ A, a ^ p = 1 := hAel.2
   have hcomm : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a := fun a ha a' ha' =>
@@ -615,7 +616,7 @@ theorem t156FactOmega_of_geom (hG : T156Geom) (p : ℕ) : T156FactOmega p := by
       (P' := fun lab R _ I F => GeomBody 3 lab R I F ∧ MI.RawInnBody 3 R I F) hall hM
     obtain ⟨-, lab, hlab, R, _, I, F, θ, hs, hna, ⟨⟨-, hMM⟩, hA₀P⟩, hGB, hRaw⟩ :=
       Canonical.largeEvenMarking_exists hM'
-    haveI : Finite R := Finite.of_equiv (PSimple 3 S) θ.toEquiv
+    have : Finite R := Finite.of_equiv (PSimple 3 S) θ.toEquiv
     have htag : lab.tag = .triD4 := tag_triD4_of_isTD4 hMM hTD4 θ
     have hx3 : MulAut.congr θ (indAut 3 S b hbN) ^ 3 = 1 := by
       rw [← map_pow, indAut_pow_eq_one hbN (hexp b hbA), map_one]

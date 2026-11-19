@@ -19,9 +19,9 @@ theorem exists_central_of_shape86DeltaT' (hConf : SpURootConfiguration) (h : Hyp
     (hKT : H = kGenIn V H ⊔ T) (hδ : Shape86DeltaT' V H T) :
     ∃ z ∈ T, z ≠ 1 ∧ (∀ t ∈ T, z * t = t * z) ∧ ∀ k ∈ kGenIn V H, z * k = k * z := by
   obtain ⟨m, n, hn, hrk, X, instX, φ, hφ, hroot⟩ := hδ
-  letI := instX
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  let := instX
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨φ', hφ', hbar⟩ := exists_ambient_barMap h hKT hφ
   have h2 : Nat.card (barSub (kGenIn V H) φ V) = 2 := by
     rw [Hyp83.card_barSub_eq_two_pow_rankBarV h hKT hφ, hrk]
@@ -128,7 +128,7 @@ theorem exists_central_of_shape86DeltaT' (hConf : SpURootConfiguration) (h : Hyp
   have hT_le_H : T ≤ H := h.T_le_H
   have hNsubT_normal : (N.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNT).mpr (hT_le_H.trans hH_le_NN)
-  haveI : (N.subgroupOf T).Normal := hNsubT_normal
+  have : (N.subgroupOf T).Normal := hNsubT_normal
   have hNsubT_ne : N.subgroupOf T ≠ ⊥ := by
     intro hbot
     apply hNne
@@ -136,7 +136,7 @@ theorem exists_central_of_shape86DeltaT' (hConf : SpURootConfiguration) (h : Hyp
       Subgroup.map_subgroupOf_eq_of_le hNT
     rw [hbot, Subgroup.map_bot] at hmap
     exact hmap.symm
-  haveI : Group.IsNilpotent ↥T := h.sylow_H.isPGroup.isNilpotent
+  have : Group.IsNilpotent ↥T := h.sylow_H.isPGroup.isNilpotent
   have hZ : N.subgroupOf T ⊓ Subgroup.center ↥T ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hNsubT_ne
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZ

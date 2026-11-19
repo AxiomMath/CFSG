@@ -32,7 +32,7 @@ private lemma conj_range_normal {G : Type*} [Group G] :
 private lemma isCyclic_quotient_inn_of_ggOutCyclic {G : Type*} [Group G] (h : GGOutCyclic G) :
     IsCyclic (MulAut G ⧸ (MulAut.conj : G →* MulAut G).range) := by
   let I : Subgroup (MulAut G) := (MulAut.conj : G →* MulAut G).range
-  haveI : I.Normal := conj_range_normal (G := G)
+  have : I.Normal := conj_range_normal (G := G)
   obtain ⟨φ₀, hφ₀⟩ := h
   refine isCyclic_of_surjective
     ((QuotientGroup.mk' I).comp (Subgroup.zpowers φ₀).subtype) ?_
@@ -55,11 +55,11 @@ theorem ggNbrG2Off_elemAbelian_card
   classical
   let G := adjointGroup Tag.G2 K
   let I : Subgroup (MulAut G) := (MulAut.conj : G →* MulAut G).range
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hchar : CharP K 2 := charP_two_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hchar : CharP K 2 := charP_two_of_card hK
   have hcenter : Subgroup.center G = ⊥ := center_adjointGroup_eq_bot
   have hconj : Function.Injective (MulAut.conj : G →* MulAut G) := mulAut_conj_injective hcenter
-  haveI hInorm : I.Normal := conj_range_normal (G := G)
+  have hInorm : I.Normal := conj_range_normal (G := G)
   have hA3 : IsPGroup 3 ↥A := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -74,7 +74,7 @@ theorem ggNbrG2Off_elemAbelian_card
     have hcardE : Nat.card ↥E = Nat.card ↥(A ⊓ I) := by
       rw [← hmapE, Subgroup.card_map_of_injective hconj]
     have hEabel : IsElemAbelian 3 E := by
-      haveI : IsMulCommutative ↥A := hA.1
+      have : IsMulCommutative ↥A := hA.1
       refine ⟨?_, ?_⟩
       · rw [isMulCommutative_iff]
         intro x y
@@ -113,8 +113,8 @@ theorem ggNbrG2Off_elemAbelian_card
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     simp only [ψ, MonoidHom.comp_apply, Subgroup.coe_subtype, QuotientGroup.mk'_apply]
     exact QuotientGroup.eq_one_iff (x : MulAut G)
-  haveI : IsCyclic (MulAut G ⧸ I) := hcyc
-  haveI : IsCyclic ↥ψ.range := Subgroup.isCyclic _
+  have : IsCyclic (MulAut G ⧸ I) := hcyc
+  have : IsCyclic ↥ψ.range := Subgroup.isCyclic _
   have hrange_dvd : Nat.card ↥ψ.range ∣ 3 := by
     have hexp : Monoid.exponent ↥ψ.range ∣ 3 := by
       refine Monoid.exponent_dvd_of_forall_pow_eq_one ?_

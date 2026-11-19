@@ -296,7 +296,7 @@ theorem sign_eq_of_spMat_eq {σ τ : Equiv.Perm (Fin 8)} {s t : Fin 8 → ZMod 3
   subst hστ
   funext j
   have e := congrFun (congrFun h (σ j)) j
-  rwa [spMat_apply, spMat_apply, if_pos rfl, if_pos rfl] at e
+  rwa [spMat_apply, spMat_apply, ite_eq_left rfl, ite_eq_left rfl] at e
 
 namespace N7MatHyp
 
@@ -368,7 +368,7 @@ theorem card_eq_orbit :
   rw [MulAction.index_stabilizer, h.card_stab] at h1
   have h2 : MulAction.orbit ↥Xg (Pi.single 0 1 : Fin 8 → ZMod 3) = {v | OrbE0 Xg v} := by
     ext v
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq, OrbE0, Subgroup.smul_def,
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq, OrbE0, Subgroup.smul_def,
       Units.smul_def, Matrix.smul_eq_mulVec]
     constructor
     · rintro ⟨⟨A, hA⟩, rfl⟩
@@ -399,7 +399,7 @@ theorem wt_single (k : Fin 8) : wt (Pi.single k (1 : ZMod 3)) = 1 := by
   by_cases hi : i = k
   · subst hi
     simp
-  · simp [hi, Pi.single_eq_of_ne hi]
+  · simp [hi]
 
 theorem sum_mul_single (w : Fin 8 → ZMod 3) (k : Fin 8) :
     ∑ j, w j * (Pi.single k (1 : ZMod 3) : Fin 8 → ZMod 3) j = w k := by
@@ -481,7 +481,7 @@ theorem wt_two_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 7)
         by_cases hi : i = p
         · subst hi
           simp
-        · simp [hi, Pi.single_eq_of_ne hi]
+        · simp [hi]
       rw [hz]
       unfold wt
       have : (Finset.univ.filter fun i => Function.update u p 0 i ≠ 0) = Finset.univ.erase p := by
@@ -519,7 +519,7 @@ theorem wt_two_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 7)
     rw [hw, sum_mul_single, wt_single_add_smul (hall p) (hwp p), h8] at hρe
     by_cases hc : 1 + w p * u p = 0
     · exact zmod3_neg_of_one_add (hall p) hc
-    · rw [if_neg hc] at hρe
+    · rw [ite_eq_right hc] at hρe
       omega
   have hz7 : wt (fun j : Fin 8 => if j = 0 then 0 else if (j : ℕ) ≤ 3 then -u j else u j) = 7 := by
     unfold wt
@@ -541,8 +541,8 @@ theorem wt_two_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 7)
       by_cases hj : j = 0
       · simp [hj]
       · by_cases h3 : (j : ℕ) ≤ 3
-        · simp only [hj, h3, if_false, if_true, neg_mul_neg, mul_self_of_ne_zero (hall j)]
-        · simp only [hj, h3, if_false, neg_mul, mul_self_of_ne_zero (hall j)]
+        · simp only [hj, h3, ite_false, ite_true, neg_mul_neg, mul_self_of_ne_zero (hall j)]
+        · simp only [hj, h3, ite_false, neg_mul, mul_self_of_ne_zero (hall j)]
     rw [Finset.sum_congr rfl (fun j _ => hpt j)]
     decide
   rw [hs] at hρz
@@ -558,7 +558,7 @@ theorem wt_two_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 7)
       have hui := hall i
       by_cases hi : i = 0
       · subst hi
-        simp only [if_true]
+        simp only [ite_true]
         constructor
         · intro _
           decide
@@ -568,12 +568,12 @@ theorem wt_two_of_reflection (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v = 7)
           revert a
           decide
       · by_cases h3 : (i : ℕ) ≤ 3
-        · simp only [hi, h3, if_false, if_true, iff_true]
+        · simp only [hi, h3, ite_false, ite_true, iff_true]
           revert hui
           generalize u i = a
           revert a
           decide
-        · simp only [hi, h3, if_false, iff_false, not_not]
+        · simp only [hi, h3, ite_false, iff_false, not_not]
           ring
     rw [this]
     decide
@@ -617,7 +617,7 @@ theorem false_of_orbit_one_seven (hO : ∀ v, OrbE0 Xg v ↔ (wt v = 1 ∨ wt v 
     (by rw [hrme, spMat_mulVec]; decide) (fun z => ⟨z 1 - z 0, by
       rw [hrme, spMat_mulVec]
       funext i
-      fin_cases i <;> simp [Equiv.swap_apply_def] <;> ring⟩)
+      fin_cases i <;> simp [Equiv.swap_apply_def]⟩)
   have hsum : (A₀ : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ (Pi.single 0 1 + Pi.single 1 1) +
       (A₀ : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ (Pi.single 0 1 - Pi.single 1 1) =
       (2 : ZMod 3) • repW 7 := by

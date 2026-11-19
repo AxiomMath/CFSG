@@ -23,10 +23,12 @@ variable {K : Type} [Group K] {D : UniversalRootDatum K} {n : Fin D.rank → K}
   (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
     (weylAction D.isFiniteType) D.roots D.rootGroup n H)
 
+omit [CharP Fld 2] in
 private theorem q2nPE_sl2Upper_eq {l : SL(2, Fld) →* K} {x : Fld → K}
     (h : ∀ c, l (tv 0 1 c) = x c) (c : Fld) : l (sl2Upper c) = x c := by
   rw [← tv01_eq_sl2Upper, h c]
 
+omit [CharP Fld 2] in
 private theorem q2nPE_sl2Lower_eq {l : SL(2, Fld) →* K} {x : Fld → K}
     (h : ∀ c, l (tv 1 0 c) = x c) (c : Fld) : l (sl2Lower c) = x c := by
   rw [← tv10_eq_sl2Lower, h c]
@@ -165,7 +167,7 @@ private theorem q2nPE_sl2Lower_eq {l : SL(2, Fld) →* K} {x : Fld → K}
     exact (congrArg (M.x (Pi.single i 1)) (CharTwo.neg_eq c)).symm
   ε₂ i j := if h : edgeE D.rank i j then (hD.sl3 i j h).choose else 1
   ε₂_inj i j hij hm := by
-    rw [dif_pos (hedge i j hij hm)]
+    rw [dite_eq_left (hedge i j hij hm)]
     exact (hD.sl3 i j (hedge i j hij hm)).choose_spec.1
   ε₂_left i j hij hm := by
     show (if h : edgeE D.rank i j then (hD.sl3 i j h).choose else 1).comp
@@ -179,7 +181,7 @@ private theorem q2nPE_sl2Lower_eq {l : SL(2, Fld) →* K} {x : Fld → K}
       fun c => ((hD.sl2 i).choose_spec.2 c).1
     have hl2' : ∀ c, (hD.sl2 i).choose (tv 1 0 c) = M.x (-Pi.single i 1) c :=
       fun c => ((hD.sl2 i).choose_spec.2 c).2
-    rw [dif_pos he]
+    rw [dite_eq_left he]
     refine sl2_hom_ext (fun c => ?_) (fun c => ?_)
     · rw [MonoidHom.comp_apply]
       rw [show (WeakCT.blk Fld 0) (sl2Upper c) = tv 0 1 c by
@@ -201,7 +203,7 @@ private theorem q2nPE_sl2Lower_eq {l : SL(2, Fld) →* K} {x : Fld → K}
       fun c => ((hD.sl2 j).choose_spec.2 c).1
     have hl2' : ∀ c, (hD.sl2 j).choose (tv 1 0 c) = M.x (-Pi.single j 1) c :=
       fun c => ((hD.sl2 j).choose_spec.2 c).2
-    rw [dif_pos he]
+    rw [dite_eq_left he]
     refine sl2_hom_ext (fun c => ?_) (fun c => ?_)
     · rw [MonoidHom.comp_apply]
       rw [show (WeakCT.blk Fld 1) (sl2Upper c) = tv 1 2 c by

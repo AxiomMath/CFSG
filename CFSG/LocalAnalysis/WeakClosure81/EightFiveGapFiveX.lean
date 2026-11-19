@@ -54,7 +54,7 @@ theorem gap5X_exists_pi {X Y : Type} [Group X] [Finite X] [Group Y] {n : ℕ} (�
       (Subgroup.card_map_dvd (fusionOddCore X) ψ)
   have hπmax : ∀ N : Subgroup Y, N.Normal → Odd (Nat.card N) → N ≤ π.ker := by
     intro N hNn hNodd
-    haveI : (N.comap ψ).Normal := hNn.comap ψ
+    have : (N.comap ψ).Normal := hNn.comap ψ
     have hcomap_odd : Odd (Nat.card (N.comap ψ)) := by
       rw [CFSG.EvenSporadicStandard.Fin76b.natCard_comap_eq_card_ker_mul ψ hψ N]
       exact hodd.mul hNodd
@@ -81,7 +81,7 @@ theorem gap5_X {X Y : Type} [Group X] [Finite X] [Group Y] {S Z₁ : Subgroup X}
     (hbO : ∀ o ∈ fusionOddCore X, b (ψ o) = ψ o) :
     6 ≤ n ∧ ∃ (e : Y ≃* Perm (Fin n)) (d : Y), S.map ψ = Subgroup.zpowers d ∧ d * d = 1 ∧
       d ≠ 1 ∧ (7 ≤ n → (e d).IsSwap) := by
-  haveI : Finite Y := Finite.of_surjective ψ hψ
+  have : Finite Y := Finite.of_surjective ψ hψ
   have hker : ψ.ker = Z₁ := Subgroup.ext fun x => by rw [MonoidHom.mem_ker, hψk]
   have hodd : Odd (Nat.card ψ.ker) := by
     rw [hker]

@@ -207,11 +207,11 @@ private theorem u4qBase_A_elem (C : X.Comm48 5 4 1) :
   classical
   set A : Subgroup G := X.Q 0 ⊓ X.Q 2 with hAdef
   have hAGi : A ≤ X.Gi 0 := inf_le_left.trans (X.Q_le_Gi 0)
-  haveI : Finite ↥A :=
+  have : Finite ↥A :=
     finite_of_le_stabilizer X.hyp (α := X.vert 0) (H := A) hAGi
   have hAp : IsPGroup 2 A :=
     (pCoreOf_isPGroup' (X.Gi 0)).to_le inf_le_left
-  haveI : Fact (IsPGroup 2 ↥A) := ⟨hAp⟩
+  have : Fact (IsPGroup 2 ↥A) := ⟨hAp⟩
   have hAGim1 : A ≤ X.Gi (-1) := inf_le_left.trans (((X.Q_le_Gi_adj 0).trans inf_le_left))
   have hAGi3 : A ≤ X.Gi 3 := inf_le_right.trans (((X.Q_le_Gi_adj 2).trans inf_le_right))
   have hALm1 : A ≤ X.L (-1) := le_oTwoPrime_of_isPGroup hAp hAGim1
@@ -245,7 +245,7 @@ private theorem u4qBase_A_elem (C : X.Comm48 5 4 1) :
       rw [hPbot', Subgroup.map_bot]
     have hle := X.le_r_of_fixes C.hyp hP2 hPne hfix
     omega
-  haveI hElem : CFSG.IsElementaryAbelian 2 ↥A :=
+  have hElem : CFSG.IsElementaryAbelian 2 ↥A :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥A) (p := 2)).mp hfr_bot
   exact ⟨inferInstance, fun x hx => elemPow_eq_one_of_isElementaryAbelian x hx⟩
 
@@ -445,7 +445,7 @@ private theorem u4qBase_Q1_Z2_le_Z1 (C : X.Comm48 5 4 1)
 private theorem u4qBase_Q1_sup_commute (hZ0Q1 : X.Z 0 ≤ X.Q 1)
     (hAQ1 : X.Q 0 ⊓ X.Q 2 ≤ X.Q 1) (hZ0Z1 : X.Z 0 ≤ X.Z 1) (hZ2Z1 : X.Z 2 ≤ X.Z 1)
     (hZ0elem : IsElemAbelian 2 (X.Z 0)) (hZ2elem : IsElemAbelian 2 (X.Z 2))
-    (hAelem : IsElemAbelian 2 (X.Q 0 ⊓ X.Q 2)) :
+    (_hAelem : IsElemAbelian 2 (X.Q 0 ⊓ X.Q 2)) :
     IsElemAbelian 2 (X.Z 0 ⊔ X.Z 2) ∧
       ∀ a ∈ X.Q 0 ⊓ X.Q 2, ∀ b ∈ X.Z 0 ⊔ X.Z 2, a * b = b * a := by
   have hZ0center : X.Z 0 ≤ centerOf (X.Q 1) := hZ0Z1.trans (X.Z_le_center 1)
@@ -523,7 +523,7 @@ private theorem u4qBase_Z0_inf_Z2 (C : X.Comm48 5 4 1)
   omega
 
 private theorem u4qBase_card_Q1_Q0
-    (hZ2Q1 : X.Z 2 ≤ X.Q 1) (hZ2Q0 : X.Z 2 ⊓ X.Q 0 = ⊥)
+    (_hZ2Q1 : X.Z 2 ≤ X.Q 1) (hZ2Q0 : X.Z 2 ⊓ X.Q 0 = ⊥)
     (hcardZ2 : Nat.card (X.Z 2) = 2 ^ X.n 0)
     (hcardQ1 : Nat.card (X.Q 1) = 2 ^ (2 * X.n 0 + X.n 1))
     (hQ1eq1 : X.Q 1 = X.Z 2 ⊔ (X.Q 1 ⊓ X.Q 0)) :
@@ -643,7 +643,7 @@ private theorem u4qBase_Q1_eq_sup (hZ0G2 : X.Z 0 ≤ X.Gi 2) (hZ2G0 : X.Z 2 ≤ 
     (hcardQ1 : Nat.card (X.Q 1) = 2 ^ (2 * X.n 0 + X.n 1)) :
     X.Q 1 = X.Z 0 ⊔ X.Z 2 ⊔ (X.Q 0 ⊓ X.Q 2) := by
   set A : Subgroup G := X.Q 0 ⊓ X.Q 2 with hAdef
-  haveI : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
+  have : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   obtain ⟨hcardZ0Z2, hmodP⟩ :=
     u4qBase_card_sup_Z0_Z2 hZ0G2 hZ2G0 hZ0Q0 hZ2Q0 hZ0Z2bot hcardZ0 hcardZ2
   have hPA : (X.Z 0 ⊔ X.Z 2) ⊓ A = ⊥ := by

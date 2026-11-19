@@ -169,7 +169,7 @@ private theorem exists_avg_proj {S : Subgroup (V ≃ₗ[K] V)} [Finite S]
     ∃ pr : V →ₗ[K] V, (∀ v, pr (pr v) = pr v) ∧ (∀ s ∈ S, ∀ v, s (pr v) = pr v) ∧
       (∀ s ∈ S, ∀ v, pr (s v) = pr v) ∧ (∀ v, (∀ s ∈ S, s v = v) → pr v = v) ∧
       ∀ g ∈ Subgroup.normalizer (S : Set (V ≃ₗ[K] V)), ∀ v, g (pr v) = pr (g v) := by
-  haveI := Fintype.ofFinite S
+  have := Fintype.ofFinite S
   have hS' : (Fintype.card S : K) ≠ 0 := by rwa [Fintype.card_eq_nat_card]
   exact ⟨avgEnd S, avgEnd_avgEnd hS', fun s hs v => apply_avgEnd hs v,
     fun s hs v => avgEnd_apply_apply hs v, fun v hv => avgEnd_of_fixed hS' hv,
@@ -212,9 +212,9 @@ theorem eichler_commute_of_isPGroup_two {e₀ w₁ w₂ : V} (he : Q e₀ = 0)
       (ZMod.castHom (dvd_refl 3) K c₁ • w₁ + ZMod.castHom (dvd_refl 3) K c₂ • w₂) ∈
         Subgroup.normalizer (R : Set (V ≃ₗ[K] V))) :
     ∀ r ∈ R, eichler Q e₀ w₁ * r = r * eichler Q e₀ w₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
     fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   have h3K : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
   have h2 : (2 : K) ≠ 0 := fun h0 => one_ne_zero (by linear_combination h3K - h0 : (1 : K) = 0)
@@ -278,7 +278,7 @@ theorem eichler_commute_of_isPGroup_two {e₀ w₁ w₂ : V} (he : Q e₀ = 0)
       · change E c * ((E c)⁻¹ * g * E c) * (E c)⁻¹ = g
         group
   let β := CFSG.SolvableSignalizer.restrictAction α R hαR
-  haveI : @CFSG.IsElementaryAbelian 3 (Multiplicative (ZMod 3 × ZMod 3)) CommGroup.toGroup :=
+  have : @CFSG.IsElementaryAbelian 3 (Multiplicative (ZMod 3 × ZMod 3)) CommGroup.toGroup :=
     { toIsMulCommutative := ⟨⟨mul_comm⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun c => z3_pow_three _ }
   have hcop : ¬ 3 ∣ Nat.card R := by
@@ -481,7 +481,7 @@ theorem eichler_commute_of_isPGroup_two {e₀ w₁ w₂ : V} (he : Q e₀ = 0)
     fun z => eichler_sub_sub_apply he (hpol _) z
   have hpr_e₀ : pr e₀ = 0 := by
     have h1 : pr (E c (E c z₀ - z₀) - (E c z₀ - z₀)) = 0 := by
-      simp only [map_sub, ha_pr, ha_range _ (hpr_idem z₀), sub_self, map_zero]
+      simp only [map_sub, ha_pr, ha_range _ (hpr_idem z₀), sub_self]
     rw [hNN, map_smul] at h1
     exact (smul_eq_zero.1 h1).resolve_left (hκ c hc1)
   let H₁ : Subgroup (V ≃ₗ[K] V) :=

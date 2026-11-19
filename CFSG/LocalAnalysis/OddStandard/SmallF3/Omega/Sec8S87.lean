@@ -24,7 +24,7 @@ private theorem sec8s_centerIn_commute {H : Subgroup G} {w b : G} (hw : w ∈ ce
   have h := Subgroup.mem_center_iff.mp hw' (⟨b, hb⟩ : ↥H)
   exact (congrArg Subtype.val h).symm
 
-theorem sec8s_core {t z x : G} {Lg B : Subgroup G} (ht2 : t * t = 1) (ht1 : t ≠ 1)
+theorem sec8s_core {t z x : G} {Lg B : Subgroup G} (_ht2 : t * t = 1) (_ht1 : t ≠ 1)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) (hBLg : B ≤ Lg) (hzB : z ∈ B)
     (hBe : ∀ b ∈ B, b * b = 1) (hBc : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b)
     (htB : ∀ b ∈ B, b * t = t * b) (htz : ∀ n ∈ Lg, n * (t * z) = (t * z) * n)
@@ -125,7 +125,7 @@ theorem sec8s_core {t z x : G} {Lg B : Subgroup G} (ht2 : t * t = 1) (ht1 : t �
     have h2 : b₀ = z := by rwa [inv_eq_of_mul_eq_one_right hz2] at h1
     exact hb₀z h2
   have hzb02 : orderOf (z * b₀) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hzb0ne
   have huLg : (x⁻¹ * w * x) * w ∈ Lg := Lg.mul_mem hw'Lg hwLg
   have hucent : ∀ l' ∈ Lg, ((x⁻¹ * w * x) * w) * l' = l' * ((x⁻¹ * w * x) * w) := by
@@ -179,7 +179,7 @@ theorem asc82Lemma87_of (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (h85 : Asc82Le
   have hbase : Sec8Base G t L S z g B' :=
     ⟨hctx.toSec8Setting, hctx.tz, hB'le, hB'e⟩
   have hzB : z ∈ B' := (hB G t L S z g B' hbase).1
-  haveI : IsMulCommutative B' := hB'e.1.1
+  have : IsMulCommutative B' := hB'e.1.1
   have hBe : ∀ b ∈ B', b * b = 1 := fun b hb =>
     CFSG.Open.IsElemAbelian.mul_self_eq_one hB'e.1 hb
   have hBc : ∀ b ∈ B', ∀ b' ∈ B', b * b' = b' * b := fun b hb b' hb' =>
@@ -205,7 +205,7 @@ theorem asc82Lemma87_of (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (h85 : Asc82Le
         intro h
         exact hxL (h ▸ Subgroup.one_mem _)
       have hx2 : orderOf x = 2 := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hx1
       exact hctx.no_i3 x (hctx.sylow.1 hxS) hx2 α' hx3
     · have hxsqC : x * x ∈ centralizer (L : Set G) := sec68_sq_mem_centralizer hLM hx3

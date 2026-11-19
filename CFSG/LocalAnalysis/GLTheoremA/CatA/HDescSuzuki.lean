@@ -29,7 +29,7 @@ theorem kDescFam_suzuki_holds (p : ℕ) : KDescFam p fSuzuki := by
   intro hp hp2 Y _ _ K B h hc hcB
   left
   obtain ⟨m, hv, ⟨e⟩⟩ := exists_suzuki_index_of_catalog hc
-  haveI : Finite (CFSGIndex.lie ⟨.suzuki m, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSGIndex.lie ⟨.suzuki m, hv⟩).Group := Finite.of_equiv _ e.toEquiv
   have hS := CFSG.RankThree.PartTwo.Sec4.Census.suzukiModel_of_index m hv
   exact kConcl_of_rankOne hp hp2 h e (outPRankLE1_of_cyclic hp (suzuki_outer_cyclic hS))
     (suzuki_twoLocalRankLE1 hS hp hp2)

@@ -15,6 +15,7 @@ section Step2
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem ker_eq_of_perfect (P : Subgroup K) [P.Normal] (hP : IsPGroup 2 P)
     (hsimp : IsSimpleGroup (K ⧸ P)) (hcardQ : Nat.card (K ⧸ P) = 20160)
     (hperf : ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ = ⊤)
@@ -27,10 +28,10 @@ theorem ker_eq_of_perfect (P : Subgroup K) [P.Normal] (hP : IsPGroup 2 P)
       (∀ γ ∈ orthogonalSubgroupOf q, ∀ n ∈ N, γ * n * γ⁻¹ ∈ N) → Nat.card N ≠ 2) :
     ρ.ker = P := by
   classical
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun e : W ≃ₗ[ZMod 2] W => (e : W → W))
       (fun e f h => LinearEquiv.ext (fun x => congrFun h x))
-  haveI : ρ.ker.Normal := MonoidHom.normal_ker ρ
+  have : ρ.ker.Normal := MonoidHom.normal_ker ρ
   have hNP : ρ.ker ⊔ P ≠ ⊤ := by
     intro htop
     have hQ : IsPGroup 2 (K ⧸ ρ.ker) := by
@@ -60,7 +61,7 @@ theorem ker_eq_of_perfect (P : Subgroup K) [P.Normal] (hP : IsPGroup 2 P)
     rw [hr, Subgroup.card_bot] at hbig
     norm_num at hbig
   have hNle : ρ.ker ≤ P := by
-    haveI := hsimp
+    have := hsimp
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map (QuotientGroup.mk' P)) with h | h
     · intro n hn
       have hmem : QuotientGroup.mk' P n ∈ ρ.ker.map (QuotientGroup.mk' P) :=
@@ -126,11 +127,13 @@ open CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem K₁_le_normalizer_u128 {K₁ V V₁ : Subgroup G}
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G))) :
     K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G) :=
-  fun k hk => le_normalizer_conjClosure V _ (K₁_le_normalizer hK hk)
+  fun _k hk => le_normalizer_conjClosure V _ (K₁_le_normalizer hK hk)
 
+omit [Finite G] in
 theorem step2_main {K₁ V V₁ : Subgroup G}
     (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G)))
     (hK4 : Nonempty (↥K₁ ⧸ CFSG.pCore 2 ↥K₁ ≃* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)))

@@ -74,7 +74,7 @@ theorem exists_singer_sl [Finite K] {ℓ : ℕ} [Fact ℓ.Prime] [CharP K ℓ] (
   obtain ⟨y₀, hy₀⟩ := FiniteField.unitsMap_norm_surjective (K := K) (K' := E) hdet₀.unit⁻¹
   have hnorm₀ : Algebra.norm K (y₀ : E) * S₀.det = 1 := by
     have h := congrArg (fun u : Kˣ => (u : K)) hy₀
-    simp only [Units.coe_map, MonoidHom.coe_coe] at h
+    simp only [Units.coe_map] at h
     rw [h]
     exact hdet₀.val_inv_mul
   let σ : SpecialLinearGroup (Fin n) K :=

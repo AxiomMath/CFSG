@@ -15,11 +15,11 @@ theorem card_dvd_of_free_orbits {A X : Type*} [Group A] [Finite A] [MulAction A 
     { smul := fun a x => ⟨a • x.1, hS a x.1 x.2⟩
       one_smul := fun x => Subtype.ext (one_smul A x.1)
       mul_smul := fun a b x => Subtype.ext (mul_smul a b x.1) }
-  letI := act
-  letI : Fintype A := Fintype.ofFinite A
-  letI : Fintype S := Fintype.ofFinite S
-  letI : Fintype (Quotient (MulAction.orbitRel A S)) := Fintype.ofFinite _
-  letI : ∀ b : S, Fintype (MulAction.stabilizer A b) := fun b => Fintype.ofFinite _
+  let := act
+  let : Fintype A := Fintype.ofFinite A
+  let : Fintype S := Fintype.ofFinite S
+  let : Fintype (Quotient (MulAction.orbitRel A S)) := Fintype.ofFinite _
+  let : ∀ b : S, Fintype (MulAction.stabilizer A b) := fun b => Fintype.ofFinite _
   have hstab : ∀ x : S, MulAction.stabilizer A x = ⊥ := by
     intro x
     rw [eq_bot_iff]
@@ -56,13 +56,13 @@ theorem nine_dvd_of_commute_pow {G : Type*} [Group G] {g x : G} (hg : orderOf g 
 
 theorem cube_central_of_elemAbelian_card_le_64 {G : Type*} [Group G] [Finite G] (g : G)
     (W : Subgroup G) (hg : orderOf g = 9) (hW2 : ∀ x ∈ W, x ^ 2 = 1)
-    (hWc : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x) (hcard : Nat.card ↥W ≤ 64)
+    (_hWc : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x) (hcard : Nat.card ↥W ≤ 64)
     (hn : g ∈ Subgroup.normalizer (W : Set G))
     (x₀ : G) (hx₀ : x₀ ∈ W) (hx₀1 : x₀ ≠ 1) (hfix : g ^ 3 * x₀ * (g ^ 3)⁻¹ = x₀) :
     ∀ y ∈ W, g ^ 3 * y * (g ^ 3)⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ConjAct G) := inferInstanceAs (Finite G)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ConjAct G) := inferInstanceAs (Finite G)
   set F : Subgroup G := W ⊓ Subgroup.centralizer ({g ^ 3} : Set G) with hFdef
   have hFW : F ≤ W := inf_le_left
   have hmemF : ∀ z, z ∈ F ↔ z ∈ W ∧ g ^ 3 * z = z * g ^ 3 := by

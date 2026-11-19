@@ -20,7 +20,7 @@ theorem pCore_inf_le_theta_of_bot (x : G) (y' : CAt x) (hy3 : y' ^ 3 = 1)
     inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({x} : Set G) ⊓
         Subgroup.centralizer ({(y' : G)} : Set G)) ≤
       inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : ¬ 3 ∣ Nat.card (aschbacherSolvableCore 3 (CAt x)) :=
     (solvable_prime_complement_core_characterization (H := CAt x) Nat.prime_three).2.2.1
   rw [inSubgroup_pCore_centralizer_inf x y']
@@ -65,7 +65,7 @@ section Certified
 
 theorem cd_isKGroup {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G}
     {a : G} {R Y : Subgroup G} {d : G} (h : ResidueConfig G A c L a R Y d)
-    (hT : A ∉ partTwoT G) : CFSG.IsKGroup (QAt (c * d)) := by
+    (_hT : A ∉ partTwoT G) : CFSG.IsKGroup (QAt (c * d)) := by
   have hG : TheoremFourHyp G := h.toSec11StdLocal.toHyp81.toPartTwoStanding.toTheoremFourHyp
   have hcd1 : c * d ≠ 1 := by
     intro h1
@@ -87,7 +87,7 @@ theorem cdQuot_of (hD : CensusD) (hL : ThreePrimeComponentsTwoCore) {G : Type} [
           Subgroup.centralizer ({y} : Set G)) ≤
         inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({c * d} : Set G)) := by
   intro y hyA hy1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAe := h.mem_partTwoF.1
   have hcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (hAe.1.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
@@ -112,7 +112,7 @@ theorem twoStarAtCD_of_pieces (hH : H1bAtCD) (hD : CensusD) (hL : ThreePrimeComp
     ResidueR1TwoStarCD := by
   intro G _ _ A c L a R Y d h hT hR1 hS hKF
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAe := h.mem_partTwoF.1
   have hEA : IsElementaryAbelian 3 A :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 A).2 hAe

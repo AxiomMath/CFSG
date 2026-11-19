@@ -16,9 +16,10 @@ open scoped commutatorElement
 
 variable {F : Type} [Field F] [Finite F] {ℓ : ℕ}
 
+omit [Finite F] in
 theorem spForm_add_add_self [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {u v : Fin ℓ ⊕ Fin ℓ → F}
-    (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
+    (_hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hv : v ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1)) :
     spForm ℓ F (u + v) (spEnd d (u + v)) =
       spForm ℓ F u (spEnd d u) + spForm ℓ F v (spEnd d v) + spForm ℓ F u v := by
@@ -43,6 +44,7 @@ theorem spForm_add_add_self [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 =
   simp only [map_add, LinearMap.add_apply, hvu]
   linear_combination (norm := abel) hself
 
+omit [Finite F] in
 private lemma three_independent_vectors_of_three_le [CharP F 2]
     {Y : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} (h3 : 3 ≤ finrank F Y) :
     ∃ v : Fin 3 → Fin ℓ ⊕ Fin ℓ → F,
@@ -67,6 +69,7 @@ private lemma three_independent_vectors_of_three_le [CharP F 2]
     Submodule.subset_span ⟨i, rfl⟩
   exact ⟨v, hvY, hli3, hmem⟩
 
+omit [Finite F] in
 private lemma partial_sums_ne_zero [CharP F 2] {v : Fin 3 → Fin ℓ ⊕ Fin ℓ → F}
     (hli : LinearIndependent F v) :
     v 0 + v 1 ≠ 0 ∧ v 0 + v 2 ≠ 0 ∧ v 1 + v 2 ≠ 0 ∧ v 0 + (v 1 + v 2) ≠ 0 := by
@@ -100,6 +103,7 @@ private lemma partial_sums_ne_zero [CharP F 2] {v : Fin 3 → Fin ℓ ⊕ Fin �
     exact one_ne_zero hc
   exact ⟨h01ne, h02ne, h12ne, h03ne⟩
 
+omit [Finite F] in
 private lemma isotropic_pairings_eq_one [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {v : Fin 3 → Fin ℓ ⊕ Fin ℓ → F}
     (hvY : ∀ i, v i ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
@@ -142,7 +146,8 @@ private lemma isotropic_pairings_eq_one [CharP F 2] {d : ↥(StatedSp ℓ F)} (h
     exact hQsum
   exact ⟨h01, h02, h12, hQ12⟩
 
-private lemma isotropic_contradiction [CharP F 2] (hF : Nat.card F = 2)
+omit [Finite F] in
+private lemma isotropic_contradiction [CharP F 2] (_hF : Nat.card F = 2)
     {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) {v : Fin 3 → Fin ℓ ⊕ Fin ℓ → F}
     (hvY : ∀ i, v i ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hY : Submodule.span F (Set.range v) ≤ primaryComponent (spEnd d) (X ^ 2 + X + 1))
@@ -167,7 +172,7 @@ private lemma isotropic_contradiction [CharP F 2] (hF : Nat.card F = 2)
     calc (1 : F) + 1 = 2 := by norm_num
       _ = 0 := h2F
   have h111 : (1 : F) + 1 + 1 = 1 := by rw [h11, zero_add]
-  simp [h11, h111] at hq
+  simp [h11] at hq
   rw [hq] at hv0
   exact one_ne_zero hv0.symm
 
@@ -200,6 +205,7 @@ theorem exists_isotropic_of_three_le [CharP F 2] (hF : Nat.card F = 2)
   exact isotropic_contradiction hF hd3 (fun i => hY (hvY i))
     (fun z hz => hY (hZle hz)) hmem hQeq h03ne hv0 h01 h02 hQ12
 
+omit [Finite F] in
 theorem exists_isotropic_partner [CharP F 2] {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     {r : Fin ℓ ⊕ Fin ℓ → F} (hr : r ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hr0 : r ≠ 0) (hQ : spForm ℓ F r (spEnd d r) = 0) :
@@ -298,11 +304,13 @@ theorem mem_of_unitTransv_stable [CharP F 2] (hF : Nat.card F = 2)
     exact h1
 
 
+omit [Finite F] in
 private lemma proj_zero_kill {V : Type} [AddCommGroup V] [Module F V]
     (A : Module.End F V) (hA3 : A ^ 3 = 1) :
     (A - 1) * (1 + A + A ^ 2) = 0 := by
   rw [show (A - 1) * (1 + A + A ^ 2) = A ^ 3 - 1 by noncomm_ring, hA3, sub_self]
 
+omit [Finite F] in
 private lemma proj_one_kill {V : Type} [AddCommGroup V] [Module F V]
     (A T : Module.End F V) (hAT : A * T = T * A) (hA3 : A ^ 3 = 1) (hT3 : T ^ 3 = 1) :
     (A - T) * (1 + T ^ 2 * A + T * A ^ 2) = 0 := by
@@ -332,6 +340,7 @@ private lemma proj_one_kill {V : Type} [AddCommGroup V] [Module F V]
         rw [h1, h2, h3, h4, mul_one]
     _ = 0 := by abel
 
+omit [Finite F] in
 private lemma proj_two_kill {V : Type} [AddCommGroup V] [Module F V]
     (A T : Module.End F V) (hAT : A * T = T * A) (hA3 : A ^ 3 = 1) (hT3 : T ^ 3 = 1) :
     (A - T ^ 2) * (1 + T * A + T ^ 2 * A ^ 2) = 0 := by
@@ -363,12 +372,14 @@ private lemma proj_two_kill {V : Type} [AddCommGroup V] [Module F V]
         rw [h1, h2, h3, h4, mul_one]
     _ = 0 := by abel
 
+omit [Finite F] in
 private lemma proj_sum {V : Type} [AddCommGroup V] [Module F V] (A T : Module.End F V) :
     (1 + A + A ^ 2) + (1 + T ^ 2 * A + T * A ^ 2) + (1 + T * A + T ^ 2 * A ^ 2) =
       (3 : ℕ) • (1 : Module.End F V) + (1 + T + T ^ 2) * A + (1 + T + T ^ 2) * A ^ 2 := by
   noncomm_ring
 
 
+omit [Finite F] in
 private lemma eigen_projection_mem {V : Type} [AddCommGroup V] [Module F V]
     (A T : Module.End F V) (W : Submodule F V)
     (hAW : ∀ z ∈ W, A z ∈ W) (hTW : ∀ z ∈ W, T z ∈ W) :
@@ -406,6 +417,7 @@ private lemma eigen_projection_mem {V : Type} [AddCommGroup V] [Module F V]
     rw [hz']
     exact W.add_mem (W.add_mem hz hT1) (hTW _ (hTW _ hA2z))
 
+omit [Finite F] in
 private lemma eigen_projection_sum [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
     (A T : Module.End F V) (W : Submodule F V) (hAW : ∀ z ∈ W, A z ∈ W)
     (hnormop : ∀ z ∈ W, ((1 + T + T ^ 2 : Module.End F V)) z = 0) :
@@ -436,6 +448,7 @@ private lemma eigen_projection_sum [CharP F 2] {V : Type} [AddCommGroup V] [Modu
   rw [h1, h2, h3] at h
   simpa only [add_zero, LinearMap.add_apply, Module.End.mul_apply, Module.End.one_apply] using h
 
+omit [Finite F] in
 private lemma eigen_projection_kernel {V : Type} [AddCommGroup V] [Module F V]
     (A T : Module.End F V) (W : Submodule F V)
     (hP0W : ∀ z ∈ W, ((1 + A + A ^ 2 : Module.End F V)) z ∈ W)
@@ -466,6 +479,7 @@ private lemma eigen_projection_kernel {V : Type} [AddCommGroup V] [Module F V]
     have h := congrArg (fun f : Module.End F V => f z) hk2
     simpa [Module.End.mul_apply, LinearMap.sub_apply] using h
 
+omit [Finite F] in
 private lemma eigen_primary_le_sup_abstract [CharP F 2] {V : Type} [AddCommGroup V]
     [Module F V] (A T : Module.End F V) (W : Submodule F V)
     (hA3 : A ^ 3 = 1) (hT3 : T ^ 3 = 1) (hcomm : A * T = T * A)
@@ -491,6 +505,7 @@ private lemma eigen_primary_le_sup_abstract [CharP F 2] {V : Type} [AddCommGroup
   exact Submodule.mem_sup.mpr ⟨((1 + A + A ^ 2 : Module.End F V)) z, hm0 z hz,
     ((1 + T ^ 2 * A + T * A ^ 2 : Module.End F V)) z, hm1 z hz, rfl⟩
 
+omit [Finite F] in
 private lemma eigen_primary_le_sup [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (hx3 : x ^ 3 = 1) (hxd : x * d = d * x) :
     primaryComponent (spEnd d) (X ^ 2 + X + 1) ≤
@@ -521,6 +536,7 @@ private lemma eigen_primary_le_sup [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 
   have hT2 : spEnd (d ^ 2) = T ^ 2 := by rw [pow_two, spEnd_mul]; rfl
   simpa [W, T, A, pow_zero, pow_one, spEnd_one, hT2] using h
 
+omit [Finite F] in
 private lemma eigen_finrank_bound [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (hx3 : x ^ 3 = 1) (hxd : x * d = d * x)
     (h7 : 7 ≤ finrank F (primaryComponent (spEnd d) (X ^ 2 + X + 1))) :
@@ -532,16 +548,16 @@ private lemma eigen_finrank_bound [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 :
   let K2 : Submodule F (Fin ℓ ⊕ Fin ℓ → F) := W ⊓ LinearMap.ker (spEnd x - spEnd (d ^ 2))
   have hWle : W ≤ K0 ⊔ K1 ⊔ K2 := by
     simpa [W, K0, K1, K2] using eigen_primary_le_sup hd3 hx3 hxd
-  haveI : Module.Finite F (Fin ℓ ⊕ Fin ℓ → F) := inferInstance
-  haveI : Module.Finite F ↥W :=
+  have : Module.Finite F (Fin ℓ ⊕ Fin ℓ → F) := inferInstance
+  have : Module.Finite F ↥W :=
     Module.Finite.of_injective (Submodule.subtype W) Subtype.val_injective
-  haveI : Module.Finite F ↥K0 :=
+  have : Module.Finite F ↥K0 :=
     Module.Finite.of_injective (Submodule.subtype K0) Subtype.val_injective
-  haveI : Module.Finite F ↥K1 :=
+  have : Module.Finite F ↥K1 :=
     Module.Finite.of_injective (Submodule.subtype K1) Subtype.val_injective
-  haveI : Module.Finite F ↥K2 :=
+  have : Module.Finite F ↥K2 :=
     Module.Finite.of_injective (Submodule.subtype K2) Subtype.val_injective
-  haveI : Module.Finite F ↥(K0 ⊔ K1 ⊔ K2) :=
+  have : Module.Finite F ↥(K0 ⊔ K1 ⊔ K2) :=
     Module.Finite.of_injective (Submodule.subtype (K0 ⊔ K1 ⊔ K2)) Subtype.val_injective
   have hdim : finrank F W ≤ finrank F K0 + finrank F K1 + finrank F K2 := by
     have hmono : finrank F W ≤ finrank F ↥(K0 ⊔ K1 ⊔ K2) :=
@@ -560,6 +576,7 @@ private lemma eigen_finrank_bound [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 :
   · exact ⟨1, by norm_num, by simpa [K1] using h⟩
   · exact ⟨2, by norm_num, by simpa [K2] using h⟩
 
+omit [Finite F] in
 theorem exists_three_le_finrank_eigen [CharP F 2] {d x : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
     (hx3 : x ^ 3 = 1) (hxd : x * d = d * x)
     (h7 : 7 ≤ finrank F (primaryComponent (spEnd d) (X ^ 2 + X + 1))) :

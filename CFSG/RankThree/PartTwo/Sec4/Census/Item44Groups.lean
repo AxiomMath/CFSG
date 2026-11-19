@@ -99,7 +99,7 @@ theorem isCyclic_sylow_SL2 {r : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2) (hrp : 
   classical
   set π := QuotientGroup.mk' (Subgroup.center SL(2, ZMod p))
   set ψ := π.comp (Q : Subgroup SL(2, ZMod p)).subtype
-  have hodd : ∀ q : Q, ∃ k : ℕ, q ^ (r ^ k) = 1 := Q.isPGroup'
+  have hodd : ∀ q : Q, ∃ k : ℕ, q ^ (r ^ k) = 1 := Q.isPGroup
   have hinj : Function.Injective ψ := by
     rw [injective_iff_map_eq_one]
     intro q hq
@@ -207,7 +207,7 @@ theorem center_SL3_three : Subgroup.center SL(3, ZMod 3) = ⊥ := by
 
 theorem isCyclic_sylow_SL3_three {r : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2) (hr3 : r ≠ 3)
     (Q : Sylow r SL(3, ZMod 3)) : IsCyclic Q := by
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
   have hdvd : r ^ k ∣ 13 := by
     have h1 : r ^ k ∣ 432 * 13 := by
       rw [← hk, show 432 * 13 = 5616 by norm_num, ← card_SL3_three]

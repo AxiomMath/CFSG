@@ -106,7 +106,7 @@ theorem orth_component_cases {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type}
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -149,7 +149,7 @@ theorem orthBlockRestrict_self (x : ↥(orthDerived Q)) (h : K[X])
   rw [coe_root_smul_primaryComponent]
   rfl
 
-theorem orth_hnormal {p : ℕ} {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V]
+theorem orth_hnormal {_p : ℕ} {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} (x : ↥(orthDerived Q))
     (h : K[X]) (hSB : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q)
     (hPC : (specialBlock Q (x : V ≃ₗ[K] V) h).subgroupOf (orthDerived Q) ≤
@@ -189,7 +189,7 @@ theorem orth_hasLowRankBlock_of_special {K : Type} [Field K] [Finite K] {V : Typ
   classical
   have hx : OddOrderIsometry Q 3 (x : V ≃ₗ[K] V) :=
     oddOrderIsometry_of_pow_eq_one Nat.prime_three hpℓ hQ x hx3
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨hω0, hordu⟩ := hx.orderOf_root Nat.prime_three hh hne1
   have hord : orderOf (AdjoinRoot.root h) = 3 := by
     rw [← hordu]; exact orderOf_units (y := Units.mk0 (AdjoinRoot.root h) hω0)
@@ -271,7 +271,7 @@ theorem orth_hasLowRankBlock_of_special {K : Type} [Field K] [Finite K] {V : Typ
       (fun g hg => (hrange _).mp (hPimg_range g hg)) (fun f hf g hg => ?_)
       (fun N hNle hN hna => ?_)
     · obtain ⟨g₀, rfl⟩ := (hrange f).mpr hf
-      exact orth_hnormal (p := 3) x h hSB hPC g₀ g hg
+      exact orth_hnormal (_p := 3) x h hSB hPC g₀ g hg
     · exact exists_lowRank_of_normal_nonabelian_unitary eb heb hω1 hωn hN hna
   ·
     have hbij := hx.blockGL_bijective_paired hh hself
@@ -280,7 +280,7 @@ theorem orth_hasLowRankBlock_of_special {K : Type} [Field K] [Finite K] {V : Typ
       hω1 hω3 (orthBlockRestrict_self x h) P hPC hJ hperf hnonab ⊤ (fun _ _ => Subgroup.mem_top _)
       (fun f _ g hg => ?_) (fun N hNle hN hna => ?_)
     · obtain ⟨g₀, rfl⟩ := hbij.2 f
-      exact orth_hnormal (p := 3) x h hSB hPC g₀ g hg
+      exact orth_hnormal (_p := 3) x h hSB hPC g₀ g hg
     · exact exists_lowRank_of_normal_nonabelian_gl
         (Module.finBasis (AdjoinRoot h) (primaryComponent (x : V ≃ₗ[K] V).toLinearMap h))
         hω1 hω0 (fun f n hn => hN f (Subgroup.mem_top _) n hn) hna
@@ -326,8 +326,8 @@ theorem orth_exists_blockModel' {t : StatedLieTag}
   classical
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, hring, ⟨e⟩⟩ := exists_projOrth_model ht hG
   have hpℓ : 3 ≠ ringChar K := by rw [hring]; exact fun h => hℓ3 h.symm
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨-, hcenter, hcard, -, -, -, -, -, hlift⟩ :=
     orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT

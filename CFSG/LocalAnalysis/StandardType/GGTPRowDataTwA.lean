@@ -45,8 +45,8 @@ private theorem ggTP_subgroupOf_scalars_pow_seven {K : Type} [Field K]
 theorem ggTPRowData_twA {n : ℕ} {Y : Type} [Group Y] (hY : GGHasLabel ⟨.twA, 6, n⟩ Y) :
     GGTPRowDatum Y := by
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hY
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard2 : Fintype.card K = 2 ^ (n * 2) := by
     rw [← Nat.card_eq_fintype_card, hKcard, pow_mul]
   have hchar : CharP K 2 := charP_of_card_eq_prime_pow hcard2
@@ -56,7 +56,7 @@ theorem ggTPRowData_twA {n : ℕ} {Y : Type} [Group Y] (hY : GGHasLabel ⟨.twA,
   refine ⟨Fin 7, inferInstance, inferInstance, K, inferInstance, inferInstance,
     LargeEvenSUGroup (Fin 7) K (2 ^ n), ⟨e⟩, by decide, hchar, ?_⟩
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hz7 : z ^ 7 = 1 := ggTP_subgroupOf_scalars_pow_seven hSUdet z
   have hdvd : orderOf z ∣ 7 := orderOf_dvd_of_pow_eq_one hz7

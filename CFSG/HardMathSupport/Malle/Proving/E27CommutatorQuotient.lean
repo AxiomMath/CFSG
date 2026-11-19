@@ -79,7 +79,7 @@ theorem eighty_one_dvd_inf_centralizer_of_commutator_le
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCQ).toEquiv
   have hQcard : Nat.card ↥Q = Nat.card H * H.index := (Subgroup.card_mul_index H).symm
   have hpow : ∃ n : ℕ, Nat.card H = 3 ^ n := by
-    have hQ3 : IsPGroup 3 ↥Q := P.isPGroup'
+    have hQ3 : IsPGroup 3 ↥Q := P.isPGroup
     exact IsPGroup.iff_card.mp (hQ3.to_subgroup H)
   obtain ⟨n, hn⟩ := hpow
   have hNpos : 0 < Nat.card N := Nat.card_pos

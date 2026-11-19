@@ -34,6 +34,7 @@ theorem m42_closure_pair_zpow {e f : G} (hc : Commute e f) {x : G}
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem m42_card_pair_le {e f : G} (he : orderOf e = 3) (hf : orderOf f = 3) (hc : Commute e f) :
     Nat.card (Subgroup.closure ({e, f} : Set G)) ≤ 9 := by
   let g : Fin 3 × Fin 3 → G := fun p => e ^ (p.1 : ℕ) * f ^ (p.2 : ℕ)
@@ -108,6 +109,7 @@ theorem m42_card_pair {e f : G} (he : orderOf e = 3) (hf : orderOf f = 3) (hc : 
     simpa using this
   omega
 
+omit [Finite G] in
 theorem m42_cen_eq_of_mem_zpowers {x y : G} (hx : orderOf x = 3) (hy : orderOf y = 3)
     (hxy : x ∈ Subgroup.zpowers y) : Cen x = Cen y := by
   have hle : Subgroup.zpowers x ≤ Subgroup.zpowers y := by
@@ -124,6 +126,7 @@ theorem m42_cen_eq_of_mem_zpowers {x y : G} (hx : orderOf x = 3) (hy : orderOf y
     exact m42_mem_cen (((show Commute b z from m42_cen_comm hz).zpow_left i).eq)
   exact le_antisymm (key hyx) (key hxy)
 
+omit [Finite G] in
 theorem m42_map_HCen {H : Subgroup G} {g : G} (hg : g ∈ H) (e : G) :
     (H ⊓ Cen e).map (MulAut.conj g).toMonoidHom = H ⊓ Cen (g * e * g⁻¹) := by
   ext y

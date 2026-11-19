@@ -36,7 +36,7 @@ private lemma s16k_alpha_ne_zero : s16kAlpha ≠ 0 := by
   intro h
   have hs := s16kAlpha_spec
   rw [h] at hs
-  exact (one_ne_zero : (1 : S16kF4) ≠ 0) (by simpa using hs)
+  exact (one_ne_zero : (1 : S16kF4) ≠ 0) (by simp at hs)
 
 private lemma s16k_one_add_alpha_ne_zero : 1 + s16kAlpha ≠ 0 := by
   intro h
@@ -56,7 +56,7 @@ private lemma s16k_emb_add_alpha_eq_zero {a b : ZMod 2}
   rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
   · exact ⟨rfl, rfl⟩
   · exact absurd (by simpa [map_zero, map_one, mul_one] using h) s16k_alpha_ne_zero
-  · exact absurd (by simpa using h) (one_ne_zero : (1 : S16kF4) ≠ 0)
+  · exact absurd (by simp at h) (one_ne_zero : (1 : S16kF4) ≠ 0)
   · exact absurd (by simpa [map_one, mul_one] using h) s16k_one_add_alpha_ne_zero
 
 private lemma s16k_fin6_cases (n : Fin 6) :
@@ -77,7 +77,7 @@ private lemma s16k_mulVec_apply (i : Fin 3) (v : Fin 6 → ZMod 2) (r : Fin 6) :
   rw [Matrix.mulVec_apply_eq_sum]
   fin_cases i <;> fin_cases r <;>
     simp only [s16kBlockMat, Matrix.of_apply, Fin.sum_univ_succ, Fin.sum_univ_zero,
-      Fin.val_zero, Fin.val_succ, Fin.val_one] <;>
+      Fin.val_zero, Fin.val_succ] <;>
     norm_num [s16k_even, s16k_odd]
 
 private lemma s16kTheta_alpha_action (x y : ZMod 2) :
@@ -86,7 +86,7 @@ private lemma s16kTheta_alpha_action (x y : ZMod 2) :
   have hα : s16kAlpha ^ 2 = s16kAlpha + 1 := s16kAlpha_sq
   have h1 : s16kAlpha * (s16kAlpha * s16kEmb y) = s16kAlpha ^ 2 * s16kEmb y := by
     rw [← mul_assoc, ← pow_two]
-  simp only [mul_add, add_mul, one_mul]
+  simp only [mul_add]
   rw [h1, hα]
   ring
 
@@ -123,7 +123,6 @@ theorem s16kTheta_block (i : Fin 3) (v : Fin 6 → ZMod 2) :
     norm_num <;>
     first
       | exact s16kTheta_alpha_action _ _
-      | rfl
 
 abbrev s16kOmegaBlk : Matrix (Fin 6) (Fin 6) (ZMod 2) :=
   s16kBlockMat 0 * s16kBlockMat 1 * s16kBlockMat 2
@@ -161,7 +160,7 @@ theorem s16k_centralizer_scal_iff (g : S16kGL6) :
     rw [s16kScal] at hh
     induction hh using Subgroup.closure_induction with
     | mem y hy =>
-        rw [Set.mem_setOf_eq] at hy
+        rw [Set.mem_ofPred_eq] at hy
         apply Units.ext
         simp only [Units.val_mul, hy]
         exact hm.symm

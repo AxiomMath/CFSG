@@ -16,6 +16,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem sec4ILift_rho_phi (hL : IsOmega7Group L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega) {P : Subgroup G} (hP : IsSylow2Of P L)
     {fr : Sec4IFrame Sec4IQ} (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e)))
@@ -26,6 +27,7 @@ private theorem sec4ILift_rho_phi (hL : IsOmega7Group L)
   obtain ⟨hx, -, h⟩ := sec4ILiftPhi_spec hL e hP hfr hv
   exact ⟨hx, h⟩
 
+omit [Finite G] in
 theorem sec4ILift_type2 (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
     {P : Subgroup G} (hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
     (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e))) :
@@ -51,7 +53,7 @@ theorem sec4ILift_type4 (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥
     simp
   have hsq : sec4ILiftPhi e fr P v ^ 2 = 1 :=
     (sec4ILift_isMax hL e hP hfr).2.1.2 _ (sec4ILiftPhi_mem hL e hP hfr hv)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (sec4ILiftPhi e fr P v) = 2 := orderOf_eq_prime hsq hne
   rw [sec4I_isI4PlusIn_iff hL e]
   constructor
@@ -63,6 +65,7 @@ theorem sec4ILift_type4 (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥
     rw [hρ] at hty
     exact (sec4IPsi_hasType_four sec4IQ_nondegenerate fr hv h0).mpr hty
 
+omit [Finite G] in
 theorem sec4ILift_type6 (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
     {P : Subgroup G} (hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
     (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e))) :

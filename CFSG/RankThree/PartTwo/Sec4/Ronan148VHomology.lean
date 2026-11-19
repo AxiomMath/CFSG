@@ -156,7 +156,7 @@ theorem exists_homology_of_commute {g h : Matrix (Fin 3) (Fin 3) F} {c s : F} (h
   have hN : N * N = 0 := by
     have e : N * N = h * h - (2 * s) • h + s ^ 2 • (1 : Matrix (Fin 3) (Fin 3) F) := by
       rw [hNdef]
-      simp only [sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul]
+      simp only [sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul, mul_one]
       module
     rw [e, hh2, h2, zero_mul, zero_smul, sub_zero, ← two_smul F (s ^ 2 • (1 : Matrix (Fin 3)
       (Fin 3) F)), h2, zero_smul]

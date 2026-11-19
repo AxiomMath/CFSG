@@ -169,7 +169,7 @@ private theorem f3_conj_invols_closure {s : Setting3 G L} {e : Setting3.Ext s} (
   intro c hc
   induction hc using Subgroup.closure_induction with
   | mem b hb => exact f3_conj_invol_mem_B hH hy hb.1 hb.2
-  | one => simpa using s.fr.B.one_mem
+  | one => simp
   | mul a b _ _ ha hb =>
       rw [show y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) by group]
       exact s.fr.B.mul_mem ha hb

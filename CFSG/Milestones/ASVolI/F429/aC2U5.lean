@@ -56,14 +56,14 @@ noncomputable def burnsideF429a_U5_fp : MulAut (hypPSU hK 2 1) →* (K ≃+* K) 
   (Phi hK).liftOfRightInverse (Function.surjInv (Phi_surjective hK))
     (Function.rightInverse_surjInv (Phi_surjective hK))
     ⟨SemidirectProduct.rightHom.comp (semilinearSimilitudes hK 2 1).subtype,
-      fun x hx => (Phi_eq_one_iff.1 hx).1⟩
+      fun _x hx => (Phi_eq_one_iff.1 hx).1⟩
 
-theorem burnsideF429a_U5_fp_Phi (x : Gam hK) :
-    burnsideF429a_U5_fp hK (Phi hK x) = (x : SemiGL (HypIndex 2 1) K).right :=
+theorem burnsideF429a_U5_fp_Phi (_x : Gam hK) :
+    burnsideF429a_U5_fp hK (Phi hK _x) = (_x : SemiGL (HypIndex 2 1) K).right :=
   MonoidHom.liftOfRightInverse_comp_apply (f := Phi hK) (f_inv := Function.surjInv _)
     (hf := Function.rightInverse_surjInv (Phi_surjective hK))
     (g := ⟨SemidirectProduct.rightHom.comp (semilinearSimilitudes hK 2 1).subtype,
-      fun x hx => (Phi_eq_one_iff.1 hx).1⟩) (x := x)
+      fun _x hx => (Phi_eq_one_iff.1 hx).1⟩) (x := _x)
 
 theorem burnsideF429a_U5_fp_eq_one {ρ : MulAut (hypPSU hK 2 1)}
     (hρ : burnsideF429a_U5_fp hK ρ = 1) {k : ℕ} (hk : ρ ^ 2 ^ k = 1) :
@@ -170,10 +170,10 @@ theorem burnsideF429a_c2ab_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     (∃ t ∈ T, T = Subgroup.zpowers t ⊔ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧
       ∃ H : Subgroup E, IsComplementIn H (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, _, hK, Ψ, hB, -, -⟩ := burnsideF429a_U5_setup5 hyp
-  haveI := hK.finite
+  have := hK.finite
   have hSG := burnsideF429a_U5_sylow_of_setup hK Ψ hB
   obtain ⟨hSB, hTinf⟩ := burnsideF429a_T_inf_Gp hSG hT
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
@@ -229,7 +229,7 @@ theorem burnsideF429a_c2ab_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     show burnsideF429a_U5_fp hK (act (φ z)) = 1
     rw [hact_phi]
     exact burnsideF429a_U5_fp_conj hK z
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   obtain ⟨σ₀, hσ₀⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top (T.map π)).mp inferInstance
   obtain ⟨t₀, ht₀T, rfl⟩ : σ₀ ∈ T.map π := by rw [← hσ₀]; exact Subgroup.mem_zpowers _

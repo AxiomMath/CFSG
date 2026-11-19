@@ -26,6 +26,7 @@ private theorem ceTheta_isE64_map {H K : Type} [Group H] [Group K] {X : Subgroup
     rw [← map_mul, hs a' ha', map_one]
   · rw [Subgroup.card_map_of_injective hf, hcard]
 
+omit [Finite G] in
 private theorem ceTheta_isE64_subgroupOf {A K : Subgroup G} (h : A ≤ K) (hA : IsE64 A) :
     IsE64 (A.subgroupOf K) := by
   obtain ⟨hc, hs, hcard⟩ := hA
@@ -44,6 +45,7 @@ private theorem ceTheta_map_trans {M N P : Type} [Group M] [Group N] [Group P]
     MonoidHom.ext fun _ => rfl
   rw [h, Subgroup.map_map]
 
+omit [Finite G] in
 private theorem ceTheta_commutator_conj {K : Subgroup G} (g : K) :
     ((⁅K, K⁆ : Subgroup G).subgroupOf K).map (MulAut.conj g).toMonoidHom =
       (⁅K, K⁆ : Subgroup G).subgroupOf K := by
@@ -74,8 +76,8 @@ theorem E8ZPkg.exists_theta (P : E8ZPkg z e E B T A X)
   subst hCeB
   have hTCe : (T : Subgroup G) ≤ Subgroup.centralizer ({e} : Set G) := P.T_le
   have hAle : (A : Subgroup G) ≤ Subgroup.centralizer ({e} : Set G) := P.A_le.trans hTCe
-  haveI : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
-  haveI : Finite (Sylow 2 ↥Hhat) :=
+  have : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Finite (Sylow 2 ↥Hhat) :=
     Finite.of_injective (fun Q : Sylow 2 ↥Hhat => (Q : Set ↥Hhat)) SetLike.coe_injective
   obtain ⟨SQ, hSQ⟩ : ∃ SQ : Sylow 2 ↥Hhat,
       (SQ : Subgroup ↥Hhat) =

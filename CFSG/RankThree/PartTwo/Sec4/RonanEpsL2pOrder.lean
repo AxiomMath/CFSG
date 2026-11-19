@@ -200,9 +200,9 @@ theorem not_isTypeEpsCube_of_two_mul_card_eq_psl2_prime {X : Type} [Group X] {�
   · refine psl2_false_of_card (N := Nat.card X) (r := p ^ g) (M := (p ^ g) ^ 9 - 1) (ε := -1)
       hℓ h5 hX hpg hℓr hN (by norm_num) ?_
     rw [Nat.cast_sub (Nat.one_le_pow 9 (p ^ g) (pow_pos hp.pos g))]
-    push_cast <;> ring
+    push_cast; ring
   · refine psl2_false_of_card (N := Nat.card X) (r := p ^ g) (M := (p ^ g) ^ 9 + 1) (ε := 1)
       hℓ h5 hX hpg hℓr hN (by norm_num) ?_
-    push_cast <;> ring
+    push_cast; ring
 
 end CFSG.RankThree.PartTwo.Sec4.RonanEps

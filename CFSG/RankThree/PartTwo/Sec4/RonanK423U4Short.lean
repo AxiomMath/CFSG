@@ -24,6 +24,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] (σ : F ≃+* F)
     ext i
     fin_cases i <;> simp [x.ne_zero]
 
+omit [Finite F] [CharP F 2] in
 theorem coe_shortTorusEl (x : Fˣ) :
     ((shortTorusEl x : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) =
       diagonal ![(x : F), (x : F), (x : F)⁻¹, (x : F)⁻¹] :=
@@ -34,13 +35,15 @@ theorem coe_shortTorusEl (x : Fˣ) :
     simp only [Units.val_mul, coe_shortTorusEl, diagonal_mul_diagonal]
     congr 1
     ext i
-    fin_cases i <;> simp [mul_inv, mul_comm])
+    fin_cases i <;> simp [mul_comm])
 
+omit [Finite F] [CharP F 2] in
 theorem coe_shortTorus (x : Fˣ) :
     ((shortTorus x : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) =
       diagonal ![(x : F), (x : F), (x : F)⁻¹, (x : F)⁻¹] :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem shortTorus_mul_shortSL (x : Fˣ) (r : GL (Fin 4) F) (hr : r ∈ shortSL σ) :
     shortTorus x * r = r * shortTorus x := by
   obtain ⟨B, rfl⟩ := hr
@@ -49,7 +52,7 @@ theorem shortTorus_mul_shortSL (x : Fˣ) (r : GL (Fin 4) F) (hr : r ∈ shortSL 
   ext i j
   fin_cases i <;> fin_cases j <;> simp [blkS, diagonal_mul, mul_diagonal] <;> ring
 
-theorem short_decomp (hσ : ∀ c, σ (σ c) = c) {t : GL (Fin 4) F} {α β : F}
+theorem short_decomp (_hσ : ∀ c, σ (σ c) = c) {t : GL (Fin 4) F} {α β : F}
     (ht : (t : Matrix (Fin 4) (Fin 4) F) = diagonal ![α, α, β, β]) (hαβ : α ≠ β) :
     ∃ A : Subgroup (GL (Fin 4) F), (∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a) ∧
       (∀ a ∈ A, ∀ r ∈ shortSL σ, a * r = r * a) ∧
@@ -66,7 +69,7 @@ theorem short_decomp (hσ : ∀ c, σ (σ c) = c) {t : GL (Fin 4) F} {α β : F}
     set m : Matrix (Fin 4) (Fin 4) F := (g : Matrix (Fin 4) (Fin 4) F) with hm
     have hdetexp : m.det = (m 0 0 * m 1 1 - m 0 1 * m 1 0) * (m 2 2 * m 3 3 - m 2 3 * m 3 2) := by
       have e : Fin.succAbove (1 : Fin 4) (2 : Fin 3) = 3 := rfl
-      simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ, e, h02, h03, h12, h13, h20, h21, h30, h31]
+      simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ, e, h12, h13, h20, h21, h30, h31]
       ring
     have hνQ : (m 0 0 * m 1 1 - m 0 1 * m 1 0) * (m 2 2 * m 3 3 - m 2 3 * m 3 2) = 1 := by
       rw [← hdetexp]
@@ -74,23 +77,19 @@ theorem short_decomp (hσ : ∀ c, σ (σ c) = c) {t : GL (Fin 4) F} {α β : F}
     rw [antidiag_four] at hiso
     have E02 : σ (m 0 0) * m 3 2 + σ (m 1 0) * m 2 2 = 0 := by
       have e := congrFun (congrFun hiso 0) 2
-      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h03, h12, h13, h20, h21, h30,
-        h31] at e
+      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h12, h20, h30] at e
       linear_combination e
     have E03 : σ (m 0 0) * m 3 3 + σ (m 1 0) * m 2 3 = 1 := by
       have e := congrFun (congrFun hiso 0) 3
-      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h03, h12, h13, h20, h21, h30,
-        h31] at e
+      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h03, h13, h20, h30] at e
       linear_combination e
     have E12 : σ (m 0 1) * m 3 2 + σ (m 1 1) * m 2 2 = 1 := by
       have e := congrFun (congrFun hiso 1) 2
-      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h03, h12, h13, h20, h21, h30,
-        h31] at e
+      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h12, h21, h31] at e
       linear_combination e
     have E13 : σ (m 0 1) * m 3 3 + σ (m 1 1) * m 2 3 = 0 := by
       have e := congrFun (congrFun hiso 1) 3
-      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h02, h03, h12, h13, h20, h21, h30,
-        h31] at e
+      simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, h03, h13, h21, h31] at e
       linear_combination e
     have hPQ : (σ (m 0 0) * σ (m 1 1) - σ (m 1 0) * σ (m 0 1)) *
         (m 2 2 * m 3 3 - m 2 3 * m 3 2) = 1 := by

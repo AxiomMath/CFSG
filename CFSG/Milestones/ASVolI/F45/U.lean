@@ -166,7 +166,7 @@ theorem burnsideF45U_coprime_card_unT (hF : Nat.card F = (p ^ f) ^ 2) (n : ℕ) 
 theorem burnsideF45U_isSylowOf_unU (hF : Nat.card F = (p ^ f) ^ 2) {n : ℕ} (hn : 2 ≤ n)
     (hpU : IsPGroup p (unU hF n)) : ChF.IsSylowOf p (unU hF n) ⊤ := by
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hcop : p.Coprime (unU hF n).index :=
     CFSG.LieType.Steinberg.CentralExt.BorelIndex.coprime_index_posUnipotent (D := rootDatum hF n)
       (isCTGroupDatum hF n hn ζ hζ) (steinbergExtras hF n hn ζ hζ)
@@ -241,12 +241,12 @@ open CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits CFSG.Quasithin.H13.F4
 theorem burnsideF45_facts45L_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ GLKind.U4.m) :
     (burnsideF45_setting hyp hp hm).Facts45L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U4) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inl rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inl rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   have hU := burnsideF45U4_system_isSylow hF ζ
   let θ₀ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃*
@@ -258,12 +258,12 @@ theorem burnsideF45_facts45L_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ :
 theorem burnsideF45_facts45L_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ GLKind.U5.m) :
     (burnsideF45_setting hyp hp hm).Facts45L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U5) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inr rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inr rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   have hU := burnsideF45U5_system_isSylow hF ζ
   let θ₀ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃*

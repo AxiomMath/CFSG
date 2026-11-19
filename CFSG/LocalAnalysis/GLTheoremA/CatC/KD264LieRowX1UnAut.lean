@@ -32,7 +32,7 @@ theorem mem_range_xunConj_of_pow_three4 {N : ℕ} (hN : 4 ≤ N) (α : MulAut (x
     have hb : ∀ a : xunK, φ a = a ^ 2 := fun a => by
       rw [h1 a, CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.bar_apply]
       norm_num
-    haveI : Fintype xunK := Fintype.ofFinite xunK
+    have : Fintype xunK := Fintype.ofFinite xunK
     have hcard : Fintype.card xunK = 4 := by
       rw [← Nat.card_eq_fintype_card, xunK_card]
       norm_num
@@ -90,7 +90,7 @@ theorem statedScalars_subgroupOf_eq_bot {N : ℕ} (h3 : ¬ 3 ∣ N) :
 
 theorem pRank_xunM_ge {N : ℕ} (hN : 2 ≤ N) (h3 : ¬ 3 ∣ N) :
     N - 1 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (xunM N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card xunK = (2 ^ 1) ^ 2 := by
     rw [xunK_card]
     norm_num

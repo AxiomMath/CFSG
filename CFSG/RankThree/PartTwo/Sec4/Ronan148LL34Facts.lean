@@ -29,25 +29,25 @@ theorem l34_mulAut_card : Nat.card (MulAut X) = 241920 := by
 
 theorem l34_card_le_nine {B : Subgroup (MulAut X)} (hB : CFSG.Assembly.IsElemAbelian 3 B) :
     Nat.card B ≤ 9 := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Nat.finite_of_card_ne_zero (by rw [l34_mulAut_card hk χ]; norm_num)
   have := hB.1
-  haveI : CFSG.IsElementaryAbelian 3 B :=
+  have : CFSG.IsElementaryAbelian 3 B :=
     { toIsMulCommutative := hB.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a =>
         Subtype.ext (hB.2 _ a.2) }
   exact KS18.card_le_nine_of_pRank (L34.pRank_three_mulAut_of_mulEquiv hk χ) B
 
 theorem l34_pow_three {Q : Subgroup X} (hQ : IsPGroup 3 Q) {x : X} (hx : x ∈ Q) : x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := l34_finite hk χ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := l34_finite hk χ
   have hd := L34.card_dvd_9_of_isPGroup hk χ hQ
   rw [show (9 : ℕ) = 3 ^ 2 by norm_num] at hd
   have hQ9 : ∀ Q' : Subgroup X, Nat.card Q' = 9 → ∀ y ∈ Q', y ^ 3 = 1 := by
     intro Q' hQ' y hy
     have hE : Nat.card (Q'.map χ.toMonoidHom) = 9 := by
       rw [Subgroup.card_map_of_injective χ.injective, hQ']
-    haveI := L34.isElementaryAbelian_of_card_eq_nine hk hE
+    have := L34.isElementaryAbelian_of_card_eq_nine hk hE
     have h1 : χ y ^ 3 = 1 :=
       CFSG.elemPow_eq_one_of_isElementaryAbelian (A := Q'.map χ.toMonoidHom) (χ y)
         (Subgroup.mem_map_of_mem _ hy)
@@ -69,8 +69,8 @@ theorem l34_pow_three {Q : Subgroup X} (hQ : IsPGroup 3 Q) {x : X} (hx : x ∈ Q
 
 theorem l34_comm_of_isPGroup {Q : Subgroup X} (hQ : IsPGroup 3 Q) {a b : X} (ha : a ∈ Q)
     (hb : b ∈ Q) : a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := l34_finite hk χ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := l34_finite hk χ
   have hd := L34.card_dvd_9_of_isPGroup hk χ hQ
   rw [show (9 : ℕ) = 3 ^ 2 by norm_num] at hd
   rcases (Nat.dvd_prime_pow Nat.prime_three).mp hd with ⟨m, hm, hQm⟩
@@ -78,9 +78,9 @@ theorem l34_comm_of_isPGroup {Q : Subgroup X} (hQ : IsPGroup 3 Q) {a b : X} (ha 
   · have h := Subgroup.card_eq_one.mp (by rw [hQm, pow_zero])
     rw [h] at ha hb
     rw [Subgroup.mem_bot.mp ha, Subgroup.mem_bot.mp hb]
-  · haveI : Fact (Nat.Prime (3 ^ 1)) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime (3 ^ 1)) := ⟨by norm_num⟩
     have hcyc : IsCyclic Q := isCyclic_of_prime_card hQm
-    letI := hcyc.commGroup
+    let := hcyc.commGroup
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : Q) ⟨b, hb⟩)
   · have hE : Nat.card (Q.map χ.toMonoidHom) = 9 := by
       rw [Subgroup.card_map_of_injective χ.injective, hQm]; norm_num
@@ -93,8 +93,8 @@ theorem l34_comm_of_isPGroup {Q : Subgroup X} (hQ : IsPGroup 3 Q) {a b : X} (ha 
 
 theorem l34_card_centralizer {y : X} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) :
     Nat.card (Subgroup.centralizer ({y} : Set X)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [L34.card_projectiveSL hk]; norm_num)
   have hy3' : (χ y) ^ 3 = 1 := by rw [← map_pow, hy3, map_one]
   have hy1' : χ y ≠ 1 := by rw [Ne, map_eq_one_iff _ χ.injective]; exact hy1
@@ -121,8 +121,8 @@ include hk
 
 theorem sl34_pow_three {M : Matrix.SpecialLinearGroup (Fin 3) k} (hM : proj 3 k M ^ 3 = 1) :
     M ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (projectiveSL 3 k) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (projectiveSL 3 k) :=
     Nat.finite_of_card_ne_zero (by rw [L34.card_projectiveSL hk]; norm_num)
   have hp : IsPGroup 3 (Subgroup.zpowers (proj 3 k M)) := by
     by_cases h1 : proj 3 k M = 1

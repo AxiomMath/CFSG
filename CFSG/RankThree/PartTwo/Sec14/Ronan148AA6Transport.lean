@@ -49,7 +49,7 @@ theorem exists_conj_eq_sup_of_le_yb148
   have hEle : E ≤ O ⊔ J₀ := hEY.trans hle
   have hECB : E ≤ CB := hEle.trans (sup_le hOCB hJ₀CB)
   set N : Subgroup ↥CB := O.subgroupOf CB with hNdef
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOCB).mpr
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOCB).mpr
     (le_normalizer_pPrimeCoreOf 3 CB)
   have hN3 : ¬ 3 ∣ Nat.card N := by
     rw [hNdef, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOCB).toEquiv]

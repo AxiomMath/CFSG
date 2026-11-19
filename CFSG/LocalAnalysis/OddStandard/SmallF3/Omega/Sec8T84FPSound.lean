@@ -42,7 +42,7 @@ theorem sec8t84_model_facts (F : Facts) (G : Certificates.T84P.Facts) :
 theorem sec8t84_factP_of_facts (G : Certificates.T84P.Facts) :
     Sec8T84FactP := by
   intro Y _ _ E H P hE hEn hH hEH hEH' htr hP
-  haveI := hEn
+  have := hEn
   obtain ⟨Θ, hΘ⟩ := sec8t84_iso_model hE hH hEH hEH' htr
   obtain ⟨hP₀, hF⟩ := sec8t84_model_facts Certificates.certificate442267 G
   exact sec8t84_facts_transfer Θ hΘ hP hP₀ hF

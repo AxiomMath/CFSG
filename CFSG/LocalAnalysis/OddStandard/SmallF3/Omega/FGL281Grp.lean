@@ -29,12 +29,12 @@ theorem fg_eq_bot_of_pow_twelve {H : Type*} [Group H] [Finite H] {P : Subgroup H
     (hP : ⁅P, P⁆ = P) (h : ∀ x ∈ P, x ^ 12 = 1) : P = ⊥ := by
   by_contra hne
   have hperf : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hne
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hne
   have hn : Nat.card ↥P ≠ 0 := Nat.card_pos.ne'
   have hprimes : (Nat.card ↥P).primeFactors ⊆ {2, 3} := by
     intro p hp
     have hpp : p.Prime := Nat.prime_of_mem_primeFactors hp
-    haveI : Fact p.Prime := ⟨hpp⟩
+    have : Fact p.Prime := ⟨hpp⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p (Nat.dvd_of_mem_primeFactors hp)
     have hx12 : x ^ 12 = 1 := Subtype.ext (h x.1 x.2)
     have hdvd : p ∣ 12 := hx ▸ orderOf_dvd_of_pow_eq_one hx12

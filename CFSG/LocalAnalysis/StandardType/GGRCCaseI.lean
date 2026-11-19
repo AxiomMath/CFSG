@@ -68,8 +68,8 @@ theorem ggResCaseILargeInput_of_inputs
       have h1 := hL i i
       rw [hCL.1 i] at h1
       simpa using h1
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let bV : Module.Basis (Option Λ) (ZMod p) V :=
     Module.Basis.mk hind (by rw [hspan])
   have hn : Module.finrank (ZMod p) V = Fintype.card Λ + 1 := by

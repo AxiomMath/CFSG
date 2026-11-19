@@ -14,7 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
-private theorem Sec108Data.QB_inf_M_eq_of_swap (D : Sec108Data hc t Y) {g : G}
+private theorem Sec108Data.QB_inf_M_eq_of_swap (_D : Sec108Data hc t Y) {g : G}
     (hgZ : conjSubgroup g Z = Y)
     (hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B)
     {z : G} (Dz : Sec108Data hcY z Z) :
@@ -51,6 +51,7 @@ theorem Sec108Data.isElemAbelian_QB_inf_M (D : Sec108Data hc t Y) :
     (hDz.hyp.toSec5 hDz.good.1.mem_LB hDz.good.1.2.2.1)
     (SLMNat.toSLNat hDz.slm (by norm_num))
 
+omit [Finite G] in
 private theorem Sec108Data.card_Q (D : Sec108Data hc t Y) : Nat.card Q = Nat.card Z ^ 13 := by
   have hw := D.hyp.width
   unfold Width at hw
@@ -110,6 +111,7 @@ private theorem Sec108Data.card_bar_LB_inf_CN_ge [(Q.subgroupOf M).Normal]
   exact Nat.le_of_mul_le_mul_left (by simpa [mul_comm] using hmain)
     (pow_pos (Nat.card_pos (α := ↥Z)) 13)
 
+omit [Finite G] in
 private theorem bar_inf_le_bar_inf [(Q.subgroupOf M).Normal] {A B' : Subgroup G}
     (hQA : Q ≤ A) : bar M Q A ⊓ bar M Q B' ≤ bar M Q (A ⊓ B') := by
   intro x hx
@@ -248,7 +250,7 @@ theorem Sec108Data.card_bar_CN [(Q.subgroupOf M).Normal]
 
 theorem Sec108Data.CN_eq (D : Sec108Data hc t Y) :
     hc.CN t = Q ⊔ (QB Y ⊓ M) := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hle := D.hyp.CN_le_sup D.h34 D.h311a D.hspread D.good D.sit
   have hNcard : Nat.card ↥(hc.CN t) =
       Nat.card (bar M Q (hc.CN t)) * Nat.card Q :=
@@ -261,6 +263,7 @@ theorem Sec108Data.CN_eq (D : Sec108Data hc t Y) :
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [hScard, hNcard, D.card_bar_sup_QB, D.card_bar_CN]
 
+omit [Finite G] in
 private theorem bar_sup_eq_bar_right [(Q.subgroupOf M).Normal] {P : Subgroup G}
     (hQM : Q ≤ M) (hPM : P ≤ M) :
     bar M Q (Q ⊔ P) = bar M Q P := by

@@ -17,6 +17,7 @@ open Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.four_le_card_K (hc : Ctx M Q Z B) (AM : Smith81.Smith23E1.ActionModel M Q Z) :
     4 ≤ Nat.card AM.K := by
   rw [AM.glob.card]
@@ -40,7 +41,7 @@ theorem Sec108Data.bar_root_le_centralizer [(Q.subgroupOf M).Normal] (D : Sec108
 private theorem e₀_ne_zero (K : Type) [Field K] : Sec108.e₀ K ≠ 0 := by
   intro h
   have h0 := congrFun h 0
-  simpa [Sec108.e₀] using h0
+  simp [Sec108.e₀] at h0
 
 private theorem exists_sl_mulVec_eq {K : Type} [Field K] {x y : Fin 3 → K}
     (hx : x ≠ 0) (hy : y ≠ 0) :
@@ -224,6 +225,7 @@ theorem Sec108Data.rho_piM {r : G} (hr : r ∈ Rt M (LB M Q B) t)
     exact barLift_piM (D.rho₀ AM) (D.rho₀_eq_one AM) ⟨r, hr⟩ (hc.Rt_le_M t hr) h
   rw [hrho, coe_rho₀]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem matV_eq_one_of_mem_CN {n : G} (hn : n ∈ hc.CN t) :
     D.matV AM ⟨n, D.Rt_le_H0 (Ctx.mem_CN.mp hn).1⟩ = 1 := by
   have hR := (Ctx.mem_CN.mp hn).1
@@ -273,8 +275,6 @@ theorem Sec108Data.range_rho : (D.rho AM).range = StatedSL 3 AM.K := by
       exact barLift_piM (D.rho₀ AM) (D.rho₀_eq_one AM) ⟨r, hrR⟩ (hc.Rt_le_M t hrR) hmem
     rw [hrho]
     refine Units.ext ?_
-    change ((D.rho₀ AM ⟨r, hrR⟩ : GL (Fin 3) AM.K) : Matrix (Fin 3) (Fin 3) AM.K) =
-      (C : Matrix (Fin 3) (Fin 3) AM.K)
     rw [coe_rho₀, Sec108Data.rhoMat, hmatV]
     exact sl_conj_apply (D.frameB AM) (C : Matrix (Fin 3) (Fin 3) AM.K)
 

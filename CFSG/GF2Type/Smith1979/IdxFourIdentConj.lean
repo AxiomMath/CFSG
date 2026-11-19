@@ -59,8 +59,8 @@ theorem conj_diagE_type {m : G12} (hm : m ∈ monGamma) {c : Fin 6 → ZMod 3} {
     · show c (π.symm i) = _
       rw [hc]
       by_cases h : π.symm i ∈ S
-      · rw [if_pos h, if_pos ((hmem i).2 h)]
-      · rw [if_neg h, if_neg (fun h' => h ((hmem i).1 h'))]
+      · rw [ite_eq_left h, ite_eq_left ((hmem i).2 h)]
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h ((hmem i).1 h'))]
   · rw [MonAux.frobPow_one] at hm'
     refine ⟨fun i => (-c) (π.symm i), S.map π.toEmbedding, -j, -e, ?_, hS', neg_ne_zero.2 he,
       fun i => ?_⟩
@@ -68,7 +68,7 @@ theorem conj_diagE_type {m : G12} (hm : m ∈ monGamma) {c : Fin 6 → ZMod 3} {
     · show (-c) (π.symm i) = _
       simp only [Pi.neg_apply, hc]
       by_cases h : π.symm i ∈ S
-      · rw [if_pos h, if_pos ((hmem i).2 h)]; ring
-      · rw [if_neg h, if_neg (fun h' => h ((hmem i).1 h'))]; ring
+      · rw [ite_eq_left h, ite_eq_left ((hmem i).2 h)]; ring
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h ((hmem i).1 h'))]; ring
 
 end CFSG.GF2Type.Smith1979.IdxFour

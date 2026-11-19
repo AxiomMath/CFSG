@@ -138,7 +138,7 @@ theorem two_le_basisDegree_of_principal {G : Type} [Group G] [Fintype G] (n : �
     exact hno2 (exists_normal_index_two_of_even lam hev)
   have hSK : (S : Subgroup G) ≤ lam.ker := by
     intro s hs
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨s, hs⟩
     rw [Subgroup.orderOf_mk] at hk
     have h1 : orderOf (lam s) ∣ 2 ^ k := hk ▸ orderOf_map_dvd lam s
     have h2' : orderOf (lam s) ∣ Nat.card lam.range := by

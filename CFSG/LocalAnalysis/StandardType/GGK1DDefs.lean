@@ -63,7 +63,7 @@ inductive ggK1DCo_Kind where
   | .sl m => decide (2 ≤ m)
   | .su m => decide (2 ≤ m)
 
-@[expose] def ggK1DCo_expectedKindList (p nf d : ℕ) (tw : Bool) (m : List ℕ) : List ggK1DCo_Kind :=
+@[expose] def ggK1DCo_expectedKindList (p _nf d : ℕ) (tw : Bool) (m : List ℕ) : List ggK1DCo_Kind :=
   [ggK1DCo_Kind.om (ggMultEps0 p d tw m) (m.headD 0)] ++
     (((List.range ((p - 1) / 2 + 1)).filter
         (fun j => decide (1 ≤ j ∧ 1 ≤ m.getD j 0))).map

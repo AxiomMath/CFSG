@@ -201,14 +201,14 @@ theorem rep_tab {z : ℤ} (hz : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2) {T : CFSG
 theorem rep_alpha : CRep (orbLit.alpha.map UInt32.toNat) aP := by
   have h := rep_tab (z := 1) (by decide) (T := orbLit.alpha) (by
     unfold CFSG.Sporadic.Fi23.Native.genTables
-    rw [if_pos (Or.inl rfl)])
+    rw [ite_eq_left (Or.inl rfl)])
   have e : regZ 1 = 39 := rfl
   rwa [e, lp_39] at h
 
 theorem rep_beta : CRep (orbLit.beta.map UInt32.toNat) bP := by
   have h := rep_tab (z := 2) (by decide) (T := orbLit.beta) (by
     unfold CFSG.Sporadic.Fi23.Native.genTables
-    rw [if_neg (by decide), if_pos rfl])
+    rw [ite_eq_right (by decide), ite_eq_left rfl])
   have e : regZ 2 = 40 := rfl
   rwa [e, lp_40] at h
 

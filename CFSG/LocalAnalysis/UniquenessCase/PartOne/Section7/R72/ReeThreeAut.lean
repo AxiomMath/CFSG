@@ -18,7 +18,7 @@ theorem isMulCommutative_sylow_two_of_psl28 (e : K ≃* PSL(2, GaloisField 2 3))
   have hSK : (S : Subgroup X) ≤ K :=
     CFSG.Timmesfeld.Bridge.sylow_le_of_odd_index (by rw [hidx]; decide) S
   have hp : IsPGroup 2 (((S : Subgroup X).subgroupOf K).map e.toMonoidHom) :=
-    (S.isPGroup'.comap_of_injective K.subtype K.subtype_injective).map e.toMonoidHom
+    (S.isPGroup.comap_of_injective K.subtype K.subtype_injective).map e.toMonoidHom
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   obtain ⟨hPel, -⟩ := CFSG.Walter.psl2_even_sylow_two (f := 3) (by norm_num) P
   refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
@@ -40,7 +40,7 @@ theorem exists_involution_of_psl28 (e : K ≃* PSL(2, GaloisField 2 3)) (hidx : 
   classical
   obtain ⟨UL⟩ := (inferInstance : Nonempty (Sylow 2 PSL(2, GaloisField 2 3)))
   obtain ⟨hUel, hUcard⟩ := CFSG.Walter.psl2_even_sylow_two (f := 3) (by norm_num) UL
-  haveI := hUel
+  have := hUel
   have hUbot : (UL : Subgroup PSL(2, GaloisField 2 3)) ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hUcard

@@ -84,7 +84,7 @@ theorem noCfgS427_o8p {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
 theorem rowOf427_o8p
     : RowOf427 (projOmegaPlus 4 (GaloisField 2 1)) :=
   rowOf427_of_noCfgS fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     refine ⟨noCfgS427_o8p hna e, noONS427_of_card ?_⟩
     rw [Nat.card_congr e.toEquiv, CFSG.RankThree.PartTwo.Sec4.RonanEps.card_projOmegaPlus_four_two_gf2]
     norm_num

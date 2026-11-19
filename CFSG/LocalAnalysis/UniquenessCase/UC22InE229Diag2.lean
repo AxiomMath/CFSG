@@ -24,9 +24,10 @@ theorem uc22ine229_ne_two {s r : ℕ} (hs : Odd s) (hrs : r ∣ 2 ^ s - 1) : r �
     Nat.Even.sub_odd Nat.one_le_two_pow (Nat.even_pow.2 ⟨even_two, hs.pos.ne'⟩) odd_one
   exact Nat.not_even_iff_odd.2 hodd (even_iff_two_dvd.2 hrs)
 
+omit [Finite G] in
 theorem uc22ine229_orderOf_mk {X : Subgroup G} (x : ↥X) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hx : orderOf x = r) : orderOf (QuotientGroup.mk x : Bar2 X) = r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : orderOf (QuotientGroup.mk x : Bar2 X) ∣ r := by
     rw [← hx]
     exact orderOf_map_dvd (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) x
@@ -38,10 +39,11 @@ theorem uc22ine229_orderOf_mk {X : Subgroup G} (x : ↥X) {r : ℕ} (hr : r.Prim
     exact absurd ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 (hr.dvd_of_dvd_pow h3)) hr2
   · exact h1
 
+omit [Finite G] in
 theorem uc22ine229_exists_pow_orderOf_eq {X : Subgroup G} (x : ↥X) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) (hx : orderOf (QuotientGroup.mk x : Bar2 X) = r) :
     ∃ c : ℕ, orderOf (x ^ 2 ^ c) = r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxr : x ^ r ∈ CFSG.pCore 2 ↥X := by
     refine (QuotientGroup.eq_one_iff _).1 ?_
     rw [QuotientGroup.mk_pow, ← hx, pow_orderOf_eq_one]
@@ -72,8 +74,8 @@ theorem uc22ine229_exists_mem_conjClosure_normalizer {M T L : Subgroup G}
     (hone : ∀ T₀ : Subgroup G, IsPGroup 2 T₀ → T₀ ≤ normalizer (L : Set G) →
       IsSylowOf 2 (T₀ ⊓ L) L → ∃ x ∈ L, orderOf x = r ∧ x ∈ normalizer (T₀ : Set G)) :
     ∃ x ∈ conjClosure M L, orderOf x = r ∧ x ∈ normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hLM : L ≤ M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hTL : IsSylowOf 2 (T ⊓ L) L := uc22p2214_isSylowOf_inf hT hL.1
   have hle : ∀ A ∈ conjSetOf M L, A ≤ conjClosure M L := fun A hA =>
@@ -82,7 +84,7 @@ theorem uc22ine229_exists_mem_conjClosure_normalizer {M T L : Subgroup G}
   by_cases hTN : T ≤ normalizer (L : Set G)
   · obtain ⟨x, hxL, hxo, hxN⟩ := hone T hT.isPGroup hTN hTL
     exact ⟨x, hle L hLS hxL, hxo, hxN⟩
-  obtain ⟨t, htT, htN⟩ := SetLike.not_le_iff_exists.1 hTN
+  obtain ⟨t, htT, htN⟩ := IsConcreteLE.not_le_iff_exists.1 hTN
   have htM : t ∈ M := hT.le htT
   have hmem : ∀ x z : G, z ∈ L.map (MulAut.conj x).toMonoidHom ↔ x⁻¹ * z * x ∈ L := fun x z => by
     rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
@@ -165,7 +167,7 @@ theorem uc22ine229_exists_mem_conjClosure_normalizer_of_isL2 {M T L : Subgroup G
     (hT : IsSylowOf 2 T M) (hL : L ∈ calC M) (hc : (conjSetOf M L).ncard ≤ 2) {n s r : ℕ}
     (hX : IsL2 (Bar2 L) n) (hs : Odd s) (hsn : s ∣ n) (hr : r.Prime) (hrs : r ∣ 2 ^ s - 1) :
     ∃ x ∈ conjClosure M L, orderOf x = r ∧ x ∈ normalizer (T : Set G) := by
-  haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   refine uc22ine229_exists_mem_conjClosure_normalizer hT hL hc hr (uc22ine229_ne_two hs hrs) ?_
     fun T₀ hT₀ hT₀L hS => uc22ine229_exists_mem_normalizer_of_isL2 hT₀ hT₀L hS hX hs hsn hr hrs
   rw [uc22p21k_center_eq_bot hL.2.2, Subgroup.card_bot]
@@ -176,7 +178,7 @@ theorem uc22ine229_exists_mem_conjClosure_normalizer_of_isSz
     (hc : (conjSetOf M L).ncard ≤ 2) {n s r : ℕ} (hX : IsSz (Bar2 L) n) (hs : Odd s)
     (hsn : s ∣ n) (hr : r.Prime) (hrs : r ∣ 2 ^ s - 1) :
     ∃ x ∈ conjClosure M L, orderOf x = r ∧ x ∈ normalizer (T : Set G) := by
-  haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+  have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
   refine uc22ine229_exists_mem_conjClosure_normalizer hT hL hc hr (uc22ine229_ne_two hs hrs) ?_
     fun T₀ hT₀ hT₀L hS => uc22ine229_exists_mem_normalizer_of_isSz hT₀ hT₀L hS hX hs hsn hr hrs
   rw [uc22p21k_center_eq_bot hL.2.2, Subgroup.card_bot]

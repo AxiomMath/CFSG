@@ -16,7 +16,7 @@ theorem kProjRep_A10 (J : Type) [Group J] (hq : CFSG.Open.IsQuasisimple J) (N : 
     (f : J →* (Matrix.GeneralLinearGroup (Fin d) (ZMod q)) ⧸
       center (Matrix.GeneralLinearGroup (Fin d) (ZMod q))) : f = 1 := by
   obtain ⟨e⟩ := hA
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have h5 : (5 : ZMod q) ≠ 0 := by
     intro h
     have h' : ((5 : ℕ) : ZMod q) = 0 := by exact_mod_cast h

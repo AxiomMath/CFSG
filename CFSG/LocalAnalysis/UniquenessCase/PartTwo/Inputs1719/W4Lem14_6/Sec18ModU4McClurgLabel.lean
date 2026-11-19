@@ -78,7 +78,7 @@ theorem lbl_cases {n : ℕ} [NeZero n] (hn : 2 ≤ n) (l : Lbl n) (hl : ¬ l.IsZ
     · exfalso
       have h9 : l.rk1 = 9 := by
         unfold Lbl.rk1
-        rw [hdim, hfix] <;> decide
+        rw [hdim, hfix]; decide
       have hle : n ≤ d := Nat.le_of_dvd hd hdvd
       rw [h9] at hrk
       omega
@@ -86,7 +86,7 @@ theorem lbl_cases {n : ℕ} [NeZero n] (hn : 2 ≤ n) (l : Lbl n) (hl : ¬ l.IsZ
     · left
       have h6 : l.rk1 = 6 := by
         unfold Lbl.rk1
-        rw [hdim, hfix] <;> decide
+        rw [hdim, hfix]; decide
       have hdn : d = n := by
         by_contra hne
         obtain ⟨q, hq⟩ := hdvd
@@ -111,14 +111,14 @@ theorem lbl_cases {n : ℕ} [NeZero n] (hn : 2 ≤ n) (l : Lbl n) (hl : ¬ l.IsZ
     · exfalso
       have h9 : l.rk1 = 9 := by
         unfold Lbl.rk1
-        rw [hdim, hfix] <;> decide
+        rw [hdim, hfix]; decide
       have hle : n ≤ d := Nat.le_of_dvd hd hdvd
       rw [h9] at hrk
       omega
     · exfalso
       have h32 : l.rk1 = 32 := by
         unfold Lbl.rk1
-        rw [hdim, hfix] <;> decide
+        rw [hdim, hfix]; decide
       have hle : n ≤ d := Nat.le_of_dvd hd hdvd
       rw [h32] at hrk
       omega

@@ -22,9 +22,11 @@ structure OrdThreeAct_m22f (V X : Subgroup G) (y : G) : Prop where
 
 variable {V X : Subgroup G} {y : G}
 
+omit [Finite G] in
 theorem OrdThreeAct_m22f.hyV (S : OrdThreeAct_m22f V X y) : ∀ v ∈ V, y * v * y⁻¹ ∈ V :=
   fun v hv => (Subgroup.mem_normalizer_iff.mp S.hyN v).mp hv
 
+omit [Finite G] in
 theorem isNormalIn_of_yinv_m22f (S : OrdThreeAct_m22f V X y) {M : Subgroup G} (hMV : M ≤ V)
     (hy : ∀ x ∈ M, y * x * y⁻¹ ∈ M) : IsNormalIn X V M := by
   refine ⟨hMV, fun g hg x hx => ?_⟩
@@ -38,11 +40,13 @@ theorem isNormalIn_of_yinv_m22f (S : OrdThreeAct_m22f V X y) {M : Subgroup G} (h
     rw [e]
     exact hy _ ih
 
+omit [Finite G] in
 theorem yinv_of_isNormalIn_m22f (S : OrdThreeAct_m22f V X y) {M : Subgroup G} (hM : IsNormalIn X V M) :
     ∀ x ∈ M, y * x * y⁻¹ ∈ M :=
   fun x hx => hM.2 y S.hyX x hx
 
-theorem isCentralStep_iff_m22f (S : OrdThreeAct_m22f V X y) {L N : Subgroup G} (hLN : L ≤ N) (hNV : N ≤ V)
+omit [Finite G] in
+theorem isCentralStep_iff_m22f (S : OrdThreeAct_m22f V X y) {L N : Subgroup G} (_hLN : L ≤ N) (hNV : N ≤ V)
     (hLy : ∀ x ∈ L, y * x * y⁻¹ ∈ L) :
     IsCentralStep X L N ↔ ∀ x ∈ N, y * x * y⁻¹ * x⁻¹ ∈ L := by
   constructor
@@ -55,7 +59,7 @@ theorem isCentralStep_iff_m22f (S : OrdThreeAct_m22f V X y) {L N : Subgroup G} (
     have key : ∀ j : ℕ, y ^ j * x * (y ^ j)⁻¹ * x⁻¹ ∈ L := by
       intro j
       induction j with
-      | zero => simpa using L.one_mem
+      | zero => simp
       | succ j ih =>
         have e : y ^ (j + 1) * x * (y ^ (j + 1))⁻¹ * x⁻¹ =
             (y * (y ^ j * x * (y ^ j)⁻¹ * x⁻¹) * y⁻¹) * (y * x * y⁻¹ * x⁻¹) := by group
@@ -76,12 +80,14 @@ variable {V X : Subgroup G} {y : G}
     show y * ((a : G) * (b : G)) * y⁻¹ = (y * (a : G) * y⁻¹) * (y * (b : G) * y⁻¹)
     group)
 
+omit [Finite G] in
 theorem sigmaA_coe_m22f (S : OrdThreeAct_m22f V X y) (a : ↥V) : ((sigmaA_m22f S a : ↥V) : G) = y * (a : G) * y⁻¹ := rfl
 
+omit [Finite G] in
 theorem normalA_subgroupOf_m22f (S : OrdThreeAct_m22f V X y) {M : Subgroup G} (hMV : M ≤ V) :
     @NormalA_m22f ↥V (commGroupOfElemAbelian S.hV) (sigmaA_m22f S) (M.subgroupOf V) ↔
       ∀ x ∈ M, y * x * y⁻¹ ∈ M := by
-  letI := commGroupOfElemAbelian S.hV
+  let := commGroupOfElemAbelian S.hV
   constructor
   · intro h x hx
     have h1 := h ⟨x, hMV hx⟩ (Subgroup.mem_subgroupOf.mpr hx)
@@ -91,14 +97,16 @@ theorem normalA_subgroupOf_m22f (S : OrdThreeAct_m22f V X y) {M : Subgroup G} (h
     rw [sigmaA_coe_m22f]
     exact h _ ha
 
+omit [Finite G] in
 theorem conjAct_apply_m22f (V : Subgroup G) (g : Subgroup.normalizer (V : Set G)) (v : ↥V) :
     ((conjAct V g v : ↥V) : G) = (g : G) * (v : G) * (g : G)⁻¹ :=
   Subgroup.normalizerMonoidHom_apply_apply_coe V (Subgroup.inclusion le_rfl g) v
 
+omit [Finite G] in
 theorem chiefStep_translate_m22f (S : OrdThreeAct_m22f V X y) {L N : Subgroup G}
     (h : IsChiefStep X V L N) :
     @ChiefStepA_m22f ↥V (commGroupOfElemAbelian S.hV) (sigmaA_m22f S) (L.subgroupOf V) (N.subgroupOf V) := by
-  letI := commGroupOfElemAbelian S.hV
+  let := commGroupOfElemAbelian S.hV
   obtain ⟨hN, hL, hLN, hmax⟩ := h
   have hNV : N ≤ V := hN.1
   have hLV : L ≤ V := hL.1
@@ -141,16 +149,17 @@ theorem chiefStep_translate_m22f (S : OrdThreeAct_m22f V X y) {L N : Subgroup G}
     · right
       rw [← hKK, h]
 
+omit [Finite G] in
 theorem chief_translate_m22f (S : OrdThreeAct_m22f V X y) {N : Subgroup G} {k : ℕ}
     (h : IsChiefSeriesFrom X V N k) :
     N ≤ V ∧ @ChiefA_m22f ↥V (commGroupOfElemAbelian S.hV) (sigmaA_m22f S) (N.subgroupOf V) k := by
-  letI := commGroupOfElemAbelian S.hV
+  let := commGroupOfElemAbelian S.hV
   induction h with
   | bot =>
     refine ⟨bot_le, ?_⟩
     have hbot : (⊥ : Subgroup G).subgroupOf V = ⊥ := by
       ext a
-      simp [Subgroup.mem_subgroupOf]
+      simp
     rw [hbot]
     exact ChiefA_m22f.bot
   | central hstep hc _ ih =>
@@ -197,22 +206,22 @@ section Final
 variable {G : Type} [Group G] [Finite G]
 variable {V X : Subgroup G} {y : G}
 
-@[expose] def centV_m22f (S : OrdThreeAct_m22f V X y) : Subgroup ↥V where
+@[expose] def centV_m22f (_S : OrdThreeAct_m22f V X y) : Subgroup ↥V where
   carrier := {v | y * (v : G) * y⁻¹ = (v : G)}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul] at ha hb ⊢
     rw [show y * ((a : G) * (b : G)) * y⁻¹ = (y * (a : G) * y⁻¹) * (y * (b : G) * y⁻¹) by group, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at ha ⊢
     rw [show y * (a : G)⁻¹ * y⁻¹ = (y * (a : G) * y⁻¹)⁻¹ by group, ha]
 
 theorem three_le_of_codim_m22f (S : OrdThreeAct_m22f V X y)
     (hcodim : 6 ≤ rkIdx (centV_m22f S)) {k : ℕ}
     (hk : IsChiefSeriesFrom X V V k) : 3 ≤ k := by
-  letI := commGroupOfElemAbelian S.hV
+  let := commGroupOfElemAbelian S.hV
   obtain ⟨-, hc⟩ := chief_translate_m22f S hk
   rw [Subgroup.subgroupOf_self] at hc
   have h3 : ∀ a : ↥V, sigmaA_m22f S (sigmaA_m22f S (sigmaA_m22f S a)) = a := fun a => by

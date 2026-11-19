@@ -41,7 +41,7 @@ theorem a2l_datum_of_shape [Finite X] [Finite F₁] (hz : orderOf z = 2)
   have hJq : CFSG.IsQuasisimple ↥T :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm (isQuasisimple_sl2 (by omega))
   have hN : HarrisLit.IsSLTwoOver (Nat.card F₁) ↥T := by
-    haveI := Fintype.ofFinite F₁
+    have := Fintype.ofFinite F₁
     exact ⟨F₁, inferInstance, inferInstance, Nat.card_eq_fintype_card.symm, ⟨e⟩⟩
   refine a2lDatum_of_block_normal (P := X) (S := X) (MonoidHom.id X) Function.surjective_id ?_
     hodd (by omega) hz2 hz1 (J := T) (N := T) le_rfl hzT hTc hJn hJq (fun x _ h => h) hN
@@ -57,7 +57,7 @@ section Triality
 
 
 theorem a2lRowTrialityD4_holds : a2lRowTrialityD4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro X _ _ f hX
   have hf : 1 ≤ f := CFSG.GH74.GLS.IVK.Proofs2.Ivk47ab.one_le_of_lieModel_D4 hX
   obtain ⟨φ⟩ := CFSG.GH74.GLS.IVK.Proofs2.Ivk47ab.exists_equiv_concrete (p := 3) (f := f)

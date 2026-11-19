@@ -72,7 +72,7 @@ theorem compat_rho {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
   obtain ⟨hi, hF, -⟩ := h
   subst hi hF
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     MatEq (k m) ((uvM i F G) * (uvM i F G)) (1) := by
@@ -100,21 +100,21 @@ theorem rho_cube {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
   obtain ⟨hi, hF, hs⟩ := h
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     MatEq (k m) ((uM F) * (uM F)) (1) := by
   obtain ⟨hi, hF, hs⟩ := h
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_rho {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     MatEq (k m) (ρM * ((uM F) * (ρM * (uM F)))) (1) := by
   obtain ⟨hi, hF, hs⟩ := h
   subst hi hF
   exact MatEq.of_dvd (3 * G + 7) hs (P := !![0, 16, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_rho {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     MatEq (k m) (ρM * (uvM i F G)) ((tM i F G) * ρM) := by
@@ -152,47 +152,47 @@ theorem t_u {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
 theorem uv_a {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φuv Torus.a = (2*F*i : ℤ) • Torus.c + (-5*i : ℤ) • Torus.a + (2*i : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM i F G) (compat_uv h) 1 (2*F*i) (-5*i) (2*i) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_b {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φuv Torus.b = (2*F*i^2 - 8*F*i - 20*G*i^2 - 60*i^2 : ℤ) • Torus.c + (-8*F*i - 26*i^2 : ℤ) • Torus.a + (-4*F*i + 5*i^2 : ℤ) • Torus.b := by
   refine (matAct_gen_of (uvM i F G) (compat_uv h) 2 (2*F*i^2 - 8*F*i - 20*G*i^2 - 60*i^2) (-8*F*i - 26*i^2) (-4*F*i + 5*i^2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_c {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φt Torus.c = (4 - i : ℤ) • Torus.c + (2 : ℤ) • Torus.a + (4 : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM i F G) (compat_t h) 0 (4 - i) (2) (4) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_a {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φt Torus.a = (4*G*i : ℤ) • Torus.c + (-7*i : ℤ) • Torus.a + (-8*i : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM i F G) (compat_t h) 1 (4*G*i) (-7*i) (-8*i) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_b {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φt Torus.b = (2*F*i - 4*i : ℤ) • Torus.c + (-2*i : ℤ) • Torus.a + (-7*i : ℤ) • Torus.b := by
   refine (matAct_gen_of (tM i F G) (compat_t h) 2 (2*F*i - 4*i) (-2*i) (-7*i) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φu Torus.c = (-1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (uM F) (compat_u h) 0 (-1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_c {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φρ Torus.c = (1 : ℤ) • Torus.c := by
   refine (matAct_gen_of (ρM) (compat_rho h) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_a {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φρ Torus.a = (1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM) (compat_rho h) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; done) | module
 
 theorem rho_b {m : ℕ} {i F G : ℤ} (h : Data m i F G) :
     (action h).φρ Torus.b = (-2 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   refine (matAct_gen_of (ρM) (compat_rho h) 2 (-2) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem data (m : ℕ) (hm : 1 ≤ m) : Data m (iV (m + 1)) (FV (m + 1)) (GV (m + 1)) := by
   have h4 : (4 : ℤ) ^ m = 2 ^ (2 * m) := by rw [pow_mul]; norm_num

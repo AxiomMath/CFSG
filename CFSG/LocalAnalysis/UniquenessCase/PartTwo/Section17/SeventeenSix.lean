@@ -59,8 +59,8 @@ theorem alt_five_of_odd_central_extension
     (e : E ⧸ Z ≃* alternatingGroup (Fin 5)) :
     Nonempty (E ≃* alternatingGroup (Fin 5)) := by
   classical
-  haveI : Group.IsPerfect E := Group.isPerfect_def.mpr hperf
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by norm_num)
+  have : Group.IsPerfect E := Group.isPerfect_def.mpr hperf
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by norm_num)
   have hc5 : Subgroup.center (alternatingGroup (Fin 5)) = ⊥ :=
     CFSG.Walter.center_eq_bot_of_isSimpleGroup
       ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2, by decide⟩,
@@ -235,7 +235,7 @@ theorem O2_case_one (D : Data G) (𝔉 : ∀ {X : Type} [Group X], Subgroup X �
     ∀ H ∈ Delta17_12 D 𝔉 r q L, ∀ g : G, g ∉ D.M → ¬ twoResidual H ≤ conjSubgroup D.M g := by
   intro H hH g hg
   unfold Delta17_12 at hH
-  rw [dif_pos h1] at hH
+  rw [dite_eq_left h1] at hH
   obtain ⟨x, hx, rfl⟩ := hH
   have hperf : ⁅L.map (MulAut.conj x).toMonoidHom, L.map (MulAut.conj x).toMonoidHom⁆ =
       L.map (MulAut.conj x).toMonoidHom := by
@@ -270,7 +270,7 @@ theorem reductio_of_O2 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : 
     (hO2 : ∀ H ∈ Delta17_12 D 𝔉 r q L, ∀ g : G, g ∉ D.M →
       ¬ twoResidual H ≤ conjSubgroup D.M g) : False := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have hfin : (Delta17_12 D 𝔉 r q L).Finite := Set.toFinite _
   set Δ : Finset (Subgroup G) := hfin.toFinset with hΔdef
@@ -290,14 +290,14 @@ theorem reductio_of_O2 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : 
     intro H hH
     unfold Delta17_12 at hH
     by_cases h1 : P17_12_1 r q L
-    · rw [dif_pos h1] at hH
+    · rw [dite_eq_left h1] at hH
       obtain ⟨x, -, rfl⟩ := hH
       exact le_sup_left
     · by_cases h2 : P17_12_2 q L
-      · rw [dif_neg h1, dif_pos h2] at hH
+      · rw [dite_eq_right h1, dite_eq_left h2] at hH
         obtain ⟨X, -, -, -, rfl⟩ := hH
         exact le_sup_left
-      · rw [dif_neg h1, dif_neg h2] at hH
+      · rw [dite_eq_right h1, dite_eq_right h2] at hH
         obtain ⟨x, -, X, hX⟩ := hH
         obtain ⟨-, -, hHX, -⟩ := hX
         rw [hHX]
@@ -323,7 +323,7 @@ theorem reductio_of_O2 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : 
       mBar D.M V₀ V hC.hyp125.isElemAbelian := by
     have h := h15
     unfold R17_15At at h
-    rw [← ENat.coe_toNat hiL] at h
+    rw [← ENat.natCast_toNat hiL] at h
     exact_mod_cast h
   omega
 

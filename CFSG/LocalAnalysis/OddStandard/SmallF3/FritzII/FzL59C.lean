@@ -71,8 +71,8 @@ theorem fzl59c_facts {G : Type} [Group G] [Finite G] {t : G} {L S T₂ : Subgrou
       fzl59c_u_t h.u_cases⟩
   have horb : ∀ β ∈ fourGrp x₁ x₂ ⊔ zpowers s, ∃ g ∈ T₃, g * t * g⁻¹ = β * t :=
     fun β hβ => fzl59c_orbit_t hA hZ hw₀ hw₁ hws hβ
-  refine ⟨fzl59c_card_B hA, fzl59c_card_F hA, fun g hg f hf => fzl59c_B_nrm hA hT1 hg hf,
-    fun g hg f hf => fzl59c_F_nrm hA hT1 hT2 hg hf,
+  refine ⟨fzl59c_card_B hA, fzl59c_card_F hA, fun g hg f hf => fzl59c_B_nrm hT1 hg hf,
+    fun g hg f hf => fzl59c_F_nrm hT1 hT2 hg hf,
     fun f hf f' hf' => ⟨fzl59c_F_comm hA f hf f' hf', fzl59c_F_sq hA hf⟩, ?_,
     fun β hβ _ => fzl59c_cent_B hA hT1 h.card_T₃ hβ, fzl59c_cent_t hA hT2 h.card_T₃ horb⟩
   intro f hf hfB

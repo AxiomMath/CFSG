@@ -32,9 +32,9 @@ private theorem oPrimeResidual_three_eq_top {H : Type} [Group H] [Finite H]
     (hs : IsSimpleGroup (H ⧸ aschbacherSolvableCore 3 H))
     (h3 : 3 ∣ Nat.card (H ⧸ aschbacherSolvableCore 3 H)) :
     oPrimeResidual 3 H = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hN : (oPrimeResidual 3 H).Normal := oPrimeResidual_three_normal H
-  haveI hθ : Group.IsSolvable (aschbacherSolvableCore 3 H) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hN : (oPrimeResidual 3 H).Normal := oPrimeResidual_three_normal H
+  have hθ : Group.IsSolvable (aschbacherSolvableCore 3 H) :=
     (solvable_prime_complement_core_characterization (H := H) Nat.prime_three).1
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := H ⧸ aschbacherSolvableCore 3 H) 3 h3
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (aschbacherSolvableCore 3 H) z
@@ -90,8 +90,8 @@ private theorem oPrimeResidual_three_eq_top {H : Type} [Group H] [Finite H]
     show QuotientGroup.mk' (oPrimeResidual 3 H) (n⁻¹ * h) =
       QuotientGroup.mk' (oPrimeResidual 3 H) h
     rw [map_mul, map_inv, hn1, inv_one, one_mul]
-  haveI hQ : Group.IsSolvable (H ⧸ oPrimeResidual 3 H) := Group.isSolvable_of_surjective hψ
-  haveI hsub : Subsingleton (H ⧸ oPrimeResidual 3 H) := by
+  have hQ : Group.IsSolvable (H ⧸ oPrimeResidual 3 H) := Group.isSolvable_of_surjective hψ
+  have hsub : Subsingleton (H ⧸ oPrimeResidual 3 H) := by
     by_contra hns
     rw [not_subsingleton_iff_nontrivial] at hns
     exact Group.IsPerfect.not_isSolvable (H ⧸ oPrimeResidual 3 H) hQ

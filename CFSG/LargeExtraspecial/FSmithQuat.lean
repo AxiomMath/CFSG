@@ -84,6 +84,7 @@ namespace NormalQuat
 
 variable {S : Setting G} {P : Subgroup G}
 
+omit [Finite G] in
 theorem z_mem (hP : NormalQuat S P) : S.z ∈ P := by
   have hne : P ≠ ⊥ := by
     intro hbot
@@ -97,6 +98,7 @@ theorem z_mem (hP : NormalQuat S P) : S.z ∈ P := by
     rw [← h]
     exact P.mul_mem p.2 p.2
 
+omit [Finite G] in
 theorem mul_self_eq_one_iff (hP : NormalQuat S P) {p : G} (hp : p ∈ P) :
     p * p = 1 ↔ p = 1 ∨ p = S.z := by
   constructor
@@ -111,6 +113,7 @@ theorem mul_self_eq_one_iff (hP : NormalQuat S P) {p : G} (hp : p ∈ P) :
     · simp
     · exact S.z_mul_z
 
+omit [Finite G] in
 theorem z_mem_of_ne_bot (hP : NormalQuat S P) {H : Subgroup G} (hHP : H ≤ P) (hH : H ≠ ⊥) :
     S.z ∈ H := by
   obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hH
@@ -120,6 +123,7 @@ theorem z_mem_of_ne_bot (hP : NormalQuat S P) {H : Subgroup G} (hHP : H ≤ P) (
     rw [← h]
     exact H.mul_mem x.2 x.2
 
+omit [Finite G] in
 theorem conj (hP : NormalQuat S P) (g : G) :
     NormalQuat (S.conjBy g) (P.map (MulAut.conj g).toMonoidHom) where
   le_QG := by
@@ -145,6 +149,7 @@ theorem conj (hP : NormalQuat S P) (g : G) :
     calc (g * p * g⁻¹) * (g * p * g⁻¹) = g * (p * p) * g⁻¹ := by group
       _ = g * S.z * g⁻¹ := by rw [hP.mul_self_eq p hp hp1 hpz]
 
+omit [Finite G] in
 theorem card_clSub (hP : NormalQuat S P) : Nat.card (S.clSub P) = 4 := by
   have hpre : S.clPre (S.clSub P) = P := S.clPre_clSub hP.le_QG hP.z_mem
   have h := S.card_clPre (S.clSub P)
@@ -186,7 +191,7 @@ theorem isCompl_clSub_perp (hP : NormalQuat S P) :
     have h1 : finrank (ZMod 2) (ZMod 2 ∙ v) = finrank (ZMod 2) (S.clSub P) := by rw [heq]
     rw [finrank_span_singleton hv0, hP.finrank_clSub] at h1
     omega
-  obtain ⟨u, huW, hu_notin⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hspan_le hspan_ne)
+  obtain ⟨u, huW, hu_notin⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hspan_le hspan_ne)
   have hu0 : u ≠ 0 := by
     intro h
     apply hu_notin
@@ -310,8 +315,8 @@ theorem linearEquivToPerm_injective (V : Type*) [AddCommGroup V] [Module (ZMod 2
 
 theorem card_perm_nonzero_clSub (hP : NormalQuat S P) :
     Nat.card (Equiv.Perm {v : S.clSub P // v ≠ 0}) = 6 := by
-  haveI : Fintype (S.clSub P) := Fintype.ofFinite _
-  haveI : Fintype {x : S.clSub P | x ≠ 0} := Fintype.ofFinite _
+  have : Fintype (S.clSub P) := Fintype.ofFinite _
+  have : Fintype {x : S.clSub P | x ≠ 0} := Fintype.ofFinite _
   have h3 : Nat.card {v : S.clSub P // v ≠ 0} = 3 := by
     have h1 := Set.card_ne_eq (0 : S.clSub P)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hP.card_clSub] at h1
@@ -322,7 +327,7 @@ theorem card_perm_nonzero_clSub (hP : NormalQuat S P) :
 theorem card_le_two_mul_card_innerPart (hP : NormalQuat S P) (R : Subgroup S.M) {k : ℕ}
     (hk : Nat.card R = 2 ^ k) : Nat.card R ≤ 2 * Nat.card (hP.innerPart R) := by
   classical
-  haveI : Fintype {v : S.clSub P // v ≠ 0} := Fintype.ofFinite _
+  have : Fintype {v : S.clSub P // v ≠ 0} := Fintype.ofFinite _
   set ψ : R →* Equiv.Perm {v : S.clSub P // v ≠ 0} :=
     (linearEquivToPerm (S.clSub P)).comp (hP.ρWhom.comp R.subtype) with hψ
   have hψker : ψ.ker = (hP.innerPart R).subgroupOf R := by
@@ -370,7 +375,8 @@ theorem card_le_two_mul_card_innerPart (hP : NormalQuat S P) (R : Subgroup S.M) 
     _ ≤ 2 * Nat.card ψ.ker := Nat.mul_le_mul_right _ hle
     _ = 2 * Nat.card (hP.innerPart R) := by rw [hker]
 
-theorem conj_mul_self_eq_of_innerOn (hP : NormalQuat S P) {m : G} (hm : m ∈ S.M)
+omit [Finite G] in
+theorem conj_mul_self_eq_of_innerOn (_hP : NormalQuat S P) {m : G} (hm : m ∈ S.M)
     (h : InnerOn (S := S) P m) {p : G} (hp : p ∈ P) :
     (m * m) * p * (m * m)⁻¹ = p := by
   have hz : m * S.z * m⁻¹ = S.z := by rw [S.z_comm hm]; group

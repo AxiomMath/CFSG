@@ -103,7 +103,7 @@ theorem isSylowTwoOf_of_isSylowIn {P Y : Subgroup G}
     (h : CFSG.DihedralBlueprint.IsSylowIn 2 P Y) : IsSylowTwoOf P Y := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, rfl⟩ := (CFSG.DihedralBlueprint.isSylowIn_iff_exists_sylow 2 P Y).mp h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩
   rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]
   exact Q.not_dvd_index
 

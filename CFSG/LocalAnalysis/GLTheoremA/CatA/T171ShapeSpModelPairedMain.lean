@@ -29,7 +29,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 open scoped MatrixGroups commutatorElement
 
 theorem spPaired_linearData {r n p : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) {x : StatedSp r K} {h : K[X]}
+    (_hK : Nat.card K = 2 ^ n) (_hn : 1 ≤ n) {x : StatedSp r K} {h : K[X]}
     (hh : h ∈ primaryFactors (spEnd x))
     (hP : SpPairedBlock 2 n p x ⟨h, hh⟩) (hp : p.Prime) (hp2 : p ≠ 2)
     (D : Subgroup (StatedSp r K))
@@ -51,7 +51,7 @@ theorem spPaired_linearData {r n p : ℕ} {K : Type} [Field K] [Finite K]
   set E := AdjoinRoot (h : K[X]) with hEdef
   set W := primaryComponent (spEnd x) (h : K[X]) with hWdef
   obtain ⟨φ, hφ, hform⟩ := hP.factor
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hdeg : 1 ≤ (h : K[X]).natDegree := Irreducible.natDegree_pos
     (irreducible_of_mem_primaryFactors hh)
   have hEcard : Nat.card E = 2 ^ (n * (h : K[X]).natDegree) := by
@@ -66,7 +66,7 @@ theorem spPaired_linearData {r n p : ℕ} {K : Type} [Field K] [Finite K]
     have hpos : 0 < Nat.card E - 1 := Nat.sub_pos_of_lt (Finite.one_lt_card)
     have := Nat.le_of_dvd hpos hdvd
     omega
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hm : 2 ≤ Module.finrank E W := by
     by_contra hlt
     have hlt' : Module.finrank E W ≤ 1 := by omega
@@ -181,8 +181,8 @@ theorem spPaired_linearData {r n p : ℕ} {K : Type} [Field K] [Finite K]
 
 
 theorem spPaired_pSimple_mulEquiv_largeEven_mk {r p a : ℕ} {K E : Type} [Field K] [Finite K]
-    [Field E] [Finite E] (hp : p.Prime) (hr : 1 ≤ r)
-    {x : StatedSp r K} {D : Subgroup (StatedSp r K)}
+    [Field E] [Finite E] (hp : p.Prime) (_hr : 1 ≤ r)
+    {_x : StatedSp r K} {D : Subgroup (StatedSp r K)}
     {J : Subgroup (StatedProj (StatedSp r K))}
     (hq : CFSG.IsQuasisimple ↥D) (hpJ : p ∣ Nat.card J)
     (eD : ↥D ≃* StatedSL a E) (eJ : ↥D ≃* ↥J) :
@@ -190,8 +190,8 @@ theorem spPaired_pSimple_mulEquiv_largeEven_mk {r p a : ℕ} {K E : Type} [Field
       ∀ d : ↥D, e (CFSG.LocalAnalysis.GLTheoremA.chevQuotHom p J (eJ d)) =
         LargeEvenProjMk (StatedSL a E) (eD d) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥D := hq.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥D := hq.1
   have hdvd : p ∣ Nat.card ↥D := by
     rw [Nat.card_congr eJ.toEquiv]
     exact hpJ
@@ -270,7 +270,7 @@ theorem spPaired_eD_conj {r a : ℕ} {K E : Type} [Field K] [Field E]
       yO⁻¹ * ⟨d.1, hDF d.2⟩ * yO := Subtype.ext rfl
   rw [h, map_mul, map_mul, map_inv]
 
-theorem spPaired_eJ_conj {r p : ℕ} {K : Type} [Field K] [Finite K] {y yO : StatedSp r K}
+theorem spPaired_eJ_conj {r _p : ℕ} {K : Type} [Field K] [Finite K] {y yO : StatedSp r K}
     {F D : Subgroup (StatedSp r K)} (hDF : D ≤ F) (hyO : yO ∈ F)
     (hz : ∀ g ∈ F, Commute (yO⁻¹ * y) g)
     {J : Subgroup (StatedProj (StatedSp r K))} (eJ : ↥D ≃* ↥J)
@@ -316,7 +316,7 @@ theorem spPaired_exists_sl_scalar {E : Type} [Field E] [Finite E]
 theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
   intro m n p K _ _ hK hm hp hp2 x y hxp hyp hxy hx1 h hh h1 hne hP J hJeq hN hpJ
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F : Subgroup (StatedSp m K) :=
     spSupported x ({(h : K[X]), reciprocalPolynomial (h : K[X])} : Set K[X]) with hF
   set D : Subgroup (StatedSp m K) := ⁅F, F⁆ with hD
@@ -327,8 +327,8 @@ theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
       have hc := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [Fintype.card_eq_nat_card, hK])
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
@@ -336,8 +336,8 @@ theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
     intro h0
     rw [CharP.cast_eq_zero_iff K 2] at h0
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h0).symm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero m := ⟨by omega⟩
   have hproj : Function.Injective (proj m K) :=
     CFSG.LocalAnalysis.GLTheoremA.K155XSp.l154s_proj_injective (r := m) (K := K) h2
   have hm1 : 1 ≤ m := by omega
@@ -363,12 +363,12 @@ theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
   have hpJ' : p ∣ Nat.card (D.map (proj m K)) := by rwa [← hJeq]
   obtain ⟨a, E, hEfield, hEfin, eF, eD, ha2, hcard, heD_eq, hsurj, hq⟩ :=
     spPaired_linearData hK hn1 hh hP hp hp2 D hD' hDF hpJ'
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   let eJ : ↥D ≃* ↥J :=
     (Subgroup.equivMapOfInjective D (proj m K) hproj).trans (MulEquiv.subgroupCongr hJeq.symm)
   have heJ : ∀ d : ↥D, (eJ d : StatedProj (StatedSp m K)) = proj m K d := fun d => rfl
-  obtain ⟨e, he⟩ := spPaired_pSimple_mulEquiv_largeEven_mk (a := a) (E := E) (x := x) hp hm1 hq
+  obtain ⟨e, he⟩ := spPaired_pSimple_mulEquiv_largeEven_mk (a := a) (E := E) (_x := x) hp hm1 hq
     (by rwa [hJeq]) eD eJ
   let B : GL (Fin a) E := (eF ⟨yO, hyO⟩)⁻¹
   have hBpow : B ^ p = 1 := by
@@ -496,8 +496,8 @@ theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
         rw [hcard, hk]
         norm_num
       omega
-    letI : Fintype E := Fintype.ofFinite E
-    haveI hcharE : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
+    let : Fintype E := Fintype.ofFinite E
+    have hcharE : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
       (f := n * (h : K[X]).natDegree) (by rw [Fintype.card_eq_nat_card, hcard])
     have h2E : (2 : E) = 0 := CharP.cast_eq_zero E 2
     have hBmem : ∀ mm : ↥(StatedSL a E),
@@ -524,7 +524,7 @@ theorem spPairedBlockModelDvd_holds : SpPairedBlockModelDvd := by
           apply Subtype.ext
           rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
           show (proj m K y)⁻¹ * (eJ d : StatedProj (StatedSp m K)) * (proj m K y) = _
-          exact (spPaired_eJ_conj (p := p) hDF hyO hz eJ heJ d (hyOd d)).symm
+          exact (spPaired_eJ_conj (_p := p) hDF hyO hz eJ heJ d (hyOd d)).symm
         rw [show MI.indAut p J (proj m K y) hN =
           CFSG.LocalAnalysis.GLTheoremA.chevAut p J ⟨(proj m K y)⁻¹, hmem⟩ from rfl]
         rw [CFSG.LocalAnalysis.GLTheoremA.chevAut_chevQuotHom, hJ]

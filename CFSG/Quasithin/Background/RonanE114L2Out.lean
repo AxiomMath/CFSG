@@ -179,6 +179,7 @@ open CFSG.GorensteinWalter CFSG.ComponentClassification.CatalogueSchreierLinearT
 
 variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem oddTorus_of_fix_dihedral [Finite G] (hLn : L.Normal) {e : L ≃* PSL2 K} {b : G} {m : ℕ}
     [NeZero m] (hm : Odd m) (hm3 : 3 ≤ m) {Fix : Subgroup (PSL2 K)}
     (heq : L ⊓ Subgroup.centralizer {b} = Fix.map (embL e)) (d : ↥Fix ≃* DihedralGroup m) :

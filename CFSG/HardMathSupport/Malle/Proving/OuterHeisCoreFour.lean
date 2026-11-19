@@ -154,7 +154,6 @@ theorem fourWord_matrix {F : Type} [Field F] (α : F) (hα2 : α ^ 2 = α + 1) (
   ext i j
   fin_cases i <;> fin_cases j <;> simp <;>
     first
-    | ring1
     | linear_combination ((43 : F) + (25 : F) * α + (13 : F) * α ^ 2 + (5 : F) * α ^ 3) * hα2 + ((21 : F) + (35 : F) * α) * h2
     | linear_combination ((50 : F) + (28 : F) * α + (18 : F) * α ^ 2 + (6 : F) * α ^ 3) * hα2 + ((25 : F) + (39 : F) * α) * h2
     | linear_combination ((35 : F) + (24 : F) * α + (8 : F) * α ^ 2 + (4 : F) * α ^ 3) * hα2 + ((18 : F) + (31 : F) * α) * h2
@@ -231,7 +230,6 @@ theorem outerHeisCoreFour {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) 
     fin_cases i <;> fin_cases j <;>
       simp [heisC, fourY1, Matrix.mul_apply, Fin.sum_univ_three] <;>
       first
-      | ring1
       | linear_combination (1 + α) * hα2 + α * h2
       | linear_combination (-1 - α) * hα2 + (-α) * h2
   have hc2 : heisC α * (Y2 : Matrix (Fin 3) (Fin 3) F) =

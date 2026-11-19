@@ -61,8 +61,8 @@ theorem reflectionProduct_pow_eighteen_eq_one_of_tableB
     (hφ₀ : GGIsReflection 3 φ₀) (hφ₁ : GGIsReflection 3 φ₁) :
     (φ₀ * φ₁) ^ 18 = 1 := by
   classical
-  haveI : IsAlgClosed GGFinModel.GGL := IsAlgClosure.isAlgClosed K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed GGFinModel.GGL := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have : CharP GGFinModel.GGL 2 := charP_of_injective_algebraMap (algebraMap K GGFinModel.GGL).injective 2
   let γ := recipeActorModelEquiv hn hK σ hσ Fr hFr ε hε hTB.1 hTB.2.1 hTB.2.2.1 hTB.2.2.2.2.1
@@ -80,7 +80,7 @@ theorem reflectionProduct_pow_eighteen_eq_one_of_tableB
     hTB.2.2.2.2.2.1
   have hcardE : Nat.card E = 3 ^ 4 :=
     (Nat.card_congr γ.toEquiv).symm.trans hcardA
-  haveI : Finite E := Finite.of_equiv A γ
+  have : Finite E := Finite.of_equiv A γ
   have hP₀ : ∀ a : A,
       (γ (φ₀ a * a⁻¹) : ModGL Tag.E6 GGFinModel.GGL) ∈ S :=
     reflection_difference_mem_connectedCentralizer_of_tableB hn hK σ hσ Fr hFr ε hε
@@ -105,7 +105,7 @@ theorem reflectionProduct_pow_eighteen_eq_one_of_tableB
     intro a
     have h : (1 : MulAut A) a * a⁻¹ = 1 := by simp
     rw [h, map_one]
-    simpa using Subgroup.one_mem S
+    simp
   have hPpow : ∀ m : ℕ, ∀ θ : MulAut A, P θ → P (θ ^ m) := by
     intro m
     induction m with
@@ -180,7 +180,6 @@ theorem reflectionProduct_pow_eighteen_eq_one_of_tableB
       refine ⟨(γ ((φ₀ * φ₁).symm a) : ModGL Tag.E6 GGFinModel.GGL), (γ ((φ₀ * φ₁).symm a)).2, ?_⟩
       change R * (γ ((φ₀ * φ₁).symm a) : ModGL Tag.E6 GGFinModel.GGL) * R⁻¹ = x
       rw [hconj]
-      change (γ ((φ₀ * φ₁) ((φ₀ * φ₁).symm a)) : ModGL Tag.E6 GGFinModel.GGL) = x
       rw [MulEquiv.apply_symm_apply]
       exact congrArg Subtype.val (γ.apply_symm_apply ⟨x, hx⟩)
   have hcentral : ∀ t : ModGL Tag.E6 GGFinModel.GGL, t ∈ S → R ^ 6 * t * (R ^ 6)⁻¹ = t := by
@@ -240,7 +239,7 @@ theorem reflectionProduct_pow_eighteen_eq_one_of_tableB
       _ = δ ^ 3 * a := by group
       _ = a := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_one]
+        simp only [Subgroup.coe_mul, Subgroup.coe_pow]
         rw [hA.2 (δ : MulAut L') δ.2, one_mul]
   have h18 : (φ₀ * φ₁) ^ 18 = 1 := by
     have h := hβ3

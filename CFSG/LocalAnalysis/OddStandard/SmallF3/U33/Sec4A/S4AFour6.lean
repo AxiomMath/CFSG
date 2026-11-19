@@ -67,14 +67,14 @@ theorem card_le_six_mul_card_inf_centralizer {K E : Subgroup G} (hE : Nat.card E
       calc e * (k : G) = ((k : G) * e * (k : G)⁻¹) * (k : G) := by rw [hx']
         _ = (k : G) * e := by group
   have hXcard : Nat.card X ≤ 3 := by
-    haveI : Fintype ↥E := Fintype.ofFinite _
+    have : Fintype ↥E := Fintype.ofFinite _
     have h1 : Fintype.card X = Fintype.card ↥E - 1 := by
       have := Fintype.card_subtype_compl (fun e : ↥E => e = 1)
       rw [Fintype.card_subtype_eq] at this
       exact this
     rw [Nat.card_eq_fintype_card, h1, ← Nat.card_eq_fintype_card, hE]
   have hperm : Nat.card (Equiv.Perm X) ≤ 6 := by
-    haveI : Fintype X := Fintype.ofFinite X
+    have : Fintype X := Fintype.ofFinite X
     rw [Nat.card_eq_fintype_card, Fintype.card_perm]
     have h3 : Fintype.card X ≤ 3 := by
       rw [← Nat.card_eq_fintype_card]

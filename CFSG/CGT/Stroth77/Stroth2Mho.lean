@@ -24,6 +24,7 @@ theorem mem_omega_iff_of_comm {i : ℕ} {M : Type*} [Group M]
   · intro hy
     exact Subgroup.subset_closure (by simpa using hy)
 
+omit [Finite G] in
 theorem mem_omegaIn_of_pow_eq_one {i : ℕ} {D : Subgroup G} {x : G} (hx : x ∈ D)
     (h : x ^ (2 ^ i) = 1) : x ∈ omegaIn i D := by
   refine ⟨⟨x, hx⟩, ?_, rfl⟩
@@ -42,6 +43,7 @@ theorem four_nsmul_eq_zero_of_k_le_two {k : Fin 3 → ℕ} (hk : ∀ i, k i ≤ 
   change (4 : ZMod (2 ^ k i)) * v i = 0
   rw [hzero, zero_mul]
 
+omit [Finite G] in
 theorem mem_omegaIn_iff_of_comm {i : ℕ} {D : Subgroup G}
     (hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) {x : G} :
     x ∈ omegaIn i D ↔ x ∈ D ∧ x ^ (2 ^ i) = 1 := by
@@ -75,6 +77,7 @@ theorem false_of_omegaTwo_iso_of_card_lt (Z : StrothDatum X)
   have hge := card_D_ge_64_of_iso Z hΩ
   omega
 
+omit [Finite G] in
 theorem card_omegaIn_two_eq {D : Subgroup G} {k : Fin 3 → ℕ}
     (e : Additive D ≃+ Torus k) :
     Nat.card (omegaIn 2 D) = Nat.card {v : Torus k // (4 : ℤ) • v = 0} := by
@@ -162,7 +165,6 @@ theorem card_D_t100_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t100 
   have h := Z.dataD.card
   rw [hτ] at h
   simp [StrothTypeIndex.k, Type100.k] at h
-  norm_num at h
   exact h
 
 theorem card_D_t100_one (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t100 1) :
@@ -170,7 +172,6 @@ theorem card_D_t100_one (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t100 1
   have h := Z.dataD.card
   rw [hτ] at h
   simp [StrothTypeIndex.k, Type100.k] at h
-  norm_num at h
   exact h
 
 theorem card_D_t101_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t101 0) :
@@ -178,7 +179,6 @@ theorem card_D_t101_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t101 
   have h := Z.dataD.card
   rw [hτ] at h
   simp [StrothTypeIndex.k, Type101.k] at h
-  norm_num at h
   exact h
 
 theorem card_D_t200_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t200 0) :
@@ -186,7 +186,6 @@ theorem card_D_t200_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t200 
   have h := Z.dataD.card
   rw [hτ] at h
   simp [StrothTypeIndex.k, Type200.k] at h
-  norm_num at h
   exact h
 
 theorem card_D_t201_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t201 0) :
@@ -194,7 +193,6 @@ theorem card_D_t201_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t201 
   have h := Z.dataD.card
   rw [hτ] at h
   simp [StrothTypeIndex.k, Type201.k] at h
-  norm_num at h
   exact h
 
 theorem hMho1_t100_zero (Z : StrothDatum X) (hτ : Z.τ = StrothTypeIndex.t100 0)

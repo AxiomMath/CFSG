@@ -88,7 +88,7 @@ theorem partD (hc : S6Ctx G p) (h183 : Input18_3_4) (hLB : LBalanceAt G p)
       rw [hbot] at this
       exact le_bot_iff.1 this
     · have hDp : IsPGroup p D := isPGroup_of_isElemAbelian hDel
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hDp
       have h2k : p ^ 2 ≤ p ^ k := hk ▸ hD.1.2.1
       have hk3 : 3 ≤ k := by
@@ -136,7 +136,7 @@ theorem partD (hc : S6Ctx G p) (h183 : Input18_3_4) (hLB : LBalanceAt G p)
       _ = ⁅closureIn K₁ B, GLAPPrimeCoreOf p (Subgroup.centralizer ({b} : Set G))⁆ :=
           Subgroup.commutator_comm _ _
   have hS_even : 2 ∣ Nat.card S := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hS2
     have hn0 : n ≠ 0 := by
       rintro rfl

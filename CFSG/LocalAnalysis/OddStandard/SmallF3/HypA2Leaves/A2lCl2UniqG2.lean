@@ -25,12 +25,12 @@ private theorem cl24_E_eq_two_N {τ : StatedLieTag} {n j : ℕ}
     have hn3 : 3 ≤ n := hadm.2.2.1
     by_cases hEven : Even n
     · exfalso
-      simp only [cl24E, lieSylowExponent, if_pos hEven] at h
+      simp only [cl24E, lieSylowExponent, ite_eq_left hEven] at h
       rw [cl24_tri n] at h
       have hnm1 : 0 < n - 1 := by omega
       have := Nat.mul_right_cancel hnm1 h
       omega
-    · simp only [cl24E, lieSylowExponent, if_neg hEven] at h
+    · simp only [cl24E, lieSylowExponent, ite_eq_right hEven] at h
       rw [cl24_tri n] at h
       have hn0 : 0 < n := by omega
       rw [mul_comm 2 n] at h
@@ -150,7 +150,7 @@ theorem cl24_twistedG2_small {τ' : StatedLieTag} {n' j d : ℕ}
     omega
 
 theorem cl24_twistedG2_large {τ : StatedLieTag} {n j d : ℕ}
-    (hadm : StatedLieAdmissible τ n 3 j) (hadm' : StatedLieAdmissible .twistedG2 0 3 d)
+    (hadm : StatedLieAdmissible τ n 3 j) (_hadm' : StatedLieAdmissible .twistedG2 0 3 d)
     (hjd : j < d) (hN : lieSylowExponent τ n * j = lieSylowExponent .twistedG2 0 * d)
     (hE : j * cl24E τ n = d * cl24E .twistedG2 0) : False := by
   have hj : 0 < j := by have := hadm.2.1; omega

@@ -49,7 +49,7 @@ variable (e)
   invFun a := ⟨(g : G)⁻¹ * a * (g : G), by
     have h := (mem_normalizer_iff.mp g.2 ((g : G)⁻¹ * a * (g : G))).mpr
     apply h
-    simpa [mul_assoc] using a.2⟩
+    simp [mul_assoc]⟩
   left_inv a := Subtype.ext (by simp [mul_assoc])
   right_inv a := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])

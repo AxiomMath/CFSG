@@ -31,7 +31,7 @@ theorem s828_perfect_autOn_LU {T L I : Subgroup G} {h : G}
 theorem s828_B'_eq_map {T L I : Subgroup G} {h : G} [IsMulCommutative ↥(fsuV T I)]
     (hLN : L ≤ Subgroup.normalizer (fsuV T I : Set G))
     (hAN : ch82A (fsuV T I) h ≤ Subgroup.normalizer (fsuV T I : Set G))
-    (hAL : ch82A (fsuV T I) h ≤ Subgroup.normalizer (L : Set G)) :
+    (_hAL : ch82A (fsuV T I) h ≤ Subgroup.normalizer (L : Set G)) :
     ⁅fsuV T I, ch82A (fsuV T I) h⁆ ⊔ ⁅fsuV T I, ch82LU L (ch82U (fsuV T I) h)⁆ ⊔
         ch82U (fsuV T I) h =
       (s828BPrime (autOn L (fsuV T I)) (autOn (ch82A (fsuV T I) h) (fsuV T I))).map
@@ -46,6 +46,7 @@ theorem s828_B'_eq_map {T L I : Subgroup G} {h : G} [IsMulCommutative ↥(fsuV T
     CFSG.Quasithin.AutOn.map_commV_autOn_eq hAN, CFSG.Quasithin.AutOn.map_commV_autOn_eq hLUN,
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hUV]
 
+omit [Finite G] in
 theorem s828_mQuot_map {W : Subgroup G} (X : Subgroup ↥W) :
     mQuot W (X.map W.subtype) = mQuot ⊤ X := by
   unfold mQuot

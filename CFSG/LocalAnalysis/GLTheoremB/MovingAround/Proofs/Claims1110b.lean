@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_mem_omegaOne_centerOf {p : ℕ} [Fact p.Prime] {R W : Subgroup G} (hR : IsPGroup p R)
     (hWR : W ≤ R) (hWn : (W.subgroupOf R).Normal) (hW : W ≠ ⊥) :
     ∃ z ∈ W, z ∈ omegaOne p (centerOf R) ∧ z ≠ 1 := by
-  haveI : Group.IsNilpotent ↥R := hR.isNilpotent
+  have : Group.IsNilpotent ↥R := hR.isNilpotent
   have hW' : W.subgroupOf R ≠ ⊥ := by
     intro hb
     apply hW
@@ -51,6 +51,7 @@ theorem card_le_of_isCyclic_of_pow {X : Type*} [Group X] [Finite X] {p : ℕ} [F
   rw [IsCyclic.exponent_eq_card] at h1
   exact Nat.le_of_dvd (Fact.out : p.Prime).pos h1
 
+omit [Finite G] in
 theorem map_mem_of_mem_sup₂ {H : Type*} [Group H] {R W V : Subgroup G} (f : ↥R →* H)
     (S : Subgroup H) (hWR : W ≤ R) (hVR : V ≤ R) (hW : ∀ w (hw : w ∈ W), f ⟨w, hWR hw⟩ ∈ S)
     (hV : ∀ v (hv : v ∈ V), f ⟨v, hVR hv⟩ ∈ S) {x : G} (hxR : x ∈ R) (hx : x ∈ W ⊔ V) :
@@ -74,8 +75,8 @@ theorem card_le_mul_card_inf_of_le_sup {p : ℕ} [Fact p.Prime] {R W V F : Subgr
   set θ : ↥R →* ↥R ⧸ V' := QuotientGroup.mk' V' with hθ
   set F' : Subgroup ↥R := F.subgroupOf R with hF'
   set W' : Subgroup ↥R := W.subgroupOf R with hW'
-  haveI hW'c : IsCyclic ↥W' := (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hWR)).2 hWc
-  haveI hWimc : IsCyclic ↥(W'.map θ) := isCyclic_of_surjective (θ.subgroupMap W')
+  have hW'c : IsCyclic ↥W' := (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hWR)).2 hWc
+  have hWimc : IsCyclic ↥(W'.map θ) := isCyclic_of_surjective (θ.subgroupMap W')
     (θ.subgroupMap_surjective W')
   set θF : ↥F' →* ↥R ⧸ V' := θ.comp F'.subtype with hθF
   have hrange : θF.range ≤ W'.map θ := by
@@ -120,7 +121,7 @@ theorem exists_sup_zpowers_of_rank_le_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 
   have hQp : IsPGroup p (↥R ⧸ X₀') := hR.to_quotient X₀'
   have hcyc : IsCyclic (↥R ⧸ X₀') := by
     by_contra hnc
-    haveI : Fact (IsPGroup p (↥R ⧸ X₀')) := ⟨hQp⟩
+    have : Fact (IsPGroup p (↥R ⧸ X₀')) := ⟨hQp⟩
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
     set X : Subgroup G := (S.comap φ).map R.subtype with hX
     have hXR : X ≤ R := Subgroup.map_subtype_le _
@@ -204,7 +205,7 @@ theorem step12Claim_of_reIRC (h119 : Lemma119Statement) (hRC : ReIRCClaim) :
     Claims1110.Step12Claim := by
   intro G _ _ m p B M E A a K h hb R hR hEAR
   obtain ⟨rfl, hfi⟩ := hb
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -304,12 +305,13 @@ theorem comm_of_isMetacyclic {Q : Type*} [Group Q] [Finite Q] {p : ℕ} [Fact p.
     x * y = y * x := by
   by_cases hcyc : IsCyclic Q
   · exact IsCyclic.commGroup.mul_comm x y
-  · haveI : Fact (IsPGroup p Q) := ⟨hQ⟩
+  · have : Fact (IsPGroup p Q) := ⟨hQ⟩
     obtain ⟨-, hel⟩ := CFSG.lemma_4_10 hp2 hmeta hcyc
     have hxo : x ∈ CFSG.omega₁ (G := Q) (p := p) := Subgroup.subset_closure (by simpa using hx)
     have hyo : y ∈ CFSG.omega₁ (G := Q) (p := p) := Subgroup.subset_closure (by simpa using hy)
     exact congrArg Subtype.val (hel.toIsMulCommutative.is_comm.comm ⟨x, hxo⟩ ⟨y, hyo⟩)
 
+omit [Finite G] in
 theorem map_mem_of_mem_sup {H : Type*} [Group H] {R W : Subgroup G} (f : ↥R →* H) (S : Subgroup H)
     (hWR : W ≤ R) (hW : ∀ w (hw : w ∈ W), f ⟨w, hWR hw⟩ ∈ S) {g : G} (hgR : g ∈ R)
     (hg : f ⟨g, hgR⟩ ∈ S) {x : G} (hxR : x ∈ R) (hx : x ∈ W ⊔ Subgroup.zpowers g) :
@@ -336,7 +338,7 @@ theorem commutator_omegaOne_le {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {R W C :
   have hφW : ∀ w (hw : w ∈ W), φ ⟨w, hWR hw⟩ = 1 := fun w hw =>
     (QuotientGroup.eq_one_iff _).2 (Subgroup.mem_subgroupOf.2 hw)
   set CQ : Subgroup (↥R ⧸ W') := (C.subgroupOf R).map φ with hCQ
-  haveI hCQn : CQ.Normal := Subgroup.Normal.map hCn φ (QuotientGroup.mk'_surjective W')
+  have hCQn : CQ.Normal := Subgroup.Normal.map hCn φ (QuotientGroup.mk'_surjective W')
   have hmeta : CFSG.IsMetacyclic (↥R ⧸ W') := by
     refine ⟨CQ, hCQn, ?_, ?_⟩
     · have hle : CQ ≤ Subgroup.zpowers (φ ⟨c, hCR hcC⟩) := by
@@ -401,7 +403,7 @@ theorem step4Claim_of_reIMeta (hMeta : ReIMetaClaim) : Claims1110.Step4Claim := 
   intro G _ _ m p B M E A a K h hb R hR hEAR hRG hZ hAeq hA2 hASyl hCaN e he he1 hKe
   obtain ⟨W, V, hWR, hVR, hWn, hVn, heW, hVc, hrank⟩ :=
     hMeta h hb R hR hEAR hRG hZ hAeq hA2 hASyl hCaN e he he1 hKe
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hCR : W ⊔ V ≤ R := sup_le hWR hVR
   have hCn : ((W ⊔ V).subgroupOf R).Normal := by
     rw [Subgroup.subgroupOf_sup hWR hVR]
@@ -424,9 +426,11 @@ open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns (conj_mem_gLAPPrimeCor
 @[expose] def IeOf (K : Subgroup G) (e : G) : Subgroup G :=
   ⨆ g ∈ GLAPLayer 5 (Cg e), GLBConj g (GLAPLayer 5 (K ⊓ Cg e))
 
+omit [Finite G] in
 theorem glaPLayer_le'' (p : ℕ) (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun _ h => h.1
 
+omit [Finite G] in
 theorem ke_le_ieOf (K : Subgroup G) (e : G) : GLAPLayer 5 (K ⊓ Cg e) ≤ IeOf K e := by
   intro x hx
   have h1 : x ∈ GLBConj 1 (GLAPLayer 5 (K ⊓ Cg e)) := by
@@ -435,6 +439,7 @@ theorem ke_le_ieOf (K : Subgroup G) (e : G) : GLAPLayer 5 (K ⊓ Cg e) ≤ IeOf 
   exact (le_iSup₂ (f := fun g (_ : g ∈ GLAPLayer 5 (Cg e)) => GLBConj g (GLAPLayer 5 (K ⊓ Cg e)))
     1 (Subgroup.one_mem _)) h1
 
+omit [Finite G] in
 theorem ieOf_le_cg (K : Subgroup G) (e : G) : IeOf K e ≤ Cg e := by
   refine iSup₂_le fun g hg => ?_
   intro x hx
@@ -465,10 +470,12 @@ theorem ieOf_le_cg (K : Subgroup G) (e : G) : IeOf K e ≤ Cg e := by
     rw [e']
     exact h1
 
+omit [Finite G] in
 theorem mem_cRIe {R K : Subgroup G} {e x : G} :
     x ∈ CRIe R K e ↔ x ∈ R ∧ x ∈ Cg e ∧
       ∀ y ∈ IeOf K e, x * y * x⁻¹ * y⁻¹ ∈ GLAPPrimeCoreOf 5 (Cg e) := Iff.rfl
 
+omit [Finite G] in
 theorem cRIe_le (R K : Subgroup G) (e : G) : CRIe R K e ≤ R := fun _ hx => hx.1
 
 @[expose] def IeLayerClaim : Prop :=
@@ -478,6 +485,7 @@ theorem cRIe_le (R K : Subgroup G) (e : G) : CRIe R K e ≤ R := fun _ hx => hx.
     ∀ e ∈ omegaOne 5 (centerOf R), e ≠ 1 →
       ∃ 𝓛 : Set (Subgroup G), (∀ L ∈ 𝓛, GLAPComponent 5 (Cg e) L) ∧ IeOf K e = sSup 𝓛
 
+omit [Finite G] in
 theorem mem_normalizer_sSup {X : Set (Subgroup G)} {b : G}
     (hb : ∀ L ∈ X, b ∈ Subgroup.normalizer (L : Set G)) :
     b ∈ Subgroup.normalizer ((sSup X : Subgroup G) : Set G) := by
@@ -514,11 +522,11 @@ theorem exists_fixed_mul {p : ℕ} [Fact p.Prime] {X V O : Subgroup G} (hV : IsP
     have e' : z⁻¹ * (v * s * v⁻¹) = z⁻¹ * (v * z * v⁻¹ * z⁻¹) * z * (v * (z⁻¹ * s) * v⁻¹) := by group
     rw [e']
     exact h3
-  letI := Claims1110.conjActSet V S hVS
+  let := Claims1110.conjActSet V S hVS
   have hcard : Nat.card ↥S = Nat.card ↥O := by
     refine Nat.card_congr
       { toFun := fun s => ⟨z⁻¹ * s, s.2⟩
-        invFun := fun o => ⟨z * o, by show z⁻¹ * (z * o) ∈ O; simpa using o.2⟩
+        invFun := fun o => ⟨z * o, by show z⁻¹ * (z * o) ∈ O; simp⟩
         left_inv := fun s => by apply Subtype.ext; simp
         right_inv := fun o => by apply Subtype.ext; simp }
   have hmod := hV.card_modEq_card_fixedPoints ↥S
@@ -546,7 +554,7 @@ theorem ieOf_le_M_of_not_isCyclic (h119 : Lemma119Statement) (h111 : Prop111Stat
     (heZ : e ∈ omegaOne 5 (centerOf R)) (he1 : e ≠ 1) (hnc : ¬ IsCyclic ↥(CRIe R K e)) :
     IeOf K e ≤ M := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -704,7 +712,7 @@ theorem step5 (h119 : Lemma119Statement) (h111 : Prop111Statement) (hK0 : Input2
       ((K ⊓ M).subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 5 ↥K)) =
         gammaK0 (((E ⊓ A).subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 5 ↥K))) := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -902,7 +910,7 @@ theorem fi22_mem_zpowers_of_comm_D
     Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_iff.2 (fun d hd => (hg d hd).symm), hgC⟩
   obtain ⟨e, -, f, hf, rfl⟩ := (mem_centralizer_fi22FiveD_iff 0 g).1 hmem
   interval_cases f
-  · simpa using Subgroup.npow_mem_zpowers (fi22FiveLine 0) e
+  · simp
   · exfalso
     apply fi22FiveW_not_mem_P
     have h1 : (fi22FiveLine 0 ^ e)⁻¹ * (fi22FiveLine 0 ^ e * fi22FiveW ^ 1) ∈ fi22P :=
@@ -912,10 +920,10 @@ theorem fi22_mem_zpowers_of_comm_D
 theorem fi22_exists_conj_sq :
     ∃ t ∈ fi22P, t * fi22FiveLine 0 * t⁻¹ = fi22FiveLine 0 ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set D := fi22FiveD 0 with hD
   set H : Subgroup (Equiv.Perm (Fin 3510)) := fi22FiveC 0 ⊓ fi22P with hH
-  haveI : IsSimpleGroup ↥D := fi22FiveD_isSimpleGroup 0
+  have : IsSimpleGroup ↥D := fi22FiveD_isSimpleGroup 0
   obtain ⟨ψ⟩ := CFSG.LargeExtraspecial.S12Tri.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
     (card_fi22FiveD 0)
   have hHN : H ≤ Subgroup.normalizer (D : Set (Equiv.Perm (Fin 3510))) :=

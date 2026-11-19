@@ -171,10 +171,10 @@ theorem cP_pad : ∀ {v : List ℕ}, (∀ l ∈ v, l < 26) → ∀ {x : ℕ}, 30
     obtain ⟨e1, e2⟩ := cP_pad (fun l' h => hv l' (List.mem_cons_of_mem l h)) h1 h2
     rw [cP_cons]
     unfold CF
-    rw [if_neg (by have := hv l List.mem_cons_self; omega)]
+    rw [ite_eq_right (by have := hv l List.mem_cons_self; omega)]
     exact CertificateChecks.KernelFi24OrbL.LN_pad (hv l List.mem_cons_self) e1 e2
 
-theorem card_cent (hB : Bridge) {w : List ℕ} (hw : ∀ l ∈ w, l < 26) {ws : List (List ℕ)}
+theorem card_cent (hB : Bridge) {w : List ℕ} (_hw : ∀ l ∈ w, l < 26) {ws : List (List ℕ)}
     (hws : ∀ u ∈ ws, ∀ l ∈ u, l < 26) {om : ℕ} (hom : om < 306936) {reps : List ℕ} {F c : ℕ}
     (hF1 : ∀ x < 524288, F.testBit x = true → ∃ v, InW ws v ∧ cP NW NT v x = om)
     (hF2 : Finset.card ((Finset.range 524288).filter (fun x => F.testBit x = true)) = c)

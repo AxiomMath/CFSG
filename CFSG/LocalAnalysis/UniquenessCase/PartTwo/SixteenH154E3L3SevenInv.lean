@@ -24,6 +24,7 @@ private theorem s16h_e3_l3_zpowers_sq_eq_one {G : Type*} [Group G] {g : G} (hg :
         · exact Or.inr (inv_eq_of_mul_eq_one_right hg) }
   exact Subgroup.zpowers_le.mpr (show g ∈ H from Or.inr rfl) hx
 
+omit [Finite W] in
 private theorem s16h_e3_l3_commSub_iSup {ι : Sort*} (U : ι → Subgroup W)
     (X : Subgroup (MulAut W)) : commSub (⨆ i, U i) X = ⨆ i, commSub (U i) X := by
   apply le_antisymm
@@ -42,6 +43,7 @@ private theorem s16h_e3_l3_commSub_iSup {ι : Sort*} (U : ι → Subgroup W)
       exact Subgroup.mul_mem _ ha hb
   · exact iSup_le fun i => commSub_mono (le_iSup U i) le_rfl
 
+omit [Finite W] in
 private theorem s16h_e3_l3_commSub_sup_left (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   apply le_antisymm
@@ -107,7 +109,7 @@ private theorem s16h_e3_l3_rk_commSub_invol_le_summand (hW : ∀ w : W, w ^ 2 = 
         let v : L3.Vec := Multiplicative.toAdd z
         have hv : D.β ⟨x w * w⁻¹, hyI⟩ = Multiplicative.ofAdd (L3.act δ₀ v - v) := by
           have h1 : (⟨x w * w⁻¹, hyI⟩ : ↥I) = ⟨x w, hxwI⟩ * ⟨w, hw⟩⁻¹ :=
-            Subtype.ext (by simp [mul_assoc])
+            Subtype.ext (by simp)
           rw [h1, map_mul, map_inv]
           have h2 : (⟨x w, hxwI⟩ : ↥I) =
               ⟨D.rho δ₀ w, D.inv_U (D.rho δ₀) (D.rho_mem δ₀) w hw⟩ :=

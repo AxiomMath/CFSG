@@ -394,7 +394,7 @@ theorem shr19 {h j : Nat} (hh : h < 2 ^ 19) : Nat.shiftRight (h + 2 ^ 19 * j) 19
     Nat.zero_add]
 
 theorem cstep_sim {kg c QM : Nat} {KC ET WT PT : Nat → Nat} {gens : Array (Array Nat × Array Nat)}
-    (hg : gens.size = kg)
+    (_hg : gens.size = kg)
     (hconj : ∀ j < kg, ∀ x, (∀ t < 49, d3 x t < 5) →
       mul7 (mul7 gens[j]!.1 (dec49B x)) gens[j]!.2 = dec49B (pack49 (imgs KC QM x) (Nat.mul 980 j)) ∧
       ∀ t < 49, d3 (pack49 (imgs KC QM x) (Nat.mul 980 j)) t < 5)
@@ -418,20 +418,20 @@ theorem cstep_sim {kg c QM : Nat} {KC ET WT PT : Nat → Nat} {gens : Array (Arr
   rw [cStep_eq] at hle ⊢
   rw [cFail_val] at hle
   by_cases hw : fld(rowR WT (nat_lit 95) h, Nat.mul (nat_lit 19) j, nat_lit 524287) < cnt
-  · rw [if_pos hw] at hle ⊢
+  · rw [ite_eq_left hw] at hle ⊢
     by_cases he : rowR ET (nat_lit 147) fld(rowR WT (nat_lit 95) h, Nat.mul (nat_lit 19) j,
         nat_lit 524287) = yv
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       have hcont : s.1.contains (dec49B yv) = true := (n2 _).2 ⟨_, hw, by rw [← he]⟩
       rw [hcont]
       simp only [Bool.not_true, Bool.false_eq_true, ↓reduceIte]
       exact ⟨⟨a1, a2⟩, le_rfl, n1, n2, n3, n4⟩
-    · rw [if_neg he] at hle
+    · rw [ite_eq_right he] at hle
       omega
-  · rw [if_neg hw] at hle ⊢
+  · rw [ite_eq_right hw] at hle ⊢
     by_cases hn : fld(rowR WT (nat_lit 95) h, Nat.mul (nat_lit 19) j, nat_lit 524287) = cnt ∧ cnt < c ∧
         rowR ET (nat_lit 147) cnt = yv ∧ rowR PT (nat_lit 24) cnt = h + 2 ^ 19 * j
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       obtain ⟨-, hn1, hn2, hn3⟩ := hn
       have hcont : s.1.contains (dec49B yv) = false := by
         cases e : s.1.contains (dec49B yv)
@@ -479,7 +479,7 @@ theorem cstep_sim {kg c QM : Nat} {KC ET WT PT : Nat → Nat} {gens : Array (Arr
         have : j = Nat.shiftRight (rowR PT 24 cnt) 19 := by rw [hn3, shr19 hh19]
         rw [n4, this]
         exact ofFn_push (fun i => Nat.shiftRight (rowR PT 24 i) 19) cnt
-    · rw [if_neg hn] at hle
+    · rw [ite_eq_right hn] at hle
       omega
 
 theorem foldl_skipN (f : Nat → Nat → Nat) (hskip : ∀ h st, st ≤ h → f h st = st) :
@@ -542,7 +542,7 @@ theorem cbfs_soundL {kg c nS Hh cap QM : Nat} {KC ET WT PT SO SOI C : Nat → Na
     intro h cnt hh
     change cH KC QM ET WT PT kg c h cnt = cnt
     unfold cH
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   have hskipN : ∀ t, stG (N + t) = stG N := by
     intro t
     induction t with
@@ -580,7 +580,7 @@ theorem cbfs_soundL {kg c nS Hh cap QM : Nat} {KC ET WT PT SO SOI C : Nat → Na
     rw [hGs]
     change _ = cH KC QM ET WT PT kg c h (stG h)
     unfold cH
-    rw [if_pos hh]
+    rw [ite_eq_left hh]
   have hIle : ∀ h, h < stG h → ∀ j ≤ kg, sI h j ≤ c ∧ stG h ≤ sI h j := by
     intro h hh j hj
     have habsI := fun l s hs => fold_absorb

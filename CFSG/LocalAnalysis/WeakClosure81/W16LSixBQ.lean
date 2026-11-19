@@ -21,7 +21,7 @@ theorem IsMinFam16.pCoreOf_hatK_le_centralizer (h1 : W16One G) (h5 : W16Five G) 
     (D : ModDataE H (iSub16 V H)) :
     ∀ A ∈ D.conjImgFam V,
       pCoreOf 2 (hatK D V) ≤ Subgroup.centralizer (A : Set (LGL 2 D.W)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hKH : CFSG.Quasithin.conjClosure V H ≤ H :=
     CFSG.Quasithin.conjClosure_le fun y hy z hz =>
@@ -87,7 +87,7 @@ theorem IsMinFam16.UAOf_conj_of_congr (h1 : W16One G) (h5 : W16Five G) (hS : Std
     ∃ x ∈ pCoreOf 2 (kSub (hatV1 D V₀ V) (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H))),
       UAOf (D.img H) (hatVA D V₀ V) B' =
         CFSG.Quasithin.conjSubgroup (UAOf (D.img H) (hatVA D V₀ V) B) x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hKH : CFSG.Quasithin.conjClosure V H ≤ H :=
     CFSG.Quasithin.conjClosure_le fun y hy z hz =>
@@ -122,7 +122,7 @@ theorem IsMinFam16.hat_normalizer_sup_Q (h1 : W16One G) (h5 : W16Five G) (hS : S
         Set (LGL 2 D.W)) →
       a ∈ Subgroup.normalizer
         ((D.img (conjSubgroup V g) : Subgroup (LGL 2 D.W)) : Set (LGL 2 D.W)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro a ha haN
   have hVH : V ≤ H := h.V_le_S.trans hH.1.1
   have hKH : CFSG.Quasithin.conjClosure V H ≤ H :=

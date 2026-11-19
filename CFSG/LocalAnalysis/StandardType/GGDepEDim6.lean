@@ -142,7 +142,6 @@ theorem ggDepE_dim6_pos {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Mo
     rw [← congrFun hw i, hT_apply, ← ha, map_sum]
     refine Finset.sum_congr rfl fun j _ => ?_
     rw [map_smul, smul_eq_mul, F.pair]
-    push_cast
     ring
   have hk_b : lr7d6_k b = 0 := by
     have hksum : ∑ i : Fin 6, lr7d6_k i * (∑ j, (CartanMatrix.E 6 i j : ZMod 3) * a j) =
@@ -217,8 +216,8 @@ theorem ggDepE_dim6_shape (hFix : GGTBFixInput) {G : Type} [Group G] [Finite G] 
     hAL, hAK, hdel, hJ⟩ := hdat
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hxBs : x ∈ Bs := hH.1.tableB_facts.2.2.1
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hcardV : Nat.card V = 3 ^ 6 := (card_eq_of_ggLin ι).symm.trans hcard
   have hdim : Module.finrank (ZMod 3) V = 6 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)

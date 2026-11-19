@@ -77,9 +77,9 @@ theorem leviHom_conj_cut {b : ℕ} (hb : b ∈ I) (q : flagStabilizer r K I)
     · subst hbb
       simp only [map_mul, map_inv, cutHom_cutLevi]
       group
-    · simp only [map_mul, map_inv, cutHom_cutLevi_of_ne hI hb hb' hbb, map_one]
+    · simp only [map_mul, map_inv, cutHom_cutLevi_of_ne hI hb hb' hbb]
       group
-  · simp only [map_mul, map_inv, resHom_cutLevi hI htI hmax hb, map_one]
+  · simp only [map_mul, map_inv, resHom_cutLevi hI htI hmax hb]
     group
 
 include hI htI hmax in
@@ -89,7 +89,7 @@ theorem leviHom_conj_res (q : flagStabilizer r K I) (c : StatedSp (r - t) K) :
         (spFlagResHom hI htI q)⁻¹)) := by
   rw [← mul_inv_eq_one, ← map_inv, ← map_mul]
   refine leviHom_eq_one_of_blocks hI htI (fun b' hb' => ?_) ?_
-  · simp only [map_mul, map_inv, cutHom_resLevi hI hmax hb', map_one]
+  · simp only [map_mul, map_inv, cutHom_resLevi hI hmax hb']
     group
   · simp only [map_mul, map_inv, resHom_resLevi hI htI hmax]
     group
@@ -100,6 +100,7 @@ section ResBlock
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem spResBlock_normal (m : ℕ) : (spResBlock K m).Normal := by
   classical
   unfold spResBlock
@@ -112,15 +113,15 @@ theorem spResBlock_cases (m : ℕ) :
       Nonempty (↥(spResBlock K m) ≃* Equiv.Perm (Fin 3)) := by
   classical
   rcases Nat.eq_zero_or_pos m with rfl | hm
-  · haveI := subsingleton_statedSp_zero (K := K)
+  · have := subsingleton_statedSp_zero (K := K)
     exact Or.inl inferInstance
   by_cases hs : m = 1 ∧ Nat.card K = 2
   · obtain ⟨rfl, hK⟩ := hs
-    have hres : spResBlock K 1 = ⊤ := by rw [spResBlock, if_pos ⟨rfl, hK⟩]
+    have hres : spResBlock K 1 = ⊤ := by rw [spResBlock, ite_eq_left ⟨rfl, hK⟩]
     obtain ⟨f⟩ := nonempty_mulEquiv_perm_three_of_card_two hK
     exact Or.inr (Or.inr ⟨(((MulEquiv.subgroupCongr hres).trans Subgroup.topEquiv).trans
       (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).symm).trans f⟩)
-  have hres : spResBlock K m = commutator (StatedSp m K) := by rw [spResBlock, if_neg hs]
+  have hres : spResBlock K m = commutator (StatedSp m K) := by rw [spResBlock, ite_eq_right hs]
   by_cases h22 : m = 2 ∧ Nat.card K = 2
   · obtain ⟨rfl, hK⟩ := h22
     exact Or.inr (Or.inl (CFSG.Open.IsQuasisimple.of_mulEquiv (MulEquiv.subgroupCongr hres)
@@ -139,6 +140,7 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {r : ℕ} {K : Type}
   {t : ℕ} (htI : t ∈ I) (hmax : ∀ c ∈ I, c ≤ t) (hPY : P ≤ Y)
 
 include hI htI hmax hPY in
+omit [Finite A] in
 theorem toHat_range_normal {D : Type} [Group D] (ψ : D →* flagStabilizer r K I)
     (h : ∀ (q : flagStabilizer r K I) (d : D), ∃ d' : D,
       spFlagLeviHom (fun i hi => (hI i hi).2) htI (q * ψ d * q⁻¹) =
@@ -178,7 +180,7 @@ theorem toHat_cutLevi_mem_wSup {b : ℕ} (hb : b ∈ I)
       Function.surjective_id (C.toHat.comp ψ) (by rw [MonoidHom.ker_id]; exact bot_le) hnorm
       (isQuasisimple_or_perm_three hk (MulEquiv.refl _))
     exact h ⟨s, rfl⟩
-  · haveI := subsingleton_specialLinear_of_lt_two (K := K) (m := b - spFlagPrev I b)
+  · have := subsingleton_specialLinear_of_lt_two (K := K) (m := b - spFlagPrev I b)
       (by omega)
     rw [Subsingleton.elim s 1, map_one, map_one, map_one]
     exact one_mem _

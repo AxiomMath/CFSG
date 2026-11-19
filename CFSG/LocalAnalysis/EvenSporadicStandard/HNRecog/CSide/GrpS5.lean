@@ -44,8 +44,8 @@ theorem cSide_isShapeTwoTwoSixS5_exists {X : Type*} [Group X] (h : IsShapeTwoTwo
     ∃ (N : Subgroup X) (_ : N.Normal), IsPGroup 2 N ∧
       Nonempty (X ⧸ N ≃* Equiv.Perm (Fin 5)) := by
   obtain ⟨V, N, hVnorm, hNnorm, hVN, ⟨eV⟩, ⟨eN⟩, ⟨eX⟩⟩ := h
-  haveI : V.Normal := hVnorm
-  haveI : N.Normal := hNnorm
+  have : V.Normal := hVnorm
+  have : N.Normal := hNnorm
   refine ⟨N, hNnorm, ?_, ⟨eX⟩⟩
   apply IsPGroup.of_card (n := 8)
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (V.subgroupOf N)]
@@ -64,7 +64,7 @@ theorem cSide_isPGroup_ker_comp {X D A : Type*} [Group X] [Group D] [Group A] (�
   exact hφ.comap_of_ker_isPGroup ψ hψ
 
 theorem cSide_noS5 {X : Type*} [Group X] [Finite X] (N : Subgroup X) [N.Normal]
-    (hN : IsPGroup 2 N) (e : X ⧸ N ≃* Equiv.Perm (Fin 5)) (φ : X →* alternatingGroup (Fin 5))
+    (_hN : IsPGroup 2 N) (e : X ⧸ N ≃* Equiv.Perm (Fin 5)) (φ : X →* alternatingGroup (Fin 5))
     (hφ : IsPGroup 2 φ.ker) : False := by
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   let M : Subgroup (X ⧸ N) := φ.ker.map π

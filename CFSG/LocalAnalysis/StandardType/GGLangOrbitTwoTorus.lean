@@ -31,7 +31,7 @@ theorem prod_rootSL2_HSL_mem_rationalComponent_of_step
     rootSL2 τ L α (HSL t) * rootSL2 τ L β (HSL t') ∈
       rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI h2 : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have h2 : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hαr : IsRoot τ α := (isRootComponent_componentRoots i).isRoot α hα
   have hβr : IsRoot τ β := isRoot_of_mem_rationalRoots S i hβ
   let x : ModGL τ L := rootSL2 τ L α (HSL t)

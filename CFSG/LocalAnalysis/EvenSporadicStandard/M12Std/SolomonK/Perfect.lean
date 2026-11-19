@@ -21,18 +21,18 @@ def oddOrderSubgroup (A : Type*) [CommGroup A] : Subgroup A where
     exact Odd.of_dvd_nat hlcm (Commute.all a b).orderOf_mul_dvd_lcm
   inv_mem' := by
     intro a ha
-    simpa only [Set.mem_setOf_eq, orderOf_inv] using ha
+    simpa only [Set.mem_ofPred_eq, orderOf_inv] using ha
 
 theorem abelianization_odd_of_fusionSimple (h : FusionSimple K) (a : Abelianization K) :
     Odd (orderOf a) := by
   let Aodd : Subgroup (Abelianization K) := oddOrderSubgroup (Abelianization K)
   let M : Subgroup K := Aodd.comap (Abelianization.of (G := K))
-  haveI : M.Normal := inferInstance
+  have : M.Normal := inferInstance
   have hsurj : Function.Surjective (Abelianization.of (G := K)) := by
     intro a
     obtain ⟨y, hy⟩ := QuotientGroup.mk'_surjective (commutator K) a
     exact ⟨y, hy⟩
-  haveI : Finite (Abelianization K) := Finite.of_surjective _ hsurj
+  have : Finite (Abelianization K) := Finite.of_surjective _ hsurj
   have hPgroup : IsPGroup 2 (K ⧸ M) := by
     intro x
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective M x
@@ -83,7 +83,7 @@ theorem sylow_le_commutator (h : FusionSimple K) (S : Sylow 2 K) :
     (S : Subgroup K) ≤ commutator K := by
   intro x hx
   apply mem_commutator_of_two_pow_order h
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_orderOf_eq_pow (⟨x, hx⟩ : S)
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_orderOf_eq_pow (⟨x, hx⟩ : S)
   refine ⟨k, ?_⟩
   rw [← Subgroup.orderOf_mk (H := S) x hx]
   exact hk
@@ -91,7 +91,7 @@ theorem sylow_le_commutator (h : FusionSimple K) (S : Sylow 2 K) :
 theorem isPerfect_of_hyp (hP : P12Facts) (hK : SolomonA12HypK K) : Group.IsPerfect K := by
   obtain ⟨E, hE⟩ := hK.exists_goodE
   obtain ⟨S, hES⟩ := hE.isPGroup.exists_le_sylow
-  haveI hK'normal : (commutator K).Normal := inferInstance
+  have hK'normal : (commutator K).Normal := inferInstance
   have hSle : (S : Subgroup K) ≤ commutator K := sylow_le_commutator hK.fusionSimple S
   have hEK' : E ≤ commutator K := hES.trans hSle
   have hFrattini : normalizer (S : Set K) ⊔ commutator K = ⊤ :=

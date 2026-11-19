@@ -440,7 +440,7 @@ theorem maxOrbSet_eq_eight (I : AEIdent (orbOf (TC.nbrAdj Ω) K J) 8)
 theorem maxOrbSet_eq_eight' (I : AEIdent (orbOf (TC.nbrAdj Ω) K J) 8)
     {Ks : Subgroup G} (hKs : Ks ∈ orbOf (TC.nbrAdj Ω) J K) (hKsK : Ks ≠ K)
     (hKsπ : Ks ∉ orbOf (TC.nbrAdj Ω) K J)
-    (hz : ∀ z zs : G, IsUniqueInvolution K z → IsUniqueInvolution Ks zs → zs = z)
+    (_hz : ∀ z zs : G, IsUniqueInvolution K z → IsUniqueInvolution Ks zs → zs = z)
     (hKsX : ∀ x ∈ pSpan (orbOf (TC.nbrAdj Ω) K J), ∀ k ∈ Ks, x * k = k * x) :
     ∀ M ∈ maxOrbSet Ω (orbOf (TC.nbrAdj Ω) K J), M = K ∨ M = Ks := by
   classical

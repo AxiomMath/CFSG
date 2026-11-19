@@ -50,7 +50,6 @@ theorem twA5Bar_le_sup :
       rw [hzU]
       rw [show (z : F) = (X.1.2.1 : F) * (X.1.2.2.1 : F) * (X.1.2.2.2 : F) by simp [z]]
       field_simp
-    all_goals simp [mul_assoc]
   have hJ : unitaryProj h 6 (twA5Hom h Jp) ∈ blockSU h suFiveIndex := by
     apply unitaryProj_mem_blockSU
     rw [twA5Hom_apply]

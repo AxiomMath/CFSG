@@ -21,7 +21,7 @@ private theorem ggKGEn_family_data
         ∀ i, ∃ e ∈ E, rootDiagUnit τ (a i) =
           F.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (e : ModGL τ K) * F.D.g0 := by
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ζu, hζu⟩ :=
     CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)
@@ -137,7 +137,7 @@ theorem ggKGExc_normalizer_weyl
             (canonicalRep (coxeterSystem τ) (AlgebraicClosure K) v)⁻¹ := by
   classical
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ι, a, hstab, hker, hroot⟩ := ggKGEn_family_data hτ hp hp3 hτ6 F hw
   let L := AlgebraicClosure K

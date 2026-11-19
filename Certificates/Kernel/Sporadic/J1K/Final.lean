@@ -93,24 +93,24 @@ theorem GJ_eq (z : Int) (x : Nat) : GJ z x =
     if z = 1 then r32 AL x else if z = -1 then r32 AI x else if z = 2 then r32 BE x else r32 BI x := by
   rcases z with ((_ | _ | _ | k) | (_ | k)) <;> rfl
 
-theorem gt1 : genTables OJ 1 = OJ.alpha := if_pos rfl
+theorem gt1 : genTables OJ 1 = OJ.alpha := ite_eq_left rfl
 
 theorem gt2 : genTables OJ (-1) = invT 1540 OJ.alpha := by
   rw [← size_OJ]
-  exact (if_neg (by decide : ¬((-1 : Int) = 1))).trans (if_pos rfl)
+  exact (ite_eq_right (by decide : ¬((-1 : Int) = 1))).trans (ite_eq_left rfl)
 
 theorem gt3 : genTables OJ 2 = OJ.beta :=
-  (if_neg (by decide : ¬((2 : Int) = 1))).trans
-    ((if_neg (by decide : ¬((2 : Int) = -1))).trans (if_pos rfl))
+  (ite_eq_right (by decide : ¬((2 : Int) = 1))).trans
+    ((ite_eq_right (by decide : ¬((2 : Int) = -1))).trans (ite_eq_left rfl))
 
 theorem gt4 {z : Int} (h1 : ¬z = 1) (h2 : ¬z = -1) (h3 : ¬z = 2) :
     genTables OJ z = invT 1540 OJ.beta := by
   rw [← size_OJ]
-  exact (if_neg h1).trans ((if_neg h2).trans (if_neg h3))
+  exact (ite_eq_right h1).trans ((ite_eq_right h2).trans (ite_eq_right h3))
 
 theorem gj4 {z : Int} {x : Nat} (h1 : ¬z = 1) (h2 : ¬z = -1) (h3 : ¬z = 2) :
     GJ z x = r32 BI x := by
-  rw [GJ_eq, if_neg h1, if_neg h2, if_neg h3]
+  rw [GJ_eq, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 theorem gens_get1 {x : Nat} (hx : x < 1540) :
     ap (genTables OJ 1) x = GJ 1 x ∧ GJ 1 x < 1540 := by

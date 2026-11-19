@@ -14,6 +14,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem two_le_pRank_centralizer_of_mulEquiv {X : Type} [Group X] [Finite X] {p : ℕ}
     (hp : p.Prime) {M : Subgroup G} {K : Subgroup ↥M} [K.Normal] {E : Subgroup G}
     (hEM : E ≤ M)
@@ -21,7 +22,7 @@ private theorem two_le_pRank_centralizer_of_mulEquiv {X : Type} [Group X] [Finit
     (hdisj : E.subgroupOf M ⊓ K = ⊥) {d : G} (hdM : d ∈ M)
     (hEC : E ≤ Subgroup.centralizer ({d} : Set G))
     (e : (↥M ⧸ K) ≃* X)
-    (hy : orderOf (e (QuotientGroup.mk' K ⟨d, hdM⟩)) = 3) :
+    (_hy : orderOf (e (QuotientGroup.mk' K ⟨d, hdM⟩)) = 3) :
     2 ≤ pRank p (Subgroup.centralizer
       ({e (QuotientGroup.mk' K ⟨d, hdM⟩)} : Set X)) := by
   let q : ↥M →* (↥M ⧸ K) := QuotientGroup.mk' K
@@ -54,7 +55,7 @@ private theorem two_le_pRank_centralizer_of_mulEquiv {X : Type} [Group X] [Finit
     simpa [f, q, MulEquiv.map_mul] using hcomm
   refine CFSG.SectionRank.le_pRank_of_injective (G := X) (A := ↥E) hp.one_lt ?_ ?_
     (k := 2) hEcard f hf hrange
-  · haveI := hE.1
+  · have := hE.1
     exact fun a b => mul_comm' a b
   · intro a
     exact Subtype.ext (by simpa using hE.2 (a : G) a.2)
@@ -67,7 +68,7 @@ private theorem exists_elemAbelian_disjoint {M : Subgroup G} {p : ℕ} (hp : p.P
     ∃ E : Subgroup G, E ≤ M ∧ E ≤ Subgroup.centralizer ({d} : Set G) ∧
       IsElemAbelian p E ∧ Nat.card ↥E = p ^ 2 ∧
       E.subgroupOf M ⊓ CFSG.pPrimeCore 3 ↥M = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let K : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   obtain ⟨E, hE_le, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (k := 2) hrank
@@ -110,7 +111,7 @@ theorem dvd_card_pPrimeCore_inf_centralizer {M : Subgroup G} {p : ℕ} (hp : p.P
   by_contra hcon
   obtain ⟨E, hEM, hEC, hE, hEcard, hdisj⟩ := exists_elemAbelian_disjoint hp hrank hcon
   have hdK : d ∉ K.map M.subtype := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     intro hmem
     have h3 : 3 ∣ Nat.card ↥(K.map M.subtype) := by
       simpa [hd] using Subgroup.orderOf_dvd_natCard (K.map M.subtype) hmem

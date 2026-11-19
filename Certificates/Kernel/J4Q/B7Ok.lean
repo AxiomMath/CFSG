@@ -332,7 +332,7 @@ theorem cntRowsT_eq (hE : ∀ t < 32, etaCK t = true) {K Ki M : Array V2} {k ki 
     exact h3
   unfold cntRowsT
   simp only [e1, e2, Bool.and_self, ite_true]
-  rw [if_pos e3, countP_eq]
+  rw [ite_eq_left e3, countP_eq]
 
 theorem cand_of (hl : b7LitOK = true) (hE : ∀ t < 32, etaCK t = true) {qv : V2} (hqv : qv.wf = true)
     {kw : List Int} {k : Nat} {t : List Nat} (h : b7CandK (v2N qv) kw k t = true) :
@@ -476,7 +476,7 @@ theorem lrs_get {g : Nat} (hg : g < 3) :
   interval_cases g <;> rfl
 
 theorem survOrb_of (h : B7Hyps) {ℓ cap : Nat} {CH SPC : List (List Nat)} {P0 : List Nat}
-    (hℓ : ℓ < 7) (hsize : sizeK cap CH SPC = true)
+    (_hℓ : ℓ < 7) (hsize : sizeK cap CH SPC = true)
     (htree : ∀ i < CH.length, vtB rm (rep 1 128 1024) [L0, L1, L2] (vptsK rm (repK ℓ) CH.flatten)
       (CH.getD i []) (P0.getD i 0) (1 + 1024 * i) = true)
     (hsinc : sincK SPC.flatten 0 = true)

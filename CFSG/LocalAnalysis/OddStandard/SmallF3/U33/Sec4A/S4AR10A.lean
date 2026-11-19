@@ -143,7 +143,7 @@ open scoped Classical in
   if hg : g ∈ R then e ⟨g, hg⟩ else 1
 
 theorem r10Phi_of_mem (e : ↥R ≃* UT3 F4c) {g : G} (hg : g ∈ R) :
-    r10Phi R e g = e ⟨g, hg⟩ := dif_pos hg
+    r10Phi R e g = e ⟨g, hg⟩ := dite_eq_left hg
 
 theorem r10Phi_mul (e : ↥R ≃* UT3 F4c) {g h : G} (hg : g ∈ R) (hh : h ∈ R) :
     r10Phi R e (g * h) = r10Phi R e g * r10Phi R e h := by

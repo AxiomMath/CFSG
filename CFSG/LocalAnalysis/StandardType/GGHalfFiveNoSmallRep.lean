@@ -19,7 +19,7 @@ theorem sl3_hom_trivial_of_finrank_le_two {V : Type} [AddCommGroup V] [Module F4
   let e : (Module.End F4 V)ˣ ≃* GL (Fin d) F4 :=
     Units.mapEquiv (LinearMap.toMatrixAlgEquiv b).toRingEquiv.toMulEquiv
   let ρ' : SpecialLinearGroup (Fin 3) F4 →* (Module.End F4 V)ˣ := ρ.toHomUnits
-  haveI : Fintype F4 := Fintype.ofFinite F4
+  have : Fintype F4 := Fintype.ofFinite F4
   have hcard4 : Fintype.card F4 = 4 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 2 (by norm_num)]
     norm_num

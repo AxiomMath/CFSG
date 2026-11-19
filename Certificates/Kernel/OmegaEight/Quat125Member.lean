@@ -56,8 +56,8 @@ theorem q125m_bitK (m p : Nat) : bitK m p = m.testBit p := by
   change Nat.blt 0 (m &&& 1 <<< p) = _
   rw [Nat.one_shiftLeft, q125_and_two_pow]
   cases e : m.testBit p
-  · first | rfl | (simp only [Bool.false_eq_true, if_false]; rfl)
-  · simp [Nat.blt_eq, Nat.two_pow_pos]
+  · first | rfl
+  · simp [Nat.blt_eq]
 
 theorem q125m_ai (X : Equiv.Perm (Fin 360)) (p : Fin 360) : X (X⁻¹ p) = p := X.apply_symm_apply p
 

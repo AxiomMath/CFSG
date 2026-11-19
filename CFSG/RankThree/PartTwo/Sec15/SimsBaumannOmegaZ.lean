@@ -67,7 +67,7 @@ theorem concl315_of_commutator_eq_bot (hF : generalizedFitting X = CFSG.pCore 2 
       Subgroup.mem_centralizer_iff.mpr fun h hh =>
         Subgroup.mem_centralizer_iff.mp hxC h (hQS hh)
     exact Subgroup.subset_closure ⟨Subgroup.mem_inf.mpr ⟨hchar hcx, hcx⟩, hx'.2⟩
-  haveI hWn : (CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X)).Normal :=
+  have hWn : (CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X)).Normal :=
     sbomz_normal_omegaOneCenterOf (CFSG.pCore 2 X)
   refine ⟨fun c hc g => ?_⟩
   have hcW : c ∈ CFSG.Quasithin.omegaOneCenterOf (CFSG.pCore 2 X) := hCW hc

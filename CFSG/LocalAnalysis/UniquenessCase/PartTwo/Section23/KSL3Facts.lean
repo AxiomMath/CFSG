@@ -37,14 +37,15 @@ private theorem swap23_mulVec (x : Fin 3 → K) :
       ![x 0, x 2, x 1] := by
   change (!![1, 0, 0; 0, 0, 1; 0, 1, 0] : Matrix (Fin 3) (Fin 3) K) *ᵥ x = _
   ext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
+omit [CharP K 2] in
 private theorem lowerSL_mulVec (t : K) (x : Fin 3 → K) :
     ((lowerSL t : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ x =
       ![x 0, x 1, x 2 + t * x 1] := by
   change (!![1, 0, 0; 0, 1, 0; 0, t, 1] : Matrix (Fin 3) (Fin 3) K) *ᵥ x = _
   ext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three]; ring
 
 private theorem swap23_mulVec_e0 :
     ((swap23 : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ
@@ -58,12 +59,14 @@ private theorem swap23_mulVec_e1 :
   rw [swap23_mulVec]
   exact vec3_eq (by simp) (by simp) (by simp)
 
+omit [CharP K 2] in
 private theorem lowerSL_mulVec_e1 (t : K) :
     ((lowerSL t : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ
       ![0, 1, 0] = ![0, 1, t] := by
   rw [lowerSL_mulVec]
   exact vec3_eq (by simp) (by simp) (by simp)
 
+omit [CharP K 2] in
 private theorem unitriangular_le_Usl : unitriangular 3 K ≤ Usl K := by
   rintro B ⟨hlt, hd⟩
   refine ⟨(B : Matrix (Fin 3) (Fin 3) K) 0 1, (B : Matrix (Fin 3) (Fin 3) K) 0 2,
@@ -89,8 +92,8 @@ private theorem smul_set_eq_iff_mem_stabW {U : Subgroup W} (x : ↥H) :
     letI : MulAction ↥H W := MulAction.compHom W H.subtype
     letI : MulAction ↥H (Set W) := Set.mulActionSet
     x • (U : Set W) = (U : Set W) ↔ (x : MulAut W) ∈ Ch11.SecA.stabW U := by
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   rw [Ch11.SecA.mem_stabW]
   constructor
   · intro h u
@@ -139,6 +142,7 @@ variable [Finite K]
 variable {W : Type*} [CommGroup W] {H : Subgroup (MulAut W)}
   {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
 
+omit [CharP K 2] [Finite K] in
 private theorem mem_stabW_pre_iff
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) (S : Submodule K (Fin 3 → K))
@@ -172,11 +176,13 @@ private noncomputable def sigma (ρ : ↥(StatedSL 3 K) →* ↥H)
     Matrix.SpecialLinearGroup (Fin 3) K →* ↥H :=
   (rho3 ρ).comp (MulAut.conj g).toMonoidHom
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem sigma_apply (ρ : ↥(StatedSL 3 K) →* ↥H)
     (g A : Matrix.SpecialLinearGroup (Fin 3) K) :
     sigma ρ g A = rho3 ρ (g * A * g⁻¹) := by
   simp [sigma, MulAut.conj_apply]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 theorem fixedPointSubgroup_eq_preLine
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     {S : Subgroup ↥H} {g : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -185,7 +191,7 @@ theorem fixedPointSubgroup_eq_preLine
     letI : MulDistribMulAction ↥S W :=
       MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
     fixedPointSubgroup ↥S W = preLine hf g := by
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp S.subtype)
   ext w
   change (w ∈ FixedPoints.subgroup ↥S W) ↔ w ∈ preLine hf g
@@ -205,6 +211,7 @@ theorem fixedPointSubgroup_eq_preLine
   change f w ∈ gmap g (stdLine K) ↔ f w ∈ gmap g (flagSpace 3 K 1)
   rw [stdLine_eq_flagSpace]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem map_stabilizer_eq_setStab
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) (d : ℕ) :
@@ -234,6 +241,7 @@ private theorem map_stabilizer_eq_setStab
     refine ⟨g⁻¹ * A * g, hB, ?_⟩
     rw [sigma_apply, show g * (g⁻¹ * A * g) * g⁻¹ = A by group, hA]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem map_unitriangular_le
     {S : Subgroup ↥H} {g : Matrix.SpecialLinearGroup (Fin 3) K}
     (hg : ∀ x : MulAut W, x ∈ S.map H.subtype ↔
@@ -244,12 +252,13 @@ private theorem map_unitriangular_le
   refine (hg _).mpr ⟨u, unitriangular_le_Usl hu, ?_⟩
   simp [sigma_apply]
 
+omit [CharP K 2] in
 private theorem coatom_eq_setStab {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K)
     {C : Subgroup ↥H} (hUC : (unitriangular 3 K).map (sigma ρ g) ≤ C) (hC : IsCoatom C) :
     C = setStab H (preLine hf g) ∨ C = setStab H (prePlane hf g) := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hinj : Function.Injective (sigma ρ g) := by
     simpa [sigma] using (rho3_bijective hf).1.comp (MulAut.conj g).injective
   have hsurj : Function.Surjective (sigma ρ g) := by
@@ -267,6 +276,7 @@ private theorem coatom_eq_setStab {n : ℕ} (hK : Nat.card K = 2 ^ n)
   · exact Or.inl (by simpa [preLine] using key)
   · exact Or.inr (by simpa [prePlane] using key)
 
+omit [CharP K 2] in
 private theorem eq_setStab_plane {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K)
@@ -275,17 +285,20 @@ private theorem eq_setStab_plane {n : ℕ} (hK : Nat.card K = 2 ^ n)
     P' = setStab H (prePlane hf g) :=
   (coatom_eq_setStab hK hf g hUP hco).resolve_left hne
 
+omit [Finite W] in
 private theorem apply_mem_of_mem_setStab {U : Subgroup W} {p : ↥H}
     (hp : p ∈ setStab H U) {w : W} (hw : w ∈ U) : (p : MulAut W) w ∈ U := by
   rw [setStab_eq, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hp
   exact (Ch11.SecA.mem_stabW.mp hp.2 w).mp hw
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem preLine_le_prePlane
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) : preLine hf g ≤ prePlane hf g := by
   intro w hw
   exact Submodule.map_mono (flagSpace_mono (by norm_num : 1 ≤ 2)) hw
 
+omit [CharP K 2] [Finite W] in
 private theorem rho3_blockSL_mem_setStab
     (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -297,6 +310,7 @@ private theorem rho3_blockSL_mem_setStab
     ⟨blockSL A, blockSL_mem A, rfl⟩)
   exact (Subgroup.mem_inf.mp hx).2
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem exists_blockSL_apply_eq
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {w : W} (hw : w ∈ prePlane hf g) :
@@ -342,6 +356,7 @@ private theorem exists_blockSL_apply_eq
     congr 1
     exact vec3_eq rfl rfl hy2.symm
 
+omit [CharP K 2] [Finite W] in
 private theorem closure_iUnion_smul_eq
     (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -351,9 +366,9 @@ private theorem closure_iUnion_smul_eq
     letI : MulAction ↥H (Set W) := Set.mulActionSet
     Subgroup.closure (⋃ p ∈ setStab H (prePlane hf g),
       p • ((preLine hf g : Subgroup W) : Set W)) = prePlane hf g := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   refine le_antisymm ?_ ?_
   · refine (Subgroup.closure_le _).2 ?_
     intro w hw
@@ -372,11 +387,13 @@ private theorem closure_iUnion_smul_eq
     rw [Set.mem_smul_set]
     exact ⟨w₀, hw₀, rfl⟩
 
+omit [CharP K 2] [Finite K] in
 private theorem neg_add_uMat_mulVec_mem_stdLine (a b c : K) {y : Fin 3 → K} (hy : y 2 = 0) :
     -y + uMat a b c *ᵥ y ∈ stdLine K := by
   rw [mem_stdLine, uMat_mulVec]
   constructor <;> simp [hy]
 
+omit [Finite W] [CharP K 2] [Finite K] in
 private theorem inv_mul_apply_mem_preLine
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     {S : Subgroup ↥H} {g : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -393,6 +410,7 @@ private theorem inv_mul_apply_mem_preLine
     Matrix.mulVec_add, Matrix.mulVec_neg, gconj_mulVec, ginv_g_mulVec, coe_uSL]
   exact neg_add_uMat_mulVec_mem_stdLine a b c h2
 
+omit [CharP K 2] [Finite W] in
 private theorem line_conclusion
     (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -408,9 +426,9 @@ private theorem line_conclusion
     (∀ w ∈ π, ∃ p ∈ P', w ∈ p • (ℓ : Set W)) ∧
       ∀ s ∈ S, ∀ w ∈ π, w⁻¹ * (s • w) ∈ ℓ := by
   subst hℓ hP'
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro π
   have hπ : π = prePlane hf g := closure_iUnion_smul_eq hSL hf g
   constructor
@@ -434,16 +452,18 @@ theorem mem_Hinf_subgroupOf_iff {G : Type} [Group G] [Finite G] {H A : Subgroup 
     inf_of_le_left hAH]
   rfl
 
+omit [CharP K 2] in
 private theorem rho3_mem_Hinf_setStab_line
     (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {B : Matrix.SpecialLinearGroup (Fin 3) K}
     (hB : (B : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = ![1, 0, 0]) :
     rho3 ρ (g * B * g⁻¹) ∈ Hinf (setStab H (preLine hf g)) := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   rw [setStab_eq, mem_Hinf_subgroupOf_iff inf_le_left]
   exact (mem_perfectCore_HU1_iff hSL hf g _).mpr ⟨B, hB, rfl⟩
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem eq_top_of_coords
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {C : Subgroup W}
@@ -469,6 +489,7 @@ private theorem eq_top_of_coords
   rw [hw]
   exact C.mul_mem (C.mul_mem hc0 hc1) hc2
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem exists_coord_comm
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g B : Matrix.SpecialLinearGroup (Fin 3) K) (x : Fin 3 → K) :
@@ -479,8 +500,9 @@ private theorem exists_coord_comm
   rw [hf.map_mul, hf.map_inv, hf.act3, gconj_mulVec, hw, ginv_g_mulVec, ← Matrix.mulVec_neg,
     ← Matrix.mulVec_add]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem comm_closure_eq_top
-    (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
+    (_hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {Ks : Subgroup ↥H}
     (hKs : ∀ B : Matrix.SpecialLinearGroup (Fin 3) K,
@@ -490,9 +512,9 @@ private theorem comm_closure_eq_top
     letI : MulAction ↥H W := MulAction.compHom W H.subtype
     letI : MulAction ↥H (Set W) := Set.mulActionSet
     Subgroup.closure {w : W | ∃ k ∈ Ks, ∃ x : W, w = x⁻¹ * (k • x)} = ⊤ := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   refine eq_top_of_coords hf g (fun t => ?_) (fun t => ?_) (fun t => ?_)
   · obtain ⟨w, hw⟩ := exists_coord_comm hf g (uSL t 0 0) ![0, 1, 0]
     have hk : rho3 ρ (g * uSL t 0 0 * g⁻¹) ∈ Ks :=
@@ -522,6 +544,7 @@ private theorem comm_closure_eq_top
       rw [lowerSL_mulVec]
       exact vec3_eq (by simp) (by simp) (by simp)
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem mem_prePlane_of_mulVec_eq
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {x : Fin 3 → K} (hx : x 2 = 0) {w : W}
@@ -529,6 +552,7 @@ private theorem mem_prePlane_of_mulVec_eq
   rw [prePlane, mem_pre_plane_iff hf g w, hw, ginv_g_mulVec]
   exact hx
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem exists_mem_prePlane_of_mulVec_eq
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) {x : Fin 3 → K} (hx : x 2 = 0) :
@@ -536,6 +560,7 @@ private theorem exists_mem_prePlane_of_mulVec_eq
   obtain ⟨w, hw⟩ := hf.surj ((g : Matrix (Fin 3) (Fin 3) K) *ᵥ x)
   exact ⟨w, hw, mem_prePlane_of_mulVec_eq hf g hx hw⟩
 
+omit [Finite W] in
 private theorem span_conclusion
     (hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
@@ -550,9 +575,9 @@ private theorem span_conclusion
     Subgroup.closure (⋃ k ∈ Ks,
       k • ((Subgroup.closure (⋃ p ∈ P', p • (ℓ : Set W)) : Subgroup W) : Set W)) = ⊤ := by
   subst hℓ hP'
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   rw [closure_iUnion_smul_eq hSL hf g]
   refine eq_top_of_coords hf g (fun t => ?_) (fun t => ?_) (fun t => ?_)
   · obtain ⟨w, hw, hwU⟩ := exists_mem_prePlane_of_mulVec_eq hf g (x := ![t, 0, 0]) (by simp)
@@ -577,7 +602,7 @@ private theorem span_conclusion
         Set.mem_iUnion.mpr ⟨hKs _ swap23_mulVec_e0, ?_⟩⟩
       rw [Set.mem_smul_set]
       exact ⟨w, hwU, rfl⟩
-    · rw [hf.act3, gconj_mulVec, hw, ginv_g_mulVec, swap23_mulVec] <;>
+    · rw [hf.act3, gconj_mulVec, hw, ginv_g_mulVec, swap23_mulVec];
         exact congrArg (fun v => (g : Matrix (Fin 3) (Fin 3) K) *ᵥ v)
           (vec3_eq (by simp) (by simp) (by simp))
 
@@ -586,10 +611,10 @@ end Coordinates
 theorem kSL3Line_holds : KSL3Line := by
   intro W _ _ H n _ hnat hn S ℓ Pℓ P' hNP' hco hne
   obtain ⟨K, hfield, hfinite, hK, ρ, hρ⟩ := hnat
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : CharP K 2 := charP_two_of_card (by omega) hK
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : CharP K 2 := charP_two_of_card (by omega) hK
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤ :=
     commutator_SL2_eq_top (four_le_card (by omega) hK)
   obtain ⟨f, hf⟩ := exists_isCoord (linModelNat (StatedSL 3 K)) hρ
@@ -606,10 +631,10 @@ theorem kSL3Line_holds : KSL3Line := by
 theorem kSL3Span_holds : KSL3Span := by
   intro W _ _ H n _ hnat hn S ℓ Pℓ Kstar
   obtain ⟨K, hfield, hfinite, hK, ρ, hρ⟩ := hnat
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : CharP K 2 := charP_two_of_card (by omega) hK
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : CharP K 2 := charP_two_of_card (by omega) hK
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤ :=
     commutator_SL2_eq_top (four_le_card (by omega) hK)
   obtain ⟨f, hf⟩ := exists_isCoord (linModelNat (StatedSL 3 K)) hρ
@@ -635,6 +660,7 @@ section Geom14
 variable [Finite K] {W : Type} [CommGroup W] [Finite W] {H : Subgroup (MulAut W)}
   {ρ : ↥(StatedSL 3 K) →* ↥H} {f : W → Fin 3 → K}
 
+omit [CharP K 2] in
 private theorem overgroup_sylow_le {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     {S : Subgroup ↥H} {g : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -642,13 +668,14 @@ private theorem overgroup_sylow_le {n : ℕ} (hK : Nat.card K = 2 ^ n)
       ∃ u ∈ Usl K, x = ((rho3 ρ (g * u * g⁻¹) : ↥H) : MulAut W))
     {Y : Subgroup ↥H} (hSY : S ≤ Y) (hY : Y ≠ ⊤) :
     Y ≤ setStab H (preLine hf g) ∨ Y ≤ setStab H (prePlane hf g) := by
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   obtain ⟨C, hC, hYC⟩ := (IsCoatomic.eq_top_or_exists_le_coatom Y).resolve_left hY
   rcases coatom_eq_setStab hK hf g
     ((map_unitriangular_le hg).trans (hSY.trans hYC)) hC with h | h
   · exact Or.inl (h ▸ hYC)
   · exact Or.inr (h ▸ hYC)
 
+omit [Finite K] in
 private theorem sq_eq_one_of_fix_e0_e1 {B : Matrix.SpecialLinearGroup (Fin 3) K}
     (h0 : (B : Matrix (Fin 3) (Fin 3) K) *ᵥ ![1, 0, 0] = ![1, 0, 0])
     (h1 : (B : Matrix (Fin 3) (Fin 3) K) *ᵥ ![0, 1, 0] = ![0, 1, 0]) :
@@ -681,6 +708,7 @@ private theorem sq_eq_one_of_fix_e0_e1 {B : Matrix.SpecialLinearGroup (Fin 3) K}
     simp [Matrix.mul_apply, Fin.sum_univ_three, h00, h01, h10, h11, h20, h21, h22,
       CharTwo.add_self_eq_zero]
 
+omit [Finite K] [Finite W] in
 private theorem sq_eq_one_of_fix_line
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) (h : ↥H)
@@ -722,6 +750,7 @@ private theorem sq_eq_one_of_fix_line
     exact hmap.symm
   rw [← map_pow, hA2, map_one]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem map_rho3_pre
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g A : Matrix.SpecialLinearGroup (Fin 3) K) (S : Submodule K (Fin 3 → K)) :
@@ -751,6 +780,7 @@ private theorem map_rho3_pre
       rw [← MulAut.mul_apply, ← Subgroup.coe_mul, ← map_mul, mul_inv_cancel, map_one]
       simp
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem crossProduct_ne_zero_of_ne
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     {D₁ D₂ : Matrix.SpecialLinearGroup (Fin 3) K} (hne : preLine hf D₁ ≠ preLine hf D₂) :
@@ -793,6 +823,7 @@ private theorem crossProduct_ne_zero_of_ne
     refine ⟨t * c, ?_⟩
     rw [ht, ← hb, ← ha, ← hc, smul_smul]
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem pre_line_sup_eq_pre_plane
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     {D₁ D₂ C : Matrix.SpecialLinearGroup (Fin 3) K}
@@ -836,6 +867,7 @@ private theorem pre_line_sup_eq_pre_plane
     rw [show w = w₁ * w₂ from (hinj _ _ hsum).symm]
     exact Subgroup.mul_mem_sup hw₁U hw₂U
 
+omit [CharP K 2] [Finite K] [Finite W] in
 private theorem exists_sup_eq_map_plane
     (hf : IsCoord (linModelNat (StatedSL 3 K)) H ⊥ ρ f)
     (g : Matrix.SpecialLinearGroup (Fin 3) K) (x₁ x₂ : ↥H)
@@ -871,10 +903,10 @@ end Geom14
 theorem kSL3Geom14_holds : KSL3Geom14 := by
   intro W _ _ H n _ hnat hn S ℓ Pℓ P' hNP' hco hne π
   obtain ⟨K, hfield, hfinite, hK, ρ, hρ⟩ := hnat
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : CharP K 2 := charP_two_of_card (by omega) hK
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : CharP K 2 := charP_two_of_card (by omega) hK
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   have hSL : commutator (Matrix.SpecialLinearGroup (Fin 2) K) = ⊤ :=
     commutator_SL2_eq_top (four_le_card (by omega) hK)
   obtain ⟨f, hf⟩ := exists_isCoord (linModelNat (StatedSL 3 K)) hρ

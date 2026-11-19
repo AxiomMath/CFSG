@@ -170,7 +170,7 @@ theorem commPset_eq_of_isComponentOf {W : Type} [CommGroup W] [Finite W]
     rw [hXg]
     have hone : (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) := by
       ext z w
-      simp [MulAut.conj_apply]
+      simp
     have hL1 : L.map (MulAut.conj (1 : MulAut W)).toMonoidHom = L := by
       rw [hone, Subgroup.map_id]
     calc L = L.map (MulAut.conj (1 : MulAut W)).toMonoidHom := hL1.symm

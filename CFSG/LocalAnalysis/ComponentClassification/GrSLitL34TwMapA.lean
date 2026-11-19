@@ -173,6 +173,7 @@ theorem conjugate_le_coreActionKernel (d : TwoCompData M K t) :
     conjugate K t ≤ coreActionKernel K := fun g hg =>
   ⟨(core_commutation d).1 hg, fun j hj => (core_commutation d).2 j hj g hg⟩
 
+omit [Finite G] in
 theorem conj_mem_oddIn {m o : G} (hm : m ∈ M) (ho : o ∈ oddIn M) : m * o * m⁻¹ ∈ oddIn M := by
   have ho' : o ∈ (pPrimeCore 2 ↥M).map M.subtype := ho
   obtain ⟨o', ho'', hoo⟩ := ho'
@@ -205,6 +206,7 @@ theorem oddIn_le_coreActionKernel (d : TwoCompData M K t) : oddIn M ≤ coreActi
     rw [inv_inv] at h1
     exact mul_mem h1 ho
 
+omit [Finite G] in
 theorem eq_one_of_conj_mem (d : TwoCompData M K t) {T : Subgroup G}
     (hQ : ∀ y ∈ T, y ∈ coreActionKernel K → y ∈ coreActionKernel (conjugate K t) → y = 1)
     {y : G} (hy : y ∈ T) (h1 : y ∈ coreActionKernel K)

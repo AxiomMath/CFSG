@@ -137,7 +137,7 @@ theorem le_oddCoreIn_of_cyclic_sylow {H X : Subgroup G} (S : Sylow 2 H) (hS : Is
     have h2 : orderOf v ∣ Nat.card S := by
       rw [← hKind, Subgroup.index_eq_card]
       exact orderOf_dvd_natCard v
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     rw [hk] at h2
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h2
     have hodd : Odd (orderOf v) := (odd_orderOf_of_mem hX hu).of_dvd_nat h1
@@ -163,7 +163,7 @@ theorem le_oddCore_normalizer_of_cyclic (hσ : σ.IsValid) {Q X : Subgroup G} (h
     rw [Nat.card_zpowers, Subgroup.orderOf_mk, hσ.x_order, pow_one]
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   set S' : Subgroup G := (S : Subgroup H₀).map H₀.subtype with hS'
-  have hS'p : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 2 S' := S.isPGroup.map _
   have hxS' : σ.x ∈ S' := ⟨⟨σ.x, hxH⟩, hPS (Subgroup.mem_zpowers _), rfl⟩
   have hS'H : S' ≤ H₀ := Subgroup.map_subtype_le _
   have hcS' : IsCyclic S' := by

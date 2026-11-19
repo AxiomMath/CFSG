@@ -100,7 +100,7 @@ private def nodeSupp (m : ℕ) (i : Fin (m + 1)) : Set (Fin (m + 1)) :=
 private theorem nodeSupp_chain {m : ℕ} (k : Fin m) :
     nodeSupp m (Fin.castSucc k) = {c : Fin (m + 1) | c.val = k.val ∨ c.val = k.val + 1} := by
   ext c
-  simp only [nodeSupp, Set.mem_setOf_eq, Fin.val_castSucc]
+  simp only [nodeSupp, Set.mem_ofPred_eq, Fin.val_castSucc]
   constructor
   · rintro (⟨-, h⟩ | ⟨hge, -⟩)
     · exact h
@@ -110,7 +110,7 @@ private theorem nodeSupp_chain {m : ℕ} (k : Fin m) :
 private theorem nodeSupp_fork (m : ℕ) :
     nodeSupp m (finM m) = {c : Fin (m + 1) | c.val = m - 1 ∨ c.val = m} := by
   ext c
-  simp only [nodeSupp, finM, Fin.val_last, Set.mem_setOf_eq]
+  simp only [nodeSupp, finM, Fin.val_last, Set.mem_ofPred_eq]
   constructor
   · rintro (⟨hlt, -⟩ | ⟨-, h⟩)
     · omega
@@ -120,7 +120,7 @@ private theorem nodeSupp_fork (m : ℕ) :
 private theorem nodeSupp_finM1 {m : ℕ} (hm : 3 ≤ m) :
     nodeSupp m (finM1 m) = {c : Fin (m + 1) | c.val = m - 1 ∨ c.val = m} := by
   ext c
-  simp only [nodeSupp, Set.mem_setOf_eq]
+  simp only [nodeSupp, Set.mem_ofPred_eq]
   constructor
   · rintro (⟨-, h | h⟩ | ⟨hge, -⟩)
     · exact Or.inl h
@@ -133,7 +133,7 @@ private theorem nodeSupp_finM1 {m : ℕ} (hm : 3 ≤ m) :
 private theorem nodeSupp_finM2 {m : ℕ} (hm : 3 ≤ m) :
     nodeSupp m (finM2 m) = {c : Fin (m + 1) | c.val = m - 2 ∨ c.val = m - 1} := by
   ext c
-  simp only [nodeSupp, Set.mem_setOf_eq]
+  simp only [nodeSupp, Set.mem_ofPred_eq]
   constructor
   · rintro (⟨-, h | h⟩ | ⟨hge, -⟩)
     · exact Or.inl h
@@ -151,18 +151,18 @@ private theorem qTwoStdIota_single_of_not_mem_nodeSupp {m : ℕ} (hm : 3 ≤ m)
   rcases Fin.eq_castSucc_or_eq_last (n := m) i with ⟨k, rfl⟩ | rfl
   · have h1 : c.val ≠ k.val := by
       intro h
-      exact hc (by simp only [nodeSupp_chain, Set.mem_setOf_eq]; exact Or.inl h)
+      exact hc (by simp only [nodeSupp_chain, Set.mem_ofPred_eq]; exact Or.inl h)
     have h2 : c.val ≠ k.val + 1 := by
       intro h
-      exact hc (by simp only [nodeSupp_chain, Set.mem_setOf_eq]; exact Or.inr h)
+      exact hc (by simp only [nodeSupp_chain, Set.mem_ofPred_eq]; exact Or.inr h)
     rw [coe_qTwoStdIota, stdFamilyV_ι_castSucc]
     exact stdChainIota_single_of_not_mem k a h1 h2
   · have h1 : c.val ≠ m - 1 := by
       intro h
-      exact hc (by simp only [nodeSupp_fork, Set.mem_setOf_eq]; exact Or.inl h)
+      exact hc (by simp only [nodeSupp_fork, Set.mem_ofPred_eq]; exact Or.inl h)
     have h2 : c.val ≠ m := by
       intro h
-      exact hc (by simp only [nodeSupp_fork, Set.mem_setOf_eq]; exact Or.inr h)
+      exact hc (by simp only [nodeSupp_fork, Set.mem_ofPred_eq]; exact Or.inr h)
     rw [coe_qTwoStdIota, stdFamilyV_ι_last]
     exact stdForkIota_single_of_not_mem E hm a h1 h2
 
@@ -468,7 +468,7 @@ private theorem eq_fork_pair_of_common_support {m : ℕ} (hm : 3 ≤ m) {i j : F
   rcases Fin.eq_castSucc_or_eq_last (n := m) i with ⟨a, rfl⟩ | rfl
   · rcases Fin.eq_castSucc_or_eq_last (n := m) j with ⟨b, rfl⟩ | rfl
     · rw [nodeSupp_chain] at hci hcj
-      simp only [Set.mem_setOf_eq] at hci hcj
+      simp only [Set.mem_ofPred_eq] at hci hcj
       have hedge : edgeD (m + 1) (Fin.castSucc a) (Fin.castSucc b) ∨
           edgeD (m + 1) (Fin.castSucc b) (Fin.castSucc a) := by
         rcases hci with h | h <;> rcases hcj with h' | h'
@@ -488,7 +488,7 @@ private theorem eq_fork_pair_of_common_support {m : ℕ} (hm : 3 ≤ m) {i j : F
       exact (by omega : False).elim
     · rw [nodeSupp_chain] at hci
       rw [nodeSupp_fork] at hcj
-      simp only [Set.mem_setOf_eq] at hci hcj
+      simp only [Set.mem_ofPred_eq] at hci hcj
       have hcases : a.val = m - 1 ∨ a.val = m - 2 := by omega
       rcases hcases with h | h
       · left
@@ -507,7 +507,7 @@ private theorem eq_fork_pair_of_common_support {m : ℕ} (hm : 3 ≤ m) {i j : F
   · rcases Fin.eq_castSucc_or_eq_last (n := m) j with ⟨b, rfl⟩ | rfl
     · rw [nodeSupp_fork] at hci
       rw [nodeSupp_chain] at hcj
-      simp only [Set.mem_setOf_eq] at hci hcj
+      simp only [Set.mem_ofPred_eq] at hci hcj
       have hcases : b.val = m - 1 ∨ b.val = m - 2 := by omega
       rcases hcases with h | h
       · right
@@ -676,10 +676,10 @@ private theorem fixes_of_mem_levi_pair (hK : Nat.card K = 4) {m : ℕ} (hm : 3 �
       rcases eq_fork_pair_of_common_support hm (hlabel i hi j hj) hci hcj hij with
         ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
       · rw [nodeSupp_finM1 hm] at hci
-        simp only [Set.mem_setOf_eq] at hci
+        simp only [Set.mem_ofPred_eq] at hci
         omega
       · rw [nodeSupp_fork] at hci
-        simp only [Set.mem_setOf_eq] at hci
+        simp only [Set.mem_ofPred_eq] at hci
         omega
     exact levi_le_fix E hK hm C₂ hc2 hg2
   · exact levi_le_fix E hK hm C₁ hc1 hg1
@@ -705,7 +705,7 @@ private theorem eq_one_of_mul_fork_left (hK : Nat.card K = 4) {m : ℕ} (hm : 3 
     obtain ⟨d, rfl⟩ := hg1H
     exact qTwoStdIota_single_of_not_mem_nodeSupp E hm (finM1 m) d (by
       rw [nodeSupp_finM1 hm]
-      simp only [Set.mem_setOf_eq, not_or]
+      simp only [Set.mem_ofPred_eq, not_or]
       exact ⟨by omega, by omega⟩)
   have hafix : ∀ c : Fin (m + 1), c.val ≤ m - 2 →
       a.val (Pi.single c (1 : K)) = Pi.single c (1 : K) := by
@@ -744,7 +744,7 @@ private theorem eq_one_of_mul_fork_right (hK : Nat.card K = 4) {m : ℕ} (hm : 3
     obtain ⟨d, rfl⟩ := hg2H
     exact qTwoStdIota_single_of_not_mem_nodeSupp E hm (finM m) d (by
       rw [nodeSupp_fork]
-      simp only [Set.mem_setOf_eq, not_or]
+      simp only [Set.mem_ofPred_eq, not_or]
       exact ⟨by omega, by omega⟩)
   have hbfix : ∀ c : Fin (m + 1), c.val ≤ m - 2 →
       b.val (Pi.single c (1 : K)) = Pi.single c (1 : K) := by
@@ -949,7 +949,7 @@ theorem qTwoStdFamily_levi_single_of_lt (hK : Nat.card K = 4) {m : ℕ} (hm : 3 
     (g : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) (Pi.single c 1) = Pi.single c 1 := by
   refine levi_le_fix E hK hm C ?_ hg
   rintro ⟨i, hi, hci⟩
-  simp only [nodeSupp, Set.mem_setOf_eq] at hci
+  simp only [nodeSupp, Set.mem_ofPred_eq] at hci
   have hik := hC i hi
   omega
 
@@ -961,7 +961,7 @@ theorem qTwoStdFamily_levi_single_of_gt (hK : Nat.card K = 4) {m : ℕ} (hm : 3 
     (g : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) (Pi.single c 1) = Pi.single c 1 := by
   refine levi_le_fix E hK hm C ?_ hg
   rintro ⟨i, hi, hci⟩
-  simp only [nodeSupp, Set.mem_setOf_eq] at hci
+  simp only [nodeSupp, Set.mem_ofPred_eq] at hci
   have hik := hC i hi
   omega
 

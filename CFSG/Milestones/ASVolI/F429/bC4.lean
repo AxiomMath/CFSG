@@ -96,7 +96,7 @@ theorem burnsideF429b_key4_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr _ _ hcomm
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, hcard, Ψ, -, hB⟩ := burnsideF429b_G2_chartB hyp.toHypF_4_4g
   have hH : torusSub Tag.G2 K ≤ borelSub Tag.G2 K :=
     le_sup_right.trans (posUnipotentSub_sup_torusSub (τ := Tag.G2) (K := K)).le
@@ -114,7 +114,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem burnsideF429b_D4_pCore_B {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : ℕ}
     (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3) (hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ f)) :
     pCoreOf 2 (Pst0 σ ⊓ Pst1 σ) = Ust σ := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hB : Pst0 σ ⊓ Pst1 σ = Subgroup.normalizer (Ust σ : Set (Cm σ)) := by
     rw [CFSG.Quasithin.H13.F431.D4q.Hex.d4_normalizer_eq σ,
       ← CFSG.Quasithin.H13.Sec53F.TriD4.P0_inf_P1 σ]
@@ -130,7 +130,7 @@ theorem burnsideF429b_key4_D4tw {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr _ _ hcomm
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, σ, hσ3, hf1, hK, hσq, Ψ, h1, h2⟩ :=
     burnsideF429b_D4_chart hyp.toHypF_4_4g
   have hH : (graphFixedRootTorus TwistTag.D4 K σ.toRingHom).subgroupOf

@@ -239,7 +239,7 @@ theorem four_le_card_omegaOne (hK : IsOddPrimePower (Nat.card K)) (e : G ≃* PS
   have hle : 3 ≤ Nat.card (omegaOne (Q : Subgroup G)) := by
     rw [← h3, hcard_eq]
     exact Set.ncard_le_ncard hsub (Set.toFinite _)
-  have hp : IsPGroup 2 (omegaOne (Q : Subgroup G)) := Q.isPGroup'.to_le (omegaOne_le _)
+  have hp : IsPGroup 2 (omegaOne (Q : Subgroup G)) := Q.isPGroup.to_le (omegaOne_le _)
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp
   rw [hn] at hle ⊢
   rcases n with _ | _ | n

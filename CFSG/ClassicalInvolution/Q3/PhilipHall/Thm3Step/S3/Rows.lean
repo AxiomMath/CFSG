@@ -132,7 +132,7 @@ theorem oddCore_centralizer_eq_bot_of_index_two {N : Subgroup X} (hidx : N.index
 theorem isPGroup_of_mem_WSet {Ω : Set (Subgroup X)} {W : Subgroup X} (hW : W ∈ WSet Ω) :
     IsPGroup 2 W := by
   obtain ⟨η, ⟨S, hS, -⟩, rfl⟩ := hW
-  exact S.isPGroup'.to_le (iSup₂_le fun U hU => (hS.1 hU).2)
+  exact S.isPGroup.to_le (iSup₂_le fun U hU => (hS.1 hU).2)
 
 theorem oddCore_centralizer_mul_self_eq_bot_of_rows (hF : RowCentralizerFacts) {Y : Type}
     [Group Y] [Finite Y] {Δ : Set (Subgroup Y)} {P : Subgroup Y} (hrows : Thm3RowsG Δ P)

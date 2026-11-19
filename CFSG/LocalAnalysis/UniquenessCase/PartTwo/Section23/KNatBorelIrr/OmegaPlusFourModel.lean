@@ -113,8 +113,7 @@ theorem j1_mulVec_e1P {a : SL2 K} (ha : a ∈ Bsub K) :
   rw [coe_j1, j1Mat_entries]
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.fromBlocks_mulVec, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
-      Pi.single_apply, KTabC.e1P, h10]
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply, KTabC.e1P, h10]
 
 theorem j2_mulVec_e1P {b : SL2 K} (hb : b ∈ Bsub K) :
     ((j2 b : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ KTabC.e1P K =
@@ -124,7 +123,7 @@ theorem j2_mulVec_e1P {b : SL2 K} (hb : b ∈ Bsub K) :
   rw [coe_j2, j1Mat_entries, tauPerm_symm]
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two, Pi.single_apply,
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply,
       KTabC.e1P, tauPerm, Equiv.swap_apply_of_ne_of_ne, h10]
 
 theorem map_prod_Bsub_le_lineStab_omegaPlusFour [Finite K] [CharP K 2]

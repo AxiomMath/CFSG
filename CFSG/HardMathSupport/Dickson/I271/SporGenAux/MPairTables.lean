@@ -21,7 +21,7 @@ theorem sporPair_M_of_centGen {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       Nonempty (S ≃* NativeSporadic.Carrier .M) → CentGen p S) : SporPair .M p := by
   refine sporPair_of_centGen hSpM hp5 ?_
   intro S _ _ hsimple hnab ⟨e⟩
-  haveI := hsimple
+  have := hsimple
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have eC : S ≃* NativeSporadic.Carrier .M := e.trans (hBr .M).some.symm
   have hone : Nat.card (Outer S) = 1 := hOne S ⟨eC⟩

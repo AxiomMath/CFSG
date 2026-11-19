@@ -15,12 +15,13 @@ open scoped Pointwise
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem exists_halving_block {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
     (htr : MulAction.IsPretransitive R Ω) (h2 : 2 ≤ Nat.card Ω) :
     ∃ B : Set Ω, 2 * Nat.card B = Nat.card Ω ∧ ∀ g ∈ R, g • B = B ∨ g • B = Bᶜ := by
   classical
-  haveI htr' : MulAction.IsPretransitive R Ω := htr
-  haveI : Nonempty Ω := by
+  have htr' : MulAction.IsPretransitive R Ω := htr
+  have : Nonempty Ω := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card]
     omega
   obtain ⟨x⟩ := (inferInstance : Nonempty Ω)
@@ -59,7 +60,7 @@ theorem exists_halving_block {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
     refine Nat.mul_left_cancel (pow_pos (by norm_num : (0 : ℕ) < 2) (k - 1)) ?_
     rw [h2k]
     exact h
-  haveI : K.Normal :=
+  have : K.Normal :=
     ⟨fun n hn g => by
       simp_rw [Subgroup.mul_mem_iff_of_index_two hKidx, hn, iff_true, inv_mem_iff]⟩
   have hstabK : MulAction.stabilizer K x = H.subgroupOf K := by
@@ -133,6 +134,7 @@ theorem exists_halving_block {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
       · exact absurd h hy
       · exact h
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem two_mul_card_inf_stabilizer {R : Subgroup (Perm Ω)} {B : Set Ω}
     (hRB : ∀ g ∈ R, g • B = B ∨ g • B = Bᶜ) (hg : ∃ g ∈ R, g • B = Bᶜ) (hB : B ≠ Bᶜ) :
     2 * Nat.card ↥(R ⊓ stabilizer (Perm Ω) B) = Nat.card R := by
@@ -166,6 +168,7 @@ theorem two_mul_card_inf_stabilizer {R : Subgroup (Perm Ω)} {B : Set Ω}
   rw [hKidx, hKcard] at h
   omega
 
+omit [DecidableEq Ω] in
 theorem exists_smul_eq_compl {R : Subgroup (Perm Ω)} (htr : MulAction.IsPretransitive R Ω)
     {B : Set Ω} (hB : 2 * Nat.card B = Nat.card Ω) (hB0 : B.Nonempty)
     (hRB : ∀ g ∈ R, g • B = B ∨ g • B = Bᶜ) : ∃ g ∈ R, g • B = Bᶜ := by
@@ -181,6 +184,7 @@ theorem exists_smul_eq_compl {R : Subgroup (Perm Ω)} (htr : MulAction.IsPretran
   rw [← hg, Subgroup.smul_def, ← h]
   exact Set.smul_mem_smul_set hu
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem smul_set_eq_of_smul_set_eq_or_eq_compl {s : Set Ω} (hne : s.Nonempty) {σ : Perm Ω}
     (hσ : Odd (orderOf σ)) (h : σ • s = s ∨ σ • s = sᶜ) : σ • s = s := by
   rcases h with h | h
@@ -207,6 +211,7 @@ theorem smul_set_eq_of_smul_set_eq_or_eq_compl {s : Set Ω} (hne : s.Nonempty) {
   have hx' : x ∈ sᶜ := heq ▸ hx
   exact hx' hx
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem smul_set_halving_of_mem_normalizer {R : Subgroup (Perm Ω)} {B : Set Ω} {σ : Perm Ω}
     (hRB : ∀ g ∈ R, g • B = B ∨ g • B = Bᶜ)
     (hσR : σ ∈ normalizer (R : Set (Perm Ω))) :
@@ -221,6 +226,7 @@ theorem smul_set_halving_of_mem_normalizer {R : Subgroup (Perm Ω)} {B : Set Ω}
   · right
     rw [← mul_smul, hmul, mul_smul, h, Set.smul_set_compl]
 
+omit [DecidableEq Ω] in
 lemma halving_cells_nonempty [Nonempty Ω] {B C : Set Ω}
     (hB : 2 * Nat.card B = Nat.card Ω) (hC : 2 * Nat.card C = Nat.card Ω)
     (hCB : C ≠ B) (hCBc : C ≠ Bᶜ) :
@@ -282,6 +288,7 @@ lemma halving_cells_nonempty [Nonempty Ω] {B C : Set Ω}
       Set.eq_of_subset_of_ncard_le hsub (by rw [hBn, hCcn]; omega) (Set.toFinite _)
     exact hCBc (by rw [← heq, compl_compl])
 
+omit [DecidableEq Ω] in
 lemma card_cells_add {B C : Set Ω} (hB : 2 * Nat.card B = Nat.card Ω)
     (hC : 2 * Nat.card C = Nat.card Ω) :
     (B ∩ C).ncard + (B ∩ Cᶜ).ncard + (Bᶜ ∩ C).ncard + (Bᶜ ∩ Cᶜ).ncard = Nat.card Ω := by
@@ -329,22 +336,27 @@ noncomputable def cellIndex (B C : Set Ω) (x : Ω) : Bool × Bool := by
   classical
   exact (decide (x ∈ B), decide (x ∈ C))
 
+omit [Fintype Ω] [DecidableEq Ω] in
 lemma cellIndex_fibre_true_true (B C : Set Ω) :
     {x : Ω | cellIndex B C x = (true, true)} = B ∩ C := by
   ext x; simp [cellIndex]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 lemma cellIndex_fibre_true_false (B C : Set Ω) :
     {x : Ω | cellIndex B C x = (true, false)} = B ∩ Cᶜ := by
   ext x; simp [cellIndex]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 lemma cellIndex_fibre_false_true (B C : Set Ω) :
     {x : Ω | cellIndex B C x = (false, true)} = Bᶜ ∩ C := by
   ext x; simp [cellIndex]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 lemma cellIndex_fibre_false_false (B C : Set Ω) :
     {x : Ω | cellIndex B C x = (false, false)} = Bᶜ ∩ Cᶜ := by
   ext x; simp [cellIndex]
 
+omit [DecidableEq Ω] in
 lemma sum_padicValNat_cellIndex_le [Nonempty Ω] {B C : Set Ω}
     (h1 : (B ∩ C).Nonempty) (h2 : (B ∩ Cᶜ).Nonempty) (h3 : (Bᶜ ∩ C).Nonempty)
     (h4 : (Bᶜ ∩ Cᶜ).Nonempty)
@@ -417,6 +429,7 @@ lemma card_dvd_four_mul_card_inf_stabilizer {R : Subgroup (Perm Ω)} {B C : Set 
   rw [h4] at h3
   exact h1.trans h3
 
+omit [DecidableEq Ω] in
 lemma card_inf_stabilizer_dvd_pow [Nonempty Ω] {R : Subgroup (Perm Ω)} {B C : Set Ω}
     (hR : IsPGroup 2 R)
     (h1 : (B ∩ C).Nonempty) (h2 : (B ∩ Cᶜ).Nonempty) (h3 : (Bᶜ ∩ C).Nonempty)
@@ -514,7 +527,7 @@ theorem eq_or_eq_compl_of_halving {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
   push Not at hcon
   obtain ⟨hCB, hCBc⟩ := hcon
   classical
-  haveI : Nonempty Ω := by
+  have : Nonempty Ω := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card, hn]
     exact pow_pos (by norm_num) a
   have hBne : B ≠ Bᶜ := ne_compl_self
@@ -558,7 +571,7 @@ theorem eq_or_eq_compl_of_halving_of_le_alternatingGroup (h8 : 8 ≤ Nat.card Ω
   push Not at hcon
   obtain ⟨hCB, hCBc⟩ := hcon
   classical
-  haveI : Nonempty Ω := by
+  have : Nonempty Ω := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card]
     omega
   have hBne : B ≠ Bᶜ := ne_compl_self

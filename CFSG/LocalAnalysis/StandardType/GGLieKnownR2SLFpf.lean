@@ -14,8 +14,8 @@ open CFSG.LinearAlgebra.RootGroupSL CFSG.Open
 
 private theorem finite_sl_dspace {k X : Type} [Field k] [Finite k] [AddCommGroup X]
     [Module k X] [Module.Finite k X] : Finite (SpecialLinearGroup k (DSpace k X)) := by
-  haveI : Finite X := Module.finite_of_finite k
-  haveI : Finite (DSpace k X ≃ₗ[k] DSpace k X) :=
+  have : Finite X := Module.finite_of_finite k
+  have : Finite (DSpace k X ≃ₗ[k] DSpace k X) :=
     Finite.of_injective (fun e : DSpace k X ≃ₗ[k] DSpace k X => e.toEquiv.toFun)
       (fun e f h => LinearEquiv.ext (fun x => congrFun h x))
   infer_instance
@@ -53,7 +53,7 @@ private theorem mem_rootSL_of_commute {k X : Type} [Field k] [Finite k] [CharP k
 
 private theorem exists_unit_prime_order {k : Type} [Field k] [Finite k] [CharP k 2]
     (hk : 4 ≤ Nat.card k) : ∃ (l : kˣ) (r : ℕ), r.Prime ∧ r ≠ 2 ∧ orderOf l = r := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, -, hcard⟩ := FiniteField.card k 2
   have hcardk : Nat.card k = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hodd : Odd (Nat.card kˣ) := by
@@ -67,7 +67,7 @@ private theorem exists_unit_prime_order {k : Type} [Field k] [Finite k] [CharP k
   have hr2 : r ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 hdvd)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨l, hl⟩ := exists_prime_orderOf_dvd_card' (G := kˣ) r hdvd
   exact ⟨l, r, hr, hr2, hl⟩
 
@@ -85,7 +85,7 @@ private theorem exists_fpf_large {k X : Type} [Field k] [Finite k] [CharP k 2] [
       h ∈ Subgroup.normalizer (rootSL k k X : Set (SpecialLinearGroup k (DSpace k X))) ∧
       ∀ y ∈ QK k k X, y * h = h * y → y ∈ rootSL k k X := by
   obtain ⟨l, r, hr, hr2, hord⟩ := exists_unit_prime_order hk
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hl1 : (l : k) ≠ 1 := by
     intro h1
     have h2 : l = 1 := Units.ext h1
@@ -160,7 +160,7 @@ private theorem exists_singer_aux {k X L : Type} [Field k] [AddCommGroup X] [Mod
   have hr2 : r ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 hdvd)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ν, hν⟩ := exists_prime_orderOf_dvd_card' (G := Lˣ) r hdvd
   have hν1 : (ν : L) ≠ 1 := by
     intro h1
@@ -205,7 +205,7 @@ private theorem exists_fpf_two {k X : Type} [Field k] [Finite k] [CharP k 2] [Ad
     ∃ (h : SpecialLinearGroup k (DSpace k X)) (r : ℕ), r.Prime ∧ r ≠ 2 ∧ orderOf h = r ∧
       h ∈ Subgroup.normalizer (rootSL k k X : Set (SpecialLinearGroup k (DSpace k X))) ∧
       ∀ y ∈ QK k k X, y * h = h * y → y ∈ rootSL k k X := by
-  haveI : NeZero (Module.finrank k X) := ⟨by omega⟩
+  have : NeZero (Module.finrank k X) := ⟨by omega⟩
   have hLcard : Nat.card (FiniteField.Extension k 2 (Module.finrank k X)) =
       2 ^ Module.finrank k X := by
     rw [FiniteField.natCard_extension, hk]
@@ -223,8 +223,8 @@ private theorem exists_fpf_two {k X : Type} [Field k] [Finite k] [CharP k 2] [Ad
       rw [hLu]
       have : 2 ^ 2 ≤ 2 ^ Module.finrank k X := Nat.pow_le_pow_right (by norm_num) hX
       omega)
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Subsingleton kˣ := (Nat.card_eq_one_iff_unique.1 (by rw [Nat.card_units, hk])).1
+  have : Fact r.Prime := ⟨hr⟩
+  have : Subsingleton kˣ := (Nat.card_eq_one_iff_unique.1 (by rw [Nat.card_units, hk])).1
   have hdet : LinearEquiv.det (1 : k ≃ₗ[k] k) * LinearEquiv.det g *
       LinearEquiv.det (1 : k ≃ₗ[k] k) = 1 := Subsingleton.elim _ _
   refine ⟨blockSL 1 g 1 hdet, r, hr, hr2, ?_, blockSL_mem_normalizer _ _ _ hdet, ?_⟩
@@ -256,7 +256,7 @@ theorem exists_primeOrder_fpf_rootSL {k X : Type} [Field k] [Finite k] [CharP k 
       ∀ y ∈ QK k k X, y * h = h * y → y ∈ rootSL k k X := by
   by_cases h4 : 4 ≤ Nat.card k
   · exact exists_fpf_large h4
-  · haveI : Fintype k := Fintype.ofFinite k
+  · have : Fintype k := Fintype.ofFinite k
     obtain ⟨n, -, hcard⟩ := FiniteField.card k 2
     have hcardk : Nat.card k = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
     have hn : (n : ℕ) = 1 := by
@@ -270,7 +270,7 @@ theorem ggRootNoCentralAt_top_rootSL {k X : Type} [Field k] [Finite k] [CharP k 
     [AddCommGroup X] [Module k X] [Module.Finite k X] (hX : 1 ≤ Module.finrank k X)
     (hk : 4 ≤ Nat.card k ∨ 2 ≤ Module.finrank k X) :
     GGRootNoCentralAt (⊤ : Subgroup (SpecialLinearGroup k (DSpace k X))) (rootSL k k X) := by
-  haveI : Finite (SpecialLinearGroup k (DSpace k X)) := finite_sl_dspace
+  have : Finite (SpecialLinearGroup k (DSpace k X)) := finite_sl_dspace
   obtain ⟨h, r, hr, hr2, hord, hN, hfix⟩ := exists_primeOrder_fpf_rootSL (X := X) hk
   refine noCentral_of_fixedPoint hr hr2 hord ⟨Subgroup.mem_top h, hN⟩ fun y hy hcomm => ?_
   rw [top_inf_eq, pCoreOf_normalizer_rootSL hX] at hy

@@ -414,14 +414,14 @@ theorem u34aute8_iSup_eq_top {Y : Type} [Group Y] [Finite Y]
     intro v
     constructor
     · rintro ⟨hvA, hvF⟩
-      exact ⟨u34aute8_conj_mem F hZ2 hB hA hAF S.isPGroup' hAS hs hvA hvF,
+      exact ⟨u34aute8_conj_mem F hZ2 hB hA hAF S.isPGroup hAS hs hvA hvF,
         (inferInstance : F.Normal).conj_mem v hvF s⟩
     · rintro ⟨hwA, hwF⟩
       have e1 : s⁻¹ * (s * v * s⁻¹) * s⁻¹⁻¹ = v := by group
       have hvF : v ∈ F := by
         have := (inferInstance : F.Normal).conj_mem _ hwF s⁻¹
         rwa [e1] at this
-      have := u34aute8_conj_mem F hZ2 hB hA hAF S.isPGroup' hAS (S.inv_mem hs) hwA hwF
+      have := u34aute8_conj_mem F hZ2 hB hA hAF S.isPGroup hAS (S.inv_mem hs) hwA hwF
       rw [e1] at this
       exact ⟨this, hvF⟩
   have hne : A ⊓ F ≠ ⊥ := by
@@ -429,7 +429,7 @@ theorem u34aute8_iSup_eq_top {Y : Type} [Group Y] [Finite Y]
     rw [← inf_subgroupOf_right, h, bot_subgroupOf, card_bot] at hAF
     omega
   obtain ⟨⟨a₀, ha₀⟩, ha₀1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp
-    (CFSG.QuasithinUnique.inf_centralizer_ne_bot_of_normalizes S.isPGroup'
+    (CFSG.QuasithinUnique.inf_centralizer_ne_bot_of_normalizes S.isPGroup
       (inf_le_left.trans hAS) hN hne)
   have ha₀1' : a₀ ≠ 1 := fun h => ha₀1 (Subtype.ext h)
   have hSle : (S : Subgroup Y) ≤ centralizer ({a₀} : Set Y) := by

@@ -99,16 +99,19 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
-theorem card_pre (h : KuHyp G T M H P z)
+omit [Finite G] in
+theorem card_pre (_h : KuHyp G T M H P z)
     (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z)
     {X : Subgroup (Equiv.Perm (Fin 6))} (hX : X ≤ alternatingGroup (Fin 6)) :
     Nat.card (Ψ.pre X) = 16 * Nat.card X :=
   Ψ.card_pre (Subgroup.le_normalizer) hX
 
+omit [Finite G] in
 theorem pre_le_kuN (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z)
     (X : Subgroup (Equiv.Perm (Fin 6))) : Ψ.pre X ≤ kuN P H :=
   Ψ.pre_le_N X
 
+omit [Finite G] in
 theorem kuA_le_pre (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z)
     (X : Subgroup (Equiv.Perm (Fin 6))) : kuA P H ≤ Ψ.pre X := by
   intro g hg
@@ -154,7 +157,8 @@ theorem pCore_le_L2 (h : KuHyp G T M H P z)
   rw [h.kuR_eq_pre_kleinS Ψ] at hV
   exact hV.trans (Ψ.pre_mono kleinS_le_lamS)
 
-theorem card_L2 (h : KuHyp G T M H P z)
+omit [Finite G] in
+theorem card_L2 (_h : KuHyp G T M H P z)
     (Ψ : KuA6Model (kuA P H) (kuW P H) (kuV2 T M) (kuN P H) z) : Nat.card Ψ.L2 = 960 := by
   have e1 := Ψ.card_pre (Subgroup.le_normalizer) lamS_le_alt
   have e2 := card_lamS

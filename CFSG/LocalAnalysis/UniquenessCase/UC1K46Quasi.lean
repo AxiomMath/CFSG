@@ -16,14 +16,14 @@ theorem isCyclic_sylow_of_pRank_eq_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   have hpr : CFSG.pRank p ↥(P : Subgroup G) ≤ 1 := by
     rw [(CFSG.SectionRank.pRank_sylow P).2, CFSG.SectionRank.pRank_eq_open_pRank_top, hrank]
   rcases (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification
-    (Fact.out : p.Prime) P.isPGroup').1 hpr with hcyc | ⟨hp, -⟩
+    (Fact.out : p.Prime) P.isPGroup).1 hpr with hcyc | ⟨hp, -⟩
   · exact hcyc
   · exact absurd hp hp2
 
 theorem eq_of_le_sylow_of_card_eq_prime {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup G) = 1) {P : Sylow p G} {A B : Subgroup G}
     (hA : Nat.card A = p) (hB : Nat.card B = p) (hAP : A ≤ P) (hBP : B ≤ P) : A = B := by
-  haveI : IsCyclic ↥(P : Subgroup G) := isCyclic_sylow_of_pRank_eq_one hp2 hrank P
+  have : IsCyclic ↥(P : Subgroup G) := isCyclic_sylow_of_pRank_eq_one hp2 hrank P
   have hEq : A.subgroupOf (P : Subgroup G) = B.subgroupOf (P : Subgroup G) := by
     rw [IsCyclic.subgroup_eq_iff_card_eq,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAP).toEquiv,
@@ -117,7 +117,7 @@ theorem isSimpleGroup_quotient_center (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup
     {D : Subgroup G} (hD : Nat.card D = 3) (hgen : Subgroup.normalClosure (D : Set G) = ⊤)
     (hperf : commutator G = ⊤) (hc : CFSG.pPrimeCore 3 G ≤ Subgroup.center G) :
     IsSimpleGroup (G ⧸ Subgroup.center G) := by
-  haveI : Nontrivial (G ⧸ Subgroup.center G) :=
+  have : Nontrivial (G ⧸ Subgroup.center G) :=
     QuotientGroup.nontrivial_iff.2 (center_ne_top hD hperf)
   refine { eq_bot_or_eq_top_of_normal := ?_ }
   intro T hT
@@ -149,7 +149,7 @@ end CFSG.LocalAnalysis.UniquenessCase.UCK.UC46
 namespace CFSG.LocalAnalysis.UniquenessCase.UCK
 
 theorem quasisimpleOfCentral_holds : QuasisimpleOfCentral :=
-  fun p _ G _ _ V _ _ _ ρ D h hc =>
+  fun _p _ _G _ _ _V _ _ _ _ρ _D h hc =>
     ⟨⟨h.perfect, UC46.isSimpleGroup_quotient_center h.rank h.card_three h.gen h.perfect hc⟩,
       UC46.uc45_center h.toHyp45,
       UC46.not_three_dvd_card_center h.rank h.card_three h.gen h.perfect⟩

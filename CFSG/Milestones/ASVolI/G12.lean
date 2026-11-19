@@ -139,7 +139,7 @@ private theorem g12h_exists_pair {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     {B : LinearMap.BilinForm (ZMod 2) V} (h : IsSymplectic B) {w b : V}
     (hbn : b ∉ Submodule.span (ZMod 2) {w}) : ∃ a, B w a = 0 ∧ B b a = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hbn
   have hmem : b ∈ B.orthogonal (perp B w) := by
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -154,7 +154,7 @@ private theorem g12h_perp_exists {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (hd : 4 ≤ Module.finrank (ZMod 2) V) :
     ∃ b, B w b = 0 ∧ b ∉ Submodule.span (ZMod 2) {w} := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : perp B w ≤ Submodule.span (ZMod 2) {w} :=
     fun b hb => hcon b (mem_perp_iff.1 hb)
   have h1 := Submodule.finrank_mono hle
@@ -326,11 +326,11 @@ private theorem g12h2_fixed_coset {V : Type} [AddCommGroup V] [Module (ZMod 2) V
     ∃ a : V, a ∉ Submodule.span (ZMod 2) {v} ∧
       ∀ n ∈ N, n a - a ∈ Submodule.span (ZMod 2) {v} := by
   classical
-  haveI : Module.Finite (ZMod 2) V := (Module.finite_iff_finite (R := ZMod 2)).2 inferInstance
-  haveI : Finite (V ⧸ Submodule.span (ZMod 2) {v}) :=
+  have : Module.Finite (ZMod 2) V := (Module.finite_iff_finite (R := ZMod 2)).2 inferInstance
+  have : Finite (V ⧸ Submodule.span (ZMod 2) {v}) :=
     Finite.of_surjective (Submodule.Quotient.mk : V → V ⧸ Submodule.span (ZMod 2) {v})
       (Submodule.Quotient.mk_surjective _)
-  letI : MulAction ↥N (V ⧸ Submodule.span (ZMod 2) {v}) :=
+  let : MulAction ↥N (V ⧸ Submodule.span (ZMod 2) {v}) :=
     { smul := fun n x => Submodule.mapQ _ _ ((n : GLV V) : V →ₗ[ZMod 2] V)
         (g12h2_mapQ_le (hNv n n.2)) x
       one_smul := fun x => by
@@ -355,11 +355,11 @@ private theorem g12h2_fixed_coset {V : Type} [AddCommGroup V] [Module (ZMod 2) V
       show Submodule.mapQ _ _ _ _ 0 = 0
       exact map_zero _
   set F := MulAction.fixedPoints ↥N (V ⧸ Submodule.span (ZMod 2) {v}) with hF
-  haveI : Nonempty F := ⟨⟨0, h0F⟩⟩
+  have : Nonempty F := ⟨⟨0, h0F⟩⟩
   have hpos : 0 < Nat.card F := Nat.card_pos
   have hFeven : Nat.card F % 2 = 0 := by omega
   have hgt : 1 < Nat.card F := by omega
-  haveI hnt : Nontrivial F := (Finite.one_lt_card_iff_nontrivial).1 hgt
+  have hnt : Nontrivial F := (Finite.one_lt_card_iff_nontrivial).1 hgt
   obtain ⟨x, y, hxy⟩ := exists_pair_ne F
   obtain ⟨z, hzF, hz0⟩ : ∃ z ∈ F, z ≠ 0 := by
     by_cases hx0 : (x : V ⧸ Submodule.span (ZMod 2) {v}) = 0
@@ -413,7 +413,7 @@ private theorem g12h2_radical {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [F
     rwa [hφ] at this
   have hDS : D ≤ Submodule.span (ZMod 2) {v} := by
     by_contra hcon
-    rw [SetLike.not_le_iff_exists] at hcon
+    rw [IsConcreteLE.not_le_iff_exists] at hcon
     obtain ⟨d, hdD, hdS⟩ := hcon
     have hWD : perp B v ≤ D := g12h2_W_irr h hdD hdS (fun p hp => hcl p hp d hdD)
     obtain ⟨a, haS, hfix⟩ := g12h2_fixed_coset hv hd N hN
@@ -504,7 +504,7 @@ private theorem g12h2_isEA {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
 private theorem g12h2_pRank {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (Q : Subgroup (GLV V)) (k : ℕ) (hQ : CFSG.Open.IsElemAbelian 2 Q)
     (hc : Nat.card Q = 2 ^ k) : CFSG.pRank 2 ↥Q = k := by
-  haveI := g12h2_isEA Q hQ
+  have := g12h2_isEA Q hQ
   exact CFSG.pRank_eq_of_card_eq_pow (by norm_num) hc
 
 private theorem g12h2_pCore {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
@@ -560,13 +560,13 @@ private theorem g12h2_card {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
     (QFaithfulOnW B G v → Nat.card (Qv B G v) = 2 ^ (Module.finrank (ZMod 2) V - 2)) ∧
     (¬ QFaithfulOnW B G v → Nat.card (Qv B G v) = 2 ^ (Module.finrank (ZMod 2) V - 1)) := by
   classical
-  haveI : Module.Finite (ZMod 2) V := (Module.finite_iff_finite (R := ZMod 2)).2 inferInstance
+  have : Module.Finite (ZMod 2) V := (Module.finite_iff_finite (R := ZMod 2)).2 inferInstance
   have hv0 : v ≠ 0 := hv.1
   obtain ⟨x0, hx0⟩ := h.exists_B_eq_one hv0
   have hvW : v ∈ perp B v := mem_perp_iff.2 (h.1 v)
   let S0 : Submodule (ZMod 2) (perp B v) := Submodule.span (ZMod 2) {(⟨v, hvW⟩ : perp B v)}
   let pr : V → perp B v := fun y => if hy : y ∈ perp B v then ⟨y, hy⟩ else 0
-  have pr_mem : ∀ y (hy : y ∈ perp B v), pr y = ⟨y, hy⟩ := fun y hy => dif_pos hy
+  have pr_mem : ∀ y (hy : y ∈ perp B v), pr y = ⟨y, hy⟩ := fun y hy => dite_eq_left hy
   have hgB : ∀ g ∈ Qv B G v, ∀ x y : V, B (g x) (g y) = B x y := fun g hg => hG hg.1
   have hWmem : ∀ g ∈ Qv B G v, g x0 - x0 ∈ perp B v := by
     intro g hg
@@ -701,7 +701,7 @@ private theorem g12h2_card {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
   have hnonf : ¬ QFaithfulOnW B G v → radE B v 0 1 ∈ Qv B G v := by
     intro hnf
     unfold QFaithfulOnW at hnf
-    push_neg at hnf
+    push Not at hnf
     obtain ⟨x, hx, hfix, hx1⟩ := hnf
     rcases hsmall x hx hfix with h1 | h1
     · exact absurd h1 hx1
@@ -861,7 +861,7 @@ theorem as_G_12_3 : G_12_3 := by
         exact g12h_top h.symp h.le_sp h.dim h.u_mem hJu hvJ hvu y
   · have key : ∃ a, B u a = 0 ∧ radE B u a 1 ∈ G := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h0 : ∀ a, B u a = 0 → radE B u a 0 ∈ G := by
         intro a ha
         obtain ⟨c, hc⟩ := ((isStarVec_iff_rad h.symp h.le_sp).1 h.u_mem).2 a ha
@@ -881,7 +881,7 @@ theorem as_G_12_3 : G_12_3 := by
     refine ⟨radE B u a0 1, Subgroup.mem_sup_right (radE_mem_QSub h.symp ha0 hg0), ?_⟩
     intro hmem
     rw [mem_perp_iff, radE_apply h.symp ha0 v] at hmem
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_add, map_smul, smul_eq_mul,
       h.symp.1 v, hvu] at hmem
     generalize B v a0 = p at hmem
     revert p
@@ -903,7 +903,7 @@ theorem as_G_12_4 : G_12_4 := by
   by_contra hnt
   have hnt' : ∃ x, x ≠ 0 ∧ x ∉ orbitSet G v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnt
     intro x y hx hy
     obtain ⟨g1, hg1, hg1x⟩ := hcon x hx
@@ -921,7 +921,7 @@ theorem as_G_12_4 : G_12_4 := by
     by_cases hww : w + w' = 0
     · have hweq : w' = w + (w + w') := by rw [← add_assoc, g12_vadd_self, zero_add]
       rw [hweq]
-      simp [map_add, h.symp.1 w, hww]
+      simp [h.symp.1 w, hww]
     · have hq1 : q w = 0 := ((hq_orb w).1 (hW w hw hw0)).2
       have hq2 : q w' = 0 := ((hq_orb w').1 (hW w' hw' hw'0)).2
       have hq3 : q (w + w') = 0 :=
@@ -948,7 +948,7 @@ theorem as_G_12_5 : G_12_5 := by
   have huv : B u v = 1 := (g12_eq_zero_or_one (B u v)).resolve_left h.uv
   have hv0 : v ≠ 0 := h.v_mem.1
   unfold QFaithfulOnW at hnf
-  push_neg at hnf
+  push Not at hnf
   obtain ⟨x, hx, hfix, hne⟩ := hnf
   obtain ⟨a, c, hva, rfl⟩ := g12h_qv_rep h.symp h.le_sp h.v_mem hx
   have hBa : ∀ w ∈ perp B v, B w a = 0 := by

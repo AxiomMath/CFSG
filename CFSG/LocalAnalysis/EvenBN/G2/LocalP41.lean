@@ -102,7 +102,7 @@ section Generic
 variable {G : Type*} [Group G]
 
 theorem eq_or_eq_of_transitive {Q A₀ J : Subgroup G} (hA₀Q : A₀ ≤ normalizer (Q : Set G))
-    (hJA₀ : J ≤ normalizer (A₀ : Set G)) (hJQ : J ≤ normalizer (Q : Set G))
+    (_hJA₀ : J ≤ normalizer (A₀ : Set G)) (hJQ : J ≤ normalizer (Q : Set G))
     (htr : ∀ x ∈ A₀, x ≠ 1 → ∀ y ∈ A₀, y ≠ 1 → ∃ j ∈ J, j * x * j⁻¹ = y)
     {A : Subgroup G} (hQA : Q ≤ A) (hAN : A ≤ A₀ ⊔ Q) (hJA : J ≤ normalizer (A : Set G)) :
     A = Q ∨ A = A₀ ⊔ Q := by
@@ -158,15 +158,18 @@ variable
   {K : Type} [Field K] [Finite K]
   [CharP K 2]
 
+omit [Finite K] in
 theorem yamadaL₂_le_yamadaL₆ (d : G2Data L K) (t : G) : yamadaL₂ d t ≤ yamadaL₆ d t := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 Subgroup.le_normalizer le_rfl
     (LieType.BorelTits.pCoreOf_isPGroup 2 _)
 
+omit [Finite K] in
 theorem isPGroup_yamadaL₆ (d : G2Data L K) (t : G) : IsPGroup 2 (yamadaL₆ d t) :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   LieType.BorelTits.pCoreOf_isPGroup 2 _
 
+omit [Finite K] in
 theorem S_le_normalizer_yamadaL₆ (h : Setup G L f t) (d : G2Data L K) :
     d.S ≤ normalizer (yamadaL₆ d t : Set G) :=
   (h.S_le_normalizer_yamadaL₂ d).trans (le_normalizer_yamadaL₆ d t)
@@ -176,6 +179,7 @@ theorem isPGroup_yamadaR₆ (h : Setup G L f t) (d : G2Data L K) : IsPGroup 2 (y
   IsPGroup.to_sup_of_normal_left' (isPGroup_yamadaL₆ d t) d.isSylowOf_S.isPGroup
     (h.S_le_normalizer_yamadaL₆ d)
 
+omit [Finite K] in
 theorem yamadaR₆_le_normalizer_yamadaL₂ (h : Setup G L f t) (d : G2Data L K) :
     yamadaR₆ d t ≤ normalizer (yamadaL₂ d t : Set G) :=
   sup_le (yamadaL₆_le d t) (h.S_le_normalizer_yamadaL₂ d)
@@ -218,7 +222,7 @@ theorem yamadaR₆_le_normalizer_yamadaX₂ (hW : CFSG.Walter.WalterOrderForm) (
   have hEF : (yamadaX₂ d t).map (MulAut.conj g).toMonoidHom ≤ yamadaF₂ d t := by
     rw [← map_conj_eq_of_mem_normalizer hgF]
     exact map_mono hP.le_right
-  haveI := isElementaryAbelian_map_conj hP.isElementaryAbelian_right g
+  have := isElementaryAbelian_map_conj hP.isElementaryAbelian_right g
   rcases hP.le_or_le hEF with hEW | hEX
   · exfalso
     have hEq : (yamadaX₂ d t).map (MulAut.conj g).toMonoidHom = yamadaW₂ d t :=
@@ -261,6 +265,7 @@ theorem eq_or_eq_of_le_yamadaX₂ (h : Setup G L f t) (d : G2Data L K) (hK : Nat
     (fun j hj => J_le_normalizer_rootGroup d isRoot_g2u (hJJ hj))
     (fun j hj => h.J_le_normalizer_yamadaY₂ d hK hD (hJJ hj)) htr hYA hAX hJ
 
+omit [Finite G] [Finite K] in
 theorem yamadaF₂_le_yamadaM₂ (d : G2Data L K) (t : G) : yamadaF₂ d t ≤ yamadaM₂ d t :=
   sup_le_sup_right d.inclusions.2.2.2.2.2.2.1 _
 
@@ -367,6 +372,7 @@ theorem commutator_yamadaM₂_yamadaL₆ (hW : CFSG.Walter.WalterOrderForm) (h :
   exact ((sup_le hMC hY₂C : yamadaM₂ d t ≤ centralizerModulo (yamadaY₂ d t) (yamadaL₆ d t)) hm).2
     g hg
 
+omit [Finite K] in
 theorem yamadaL₆_inf_le (d : G2Data L K) (t : G) :
     yamadaL₆ d t ⊓ normalizer ((d.Y ⊔ zpowers t : Subgroup G) : Set G) ≤ yamadaL₂ d t := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -776,7 +782,7 @@ theorem yamada_5_41_3 (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d 
         rwa [inv_mul_cancel_left] at this
     rw [← h.yamadaW₂_inf_centralizer d hK hD]
     exact Subgroup.mem_inf.2 ⟨hxW₂, hxt⟩
-  haveI := hW₃e
+  have := hW₃e
   have hab : ∀ a ∈ yamadaW₃ d t, ∀ b ∈ yamadaW₃ d t, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : yamadaW₃ d t) ⟨b, hb⟩)
   have hae : ∀ a ∈ yamadaW₃ d t, a * a = 1 := fun a ha => by
@@ -874,9 +880,9 @@ theorem card_normalizer_yamadaL₃_lt (hW : CFSG.Walter.WalterOrderForm) (h : Se
     have h1 := (hΦ q.out q'.out).1 hqq'
     rw [← QuotientGroup.out_eq' q, ← QuotientGroup.out_eq' q']
     exact QuotientGroup.eq.2 (mem_subgroupOf.2 h1)
-  haveI := Fintype.ofFinite (normalizer (yamadaL₃ d t : Set G) ⧸
+  have := Fintype.ofFinite (normalizer (yamadaL₃ d t : Set G) ⧸
       (normalizer (yamadaV₂ d t : Set G)).subgroupOf (normalizer (yamadaL₃ d t : Set G)))
-  haveI := Fintype.ofFinite (yamadaL₃ d t ⧸ (yamadaW₃ d t).subgroupOf (yamadaL₃ d t))
+  have := Fintype.ofFinite (yamadaL₃ d t ⧸ (yamadaW₃ d t).subgroupOf (yamadaL₃ d t))
   have hlt : Nat.card (normalizer (yamadaL₃ d t : Set G) ⧸
       (normalizer (yamadaV₂ d t : Set G)).subgroupOf (normalizer (yamadaL₃ d t : Set G))) <
       Nat.card (yamadaL₃ d t ⧸ (yamadaW₃ d t).subgroupOf (yamadaL₃ d t)) := by

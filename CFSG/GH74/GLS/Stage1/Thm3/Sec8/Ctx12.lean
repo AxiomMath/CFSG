@@ -140,7 +140,7 @@ theorem card_W₂V₂ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W
     _ ≤ Nat.card ↥(W₂ ⊔ Vof S K₂ W₁) * 2 := Nat.mul_le_mul_left _ h2
     _ = 2 * Nat.card ↥(W₂ ⊔ Vof S K₂ W₁) := by ring
 
-theorem card_cent_W₂_le (hII : II4_4_4_center) (hq : II4_4_quat)
+theorem card_cent_W₂_le (_hII : II4_4_4_center) (_hq : II4_4_quat)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {w : G} (hw : w ∈ conjugate W₂ h) :
     Nat.card ↥(Wsub S U ⊓ centralizer (W₂ : Set G)) ≤
       Nat.card ↥(Wsub S U ⊓ centralizer ({w} : Set G)) := by

@@ -180,7 +180,6 @@ theorem exists_mulEquiv_of_commGraphIso {G₁ G₂ : Type} [Group G₁] [Group G
     rw [Equiv.symm_apply_apply]
     change (β (ρ₁ u x) : G₂) = ((ρ₂ (β u)) (β x) : G₂)
     rw [key u x]
-    change (β u : G₂) * (β x : G₂) * (β u : G₂) = ((ρ₂ (β u)) (β x) : G₂)
     change (β u : G₂) * (β x : G₂) * (β u : G₂) =
       (β u : G₂) * (β x : G₂) * ((β u : G₂))⁻¹
     rw [h₂.oddT.inv_eq (β u).2]

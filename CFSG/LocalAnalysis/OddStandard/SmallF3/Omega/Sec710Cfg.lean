@@ -57,7 +57,7 @@ theorem sec710_wt4_mem_class [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P)
     ((hF.pocket_P G L hL (φ (wt4 i)) hmemL).mp htype).2
 
 theorem sec710_M_perm [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P) (hF : Asc82AutFacts)
-    (hP7 : Asc82Tab7P) (h78 : Asc82Lemma78) (h710b : Asc82Lemma710b) (h710c : Asc82Lemma710c)
+    (hP7 : Asc82Tab7P) (_h78 : Asc82Lemma78) (h710b : Asc82Lemma710b) (h710c : Asc82Lemma710c)
     {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G} (hc : Sec7Choice G t L S z g B)
     {φ : (Fin 5 → ZMod 2) → G}
     (hφ : IsPermModuleVia IsEvenVec φ B (L ⊓ normalizer (B : Set G)) ⊤) :

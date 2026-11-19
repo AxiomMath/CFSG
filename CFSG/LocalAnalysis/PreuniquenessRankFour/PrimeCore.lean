@@ -200,7 +200,7 @@ theorem normal_prime_section_le_of_rank_three_elementary
   let liftedSylow := (sourceSylow : Subgroup source).map source.subtype
   have hjoinGroup : IsPGroup prime (elementary ⊔ liftedSylow : Subgroup ambient) :=
     IsPGroup.to_sup_of_normal_right' (IsPGroup.of_card hcard)
-      (sourceSylow.isPGroup'.map source.subtype) hnormalized
+      (sourceSylow.isPGroup.map source.subtype) hnormalized
   have hjoinRank : 3 ≤ pRank prime
       ((elementary ⊔ liftedSylow : Subgroup ambient) ⊓ overgroup) := by
     exact hrank.trans (le_csSup (pRank_bddAbove prime hprime _)
@@ -377,7 +377,7 @@ theorem pRank_quotient_map_of_coprime_normal
     obtain ⟨sourceSylow, hsourceSylow⟩ :=
       Sylow.mapSurjective_surjective (hom.subgroupMap_surjective subgroup) prime quotientSylow
     let liftedSylow := (sourceSylow : Subgroup subgroup).map subgroup.subtype
-    have hsylowGroup : IsPGroup prime liftedSylow := sourceSylow.isPGroup'.map subgroup.subtype
+    have hsylowGroup : IsPGroup prime liftedSylow := sourceSylow.isPGroup.map subgroup.subtype
     let sylowHom := hom.subgroupMap liftedSylow
     have hsylowInjective : Function.Injective sylowHom :=
       pGroup_quotient_subgroupMap_injective_of_coprime_kernel prime hprime normal hcoprime
@@ -489,7 +489,7 @@ theorem sylow_quotient_equivalence_of_coprime_kernel
     change (↑quotientSylow : Subgroup (source ⧸ normal)) = ⊤
     exact quotientSylow.maximal_isPGroup.eq_of_le (hquotient.to_subgroup ⊤) le_top
   have hinjective := pGroup_quotient_subgroupMap_injective_of_coprime_kernel prime
-    Fact.out normal hcoprime (sylow : Subgroup source) sylow.isPGroup'
+    Fact.out normal hcoprime (sylow : Subgroup source) sylow.isPGroup
   let imageEquivalence := MulEquiv.ofBijective (hom.subgroupMap (sylow : Subgroup source))
     ⟨hinjective, hom.subgroupMap_surjective (sylow : Subgroup source)⟩
   let topEquivalence : ((sylow : Subgroup source).map hom) ≃* (⊤ : Subgroup (source ⧸ normal)) :=

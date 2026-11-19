@@ -31,7 +31,7 @@ theorem polar8_apply (z z' : OmI → F) :
 
 theorem polar8_eU (z : OmI → F) : polar8 b c z eU = b * z vI := by
   rw [polar8_apply]
-  simp [eU, Pi.single_apply]
+  simp [eU]
 
 end Polar
 
@@ -50,13 +50,16 @@ variable {F : Type} [Field F] [CharP F 2] {b c : F}
       Matrix.one_mulVec] at h
     exact h.symm⟩
 
+omit [CharP F 2] in
 theorem stabW_iso {A : GL OmI F} (hA : A ∈ stabW F b c) (v : OmI → F) :
     StatedQuadMinus 4 F b c ((A : Matrix OmI OmI F) *ᵥ v) = StatedQuadMinus 4 F b c v :=
   hA.1 v
 
+omit [CharP F 2] in
 theorem stabW_eU {A : GL OmI F} (hA : A ∈ stabW F b c) : (A : Matrix OmI OmI F) *ᵥ eU = eU :=
   hA.2
 
+omit [CharP F 2] in
 theorem polar8_mulVec {A : GL OmI F} (hA : A ∈ stabW F b c) (z z' : OmI → F) :
     polar8 b c ((A : Matrix OmI OmI F) *ᵥ z) ((A : Matrix OmI OmI F) *ᵥ z') = polar8 b c z z' := by
   unfold polar8
@@ -68,6 +71,7 @@ theorem stabW_vcoord (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c) (z :
   rw [stabW_eU hA, polar8_eU, polar8_eU] at h
   exact mul_left_cancel₀ hb h
 
+omit [CharP F 2] in
 theorem stabW_col_u {A : GL OmI F} (hA : A ∈ stabW F b c) (i : OmI) :
     (A : Matrix OmI OmI F) i uI = if i = uI then 1 else 0 := by
   have h := congrFun (stabW_eU hA) i
@@ -108,9 +112,11 @@ theorem e6_ne_vI (p : Fin 3 ⊕ Fin 3) : e6 p ≠ vI := by
 @[expose] def zblk (A : Matrix OmI OmI F) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F :=
   A.submatrix e6 e6
 
+omit [CharP F 2] in
 theorem zblk_one : zblk (1 : Matrix OmI OmI F) = 1 :=
   Matrix.submatrix_one e6 e6_injective
 
+omit [CharP F 2] in
 theorem zblk_mul {A B : Matrix OmI OmI F} (hA : ∀ p, A (e6 p) uI = 0)
     (hB : ∀ q, B vI (e6 q) = 0) : zblk (A * B) = zblk A * zblk B := by
   ext p q
@@ -130,8 +136,8 @@ theorem zblk_mul {A B : Matrix OmI OmI F} (hA : ∀ p, A (e6 p) uI = 0)
   map_one' := zblk_one
   map_mul' A B := by
     rw [Subgroup.coe_mul, Units.val_mul]
-    exact zblk_mul (fun p => by rw [stabW_col_u A.2, if_neg (e6_ne_uI p)])
-      (fun q => by rw [stabW_row_v hb B.2, if_neg (e6_ne_vI q)])
+    exact zblk_mul (fun p => by rw [stabW_col_u A.2, ite_eq_right (e6_ne_uI p)])
+      (fun q => by rw [stabW_row_v hb B.2, ite_eq_right (e6_ne_vI q)])
 
 @[expose] def rho (hb : b ≠ 0) : ↥(stabW F b c) →* GL (Fin 3 ⊕ Fin 3) F :=
   (rho0 hb).toHomUnits
@@ -149,8 +155,10 @@ variable {F : Type} [Field F] [CharP F 2] {b c : F}
 @[expose] def emb (z : Fin 3 ⊕ Fin 3 → F) : OmI → F :=
   Sum.elim (fun i => z (Sum.inl i)) (Sum.elim (fun i => z (Sum.inr i)) (fun _ => 0))
 
+omit [CharP F 2] in
 theorem emb_uI (z : Fin 3 ⊕ Fin 3 → F) : emb z uI = 0 := rfl
 
+omit [CharP F 2] in
 theorem emb_vI (z : Fin 3 ⊕ Fin 3 → F) : emb z vI = 0 := rfl
 
 @[expose] def bil (z z' : Fin 3 ⊕ Fin 3 → F) : F :=
@@ -158,14 +166,15 @@ theorem emb_vI (z : Fin 3 ⊕ Fin 3 → F) : emb z vI = 0 := rfl
 
 theorem polar8_emb (z z' : Fin 3 ⊕ Fin 3 → F) : polar8 b c (emb z) (emb z') = bil z z' := by
   rw [polar8_apply]
-  simp only [emb_uI, emb_vI, mul_zero, zero_mul, add_zero]
+  simp only [emb_uI, emb_vI, mul_zero, add_zero]
   simp [bil, emb]
 
+omit [CharP F 2] in
 theorem mulVec_emb (z : Fin 3 ⊕ Fin 3 → F) (A : Matrix OmI OmI F) (p : Fin 3 ⊕ Fin 3) :
     (A *ᵥ emb z) (e6 p) = (zblk A *ᵥ z) p := by
   simp only [Matrix.mulVec, dotProduct, zblk, Matrix.submatrix_apply]
   rw [Fintype.sum_sum_type, Fintype.sum_sum_type, Fintype.sum_sum_type (fun q => A (e6 p) (e6 q) * z q)]
-  simp [emb, e6, Fin.sum_univ_two]
+  simp [emb, e6]
 
 theorem polar8_mulVec_emb (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c)
     (z z' : Fin 3 ⊕ Fin 3 → F) :
@@ -179,7 +188,7 @@ theorem polar8_mulVec_emb (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c)
       ((A : Matrix OmI OmI F) *ᵥ emb w) (.inr (.inl k)) =
         (zblk (A : Matrix OmI OmI F) *ᵥ w) (.inr k) :=
     fun w k => mulVec_emb w _ (.inr k)
-  simp only [h1, h2, bil, mul_zero, zero_mul, add_zero]
+  simp only [h1, h2, bil, mul_zero, add_zero]
 
 theorem bil_zblk (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c) (z z' : Fin 3 ⊕ Fin 3 → F) :
     bil (zblk (A : Matrix OmI OmI F) *ᵥ z) (zblk (A : Matrix OmI OmI F) *ᵥ z') = bil z z' := by
@@ -196,6 +205,7 @@ theorem toLinearMap₂'_J (z z' : Fin 3 ⊕ Fin 3 → F) :
   congr 1
   exact Finset.sum_congr rfl (fun x _ => mul_comm _ _)
 
+omit [CharP F 2] in
 theorem mat_eq_of_form {n : Type} [Fintype n] [DecidableEq n] (J g : Matrix n n F)
     (h : ∀ x y, Matrix.toLinearMap₂' F J (g *ᵥ x) (g *ᵥ y) = Matrix.toLinearMap₂' F J x y) :
     gᵀ * J * g = J := by
@@ -238,10 +248,12 @@ theorem rWmat_mul_self : rWmat b * rWmat b = 1 := by
 
 @[expose] def rWGL (b : F) : GL OmI F := ⟨rWmat b, rWmat b, rWmat_mul_self, rWmat_mul_self⟩
 
+omit [CharP F 2] in
 theorem rWmat_apply (b : F) (i j : OmI) :
     rWmat b i j = (if i = j then 1 else 0) + (if uI = i ∧ vI = j then b else 0) := by
   simp [rWmat, Matrix.single, Matrix.one_apply]
 
+omit [CharP F 2] in
 theorem rWmat_mulVec (b : F) (z : OmI → F) (i : OmI) :
     (rWmat b *ᵥ z) i = z i + (if i = uI then b * z vI else 0) := by
   simp only [rWmat, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec, Pi.add_apply,
@@ -262,6 +274,7 @@ theorem OmI_cases (i : OmI) : (∃ p, i = e6 p) ∨ i = uI ∨ i = vI := by
     · exact Or.inr (Or.inl rfl)
     · exact Or.inr (Or.inr rfl)
 
+omit [CharP F 2] in
 theorem quadMinus_of_coords (z : OmI → F) :
     StatedQuadMinus 4 F b c z = z (.inl 0) * z (.inr (.inl 0)) + z (.inl 1) * z (.inr (.inl 1)) +
       z (.inl 2) * z (.inr (.inl 2)) + z uI ^ 2 + b * z uI * z vI + c * z vI ^ 2 := by
@@ -293,20 +306,20 @@ theorem eq_one_or_rWGL (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c)
   have hy : ∀ (q : Fin 3 ⊕ Fin 3) (k : Fin 3), M (.inr (.inl k)) (e6 q) =
       if (Sum.inr k : Fin 3 ⊕ Fin 3) = q then 1 else 0 := fun q k => hzz (.inr k) q
   have hv : ∀ q : Fin 3 ⊕ Fin 3, M vI (e6 q) = 0 := fun q => by
-    rw [hrow, if_neg (e6_ne_vI q)]
+    rw [hrow, ite_eq_right (e6_ne_vI q)]
   have hell : ∀ q, M uI (e6 q) = 0 := by
     intro q
     have h := hiso (e6 q)
     rw [quadMinus_of_coords, quadMinus_of_coords] at h
     simp only [hx, hy, hv] at h
     rcases q with i | i <;> fin_cases i <;> simpa [Pi.single_apply, e6, uI, vI] using h
-  have hvv : M vI vI = 1 := by rw [hrow, if_pos rfl]
+  have hvv : M vI vI = 1 := by rw [hrow, ite_eq_left rfl]
   have h3 : M (.inl 0) vI * M (.inr (.inl 0)) vI + M (.inl 1) vI * M (.inr (.inl 1)) vI +
       M (.inl 2) vI * M (.inr (.inl 2)) vI + M uI vI ^ 2 + b * M uI vI = 0 := by
     have h := hiso vI
     rw [quadMinus_of_coords, quadMinus_of_coords] at h
     simp only [hvv] at h
-    simp [Pi.single_apply, uI, vI] at h
+    simp [uI, vI] at h
     linear_combination h
   have ha : ∀ p, M (e6 p) vI = 0 := by
     intro p
@@ -317,11 +330,11 @@ theorem eq_one_or_rWGL (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c)
     · have h := key (.inr i)
       rw [quadMinus_of_coords, quadMinus_of_coords] at h
       simp only [Pi.add_apply, hx, hy, hv, hell, hvv] at h
-      fin_cases i <;> simp [Pi.single_apply, e6, uI, vI] at h ⊢ <;> linear_combination h - h3
+      fin_cases i <;> simp [e6, uI, vI] at h ⊢ <;> linear_combination h - h3
     · have h := key (.inl i)
       rw [quadMinus_of_coords, quadMinus_of_coords] at h
       simp only [Pi.add_apply, hx, hy, hv, hell, hvv] at h
-      fin_cases i <;> simp [Pi.single_apply, e6, uI, vI] at h ⊢ <;> linear_combination h - h3
+      fin_cases i <;> simp [e6, uI, vI] at h ⊢ <;> linear_combination h - h3
   have hmb : M uI vI = 0 ∨ M uI vI = b := by
     have e0 : M (.inl 0) vI = 0 := ha (.inl 0)
     have e1 : M (.inl 1) vI = 0 := ha (.inl 1)
@@ -341,10 +354,10 @@ theorem eq_one_or_rWGL (hb : b ≠ 0) {A : GL OmI F} (hA : A ∈ stabW F b c)
     · simp [hzz, e6_injective.eq_iff, n1]
     · simp [hcol, e6_ne_uI, n1]
     · simp [ha, e6_ne_vI, n1]
-    · simp [hell, e6_ne_uI, Ne.symm (e6_ne_uI q), n2]
+    · simp [hell, Ne.symm (e6_ne_uI q), n2]
     · simp [hcol]
     · simp
-    · simp [hv, e6_ne_vI, n2, Ne.symm (e6_ne_vI q)]
+    · simp [hv, n2]
     · simp [hrow, huv, huv.symm]
     · simp [hvv]
   rcases hmb with h0 | hb'

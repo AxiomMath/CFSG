@@ -85,9 +85,9 @@ theorem transvection_mem_suppGroup' {f : Module.End K V} {a : V} (ha : f a = a)
     simp
 
 theorem isTv_suppGroup {f : Module.End K V} {a : V} (ha : f a = a)
-    {l : Module.Dual K V} (hl : ∀ v, l (f v) = l v) (hla : l a = 0) :
+    {l : Module.Dual K V} (hl : ∀ _v, l (f _v) = l _v) (hla : l a = 0) :
     IsTv (suppGroup f) a l :=
-  ⟨hla, LinearEquiv.transvection hla, transvection_mem_suppGroup' ha hl hla, fun v => rfl⟩
+  ⟨hla, LinearEquiv.transvection hla, transvection_mem_suppGroup' ha hl hla, fun _v => rfl⟩
 
 theorem transvection_symm_apply' {a : V} {l : Module.Dual K V} (hla : l a = 0) (v : V) :
     (LinearEquiv.transvection hla).symm v = v - l v • a := by

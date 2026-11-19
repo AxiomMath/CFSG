@@ -66,7 +66,7 @@ private theorem sl2_toGL_tv01 {W : Submodule K V} (b : Module.Basis (Fin 2) K W)
   ext i j
   rw [toGL_entry]
   fin_cases i <;> fin_cases j <;>
-    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection, Matrix.single_apply]
+    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection]
 
 private theorem sl2_toGL_tv10 {W : Submodule K V} (b : Module.Basis (Fin 2) K W) (f : W ≃ₗ[K] W)
     (c : K) (h0 : (f (b 0) : V) = (b 0 : V) + c • (b 1 : V)) (h1 : (f (b 1) : V) = (b 1 : V)) :
@@ -76,7 +76,7 @@ private theorem sl2_toGL_tv10 {W : Submodule K V} (b : Module.Basis (Fin 2) K W)
   ext i j
   rw [toGL_entry]
   fin_cases i <;> fin_cases j <;>
-    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection, Matrix.single_apply]
+    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection]
 
 private theorem sl2_exists_dual {e₁ e₂ : V} (hind : LinearIndependent K ![e₁, e₂]) (a₁ a₂ : K) :
     ∃ φ : Module.Dual K V, φ e₁ = a₁ ∧ φ e₂ = a₂ := by

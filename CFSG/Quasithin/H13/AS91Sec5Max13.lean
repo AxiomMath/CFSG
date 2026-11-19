@@ -132,7 +132,7 @@ theorem index_map_G13_inf (hJ : HypJ4 G z) (c : Loc45 G z)
   omega
 
 theorem subgroupOf_eq_of_map_eq (c : Loc45 G z) (N : Subgroup G) (π : ↥N →* J4.M22)
-    (hQXN : Q z ⊔ c.X ≤ N)
+    (_hQXN : Q z ⊔ c.X ≤ N)
     (hker : ∀ n : ↥N, π n = 1 ↔ (n : G) ∈ Q z ⊔ c.X)
     {A B : Subgroup ↥N} (hA : (Q z ⊔ c.X).subgroupOf N ≤ A)
     (hB : (Q z ⊔ c.X).subgroupOf N ≤ B) (h : A.map π = B.map π) : A = B := by
@@ -162,7 +162,7 @@ theorem eq_G13_of_map_eq (c : Loc45 G z) (N : Subgroup G) (π : ↥N →* J4.M22
     (hQXN : Q z ⊔ c.X ≤ N)
     (hker : ∀ n : ↥N, π n = 1 ↔ (n : G) ∈ Q z ⊔ c.X)
     (hidx2 : (c.G13 ⊓ N).relIndex c.G13 = 2) {L : Subgroup G}
-    (hG13L : c.G13 ≤ L) (hLH : L ≤ H z) (hArel : (L ⊓ N).relIndex L ≤ 2)
+    (hG13L : c.G13 ≤ L) (_hLH : L ≤ H z) (hArel : (L ⊓ N).relIndex L ≤ 2)
     (hPeq : ((c.G13 ⊓ N).subgroupOf N).map π = ((L ⊓ N).subgroupOf N).map π) :
     L = c.G13 := by
   have hKA : (Q z ⊔ c.X).subgroupOf N ≤ (L ⊓ N).subgroupOf N := by
@@ -184,7 +184,7 @@ theorem eq_G13_of_map_eq (c : Loc45 G z) (N : Subgroup G) (π : ↥N →* J4.M22
     rw [← hA2]
     exact Subgroup.relIndex_mul_relIndex (H := L ⊓ N) (K := c.G13) (L := L) hHK hG13L
   have hG13le1 : c.G13.relIndex L ≤ 1 := by omega
-  haveI : c.G13.IsFiniteRelIndex L := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : c.G13.IsFiniteRelIndex L := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hpos : 0 < c.G13.relIndex L := Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
   have hG13rel1 : c.G13.relIndex L = 1 := by omega
   exact le_antisymm (Subgroup.relIndex_eq_one.mp hG13rel1) hG13L
@@ -237,7 +237,7 @@ theorem eq_H_of_map_eq_top (c : Loc45 G z) (N : Subgroup G) (π : ↥N →* J4.M
 
 theorem G13_maximal_of_linear
     (hJ : HypJ4 G z) (c : Loc45 G z) (N : Subgroup G) (π : ↥N →* J4.M22)
-    (hNH : N ≤ H z) (hQXN : Q z ⊔ c.X ≤ N) (hidx : N.relIndex (H z) = 2)
+    (_hNH : N ≤ H z) (hQXN : Q z ⊔ c.X ≤ N) (hidx : N.relIndex (H z) = 2)
     (hsurj : Function.Surjective π)
     (hker : ∀ n : ↥N, π n = 1 ↔ (n : G) ∈ Q z ⊔ c.X) :
     ∀ L : Subgroup G, c.G13 ≤ L → L ≤ H z → L = c.G13 ∨ L = H z := by

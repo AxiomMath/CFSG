@@ -122,7 +122,7 @@ section Rank
 
 theorem f4EightPureRank_of_struct (hS : F4EightStruct) : F4EightPureRank := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro K _ _ hq hLie k hk3 J hJ hJU E hEel hkE hpure h27
   refine relIndex_ge_of_inf_le_zpowers E J k hk3 ?_ h27
   intro e he

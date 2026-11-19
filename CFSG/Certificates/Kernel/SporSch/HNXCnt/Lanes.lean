@@ -60,16 +60,16 @@ theorem lanes_or_single {w n r0 v e : Nat} {h : Nat → Nat} (hw : 0 < w)
       rcases h1 with h1 | h1 <;> simp [ht, htr, h1]
   · have htr : t ≠ r0 := by omega
     have h1 : t - r0 ≠ 0 := by omega
-    simp [ht, htr, h1]
+    simp [ht, h1]
 
 theorem lanes_sum_ext {m M : Nat} (hm : m ≤ M) (F : Nat → Nat) :
     ∑ r ∈ range M, (if r < m then F r else 0) = ∑ r ∈ range m, F r := by
   obtain ⟨e, rfl⟩ : ∃ e, M = m + e := ⟨M - m, by omega⟩
   rw [Finset.sum_range_add]
   have h2 : ∑ x ∈ range e, (if m + x < m then F (m + x) else 0) = 0 :=
-    Finset.sum_eq_zero fun x _ => if_neg (by omega)
+    Finset.sum_eq_zero fun x _ => ite_eq_right (by omega)
   rw [h2, Nat.add_zero]
-  exact Finset.sum_congr rfl fun r hr => if_pos (Finset.mem_range.1 hr)
+  exact Finset.sum_congr rfl fun r hr => ite_eq_left (Finset.mem_range.1 hr)
 
 theorem lanes_dm (x a b c : Nat) (h : b + c ≤ a) : x % 2 ^ a / 2 ^ b % 2 ^ c = x / 2 ^ b % 2 ^ c := by
   apply Nat.eq_of_testBit_eq
@@ -94,25 +94,27 @@ theorem lanes_rows (m : Nat) (G : Nat → Nat) :
   congr 2
   ring
 
+set_option exponentiation.threshold 1729 in
 theorem lanes_rec_or {f : Nat → Nat} (hf : ∀ r < 64, f r < 2 ^ 1729) : ∀ c ≤ 64,
     Nat.rec (motive := fun _ => Nat) (nat_lit 0)
       (fun r acc => Nat.lor acc (Nat.shiftLeft (f r) (Nat.mul (nat_lit 1729) r))) c =
       ∑ r ∈ range 64, (if r < c then f r else 0) * 2 ^ (1729 * r) := by
   refine lanes_rec_inv (P := fun c acc => acc = ∑ r ∈ range 64, (if r < c then f r else 0) *
     2 ^ (1729 * r)) ?_ ?_
-  · exact (Finset.sum_eq_zero fun r _ => by rw [if_neg (Nat.not_lt_zero r), Nat.zero_mul]).symm
+  · exact (Finset.sum_eq_zero fun r _ => by rw [ite_eq_right (Nat.not_lt_zero r), Nat.zero_mul]).symm
   · intro i hi acc hacc
     rw [hacc]
     refine (lanes_or_single (r0 := i) (by omega) (fun r hr => by
       split
       · exact hf r hr
-      · exact Nat.two_pow_pos _) (if_neg (Nat.lt_irrefl i)) hi (hf i hi) rfl).trans ?_
+      · exact Nat.two_pow_pos _) (ite_eq_right (Nat.lt_irrefl i)) hi (hf i hi) rfl).trans ?_
     refine Finset.sum_congr rfl fun r _ => ?_
     by_cases h : r = i
     · subst h; simp
     · have : (r < i + 1) = (r < i) := propext (by omega)
       simp [h, this]
 
+set_option exponentiation.threshold 1729 in
 theorem leafA_eq {CM3 M : Nat} (hc : constsOK CM3 M = true) (L c : Nat) (hc64 : c ≤ 64) :
     leafA L 464 c M = ∑ r ∈ Finset.range 64,
       (if r < c then L / 2 ^ (464 * r) % 2 ^ 399 else 0) * 2 ^ (1729 * r) := by
@@ -128,6 +130,7 @@ theorem leafA_eq {CM3 M : Nat} (hc : constsOK CM3 M = true) (L c : Nat) (hc64 : 
   rw [fldW_eq]
   rfl
 
+set_option exponentiation.threshold 1729 in
 theorem lanes_CM3 {CM3 M : Nat} (hc : constsOK CM3 M = true) :
     CM3 = ∑ r ∈ range 64, 7 * 2 ^ (1729 * r) := by
   unfold constsOK at hc
@@ -137,7 +140,7 @@ theorem lanes_CM3 {CM3 M : Nat} (hc : constsOK CM3 M = true) :
     exact Nat.lt_of_lt_of_le (by norm_num : 7 < 2 ^ 3) (Nat.pow_le_pow_right (by omega) (by omega)))
     64 le_rfl).trans ?_
   refine Finset.sum_congr rfl fun r hr => ?_
-  rw [if_pos (Finset.mem_range.1 hr)]
+  rw [ite_eq_left (Finset.mem_range.1 hr)]
 
 theorem lanes_rec_eq {x N : Nat} {F : Nat → Nat → Nat} {S : Nat → Nat} (h0 : x = S 0)
     (hs : ∀ i < N, ∀ acc, acc = S i → F i acc = S (i + 1)) :
@@ -169,21 +172,21 @@ theorem lanes_trM_inner (W i : Nat) (hi : i < 133) : ∀ j ≤ 133,
   | succ j ih =>
     intro hj'
     have hj : j < 133 := by omega
-    simp only [lanes_rec_succ]
+    simp only
     rw [ih (by omega)]
     have hv : fldW (fldW W (Nat.mul 1729 i) 1729) (Nat.mul 13 j) 13 = ent13 W i j := by
       rw [fldW_eq]
       exact row_lane W i j hj
     refine (lanes_or_single (w := 13) (n := 133 * 133) (r0 := 133 * j + i) (by omega)
-      (fun r _ => by split; exact hE r; exact Nat.two_pow_pos _) (if_neg (by omega))
+      (fun r _ => by split; exact hE r; exact Nat.two_pow_pos _) (ite_eq_right (by omega))
       (by omega) (hv ▸ lanes_ent_lt W i j) (by show 1729 * j + 13 * i = _; ring)).trans ?_
     refine Finset.sum_congr rfl fun u _ => ?_
     by_cases hu : u = 133 * j + i
     · subst hu
       have h1 : (133 * j + i) % 133 = i := by omega
       have h2 : (133 * j + i) / 133 = j := by omega
-      rw [if_pos rfl, if_pos (by omega), h1, h2, hv]
-    · rw [if_neg hu]
+      rw [ite_eq_left rfl, ite_eq_left (by omega), h1, h2, hv]
+    · rw [ite_eq_right hu]
       exact congrArg (· * 2 ^ (13 * u)) (if_congr (by omega) rfl rfl)
 
 theorem lanes_trM_outer (W : Nat) : ∀ n ≤ 133,
@@ -198,9 +201,8 @@ theorem lanes_trM_outer (W : Nat) : ∀ n ≤ 133,
   intro n hn
   refine lanes_rec_eq (N := 133) (S := fun n => ∑ u ∈ range (133 * 133),
     (if u % 133 < n then ent13 W (u % 133) (u / 133) else 0) * 2 ^ (13 * u)) ?_ ?_ n hn
-  · exact (Finset.sum_eq_zero fun r _ => by rw [if_neg (Nat.not_lt_zero _), Nat.zero_mul]).symm
+  · exact (Finset.sum_eq_zero fun r _ => by rw [ite_eq_right (Nat.not_lt_zero _), Nat.zero_mul]).symm
   · intro i hi acc hacc
-    beta_reduce
     rw [loopStrictN_eq, loopStrictN_eq, hacc]
     refine (lanes_trM_inner W i hi (nat_lit 133) (Nat.le_refl _)).trans ?_
     refine Finset.sum_congr rfl fun u hu => ?_
@@ -217,7 +219,7 @@ theorem trM_eq (W : Nat) : trM W = ∑ k ∈ Finset.range 133, ∑ l ∈ Finset.
   unfold trM
   refine (lanes_trM_outer W (nat_lit 133) (Nat.le_refl _)).trans ?_
   rw [Finset.sum_congr rfl fun u _ => congrArg (· * 2 ^ (13 * u))
-      (if_pos (Nat.mod_lt u (by omega)) : (if u % 133 < 133 then ent13 W (u % 133) (u / 133) else 0)
+      (ite_eq_left (Nat.mod_lt u (by omega)) : (if u % 133 < 133 then ent13 W (u % 133) (u / 133) else 0)
         = ent13 W (u % 133) (u / 133)), lanes_rows]
   refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l hl => ?_
   have := Finset.mem_range.1 hl
@@ -247,6 +249,7 @@ theorem validHN_spec {W : Nat} (h : validHN W = true) :
   rw [e]
   exact h2
 
+set_option exponentiation.threshold 229957 in
 theorem canonG_spec {G : Nat} (h : canonG G = true) :
     G = ∑ k ∈ Finset.range 133, ∑ l ∈ Finset.range 133, ent13 G k l * 2 ^ (1729 * k + 13 * l) ∧
       ∀ k < 133, ∀ l < 133, ent13 G k l < 5 := by
@@ -275,20 +278,19 @@ theorem lanes_idBlk (t c : Nat) (htc : 64 * t + c ≤ 133) : ∀ n ≤ c,
   refine lanes_rec_eq (N := c) (S := fun n => ∑ u ∈ range (133 * 133),
     (if u / 133 < n ∧ u % 133 = 64 * t + u / 133 then 1 else 0) * 2 ^ (13 * u)) ?_ ?_ n hn
   · exact (Finset.sum_eq_zero fun r _ => by
-      rw [if_neg (fun h => Nat.not_lt_zero _ h.1), Nat.zero_mul]).symm
+      rw [ite_eq_right (fun h => Nat.not_lt_zero _ h.1), Nat.zero_mul]).symm
   · intro i hi acc hacc
-    beta_reduce
     rw [hacc]
     refine (lanes_or_single (w := 13) (n := 133 * 133) (r0 := 133 * i + (64 * t + i)) (by omega)
-      (fun r _ => by split; exact (by norm_num); exact Nat.two_pow_pos _) (if_neg (by omega))
+      (fun r _ => by split; exact (by norm_num); exact Nat.two_pow_pos _) (ite_eq_right (by omega))
       (by omega) (by norm_num) (by show 1729 * i + 13 * (64 * t + i) = _; ring)).trans ?_
     refine Finset.sum_congr rfl fun u _ => ?_
     by_cases hu : u = 133 * i + (64 * t + i)
-    · rw [if_pos hu, if_pos (by omega)]
-    · rw [if_neg hu]
+    · rw [ite_eq_left hu, ite_eq_left (by omega)]
+    · rw [ite_eq_right hu]
       exact congrArg (· * 2 ^ (13 * u)) (if_congr (by omega) rfl rfl)
 
-theorem idBlk_lane (t c r l : Nat) (hc : c ≤ 64) (hr : r < 64) (hl : l < 133)
+theorem idBlk_lane (t c r l : Nat) (_hc : c ≤ 64) (hr : r < 64) (hl : l < 133)
     (htc : 64 * t + c ≤ 133) :
     idBlk t c / 2 ^ (1729 * r + 13 * l) % 2 ^ 13 = if r < c ∧ l = 64 * t + r then 1 else 0 := by
   have h := lanes_idBlk t c htc c le_rfl
@@ -304,15 +306,17 @@ theorem lanes_qgo_term (T : Nat → Nat) (t r k q : Nat) (Q : List Nat) (hne : 6
       else 0) := by
   rw [List.length_cons]
   by_cases h : k + 1 ≤ 64 * t + r ∧ 64 * t + r < k + 1 + Q.length
-  · rw [if_pos h, if_pos (by omega), show 64 * t + r - k = (64 * t + r - (k + 1)) + 1 by omega,
+  · rw [ite_eq_left h, ite_eq_left (by omega), show 64 * t + r - k = (64 * t + r - (k + 1)) + 1 by omega,
       List.getElem!_cons_succ]
-  · rw [if_neg h, if_neg (by omega)]
+  · rw [ite_eq_right h, ite_eq_right (by omega)]
 
+set_option exponentiation.threshold 399 in
 theorem lanes_xv_lt (T : Nat → Nat) (q : Nat) : xv T q < 2 ^ 399 := by
   unfold xv
   rw [fldW_eq]
   exact Nat.mod_lt _ (Nat.two_pow_pos _)
 
+set_option exponentiation.threshold 1729 in
 theorem lanes_qgo (T : Nat → Nat) (t : Nat) : ∀ (Q : List Nat) (k : Nat),
     List.rec (motive := fun _ => Nat → Nat) (fun _ => nat_lit 0)
       (fun q _ ih k => strictN (ih (Nat.succ k)) (fun rest =>
@@ -326,7 +330,7 @@ theorem lanes_qgo (T : Nat → Nat) (t : Nat) : ∀ (Q : List Nat) (k : Nat),
   | nil =>
     intro k
     exact (Finset.sum_eq_zero fun r _ => by
-      rw [if_neg (by simp), Nat.zero_mul]).symm
+      rw [ite_eq_right (by simp), Nat.zero_mul]).symm
   | cons q Q ih =>
     intro k
     dsimp only
@@ -351,7 +355,7 @@ theorem lanes_qgo (T : Nat → Nat) (t : Nat) : ∀ (Q : List Nat) (k : Nat),
         exact this
       dsimp only
       refine (lanes_or_single (w := 1729) (n := 64) (r0 := k % 64) (by omega) hh
-        (if_neg (by omega)) (Nat.mod_lt _ (by omega))
+        (ite_eq_right (by omega)) (Nat.mod_lt _ (by omega))
         (Nat.lt_of_lt_of_le (lanes_xv_lt T q) (Nat.pow_le_pow_right (by omega) (by omega)))
         (by
           show 1729 * (k &&& 63) = _
@@ -359,9 +363,9 @@ theorem lanes_qgo (T : Nat → Nat) (t : Nat) : ∀ (Q : List Nat) (k : Nat),
       refine Finset.sum_congr rfl fun r hr => ?_
       have := Finset.mem_range.1 hr
       by_cases hr0 : r = k % 64
-      · rw [if_pos hr0, List.length_cons, if_pos (by omega), show 64 * t + r - k = 0 by omega,
+      · rw [ite_eq_left hr0, List.length_cons, ite_eq_left (by omega), show 64 * t + r - k = 0 by omega,
           List.getElem!_cons_zero]
-      · rw [if_neg hr0, lanes_qgo_term T t r k q Q (by omega)]
+      · rw [ite_eq_right hr0, lanes_qgo_term T t r k q Q (by omega)]
 
 theorem qBlk_eq (T : Nat → Nat) (Q : List Nat) (t : Nat) :
     qBlk T Q t = ∑ r ∈ Finset.range 64,
@@ -371,6 +375,7 @@ theorem qBlk_eq (T : Nat → Nat) (Q : List Nat) (t : Nat) :
   rw [Nat.sub_zero, Nat.zero_add]
   exact congrArg (· * 2 ^ (1729 * r)) (if_congr (by omega) rfl rfl)
 
+set_option exponentiation.threshold 1729 in
 theorem lanes_col {CM3 M A : Nat} (hc : constsOK CM3 M = true) {a : Nat → Nat}
     (hA : A = ∑ r ∈ Finset.range 64, a r * 2 ^ (1729 * r)) (ha : ∀ r < 64, a r < 2 ^ 399)
     {k : Nat} (hk : k < 133) :
@@ -391,7 +396,7 @@ theorem lanes_col {CM3 M A : Nat} (hc : constsOK CM3 M = true) {a : Nat → Nat}
   intro i b hbw
   rw [Nat.testBit_and, Nat.testBit_shiftRight, FC i b hbw]
   by_cases hi : i < 64
-  · simp only [hi, if_true]
+  · simp only [hi, ite_true]
     rw [show (7 : Nat) = 2 ^ 3 - 1 by norm_num, Nat.testBit_two_pow_sub_one,
       show (8 : Nat) = 2 ^ 3 by norm_num, Nat.testBit_mod_two_pow, Nat.testBit_div_two_pow]
     by_cases hb3 : b < 3
@@ -411,7 +416,6 @@ theorem lanes_rowG {G : Nat} {g : Nat → Nat → Nat}
     rw [lanes_rows, hG]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j hj => ?_
     obtain ⟨e1, e2⟩ := lanes_dm133 (i := i) (Finset.mem_range.1 hj)
-    beta_reduce
     rw [e1, e2]
   have hb : ∀ t < 133 * 133, g (t / 133) (t % 133) < 2 ^ 13 := fun t ht =>
     hg _ (by omega) _ (by omega)
@@ -449,14 +453,14 @@ theorem lanes_U (c g : Nat → Nat → Nat) :
         rw [lanes_rows]
         refine Finset.sum_congr rfl fun i _ => ?_
         by_cases hi : i < 64
-        · rw [if_pos hi]
+        · rw [ite_eq_left hi]
           refine Finset.sum_congr rfl fun j hj => ?_
           obtain ⟨e1, e2⟩ := lanes_dm133 (i := i) (Finset.mem_range.1 hj)
-          rw [e1, e2, if_pos hi]
-        · rw [if_neg hi]
+          rw [e1, e2, ite_eq_left hi]
+        · rw [ite_eq_right hi]
           refine (Finset.sum_eq_zero fun j hj => ?_).symm
           obtain ⟨e1, e2⟩ := lanes_dm133 (i := i) (Finset.mem_range.1 hj)
-          rw [e1, if_neg hi, Nat.zero_mul]
+          rw [e1, ite_eq_right hi, Nat.zero_mul]
 
 theorem lanes_mulC_rec (A G CM3 RM n : Nat) :
     Nat.rec (motive := fun _ => Nat) (nat_lit 0)
@@ -509,13 +513,13 @@ theorem mulC_lane {CM3 M A G : Nat} (hc : constsOK CM3 M = true) {a : Nat → Na
   rw [hrec, hRM, hU, hL, hH, hR, show 1729 * r + 13 * l = 13 * (133 * r + l) by ring,
     lanes_lane (fun t _ => Nat.lt_of_lt_of_le (Nat.mod_lt _ (by omega)) (by norm_num)) (by omega)]
   obtain ⟨e1, e2⟩ := lanes_dm133 (i := r) hl
-  beta_reduce
-  rw [e1, e2, if_pos hr]
+  rw [e1, e2, ite_eq_left hr]
 
 theorem lanes_lenQ : ∀ Q : List Nat, lenQ Q = Q.length
   | [] => rfl
   | _ :: Q => congrArg Nat.succ (lanes_lenQ Q)
 
+set_option exponentiation.threshold 399 in
 theorem lanes_blk {T : Nat → Nat} {CM3 M : Nat} (hc : constsOK CM3 M = true) {Q : List Nat}
     {G t c : Nat} (hlen : Q.length = 133) (hG : canonG G = true)
     (hm : mulC CM3 (qBlk T Q t) G = idBlk t c) (hc64 : c ≤ 64) (htc : 64 * t + c ≤ 133) :
@@ -531,8 +535,7 @@ theorem lanes_blk {T : Nat → Nat} {CM3 M : Nat} (hc : constsOK CM3 M = true) {
     · exact Nat.two_pow_pos _
   have h1 := mulC_lane hc (qBlk_eq T Q t) ha hGe hGl r (by omega) l hl
   rw [hm, idBlk_lane t c r l hc64 (by omega) hl htc] at h1
-  beta_reduce at h1
-  rw [if_pos (show 64 * t + r < Q.length by omega)] at h1
+  rw [ite_eq_left (show 64 * t + r < Q.length by omega)] at h1
   unfold xe
   rw [← h1]
   exact if_congr (by omega) rfl rfl

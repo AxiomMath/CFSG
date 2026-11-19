@@ -21,8 +21,7 @@ private theorem cayley_fin_two (M : Matrix (Fin 2) (Fin 2) K) :
     M * M = M.trace • M - M.det • (1 : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.det_fin_two] <;> ring
 
 private theorem anticomm_fin_two {A B : Matrix (Fin 2) (Fin 2) K} (hA : A.trace = 0)
     (hB : B.trace = 0) :
@@ -32,7 +31,7 @@ private theorem anticomm_fin_two {A B : Matrix (Fin 2) (Fin 2) K} (hA : A.trace 
   have hB' : B 1 1 = -B 0 0 := by linear_combination hB
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, Matrix.one_apply, hA', hB'] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.trace_fin_two, hA', hB'] <;>
     ring
 
 private theorem eq_zero_of_smul_eq_smul_one {M : Matrix (Fin 2) (Fin 2) K}
@@ -55,7 +54,7 @@ private theorem trace_of_cube {Y : Matrix (Fin 2) (Fin 2) K} (hdet : Y.det = 1)
   have h1 : (Y.trace ^ 2 - 1) • Y = (1 + Y.trace) • (1 : Matrix (Fin 2) (Fin 2) K) := by
     have e : Y * Y * Y = (Y.trace ^ 2 - 1) • Y - Y.trace • (1 : Matrix (Fin 2) (Fin 2) K) := by
       rw [hcay]
-      simp only [sub_mul, smul_mul_assoc, one_smul, one_mul, mul_sub, mul_smul_comm, mul_one]
+      simp only [sub_mul, smul_mul_assoc, one_smul, one_mul]
       rw [hcay]
       module
     rw [e, sub_eq_iff_eq_add] at h3
@@ -79,7 +78,7 @@ private theorem eq_smul_of_commute {Y G : Matrix (Fin 2) (Fin 2) K} (h2 : (2 : K
     eq_neg_of_add_eq_zero_left (by rw [← add_assoc]; exact hY2)
   have hhh : h * h = (-3 : K) • (1 : Matrix (Fin 2) (Fin 2) K) := by
     rw [hh]
-    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul]
+    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one]
     rw [hYY]
     module
   have hGh : G * h = h * G := by
@@ -269,6 +268,7 @@ private theorem exists_pglAction_of_autFieldPart_eq_one {x : PSL2 K} {α : MulAu
     rw [hαx] at h2
     exact mul_inv_eq_iff_eq_mul.mp h2.symm
 
+omit [Finite K] in
 theorem eq_of_commute_toPGL (hK2 : ringChar K ≠ 2) (hK3 : ringChar K ≠ 3) {x : PSL2 K}
     (hx : orderOf x = 3) {g₁ g₂ : PGL2 K} (h₁ : g₁ * g₁ = 1) (h₁1 : g₁ ≠ 1)
     (hc₁ : g₁ * Matrix.ProjectiveSpecialLinearGroup.toPGL x =
@@ -289,6 +289,7 @@ theorem eq_of_commute_toPGL (hK2 : ringChar K ≠ 2) (hK3 : ringChar K ≠ 3) {x
       div_mul_cancel₀ _ hc₁0]
   rw [this, map_mul, Matrix.ProjGenLinGroup.mk_scalar, one_mul]
 
+omit [Finite K] in
 theorem exists_toPGL_eq_of_commute_toPGL (hK2 : ringChar K ≠ 2) (hK3 : ringChar K ≠ 3)
     (h3 : IsSquare (3 : K)) {x : PSL2 K} (hx : orderOf x = 3) {g : PGL2 K} (hg : g * g = 1)
     (hg1 : g ≠ 1)
@@ -320,7 +321,7 @@ theorem exists_toPGL_eq_of_commute_toPGL (hK2 : ringChar K ≠ 2) (hK3 : ringCha
 
 theorem even_of_ringEquiv {p n : ℕ} (hp : p.Prime) (hK : Nat.card K = p ^ n) {σ : K ≃+* K}
     (hσ1 : σ ≠ 1) (hσ2 : σ * σ = 1) : Even n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic hp K hK).1
   have hord : orderOf σ = 2 := orderOf_eq_prime (by rwa [sq]) hσ1
   have hdvd : 2 ∣ n := by
@@ -332,8 +333,8 @@ theorem isSquare_three_of_ringEquiv (hK2 : ringChar K ≠ 2) {σ : K ≃+* K} (h
     (hσ2 : σ * σ = 1) : IsSquare (3 : K) := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpchar, n, hp, hcard⟩ := FiniteField.card' K
-  haveI := hpchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hpchar
+  have : Fact p.Prime := ⟨hp⟩
   have hK : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   have hn : Even (n : ℕ) := even_of_ringEquiv hp hK hσ1 hσ2
   have hp2 : p ≠ 2 := by rw [← ringChar.eq K p]; exact hK2

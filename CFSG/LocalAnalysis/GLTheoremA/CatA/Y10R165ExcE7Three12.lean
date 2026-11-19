@@ -39,7 +39,7 @@ theorem exists_mem_selection (F : E7ThreeFrame K L ℓ f p ε) (hf : 1 ≤ f)
       rootDiagUnit Tag.E7 (fun i => ζ ^
         (e7T3XColumn ε (Nat.card K : ZMod p) i).val) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have htord : orderOf (rootDiagUnit Tag.E7 (fun i => ζ ^
       (e7T3XColumn ε (Nat.card K : ZMod p) i).val)) = p := by
     rw [orderOf_rootDiagUnit]
@@ -56,7 +56,7 @@ theorem exists_mem_selection (F : E7ThreeFrame K L ℓ f p ε) (hf : 1 ≤ f)
       (rootDiagUnit Tag.E7 (fun i => ζ ^
         (e7T3XColumn ε (Nat.card K : ZMod p) i).val))).trans htord
   have hxord : orderOf (c⁻¹ * x₀ * c) = p := by
-    rw [show c⁻¹ * x₀ * c = MulAut.conj c⁻¹ x₀ by simp [MulAut.conj_apply]]
+    rw [show c⁻¹ * x₀ * c = MulAut.conj c⁻¹ x₀ by simp]
     exact (orderOf_injective (MulAut.conj c⁻¹).toMonoidHom (MulAut.conj c⁻¹).injective
       x₀).trans hx₀ord
   have hxpsi : psiC F.g0 c (c⁻¹ * x₀ * c) = rootDiagUnit Tag.E7 (fun i => ζ ^

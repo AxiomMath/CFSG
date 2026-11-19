@@ -25,7 +25,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G} {q : ℕ}
 
 theorem genByOrderThree_opp (S : Slice D L D₃ Y H q) {E : Subgroup G} (hEX : E ≤ Opp 3 Y)
     (hE3 : Nat.card E = 3) : Opp 3 Y ≤ closure {x : G | x ∈ Opp 3 Y ∧ orderOf x = 3} := by
-  haveI : IsSimpleGroup (Bar2 (Opp 3 Y)) :=
+  have : IsSimpleGroup (Bar2 (Opp 3 Y)) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide)
       S.shape_opp
   have h3 : 3 ∣ Nat.card ↥(Opp 3 Y) := (dvd_of_eq hE3.symm).trans (Subgroup.card_dvd_of_le hEX)
@@ -47,7 +47,7 @@ theorem genByOrderThree_opp (S : Slice D L D₃ Y H q) {E : Subgroup G} (hEX : E
 
 theorem isSimpleGroup_Lbar9 (S : Slice D L D₃ Y H q) {E : Subgroup G}
     (hyp : F09.Hyp91 D Y H E) : IsSimpleGroup (F09.Lbar9 Y H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXH : Opp 3 Y ≤ H := (F09.opp_le_self 3 Y).trans hyp.2.1.1
   have hLH : F09.L9 Y H ≤ H := iSup_le fun h => by
     rintro _ ⟨x, hx, rfl⟩
@@ -82,7 +82,7 @@ theorem isSimpleGroup_Lbar9 (S : Slice D L D₃ Y H q) {E : Subgroup G}
     have h4 := orderOf_dvd_natCard (⟨⟨e, hLH heL⟩, h3⟩ : ↥(CFSG.pPrimeCore 3 ↥H))
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_mk, Subgroup.orderOf_coe, he] at h4
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card h4
-  haveI : Nontrivial (F09.Lbar9 Y H) := ⟨⟨_, _, hφe⟩⟩
+  have : Nontrivial (F09.Lbar9 Y H) := ⟨⟨_, _, hφe⟩⟩
   refine CFSG.GroupTheory.ThreeTranspositions.isSimpleGroup_of_generated_by_order_three
     (F09.not_hasE9_Lbar9 hyp) (F09.pPrimeCore_Lbar9 hyp.2.1.1)
     (S := φ '' {x | orderOf x = 3}) ?_ ?_

@@ -192,7 +192,7 @@ theorem not_central_sylow_quotient [Finite F] (R : Subgroup F) [R.Normal]
     exact ha)
   obtain ⟨P', hP'⟩ := hza.exists_le_sylow
   set P := (P' : Subgroup T').map T'.subtype with hPdef
-  have hP2 : IsPGroup 2 P := P'.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := P'.isPGroup.map _
   have hPidx : ¬ 2 ∣ P.index := by
     have h1 := index_map_subtype (P' : Subgroup T')
     have h2 : T'.index = (T : Subgroup (F ⧸ R)).index :=

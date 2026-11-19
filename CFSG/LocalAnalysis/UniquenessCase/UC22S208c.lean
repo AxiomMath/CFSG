@@ -13,9 +13,11 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def s208Delta (N K : Subgroup G) : Set (Subgroup G) :=
   {C | ∃ g ∈ N, C = uc22p20bCj g K}
 
+omit [Finite G] in
 theorem s208c_mem_delta_self {N K : Subgroup G} : K ∈ s208Delta N K :=
   ⟨1, N.one_mem, (uc22p20b_cj_one K).symm⟩
 
+omit [Finite G] in
 theorem s208c_cj_mem_delta {N K C : Subgroup G} (hC : C ∈ s208Delta N K) {g : G} (hg : g ∈ N) :
     uc22p20bCj g C ∈ s208Delta N K := by
   obtain ⟨h, hh, rfl⟩ := hC
@@ -83,7 +85,7 @@ theorem s208c_delta_subset : s208Delta N K ⊆ s208Comps D N := by
   exact s208b_cj_mem_comps D h1930 h204 (s208a_mem_hSet_of_mem_calMOf D hL.1 hN)
     (s208c_K_mem_comps D h1930 h205 hL hN hK hLK) hg
 
-omit h1930 h205 hL hN hK hLK in
+omit h1930 h205 hL hN hK hLK [Finite G] in
 theorem s208c_le_normalizer_delta : N ≤ normalizer ((sSup (s208Delta N K) : Subgroup G) : Set G) :=
   s208b_le_normalizer_sSup fun _ hg _ hC => s208c_cj_mem_delta hC hg
 

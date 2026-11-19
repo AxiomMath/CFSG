@@ -111,9 +111,9 @@ theorem ggOuterInv_not_isSolvable_of_isComponentOf {G : Type*} [Group G] {L K : 
     (h : IsComponentOf L K) : ¬ Group.IsSolvable L := by
   intro hs
   obtain ⟨-, -, hperf, hsimple⟩ := h
-  haveI : Group.IsPerfect L := ⟨hperf⟩
-  haveI : Nontrivial (L ⧸ Subgroup.center L) := hsimple.toNontrivial
-  haveI : Nontrivial L := by
+  have : Group.IsPerfect L := ⟨hperf⟩
+  have : Nontrivial (L ⧸ Subgroup.center L) := hsimple.toNontrivial
+  have : Nontrivial L := by
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (L ⧸ Subgroup.center L)
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
@@ -311,7 +311,7 @@ theorem ggOuterInvNoneAt_of_modelData
     rw [this, map_one]
   have hαI : α ∉ I := by
     intro hαI
-    haveI := ggOuterInv_conj_range_normal C
+    have := ggOuterInv_conj_range_normal C
     obtain ⟨c, hc⟩ := ggOuterInv_mem_of_mul_self_mem_of_odd hodd hαI (by rw [hα2]; exact Subgroup.one_mem _)
     apply hrG₀
     have h1 : Φ ⟨r, hrN⟩ = Φ ⟨Θ c, Subgroup.le_normalizer (Θ c).2⟩ := by
@@ -336,7 +336,7 @@ theorem ggOuterInvNoneAt_of_modelData
     rw [hc, mul_assoc, mul_inv_cancel, mul_one]
   have hL'ns : ¬ Group.IsSolvable L' := by
     intro hs
-    haveI := hs
+    have := hs
     apply ggOuterInv_not_isSolvable_of_isComponentOf hL₁
     let φ : L₁ →* L' :=
       { toFun := fun y => ⟨Θ.symm ⟨y, hL₁G₀ y.2⟩, by

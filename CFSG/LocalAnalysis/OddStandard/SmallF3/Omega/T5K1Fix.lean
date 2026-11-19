@@ -13,7 +13,7 @@ theorem t5_perfect_fix_of_finrank_two {A V : Type} [Group A] [AddCommGroup V]
     [Module (ZMod 3) V] (ρ : A →* (V ≃ₗ[ZMod 3] V)) (W : Submodule (ZMod 3) V)
     (hW : Module.finrank (ZMod 3) W = 2) (hinv : ∀ a : A, ∀ w ∈ W, ρ a w ∈ W)
     {P : Subgroup A} (hP : Group.IsPerfect ↥P) : ∀ p ∈ P, ∀ w ∈ W, ρ p w = w := by
-  haveI := hP
+  have := hP
   have hstab : ∀ a : A, W.map (ρ a : V →ₗ[ZMod 3] V) = W := by
     intro a
     refine le_antisymm ?_ ?_
@@ -31,7 +31,7 @@ theorem t5_perfect_fix_of_finrank_two {A V : Type} [Group A] [AddCommGroup V]
       map_mul' := fun a b => by
         refine LinearEquiv.ext fun x => Subtype.ext ?_
         simp [map_mul, LinearEquiv.mul_apply] }
-  haveI : Module.Finite (ZMod 3) W :=
+  have : Module.Finite (ZMod 3) W :=
     Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   let b : Module.Basis (Fin 2) (ZMod 3) W := Module.finBasisOfFinrankEq (ZMod 3) W hW
   let Φ : Matrix.GeneralLinearGroup (Fin 2) (ZMod 3) ≃* (W ≃ₗ[ZMod 3] W) :=

@@ -118,9 +118,9 @@ theorem foldl_toM {l : List Nat} {c : Nat → Prop} [DecidablePred c] {T : Nat �
   | cons x l ih =>
     simp only [List.foldl_cons]
     by_cases hx : c x
-    · rw [if_pos hx, if_pos hx, hT x List.mem_cons_self, ← toM_xor]
+    · rw [ite_eq_left hx, ite_eq_left hx, hT x List.mem_cons_self, ← toM_xor]
       exact ih (fun i hi => hT i (List.mem_cons_of_mem _ hi)) _
-    · rw [if_neg hx, if_neg hx]
+    · rw [ite_eq_right hx, ite_eq_right hx]
       exact ih (fun i hi => hT i (List.mem_cons_of_mem _ hi)) _
 
 theorem term_eq {r t : Nat} (ht : t < 2) (hr : r ∈ noZ4Rels) {i : Nat}
@@ -152,7 +152,7 @@ theorem coeff2_eq (k : Nat) : (coeff2 k).toMat = toM (coeffK k) := by
 
 theorem eL_map {f : Nat → Nat → Nat} {i j : Nat} (hi : i < 10) (hj : j < 10) :
     eL ((List.range 10).map fun i => (List.range 10).map fun j => f i j) i j = f i j := by
-  simp [eL, List.getD_eq_getElem?_getD, List.getElem?_range, hi, hj]
+  simp [eL, List.getD_eq_getElem?_getD, hi, hj]
 
 theorem toM4_mul (A B : List (List Nat)) : toM4 (mul4 A B) = toM4 A * toM4 B := by
   ext i j
@@ -200,10 +200,10 @@ theorem hget (r a b : Nat) :
   have e9 : rels[9]! = wOf 1 := rfl
   rw [hg, qE]
   by_cases hr : r = 1
-  · rw [if_pos hr, if_pos hr, e1, prod4_eq (by norm_num)]
+  · rw [ite_eq_left hr, ite_eq_left hr, e1, prod4_eq (by norm_num)]
     simp only [toM4, Matrix.of_apply, QL]
     rw [eL_map (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))]
-  · rw [if_neg hr, if_neg hr, e9, prod4_eq (by norm_num)]
+  · rw [ite_eq_right hr, ite_eq_right hr, e9, prod4_eq (by norm_num)]
     simp only [toM4, Matrix.of_apply, QL]
     rw [eL_map (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))]
 

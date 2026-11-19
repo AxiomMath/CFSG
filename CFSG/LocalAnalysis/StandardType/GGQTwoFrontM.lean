@@ -41,7 +41,7 @@ theorem qTwoFront_m_ge_five
     {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {𝒦 : Finset (Subgroup G)} (hG : QTwoJoinGuard p B Bs x L D J 𝒦)
     {K : Type} [Field K] [Finite K] {f m : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2) (hm : 4 ≤ m)
-    (hf : f = 1) (hperf : commutator L = ⊤)
+    (hf : f = 1) (_hperf : commutator L = ⊤)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (LargeEvenSUGroup (Fin m) K (2 ^ f))) :
     5 ≤ m := by
   by_contra hlt

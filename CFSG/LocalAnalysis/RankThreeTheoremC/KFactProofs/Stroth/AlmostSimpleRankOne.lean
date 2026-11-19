@@ -16,12 +16,12 @@ theorem false_of_pRank_le_one {X : Type} [Group X] [Finite X] {p : ℕ} {L D : S
     [L.Normal] (hs : IsSimpleGroup L) (hnab : ∃ a b : L, a * b ≠ b * a) (hcat : IsCatalogGroup L)
     (hC : Subgroup.centralizer (L : Set X) = ⊥) (hF : ThompsonFrame p D)
     (hE : NormalizerExponent p D) (hrk : CFSG.Open.pRank p (⊤ : Subgroup L) ≤ 1) : False := by
-  haveI : Fact p.Prime := ⟨hF.prime⟩
+  have : Fact p.Prime := ⟨hF.prime⟩
   have hr : CFSG.pRank p ↥L ≤ 1 := by
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top p ↥L]
     exact hrk
   obtain ⟨P₀⟩ : Nonempty (Sylow p L) := inferInstance
-  have hPp : IsPGroup p (P₀ : Subgroup L) := P₀.isPGroup'
+  have hPp : IsPGroup p (P₀ : Subgroup L) := P₀.isPGroup
   have hLX : (P₀ : Subgroup L).map L.subtype ≤ L := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

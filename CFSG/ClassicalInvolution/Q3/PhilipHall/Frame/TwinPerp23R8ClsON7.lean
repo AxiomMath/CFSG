@@ -43,7 +43,7 @@ theorem p23E8ON7_of_cover (hc : P23Cfg n Y R S t K' W u e g)
   obtain ⟨D⟩ := exists_cover hc hAE
   obtain ⟨β, hβ, b₀, hlA, hlA', hz, htA, htA', -⟩ := twin_labels hc D
   set θ := actHom hc hZ with hθ
-  haveI : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
+  have : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   have hex : ∀ σ : θ.range, ∃ w : Wr 6, D.toAEData.Acts (σ : MulAut (SecQ R e)) w ∧
       ∀ (b : Bool), ∀ x ∈ memBar β hβ b, mkQ 6 w * x * (mkQ 6 w)⁻¹ = x := by
     rintro ⟨σ, a, rfl⟩

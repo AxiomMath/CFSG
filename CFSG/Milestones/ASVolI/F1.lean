@@ -159,12 +159,12 @@ open CFSG.LieType.BorelTits CFSG.Quasithin.F7
 
 variable {G : Type} [Group G]
 
-private theorem loc_le_of_isPGroup_of_odd {P T : Subgroup G} (hP : IsPGroup 2 ↥P) (hTP : T ≤ P)
+private theorem loc_le_of_isPGroup_of_odd {P T : Subgroup G} (hP : IsPGroup 2 ↥P) (_hTP : T ≤ P)
     (hT : ¬ 2 ∣ T.relIndex P) : P ≤ T := by
   have hne : (T.subgroupOf P).index ≠ 0 := by
     intro h0
     exact hT (by rw [Subgroup.relIndex, h0]; exact dvd_zero 2)
-  haveI : (T.subgroupOf P).FiniteIndex := ⟨hne⟩
+  have : (T.subgroupOf P).FiniteIndex := ⟨hne⟩
   obtain ⟨n, hn⟩ := hP.index (T.subgroupOf P)
   have hn0 : n = 0 := by
     by_contra hn0

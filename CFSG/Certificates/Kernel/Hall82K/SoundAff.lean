@@ -190,7 +190,7 @@ theorem xcodeK_codeA (g : Equiv.Perm (Fin 64)) : xcodeK (codeA g) = (xcode g).va
     fld_lor36 (codeL_lt _) _ (by norm_num : (24 : ℕ) ≤ 30), e0, e1, e4, xcodeK_formula]
   unfold xcode
   simp only [linPart, val_xorF]
-  congr 3 <;> simp [nbeq_iff, bor_eq_true]
+  congr 3 <;> simp [bor_eq_true]
 
 open CFSG.Monster.B.Co2 CFSG.RankThree.Native in
 theorem permOfArr_eq_fnL {c : ℕ} {a : Array ℕ} (hca : codeArrK c a = true)
@@ -225,7 +225,7 @@ theorem fnL_zero (c : ℕ) : fnL c 0 = 0 := by
   have h := fnL_add c 0 0
   rwa [xorF_self, xorF_self] at h
 
-theorem linPart_of_add {g : Fin 64 → Fin 64} (hg : ∀ v w, g (xorF v w) = xorF (g v) (g w))
+theorem linPart_of_add {g : Fin 64 → Fin 64} (_hg : ∀ v w, g (xorF v w) = xorF (g v) (g w))
     (h0 : g 0 = 0) : linPart g = g := by
   funext v
   rw [linPart, h0, xorF_zero]

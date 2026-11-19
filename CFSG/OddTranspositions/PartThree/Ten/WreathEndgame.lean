@@ -431,6 +431,7 @@ section Halpha
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_d_of_mem_Halpha (hC : HypothesisC D) {y : G} (hy : y ∈ Halpha D hC.alpha) :
     Commute y hC.d :=
   Subgroup.mem_centralizer_singleton_iff.mp (Halpha_le_centralizer_d hC hy)

@@ -25,7 +25,7 @@ theorem concl165Avoid_of_layers {K : Type} [Group K] [Finite K] {p q : ℕ} (hp 
     {Z : Subgroup K} (hFZ : F ⊓ Z = ⊥) :
     Concl165Avoid K p q A Z := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz1 : z ≠ 1 := fun h => hzx (h ▸ Subgroup.one_mem (Subgroup.zpowers x))
   have hxord : orderOf x = p := orderOf_eq_prime (hA.2 x hx) hx1
   have hzord : orderOf z = p := orderOf_eq_prime (hA.2 z hz) hz1

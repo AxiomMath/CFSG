@@ -46,7 +46,7 @@ theorem sylow_kernel_eq_bot_of_faithful [Finite E] [Group.IsPerfect E] {r : ℕ}
   have hQN : Q ≤ N := Subgroup.map_subtype_le _
   have hQcard : Nat.card Q = r ^ (Nat.card N).factorization r := by
     rw [hQdef, Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity]
-  have hQp : IsPGroup r Q := Q₀.isPGroup'.map _
+  have hQp : IsPGroup r Q := Q₀.isPGroup.map _
   have hinjQ : Function.Injective (π.comp Q.subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro q hq
@@ -57,7 +57,7 @@ theorem sylow_kernel_eq_bot_of_faithful [Finite E] [Group.IsPerfect E] {r : ℕ}
   obtain ⟨P, hQP⟩ := hQp.exists_le_sylow
   have hPQ : (P : Subgroup E).map π ≤ Q.map π := by
     have hle : Q.map π ≤ (P : Subgroup E).map π := Subgroup.map_mono hQP
-    obtain ⟨S, hS⟩ := (P.isPGroup'.map π).exists_le_sylow
+    obtain ⟨S, hS⟩ := (P.isPGroup.map π).exists_le_sylow
     have h1 : Nat.card ((P : Subgroup E).map π) ≤ Nat.card (S : Subgroup J) :=
       Subgroup.card_le_of_le hS
     have h2 := Sylow.card_eq_multiplicity S
@@ -86,7 +86,7 @@ theorem sylow_kernel_eq_bot_of_faithful [Finite E] [Group.IsPerfect E] {r : ℕ}
     exact hcomm _ g₁.2 _ g₂.2
   set A : Subgroup E := (Cr : Subgroup π.ker).map π.ker.subtype with hAdef
   have hAc : A ≤ Subgroup.center E := (Subgroup.map_subtype_le _).trans hC
-  have hAp : IsPGroup r A := Cr.isPGroup'.map _
+  have hAp : IsPGroup r A := Cr.isPGroup.map _
   have hAQ : A ≤ Q :=
     (CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow_derived P A hAc hAp).trans hP'Q
   rw [eq_bot_iff]

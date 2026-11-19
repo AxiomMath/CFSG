@@ -146,7 +146,7 @@ theorem uniU_unitary {ω : Kˣ} (hσω : σ (ω : K) = ω) :
     rw [Units.val_inv_eq_inv_val, map_inv₀, hσω]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uniU, hypJ, Matrix.mul_apply, Fin.sum_univ_two, hσω, hσω']
+    simp [uniU, hypJ, Matrix.mul_apply, Fin.sum_univ_two, hσω]
 
 theorem uniX_unitary {c d : Kˣ} (h1 : σ (c : K) * d = 1) (h2 : σ (d : K) * c = 1) :
     ((uniX c d).map σ)ᵀ * hypJ * uniX c d = hypJ := by
@@ -195,7 +195,7 @@ theorem sylow_comm_of_mulEquiv (e : X ≃* Y)
     (h : ∀ (Q : Sylow 3 Y) (a b : Y), a ∈ (Q : Subgroup Y) → b ∈ (Q : Subgroup Y) → a * b = b * a)
     (P : Sylow 3 X) (a b : X) (ha : a ∈ (P : Subgroup X)) (hb : b ∈ (P : Subgroup X)) :
     a * b = b * a := by
-  have hP : IsPGroup 3 ((P : Subgroup X).map e.toMonoidHom) := P.isPGroup'.map _
+  have hP : IsPGroup 3 ((P : Subgroup X).map e.toMonoidHom) := P.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   have := h Q (e a) (e b) (hQ ⟨a, ha, rfl⟩) (hQ ⟨b, hb, rfl⟩)
   apply e.injective
@@ -257,7 +257,7 @@ theorem exists_pow_sub_one_eq_neg_one (hp2 : p ≠ 2) : ∃ c : (KU p)ˣ, c ^ (p
 
 theorem e9Move_projSU4 (hp3 : 3 < p) (hp1 : p % 3 = 1) :
     E9Move (CFSG.PGLModel.projSU 4 p 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : p.Prime := Fact.out
   set σ := unitaryInvolution (KU p) p 1 with hσdef
   obtain ⟨e2⟩ := CFSG.ClassicalGroups.SUnThreeLocal.statedProj_statedSU_mulEquiv_SU_of_card
@@ -275,7 +275,7 @@ theorem e9Move_projSU4 (hp3 : 3 < p) (hp1 : p % 3 = 1) :
     intro E' hE'
     have hrank := CFSG.RankThree.PartTwo.Sec4.Res417Four.pRank_projSU_four_le_two (p := p) (f := 1)
       (by omega) le_rfl (by rw [pow_one]; exact hp1)
-    haveI : CFSG.IsElementaryAbelian 3 E' :=
+    have : CFSG.IsElementaryAbelian 3 E' :=
       { toIsMulCommutative := hE'.1
         exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
           Subtype.ext (by simpa using hE'.2 g g.2) }
@@ -287,7 +287,7 @@ theorem e9Move_projSU4 (hp3 : 3 < p) (hp1 : p % 3 = 1) :
       _ = 9 := by norm_num
   have hsyl := sylow_comm_of_mulEquiv E.symm hsyl₀
   have hle := card_le_of_mulEquiv E.symm hle₀
-  haveI : Finite (CFSG.PGLModel.projImage (SU σ 4)) := inferInstance
+  have : Finite (CFSG.PGLModel.projImage (SU σ 4)) := inferInstance
   have h3p : 3 ∣ p - 1 := by omega
   obtain ⟨ω, hω⟩ := CFSG.RankThree.Chevalley.exists_units_orderOf_eq_of_dvd_card_sub_one
     (k := KU p) Nat.prime_three (by

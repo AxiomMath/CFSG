@@ -30,7 +30,7 @@ theorem rckSp_pair {m : ℕ} (hm : 3 ≤ m)
       (∀ v ∈ V, v ≠ 1 → ∃ j : ↥(StatedSp m (GaloisField 2 1)), v = j * r * j⁻¹) ∧
       ∀ y ∈ pCoreOf 2 (Subgroup.centralizer ({r} : Set ↥(StatedSp m (GaloisField 2 1)))),
         ∀ v ∈ V, y * v * y⁻¹ * v⁻¹ ∈ Subgroup.zpowers r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgf2 : ∀ x : GaloisField 2 1, x = 0 ∨ x = 1 := fun x =>
     CFSG.HardMathSupport.Curtis.Coordinator.eq_zero_or_one_of_card_two
       (by simpa using CFSG.LieType.Catalog.card_galoisField 2 1 (by norm_num)) x
@@ -99,7 +99,7 @@ theorem rckSp_pair {m : ℕ} (hm : 3 ≤ m)
     omega
   have hlt : A < (spForm m F).perp A :=
     Submodule.lt_of_le_of_finrank_lt_finrank hW (by rw [hfinA, hfin_perp]; omega)
-  obtain ⟨c, hc_perp, hcA⟩ := (SetLike.lt_iff_le_and_exists.mp hlt).2
+  obtain ⟨c, hc_perp, hcA⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hlt).2
   have hcne : c ≠ 0 := fun h0 => hcA (by rw [h0]; exact A.zero_mem)
   have hB1c : spB m a₁ c = 0 :=
     ((spForm m F).mem_perp.mp hc_perp) a₁ (Submodule.subset_span (by simp))
@@ -271,7 +271,7 @@ theorem rckSp_pair {m : ℕ} (hm : 3 ≤ m)
     intro a ha b hb
     have ha' : a = 1 ∨ a = r := hmem_r _ ha
     have hb' : b = 1 ∨ b = t := hmem_t _ hb
-    rcases ha' with rfl | rfl <;> rcases hb' with rfl | rfl <;> simp [hr2, ht2, hcomm_rt]
+    rcases ha' with rfl | rfl <;> rcases hb' with rfl | rfl <;> simp [hcomm_rt]
   have hpow_r : ∀ a ∈ Subgroup.zpowers r, ∀ c ∈ Subgroup.zpowers r, a * c = c * a := by
     intro a ha c hc
     have ha' : a = 1 ∨ a = r := hmem_r _ ha

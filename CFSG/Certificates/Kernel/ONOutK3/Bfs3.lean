@@ -277,7 +277,7 @@ theorem outer3_spec (R : R3 step k root cnt T par lab pos) (bound : Nat) :
       · right
         left
         exact (R.tree t (by omega) a).1
-    refine ⟨_, by simp only [outer3, hh, hhs, if_true]; rfl, ?_, ?_⟩
+    refine ⟨_, by simp only [outer3, hh, hhs, ite_true]; rfl, ?_, ?_⟩
     · change t + 1 = min (t + 1) cnt
       omega
     · rw [Nat.min_eq_left (by omega : t + 1 ≤ cnt)]
@@ -286,7 +286,7 @@ theorem outer3_spec (R : R3 step k root cnt T par lab pos) (bound : Nat) :
     have hns : ¬ s.2.2.2.2 < s.2.2.1.size := by
       rw [hh, size_eq_of_inv R hI]
       exact Nat.lt_irrefl _
-    refine ⟨_, by simp only [outer3, hns, if_false]; rfl, ?_, ?_⟩
+    refine ⟨_, by simp only [outer3, hns, ite_false]; rfl, ?_, ?_⟩
     · change s.2.2.2.2 = min (t + 1) cnt
       rw [hh]
       omega

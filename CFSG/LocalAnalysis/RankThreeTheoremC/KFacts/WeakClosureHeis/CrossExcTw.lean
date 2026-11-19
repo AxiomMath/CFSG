@@ -42,7 +42,7 @@ private theorem sdAt_twistedE6_group {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
       exact SylowDichotomyAt.of_elemAbelian hp hE hc (by norm_num)
     ·
       have h7 : 7 ≤ p := by
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         have hne : (((ℓ ^ f : ℕ)) : ZMod p) ≠ 0 := fun h0 =>
           hpq ((ZMod.natCast_eq_zero_iff _ _).1 h0)
         have hdvd := ZMod.orderOf_dvd_card_sub_one hne
@@ -53,7 +53,7 @@ private theorem sdAt_twistedE6_group {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
         exists_sylowTorus_twistedE6 hℓ hf F hF σ hσ hp h7 hpq (by rw [he]; exact h3)
       refine SylowDichotomyAt.of_sylow_comm fun S => ?_
       exact IsMulCommutative.of_comm fun a b =>
-        Subtype.ext (mul_comm_of_sylowTorus hm S.isPGroup' a.2 b.2)
+        Subtype.ext (mul_comm_of_sylowTorus hm S.isPGroup a.2 b.2)
   ·
     apply SylowDichotomyAt.of_card_elemAbelian_le hp
     by_cases h1 : degCountTw e ≤ 1
@@ -67,7 +67,7 @@ theorem sdLieCross_twistedE6 : SDLieCrossAt .twistedE6 := by
   obtain ⟨⟨hℓ, hf, _⟩, hm⟩ :=
     hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   obtain ⟨F, _, _, σ, hF, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_card .E6 hℓ hf hm
-  haveI : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K e.toEquiv
+  have : Finite (twistedE6RootGroup F σ) := Finite.of_equiv K e.toEquiv
   exact SylowDichotomyAt.of_mulEquiv hp e (sdAt_twistedE6_group hℓ hf F hF σ hσ hp h5 hpℓ)
 
 end TwistedE6
@@ -79,10 +79,10 @@ theorem sdLieCross_trialityD4 : SDLieCrossAt .trialityD4 := by
   have hch := hmodel.chevalleyExceptionalModel (by simp [chevalleyExceptionalTags])
   have hℓ : ℓ.Prime := hch.1.1
   have hf : 1 ≤ f := hch.1.2.1
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨F, _, _, σ, hF, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_card .D4 hℓ hf hch.2
   have hF3 : Nat.card F = (ℓ ^ f) ^ 3 := hF
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv K e.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.D4 F σ.toRingHom) := Finite.of_equiv K e.toEquiv
   refine SylowDichotomyAt.of_mulEquiv hp e (SylowDichotomyAt.of_card_elemAbelian_le hp ?_)
   obtain ⟨m, hm, hd⟩ := ((exact_E_type_and_triality_cross_prime_factor_exhaustion hp (by omega)
     (Ne.symm hpℓ) hch).1 hpK).2.2.2.2 rfl

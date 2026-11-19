@@ -107,14 +107,14 @@ theorem fzr_a_V_conj {Mt Ms Ml : Mat} (hM : FzR10AMats t tau lam a b Mt Ms Ml) {
       fzrAElt a b (vAct Mt Ms Ml v q) := by
   have hq1 : (if (v / 4 % 2 == 1) = true then Ml.ap q else q) < 64 := by
     by_cases h : (v / 4 % 2 == 1) = true
-    · rw [if_pos h]; exact fzrAux_ap_lt Ml q
-    · rw [if_neg h]; exact hq
+    · rw [ite_eq_left h]; exact fzrAux_ap_lt Ml q
+    · rw [ite_eq_right h]; exact hq
   have hq2 : (if (v / 2 % 2 == 1) = true then
         Ms.ap (if (v / 4 % 2 == 1) = true then Ml.ap q else q)
         else (if (v / 4 % 2 == 1) = true then Ml.ap q else q)) < 64 := by
     by_cases h : (v / 2 % 2 == 1) = true
-    · rw [if_pos h]; exact fzrAux_ap_lt Ms _
-    · rw [if_neg h]; exact hq1
+    · rw [ite_eq_left h]; exact fzrAux_ap_lt Ms _
+    · rw [ite_eq_right h]; exact hq1
   have hstep_l : lam ^ (v / 4 % 2) * fzrAElt a b q * (lam ^ (v / 4 % 2))⁻¹ =
       fzrAElt a b (if v / 4 % 2 == 1 then Ml.ap q else q) :=
     fzrAux_step hM.act_l (e := v / 4 % 2) (n := q) (Nat.mod_two_eq_zero_or_one _) hq

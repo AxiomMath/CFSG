@@ -192,12 +192,12 @@ section CertField
 
 
 private theorem glaPLayer_entrywiseAdjointAut_ne_bot {K : Type} [Field K] [Finite K]
-    (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) :
+    (σ : K ≃+* K) (_hσ3 : σ ^ 3 = 1) :
     GLAPLayer 3 (fixSubgroup (entrywiseAdjointAut Tag.D4 σ)) ≠ ⊥ := by
   classical
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   let k := fixSubfield σ
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have hperf : Group.IsPerfect (adjointGroup Tag.D4 k) :=
     ExcCopy.isPerfect_adjointGroup .D4 k (fun h => absurd h (by decide))
   obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect .D4 k hperf
@@ -226,11 +226,11 @@ private theorem isSimpleGroup_and_not_commutative_twistedOne {ℓ e : ℕ} (hℓ
     IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ∧
       ∃ x y : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)), x * y ≠ y * x := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic (k := e * 3) hℓ
       (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   obtain ⟨-, -, hfixeq, hs, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ e hℓ he K hK
@@ -240,7 +240,7 @@ private theorem isSimpleGroup_and_not_commutative_twistedOne {ℓ e : ℕ} (hℓ
       ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     (fixedSubgroupTwistedEntrywiseAutOneEquiv (t := TwistTag.D4) σ).trans
       (MulEquiv.subgroupCongr hfixeq)
-  haveI : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hs
+  have : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hs
   refine ⟨eΓ.isSimpleGroup, ?_⟩
   obtain ⟨x, y, hxy⟩ := hnc
   exact ⟨eΓ.symm x, eΓ.symm y, fun h => hxy (by
@@ -254,7 +254,7 @@ private theorem isSimpleGroup_and_not_commutative_twisted {ℓ e : ℕ} (hℓ : 
     IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T)) ∧
       ∃ x y : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T)), x * y ≠ y * x := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq3 : ∀ c : K, c ^ ((ℓ ^ e) ^ 3) = c := fun c => by
     rw [← hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hT3 : T ^ 3 = 1 := by
@@ -290,7 +290,7 @@ private theorem isSimpleGroup_and_not_commutative_twisted {ℓ e : ℕ} (hℓ : 
     let e2 : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 2 T)) ≃*
         ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 T⁻¹)) :=
       MulEquiv.subgroupCongr hfix2
-    haveI : IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 T⁻¹)) := hmain.1
+    have : IsSimpleGroup ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 T⁻¹)) := hmain.1
     refine ⟨e2.isSimpleGroup, ?_⟩
     obtain ⟨x, y, hxy⟩ := hmain.2
     exact ⟨e2.symm x, e2.symm y, fun h => hxy (by simpa using congrArg e2 h)⟩
@@ -318,7 +318,7 @@ private theorem glaPLayer_graphField_ne_bot {K : Type} [Field K] [Finite K]
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     GLAPLayer 3 (fixSubgroup α) ≠ ⊥ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓp, hKf⟩ := FiniteField.card K (ringChar K)
   have hKf' : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -338,7 +338,7 @@ private theorem glaPLayer_graphField_ne_bot {K : Type} [Field K] [Finite K]
       Nat.card_congr (Equiv.refl _)
     rw [← hcard, Nat.dvd_iff_mod_eq_zero, ← hmod]
     exact Nat.dvd_iff_mod_eq_zero.1 h3
-  haveI : Fact (ringChar K).Prime := ⟨hℓp⟩
+  have : Fact (ringChar K).Prime := ⟨hℓp⟩
   rcases hσT with hσT | hσT
   · have hαT : α = MulAut.conj g * (exactNormalAut Tag.D4 K a T 0 * d4Graph K ε) := by
       rw [hαeq, hσT]
@@ -413,10 +413,10 @@ theorem outerPLayerAt_pomegaPlus_four_three {ℓ f : ℕ} (h3ℓ : 3 ≠ ℓ) {G
     [Finite G] (h : CFSG.Open.StatedClassicalModel G .POmegaPlus 4 ℓ f)
     (h3 : 3 ∣ Nat.card G) : OuterPLayerAt 3 G := by
   obtain ⟨⟨hℓ, hf, -⟩, K, hfield, hfinite, hK, ⟨eG⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  let := hfield
+  let := hfinite
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have hK3 : ringChar K ≠ 3 := by
     rw [ringChar.eq K ℓ]

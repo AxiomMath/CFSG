@@ -347,7 +347,7 @@ private theorem conj_apply_of_sign {d : SylowThreeData G} (c : CoordModel d) {l 
       _ = c.gen j ^ ((if j = i then -w j else w j)).val := by
             by_cases hji : j = i
             · subst hji
-              rw [if_pos rfl, if_pos rfl]
+              rw [ite_eq_left rfl, ite_eq_left rfl]
               rcases hw j with h | h
               · have hwj : (w j).val = 1 := by rw [h]; decide
                 rw [hwj, h, val_neg_one_zmod3]
@@ -357,7 +357,7 @@ private theorem conj_apply_of_sign {d : SylowThreeData G} (c : CoordModel d) {l 
                 have hval : ((-(-1) : ZMod 3)).val = 1 := by decide
                 rw [hval, pow_one]
                 exact hinv2
-            · rw [if_neg hji, if_neg hji]
+            · rw [ite_eq_right hji, ite_eq_right hji]
   have hconj : l * (c.e (Multiplicative.ofAdd w) : G) * l⁻¹ =
       (MulAut.conj l) (c.gen 0 ^ (w 0).val * c.gen 1 ^ (w 1).val *
         c.gen 2 ^ (w 2).val) := by
@@ -493,17 +493,17 @@ private theorem line_mem_iff {d : SylowThreeData G} (c : CoordModel d)
 
 private theorem flipAt_one_eq (t u : Fin 2 × Fin 2) (h1 : t.1 ≠ u.1) (h2 : t.2 = u.2) :
     flipAt 1 t = u := by
-  simp only [flipAt, if_true]
+  simp only [flipAt, ite_true]
   exact Prod.ext (eq_add_one_of_ne t.1 u.1 h1) h2
 
 private theorem flipAt_two_eq (t u : Fin 2 × Fin 2) (h1 : t.1 = u.1) (h2 : t.2 ≠ u.2) :
     flipAt 2 t = u := by
-  simp only [flipAt, if_true]
+  simp only [flipAt, ite_true]
   exact Prod.ext h1 (eq_add_one_of_ne t.2 u.2 h2)
 
 private theorem flipAt_one_two_eq (t u : Fin 2 × Fin 2) (h1 : t.1 ≠ u.1) (h2 : t.2 ≠ u.2) :
     flipAt 1 (flipAt 2 t) = u := by
-  simp only [flipAt, if_true]
+  simp only [flipAt, ite_true]
   exact Prod.ext (eq_add_one_of_ne t.1 u.1 h1) (eq_add_one_of_ne t.2 u.2 h2)
 
 private theorem normalizer_map_mul {d : SylowThreeData G} (B : Subgroup d.AA)

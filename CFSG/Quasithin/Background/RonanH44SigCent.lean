@@ -12,29 +12,32 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem sigCent_single_ne_zero (i : Fin 3) : (Pi.single i (1 : K) : Fin 3 → K) ≠ 0 := by
   intro h
   have := congrFun h i
   simp at this
 
+omit [Finite K] [CharP K 2] in
 private theorem sigCent_single_01 (i : Fin 3) :
     ∀ a : Fin 3, (Pi.single i (1 : K) : Fin 3 → K) a = 0 ∨
       (Pi.single i (1 : K) : Fin 3 → K) a = 1 := by
   intro a
-  by_cases h : a = i <;> simp [Pi.single_apply, h]
+  by_cases h : a = i <;> simp [h]
 
+omit [Finite K] [CharP K 2] in
 private theorem sigCent_sum_single_01 {i j : Fin 3} (hij : i ≠ j) :
     ∀ a : Fin 3, (Pi.single i (1 : K) + Pi.single j (1 : K) : Fin 3 → K) a = 0 ∨
       (Pi.single i (1 : K) + Pi.single j (1 : K) : Fin 3 → K) a = 1 := by
   intro a
   by_cases hi : a = i
   · right
-    simp [Pi.single_apply, hi, hij]
+    simp [hi, hij]
   · by_cases hj : a = j
     · right
-      simp [Pi.single_apply, hj, hi, Ne.symm hij]
+      simp [hj, Ne.symm hij]
     · left
-      simp [Pi.single_apply, hi, hj]
+      simp [hi, hj]
 
 private theorem sigCent_pt_mem_fixV (hK : Nat.card K = (2 ^ n) ^ 2) {v : Fin 3 → K}
     (hv : ∀ a, v a = 0 ∨ v a = 1) : pt hK v ∈ fixV (Subgroup.zpowers (sig n K)) := by
@@ -43,6 +46,7 @@ private theorem sigCent_pt_mem_fixV (hK : Nat.card K = (2 ^ n) ^ 2) {v : Fin 3 �
   rw [mat_pt, rk1_apply]
   rcases hv i with hi | hi <;> rcases hv j with hj | hj <;> simp [hi, hj]
 
+omit [Finite K] [CharP K 2] in
 private theorem sigCent_comp_eq (τ : K ≃+* K) {v : Fin 3 → K}
     (hv : ∀ a, v a = 0 ∨ v a = 1) : (fun a => τ (v a)) = v := by
   funext a
@@ -169,13 +173,13 @@ theorem eq_one_or_eq_sig_of_fix (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     have hM : (conjM n (Matrix.single (0 : Fin 3) (0 : Fin 3) c))ᵀ =
         Matrix.single (0 : Fin 3) (0 : Fin 3) c := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [conjM, Matrix.single_apply, hc]
+      fin_cases i <;> fin_cases j <;> simp [conjM, hc]
     have hmem : mkH (Matrix.single (0 : Fin 3) (0 : Fin 3) c) hM ∈
         fixV (Subgroup.zpowers (sig n K)) := by
       rw [mem_fixV_sig hK]
       intro i j
       rw [mat_mkH]
-      fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, hc]
+      fin_cases i <;> fin_cases j <;> simp [hc]
     have h := congrArg mat (hfix' _ hmem)
     rw [mat_fldAut, mat_mkH] at h
     have h00 := congrFun (congrFun h 0) 0

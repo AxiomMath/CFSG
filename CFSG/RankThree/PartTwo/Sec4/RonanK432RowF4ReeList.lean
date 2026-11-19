@@ -51,8 +51,8 @@ theorem listRow_of_centralizer_iso {G H : Type} [Group G] [Finite G] [Group H]
 
 theorem exists_orderThree_ne_one (F : Type) [Field F] [Finite F] (h : 3 ∣ Nat.card F - 1) :
     ∃ ω : F, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : 3 ∣ Fintype.card Fˣ := by
     rw [Fintype.card_eq_nat_card, Nat.card_units]
     exact h
@@ -94,8 +94,7 @@ theorem exists_su3_pair_noncommuting {F : Type} [Field F] [Finite F] [CharP F 2]
     refine ⟨hdet, ?_⟩
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [hM, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal, Matrix.one_apply,
-        hωq, hωi, hωi']
+      simp [hM, Matrix.mul_apply, Matrix.diagonal, hωq, hωi']
   set P : GL (Fin 3) F := permGL (Equiv.swap (0 : Fin 3) 2) with hP
   have hPmem : P ∈ CFSG.Open.StatedSU 3 (2 ^ g) F := permGL_mem hF (Equiv.swap (0 : Fin 3) 2)
   refine ⟨⟨d, hdmem⟩, ⟨P, hPmem⟩, ?_, ?_⟩
@@ -128,7 +127,7 @@ section ReeList
 
 theorem listRow_reeGamma (a : ℕ) (K : Type) [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) : ListRow ↥(ReeTag.F4.reeGamma K a) := by
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨y₀, hy₀, ⟨ψ⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.exists_centralizer_mulEquiv_unitarySU a K hK
   have hFcard : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by

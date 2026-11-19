@@ -20,7 +20,7 @@ theorem pCoreOf_inf_normal_le {Γ : Type} [Group Γ] [Finite Γ] (T : Subgroup �
   have hcCT : c ∈ Subgroup.normalizer ((C ⊓ T : Subgroup Γ) : Set Γ) := by
     rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     constructor
     · rintro ⟨hxC, hxT⟩
       exact ⟨mul_mem (mul_mem hc hxC) (inv_mem hc), ‹T.Normal›.conj_mem x hxT c⟩
@@ -122,7 +122,7 @@ theorem oppositeFixed_of_normal {Γ : Type} [Group Γ] [Finite Γ] (T : Subgroup
       intro y
       have h1 := Subgroup.mem_normalizer_iff.1 hc₁C y
       have h2 := Subgroup.mem_normalizer_iff.1 hc₁Q y
-      simp only [hX, SetLike.mem_coe, Subgroup.mem_inf] at h1 h2 ⊢
+      simp only [hX, Subgroup.mem_inf] at h1 h2 ⊢
       rw [h1, h2]
     rw [Subgroup.mem_normalizer_iff]
     intro y

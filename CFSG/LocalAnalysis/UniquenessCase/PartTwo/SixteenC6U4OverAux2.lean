@@ -35,7 +35,7 @@ private theorem s16c6_ne_bot_of_isL2 {H : Subgroup (hypSU h 2 0)} {k : ℕ} (hk 
       omega
     have := Nat.mul_le_mul h2k h3
     omega
-  haveI hnt : Nontrivial (Bar2 H) := Finite.one_lt_card_iff_nontrivial.mp hgt
+  have hnt : Nontrivial (Bar2 H) := Finite.one_lt_card_iff_nontrivial.mp hgt
   intro hbot
   rw [hbot] at hnt
   obtain ⟨a, b, hab⟩ := hnt
@@ -43,7 +43,7 @@ private theorem s16c6_ne_bot_of_isL2 {H : Subgroup (hypSU h 2 0)} {k : ℕ} (hk 
 
 private theorem s16c6_core (hm : 2 ≤ m) {R : Subgroup (hypSU h 2 0)}
     (hR : perfectCore (parP2 h) ≤ R) : R = ⊤ ∨ R ≤ parP2 h := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   by_cases htop : R = ⊤
   · exact Or.inl htop
   right
@@ -78,12 +78,12 @@ private theorem s16c6_core (hm : 2 ≤ m) {R : Subgroup (hypSU h 2 0)}
       simpa [parP] using hR.trans hRiso
     have hXinf : perfectCore (parP2 h) ≤ parP h ⊓ parP2 h :=
       le_inf hXparP (perfectCore_le (parP2 h))
-    haveI : Group.IsSolvable ↥(parP h ⊓ parP2 h) :=
+    have : Group.IsSolvable ↥(parP h ⊓ parP2 h) :=
       CFSG.Quasithin.F112R.isSolvable_parP_inf_parP2 h
-    haveI hsolv : Group.IsSolvable ↥(perfectCore (parP2 h)) :=
+    have hsolv : Group.IsSolvable ↥(perfectCore (parP2 h)) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hXinf)
         (Subgroup.inclusion_injective hXinf)
-    haveI hperf : Group.IsPerfect ↥(perfectCore (parP2 h)) :=
+    have hperf : Group.IsPerfect ↥(perfectCore (parP2 h)) :=
       Subgroup.isPerfect_iff.mpr (perfectCore_perfect (parP2 h))
     have hnt : Nontrivial ↥(perfectCore (parP2 h)) := by
       have hcard : Nat.card (ModO2 (perfectCore (parP2 h))) =
@@ -112,7 +112,7 @@ private theorem s16c6_core (hm : 2 ≤ m) {R : Subgroup (hypSU h 2 0)}
 private theorem s16c6_model_borel (hm : 2 ≤ m) {P X R : Subgroup (hypSU h 2 0)}
     (hB : hypBorel h 2 0 ≤ P) (hX : X = F07.DerInf P)
     (hL2 : IsL2 (Bar2 X) (2 * m)) (hXR : X ≤ R) : R = ⊤ ∨ R ≤ P := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   rcases overgroups_hypBorel_model h hB with hPB | hPP | hPP2 | hPT
   · exfalso
     have hsolv : Group.IsSolvable ↥(hypBorel h 2 0) :=
@@ -164,7 +164,7 @@ private theorem s16c6_map_conj_le_iff {G : Type} [Group G] (g : G) {A B : Subgro
 theorem s16c6_model (hm : 2 ≤ m) {P X R : Subgroup (hypSU h 2 0)}
     (hP : IsParabolicTwo (hypSU h 2 0) P) (hX : X = F07.DerInf P)
     (hL2 : IsL2 (Bar2 X) (2 * m)) (hXR : X ≤ R) : R = ⊤ ∨ R ≤ P := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   obtain ⟨S, hS⟩ := hP
   have hSyl : IsSylowTwoOf (hypUnitriangular h 2 0) ⊤ := isSylowTwoOf_hypUnitriangular h
   have hSsyl : IsSylowTwoOf (S : Subgroup (hypSU h 2 0)) ⊤ :=

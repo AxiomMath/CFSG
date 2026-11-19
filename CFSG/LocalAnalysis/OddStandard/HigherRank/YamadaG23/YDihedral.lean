@@ -20,6 +20,7 @@ set_option synthInstance.maxSize 400 in
 private theorem d8_check2 : ∀ x y w : DihedralGroup 4, x ^ 2 = 1 → y ^ 2 = 1 → x * y ≠ y * x →
     w ^ 2 = 1 → w ≠ 1 → w * x = x * w → w * y = y * w → w = (y * x) ^ 2 := by decide
 
+omit [Finite G] in
 theorem dihedral_facts {C : Subgroup G} {t d z : G} (hC : C = closure {t, d})
     (hD : Nonempty (↥C ≃* DihedralGroup 4)) (ht : orderOf t = 2) (hd : orderOf d = 2)
     (hzC : z ∈ C) (hzt : z * t = t * z) (hzd : z * d = d * z) (hz : orderOf z = 2) :
@@ -61,7 +62,7 @@ theorem dihedral_facts {C : Subgroup G} {t d z : G} (hC : C = closure {t, d})
     have hpair : ({t, d} : Set G).Pairwise Commute := fun a ha b hb _ => hall a ha b hb
     have hCcomm : IsMulCommutative ↥C := hC.symm ▸ isMulCommutative_closure hpair
     have hD8comm : IsMulCommutative (DihedralGroup 4) := by
-      letI := hCcomm
+      let := hCcomm
       exact IsMulCommutative.of_comm fun a b => by
         have h := congrArg e (mul_comm' (e.symm a) (e.symm b))
         simpa using h

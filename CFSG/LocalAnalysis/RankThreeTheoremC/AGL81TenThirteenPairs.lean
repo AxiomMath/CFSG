@@ -28,13 +28,13 @@ theorem pair_sp62_facts {q : TauCeti.PrimePower} (hqp : q.p = 2) (hqe : q.expone
     center (CatGroup dJ) = ⊥ ∧ ¬ Nat.card (CatGroup dJ) ^ 2 ∣ Nat.card (CatGroup dK) := by
   obtain ⟨hcardJ, hsimpleJ⟩ :=
     LeviBlock.catGroup_u42_facts (d := dJ) ⟨q, hqp, hqe, hdJ⟩
-  haveI : IsSimpleGroup (CatGroup dJ) := hsimpleJ
+  have : IsSimpleGroup (CatGroup dJ) := hsimpleJ
   have hcardK : Nat.card (CatGroup dK) = 1451520 := by
     rw [card_catGroup_B_even (d := dK) (r := 3) (q := q) (by norm_num) hqp hdK, hqe]
     decide
   have hnc : ¬ IsMulCommutative (CatGroup dJ) := by
     intro hcomm
-    haveI : IsMulCommutative (CatGroup dJ) := hcomm
+    have : IsMulCommutative (CatGroup dJ) := hcomm
     have hp : (Nat.card (CatGroup dJ)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardJ] at hp
@@ -49,13 +49,13 @@ theorem pair_g28_facts
     center (CatGroup dJ) = ⊥ ∧ ¬ Nat.card (CatGroup dJ) ^ 2 ∣ Nat.card (CatGroup dK) := by
   have hcardJ : Nat.card (CatGroup dJ) = 5515776 :=
     LeviBlock.card_catGroup_u38 (d := dJ) ⟨q, hqp, hqe, hdJ⟩
-  haveI : IsSimpleGroup (CatGroup dJ) := unitaryTarget_isSimpleGroup ⟨q, hqp, hdJ⟩
+  have : IsSimpleGroup (CatGroup dJ) := unitaryTarget_isSimpleGroup ⟨q, hqp, hdJ⟩
   have hcardK : Nat.card (CatGroup dK) = 4329310519296 := by
     rw [card_catGroup_G2_even (d := dK) (q := q) hqp hdK, hqe]
     norm_num [ordG2]
   have hnc : ¬ IsMulCommutative (CatGroup dJ) := by
     intro hcomm
-    haveI : IsMulCommutative (CatGroup dJ) := hcomm
+    have : IsMulCommutative (CatGroup dJ) := hcomm
     have hp : (Nat.card (CatGroup dJ)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardJ] at hp
@@ -77,7 +77,7 @@ theorem pair_tits_facts
     exact CFSG.Models.LieModel.toBlueprint (by decide) hL
   have hsimple : IsSimpleGroup (CatGroup ⟨.A 2 q, hv⟩) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
-  haveI := hsimple
+  have := hsimple
   have hcardJ : Nat.card (CatGroup ⟨.A 2 q, hv⟩) = 5616 := by
     rw [CFSG.GH74.card_of_lieModel_PSL (n := 3) (by norm_num) hmodel]
     decide
@@ -86,7 +86,7 @@ theorem pair_tits_facts
       (K := CatGroup dK) ⟨dK, hdK, ⟨MulEquiv.refl _⟩⟩
   have hnc : ¬ IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := by
     intro hcomm
-    haveI : IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := hcomm
+    have : IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := hcomm
     have hp : (Nat.card (CatGroup ⟨.A 2 q, hv⟩)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardJ] at hp
@@ -104,7 +104,7 @@ theorem pair_hs_facts
       center (CatGroup dJ) = ⊥ ∧
       ¬ Nat.card (CatGroup dJ) ^ 2 ∣ Nat.card (TauCeti.CFSGIndex.sporadic .HS).Group := by
   have hsimple : IsSimpleGroup (CatGroup dJ) := unitaryTarget_isSimpleGroup ⟨q, hqp, hdJ⟩
-  haveI := hsimple
+  have := hsimple
   have hcardJ : Nat.card (CatGroup dJ) = 126000 := by
     rw [card_catGroup_twistedA (r := 2) hdJ, hqp, hqe]
     unfold ordTwistedA
@@ -115,7 +115,7 @@ theorem pair_hs_facts
     exact CFSG.Sporadic.HS.card_HS
   have hnc : ¬ IsMulCommutative (CatGroup dJ) := by
     intro hcomm
-    haveI : IsMulCommutative (CatGroup dJ) := hcomm
+    have : IsMulCommutative (CatGroup dJ) := hcomm
     have hp : (Nat.card (CatGroup dJ)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardJ] at hp
@@ -140,7 +140,7 @@ theorem pair_onan_facts
     exact CFSG.Models.LieModel.toBlueprint (by decide) hL
   have hsimple : IsSimpleGroup (CatGroup ⟨.A 2 q, hv⟩) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
-  haveI := hsimple
+  have := hsimple
   have hcardJ : Nat.card (CatGroup ⟨.A 2 q, hv⟩) = 1876896 := by
     rw [CFSG.GH74.card_of_lieModel_PSL (n := 3) (by norm_num) hmodel]
     decide
@@ -150,7 +150,7 @@ theorem pair_onan_facts
     exact CFSG.Sporadic.ON.card_ON
   have hnc : ¬ IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := by
     intro hcomm
-    haveI : IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := hcomm
+    have : IsMulCommutative (CatGroup ⟨.A 2 q, hv⟩) := hcomm
     have hp : (Nat.card (CatGroup ⟨.A 2 q, hv⟩)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardJ] at hp
@@ -179,10 +179,10 @@ theorem pair_fi24_facts :
   have hsimpleHe : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .He).Group := by
     obtain ⟨e⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
     exact @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.He.isSimpleGroup_He e.symm
-  haveI := hsimpleHe
+  have := hsimpleHe
   have hnc : ¬ IsMulCommutative (TauCeti.CFSGIndex.sporadic .He).Group := by
     intro hcomm
-    haveI : IsMulCommutative (TauCeti.CFSGIndex.sporadic .He).Group := hcomm
+    have : IsMulCommutative (TauCeti.CFSGIndex.sporadic .He).Group := hcomm
     have hp : (Nat.card (TauCeti.CFSGIndex.sporadic .He).Group).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcardHe] at hp

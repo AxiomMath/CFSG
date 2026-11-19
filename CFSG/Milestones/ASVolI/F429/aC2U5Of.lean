@@ -39,8 +39,8 @@ theorem burnsideF429a_c2c_U5_of {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
             IsGenLie ↥(cenIn Gp s) .Sp4 2 f ∧ hyp.toHypF_4_4g.chart.GraphFixedMarkingGoal s ∧
             Subgroup.centralizer ({t} : Set E) =
               Subgroup.centralizer ({s} : Set E) ⊓ Subgroup.centralizer ({z} : Set E)) := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   intro t htT htS ht2
   obtain ⟨mk, hcp, h1, h2⟩ := burnsideF429a_U5_payload_eq hyp.toHypF_4_4g
   have hP₁ : M₁.subgroupOf Gp = (u5PtP (burnsideF429a_U5_fieldData mk)).map

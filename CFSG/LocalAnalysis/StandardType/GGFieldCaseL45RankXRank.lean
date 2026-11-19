@@ -30,7 +30,7 @@ theorem exists_sylow_normalized_max {p : ℕ} [Fact p.Prime] (L B : Subgroup G)
     rw [Nat.ModEq, h2, Nat.mod_eq_of_lt (Fact.out : p.Prime).one_lt] at h1
     exact zero_ne_one h1
   obtain ⟨Q₀, hQ₀⟩ := hBp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p L) hcard
-  refine ⟨(Q₀ : Subgroup L).map L.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, ?_,
+  refine ⟨(Q₀ : Subgroup L).map L.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _, ?_,
     fun Q' hQQ' hQ'L hQ'p => ?_⟩
   · rw [Subgroup.le_normalizer_iff]
     rintro b hb _ ⟨y, hy, rfl⟩

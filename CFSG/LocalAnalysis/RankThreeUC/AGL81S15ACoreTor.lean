@@ -28,7 +28,7 @@ theorem le_card_pow_ker [hr : Fact r.Prime] (h : r ∣ Nat.card C) :
 theorem card_pow_ker_le [IsCyclic C] (hr : 0 < r) :
     Nat.card (powMonoidHom r : C →* C).ker ≤ r := by
   classical
-  haveI := Fintype.ofFinite C
+  have := Fintype.ofFinite C
   have h := IsCyclic.card_pow_eq_one_le (α := C) hr
   have e : Nat.card (powMonoidHom r : C →* C).ker =
       (Finset.univ.filter (fun a : C => a ^ r = 1)).card := by
@@ -275,7 +275,7 @@ theorem toral_lower_bound_succ {r k : ℕ} [hr : Fact r.Prime] [Nontrivial C] (h
     by_cases htop : C₀ = ⊤
     · have hall : ∀ z : C, Matrix.GeneralLinearGroup.scalar (Fin (k + 1)) (e z) ∈ Z := fun z =>
         (hmemC₀ z).1 (htop ▸ Subgroup.mem_top z)
-      rw [if_pos hall]
+      rw [ite_eq_left hall]
       have h1 : C₀ ⊓ (powMonoidHom r : C →* C).range = (powMonoidHom r : C →* C).range := by
         rw [htop, top_inf_eq]
       have h2 := card_le_mul_card_pow_range (C := C) (r := r)
@@ -304,7 +304,7 @@ theorem toral_lower_bound_succ {r k : ℕ} [hr : Fact r.Prime] [Nontrivial C] (h
     · have hnall : ¬ ∀ z : C, Matrix.GeneralLinearGroup.scalar (Fin (k + 1)) (e z) ∈ Z := by
         intro h
         exact htop (Subgroup.eq_top_iff' _ |>.2 fun z => (hmemC₀ z).2 (h z))
-      rw [if_neg hnall]
+      rw [ite_eq_right hnall]
       have h1 : C₀ ⊓ (powMonoidHom r : C →* C).range = C₀ :=
         inf_eq_left.2 (le_pow_range_of_ne_top hCr htop)
       rw [h1] at hΩ'

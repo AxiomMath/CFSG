@@ -92,7 +92,7 @@ theorem finrank_le_six_of_abelian [Finite K] (hK : Nat.card K = 4) [FiniteDimens
   classical
   by_contra hN
   have hN7 : 7 ≤ Module.finrank K V := by omega
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hZ := scalarLike_scalars (V := V) hK
   obtain ⟨T, hTQ, hT3, hTQ3, hTcard⟩ := exists_cube_kernel_of_good hZ hQ
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_three hK

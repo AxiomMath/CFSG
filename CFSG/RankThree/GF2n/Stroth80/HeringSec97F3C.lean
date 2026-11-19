@@ -18,6 +18,7 @@ theorem conj_eq_of_le {x : G} {S : Subgroup G} (h : conjSubgroup x S ≤ S) :
     conjSubgroup x S = S :=
   Subgroup.eq_of_le_of_card_ge h (by rw [card_conjSubgroup])
 
+omit [Finite G] in
 theorem conj_le_of_forall {x : G} {S T : Subgroup G} (h : ∀ s ∈ S, x * s * x⁻¹ ∈ T) :
     conjSubgroup x S ≤ T := by
   intro y hy
@@ -99,6 +100,7 @@ theorem mem_sup_sup_iff (hc : Ctx M Q Z B) {F : Subgroup G} (hFQ : F ≤ Q) {p :
   obtain ⟨z, hz, b, hb, rfl⟩ := (Smith81.Ctx.mem_sup_iff hc).mp hw
   exact ⟨z, hz, b, hb, f, hf, rfl⟩
 
+omit [Finite G] in
 theorem exists_ne_one_mem (hc : Ctx M Q Z B) : ∃ b ∈ B, b ≠ 1 := by
   by_contra hcon
   push Not at hcon

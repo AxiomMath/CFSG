@@ -49,6 +49,7 @@ theorem exists_sq_eq_charTwo_algebraic (c : Ω) : ∃ d : Ω, d ^ 2 = c := by
   rw [← map_pow, hd]
   rfl
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem j_pinnedX
     {E : Type} [Field E] [CharP E 2] (f : E →+* Ω)
     (α : Fin F4.tag.rank → ℤ) (c : E) :

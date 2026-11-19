@@ -18,7 +18,7 @@ private theorem commutator_le_inf_J_of_card (h : Tim79a.ParrottHyp z) {x : G} {T
     (hT : IsSylowOf 2 T (H z ⊓ centralizer ({x} : Set G))) (hTc : Nat.card T = 2 ^ 8)
     (hJx : 2 ^ 6 ≤ Nat.card ↥(J z ⊓ centralizer ({x} : Set G))) :
     ⁅T, T⁆ ≤ T ⊓ J z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQleT : J z ⊓ centralizer ({x} : Set G) ≤ T :=
     J_inf_centralizer_le_of_isSylowOf (z := z) h hT
   have hHN : H z ≤ Subgroup.normalizer (J z : Set G) :=
@@ -44,7 +44,7 @@ theorem two_pow_five_lt_card_inf_centralizer_of_mem_commutator (h : Tim79a.Parro
     (hTc : Nat.card T = 2 ^ 8) (hJx : 2 ^ 6 ≤ Nat.card ↥(J z ⊓ centralizer ({x} : Set G)))
     {y : G} (hy : y ∈ ⁅T ⊓ centralizer ({y} : Set G), T ⊓ centralizer ({y} : Set G)⁆) :
     2 ^ 5 < Nat.card ↥(T ⊓ centralizer ({y} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQleT : J z ⊓ centralizer ({x} : Set G) ≤ T :=
     J_inf_centralizer_le_of_isSylowOf (z := z) h hT
   have hTT : ⁅T, T⁆ ≤ T ⊓ J z := commutator_le_inf_J_of_card h hT hTc hJx
@@ -93,6 +93,7 @@ section Spin
 
 variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 
+omit hN [Finite G] in
 private theorem center_subgroupOf_le_centralizerJ_of_conjZ_eq_one_spin {x : H z}
     (hx : conjZ z x = 1) : Subgroup.center (J z) ≤ centralizerJ x := by
   intro j hj
@@ -104,6 +105,7 @@ private theorem center_subgroupOf_le_centralizerJ_of_conjZ_eq_one_spin {x : H z}
   exact Subgroup.mem_centralizer_singleton_iff.mp
     (centerIn_le_centralizer_of_conjZ_eq_one (z := z) (x := x) hx hjZ)
 
+omit hN [Finite G] in
 private theorem card_centralizerJ_inf_center_eq_four_of_conjZ_eq_one_spin
     (h : Tim79a.ParrottHyp z) {x : H z} (hx : conjZ z x = 1) :
     Nat.card ↥(centralizerJ x ⊓ Subgroup.center (J z)) = 4 := by

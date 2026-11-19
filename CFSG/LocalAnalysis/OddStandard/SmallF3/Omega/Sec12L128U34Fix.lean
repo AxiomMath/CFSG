@@ -11,7 +11,7 @@ open Subgroup
 theorem sec128_no_order13 {V : Type} [Group V] [Finite V] (hV : Nat.card V = 2 ^ 8)
     (g : MulAut V) (hg : g ^ 13 = 1) : g = 1 := by
   by_contra hg1
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
   have hdvd : orderOf g ∣ 13 := orderOf_dvd_of_pow_eq_one hg
   have horder : orderOf g = 13 := by
     rcases Nat.Prime.eq_one_or_self_of_dvd (by decide : Nat.Prime 13) (orderOf g) hdvd with

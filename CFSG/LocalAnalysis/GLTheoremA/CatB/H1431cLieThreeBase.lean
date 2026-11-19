@@ -42,7 +42,7 @@ theorem lieS3_false_of_noL2Layer {S : Type} [Group S] {α : MulAut S} (h : NoL2L
 
 theorem lieS3_noL2Layer_of_famOK {S P : Type} [Group S] [Finite S] [Group P] (e : S ≃* P)
     (hP : FamOK P) {α : MulAut S} (hα3 : α ^ 3 = 1) (hα : α ∉ inner S) : NoL2Layer α := by
-  haveI : Finite P := Finite.of_equiv S e.toEquiv
+  have : Finite P := Finite.of_equiv S e.toEquiv
   refine noL2Layer_congr e ?_
   have h3 : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   obtain ⟨γ, f, hγ, hf⟩ := hP (MulAut.congr e α) h3 fun hin =>
@@ -84,14 +84,14 @@ theorem lieS3_typeLayer_psl2 {K : Type} [Field K] [Finite K]
     by_cases h4 : 4 ≤ Nat.card F₀
     · obtain ⟨hQ₀, hZ₀⟩ := CFSG.HardMathSupport.Solomon.Coordinator.l2fld_isQuasisimple_psl2 h4
       have hsimple : IsSimpleGroup (StatedProj (StatedSL 2 F₀)) := by
-        haveI := hQ₀.2
+        have := hQ₀.2
         exact ((QuotientGroup.quotientMulEquivOfEq hZ₀).trans
           QuotientGroup.quotientBot).symm.isSimpleGroup
-      haveI := hsimple
+      have := hsimple
       refine typeLayer_of_fixed_equiv β ψ1 hsimple (exists_noncomm_of_center_bot hZ₀) fun hT => ?_
       rw [hcard, lieS3_card_of_catalog h4 hT]
       norm_num
-    · haveI : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
+    · have : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
         CFSG.HardMathSupport.Solomon.Coordinator.l2fld_isSolvable_psl2_of_card_le_three
           (F := F₀) (by omega)
       exact typeLayer_of_solvable_fixed
@@ -100,7 +100,7 @@ theorem lieS3_typeLayer_psl2 {K : Type} [Field K] [Finite K]
 theorem lieS3_A1 {S K : Type} [Group S] [Finite S] [Field K] [Finite K]
     (eK : S ≃* StatedProj (StatedSL 2 K)) {α : MulAut S} (hα3 : α ^ 3 = 1) (hα1 : α ≠ 1)
     (hc : CompOfType S α isL2three6) : Nat.card K = 3 ^ 18 := by
-  haveI : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
+  have : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv S eK.toEquiv
   have hβ3 : MulAut.congr eK α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   have hβ1 : MulAut.congr eK α ≠ 1 := fun h =>
     hα1 ((MulAut.congr eK).injective (h.trans (map_one _).symm))

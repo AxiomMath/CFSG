@@ -192,6 +192,7 @@ theorem alpha_map (E : List Γ) {xs : List (List ℕ × ℕ × ℕ)} (t : List �
   simp only [Function.comp_apply, qWi, qW, xe]
   rw [wv_repW, wv_repW, wv_invW E x.1 (hxs x hx), inv_pow]
 
+omit [Group Γ] in
 theorem alpha_bnd (E : List Γ) {xs : List (List ℕ × ℕ × ℕ)} {t : List ℕ × ℕ × ℕ}
     (hxs : ∀ x ∈ xs, ∀ l ∈ x.1, l < E.length) (ht : ∀ l ∈ t.1, l < E.length) :
     ∀ w ∈ alphaW E.length xs t, ∀ l ∈ w, l < 2 * E.length := by
@@ -273,7 +274,7 @@ theorem idx_sound (h : BaseLetters n B L E) {xs : List (List ℕ × ℕ × ℕ)}
     have e := h.eqB_sound (expW_bnd hAb hwj) (fun l hl => by
       simp only [List.mem_singleton] at hl; omega) hjr
     rw [wv_cons, wv_nil, mul_one, wv_expW E _ _ hwj, hA] at e
-    have e2 : lv E j = E[j] := by simp [lv, hjl, List.getD_eq_getElem _ _ hjl]
+    have e2 : lv E j = E[j] := by simp [lv, hjl]
     change E[j] ∈ Subgroup.closure {x | x ∈ olOf E xs ++ [xe E t]}
     rw [← e2, ← e]
     refine prod_getD_mem _ _ (fun a ha => ?_) fun g hg => Subgroup.subset_closure hg
@@ -294,7 +295,7 @@ theorem wv_subW (E : List Γ) : ∀ (V : List (List ℕ)) (e : ℕ), wv E (subW 
     congr 1
     by_cases he : e % 2 = 1
     · rw [he, Nat.beq_refl]; simp
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       have : Nat.beq (e % 2) 1 = false := Bool.eq_false_iff.mpr fun h => he (Nat.eq_of_beq_eq_true h)
       rw [this]; rfl
 
@@ -333,7 +334,7 @@ theorem sp_commute {h : Γ} : ∀ (gs : List Γ), (∀ g ∈ gs, Commute h g) �
 
 theorem sp_cons_two (g : Γ) (gs : List Γ) (e : ℕ) (b : Bool) :
     sp (g :: gs) (2 * e + b.toNat) = (if b then g else 1) * sp gs e := by
-  cases b <;> simp [sp, Nat.mul_add_div, Nat.mul_add_mod]
+  cases b <;> simp [sp, Nat.mul_add_div]
 
 theorem sp_mul_left (z : Γ) : ∀ (gs : List Γ), (∀ g ∈ gs, Commute g z) →
     (∀ g ∈ gs, ∃ k : ℕ, g * g = z ^ k) →
@@ -350,10 +351,10 @@ theorem sp_mul_left (z : Γ) : ∀ (gs : List Γ), (∀ g ∈ gs, Commute g z) �
     · by_cases hb : e % 2 = 1
       · obtain ⟨k, hk⟩ := hsq h List.mem_cons_self
         refine ⟨2 * (e / 2) + (false).toNat, by simp; omega, k, ?_⟩
-        rw [sp_cons_two, hsp, if_pos hb, ← mul_assoc, hk]
+        rw [sp_cons_two, hsp, ite_eq_left hb, ← mul_assoc, hk]
         simp
       · refine ⟨2 * (e / 2) + (true).toNat, by simp; omega, 0, ?_⟩
-        rw [sp_cons_two, hsp, if_neg hb]
+        rw [sp_cons_two, hsp, ite_eq_right hb]
         simp
     · obtain ⟨e', he', k', hk'⟩ := sp_mul_left z gs hzc'
         (fun x hx => hsq x (List.mem_cons_of_mem _ hx))
@@ -559,7 +560,7 @@ theorem hat_sound (h : BaseLetters n B L E) {xs : List (List ℕ × ℕ × ℕ)}
       hatPart L n B E.length xs t ws pts w1 w2 vws wit ex k = true :=
     fun k hk => hc k (List.mem_range.mpr hk)
   have h0 := hpart 0 (by omega)
-  simp only [hatPart, Nat.beq_refl, cond_true, Bool.and_eq_true, List.all_eq_true, bnd_iff] at h0
+  simp only [hatPart, Nat.beq_refl, _root_.Bool.cond_true, Bool.and_eq_true, List.all_eq_true, bnd_iff] at h0
   obtain ⟨⟨⟨⟨⟨⟨hidx, hsix⟩, hv6⟩, hvb⟩, hvfix⟩, hci⟩, -⟩ := h0
   obtain ⟨hid, hxs, ht⟩ := idx_sound h hidx
   have hAb := alpha_bnd E hxs ht
@@ -696,7 +697,7 @@ theorem hat_sound (h : BaseLetters n B L E) {xs : List (List ℕ × ℕ × ℕ)}
     have e1 : Nat.beq (a + 1) 0 = false := rfl
     have e2 : Nat.blt (a + 1) ((alphaW E.length xs t).length + 1) = true :=
       Nat.blt_eq.mpr (by omega)
-    simp only [hatPart, e1, e2, cond_false, cond_true, Nat.add_sub_cancel] at hk
+    simp only [hatPart, e1, e2, Bool.cond_false, _root_.Bool.cond_true, Nat.add_sub_cancel] at hk
     exact hk
   have hVnorm : ∀ g ∈ olOf E xs ++ [xe E t], ∀ v ∈ Subgroup.closure {v | v ∈ vl},
       g⁻¹ * v * g ∈ Subgroup.closure {v | v ∈ vl} := by
@@ -719,7 +720,7 @@ theorem hat_sound (h : BaseLetters n B L E) {xs : List (List ℕ × ℕ × ℕ)}
       Bool.eq_false_iff.mpr fun hb => by
         have := Nat.blt_eq.mp hb
         omega
-    simp only [hatPart, e1, e2, cond_false] at hk
+    simp only [hatPart, e1, e2, Bool.cond_false] at hk
     exact hk
   have hcard := card_closure_sp vl hvsq hvc (h.witChk_sound hVb hwit)
   rw [hvl6] at hcard
@@ -737,7 +738,7 @@ theorem cond_beq_one {α : Type} (e : ℕ) (x y : α) :
   by_cases he : e % 2 = 1
   · rw [he, Nat.beq_refl]
     rfl
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     have : Nat.beq (e % 2) 1 = false := Bool.eq_false_iff.mpr fun h => he (Nat.eq_of_beq_eq_true h)
     rw [this]
     rfl
@@ -766,7 +767,7 @@ theorem rowSum_xor (C : List ℕ) : ∀ (idx : List ℕ) (e f : ℕ),
     intro j
     rcases Nat.mod_two_eq_zero_or_one e with h1 | h1 <;>
       rcases Nat.mod_two_eq_zero_or_one f with h2 | h2 <;>
-      simp [h1, h2, Nat.testBit_xor, Bool.xor_assoc, Bool.xor_left_comm]
+      simp [h1, h2, Nat.testBit_xor, Bool.xor_left_comm]
 
 theorem mem_of_testBit_maskOf : ∀ (idx : List ℕ) {k : ℕ}, (maskOf idx).testBit k = true → k ∈ idx
   | [], k, h => by simp [maskOf] at h
@@ -848,7 +849,7 @@ theorem ext_sound [Finite Γ] (h : BaseLetters n B L E) {xs : List (List ℕ × 
       extPart L B E.length xs t ws W zw sq C idx ex k = true :=
     fun k hk => hc k (List.mem_range.mpr hk)
   have h0 := hpart 0 (by omega)
-  simp only [extPart, Nat.beq_refl, cond_true, Bool.and_eq_true] at h0
+  simp only [extPart, Nat.beq_refl, _root_.Bool.cond_true, Bool.and_eq_true] at h0
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hidc, hWb⟩, hzb⟩, hzW⟩, hz1⟩, hzz⟩, hzc⟩, hrel⟩, hib⟩, hiz⟩, hgram⟩, -⟩ := h0
   obtain ⟨hid, hxs, htb⟩ := idx_sound h hidc
   have ht1 : xe E t = 1 := by
@@ -1106,7 +1107,7 @@ theorem ext_sound [Finite Γ] (h : BaseLetters n B L E) {xs : List (List ℕ × 
     obtain ⟨a, ha, rfl⟩ := List.getElem_of_mem hw
     have hk := hpart (a + 1) (by omega)
     have e1 : Nat.beq (a + 1) 0 = false := rfl
-    simp only [extPart, e1, cond_false, Nat.add_sub_cancel] at hk
+    simp only [extPart, e1, Bool.cond_false, Nat.add_sub_cancel] at hk
     refine conj_closure fun v hv => ?_
     obtain ⟨e, he⟩ := h.normA_sound hAb hWb2 hk v hv
     rw [List.getD_eq_getElem _ _ ha] at he

@@ -20,7 +20,7 @@ theorem c8k_cyclic_sylow3 (D : Data G) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.sig)
     (hK : CFSG.QuasithinUnique.CharTwo K) (hKM : ¬ K ≤ D.M) {d : G} (hdK : d ∈ K)
     (hdM : d ∈ D.M) (hd3 : orderOf d = 3) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P K ∧ P ≤ D.M ∧ IsCyclic P ∧ d ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : IsPGroup 3 (Subgroup.zpowers d) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hd3, pow_one])
   have hUle : Subgroup.zpowers d ≤ K ⊓ D.M := Subgroup.zpowers_le.2 ⟨hdK, hdM⟩
@@ -39,14 +39,14 @@ theorem c8k_cyclic_sylow3 (D : Data G) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.sig)
 private theorem c8k_pSubgroups_cyclic {K P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P K) (hc : IsCyclic P) :
     ∀ A : Subgroup ↥K, IsPGroup 3 A → IsCyclic A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hP
   have hQc : IsCyclic ↥Q :=
     (Subgroup.equivMapOfInjective (Q : Subgroup ↥K) K.subtype K.subtype_injective).isCyclic.mpr
       (hQ ▸ hc)
   intro A hA
   obtain ⟨R, hAR⟩ := hA.exists_le_sylow
-  haveI : IsCyclic ↥R := (Sylow.equiv Q R).isCyclic.mp hQc
+  have : IsCyclic ↥R := (Sylow.equiv Q R).isCyclic.mp hQc
   exact Subgroup.isCyclic_of_le hAR
 
 theorem c8k_pRank_le_one_of_sylow {K P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P K)
@@ -56,10 +56,10 @@ theorem c8k_pRank_le_one_of_sylow {K P : Subgroup G} (hP : CFSG.ABGLocalTools.Is
 
 theorem c8k_three_part {B C₀ : Subgroup G} (hCB : C₀ ≤ B) (hP : C8P0 B C₀) {d : G}
     (hdB : d ∈ B) (hd3 : orderOf d = 3) (hdC : d ∉ C₀) {P : Subgroup G}
-    (hPB : CFSG.ABGLocalTools.IsSylowOf 3 P B) (hdP : d ∈ P) (hPc : IsCyclic P) :
+    (hPB : CFSG.ABGLocalTools.IsSylowOf 3 P B) (_hdP : d ∈ P) (hPc : IsCyclic P) :
     ¬ 3 ∣ Nat.card C₀ := by
   obtain ⟨P₀, _, φ, -, hker, -, -⟩ := hP
-  haveI : (C₀.subgroupOf B).Normal := hker ▸ φ.normal_ker
+  have : (C₀.subgroupOf B).Normal := hker ▸ φ.normal_ker
   have hcyc : ∀ A : Subgroup ↥B, IsPGroup 3 A → IsCyclic A := c8k_pSubgroups_cyclic hPB hPc
   have hxp : (⟨d, hdB⟩ : ↥B) ^ 3 = 1 := by
     have ho : orderOf (⟨d, hdB⟩ : ↥B) = 3 := by rw [Subgroup.orderOf_mk, hd3]
@@ -100,7 +100,7 @@ theorem c8k_c0_three (D : Data G) (h61 : UC6.R6_1 D) (hse : IsStronglyPEmbedded 
       have : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     interval_cases k <;> omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPB : CFSG.ABGLocalTools.IsSylowOf 3 P (K ⊓ D.M) :=
     hPK.of_le (le_inf hPK.le hPM) inf_le_left
   exact ⟨c8k_three_part (inf_le_inf_left K (c8_cTilde_le D.M V₀ V)) hP ⟨hdK, hLM hdL⟩ hd3 hdC

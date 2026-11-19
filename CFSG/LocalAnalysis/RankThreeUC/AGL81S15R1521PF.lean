@@ -183,7 +183,7 @@ theorem case_table_1521_aux_normal_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt)
   · have hZ := Subgroup.card_eq_one.1
       (hKSMOdd.2 ↥(barO2 L) hK d ⟨q, hq, hd⟩ ⟨eQ.trans e⟩ hoddK)
     have hm3 := hr 3 Nat.prime_three (by norm_num)
-    simp only [if_true] at hm3
+    simp only [ite_true] at hm3
     exact Or.inr (Or.inr (Or.inr ⟨hn, Or.inr (Or.inr (Or.inl ⟨d, ⟨q, hq, hd⟩,
       case_table_1521_aux_equiv hZ ⟨eQ.trans e⟩⟩)), hZ, by omega⟩))
 
@@ -202,7 +202,7 @@ theorem case_table_1521_aux_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKSMO
           IsLThreeTwoProd 3 ↥(gnImg T (Subgroup.normalClosure (L : Set X))))
     (h15 : Shape1515 L) (h20 : CFSG.Open.pRank 3 L < 3) : Case21 T L := by
   by_cases hJ : L = Subgroup.normalClosure (L : Set X)
-  · haveI : L.Normal := by
+  · have : L.Normal := by
       have h := (Subgroup.normalClosure_normal (s := (L : Set X)))
       rw [← hJ] at h
       exact h
@@ -214,16 +214,16 @@ theorem case_table_1521_aux_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKSMO
     · exact Or.inr (Or.inr (Or.inl (Or.inr (hProd hJ hL3 hk))))
 
 theorem case_table_1521_aux (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKSMOdd : KSMOdd)
-    (hKSMU4 : KSMU4) (hKSML3 : KSML3)
-    (hProd : ∀ (hKSML3 : KSML3) {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
-      {L : Subgroup X} (hl : LiftCtx X T T₁ T₂ Ls L) (hne : L ≠ Subgroup.normalClosure (L : Set X))
-      (hL3 : IsLThreeOfExp 1 ↥(barO2 L))
-      (hk : Set.ncard {L' : Subgroup X | IsC2 L' ∧ L' ≤ Subgroup.normalClosure (L : Set X)} ≤ 3),
+    (hKSMU4 : KSMU4) (_hKSML3 : KSML3)
+    (hProd : ∀ (_hKSML3 : KSML3) {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
+      {L : Subgroup X} (_hl : LiftCtx X T T₁ T₂ Ls L) (_hne : L ≠ Subgroup.normalClosure (L : Set X))
+      (_hL3 : IsLThreeOfExp 1 ↥(barO2 L))
+      (_hk : Set.ncard {L' : Subgroup X | IsC2 L' ∧ L' ≤ Subgroup.normalClosure (L : Set X)} ≤ 3),
       IsLThreeTwoProd 2 ↥(gnImg T (Subgroup.normalClosure (L : Set X))) ∨
         IsLThreeTwoProd 3 ↥(gnImg T (Subgroup.normalClosure (L : Set X)))) {T T₁ T₂ : Subgroup X}
-    {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (hl : LiftCtx X T T₁ T₂ Ls L) (h15 : Shape1515 L)
+    {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (_hl : LiftCtx X T T₁ T₂ Ls L) (h15 : Shape1515 L)
     (h20 : CFSG.Open.pRank 3 L < 3) : Case21 T L :=
-  case_table_1521_aux_gen hT hKSMAlt hKSMOdd hKSMU4 hl.toGen
-    (fun hne hL3 hk => hProd hKSML3 hl hne hL3 hk) h15 h20
+  case_table_1521_aux_gen hT hKSMAlt hKSMOdd hKSMU4 _hl.toGen
+    (fun _hne _hL3 _hk => hProd _hKSML3 _hl _hne _hL3 _hk) h15 h20
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {Q : Type} [Group Q] [Finite Q] {T A B R L₀ : Subgroup Q}
 
+omit [Finite Q] in
 private theorem wc813pstep_exists_sq_not_comm {J : Subgroup Q} (hJ : IsComponentOf J ⊤) :
     ∃ x ∈ J, ∃ l ∈ J, x * x * l ≠ l * x * x := by
   by_contra hcon
@@ -41,11 +42,12 @@ private theorem wc813pstep_exists_sq_not_comm {J : Subgroup Q} (hJ : IsComponent
       _ = b * a := by
         rw [show a⁻¹ = a from (eq_inv_of_mul_eq_one_right ha).symm,
             show b⁻¹ = b from (eq_inv_of_mul_eq_one_right hb).symm]
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
-  haveI : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) := inferInstance
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) := inferInstance
   exact Group.IsPerfect.not_isMulCommutative (↥J ⧸ Subgroup.center ↥J) hcomm
 
+omit [Finite Q] in
 private theorem wc813pstep_conjSubgroup_eq_iff {J : Subgroup Q} {c d : Q} :
     conjSubgroup J c = conjSubgroup J d ↔ c * d⁻¹ ∈ normalizer (J : Set Q) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer]
@@ -345,6 +347,7 @@ private theorem wc813pstep_sq_central_of_decomp (h : Cfg813 T A B R L₀) {J : S
       l * ((s * (w * s * w⁻¹)) * (s * (w * s * w⁻¹))) :=
   sq_central_of_decomp_of_k1 h.K1 h.A_elem hJ ha hb hmoved hsJ hs hc hbsc
 
+omit [Finite Q] in
 private theorem wc813pstep_central_of_commuting_conjugates {J : Subgroup Q}
     (hJ : IsComponentOf J ⊤) {s : Q} (hsJ : s ∈ J) (hs : s * s = 1)
     (h : ∀ w ∈ J, ∀ l ∈ J, ((s * (w * s * w⁻¹)) * (s * (w * s * w⁻¹))) * l =
@@ -432,7 +435,7 @@ private theorem wc813pstep_inf_centralizer_odd (h : Cfg813 T A B R L₀) {J : Su
   exact h.center_odd hJ
 
 theorem Cfg813.inf_centralizer_eq_bot (h : Cfg813 T A B R L₀) {J : Subgroup Q}
-    (hJ : IsComponentOf J ⊤) (hJ5 : OddShape5 J) (hAJ : A ≤ normalizer (J : Set Q))
+    (hJ : IsComponentOf J ⊤) (_hJ5 : OddShape5 J) (hAJ : A ≤ normalizer (J : Set Q))
     (hne : ¬ A ≤ centralizer (J : Set Q)) : A ⊓ centralizer (J : Set Q) = ⊥ := by
   classical
   rcases Subgroup.bot_or_exists_ne_one (A ⊓ centralizer (J : Set Q)) with hbot | ⟨b, hb, hb1⟩
@@ -523,10 +526,10 @@ theorem Cfg813.inf_centralizer_eq_bot (h : Cfg813 T A B R L₀) {J : Subgroup Q}
         have : (⟨y, hy⟩ : ↥J) ∈ (Subgroup.closure W ⊓ J).subgroupOf J := by
           rw [htop]; exact Subgroup.mem_top _
         exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp this)).1
-      haveI : IsMulCommutative ↥J := isMulCommutative_iff.mpr fun y z =>
+      have : IsMulCommutative ↥J := isMulCommutative_iff.mpr fun y z =>
         Subtype.ext (IsElemAbelian.comm hW (hJleW y.2) (hJleW z.2))
-      haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-      haveI : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+      have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+      have : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
       exact (Group.IsPerfect.not_isMulCommutative ↥J inferInstance).elim
 
 theorem Cfg813.A_le_sup_centralizer (hF0 : OddSchurMultiplierFact) (hF1 : InvolutionCentralizerFact)
@@ -536,10 +539,11 @@ theorem Cfg813.A_le_sup_centralizer (hF0 : OddSchurMultiplierFact) (hF1 : Involu
     (h.inf_centralizer_eq_bot hJ (h.oddShape5 hF0 hJ) (h.A_le_normalizer hF0 hF1 hJ) hne)
     (K1In.of_top J h.K1)
 
+omit [Finite Q] in
 private theorem wc813pstep_relIndex_inf_eq_of_sup_eq {B R S : Subgroup Q} (hBS : B ≤ S)
     (hRS : R ≤ S) (hsup : B ⊔ R = S) (hRn : (R.subgroupOf S).Normal) :
     (B ⊓ R).relIndex B = R.relIndex S := by
-  haveI : (R.subgroupOf S).Normal := hRn
+  have : (R.subgroupOf S).Normal := hRn
   have hsup' : (B.subgroupOf S) ⊔ (R.subgroupOf S) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hBS hRS, hsup]
     exact Subgroup.subgroupOf_self S
@@ -552,6 +556,7 @@ private theorem wc813pstep_relIndex_inf_eq_of_sup_eq {B R S : Subgroup Q} (hBS :
     _ = (R.subgroupOf S).index := h1.symm
     _ = R.relIndex S := rfl
 
+omit [Finite Q] in
 private theorem wc813pstep_card_sup_mul_card_inf {A B : Subgroup Q}
     (hAB : A ≤ normalizer (B : Set Q)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card ↥A * Nat.card ↥B := by
@@ -568,6 +573,7 @@ private theorem wc813pstep_card_sup_mul_card_inf {A B : Subgroup Q}
   rw [← hB, ← hA]
   ring
 
+omit [Finite Q] in
 private theorem wc813pstep_normalizer_le_normalizer_centralizer {J : Subgroup Q} :
     normalizer (J : Set Q) ≤ normalizer ((centralizer (J : Set Q) : Subgroup Q) : Set Q) := by
   intro g hg
@@ -645,6 +651,7 @@ private theorem wc813pstep_sylow_eq_sup {J C P : Subgroup Q} (hJC : J ≤ centra
           pow_add _ _ _
       _ = Nat.card ↥(P ⊓ J) * Nat.card ↥(P ⊓ C) := by rw [← hPJ.card_eq, ← hPC.card_eq])
 
+omit [Finite Q] in
 private theorem wc813pstep_conjAct_smul (q : Q) (J : Subgroup Q) :
     ConjAct.toConjAct q • J = conjSubgroup J q⁻¹ := by
   rw [show ConjAct.toConjAct q • J = J.map (MulAut.conj q) from rfl]
@@ -653,7 +660,7 @@ private theorem wc813pstep_conjAct_smul (q : Q) (J : Subgroup Q) :
 theorem Cfg813.isSylowIn_inf_normalizer (h : Cfg813 T A B R L₀) {J : Subgroup Q}
     (hJ : IsComponentOf J ⊤) :
     IsSylowIn 2 (T ⊓ normalizer (J : Set Q)) (normalizer (J : Set Q)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup Q := normalizer (J : Set Q) with hN
   have hstabQ : MulAction.stabilizer (ConjAct Q) J =
       N.comap ConjAct.ofConjAct.toMonoidHom := by
@@ -662,7 +669,7 @@ theorem Cfg813.isSylowIn_inf_normalizer (h : Cfg813 T A B R L₀) {J : Subgroup 
     change g • J = J ↔ ConjAct.ofConjAct g ∈ N
     rw [hN, Subgroup.mem_normalizer_iff_map_conj_eq]
     rfl
-  letI : MulAction T (Subgroup Q) :=
+  let : MulAction T (Subgroup Q) :=
     MulAction.compHom (α := Subgroup Q) (ConjAct.toConjAct.toMonoidHom.comp T.subtype)
   have hstabT : MulAction.stabilizer T J = (N ⊓ T).subgroupOf T := by
     ext t
@@ -734,7 +741,7 @@ theorem Cfg813.isSylowIn_inf_component (h : Cfg813 T A B R L₀) {J : Subgroup Q
     (Subgroup.le_normalizer : J ≤ normalizer (J : Set Q)) Subgroup.normal_in_normalizer
   rwa [inf_assoc, inf_eq_right.mpr (Subgroup.le_normalizer : J ≤ normalizer (J : Set Q))] at hN
 
-theorem Cfg813.exists_decomp (hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀)
+theorem Cfg813.exists_decomp (_hF0 : OddSchurMultiplierFact) (h : Cfg813 T A B R L₀)
     {J : Subgroup Q} (hJ : IsComponentOf J ⊤) {a : Q} (haT : a ∈ T)
     (haJ : a ∈ J ⊔ centralizer (J : Set Q)) :
     ∃ ℓ ∈ T ⊓ J, ∃ c ∈ T ⊓ centralizer (J : Set Q), a = ℓ * c := by

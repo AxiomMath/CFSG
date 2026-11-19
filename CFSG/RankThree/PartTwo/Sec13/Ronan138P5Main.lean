@@ -38,8 +38,8 @@ theorem center_eq_bot_of_isLThreePi {X : Type} [Group X] [Finite X] (hX : CFSG.I
       have h2 : p ^ e = 2 := by omega
       obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp h2
       have hs := Sec13.isSolvable_projSU_two
-      have hsolv : IsSolvable X :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+      have hsolv : Group.IsSolvable X :=
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       have : Group.IsPerfect X := hX.1
       have : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hX
       exact Group.IsPerfect.not_isSolvable X hsolv

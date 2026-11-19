@@ -12,7 +12,7 @@ open CFSG.Open Subgroup
 theorem isMulCommutative_sylow_of_card_eq_tits {L : Type} [Group L] [Finite L] {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hcard : Nat.card L = 17971200) (P : Sylow p L) :
     IsMulCommutative (P : Subgroup L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hk : (Nat.card L).factorization p ≤ 2 := by
     by_contra hk
     have hk3 : 3 ≤ (Nat.card L).factorization p := by omega
@@ -40,10 +40,10 @@ theorem isMulCommutative_sylow_of_card_eq_tits {L : Type} [Group L] [Finite L] {
   generalize (Nat.card L).factorization p = k at hPcard hk
   interval_cases k
   · have h1 : Nat.card (P : Subgroup L) = 1 := by simpa using hPcard
-    haveI : Subsingleton (P : Subgroup L) := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton (P : Subgroup L) := (Nat.card_eq_one_iff_unique.1 h1).1
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
   · have h1 : Nat.card (P : Subgroup L) = p := by simpa using hPcard
-    haveI : IsCyclic (P : Subgroup L) := isCyclic_of_prime_card h1
+    have : IsCyclic (P : Subgroup L) := isCyclic_of_prime_card h1
     exact ⟨⟨fun a b => IsCyclic.commGroup.mul_comm a b⟩⟩
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hPcard
 

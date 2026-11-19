@@ -23,7 +23,7 @@ theorem exists_fieldPart_suzukiGroup
       ∀ x : MulAut (suzukiGroup a K), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ inner (suzukiGroup a K) ⊔ F := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   obtain ⟨-, ⟨e, he⟩, -, hbot, -, -, -⟩ :=
     CFSG.RankThree.Automorphisms.Suzuki_full_field_automorphism_splitting a ha K hK
   let F : Subgroup (MulAut (suzukiGroup a K)) := (szFieldAut a K).range
@@ -35,7 +35,7 @@ theorem exists_fieldPart_suzukiGroup
     rw [he g σ]
     exact Subgroup.mul_mem_sup ⟨g, rfl⟩ (MonoidHom.mem_range.mpr ⟨σ, rfl⟩)
   have hFcyc : IsCyclic ↥F := by
-    haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic Nat.prime_two K hK).2
+    have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic Nat.prime_two K hK).2
     exact isCyclic_of_surjective (szFieldAut a K).rangeRestrict
       (MonoidHom.rangeRestrict_surjective (szFieldAut a K))
   refine ⟨F, ?_, hFcyc, hbot, ?_, ?_⟩
@@ -49,8 +49,8 @@ theorem i713ClauseFor_lie_twistedB2
   intro K _ _ hK _habs ⟨eK⟩ p hp _hp2 _hpRank
   obtain ⟨-, a, ha, L, hLfield, hLfin, hf, hLcard, ⟨eL⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Census.suzukiModel_of_index m hv
-  letI : Field L := hLfield
-  letI : Finite L := hLfin
+  let : Field L := hLfield
+  let : Finite L := hLfin
   have hLcard' : Nat.card L = 2 ^ (2 * a + 1) := by rw [hLcard, hf]
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_suzukiGroup ha hLcard' hp)))

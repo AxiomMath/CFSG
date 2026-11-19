@@ -63,7 +63,7 @@ theorem exists_pGroup_gt [Finite G] {p : ℕ} [Fact p.Prime] {Y Q R : Subgroup G
     rw [P'.card_eq_multiplicity, P₂.card_eq_multiplicity]
   have hle : Nat.card (R.subgroupOf Y) ≤ Nat.card (P₂ : Subgroup Y) :=
     Subgroup.card_le_of_le hP₂
-  refine ⟨(P' : Subgroup Y).map Y.subtype, map_subtype_le _, P'.isPGroup'.map _, ?_⟩
+  refine ⟨(P' : Subgroup Y).map Y.subtype, map_subtype_le _, P'.isPGroup.map _, ?_⟩
   have hQle : Q ≤ (P' : Subgroup Y).map Y.subtype := fun q hq => ⟨⟨q, hQY hq⟩, hP' hq, rfl⟩
   refine lt_of_le_of_ne hQle ?_
   intro hEq

@@ -138,7 +138,7 @@ public theorem psl2_order_p_subgroup_card_of_unique_torus_family
     exact hdiv.symm
   have hTorcard' : Nat.card Tor = q * k' := by
     rw [hTorcard, hindex, hGcard, hUN]
-    have hkpos : 0 < k := by simpa [← hUcard] using (Nat.card_pos (α := U))
+    have hkpos : 0 < k := by simp [← hUcard]
     rw [Nat.div_eq_of_eq_mul_right (by omega)]
     simp [Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm]
   have hTcard (T : Tor) : Nat.card T.1 = k := by
@@ -179,7 +179,7 @@ public theorem psl2_order_p_subgroup_card_of_unique_torus_family
       let T' : Tor := T
       let z : Piece := ⟨T', ⟨⟨x, hTx⟩, x.property⟩⟩
       refine ⟨z, ?_⟩
-      simpa [hdecode, z]
+      simp [hdecode, z]
   let : Fintype Tor := Fintype.ofFinite Tor
   have hAlpha_card : Nat.card Alpha = (q * k') * (p - 1) := by
     calc

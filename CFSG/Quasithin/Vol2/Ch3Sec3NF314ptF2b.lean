@@ -75,7 +75,7 @@ theorem f2_center_mod {G : Type} [Group G] [Finite G] {H K : Subgroup G} (hKH : 
       rw [← h, QuotientGroup.eq_one_iff]
       exact hcomK y
     exact (commutatorElement_eq_one_iff_mul_comm.1 key).symm
-  haveI := hsimp
+  have := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K)) with hbot | htop
   · rw [hbot, Subgroup.mem_bot, QuotientGroup.eq_one_iff] at hcentre

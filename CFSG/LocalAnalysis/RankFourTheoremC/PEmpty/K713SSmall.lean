@@ -55,7 +55,7 @@ theorem outLift_of_card_outer_lt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : T
     [Finite K] [IsSimpleGroup K] (hnonab : ∃ a b : K, a * b ≠ b * a)
     (hrank : pRank p (⊤ : Subgroup K) ≤ 1) (hOut : Nat.card (Outer K) < p ^ 2) :
     OutLift p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center K = ⊥ := GL83.I713.center_eq_bot_of_simple hnonab
   obtain ⟨S⟩ : Nonempty (Sylow p (MulAut K)) := inferInstance
   refine outLift_of_split hp S ?_
@@ -71,7 +71,7 @@ theorem outLift_of_card_outer_lt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : T
       exact Dvd.intro _ this
     have h4 : N.relIndex S ∣ Nat.card (S : Subgroup (MulAut K)) :=
       Dvd.intro _ (relIndex_mul_card N (S : Subgroup (MulAut K)))
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 S.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 S.isPGroup
     rw [hm] at h4
     obtain ⟨j, hj, hjd⟩ := (Nat.dvd_prime_pow hp).1 h4
     rw [h1]
@@ -89,7 +89,7 @@ theorem outLift_of_card_outer_lt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : T
     hSab fun x y => IsMulCommutative.is_comm.comm x y
   obtain ⟨V, hVS, -, hVcard, hVexp, hVcomm⟩ :=
     CFSG.Goldschmidt.Sec82.exists_normal_plane_le_of_le hp hp2
-      (T := (S : Subgroup (MulAut K))) (R := (S : Subgroup (MulAut K))) S.isPGroup' le_rfl
+      (T := (S : Subgroup (MulAut K))) (R := (S : Subgroup (MulAut K))) S.isPGroup le_rfl
       Subgroup.le_normalizer hSnc
   have hVN : ¬ V ≤ N := by
     intro hVN

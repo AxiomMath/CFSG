@@ -33,7 +33,7 @@ theorem exists_inner_of_wclosedIn (hZ : ∀ k : K, (∀ x : K, k * x = x * k) �
       (∀ t ∈ (S : Subgroup (MulAut.conjNormal (H := K)).range).comap (innHom K),
         t * g * t⁻¹ = g) ∧ A = zpowers (innHom K g) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ι := innHom K
   have hι := innHom_injective hZ
   have hN : (ι.range).Normal := by
@@ -67,7 +67,7 @@ theorem exists_inner_of_wclosedIn (hZ : ∀ k : K, (∀ x : K, k * x = x * k) �
     rw [Nat.card_zpowers, hα3, hA3]
   have hαc : ∀ s ∈ (S : Subgroup (MulAut.conjNormal (H := K)).range), s * α * s⁻¹ = α := by
     intro s hs
-    obtain ⟨m, hm⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨m, hm⟩ := S.isPGroup ⟨s, hs⟩
     have hm' : s ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
     refine conj_eq_of_mem_zpowers hα3 hm' ?_
     have hle : A.map (MulAut.conj s).toMonoidHom ≤ S := by
@@ -127,7 +127,7 @@ theorem false_of_fuse_gamma (hZ : ∀ k : K, (∀ x : K, k * x = x * k) → k = 
     (hY : GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y)
     (hwc : IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hι := innHom_injective hZ
   obtain ⟨g, hgT, hg3, hgc, hAg⟩ := exists_inner_of_wclosedIn hZ hinnT S A hA3 Y hY.1 hwc
   set T₀ := (S : Subgroup (MulAut.conjNormal (H := K)).range).comap (innHom K)

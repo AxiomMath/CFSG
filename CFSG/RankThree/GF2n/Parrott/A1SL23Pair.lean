@@ -109,6 +109,7 @@ private theorem map_conj_quaternion_pair_eq_of_pow_three {P Q₁ Q₂ : Subgroup
   · exact (hswap h1 h2).elim
   · exact absurd (Subgroup.map_injective (MulAut.conj g).injective (h1.trans h2.symm)) hne
 
+omit [Finite G] in
 private theorem conjVA_mem_map_pi {Q : Subgroup G} {g : ↥(H z)}
     (hg : (g : G) ∈ Subgroup.normalizer (Q : Set G)) {x : QuotientV.V z}
     (hx : x ∈ (Q.subgroupOf (J z)).map (QuotientV.pi z)) :
@@ -128,6 +129,7 @@ local notation "s1A" => (⟨sigma1, sigma1_mem_A⟩ : ↥QA45.originalSubgroup)
 set_option quotPrecheck false in
 local notation "s2A" => (⟨sigma2, sigma2_mem_A⟩ : ↥QA45.originalSubgroup)
 
+omit [Finite G] in
 private theorem orderOf_map_eq_three (hcard : Nat.card (J z) = 2 ^ 9) {Q : Type*} [Group Q]
     (φ : ↥(H z) →* Q) (hker : φ.ker = (J z).subgroupOf (H z)) {g : ↥(H z)}
     (hg : orderOf g = 3) : orderOf (φ g) = 3 := by

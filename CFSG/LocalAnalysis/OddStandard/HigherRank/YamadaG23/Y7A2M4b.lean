@@ -45,7 +45,7 @@ private lemma y7a_mem_Z_iff {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp
     · exact ⟨1, by norm_num, by simp⟩
 
 theorem y7a_k_not_norm_U (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
-    (h71 : c.Fact71) {k : G} (hkA : k ∈ normIn L c.s.fr.A) (hkE : k ∈ normIn L c.s.fr.E)
+    (h71 : c.Fact71) {k : G} (hkA : k ∈ normIn L c.s.fr.A) (_hkE : k ∈ normIn L c.s.fr.E)
     (hfpf : ∀ f ∈ c.s.fr.E, k * f * k⁻¹ * f⁻¹ ∈ c.s.fr.Z → f ∈ c.s.fr.Z) :
     ¬ ∀ x ∈ c.s.fr.E ⊔ V2 c.e, k * x * k⁻¹ ∈ c.s.fr.E ⊔ V2 c.e := by
   intro hU

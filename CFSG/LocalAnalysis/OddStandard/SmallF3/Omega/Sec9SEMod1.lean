@@ -16,11 +16,13 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def phiSim (Q : QuadraticForm (ZMod 3) V) : OGroup Q →* ProjSim Q :=
   (projOrthToProjSim Q).comp (toProj Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem phiSim_eq_one_iff {g : OGroup Q} : phiSim Q g = 1 ↔ g = 1 ∨ g = piOrth Q := by
   rw [phiSim, MonoidHom.comp_apply,
     map_eq_one_iff (projOrthToProjSim Q) projOrthToProjSim_injective]
   exact Iff.trans (QuotientGroup.eq_one_iff g) mem_piGroup_iff
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ker_phiSim (Q : QuadraticForm (ZMod 3) V) : (phiSim Q).ker = piGroup Q := by
   ext g
   rw [MonoidHom.mem_ker, phiSim_eq_one_iff, mem_piGroup_iff]
@@ -74,6 +76,7 @@ theorem sec9e_card_comap (h : 0 < Module.finrank (ZMod 3) V) (F : Subgroup (Proj
   rw [card_comap_eq_card_ker_mul_card_of_le_range (phiSim Q) hFle, ker_phiSim, card_piGroup h]
   exact Nat.mul_comm _ _
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9e_comap_sq (F : Subgroup (ProjSim Q))
     (hlift : ∀ f ∈ F, f ≠ 1 → ∃ t : OGroup Q, t * t = 1 ∧ phiSim Q t = f) :
     ∀ g ∈ F.comap (phiSim Q), g * g = 1 := by

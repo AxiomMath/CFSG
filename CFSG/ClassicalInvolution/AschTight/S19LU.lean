@@ -125,7 +125,7 @@ theorem not_forall_comm_of_not_mem (hDT : Sec19DataT p f K z S W L t V) {s : G}
   have haN : s ∈ Subgroup.normalizer (K : Set G) := (S1916.sd_normalizer_eq hd).ge (hd.hSz hsS)
   have hac : ∀ y ∈ (S : Subgroup G) ⊓ K ⊓ W, s * y = y * s := fun y hy =>
     hcomm' y ⟨hy.1.2, hy.2⟩
-  obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨s, hsS⟩
+  obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨s, hsS⟩
   have h2 : orderOf s = 2 ^ n := by rw [← hn, Subgroup.orderOf_mk]
   have hcard : Nat.card ↥((S : Subgroup G) ⊓ K) ≤ 2 * Nat.card ↥((S : Subgroup G) ⊓ K ⊓ W) := by
     have e1 : (S : Subgroup G) ⊓ K ⊓ W = K ⊓ W := by
@@ -156,7 +156,7 @@ theorem exists_gen_conj_eq (hDT : Sec19DataT p f K z S W L t V) {a : G} (haS : a
   have hU : Subgroup.zpowers u = K ⊓ W := (Hall196.eq_zpowers_of_generator hu₀).symm
   have huo : orderOf u = Nat.card ↥(K ⊓ W) := by
     rw [hu, Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hu₀]
-  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup'.to_le (inf_le_right.trans hd.hWS)
+  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup.to_le (inf_le_right.trans hd.hWS)
   obtain ⟨N, hN⟩ := hU2.exists_card_eq
   have h4 : 4 ≤ orderOf u := by rw [huo, S1911.card_inf_eq_card hDT]; exact ef.four
   have haN : a ∈ Subgroup.normalizer (K : Set G) := (S1916.sd_normalizer_eq hd).ge (hd.hSz haS)

@@ -29,7 +29,7 @@ theorem ObstructionSetting.gl83InvariantTwoSylow_of_within (hS : ObstructionSett
       (normalizer ((zpowers z : Subgroup G) : Set G)) ≤ M :=
     sup_le (CFSG.ABGTheoremB.pPrimeCoreIn_le p M)
       ((CFSG.ABGTheoremB.pPrimeCoreIn_le p _).trans hN₀M)
-  exact isSylowOf_of_invariantTwoMaximalWithin hprime (P.isPGroup'.to_le hDP) hXM
+  exact isSylowOf_of_invariantTwoMaximalWithin hprime (P.isPGroup.to_le hDP) hXM
     (coprime_card_pPrimeCoreIn_sup hN₀M)
     (le_normalizer_pPrimeCoreIn_sup (hDP.trans hPM) hDN₀) hT hTX
 
@@ -51,7 +51,7 @@ theorem ObstructionSetting.gl83InvariantTwoWithin_of_nonConstrained (hS : Obstru
       rw [hk]
       exact ((Nat.coprime_primes hprime Nat.prime_two).mpr hodd).pow_right k
     have hTO := CFSG.AGLEmbedding.signalizer_le_glbPrimeCore_of_contains hprime hodd hcon
-      (P.isPGroup'.to_le hDP) (hDP.trans hPM)
+      (P.isPGroup.to_le hDP) (hDP.trans hPM)
       (fun y _ hyC hyo => hS.mem_of_mem_centralizer_of_isMulCommutative hD1 hp hext hab hCD hyC
         (by rw [← hyo]; exact pow_orderOf_eq_one y))
       hT.1 hTcop hT.2.2.1

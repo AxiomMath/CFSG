@@ -57,7 +57,7 @@ theorem ggExcGenRK_holds
   intro p hp hp2 X _ _ A Ab σ J n hd hk labJ labX hΛJ hΛX hR hhJ hhX
   obtain ⟨-, hgen⟩ := hR
   obtain ⟨hloc, hflat, hcard, hrank, hnum, hself, honly, hm⟩ := hd.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hExcB : GGK0ExcB := ltqJx_excB_of_excBS hBS
   have hK0 : GGK0MainBS GGKacGeneric GGKacValid := ggK0MainBS_of_B_exc hExcB.toMainB

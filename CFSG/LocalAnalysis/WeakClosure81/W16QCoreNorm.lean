@@ -16,6 +16,7 @@ namespace KTCfg16
 
 variable {U V₀ V I K T Q : Subgroup G}
 
+omit [Finite G] in
 private lemma w16q_mem_sup_of_commute {A B : Subgroup G}
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {x : G} :
     x ∈ A ⊔ B ↔ ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
@@ -32,6 +33,7 @@ private lemma w16q_mem_sup_of_commute {A B : Subgroup G}
   rw [hcoe]
   exact Set.mem_mul
 
+omit [Finite G] in
 private lemma w16q_isElementaryAbelian_sup_of_commute {p : ℕ} {A B : Subgroup G}
     (hA : IsElementaryAbelian p A) (hB : IsElementaryAbelian p B)
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
@@ -56,6 +58,7 @@ private lemma w16q_isElementaryAbelian_sup_of_commute {p : ℕ} {A B : Subgroup 
     obtain ⟨a, ha, b, hb, rfl⟩ := (w16q_mem_sup_of_commute hc).1 hx
     rw [(show Commute a b from hc a ha b hb).mul_pow, hA.2 a ha, hB.2 b hb, one_mul]
 
+omit [Finite G] in
 private lemma w16q_conj_mem_sup (h : KTCfg16 U V₀ V I K T Q) {τ z : G}
     (hτ : ∀ v ∈ V, τ * v * τ⁻¹ * v⁻¹ ∈ V₀) (hz : z ∈ U ⊔ V₀) :
     τ * z * τ⁻¹ ∈ U ⊔ V₀ := by
@@ -64,6 +67,7 @@ private lemma w16q_conj_mem_sup (h : KTCfg16 U V₀ V I K T Q) {τ z : G}
     mul_mem (Subgroup.mem_sup_right h1) hz
   rwa [show (τ * z * τ⁻¹ * z⁻¹) * z = τ * z * τ⁻¹ by group] at h2
 
+omit [Finite G] in
 private lemma w16q_commute_conj {c x b v : G} (hxb : c * x * c⁻¹ = b)
     (hbv : b * v = v * b) : x * (c⁻¹ * v * c) = (c⁻¹ * v * c) * x := by
   have h := congrArg (fun z => c⁻¹ * z * c) hbv
@@ -72,6 +76,7 @@ private lemma w16q_commute_conj {c x b v : G} (hxb : c * x * c⁻¹ = b)
   rw [show c⁻¹ * (v * (c * x * c⁻¹)) * c = (c⁻¹ * v * c) * x by group] at h
   exact h
 
+omit [Finite G] in
 private lemma w16q_mem_centralizer_conj {B : Subgroup G} {c x : G}
     (hc : c ∈ normalizer (B : Set G)) (hx : x ∈ centralizer (B : Set G)) :
     c * x * c⁻¹ ∈ centralizer (B : Set G) := by
@@ -85,10 +90,12 @@ private lemma w16q_mem_centralizer_conj {B : Subgroup G} {c x : G}
   rw [show c * (x * (c⁻¹ * w * c)) * c⁻¹ = (c * x * c⁻¹) * w by group] at h2
   exact h2
 
+omit [Finite G] in
 private lemma w16q_mem_of_conj_mem {A : Subgroup G} {c x : G}
     (hc : c ∈ normalizer (A : Set G)) (hx : c * x * c⁻¹ ∈ A) : x ∈ A :=
   (Subgroup.mem_normalizer_iff.1 hc x).2 hx
 
+omit [Finite G] in
 private lemma w16q_mem_normalizer_centralizer {B : Subgroup G} {g : G}
     (h : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer (centralizer (B : Set G) : Set G) := by
@@ -98,6 +105,7 @@ private lemma w16q_mem_normalizer_centralizer {B : Subgroup G} {g : G}
       exact h)
   exact hz (Subgroup.mem_zpowers g)
 
+omit [Finite G] in
 private lemma w16q_mem_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -261,7 +269,7 @@ theorem map_conj_le_of_mem_elemFamilyIn (h : KTCfg16 U V₀ V I K T Q) {τ : G}
     have hxB : τ * x * τ⁻¹ ∈ B := by
       change τ * x * τ⁻¹ ∈ Q₁.map (MulAut.conj τ).toMonoidHom
       rw [Subgroup.mem_map]
-      exact ⟨x, hx, by simp [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]⟩
+      exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
     exact w16q_mem_of_conj_mem hτD (hBD hxB)
   have hID : I ≤ D := le_trans le_sup_left hQ₁D
   have hIcentV : I ≤ centralizer (V : Set G) := le_trans hID inf_le_right

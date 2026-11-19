@@ -66,13 +66,13 @@ theorem oppositeFixedAt_of_map_congr {K K' : Type} [Group K] [Group K'] (e : K �
 
 theorem oppositeFixed_of_mulEquiv {K K' : Type} [Group K] [Group K'] (e : K ≃* K')
     (h : OppositeFixed K') : OppositeFixed K :=
-  fun p hp hp2 R hR Q =>
+  fun p hp hp2 _R hR Q =>
     oppositeFixedAt_of_map_congr e (h p hp hp2 _ (hR.map _) (Q.map e.toMonoidHom))
 
 theorem eq_of_le_of_inf_normalizer_le {G : Type} [Group G] [Finite G] {A Q : Subgroup G}
     (hA : IsPGroup 2 A) (hQA : Q ≤ A) (h : A ⊓ Subgroup.normalizer (Q : Set G) ≤ Q) :
     Q = A := by
-  haveI : Group.IsNilpotent ↥A := hA.isNilpotent
+  have : Group.IsNilpotent ↥A := hA.isNilpotent
   have hself : Subgroup.normalizer ((Q.subgroupOf A : Subgroup ↥A) : Set ↥A) = Q.subgroupOf A := by
     refine le_antisymm (fun x hx => ?_) Subgroup.le_normalizer
     rw [← Subgroup.subgroupOf_normalizer_eq hQA, Subgroup.mem_subgroupOf] at hx
@@ -112,7 +112,7 @@ theorem std_position {K : Type} [Group K] [Finite K] {Q PJ QJ : Subgroup K} (g :
     intro y
     have hxJ := Subgroup.mem_normalizer_iff.1 (hPJ (hNle hx)) y
     have hxN := Subgroup.mem_normalizer_iff.1 (Subgroup.le_normalizer hx) y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [hxJ, hxN]
   have hEq := eq_of_le_of_inf_normalizer_le hQJ2 hQ'le hinf
   refine ⟨hEq, le_antisymm ?_ hPJ⟩

@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (IsL2 IsU3)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w183tp_card_shape {L : Subgroup G} (hshape : IsL2 ↥L 2 ∨ IsU3 ↥L 2) :
     Nat.card ↥L = 60 ∨ Nat.card ↥L = 62400 := by
   rcases hshape with h | h
@@ -36,7 +37,7 @@ theorem w183tp_borel_rigid {L Q : Subgroup G} (hsimple : IsSimpleGroup ↥L)
     (hQ : IsSylowIn 2 Q L) {v : G} (hv : v ∈ Subgroup.normalizer (L : Set G)) (hv2 : v * v = 1)
     (hc : ∀ b ∈ L ⊓ Subgroup.normalizer (Q : Set G), v * b = b * v) :
     v ∈ Subgroup.centralizer (L : Set G) := by
-  haveI := hsimple
+  have := hsimple
   have hnab' : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hnab
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (congrArg Subtype.val h)⟩
@@ -53,7 +54,7 @@ theorem w183tp_borel_rigid {L Q : Subgroup G} (hsimple : IsSimpleGroup ↥L)
     simpa using congrArg Subtype.val hz1
   have hnotp : ¬ IsPGroup 2 ↥L := by
     intro hp
-    haveI : Nontrivial ↥L := by
+    have : Nontrivial ↥L := by
       obtain ⟨a, ha, b, hb, hab⟩ := hnab
       exact ⟨⟨a * b, L.mul_mem ha hb⟩, ⟨b * a, L.mul_mem hb ha⟩,
         fun h => hab (congrArg Subtype.val h)⟩
@@ -93,7 +94,7 @@ theorem w183tp_sylow_not_normal {L Q : Subgroup G} (hsimple : IsSimpleGroup ↥L
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) (hshape : IsL2 ↥L 2 ∨ IsU3 ↥L 2)
     (hQ : IsSylowIn 2 Q L) :
     Q ≠ ⊥ ∧ ¬ ∀ l ∈ L, ∀ q ∈ Q, l * q * l⁻¹ ∈ Q := by
-  haveI := hsimple
+  have := hsimple
   have hcard := w183tp_card_shape hshape
   have htwo : 2 ∣ Nat.card ↥L := by
     rcases hcard with h | h <;> rw [h] <;> norm_num
@@ -104,7 +105,7 @@ theorem w183tp_sylow_not_normal {L Q : Subgroup G} (hsimple : IsSimpleGroup ↥L
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab').2
   have hnotp : ¬ IsPGroup 2 ↥L := by
     intro hp
-    haveI : Nontrivial ↥L := by
+    have : Nontrivial ↥L := by
       obtain ⟨a, ha, b, hb, hab⟩ := hnab
       exact ⟨⟨a * b, L.mul_mem ha hb⟩, ⟨b * a, L.mul_mem hb ha⟩,
         fun h => hab (congrArg Subtype.val h)⟩
@@ -142,6 +143,7 @@ theorem w183tp_sylow_not_normal {L Q : Subgroup G} (hsimple : IsSimpleGroup ↥L
   · have hLQ : L ≤ Q := Subgroup.subgroupOf_eq_top.mp htop
     exact hnotp (hQ.isPGroup.to_le hLQ)
 
+omit [Finite G] in
 theorem w183tp_le_normalizer_inf {Y T L : Subgroup G} (hTY : T ≤ Y)
     (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L) :
     T ≤ Subgroup.normalizer ((T ⊓ L : Subgroup G) : Set G) := by
@@ -160,6 +162,7 @@ theorem w183tp_le_normalizer_inf {Y T L : Subgroup G} (hTY : T ≤ Y)
       rwa [show t⁻¹ * (t * x * t⁻¹) * (t⁻¹)⁻¹ = x by group] at h
     exact ⟨hxT, hxL⟩
 
+omit [Finite G] in
 theorem w183tp_normalizer_ne {Y L Q : Subgroup G} (hLY : L ≤ Y)
     (hQL : ¬ ∀ l ∈ L, ∀ q ∈ Q, l * q * l⁻¹ ∈ Q) :
     Y ⊓ Subgroup.normalizer (Q : Set G) ≠ Y := by
@@ -181,7 +184,7 @@ theorem w183tp_false_one {Y T L : Subgroup G} {d : G} (hT : IsSylowIn 2 T Y) (hL
     (hcent : ∀ y ∈ Y, (∀ l ∈ L, y * l = l * y) → y = 1) (hshape : IsL2 ↥L 2 ∨ IsU3 ↥L 2)
     (hdY : d ∈ Y) (hd1 : d ≠ 1) (hd2 : d * d = 1)
     (hX : ∀ X : Subgroup G, X ≤ Y → T ≤ X → X ≠ Y → ∀ x ∈ X, x * d = d * x) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnormal : (L.subgroupOf Y).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have h := hLn g g.2 n (Subgroup.mem_subgroupOf.mp hn)

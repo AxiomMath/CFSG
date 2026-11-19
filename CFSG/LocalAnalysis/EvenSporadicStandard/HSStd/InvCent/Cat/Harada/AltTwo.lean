@@ -17,7 +17,7 @@ theorem dvd_cases_480 {d : ℕ} (h60 : 60 ∣ d) (h480 : d ∣ 480) :
   obtain ⟨j, rfl⟩ := h60
   have hj : 60 * j ≤ 480 := Nat.le_of_dvd (by norm_num) h480
   have hj8 : j ≤ 8 := by omega
-  interval_cases j <;> first | omega | (exfalso; revert h480; decide)
+  interval_cases j <;> first | omega
 
 theorem two_derived_equiv_alt {G : Type*} [Group G] {t v : G} {J : Subgroup G}
     (h : TwoCfg t v J) (htop : centralizer ({t} : Set G) ≠ ⊤) :
@@ -31,7 +31,7 @@ theorem alt_arm_two {G : Type} [Group G] [Finite G] {S : Subgroup G} (hSn : S.No
     {m : ℕ} (hm : Odd m) (hm7 : 7 ≤ m) (θ : ↥S ≃* alternatingGroup (Fin m))
     (hPS : centralizerDerived t ≤ S) : False := by
   classical
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have hC : Nat.card ↥(centralizer ({t} : Set G)) = 480 := h.card_centralizer htop
   obtain ⟨r, hr1, hr2, hd, h60, hdvd⟩ :=

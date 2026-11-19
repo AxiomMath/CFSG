@@ -19,12 +19,12 @@ theorem false_of_mem_normal_E8_of_le_two_pow (k : ℕ) {𝒮 : Sylow 2 G} {E : S
     (Subgroup.normal_subgroupOf_iff_le_normalizer hE𝒮).mp hEn
   let C : Subgroup G := (𝒮 : Subgroup G) ⊓ centralizer ({c} : Set G)
   have hCc : C ≤ centralizer ({c} : Set G) := inf_le_right
-  have hCp : IsPGroup 2 C := 𝒮.isPGroup'.to_le inf_le_left
+  have hCp : IsPGroup 2 C := 𝒮.isPGroup.to_le inf_le_left
   have hCbound : Nat.card C ≤ 2 ^ k := hbound C hCp hCc
   have hcardC' : Nat.card (C.subgroupOf (𝒮 : Subgroup G)) = Nat.card C :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
   let φ : ↥𝒮 →* MulAut ↥E := E.normalizerMonoidHom.comp (Subgroup.inclusion hSnorm)
-  letI : MulAction ↥𝒮 ↥E := MulAction.compHom (↥E) φ
+  let : MulAction ↥𝒮 ↥E := MulAction.compHom (↥E) φ
   have hsmul : ∀ (n : ↥𝒮) (x : ↥E),
       ((n • x : ↥E) : G) = (n : G) * (x : G) * (n : G)⁻¹ := fun n x =>
     Subgroup.normalizerMonoidHom_apply_apply_coe E (Subgroup.inclusion hSnorm n) x

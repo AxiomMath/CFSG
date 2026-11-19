@@ -75,12 +75,15 @@ variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {F : Type} [Field F]
 @[expose] def embK (Ψ : K ≃* projectiveSL 3 F) : projectiveSL 3 F →* G :=
   K.subtype.comp Ψ.symm.toMonoidHom
 
+omit [Finite G] in
 theorem embK_injective (Ψ : K ≃* projectiveSL 3 F) : Function.Injective (embK Ψ) :=
   K.subtype_injective.comp Ψ.symm.injective
 
+omit [Finite G] in
 theorem embK_mem (Ψ : K ≃* projectiveSL 3 F) (z : projectiveSL 3 F) : embK Ψ z ∈ K :=
   (Ψ.symm z).2
 
+omit [Finite G] in
 theorem conj_embK (Ψ : K ≃* projectiveSL 3 F) {g : G} (hg : g ∈ Subgroup.normalizer (K : Set G))
     (z : projectiveSL 3 F) :
     g * embK Ψ z * g⁻¹ = embK Ψ (MulAut.congr Ψ (K.normalizerMonoidHom ⟨g, hg⟩) z) := by
@@ -97,12 +100,15 @@ theorem conj_embK (Ψ : K ≃* projectiveSL 3 F) {g : G} (hg : g ∈ Subgroup.no
 @[expose] noncomputable def rootIn (Ψ : K ≃* projectiveSL 3 F) : Subgroup G :=
   (rootSub F).map (embK Ψ)
 
+omit [Finite G] in
 theorem mem_torusIn {Ψ : K ≃* projectiveSL 3 F} {p : ℕ} {x : G} :
     x ∈ torusIn Ψ p ↔ ∃ z ∈ torSub p F, embK Ψ z = x := Subgroup.mem_map
 
+omit [Finite G] in
 theorem mem_rootIn {Ψ : K ≃* projectiveSL 3 F} {x : G} :
     x ∈ rootIn Ψ ↔ ∃ z ∈ rootSub F, embK Ψ z = x := Subgroup.mem_map
 
+omit [Finite G] in
 theorem congr_eq_conjAut {Ψ : K ≃* projectiveSL 3 F} {a : G}
     (haN : a ∈ Subgroup.normalizer (K : Set G)) {y : GL (Fin 3) F}
     (h : ∀ z : K, Ψ (K.normalizerMonoidHom ⟨a, haN⟩ z) = conjAut 3 F y (Ψ z)) :
@@ -144,18 +150,22 @@ section Main
 variable {G : Type} [Group G] [Finite G] {A K : Subgroup G} {F : Type} [Field F]
   {Ψ : K ≃* projectiveSL 3 F} {p : ℕ}
 
+omit [Finite G] in
 theorem torusIn_isElemAbelian (hp : p.Prime) : IsElemAbelian p (torusIn Ψ p) :=
   Item2119End5Proof.isElemAbelian_map
     ⟨⟨⟨fun a b => Subtype.ext (torSub_comm _ a.2 _ b.2)⟩⟩, torSub_pow_eq_one hp⟩ (embK Ψ)
 
+omit [Finite G] in
 theorem card_torusIn [Finite F] (hp : p.Prime) (hp3 : p ≠ 3) (hpF : p ∣ Nat.card F - 1) :
     Nat.card (torusIn Ψ p) = p ^ 2 := by
   rw [torusIn, Subgroup.card_map_of_injective (embK_injective Ψ), card_torSub hp hp3 hpF]
 
+omit [Finite G] in
 theorem torusIn_le : torusIn Ψ p ≤ K := by
   rintro _ ⟨z, -, rfl⟩
   exact embK_mem Ψ z
 
+omit [Finite G] in
 theorem torusIn_le_centralizer (hp : p.Prime)
     (hact : ∀ (a : G) (haN : a ∈ Subgroup.normalizer (K : Set G)), a ∈ A →
       ∃ s t : Fˣ, ∀ z : K,
@@ -172,6 +182,7 @@ theorem torusIn_le_centralizer (hp : p.Prime)
     _ = embK Ψ z * a := by rw [h1]
 
 
+omit [Finite G] in
 theorem eq_torusIn [Finite F] (hp : p.Prime) (hp3 : p ≠ 3) (hpF : p ∣ Nat.card F - 1) {τ : Fˣ}
     (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1)
     (hact : ∃ (a : G) (haN : a ∈ Subgroup.normalizer (K : Set G)), a ∈ A ∧ ∀ z : K,
@@ -241,12 +252,15 @@ theorem mem_normalizer_of_conj_mem {U : Subgroup G} {x : G} (h : ∀ u ∈ U, x 
     calc (x * y)⁻¹ = (y * x)⁻¹ := by rw [h x hx y hy]
       _ = x⁻¹ * y⁻¹ := _root_.mul_inv_rev y x
 
+omit [Finite G] in
 theorem le_mulOfCommute_left {P Q : Subgroup G} {h : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x} :
     P ≤ mulOfCommute P Q h := fun x hx => ⟨x, hx, 1, Q.one_mem, by simp⟩
 
+omit [Finite G] in
 theorem le_mulOfCommute_right {P Q : Subgroup G} {h : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x} :
     Q ≤ mulOfCommute P Q h := fun y hy => ⟨1, P.one_mem, y, hy, by simp⟩
 
+omit [Finite G] in
 theorem mulOfCommute_isElemAbelian {P Q : Subgroup G} (h : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x)
     (hP : IsElemAbelian p P) (hQ : IsElemAbelian p Q) : IsElemAbelian p (mulOfCommute P Q h) := by
   have hPc : ∀ x ∈ P, ∀ x' ∈ P, x * x' = x' * x := fun x hx x' hx' =>
@@ -271,6 +285,7 @@ theorem mulOfCommute_isElemAbelian {P Q : Subgroup G} (h : ∀ x ∈ P, ∀ y �
     rw [hxy.mul_pow, hP.2 x hx, hQ.2 y hy, one_mul]
 
 
+omit [Finite G] in
 theorem congr_nm_commute {x a : G} (hx : x ∈ Subgroup.normalizer (K : Set G))
     (ha : a ∈ Subgroup.normalizer (K : Set G)) (h : x * a = a * x) :
     MulAut.congr Ψ (K.normalizerMonoidHom ⟨x, hx⟩) *
@@ -282,6 +297,7 @@ theorem congr_nm_commute {x a : G} (hx : x ∈ Subgroup.normalizer (K : Set G))
     Subtype.ext h
   rw [this]
 
+omit [Finite G] in
 theorem action_of_centralizes [Finite F] (hp : p.Prime) (hp3 : 3 < p)
     (hpF : p ∣ Nat.card F - 1) {τ : Fˣ} (hτ1 : τ ≠ 1)
     (hact₂ : ∃ (a : G) (haN : a ∈ Subgroup.normalizer (K : Set G)), a ∈ A ∧ ∀ z : K,
@@ -375,7 +391,7 @@ theorem le_of_centralizes [Finite F] [CharP F 2] (hp : p.Prime) (hp3 : 3 < p)
   have hRU : R ≤ Subgroup.normalizer (U : Set G) := by
     rintro _ ⟨x, hx, y, hy, rfl⟩
     exact Subgroup.mul_mem _ (hxU x hx) (hyU y hy)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRp : IsPGroup p R := fun g => ⟨1, Subtype.ext (by simpa using hRe.2 g g.2)⟩
   obtain ⟨r, hr⟩ := IsPGroup.iff_card.mp hRp
   have hPKcard : Nat.card PK = p ^ 2 := card_torusIn hp hp3' hpF
@@ -417,7 +433,7 @@ theorem exists_torus {A K : Subgroup G} (hC : Sec4.IsTypeCOn A K)
   obtain ⟨F, instF, hFin, Ψ, τ, hFcard, hτ3, hτ1, hpart1, hpart2⟩ := exists_model hC hθ hn eL
   have hp3' : p ≠ 3 := hp3.ne'
   have hpF : p ∣ Nat.card F - 1 := by rw [hFcard]; exact hpn
-  haveI : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hFcard
+  have : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hFcard
   have hactA : ∀ (a : G) (haN : a ∈ Subgroup.normalizer (K : Set G)), a ∈ A →
       ∃ s t : Fˣ, ∀ z : K,
         Ψ (K.normalizerMonoidHom ⟨a, haN⟩ z) = conjAut 3 F (diagUnits 1 s t) (Ψ z) :=
@@ -449,16 +465,16 @@ variable {G : Type} [Group G] [Finite G]
 theorem exceptionalOrders_PSL_three {n : ℕ} (hn : 3 ≤ n) :
     Blueprint.Multiplier.exceptionalOrders .PSL 3 2 n = (1, 1) := by
   unfold Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (simp_all; omega) | omega
+  split <;> first | rfl | (simp_all)
 
 theorem theta_eq_bot_of_lthree
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
     {K : Subgroup G} (hq : CFSG.IsQuasisimple K) {n : ℕ} (hn : 3 ≤ n)
     (eL : lBar K ≃* projSL 3 (GaloisField 2 n)) : aschbacherSolvableCore 3 K = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (projSL 3 (GaloisField 2 n)) :=
+  have : IsSimpleGroup (projSL 3 (GaloisField 2 n)) :=
     Item222Proof.isSimpleGroup_projSL_three _
-  haveI : IsSimpleGroup (lBar K) := eL.isSimpleGroup
+  have : IsSimpleGroup (lBar K) := eL.isSimpleGroup
   have hZT : Subgroup.center K = aschbacherSolvableCore 3 K :=
     Item221Proof.center_eq_theta hq (Item221Proof.center_lBar_eq_bot hq)
   have eZ : K ⧸ Subgroup.center K ≃* projSL 3 (GaloisField 2 n) :=

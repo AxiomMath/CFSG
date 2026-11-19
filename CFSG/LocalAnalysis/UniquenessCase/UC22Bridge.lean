@@ -72,6 +72,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem hinf_eq_derInf (H : Subgroup G) : Hinf H = F07.DerInf H := rfl
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

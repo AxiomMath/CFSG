@@ -58,7 +58,7 @@ theorem D2AlmostSimple.exists_l34_of_cases {X : Type} [Group X] [Finite X] {R : 
             omega
           · have := five_le_of_valid_A_one hd h2 (by rw [hqp]; norm_num)
             omega
-        · refine hK.not_le (hK.le_of_glbCore_eq_top (R.subtype hRK).isPGroup' ?_
+        · refine hK.not_le (hK.le_of_glbCore_eq_top (R.subtype hRK).isPGroup ?_
             (kFactLinThreeCore K d ⟨e⟩ 3 hK.prime hK.ne_two ⟨q, hqp, hq1, hd⟩
               (R.subtype hRK)))
           rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hRK]

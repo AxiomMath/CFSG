@@ -19,7 +19,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem eq_torusPow_of_le_of_selfCent {τ : Tag} {K : Type} [Field K] {p : ℕ}
     {E : Subgroup (adjointGroup τ K)} (hle : E ≤ torusPow τ K p)
     (hsc : ∀ g, (∀ e ∈ E, g * e = e * g) → g ^ p = 1 → g ∈ E) : E = torusPow τ K p :=
-  le_antisymm hle fun e he => hsc e (fun x hx => Subtype.ext
+  le_antisymm hle fun e he => hsc e (fun _x hx => Subtype.ext
     (CFSG.LieType.Chevalley.RootTorus.torusGroup_mul_comm he.1 (hle hx).1)) he.2
 
 

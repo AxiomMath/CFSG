@@ -17,14 +17,17 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [CharP K 2]
 @[expose] def Frame.expand (F : Frame Q T r) : (Fin r → K) × (Fin r → K) →ₗ[K] V :=
   (Fintype.linearCombination K F.e).coprod (Fintype.linearCombination K F.f)
 
+omit [CharP K 2] in
 theorem Frame.coeffs_apply (F : Frame Q T r) (v : V) :
     F.coeffs v = (fun i => polar Q v (F.f i), fun i => polar Q v (F.e i)) := by
   refine Prod.ext ?_ ?_ <;> funext i <;> simp [Frame.coeffs, polarBilin_apply_apply]
 
+omit [CharP K 2] in
 theorem Frame.expand_apply (F : Frame Q T r) (a b : Fin r → K) :
     F.expand (a, b) = ∑ i, a i • F.e i + ∑ i, b i • F.f i := by
   simp [Frame.expand, Fintype.linearCombination_apply]
 
+omit [CharP K 2] in
 theorem polar_finsetSum_smul_left {ι : Type*} (s : Finset ι) (Q : QuadraticForm K V) (c : ι → K)
     (x : ι → V) (y : V) : polar Q (∑ i ∈ s, c i • x i) y = ∑ i ∈ s, c i * polar Q (x i) y := by
   have h : ∀ v, polar Q v y = (polarBilin Q).flip y v := fun v => by
@@ -33,6 +36,7 @@ theorem polar_finsetSum_smul_left {ι : Type*} (s : Finset ι) (Q : QuadraticFor
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [← h, polar_smul_left, smul_eq_mul]
 
+omit [CharP K 2] in
 theorem Q_sum_smul_zero {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K V)
     (x : ι → V) (hQ : ∀ i, Q (x i) = 0) (hB : ∀ i j, polar Q (x i) (x j) = 0) (a : ι → K) :
     Q (∑ i, a i • x i) = 0 := by
@@ -49,6 +53,7 @@ theorem Q_sum_smul_zero {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : Quadrati
       simp [h0]
   exact this _
 
+omit [CharP K 2] in
 theorem Frame.Q_expand (F : Frame Q T r) (a b : Fin r → K) :
     Q (F.expand (a, b)) = a ⬝ᵥ b := by
   rw [Frame.expand_apply, QuadraticMap.map_add Q, Q_sum_smul_zero Q F.e F.Qe F.ee,
@@ -58,6 +63,7 @@ theorem Frame.Q_expand (F : Frame Q T r) (a b : Fin r → K) :
   rw [polar_sum_smul_right]
   simp [F.ef]
 
+omit [CharP K 2] in
 theorem Frame.coeffs_expand (F : Frame Q T r) (c : (Fin r → K) × (Fin r → K)) :
     F.coeffs (F.expand c) = c := by
   obtain ⟨a, b⟩ := c
@@ -74,6 +80,7 @@ theorem Frame.coeffs_expand (F : Frame Q T r) (c : (Fin r → K) × (Fin r → K
     (Fin r → K) × (Fin r → K) →ₗ[K] (Fin r → K) × (Fin r → K) :=
   (Matrix.mulVecLin M).prodMap (Matrix.mulVecLin M'ᵀ)
 
+omit [CharP K 2] in
 theorem blockAct_apply (M M' : Matrix (Fin r) (Fin r) K) (c : (Fin r → K) × (Fin r → K)) :
     blockAct M M' c = (M *ᵥ c.1, M'ᵀ *ᵥ c.2) := rfl
 
@@ -81,20 +88,24 @@ theorem blockAct_apply (M M' : Matrix (Fin r) (Fin r) K) (c : (Fin r → K) × (
     (Fin r → K) × (Fin r → K) →ₗ[K] (Fin r → K) × (Fin r → K) :=
   blockAct M M' - LinearMap.id
 
+omit [CharP K 2] in
 theorem blockDelta_apply (M M' : Matrix (Fin r) (Fin r) K) (c : (Fin r → K) × (Fin r → K)) :
     blockDelta M M' c = (M *ᵥ c.1 - c.1, M'ᵀ *ᵥ c.2 - c.2) := rfl
 
 @[expose] def Frame.levi (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K) : V →ₗ[K] V :=
   LinearMap.id + F.expand ∘ₗ blockDelta M M' ∘ₗ F.coeffs
 
+omit [CharP K 2] in
 theorem Frame.levi_apply (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K) (v : V) :
     F.levi M M' v = v + F.expand (blockDelta M M' (F.coeffs v)) := rfl
 
+omit [CharP K 2] in
 theorem Frame.coeffs_levi (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K) (v : V) :
     F.coeffs (F.levi M M' v) = blockAct M M' (F.coeffs v) := by
   rw [Frame.levi_apply, map_add, Frame.coeffs_expand]
   simp [blockDelta]
 
+omit [CharP K 2] in
 theorem Frame.levi_levi (F : Frame Q T r) (M₁ M₁' M₂ M₂' : Matrix (Fin r) (Fin r) K) (v : V) :
     F.levi M₁ M₁' (F.levi M₂ M₂' v) = F.levi (M₁ * M₂) (M₂' * M₁') v := by
   rw [Frame.levi_apply, Frame.coeffs_levi, Frame.levi_apply, Frame.levi_apply, add_assoc,
@@ -102,6 +113,7 @@ theorem Frame.levi_levi (F : Frame Q T r) (M₁ M₁' M₂ M₂' : Matrix (Fin r
   congr 2
   ext <;> simp [blockDelta_apply, blockAct_apply, Matrix.mulVec_mulVec, Matrix.transpose_mul]
 
+omit [CharP K 2] in
 theorem Frame.polar_expand (F : Frame Q T r) (v : V) (c : (Fin r → K) × (Fin r → K)) :
     polar Q v (F.expand c) = c.1 ⬝ᵥ (F.coeffs v).2 + c.2 ⬝ᵥ (F.coeffs v).1 := by
   obtain ⟨a, b⟩ := c
@@ -109,11 +121,13 @@ theorem Frame.polar_expand (F : Frame Q T r) (v : V) (c : (Fin r → K) × (Fin 
     Frame.coeffs_apply]
   simp [dotProduct]
 
+omit [CharP K 2] in
 theorem dot_block (M M' : Matrix (Fin r) (Fin r) K) (hMM : M' * M = 1) (a b : Fin r → K) :
     (M *ᵥ a) ⬝ᵥ (M'ᵀ *ᵥ b) = a ⬝ᵥ b := by
   rw [Matrix.dotProduct_mulVec, Matrix.vecMul_transpose, Matrix.mulVec_mulVec, hMM,
     Matrix.one_mulVec]
 
+omit [CharP K 2] in
 theorem Frame.Q_levi (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K) (hMM : M' * M = 1)
     (v : V) : Q (F.levi M M' v) = Q v := by
   rw [Frame.levi_apply, QuadraticMap.map_add Q, Frame.Q_expand, Frame.polar_expand]
@@ -125,12 +139,14 @@ theorem Frame.Q_levi (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K) (hMM : 
   rw [dotProduct_comm (M'ᵀ *ᵥ b) a]
   linear_combination hkey + dotProduct_comm a b
 
+omit [CharP K 2] in
 theorem Frame.levi_one (F : Frame Q T r) (v : V) : F.levi 1 1 v = v := by
   rw [Frame.levi_apply]
   have : blockDelta (1 : Matrix (Fin r) (Fin r) K) 1 (F.coeffs v) = 0 := by
     refine Prod.ext ?_ ?_ <;> simp [blockDelta_apply]
   rw [this, map_zero, add_zero]
 
+omit [CharP K 2] in
 theorem Frame.eq_one_of_levi_eq_id (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin r) K)
     (h : ∀ v, F.levi M M' v = v) : M = 1 := by
   ext i j
@@ -152,6 +168,7 @@ theorem Frame.eq_one_of_levi_eq_id (F : Frame Q T r) (M M' : Matrix (Fin r) (Fin
   · subst hij; simpa [sub_eq_zero] using h3
   · simpa [hij, Ne.symm hij, sub_eq_zero] using h3
 
+omit [CharP K 2] in
 theorem Frame.coeffs_T (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : Frame Q T r) (v : V) :
     F.coeffs (T v) = ((fun i => σ ((F.coeffs v).1 i)), (fun i => σ ((F.coeffs v).2 i))) := by
   rw [Frame.coeffs_apply, Frame.coeffs_apply]
@@ -159,11 +176,13 @@ theorem Frame.coeffs_T (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : Frame Q T r) (v : 
   · rw [← F.Tf i, polar_semilinear T hTQ, F.Tf]
   · rw [← F.Te i, polar_semilinear T hTQ, F.Te]
 
+omit [CharP K 2] in
 theorem Frame.T_expand (F : Frame Q T r) (a b : Fin r → K) :
     T (F.expand (a, b)) = F.expand ((fun i => σ (a i)), (fun i => σ (b i))) := by
   rw [Frame.expand_apply, Frame.expand_apply, map_add, map_sum, map_sum]
   simp only [map_smulₛₗ, RingHom.coe_coe, F.Te, F.Tf]
 
+omit [CharP K 2] in
 theorem Frame.T_levi (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : Frame Q T r)
     (M M' : Matrix (Fin r) (Fin r) K) (v : V) :
     T (F.levi M M' v) = F.levi (M.map σ) (M'.map σ) (T v) := by

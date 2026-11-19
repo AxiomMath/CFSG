@@ -29,6 +29,7 @@ section Generic
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem exists_noncomm_of_perfect {K : Subgroup S} [Group.IsPerfect K] [Nontrivial K] :
     ∃ a b : K, a * b ≠ b * a := by
   by_contra h
@@ -42,7 +43,7 @@ theorem perfect_le_of_simple_small_index {C E K : Subgroup S} (hEC : E ≤ C)
     (hdvd : ¬ Nat.card E ∣ m.factorial) (hKC : K ≤ C) [hKp : Group.IsPerfect K] : K ≤ E := by
   set E' : Subgroup C := E.subgroupOf C with hE'def
   have eE : E' ≃* E := Subgroup.subgroupOfEquivOfLe hEC
-  haveI : IsSimpleGroup E' := eE.isSimpleGroup
+  have : IsSimpleGroup E' := eE.isSimpleGroup
   have hE'card : Nat.card E' = Nat.card E := Nat.card_congr eE.toEquiv
   have hidx : E'.index ≤ m := by
     have hmul := Subgroup.card_mul_index E'
@@ -70,12 +71,12 @@ theorem perfect_le_of_simple_small_index {C E K : Subgroup S} (hEC : E ≤ C)
         _ ∣ E'.index.factorial := hdiv
         _ ∣ m.factorial := Nat.factorial_dvd_factorial hidx
     · exact le_antisymm hNE (Subgroup.subgroupOf_eq_top.mp h)
-  haveI hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
+  have hE'n : E'.Normal := hNeq ▸ E'.normalCore_normal
   set K' : Subgroup C := K.subgroupOf C with hK'def
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKC).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
+  have : Group.IsPerfect (K'.map (QuotientGroup.mk' E')) := Group.IsPerfect.map _
   have hpf : (Nat.card (K'.map (QuotientGroup.mk' E'))).primeFactors.card ≤ 2 := by
     have hd : Nat.card (K'.map (QuotientGroup.mk' E')) ∣ E'.index :=
       Subgroup.card_subgroup_dvd_card _
@@ -86,7 +87,7 @@ theorem perfect_le_of_simple_small_index {C E K : Subgroup S} (hEC : E ≤ C)
         exact CFSG.RankThree.PartTwo.Sec4.RonanK429H.primeFactors_card_le_two_of_twoPrimeOK
           (by decide)
     exact (Finset.card_le_card (Nat.primeFactors_mono hd (by omega))).trans h1
-  haveI := CFSG.RankThree.PartTwo.Sec4.RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors
+  have := CFSG.RankThree.PartTwo.Sec4.RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors
     hpf
   have hbot : K'.map (QuotientGroup.mk' E') = ⊥ := Subgroup.eq_bot_of_subsingleton _
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
@@ -122,18 +123,18 @@ theorem isSimpleGroup_map_of_injective' {G N : Type} [Group G] [Group N] (H : Su
   (H.equivMapOfInjective f hf).symm.isSimpleGroup
 
 theorem isSimpleGroup_L1J : IsSimpleGroup ↥L1J := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   let e1 : alternatingGroup (Fin 9) ≃* alt3 :=
     MulEquiv.ofBijective alt9Hom ⟨alt9Hom_injective, alt9Hom_surjective⟩
-  haveI : IsSimpleGroup alt3 := e1.symm.isSimpleGroup
+  have : IsSimpleGroup alt3 := e1.symm.isSimpleGroup
   exact isSimpleGroup_map_of_injective' alt3 iotaA iotaA_injective
 
 theorem good425_hn_s1 : Good425 (CJ (sJ 0)) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hcomm⟩ :=
     ctuc_hn_three_centralizers_exact
-  haveI : IsSimpleGroup ↥L1J := isSimpleGroup_L1J
+  have : IsSimpleGroup ↥L1J := isSimpleGroup_L1J
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKL : K ≤ L1J := by
     have h := Subgroup.commutator_mono hKC hKC
     rw [Subgroup.commutator_eq_self (H := K), hcomm] at h
@@ -182,7 +183,7 @@ theorem good425_hnJ (x : JH) (hx : orderOf x = 3) :
 
 theorem good425_hnNative : ∀ x : Blueprint.NativeSporadic.HN, orderOf x = 3 →
     Good425 (Subgroup.centralizer ({x} : Set Blueprint.NativeSporadic.HN)) := by
-  haveI : Finite Blueprint.NativeSporadic.HN := Finite.of_equiv _ hnEquivJ.symm.toEquiv
+  have : Finite Blueprint.NativeSporadic.HN := Finite.of_equiv _ hnEquivJ.symm.toEquiv
   exact @good425_all_of_mulEquiv Blueprint.NativeSporadic.HN ↥JH Units.instGroup _ _ _ hnEquivJ
     good425_hnJ
 
@@ -217,7 +218,7 @@ theorem pConstrained_thU :
     J.subtype_injective ?_
   rw [CFSG.HardMathSupport.Dickson.I271.map_centralizer_subtype']
   obtain ⟨R, hle, hnorm, hcard, hcent⟩ := CFSG.HardMathSupport.Dickson.I271.th_caseU_spec
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_of_normal_pgroup hle
     (CFSG.HardMathSupport.Dickson.I271.normal_subgroupOf_of_conj hnorm)
     (IsPGroup.of_card (n := 5) hcard) hcent
@@ -235,7 +236,7 @@ theorem good425_thS : Good425 (Subgroup.centralizer ({thS} : Set ↥J)) := by
   have hε : SatisfiesG23Words thEps := fun r hr =>
     (Census.CoverCenterThreeRest.lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨-, hsimp, -, hcard⟩ := leaf_closure_of_six thEps hε hne
-  haveI := hsimp
+  have := hsimp
   have hEC : Subgroup.closure (Set.range thEps) ≤ Subgroup.centralizer ({thS} : Set ↥J) := by
     rw [Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩
@@ -254,7 +255,7 @@ theorem good425_thS : Good425 (Subgroup.centralizer ({thS} : Set ↥J)) := by
     decide
   have hfree : typeOrders425 4245696 162 = [] := by decide +kernel
   intro K hKC hKq _ hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKE : K ≤ Subgroup.closure (Set.range thEps) :=
     perfect_le_of_simple_small_index hEC (m := 14) (by norm_num) hCm hdvd hKC
   have hKdvd : Nat.card K ∣ 4245696 := hcard ▸ Subgroup.card_dvd_of_le hKE
@@ -281,7 +282,7 @@ theorem good425_thJ (x : ↥J) (hx : orderOf x = 3) :
 
 theorem good425_thNative : ∀ x : Blueprint.NativeSporadic.Th, orderOf x = 3 →
     Good425 (Subgroup.centralizer ({x} : Set Blueprint.NativeSporadic.Th)) := by
-  haveI : Finite Blueprint.NativeSporadic.Th := Finite.of_equiv _ thEquivJ.symm.toEquiv
+  have : Finite Blueprint.NativeSporadic.Th := Finite.of_equiv _ thEquivJ.symm.toEquiv
   exact @good425_all_of_mulEquiv Blueprint.NativeSporadic.Th ↥J Units.instGroup _ _ _ thEquivJ
     good425_thJ
 

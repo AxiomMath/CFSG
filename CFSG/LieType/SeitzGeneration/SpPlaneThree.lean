@@ -23,7 +23,7 @@ theorem exists_mixed_transCenter [Finite K] (h3 : (3 : K) ≠ 0)
     ∃ u ∈ spLineSpace L, ∃ w ∈ spLineSpace N, u ≠ 0 ∧ w ≠ 0 ∧
       TransCenter (centralizerSpan E) (u + w) := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hNL : N ≠ L := fun h => hLN h.symm
   obtain ⟨a, haL, ha1⟩ := exists_ne_one_of_one_lt_card (M := L) (by rw [hL]; norm_num)
   obtain ⟨b, hbN, hb1⟩ := exists_ne_one_of_one_lt_card (M := N) (by rw [hN]; norm_num)
@@ -197,7 +197,7 @@ theorem transCenter_pair_three [Finite K] (h3 : (3 : K) ≠ 0) (hK : ∃ c : K, 
 end SpPlaneThree
 
 theorem closure_centralizers_spPlane_three [Finite K] (h3 : (3 : K) ≠ 0)
-    (hK : ∃ c : K, c ≠ 0 ∧ c ≠ 1) {r : ℕ} (hr : 2 ≤ r) {E : Subgroup (StatedSp r K)}
+    (hK : ∃ c : K, c ≠ 0 ∧ c ≠ 1) {r : ℕ} (_hr : 2 ≤ r) {E : Subgroup (StatedSp r K)}
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ 3 = 1)
     (hcard : Nat.card E = 9) :
     Subgroup.closure {g : StatedSp r K | ∃ x ∈ E, x ≠ 1 ∧ g * x = x * g} = ⊤ := by

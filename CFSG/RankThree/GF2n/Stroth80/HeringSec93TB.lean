@@ -158,7 +158,7 @@ theorem exists_comm_not_mem_sup_Z (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {
     ∃ y ∈ LB M Q B, ∃ v ∈ Vt M (LB M Q B) B Z t, ⁅y, v⁆ ∉ B ⊔ Z := by
   classical
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have hs5 := hs.toSec5
   have ht : t ∈ LB M Q B := hs5.mem
   have hQnd := nondegenerate_polarBilin_quadPlus 2 K
@@ -233,6 +233,7 @@ theorem comm_comm_mem_Z_of_inf (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M)
   rw [← hinter]
   exact ⟨h1, h2⟩
 
+omit [Finite G] in
 theorem comm_comm_mem_Z_of_decomp {L H' N V : Subgroup G}
     (hHn : H' ≤ Subgroup.normalizer ((L ⊓ N : Subgroup G) : Set G)) (hH : H' ⊔ (L ⊓ N) = L)
     (hZc : ∀ l ∈ L, ∀ z ∈ Z, l * z * l⁻¹ = z) (hVL : ∀ l ∈ L, ∀ v ∈ V, l * v * l⁻¹ ∈ V)

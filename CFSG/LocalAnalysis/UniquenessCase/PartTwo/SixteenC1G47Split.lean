@@ -27,7 +27,7 @@ private lemma restrictMulAut_apply {F : Type*} [Group F] [Finite F] (e : MulAut 
   simp [restrictMulAut]
 
 theorem s16c1_G47_split {Hs F : Type} [Group Hs] [Finite Hs] [Group F] [Finite F] {q : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) {S Z : Subgroup Hs} (hS : IsPGroup q S) (hZS : Z ≤ S)
+    (hq : q.Prime) (hq2 : q ≠ 2) {S Z : Subgroup Hs} (hS : IsPGroup q S) (_hZS : Z ≤ S)
     (hcomm : ∀ s ∈ S, ∀ t ∈ S, s * t * s⁻¹ * t⁻¹ ∈ Z)
     (hnc : ¬ ∃ s ∈ S, S ≤ Z ⊔ Subgroup.zpowers s) (hF : ∀ e : F, e * e = 1)
     (ρ : Hs →* MulAut F) (F₁ : Subgroup F) (hF₁ : ∀ s ∈ S, ∀ f ∈ F₁, ρ s f ∈ F₁)
@@ -67,16 +67,16 @@ theorem s16c1_G47_split {Hs F : Type} [Group Hs] [Finite Hs] [Group F] [Finite F
       hφZ _ (hcomm s.1 s.2 t.1 t.2)
     have hst : s * t = ⟨s.1 * t.1 * s.1⁻¹ * t.1⁻¹, hmemS⟩ * (t * s) := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       group
     calc φ (s * t) = φ (⟨s.1 * t.1 * s.1⁻¹ * t.1⁻¹, hmemS⟩ * (t * s)) := by rw [hst]
       _ = φ ⟨s.1 * t.1 * s.1⁻¹ * t.1⁻¹, hmemS⟩ * φ (t * s) := map_mul φ _ _
       _ = φ (t * s) := by rw [hz, one_mul]
-  haveI : IsMulCommutative ↥A := IsMulCommutative.of_comm hcommA
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup q ↥A) :=
+  have : IsMulCommutative ↥A := IsMulCommutative.of_comm hcommA
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup q ↥A) :=
     ⟨by simpa [A] using hS.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF₁two : IsPGroup 2 ↥F₁ := fun g => ⟨1, by
     have hg : g * g = 1 := Subtype.ext (hF (g : F))
     simpa [pow_two] using hg⟩
@@ -117,7 +117,7 @@ theorem s16c1_G47_split {Hs F : Type} [Group Hs] [Finite Hs] [Group F] [Finite F
       group
     rw [ht_eq]
     exact Subgroup.mul_mem_sup hkeru (Subgroup.zpow_mem_zpowers s₀.1 n)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have htop := CFSG.iSup_fixedPointSubgroup_zpowers_eq_top_of_noncyclic_abelian_pGroup_action
     (G := ↥F₁) (A := ↥A) q hcop hncycA
   let G₀ : Subgroup F := Subgroup.closure {f : F | f ∈ F₁ ∧ ∃ s ∈ S, s ∉ Z ∧ ρ s f = f}

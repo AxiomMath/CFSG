@@ -48,7 +48,7 @@ theorem burnsideAut_c5L3_isSylow [Finite K] [CharP K 2] :
 theorem burnsideAut_c5_card_units_odd [Finite K] {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) : Odd (Nat.card Kˣ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
   have h2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
@@ -120,12 +120,12 @@ theorem burnsideAut_c5L3_isProjFieldAut (σ : K ≃+* K) :
 theorem burnsideAut_a315_L3 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hn : 2 ≤ n)
     (hL : CFSG.Quasithin.IsPSL 3 2 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L := Or.inr (Or.inl hL)
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hL
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUsyl := burnsideAut_c5L3_isSylow (K := K)
   obtain ⟨e, he⟩ := burnsideAut_exists_equiv_sylow (e₀.trans (burnsideA26_statedToProjSL 3 K))
     (burnsideAut_isSylowTwoOf_subgroupOf h.sylow) hUsyl

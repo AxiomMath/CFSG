@@ -155,7 +155,7 @@ theorem ys03_rangeRestrict_surjective {I X : Type} [Group I] [Group X] (Ψ : I �
 theorem ys03_ker_le_of_max {I X : Type} [Group I] [Group X] [Group.IsPerfect I] (Q : Subgroup I)
     [Q.Normal] [Group.IsSolvable Q] (hQs : IsSimpleGroup (I ⧸ Q)) (Ψ : I →* X)
     (hΨ : Ψ.ker ≠ ⊤) : Ψ.ker ≤ Q := by
-  haveI : ((Ψ.ker ⊔ Q).map (QuotientGroup.mk' Q)).Normal :=
+  have : ((Ψ.ker ⊔ Q).map (QuotientGroup.mk' Q)).Normal :=
     Subgroup.Normal.map (inferInstance : (Ψ.ker ⊔ Q).Normal) (QuotientGroup.mk' Q)
       (QuotientGroup.mk'_surjective Q)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Ψ.ker ⊔ Q).map (QuotientGroup.mk' Q))
@@ -164,9 +164,9 @@ theorem ys03_ker_le_of_max {I X : Type} [Group I] [Group X] [Group.IsPerfect I] 
   · exfalso
     have hdec := ys03_decomp_of_top Ψ.ker Q htop
     have hsolv := ys03_range_solvable_of_decomp Q Ψ hdec
-    haveI : Group.IsPerfect ↥Ψ.range :=
+    have : Group.IsPerfect ↥Ψ.range :=
       Group.IsPerfect.ofSurjective (ys03_rangeRestrict_surjective Ψ)
-    haveI : Nontrivial ↥Ψ.range := ys03_range_nontrivial Ψ hΨ
+    have : Nontrivial ↥Ψ.range := ys03_range_nontrivial Ψ hΨ
     exact Group.IsPerfect.not_isSolvable _ hsolv
 
 theorem ys03_hasSection_of_ker {I X T : Type} [Group I] [Group X] [Group T] (Q : Subgroup I)
@@ -231,13 +231,13 @@ theorem ys03_section_of_item45 {G : Type} [Group G] [Finite G] {A M H : Subgroup
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
     exact hall ⟨x, hx⟩
   have hker : Ψ.ker ≠ ⊤ := ys03_ker_ne_top f K Ψ hΨ hrep hnc
-  haveI : Group.IsPerfect ↥(inSubgroup perfectResidual H) :=
+  have : Group.IsPerfect ↥(inSubgroup perfectResidual H) :=
     Subgroup.isPerfect_iff.mpr (DiagSetting.commutator_I_eq H)
   obtain ⟨e⟩ := h.I_iso
   have hQsimple : IsSimpleGroup (↥(inSubgroup perfectResidual H) ⧸
       CFSG.pCore 2 (inSubgroup perfectResidual H)) :=
     (MulEquiv.isSimpleGroup_congr e).mpr isSimpleGroup_projSL
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 (inSubgroup perfectResidual H)) :=
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 (inSubgroup perfectResidual H)) :=
     IsPGroup.isNilpotent (CFSG.pCore_isPGroup (p := 2) (G := ↥(inSubgroup perfectResidual H)))
   have hle : Ψ.ker ≤ CFSG.pCore 2 (inSubgroup perfectResidual H) :=
     ys03_ker_le_of_max (CFSG.pCore 2 (inSubgroup perfectResidual H)) hQsimple Ψ hker

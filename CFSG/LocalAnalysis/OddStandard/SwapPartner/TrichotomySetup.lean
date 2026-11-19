@@ -128,12 +128,12 @@ theorem nonempty_equiv_abar (h : SwapShape t Sg V) :
 
 theorem isQuasisimple_abar (h : SwapShape t Sg V) :
     CFSG.IsQuasisimple ↥(⁅Sg, Sg⁆ : Subgroup X) := by
-  haveI : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
+  have : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (wt_abar_exists_noncomm h)).1
 
 theorem center_abar_eq_bot (h : SwapShape t Sg V) :
     center ↥(⁅Sg, Sg⁆ : Subgroup X) = ⊥ := by
-  haveI : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
+  have : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (wt_abar_exists_noncomm h)).2
 
 theorem commutator_centralizer_eq (h : SwapShape t Sg V) :

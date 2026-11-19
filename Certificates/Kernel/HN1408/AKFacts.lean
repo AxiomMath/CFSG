@@ -352,9 +352,9 @@ theorem fuseRow_spec {T : List (Nat × Nat × Nat)} {k : Nat} (h : fuseRow T k =
   obtain ⟨p, l, d⟩ := r
   dsimp only at h ⊢
   by_cases hd : d = 0
-  · rw [if_pos hd] at h
+  · rw [ite_eq_left hd] at h
     exact Or.inl ⟨hd, of_decide_eq_true h⟩
-  · rw [if_neg hd] at h
+  · rw [ite_eq_right hd] at h
     simp only [Bool.and_eq_true, decide_eq_true_eq, bne_iff_ne, ne_eq, beq_iff_eq] at h
     right
     refine ⟨hd, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> tauto

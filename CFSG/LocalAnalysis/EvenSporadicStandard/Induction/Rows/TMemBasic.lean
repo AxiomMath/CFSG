@@ -82,7 +82,7 @@ theorem card_sylow_eq_two_of_not_mem [Finite H] {N L : Subgroup H} [N.Normal] (h
     exact isCyclic_of_surjective f.toMonoidHom f.surjective
   have hcard : Nat.card P = Nat.card P' := Nat.card_congr (Sylow.equiv P P').toEquiv
   rw [hcard]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P'.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P'.isPGroup
   have h2dvd : 2 ∣ Nat.card P' := by
     have h := orderOf_dvd_natCard (⟨t', ht'P⟩ : ↥(P' : Subgroup (centralizer (L : Set H))))
     rwa [Subgroup.orderOf_mk, ht'2] at h

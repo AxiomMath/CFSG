@@ -104,7 +104,7 @@ theorem false_of_harada_four [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ 
     refine h4 _ hy'U ?_ hp
     rw [← hp]
     exact ((Commute.refl _).pow_right _).eq
-  refine EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup' S.not_dvd_index hUS
+  refine EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup S.not_dvd_index hUS
     hU hxS hxU (fun g k hgS => ?_) hconj
   by_contra hgU
   set y := g⁻¹ * x ^ (2 * k) * g with hy

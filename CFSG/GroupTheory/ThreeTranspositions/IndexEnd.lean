@@ -12,7 +12,7 @@ open CFSG.RankThree.PartOne
 theorem exists_sylow_le_of_isStronglyPEmbedded {Q : Type*} [Group Q] [Finite Q] {p : ℕ}
     (hp : p.Prime) {Y : Subgroup Q} (hY : IsStronglyPEmbedded p Y) :
     ∃ S : Sylow p Q, (S : Subgroup Q) ≤ Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP, hPY⟩ := hY.exists_isSylowOf_le
   refine ⟨hP.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hP.2.2), ?_⟩
   simpa using hPY
@@ -20,11 +20,11 @@ theorem exists_sylow_le_of_isStronglyPEmbedded {Q : Type*} [Group Q] [Finite Q] 
 theorem pow_dvd_card_inf_of_normal {Q : Type*} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime)
     {Y : Subgroup Q} (hY : ∃ S : Sylow p Q, (S : Subgroup Q) ≤ Y) (N : Subgroup Q) [N.Normal] :
     p ^ (Nat.card N).factorization p ∣ Nat.card ↥(Y ⊓ N) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSY⟩ := hY
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p (S : Subgroup Q) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup',
+    exact ⟨le_top, S.isPGroup,
       by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hinf : CFSG.ABGLocalTools.IsSylowOf p ((S : Subgroup Q) ⊓ N) N :=
     hSyl.inf_of_le_normalizer le_top (by simp [Subgroup.normalizer_eq_top])
@@ -36,7 +36,7 @@ theorem false_of_normal_card_six_or_one_twenty {Q : Type*} [Group Q] [Finite Q]
     {Y : Subgroup Q} (hY : IsStronglyPEmbedded 3 Y)
     (hS : ∃ S : Sylow 2 Q, (S : Subgroup Q) ≤ Y) (N : Subgroup Q) [N.Normal]
     (hN : Nat.card N = 6 ∨ Nat.card N = 120) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S3, hS3Y⟩ := exists_sylow_le_of_isStronglyPEmbedded Nat.prime_three hY
   let m : ℕ := Nat.card ↥(Y ⊓ N)
   have hdvd : m ∣ Nat.card N := Subgroup.card_dvd_of_le inf_le_right

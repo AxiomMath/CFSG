@@ -27,7 +27,7 @@ theorem s16h_orth3Q_scal (μ : GF4) (hμ : μ ≠ 0) (v : Orth3) :
 
 theorem s16h_orth3Q_phi (v : Orth3) :
     s16h_orth3Q (orth3Phi v) = s16h_orth3Q v ^ 2 := by
-  haveI := s16h_gf4_char_two
+  have := s16h_gf4_char_two
   have h : orth3Phi v = Multiplicative.ofAdd
       ((Multiplicative.toAdd v).1 ^ 2, (Multiplicative.toAdd v).2.1 ^ 2,
         (Multiplicative.toAdd v).2.2 ^ 2) := rfl

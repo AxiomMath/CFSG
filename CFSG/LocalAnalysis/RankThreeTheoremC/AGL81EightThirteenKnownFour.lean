@@ -140,7 +140,7 @@ private theorem swapSL_mul_eq_mul_swapSL {A B : Matrix (Fin 4) (Fin 4) F4}
   exact h a b
 
 private theorem swapSL_mem_normalizer : swapSL ∈ Subgroup.normalizer (slPlane 0 1 : Set _) := by
-  haveI : Finite (slPlane 0 1) :=
+  have : Finite (slPlane 0 1) :=
     Nat.finite_of_card_ne_zero (by rw [card_slPlane (by decide)]; norm_num)
   refine mem_normalizer_of_conj_mem ?_
   rintro _ ⟨s, hs, rfl⟩
@@ -153,8 +153,8 @@ private theorem swapSL_mem_normalizer : swapSL ∈ Subgroup.normalizer (slPlane 
       (B := diagonal fun k => ((s' : Fin 4 → F4ˣ) k : F4)) fun a b => ?_)
     simp only [diagonal_apply, hs']
     by_cases hab : σ₂₃ a = b
-    · rw [if_pos hab, if_pos (by rw [← hab, Equiv.swap_apply_self])]
-    · rw [if_neg hab, if_neg fun h => hab (by rw [h, Equiv.swap_apply_self])]
+    · rw [ite_eq_left hab, ite_eq_left (by rw [← hab, Equiv.swap_apply_self])]
+    · rw [ite_eq_right hab, ite_eq_right fun h => hab (by rw [h, Equiv.swap_apply_self])]
   rw [hmul, mul_inv_cancel_right]
   refine ⟨s', ?_, rfl⟩
   have hs1 : ratio 0 1 s = 1 := hs
@@ -314,7 +314,7 @@ private theorem spShortRoot_mem_normalizer_B (h01 : (0 : Fin 3) ≠ 1) :
 private theorem rho01_mem_normalizer_B (h01 : (0 : Fin 3) ≠ 1) :
     rho (k := GaloisField 2 2) 0 1 h01 sl2W ∈
       Subgroup.normalizer (spPlaneB : Set (StatedSp 3 (GaloisField 2 2))) := by
-  haveI : Finite spPlaneB := Nat.finite_of_card_ne_zero (by rw [card_spPlaneB]; norm_num)
+  have : Finite spPlaneB := Nat.finite_of_card_ne_zero (by rw [card_spPlaneB]; norm_num)
   refine mem_normalizer_of_conj_mem ?_
   rintro _ ⟨t, ht, rfl⟩
   rw [CFSG.RankThree.PartOne.Q1327C.conj_rho01_torus h01]
@@ -349,7 +349,7 @@ private theorem conj_rho12_torus (h12 : (1 : Fin 3) ≠ 2) (t : Fin 3 → (Galoi
 private theorem rho12_mem_normalizer_A (h12 : (1 : Fin 3) ≠ 2) :
     rho (k := GaloisField 2 2) 1 2 h12 sl2W ∈
       Subgroup.normalizer (spPlaneA : Set (StatedSp 3 (GaloisField 2 2))) := by
-  haveI : Finite spPlaneA := Nat.finite_of_card_ne_zero (by rw [card_spPlaneA]; norm_num)
+  have : Finite spPlaneA := Nat.finite_of_card_ne_zero (by rw [card_spPlaneA]; norm_num)
   refine mem_normalizer_of_conj_mem ?_
   rintro _ ⟨t, ht, rfl⟩
   rw [conj_rho12_torus h12]
@@ -364,7 +364,7 @@ private theorem spEnd_rho01 (h01 : (0 : Fin 3) ≠ 1) :
         Pi.single (Sum.inl 2) 1 := by
   refine ⟨?_, ?_, ?_⟩ <;>
     rw [spEnd_apply, coe_rho', coe_sl2W, coe_sl2W_inv, mulVec_single_one] <;>
-    funext y <;> rcases y with y | y <;> fin_cases y <;> simp [pairMat, Pi.single_apply]
+    funext y <;> rcases y with y | y <;> fin_cases y <;> simp [pairMat]
 
 private theorem spEnd_rho12 (h12 : (1 : Fin 3) ≠ 2) :
     spEnd (rho (k := GaloisField 2 2) 1 2 h12 sl2W) (Pi.single (Sum.inl 1) 1) =
@@ -375,7 +375,7 @@ private theorem spEnd_rho12 (h12 : (1 : Fin 3) ≠ 2) :
         Pi.single (Sum.inl 0) 1 := by
   refine ⟨?_, ?_, ?_⟩ <;>
     rw [spEnd_apply, coe_rho', coe_sl2W, coe_sl2W_inv, mulVec_single_one] <;>
-    funext y <;> rcases y with y | y <;> fin_cases y <;> simp [pairMat, Pi.single_apply]
+    funext y <;> rcases y with y | y <;> fin_cases y <;> simp [pairMat]
 
 theorem threePlaneGen_Sp64 : ThreePlaneGen (StatedSp 3 (GaloisField 2 2)) := by
   refine ⟨torus 3 (GaloisField 2 2), spPlaneA, spPlaneB, 3, isElemAbelian_torus_gf4, le_rfl,

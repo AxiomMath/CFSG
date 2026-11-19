@@ -39,7 +39,7 @@ theorem mem_normalizer_of_map (Qs : Sylow 2 H) (ψ : H →* K)
     have := Subgroup.mul_mem _ hq'n hn
     simpa using this
   have hle : ((h • Qs : Sylow 2 H) : Subgroup H) ≤ (Qs : Subgroup H) := by
-    have := (h • Qs).isPGroup'.inf_normalizer_sylow Qs
+    have := (h • Qs).isPGroup.inf_normalizer_sylow Qs
     intro x hx
     have hx' : x ∈ ((h • Qs : Sylow 2 H) : Subgroup H) ⊓ Subgroup.normalizer (Qs : Set H) := ⟨hx, hR hx⟩
     rw [this] at hx'

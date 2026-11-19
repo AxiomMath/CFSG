@@ -74,7 +74,7 @@ theorem odd_card_of_char_two {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : 
     · change Odd (2 ^ f - 1)
       rw [Nat.odd_iff]
       omega
-  haveI : NeZero (qSubPi π (2 ^ f)) := ⟨hN.pos.ne'⟩
+  have : NeZero (qSubPi π (2 ^ f)) := ⟨hN.pos.ne'⟩
   have hA : Nat.card (Multiplicative (ZMod (qSubPi π (2 ^ f)))) = qSubPi π (2 ^ f) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   rw [Nat.card_congr e.toEquiv, Nat.card_prod, hA]

@@ -78,19 +78,19 @@ theorem mem_R_of_comm_mod_commutator_S (h : d.Hyp) {n : G} (hnS : n ∈ normaliz
     · have := hφtriv x hx
       rwa [hs₀, MulAut.mul_apply, MulAut.conj_apply] at this
 
-theorem S₃_le_P₀ (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W) :
-    d.S₃ ≤ d.P₀ := fun x hx =>
+theorem S₃_le_P₀ (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ _m ∈ d.M, _m * v * _m⁻¹ * v⁻¹ ∈ d.W) :
+    d.S₃ ≤ d.P₀ := fun _x hx =>
   Data.mem_P₀.2 ⟨d.R₃.le_normalizer (S₃_le_R₃ hx), S₃_le_centralizer_W hx,
-    ⟨h.S₃_le_normalizer_V₃ hx, fun m hm => h.commutator_mem_V₃_of_mem_S₃ hK hx hm⟩,
+    ⟨h.S₃_le_normalizer_V₃ hx, fun _m hm => h.commutator_mem_V₃_of_mem_S₃ hK hx hm⟩,
     h.S₃_le_normalizer_Y hx⟩
 
 theorem D₂_le_P₀ (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W) :
-    d.D₂ ≤ d.P₀ := fun x hx =>
+    d.D₂ ≤ d.P₀ := fun _x hx =>
   Data.mem_P₀.2 ⟨h.D₂_le_normalizer_R₃ hx, h.D₂_le_centralizer_W hx, h.D₂_le_cenMod_V₃_S₃ hK hx,
-    mem_normalizer_of_forall_comm fun y hy => (D₂_comm_Y' hx hy).symm⟩
+    mem_normalizer_of_forall_comm fun _y hy => (D₂_comm_Y' hx hy).symm⟩
 
 theorem D₁_le_P₀ (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W)
-    (hKY : ∀ m ∈ d.M, m ∈ normalizer (d.Y : Set G)) : d.D₁ ≤ d.P₀ := fun x hx =>
+    (hKY : ∀ m ∈ d.M, m ∈ normalizer (d.Y : Set G)) : d.D₁ ≤ d.P₀ := fun _x hx =>
   Data.mem_P₀.2 ⟨h.D₁_le_normalizer_R₃ hKY hx, (Subgroup.mem_inf.1 hx).2,
     h.D₁_le_cenMod_V₃_S₃ hK hKY hx, h.D₁_le_normalizer_Y hKY hx⟩
 
@@ -222,7 +222,7 @@ theorem P₀_eq_and_card (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * 
     (hKY : ∀ m ∈ d.M, m ∈ normalizer (d.Y : Set G)) :
     d.P₀ = d.D₁ ⊔ d.D₂ ∧ Nat.card d.P₀ = 2 ^ 20 ∧
       ∀ x ∈ d.P₀, ∀ y ∈ d.P₀, x * y * x⁻¹ * y⁻¹ ∈ d.S₃ := by
-  haveI : (d.V₃.subgroupOf d.S₃).Normal :=
+  have : (d.V₃.subgroupOf d.S₃).Normal :=
     (Subgroup.normal_subgroupOf_iff V₃_le_S₃).2 fun v g hv hg => h.conj_mem_V₃ hg hv
   let ψ : d.P₀ →* d.S₃ ⧸ d.V₃.subgroupOf d.S₃ :=
     MonoidHom.mk' (fun x => QuotientGroup.mk

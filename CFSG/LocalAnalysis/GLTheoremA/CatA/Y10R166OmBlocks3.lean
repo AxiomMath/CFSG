@@ -42,11 +42,14 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
     (StatedOmega (StatedQuadPlus 4 F))
     (fun A => omegaLeviGL_four_le_statedOmega hF (mem_omegaLeviGL.2 ⟨A, rfl⟩))
 
-private theorem leviEmbedGL_injective_four [Field F] :
+omit [Finite F] in
+omit [CharP F 2] in
+private theorem leviEmbedGL_injective_four :
     Function.Injective (leviEmbedGL F 4) :=
   (CFSG.LieType.Universal.Symplectic.equivStatedSp 4 F).injective.comp
     TauCeti.GLSymplecticFin.leviHom_injective
 
+omit [Finite F] [CharP F 2] in
 private theorem compLeft_injective_four (q : ℕ) :
     Function.Injective (MonoidHom.compLeft (rootsOfUnity q F).subtype (Fin 4)) := by
   intro p p' h
@@ -63,13 +66,15 @@ theorem leviOmega_injective (hF : 4 ≤ Nat.card F) :
         GL (Fin 4 ⊕ Fin 4) F) := congrArg Subtype.val h
   simpa [leviOmega, MonoidHom.codRestrict_apply] using h'
 
+omit [Finite F] [CharP F 2] in
 theorem diagTorusGL_injective (q : ℕ) :
     Function.Injective (diagTorusGL (F := F) q) :=
   TauCeti.diagGL_injective.comp (compLeft_injective_four (F := F) q)
 
+omit [CharP F 2] in
 theorem card_BGL (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     Nat.card (BGL (F := F) q) = q ^ 4 := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   change Nat.card ↥(diagTorusGL (F := F) q).range = q ^ 4
   rw [MonoidHom.range_eq_map,
     Subgroup.card_map_of_injective (diagTorusGL_injective q)]
@@ -80,6 +85,7 @@ theorem card_BGL (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
   simp only [CFSG.LinearGroups.card_rootsOfUnity_of_dvd (K := F) (d := q) hdvd]
   rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
 
+omit [CharP F 2] in
 theorem isElemAbelian_BGL (q : ℕ) (hdvd : q ∣ Nat.card F - 1) :
     IsElemAbelian q (BGL (F := F) q) := by
   have h := (isElemAbelian_top_pi_rootsOfUnity (K := F) 4 q hdvd).map
@@ -88,17 +94,20 @@ theorem isElemAbelian_BGL (q : ℕ) (hdvd : q ∣ Nat.card F - 1) :
   rw [Subgroup.map_top] at h
   exact h
 
+omit [Finite F] [CharP F 2] in
 theorem xGL_mem_BGL {q : ℕ} {s : Fˣ} (hs : s ∈ rootsOfUnity q F) :
     xGL (F := F) s ∈ BGL (F := F) q := by
   change xGL (F := F) s ∈ (diagTorusGL (F := F) q).range
   exact MonoidHom.mem_range.2 ⟨fun _ => ⟨s, hs⟩, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem xGL_ne_one {s : Fˣ} (hs : s ≠ 1) : xGL (F := F) s ≠ 1 := by
   intro h
   apply hs
   have h' := congrArg (fun g : GL (Fin 4) F => (g : Matrix (Fin 4) (Fin 4) F) 0 0) h
   simpa [xGL, TauCeti.diagGL_coe, Matrix.diagonal_apply_eq] using h'
 
+omit [Finite F] [CharP F 2] in
 theorem diagGL_mem_SLGL {u : Fin 4 → Fˣ} (hdet : (∏ i, u i) = 1) :
     TauCeti.diagGL u ∈ SLGL (F := F) := by
   have hdet' : (∏ i, (u i : F)) = 1 := by
@@ -111,10 +120,11 @@ theorem diagGL_mem_SLGL {u : Fin 4 → Fˣ} (hdet : (∏ i, u i) = 1) :
     (Matrix.SpecialLinearGroup.toGL (n := Fin 4) (R := F)).range
   exact MonoidHom.mem_range.2 ⟨A, by apply Units.ext; rfl⟩
 
+omit [CharP F 2] in
 theorem BGL_le_sup_SLGL_zpowers {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hdvd : q ∣ Nat.card F - 1) {s : Fˣ} (hζ : orderOf s = q) :
     BGL (F := F) q ≤ SLGL (F := F) ⊔ Subgroup.zpowers (xGL (F := F) s) := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   intro b hb
   change b ∈ (diagTorusGL (F := F) q).range at hb
   obtain ⟨p, hp⟩ := MonoidHom.mem_range.1 hb
@@ -142,7 +152,7 @@ theorem BGL_le_sup_SLGL_zpowers {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     have := congrArg Subtype.val hc
     simpa [powCoprime_apply] using this
   have hc_mem : (c : Fˣ) ∈ Subgroup.zpowers s := by
-    haveI : NeZero q := ⟨hq.ne_zero⟩
+    have : NeZero q := ⟨hq.ne_zero⟩
     have hprim : IsPrimitiveRoot s q := hζ ▸ IsPrimitiveRoot.orderOf s
     rw [IsPrimitiveRoot.zpowers_eq hprim]
     exact c.2
@@ -166,7 +176,7 @@ theorem BGL_le_sup_SLGL_zpowers {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     rfl
   have ht : t = (fun _ : Fin 4 => (c : Fˣ)) * u := by
     funext i
-    simp [u, mul_assoc]
+    simp [u]
   have hx : TauCeti.diagGL (fun _ : Fin 4 => (c : Fˣ)) = (xGL (F := F) s) ^ k := by
     rw [xGL]
     calc TauCeti.diagGL (fun _ : Fin 4 => (c : Fˣ))
@@ -194,6 +204,7 @@ theorem BGL_le_sup_SLGL_zpowers {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
 @[expose] noncomputable def EGL (q : ℕ) : Subgroup (GL (Fin 4) F) :=
   ((diagTorusGL (F := F) q).comp (eParam (F := F) q)).range
 
+omit [Finite F] [CharP F 2] in
 theorem eParam_injective (q : ℕ) : Function.Injective (eParam (F := F) q) := by
   intro e e' h
   funext i
@@ -205,22 +216,26 @@ theorem eParam_injective (q : ℕ) : Function.Injective (eParam (F := F) q) := b
   · simpa [eParam] using h1
   · simpa [eParam] using h2
 
+omit [Finite F] [CharP F 2] in
 theorem eParam_det (q : ℕ) (e : Fin 3 → rootsOfUnity q F) :
     (∏ i : Fin 4, ((eParam (F := F) q e i : rootsOfUnity q F) : Fˣ)) = 1 := by
   rw [Fin.prod_univ_four]
   simp [eParam, mul_assoc, mul_left_comm, mul_comm]
 
+omit [Finite F] [CharP F 2] in
 theorem EGL_le_BGL (q : ℕ) : EGL (F := F) q ≤ BGL (F := F) q := by
   rintro _ ⟨e, rfl⟩
   exact MonoidHom.mem_range.2 ⟨eParam (F := F) q e, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem EGL_le_SLGL (q : ℕ) : EGL (F := F) q ≤ SLGL (F := F) := by
   rintro _ ⟨e, rfl⟩
   exact diagGL_mem_SLGL (eParam_det q e)
 
+omit [CharP F 2] in
 theorem card_EGL (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     Nat.card (EGL (F := F) q) = q ^ 3 := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hinj : Function.Injective
       ((diagTorusGL (F := F) q).comp (eParam (F := F) q)) :=
     (diagTorusGL_injective q).comp (eParam_injective q)
@@ -232,6 +247,7 @@ theorem card_EGL (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
   simp only [CFSG.LinearGroups.card_rootsOfUnity_of_dvd (K := F) (d := q) hdvd]
   rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
 
+omit [CharP F 2] in
 theorem isElemAbelian_EGL (q : ℕ) (hdvd : q ∣ Nat.card F - 1) :
     IsElemAbelian q (EGL (F := F) q) := by
   have h := (isElemAbelian_top_pi_rootsOfUnity (K := F) 3 q hdvd).map
@@ -241,12 +257,14 @@ theorem isElemAbelian_EGL (q : ℕ) (hdvd : q ∣ Nat.card F - 1) :
   rw [Subgroup.map_top] at h
   exact h
 
+omit [Finite F] [CharP F 2] in
 theorem SGL_le_SLGL : SGL (F := F) ≤ SLGL (F := F) := by
   change (unitriangular 4 F).map
     (Matrix.SpecialLinearGroup.toGL (n := Fin 4) (R := F)) ≤
       (Matrix.SpecialLinearGroup.toGL (n := Fin 4) (R := F)).range
   exact Subgroup.map_le_range _ _
 
+omit [CharP F 2] in
 theorem isPGroup_two_unitriangular_four {f : ℕ} (hpow : Nat.card F = 2 ^ f) :
     IsPGroup 2 (unitriangular 4 F) := by
   have hcard : Nat.card (unitriangular 4 F) = 2 ^ (6 * f) := by
@@ -255,12 +273,14 @@ theorem isPGroup_two_unitriangular_four {f : ℕ} (hpow : Nat.card F = 2 ^ f) :
     omega
   exact IsPGroup.of_card hcard
 
+omit [CharP F 2] in
 theorem isPGroup_two_SGL {f : ℕ} (hpow : Nat.card F = 2 ^ f) :
     IsPGroup 2 (SGL (F := F)) := by
   rw [SGL]
   exact (isPGroup_two_unitriangular_four (F := F) hpow).map
     (Matrix.SpecialLinearGroup.toGL (n := Fin 4) (R := F))
 
+omit [Finite F] [CharP F 2] in
 theorem diagGL_conj_mem_SGL (t : Fin 4 → Fˣ)
     {u : Matrix.SpecialLinearGroup (Fin 4) F} (hu : u ∈ unitriangular 4 F) :
     TauCeti.diagGL t * Matrix.SpecialLinearGroup.toGL u *
@@ -317,6 +337,7 @@ theorem diagGL_conj_mem_SGL (t : Fin 4 → Fˣ)
     (unitriangular 4 F).map (Matrix.SpecialLinearGroup.toGL (n := Fin 4) (R := F))
   exact Subgroup.mem_map.2 ⟨A', hA', by apply Units.ext; rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem BGL_le_normalizer_SGL (q : ℕ) :
     BGL (F := F) q ≤ Subgroup.normalizer (SGL (F := F) : Set (GL (Fin 4) F)) := by
   rw [Subgroup.le_normalizer_iff]
@@ -332,6 +353,7 @@ theorem BGL_le_normalizer_SGL (q : ℕ) :
     (TauCeti.diagGL ((MonoidHom.compLeft (rootsOfUnity q F).subtype (Fin 4)) p))⁻¹ ∈ SGL (F := F)
   exact diagGL_conj_mem_SGL _ hu
 
+omit [Finite F] [CharP F 2] in
 theorem diagGL_comm_transvection_eq {t : Fin 4 → Fˣ} {i j : Fin 4} (hij : i ≠ j)
     (hcomm : TauCeti.diagGL t *
         Matrix.SpecialLinearGroup.toGL
@@ -351,7 +373,7 @@ theorem diagGL_comm_transvection_eq {t : Fin 4 → Fˣ} {i j : Fin 4} (hij : i �
         (Matrix.SpecialLinearGroup.transvection hij (1 : F) :
           Matrix (Fin 4) (Fin 4) F) from rfl]
     rw [Matrix.diagonal_mul, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply_eq, Matrix.one_apply_ne hij, Matrix.single_apply]
+    simp [Matrix.add_apply, Matrix.one_apply_ne hij]
   have hR : ((Matrix.SpecialLinearGroup.toGL
       (Matrix.SpecialLinearGroup.transvection hij (1 : F)) * TauCeti.diagGL t :
         GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) i j = (t j : F) := by
@@ -362,11 +384,12 @@ theorem diagGL_comm_transvection_eq {t : Fin 4 → Fˣ} {i j : Fin 4} (hij : i �
         (Matrix.SpecialLinearGroup.transvection hij (1 : F) :
           Matrix (Fin 4) (Fin 4) F) from rfl]
     rw [Matrix.mul_diagonal, Matrix.SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply_ne hij, Matrix.single_apply]
+    simp [Matrix.add_apply, Matrix.one_apply_ne hij]
   rw [hL, hR] at hentry
   exact Units.ext hentry
 
-theorem BGL_inf_SLGL_inf_centralizer_le_zpowers {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1)
+omit [Finite F] [CharP F 2] in
+theorem BGL_inf_SLGL_inf_centralizer_le_zpowers {q : ℕ} (hq : q.Prime) (_hdvd : q ∣ Nat.card F - 1)
     {s : Fˣ} (hζ : orderOf s = q) :
     BGL (F := F) q ⊓ SLGL (F := F) ⊓
       Subgroup.centralizer (SGL (F := F) : Set (GL (Fin 4) F)) ≤
@@ -401,7 +424,7 @@ theorem BGL_inf_SLGL_inf_centralizer_le_zpowers {q : ℕ} (hq : q.Prime) (hdvd :
     · exact h23.symm.trans (h12.symm.trans h01.symm)
   let c : rootsOfUnity q F := p 0
   have hc_mem : (c : Fˣ) ∈ Subgroup.zpowers s := by
-    haveI : NeZero q := ⟨hq.ne_zero⟩
+    have : NeZero q := ⟨hq.ne_zero⟩
     have hprim : IsPrimitiveRoot s q := hζ ▸ IsPrimitiveRoot.orderOf s
     rw [IsPrimitiveRoot.zpowers_eq hprim]
     exact c.2
@@ -468,8 +491,8 @@ theorem isElemAbelian_BOmega (hF : 4 ≤ Nat.card F) (q : ℕ)
   rw [BOmega_eq]
   exact (isElemAbelian_BGL (F := F) q hdvd).map (leviOmega (F := F) hF)
 
-theorem xOmega_mem_BOmega (hF : 4 ≤ Nat.card F) {q : ℕ} (hq : q.Prime)
-    (hdvd : q ∣ Nat.card F - 1) {s : Fˣ} (hζ : orderOf s = q) :
+theorem xOmega_mem_BOmega (hF : 4 ≤ Nat.card F) {q : ℕ} (_hq : q.Prime)
+    (_hdvd : q ∣ Nat.card F - 1) {s : Fˣ} (hζ : orderOf s = q) :
     xOmega (F := F) s ∈ BOmega (F := F) hF q := by
   rw [BOmega_eq, xOmega_eq_leviOmega_xGL (F := F) hF s]
   exact Subgroup.mem_map.2 ⟨xGL (F := F) s,
@@ -531,7 +554,7 @@ theorem BOmega_le_normalizer_SOmega (hF : 4 ≤ Nat.card F) (q : ℕ) :
   exact Subgroup.mem_map.2 ⟨b' * s' * b'⁻¹, hmem, by simp⟩
 
 theorem BOmega_inf_JOmega_inf_centralizer_le_zpowers (hF : 4 ≤ Nat.card F) {q : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) (hdvd : q ∣ Nat.card F - 1) {s : Fˣ}
+    (hq : q.Prime) (_hq2 : q ≠ 2) (hdvd : q ∣ Nat.card F - 1) {s : Fˣ}
     (hζ : orderOf s = q) :
     BOmega (F := F) hF q ⊓ JOmega (F := F) hF ⊓
       Subgroup.centralizer

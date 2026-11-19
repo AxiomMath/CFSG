@@ -22,7 +22,7 @@ theorem ggR4Meet_noE6TwoL34
       (↥(J.subgroupOf L) ⧸ Subgroup.center ↥(J.subgroupOf L))) : False := by
   have hS : LargeEvenSStar 3 B x L := hCfg.1.2.2.2.2.2.2.1
   have hStd : LargeEvenStdSubPre 3 B x L D J := hCfg.2.2.1
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hperf
   obtain ⟨F, U, hFelem, hFcard, hUbot, hU2, hFU⟩ := ggE6TwoTwoLocalFour_holds ↥L hL
   have hFZ : F ⊓ Subgroup.center ↥L = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
@@ -93,7 +93,7 @@ theorem ggR4Meet_noE6TwoL34
   have hElemTop : IsElemAbelian 3 (⊤ : Subgroup ↥Bs) := by
     have htop : Subgroup.comap Bs.subtype Bs = (⊤ : Subgroup ↥Bs) := by
       ext g
-      simp [Subgroup.mem_comap]
+      simp
     rw [← htop]
     exact CFSG.Open.IsElemAbelian.comap hCfg.2.1.2.1 Bs.subtype_injective
   have hWelem : IsElemAbelian 3 α.range := by
@@ -103,7 +103,7 @@ theorem ggR4Meet_noE6TwoL34
     rw [hStd.2.2.2.2.1]
     exact sSup_le fun K hK => hK.1.trans inf_le_left
   let e : ↥(J.subgroupOf L) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJL
-  haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hStd.2.2.2.2.2.1.2.2.1
+  have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hStd.2.2.2.2.2.1.2.2.1
   have hperfJ : commutator ↥(J.subgroupOf L) = ⊤ :=
     Group.isPerfect_def.mp
       (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective)

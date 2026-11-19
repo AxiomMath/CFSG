@@ -56,7 +56,7 @@ theorem nonempty_quot_equiv_of_central_surj
     obtain ⟨T⟩ : Nonempty (Sylow 2 ↥D) := inferInstance
     have hT2 : ∀ x ∈ (T : Subgroup ↥D), ((x : E)) ∈ center E := by
       intro x hx
-      obtain ⟨k, hk⟩ := T.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := T.isPGroup ⟨x, hx⟩
       have hk' : (x : E) ^ 2 ^ k = 1 := by
         have := congrArg (fun y : ↥(T : Subgroup ↥D) => ((y : ↥D) : E)) hk
         simpa using this

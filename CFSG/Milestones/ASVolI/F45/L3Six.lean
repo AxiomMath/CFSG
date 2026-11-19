@@ -208,7 +208,7 @@ theorem burnsideF45_oPPrime_flag :
       MulAction.stabilizer (LinearFlag.projectiveSL 3 K) (Sum.inr (l0 : Ln K) : Pt K ⊕ Ln K)) =
       LinearFlag.projUnitriangular 3 K := by
   obtain ⟨S, hS⟩ := LinearFlag.exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
-  have hUp : IsPGroup p (LinearFlag.projUnitriangular 3 K) := hS ▸ S.isPGroup'
+  have hUp : IsPGroup p (LinearFlag.projUnitriangular 3 K) := hS ▸ S.isPGroup
   apply le_antisymm
   · unfold oPPrime
     refine (Subgroup.closure_le _).mpr ?_
@@ -242,11 +242,11 @@ theorem burnsideF45_C6_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
   obtain ⟨chart, hbor, hpts, hlines⟩ := hyp.lie_amalgam
   obtain ⟨marking, h1, h2, h3, -⟩ := burnsideF4f_L3_marking chart
   have hp : p.Prime := marking.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hm : 3 ≤ GLKind.L3.m := burnsideF45_three_le_m .L3
-  haveI : Finite marking.field := marking.finiteField
+  have : Finite marking.field := marking.finiteField
   have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field p :=
+  have : CharP marking.field p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
       marking.exponent_pos hK
   have hP : IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂) := by

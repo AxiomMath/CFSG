@@ -151,6 +151,7 @@ theorem Rt_ne_LB (cfg : HS9.Cfg93c hc n t r Z0 h) {x : G}
     Subgroup.eq_of_le_of_card_ge hle (card_conjSubgroup h (LB M Q B)).ge
   exact cfg.hne heq.symm
 
+omit [Finite G] in
 private theorem centre_char {x : G} (hx7 : Sec7Hyp hc n x) {Z0x : Subgroup G}
     (hZ0x : IsCentrePre Z0x (Rt M (LB M Q B) x) Q) (hZ0L : Z0x ≤ LB M Q B) :
     ∀ a, a ∈ Z0x ↔ a ∈ LB M Q B ∧ ∀ ρ ∈ Rt M (LB M Q B) x, ⁅ρ, a⁆ ∈ Q := by
@@ -295,7 +296,7 @@ private theorem transfer_of_simple {ι K : Type} [Fintype ι] [DecidableEq ι] [
     (hCnorm : ∀ ρ ∈ Rt M (LB M Q B) x, ∀ c ∈ C, ρ * c * ρ⁻¹ ∈ C)
     {Z0 : Subgroup G} (hZ0C : Z0 ≤ C) (htZ : t ∈ Z0) (htN : t ∉ hc.CN x) :
     ∀ r ∈ Rt M (LB M Q B) x, ∃ c ∈ C, c⁻¹ * r ∈ hc.CN x := by
-  haveI := hsimple
+  have := hsimple
   have hNR : hc.CN x ≤ Rt M (LB M Q B) x := fun y hy => (Ctx.mem_CN.mp hy).1
   have hkerc : φ.rangeRestrict.ker = (hc.CN x).subgroupOf (Rt M (LB M Q B) x) := by
     rw [MonoidHom.ker_rangeRestrict, hker]
@@ -339,7 +340,7 @@ private theorem centralizer_transfer {x : G} (hx7 : Sec7Hyp hc n x) {C : Subgrou
         exact absurd ⟨K, fK, finK, hK, hnat⟩ hx7.notPlus4
       · exact hge
     obtain ⟨φ, hrange, hker, -⟩ := hnat
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨n, -, hn, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans hn)
     have hsimple : IsSimpleGroup ↥φ.range := by
@@ -347,7 +348,7 @@ private theorem centralizer_transfer {x : G} (hx7 : Sec7Hyp hc n x) {C : Subgrou
       exact (endg_omegaPlus_facts (by rw [hK]; exact hc.hyp.q4) hm3).1
     exact transfer_of_simple hx7.toSec5.mem hker hsimple hCR hCnorm hZ0C htZ htN
   · obtain ⟨φ, hrange, hker, -⟩ := hnat
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨n, -, hn, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans hn)
     have hsimple : IsSimpleGroup ↥φ.range := by
@@ -361,7 +362,7 @@ private theorem centralizer_transfer_sp {x : G} (hs8 : Sec8Hyp hc n x) {C : Subg
     (hZ0C : Z0 ≤ C) (htZ : t ∈ Z0) (htN : t ∉ hc.CN x) :
     ∀ r ∈ Rt M (LB M Q B) x, ∃ c ∈ C, c⁻¹ * r ∈ hc.CN x := by
   obtain ⟨m, hm, K, fK, finK, hK, φ, hrange, hker, -⟩ := hs8.sp
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hsimple : IsSimpleGroup ↥φ.range := by
@@ -412,6 +413,7 @@ private theorem commutator_R_CN_le (h34 : Stroth34Statement) (h311a : Stroth311a
   rw [hr, hsum]
   exact Z0x.mul_mem (hQZ0x h1) h3
 
+omit [Finite G] in
 private theorem card_CN_of_conc78 {m : ℕ} (h : Conc78 hc n t m) :
     ∃ k : ℕ, 9 ≤ k ∧ Nat.card ↥(hc.CN t) = Nat.card Q * Nat.card Z ^ k := by
   rcases h with ⟨-, -, h⟩ | ⟨-, -, h⟩ | ⟨-, -, -, h⟩ | ⟨-, -, -, h⟩ | ⟨-, -, -, h⟩
@@ -470,7 +472,7 @@ private theorem not_central_of_min {R N Zc : Subgroup G}
   classical
   have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   intro hall
   let S : Set (Subgroup G) := {A | Zc < A ∧ A ≤ N ∧ ∀ r ∈ R, conjSubgroup r A = A}
   have hNS : N ∈ S := ⟨hlt, le_rfl, hNinv⟩
@@ -601,7 +603,7 @@ theorem false_of_omegaPlus3 (h34 : Stroth34Statement) (h311a : Stroth311aStateme
     (hxH : x ∈ LB M Q B ⊓ conjSubgroup h (LB M Q B)) (hx7 : Sec7Hyp hc n x)
     (hP3 : OmegaPlusNat hc x 3) : False := by
   obtain ⟨Z0x, hZ0x⟩ := Ctx.exists_centre hc hx7.toSec5.mem
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hcent : ∀ a ∈ hc.CN x, (∀ b ∈ hc.CN x, ⁅a, b⁆ ∈ Q) → a ∈ Z0x :=
     fun a ha hb => (hZN G M Q Z B hc n x hx7 hP3 Z0x hZ0x a).mpr ⟨ha, hb⟩
   obtain ⟨hZH, hcommCN, hlt, htransfer⟩ :=

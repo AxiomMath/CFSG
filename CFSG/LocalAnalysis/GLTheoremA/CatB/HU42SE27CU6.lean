@@ -98,7 +98,7 @@ theorem exists_perfect_map_of_perfect (s : M6) (sbar : S6) (hπs : pi6 s = sbar)
     · intro x hx
       obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
       exact y.2.1
-    · haveI : Group.IsPerfect ↥K' := hK'perf
+    · have : Group.IsPerfect ↥K' := hK'perf
       exact Group.IsPerfect.map (H := K') P.subtype
     · apply le_antisymm
       · intro x hx

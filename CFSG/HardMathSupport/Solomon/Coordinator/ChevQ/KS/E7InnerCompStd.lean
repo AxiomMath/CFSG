@@ -86,12 +86,12 @@ theorem exists_stdSetup_of_inner_frobenius_conj_baseChange {F : Type} [Field F] 
         ι z = h * baseChangeGL (algebraMap F (AlgebraicClosure F))
           (z : ModGL Tag.E7 F) * h⁻¹ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Fr, hFr, g0, hg0C, hg0⟩ := exists_lang_data Tag.E7 F e7Neg
   have hFr2 : Fr = iterateFrobenius (AlgebraicClosure F) 2 1 := by
     ext c

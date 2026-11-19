@@ -121,8 +121,8 @@ theorem WongHyp.exists_sylow_le_of_outer_outer [Finite G] (h : WongHyp t i₁.ra
   have card_formula : ∀ {H K : Subgroup G}, H ≤ Subgroup.normalizer (K : Set G) →
       Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card H * Nat.card K := by
     intro H K hHK
-    haveI : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHK
-    haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+    have : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHK
+    have : (K.subgroupOf (H ⊔ K)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hHK
     have quotient_card := Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient H K hHK).toEquiv

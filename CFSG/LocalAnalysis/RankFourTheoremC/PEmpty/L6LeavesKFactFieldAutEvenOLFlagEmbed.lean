@@ -142,7 +142,7 @@ theorem exists_isotropic_levi_bound {F V : Type*} [Field F] [Finite F] [CharP F 
     ∃ k : ℕ, 1 ≤ k ∧ 2 * k ≤ Module.finrank F V ∧
       padicValNat 3 (Nat.card Q) ≤ padicValNat 3 (Nat.card (GL (Fin k) F)) +
         padicValNat 3 (Nat.card (GL (Fin (Module.finrank F V - 2 * k)) F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let W : Submodule F V :=
     { carrier := {w | ∀ x ∈ R, x w = w}
       add_mem' := fun {a b} ha hb x hx => by rw [map_add, ha x hx, hb x hx]
@@ -156,7 +156,7 @@ theorem exists_isotropic_levi_bound {F V : Type*} [Field F] [Finite F] [CharP F 
       exact hx)
   have hgg : ∀ g : V ≃ₗ[F] V, ∀ w : V, g ((g⁻¹ : V ≃ₗ[F] V) w) = w := fun g w => by
     have : (g * g⁻¹) w = w := by simp
-    simpa [LinearEquiv.mul_apply] using this
+    simp
   have hWQ : ∀ g ∈ Q, ∀ w ∈ W, g w ∈ W := by
     intro g hg w hw x hx
     have h1 : (g⁻¹ * x * g) w = w := hw _ (hRQ1 g hg x hx)
@@ -240,7 +240,7 @@ theorem padicValNat_three_card_normalizer_le_of_isometries {ι : Type} [Fintype 
     (R : Subgroup (StatedProj H)) (hR2 : IsPGroup 2 R) (hR1 : R ≠ ⊥) :
     padicValNat 3 (Nat.card (Subgroup.normalizer (R : Set (StatedProj H)))) ≤ B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hZc, -⟩ := scalars_subgroupOf_facts ι F H
   obtain ⟨R', hR'2, hR'1, hRN⟩ := OLThreeAdic.exists_two_subgroup_normalized
     ((StatedScalars ι F).subgroupOf H) hZc R hR2 hR1
@@ -257,7 +257,7 @@ theorem padicValNat_three_card_normalizer_le_of_isometries {ι : Type} [Fintype 
   let θ : ↥Ñ →* ((ι → F) ≃ₗ[F] (ι → F)) := ρ.comp Ñ.subtype
   have hθ : Function.Injective θ := hρ.comp Ñ.subtype_injective
   let Q : Subgroup ((ι → F) ≃ₗ[F] (ι → F)) := (P : Subgroup Ñ).map θ
-  have hQ : IsPGroup 3 Q := P.isPGroup'.map θ
+  have hQ : IsPGroup 3 Q := P.isPGroup.map θ
   have hR''2 : IsPGroup 2 (R'.map ρ) := hR'2.map ρ
   have hR''1 : R'.map ρ ≠ ⊥ := fun h => hR'1 ((Subgroup.map_eq_bot_iff_of_injective _ hρ).1 h)
   have hQβ : ∀ g ∈ Q, ∀ u v, β.β (g u) (g v) = β.β u v := by

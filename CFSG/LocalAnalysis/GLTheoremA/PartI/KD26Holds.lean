@@ -52,6 +52,7 @@ section Counting
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_commute' {S T : Subgroup G} (hc : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     S ≤ Subgroup.normalizer (T : Set G) := fun s hs => by
   rw [Subgroup.mem_normalizer_iff]
@@ -128,7 +129,7 @@ private theorem card_eq_card_inf_ker_mul_card_map' {A Q : Type*} [Group A] [Grou
 theorem card_le_of_card_outer_le {S : Type} [Group S] [Finite S] {p : ℕ} (hp : 3 ≤ p)
     (hOut : Nat.card (Outer S) ≤ 4) (D : Subgroup (MulAut S)) :
     Nat.card D ≤ p ^ 2 * Nat.card ↥(D ⊓ inner S) := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   set q : MulAut S →* Outer S := QuotientGroup.mk' (inner S) with hq
   have hker : q.ker = inner S := QuotientGroup.ker_mk' (inner S)
   have h1 := card_eq_card_inf_ker_mul_card_map' q D
@@ -142,7 +143,7 @@ theorem card_le_of_card_outer_le {S : Type} [Group S] [Finite S] {p : ℕ} (hp :
 theorem card_le_of_not_dvd_outer {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     (hOut : ¬ p ∣ Nat.card (Outer S)) {D : Subgroup (MulAut S)} (hD : IsElemAbelian p D) :
     Nat.card D ≤ p ^ 2 * Nat.card ↥(D ⊓ inner S) := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   set q : MulAut S →* Outer S := QuotientGroup.mk' (inner S) with hq
   have hker : q.ker = inner S := QuotientGroup.ker_mk' (inner S)
   have h1 := card_eq_card_inf_ker_mul_card_map' q D
@@ -180,7 +181,7 @@ theorem kd26a_lie (hLie : LieOuterRank) {S : Type} [Group S] [Finite S] (hS : Is
 
 theorem kd26a_of_tables (hLie : LieOuterRank) (hSp : SporadicOutOdd) : KD26a := by
   intro K _ _ hK p hp hp2 D hD
-  haveI : Group.IsPerfect K := ⟨hK.1.1⟩
+  have : Group.IsPerfect K := ⟨hK.1.1⟩
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega

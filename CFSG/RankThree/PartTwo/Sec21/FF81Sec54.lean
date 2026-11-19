@@ -17,6 +17,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ s₀ : G}
 
+omit [Finite G] in
 theorem mem_cenS_pair_iff {u v y : G} :
     y ∈ CenS (Subgroup.closure {u, v}) ↔ y * u = u * y ∧ y * v = v * y := by
   constructor
@@ -31,15 +32,17 @@ theorem mem_cenS_pair_iff {u v y : G} :
       · exact Subgroup.mem_centralizer_singleton_iff.mpr hv.symm)
     exact Subgroup.mem_centralizer_singleton_iff.mp (hle hh)
 
+omit [Finite G] in
 theorem mem_OUp_of_coprime {M : Subgroup G} {g : G} (hg : g ∈ M) (hc : Nat.Coprime 3 (orderOf g)) :
     g ∈ OUp 3 M := by
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩, Subgroup.subset_normalClosure ?_, rfl⟩
   show Nat.Coprime 3 (orderOf (⟨g, hg⟩ : ↥M))
   rwa [Subgroup.orderOf_mk]
 
-theorem OUp_le_of {M K : Subgroup G} (hKM : K ≤ M) (hn : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K)
+omit [Finite G] in
+theorem OUp_le_of {M K : Subgroup G} (_hKM : K ≤ M) (hn : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K)
     (h3 : ∀ m ∈ M, Nat.Coprime 3 (orderOf m) → m ∈ K) : OUp 3 M ≤ K := by
-  haveI : (K.subgroupOf M).Normal := ⟨fun k hk m => by
+  have : (K.subgroupOf M).Normal := ⟨fun k hk m => by
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     exact hn m m.2 k hk⟩
   have hle : Subgroup.normalClosure {g : M | Nat.Coprime 3 (orderOf g)} ≤ K.subgroupOf M :=

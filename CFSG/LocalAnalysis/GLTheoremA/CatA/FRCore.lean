@@ -43,9 +43,11 @@ theorem fixSub_indAut {G : Type} [Group G] {p : ℕ} {L : Subgroup G} {b : G}
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ipart_eq_sSup {p : ℕ} (X : Subgroup G) :
     GLAPLayer p X = sSup {J | GLAPComponent p X J} := rfl
 
+omit [Finite G] in
 theorem exists_component_of_ne_bot {p : ℕ} (X : Subgroup G) (h : GLAPLayer p X ≠ ⊥) :
     ∃ J, GLAPComponent p X J := by
   by_contra hc
@@ -83,23 +85,23 @@ theorem center_eq_bot_of_simple_nonab {K : Type*} [Group K] [IsSimpleGroup K] {x
 theorem nonempty_pSimple_equiv_of_simple {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite S]
     {C E : Subgroup S} (hE : IsSimpleGroup ↥E) (hna : ∃ x y : ↥E, x * y ≠ y * x)
     (hC : GLAPComponent p C E) : Nonempty (PSimple p E ≃* ↥E) := by
-  haveI := hE
+  have := hE
   obtain ⟨x, y, hxy⟩ := hna
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hC
   have hN : GLAPPrimeCore p ↥E = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p ↥E) with h0 | h0
     · exact h0
     · exfalso
-      haveI : Subsingleton (↥E ⧸ (⊤ : Subgroup ↥E)) := QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton (PQuot p E) :=
+      have : Subsingleton (↥E ⧸ (⊤ : Subgroup ↥E)) := QuotientGroup.subsingleton_quotient_top
+      have : Subsingleton (PQuot p E) :=
         (QuotientGroup.quotientMulEquivOfEq h0).toEquiv.subsingleton
-      haveI : Subsingleton (PQuot p E ⧸ Subgroup.center (PQuot p E)) :=
+      have : Subsingleton (PQuot p E ⧸ Subgroup.center (PQuot p E)) :=
         QuotientGroup.mk_surjective.subsingleton
-      haveI := hq.2
+      have := hq.2
       exact not_subsingleton (PQuot p E ⧸ Subgroup.center (PQuot p E)) inferInstance
   have e₁ : PQuot p E ≃* ↥E :=
     (QuotientGroup.quotientMulEquivOfEq hN).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (PQuot p E) := (MulEquiv.isSimpleGroup_congr e₁).mpr inferInstance
+  have : IsSimpleGroup (PQuot p E) := (MulEquiv.isSimpleGroup_congr e₁).mpr inferInstance
   have hZ : Subgroup.center (PQuot p E) = ⊥ :=
     center_eq_bot_of_simple_nonab (x := e₁.symm x) (y := e₁.symm y)
       fun h => hxy (e₁.symm.injective (by simpa using h))

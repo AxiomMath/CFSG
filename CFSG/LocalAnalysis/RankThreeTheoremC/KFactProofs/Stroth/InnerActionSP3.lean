@@ -62,15 +62,15 @@ private theorem mem_inner_of_nonabelian_three {K : Type} [Group K] [Finite K]
     {α : MulAut K} (hα : α ^ 3 = 1) (hαS : ∀ s ∈ S, α s = s) : α ∈ inner K := by
   by_contra hαI
   change ¬ 9 ∣ (inner K).index at hout
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
     (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨V, hVp, a, ha, b, hb, hne⟩ := hnab
   let c : K →* MulAut K := MulAut.conj
   set U : Subgroup (MulAut K) := S.map c with hU
   have hUI : U ≤ inner K := Subgroup.map_le_range c S
   have hUp : IsPGroup 3 U := hS.map c
-  haveI : IsMulCommutative U := Subgroup.map_isMulCommutative S c
+  have : IsMulCommutative U := Subgroup.map_isMulCommutative S c
   have hαU : ∀ u ∈ U, α * u = u * α := by
     rintro _ ⟨s, hs, rfl⟩
     ext x
@@ -300,8 +300,8 @@ private theorem psl_data {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
   let eK : K ≃* projectiveSL 3 F :=
     e.trans ((projectiveSpecialLinearGroupEquivStatedProj 3 F).symm.trans
       (projectiveSpecialLinearEquivProjectiveSL 3 F))
-  haveI : Finite (projectiveSL 3 F) := Finite.of_equiv K eK.toEquiv
-  haveI : Finite (MulAut (projectiveSL 3 F)) :=
+  have : Finite (projectiveSL 3 F) := Finite.of_equiv K eK.toEquiv
+  have : Finite (MulAut (projectiveSL 3 F)) :=
     Finite.of_injective (fun α : MulAut (projectiveSL 3 F) => (α : projectiveSL 3 F → _))
       fun _ _ hαβ => MulEquiv.ext (congrFun hαβ)
   refine transport_data eK ?_ ?_
@@ -309,7 +309,7 @@ private theorem psl_data {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
     rw [Nat.gcd_eq_left h3q] at hb
     exact not_nine_dvd_of_dvd hb hf3
   · have hcardU : 3 ∣ Nat.card Fˣ := by rw [Nat.card_units, hF]; exact h3q
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 hcardU
     have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
     have hz1 : z ≠ 1 := by
@@ -355,9 +355,9 @@ private theorem psu_data {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
   obtain ⟨eP⟩ := nonempty_primeFormP_mulEquiv h hC
   let e' : K ≃* primeFormP h ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) :=
     (eT.trans (unitaryPSUEquiv h (by omega)).symm).trans eP.symm
-  haveI : Finite (primeFormP h ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) :=
     Finite.of_equiv K e'.toEquiv
-  haveI : Finite (MulAut (primeFormP h ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F))) :=
+  have : Finite (MulAut (primeFormP h ((1 : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F))) :=
     Finite.of_injective (fun α : MulAut (primeFormP h ((1 : GL (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F)) => (α : _ → _)) fun _ _ hαβ => MulEquiv.ext (congrFun hαβ)
   refine transport_data e' ?_ ?_
@@ -370,7 +370,7 @@ private theorem psu_data {K : Type} [Group K] [Finite K] {ℓ f : ℕ}
       rw [one_pow] at this
       rw [this]
       exact Dvd.dvd.mul_right h3q _
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 hcardU
     have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
     have hz1 : z ≠ 1 := by

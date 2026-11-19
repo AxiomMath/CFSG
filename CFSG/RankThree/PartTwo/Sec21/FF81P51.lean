@@ -33,6 +33,7 @@ def conjB (n : Nor B) : B →* B where
   map_one' := by ext; simp
   map_mul' x y := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
+omit [Finite G] in
 theorem conjB_coe (n : Nor B) (x : B) : (conjB n x : G) = (n : G) * x * (n : G)⁻¹ := rfl
 
 variable [IsElementaryAbelian 3 B]
@@ -40,6 +41,7 @@ variable [IsElementaryAbelian 3 B]
 def conjL (n : Nor B) : Additive B →ₗ[ZMod 3] Additive B :=
   (MonoidHom.toAdditive (conjB n)).toZModLinearMap 3
 
+omit [Finite G] in
 theorem conjL_apply (n : Nor B) (x : B) :
     conjL n (Additive.ofMul x) = Additive.ofMul (conjB n x) := rfl
 
@@ -65,35 +67,45 @@ noncomputable def ρ : Nor B →* Mat where
 
 noncomputable def ρU : Nor B →* GL4 := (ρ β).toHomUnits
 
+omit [Finite G] in
 theorem coe_ρU (n : Nor B) : ((ρU β n : GL4) : Mat) = ρM β n := rfl
 
 noncomputable def cv (x : B) : V := β.equivFun (Additive.ofMul x)
 
+omit [Finite G] in
 theorem ρM_mulVec (n : Nor B) (x : B) : ρM β n *ᵥ cv β x = cv β (conjB n x) := by
   have := LinearMap.toMatrix_mulVec_repr β β (conjL n) (Additive.ofMul x)
   unfold ρM
   simpa [cv, Module.Basis.equivFun_apply, conjL_apply] using this
 
+omit [Finite G] in
 theorem cv_mul (x y : B) : cv β (x * y) = cv β x + cv β y := by
   simp [cv, ofMul_mul]
 
+omit [Finite G] in
 theorem cv_inv (x : B) : cv β x⁻¹ = -cv β x := by
   simp only [cv, ofMul_inv, map_neg]
 
+omit [Finite G] in
 theorem cv_one : cv β 1 = 0 := by simp [cv]
 
+omit [Finite G] in
 theorem cv_zpow (x : B) (k : ℤ) : cv β (x ^ k) = k • cv β x := by simp [cv, ofMul_zpow]
 
+omit [Finite G] in
 theorem cv_inj : Function.Injective (cv β) :=
   β.equivFun.injective.comp Additive.ofMul.injective
 
 noncomputable def vB (v : V) : B := Additive.toMul (β.equivFun.symm v)
 
+omit [Finite G] in
 theorem cv_vB (v : V) : cv β (vB β v) = v := by
   simp only [cv, vB, ofMul_toMul, LinearEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem vB_cv (x : B) : vB β (cv β x) = x := cv_inj β (cv_vB β _)
 
+omit [Finite G] in
 theorem cv_basis (i : Fin 4) : cv β (Additive.toMul (β i)) = e i := by
   ext j
   simp only [cv, ofMul_toMul, Module.Basis.equivFun_self, e, Pi.single_apply]
@@ -137,7 +149,7 @@ theorem exists_basis {b₀ b₁ b₂ b₃ : G} (hcard : Nat.card B = 3 ^ 4)
       hK (Additive.toMul x).2
     obtain ⟨_, hx⟩ := hx
     exact hx
-  haveI : Module.Finite (ZMod 3) (Additive B) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) (Additive B) := Module.Finite.of_finite
   have hfin : Module.finrank (ZMod 3) (Additive B) = 4 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive B)
     rw [Nat.card_zmod, show Nat.card (Additive B) = Nat.card B from rfl, hcard] at h1
@@ -146,6 +158,7 @@ theorem exists_basis {b₀ b₁ b₂ b₃ : G} (hcard : Nat.card B = 3 ^ 4)
     linearIndependent_of_top_le_span_of_card_eq_finrank hsp (by rw [hfin]; rfl)
   exact ⟨Module.Basis.mk hli hsp, fun i => by rw [Module.Basis.mk_apply]; rfl⟩
 
+omit [Finite G] in
 theorem ker_ρU : (ρU β).ker = (CenS B).subgroupOf (Nor B) := by
   ext n
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff]
@@ -165,33 +178,40 @@ theorem ker_ρU : (ρU β).ker = (CenS B).subgroupOf (Nor B) := by
       change Additive.ofMul (conjB n (Additive.toMul x)) = x
       apply Additive.toMul.injective
       ext
-      simp only [toMul_ofMul, conjB_coe, LinearMap.id_apply]
+      simp only [toMul_ofMul, conjB_coe]
       rw [← hn _ (Additive.toMul x).2]; group
     rw [ρM, this, LinearMap.toMatrix_id]
 
+omit [Finite G] in
 theorem autOrder_eq : autOrder B = Nat.card (ρU β).range := by
   rw [autOrder, Subgroup.relIndex, ← ker_ρU β, Subgroup.index_ker]
 
 noncomputable def cvG (g : G) : V := by
   classical exact if h : g ∈ B then cv β ⟨g, h⟩ else 0
 
+omit [Finite G] in
 theorem cvG_of_mem {g : G} (h : g ∈ B) : cvG β g = cv β ⟨g, h⟩ := by
   classical simp [cvG, h]
 
+omit [Finite G] in
 theorem cvG_inj {g g' : G} (hg : g ∈ B) (hg' : g' ∈ B) (h : cvG β g = cvG β g') : g = g' := by
   rw [cvG_of_mem β hg, cvG_of_mem β hg'] at h
   exact congrArg Subtype.val (cv_inj β h)
 
+omit [Finite G] in
 theorem cvG_mul {g g' : G} (hg : g ∈ B) (hg' : g' ∈ B) :
     cvG β (g * g') = cvG β g + cvG β g' := by
   rw [cvG_of_mem β (B.mul_mem hg hg'), cvG_of_mem β hg, cvG_of_mem β hg', ← cv_mul]; rfl
 
+omit [Finite G] in
 theorem cvG_inv {g : G} (hg : g ∈ B) : cvG β g⁻¹ = -cvG β g := by
   rw [cvG_of_mem β (B.inv_mem hg), cvG_of_mem β hg, ← cv_inv]; rfl
 
+omit [Finite G] in
 theorem cvG_one : cvG β (1 : G) = 0 := by
   rw [cvG_of_mem β B.one_mem, ← cv_one β]; rfl
 
+omit [Finite G] in
 theorem ρM_col (n : Nor B) (i : Fin 4) :
     ρM β n *ᵥ e i = cvG β ((n : G) * ((Additive.toMul (β i) : B) : G) * (n : G)⁻¹) := by
   rw [← cv_basis β i, ρM_mulVec]
@@ -199,6 +219,7 @@ theorem ρM_col (n : Nor B) (i : Fin 4) :
 
 noncomputable def Lv (v : V) : Subgroup G := Subgroup.zpowers (vB β v : G)
 
+omit [Finite G] in
 theorem Lv_neg (v : V) : Lv β (-v) = Lv β v := by
   have : (vB β (-v) : G) = (vB β v : G)⁻¹ := by
     have h := cv_inv β (vB β v)
@@ -213,6 +234,7 @@ theorem smul_cases (c : ZMod 3) (v : V) : c • v = 0 ∨ c • v = v ∨ c • 
   · simp
   · exact Or.inr (Or.inr (neg_one_smul (ZMod 3) v))
 
+omit [Finite G] in
 theorem Lv_eq {v w : V} (hw : w ≠ 0) (h : Lv β v = Lv β w) : w = v ∨ w = -v := by
   have hmem : (vB β w : G) ∈ Subgroup.zpowers (vB β v : G) := by
     rw [← Lv, h]; exact Subgroup.mem_zpowers _
@@ -345,7 +367,7 @@ theorem kf_prop51 : KF_Prop51 := by
   intro G _ _ B b b₁ b₂ b₃ hH0 _hodd hstab hmeet
   obtain ⟨hE, hcl, ⟨n0, hn0, h00, h01, h02, h03⟩, ⟨n1, hn1, h10, h11, h12, h13⟩,
     ⟨n2, hn2, h20, h21, h22, h23⟩, ⟨n3, hn3, h30, h31, h32, h33⟩⟩ := hH0
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   set bs : Fin 4 → G := ![b, b₁, b₂, b₃] with hbs
   have hbB : ∀ i, bs i ∈ B := fun i => hβ i ▸ (Additive.toMul (β i)).2

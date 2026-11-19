@@ -127,7 +127,7 @@ theorem Frame55.n1 [Finite Γ] (hf : Frame55 k p ρ K a P R) :
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hQb]
-      exact (Q.mapSurjective hsurj).isPGroup'
+      exact (Q.mapSurjective hsurj).isPGroup
     · rw [← hQb, Subgroup.relIndex_top_right]
       exact (Q.mapSurjective hsurj).not_dvd_index
   ·
@@ -179,7 +179,7 @@ theorem Hyp89.false_of_hhobsAt [Finite Γ] [Module.Finite (ZMod p) V]
       exact ⟨w.2, hw⟩
     · rintro ⟨hy, hyQ⟩
       exact ⟨⟨y, hy⟩, hyQ, rfl⟩
-  have hSKp : IsPGroup r ↥SK := Q.isPGroup'.map (E.comap π).subtype
+  have hSKp : IsPGroup r ↥SK := Q.isPGroup.map (E.comap π).subtype
   have hSKle : ∀ y ∈ SK, π y ∈ E := fun y hy => ((hSKmem y).mp hy).1
   have hSKmax : ∀ y : ↥K, π y ∈ E → (∃ n : ℕ, y ^ r ^ n = 1) → y ∈ SK := by
     rintro y hyE ⟨n, hn⟩

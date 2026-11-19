@@ -56,7 +56,7 @@ theorem ff6m_K4_split (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
         intro u v
         simp only [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar]
         rw [← map_add, hc, hc, hc]
-        simp only [Units.val_neg, Units.val_one, neg_mul, neg_neg]
+        simp only [Units.val_neg, Units.val_one, neg_mul]
         ring
       have hgeo := negative_square_kernel_geometry Q hQp (ρ : V ≃ₗ[ZMod 3] V) 1 (-1) 1
         one_ne_zero one_ne_zero h2 hsq (by norm_num) hsim (by norm_num)
@@ -79,8 +79,8 @@ theorem ff6m_K4_core (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 
       ⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ ≤ omegaGroup hQ ∧
       ∀ g : OGroup Q, simAct Q ρ g = g →
         g * g ∈ ⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ := by
-  haveI : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨by decide⟩
-  haveI : Nontrivial V :=
+  have : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨by decide⟩
+  have : Nontrivial V :=
     Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   let T : Module.End (ZMod 3) V := ((ρ : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V)
   have hns : ¬ IsSquare (-1 : ZMod 3) := by decide
@@ -90,13 +90,13 @@ theorem ff6m_K4_core (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 
     ff_aux_hsquare hρρ
   have hadj : ∀ x y, Q.polarBilin (T x) y = Q.polarBilin x (T y) := ff_aux_hadj hρ hρρ
   have hQp : Q.polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hQ
-  letI : Field (scalarAlgebra T) := scalarField T (-1) hns hsquare
-  letI : Module (scalarAlgebra T) V := evaluationModule T
-  haveI : IsScalarTower (ZMod 3) (scalarAlgebra T) V := evaluationScalarTower T
-  haveI : Module.Finite (ZMod 3) (scalarAlgebra T) := scalarAlgebra_finite T (-1) hns hsquare
-  haveI : Finite (scalarAlgebra T) := Module.finite_of_finite (ZMod 3)
+  let : Field (scalarAlgebra T) := scalarField T (-1) hns hsquare
+  let : Module (scalarAlgebra T) V := evaluationModule T
+  have : IsScalarTower (ZMod 3) (scalarAlgebra T) V := evaluationScalarTower T
+  have : Module.Finite (ZMod 3) (scalarAlgebra T) := scalarAlgebra_finite T (-1) hns hsquare
+  have : Finite (scalarAlgebra T) := Module.finite_of_finite (ZMod 3)
   have hfin := scalar_square_actual_finite_dimension (K := ZMod 3) (V := V) T (-1) hns hsquare
-  haveI : Module.Finite (scalarAlgebra T) V := hfin.1
+  have : Module.Finite (scalarAlgebra T) V := hfin.1
   let QE : QuadraticForm (scalarAlgebra T) V :=
     actualPositiveQuadratic Q T (-1) hd hns hsquare hadj
   obtain ⟨-, -, -, hQEnd, -, -, e1, -, -, -, -⟩ :=

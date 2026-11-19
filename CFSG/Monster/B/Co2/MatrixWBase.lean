@@ -46,7 +46,7 @@ theorem dec_quotBasis_mem (t : Fin 22) : dec (quotBasis t) ∈ vPerpL v0 := by
   rw [bL_comm, ← vShort_eq_v0]
   exact bL_quotBasis_vShort t
 
-@[expose] def qbW (t : Fin 22) : Wv v0 := Submodule.Quotient.mk ⟨dec (quotBasis t), dec_quotBasis_mem t⟩
+def qbW (t : Fin 22) : Wv v0 := Submodule.Quotient.mk ⟨dec (quotBasis t), dec_quotBasis_mem t⟩
 
 theorem mk_sum' {ι : Type*} (s : Finset ι) (f : ι → vPerpL v0) :
     (Submodule.Quotient.mk (∑ i ∈ s, f i) : Wv v0) = ∑ i ∈ s, Submodule.Quotient.mk (f i) :=
@@ -86,7 +86,7 @@ theorem linearIndependent_qbW : LinearIndependent (ZMod 2) qbW := by
 
 theorem finrank_W : Module.finrank (ZMod 2) (Wv v0) = 22 := finrank_Wv v0_ne_zero
 
-@[expose] def qbWBasis : Module.Basis (Fin 22) (ZMod 2) (Wv v0) :=
+def qbWBasis : Module.Basis (Fin 22) (ZMod 2) (Wv v0) :=
   basisOfLinearIndependentOfCardEqFinrank linearIndependent_qbW
     (by rw [Fintype.card_fin, finrank_W])
 
@@ -99,7 +99,7 @@ theorem span_qbW : Submodule.span (ZMod 2) (Set.range qbW) = ⊤ := by
   ext w
   simp
 
-@[expose] def decW (c : ℕ) : Wv v0 := ∑ t : Fin 22, bvec 22 c t • qbW t
+def decW (c : ℕ) : Wv v0 := ∑ t : Fin 22, bvec 22 c t • qbW t
 
 theorem decW_xor (a b : ℕ) : decW (a ^^^ b) = decW a + decW b := by
   simp only [decW, bvec_xor, Pi.add_apply, add_smul, Finset.sum_add_distrib]
@@ -150,9 +150,9 @@ theorem decW_eq_mk (c : ℕ) :
   refine Finset.sum_congr rfl fun t _ => ?_
   rw [qbW, ← Submodule.Quotient.mk_smul]
 
-@[expose] def wvec (j : Ω) : Wv v0 := decW (shortVec j)
+def wvec (j : Ω) : Wv v0 := decW (shortVec j)
 
-@[expose] def alphaLetter (l : ℤ) : OLq :=
+def alphaLetter (l : ℤ) : OLq :=
   if 0 < l then alphaN (l.natAbs - 1) else (alphaN (l.natAbs - 1))⁻¹
 
 theorem alphaWord_cons (l : ℤ) (w : List ℤ) : alphaWord (l :: w) = alphaLetter l * alphaWord w := rfl

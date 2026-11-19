@@ -88,7 +88,7 @@ theorem z0_eq_n24El : z₀ = n24El 1 1 := by
 theorem n24El_comm_z0 (P : GL (Fin 3) (ZMod 2)) (Q : Matrix (Fin 3) (Fin 3) (ZMod 2)) :
     n24El P Q * z₀ = z₀ * n24El P Q := by
   rw [z0_eq_n24El, n24El_mul, n24El_mul]
-  congr 1 <;> simp [Matrix.mul_one, Matrix.one_mul, add_comm]
+  congr 1 <;> simp [add_comm]
 
 theorem n24_blocks_of_comm (g : GL (Fin 6) (ZMod 2)) (h : g * z₀ = z₀ * g) :
     ∃ A B : Matrix (Fin 3) (Fin 3) (ZMod 2),
@@ -119,7 +119,7 @@ theorem exists_n24El_of_comm (g : GL (Fin 6) (ZMod 2)) (h : g * z₀ = z₀ * g)
   rw [hg, hg', n24Blk_mul, ← n24Blk_one] at h2
   obtain ⟨e1, -, -, -⟩ := n24Blk_inj h1
   obtain ⟨e2, -, -, -⟩ := n24Blk_inj h2
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero] at e1 e2
+  simp only [Matrix.mul_zero, add_zero] at e1 e2
   refine ⟨⟨A, A', e1, e2⟩, B, Units.ext ?_⟩
   rw [coe_n24El]
   exact hg

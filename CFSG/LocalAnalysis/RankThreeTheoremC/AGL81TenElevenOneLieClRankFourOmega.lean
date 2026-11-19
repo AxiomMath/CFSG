@@ -12,6 +12,7 @@ namespace LieClAut
 
 variable {G : Type*} [Group G] [Finite G] {N : Subgroup G} [N.Normal]
 
+omit [Finite G] in
 theorem exists_pow_orderOf_three {α : G} (hα : ∃ k : ℕ, α ^ 3 ^ k = 1) (hαN : α ∉ N) :
     ∃ j : ℕ, 1 ≤ j ∧ orderOf (QuotientGroup.mk' N α) = 3 ^ j := by
   obtain ⟨k, hk⟩ := hα
@@ -23,11 +24,11 @@ theorem exists_pow_orderOf_three {α : G} (hα : ∃ k : ℕ, α ^ 3 ^ k = 1) (h
 
 theorem mem_of_cyclic_quotient {τ : G} (hτ : ∀ g, ∃ k : ℕ, (τ ^ k)⁻¹ * g ∈ N) {H : Subgroup G}
     (hNH : N ≤ H) {α : G} (hαH : α ∈ H) (hα : ∃ k : ℕ, α ^ 3 ^ k = 1) (hαN : α ∉ N)
-    {β : G} (hβ : β ^ 3 = 1) (hβN : β ∉ N) : β ∈ H := by
+    {β : G} (hβ : β ^ 3 = 1) (_hβN : β ∉ N) : β ∈ H := by
   classical
-  haveI : Fintype (G ⧸ N) := Fintype.ofFinite _
+  have : Fintype (G ⧸ N) := Fintype.ofFinite _
   set π := QuotientGroup.mk' N with hπ
-  haveI : IsCyclic (G ⧸ N) := ⟨⟨π τ, fun x => by
+  have : IsCyclic (G ⧸ N) := ⟨⟨π τ, fun x => by
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective N x
     obtain ⟨k, hk⟩ := hτ g
     refine ⟨k, ?_⟩
@@ -68,6 +69,7 @@ theorem mem_of_cyclic_quotient {τ : G} (hτ : ∀ g, ∃ k : ℕ, (τ ^ k)⁻¹
   rw [h1]
   exact H.mul_mem (H.zpow_mem (H.pow_mem hαH _) _) (hNH hn)
 
+omit [Finite G] in
 theorem three_dvd_of_cyclic_quotient {τ : G} (hτ : ∀ g, ∃ k : ℕ, (τ ^ k)⁻¹ * g ∈ N) {m : ℕ}
     (hm : τ ^ m ∈ N) {α : G} (hα : ∃ k : ℕ, α ^ 3 ^ k = 1) (hαN : α ∉ N) : 3 ∣ m := by
   obtain ⟨j, hj1, hj⟩ := exists_pow_orderOf_three hα hαN
@@ -162,7 +164,7 @@ theorem map_single [DecidableEq ι] (σ : K ≃+* K) (x i : ι) :
   by_cases h : i = x
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 section HPlane
 
@@ -178,7 +180,7 @@ variable [DecidableEq ι] {Q : (ι → K) → K}
   g := LinearMap.proj y + φ
   isPolar_a := hx.add hy (by simp)
   isPolar_b := hx.add hu (by rw [← hx.symm hu]; simp [huy])
-  f_b := by simp [hxy, hxy.symm, hux, huy]
+  f_b := by simp [hxy.symm, hux, huy]
 
 theorem hplane_fixed (σ : K ≃+* K) {x y : ι} (hxy : x ≠ y)
     (hx : IsPolar Q (Pi.single x 1) (LinearMap.proj y) 0)
@@ -214,17 +216,17 @@ theorem hplane_orth {x y x' y' : ι} {hxy : x ≠ y}
   refine ⟨?_, ?_, ?_, ?_⟩
   · show (Pi.single x' 1 + Pi.single y' 1 : ι → K) y + (Pi.single x' 1 + Pi.single y' 1 : ι → K) x
       = 0
-    simp [Pi.single_apply, h1.symm, h2.symm, h3.symm, h4.symm]
+    simp [h1.symm, h2.symm, h3.symm, h4.symm]
   · show (Pi.single x' 1 + u' : ι → K) y + (Pi.single x' 1 + u' : ι → K) x = 0
-    simp only [Pi.add_apply, Pi.single_apply, h1.symm, h2.symm, if_false, zero_add]
+    simp only [Pi.add_apply, Pi.single_apply, h1.symm, h2.symm, ite_false, zero_add]
     exact h₁
   · show (Pi.single x' 1 + Pi.single y' 1 : ι → K) y + φ (Pi.single x' 1 + Pi.single y' 1) = 0
     rw [map_add, ← e1, ← e2]
-    simp only [Pi.add_apply, Pi.single_apply, h2.symm, h4.symm, if_false, zero_add]
+    simp only [Pi.add_apply, Pi.single_apply, h2.symm, h4.symm, ite_false, zero_add]
     exact h₂
   · show (Pi.single x' 1 + u' : ι → K) y + φ (Pi.single x' 1 + u') = 0
     rw [map_add, ← e1]
-    simp only [Pi.add_apply, Pi.single_apply, h2.symm, if_false, zero_add]
+    simp only [Pi.add_apply, Pi.single_apply, h2.symm, ite_false, zero_add]
     linear_combination h₃
 
 end HPlane
@@ -344,16 +346,19 @@ theorem jdx_ne {k l : ℕ} {hk : k < 3} {hl : l < 3} (h : k ≠ l) :
 @[expose] def hypL (j : Fin (n - 1)) : (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) →ₗ[K] K :=
   LinearMap.proj (.inr (.inl j)) + LinearMap.proj (.inl j)
 
+omit [CharP K 2] in
 theorem isPolar_hypV (j : Fin (n - 1)) :
     IsPolar (StatedQuadMinus n K b c) (hypV j) (hypL j) 1 :=
   (isPolar_minus_inl b c j).add (isPolar_minus_inr b c j) (by simp)
 
+omit [CharP K 2] in
 theorem hypV_apply_inl {j j' : Fin (n - 1)} (h : j' ≠ j) : (hypV (K := K) j) (.inl j') = 0 := by
-  simp [hypV, Pi.single_apply, h]
+  simp [hypV, h]
 
+omit [CharP K 2] in
 theorem hypV_apply_inr {j j' : Fin (n - 1)} (h : j' ≠ j) :
     (hypV (K := K) j) (.inr (.inl j')) = 0 := by
-  simp [hypV, Pi.single_apply, h]
+  simp [hypV, h]
 
 @[expose] def uL : (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) →ₗ[K] K :=
   (2 : K) • LinearMap.proj (.inr (.inr 0)) + b • LinearMap.proj (.inr (.inr 1))
@@ -373,35 +378,36 @@ theorem hypV_apply_inr {j j' : Fin (n - 1)} (h : j' ≠ j) :
     (isPolar_minus_inr b c (jdx hn 2 (by omega))) (u := Pi.single (.inr (.inr 0)) 1)
     (φ := uL b) (isPolar_minus_u b c) (by simp) (by simp)
 
-variable [CharP K 2]
-
 theorem mP₀_orth_mP₁ : (mP₀ hn b c).Orth (mP₁ hn b c) := by
   have h01 := jdx_ne (n := n) hn (k := 0) (l := 1) (hk := by omega) (hl := by omega) (by omega)
   refine hplane_orth (by simpa using h01.symm) (by simp) (by simp) (by simpa using h01.symm)
     ?_ ?_ ?_
-  · simp [hypV, Pi.single_apply, CharTwo.add_self_eq_zero]
-  · simp [hypV, Pi.single_apply, CharTwo.add_self_eq_zero]
-  · simp [hypV, hypL, Pi.single_apply, h01, h01.symm, CharTwo.add_self_eq_zero]
+  · simp [hypV, CharTwo.add_self_eq_zero]
+  · simp [hypV, CharTwo.add_self_eq_zero]
+  · simp [hypV, hypL, h01.symm, CharTwo.add_self_eq_zero]
 
+omit [CharP K 2] in
 theorem mP₀_orth_mP₂ : (mP₀ hn b c).Orth (mP₂ hn b c) := by
   have h02 := jdx_ne (n := n) hn (k := 0) (l := 2) (hk := by omega) (hl := by omega) (by omega)
   have h12 := jdx_ne (n := n) hn (k := 1) (l := 2) (hk := by omega) (hl := by omega) (by omega)
   refine hplane_orth (by simpa using h02.symm) (by simp) (by simp) (by simpa using h02.symm)
     ?_ ?_ ?_
   · simp
-  · simp [hypV, Pi.single_apply, h12.symm]
-  · simp [hypV, hypL, Pi.single_apply, h12.symm]
+  · simp [hypV, h12.symm]
+  · simp [hypV, hypL, h12.symm]
 
+omit [CharP K 2] in
 theorem mP₁_orth_mP₂ : (mP₁ hn b c).Orth (mP₂ hn b c) := by
   have h02 := jdx_ne (n := n) hn (k := 0) (l := 2) (hk := by omega) (hl := by omega) (by omega)
   have h12 := jdx_ne (n := n) hn (k := 1) (l := 2) (hk := by omega) (hl := by omega) (by omega)
   refine hplane_orth (by simpa using h12.symm) (by simp) (by simp) (by simpa using h12.symm)
     ?_ ?_ ?_
   · simp
-  · simp [hypV, Pi.single_apply, h02.symm]
-  · simp [hypV, hypL, Pi.single_apply, h02.symm]
+  · simp [hypV, h02.symm]
+  · simp [hypV, hypL, h02.symm]
 
 variable {b} in
+omit [CharP K 2] in
 theorem mP_fixed (σ : K ≃+* K) (hb : σ b = b) :
     Fixed σ (mP₀ hn b c) ∧ Fixed σ (mP₁ hn b c) ∧ Fixed σ (mP₂ hn b c) := by
   have hv : ∀ (j : Fin (n - 1)) i, σ (hypV (K := K) j i) = hypV j i := fun j i => by
@@ -423,8 +429,9 @@ open CFSG.Open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
   CFSG.ComponentClassification.CatalogueBOrthogonalPointData CFSG.RankThree.PartOne.AUTSL
   CFSG.RankThree.PartOne.KCOrthogonalSubfield
 
-variable [Finite K] [CharP K 2] {n : ℕ} (hn : 4 ≤ n) (b c : K)
+variable [Finite K] {n : ℕ} (hn : 4 ≤ n) (b c : K)
 
+omit [CharP K 2] [Finite K] in
 theorem Qm_apply (v : Fin (2 * n) → K) :
     Qm n hn b c v = StatedQuadMinus n K b c (v ∘ minusIndexEquiv n (by omega)) := by
   show reindexQuadraticForm _ _ v = _
@@ -435,6 +442,7 @@ theorem Qm_apply (v : Fin (2 * n) → K) :
   comap (minusIndexEquiv n (by omega)) (Qm_apply hn b c)
     (![mP₀ hn b c, mP₁ hn b c, mP₂ hn b c] k)
 
+omit [Finite K] in
 theorem cP_orth {k l : Fin 3} (h : k < l) : (cP hn b c k).Orth (cP hn b c l) := by
   apply orth_comap
   fin_cases k <;> fin_cases l <;> simp at h
@@ -442,6 +450,7 @@ theorem cP_orth {k l : Fin 3} (h : k < l) : (cP hn b c k).Orth (cP hn b c l) := 
   · exact mP₀_orth_mP₂ hn b c
   · exact mP₁_orth_mP₂ hn b c
 
+omit [Finite K] in
 theorem cP_rot_mem (k : Fin 3) : (cP hn b c k).rot ∈ matrixDerived (Qm n hn b c) := by
   rw [matrixDerived_eq_statedOmega]
   exact Plane.rot_mem _
@@ -449,9 +458,11 @@ theorem cP_rot_mem (k : Fin 3) : (cP hn b c k).rot ∈ matrixDerived (Qm n hn b 
 @[expose] noncomputable def cz (k : Fin 3) : matrixDerived (Qm n hn b c) :=
   ⟨(cP hn b c k).rot, cP_rot_mem hn b c k⟩
 
+omit [Finite K] in
 theorem cz_pow_three (k : Fin 3) : cz hn b c k ^ 3 = 1 :=
   Subtype.ext (by simp only [cz, Subgroup.coe_pow, Plane.rot_pow_three, Subgroup.coe_one])
 
+omit [Finite K] in
 theorem cz_commute {k l : Fin 3} (h : k < l) : Commute (cz hn b c k) (cz hn b c l) :=
   Subtype.ext (Plane.rot_commute (cP_orth hn b c h)).eq
 
@@ -460,6 +471,7 @@ theorem cz_commute {k l : Fin 3} (h : k < l) : Commute (cz hn b c k) (cz hn b c 
     (cz_pow_three hn b c 1) (cz_pow_three hn b c 2) (cz_commute hn b c (by decide))
     (cz_commute hn b c (by decide)) (cz_commute hn b c (by decide))
 
+omit [Finite K] in
 theorem e27_injective : Function.Injective (e27 hn b c) := by
   rw [injective_iff_map_eq_one]
   intro v hv
@@ -469,6 +481,7 @@ theorem e27_injective : Function.Injective (e27 hn b c) := by
     (cP_orth hn b c (by decide)) (cP_orth hn b c (by decide)) _ h)
 
 variable {b} in
+omit [Finite K] in
 theorem cz_fixed (σ : K ≃+* K) (hb : σ b = b) (k : Fin 3) (i j : Fin (2 * n)) :
     σ (((cz hn b c k).val : Matrix _ _ K) i j) = ((cz hn b c k).val : Matrix _ _ K) i j := by
   obtain ⟨h₀, h₁, h₂⟩ := mP_fixed hn c σ hb
@@ -479,6 +492,7 @@ theorem cz_fixed (σ : K ≃+* K) (hb : σ b = b) (k : Fin 3) (i j : Fin (2 * n)
   · exact h₂
 
 variable {b c} in
+omit [Finite K] in
 theorem fieldPair_e27 (σ : K ≃+* K) (hb : σ b = b)
     (hQσ : ∀ v, Qm n hn b c (coordinateFieldMap (2 * n) σ v) = σ (Qm n hn b c v))
     (a : Multiplicative (Fin 3 → ZMod 3)) :
@@ -502,6 +516,7 @@ open CFSG.Open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
 
 variable {d : ℕ} {Q : QuadraticForm K (Fin d → K)}
 
+omit [CharP K 2] in
 theorem right_eq_one_of_conjAct_eq_one (hnd : Q.polarBilin.Nondegenerate)
     (hS3 : ∃ S : Submodule K (Fin d → K), Module.finrank K S = 3 ∧ ∀ v ∈ S, Q v = 0)
     (hAP : CatalogueBOrthogonalPointAction.ActionProperties Q (projectivePointAction Q))
@@ -520,12 +535,14 @@ theorem right_eq_one_of_conjAct_eq_one (hnd : Q.polarBilin.Nondegenerate)
 
 variable (σ : K ≃+* K) (hQσ : ∀ v, Q (coordinateFieldMap d σ v) = σ (Q v))
 
+omit [CharP K 2] in
 theorem conjAct_fieldPair_pow_three (hσ3 : σ ^ 3 = 1) :
     conjAct Q (fieldPair Q σ hQσ) ^ 3 = 1 := by
   have : fieldPair Q σ hQσ ^ 3 = 1 :=
     Subtype.ext (by rw [fieldPair_pow_val, hσ3, map_one]; rfl)
   rw [← map_pow, this, map_one]
 
+omit [CharP K 2] in
 theorem conjAct_fieldPair_not_inner (hnd : Q.polarBilin.Nondegenerate)
     (hS3 : ∃ S : Submodule K (Fin d → K), Module.finrank K S = 3 ∧ ∀ v ∈ S, Q v = 0)
     (hAP : CatalogueBOrthogonalPointAction.ActionProperties Q (projectivePointAction Q))
@@ -551,7 +568,7 @@ open CFSG.Open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
   CFSG.ComponentClassification.CatalogueBOrthogonalPointData CFSG.RankThree.PartOne.AUTSL
   CFSG.RankThree.PartOne.KCOrthogonalSubfield CFSG.ComponentClassification
 
-variable [Finite K] [CharP K 2]
+variable [Finite K]
 
 theorem exists_rankFour_omega {X : Type} [Group X] [Finite X] (hc : Subgroup.center X = ⊥)
     {n : ℕ} (hn : 4 ≤ n) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {f : ℕ}
@@ -580,7 +597,7 @@ theorem exists_rankFour_omega {X : Type} [Group X] [Finite X] (hc : Subgroup.cen
       Ψ.symm γ ∈ (MulAut.conj : X →* MulAut X).range := by
     rintro _ ⟨p, rfl⟩
     exact ⟨e.symm p, (hΨinv p).symm⟩
-  haveI : (MulAut.conj : X →* MulAut X).range.Normal := OuterAutomorphisms.inner_normal X
+  have : (MulAut.conj : X →* MulAut X).range.Normal := OuterAutomorphisms.inner_normal X
   set β := Ψ.symm (conjAct (Qm n hn b c) (fieldPair (Qm n hn b c) σ hQσ)) with hβ
   have hβ3 : β ^ 3 = 1 := by
     rw [hβ, ← map_pow, conjAct_fieldPair_pow_three σ hQσ hσ3, map_one]
@@ -614,7 +631,7 @@ open CFSG.Open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear
   CFSG.ComponentClassification.CatalogueBOrthogonalPointData CFSG.RankThree.PartOne.AUTSL
   CFSG.RankThree.PartOne.KCOrthogonalSubfield CFSG.ComponentClassification CFSG.Assembly.LowTwoRank
 
-variable [Finite K] [CharP K 2]
+variable [Finite K]
 
 theorem nonempty_equiv_matrixDerived {X : Type} [Group X] {n : ℕ} (hn : 4 ≤ n) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -631,7 +648,7 @@ theorem three_dvd_of_outer {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 4 ≤
     (hαn : α ∉ (MulAut.conj : X →* MulAut X).range) : 3 ∣ f := by
   obtain ⟨τ, hτ, hτ2, -⟩ := exists_frobenius_class n hn b c hirr hf
   set Ψ : MulAut X ≃* MulAut (matrixDerived (Qm n hn b c)) := MulAut.congr e with hΨ
-  haveI := OuterAutomorphisms.inner_normal (matrixDerived (Qm n hn b c))
+  have := OuterAutomorphisms.inner_normal (matrixDerived (Qm n hn b c))
   have hα' : ∃ k : ℕ, Ψ α ^ 3 ^ k = 1 := by
     obtain ⟨k, hk⟩ := hα
     exact ⟨k, by rw [← map_pow, hk, map_one]⟩
@@ -656,8 +673,8 @@ theorem exists_rankFour_omega_stated {X : Type} [Group X] [Finite X]
   have h3 := three_dvd_of_outer hn hirr hf e₀ hα hαn
   obtain ⟨hcard, -⟩ := CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic
     Nat.prime_two K hf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.K713S.finite_ringAut K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.K713S.finite_ringAut K
   obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := K ≃+* K) 3 (by rwa [← hcard] at h3)
   have hσ3 : σ ^ 3 = 1 := by rw [← hσ, pow_orderOf_eq_one]
   have hσ1 : σ ≠ 1 := fun h => by rw [h, orderOf_one] at hσ; norm_num at hσ
@@ -721,16 +738,16 @@ theorem kFactOuterThreeRankFourRestSU_holds : KFactOuterThreeRankFourRestSU := b
   obtain ⟨b, c, hirr, ⟨eD⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.exists_typeTwistedDGroupEquivStatedProj_of_valid
       4 q hv
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩) =
       2 ^ q.exponent := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent, hp]
-  haveI : CharP ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩) 2 := by
-    haveI := Fintype.ofFinite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩) 2 := by
+    have := Fintype.ofFinite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD 4 q, hv⟩)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
   exact OmegaE27.exists_rankFour_omega_stated hc le_rfl hirr hcard (e.trans eD) hinn hαH hαk hαn
 

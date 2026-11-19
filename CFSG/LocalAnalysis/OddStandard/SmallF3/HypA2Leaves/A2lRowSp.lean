@@ -25,7 +25,7 @@ theorem a2l_fixSpace_eq (h2 : (2 : F) ≠ 0) {t : StatedSp n F}
     (ht : mat n F t = diagonal fun a => if a ∈ S then (-1 : F) else 1) :
     (fixSpace t : Set (Fin n ⊕ Fin n → F)) = {v | ∀ s ∈ S, v s = 0} := by
   ext v
-  rw [SetLike.mem_coe, mem_fixSpace, ht, mulVec_diagonal_eq, Set.mem_setOf_eq]
+  rw [SetLike.mem_coe, mem_fixSpace, ht, mulVec_diagonal_eq, Set.mem_ofPred_eq]
   constructor
   · intro h s hs
     have := congrFun h s
@@ -146,7 +146,7 @@ theorem a2l_mat_spEmbed_neg {m : ℕ} {σ : Fin m → Fin n} (hσ : Function.Inj
     · subst hxy
       simp
     · have : Sum.map σ σ x ≠ Sum.map σ σ y := fun h => hxy (hinj h)
-      simp [this, hxy, Matrix.one_apply_ne hxy]
+      simp [this, Matrix.one_apply_ne hxy]
   · rw [spEmbedMat_apply_of_not_mem _ h, Matrix.one_apply]
     by_cases hab : a = b
     · subst hab

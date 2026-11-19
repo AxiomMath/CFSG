@@ -24,7 +24,7 @@ theorem sz32_normalizer_c31 {Y : Type} [Group Y] [Finite Y]
     Nat.card (normalizer (C : Set Y)) = 62 ∧
       ∀ g ∈ normalizer (C : Set Y), g ∉ C → ∀ c ∈ C, g * c * g⁻¹ = c⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hcardY : Nat.card Y = 32537600 := sz32_card_of_isSz hY
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 31 (by rw [hC])
   have hxord : orderOf (x : Y) = 31 := by rw [Subgroup.orderOf_coe, hx]
@@ -79,7 +79,7 @@ theorem sz32_normalizer_c31 {Y : Type} [Group Y] [Finite Y]
   have hdvd30 : Nat.card ρ.range ∣ 30 := by
     have h := Subgroup.card_subgroup_dvd_card ρ.range
     have hAut : Nat.card (MulAut ↥C) = 30 := by
-      letI : IsCyclic ↥C := isCyclic_of_prime_card hC
+      let : IsCyclic ↥C := isCyclic_of_prime_card hC
       rw [IsCyclic.card_mulAut, hC]
       norm_num [Nat.totient_prime (by norm_num : Nat.Prime 31)]
     rwa [hAut] at h
@@ -93,7 +93,6 @@ theorem sz32_normalizer_c31 {Y : Type} [Group Y] [Finite Y]
   have hnsyl : Nat.card (Sylow 31 Y) ≡ 1 [MOD 31] := card_sylow_modEq_one 31 Y
   have hidxN : Nat.card (Sylow 31 Y) = N.index := by
     rw [Sylow.card_eq_index_normalizer S]
-    change (normalizer (S : Set Y)).index = N.index
     rw [show normalizer (S : Set Y) = N by rw [← Sylow.coe_coe, hS]]
   have hmod : N.index ≡ 1 [MOD 31] := by
     rw [← hidxN]; exact hnsyl

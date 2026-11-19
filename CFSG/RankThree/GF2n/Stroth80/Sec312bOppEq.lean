@@ -83,7 +83,7 @@ theorem opp_eq
     (F : LinearMap.BilinForm K V) (hnd : F.Nondegenerate) (halt : F.IsAlt) (h4 : 4 ≤ Nat.card K)
     (hdim : 4 ≤ Module.finrank K V)
     (e₁ e₂ : V) (h12 : F e₁ e₂ ≠ 0)
-    (A₁ A₂ H₀ : Subgroup (V ≃ₗ[K] V)) (hH₀ : H₀ ≤ sympSubgroup F)
+    (A₁ A₂ H₀ : Subgroup (V ≃ₗ[K] V)) (_hH₀ : H₀ ≤ sympSubgroup F)
     (hA₁ : A₁ ≤ H₀ ⊓ pointRadSubgroup F e₁) (hA₂ : A₂ ≤ H₀ ⊓ pointRadSubgroup F e₂)
     (hf₁ : ElationFull F (A₁ : Set _) e₁) (hf₂ : ElationFull F (A₂ : Set _) e₂)
     (hH₀cases : H₀ = sympSubgroup F ∨ ∃ Q₀ : QuadraticForm K V, Q₀.polarBilin = F ∧

@@ -15,6 +15,7 @@ section Split
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 private lemma eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) {z : G} (hzX : z ∈ X)
     (hzC : z ∈ Subgroup.centralizer (X : Set G)) : z = 1 := by
@@ -28,6 +29,7 @@ private lemma eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     exact hz
   simpa using Subgroup.mem_bot.mp hz1
 
+omit [Finite G] in
 private lemma eq_of_conj_eq_of_center_eq_bot {X : Subgroup G} (hX : Subgroup.center X = ⊥)
     {u v : G} (huX : u ∈ X) (hvX : v ∈ X)
     (h : ∀ y ∈ X, u * y * u⁻¹ = v * y * v⁻¹) : u = v := by
@@ -43,8 +45,9 @@ private lemma eq_of_conj_eq_of_center_eq_bot {X : Subgroup G} (hX : Subgroup.cen
     _ = u * (u⁻¹ * v) := by rw [← h1]
     _ = v := by group
 
+omit [Finite G] in
 private lemma mem_centralizer_of_conj_action {X : Subgroup G} {b x : G}
-    (hxX : x ∈ X) (h : ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
+    (_hxX : x ∈ X) (h : ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
     x⁻¹ * b ∈ Subgroup.centralizer (X : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
@@ -52,8 +55,9 @@ private lemma mem_centralizer_of_conj_action {X : Subgroup G} {b x : G}
     _ = x⁻¹ * (b * y * b⁻¹) * b := by rw [← h y hy]
     _ = (x⁻¹ * b) * y := by group
 
+omit [Finite G] in
 theorem ggBstar_split_of_inner {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : Subgroup G}
-    (hX : Subgroup.center X = ⊥) (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
+    (hX : Subgroup.center X = ⊥) (_hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
     ∀ b ∈ Bs, ∃ x ∈ Bs ⊓ X, ∃ c ∈ Bs ⊓ Subgroup.centralizer (X : Set G), b = x * c := by
   intro b hb
@@ -112,6 +116,7 @@ theorem ggBstar_split_of_inner {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : S
   · exact Bs.mul_mem (Bs.inv_mem hxbBs) hb
   · group
 
+omit [Finite G] in
 theorem card_ggBstar_split {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
@@ -154,9 +159,10 @@ theorem card_ggBstar_split {B Bs : Subgroup G} (hBs : GGBstar p B Bs) {X : Subgr
   rw [Nat.card_prod] at hcard
   exact hcard.symm
 
+omit [Finite G] in
 theorem card_le_of_isElemAbelian_of_cyclic (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) (hcyc : IsCyclic E) : Nat.card E ≤ p := by
-  haveI : IsCyclic E := hcyc
+  have : IsCyclic E := hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
   have hgp : g ^ p = 1 := by
     apply Subtype.ext
@@ -228,11 +234,12 @@ theorem ggBs_coord_eq_one_of_mem_bCoordinateBlock
       change m * x * m⁻¹ = x
       rw [Subgroup.mem_centralizer_singleton_iff.mp (hLx hmL)]
       group
-    simpa [MulAut.congr_apply, MulEquiv.symm_apply_apply, hφx]
+    simp [MulAut.congr_apply, MulEquiv.symm_apply_apply, hφx]
   have h := hfix
   rw [hLeta] at h
   exact (forall_bCoordinateBlock_fix_iff hp hp2 i0 (eta ⟨x, hxBs⟩)).mp h
 
+omit [Finite G] in
 theorem ggBs_mem_iff_coord_eq_one_of_bCoordinateBlock
     {p n : ℕ} {Bs L : Subgroup G} {x : G}
     (hp : p.Prime) (hp2 : p ≠ 2) (hBsEA : IsElemAbelian p Bs)
@@ -245,7 +252,7 @@ theorem ggBs_mem_iff_coord_eq_one_of_bCoordinateBlock
     (hLeta : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom =
       bCoordinateBlock n p i0) :
     ∀ b : ↥Bs, ((b : G) ∈ L ↔ eta b i0 = 1) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let xbs : ↥Bs := ⟨x, hxBs⟩
   have hxbs_ne : xbs ≠ 1 := by
     intro h
@@ -257,9 +264,9 @@ theorem ggBs_mem_iff_coord_eq_one_of_bCoordinateBlock
     rw [negOff_apply, Pi.inv_apply]
     by_cases hk : k = i0
     · subst hk
-      rw [if_pos rfl, hv]
+      rw [ite_eq_left rfl, hv]
       exact (inv_one (G := Multiplicative (ZMod p))).symm
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
   let ν : MulAut ↥Bs := (MulAut.congr eta).symm (negOff (p := p) i0)
   have hν_eq : MulAut.congr eta ν = negOff (p := p) i0 :=
     MulEquiv.apply_symm_apply (MulAut.congr eta) _

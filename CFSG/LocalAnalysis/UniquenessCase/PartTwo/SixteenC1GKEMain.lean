@@ -50,7 +50,7 @@ theorem s16c1c_e16Sing {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
   obtain ⟨g₀, -, hconj⟩ := s16c1c_exists_conj_mem_T_omega hE'Ω hp
   set ψ : (V₀ ≃ₗ[ZMod 2] V₀) →* (V₀ ≃ₗ[ZMod 2] V₀) :=
     (MulAut.conj g₀⁻¹).toMonoidHom with hψdef
-  have hψ : ∀ x, ψ x = g₀⁻¹ * x * g₀ := fun x => by simp [hψdef, MulAut.conj_apply]
+  have hψ : ∀ x, ψ x = g₀⁻¹ * x * g₀ := fun x => by simp [hψdef]
   have hψinj : Function.Injective ψ := (MulAut.conj g₀⁻¹).injective
   let P : Subgroup (V₀ ≃ₗ[ZMod 2] V₀) := E'.map ψ
   have hcardP : Nat.card P = 16 := by

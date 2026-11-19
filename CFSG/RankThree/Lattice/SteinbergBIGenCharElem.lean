@@ -29,7 +29,7 @@ theorem mem_orbitGroupC_of_charElem
     have h := D.conj_mem_orbitGroupC_of_mem_fixedTorus (inv_mem ht) hy
     have heq : t⁻¹ * (t * y * t⁻¹) * t⁻¹⁻¹ = y := by group
     rwa [heq] at h
-  haveI : Finite D.fixedGroup := D.finite_fixedGroup
+  have : Finite D.fixedGroup := D.finite_fixedGroup
   have htFix : t ∈ D.fixedGroup := D.fixedTorus_le_fixedGroup ht
   have horder : orderOf (t : ModGL τ L) ≠ 0 := by
     rw [Subgroup.orderOf_coe, ← Subgroup.orderOf_mk t htFix]

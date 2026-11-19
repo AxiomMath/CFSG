@@ -19,6 +19,7 @@ structure PFrame (Q : QuadraticForm (ZMod 3) V) (ι : Type) [Fintype ι] (c : ι
   norm : ∀ i, Q (b i) = c i
   orth : ∀ i j, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0
 
+omit [FiniteDimensional (ZMod 3) V] [DecidableEq ι] in
 theorem PFrame.map_eq (fr : PFrame Q ι c) (x : V) : Q x = ∑ i, c i * (fr.b.repr x i) ^ 2 := by
   have hortho : (QuadraticMap.associated (R := ZMod 3) Q).IsOrthoᵢ fr.b := by
     intro i j hij
@@ -35,6 +36,7 @@ theorem PFrame.map_eq (fr : PFrame Q ι c) (x : V) : Q x = ∑ i, c i * (fr.b.re
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [fr.norm i, smul_eq_mul, Module.Basis.equivFun_apply, _root_.sq]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem PFrame.repr_signChange_aux (fr : PFrame Q ι c) (J : Finset ι)
     {σ : V ≃ₗ[ZMod 3] V}
     (hσ : ∀ i, σ (fr.b i) = if i ∈ J then -fr.b i else fr.b i) (x : V) (i : ι) :
@@ -45,8 +47,8 @@ private theorem PFrame.repr_signChange_aux (fr : PFrame Q ι c) (J : Finset ι)
       map_smul' := by intro a x; funext i; simp }
   let h : V →ₗ[ZMod 3] (ι → ZMod 3) :=
     { toFun := fun x i => if i ∈ J then -(fr.b.repr x i) else fr.b.repr x i
-      map_add' := by intro x y; funext i; by_cases hi : i ∈ J <;> simp [hi] <;> ring
-      map_smul' := by intro a x; funext i; by_cases hi : i ∈ J <;> simp [hi] <;> ring }
+      map_add' := by intro x y; funext i; by_cases hi : i ∈ J <;> simp [hi]; ring
+      map_smul' := by intro a x; funext i; by_cases hi : i ∈ J <;> simp [hi] }
   have hgh : g = h := by
     apply fr.b.ext
     intro j
@@ -56,9 +58,10 @@ private theorem PFrame.repr_signChange_aux (fr : PFrame Q ι c) (J : Finset ι)
     rw [hσ j]
     by_cases hj : j ∈ J <;> by_cases hi : i ∈ J <;> by_cases hij : i = j <;>
       simp [hj, hi, hij, Module.Basis.repr_self, Finsupp.single_eq_same, Finsupp.single_eq_of_ne,
-        Finsupp.neg_apply, Ne.symm, eq_comm, neg_zero]
+        Finsupp.neg_apply, neg_zero]
   exact congrFun (congrArg (fun F : V →ₗ[ZMod 3] (ι → ZMod 3) => F x) hgh) i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.exists_signChange (fr : PFrame Q ι c) (J : Finset ι) :
     ∃ σ : OGroup Q, ∀ i, (σ : V ≃ₗ[ZMod 3] V) (fr.b i) = if i ∈ J then -fr.b i else fr.b i := by
   let f : V →ₗ[ZMod 3] V := fr.b.constr (ZMod 3) fun i => if i ∈ J then -fr.b i else fr.b i
@@ -68,8 +71,8 @@ theorem PFrame.exists_signChange (fr : PFrame Q ι c) (J : Finset ι) :
     show f (f (fr.b i)) = fr.b i
     rw [Module.Basis.constr_basis]
     by_cases hi : i ∈ J
-    · rw [if_pos hi, map_neg, Module.Basis.constr_basis, if_pos hi, neg_neg]
-    · rw [if_neg hi, Module.Basis.constr_basis, if_neg hi]
+    · rw [ite_eq_left hi, map_neg, Module.Basis.constr_basis, ite_eq_left hi, neg_neg]
+    · rw [ite_eq_right hi, Module.Basis.constr_basis, ite_eq_right hi]
   have hf : Function.Involutive f := fun x => by
     have h := DFunLike.congr_fun hff x
     simpa only [LinearMap.comp_apply, LinearMap.id_apply] using h
@@ -93,16 +96,19 @@ theorem PFrame.exists_signChange (fr : PFrame Q ι c) (J : Finset ι) :
 noncomputable def PFrame.signChange (fr : PFrame Q ι c) (J : Finset ι) : OGroup Q :=
   Classical.choose (fr.exists_signChange J)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_basis (fr : PFrame Q ι c) (J : Finset ι) (i : ι) :
     ((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b i) =
       if i ∈ J then -fr.b i else fr.b i :=
   Classical.choose_spec (fr.exists_signChange J) i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.repr_signChange (fr : PFrame Q ι c) (J : Finset ι) (x : V) (i : ι) :
     fr.b.repr (((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) x) i =
       if i ∈ J then -(fr.b.repr x i) else fr.b.repr x i :=
   PFrame.repr_signChange_aux fr J (fr.signChange_basis J) x i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_mul (fr : PFrame Q ι c) (J K : Finset ι) :
     fr.signChange J * fr.signChange K = fr.signChange (symmDiff J K) := by
   apply Subtype.ext
@@ -113,6 +119,7 @@ theorem PFrame.signChange_mul (fr : PFrame Q ι c) (J K : Finset ι) :
     simp [hiK, hiJ, fr.signChange_basis J i, fr.signChange_basis (symmDiff J K) i,
       Finset.mem_symmDiff]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_empty (fr : PFrame Q ι c) : fr.signChange ∅ = 1 := by
   apply Subtype.ext
   apply fr.b.ext'
@@ -120,10 +127,12 @@ theorem PFrame.signChange_empty (fr : PFrame Q ι c) : fr.signChange ∅ = 1 := 
   rw [fr.signChange_basis ∅ i]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_mul_self (fr : PFrame Q ι c) (J : Finset ι) :
     fr.signChange J * fr.signChange J = 1 := by
   rw [fr.signChange_mul, symmDiff_self, Finset.bot_eq_empty, fr.signChange_empty]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_comm (fr : PFrame Q ι c) (J K : Finset ι) :
     fr.signChange J * fr.signChange K = fr.signChange K * fr.signChange J := by
   rw [fr.signChange_mul, fr.signChange_mul, symmDiff_comm]

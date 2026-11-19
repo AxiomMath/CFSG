@@ -30,11 +30,12 @@ theorem exists_le_two_weight : ∀ u v : V3, Indep u v →
 
 variable {G : Type} [Group G] [Finite G] {D : Mono81 G}
 
+omit [Finite G] in
 theorem exists_type_sp (hSP : SignedPerms D)
     (hconj : ∀ E : Subgroup G, IsElemAbelian 3 E →
       ∃ g : G, E.map (MulAut.conj g).toMonoidHom ≤ D.A0) {e : G} (he : orderOf e = 3) :
     ∃ t : Fin 3, IsType D e t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE : IsElemAbelian 3 (Subgroup.zpowers e) := by
     refine ⟨inferInstance, fun x hx => ?_⟩
     have hx3 : (⟨x, hx⟩ : Subgroup.zpowers e) ^ Nat.card (Subgroup.zpowers e) = 1 :=
@@ -95,25 +96,25 @@ theorem caseAWit (hp : p.Prime) (hpF : p ∣ Nat.card F + 1) (h4 : 4 ≤ Nat.car
   have hpS := K421SpSLProof.sl2_dvd_card_of_dvd_succ hpF
   have hS := K421SpSLProof.isSimpleGroup_sl2_charTwo h4
   have hne := K421SpSLProof.sl2_card_ne_of_dvd_succ hp hpF h4
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   fin_cases t
   · exact ⟨rankTwoAt_rep0 hpS, (simpleAt_rep01 hS hpS hne).1⟩
   · by_cases h3 : 3 ∣ Nat.card F - 1
     · obtain ⟨ω, hω⟩ := K421SpCountProof.spc_exists_root (F := F) h3
       exact ⟨rankTwoAt_rep1_split hω hpS, (simpleAt_rep01 hS hpS hne).2⟩
     · have hT : p ∣ Nat.card ↥(Tall F) := by
-        rw [card_Tall, tc, if_neg h3]
+        rw [card_Tall, tc, ite_eq_right h3]
         exact hpF
       exact ⟨rankTwoAt_rep1 hT hpS, (simpleAt_rep01 hS hpS hne).2⟩
   · have h3 : ¬ 3 ∣ Nat.card F - 1 := ht.resolve_left (fun h => h rfl)
     have hT : p ∣ Nat.card ↥(Tall F) := by
-      rw [card_Tall, tc, if_neg h3]
+      rw [card_Tall, tc, ite_eq_right h3]
       exact hpF
     exact ⟨rankTwoAt_rep2 hT, simpleAt_rep2 hS hpS hne⟩
 
 theorem data421_of_equiv (hp : p.Prime) (hp5 : 5 ≤ p) (hpF : p ∣ Nat.card F + 1)
     {S : Type} [Group S] [Finite S] (ε : S ≃* ↥(SpI F)) : Data421 S p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h4 : 4 ≤ Nat.card F := by
     have := Nat.le_of_dvd (by omega) hpF
     omega
@@ -183,8 +184,8 @@ theorem exists_equiv_of_isSpSix {c : ℕ → Prop} {S : Type} [Group S] (h : IsS
   obtain ⟨d0, hv⟩ := d
   dsimp only at hd
   subst hd
-  haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
-  haveI hFin : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
+  have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+  have hFin : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) = Q.card := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
@@ -197,9 +198,9 @@ theorem exists_equiv_of_isSpSix {c : ℕ → Prop} {S : Type} [Group S] (h : IsS
   have hev : 2 ∣ Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) := by
     rw [hFcard, TauCeti.PrimePower.card_def, hQp]
     exact dvd_pow_self 2 Q.exponent_pos.ne'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) 2 := by
-    haveI : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) 2 := by
+    have : Fintype ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B 3 Q, hv⟩) := Fintype.ofFinite _
     refine charP_of_card_eq_prime_pow (f := Q.exponent) ?_
     rw [← Nat.card_eq_fintype_card, hFcard, TauCeti.PrimePower.card_def, hQp]
   let eB := CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj 3 Q hv hQp le_rfl

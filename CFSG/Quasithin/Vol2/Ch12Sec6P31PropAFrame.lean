@@ -45,7 +45,7 @@ theorem isSolvable_L1 (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hyp126 G T
       Subgroup.centralizer (V : Set G)) at hcard
   have hprime : ∀ r : ℕ, r.Prime → r ∣ Nat.card (S126L19b.L1bar F hH) → r = 2 ∨ r = 3 := by
     intro r hr hdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := S126L19b.L1bar F hH) r hdvd
     have h24 : ((σ : ↥(alternatingGroup (Fin 8))) : Perm (Fin 8)) ^ 24 = 1 :=
       S126L19a.pow_24 (S126L19b.blocks_of_mem_L1bar F hH σ.2)
@@ -323,7 +323,7 @@ theorem comm_L1_T (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hyp126 G T L V
     have hc_pow : c ^ 2 ^ (m + 1) = 1 := by
       rw [show 2 ^ (m + 1) = 2 * 2 ^ m by ring, pow_mul, hc2pow]
     let Nsub : Subgroup ↥H := N.subgroupOf H
-    haveI hNn : Nsub.Normal := hNnormal
+    have hNn : Nsub.Normal := hNnormal
     let Q := ↥H ⧸ Nsub
     let φ : ↥H →* Q := QuotientGroup.mk' Nsub
     let xH : ↥H := ⟨x, hxH⟩
@@ -356,7 +356,7 @@ theorem comm_L1_T (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hyp126 G T L V
         refine ⟨zH, hzH, ?_⟩
         apply Subtype.ext
         simp only [zH, kH, k', xH, hcdef, Subgroup.coe_mul, Subgroup.coe_pow,
-          Subgroup.coe_inv, Subtype.coe_mk]
+          Subgroup.coe_inv]
         group
       calc q ^ 2 = φ (xH ^ 2) := by
             change (φ xH) ^ 2 = φ (xH ^ 2)

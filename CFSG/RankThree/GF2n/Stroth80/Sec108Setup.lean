@@ -24,6 +24,7 @@ structure Sec108Data (hc : Ctx M Q Z B) (t : G) (Y : Subgroup G) : Prop where
   good : Good103 M Q Z B t
   sit : Sit M Q Z Y t
 
+omit [Finite G] in
 theorem Sec108Data.exists_root (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     (hspread : StrothNoA2SpreadStatement) {hc : Ctx M Q Z B} (H : Sec10Hyp hc 6)
     (hdeg : ∀ s : G, Good101 M Q Z B s → SLMNat hc s 3) {t : G} (ht : Good103 M Q Z B t) :
@@ -33,9 +34,11 @@ theorem Sec108Data.exists_root (h34 : Stroth34Statement) (h311a : Stroth311aStat
 
 variable {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
+omit [Finite G] in
 theorem Sec108Data.slm (D : Sec108Data hc t Y) : SLMNat hc t 3 :=
   D.deg3 t D.good.1
 
+omit [Finite G] in
 theorem Sec108Data.noSL2 (D : Sec108Data hc t Y) :
     ∀ s : G, Good101 M Q Z B s → ¬ SLMNat hc s 2 := by
   intro s hs h2
@@ -86,6 +89,7 @@ theorem Sec108Data.inf_centralizer_le (D : Sec108Data hc t Y) :
   rw [← Kx_eq D.sit (smith_1_12 D.sit)]
   exact Kx_le_centralizer_X D.sit (smith_1_12 D.sit)
 
+omit [Finite G] in
 theorem Sec108Data.card_Vt (D : Sec108Data hc t Y) :
     Nat.card (Vt M (LB M Q B) B Z t) = Nat.card Z ^ 4 := by
   have h := SLMNat.card_Vt D.slm
@@ -120,7 +124,7 @@ theorem Sec108Data.root_le_LB (D : Sec108Data hc t Y) : Y ≤ LB M Q B := by
   unfold LB
   exact Subgroup.mem_sup_right ⟨hYQB hy, hYM hy⟩
 
-theorem Sec108Data.Rt_le_H0 (D : Sec108Data hc t Y) :
+theorem Sec108Data.Rt_le_H0 (_D : Sec108Data hc t Y) :
     Rt M (LB M Q B) t ≤ H0 M Z :=
   hc.Rt_le_H0 t
 
@@ -131,7 +135,7 @@ theorem Sec108Data.comm_Rt_root_mem (D : Sec108Data hc t Y) :
     ∀ r ∈ Rt M (LB M Q B) t, ∀ y ∈ Y, ⁅r, y⁆ ∈ Q := by
   intro r hr y hy
   by_cases hy1 : y = 1
-  · simpa [hy1] using Q.one_mem
+  · simp [hy1]
   have hy101 : Good101 M Q Z B y :=
     D.good.1.of_mem_root_good101 D.h34 D.hspread D.hyp D.sit hy hy1
   have h102 := stroth_10_2 (stroth_5_7 D.h34 D.hspread) G M Q Z B hc 6 y D.hyp hy101
@@ -141,7 +145,7 @@ theorem Sec108Data.comm_Rt_root_mem (D : Sec108Data hc t Y) :
   have hQR : Q ≤ Rt M (LB M Q B) y := by rw [h102]; exact le_sup_left
   have hKR : Rt M (LB M Q B) y ⊓ Subgroup.centralizer ({y} : Set G) ≤
       Rt M (LB M Q B) y := inf_le_left
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) y)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) y)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQR).mpr
       (fun x hx => hc.hyp.Q_normal.2 (hc.Rt_le_M y hx))
   have hmem : (⟨r, hrY⟩ : ↥(Rt M (LB M Q B) y)) ∈
@@ -169,11 +173,12 @@ theorem Sec108Data.comm_Rt_root_mem (D : Sec108Data hc t Y) :
   rw [← hqcG, commutatorElement_mul_left_eq_conj_mul, hcomm_c]
   simpa using hcomm_q
 
+omit [Finite G] in
 private theorem swap_good101 {g : G} (hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B)
     (hgZ : conjSubgroup g Z = Y) (hgB : conjSubgroup g B = B) {s : G}
     (hs : Good101 (conjSubgroup g M) (conjSubgroup g Q) Y B s) :
     Good101 M Q Z B (g⁻¹ * s * g) := by
-  have h := Good101.conjG (hc := hcY) hs g⁻¹
+  have h := Good101.conjG (_hc := hcY) hs g⁻¹
   rw [← hgZ, ← hgB] at h
   simpa only [conjSubgroup_conjSubgroup, inv_inv, inv_mul_cancel, conjSubgroup_one] using h
 

@@ -100,7 +100,7 @@ theorem exists_frob_equiv {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.ca
       exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hdvd)
     subst hp2
     exact hchar
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let f : K →+* K := iterateFrobenius K 2 n
   have hf : Function.Bijective f := by
     constructor
@@ -109,7 +109,7 @@ theorem exists_frob_equiv {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.ca
   refine ⟨RingEquiv.ofBijective f hf, fun x => ?_, fun x => ?_⟩
   · show iterateFrobenius K 2 n x = x ^ 2 ^ n
     rw [iterateFrobenius_def]
-  · haveI := Fintype.ofFinite K
+  · have := Fintype.ofFinite K
     have hcard : Fintype.card K = (2 ^ n) ^ 2 := by
       rw [← Nat.card_eq_fintype_card, hK]
     show iterateFrobenius K 2 n (iterateFrobenius K 2 n x) = x

@@ -44,7 +44,7 @@ theorem le (h : IsSylowOf p P K) : P ≤ K := by
 
 theorem isPGroup (h : IsSylowOf p P K) : IsPGroup p P := by
   obtain ⟨Q, rfl⟩ := h
-  exact Q.isPGroup'.map K.subtype
+  exact Q.isPGroup.map K.subtype
 
 theorem exists_sylow_eq_subgroupOf (h : IsSylowOf p P K) :
     ∃ Q : Sylow p K, (Q : Subgroup K) = P.subgroupOf K := by

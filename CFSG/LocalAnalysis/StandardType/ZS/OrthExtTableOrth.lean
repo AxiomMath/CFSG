@@ -188,9 +188,9 @@ private lemma zt3_exists_line_of_norm_eq {V : Type} [AddCommGroup V] [Module (ZM
     rw [← b.sum_equivFun w]
     change (∑ i, y i • b i) = c • b j
     rw [Finset.sum_eq_single j]
-    · rw [hy j, if_pos rfl]
+    · rw [hy j, ite_eq_left rfl]
     · intro i _ hij
-      rw [hy i, if_neg hij, zero_smul]
+      rw [hy i, ite_eq_right hij, zero_smul]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   rcases (show ∀ x : ZMod 3, x ≠ 0 → x = 1 ∨ x = 2 from by decide) c hc with rfl | rfl

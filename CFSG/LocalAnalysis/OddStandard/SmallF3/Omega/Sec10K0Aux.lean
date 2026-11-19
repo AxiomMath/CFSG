@@ -16,7 +16,7 @@ variable {G : Type} [Group G]
 theorem exists_subgroup_odd_elems [Finite G] (Y : Subgroup G)
     (hcyc : ∀ P : Sylow 2 ↥Y, IsCyclic (P : Subgroup ↥Y)) :
     ∃ N : Subgroup G, Odd (Nat.card N) ∧ ∀ x : G, x ∈ N ↔ x ∈ Y ∧ Odd (orderOf x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hodd : Odd (Nat.card Y)
   · refine ⟨Y, hodd, fun x => ⟨fun hx => ⟨hx, ?_⟩, fun h => h.1⟩⟩
     exact Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard Y hx)
@@ -27,7 +27,7 @@ theorem exists_subgroup_odd_elems [Finite G] (Y : Subgroup G)
     obtain ⟨Kc, hKn, hcomp⟩ :
         ∃ Kc : Subgroup ↥Y, Kc.Normal ∧ Kc.IsComplement' (Sy : Subgroup ↥Y) :=
       ⟨_, MonoidHom.normal_ker _, IsCyclic.isComplement' hmin (hcyc Sy)⟩
-    haveI : Kc.Normal := hKn
+    have : Kc.Normal := hKn
     have hKodd : Odd (Nat.card Kc) := by
       rw [← hcomp.index_eq_card]
       exact Nat.not_even_iff_odd.mp
@@ -69,8 +69,8 @@ theorem isCyclic_sylow_of_le [Finite G] {D C : Subgroup G} (hDC : D ≤ C)
     ∀ P : Sylow 2 ↥D, IsCyclic (P : Subgroup ↥D) := by
   intro P
   have hinj : Function.Injective (Subgroup.inclusion hDC) := Subgroup.inclusion_injective hDC
-  obtain ⟨Q, hle⟩ := (P.isPGroup'.map (Subgroup.inclusion hDC)).exists_le_sylow
-  haveI : IsCyclic ↥(Q : Subgroup ↥C) := hC Q
+  obtain ⟨Q, hle⟩ := (P.isPGroup.map (Subgroup.inclusion hDC)).exists_le_sylow
+  have : IsCyclic ↥(Q : Subgroup ↥C) := hC Q
   have hcyc' : IsCyclic ↥((P : Subgroup ↥D).map (Subgroup.inclusion hDC)) :=
     Subgroup.isCyclic_of_le hle
   exact isCyclic_of_surjective
@@ -100,7 +100,7 @@ theorem exists_mul_of_mem_sup_of_commute {H K : Subgroup G}
       (fun k hk => ⟨1, H.one_mem, k, hk, by simp⟩)
   exact hle hx
 
-theorem mem_of_odd_orderOf_of_relIndex_le_two [Finite G] {N X : Subgroup G} (hNX : N ≤ X)
+theorem mem_of_odd_orderOf_of_relIndex_le_two [Finite G] {N X : Subgroup G} (_hNX : N ≤ X)
     (hI : N.relIndex X ≤ 2) {x : G} (hx : x ∈ X) (hodd : Odd (orderOf x)) : x ∈ N := by
   have hne : N.relIndex X ≠ 0 :=
     (inferInstance : (N.subgroupOf X).FiniteIndex).index_ne_zero

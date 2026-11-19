@@ -81,7 +81,7 @@ theorem map_Y3 (α : MulAut ↥j3P) (hα : S.map α.toMonoidHom = S) :
   rw [card_Y3] at hZc
   unfold memberOrTop at hZc ⊢
   by_cases hj5 : j < 5
-  · rw [if_pos hj5] at hZc ⊢
+  · rw [ite_eq_left hj5] at hZc ⊢
     rw [member_card hj5] at hZc
     have hk : (#[1, 3, 3, 9, 15] : Array ℕ)[j]! = 9 := Nat.eq_of_mul_eq_mul_right hS0 hZc
     interval_cases j
@@ -90,7 +90,7 @@ theorem map_Y3 (α : MulAut ↥j3P) (hα : S.map α.toMonoidHom = S) :
     · exact absurd hk (by decide)
     · rfl
     · exact absurd hk (by decide)
-  · rw [if_neg hj5] at hZc
+  · rw [ite_eq_right hj5] at hZc
     rw [Subgroup.card_top, card_j3P, card_S] at hZc
     norm_num at hZc
 

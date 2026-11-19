@@ -55,7 +55,7 @@ theorem nondegenerate_restrict_span_hypPair {k : ℕ} (ε : Bool)
   have ha : a = 0 := (mul_eq_zero.mp hd).resolve_left (by decide)
   rw [ha, hb, zero_smul, zero_smul, add_zero]
 
-theorem exists_fiveReflOf_list_prod_of_isometry_fix {k : ℕ} (hk : 4 ≤ k) (ε : Bool)
+theorem exists_fiveReflOf_list_prod_of_isometry_fix {k : ℕ} (_hk : 4 ≤ k) (ε : Bool)
     (P : Submodule (ZMod 5) (Fin (k + 1) → ZMod 5))
     (hP : ((fiveQ k ε).restrict P).Nondegenerate)
     {g : GL (Fin (k + 1)) (ZMod 5)}
@@ -107,7 +107,7 @@ theorem reflect_sub_apply_eq_of_map_eq_fiveQ {k : ℕ} (ε : Bool)
     {x y : Fin (k + 1) → ZMod 5} (hxy : (fiveQ k ε) x = (fiveQ k ε) y)
     (h : fiveForm k ε (x - y) (x - y) ≠ 0) :
     CFSG.ClassicalGroups.Orthogonal.reflect (fiveQ k ε) (x - y) x = y := by
-  letI : Invertible ((fiveQ k ε) (x - y)) := invertibleOfNonzero (by rw [fiveQ_apply]; exact h)
+  let : Invertible ((fiveQ k ε) (x - y)) := invertibleOfNonzero (by rw [fiveQ_apply]; exact h)
   rw [CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection]
   exact TauCeti.QuadraticMap.reflection_sub_apply_eq_of_map_eq (fiveQ k ε) x y hxy
 
@@ -276,14 +276,13 @@ theorem exists_list_reflect_fiveQ_of_mulVec_eq {k : ℕ} (hk : 4 ≤ k) (ε : Bo
           rw [hdpdef]; abel
         have hval : fiveForm k ε (lam • c + e') (lam • c + e') = fiveForm k ε e' e' := by
           simp only [fiveForm_add_left, fiveForm_add_right, fiveForm_smul_left,
-            fiveForm_smul_right, hQc, he'c, hBce, mul_zero, zero_mul, add_zero, zero_add]
+            fiveForm_smul_right, hQc, he'c, hBce, mul_zero, add_zero, zero_add]
         have hdpd : fiveForm k ε (dp - d) (dp - d) ≠ 0 := by
           rw [hsub, hval]; exact he'Q
         have hdpQ : fiveQ k ε dp = 0 := by
           rw [hdpdef, fiveQ_apply]
           simp only [fiveForm_add_left, fiveForm_add_right, fiveForm_smul_left,
-            fiveForm_smul_right, hQc, hdd, hcd, hBdc, he'c, he'd, hBce, hBde, mul_zero, zero_mul,
-            add_zero, zero_add]
+            fiveForm_smul_right, hQc, hdd, hcd, hBdc, he'c, he'd, hBce, hBde, mul_zero, add_zero, zero_add]
           have hlam : lam * (2 : ZMod 5) = -fiveForm k ε e' e' := by
             rw [show lam = -(fiveForm k ε e' e') / 2 from rfl]
             field_simp
@@ -297,8 +296,8 @@ theorem exists_list_reflect_fiveQ_of_mulVec_eq {k : ℕ} (hk : 4 ≤ k) (ε : Bo
               fiveForm k ε e' e' - 2 * fiveForm k ε u e' := by
             simp only [fiveForm_sub_left, fiveForm_sub_right, fiveForm_add_left,
               fiveForm_add_right, fiveForm_smul_left, fiveForm_smul_right, hQc, huu0, huc,
-              he'c, he'd, hBce, hBde, fiveForm_comm k ε c u, fiveForm_comm k ε e' u,
-              mul_zero, zero_mul, add_zero, zero_add, sub_zero, zero_sub]
+              he'c, hBce, fiveForm_comm k ε c u, fiveForm_comm k ε e' u,
+              mul_zero, add_zero, zero_add, sub_zero, zero_sub]
             ring
           rw [hval2]; exact he'u
         have hdpc : fiveForm k ε (dp - d) c = 0 := by

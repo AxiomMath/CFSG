@@ -84,11 +84,11 @@ theorem l154td4_three_blocks_absurd (hΨ : IsRootComponent Ψ) (hr : compRank Ψ
         ∑ γ ∈ simpleRoots Ψ, (fun _ => (0 : ℤ)) γ • γ := by
       rw [← Finset.sum_coe_sort (simpleRoots Ψ) (fun γ => cfun γ • γ)]
       have : ∀ x : simpleRoots Ψ, cfun (x : Fin τ.rank → ℤ) = g (k, x) := fun x => by
-        simp only [hcfun, dif_pos x.2]
+        simp only [hcfun, dite_eq_left x.2]
       simp only [this, zero_smul, Finset.sum_const_zero]
       exact hYzero k
     have := coords_unique hΨ hsumc β β.2
-    simpa only [hcfun, dif_pos β.2] using this
+    simpa only [hcfun, dite_eq_left β.2] using this
   have hcard := hindep.fintype_card_le_finrank
   rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_coe, ← compRank_eq_card hΨ, hr,
     Module.finrank_fin_fun] at hcard

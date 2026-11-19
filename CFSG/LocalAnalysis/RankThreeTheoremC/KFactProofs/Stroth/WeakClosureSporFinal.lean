@@ -32,7 +32,7 @@ theorem wcSporadic_of_residues
   have h3M : ¬ 11 ^ 3 ∣ Nat.card (Carrier .M) := by
     rw [hcardM]
     norm_num [monsterOrder]
-  haveI : IsSimpleGroup (Carrier .M) :=
+  have : IsSimpleGroup (Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨eM⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := Carrier .M) (MulEquiv.refl _)

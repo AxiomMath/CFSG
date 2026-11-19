@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 variable {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
 variable [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
 
+omit [Finite G] in
 theorem card_W0_eq_pow_of_isOrthModule {F : Type} [Field F] [Fintype F] [CharP F 2] {l : ℕ}
     (ψ : HBar V H ≃* SL(2, F)) (hl : Fintype.card F = 2 ^ (2 * l))
     {W₀ : Subgroup G} (hW₀ : W₀ ≤ Tim79a.xOf V H)
@@ -41,7 +42,7 @@ theorem card_inf_V_W0_eq_pow_of_isOrthModule (h : RootHyp M V) (hPH : Pc M V ≤
     (hN : H ≤ Subgroup.normalizer (W₀ : Set G))
     (horth : Sec2.IsOrthModule hl (subRepW hW ψ hW₀ hN)) :
     Nat.card ↥(V ⊓ W₀) = 2 ^ l := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨hA2, hAcard, -⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   have hAcard' : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = 2 ^ (2 * l) := by
     rw [hAcard, hl]
@@ -64,7 +65,7 @@ theorem card_commutator_W0_Pc_eq_pow_of_isOrthModule (h : RootHyp M V) (hPH : Pc
     (hN : H ≤ Subgroup.normalizer (W₀ : Set G))
     (horth : Sec2.IsOrthModule hl (subRepW hW ψ hW₀ hN)) :
     Nat.card ↥⁅W₀, Pc M V⁆ = 2 ^ (3 * l) := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨hA2, hAcard, -⟩ := imgK_map_sl2 h hPH hVH hH hnM ψ
   have hAcard' : Nat.card ((imgK V H (Pc M V)).map ψ.toMonoidHom) = 2 ^ (2 * l) := by
     rw [hAcard, hl]
@@ -102,7 +103,7 @@ theorem inf_Pc_W0_eq_commutator_of_isOrthModule (h : RootHyp M V) (hPH : Pc M V 
     (hN : H ≤ Subgroup.normalizer (W₀ : Set G))
     (horth : Sec2.IsOrthModule hl (subRepW hW ψ hW₀ hN)) :
     Pc M V ⊓ W₀ = ⁅W₀, Pc M V⁆ := by
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hS : conjSubgroup h₀ (Pc M V) ≤ H := by
     rw [hH]
     exact le_sup_right
@@ -272,9 +273,9 @@ theorem exists_orth_of_kOf_abelian
   obtain ⟨F, hField, hFintype, hCharP, l, hl1, hl, ψ, horth⟩ :=
     exists_field_orth_of_kOf_abelian (hW := hW) h hPH hVH hH hnM hK hab hL
       hW₀ hN hW₀ne hmin
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   exact ⟨F, hField, hFintype, hCharP, l, hl1, hl, ψ, horth,
     card_W0_eq_pow_of_isOrthModule (hW := hW) ψ hl hW₀ hN horth,
     card_inf_V_W0_eq_pow_of_isOrthModule h hPH hVH hH hnM ψ hl hW₀ hN horth,

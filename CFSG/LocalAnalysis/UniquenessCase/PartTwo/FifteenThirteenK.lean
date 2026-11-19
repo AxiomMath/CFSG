@@ -48,7 +48,7 @@ private theorem s15_Thirteen_xbar_abstract {A : Type*} [Group A] [Finite A]
     ∃ N : Subgroup A, N ≤ Mb ∧ (∀ q ∈ Mb, ∀ x ∈ N, q * x * q⁻¹ ∈ N) ∧ IsElemAbelian 3 N ∧
       (∃ n, Fintype.card ι - 1 ≤ n ∧ Nat.card N = 3 ^ n) ∧ N ≤ ⁅Mb, Mb⁆ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcommA : ∀ i j, i ≠ j → ∀ x y : A, x ∈ B i → y ∈ B j → Commute x y :=
     fun i j hij => hcomm hij
   let φ : (∀ i, B i) →* A := Subgroup.noncommPiCoprod (H := B) hcommA
@@ -60,7 +60,7 @@ private theorem s15_Thirteen_xbar_abstract {A : Type*} [Group A] [Finite A]
   have hdom_comm : ∀ u v : (∀ i, B i), u * v = v * u := by
     intro u v
     funext i
-    haveI : IsCyclic (B i) := isCyclic_of_prime_card (hcard i)
+    have : IsCyclic (B i) := isCyclic_of_prime_card (hcard i)
     exact mul_comm' (u i) (v i)
   have hE_ab : IsMulCommutative E := by
     refine IsMulCommutative.of_comm fun x y => Subtype.ext ?_
@@ -151,7 +151,7 @@ private theorem s15_Thirteen_xbar_abstract {A : Type*} [Group A] [Finite A]
     calc E = ⨆ i, B i := hEeq
       _ ≤ ⁅E, Mb⁆ ⊔ Subgroup.zpowers b := iSup_le hgen
   have hN_le : Nat.card E ≤ Nat.card ↥⁅E, Mb⁆ * 3 := by
-    haveI : IsMulCommutative ↥E := hE_ab
+    have : IsMulCommutative ↥E := hE_ab
     have hzle : Subgroup.zpowers b ≤ E := Subgroup.zpowers_le.mpr (hBle i₀ hbB)
     have hcard_sup := card_sup_mul_card_inf ((⁅E, Mb⁆).subgroupOf E)
       ((Subgroup.zpowers b).subgroupOf E)
@@ -259,7 +259,7 @@ private theorem s15_Thirteen_k_eq_one_of_three_mem' (D : Data G) (hSg : UC6S846.
     (h1219 : D.sig = D.sig1) (h3 : 3 ∈ D.sig) : D.k = 1 := by
   have hsp := hSg.sig1_sp 3 (h1219 ▸ h3)
   unfold Data.k RankThreeUC.kParam
-  rw [if_pos hsp]
+  rw [ite_eq_left hsp]
 
 theorem s15_Thirteen_exists_xbar (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
     (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥)
@@ -385,8 +385,8 @@ theorem s15_Thirteen_exists_xbar (D : Data G) (h1217 : R1217 D) {V₀ V L : Subg
       ext φ
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
-  haveI : Fintype ↥(Set.range B) := (Set.finite_range B).fintype
-  haveI : Nonempty ↥(Set.range B) := ⟨⟨B 1, Set.mem_range.mpr ⟨1, rfl⟩⟩⟩
+  have : Fintype ↥(Set.range B) := (Set.finite_range B).fintype
+  have : Nonempty ↥(Set.range B) := ⟨⟨B 1, Set.mem_range.mpr ⟨1, rfl⟩⟩⟩
   obtain ⟨N, hNle, hNnormal, hN_el, ⟨n, hn_bound, hNcard⟩, hNc⟩ :=
     s15_Thirteen_xbar_abstract (A := MulAut (Vtil V₀ V hV))
       (Mb := Mbar D.M V₀ V hV) (E := ⨆ m : D.M, B m) (B := B')
@@ -445,13 +445,13 @@ theorem s15_Thirteen_k_of_large_s (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hs : 7 ≤ s15 D.M V₀ V hV L) : D.k = 1 := by
   classical
   have hpf := h.hyp151.hyp125.pairFacts
-  haveI hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
   obtain ⟨n, hsn, Xbar, hXnorm, hXel, hXcard, hXc⟩ :=
     s15_Thirteen_exists_xbar D h1217 h.hyp151 hV hL hγ
   have hn6 : 6 ≤ n := by omega
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp151.hyp125
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (F11.O2p 3 D.M)
   have hO2p_le : F11.O2p 3 D.M ≤ D.M := by
     rw [F11.O2p]

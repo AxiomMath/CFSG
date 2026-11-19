@@ -15,7 +15,7 @@ open CFSG.Open Subgroup CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem orderOf_five_eq {q : ℕ} (hq : ¬ 5 ∣ q) :
     orderOf ((q : ℕ) : ZMod 5) = 1 ∨ orderOf ((q : ℕ) : ZMod 5) = 2 ∨
       orderOf ((q : ℕ) : ZMod 5) = 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hq0 : ((q : ℕ) : ZMod 5) ≠ 0 := fun h => hq ((ZMod.natCast_eq_zero_iff q 5).1 h)
   have hd : orderOf ((q : ℕ) : ZMod 5) ∣ 4 := ZMod.orderOf_dvd_card_sub_one hq0
   have h0 := orderOf_natCast_ne_zero (by norm_num : Nat.Prime 5) hq
@@ -24,13 +24,13 @@ theorem orderOf_five_eq {q : ℕ} (hq : ¬ 5 ∣ q) :
 
 theorem dvd_sub_one_of_orderOf_eq_one {p q : ℕ} (hp : p.Prime) (hq1 : 1 ≤ q)
     (h : orderOf ((q : ℕ) : ZMod p) = 1) : p ∣ q - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [orderOf_eq_one_iff] at h
   rw [← ZMod.natCast_eq_zero_iff, Nat.cast_sub hq1, h, Nat.cast_one, sub_self]
 
 theorem dvd_add_one_of_orderOf_eq_two {p q : ℕ} (hp : p.Prime)
     (h : orderOf ((q : ℕ) : ZMod p) = 2) : p ∣ q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq : ((q : ℕ) : ZMod p) ^ 2 = 1 := h ▸ pow_orderOf_eq_one _
   have hne : ((q : ℕ) : ZMod p) ≠ 1 := fun h1 => by rw [h1, orderOf_one] at h; omega
   have hm : (((q : ℕ) : ZMod p) + 1) * (((q : ℕ) : ZMod p) - 1) = 0 := by

@@ -34,8 +34,8 @@ theorem uc22s206h_not_le_of_commute [Finite G] {L M : Subgroup G}
     (hc : Commute c (α x)) (hci : (c : Equiv.Perm (Fin 9)) i ≠ i) :
     ¬ normalizer (zpowers (x : G) : Set G) ≤ M := by
   intro hle
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup q (zpowers x) := IsPGroup.of_card (n := 1) (by
     rw [Nat.card_zpowers, hxq, pow_one])
   have h2 : IsPGroup 2 α.ker := by

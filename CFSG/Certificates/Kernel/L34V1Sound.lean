@@ -37,9 +37,9 @@ theorem v1Acts_eq (EF ER : Array Tab) : v1Acts EF ER = (ER.foldl (v1Step EF) (�
     unfold v1Step
     by_cases h1 : v1Ok EF r = true
     · by_cases h2 : (!s.fst.contains (v1Img EF r)) = true
-      · rw [if_pos h1, if_pos h2, if_pos h1, if_pos h2]
-      · rw [if_pos h1, if_neg h2, if_pos h1, if_neg h2]
-    · rw [if_neg h1, if_neg h1]
+      · rw [ite_eq_left h1, ite_eq_left h2, ite_eq_left h1, ite_eq_left h2]
+      · rw [ite_eq_left h1, ite_eq_right h2, ite_eq_left h1, ite_eq_right h2]
+    · rw [ite_eq_right h1, ite_eq_right h1]
   unfold v1Ok v1Img at hb
   rw [hb, Array.forIn_pure_yield_eq_foldl]
   rfl
@@ -57,7 +57,7 @@ theorem mem_v1Acts (EF ER : Array Tab) (x : Tab) :
       by_cases hok : v1Ok EF ER[i] = true
       · by_cases hc : s.1.contains (v1Img EF ER[i]) = true
         · have hnc : ¬((!s.1.contains (v1Img EF ER[i])) = true) := by rw [hc]; decide
-          rw [if_pos hok, if_neg hnc]
+          rw [ite_eq_left hok, ite_eq_right hnc]
           refine ⟨h1, fun y => ?_⟩
           rw [h2]
           constructor
@@ -73,7 +73,7 @@ theorem mem_v1Acts (EF ER : Array Tab) (x : Tab) :
             cases h : s.1.contains (v1Img EF ER[i])
             · rfl
             · exact absurd h hc
-          rw [if_pos hok, if_pos hnc]
+          rw [ite_eq_left hok, ite_eq_left hnc]
           refine ⟨fun y => ?_, fun y => ?_⟩
           · rw [Std.HashMap.contains_insert, Array.mem_push, Bool.or_eq_true, h1, beq_iff_eq]
             exact ⟨fun h => h.elim (fun e => Or.inr e.symm) Or.inl,
@@ -88,7 +88,7 @@ theorem mem_v1Acts (EF ER : Array Tab) (x : Tab) :
               · subst e
                 exact Or.inr he.symm
               · exact Or.inl ⟨j, hj, by omega, hok', he⟩
-      · rw [if_neg hok]
+      · rw [ite_eq_right hok]
         refine ⟨h1, fun y => ?_⟩
         rw [h2]
         constructor

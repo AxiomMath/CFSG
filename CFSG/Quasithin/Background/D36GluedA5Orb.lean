@@ -33,8 +33,8 @@ theorem exists_five_set {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 
     {p : M} (hp : p ≠ 1) {g l : Γ} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) (hl2 : l * l = 1)
     (hl1 : l ≠ 1) (hgp : g • p = p) (hlp : l • p = p) :
     ∃ R : Set M, R.ncard = 5 ∧ (1 : M) ∉ R ∧ (∀ γ : Γ, ∀ x ∈ R, γ • x ∈ R) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   set H : Subgroup Γ := MulAction.stabilizer Γ p with hH
   have hgH : g ∈ H := hgp
   have hlH : l ∈ H := hlp
@@ -82,11 +82,11 @@ theorem exists_five_set {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 
     · have hsub : MulAction.orbit Γ p ⊆ {x | x ≠ 1} := by
         rintro _ ⟨γ, rfl⟩
         exact hne1 γ p hp
-      rw [Set.ncard_diff hsub, horb]
+      rw [Set.ncard_sdiff hsub, horb]
       have hc : ({x | x ≠ 1} : Set M).ncard = 15 := by
         have : ({x | x ≠ 1} : Set M) = Set.univ \ {(1 : M)} := by
           ext x; simp
-        rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, hM]
+        rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, hM]
       rw [hc]
     · intro γ x hx
       refine ⟨hne1 γ x hx.1, fun hmem => hx.2 ?_⟩
@@ -117,7 +117,7 @@ theorem exists_A4_fixed {Γ : Type} [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 
       map_mul' := fun a b => Equiv.ext fun x => Subtype.ext (mul_smul a b _) }
   have hψ : ∀ γ : Γ, ∀ x : R, ((ψ γ x : R) : X) = γ • (x : X) := fun _ _ => rfl
   have hne : R.Nonempty := Set.nonempty_of_ncard_ne_zero (by omega)
-  haveI : Finite R := (Set.finite_of_ncard_pos (by omega : 0 < R.ncard)).to_subtype
+  have : Finite R := (Set.finite_of_ncard_pos (by omega : 0 < R.ncard)).to_subtype
   have hinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with h | h

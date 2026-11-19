@@ -101,6 +101,7 @@ private noncomputable def coordTwoHom : ↥N →* Multiplicative K where
   map_mul' a b := by
     rw [ofMul_mul, map_add, Pi.add_apply, ofAdd_add]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem mem_coordTwo_ker_iff (n : ↥N) :
     n ∈ (coordTwoHom Φ).ker ↔ (Φ (Additive.ofMul n)) 2 = 0 := by
   change Multiplicative.ofAdd ((Φ (Additive.ofMul n)) 2) = 1 ↔ _
@@ -119,6 +120,7 @@ private noncomputable def coordOneTwoHom : ↥N →* Multiplicative (K × K) whe
         ((Φ (Additive.ofMul b)) 1, (Φ (Additive.ofMul b)) 2) by rfl]
     rw [ofAdd_add]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem mem_coordOneTwo_ker_iff (n : ↥N) :
     n ∈ (coordOneTwoHom Φ).ker ↔
       (Φ (Additive.ofMul n)) 1 = 0 ∧ (Φ (Additive.ofMul n)) 2 = 0 := by
@@ -129,11 +131,13 @@ private theorem mem_coordOneTwo_ker_iff (n : ↥N) :
 
 private noncomputable def lift (w : Fin 3 → K) : ↥N := (Φ.symm w).toMul
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem lift_spec (w : Fin 3 → K) :
     Φ (Additive.ofMul (lift Φ w)) = w := by
   rw [lift, ofMul_toMul]
   exact Φ.apply_symm_apply w
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem mul_conj_apply (hN : IsElemAbelian 2 N)
     (hSN : S ≤ Subgroup.normalizer (N : Set G))
     {a : ↥N} {s : G} (hs : s ∈ S) {x : GL (Fin 3) K}
@@ -160,6 +164,7 @@ private theorem mul_conj_apply (hN : IsElemAbelian 2 N)
     group
   · rw [ofMul_mul, map_add, hval]
 
+omit [Finite G] in
 private theorem mem_map_subtype_iff (P : Subgroup ↥N) (n : ↥N) :
     (n : G) ∈ P.map N.subtype ↔ n ∈ P := by
   constructor
@@ -169,6 +174,7 @@ private theorem mem_map_subtype_iff (P : Subgroup ↥N) (n : ↥N) :
   · intro hn
     exact ⟨n, hn, rfl⟩
 
+omit [Finite G] in
 private theorem map_coordTwo_ker_eq_commutator (hN : IsElemAbelian 2 N)
     (hSN : S ≤ Subgroup.normalizer (N : Set G))
     (hk : 2 ≤ k) (hK : Nat.card K = (2 ^ k) ^ 2)
@@ -232,6 +238,7 @@ private theorem map_coordTwo_ker_eq_commutator (hN : IsElemAbelian 2 N)
     rw [mem_coordTwo_ker_iff, hcval, Pi.add_apply, uJSub_mulVec_third hK hx,
       CharTwo.add_self_eq_zero]
 
+omit [Finite G] in
 private theorem map_coordOneTwo_ker_eq_inf_centralizer
     (hSN : S ≤ Subgroup.normalizer (N : Set G))
     (hk : 2 ≤ k) (hK : Nat.card K = (2 ^ k) ^ 2)
@@ -281,6 +288,7 @@ private theorem map_coordOneTwo_ker_eq_inf_centralizer
     rw [hn'_eq] at hfix
     exact hfix.symm
 
+omit [Finite G] in
 private theorem map_coordOneTwo_ker_eq_commutator_commutator
     (hN : IsElemAbelian 2 N)
     (hSN : S ≤ Subgroup.normalizer (N : Set G))
@@ -347,6 +355,7 @@ private theorem map_coordOneTwo_ker_eq_commutator_commutator
 
 end Coords
 
+omit [Finite G] in
 theorem str86_flag_coords_of_ujSub {N S : Subgroup G} (hN : IsElemAbelian 2 N)
     (hSN : S ≤ Subgroup.normalizer (N : Set G))
     {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ} (hk : 2 ≤ k)

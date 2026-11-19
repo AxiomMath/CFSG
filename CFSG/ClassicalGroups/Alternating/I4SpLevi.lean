@@ -146,7 +146,7 @@ theorem exists_leviEmb_eq {g : Gsp BN} (hg : g ∈ leviGroup BN H) :
   let f' : ↥(BN.orthogonal H) →ₗ[K] ↥(BN.orthogonal H) :=
     g⁻¹.lin.restrict (hW g⁻¹ (inv_mem hg))
   let e : ↥(BN.orthogonal H) ≃ₗ[K] ↥(BN.orthogonal H) :=
-    LinearEquiv.ofLinear f f'
+    LinearEquiv.ofLinearMap f f'
       (LinearMap.ext fun w => Subtype.ext (Gsp.app_app_inv g w))
       (LinearMap.ext fun w => Subtype.ext (Gsp.app_inv_app g w))
   have hiso : ∀ x y : ↥(BN.orthogonal H), (BN.restrict (BN.orthogonal H)) (e x) (e y) =
@@ -305,6 +305,7 @@ variable [Finite K] [CharP K 2] [FiniteDimensional K N] (hBN : BN.IsAlt) (hBNnd 
   {ℓ H : Submodule K N} (hH : IsLeviSpace BN ℓ H)
 
 include hBN hBNnd hH in
+omit [Finite K] in
 theorem leviRoot_sup_eq_leviGroup (hdim : finrank K N = 6) {n n' : N}
     (hn : n ∈ BN.orthogonal H) (hn' : n' ∈ BN.orthogonal H) (hind : LinearIndependent K ![n, n']) :
     leviRoot hBN n ⊔ leviRoot hBN n' = leviGroup BN H := by

@@ -47,6 +47,7 @@ theorem s16c167_swap_rk_le {V I₁ I₂ : Subgroup G} {u : G} (hV : IsElemAbelia
   have hxI₁I₂ : x ∈ I₁ ⊓ I₂ := Subgroup.mem_inf.2 ⟨hxI, hxI₂⟩
   rwa [hdisj, Subgroup.mem_bot] at hxI₁I₂
 
+omit [Finite G] in
 theorem s16c167_centralizer_split {V I₁ I₂ : Subgroup G} {u : G} (hV : IsElemAbelian 2 V)
     (h₁ : I₁ ≤ V) (h₂ : I₂ ≤ V) (hdisj : I₁ ⊓ I₂ = ⊥) (hsup : I₁ ⊔ I₂ = V)
     (hu₁ : conjSubgroup I₁ u = I₁) (hu₂ : conjSubgroup I₂ u = I₂) :
@@ -54,8 +55,8 @@ theorem s16c167_centralizer_split {V I₁ I₂ : Subgroup G} {u : G} (hV : IsEle
       (I₁ ⊓ centralizer ({u} : Set G)) ⊔ (I₂ ⊓ centralizer ({u} : Set G)) := by
   refine le_antisymm ?_ (sup_le (inf_le_inf h₁ le_rfl) (inf_le_inf h₂ le_rfl))
   rintro x ⟨hxV, hxC⟩
-  letI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   have hsup' : I₁.subgroupOf V ⊔ I₂.subgroupOf V = ⊤ := by
     rw [← Subgroup.subgroupOf_sup h₁ h₂, hsup, Subgroup.subgroupOf_self]
   have hx' : (⟨x, hxV⟩ : ↥V) ∈ I₁.subgroupOf V ⊔ I₂.subgroupOf V := by

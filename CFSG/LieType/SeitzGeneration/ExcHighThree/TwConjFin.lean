@@ -35,7 +35,7 @@ theorem exists_lift_of_trWit (w : WeylGroup Tag.E6) {κs : List (List ℕ)}
     have hrow : (rfCartanMod3.map fun row => rfDotN row mL).getD j 0 =
         rfDotN ((List.ofFn (fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)).map rfRes3) mL := by
       rw [rfCartanMod3_eq, rfCartanL_eq, List.map_ofFn, List.map_ofFn, List.getD_eq_getElem?_getD]
-      simp [List.getElem?_ofFn]
+      simp
     rw [hrow] at h1
     rw [rfDotN_comm (List.map rfRes3 _) mL] at h1
     have h2 := rfDotN_res3 mL (List.ofFn fun l : Fin Tag.E6.rank => Tag.E6.cartan j l)

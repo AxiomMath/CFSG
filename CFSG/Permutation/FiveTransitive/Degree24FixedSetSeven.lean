@@ -66,7 +66,7 @@ theorem range_fiveEmbeddingOfSet
     (t : Set X) (ht : t.ncard = 5) :
     Set.range (fiveEmbeddingOfSet X t ht) = t := by
   classical
-  letI : Fintype t := Fintype.ofFinite t
+  let : Fintype t := Fintype.ofFinite t
   have htCard : Fintype.card t = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, ht]

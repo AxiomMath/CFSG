@@ -48,10 +48,10 @@ private theorem le_normalizer_zpowers_of_le_centralizer (e : Ctx215 D Ch) {X : S
 private theorem p_dvd_bar2_of_not_isCyclic (e : Ctx215 D Ch) {p : ℕ} (hp : p.Prime)
     (P : Sylow p (Bar2 e.L)) (hPnc : ¬ IsCyclic ↥(P : Subgroup (Bar2 e.L))) :
     p ∣ Nat.card (Bar2 e.L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvdP : p ∣ Nat.card (P : Subgroup (Bar2 e.L)) := by
-    rcases P.isPGroup'.card_eq_or_dvd with h1 | hd
-    · haveI : Subsingleton ↥(P : Subgroup (Bar2 e.L)) :=
+    rcases P.isPGroup.card_eq_or_dvd with h1 | hd
+    · have : Subsingleton ↥(P : Subgroup (Bar2 e.L)) :=
         (Nat.card_eq_one_iff_unique.mp h1).1
       exact absurd isCyclic_of_subsingleton hPnc
     · exact hd
@@ -103,11 +103,11 @@ private theorem exists_elemAbelian_card_sq_barImage (e : Ctx215 D Ch) {p : ℕ} 
     ∃ E0 : Subgroup (Bar2 D.M), IsElemAbelian p E0 ∧ Nat.card E0 = p ^ 2 ∧
       E0 ≤ barImage D.M e.L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨B, hBelem, hBcard⟩ :=
     CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two (p := p) hodd
-      P.isPGroup' hPnc
+      P.isPGroup hPnc
   obtain ⟨e0, -⟩ := uc22p22l_barImage_equiv (L := D.M) (K := e.L) e.hL
   let E0 : Subgroup (Bar2 D.M) :=
     ((B.map (P : Subgroup (Bar2 e.L)).subtype).map e0.toMonoidHom).map
@@ -127,7 +127,7 @@ private theorem exists_elemAbelian_card_sq_barImage (e : Ctx215 D Ch) {p : ℕ} 
   exact ⟨E0, hE0ea, hE0card, Subgroup.map_subtype_le _⟩
 
 private theorem exists_elemAbelian_card_cube {M L0 L1 L2 : Subgroup G} {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hL0 : L0 ∈ calC M) (hL1 : L1 ∈ calC M)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hL0 : L0 ∈ calC M) (hL1 : L1 ∈ calC M)
     (hL2 : L2 ∈ calC M) (h01 : L0 ≠ L1) (h02 : L0 ≠ L2) (h12 : L1 ≠ L2)
     (E0 : Subgroup (Bar2 M)) (hE0ea : IsElemAbelian p E0)
     (hE0card : Nat.card E0 = p ^ 2) (hE0le : E0 ≤ barImage M L0)
@@ -136,7 +136,7 @@ private theorem exists_elemAbelian_card_cube {M L0 L1 L2 : Subgroup G} {p : ℕ}
     ∃ E1 : Subgroup (Bar2 M), IsElemAbelian p E1 ∧ Nat.card E1 = p ^ 3 ∧
       E1 ≤ Subgroup.centralizer (barImage M L2 : Set (Bar2 M)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E1 : Subgroup (Bar2 M) := E0 ⊔ Subgroup.zpowers (u1 : Bar2 M)
   obtain ⟨hE1ea, hE1card⟩ :=
     CFSG.GroupTheory.sup_zpowers_isElemAbelian_of_commute
@@ -165,7 +165,7 @@ private theorem exists_elemAbelian_card_pow_four_barImage (e : Ctx215 D Ch) {p :
     (hPnc : ¬ IsCyclic ↥(P : Subgroup (Bar2 e.L))) :
     ∃ E : Subgroup (Bar2 D.M), IsElemAbelian p E ∧ Nat.card E = p ^ 4 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ Nat.card (Bar2 e.L) := p_dvd_bar2_of_not_isCyclic e hp P hPnc
   obtain ⟨L0, L1, L2, hL0, hL1, hL2, h01, h02, h12, hL0eq, hpdvd1, hpdvd2⟩ :=
     exists_three_calC_conjugates e hpdvd
@@ -195,7 +195,7 @@ theorem Ctx215.four_le_pRank_of_not_isCyclic (e : Ctx215 D Ch) {p : ℕ} (hp : p
     (hPnc : ¬ IsCyclic ↥(P : Subgroup (Bar2 e.L))) :
     4 ≤ CFSG.Open.pRank p D.M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E2, hE2ea, hE2card⟩ := exists_elemAbelian_card_pow_four_barImage e hp hp2 P hPnc
   obtain ⟨F, -, hFea, hFcard⟩ :=
     uc22p20d_lift_elemAbelian (A := ↥D.M) (CFSG.pCore 2 ↥D.M) CFSG.pCore_isPGroup hp hp2
@@ -277,7 +277,7 @@ private theorem subgroupOf_inf_le_ker_of_isSimple {G' : Type} [Group G'] [Finite
     (D ⊓ K).subgroupOf D ≤ f.ker := by
   have hL0n : ((D ⊓ K).subgroupOf D).Normal := by
     simpa [inf_comm, Subgroup.inf_subgroupOf_left] using hKn
-  haveI hmapn : (((D ⊓ K).subgroupOf D).map f).Normal := hL0n.map f hf
+  have hmapn : (((D ⊓ K).subgroupOf D).map f).Normal := hL0n.map f hf
   have hne : ((D ⊓ K).subgroupOf D).map f ≠ ⊤ := by
     intro htop
     have hp_map : p ∣ Nat.card (((D ⊓ K).subgroupOf D).map f) := by
@@ -299,14 +299,15 @@ private theorem subgroupOf_inf_le_ker_of_isSimple {G' : Type} [Group G'] [Finite
     simpa using hmem
   · exact absurd htop hne
 
+omit [Finite G] in
 private theorem pPrimeCoreIn_subgroupOf_normal {p : ℕ} {H D0 : Subgroup G}
     (hD0H : D0 ≤ H) :
     ((F07.PPrimeCoreIn p H).subgroupOf D0).Normal := by
-  haveI : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
   have hK_H : ((F07.PPrimeCoreIn p H).subgroupOf H).Normal := by
     simpa [F07.PPrimeCoreIn] using
       (show (CFSG.pPrimeCore p ↥H).Normal from inferInstance)
-  haveI : ((F07.PPrimeCoreIn p H).subgroupOf H).Normal := hK_H
+  have : ((F07.PPrimeCoreIn p H).subgroupOf H).Normal := hK_H
   have h := Subgroup.inf_subgroupOf_inf_normal_of_left
     (A' := F07.PPrimeCoreIn p H) (A := H) D0
   rw [inf_eq_right.mpr hD0H] at h
@@ -314,13 +315,14 @@ private theorem pPrimeCoreIn_subgroupOf_normal {p : ℕ} {H D0 : Subgroup G}
 
 private theorem not_dvd_card_pPrimeCoreIn {p : ℕ} (hp : p.Prime) (H : Subgroup G) :
     ¬ p ∣ Nat.card ↥(F07.PPrimeCoreIn p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card ↥(F07.PPrimeCoreIn p H)) := by
     rw [show Nat.card ↥(F07.PPrimeCoreIn p H) = Nat.card ↥(CFSG.pPrimeCore p ↥H) from
       Subgroup.card_map_of_injective H.subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
   exact hp.coprime_iff_not_dvd.mp hcop
 
+omit [Finite G] in
 private theorem imageModK_opp_normal {p : ℕ} {H : Subgroup G} :
     (F07.ImageModK p H (Opp p H)).Normal := by
   have hOppH : ((Opp p H).subgroupOf H).Normal := by
@@ -339,7 +341,7 @@ theorem kf7Use_of_r72 (h72 : F07.R72 D) (hKF7 : KStrongEmbedded72) : KF7Use D :=
   intro p _ H hSec7
   have h72' := r72Shape_of_r72 h72 hSec7
   obtain ⟨hp, hp2, hM, -, hHM, hrank⟩ := hSec7
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrankH : 2 ≤ CFSG.Open.pRank p (H ⊓ D.M) := by omega
   have hLHnorm : (F07.ImageModK p H (Opp p H)).Normal := imageModK_opp_normal
   have hNstrong : IsStronglyPEmbedded p
@@ -363,7 +365,7 @@ private theorem kf7_dichotomy (e : Ctx215 D Ch) (h1930 : H1930 D) (hU : KF7Use D
     (hrank : 2 ≤ CFSG.Open.pRank p
       (Subgroup.normalizer (Subgroup.zpowers e.a : Set G) ⊓ D.M))
     {H : Subgroup G} (hH : H = Subgroup.normalizer (Subgroup.zpowers e.a : Set G)) :
-    IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
+    Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) ∨
       (p = 5 ∧ ∀ Y : Subgroup (F07.QuotK7 p H),
         Y ≤ ((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) →
@@ -382,8 +384,8 @@ private theorem exists_diagonal_surjection_killing_K (e : Ctx215 D Ch) {p : ℕ}
       D0 ≤ D.M ∧ D0 ≤ H ∧ ⁅D0, D0⁆ = D0 ∧ Function.Surjective f ∧
         (D0 ⊓ F07.PPrimeCoreIn p H).subgroupOf D0 ≤ f.ker := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hSsimple : IsSimpleGroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := e.hL.2.2.2
+  have : Fact p.Prime := ⟨hp⟩
+  have hSsimple : IsSimpleGroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := e.hL.2.2.2
   have haM : e.a ∈ D.M := e.a_mem
   obtain ⟨D0, hD0M, hD0cent, hD0perf, -, hD0map⟩ :=
     exists_diagonal_perfect e.hL haM e.ha_prime e.ha_ne_two e.ha_not_mem
@@ -398,6 +400,7 @@ private theorem exists_diagonal_surjection_killing_K (e : Ctx215 D Ch) {p : ℕ}
   exact ⟨D0, f, hD0M, hD0H, hD0perf, hfsurj,
     subgroupOf_inf_le_ker_of_isSimple f hfsurj hK_D hpS hpK⟩
 
+omit [Finite G] in
 private theorem ker_quotK_inclusion_eq_inf_pPrimeCore {p : ℕ} {H D0 : Subgroup G}
     (hD0H : D0 ≤ H) :
     ((QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)).comp (Subgroup.inclusion hD0H)).ker =
@@ -440,7 +443,7 @@ private theorem exists_perfect_surjection_le_image (e : Ctx215 D Ch) {p : ℕ}
     obtain ⟨x, rfl⟩ := hy
     exact Subgroup.mem_map_of_mem qH
       (Subgroup.mem_subgroupOf.mpr (le_inf hD0H hD0M x.2))
-  haveI hD0perfect : Group.IsPerfect ↥D0 := Subgroup.isPerfect_iff.mpr hD0perf
+  have hD0perfect : Group.IsPerfect ↥D0 := Subgroup.isPerfect_iff.mpr hD0perf
   have hYperf : ⁅Y, Y⁆ = Y := by
     have hYpf : Group.IsPerfect ↥Y :=
       Group.IsPerfect.ofSurjective (f := g.rangeRestrict)
@@ -470,21 +473,21 @@ theorem Ctx215.eq_five_of_isStronglyPEmbedded (e : Ctx215 D Ch) (h1930 : H1930 D
     exists_diagonal_surjection_killing_K e hp hpS (H := H) hH
   obtain ⟨Y, φY, hYleN, hYperf, hφYsurj⟩ :=
     exists_perfect_surjection_le_image e hD0H hD0M hD0perf hfsurj hker
-  haveI hSsimple : IsSimpleGroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := e.hL.2.2.2
+  have hSsimple : IsSimpleGroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := e.hL.2.2.2
   rcases hKF with hNsolv | ⟨hp5, hquot⟩
   · let N : Subgroup (F07.QuotK7 p H) :=
       ((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))
-    haveI : Group.IsSolvable ↥N := hNsolv
+    have : Group.IsSolvable ↥N := hNsolv
     have hYsolv : Group.IsSolvable ↥Y := by
       have hsub : Group.IsSolvable ↥(Y.subgroupOf N) := inferInstance
       exact Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hYleN).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hYleN).symm.injective
-    haveI : Group.IsSolvable ↥Y := hYsolv
+    have : Group.IsSolvable ↥Y := hYsolv
     have hSsolv : Group.IsSolvable (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) :=
       Group.isSolvable_of_surjective (f := φY) hφYsurj
-    haveI : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
-    haveI : Group.IsPerfect (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := inferInstance
+    have : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
+    have : Group.IsPerfect (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := inferInstance
     exact (Group.IsPerfect.not_isSolvable
       (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L))) hSsolv |>.elim
   · exact ⟨hp5, hquot Y hYleN hYperf
@@ -518,16 +521,16 @@ private theorem p_dvd_card_center_quotient (e : Ctx215 D Ch) {p : ℕ} (hp : p.P
     (P : Sylow p (Bar2 e.L)) (hPnc : ¬ IsCyclic ↥(P : Subgroup (Bar2 e.L))) :
     p ∣ Nat.card (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
   have hPncAll : ∀ S' : Sylow p (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)),
       ¬ IsCyclic ↥(S' : Subgroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L))) :=
     not_isCyclic_sylow_quotient_of_center P hPnc
       (Subgroup.center (Bar2 e.L)) le_rfl
   let S' : Sylow p (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)) :=
     Classical.choice Sylow.nonempty
-  rcases S'.isPGroup'.card_eq_or_dvd with h1 | hd
-  · haveI : Subsingleton
+  rcases S'.isPGroup.card_eq_or_dvd with h1 | hd
+  · have : Subsingleton
         ↥(S' : Subgroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L))) :=
       (Nat.card_eq_one_iff_unique.mp h1).1
     exact absurd isCyclic_of_subsingleton (hPncAll S')
@@ -545,8 +548,8 @@ private theorem card_sylow_eq_five_of_card_sixty {S : Type} [Group S] [Finite S]
     [Fact p.Prime] (S' : Sylow p S) (hPnc : ¬ IsCyclic ↥(S' : Subgroup S))
     (hcardS : Nat.card S = 60) (hp5 : p = 5) :
     Nat.card ↥(S' : Subgroup S) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  have hP5 : IsPGroup 5 ↥(S' : Subgroup S) := by simpa [hp5] using S'.isPGroup'
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hP5 : IsPGroup 5 ↥(S' : Subgroup S) := by simpa [hp5] using S'.isPGroup
   obtain ⟨n, hn⟩ := hP5.exists_card_eq
   have hdvd : 5 ^ n ∣ 60 := by
     rw [← hn, ← hcardS]
@@ -555,7 +558,7 @@ private theorem card_sylow_eq_five_of_card_sixty {S : Type} [Group S] [Finite S]
     rcases Nat.eq_zero_or_pos n with h0 | hpos
     · exfalso
       have h1 : Nat.card ↥(S' : Subgroup S) = 1 := by rw [hn, h0, pow_zero]
-      haveI : Subsingleton ↥(S' : Subgroup S) := (Nat.card_eq_one_iff_unique.mp h1).1
+      have : Subsingleton ↥(S' : Subgroup S) := (Nat.card_eq_one_iff_unique.mp h1).1
       exact hPnc isCyclic_of_subsingleton
     · exact hpos
   have hn1 : n = 1 := by
@@ -574,7 +577,7 @@ theorem Ctx215.isCyclic_sylow (e : Ctx215 D Ch) (h1930 : H1930 D)
     IsCyclic ↥(P : Subgroup (Bar2 e.L)) := by
   classical
   by_contra hPnc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hM : IsStronglyPEmbedded p D.M :=
     stronglyPEmbedded_of_noncyclic_sylow e hσ hp hp2 P hPnc
   have hpσ : p ∈ D.sig :=
@@ -583,7 +586,7 @@ theorem Ctx215.isCyclic_sylow (e : Ctx215 D Ch) (h1930 : H1930 D)
   have hpS := p_dvd_card_center_quotient e hp P hPnc
   obtain ⟨hp5, hA5⟩ :=
     e.eq_five_of_isStronglyPEmbedded h1930 hU hpσ hp hp2 hM h2HM hpS
-  haveI : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
+  have : Group.IsPerfect (Bar2 e.L) := Group.isPerfect_def.mpr e.hL.2.2.1
   have hPncAll : ∀ S' : Sylow p (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L)),
       ¬ IsCyclic ↥(S' : Subgroup (Bar2 e.L ⧸ Subgroup.center (Bar2 e.L))) :=
     not_isCyclic_sylow_quotient_of_center P hPnc

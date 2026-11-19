@@ -62,7 +62,8 @@ theorem IsL2OrSzGroup.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y
   · exact Or.inl ⟨F, hF, hFintype, hCharP, hcard, ⟨e.symm.trans φ⟩⟩
   · exact Or.inr ⟨a, F, hF, hFintype, hCharP, ha, hcard, ⟨e.symm.trans φ⟩⟩
 
-theorem normalClosure_imgK_eq_top (h : RootHyp M V) (hPH : Pc M V ≤ H) {y : G}
+omit [Finite G] in
+theorem normalClosure_imgK_eq_top (_h : RootHyp M V) (hPH : Pc M V ≤ H) {y : G}
     (hy : y ∈ H) (hH : H = Pc M V ⊔ conjSubgroup y (Pc M V)) :
     Subgroup.normalClosure ((imgK V H (Pc M V) : Subgroup (HBar V H)) :
       Set (HBar V H)) = ⊤ := by
@@ -84,11 +85,11 @@ theorem normalClosure_imgK_eq_top (h : RootHyp M V) (hPH : Pc M V ≤ H) {y : G}
     rw [mem_conjSubgroup] at hz
     have hzN : (piK V H ⟨y, hy⟩)⁻¹ * z * piK V H ⟨y, hy⟩ ∈ N :=
       Subgroup.subset_normalClosure hz
-    have h := hN.conj_mem ((piK V H ⟨y, hy⟩)⁻¹ * z * piK V H ⟨y, hy⟩) hzN
+    have _h := hN.conj_mem ((piK V H ⟨y, hy⟩)⁻¹ * z * piK V H ⟨y, hy⟩) hzN
       (piK V H ⟨y, hy⟩)
     have heq : piK V H ⟨y, hy⟩ * ((piK V H ⟨y, hy⟩)⁻¹ * z * piK V H ⟨y, hy⟩) *
         (piK V H ⟨y, hy⟩)⁻¹ = z := by group
-    rwa [heq] at h
+    rwa [heq] at _h
   refine le_antisymm le_top ?_
   rw [← hgen]
   exact sup_le Subgroup.subset_normalClosure hconj_le
@@ -243,7 +244,7 @@ private theorem commutator_kOf_le_kOne (h : RootHyp M V) (hPH : Pc M V ≤ H)
   let P0 : Subgroup ↥H := (Pc M V).subgroupOf H
   let Py0 : Subgroup ↥H := (conjSubgroup y (Pc M V)).subgroupOf H
   let K0 : Subgroup ↥H := (kOf V H).subgroupOf H
-  haveI : K0.Normal := kOf_normal V H
+  have : K0.Normal := kOf_normal V H
   have hmap := congrArg (Subgroup.map H.subtype)
     (Subgroup.commutator_sup_right P0 Py0 K0)
   simp only [P0, Py0, K0, Subgroup.map_commutator, Subgroup.map_sup,
@@ -281,6 +282,7 @@ private theorem kFactorization_Z_center (h : RootHyp M V) (hPH : Pc M V ≤ H)
     simp [div_eq_mul_inv, commutatorElement_def, mul_assoc]
   rwa [hcoe]
 
+omit [Finite G] in
 private theorem kFactorization_map_ker {K0 K10 : Subgroup ↥H} [K10.Normal]
     (π : (↥H ⧸ K10) →* HBar V H)
     (hπ : ∀ x : ↥H, π (QuotientGroup.mk' K10 x) = piK V H x)
@@ -306,6 +308,7 @@ private theorem kFactorization_map_ker {K0 K10 : Subgroup ↥H} [K10.Normal]
     rw [hZ, hK0]
     exact Subgroup.mem_map.mpr ⟨x, (piK_eq_one_iff x).mp hu, rfl⟩
 
+omit [Finite G] in
 private theorem kFactorization_TZ {y : G} (K0 K10 : Subgroup ↥H) [K10.Normal]
     (T Z : Subgroup (↥H ⧸ K10))
     (hT : T = ((Pc M V).subgroupOf H).map (QuotientGroup.mk' K10))
@@ -387,6 +390,7 @@ private theorem kFactorization_T_elem (h : RootHyp M V) (hPH : Pc M V ≤ H)
       _ = (QuotientGroup.mk' K10) (p ^ 2) := (map_pow _ _ _).symm
       _ = 1 := h1
 
+omit [Finite G] in
 private theorem kFactorization_normalClosure (hPH : Pc M V ≤ H) {y : G} (hyH : y ∈ H)
     (hH : H = Pc M V ⊔ conjSubgroup y (Pc M V))
     (K10 : Subgroup ↥H) [K10.Normal]
@@ -417,6 +421,7 @@ private theorem kFactorization_normalClosure (hPH : Pc M V ≤ H) {y : G} (hyH :
       _ = ⊤ := Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective K10)
   exact normalClosure_eq_top_of_sup_conj_eq_top hgenT
 
+omit [Finite G] in
 private theorem kFactorization_conjT_of_eq (K10 : Subgroup ↥H) [K10.Normal]
     (T : Subgroup (↥H ⧸ K10))
     (hT : T = ((Pc M V).subgroupOf H).map (QuotientGroup.mk' K10)) :
@@ -546,9 +551,9 @@ private theorem kFactorization_Z_eq_bot (hCT : CentralTIStatement) (hL : IsL2OrS
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set (↥H ⧸ K10))))
     (hZ_center : Z ≤ Subgroup.center (↥H ⧸ K10)) :
     Z = ⊥ := by
-  haveI : (K0.map (QuotientGroup.mk' K10)).Normal :=
+  have : (K0.map (QuotientGroup.mk' K10)).Normal :=
     QuotientGroup.map_normal (G := ↥H) K10 K0
-  haveI : Finite (↥H ⧸ K10) := inferInstance
+  have : Finite (↥H ⧸ K10) := inferInstance
   refine hCT (↥H ⧸ K10) T Z hT_elem hgen hTI hwc hZ_center ?_
   have e0 : (↥H ⧸ K10) ⧸ (K0.map (QuotientGroup.mk' K10)) ≃* ↥H ⧸ K0 :=
     QuotientGroup.quotientQuotientEquivQuotient (G := ↥H) (N := K10) (M := K0) hK10_le_K0
@@ -558,6 +563,7 @@ private theorem kFactorization_Z_eq_bot (hCT : CentralTIStatement) (hL : IsL2OrS
   have e1 : (↥H ⧸ K10) ⧸ Z ≃* HBar V H := (eZ.symm.trans e0).trans eK
   exact IsL2OrSzGroup.of_mulEquiv e1.symm hL
 
+omit [Finite G] in
 private theorem kFactorization_kOf_le_kOne {y : G} {K0 K10 : Subgroup ↥H} [K10.Normal]
     (hK0 : K0 = (kOf V H).subgroupOf H)
     (hK10 : K10 = (kOne M V H y).subgroupOf H)
@@ -587,17 +593,17 @@ theorem RootHyp.kFactorization_of_centralTI (hCT : CentralTIStatement) (h : Root
     rw [kOne]; exact sup_le inf_le_right inf_le_right
   let K0 : Subgroup ↥H := (kOf V H).subgroupOf H
   let K10 : Subgroup ↥H := (kOne M V H y).subgroupOf H
-  haveI hK0_normal : K0.Normal := kOf_normal V H
-  haveI hK10_normal : K10.Normal := kOne_normal h hPH hyH hHy
+  have hK0_normal : K0.Normal := kOf_normal V H
+  have hK10_normal : K10.Normal := kOne_normal h hPH hyH hHy
   have hK10_le_K0 : K10 ≤ K0 := by
     intro x hx
     exact Subgroup.mem_subgroupOf.mpr (hK1_le_K (Subgroup.mem_subgroupOf.mp hx))
   let Y := ↥H ⧸ K10
-  haveI : Finite Y := inferInstance
+  have : Finite Y := inferInstance
   let P0 : Subgroup ↥H := (Pc M V).subgroupOf H
   let T : Subgroup Y := P0.map (QuotientGroup.mk' K10)
   let Z : Subgroup Y := K0.map (QuotientGroup.mk' K10)
-  haveI hZ_normal : Z.Normal := QuotientGroup.map_normal (G := ↥H) K10 K0
+  have hZ_normal : Z.Normal := QuotientGroup.map_normal (G := ↥H) K10 K0
   let π : Y →* HBar V H := QuotientGroup.lift K10 (piK V H) (by
     intro x hx
     exact (piK_eq_one_iff x).mpr (hK1_le_K (Subgroup.mem_subgroupOf.mp hx)))

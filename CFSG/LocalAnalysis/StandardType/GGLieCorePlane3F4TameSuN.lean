@@ -151,7 +151,7 @@ theorem langFamTame_suN_F4
       rw [hs]
       simpa using h
     unfold twistKindM at hkM'
-    rw [if_pos h1] at hkM'
+    rw [ite_eq_left h1] at hkM'
     exact absurd hkM' (by decide)
   have hG : GGLieSU3Model ↥(rootSpan Tag.F4 L Ψ ⊓ S.D.model) f :=
     ggLieF4A2out_fixedGroup hH hf hqf i' hshape hρΨ hout

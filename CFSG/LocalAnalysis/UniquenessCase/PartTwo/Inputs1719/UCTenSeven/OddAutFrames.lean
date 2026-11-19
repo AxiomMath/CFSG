@@ -223,7 +223,7 @@ theorem map_eq_of_odd_of_conjSetStab_perm {X : Type} [Group X] [Finite X]
   have hπN : π ∈ normalizer ((R' : Subgroup (Equiv.Perm ↥Δ)) : Set (Equiv.Perm ↥Δ)) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq
   have hπ1 : π = 1 :=
-    CFSG.Permutation.SylowTwoNormalizer.eq_one_of_mem_normalizer R'.isPGroup'
+    CFSG.Permutation.SylowTwoNormalizer.eq_one_of_mem_normalizer R'.isPGroup
       R'.not_dvd_index hπord hπN
   intro J hJ
   have h := hπcoe ⟨J, hJ⟩

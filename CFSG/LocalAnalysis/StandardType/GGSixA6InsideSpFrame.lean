@@ -11,7 +11,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.LieType.Universal CFSG.LieType.RootSystem
   CFSG.Assembly.LowTwoRank Polynomial Module CFSG.RankThree.Classical
 
 theorem exists_elemAbelian_le_selfCentralizing {G : Type*} [Group G] [Finite G] {p : ℕ}
-    (hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B) :
+    (_hp : p.Prime) {B : Subgroup G} (hB : IsElemAbelian p B) :
     ∃ E : Subgroup G, B ≤ E ∧ IsElemAbelian p E ∧
       ∀ Z : G, (∀ Y ∈ E, Z * Y = Y * Z) → Z ^ p = 1 → Z ∈ E := by
   classical
@@ -49,7 +49,7 @@ theorem exists_frame_two {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
       natDegree_cyclotomic, Nat.totient_prime Nat.prime_three]
     norm_num
   obtain ⟨g, hg, hgd⟩ := WfDvdMonoid.exists_irreducible_factor hne (cyclotomic_ne_zero 3 K)
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hE3 : ∀ Y ∈ E, Y ^ 3 = 1 := fun Y hY => hE.2 Y hY
   have hEc : ∀ Y ∈ E, ∀ Y' ∈ E, Y * Y' = Y' * Y := fun Y hY Y' hY' =>
     CFSG.Open.IsElemAbelian.comm hE hY hY'

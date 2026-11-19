@@ -43,7 +43,7 @@ private theorem l34g_pk1_central {A : Type} [Group A] [Finite A] {S : Subgroup A
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using hNn (s : A) s.2 (n : A) hn
   have hN' : IsPGroup 3 ↥(N.subgroupOf S) :=
     hN.of_equiv (Subgroup.subgroupOfEquivOfLe hNleS).symm
-  letI : (N.subgroupOf S).Normal := hNorm
+  let : (N.subgroupOf S).Normal := hNorm
   exact l34g_pk1_eq_bot_of_subgroupOf hNleS (l34g_pGroup_normal_bot hS hN')
 
 private theorem l34g_pk1_aut {A : Type} [Group A] {S : Subgroup A} {x : A} (hx : x * x = 1)

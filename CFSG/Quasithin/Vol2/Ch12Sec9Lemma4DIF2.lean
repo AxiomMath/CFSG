@@ -12,6 +12,7 @@ variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [Module.Finite (ZMod 2)
 
 section Basic
 
+omit [Module.Finite (ZMod 2) I] in
 theorem eq_of_smul_eq_smul_zmod2 {p0 : I} (hp0 : p0 ≠ 0) {a b : ZMod 2} (h : a • p0 = b • p0) :
     a = b := by
   have h' : (a - b) • p0 = 0 := by rw [sub_smul, h, sub_self]
@@ -35,10 +36,11 @@ theorem exists_span_singleton_eq {p : Submodule (ZMod 2) I} (hp : finrank (ZMod 
 
 theorem natCard_submodule_eq {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (W : Submodule (ZMod 2) V) : Nat.card W = 2 ^ finrank (ZMod 2) W := by
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := W)]
   rfl
 
+omit [Module.Finite (ZMod 2) I] in
 theorem mem_unipRad_iff' (W : Submodule (ZMod 2) I) (g : I ≃ₗ[ZMod 2] I) :
     g ∈ unipRad W ↔ (∀ w ∈ W, g w = w) ∧ ∀ x, g x - x ∈ W :=
   Iff.rfl
@@ -69,6 +71,7 @@ section CountD0p
 
 variable [Finite I]
 
+omit [Finite I] in
 theorem natCard_forms_vanishing (hI : finrank (ZMod 2) I = 4) {ℓ : Submodule (ZMod 2) I}
     (hℓ : finrank (ZMod 2) ℓ = 2) :
     Nat.card {φ : I →ₗ[ZMod 2] ZMod 2 // ∀ v ∈ ℓ, φ v = 0} = 4 := by
@@ -76,7 +79,7 @@ theorem natCard_forms_vanishing (hI : finrank (ZMod 2) I = 4) {ℓ : Submodule (
   have hCd : finrank (ZMod 2) C = 2 := by
     have h := Submodule.finrank_add_eq_of_isCompl hC
     omega
-  haveI : Module.Finite (ZMod 2) C := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 2) C := Module.finite_of_finrank_pos (by omega)
   let b := Module.finBasisOfFinrankEq (ZMod 2) C hCd
   let π : I →ₗ[ZMod 2] C := C.projectionOnto ℓ hC.symm
   have hπC : ∀ c : C, π (c : I) = c := fun c => Submodule.projectionOnto_apply_left hC.symm c
@@ -105,6 +108,7 @@ theorem natCard_forms_vanishing (hI : finrank (ZMod 2) I = 4) {ℓ : Submodule (
     ZMod.card, Nat.card_eq_fintype_card (α := Fin 2), Fintype.card_fin]
   norm_num
 
+omit [Finite I] in
 theorem card_D0p (hI : finrank (ZMod 2) I = 4) {p ℓ : Submodule (ZMod 2) I}
     (hp : finrank (ZMod 2) p = 1) (hℓ : finrank (ZMod 2) ℓ = 2) (hpℓ : p ≤ ℓ) :
     Nat.card (D0p p ℓ) = 4 := by
@@ -324,7 +328,7 @@ theorem factF2_holds : FactF2 := by
   intro I _ _ hFin hI p ℓ Pl hp hℓ hPl hpℓ' hℓPl'
   have hpℓ : p ≤ ℓ := hpℓ'.le
   have hℓPl : ℓ ≤ Pl := hℓPl'.le
-  haveI : Module.Finite (ZMod 2) I := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 2) I := Module.finite_of_finrank_pos (by omega)
   refine ⟨⟨card_D0p hI hp hℓ hpℓ, fun d hd => ?_, fun v => fix_D0p_iff hp hpℓ v⟩,
     ⟨card_D0P hI hℓ hPl hℓPl, fun d hd => ?_, fun v => fix_D0P_iff hℓ hℓPl v⟩⟩
   · obtain ⟨h1, h2⟩ := (mem_D0p_iff hpℓ d).1 hd

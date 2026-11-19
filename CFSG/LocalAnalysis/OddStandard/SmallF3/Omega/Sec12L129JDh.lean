@@ -23,7 +23,7 @@ theorem sec12D_elemAb (hbd : Sec10BData t L S) {P : Subgroup ↥(secM t S L ⊓ 
   have hKcard : Nat.card ((secB S L).subgroupOf (secM t S L ⊓ L)) = 16 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBD).toEquiv, hbd.2.1]
     norm_num
-  haveI : Finite ((secB S L).subgroupOf (secM t S L ⊓ L)) :=
+  have : Finite ((secB S L).subgroupOf (secM t S L ⊓ L)) :=
     Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
   have hQea : IsElemAbelian 2 (P.map ρ) := hP.map ρ
   have hcardP : Nat.card ↥(P ⊓ ρ.ker) * Nat.card (P.map ρ) = Nat.card P :=

@@ -18,7 +18,7 @@ open CFSG.ComponentClassification CFSG.RankThree.PartTwo.KFacts
 theorem eq_one_of_mem_center_of_isComponent {X : Type*} [Group X] [Finite X] {L : Subgroup X}
     (hL : CFSG.IsComponent L) (hr : CFSG.Open.pRank 3 L ≤ 1) {z : L}
     (hz : z ∈ Subgroup.center L) (hz3 : z ^ 3 = 1) : z = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine eq_one_of_mem_center_of_isCyclic_sylow (Group.isPerfect_def.mp hL.1.1) (fun Q => ?_) hz
     hz3
   refine CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_sylow_of_pRank_le_one
@@ -29,7 +29,7 @@ theorem eq_one_of_mem_center_of_isComponent {X : Type*} [Group X] [Finite X] {L 
 theorem not_three_dvd_card_center_of_isComponent {X : Type*} [Group X] [Finite X]
     {L : Subgroup X} (hL : CFSG.IsComponent L) (hr : CFSG.Open.pRank 3 L ≤ 1) :
     ¬ 3 ∣ Nat.card (Subgroup.center L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 h
   have hz1 : z = 1 := Subtype.ext (eq_one_of_mem_center_of_isComponent hL hr z.2 (by
@@ -60,7 +60,7 @@ theorem exists_commute_mk_eq_of_fixed {X : Type*} [Group X] [Finite X] {L : Subg
       (QuotientGroup.mk' (Subgroup.center L) t₀) = QuotientGroup.mk' (Subgroup.center L) t₀) :
     ∃ t : L, QuotientGroup.mk' (Subgroup.center L) t = QuotientGroup.mk' (Subgroup.center L) t₀ ∧
       (t : X) * a = a * t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers a) := by
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp
       (show Nat.card (Subgroup.zpowers a) ∣ 3 ^ 1 by

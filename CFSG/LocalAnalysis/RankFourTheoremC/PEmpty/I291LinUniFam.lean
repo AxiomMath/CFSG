@@ -71,7 +71,7 @@ theorem linear_mono {p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) (hn : 
     (hnp : ∀ w ∈ (GeneralLinearGroup.scalar (Fin n) : Kˣ →* GL (Fin n) K).range, w ^ p ≠ B ^ p) :
     ∃ T : Subgroup (SpecialLinearGroup (Fin n) K), IsElemAbelian p T ∧
       p ^ (p + 1) ≤ Nat.card (T.map (proj n K)) ∧ ∀ t ∈ T, slConjugation n K B t ∈ T := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ, hM⟩ := exists_nonpower_scalar hp B hBZ hnp
   obtain ⟨P, Q, N, π, hPQ, hQP, hMP, hN⟩ := exists_monomial_matrices hp hζ hM
   obtain ⟨T, hT, hcard, hnorm⟩ := torus_normalized hp hpK hn hPQ hQP hMP hN
@@ -96,12 +96,12 @@ theorem linear_case (hGA : CFSG.Open.GriessAllModelsStatement) {Y : Type} [Group
     {x : Y} (hx : orderOf x = 5) (hx2 : CFSG.Open.pRank 5 (centralizer ({x} : Set Y)) ≤ 2)
     (hpn : 5 ∣ n) (hpK : 5 ∣ Nat.card K - 1)
     (e : ↥L ⧸ center ↥L ≃* StatedProj (StatedSL n K)) : I291P65.Is29a ↥L := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : Nat.Prime 5 := by norm_num
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := Nat.le_of_dvd hn0 hpn

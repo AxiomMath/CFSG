@@ -20,7 +20,7 @@ theorem eq_top_of_sylow_unique_maximal_two_local {M : Subgroup G} {T₀ T : Sylo
     (hsup : Subgroup.normalizer (R₁ : Set G) ⊔ Subgroup.normalizer (R₂ : Set G) = ⊤) :
     M = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T₀ T
   have hfun : MulDistribMulAction.toMonoidEnd (MulAut G) G (MulAut.conj g) =
       (MulAut.conj g).toMonoidHom := by
@@ -35,7 +35,7 @@ theorem eq_top_of_sylow_unique_maximal_two_local {M : Subgroup G} {T₀ T : Sylo
       CFSG.CGT.PushingUp.isMaximalTwoLocal_map_conj hM' g⁻¹
     have hle : (T₀ : Subgroup G) ≤ M'.map (MulAut.conj g⁻¹).toMonoidHom := by
       intro x hx
-      refine ⟨g * x * g⁻¹, hTM' ?_, by simp [MulAut.conj_apply, mul_assoc]⟩
+      refine ⟨g * x * g⁻¹, hTM' ?_, by simp [mul_assoc]⟩
       rw [hTmap]
       exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
     have heq : M'.map (MulAut.conj g⁻¹).toMonoidHom = M := huniq _ hconj hle

@@ -196,7 +196,7 @@ theorem e214_ten {Γ : Type} [Group Γ] [Finite Γ] (H T M V : Subgroup Γ)
   have hPJ : ∀ x : Γ, x ∈ P' → x ∈ kerIn (M ⊓ I) I := fun x hx => by
     rw [← hOJ, ← hPO']
     exact hx
-  haveI : (Z'.subgroupOf P').Normal :=
+  have : (Z'.subgroupOf P').Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZP).2 (hPI.trans hIZ)
   set ρ := conjSecAut P' Z' I hIP hIZ with hρ
   have hcomm : ∀ x y : ↥P' ⧸ Z'.subgroupOf P', x * y = y * x := by
@@ -441,10 +441,10 @@ theorem e214_ten {Γ : Type} [Group Γ] [Finite Γ] (H T M V : Subgroup Γ)
     rw [hfree] at this
     exact Subgroup.mem_bot.1 this
   have hγord : orderOf γ = p := orderOf_eq_prime hγp hγ1
-  letI : CommGroup (↥P' ⧸ Z'.subgroupOf P') :=
+  let : CommGroup (↥P' ⧸ Z'.subgroupOf P') :=
     { (inferInstance : Group (↥P' ⧸ Z'.subgroupOf P')) with mul_comm := hcomm }
   obtain ⟨r, U, hU, hUsup, hUind⟩ := exists_decomp hsq hp hp2 hγord hτ hτγ hfree
-  haveI hr : Nonempty (Fin r) := by
+  have hr : Nonempty (Fin r) := by
     rcases Nat.eq_zero_or_pos r with h0 | h0
     · exfalso
       subst h0

@@ -166,7 +166,7 @@ theorem pRank_centralizer_eq_of_relIndex_two_pow {D : Data G} {V₀ V : Subgroup
 
 theorem pRank_centralizer_ge_two_of_mem_V0 {D : Data G} {V₀ V : Subgroup G}
     (hV : Hyp125 D V₀ V) (hcard4 : Nat.card V₀ ≤ 4)
-    (h3M : CFSG.Open.pRank 3 D.M = 3) {v : G} (hv : v ∈ V₀) (hv1 : v ≠ 1) :
+    (h3M : CFSG.Open.pRank 3 D.M = 3) {v : G} (hv : v ∈ V₀) (_hv1 : v ≠ 1) :
     1 < CFSG.Open.pRank 3 (D.M ⊓ centralizer ({v} : Set G)) := by
   have hMV₀ : D.M ≤ normalizer (V₀ : Set G) := hV.pairFacts.le_normalizer₀
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) D.M

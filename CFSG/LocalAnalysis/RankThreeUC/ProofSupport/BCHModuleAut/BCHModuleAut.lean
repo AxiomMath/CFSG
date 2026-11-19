@@ -73,7 +73,7 @@ instance : Module (ZMod p) (Lin p E hp hodd hexp hc) :=
 
 theorem Lin.smul_eq_nsmul (c : ZMod p) (x : Lin p E hp hodd hexp hc) :
     c • x = c.val • x := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [← Nat.cast_smul_eq_nsmul (ZMod p), ZMod.natCast_zmod_val]
 
 theorem Lin.val_smul (c : ZMod p) (x : Lin p E hp hodd hexp hc) :
@@ -96,7 +96,7 @@ theorem Lin.val_smul (c : ZMod p) (x : Lin p E hp hodd hexp hc) :
     Lin.val hp hodd hexp hc (Lin.linMap hp hodd hexp hc φ x) = φ (Lin.val hp hodd hexp hc x) := rfl
 
 @[expose] def Lin.linEquiv (φ : MulAut E) : Lin p E hp hodd hexp hc ≃ₗ[ZMod p] Lin p E hp hodd hexp hc :=
-  LinearEquiv.ofLinear (Lin.linMap hp hodd hexp hc φ) (Lin.linMap hp hodd hexp hc φ⁻¹)
+  LinearEquiv.ofLinearMap (Lin.linMap hp hodd hexp hc φ) (Lin.linMap hp hodd hexp hc φ⁻¹)
     (LinearMap.ext fun x => Lin.val_injective hp hodd hexp hc (by simp))
     (LinearMap.ext fun x => Lin.val_injective hp hodd hexp hc (by simp))
 

@@ -22,7 +22,7 @@ theorem card_carrier_eq_sporOrder_all (s : TauCeti.SporadicName) :
     Nat.card (Carrier s) = sporOrder s := by
   by_cases hM : s = .M
   · subst hM
-    rw [AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card]
+    rw [AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card]
     norm_num [AGLEmbedding.sporOrd, sporOrder, sporFactors]
   · exact CFSG.ComponentClassification.GSThmB.QPUSpor.card_carrier_eq_sporOrder s hM
 

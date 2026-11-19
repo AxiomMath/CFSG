@@ -45,7 +45,7 @@ open Certificates.MaxD2Perm Certificates.MaxD2Heis
   kw := 0
   PT := fun _ => 0
   FS := fun _ => 0
-  KS := fun _ => 0
+  KSt := fun _ => 0
   RB := fun _ => 0
   H := fun _ => 0
   CN := fun _ => 0
@@ -93,7 +93,7 @@ open Certificates.MaxD2Perm Certificates.MaxD2Heis
   kw := 0
   PT := fun _ => 0
   FS := fun _ => 0
-  KS := fun _ => 0
+  KSt := fun _ => 0
   RB := fun _ => 0
   H := fun _ => 0
   CN := fun _ => 0

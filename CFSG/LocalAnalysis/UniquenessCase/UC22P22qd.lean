@@ -59,8 +59,8 @@ theorem uc22p22q_central_of_weaklyClosed {G : Type*} [Group G] [Finite G] {p : �
   have hact₁ : ∀ x, act 1 x = x := fun x => Subtype.ext (by simp [act])
   have hact₂ : ∀ y y' x, act (y * y') x = act y (act y' x) := fun y y' x =>
     Subtype.ext (by simp [act, mul_assoc])
-  letI : MulAction P P₀ := { smul := act, one_smul := hact₁, mul_smul := hact₂ }
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : MulAction P P₀ := { smul := act, one_smul := hact₁, mul_smul := hact₂ }
+  have : Fact p.Prime := ⟨hp⟩
   have hsmul : ∀ (y : P) (x : P₀), ((y • x : P₀) : G) = y * x * y⁻¹ := fun _ _ => rfl
   have hone : (1 : P₀) ∈ MulAction.fixedPoints P P₀ :=
     MulAction.mem_fixedPoints.2 fun y => Subtype.ext (by simp [hsmul y 1])

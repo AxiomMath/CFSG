@@ -238,7 +238,7 @@ theorem lab_step {j : ℕ} (hj : j < 43) :
   congr 1
   exact Fin.ext (βF_val hj).symm
 
-theorem stab_comm {l : ℕ} (hl : l ≤ 43) {c : Equiv.Perm (Fin 31671)}
+theorem stab_comm {l : ℕ} (_hl : l ≤ 43) {c : Equiv.Perm (Fin 31671)}
     (hc : c ∈ chainStab CF βF l) :
     c * sF = sF * c ∧ ∀ j < l, c * lab (βF j) = lab (βF j) * c := by
   obtain ⟨hcC, hfix⟩ := mem_chainStab.1 hc
@@ -370,11 +370,11 @@ theorem card_CF_le : Nat.card CF ≤ 25200 := by
   · rwa [fc_prod] at h
   · intro l hl
     rcases (fc_data.2.2.1 l hl).2.2 with h0 | h1
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       have hc := (step_spec hl).2.1 h0
       unfold CFSG.KD.B4AZ.levelChk at hc
       exact (orbit_level hl).trans (Nat.ble_eq.mp hc)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       have hsub : MulAction.orbit (chainStab CF βF l) (βF l) ⊆ {βF l} := by
         rintro _ ⟨⟨c, hc⟩, rfl⟩
         exact fix_derived hl ((step_spec hl).2.2 h1) hc
@@ -389,7 +389,7 @@ theorem card_CF_le : Nat.card CF ≤ 25200 := by
     obtain ⟨i, hi, hiv⟩ := fc_data.2.2.2.2 m hm
     have e : β5 m = βF i := by
       apply Fin.ext
-      rw [β5, dif_pos hm, βF_val hi, hiv]
+      rw [β5, dite_eq_left hm, βF_val hi, hiv]
     rw [e, hfix i hi]
 
 theorem card_centralizer_five :

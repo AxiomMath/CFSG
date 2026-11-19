@@ -161,7 +161,7 @@ theorem s_exists_rho_a_of
   obtain ⟨x, hxJ, hax, hxz, hxt⟩ := hx
   obtain ⟨r, hrK, hrS, hrt⟩ := htor
   have hrM : r ∈ K ⊔ K' := Subgroup.mem_sup_left hrK
-  have har : a * r = r * a := commutes_of_mem_centModOddCore S.isPGroup'
+  have har : a * r = r * a := commutes_of_mem_centModOddCore S.isPGroup
     (mem_centModOddCore_of_mem_centralizerModOdd hA) hA.1 hrM hrS
   have hrz : r * z * r⁻¹ = z :=
     mul_inv_eq_iff_eq_mul.mpr (hzK.commute_of_mem hrK).symm

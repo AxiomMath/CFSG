@@ -22,7 +22,7 @@ theorem coe_smul_sylow_eq_map {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (g 
   ext x
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, mem_map_conj_iff]
   rw [MulAut.smul_def]
-  simp [MulAut.conj_inv_apply]
+  simp
 
 theorem isPGroup_pCoreOf (p : ℕ) {G : Type*} [Group G] (P : Subgroup G) :
     IsPGroup p ↥(CFSG.Open.pCoreOf p P) :=
@@ -68,7 +68,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {X : Type*} [Group X] {A B : Subg
   exact h
 
 theorem exists_conj_mem_of_not_dvd_relIndex {G : Type*} [Group G] [Finite G] {p : ℕ}
-    [hp : Fact p.Prime] {H P : Subgroup G} (hHP : H ≤ P) (hidx : ¬ p ∣ H.relIndex P) {z : G}
+    [hp : Fact p.Prime] {H P : Subgroup G} (_hHP : H ≤ P) (hidx : ¬ p ∣ H.relIndex P) {z : G}
     (hz : z ∈ P) (hzp : z ^ p = 1) : ∃ x ∈ P, x * z * x⁻¹ ∈ H := by
   classical
   set H' : Subgroup P := H.subgroupOf P with hH'
@@ -101,7 +101,7 @@ theorem exists_conj_mem_of_not_dvd_relIndex {G : Type*} [Group G] [Finite G] {p 
     rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at h
     have e : (MulAut.conj g)⁻¹ • (⟨z, hz⟩ : P) = g⁻¹ * ⟨z, hz⟩ * g := by
       rw [MulAut.smul_def]
-      simp [MulAut.conj_inv_apply]
+      simp
     rwa [e] at h
   rw [hSS, hS0, Subgroup.mem_map] at hmem
   obtain ⟨y, -, hy⟩ := hmem
@@ -136,8 +136,8 @@ theorem two_part_centralizer_le {X : Type*} [Group X] [Finite X] (U H : Subgroup
     ∀ z : X, z ^ 3 = 1 → z ≠ 1 →
       2 ^ (Nat.card (Subgroup.centralizer ({z} : Set X))).factorization 2 ≤ N := by
   intro z hz3 hz1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, rfl⟩ := hU
   set C := Subgroup.centralizer ({z} : Set X) with hC
   obtain ⟨T0⟩ := (inferInstance : Nonempty (Sylow 2 C))
@@ -200,8 +200,8 @@ theorem two_part_centralizer_le_of_injective {X Y : Type*} [Group X] [Group Y] [
     (ψ : X →* Y) (hψ : Function.Injective ψ) (z : X) :
     2 ^ (Nat.card (Subgroup.centralizer ({z} : Set X))).factorization 2 ≤
       2 ^ (Nat.card (Subgroup.centralizer ({ψ z} : Set Y))).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Finite.of_injective ψ hψ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_injective ψ hψ
   set C := Subgroup.centralizer ({z} : Set X) with hC
   obtain ⟨T0⟩ := (inferInstance : Nonempty (Sylow 2 C))
   set T : Subgroup X := (T0 : Subgroup C).map C.subtype with hT

@@ -69,12 +69,12 @@ theorem prime_eq_three_aux {X : Type*} [Group X] [Finite X] (hperf : Group.IsPer
     (hodd : Odd (Nat.card (center X)))
     (hcyc : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 → p ≠ 3 → ∀ S : Subgroup Q, IsPGroup p S →
       IsCyclic S) {p : ℕ} (hp : p.Prime) (hpd : p ∣ Nat.card (center X)) : p = 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, hπs, hπker⟩ : ∃ π : X →* Q, Function.Surjective π ∧ π.ker = center X :=
     ⟨e.toMonoidHom.comp (QuotientGroup.mk' (center X)),
       e.surjective.comp (QuotientGroup.mk'_surjective _), by
         ext x
-        simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]⟩
+        simp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hpd
   have hxc : (x : X) ∈ center X := x.2
   have hxo : orderOf (x : X) = p := by rw [Subgroup.orderOf_coe]; exact hx
@@ -269,7 +269,7 @@ variable {G : Type} [Group G] (A L : Subgroup G)
 
 def projL : Subgroup G where
   carrier := {l | l ∈ L ∧ ∃ w ∈ Subgroup.centralizer (L : Set G), l * w ∈ A}
-  one_mem' := ⟨L.one_mem, 1, Subgroup.one_mem _, by simpa using A.one_mem⟩
+  one_mem' := ⟨L.one_mem, 1, Subgroup.one_mem _, by simp⟩
   mul_mem' := by
     rintro l₁ l₂ ⟨hl1, w₁, hw1, h1⟩ ⟨hl2, w₂, hw2, h2⟩
     refine ⟨L.mul_mem hl1 hl2, w₁ * w₂, Subgroup.mul_mem _ hw1 hw2, ?_⟩
@@ -292,7 +292,7 @@ def projL : Subgroup G where
 
 def projC : Subgroup G where
   carrier := {w | w ∈ Subgroup.centralizer (L : Set G) ∧ ∃ l ∈ L, l * w ∈ A}
-  one_mem' := ⟨Subgroup.one_mem _, 1, L.one_mem, by simpa using A.one_mem⟩
+  one_mem' := ⟨Subgroup.one_mem _, 1, L.one_mem, by simp⟩
   mul_mem' := by
     rintro w₁ w₂ ⟨hw1, l₁, hl1, h1⟩ ⟨hw2, l₂, hl2, h2⟩
     refine ⟨Subgroup.mul_mem _ hw1 hw2, l₁ * l₂, L.mul_mem hl1 hl2, ?_⟩
@@ -319,8 +319,8 @@ theorem projL_le : projL A L ≤ L := fun _ hl => hl.1
 
 theorem projC_le : projC A L ≤ Subgroup.centralizer (L : Set G) := fun _ hw => hw.1
 
-theorem projL_commute_projC : ∀ l ∈ projL A L, ∀ w ∈ projC A L, l * w = w * l :=
-  fun l hl w hw => (Subgroup.mem_centralizer_iff.1 hw.1 l hl.1)
+theorem projL_commute_projC : ∀ l ∈ projL A L, ∀ _w ∈ projC A L, l * _w = _w * l :=
+  fun l hl _w hw => (Subgroup.mem_centralizer_iff.1 hw.1 l hl.1)
 
 theorem commute_components (hLC : L ⊓ Subgroup.centralizer (L : Set G) = ⊥) {l₁ l₂ w₁ w₂ : G}
     (hl₁ : l₁ ∈ L) (hl₂ : l₂ ∈ L) (hw₁ : w₁ ∈ Subgroup.centralizer (L : Set G))
@@ -499,7 +499,7 @@ theorem CoverOut.exists_decomp (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) {x 
 
 set_option maxRecDepth 20000 in
 set_option maxHeartbeats 4000000 in
-theorem CoverOut.card_le_three_of_centralizes (h45 : Sec4.Item4_5) (h : CoverOut A E U c L)
+theorem CoverOut.card_le_three_of_centralizes (_h45 : Sec4.Item4_5) (h : CoverOut A E U c L)
     (hZ : Subgroup.center L = ⊥) {B : Subgroup G} (hB : CFSG.Assembly.IsElemAbelian 3 B)
     (hBC : ∀ d ∈ B, ∀ x ∈ L, d * x = x * d) : Nat.card B < 9 := by
   by_contra hlt
@@ -527,11 +527,11 @@ theorem CoverOut.inf_centralizer_eq_bot (h45 : Sec4.Item4_5) (h : CoverOut A E U
 
 theorem CoverOut.card_inf_eq_and_decomp (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) :
     Nat.card (A ⊓ L : Subgroup G) = 27 ∧
-      ∀ x ∈ A, ∃ l ∈ (A ⊓ L : Subgroup G), ∃ i : ℤ, x = l * c ^ i :=
+      ∀ _x ∈ A, ∃ l ∈ (A ⊓ L : Subgroup G), ∃ i : ℤ, _x = l * c ^ i :=
   card_inf_eq_of_components (h.inf_centralizer_eq_bot h45) h.isElemAbelian_A h.maximal
-    (fun x hx => h.exists_decomp h45 hx) h.c_mem_A
-    (Subgroup.mem_centralizer_iff.2 (fun x hx => (h.c_comm x hx).symm)) h.c_ne_one h.card
-    (fun B hB hBC => h.card_le_three_of_centralizes h45 (h.center_eq_bot h45) hB hBC)
+    (fun _x hx => h.exists_decomp h45 hx) h.c_mem_A
+    (Subgroup.mem_centralizer_iff.2 (fun _x hx => (h.c_comm _x hx).symm)) h.c_ne_one h.card
+    (fun _B hB hBC => h.card_le_three_of_centralizes h45 (h.center_eq_bot h45) hB hBC)
 
 theorem CoverOut.card_inf_eq (h45 : Sec4.Item4_5) (h : CoverOut A E U c L) :
     Nat.card (A ⊓ L : Subgroup G) = 27 :=

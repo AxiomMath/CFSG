@@ -37,7 +37,7 @@ theorem false_of_moved_component {p : ℕ} [hp : Fact p.Prime] {Λ Z₀ : Subgro
     have hle : (PZ : Subgroup (Subgroup.center Λ)) ≤ N.subgroupOf (Subgroup.center Λ) := by
       intro x hx
       rw [Subgroup.mem_subgroupOf, hmemN]
-      obtain ⟨k, hk⟩ := (PZ.isPGroup' ⟨x, hx⟩)
+      obtain ⟨k, hk⟩ := (PZ.isPGroup ⟨x, hx⟩)
       have hk' : ((x : Λ) : G) ^ p ^ k = 1 := by
         have := congrArg (fun y : PZ => (((y : Subgroup.center Λ) : Λ) : G)) hk
         simpa using this

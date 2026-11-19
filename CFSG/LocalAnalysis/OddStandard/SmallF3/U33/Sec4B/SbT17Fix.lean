@@ -25,12 +25,12 @@ private def cosetConj {E N : Subgroup G} {t : G}
     have hEq : ((conjN htN a : G)⁻¹ * (conjN htN b : G)) =
         t * ((a : G)⁻¹ * (b : G)) * t⁻¹ := by
       simp only [conjN, Subtype.coe_mk]
-      push_cast
       group
     change ((conjN htN a : G)⁻¹ * (conjN htN b : G)) ∈ E
     rw [hEq]
     exact hconj
 
+omit [Finite G] in
 private lemma conjN_involutive {N : Subgroup G} {t : G} (ht2 : t * t = 1)
     (htN : ∀ n ∈ N, t * n * t⁻¹ ∈ N) (n : ↥N) :
     conjN htN (conjN htN n) = n := by
@@ -44,6 +44,7 @@ private lemma conjN_involutive {N : Subgroup G} {t : G} (ht2 : t * t = 1)
   calc t * (t * n.1 * t⁻¹) * t⁻¹ = (t * t) * n.1 * (t⁻¹ * t⁻¹) := by group
     _ = n.1 := by rw [ht2, htinv, ht2]; group
 
+omit [Finite G] in
 private lemma cosetConj_involutive {E N : Subgroup G} {t : G} (ht2 : t * t = 1)
     (htN : ∀ n ∈ N, t * n * t⁻¹ ∈ N) (htE : ∀ e ∈ E, t * e * t⁻¹ ∈ E) :
     Function.Involutive (cosetConj htN htE) := by
@@ -58,8 +59,8 @@ theorem exists_fixed_coset {E N : Subgroup G} (hN2 : IsPGroup 2 N) (hEN : E < N)
     ∃ n ∈ N, n ∉ E ∧ n⁻¹ * (t * n * t⁻¹) ∈ E := by
   classical
   let X := ↥N ⧸ E.subgroupOf N
-  haveI : Fintype ↥N := Fintype.ofFinite ↥N
-  haveI : Fintype X :=
+  have : Fintype ↥N := Fintype.ofFinite ↥N
+  have : Fintype X :=
     Fintype.ofSurjective (Quotient.mk'' : ↥N → X) Quotient.mk''_surjective
   have hcardX : Fintype.card X = (E.subgroupOf N).index := by
     rw [Fintype.card_eq_nat_card, Subgroup.index_eq_card]
@@ -87,7 +88,7 @@ theorem exists_fixed_coset {E N : Subgroup G} (hN2 : IsPGroup 2 N) (hEN : E < N)
   let a : X := Quotient.mk'' oneN
   have hone : conjN htN oneN = oneN := by
     ext
-    simp [conjN, oneN, ht2]
+    simp [conjN, oneN]
   have hfixa : s a = a := by
     rw [hs]
     change cosetConj htN htE (Quotient.mk'' oneN) = Quotient.mk'' oneN

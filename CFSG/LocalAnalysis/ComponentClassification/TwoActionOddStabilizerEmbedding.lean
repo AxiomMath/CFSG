@@ -32,7 +32,7 @@ theorem embedding {G : Type*} [Group G] [Finite G]
     exact lift.property
   have hfixedIntersection := hfixedStabilizer.trans hstabilizer
   have hfixedAmbient := hfixedIntersection.trans hintersection
-  have hfixedTwo : IsPGroup 2 fixed := stabilizerSylow.isPGroup'.map stabilizer.subtype
+  have hfixedTwo : IsPGroup 2 fixed := stabilizerSylow.isPGroup.map stabilizer.subtype
   have hcommutatorFixed : ⁅acting, fixed⁆ ≤ fixed := by
     apply Subgroup.commutator_le.mpr
     intro actor hactor member hmember
@@ -64,7 +64,7 @@ theorem embedding {G : Type*} [Group G] [Finite G]
     exact hmap
   have hintersectionEq : intersection ⊓ larger = fixed := by
     have hlocalTwo : IsPGroup 2 (larger.subgroupOf intersection) :=
-      (ambientSylow.isPGroup'.map ambient.subtype).comap_subtype
+      (ambientSylow.isPGroup.map ambient.subtype).comap_subtype
     have hlocalContained : (intersectionSylow : Subgroup intersection) ≤ larger.subgroupOf intersection := by
       intro member hmember
       apply hfixedLarger
@@ -88,7 +88,7 @@ theorem embedding {G : Type*} [Group G] [Finite G]
       Subgroup.card_map_of_injective ambient.subtype_injective] at hcard
     exact (ne_of_lt (hstrict intersectionSylow ambientSylow)) hcard
   obtain ⟨actor, hactor, houtside, hproductNormalizes⟩ := TwoActionStrictEmbedding.escape ambient acting intersection fixed larger
-    hfixedLarger hlargerAmbient (ambientSylow.isPGroup'.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizedAmbient
+    hfixedLarger hlargerAmbient (ambientSylow.isPGroup.map ambient.subtype) htwo hdisjoint hcentralizes hnormalizedAmbient
       hintersectionEq hstrictImages
   obtain ⟨homomorphism, hinjective⟩ := TwoActionDisplacementEmbedding.embedding ambient acting intersection fixed hfixedAmbient
     hdisjoint hnormalizesAmbient hcentralizes hcentralizers actor (hlargerAmbient hactor) houtside hproductNormalizes

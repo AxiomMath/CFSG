@@ -15,12 +15,12 @@ private theorem zero_ne_last (k : ℕ) : (0 : Fin (k + 2)) ≠ Fin.last (k + 1) 
 private theorem fiveForm_single_self (n : ℕ) (ε : Bool) (i : Fin (n + 1))
     (hi : i ≠ Fin.last n) :
     fiveForm n ε (Pi.single i 1) (Pi.single i 1) = 1 := by
-  rw [fiveForm_single n ε (Pi.single i 1) i, if_neg hi, Pi.single_eq_same, one_mul]
+  rw [fiveForm_single n ε (Pi.single i 1) i, ite_eq_right hi, Pi.single_eq_same, one_mul]
 
 private theorem fiveForm_single_last (n : ℕ) (ε : Bool) :
     fiveForm n ε (Pi.single (Fin.last n) 1) (Pi.single (Fin.last n) 1) =
       -(if ε then 1 else 2) := by
-  rw [fiveForm_single n ε (Pi.single (Fin.last n) 1) (Fin.last n), if_pos rfl,
+  rw [fiveForm_single n ε (Pi.single (Fin.last n) 1) (Fin.last n), ite_eq_left rfl,
     Pi.single_eq_same, mul_one]
 
 private theorem fiveForm_single_zero (n : ℕ) (ε : Bool) {i j : Fin (n + 1)} (hij : i ≠ j) :
@@ -206,7 +206,7 @@ theorem nonempty_fiveAdjoin (k : ℕ) (ε π : Bool) : Nonempty (FiveAdjoin k ε
       rw [hε']
       exact shiftMap_isom k ε x y
     · intro x
-      rw [hε', fiveForm_single (k + 1) ε (shiftMap k x) 0, if_neg (zero_ne_last k),
+      rw [hε', fiveForm_single (k + 1) ε (shiftMap k x) 0, ite_eq_right (zero_ne_last k),
         shiftMap_apply_zero]
       ring
   | false =>
@@ -252,8 +252,8 @@ theorem nonempty_fiveAdjoin (k : ℕ) (ε π : Bool) : Nonempty (FiveAdjoin k ε
       · intro x
         rw [hε', fiveForm_add_right, fiveForm_smul_right,
           fiveForm_single (k + 1) true (case2Map k x) 0,
-          if_neg (zero_ne_last k),
-          fiveForm_single (k + 1) true (case2Map k x) (Fin.last (k + 1)), if_pos rfl,
+          ite_eq_right (zero_ne_last k),
+          fiveForm_single (k + 1) true (case2Map k x) (Fin.last (k + 1)), ite_eq_left rfl,
           case2Map_apply_zero, case2Map_apply_last]
         simp only [↓reduceIte]
         ring
@@ -272,7 +272,7 @@ theorem nonempty_fiveAdjoin (k : ℕ) (ε π : Bool) : Nonempty (FiveAdjoin k ε
         exact case3Map_isom k x y
       · intro x
         rw [hε'', fiveForm_single (k + 1) false (case3Map k x) (Fin.last (k + 1)),
-          if_pos rfl, case3Map_apply_last]
+          ite_eq_left rfl, case3Map_apply_last]
         ring
 
 end CFSG.OddTranspositions.PartThree

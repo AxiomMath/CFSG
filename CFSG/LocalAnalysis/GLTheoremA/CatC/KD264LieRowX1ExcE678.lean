@@ -20,7 +20,7 @@ theorem kd264X1At_E6_holds (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.PrimePow
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hx
   have hK2 : Nat.card K = 2 := hK.trans hq
-  haveI := charP_two_of_card_two' hK2
+  have := charP_two_of_card_two' hK2
   exact E6.e6_conclusion hK2 e
 
 theorem kd264X1ExcE678_holds : KD264X1ExcE678 := by

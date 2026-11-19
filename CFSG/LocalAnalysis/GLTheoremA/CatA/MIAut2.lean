@@ -33,6 +33,7 @@ theorem canonTD4Inn {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) :
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem td4_not_field_holds {L : Subgroup G} {g : G} (hTD4 : IsTD4 3 L) : ¬ FieldOn 3 g L := by
   intro hF
   obtain ⟨lab, hlab, R, _, I, F, θ, hs, hna, ⟨hlt, -⟩, hMM⟩ :=

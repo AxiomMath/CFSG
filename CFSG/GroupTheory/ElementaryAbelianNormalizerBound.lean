@@ -15,7 +15,7 @@ variable {G : Type*} [Group G]
 private lemma card_mulAut_eq_card_GL {A : Subgroup G} [IsElementaryAbelian 2 A] {n : ℕ}
     (hA : Nat.card A = 2 ^ n) :
     Nat.card (MulAut ↥A) = Nat.card (GL (Fin n) (ZMod 2)) := by
-  haveI : Finite ↥A :=
+  have : Finite ↥A :=
     Nat.finite_of_card_ne_zero (by rw [hA]; exact (pow_pos (by norm_num) n).ne')
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2)
     (W := ↥A) (fun a b => mul_comm' a b)
@@ -48,7 +48,7 @@ private lemma card_le_two_pow_of_isPGroup_dvd_mul_odd {H : Type*} [Group H]
     apply Nat.mul_pos (pow_pos (by norm_num) m)
     rcases hO with ⟨t, ht⟩
     omega
-  haveI : Finite H := Nat.finite_of_card_ne_zero (Nat.pos_of_dvd_of_pos hdvd hNpos).ne'
+  have : Finite H := Nat.finite_of_card_ne_zero (Nat.pos_of_dvd_of_pos hdvd hNpos).ne'
   obtain ⟨t, ht⟩ := IsPGroup.iff_card.mp h
   rw [ht] at hdvd ⊢
   have hcop : Nat.Coprime (2 ^ t) O := (hO.coprime_two_right).symm.pow_left t
@@ -249,9 +249,9 @@ private lemma psi_range {A : Subgroup G} [IsElementaryAbelian 2 A] {u : G}
     (hA : Nat.card A = 2 ^ (2 * k))
     (hY : Nat.card ↥(A ⊓ Subgroup.centralizer ({u} : Set G)) = 2 ^ k) :
     (psi huA).range = (A ⊓ Subgroup.centralizer ({u} : Set G)).subgroupOf A := by
-  haveI : Finite ↥A :=
+  have : Finite ↥A :=
     Nat.finite_of_card_ne_zero (by rw [hA]; exact (pow_pos (by norm_num) _).ne')
-  haveI : Finite ↥((A ⊓ Subgroup.centralizer ({u} : Set G)).subgroupOf A) := Subtype.finite
+  have : Finite ↥((A ⊓ Subgroup.centralizer ({u} : Set G)).subgroupOf A) := Subtype.finite
   apply Subgroup.eq_of_le_of_card_ge
   · rintro _ ⟨a, rfl⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -278,8 +278,8 @@ theorem card_le_card_inf_centralizer_sq {Y : Subgroup G} [IsElementaryAbelian 2 
     Nat.card Y ≤ Nat.card ↥(Y ⊓ centralizer ({x} : Set G)) ^ 2 := by
   classical
   by_cases hfin : Finite ↥Y
-  · haveI := hfin
-    letI : CommGroup ↥Y :=
+  · have := hfin
+    let : CommGroup ↥Y :=
       { (inferInstance : Group ↥Y) with mul_comm := fun a b => mul_comm' a b }
     have hxY' : ∀ a ∈ Y, x * a * x⁻¹ ∈ Y :=
       fun a ha => (Subgroup.mem_normalizer_iff.mp hxY a).1 ha
@@ -358,7 +358,7 @@ theorem card_le_card_inf_centralizer_sq {Y : Subgroup G} [IsElementaryAbelian 2 
       _ ≤ Nat.card ↥(Y ⊓ centralizer ({x} : Set G)) ^ 2 := by
           rw [pow_two]
           exact Nat.mul_le_mul_left _ hrangcard
-  · haveI : Infinite ↥Y := not_finite_iff_infinite.mp hfin
+  · have : Infinite ↥Y := not_finite_iff_infinite.mp hfin
     rw [Nat.card_eq_zero_of_infinite]
     exact Nat.zero_le _
 
@@ -372,7 +372,7 @@ theorem card_le_two_pow_mul_of_centralizes_involution_mod {A P : Subgroup G}
     Nat.card P ≤ 2 ^ (k * (k - 1) / 2 + k * k) *
       Nat.card ↥(P ⊓ centralizer (A : Set G)) := by
   classical
-  haveI : Finite ↥A :=
+  have : Finite ↥A :=
     Nat.finite_of_card_ne_zero (by rw [hA]; exact (pow_pos (by norm_num) _).ne')
   have hPA' : ∀ x ∈ P, ∀ a ∈ A, x * a * x⁻¹ ∈ A :=
     fun x hx a ha => (Subgroup.mem_normalizer_iff.mp (hPA hx) a).1 ha
@@ -393,14 +393,14 @@ theorem card_le_two_pow_mul_of_centralizes_involution_mod {A P : Subgroup G}
   set Y : Subgroup G := A ⊓ centralizer ({u} : Set G) with hYdef
   have hYle : Y ≤ A := inf_le_left
   have hY : Nat.card Y = 2 ^ k := hfix
-  haveI : IsElementaryAbelian 2 Y := IsElementaryAbelian.of_le inferInstance hYle
-  haveI : Finite ↥Y :=
+  have : IsElementaryAbelian 2 Y := IsElementaryAbelian.of_le inferInstance hYle
+  have : Finite ↥Y :=
     Nat.finite_of_card_ne_zero (by rw [hY]; exact (pow_pos (by norm_num) _).ne')
   set Ysub : Subgroup ↥A := Y.subgroupOf A with hYsubdef
   have hYsub : Nat.card ↥Ysub = 2 ^ k := by
     rw [← hY]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hYle).toEquiv
-  haveI : IsElementaryAbelian 2 Ysub := IsElementaryAbelian.subgroupOf hYle
+  have : IsElementaryAbelian 2 Ysub := IsElementaryAbelian.subgroupOf hYle
   let ψ : ↥A →* ↥A := psi huA'
   have hψker : ψ.ker = Ysub := by
     rw [hYsubdef, hYdef]
@@ -534,7 +534,7 @@ theorem card_le_two_pow_mul_of_centralizes_involution_mod {A P : Subgroup G}
         rw [Subgroup.mem_centralizer_iff]
         intro a ha
         have h := congrArg (fun f : ↥A →* ↥Y => ((f ⟨a, ha⟩ : ↥Y) : G)) hx
-        simp only [MonoidHom.one_apply, Subtype.coe_mk] at h
+        simp only [MonoidHom.one_apply] at h
         have h' : (a : G)⁻¹ * ((x : G) * (a : G) * (x : G)⁻¹) = 1 := h
         have h'' : (x : G) * (a : G) * (x : G)⁻¹ = (a : G) := (inv_mul_eq_one.mp h').symm
         calc (a : G) * (x : G) = ((x : G) * (a : G) * (x : G)⁻¹) * (x : G) := by rw [h'']
@@ -635,7 +635,7 @@ theorem card_le_two_pow_mul_of_centralizes_involution_mod {A P : Subgroup G}
       (MonoidHom.toAdditive (α := ↥A) (β := ↥Y)).injective h1
     exact Subtype.ext h2
   have hcardRange : Nat.card ↥F.range ≤ 2 ^ (k * k) := by
-    haveI : Finite ((Additive ↥A) ⧸ W →ₗ[ZMod 2] Additive ↥Y) :=
+    have : Finite ((Additive ↥A) ⧸ W →ₗ[ZMod 2] Additive ↥Y) :=
       Nat.finite_of_card_ne_zero (by rw [hcardLM]; exact (pow_pos (by norm_num) _).ne')
     calc Nat.card ↥F.range ≤
           Nat.card ((Additive ↥A) ⧸ W →ₗ[ZMod 2] Additive ↥Y) :=

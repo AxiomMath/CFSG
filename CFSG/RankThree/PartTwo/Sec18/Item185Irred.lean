@@ -17,10 +17,12 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commute_of_mem_isMulCommutative {E : Subgroup G} (hE : IsMulCommutative E)
     {x y : G} (hx : x ∈ E) (hy : y ∈ E) : Commute x y :=
   congrArg Subtype.val (hE.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem isElemAbelian_sup_of_commute {p : ℕ} {E B : Subgroup G}
     (hE : IsElemAbelian p E) (hB : IsElemAbelian p B)
     (hcomm : ∀ e ∈ E, ∀ b ∈ B, Commute e b) : IsElemAbelian p (E ⊔ B) := by
@@ -53,6 +55,7 @@ private theorem isElemAbelian_sup_of_commute {p : ℕ} {E B : Subgroup G}
   obtain ⟨e, he, b, hb, rfl⟩ := hdec x hx
   rw [(hcomm e he b hb).mul_pow, hE.2 e he, hB.2 b hb, one_mul]
 
+omit [Finite G] in
 private theorem card_sup_of_commute {E B : Subgroup G} (hcomm : ∀ e ∈ E, ∀ b ∈ B, Commute e b)
     (hdisj : E ⊓ B = ⊥) : Nat.card (E ⊔ B : Subgroup G) = Nat.card E * Nat.card B := by
   have hc : ∀ (a : E) (b : B), Commute (E.subtype a) (B.subtype b) := fun a b =>
@@ -66,6 +69,7 @@ private theorem card_sup_of_commute {E B : Subgroup G} (hcomm : ∀ e ∈ E, ∀
       exact disjoint_iff.mpr hdisj⟩
   rw [← hrange, Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm, Nat.card_prod]
 
+omit [Finite G] in
 private theorem commute_of_normalizes_inf_eq_bot {X B Y : Subgroup G}
     (hXB : X ≤ Subgroup.normalizer (B : Set G)) (hXY : X ≤ Subgroup.normalizer (Y : Set G))
     (hV : Y ⊓ B = ⊥) {b e : G} (hb : b ∈ B) (hbX : b ∈ X) (heX : e ∈ X) (heY : e ∈ Y) :
@@ -119,7 +123,7 @@ theorem le_of_pRank_gt_one {X B Y P : Subgroup G} (hP : IsSylowOf 3 P ⊤) (hPX 
     intro h
     have hYx := Subgroup.mem_normalizer_iff.mp (hXY hx) h
     have hBx := Subgroup.mem_normalizer_iff.mp (hXB hx) h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr hYx hBx
   rcases Sec13.eq_bot_or_eq_of_isIrreducibleOn (V := Y ⊓ B) hirr inf_le_right hKV with hV | hV
   · exfalso

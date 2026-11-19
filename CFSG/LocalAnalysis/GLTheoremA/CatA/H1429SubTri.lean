@@ -66,10 +66,11 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [CharP K 3] in
 theorem noU42At_classA : NoU42At (fieldActor (t := TwistTag.D4) σ σ) := by
   classical
   intro I hI hc
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hs := isSimpleGroup_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ
   have hnab := nonabelian_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ
   let e := ExcTriClassA.fixSubgroupFieldActorEquivG2 Nat.prime_three (by norm_num) hf hK σ hσ
@@ -80,7 +81,7 @@ theorem noU42At_classA : NoU42At (fieldActor (t := TwistTag.D4) σ σ) := by
   have hdvd : 3 ∣ Nat.card (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
     rw [Nat.card_congr e.toEquiv]
     exact ((dvd_pow_self 3 (by omega)).trans (dvd_pow_self _ (by norm_num))).trans hsix
-  haveI hnorm := normal_subgroupOf_self (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ))
+  have hnorm := normal_subgroupOf_self (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ))
   obtain ⟨e'⟩ := exists_equiv_of_conj (MulEquiv.refl _) (β := fieldActor (t := TwistTag.D4) σ σ)
     (a := fieldActor (t := TwistTag.D4) σ σ) rfl (J := fixSubgroup (fieldActor (t := TwistTag.D4) σ σ))
     le_rfl (isSolvable_quotient_self _) hs hnab hdvd hI
@@ -96,7 +97,7 @@ theorem noU42At_trialityD4_three
     (hout : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) : NoU42At β := by
   classical
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   exact three_of_classes_gen hf hK σ hσ (fun γ => NoU42At γ)
     (fun ε γ h => NoU42At.of_conj ε γ h) (fun γ h => NoU42At.of_inv h)
     (noU42At_classA hf hK σ hσ)
@@ -121,8 +122,8 @@ theorem i1429SubTri_holds : I1429SubLieAt SubIsTri := by
   have hq3 : q.p = 3 := by simpa using hchar
   exfalso
   obtain ⟨f, hf, K, _, _, σ, hK, hσ, ⟨e₁⟩⟩ := exc_exists_graphFixed_of_tauCeti q hv e hq3
-  haveI : CharP K 3 := exc_charP_three_of_card K hK
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : CharP K 3 := exc_charP_three_of_card K hK
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv S e₁.toEquiv
   have hβ3 : MulAut.congr e₁ β ^ 3 = 1 := by
     rw [← map_pow, ← hord, pow_orderOf_eq_one, map_one]

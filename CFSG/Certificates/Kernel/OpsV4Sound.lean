@@ -291,7 +291,7 @@ theorem getR_idxOf (c : Lay) (R : List Nat) : ∀ (L : List Nat) {r : Nat}, r �
         · exact absurd h.symm har
         · exact h
       have e : (a :: L).idxOf r = L.idxOf r + 1 := by
-        simp [List.idxOf_cons, beq_iff_eq, har]
+        simp [har]
       rw [e, List.map_cons]
       simpa [getR] using getR_idxOf c R L hr
 

@@ -73,7 +73,7 @@ public theorem exists_ambient_sylow_with_zj_normalizer_eq_of_fstar_pgroup
   have hZBneInt : ZJ (G := ↑B) (PB : Subgroup (↑B)) ≠ ⊥ := by
     simpa [zjCharacteristicFunctor, zjFunctor, ZJ] using
       (zjCharacteristicFunctor p).K_nontrivial
-        (PB : Subgroup (↑B)) PB.isPGroup' hPBne
+        (PB : Subgroup (↑B)) PB.isPGroup hPBne
   have hZBne : ZB ≠ ⊥ := by
     intro hbot
     have hpre := (Subgroup.map_eq_bot_iff_of_injective

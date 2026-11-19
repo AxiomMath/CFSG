@@ -19,7 +19,7 @@ theorem exists_fixed_in_coset {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p
     ∃ x, w⁻¹ * x ∈ S₀ ∧ a * x * a⁻¹ = x := by
   classical
   let α := {x : X // w⁻¹ * x ∈ S₀}
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   let σ : Equiv.Perm α := Equiv.subtypeEquiv (MulAut.conj a).toEquiv hT
   have hpow : ∀ (n : ℕ) (x : α), ((σ ^ n) x : X) = a ^ n * (x : X) * (a ^ n)⁻¹ := by
     intro n
@@ -82,7 +82,7 @@ theorem commutator_mem_sup_sup {X : Type*} [Group X] {K W B : Subgroup X}
   have hBX : B ≤ X₁ := le_sup_right
   have hBM : B ≤ Subgroup.normalizer ((K ⊔ W : Subgroup X) : Set X) := fun b hb =>
     mem_normalizer_sup (hBK hb) (hBW hb)
-  haveI hMn : ((K ⊔ W).subgroupOf X₁).Normal :=
+  have hMn : ((K ⊔ W).subgroupOf X₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMX).2
       (sup_le Subgroup.le_normalizer hBM)
   have hMB : (K ⊔ W).subgroupOf X₁ ⊔ B.subgroupOf X₁ = ⊤ := by
@@ -94,12 +94,12 @@ theorem commutator_mem_sup_sup {X : Type*} [Group X] {K W B : Subgroup X}
       ((Subgroup.mem_subgroupOf).1 hb))) ⟨x, hx⟩ ⟨y, hy⟩
   exact (Subgroup.mem_subgroupOf).1 this
 
-theorem isSCp_sup_of_isSCp {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
+theorem isSCp_sup_of_isSCp {X : Type*} [Group X] [Finite X] {p : ℕ} (_hp : p.Prime)
     {K W B : Subgroup X} (hBel : IsElemAbelian p B) (hBK : B ≤ Subgroup.normalizer (K : Set X))
     (hWK : W ≤ Subgroup.normalizer (K : Set X)) (hWp : Nat.Coprime p (Nat.card W))
     (hBW : B ≤ Subgroup.normalizer (W : Set X)) (hSC : IsSCp p (K ⊔ B) B) :
     IsSCp p (K ⊔ W ⊔ B) B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   set X₁ := K ⊔ W ⊔ B with hX₁
   have hKX : K ≤ X₁ := le_sup_left.trans le_sup_left
   have hWX : W ≤ X₁ := le_sup_right.trans le_sup_left
@@ -107,10 +107,10 @@ theorem isSCp_sup_of_isSCp {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Pr
   have hMX : K ⊔ W ≤ X₁ := le_sup_left
   have hX₁N : X₁ ≤ Subgroup.normalizer (K : Set X) :=
     sup_le (sup_le Subgroup.le_normalizer hWK) hBK
-  haveI hKn : (K.subgroupOf X₁).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).2 hX₁N
+  have hKn : (K.subgroupOf X₁).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).2 hX₁N
   have hBM : B ≤ Subgroup.normalizer ((K ⊔ W : Subgroup X) : Set X) := fun b hb =>
     mem_normalizer_sup (hBK hb) (hBW hb)
-  haveI hMn : ((K ⊔ W).subgroupOf X₁).Normal :=
+  have hMn : ((K ⊔ W).subgroupOf X₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMX).2 (sup_le Subgroup.le_normalizer hBM)
   refine ⟨hBX, hBel, ?_⟩
   intro E hEX hEel hBE
@@ -185,6 +185,7 @@ section Main
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem conj_mem_centralizer {K : Subgroup X} {g y : X} (hg : g ∈ Subgroup.normalizer (K : Set X))
     (hy : y ∈ Subgroup.centralizer (K : Set X)) : g * y * g⁻¹ ∈ Subgroup.centralizer (K : Set X) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -215,6 +216,7 @@ theorem conj_mem_centralizer {K : Subgroup X} {g y : X} (hg : g ∈ Subgroup.nor
     rw [this]
     exact conj_mem_centralizer (Subgroup.inv_mem _ hw) (Subgroup.inv_mem _ (hc b hb))
 
+omit [Finite X] in
 theorem mem_commModC {K B : Subgroup X} {w : X} :
     w ∈ commModC K B ↔ w ∈ Subgroup.normalizer (K : Set X) ∧
       ∀ b ∈ B, w * b * w⁻¹ * b⁻¹ ∈ Subgroup.centralizer (K : Set X) := Iff.rfl
@@ -240,6 +242,7 @@ structure EngineHyp (p : ℕ) (K B A : Subgroup X) : Prop where
     GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
       B ≤ Subgroup.normalizer (J : Set X) ∧ IsStronglyLocallyOneBalanced p B a J
 
+omit [Finite X] in
 theorem normal_subgroupOf_sup_sup {K W B : Subgroup X} (hBK : B ≤ Subgroup.normalizer (K : Set X))
     (hWK : W ≤ Subgroup.normalizer (K : Set X)) : (K.subgroupOf (K ⊔ W ⊔ B)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left.trans le_sup_left)).2
@@ -271,9 +274,9 @@ theorem local_step_S {p : ℕ} {K B A S : Subgroup X} (h : EngineHyp p K B A)
 theorem engine_comm {p : ℕ} {K B A S : Subgroup X} (h : EngineHyp p K B A)
     (hSK : S ≤ Subgroup.normalizer (K : Set X)) (hSp : Nat.Coprime p (Nat.card S))
     (hBS : B ≤ Subgroup.normalizer (S : Set X)) : S ≤ commModC K B := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hAel : IsElemAbelian p A := CFSG.Open.IsElemAbelian.mono h.elem h.sub
-  haveI : IsElementaryAbelian p ↥A :=
+  have : IsElementaryAbelian p ↥A :=
     CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.StrongThree.isElementaryAbelian_of_isElemAbelian
       hAel
   have hcard : p ^ 2 ≤ Nat.card A := by
@@ -286,9 +289,9 @@ theorem engine_comm {p : ℕ} {K B A S : Subgroup X} (h : EngineHyp p K B A)
     apply h.noncyc
     interval_cases k
     · have : Nat.card A = 1 := by simpa using hk
-      haveI : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.1 this).1
+      have : Subsingleton ↥A := (Nat.card_eq_one_iff_unique.1 this).1
       exact isCyclic_of_subsingleton
-    · haveI : Fact (Nat.card A).Prime := ⟨by simpa [hk] using h.prime⟩
+    · have : Fact (Nat.card A).Prime := ⟨by simpa [hk] using h.prime⟩
       exact isCyclic_of_prime_card (p := Nat.card A) rfl
   have hgen := CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.StrongThree.le_iSup_centralizer_of_coprime
     (p := p) (A := A) (U := S) hcard ((Nat.Prime.coprime_iff_not_dvd h.prime).1 hSp)
@@ -327,7 +330,7 @@ theorem engine_full {p : ℕ} {K B A : Subgroup X} (h : EngineHyp p K B A)
           ∀ J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
             w ∈ Subgroup.normalizer (J : Set X)) :
     IsStronglyBalancedIn p B K := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro S hSK hSp hBS'
   have hBS : B ≤ Subgroup.normalizer (S : Set X) := fun b hb => hBS' ⟨hb, h.norm hb⟩
   have hcomm := engine_comm h hSK hSp hBS

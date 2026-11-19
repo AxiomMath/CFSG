@@ -29,7 +29,7 @@ theorem Ky_le : t.Ky ≤ c.L ⊓ Subgroup.centralizer ({t.y} : Set G) :=
 theorem commutator_Ky : ⁅t.Ky, t.Ky⁆ = t.Ky :=
   CFSG.Quasithin.perfectCore_perfect _
 
-private abbrev M (t : CaseTwoTransitive c) : Subgroup G := c.S.M
+private abbrev M (_t : CaseTwoTransitive c) : Subgroup G := c.S.M
 
 private theorem L_le_M (t : CaseTwoTransitive c) : c.L ≤ M t := c.hyp81.1
 
@@ -65,7 +65,7 @@ private theorem Kq_isPGroup (t : CaseTwoTransitive c) : IsPGroup 2 ↥(Kq t) := 
   exact hN.to_le hle
 
 private theorem three_not_dvd_Kq (t : CaseTwoTransitive c) : ¬ 3 ∣ Nat.card ↥(Kq t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (Kq_isPGroup t).exists_card_eq
   rw [hk]
   intro hdvd
@@ -89,7 +89,7 @@ private theorem ybar_pow_three (t : CaseTwoTransitive c) : ybar t ^ 3 = 1 := by
 
 private theorem zpowers_yM_isPGroup (t : CaseTwoTransitive c) :
     IsPGroup 3 (Subgroup.zpowers (yM t)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (yM t) = 3 := by
     rw [yM, Subgroup.orderOf_mk, t.orderOf_y]
   refine IsPGroup.of_card (n := 1) ?_
@@ -163,7 +163,7 @@ private theorem Lhat_conj (t : CaseTwoTransitive c) (i : Fin 3) :
       rw [← map_mul, ← map_inv, ← map_mul]
       apply congrArg (qmk t)
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_subtype]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [show (yM t : G) * (a' : G) * (yM t : G)⁻¹ = (b' : G) by
         simp only [yM, a', Subgroup.coe_mk]
         rw [← MulAut.conj_apply]
@@ -263,7 +263,7 @@ private theorem delta_apply (t : CaseTwoTransitive c) (u : ↥(Lhat t 0)) :
 
 private theorem delta_range_perfect (t : CaseTwoTransitive c) :
     ⁅(delta t).range, (delta t).range⁆ = (delta t).range := by
-  haveI : Group.IsPerfect ↥(Lhat t 0) := Subgroup.isPerfect_iff.mpr (Lhat0_perfect t)
+  have : Group.IsPerfect ↥(Lhat t 0) := Subgroup.isPerfect_iff.mpr (Lhat0_perfect t)
   exact Subgroup.isPerfect_iff.mp
     (Group.IsPerfect.ofSurjective (f := (delta t).rangeRestrict)
       (delta t).rangeRestrict_surjective)
@@ -337,7 +337,7 @@ private theorem delta_range_centralizes_zpowers (t : CaseTwoTransitive c) :
 private theorem delta_range_le_image_CM (t : CaseTwoTransitive c) :
     (delta t).range ≤
       (Subgroup.centralizer (Subgroup.zpowers (yM t) : Set ↥(M t))).map (qmk t) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcentral := CFSG.GroupTheory.SteinbergBS.centralizer_map_mk'_eq
     (G := ↥(M t)) (p := 3) (N := Kq t) (three_not_dvd_Kq t)
     (Q := Subgroup.zpowers (yM t)) (zpowers_yM_isPGroup t)
@@ -523,7 +523,7 @@ private theorem exists_pElement_not_mem_center_Lhat0 {p : ℕ} [Fact p.Prime]
     (t : CaseTwoTransitive c) (hp2 : p ≠ 2) (hpL : p ∣ Nat.card c.L) :
     ∃ u : ↥(Lhat t 0), IsPGroup p (Subgroup.zpowers u) ∧
       u ∉ Subgroup.center ↥(Lhat t 0) := by
-  haveI : Group.IsPerfect ↥(Lhat t 0) := Subgroup.isPerfect_iff.mpr (Lhat0_perfect t)
+  have : Group.IsPerfect ↥(Lhat t 0) := Subgroup.isPerfect_iff.mpr (Lhat0_perfect t)
   have hp_dvd : p ∣ Nat.card ↥(Lhat t 0) := dvd_card_Lhat0 t hp2 hpL
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow p ↥(Lhat t 0)))
   have hP_ne_bot : (P : Subgroup ↥(Lhat t 0)) ≠ ⊥ := by
@@ -537,7 +537,7 @@ private theorem exists_pElement_not_mem_center_Lhat0 {p : ℕ} [Fact p.Prime]
     intro hle
     exact hP_ne_bot (CFSG.QuasithinUnique.sylow_eq_bot_of_le_center P hle)
   obtain ⟨u, huP, huC⟩ := Set.not_subset.mp hP_not_le_center
-  exact ⟨u, P.isPGroup'.to_le (Subgroup.zpowers_le.mpr huP), huC⟩
+  exact ⟨u, P.isPGroup.to_le (Subgroup.zpowers_le.mpr huP), huC⟩
 
 theorem dvd_card_Ky {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hpL : p ∣ Nat.card c.L) :
     p ∣ Nat.card t.Ky := by
@@ -643,7 +643,7 @@ theorem inf_centralizer_le_Ky :
       ((yM t ^ 2 * aM * (yM t ^ 2)⁻¹ : ↥(M t)) : G)
     rw [haeq]
     simp only [aM, yM, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow,
-      Subgroup.coe_subtype, MulAut.conj_apply]
+      MulAut.conj_apply]
   have hdelta_eq : qmk t xM = delta t u := by
     rw [hxM_eq, map_mul, map_mul, delta_apply]
     rw [show (u : Mb t) = qmk t aM from rfl]
@@ -708,7 +708,7 @@ theorem inf_centralizer_le_Ky :
   let KX : Subgroup X := t.Ky.subgroupOf X
   let HX : Subgroup X := (Subgroup.zpowers x).subgroupOf X
   let VX : Subgroup X := (Subgroup.zpowers nG).subgroupOf X
-  haveI : KX.Normal := hKy_normal_X
+  have : KX.Normal := hKy_normal_X
   have hsup : KX ⊔ VX = ⊤ := by
     rw [show KX ⊔ VX = (t.Ky ⊔ Subgroup.zpowers nG).subgroupOf X by
       rw [Subgroup.subgroupOf_sup (A := t.Ky) (A' := Subgroup.zpowers nG) (B := X)

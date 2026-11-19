@@ -119,7 +119,7 @@ theorem exists_simple_normal_of_isPreprimitive [Finite X] [Finite Ω] [Nonempty 
         obtain ⟨y, hy, hyx⟩ := hx
         rwa [← Subtype.ext hyx]
       have hqgrp : IsPGroup q N := fun x => by
-        obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hPtop ▸ Subgroup.mem_top x⟩
+        obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hPtop ▸ Subgroup.mem_top x⟩
         exact ⟨k, by simpa using congrArg Subtype.val hk⟩
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hqgrp
       apply hΩ

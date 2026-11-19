@@ -37,7 +37,7 @@ end Plane
 theorem apply_eq_self_of_odd_of_apply_eq (hW : finrank (ZMod 2) W = 2) {g : V ≃ₗ[ZMod 2] V}
     (hgW : ∀ w ∈ W, g w ∈ W) (hodd : Odd (orderOf g)) {w₀ : V} (hw₀ : w₀ ∈ W) (hw₀0 : w₀ ≠ 0)
     (hfix : g w₀ = w₀) : ∀ w ∈ W, g w = w := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
   let e := restrictEquiv hgW
   have hfixe : e ⟨w₀, hw₀⟩ = ⟨w₀, hw₀⟩ := Subtype.ext (by simpa [e] using hfix)
@@ -72,7 +72,7 @@ theorem apply_eq_self_of_odd_of_apply_eq (hW : finrank (ZMod 2) W = 2) {g : V �
 
 theorem apply_apply_eq_of_pow_two_pow (hW : finrank (ZMod 2) W = 2) {g : V ≃ₗ[ZMod 2] V}
     (hgW : ∀ w ∈ W, g w ∈ W) {k : ℕ} (hk : g ^ 2 ^ k = 1) : ∀ w ∈ W, g (g w) = w := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
   let e := restrictEquiv hgW
   have hk_e : e ^ 2 ^ k = 1 := restrictEquiv_pow_eq_one hgW hk
@@ -95,7 +95,7 @@ theorem apply_apply_eq_of_pow_two_pow (hW : finrank (ZMod 2) W = 2) {g : V ≃�
 theorem inf_fixSpace_eq_bot_of_pow_three (hW : finrank (ZMod 2) W = 2)
     {x : V ≃ₗ[ZMod 2] V} (hxW : ∀ w ∈ W, x w ∈ W) (hx3 : x ^ 3 = 1)
     (hx : ∃ w ∈ W, x w ≠ w) : W ⊓ fixSpace x = ⊥ := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
   let e := restrictEquiv hxW
   have he3 : e ^ 3 = 1 := restrictEquiv_pow_eq_one hxW hx3
@@ -118,7 +118,7 @@ theorem forall_apply_eq_or_forall_apply_eq_sq (hW : finrank (ZMod 2) W = 2)
     {x y : V ≃ₗ[ZMod 2] V} (hxW : ∀ w ∈ W, x w ∈ W) (hyW : ∀ w ∈ W, y w ∈ W)
     (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hx : ∃ w ∈ W, x w ≠ w) (hy : ∃ w ∈ W, y w ≠ w) :
     (∀ w ∈ W, y w = x w) ∨ ∀ w ∈ W, y w = x (x w) := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
   let e := restrictEquiv hxW
   let e' := restrictEquiv hyW
@@ -145,15 +145,15 @@ theorem forall_apply_eq_or_forall_apply_eq_sq (hW : finrank (ZMod 2) W = 2)
 theorem apply_eq_self_of_isPerfect (hW : finrank (ZMod 2) W = 2) {Γ : Type*} [Group Γ]
     [Group.IsPerfect Γ] (ρ : Γ →* (V ≃ₗ[ZMod 2] V))
     (hst : ∀ g : Γ, ∀ w ∈ W, ρ g w ∈ W) : ∀ g : Γ, ∀ w ∈ W, ρ g w = w := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hcard : Nat.card W = 4 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W)
     rw [hW, Nat.card_zmod] at h
     norm_num at h
     exact h
-  haveI : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hcard.le
+  have : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hcard.le
   let res : Γ →* (W ≃ₗ[ZMod 2] W) :=
     { toFun := fun g => restrictEquiv (hst g)
       map_one' := by
@@ -164,10 +164,10 @@ theorem apply_eq_self_of_isPerfect (hW : finrank (ZMod 2) W = 2) {Γ : Type*} [G
         ext w
         simp [restrictEquiv_apply, map_mul, LinearEquiv.mul_apply] }
   let φ : Γ →* Equiv.Perm W := (MulAction.toPermHom (W ≃ₗ[ZMod 2] W) W).comp res
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
   have hsub : Subsingleton φ.range := by
     by_contra h
-    haveI : Nontrivial φ.range := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial φ.range := not_subsingleton_iff_nontrivial.mp h
     exact Group.IsPerfect.not_isSolvable φ.range inferInstance
   intro g w hw
   have hφ : (⟨φ g, MonoidHom.mem_range.mpr ⟨g, rfl⟩⟩ : φ.range) = 1 :=
@@ -178,7 +178,7 @@ theorem apply_eq_self_of_isPerfect (hW : finrank (ZMod 2) W = 2) {Γ : Type*} [G
 
 theorem apply_eq_self_of_coprime_six (hW : finrank (ZMod 2) W = 2) {g : V ≃ₗ[ZMod 2] V}
     (hgW : ∀ w ∈ W, g w ∈ W) (hcop : Nat.Coprime (orderOf g) 6) : ∀ w ∈ W, g w = w := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hW]; norm_num)
   let e := restrictEquiv hgW
   have hdvd : orderOf e ∣ orderOf g :=

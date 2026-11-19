@@ -39,10 +39,12 @@ abbrev FFE8Idx : Type := Fin 2 ⊕ Fin 4
     rintro a ⟨J, hJ, rfl⟩
     exact ⟨J, hJ, inv_eq_of_mul_eq_one_right (fr.signChange_mul_self _)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_ffE8Group_iff {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {g : OGroup Q} :
     g ∈ ffE8Group fr ↔ ∃ J : Finset (Fin 4), Even J.card ∧ g = fr.signChange (ffE8Hat J) :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Group_card {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) :
     Nat.card (ffE8Group fr) = 8 := by
   let F : {J : Finset (Fin 4) // Even J.card} → ffE8Group fr := fun J =>
@@ -61,6 +63,7 @@ theorem ffE8Group_card {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) :
     decide
   rw [← Nat.card_congr (Equiv.ofBijective F hF), hE]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Group_elemAb2 {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) :
     IsElemAb2 (ffE8Group fr) 3 := by
   have hcomm : ∀ a b : ffE8Group fr, a * b = b * a := by
@@ -74,7 +77,7 @@ theorem ffE8Group_elemAb2 {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) :
     intro x hx
     obtain ⟨J, hJ, hx'⟩ := (mem_ffE8Group_iff fr).mp hx
     apply Subtype.ext
-    simp only [Subgroup.coe_pow, Subgroup.coe_one, hx', pow_two,
+    simp only [Subgroup.coe_one, hx', pow_two,
       fr.signChange_mul_self]
   refine ⟨⟨IsMulCommutative.of_comm hcomm, hsq⟩, ?_⟩
   rw [ffE8Group_card fr]
@@ -99,13 +102,13 @@ private lemma ffOutFFE8Def_hat_filter_card {ε : ZMod 3} (J : Finset (Fin 4)) :
       if ε = -1 then J.card else 0 := by
   rw [ffE8Hat, Finset.filter_map, Finset.card_map]
   by_cases h : ε = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     congr 1
     rw [Finset.filter_true_of_mem]
     intro x _
     show ffE8Norm ε (Function.Embedding.inr x) = -1
     rw [show ffE8Norm ε (Function.Embedding.inr x) = ε from rfl, h]
-  · rw [if_neg h, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  · rw [ite_eq_right h, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
     intro x _
     show ¬ (ffE8Norm ε (Function.Embedding.inr x) = -1)
     rw [show ffE8Norm ε (Function.Embedding.inr x) = ε from rfl]
@@ -121,18 +124,20 @@ theorem ffE8Group_le_omegaGroup (hQ : Q.Nondegenerate) {ε : ZMod 3} (hε : ε =
     exact hJ
   · rw [ffOutFFE8Def_hat_filter_card]
     by_cases h : ε = -1
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact hJ
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact ⟨0, rfl⟩
 
 @[expose] noncomputable def ffSim (Q : QuadraticForm (ZMod 3) V) : OGroup Q →* ProjSim Q :=
   (QuotientGroup.mk' (piSim Q)).comp (orthToSim Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFE8Def_ffSim_apply (g : OGroup Q) :
     ffSim Q g = QuotientGroup.mk (orthToSim Q g) := by
   rw [ffSim, MonoidHom.comp_apply, QuotientGroup.mk'_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffSim_eq_one_iff {g : OGroup Q} : ffSim Q g = 1 ↔ g = 1 ∨ g = piOrth Q := by
   rw [ffOutFFE8Def_ffSim_apply, QuotientGroup.eq_one_iff, mem_piSim_iff]
   constructor
@@ -186,6 +191,7 @@ structure FFE8SData (hQ : Q.Nondegenerate) (Ē : Subgroup (ProjSim Q)) (z ν : P
   nu_norm : ν ∈ Subgroup.normalizer (Ē : Set (ProjSim Q))
   nu_fix : ∀ e ∈ Ē, ν * e = e * ν → e = 1 ∨ e = z
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFE8Def_polar_similitude {σ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ μ) (x y : V) :
     QuadraticMap.polar Q (σ x) (σ y) = (μ : ZMod 3) * QuadraticMap.polar Q x y := by
@@ -204,6 +210,7 @@ noncomputable def PFrame.ffSimMap {ι : Type} [Fintype ι] [DecidableEq ι] {c :
     rw [Module.Basis.map_apply, Module.Basis.map_apply,
       ffOutFFE8Def_polar_similitude hγ, fr.orth i j hij, mul_zero]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.ffSimMap_signChange {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (γ : V ≃ₗ[ZMod 3] V) (μ : (ZMod 3)ˣ) (hγ : IsSimilitude Q γ μ)
     (J : Finset ι) :
@@ -217,8 +224,8 @@ theorem PFrame.ffSimMap_signChange {ι : Type} [Fintype ι] [DecidableEq ι] {c 
   simp only [LinearEquiv.coe_inv]
   rw [LinearEquiv.symm_apply_apply, fr.signChange_basis J i]
   by_cases h : i ∈ J
-  · rw [if_pos h, if_pos h, map_neg]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, map_neg]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private def ffOutFFE8Def_swapIdx : FFE8Idx ≃ FFE8Idx :=
   Equiv.swap (Sum.inl (0 : Fin 2)) (Sum.inl 1)
@@ -255,12 +262,14 @@ noncomputable def PFrame.ffE8Neg {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm 
     exact (fr.ffSimMap γ (-1) hγ).orth _ _
       (fun h => hij (ffOutFFE8Def_swapIdx.injective h))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFE8Def_neg_b {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {γ : V ≃ₗ[ZMod 3] V} (hγ : IsSimilitude Q γ (-1)) (i : FFE8Idx) :
     (fr.ffE8Neg hγ).b i = (fr.ffSimMap γ (-1) hγ).b (ffOutFFE8Def_swapIdx i) := by
   simp only [PFrame.ffE8Neg, Module.Basis.reindex_apply,
     ffOutFFE8Def_swapIdx_symm]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFE8Def_neg_signChange {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {γ : V ≃ₗ[ZMod 3] V} (hγ : IsSimilitude Q γ (-1)) (J : Finset (Fin 4)) :
     (fr.ffSimMap γ (-1) hγ).signChange (ffE8Hat J) =
@@ -274,9 +283,10 @@ private lemma ffOutFFE8Def_neg_signChange {ε : ZMod 3} (fr : PFrame Q FFE8Idx (
   have hm : ffOutFFE8Def_swapIdx i ∈ ffE8Hat J ↔ i ∈ ffE8Hat J :=
     ffOutFFE8Def_mem_hat_swap J i
   by_cases h : i ∈ ffE8Hat J
-  · rw [if_pos (hm.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hm.mp hh)), if_neg h]
+  · rw [ite_eq_left (hm.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hm.mp hh)), ite_eq_right h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffOutFFE8Def_simAct_signChange {ε : ZMod 3}
     (fr : PFrame Q FFE8Idx (ffE8Norm ε)) (γ : simGroup Q)
     (hγ : IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) (-1)) (J : Finset (Fin 4)) :
@@ -287,6 +297,7 @@ private lemma ffOutFFE8Def_simAct_signChange {ε : ZMod 3}
     PFrame.ffSimMap_signChange fr (γ : V ≃ₗ[ZMod 3] V) (-1) hγ]
   exact congrArg Subtype.val (ffOutFFE8Def_neg_signChange fr hγ J)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Group_simAct {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) (γ : simGroup Q)
     (hγ : IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) (-1)) :
     (ffE8Group fr).map (simAct Q γ).toMonoidHom = ffE8Group (fr.ffE8Neg hγ) := by

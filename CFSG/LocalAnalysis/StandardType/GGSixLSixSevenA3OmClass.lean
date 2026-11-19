@@ -66,6 +66,7 @@ lemma sum_inv_mul_single_sub (ε : Fin r → (ZMod p)ˣ) (k l : Fin r) :
   simp only [Pi.sub_apply, mul_sub]
   rw [Finset.sum_sub_distrib, hsingle, hsingle, Units.inv_mul, Units.inv_mul, sub_self]
 
+omit [CharP K 2] in
 theorem torus_card_ge_two (F : SevOm.Frame Q p A r) (hr : 4 ≤ r) (a : Fin r)
     (ε : Fin r → (ZMod p)ˣ) {J : Subgroup (V ≃ₗ[K] V)}
     (hT : ∀ s : Fin r → ZMod p, s a = 0 → ∑ i, (↑(ε i)⁻¹ : ZMod p) * s i = 0 →
@@ -73,11 +74,11 @@ theorem torus_card_ge_two (F : SevOm.Frame Q p A r) (hr : 4 ≤ r) (a : Fin r)
     p ^ 2 ≤ Nat.card ↥(A ⊓ J) := by
   classical
   obtain ⟨i₁, i₂, i₃, h1a, h2a, h3a, h12, h13, h23⟩ := exists_three_ne a hr
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
-  haveI : Finite ↥(A ⊓ J) := inferInstance
+  have : Finite ↥(A ⊓ J) := inferInstance
   set v₁ : Fin r → ZMod p :=
     Pi.single i₁ (↑(ε i₁) : ZMod p) - Pi.single i₃ (↑(ε i₃) : ZMod p) with hv₁def
   set v₂ : Fin r → ZMod p :=
@@ -105,6 +106,7 @@ theorem torus_card_ge_two (F : SevOm.Frame Q p A r) (hr : 4 ≤ r) (a : Fin r)
       sub_zero]
   exact card_ge_of_two F h₁ h₂ hv₁k₁ hv₂k₂ hv₁k₂
 
+omit [CharP K 2] in
 theorem torus_card_ge_three (F : SevOm.Frame Q p A r) (hr : 5 ≤ r) (a : Fin r)
     (ε : Fin r → (ZMod p)ˣ) {J : Subgroup (V ≃ₗ[K] V)}
     (hT : ∀ s : Fin r → ZMod p, s a = 0 → ∑ i, (↑(ε i)⁻¹ : ZMod p) * s i = 0 →
@@ -113,11 +115,11 @@ theorem torus_card_ge_three (F : SevOm.Frame Q p A r) (hr : 5 ≤ r) (a : Fin r)
   classical
   obtain ⟨i₁, i₂, i₃, i₄, h1a, h2a, h3a, h4a, h12, h13, h14, h23, h24, h34⟩ :=
     exists_four_ne a hr
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
-  haveI : Finite ↥(A ⊓ J) := inferInstance
+  have : Finite ↥(A ⊓ J) := inferInstance
   set v₁ : Fin r → ZMod p :=
     Pi.single i₁ (↑(ε i₁) : ZMod p) - Pi.single i₄ (↑(ε i₄) : ZMod p) with hv₁def
   set v₂ : Fin r → ZMod p :=
@@ -166,7 +168,7 @@ theorem GGOmA3Hyp.false_of_class (H : GGOmA3Hyp F E J) {a : Fin r} {t : Fin r �
     (hJc : IsComponentOf J (orthDerived Q ⊓
       Subgroup.centralizer ({F.ι (ofAdd t)} : Set (V ≃ₗ[K] V)))) : False := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun _ _ he => LinearEquiv.ext (congrFun he)
@@ -227,8 +229,8 @@ theorem GGOmA3Hyp.false_of_class (H : GGOmA3Hyp F E J) {a : Fin r} {t : Fin r �
         have hterm : ∀ i, (↑(ε i)⁻¹ : ZMod p) * t i = if i = a then 0 else c := by
           intro i
           by_cases hi : i = a
-          · rw [hi, hta, mul_zero, if_pos rfl]
-          · rw [htk' i hi, if_neg hi, ← mul_assoc, Units.inv_mul, one_mul]
+          · rw [hi, hta, mul_zero, ite_eq_left rfl]
+          · rw [htk' i hi, ite_eq_right hi, ← mul_assoc, Units.inv_mul, one_mul]
         calc ∑ i, (↑(ε i)⁻¹ : ZMod p) * t i
             = ∑ i, (if i = a then 0 else c) := Finset.sum_congr rfl fun i _ => hterm i
           _ = (Finset.univ.erase a).card • c := by

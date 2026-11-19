@@ -98,7 +98,7 @@ private theorem false_of_semidihedral (S : Setting G) (hw : S.width = 2) {P : Su
 private theorem false_of_wreathed (S : Setting G) (hw : S.width = 2) {P : Subgroup G}
     (hQP : S.QG ≤ P) {n : ℕ} (e : P ≃* CFSG.Open.WreathedTwoGroup n) : False := by
   have hn : 0 < 2 ^ n := by positivity
-  haveI : IsMulCommutative (CFSG.Wreathed.baseSubgroup (2 ^ n)) :=
+  have : IsMulCommutative (CFSG.Wreathed.baseSubgroup (2 ^ n)) :=
     CFSG.Wreathed.base_is_abelian (2 ^ n)
   exact false_of_abelian_index_two S hw hQP e
     (B := CFSG.Wreathed.baseSubgroup (2 ^ n))
@@ -118,7 +118,7 @@ private theorem false_of_unitary_sylow (S : Setting G) (hw : S.width = 2) {P : S
   have htZ : tP ∈ Subgroup.center (P : Subgroup G) :=
     ((CFSG.LyonsUnitaryFour.unitary_four_sylow_structure hH P U ⟨e⟩).2.2.1 tP).mp htP2
   have ht_zpow : t ∈ Subgroup.zpowers S.z := by
-    rw [← S.map_center_eq_zpowers P.isPGroup' hQP]
+    rw [← S.map_center_eq_zpowers P.isPGroup hQP]
     exact ⟨tP, htZ, rfl⟩
   rcases (CFSG.LargeExtraspecial.Setting.mem_zpowers_iff_of_mul_self S.z_mul_z).mp ht_zpow with
     h | h

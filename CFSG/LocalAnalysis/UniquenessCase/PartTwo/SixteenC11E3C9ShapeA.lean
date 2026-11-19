@@ -81,7 +81,7 @@ theorem s1611e3_inFGroup_quot_of_normal_simple_l3 {N : Type} [Group N] [Finite N
   let e : ↥L ≃* ↥Lbar := MulEquiv.ofBijective f ⟨hf_inj, hf_surj⟩
   have hLbar_normal : Lbar.Normal :=
     Subgroup.Normal.map inferInstance mk (QuotientGroup.mk'_surjective C)
-  haveI : Lbar.Normal := hLbar_normal
+  have : Lbar.Normal := hLbar_normal
   have hsimple_bar : IsSimpleGroup ↥Lbar := e.isSimpleGroup_congr.mp hsimple
   have hnab_bar : ∃ a b : ↥Lbar, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
@@ -159,7 +159,7 @@ theorem s1611e3_cFAutInFGroup_of_shapeL3 {Q : Type} [Group Q] [Finite Q] (S : Su
     exact sup_le inf_le_right Subgroup.le_normalizer
   have hLq : Lq.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (show L ≤ N from le_sup_right)).mpr hNL
-  haveI : Lq.Normal := hLq
+  have : Lq.Normal := hLq
   have hKq2 : IsPGroup 2 Kq := by
     have h1 : IsPGroup 2 ↥(S ⊓ Subgroup.normalizer (L : Set Q)) := hS2.to_le inf_le_left
     let e : ↥Kq ≃* ↥(S ⊓ Subgroup.normalizer (L : Set Q)) :=
@@ -201,7 +201,7 @@ theorem s1611e3_cFAutInFGroup_of_shapeL3 {Q : Type} [Group Q] [Finite Q] (S : Su
       exact congrArg Subtype.val (hc yN hyLq)
   have hCn : ((F12.autC S L).subgroupOf N).Normal :=
     hCeq ▸ Subgroup.normal_centralizer
-  haveI : ((F12.autC S L).subgroupOf N).Normal := hCn
+  have : ((F12.autC S L).subgroupOf N).Normal := hCn
   have hres := s1611e3_inFGroup_quot_of_normal_simple_l3 (N := ↥N) (L := Lq) (K := Kq)
     (C := (F12.autC S L).subgroupOf N) hCeq hsimpleLq hperfLq hKq2 hsup hshapeLq
   exact ⟨hCeq ▸ Subgroup.normal_centralizer, hres⟩

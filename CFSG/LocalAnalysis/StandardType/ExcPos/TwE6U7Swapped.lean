@@ -102,7 +102,7 @@ theorem excU7_swapped {X : Type} [Group X] {f p : ℕ} {G₀ B₁ D J : Subgroup
     (hsub : P.rootsJ ⊆ componentRoots (P.chiAt e) iK)
     {i₂ : KernelComponent P.chiD} (hi₂ : i₂ ≠ P.iJ)
     (hi₂roots : componentRoots P.chiD i₂ = (fun u => P.ρ u) '' P.rootsJ)
-    (hsub₂ : (fun u => P.ρ u) '' P.rootsJ ⊆ componentRoots (P.chiAt e) iK) :
+    (_hsub₂ : (fun u => P.ρ u) '' P.rootsJ ⊆ componentRoots (P.chiAt e) iK) :
     ExcSwapped S (P.coord e) iK f ((R.subgroupOf G₀).map P.η) := by
   have hk : kernelRoots P.chiD ⊆ kernelRoots (P.chiAt e) :=
     lk0xu7e_kernelRoots_joint_subset P hDB he

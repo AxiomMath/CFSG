@@ -32,7 +32,7 @@ theorem RootHyp.centralizer_le_M (h : RootHyp M V) :
 theorem RootHyp.le_normalizer_centralizer_V (h : RootHyp M V) :
     M ≤ Subgroup.normalizer (Subgroup.centralizer (V : Set G) : Set G) := by
   have hMleNV : M ≤ Subgroup.normalizer (V : Set G) := by
-    simpa [← h.toHyp.normalizer_eq] using Subgroup.le_normalizer (H := V)
+    simp [← h.toHyp.normalizer_eq]
   exact hMleNV.trans (CFSG.GorensteinWalter.normalizer_le_normalizer_centralizer_subgroup V)
 
 private theorem mem_center_suzukiU_of_mul_self
@@ -42,7 +42,7 @@ private theorem mem_center_suzukiU_of_mul_self
     u ∈ (Subgroup.center (CFSG.LieType.Ree.suzukiU a F)).map
       (CFSG.LieType.Ree.suzukiU a F).subtype := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKB : CFSG.LieType.Ree.suzukiU a F ≤ CFSG.LieType.Ree.suzukiB a F :=
     CFSG.LieType.Ree.suzukiU_le_suzukiB a F
   by_cases hu1 : u = 1
@@ -176,7 +176,7 @@ private theorem isElemAbelian_zpowers_sup_conj_szZ
     (hz2 : z * z = 1) :
     CFSG.Open.IsElemAbelian 2 (Subgroup.zpowers z ⊔ conjSubgroup y (szZ a F)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set B : Subgroup (CFSG.Blueprint.suzukiGroup a F) := conjSubgroup y (szZ a F) with hB
   have hzB' : z ∉ B := by rw [hB]; exact hzB
   have hzN' : z ∈ Subgroup.normalizer (B : Set (CFSG.Blueprint.suzukiGroup a F)) := by
@@ -234,7 +234,7 @@ private theorem false_of_mem_normalizer_conj_szZ_of_not_mem
       (conjSubgroup y (szZ a F) : Set (CFSG.Blueprint.suzukiGroup a F)))
     (hz2 : z * z = 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set B : Subgroup (CFSG.Blueprint.suzukiGroup a F) := conjSubgroup y (szZ a F) with hB
   have hzB' : z ∉ B := by rwa [hB]
   have hz1 : z ≠ 1 := fun h => hzB' (h ▸ B.one_mem)
@@ -309,6 +309,7 @@ private theorem inf_normalizer_conj_szZ_eq_bot
   rw [show A ⊓ B = ⊥ from inf_conj_szZ_eq_bot_of_ne hF (by rwa [hA, hB] at hne)] at hzbot
   exact hzbot
 
+omit [Finite G] in
 private theorem inf_normalizer_map_eq_bot_of_bijective {X : Type} [Group X]
     (ψ : HBar V H ≃* X) {L L' : Subgroup (HBar V H)} {T T' : Subgroup X}
     (hT : Subgroup.map ψ.toMonoidHom L = T) (hT' : Subgroup.map ψ.toMonoidHom L' = T')
@@ -362,13 +363,13 @@ theorem RootHyp.inf_imgK_normalizer_eq_bot
       (imgK V H (conjSubgroup h₀ (Pc M V)) : Set (HBar V H)) = ⊥ := by
   rcases hL with ⟨F, hField, hFintype, hCharP, -, ⟨ψ⟩⟩ |
     ⟨a, F, hField, hFintype, hCharP, ha, hcard, ⟨ψ⟩⟩
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     exact RootHyp.inf_imgK_normalizer_eq_bot_of_sl2 h hPH hH hnM ψ
-  · letI := hField
-    letI := hFintype
-    letI := hCharP
+  · let := hField
+    let := hFintype
+    let := hCharP
     exact RootHyp.inf_imgK_normalizer_eq_bot_of_sz h hPH hVH hH hnM hcard ψ
 
 theorem RootHyp.mem_kOf_of_mem_normalizer_conjSubgroup_V
@@ -411,7 +412,7 @@ theorem RootHyp.inf_commutator_kOf_ne_bot
     (hnab : ∃ x ∈ kOf V H, ∃ y ∈ kOf V H, x * y ≠ y * x) :
     V ⊓ ⁅kOf V H, kOf V H⁆ ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK'_ne : ⁅kOf V H, kOf V H⁆ ≠ ⊥ := by
     intro hbot
     obtain ⟨x, hx, y, hy, hxy⟩ := hnab
@@ -447,7 +448,7 @@ theorem RootHyp.inf_commutator_kOf_ne_bot
   have hR_norm_K' : R ≤ Subgroup.normalizer (K' : Set G) := by
     rw [hR]
     exact sup_le hP_norm_K' (Subgroup.le_normalizer)
-  haveI : (K'.subgroupOf R).Normal :=
+  have : (K'.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hK'leR).mpr hR_norm_K'
   have hK'sub_ne : K'.subgroupOf R ≠ ⊥ := by
     intro hbot
@@ -459,7 +460,7 @@ theorem RootHyp.inf_commutator_kOf_ne_bot
     rw [hbot] at hmem
     have h1 : (⟨k, hkR⟩ : ↥R) = 1 := Subgroup.mem_bot.mp hmem
     simpa using congrArg Subtype.val h1
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
   have hcenter := Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥R) hK'sub_ne
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hcenter
   have hzK' : ((z : ↥R) : G) ∈ K' := Subgroup.mem_subgroupOf.mp (Subgroup.mem_inf.mp z.2).1
@@ -477,6 +478,7 @@ theorem RootHyp.inf_commutator_kOf_ne_bot
   rw [hbot] at hmem
   exact hz1 (Subtype.ext (by simpa using Subgroup.mem_bot.mp hmem))
 
+omit [Finite G] in
 private theorem conj_sq_eq_mul_commutator {K : Subgroup G} {x y : G}
     (hxNK : conjSubgroup x K = K) (hyK : y ∈ K)
     (hKc : ⁅K, K⁆ ≤ Subgroup.centralizer (K : Set G))
@@ -675,7 +677,7 @@ theorem RootHyp.le_Pc_inf_kOf_of_isElemAbelian
     (hZN : Subgroup.centralizer (V : Set G) ≤ Subgroup.normalizer (Z : Set G)) :
     Z ≤ Pc M V ⊓ kOf V H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZP : Z ≤ Pc M V := le_Pc_of_isElemAbelian h hZ hZC hZN
   refine le_inf hZP ?_
   intro x hxZ
@@ -711,6 +713,7 @@ theorem RootHyp.le_Pc_inf_kOf_of_isElemAbelian
     conjSubgroup_eq_self_iff.mp hVeq
   exact hxK (RootHyp.mem_kOf_of_mem_normalizer_conjSubgroup_V h hPH hVH hHy₀ hnM hL hxP hxN)
 
+omit [Finite G] in
 private theorem isElemAbelian_sup_V_data (h : RootHyp M V) {Z : Subgroup G}
     (hZ : Assembly.IsElemAbelian 2 Z)
     (hZC : Z ≤ Subgroup.centralizer (V : Set G))
@@ -760,6 +763,7 @@ private theorem iSup_conjSubgroup_le_kOf
   exact (RootHyp.le_Pc_inf_kOf_of_isElemAbelian h hPH hVH hH hnM hK hnab hL
     hZm_el hZm_C hZm_N).trans inf_le_right
 
+omit [Finite G] in
 private theorem V_le_center_map_of_le_kOf {F : Subgroup G}
     (hV_le_F : V ≤ F) (hF_le_K : F ≤ kOf V H) :
     V ≤ (Subgroup.center F).map F.subtype := by
@@ -773,6 +777,7 @@ private theorem V_le_center_map_of_le_kOf {F : Subgroup G}
   have hcomm := Subgroup.mem_centralizer_iff.mp (mem_kOf_iff.mp hyK).2 v hvW
   exact Subtype.ext hcomm.symm
 
+omit [Finite G] in
 private theorem inf_xOf_le_center_map {Z Z' F : Subgroup G}
     (hZZ' : Z ≤ Z') (hF : F = ⨆ m : ↥M, conjSubgroup (m : G) Z')
     (hF_le_K : F ≤ kOf V H) :
@@ -801,7 +806,7 @@ private theorem center_map_eq_V_of_le_kOf (h : RootHyp M V) {F : Subgroup G}
   have hcenter_comm : IsMulCommutative ((Subgroup.center F).map F.subtype) := inferInstance
   have hcenter_normal : M ≤ Subgroup.normalizer
       ((Subgroup.center F).map F.subtype : Set G) := by
-    haveI : (Subgroup.center F).Characteristic := Subgroup.centerCharacteristic
+    have : (Subgroup.center F).Characteristic := Subgroup.centerCharacteristic
     exact hF_normal.trans
       (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
         (Subgroup.center F))
@@ -819,7 +824,7 @@ theorem RootHyp.inf_xOf_le_V_of_isElemAbelian
     (hZN : Subgroup.centralizer (V : Set G) ≤ Subgroup.normalizer (Z : Set G)) :
     Z ⊓ Tim79a.xOf V H ≤ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hZ'el, hZ'C, hZ'N⟩ := isElemAbelian_sup_V_data h hZ hZC hZN
   set F : Subgroup G := ⨆ m : ↥M, conjSubgroup (m : G) (Z ⊔ V) with hF
   have hF_le_K : F ≤ kOf V H :=
@@ -841,6 +846,7 @@ theorem RootHyp.inf_xOf_le_V_of_isElemAbelian
     inf_xOf_le_center_map le_sup_left hF hF_le_K hz
   rwa [hcenter_eq_V] at hmem
 
+omit [Finite G] in
 private theorem closure_conjSubgroup_le_of_forall {D L K : Subgroup G}
     (h : ∀ c ∈ D, conjSubgroup c L ≤ K) :
     Subgroup.closure {x : G | ∃ c ∈ D, x ∈ conjSubgroup c L} ≤ K := by
@@ -848,6 +854,7 @@ private theorem closure_conjSubgroup_le_of_forall {D L K : Subgroup G}
   rintro x ⟨c, hc, hx⟩
   exact h c hc hx
 
+omit [Finite G] in
 private theorem closure_conjSubgroup_le_of_le_normalizer {D L C : Subgroup G}
     (hL : L ≤ C) (hD : D ≤ Subgroup.normalizer (C : Set G)) :
     Subgroup.closure {x : G | ∃ c ∈ D, x ∈ conjSubgroup c L} ≤ C := by
@@ -858,6 +865,7 @@ private theorem closure_conjSubgroup_le_of_le_normalizer {D L C : Subgroup G}
       _ = C := conjSubgroup_eq_self_iff.mpr (hD hc)
   exact hle hx
 
+omit [Finite G] in
 private theorem le_normalizer_closure_conjSubgroup {D L : Subgroup G} :
     D ≤ Subgroup.normalizer
       ((Subgroup.closure {x : G | ∃ c ∈ D, x ∈ conjSubgroup c L} : Subgroup G) : Set G) := by
@@ -887,6 +895,7 @@ private theorem le_normalizer_closure_conjSubgroup {D L : Subgroup G} :
       rw [hset] at h
       exact h
 
+omit [Finite G] in
 private theorem isElemAbelian_closure_conjSubgroup {D L K W : Subgroup G}
     (hLW : L ≤ W) (hcon : ∀ c ∈ D, conjSubgroup c L ≤ K)
     (hKC : K ≤ Subgroup.centralizer (W : Set G))

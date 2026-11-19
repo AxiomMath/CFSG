@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Quasithin.H CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
-theorem s16h_sl24_cover_natNorm (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
+theorem s16h_sl24_cover_natNorm (_hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     {π : ↥(CFSG.Assembly.LowTwoRank.StatedSL 2 K) →* ↥L}
     {β : ↥(commSub ⊤ L) →* StdMod (Fin 2) K}

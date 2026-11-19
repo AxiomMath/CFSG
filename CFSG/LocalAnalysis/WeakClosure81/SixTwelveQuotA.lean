@@ -18,6 +18,7 @@ section ImgK
 
 variable (M V : Subgroup G) (g : G) [((KOf M V g).subgroupOf (LOf V g)).Normal]
 
+omit [Finite G] in
 theorem mem_imgK_iff {A : Subgroup G} {x : ↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)} :
     x ∈ imgK M V g A ↔ ∃ y : ↥(LOf V g), (y : G) ∈ A ∧
       QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) y = x := by
@@ -25,6 +26,7 @@ theorem mem_imgK_iff {A : Subgroup G} {x : ↥(LOf V g) ⧸ (KOf M V g).subgroup
   rw [Subgroup.mem_map]
   exact ⟨fun ⟨y, hy, hyx⟩ => ⟨y, hy, hyx⟩, fun ⟨y, hy, hyx⟩ => ⟨y, hy, hyx⟩⟩
 
+omit [Finite G] in
 theorem mem_sup_K_of_mk_mem_imgK {A : Subgroup G} {y : ↥(LOf V g)}
     (hy : QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) y ∈ imgK M V g A) :
     (y : G) ∈ A ⊔ KOf M V g := by
@@ -35,6 +37,7 @@ theorem mem_sup_K_of_mk_mem_imgK {A : Subgroup G} {y : ↥(LOf V g)}
   rw [h3]
   exact Subgroup.mul_mem_sup hy'A h2
 
+omit [Finite G] in
 theorem mk_mem_imgK_iff_of_K_le {A : Subgroup G} (hKA : KOf M V g ≤ A) (y : ↥(LOf V g)) :
     QuotientGroup.mk' ((KOf M V g).subgroupOf (LOf V g)) y ∈ imgK M V g A ↔ (y : G) ∈ A := by
   constructor
@@ -44,9 +47,11 @@ theorem mk_mem_imgK_iff_of_K_le {A : Subgroup G} (hKA : KOf M V g ≤ A) (y : �
   · intro h
     exact (mem_imgK_iff M V g).2 ⟨y, h, rfl⟩
 
+omit [Finite G] in
 theorem imgK_mono {A A' : Subgroup G} (h : A ≤ A') : imgK M V g A ≤ imgK M V g A' :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono _ h)
 
+omit [Finite G] in
 theorem card_imgK_eq_relIndex {A : Subgroup G} (hA : A ≤ LOf V g) :
     Nat.card (imgK M V g A) = (KOf M V g).relIndex A := by
   let L := LOf V g
@@ -76,6 +81,7 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G} [((KOf M V g).subgroupOf (LOf V g)).Normal]
 
+omit [Finite G] in
 theorem card_imgK_V (h : Hyp612Sym n M V g) :
     Nat.card (imgK M V g V) = (conjSubgroup M g).relIndex V := by
   rw [card_imgK_eq_relIndex M V g (le_sup_left : V ≤ LOf V g),
@@ -94,6 +100,7 @@ theorem card_imgK_conjV (h : Hyp612Sym n M V g) :
   rw [E3.card_conjSubgroup V g, ← h.card_UOf_eq_card_BOf] at h2
   exact Nat.eq_of_mul_eq_mul_right hU (h2.trans h1.symm)
 
+omit [Finite G] in
 theorem imgK_V_ne_bot (h : Hyp612Sym n M V g) : imgK M V g V ≠ ⊥ := by
   intro hbot
   have hbot' : (V.subgroupOf (LOf V g)).map
@@ -156,10 +163,12 @@ theorem imgK_conjV_inf_imgK_CKOf (h : Hyp612Sym n M V g) :
   rw [Subgroup.mem_bot]
   exact (mk_eq_one_iff_mem_K M V g y).2 hyK
 
+omit [Finite G] in
 theorem imgK_conjV_le_imgK_EOf (h : Hyp612Sym n M V g) :
     imgK M V g (conjSubgroup V g) ≤ imgK M V g (EOf M V g) :=
   imgK_mono M V g h.conjV_le_EOf
 
+omit [Finite G] in
 theorem commutator_mem_imgK_CKOf (h : Hyp612Sym n M V g)
     {e e' : ↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)}
     (he : e ∈ imgK M V g (EOf M V g)) (he' : e' ∈ imgK M V g (EOf M V g)) :
@@ -171,6 +180,7 @@ theorem commutator_mem_imgK_CKOf (h : Hyp612Sym n M V g)
   simpa only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv] using
     h.commutator_mem_CKOf_of_mem_EOf hy hy'
 
+omit [Finite G] in
 theorem mem_imgK_CKOf_of_comm (h : Hyp612Sym n M V g)
     {e : ↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)} (he : e ∈ imgK M V g (EOf M V g))
     (hc : ∀ t ∈ imgK M V g V, e * t = t * e) : e ∈ imgK M V g (CKOf M V g) := by
@@ -206,7 +216,7 @@ theorem Hyp612.four_le_card_imgK {n : ℕ} {M V : Subgroup G} {g : G}
   have h3 : (UOf M V g).relIndex V = (conjSubgroup M g).relIndex V := by
     rw [UOf, Subgroup.inf_relIndex_left]
   rw [h3] at h2
-  haveI : (conjSubgroup M g).IsFiniteRelIndex V :=
+  have : (conjSubgroup M g).IsFiniteRelIndex V :=
     Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
   have hne : (conjSubgroup M g).relIndex V ≠ 0 := Subgroup.relIndex_ne_zero
   have h4 : 2 ^ 2 ∣ (conjSubgroup M g).relIndex V :=

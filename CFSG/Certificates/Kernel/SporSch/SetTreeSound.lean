@@ -37,7 +37,7 @@ theorem testBit_foldr (g : Nat → Nat) (b : Nat) :
     · subst h
       simp
     · have : ¬ 64 + g q = 64 + b := by omega
-      simp [this, h, Ne.symm h]
+      simp [h, Ne.symm h]
 
 theorem tag_bit {t : Nat} (ht : t < 2 ^ 64) (b : Nat) : t.testBit (64 + b) = false :=
   Nat.testBit_lt_two_pow (lt_of_lt_of_le ht (Nat.pow_le_pow_right (by norm_num) (by omega)))

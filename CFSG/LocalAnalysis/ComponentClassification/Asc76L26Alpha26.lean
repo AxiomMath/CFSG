@@ -51,7 +51,7 @@ theorem alpha26_core {K : Subgroup Y} [K.Normal] (hK : fusionIsBenderGroup K) (P
   have hZT : Z ≤ T := sylowCenter_le T
   have hCP : C ≤ P := hd.centralizer_le
   have hRP : R ≤ P := hle R hR
-  have hR2 : IsPGroup 2 R := P.isPGroup'.to_le hRP
+  have hR2 : IsPGroup 2 R := P.isPGroup.to_le hRP
   have hRΓ : ∀ x ∈ R, x ≠ 1 → x ∈ Γ := fun x hx hx1 => mem_memberSet hR hx hx1
   have hΓP : ∀ x ∈ Γ, x ∈ (P : Subgroup Y) := by
     rintro x ⟨-, T₁, hT₁, hx⟩
@@ -319,7 +319,7 @@ theorem alpha26_core {K : Subgroup Y} [K.Normal] (hK : fusionIsBenderGroup K) (P
     intro R' hR' hbig'
     by_contra hne
     have hRR' := hcomm R' hR' R hR hne
-    obtain ⟨y, hyR', hy4⟩ := exists_orderOf_eq_four (P.isPGroup'.to_le (hle R' hR')) hbig'.2
+    obtain ⟨y, hyR', hy4⟩ := exists_orderOf_eq_four (P.isPGroup.to_le (hle R' hR')) hbig'.2
     have hyP : y ∈ (P : Subgroup Y) := hle R' hR' hyR'
     have hyT : ∀ t ∈ T, y * t = t * y := fun t ht =>
       commute_of_commutator_eq_bot hRR' hyR' (hTR ht)

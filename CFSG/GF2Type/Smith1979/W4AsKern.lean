@@ -59,7 +59,7 @@ theorem sectionalTwoRankLE_Mbar_of_K_trivial (hw : S.width = 4) (H : Hyp4 S g)
   have haQ := H.conj_mem
   have hne := H.conj_ne
   obtain ⟨T, -, hTN⟩ := S11.exists_sylow_le_normalizer haQ C
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   let ρ : (T : Subgroup S.Mbar) →* (S.Qt ≃ₗ[ZMod 2] S.Qt) :=
     S.O.subtype.comp (S.Mbar.subtype.comp (T : Subgroup S.Mbar).subtype)
   have hDinv : ∀ x : (T : Subgroup S.Mbar), ∀ d ∈ S.clSub (S.QG ⊓ S.Qa g),

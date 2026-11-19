@@ -63,7 +63,7 @@ theorem mem_Rgrp_of_comm_mem_zpowers (h : Setting25 G t z z₁ ι zv R0 F) {m : 
   intro w
   obtain ⟨x, hx, rfl⟩ := toW_surjective h w
   rw [rho0_toW h ⟨m, hm⟩ hx]
-  simp only [LinearEquiv.coe_one, id_eq]
+  simp only
   exact (toW_eq_toW_iff h (conj_mem_Rgrp h hm hx) hx).2 (H x hx)
 
 theorem rangeRestrict_eq_vbar (h : Setting25 G t z z₁ ι zv R0 F)

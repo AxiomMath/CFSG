@@ -53,11 +53,11 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
 theorem normalizer_thetaComp_of_three_element'
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3)
-    (haZ : a ∉ zSub P c.L)
+    (_haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3)
+    (_haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
     {u : G} (hu : u ∈ Subgroup.centralizer ({a} : Set G)) (hu3 : IsPGroup 3 (Subgroup.zpowers u)) :
     u ∈ Subgroup.normalizer (J : Set G) := by
@@ -184,7 +184,7 @@ theorem dvd_1080_of_f9
     (hπ : thetaQuotMulAut J (J.normalizerMonoidHom ⟨z, hzN⟩) ≠ 1) :
     1080 ∣ Nat.card (J0 J) := by
   classical
-  haveI hIperf : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
+  have hIperf : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
   have hIJ : Ia c a ≤ Subgroup.normalizer (J : Set G) :=
     Ia_le_normalizer_of_f9 c hF9 hON h7 hP hNZ haL ha3 haZ hJ h3
   have hzI : z ∈ Ia c a := hF9.2.1 hzZ
@@ -202,7 +202,7 @@ theorem dvd_1080_of_f9
   let φ : ↥(Ia c a) →* MulAut (Jtilde J) := piJ c hIJ
   let A : Subgroup (MulAut (Jtilde J)) := φ.range
   let Q : Subgroup A := O.map φ.rangeRestrict
-  haveI hQnorm : Q.Normal :=
+  have hQnorm : Q.Normal :=
     (CFSG.pCore_normal (p := 2) (G := ↥(Ia c a))).map φ.rangeRestrict
       φ.rangeRestrict_surjective
   let T := ↥(Ia c a) ⧸ O

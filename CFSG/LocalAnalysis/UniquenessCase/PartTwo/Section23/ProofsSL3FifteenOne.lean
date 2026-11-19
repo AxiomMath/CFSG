@@ -21,7 +21,7 @@ private theorem s23fifteen_centralizerMod_isPGroup {D : Data G} {Ch : Choice2011
     IsPGroup 2 ↥(centralizerMod D.Z D.M (CFSG.Open.pCoreOf 2 D.M) ⊓
       Subgroup.centralizer (D.Z : Set G) : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUZ : D.U = D.Z := (h4 h1930 c.toCtx23L).1
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) :=
     hUZ ▸ (h4 h1930 c.toCtx23L).2.2
@@ -257,7 +257,7 @@ theorem s23fifteen_sq_mem_Z {D : Data G} {Ch : Choice2011 G}
     (hWT : ⁅c.W, D.T⁆ ≤ D.Z) (hKW : conjClosure c.K c.W = c.V) :
     ∀ x ∈ c.E, x ^ 2 ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 D.M
   have hEeq := s23fifteen_E_eq_iSup c hKW
   have hQ_le_T : Q ≤ D.T :=
@@ -284,7 +284,7 @@ private theorem s23fifteen_frattini_le_Z {D : Data G} {Ch : Choice2011 G}
     (c : Ctx2311 D Ch) (h4 : S23_4 D Ch) (h1930 : H1930 D)
     (hWT : ⁅c.W, D.T⁆ ≤ D.Z) (hKW : conjClosure c.K c.W = c.V) :
     (frattini ↥c.E).map c.E.subtype ≤ D.Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE2 : IsPGroup 2 ↥c.E :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M).to_le
       (Ctx2311.E_le_pCoreOf_M_of c h4 h1930 hWT hKW)
@@ -300,7 +300,7 @@ private theorem s23fifteen_frattini_eq_Z {D : Data G} {Ch : Choice2011 G}
   have hphi_le_Z : (frattini ↥c.E).map c.E.subtype ≤ D.Z :=
     s23fifteen_frattini_le_Z c h4 h1930 hWT hKW
   have hUZ : D.U = D.Z := (h4 h1930 c.toCtx23L).1
-  haveI : (frattini ↥c.E).Characteristic := frattini_characteristic (G := ↥c.E)
+  have : (frattini ↥c.E).Characteristic := frattini_characteristic (G := ↥c.E)
   have hMnormE : D.M ≤ Subgroup.normalizer (c.E : Set G) :=
     uc22p22v_le_normalizer_conjClosure D.M c.V
   have hMnormPhi : D.M ≤ Subgroup.normalizer

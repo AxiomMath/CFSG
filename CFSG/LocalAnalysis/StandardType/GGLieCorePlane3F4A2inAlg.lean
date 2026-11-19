@@ -191,7 +191,7 @@ theorem ggLieF4A2in_fixedGroup_alg
     {f : ℕ} (hf : 1 ≤ f) (hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
     (hshape : compRank (componentRoots (jointChar a₁ a₂) i) = 2 ∧
       (componentRoots (jointChar a₁ a₂) i).ncard = 6)
-    (hρΨ : (ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
+    (_hρΨ : (ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
       componentRoots (jointChar a₁ a₂) i = componentRoots (jointChar a₁ a₂) i)
     (hin : twistInner (componentRoots (jointChar a₁ a₂) i) (fun u => ρ u)) :
     GGLieSL3Model ↥(rootSpan Tag.F4 Ω (componentRoots (jointChar a₁ a₂) i) ⊓ D.model) f := by

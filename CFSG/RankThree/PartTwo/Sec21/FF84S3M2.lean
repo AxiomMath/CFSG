@@ -36,7 +36,7 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ :
 
 theorem M2_claimX (h : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L = ⊥) :
     ∀ g ∈ Cen b ⊓ Cen b₁, g * b₂ * g⁻¹ ∈ Subgroup.zpowers b₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e', he'⟩ := M0_quot h hZ
   have hL : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.mp h.hyp.quasi.1
   obtain ⟨θ, hθc, -, -⟩ := M0_T0_conj hL e'

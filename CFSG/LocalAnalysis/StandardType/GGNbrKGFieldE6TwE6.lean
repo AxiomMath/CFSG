@@ -94,7 +94,7 @@ theorem largeEvenLabelAll_rowPlain_E6Three
     intro Q hQ
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
     have : CharP K 2 := charP_two_of_card hK
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨f, -, hf⟩ := FiniteField.card K 2
     have hKf : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
     have h3 : 3 ∣ 2 ^ (f : ℕ) - 1 := by rw [← hKf, hK]; exact hd
@@ -132,7 +132,7 @@ theorem largeEvenLabelAll_rowPlain_twE6Large
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) (ht : lab.tag = .twE6)
     (hd : p ∣ 2 ^ lab.n + 1) : LargeEvenLabelAll lab (GGNbrWeylRowPlain p 5) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr : TwE6Delta.liftRank p = 5 := TwE6Delta.liftRank_of_ne (by omega)
   have hl : LargeEvenLabelAll lab fun R _ _ _ => GGTorusLift p 5 R := by
     have h := largeEvenLabelAll_torusLift_twE6Add_holds hp hlab ⟨ht, hd⟩
@@ -233,8 +233,7 @@ theorem ggNbrKGFieldTwE6AddLarge_of_known
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley in
 theorem ggFieldFixKnown_F4
     : GGFieldFixKnown fun _ lab => lab.tag = .F4 := by
-  intro p lab hp _ hlab hS
-  intro Q hQ
+  intro p lab hp _ hlab hS Q hQ
   obtain ⟨t, l, n⟩ := lab
   obtain ⟨hn, -⟩ := hlab
   dsimp only at hS

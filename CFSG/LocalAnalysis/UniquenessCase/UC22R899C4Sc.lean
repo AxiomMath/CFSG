@@ -15,6 +15,7 @@ open CFSG.Open Subgroup
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem uc22r899c4_cast_pow_eq_one {r : ℕ} {t x : Γ} (hto : orderOf t = r) {f n : ℕ}
     (hf : x * t * x⁻¹ = t ^ f) (hx : x ^ n = 1) : (f : ZMod r) ^ n = 1 := by
   have h1 := uc22r899c4_conj_pow_pow (U := zpowers t)
@@ -33,9 +34,9 @@ theorem uc22r899c4_exists_common_pow {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (
     (hdK : ∀ i, d ∈ normalizer (K i : Set Γ)) (hdS : ∀ i, d ∈ normalizer (S i : Set Γ)) :
     ∃ g ∈ normalizer (K 2 : Set Γ) ⊓ normalizer (S 2 : Set Γ), orderOf g = p ∧
       ∃ k : ℕ, g * t 0 * g⁻¹ = t 0 ^ k ∧ g * t 1 * g⁻¹ = t 1 ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpow : ∀ i {a b : ℕ}, (a : ZMod r) = (b : ZMod r) → t i ^ a = t i ^ b := fun i a b h =>
     pow_eq_pow_iff_modEq.2 (by rw [hto i]; exact (ZMod.natCast_eq_natCast_iff _ _ _).1 h)
   choose e he using fun i => @uc22r899c4_exists_pow_of_isCyclic Γ _ _ (S i) (hSc i) d (hdS i)
@@ -120,7 +121,7 @@ theorem uc22r899c4_exists_scalar {p r : ℕ} (hp : p.Prime) (hr : r.Prime) (hp3 
     ∃ B : Subgroup Γ, IsElemAbelian p B ∧ Nat.card B = p ^ 2 ∧
       (∀ b ∈ B, ∃ k : ℕ, ∀ u ∈ zpowers (t 0) ⊔ zpowers (t 1), b * u * b⁻¹ = u ^ k) ∧
       ∃ z ∈ B, z ≠ 1 ∧ ∀ u ∈ zpowers (t 0) ⊔ zpowers (t 1), z * u = u * z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, ⟨hgK, hgS⟩, hgo, k, hk0, hk1⟩ :=
     uc22r899c4_exists_common_pow hp hr hp3 hSc ht hto hwK hwS hd hdK hdS
   have hgK2 : g ∉ K 2 := fun h => hKS g h hgS hgo

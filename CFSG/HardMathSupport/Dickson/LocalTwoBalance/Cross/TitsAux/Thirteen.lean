@@ -26,13 +26,13 @@ theorem no_order_thirteen_centralizes_card_twentyfive {G : Type*} [Group G] [Fin
   have hdvd : Nat.card C ∣ 17971200 := hcard ▸ Subgroup.card_subgroup_dvd_card C
   have hn2 : ¬ 2 ∣ Nat.card C := by
     intro h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h
     exact h2 (u : G) y (by rw [Subgroup.orderOf_coe]; exact hu) hy
       (Subgroup.mem_centralizer_singleton_iff.1 u.2)
   have hn3 : ¬ 3 ∣ Nat.card C := by
     intro h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 3 h
     exact h3 (u : G) y (by rw [Subgroup.orderOf_coe]; exact hu) hy
       (Subgroup.mem_centralizer_singleton_iff.1 u.2)

@@ -66,8 +66,8 @@ theorem fix_iff {x w z : Equiv.Perm (Fin 2300)} (hc : x * w = w * z) (p : Fin 23
 theorem fixSet_eq {x w z : Equiv.Perm (Fin 2300)} (hc : x * w = w * z) :
     {p : Fin 2300 | x p = p} = w • {p : Fin 2300 | z p = p} := by
   ext p
-  rw [Set.mem_smul_set_iff_inv_smul_mem, Equiv.Perm.smul_def, Set.mem_setOf_eq,
-    Set.mem_setOf_eq]
+  rw [Set.mem_smul_set_iff_inv_smul_mem, Equiv.Perm.smul_def, Set.mem_ofPred_eq,
+    Set.mem_ofPred_eq]
   have h := fix_iff hc (w⁻¹ p)
   have e : w (w⁻¹ p) = p := by
     rw [← Equiv.Perm.mul_apply, mul_inv_cancel, Equiv.Perm.one_apply]

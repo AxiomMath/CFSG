@@ -210,8 +210,7 @@ theorem w7_9_1_4_le_pCore {G : Type} [Group G] [Finite G] {M X Y H : Subgroup G}
   exact le_sup_left
 
 theorem w7_9_1_4_holds : W7_9_1_4 := by
-  intro G _ _ _ _ _ M I X Y H _ hIM hIn hXM _ heta hYM hY hYne _ hmax hYH hHM hHne
-  intro P hPH hPp hYP
+  intro G _ _ _ _ _ M I X Y H _ hIM hIn hXM _ heta hYM hY hYne _ hmax hYH hHM hHne P hPH hPp hYP
   exact w7_9_1_4_le_pCore hYM hY hYne
     (w7_9_1_4_normalizer_pCore_le hIM hIn hXM heta hYM hY hYne hmax) hmax hYH hHM hHne hPH hPp
     hYP

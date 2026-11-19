@@ -28,6 +28,7 @@ private theorem range_qHT₁ {T₁ : Subgroup G} (hH : T₁ ≤ H z) :
   · rintro ⟨y, hy, rfl⟩
     exact ⟨⟨(y : G), Subgroup.mem_subgroupOf.mp hy⟩, rfl⟩
 
+omit [Finite G] in
 private theorem ker_qHT₁ {T₁ : Subgroup G} (hH : T₁ ≤ H z) :
     (qHT₁ D hH).ker = (J z).subgroupOf T₁ := by
   ext x

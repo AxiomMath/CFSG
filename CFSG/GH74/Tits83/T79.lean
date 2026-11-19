@@ -93,7 +93,7 @@ private theorem lemma2_eight {i : ℤ} (hi0 : 0 < i) (hi4 : i + 4 < 8) {u v x : 
   have hmem_mu : m * u * m⁻¹ ∈ T.U (8 - i) := by
     have h := Moves.conj_mem T hm hu
     have h' : m * u * m⁻¹ ∈ T.U ((8 - i) + 2 * (8 : ℤ) * 1) := by
-      convert h using 1 <;> ring_nf
+      convert h using 1; ring_nf
     exact (U_add_two_mul T (8 - i) 1) ▸ h' 
   have hmem_win : m * u * m⁻¹ ∈ win T.U (i + 1) 8 :=
     T.U_le_win (by omega) (by omega) hmem_mu
@@ -468,7 +468,7 @@ private theorem eq_one_of_mem_win_central {z : G} (hz : z ∈ win T.U 1 2)
     rwa [R.win_self] at hX
   have hW7 : W ∈ R.U 7 := by
     have hW' : W ∈ win R.U (7 : ℤ) 7 := by
-      convert hW using 2 <;> norm_num
+      convert hW using 2; norm_num
     rwa [R.win_self] at hW'
   by_cases hW1 : W = 1
   · have hz6 : z ∈ R.U 6 := by
@@ -647,20 +647,20 @@ private theorem noCentralAt_refl_system {i : ℤ} (h : NoCentralAt T (i - 3)) :
   have hxcT : x ∈ Subgroup.centralizer (win T.U (i - 2) (i + 5) : Set G) := by
     rw [win_refl] at hxc
     rw [win_shift] at hxc
-    convert hxc using 2 <;> ring
+    convert hxc using 2; ring
   have hres := h x hx1 (by
-    convert hxcT using 2 <;> ring)
+    convert hxcT using 2; ring)
   constructor
   · intro hx3
     apply hres.2
     rw [refl_U] at hx3
     rw [shift_U] at hx3
-    convert hx3 using 1 <;> ring
+    convert hx3 using 1; ring
   · intro hx4
     apply hres.1
     rw [refl_U] at hx4
     rw [shift_U] at hx4
-    convert hx4 using 1 <;> ring
+    convert hx4 using 1; ring
 
 
 
@@ -695,7 +695,7 @@ private theorem prop2_x_decomp {i : ℤ} (hNo0 : NoCentralAt T i)
     have hy' : g⁻¹ * y * g ∈ win T.U (i + 1) (i + 8) := by
       have hmem : g⁻¹ * y * g ∈ win T.U ((i - 3) + 4) ((i + 4) + 4) := by
         rw [← hmap]
-        exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+        exact ⟨y, hy, by simp⟩
       convert hmem using 2 <;> ring
     have hcomm := (Subgroup.mem_centralizer_iff.mp hz0c) (g⁻¹ * y * g) hy'
     have := congrArg (fun t => g * t * g⁻¹) hcomm
@@ -703,13 +703,13 @@ private theorem prop2_x_decomp {i : ℤ} (hNo0 : NoCentralAt T i)
   have hxwin4 : x ∈ win T.U ((i - 4) + 1) ((i - 4) + 8) := by
     convert hxwin using 2 <;> ring
   have hxc4 : x ∈ Subgroup.centralizer (win T.U ((i - 4) + 1) ((i - 4) + 8) : Set G) := by
-    convert hxc_x using 2 <;> ring
+    convert hxc_x using 2; ring
   obtain ⟨u, hu0, v, hv0, hu1, hv1, hxuv⟩ :=
     mem_mid_of_central (T := T) (i := i - 4) hNoM4 hxwin4 hxc4 hx1
   have hu : u ∈ T.U i := by
-    convert hu0 using 1 <;> ring
+    convert hu0 using 1; ring
   have hv : v ∈ T.U (i + 1) := by
-    convert hv0 using 1 <;> ring
+    convert hv0 using 1; ring
   obtain ⟨a, ha, b, hb, ha1, hb1, hz0ab⟩ :=
     mem_mid_of_central (T := T) (i := i) hNo0 hz0win hz0c hz01
   exact ⟨x, u, v, a, b, hx1, hxwin, hxc_x, hu, hv, ha, hb, hu1, hb1, hxuv, hz0ab⟩
@@ -765,7 +765,7 @@ theorem t79_prop2 (T : TitsSystem G 8) (i : ℤ)
   have hBS1 : a * b ∈ Subgroup.centralizer (win S1.U 1 8 : Set G) := by
     rw [win_shift]
     rw [← hz0ab]
-    convert hz0c using 2 <;> ring
+    convert hz0c using 2; ring
   have hyS1 := commutator_central_of_mid (S := S1) hNoS1 huS1 hvS1 haS1 hbS1 hBS1 hu1 hb1
   have hywin : ⁅u * v, a * b⁆ ∈ win T.U i (i + 7) := by
     have h := hyS1.1
@@ -775,36 +775,36 @@ theorem t79_prop2 (T : TitsSystem G 8) (i : ℤ)
       Subgroup.centralizer (win T.U i (i + 7) : Set G) := by
     have h := hyS1.2.1
     rw [win_shift] at h
-    convert h using 2 <;> ring
+    convert h using 2; ring
   let S2 := (T.shift i).refl 5
   have hNoS2 : NoCentralAt S2 (-1) := noCentralAt_refl_system (T := T) hNoM3
   have hbS2 : b ∈ S2.U 0 := by
     rw [refl_U, shift_U]
-    convert hb using 1 <;> ring
+    convert hb using 1; ring
   have haS2 : a ∈ S2.U 1 := by
     rw [refl_U, shift_U]
-    convert ha using 1 <;> ring
+    convert ha using 1; ring
   have hvS2 : v ∈ S2.U 4 := by
     rw [refl_U, shift_U]
-    convert hv using 1 <;> ring
+    convert hv using 1; ring
   have huS2 : u ∈ S2.U 5 := by
     rw [refl_U, shift_U]
-    convert hu using 1 <;> ring
+    convert hu using 1; ring
   have hb4plus : b ∈ T.U (i + 4 + 1) := by
-    convert hb using 1 <;> ring
+    convert hb using 1; ring
   have hv1plus : v ∈ T.U (i + 1) := by
-    convert hv using 1 <;> ring
+    convert hv using 1
   have hcomm_ab : a * b = b * a := comm_add_one (T := T) (j := i + 4) ha hb4plus
   have hcomm_uv : u * v = v * u := comm_add_one (T := T) (j := i) hu hv1plus
   have hAS2 : b * a ∈ Subgroup.centralizer (win S2.U (-3) 4 : Set G) := by
     rw [win_refl, win_shift]
     rw [← hcomm_ab, ← hz0ab]
-    convert hz0c using 2 <;> ring
+    convert hz0c using 2; ring
   have hBS2 : v * u ∈ Subgroup.centralizer (win S2.U 1 8 : Set G) := by
     rw [win_refl, win_shift]
     rw [← hcomm_uv]
     rw [← hxuv]
-    convert hxc_x using 2 <;> ring
+    convert hxc_x using 2; ring
   have hy2S2 := commutator_central_of_mid (S := S2) hNoS2 hbS2 haS2 hvS2 huS2 hBS2 hb1 hu1
   have hy2win : ⁅b * a, v * u⁆ ∈ win T.U (i - 2) (i + 5) := by
     have h := hy2S2.1
@@ -814,30 +814,30 @@ theorem t79_prop2 (T : TitsSystem G 8) (i : ℤ)
       Subgroup.centralizer (win T.U (i - 2) (i + 5) : Set G) := by
     have h := hy2S2.2.1
     rw [win_refl, win_shift] at h
-    convert h using 2 <;> ring
+    convert h using 2; ring
   have hy2ne : ⁅b * a, v * u⁆ ≠ 1 := hy2S2.2.2
   have hy1win : ⁅u * v, a * b⁆ ∈ win T.U ((i - 1) + 1) ((i - 1) + 8) := by
     convert hywin using 2 <;> ring
   have hy1cent : ⁅u * v, a * b⁆ ∈
       Subgroup.centralizer (win T.U ((i - 1) + 1) ((i - 1) + 8) : Set G) := by
-    convert hycent using 2 <;> ring
+    convert hycent using 2; ring
   obtain ⟨a3, ha3, b4, hb4, ha31, hb41, hyab⟩ :=
     mem_mid_of_central (T := T) (i := i - 1) hNoM1 hy1win hy1cent hyS1.2.2
   have ha3' : a3 ∈ T.U (i + 3) := by
-    convert ha3 using 1 <;> ring
+    convert ha3 using 1; ring
   have hb4' : b4 ∈ T.U (i + 4) := by
-    convert hb4 using 1 <;> ring
+    convert hb4 using 1; ring
   have hy2win' : ⁅b * a, v * u⁆ ∈ win T.U ((i - 3) + 1) ((i - 3) + 8) := by
     convert hy2win using 2 <;> ring
   have hy2cent' : ⁅b * a, v * u⁆ ∈
       Subgroup.centralizer (win T.U ((i - 3) + 1) ((i - 3) + 8) : Set G) := by
-    convert hy2cent using 2 <;> ring
+    convert hy2cent using 2; ring
   obtain ⟨c1, hc1, d2, hd2, hc11, hd21, hy2cd⟩ :=
     mem_mid_of_central (T := T) (i := i - 3) hNoM3 hy2win' hy2cent' hy2ne
   have hc1' : c1 ∈ T.U (i + 1) := by
-    convert hc1 using 1 <;> ring
+    convert hc1 using 1; ring
   have hd2' : d2 ∈ T.U (i + 2) := by
-    convert hd2 using 1 <;> ring
+    convert hd2 using 1; ring
   have hy2_eq : ⁅b * a, v * u⁆ = (⁅u * v, a * b⁆)⁻¹ := by
     conv_lhs => rw [← hcomm_ab, ← hcomm_uv]
     exact (commutatorElement_inv (u * v) (a * b)).symm
@@ -886,7 +886,7 @@ theorem normalized_of_central (T : TitsSystem G 8) {x : G} (hx : x ∈ T.U 4) (h
         simp
       · have hu_mem : T.nu' 0 y ∈ T.U ((0 : ℤ) + 8) := T.nu'_mem hy hy1
         have hu8 : T.nu' 0 y ∈ T.U 8 := by
-          convert hu_mem using 1 <;> ring
+          convert hu_mem using 1; ring
         have hu1 : T.nu' 0 y ≠ 1 := T.nu'_ne_one (by norm_num) hy hy1
         have hux : T.nu' 0 y * x = x * T.nu' 0 y :=
           (Subgroup.mem_centralizer_iff.mp hc) _ (T.U_le_win (by norm_num) (by norm_num) hu8)
@@ -894,7 +894,7 @@ theorem normalized_of_central (T : TitsSystem G 8) {x : G} (hx : x ∈ T.U 4) (h
           hux).1
         have hnu : T.nu 8 (T.nu' 0 y) = y := by
           have h := (T.mu_nu' (by norm_num) (i := 0) hy hy1).2
-          convert h using 2 <;> ring
+          convert h using 2; ring
         rw [hnu] at hm
         exact hm.symm
   have hmem : x ∈ Subgroup.centralizer (win T.U 0 8 : Set G) ⊓ T.U 4 := ⟨hcent0, hx⟩

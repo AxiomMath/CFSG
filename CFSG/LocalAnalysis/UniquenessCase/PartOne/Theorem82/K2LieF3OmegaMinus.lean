@@ -160,7 +160,7 @@ private theorem exists3_pomega8m_aux {X : Type} [Group X] [Finite X] {r f : ℕ}
   obtain ⟨σ, hσ3⟩ := exists3_pomega8m_fieldPart Q hgates htop hβout hβpow
   exact exists3_pomega8m_fixed hadm K hK b c hirr e σ hσ3 ⟨φ, hφout, hφpow⟩
 
-theorem exists3_pomega8m {X : Type} [Group X] [Finite X] {r f : ℕ} (hr : r.Prime) (hr3 : r ≠ 3)
+theorem exists3_pomega8m {X : Type} [Group X] [Finite X] {r f : ℕ} (_hr : r.Prime) (_hr3 : r ≠ 3)
     (h : LieModel X .POmegaMinus 4 r f) : Exists3 X := by
   have hC : StatedClassicalModel X .POmegaMinus 4 r f :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num) h

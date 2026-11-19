@@ -25,24 +25,24 @@ variable {J : Type} [Group J]
 
 theorem eq_bot_of_normal_isSolvable (hJ : J2Facts J) (N : Subgroup J) [N.Normal]
     (hN : Group.IsSolvable N) : N = ⊥ := by
-  haveI := hJ.simple
-  haveI := hJ.perfect
-  haveI := hN
+  have := hJ.simple
+  have := hJ.perfect
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
     subst h
-    haveI : Group.IsSolvable J :=
-      solvable_of_surjective (f := (Subgroup.topEquiv (G := J)).toMonoidHom)
+    have : Group.IsSolvable J :=
+      Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := J)).toMonoidHom)
         (Subgroup.topEquiv (G := J)).surjective
     exact Group.IsPerfect.not_isSolvable J inferInstance
 
 theorem le_ker_of_solvable (hJ : J2Facts J) {H : Type*} [Group H] (φ : H →* J)
     (hφ : Function.Surjective φ) (K : Subgroup H) [K.Normal] (hK : Group.IsSolvable K) :
     K ≤ φ.ker := by
-  haveI := hK
-  haveI : (K.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  haveI : Group.IsSolvable (K.map φ) := solvable_of_surjective (f := φ.subgroupMap K)
+  have := hK
+  have : (K.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have : Group.IsSolvable (K.map φ) := Group.isSolvable_of_surjective (f := φ.subgroupMap K)
     (MonoidHom.subgroupMap_surjective φ K)
   have h := hJ.eq_bot_of_normal_isSolvable (K.map φ) inferInstance
   rwa [Subgroup.map_eq_bot_iff] at h
@@ -102,11 +102,11 @@ theorem eq_one_of_pow_prime (hJ : J2Facts J) {X : Type*} [Group X] (e : X ≃* J
 theorem le_ker_of_normalizes (hJ : J2Facts J) {W : Type*} [Group W] (M K : Subgroup W)
     (hK : Group.IsSolvable K) (hMK : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K) (φ : M →* J)
     (hφ : Function.Surjective φ) : K.subgroupOf M ≤ φ.ker := by
-  haveI := hK
-  haveI : (K.subgroupOf M).Normal := ⟨fun n hn g => by
+  have := hK
+  have : (K.subgroupOf M).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hMK g g.2 n hn⟩
-  haveI : Group.IsSolvable (K.subgroupOf M) :=
+  have : Group.IsSolvable (K.subgroupOf M) :=
     Group.isSolvable_of_isSolvable_injective
       (f := ((M.subtype.comp (K.subgroupOf M).subtype).codRestrict K fun x => x.2))
       (fun a b hab => Subtype.ext (Subtype.ext (congrArg (fun x : K => (x : W)) hab)))
@@ -155,7 +155,7 @@ theorem exists_mul_fixed {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.Prim
     ext g
     rw [hσ, hτ]
     rfl
-  haveI : Fintype {g : H // l⁻¹ * g ∈ N} := Fintype.ofFinite _
+  have : Fintype {g : H // l⁻¹ * g ∈ N} := Fintype.ofFinite _
   have hcard : Nat.card {g : H // l⁻¹ * g ∈ N} = Nat.card N :=
     Nat.card_congr (Equiv.subtypeEquiv (Equiv.mulLeft l⁻¹) (fun g => Iff.rfl))
   obtain ⟨a, ha⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := p) (n := 1) (σ := σ)
@@ -213,21 +213,21 @@ theorem not_dvd_card_theta {J : Type} [Group J] {X : Type} [Group X] [Finite X]
     (e : X ⧸ aschbacherSolvableCore 3 X ≃* J) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpJ : ¬ p ∣ Nat.card J) : ¬ p ∣ Nat.card (aschbacherSolvableCore 3 X) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hθsol, hθchar, -, -, -, -, hRθ⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hRθ' : CFSG.pCore 2 X ≤ aschbacherSolvableCore 3 X := hRθ 2 Nat.prime_two (by norm_num)
-  haveI := hθchar
-  haveI := hθsol
-  haveI hNbn : ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal :=
+  have := hθchar
+  have := hθsol
+  have hNbn : ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hNbsol : Group.IsSolvable
       ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' (CFSG.pCore 2 X))) :=
-    solvable_of_surjective
+    Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' (CFSG.pCore 2 X)).subgroupMap (aschbacherSolvableCore 3 X))
       (MonoidHom.subgroupMap_surjective _ _)
   have hQperf : Group.IsPerfect (X ⧸ CFSG.pCore 2 X) := hq.1
-  haveI := hQperf
+  have := hQperf
   have hQnt : Nontrivial (X ⧸ CFSG.pCore 2 X) := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
@@ -240,9 +240,9 @@ theorem not_dvd_card_theta {J : Type} [Group J] {X : Type} [Group X] [Finite X]
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hNbn with h | h
     · exfalso
       rw [h] at hNbsol
-      haveI := hNbsol
-      haveI : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
-        solvable_of_surjective
+      have := hNbsol
+      have : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
+        Group.isSolvable_of_surjective
           (f := (Subgroup.topEquiv (G := X ⧸ CFSG.pCore 2 X)).toMonoidHom)
           Subgroup.topEquiv.surjective
       exact Group.IsPerfect.not_isSolvable (X ⧸ CFSG.pCore 2 X) inferInstance
@@ -289,7 +289,7 @@ theorem SubnormalIn.subgroupOf {H K : Subgroup G} (J : Subgroup G) (hKJ : K ≤ 
 theorem SubnormalIn.trans {H K J : Subgroup G} (hHK : H ≤ K) (hKJ : K ≤ J)
     (h1 : SubnormalIn H K) (h2 : SubnormalIn K J) : SubnormalIn H J :=
   Subgroup.IsSubnormal.trans (H := H.subgroupOf J) (K := K.subgroupOf J)
-    (fun x hx => hHK hx) (SubnormalIn.subgroupOf J hKJ h1) h2
+    (fun _x hx => hHK hx) (SubnormalIn.subgroupOf J hKJ h1) h2
 
 theorem SubnormalIn.inf {H K : Subgroup G} (J : Subgroup G) (h : SubnormalIn H K) :
     SubnormalIn (H ⊓ J) (K ⊓ J) := by
@@ -320,7 +320,7 @@ theorem thetaComponentsAt_facts {Y : Type*} [Group Y] {c : Y} {M : Subgroup Y}
   · rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective
       (Subgroup.centralizer ({c} : Set Y)).subtype_injective]
     exact hM₀.2.1
-  · haveI := hM₀.1
+  · have := hM₀.1
     exact Group.IsPerfect.map (Subgroup.centralizer ({c} : Set Y)).subtype
 
 end CFSG.RankThree.PartTwo.Sec15.Sylow155R3.Thm90

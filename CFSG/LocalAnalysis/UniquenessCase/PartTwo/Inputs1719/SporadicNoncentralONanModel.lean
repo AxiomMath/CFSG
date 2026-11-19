@@ -64,7 +64,7 @@ private theorem sncon_bits_inj {A B : ℕ} (hA : A < 2 ^ 120) (hB : B < 2 ^ 120)
   intro i
   by_cases hi : i < 120
   · have := congrArg (fun s : Set (Fin 120) => (⟨i, hi⟩ : Fin 120) ∈ s) h
-    simp only [sncon_bits, Set.mem_setOf_eq, eq_iff_iff] at this
+    simp only [sncon_bits, Set.mem_ofPred_eq, eq_iff_iff] at this
     exact Bool.eq_iff_iff.2 this
   · have h120 : 2 ^ 120 ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hA h120),
@@ -261,10 +261,10 @@ private theorem sncon_reach (k : ℕ)
     rcases hE : sncon_tree.getD k (0, 0, 0) with ⟨x, i, j⟩
     simp only [sncon_treeAt, hE] at hc
     by_cases hk0 : k = 0
-    · rw [if_pos hk0] at hc
+    · rw [ite_eq_left hk0] at hc
       simp only [Bool.and_eq_true, beq_iff_eq] at hc
       exact ⟨1, one_mem _, by rw [hc.2]; rfl⟩
-    · rw [if_neg hk0] at hc
+    · rw [ite_eq_right hk0] at hc
       simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, List.contains_iff_mem] at hc
       obtain ⟨-, ⟨hik, hj⟩, hx⟩ := hc
       obtain ⟨u, hu, hu5⟩ := ih i hik (lt_trans hik hk)
@@ -366,12 +366,12 @@ private theorem sncon_orb_mem
     rcases hE : sncon_orb.getD k (0, 0, 0) with ⟨M, i, j⟩
     simp only [sncon_orbAt, hE] at hc
     by_cases hk0 : k = 0
-    · rw [if_pos hk0] at hc
+    · rw [ite_eq_left hk0] at hc
       simp only [Bool.and_eq_true, beq_iff_eq] at hc
       show sncon_bits M ∈ _
       rw [hc.2]
       exact MulAction.mem_orbit_self _
-    · rw [if_neg hk0] at hc
+    · rw [ite_eq_right hk0] at hc
       simp only [Bool.and_eq_true, decide_eq_true_eq] at hc
       obtain ⟨-, ⟨hik, hj⟩, hchk⟩ := hc
       obtain ⟨g, hg⟩ := MulAction.mem_orbit_iff.1 (ih i hik (lt_trans hik hk))
@@ -428,12 +428,12 @@ private theorem sncon_transvection_mem {a b : Fin 3} (hab : a < b) (c : F4)
       rintro ⟨rfl, rfl⟩
       exact absurd hab (not_lt.2 hij.le)
     rw [Matrix.transvection, Matrix.add_apply, Matrix.one_apply_ne (ne_of_gt hij),
-      Matrix.single_apply, if_neg hne, add_zero]
+      Matrix.single_apply, ite_eq_right hne, add_zero]
   · have hne : ¬ (a = i ∧ b = i) := by
       rintro ⟨rfl, h⟩
       exact ne_of_lt hab h.symm
     rw [Matrix.transvection, Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply,
-      if_neg hne, add_zero]
+      ite_eq_right hne, add_zero]
 
 private theorem sncon_elem_mem {j : ℕ} (hj : j ∈ sncon_J) :
     elemAt j ∈ LinearFlag.unitriangular 3 F4 := by
@@ -454,7 +454,7 @@ private theorem sncon_U0_eq_map :
   rw [sncon_V, MonoidHom.map_closure, sncon_U0, ← Set.image_comp]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_image, Function.comp_apply]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Function.comp_apply]
   constructor
   · rintro ⟨j, hj, rfl⟩
     exact ⟨j, hj, psi_elem (sncon_J_lt hj)⟩

@@ -353,7 +353,7 @@ private theorem conj_tau_diagHom_exists
   funext i
   by_cases hi : i = Fin.last m
   · subst hi
-    simp only [LinearEquiv.mul_apply, tauAt_apply, if_true, diagHom_apply,
+    simp only [LinearEquiv.mul_apply, tauAt_apply, ite_true, diagHom_apply,
       Function.update_self]
     rw [map_mul, E.isUnitary.invol]
     simp [u', u, Units.coe_map]
@@ -396,7 +396,7 @@ theorem range_ι_castSucc_le_panelStab (hm : 3 ≤ m) (hS : IsStdDFamily E hm S)
       refine map_coordSpan_eq_of_blockEmb (K := K) E (a := k.val) (len := 2) (by omega) A ?_ ?_
       · left
         intro i hi₁ hi₂
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         have := k.isLt
         omega
       · right
@@ -412,11 +412,11 @@ theorem range_ι_castSucc_le_panelStab (hm : 3 ≤ m) (hS : IsStdDFamily E hm S)
       by_cases hkj : k.val < j.val + 1
       · left
         intro i hi₁ hi₂
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         omega
       · right
         intro i hi hiW
-        simp only [Set.mem_setOf_eq] at hi
+        simp only [Set.mem_ofPred_eq] at hi
         omega
 
 theorem map_conjTau_panelStab (hm : 3 ≤ m) :

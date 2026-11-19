@@ -42,7 +42,7 @@ theorem exists_pow_mul_mem (hidx : (A ⊓ B).relIndex A = 3) {y : D} (hy : y ∈
     intro i j hij
     have h := hmem i j hij
     fin_cases i <;> fin_cases j <;> simp at h ⊢ <;> first
-      | exact absurd h hyB | exact absurd h hy2 | exact absurd h hy1
+      | exact absurd h hyB | exact absurd h hy2
       | (rw [show y⁻¹ * y ^ 2 = y by group] at h; exact absurd h hyB)
       | (rw [show (y ^ 2)⁻¹ * y = y⁻¹ by group] at h; exact absurd h hy1)
   have hbij := hinj.bijective_of_nat_card_le (by rw [hidx']; simp)

@@ -28,9 +28,9 @@ theorem hdRo7CLCoordAux_rank_ge_five {labJ labX : LargeEvenLabel}
 
 theorem hdRo7CLCoordAux_row_data {G : Type} [Group G] {p : ℕ} {J L : Subgroup G}
     (hrow : GGResRowAt ggRowCorank2C p J L) :
-    ∃ labJ labX : LargeEvenLabel, p = 3 ∧ 5 ≤ labX.rank := by
-  obtain ⟨labJ, labX, hJ2, -, -, -, hp3, htagJ, hnJ, -, -, hrank⟩ := hrow
-  exact ⟨labJ, labX, hp3, hdRo7CLCoordAux_rank_ge_five hJ2 hnJ htagJ hrank⟩
+    ∃ _labJ labX : LargeEvenLabel, p = 3 ∧ 5 ≤ labX.rank := by
+  obtain ⟨_labJ, labX, hJ2, -, -, -, hp3, htagJ, hnJ, -, -, hrank⟩ := hrow
+  exact ⟨_labJ, labX, hp3, hdRo7CLCoordAux_rank_ge_five hJ2 hnJ htagJ hrank⟩
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L D J K : Subgroup G} {x y : G}
 
@@ -47,7 +47,7 @@ theorem hdRo7CLCoordAux_bstar_centralizer_eq
     Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x := by
   have hcfg : GGConfig p B Bs x L D J := hH.1
   have hp : Nat.Prime p := hcfg.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxBs : x ∈ Bs := hcfg.tableB_facts.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hcfg.tableB_facts.2.2.2.1
   have hxL : x ∈ Subgroup.centralizer (L : Set G) := by

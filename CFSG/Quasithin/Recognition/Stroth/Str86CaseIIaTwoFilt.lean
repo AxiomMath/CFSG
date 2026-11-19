@@ -18,55 +18,67 @@ abbrev str86UN (N L2 S : Subgroup G) : Subgroup G := conjClosure N (L2 ⊔ S)
 
 abbrev str86U1 (P L2 S : Subgroup G) : Subgroup G := conjClosure P (L2 ⊔ S)
 
-abbrev str86U2 (p N L2 S : Subgroup G) : Subgroup G := conjClosure p (L2 ⊔ S)
+abbrev str86U2 (p _N L2 S : Subgroup G) : Subgroup G := conjClosure p (L2 ⊔ S)
 
+omit [Finite G] in
 theorem str86U2_le_str86U1 {p P L2 S : Subgroup G} (hpP : p ≤ P) :
     str86U2 p P L2 S ≤ str86U1 P L2 S :=
   conjClosure_mono hpP le_rfl
 
+omit [Finite G] in
 theorem str86U1_le_str86UN {P N L2 S : Subgroup G} (hPN : P ≤ N) :
     str86U1 P L2 S ≤ str86UN N L2 S :=
   conjClosure_mono hPN le_rfl
 
+omit [Finite G] in
 theorem str86UN_normalizes {N L2 S : Subgroup G} :
     L2 ⊔ S ≤ Subgroup.normalizer (str86UN N L2 S : Set G) :=
   le_normalizer_conjClosure N (L2 ⊔ S)
 
+omit [Finite G] in
 theorem str86U1_normalizes {P L2 S : Subgroup G} :
     L2 ⊔ S ≤ Subgroup.normalizer (str86U1 P L2 S : Set G) :=
   le_normalizer_conjClosure P (L2 ⊔ S)
 
+omit [Finite G] in
 theorem str86U2_normalizes {p N L2 S : Subgroup G} :
     L2 ⊔ S ≤ Subgroup.normalizer (str86U2 p N L2 S : Set G) :=
   le_normalizer_conjClosure p (L2 ⊔ S)
 
+omit [Finite G] in
 theorem str86UN_le_str86U {L1 L2 S : Subgroup G} {N : Subgroup G}
     (hN : N ≤ Z1 L1 L2 S) : str86UN N L2 S ≤ str86U L1 L2 S :=
   conjClosure_mono hN le_rfl
 
+omit [Finite G] in
 theorem str86U1_le_str86U {L1 L2 S : Subgroup G} {P : Subgroup G}
     (hP : P ≤ Z1 L1 L2 S) : str86U1 P L2 S ≤ str86U L1 L2 S :=
   conjClosure_mono hP le_rfl
 
+omit [Finite G] in
 theorem str86U2_le_str86U {L1 L2 S : Subgroup G} {p : Subgroup G}
     (hp : p ≤ Z1 L1 L2 S) : str86U2 p p L2 S ≤ str86U L1 L2 S :=
   conjClosure_mono hp le_rfl
 
+omit [Finite G] in
 theorem str86UN_isNormalIn {L1 L2 S : Subgroup G} {N : Subgroup G} (hN : N ≤ Z1 L1 L2 S) :
     IsNormalIn (L2 ⊔ S) (str86U L1 L2 S) (str86UN N L2 S) :=
-  ⟨str86UN_le_str86U hN, fun g hg x hx =>
+  ⟨str86UN_le_str86U hN, fun _g hg x hx =>
     (Subgroup.mem_normalizer_iff.mp (str86UN_normalizes (N := N) hg) x).mp hx⟩
 
+omit [Finite G] in
 theorem str86U1_isNormalIn {L1 L2 S : Subgroup G} {P : Subgroup G} (hP : P ≤ Z1 L1 L2 S) :
     IsNormalIn (L2 ⊔ S) (str86U L1 L2 S) (str86U1 P L2 S) :=
-  ⟨str86U1_le_str86U hP, fun g hg x hx =>
+  ⟨str86U1_le_str86U hP, fun _g hg x hx =>
     (Subgroup.mem_normalizer_iff.mp (str86U1_normalizes (P := P) hg) x).mp hx⟩
 
+omit [Finite G] in
 theorem str86U2_isNormalIn {L1 L2 S : Subgroup G} {p : Subgroup G} (hp : p ≤ Z1 L1 L2 S) :
     IsNormalIn (L2 ⊔ S) (str86U L1 L2 S) (str86U2 p p L2 S) :=
-  ⟨str86U2_le_str86U hp, fun g hg x hx =>
+  ⟨str86U2_le_str86U hp, fun _g hg x hx =>
     (Subgroup.mem_normalizer_iff.mp (str86U2_normalizes (p := p) (N := p) hg) x).mp hx⟩
 
+omit [Finite G] in
 theorem str86U2_le_z2 {L1 L2 S : Subgroup G} {N p : Subgroup G}
     (hN : IsElemAbelian 2 N) (hNZ : N ≤ Z1 L1 L2 S)
     (hp : p = N ⊓ Subgroup.centralizer (S : Set G))

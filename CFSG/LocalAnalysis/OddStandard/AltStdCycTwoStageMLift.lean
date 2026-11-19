@@ -168,11 +168,11 @@ theorem commute_of_conj_four {O : Subgroup N} [O.Normal] (hOodd : Odd (Nat.card 
     | one => exact Or.inl rfl
     | mul x y _ _ hx hy =>
       rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;> rw [hx, hy] <;>
-        simp only [one_mul, mul_one, hz, hb, e1, e2, e3, e4, e5, e6, eq_self_iff_true, true_or,
+        simp only [one_mul, mul_one, hz, hb, e1, e2, e3, e4, e5, e6, true_or,
           or_true]
     | inv x _ hx =>
       rcases hx with hx | hx | hx | hx <;> rw [hx] <;>
-        simp only [inv_one, hzi, hbi, mul_inv_rev, e6, eq_self_iff_true, true_or, or_true]
+        simp only [inv_one, hzi, hbi, mul_inv_rev, e6, true_or, or_true]
   have hsq : ∀ x ∈ closure ({z, b} : Set N), x ^ 2 = 1 := by
     intro x hx
     rw [sq]

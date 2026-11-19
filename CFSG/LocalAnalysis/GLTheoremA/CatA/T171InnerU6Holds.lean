@@ -25,10 +25,10 @@ open CFSG.LocalAnalysis.GLTheoremA.LevelLieU6
 
 theorem t171InnerU6Fact_holds : T171.T171InnerU6Fact := by
   intro Ω _ _ B x L _ hcfg hLn hmax hex hsmall hT hcat
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨e⟩ := HSubT.nonempty_S6_of_isU6two hcat
   have hS : Setup B x L := ⟨hcfg, hmax, hsmall⟩
-  haveI : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
+  have : Group.IsPerfect ↥L := isPerfect_of_cfg hcfg
   obtain ⟨D, K, hpre⟩ := hex
   obtain ⟨d, hdD, hdx⟩ := S171.exists_y hcfg.prime hcfg.ne_one hpre
   have hLx : L ≤ Subgroup.centralizer ({x} : Set Ω) := by

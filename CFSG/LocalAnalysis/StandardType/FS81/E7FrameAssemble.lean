@@ -181,7 +181,7 @@ theorem e7Frame_inv_of_sigma {b₀ : G}
       induction j using Fin.lastCases with
       | last =>
         have hi : i = 6 := Fin.ext (by
-          simp only [edgeE, Fin.coe_castSucc, Fin.val_last] at hij
+          simp only [edgeE, Fin.val_castSucc, Fin.val_last] at hij
           show (i : ℕ) = 6
           omega)
         subst hi

@@ -150,7 +150,7 @@ private theorem r10h1_exists_conj_le_normalizer {P : Sylow 3 G} {M : Subgroup G}
     rw [normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
   obtain ⟨S, hS, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-    Nat.prime_three hf P.isPGroup' (r10h1_core_not_dvd M)
+    Nat.prime_three hf P.isPGroup (r10h1_core_not_dvd M)
     (hPM.trans (r10h1_le_normalizer_core M)) bot_le hbot hPbot
   obtain ⟨c, hc, hFsc⟩ := r10h1_exists_conj_sylow hf hS
     (r10h1_fusionIsSylowIn_of_index hf hFsD hFs hsyl)
@@ -191,7 +191,7 @@ theorem exists_sylow_three_normalizing {P : Sylow 3 G} {M : Subgroup G} {x z : G
     exact hQN'
   have hQ3 : IsPGroup 3 Q := by
     rw [hQ]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card (P : Subgroup G) := by
     rw [hQ]
     exact Subgroup.card_map_of_injective (MulAut.conj c).injective
@@ -205,7 +205,7 @@ theorem exists_sylow_three_normalizing {P : Sylow 3 G} {M : Subgroup G} {x z : G
     exact Subgroup.map_subtype_le _
   have hR'3 : IsPGroup 3 R' := by
     rw [hR']
-    exact R.isPGroup'.map _
+    exact R.isPGroup.map _
   have hcardR : Nat.card R' = Nat.card (R : Subgroup N) := by
     rw [hR']
     exact Subgroup.card_map_of_injective N.subtype_injective
@@ -243,7 +243,7 @@ theorem exists_sylow_three_normalizing {P : Sylow 3 G} {M : Subgroup G} {x z : G
     have h1 := CFSG.LocalAnalysis.RankThreeTheoremC.pRank_eq_of_sylow Nat.prime_three hR'M
       hR'3 hvM
     have h2 := CFSG.LocalAnalysis.RankThreeTheoremC.pRank_eq_of_sylow Nat.prime_three hPM
-      P.isPGroup' hPM'
+      P.isPGroup hPM'
     exact h1.trans (h2.symm.trans hP3)
   rw [← hN]
   exact ⟨R', hBR', hR'M, hR'N.trans hNFs, hR'3, hv, hvM, hpR⟩

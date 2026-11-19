@@ -50,8 +50,9 @@ private theorem frameSwap_mapsTo_right (hF : OmNsRootGen.IsCoherentFrame Q p U e
   exact Submodule.add_mem _ (Submodule.smul_mem _ _ (hF.mem a))
     (Submodule.smul_mem _ _ (frameEU hF a).2)
 
+omit [Fact (Irreducible (OmNsRootGen.framePoly t))] [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem frameSwap_fixes (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
-    (hab : a ≠ b) {j : Fin k} (hja : j ≠ a) (hjb : j ≠ b) {x : V} (hx : x ∈ U j) :
+    (_hab : a ≠ b) {j : Fin k} (hja : j ≠ a) (hjb : j ≠ b) {x : V} (hx : x ∈ U j) :
     frameSwap Q e u c t a b x = x := by
   refine frameSwap_apply_of_mem_polarPerp hF ?_
   rw [mem_polarPerp_iff]
@@ -76,6 +77,7 @@ private theorem frameSwap_mapsTo_swap (hF : OmNsRootGen.IsCoherentFrame Q p U e 
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb, frameSwap_fixes hF hab hja hjb hx]
       exact hx
 
+omit [Finite F] in
 private theorem planeEnd_mul_add (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) : planeEnd hF a * (planeEnd hF a + t • 1) = 1 := by
   have ht : planeAlg hF a ((AdjoinRoot.of (OmNsRootGen.framePoly t)) t) = t • 1 := by
@@ -84,6 +86,7 @@ private theorem planeEnd_mul_add (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c
   rw [map_mul, planeAlg_root, map_add, planeAlg_root, map_one] at h
   simpa [ht] using h
 
+omit [Finite F] in
 private theorem planeEquiv_inv_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) (x : ↥(U a)) :
     ((planeEquiv hF a)⁻¹) x = (planeEnd hF a + t • 1) x := by
@@ -94,6 +97,7 @@ private theorem planeEquiv_inv_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E
       planeEnd hF a ((planeEnd hF a + t • 1) x) from rfl]
   rw [← Module.End.mul_apply, hrel, Module.End.one_apply]
 
+omit [Finite F] in
 private theorem e_inv_apply_mem (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) {x : V} (hx : x ∈ U a) :
     ((e a : V ≃ₗ[F] V)⁻¹) x = (((planeEnd hF a + t • 1) ⟨x, hx⟩ : ↥(U a)) : V) := by
@@ -139,6 +143,7 @@ private theorem frameSwap_planeAlg (hF : OmNsRootGen.IsCoherentFrame Q p U e E u
     simp [planeEnd_apply]
   rw [hcoeff_a, hcoeff_b, hL, hR, map_add, map_smul, map_smul, hconj]
 
+omit [Finite F] in
 private theorem planeRot_eq_extU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) (z : normOne t) :
     planeRot hF a z =
@@ -206,6 +211,7 @@ theorem frameSwap_conj_planeRot_right (hF : OmNsRootGen.IsCoherentFrame Q p U e 
     rw [frameSwap, frameSwap, add_comm (u a), add_comm ((e a : V ≃ₗ[F] V) (u a))]]
   exact frameSwap_conj_planeRot hF hab.symm z
 
+omit [Finite F] in
 theorem frameSwap_conj_planeRot_of_ne (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) {j : Fin k} (hja : j ≠ a) (hjb : j ≠ b) (z : normOne t) :
     frameSwap Q e u c t a b * planeRot hF j z * (frameSwap Q e u c t a b)⁻¹ =
@@ -237,6 +243,7 @@ private theorem frameSwap_conj_planeRot_swap (hF : OmNsRootGen.IsCoherentFrame Q
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]
       exact frameSwap_conj_planeRot_of_ne hF hab hja hjb z
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 private theorem signChange_mapsTo_self (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) {x : V} (hx : x ∈ U a) :
     signChange Q u v a x ∈ U a := by
@@ -248,6 +255,7 @@ private theorem signChange_mapsTo_self (hF : OmNsRootGen.IsCoherentFrame Q p U e
     reflect_apply (by rw [hF.quad_eq a]; exact hF.c_ne_zero)]
   exact Submodule.sub_mem _ hx (Submodule.smul_mem _ _ (hF.mem a))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 private theorem signChange_fixes_of_ne (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) {j : Fin k} (hja : j ≠ a) {x : V}
     (hx : x ∈ U j) : signChange Q u v a x = x := by
@@ -261,6 +269,7 @@ private theorem signChange_fixes_of_ne (hF : OmNsRootGen.IsCoherentFrame Q p U e
   have hρu : reflect Q (u a) x = x := reflect_apply_of_polar_eq_zero huax
   rw [signChange, LinearEquiv.mul_apply, hρv, hρu]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 private theorem signChange_mapsTo (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) (j : Fin k) {x : V} (hx : x ∈ U j) :
     signChange Q u v a x ∈ U j := by
@@ -270,6 +279,7 @@ private theorem signChange_mapsTo (hF : OmNsRootGen.IsCoherentFrame Q p U e E u 
   · rw [signChange_fixes_of_ne hF hv hja hx]
     exact hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 private theorem signChange_mapsTo_perp (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) {z : V}
     (hz : z ∈ polarPerp Q (⨆ j, U j)) :
@@ -298,6 +308,7 @@ private theorem signChange_mapsTo_perp (hF : OmNsRootGen.IsCoherentFrame Q p U e
   rw [signChange, LinearEquiv.mul_apply, hρu]
   exact hρv_perp
 
+omit [FiniteDimensional F V] in
 private theorem normOneVal_inv_coord (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) {z : normOne t} {α β : F}
     (hz : normOneVal (F := F) (t := t) z = α • (1 : FrameField t) +
@@ -306,7 +317,7 @@ private theorem normOneVal_inv_coord (hF : OmNsRootGen.IsCoherentFrame Q p U e E
       (α + t * β) • (1 : FrameField t) +
         β • AdjoinRoot.root (OmNsRootGen.framePoly t) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let K := FrameField t
   let θ : K := AdjoinRoot.root (OmNsRootGen.framePoly t)
   have hval : normOneVal (F := F) (t := t) z⁻¹ =
@@ -383,7 +394,7 @@ private theorem signChange_planeAlg (hF : OmNsRootGen.IsCoherentFrame Q p U e E 
   rw [hcoeff, hcoeff_inv, hL, hR, map_add, map_smul, map_smul, hconj]
 
 theorem signChange_conj_planeRot (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
-    {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) (hQv : Q v ≠ 0) (z : normOne t) :
+    {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) (_hQv : Q v ≠ 0) (z : normOne t) :
     signChange Q u v a * planeRot hF a z * (signChange Q u v a)⁻¹ =
       planeRot hF a z⁻¹ := by
   classical
@@ -431,6 +442,7 @@ theorem signChange_conj_planeRot (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c
       simpa [LinearEquiv.mul_apply] using h
     exact hσσ
 
+omit [Finite F] in
 theorem signChange_conj_planeRot_of_ne (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {v : V} (hv : v ∈ polarPerp Q (⨆ j, U j)) {j : Fin k} (hj : j ≠ a) (z : normOne t) :
     signChange Q u v a * planeRot hF j z * (signChange Q u v a)⁻¹ = planeRot hF j z := by
@@ -559,7 +571,7 @@ theorem signChange_conj_frameTorusFull (hF : OmNsRootGen.IsCoherentFrame Q p U e
     rw [hstep]
     by_cases hja : j = a
     · rw [hja] at hRw ⊢
-      have hconj := signChange_conj_planeRot (hF := hF) (hv := hv) (hQv := hQv)
+      have hconj := signChange_conj_planeRot (hF := hF) (hv := hv) (_hQv := hQv)
         (a := a) (x a)
       rw [hσinv] at hconj
       rw [hconj, hRw, Function.update_self a ((x a)⁻¹) x]

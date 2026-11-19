@@ -15,9 +15,8 @@ theorem su_reduceU_of_leaves : SUPInvLeaf → SUPCentLeaf → SUStabCardLeaf →
     : ℕ) [Fact p.Prime] (m : ℕ) (V : Type) [AddCommGroup V] [Module (ZMod p) V] (b : Module.Basis
     (Fin m) (ZMod p) V) (H A : Subgroup (V ≃ₗ[ZMod p] V)), SULinData p m V b H A → (∀ r ∈ H,
     GGLinRefl r → ggLinMove r ≤ SUAug p b) → SUClassReady p m H) := by
-  intro hP1 hP2 hP3
-  intro hN p hpFact m V instAC instMod b H A hD hU
-  haveI : NeZero m := ⟨by have := hD.hm; omega⟩
+  intro hP1 hP2 hP3 hN p hpFact m V instAC instMod b H A hD hU
+  have : NeZero m := ⟨by have := hD.hm; omega⟩
   have hm0 : (m : ZMod p) ≠ 0 := by
     intro h
     have hpdiv : p ∣ m := (CharP.cast_eq_zero_iff (ZMod p) p m).mp h

@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_fix_of_centralizes {Ξ Y : Subgroup G}
     (hYc : ∀ a ∈ Y, ∀ x ∈ Ξ, x * a = a * x) {m a : G} (hm : m ∈ Ξ) (ha : a ∈ Y) :
     m * a * m⁻¹ = a := by
@@ -51,6 +52,7 @@ private def commTauSub (Ξ Y : Subgroup G) (tau : G)
     rw [hfixinv] at key
     exact key
 
+omit [Finite G] in
 private theorem commTauSub_le_Y {Ξ Y : Subgroup G} {tau : G}
     (hYc : ∀ a ∈ Y, ∀ x ∈ Ξ, x * a = a * x) (hYleΞ : Y ≤ Ξ)
     (hcommY : ∀ m ∈ Ξ, m * tau * m⁻¹ * tau⁻¹ ∈ Y) :

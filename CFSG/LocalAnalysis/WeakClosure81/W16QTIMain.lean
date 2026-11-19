@@ -28,7 +28,7 @@ theorem two_mul_le_mSub_of_sz
   set Y := SevenK.barSub (conjClosure V H) φ V with hY
   have hYc : Nat.card Y = 2 ^ n := d.shape.1
   have hYel : IsElemAbelian 2 Y := d.isElemAbelian_barSub
-  haveI hsimple : IsSimpleGroup X := hK.sz_simple n X hn hSz
+  have hsimple : IsSimpleGroup X := hK.sz_simple n X hn hSz
   have hcard := hK.sz_card n X hn hSz
   have h2 : 2 < Nat.card Y := by
     rw [hYc]
@@ -148,7 +148,7 @@ theorem tiModule166_holds
             IsU3Shape X (E3.mQuot V (iSub16 V H))) →
           2 * E3.mQuot V (iSub16 V H) ≤ mSub V₀ := by
   intro h1 h5 h15 hS M V₀ V U S H hcex hmin hV X _ φ hbar hshape ho2 hn1 hsh
-  haveI : Finite X := Finite.of_surjective φ hbar.surjective
+  have : Finite X := Finite.of_surjective φ hbar.surjective
   have d : DichCfg M V₀ V U S H φ := ⟨⟨hS, h1, h5, h15, hcex, hmin, hV⟩, hbar, hshape, ho2⟩
   rcases hsh with hSz | hU3
   · exact d.two_mul_le_mSub_of_sz hK hn1 hSz

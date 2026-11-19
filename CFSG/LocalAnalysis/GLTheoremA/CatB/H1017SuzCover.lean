@@ -35,7 +35,7 @@ theorem coverRank_of_spec {X : Type} [Group X] (D : ModuleSpec X 3) (hA : D.NoAl
     (hF : D.NoFun) {H : Type} [Group H] [Finite H] (ψ : X ≃* H ⧸ Subgroup.center H)
     (hZ : Nat.card (Subgroup.center H) = 3) {r : ℕ} (hr : r ≤ D.n + 1) :
     ∃ F : Subgroup H, IsElemAbelian 3 F ∧ Nat.card F = 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D' := D.map ψ.toMonoidHom ψ.injective
   have hA' : D'.NoAlt := hA
   have hF' : D'.NoFun := hF
@@ -65,7 +65,7 @@ theorem coverRank_of_modCheckE {M V : Type} [Inhabited M] {O : Ops M V} {c d : �
     {H : Type} [Group H] [Finite H] (ψ : (certMonoid c d sA sB)ˣ ≃* H ⧸ Subgroup.center H)
     (hZ : Nat.card (Subgroup.center H) = 3) {r : ℕ} (hr : r ≤ m.basis.length + 1) :
     ∃ F : Subgroup H, IsElemAbelian 3 F ∧ Nat.card F = 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hn, hA, hF⟩ := spec_of_modCheckE Sp h
   exact coverRank_of_spec D hA hF ψ hZ (by rw [hn]; exact hr)
 

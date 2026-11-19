@@ -17,7 +17,7 @@ theorem w183finG4A6_autNoDynkin_eq
   have hset : {φ : MulAut M | ¬ ActsOnDynkinMod ⊥ (innAutOf M) φ} =
       (w183finG4A6AutS6 e : Set (MulAut M)) := by
     ext γ
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · intro h
       by_contra hγ

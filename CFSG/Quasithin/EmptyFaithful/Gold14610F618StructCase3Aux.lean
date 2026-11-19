@@ -23,7 +23,7 @@ theorem false_of_cyclic_four {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
   have hCp : IsPGroup 2 C := IsPGroup.of_card (n := 2) (by rw [hC]; norm_num)
   obtain ⟨S, hCS⟩ := hCp.exists_le_sylow
   have hSle : Nat.card S ≤ 4 := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S.isPGroup
     have hdvd : 2 ^ n ∣ 2 ^ 2 * w := hKw ▸ hn ▸ Subgroup.card_subgroup_dvd_card (S : Subgroup K)
     have hcop : Nat.Coprime (2 ^ n) w := Nat.Coprime.pow_left _ (Nat.coprime_two_left.2 hw)
     have h4 : 2 ^ n ∣ 2 ^ 2 := hcop.dvd_of_dvd_mul_right hdvd

@@ -19,7 +19,7 @@ theorem sylow_inter_D_transitive (hcls : ∃ d₀ : G, D = {g | IsConj d₀ g})
   have hDinv : ∀ g : G, ∀ x ∈ D, g * x * g⁻¹ ∈ D :=
     fun g x hx => CFSG.Timmesfeld.conj_mem_of_isClass hcls g hx
   have hcomm : ∀ a ∈ (T : Set G) ∩ D, ∀ b ∈ (T : Set G) ∩ D, a * b = b * a :=
-    fun a ha b hb => (hodd.commute_of_isPGroup T.isPGroup' ha.2 hb.2 ha.1 hb.1).eq
+    fun a ha b hb => (hodd.commute_of_isPGroup T.isPGroup ha.2 hb.2 ha.1 hb.1).eq
   obtain ⟨g, hg⟩ := isConj_iff.mp (CFSG.Timmesfeld.isConj_of_isClass hcls he.2 hf.2)
   obtain ⟨h, hh, hhe⟩ :=
     CFSG.EvenSmallLie.ThreeTransposition.exists_mem_normalizer_conj_eq hDinv T hcomm

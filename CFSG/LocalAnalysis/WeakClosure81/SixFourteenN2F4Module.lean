@@ -22,7 +22,7 @@ open Polynomial
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
-def addModTwo (hw2 : ∀ w : W, w ^ 2 = 1) : Module (ZMod 2) (Additive W) :=
+@[instance_reducible] def addModTwo (hw2 : ∀ w : W, w ^ 2 = 1) : Module (ZMod 2) (Additive W) :=
   AddCommGroup.zmodModule (n := 2) (fun v => by
     have hv : Additive.ofMul (Additive.toMul v) = v := rfl
     rw [← hv, two_nsmul]
@@ -44,6 +44,7 @@ variable (x : MulAut W)
     rw [toMul_add, map_mul]
     rfl
 
+omit [Finite W] in
 @[simp] theorem autAddHom_apply (v : Additive W) :
     autAddHom x v = Additive.ofMul (x (Additive.toMul v)) := rfl
 
@@ -53,6 +54,7 @@ def autEnd : @Module.End (ZMod 2) (Additive W) _ _ (addModTwo hw2) :=
 
 variable {x}
 
+omit [Finite W] in
 theorem autEnd_ofMul (w : W) :
     autEnd hw2 x (Additive.ofMul w) = Additive.ofMul (x w) := by
   change autAddHom x (Additive.ofMul w) = Additive.ofMul (x w)
@@ -191,7 +193,7 @@ def frobMatrixHom :
     simp [Matrix.one_apply]
   map_mul' A B := by
     ext i j
-    simp [Matrix.mul_apply, map_sum, map_mul]
+    simp [Matrix.mul_apply, map_mul]
 
 theorem frobMatrixHom_apply (A : Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) (i j : Fin 2) :
     frobMatrixHom A i j = (A i j) ^ 2 := by
@@ -199,7 +201,7 @@ theorem frobMatrixHom_apply (A : Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) (i j 
 
 theorem frobenius_f4_sq (x : GaloisField 2 2) :
     frobenius (GaloisField 2 2) 2 (frobenius (GaloisField 2 2) 2 x) = x := by
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   rw [frobenius_def, frobenius_def]
   have hcard : Fintype.card (GaloisField 2 2) = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
@@ -266,8 +268,8 @@ theorem twist_scalar (S : Matrix.GeneralLinearGroup (Fin 2) (GaloisField 2 2))
     rw [frobMatrixHom_apply]
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply, Units.val_pow_eq_pow_val, pow_two]
-    · simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+      simp [Matrix.scalar_apply, pow_two]
+    · simp [Matrix.scalar_apply, hij]
   rw [twist_apply]
   rw [hfrob]
   have hcomm : S * Matrix.GeneralLinearGroup.scalar (Fin 2) (u ^ 2) =
@@ -566,7 +568,7 @@ theorem aeval_F4poly_autEnd :
     letI := addModTwo hw2
     Polynomial.aeval (R := ZMod 2) (A := Module.End (ZMod 2) (Additive W))
       (autEnd hw2 x) F4poly = 0 := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   ext v
   let w : W := Additive.toMul v
   change Polynomial.aeval (R := ZMod 2) (A := Module.End (ZMod 2) (Additive W))
@@ -598,14 +600,14 @@ def f4AlgEquivGalois : AdjoinRoot F4poly ≃ₐ[ZMod 2] GaloisField 2 2 := by
     rw [← Nat.card_eq_fintype_card, CFSG.GroupTheory.GL52.card_F4]
     norm_num)
 
-def galoisModule : Module (GaloisField 2 2) (Additive W) :=
+@[instance_reducible] def galoisModule : Module (GaloisField 2 2) (Additive W) :=
   Module.compHom (Additive W)
     ((f4RingHom hw2 x hx3 hfix).comp f4AlgEquivGalois.symm.toRingHom)
 
 theorem finrank_galoisModule (hW : Nat.card W = 16) :
     letI := galoisModule hw2 x hx3 hfix
     Module.finrank (GaloisField 2 2) (Additive W) = 2 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   have hcard : Nat.card (Additive W) = 16 := by
     change Nat.card W = 16
     exact hW
@@ -619,14 +621,14 @@ theorem finrank_galoisModule (hW : Nat.card W = 16) :
   have hd : 4 ^ Module.finrank (GaloisField 2 2) (Additive W) = 16 := h.symm
   have hle : Module.finrank (GaloisField 2 2) (Additive W) ≤ 2 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h3 : 4 ^ 3 ≤ 4 ^ Module.finrank (GaloisField 2 2) (Additive W) :=
       Nat.pow_le_pow_right (by norm_num) (by omega)
     norm_num at h3
     omega
   have hge : 1 ≤ Module.finrank (GaloisField 2 2) (Additive W) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h0 : Module.finrank (GaloisField 2 2) (Additive W) = 0 := by omega
     rw [h0] at hd
     norm_num at hd
@@ -661,6 +663,7 @@ section Commute
 
 omit hx3 hfix
 
+omit [Finite W] in
 theorem autAddHom_iterate_commute (h g : MulAut W) (hcomm : h * g = g * h)
     (n : ℕ) (v : Additive W) :
     autAddHom h ((autAddHom g)^[n] v) = (autAddHom g)^[n] (autAddHom h v) := by
@@ -693,7 +696,7 @@ theorem f4RingHom_mk (p : (ZMod 2)[X]) :
     f4RingHom hw2 x hx3 hfix (AdjoinRoot.mk F4poly p) =
       Polynomial.aeval (R := ZMod 2) (A := Module.End (ZMod 2) (Additive W))
         (autEnd hw2 x) p := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   rfl
 
 end AdjoinRoot
@@ -704,12 +707,13 @@ omit hx3 hfix
 
 variable (h : MulAut W)
 
+omit [Finite W] in
 theorem autAddHom_algebraMap_comm (c : ZMod 2) (v : Additive W) :
     letI := addModTwo hw2
     autAddHom h
         ((algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive W)) c) v) =
       (algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive W)) c) (autAddHom h v) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, Module.End.one_apply]
   have hc : c • v = c.val • v := by
     rw [← Nat.cast_smul_eq_nsmul (ZMod 2) c.val, ZMod.natCast_zmod_val]
@@ -745,12 +749,12 @@ def commutingSubalgebra :
       intro c
       exact autAddHom_algebraMap_comm hw2 h c }
 
+omit [Finite W] in
 theorem autEnd_mem_commutingSubalgebra (hcomm : h * x = x * h) :
     letI := addModTwo hw2
     autEnd hw2 x ∈ commutingSubalgebra hw2 h := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   intro v
-  change autAddHom h (autEnd hw2 x v) = autEnd hw2 x (autAddHom h v)
   simpa [autEnd] using autAddHom_iterate_commute h x hcomm 1 v
 
 include hx3 hfix
@@ -759,7 +763,7 @@ theorem f4RingHom_algebraMap (c : ZMod 2) :
     letI := addModTwo hw2
     f4RingHom hw2 x hx3 hfix (algebraMap (ZMod 2) (AdjoinRoot F4poly) c) =
       algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive W)) c := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   rw [AdjoinRoot.algebraMap_eq]
   change f4RingHom hw2 x hx3 hfix (AdjoinRoot.mk F4poly (Polynomial.C c)) = _
   rw [f4RingHom_mk, Polynomial.aeval_C]
@@ -775,7 +779,7 @@ def f4AlgHom :
 theorem f4AlgHom_root :
     letI := addModTwo hw2
     f4AlgHom hw2 x hx3 hfix (AdjoinRoot.root F4poly) = autEnd hw2 x := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   change f4RingHom hw2 x hx3 hfix (AdjoinRoot.mk F4poly Polynomial.X) = autEnd hw2 x
   rw [f4RingHom_mk, Polynomial.aeval_X]
 
@@ -783,7 +787,7 @@ theorem f4AlgHom_range :
     letI := addModTwo hw2
     (f4AlgHom hw2 x hx3 hfix).range =
       Algebra.adjoin (ZMod 2) ({autEnd hw2 x} : Set (Module.End (ZMod 2) (Additive W))) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   rw [← Algebra.map_top, ← AdjoinRoot.adjoinRoot_eq_top (f := F4poly)]
   rw [AlgHom.map_adjoin]
   simp [f4AlgHom_root]
@@ -792,7 +796,7 @@ theorem f4RingHom_mem_commutingSubalgebra (hcomm : h * x = x * h)
     (c : AdjoinRoot F4poly) :
     letI := addModTwo hw2
     f4RingHom hw2 x hx3 hfix c ∈ commutingSubalgebra hw2 h := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   have hS : Algebra.adjoin (ZMod 2)
       ({autEnd hw2 x} : Set (Module.End (ZMod 2) (Additive W))) ≤
         commutingSubalgebra hw2 h := by
@@ -812,7 +816,7 @@ theorem autAddHom_f4RingHom_comm (hcomm : h * x = x * h)
     letI := addModTwo hw2
     autAddHom h ((f4RingHom hw2 x hx3 hfix c) v) =
       (f4RingHom hw2 x hx3 hfix c) (autAddHom h v) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   exact f4RingHom_mem_commutingSubalgebra hw2 x hx3 hfix h hcomm c v
 
 def hGaloisLinearEquiv (hcomm : h * x = x * h) :
@@ -864,7 +868,7 @@ theorem hGaloisLinearEquiv_mul (h₁ h₂ : MulAut W)
     hGaloisLinearEquiv hw2 x hx3 hfix (h₁ * h₂) hc =
       (hGaloisLinearEquiv hw2 x hx3 hfix h₂ hc₂).trans
         (hGaloisLinearEquiv hw2 x hx3 hfix h₁ hc₁) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   ext v
   rfl
 
@@ -874,7 +878,7 @@ theorem hGL_mul (h₁ h₂ : MulAut W)
     letI := galoisModule hw2 x hx3 hfix
     hGL hw2 x hx3 hfix (h₁ * h₂) hc hW =
       hGL hw2 x hx3 hfix h₁ hc₁ hW * hGL hw2 x hx3 hfix h₂ hc₂ hW := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   dsimp only [hGL]
   rw [hGaloisLinearEquiv_mul hw2 x hx3 hfix h₁ h₂ hc₁ hc₂ hc]
   rw [← conj_mul (galoisEquivFun hw2 x hx3 hfix hW)
@@ -912,7 +916,7 @@ theorem hGaloisLinearEquiv_one {W : Type*} [CommGroup W] [Finite W]
     (hc : (1 : MulAut W) * x = x * 1) :
     letI := galoisModule hw2 x hx3 hfix
     hGaloisLinearEquiv hw2 x hx3 hfix 1 hc = LinearEquiv.refl (GaloisField 2 2) (Additive W) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   ext v
   rfl
 
@@ -922,7 +926,7 @@ theorem hGL_one {W : Type*} [CommGroup W] [Finite W]
     (hc : (1 : MulAut W) * x = x * 1) (hW : Nat.card W = 16) :
     letI := galoisModule hw2 x hx3 hfix
     hGL hw2 x hx3 hfix 1 hc hW = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   dsimp only [hGL]
   rw [hGaloisLinearEquiv_one, LinearEquiv.refl_trans, LinearEquiv.symm_trans_self,
     matrixOfLinearEquiv_refl]
@@ -955,7 +959,7 @@ theorem hGLHom_injective {W : Type*} [CommGroup W] [Finite W]
     (hW : Nat.card W = 16) :
     Function.Injective (hGLHom hw2 x hx3 hfix G X hxgen hW) := by
   intro h₁ h₂ hEq
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let e := galoisEquivFun hw2 x hx3 hfix hW
   have hM : matrixOfLinearEquiv
       (e.symm.trans ((hGaloisLinearEquiv hw2 x hx3 hfix (h₁ : MulAut W)
@@ -1003,7 +1007,7 @@ theorem algebraMap_maps_y {W : Type*} [CommGroup W] [Finite W]
     letI := addModTwo hw2
     Additive.toMul ((algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive W)) c)
       (Additive.ofMul y)) ∈ Y := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, Module.End.one_apply]
   rw [← ZMod.natCast_zmod_val c, Nat.cast_smul_eq_nsmul, toMul_nsmul]
   exact Subgroup.pow_mem Y hy c.val
@@ -1044,7 +1048,7 @@ theorem autEnd_mem_mapsY {W : Type*} [CommGroup W] [Finite W]
     (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) :
     letI := addModTwo hw2
     autEnd hw2 x ∈ mapsYSubalgebra hw2 Y := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   intro y hy
   exact autEnd_maps_y hw2 hxX hYinv hy
 
@@ -1055,7 +1059,7 @@ theorem f4RingHom_maps_y {W : Type*} [CommGroup W] [Finite W]
     (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (c : AdjoinRoot F4poly) {y : W} (hy : y ∈ Y) :
     letI := addModTwo hw2
     Additive.toMul ((f4RingHom hw2 x hx3 hfix c) (Additive.ofMul y)) ∈ Y := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   have hS : Algebra.adjoin (ZMod 2)
       ({autEnd hw2 x} : Set (Module.End (ZMod 2) (Additive W))) ≤
         mapsYSubalgebra hw2 Y := by
@@ -1137,7 +1141,7 @@ theorem card_YSubmodule {W : Type*} [CommGroup W] [Finite W]
     (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (hYcard : Nat.card Y = 4) :
     letI := galoisModule hw2 x hx3 hfix
     Nat.card (YSubmodule hw2 x hx3 hfix hxX hYinv) = 4 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   rw [← hYcard]
   exact Nat.card_congr (YSubmoduleEquiv hw2 x hx3 hfix hxX hYinv).symm
 
@@ -1147,7 +1151,7 @@ theorem hGaloisLinearEquiv_ne_one {W : Type*} [CommGroup W] [Finite W]
     (hc : d * x = x * d) (hd : d ≠ 1) :
     letI := galoisModule hw2 x hx3 hfix
     hGaloisLinearEquiv hw2 x hx3 hfix d hc ≠ 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro h
   apply hd
   ext w
@@ -1165,7 +1169,7 @@ theorem YSubmodule_le_fixedSubmodule {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     YSubmodule hw2 x hx3 hfix hxX hYinv ≤
       fixedSubmodule (hGaloisLinearEquiv hw2 x hx3 hfix d hc).toLinearMap := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro v hv
   rw [mem_fixedSubmodule]
   change Additive.toMul v ∈ Y at hv
@@ -1189,7 +1193,7 @@ theorem toMul_algebraMap_apply {W : Type*} [CommGroup W] [Finite W]
     letI := addModTwo hw2
     Additive.toMul ((algebraMap (ZMod 2) (Module.End (ZMod 2) (Additive W)) c)
       (Additive.ofMul w)) = w ^ c.val := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   simp only [Algebra.algebraMap_eq_smul_one, LinearMap.smul_apply, Module.End.one_apply]
   rw [← ZMod.natCast_zmod_val c, Nat.cast_smul_eq_nsmul, toMul_nsmul,
     ZMod.val_natCast_of_lt (ZMod.val_lt c)]
@@ -1214,7 +1218,7 @@ theorem Semilinear_add {W : Type*} [CommGroup W] [Finite W]
     {f g : @Module.End (ZMod 2) (Additive W) _ _ (addModTwo hw2)}
     (hf : Semilinear hw2 s f) (hg : Semilinear hw2 s g) (hfg : f * g = g * f) :
     Semilinear hw2 s (f + g) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   intro w
   have hsq : (f + g) ^ 2 = f ^ 2 + g ^ 2 := by
     calc (f + g) ^ 2 = f * f + f * g + g * f + g * g := by noncomm_ring
@@ -1229,7 +1233,7 @@ theorem Semilinear_mul {W : Type*} [CommGroup W] [Finite W]
     {f g : @Module.End (ZMod 2) (Additive W) _ _ (addModTwo hw2)}
     (hf : Semilinear hw2 s f) (hg : Semilinear hw2 s g) (hfg : f * g = g * f) :
     Semilinear hw2 s (f * g) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   intro w
   have hsq : (f * g) ^ 2 = f ^ 2 * g ^ 2 := by
     calc (f * g) ^ 2 = f * (g * f) * g := by noncomm_ring
@@ -1285,11 +1289,9 @@ theorem autEnd_mem_semilinearSubalgebra {W : Type*} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) {x s : MulAut W} (hsx : s * x * s⁻¹ = x ^ 2) :
     letI := addModTwo hw2
     autEnd hw2 x ∈ semilinearSubalgebra hw2 x s := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   refine ⟨Algebra.subset_adjoin (Set.mem_singleton _), ?_⟩
   intro w
-  change s (Additive.toMul (autEnd hw2 x (Additive.ofMul w))) =
-    Additive.toMul ((autEnd hw2 x ^ 2) (Additive.ofMul (s w)))
   rw [autEnd_ofMul, pow_two, Module.End.mul_apply, autEnd_ofMul, autEnd_ofMul]
   simpa using apply_x_eq_sq_apply hsx w
 
@@ -1298,7 +1300,7 @@ theorem apply_f4RingHom_eq_sq {W : Type*} [CommGroup W] [Finite W]
     (hfix : fixV (Subgroup.zpowers x) = ⊥) {s : MulAut W}
     (hsx : s * x * s⁻¹ = x ^ 2) (c : AdjoinRoot F4poly) :
     Semilinear hw2 s (f4RingHom hw2 x hx3 hfix c) := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   have hS : Algebra.adjoin (ZMod 2)
       ({autEnd hw2 x} : Set (Module.End (ZMod 2) (Additive W))) ≤
         semilinearSubalgebra hw2 x s := by
@@ -1320,7 +1322,7 @@ theorem apply_galois_smul_eq_sq {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     s (Additive.toMul (c • Additive.ofMul w)) =
       Additive.toMul ((c ^ 2) • Additive.ofMul (s w)) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   change s (Additive.toMul ((f4RingHom hw2 x hx3 hfix (f4AlgEquivGalois.symm c))
       (Additive.ofMul w))) =
     Additive.toMul ((f4RingHom hw2 x hx3 hfix (f4AlgEquivGalois.symm (c ^ 2)))
@@ -1347,7 +1349,7 @@ theorem sMatrix_expansion {W : Type*} [CommGroup W] [Finite W]
     Additive.ofMul (s (Additive.toMul ((galoisBasis hw2 x hx3 hfix hW) j))) =
       ∑ i, (sMatrix hw2 x hx3 hfix hW s) i j •
         (galoisBasis hw2 x hx3 hfix hW) i := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   exact (Module.Basis.sum_repr (galoisBasis hw2 x hx3 hfix hW)
     (Additive.ofMul (s (Additive.toMul ((galoisBasis hw2 x hx3 hfix hW) j))))).symm
 
@@ -1358,7 +1360,7 @@ theorem autAddHom_sum_smul_sq {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     autAddHom s (∑ k, c k • (galoisBasis hw2 x hx3 hfix hW) k) =
       ∑ k, (c k) ^ 2 • autAddHom s ((galoisBasis hw2 x hx3 hfix hW) k) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   rw [map_sum]
   apply Finset.sum_congr rfl
   intro k hk
@@ -1387,7 +1389,7 @@ theorem equivFun_autAddHom_autAddHom_basis {W : Type*} [CommGroup W] [Finite W]
         (autAddHom s (autAddHom s ((galoisBasis hw2 x hx3 hfix hW) j))) i =
       ∑ k, (sMatrix hw2 x hx3 hfix hW s) i k *
         ((sMatrix hw2 x hx3 hfix hW s) k j) ^ 2 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let S := sMatrix hw2 x hx3 hfix hW s
   change b.equivFun (Additive.ofMul (s (Additive.toMul
@@ -1409,7 +1411,7 @@ theorem sMatrix_mul_frob {W : Type*} [CommGroup W] [Finite W]
     (hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2) :
     letI := galoisModule hw2 x hx3 hfix
     sMatrix hw2 x hx3 hfix hW s * frobMatrixHom (sMatrix hw2 x hx3 hfix hW s) = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let S := sMatrix hw2 x hx3 hfix hW s
   ext i j
@@ -1440,7 +1442,7 @@ theorem sUnit_val {W : Type*} [CommGroup W] [Finite W]
     (sUnit hw2 x hx3 hfix hW hs2 hsx :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) =
       sMatrix hw2 x hx3 hfix hW s := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   exact Units.val_mkOfMulEqOne _
 
 theorem sUnit_mul_frob {W : Type*} [CommGroup W] [Finite W]
@@ -1449,7 +1451,7 @@ theorem sUnit_mul_frob {W : Type*} [CommGroup W] [Finite W]
     (hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2) :
     letI := galoisModule hw2 x hx3 hfix
     sUnit hw2 x hx3 hfix hW hs2 hsx * frobGL (sUnit hw2 x hx3 hfix hW hs2 hsx) = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   apply Units.ext
   change (sUnit hw2 x hx3 hfix hW hs2 hsx :
       Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) *
@@ -1466,7 +1468,7 @@ theorem hGL_equivFun_basis {W : Type*} [CommGroup W] [Finite W]
     (galoisEquivFun hw2 x hx3 hfix hW)
         (autAddHom h ((galoisBasis hw2 x hx3 hfix hW) j)) =
       fun i => (hGL hw2 x hx3 hfix h hcomm hW) i j := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let e := galoisEquivFun hw2 x hx3 hfix hW
   let C := e.symm.trans ((hGaloisLinearEquiv hw2 x hx3 hfix h hcomm).trans e)
@@ -1494,7 +1496,7 @@ theorem hGL_expansion {W : Type*} [CommGroup W] [Finite W]
     autAddHom h ((galoisBasis hw2 x hx3 hfix hW) j) =
       ∑ i, (hGL hw2 x hx3 hfix h hcomm hW) i j •
         (galoisBasis hw2 x hx3 hfix hW) i := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   have hcoord := hGL_equivFun_basis hw2 x hx3 hfix hW hcomm j
   calc autAddHom h (b j) = b.equivFun.symm (b.equivFun (autAddHom h (b j))) := by simp
@@ -1550,14 +1552,14 @@ theorem equivFun_h'_s_basis {W : Type*} [CommGroup W] [Finite W]
         (autAddHom h' (autAddHom s ((galoisBasis hw2 x hx3 hfix hW) j))) i =
       ∑ k, (hGL hw2 x hx3 hfix h' hcomm' hW) i k *
         (sMatrix hw2 x hx3 hfix hW s) k j := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let S := sMatrix hw2 x hx3 hfix hW s
   let A' := hGL hw2 x hx3 hfix h' hcomm' hW
   change b.equivFun (autAddHom h' (Additive.ofMul (s (Additive.toMul (b j))))) i = _
   rw [sMatrix_expansion hw2 x hx3 hfix hW s j]
   change b.equivFun (autAddHom h' (∑ k, S k j • b k)) i = _
-  simp only [map_sum, map_smul, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
+  simp only [map_sum, Finset.sum_apply]
   apply Finset.sum_congr rfl
   intro k hk
   change b.equivFun ((hGaloisLinearEquiv hw2 x hx3 hfix h' hcomm')
@@ -1568,7 +1570,7 @@ theorem equivFun_h'_s_basis {W : Type*} [CommGroup W] [Finite W]
   simp only [map_sum, map_smul, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single i]
   · rw [Module.Basis.equivFun_self]
-    simp [A', S]
+    simp [S]
     rw [mul_comm]
   · intro l hl hne
     rw [Module.Basis.equivFun_self]
@@ -1585,7 +1587,7 @@ theorem equivFun_s_h_basis {W : Type*} [CommGroup W] [Finite W]
         (autAddHom s (autAddHom h ((galoisBasis hw2 x hx3 hfix hW) j))) i =
       ∑ k, (sMatrix hw2 x hx3 hfix hW s) i k *
         ((hGL hw2 x hx3 hfix h hcomm hW) k j) ^ 2 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let S := sMatrix hw2 x hx3 hfix hW s
   let A := hGL hw2 x hx3 hfix h hcomm hW
@@ -1615,7 +1617,7 @@ theorem hGL_conj_mul_sUnit {W : Type*} [CommGroup W] [Finite W]
         Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) *
       (frobGL (hGL hw2 x hx3 hfix h hcomm hW) :
         Matrix (Fin 2) (Fin 2) (GaloisField 2 2)) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let b := galoisBasis hw2 x hx3 hfix hW
   let A' := hGL hw2 x hx3 hfix (s * h * s⁻¹)
     (conj_commutes_x hs2 hx3 hsx hcomm) hW
@@ -1642,7 +1644,7 @@ theorem hGL_conj {W : Type*} [CommGroup W] [Finite W]
     hGL hw2 x hx3 hfix (s * h * s⁻¹) (conj_commutes_x hs2 hx3 hsx hcomm) hW =
       twist (sUnit hw2 x hx3 hfix hW hs2 hsx)
         (hGL hw2 x hx3 hfix h hcomm hW) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let A' := hGL hw2 x hx3 hfix (s * h * s⁻¹)
     (conj_commutes_x hs2 hx3 hsx hcomm) hW
   let A := hGL hw2 x hx3 hfix h hcomm hW
@@ -1669,8 +1671,8 @@ theorem le_inf_centralizer_self {G : Type*} [Group G] {X G₀ : Subgroup G}
     X ≤ G₀ ⊓ Subgroup.centralizer (X : Set G) := by
   apply le_inf hXG
   rw [Subgroup.le_centralizer_iff_isMulCommutative]
-  haveI : Fact (Nat.Prime (Nat.card X)) := ⟨by rw [hXcard]; norm_num⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card (p := 3) (by rw [hXcard])
+  have : Fact (Nat.Prime (Nat.card X)) := ⟨by rw [hXcard]; norm_num⟩
+  have : IsCyclic X := isCyclic_of_prime_card (p := 3) (by rw [hXcard])
   infer_instance
 
 theorem fixV_eq_bot_or_top_of_central {W : Type*} [CommGroup W]
@@ -1696,7 +1698,7 @@ theorem autAddHom_smul_eq_sq {W : Type*} [CommGroup W] [Finite W]
     (hsx : s * x * s⁻¹ = x ^ 2) (c : GaloisField 2 2) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     autAddHom s (c • v) = (c ^ 2) • autAddHom s v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let w : W := Additive.toMul v
   have hv : Additive.ofMul w = v := rfl
   rw [← hv]
@@ -1728,7 +1730,7 @@ theorem card_sImage {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     ∀ L : Submodule (GaloisField 2 2) (Additive W),
       Nat.card (sImage hw2 x hx3 hfix hsx L) = Nat.card L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L
   change Nat.card (semilinearImage (autAddEquiv s)
     (fun c v => by
@@ -1758,8 +1760,8 @@ theorem finrank_sImage {W : Type*} [CommGroup W] [Finite W]
     ∀ L : Submodule (GaloisField 2 2) (Additive W),
       Module.finrank (GaloisField 2 2) L = 1 →
       Module.finrank (GaloisField 2 2) (sImage hw2 x hx3 hfix hsx L) = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
-  haveI : FiniteDimensional (GaloisField 2 2) (Additive W) :=
+  let := galoisModule hw2 x hx3 hfix
+  have : FiniteDimensional (GaloisField 2 2) (Additive W) :=
     (galoisBasis hw2 x hx3 hfix hW).finiteDimensional_of_finite
   intro L hL
   apply finrank_eq_one_of_card_four
@@ -1786,13 +1788,13 @@ theorem mem_sImage {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     ∀ (L : Submodule (GaloisField 2 2) (Additive W)) (y : Additive W),
       y ∈ sImage hw2 x hx3 hfix hsx L ↔ ∃ v ∈ L, autAddHom s v = y := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L y
   rfl
 
 theorem sImage_mem_of_conj {W : Type*} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
-    (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
+    (hfix : fixV (Subgroup.zpowers x) = ⊥) (_hW : Nat.card W = 16)
     {s h h' : MulAut W} (hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2)
     (hconj : s * h * s⁻¹ = h') :
     letI := galoisModule hw2 x hx3 hfix
@@ -1800,7 +1802,7 @@ theorem sImage_mem_of_conj {W : Type*} [CommGroup W] [Finite W]
       (∀ v ∈ L, autAddHom h' v ∈ L) →
       ∀ y ∈ sImage hw2 x hx3 hfix hsx L,
         autAddHom h y ∈ sImage hw2 x hx3 hfix hsx L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L h'L y hy
   rw [mem_sImage hw2 x hx3 hfix hsx L y] at hy
   obtain ⟨v, hv, rfl⟩ := hy
@@ -1820,7 +1822,7 @@ theorem sImage_stabilized_of_forall_conj {W : Type*} [CommGroup W] [Finite W]
       (∀ h ∈ H, ∀ v ∈ L, autAddHom h v ∈ L) →
       ∀ h ∈ H, ∀ y ∈ sImage hw2 x hx3 hfix hsx L,
         autAddHom h y ∈ sImage hw2 x hx3 hfix hsx L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L hL h hh y hy
   exact sImage_mem_of_conj hw2 x hx3 hfix hW hs2 hsx rfl L
     (hL (s * h * s⁻¹) (hconjH h hh)) y hy
@@ -1860,7 +1862,7 @@ theorem mem_HLin {W : Type*} [CommGroup W] [Finite W]
       g ∈ HLin hw2 x hx3 hfix H hcommH ↔
         ∃ (h : MulAut W) (hh : h ∈ H),
           g = hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro g
   rfl
 
@@ -1871,7 +1873,7 @@ theorem hGaloisLinearEquiv_mem_HLin {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh) ∈
       HLin hw2 x hx3 hfix H hcommH := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   exact ⟨h, hh, rfl⟩
 
 theorem hGaloisLinearEquiv_mul_self {W : Type*} [CommGroup W] [Finite W]
@@ -1882,7 +1884,7 @@ theorem hGaloisLinearEquiv_mul_self {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh) *
       hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh) = 1 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   change (hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh)).trans
     (hGaloisLinearEquiv hw2 x hx3 hfix h (hcommH h hh)) = 1
   rw [← hGaloisLinearEquiv_mul hw2 x hx3 hfix h h
@@ -1897,7 +1899,7 @@ theorem HLin_stabilizes {W : Type*} [CommGroup W] [Finite W]
     ∀ (L : Submodule (GaloisField 2 2) (Additive W)),
       (∀ h ∈ H, ∀ v ∈ L, autAddHom h v ∈ L) →
       ∀ g ∈ HLin hw2 x hx3 hfix H hcommH, ∀ v ∈ L, g v ∈ L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L hL g hg v hv
   rw [mem_HLin hw2 x hx3 hfix H hcommH g] at hg
   obtain ⟨h, hh, rfl⟩ := hg
@@ -1906,7 +1908,7 @@ theorem HLin_stabilizes {W : Type*} [CommGroup W] [Finite W]
 theorem false_of_two_invariant_lines_HLin {W : Type*} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
-    {s : MulAut W} (hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2)
+    {s : MulAut W} (_hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2)
     {H : Subgroup (MulAut W)} (hcommH : ∀ h ∈ H, h * x = x * h)
     {d : MulAut W} (hdH : d ∈ H) (hd2 : d * d = 1) (hdne : d ≠ 1) :
     letI := galoisModule hw2 x hx3 hfix
@@ -1920,7 +1922,7 @@ theorem false_of_two_invariant_lines_HLin {W : Type*} [CommGroup W] [Finite W]
       (∀ h ∈ H, ∀ v ∈ sImage hw2 x hx3 hfix hsx L,
         autAddHom h v ∈ sImage hw2 x hx3 hfix hsx L) →
       False := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro Y L hY hL hsL hne hYfix hLstab hsLstab
   have hcommd : d * x = x * d := hcommH d hdH
   let dLin := hGaloisLinearEquiv hw2 x hx3 hfix d hcommd
@@ -1944,16 +1946,16 @@ theorem false_of_two_invariant_lines_HLin {W : Type*} [CommGroup W] [Finite W]
 
 theorem G_stabilizes_of_sImage_eq {W : Type*} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
-    (hfix : fixV (Subgroup.zpowers x) = ⊥) (hW : Nat.card W = 16)
-    {s : MulAut W} (hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2)
-    {G H : Subgroup (MulAut W)} (hHG : H ≤ G)
+    (hfix : fixV (Subgroup.zpowers x) = ⊥) (_hW : Nat.card W = 16)
+    {s : MulAut W} (_hs2 : s * s = 1) (hsx : s * x * s⁻¹ = x ^ 2)
+    {G H : Subgroup (MulAut W)} (_hHG : H ≤ G)
     (hcover : ∀ g ∈ G, g ∈ H ∨ s⁻¹ * g ∈ H) :
     letI := galoisModule hw2 x hx3 hfix
     ∀ (L : Submodule (GaloisField 2 2) (Additive W)),
       sImage hw2 x hx3 hfix hsx L = L →
       (∀ h ∈ H, ∀ v ∈ L, autAddHom h v ∈ L) →
       ∀ g ∈ G, ∀ v ∈ L, g v ∈ L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L hsLeq hLstab g hg v hv
   rcases hcover g hg with hgH | hgH
   · exact hLstab g hgH v hv
@@ -1987,7 +1989,7 @@ theorem no_invariant_line_HLin {W : Type*} [CommGroup W] [Finite W]
       ∀ L : Submodule (GaloisField 2 2) (Additive W),
         Module.finrank (GaloisField 2 2) L = 1 →
         (∀ h ∈ H, ∀ v ∈ L, autAddHom h v ∈ L) → False := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro hirr Y hY hYfix L hL hLstab
   have hirr' : ∀ Z : Submodule (GaloisField 2 2) (Additive W),
       (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤ :=
@@ -2117,7 +2119,7 @@ theorem galoisEquivFun_hGL_apply {W : Type*} [CommGroup W] [Finite W]
         (hGaloisLinearEquiv hw2 x hx3 hfix h hcomm v) =
       Matrix.mulVec (hGL hw2 x hx3 hfix h hcomm hW)
         (galoisEquivFun hw2 x hx3 hfix hW v) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   let e := galoisEquivFun hw2 x hx3 hfix hW
   let C := e.symm.trans ((hGaloisLinearEquiv hw2 x hx3 hfix h hcomm).trans e)
   have hC : hGL hw2 x hx3 hfix h hcomm hW = matrixOfLinearEquiv C := rfl
@@ -2275,7 +2277,7 @@ theorem exists_involution_of_card_two {W : Type*} [CommGroup W] [Finite W]
     {D : Subgroup (MulAut W)} (hD2 : Nat.card D = 2)
     (hElem : CFSG.Quasithin.IsElemAbelian2 D) :
     ∃ d ∈ D, d * d = 1 ∧ d ≠ 1 := by
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨d, hd, hdne⟩ := D.exists_ne_one_of_nontrivial
   refine ⟨d, hd, ?_, hdne⟩
   have h2 : d ^ 2 = 1 := hElem.2 d hd
@@ -2306,8 +2308,8 @@ theorem no_invariant_line_Hyp139_n2 {W : Type*} [CommGroup W] [Finite W]
     ∀ L : Submodule (GaloisField 2 2) (Additive W),
       Module.finrank (GaloisField 2 2) L = 1 →
       (∀ h ∈ H, ∀ v ∈ L, autAddHom h v ∈ L) → False := by
-  letI := galoisModule hw2 x hx3 hfix
-  haveI : FiniteDimensional (GaloisField 2 2) (Additive W) :=
+  let := galoisModule hw2 x hx3 hfix
+  have : FiniteDimensional (GaloisField 2 2) (Additive W) :=
     (galoisBasis hw2 x hx3 hfix hW).finiteDimensional_of_finite
   intro L hL hLstab
   have hxX : x ∈ X := by
@@ -2360,7 +2362,7 @@ theorem card_f4Line {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     Nat.card {L : Submodule (GaloisField 2 2) (Additive W) //
       Module.finrank (GaloisField 2 2) L = 1} = 5 := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   have hV : Nat.card (Additive W) = 16 := by
     rw [Nat.card_congr Additive.toMul, hW]
   have hk : Nat.card (GaloisField 2 2) = 4 := by
@@ -2418,8 +2420,8 @@ theorem H_action_or_small_set {W : Type*} [CommGroup W] [Finite W]
           (∀ h : ↥H,
             S.image (fun L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L) = S) ∧
           S.ncard ≤ 2 := by
-  letI := galoisModule hw2 x hx3 hfix
-  letI : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
+  let := galoisModule hw2 x hx3 hfix
+  let : MulAction ↥H (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
   { smul := fun h L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L
     one_smul := by
       intro L
@@ -2444,7 +2446,7 @@ theorem H_action_or_small_set {W : Type*} [CommGroup W] [Finite W]
           ⟨w, hw, rfl⟩, rfl⟩
       · rintro ⟨w, ⟨u, hu, rfl⟩, rfl⟩
         exact ⟨u, hu, rfl⟩ }
-  haveI : Fintype (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
+  have : Fintype (LineOf (K := GaloisField 2 2) (V := Additive W)) :=
     Fintype.ofFinite _
   have hcard : Fintype.card (LineOf (K := GaloisField 2 2) (V := Additive W)) = 5 := by
     rw [Fintype.card_eq_nat_card, card_f4Line hw2 x hx3 hfix hW]
@@ -2463,7 +2465,7 @@ theorem H_transitive_or_pair {W : Type*} [CommGroup W] [Finite W]
         S.ncard = 2 ∧ S.Nonempty ∧ S ≠ Set.univ ∧
           (∀ h : ↥H,
             S.image (fun L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L) = S) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro hno
   rcases H_action_or_small_set hw2 x hx3 hfix hW H hcommH with htrans | ⟨S, hne, hproper, hS, hcard⟩
   · exact Or.inl htrans
@@ -2504,7 +2506,7 @@ theorem exists_moving_line_Hyp139_n2 {W : Type*} [CommGroup W] [Finite W]
     letI := galoisModule hw2 x hx3 hfix
     ∀ L : LineOf (K := GaloisField 2 2) (V := Additive W),
       ∃ h : ↥H, lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L ≠ L := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro L
   by_contra hmove
   push Not at hmove
@@ -2544,7 +2546,7 @@ theorem H_transitive_or_pair_Hyp139_n2 {W : Type*} [CommGroup W] [Finite W]
         S.ncard = 2 ∧ S.Nonempty ∧ S ≠ Set.univ ∧
           (∀ h : ↥H,
             S.image (fun L => lineMap (HLinHom hw2 x hx3 hfix H hcommH h) L) = S) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   exact H_transitive_or_pair hw2 x hx3 hfix hW H hcommH
     (exists_moving_line_Hyp139_n2 hw2 x hx3 hx_ord3 hfix hW hH hXG hXnorm hxgen
       hsG hs_ord2 hs_not_cent hirr hD hDCX hElem hDcard hYD hYinv hYcard hcommH)
@@ -2562,7 +2564,7 @@ theorem card_inf_centralizer_dvd_180 {W : Type*} [CommGroup W] [Finite W]
     exact Nat.card_congr (Equiv.ofInjective f hinj)
   have hdvd := (MonoidHom.range f).card_subgroup_dvd_card
   rw [← hcard] at hdvd
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 2) = 4 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -2579,7 +2581,7 @@ theorem card_div_three_inf_centralizer_dvd_60 {W : Type*} [CommGroup W] [Finite 
     Nat.card ↥(G ⊓ Subgroup.centralizer (X : Set (MulAut W))) / 3 ∣ 60 := by
   let H := G ⊓ Subgroup.centralizer (X : Set (MulAut W))
   have hXH : X ≤ H := le_inf_centralizer_self hXG hXcard
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   have hXsubcard : Nat.card (X.subgroupOf H) = Nat.card X :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXH).toEquiv
   have h3dvd : 3 ∣ Nat.card ↥H := by

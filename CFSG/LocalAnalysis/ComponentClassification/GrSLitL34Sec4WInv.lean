@@ -18,7 +18,7 @@ theorem isSylowTwoIn_of_le_of_sylow {S H : Subgroup G}
     (hSyl : ∃ P : Sylow 2 G, (P : Subgroup G) = S) (hSH : S ≤ H) : IsSylowTwoIn S H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, rfl⟩ := hSyl
-  exact isSylowTwoIn_of_not_dvd hSH P.isPGroup' fun hd =>
+  exact isSylowTwoIn_of_not_dvd hSH P.isPGroup fun hd =>
     P.not_dvd_index (hd.trans (relIndex_dvd_index_of_le hSH))
 
 omit [Finite G] in

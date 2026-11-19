@@ -20,6 +20,7 @@ private lemma plh_sgS_le_Vtail {Y : Submodule K (Fin 4 → K)} (hY : Y ≤ Vtail
   have h1 : sg K f (v 0) = 0 := h0
   exact (sg K f).map_eq_zero_iff.mp h1
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_iff {A B : Submodule K (Fin 4 → K)} (hA : finrank K A = 1) :
     A ⊓ B = ⊥ ↔ ¬ A ≤ B := by
   constructor
@@ -126,6 +127,7 @@ theorem badj_a3_13c (hK : Nat.card K = (2 ^ f) ^ 2) {u t : Submodule K (Fin 4 �
   have hok2 : (D13c (K := K) f).okL t (u ⊔ t) := (plh_okL_iff f hK ht1).mpr hnt_le
   exact ⟨hut, hok1, hok2⟩
 
+omit [Field K] [Finite K] [CharP K 2] in
 private lemma plh_two_mul_pow_lt (hQ : 2 < Nat.card K) :
     2 * Nat.card K ^ 2 < Nat.card K ^ 3 := by
   have hpos : 0 < Nat.card K := by omega
@@ -133,6 +135,7 @@ private lemma plh_two_mul_pow_lt (hQ : 2 < Nat.card K) :
         Nat.mul_lt_mul_of_pos_right hQ (pow_pos hpos 2)
     _ = Nat.card K ^ 3 := by ring
 
+omit [Field K] [Finite K] [CharP K 2] in
 private lemma plh_pow_two_lt_three (hQ : 2 < Nat.card K) :
     Nat.card K ^ 2 < Nat.card K ^ 3 := by
   have hpos : 0 < Nat.card K := by omega
@@ -141,6 +144,7 @@ private lemma plh_pow_two_lt_three (hQ : 2 < Nat.card K) :
         nlinarith
     _ < Nat.card K ^ 3 := plh_two_mul_pow_lt hQ
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_sum_vol (s : Finset (Submodule K (Fin 4 → K)))
     (h : ∀ T ∈ s, finrank K T = 2) :
     ∑ T ∈ s, Nat.card K ^ finrank K T = s.card * Nat.card K ^ 2 :=

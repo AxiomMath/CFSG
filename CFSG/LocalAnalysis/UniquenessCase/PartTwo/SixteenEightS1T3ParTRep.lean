@@ -63,7 +63,7 @@ private theorem s16t3_rep_aux {ι : Type} [Fintype ι] [DecidableEq ι] {K : Typ
     rw [← hfu, ← hfu', ← hadd u huU u' hu'U]
     rw [A_eq x (f (u * u')) ⟨u * u', U.mul_mem huU hu'U⟩ rfl,
       A_eq x (f u) ⟨u, huU⟩ rfl, A_eq x (f u') ⟨u', hu'U⟩ rfl]
-    simp only [Subgroup.coe_mk]
+    simp only
     rw [map_mul]
     exact hadd ((x : MulAut W) u) (hXU x x.2 u huU) ((x : MulAut W) u') (hXU x x.2 u' hu'U)
   have A_zero (x : ↥X) : A x 0 = 0 := by

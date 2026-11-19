@@ -168,7 +168,6 @@ theorem a0_nv_ent :
       [(a0TIs.getD t []).getD j 0]) (f' := fun p => pg 14 (mask 14) (HG.F 0)
       (evK 14 (mask 14) nvS p)) baseFaithful_heP (by norm_num) hgP
       (heP.mul_mem hτP (mem_centralizerIn.1 hsC).1) hf (fun p _ => ?_) (by norm_num) hk
-    change pg 14 (mask 14) (HG.F 0) (evK 14 (mask 14) nvS p) = _
     rw [nvS_rep r4 p, prep_a0 _, Equiv.Perm.mul_apply]
 
 theorem a0_nv_cls

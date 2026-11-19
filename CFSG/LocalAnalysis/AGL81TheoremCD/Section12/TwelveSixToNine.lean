@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem dvd_card_oPPrimeHull {M : Subgroup G} {d : ℕ} (hd : d.Prime)
     (hdvd : d ∣ Nat.card M) : d ∣ Nat.card (oPPrimeHull d M) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥M) d hdvd
   have hxM : (x : G) ∈ M := x.2
   have hxordG : orderOf (x : G) = d := by
@@ -96,6 +96,7 @@ theorem twelveSix_of_parts {M H : Subgroup G} {p d : ℕ} {L₁ L₂ L₃ : Subg
     TwelveSix M H p d L₁ L₂ L₃ n₁ n₂ n₃ :=
   fun _ => ⟨h1₁, h1₂, h1₃, h2₁, h2₂, h2₃, h3, h4, h5, h6⟩
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centerIn (D : Subgroup G) :
     normalizer (D : Set G) ≤ normalizer (CFSG.centerIn D : Set G) := by
   have hstep : ∀ y ∈ normalizer (D : Set G), ∀ w ∈ CFSG.centerIn D,

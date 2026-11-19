@@ -19,7 +19,7 @@ theorem exists_mulEquiv_of_fibre {L L' : Type} [Group L] [Group L'] [Finite L] [
     (hsq : ∀ t ∈ T, t ^ 2 ∈ Δ) :
     ∃ e : L ≃* L', ∀ l : L, (l, e l) ∈ F := by
   classical
-  haveI : Finite ↥F :=
+  have : Finite ↥F :=
     Finite.of_injective (fun x : ↥F => (x : L × L')) Subtype.coe_injective
   obtain ⟨lam, hlam_z, hlam_Δ⟩ :=
     exists_hom_C2_of_odd_index Δ ⟨(z, 1), hz⟩ hzc hzΔ T hΔT hzT hT hsq

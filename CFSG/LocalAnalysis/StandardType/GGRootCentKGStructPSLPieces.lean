@@ -116,7 +116,7 @@ theorem isQuasisimple_blockLevi {m : ℕ} {K : Type} [Field K] [Finite K] [CharP
   have hq2 : CFSG.IsQuasisimple (SpecialLinearGroup (Fin (m - 1)) K) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv
       (reindexSpecialLinear (K := K) (freeEquiv hm1)) hq1
-  haveI : Subsingleton (SpecialLinearGroup (Fin 1) K) :=
+  have : Subsingleton (SpecialLinearGroup (Fin 1) K) :=
     ⟨fun a b => by rw [LinFusion.eq_one_of_specialLinearGroup_fin_one a,
       LinFusion.eq_one_of_specialLinearGroup_fin_one b]⟩
   have hq3 : CFSG.IsQuasisimple ↥(blockLevi (K := K) hm1) := by
@@ -168,9 +168,9 @@ theorem commutator_radical_sup_blockLevi {m : ℕ} {K : Type} [Field K] [Finite 
     rcases hq with h4 | h4
     · left; rw [InvPlacement.card_free]; omega
     · exact Or.inr h4
-  haveI : Group.IsPerfect (SpecialLinearGroup ↥P.free K) :=
+  have : Group.IsPerfect (SpecialLinearGroup ↥P.free K) :=
     (RCSPSL.isQuasisimple_free (F := K) P hJ hfree).1
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 1) K) := by
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 1) K) := by
     refine ⟨le_antisymm le_top fun x _ => ?_⟩
     rw [LinFusion.eq_one_of_specialLinearGroup_fin_one x]
     exact Subgroup.one_mem _
@@ -372,7 +372,7 @@ theorem exists_alpha_of_mem_inndiag_fix {m' : ℕ} {K : Type} [Field K] [Finite 
       have hji : j = Fin.last (m' + 2) := (hlev0 j).1 hj0
       have hcol := LinFusion.col_last_of_commute (F := K) hm1 hD1mat i
       rw [hji, hcol]
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h
       have h0 : P.level i = 0 := (hlev0 i).2 h
       omega
@@ -380,9 +380,9 @@ theorem exists_alpha_of_mem_inndiag_fix {m' : ℕ} {K : Type} [Field K] [Finite 
       rcases (by omega : P.level j = 0 ∨ P.level j = 1) with hj0 | hj1
       · have hji : j = Fin.last (m' + 2) := (hlev0 j).1 hj0
         have hrow := LinFusion.row_zero_of_commute (F := K) hm1 hD1mat (Fin.last (m' + 2))
-        rw [hi0, hji, hrow, if_neg (AutPSL.last_ne_zero (m := m' + 2) hm1)]
+        rw [hi0, hji, hrow, ite_eq_right (AutPSL.last_ne_zero (m := m' + 2) hm1)]
       · have hrow := LinFusion.row_zero_of_commute (F := K) hm1 hD1mat j
-        rw [hi0, hrow, if_neg]
+        rw [hi0, hrow, ite_eq_right]
         intro hj0
         have h2 : P.level j = 2 := (hlev2 j).2 hj0
         omega
@@ -432,7 +432,7 @@ theorem exists_alpha_of_mem_inndiag_fix {m' : ℕ} {K : Type} [Field K] [Finite 
       dsimp only [A]
       rw [Units.coe_map]
       rfl]
-    rw [hXJunit_val, reindexAlgEquiv_apply]
+    rw [hXJunit_val, Matrix.coe_reindexAlgEquiv]
   have hAival : (((A⁻¹ : GL (Fin (m' + 1)) K)) :
       Matrix (Fin (m' + 1)) (Fin (m' + 1)) K) =
       Matrix.reindex e0 e0 XJi := by
@@ -443,7 +443,7 @@ theorem exists_alpha_of_mem_inndiag_fix {m' : ℕ} {K : Type} [Field K] [Finite 
       dsimp only [A]
       rw [← map_inv, Units.coe_map]
       rfl]
-    rw [hXJunit_inv, reindexAlgEquiv_apply]
+    rw [hXJunit_inv, Matrix.coe_reindexAlgEquiv]
   have hinjφ : Function.Injective (blockLeviHom (K := K) (m := m' + 2) hm1) := by
     intro B₁ B₂ h
     have h' : ((blockLeviHom (K := K) (m := m' + 2) hm1 B₁ :
@@ -571,12 +571,11 @@ theorem exists_alpha_of_mem_inndiag_fix {m' : ℕ} {K : Type} [Field K] [Finite 
       ((InnerDiagA.conjSL (m := m') A B : SpecialLinearGroup (Fin (m' + 1)) K) :
         Matrix (Fin (m' + 1)) (Fin (m' + 1)) K)
     rw [hWval, InnerDiagA.coe_conjSL]
-    rw [← reindexAlgEquiv_apply K K e0
-      (XJ * (Z : Matrix ↥P.free ↥P.free K) * XJi)]
+    rw [← (congrFun (coe_reindexAlgEquiv K K e0) (XJ * (Z : Matrix ↥P.free ↥P.free K) * XJi))]
     rw [map_mul, map_mul]
-    rw [reindexAlgEquiv_apply K K e0 XJ,
-      reindexAlgEquiv_apply K K e0 (Z : Matrix ↥P.free ↥P.free K),
-      reindexAlgEquiv_apply K K e0 XJi]
+    rw [(congrFun (coe_reindexAlgEquiv K K e0) XJ),
+      (congrFun (coe_reindexAlgEquiv K K e0) (Z : Matrix ↥P.free ↥P.free K)),
+      (congrFun (coe_reindexAlgEquiv K K e0) XJi)]
     rw [← hAval, ← hAival]
     have hZval : ((Z : SpecialLinearGroup ↥P.free K) :
         Matrix ↥P.free ↥P.free K) =
@@ -664,12 +663,12 @@ theorem kgPiecesD_rootInv {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] 
   have hm' : 1 ≤ m' := by omega
   have hm2 : 2 ≤ m' + 2 := by omega
   have hm1 : 1 ≤ m' + 2 := by omega
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨fn, -, hF⟩ := FiniteField.card K 2
   let f : ℕ := (fn : ℕ)
   have hF' : Nat.card K = 2 ^ f := by rw [Nat.card_eq_fintype_card, hF]
   have h2K : 2 ≤ Nat.card K := by
-    haveI : Nontrivial K := ⟨⟨0, 1, zero_ne_one⟩⟩
+    have : Nontrivial K := ⟨⟨0, 1, zero_ne_one⟩⟩
     exact (Finite.one_lt_card_iff_nontrivial (α := K)).2 inferInstance
   have hf : 1 ≤ f := by
     have := fn.pos

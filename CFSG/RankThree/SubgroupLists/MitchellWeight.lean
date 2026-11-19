@@ -48,7 +48,7 @@ private theorem cubic_mul_cubic {N : Matrix n n K} (hN : N ^ 4 = 0) (a₀ a₁ a
   have e32 : N ^ 3 * N ^ 2 = 0 := (pow_add N 3 2).symm.trans h5
   have e33 : N ^ 3 * N ^ 3 = 0 := (pow_add N 3 3).symm.trans h6
   simp only [add_mul, mul_add, smul_mul_smul_comm, one_mul, mul_one, e11, e12, e21, e13, e31,
-    e22, e23, e32, e33, smul_zero, add_zero, zero_add]
+    e22, e23, e32, e33, smul_zero, add_zero]
   module
 
 private theorem smul_mul_eq_of_quad {h X : Matrix n n K} {τ μ : K} (hq : h * h - τ • h + 1 = 0)

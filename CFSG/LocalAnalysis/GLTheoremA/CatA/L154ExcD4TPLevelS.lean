@@ -69,7 +69,7 @@ theorem l154d4tp_odd_card_of_forall_pow {G : Type*} [Group G] [Finite G] {m : �
     (h : ∀ x : G, x ^ m = 1) : Odd (Nat.card G) := by
   by_contra hcon
   have h2 : 2 ∣ Nat.card G := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hcon)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have h3 : orderOf x ∣ m := orderOf_dvd_of_pow_eq_one (h x)
   rw [hx] at h3
@@ -174,7 +174,7 @@ theorem l154d4tp_levelS (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ}
     rw [horb, Function.iterate_one]
     exact hinner
   obtain ⟨σ, hfinK, hcardK, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner'
-  haveI := hfinK
+  have := hfinK
   rw [horb, pow_one, hq] at hcardK
   have hperf' := hperf ↥(fixSubfield σ) hcardK
   have hN : (posRoots Ψ).ncard = 12 := by

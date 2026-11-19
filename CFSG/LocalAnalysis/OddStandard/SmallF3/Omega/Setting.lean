@@ -34,8 +34,8 @@ theorem oddCore_eq_bot_of_smallF3Cyclic (hL : SmallF3Cyclic G L) : oddCore L = �
     have hLodd : Odd (Nat.card L) := by
       have h := hodd
       rwa [htop, Subgroup.card_top] at h
-    haveI : Group.IsPerfect L := hq.1
-    haveI : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect L := hq.1
+    have : Nontrivial L := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact (Group.IsPerfect.not_isSolvable L) (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hLodd)
   · rcases hL.centre with hZ | ⟨hU, hcard⟩
     · rw [hZ] at hle

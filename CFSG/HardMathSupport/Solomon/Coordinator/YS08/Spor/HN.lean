@@ -90,7 +90,7 @@ theorem nonempty_jh_equiv (hbr : SporadicBridges) :
 set_option maxRecDepth 20000 in
 theorem sporL3DownInner_HN
     (hbr : SporadicBridges) : SporL3DownInner .HN := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   have h1 := @sporL3DownInner_of_comp .HN ↥JH inferInstance inferInstance (nonempty_jh_equiv hbr)
   have h2 := h1 (by rw [card_JH]; exact noL3Eq_273030912000000)
   refine h2 ?_

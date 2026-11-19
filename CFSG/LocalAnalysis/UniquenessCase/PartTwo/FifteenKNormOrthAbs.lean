@@ -16,7 +16,7 @@ theorem s15k_norm_orth_span {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fin
     (h3 : 3 ≤ Module.finrank (ZMod 2) V) :
     Submodule.span (ZMod 2) {v : V | Q v = 1} = ⊤ := by
   classical
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   by_contra hne
   set S := Submodule.span (ZMod 2) {v : V | Q v = 1} with hS
   set B : LinearMap.BilinForm (ZMod 2) V := QuadraticMap.polarBilin Q with hB

@@ -80,7 +80,7 @@ theorem ggK0ExcB3_of_producers (Omega : Type) [Field Omega] [IsAlgClosed Omega] 
   · subst he
     obtain ⟨D, hC, hZ⟩ := htr L' ψ hψ hker hperf
     exact ⟨D, hC.1, hC.2.1, hC.2.2.1, hC.2.2.2.1, hZ, hC.2.2.2.2.1, hC.2.2.2.2.2⟩
-  · haveI : Fact p.Prime := ⟨hpair.1⟩
+  · have : Fact p.Prime := ⟨hpair.1⟩
     have hord : orderOf e = p := orderOf_eq_prime hep he
     obtain ⟨phi, hphiI, hphi, ⟨ρ⟩⟩ := hcv L' ψ hψ hker hperf e hord hind
     have hComp := GGK0MarkedComponents.cover_comps_of_realization

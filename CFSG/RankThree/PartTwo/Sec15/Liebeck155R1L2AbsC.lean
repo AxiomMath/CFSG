@@ -42,7 +42,7 @@ theorem res1L2C_exists_pGroup_containing_conj {G : Type*} [Group G] [Finite G] {
   obtain ⟨Q₁, hQ₁⟩ := (hT₁.comap_subtype (K := B)).exists_le_sylow
   obtain ⟨Q₂, hQ₂⟩ := (hT₂.comap_subtype (K := B)).exists_le_sylow
   obtain ⟨b, hb⟩ := MulAction.exists_smul_eq B Q₂ Q₁
-  refine ⟨(Q₁ : Subgroup B).map B.subtype, Q₁.isPGroup'.map _, fun t ht => ?_, b, b.2,
+  refine ⟨(Q₁ : Subgroup B).map B.subtype, Q₁.isPGroup.map _, fun t ht => ?_, b, b.2,
     fun t ht => ?_⟩
   · exact ⟨⟨t, h₁ ht⟩, hQ₁ ht, rfl⟩
   · have h1 : (⟨t, h₂ ht⟩ : B) ∈ (Q₂ : Subgroup B) := hQ₂ ht

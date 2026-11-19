@@ -26,7 +26,7 @@ variable {K : Type*} [Field K] {M : Type*} [AddCommGroup M] [Module K M] {G : Ty
 theorem exists_hom_pgl (ρ : Representation K G M) (W : Submodule K M)
     (hW : Module.finrank K W = 2) (T : Subgroup G) (hT : ∀ g ∈ T, ∀ x ∈ W, ρ g x ∈ W) :
     ∃ θ : T →* PGL(2, K), ∀ g : T, θ g = 1 ↔ ∃ μ : K, ∀ x ∈ W, ρ g x = μ • x := by
-  haveI : Module.Finite K W := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite K W := Module.finite_of_finrank_pos (by omega)
   let b : Module.Basis (Fin 2) K W := Module.finBasisOfFinrankEq K W hW
   let ψ : Module.End K W →* Matrix (Fin 2) (Fin 2) K :=
     (LinearMap.toMatrixAlgEquiv b : Module.End K W ≃ₐ[K] Matrix (Fin 2) (Fin 2) K)

@@ -34,7 +34,7 @@ theorem bParam_le_three_of_M22
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥L := { (inferInstance : Group ↥L) with mul_comm := hc }
+    let : CommGroup ↥L := { (inferInstance : Group ↥L) with mul_comm := hc }
     exact hnonprime (IsSimpleGroup.prime_card (α := ↥L))
   obtain ⟨hLq, hZL⟩ := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab
   have hLqopen : CFSG.Open.IsQuasisimple ↥L :=

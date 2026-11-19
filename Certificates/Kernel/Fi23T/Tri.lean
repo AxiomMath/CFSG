@@ -118,7 +118,7 @@ theorem fixV {g : Equiv.Perm P} (hg : g ∈ C.A) {x : P} (hx : x ∈ g • C.T) 
     C.τ x • (g • C.T) = g • C.T := hC.sys.fix_mem hC.hS hC.h0 hC.hcov hg hx
 
 theorem τ_H {x : P} (hx : x ∈ C.T) : C.τ x ∈ C.H :=
-  hC.sys.τ_mem_H hC.hS hC.h0 hC.hcov hC.hST hC.hs1 hx
+  hC.sys.τ_mem_H hC.hcov hC.hST hC.hs1 hx
 
 theorem closure_H {X : Set P} (hX : X ⊆ C.T) : Subgroup.closure (C.τ '' X) ≤ C.H := by
   rw [Subgroup.closure_le]
@@ -131,7 +131,7 @@ theorem H_smul_τ {g : Equiv.Perm P} (hg : g ∈ C.H) (f : P) : g • C.τ f •
 theorem H_nr_aux {g : Equiv.Perm P} (hg : g ∈ C.H) {V : Finset P} (hV : V ∈ C.Nr) :
     g • V ∈ C.Nr := by
   obtain ⟨f, hf, rfl⟩ := hV
-  exact ⟨g f, hC.sys.not_mem_smul (hC.H_fix hg) hf, hC.H_smul_τ hg f⟩
+  exact ⟨g f, CertificateChecks.KernelFi23T.TSys.not_mem_smul (hC.H_fix hg) hf, hC.H_smul_τ hg f⟩
 
 theorem H_nr {g : Equiv.Perm P} (hg : g ∈ C.H) {V : Finset P} : g • V ∈ C.Nr ↔ V ∈ C.Nr := by
   refine ⟨fun h => ?_, hC.H_nr_aux hg⟩
@@ -217,7 +217,7 @@ theorem lab_eq_T {e : P} (he : e ∉ C.T) (h : C.lab e = C.T) : e = C.f0 := by
 theorem inj {e f : P} (he : e ∉ C.T) (hf : f ∉ C.T) (h : C.τ e • C.T = C.τ f • C.T) : e = f := by
   obtain ⟨g, hg, rfl⟩ := hC.hTc f hf
   have hgi := inv_mem hg
-  have he' : g⁻¹ e ∉ C.T := hC.sys.not_mem_smul (hC.H_fix hgi) he
+  have he' : g⁻¹ e ∉ C.T := CertificateChecks.KernelFi23T.TSys.not_mem_smul (hC.H_fix hgi) he
   have h1 : C.τ (g⁻¹ e) • C.T = C.τ C.f0 • C.T := by
     rw [← hC.H_smul_τ hgi, h, hC.H_smul_τ hgi, perm_inv_apply]
   have h2 : C.lab (g⁻¹ e) = C.T := by
@@ -343,6 +343,7 @@ theorem N2_trans {W W' : Finset P} (hW : W ∈ C.N2) (hW' : W' ∈ C.N2) : ∃ g
   obtain ⟨g', hg', rfl⟩ := hC.far_orbit hW'
   exact ⟨g' * g⁻¹, mul_mem hg' (inv_mem hg), by rw [mul_smul, inv_smul_smul]⟩
 
+omit hC in
 theorem v0_eq : C.v0 = (C.τ C.f0 * C.τ C.e1) • C.T := by
   rw [mul_smul]
   rfl
@@ -354,7 +355,7 @@ theorem KvG_v0 {k : Equiv.Perm P} (hk : k ∈ Subgroup.closure (C.τ '' C.Kv)) :
   refine TSys.fix_closure (fun s hs => ?_) hk
   have hg : C.τ C.f0 * C.τ C.e1 ∈ C.A := mul_mem (hC.sys.mem _) (hC.sys.mem _)
   have h := (hC.hKv s hs).2
-  rw [hC.v0_eq] at h ⊢
+  rw [OK.v0_eq] at h ⊢
   exact hC.fixV hg h
 
 theorem kv_act {k : Equiv.Perm P} (hk : k ∈ Subgroup.closure (C.τ '' C.Kv)) (g : P) :
@@ -460,6 +461,7 @@ theorem mu_path0 : ∀ x ∈ C.Mu C.v0, Relation.ReflTransGen (MuR C C.v0) (C.τ
     exact (hp k hk).tail (hinv k hk _ _ hm01)
 
 omit hC in
+omit [DecidableEq P] in
 theorem path_symm {R : Finset P → Finset P → Prop} (hR : ∀ a b, R a b → R b a) {a b : Finset P}
     (h : Relation.ReflTransGen R a b) : Relation.ReflTransGen R b a := by
   induction h with
@@ -468,7 +470,7 @@ theorem path_symm {R : Finset P → Finset P → Prop} (hR : ∀ a b, R a b → 
 
 theorem mu_conn_v0 {x y : Finset P} (hx : x ∈ C.Mu C.v0) (hy : y ∈ C.Mu C.v0) :
     Relation.ReflTransGen (MuR C C.v0) x y :=
-  (path_symm (fun a b h => ⟨h.2.1, h.1, hC.sys.adj_symm h.2.2⟩) (hC.mu_path0 x hx)).trans
+  (path_symm (fun _a _b h => ⟨h.2.1, h.1, hC.sys.adj_symm h.2.2⟩) (hC.mu_path0 x hx)).trans
     (hC.mu_path0 y hy)
 
 theorem mu_conn {W : Finset P} (hW : W ∈ C.N2) {x y : Finset P} (hx : x ∈ C.Mu W)
@@ -543,6 +545,7 @@ theorem B_adj {V U : Finset P} (hV : V ∈ C.B) (hU : Adj C.τ V U) : U ∈ C.B 
     · exact Or.inr (Or.inl hn)
     · exact key m hm.1 (hC.sys.adj_symm hadj)
 
+omit hC in
 theorem B_word {V : Finset P} (hV : V ∈ C.B) : ∃ w ∈ C.W, V = w • C.T := by
   have hτ : ∀ x, C.τ x ∈ C.W := fun x => Subgroup.subset_closure ⟨x, rfl⟩
   rcases hV with rfl | ⟨f, -, rfl⟩ | ⟨-, -, x, ⟨f, -, rfl⟩, h, -, rfl⟩
@@ -556,7 +559,7 @@ theorem W_le : C.W ≤ C.A := by
   exact hC.sys.mem x
 
 theorem B_τ {V : Finset P} (hV : V ∈ C.B) (x : P) : C.τ x • V ∈ C.B := by
-  obtain ⟨w, hw, rfl⟩ := hC.B_word hV
+  obtain ⟨w, hw, rfl⟩ := OK.B_word hV
   by_cases hx : x ∈ w • C.T
   · rw [hC.fixV (hC.W_le hw) hx]
     exact hV
@@ -579,6 +582,7 @@ theorem W_conj {γ : Equiv.Perm P} (hγ : γ ∈ C.A) {w : Equiv.Perm P} (hw : w
     rw [e]
     exact inv_mem ha
 
+omit [DecidableEq P] hC in
 theorem list_W (l : List P) : (l.map C.τ).prod ∈ C.W :=
   C.W.list_prod_mem fun y hy => by
     obtain ⟨x, -, rfl⟩ := List.mem_map.1 hy
@@ -592,7 +596,7 @@ theorem W_B {w : Equiv.Perm P} (hw : w ∈ C.W) : w • C.T ∈ C.B := by
   exact hC.B_τ hV x
 
 theorem B_gab {γ : Equiv.Perm P} (hγ : γ ∈ C.Gab) {V : Finset P} (hV : V ∈ C.B) : γ • V ∈ C.B := by
-  obtain ⟨w, hw, rfl⟩ := hC.B_word hV
+  obtain ⟨w, hw, rfl⟩ := OK.B_word hV
   obtain ⟨l, hl⟩ := hC.hgab γ hγ
   have hγA : γ ∈ C.A := by
     rw [← hC.hGab]
@@ -600,7 +604,7 @@ theorem B_gab {γ : Equiv.Perm P} (hγ : γ ∈ C.Gab) {V : Finset P} (hV : V �
   have e : γ • w • C.T = ((γ * w * γ⁻¹) * (l.map C.τ).prod) • C.T := by
     rw [mul_smul, ← hl, mul_smul, mul_smul, inv_smul_smul]
   rw [e]
-  exact hC.W_B (mul_mem (hC.W_conj hγA hw) (hC.list_W l))
+  exact hC.W_B (mul_mem (hC.W_conj hγA hw) (OK.list_W l))
 
 theorem vtx_eq : C.Vtx = C.B := by
   ext V
@@ -609,7 +613,7 @@ theorem vtx_eq : C.Vtx = C.B := by
     rw [← hC.hGab] at hg
     exact orbit_sub (X := C.B) (Or.inl rfl) (fun γ hγ V hV => hC.B_gab hγ hV) g hg
   · intro hV
-    obtain ⟨w, hw, rfl⟩ := hC.B_word hV
+    obtain ⟨w, hw, rfl⟩ := OK.B_word hV
     exact ⟨w, hC.W_le hw, rfl⟩
 
 theorem far_N2 {V : Finset P} (hV : V ∈ C.Vtx) (hT : V ≠ C.T) (hN : V ∉ C.Nr) : V ∈ C.N2 := by
@@ -623,7 +627,7 @@ theorem nr_card_eq : C.Nr.ncard = C.Tᶜ.card := by
   have e : C.Nr = (fun f => C.τ f • C.T) '' ((C.Tᶜ : Finset P) : Set P) := by
     ext V
     simp only [Nr, Finset.coe_compl, Set.mem_compl_iff, Finset.mem_coe, Set.mem_image,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     exact ⟨fun ⟨f, hf, e⟩ => ⟨f, hf, e.symm⟩, fun ⟨f, hf, e⟩ => ⟨f, hf, e.symm⟩⟩
   rw [e, Set.InjOn.ncard_image, Set.ncard_coe_finset]
   intro a ha b hb h
@@ -648,7 +652,7 @@ theorem double_count : C.Nr.ncard * C.F1.card = C.N2.ncard * C.M.card := by
       ← hC.far_card ha']
     congr 1
     ext W
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, farNb_def, Set.Finite.mem_toFinset]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, farNb_def, Set.Finite.mem_toFinset]
     constructor
     · rintro ⟨hW, hadj⟩
       obtain ⟨hT, hN, -⟩ := hW
@@ -663,7 +667,7 @@ theorem double_count : C.Nr.ncard * C.F1.card = C.N2.ncard * C.M.card := by
       ← hC.mu_card hb']
     congr 1
     ext a
-    simp only [Finset.coe_filter, Set.mem_setOf_eq, Set.Finite.mem_toFinset]
+    simp only [Finset.coe_filter, Set.mem_ofPred_eq, Set.Finite.mem_toFinset]
     rfl
   have h := hkey hs.toFinset ht.toFinset
   rw [Finset.sum_const_nat hfar_pt, Finset.sum_const_nat hmun_pt] at h
@@ -673,7 +677,7 @@ theorem card_vtx : C.Vtx.ncard = 1 + C.Tᶜ.card + C.N2.ncard := by
   rw [hC.vtx_eq, ← hC.nr_card_eq]
   have e : C.B = ({C.T} ∪ C.Nr) ∪ C.N2 := by
     ext V
-    simp only [B, Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq, or_assoc]
+    simp only [B, Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq, or_assoc]
   rw [e, Set.ncard_union_eq, Set.ncard_union_eq, Set.ncard_singleton]
   · rw [Set.disjoint_singleton_left]
     exact fun h => hC.nr_ne h rfl

@@ -45,13 +45,13 @@ theorem card_le_of_isPGroup_mulAut {A : Type*} [CommGroup A] [Finite A] {q : ℕ
     (hexp : ∀ a : A, a ^ q = 1) {m : ℕ} (hcard : Nat.card A = q ^ m)
     (P : Subgroup (MulAut A)) (hP : IsPGroup q P) : Nat.card P ≤ q ^ (m * (m - 1) / 2) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  letI : Module (ZMod q) (Additive A) :=
+  have : Fact q.Prime := ⟨hq⟩
+  let : Module (ZMod q) (Additive A) :=
     AddCommGroup.zmodModule (n := q) fun x => by
       change Additive.ofMul (Additive.toMul x ^ q) = 0
       rw [hexp]; rfl
-  haveI : Fintype (Additive A) := Fintype.ofFinite _
-  haveI : Module.Finite (ZMod q) (Additive A) := Module.Finite.of_finite
+  have : Fintype (Additive A) := Fintype.ofFinite _
+  have : Module.Finite (ZMod q) (Additive A) := Module.Finite.of_finite
   have hfr : Module.finrank (ZMod q) (Additive A) = m := by
     have h1 : Fintype.card (Additive A) =
         Fintype.card (ZMod q) ^ Module.finrank (ZMod q) (Additive A) := by
@@ -72,7 +72,7 @@ theorem card_le_of_isPGroup_mulAut {A : Type*} [CommGroup A] [Finite A] {q : ℕ
         = Nat.card (Additive A ≃+ Additive A) := Nat.card_congr MulEquiv.toAdditive
       _ = Nat.card (Additive A ≃ₗ[ZMod q] Additive A) := Nat.card_congr eLin
       _ = _ := by exact card_linearEquiv_eq (q := q) (V := Additive A) hfr
-  haveI : Finite (MulAut A) :=
+  have : Finite (MulAut A) :=
     Finite.of_injective (fun e : MulAut A => (e : A → A)) fun e₁ e₂ h =>
       MulEquiv.ext (congrFun h)
   obtain ⟨j, hj⟩ := hP.exists_card_eq
@@ -90,13 +90,13 @@ theorem exists_index_le_of_elemAb {X : Type} [Group X] [Finite X] {q : ℕ} (hq 
     ∃ C : Subgroup X, C ≤ T ∧ (∀ c ∈ C, ∀ a ∈ A, a⁻¹ * (c * a * c⁻¹) ∈ B) ∧
       Nat.card T ≤ q ^ (k * (k - 1) / 2) * Nat.card C := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set N : Subgroup A := B.subgroupOf A with hN
-  haveI hNn : N.Normal :=
+  have hNn : N.Normal :=
     ⟨fun n hn g => by
       rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hBn g g.2 n hn⟩
-  letI : CommGroup (A ⧸ N) :=
+  let : CommGroup (A ⧸ N) :=
     { (inferInstance : Group (A ⧸ N)) with
       mul_comm := fun x y => by
         induction x using QuotientGroup.induction_on with | H a => ?_

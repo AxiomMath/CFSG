@@ -63,7 +63,6 @@ private theorem lk0xlqd4tw_cartan_inv {π : Equiv.Perm (Fin Tag.E6.rank)} (hπ :
       Tag.E6.cartan (π j) (π m) = Tag.E6.cartan j m := by
   rcases hπ with rfl | rfl | rfl | rfl | rfl | rfl <;>
     first
-    | decide +kernel
     | (intro j m h1 h2 h3 h4
        fin_cases j <;> fin_cases m <;>
          first | decide +kernel | (exfalso; revert h1 h2 h3 h4; decide +kernel))

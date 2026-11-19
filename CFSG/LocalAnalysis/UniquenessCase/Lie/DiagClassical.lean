@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Quasithin.B69K CFSG.QuasithinUnique CFSG.ABGLocalTools
 theorem uc22pdiag_invPairs_of_parabolicPair {M : Type} [Group M] [Finite M]
     (h : ∃ U : Subgroup M, IsSylowTwoOf U ⊤ ∧ ParabolicPair U) (V : Sylow 2 M) :
     uc22pdiag_InvPair M V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU, hP⟩ := h
   have hV : IsSylowTwoOf (V : Subgroup M) ⊤ := CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow V
   obtain ⟨k, -, hk⟩ := (CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.1 hU).exists_mem_conj

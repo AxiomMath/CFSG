@@ -28,7 +28,7 @@ private theorem plh_omPlusRefl_chain_ne {p r : ℕ} (hp : p.Prime) (hr : 2 ≤ r
   intro hcomm
   have h := (omPlusRefl_commute_iff_supports hp (omStd r hr k) (omStd r hr k')).mp hcomm
   unfold omStd at h
-  rw [dif_pos hk1, dif_pos hk2] at h
+  rw [dite_eq_left hk1, dite_eq_left hk2] at h
   rcases h with hpair | hdisj
   · have h1 : k.val = k'.val := by
       have := congrArg (fun z : {ij : Fin r × Fin r // ij.1 < ij.2} => z.1.1.val) hpair
@@ -43,10 +43,11 @@ private theorem plh_omPlusRefl_chain_ne {p r : ℕ} (hp : p.Prime) (hr : 2 ≤ r
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
   (Φ : OrthFrameCore p Bs X)
 
-private theorem plh_autCongr_torStd_eq_torStdM (hF : Nat.card Φ.F = 2) {a₀ : ℕ}
-    {m : ℕ} (hm : 3 ≤ m) (hr : Φ.r = m + 1)
+omit [Finite G] in
+private theorem plh_autCongr_torStd_eq_torStdM (_hF : Nat.card Φ.F = 2) {a₀ : ℕ}
+    {m : ℕ} (_hm : 3 ≤ m) (hr : Φ.r = m + 1)
     [inst : Algebra Φ.F (GaloisField 2 2)]
-    (E : QuadExt Φ.F (GaloisField 2 2) (unitaryInvolution (GaloisField 2 2) 2 1))
+    (_E : QuadExt Φ.F (GaloisField 2 2) (unitaryInvolution (GaloisField 2 2) 2 1))
     (χ : Φ.V ≃ₗ[Φ.F] (Fin (m + 1) → GaloisField 2 2))
     (ζ : normOne (unitaryInvolution (GaloisField 2 2) 2 1))
     (hχτ : ∀ (g : Fin Φ.r → Multiplicative (ZMod p)) (v : Φ.V),
@@ -65,9 +66,9 @@ private theorem plh_autCongr_torStd_eq_torStdM (hF : Nat.card Φ.F = 2) {a₀ : 
       rw [hcast]
     rw [hg]
     by_cases hi : i.val < a₀
-    · rw [if_pos hi, toAdd_one, ZMod.val_zero, pow_zero, if_pos hi]
-    · rw [if_neg hi, toAdd_ofAdd,
-        ZMod.val_one'' (Fact.out : p.Prime).ne_one, pow_one, if_neg hi]
+    · rw [ite_eq_left hi, toAdd_one, ZMod.val_zero, pow_zero, ite_eq_left hi]
+    · rw [ite_eq_right hi, toAdd_ofAdd,
+        ZMod.val_one'' (Fact.out : p.Prime).ne_one, pow_one, ite_eq_right hi]
   calc LinearEquiv.autCongr χ (Φ.Δ.τ (torStd p Φ.r a₀))
       = diagHom Φ.F (unitaryInvolution (GaloisField 2 2) 2 1) (m + 1)
           (fun i => ζ ^ (toAdd ((torStd p Φ.r a₀) (Fin.cast hr.symm i))).val) := by
@@ -79,6 +80,7 @@ private theorem plh_autCongr_torStd_eq_torStdM (hF : Nat.card Φ.F = 2) {a₀ : 
         rw [hfun]
         rfl
 
+omit [Finite G] in
 theorem OrthFrameCore.torFactor_P₁_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (ha : a₀ ≤ Φ.r) :
     Φ.TorFactor (torP₁ Φ.Q (Φ.Δ.τ (torStd p Φ.r a₀))) := by
   classical
@@ -91,7 +93,7 @@ theorem OrthFrameCore.torFactor_P₁_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
     have := Φ.hr
     omega
   obtain ⟨inst, E, χ, ζ, hζ1, hχQ, hχτ, -, hχ2⟩ := qtwoOrth_std_torus Φ hF m hm hr
-  letI := inst
+  let := inst
   have hK : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -112,8 +114,8 @@ theorem OrthFrameCore.torFactor_P₁_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
       torStdM_P₁_le_win E hF hζ1 m a₀ ha'
     obtain ⟨eSU⟩ := qtwoStdWin_range_equiv_statedSU (F := Φ.F) (K := GaloisField 2 2)
       hK m a₀ (m + 1 - a₀) (by omega)
-    haveI : Group.IsSolvable W := torSU_isSolvable hK hb eSU
-    haveI : Group.IsSolvable ↥(torP₁ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
+    have : Group.IsSolvable W := torSU_isSolvable hK hb eSU
+    have : Group.IsSolvable ↥(torP₁ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     let e : ↥(torP₁ Φ.Q (Φ.Δ.τ (torStd p Φ.r a₀))) ≃*
@@ -184,6 +186,7 @@ theorem OrthFrameCore.torFactor_P₁_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
         exact (Subgroup.map_le_map_iff_of_injective
           (LinearEquiv.autCongr χ).injective).mp hleP
 
+omit [Finite G] in
 theorem OrthFrameCore.torFactor_P₀_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (ha : a₀ ≤ Φ.r) :
     Φ.TorFactor (torP₀ Φ.Q (Φ.Δ.τ (torStd p Φ.r a₀))) := by
   classical
@@ -196,7 +199,7 @@ theorem OrthFrameCore.torFactor_P₀_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
     have := Φ.hr
     omega
   obtain ⟨inst, E, χ, ζ, hζ1, hχQ, hχτ, -, hχ2⟩ := qtwoOrth_std_torus Φ hF m hm hr
-  letI := inst
+  let := inst
   have hK : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -211,8 +214,8 @@ theorem OrthFrameCore.torFactor_P₀_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
   · left
     have ha' : a₀ ≤ m + 1 := by omega
     obtain ⟨e0⟩ := torStdM_P₀_equiv E hF hζ1 m a₀ ha'
-    haveI : Group.IsSolvable ↥(orthDerived (Qn E a₀)) := torOmega_isSolvable_of_le_two E hF ha2
-    haveI : Group.IsSolvable ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
+    have : Group.IsSolvable ↥(orthDerived (Qn E a₀)) := torOmega_isSolvable_of_le_two E hF ha2
+    have : Group.IsSolvable ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
       Group.isSolvable_of_isSolvable_injective (f := e0.toMonoidHom) e0.injective
     let e : ↥(torP₀ Φ.Q (Φ.Δ.τ (torStd p Φ.r a₀))) ≃*
         ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
@@ -224,8 +227,8 @@ theorem OrthFrameCore.torFactor_P₀_std (hF : Nat.card Φ.F = 2) {a₀ : ℕ} (
     obtain ⟨e0⟩ := torStdM_P₀_equiv E hF hζ1 m a₀ ha'
     rcases torOmega_factor E hF a₀ with hsolvΩ | ⟨hqΩ, lab, hΛ, hlabΩ, hn, htag, htwD⟩
     · left
-      haveI : Group.IsSolvable ↥(orthDerived (Qn E a₀)) := hsolvΩ
-      haveI : Group.IsSolvable ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
+      have : Group.IsSolvable ↥(orthDerived (Qn E a₀)) := hsolvΩ
+      have : Group.IsSolvable ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=
         Group.isSolvable_of_isSolvable_injective (f := e0.toMonoidHom) e0.injective
       let e : ↥(torP₀ Φ.Q (Φ.Δ.τ (torStd p Φ.r a₀))) ≃*
           ↥(torP₀ (Qn E (m + 1)) (torStdM (F := Φ.F) ζ m a₀)) :=

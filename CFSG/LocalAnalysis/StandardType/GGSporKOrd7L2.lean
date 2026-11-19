@@ -215,7 +215,7 @@ private theorem lr2osm_pslTwoArith (q f : ℕ) (hf : f ≠ 0) (h7 : ¬ 7 ∣ f) 
 
 theorem ord7Param_PSL_two {p f : ℕ} (hp : p.Prime) (h7 : ¬ 7 ∣ f) : Ord7Param .PSL 2 p f := by
   intro R _ _ _hR hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf : 1 ≤ f := hmodel.admissible.2.1
   have hClass : StatedClassicalModel R .PSL 2 p f :=
     hmodel.statedClassicalModel_of_ne_zero (by norm_num)

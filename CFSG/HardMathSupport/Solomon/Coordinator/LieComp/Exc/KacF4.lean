@@ -80,7 +80,7 @@ theorem not_comp_eq_B2_F4 {p : ℕ} (hp : p ≤ 3) {μ : Fin Tag.F4.rank → ℤ
   have hp' : (p : ℤ) ≤ 3 := by exact_mod_cast hp
   omega
 
-theorem not_comp_eq_B4_F4 {μ : Fin Tag.F4.rank → ℤ} (hμ : kacF4.IsNormal 3 μ)
+theorem not_comp_eq_B4_F4 {μ : Fin Tag.F4.rank → ℤ} (_hμ : kacF4.IsNormal 3 μ)
     {x : Option (Fin Tag.F4.rank)}
     (hc : kacF4.comp 3 μ x = {y | nodeIdx y ∈ ([0, 1, 2, 3] : List ℕ)}) : False := by
   have hmem : ∀ y : Option (Fin Tag.F4.rank), nodeIdx y ∈ ([0, 1, 2, 3] : List ℕ) →
@@ -124,8 +124,8 @@ theorem rationalLieType_of_f4Levi_class {L : Type} [Field L] [IsAlgClosed L] {p�
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf
@@ -179,11 +179,11 @@ theorem rationalLieType_of_f4Class {L : Type} [Field L] [IsAlgClosed L] {p₀ : 
           ((S.ρ : (Fin Tag.F4.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom a) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega),
-          if_neg (fun h => by have := h.2; rw [hr3, hn18] at this; omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega),
+          ite_eq_right (fun h => by have := h.2; rw [hr3, hn18] at this; omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hTor i hkind
   rcases f4_nonA_cases c hc hlen hnonA' with rfl | rfl | rfl | rfl | rfl
   · exact (not_comp_eq_B2_F4 (p := 3) le_rfl hμ hcomp).elim

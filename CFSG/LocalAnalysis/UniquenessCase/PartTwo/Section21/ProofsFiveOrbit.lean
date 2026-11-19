@@ -38,10 +38,11 @@ theorem conjugatePower_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) {a : G} (
     (m := (a ^ i)⁻¹) (M.inv_mem (M.pow_mem ha i))
   simpa [conjugatePower, CFSG.Open.uniqueFourConj] using h
 
+omit [Finite G] in
 theorem barImage_conjugatePower {M L : Subgroup G} (hLM : L ≤ M) {a : G} (ha : a ∈ M) (i : ℕ) :
     barImage M (conjugatePower a L i) =
       conjugatePower (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, ha⟩) (barImage M L) i := by
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   let q : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have hsub : (conjugatePower a L i).subgroupOf M =
       uc22p20bCj ((⟨a, ha⟩ : ↥M) ^ i) (L.subgroupOf M) := by

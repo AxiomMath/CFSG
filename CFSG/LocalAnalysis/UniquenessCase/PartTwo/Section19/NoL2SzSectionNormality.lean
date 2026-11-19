@@ -156,7 +156,7 @@ private theorem nlszn_normal_of_isReeType
     kf7_setup Nat.prime_three (by norm_num) hO (L := ⊤) inferInstance le_top hN
   have := hKn
   have h3PK : 3 ∣ Nat.card (P ⊓ genFittingFStar Q : Subgroup Q) := by
-    rcases (P.isPGroup'.to_inf_left (K := genFittingFStar Q)).card_eq_or_dvd with h | h
+    rcases (P.isPGroup.to_inf_left (K := genFittingFStar Q)).card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hPK
     · exact h
   have hYO : CFSG.pPrimeCore 3 ↥Y = ⊥ := nlszn_pPrimeCore_eq_bot Nat.prime_three hFY hKs hKC

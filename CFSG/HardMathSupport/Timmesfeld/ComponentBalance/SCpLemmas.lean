@@ -50,7 +50,7 @@ theorem exists_ne_one_mem_inf_of_isSCp {X : Type*} [Group X] [Finite X] {p : ℕ
     exact Subtype.ext (Subtype.ext (hB.2.1.2 g.1.1 g.2))
   obtain ⟨S, hS⟩ := hBp.exists_le_sylow
   obtain ⟨x, hx, hx1⟩ := exists_ne_one_mem_sylow_inf_normal (H.subgroupOf M) hdvd' S
-  have hSnil : Group.IsNilpotent ↥(S : Subgroup M) := S.isPGroup'.isNilpotent
+  have hSnil : Group.IsNilpotent ↥(S : Subgroup M) := S.isPGroup.isNilpotent
   set N' : Subgroup ↥(S : Subgroup M) := (H.subgroupOf M).subgroupOf (S : Subgroup M) with hN'
   have hN'n : N'.Normal := hN.subgroupOf _
   have hN'ne : N' ≠ ⊥ := by
@@ -59,7 +59,7 @@ theorem exists_ne_one_mem_inf_of_isSCp {X : Type*} [Group X] [Finite X] {p : ℕ
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hx1 (congrArg Subtype.val hmem)
   have hcen := Group.IsNilpotent.inf_center_ne_bot_of_normal hN'ne
-  have hzp : IsPGroup p ↥(S : Subgroup M) := S.isPGroup'
+  have hzp : IsPGroup p ↥(S : Subgroup M) := S.isPGroup
   have hnt : Nontrivial ↥(N' ⊓ Subgroup.center ↥(S : Subgroup M)) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hcen
   have hpZ : IsPGroup p ↥(N' ⊓ Subgroup.center ↥(S : Subgroup M)) := hzp.to_subgroup _

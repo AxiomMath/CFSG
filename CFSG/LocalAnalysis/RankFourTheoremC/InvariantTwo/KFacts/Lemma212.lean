@@ -21,7 +21,7 @@ theorem kFactLemma212Red_four_of_not_le (hB : GL83OutDiagPowerMap)
         Lemma212Component p z D L → IsLinearOrUnitaryAt p (L ⧸ center L) → ¬ D ≤ L) :
     KFactLemma212Red 4 := by
   intro p hp hp2 K _ _ hcat hcore P z D hconf hgex
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := hgex
   have h5 : 5 ≤ p := hconf.five_le hp hp2 le_rfl
   by_cases hnc : ∃ Q : Subgroup K, Q.Normal ∧ IsPGroup p Q ∧ centralizer (Q : Set K) ≤ Q
@@ -41,7 +41,7 @@ theorem kFactLemma212Red_four_of_not_le (hB : GL83OutDiagPowerMap)
 
 theorem kFactLemma212Red_four (hR : GL83PElementCentralizerRank) (hB : GL83OutDiagPowerMap) :
     KFactLemma212Red 4 :=
-  kFactLemma212Red_four_of_not_le hB fun p _ h5 _ _ _ _ _ _ _ _ _ h hL hbar hDL =>
+  kFactLemma212Red_four_of_not_le hB fun _p _ h5 _ _ _ _ _ _ _ _ _ h hL hbar hDL =>
     hL.false_of_le h h5 hDL hbar hR
 
 theorem kFactLemma212Ge_four (hR : GL83PElementCentralizerRank) (hB : GL83OutDiagPowerMap) :

@@ -174,7 +174,7 @@ theorem false_of_omegaA_ncard_twelve (h134 : Item134) (h48 : Sec4.Item4_8) {A L 
     refine lt_of_le_of_ne hB.1 fun hBA => ?_
     rw [hBA, hA.2] at hB9
     norm_num at hB9
-  obtain ⟨y, hyA, hyB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hyA, hyB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hy1 : y ≠ 1 := fun h1 => hyB (h1 ▸ B.one_mem)
   have hyb : y ∉ Subgroup.zpowers b := fun hyb => hyB (Subgroup.zpowers_le.mpr hbB hyb)
   set E := Subgroup.closure ({b, y} : Set G) with hE

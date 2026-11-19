@@ -31,7 +31,7 @@ theorem dvd_card_GL_of_dvd_pow_sub_one {p e : ℕ} (he : 1 ≤ e) (hpe : p ∣ N
 
 theorem orderOf_card_spec {p : ℕ} (hp : p.Prime) (hpc : ¬ p ∣ Nat.card K) :
     0 < orderOf (Nat.card K : ZMod p) ∧ p ∣ Nat.card K ^ orderOf (Nat.card K : ZMod p) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := by
     rw [Ne, ZMod.natCast_eq_zero_iff]
     exact hpc
@@ -56,7 +56,7 @@ theorem two_mul_orderOf_le_of_elemAbelian (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime
     {E : Subgroup (projectiveSL n K)} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) :
     2 * orderOf (Nat.card K : ZMod p) ≤ n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconj := CFSG.RankThree.RegularUnipotent.conj_injective_projectiveSL (k := K) hn
   set V : Subgroup (MulAut (projectiveSL n K)) :=
     E.map (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)) with hV
@@ -72,7 +72,7 @@ theorem two_mul_orderOf_le_of_elemAbelian (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime
     rw [← ha, ← hb, ← map_mul, ← map_mul]
     congr 1
     exact congrArg Subtype.val (hE.1.is_comm.comm (⟨y₁, hy₁⟩ : E) ⟨y₂, hy₂⟩)
-  haveI hVe : CFSG.IsElementaryAbelian p ↥V :=
+  have hVe : CFSG.IsElementaryAbelian p ↥V :=
     { toIsMulCommutative := ⟨⟨fun a b => hcomm a b⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a => by
         obtain ⟨y, hy, ha⟩ := Subgroup.mem_map.1 a.2
@@ -94,7 +94,7 @@ theorem two_mul_orderOf_le_of_elemAbelian (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime
   have hdiv : n / orderOf (Nat.card K : ZMod p) ≤ 1 := by
     have := (Nat.div_lt_iff_lt_mul hpos).2 (by omega : n < 2 * orderOf (Nat.card K : ZMod p))
     omega
-  haveI := hWe
+  have := hWe
   exact CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.false_of_sylow_cyclic W hWc
     (CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_sylow_gl_of_div (hp.odd_of_ne_two hp2) hpc hdiv)
 
@@ -108,7 +108,7 @@ theorem dvd_of_mem_linearAut_not_inner (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime)
     {a : MulAut (projectiveSL n K)} (haD : a ∈ linearAutGroup n K)
     (hai : a ∉ inner (projectiveSL n K)) (hap : a ^ p = 1) :
     p ∣ n ∧ p ∣ Nat.card K - 1 := by
-  haveI : (inner (projectiveSL n K)).Normal := inner_normal _
+  have : (inner (projectiveSL n K)).Normal := inner_normal _
   have hIDle : inner (projectiveSL n K) ≤ linearAutGroup n K :=
     (standard_outer_quotients (n := n) (K := K)).1
   have hrel : p ∣ (inner (projectiveSL n K)).relIndex (linearAutGroup n K) := by
@@ -133,12 +133,12 @@ theorem linear_outer_fixesPair {K : Type} [Field K] [Finite K] [CharP K 2] {n : 
     {α : MulAut (projectiveSL n K)} (hα : α ∉ inner (projectiveSL n K)) (hαp : α ^ p = 1) :
     FixesIndepPair p α := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hα1 : α ≠ 1 := fun h => hα (h ▸ (inner (projectiveSL n K)).one_mem)
   have hao : orderOf α = p := orderOf_eq_prime hαp hα1
   have haE : α ∈ semilinearAutGroup n K := mem_semilinearAutGroup_of_pow_odd hn hpodd hαp
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   have hpc : ¬ p ∣ Nat.card K := by

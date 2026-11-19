@@ -61,7 +61,7 @@ private theorem exists_mulEquiv_pgl2_of_normal1412 {R : Type} [Group R] [Finite 
         _ = r * n := by group
     rw [hC] at hcen
     exact hcen
-  haveI : Finite (PGL2 (ZMod p)) :=
+  have : Finite (PGL2 (ZMod p)) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   have hcardP : Nat.card (PGL2 (ZMod p)) = p * (p ^ 2 - 1) := by
     rw [pgl2_card_formula, hFc]
@@ -80,12 +80,14 @@ section GroupSetup
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {H : Subgroup G}
 
+omit [Finite G] in
 private theorem commutator_le_self1412 (H : Subgroup G) : ⁅H, H⁆ ≤ H := by
   rw [Subgroup.commutator_le]
   intro a ha b hb
   simp only [commutatorElement_def]
   exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)
 
+omit [Finite G] in
 private theorem conj_mem_commutator1412 {g ω : G} (hg : g ∈ H) (hω : ω ∈ ⁅H, H⁆) :
     g * ω * g⁻¹ ∈ ⁅H, H⁆ := by
   have h1 : ⁅g, ω⁆ ∈ ⁅H, ⁅H, H⁆⁆ := Subgroup.commutator_mem_commutator hg hω
@@ -101,7 +103,7 @@ private theorem exists_mulEquiv_pgl2_of_commutator1412 (hp5 : 5 ≤ p)
     ∃ Φ : ↥H ≃* PGL2 (ZMod p),
       ∀ ω : ↥⁅H, H⁆, Φ (Subgroup.inclusion (commutator_le_self1412 H) ω) = toPGL (e ω) := by
   set N : Subgroup ↥H := (⁅H, H⁆).subgroupOf H with hN
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     rw [hN, Subgroup.mem_subgroupOf] at hn ⊢
     exact conj_mem_commutator1412 g.2 hn⟩
   let e' : N ≃* PSL2 (ZMod p) :=
@@ -127,6 +129,7 @@ private theorem exists_mulEquiv_pgl2_of_commutator1412 (hp5 : 5 ≤ p)
 
 section Engine
 
+omit [Fact (Nat.Prime p)] [Finite G] in
 private theorem mem_commutator_iff_Φ_mem_range1412
     (e : ↥⁅H, H⁆ ≃* PSL2 (ZMod p)) (Φ : ↥H ≃* PGL2 (ZMod p))
     (hΦ : ∀ ω : ↥⁅H, H⁆, Φ (Subgroup.inclusion (commutator_le_self1412 H) ω) = toPGL (e ω))
@@ -143,6 +146,7 @@ private theorem mem_commutator_iff_Φ_mem_range1412
     rw [← h2]
     exact (e.symm y).2
 
+omit [Fact (Nat.Prime p)] [Finite G] in
 private theorem exists_word_of_conj_inv1412
     (e : ↥⁅H, H⁆ ≃* PSL2 (ZMod p)) (Φ : ↥H ≃* PGL2 (ZMod p))
     (hΦ : ∀ ω : ↥⁅H, H⁆, Φ (Subgroup.inclusion (commutator_le_self1412 H) ω) = toPGL (e ω))
@@ -175,11 +179,11 @@ section PGLData
 variable {F : Type} [Field F]
 
 private def dmGL1412 (F : Type) [Field F] : GL (Fin 2) F :=
-  ⟨!![-1, 0; 0, 1], !![-1, 0; 0, 1], by simp [Matrix.mul_fin_two, Matrix.one_fin_two],
-    by simp [Matrix.mul_fin_two, Matrix.one_fin_two]⟩
+  ⟨!![-1, 0; 0, 1], !![-1, 0; 0, 1], by simp [Matrix.one_fin_two],
+    by simp [Matrix.one_fin_two]⟩
 
 private theorem dmGL1412_mul_self : dmGL1412 F * dmGL1412 F = 1 :=
-  Units.ext (by simp [dmGL1412, Matrix.mul_fin_two, Matrix.one_fin_two])
+  Units.ext (by simp [dmGL1412, Matrix.one_fin_two])
 
 private theorem dmGL1412_inv : (dmGL1412 F)⁻¹ = dmGL1412 F :=
   inv_eq_of_mul_eq_one_right dmGL1412_mul_self
@@ -189,7 +193,7 @@ private theorem coe_transvection_zero_one1412 (t : F) :
       Matrix.SpecialLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem dmGL1412_conj_transvection (t : F) :
     dmGL1412 F * Matrix.SpecialLinearGroup.toGL
@@ -201,7 +205,7 @@ private theorem dmGL1412_conj_transvection (t : F) :
   simp only [Units.val_mul, Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
     coe_transvection_zero_one1412]
   change !![-1, 0; 0, 1] * !![1, t; 0, 1] * !![-1, 0; 0, 1] = !![1, -t; 0, 1]
-  simp [Matrix.mul_fin_two]
+  simp
 
 private def wPGL1412 (F : Type) [Field F] : PGL2 F := Matrix.ProjGenLinGroup.mk (dmGL1412 F)
 
@@ -470,7 +474,7 @@ private theorem closure_t_eq_top1412 :
     Nat.le_of_dvd (by norm_num) (hQ ▸ Subgroup.card_subgroup_dvd_card M)
   have hpos : 0 < Nat.card M := Nat.card_pos
   have hcases : Nat.card M = 84 ∨ Nat.card M = 168 := by omega
-  haveI : IsSimpleGroup (PSL2 (ZMod 7)) :=
+  have : IsSimpleGroup (PSL2 (ZMod 7)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hFc]; norm_num)
   rcases hcases with h84 | h168
   · exfalso
@@ -478,7 +482,7 @@ private theorem closure_t_eq_top1412 :
       have := Subgroup.card_mul_index M
       rw [hQ, h84] at this
       omega
-    haveI : M.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : M.Normal := Subgroup.normal_of_index_eq_two hidx
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hb | ht
     · rw [hb, Subgroup.card_bot] at h84
       omega
@@ -650,7 +654,7 @@ theorem words_four_group1412 {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
             exists_conj_closure_eq1412 e (hEΩ hxE) (hx2 x hxE) hx1
           exact ⟨g₁, commutator_le_self1412 H hg₁, g₂, commutator_le_self1412 H hg₂, hcl⟩
       · left
-        obtain ⟨x, hxE, hxΩ⟩ := SetLike.not_le_iff_exists.1 hEΩ
+        obtain ⟨x, hxE, hxΩ⟩ := IsConcreteLE.not_le_iff_exists.1 hEΩ
         have hxH := hEH hxE
         have hx1 : x ≠ 1 := fun h => hxΩ (h ▸ (⁅H, H⁆).one_mem)
         have hxJ : Φ ⟨x, hxH⟩ ∉ (Matrix.ProjectiveSpecialLinearGroup.toPGL :

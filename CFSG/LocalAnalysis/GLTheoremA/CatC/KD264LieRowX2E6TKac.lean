@@ -112,7 +112,7 @@ theorem eq_zero_of_card_phiSet_eq (u : E6Idx → ZMod 3) (h : (phiSet u).card = 
     rw [hall, List.mem_toFinset]
     exact mem_R6_of_isRoot (IsRoot.basis j)
   have h1 := (mem_phiSet_iff.1 hj).2
-  rw [Finset.sum_eq_single j (fun b _ hb => by simp [Pi.single_apply, hb])
+  rw [Finset.sum_eq_single j (fun b _ hb => by simp [hb])
     (fun hj' => absurd (Finset.mem_univ j) hj')] at h1
   simpa using h1
 

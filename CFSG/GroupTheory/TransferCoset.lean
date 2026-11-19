@@ -23,8 +23,8 @@ theorem not_mem_commutator_of_conj_mem_coset {p : ℕ} [Fact p.Prime]
     change Nat.card (P ⧸ S.subgroupOf P) = p
     rw [← Subgroup.index_eq_card]
     exact hSidx
-  haveI : IsCyclic Q := isCyclic_of_prime_card hcardQ
-  letI : CommGroup Q := IsCyclic.commGroup
+  have : IsCyclic Q := isCyclic_of_prime_card hcardQ
+  let : CommGroup Q := IsCyclic.commGroup
   let φ : P →* Q := QuotientGroup.mk' (S.subgroupOf P)
   let V : G →* Q := φ.transfer
   have hy1 : y ≠ 1 := fun h => hyS (h ▸ S.one_mem)
@@ -64,7 +64,7 @@ theorem not_mem_commutator_of_conj_mem_coset {p : ℕ} [Fact p.Prime]
       have hypP : ((⟨y, hyP⟩ : P) ^ p) = 1 := Subtype.ext (by simpa using hyp)
       rw [hone, map_one, ← map_pow, hypP, map_one]
   have hV : V y = φ ⟨y, hyP⟩ ^ P.index := by
-    haveI : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ P))) := Fintype.ofFinite _
+    have : Fintype (Quotient (orbitRel (zpowers y) (G ⧸ P))) := Fintype.ofFinite _
     rw [show V y = φ.transfer y from rfl,
       MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot,
       Subgroup.index_eq_sum_minimalPeriod P y,

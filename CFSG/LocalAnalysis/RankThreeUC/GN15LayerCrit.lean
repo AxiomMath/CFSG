@@ -29,14 +29,14 @@ theorem isPConstrained_three_of_two_quotient {N F : Subgroup G} [hN : N.Normal] 
       x * y = y * x) :
     CFSG.ABGLocalTools.IsPConstrained 3 G := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hnot
   obtain ⟨L, hL⟩ :=
     CFSG.RankThree.PartTwo.Sec15.Sylow155T51.exists_isComponent_of_not_isPConstrained hnot
   set O : Subgroup G := CFSG.pPrimeCore 3 G with hO
   set π : G →* G ⧸ O := QuotientGroup.mk' O with hπ
-  haveI hNπ : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective O)
+  have hNπ : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective O)
   set g : (G ⧸ O) →* ((G ⧸ O) ⧸ N.map π) := QuotientGroup.mk' (N.map π) with hg
   have hQ2 : IsPGroup 2 ((G ⧸ O) ⧸ N.map π) := by
     intro q
@@ -48,10 +48,10 @@ theorem isPConstrained_three_of_two_quotient {N F : Subgroup G} [hN : N.Normal] 
       (QuotientGroup.eq_one_iff _).1 (by rw [QuotientGroup.mk_pow]; exact hk)
     rw [← QuotientGroup.mk_pow, ← QuotientGroup.mk_pow]
     exact (QuotientGroup.eq_one_iff _).2 ⟨x ^ 2 ^ k, hx, rfl⟩
-  haveI : Group.IsNilpotent ((G ⧸ O) ⧸ N.map π) := hQ2.isNilpotent
-  haveI : Group.IsSolvable ((G ⧸ O) ⧸ N.map π) := inferInstance
+  have : Group.IsNilpotent ((G ⧸ O) ⧸ N.map π) := hQ2.isNilpotent
+  have : Group.IsSolvable ((G ⧸ O) ⧸ N.map π) := inferInstance
   have hLperf : ⁅L, L⁆ = L := by
-    haveI := hL.1.1
+    have := hL.1.1
     exact Subgroup.commutator_eq_self
   have hLN : L ≤ N.map π := by
     have h1 : L.map g = ⊥ := eq_bot_of_commutator_eq_self (by

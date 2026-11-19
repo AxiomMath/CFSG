@@ -59,7 +59,7 @@ theorem ggDepELLeaf_close_one (hPZin : GGPZE6Input)
     (hzy : ∀ c : ZMod 3, c ≠ 0 → (xg : G) * (yg : G) ^ c.val ∉ Subgroup.zpowers y) :
     GGDepED4LowSurv1 := by
   classical
-  haveI : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
   obtain ⟨θ, a, c0, ha, αa, lam, mu, news, rN, hθx, _hθh, _hθα, _hha_eq, hpat, hpairs, hha,
     hxne, hlam_mu_ne, hdoty, hy_lam_mu, hnews, hrF, hrN, hrNr_eq, hsub, hnt', hHL',
     hrootsO⟩ :=

@@ -36,7 +36,7 @@ theorem B0_eq_sup_dTor : B0 F = antiUnipotent F ⊔ dTor F := by
     exact Subgroup.le_normalizer
 
 theorem T0B_isComplement'_HB : (T0B F).IsComplement' (HB F) := by
-  haveI : (T0B F).Normal := T0B_normal (F := F)
+  have : (T0B F).Normal := T0B_normal (F := F)
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
   · rw [Subgroup.disjoint_def]
     intro x hxT hxH
@@ -60,6 +60,7 @@ theorem T0B_isComplement'_HB : (T0B F).IsComplement' (HB F) := by
     rw [hsup]
     simp
 
+omit [Finite F] in
 private theorem card_dTor_eq_units_mul :
     Nat.card (dTor F) = Nat.card Fˣ * Nat.card Fˣ := by
   have hcard : Nat.card (Fˣ × Fˣ) = Nat.card (dTor F) := by
@@ -77,7 +78,7 @@ private theorem card_dTor_eq_units_mul :
 
 theorem odd_card_dTor : Odd (Nat.card (dTor F)) := by
   rw [card_dTor_eq_units_mul]
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hq⟩ := FiniteField.card F 2
   have hcard : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -96,8 +97,8 @@ theorem isSolvable_B0 : Group.IsSolvable ↥(B0 F) :=
     (card_and_isSylowTwoOf_antiUnipotent (K := F)).2.2.1
 
 theorem map_T0B_eq (σ : MulAut ↥(B0 F)) : (T0B F).map σ.toMonoidHom = T0B F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (T0B F).Normal := T0B_normal (F := F)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (T0B F).Normal := T0B_normal (F := F)
   have hTp : IsPGroup 2 ↥(T0B F) :=
     (card_and_isSylowTwoOf_antiUnipotent (K := F)).2.2.1.of_equiv
       (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := antiUnipotent F))).symm
@@ -115,7 +116,7 @@ theorem map_T0B_eq (σ : MulAut ↥(B0 F)) : (T0B F).map σ.toMonoidHom = T0B F 
       have hS : (S : Subgroup ↥(B0 F)) = T0B F := rfl
       refine sSup_le ?_
       rintro K ⟨hKn, hKp⟩
-      letI : K.Normal := hKn
+      let : K.Normal := hKn
       have hle := IsPGroup.le_sylow_of_normal (p := 2) hKp S
       rwa [hS] at hle
   rw [hTpc]
@@ -124,7 +125,7 @@ theorem map_T0B_eq (σ : MulAut ↥(B0 F)) : (T0B F).map σ.toMonoidHom = T0B F 
 private theorem isHallSubgroup_of_complement_odd {W : Subgroup ↥(B0 F)}
     (hW : Odd (Nat.card W)) (hcW : (T0B F).IsComplement' W) :
     IsHallSubgroup {p : Nat.Primes | p.val ≠ 2} W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 ↥(T0B F) :=
     (card_and_isSylowTwoOf_antiUnipotent (K := F)).2.2.1.of_equiv
       (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H := antiUnipotent F))).symm
@@ -145,8 +146,8 @@ theorem exists_conj_map_HB (σ : MulAut ↥(B0 F)) :
     ∃ e : ↥(B0 F), (e : antiSp F) ∈ antiUnipotent F ∧
       (HB F).map (MulAut.conj e * σ).toMonoidHom = HB F := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (T0B F).Normal := T0B_normal (F := F)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (T0B F).Normal := T0B_normal (F := F)
   let Y : Subgroup ↥(B0 F) := (HB F).map σ.toMonoidHom
   have hYc : (T0B F).IsComplement' Y := by
     have hdisj : Disjoint (T0B F) Y := by
@@ -199,6 +200,7 @@ private theorem card_A2B_eq : Nat.card (A2B F) = Nat.card F ^ 3 :=
   (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (A2_le_B0 (F := F))).toEquiv).trans
     (card_radicals (K := F)).2.2.1
 
+omit [Finite F] in
 private theorem A1B_ne_A2B : A1B F ≠ A2B F := by
   intro heq
   apply radA1_ne_radA2 (K := F)
@@ -282,8 +284,8 @@ theorem map_A1B_of_map_A2B (σ : MulAut ↥(B0 F)) (h : (A2B F).map σ.toMonoidH
 
 private theorem exists_lambda_of_four (hF : 4 ≤ Nat.card F) :
     ∃ lam : F, lam ≠ 0 ∧ lam + 1 ≠ 0 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have h1lt : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, Nat.card_units]
     omega
@@ -295,6 +297,7 @@ private theorem exists_lambda_of_four (hF : 4 ≤ Nat.card F) :
   have h1 : (ω : F) = -1 := add_eq_zero_iff_eq_neg.mp h
   rwa [CharTwo.neg_eq] at h1
 
+omit [Finite F] in
 private theorem commutator_mem_closure {V : Subgroup (antiSp F)}
     (hxa : ∀ a : F, uElt a 0 0 0 ∈ V) (hxb : ∀ d : F, uElt 0 0 0 d ∈ V) (α δ : F) :
     uElt 0 (α * δ) (α ^ 2 * δ) 0 ∈ V := by
@@ -306,10 +309,10 @@ private theorem commutator_mem_closure {V : Subgroup (antiSp F)}
       uElt 0 (α * δ) (α ^ 2 * δ) 0 := by
     have hxinv' : (uElt α 0 0 0 : antiSp F)⁻¹ = uElt α 0 0 0 := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     have hyinv' : (uElt 0 0 0 δ : antiSp F)⁻¹ = uElt 0 0 0 δ := by
       rw [uElt_inv]
-      congr 1 <;> ring
+      congr 1; ring
     rw [hxinv', hyinv']
     have hxy : uElt α 0 0 0 * uElt 0 0 0 δ = uElt α (α * δ) 0 δ := by
       rw [uElt_mul]
@@ -481,6 +484,7 @@ private theorem iff_of_map_eq {G : Type*} [Group G] (τ : MulAut G) {S : Subgrou
     rw [← τ.injective he]
     exact hb'
 
+omit [Finite F] [CharP F 2] in
 private theorem map_normalizer_of_map (τ : MulAut (antiSp F)) {H : Subgroup (antiSp F)}
     (hH : H.map τ.toMonoidHom = H) :
     (Subgroup.normalizer (H : Set (antiSp F))).map τ.toMonoidHom =

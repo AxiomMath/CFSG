@@ -33,7 +33,7 @@ theorem sevenSubgroup_le_centralizerOnQuotient
     S ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
       (CFSG.Open.pCoreOf 2 c.L) c.L := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let ρ : ↥D.M →* MulAut c.Lbar :=
     CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
   obtain ⟨e⟩ := hON.2.2
@@ -45,7 +45,7 @@ theorem sevenSubgroup_le_centralizerOnQuotient
       (CFSG.LocalAnalysis.GLTheoremB.quotientCenterAut'_injective hON.1.1)
   let Ψ : ↥D.M →* MulAut (CFSG.Blueprint.NativeSporadic.Carrier .ONan) := Φ.comp ρ
   have hρa3 : orderOf (ρ ⟨a, haM⟩) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ hρa
     rw [← map_pow]
     have ha3' : (⟨a, haM⟩ : ↥D.M) ^ 3 = 1 := by
@@ -53,7 +53,7 @@ theorem sevenSubgroup_le_centralizerOnQuotient
       change a ^ 3 = 1
       simpa [ha3] using pow_orderOf_eq_one a
     rw [ha3', map_one]
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     (CFSG.Sporadic.ON.fam_on_simplicity).1
   have hσ3 : orderOf (Ψ ⟨a, haM⟩) = 3 :=
     (orderOf_injective Φ hΦinj (ρ ⟨a, haM⟩)).trans hρa3

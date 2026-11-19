@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_commSp_le {τ u : OGroup Q} (hτ : τ * τ = 1) (hu : u * u = 1)
     (hcomm : τ * u = u * τ) (hfix : fixSp τ ≤ fixSp u) : commSp u ≤ commSp τ := by
   intro v hv
@@ -57,6 +58,7 @@ private lemma aux_commSp_le {τ u : OGroup Q} (hτ : τ * τ = 1) (hu : u * u = 
   rw [hw0, zero_add]
   exact hc
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_mul_self_of_comm {τ u : OGroup Q} (hτ : τ * τ = 1) (hu : u * u = 1)
     (hcomm : τ * u = u * τ) : (u * τ) * (u * τ) = 1 := by
   calc (u * τ) * (u * τ) = u * (τ * u) * τ := by group

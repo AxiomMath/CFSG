@@ -14,6 +14,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private theorem k18n_mem_zpowers_of_sq_eq_one {a : G} (ha : a ^ 2 = 1) {x : G} :
     x ∈ zpowers a ↔ x = 1 ∨ x = a := by
   constructor
@@ -35,6 +36,7 @@ private theorem k18n_mem_zpowers_of_sq_eq_one {a : G} (ha : a ^ 2 = 1) {x : G} :
     · rw [h2]
       exact Subgroup.mem_zpowers a
 
+omit [Finite G] in
 theorem charIn_conj_mem {A B : Subgroup G} (hAB : CharIn A B) {h : G}
     (hh : h ∈ normalizer (B : Set G)) : ∀ a ∈ A, h * a * h⁻¹ ∈ A := by
   obtain ⟨hABle, hABchar⟩ := hAB

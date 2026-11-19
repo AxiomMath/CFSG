@@ -16,7 +16,7 @@ theorem exists_two_pow_mem (K P : Subgroup G) (hPK : P ≤ Subgroup.normalizer K
   have hx' : x ∈ ((K ⊔ P : Subgroup G) : Set G) := hx
   rw [coe_mul_of_right_le_normalizer_left K P hPK] at hx'
   obtain ⟨k, hk, p, hp, rfl⟩ := hx'
-  haveI : (K.subgroupOf (P ⊔ K)).Normal := normal_subgroupOf_sup_of_le_normalizer hPK
+  have : (K.subgroupOf (P ⊔ K)).Normal := normal_subgroupOf_sup_of_le_normalizer hPK
   have hx : k * p ∈ P ⊔ K := by rw [sup_comm]; exact hx
   obtain ⟨n, hn⟩ := hP ⟨p, hp⟩
   refine ⟨n, ?_⟩
@@ -93,7 +93,7 @@ theorem le_normalizer_normalClosureUnder (X A : Subgroup G) :
   simpa [mul_assoc] using this
 
 theorem oPrimeResidual_normalClosureUnder_sup_two_group [Finite G] (Y A P : Subgroup G)
-    (hYA : Y ≤ A) (hPA : P ≤ A) (hP : IsPGroup 2 P) :
+    (_hYA : Y ≤ A) (hPA : P ≤ A) (hP : IsPGroup 2 P) :
     oPrimeResidual 3 (normalClosureUnder (oPrimeResidual 3 Y) A ⊔ P) =
         normalClosureUnder (oPrimeResidual 3 Y) A ∧
       QuotientIsTwoGroup 3 (normalClosureUnder (oPrimeResidual 3 Y) A ⊔ P) :=

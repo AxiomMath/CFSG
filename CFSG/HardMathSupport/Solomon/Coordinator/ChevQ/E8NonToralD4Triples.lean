@@ -18,7 +18,7 @@ theorem rootReflection_smul_conj (t : WeylGroup τ) (v : Fin τ.rank → ℤ) :
   by_cases hv : IsRoot τ v
   · exact rootReflection_smul_root t hv
   · have htv : ¬ IsRoot τ (t • v) := fun h => hv (by simpa using IsRoot.smul h t⁻¹)
-    simp only [rootReflection, dif_neg hv, dif_neg htv, mul_one, mul_inv_cancel]
+    simp only [rootReflection, dite_eq_right hv, dite_eq_right htv, mul_one, mul_inv_cancel]
 
 private theorem conj_pow_smul (t w' : WeylGroup τ) (n : ℕ) (x : Fin τ.rank → ℤ) :
     (t * w' * t⁻¹) ^ n • (t • x) = t • (w' ^ n • x) := by

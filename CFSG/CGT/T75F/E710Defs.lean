@@ -2,7 +2,7 @@ module
 
 public import CFSG.CGT.Timmesfeld75.Sec7OneDihedral
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -152,7 +152,7 @@ theorem mem_M_of_mem_sylow (S : Sylow 2 X) (hMS : M ≤ S) {d : X} (hd : d ∈ D
   obtain ⟨β, hβ, hβM⟩ := h.exists_mem_delta
   obtain ⟨k, hk, hk3, hcase⟩ := h.order_cases hd hdM hβ hβM
   have hmem : d * β ∈ (S : Subgroup X) := (S : Subgroup X).mul_mem hdS (hMS hβM)
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨d * β, hmem⟩
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨d * β, hmem⟩
   have hj' : orderOf (d * β) = 2 ^ j := by
     rw [← hj]
     exact (Subgroup.orderOf_mk _ _).symm
@@ -201,7 +201,7 @@ theorem exists_fixed (S : Sylow 2 X) (hMS : M ≤ S) :
     refine ⟨h.conj_mem d hd.1 s, h.mem_M_of_mem_sylow S hMS (h.conj_mem d hd.1 s) ?_⟩
     exact (S : Subgroup X).mul_mem ((S : Subgroup X).mul_mem hs (hMS hd.2))
       ((S : Subgroup X).inv_mem hs)
-  obtain ⟨γ, hγ, hfix⟩ := exists_fixed_conj (S : Subgroup X) S.isPGroup' _ hΔ h.odd_card_delta
+  obtain ⟨γ, hγ, hfix⟩ := exists_fixed_conj (S : Subgroup X) S.isPGroup _ hΔ h.odd_card_delta
   exact ⟨γ, hγ.1, hγ.2, hfix⟩
 
 end Endgame710

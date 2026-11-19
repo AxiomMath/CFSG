@@ -26,9 +26,9 @@ theorem s16e_omf_generalizedFitting_eq_sup_centralizer {N : Subgroup H} [N.Norma
     · exfalso
       have hKC : K ≤ Subgroup.centralizer (N : Set H) :=
         Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm
-      haveI : Group.IsPerfect ↥K := hK.1.1
-      haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-      letI : Group.IsSolvable ↥K :=
+      have : Group.IsPerfect ↥K := hK.1.1
+      have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+      let : Group.IsSolvable ↥K :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKC)
       exact Group.IsPerfect.not_isSolvable ↥K inferInstance
   have hfit : CFSG.fittingSubgroup H = Subgroup.centralizer (N : Set H) := by
@@ -39,6 +39,7 @@ theorem s16e_omf_generalizedFitting_eq_sup_centralizer {N : Subgroup H} [N.Norma
     · exact le_sSup ⟨Subgroup.normal_centralizer, hCnil⟩
   rw [CFSG.generalizedFitting.eq_sup, hfit, hlayer, sup_comm]
 
+omit [Finite H] in
 theorem s16e_omf_nonempty_mulEquiv_centralizer_prod {N : Subgroup H} [N.Normal]
     (hFstar : CFSG.generalizedFitting H = N ⊔ Subgroup.centralizer (N : Set H))
     (hNdisj : N ⊓ Subgroup.centralizer (N : Set H) = ⊥) :

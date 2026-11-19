@@ -121,7 +121,7 @@ theorem DeltaTowerAt.of_twistedE6RootGroup {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
     DeltaTowerAt p (twistedE6RootGroup K σ) := by
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hΘker, -, -, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hinn : (twistedE6Inn K σ).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hcyc : IsCyclic (K ≃+* K) :=
@@ -155,7 +155,7 @@ theorem DeltaTowerAt.of_twistedE6RootGroup {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf 
     rw [← hyz, map_mul, hy1, one_mul]
   have hfin : Finite ((QuotientGroup.mk' (twistedE6Inn K σ)).comp
       (compatDiagAutHom TwistTag.E6 K σ.toRingHom)).range := inferInstance
-  haveI : Finite ψ.range := Finite.of_injective (Subgroup.inclusion hrange)
+  have : Finite ψ.range := Finite.of_injective (Subgroup.inclusion hrange)
     (Subgroup.inclusion_injective hrange)
   have h1 : Nat.card (D ⧸ ψ.ker) = Nat.card ψ.range :=
     Nat.card_congr (QuotientGroup.quotientKerEquivRange ψ).toEquiv

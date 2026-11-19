@@ -67,9 +67,9 @@ theorem exists_mem_dentF2_eq_sgn_pair {S0 : Finset (Fin 8)} (h0 : (0 : Fin 8) �
       rcases Finset.mem_insert.mp hl with h | h
       · rw [h]; exact hi
       · rw [Finset.mem_singleton.mp h]; exact hj
-    rw [if_pos hl, hv l hlS0]
+    rw [ite_eq_left hl, hv l hlS0]
     exact neg_zero
-  · rw [if_neg hl]
+  · rw [ite_eq_right hl]
 
 theorem mem_F1_of_comm_dentF2 {S0 : Finset (Fin 8)} (h0 : (0 : Fin 8) ∉ S0) (hc : S0.card = 6)
     {x : X} (hx : x ∈ S.H) (hcomm : ∀ f ∈ S.dentF2 S0, x * f = f * x) : x ∈ S.F1 := by

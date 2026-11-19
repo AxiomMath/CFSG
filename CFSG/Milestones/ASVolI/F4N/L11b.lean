@@ -25,7 +25,7 @@ theorem burnsideF4n_F411Rigid_exc :
   subst hι
   have hGp : Gp = ⊤ := hyp.canonical hκ
   subst hGp
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hH : (∀ X : Subgroup E, M₁ ⊓ M₂ ≤ X → Nonempty (↥X ≃* ↥M₁) → X = M₁) ∧
       (∀ X : Subgroup E, M₁ ⊓ M₂ ≤ X → Nonempty (↥X ≃* ↥M₂) → X = M₂) := by
     rcases hκ with rfl | rfl
@@ -38,7 +38,7 @@ theorem burnsideF4n_F411Rigid_exc :
     · obtain ⟨hp, -, -⟩ := hyp.model
       exact hp
   subst hp2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨S₀, ⟨-, hSp, hSi⟩, hB⟩, -⟩ := burnsideF4n_parabolics_at hyp
   rw [top_inf_eq, top_inf_eq] at hB
   rw [Subgroup.relIndex_top_right] at hSi

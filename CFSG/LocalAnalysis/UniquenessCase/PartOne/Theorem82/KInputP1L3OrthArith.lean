@@ -63,7 +63,6 @@ private theorem orth_pow_lt_aux (X Y Z : ℕ) (hX : 16 ≤ X) (hY : 2 ≤ Y) (hZ
   have hY' : (2 : ℤ) ≤ (Y : ℤ) := by exact_mod_cast hY
   have hZ' : (4 : ℤ) * X ≤ (Z : ℤ) := by exact_mod_cast hZ
   have hgoal : ((X + 1) * Y : ℤ) < ((Z - 1) * (Y - 1) : ℤ) := by
-    push_cast [Nat.cast_sub hZ1, Nat.cast_sub hY1]
     nlinarith
   exact_mod_cast hgoal
 

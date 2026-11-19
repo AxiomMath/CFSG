@@ -15,10 +15,11 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem Sp4qLocalData.one_le (hD : Sp4qLocalData L1 L2 S f) : 1 ≤ f := by
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
   by_contra hf
   have hf0 : f = 0 := by omega
@@ -46,20 +47,23 @@ theorem Sp4qLocalData.isSylowTwoOf_right (hH : Hyp111 L1 L2 S)
     (hD : Sp4qLocalData L1 L2 S f) : IsSylowTwoOf S L2 :=
   hD.symm.isSylowTwoOf_left hH.symm
 
+omit [Finite G] in
 theorem Sp4qLocalData.blockU_left (hD : Sp4qLocalData L1 L2 S f) :
     blockU L1 = pCoreOf 2 L1 := by
   simpa [blockU, blockQ] using hD.indec_left
 
+omit [Finite G] in
 theorem Sp4qLocalData.blockU_right (hD : Sp4qLocalData L1 L2 S f) :
     blockU L2 = pCoreOf 2 L2 :=
   hD.symm.blockU_left
 
+omit [Finite G] in
 theorem Sp4qLocalData.card_blockZ_left (hD : Sp4qLocalData L1 L2 S f) :
     Nat.card (blockZ L1) = 2 ^ f := by
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, β, hβsurj, hβker, hβact⟩ :=
     hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hcardrange : Nat.card β.range = 2 ^ (2 * f) := by
     rw [MonoidHom.range_eq_top.mpr hβsurj, Subgroup.card_top,
       Nat.card_congr Multiplicative.toAdd, Nat.card_fun, Nat.card_fin,
@@ -82,10 +86,12 @@ theorem Sp4qLocalData.card_blockZ_left (hD : Sp4qLocalData L1 L2 S f) :
   rw [h3] at h
   exact (Nat.mul_right_cancel (by positivity : 0 < 2 ^ (2 * f)) h).symm
 
+omit [Finite G] in
 theorem Sp4qLocalData.card_blockZ_right (hD : Sp4qLocalData L1 L2 S f) :
     Nat.card (blockZ L2) = 2 ^ f :=
   hD.symm.card_blockZ_left
 
+omit [Finite G] in
 theorem Sp4qLocalData.pCoreOf_ne (hD : Sp4qLocalData L1 L2 S f) :
     pCoreOf 2 L1 ≠ pCoreOf 2 L2 := by
   intro heq

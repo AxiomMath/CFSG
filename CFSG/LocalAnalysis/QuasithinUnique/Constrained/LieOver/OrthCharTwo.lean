@@ -110,7 +110,7 @@ theorem lh_polar_eq_zero_of_mem {Q : QuadraticForm K V} {W : Submodule K V}
 
 theorem lh_mem_perp_self {Q : QuadraticForm K V} {W : Submodule K V} (hW : ∀ w ∈ W, Q w = 0)
     {w : V} (hw : w ∈ W) : w ∈ lh_perp Q W :=
-  lh_mem_perp.2 (fun w' hw' => lh_polar_eq_zero_of_mem hW hw hw')
+  lh_mem_perp.2 (fun _w' hw' => lh_polar_eq_zero_of_mem hW hw hw')
 
 theorem lh_eichler_mem_rad {Q : QuadraticForm K V} {W : Submodule K V} (hW : ∀ w ∈ W, Q w = 0)
     {u y : V} (hu : u ∈ W) (hy : y ∈ lh_perp Q W) : eichler Q u y ∈ lh_rad Q W := by
@@ -193,7 +193,7 @@ theorem lh_pow_four {Q : QuadraticForm K V} {W : Submodule K V} [CharP K 2] {g :
 theorem lh_charTwo_of_normal {G : Type*} [Group G] [Finite G] {H N : Subgroup G} (hNH : N ≤ H)
     (hN2 : IsPGroup 2 N) (hNn : ∀ x ∈ H, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     (hcent : ∀ x ∈ H, (∀ n ∈ N, x * n = n * x) → x ∈ N) : CharTwo H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : (N.subgroupOf H).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
@@ -335,7 +335,7 @@ theorem lh_central {Q : QuadraticForm K V} {W : Submodule K V} [CharP K 2]
         rw [polar_smul_left, polar_smul_right, smul_eq_mul, smul_eq_mul, hiso v v']
       have rhs : polar Q (cv • u + v) (cv' • u + v') = polar Q v v' := by
         simp only [polar_add_left, polar_add_right, polar_smul_left, polar_smul_right, huu,
-          huv', hvu, smul_eq_mul, mul_zero, zero_mul, add_zero, zero_add]
+          huv', hvu, smul_eq_mul, mul_zero, add_zero, zero_add]
       rw [lhs, rhs] at key
       have h2 : (a u * a u - 1) * polar Q v v' = 0 := by linear_combination key
       exact sub_eq_zero.1 ((mul_eq_zero.1 h2).resolve_right hvv)
@@ -463,8 +463,8 @@ theorem lh_perp_single_inr {n : ℕ} {K : Type} [Field K] (W : Submodule K (Fin 
   intro m _
   by_cases hm : m = j
   · subst hm
-    simp [Pi.single_apply, hW w hw]
-  · simp [Pi.single_apply, hm, Ne.symm hm]
+    simp [hW w hw]
+  · simp [hm]
 
 theorem lh_polar_single {n : ℕ} {K : Type} [Field K] (j : Fin n) :
     polar (quadPlus n K) (Pi.single (Sum.inl j) (1 : K)) (Pi.single (Sum.inr j) 1) ≠ 0 := by
@@ -498,7 +498,7 @@ theorem lh_frameX {n : ℕ} {K : Type} [Field K] (hn : 3 ≤ n) {u : Fin n ⊕ F
   subst ha
   have hb := congrFun h (Sum.inl j1)
   have hc := congrFun h (Sum.inl j2)
-  simp [Pi.single_apply, hj12, Ne.symm hj12] at hb hc
+  simp [hj12, Ne.symm hj12] at hb hc
   exact ⟨rfl, hb, hc⟩
 
 theorem lh_frame_perp {n : ℕ} {K : Type} [Field K] (hn : 3 ≤ n)
@@ -521,21 +521,21 @@ theorem lh_lam_W {n : ℕ} {K : Type} [Field K] (hn : 3 ≤ n)
 theorem lh_single_mem_flag {n : ℕ} {K : Type} [Field K] (i : ℕ) (j : Fin n) (hj : (j : ℕ) < i) :
     Pi.single (Sum.inl j) (1 : K) ∈ OrthogonalSplit.flag n K i := by
   rw [OrthogonalSplit.mem_flag_iff_coord]
-  refine ⟨fun k => by simp [Pi.single_apply], fun k hk => ?_⟩
+  refine ⟨fun k => by simp, fun k hk => ?_⟩
   have hjk : j ≠ k := fun h => by subst h; omega
-  simp [Pi.single_apply, hjk]
+  simp [hjk]
 
 theorem lh_single_inl_mem_Xstar {n : ℕ} {K : Type} [Field K] (hr : 0 < n) (j : Fin n)
     (hj : (j : ℕ) ≠ n - 1) : Pi.single (Sum.inl j) (1 : K) ∈ OrthogonalSplit.Xstar n K hr := by
   rw [OrthogonalSplit.mem_Xstar hr]
   have hjm : j ≠ ⟨n - 1, by omega⟩ := fun h => hj (by rw [h])
-  refine ⟨by simp [Pi.single_apply, hjm], fun k _ => by simp [Pi.single_apply]⟩
+  refine ⟨by simp [hjm], fun k _ => by simp⟩
 
 theorem lh_single_inr_mem_Xstar {n : ℕ} {K : Type} [Field K] (hr : 0 < n) :
     Pi.single (Sum.inr (⟨n - 1, by omega⟩ : Fin n)) (1 : K) ∈ OrthogonalSplit.Xstar n K hr := by
   rw [OrthogonalSplit.mem_Xstar hr]
-  refine ⟨by simp [Pi.single_apply], fun k hk => ?_⟩
-  simp [Pi.single_apply, hk, Ne.symm hk]
+  refine ⟨by simp, fun k hk => ?_⟩
+  simp [hk]
 
 theorem lh_quadPlus_Xstar {n : ℕ} {K : Type} [Field K] (hr : 0 < n) :
     ∀ w ∈ OrthogonalSplit.Xstar n K hr, quadPlus n K w = 0 := by
@@ -575,7 +575,7 @@ theorem lh_frameS {n : ℕ} {K : Type} [Field K] (hn : 4 ≤ n) {u : Fin n ⊕ F
     subst ha
     have hb := congrFun h (Sum.inl j1)
     have hc := congrFun h (Sum.inr (⟨n - 1, by omega⟩ : Fin n))
-    simp [Pi.single_apply, hj1.2.1, hkmm] at hb hc
+    simp at hb hc
     exact ⟨rfl, hb, hc⟩
   · push Not at hk
     have ht : u (Sum.inr (⟨n - 1, by omega⟩ : Fin n)) ≠ 0 := by
@@ -606,13 +606,13 @@ theorem lh_frameS {n : ℕ} {K : Type} [Field K] (hn : 4 ≤ n) {u : Fin n ⊕ F
     subst ha
     have hb := congrFun h (Sum.inl j1)
     have hc := congrFun h (Sum.inl j2)
-    simp [Pi.single_apply, hj12, Ne.symm hj12] at hb hc
+    simp [hj12, Ne.symm hj12] at hb hc
     exact ⟨rfl, hb, hc⟩
 
 theorem lh_charTwo_flag_lt {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hn : 4 ≤ n)
     (i : ℕ) (hi : 1 ≤ i) (hin : i < n) :
     CharTwo (lh_stab (quadPlus n K) (OrthogonalSplit.flag n K i)) := by
-  haveI : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
+  have : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
   have hWin : ∀ w ∈ OrthogonalSplit.flag n K i, ∀ k, w (Sum.inr k) = 0 :=
     fun w hw k => ((OrthogonalSplit.mem_flag_iff_coord).1 hw).1 k
   have hWl : ∀ w ∈ OrthogonalSplit.flag n K i, w (Sum.inl (⟨n - 1, by omega⟩ : Fin n)) = 0 :=
@@ -632,7 +632,7 @@ theorem lh_charTwo_flag_lt {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
 theorem lh_charTwo_flag_top {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hn : 4 ≤ n) :
     CharTwo (lh_stab (quadPlus n K) (OrthogonalSplit.flag n K n)) := by
-  haveI : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
+  have : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
   have hWin : ∀ w ∈ OrthogonalSplit.flag n K n, ∀ k, w (Sum.inr k) = 0 :=
     fun w hw k => ((OrthogonalSplit.mem_flag_iff_coord).1 hw).1 k
   have hWe : ∀ j : Fin n, Pi.single (Sum.inl j) (1 : K) ∈ OrthogonalSplit.flag n K n :=
@@ -648,7 +648,7 @@ theorem lh_charTwo_flag_top {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ
 
 theorem lh_charTwo_Xstar {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hn : 4 ≤ n) :
     CharTwo (lh_stab (quadPlus n K) (OrthogonalSplit.Xstar n K (by omega))) := by
-  haveI : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
+  have : Finite (orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
   have hr : 0 < n := by omega
   have hW : ∀ w ∈ OrthogonalSplit.Xstar n K hr, quadPlus n K w = 0 := lh_quadPlus_Xstar hr
   have hne : ∃ u ∈ OrthogonalSplit.Xstar n K hr, u ≠ 0 := by
@@ -796,14 +796,14 @@ theorem lh_tail_props {n : ℕ} (i : Fin (n - 1)) :
   | mem x hx =>
     obtain ⟨j, hj, rfl⟩ := hx
     refine ⟨fun k => ?_, fun m hm => ?_⟩
-    · simp [Pi.single_apply]
+    · simp
     · have hjm : j ≠ m := by
         intro h
         subst h
         rw [Fin.lt_def] at hm
-        simp only [Set.mem_setOf_eq] at hj
+        simp only [Set.mem_ofPred_eq] at hj
         omega
-      simp [Pi.single_apply, hjm]
+      simp [hjm]
   | zero => exact ⟨fun k => rfl, fun j _ => rfl⟩
   | add x y _ _ hx hy =>
     exact ⟨fun k => by simp [hx.1 k, hy.1 k], fun j hj => by simp [hx.2 j hj, hy.2 j hj]⟩
@@ -918,7 +918,7 @@ theorem lh_frameX_gen {m : ℕ} {κ : Type} [DecidableEq κ] (hm : 3 ≤ m) {u :
   subst ha
   have hb := congrFun h (Sum.inl j1)
   have hc := congrFun h (Sum.inl j2)
-  simp [Pi.single_apply, hj12, Ne.symm hj12] at hb hc
+  simp [hj12, Ne.symm hj12] at hb hc
   exact ⟨rfl, hb, hc⟩
 
 theorem lh_minus_frame {n : ℕ} {b c : K} (hn : 4 ≤ n) (i : Fin (n - 1)) :
@@ -967,7 +967,7 @@ theorem pOmegaMinusCharTwo_char2 {K : Type} [Field K] [Finite K] [CharP K 2] {n 
   have hb : b ≠ 0 := lh_minus_b_ne hirr
   have hQ : ⇑(quadMinus n K b c) = StatedQuadMinus n K b c := coe_quadMinus n K b c
   have hv0 := lh_minus_v0_ne (K := K) b c hn
-  haveI : Finite (StatedProj (StatedOmega (StatedQuadMinus n K b c))) := inferInstance
+  have : Finite (StatedProj (StatedOmega (StatedQuadMinus n K b c))) := inferInstance
   have hE := commutator_orthogonalGroup_quadMinus hn hirr
   have hstab : (MulAction.stabilizer ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K))

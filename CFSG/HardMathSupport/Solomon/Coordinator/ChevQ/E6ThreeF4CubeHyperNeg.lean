@@ -150,10 +150,10 @@ theorem exists_lang_algebraicClosure (τ : Tag) (K : Type) [Field K] [Finite K] 
           g * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w := by
   classical
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hcard' : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hZ := LangLeviAux.isConnectedAlgebraicSubgroup_parabolicLevi (τ := τ)
@@ -299,7 +299,7 @@ private theorem setL_eq_S1set : setL = S1set := by
   have h1 : ∀ i j : Fin 3, i ≠ j → sigmaL i j ∈ f4LongList := by decide +kernel
   have h2 : ∀ r ∈ f4LongList, ∃ i j : Fin 3, i ≠ j ∧ r = sigmaL i j := by decide +kernel
   ext r
-  simp only [setL, S1set, Set.mem_setOf_eq]
+  simp only [setL, S1set, Set.mem_ofPred_eq]
   exact ⟨fun ⟨i, j, hij, hr⟩ => hr ▸ h1 i j hij, fun hr => h2 r hr⟩
 
 theorem exists_frame_decomp {L : Type} [Field L] [IsAlgClosed L] {ω : Lˣ} (hω : orderOf ω = 3)
@@ -427,9 +427,9 @@ private theorem negHyp_decomp {K : Type} [Field K] [Finite K]
     (he : e ∈ E₀) (he1 : e ≠ 1) (hge : conjBC g e = rootDiagUnit Tag.F4 (Pi.mulSingle 1 ω)) :
     ∃ x ∈ E₀, x ∉ Subgroup.zpowers e ∧ ∃ X Y, conjBC g x = ψA X * ψB Y ∧ ΦA X = X := by
   classical
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   have hoe : orderOf e = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hE₀.2 e he) he1
   obtain ⟨x₁, hx₁, hx₁e⟩ := exists_mem_not_mem_of_card_lt (E := E₀) (H := Subgroup.zpowers e)
     (by rw [Nat.card_zpowers, hoe, hc]; norm_num)
@@ -568,7 +568,7 @@ private theorem negHyp_close {K : Type} [Field K] [Finite K] (hK : Nat.card K % 
     ∃ F ≤ E₀, F.relIndex E₀ = 3 ∧ ∃ D : LangPlaneData Tag.F4 K F,
       ∀ u : Fin Tag.F4.rank → ℤ, D.w • u = -u := by
   classical
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   have hnd : ¬ 3 ∣ Nat.card K := by omega
   set F := Subgroup.closure ({e, x} : Set (adjointGroup Tag.F4 K)) with hFdef
   have heF : e ∈ F := Subgroup.subset_closure (Set.mem_insert _ _)
@@ -673,7 +673,7 @@ private theorem negHyp_close {K : Type} [Field K] [Finite K] (hK : Nat.card K % 
     exact h
   obtain ⟨hAel, hAc⟩ : IsElemAbelian 3 (F ⊔ Subgroup.zpowers y) ∧
       Nat.card ↥(F ⊔ Subgroup.zpowers y) = Nat.card F * 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hy1 : y ≠ 1 := by
       rintro rfl
       exact hyF F.one_mem
@@ -706,7 +706,7 @@ private theorem negHyp_close {K : Type} [Field K] [Finite K] (hK : Nat.card K % 
       fun a ha => DA'.hc a (Subgroup.mem_sup_left ha)⟩ α hα
       fun a ha => hk a (Subgroup.mem_sup_left ha)
   have hA27 : Nat.card ↥(F ⊔ Subgroup.zpowers y) = 3 ^ 3 := by
-    rw [hAc, hFc] <;> norm_num
+    rw [hAc, hFc]; norm_num
   have hw := (SeitzExcOpenRest5.f4_regular_datum_w hAel hA27 DA' hregA).2 hK
   refine ⟨F, hFE, relIndex_closure_pair_of_not_mem Nat.prime_three hE₀ hc he hx he1 hxe,
     ⟨DA'.w, DA'.Fr, DA'.hFr, DA'.g0, DA'.hg0C, DA'.hg0, DA'.c,
@@ -760,7 +760,7 @@ private theorem negHyp_core {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3
 theorem f4NonToralNegHyperplane_holds : F4NonToralNegHyperplane := by
   intro K _ _ hK hs E₀ hE₀ hc _ hD
   classical
-  haveI : Finite (ModGL Tag.F4 K) := finite_modGL
+  have : Finite (ModGL Tag.F4 K) := finite_modGL
   have h3 := three_le_card_of_threeScope_F4 hs
   have hnd : ¬ 3 ∣ Nat.card K := by omega
   obtain ⟨Fr, hFr, g, hgθ, hlang⟩ := exists_lang_algebraicClosure Tag.F4 K QuasiF4.wF4
@@ -773,7 +773,7 @@ theorem f4NonToralNegHyperplane_holds : F4NonToralNegHyperplane := by
     (by rw [Subgroup.card_bot, hc]; norm_num)
   have he1 : e ≠ 1 := fun h => he1' (Subgroup.mem_bot.2 h)
   have hoe : orderOf e = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hE₀.2 e he) he1
   obtain ⟨e', he', he'e⟩ := exists_mem_not_mem_of_card_lt (E := E₀) (H := Subgroup.zpowers e)
     (by rw [Nat.card_zpowers, hoe, hc]; norm_num)

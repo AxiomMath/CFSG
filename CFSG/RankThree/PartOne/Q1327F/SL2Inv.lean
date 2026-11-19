@@ -198,7 +198,7 @@ theorem exists_inv_of_prod_sl2_odd (h2 : (2 : K) ≠ 0) {C : Type} [Group C] [Fi
       SpecialLinearGroup (Fin 2) K)) μ.ker := by
     rw [Subgroup.disjoint_def]
     intro x hxP hxk
-    obtain ⟨n, hn⟩ := PH.isPGroup' ⟨x, hxP⟩
+    obtain ⟨n, hn⟩ := PH.isPGroup ⟨x, hxP⟩
     have h1 : x ^ (p ^ n) = 1 := by simpa using congrArg Subtype.val hn
     have h2' : x ^ 2 = 1 := hμ x (MonoidHom.mem_ker.1 hxk)
     have hcop : Nat.Coprime (p ^ n) 2 :=
@@ -213,7 +213,7 @@ theorem exists_inv_of_prod_sl2_odd (h2 : (2 : K) ≠ 0) {C : Type} [Group C] [Fi
       hord]
     ring_nf
   have hPH : IsPGroup p (PH : Subgroup (SpecialLinearGroup (Fin 2) K ×
-      SpecialLinearGroup (Fin 2) K)) := PH.isPGroup'
+      SpecialLinearGroup (Fin 2) K)) := PH.isPGroup
   obtain ⟨w, hw⟩ := exists_inv_of_isPGroup_prod_odd h2 hp hp2 hpK hPH
   refine exists_inv_of_sylow (Sylow.ofCard _ hP₀card) (g₀ := μ w) (fun y hy => ?_) hE
   rw [Sylow.coe_ofCard] at hy

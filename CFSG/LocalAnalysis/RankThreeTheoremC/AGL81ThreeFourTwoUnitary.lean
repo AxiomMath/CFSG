@@ -20,7 +20,7 @@ theorem unitary_catalog_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : TauC
     IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group ∧
       (∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdU : IsUnitaryIndex p d := ⟨q, hqp, hd⟩
   have hS := UnitaryModel.statedClassicalModel hdU ⟨MulEquiv.refl _⟩
   obtain ⟨hfin, -, hsimple⟩ := CFSG.LieType.Simplicity.fam_classical_converse _ ⟨_, _, _, _, hS⟩
@@ -36,7 +36,7 @@ theorem threeFourTwoUnitary_inf {p : ℕ} (hp : p.Prime) {q : TauCeti.PrimePower
     {Y : Type} [Group Y] [Finite Y] {K Y₀ : Subgroup Y} (R : Sylow p Y) (hK : K.Normal)
     (hKX : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) (hRY₀ : (R : Subgroup Y) ≤ Y₀)
     (hKY₀ : ¬ K ≤ Y₀) : Group.IsSolvable (K ⊓ Y₀ : Subgroup Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact isSolvable_inf_of_forall_sylow_le R (fun T H hTH hH =>
     UnitaryModel.isSolvable_of_unitary_sylow_le ⟨q, hqp, hd⟩ hKX T hTH hH) hRY₀ hKY₀
 

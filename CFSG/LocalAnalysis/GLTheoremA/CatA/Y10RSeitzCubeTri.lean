@@ -23,9 +23,9 @@ theorem seitzTwoGen_of_twistedChevalleyModel_D4 {S : Type} [Group S] [Finite S] 
   obtain ⟨-, -, -, -, -, -, -, ⟨e'⟩⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ' hσ
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI hK2 : CharP K 2 := charP_two_of_card_two_pow hK3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hfinM : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have hK2 : CharP K 2 := charP_two_of_card_two_pow hK3
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfinM : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ3 : σ' ^ 3 = 1 := RingEquiv.ext fun c => by
     rw [pow_succ, pow_two]
     exact ringEquiv_cube_apply_eq hK hσ c

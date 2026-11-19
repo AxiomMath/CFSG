@@ -23,6 +23,7 @@ private theorem g4_sup_left (hfr : Str83G4Frame L1 L2 S a) :
     L1 ⊔ S = L1 ⊔ Q1 L1 L2 S :=
   sup_eq_of_S_eq (g4_eq_sup_left hfr)
 
+omit [Finite G] in
 private theorem g4_q1_le_normalizer_left (hF : Hyp111 L1 L2 S) :
     Q1 L1 L2 S ≤ Subgroup.normalizer (L1 : Set G) :=
   (pCoreOf_le 2 (P1 L1 L2 S)).trans
@@ -175,6 +176,7 @@ theorem str83G4_mem_q1_inf_q2_of_fix
     group
   exact hyQ1 (str83G4_fpf_D1 hfr d hδD1 hδ1 hyS (by rwa [e]))
 
+omit [Finite G] in
 private theorem g4_conjugate_centralizerMod {V X U : Subgroup G} {w : G}
     (hV : w ∈ Subgroup.normalizer (V : Set G)) (hX : w ∈ Subgroup.normalizer (X : Set G)) :
     CFSG.conjugate (centralizerMod V X U) w = centralizerMod V X (CFSG.conjugate U w) := by
@@ -236,6 +238,7 @@ theorem str83G4_s1_le_normalizer_r0
           _ = CFSG.conjugate (str83X L1 L2 S) d.w ⊔ Q2 L1 L2 S := by rw [hQw]
       exact hSw.le.trans (sup_le (le_sup_right.trans Subgroup.le_normalizer) hQY)
 
+omit [Finite G] in
 theorem str83G4_mem_r0_of_fpf (d : Str83G4Data L1 L2 S)
     (hfpf : ∀ x ∈ d.D2, x ≠ 1 → ∀ y ∈ Q2 L1 L2 S,
       x * y * x⁻¹ * y⁻¹ ∈ Q1 L1 L2 S ⊓ Q2 L1 L2 S → y ∈ Q1 L1 L2 S ⊓ Q2 L1 L2 S)

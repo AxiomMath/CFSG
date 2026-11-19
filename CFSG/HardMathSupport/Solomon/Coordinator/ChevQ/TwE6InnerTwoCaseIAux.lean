@@ -74,14 +74,14 @@ private theorem twE6CI_dvd_27 {n : ℕ} (h : n ∣ 3 ^ 3) : n = 1 ∨ n = 3 ∨ 
 
 private theorem twE6CI_card_lt {E H₁ H₂ : Subgroup G} [Finite E] (h₂ : H₂ ≤ E) (h : H₁ ≤ H₂)
     (hne : H₁ ≠ H₂) : Nat.card H₁ < Nat.card H₂ := by
-  haveI : Finite H₂ := Finite.of_injective _ (Subgroup.inclusion_injective h₂)
+  have : Finite H₂ := Finite.of_injective _ (Subgroup.inclusion_injective h₂)
   exact lt_of_le_of_ne (Subgroup.card_le_of_le h) fun he =>
     hne (Subgroup.eq_of_le_of_card_ge h he.ge)
 
 private theorem twE6CI_nine_le_card_pair {E : Subgroup G} (hc : Nat.card E = 3 ^ 3) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) (ha1 : a ≠ 1) (hba : b ∉ Subgroup.closure {a}) :
     9 ≤ Nat.card (Subgroup.closure {a, b}) := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have h1 : Subgroup.closure {a} ≤ E := (Subgroup.closure_le E).2 (Set.singleton_subset_iff.2 ha)
   have h2 : Subgroup.closure {a, b} ≤ E :=
     (Subgroup.closure_le E).2 (Set.insert_subset_iff.2 ⟨ha, Set.singleton_subset_iff.2 hb⟩)
@@ -102,7 +102,7 @@ private theorem twE6CI_nine_le_card_pair {E : Subgroup G} (hc : Nat.card E = 3 ^
 theorem closure_three_eq_of_card_eq {E : Subgroup G} (hc : Nat.card E = 3 ^ 3) {a b c : G}
     (ha : a ∈ E) (hb : b ∈ E) (hcE : c ∈ E) (ha1 : a ≠ 1) (hba : b ∉ Subgroup.closure {a})
     (hcab : c ∉ Subgroup.closure {a, b}) : Subgroup.closure {a, b, c} = E := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have h3 : Subgroup.closure {a, b, c} ≤ E :=
     (Subgroup.closure_le E).2 (Set.insert_subset_iff.2 ⟨ha,
       Set.insert_subset_iff.2 ⟨hb, Set.singleton_subset_iff.2 hcE⟩⟩)

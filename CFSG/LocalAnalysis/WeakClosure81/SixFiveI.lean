@@ -17,6 +17,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem conjSubgroup_N_eq (h : Hyp65 n M V₀ V g) {x : G} (hx : x ∈ LOf V g) :
     conjSubgroup (NOf M V g) x = NOf M V g := by
   have hcopy := h
@@ -48,6 +49,7 @@ theorem not_B_le_U (h : Hyp65 n M V₀ V g) : ¬ BOf M V g ≤ UOf M V g := by
     exact le_inf hYV0g hYV
   exact Y_ne_bot h (le_bot_iff.1 hbot)
 
+omit [Finite G] in
 theorem conjSubgroup_U_eq_B_of_swap (h : Hyp65 n M V₀ V g) {l : G}
     (h1 : conjSubgroup V l = conjSubgroup V g) (h2 : conjSubgroup (conjSubgroup V g) l = V) :
     conjSubgroup (UOf M V g) l = BOf M V g := by

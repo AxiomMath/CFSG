@@ -25,7 +25,7 @@ theorem kd291_solvable_of_inner {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hI : K
     (hY : 3 ≤ Open.pRank p (⊤ : Subgroup Y)) {x : Y} (hxL : x ∈ L) (hx : orderOf x = p)
     (hCx : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) :
     Group.IsSolvable ↥(centralizer ({x} : Set Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hx
@@ -41,8 +41,8 @@ theorem kd291_not_isSecOf_of_solvable {A : Type} [Group A] (U : Subgroup A)
     (hU : Group.IsSolvable ↥U) (S : Type) [Group S] [IsSimpleGroup S]
     (hnab : ¬ ∀ a b : S, a * b = b * a) : ¬ IsSecOf U S := by
   rintro ⟨H, hHU, ψ, hψ⟩
-  haveI : Group.IsSolvable ↥H := solvable_of_solvable_injective (Subgroup.inclusion_injective hHU)
-  haveI : Group.IsSolvable S := Group.isSolvable_of_surjective hψ
+  have : Group.IsSolvable ↥H := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hHU)
+  have : Group.IsSolvable S := Group.isSolvable_of_surjective hψ
   exact hnab (IsSimpleGroup.comm_iff_isSolvable.mpr this)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.N3

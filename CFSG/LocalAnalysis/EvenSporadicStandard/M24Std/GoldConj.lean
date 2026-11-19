@@ -94,7 +94,7 @@ theorem exists_isPGroup_sup_cj {K P Q : Subgroup G} (hP : IsPGroup 2 P)
   obtain ⟨S₂, h₂⟩ := hQ'.exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq K S₂ S₁
   refine ⟨k, k.2, ?_⟩
-  have hS : IsPGroup 2 ((S₁ : Subgroup K).map K.subtype) := S₁.isPGroup'.map K.subtype
+  have hS : IsPGroup 2 ((S₁ : Subgroup K).map K.subtype) := S₁.isPGroup.map K.subtype
   refine hS.to_le (sup_le ?_ ?_)
   · intro x hx
     exact ⟨⟨x, hPK hx⟩, h₁ hx, rfl⟩

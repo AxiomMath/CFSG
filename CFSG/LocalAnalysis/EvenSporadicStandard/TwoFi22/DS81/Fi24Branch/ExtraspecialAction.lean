@@ -36,7 +36,7 @@ theorem hasVec_list_prod (h : Rel z q c) :
     exact hasVec_mul h (hl p (List.mem_cons_self ..))
       (hasVec_list_prod h l fun p' hp' => hl p' (List.mem_cons_of_mem _ hp'))
 
-theorem hasVec_pow_val (h : Rel z q c) {x : G} {w : Fin n → ZMod 2} (hx : HasVec z q x w)
+theorem hasVec_pow_val (_h : Rel z q c) {x : G} {w : Fin n → ZMod 2} (hx : HasVec z q x w)
     (b : ZMod 2) : HasVec z q (x ^ b.val) (b • w) := by
   rcases zmod_two_cases b with rfl | rfl
   · simpa using hasVec_one

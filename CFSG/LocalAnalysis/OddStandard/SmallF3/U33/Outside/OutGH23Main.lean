@@ -20,7 +20,7 @@ private theorem gh23Sub_singleton {ρ : Equiv.Perm (Fin 8)} {c : ℕ} (hc : gh23
   rw [Subgroup.zpowers_eq_closure]
   congr 1
   ext σ
-  simp only [Set.mem_setOf_eq, List.mem_singleton, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, List.mem_singleton, Set.mem_singleton_iff]
   constructor
   · intro h
     exact gh23_code_injective (h.trans hc.symm)

@@ -37,7 +37,7 @@ theorem exists_orderOf_mem_centralizer_of_dvd {L P₁ P₂ : Subgroup G} (hP₁ 
     (hP₂L : P₂ ≤ CFSG.Quasithin.centralizerMod (pCoreOf 2 L) (normalizer (L : Set G)) L)
     {q : ℕ} (hq : q.Prime) (hqL : q ∣ Nat.card (Bar2 L)) :
     ∃ x ∈ L, orderOf x = q ∧ x ∈ centralizer (P₁ : Set G) ⊓ centralizer (P₂ : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨xb, hxb⟩ := exists_prime_orderOf_dvd_card' (G := Bar2 L) q hqL
   obtain ⟨⟨b, hbL⟩, rfl⟩ := QuotientGroup.mk_surjective xb
   obtain ⟨c, hbc, hcC⟩ := P2251c.exists_mem_centralizer_of_coset (by norm_num) (by norm_num)

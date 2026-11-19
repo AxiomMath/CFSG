@@ -135,7 +135,7 @@ theorem noIrrFFOffender_F4 (q : PrimePower) (hv : (LieTypeIndex.F4 q).Valid) (hq
     ⟨⟨xC .F4 K (f4n 0) 1, 1, xC_ne_one (f4n 0) 1⟩⟩
   obtain ⟨δ, m, k, _, _, _, ιK, ρ, hδ, hm, hρirr, hρinj, hιKinj, hWcard, hent, hext, hfix⟩ :=
     offender_periodic_data_fix hW hql.1 hirr hEN hE hel hquad hoff ι hn hK2
-  letI : Algebra K k := ιK.toAlgebra
+  let : Algebra K k := ιK.toAlgebra
   have hρ : IsSimpleRep ρ := (SL2Modules.isIrreducible_iff ρ).1 hρirr
   obtain ⟨y, χ, J, ht⟩ := exists_isChevType (hw := FFExc.exists_weyl_neg_F4') (p := 2) hρ
   have hδper : ∀ (i : Fin Tag.F4.rank) (t : Kˣ), χ (dC .F4 K i t) ^ (2 ^ δ) = χ (dC .F4 K i t) :=

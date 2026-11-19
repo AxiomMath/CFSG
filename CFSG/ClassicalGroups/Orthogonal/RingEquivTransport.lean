@@ -48,7 +48,7 @@ theorem formOfRingEquiv_apply (Q : QuadraticForm K V) (v : V) :
 
 theorem polar_formOfRingEquiv (Q : QuadraticForm K V) (x y : V) :
     polar (formOfRingEquiv e hsmul Q) x y = e.symm (polar Q x y) := by
-  simp only [polar, formOfRingEquiv_apply, map_sub, map_add]
+  simp only [polar, formOfRingEquiv_apply, map_sub]
 
 theorem nondegenerate_formOfRingEquiv {Q : QuadraticForm K V}
     (hQ : (polarBilin Q).Nondegenerate) :

@@ -354,7 +354,7 @@ theorem e8_data : e8Data = true := by
     compT_unpack ha hb, compT_unpack ha hc, compT_unpack hb hc,
     compT_unpack (canonK_pcomp ha hb) hc, ord2 (canonK_pcomp ha hb), ord2 (canonK_pcomp ha hc),
     ord2 (canonK_pcomp hb hc), ord2 (canonK_pcomp (canonK_pcomp ha hb) hc)]
-  simp only [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10]
+  simp only [h1, h2, h3, h4, h5, h6]
   rfl
 
 theorem fours_data : foursData = true := by

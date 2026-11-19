@@ -176,7 +176,7 @@ theorem mem_T5sylow {x : Fgrp 5} :
 
 theorem T5sylow_isSylowOf : IsSylowOf 2 (T5sylow : Subgroup (Fgrp 5)) ⊤ := by
   rw [isSylowOf_iff]
-  refine ⟨le_top, T5sylow.isPGroup', ?_⟩
+  refine ⟨le_top, T5sylow.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact T5sylow.not_dvd_index
 
@@ -208,7 +208,7 @@ theorem cent_T5_E5F :
 theorem sylow_isSylowOf (T : Sylow 2 (Fgrp 5)) :
     IsSylowOf 2 (T : Subgroup (Fgrp 5)) ⊤ := by
   rw [isSylowOf_iff]
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index
 

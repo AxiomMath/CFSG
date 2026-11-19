@@ -41,17 +41,17 @@ theorem polar_single_plusVec (b : Fin 4 ⊕ Fin 4) (k : Fin 4) (r : Bool) :
       ZMod.castHom (dvd_refl 2) K (pv2 k (!r) b) := by
   cases r
   · rw [plusVec_false, polar_quadPlus_single_inr]
-    simp only [pv2, Bool.not_false, if_true, Pi.single_apply, eq_comm (a := b)]
+    simp only [pv2, Bool.not_false, ite_true, Pi.single_apply, eq_comm (a := b)]
     split_ifs <;> simp
   · rw [plusVec_true, polar_quadPlus_single_inl]
-    simp only [pv2, Bool.not_true, Bool.false_eq_true, if_false, Pi.single_apply,
+    simp only [pv2, Bool.not_true, Bool.false_eq_true, ite_false, Pi.single_apply,
       eq_comm (a := b)]
     split_ifs <;> simp
 
 theorem plusVec_apply_eq (k : Fin 4) (r : Bool) (a : Fin 4 ⊕ Fin 4) :
     plusVec 4 K k r a = ZMod.castHom (dvd_refl 2) K (pv2 k r a) := by
-  cases r <;> simp only [plusVec_false, plusVec_true, pv2, Bool.false_eq_true, if_false,
-    if_true, Pi.single_apply] <;> split_ifs <;> simp
+  cases r <;> simp only [plusVec_false, plusVec_true, pv2, Bool.false_eq_true, ite_false,
+    ite_true, Pi.single_apply] <;> split_ifs <;> simp
 
 theorem coe_X8_one {γ : Fin 4 → ℤ} {i j : Fin 4} (hij : i ≠ j) {s t : Bool}
     (h : toStdD 4 γ = lv i j s t) :
@@ -82,6 +82,7 @@ theorem coe_X8_one {γ : Fin 4 → ℤ} {i j : Fin 4} (hij : i ≠ j) {s t : Boo
   ring
 
 
+omit [CharP K 2] in
 theorem eq_one_of_coe_eq_one {x : Om8 K}
     (h : ((x : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) = 1) : x = 1 := by
   apply Subtype.ext
@@ -89,12 +90,14 @@ theorem eq_one_of_coe_eq_one {x : Om8 K}
   rw [h]
   rfl
 
+omit [CharP K 2] in
 theorem coe_mul_matrix (x y : Om8 K) :
     ((x * y : Om8 K) : GL (Fin (2 * 4)) K).val =
       ((x : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) *
         ((y : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) :=
   rfl
 
+omit [CharP K 2] in
 theorem coe_pow_matrix (x : Om8 K) (n : ℕ) :
     ((x ^ n : Om8 K) : GL (Fin (2 * 4)) K).val =
       ((x : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) ^ n := by
@@ -168,10 +171,12 @@ variable [Finite K]
 @[expose] noncomputable def lineW : Om8 K :=
   AutOm.plusRefl (K := K) one_le_four lineK * lineK⁻¹
 
+omit [Finite K] in
 theorem X8_rBP_mul_self : X8 rBP (1 : K) * X8 rBP 1 = 1 :=
   eq_one_of_coe_eq_one (by
     rw [coe_mul_matrix, coe_X8_rBP, ← map_mul, eich2_rBP_mul_self, map_one])
 
+omit [Finite K] in
 theorem X8_rBM_mul_self : X8 rBM (1 : K) * X8 rBM 1 = 1 :=
   eq_one_of_coe_eq_one (by
     rw [coe_mul_matrix, coe_X8_rBM, ← map_mul, eich2_rBM_mul_self, map_one])

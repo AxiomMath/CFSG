@@ -61,7 +61,7 @@ theorem P_le_co3P : P ≤ co3P := by
   rw [Subgroup.closure_le]
   rintro _ ⟨k, hk, rfl⟩
   have hk6 : k < 6 := by
-    rw [Set.mem_setOf_eq, gsP_size] at hk
+    rw [Set.mem_ofPred_eq, gsP_size] at hk
     exact hk
   have hp := pGk k (by rw [ng6]; exact hk6)
   have hs : siftA 276 (rawLevels 276 co3ChainArrs co3ChainBaseArr) co3ChainBaseArr 0

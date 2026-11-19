@@ -17,9 +17,9 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 theorem spUFixConclusion_of_spRootSetup {L : Type} [Group L] [Finite L] {m n : ℕ}
     {R Sy : Subgroup L} (h : SpRootSetup L m n R Sy) : SpUFixConclusion L R Sy := by
   obtain ⟨hm, hL, ⟨hcard, k, hmk, F, hFld, hFin, hF, e, he⟩, hSy, hSyR, hRSy⟩ := h
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center L = ⊥ := center_eq_bot_of_isSpGp hL
   let φ :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e
@@ -50,10 +50,10 @@ theorem spUFixConclusion_of_spRootSetup {L : Type} [Group L] [Finite L] {m n : �
 theorem spUFixConclusion_of_psuRootSetup {L : Type} [Group L] [Finite L] {m n : ℕ}
     {R Sy : Subgroup L} (h : PSURootSetup L m n R Sy) : SpUFixConclusion L R Sy := by
   obtain ⟨hm, hL, ⟨hcard, F, hFld, hFin, hF, e, he⟩, hSy, hSyR, hRSy⟩ := h
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center L = ⊥ := center_eq_bot_of_isPSUGp hm hL
   let φ :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e

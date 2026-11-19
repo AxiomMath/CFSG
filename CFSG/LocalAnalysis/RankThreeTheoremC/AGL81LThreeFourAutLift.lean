@@ -57,7 +57,7 @@ private theorem exists_map_eq_and_lift {H L : Type*} [Group H] [Group L] [Finite
     · rintro ⟨y, hy, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hy
     · intro hx
-      exact ⟨h * x * h⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨h * x * h⁻¹, hx, by simp [mul_assoc]⟩
   have hS'M : S' ≤ M := by
     intro x hx
     have h1 : f (h * x * h⁻¹) ∈ E := hSM ((hmemS' x).mp hx)
@@ -118,7 +118,7 @@ theorem not_surjective_of_dim_le_three {q : ℕ} [hq : Fact q.Prime] (hq2 : q �
     (A : Subgroup (MulAut V)) {K : Type} [Group K] (hK : LThreeFourTwoLocal K)
     (φ : ↥A →* K) : ¬ Function.Surjective φ := by
   intro hφ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ' : ↥A →* (Module.End (ZMod q) W)ˣ := ρ.comp A.subtype with hρ'
   obtain ⟨E, hE, yb, hybN, hyb, x, hx, hne⟩ := hK
   obtain ⟨S, hS, hSE, hlift⟩ := exists_map_eq_and_lift φ hφ hE
@@ -169,7 +169,7 @@ theorem not_surjective_of_symp {q : ℕ} [hq : Fact q.Prime] (hq3 : q ≠ 3)
     (φ : ↥A →* K) : ¬ Function.Surjective φ := by
   classical
   intro hφ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρ' : ↥A →* (Module.End (ZMod q) W)ˣ := ρ.comp A.subtype with hρ'
   obtain ⟨E, hE, -, a, haN, b, hbN, hab⟩ := hK
   obtain ⟨T, hT, hTE, hlift⟩ := exists_map_eq_and_lift φ hφ hE
@@ -254,7 +254,7 @@ theorem not_surjective_of_symp {q : ℕ} [hq : Fact q.Prime] (hq3 : q ≠ 3)
     rw [map_mul, ha', hb']
     simp)
   rw [map_mul] at hab2 hab3
-  haveI := hfin
+  have := hfin
   rcases perm_mul_pow_two_or_three hcard ha2 ha3 hb2 hb3 with h | h
   · exact hab2 h
   · exact hab3 h

@@ -57,8 +57,8 @@ theorem LangSetup.exists_conj_le {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
       (S₀ : Subgroup S.Γ) ≤ S.D.torus.subgroupOf S.Γ)
     {F : Subgroup (ModGL τ L)} (hFΓ : F ≤ S.Γ) (hF : ∀ x ∈ F, x ^ p = 1) :
     ∃ h ∈ S.Γ, F.map (MulAut.conj h).toMonoidHom ≤ S.E := by
-  haveI : Fact p.Prime := ⟨S.hp⟩
-  haveI := S.finite_Γ
+  have : Fact p.Prime := ⟨S.hp⟩
+  have := S.finite_Γ
   obtain ⟨S₀, hS₀⟩ := hsyl
   refine exists_conj_le_of_sylow_torsion_modGL (T := S.D.torus ⊓ S.Γ) S₀ ?_
     (fun x hx hxp => S.E_all x hx hxp) hFΓ hF

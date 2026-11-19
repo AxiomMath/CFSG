@@ -179,7 +179,7 @@ theorem vzL34Sig_spec {φ : MulAut W9} (hφ : φ ∈ vzL34Stab) :
     vzL34Sig φ ∈ alternatingGroup (Fin 5) ∧ VzActs φ (vzL34Sig φ) := by
   have h : ∃ σ : Perm (Fin 5), σ ∈ alternatingGroup (Fin 5) ∧ VzActs φ σ := hφ
   unfold vzL34Sig
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem vzL34Sig_eq {φ : MulAut W9} (hφ : φ ∈ vzL34Stab) {σ : Perm (Fin 5)}

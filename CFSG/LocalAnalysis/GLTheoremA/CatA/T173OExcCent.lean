@@ -63,7 +63,7 @@ private theorem commutator_toralRootGroup_le_subgroupOf
     (hN : ((rootSpan τ F (rootCharKernel a)).subgroupOf (toralRootGroup τ F a)).Normal) :
     commutator ↥(toralRootGroup τ F a) ≤
       (rootSpan τ F (rootCharKernel a)).subgroupOf (toralRootGroup τ F a) := by
-  haveI := hN
+  have := hN
   rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
   refine ⟨⟨fun x y => ?_⟩⟩
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
@@ -207,7 +207,7 @@ private theorem false_of_commutator_stdLayer_toralRootGroup_eq_bot {p : ℕ} (hp
     le_antisymm hVle (Subgroup.zpowers_le.2 hstd.1)
   have hcard : Nat.card (TableBExc.torusPow τ F p) = p := by
     rw [hEq, Nat.card_zpowers]
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hstd.2.2.1 hstd.2.1
   have h2 : p ^ 2 ≤ p := by rwa [hcard] at hV
   have h3 := hp.two_le
@@ -220,8 +220,8 @@ theorem stdLayer_le_rootSpan_rootCharKernel
     (hV : p ^ 2 ≤ Nat.card (TableBExc.torusPow τ F p)) :
     stdLayer d ≤ (rootSpan τ F (rootCharKernel a)).subgroupOf (adjointGroup τ F) := by
   classical
-  haveI : Finite (ModGL τ F) := finite_modGL
-  haveI : Finite ↥(toralCentralizer τ F a) := Subtype.finite
+  have : Finite (ModGL τ F) := finite_modGL
+  have : Finite ↥(toralCentralizer τ F a) := Subtype.finite
   rcases CFSG.LocalCores.component_normal_subgroup
     (isComponent_stdLayer_subgroupOf_toralCentralizer hd hstd)
     (toralRootGroup_normal (τ := τ) (K := F) a) with hKM | hKM

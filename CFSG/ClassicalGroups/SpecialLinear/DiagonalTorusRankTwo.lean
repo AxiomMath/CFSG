@@ -30,7 +30,7 @@ noncomputable def diagUnit2 (t : Fˣ) (i : Fin 2) : Fin 3 → Fˣ :=
 @[simp]
 theorem diagUnit2_self (t : Fˣ) (i : Fin 2) :
     diagUnit2 (F := F) t i (twoToFin i) = t := by
-  simp [diagUnit2, Function.update, twoToFin_ne_twoIndex i]
+  simp [diagUnit2, Function.update]
 
 @[simp]
 theorem diagUnit2_twoIndex (t : Fˣ) (i : Fin 2) :
@@ -88,7 +88,7 @@ theorem diagGen2_mem_diagTorus (t : Fˣ) (i : Fin 2) :
 theorem orderOf_diagGen2 (t : Fˣ) (i : Fin 2) {q : ℕ}
     (hq : q.Prime) (ht : orderOf t = q) :
     orderOf (diagGen2 (F := F) t i) = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have htq : t ^ q = 1 := by
     rw [← ht]
     exact pow_orderOf_eq_one t
@@ -105,7 +105,7 @@ theorem orderOf_diagGen2 (t : Fˣ) (i : Fin 2) {q : ℕ}
       simp [htq]
     · by_cases hj' : j = twoIndex
       · subst hj'
-        simp [hj, htqi]
+        simp [htqi]
       · simp [diagUnit2_of_ne t i hj hj']
   · intro h
     have hmat : (diagUnit2 (F := F) t i (twoToFin i) : F) = 1 := by
@@ -152,10 +152,9 @@ theorem dvd_of_diagGen2_zpow_fixes (t : Fˣ) (i : Fin 2) {q : ℕ}
   have hval' : (diagUnit2 (F := F) t i ^ a) (twoToFin i) = 1 :=
     Units.ext hval
   have hds : diagUnit2 (F := F) t i (twoToFin i) = t := by
-    simp [diagUnit2, Function.update, twoToFin_ne_twoIndex i]
+    simp [diagUnit2, Function.update]
   have hta : t ^ a = 1 := by
     rw [← hds]
-    change (diagUnit2 (F := F) t i (twoToFin i)) ^ a = 1
     exact hval'
   rw [← ht]
   exact orderOf_dvd_iff_zpow_eq_one.mpr hta
@@ -182,7 +181,7 @@ theorem two_le_pRank_diagTorus {F : Type} [Field F] [Finite F] [CharP F 2] {q : 
     (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     2 ≤ CFSG.Open.pRank q (diagTorus 3 F) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd' : q ∣ Nat.card Fˣ := by
     rw [Nat.card_units]
     exact hdvd

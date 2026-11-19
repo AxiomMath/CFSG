@@ -131,8 +131,8 @@ private theorem isIrrOn_of_natSpn {W : Type} [CommGroup W] [Finite W]
   obtain ⟨-, K, hKfield, hKfin, hKcard, π0, hreal⟩ := hI
   let π : ↥(StatedSp 2 K) →* ↥L := π0
   have hreal' : (FFModel.nat (StatedSp 2 K)).RealizesVia L I ⊥ π := hreal
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hIinv : ∀ l ∈ L, ∀ x ∈ I, l x ∈ I :=
     fun l hl x hx => hreal.2.2.2.1 ⟨l, hl⟩ x hx
   refine ⟨?_, hIinv, ?_, ?_⟩
@@ -153,7 +153,7 @@ private theorem isIrrOn_of_natSpn {W : Type} [CommGroup W] [Finite W]
     exact irr_of_realizes_natSp hreal hJI (fun l hl x hx => hJ l hl x hx)
 
 private theorem summand_label {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1)
+    (_hW : ∀ w : W, w ^ 2 = 1)
     {L : Subgroup (MulAut W)} {n : ℕ} {I : Subgroup W}
     [Module (ZMod 2) (Additive ↥I)]
     (hSp : IsSp4 ↥L n) (hn : 1 < n)
@@ -172,13 +172,13 @@ private theorem summand_label {W : Type} [CommGroup W] [Finite W]
       IsIrrOn L I ⊥ := by
 
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
 
   obtain ⟨-, KI, hKIfield, hKIfin, hKIcard, πI0, hrealI⟩ := hI
   let πI : ↥(StatedSp 2 KI) →* ↥L := πI0
   have hrealI' : (FFModel.nat (StatedSp 2 KI)).RealizesVia L I ⊥ πI := hrealI
-  letI : Field KI := hKIfield
-  letI : Finite KI := hKIfin
+  let : Field KI := hKIfield
+  let : Finite KI := hKIfin
   have hIinv : ∀ l ∈ L, ∀ x ∈ I, l x ∈ I :=
     fun l hl x hx => hrealI.2.2.2.1 ⟨l, hl⟩ x hx
   have hIrrOn : IsIrrOn L I ⊥ := by
@@ -219,7 +219,7 @@ private theorem summand_label {W : Type} [CommGroup W] [Finite W]
         simp
       map_mul' := fun l m => by
         ext x
-        simp [map_mul] }
+        simp }
   let ρI : Representation (ZMod 2) (antiSp K) (Additive ↥I) :=
     { toFun := fun g => mulAutLinear (actI (eL.symm g))
       map_one' := by
@@ -349,7 +349,7 @@ private theorem summand_label {W : Type} [CommGroup W] [Finite W]
       _ = m * 1 := by rw [ht]
       _ = m := mul_one m
   have hntI : ∃ g : antiSp K, ρI g ≠ 1 := by
-    haveI : Nontrivial ↥L := (K148.isSimpleGroup_of_isSp4 hSp).toNontrivial
+    have : Nontrivial ↥L := (K148.isSimpleGroup_of_isSp4 hSp).toNontrivial
     obtain ⟨l, hl⟩ := exists_ne (1 : ↥L)
     refine ⟨eL l, fun h => hl ?_⟩
     have h1 : actI l = 1 := by
@@ -363,7 +363,7 @@ private theorem summand_label {W : Type} [CommGroup W] [Finite W]
     ext g x
     rw [CFSG.Quasithin.B42Sp4.repOf_apply]
     rfl
-  haveI : Fact (CFSG.Quasithin.B42Sp4.repOf πE).IsIrreducible :=
+  have : Fact (CFSG.Quasithin.B42Sp4.repOf πE).IsIrreducible :=
     ⟨by rw [hrep]; exact hirrI⟩
   have hntE : ∃ g : antiSp K, CFSG.Quasithin.B42Sp4.repOf πE g ≠ 1 := by
     obtain ⟨g, hg⟩ := hntI
@@ -470,11 +470,11 @@ private theorem frobeniusVec_natRepS (K : Type) [Field K] [Fintype K] [CharP K 2
       have hmap : (natRepS (F := K) K (i + 2 * r) g).map (fun x => x ^ 2) =
           (natRepS (F := K) K (i + 2 * r) g).map (⇑(frobeniusEquiv K 2)) := by
         ext a b
-        simp [frobeniusEquiv_apply, frobenius_def 2]
+        simp [frobenius_def 2]
       have hw : (fun i => (frobeniusVec K r v) i ^ 2) =
           (⇑(frobeniusEquiv K 2) ∘ (frobeniusVec K r v)) := by
         funext i
-        simp [frobeniusEquiv_apply, frobenius_def 2]
+        simp [frobenius_def 2]
       rw [hmap, hw]
       simpa [frobenius_def 2] using
         (RingHom.map_mulVec (f := (frobeniusEquiv K 2 : K →+* K))
@@ -489,7 +489,7 @@ private def restrictAutToInvariant {W : Type} [CommGroup W] {L : Subgroup (MulAu
       right_inv := fun x => by apply Subtype.ext; simp
       map_mul' := fun x y => by apply Subtype.ext; simp [map_mul] }
   map_one' := by ext x; simp
-  map_mul' := fun l m => by ext x; simp [map_mul]
+  map_mul' := fun l m => by ext x; simp
 
 private theorem secIsoOn_of_labels
     {W : Type} [CommGroup W]
@@ -511,7 +511,7 @@ private theorem secIsoOn_of_labels
     (hρJ : ∀ l : ↥L, ρJ (eL l) = mulAutLinear (restrictAutToInvariant (I := J) hJinv l)) :
     SecIsoOn L I ⊥ J ⊥ := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   let ψ : Additive ↥I ≃+ Additive ↥J :=
     φI.trans ((frobeniusVec K r).toAddEquiv.trans φJ.symm)
   have hψφI : ∀ x : Additive ↥I, φJ (ψ x) = frobeniusVec K r (φI x) := fun x => by
@@ -661,7 +661,7 @@ private theorem rk_commSub_top_eq_finrank
       refine ⟨Additive.ofMul y, ?_⟩
       show mulAutLinear g (Additive.ofMul y) - Additive.ofMul y = Additive.ofMul (x : U)
       rw [mulAutLinear_apply, ← hy, commHom_apply]
-      simp [mul_inv, sub_eq_add_neg]
+      simp [sub_eq_add_neg]
     · obtain ⟨z, hz⟩ := LinearMap.mem_range.mp v.2
       refine Subgroup.mem_map.mpr ⟨Additive.toMul z, trivial, ?_⟩
       show commHom g (Additive.toMul z) = Additive.toMul (v : Additive U)
@@ -683,7 +683,7 @@ private theorem map_commSub_restrictAct {W : Type} [CommGroup W] [Finite W]
     (commSub (⊤ : Subgroup ↥I)
         (Subgroup.zpowers (restrictAutToInvariant (I := I) hIinv z))).map I.subtype =
       commSub I (Subgroup.zpowers (z : MulAut W)) := by
-  haveI : Finite ↥I := Finite.of_injective (fun x : ↥I => (x : W)) Subtype.val_injective
+  have : Finite ↥I := Finite.of_injective (fun x : ↥I => (x : W)) Subtype.val_injective
   have hzW : orderOf (z : MulAut W) = 2 := by rw [Subgroup.orderOf_coe, hz]
   have hIpow : ∀ x ∈ Subgroup.zpowers (z : MulAut W), ∀ w ∈ I, x w ∈ I := by
     intro x hx w hw
@@ -721,7 +721,7 @@ private theorem rk_commSub_natSpn {W : Type} [CommGroup W] [Finite W]
     rk (commSub I (Subgroup.zpowers (z : MulAut W))) =
       n * (natRepS (F := K) K i (eL z) - 1).rank := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   let φlin : Additive ↥I ≃ₗ[ZMod 2] (Fin 4 → K) :=
     φ.toLinearEquiv (by
       intro c x
@@ -864,18 +864,18 @@ private theorem inner_involution_bound {W : Type} [CommGroup W] [Finite W]
   rcases involution_rank_pair hz'2 hz'1 with ⟨h0, h1⟩ | ⟨h0, h1⟩ | ⟨h0, h1⟩
   · rcases hIpar with hI | hI <;> rcases hJpar with hJ | hJ
     · exact absurd (by rw [hI, hJ]) hpar
-    · rw [if_pos hI, if_neg (by rw [hJ]; norm_num), h0, h1]; omega
-    · rw [if_neg (by rw [hI]; norm_num), if_pos hJ, h0, h1]; omega
+    · rw [ite_eq_left hI, ite_eq_right (by rw [hJ]; norm_num), h0, h1]; omega
+    · rw [ite_eq_right (by rw [hI]; norm_num), ite_eq_left hJ, h0, h1]; omega
     · exact absurd (by rw [hI, hJ]) hpar
   · rcases hIpar with hI | hI <;> rcases hJpar with hJ | hJ
     · exact absurd (by rw [hI, hJ]) hpar
-    · rw [if_pos hI, if_neg (by rw [hJ]; norm_num), h0, h1]; omega
-    · rw [if_neg (by rw [hI]; norm_num), if_pos hJ, h0, h1]; omega
+    · rw [ite_eq_left hI, ite_eq_right (by rw [hJ]; norm_num), h0, h1]; omega
+    · rw [ite_eq_right (by rw [hI]; norm_num), ite_eq_left hJ, h0, h1]; omega
     · exact absurd (by rw [hI, hJ]) hpar
   · rcases hIpar with hI | hI <;> rcases hJpar with hJ | hJ
     · exact absurd (by rw [hI, hJ]) hpar
-    · rw [if_pos hI, if_neg (by rw [hJ]; norm_num), h0, h1]; omega
-    · rw [if_neg (by rw [hI]; norm_num), if_pos hJ, h0, h1]; omega
+    · rw [ite_eq_left hI, ite_eq_right (by rw [hJ]; norm_num), h0, h1]; omega
+    · rw [ite_eq_right (by rw [hI]; norm_num), ite_eq_left hJ, h0, h1]; omega
     · exact absurd (by rw [hI, hJ]) hpar
 
 private theorem eq_summand_of_irreducible {W : Type} [CommGroup W] [Finite W]
@@ -884,9 +884,9 @@ private theorem eq_summand_of_irreducible {W : Type} [CommGroup W] [Finite W]
     (hIJinf : I ⊓ J = ⊥) (hIJsup : I ⊔ J = ⊤)
     (hIrrI : IsIrrOn L I ⊥) (hIrrJ : IsIrrOn L J ⊥)
     (hnot : ¬ SecIsoOn L I ⊥ J ⊥)
-    {X : Subgroup W} (hXstab : StableUnder L X)
+    {X : Subgroup W} (_hXstab : StableUnder L X)
     (hXsimple : CFSG.LocalAnalysis.WeakClosure81.GF2Reps136.w1369_ta_IsSimple L X)
-    (hXcard : Nat.card X = Nat.card I) :
+    (_hXcard : Nat.card X = Nat.card I) :
     X = I ∨ X = J := by
   classical
   let I2 : Fin 2 → Subgroup W := fun i => if i = 0 then I else J
@@ -1109,7 +1109,7 @@ private theorem eq_one_on_of_centralizes_summand {W : Type} [CommGroup W] [Finit
     exact h1
   have hV : ∀ x : ↥I, x ^ 2 = 1 := fun x => Subtype.ext (by
     have h := hW (x : W)
-    rwa [pow_two] at h ⊢)
+    rw [pow_two] at h ⊢; assumption)
   have hcI1 : cI = 1 :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5.eq_one_of_commute_of_isIrrOn
       hV hIrrH hcI2 hcommH
@@ -1130,11 +1130,11 @@ private theorem preserves_I_false {W : Type} [CommGroup W] [Finite W]
     (hmapI : I.map t.toMonoidHom = I) : False := by  classical
   obtain ⟨hn2, K, hKfield, hKfin, hKchar, hKcard, ⟨eL0⟩⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.K148.exists_antiSp_of_isSp4 hSp
-  letI : Field K := hKfield
-  letI : Fintype K := hKfin
-  letI : Finite K := Finite.of_fintype K
-  letI : CharP K 2 := hKchar
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Field K := hKfield
+  let : Fintype K := hKfin
+  let : Finite K := Finite.of_fintype K
+  let : CharP K 2 := hKchar
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let eL : ↥L ≃* antiSp K := eL0
   have hKf : Fintype.card K = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hKcard
@@ -1150,10 +1150,10 @@ private theorem preserves_I_false {W : Type} [CommGroup W] [Finite W]
   have hIJcard : Nat.card ↥I = Nat.card ↥J := by
     obtain ⟨-, KI, hKIfield, hKIfin, hKIcard, πI, hrealI⟩ := hI
     obtain ⟨-, KJ, hKJfield, hKJfin, hKJcard, πJ, hrealJ⟩ := hJ
-    letI : Field KI := hKIfield
-    letI : Finite KI := hKIfin
-    letI : Field KJ := hKJfield
-    letI : Finite KJ := hKJfin
+    let : Field KI := hKIfield
+    let : Finite KI := hKIfin
+    let : Field KJ := hKJfield
+    let : Finite KJ := hKJfin
     rw [card_of_realizes_natSp hrealI, card_of_realizes_natSp hrealJ, hKIcard, hKJcard]
   have hnorm : ∀ h k : MulAut W, h ∈ L → k ∈ Y → k * h * k⁻¹ ∈ L :=
     (Subgroup.normal_subgroupOf_iff hLY).mp hLN
@@ -1388,11 +1388,11 @@ private theorem preserves_I_false {W : Type} [CommGroup W] [Finite W]
     rcases hpar with h0 | h1
     · rw [h0] at hrank
       have h : ¬ (iI + n) % 2 = 0 := by omega
-      rw [if_pos rfl, if_neg h] at hrank
+      rw [ite_eq_left rfl, ite_eq_right h] at hrank
       norm_num at hrank
     · rw [h1] at hrank
       have h : (iI + n) % 2 = 0 := by omega
-      rw [if_neg (by norm_num : ¬ (1 : ℕ) = 0), if_pos h] at hrank
+      rw [ite_eq_right (by norm_num : ¬ (1 : ℕ) = 0), ite_eq_left h] at hrank
       norm_num at hrank
 
   by_cases hα1 : α = 1
@@ -1477,8 +1477,8 @@ private theorem outer_bound {W : Type} [CommGroup W] [Finite W]
       rk_mono hle
     have hrkI : rk ↥I = 4 * n := by
       obtain ⟨-, K, hKfield, hKfin, hKcard, π, hreal⟩ := hI
-      letI : Field K := hKfield
-      letI : Finite K := hKfin
+      let : Field K := hKfield
+      let : Finite K := hKfin
       have hc : Nat.card ↥I = 2 ^ (4 * n) := by
         rw [card_of_realizes_natSp hreal, hKcard, ← pow_mul,
           show n * 4 = 4 * n by omega]
@@ -1496,32 +1496,32 @@ theorem k146Sp4TwoNat_holds : K146Sp4TwoNat := by
   classical
   obtain ⟨-, K, hKfield, hKfin, hKchar, hKcard, ⟨eL0⟩⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.K148.exists_antiSp_of_isSp4 hSp
-  letI : Field K := hKfield
-  letI : Fintype K := hKfin
-  letI : Finite K := Finite.of_fintype K
-  letI : CharP K 2 := hKchar
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Field K := hKfield
+  let : Fintype K := hKfin
+  let : Finite K := Finite.of_fintype K
+  let : CharP K 2 := hKchar
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let eL : ↥L ≃* antiSp K := eL0
   have hKf : Fintype.card K = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hKcard
   have hIexp : ∀ x : ↥I, x ^ 2 = 1 := fun x => Subtype.ext (by
     have h := hW (x : W)
-    rwa [pow_two] at h ⊢)
+    rw [pow_two] at h ⊢; assumption)
   have hJexp : ∀ x : ↥J, x ^ 2 = 1 := fun x => Subtype.ext (by
     have h := hW (x : W)
-    rwa [pow_two] at h ⊢)
-  letI : Module (ZMod 2) (Additive W) :=
+    rw [pow_two] at h ⊢; assumption)
+  let : Module (ZMod 2) (Additive W) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       rw [two_nsmul]
       exact Additive.toMul.injective (by
         have h := hW (Additive.toMul x)
         simpa [pow_two] using h)
-  letI : Module (ZMod 2) (Additive ↥I) :=
+  let : Module (ZMod 2) (Additive ↥I) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       rw [two_nsmul]
       exact Additive.toMul.injective (by
         simpa [pow_two] using hIexp (Additive.toMul x))
-  letI : Module (ZMod 2) (Additive ↥J) :=
+  let : Module (ZMod 2) (Additive ↥J) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       rw [two_nsmul]
       exact Additive.toMul.injective (by

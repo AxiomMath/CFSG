@@ -117,7 +117,7 @@ theorem card_mulAut_eq_mul_outer {S : Type} [Group S] [Finite S] [IsSimpleGroup 
 
 theorem card_le_mul_card_inf_inner (P : Subgroup (MulAut S)) :
     Nat.card P ≤ Nat.card (Outer S) * Nat.card ↥(P ⊓ inner S) := by
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun α : MulAut S => (α : S → S)) DFunLike.coe_injective
   have hn : (inner S).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have h1 := Subgroup.relIndex_mul_card (H := inner S) (K := P)
@@ -129,6 +129,7 @@ theorem card_le_mul_card_inf_inner (P : Subgroup (MulAut S)) :
   calc Nat.card P = (inner S).relIndex P * Nat.card ↥(P ⊓ inner S) := h1.symm
     _ ≤ Nat.card (Outer S) * Nat.card ↥(P ⊓ inner S) := Nat.mul_le_mul_right _ h3
 
+omit [Finite S] in
 theorem inner_of_pow_eq_one_of_not_dvd_outer {p : ℕ} (hp : p.Prime) (hOut : ¬ p ∣ Nat.card (Outer S))
     (α : MulAut S) (hα : α ^ p = 1) : α ∈ inner S := by
   have h1 : orderOf (QuotientGroup.mk α : Outer S) ∣ p := by
@@ -150,7 +151,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 theorem exists_orderOf_two_of_isPGroup {T : Subgroup Y} (hT2 : IsPGroup 2 T) (hTne : T ≠ ⊥) :
     ∃ t ∈ T, orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := hT2.exists_card_eq
   have hjne : j ≠ 0 := by
     rintro rfl
@@ -160,7 +161,7 @@ theorem exists_orderOf_two_of_isPGroup {T : Subgroup Y} (hT2 : IsPGroup 2 T) (hT
   have h2U : 2 ∣ Nat.card T := by
     rw [hj]
     exact dvd_pow_self 2 hjne
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥T) 2 (by rwa [← Nat.card_eq_fintype_card])
   exact ⟨x, x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
@@ -192,8 +193,8 @@ theorem false_of_rank_bound' (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgroup Y} (
       E ≤ Subgroup.normalizer (T : Set S) → Nat.card E ≤ r)
     (hmr : m * r < p ^ 2) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite S := Finite.of_equiv _ e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite S := Finite.of_equiv _ e.toEquiv
   have hBK : B ≤ Subgroup.normalizer (K : Set Y) := fun g _ => by
     rw [Subgroup.normalizer_eq_top_iff.2 h.normal]
     exact Subgroup.mem_top g

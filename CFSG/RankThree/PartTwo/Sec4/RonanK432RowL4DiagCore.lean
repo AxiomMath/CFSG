@@ -143,8 +143,8 @@ theorem exists_witness_of_pow_three_det {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (h3
 
 theorem listRow_projSL_four_of_cube_root {K : Type} [Field K] [Finite K] {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) (h3 : (3 : K) ≠ 0) : ListRow (projSL 4 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 4) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   have hmap : ListRow (CFSG.PGLModel.projImage (StatedSL 4 K)) := by
@@ -193,7 +193,7 @@ theorem listRow_projSL_four_of_cube_root {K : Type} [Field K] [Finite K] {ω : K
 
 theorem exists_cube_root_galoisField {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) (hmod : p % 3 = 1) :
     ∃ ω : GaloisField p 1, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card (GaloisField p 1)ˣ := by
     rw [Nat.card_units, GaloisField.card p 1 (by norm_num), pow_one]
     omega

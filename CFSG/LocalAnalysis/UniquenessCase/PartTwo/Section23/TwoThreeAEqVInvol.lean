@@ -97,7 +97,7 @@ theorem k_add_two_le_rkIdx_fixV_zpowers
     {k : ℕ} (hnat : IsNaturalClassicalModule (autSub H A') k)
     (hk : 3 ≤ k ∨ 2 ≤ k ∧ IsOmegaMinus ↥(autSub H A') 4 k)
     {s : MulAut W} (hsN : s ∈ Subgroup.normalizer (H : Set (MulAut W)))
-    (hsA : s ∈ stabSub A') (hs2 : orderOf s = 2)
+    (hsA : s ∈ stabSub A') (_hs2 : orderOf s = 2)
     (hnotcent : ∃ h ∈ H, s * h * s⁻¹ ≠ h)
     (hsAN : resHom A' ⟨s, hsA⟩ ∈
       Subgroup.normalizer (autSub H A' : Set (MulAut (↥A'))))

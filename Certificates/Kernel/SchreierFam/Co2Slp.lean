@@ -43,7 +43,7 @@ theorem extP_take {E : List (ℕ × ℕ)} : ∀ (ds : List (List ℤ)) (T : List
     simp only [Nat.add_zero, List.getD_cons_zero, hT] at h0
     have hlt : T.length < E.length := by simp at hl; omega
     have hT' : E.take (T ++ [wP T w]).length = T ++ [wP T w] := by
-      rw [List.length_append, List.length_singleton, List.take_succ, hT,
+      rw [List.length_append, List.length_singleton, List.take_add_one, hT,
         List.getElem?_eq_getElem hlt]
       rw [List.getD_eq_getElem _ _ hlt] at h0
       simp [h0]

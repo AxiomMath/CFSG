@@ -16,7 +16,7 @@ instance fact_prime_five : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
 
 abbrev Sp45 : Type := StatedSp 2 (ZMod 5)
 
-abbrev PSp45 : Type := StatedProj (StatedSp 2 (ZMod 5))
+abbrev _root_.CFSG.ClassicalGroups.Symplectic.PSp45 : Type := StatedProj (StatedSp 2 (ZMod 5))
 
 @[expose] def genMat4 : Fin 8 → Matrix (Fin 4) (Fin 4) (ZMod 5) := ![
   !![1,0,0,0; 0,1,0,0; 1,0,1,0; 0,0,0,1],
@@ -59,10 +59,10 @@ theorem lift_psp45GenP_rels :
     | cons x xs ih =>
       rcases x with ⟨i, b⟩
       cases b
-      · simp only [List.map_cons, List.prod_cons, cond_false, evalW, List.map_cons,
+      · simp only [List.map_cons, List.prod_cons, Bool.cond_false, evalW, List.map_cons,
           List.prod_cons]
         rw [map_mul, hsinv i, ih]
-      · simp only [List.map_cons, List.prod_cons, cond_true, evalW, List.map_cons,
+      · simp only [List.map_cons, List.prod_cons, _root_.Bool.cond_true, evalW, List.map_cons,
           List.prod_cons]
         rw [map_mul]
         rw [show mat 2 (ZMod 5) (psp45Gen i) = genMat i from by
@@ -83,7 +83,7 @@ theorem lift_psp45GenP_rels :
     | nil => simp
     | cons x xs ih =>
       rcases x with ⟨i, b⟩
-      cases b <;> simp only [List.map_cons, List.prod_cons, cond_false, cond_true] at ih ⊢
+      cases b <;> simp only [List.map_cons, List.prod_cons, Bool.cond_false, _root_.Bool.cond_true] at ih ⊢
       · rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv, ih]
       · rw [QuotientGroup.mk_mul, ih]
   rw [hproj]
@@ -149,12 +149,12 @@ private theorem card_scalars_sp45 :
   rw [Nat.card_eq_fintype_card]
   decide +kernel
 
-theorem card_psp45 : Nat.card PSp45 = 4680000 := by
+theorem card_psp45 : Nat.card CFSG.ClassicalGroups.Symplectic.PSp45 = 4680000 := by
   have hN := card_scalars_sp45
   have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup
     ((StatedScalars (Fin 2 ⊕ Fin 2) (ZMod 5)).subgroupOf (StatedSp 2 (ZMod 5)))
   rw [card_sp45, hN] at hcard
-  have h2 : Nat.card PSp45 * 2 = 4680000 * 2 :=
+  have h2 : Nat.card CFSG.ClassicalGroups.Symplectic.PSp45 * 2 = 4680000 * 2 :=
     hcard.symm.trans (by norm_num : (9360000 : Nat) = 4680000 * 2)
   exact Nat.mul_right_cancel (by norm_num : 0 < 2) h2
 

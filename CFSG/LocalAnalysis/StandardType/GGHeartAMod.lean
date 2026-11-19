@@ -14,7 +14,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma ggHAM_A_offdiag (r : ℕ) {i j : Fin r} (hne : i ≠ j)
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : CartanMatrix.A r i j = -1 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne, if_pos h]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne, ite_eq_left h]
 
 private lemma ggHAM_A_self (r : ℕ) (i : Fin r) : CartanMatrix.A r i i = 2 := by
   simp [CartanMatrix.A]

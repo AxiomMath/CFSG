@@ -47,7 +47,7 @@ theorem inv_of_mem_commutator_zpowers_of_sq_centralizes [Group H] {A : Subgroup 
     have hy' : ((y : H) ∈ Subgroup.normalizer (A : Set H)) :=
       Subgroup.zpowers_le.mpr hsN y.2
     have hcoe := Subgroup.normalizerMonoidHom_apply_apply_coe A ⟨(y : H), hy'⟩ a
-    simpa [φ] using hcoe
+    simp [φ]
   let D : Subgroup H :=
     { carrier := {x | x ∈ A ∧ s * x * s⁻¹ = x⁻¹}
       one_mem' := by simp
@@ -122,7 +122,7 @@ theorem inv_of_mem_commutator_zpowers_of_sq_centralizes [Group H] {A : Subgroup 
 private theorem setup_pCoreOf_relIndex_two [Group H] [Finite H] {A S : Subgroup H}
     (hAodd : Odd (Nat.card A)) (hS2 : IsPGroup 2 S)
     (hAS : (A : Set H) * S = S * A)
-    (hQrel : (CFSG.Open.pCoreOf 2 (A ⊔ S)).relIndex S = 2) :
+    (_hQrel : (CFSG.Open.pCoreOf 2 (A ⊔ S)).relIndex S = 2) :
     (A ⊔ S ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ S) : Set H)) ∧
       (A ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ S) : Set H)) ∧
       A ⊓ CFSG.Open.pCoreOf 2 (A ⊔ S) = ⊥ ∧
@@ -131,7 +131,7 @@ private theorem setup_pCoreOf_relIndex_two [Group H] [Finite H] {A S : Subgroup 
       S.relIndex (A ⊔ S) = Nat.card A ∧
       CFSG.Open.pCoreOf 2 (A ⊔ S) ≤ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup H := A ⊔ S
   let Q : Subgroup H := CFSG.Open.pCoreOf 2 X
   have hAX : A ≤ X := le_sup_left
@@ -153,12 +153,12 @@ private theorem setup_pCoreOf_relIndex_two [Group H] [Finite H] {A S : Subgroup 
       rwa [h2] at h1'
   have hAnormQ : A ≤ Subgroup.normalizer (Q : Set H) := fun a ha => hQnX (hAX ha)
   have hAinfQ : A ⊓ Q = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hQ2.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hAodd)
   have hAinfS : A ⊓ S = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hS2.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hAodd)
@@ -179,7 +179,7 @@ private theorem setup_pCoreOf_relIndex_two [Group H] [Finite H] {A S : Subgroup 
   have hQleS : Q ≤ S := by
     have hQsubn : (Q.subgroupOf X).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hQX).mpr hQnX
-    haveI : (Q.subgroupOf X).Normal := hQsubn
+    have : (Q.subgroupOf X).Normal := hQsubn
     have hQsub2 : IsPGroup 2 (Q.subgroupOf X) := hQ2.comap_subtype
     have hle : Q.subgroupOf X ≤ (PS : Subgroup X) :=
       IsPGroup.le_sylow_of_normal hQsub2 PS
@@ -205,7 +205,7 @@ theorem exists_mem_normalizer_not_mem_of_relIndex_two [Group H] [Finite H]
         s * s ∈ CFSG.Open.pCoreOf 2 (A ⊔ S) ∧
           ∀ a ∈ A, s * (s * a * s⁻¹) * s⁻¹ = a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup H := A ⊔ S
   let Q : Subgroup H := CFSG.Open.pCoreOf 2 X
   let E : Subgroup H := A ⊔ Q
@@ -374,7 +374,7 @@ theorem false_of_commutator_zpowers_eq_bot [Group H] [Finite H]
     (hsS : s ∈ S) (hsQ : s ∉ CFSG.Open.pCoreOf 2 (A ⊔ S))
     (hB : ⁅A, Subgroup.zpowers s⁆ = ⊥) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup H := A ⊔ S
   let Q : Subgroup H := CFSG.Open.pCoreOf 2 X
   have hQrelQ : Q.relIndex S = 2 := hQrel

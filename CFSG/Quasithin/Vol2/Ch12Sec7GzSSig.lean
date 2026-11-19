@@ -30,13 +30,13 @@ theorem applyCols_xor (cols : List Nat) : ∀ x y : Nat,
     rcases Nat.mod_two_eq_zero_or_one x with hx | hx <;>
       rcases Nat.mod_two_eq_zero_or_one y with hy | hy
     · have : (x ^^^ y) % 2 = 0 := by omega
-      simp [hx, hy, this, Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [hx, hy, this]
     · have : (x ^^^ y) % 2 = 1 := by omega
-      simp [hx, hy, this, Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [hx, hy, this, Nat.xor_left_comm]
     · have : (x ^^^ y) % 2 = 1 := by omega
-      simp [hx, hy, this, Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [hx, hy, this, Nat.xor_assoc]
     · have : (x ^^^ y) % 2 = 0 := by omega
-      simp [hx, hy, this, Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+      simp [hx, hy, this, Nat.xor_assoc, Nat.xor_left_comm]
 
 theorem applyCols_lt {d : Nat} {cols : List Nat} (h : ∀ c ∈ cols, c < 2 ^ d) (x : Nat) :
     applyCols cols x < 2 ^ d := by

@@ -18,7 +18,7 @@ theorem ggQ2Cent_isPGroup_zpowers_three {G : Type*} [Group G] {z : G} {k : ℕ}
 
 theorem ggQ2Cent_center_eq_bot {G : Type} [Group G] {L : Subgroup G} (hperf : commutator L = ⊤)
     {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R) : Subgroup.center R = ⊥ := by
-  haveI : Group.IsPerfect L := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect L := Group.isPerfect_def.mpr hperf
   have h := Group.IsPerfect.center_quotient_center_eq_bot L
   rw [Subgroup.eq_bot_iff_forall]
   intro r hr

@@ -21,13 +21,13 @@ open CFSG.RankThree.Classical (IsReciprocalTransversal AltPrimaryData orderOf_ro
 
 private theorem ggK1Dm_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 private theorem ggK1Dm_prime_cast_ne_zero {K : Type} [Field K] [Finite K] {p nf : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1Dm_charP_two hK
+  have : CharP K 2 := ggK1Dm_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -50,7 +50,7 @@ private lemma ggK1Dm_lin_pow {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field
   | succ n ih => rw [pow_succ, pow_succ, ggK1Dm_lin_mul, ih]
 
 private theorem ggK1Dm_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qPlusForm K r) p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)) := by
@@ -71,7 +71,7 @@ private theorem ggK1Dm_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finit
       exact hv w)
 
 private theorem ggK1Dm_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qMinusForm K (r - 1) b c) p
@@ -92,7 +92,7 @@ private theorem ggK1Dm_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Fini
       rw [QuadraticMap.polarBilin_apply_apply]
       exact hv w)
 
-private noncomputable def ggK1Dm_altData {K V : Type*} [Field K] [CharP K 2] [AddCommGroup V]
+private theorem ggK1Dm_altData {K V : Type*} [Field K] [CharP K 2] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V]
     {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x) :
     AltPrimaryData (QuadraticMap.polarBilin Q) (isometryUnit x) where
@@ -116,7 +116,6 @@ private noncomputable def ggK1Dm_altData {K V : Type*} [Field K] [CharP K 2] [Ad
 private theorem ggK1Dm_orthEnd_pow {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x) :
     (x : Module.End K V) ^ p = 1 := by
-  change x.toLinearMap ^ p = 1
   rw [← toLinearMap_pow, hx.pow_eq_one]
   rfl
 
@@ -140,7 +139,7 @@ private theorem ggK1Dm_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} (hp : p.Pri
         (hc.associated_of_dvd (irreducible_X_sub_C 1) h1)).trans (by rw [C_1])
     exact hc1 heq
 
-private theorem ggK1Dm_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (hp : p.Prime)
+private theorem ggK1Dm_ordQ_eq_one {K : Type} [Field K] [Finite K] {p nf : ℕ} (_hp : p.Prime)
     (h1 : p ∣ 2 ^ nf - 1) (hK : Nat.card K = 2 ^ nf) : OrdPNS.ordQ K p = 1 := by
   have hle : 1 ≤ 2 ^ nf := Nat.one_le_two_pow
   have hcast : ((Nat.card K : ℕ) : ZMod p) = 1 := by
@@ -212,7 +211,7 @@ private theorem ggK1Dm_not_selfDual_of_degree_one {K : Type} [Field K] {p : ℕ}
 
 private theorem ggK1Dm_selfDual_of_degree_two {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpK : (p : K) ≠ 0) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
+    (_hp2 : p ≠ 2) (hpK : (p : K) ≠ 0) (hpq : p ∣ Nat.card K + 1) {h : K[X]}
     [Fact (Irreducible h)] (hirr : Irreducible h) (hmon : h.Monic) (h0 : h.coeff 0 ≠ 0)
     (hgd : h ∣ cyclotomic p K) (hord : orderOf (AdjoinRoot.root h) = p) :
     reciprocalPolynomial h = h := by
@@ -244,8 +243,8 @@ private theorem ggK1Dm_primaryMultiplicity_pos {K V : Type} [Field K] [AddCommGr
     [Module K V] [FiniteDimensional K V] {x : Module.End K V}
     (hsq : Squarefree (minpoly K x)) {h : K[X]} (hh : h ∈ primaryFactors x) :
     0 < primaryMultiplicity x h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial (primaryComponent x h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial (primaryComponent x h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
   exact Module.finrank_pos
 
@@ -310,8 +309,8 @@ private theorem ggK1Dm_exists_split {p nf r : ℕ} {K ι : Type} [Field K] [Fini
     (hp : p.Prime) (hp2 : p ≠ 2) (h1 : p ∣ 2 ^ nf - 1) (hK : Nat.card K = 2 ^ nf) :
     ∃ m : List ℕ, GGK1DMultOf p nf 1 r K x m := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := ggK1Dm_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ggK1Dm_charP_two hK
   have hpK : (p : K) ≠ 0 := ggK1Dm_prime_cast_ne_zero hp hp2 hK
   have H : AltPrimaryData (QuadraticMap.polarBilin Q) (isometryUnit (ggK1DLin x)) :=
     ggK1Dm_altData hiso
@@ -337,7 +336,7 @@ private theorem ggK1Dm_exists_split {p nf r : ℕ} {K ι : Type} [Field K] [Fini
     intro h hh hne
     have hhT : h ∈ T := (hmemT h).mpr ⟨hh, hne⟩
     have hirr := irreducible_of_mem_primaryFactors hh
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     exact ggK1Dm_not_selfDual_of_degree_one hp hp2 (monic_of_mem_primaryFactors hh)
       (hdeg1 h hhT) (orderOf_root_of_mem hp hX hh hne)
   have hsd_zero : (primaryFactors (ggK1DOrthEnd x)).filter
@@ -451,8 +450,8 @@ private theorem ggK1Dm_exists_nonsplit {p nf r : ℕ} {K ι : Type} [Field K] [F
     (hp : p.Prime) (hp2 : p ≠ 2) (h2 : p ∣ 2 ^ nf + 1) (hK : Nat.card K = 2 ^ nf) :
     ∃ m : List ℕ, GGK1DMultOf p nf 2 r K x m := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := ggK1Dm_charP_two hK
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ggK1Dm_charP_two hK
   have hpK : (p : K) ≠ 0 := ggK1Dm_prime_cast_ne_zero hp hp2 hK
   have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact h2
   have H : AltPrimaryData (QuadraticMap.polarBilin Q) (isometryUnit (ggK1DLin x)) :=
@@ -474,7 +473,7 @@ private theorem ggK1Dm_exists_nonsplit {p nf r : ℕ} {K ι : Type} [Field K] [F
     intro h hh
     have hh' := (hmemT h).mp hh
     have hirr := irreducible_of_mem_primaryFactors hh'.1
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     have hmon := monic_of_mem_primaryFactors hh'.1
     have hgd := ggK1Dm_dvd_cyclotomic hp hirr hmon
       (ggK1Dm_dvd_X_pow_sub_one hX hh'.1) hh'.2
@@ -484,7 +483,7 @@ private theorem ggK1Dm_exists_nonsplit {p nf r : ℕ} {K ι : Type} [Field K] [F
     intro h hh hne
     have hhT : h ∈ T := (hmemT h).mpr ⟨hh, hne⟩
     have hirr := irreducible_of_mem_primaryFactors hh
-    haveI : Fact (Irreducible h) := ⟨hirr⟩
+    have : Fact (Irreducible h) := ⟨hirr⟩
     have hgd := ggK1Dm_dvd_cyclotomic hp hirr (monic_of_mem_primaryFactors hh)
       (ggK1Dm_dvd_X_pow_sub_one hX hh) hne
     exact ggK1Dm_selfDual_of_degree_two hp hp2 hpK hpq hirr

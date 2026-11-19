@@ -43,6 +43,7 @@ section Bookkeeping
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K] {n p : ℕ} [hp : Fact p.Prime]
 
+omit [Finite K] hp in
 theorem crossExcU_not_dvd_card_scalars (h : UnitaryFieldData ℓ f K) (hn : 1 ≤ n)
     (hg : ¬ (p ∣ n ∧ p ∣ ℓ ^ f + 1)) :
     ¬ p ∣ Nat.card ((StatedScalars (Fin n) K).subgroupOf (unitarySU ℓ f K n)) := by
@@ -88,7 +89,7 @@ theorem crossExcU_abelian_statedProj (h : UnitaryFieldData ℓ f K) (hn : 1 ≤ 
     exact isMulCommutative_sylow_of_surjective
       (QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf (unitarySU ℓ f K n)))
       (QuotientGroup.mk'_surjective _)
-      (fun S => hR2 hsmall _ S.isPGroup') R
+      (fun S => hR2 hsmall _ S.isPGroup) R
 
 theorem crossExcU_rank_statedProj_full (h : UnitaryFieldData ℓ f K) (hn : 1 ≤ n) (hp5 : 5 ≤ p)
     (hg : ¬ (p ∣ n ∧ p ∣ ℓ ^ f + 1)) {e' : ℕ} (he' : 0 < e')
@@ -106,7 +107,7 @@ theorem crossExcU_rank_statedProj_full (h : UnitaryFieldData ℓ f K) (hn : 1 �
     exact three_le_pRank_centralizer_of_sylow_abelian
       (fun R => isMulCommutative_sylow_of_surjective
         (QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf (unitarySU ℓ f K n)))
-        (QuotientGroup.mk'_surjective _) (fun S => hR2 hsmall _ S.isPGroup') R) h3 hy
+        (QuotientGroup.mk'_surjective _) (fun S => hR2 hsmall _ S.isPGroup) R) h3 hy
 
 end Bookkeeping
 

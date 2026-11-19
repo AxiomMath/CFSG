@@ -19,7 +19,7 @@ theorem ff6m_piOrth_mem_omega (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
   (piOrth_mem_omegaGroup_iff hQ).mpr ⟨by rw [hdim]; decide, by rw [hdim, hsgn]; decide⟩
 
 theorem ff6m_mem_ffFix_sim_iff (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) (ρ : ↥(simGroup Q)) (w : ↥(omegaProj hQ)) :
+    (_hsgn : quadSign Q = -1) (ρ : ↥(simGroup Q)) (w : ↥(omegaProj hQ)) :
     w ∈ ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q) ↔
       ∃ g ∈ omegaGroup hQ, (simAct Q ρ g = g ∨ simAct Q ρ g = piOrth Q * g) ∧
         toProj Q g = (w : ProjOrth Q) := by
@@ -62,7 +62,7 @@ theorem ff6m_mem_ffFix_iff (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
 
 theorem ff6m_mem_ffFix_iff_of_not_conj (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = -1) {t : OGroup Q}
-    (htt : t * t = 1) (hnc : ¬ IsConj (piOrth Q * t) t) (w : ↥(omegaProj hQ)) :
+    (_htt : t * t = 1) (hnc : ¬ IsConj (piOrth Q * t) t) (w : ↥(omegaProj hQ)) :
     w ∈ ffFix hQ (by omega) (projOrthToProjSim Q (toProj Q t)) ↔
       ∃ g ∈ omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q)),
         toProj Q g = (w : ProjOrth Q) := by

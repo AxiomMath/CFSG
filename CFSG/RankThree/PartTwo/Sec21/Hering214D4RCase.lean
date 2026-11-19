@@ -21,7 +21,7 @@ section Act
 
 variable {A L : Subgroup G}
 
-@[expose] abbrev NLA (A L : Subgroup G) : Subgroup (Subgroup.normalizer (A : Set G)) :=
+abbrev NLA (A L : Subgroup G) : Subgroup (Subgroup.normalizer (A : Set G)) :=
   L.subgroupOf (Subgroup.normalizer (A : Set G))
 
 @[expose] noncomputable def classNLA (A L : Subgroup G) : ↥(NLA A L) →* lBar L where
@@ -33,6 +33,7 @@ variable {A L : Subgroup G}
 @[expose] noncomputable def actNLA (A L : Subgroup G) : ↥(NLA A L) →* MulAut (lBar L) :=
   MulAut.conj.comp (classNLA A L)
 
+omit [Finite G] in
 theorem NLA.mem_normalizer (y : ↥(NLA A L)) :
     ((y : Subgroup.normalizer (A : Set G)) : G) ∈ Subgroup.normalizer (L : Set G) :=
   Subgroup.le_normalizer (Subgroup.mem_subgroupOf.mp y.2)
@@ -204,17 +205,17 @@ theorem reflectsE_of_case211_eight (h : Item211LieProof.PairFacts A E U c L)
   have hodd : Odd (Nat.card ρ.ker) := by
     by_contra hnot
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hnot
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite ρ.ker := inferInstance
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite ρ.ker := inferInstance
     obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' (G := ρ.ker) 2 hnot
     have h3 : d ^ 3 = 1 := Subtype.ext (hcube d.1 d.2)
     have := orderOf_dvd_of_pow_eq_one h3
     rw [hd] at this
     omega
-  haveI : IsMulCommutative ↥(barImage L E) := (Item211LieProof.isElemAbelian_barImage_E h).1
-  haveI : Finite ↥(barImage L E) := Nat.finite_of_card_ne_zero (by
+  have : IsMulCommutative ↥(barImage L E) := (Item211LieProof.isElemAbelian_barImage_E h).1
+  have : Finite ↥(barImage L E) := Nat.finite_of_card_ne_zero (by
     rw [Item211LieProof.card_barImage_E h]; norm_num)
-  letI : CommGroup ↥(barImage L E) := ElementaryAbelianModule.subgroupCommGroup _
+  let : CommGroup ↥(barImage L E) := ElementaryAbelianModule.subgroupCommGroup _
     (Item211LieProof.isElemAbelian_barImage_E h).1
   have hE3' : ∀ ε : ↥(barImage L E), ε ^ 3 = 1 := fun ε =>
     Subtype.ext (by simpa using (Item211LieProof.isElemAbelian_barImage_E h).2 ε ε.2)

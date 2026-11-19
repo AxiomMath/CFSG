@@ -55,8 +55,8 @@ theorem compAlgAt_of_inner_of_component_eq_fixSubgroup_kd264alg {S : Type} [Grou
 theorem compAlgAt_suzukiGroup {a : ℕ} (ha : 1 ≤ a) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) : CompAlgAt ↥(suzukiGroup a K) := by
   refine compAlgAt_of_isSolvable_fixSubgroup_kd264alg fun β hβ hβ3 hβ1 => ?_
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
   have hinn : β ∈ inner ↥(suzukiGroup a K) := innAutDerived_le_inner_excTw_of_isCyclic
     (CFSG.LieType.Suzuki.suzukiGroup_outer_isCyclic_card_dvd ha hK).1 hβ
   obtain ⟨x, rfl, hxp, hx1⟩ :=
@@ -86,8 +86,8 @@ theorem component_eq_fixSubgroup_reeGamma_F4_kd264alg {a : ℕ} (ha : 1 ≤ a) {
     (hJ : IsComponentOf J (fixSubgroup (MulAut.conj y))) :
     J = fixSubgroup (MulAut.conj y) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨e⟩ :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU a K hK y hy
   have hFcard : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
@@ -109,7 +109,7 @@ theorem compAlgAt_reeGamma_F4 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fin
   have hZ := ReeTag.large_Ree_fixed_group_center_trivial a K hK
   refine compAlgAt_of_inner_of_component_eq_fixSubgroup_kd264alg hZ hinn ?_
   intro β hβ hβ3 hβ1 J hJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, rfl, hy3, hy1⟩ := exists_eq_conj_of_mem_range hZ (hinn hβ) hβ3 hβ1
   exact component_eq_fixSubgroup_reeGamma_F4_kd264alg ha hK y (orderOf_eq_prime hy3 hy1) hJ
 
@@ -192,7 +192,7 @@ theorem exists_langSetup_of_toral_datum_conj_kd264alg {τ : Tag} {L : Type} [Fie
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -232,16 +232,16 @@ theorem exists_langSetup_of_inndiag_twE6_conj_kd264alg {ℓ f : ℕ} (hℓ : ℓ
         S.D.step (g⁻¹ * bc h' * g) = g⁻¹ * bc h' * g ∧
           g⁻¹ * bc h' * g ∈ adjointGroup Tag.E6 (AlgebraicClosure K) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c
@@ -293,9 +293,9 @@ theorem compAlgAt_twistedE6Model_kd264alg {K : Type} [Field K] (hK : Nat.card K 
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ 3)) (hR1 : E6D4OuterNotEight)
     (hR2 : E6EightCentralizerConn) : CompAlgAt ↥(twistedE6RootGroup K σ) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   intro β hβmem hβ3 hβ1 J hJ e he hiso x' hx'mem _ hβx' hx'stab
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form Nat.prime_two (by norm_num) K hK σ
@@ -330,10 +330,10 @@ theorem compAlgAt_twistedE6Model_kd264alg {K : Type} [Field K] (hK : Nat.card K 
       Nat.prime_three (by norm_num) Nat.prime_three (by norm_num) (Or.inr (by norm_num)) hmon
       (h : ModGL TwistTag.E6.tag K) h.2 (by rw [← Subgroup.coe_pow, hp1]; rfl)
       (fun h'' => hh1 (Subtype.ext h''))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 3 * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 3 * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hq8 : S.D.q = 8 := by rw [hSq]; norm_num
   have hpL : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=

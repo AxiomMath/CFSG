@@ -30,7 +30,7 @@ open Subgroup CFSG.ABGLocalTools
 
 theorem not_commutative_wreath {q : ℕ} (hq : q.Prime) :
     ∃ a b : Multiplicative (ZMod q) ≀ᵣ Multiplicative (ZMod q), a * b ≠ b * a := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let f : Multiplicative (ZMod q) → Multiplicative (ZMod q) :=
     fun x => if x = 1 then Multiplicative.ofAdd (1 : ZMod q) else 1
   let a : Multiplicative (ZMod q) ≀ᵣ Multiplicative (ZMod q) := ⟨f, 1⟩
@@ -43,8 +43,7 @@ theorem not_commutative_wreath {q : ℕ} (hq : q.Prime) :
   have hne' : (Multiplicative.ofAdd (1 : ZMod q))⁻¹ ≠ (1 : Multiplicative (ZMod q)) := by
     intro h0
     exact hne (inv_eq_one.1 h0)
-  simp only [a, b, f, RegularWreathProduct.mul_left, Pi.mul_apply, Pi.one_apply, inv_one,
-    one_mul, mul_one, if_true, mul_inv_cancel] at h1
+  simp only [a, b, f, RegularWreathProduct.mul_left, Pi.mul_apply, Pi.one_apply, one_mul, mul_one, ite_true] at h1
   split_ifs at h1 with hh
   · exact hne' hh
   · exact hne h1
@@ -53,12 +52,12 @@ theorem isEmpty_wreath_of_isCyclic {q : ℕ} (hq : q.Prime) {P : Type*} [Group P
     (N : Subgroup P) [N.Normal] :
     IsEmpty ((P ⧸ N) ≃* (Multiplicative (ZMod q) ≀ᵣ Multiplicative (ZMod q))) := by
   refine ⟨fun e => ?_⟩
-  haveI : IsCyclic (P ⧸ N) :=
+  have : IsCyclic (P ⧸ N) :=
     isCyclic_of_surjective (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   obtain ⟨a, b, hab⟩ := not_commutative_wreath hq
   apply hab
   have hc : ∀ x y : P ⧸ N, x * y = y * x := fun x y => by
-    letI := IsCyclic.commGroup (α := P ⧸ N)
+    let := IsCyclic.commGroup (α := P ⧸ N)
     exact mul_comm x y
   have h2 := congrArg e (hc (e.symm a) (e.symm b))
   simpa using h2
@@ -75,11 +74,11 @@ theorem eq_of_card_eq_of_isCyclic {G : Type*} [Group G] [Finite G] {Q Y Y' : Sub
 
 theorem false_of_zgroup_control {G : Type} [Group G] [Finite G] {K X Q Y : Subgroup G} {q : ℕ}
     (hq : q.Prime) (hXK : X ≤ K) (hQ : IsSylowOf q Q X) (hQcyc : IsCyclic Q) (hYQ : Y ≤ Q)
-    (hYcard : Nat.card Y = q) (hcontrol : normalizer (Y : Set G) ⊓ K ≤ X)
+    (_hYcard : Nat.card Y = q) (hcontrol : normalizer (Y : Set G) ⊓ K ≤ X)
     (hQnot : ¬ Q ≤ (commutator ↥X).map X.subtype)
     (hK : ∀ (N : Subgroup ↥K) [N.Normal], IsPGroup q (↥K ⧸ N) → N = ⊤) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQp : IsPGroup q Q := hQ.isPGroup
   have hQX : Q ≤ X := hQ.le
   have hQK : Q ≤ K := hQX.trans hXK

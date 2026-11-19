@@ -44,8 +44,8 @@ theorem pRank_statedProj_OmegaMinus_formula {F : Type} [Field F] [Finite F] {p n
           orderOf (Nat.card F : ZMod p)
       else (if Even (orderOf (Nat.card F : ZMod p)) then 2 * n else n) /
         orderOf (Nat.card F : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hpF' : ¬ p ∣ Fintype.card F := by rw [hc]; exact hpF
   have hn1 : 1 ≤ n := by omega
@@ -71,7 +71,7 @@ theorem pRank_statedProj_OmegaMinus_eq_of_pow {F F₀ : Type} [Field F] [Field F
     (hpF : ¬ p ∣ Nat.card F) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadMinus n F b c)))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadMinus n F₀ b₀ c₀)))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF₀ : ¬ p ∣ Nat.card F₀ := fun h => hpF (hcard ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   have hz : ((Nat.card F : ℕ) : ZMod p) = ((Nat.card F₀ : ℕ) : ZMod p) := by
     rw [hcard]
@@ -80,8 +80,8 @@ theorem pRank_statedProj_OmegaMinus_eq_of_pow {F F₀ : Type} [Field F] [Field F
   rw [pRank_statedProj_OmegaMinus_formula hp hp2 hn hirr hpF,
     pRank_statedProj_OmegaMinus_formula hp hp2 hn hirr₀ hF₀, hz]
   by_cases h1 : (p : ℤ) ∣ (Nat.card F₀ : ℤ) ^ n + (-1)
-  · rw [if_pos (hiff.2 h1), if_pos h1]
-  · rw [if_neg (fun h => h1 (hiff.1 h)), if_neg h1]
+  · rw [ite_eq_left (hiff.2 h1), ite_eq_left h1]
+  · rw [ite_eq_right (fun h => h1 (hiff.1 h)), ite_eq_right h1]
 
 theorem outerFixedRankCrossAt_POmegaMinus : OuterFixedRankCrossAt .POmegaMinus := by
   intro K _ _ n ℓ f hadm hmodel hT p hp hp5 hℓ hdivL α hαp hαin hrk

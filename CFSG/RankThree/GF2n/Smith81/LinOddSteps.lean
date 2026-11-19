@@ -57,6 +57,7 @@ section Odd
 
 variable [Finite G] {M Q Z B : Subgroup G} {V V' : Subgroup G}
 
+omit [Finite G] in
 theorem inZClass_of_mem_root {A : Subgroup G} (hA : IsZConjugate Z A) {a : G} (haA : a ∈ A)
     (ha1 : a ≠ 1) : InZClass Z a := by
   obtain ⟨g, rfl⟩ := hA
@@ -84,6 +85,7 @@ theorem OddSetup.root_le_V (S : OddSetup M Q Z B V V') {A : Subgroup G} (hA : Is
     rw [← S.int]
     exact ⟨haV, h haA⟩
 
+omit [Finite G] in
 theorem Z_ne_bot (H : StrothHyp M Q Z) : Z ≠ ⊥ := by
   intro h
   have := H.q4
@@ -148,6 +150,7 @@ theorem OddSetup.V_le_QB (S : OddSetup M Q Z B V V') (h4 : Lin212C4Prop M Q Z)
   have : a = gA * (gA⁻¹ * a * gA) * gA⁻¹ := by group
   rw [this, h1]; group
 
+omit [Finite G] in
 theorem OddSetup.V_le_conj (S : OddSetup M Q Z B V V') {gA : G}
     (h3 : V ≤ QB (conjSubgroup gA Z)) : V ≤ conjSubgroup gA V ∨ V ≤ conjSubgroup gA V' := by
   have hunion : (V : Set G) ⊆ (conjSubgroup gA V : Set G) ∪ (conjSubgroup gA V' : Set G) := by

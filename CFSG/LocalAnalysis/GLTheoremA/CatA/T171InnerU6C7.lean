@@ -56,7 +56,7 @@ private theorem scalar_mul_eq_smul (c : F4ˣ) (M : Matrix (Fin 6) (Fin 6) F4) :
 
 private theorem fixSubgroup_Psi0_diag_eq
     {D : GL (Fin 6) F4} {Dg : Gu} (hval : (Dg : GL (Fin 6) F4) = D)
-    {a b : F4} {i : Fin 6} (ha : a ≠ 0) (hb : b ≠ 0) (hab : a ≠ b)
+    {a b : F4} {i : Fin 6} (ha : a ≠ 0) (_hb : b ≠ 0) (_hab : a ≠ b)
     (hD : (D : Matrix (Fin 6) (Fin 6) F4) =
       Matrix.diagonal (Function.update (fun _ => a) i b)) :
     fixSubgroup (Psi0 Dg) = (CenD D).map pi6 := by
@@ -165,7 +165,7 @@ private theorem fixSubgroup_Psi0_diag_eq
 
 
 private theorem cenD_diag_decomp
-    {D : GL (Fin 6) F4} {a b : F4} {i : Fin 6} (ha : a ≠ 0) (hb : b ≠ 0) (hab : a ≠ b)
+    {D : GL (Fin 6) F4} {a b : F4} {i : Fin 6} (_ha : a ≠ 0) (_hb : b ≠ 0) (hab : a ≠ b)
     (hD : (D : Matrix (Fin 6) (Fin 6) F4) =
       Matrix.diagonal (Function.update (fun _ => a) i b))
     (u : ↥(CenD D)) :
@@ -174,10 +174,10 @@ private theorem cenD_diag_decomp
         (u : M6) = z * embSU (Function.update (fun _ => a) i b) a A := by
   let d : Fin 6 → F4 := Function.update (fun _ => a) i b
   have hDd : (D : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d := hD
-  have hdi : d i = b := by simp [d, Function.update]
+  have hdi : d i = b := by simp [d]
   have hdne : ∀ j : Fin 6, j ≠ i → d j = a := by
     intro j hj
-    simp [d, Function.update, hj]
+    simp [d, hj]
   have hi_single : ∀ j : Fin 6, d j = d i → j = i := by
     intro j hj
     by_contra hji
@@ -189,8 +189,7 @@ private theorem cenD_diag_decomp
     CenD_zero hDd u hjk
   have hm3 : (M i i) ^ 3 = 1 := by
     have h := congrFun (congrFun (M6_unitary u) i) i
-    simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply,
-      if_pos rfl] at h
+    simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply] at h
     have hsum : ∑ k, bar (M k i) * M k i = bar (M i i) * M i i := by
       apply Finset.sum_eq_single i
       · intro k _ hk
@@ -311,7 +310,7 @@ private theorem range_embSU_inf_Z6 {a b : F4} {i : Fin 6} (hab : a ≠ b) :
     (embSU (Function.update (fun _ => a) i b) a).range ⊓
       (CFSG.LocalAnalysis.GLTheoremA.CatB.U42Cat.Z6) = ⊥ := by
   let d : Fin 6 → F4 := Function.update (fun _ => a) i b
-  have hdi : d i = b := by simp [d, Function.update]
+  have hdi : d i = b := by simp [d]
   rw [eq_bot_iff]
   rintro z ⟨hzR, hzZ⟩
   rw [Subgroup.mem_bot]
@@ -319,7 +318,7 @@ private theorem range_embSU_inf_Z6 {a b : F4} {i : Fin 6} (hab : a ≠ b) :
   obtain ⟨lam, hlam⟩ := mem_Z6.mp hzZ
   have h1 : mM6 z i i = 1 := by
     rw [← hA, mM6_embSU, extMat_apply]
-    rw [dif_neg (show ¬ (d i = a ∧ d i = a) from fun h => (Ne.symm hab) (by
+    rw [dite_eq_right (show ¬ (d i = a ∧ d i = a) from fun h => (Ne.symm hab) (by
       rw [← hdi]; exact h.1))]
     exact Matrix.one_apply_eq i
   have hzmat : mM6 z = ((Matrix.GeneralLinearGroup.scalar (Fin 6) lam : GL (Fin 6) F4) :
@@ -540,8 +539,8 @@ private theorem eq_scalar_of_commute_statedSU5 (C : Matrix (Fin 5) (Fin 5) F4)
   rw [Matrix.scalar_apply, Matrix.diagonal_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, hdiag_all i 0]
-  · rw [if_neg hij, hdiagC i j hij]
+    rw [ite_eq_left rfl, hdiag_all i 0]
+  · rw [ite_eq_right hij, hdiagC i j hij]
 
 
 private noncomputable def diagOmega (a : Fin 5) : Fin 5 → F4ˣ :=
@@ -554,9 +553,9 @@ private theorem diagOmega_mem (a : Fin 5) :
   · intro i
     show hF4.norm (((if i = a then omegaU ^ 2 else omegaU : F4ˣ) : F4)) = 1
     by_cases hi : i = a
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact omegaU_sq_norm
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact omegaU_norm
   · fin_cases a <;> decide
 
@@ -579,7 +578,7 @@ private theorem mM6_embSU_liftSU_apply {d : Fin 6 → F4} {c : F4}
       ((A : GL (Fin 5) F4) : Matrix (Fin 5) (Fin 5) F4) (e j) (e k) := by
   let eW := Fintype.equivFin (Blk d c)
   rw [mM6_embSU, extMat_apply]
-  rw [dif_pos ⟨j.2, k.2⟩]
+  rw [dite_eq_left ⟨j.2, k.2⟩]
   change (Matrix.reindex eW.symm eW.symm
     (((liftSU e A : ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4)) : GL
       (Fin (Fintype.card (Blk d c))) F4) : Matrix
@@ -632,10 +631,10 @@ private theorem commute_embSU_of_fixing
         (((embSU (Function.update (fun _ => a) i b) a A : M6) : GL (Fin 6) F4)) *
           (ĥ : GL (Fin 6) F4) := by
   let d : Fin 6 → F4 := Function.update (fun _ => a) i b
-  have hdi : d i = b := by simp [d, Function.update]
+  have hdi : d i = b := by simp [d]
   have hdne : ∀ j : Fin 6, j ≠ i → d j = a := by
     intro j hj
-    simp [d, Function.update, hj]
+    simp [d, hj]
   have hcardW : Fintype.card (Blk d a) = 5 := by
     rw [Fintype.card_subtype]
     have hfilter : Finset.univ.filter (fun j : Fin 6 => d j = a) = Finset.univ.erase i := by
@@ -703,10 +702,10 @@ private theorem commute_embSU_of_fixing
         apply Subtype.ext
         change embSU d a (A * B) = embSU d a A * embSU d a B
         rw [map_mul] }
-  haveI hperf : Group.IsPerfect ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
+  have hperf : Group.IsPerfect ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
     rw [hcardW]
     exact isPerfect_statedSU_five
-  haveI hsolv : Group.IsSolvable ↥(CFSG.LocalAnalysis.GLTheoremA.CatB.U42Cat.Z6) := z6_solvable
+  have hsolv : Group.IsSolvable ↥(CFSG.LocalAnalysis.GLTheoremA.CatB.U42Cat.Z6) := z6_solvable
   have hψ1 : ∀ A, (θ.comp ιR) A = 1 := fun A => perfect_hom_trivial (θ.comp ιR) A
   intro A
   have h := hψ1 A
@@ -784,17 +783,17 @@ private theorem block_scalar_of_commute
     fun p q => mM6_embSU_liftSU_apply eW A0 p q
   have hxii : mM6 x i i = 1 := by
     rw [mM6_embSU, extMat_apply]
-    rw [dif_neg (fun h => hab (h.1.symm.trans hdi))]
+    rw [dite_eq_right (fun h => hab (h.1.symm.trans hdi))]
     exact Matrix.one_apply_eq i
   have hx_i_off : ∀ q : Fin 6, q ≠ i → mM6 x i q = 0 := by
     intro q hq
     rw [mM6_embSU, extMat_apply]
-    rw [dif_neg (fun h => hab (h.1.symm.trans hdi))]
+    rw [dite_eq_right (fun h => hab (h.1.symm.trans hdi))]
     exact Matrix.one_apply_ne (by rintro rfl; exact hq rfl)
   have hx_off_i : ∀ p : Fin 6, p ≠ i → mM6 x p i = 0 := by
     intro p hp
     rw [mM6_embSU, extMat_apply]
-    rw [dif_neg (fun h => hab (h.2.symm.trans hdi))]
+    rw [dite_eq_right (fun h => hab (h.2.symm.trans hdi))]
     exact Matrix.one_apply_ne (by rintro rfl; exact hp rfl)
   have hxoff : ∀ p q : Fin 6, p ≠ q → mM6 x p q = 0 := by
     intro p q hpq
@@ -881,7 +880,7 @@ private theorem block_scalar_of_commute
     have hx'_off_i : ∀ p : Fin 6, p ≠ i → mM6 x' p i = 0 := by
       intro p hp
       rw [mM6_embSU, extMat_apply]
-      rw [dif_neg (fun h => hab (h.2.symm.trans hdi))]
+      rw [dite_eq_right (fun h => hab (h.2.symm.trans hdi))]
       exact Matrix.one_apply_ne (by rintro rfl; exact hp rfl)
     let Ab : Matrix (Blk d a) (Blk d a) F4 :=
       Matrix.reindex eW.symm eW.symm ((A1 : GL (Fin 5) F4) : Matrix (Fin 5) (Fin 5) F4)
@@ -948,7 +947,7 @@ private theorem block_scalar_of_commute
     · subst hpq
       simp
     · have h : eW.symm p ≠ eW.symm q := fun hh => hpq (eW.symm.injective hh)
-      rw [if_neg h, if_neg hpq]
+      rw [ite_eq_right h, ite_eq_right hpq]
   have hBscalar : B = Matrix.scalar (Blk d a) ν := by
     apply (Matrix.reindex eW eW).injective
     rw [hν, hreindex_scalar]
@@ -966,7 +965,7 @@ private theorem block_scalar_of_commute
   ext p q
   rw [Matrix.diagonal_apply]
   by_cases hpq : p = q
-  · rw [if_pos hpq]
+  · rw [ite_eq_left hpq]
     by_cases hpi : p = i
     · have hqi : q = i := by rw [← hpq, hpi]
       rw [hpi, hqi, Function.update_self]
@@ -975,7 +974,7 @@ private theorem block_scalar_of_commute
       rw [← hpq]
       change M p p = ν
       exact hdiagW ⟨p, hp⟩
-  · rw [if_neg hpq]
+  · rw [ite_eq_right hpq]
     by_cases hpi : p = i
     · rw [hpi]
       change M i q = 0
@@ -1047,10 +1046,10 @@ private theorem centralizer_zpowers_diag
     (h : PGU6) (hfix : ∀ x ∈ fixSubgroup (Psi0 Dg), Psi h x = x) :
     h ∈ Subgroup.zpowers (QuotientGroup.mk Dg) := by
   let d : Fin 6 → F4 := Function.update (fun _ => a) i b
-  have hdi : d i = b := by simp [d, Function.update]
+  have hdi : d i = b := by simp [d]
   have hdne : ∀ j : Fin 6, j ≠ i → d j = a := by
     intro j hj
-    simp [d, Function.update, hj]
+    simp [d, hj]
   obtain ⟨ĥ, hĥ⟩ := QuotientGroup.mk'_surjective
     (CFSG.LocalAnalysis.GLTheoremA.KU6Cent.ZG) h
   have hcomm := commute_embSU_of_fixing hval ha hb hab hD h ĥ hĥ hfix
@@ -1070,7 +1069,7 @@ private theorem centralizer_zpowers_diag
   have hν0 : ν ≠ 0 := by
     intro h0
     have hfac : Function.update (fun _ => ν) i c j1 = 0 := by
-      rw [Function.update_apply, if_neg hj1]
+      rw [Function.update_apply, ite_eq_right hj1]
       exact h0
     exact hdetdiag (Finset.prod_eq_zero (Finset.mem_univ j1) hfac)
   have hc0 : c ≠ 0 := by
@@ -1200,7 +1199,7 @@ private theorem card_blk_update {a b : F4} {i : Fin 6} (hab : a ≠ b) :
       rw [Function.update_self] at hj
       exact hab hj.symm
     · rintro ⟨hji, -⟩
-      rw [Function.update_apply, if_neg hji]
+      rw [Function.update_apply, ite_eq_right hji]
   rw [hfilter, Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ, Fintype.card_fin]
 
 private theorem card_statedSU_five : Nat.card ↥(StatedSU 5 (2 ^ 1) F4) = 13685760 := by
@@ -1220,10 +1219,10 @@ theorem prFix_holds : PRFix := by
       (⟨((P⁻¹ * ĝ * P : Gu) : GL (Fin 6) F4), (P⁻¹ * ĝ * P).2⟩ : Gu) := rfl
   let d : Fin 6 → F4 := Function.update (fun _ => a) i b
   have hDd : ((Dg : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) = Matrix.diagonal d := hdiag
-  have hdi : d i = b := by simp [d, Function.update]
+  have hdi : d i = b := by simp [d]
   have hdne : ∀ j : Fin 6, j ≠ i → d j = a := by
     intro j hj
-    simp [d, Function.update, hj]
+    simp [d, hj]
   have hdet_ne : ((Dg : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4).det ≠ 0 := by
     have hunit : IsUnit (((Dg : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4)) :=
       (Dg : GL (Fin 6) F4).isUnit
@@ -1244,13 +1243,13 @@ theorem prFix_holds : PRFix := by
     intro h0
     exact hprod (Finset.prod_eq_zero (Finset.mem_univ i) (by rw [hdi]; exact h0))
   have hcardW : Fintype.card (Blk d a) = 5 := card_blk_update hab
-  haveI hFdiagSimple : IsSimpleGroup ↥(fixSubgroup (Psi0 Dg)) := by
-    haveI hSU : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
+  have hFdiagSimple : IsSimpleGroup ↥(fixSubgroup (Psi0 Dg)) := by
+    have hSU : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
       rw [hcardW]
       exact isSimple_statedSU 5 (Or.inr rfl)
     exact (diagFixEquiv hDval ha hb hab hDd).symm.isSimpleGroup
-  haveI hFdiagPerf : Group.IsPerfect ↥(fixSubgroup (Psi0 Dg)) := by
-    haveI hSUperf : Group.IsPerfect ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
+  have hFdiagPerf : Group.IsPerfect ↥(fixSubgroup (Psi0 Dg)) := by
+    have hSUperf : Group.IsPerfect ↥(StatedSU (Fintype.card (Blk d a)) (2 ^ 1) F4) := by
       rw [hcardW]
       exact isPerfect_statedSU_five
     exact Group.IsPerfect.ofSurjective (f := (diagFixEquiv hDval ha hb hab hDd).toMonoidHom)
@@ -1264,7 +1263,6 @@ theorem prFix_holds : PRFix := by
     rw [← hg]
     change (QuotientGroup.mk' (CFSG.LocalAnalysis.GLTheoremA.KU6Cent.ZG)) ĝ = _
     rw [hconj]
-    change (QuotientGroup.mk' (CFSG.LocalAnalysis.GLTheoremA.KU6Cent.ZG)) (P * Dg * P⁻¹) = _
     rw [map_mul, map_mul, map_inv]
   have hPsi : Psi g = Psi Pbar * Psi gs * (Psi Pbar)⁻¹ := by
     rw [hgmul, map_mul, map_mul, map_inv]
@@ -1274,8 +1272,8 @@ theorem prFix_holds : PRFix := by
   let eMap : ↥(fixSubgroup (Psi0 Dg)) ≃* ↥(fixSubgroup (Psi g)) :=
     (Subgroup.equivMapOfInjective (fixSubgroup (Psi0 Dg)) (Psi Pbar).toMonoidHom
       (Psi Pbar).injective).trans (MulEquiv.subgroupCongr hFix.symm)
-  haveI hFSimple : IsSimpleGroup ↥(fixSubgroup (Psi g)) := eMap.symm.isSimpleGroup
-  haveI hFPerf : Group.IsPerfect ↥(fixSubgroup (Psi g)) :=
+  have hFSimple : IsSimpleGroup ↥(fixSubgroup (Psi g)) := eMap.symm.isSimpleGroup
+  have hFPerf : Group.IsPerfect ↥(fixSubgroup (Psi g)) :=
     Group.IsPerfect.ofSurjective (f := eMap.toMonoidHom) eMap.surjective
   have hFPerfComm : ⁅fixSubgroup (Psi g), fixSubgroup (Psi g)⁆ = fixSubgroup (Psi g) :=
     Subgroup.isPerfect_iff.mp hFPerf

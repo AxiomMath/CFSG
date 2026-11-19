@@ -24,7 +24,7 @@ theorem pow_mem_of_mem_sup_normalizer {G : Type*} [Group G] {N T' : Subgroup G}
     (hT : T' ≤ Subgroup.normalizer (N : Set G)) {M : ℕ} (hTM : ∀ t ∈ T', t ^ M = 1) {a : G}
     (ha : a ∈ N ⊔ T') : a ^ M ∈ N := by
   have hNT : N ⊔ T' ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT
-  haveI : (N.subgroupOf (N ⊔ T')).Normal :=
+  have : (N.subgroupOf (N ⊔ T')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hNT
   obtain ⟨x, hx, t, ht, rfl⟩ : ∃ x ∈ N, ∃ t ∈ T', a = x * t := by
     have h := ha
@@ -111,6 +111,7 @@ theorem pow_mem_unipJ_of_mem_parJ (hM : ∀ i, ∀ g ∈ H i, g ^ M = 1) (J : Se
     (torus_pow_eq_one hext hM) hx
 
 include hext in
+omit hext in
 theorem leviM_gen (hp : ∀ γ ∈ D.roots, IsPGroup 2 (D.rootGroup γ)) (J : Set (Fin D.rank))
     (P : Subgroup K) (hP : ∀ x ∈ leviM D J, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ P) :
     leviM D J ≤ P := by
@@ -147,7 +148,7 @@ theorem exists_mulEquiv_leviM (hbq : BorelQuotient D n H π M) {J : Set (Fin D.r
     (hP.trans (parJ_le_normalizer_unipJ hbq.ct J))
     (fun _ hx => exists_mul_of_mem_unipJ hbq.ct hbq.extras J hx)
     (fun x hx => pow_mem_unipJ_of_mem_parJ hbq.ct hbq.extras hbq.torus_pow J (hP hx))
-    hMs hMnc hM2 (fun P hP => leviM_gen hbq.extras hbq.pGroup J P hP)
+    hMs hMnc hM2 (fun P hP => leviM_gen hbq.pGroup J P hP)
 
 end Main
 

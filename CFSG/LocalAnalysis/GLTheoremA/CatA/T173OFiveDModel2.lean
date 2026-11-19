@@ -24,7 +24,7 @@ theorem piImg_le_normalizer_piImg_closureIn [Finite Ω] {p : ℕ} {N D K : Subgr
     (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) :
     M.piImg N ≤ Subgroup.normalizer (M.piImg (closureIn K N) : Set Γ) := by
   have hKS : K ≤ S := (hcfg.std.2.2.2.2.2.1.1).trans inf_le_left
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   have hNS : N ≤ Subgroup.normalizer (S : Set Ω) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -165,7 +165,7 @@ theorem exists_twoGroup_normalized_by_piImg_sup_barB [Finite Ω] {p : ℕ} {N D 
       M.piImg (closureIn K N) ⊔ M.barB ≤ Subgroup.normalizer (R : Set Γ) := by
   obtain ⟨T, hTS, hT2, hTnorm, hTne⟩ := hcfg.hc
   have hKS : K ≤ S := (hcfg.std.2.2.2.2.2.1.1).trans inf_le_left
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   have hNS : N ≤ Subgroup.normalizer (S : Set Ω) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top

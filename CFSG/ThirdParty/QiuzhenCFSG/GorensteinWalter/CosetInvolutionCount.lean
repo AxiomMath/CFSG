@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.SetTheory.Cardinal.NatCard
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Classification
@@ -356,7 +356,7 @@ public theorem involution_index_eq_one_add_sum_b
           cases o with
           | none => simp
           | some ω =>
-            simp [dif_neg ω.2] }
+            simp [dite_eq_right ω.2] }
     calc
       Nat.card Ω = Nat.card (Option Nonbase) := Nat.card_congr e
       _ = Nat.card Nonbase + 1 := by

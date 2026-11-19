@@ -25,7 +25,7 @@ theorem pRank_add_one_le_of_quot_center_alternating {Y : Type} [Group Y] [Finite
     have harith : n / 5 + 1 ≤ max 2 (n / 3) := by omega
     omega
   · intro hdvd
-    haveI : Group.IsPerfect Y := Group.IsPerfect.mk hq.1
+    have : Group.IsPerfect Y := Group.IsPerfect.mk hq.1
     have hcf :=
       CFSG.HardMathSupport.Timmesfeld.Tables.Alt.center_facts hn hA.some hd (by omega)
     exact absurd (hcf.2 hdvd).1 (by omega)
@@ -34,14 +34,14 @@ theorem quot_center_alternating_of_mulEquiv {Y : Type} [Group Y] [Finite Y]
     (hq : CFSG.Open.IsQuasisimple Y) {n : ℕ} (e : Y ≃* alternatingGroup (Fin n)) :
     5 ≤ n ∧ Subgroup.center Y = ⊥ ∧
       Nonempty ((Y ⧸ Subgroup.center Y) ≃* alternatingGroup (Fin n)) := by
-  haveI : Group.IsPerfect Y := Group.IsPerfect.mk hq.1
-  haveI : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
-  haveI : Nontrivial Y := (QuotientGroup.mk'_surjective (Subgroup.center Y)).nontrivial
+  have : Group.IsPerfect Y := Group.IsPerfect.mk hq.1
+  have : Nontrivial (Y ⧸ Subgroup.center Y) := hq.2.toNontrivial
+  have : Nontrivial Y := (QuotientGroup.mk'_surjective (Subgroup.center Y)).nontrivial
   have h5 : 5 ≤ n :=
     CFSG.AGLEmbedding.BlockCyc.five_le_of_perfect_mulEquiv_alternatingGroup e
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using h5)
-  haveI : IsSimpleGroup Y := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup Y := MulEquiv.isSimpleGroup e
   have hZ : Subgroup.center Y = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center Y) with h | h
     · exact h

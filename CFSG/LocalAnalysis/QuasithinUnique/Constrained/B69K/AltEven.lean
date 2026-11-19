@@ -36,7 +36,7 @@ theorem exists_ne_two {m : ℕ} (hm : 3 ≤ m) (a b : Fin m) : ∃ c : Fin m, c 
 theorem sig_mem_alt {m : ℕ} {ι : Perm (Fin m)} {a b : Fin m} (hab : a ≠ b) (hιab : ι a ≠ ι b) :
     swap a b * swap (ι a) (ι b) ∈ alternatingGroup (Fin m) := by
   rw [Perm.mem_alternatingGroup, Perm.sign_mul, Perm.sign_swap hab, Perm.sign_swap hιab]
-  all_goals first | rfl | decide | norm_num | simp
+  all_goals first | rfl
 
 theorem sig_nodup {m : ℕ} {ι : Perm (Fin m)} (hιι : ∀ x, ι (ι x) = x) (hfix : ∀ x, ι x ≠ x)
     {a b : Fin m} (hab : a ≠ b) (hbι : b ≠ ι a) : [a, b, ι a, ι b].Nodup := by
@@ -44,8 +44,7 @@ theorem sig_nodup {m : ℕ} {ι : Perm (Fin m)} (hιι : ∀ x, ι (ι x) = x) (
   have h2 : a ≠ ι b := fun h => hbι (by rw [h, hιι])
   have h3 : b ≠ ι b := fun h => hfix b h.symm
   have h4 : ι a ≠ ι b := fun h => hab (by simpa [hιι] using congrArg ι h)
-  simp [List.nodup_cons, hab, h1, h2, h3, hbι, h4, Ne.symm hab, Ne.symm h1, Ne.symm h2,
-    Ne.symm h3, Ne.symm hbι, Ne.symm h4]
+  simp [List.nodup_cons, hab, h1, h2, h3, hbι, h4]
 
 theorem sig_comm {m : ℕ} {ι : Perm (Fin m)} (hιι : ∀ x, ι (ι x) = x) {a b : Fin m}
     (hnd : [a, b, ι a, ι b].Nodup) :
@@ -81,7 +80,7 @@ theorem sig_apply_fix {m : ℕ} {ι : Perm (Fin m)} {a b u : Fin m} (hua : u ≠
 theorem cycle3_mem_alt {m : ℕ} {a b c : Fin m} (hac : a ≠ c) (hab : a ≠ b) :
     swap a c * swap a b ∈ alternatingGroup (Fin m) := by
   rw [Perm.mem_alternatingGroup, Perm.sign_mul, Perm.sign_swap hac, Perm.sign_swap hab]
-  all_goals first | rfl | decide | norm_num | simp
+  all_goals first | rfl
 
 theorem cycle3_apply_right {m : ℕ} {a b c : Fin m} : (swap a c * swap a b) b = c := by
   rw [Perm.mul_apply, Equiv.swap_apply_right, Equiv.swap_apply_left]

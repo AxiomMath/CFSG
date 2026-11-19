@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] [FrameCore G] {Ω : Set (Subgroup G)}
 
 theorem Std20Frame.isSylow2In_S_centralizer (d : Std20Frame K K' J S R R' W V z t) :
     IsSylow2In (S : Subgroup G) (Subgroup.centralizer ({z} : Set G)) :=
-  ⟨d.hSz, S.isPGroup', fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
+  ⟨d.hSz, S.isPGroup, fun _ _ hV' hle => S.maximal_isPGroup.eq_of_ge hV' hle⟩
 
 theorem Std20Frame.odd_index_centralizer (d : Std20Frame K K' J S R R' W V z t) :
     Odd (Subgroup.centralizer ({z} : Set G)).index := by
@@ -43,7 +43,7 @@ theorem Std20Frame.exists_conj_into_S (d : Std20Frame K K' J S R R' W V z t) {c 
   exact conj_mem_conjSub (hcP' (Subgroup.mem_zpowers c))
 
 theorem Std20Frame.swap_fusion [FrameSimple G] (d : Std20Frame K K' J S R R' W V z t)
-    (hnc : ∃ x y : G, x * y ≠ y * x) {b : G} (hb : b ∈ (S : Subgroup G))
+    (_hnc : ∃ x y : G, x * y ≠ y * x) {b : G} (hb : b ∈ (S : Subgroup G))
     (hbK : conjSub b K = K') (hb4 : (b * b) * (b * b) = 1) :
     (∃ (n : ℕ) (h c : G), Odd n ∧ c ∈ (S : Subgroup G) ∧ conjSub c K = K ∧
         c = h⁻¹ * b ^ n * h) ∨
@@ -58,7 +58,7 @@ theorem Std20Frame.swap_fusion [FrameSimple G] (d : Std20Frame K K' J S R R' W V
       ∀ c : ↥(Subgroup.centralizer ({z} : Set G)), ϕ c = 1 ↔ conjSub (c : G) K = K :=
     ⟨swapHom hne h1 h2, swapHom_eq_one_iff hne h1 h2⟩
   have hbC : b ∈ Subgroup.centralizer ({z} : Set G) := d.hSz hb
-  have hb2 : IsPGroup 2 (Subgroup.zpowers b) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hb)
+  have hb2 : IsPGroup 2 (Subgroup.zpowers b) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hb)
   have hϕb : ϕ ⟨b, hbC⟩ ≠ 1 := by
     rw [Ne, hϕ]
     show conjSub b K ≠ K

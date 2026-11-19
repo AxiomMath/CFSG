@@ -192,19 +192,19 @@ private lemma commutator_map_heldSU_ne_bot {R : Type} [Group R] [Finite R] {E : 
   have hd : ∀ i, d i ≠ 0 := by
     intro i
     by_cases h0 : i = i0
-    · dsimp only [d]; rw [if_pos h0]; exact hc0
+    · dsimp only [d]; rw [ite_eq_left h0]; exact hc0
     · by_cases h1 : i = i1
-      · dsimp only [d]; rw [if_neg h0, if_pos h1]; exact pow_ne_zero 2 hc0
-      · dsimp only [d]; rw [if_neg h0, if_neg h1]; exact one_ne_zero
+      · dsimp only [d]; rw [ite_eq_right h0, ite_eq_left h1]; exact pow_ne_zero 2 hc0
+      · dsimp only [d]; rw [ite_eq_right h0, ite_eq_right h1]; exact one_ne_zero
   have hd3 : ∀ i, d i ^ 3 = 1 := by
     intro i
     by_cases h0 : i = i0
-    · dsimp only [d]; rw [if_pos h0]; exact hc3
+    · dsimp only [d]; rw [ite_eq_left h0]; exact hc3
     · by_cases h1 : i = i1
-      · dsimp only [d]; rw [if_neg h0, if_pos h1]
+      · dsimp only [d]; rw [ite_eq_right h0, ite_eq_left h1]
         calc (c ^ 2) ^ 3 = (c ^ 3) ^ 2 := by ring
           _ = 1 := by rw [hc3, one_pow]
-      · dsimp only [d]; rw [if_neg h0, if_neg h1]; norm_num
+      · dsimp only [d]; rw [ite_eq_right h0, ite_eq_right h1]; norm_num
   have hu : ∀ i, τ (d i) * d i = 1 := by
     intro i
     rw [hτ2, ← pow_succ]
@@ -217,7 +217,7 @@ private lemma commutator_map_heldSU_ne_bot {R : Type} [Group R] [Finite R] {E : 
       calc c * c ^ 2 = c ^ 3 := by rw [mul_comm, ← pow_succ]
         _ = 1 := hc3
     · intro i hi
-      dsimp only [d]; rw [if_neg hi.1, if_neg hi.2]
+      dsimp only [d]; rw [ite_eq_right hi.1, ite_eq_right hi.2]
   have hD₁SU : CFSG.LocalAnalysis.GLTheoremA.HSubT.diagUnit d hd ∈ heldSU n M τ hτ :=
     CFSG.LocalAnalysis.GLTheoremA.HSubT.diagUnit_mem_heldSU hτ d hd hu hdet
   let D₁ : ↥(heldGU n M τ hτ) := ⟨CFSG.LocalAnalysis.GLTheoremA.HSubT.diagUnit d hd,

@@ -17,8 +17,8 @@ variable {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime] [CharP F p]
   carrier := {x | mat σ 3 x 1 0 = 0 ∧ mat σ 3 x 2 0 = 0}
   mul_mem' := by
     rintro x y ⟨hx1, hx2⟩ ⟨hy1, hy2⟩
-    simp only [Set.mem_setOf_eq, map_mul, Matrix.mul_apply, Fin.sum_univ_three, hx1, hx2, hy1, hy2,
-      zero_mul, mul_zero, add_zero, zero_add, and_self]
+    simp only [Set.mem_ofPred_eq, map_mul, Matrix.mul_apply, Fin.sum_univ_three, hx1, hx2, hy1, hy2,
+      zero_mul, mul_zero, add_zero, and_self]
   one_mem' := by simp
 
 @[expose] def bSU (σ : F ≃+* F) : Subgroup (SU σ 3) :=
@@ -112,10 +112,10 @@ theorem exists_mul_tSU {x : SU (unitaryInvolution F p f) 3}
   have r2 : Fin.rev (2 : Fin 3) = 0 := rfl
   have i02 := sum_mat_mul_mat x 0 2
   have i01 := sum_mat_mul_mat x 0 1
-  simp only [Fin.sum_univ_three, r0, r1, r2, hx1, hx2, map_zero, zero_mul, add_zero, zero_add]
+  simp only [Fin.sum_univ_three, r0, r1, r2, hx1, hx2, map_zero, zero_mul, add_zero]
     at i02 i01
-  rw [if_pos trivial] at i02
-  rw [if_neg (by decide)] at i01
+  rw [ite_eq_left trivial] at i02
+  rw [ite_eq_right (by decide)] at i01
   have ha : mat (unitaryInvolution F p f) 3 x 0 0 ≠ 0 := by
     intro h0
     rw [h0, map_zero, zero_mul] at i02

@@ -68,16 +68,18 @@ variable {G L H₁ : Subgroup (GLV V)} {z : GLV V} {v : V} {m : ℕ}
     ↥(altOn (DeltaB m)) →* GLV V :=
   (jL ψ).comp (Subgroup.inclusion altOn_le_alt)
 
+omit [Finite V] in
 theorem jB_apply (σ : ↥(altOn (DeltaB m))) :
     jB ψ σ = pe ψ (iota2 (m + 6) (σ : Perm (Fin (m + 6)))) := rfl
 
 theorem Hyp.jB_mem_L (h : Hyp G L z v H₁ m ψ) (σ : ↥(altOn (DeltaB m))) : jB ψ σ ∈ L :=
   h.jL_mem _
 
+omit [Finite V] in
 theorem jB_comm_tt (σ : ↥(altOn (DeltaB m))) : jB ψ σ * tt ψ = tt ψ * jB ψ σ := by
   rw [jB_apply, tt, ← map_mul, ← map_mul, ← map_mul, ← map_mul, comm_dt σ.2]
 
-theorem Hyp.conjB_comm_z (h : Hyp G L z v H₁ m ψ) {hh : GLV V}
+theorem Hyp.conjB_comm_z (_h : Hyp G L z v H₁ m ψ) {hh : GLV V}
     (hht : hh * z * hh⁻¹ = tt ψ) (σ : ↥(altOn (DeltaB m))) :
     hh⁻¹ * jB ψ σ * hh * z = z * (hh⁻¹ * jB ψ σ * hh) := by
   have hz : z = hh⁻¹ * tt ψ * hh := by rw [← hht]; group

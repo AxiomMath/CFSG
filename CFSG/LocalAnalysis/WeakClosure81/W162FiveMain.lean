@@ -84,7 +84,7 @@ theorem w162_not_inCalOStar (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U
     have e := Subgroup.relIndex_mul_relIndex (UOf M V g) (V ⊓ centralizer (BOf M V g : Set G)) V
       hUle inf_le_left
     rw [h5] at e
-    haveI : (V ⊓ centralizer (BOf M V g : Set G)).IsFiniteRelIndex V :=
+    have : (V ⊓ centralizer (BOf M V g : Set G)).IsFiniteRelIndex V :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     have hpos : 0 < (V ⊓ centralizer (BOf M V g : Set G)).relIndex V :=
       Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

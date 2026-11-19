@@ -75,6 +75,7 @@ theorem exists_borelQuotient_conj {S₀ : Subgroup Y} (hS : IsSylowTwoOf S₀ L)
     fun z hz => h.ker_central z (hker ▸ hz), fun z hz => h.ker_pow z (hker ▸ hz)⟩, ?_⟩
   rw [← hT, hT']
 
+omit [Finite Y] in
 theorem map_actHom_inf (hRN : R ≤ Subgroup.normalizer (L : Set Y)) (r : ↥R) :
     ((R ⊓ L).subgroupOf L).map (actHom hRN r).toMonoidHom = (R ⊓ L).subgroupOf L := by
   apply Subgroup.map_injective L.subtype_injective
@@ -82,6 +83,7 @@ theorem map_actHom_inf (hRN : R ≤ Subgroup.normalizer (L : Set Y)) (r : ↥R) 
     Subgroup.map_subgroupOf_eq_of_le inf_le_right]
   exact B6.conjSub_eq_self (mem_normalizer_inf hRN r.2)
 
+omit [Finite K] [Finite Y] in
 theorem range_actHom_fix (hRN : R ≤ Subgroup.normalizer (L : Set Y))
     (hT : (R ⊓ L).subgroupOf L = (posUnipotent D).map π) :
     ∀ α ∈ (actHom hRN).range,
@@ -90,6 +92,7 @@ theorem range_actHom_fix (hRN : R ≤ Subgroup.normalizer (L : Set Y))
   rw [← hT]
   exact map_actHom_inf hRN r
 
+omit [Finite Y] in
 theorem exists_node (h : BorelQuotient D n H π M)
     (hT : (R ⊓ L).subgroupOf L = (posUnipotent D).map π) (hMin : IsMinOverBorel L (R ⊓ L) P) :
     ∃ i, P.subgroupOf L = (parJ D H {i}).map π := by
@@ -99,12 +102,14 @@ theorem exists_node (h : BorelQuotient D n H π M)
     Subgroup.map_subgroupOf_eq_of_le hMin.1]
   exact hMin
 
+omit [Finite Y] in
 theorem map_parJ_singleton_nodeHom (h : BorelQuotient D n H π M) (𝒜 : Subgroup (MulAut ↥L))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (a : ↥𝒜) (j : Fin D.rank) :
     ((parJ D H {j}).map π).map a.1.toMonoidHom = (parJ D H {nodeHom h 𝒜 h𝒜 a j}).map π :=
   map_parJ_singleton_nodePerm h a.1 (h𝒜 a.1 a.2) j
 
+omit [Finite Y] in
 theorem nodeHom_ne_of_not_mem_normalizer (h : BorelQuotient D n H π M)
     (𝒜 : Subgroup (MulAut ↥L))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
@@ -139,6 +144,7 @@ theorem nodeHom_ne_of_not_mem_normalizer (h : BorelQuotient D n H π M)
         ⁅C, C.map a.1.toMonoidHom⁆ ≤ pCoreOf 2 ((unipJ D (nodeOrbit h 𝒜 h𝒜 i)).map π)) ∨
     QuasisimpleModTwoNonab ↥(twoResidual ((unipJ D (nodeOrbit h 𝒜 h𝒜 i)).map π))
 
+omit [Finite Y] in
 theorem conjClosure_eq_map (h : BorelQuotient D n H π M) (hRN : R ≤ Subgroup.normalizer (L : Set Y))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
       ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
@@ -195,7 +201,7 @@ theorem concl_of_core (h : BorelQuotient D n H π M) (hRN : R ≤ Subgroup.norma
   have h𝒜2 : IsPGroup 2 ↥(actHom hRN).range :=
     hR2.of_surjective (actHom hRN).rangeRestrict (actHom hRN).rangeRestrict_surjective
   obtain ⟨i, hi⟩ := exists_node h hT hMin
-  obtain ⟨r₀, hr₀R, hr₀P⟩ := SetLike.not_le_iff_exists.1 hnP
+  obtain ⟨r₀, hr₀R, hr₀P⟩ := IsConcreteLE.not_le_iff_exists.1 hnP
   have hmove : ∃ a : ↥(actHom hRN).range, nodeHom h (actHom hRN).range h𝒜 a i ≠ i :=
     ⟨⟨actHom hRN ⟨r₀, hr₀R⟩, ⟨_, rfl⟩⟩, nodeHom_ne_of_not_mem_normalizer h _ h𝒜 hPL hi _
       (r := r₀) (fun x => coe_actHom hRN ⟨r₀, hr₀R⟩ x) hr₀P⟩
@@ -206,7 +212,7 @@ theorem concl_of_core (h : BorelQuotient D n H π M) (hRN : R ≤ Subgroup.norma
   rw [hW]
   rcases hcore h𝒜 h𝒜2 i hmove with hs | ⟨C, hCp, hCW, hWN, hWC, hcomm⟩ | hq
   · left
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.equivMapOfInjective _ L.subtype hι).symm.toMonoidHom)
       (Subgroup.equivMapOfInjective _ L.subtype hι).symm.injective

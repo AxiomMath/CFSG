@@ -46,13 +46,11 @@ theorem ext_of_mid {x y : FlagK K n} (h : ∀ j, 1 ≤ j → j < n → x.E j = y
     · simp
   dim := by
     intro j hj
-    interval_cases j <;> simp [hp, hL, hH, Module.finrank_fin_fun]
+    interval_cases j <;> simp [hp, hL, hH]
   top := by
     intro j hj
-    change (if j = 0 then ⊥ else if j = 1 then p else if j = 2 then L
-      else if j = 3 then H else ⊤) = ⊤
-    rw [if_neg (show ¬ j = 0 by omega), if_neg (show ¬ j = 1 by omega),
-      if_neg (show ¬ j = 2 by omega), if_neg (show ¬ j = 3 by omega)]
+    rw [ite_eq_right (show ¬ j = 0 by omega), ite_eq_right (show ¬ j = 1 by omega),
+      ite_eq_right (show ¬ j = 2 by omega), ite_eq_right (show ¬ j = 3 by omega)]
 
 theorem ofChain4_E_one (p L H : Submodule K (Fin 4 → K)) (hp : finrank K p = 1)
     (hL : finrank K L = 2) (hH : finrank K H = 3) (hpL : p ≤ L) (hLH : L ≤ H) :
@@ -168,14 +166,14 @@ private theorem plh_VsubMap_range (n c : ℕ) :
   ext v
   constructor
   · rintro ⟨w, rfl⟩ j hj
-    rw [plh_VsubMap_apply, dif_neg (not_lt_of_ge hj)]
+    rw [plh_VsubMap_apply, dite_eq_right (not_lt_of_ge hj)]
   · intro hv
     refine ⟨fun i => if h : i.val < n then v ⟨i.val, h⟩ else 0, ?_⟩
     funext j
     rw [plh_VsubMap_apply]
     by_cases hj : j.val < c
-    · rw [dif_pos hj, dif_pos j.isLt]
-    · rw [dif_neg hj, hv j (le_of_not_gt hj)]
+    · rw [dite_eq_left hj, dite_eq_left j.isLt]
+    · rw [dite_eq_right hj, hv j (le_of_not_gt hj)]
 
 theorem finrank_Vsub {c : ℕ} (hc : c ≤ n) : finrank K (Vsub (K := K) n c) = c := by
   rw [← plh_VsubMap_range (K := K) n c,
@@ -201,7 +199,7 @@ theorem mem_farSet_iff {d : List ℕ} (hd : ∀ i, i < d.length → d.getD i 0 �
     x ∈ farSet n d ↔ ∀ i, i < d.length → ∀ j, j ≤ n →
       (j + d.getD i 0 ≤ n → x.E j ⊓ Vsub n (d.getD i 0) = ⊥) ∧
       (n ≤ j + d.getD i 0 → x.E j ⊔ Vsub n (d.getD i 0) = ⊤) := by
-  simp only [farSet, Set.mem_setOf_eq]
+  simp only [farSet, Set.mem_ofPred_eq]
   constructor
   · intro hfar i hi j hj
     have hc : d.getD i 0 ≤ n := hd i hi

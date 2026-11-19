@@ -116,6 +116,7 @@ variable {W : Type} [CommGroup W] [Finite W]
     ((ModFiveA Mp L V ∧ FiveShape ↥L) ∨ ModFiveB T L V ∨ (D321Two L ∧ orbSup T V ≠ ⊤) ∨
       D321Three Mp L)
 
+omit [Finite W] in
 theorem GoodIii.congr_of_conjAutSub {Mp T L : Subgroup (MulAut W)} {V : Subgroup W} {g g' : MulAut W}
     (h2 : conjAutSub g L = conjAutSub g' L) : GoodIii Mp T L V g ↔ GoodIii Mp T L V g' := by
   have h1 : (commV L).map g.toMonoidHom = (commV L).map g'.toMonoidHom := by
@@ -230,7 +231,7 @@ omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem iii_dichotomy (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) {t : G} (ht : t ∈ T)
     (hsq : t * t ∈ Subgroup.normalizer (K : Set G)) (hS : F918FiveIiiS h hIU (T.inv_mem ht)) :
     F918Good h hIU ht ∨ F918Good (hypF918_conj h (T.inv_mem ht)) hIU ht := by
-  haveI := factElem h hIU
+  have := factElem h hIU
   have hcc : conjClosure (conjSub t⁻¹ K) T = conjClosure K T := conjClosure_conjSub_eq (T.inv_mem ht)
   have h1 := iii_dichotomy_aux h hIU ht hsq hS
   unfold F918Good
@@ -243,6 +244,7 @@ section ModuleE
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem fixV_conjAutSub_eq (g : MulAut W) (L : Subgroup (MulAut W)) :
     fixV (conjAutSub g L) = (fixV L).map g.toMonoidHom := by
   ext w
@@ -266,6 +268,7 @@ theorem fixV_conjAutSub_eq (g : MulAut W) (L : Subgroup (MulAut W)) :
     rw [this, h1]
     simp
 
+omit [Finite W] in
 theorem apply_mem_fixV_of_mem_normalizer {Mp : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (Mp : Set (MulAut W))) {c : W} (hc : c ∈ fixV Mp) : g c ∈ fixV Mp := by
   intro x hx
@@ -280,6 +283,7 @@ theorem apply_mem_fixV_of_mem_normalizer {Mp : Subgroup (MulAut W)} {g : MulAut 
     _ = g ((g⁻¹ * x * g) c) := by simp [MulAut.mul_apply]
     _ = g c := by rw [h1]
 
+omit [Finite W] in
 theorem fixV_conj_le_commV {Mp L : Subgroup (MulAut W)} {g : MulAut W}
     (hMp : Mp = L ⊔ conjAutSub g L) (hg : g ∈ Subgroup.normalizer (Mp : Set (MulAut W)))
     (hsum : IsSumMod (fixV Mp) (commV L) ((commV L).map g.toMonoidHom) ⊤)
@@ -316,6 +320,7 @@ theorem fixV_conj_le_commV {Mp L : Subgroup (MulAut W)} {g : MulAut W}
   have h4 : g b' ∈ fixV Mp := apply_mem_fixV_of_mem_normalizer hg h3
   exact (commV L).mul_mem ((commV L).mul_mem ha (hfix h4)) (hfix hc)
 
+omit [Finite W] in
 theorem fixV_eq_bot_of_inf_eq_bot {Mp L : Subgroup (MulAut W)} {g : MulAut W}
     (hMp : Mp = L ⊔ conjAutSub g L) (hLL : conjAutSub g (conjAutSub g L) = L)
     (hincl : commV L ≤ fixV (conjAutSub g L)) (hcomm : commV Mp = ⊤)
@@ -421,6 +426,7 @@ theorem eq_zero_of_fixed_statedSL_three {m : ℕ} (X : Matrix (Fin 3) (Fin m) (Z
     exact add_eq_left.mp this
   simpa using h4
 
+omit [Finite W] in
 theorem d321Two_realizes {L : Subgroup (MulAut W)} (h : D321Two L) :
     ∃ π : ↥(StatedSL 3 (ZMod 2)) →* ↥L,
       (multiNatModelU 3 4 (ZMod 2)).RealizesVia L (commV L) ⊥ π := by
@@ -432,6 +438,7 @@ theorem d321Two_realizes {L : Subgroup (MulAut W)} (h : D321Two L) :
   exact ⟨π, realizesVia_multiNatModelU (n := 3) (m := 4) (F := ZMod 2) I' π hind' hU
     (hreal 0).1 hreal⟩
 
+omit [Finite W] in
 theorem exists_coord_of_realizesVia_multi {n m : ℕ} {F : Type} [Field F] {L : Subgroup (MulAut W)}
     {U : Subgroup W} (π : ↥(StatedSL n F) →* ↥L)
     (hreal : (multiNatModelU n m F).RealizesVia L U ⊥ π) :
@@ -456,6 +463,7 @@ theorem exists_coord_of_realizesVia_multi {n m : ℕ} {F : Type} [Field F] {L : 
     rfl
   exact congrArg q (hβe γ u ⟨b0 u, trivial⟩ hu trivial hum)
 
+omit [Finite W] in
 theorem d321Two_commV_inf_fixV {L : Subgroup (MulAut W)} (h : D321Two L) : commV L ⊓ fixV L = ⊥ := by
   obtain ⟨π, hπ⟩ := d321Two_realizes h
   obtain ⟨b, hb⟩ := exists_coord_of_realizesVia_multi π hπ
@@ -487,12 +495,13 @@ variable {W : Type} [CommGroup W] [Finite W]
 theorem not_commutative_of_isPSL_three {X : Type} [Group X] (h : IsPSL 3 2 1 X) :
     ¬ ∀ a b : X, a * b = b * a := by
   intro hc
-  haveI : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity X 3 2 1 h).2
-  letI : CommGroup X := { ‹Group X› with mul_comm := hc }
+  have : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_PSL_simplicity X 3 2 1 h).2
+  let : CommGroup X := { ‹Group X› with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := X)
   rw [card_eq_of_isPSL_three_two h] at hp
   norm_num at hp
 
+omit [Finite W] in
 theorem commutative_of_commV_le_fixV {L : Subgroup (MulAut W)} (h : commV L ≤ fixV L) :
     ∀ a b : ↥L, a * b = b * a := by
   intro a b
@@ -522,7 +531,7 @@ theorem fixed_dichotomy_seven {g : MulAut W} (hg : g ^ 7 = 1) {V : Subgroup W} (
   by_contra hcon
   push Not at hcon
   obtain ⟨⟨v, hvV, hgv⟩, x, hxV, hgx, hx1⟩ := hcon
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fintype ↥V := Fintype.ofFinite _
   let f : Function.End ↥V := fun u => ⟨g u, hgV u u.2⟩
   have key : ∀ n : ℕ, ∀ u : ↥V, ((f ^ n) u : W) = (g ^ n) (u : W) := by
     intro n
@@ -539,7 +548,7 @@ theorem fixed_dichotomy_seven {g : MulAut W} (hg : g ^ 7 = 1) {V : Subgroup W} (
     apply Subtype.ext
     rw [key 7, hg]
     rfl
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 7) (n := 1) (f := f) (by simpa using hf)
   have hcardV : Fintype.card ↥V = 8 := by rw [← Nat.card_eq_fintype_card]; exact hV
   set S : Set ↥V := Function.fixedPoints f with hS
@@ -566,7 +575,7 @@ theorem fixed_dichotomy_seven {g : MulAut W} (hg : g ^ 7 = 1) {V : Subgroup W} (
       rw [← hh]
       exact hu
     have := Set.ncard_le_ncard hsub (Set.toFinite _)
-    rw [Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+    rw [Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
       Nat.card_eq_fintype_card, hcardV] at this
     omega
   have hcard : Fintype.card ↥S = S.ncard := by
@@ -592,10 +601,10 @@ theorem modFiveB_commV_inf_fixV {T L : Subgroup (MulAut W)} {V : Subgroup W} (hB
     show s₀ ((s₀⁻¹ * l * s₀) v) = l (s₀ v)
     simp [MulAut.mul_apply]
   have hV0 : V ⊓ fixV L = ⊥ := by
-    haveI : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hPSL).2
+    have : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hPSL).2
     have h168 : Nat.card ↥L = 168 := card_eq_of_isPSL_three_two hPSL
-    haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [h168]; norm_num)
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [h168]; norm_num)
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨g, hg7⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 7 (by rw [h168]; norm_num)
     have hgpow : ((g : MulAut W)) ^ 7 = 1 := by
       have h1 : g ^ 7 = 1 := hg7 ▸ pow_orderOf_eq_one g
@@ -615,7 +624,7 @@ theorem modFiveB_commV_inf_fixV {T L : Subgroup (MulAut W)} {V : Subgroup W} (hB
             show ((a : MulAut W)⁻¹) v = v
             calc ((a : MulAut W)⁻¹) v = ((a : MulAut W)⁻¹) ((a : MulAut W) v) := by rw [ha v hv]
               _ = v := by simp }
-      haveI : Sk.Normal :=
+      have : Sk.Normal :=
         ⟨fun l hl x v hv => by
           have h1 : ((x⁻¹ : ↥L) : MulAut W) v ∈ V := hLsV _ (x⁻¹).2 v hv
           show (x : MulAut W) ((l : MulAut W) (((x⁻¹ : ↥L) : MulAut W) v)) = v
@@ -722,7 +731,7 @@ theorem tilde_eq_of_fixV_le (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClo
 theorem five_iii_eq_of_fixed (h : HypF918 T V L V₁ Vp H K) (hH : SQTKGroup ↥H)
     (hA37 : A37ForSQTK) (hA38 : A38ForSQTK) (hK : conjClosure K T ≠ K) (hIU : I ≤ conjClosure Vp H)
     (hnt : ¬ ∀ k ∈ conjClosure K T, ∀ i ∈ I, k * i * k⁻¹ * i⁻¹ ∈ V₁) {t : G} (ht : t ∈ T)
-    (htK : t ∉ Subgroup.normalizer (K : Set G)) (hsq : t * t ∈ Subgroup.normalizer (K : Set G))
+    (htK : t ∉ Subgroup.normalizer (K : Set G)) (_hsq : t * t ∈ Subgroup.normalizer (K : Set G))
     (hG : GoodIii (autIH V₁ I H (conjClosure K T)) (autIH V₁ I H T) (autIH V₁ I H K)
         (subM V₁ (conjClosure I H) I)
         (actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨t⁻¹, h.T_le_H (T.inv_mem ht)⟩))

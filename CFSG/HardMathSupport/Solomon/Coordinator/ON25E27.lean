@@ -80,7 +80,7 @@ theorem on25_exists_E27 {U : Subgroup GM} (hU : Nat.card U = 81) :
     exact U.mul_mem (U.mul_mem (U.mul_mem hg₁U hu₁U) (U.inv_mem hg₁U)) (U.inv_mem hu₁U)
   have hc1 : ⁅g₁, u₁⁆ ≠ 1 := fun h => hne (commutatorElement_eq_one_iff_mul_comm.1 h)
   have hzU : zG ∈ U := by
-    haveI : Fact (Nat.card (zpowers zG)).Prime := ⟨by rw [on25_card_zG]; exact Nat.prime_three⟩
+    have : Fact (Nat.card (zpowers zG)).Prime := ⟨by rw [on25_card_zG]; exact Nat.prime_three⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
         ((zpowers ⁅g₁, u₁⁆).subgroupOf (zpowers zG)) with h | h
     · exfalso

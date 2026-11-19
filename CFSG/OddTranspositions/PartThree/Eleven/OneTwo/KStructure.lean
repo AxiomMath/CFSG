@@ -87,17 +87,19 @@ private theorem frameE_mem_commutator {hC : HypothesisC D} {S : Sylow 2 G}
   simp only [map_mul]
   rw [hx uK hu, hx (rK 0) (mem_centSet h hF 0), hx (rK 1) (mem_centSet h hF 1),
     hx (rK 2) (mem_centSet h hF 2)]
-  simpa [hu2, mul_assoc]
+  simp [hu2]
 
+omit [Finite G] in
 private theorem map_commutator_kbar {hC : HypothesisC D} {S : Sylow 2 G}
     {T : Sylow 2 (Halpha D hC.alpha)} {r : Fin 3 → Halpha D hC.alpha}
-    (hF : ElevenTwoFrame hC S T r) :
+    (_hF : ElevenTwoFrame hC S T r) :
     (commutator (localGroup D (frameE hC r))).map
         (QuotientGroup.mk' (CFSG.solvableRadical (localGroup D (frameE hC r)))) =
       commutator (localGroup D (frameE hC r) ⧸
         CFSG.solvableRadical (localGroup D (frameE hC r))) :=
   TauCeti.Subgroup.map_commutator_eq_commutator (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 private theorem map_commutator_commutator_kbar {hC : HypothesisC D} {S : Sylow 2 G}
     {T : Sylow 2 (Halpha D hC.alpha)} {r : Fin 3 → Halpha D hC.alpha}
     (hF : ElevenTwoFrame hC S T r) :
@@ -110,6 +112,7 @@ private theorem map_commutator_commutator_kbar {hC : HypothesisC D} {S : Sylow 2
           CFSG.solvableRadical (localGroup D (frameE hC r)))⁆ := by
   rw [Subgroup.map_commutator, map_commutator_kbar hF]
 
+omit [Finite G] in
 private theorem sup_commutator_commutator_eq_sup {hC : HypothesisC D} {S : Sylow 2 G}
     {T : Sylow 2 (Halpha D hC.alpha)} {r : Fin 3 → Halpha D hC.alpha}
     (hF : ElevenTwoFrame hC S T r)
@@ -326,7 +329,7 @@ theorem not_psl2Model_kbar (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) 
       (commutator (localGroup D (frameE hC r) ⧸
         CFSG.solvableRadical (localGroup D (frameE hC r)))).index = 2) := by
   rintro ⟨⟨eL⟩, hidx⟩
-  haveI hperfL : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model (2 * f)) := by
+  have hperfL : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model (2 * f)) := by
     have hcard : 3 < Nat.card (GaloisField 2 (2 * f)) := by
       rw [GaloisField.card 2 (2 * f) (by omega)]
       calc 3 < 16 := by norm_num

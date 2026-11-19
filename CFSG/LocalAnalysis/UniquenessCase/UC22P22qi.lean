@@ -15,6 +15,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers (gamma_le_iff)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qi_mem_map {m x : G} {H : Subgroup G} :
     x ∈ H.map (MulAut.conj m).toMonoidHom ↔ m⁻¹ * x * m ∈ H := by
   constructor
@@ -23,6 +24,7 @@ theorem uc22p22qi_mem_map {m x : G} {H : Subgroup G} :
   · intro h
     exact ⟨m⁻¹ * x * m, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem uc22p22qi_centralizer_map (m : G) (X : Subgroup G) :
     centralizer ((X.map (MulAut.conj m).toMonoidHom : Subgroup G) : Set G) =
       (centralizer (X : Set G)).map (MulAut.conj m).toMonoidHom := by
@@ -41,6 +43,7 @@ theorem uc22p22qi_centralizer_map (m : G) (X : Subgroup G) :
       _ = m * ((m⁻¹ * y * m) * (m⁻¹ * z * m)) * m⁻¹ := by rw [h1]
       _ = y * z := by group
 
+omit [Finite G] in
 theorem uc22p22qi_inftyOf_map (m : G) (H : Subgroup G) :
     UC6.inftyOf (H.map (MulAut.conj m).toMonoidHom) =
       (UC6.inftyOf H).map (MulAut.conj m).toMonoidHom := by
@@ -52,6 +55,7 @@ theorem uc22p22qi_inftyOf_map (m : G) (H : Subgroup G) :
     Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 theorem uc22p22qi_map_eq_of_conj_mem {M K : Subgroup G} (hK : ∀ k ∈ M, ∀ x ∈ K, k * x * k⁻¹ ∈ K) {m : G}
     (hm : m ∈ M) : K.map (MulAut.conj m).toMonoidHom = K := by
   ext x
@@ -63,6 +67,7 @@ theorem uc22p22qi_map_eq_of_conj_mem {M K : Subgroup G} (hK : ∀ k ∈ M, ∀ x
   · intro h
     simpa using hK m⁻¹ (M.inv_mem hm) x h
 
+omit [Finite G] in
 theorem uc22p22qi_frobenius_map (m : G) {X K V : Subgroup G}
     (h : CFSG.Open.uniqueFourIsFrobenius X K V) :
     CFSG.Open.uniqueFourIsFrobenius (X.map (MulAut.conj m).toMonoidHom) (K.map (MulAut.conj m).toMonoidHom)
@@ -191,7 +196,7 @@ theorem uc22p22qi_pair_conj (D : Data G) {p : ℕ} {P P₀ P' P₀' : Subgroup G
   have hpσ : p ∈ D.sig := by
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hpσ).1⟩
   obtain ⟨k, hkM, hk⟩ := hH.sylow.exists_mem_conj hH'.sylow
   have hPP : P' = P.map (MulAut.conj k).toMonoidHom := by
     ext x

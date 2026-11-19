@@ -46,8 +46,8 @@ theorem exists_frame_statedProj_su (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ 
         (StatedProj (StatedSU n (ℓ ^ f) L)) μ) ∧
       ¬ 3 ^ (a * r + (Nat.factorial r).factorization 3 + 1) ∣
         Nat.card (StatedProj (StatedSU n (ℓ ^ f) L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype L := Fintype.ofFinite L
   have hp1 : Odd 3 := by decide
   have hker := famU_card_ker_proj hℓ hL hn1
   have hGU := famU_card_GU hℓ hL hn1

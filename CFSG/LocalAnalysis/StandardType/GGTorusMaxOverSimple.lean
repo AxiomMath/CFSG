@@ -60,6 +60,7 @@ section General
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem tmOver_card_mul_dvd {N K : Subgroup G} (hK : K ≤ Subgroup.normalizer (N : Set G))
     (hNK : N ⊓ K = ⊥) : Nat.card N * Nat.card K ∣ Nat.card G := by
   have hset : ((N ⊔ K : Subgroup G) : Set G) = (N : Set G) * K :=
@@ -83,7 +84,7 @@ theorem tmOver_four_pow_le {E V : Subgroup G} (hEV : E ≤ Subgroup.normalizer (
     4 ^ (Finset.univ.filter fun c : Fin m → ZMod 3 => c ≠ 0 ∧
         Nat.card (V ⊓ Subgroup.centralizer (((tmKer φ c).map E.subtype : Subgroup G) : Set G) :
           Subgroup G) ≠ 1).card ≤ Nat.card V ^ 2 := by
-  letI := CFSG.Walter.J1.conjAct E V hEV
+  let := CFSG.Walter.J1.conjAct E V hEV
   have hcard : ∀ S : Subgroup E, tmFixCard V S =
       Nat.card (V ⊓ Subgroup.centralizer ((S.map E.subtype : Subgroup G) : Set G) : Subgroup G) :=
     fun S => CFSG.Walter.J1.card_fixedPointSubgroup_conjAct E V hEV S
@@ -100,7 +101,7 @@ theorem tmOver_exists_ne_one {E V : Subgroup G} (hEV : E ≤ Subgroup.normalizer
     ∃ c : Fin m → ZMod 3, c ≠ 0 ∧
       Nat.card (V ⊓ Subgroup.centralizer (((tmKer φ c).map E.subtype : Subgroup G) : Set G) :
         Subgroup G) ≠ 1 := by
-  letI := CFSG.Walter.J1.conjAct E V hEV
+  let := CFSG.Walter.J1.conjAct E V hEV
   have hcard : ∀ S : Subgroup E, tmFixCard V S =
       Nat.card (V ⊓ Subgroup.centralizer ((S.map E.subtype : Subgroup G) : Set G) : Subgroup G) :=
     fun S => CFSG.Walter.J1.card_fixedPointSubgroup_conjAct E V hEV S
@@ -117,6 +118,7 @@ theorem tmOver_exists_ne_one {E V : Subgroup G} (hEV : E ≤ Subgroup.normalizer
     · have := Nat.pow_le_pow_left h2 2; omega
   exact hV (Subgroup.card_eq_one.mp h1)
 
+omit [Finite G] in
 theorem tmOver_card_conj {N S : Subgroup G} {g : G} (hg : ∀ x, x ∈ N ↔ g * x * g⁻¹ ∈ N) :
     Nat.card (N ⊓ Subgroup.centralizer ((S.map (MulAut.conj g).toMonoidHom : Subgroup G) :
       Set G) : Subgroup G) = Nat.card (N ⊓ Subgroup.centralizer (S : Set G) : Subgroup G) := by
@@ -141,6 +143,7 @@ theorem tmOver_card_conj {N S : Subgroup G} {g : G} (hg : ∀ x, x ∈ N ↔ g *
         _ = g * x * g⁻¹ * (g * s * g⁻¹) := by group
   rw [h, Subgroup.card_map_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem tmOver_map_normalizerMonoidHom {E : Subgroup G} (g : Subgroup.normalizer (E : Set G))
     (K : Subgroup E) :
     (K.map (E.normalizerMonoidHom g).toMonoidHom).map E.subtype =
@@ -148,6 +151,7 @@ theorem tmOver_map_normalizerMonoidHom {E : Subgroup G} (g : Subgroup.normalizer
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem tmOver_le_normalizer {H N : Subgroup G} (hNn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N) :
     H ≤ Subgroup.normalizer (N : Set G) := fun g hg => by
   rw [Subgroup.mem_normalizer_iff]
@@ -158,6 +162,7 @@ theorem tmOver_le_normalizer {H N : Subgroup G} (hNn : ∀ h ∈ H, ∀ x ∈ N,
     have h1 := hNn g⁻¹ (H.inv_mem hg) _ hx
     rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at h1
 
+omit [Finite G] in
 theorem tmOver_map_conj_eq {H N : Subgroup G} (hNn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N) {h : G}
     (hh : h ∈ H) : N.map (MulAut.conj h).toMonoidHom = N := by
   ext y
@@ -170,6 +175,7 @@ theorem tmOver_map_conj_eq {H N : Subgroup G} (hNn : ∀ h ∈ H, ∀ x ∈ N, h
     have h1 := hNn h⁻¹ (H.inv_mem hh) y hy
     rwa [inv_inv] at h1
 
+omit [Finite G] in
 theorem tmOver_comm_of_solvable {H N : Subgroup G} (hNn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N)
     (hN1 : N ≠ ⊥)
     (hmin : ∀ N' : Subgroup G, N' ≤ N → (∀ h ∈ H, ∀ x ∈ N', h * x * h⁻¹ ∈ N') → N' = ⊥ ∨ N' = N)
@@ -215,9 +221,9 @@ theorem tmOver_sylow_fixed_ne_one {E N : Subgroup G} (hEN : E ≤ Subgroup.norma
     Nat.card ((P : Subgroup N).map N.subtype ⊓
       Subgroup.centralizer ((K.map E.subtype : Subgroup G) : Set G) : Subgroup G) ≠ 1 := by
   classical
-  letI := CFSG.Walter.J1.conjAct E N hEN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := CFSG.Walter.J1.conjAct E N hEN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF := CFSG.Walter.J1.card_fixedPointSubgroup_conjAct E N hEN K
   have hK3 : IsPGroup 3 K := hE3.to_subgroup K
   have hPK : CFSG.DisconnectedInvolutionGraph.Helpers.InvariantSubgroup (A := K)
@@ -257,6 +263,7 @@ theorem tmOver_sylow_fixed_ne_one {E N : Subgroup G} (hEN : E ≤ Subgroup.norma
   apply Subtype.ext
   exact hmem
 
+omit [Finite G] in
 theorem tmOver_iSup_le_normalizer {r : ℕ} {T : Fin r → Subgroup G}
     (hcomm : Pairwise fun i j => ∀ x y : G, x ∈ T i → y ∈ T j → Commute x y) (j : Fin r) :
     (⨆ i, T i) ≤ Subgroup.normalizer (T j : Set G) := by
@@ -282,6 +289,7 @@ theorem tmOver_iSup_le_normalizer {r : ℕ} {T : Fin r → Subgroup G}
       rw [h2]
       exact hy
 
+omit [Finite G] in
 theorem tmOver_commute_of_inf_eq_bot {A B : Subgroup G} (hAB : A ≤ Subgroup.normalizer (B : Set G))
     (hBA : B ≤ Subgroup.normalizer (A : Set G)) (h : A ⊓ B = ⊥) :
     ∀ a ∈ A, ∀ b ∈ B, a * b = b * a := by
@@ -295,9 +303,10 @@ theorem tmOver_commute_of_inf_eq_bot {A B : Subgroup G} (hAB : A ≤ Subgroup.no
   calc a * b = a * b * a⁻¹ * b⁻¹ * (b * a) := by group
     _ = b * a := by rw [h1, one_mul]
 
+omit [Finite G] in
 theorem tmOver_eq_bot_or_eq_of_simple {T X : Subgroup G} [IsSimpleGroup T] (hXT : X ≤ T)
     (hX : T ≤ Subgroup.normalizer (X : Set G)) : X = ⊥ ∨ X = T := by
-  haveI hn : (X.subgroupOf T).Normal := ⟨fun x hx t => by
+  have hn : (X.subgroupOf T).Normal := ⟨fun x hx t => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hX t.2) x).mp hx⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (X.subgroupOf T) with h | h
@@ -306,6 +315,7 @@ theorem tmOver_eq_bot_or_eq_of_simple {T X : Subgroup G} [IsSimpleGroup T] (hXT 
   · right
     rw [← Subgroup.map_subgroupOf_eq_of_le hXT, h, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem tmOver_eq_factor {r : ℕ} {T : Fin r → Subgroup G}
     (hcomm : Pairwise fun i j => ∀ x y : G, x ∈ T i → y ∈ T j → Commute x y)
     (hsimp : ∀ i, IsSimpleGroup (T i)) {S : Subgroup G} [IsSimpleGroup S]
@@ -316,7 +326,7 @@ theorem tmOver_eq_factor {r : ℕ} {T : Fin r → Subgroup G}
   apply hnab
   have hbot : ∀ j, S ⊓ T j = ⊥ := by
     intro j
-    haveI := hsimp j
+    have := hsimp j
     have hTj : T j ≤ ⨆ i, T i := le_iSup T j
     rcases tmOver_eq_bot_or_eq_of_simple (T := T j) (X := S ⊓ T j) inf_le_right (fun t ht => by
       rw [Subgroup.mem_normalizer_iff]
@@ -335,7 +345,7 @@ theorem tmOver_eq_factor {r : ℕ} {T : Fin r → Subgroup G}
       have hTS : T j ≤ S := h ▸ inf_le_left
       rcases tmOver_eq_bot_or_eq_of_simple (T := S) (X := T j) hTS (fun s hs =>
         tmOver_iSup_le_normalizer hcomm j (hSN hs)) with h' | h'
-      · haveI := hsimp j
+      · have := hsimp j
         obtain ⟨a, b, hab⟩ := exists_pair_ne (T j)
         apply hab
         have ha1 : (a : G) = 1 := Subgroup.mem_bot.mp (h'.le a.2)
@@ -350,6 +360,7 @@ theorem tmOver_eq_factor {r : ℕ} {T : Fin r → Subgroup G}
   intro x hx y hy
   exact (Subgroup.mem_centralizer_iff.mp (hS (hSN hy)) x hx)
 
+omit [Finite G] in
 theorem tmOver_comp_commute {r : ℕ} {T : Fin r → Subgroup G}
     (hcomm : Pairwise fun i j => ∀ x y : G, x ∈ T i → y ∈ T j → Commute x y)
     {x y : (i : Fin r) → T i} (hxy : x * y = y * x) (i : Fin r) :
@@ -366,6 +377,7 @@ theorem tmOver_comp_commute {r : ℕ} {T : Fin r → Subgroup G}
   simp only [map_mul, Subgroup.noncommPiCoprod_mulSingle] at h1
   exact h1
 
+omit [Finite G] in
 theorem tmOver_commute_of_comp_one {r : ℕ} {T : Fin r → Subgroup G}
     (hcomm : Pairwise fun i j => ∀ x y : G, x ∈ T i → y ∈ T j → Commute x y)
     {x : (i : Fin r) → T i} {i : Fin r} (hx : x i = 1) {t : G} (ht : t ∈ T i) :
@@ -418,7 +430,7 @@ theorem mem_of_commute (hD : TmOverData G E m N₀) {g : G} (hg : ∀ e ∈ E, g
     exact he
 
 theorem centralizer_le (hD : TmOverData G E m N₀) : Subgroup.centralizer (E : Set G) ≤ E :=
-  fun g hg => hD.mem_of_commute fun e he => (Subgroup.mem_centralizer_iff.mp hg e he).symm
+  fun _g hg => hD.mem_of_commute fun e he => (Subgroup.mem_centralizer_iff.mp hg e he).symm
 
 theorem ne_bot (hD : TmOverData G E m N₀) : E ≠ ⊥ := fun h => by
   have := hD.card
@@ -463,7 +475,7 @@ theorem not_abelian (hD : TmOverData G E m N₀) {H N : Subgroup G}
   have hcard1 : Nat.card N ≠ 1 := fun h => hN1 (Subgroup.card_eq_one.mp h)
   set p := (Nat.card N).minFac with hp
   have hpp : p.Prime := Nat.minFac_prime hcard1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨x₀, hx₀⟩ := exists_prime_orderOf_dvd_card' (G := N) p (Nat.minFac_dvd _)
   let Ω : Subgroup G :=
     { carrier := {x | x ∈ N ∧ x ^ p = 1}
@@ -527,7 +539,7 @@ theorem not_abelian (hD : TmOverData G E m N₀) {H N : Subgroup G}
     have hcopNE : Nat.Coprime (Nat.card N) (Nat.card E) := by
       rw [hk, hD.card]; exact Nat.Coprime.pow _ _ hcop3
     have hsolv : Group.IsSolvable N := by
-      haveI : IsMulCommutative N := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
+      have : IsMulCommutative N := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
       infer_instance
     have hfix : N ⊓ Subgroup.centralizer (E : Set G) = ⊥ := by
       rw [eq_bot_iff]
@@ -563,7 +575,7 @@ theorem not_abelian (hD : TmOverData G E m N₀) {H N : Subgroup G}
     omega
 
 theorem inf_ne_bot (hD : TmOverData G E m N₀) {H N : Subgroup G}
-    (hMH : Subgroup.normalizer (E : Set G) < H) (hNH : N ≤ H)
+    (hMH : Subgroup.normalizer (E : Set G) < H) (_hNH : N ≤ H)
     (hNn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N) (hN1 : N ≠ ⊥)
     (hmin : ∀ N' : Subgroup G, N' ≤ N → (∀ h ∈ H, ∀ x ∈ N', h * x * h⁻¹ ∈ N') → N' = ⊥ ∨ N' = N)
     (hnab : ¬ ∀ x ∈ N, ∀ y ∈ N, x * y = y * x) : N ⊓ E ≠ ⊥ := by
@@ -589,8 +601,8 @@ theorem inf_ne_bot (hD : TmOverData G E m N₀) {H N : Subgroup G}
     exact hnab (tmOver_comm_of_solvable hNn hN1 hmin
       (CFSG.FeitThompson.isSolvable_of_odd_natCard N (Nat.odd_iff.mpr (by omega))))
   have hEN : E ≤ Subgroup.normalizer (N : Set G) := Subgroup.le_normalizer.trans hMN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hPinv⟩ := by
     letI := CFSG.Walter.J1.conjAct E N hEN
     exact CFSG.DisconnectedInvolutionGraph.Helpers.coprime_pgroup_exists_invariant_sylow
@@ -609,7 +621,7 @@ theorem inf_ne_bot (hD : TmOverData G E m N₀) {H N : Subgroup G}
     · intro hx
       have h1 := key e⁻¹ (E.inv_mem he) _ hx
       rwa [show e⁻¹ * (e * x * e⁻¹) * e⁻¹⁻¹ = x by group] at h1
-  have hQ2 : IsPGroup 2 Q := P.isPGroup'.map N.subtype
+  have hQ2 : IsPGroup 2 Q := P.isPGroup.map N.subtype
   have hQ1 : Q ≠ ⊥ := by
     intro h
     apply P.ne_bot_of_dvd_card h2N
@@ -619,7 +631,7 @@ theorem inf_ne_bot (hD : TmOverData G E m N₀) {H N : Subgroup G}
     rw [h, Subgroup.mem_bot] at h1
     exact (Subgroup.mem_bot).mpr (Subtype.ext h1)
   have hQsolv : Group.IsSolvable Q := by
-    haveI := hQ2.isNilpotent
+    have := hQ2.isNilpotent
     infer_instance
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hQ2
   have hcopQE : Nat.Coprime (Nat.card Q) (Nat.card E) := by
@@ -726,7 +738,7 @@ theorem isSimpleGroup_of_le (hD : TmOverData G E m N₀) {H N : Subgroup G}
     have hxy : x * y = y * x := hΦinj (by rw [map_mul, map_mul]; exact hD.comm _ hx _ he')
     exact tmOver_comp_commute hcomm hxy i
   have hTne : ∀ i, T i ≠ ⊥ := fun i h => by
-    haveI := hsimp i
+    have := hsimp i
     obtain ⟨a, b, hab⟩ := exists_pair_ne (T i)
     exact hab (Subtype.ext ((Subgroup.mem_bot.mp (h.le a.2)).trans
       (Subgroup.mem_bot.mp (h.le b.2)).symm))
@@ -772,8 +784,8 @@ theorem isSimpleGroup_of_le (hD : TmOverData G E m N₀) {H N : Subgroup G}
   have hMN : M ≤ Subgroup.normalizer (N : Set G) := hMH.le.trans (tmOver_le_normalizer hNn)
   have hperm : ∀ g ∈ M, ∀ i, ∃ j, (T i).map (MulAut.conj g).toMonoidHom = T j := by
     intro g hg i
-    haveI := hsimp i
-    haveI : IsSimpleGroup ((T i).map (MulAut.conj g).toMonoidHom) :=
+    have := hsimp i
+    have : IsSimpleGroup ((T i).map (MulAut.conj g).toMonoidHom) :=
       ((T i).equivMapOfInjective _ (MulAut.conj g).injective).symm.isSimpleGroup
     refine tmOver_eq_factor hcomm hsimp ?_ ?_ ?_
     · rw [hsup]
@@ -862,7 +874,7 @@ theorem isSimpleGroup_of_le (hD : TmOverData G E m N₀) {H N : Subgroup G}
         rw [← Nat.card_coe_set_eq, SetLike.coe_sort_coe, ← hd, ← hcardO j hj,
           ← Subgroup.card_map_of_injective E.subtype_injective, Subgroup.subgroupOf_map_subtype,
           inf_assoc, inf_comm (T j) E, ← inf_assoc, inf_idem]
-      rw [Set.ncard_diff_singleton_of_mem ((E ⊓ T j).subgroupOf E).one_mem, h1]
+      rw [Set.ncard_sdiff_singleton_of_mem ((E ⊓ T j).subgroupOf E).one_mem, h1]
     calc X.ncard ≤ (⋃ j ∈ O, Y j).ncard := Set.ncard_le_ncard hXY (Set.toFinite _)
       _ ≤ ∑ j ∈ O, (Y j).ncard := Finset.set_ncard_biUnion_le O Y
       _ = ∑ j ∈ O, (3 ^ d - 1) := Finset.sum_congr rfl hY
@@ -887,7 +899,7 @@ theorem isSimpleGroup_of_le (hD : TmOverData G E m N₀) {H N : Subgroup G}
       calc (3 ^ d) ^ O.card = ∏ j ∈ O, Nat.card (E ⊓ T j : Subgroup G) := by
             rw [Finset.prod_congr rfl fun j hj => by rw [hcardO j hj, hd], Finset.prod_const]
         _ ≤ ∏ j, Nat.card (E ⊓ T j : Subgroup G) :=
-            Finset.prod_le_prod_of_subset_of_one_le' (Finset.subset_univ O)
+            Finset.prod_le_prod_of_subset_of_one_le (Finset.subset_univ O)
               fun j _ _ => Nat.one_le_iff_ne_zero.mpr Nat.card_pos.ne'
     rw [← pow_mul] at h2
     exact (Nat.pow_le_pow_iff_right (by norm_num)).mp (h2.trans h1)
@@ -940,7 +952,7 @@ theorem exists_simple_normal (hD : TmOverData G E m N₀) {H : Subgroup G}
       ⟨hNn g (hMH.le hg) x hx.1, (Subgroup.mem_normalizer_iff.mp hg x).mp hx.2⟩) with h | h
     · exact absurd h (hD.inf_ne_bot hMH hNH hNn hN1 hmin hnab)
     · exact h ▸ inf_le_left
-  haveI hsimp := hD.isSimpleGroup_of_le hMH hNH hNn hN1 hmin hnab hEN
+  have hsimp := hD.isSimpleGroup_of_le hMH hNH hNn hN1 hmin hnab hEN
   refine ⟨N, hNH, ⟨fun x hx h => ?_⟩, hsimp, ?_, ?_⟩
   · rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hNn h h.2 x hx

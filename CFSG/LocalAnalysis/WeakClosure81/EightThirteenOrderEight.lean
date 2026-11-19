@@ -13,8 +13,8 @@ variable {G : Type*} [Group G] [Finite G]
 theorem fixed_card_even {α : Type*} [Finite α] [DecidableEq α] (σ : Equiv.Perm α) (e : ℕ)
     (hσ : σ ^ (2 ^ e) = 1) (hα : Even (Nat.card α)) :
     Even (Nat.card (Function.fixedPoints σ)) := by
-  haveI : Fintype α := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype α := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : Function.End α := ⇑σ
   have hf : f ^ 2 ^ e = 1 := by
     have h1 : (⇑(σ ^ 2 ^ e) : α → α) = ⇑(1 : Equiv.Perm α) := by rw [hσ]
@@ -49,7 +49,7 @@ theorem exists_fixed_of_commuting_two_element {V X : Subgroup G} (hV : IsElemAbe
     (hzX : ∀ x ∈ X, ∀ v ∈ V, z * (x * v * x⁻¹) * z⁻¹ = x * (z * v * z⁻¹) * x⁻¹) :
     ∃ v ∈ V, v ≠ 1 ∧ ∀ x ∈ X, x * v * x⁻¹ = v := by
   classical
-  letI : CommGroup ↥V := { (inferInstance : Group ↥V) with
+  let : CommGroup ↥V := { (inferInstance : Group ↥V) with
     mul_comm := fun a b => Subtype.ext (hV.comm a.2 b.2) }
   let σ : MulAut ↥V := V.normalizerMonoidHom ⟨z, hzV⟩
   have hσ : ∀ v : ↥V, ((σ v : ↥V) : G) = z * v * z⁻¹ := by intro v; simp [σ]
@@ -64,7 +64,7 @@ theorem exists_fixed_of_commuting_two_element {V X : Subgroup G} (hV : IsElemAbe
     exact eq_comm
   let ρ : ∀ x : G, x ∈ X → MulAut ↥V := fun x hx => V.normalizerMonoidHom ⟨x, hXV hx⟩
   have hρ : ∀ (x : G) (hx : x ∈ X) (v : ↥V), ((ρ x hx v : ↥V) : G) = x * v * x⁻¹ := by
-    intro x hx v; simp [ρ, hx]
+    intro x hx v; simp [ρ]
   have hcomm : ∀ (x : G) (hx : x ∈ X) (v : ↥V), σ (ρ x hx v) = ρ x hx (σ v) := by
     intro x hx v
     apply Subtype.ext
@@ -145,8 +145,8 @@ theorem exists_fixed_of_card_seven_of_index_le_three {X Y : Type*} [Group X] [Fi
     have h4 : 0 < (MulAction.stabilizer X y).index :=
       Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite
     interval_cases hP' : P.index <;> interval_cases hs : (MulAction.stabilizer X y).index <;> omega
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Fintype (MulAction.orbitRel.Quotient X Y) := Fintype.ofFinite _
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Fintype (MulAction.orbitRel.Quotient X Y) := Fintype.ofFinite _
   have hsum : Nat.card Y = ∑ ω : MulAction.orbitRel.Quotient X Y,
       (MulAction.stabilizer X (Quotient.out ω)).index := by
     rw [Nat.card_congr (MulAction.selfEquivSigmaOrbitsQuotientStabilizer X Y), Nat.card_sigma]
@@ -171,7 +171,7 @@ theorem exists_fixed_of_relIndex_le_three {V X P : Subgroup G} (hV8 : Nat.card V
   have hρ : ∀ (x : ↥X) (v : ↥V), ((ρ x v : ↥V) : G) = (x : G) * v * (x : G)⁻¹ := by
     intro x v
     simp [ρ]
-  letI : MulAction ↥X ↥V := MulAction.compHom ↥V ρ
+  let : MulAction ↥X ↥V := MulAction.compHom ↥V ρ
   have hsmul : ∀ (x : ↥X) (v : ↥V), ((x • v : ↥V) : G) = (x : G) * v * (x : G)⁻¹ := hρ
   let S : SubMulAction ↥X ↥V :=
     { carrier := {v | v ≠ 1}
@@ -181,7 +181,7 @@ theorem exists_fixed_of_relIndex_le_three {V X P : Subgroup G} (hV8 : Nat.card V
         change ρ x v = 1 at h1
         exact (MulEquiv.map_eq_one_iff (ρ x)).mp h1 }
   have hS : Nat.card S = 7 := by
-    haveI : Fintype ↥V := Fintype.ofFinite _
+    have : Fintype ↥V := Fintype.ofFinite _
     have h1 : Nat.card ↥S = Fintype.card {v : ↥V // ¬ v = 1} := by
       rw [← Nat.card_eq_fintype_card]; rfl
     rw [h1, Fintype.card_subtype_compl, Fintype.card_subtype_eq, ← Nat.card_eq_fintype_card,

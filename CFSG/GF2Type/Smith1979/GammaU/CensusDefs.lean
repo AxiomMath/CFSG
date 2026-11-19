@@ -12,7 +12,7 @@ namespace CFSG.GF2Type.Smith1979.GammaU.StepA
 open CFSG.GF2Type.Smith1979.GammaU
 
 @[expose] def thetaU : V12 ≃ₗ[ZMod 2] V12 :=
-  LinearEquiv.ofLinear theta0 (theta0.comp theta0) (LinearMap.ext theta0_theta0_theta0)
+  LinearEquiv.ofLinearMap theta0 (theta0.comp theta0) (LinearMap.ext theta0_theta0_theta0)
     (LinearMap.ext theta0_theta0_theta0)
 
 @[simp] theorem thetaU_apply (x : V12) : thetaU x = theta0 x := rfl

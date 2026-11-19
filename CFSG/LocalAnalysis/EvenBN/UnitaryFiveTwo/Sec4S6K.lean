@@ -54,14 +54,14 @@ theorem Data.Hyp.tc_mono (h : d.Hyp) {X Y : Subgroup G} (hXY : X ≤ Y) : d.tc X
   rw [h.mem_tc] at hx ⊢
   exact hXY hx
 
-theorem Data.Hyp.tc_inf (h : d.Hyp) (X Y : Subgroup G) : d.tc (X ⊓ Y) = d.tc X ⊓ d.tc Y :=
+theorem Data.Hyp.tc_inf (_h : d.Hyp) (X Y : Subgroup G) : d.tc (X ⊓ Y) = d.tc X ⊓ d.tc Y :=
   Subgroup.map_inf X Y _ (MulAut.conj d.t).injective
 
-theorem Data.Hyp.tc_sup (h : d.Hyp) (X Y : Subgroup G) : d.tc (X ⊔ Y) = d.tc X ⊔ d.tc Y :=
+theorem Data.Hyp.tc_sup (_h : d.Hyp) (X Y : Subgroup G) : d.tc (X ⊔ Y) = d.tc X ⊔ d.tc Y :=
   Subgroup.map_sup X Y _
 
 theorem Data.IsUnitaryFactor.comm_elem (hf : d.IsUnitaryFactor K₀) :
-    ∀ a ∈ K₀, ∀ b ∈ d.tc K₀, a * b = b * a := fun a ha b hb =>
+    ∀ _a ∈ K₀, ∀ b ∈ d.tc K₀, _a * b = b * _a := fun _a ha b hb =>
   (mem_centralizer_iff.mp (commutator_eq_bot_iff_le_centralizer.mp hf.comm ha) b hb).symm
 
 theorem Data.IsUnitaryFactor.inf_tc (hf : d.IsUnitaryFactor K₀) : K₀ ⊓ d.tc K₀ = ⊥ := hf.inf

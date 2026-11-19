@@ -134,14 +134,14 @@ variable {K : Type} [Field K]
 
 lemma minusVecKF_quad (b c : K) : StatedQuadMinus 2 K b c (minusVecKF K) = 1 := by
   rw [quad_minus_eq]
-  simp [minusVecKF, Pi.single_apply]
+  simp [minusVecKF]
 
 lemma minusForm_minusVecKF (b : K) (v : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :
     minusFormKF3p b v (minusVecKF K) = minusFunKF K b ⬝ᵥ v := by
-  simp [minusFormKF3p, minusVecKF, minusFunKF, Pi.single_apply, add_dotProduct] <;> ring
+  simp [minusFormKF3p, minusVecKF, minusFunKF, add_dotProduct]
 
 lemma minusFunKF_dot_minusVecKF (b : K) : minusFunKF K b ⬝ᵥ minusVecKF K = 0 := by
-  simp [minusFunKF, minusVecKF, Pi.single_apply, add_dotProduct]
+  simp [minusFunKF, minusVecKF]
 
 theorem minus_transv_isometry [CharP K 2] (b c : K)
     (v : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :
@@ -154,10 +154,10 @@ theorem minus_transv_isometry [CharP K 2] (b c : K)
   linear_combination (s ^ 2) * h2
 
 lemma minusFunKF_coord (b : K) : minusFunKF K b (Sum.inl mIxKF3p) = 1 := by
-  simp [minusFunKF, Pi.single_apply]
+  simp [minusFunKF]
 
 lemma minusVecKF_coord : minusVecKF K (Sum.inr (Sum.inl mIxKF3p)) = 1 := by
-  simp [minusVecKF, Pi.single_apply]
+  simp [minusVecKF]
 
 end Minus
 
@@ -173,21 +173,21 @@ lemma plusVecKF_dot (v : Fin 2 ⊕ Fin 2 → K) :
   simp [plusVecKF, add_dotProduct]
 
 lemma plusVecKF_inl0 : plusVecKF K (Sum.inl 0) = 1 := by
-  simp [plusVecKF, Pi.single_apply]
+  simp [plusVecKF]
 
 lemma plusVecKF_inr0 : plusVecKF K (Sum.inr 0) = 1 := by
-  simp [plusVecKF, Pi.single_apply]
+  simp [plusVecKF]
 
 lemma plusVecKF_inl1 : plusVecKF K (Sum.inl 1) = 0 := by
-  simp [plusVecKF, Pi.single_apply]
+  simp [plusVecKF]
 
 lemma plusVecKF_inr1 : plusVecKF K (Sum.inr 1) = 0 := by
-  simp [plusVecKF, Pi.single_apply]
+  simp [plusVecKF]
 
 lemma plus_quad_eq (z : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K z = z (Sum.inl 0) * z (Sum.inr 0) + z (Sum.inl 1) * z (Sum.inr 1) := by
   unfold StatedQuadPlus
-  simp [CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [Fin.sum_univ_two]
 
 theorem plus_transv_isometry [CharP K 2] (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K ((1 + Matrix.vecMulVec (plusVecKF K) (plusVecKF K)) *ᵥ v) =
@@ -213,11 +213,14 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] def tauLinKF : (Fin 2 ⊕ Fin 2 → K) →ₗ[K] (Fin 2 ⊕ Fin 2 → K) :=
   (pEquivKF3p (K := K)).symm.toLinearMap ∘ₗ transLinKF ∘ₗ (pEquivKF3p (K := K)).toLinearMap
 
+omit [Finite K] [CharP K 2] in
 lemma tauLinKF_apply (v : Fin 2 ⊕ Fin 2 → K) : tauLinKF v = vmKF3p ((pmKF3p v)ᵀ) := rfl
 
+omit [Finite K] [CharP K 2] in
 lemma tauLinKF_tauLinKF (v : Fin 2 ⊕ Fin 2 → K) : tauLinKF (tauLinKF v) = v := by
   rw [tauLinKF_apply, tauLinKF_apply, pm_vm_KF3p, Matrix.transpose_transpose, vm_pm_KF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma tauLinKF_mul_self : tauLinKF * tauLinKF = (1 : Module.End K (Fin 2 ⊕ Fin 2 → K)) :=
   LinearMap.ext fun v => tauLinKF_tauLinKF v
 
@@ -229,16 +232,19 @@ lemma tauLinKF_mul_self : tauLinKF * tauLinKF = (1 : Module.End K (Fin 2 ⊕ Fin
   inv_val := by
     rw [← LinearMap.toMatrix'_mul, tauLinKF_mul_self, LinearMap.toMatrix'_one]
 
+omit [Finite K] [CharP K 2] in
 lemma tauGLKF_mul_self : tauGLKF * tauGLKF = (1 : GL (Fin 2 ⊕ Fin 2) K) := by
   apply Units.ext
   show LinearMap.toMatrix' tauLinKF * LinearMap.toMatrix' tauLinKF = 1
   rw [← LinearMap.toMatrix'_mul, tauLinKF_mul_self, LinearMap.toMatrix'_one]
 
+omit [Finite K] [CharP K 2] in
 lemma tauGLKF_mulVec (v : Fin 2 ⊕ Fin 2 → K) :
     (tauGLKF (K := K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v = tauLinKF v := by
   show LinearMap.toMatrix' tauLinKF *ᵥ v = _
   rw [LinearMap.toMatrix'_mulVec]
 
+omit [Finite K] [CharP K 2] in
 lemma GL_eq_of_mulVec_KF {g h : GL (Fin 2 ⊕ Fin 2) K}
     (H : ∀ v : Fin 2 ⊕ Fin 2 → K,
       (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v =
@@ -250,6 +256,7 @@ lemma GL_eq_of_mulVec_KF {g h : GL (Fin 2 ⊕ Fin 2) K}
   rw [Matrix.toLin'_apply, Matrix.toLin'_apply]
   exact H v
 
+omit [Finite K] [CharP K 2] in
 lemma GL_mulVec_mul_KF (g h : GL (Fin 2 ⊕ Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     ((g * h : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v =
       (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ
@@ -260,10 +267,12 @@ lemma GL_mulVec_mul_KF (g h : GL (Fin 2 ⊕ Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K
     Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨(A : Matrix (Fin 2) (Fin 2) K)ᵀ, by rw [Matrix.det_transpose]; exact A.2⟩
 
+omit [Finite K] [CharP K 2] in
 lemma sltrKF_coe (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((sltrKF A : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
       (A : Matrix (Fin 2) (Fin 2) K)ᵀ := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem tau_lm_tau (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     tauGLKF * rhoLKF3p A * tauGLKF⁻¹ = rhoRKF3p (sltrKF A)⁻¹ := by
   rw [inv_eq_of_mul_eq_one_right tauGLKF_mul_self]
@@ -273,6 +282,7 @@ theorem tau_lm_tau (A : Matrix.SpecialLinearGroup (Fin 2) K) :
   simp only [tauLinKF_apply, lmKF3p_apply, rmKF3p_apply, pm_vm_KF3p, sltrKF_coe,
     Matrix.transpose_mul, Matrix.transpose_transpose]
 
+omit [Finite K] [CharP K 2] in
 theorem tau_rm_tau (C : Matrix.SpecialLinearGroup (Fin 2) K) :
     tauGLKF * rhoRKF3p C * tauGLKF⁻¹ = rhoLKF3p (sltrKF C⁻¹) := by
   rw [inv_eq_of_mul_eq_one_right tauGLKF_mul_self]
@@ -282,6 +292,7 @@ theorem tau_rm_tau (C : Matrix.SpecialLinearGroup (Fin 2) K) :
   simp only [tauLinKF_apply, lmKF3p_apply, rmKF3p_apply, pm_vm_KF3p, sltrKF_coe,
     Matrix.transpose_mul, Matrix.transpose_transpose]
 
+omit [Finite K] in
 lemma tauGLKF_mem_isometry :
     tauGLKF (K := K) ∈ CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 K) := by
   refine Subgroup.subset_closure fun v => ?_
@@ -291,6 +302,7 @@ lemma tauGLKF_mem_isometry :
 @[expose] def tauVecKF (K : Type) [Field K] : Fin 2 ⊕ Fin 2 → K :=
   Pi.single (Sum.inl 1) 1 + Pi.single (Sum.inr 1) 1
 
+omit [Finite K] in
 lemma tauGLKF_sub_one_rank :
     Matrix.rank ((tauGLKF (K := K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) - 1) = 1 := by
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
@@ -300,12 +312,12 @@ lemma tauGLKF_sub_one_rank :
     ext i j
     rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
       simp [LinearMap.toMatrix'_apply, tauLinKF_apply, pmKF3p, vmKF3p, tauVecKF,
-        Pi.single_apply, Matrix.one_apply, Matrix.vecMulVec_apply, hneg]
+        Matrix.vecMulVec_apply, hneg]
   change Matrix.rank ((LinearMap.toMatrix' (tauLinKF (K := K)) :
     Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) - 1) = 1
   rw [e]
   exact rank_vecMulVec_eq_one_KF _ _ (Sum.inl 1) (Sum.inl 1)
-    (by simp [tauVecKF, Pi.single_apply])
+    (by simp [tauVecKF])
 
 lemma tauGLKF_not_mem_omega (h4 : 4 ≤ Nat.card K) :
     tauGLKF (K := K) ∉ StatedOmega (StatedQuadPlus 2 K) := by
@@ -320,11 +332,13 @@ lemma tauGLKF_not_mem_omega (h4 : 4 ≤ Nat.card K) :
   rw [tauGLKF_sub_one_rank] at hD
   exact Nat.not_even_one hD
 
+omit [Finite K] [CharP K 2] in
 lemma rhoL_uUp_one_ne : rhoLKF3p (uUpKF3p (1 : K)) ≠ 1 := by
   intro h
   have h' : uUpKF3p (1 : K) = 1 := rhoLKF3p_injective (h.trans (map_one _).symm)
   exact one_ne_zero (uUp_eq_one h')
 
+omit [Finite K] [CharP K 2] in
 lemma rhoR_uUp_one_ne : rhoRKF3p (uUpKF3p (1 : K)) ≠ 1 := by
   intro h
   have h' : uUpKF3p (1 : K) = 1 := rhoRKF3p_injective (h.trans (map_one _).symm)
@@ -360,8 +374,8 @@ theorem noSwap_plus_classify (h4 : 4 ≤ Nat.card K) (A : Subgroup (GL (Fin 2 �
     (hAn : ∀ g ∈ StatedOmega (StatedQuadPlus 2 K), ∀ a ∈ A, g * a * g⁻¹ ∈ A)
     (hAΩ : A ≠ StatedOmega (StatedQuadPlus 2 K)) :
     A = factorOneKF3p (K := K) ∨ A = factorTwoKF3p (K := K) := by
-  haveI := factorOne_isSimple (K := K) h4
-  haveI := factorTwo_isSimple (K := K) h4
+  have := factorOne_isSimple (K := K) h4
+  have := factorTwo_isSimple (K := K) h4
   have hF1 : factorOneKF3p (K := K) ≤ StatedOmega (StatedQuadPlus 2 K) :=
     factorOne_le_omega h4
   have hF2 : factorTwoKF3p (K := K) ≤ StatedOmega (StatedQuadPlus 2 K) :=
@@ -584,7 +598,8 @@ section Omega
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
-theorem transvection_plus (h4 : 4 ≤ Nat.card K) :
+omit [Finite K] in
+theorem transvection_plus (_h4 : 4 ≤ Nat.card K) :
     ∃ r ∈ CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 K), r * r = 1 ∧
       Matrix.rank ((↑r : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) - 1) = 1 := by
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
@@ -597,9 +612,10 @@ theorem transvection_plus (h4 : 4 ≤ Nat.card K) :
   show Matrix.rank ((1 + Matrix.vecMulVec (plusVecKF K) (plusVecKF K)) - 1) = 1
   rw [add_sub_cancel_left]
   exact rank_vecMulVec_eq_one_KF _ _ (Sum.inl 0) (Sum.inl 0)
-    (by simp [plusVecKF, Pi.single_apply])
+    (by simp [plusVecKF])
 
-theorem transvection_minus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] in
+theorem transvection_minus {b c : K} (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ∃ r ∈ CFSG.MatrixModel.isometryCore (StatedQuadMinus 2 K b c), r * r = 1 ∧
       Matrix.rank ((↑r : Matrix (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2)
         (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K) - 1) = 1 := by
@@ -641,7 +657,7 @@ theorem noSwap_minus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     open CFSG.ComponentClassification.RankTwoClassical.ORigid in
       isSimpleGroup_statedOmega_quadMinus_of_two_le (le_refl 2) hirr
   left
-  haveI : (A.subgroupOf (StatedOmega (StatedQuadMinus 2 K b c))).Normal := ⟨fun n hn g => by
+  have : (A.subgroupOf (StatedOmega (StatedQuadMinus 2 K b c))).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hAn (g : GL (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K) g.2 _ hn
     simpa using this⟩

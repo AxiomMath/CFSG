@@ -185,10 +185,10 @@ theorem exists_fixed_ell_std_tw (hK3 : ringChar K ≠ 3)
     ∃ x ∈ subsystemGroup Tag.E6 L d4Support, x ≠ 1 ∧
       x ^ ringChar K = 1 ∧ Units.map (entrywiseHom Fr) x = x ∧ y * x = x * y := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : Algebra.IsAlgebraic K L := IsAlgClosure.isAlgebraic
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Algebra.IsAlgebraic K L := IsAlgClosure.isAlgebraic
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
   have hLchar : ringChar L = ringChar K := ringChar.eq L (ringChar K)
   have hFrs : Function.Surjective Fr := fun c => by
     obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq c (Nat.card_pos (α := K))

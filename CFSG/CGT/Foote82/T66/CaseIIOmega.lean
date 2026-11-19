@@ -156,6 +156,7 @@ theorem z_not_mem_H : z ∉ HH G L v := by
   rw [c.mem_H_iff c.z_mem]
   exact not_mem_omega_of_cdim6_one (ψ ⟨z, c.z_mem⟩).2 c.data.ψ_z
 
+omit [Finite V] c in
 theorem psi_mul {a b : GLV V} (ha : a ∈ H₁) (hb : b ∈ H₁) :
     ((ψ ⟨a * b, H₁.mul_mem ha hb⟩ : ↥(orthogonalMinus 2 (ZMod 2) 1 1)) : GL I6 (ZMod 2)) =
       (ψ ⟨a, ha⟩ : GL I6 (ZMod 2)) * (ψ ⟨b, hb⟩ : GL I6 (ZMod 2)) := by
@@ -163,7 +164,7 @@ theorem psi_mul {a b : GLV V} (ha : a ∈ H₁) (hb : b ∈ H₁) :
   rfl
 
 theorem mul_z_mem_H {a : GLV V} (ha : a ∈ H₁) (haH : a ∉ HH G L v) : a * z ∈ HH G L v := by
-  rw [c.mem_H_iff (H₁.mul_mem ha c.z_mem), c.psi_mul ha c.z_mem]
+  rw [c.mem_H_iff (H₁.mul_mem ha c.z_mem), Ctx.psi_mul ha c.z_mem]
   rw [c.mem_H_iff ha] at haH
   rcases mem_omega_or_mul_mem (ψ ⟨a, ha⟩).2 (ψ ⟨z, c.z_mem⟩).2 c.data.ψ_z with h | h
   · exact absurd h haH

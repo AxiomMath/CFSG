@@ -69,9 +69,9 @@ theorem map_eq_of_isAltTwoP {H N W : Subgroup G} (hWH : W ≤ H) (hWN : W ≤ N)
     exact (primeComplementCore_coprime 3).coprime_dvd_right (Subgroup.card_dvd_of_le hle₂)
   have hle : φ₂.ker ≤ φ₁.ker := by
     obtain ⟨e⟩ := hK₁
-    haveI : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
+    have : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
       alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup K₁ := e.isSimpleGroup
+    have : IsSimpleGroup K₁ := e.isSimpleGroup
     set φ₁' : W →* K₁ := φ₁.codRestrict K₁ fun w => hr₁ ▸ MonoidHom.mem_range.mpr ⟨w, rfl⟩
     have hsurj : Function.Surjective φ₁' := by
       rintro ⟨y, hy⟩
@@ -80,7 +80,7 @@ theorem map_eq_of_isAltTwoP {H N W : Subgroup G} (hWH : W ≤ H) (hWN : W ≤ N)
       exact ⟨w, rfl⟩
     have hn : (φ₂.ker.map φ₁').Normal := (MonoidHom.normal_ker φ₂).map φ₁' hsurj
     have hker : φ₁'.ker = φ₁.ker := MonoidHom.ker_codRestrict _ _ _
-    haveI := hn
+    have := hn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (φ₂.ker.map φ₁') with h | h
     · rw [← hker]
       exact (Subgroup.map_eq_bot_iff _).mp h
@@ -123,7 +123,7 @@ theorem factor_of_cover (hS : Setting G) (h9 : AGL81NineCompetitorQ G)
     ∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ y ∈ H ⊓ N, x = m * y := by
   have hg := aglGlobal_of_setting hS
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hμ := muAt_of_escape he
   have hK := exists_component_of_d1KBar_ne_bot (d1KBar_ne_bot_of_isAltTwoP hA6)
   have hat := (h9 hg 3 P M H hμ he.maxTwoLocal_H he.not_le hK B N hB hBH hN hNM hBN hcov).1
@@ -179,13 +179,13 @@ theorem escape_local (hS : Setting G) (h9 : AGL81NineCompetitorQ G) (h98 : AGL81
       pCoreOf 2 M ≤ pCoreOf 2 H ∧ pCoreOf 2 H ≤ M ∧ ¬ d1KBar 3 M H ≤ d1X0 3 M H := by
   have hg := aglGlobal_of_setting hS
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hμ := muAt_of_escape he
   have hK := exists_component_of_d1KBar_ne_bot (d1KBar_ne_bot_of_isAltTwoP hA6)
   have hR := isAGLQ_of_escape he
   have hatH := (h9 hg 3 P M H hμ he.maxTwoLocal_H he.not_le hK R H hR he.le_H he.maxTwoLocal_H
     he.not_le he.le_H (aglCovers_self H _)).1
-  haveI := hatH.nineThree.normal
+  have := hatH.nineThree.normal
   obtain ⟨S, hS₀⟩ := he.isSylow
   have hsyl := sylowK_of_sylow (K := d1KBar 3 M H) S hS₀
   have hb3 : Hyp111B3 3 H R (d1KBar 3 M H) := by

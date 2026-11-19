@@ -44,7 +44,7 @@ public theorem suzuki_ch6_formula_1_7
   · exact fun i j => Section1.representation_completeFamily_orthonormal hchi i j
   · rcases Theory.Character.second_orthogonality (G := G) with
       ⟨kappa, hkappa, psi, hpsi, horth⟩
-    letI : Fintype kappa := hkappa
+    let : Fintype kappa := hkappa
     let f : ι → kappa := fun i =>
       Classical.choose (hpsi.2.1 (chi i) (hchi.1 i))
     have hf (i : ι) : psi (f i) = chi i :=

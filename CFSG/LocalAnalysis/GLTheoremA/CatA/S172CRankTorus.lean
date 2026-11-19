@@ -31,7 +31,7 @@ private theorem card_closure_range_eq_pow_aux2 {A : Subgroup G} {g : G}
 private theorem card_closure_range_eq_pow_aux3 {p : ℕ} (hp : p.Prime) {A : Subgroup G} {g : G}
     (hg : g ∉ A) (hcard : Nat.card (Subgroup.zpowers g) = p) :
     Nat.card (A ⊓ Subgroup.zpowers g : Subgroup G) = 1 := by
-  haveI : Finite ↥(Subgroup.zpowers g) :=
+  have : Finite ↥(Subgroup.zpowers g) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
   have hdvd : Nat.card (A ⊓ Subgroup.zpowers g : Subgroup G) ∣ p := by
     rw [← hcard]
@@ -63,7 +63,7 @@ private theorem card_closure_range_eq_pow_aux4 {p : ℕ} [Fact p.Prime] {m : ℕ
     rintro _ ⟨j, hj, rfl⟩
     exact ⟨j.succ, fun h => hj (Fin.succ_injective _ h), rfl⟩
   have hcardB : Nat.card B = p := by rw [hB, Nat.card_zpowers, ho 0]
-  haveI : Finite B :=
+  have : Finite B :=
     Nat.finite_of_card_ne_zero (by rw [hcardB]; exact (Fact.out : p.Prime).ne_zero)
   have hrange : Set.range e = insert (e 0) (Set.range e') := by
     rw [← Fin.cons_self_tail e, Fin.range_cons]

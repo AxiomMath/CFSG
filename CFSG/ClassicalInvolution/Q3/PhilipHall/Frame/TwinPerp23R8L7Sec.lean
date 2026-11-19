@@ -87,7 +87,7 @@ theorem trans_of_twin' {n : ℕ} (h4 : Thm4RTwinBelow 3 n) (hlt : Nat.card G < n
 
 theorem not_isPGroup_of_not_isSolvable {H : Type} [Group H] [Finite H]
     (h : ¬ Group.IsSolvable H) : ¬ IsPGroup 2 H := fun h2 => h (by
-  haveI := h2.isNilpotent
+  have := h2.isNilpotent
   infer_instance)
 
 end Trans

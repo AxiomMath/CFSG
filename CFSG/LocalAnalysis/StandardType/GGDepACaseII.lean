@@ -22,7 +22,7 @@ private theorem l05nDB2a_cartan_adj (n : ℕ) {i j : Fin n}
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) (hne : i ≠ j) :
     CartanMatrix.A n i j = -1 := by
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos h]
+  rw [ite_eq_right hne, ite_eq_left h]
 
 private theorem l05nDB2a_cartan_self (n : ℕ) (i : Fin n) : CartanMatrix.A n i i = 2 := by
   simp [CartanMatrix.A]
@@ -32,7 +32,7 @@ private theorem l05nDA2_data {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 11 
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {x : V} (F : GGDepAFrame p N h α x)
     (r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)) (hr : ∀ i v, r i v = v - α i v • h i)
     (ra : V ≃ₗ[ZMod p] V) (ha : V) (αa : Module.Dual (ZMod p) V)
-    (hra : ∀ v, ra v = v - αa v • ha) (hαa : αa ha = 2) (hw : αa x ≠ 0)
+    (hra : ∀ v, ra v = v - αa v • ha) (hαa : αa ha = 2) (_hw : αa x ≠ 0)
     (hnt : ∀ g ∈ Subgroup.closure (Set.range r ∪ {ra}),
       ¬ (Module.finrank (ZMod p) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w))
     (hcard : Nat.card ↥(Subgroup.closure (Set.range r ∪ {ra})) ≤
@@ -115,7 +115,7 @@ private theorem l05nDA2_data {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 11 
       have hA : ((CartanMatrix.A (N - 1) i i : ℤ) : ZMod p) = 2 := by
         rw [l05nDB2a_cartan_self (N - 1) i]
         simp
-      simpa only [αU, hU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply,
+      simp only [αU, hU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply,
         F.pair i i, hA]
   have hg : ∀ (o : Option (Fin (N - 1))) (w : ↥H), gH o w = w - αU o w • hU o := by
     intro o w
@@ -162,11 +162,11 @@ private theorem l05nDA2_data {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 11 
     rintro x ⟨i, rfl⟩
     exact ⟨some i, rfl⟩
   have hkerU : ∀ w : ↥H, (∀ o, αU o w = 0) → w = 0 := by
-    intro w hw
+    intro w _hw
     have hwSpan : (w : V) ∈ Submodule.span (ZMod p) ({x} : Set V) := by
       apply F.fix
       intro i
-      have h1 := hw (some i)
+      have h1 := _hw (some i)
       simpa only [αU, Option.elim_some, LinearMap.comp_apply, Submodule.subtype_apply] using h1
     obtain ⟨c, hc⟩ := Submodule.mem_span_singleton.mp hwSpan
     by_cases hc0 : c = 0
@@ -525,7 +525,7 @@ private theorem l05nDA2_end {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 5 �
     rw [hzw]
     exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_singleton t))
   have hfrle : Module.finrank (ZMod p) (ggLinMove g) ≤ 1 := by
-    haveI hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
+    have hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
       Module.Finite.span_singleton (ZMod p) t
     have h1 : Module.finrank (ZMod p) (ggLinMove g) ≤
         Module.finrank (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
@@ -544,8 +544,8 @@ private theorem l05nDA2_end {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 5 �
     intro h1
     exact hnt g hgA ⟨h1, hgid⟩
   have hfr0 : Module.finrank (ZMod p) (ggLinMove g) = 0 := by omega
-  haveI hfing : Module.Finite (ZMod p) (ggLinMove g) := by
-    haveI hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
+  have hfing : Module.Finite (ZMod p) (ggLinMove g) := by
+    have hsp : Module.Finite (ZMod p) (Submodule.span (ZMod p) ({t} : Set V)) :=
       Module.Finite.span_singleton (ZMod p) t
     exact Submodule.finiteDimensional_of_le hle
   have hbot : ggLinMove g = ⊥ := (Submodule.finrank_eq_zero (S := ggLinMove g)).mp hfr0

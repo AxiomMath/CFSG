@@ -99,9 +99,9 @@ theorem H74_of_mem_commutator {G : Type} [Group G] [Finite G] {P Q : Subgroup G}
         w * c * w⁻¹ ∈ P ⊓ centralizer ({w * t * w⁻¹} : Set G) := by
   apply H74Cor222 hP hPi hQP hQ2 ht htQ ht2
   rintro ⟨N, hN, hcyc, -, htN⟩
-  haveI : N.Normal := hN
-  haveI : IsCyclic (G ⧸ N) := hcyc
-  haveI : IsMulCommutative (G ⧸ N) := IsCyclic.isMulCommutative
+  have : N.Normal := hN
+  have : IsCyclic (G ⧸ N) := hcyc
+  have : IsMulCommutative (G ⧸ N) := IsCyclic.isMulCommutative
   have hle : _root_.commutator G ≤ N :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := N)).mp inferInstance
   exact htN (hle htc)
@@ -118,7 +118,7 @@ theorem H74_of_simple {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
   have htop : _root_.commutator G = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (_root_.commutator G) with hbot | htop
     · exfalso
-      haveI : IsMulCommutative G := (_root_.commutator_eq_bot_iff G).mp hbot
+      have : IsMulCommutative G := (_root_.commutator_eq_bot_iff G).mp hbot
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (mul_comm' a b)
     · exact htop

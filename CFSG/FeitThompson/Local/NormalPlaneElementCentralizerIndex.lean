@@ -57,7 +57,7 @@ theorem sup_zpowers_eq_of_notMem [Finite G] (hp : p.Prime) (hB : Nat.card B = p 
 
 theorem mem_centralizer_iff_le_centralizer_singleton {x : G} (B : Subgroup G) :
     x ∈ centralizer (B : Set G) ↔ B ≤ centralizer ({x} : Set G) := by
-  simp only [SetLike.le_def, mem_centralizer_iff, Set.mem_singleton_iff, SetLike.mem_coe]
+  simp only [_root_.IsConcreteLE.le_iff, mem_centralizer_iff, Set.mem_singleton_iff, SetLike.mem_coe]
   exact ⟨fun h y hy z hz => hz ▸ (h y hy).symm, fun h y hy => (h hy x rfl).symm⟩
 
 theorem inf_centralizer_singleton_eq_inf_centralizer

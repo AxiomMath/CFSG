@@ -38,7 +38,7 @@ theorem bMul7_last_sound {C : BConsts} (hC : bConstsOK C = true) {N Y : ℕ}
   rw [e, ← sum_fin]
   refine Finset.sum_congr rfl fun k _ => ?_
   have hk : (111 * i.val + k.val) % 111 < 7 := by rw [(dm_eq (by omega)).2]; exact k.isLt
-  rw [if_pos hk, ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hy t ht) (by norm_num))
+  rw [ite_eq_left hk, ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hy t ht) (by norm_num))
       (show 111 * i.val + (104 + k.val) < 111 * 7 by omega),
     ent_pk (by norm_num) (fun t ht => lt_of_lt_of_le (hn t ht) (by norm_num)) (idx k.isLt l.isLt),
     show 111 * i.val + k.val + 104 = 111 * i.val + (104 + k.val) by ring]

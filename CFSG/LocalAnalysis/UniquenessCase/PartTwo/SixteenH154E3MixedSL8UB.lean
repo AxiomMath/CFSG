@@ -21,7 +21,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_sl28_cover_cent_zx (D : Data G) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
-    {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
+    {x : G} (hxM : x ∈ D.M) (_hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {K : Subgroup G} (hK : K ∈ calC D.M)
     (hKbar : barSub ⊥ V h.hyp151.isElemAbelian K =
       barSub ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x)) :

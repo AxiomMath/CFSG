@@ -83,9 +83,9 @@ theorem cg_rep (hS : GensRep n w m k S SI g) {l : Nat} (hl : l < k + k) {p : Nat
       pg w m (cgiK k S SI l) p = ((gL k g l)⁻¹ ⟨p, hp⟩ : Nat) := by
   unfold cgK cgiK gL
   by_cases h : l < k
-  · rw [nIf_true (blt_t h), nIf_true (blt_t h), if_pos h]
+  · rw [nIf_true (blt_t h), nIf_true (blt_t h), ite_eq_left h]
     exact hS l h p hp
-  · rw [nIf_false (blt_f h), nIf_false (blt_f h), if_neg h, if_pos hl, inv_inv]
+  · rw [nIf_false (blt_f h), nIf_false (blt_f h), ite_eq_right h, ite_eq_left hl, inv_inv]
     exact (hS (l - k) (by omega) p hp).symm
 
 theorem cvK_zero (j p : Nat) :
@@ -144,7 +144,7 @@ theorem cvK_sound (hS : GensRep n w m k S SI g)
             congr 2
             exact Fin.ext hg2
           rw [hfin]
-          simp only [cW, if_neg hj, ← hl_def, ← he_def, Equiv.Perm.mul_apply, mul_inv_rev]
+          simp only [cW, ite_eq_right hj, ← hl_def, ← he_def, Equiv.Perm.mul_apply, mul_inv_rev]
         · rw [nIf_false (blt_f hv)] at h
           exact absurd h (Nat.lt_irrefl n)
       · rw [nIf_false (blt_f (show ¬ l < Nat.add k k from hl))] at h
@@ -184,7 +184,7 @@ theorem keyGo_spec (hS : GensRep n w m k S SI g)
       · right
         rw [h, keyP, keyP, Finset.sum_range_succ, Nat.add_eq]
         congr 2
-        rw [cvK_sound hS hB d j i (by omega) hv, ptV, dif_pos (by omega)]
+        rw [cvK_sound hS hB d j i (by omega) hv, ptV, dite_eq_left (by omega)]
     · rw [nIf_false (blt_f hv)]
       left
       exact le_refl _
@@ -231,15 +231,15 @@ theorem runGo_spec (d r lo : Nat) : ∀ len s, 0 < runGo n w m k R B S SI PL d r
       have ih' := ih _ h
       by_cases htl : t < l
       · have h1 := ih' t htl
-        rw [if_pos (by omega : t + 1 < l + 1)]
+        rw [ite_eq_left (by omega : t + 1 < l + 1)]
         by_cases ht1 : t + 1 < l
-        · rwa [if_pos ht1] at h1
-        · rw [if_neg ht1] at h1
+        · rwa [ite_eq_left ht1] at h1
+        · rw [ite_eq_right ht1] at h1
           have : lo + t + 1 = Nat.add lo l := by change lo + t + 1 = lo + l; omega
           rwa [this]
       · have : t = l := by omega
         subst this
-        rw [if_neg (by omega)]
+        rw [ite_eq_right (by omega)]
         exact hk
     · rw [nIf_false (blt_f hk), runGo_zero] at h
       exact absurd h (Nat.lt_irrefl 0)
@@ -261,17 +261,17 @@ theorem runK_spec {d r N lo len : Nat} (h : runK n w m k R B S SI PL d r N lo le
   have h0 := runGo_spec d r lo len' _ (Eq.mp Nat.blt_eq h') t (by omega)
   unfold nextK
   by_cases ht1 : t + 1 < len'
-  · rw [if_pos ht1] at h0
-    rw [if_pos (by omega)]
+  · rw [ite_eq_left ht1] at h0
+    rw [ite_eq_left (by omega)]
     exact h0
-  · rw [if_neg ht1] at h0
+  · rw [ite_eq_right ht1] at h0
     have ht2 : Nat.add lo len' = lo + t + 1 := by change lo + len' = lo + t + 1; omega
     rw [ht2] at h0
     by_cases hN : lo + t + 1 < N
-    · rw [if_pos hN]
+    · rw [ite_eq_left hN]
       rw [nIf_true (blt_t hN)] at h0
       exact h0
-    · rw [if_neg hN]
+    · rw [ite_eq_right hN]
       rw [nIf_false (blt_f hN)] at h0
       exact h0
 
@@ -306,12 +306,12 @@ theorem conj_keys_of_next (hS : GensRep n w m k S SI g)
       intro i hi
       have := h i (by omega)
       unfold nextK at this
-      rwa [if_neg (by omega)] at this
+      rwa [ite_eq_right (by omega)] at this
     | succ t ih =>
       intro i hi
       have := h i (by omega)
       unfold nextK at this
-      rw [if_pos (by omega)] at this
+      rw [ite_eq_left (by omega)] at this
       exact lt_trans this (ih (i + 1) (by omega))
   have hmono : ∀ t i, i + t + 1 < N → K i < K (i + t + 1) := by
     intro t
@@ -320,12 +320,12 @@ theorem conj_keys_of_next (hS : GensRep n w m k S SI g)
       intro i hi
       have := h i (by omega)
       unfold nextK at this
-      rwa [if_pos (by omega)] at this
+      rwa [ite_eq_left (by omega)] at this
     | succ t ih =>
       intro i hi
       have h2 := h (i + t + 1) (by omega)
       unfold nextK at h2
-      rw [if_pos (by omega)] at h2
+      rw [ite_eq_left (by omega)] at h2
       exact lt_trans (ih i (by omega)) h2
   have hval : ∀ i < N, K i = keyP w r (cW k R PL g d i * β * (cW k R PL g d i)⁻¹) := fun i hi =>
     keyK_eq hS hB hr (hlast (N - i - 1) i (by omega))

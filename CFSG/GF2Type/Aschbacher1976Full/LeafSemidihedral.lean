@@ -10,6 +10,7 @@ namespace CFSG.GF2Type.Aschbacher1976Full.LeafSemidihedral
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_Hz_iff {z g : G} : g ∈ Hz z ↔ g * z = z * g :=
   Subgroup.mem_centralizer_singleton_iff
 

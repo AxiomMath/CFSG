@@ -77,7 +77,7 @@ theorem thompson_eq_of_cent_bound [Finite G] {p : ℕ} [Fact p.Prime] {U U₁ : 
   have := Nat.mul_le_mul_left (Nat.card A) h2
   omega
 
-theorem ggL45_sq_le_card_of_indep {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime)
+theorem ggL45_sq_le_card_of_indep {M : Type*} [Group M] [Finite M] {p : ℕ} (_hp : p.Prime)
     {b₁ b₂ : M} (hc : Commute b₁ b₂) (h₁ : b₁ ^ p = 1) (h₂ : b₂ ^ p = 1)
     (hind : ∀ i j : ℕ, b₁ ^ i * b₂ ^ j = 1 → p ∣ i ∧ p ∣ j) {S : Subgroup M}
     (hb₁ : b₁ ∈ S) (hb₂ : b₂ ∈ S) : p ^ 2 ≤ Nat.card S := by

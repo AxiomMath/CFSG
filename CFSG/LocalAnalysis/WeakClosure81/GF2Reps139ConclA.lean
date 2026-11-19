@@ -116,14 +116,14 @@ private noncomputable def w1369_linEquiv {W : Type} [CommGroup W] {n : ℕ}
       change w1369_autHom ψ h (w1369_autHom ψ h⁻¹ v) = v
       have hcomp := congrArg (fun f : (Fin n → GaloisField 2 2) →+ _ => f v)
         (w1369_autHom_comp (ψ := ψ) h h⁻¹)
-      simpa [mul_inv_cancel, w1369_autHom_one] using hcomp.symm)
+      simp)
     (by
       apply LinearMap.ext
       intro v
       change w1369_autHom ψ h⁻¹ (w1369_autHom ψ h v) = v
       have hcomp := congrArg (fun f : (Fin n → GaloisField 2 2) →+ _ => f v)
         (w1369_autHom_comp (ψ := ψ) h⁻¹ h)
-      simpa [inv_mul_cancel, w1369_autHom_one] using hcomp.symm)
+      simp)
 
 private noncomputable def w1369_lambda {W : Type} [CommGroup W] {n : ℕ}
     {ψ : W ≃* Multiplicative (Fin n → GaloisField 2 2)} {X : Subgroup (MulAut W)}
@@ -150,7 +150,7 @@ private noncomputable def w1369_lambda {W : Type} [CommGroup W] {n : ℕ}
       w1369_autHom ψ (h1 : MulAut W) (w1369_autHom ψ (h2 : MulAut W) v)
     have hcomp := congrArg (fun f : (Fin n → GaloisField 2 2) →+ _ => f v)
       (w1369_autHom_comp (ψ := ψ) (h1 : MulAut W) (h2 : MulAut W))
-    simpa using hcomp
+    simp
 
 private noncomputable def w1369_theta {W : Type} [CommGroup W] {n : ℕ}
     {ψ : W ≃* Multiplicative (Fin n → GaloisField 2 2)} {X : Subgroup (MulAut W)}
@@ -264,7 +264,7 @@ private lemma w1369_theta_equivariance {W : Type} [CommGroup W] {n : ℕ}
   rw [w1369_theta_apply, w1369_autHom_apply]
   simp
 
-theorem Std139.concl_of_shapeNat4 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
+theorem Std139.concl_of_shapeNat4 (_hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     {K : Subgroup (MulAut W)} (hK : Comp139 G X D K) (h : ShapeNat4 K X n) :
     Concl139 W G X n := by
   classical
@@ -297,14 +297,14 @@ theorem Std139.concl_of_shapeNat4 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
       intro w
       obtain ⟨u, rfl⟩ := (x : MulAut W).surjective w
       exact hconst u
-    haveI : Subsingleton W := ⟨fun a b => ψ.injective (by rw [hconstψ a, hconstψ b])⟩
-    haveI : Subsingleton (MulAut W) :=
+    have : Subsingleton W := ⟨fun a b => ψ.injective (by rw [hconstψ a, hconstψ b])⟩
+    have : Subsingleton (MulAut W) :=
       ⟨fun f g => MulEquiv.ext (fun w => Subsingleton.elim _ _)⟩
     have hcard : Nat.card ↥X = 1 := Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
     have h3 : Nat.card ↥X = 3 := S.Xcard
     omega
-  letI : Fintype ↥X := Fintype.ofFinite _
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hcOf_surj : ∀ c : GaloisField 2 2, c ≠ 0 → ∃ x : ↥X, cOf x = c := by
     intro c hc
     have hcardX : Fintype.card ↥X = 3 := by
@@ -350,7 +350,7 @@ theorem Std139.concl_of_shapeNat4 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
   let detH : ↥H →* (GaloisField 2 2)ˣ :=
     (Matrix.GeneralLinearGroup.det (n := Fin n) (R := GaloisField 2 2)).comp
       (w1369_theta hcOf hcOf_surj H hcommH)
-  haveI : Fact (Nat.card (GaloisField 2 2)ˣ).Prime :=
+  have : Fact (Nat.card (GaloisField 2 2)ˣ).Prime :=
     ⟨by rw [Nat.card_units, GaloisField.card 2 2 (by norm_num)]; norm_num⟩
   rcases (detH.range).eq_bot_or_eq_top_of_prime_card with hdetbot | hdettop
   · have hdetmem : ∀ h : ↥H, detH h = 1 := by

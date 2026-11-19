@@ -259,7 +259,7 @@ theorem applyGD_resW (h2 : 2 * h = 1) (c : Native.Ctx) (g : Native.GD) (v : Nati
   refine Finset.sum_congr rfl fun p _ => Finset.sum_congr rfl fun j _ => ?_
   ring
 
-theorem applyTau_res (h2 : 2 * h = 1) (c : Native.Ctx) (v : Native.DVec) {k : ℕ} (hk : k < 196884) :
+theorem applyTau_res (_h2 : 2 * h = 1) (c : Native.Ctx) (v : Native.DVec) {k : ℕ} (hk : k < 196884) :
     resM h (Native.applyTau c v) k = h ^ 3 *
       ∑ p ∈ Finset.range 196884, ((scat (Native.tauT c.tau) p k : ℤ) : ZMod M) * resM h v p := by
   have hD : (Native.applyTau c v).D = Native.scatterAt 0 196884 (Native.tauT c.tau) v.D := by
@@ -440,7 +440,7 @@ private theorem fastAct_perm_T {arr : Array Nat} {T : Array Nat}
     kn_thetaN_zero, Pauli.mul, Pauli.s, Pauli.a, Pauli.d, kn_pairN_zero_l, kn_pairN_zero_r,
     Nat.xor_zero, Nat.zero_xor, Bool.xor_false, Bool.false_xor, kn_permDN_xor, Nat.xor_assoc]
 
-theorem fastAct_perm {arr : Array Nat} (hv : Native.permValid arr = true) {a d : ℕ} (ha : a < 4096)
+theorem fastAct_perm {arr : Array Nat} (_hv : Native.permValid arr = true) {a d : ℕ} (ha : a < 4096)
     (hd : d < 4096) :
     Native.fastAct (Native.tabTPerm arr (Native.betaTab arr) (Native.thetaTab ()))
         (Native.tabDPerm arr (Native.thetaTab ())) (false, a, d) =

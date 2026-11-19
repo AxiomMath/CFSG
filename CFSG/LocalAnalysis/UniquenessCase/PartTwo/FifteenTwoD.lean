@@ -276,14 +276,14 @@ theorem s15_TwoD_card_eq_three (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgro
     omega
   have h6 : Nat.card ↥(barSub V₀ V hV L) ≠ 6 := by
     intro hn
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hn]; norm_num)
     let N : Subgroup ↥(barSub V₀ V hV L) := Subgroup.zpowers x
     have hNcard : Nat.card ↥N = 3 := by rw [Nat.card_zpowers, hx3]
     have hmul := Subgroup.index_mul_card N
     rw [hNcard, hn] at hmul
     have hNidx : N.index = 2 := by omega
-    haveI hNn : N.Normal := Subgroup.normal_of_index_eq_two hNidx
+    have hNn : N.Normal := Subgroup.normal_of_index_eq_two hNidx
     have hNtop : N = ⊤ := hntq N hNn ⟨1, by rw [hNidx]; norm_num⟩
     have hcard := congrArg (fun H : Subgroup ↥(barSub V₀ V hV L) => Nat.card ↥H) hNtop
     rw [hNcard, Subgroup.card_top] at hcard

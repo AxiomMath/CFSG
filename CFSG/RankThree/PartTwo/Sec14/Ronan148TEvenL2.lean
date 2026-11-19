@@ -134,7 +134,7 @@ theorem pPrimeCoreOf_autFix_eq_bot_of_outer_two (e : S ≃* PSL2 F) {j : ℕ}
     rw [autFix_eq_eqLocus]
     have : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S) ⧸
         Subgroup.center (α.toMonoidHom.eqLocus (MonoidHom.id S))) := hQ.2.1
-    haveI : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S)) := MulEquiv.isSimpleGroup
+    have : IsSimpleGroup (α.toMonoidHom.eqLocus (MonoidHom.id S)) := MulEquiv.isSimpleGroup
       ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
     exact pPrimeCoreOf_eq_bot_of_isSimpleGroup h3
 

@@ -168,10 +168,10 @@ theorem extremal_sylow {u0 : G} (hu0S : u0 ∈ S) (hu02 : orderOf u0 = 2) (hconj
   exact (CFSG.ABGLocalTools.isSylowOf_iff).2 hT
 
 theorem z_mem_zStar : z ∈ zStar K := by
-  refine ⟨h.z_mem, h.mem_normalizer h.z_cen, ?_, fun k hk => ?_⟩
-  · refine Subgroup.mem_normalizer_iff.2 fun y => ⟨fun hy => h.pPrimeCoreOf_conj h.z_cen hy,
+  refine ⟨h.z_mem, h.mem_normalizer CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen, ?_, fun k hk => ?_⟩
+  · refine Subgroup.mem_normalizer_iff.2 fun y => ⟨fun hy => h.pPrimeCoreOf_conj CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen hy,
       fun hy => ?_⟩
-    have := h.pPrimeCoreOf_conj (inv_mem h.z_cen) hy
+    have := h.pPrimeCoreOf_conj (inv_mem CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen) hy
     simpa [mul_assoc] using this
   · have : ⁅k, z⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 (h.z_comm hk)
     rw [this]

@@ -38,7 +38,7 @@ theorem y54_N_eq {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     intro f hf
     have hαf : ((((s.fr.F).normalizerMonoidHom ⟨n, hnN⟩) ⟨f, hf⟩ : ↥s.fr.F) : G) =
         n * f * n⁻¹ := by
-      simpa using Subgroup.normalizerMonoidHom_apply_apply_coe (H := s.fr.F) ⟨n, hnN⟩ ⟨f, hf⟩
+      simp
     have hconj : (n₁⁻¹ * n) * f * (n₁⁻¹ * n)⁻¹ = f := by
       have h := hsurj ⟨f, hf⟩
       rw [hαf] at h
@@ -125,7 +125,7 @@ theorem y54_Y_decomp {c : Ctx5 G L} (hH : F33Hyp c.s c.e) {M : Subgroup G}
     · intro hx
       have h := y54_Y_norm_X0 hH y⁻¹ ((f4Y c.s).inv_mem hy) (y * x * y⁻¹) hx
       rwa [show y⁻¹ * (y * x * y⁻¹) * (y⁻¹)⁻¹ = x by group] at h
-  haveI : ((f4X0 c.s).subgroupOf (f4Y c.s)).Normal :=
+  have : ((f4X0 c.s).subgroupOf (f4Y c.s)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hYnormX0
   have hsup : (M.subgroupOf (f4Y c.s)) ⊔ ((f4X0 c.s).subgroupOf (f4Y c.s)) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hMY hX0Y, hM.2.2.2.2, Subgroup.subgroupOf_self]

@@ -24,7 +24,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem gomi_pow_dvd_graphFixed_F4
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = p ^ f) :
     (p ^ f) ^ 5 ∣ Nat.card ↥(graphFixedRootGroup TwistTag.E6 K (RingHom.id K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hm⟩ := graphFixedRootGroup_E6_id_recognition hp2 hK
   have hexc := CFSG.Blueprint.LieModel.chevalleyExceptionalModel hm (by decide)
   have hcard := card_eq_lieOrd_of_exceptional hexc
@@ -37,7 +37,7 @@ theorem gomi_pow_dvd_graphFixed_F4
 theorem gomi_pow_dvd_rootGenerated
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = p ^ f) :
     (p ^ f) ^ 5 ∣ Nat.card ↥(rootGenerated K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hm⟩ := rootGenerated_recognition hp hp2 hK
   have hcl := CFSG.Blueprint.LieModel.statedClassicalModel hm (by decide)
   have hcard := card_eq_lieOrd_of_classical hcl
@@ -118,7 +118,7 @@ theorem gomi_E6_graph_false
     (L : Subgroup ↥(α.toMonoidHom.eqLocus (MonoidHom.id (adjointGroup TwistTag.E6.tag K))))
     (hL : CFSG.IsComponent L) (hdvd : Nat.card L ∣ 51840) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have hKodd : Odd (Nat.card K) := by rw [hK]; exact hodd
   have hf : 1 ≤ f := (one_le_and_three_le_of_card hp hp2 hK).1

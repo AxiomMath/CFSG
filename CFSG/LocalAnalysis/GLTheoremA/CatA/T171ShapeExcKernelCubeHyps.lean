@@ -106,7 +106,7 @@ theorem exists_cubeConjData {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [Cha
     {s : ℕ} [NeZero s]
     (hs : (S.ρ : (Fin τ.rank → ℤ) → _)^[s] '' componentRoots (rootCharHom a) i =
       componentRoots (rootCharHom a) i)
-    (hmin : ∀ k, 0 < k → k < s →
+    (_hmin : ∀ k, 0 < k → k < s →
       (S.ρ : (Fin τ.rank → ℤ) → _)^[k] '' componentRoots (rootCharHom a) i ≠
         componentRoots (rootCharHom a) i)
     (hD : TwoDExcFixedData S a i s)

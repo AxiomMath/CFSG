@@ -156,7 +156,7 @@ theorem iSup_longRootSet_centralizing (h2 : (2 : F) ≠ 0) (hn : 2 ≤ m + 1)
         · exact Or.inl (Fin.ext (by simp only; omega))
         · exact Or.inr (Fin.ext (by simp only; omega))
       rcases ha' with h | h <;> rcases hb' with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hd | exact hd.symm) (B : Matrix (Fin 2) (Fin 2) F)
+        first | exact hd | exact hd.symm) (B : Matrix (Fin 2) (Fin 2) F)
     exact (commute_conj_of_diagonal d hi hy).symm
   have hcent : ∀ k : Fin m, blk k ≤ Subgroup.centralizer ({i₁} : Set SL(m + 1, F)) ∨
       blk k ≤ Subgroup.centralizer ({i₂} : Set SL(m + 1, F)) ∨

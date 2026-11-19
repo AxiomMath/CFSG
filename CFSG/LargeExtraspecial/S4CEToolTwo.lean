@@ -187,7 +187,7 @@ theorem odd_card_ker [Finite K] (hperf : E₀ ≤ ⁅E₀, stabIn X a⁆) {U : S
       ring
     exact Nat.eq_of_mul_eq_mul_right (Nat.mul_pos hP0 hU0) h2
   have hcop : Nat.Coprime (N ⊔ U).index (Nat.card N) := by
-    obtain ⟨e, he⟩ := (IsPGroup.iff_card.mp P.isPGroup')
+    obtain ⟨e, he⟩ := (IsPGroup.iff_card.mp P.isPGroup)
     rw [hcardN, he]
     refine Nat.Coprime.pow_right _ (Nat.Coprime.symm ((Nat.coprime_two_left).mpr ?_))
     rw [hidx]

@@ -23,13 +23,13 @@ open CFSG.Assembly (LargeEvenLabel LargeEvenInLambda2)
       (∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) → (∀ u j, a u j ^ p = 1) →
       ∀ K : Subgroup (ModGL τ L),
         IsComponentOf K (S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u))) →
-        ∃ i : KernelComponent (Pi.monoidHom fun u => rootCharHom (a u)),
+        ∃ i : KernelComponent (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
           K ≤ rootSpan τ L {γ | ∃ (k : ℕ) (δ : Fin τ.rank → ℤ),
-              δ ∈ componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i ∧
+              δ ∈ componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i ∧
                 γ = (S.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[k] δ} ∧
           CFSG.StandardType.GGCompFieldAtSL
             (S.D.q ^ componentOrbitLength S.ρ
-              (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i)) K
+              (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i)) K
 
 @[expose] def LangFamilyCompFieldF4 :
     Prop :=
@@ -39,16 +39,16 @@ open CFSG.Assembly (LargeEvenLabel LargeEvenInLambda2)
       (∀ u, rootDiagUnit .F4 (a u) ∈ S.D.torus) → (∀ u j, a u j ^ p = 1) →
       ∀ K : Subgroup (ModGL .F4 L),
         IsComponentOf K (S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit .F4 (a u))) →
-        ∃ i : KernelComponent (Pi.monoidHom fun u => rootCharHom (a u)),
+        ∃ i : KernelComponent (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
           K ≤ rootSpan .F4 L {γ | ∃ (k : ℕ) (δ : Fin Tag.F4.rank → ℤ),
-              δ ∈ componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i ∧
+              δ ∈ componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i ∧
                 γ = (S.ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ))^[k] δ} ∧
           (CFSG.StandardType.GGCompFieldAt
             (S.D.q ^ componentOrbitLength S.ρ
-              (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i)) K ∨
+              (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i)) K ∨
             (S.D.q = 2 ∧
               componentOrbitLength S.ρ
-                (componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i) = 1 ∧
+                (componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i) = 1 ∧
               Nat.card K = 360 ∧
               Nat.card (↥K ⧸ Subgroup.center ↥K) = 360))
 

@@ -133,7 +133,7 @@ theorem le_normalizer_of_relIndex_two {W M : Subgroup G} (hMW : M ≤ W) (h2 : M
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hMW).mp
     (Subgroup.normal_of_index_eq_two h2')
 
-theorem mem_or_mem_of_relIndex_two {W M : Subgroup G} (hMW : M ≤ W) (h2 : M.relIndex W = 2)
+theorem mem_or_mem_of_relIndex_two {W M : Subgroup G} (_hMW : M ≤ W) (h2 : M.relIndex W = 2)
     {x k : G} (hx : x ∈ W) (hxM : x ∉ M) (hk : k ∈ W) : k ∈ M ∨ x⁻¹ * k ∈ M := by
   obtain ⟨a, haW, haM, h⟩ := (Subgroup.relIndex_eq_two_iff_exists_notMem_and'.mp h2)
   have hxa : a⁻¹ * x ∈ M := by

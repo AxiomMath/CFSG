@@ -17,6 +17,7 @@ open CFSG.LieType.Simplicity.TitsBits CFSG.RankThree.PartOne.SEITZX CFSG.KC.F4Sa
 variable {K : Type} [Field K]
   [CharP K 2]
 
+omit [CharP K 2] in
 theorem hasBitsS_of_eqS {g : adjointGroup ReeTag.F4.tag K} {A B : ℕ} (hg : HasBitsS K g A)
     (h : eqS A B = true) : HasBitsS K g B := by
   have e : toEnd K (A / 2 ^ 128) = toEnd K (B / 2 ^ 128) :=
@@ -113,6 +114,7 @@ theorem genB_spec {A B : ℕ} {g : G6} (h : genB A B g = true) :
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
   exact ⟨h1, h2, h3, h4⟩
 
+omit [CharP K 2] in
 theorem hasBitsS_tokE {gs : List G6} (hg : ∀ g ∈ gs, HasBitsS K (wordE K g.1 g.2.1) g.2.2.2.2.1 ∧
     HasBitsS K (wordE K g.1 g.2.1)⁻¹ g.2.2.2.2.2) {k : ℕ} (hk : k < gs.length + gs.length) :
     HasBitsS K (tokE K gs gs.length k) (tokAt gs gs.length k) := by
@@ -120,7 +122,7 @@ theorem hasBitsS_tokE {gs : List G6} (hg : ∀ g ∈ gs, HasBitsS K (wordE K g.1
   · have e : tokAt gs gs.length k = (gs.getD k g6d).2.2.2.2.1 := by
       have hb : Nat.blt k gs.length = true := by simpa using h
       rw [tokAt, hb]
-    rw [e, tokE, if_pos h, List.getD_eq_getElem _ _ h]
+    rw [e, tokE, ite_eq_left h, List.getD_eq_getElem _ _ h]
     exact (hg _ (List.getElem_mem h)).1
   · have h' : k - gs.length < gs.length := by omega
     have e : tokAt gs gs.length k = (gs.getD (k - gs.length) g6d).2.2.2.2.2 := by
@@ -130,7 +132,7 @@ theorem hasBitsS_tokE {gs : List G6} (hg : ∀ g ∈ gs, HasBitsS K (wordE K g.1
         exact h (by simpa using hb)
       rw [tokAt, hb]
       rfl
-    rw [e, tokE, if_neg h, List.getD_eq_getElem _ _ h']
+    rw [e, tokE, ite_eq_right h, List.getD_eq_getElem _ _ h']
     exact (hg _ (List.getElem_mem h')).2
 
 theorem hasBitsS_prodTok {gs : List G6} (hg : ∀ g ∈ gs,
@@ -194,10 +196,10 @@ theorem rowG_sound (hK : Nat.card K = 2) {s : Fin 4 → adjointGroup ReeTag.F4.t
     intro k hk
     unfold tokE
     by_cases h : k < gs.length
-    · rw [if_pos h, List.getD_eq_getElem _ _ h]
+    · rw [ite_eq_left h, List.getD_eq_getElem _ _ h]
       exact Subgroup.subset_closure (hgen _ (List.getElem_mem h)).2
     · have h' : k - gs.length < gs.length := by omega
-      rw [if_neg h, List.getD_eq_getElem _ _ h']
+      rw [ite_eq_right h, List.getD_eq_getElem _ _ h']
       exact inv_mem (Subgroup.subset_closure (hgen _ (List.getElem_mem h')).2)
   have htarg : ∀ t < 8, evalG K (wordOfCodes (targetWord t)) ∈ Subgroup.closure (zSet E₀) := by
     intro t ht

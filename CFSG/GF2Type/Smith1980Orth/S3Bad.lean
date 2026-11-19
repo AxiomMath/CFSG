@@ -23,10 +23,13 @@ namespace Bad
 
 variable {S : Setting G} {k : G}
 
+omit [Finite G] in
 theorem mem_M (h : Bad S k) : k * S.z * k⁻¹ ∈ S.M := h.1
 
+omit [Finite G] in
 theorem not_mem_QG (h : Bad S k) : k * S.z * k⁻¹ ∉ S.QG := h.2.1
 
+omit [Finite G] in
 theorem not_mem (h : Bad S k) {a : G} (ha : IsConj S.z a) : a ∉ S.QG ⊓ S.Qa k := h.2.2 a ha
 
 theorem conjBy_Qa_inv (S : Setting G) (k : G) : (S.conjBy k).Qa k⁻¹ = S.QG :=
@@ -46,6 +49,7 @@ theorem symm (h : Bad S k) : Bad (S.conjBy k) k⁻¹ := by
   · rw [conjBy_Qa_inv] at haD
     exact h.not_mem ((S.isConj_conjBy_z_iff k).mp ha) ⟨haD.2, haD.1⟩
 
+omit [Finite G] in
 theorem mul_left {m : G} (hm : m ∈ S.M) (h : Bad S k) : Bad S (m * k) := by
   have e : m * k * S.z * (m * k)⁻¹ = m * (k * S.z * k⁻¹) * m⁻¹ := by group
   refine ⟨?_, ?_, fun a ha haD => ?_⟩
@@ -86,6 +90,7 @@ theorem of_symm (h : Bad (S.conjBy k) k⁻¹) : Bad S k := by
 
 end Bad
 
+omit [Finite G] in
 theorem exists_of_not_bad {S : Setting G} {k : G} (h : ¬ Bad S k) (hxM : k * S.z * k⁻¹ ∈ S.M)
     (hxQ : k * S.z * k⁻¹ ∉ S.QG) : ∃ a : G, IsConj S.z a ∧ a ∈ S.QG ⊓ S.Qa k := by
   by_contra hno

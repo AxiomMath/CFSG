@@ -28,8 +28,8 @@ variable {K : Type} [Field K] {p : ℕ} [Fact p.Prime]
 theorem card_le_of_isElemAbelian_specialLinear_two (hpK : (p : K) ≠ 0)
     {F : Subgroup SL(2, K)} [Finite F] (hF : IsElemAbelian p F) : Nat.card F ≤ p := by
   classical
-  haveI : NeZero (p : K) := ⟨hpK⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  have : NeZero (p : K) := ⟨hpK⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   let φ : SL(2, K) →* GL (Fin 2) (AlgebraicClosure K) :=
     (Matrix.GeneralLinearGroup.map (algebraMap K (AlgebraicClosure K))).comp
       Matrix.SpecialLinearGroup.toGL
@@ -94,7 +94,7 @@ theorem card_le_of_isElemAbelian_specialLinear_two (hpK : (p : K) ≠ 0)
       have := congrArg (fun z => g⁻¹ * z * g) hM
       simpa [mul_assoc] using this
     exact Subtype.ext (hφi (this.trans (map_one φ).symm))
-  haveI : Finite F := inferInstance
+  have : Finite F := inferInstance
   have hcyc : IsCyclic F := isCyclic_of_injective_ringHom lam hlam
   obtain ⟨c, hc⟩ := hcyc.exists_generator
   have hord : orderOf c = Nat.card F := orderOf_eq_card_of_forall_mem_zpowers hc
@@ -118,7 +118,7 @@ theorem closure_centralizers_prod_of_plane
   set S : Set (A × B) := {h | ∃ x ∈ F, x ≠ 1 ∧ Commute h x} with hS
   have h1 : ∃ y ∈ F, y ≠ 1 ∧ y.1 = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hdis : Disjoint F (MonoidHom.fst A B).ker := by
       rw [Subgroup.disjoint_def]
       intro x hx hx1
@@ -136,7 +136,7 @@ theorem closure_centralizers_prod_of_plane
     by_cases hx : ∃ x ∈ F, x ≠ 1 ∧ x.2 = 1
     · obtain ⟨x, hxF, hx1, hx2⟩ := hx
       exact fun b => Subgroup.subset_closure ⟨x, hxF, hx1, Prod.ext (by simp) (by simp [hx2])⟩
-    · push_neg at hx
+    · push Not at hx
       have hdis : Disjoint F (MonoidHom.snd A B).ker := by
         rw [Subgroup.disjoint_def]
         intro x hx' hx1

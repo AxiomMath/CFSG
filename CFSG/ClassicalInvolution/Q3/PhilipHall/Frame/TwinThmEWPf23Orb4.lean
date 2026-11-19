@@ -37,7 +37,7 @@ theorem e187Orbit4Q8_proved : E187Orbit4Q8 := by
   have hR₀ : IsSylow2In (conjSub g R) (conjSub g K) := hRsyl.conj g
   have hq8 : IsQ8 (conjSub g R) :=
     TwinDisc.forall_sylow_iso_of_exists (c.stand.q8 _ hK₀) _ hR₀
-  have hS₁ : IsPGroup 2 ↥(conjSub g (S : Subgroup G)) := isPGroup_conjSub g S.isPGroup'
+  have hS₁ : IsPGroup 2 ↥(conjSub g (S : Subgroup G)) := isPGroup_conjSub g S.isPGroup
   have hR₀S : conjSub g R ≤ conjSub g (S : Subgroup G) := conjSub_mono hRS
   have hd₁S : d₁ ∈ conjSub g (S : Subgroup G) := hCS d₁ (hWS hd₁W) g₁.comm_t.symm
   have hd₂S : d₂ ∈ conjSub g (S : Subgroup G) := hCS d₂ (hWS hd₂W) g₂.comm_t.symm

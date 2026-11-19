@@ -19,7 +19,7 @@ theorem zmod2_add_self (a : ZMod 2) : a + a = 0 := by revert a; decide
 @[expose] def coordFun (x : Fin 6 → ZMod 2) : U4 := fun i => x (Fin.castLE (by omega) i) + x 5
 
 theorem lift4_add (c d : U4) : lift4 (c + d) = lift4 c + lift4 d := by
-  funext j; fin_cases j <;> simp [lift4] <;> ring
+  funext j; fin_cases j <;> simp [lift4]; ring
 
 theorem coordFun_add (x y : Fin 6 → ZMod 2) : coordFun (x + y) = coordFun x + coordFun y := by
   funext i; simp only [coordFun, Pi.add_apply]; ring

@@ -19,15 +19,15 @@ theorem exists_noncomm_of_simple_card {G : Type} [Group G] [IsSimpleGroup G]
     (h : ¬ (Nat.card G).Prime) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  letI : CommGroup G := { (inferInstance : Group G) with mul_comm := hc }
+  let : CommGroup G := { (inferInstance : Group G) with mul_comm := hc }
   exact h (IsSimpleGroup.prime_card (α := G))
 
 theorem card_pSimple_of_isAltType_seven {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     (hp7 : p ∣ 2520) {Λ : Subgroup S} (h : IsAltType 7 ↥Λ) : Nat.card (PSimple p Λ) = 2520 := by
   have hcard := Inputs2324.card_of_isAltType_seven h
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Λ := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Λ := e.isSimpleGroup
   have hcore : GLAPPrimeCore p ↥Λ = ⊥ :=
     CFSG.HardMathSupport.Dickson.I271.glaPPrimeCore_eq_bot_of_simple hp (by rw [hcard]; exact hp7)
   have hZ : Subgroup.center ↥Λ = ⊥ :=
@@ -41,9 +41,9 @@ section S_fi23FiveNoA6_holds
 
 theorem fi23FiveNoA6_holds : SporTables2.Fi23FiveNoA6 := by
   intro x hx I hI
-  haveI : Finite CFSG.Sporadic.Fi23.J :=
+  have : Finite CFSG.Sporadic.Fi23.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi23.card_J]; norm_num)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
     Finite.of_equiv CFSG.Sporadic.Fi23.J CFSG.Sporadic.Fi23.fi23EquivJ.symm.toEquiv
   obtain ⟨Λ, -, huniq, h7, -⟩ := InputsSpor5.fi23FiveLayer_holds
     (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) (CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Fi23)
@@ -69,7 +69,7 @@ section S_mThirteenADown_holds
 open CFSG.AGLEmbedding.Norton.MON5_7 (gw) in
 open CFSG.Monster.Generated (Gmat) in
 theorem mThirteenADown_holds : SporTables2.MThirteenADown := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have φ : Gmat ≃* CFSG.Monster.Existence.MGriess :=
     (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
   refine SporTables2.mThirteenADown_of_L33 fun I hI => ?_
@@ -143,10 +143,10 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSevenLocal (uOne uTwo) in
 theorem bSevenNoL28_holds
     : SporTables2.BSevenNoL28 := by
   intro I hI h504
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hs, -⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num : Nat.Prime 7) hI
-  haveI := hs
+  have := hs
   obtain ⟨e⟩ := CFSG.ComponentClassification.LiteratureLocal.nonempty_mulEquiv_psl2_eight_of_simple h504
   let π : ↥I →* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3) :=
     e.toMonoidHom.comp ((QuotientGroup.mk' _).comp (QuotientGroup.mk' _))
@@ -176,9 +176,9 @@ end S_bSevenNoL28_holds
 section S_fi24FiveA9_holds
 
 theorem fi24FiveA9_holds : SporTables.Fi24FiveA9 := by
-  haveI : Finite CFSG.Sporadic.Fi24.J :=
+  have : Finite CFSG.Sporadic.Fi24.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
     Finite.of_equiv CFSG.Sporadic.Fi24.J CFSG.HardMathSupport.Dickson.I271.fi24EquivCarrier.symm.toEquiv
   have hJ : SporTables.CentTypes 5 (fun T _ => Nat.card T = 181440) CFSG.Sporadic.Fi24.J :=
     (SporTables.centTypes_of_centShapeRk Nat.prime_five

@@ -54,7 +54,7 @@ theorem prep_letK : ∀ x : ℕ, PRep 276 9 co3P.subtype (letK x) (letG x)
   | 0 => prepS (k := 0) (by norm_num)
   | x + 1 => by
     unfold letG
-    rw [if_neg (Nat.succ_ne_zero x)]
+    rw [ite_eq_right (Nat.succ_ne_zero x)]
     exact prepS (k := 1) (by norm_num)
 
 theorem prep_wordK (j : ℕ) : ∀ k, PRep 276 9 co3P.subtype (wordK j k) (wordG j k)

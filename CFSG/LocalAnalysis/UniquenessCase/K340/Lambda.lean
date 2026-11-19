@@ -37,11 +37,13 @@ private theorem subtype_comp_jEquiv {H T : Subgroup G} (P : Sylow 2 ↥H)
   ext y
   exact (jEquiv_coe P hP y).symm
 
+omit [Finite G] in
 private theorem normalizerMonoidHom_coe {T : Subgroup G}
     (n : ↥(Subgroup.normalizer (T : Set G))) (z : T) :
     (((T.normalizerMonoidHom n) z : T) : G) = (n : G) * (z : G) * (n : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 private theorem normalizerMonoidHom_subtype {T : Subgroup G}
     (n : ↥(Subgroup.normalizer (T : Set G))) :
     T.subtype.comp (T.normalizerMonoidHom n).toMonoidHom =
@@ -195,7 +197,7 @@ theorem lamHyp_of {H L T V X : Subgroup G} {k : Type} [Field k] [Finite k]
       (CFSG.QuasithinUnique.Setup.Campbell.Ecore ↥H) ψ)
     (hVdef : V = ⁅L, CFSG.RankThree.PartOne.omegaOneCenterIn (CFSG.Open.pCoreOf 2 H)⁆)
     (hLdef : L = CFSG.Quasithin.opResidual 2 H)
-    (hXN : X ≤ Subgroup.normalizer (thompsonJ T : Set G)) (hXJ : thompsonJ H ⊓ T ≤ X)
+    (_hXN : X ≤ Subgroup.normalizer (thompsonJ T : Set G)) (hXJ : thompsonJ H ⊓ T ≤ X)
     (hcomm : ∀ a ∈ X, ⁅V, V.map (MulAut.conj a).toMonoidHom⁆ = ⊥) :
     CFSG.QuasithinUnique.Setup.CampbellJ.LamHyp P (lam P hP X) :=
   ⟨lam_inner P hP hXJ, lam_vmod P hP h hVdef hLdef hcomm⟩

@@ -49,7 +49,7 @@ theorem eaSupp_iff {c : Nat} : eaSupp c = true ↔ decode c ∈ C8 := by
       rw [decode_apply] at this
       by_contra hc
       simp only [Bool.not_eq_false] at hc
-      rw [if_pos hc] at this
+      rw [ite_eq_left hc] at this
       exact one_ne_zero this
 
 theorem tvEquiv_eq_self_iff {k : Nat} (hk : k < 1953) (v : V) :
@@ -141,7 +141,7 @@ theorem eq_of_restr_C8 {p s : Fin 1953} (hp0 : Commute (tvP p) (tvP 0))
     have hv : decode (2 ^ m) ∈ C8 := by
       rw [show (2 ^ m : Nat) = 2 ^ (⟨m, hm20⟩ : Fin 20).val from rfl, decode_two_pow]
       intro j hj
-      rw [Pi.single_apply, if_neg]
+      rw [Pi.single_apply, ite_eq_right]
       intro e
       exact hj (e ▸ hm)
     have e := h _ hv

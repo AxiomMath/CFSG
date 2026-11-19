@@ -19,7 +19,7 @@ theorem shapeConj_isElemAbelian_map_conj {G : Type} [Group G] {p : ℕ} {B : Sub
     simp only [Subgroup.coe_mul]
     rw [← hxa, ← hxb]
     simp only [MulEquiv.coe_toMonoidHom]
-    haveI : IsMulCommutative B := h.1
+    have : IsMulCommutative B := h.1
     have hc : a * b = b * a := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : B) ⟨b, hb⟩)
     rw [← map_mul, ← map_mul, hc]
   · intro x hx
@@ -84,7 +84,7 @@ theorem shapeConj_map_conj_inv_cancel {G : Type} [Group G] (H : Subgroup G) (g :
     (H.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = H := by
   rw [map_conj_map_conj, inv_mul_cancel]
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem shapeConj_map_conj_inv_cancel' {G : Type} [Group G] (H : Subgroup G) (g : G) :
     (H.map (MulAut.conj g⁻¹).toMonoidHom).map (MulAut.conj g).toMonoidHom = H := by
@@ -194,7 +194,7 @@ theorem shapeConj_largeEvenSStar_map_conj {G : Type} [Group G] [Finite G] {p : �
       rwa [← shapeConj_map_centralizer L g, map_conj_map_conj, inv_mul_cancel,
         show (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G from by ext; simp,
         Subgroup.map_id] at h1
-    haveI : IsCyclic ↥(S'.map (MulAut.conj g⁻¹).toMonoidHom) :=
+    have : IsCyclic ↥(S'.map (MulAut.conj g⁻¹).toMonoidHom) :=
       hcyc (S'.map (MulAut.conj g⁻¹).toMonoidHom) hS'' (hSp.map _)
     exact isCyclic_of_surjective ((conjEquivMap S' g⁻¹).symm).toMonoidHom
       (MulEquiv.surjective _)

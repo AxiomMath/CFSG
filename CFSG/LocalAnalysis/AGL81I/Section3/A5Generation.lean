@@ -15,7 +15,7 @@ theorem a5_eq_top_of_order_three_and_five {H : Subgroup (alternatingGroup (Fin 5
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     decide
-  haveI hsimple : IsSimpleGroup G := by
+  have hsimple : IsSimpleGroup G := by
     dsimp [G]
     exact alternatingGroup.isSimpleGroup (by norm_num)
   have hdvd : Nat.card H ∣ 60 := by
@@ -62,7 +62,7 @@ theorem a5_eq_top_of_order_three_and_five {H : Subgroup (alternatingGroup (Fin 5
       have h := H.index_mul_card
       rw [hcard, hGcard] at h
       omega
-    haveI : H.Normal := ⟨fun x hxH g => by
+    have : H.Normal := ⟨fun x hxH g => by
       simp_rw [Subgroup.mul_mem_iff_of_index_two hindex, hxH, iff_true, Subgroup.inv_mem_iff]⟩
     rcases hsimple.eq_bot_or_eq_top_of_normal H with hbot | htop
     · rw [hbot, Subgroup.card_bot] at hcard

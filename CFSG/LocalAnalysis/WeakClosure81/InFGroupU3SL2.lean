@@ -26,10 +26,12 @@ private def Nq (C : Subgroup Q) (s : Q) :
     Subgroup ↥(perfectCore ((Dq C s).subgroupOf C)) :=
   (Subgroup.center ↥C).subgroupOf (perfectCore ((Dq C s).subgroupOf C))
 
+omit [Finite Q] in
 private theorem odd_card_Zq (h : Setting C n) : Odd (Nat.card ↥(Zq C)) := by
   rw [Zq, Subgroup.card_map_of_injective C.subtype_injective]
   exact h.odd_center
 
+omit [Finite Q] in
 private theorem center_eq_one_of_pow_two (h : Setting C n) {z : ↥C}
     (hz : z ∈ Subgroup.center ↥C) {k : ℕ} (hzk : z ^ 2 ^ k = 1) : z = 1 := by
   have hdiv : orderOf z ∣ Nat.card ↥(Subgroup.center ↥C) := by
@@ -44,6 +46,7 @@ section Fixed
 
 variable (h : Setting C n) {s : Q}
 
+omit [Finite Q] in
 private theorem twist (hs2 : s ^ 2 = 1) {x : ↥C}
     (hx : h.act s (QuotientGroup.mk x) = QuotientGroup.mk x) :
     ∃ j ∈ Zq C, s * j * s⁻¹ = j⁻¹ ∧ s * (x : Q) * s⁻¹ = (x : Q) * j := by
@@ -82,6 +85,7 @@ private theorem twist (hs2 : s ^ 2 = 1) {x : ↥C}
   have h5 : ((z⁻¹ : ↥C) : Q) * (s * ((z⁻¹ : ↥C) : Q) * s⁻¹) = 1 := mul_left_cancel h4'
   exact eq_inv_of_mul_eq_one_right h5
 
+omit [Finite Q] in
 private theorem map_fixed (hs2 : s ^ 2 = 1)
     (y : ↥C ⧸ Subgroup.center ↥C) :
     y ∈ Subgroup.map (QuotientGroup.mk' (Subgroup.center ↥C)) ((Dq C s).subgroupOf C) ↔
@@ -150,14 +154,14 @@ private theorem fixed_setup (h : Setting C n) {s : Q} (hsC : s ∉ C) (hs2 : s ^
   have h4 : 4 ≤ 2 ^ n := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hf
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   have hk4 : 4 ≤ Nat.card k := hk ▸ h4
   have hperf : ⁅j.range, j.range⁆ = j.range := by
-    haveI : Group.IsPerfect (SL(2, k)) :=
+    have : Group.IsPerfect (SL(2, k)) :=
       CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card k hk4
-    haveI : Group.IsPerfect ↥j.range :=
+    have : Group.IsPerfect ↥j.range :=
       Group.IsPerfect.ofSurjective (f := (MonoidHom.ofInjective hjinj).toMonoidHom)
         (MonoidHom.ofInjective hjinj).surjective
     exact Subgroup.commutator_eq_self
@@ -175,9 +179,9 @@ private theorem exists_mul_perfectCore (h : Setting C n) {s : Q} (hsC : s ∉ C)
     ∃ y ∈ perfectCore ((Dq C s).subgroupOf C),
       ∃ z ∈ (Dq C s).subgroupOf C ⊓ Subgroup.center ↥C, x = y * z := by
   obtain ⟨k, hfield, hfin, hchar, j, -, hjinj, -, hDmap, hJmap⟩ := fixed_setup h hsC hs2
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   let π : ↥C →* (↥C ⧸ Subgroup.center ↥C) := QuotientGroup.mk' (Subgroup.center ↥C)
   have hxmap : π x ∈ (perfectCore ((Dq C s).subgroupOf C)).map π := by
     rw [hJmap]
@@ -193,9 +197,9 @@ private theorem perfectCore_center_eq (h : Setting C n) {s : Q}
     (hsC : s ∉ C) (hs2 : s ^ 2 = 1) :
     Subgroup.center ↥(perfectCore ((Dq C s).subgroupOf C)) = Nq C s := by
   obtain ⟨k, hfield, hfin, hchar, j, -, hjinj, -, -, hJmap⟩ := fixed_setup h hsC hs2
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   set J' : Subgroup ↥C := perfectCore ((Dq C s).subgroupOf C) with hJ'def
   let π : ↥C →* (↥C ⧸ Subgroup.center ↥C) := QuotientGroup.mk' (Subgroup.center ↥C)
   let f : ↥J' →* (↥C ⧸ Subgroup.center ↥C) := π.comp J'.subtype
@@ -208,7 +212,7 @@ private theorem perfectCore_center_eq (h : Setting C n) {s : Q}
     have h1 : (x : ↥C) ∈ π.ker ↔ (x : ↥C) ∈ Subgroup.center ↥C := by rw [hkerπ]
     exact (MonoidHom.mem_ker (f := π)).trans h1
   let N : Subgroup ↥J' := (Subgroup.center ↥C).subgroupOf J'
-  haveI : N.Normal := Subgroup.Normal.subgroupOf inferInstance J'
+  have : N.Normal := Subgroup.Normal.subgroupOf inferInstance J'
   have hNle : N ≤ Subgroup.center ↥J' := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -244,10 +248,10 @@ private theorem isPSL_perfectCore (h : Setting C n) {s : Q}
     IsPSL 2 2 n (↥(perfectCore ((Dq C s).subgroupOf C)) ⧸
       Subgroup.center ↥(perfectCore ((Dq C s).subgroupOf C))) := by
   obtain ⟨k, hfield, hfin, hchar, j, hk, hjinj, -, -, hJmap⟩ := fixed_setup h hsC hs2
-  letI := hfield
-  letI := hfin
-  letI := hchar
-  letI : Fintype k := Fintype.ofFinite k
+  let := hfield
+  let := hfin
+  let := hchar
+  let : Fintype k := Fintype.ofFinite k
   set J' : Subgroup ↥C := perfectCore ((Dq C s).subgroupOf C) with hJ'def
   let π : ↥C →* (↥C ⧸ Subgroup.center ↥C) := QuotientGroup.mk' (Subgroup.center ↥C)
   let f : ↥J' →* (↥C ⧸ Subgroup.center ↥C) := π.comp J'.subtype
@@ -255,7 +259,7 @@ private theorem isPSL_perfectCore (h : Setting C n) {s : Q}
     ext x
     rw [MonoidHom.mem_ker, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   let N : Subgroup ↥J' := (Subgroup.center ↥C).subgroupOf J'
-  haveI : N.Normal := Subgroup.Normal.subgroupOf inferInstance J'
+  have : N.Normal := Subgroup.Normal.subgroupOf inferInstance J'
   have hfker : f.ker = N := by
     ext x
     rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker, MonoidHom.comp_apply]
@@ -414,9 +418,10 @@ private theorem structure_base
     C.subtype_injective, hDmap, hJmap] at h
   simpa only [Zq] using h
 
+omit [Finite Q] in
 private theorem normalizer_perfectCore
-    (h : Setting C n) {s : Q}
-    (hsC : s ∉ C) (hs2 : s ^ 2 = 1) {S₀ : Subgroup Q}
+    (_h : Setting C n) {s : Q}
+    (_hsC : s ∉ C) (_hs2 : s ^ 2 = 1) {S₀ : Subgroup Q}
     (hJN : perfectCore (Dq C s) ≤ normalizer (S₀ : Set Q)) :
     ((perfectCore (Dq C s) ⊓ S₀).subgroupOf (perfectCore (Dq C s))).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
@@ -432,28 +437,29 @@ private theorem normalizer_perfectCore
   · intro hx
     obtain ⟨hxJ, hxS⟩ := Subgroup.mem_inf.mp hx
     have hxJ' : x ∈ perfectCore (Dq C s) := by
-      have h := Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hj) hxJ) hj
-      rwa [show j⁻¹ * (j * x * j⁻¹) * j = x by group] at h
+      have _h := Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hj) hxJ) hj
+      rwa [show j⁻¹ * (j * x * j⁻¹) * j = x by group] at _h
     have hxS' : x ∈ S₀ := (Subgroup.mem_normalizer_iff.mp (hJN hj) x).mpr hxS
     exact Subgroup.mem_inf.mpr ⟨hxJ', hxS'⟩
 
+omit [Finite Q] in
 private theorem not_le_normalizer_bot
-    (h : Setting C n) {s : Q}
-    (hsC : s ∉ C) (hs2 : s ^ 2 = 1) {S₀ : Subgroup Q} (hS₀ : IsSylowIn 2 S₀ C)
+    (_h : Setting C n) {s : Q}
+    (_hsC : s ∉ C) (_hs2 : s ^ 2 = 1) {S₀ : Subgroup Q} (hS₀ : IsSylowIn 2 S₀ C)
     (hJN : perfectCore (Dq C s) ≤ normalizer (S₀ : Set Q)) {t : Q}
     (htJ : t ∈ perfectCore (Dq C s)) (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1)
     (hbot : (perfectCore (Dq C s) ⊓ S₀).subgroupOf (perfectCore (Dq C s)) = ⊥) : False := by
   have hJSbot : perfectCore (Dq C s) ⊓ S₀ = ⊥ := by
-    have h := Subgroup.subgroupOf_map_subtype (perfectCore (Dq C s) ⊓ S₀)
+    have _h := Subgroup.subgroupOf_map_subtype (perfectCore (Dq C s) ⊓ S₀)
       (perfectCore (Dq C s))
-    rw [hbot, Subgroup.map_bot, inf_eq_left.mpr inf_le_left] at h
-    exact h.symm
+    rw [hbot, Subgroup.map_bot, inf_eq_left.mpr inf_le_left] at _h
+    exact _h.symm
   have htS : t ∉ S₀ := by
     intro htS
     have hmem : t ∈ perfectCore (Dq C s) ⊓ S₀ := Subgroup.mem_inf.mpr ⟨htJ, htS⟩
     rw [hJSbot, Subgroup.mem_bot] at hmem
     exact ht1 hmem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htord : orderOf t = 2 := orderOf_eq_prime ht2 ht1
   have hT2 : IsPGroup 2 ↥(S₀ ⊔ Subgroup.zpowers t) :=
     IsPGroup.to_sup_of_normal_left' hS₀.isPGroup
@@ -480,9 +486,9 @@ private theorem not_le_normalizer_bot
   exact htS htT
 
 private theorem not_le_normalizer_top
-    (h : Setting C n) {s : Q}
-    (hsC : s ∉ C) (hs2 : s ^ 2 = 1) {S₀ : Subgroup Q}
-    (hJN : perfectCore (Dq C s) ≤ normalizer (S₀ : Set Q)) (hS₀ : IsSylowIn 2 S₀ C)
+    (_h : Setting C n) {s : Q}
+    (_hsC : s ∉ C) (_hs2 : s ^ 2 = 1) {S₀ : Subgroup Q}
+    (_hJN : perfectCore (Dq C s) ≤ normalizer (S₀ : Set Q)) (hS₀ : IsSylowIn 2 S₀ C)
     {t : Q} (htJ : t ∈ perfectCore (Dq C s)) (ht1 : t ≠ 1)
     (hcenter : Subgroup.center ↥(perfectCore (Dq C s)) = ⊥)
     (htop : (perfectCore (Dq C s) ⊓ S₀).subgroupOf (perfectCore (Dq C s)) = ⊤) : False := by
@@ -493,10 +499,10 @@ private theorem not_le_normalizer_top
       rw [htop]
       exact Subgroup.mem_top _
     exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hmem)).2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 ↥(perfectCore (Dq C s)) := (hS₀.isPGroup).to_le hJS
-  haveI : Nontrivial ↥(perfectCore (Dq C s)) :=
-    ⟨⟨⟨t, htJ⟩, 1, fun h => ht1 (Subtype.ext_iff.mp h)⟩⟩
+  have : Nontrivial ↥(perfectCore (Dq C s)) :=
+    ⟨⟨⟨t, htJ⟩, 1, fun _h => ht1 (Subtype.ext_iff.mp _h)⟩⟩
   have hlt : ⊥ < Subgroup.center ↥(perfectCore (Dq C s)) := IsPGroup.bot_lt_center hP
   rw [hcenter] at hlt
   exact (lt_irrefl ⊥) hlt
@@ -545,8 +551,8 @@ theorem Setting.not_perfectCore_le_normalizer
     ¬ perfectCore (C ⊓ centralizer {s}) ≤ normalizer (S₀ : Set Q) := by
   obtain ⟨hsimple, -, hcenter, -, ⟨t, htJ, ht1, ht2⟩, -, -, -⟩ := structure_base h hsC hs2
   intro hJN
-  haveI : IsSimpleGroup ↥(perfectCore (Dq C s)) := hsimple
-  haveI := normalizer_perfectCore h hsC hs2 hJN
+  have : IsSimpleGroup ↥(perfectCore (Dq C s)) := hsimple
+  have := normalizer_perfectCore h hsC hs2 hJN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((perfectCore (Dq C s) ⊓ S₀).subgroupOf (perfectCore (Dq C s))) with hbot | htop
   · exact not_le_normalizer_bot h hsC hs2 hS₀ hJN htJ ht1 ht2 hbot

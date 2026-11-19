@@ -56,6 +56,7 @@ section Core
 
 variable {K : Type*} [Group K] [Finite K] {p : ℕ}
 
+omit [Finite K] in
 theorem noNormalPPrime_of_core_eq_bot {L : Subgroup K} (h : GLAPPrimeCoreOf p L = ⊥) :
     NoNormalPPrime p L := by
   intro N hNL hNn hcop
@@ -63,6 +64,7 @@ theorem noNormalPPrime_of_core_eq_bot {L : Subgroup K} (h : GLAPPrimeCoreOf p L 
   rw [h] at this
   exact le_bot_iff.1 this
 
+omit [Finite K] in
 theorem map_mem_centralizerOf {e h : MulAut K} (hhe : h * e = e * h) {x : K}
     (hx : x ∈ centralizerOf e) : h x ∈ centralizerOf e := by
   rw [mem_centralizerOf] at hx ⊢

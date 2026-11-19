@@ -23,7 +23,7 @@ open Finset
 private lemma w1369_trace_fixed {E : Type} [Field E] [Finite E] [CharP E 2]
     [Algebra (ZMod 2) E] {a : ℕ} (hcard : Nat.card E = (2 ^ a) ^ 2) {c : E}
     (hc : c ^ (2 ^ a) = c) : Algebra.trace (ZMod 2) E c = 0 := by
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hcard' : Fintype.card E = 2 ^ (2 * a) := by
     rw [← Nat.card_eq_fintype_card, hcard]; ring_nf
   have hfr : Module.finrank (ZMod 2) E = 2 * a := by
@@ -49,7 +49,7 @@ private lemma w1369_trace_fixed {E : Type} [Field E] [Finite E] [CharP E 2]
 private lemma w1369_frob_bar_bar {E : Type} [Field E] [Finite E] [CharP E 2] {a : ℕ}
     (hcard : Nat.card E = (2 ^ a) ^ 2) (x : E) :
     (iterateFrobenius E 2 a) ((iterateFrobenius E 2 a) x) = x := by
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   rw [iterateFrobenius_def, iterateFrobenius_def, ← pow_mul]
   rw [show 2 ^ a * 2 ^ a = Nat.card E by rw [← pow_two, ← hcard]]
   rw [Nat.card_eq_fintype_card]
@@ -153,7 +153,7 @@ private noncomputable def w1369_mB {E : Type} [Field E] [CharP E 2] [Algebra (ZM
     { toFun := fun v => ofAdd ((w1369_trForm (E := E) (m := m) a) (toAdd u) (toAdd v))
       map_one' := by
         apply Multiplicative.ext
-        simp only [toAdd_ofAdd, toAdd_one, map_zero, ofAdd_zero]
+        simp only [toAdd_one, map_zero, ofAdd_zero]
       map_mul' := by
         intro v w
         apply Multiplicative.ext
@@ -232,7 +232,7 @@ private lemma w1369_mB_alt {E : Type} [Field E] [Finite E] [CharP E 2] [Algebra 
 
 open Multiplicative in
 private lemma w1369_mB_sep {E : Type} [Field E] [Finite E] [CharP E 2] [Algebra (ZMod 2) E]
-    {m a : ℕ} (hcard : Nat.card E = (2 ^ a) ^ 2)
+    {m a : ℕ} (_hcard : Nat.card E = (2 ^ a) ^ 2)
     (u : Multiplicative (Fin m → E))
     (h : ∀ v, w1369_mB (E := E) (m := m) a u v = 1) : u = 1 := by
   have hx : ∀ y : Fin m → E, Algebra.trace (ZMod 2) E (w1369_herm a (toAdd u) y) = 0 := by
@@ -264,7 +264,7 @@ private lemma w1369_toAdd_natAct {E : Type} [Field E] [CharP E 2] {m a : ℕ}
 
 open Multiplicative in
 private lemma w1369_mB_inv {E : Type} [Field E] [Finite E] [CharP E 2] [Algebra (ZMod 2) E]
-    {m a : ℕ} (hcard : Nat.card E = (2 ^ a) ^ 2)
+    {m a : ℕ} (_hcard : Nat.card E = (2 ^ a) ^ 2)
     (γ : ↥(StatedSU m (2 ^ a) E)) (u v : Multiplicative (Fin m → E)) :
     w1369_mB (E := E) (m := m) a (natAct (StatedSU m (2 ^ a) E) γ u)
         (natAct (StatedSU m (2 ^ a) E) γ v) = w1369_mB a u v := by
@@ -277,17 +277,18 @@ private lemma w1369_mB_inv {E : Type} [Field E] [Finite E] [CharP E 2] [Algebra 
   exact congrArg (Algebra.trace (ZMod 2) E)
     (w1369_herm_inv (E := E) (m := m) (a := a) γ hA (toAdd u) (toAdd v))
 
+omit [Finite W] in
 theorem hasSympForm_of_natSUn {K : Subgroup (MulAut W)} {m a : ℕ} (h : NatSUn K ⊤ ⊥ m a) :
     HasSympForm K := by
   obtain ⟨E, hEfield, hEfin, hcard, hreal⟩ := h
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  haveI : Fintype E := Fintype.ofFinite E
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  have : Fintype E := Fintype.ofFinite E
   have hcard' : Fintype.card E = 2 ^ (2 * a) := by
     rw [← Nat.card_eq_fintype_card, hcard]; ring_nf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a) hcard'
-  letI : Algebra (ZMod 2) E := ZMod.algebra (R := E) (p := 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a) hcard'
+  let : Algebra (ZMod 2) E := ZMod.algebra (R := E) (p := 2)
   obtain ⟨π, hπ⟩ := hreal
   obtain ⟨hπsurj, hZU, hkerle, hUinv, hZinv, hsecinv, hkerinv, β, hβsurj, hβker,
     hβequiv⟩ := hπ

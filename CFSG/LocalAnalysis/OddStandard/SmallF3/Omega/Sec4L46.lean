@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 
 theorem sec4_isElemAbelian_conjugate {A : Subgroup G} (h : CFSG.Open.IsElemAbelian 2 A) (g : G) :
     CFSG.Open.IsElemAbelian 2 (CFSG.conjugate A g) := by
-  haveI : IsMulCommutative ↥A := h.1
+  have : IsMulCommutative ↥A := h.1
   refine ⟨IsMulCommutative.of_comm fun a b => Subtype.ext ?_, fun x hx => ?_⟩
   · have h1 : g * (a : G) * g⁻¹ * (g * b * g⁻¹) = g * b * g⁻¹ * (g * a * g⁻¹) :=
       congrArg Subtype.val (mul_comm' (⟨g * a * g⁻¹, (mem_conjugate_iff A g a).mp a.2⟩ : ↥A)
@@ -146,7 +146,7 @@ theorem sec4_weakly_closed [Finite G] (h43 : Asc82Lemma43) (h46a : Asc82Lemma46a
       intro b hb
       have hbBg : b ∈ CFSG.conjugate B g := by rw [hBg]; exact hb
       have hbA : b ∈ CFSG.conjugate A g := Subgroup.map_mono hBA hbBg
-      haveI : IsMulCommutative ↥(CFSG.conjugate A g) :=
+      have : IsMulCommutative ↥(CFSG.conjugate A g) :=
         (sec4_isElemAbelian_conjugate hD.isMax.2.1 g).1
       exact congrArg Subtype.val (mul_comm'
         (⟨g⁻¹ * t * g, htgA⟩ : ↥(CFSG.conjugate A g)) ⟨b, hbA⟩)
@@ -161,7 +161,7 @@ theorem sec4_weakly_closed [Finite G] (h43 : Asc82Lemma43) (h46a : Asc82Lemma46a
 private theorem exists_conj_le_sylow_of_isPGroup [Finite G] {H : Subgroup G} (P : Sylow 2 ↥H)
     {V : Subgroup G} (hVH : V ≤ H) (hVp : IsPGroup 2 V) :
     ∃ c ∈ H, ∀ x ∈ V, c⁻¹ * x * c ∈ (P : Subgroup ↥H).map H.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVp' : IsPGroup 2 (V.subgroupOf H) :=
     hVp.of_equiv (Subgroup.subgroupOfEquivOfLe hVH).symm
   obtain ⟨Q, hQ⟩ := hVp'.exists_le_sylow
@@ -195,7 +195,7 @@ theorem sec4_fusion_of_weakly_closed [Finite G] {t : G} {S A : Subgroup G}
       intro y hy
       rw [Set.mem_singleton_iff] at hy
       rw [hy]
-      haveI : IsMulCommutative ↥A := hA.1
+      have : IsMulCommutative ↥A := hA.1
       have hcomm : (h * x * h⁻¹) * (h * t * h⁻¹) = (h * t * h⁻¹) * (h * x * h⁻¹) :=
         congrArg Subtype.val (mul_comm' (⟨h * x * h⁻¹, hx⟩ : ↥A) ⟨h * t * h⁻¹, haA⟩)
       have h' := congrArg (fun z => h⁻¹ * z * h) hcomm

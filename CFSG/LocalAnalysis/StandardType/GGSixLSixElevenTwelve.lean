@@ -169,7 +169,7 @@ theorem GGSixFusionSetting.not_typeAk_of_conj (hS : GGSixFusionSetting p Bs G₀
     obtain ⟨j₁, j₂, -, h12, -, -, he2, -⟩ := htripb
     exact h12 (hinj he2)
   have heBs : e ∈ Bs := hS.omega e heC hep
-  obtain ⟨hAc, hQcard⟩ := hQ Q (hQP.trans hPN) (P.isPGroup'.to_le hQP)
+  obtain ⟨hAc, hQcard⟩ := hQ Q (hQP.trans hPN) (P.isPGroup.to_le hQP)
   have heA : e ∈ Q ⊓ Subgroup.centralizer (Bs : Set G) := ⟨heQ, heC⟩
   have hzA : z ∈ Subgroup.normalizer ((Q ⊓ Subgroup.centralizer (Bs : Set G) : Subgroup G) :
       Set G) := by
@@ -202,7 +202,7 @@ theorem GGSixFusionSetting.not_typeAk_of_conj (hS : GGSixFusionSetting p Bs G₀
     calc Nat.card Q ≤ p * Nat.card ↥(Q ⊓ Subgroup.centralizer (Bs : Set G)) := hQcard
       _ ≤ p * Nat.card ↥(Q ⊓ Subgroup.centralizer {z}) :=
         Nat.mul_le_mul_left _ (h1.trans h2)
-  have hcomm := conj_comm_eq_of_card_le inf_le_left hAc hzA (P.isPGroup'.to_le hQP) hzp
+  have hcomm := conj_comm_eq_of_card_le inf_le_left hAc hzA (P.isPGroup.to_le hQP) hzp
     hcardz heA
   obtain ⟨C, hC⟩ := hv.secondDiff hzN heBs hcomm
   obtain ⟨j₁, j₂, j₃, h12, h13, h23, he2, he3⟩ :=

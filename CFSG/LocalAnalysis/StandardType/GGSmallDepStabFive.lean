@@ -36,7 +36,7 @@ theorem ggSmallDep_false_of_stab_five {U : Type} [AddCommGroup U] [Module (ZMod 
     (hstab : Nat.card ↥(A ⊓ MulAction.stabilizer (U ≃ₗ[ZMod 5] U) x) ≤ 24 * Nat.card ↥H) :
     False := by
   classical
-  haveI : Finite U := Module.finite_of_finite (ZMod 5)
+  have : Finite U := Module.finite_of_finite (ZMod 5)
   let O : Subgroup (U ≃ₗ[ZMod 5] U) := TauCeti.QuadraticMap.orthogonalGroup Q
   let S : Subgroup (U ≃ₗ[ZMod 5] U) := MulAction.stabilizer (U ≃ₗ[ZMod 5] U) x
   have hOcard : Nat.card ↥O = 18720000 := by
@@ -62,7 +62,7 @@ theorem ggSmallDep_false_of_stab_five {U : Type} [AddCommGroup U] [Module (ZMod 
     · have hp5 : (5 : ℕ) ≠ 2 := by norm_num
       obtain ⟨W, hdim, hQw, hle⟩ :=
         ZS.exists_perp_natCard_isIsom_le (p := 5) (U := U) (Q := Q) hp5 hQ hQx
-      haveI : Module.Finite (ZMod 5) W :=
+      have : Module.Finite (ZMod 5) W :=
         Module.Finite.of_injective (f := W.subtype) W.subtype_injective
       have hnW : Module.finrank (ZMod 5) W = 2 * 2 := by omega
       have hWge : 28800 ≤ Nat.card {g : W ≃ₗ[ZMod 5] W //

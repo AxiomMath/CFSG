@@ -78,7 +78,7 @@ theorem isLThreeTwoOrASix_of_card_four (hI41 : InputI41Two) {G : Type} [Group G]
   have hVab : IsElemAbelian 2 V := hred.2.2.1
   have hVS : V ≤ (S : Subgroup G) :=
     (le_pCoreOf_of_isTwoReducedIn hred).trans (pCoreOf_two_le_sylow M S hSM)
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le hVS
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le hVS
   have hVC : V ≤ Subgroup.centralizer (V : Set G) := le_centralizer_of_isElemAbelian hVab
   have hcomm := commutator_eq_of_isSubnormal hX rfl hXM hXs hVM hMV hV2 hXV
   have hQV : pCoreOf 2 X ≤ V := hcomm ▸ commutator_le_left (hXM.trans hMV)
@@ -142,7 +142,7 @@ theorem isLThreeTwoOrASix_of_card_four (hI41 : InputI41Two) {G : Type} [Group G]
       calc 8 = 2 * 4 := by norm_num
         _ ≤ _ := Nat.mul_le_mul h2 h4
     have hMpos : 0 < Nat.card M := Nat.card_pos
-    obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     rw [hn] at hdvd hge ⊢
     have hn4 : n ≤ 4 := by
       by_contra h

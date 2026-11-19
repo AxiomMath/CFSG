@@ -32,7 +32,7 @@ theorem Counterexample4.false_of_not_quasisimpleModOTwo (c : Counterexample4 G)
     (hK49 : CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.K49I)
     (hST : CFSG.CGT.PushingUpLit.SolKAb.SolomonTimmesfeldMainNonAbelian) (hL3 : L3Overgroup) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨p, hp⟩ := c.sigma_nonempty
   have h76 : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.Conclusion76 c.S.M p :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.conclusion76 c hp hSE

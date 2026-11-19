@@ -87,7 +87,7 @@ theorem bigA9DataStatement_of_barA (hAS : AschbacherSeitzStatement) (hb : BigBar
       have : b = a := Subtype.ext hba
       exact this ▸ hb'
     · exact Subgroup.commutator_le.mpr hcommA
-  haveI hAn : ((V ⊓ wOf V H).subgroupOf M).Normal := by
+  have hAn : ((V ⊓ wOf V H).subgroupOf M).Normal := by
     rw [hAeq]
     infer_instance
   have hAV : (V ⊓ wOf V H).subgroupOf M ≤ V.subgroupOf M := by

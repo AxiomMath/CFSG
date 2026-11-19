@@ -302,7 +302,7 @@ private theorem tcsp_exists_sylow_le [Finite K] {r : ℕ} [hr : Fact r.Prime] (h
     rcases hr.out.dvd_mul.mp h with h | h
     · exact P.not_dvd_index h
     · exact tcsp_not_dvd_index hr.out hr2 hrd hT h
-  exact ⟨(P.isPGroup'.map T.subtype).toSylow hidx, Subgroup.map_subtype_le _⟩
+  exact ⟨(P.isPGroup.map T.subtype).toSylow hidx, Subgroup.map_subtype_le _⟩
 
 end Model
 

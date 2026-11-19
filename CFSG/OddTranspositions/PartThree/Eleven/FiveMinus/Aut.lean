@@ -28,7 +28,7 @@ theorem card_eq_two_mul_card_of_centralizer_eq_bot {G : Type*} [Group G] [Finite
     {N : Subgroup G} [N.Normal] (hC : Subgroup.centralizer (N : Set G) = ⊥)
     (hAut : Nat.card (MulAut N) ≤ 2 * Nat.card N) (hN : N ≠ ⊤) :
     Nat.card G = 2 * Nat.card N := by
-  haveI : Finite (G ⧸ N) := ((finite_iff_subgroup_quotient N).mp inferInstance).2
+  have : Finite (G ⧸ N) := ((finite_iff_subgroup_quotient N).mp inferInstance).2
   have hinj : Function.Injective (MulAut.conjNormal : G →* MulAut N) :=
     CFSG.Sporadic.Recognition.LyonsSims.conjNormal_injective_of_centralizer_eq_bot N hC
   have hle : Nat.card G ≤ Nat.card (MulAut N) := Nat.card_le_card_of_injective _ hinj

@@ -50,7 +50,7 @@ theorem bound_A (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group K] 
   swap
   · omega
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hZ : p ∣ Nat.card (Subgroup.center K)
   · have hZ1 := pRank_center_le_one hGA hK e hX (Or.inl rfl) hp hp2 hne
     by_cases hN : 4 ≤ n + 1
@@ -90,7 +90,7 @@ theorem bound_twistedA (hGA : CFSG.Open.GriessAllModelsStatement) {K : Type} [Gr
   swap
   · omega
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hZ : p ∣ Nat.card (Subgroup.center K)
   · have hZ1 := pRank_center_le_one hGA hK e hX (Or.inr (Or.inl rfl)) hp hp2 hne
     by_cases hN : 4 ≤ n + 1

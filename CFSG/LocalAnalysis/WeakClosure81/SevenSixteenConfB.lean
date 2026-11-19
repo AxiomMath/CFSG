@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 theorem s716D_mem_normalizer_of_forall {W : Subgroup G} {g : G}
     (h1 : ∀ t ∈ W, g * t * g⁻¹ ∈ W) (h2 : ∀ t ∈ W, g⁻¹ * t * g ∈ W) :
     g ∈ Subgroup.normalizer (W : Set G) := by
@@ -22,15 +23,17 @@ theorem s716D_mem_normalizer_of_forall {W : Subgroup G} {g : G}
   have e : g⁻¹ * (g * t * g⁻¹) * g = t := by group
   rwa [e] at h3
 
+omit [Finite G] in
 theorem s716D_le_normalizer_of_le_abelian {I A B : Subgroup G} (hI : IsMulCommutative ↥I)
     (hA : A ≤ I) (hB : B ≤ I) : A ≤ Subgroup.normalizer (B : Set G) := by
   intro x hx
   apply Subgroup.centralizer_le_normalizer
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
-  haveI := hI
+  have := hI
   exact setLike_mul_comm (hB hy) (hA hx)
 
+omit [Finite G] in
 theorem s716D_card_sup_le {A B : Subgroup G} (h : A ≤ Subgroup.normalizer (B : Set G)) :
     Nat.card ↥(A ⊔ B) ≤ Nat.card ↥A * Nat.card ↥B := by
   have hmul := Subgroup.coe_mul_of_left_le_normalizer_right A B h
@@ -172,7 +175,7 @@ theorem inf_centralizer_conj_eq_bot (h : Hyp716 V H E) {Q : Type} [Group Q]
     {a : G} (ha : a ∈ kSub V H E) (hP : PairHyp V (conjSubgroup V a)) {n : ℕ} (hn : 2 ≤ n)
     (hS : IsL2Gp ↥(barSub (kSub V H E) ((QuotientGroup.mk' (Subgroup.center Q)).comp φ)
       (V ⊔ conjSubgroup V a)) n)
-    (hYI : pairY V (conjSubgroup V a) ≤ iSub V H E) {X : Subgroup G} (hXK : X ≤ kSub V H E)
+    (hYI : pairY V (conjSubgroup V a) ≤ iSub V H E) {X : Subgroup G} (_hXK : X ≤ kSub V H E)
     (hXodd : Odd (Nat.card ↥X))
     (hXY : ∀ x ∈ X, pairY V (conjSubgroup V a) ≤ Subgroup.centralizer ({x} : Set G))
     (hXL : barSub (kSub V H E) φ X ≤
@@ -185,7 +188,7 @@ theorem inf_centralizer_conj_eq_bot (h : Hyp716 V H E) {Q : Type} [Group Q]
       Subgroup.centralizer ({((k⁻¹ * x₀ * k : ↥(kSub V H E)) : G)} : Set G) = ⊥ := by
   have hVK : V ≤ kSub V H E := le_kSub h.mem
   have hAK : conjSubgroup V a ≤ kSub V H E := s716C_conjSubgroup_le hVK ha
-  haveI hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
+  have hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
   have hpow : ∀ x : G, x ∈ X → x ^ Nat.card ↥X = 1 := fun x hx => by
     have h1 : (⟨x, hx⟩ : ↥X) ^ Nat.card ↥X = 1 := pow_card_eq_one'
     have h2 := congrArg Subtype.val h1
@@ -290,7 +293,7 @@ theorem iSub_eq_sup_inf_of_kSub_eq (h : Hyp716 V H E) {a b : G} (ha : a ∈ kSub
       (conjSubgroup V b ⊓ iSub V H E) := by
   have hAΩ : conjSubgroup V a ∈ omegaSet V H E := conjSubgroup_mem_omegaSet_of_mem_kSub h ha
   have hBΩ : conjSubgroup V b ∈ omegaSet V H E := conjSubgroup_mem_omegaSet_of_mem_kSub h hb
-  haveI hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
+  have hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
   set I' : Subgroup G := (V ⊓ iSub V H E) ⊔ (conjSubgroup V a ⊓ iSub V H E) ⊔
     (conjSubgroup V b ⊓ iSub V H E) with hI'
   have hI'I : I' ≤ iSub V H E := sup_le (sup_le inf_le_right inf_le_right) inf_le_right
@@ -324,7 +327,7 @@ theorem card_iSub_le_pow_three (h : Hyp716 V H E) {a b : G} (ha : a ∈ kSub V H
     (hK : kSub V H E = iSub V H E ⊔ (V ⊔ conjSubgroup V a ⊔ conjSubgroup V b)) :
     Nat.card ↥(iSub V H E) ≤ Nat.card ↥(V ⊓ iSub V H E) ^ 3 := by
   have hI := iSub_eq_sup_inf_of_kSub_eq h ha hb hK
-  haveI hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
+  have hIab : IsMulCommutative ↥(iSub V H E) := (isElemAbelian_iSub h).1
   have hN12 : V ⊓ iSub V H E ≤
       Subgroup.normalizer ((conjSubgroup V a ⊓ iSub V H E : Subgroup G) : Set G) :=
     s716D_le_normalizer_of_le_abelian hIab inf_le_right inf_le_right

@@ -53,12 +53,12 @@ theorem linear_inner_components {p : ℕ} (hpk : (p : k) ≠ 0) {A : GL (Fin n) 
     ∃ h : {h : primaryFactors (glA A : Module.End k (Fin n → k)) // IsGoodFactor A h},
       K = (specialFactor A h.1.1).map (LinearFlag.proj n k) := by
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : ∀ b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) // ¬ IsGoodFactor A b},
+  have : ∀ b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) // ¬ IsGoodFactor A b},
       Group.IsSolvable (blockGL (glA A : Module.End k (Fin n → k)) b.1.1) := fun b =>
     isSolvable_blockGL_of_not_good b.1.2 b.2
-  haveI : Group.IsSolvable ((b : primaryFactors (glA A : Module.End k (Fin n → k))) →
+  have : Group.IsSolvable ((b : primaryFactors (glA A : Module.End k (Fin n → k))) →
       (AdjoinRoot (b : k[X]))ˣ) := inferInstance
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) //
       ¬ IsGoodFactor A b}) → blockGL (glA A : Module.End k (Fin n → k)) b.1.1) :=
     isSolvable_pi_of_finite'
   exact components_of_centralQuotient (LinearFlag.proj n k) (LinearFlag.proj_surjective n k)
@@ -71,6 +71,7 @@ theorem linear_inner_components {p : ℕ} (hpk : (p : k) ≠ 0) {A : GL (Fin n) 
     (fun h => isQuasisimple_specialFactor hsq h.1.2 h.2) (blockDetHom hsq)
     (mem_iSup_specialFactor_of_blockDetHom_eq_one hsq) K hK
 
+omit [Finite k] in
 theorem nonempty_mulEquiv_specialFactor {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k)))) {h : k[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End k (Fin n → k))) :
@@ -95,6 +96,7 @@ theorem nonempty_mulEquiv_specialFactor {A : GL (Fin n) k}
     ((Subgroup.equivMapOfInjective _ (slGL n k) slGL_injective).trans
       (MulEquiv.subgroupCongr hmap)).symm⟩
 
+omit [Finite k] in
 theorem exists_surjective_ker_le_center_map_proj {G : Type*} [Group G]
     {S : Subgroup (Matrix.SpecialLinearGroup (Fin n) k)} (e : G ≃* S) :
     ∃ f : G →* ↥(S.map (LinearFlag.proj n k)), Function.Surjective f ∧

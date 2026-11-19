@@ -26,12 +26,12 @@ theorem ff_fin_simple_psu3 {X : Type} [Group X] (h : LieModel X .PSU 3 3 1) :
 theorem ff_simple_of_lieModel_psu3 {X : Type} [Group X] (h : LieModel X .PSU 3 3 1) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psu3 h
-  haveI := hfin
+  have := hfin
   exact ⟨hs, ff_noncomm_of_simple_card hs (by rw [ff_card_model_psu3 h]; norm_num)⟩
 
 theorem ff_isU33_of_lieModel {X : Subgroup G} (h : LieModel ↥X .PSU 3 3 1) : IsU33 X := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psu3 h
-  haveI := hfin
+  have := hfin
   exact ff_lieModel_quot_oddCore h hs (by rw [ff_card_model_psu3 h]; norm_num)
 
 theorem ff_card_isU33 {X : Subgroup G} (h : IsU33 X) : Nat.card (↥X ⧸ oddCore ↥X) = 6048 :=

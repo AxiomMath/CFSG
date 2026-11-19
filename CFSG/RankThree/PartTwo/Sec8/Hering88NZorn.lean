@@ -44,16 +44,15 @@ theorem zornPolar_nondeg (x : quasithinZorn K) (h : ∀ y, zornPolar x y = 0) : 
   · exact ha
   · intro i
     have h1 := h (0, 0, Pi.single i 1, 0)
-    simp only [zornPolar, Pi.zero_apply, mul_zero, zero_mul, add_zero, zero_add,
-      zero_sub] at h1
-    rw [Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj])
+    simp only [zornPolar, Pi.zero_apply, mul_zero, zero_mul, add_zero, zero_sub] at h1
+    rw [Finset.sum_eq_single i (fun j _ hj => by simp [hj])
       (fun hi => absurd (Finset.mem_univ i) hi)] at h1
     simpa using h1
   · intro i
     have h1 := h (0, Pi.single i 1, 0, 0)
     simp only [zornPolar, Pi.zero_apply, mul_zero, zero_mul, add_zero, zero_add,
       zero_sub] at h1
-    rw [Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj])
+    rw [Finset.sum_eq_single i (fun j _ hj => by simp [hj])
       (fun hi => absurd (Finset.mem_univ i) hi)] at h1
     simpa using h1
   · exact hb
@@ -92,7 +91,7 @@ theorem zornMul_smul_left (c : K) (x y : quasithinZorn K) :
   map_smul' c x := zornMul_smul_left c x j
 
 theorem finrank_zorn : Module.finrank K (quasithinZorn K) = 8 := by
-  simp [quasithinZorn, Module.finrank_prod, Module.finrank_fin_fun]
+  simp [quasithinZorn, Module.finrank_prod]
 
 section G2
 

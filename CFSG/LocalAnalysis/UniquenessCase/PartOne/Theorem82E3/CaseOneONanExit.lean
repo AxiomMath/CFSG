@@ -120,7 +120,7 @@ theorem Ctx82E3.false_of_onan
         x ∉ (P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G) →
         Subgroup.centralizer ({x} : Set G) ≤ D.M) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M
   have hQchar : ((P ⊓ c.L).subgroupOf P).Characteristic :=
     inf_L_subgroupOf_characteristic c hON hP
@@ -143,7 +143,7 @@ theorem Ctx82E3.false_of_onan
       inf_le_left.trans inf_le_left
     have hZbot : ((P ⊓ c.L) ⊓
         Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G)) = ⊥ := by
-      simpa [hbot] using hZleP
+      simp [hbot]
     rw [hZbot, Subgroup.card_bot] at hcardZ
     omega
   have hC : ∀ x ∈ P, orderOf x = 3 → Subgroup.centralizer ({x} : Set G) ≤ D.M :=

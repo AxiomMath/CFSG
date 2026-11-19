@@ -115,7 +115,7 @@ theorem coe_sl2QJ_mul_self :
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [sl2QJ, Matrix.mul_apply, Fin.sum_univ_two]
-  all_goals first | ring1 | linear_combination h3
+  all_goals linear_combination h3
 
 theorem coe_sl2QJ_mul_sl2QI :
     ((sl2QJ K * sl2QI K : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) =
@@ -133,7 +133,7 @@ theorem coe_conj_upper_sl2QI :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [sl2QI, sl2QJ, sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two]
-  all_goals first | ring1 | linear_combination h3
+  all_goals linear_combination h3
 
 theorem coe_conj_upper_sl2QJ :
     ((sl2UpperUnipotent (1 : K) * sl2QJ K * (sl2UpperUnipotent (1 : K))⁻¹ : SL(2, K)) :
@@ -145,7 +145,7 @@ theorem coe_conj_upper_sl2QJ :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [sl2QI, sl2QJ, sl2UpperUnipotent, Matrix.mul_apply, Fin.sum_univ_two]
-  all_goals first | ring1 | linear_combination h3 | linear_combination (-1 : K) * h3
+  all_goals first | linear_combination h3 | linear_combination (-1 : K) * h3
 
 abbrev psl2QI (K : Type*) [Field K] : PSL2 K := psl2QuotientMap K (sl2QI K)
 

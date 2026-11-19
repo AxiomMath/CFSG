@@ -58,7 +58,7 @@ theorem d2Escape_exists_of_not_le3 (hS : Setting G) (hD1 : TheoremD1 G) {p : ℕ
   have hAR : A ≤ R := by
     rw [hR, ← Subgroup.map_subgroupOf_eq_of_le hAH₁]
     exact Subgroup.map_mono hT
-  have hRp : IsPGroup p R := T.isPGroup'.map H₁.subtype
+  have hRp : IsPGroup p R := T.isPGroup.map H₁.subtype
   have hRM : R ≤ M := by
     refine CFSG.AGLEmbeddingD2.le_of_normalizer_inf_le hRp fun x hx => ?_
     refine CFSG.AGLEmbeddingD2.normalizer_le_of_core hprime P hsylow hPM' inf_le_right

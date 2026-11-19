@@ -36,9 +36,9 @@ private theorem Sec45Shape.kOf_props_of_card (h : RootHyp M V) (hS : Sec45Shape 
     exact (Tim79a.xOf V H).mul_mem ((Subgroup.mem_normalizer_iff.mp hcW k).mp hk)
       ((Tim79a.xOf V H).inv_mem hk)
   · obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-    letI := hField
-    letI := hFintype
-    letI := hCharP
+    let := hField
+    let := hFintype
+    let := hCharP
     exact ⟨fun c hcK hcW hcH hc2 =>
         hS.commutator_mem_xOf_of_mul_self_mem h hw hcK hcW hcH hc2 hK8
           hS.card_xOf_eq_pow_four,

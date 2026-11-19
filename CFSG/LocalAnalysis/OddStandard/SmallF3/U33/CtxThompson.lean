@@ -21,7 +21,7 @@ private theorem baseGrp_le_wreathGrp : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂
 private theorem commute_sup_wreathGrp {P : Subgroup G} (hPc : IsMulCommutative ↥P)
     (hcomm : ∀ a ∈ P, ∀ b ∈ wreathGrp x₁ x₂ lam, a * b = b * a) :
     ∀ p ∈ P, ∀ y ∈ P ⊔ wreathGrp x₁ x₂ lam, p * y = y * p := by
-  haveI : IsMulCommutative ↥P := hPc
+  have : IsMulCommutative ↥P := hPc
   intro p hp y hy
   obtain ⟨a, ha, s, hs, rfl⟩ := (mem_sup_iff_of_commute hcomm).mp hy
   calc p * (a * s) = (p * a) * s := by rw [mul_assoc]
@@ -39,7 +39,7 @@ private theorem abelian_le_sup_wreathGrp_decomp [Finite G] {P C : Subgroup G}
       Nat.card ↥C = Nat.card ↥P * Nat.card ↥(wreathGrp x₁ x₂ lam ⊓ C) ∧
       Nat.card ↥(wreathGrp x₁ x₂ lam ⊓ C) ≤ 16 ∧
       (Nat.card ↥(wreathGrp x₁ x₂ lam ⊓ C) = 16 → C = P ⊔ baseGrp x₁ x₂) := by
-  haveI : IsMulCommutative ↥C := hC
+  have : IsMulCommutative ↥C := hC
   have hD_le_T : wreathGrp x₁ x₂ lam ⊓ C ≤ wreathGrp x₁ x₂ lam := inf_le_left
   have hD_le_C : wreathGrp x₁ x₂ lam ⊓ C ≤ C := inf_le_right
   have hDcomm : IsMulCommutative ↥(wreathGrp x₁ x₂ lam ⊓ C) :=
@@ -80,8 +80,8 @@ private theorem card_le_card_sup_baseGrp [Finite G] {P : Subgroup G} (h : Wreath
     (hcardW : Nat.card ↥(P ⊔ baseGrp x₁ x₂) = Nat.card ↥P * 16)
     {B : Subgroup G} (hB : B ≤ P ⊔ wreathGrp x₁ x₂ lam) (hBc : IsMulCommutative ↥B) :
     Nat.card ↥B ≤ Nat.card ↥(P ⊔ baseGrp x₁ x₂) := by
-  haveI : IsMulCommutative ↥P := hPc
-  haveI : IsMulCommutative ↥B := hBc
+  have : IsMulCommutative ↥P := hPc
+  have : IsMulCommutative ↥B := hBc
   have hP_PT := commute_sup_wreathGrp (P := P) hPc hcomm
   have hPB : ∀ b ∈ B, ∀ p ∈ P, b * p = p * b := by
     intro b hb p hp
@@ -100,7 +100,7 @@ theorem ambientMaxCardThompson_sup_wreathGrp [Finite G] {P : Subgroup G} (h : Wr
     (hPc : IsMulCommutative P) (hcomm : ∀ a ∈ P, ∀ b ∈ wreathGrp x₁ x₂ lam, a * b = b * a)
     (hinf : P ⊓ wreathGrp x₁ x₂ lam = ⊥) :
     CFSG.ambientMaxCardThompson (P ⊔ wreathGrp x₁ x₂ lam) = P ⊔ baseGrp x₁ x₂ := by
-  haveI : IsMulCommutative ↥P := hPc
+  have : IsMulCommutative ↥P := hPc
   have hAT : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂ lam := baseGrp_le_wreathGrp
   have hPA : ∀ a ∈ P, ∀ b ∈ baseGrp x₁ x₂, a * b = b * a :=
     fun a ha b hb => hcomm a ha b (hAT hb)

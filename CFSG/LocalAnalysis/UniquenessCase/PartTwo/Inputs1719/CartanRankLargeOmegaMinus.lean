@@ -35,7 +35,7 @@ end LinearMap
 
 private theorem normTail_inversion_data
     {k F : Type} [Field k] [Field F] [Algebra k F] [CharP k 2]
-    (T : NormTailData k F) {m : ℕ} (h4 : 4 ≤ m) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+    (T : NormTailData k F) {m : ℕ} (h4 : 4 ≤ m) {r : ℕ} (_hr : r.Prime) (_hr2 : r ≠ 2)
     {ζ : kˣ} (hζ : orderOf ζ = r) :
     ∃ (h w : Fin 4 → G0 T m),
       (∀ i, ((h i : G0 T m) :
@@ -133,12 +133,12 @@ private theorem pomegaMinus_witness
     3 < CFSG.Open.pRank r (⊤ : Subgroup (normalizerQuotient S)) := by
   classical
   have h3m : 3 ≤ m := by omega
-  haveI : Finite (((Fin m ⊕ Fin m → k) × F) ≃ₗ[k] ((Fin m ⊕ Fin m → k) × F)) :=
+  have : Finite (((Fin m ⊕ Fin m → k) × F) ≃ₗ[k] ((Fin m ⊕ Fin m → k) × F)) :=
     Finite.of_injective
       (fun g : (((Fin m ⊕ Fin m → k) × F) ≃ₗ[k] ((Fin m ⊕ Fin m → k) × F)) =>
         (g : ((Fin m ⊕ Fin m → k) × F) → ((Fin m ⊕ Fin m → k) × F)))
       (fun _ _ h => LinearEquiv.ext fun x => congrFun h x)
-  haveI : Finite (G0 T m) :=
+  have : Finite (G0 T m) :=
     Finite.of_injective (fun g : G0 T m =>
       (g : ((Fin m ⊕ Fin m → k) × F) ≃ₗ[k] ((Fin m ⊕ Fin m → k) × F))) Subtype.coe_injective
   let ψ : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' (Subgroup.center K)
@@ -185,17 +185,17 @@ theorem k_CartanRankLarge_pomegaMinus :
     interval_cases f <;> norm_num at h2f
   obtain ⟨k, hkField, hkFin, hkChar, hkcard, hn4, F, hFField, hFAlg, T, hFdim, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.NonsplitCatalog.exists_normTail_of_lieModel hL
-  letI := hkField
-  letI := hkFin
-  letI := hkChar
-  letI := hFField
-  letI := hFAlg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hFfin : Finite F := finite_of_finrank_eq_two hFdim
+  let := hkField
+  let := hkFin
+  let := hkChar
+  let := hFField
+  let := hFAlg
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hFfin : Finite F := finite_of_finrank_eq_two hFdim
   obtain ⟨r, hr, hr2, -, hrdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.exists_odd_prime_dvd_two_pow_sub_one_ne_five hf2
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hcard_units : r ∣ Nat.card kˣ := by
     rw [Nat.card_units, hkcard]
     exact hrdvd

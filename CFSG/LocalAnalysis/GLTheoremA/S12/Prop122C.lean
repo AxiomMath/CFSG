@@ -83,6 +83,7 @@ theorem qs_J (h : NbrCfg G m p B x L D K y J) (hin : Inputs122 G p) : CFSG.Open.
   · exact u42_false h hin hp3 hd2 hL hinner hU (sTriple_of_U42 h hin hp3 hd2 hL hinner hU) hS0
   · exact hG ⟨E, hE.1, hE.2.1, hE.2.2, hE.1.trans hBJ, layer_up h.cfg hcom hE hDE hKJ hEK⟩
 
+omit [Finite G] in
 theorem halfSplit16At_of_marking {J : Subgroup G} {Q : GLAMarkProp J}
     (h : GLAMarking J (fun lab R _ I F θ => GLAHalfSplit16 p lab (Subgroup.center ↥J = ⊥) ∧ Q lab R I F θ)) :
     HalfSplit16At p J := by
@@ -97,6 +98,7 @@ theorem halfSplit16At_of_marking {J : Subgroup G} {Q : GLAMarkProp J}
       ∃ lab : GLALabel, LabelOf J lab ∧ (lab.tag = .D ∨ lab.tag = .triD4) ∧
         GLAHalfSplit16 p lab (Subgroup.center ↥J = ⊥)) ∨ FieldOn p x J
 
+omit [Finite G] in
 theorem Half122.halfSplit16At_or_field {p : ℕ} {B : Subgroup G} {x : G} {J : Subgroup G} (h : Half122 p B x J) :
     HalfSplit16At p J ∨ FieldOn p x J := by
   rcases h with ⟨h, -⟩ | ⟨-, -, lab, hlab, -, hhs⟩ | h

@@ -124,7 +124,7 @@ theorem not_deltaPair_of_psl2
   have hS₁T : T ≤ S₁ := le_sup_left
   have hyS₁ : y ∈ S₁ := mem_sup_right (mem_zpowers y)
   have hS₁S₂ : S₁ ≤ S₂ := sup_le hTS₂ (zpowers_le.mpr hyS₂)
-  have hS₁2 : IsPGroup 2 S₁ := S₂.isPGroup'.to_le hS₁S₂
+  have hS₁2 : IsPGroup 2 S₁ := S₂.isPGroup.to_le hS₁S₂
   have hS₁V : S₁ ≤ normalizer (V : Set G) := sup_le hTV (zpowers_le.mpr hyV)
   have hS₁out : ∀ b ∈ S₁, b ∉ T → rightConjugate T₀ b = T₁ := fun b hb hbT =>
     hTy b ((hS₁mem b hb).resolve_left hbT)
@@ -176,7 +176,7 @@ theorem not_deltaPair_of_psl2
           _ = S₁ := (rightConjugate_eq_self_iff _ _).mpr hzN
       exact (rightConjugate_eq_self_iff _ _).mp (hwc z h1)
     have key : ∀ z' ∈ (S₃ : Subgroup G), rightConjugate T₀ z' = T₀ → z' ∈ S₁ := fun z' hz' h' =>
-      hS₁T (h.mem_of_mem_normalizer S₃.isPGroup' (hS₁T.trans hS₁S₃) hz'
+      hS₁T (h.mem_of_mem_normalizer S₃.isPGroup (hS₁T.trans hS₁S₃) hz'
         (hNT₀ ((rightConjugate_eq_self_iff _ _).mp h')))
     have hT₀z : rightConjugate T₀ z ≤ gmsV L T := by
       rw [hVW]

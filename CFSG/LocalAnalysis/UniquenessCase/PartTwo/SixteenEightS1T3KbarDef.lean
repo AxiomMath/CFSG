@@ -26,10 +26,10 @@ theorem s16t3_gl3_transitive_card (K : Subgroup (Matrix.GeneralLinearGroup (Fin 
       intro h
       have h0 := congrFun h 0
       norm_num at h0
-    haveI : Fintype ↥K := Fintype.ofFinite ↥K
-    haveI : Fintype (MulAction.orbit ↥K (1 : Fin 3 → ZMod 2)) :=
+    have : Fintype ↥K := Fintype.ofFinite ↥K
+    have : Fintype (MulAction.orbit ↥K (1 : Fin 3 → ZMod 2)) :=
       Fintype.ofFinite _
-    haveI : Fintype (MulAction.stabilizer ↥K (1 : Fin 3 → ZMod 2)) :=
+    have : Fintype (MulAction.stabilizer ↥K (1 : Fin 3 → ZMod 2)) :=
       Fintype.ofFinite _
     have horbit : MulAction.orbit ↥K (1 : Fin 3 → ZMod 2) = {v | v ≠ 0} := by
       ext v

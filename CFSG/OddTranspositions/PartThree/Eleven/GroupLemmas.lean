@@ -75,7 +75,7 @@ theorem commute_of_closure_isConj_of_commutator_le_center {X : Type*} [Group X] 
       (commute_iff_eq x z').mpr (Subgroup.mem_center_iff.mp hz' x)
     exact Commute.mul_left (Commute.mul_right (Commute.refl d₀) (hcz' d₀))
       (Commute.mul_right (hcz d₀).symm (hcz' z))
-  haveI : IsMulCommutative (Subgroup.closure {g : X | IsConj d₀ g}) :=
+  have : IsMulCommutative (Subgroup.closure {g : X | IsConj d₀ g}) :=
     Subgroup.isMulCommutative_closure hpair
   have ha : a ∈ Subgroup.closure {g : X | IsConj d₀ g} := by rw [hgen]; trivial
   have hb : b ∈ Subgroup.closure {g : X | IsConj d₀ g} := by rw [hgen]; trivial
@@ -85,7 +85,7 @@ theorem commute_of_closure_isConj_of_commutator_le_center {X : Type*} [Group X] 
 
 theorem false_of_transfer {X : Type*} [Group X] [Finite X] (d₀ : X) (hd₀ : d₀ * d₀ = 1)
     (hgen : Subgroup.closure {g : X | IsConj d₀ g} = ⊤) (S : Sylow 2 X) {Q : Subgroup X}
-    (hQS : Q ≤ S) (hindex : Q.relIndex (S : Subgroup X) = 2)
+    (_hQS : Q ≤ S) (hindex : Q.relIndex (S : Subgroup X) = 2)
     (hSD : ∀ g ∈ (S : Subgroup X), IsConj d₀ g → g ∈ Q)
     {x : X} (hx : x * x = 1) (hxS : x ∈ (S : Subgroup X)) (hxQ : ∀ a : X, a⁻¹ * x * a ∉ Q) :
     False := by

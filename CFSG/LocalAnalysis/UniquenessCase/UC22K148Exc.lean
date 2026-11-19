@@ -83,8 +83,8 @@ theorem commute_calP_of_noSectionOffender [Finite G] [Finite V] (hρ : Function.
       apply hρ
       ext w
       simp [(hle hl).2 w Submodule.mem_top]
-    haveI := hKq.2.1
-    haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+    have := hKq.2.1
+    have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance hL1
   obtain ⟨W', hW'1, hW'2, Lb, Eb, hsq, hirr, hq, hE0, hEel, hEq, hEN, hoff, ψ, hψ⟩ :=
     exists_irrSection ρ L A hKq hAe hAN hLA hLnt hbest
@@ -98,14 +98,14 @@ theorem noSectionOffender_l2Odd
     (hEN : Eb ≤ Subgroup.normalizer (Lb : Set (MulAut W))) (ψ : X →* ↥Lb)
     (hψ : Function.Surjective ψ) :
     Nat.card Eb * Nat.card (CFSG.Quasithin.fixV Eb) < Nat.card W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := CFSG.QuasithinUnique.Setup.Family.equiv_projectiveSL_of_model
     (CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide))
-  haveI : IsSimpleGroup X := by
-    haveI := CFSG.QuasithinUnique.Setup.Family.p2_isSimpleGroup (p := p) (by omega)
+  have : IsSimpleGroup X := by
+    have := CFSG.QuasithinUnique.Setup.Family.p2_isSimpleGroup (p := p) (by omega)
     exact e.isSimpleGroup
   obtain ⟨α⟩ := ExcAux.cq_equiv_of_simple hXq hq ψ hψ e
-  haveI := hirr.1
+  have := hirr.1
   exact (CFSG.QuasithinUnique.Setup.Family.primeLinearTwoCover hp11 hW hq.1 hirr.2 α).2 Eb hEN hE hEe
 
 theorem noSectionOffender_sz
@@ -117,10 +117,10 @@ theorem noSectionOffender_sz
     (hψ : Function.Surjective ψ) :
     Nat.card Eb * Nat.card (CFSG.Quasithin.fixV Eb) < Nat.card W := by
   obtain ⟨-, hSz⟩ := CFSG.Blueprint.LieModel.suzukiModel hX
-  haveI : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_2b2_simplicity X 2 n hSz).2
+  have : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_2b2_simplicity X 2 n hSz).2
   obtain ⟨-, a, ha, K, _, _, hn, hcard, ⟨e⟩⟩ := hSz
   obtain ⟨α⟩ := ExcAux.cq_equiv_of_simple hXq hq ψ hψ e
-  haveI := hirr.1
+  have := hirr.1
   exact (CFSG.QuasithinUnique.Setup.Family.suzuki_irreducible_normalizer_excludes a ha (hn ▸ hcard) W
     hW Lb hq.1 hirr.2 α).2.2.2.2 Eb hE hEe hEN
 
@@ -154,8 +154,8 @@ theorem noSectionOffender_j1
     (hψ : Function.Surjective ψ) :
     Nat.card Eb * Nat.card (CFSG.Quasithin.fixV Eb) < Nat.card W := by
   obtain ⟨e⟩ := hX
-  haveI := CFSG.Walter.J1Props.J1_simple
-  haveI : IsSimpleGroup X := (e.trans CFSG.Walter.walterJ1EquivNative.symm).isSimpleGroup
+  have := CFSG.Walter.J1Props.J1_simple
+  have : IsSimpleGroup X := (e.trans CFSG.Walter.walterJ1EquivNative.symm).isSimpleGroup
   obtain ⟨α⟩ := ExcAux.cq_equiv_of_simple hXq hq ψ hψ e
   exact CFSG.QuasithinUnique.Setup.X1.j1ExclusionProp W hW Lb Eb hq.1 hirr ⟨α⟩ hEN hE hEe
 
@@ -164,7 +164,7 @@ theorem l2Odd_commute_calP [Finite G] [Finite V]
     (hp11 : 11 ≤ p) (hX : IsL2Odd ↥L p) {A : Subgroup G} (hA : A ∈ UC22.Ext.calP ρ) :
     ⁅L, A⁆ = ⊥ :=
   commute_calP_of_noSectionOffender hρ hL
-    (fun W _ _ Lb Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
+    (fun _W _ _ _Lb _Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
       noSectionOffender_l2Odd hp hp11 hX (ExcAux.isQuasisimple_of_isComponentOf hL) hW hirr hq hE hEe
         hEN ψ hψ) hA
 
@@ -172,7 +172,7 @@ theorem sz_commute_calP [Finite G] [Finite V]
     (hρ : Function.Injective ρ) {L : Subgroup G} (hL : IsComponentOf L ⊤) {n : ℕ} (hX : IsSz ↥L n)
     {A : Subgroup G} (hA : A ∈ UC22.Ext.calP ρ) : ⁅L, A⁆ = ⊥ :=
   commute_calP_of_noSectionOffender hρ hL
-    (fun W _ _ Lb Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
+    (fun _W _ _ _Lb _Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
       noSectionOffender_sz hX (ExcAux.isQuasisimple_of_isComponentOf hL) hW hirr hq hE hEe hEN ψ hψ) hA
 
 theorem su3_commute_calP
@@ -180,14 +180,14 @@ theorem su3_commute_calP
     (hρ : Function.Injective ρ) {L : Subgroup G} (hL : IsComponentOf L ⊤) {n : ℕ} (hX : IsSU3 ↥L n)
     {A : Subgroup G} (hA : A ∈ UC22.Ext.calP ρ) : ⁅L, A⁆ = ⊥ :=
   commute_calP_of_noSectionOffender hρ hL
-    (fun W _ _ Lb Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
+    (fun _W _ _ _Lb _Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
       noSectionOffender_su3 hX (ExcAux.isQuasisimple_of_isComponentOf hL) hW hirr hq hE hEe hEN ψ hψ) hA
 
 theorem j1_commute_calP [Finite G] [Finite V]
     (hρ : Function.Injective ρ) {L : Subgroup G} (hL : IsComponentOf L ⊤) (hX : IsJ1 ↥L)
     {A : Subgroup G} (hA : A ∈ UC22.Ext.calP ρ) : ⁅L, A⁆ = ⊥ :=
   commute_calP_of_noSectionOffender hρ hL
-    (fun W _ _ Lb Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
+    (fun _W _ _ _Lb _Eb hW hirr hq hE hEe _ hEN ⟨ψ, hψ⟩ =>
       noSectionOffender_j1 hX (ExcAux.isQuasisimple_of_isComponentOf hL) hW hirr hq hE hEe hEN ψ hψ) hA
 
 theorem commute_hP_of_forall_calP [Finite G] [Finite V] {L : Subgroup G}

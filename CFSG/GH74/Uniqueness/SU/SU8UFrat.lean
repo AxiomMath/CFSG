@@ -104,7 +104,7 @@ theorem exists_conf {N K : Type*} [Group N] [Finite N] [Group K] [Finite K] (φ 
     intro a ha b hb hab
     have hmem : a⁻¹ * b ∈ φ.ker := by
       rw [MonoidHom.mem_ker, map_mul, map_inv, hab]; group
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨a⁻¹ * b, R.mul_mem (R.inv_mem ha) hb⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨a⁻¹ * b, R.mul_mem (R.inv_mem ha) hb⟩
     have hk' : (a⁻¹ * b) ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
     exact inv_mul_eq_one.mp (eq_one_of_mem_odd hker hmem hk')
   have hcardmap : ∀ E : Subgroup N, E ≤ R → Nat.card (E.map φ) = Nat.card E := by
@@ -139,7 +139,7 @@ theorem exists_conf {N K : Type*} [Group N] [Finite N] [Group K] [Finite K] (φ 
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hb) (Subgroup.mem_sup_left h2)
   obtain ⟨r₀, hr₀, hyN⟩ :=
-    exists_mul_mem_normalizer_pgroup (N := φ.ker) (R := R) hker Q.isPGroup' hm
+    exists_mul_mem_normalizer_pgroup (N := φ.ker) (R := R) hker Q.isPGroup hm
   set y : N := y₁ * r₀ with hy
   have hφy : φ y = c := by rw [hy, map_mul, hy₁, (MonoidHom.mem_ker.mp hr₀), mul_one]
   have hynorm : ∀ r ∈ R, y * r * y⁻¹ ∈ R := fun r hr =>

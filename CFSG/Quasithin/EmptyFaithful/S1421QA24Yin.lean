@@ -163,7 +163,7 @@ theorem false_of_y_le (hSL2 : A312SL2Fact) (h36 : A36ForSQTK)
   have hbP₁ : g⁻¹ * b * g ∈ (P₁ : Subgroup ↥H') := inv_mul_mul_mem_of_smul_eq hg hbP₂
   have haP₁ : a ∈ (P₁ : Subgroup ↥H') := hP₁ (Subgroup.mem_zpowers a)
   set P : Subgroup G := (P₁ : Subgroup ↥H').map H'.subtype with hP
-  have hPp : IsPGroup 3 P := IsPGroup.map (H := (P₁ : Subgroup ↥H')) P₁.isPGroup' H'.subtype
+  have hPp : IsPGroup 3 P := IsPGroup.map (H := (P₁ : Subgroup ↥H')) P₁.isPGroup H'.subtype
   have hPL : P ≤ L := by
     rintro _ ⟨x, -, rfl⟩
     exact hHL x.2

@@ -62,7 +62,7 @@ theorem s1611e3_case9_layer {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
   let Fs : Subgroup (MulAut (Vtil V₀ V hV)) := Fstar Mb
   let Fb : Subgroup ↥Mb := Fs.subgroupOf Mb
   obtain ⟨hFX, hFn, hself⟩ := s16c167_cfg10_fstar_facts Mb
-  haveI hFbN : Fb.Normal := ⟨fun a ha b => hFn b.1 b.2 a.1 ha⟩
+  have hFbN : Fb.Normal := ⟨fun a ha b => hFn b.1 b.2 a.1 ha⟩
   have hL : IsPSL 3 2 1 ↥(lBar V₀ V hV L) := s16c167_isPSL_of_isL3 hL3
   have hSC : CFSG.ComponentClassification.AutL2Facts.SimpleCentreless ↥(lBar V₀ V hV L) :=
     s16c167_isPSL_simpleCentreless hL
@@ -76,8 +76,8 @@ theorem s1611e3_case9_layer {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
   have hcommIso : Nonempty (↥(commutator ↥Fb) ≃*
       (↥(lBar V₀ V hV L) × ↥(lBar V₀ V hV L))) :=
     s1611e3_commutator_iso hperf eFb
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsCyclic (Multiplicative (ZMod 7)) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsCyclic (Multiplicative (ZMod 7)) :=
     isCyclic_of_prime_card (p := 7) (by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card])
   have hOutFb : Group.IsSolvable
@@ -125,17 +125,17 @@ theorem s1611e3_case9_layer {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
         (MulAut.conjNormal (H := Fb) x) = 1
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
       exact ⟨⟨x, hx⟩, MulAut.conjNormal_val.symm⟩
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥Fb) := hOutFb
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥Fb) := hOutFb
   have hAF : Group.IsSolvable (↥Mb ⧸ Fb) := by
     refine Group.isSolvable_of_isSolvable_injective
       (f := QuotientGroup.lift Fb ψ hkerψ.symm.le) ?_
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_lift, hkerψ,
       QuotientGroup.map_mk'_self]
-  haveI : Group.IsSolvable (↥Mb ⧸ Fb) := hAF
+  have : Group.IsSolvable (↥Mb ⧸ Fb) := hAF
   let E : Subgroup ↥Mb := (commutator ↥Fb).map Fb.subtype
   have hE : E.Normal :=
     ConjAct.normal_of_characteristic_of_normal (H := Fb) (K := commutator ↥Fb)
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   have hEFb : E ≤ Fb := Subgroup.map_subtype_le (commutator ↥Fb)
   have hEcomm : E = ⁅Fb, Fb⁆ := by
     change (commutator ↥Fb).map Fb.subtype = ⁅Fb, Fb⁆
@@ -144,12 +144,12 @@ theorem s1611e3_case9_layer {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
   have hab : IsMulCommutative ↥(Fb.map (QuotientGroup.mk' E)) :=
     (Subgroup.commutator_self_eq_bot_iff (H := Fb.map (QuotientGroup.mk' E))).mp (by
       rw [← Subgroup.map_commutator, ← hEcomm, QuotientGroup.map_mk'_self])
-  haveI : IsMulCommutative ↥(Fb.map (QuotientGroup.mk' E)) := hab
+  have : IsMulCommutative ↥(Fb.map (QuotientGroup.mk' E)) := hab
   have hQuot : Group.IsSolvable ((↥Mb ⧸ E) ⧸ Fb.map (QuotientGroup.mk' E)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (QuotientGroup.quotientQuotientEquivQuotient E Fb hEFb).toMonoidHom)
       (QuotientGroup.quotientQuotientEquivQuotient E Fb hEFb).injective
-  haveI : Group.IsSolvable ((↥Mb ⧸ E) ⧸ Fb.map (QuotientGroup.mk' E)) := hQuot
+  have : Group.IsSolvable ((↥Mb ⧸ E) ⧸ Fb.map (QuotientGroup.mk' E)) := hQuot
   have hSol : Group.IsSolvable (↥Mb ⧸ E) :=
     Group.isSolvable_of_subgroup_quotient (Fb.map (QuotientGroup.mk' E))
   refine ⟨E, hE, ⟨?_, ?_⟩⟩

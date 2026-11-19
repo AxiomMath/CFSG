@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -46,7 +46,7 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 
 theorem comm_pow3_of_normalizes {G : Type*} [Group G] (x r f : G)
     (hx27 : x ^ 27 = 1) (hx9 : x ^ 9 ≠ 1) (hr : ∃ k : ℕ, r ^ 3 ^ k = 1)
-    (hrx : r * x * r⁻¹ ∈ Subgroup.zpowers x) (hr9 : r * x ^ 9 = x ^ 9 * r)
+    (hrx : r * x * r⁻¹ ∈ Subgroup.zpowers x) (_hr9 : r * x ^ 9 = x ^ 9 * r)
     (hrf : r ^ 3 = f) (hfx : f * x ≠ x * f) :
     r * x * r⁻¹ * x⁻¹ ∈ Subgroup.zpowers (x ^ 3) ∧
     r * x ^ 3 * r⁻¹ * (x ^ 3)⁻¹ ∈ Subgroup.zpowers (x ^ 9) ∧
@@ -132,8 +132,8 @@ theorem comm_pow3_of_normalizes {G : Type*} [Group G] (x r f : G)
 theorem not_commute_of_mem_closure_pair {G : Type*} [Group G] (a c d x f : G) (i j m : ℤ)
     (hf : f = a ^ i * c ^ j) (hi : ¬ (3 : ℤ) ∣ i)
     (hxa : x * a * x⁻¹ = d ^ m * a) (hm : ¬ (3 : ℤ) ∣ m)
-    (hxc : x * c = c * x) (hxd : x * d = d * x) (had : a * d = d * a) (hcd : c * d = d * c)
-    (hac : a * c = c * a) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) : f * x ≠ x * f := by
+    (hxc : x * c = c * x) (_hxd : x * d = d * x) (had : a * d = d * a) (_hcd : c * d = d * c)
+    (_hac : a * c = c * a) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) : f * x ≠ x * f := by
   intro h
   have hxf : x * f * x⁻¹ = f := by
     rw [← h, mul_inv_cancel_right]

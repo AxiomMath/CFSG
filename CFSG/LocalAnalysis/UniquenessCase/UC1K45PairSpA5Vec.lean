@@ -59,7 +59,7 @@ theorem A5Data.bil_one (h : PairHyp B a b) (d : A5Data B a b p₀ q₀) :
   intro h0
   apply hne
   rcases hP with rfl | rfl | rfl | rfl <;> rcases hQ with rfl | rfl | rfl | rfl <;>
-    simp [map_add, h0, d.hp₀Q _ d.hq₀, d.hq₀P _ d.hp₀, d.hp₀Q _ (apply_mem_commSp d.hq₀),
+    simp [map_add, h0, d.hp₀Q _ d.hq₀, d.hp₀Q _ (apply_mem_commSp d.hq₀),
       d.hq₀P _ (apply_mem_commSp d.hp₀)]
 
 theorem A5Data.bil_a_p₀_p₀ (h : PairHyp B a b) (d : A5Data B a b p₀ q₀) : B (a p₀) p₀ = 1 := by

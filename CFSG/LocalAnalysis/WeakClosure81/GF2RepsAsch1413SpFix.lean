@@ -16,7 +16,7 @@ open CFSG.Open CFSG.ComponentClassification.CatFactsSp4 CFSG.Assembly.LowTwoRank
 theorem asch1413_sp4_fixed_point {Q : Type} [Group Q] [Finite Q] {L A : Subgroup Q}
     (hLn : L.Normal) {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K))
     (h5 : 5 ≤ Nat.card K) (e : ↥L ≃* StatedProj (StatedSp 2 K)) (hA : Nat.card A = 4)
-    (hAe : IsElemAbelian 2 A) :
+    (_hAe : IsElemAbelian 2 A) :
     ∃ e' : ↥L ≃* StatedProj (StatedSp 2 K),
       (∀ x : ↥L, IsConj (u1 K) (e' x) ↔ IsConj (u1 K) (e x)) ∧
         ∀ a ∈ A, a * spIota e' (u1 K) = spIota e' (u1 K) * a := by
@@ -59,7 +59,7 @@ theorem asch1413_sp4_fixed_point {Q : Type} [Group Q] [Finite Q] {L A : Subgroup
   refine ⟨e', ?_, ?_⟩
   · intro x
     have he'x : e' x = c⁻¹ * e x * c := by
-      simp [e', MulEquiv.trans_apply, MulAut.conj_apply]
+      simp [e', MulEquiv.trans_apply]
     rw [he'x]
     constructor
     · intro h

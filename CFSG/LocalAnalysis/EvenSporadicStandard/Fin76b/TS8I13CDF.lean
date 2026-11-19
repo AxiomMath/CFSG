@@ -28,7 +28,7 @@ theorem caseDelta_false' [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * 
       Perm.sign (π (c.rho ⟨y, hy.2⟩).1) = 1 → ¬ ∃ g : G, y = g * z * g⁻¹)
     (h119 : ∀ y : G, y ∈ c.Nc → y ∉ c.N1 → y * y = 1 → (∃ g : G, g * z * g⁻¹ = y) →
       ∃ g ∈ c.Nc, g * z * g⁻¹ = y) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsig : ∀ a b : MulAut ↥E, (a, b) ∈ c.rho.range → Perm.sign (π a) = Perm.sign (π b) :=
     fun a b h => by rw [(hD a b).1 h]
   have hsyl := hR.isSylow hπ hD hEA

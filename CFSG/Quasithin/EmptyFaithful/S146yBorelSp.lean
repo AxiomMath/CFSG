@@ -113,7 +113,7 @@ theorem borelRigid_statedSp_two (hK : 4 ≤ Nat.card K) (hsimple : IsSimpleGroup
     unique_symplectic_four_Sylow_center (K := K) (Nat.card K) rfl
   have h0 : IsSylowTwoOf (unipotent 2 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   have hZ : Subgroup.center (StatedSp 2 K) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (StatedSp 2 K)) with hb | ht
     · exact hb

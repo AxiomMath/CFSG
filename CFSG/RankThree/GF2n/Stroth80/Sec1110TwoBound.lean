@@ -33,7 +33,7 @@ theorem card_dvd_of_isPGroup_subgroup_GL_two {K : Type} [Field K] [Finite K] {x 
     (hx : 1 ≤ x) (hq : Nat.card K = 2 ^ x) (A : Subgroup (GL (Fin 2) K))
     (hA : IsPGroup 2 ↥A) : Nat.card ↥A ∣ Nat.card K := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨k, hk⟩ := hA.exists_card_eq
   have hdvd : Nat.card ↥A ∣ Nat.card (GL (Fin 2) K) := Subgroup.card_subgroup_dvd_card A
   have hcardGL : Nat.card (GL (Fin 2) K) =
@@ -74,6 +74,7 @@ theorem card_dvd_of_isPGroup_subgroup_GL_two {K : Type} [Field K] [Finite K] {x 
 variable {G : Type} [Group G] [Finite G]
 variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem nonempty_xbar_mulEquiv_psl2GF {x : ℕ}
     (hLm2 : CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL 2 2 x)
     (hcenter : Subgroup.center ↥(Xbar M Q Z B) = ⊥) :
@@ -81,15 +82,15 @@ theorem nonempty_xbar_mulEquiv_psl2GF {x : ℕ}
   have hStated := hLm2.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
   simp only [CFSG.Open.StatedClassicalModel] at hStated
   obtain ⟨-, K, hKf, hKfin, hKcard, he⟩ := hStated
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨eK⟩ := he
   have hx0 : x ≠ 0 := by
     have h1 : 1 ≤ x := (hLm2.admissible).2.1
     omega
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 x) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 x) := Fintype.ofFinite _
   have hcard : Nat.card K = Nat.card (GaloisField 2 x) := by
     rw [hKcard, GaloisField.card 2 x hx0]
   have hcardF : Fintype.card K = Fintype.card (GaloisField 2 x) := by
@@ -102,7 +103,8 @@ theorem nonempty_xbar_mulEquiv_psl2GF {x : ℕ}
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
       (CFSG.GorensteinWalter.psl2RingEquiv iso)))⟩
 
-theorem Xbar_ne_bot_of_lieModel (hc : Ctx M Q Z B) {x : ℕ} (hx : 1 ≤ x)
+omit [Finite G] in
+theorem Xbar_ne_bot_of_lieModel (_hc : Ctx M Q Z B) {x : ℕ} (hx : 1 ≤ x)
     (hLm2 : CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL 2 2 x)
     (hcenter : Subgroup.center ↥(Xbar M Q Z B) = ⊥) :
     Xbar M Q Z B ≠ ⊥ := by
@@ -123,6 +125,7 @@ theorem Xbar_ne_bot_of_lieModel (hc : Ctx M Q Z B) {x : ℕ} (hx : 1 ≤ x)
       _ ≤ 2 ^ x * ((2 ^ x) ^ 2 - 1) := Nat.mul_le_mul h2 h3
   omega
 
+omit [Finite G] in
 theorem exists_isA2_of_lieModel (hc : Ctx M Q Z B) {x : ℕ} (hx : 1 ≤ x)
     (hLm2 : CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL 2 2 x)
     (hcenter : Subgroup.center ↥(Xbar M Q Z B) = ⊥) :
@@ -165,8 +168,8 @@ theorem card_inf_centralizer_Xbar_le (hc : Ctx M Q Z B) {n x : ℕ} (hw : Width 
   classical
   obtain ⟨K, hKf, hKfin, hKcard, f, hf⟩ :=
     stroth114_holds G M Q Z B hc n hw hn ha2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hKq : Nat.card K = 2 ^ x := by rw [hKcard, hZ]
   have hCX₁ : bar M Q (LB M Q B) ⊓
       Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)) ≤

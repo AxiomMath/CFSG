@@ -38,7 +38,7 @@ private lemma card_roots_four {F : Type} [Field F] {x : F} (hx : x ≠ 0) :
     exact hx hc.symm
   have hset : {t : F | p.IsRoot t} = (p.roots.toFinset : Set F) := by
     ext t
-    rw [Set.mem_setOf_eq, Finset.mem_coe, Multiset.mem_toFinset, Polynomial.mem_roots hp_ne]
+    rw [Set.mem_ofPred_eq, Finset.mem_coe, Multiset.mem_toFinset, Polynomial.mem_roots hp_ne]
   have heq : Nat.card {t : F | p.IsRoot t} = p.roots.toFinset.card := by
     rw [Nat.card_coe_set_eq, hset, Set.ncard_coe_finset]
   calc Nat.card {t : F | x * t ^ 4 = t * x ^ 4}
@@ -94,16 +94,16 @@ theorem exists_fixW_ne {F : Type} [Field F] [Fintype F] [CharP F 2]
       Nat.card {w : W // ∀ t ∈ B₀, ρ (uElt t) w = w} ≠
         Nat.card {w : W // ∀ t ∈ A₀, ρ (uElt t) w = w} := by
   classical
-  haveI hfin : Finite (EndRing ρ) := finite_endRing ρ
-  haveI hfd : FiniteDimensional (EndRing ρ) W := Module.Finite.of_finite
+  have hfin : Finite (EndRing ρ) := finite_endRing ρ
+  have hfd : FiniteDimensional (EndRing ρ) W := Module.Finite.of_finite
   let b : Module.Basis (Fin (Module.finrank (EndRing ρ) W)) (EndRing ρ) W :=
     Module.finBasis (EndRing ρ) W
   obtain ⟨hDcard, hDdata⟩ := hD
   obtain ⟨E, hE, hFin, hChar, ιF, ιD, J, hJ, hΦ⟩ := hDdata b
-  letI : Field E := hE
-  letI : Finite E := hFin
-  letI : CharP E 2 := hChar
-  letI : Algebra F E := ιF.toAlgebra
+  let : Field E := hE
+  let : Finite E := hFin
+  let : CharP E 2 := hChar
+  let : Algebra F E := ιF.toAlgebra
   obtain ⟨Φ⟩ := hΦ
   have h64 : Nat.card F = 64 := by rw [Nat.card_eq_fintype_card, hF]; norm_num
   have hdv : Nat.card A₀ ∣ 2 ^ 6 := by
@@ -403,8 +403,6 @@ private lemma natCard_fixV {F : Type} [Field F] [Fintype F] [CharP F 2]
       apply θ.injective
       apply Multiplicative.toAdd.injective
       rw [← B42L2.toAdd_binPsi, ← B45L2.repOf_theta (θL := φ), hx1, hv]
-      change ((B45L2.repOf θ φ) (x * uElt (Multiplicative.toAdd s) * x⁻¹))
-        ((B45L2.repOf θ φ) x w.1) = (B45L2.repOf θ φ) x w.1
       rw [← Module.End.mul_apply, ← map_mul (B45L2.repOf θ φ),
         show (x * uElt (Multiplicative.toAdd s) * x⁻¹) * x =
           x * uElt (Multiplicative.toAdd s) by group,
@@ -425,7 +423,7 @@ private lemma natCard_fixV {F : Type} [Field F] [Fintype F] [CharP F 2]
       Module.End.one_apply]
 
 theorem not_mem_aSet_three_of_le {F : Type} [Field F] [Fintype F] [CharP F 2]
-    (hF : Fintype.card F = 2 ^ 6) {I : Type} [CommGroup I] [Finite I] (hI : ∀ w : I, w ^ 2 = 1)
+    (hF : Fintype.card F = 2 ^ 6) {I : Type} [CommGroup I] [Finite I] (_hI : ∀ w : I, w ^ 2 = 1)
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] (θ : I ≃* Multiplicative W)
     {L : Subgroup (MulAut I)} (φ : ↥L ≃* SL(2, F)) [Fact (B45L2.repOf θ φ).IsIrreducible]
     (hD : SixtyFourDescent (B45L2.repOf θ φ)) (X : Subgroup (MulAut I))
@@ -457,7 +455,7 @@ theorem not_mem_aSet_three_of_le {F : Type} [Field F] [Fintype F] [CharP F 2]
       zero_mem' := by
         show x * uElt 0 * x⁻¹ ∈ A₁
         rw [uElt_zero]
-        simpa using A₁.one_mem
+        simp
       add_mem' := fun {s t} hs ht => by
         show x * uElt (s + t) * x⁻¹ ∈ A₁
         have h1 : x * uElt (s + t) * x⁻¹ =
@@ -496,7 +494,7 @@ theorem not_mem_aSet_three_of_le {F : Type} [Field F] [Fintype F] [CharP F 2]
         have h3 : innerPsiL φ x (Multiplicative.ofAdd t) = ⟨a, haL⟩ := φ.injective (by
           rw [innerPsiL_apply, MulEquiv.apply_symm_apply]
           show x * uElt t * x⁻¹ = φ ⟨a, haL⟩
-          rwa [← ht, show x * (x⁻¹ * φ ⟨a, haL⟩ * x) * x⁻¹ = φ ⟨a, haL⟩ by group])
+          rw [← ht, show x * (x⁻¹ * φ ⟨a, haL⟩ * x) * x⁻¹ = φ ⟨a, haL⟩ by group])
         rw [h3]
   have hA₀card : Nat.card A₀ = Nat.card A := by
     rw [← hAmap, Subgroup.card_map_of_injective (innerPsi_injective φ x),

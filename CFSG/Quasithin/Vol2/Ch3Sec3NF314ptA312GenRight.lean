@@ -246,7 +246,7 @@ theorem gen_right_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q} {q : �
         omega
     ·
       rcases h8 with ⟨p, hp, hp3, hpB, hpJ⟩ | ⟨h8a, -⟩
-      · haveI : IsSimpleGroup ↥B := isSimpleGroup_of_isPSL hpB
+      · have : IsSimpleGroup ↥B := isSimpleGroup_of_isPSL hpB
         have hpodd : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two (by omega))
         have hpc : Nat.card (CFSG.pCore 2 ↥B) = 1 := by
           rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 ↥B) with h | h
@@ -275,7 +275,7 @@ theorem gen_right_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q} {q : �
         omega
     ·
       rcases h9 with ⟨s, p, hp, hp3, hpB, hJ⟩ | ⟨h9a, -⟩ | ⟨h9a, -⟩
-      · haveI := Fact.mk hp
+      · have := Fact.mk hp
         have hp2 : p ≠ 2 := by omega
         have hpq : p = q := sl2_quot_eq (by omega) hp2 hpB hB hq hq2
         subst hpq
@@ -291,7 +291,7 @@ theorem gen_right_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q} {q : �
         omega
     ·
       obtain ⟨p, hp, hp3, hext, -⟩ := h10
-      haveI := Fact.mk hp
+      have := Fact.mk hp
       obtain ⟨V, hVn, hPV, -, hcard⟩ := isExt_card_eq hext
       have hVc := card_elemAb hPV
       have hVodd : Odd (Nat.card ↥V) := by
@@ -486,7 +486,7 @@ theorem gen_right_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q} {q : �
       have hsl := card_sl2 hp hSL
       obtain ⟨eB⟩ := equiv_quot_oddCore_of_sup hBJ hS hEven hJ.le
       obtain ⟨eJ⟩ := hSL
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hp3 : 3 ≤ p := by
         have := hp.two_le
         omega
@@ -512,7 +512,7 @@ theorem gen_right_card {Q : Type} [Group Q] [Finite Q] {B J : Subgroup Q} {q : �
             (fun o ho hol => ⟨⟨o, hol⟩, Subgroup.mem_subgroupOf.mpr ho, rfl⟩))
       have h120 : Nat.card (↥B ⧸ γ.ker) = 120 := by
         have h2 := Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective γ hγ).toEquiv
-        rw [h2, card_sl2 (by norm_num : Nat.Prime 5) hSL5] <;> norm_num
+        rw [h2, card_sl2 (by norm_num : Nat.Prime 5) hSL5]; norm_num
       exact (B2_dich_false hS hN8 hN660 hj hcQ h120 (by norm_num) (by norm_num)
         (by norm_num) (by norm_num)).elim
 

@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {a : G}
 theorem chevTwo_projSp_two (ha3 : a ^ 3 = 1) (c : UCfg L a haN m) {n : ℕ} (hn : 1 ≤ n)
     (φ : L ⧸ aschbacherSolvableCore 3 L ≃* projSp 2 (GaloisField 2 n)) :
     InducesStdKind L a .field ∨ InducesStdKind L a .graphField := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with hn1 | hn2
   · exfalso
     obtain rfl : n = 1 := by omega

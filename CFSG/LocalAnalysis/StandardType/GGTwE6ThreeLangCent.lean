@@ -26,6 +26,7 @@ variable {K L : Type} [Field K] [Finite K] [CharP K 2] [Group L]
       (Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :=
   (MonoidHom.compLeft (zmodPowHom ζ hζ) _).comp (MulEquiv.funMultiplicative _ _).toMonoidHom
 
+omit [Finite K] [CharP K 2] in
 theorem frameB_coe_apply (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ 3 = 1)
     (v : Fin Tag.E6.rank → ZMod 3) (i : Fin Tag.E6.rank) :
     ((frameB θ ζ hζ (Multiplicative.ofAdd v) i :
@@ -287,8 +288,7 @@ theorem conj_langWeyl_frame {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     have h0 : CFSG.StandardType.TableBExc.E6Three.zetaVec (ζ : Kˣ) hζ'
         (0 : Fin Tag.E6.rank → ZMod 3) = 1 := by
       funext k
-      simp [CFSG.StandardType.TableBExc.E6Three.zetaVec,
-        CFSG.RankThree.CentralCover.zmodPowHom_apply]
+      simp [CFSG.StandardType.TableBExc.E6Three.zetaVec]
     have hneg : CFSG.StandardType.TableBExc.E6Three.zetaVec (ζ : Kˣ) hζ' (-c) =
         (CFSG.StandardType.TableBExc.E6Three.zetaVec (ζ : Kˣ) hζ' c)⁻¹ := by
       have hadd := CFSG.StandardType.ExcFrames.zetaVec_add (ζ := (ζ : Kˣ)) hζ' c (-c)
@@ -326,6 +326,7 @@ theorem ofAdd_mem_range_of_mem_hyp {A : Subgroup (MulAut L)}
     exact Subgroup.mem_top _
   · exact (h v).2 hv
 
+omit [Finite K] [CharP K 2] in
 theorem frame_le_range (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ 3 = 1)
     {A : Subgroup (MulAut L)} (κ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3))
     (hκ : ∀ a : A, (a : MulAut L) = δ (frameB θ ζ hζ (κ a))) :
@@ -333,6 +334,7 @@ theorem frame_le_range (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ 3 = 
   intro a ha
   exact ⟨frameB θ ζ hζ (κ ⟨a, ha⟩), by simpa using (hκ ⟨a, ha⟩).symm⟩
 
+omit [Finite K] [CharP K 2] in
 theorem hyp_le (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ 3 = 1)
     {A : Subgroup (MulAut L)} (κ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3))
     (hκ : ∀ a : A, (a : MulAut L) = δ (frameB θ ζ hζ (κ a)))
@@ -375,6 +377,7 @@ theorem frame_act {f : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
   · rw [hb]
     rfl
 
+omit [Finite K] [CharP K 2] in
 theorem root_nontrivial_three {m : ℕ}
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ 3 = 1)
     (hζo : orderOf (ζ : Kˣ) = 3)

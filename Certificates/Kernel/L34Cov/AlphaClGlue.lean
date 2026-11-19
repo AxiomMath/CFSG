@@ -187,7 +187,7 @@ theorem alpha_spec_k {i : ℕ} (hi : i < 36) :
   generalize zaddC v₁ vA vB (eN 0 (FW.getD 10 [])) (eN 1 (FW.getD 10 [])) = α₁ at hcl az₁
   generalize zaddC v₂ vA vB (eN 0 (FW.getD 11 [])) (eN 1 (FW.getD 11 [])) = α₂ at hcl az₂
   generalize zaddC v₃ vA vB (eN 0 (FW.getD 12 [])) (eN 1 (FW.getD 12 [])) = α₃ at hcl az₃
-  simp only [andB_eq, Bool.and_eq_true, Nat.blt_eq] at hcl
+  simp only [Bool.and_eq_true, Nat.blt_eq] at hcl
   obtain ⟨⟨l₁, h64⟩, ⟨l₂, h65⟩, hcl⟩ := hcl
   have hb : ∀ l < 64, ent AlX.F i l / 48 < 64 := fun l hl => by
     have := bounds_A bounds_k hi (show l < 66 by omega)

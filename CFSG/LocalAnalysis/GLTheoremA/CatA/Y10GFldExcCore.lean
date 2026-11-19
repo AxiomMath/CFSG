@@ -22,10 +22,10 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
 theorem pComp_eq_commutator {X : Type} [Group X] [Finite X] {p : ℕ} {C I : Subgroup X}
     (hI : GLAPComponent p C I) (hs : IsSimpleGroup ↥(⁅C, C⁆ : Subgroup X)) : I = ⁅C, C⁆ := by
   have hJC : (⁅C, C⁆ : Subgroup X) ≤ C := Subgroup.commutator_le_self C
-  haveI : (⁅C, C⁆.subgroupOf C).Normal :=
+  have : (⁅C, C⁆.subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Subgroup.normalizer_commutator_ge_left C C)
   have hsolv : Group.IsSolvable (↥C ⧸ (⁅C, C⁆ : Subgroup X).subgroupOf C) := by
-    haveI : Group.IsSolvable (↥C ⧸ commutator ↥C) := inferInstance
+    have : Group.IsSolvable (↥C ⧸ commutator ↥C) := inferInstance
     let e := QuotientGroup.quotientMulEquivOfEq (CFSG.StandardType.ggCommutator_subgroupOf C)
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact CFSG.LocalAnalysis.GLTheoremA.Y10GFldOrth.FOB.eq_of_component hJC hsolv hs hI
@@ -87,17 +87,17 @@ theorem fldExc_core {S : Type} [Group S] [Finite S] (hRig : GGLabelRigidInput) {
     rw [← hfe, ← Y10F.fixSubgroup_map_congr]
     exact (Y10F.glaPComponent_map_iff hp e'.injective).mpr hJ
   obtain ⟨hpn, R₀, _, lab', hs0, hna0, hlam', hcan', hGH, ⟨θ₀⟩⟩ := hfix f' hf' hord'
-  haveI : IsSimpleGroup R₀ := hs0
+  have : IsSimpleGroup R₀ := hs0
   have hsub : fixSubgroup f' = ggFixSub f' := rfl
-  haveI : Finite R := Finite.of_equiv (S ⧸ Subgroup.center S) θ.toEquiv
+  have : Finite R := Finite.of_equiv (S ⧸ Subgroup.center S) θ.toEquiv
   have hJeq : J.map e'.toMonoidHom = ggFixDer f' := by
     rw [hsub] at hJ'
     exact pComp_eq_commutator hJ' (θ₀.isSimpleGroup)
   let eJ : ↥J ≃* R₀ :=
     ((Subgroup.equivMapOfInjective J e'.toMonoidHom e'.injective).trans
       (MulEquiv.subgroupCongr hJeq)).trans θ₀
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   obtain ⟨eQ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.nonempty_quotCenter_equiv eJ
   have hGJ : GGHasLabel lab' (↥J ⧸ Subgroup.center ↥J) := ggHasLabel_congr hGH eQ.symm

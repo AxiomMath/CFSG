@@ -141,7 +141,7 @@ theorem zetaLin_det (hζ3 : ζ ^ 3 = 1) (hdeg : Module.finrank K E = 3) :
     (zetaLin (ζ := ζ) (K := K) (E := E) (s := s)).det = 1 := by
   rw [zetaLin, LinearMap.det_pi]
   rw [Finset.prod_eq_single (0 : Fin s)]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     rw [← Algebra.norm_apply K (S := E) (algebraMap K E ζ), Algebra.norm_algebraMap, hdeg, hζ3]
   · intro b _ hb
     simp [hb]

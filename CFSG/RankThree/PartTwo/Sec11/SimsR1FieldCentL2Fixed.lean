@@ -50,7 +50,7 @@ theorem ker_subfieldToPSL (S : Subfield F) :
     · rw [← map_pow, hr, map_one]
     · rw [Matrix.SpecialLinearGroup.map_apply_coe, ← hrA]
       ext i j
-      by_cases hij : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+      by_cases hij : i = j <;> simp [Matrix.scalar_apply, hij]
 
 theorem range_subfieldToPSL (S : Subfield F) (σ : F ≃+* F) (hσ3 : ∀ x, σ (σ (σ x)) = x)
     (hS : ∀ a, a ∈ S ↔ σ a = a) :

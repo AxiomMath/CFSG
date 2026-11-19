@@ -39,7 +39,7 @@ theorem isPGroup_commutator_subgroup_GL_of_odd (hp : p.Prime) {d : ℕ} (hd : d 
   · have := Fact.mk hp
     obtain ⟨Q, -, -, -, hcomm⟩ := exists_cyclic_normal_sylow_of_odd_prime_field hp hG
     rw [← Subgroup.map_subtype_commutator]
-    exact (Q.isPGroup'.to_le hcomm).map _
+    exact (Q.isPGroup.to_le hcomm).map _
 
 theorem isPGroup_commutator_of_odd_aut_of_elementaryAbelianPRank_le_two [Finite P]
     (hp : p.Prime) (hodd : Odd p) (hP : IsPGroup p P) (hrank : elementaryAbelianPRank p P ≤ 2)

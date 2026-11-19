@@ -16,8 +16,8 @@ open scoped commutatorElement Pointwise
 theorem exists_mem_normalizer_not_mem {G : Type*} [Group G] [Finite G] {Q H : Subgroup G}
     (hQ : IsPGroup 2 Q) (hHQ : H ≤ Q) (hne : H ≠ Q) :
     ∃ q ∈ Q, q ∈ normalizer (H : Set G) ∧ q ∉ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hlt : H.subgroupOf Q < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne ?_
     apply le_antisymm hHQ
@@ -25,7 +25,7 @@ theorem exists_mem_normalizer_not_mem {G : Type*} [Group G] [Finite G] {Q H : Su
     have : (⟨q, hq⟩ : Q) ∈ H.subgroupOf Q := by rw [htop]; trivial
     exact this
   have hnorm := Group.normalizerCondition_of_isNilpotent (H.subgroupOf Q) hlt
-  obtain ⟨⟨q, hqQ⟩, hqN, hqH⟩ := SetLike.exists_of_lt hnorm
+  obtain ⟨⟨q, hqQ⟩, hqN, hqH⟩ := _root_.IsConcreteLE.exists_of_lt hnorm
   refine ⟨q, hqQ, mem_normalizer_fintype fun x hx => ?_, fun hqH' => hqH hqH'⟩
   have hxQ : x ∈ Q := hHQ hx
   have hmem : (⟨x, hxQ⟩ : Q) ∈ H.subgroupOf Q := hx
@@ -60,7 +60,7 @@ theorem eq_D₃_or_eq_D₁_of_conj_e₁ (h : d.Hyp) {T : Subgroup G} (h₃ : d.D
   · exact Or.inl (le_antisymm hTD h₃)
   right
   refine le_antisymm hT fun x hx => ?_
-  obtain ⟨r, hrT, hr3⟩ := SetLike.not_le_iff_exists.1 hTD
+  obtain ⟨r, hrT, hr3⟩ := IsConcreteLE.not_le_iff_exists.1 hTD
   have hrD₁ : r ∈ d.D₁ := hT hrT
   have hr0 : d.xi (r * d.t * r⁻¹ * d.t) ≠ 0 := fun h0 => hr3 ((h.mem_D₃_iff_xi hrD₁).2 h0)
   have hconj : ∀ y ∈ d.D₁, d.xi ((d.e₁ * y * d.e₁⁻¹) * d.t * (d.e₁ * y * d.e₁⁻¹)⁻¹ * d.t) =
@@ -86,7 +86,7 @@ theorem eq_D₃_or_eq_D₁_of_conj_e₁ (h : d.Hyp) {T : Subgroup G} (h₃ : d.D
 
 theorem D₁_le_normalizer_R_sup_D₃ (h : d.Hyp) :
     d.D₁ ≤ normalizer ((d.R ⊔ d.D₃ : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRN : d.R ≤ normalizer (d.D₁ : Set G) := h.R_le_normalizer_D₁
   have hRD₃ : d.R ≤ normalizer (d.D₃ : Set G) := h.R_le_normalizer_D₃
   have hQ : IsPGroup 2 (d.R ⊔ d.D₁ : Subgroup G) :=
@@ -94,7 +94,7 @@ theorem D₁_le_normalizer_R_sup_D₃ (h : d.Hyp) :
   have hH₀Q : d.R ⊔ d.D₃ ≤ d.R ⊔ d.D₁ := sup_le_sup_left D₃_le_D₁' _
   obtain ⟨x, hxD₁, hxD₃⟩ : ∃ x ∈ d.D₁, x ∉ d.D₃ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := Subgroup.card_le_of_le (hcon : d.D₁ ≤ d.D₃)
     rw [h.card_D₁, h.card_D₃] at this
     omega

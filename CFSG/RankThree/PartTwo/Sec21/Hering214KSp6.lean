@@ -136,7 +136,7 @@ theorem bad_of_classChk {k : ℕ} (hk16 : k < 16) {x y : H6} {X Y : List ℕ}
     (h : classChk k X Y = true) :
     ∀ u : H6, u * u = 1 → u ≠ 1 → ¬ (u * x = x * u ∧ u * y = y * u) := by
   rintro u hu2 hu1 ⟨hux, huy⟩
-  simp only [classChk, hbad, Bool.false_eq_true, if_false, Bool.and_eq_true,
+  simp only [classChk, hbad, Bool.false_eq_true, ite_false, Bool.and_eq_true,
     List.contains_iff_mem] at h
   obtain ⟨hA, hB⟩ := h
   have hcyc := cycAll_true
@@ -230,7 +230,7 @@ theorem pair_dichotomy {x y : H6} (hx : x ∈ wreathW zH CFSG.RankThree.PartTwo.
     exact Subgroup.mul_mem _ (Subgroup.mem_zpowers _) (Subgroup.mem_zpowers _)
   obtain ⟨k, hk, hcls⟩ := pairOK_spec (hP2 (by simp [xOK_spec hX3 hXne])) hY3 hcomm hY1 hYX hYXX
   rcases isGood_cases k with hg | hg
-  · simp only [classChk, hg, if_true, Bool.and_eq_true] at hcls
+  · simp only [classChk, hg, ite_true, Bool.and_eq_true] at hcls
     obtain ⟨-, hf⟩ := hcls
     have hu := upairsOK_true
     simp only [upairsOK, List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.and_eq_true,
@@ -254,7 +254,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 theorem statedModel_H6 : StatedClassicalModel H6 .PSp 3 2 1 := by
   refine ⟨⟨Nat.prime_two, le_refl 1, by norm_num, by decide⟩, ?_⟩
-  exact ⟨ZMod 2, inferInstance, inferInstance, by simp [Nat.card_zmod],
+  exact ⟨ZMod 2, inferInstance, inferInstance, by simp,
     ⟨statedProjSp6Equiv.symm⟩⟩
 
 theorem eInvFourFact_H6 : EInvFourFact H6 := by
@@ -262,8 +262,8 @@ theorem eInvFourFact_H6 : EInvFourFact H6 := by
   have hZ : Subgroup.center H6 = ⊥ := Sec8.Hering611.center_eq_bot_of_sp62 hmod
   have hinn : ∀ α : MulAut H6, ∃ y : H6, α = MulAut.conj y := fun α =>
     Sec8.Hering611.exists_conj_eq_of_sp62 hmod α
-  haveI : Finite H6 := Nat.finite_of_card_ne_zero (by rw [card_H6]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite H6 := Nat.finite_of_card_ne_zero (by rw [card_H6]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P₀ : Sylow 3 H6 := Sylow.ofCard (wreathW zH CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII.tH) (by
     rw [card_wreathW_zH, factorization_card_H6]
     norm_num)

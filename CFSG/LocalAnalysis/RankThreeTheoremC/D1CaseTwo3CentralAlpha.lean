@@ -88,7 +88,7 @@ theorem D1CaseTwoDataU.false_of_alpha (hKF : KFactBlockFieldIndex)
   have haJ : mk a ∈ Subgroup.normalizer (blockPL M S L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) :=
     Subgroup.mem_normalizer_fintype (blockPL_conj_mem hph.asc81bHyp haL' haS')
   have ha3 : IsPGroup 3 (Subgroup.zpowers (mk a)) := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨(a : G), haP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨(a : G), haP⟩
     have h1 : a ^ 3 ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
     exact CFSG.AGLEmbedding.isPGroup_zpowers_of_pow_eq_one (k := k)
       (by rw [← map_pow, h1, map_one])

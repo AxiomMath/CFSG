@@ -677,6 +677,7 @@ theorem pureEmb_comp_qnExtΩ (e : Fin k ↪ Fin n) (e' : Fin n ↪ Fin p) :
   rw [MonoidHom.comp_apply, pureEmb_coe, pureEmb_coe,
     qnExtΩ_apply (F := F) (K := K) E e g, coordExt_trans]
 
+omit [Finite K] [CharP K 2] in
 private theorem castEquiv_hypExt (h : n ≤ p)
     (g : (Fin n → K) ≃ₗ[F] (Fin n → K)) :
     castEquiv h (hypExt (K := F) (W := Fin n → K) g) =
@@ -696,12 +697,12 @@ private theorem castEquiv_hypExt (h : n ≤ p)
       g (castRestr h v).2 ⟨j, hj⟩ else v.2 j) =
     coordExt (F := F) (K := K) (Fin.castLEEmb h) g v.2 j
   by_cases hj : (j : ℕ) < n
-  · rw [dif_pos hj]
+  · rw [dite_eq_left hj]
     have hcast : (Fin.castLEEmb h ⟨j, hj⟩ : Fin p) = j := Fin.ext rfl
     conv_rhs => rw [← hcast]
     rw [coordExt_apply_of_mem]
     rfl
-  · rw [dif_neg hj]
+  · rw [dite_eq_right hj]
     rw [coordExt_apply_of_not_mem _ _ _ (by
       rintro ⟨i, hi⟩
       exact hj (by rw [← hi]; exact i.2))]
@@ -916,8 +917,8 @@ private theorem map_planeSupport_tauAt (n : ℕ) (j : Fin n) (S : Finset (Fin n)
     rw [hsnd]
     by_cases htj : t = j
     · subst t
-      rw [if_pos rfl, hv2 j ht, map_zero]
-    · rw [if_neg htj, hv2 t ht]
+      rw [ite_eq_left rfl, hv2 j ht, map_zero]
+    · rw [ite_eq_right htj, hv2 t ht]
   have h2 : planeSupport S ≤ (planeSupport S).map φ.toLinearMap := by
     intro v hv
     have hw : φ v ∈ planeSupport S :=
@@ -1028,20 +1029,20 @@ private theorem tauAt_mul_coordExt_of_not_mem (e : Fin k ↪ Fin n)
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   by_cases ht : t = j
   · subst t
-    rw [tauAt_apply, if_pos rfl, coordExt_apply_of_not_mem _ _ _ hj,
-      coordExt_apply_of_not_mem _ _ _ hj, tauAt_apply, if_pos rfl]
-  · rw [tauAt_apply, if_neg ht]
+    rw [tauAt_apply, ite_eq_left rfl, coordExt_apply_of_not_mem _ _ _ hj,
+      coordExt_apply_of_not_mem _ _ _ hj, tauAt_apply, ite_eq_left rfl]
+  · rw [tauAt_apply, ite_eq_right ht]
     by_cases hrange : ∃ i, e i = t
     · obtain ⟨i, rfl⟩ := hrange
       rw [coordExt_apply_of_mem (i := i), coordExt_apply_of_mem (i := i)]
       have hfun : (x ∘ ⇑e) = ((tauAt E j) x) ∘ ⇑e := by
         funext i'
         rw [Function.comp_apply, Function.comp_apply, tauAt_apply,
-          if_neg (fun h => hj ⟨i', h⟩)]
+          ite_eq_right (fun h => hj ⟨i', h⟩)]
       rw [hfun]
     · rw [coordExt_apply_of_not_mem _ _ _ hrange,
         coordExt_apply_of_not_mem _ _ _ hrange]
-      rw [tauAt_apply, if_neg ht]
+      rw [tauAt_apply, ite_eq_right ht]
 
 omit [Finite K] [CharP K 2] in
 private theorem hypExt_mul_comm {n : ℕ} {h₁ h₂ : (Fin n → K) ≃ₗ[F] (Fin n → K)}

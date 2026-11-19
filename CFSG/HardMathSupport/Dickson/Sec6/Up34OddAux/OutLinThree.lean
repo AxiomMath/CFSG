@@ -34,7 +34,7 @@ theorem noL34OuterAt3_pslGood (hO : LieOrderFormulasInput) :
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
   rw [← hK] at hcop
   let e : P ≃* projectiveSL n K := e0.trans (statedProjEquiv n K)
-  haveI : Finite (projectiveSL n K) := Finite.of_equiv P e.toEquiv
+  have : Finite (projectiveSL n K) := Finite.of_equiv P e.toEquiv
   refine noL34Layer_congr e ?_
   have hψ3' : (MulAut.congr e ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hD : MulAut.congr e ψ ∉ linearAutGroup n K := fun hD =>
@@ -51,7 +51,7 @@ theorem noL34OuterAt3_pslTwo (hO : LieOrderFormulasInput) : NoL34OuterAtThree Fa
   obtain ⟨rfl, rfl⟩ := hF
   have hC : StatedClassicalModel P .PSL 2 3 f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
-  haveI : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv P e0.toEquiv
+  have : Finite (StatedProj (StatedSL 2 K)) := Finite.of_equiv P e0.toEquiv
   refine noL34Layer_congr e0 ?_
   have hβ3 : (MulAut.congr e0 ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hβ1 : MulAut.congr e0 ψ ≠ 1 := fun h =>
@@ -81,15 +81,15 @@ theorem noL34OuterAt3_pslTwo (hO : LieOrderFormulasInput) : NoL34OuterAtThree Fa
         (lieModel_classical_iff (by decide)).mpr
           ⟨hadm₀, F₀, inferInstance, inferInstance, hj, ⟨MulEquiv.refl _⟩⟩
       obtain ⟨hq, hz⟩ := Solomon.Coordinator.l2fld_isQuasisimple_psl2 (F := F₀) (by omega)
-      haveI : IsSimpleGroup (StatedProj (StatedSL 2 F₀)) :=
+      have : IsSimpleGroup (StatedProj (StatedSL 2 F₀)) :=
         isSimpleGroup_of_quasisimple_of_center_bot_lin hq hz
       exact noL34Layer_of_fixed_equiv _ ψ0 inferInstance (exists_noncomm_of_center_bot hz)
         (not_isLThreeFour_of_lieModel_odd hO hp2 hmodel)
     · obtain rfl : j = 1 := by omega
       have hle : Nat.card F₀ ≤ 3 := by rw [hj]; norm_num
-      haveI : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
+      have : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) :=
         Solomon.Coordinator.l2fld_isSolvable_psl2_of_card_le_three hle
-      haveI : Group.IsSolvable ↥(fixSubgroup (MulAut.congr e0 ψ)) :=
+      have : Group.IsSolvable ↥(fixSubgroup (MulAut.congr e0 ψ)) :=
         Group.isSolvable_of_isSolvable_injective (f := ψ0.toMonoidHom) ψ0.injective
       exact noL34Layer_of_fixed_solvable_lin _ inferInstance
 
@@ -129,9 +129,9 @@ theorem noL34Layer_fieldAut_psu_odd (hO : LieOrderFormulasInput) (h : UnitaryFie
       Matrix (Fin n) (Fin n) (fixSubfield σ)) ≃* ↥j.range := MonoidHom.ofInjective hinj
   have hs₀ := isSimpleGroup_primeFormP_one h₀ hn hq0
   have hnc₀ := not_commute_primeFormP_one h₀ hn hq0
-  haveI : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
+  have : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
       Matrix (Fin n) (Fin n) (fixSubfield σ))) := hs₀
-  haveI : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
   have hnab : ∃ a b : ↥j.range, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -158,7 +158,7 @@ theorem noL34OuterAt3_psuGood (hO : LieOrderFormulasInput) : NoL34OuterAtThree F
   obtain ⟨rfl, hn3, hdiv⟩ := hF
   obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hadm hm
   have hne : ¬(n = 3 ∧ 3 ^ f = 2) := fun ⟨h1, h2⟩ => hadm.2.2.2 (by rw [h1, h2])
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv P e0.toEquiv
   refine noL34Layer_congr e0 ?_
   have hψ3' : (MulAut.congr e0 ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]

@@ -95,10 +95,10 @@ theorem parFacts {k : ℕ} (hk : k < 4) :
   refine ⟨h2, h3, h4, fun m hm => (beq_iff _ _).1 (CFSG.KS.allN_spec h5 m hm), fun t ht => ?_, h7,
     fun i hi => ?_⟩
   · have h9 := CFSG.KS.allN_spec h6 t ht
-    simp only [sB_eq, bRec_and, Bool.and_eq_true, blt_iff, beq_iff] at h9
+    simp only [sB_eq, Bool.and_eq_true, blt_iff, beq_iff] at h9
     exact h9
   · have h9 := CFSG.KS.allN_spec h8 i hi
-    simp only [sB_eq, bRec_and, Bool.and_eq_true, blt_iff, beq_iff] at h9
+    simp only [sB_eq, Bool.and_eq_true, beq_iff] at h9
     obtain ⟨h10, -, h11⟩ := h9
     refine ⟨h10, fun hi1 => ?_, fun hi1 => ?_⟩
     · rcases bIf_cases h11 with ⟨-, h12⟩ | ⟨hc, -⟩

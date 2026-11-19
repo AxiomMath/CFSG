@@ -21,8 +21,7 @@ theorem invT_eq_foldl (n : ℕ) (P : Table) :
       (Array.replicate n 0) := by
   unfold invT
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
-    List.forIn_pure_yield_eq_foldl, Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one, pure_bind,
-    bind_pure]
+    List.forIn_pure_yield_eq_foldl, Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one, bind_pure]
   rfl
 
 theorem invT_loop (P : Table) (hlt : ∀ i < n, (P[i]!).toNat < n)

@@ -248,7 +248,7 @@ theorem orbitData_rel : RArr orbitData.1 orbitDataB.1 ∧ RArr orbitData.2.1 orb
   dsimp only
   rw [rArr_get hI s]
   by_cases hc : (getT IDX s == 2048) = true
-  · rw [if_pos hc, stepOB_pos hc]
+  · rw [ite_eq_left hc, stepOB_pos hc]
     refine ⟨_, rfl, mid_of t (forIn_loopB RMid 2048 _ (stepHB t) _ _
       ⟨rArr_set hI s t, hD, hP, hG, rfl, rfl, rfl, by simp⟩ ?_)⟩
     rintro - - ⟨idx, dist, par, gen, queue, h⟩ ⟨IDX, DIST, PAR, GEN, F, Bk, qn, h'⟩
@@ -257,7 +257,7 @@ theorem orbitData_rel : RArr orbitData.1 orbitDataB.1 ∧ RArr orbitData.2.1 orb
     subst hqn hh
     dsimp only
     by_cases hc2 : h < queue.size
-    · rw [if_pos hc2, stepHB_pos hc2]
+    · rw [ite_eq_left hc2, stepHB_pos hc2]
       have hu : queue[h]! = (frontB F Bk).headD 0 := by
         rw [arr_get_drop queue h hc2, hq, ← frontB_append, frontB_headD]
       rw [hu]
@@ -272,18 +272,18 @@ theorem orbitData_rel : RArr orbitData.1 orbitDataB.1 ∧ RArr orbitData.2.1 orb
       rw [vecMulN_fCol, rArr_get hI, rArr_get hD]
       by_cases hc3 : (decide (vecMulL (fColArr[k]!).toList ((frontB F Bk).headD 0) < 2048) &&
           getT IDX (vecMulL (fColArr[k]!).toList ((frontB F Bk).headD 0)) == 2048) = true
-      · rw [if_pos hc3, stepKB_pos hc3]
+      · rw [ite_eq_left hc3, stepKB_pos hc3]
         refine ⟨_, rfl, rArr_set hI _ _, rArr_set hD _ _, rArr_set hP _ _, rArr_set hG _ _, ?_, ?_, ?_⟩
         · dsimp only
           rw [Array.toList_push, List.drop_append_of_le_length (by simpa using hle2), hq2,
             List.reverse_cons, List.append_assoc]
         · simp
         · simp; omega
-      · rw [if_neg hc3, stepKB_neg hc3]
+      · rw [ite_eq_right hc3, stepKB_neg hc3]
         exact ⟨_, rfl, hI, hD, hP, hG, hq2, rfl, hle2⟩
-    · rw [if_neg hc2, stepHB_neg hc2]
+    · rw [ite_eq_right hc2, stepHB_neg hc2]
       exact ⟨_, rfl, hI, hD, hP, hG, hq, rfl, rfl, hle⟩
-  · rw [if_neg hc, stepOB_neg hc]
+  · rw [ite_eq_right hc, stepOB_neg hc]
     exact ⟨_, rfl, hI, hD, hP, hG, rfl⟩
 
 theorem orb_packed {a : Array ℕ} {T : BT} (h : RArr a T) {i : Nat} (hi : i < 4)
@@ -297,7 +297,7 @@ theorem orb_packed {a : Array ℕ} {T : BT} (h : RArr a T) {i : Nat} (hi : i < 4
     rw [List.all_eq_true] at hb
     have hlt := hb i (List.mem_range.2 hi)
     rw [decide_eq_true_eq] at hlt
-    rw [getT_eq, if_neg hm, fget_big hlt (by omega)]
+    rw [getT_eq, ite_eq_right hm, fget_big hlt (by omega)]
 
 theorem orb_facts : ∀ m, orbIdx m = oIdx m ∧ orbDist m = oDist m ∧ orbPar m = oPar m ∧
     orbGen m = oGen m := by

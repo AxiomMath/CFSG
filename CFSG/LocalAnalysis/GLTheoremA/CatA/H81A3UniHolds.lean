@@ -29,18 +29,18 @@ private theorem h81Choice_torusU {ℓ f : ℕ} {K : Type} [Field K] {h : Unitary
     (hP : ∀ (d : Fin 4 → K) (hn : ∀ i, h.bar (d i) * d i = 1) (hd : ∏ i, d i = 1),
       (∀ i, d i ^ p = 1) → projU h (diagU h d hn hd) ∈ P) :
     H81Choice p P JType :=
-  ⟨projU h (yU h hp hp2 hμ hpq), hP _ _ _ (yd_pow hp hp2 hμ), projU_yU_ne_one hp hp2 hμ hpq,
+  ⟨projU h (yU h hp hμ hpq), hP _ _ _ (yd_pow hμ), projU_yU_ne_one hp hp2 hμ hpq,
     JU h, glaPComponent_centralizer_projU_yU hp hp2 hμ hpq hK hq,
-    fun L hL => eq_of_glaPComponent_centralizer_projU_yU hp hp2 hμ hpq hK hq hL, hJT,
-    ⟨projU h (zU h hp hp2 hμ hpq), hP _ _ _ (zd_pow hp hp2 hμ),
-      projU_zU_not_mem_zpowers hp hp2 hμ hpq, glaPLayer_JU_inf_centralizer_ne_bot hp hp2 hμ hpq hK hq⟩,
+    fun _L hL => eq_of_glaPComponent_centralizer_projU_yU hp hp2 hμ hpq hK hq hL, hJT,
+    ⟨projU h (zU h hp hμ hpq), hP _ _ _ (zd_pow hμ),
+      projU_zU_not_mem_zpowers hp hμ hpq, glaPLayer_JU_inf_centralizer_ne_bot hp hp2 hμ hpq hK hq⟩,
     fun α hα hc => aut_eq_conj_yU_zpow hK hq hℓ2 hp hp2 hμ hpq α hα hc⟩
 
 theorem h81FactTwA3_holds : H81FactTwA3 := by
   intro p Q hp hp2 hQ2 hdiv H _ _ hcat P hPel hPcard
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id
@@ -53,7 +53,7 @@ theorem h81FactTwA3_holds : H81FactTwA3 := by
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 Q hv e₀
   have h : UnitaryFieldData Q.p Q.exponent K :=
     ⟨Q.prime_p, Q.exponent_pos, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : CharP K Q.p := h.charP
+  have : CharP K Q.p := h.charP
   obtain ⟨e₂⟩ := nonempty_primeFormP_mulEquiv h (isPrimeFormGram_idGram (K := K) (n := 4))
   let e : H ≃* PS h := e₁.trans ((unitaryPSUEquiv h (by norm_num : 1 ≤ 4)).symm.trans e₂.symm)
   have hpq : p ∣ Q.p ^ Q.exponent + 1 := by

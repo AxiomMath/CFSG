@@ -23,7 +23,7 @@ theorem irgIsoCompat_omegaMinus_three
     GaloisField.card 2 g (by omega)
   obtain ⟨inst, ⟨D⟩⟩ := CFSG.RankThree.PartOne.CTP.SU4Even.exists_kleinDataEven
     (F := GaloisField 2 g) (K := GaloisField 2 (2 * g)) (f := g) hF hK (minusCoeffs_irr 2 g)
-  letI := inst
+  let := inst
   let e₀ : spinGroup (quadMinus 3 (GaloisField 2 g) (minusCoeffs 2 g).1 (minusCoeffs 2 g).2) ≃*
       Unitary.SU (unitaryInvolution (GaloisField 2 (2 * g)) 2 g) 4 :=
     D.phiSUEven hK (minusCoeffs_irr 2 g)

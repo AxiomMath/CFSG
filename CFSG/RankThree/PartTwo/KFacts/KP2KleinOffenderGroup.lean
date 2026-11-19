@@ -104,16 +104,16 @@ theorem card_mul_card_lt_of_section [Finite G] {J R₁ R₂ F X : Subgroup G}
     (hF : ∃ f, ∃ hf : f ∈ F, θ ⟨f, hFJ hf⟩ ≠ 1)
     (hX₂ : R₂ ≤ X) (hX₁ : X ≤ R₁) (hFX : ∀ x ∈ X, ∀ f ∈ F, f * x * f⁻¹ * x⁻¹ ∈ R₂) :
     Nat.card ((F.subgroupOf J).map θ) * Nat.card X < Nat.card R₁ := by
-  letI hN : (R₂.subgroupOf R₁).Normal :=
+  let hN : (R₂.subgroupOf R₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hR.le).mpr hR₁₂
-  haveI hNX : (R₂.subgroupOf X).Normal :=
+  have hNX : (R₂.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hX₂).mpr (hX₁.trans hR₁₂)
   let M := ↥R₁ ⧸ R₂.subgroupOf R₁
-  haveI : Finite ↥R₁ := Subtype.finite
-  haveI : Finite M := Quotient.finite _
-  haveI : Finite ↥R₂ := Subtype.finite
+  have : Finite ↥R₁ := Subtype.finite
+  have : Finite M := Quotient.finite _
+  have : Finite ↥R₂ := Subtype.finite
   have hM : IsPGroup 2 M := hR₁.to_quotient (R₂.subgroupOf R₁)
-  haveI hMnontriv : Nontrivial M := by
+  have hMnontriv : Nontrivial M := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     have hR₂eq : R₂ = R₁ := by

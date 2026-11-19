@@ -27,7 +27,7 @@ theorem signAt_mul_eq_negAt (i : Fin 3) (c : Fin 3 → ZMod 3) :
   funext j
   by_cases h : j = i
   · rw [h]
-    simp only [signAt, Pi.mul_apply, if_pos rfl, negAt, Function.update_self]
+    simp only [signAt, Pi.mul_apply, negAt, Function.update_self]
     exact neg_one_mul (c i)
   · simp [signAt, negAt, h]
 
@@ -72,9 +72,9 @@ theorem exists_eigenBasis {Y L : Subgroup X} [Finite X] (h : EigenHyp Y L) :
     have hconj_e : ∀ j, l i * e j * (l i)⁻¹ = if j = i then (e j)⁻¹ else e j := by
       intro j
       by_cases hji : j = i
-      · rw [if_pos hji]
+      · rw [ite_eq_left hji]
         simpa [hji] using hdiag i
-      · rw [if_neg hji]
+      · rw [ite_eq_right hji]
         exact hoff i j (Ne.symm hji)
     have hfac : ∀ j, l i * e j ^ (c j).val * (l i)⁻¹ =
         (if j = i then (e j)⁻¹ else e j) ^ (c j).val := by
@@ -152,7 +152,7 @@ theorem eb_mem (E : EigenBasis Y L σ l) (i : Fin 3) : eb σ i ∈ Y :=
   E.mem_iff.mpr ⟨Pi.single i 1, rfl⟩
 
 theorem orderOf_eb (E : EigenBasis Y L σ l) (i : Fin 3) : orderOf (eb σ i) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hzero : (3 : ℕ) • (Pi.single i (1 : ZMod 3) : Fin 3 → ZMod 3) = 0 := by
     rw [← Nat.cast_smul_eq_nsmul (ZMod 3) 3]
     have h3z : ((3 : ℕ) : ZMod 3) = 0 := ZMod.natCast_self 3
@@ -283,7 +283,7 @@ theorem diag (E : EigenBasis Y L σ l) {x : X} (hx : x ∈ L) :
     obtain ⟨sb, hsb, hbact⟩ := hb
     refine ⟨sa * sb, ?_, ?_⟩
     · intro i
-      rcases hsa i with h | h <;> rcases hsb i with k | k <;> simp [h, k] <;> decide
+      rcases hsa i with h | h <;> rcases hsb i with k | k <;> simp [h, k]
     · intro c
       calc a * b * σ (Multiplicative.ofAdd c) * (a * b)⁻¹
           = a * (b * σ (Multiplicative.ofAdd c) * b⁻¹) * a⁻¹ := by group
@@ -357,7 +357,7 @@ theorem exists_mem_of_signs (E : EigenBasis Y L σ l) (s : Fin 3 → ZMod 3)
           rw [hsingle 0 (e 0) (he 0)]
     _ = σ (Multiplicative.ofAdd (s * c)) := by rw [hsign]
 
-theorem apply_eq_eprod (E : EigenBasis Y L σ l) (c : Fin 3 → ZMod 3) :
+theorem apply_eq_eprod (_E : EigenBasis Y L σ l) (c : Fin 3 → ZMod 3) :
     σ (Multiplicative.ofAdd c) =
       CFSG.GroupTheory.DiagonalTwentySeven.eprod (eb σ) c := by
   classical

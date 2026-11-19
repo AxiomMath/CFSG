@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def conjPairSub (V₀ : Subgroup G) (x y : G) : Subgroup G :=
   conjSubgroup V₀ x ⊔ conjSubgroup V₀ y
 
+omit [Finite G] in
 private theorem w16q_conjSubgroup_comm {A B : Subgroup G}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (x : G) :
     ∀ a ∈ conjSubgroup A x, ∀ b ∈ conjSubgroup B x, a * b = b * a := by
@@ -31,6 +32,7 @@ private theorem w16q_conjSubgroup_comm {A B : Subgroup G}
     _ = x⁻¹ * ((x * b * x⁻¹) * (x * a * x⁻¹)) * x := by rw [hcomm]
     _ = b * a := by group
 
+omit [Finite G] in
 private theorem w16q_barSub_comm {K : Subgroup G} {X : Type} [Group X] (φ : ↥K →* X)
     {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     ∀ a ∈ SevenK.barSub K φ A, ∀ b ∈ SevenK.barSub K φ B, a * b = b * a := by

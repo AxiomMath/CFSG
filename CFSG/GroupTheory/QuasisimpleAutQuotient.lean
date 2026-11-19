@@ -17,11 +17,13 @@ variable {G : Type} [Group G] [Finite G]
     (hN : N ≤ normalizer (K : Set G)) : Subgroup ↥N :=
   ((Subgroup.normalizerMonoidHom (H := K)).comp (Subgroup.inclusion hN)).ker
 
+omit [Finite G] in
 theorem quasisimpleActionKernel_normal (N K : Subgroup G) (hN : N ≤ normalizer (K : Set G)) :
     (quasisimpleActionKernel N K hN).Normal := by
   rw [quasisimpleActionKernel]
   infer_instance
 
+omit [Finite G] in
 theorem quasisimpleActionKernel_eq_centralizer (N K : Subgroup G)
     (hN : N ≤ normalizer (K : Set G)) :
     quasisimpleActionKernel N K hN = (Subgroup.centralizer (K : Set G)).subgroupOf N := by
@@ -38,6 +40,7 @@ theorem quasisimpleActionKernel_eq_centralizer (N K : Subgroup G)
       exact Subgroup.mem_subgroupOf.mpr hc
     exact hmem
 
+omit [Finite G] in
 theorem quasisimple_inf_actionKernel_map_eq_center (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G)) :
     K ⊓ (quasisimpleActionKernel N K hN).map N.subtype = (Subgroup.center ↥K).map K.subtype := by
@@ -45,6 +48,7 @@ theorem quasisimple_inf_actionKernel_map_eq_center (N K : Subgroup G) (hKN : K �
   rw [← inf_assoc, inf_eq_left.mpr ((inf_le_left : K ⊓ _ ≤ K).trans hKN)]
   exact CFSG.GroupTheory.inf_centralizer_eq_map_center K
 
+omit [Finite G] in
 theorem quasisimple_centralizer_image_eq_bot (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G)) (hK : CFSG.IsQuasisimple ↥K)
     [hCK : (quasisimpleActionKernel N K hN).Normal] :
@@ -53,7 +57,7 @@ theorem quasisimple_centralizer_image_eq_bot (N K : Subgroup G) (hKN : K ≤ N)
         Set (↥N ⧸ quasisimpleActionKernel N K hN)) = ⊥ := by
   classical
   let CK := quasisimpleActionKernel N K hN
-  letI : CK.Normal := hCK
+  let : CK.Normal := hCK
   let π : ↥N →* (↥N ⧸ CK) := QuotientGroup.mk' CK
   let Kbar : Subgroup (↥N ⧸ CK) := (K.subgroupOf N).map π
   change Subgroup.centralizer (Kbar : Set (↥N ⧸ CK)) = ⊥
@@ -100,7 +104,7 @@ theorem quasisimple_centralizer_image_eq_bot (N K : Subgroup G) (hKN : K ≤ N)
     rw [hσeq]
     exact hz
   have hσone : σ = 1 := by
-    haveI : Group.IsPerfect ↥K := hK.1
+    have : Group.IsPerfect ↥K := hK.1
     refine CFSG.ComponentClassification.CentralCover.eq_one_of_forall_inv_mul_mem_center σ
       fun k => ?_
     have hc := Subgroup.mem_center_iff.mp (hσ k) k
@@ -128,6 +132,7 @@ theorem quasisimple_centralizer_image_eq_bot (N K : Subgroup G) (hKN : K ≤ N)
     rw [quasisimpleActionKernel_eq_centralizer]
     exact Subgroup.mem_subgroupOf.mpr hcent)
 
+omit [Finite G] in
 theorem quasisimple_not_le_actionKernel (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G)) (hK : CFSG.IsQuasisimple ↥K) :
     ¬ K.subgroupOf N ≤ quasisimpleActionKernel N K hN := by
@@ -148,13 +153,14 @@ theorem quasisimple_not_le_actionKernel (N K : Subgroup G) (hKN : K ≤ N)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥K) b
   exact hab (by rw [← map_mul, ← map_mul, hcomm x y])
 
+omit [Finite G] in
 theorem quasisimple_isSimpleGroup_image (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G)) (hK : CFSG.IsQuasisimple ↥K)
     [hCK : (quasisimpleActionKernel N K hN).Normal] :
     IsSimpleGroup ((K.subgroupOf N).map (QuotientGroup.mk' (quasisimpleActionKernel N K hN))) := by
   classical
   let CK := quasisimpleActionKernel N K hN
-  letI : CK.Normal := hCK
+  let : CK.Normal := hCK
   let π : ↥N →* (↥N ⧸ CK) := QuotientGroup.mk' CK
   let Kbar : Subgroup (↥N ⧸ CK) := (K.subgroupOf N).map π
   have hKsub : CFSG.IsQuasisimple (K.subgroupOf N) :=
@@ -179,6 +185,7 @@ theorem quasisimple_isSimpleGroup_image (N K : Subgroup G) (hKN : K ≤ N)
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
   exact e.isSimpleGroup_congr.mp hKbar.2.1
 
+omit [Finite G] in
 theorem quasisimple_normal_image (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G))
     [hCK : (quasisimpleActionKernel N K hN).Normal] :
@@ -188,6 +195,7 @@ theorem quasisimple_normal_image (N K : Subgroup G) (hKN : K ≤ N)
   exact Subgroup.Normal.map hKnorm (QuotientGroup.mk' (quasisimpleActionKernel N K hN))
     (QuotientGroup.mk'_surjective (quasisimpleActionKernel N K hN))
 
+omit [Finite G] in
 theorem quasisimple_nonabelian_image (N K : Subgroup G) (hKN : K ≤ N)
     (hN : N ≤ normalizer (K : Set G)) (hK : CFSG.IsQuasisimple ↥K)
     [hCK : (quasisimpleActionKernel N K hN).Normal] :
@@ -209,11 +217,11 @@ theorem quasisimple_genFittingFStar_image_eq (N K : Subgroup G) (hKN : K ≤ N)
       (K.subgroupOf N).map (QuotientGroup.mk' (quasisimpleActionKernel N K hN)) := by
   classical
   let CK := quasisimpleActionKernel N K hN
-  letI : CK.Normal := hCK
+  let : CK.Normal := hCK
   let π : ↥N →* (↥N ⧸ CK) := QuotientGroup.mk' CK
   let Kbar : Subgroup (↥N ⧸ CK) := (K.subgroupOf N).map π
-  haveI : Kbar.Normal := quasisimple_normal_image N K hKN hN (hCK := hCK)
-  haveI : IsSimpleGroup ↥Kbar := quasisimple_isSimpleGroup_image N K hKN hN hK (hCK := hCK)
+  have : Kbar.Normal := quasisimple_normal_image N K hKN hN (hCK := hCK)
+  have : IsSimpleGroup ↥Kbar := quasisimple_isSimpleGroup_image N K hKN hN hK (hCK := hCK)
   have hnonab : ∃ a b : ↥Kbar, a * b ≠ b * a :=
     quasisimple_nonabelian_image N K hKN hN hK (hCK := hCK)
   have hC : Subgroup.centralizer (Kbar : Set (↥N ⧸ CK)) = ⊥ := by

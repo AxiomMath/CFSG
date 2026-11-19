@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 private theorem tpbcc_pow_orderOf {G : Type} [Group G] {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) {x : G} (hxE : x ∈ E) (hx1 : x ≠ 1) :
     x ^ p = 1 ∧ orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hE.2 x hxE
   exact ⟨hxp, orderOf_eq_prime hxp hx1⟩
 
@@ -52,8 +52,8 @@ theorem tpbcCore_holds
     : TpbcCore := by
   intro p m n hp hp2 hm hn K _ _ hK x J E hx1 hxE hE hJ hlab hcomm
   have hchar : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
-  haveI : CharP K 2 := hchar
-  haveI : NeZero (m + 1) := ⟨by omega⟩
+  have : CharP K 2 := hchar
+  have : NeZero (m + 1) := ⟨by omega⟩
   obtain ⟨hxp, hxord⟩ := tpbcc_pow_orderOf hp hE hxE hx1
   have hprojinj : Function.Injective (proj (m + 1) K) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo (r := m + 1)).1

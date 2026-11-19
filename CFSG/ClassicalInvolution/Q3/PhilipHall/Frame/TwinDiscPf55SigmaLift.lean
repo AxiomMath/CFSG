@@ -31,7 +31,7 @@ theorem exists_fixed_lift_coreHull (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Sub
       (g : ↥(Subgroup.centralizer ({u} : Set G))) * ⟨c, hcu⟩ =
         ⟨c, hcu⟩ * (g : ↥(Subgroup.centralizer ({u} : Set G))) ∧
       (QuotientGroup.mk g : ↥(coreHull Ω u) ⧸ classicalInvolutionOddCore ↥(coreHull Ω u)) = q := by
-  haveI := TwinPerpV3.Pf93.normal_coreHull hΩ hc2
+  have := TwinPerpV3.Pf93.normal_coreHull hΩ hc2
   have hg₀2 : (⟨c, hcu⟩ : ↥(Subgroup.centralizer ({u} : Set G))) * ⟨c, hcu⟩ = 1 :=
     Subtype.ext hcc
   have hinv : (⟨c, hcu⟩ : ↥(Subgroup.centralizer ({u} : Set G)))⁻¹ = ⟨c, hcu⟩ :=

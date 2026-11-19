@@ -98,7 +98,7 @@ theorem betaOK_true : betaOK = true := by
     have hlt := fix0_facts.2.2 _ hx
     have e := hfix a (by rw [← fix0_facts.1]; exact ha)
     rw [nget_get fix0L ha] at e
-    rw [betaArr_eq, unpack_getElem!, if_pos hlt, beq_iff_eq]
+    rw [betaArr_eq, unpack_getElem!, ite_eq_left hlt, beq_iff_eq]
     exact Nat.eq_of_beq_eq_true e
   · rw [betaArr_eq, idA_eq (n := 1782) (w := 11) rfl, eqA_unpack hB pid_canon]
     exact hid
@@ -192,7 +192,7 @@ theorem pinOK_true : pinOK = true := by
     refine ⟨fun j hjw => ?_, ?_⟩
     · rw [dGens_size', decide_eq_true_eq]
       exact hj j hjw
-    · rw [(pw_eq hj).1, unpack_getElem!, if_pos hp42]
+    · rw [(pw_eq hj).1, unpack_getElem!, ite_eq_left hp42]
       exact Nat.eq_of_beq_eq_true hfix
   · have e := allN_spec hB q hq
     by_cases hqp : q = p
@@ -208,7 +208,7 @@ theorem pinOK_true : pinOK = true := by
       right
       rw [List.any_eq_true]
       refine ⟨w, hw, ?_⟩
-      rw [(pw_eq hj).1, unpack_getElem!, if_pos hq, bne_iff_ne, ne_eq]
+      rw [(pw_eq hj).1, unpack_getElem!, ite_eq_left hq, bne_iff_ne, ne_eq]
       intro he
       rw [he, Nat.beq_refl] at hmv
       exact absurd hmv (by decide)

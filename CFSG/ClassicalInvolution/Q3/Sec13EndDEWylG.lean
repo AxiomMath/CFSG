@@ -56,12 +56,13 @@ structure AGLPts {Ω : Set (Subgroup G)} (S : TwinShift Ω) (b : Lab2) where
   plane_surj : ∀ α ∈ AE.e29Sets, ∃ K ∈ Ω,
     (α : Set (Fin 8)) = lab '' {X | X ∈ dewPts S b ∧ K ∉ X}
 
+omit [Finite G] in
 theorem dewG_defect_eq {Ω : Set (Subgroup G)} (S : TwinShift Ω) (b : Lab2) {K L M : Subgroup G}
     {m : Lab2}
     (hM : M ∈ Ω) (hm : dewStar K L = S.shift m M) : dewDefect S b K L M = dewQb b m := by
   unfold dewDefect
   have hex : ∃ m' : Lab2, dewStar K L = S.shift m' M := ⟨m, hm⟩
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   have h1 : hex.choose = m := S.shift_injective hM (hex.choose_spec.symm.trans hm)
   rw [h1]
 
@@ -87,6 +88,7 @@ open Classical in
 @[expose] noncomputable def dewEps (X Y : Set (Subgroup G)) (x : G) : ZMod 2 :=
   if ∃ L ∈ X, IsUniqueInvolution L x ∧ L ∉ Y then 1 else 0
 
+omit [Finite G] in
 theorem dewEps_eq_one_iff {X Y : Set (Subgroup G)} {x : G} :
     dewEps X Y x = 1 ↔ ∃ L ∈ X, IsUniqueInvolution L x ∧ L ∉ Y := by
   unfold dewEps
@@ -94,6 +96,7 @@ theorem dewEps_eq_one_iff {X Y : Set (Subgroup G)} {x : G} :
   · exact ⟨fun _ => h1, fun _ => rfl⟩
   · exact ⟨fun h0 => absurd h0 zero_ne_one, fun hn => absurd hn h1⟩
 
+omit [Finite G] in
 theorem dewEps_eq_zero_iff {X Y : Set (Subgroup G)} {x : G} :
     dewEps X Y x = 0 ↔ ¬ ∃ L ∈ X, IsUniqueInvolution L x ∧ L ∉ Y := by
   unfold dewEps
@@ -101,6 +104,7 @@ theorem dewEps_eq_zero_iff {X Y : Set (Subgroup G)} {x : G} :
   · exact ⟨fun h0 => absurd h0 one_ne_zero, fun hn => absurd h1 hn⟩
   · exact ⟨fun _ => h1, fun _ => rfl⟩
 
+omit [Finite G] in
 theorem conjSub_eq_self_of_mem_normalizer {k : G} {L : Subgroup G}
     (hk : k ∈ Subgroup.normalizer (L : Set G)) : conjSub k L = L := by
   ext x
@@ -109,6 +113,7 @@ theorem conjSub_eq_self_of_mem_normalizer {k : G} {L : Subgroup G}
   rw [show k * (k⁻¹ * x * k) * k⁻¹ = x by group] at this
   exact this
 
+omit [Finite G] in
 theorem mem_normalizer_of_conjSub_eq {k : G} {L : Subgroup G} (hk : conjSub k L = L) :
     k ∈ Subgroup.normalizer (L : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -117,6 +122,7 @@ theorem mem_normalizer_of_conjSub_eq {k : G} {L : Subgroup G} (hk : conjSub k L 
   rw [hk, show k⁻¹ * (k * x * k⁻¹) * k = x by group] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem mem_conjSub_image_iff {q : G} {X : Set (Subgroup G)} {L : Subgroup G} :
     L ∈ conjSub q '' X ↔ conjSub q⁻¹ L ∈ X := by
   constructor
@@ -125,6 +131,7 @@ theorem mem_conjSub_image_iff {q : G} {X : Set (Subgroup G)} {L : Subgroup G} :
   · intro hL
     exact ⟨conjSub q⁻¹ L, hL, conjSub_conjSub_inv q L⟩
 
+omit [Finite G] in
 theorem conjSub_image_mul (q a : G) (X : Set (Subgroup G)) :
     conjSub (q * a) '' X = conjSub q '' (conjSub a '' X) := by
   simp only [Set.image_image, conjSub_mul]
@@ -331,7 +338,7 @@ theorem dewEps_mul (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {X Y : Set (Subg
   have hMinv : IsUniqueInvolution (dewStar K L) (x * y) := (h.dewStar_mem_dew1V spKL).2
   have hKLY : S.shift (mx + my) (dewStar K L) ∈ Y := by
     rw [← h.dewStar_shift S spKL mx my]
-    exact hY.2.2.2 _ hKY _ hLY x y (h.dewPair_shift S spKL mx my)
+    exact hY.2.2.2 _ hKY _ hLY x y (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dewPair_shift S spKL mx my)
   have hMiff : dewStar K L ∈ Y ↔ dewQb b (mx + my) = 0 := by
     constructor
     · intro hMY
@@ -410,6 +417,7 @@ theorem conjSub_eq_of_mem_of_not_mem (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0
       exact absurd hc (h.dewStar_not_mem S hb hX hKX sp hL)
 
 omit h in
+omit [Finite G] in
 theorem dchoice_conj_pow (g x : G) (i j : ℕ) :
     g ^ i * (g ^ j * x * (g ^ j)⁻¹) * (g ^ i)⁻¹ = g ^ (i + j) * x * (g ^ (i + j))⁻¹ := by
   rw [pow_add]
@@ -456,6 +464,7 @@ theorem dchoice_free {g x₀ y : G} (hg : orderOf g = 7) (hy : y ∈ zGroup Ω) 
   rw [hc, mul_inv_cancel_right]
 
 omit h in
+omit [Finite G] in
 theorem dchoice_pair {c : G → Subgroup G} (hc : ∀ x ∈ zGroup Ω, x ≠ 1 → c x ∈ dew1V Ω x)
     {u v : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) (hv : v ∈ zGroup Ω) (hv1 : v ≠ 1)
     (huv : u ≠ v) : DewPair Ω (c u) (c v) u v :=
@@ -480,7 +489,7 @@ theorem dchoice_mul_ne_one {u v : G} (hv : v ∈ zGroup Ω) (huv : u ≠ v) : u 
   apply huv
   rw [eq_inv_of_mul_eq_one_left e, inv_eq_of_mul_eq_one_right (h.zGroup_mul_self v hv)]
 
-omit h in
+omit h [Finite G] in
 theorem dchoice_equiv {c : G → Subgroup G} {g x₀ : G} {K₀ : Subgroup G}
     (hcψ : ∀ i : ℕ, c (g ^ i * x₀ * (g ^ i)⁻¹) = conjSub (g ^ i) K₀)
     (hsurj : ∀ z ∈ zGroup Ω, z ≠ 1 → ∃ i : ℕ, g ^ i * x₀ * (g ^ i)⁻¹ = z) (i : ℕ) :
@@ -489,6 +498,7 @@ theorem dchoice_equiv {c : G → Subgroup G} {g x₀ : G} {K₀ : Subgroup G}
   obtain ⟨j, rfl⟩ := hsurj u hu hu1
   rw [dchoice_conj_pow, hcψ, hcψ, ← conjSub_mul, ← pow_add]
 
+omit [Finite G] in
 theorem dchoice_mem {c : G → Subgroup G} {g x₀ : G} {K₀ : Subgroup G} (hK₀Ω : K₀ ∈ Ω)
     (hK₀ : IsUniqueInvolution K₀ x₀)
     (hcψ : ∀ i : ℕ, c (g ^ i * x₀ * (g ^ i)⁻¹) = conjSub (g ^ i) K₀)
@@ -500,6 +510,7 @@ theorem dchoice_mem {c : G → Subgroup G} {g x₀ : G} {K₀ : Subgroup G} (hK�
   exact ⟨h.hyp.conjInvariant _ K₀ hK₀Ω, hK₀.conj _⟩
 
 omit h in
+omit [Finite G] in
 theorem dchoice_shift_inv (S : TwinShift Ω) {x : G} {K : Subgroup G}
     (hK : IsUniqueInvolution K x) (hKΩ : K ∈ Ω) (k : Lab2) :
     IsUniqueInvolution (S.shift k K) x := by
@@ -595,7 +606,7 @@ theorem dchoice_inv (S : TwinShift Ω) (b : Lab2) {c : G → Subgroup G} {g : G}
   rw [e, hequiv i u hu hu1, hequiv i v hv hv1, hequiv i (u * v) huvD huv1]
   exact h.dewDefect_conj S b (dchoice_pair hc hu hu1 hv hv1 huv) (hc (u * v) huvD huv1) (g ^ i)
 
-theorem exists_choice_const_defect (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) :
+theorem exists_choice_const_defect (S : TwinShift Ω) {b : Lab2} (_hb : b ≠ 0) :
     ∃ (c : G → Subgroup G) (κ₀ : ZMod 2), (∀ x ∈ zGroup Ω, x ≠ 1 → c x ∈ dew1V Ω x) ∧
       ∀ u ∈ zGroup Ω, ∀ v ∈ zGroup Ω, u ≠ 1 → v ≠ 1 → u ≠ v →
         dewDefect S b (c u) (c v) (c (u * v)) = κ₀ := by
@@ -841,6 +852,7 @@ theorem exists_pCore_conjSub_image (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0)
   exact ⟨q, hq, h.conjSub_pCore_image_eq S hb hX hY hm₀ hq (fun x => hlam x)⟩
 
 omit h in
+omit [Finite G] in
 theorem dcount_card_mul {H Stab : Subgroup G} (hS : Stab ≤ H) {α : Type} (φ : H → α)
     (hφ : ∀ x y : H, φ x = φ y ↔ ((x⁻¹ * y : H) : G) ∈ Stab) :
     Nat.card H = (Set.range φ).ncard * Nat.card Stab := by
@@ -868,6 +880,7 @@ theorem dcount_card_mul {H Stab : Subgroup G} (hS : Stab ≤ H) {α : Type} (φ 
   rw [hA, hB, hC]
 
 omit h in
+omit [Finite G] in
 theorem dcount_image_eq_iff {X : Set (Subgroup G)} (a c : G) :
     conjSub a '' X = conjSub c '' X ↔ conjSub (a⁻¹ * c) '' X = X := by
   have key : conjSub c '' X = conjSub a '' (conjSub (a⁻¹ * c) '' X) := by
@@ -1052,7 +1065,7 @@ theorem dq_mem_image_iff (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {X : Set (
   have hφu : φ u = 0 := by
     by_contra hne
     have e := hkφ u huD
-    rw [if_neg hne, hKu.sq] at e
+    rw [ite_eq_right hne, hKu.sq] at e
     apply hKu.ne_one
     calc u = k⁻¹ * (k * u * k⁻¹) * k := by group
       _ = 1 := by rw [e]; group
@@ -1074,14 +1087,14 @@ theorem dq_mem_image_iff (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {X : Set (
       by_contra hφx
       have h1 : φ x = 1 := (zmod2_cases (φ x)).resolve_left hφx
       have e := hkφ x hxD
-      rw [if_neg (show ¬ (φ x = 0) from by rw [h1]; exact one_ne_zero), hconj] at e
+      rw [ite_eq_right (show ¬ (φ x = 0) from by rw [h1]; exact one_ne_zero), hconj] at e
       apply hKu.ne_one
       calc u = (u * x) * x⁻¹ := by group
         _ = x * x⁻¹ := by rw [← e]
         _ = 1 := by group
     · intro hφx
       have e := hkφ x hxD
-      rw [if_pos hφx] at e
+      rw [ite_eq_left hφx] at e
       have hcomm : k⁻¹ * x = x * k⁻¹ := by
         calc k⁻¹ * x = k⁻¹ * (k * x * k⁻¹) := by rw [e]
           _ = x * k⁻¹ := by group
@@ -1109,7 +1122,7 @@ theorem exists_mem_conjSub_image (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0)
   have hkx := hkφ x hxD
   rcases zmod2_cases (dewEps X Y x) with hε | hε
   · have hLY : L ∈ Y := (h.mem_iff_dewEps S hb hX hY hL hx).mpr hε
-    rw [if_pos hε] at hkx
+    rw [ite_eq_left hε] at hkx
     have hn : k ∈ Subgroup.normalizer (L : Set G) := by
       by_cases hxu : x = u
       · have hLu : L ∈ dew1V Ω u := ⟨hLΩ, by rw [← hxu]; exact hx⟩
@@ -1124,7 +1137,7 @@ theorem exists_mem_conjSub_image (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0)
       rw [e, hεu] at hε
       exact zero_ne_one hε
     have sp : DewPair Ω K L u x := ⟨hK, hLΩ, hu, hx, fun e => hxu e.symm⟩
-    rw [if_neg (show ¬ (dewEps X Y x = 0) from by rw [hε]; exact one_ne_zero)] at hkx
+    rw [ite_eq_right (show ¬ (dewEps X Y x = 0) from by rw [hε]; exact one_ne_zero)] at hkx
     have hnotn : conjSub k L ≠ L := by
       intro e
       have hn := mem_normalizer_of_conjSub_eq e
@@ -1167,7 +1180,7 @@ theorem ncard_dewPts_mem (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K : Subgr
     exact h.dcount_stab_iff S hb hK hKu hX₀ hKX₀ (K.mul_mem (K.inv_mem x.2) y.2)
   have hrange : Set.range φ = {X | X ∈ dewPts S b ∧ K ∉ X} := by
     ext Y
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨x, rfl⟩
       refine ⟨h.isDewPoint_conjSub S hX₀ (x : G), ?_⟩
@@ -1187,7 +1200,7 @@ theorem ncard_dewPts_mem (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K : Subgr
   have hA : {X | X ∈ dewPts S b ∧ K ∉ X}.ncard = 4 := by omega
   have hunion : {X | X ∈ dewPts S b ∧ K ∈ X} ∪ {X | X ∈ dewPts S b ∧ K ∉ X} = dewPts S b := by
     ext X
-    simp only [Set.mem_union, Set.mem_setOf_eq]
+    simp only [Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · rintro (⟨hX, -⟩ | ⟨hX, -⟩) <;> exact hX
     · intro hX
@@ -1338,7 +1351,7 @@ theorem exists_pointCoord (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) :
   have hgAct : ∀ g : G, ∃ f₀ ∈ DE2Hyp.deq2Dual Ω, ∀ X ∈ dewPts S b,
       coord (conjSub g '' X) = (fun x => coord X (g⁻¹ * x * g)) + f₀ := by
     intro g
-    haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+    have : (pCore 2 G).Normal := CFSG.pCore_normal
     have hY₀ : conjSub g '' c₀ ∈ dewPts S b := h.isDewPoint_conjSub S hc₀ g
     refine ⟨coord (conjSub g '' c₀), hcoordMem _ hY₀, ?_⟩
     intro X hX
@@ -1462,9 +1475,11 @@ omit h in
 theorem dagl_flip_key : ∀ b m n : Lab2, b ≠ 0 → dewQb b m = 1 → dewQb b n = 1 →
     m = n ∨ m = b + n := by decide
 
+omit [Finite G] h in
 theorem dagl_zero_mem : (0 : G → ZMod 2) ∈ DE2Hyp.deq2Dual Ω :=
   ⟨rfl, fun _ _ => rfl, fun _ _ _ _ => by simp⟩
 
+omit [Finite G] h in
 theorem dagl_coord_e8Coord {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
     {F : G → ZMod 2} (hF : F ∈ DE2Hyp.deq2Dual Ω) (v : Fin 3 → ZMod 2) :
     F (TL4.e8Coord e v) = v ⬝ᵥ fun i => F (e i) := by
@@ -1487,16 +1502,18 @@ theorem dagl_coord_e8Coord {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
   rw [hF.2.2 _ h01 _ h2, hF.2.2 _ h0 _ h1, hm 0, hm 1, hm 2]
   simp [dotProduct, Fin.sum_univ_three]
 
+omit h in
 theorem dagl_coord_ext {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
     {F F' : G → ZMod 2} (hF : F ∈ DE2Hyp.deq2Dual Ω) (hF' : F' ∈ DE2Hyp.deq2Dual Ω)
     (hFe : ∀ i, F (e i) = F' (e i)) : F = F' := by
   funext x
   by_cases hx : x ∈ zGroup Ω
   · obtain ⟨v, rfl⟩ := TL4.exists_e8Coord_eq he hx
-    rw [h.dagl_coord_e8Coord he hF, h.dagl_coord_e8Coord he hF']
+    rw [DE4Hyp.dagl_coord_e8Coord he hF, DE4Hyp.dagl_coord_e8Coord he hF']
     simp only [hFe]
   · rw [hF.2.1 x hx, hF'.2.1 x hx]
 
+omit h in
 theorem dagl_exists_coord {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
     (w : Fin 3 → ZMod 2) : ∃ F ∈ DE2Hyp.deq2Dual Ω, ∀ i, F (e i) = w i := by
   classical
@@ -1504,7 +1521,7 @@ theorem dagl_exists_coord {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
     if hx : x ∈ zGroup Ω then (TL4.exists_e8Coord_eq he hx).choose else 0
   have hψe : ∀ x (hx : x ∈ zGroup Ω), TL4.e8Coord e (ψ x) = x := by
     intro x hx
-    simp only [ψ, dif_pos hx]
+    simp only [ψ, dite_eq_left hx]
     exact (TL4.exists_e8Coord_eq he hx).choose_spec
   have hψ : ∀ v, ψ (TL4.e8Coord e v) = v := by
     intro v
@@ -1523,14 +1540,15 @@ theorem dagl_exists_coord {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
   · intro x hx
     simp [hx]
   · intro x hx y hy
-    simp only [if_pos ((zGroup Ω).mul_mem hx hy), if_pos hx, if_pos hy]
+    simp only [ite_eq_left ((zGroup Ω).mul_mem hx hy), ite_eq_left hx, ite_eq_left hy]
     rw [hadd x y hx hy, add_dotProduct]
   · intro i
     have hi : ψ (e i) = Pi.single i 1 := by
       have := hψ (Pi.single i 1)
       rwa [TL4.e8Coord_single] at this
-    simp [if_pos (he.mem i), hi, single_dotProduct]
+    simp [ite_eq_left (he.mem i), hi, single_dotProduct]
 
+omit h in
 theorem dagl_lab_bijOn {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) {lab : Set (Subgroup G) → Fin 8}
     (hlab : ∀ X, lab X = TL4.binIdx (fun i => C.coord X (e i))) :
@@ -1542,9 +1560,9 @@ theorem dagl_lab_bijOn {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e 
       have := congrArg TL4.bin hXY
       rwa [TL4.bin_binIdx, TL4.bin_binIdx] at this
     exact C.bijOn.injOn hX hY
-      (h.dagl_coord_ext he (C.bijOn.mapsTo hX) (C.bijOn.mapsTo hY) (fun i => congrFun hv i))
+      (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_coord_ext he (C.bijOn.mapsTo hX) (C.bijOn.mapsTo hY) (fun i => congrFun hv i))
   · intro i _
-    obtain ⟨F, hF, hFi⟩ := h.dagl_exists_coord he (TL4.bin i)
+    obtain ⟨F, hF, hFi⟩ := DE4Hyp.dagl_exists_coord he (TL4.bin i)
     obtain ⟨X, hX, hXF⟩ := C.bijOn.surjOn hF
     refine ⟨X, hX, ?_⟩
     have hfun : (fun j => C.coord X (e j)) = TL4.bin i := by
@@ -1552,17 +1570,18 @@ theorem dagl_lab_bijOn {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e 
       rw [hXF, hFi]
     rw [hlab, hfun, TL4.binIdx_bin]
 
+omit [Finite G] h in
 theorem dagl_coord_u {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) {X : Set (Subgroup G)} (hX : X ∈ dewPts S b)
     (a : Fin 3 → ZMod 2) :
     C.coord X (TL4.e8Coord e a) = a ⬝ᵥ fun i => C.coord X (e i) :=
-  h.dagl_coord_e8Coord he (C.bijOn.mapsTo hX) a
+  DE4Hyp.dagl_coord_e8Coord he (C.bijOn.mapsTo hX) a
 
 theorem dagl_mem_iff_coord {S : TwinShift Ω} {b : Lab2} (hb : b ≠ 0) (C : DewPointCoord S b)
     {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqueInvolution K u) :
     ∃ c : ZMod 2, ∀ X ∈ dewPts S b, (K ∈ X ↔ C.coord X u = c) := by
   have huD : u ∈ zGroup Ω := h.mem_zGroup_iff.mpr (Or.inr ⟨K, hK, hu⟩)
-  obtain ⟨X₀, hX₀, hc₀⟩ := C.bijOn.surjOn h.dagl_zero_mem
+  obtain ⟨X₀, hX₀, hc₀⟩ := C.bijOn.surjOn DE4Hyp.dagl_zero_mem
   obtain ⟨K₀, hK₀X₀, hK₀u⟩ := h.pt_exists_mem S hX₀ huD hu.ne_one
   have hK₀ : K₀ ∈ Ω := hX₀.1 hK₀X₀
   obtain ⟨m, hm, -⟩ := h.exists_unique_shift S hK₀ ⟨hK, u, hK₀u, hu⟩
@@ -1637,6 +1656,7 @@ theorem dagl_shift_flip {S : TwinShift Ω} {b : Lab2} (hb : b ≠ 0) {K : Subgro
         exact hX'.2.1 M hMX
     exact ⟨fun _ => hKX, fun _ => hsh⟩
 
+omit [Finite G] h in
 theorem dagl_image_eq {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) {lab : Set (Subgroup G) → Fin 8}
     (hlab : ∀ X, lab X = TL4.binIdx (fun i => C.coord X (e i)))
@@ -1647,7 +1667,7 @@ theorem dagl_image_eq {S : TwinShift Ω} {b : Lab2} (C : DewPointCoord S b) {e :
   have hcoordu : ∀ X ∈ dewPts S b, C.coord X u = a ⬝ᵥ fun i => C.coord X (e i) := by
     intro X hX
     rw [← hua]
-    exact h.dagl_coord_u C he hX a
+    exact CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_coord_u C he hX a
   ext x
   constructor
   · rintro ⟨X, ⟨hX, hKX⟩, rfl⟩
@@ -1681,7 +1701,7 @@ theorem dagl_plane {S : TwinShift Ω} {b : Lab2} (hb : b ≠ 0) (C : DewPointCoo
     rw [← hua, TL4.e8Coord_zero]
   obtain ⟨c₁, hc₁⟩ := h.dagl_mem_iff_coord hb C hK hu
   refine ⟨TL4.hplane a (c₁ + 1), TL4.hplane_mem a ha _, ?_⟩
-  refine (h.dagl_image_eq C he hlab hbij hua (c := c₁ + 1) ?_).symm
+  refine (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_image_eq C he hlab hbij hua (c := c₁ + 1) ?_).symm
   intro X hX
   exact (not_congr (hc₁ X hX)).trans (dagl_zmod_ne_iff _ _)
 
@@ -1701,20 +1721,21 @@ theorem dagl_plane_surj {S : TwinShift Ω} {b : Lab2} (hb : b ≠ 0) (C : DewPoi
   obtain ⟨K₁, hK₁, hK₁u⟩ := (h.mem_zGroup_iff.mp huD).resolve_left hu1
   obtain ⟨c₁, hc₁⟩ := h.dagl_mem_iff_coord hb C hK₁ hK₁u
   by_cases hcc : c = c₁ + 1
-  · refine ⟨K₁, hK₁, (h.dagl_image_eq C he hlab hbij rfl (c := c) ?_).symm⟩
+  · refine ⟨K₁, hK₁, (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_image_eq C he hlab hbij rfl (c := c) ?_).symm⟩
     intro X hX
     rw [hcc]
     exact (not_congr (hc₁ X hX)).trans (dagl_zmod_ne_iff _ _)
   · have hc' : c = c₁ := dagl_zmod_eq_of_ne c c₁ hcc
     obtain ⟨m, hm⟩ := lab2_exists_dewQb_one b hb
     refine ⟨S.shift m K₁, (S.shift_mem m K₁ hK₁).1,
-      (h.dagl_image_eq C he hlab hbij rfl (c := c) ?_).symm⟩
+      (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_image_eq C he hlab hbij rfl (c := c) ?_).symm⟩
     intro X hX
     have key : S.shift m K₁ ∉ X ↔ K₁ ∈ X := by
       rw [h.dagl_shift_flip hb hK₁ hK₁u hm hX, not_not]
     rw [key, hc₁ X hX, hc']
 
 omit h in
+omit [Finite G] in
 theorem dagl_image_conjSub_mul (g g' : G) (Z : Set (Subgroup G)) :
     conjSub g '' (conjSub g' '' Z) = conjSub (g * g') '' Z := by
   rw [Set.image_image]
@@ -1722,7 +1743,7 @@ theorem dagl_image_conjSub_mul (g g' : G) (Z : Set (Subgroup G)) :
   funext K
   exact (conjSub_mul g g' K).symm
 
-omit h in
+omit h [Finite G] in
 theorem dagl_image_conjSub_mul_self (g g' : G) (Z : Set (Subgroup G)) (hg : g * g' = 1) :
     conjSub g '' (conjSub g' '' Z) = Z := by
   have h1 : conjSub (g * g') = id := funext fun K => by simp [hg, conjSub_one]
@@ -1733,7 +1754,7 @@ theorem dagl_exists_sigma {S : TwinShift Ω} {b : Lab2} {lab : Set (Subgroup G) 
     ∃ σ : G →* Equiv.Perm (Fin 8), ∀ g : G, ∀ X ∈ dewPts S b,
       lab (conjSub g '' X) = σ g (lab X) := by
   classical
-  haveI : Nonempty (Set (Subgroup G)) := ⟨∅⟩
+  have : Nonempty (Set (Subgroup G)) := ⟨∅⟩
   obtain ⟨inv, hinv1, hinv2⟩ : ∃ inv : Fin 8 → Set (Subgroup G),
       (∀ X ∈ dewPts S b, inv (lab X) = X) ∧ ∀ i, inv i ∈ dewPts S b ∧ lab (inv i) = i :=
     ⟨Function.invFunOn lab (dewPts S b),
@@ -1762,7 +1783,7 @@ theorem dagl_exists_sigma {S : TwinShift Ω} {b : Lab2} {lab : Set (Subgroup G) 
   rw [hinv1 X hX]
 
 theorem dagl_sigma_image {S : TwinShift Ω} {b : Lab2} {lab : Set (Subgroup G) → Fin 8}
-    (hbij : Set.BijOn lab (dewPts S b) Set.univ) {σ : G →* Equiv.Perm (Fin 8)}
+    (_hbij : Set.BijOn lab (dewPts S b) Set.univ) {σ : G →* Equiv.Perm (Fin 8)}
     (hσ : ∀ g : G, ∀ X ∈ dewPts S b, lab (conjSub g '' X) = σ g (lab X))
     (g : G) (K : Subgroup G) :
     σ g '' (lab '' {X | X ∈ dewPts S b ∧ K ∉ X}) =
@@ -1808,6 +1829,7 @@ theorem dagl_sigma_mem {S : TwinShift Ω} {b : Lab2} {lab : Set (Subgroup G) →
   rw [← map_inv σ g]
   exact key g⁻¹ s hs
 
+omit [Group G] [Finite G] h in
 theorem dagl_card_agl32 : Nat.card AE.agl32 = 1344 := by
   have hbij : Function.Bijective (fun p : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2) ×
       (Fin 3 → ZMod 2) => (⟨TL4.aperm p.1 p.2, TL4.aperm_mem_agl32 p.1 p.2⟩ : AE.agl32)) := by
@@ -1828,7 +1850,7 @@ theorem exists_aglPts (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) : Nonempty (A
   obtain ⟨lab, hlab⟩ : ∃ lab : Set (Subgroup G) → Fin 8,
       ∀ X, lab X = TL4.binIdx (fun i => C.coord X (e i)) :=
     ⟨fun X => TL4.binIdx (fun i => C.coord X (e i)), fun X => rfl⟩
-  have hbij : Set.BijOn lab (dewPts S b) Set.univ := h.dagl_lab_bijOn C he hlab
+  have hbij : Set.BijOn lab (dewPts S b) Set.univ := CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_lab_bijOn C he hlab
   obtain ⟨σ, hσ⟩ := h.dagl_exists_sigma hbij
   have hplane := h.dagl_plane hb C he hlab hbij
   have hsurj := h.dagl_plane_surj hb C he hlab hbij
@@ -1854,7 +1876,7 @@ theorem exists_aglPts (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) : Nonempty (A
       exact h.dagl_sigma_mem hbij hσ hplane hsurj g
     · have hk := Subgroup.card_mul_index σ.ker
       rw [Subgroup.index_ker, hker, h.card_dewA S hb, hG] at hk
-      have hA := h.dagl_card_agl32
+      have hA := CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.dagl_card_agl32
       omega
   exact ⟨⟨lab, σ, hbij, hσ, hker, hrange, hplane, hsurj⟩⟩
 

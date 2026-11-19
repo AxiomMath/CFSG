@@ -137,7 +137,7 @@ theorem exists_odd_normal_le [Finite Y]
         mul_mem' := fun {a b} ha hb => ⟨D.mul_mem ha.1 hb.1, by
           rw [(Commute.mul_pow (hcomm a ha.1 b hb.1) 2) , ha.2, hb.2, one_mul]⟩
         inv_mem' := fun {a} ha => ⟨D.inv_mem ha.1, by rw [inv_pow, ha.2, inv_one]⟩ }
-    haveI : Z.Normal := ⟨fun a ha y => ⟨(hDnormal.conj_mem a ha.1 y), by
+    have : Z.Normal := ⟨fun a ha y => ⟨(hDnormal.conj_mem a ha.1 y), by
       rw [conj_pow, ha.2]; simp⟩⟩
     have hZ2 : IsPGroup 2 Z := by
       intro a
@@ -152,7 +152,7 @@ theorem exists_odd_normal_le [Finite Y]
     rcases Nat.even_or_odd (Nat.card D) with he | ho
     · exact even_iff_two_dvd.1 he
     · exact absurd ho hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥D) 2 h2
   have hz2 : (z : Y) ^ 2 = 1 := by
     have := pow_orderOf_eq_one z

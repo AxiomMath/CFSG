@@ -13,7 +13,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open CFSG.HardMathSupport.Lang.D4Three CFSG.StandardType.Triality CFSG.StandardType.TriBridge
 
 theorem ntpD4_rat_untwisted
-    {f : ℕ} (hf : 1 ≤ f) {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = (2 : ℕ) ^ f)
+    {f : ℕ} (_hf : 1 ≤ f) {F : Type} [Field F] [Finite F] [CharP F 2] (_hF : Nat.card F = (2 : ℕ) ^ f)
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] [Algebra F L]
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f))
     (G₀ : Subgroup (ModGL Tag.D4 L))

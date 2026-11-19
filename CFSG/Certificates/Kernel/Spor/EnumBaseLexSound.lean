@@ -20,7 +20,7 @@ theorem lexPosK_spec {k cnt : Nat} {PL POS : Nat → Nat} {i : Nat}
   obtain ⟨h1, h2⟩ := h
   refine ⟨fun hi hc => ?_, fun j hj => ?_⟩
   · have e : Nat.beq i 0 = false := by rw [beq_eq]; simpa using Nat.pos_iff_ne_zero.1 hi
-    rw [bIf_eq, e, if_neg Bool.false_ne_true, bIf_eq, if_pos (by rw [blt_eq]; exact decide_eq_true hc)]
+    rw [bIf_eq, e, ite_eq_right Bool.false_ne_true, bIf_eq, ite_eq_left (by rw [blt_eq]; exact decide_eq_true hc)]
       at h1
     exact h1
   · have hq := allN_spec h2 j hj
@@ -30,10 +30,10 @@ theorem lexPosK_spec {k cnt : Nat} {PL POS : Nat → Nat} {i : Nat}
     · exact Or.inl e
     · right
       have e' : Nat.beq (r32 POS (i * k + j)) 0 = false := by rw [beq_eq]; simpa using e
-      rw [bIf_eq, e', if_neg Bool.false_ne_true, bIf_eq] at hq
+      rw [bIf_eq, e', ite_eq_right Bool.false_ne_true, bIf_eq] at hq
       cases hl : lexLtK i j (parOf PL (r32 POS (i * k + j))) (labOf PL (r32 POS (i * k + j)))
       · rfl
-      · rw [hl, if_pos rfl] at hq
+      · rw [hl, ite_eq_left rfl] at hq
         exact absurd hq Bool.false_ne_true
 
 end CFSG.KS.EnumBase

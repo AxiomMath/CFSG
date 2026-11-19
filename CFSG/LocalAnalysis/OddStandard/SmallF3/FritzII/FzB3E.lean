@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 theorem fzbs_P_le_R (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     ⁅R, zpowers rho⁆ ≤ R := by
   rw [Subgroup.commutator_le]
@@ -20,23 +21,27 @@ theorem fzbs_P_le_R (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     show g₁ * g₂ * g₁⁻¹ * g₂⁻¹ = g₁ * (g₂ * g₁⁻¹ * g₂⁻¹) by group]
   exact R.mul_mem hg₁ h1
 
+omit [Finite G] in
 theorem fzbs_E_le_P (hS : FzbsStr t q tau lam rho u Z E X W R T) :
     E ≤ ⁅R, zpowers rho⁆ := by
   rw [← hS.E_rho]
   exact Subgroup.commutator_mono hS.WR le_rfl
 
-theorem fzbs_P_R (hS : FzbsStr t q tau lam rho u Z E X W R T) {g p : G} (hg : g ∈ R)
+omit [Finite G] in
+theorem fzbs_P_R (_hS : FzbsStr t q tau lam rho u Z E X W R T) {g p : G} (hg : g ∈ R)
     (hp : p ∈ ⁅R, zpowers rho⁆) : g * p * g⁻¹ ∈ ⁅R, zpowers rho⁆ := by
   have hn : g ∈ normalizer ((⁅R, zpowers rho⁆ : Subgroup G) : Set G) :=
     Subgroup.normalizer_commutator_ge_left R (zpowers rho) hg
   exact (Subgroup.mem_normalizer_iff.mp hn p).mp hp
 
-theorem fzbs_P_rho (hS : FzbsStr t q tau lam rho u Z E X W R T) {p : G}
+omit [Finite G] in
+theorem fzbs_P_rho (_hS : FzbsStr t q tau lam rho u Z E X W R T) {p : G}
     (hp : p ∈ ⁅R, zpowers rho⁆) : rho * p * rho⁻¹ ∈ ⁅R, zpowers rho⁆ := by
   have hn : rho ∈ normalizer ((⁅R, zpowers rho⁆ : Subgroup G) : Set G) :=
     Subgroup.normalizer_commutator_ge_right R (zpowers rho) (Subgroup.mem_zpowers rho)
   exact (Subgroup.mem_normalizer_iff.mp hn p).mp hp
 
+omit [Finite G] in
 theorem fzbs_P_lam (hS : FzbsStr t q tau lam rho u Z E X W R T) {p : G}
     (hp : p ∈ ⁅R, zpowers rho⁆) : lam * p * lam⁻¹ ∈ ⁅R, zpowers rho⁆ := by
   have hmap : (⁅R, zpowers rho⁆ : Subgroup G).map (MulAut.conj lam).toMonoidHom ≤
@@ -51,6 +56,7 @@ theorem fzbs_P_lam (hS : FzbsStr t q tau lam rho u Z E X W R T) {p : G}
       rw [h1, Subgroup.zpowers_inv]
   exact hmap (Subgroup.mem_map_of_mem _ hp)
 
+omit [Finite G] in
 theorem fzbs_P_T (hS : FzbsStr t q tau lam rho u Z E X W R T) {g p : G} (hg : g ∈ T)
     (hp : p ∈ ⁅R, zpowers rho⁆) : g * p * g⁻¹ ∈ ⁅R, zpowers rho⁆ := by
   rcases hS.T_cases g hg with hgR | hgR

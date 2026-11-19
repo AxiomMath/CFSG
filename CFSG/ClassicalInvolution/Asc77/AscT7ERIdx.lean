@@ -27,7 +27,7 @@ theorem sup_le_normalizer (hyp : Hyp25 p f Ω K K' W S R R' z t u₁ u₂) :
   have hR'syl : IsSylow2In R' K' :=
     T7C.isSylow2In_of_mem_RSet_of_le hp hΩ hK' hyp.hR'.1 hyp.hR'.2.1
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hs.hne.symm hz hz'
-    hRsyl.1 hR'syl.1 (S.isPGroup'.to_le (sup_le hyp.hR.2.2 hyp.hR'.2.2))
+    hRsyl.1 hR'syl.1 (S.isPGroup.to_le (sup_le hyp.hR.2.2 hyp.hR'.2.2))
   refine sup_le Subgroup.le_normalizer ?_
   intro x hx
   refine Subgroup.mem_normalizer_fintype (fun n hn => ?_)

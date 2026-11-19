@@ -31,7 +31,7 @@ public theorem hasDihedralSylowTwo_of_odd_index
   classical
   let P : Sylow 2 H := Classical.choice Sylow.nonempty
   let T : Subgroup G := (P : Subgroup H).map H.subtype
-  have hTp : IsPGroup 2 T := P.isPGroup'.map H.subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map H.subtype
   have hTindex : ¬ 2 ∣ T.index := by
     change ¬ 2 ∣ ((P : Subgroup H).map H.subtype).index
     rw [Subgroup.index_map_subtype]

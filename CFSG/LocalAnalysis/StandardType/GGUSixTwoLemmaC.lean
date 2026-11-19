@@ -394,7 +394,6 @@ theorem exists_mem_normalizer_torU [Finite G] [Finite K] (hG : IsCharTwoType G)
           Set (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))))
         rw [Subgroup.mem_centralizer_singleton_iff]
         rw [huφ]
-        change φe x * φe ⟨t, htM⟩ = φe ⟨t, htM⟩ * φe x
         have hxtM : (x : M) * ⟨t, htM⟩ = ⟨t, htM⟩ * x :=
           Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp hxt)
         simpa only [map_mul] using congrArg φe hxtM

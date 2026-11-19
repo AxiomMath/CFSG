@@ -95,7 +95,7 @@ theorem ggDepE_relation {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Mo
     have hbC : ∀ j, ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * b k = 0 := by
       intro j
       have hh := congrArg (α j) hb
-      simp only [map_sum, map_smul, F.pair, smul_eq_mul, F.x_ker j, map_zero] at hh
+      simp only [map_sum, map_smul, F.pair, smul_eq_mul, F.x_ker j] at hh
       calc ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * b k
           = ∑ k, b k * ((CartanMatrix.E 6) j k : ZMod 3) := by
             refine Finset.sum_congr rfl fun k _ => ?_

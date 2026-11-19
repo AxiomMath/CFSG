@@ -45,7 +45,7 @@ theorem exists_std (hc : P23Cfg n Y R S t K' W u e g) :
     Q3CL.Thompson.mem_DSet_of_le_sylow hΩ hc.std.hW hWS
       (mem_RSet_of_isSylow2In hc.std.hK'.1 hR') hR'S
   have hNe := normalizer_le_centralizer_e hc.data
-  have h2 : IsPGroup 2 ↥(R₀ ⊔ R') := S₀.isPGroup'.to_le (sup_le hRS hR'S)
+  have h2 : IsPGroup 2 ↥(R₀ ⊔ R') := S₀.isPGroup.to_le (sup_le hRS hR'S)
   exact ⟨R₀, R', hR₀, hR', hRD.2.trans hNe, hR'D.2.trans hNe, h2,
     CFSG.ClassicalInvolution.Q8P.Asc77.HypOmegaMod.commutes_of_twin_of_isPGroup hΩ hK
       hc.std.hK'.1 hc.std.hne.symm hz hzK' hR₀.1 hR'.1 h2⟩

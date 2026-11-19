@@ -47,7 +47,7 @@ theorem comm_primeCore_bot_of_qs {X M : Subgroup G} (hp : p.Prime) (hM : GLAPCom
 theorem cx_eq_of_mem_zpowers (h : Cfg12 G m p B x L D K) {d : G} (hd : d ∈ Subgroup.zpowers x) (hd1 : d ≠ 1) :
     Subgroup.centralizer ({d} : Set G) = Subgroup.centralizer ({x} : Set G) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := h.elem.2 x h.xD
   have hord : orderOf x = p := orderOf_eq_prime hxp h.tri.ne_one
   have hdord : orderOf d = p := by
@@ -70,6 +70,7 @@ theorem cx_eq_of_mem_zpowers (h : Cfg12 G m p B x L D K) {d : G} (hd : d ∈ Sub
   simp only [Subgroup.mem_centralizer_singleton_iff]
   exact ⟨fun hg => key hxd g hg, fun hg => key hd g hg⟩
 
+omit [Finite G] in
 theorem closureIn_le_self {K L : Subgroup G} (hK : K ≤ L) : closureIn K L ≤ L := by
   rw [closureIn_eq_iSup_gLBConj]
   refine iSup₂_le fun a ha => ?_

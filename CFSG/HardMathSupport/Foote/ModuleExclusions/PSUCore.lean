@@ -134,6 +134,7 @@ section HeisMain
 
 variable {n : ℕ} {K : Type} [Field K] [CharP K 5] (fb : K →+* K) {q : ℕ}
 
+omit [CharP K 5] in
 theorem uZ_ne_zero {ι : Type} [Fintype ι] [DecidableEq ι] {u : ι → K} (hu0 : u ≠ 0) :
     uZ fb u ≠ 0 := by
   intro h0
@@ -160,7 +161,7 @@ theorem uEg_conj [Nonempty (Fin n)] (h2 : (2 : K) ≠ 0) (hfb : ∀ x, fb (fb x)
       (⟨uEg huu huw hwu h2 α, uEg_mem huu huw hwu h2 hfb hfbq α⟩ : StatedSU n q K)⁻¹ := by
   have hU := (unitary_of_mem_statedSU fb hfbq hMH).1
   have hZ : (M : Matrix (Fin n) (Fin n) K) * uZ fb u = uZ fb u * M :=
-    uE_anticomm_Z huu huw hwu hU hu hε₁
+    uE_anticomm_Z hU hu hε₁
   have hA := uX_anticomm fb hfb hU hu hw h α
   have hs' : uCc fb w (-α) (-α) = uCc fb w α α := by simp only [uCc, map_neg]; ring
   apply Subtype.ext
@@ -202,7 +203,7 @@ theorem heis_inv [Nonempty (Fin n)] (h2 : (2 : K) ≠ 0) (hfb : ∀ x, fb (fb x)
   have hkey : uE fb u w ζ * uE fb u w 1 = (1 + d • Z) * (uE fb u w 1 * uE fb u w ζ) := by
     rw [uE_mul_sub huu huw hwu h2 ζ 1, uE_mul_sub huu huw hwu h2 1 ζ, add_comm ζ 1]
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.smul_mul, Matrix.mul_smul,
-      hZdef, uZ_mul_uE huu huw hwu, uZ_mul_uZ huu, smul_zero, add_zero, smul_add]
+      hZdef, uZ_mul_uE huu huw, uZ_mul_uZ huu, smul_zero, add_zero]
     have e : 2⁻¹ * (uCc fb w ζ 1 - uCc fb w 1 ζ) =
         d + 2⁻¹ * (uCc fb w 1 ζ - uCc fb w ζ 1) := by
       rw [hd]
@@ -226,7 +227,7 @@ theorem heis_inv [Nonempty (Fin n)] (h2 : (2 : K) ≠ 0) (hfb : ∀ x, fb (fb x)
         Matrix (Fin n) (Fin n) K)
     rw [hC]
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul,
-      Matrix.mul_smul, hZdef, uZ_mul_uE huu huw hwu, uE_mul_uZ huu huw hwu]
+      Matrix.mul_smul, hZdef, uZ_mul_uE huu huw, uE_mul_uZ huu hwu]
   have hCY : Commute (⁅Eh ζ, Eh 1⁆ : StatedSU n q K) (Eh ζ) := by
     apply Subtype.ext
     apply Units.ext
@@ -235,7 +236,7 @@ theorem heis_inv [Nonempty (Fin n)] (h2 : (2 : K) ≠ 0) (hfb : ∀ x, fb (fb x)
         Matrix (Fin n) (Fin n) K)
     rw [hC]
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.smul_mul,
-      Matrix.mul_smul, hZdef, uZ_mul_uE huu huw hwu, uE_mul_uZ huu huw hwu]
+      Matrix.mul_smul, hZdef, uZ_mul_uE huu huw, uE_mul_uZ huu hwu]
   have hne : (⁅Eh ζ, Eh 1⁆ : StatedSU n q K) ∉
       (StatedScalars (Fin n) K).subgroupOf (StatedSU n q K) := by
     intro hmem

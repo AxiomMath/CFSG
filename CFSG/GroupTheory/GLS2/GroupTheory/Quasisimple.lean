@@ -60,6 +60,6 @@ theorem oPrimeResidual_eq_top_of_isQuasisimple (hG : IsQuasisimple G)
   · exact h
   · let P : Sylow p G := Sylow.nonempty.some
     exact False.elim (not_sylow_le_center_of_isQuasisimple hG P hpG
-      ((le_oPrimeResidual_of_isPGroup (P : Subgroup G) P.isPGroup').trans h))
+      ((le_oPrimeResidual_of_isPGroup (P : Subgroup G) P.isPGroup).trans h))
 
 end CFSG.SecondGeneration

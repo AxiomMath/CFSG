@@ -131,6 +131,7 @@ theorem exists_mem_of_frameP (hK : PiField π p f K) (e : L ≃* projImage (slPi
   refine ⟨n, hnL, mem_normalizer_of_conj_mem hnA, fun a ha y hy => ?_⟩
   exact ⟨_, isPGLAtP_mul e (isPGLAtP_mul e hns hy) hns', hsconj y⟩
 
+omit [Finite H] in
 theorem exists_ratio_of_frameP (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     [Group.IsPerfect (projImage (slPi π 3 (p ^ f) K))]
     (e : L ≃* projImage (slPi π 3 (p ^ f) K)) {A : Subgroup H}
@@ -151,7 +152,7 @@ theorem exists_ratio_of_frameP (hK : PiField π p f K) (hq : ModThree π (p ^ f)
       r x = diagRatio ((g⁻¹ * y * g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) := by
     intro x hx y hy
     have hr' : r x = diagRatio ((g⁻¹ * (hpgl x hx).choose * g : GL (Fin 3) K) :
-        Matrix (Fin 3) (Fin 3) K) := dif_pos hx
+        Matrix (Fin 3) (Fin 3) K) := dite_eq_left hx
     rw [hr']
     obtain ⟨μ, hμ⟩ := isPGLAtP_inv_mul_mem hK hq (hpgl x hx).choose_spec hy
     have hyμ : y = (hpgl x hx).choose * GeneralLinearGroup.scalar (Fin 3) μ := by rw [hμ]; group

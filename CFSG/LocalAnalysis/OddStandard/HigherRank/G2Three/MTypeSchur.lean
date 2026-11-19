@@ -12,7 +12,7 @@ open CFSG.ComponentClassification.HarrisLit
 theorem isMTypeSchur_of_isSU43 (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersOdd)
     {K : Type} [Group K] [Finite K] (hK : Group.IsPerfect K)
     (hB : IsSU43 (K ⧸ CFSG.oddCore K)) : IsMTypeSchur 3 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcore : CFSG.oddCore K = CFSG.pPrimeCore 2 K := by
     rw [CFSG.oddCore_eq_piCore, CFSG.pPrimeCore_eq_piCore]
   have hker : ¬ 2 ∣ Nat.card (QuotientGroup.mk' (CFSG.oddCore K)).ker := by

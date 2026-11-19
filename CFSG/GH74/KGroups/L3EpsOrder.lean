@@ -107,7 +107,7 @@ theorem card_of_isMaxPGroup {S : Subgroup X} (hS : IsPGroup 2 S)
     Nat.card S = ordProj[2] (Nat.card X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS.exists_le_sylow
-  have hSP : S = P.toSubgroup := le_antisymm hP (hmax P.toSubgroup P.isPGroup' hP)
+  have hSP : S = P.toSubgroup := le_antisymm hP (hmax P.toSubgroup P.isPGroup hP)
   rw [hSP]
   exact P.card_eq_multiplicity
 

@@ -30,7 +30,7 @@ private theorem ggA6_SL_coreFamily_aux {F : Type} [Field F] [Finite F] [CharP F 
     omega
   obtain ⟨r, D, d, _, _, _, θ, hθinj, hθrange⟩ :=
     LayerFacts.exists_piGL_centralizer (n := N) P hA
-  haveI : ∀ i, CharP (D i) 2 := fun i =>
+  have : ∀ i, CharP (D i) 2 := fun i =>
     charP_of_injective_algebraMap (algebraMap F (D i)).injective 2
   let β := {b : Fin r // GoodBlock D d b}
   let S : β → Subgroup (GL (Fin N) F) := fun b => (blockSL D d b.1).map θ
@@ -92,7 +92,7 @@ private theorem ggA6_SL_coreFamily_aux {F : Type} [Field F] [Finite F] [CharP F 
   refine ⟨β, S, ?_, ?_⟩
   · exact hcore.mono (by rw [← hθrange]; exact inf_le_right) hSC
   · intro b
-    haveI : CharP (D b.1) 2 :=
+    have : CharP (D b.1) 2 :=
       charP_of_injective_algebraMap (algebraMap F (D b.1)).injective 2
     have e : Matrix.SpecialLinearGroup (Fin (d b.1)) (D b.1) ≃* ↥(S b) :=
       (MonoidHom.ofInjective (blockEmbed_injective (E := D) (m := d) b.1)).trans

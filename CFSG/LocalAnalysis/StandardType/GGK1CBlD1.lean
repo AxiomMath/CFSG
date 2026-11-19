@@ -109,11 +109,11 @@ private lemma ggK1D1_primaryComponent_ne_bot {K V : Type*} [Field K] [AddCommGro
 private lemma ggK1D1_primaryMultiplicity_pos {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] {y : Module.End K V} {a : K[X]}
     (ha : a ∈ primaryFactors y) : 1 ≤ primaryMultiplicity y a := by
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hne : primaryComponent y a ≠ ⊥ :=
     ggK1D1_primaryComponent_ne_bot (irreducible_of_mem_primaryFactors ha)
       (monic_of_mem_primaryFactors ha) (mem_primaryFactors.mp ha).2.2
-  haveI : Nontrivial ↥(primaryComponent y a) := Submodule.nontrivial_iff_ne_bot.mpr hne
+  have : Nontrivial ↥(primaryComponent y a) := Submodule.nontrivial_iff_ne_bot.mpr hne
   change 1 ≤ Module.finrank (AdjoinRoot a) (primaryComponent y a)
   exact Module.finrank_pos_iff.mpr inferInstance
 
@@ -173,7 +173,7 @@ private noncomputable def ggK1D1_adjoinRootEquiv {K : Type} [Field K] {h : K[X]}
 
 theorem ggK1CBl_comm_join_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     {x : ↥(StatedSp r K)} {m : List ℕ} {P : Finset K[X]}
-    (hnf : 1 ≤ nf) (hp : p.Prime) (hK : Nat.card K = 2 ^ nf) (hx : x ^ p = 1)
+    (_hnf : 1 ≤ nf) (_hp : p.Prime) (_hK : Nat.card K = 2 ^ nf) (_hx : x ^ p = 1)
     (hm : GGK1CMultOf p nf 1 r K x m) (hP : IsReciprocalTransversal (spEnd x) P)
     (hblocks : SpPrimaryBlocks 2 nf p x (proj r K x)) :
     (∀ i j : ggK1CBl_Id1 K P m, i ≠ j →
@@ -335,7 +335,7 @@ theorem ggK1CBl_comm_join_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem ggK1CBl_witness_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     {x : ↥(StatedSp r K)} {m : List ℕ} {P : Finset K[X]}
-    (hnf : 1 ≤ nf) (hp : p.Prime) (hK : Nat.card K = 2 ^ nf)
+    (_hnf : 1 ≤ nf) (_hp : p.Prime) (_hK : Nat.card K = 2 ^ nf)
     (hm : GGK1CMultOf p nf 1 r K x m) (hP : IsReciprocalTransversal (spEnd x) P)
     (hblocks : SpPrimaryBlocks 2 nf p x (proj r K x)) :
     ∀ i : ggK1CBl_Id1 K P m,
@@ -362,7 +362,7 @@ theorem ggK1CBl_witness_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
             ggK1CCo_Kind.sl (primaryMultiplicity (spEnd x) h.1) := rfl
         rw [hkind]
         unfold ggK1CBl_KindWitness
-        haveI : Fact (Irreducible h.1) := ⟨irreducible_of_mem_primaryFactors hhprim⟩
+        have : Fact (Irreducible h.1) := ⟨irreducible_of_mem_primaryFactors hhprim⟩
         have hpos : 1 ≤ primaryMultiplicity (spEnd x) h.1 := ggK1D1_primaryMultiplicity_pos hhprim
         obtain ⟨eM⟩ := (hblocks.paired ⟨h.1, hhprim⟩ hpair).matrixFactor
         have eAR := ggK1D1_adjoinRootEquiv (monic_of_mem_primaryFactors hhprim) (hdegP h.1 hhP)
@@ -398,7 +398,7 @@ theorem ggK1CBl_witness_d1 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem ggK1CBl_kind_multiset_d1 {p nf r : ℕ} {K : Type} [Field K]
     {x : ↥(StatedSp r K)} {m : List ℕ} {P : Finset K[X]}
-    (hm : GGK1CMultOf p nf 1 r K x m) (hP : IsReciprocalTransversal (spEnd x) P)
+    (hm : GGK1CMultOf p nf 1 r K x m) (_hP : IsReciprocalTransversal (spEnd x) P)
     (hmult : Multiset.ofList (m.tail.filter (fun j => decide (j ≠ 0))) =
       P.val.map (primaryMultiplicity (spEnd x))) :
     (Finset.univ : Finset (ggK1CBl_Id1 K P m)).val.map (ggK1CBl_kind1 1 x P m) =
@@ -429,11 +429,11 @@ theorem ggK1CBl_kind_multiset_d1 {p nf r : ℕ} {K : Type} [Field K]
           ggK1CBl_kind1 1 x P m (Sum.inr z)) =
         (fun _ => ggK1CCo_Kind.sp (m.headD 0)) from by funext z; rfl]
     by_cases h0 : m.headD 0 = 0
-    · rw [if_pos h0]
-      haveI : IsEmpty (Subtype (fun _ : Unit => m.headD 0 ≠ 0)) := ⟨fun z => z.2 h0⟩
+    · rw [ite_eq_left h0]
+      have : IsEmpty (Subtype (fun _ : Unit => m.headD 0 ≠ 0)) := ⟨fun z => z.2 h0⟩
       rw [Finset.univ_eq_empty]
       simp
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hsub : (Finset.univ : Finset (Subtype (fun _ : Unit => m.headD 0 ≠ 0))) =
           {⟨(), h0⟩} := by
         rw [Finset.eq_singleton_iff_unique_mem]
@@ -447,9 +447,9 @@ theorem ggK1CBl_kind_multiset_d1 {p nf r : ℕ} {K : Type} [Field K]
         (fun j => ggK1CCo_Kind.sl (m.getD j 0))) := by
     rw [ggK1CCo_expectedKinds, ggK1CCo_expectedKindList, hm.length_eq.symm]
     by_cases h0 : m.headD 0 = 0
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
       simp
-    · rw [if_neg h0, if_neg h0]
+    · rw [ite_eq_right h0, ite_eq_right h0]
       simp
   rw [← Finset.univ_disjSum_univ (α := ↥P)
         (β := Subtype (fun _ : Unit => m.headD 0 ≠ 0))]

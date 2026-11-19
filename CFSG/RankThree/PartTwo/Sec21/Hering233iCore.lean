@@ -31,8 +31,8 @@ theorem exists_not_commute_SL3_three : ∃ a b : SL(3, ZMod 3), a * b ≠ b * a 
 theorem isQuasisimple_of_quotient_SL3 {X : Type*} [Group X] [Group.IsPerfect X]
     {N : Subgroup X} [N.Normal] (hN : N ≤ Subgroup.center X)
     (e : X ⧸ N ≃* SL(3, ZMod 3)) : IsQuasisimple X := by
-  haveI : IsSimpleGroup (X ⧸ N) := by
-    haveI := isSimpleGroup_SL3_three
+  have : IsSimpleGroup (X ⧸ N) := by
+    have := isSimpleGroup_SL3_three
     exact e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := exists_not_commute_SL3_three
   exact Item21EarlyProof.isQuasisimple_of_le_center
@@ -66,12 +66,12 @@ theorem isQuasisimple_of_item44 (h44 : Sec4.Item4_4)
     exact hQ (isQuasisimple_of_quotient_pCore_two hq h1 hO2)
   ·
     obtain ⟨e⟩ := he2
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact false_of_sl2_quotient (p := 5) (by norm_num) e
       (hSN _ inferInstance Sec4.isSolvable_oTwoFitting) hu hv hu1 hv1 huv hu2 hv2
   ·
     obtain ⟨e⟩ := he3
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact false_of_sl2_quotient (p := p) (by omega) e
       (hSN _ inferInstance (Sec4.isSolvable_oTwoP p)) hu hv hu1 hv1 huv hu2 hv2
   ·
@@ -85,14 +85,14 @@ theorem isQuasisimple_of_item44 (h44 : Sec4.Item4_4)
     rcases Sec4.Census.linear_endgame hK₀s hO2' hp₀ hS₀ (hlin hO2' hQ) with ⟨⟨e⟩⟩ |
         ⟨p, hp, hp3, ⟨e⟩⟩ | ⟨⟨e⟩⟩
     ·
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-      haveI : Group.IsNilpotent (fittingSubgroup X) := CFSG.fittingSubgroup_nilpotent
-      haveI := CFSG.fittingSubgroup_normal (G := X)
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Group.IsNilpotent (fittingSubgroup X) := CFSG.fittingSubgroup_nilpotent
+      have := CFSG.fittingSubgroup_normal (G := X)
       exact false_of_sl2_quotient (p := 5) (by norm_num) e (hSN _ inferInstance inferInstance)
         hu hv hu1 hv1 huv hu2 hv2
     ·
-      haveI : Fact p.Prime := ⟨hp⟩
-      haveI : Group.IsNilpotent (CFSG.pCore p X) := CFSG.pCore_isNilpotent
+      have : Fact p.Prime := ⟨hp⟩
+      have : Group.IsNilpotent (CFSG.pCore p X) := CFSG.pCore_isNilpotent
       exact false_of_sl2_quotient (p := p) (by omega) e (hSN _ inferInstance inferInstance)
         hu hv hu1 hv1 huv hu2 hv2
     ·

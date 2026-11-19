@@ -28,7 +28,7 @@ private theorem map_conj_one' (X : Subgroup G) :
     X.map (MulAut.conj (1 : G)).toMonoidHom = X := by
   have h : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [h, Subgroup.map_id]
 
 private theorem map_conj_eq_of_fix (X : Subgroup G) {c : G} (hc : ∀ a ∈ X, c * a * c⁻¹ = a) :
@@ -195,7 +195,7 @@ theorem normalizesRGroup_of_orthogonal_orbit (q : ℕ) (K : Type) [Field K] [Fin
         ((z ^ k * x : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) * g0) y) :
     NormalizesRGroup (ringChar K) E₀ := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
   have hτ : TwistTag.E6.tag = .D4 ∨ TwistTag.E6.tag = .E6 ∨ TwistTag.E6.tag = .E7 ∨
       TwistTag.E6.tag = .E8 := Or.inr (Or.inl rfl)
   obtain ⟨X, Xm, ⟨g, hX, -⟩, hS⟩ :=

@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {s : Setting3 G L}
   {e : Setting3.Ext s}
 
+omit [Finite G] in
 private theorem le_normalizer_of_conj {A B : Subgroup G}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b * a⁻¹ ∈ B) : A ≤ normalizer (B : Set G) := by
   intro a ha
@@ -23,6 +24,7 @@ private theorem le_normalizer_of_conj {A B : Subgroup G}
   have h' := h a⁻¹ (A.inv_mem ha) (a * b * a⁻¹) hb
   rwa [show a⁻¹ * (a * b * a⁻¹) * (a⁻¹)⁻¹ = b by group] at h'
 
+omit [Finite G] in
 private theorem card_sup_mul_card_inf_of_normalizes {A C : Subgroup G}
     (hC : C ≤ normalizer (A : Set G)) :
     Nat.card (C ⊔ A : Subgroup G) * Nat.card (A ⊓ C : Subgroup G) =
@@ -40,6 +42,7 @@ private theorem card_sup_mul_card_inf_of_normalizes {A C : Subgroup G}
   have h5 := Nat.card_congr e.toEquiv
   rw [h2, h3, ← h5, ← h4, mul_comm (Nat.card _) (Nat.card A), mul_assoc, ← h1]
 
+omit [Finite G] in
 private theorem isCyclic_quotient_of_le_sup {V N : Subgroup G} [(N.subgroupOf V).Normal]
     (hNV : N ≤ V) {q : G} (hqV : q ∈ V)
     (hle : V ≤ N ⊔ zpowers q) : IsCyclic (↥V ⧸ N.subgroupOf V) := by

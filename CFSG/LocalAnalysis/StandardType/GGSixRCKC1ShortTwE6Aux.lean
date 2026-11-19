@@ -80,7 +80,7 @@ theorem rckSTwE6_core_of_alpha
         obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
         simpa [MulAut.conj_apply] using hy
       · intro x hx
-        exact Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩
+        exact Subgroup.mem_map.mpr ⟨x, hx, by simp⟩
     rw [hL] at hg₀
     exact hg₀
   exact rckSTwE6_core_map_mulEquiv (M := ggU .twistedE6 m g) (MulAut.conj g₀) hα hg₀'.symm

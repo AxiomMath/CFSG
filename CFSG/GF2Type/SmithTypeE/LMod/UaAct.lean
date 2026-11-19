@@ -42,16 +42,15 @@ theorem applyCols_aux_xor (cols : Array ℕ) (a b n : ℕ) :
   | zero => simp
   | succ n ih =>
     rw [applyCols_aux_succ, applyCols_aux_succ, applyCols_aux_succ, ih]
-    try dsimp only
     rw [Nat.testBit_xor]
     generalize (List.range n).foldl (fun acc m => if a.testBit m then acc ^^^ cols[m]! else acc) 0 = x
     generalize (List.range n).foldl (fun acc m => if b.testBit m then acc ^^^ cols[m]! else acc) 0 = y
     generalize cols[n]! = w
-    cases ha : a.testBit n <;> cases hb : b.testBit n <;> simp [ha, hb] <;>
+    cases ha : a.testBit n <;> cases hb : b.testBit n <;> simp <;>
       (first
         | ac_rfl
         | exact (applyCols_aux_cancel x y w).symm
-        | (apply Nat.eq_of_testBit_eq; intro i; simp only [Nat.testBit_xor]; cases x.testBit i <;> cases y.testBit i <;> cases w.testBit i <;> rfl))
+)
 
 theorem applyCols_aux_pow (cols : Array ℕ) (m n : ℕ) :
     (List.range n).foldl (fun acc k => if (2 ^ m).testBit k then acc ^^^ cols[k]! else acc) 0 =
@@ -60,11 +59,10 @@ theorem applyCols_aux_pow (cols : Array ℕ) (m n : ℕ) :
   | zero => simp
   | succ n ih =>
     rw [applyCols_aux_succ, ih]
-    try dsimp only
     by_cases hmn : m = n
     · subst hmn
-      simp [Nat.testBit_two_pow]
-    · simp [Nat.testBit_two_pow, hmn]
+      simp
+    · simp [hmn]
       split_ifs <;> first | rfl | omega
 
 theorem applyCols_aux_lt (cols : Array ℕ) (a : ℕ) (h : ∀ j < 9, cols[j]! < 512) :
@@ -78,7 +76,6 @@ theorem applyCols_aux_lt (cols : Array ℕ) (a : ℕ) (h : ∀ j < 9, cols[j]! <
     rw [applyCols_aux_succ]
     have hS := ih (by omega)
     have hc := h n (by omega)
-    try dsimp only
     split_ifs
     · have h9 : (512 : ℕ) = 2 ^ 9 := by norm_num
       rw [h9] at hS hc ⊢
@@ -99,7 +96,7 @@ theorem applyCols_xor {cols : Array ℕ} (a b : ℕ) :
 theorem applyCols_pow {cols : Array ℕ} {m : ℕ} (hm : m < cols.size) :
     applyCols cols (2 ^ m) = cols[m]! := by
   unfold applyCols
-  rw [applyCols_aux_pow cols m cols.size, if_pos hm]
+  rw [applyCols_aux_pow cols m cols.size, ite_eq_left hm]
 
 theorem applyCols_zero (cols : Array ℕ) : applyCols cols 0 = 0 := by
   unfold applyCols
@@ -122,7 +119,6 @@ theorem applyCols_congr {cols cols' : Array ℕ} (hs : cols.size = 9) (hs' : col
     | succ n ih =>
       intro hn
       rw [applyCols_aux_succ, applyCols_aux_succ, ih (by omega)]
-      try dsimp only
       rw [hc n (by omega)]
   unfold applyCols
   rw [hs, hs']
@@ -168,7 +164,7 @@ theorem conj_psi0_gen {π : Equiv.Perm (Fin 1953)} (hπ : IsTvAut π) (hW : ⇑�
     rw [CFSG.SmithE.applyCols, colsOf_size]
   exact e1.trans e2
 
-theorem colsOf_point {π : Equiv.Perm (Fin 1953)} (hπ : IsTvAut π) (hW : ⇑π '' wPlane 0 = wPlane 0)
+theorem colsOf_point {π : Equiv.Perm (Fin 1953)} (_hπ : IsTvAut π) (hW : ⇑π '' wPlane 0 = wPlane 0)
     {j : ℕ} (hj : j < 9) : ∃ k < 49, uco[k]! = (colsOf π)[j]! := by
   have hw : π (gen0 j) ∈ wPlane 0 := by
     rw [← hW]

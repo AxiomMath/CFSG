@@ -44,14 +44,14 @@ public theorem CFSG.section12_exists_isCompl_isInvariant_of_elementaryAbelian_co
     (hcop : Nat.Coprime p (Nat.card A)) (B : Subgroup V) [IsInvariant A V B] :
     ∃ C : Subgroup V, IsCompl B C ∧ IsInvariant A V C := by
   classical
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  let : CommGroup V := IsMulCommutative.instCommGroup
   let ρ : Representation (ZMod p) A (Additive V) :=
     Theory.Representation.ofElementaryAbelianAction (A := A) (G := V) (p := p)
   let instAdd : AddCommGroup ρ.asModule := Representation.instAddCommGroupAsModule ρ
-  letI : AddCommGroup ρ.asModule := instAdd
+  let : AddCommGroup ρ.asModule := instAdd
   let instMod : Module (MonoidAlgebra (ZMod p) A) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  letI : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
+  let : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
   let η : Subgroup V ≃o Submodule (ZMod p) (Additive V) :=
     Subgroup.toAddSubgroup.trans (AddSubgroup.toZModSubmodule (n := p))
   have hBinv : η B ∈ ρ.invtSubmodule := by
@@ -63,8 +63,8 @@ public theorem CFSG.section12_exists_isCompl_isInvariant_of_elementaryAbelian_co
     simpa [ρ, η] using
       (IsInvariant.invariant (A := A) (G := V) (H := B) a (Additive.toMul x)).1 hxB
   let Bpack : ρ.invtSubmodule := ⟨η B, hBinv⟩
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : NeZero (Fintype.card A : ZMod p) := by
+  have : Fintype A := Fintype.ofFinite A
+  have : NeZero (Fintype.card A : ZMod p) := by
     constructor
     intro hzero
     have hdiv : p ∣ Fintype.card A :=
@@ -176,7 +176,7 @@ private theorem CFSG.section12_E2_commutative_of_tau2_nonabelian
   have hTcomm : IsMulCommutative (T : Subgroup M) :=
     (theorem_12_5_b hM hp hA_M).1 T
   have hTamb_comm : IsMulCommutative (section10AmbientSylowSubgroup M T) := by
-    letI : IsMulCommutative (T : Subgroup M) := hTcomm
+    let : IsMulCommutative (T : Subgroup M) := hTcomm
     change IsMulCommutative ((T : Subgroup M).map M.subtype)
     exact Subgroup.map_isMulCommutative
       (f := M.subtype) (H := (T : Subgroup M))
@@ -223,7 +223,7 @@ private theorem CFSG.section12_global_sylow_not_le_M_of_nonabelian
     {S : Sylow p.val G} (hSnonab : ¬ IsMulCommutative (S : Subgroup G)) :
     ¬ (S : Subgroup G) ≤ M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   intro hSleM
   have hA_M : A ∈ section12RankTwoElementaryAbelianIn p M :=
     section12_rankTwo_of_EData hE hA
@@ -369,7 +369,7 @@ private theorem CFSG.section12_isInvariant_map_quotient_local
     letI : MulDistribMulAction A (G ⧸ N) :=
       quotientMulDistribMulAction (A := A) (G := G) N inferInstance
     IsInvariant A (G ⧸ N) (H.map (QuotientGroup.mk' N)) := by
-  letI : MulDistribMulAction A (G ⧸ N) :=
+  let : MulDistribMulAction A (G ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := G) N inferInstance
   refine ⟨?_⟩
   intro a q
@@ -418,7 +418,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor
         E₂ = subgroupCentralizerIn A (section10Msigma M) ⊔ Z := by
   classical
   let C : Subgroup G := subgroupCentralizerIn A (section10Msigma M)
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
@@ -430,7 +430,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor
     rcases hSylow with ⟨Sbad, hSbad_noncomm⟩
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S Sbad
     have hconj_comm : IsMulCommutative ((g • S : Sylow p.val G) : Subgroup G) := by
-      letI : IsMulCommutative (S : Subgroup G) := hScomm
+      let : IsMulCommutative (S : Subgroup G) := hScomm
       rw [Sylow.coe_subgroup_smul]
       exact Subgroup.map_isMulCommutative
         (f := (MulAut.conj g).toMonoidHom) (H := (S : Subgroup G))
@@ -579,13 +579,13 @@ private theorem CFSG.section12_CA_msigma_not_le_frattini_E2
       (show C₂ ≤ Z₂ ⊔ frattini E₂ from
         (show C₂ ≤ frattini E₂ from by simpa [C₂, C] using hCΦ).trans le_sup_right)
       le_sup_left
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
       hM hE hp hA hSylow
-  haveI : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
+  have : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
   have hZ₂top : Z₂ = ⊤ :=
     lemma_1_7_a (R := E₂) (p := p.val) (H := Z₂) hZΦ_top
   have hC_le_Z : C ≤ Z := by
@@ -640,7 +640,7 @@ private theorem CFSG.section12_E1_invariant_CA_msigma_subgroupOf_E2
       ((subgroupCentralizerIn A (section10Msigma M)).subgroupOf E₂) := by
   classical
   let C : Subgroup G := subgroupCentralizerIn A (section10Msigma M)
-  letI : Subgroup.Normalizes E₁ E₂ :=
+  let : Subgroup.Normalizes E₁ E₂ :=
     ⟨section12_E1_le_normalizer_E2 (G := G) (M := M) hM hE⟩
   have hAnorm : section10NormalIn A E :=
     (corollary_12_6_a (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
@@ -685,21 +685,21 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2
   let C₂ : Subgroup E₂ := C.subgroupOf E₂
   let Φ : Subgroup E₂ := frattini E₂
   let q : E₂ →* E₂ ⧸ Φ := QuotientGroup.mk' Φ
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
       hM hE hp hA hSylow
-  haveI : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
-  letI : Subgroup.Normalizes E₁ E₂ :=
+  have : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
+  let : Subgroup.Normalizes E₁ E₂ :=
     ⟨section12_E1_le_normalizer_E2 (G := G) (M := M) hM hE⟩
   have hΦinv : IsInvariant E₁ E₂ Φ := by
     simpa [Φ] using isInvariant_of_characteristic (A := E₁) (G := E₂) (frattini E₂)
-  letI : IsInvariant E₁ E₂ Φ := hΦinv
-  haveI : Φ.Normal := by
+  let : IsInvariant E₁ E₂ Φ := hΦinv
+  have : Φ.Normal := by
     simpa [Φ] using (inferInstance : (frattini E₂).Normal)
-  letI : MulDistribMulAction E₁ (E₂ ⧸ Φ) :=
+  let : MulDistribMulAction E₁ (E₂ ⧸ Φ) :=
     quotientMulDistribMulAction (A := E₁) (G := E₂) Φ hΦinv
   have hC₂inv : IsInvariant E₁ E₂ C₂ := by
     simpa [C₂, C] using
@@ -707,16 +707,16 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2
         (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
         (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
         hM hE hp hA
-  letI : IsInvariant E₁ E₂ C₂ := hC₂inv
+  let : IsInvariant E₁ E₂ C₂ := hC₂inv
   let B : Subgroup (E₂ ⧸ Φ) := C₂.map q
   have hBinv : IsInvariant E₁ (E₂ ⧸ Φ) B := by
     simpa [B, q] using
       section12_isInvariant_map_quotient_local
         (A := E₁) (G := E₂) (N := Φ) (H := C₂)
-  letI : IsInvariant E₁ (E₂ ⧸ Φ) B := hBinv
+  let : IsInvariant E₁ (E₂ ⧸ Φ) B := hBinv
   have hVelem : IsElementaryAbelian p.val (E₂ ⧸ Φ) := by
     simpa [Φ] using isElementaryAbelian_quotient_frattini (R := E₂) (p := p.val)
-  letI : IsElementaryAbelian p.val (E₂ ⧸ Φ) := hVelem
+  let : IsElementaryAbelian p.val (E₂ ⧸ Φ) := hVelem
   obtain ⟨Q, hBQ, hQinv⟩ :=
     section12_exists_isCompl_isInvariant_of_elementaryAbelian_coprime
       (V := E₂ ⧸ Φ) (A := E₁) (p := p.val)
@@ -725,7 +725,7 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2
         (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
         hM hE hp hA) B
   let P₀sub : Subgroup E₂ := Q.comap q
-  letI : IsInvariant E₁ (E₂ ⧸ Φ) Q := hQinv
+  let : IsInvariant E₁ (E₂ ⧸ Φ) Q := hQinv
   have hqcompat : ∀ a : E₁, ∀ g : E₂, a • q g = q (a • g) := by
     intro a g
     simp [q, MulAction.Quotient.smul_mk]
@@ -759,7 +759,7 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2
         have hyD : yC ∈ D := by simp [hDtop]
         simpa [D, yC, Subgroup.mem_subgroupOf] using hyD
       exact hC₂_not_le_Φ hC₂_le_Φ
-    haveI : Fact (Nat.card C₂).Prime := ⟨by simpa [hC₂card] using p.2⟩
+    have : Fact (Nat.card C₂).Prime := ⟨by simpa [hC₂card] using p.2⟩
     have hD_bot : D = ⊥ := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card D with hD | hD
       · exact hD
@@ -975,7 +975,7 @@ public theorem CFSG.theorem_12_12_a
           (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
           hM hE hp hA hSylow
       have hAelem := (section12_rankTwo_elementary hA).2
-      haveI : IsElementaryAbelian p.val A := hAelem
+      have : IsElementaryAbelian p.val A := hAelem
       have hA₀comm : IsMulCommutative A₀ := by
         refine ⟨⟨fun x y => ?_⟩⟩
         exact Subtype.ext <|
@@ -1024,7 +1024,7 @@ public theorem CFSG.theorem_12_12_a
       have hyTop : yE ∈ E₀.subgroupOf E ⊔ A₀.subgroupOf E := by
         rw [hA₀comp'.sup_eq_top]
         simp
-      haveI : (A₀.subgroupOf E).Normal := hA₀norm.2
+      have : (A₀.subgroupOf E).Normal := hA₀norm.2
       rcases (Subgroup.mem_sup_of_normal_right
           (s := E₀.subgroupOf E) (t := A₀.subgroupOf E) (x := yE)).1 hyTop with
         ⟨e0, he0, a0, ha0, hmul⟩
@@ -1062,7 +1062,7 @@ public theorem CFSG.theorem_12_12_a
       exact hyA₀
     · have hAp : IsPGroup p.val A := by
         have hElem := (section12_rankTwo_elementary hA).2
-        haveI : IsElementaryAbelian p.val A := hElem
+        have : IsElementaryAbelian p.val A := hElem
         exact IsElementaryAbelian.isPGroup p.val A
       obtain ⟨S, hAS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hAp
       have hScomm : IsMulCommutative (S : Subgroup G) := by
@@ -1078,7 +1078,7 @@ public theorem CFSG.theorem_12_12_a
           section12HallSubgroupIn (section12Tau2Primes M) E₂ E :=
         section12_E2_hall_in_E hE.2.1 hE.2.2.2.1
       rcases hE2HallIn with ⟨hE2E, hHallE2E⟩
-      haveI : (E₂.subgroupOf E).Normal := hE2norm.2
+      have : (E₂.subgroupOf E).Normal := hE2norm.2
       refine ⟨E₂, hE2E, hE2comm, hE2norm, ?_⟩
       intro x hxσ hxne y hy
       let Y : Subgroup G := Subgroup.zpowers y
@@ -1096,7 +1096,7 @@ public theorem CFSG.theorem_12_12_a
         rcases hqτ with hq12 | hq3
         · rcases hq12 with hq1 | hq2
           · exfalso
-            haveI : Fact q.val.Prime := ⟨q.2⟩
+            have : Fact q.val.Prime := ⟨q.2⟩
             obtain ⟨z0, hz0_order⟩ :=
               exists_prime_orderOf_dvd_card' (G := Y) q.val hqY
             let z : G := z0
@@ -1134,7 +1134,7 @@ public theorem CFSG.theorem_12_12_a
             exact hxne (by simpa using hxbot)
           · exact hq2
         · exfalso
-          haveI : Fact q.val.Prime := ⟨q.2⟩
+          have : Fact q.val.Prime := ⟨q.2⟩
           obtain ⟨z0, hz0_order⟩ :=
             exists_prime_orderOf_dvd_card' (G := Y) q.val hqY
           let z : G := z0

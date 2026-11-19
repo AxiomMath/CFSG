@@ -127,7 +127,7 @@ theorem hasSolvInvPair_M24 : HasSolvInvPair ↥CFSG.Blueprint.NativeSporadic.M24
       exact hno j h13 h5 h12
     · rw [hjZ]
       unfold memberOrTop
-      rw [if_neg hjL]
+      rw [ite_eq_right hjL]
   ·
     intro α hα
     have hY1 := hfix 1 (by decide) (by norm_num) α hα

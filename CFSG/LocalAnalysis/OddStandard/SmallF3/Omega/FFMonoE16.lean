@@ -55,7 +55,7 @@ theorem ff_liftE16_subset (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c)
       obtain ⟨J, hJ, heq⟩ := ffRhoU_spec hQ fr U hUle ⟨w, hw⟩
       rw [show ffRhoU hQ fr U hUle ⟨w, hw⟩ = 1 from h1, fr.permOrth_one, one_mul] at heq
       exact (mem_ffB0_iff fr).mpr ⟨J, hJ, heq⟩
-    haveI : Finite (ffB0 fr) :=
+    have : Finite (ffB0 fr) :=
       Nat.finite_of_card_ne_zero (by rw [ffB0_card fr]; norm_num)
     have hcardB0 : Nat.card (ffB0 fr) ≤ Nat.card U := by rw [ffB0_card fr, hUcard]
     exact hne (Subgroup.eq_of_le_of_card_ge hUB0 hcardB0)

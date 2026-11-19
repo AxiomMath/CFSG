@@ -89,9 +89,9 @@ theorem lineStab_statedOmegaMinus_two_ne_top {K : Type} [Field K] [Finite K] [Ch
     simp [w, KTabC.e1M, Pi.single_apply]
   have e3 : Q w = 1 := by
     rw [quadMinus_apply]
-    simp [w, Pi.single_apply]
+    simp [w]
   rw [e1, e2, e3] at h1
-  simp [KTabC.e1M, u, w, Pi.single_apply] at h1
+  simp [KTabC.e1M, u, w] at h1
 
 end
 

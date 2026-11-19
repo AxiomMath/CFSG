@@ -83,11 +83,11 @@ theorem RK_normal (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
 private theorem pCore_subgroupOf_ker_isSolvable (c : Ctx23L D Ch)
     (hV : IsElemAbelian 2 c.V) :
     Group.IsSolvable ↥((CFSG.pCore 2 ↥c.L).subgroupOf (c.phiL hV).ker) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : Group.IsSolvable ↥(CFSG.pCore 2 ↥c.L) := by
     have := (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)).isNilpotent
     infer_instance
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥c.L) := hN
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥c.L) := hN
   let h : ↥((CFSG.pCore 2 ↥c.L).subgroupOf (c.phiL hV).ker) →*
       ↥(CFSG.pCore 2 ↥c.L) :=
     { toFun := fun x => ⟨(x.1 : ↥c.L), Subgroup.mem_subgroupOf.mp x.2⟩
@@ -100,7 +100,7 @@ private theorem pCore_subgroupOf_ker_isSolvable (c : Ctx23L D Ch)
 theorem phiL_ker_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n) :
     Group.IsSolvable ↥(c.phiL hV).ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L
   let π : ↥c.L →* Bar2 c.L := QuotientGroup.mk' N
   let E : Subgroup (Bar2 c.L) := (c.phiL hV).ker.map π
@@ -129,15 +129,15 @@ theorem phiL_ker_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       apply Subtype.ext
       change π (x : ↥c.L) = 1
       exact (QuotientGroup.eq_one_iff (x : ↥c.L)).mpr hx
-  haveI : Group.IsSolvable ↥S := hS
-  haveI : Group.IsSolvable ↥E := hE
+  have : Group.IsSolvable ↥S := hS
+  have : Group.IsSolvable ↥E := hE
   refine Group.isSolvable_of_ker_le_range S.subtype g ?_
   rw [hgker, Subgroup.range_subtype]
 
 private theorem phiK_ker_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n) :
     Group.IsSolvable ↥((c.phiL hV).comp (Subgroup.inclusion (K_le_L c))).ker := by
-  haveI : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
+  have : Group.IsSolvable ↥(c.phiL hV).ker := phiL_ker_isSolvable c hV hK hnat
   let h : ↥((c.phiL hV).comp (Subgroup.inclusion (K_le_L c))).ker →*
       ↥(c.phiL hV).ker :=
     ((Subgroup.inclusion (K_le_L c)).comp
@@ -151,7 +151,7 @@ private theorem phiK_ker_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
 theorem RK_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n) :
     Group.IsSolvable ↥(RK c hV) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φK : ↥(K c) →* ↥(c.H hV) :=
     (c.phiL hV).comp (Subgroup.inclusion (K_le_L c))
   let C0 : Subgroup ↥(K c) := φK.ker
@@ -183,8 +183,8 @@ theorem RK_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       apply Subtype.ext
       change phiK c hV x.1 = 1
       exact Subtype.ext (by simpa [phiK, MonoidHom.coe_rangeRestrict, φK] using hx)
-  haveI : Group.IsSolvable ↥C0 := hC0
-  haveI : Group.IsSolvable ↥P0 := hP0
+  have : Group.IsSolvable ↥C0 := hC0
+  have : Group.IsSolvable ↥P0 := hP0
   refine Group.isSolvable_of_ker_le_range f g ?_
   rw [hgker, Subgroup.inclusion_range]
 
@@ -222,14 +222,14 @@ instance RKbar_normal (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
 theorem RKbar_isSolvable (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     (hK : KOrdNatural) {n : ℕ} (hnat : IsNaturalClassicalModule (c.H hV) n) :
     Group.IsSolvable ↥(RKbar c hV) := by
-  haveI : Group.IsSolvable ↥(RK c hV) := RK_isSolvable c hV hK hnat
+  have : Group.IsSolvable ↥(RK c hV) := RK_isSolvable c hV hK hnat
   exact Group.isSolvable_of_surjective
     (MonoidHom.subgroupMap_surjective (toKbar c) (RK c hV))
 
 theorem exists_surjective_KstarBar_quotient (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) :
     ∃ f : KstarBar c hV →* (↥(Kbar c) ⧸ RKbar c hV), Function.Surjective f := by
-  haveI : (RKbar c hV).Normal := RKbar_normal c hV
-  haveI : (RK c hV).Normal := RK_normal c hV
+  have : (RKbar c hV).Normal := RKbar_normal c hV
+  have : (RK c hV).Normal := RK_normal c hV
   let h : ↥(K c) →* (↥(Kbar c) ⧸ RKbar c hV) :=
     (QuotientGroup.mk' (RKbar c hV)).comp (toKbar c)
   have hsurj : Function.Surjective h :=
@@ -257,7 +257,7 @@ theorem exists_surjective_KstarBar_range_of_RKbar_le_ker (c : Ctx23L D Ch)
     (hV : IsElemAbelian 2 c.V) {X : Type} [Group X] (π : ↥(Kbar c) →* X)
     (hπ : RKbar c hV ≤ π.ker) :
     ∃ f : KstarBar c hV →* ↥π.range, Function.Surjective f := by
-  haveI : (RKbar c hV).Normal := RKbar_normal c hV
+  have : (RKbar c hV).Normal := RKbar_normal c hV
   obtain ⟨q, hq⟩ := exists_surjective_KstarBar_quotient c hV
   let p : (↥(Kbar c) ⧸ RKbar c hV) →* X :=
     QuotientGroup.lift (RKbar c hV) π hπ

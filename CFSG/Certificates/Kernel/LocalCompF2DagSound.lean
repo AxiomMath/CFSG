@@ -30,7 +30,7 @@ theorem one_unpack : one = unpackF 24 (idF 24) := by
   revert i
   decide +kernel
 
-theorem inv_unpack {X Y : Nat} (hX : X < 2 ^ 576) (hY : Y < 2 ^ 576)
+theorem inv_unpack {X Y : Nat} (_hX : X < 2 ^ 576) (_hY : Y < 2 ^ 576)
     (h : Nat.beq (mulF 24 X Y) (idF 24) = true) : inv (unpackF 24 X) = unpackF 24 Y := by
   have hm : mul (unpackF 24 X) (unpackF 24 Y) = one () := by
     rw [mul_unpack, Nat.eq_of_beq_eq_true h, one_unpack]
@@ -97,15 +97,15 @@ theorem letter_unpack (E EI : List Nat) (hl : EI.length = E.length) (j : Int) :
   rw [one_unpack]
   rcases j with k | k
   · rcases k with _ | k
-    · rw [if_neg (by decide), show (-Int.ofNat 0).toNat - 1 = 0 from rfl, List.getD_map]
+    · rw [ite_eq_right (by decide), show (-Int.ofNat 0).toNat - 1 = 0 from rfl, List.getD_map]
       exact congrArg (unpackF 24) (getB_eq EI hl 0).symm
     · have hpos : (0 : Int) < Int.ofNat (k + 1) := Int.natCast_pos.mpr (Nat.succ_pos k)
-      rw [if_pos hpos, show (Int.ofNat (k + 1)).toNat - 1 = k from Nat.add_sub_cancel k 1,
+      rw [ite_eq_left hpos, show (Int.ofNat (k + 1)).toNat - 1 = k from Nat.add_sub_cancel k 1,
         List.getD_map]
       exact congrArg (unpackF 24) (getB_eq E rfl k).symm
   · have hneg : ¬ (0 : Int) < Int.negSucc k := fun h =>
       absurd (Int.lt_trans h (Int.negSucc_lt_zero k)) (Int.lt_irrefl 0)
-    rw [if_neg hneg, show (-Int.negSucc k).toNat - 1 = k from Nat.add_sub_cancel k 1, List.getD_map]
+    rw [ite_eq_right hneg, show (-Int.negSucc k).toNat - 1 = k from Nat.add_sub_cancel k 1, List.getD_map]
     exact congrArg (unpackF 24) (getB_eq EI hl k).symm
 
 theorem word_go (E EI : List Nat) (hl : EI.length = E.length) : ∀ (w : List Int) (acc : Nat),
@@ -147,7 +147,7 @@ private theorem getB_take (T : List Nat) (k i : Nat) : getB 24 (T.take k) k i = 
   by_cases hi : i < k
   · have e : Nat.blt i k = true := by simpa [Nat.blt_eq] using hi
     rw [e]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_take, hi]
+    simp [List.getD_eq_getElem?_getD, hi]
   · have e : Nat.blt i k = false := by
       cases h : Nat.blt i k
       · rfl
@@ -166,7 +166,7 @@ private theorem wordK_take (E EI : List Nat) (k : Nat) (w : List Int) :
 
 private theorem take_succ_getD (E : List Nat) {k : Nat} (hk : k < E.length) :
     E.take (k + 1) = E.take k ++ [E.getD k 0] := by
-  rw [List.take_succ, List.getElem?_eq_getElem hk, List.getD_eq_getElem _ _ hk]
+  rw [List.take_add_one, List.getElem?_eq_getElem hk, List.getD_eq_getElem _ _ hk]
   rfl
 
 private theorem stepsK_cons (nb : Nat) (E EI : List Nat) (w : List Int) (ws : List (List Int))

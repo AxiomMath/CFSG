@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] [Finite K] in
 theorem modelB_nondegenerate (M₀ : Tim79.QuadModel Q Z K γ) : M₀.B.Nondegenerate :=
   ⟨fun x hx => M₀.nondeg x hx, fun y hy => M₀.nondeg y fun f => by
     rw [Tim79.QuadModel.B_comm, hy f, neg_zero]⟩
@@ -21,8 +22,9 @@ theorem modelB_nondegenerate (M₀ : Tim79.QuadModel Q Z K γ) : M₀.B.Nondegen
   carrier := (M₀.img (Lgen M B) : Set M₀.E)
   add_mem' := fun ha hb => (M₀.img (Lgen M B)).add_mem ha hb
   zero_mem' := (M₀.img (Lgen M B)).zero_mem
-  smul_mem' := fun c e he => hc.smul_mem_img_Lgen h c he
+  smul_mem' := fun c _e he => hc.smul_mem_img_Lgen h c he
 
+omit [Finite K] in
 theorem Ctx.orthogonal_Wn (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     M₀.B.orthogonal (hc.Wn h) = PerpSub M₀ (Lgen M B) := by
   ext e
@@ -36,6 +38,7 @@ theorem Ctx.orthogonal_Wn (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     show M₀.B (M₀.π x) e = 0
     rw [Tim79.QuadModel.B_comm, he x hx, neg_zero]
 
+omit [Finite K] in
 theorem Ctx.Wn_inf_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     hc.Wn h ⊓ PerpSub M₀ (Lgen M B) = ⊥ := by
   rw [eq_bot_iff]
@@ -53,6 +56,7 @@ theorem Ctx.Wn_inf_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
   rw [← hcn]
   exact this
 
+omit [Finite K] in
 theorem Ctx.finrank_Wn_add (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     Module.finrank K (hc.Wn h) + Module.finrank K (PerpSub M₀ (Lgen M B)) =
       Module.finrank K M₀.E := by
@@ -61,6 +65,7 @@ theorem Ctx.finrank_Wn_add (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀
   have h2 := Submodule.finrank_le (hc.Wn h)
   omega
 
+omit [Finite K] in
 theorem Ctx.Wn_sup_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     hc.Wn h ⊔ PerpSub M₀ (Lgen M B) = ⊤ := by
   apply Submodule.eq_top_of_finrank_eq
@@ -69,6 +74,7 @@ theorem Ctx.Wn_sup_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
   have := hc.finrank_Wn_add h
   omega
 
+omit [Finite K] in
 theorem Ctx.orthogonal_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     M₀.B.orthogonal (PerpSub M₀ (Lgen M B)) = hc.Wn h := by
   have hle : hc.Wn h ≤ M₀.B.orthogonal (PerpSub M₀ (Lgen M B)) := by
@@ -82,29 +88,35 @@ theorem Ctx.orthogonal_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
   have h2 := hc.finrank_Wn_add h
   exact (Submodule.eq_of_le_of_finrank_eq hle (by omega)).symm
 
+omit [Finite K] in
 theorem Ctx.Wp_inf_orthogonal (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     PerpSub M₀ (Lgen M B) ⊓ M₀.B.orthogonal (PerpSub M₀ (Lgen M B)) = ⊥ := by
   rw [hc.orthogonal_Wp h, inf_comm]
   exact hc.Wn_inf_Wp h
 
+omit [Finite K] in
 theorem Ctx.Wn_inf_orthogonal (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     hc.Wn h ⊓ M₀.B.orthogonal (hc.Wn h) = ⊥ := by
   rw [hc.orthogonal_Wn h]
   exact hc.Wn_inf_Wp h
 
+omit [Finite K] in
 theorem Ctx.mem_Wn_of_mem_img (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {x : G} (hx : x ∈ Lgen M B) : M₀.π x ∈ hc.Wn h :=
   M₀.pi_mem_img hx (hc.Lgen_le_Q hx)
 
+omit [Finite K] in
 theorem Ctx.B_Wp_Wn (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {y e : M₀.E} (hy : y ∈ PerpSub M₀ (Lgen M B)) (he : e ∈ hc.Wn h) : M₀.B y e = 0 := by
   obtain ⟨x, hx, -, rfl⟩ := he
   exact hy x hx
 
+omit [Finite K] in
 theorem Ctx.B_Wn_Wp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {y e : M₀.E} (hy : y ∈ PerpSub M₀ (Lgen M B)) (he : e ∈ hc.Wn h) : M₀.B e y = 0 := by
   rw [Tim79.QuadModel.B_comm, hc.B_Wp_Wn h hy he, neg_zero]
 
+omit [Finite K] in
 theorem Ctx.b_mem_Wn (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b) : b ∈ hc.Wn h := by
   have hb : b ∈ M₀.img B := (hB b).mpr ⟨1, (one_smul K b).symm⟩

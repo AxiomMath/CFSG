@@ -99,7 +99,7 @@ theorem mem_oddCore_centralizer_of_odd (T : Sylow 2 (lTwoPrimeTwo X)) {c : X}
   set π := QuotientGroup.mk' (pPrimeCore 2 X) with hπ
   set T' : Subgroup X := (T : Subgroup (lTwoPrimeTwo X)).map (lTwoPrimeTwo X).subtype with hT'
   set C : Subgroup X := centralizer (T' : Set X) with hC
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map (lTwoPrimeTwo X).subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map (lTwoPrimeTwo X).subtype
   set Yb : Subgroup (X ⧸ pPrimeCore 2 X) := (lTwoPrimeTwo X).map π with hYb
   let S : Sylow 2 Yb := T.mapSurjective (MonoidHom.subgroupMap_surjective π (lTwoPrimeTwo X))
   have hS : (S : Subgroup Yb).map Yb.subtype = T'.map π := by
@@ -324,7 +324,7 @@ theorem oddCore_centralizer_le_lStar_of_le_normalizer (T : Sylow 2 (lTwoPrimeTwo
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := pLayer_two_normal' (X := X)
   set T' : Subgroup X := (T : Subgroup (lTwoPrimeTwo X)).map (lTwoPrimeTwo X).subtype with hT'
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map (lTwoPrimeTwo X).subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map (lTwoPrimeTwo X).subtype
   have hT'L : T' ≤ (lTwoPrimeTwo X) := Subgroup.map_subtype_le _
   intro B
   induction h : Nat.card X - Nat.card B using Nat.strong_induction_on generalizing B with

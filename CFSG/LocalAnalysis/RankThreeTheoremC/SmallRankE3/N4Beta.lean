@@ -22,7 +22,7 @@ theorem noTwoComponentsGen_holds : NoTwoComponentsGen := by
   obtain ⟨L, K, hL, hLp, hK, hLK⟩ := hmulti
   obtain ⟨hPM, hxM, hzM, hpl⟩ := n4_plane63E3 hSet hs hp5 hx hz
   have hp : p.Prime := sigmaA_prime p hs.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := sigmaA_odd p hs.mem_sigmaA
   have hβs := N3.betaStructure_E3
     CFSG.LocalAnalysis.RankFourTheoremC.kFactCenterCyclicGeFive_holds GL83.I_6_10_1_proved

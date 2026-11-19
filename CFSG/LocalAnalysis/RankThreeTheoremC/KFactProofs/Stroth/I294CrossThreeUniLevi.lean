@@ -154,7 +154,7 @@ theorem levi_comm (h : HypPairs σ S u w) (hσinv : ∀ c, σ (σ c) = c) (hSp :
   have hb3 : ∀ i, b i ^ 3 = 1 := fun i => eigen_cube hSp (hb i) (h.w_ne_zero i)
   have hab : ∀ i, σ (a i) * b i = 1 := fun i => by
     have h1 := hS (u i) (w i)
-    rw [ha i, hb i, herm_smul_left, herm_smul_right, h.uw i i, if_pos rfl] at h1
+    rw [ha i, hb i, herm_smul_left, herm_smul_right, h.uw i i, ite_eq_left rfl] at h1
     simpa using h1
   have hab' : ∀ i, a i * σ (b i) = 1 := fun i => by
     have := congrArg σ (hab i)

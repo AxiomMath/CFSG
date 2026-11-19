@@ -30,9 +30,9 @@ private theorem k91j2nine_card_modEq_fixed {K A : Type} [Group K] [Group A] [Fin
   have hH := k91j2nine_isPGroup_zpowers e he
   let F : Subgroup A :=
     { carrier := {a | φ e a = a}
-      mul_mem' := fun {a b} ha hb => by simp only [Set.mem_setOf_eq] at *; rw [map_mul, ha, hb]
+      mul_mem' := fun {a b} ha hb => by simp only [Set.mem_ofPred_eq] at *; rw [map_mul, ha, hb]
       one_mem' := by simp
-      inv_mem' := fun {a} ha => by simp only [Set.mem_setOf_eq] at *; rw [map_inv, ha] }
+      inv_mem' := fun {a} ha => by simp only [Set.mem_ofPred_eq] at *; rw [map_inv, ha] }
   have hfix : ∀ a : A, a ∈ MulAction.fixedPoints (zpowers e) A ↔ a ∈ F := by
     intro a
     constructor

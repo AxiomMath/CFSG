@@ -56,7 +56,7 @@ theorem chain_card (χ : PhanB3Group →* (Equiv.Perm {c : ℕ // c < 1120})ᵐ�
     have hr := Act.rowsOK_spec (Act.allR_spec CFSG.KAct.PhanB3SG.rows x.1 (Nat.zero_le _)
       (by omega)) c hc'
     rw [Nat.zero_add] at hr
-    rw [sgElt, dif_pos hc', hχ, map_lo8_codes, hw]
+    rw [sgElt, dite_eq_left hc', hχ, map_lo8_codes, hw]
     exact hr
   have := Act.le_card_range_of_levelsOK (by norm_num) hσ CFSG.KAct.PhanB3SG.LV
     CFSG.KAct.PhanB3SG.levels

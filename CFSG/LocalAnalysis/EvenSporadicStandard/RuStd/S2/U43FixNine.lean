@@ -78,8 +78,8 @@ theorem nine_dvd_card_fix_of_mulEquiv
   have h := u43_nine_dvd_fix (MulAut.congr e γ) hβ
   have hcard : Nat.card {x : U43 // MulAut.congr e γ x = x} = Nat.card {n : N // γ n = n} :=
     Nat.card_congr (e.symm.toEquiv.subtypeEquiv fun x => by
-      simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.coe_toEquiv]
-      exact e.toEquiv.apply_eq_iff_eq_symm_apply)
+      simp only [MulAut.congr_apply, MulEquiv.trans_apply]
+      exact (Iff.symm (_root_.Equiv.eq_symm_apply e.toEquiv)))
   rwa [hcard] at h
 
 end CFSG.EvenSporadicStandard.RuStd.S2

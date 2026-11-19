@@ -23,10 +23,10 @@ theorem q2c_E8_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .E8) (h
   subst hlab
   have hsplt : p ∣ 2 ^ n - 1 ∨ (n = 1 ∧ p = 3) :=
     (largeEvenSplit_E_iff (lab := ⟨.E8, l, n⟩) (Or.inr (Or.inr rfl))).mp hsplit
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro Q hQ
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro A hA hAI hbig hlo hup
   have hZ : Subgroup.center (TableBExc.RecipeGroup .E8 K) = ⊥ :=

@@ -10,6 +10,7 @@ open QuadraticMap LinearMap Module
 
 variable {K E : Type*} [Field K] [CharP K 2] [AddCommGroup E] [Module K E]
 
+omit [CharP K 2] in
 theorem IsLongRootElement.sub_one_eq_rootEnd {Q : QuadraticForm K E} {x : E ≃ₗ[K] E}
     (hx : IsLongRootElement Q x) :
     ∃ a b : E, Q a = 0 ∧ Q b = 0 ∧ polar Q a b = 0 ∧
@@ -37,7 +38,7 @@ private theorem neg_one_end : ((-1 : E →ₗ[K] E)) = 1 := by
     _ = 0 := by rw [CharTwo.two_eq_zero, zero_smul]
 
 theorem movedSpace_le_orthogonal_of_commute {Q : QuadraticForm K E} {x y : E ≃ₗ[K] E}
-    (hx : IsLongRootElement Q x) (hy : IsLongRootElement Q y)
+    (hx : IsLongRootElement Q x) (_hy : IsLongRootElement Q y)
     (hcomm : x * y = y * x) (hdisj : Disjoint (movedSpace x) (movedSpace y)) :
     movedSpace y ≤ LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q) (movedSpace x) := by
   obtain ⟨a, b, hQa, hQb, hab, hp⟩ := hx.sub_one_eq_rootEnd

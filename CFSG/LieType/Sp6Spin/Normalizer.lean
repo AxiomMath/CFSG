@@ -62,9 +62,9 @@ private theorem X8_rootC_mulVec {K : Type} [Field K] [CharP K 2] (y : Fin (2 * 4
   rw [show rootC = fromStd (lv 0 3 false true) from by decide]
   rw [X8_mulVec (by decide : (0 : Fin 4) ≠ 3) (s := false) (t := true)
     (toStdD_fromStd_lv 0 3 false true (by decide)) (1 : K)]
-  simp only [AutOm.eichlerC, QuadraticMap.map_smul, AutOm.form_pvec, smul_zero, zero_mul,
-    zero_smul, QuadraticMap.polar_smul_right, one_smul, hy, sub_zero, add_zero,
-    sub_eq_add_neg, neg_smul, CharTwo.neg_eq]
+  simp only [AutOm.eichlerC, AutOm.form_pvec, zero_mul,
+    zero_smul, one_smul, hy, add_zero,
+    sub_eq_add_neg, CharTwo.neg_eq]
 
 private theorem X8_rootD_mulVec {K : Type} [Field K] [CharP K 2] (y : Fin (2 * 4) → K)
     (hy : polar (coordinateQuadPlus 4 K) y (AutOm.pvec (K := K) 3 true) = 0) :
@@ -75,9 +75,9 @@ private theorem X8_rootD_mulVec {K : Type} [Field K] [CharP K 2] (y : Fin (2 * 4
   rw [show rootD = fromStd (lv 0 3 true true) from by decide]
   rw [X8_mulVec (by decide : (0 : Fin 4) ≠ 3) (s := true) (t := true)
     (toStdD_fromStd_lv 0 3 true true (by decide)) (1 : K)]
-  simp only [AutOm.eichlerC, QuadraticMap.map_smul, AutOm.form_pvec, smul_zero, zero_mul,
-    zero_smul, QuadraticMap.polar_smul_right, one_smul, hy, sub_zero, add_zero,
-    sub_eq_add_neg, neg_smul, CharTwo.neg_eq]
+  simp only [AutOm.eichlerC, AutOm.form_pvec, zero_mul,
+    zero_smul, one_smul, hy, add_zero,
+    sub_eq_add_neg, CharTwo.neg_eq]
 
 private theorem X8_rootD_pvec {K : Type} [Field K] [CharP K 2] :
     ((X8 (K := K) rootD 1 : GL (Fin (2 * 4)) K) :
@@ -86,8 +86,8 @@ private theorem X8_rootD_pvec {K : Type} [Field K] [CharP K 2] :
   rw [show rootD = fromStd (lv 0 3 true true) from by decide]
   rw [X8_mulVec (by decide : (0 : Fin 4) ≠ 3) (s := true) (t := true)
     (toStdD_fromStd_lv 0 3 true true (by decide)) (1 : K)]
-  simp only [AutOm.eichlerC, QuadraticMap.map_smul, AutOm.form_pvec, smul_zero, zero_mul,
-    zero_smul, QuadraticMap.polar_smul_right, one_smul, AutOm.polar_pvec_self,
+  simp only [AutOm.eichlerC, AutOm.form_pvec, zero_mul,
+    zero_smul, one_smul, AutOm.polar_pvec_self,
     AutOm.polar_pvec_of_ne (by decide : (3 : Fin 4) ≠ 0), sub_zero, add_zero]
 
 end FieldOnly
@@ -205,7 +205,7 @@ theorem mem_fixRho_of_mem_normalizer {g : Om8 K}
   have hv : AutOm.pvec (K := K) 0 true + AutOm.pvec (K := K) 0 false =
       CFSG.SeitzReduction.OmegaPilot.plusUnitVector one_le_four := by
     rw [AutOm.plusUnitVector_eq one_le_four]
-    congr 2 <;> exact Fin.ext rfl
+    congr 2
   have hQv : coordinateQuadPlus 4 K
       (AutOm.pvec (K := K) 0 true + AutOm.pvec (K := K) 0 false) = 1 := by
     rw [hv]
@@ -453,7 +453,7 @@ private theorem false_of_conj_fixRho {m : Om8 K}
   have hvp : v = AutOm.pvec (K := K) 0 true + AutOm.pvec (K := K) 0 false := by
     rw [show v = CFSG.SeitzReduction.OmegaPilot.plusUnitVector one_le_four from rfl]
     rw [AutOm.plusUnitVector_eq one_le_four]
-    congr 2 <;> exact Fin.ext rfl
+    congr 2
   have hfixall : ∀ s ∈ spinSeven K,
       ((s : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) *ᵥ
         (((m⁻¹ : Om8 K) : GL (Fin (2 * 4)) K) :

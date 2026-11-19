@@ -116,7 +116,7 @@ private theorem Q2_z2 : Q2 (K := K) b c z2 = 1 := by
 
 private theorem Q2_u [CharP K 2] (b c : K) : Q2 b c u2 = 0 := by
   rw [Q2, CFSG.LieType.Universal.Spin.quadMinus_apply]
-  simp [u2, e2, f2, z2, Pi.add_apply, CharTwo.add_self_eq_zero, CharTwo.two_eq_zero]
+  simp [u2, e2, f2, z2, Pi.add_apply, CharTwo.add_self_eq_zero]
 
 private theorem polar_u_z [CharP K 2] (b c : K) : polar (Q2 b c) u2 z2 = 0 := by
   rw [Q2, CFSG.LieType.Universal.Spin.polar_quadMinus]
@@ -445,8 +445,8 @@ theorem isSignedPerm_of_conj_omMinusTorusGL
     by_contra hne
     have h1 := hj i (Pi.mulSingle i (ofAdd (1 : ZMod p)))
     have h3 := hj i' (Pi.mulSingle i (ofAdd (1 : ZMod p)))
-    rw [SpCoord.toAdd_mulSingle i i 1, if_pos rfl, mul_one] at h1
-    rw [SpCoord.toAdd_mulSingle i i' 1, if_neg (Ne.symm hne), mul_zero] at h3
+    rw [SpCoord.toAdd_mulSingle i i 1, ite_eq_left rfl, mul_one] at h1
+    rw [SpCoord.toAdd_mulSingle i i' 1, ite_eq_right (Ne.symm hne), mul_zero] at h3
     rw [← hii'] at h3
     have h2 : ε i = 0 := h1.symm.trans h3
     rcases hε i with hh | hh

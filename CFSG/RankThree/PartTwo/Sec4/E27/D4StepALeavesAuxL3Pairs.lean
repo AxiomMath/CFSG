@@ -68,9 +68,8 @@ theorem heisPair_SL3 {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     simp only [Matrix.SpecialLinearGroup.coe_mul]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Y, P, U, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.scalar_apply,
-        Matrix.diagonal_mul] <;>
-      first | rfl | (linear_combination (-1 : F) * hω3) | (linear_combination (-ω) * hω3)
+      simp [Y, P, U, Matrix.mul_apply, Matrix.diagonal_apply, Matrix.scalar_apply] <;>
+      first | (linear_combination (-1 : F) * hω3) | (linear_combination (-ω) * hω3)
   refine ⟨Y, P, U, ?_, ?_, ?_, ?_⟩
   · intro h1
     have h2 := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 3) F =>
@@ -104,7 +103,7 @@ theorem isUnit_det_permMatrix_finRotate :
   rw [Matrix.det_permutation]
   have : Equiv.Perm.sign (finRotate 3) = 1 := by
     have := sign_finRotate 2
-    simpa using this
+    simp
   rw [this]
   simp
 
@@ -134,7 +133,7 @@ theorem heisPair_unitary {q : ℕ} (hq : 1 ≤ q) {ω : Ω} (hω3 : ω ^ 3 = 1) 
     exact this
   have hsgn : Equiv.Perm.sign (finRotate 3) = 1 := by
     have := sign_finRotate 2
-    simpa using this
+    simp
   have hPU : (Matrix.nonsingInvUnit ((finRotate 3).permMatrix Ω) isUnit_det_permMatrix_finRotate :
       GL (Fin 3) Ω) ∈ U := by
     have : (Matrix.nonsingInvUnit ((finRotate 3).permMatrix Ω) isUnit_det_permMatrix_finRotate :
@@ -162,8 +161,7 @@ theorem heisPair_unitary {q : ℕ} (hq : 1 ≤ q) {ω : Ω} (hω3 : ω ^ 3 = 1) 
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, Equiv.Perm.permMatrix,
-        PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, finRotate_apply, Matrix.scalar_apply,
-        Matrix.diagonal_mul] <;>
+        PEquiv.toMatrix_apply, Equiv.toPEquiv_apply, finRotate_apply, Matrix.scalar_apply] <;>
       first | ring1 | (linear_combination (-1 : Ω) * hω3)
   have hcomm : Pg * Yg * Pg⁻¹ * Yg⁻¹ = Sg := by
     calc Pg * Yg * Pg⁻¹ * Yg⁻¹ = Sg * (Yg * Pg) * Pg⁻¹ * Yg⁻¹ := by rw [key]

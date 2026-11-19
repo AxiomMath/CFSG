@@ -232,7 +232,7 @@ theorem not_bad_j4
   obtain ⟨e⟩ := hX
   obtain ⟨-, hx2, S, hS, hxS, hxc⟩ := hx
   have hS0 : IsSylowTwoOf (S0Sylow : Subgroup J) ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨S0Sylow.isPGroup', S0Sylow.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨S0Sylow.isPGroup, S0Sylow.not_dvd_index⟩
   obtain ⟨ψ, hψ⟩ := @exists_map_sylow_eq J (Subgroup.toGroup J) _ _ hS0 X _ _
     (e.trans (seedEquiv j4Facts.mat)) S hS
   apply not_bad_of_card

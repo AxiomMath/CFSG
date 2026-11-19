@@ -200,7 +200,7 @@ theorem kgFieldRestriction_orthogonalFixedBlock_quasisimple_of_semilinear
     {ι : Type} [Fintype ι] [DecidableEq ι]
     (Φ : QuadraticForm K (ι → K)) (hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate)
     (b : GL ι K) (hb : b ∈ StatedOmega ⇑Φ) (hodd : Odd (orderOf b))
-    (h8 : 8 ≤ Fintype.card ι)
+    (_h8 : 8 ≤ Fintype.card ι)
     {ε : Matrix ι ι K}
     (hε : IsPrimAdjIdemIn (RingHom.id K)
       (LinearMap.toMatrix₂' K (QuadraticMap.polarBilin Φ))
@@ -570,7 +570,7 @@ theorem fixedBlock_component_transport_semilinear
       ggJSo2_ML (((fC c : ↥C) : StatedOmega ⇑Φ) : GL ι K) v =
         S (ggJSo2_ML (((c : ↥C) : StatedOmega ⇑Φ) : GL ι K) (S.symm v))) :
     ∃ (C' : Subgroup (StatedOmega ⇑(fixedBlockForm Φ b)))
-      (hC' : CFSG.Assembly.IsComponentOf C' ⊤) (eC : ↥C ≃* ↥C') (fC' : MulAut ↥C'),
+      (_hC' : CFSG.Assembly.IsComponentOf C' ⊤) (eC : ↥C ≃* ↥C') (fC' : MulAut ↥C'),
       fC' = MulAut.congr eC fC ∧
       (∀ c : ↥C, eC (fC c) = fC' (eC c)) ∧
       (∀ (c' : ↥C') (v : Fin (Module.finrank K
@@ -613,12 +613,12 @@ theorem fixedBlock_component_transport_semilinear
   let eO : CFSG.RankThree.Classical2.orthDerived Φ₁ ≃* StatedOmega ⇑Φ₁ :=
     (CFSG.RankThree.PartOne.KCOrthComm.matrixDerivedEquiv Φ₁).symm.trans eS
   let C' := Corth.map eO.toMonoidHom
-  have hC' : CFSG.Assembly.IsComponentOf C' ⊤ := by
+  have _hC' : CFSG.Assembly.IsComponentOf C' ⊤ := by
     simpa [C'] using CFSG.LocalAnalysis.ComponentInitial.isComponentOf_map_of_injective hCorth eO.toMonoidHom eO.injective
   let eCmap : ↥Corth ≃* ↥C' := Subgroup.equivMapOfInjective Corth eO.toMonoidHom eO.injective
   let eC : ↥C ≃* ↥C' := (eCF.trans eCorth).trans eCmap
   let fC' := MulAut.congr eC fC
-  refine ⟨C', hC', eC, fC', rfl, ?_, ?_⟩
+  refine ⟨C', _hC', eC, fC', rfl, ?_, ?_⟩
   · intro c
     exact (mulAut_congr_apply_apply eC fC c).symm
   · intro c' v
@@ -698,8 +698,8 @@ theorem kgFieldRestriction_orthogonalFixedBlock_of_semilinear
           obtain ⟨x, hxT, rfl⟩ := hy
           have h := hT0 x hxT
           exact (eIso.map_app' x).trans h
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      letI : Algebra (ZMod 2) K := ZMod.algebra _ _
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      let : Algebra (ZMod 2) K := ZMod.algebra _ _
       let e := Module.finrank (ZMod 2) K
       have hKcard : Nat.card K = 2 ^ e :=
         (FiniteField.pow_finrank_eq_natCard 2 K).symm
@@ -826,7 +826,7 @@ theorem kgFieldRestriction_orthogonalCentralizer_of_semilinear
         Φ hΦ b hb hodd hε ha haeε
       have hself : a = reciprocalPolynomial a := hself0.symm
       have hne1 : a ≠ X - 1 := ggJSo3_ne_one b hodd ha haeε h1
-      haveI : Fact (Irreducible a) :=
+      have : Fact (Irreducible a) :=
         ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors ha⟩
       have haσ : a.map (σ : K →+* K) = a := hfix a ha
       exact kgFieldRestriction_orthogonalSelfDualBlock_of_semilinear
@@ -862,7 +862,7 @@ theorem kgFieldRestriction_orthogonalCentralizer_of_semilinear
         rw [← hrec.1]
         exact ha'eAlg
       have haσ : a.map (σ : K →+* K) = a := hfix a ha
-      haveI : Fact (Irreducible a) :=
+      have : Fact (Irreducible a) :=
         ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors ha⟩
       let basis : Module.Basis (Fin (Module.finrank (AdjoinRoot a)
           (primaryComponent (toLinEquiv ι K b).toLinearMap a)))
@@ -879,8 +879,7 @@ private lemma ggJSo2_ML_subgroupCongr_apply
       (CFSG.RankThree.PartOne.AUTSL.matrixDerived_eq_statedOmega Q)) x :
         StatedOmega ⇑Q) : GL (Fin d) K)) v =
       matrixLinearEquiv (x : GL (Fin d) K) v := by
-  simp [ggJSo2_ML, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply,
-    MulEquiv.subgroupCongr_apply, matrixLinearEquiv_apply]
+  simp [ggJSo2_ML, MulEquiv.subgroupCongr_apply, matrixLinearEquiv_apply]
 
 private lemma conjAct_matrixLinearEquiv_apply
     {K : Type} [Field K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)}
@@ -1132,12 +1131,12 @@ theorem kgFieldRestrictionOn_orthogonal_high :
   · cases htag
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     have h3 : ¬ r = 3 := by omega
-    rw [if_neg h3] at hQ ⊢
+    rw [ite_eq_right h3] at hQ ⊢
     dsimp only [LargeEvenRecipeOmegaPlus] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQK⟩ := hQ
-    letI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+    let : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by simpa [Nat.card_eq_fintype_card] using hK)
     refine ⟨K, i1, i2, hK, hQK, ?_⟩
     exact kgFieldRestriction_orthogonalPlus (K := K) (m := r) (p := p)
@@ -1146,12 +1145,12 @@ theorem kgFieldRestrictionOn_orthogonal_high :
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     have h2 : ¬ r = 2 := by omega
     have h3 : ¬ r = 3 := by omega
-    rw [if_neg h2, if_neg h3] at hQ ⊢
+    rw [ite_eq_right h2, ite_eq_right h3] at hQ ⊢
     dsimp only [LargeEvenRecipeOmegaMinus] at hQ ⊢
     obtain ⟨K, i1, i2, hK, b, c, hirr, hQK⟩ := hQ
-    letI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+    let : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by simpa [Nat.card_eq_fintype_card] using hK)
     refine ⟨K, i1, i2, hK, b, c, hirr, hQK, ?_⟩
     exact kgFieldRestriction_orthogonalMinus (K := K) (n := r) (e := n)

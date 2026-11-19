@@ -220,6 +220,7 @@ theorem burnsideC48_not_isC134Case_two {H K R : Subgroup G} (hK : CFSG.Open.IsCo
     have h5 : (1 : F) + 1 = 1 + 0 := by rw [add_zero]; exact h4.symm
     exact one_ne_zero (add_left_cancel h5)
 
+omit [Finite G] in
 theorem burnsideC48_c48Case1_of_wip {H R M L V K : Subgroup G} (hw : C48Case1 H R M L V K)
     (hno : ¬ IsC134Case 2 (K ⊔ R) R K) : ChC.C48Case1 R L V := by
   obtain ⟨n, hpsl, h1 | h2 | ⟨-, h134, -⟩⟩ := hw
@@ -227,6 +228,7 @@ theorem burnsideC48_c48Case1_of_wip {H R M L V K : Subgroup G} (hw : C48Case1 H 
   · exact ⟨n, hpsl, Or.inr (Or.inl h2)⟩
   · exact absurd h134 hno
 
+omit [Finite G] in
 theorem burnsideC48_or9_of_spor {H R M L V K : Subgroup G} (hno : ¬ IsC134Case 2 (K ⊔ R) R K)
     (hs : C48Case1 H R M L V K ∨ C48Case2 H R M L V K ∨ C48Case3 H R M L V K ∨
       C48Case4 H R M L V K ∨ C48Case5 H R M L V K ∨ C48Case6 H R M L V K ∨

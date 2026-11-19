@@ -34,7 +34,7 @@ theorem four_le_pRank_projFive {L : Type} [Field L] [Finite L] {ζ : Lˣ} (hζ :
     (hH : ∀ u : Fin 5 → Lˣ, (∀ i, u i ∈ Subgroup.zpowers ζ) → ∏ i, u i = 1 → diagGL 5 u ∈ H) :
     4 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup (StatedProj H)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hζ1 : ζ ^ 25 = 1 := by rw [← hζ]; exact pow_orderOf_eq_one ζ
   have hωo : orderOf (ζ ^ 5) = 5 := by
     rw [orderOf_pow_of_dvd (by norm_num) (by rw [hζ]; norm_num), hζ]
@@ -99,7 +99,7 @@ theorem four_le_pRank_projFive {L : Type} [Field L] [Finite L] {ζ : Lˣ} (hζ :
     MonoidHom.mk' (fun c => ![(c 0 : Lˣ), c 1, c 2, 1, ((c 0 : Lˣ) * c 1 * c 2)⁻¹])
       (fun c c' => by
         funext i
-        fin_cases i <;> simp [mul_comm, mul_left_comm, mul_assoc, mul_inv])
+        fin_cases i <;> simp [mul_comm, mul_left_comm, mul_assoc])
   have hv_mem : ∀ c, diagGL 5 (v c) ∈ H := by
     intro c
     refine hH _ (fun i => ?_) ?_
@@ -233,7 +233,7 @@ theorem kOutP_psl {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hαT : ∀ t ∈ T, α t = t) : α ∈ (MulAut.conj : K →* MulAut K).range := by
   classical
   obtain ⟨⟨hℓ, hf, hn2, -, -⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpn' : p ≤ n := Nat.le_of_dvd (by omega) hpn
   have hFu : Nat.card Fˣ = ℓ ^ f - 1 := by rw [Nat.card_units, hFcard]
   have hrank' : CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL n F))) ≤ 3 := by
@@ -261,10 +261,10 @@ theorem kOutP_psl {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     omega
   have hf5 : ¬ 5 ∣ f := fun h =>
     h25 (by simpa using sq_dvd_pow_sub_one Nat.prime_five hℓ.one_lt.le h hpq)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = ℓ ^ f := by rw [← Nat.card_eq_fintype_card]; exact hFcard
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow hFcard'
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := charP_of_card_eq_prime_pow hFcard'
   let θ : K ≃* projectiveSL 5 F :=
     e.trans (CFSG.HardMathSupport.Lang.UnitaryAutomorphisms.statedProjSLEquiv 5 F)
   set β := MulAut.congr θ α with hβdef
@@ -361,7 +361,7 @@ theorem kOutP_psu {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     (hαT : ∀ t ∈ T, α t = t) : α ∈ (MulAut.conj : K →* MulAut K).range := by
   classical
   obtain ⟨⟨hℓ, hf, hn3, -⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : UnitaryFieldData ℓ f F := ⟨hℓ, hf, by rw [hFcard, ← pow_mul, mul_comm]⟩
   have hpn' : p ≤ n := Nat.le_of_dvd (by omega) hpn
   have hq1 : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ hℓ.pos

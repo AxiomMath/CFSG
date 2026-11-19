@@ -40,7 +40,7 @@ theorem rightMulHom_mem_omegaGroup (B : SL2F3) :
   hom_sl2f3_mem_omegaGroup detForm_nondegenerate rightMulHom B
 
 theorem natCard_ogroup_detForm : Nat.card (OGroup detForm) = 1152 := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   have hpolar : (QuadraticMap.polarBilin detForm).Nondegenerate :=
     QuadraticMap.nondegenerate_polar_iff.mpr detForm_nondegenerate
   have hplus : CFSG.GroupTheory.WeirSylow.IsPlusType detForm :=

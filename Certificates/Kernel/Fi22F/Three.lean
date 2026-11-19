@@ -49,7 +49,7 @@ theorem lift_sign_mk {m : ℕ} (u : List (Fin m × Bool)) :
 
 theorem xf_wf (i : Fin 6) : wf4 (XF i.val) = true ∧ Nat.beq (mul4 (XF i.val) (XF i.val)) one4 = true := by
   have h := xf_ok
-  simp only [xfOK, xfOne, andB, Bool.and_eq_true] at h
+  simp only [xfOK, xfOne, andB] at h
   have e : ∀ x y : Bool, Bool.rec false y x = (x && y) := by intro x y; cases x <;> rfl
   simp only [e, Bool.and_eq_true] at h
   obtain ⟨⟨a0, b0⟩, ⟨a1, b1⟩, ⟨a2, b2⟩, ⟨a3, b3⟩, ⟨a4, b4⟩, ⟨a5, b5⟩⟩ := h
@@ -97,7 +97,7 @@ theorem lift_uF (w : List (Fin 6 × Bool)) :
   apply List.map_congr_left
   rintro ⟨i, b⟩ _
   cases b
-  · simp only [Function.comp_apply, Units.coeHom_apply, cond_false, uF_inv]
+  · simp only [Function.comp_apply, Units.coeHom_apply, Bool.cond_false, uF_inv]
     rfl
   · rfl
 
@@ -116,7 +116,7 @@ theorem allOne_mem {ws : List (List (Fin 6 × Bool))} (h : allOne ws = true) :
 noncomputable def psiF : FG →* GL4 :=
   PresentedGroup.toGroup (f := uF) (by
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hr
     obtain ⟨w, hw, rfl⟩ := hr
     apply Units.ext
     rw [lift_uF, allOne_mem rels_ok w hw, Units.val_one, dec4_one])
@@ -177,7 +177,7 @@ theorem len_g1 : g1w.length = 11011 := by decide +kernel
 noncomputable def sgnF : FG →* Multiplicative (ZMod 2) :=
   PresentedGroup.toGroup (f := fun _ : Fin 6 => Multiplicative.ofAdd (1 : ZMod 2)) (by
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hr
     obtain ⟨w, hw, rfl⟩ := hr
     rw [lift_sign_mk]
     have h := (List.all_eq_true.mp even_rels) w hw

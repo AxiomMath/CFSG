@@ -94,7 +94,7 @@ private theorem le_gnA_of_not_gnImg_baum_le_scalarKer {X : Type} [Group X] [Fini
     (hT₁ : T₁ ≤ CFSG.Quasithin.omegaOneCenterOf T) :
     E ≤ gnA T T₁ Ls := by
   classical
-  obtain ⟨s, hsbaum, hsnot⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨s, hsbaum, hsnot⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hsT : s ∈ gnImg T T := Subgroup.map_mono (CFSG.Quasithin.C1GN.baum_le T) hsbaum
   have hnotmem : ¬ ∀ e ∈ E, s * e * s⁻¹ * e⁻¹ ∈ gnImg T T ⊓ Ls := by
     intro h

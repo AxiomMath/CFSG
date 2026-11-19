@@ -81,7 +81,7 @@ theorem exists_odd_prime_dvd_card {H : Type} [Group H] [Finite H] (hs : IsSimple
       by_contra hd2
       exact hcon ⟨_, hd, hd2, hdvd⟩)
   have hP : IsPGroup 2 H := IsPGroup.of_card hpow
-  haveI := IsPGroup.isNilpotent hP
+  have := IsPGroup.isNilpotent hP
   obtain ⟨a, b, hab⟩ := hnc
   exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := H)).mpr inferInstance a b)
 
@@ -91,7 +91,7 @@ theorem exists_odd_of_fitting {S : Type} [Group S] [Finite S] (C : Subgroup S)
     ∃ y ∈ C, y ≠ 1 ∧ Odd (orderOf y) := by
   obtain ⟨hs, hnc⟩ := hF
   obtain ⟨q, hq, hq2, hdvd⟩ := exists_odd_prime_dvd_card hs hnc
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hdvd
   have hyo : orderOf ((x : ↥C) : S) = q := by
     rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hx]
@@ -123,8 +123,8 @@ theorem exists_odd_of_nearModel {p : ℕ} (hp : p.Prime) {S : Type}
     have h20 : Nat.card (Sz 0) = 20 := by
       rw [← Nat.card_congr E.toEquiv, CFSG.LieType.Ree.suzuki_order (by simp)]
       norm_num
-    haveI : Finite (Sz 0) := Nat.finite_of_card_ne_zero (by rw [h20]; norm_num)
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Finite (Sz 0) := Nat.finite_of_card_ne_zero (by rw [h20]; norm_num)
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact exists_prime_orderOf_dvd_card' 5 (by rw [h20]; norm_num)
   · obtain ⟨φ⟩ := psu3_fixedSubgroup_mulEquiv hp (by rwa [← Nat.card_congr e.toEquiv])
       (MulAut.congr e f) (by rw [orderOf_mulAutCongr, hf])
@@ -132,17 +132,17 @@ theorem exists_odd_of_nearModel {p : ℕ} (hp : p.Prime) {S : Type}
       ((fixedSubgroupCongr e f).trans φ) (q := 3) ⟨1, rfl⟩ (by norm_num) ?_
     have h72 : Nat.card (PSU3 2 1) = 72 :=
       CFSG.ProperTwoGeneratedCore.Lemma37.UnitaryOuter.card_psu3Model_one
-    haveI : Finite (PSU3 2 1) := Nat.finite_of_card_ne_zero (by rw [h72]; norm_num)
+    have : Finite (PSU3 2 1) := Nat.finite_of_card_ne_zero (by rw [h72]; norm_num)
     exact exists_prime_orderOf_dvd_card' 3 (by rw [h72]; norm_num)
 
 theorem pCore_fixed_eq_bot {S : Type} [Group S] [Finite S] (C : Subgroup S)
     (h31 : ∀ T : Subgroup S, T ≠ ⊥ → Group.IsSolvable T → ¬ C ≤ Subgroup.normalizer (T : Set S)) :
     CFSG.pCore 2 ↥C = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPn : (CFSG.pCore 2 ↥C).Normal := CFSG.pCore_normal
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥C) := by
-    haveI := CFSG.pCore_isNilpotent (p := 2) (G := ↥C)
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥C) := by
+    have := CFSG.pCore_isNilpotent (p := 2) (G := ↥C)
     infer_instance
   set P := CFSG.pCore 2 ↥C with hPdef
   have hT : P.map C.subtype ≠ ⊥ := by

@@ -18,9 +18,9 @@ theorem asc82FactOutZeta6_of_zetaInv (hS : Asc82SchurU43) (hζ : Asc82FactZetaIn
     Asc82FactOutZeta6 := by
   intro G _ _ L hL y₁ c hy₁N hcN hyType hc1 hc2 hcent
   obtain ⟨α, V, i1, i2, i3, Q, hQ, e, x, hdim, hs, hy₁ind, hxType⟩ := hyType
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨φ, hcov, he⟩ := t5_cover_of_model hS hL hdim hs e
   let h6 : (Module.finrank (ZMod 3) V = 5 ∧ quadSign Q = 1) ∨
       (Module.finrank (ZMod 3) V = 6 ∧ (quadSign Q = 1 ∨ quadSign Q = -1)) :=

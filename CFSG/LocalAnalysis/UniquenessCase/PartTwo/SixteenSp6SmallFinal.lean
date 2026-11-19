@@ -22,10 +22,10 @@ theorem rSp6SmallMod_holds (hSpin : S16SmSpinH1) : RSp6SmallMod := by
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     simpa [pow_two] using hW2 (Additive.toMul x)
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
   let π : G6 →* ↥H := e.toMonoidHom
   have hπ : Function.Surjective π := e.surjective
-  haveI : Nontrivial ↥(s16smSubmod U) := (s16sm_nontrivial_iff U).2 hU0
+  have : Nontrivial ↥(s16smSubmod U) := (s16sm_nontrivial_iff U).2 hU0
   have hperf : ∀ ψ : ↥(s16smSubmod U) →ₗ[ZMod 2] ZMod 2,
       (∀ g m, ψ (s16smRepU π hcomm g m) = ψ m) → ψ = 0 :=
     fun ψ hψ => s16sm_hperf_of_comm π hπ hcomm ψ hψ

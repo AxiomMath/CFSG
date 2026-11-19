@@ -66,7 +66,7 @@ theorem card_lemKP : Nat.card lemKP = 81 := by
 
 theorem exists_conj_le_lemKP {H : Subgroup (WeylGroup Tag.E6)} (hH : IsPGroup 3 H) :
     ∃ g : WeylGroup Tag.E6, ∀ x ∈ H, g⁻¹ * x * g ∈ lemKP := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card lemKP = 3 ^ (Nat.card (WeylGroup Tag.E6)).factorization 3 := by
     rw [card_lemKP, card_weylGroup_E6', factorization_51840]
     norm_num

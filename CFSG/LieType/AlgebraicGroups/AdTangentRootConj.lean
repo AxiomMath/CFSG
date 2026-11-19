@@ -121,7 +121,7 @@ private theorem conj_pinnedE_of_conj_pinnedX {τ : Tag} {L : Type} [Field L] [Is
       rw [Finset.sum_eq_single 1]
       · simp
       · intro j _ hne
-        rw [if_neg (fun h => hne h.symm)]
+        rw [ite_eq_right (fun h => hne h.symm)]
       · intro h
         exact absurd (Finset.mem_range.2 (by norm_num)) h
     rw [← hpc]

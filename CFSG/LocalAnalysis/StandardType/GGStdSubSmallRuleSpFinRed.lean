@@ -39,7 +39,7 @@ theorem ker_eq_bot
     have h1 : d ∣ Nat.card (Subgroup.center L') := hdd.trans (Subgroup.card_dvd_of_le hker)
     exact ggCenterPrime_sp (K := K) (m := m) hd hd2 L' ψ hψ hker hperf h1
   obtain ⟨k, hk⟩ := hcard
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   exact SpClosed.psp_two_cover_trivial (K := K) (n := m) (f := 1) (by rw [hK, pow_one]) le_rfl
     (by omega) (fun h => absurd h (by omega)) L' ψ hψ hker (IsPGroup.of_card hk)
 

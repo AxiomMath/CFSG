@@ -299,7 +299,7 @@ theorem sec9ci_dbl_sq {α : Type*} [DecidableEq α] {u v w z : α} (huv : u ≠ 
   have hd : Equiv.Perm.Disjoint (Equiv.swap u v) (Equiv.swap w z) :=
     Equiv.Perm.disjoint_swap_swap (by
       simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, not_false_eq_true,
-        List.nodup_nil, and_true, true_and, or_false, not_or]
+        List.nodup_nil, and_true, or_false, not_or]
       exact ⟨⟨huv, huw, huz⟩, ⟨hvw, hvz⟩, hwz⟩)
   rw [Commute.mul_mul_mul_comm hd.commute.symm (Equiv.swap u v) (Equiv.swap w z),
     Equiv.swap_mul_self, Equiv.swap_mul_self, mul_one]

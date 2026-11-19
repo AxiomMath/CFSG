@@ -23,7 +23,7 @@ theorem ggTorusAutCardSCF4_of_facts
     (hcent : GGF4CentAt p f R I) (hAO : GGF4AutOrderAt p R) :
     GGTorusAutCardSCF4 p f R I 4 1152 := by
   intro L' _ _ ψ hψ hker hperf A hA hAI _ hsc hex
-  haveI := hsimple
+  have := hsimple
   have h4 : p ^ 4 ≤ Nat.card A :=
     ggF4_card_ge_pow_four hRig hp hp2 hpq hf hnab hF4 hcent ψ hψ hker hperf A hA hAI hsc hex
   have hZ : Subgroup.center R = ⊥ := by

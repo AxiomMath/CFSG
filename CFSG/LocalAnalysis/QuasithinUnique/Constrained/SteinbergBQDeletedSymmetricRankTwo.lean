@@ -292,7 +292,7 @@ theorem exists_sylow_le_iff {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.P
     exact T.not_dvd_index (h1 ▸ dvd_mul_of_dvd_right hpK _)
   · intro hpK
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p K))
-    have hP' : IsPGroup p ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+    have hP' : IsPGroup p ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
     have hidx : ¬ p ∣ ((P : Subgroup K).map K.subtype).index := by
       rw [Subgroup.index_map_subtype]
       intro h

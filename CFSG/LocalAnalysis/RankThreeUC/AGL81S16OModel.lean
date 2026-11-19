@@ -23,6 +23,7 @@ variable {F : Type} [Field F] {b c : F}
   | Sum.inr (Sum.inl i) => X 1 (1 - i)
   | Sum.inr (Sum.inr j) => z j
 
+omit [Field F] in
 theorem mkW_xM_nV (w : OW F) : mkW (xM w) (nV w) = w := by
   ext i
   rcases i with i | i | j

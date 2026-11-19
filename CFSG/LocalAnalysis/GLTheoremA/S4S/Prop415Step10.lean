@@ -27,7 +27,7 @@ theorem pGroup_residual {p : ℕ} (hp : p.Prime) {B : Subgroup G} (hB : IsPGroup
     ∀ N : Subgroup G, N ≤ B → (N.subgroupOf B).Normal → Nat.Coprime p (N.subgroupOf B).index →
       N = B := by
   intro N hNB _ hcop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hB.exists_card_eq
   have hidx : (N.subgroupOf B).index ∣ p ^ k := hk ▸ Subgroup.index_dvd_card _
   have h1 : (N.subgroupOf B).index = 1 :=
@@ -173,14 +173,15 @@ theorem level_three_of_not_balanced {p : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (h
   unfold tripleLevel at h1
   have hnG : ¬ IsGStar p B I := by
     intro hG
-    rw [if_pos hG] at h1
+    rw [ite_eq_left hG] at h1
     omega
-  rw [if_neg hnG] at h1
+  rw [ite_eq_right hnG] at h1
   have h2 : 2 < fullCoverLevel p (PQuot p I) := by
     by_contra hcon
     exact hnb (balanced_of_level_le_two hpp hp2 hS3 h1912 hB hess.1 hess.2.1 hI hBI (by omega))
   exact catalogIs_k3_of_k3Cover (k3Cover_of_fullCoverLevel_eq_three (by omega))
 
+omit [Finite G] in
 private theorem barX_oPPrimeP_415 (p : ℕ) (X : Subgroup G) :
     barX p X (oPPrimeP p X) = CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   have hJg : (oPPrimeP p X).subgroupOf X =
@@ -190,6 +191,7 @@ private theorem barX_oPPrimeP_415 (p : ℕ) (X : Subgroup G) :
   rw [hJg]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) _
 
+omit [Finite G] in
 private theorem barX_le_centralizer_415 {p : ℕ} {X S T : Subgroup G}
     (h : ∀ t ∈ T, ∀ s ∈ S, ⁅t, s⁆ ∈ GLAPPrimeCoreOf p X) :
     barX p X S ≤ Subgroup.centralizer (barX p X T : Set (↥X ⧸ GLAPPrimeCore p ↥X)) := by
@@ -201,7 +203,7 @@ private theorem eq_bot_of_le_fitting_415 {Q : Type} [Group Q] [Finite Q]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hcore : CFSG.pPrimeCore p Q = ⊥)
     {T : Subgroup Q} (hT : IsPGroup 2 T)
     (hc : T ≤ Subgroup.centralizer (CFSG.generalizedFitting Q : Set Q)) : T = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : T ≤ CFSG.fittingSubgroup Q := by
     have h := CFSG.ComponentClassification.GeneralizedFitting.centralizer_le_fitting Q
     rw [← CFSG.generalizedFitting_eq_componentClassification] at h
@@ -215,7 +217,7 @@ private theorem le_glaPPrimeCoreOf_of_component_commutators {p : ℕ} (hp : p.Pr
     (hQ : (⁅oPPrimeP p X, S⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X)
     (hJ : ∀ J : Subgroup G, GLAPComponent p X J → (⁅J, S⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X) :
     S ≤ GLAPPrimeCoreOf p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : CFSG.pPrimeCore p (↥X ⧸ GLAPPrimeCore p ↥X) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p
   have hS2' : IsPGroup 2 (barX p X S) :=
@@ -261,7 +263,7 @@ theorem exists_noncentral_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a 
   obtain ⟨I, hI, hnc⟩ : ∃ I : Subgroup G, GLAPComponent p (Subgroup.centralizer ({a} : Set G)) I ∧
       ¬ (⁅I, S₁⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p (Subgroup.centralizer ({a} : Set G)) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hS₁n (le_glaPPrimeCoreOf_of_component_commutators hp hp2 hS₁2 hS₁a hQ hcon)
   obtain ⟨hDN, hker⟩ := (hin.main h1Stmt_zero hp hI).2 hnc
   have hxN : x ∈ Subgroup.normalizer (I : Set G) := hDN (Subgroup.mem_zpowers x)
@@ -278,7 +280,7 @@ theorem exists_noncentral_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a 
     rw [hker, Subgroup.mem_bot] at hxk
     exact hx1 hxk
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnc
     have h1 : (⁅I, S₁⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p I := by
       rw [Subgroup.commutator_le]
@@ -286,6 +288,7 @@ theorem exists_noncentral_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a 
       exact (CFSG.LocalAnalysis.GLTheoremA.centMod_iff.1 (hcon s hs)).2 l hl
     exact h1.trans (CFSG.LocalAnalysis.GLTheoremB.glaPPrimeCoreOf_le_of_isSubnormal hp hI.2.1)
 
+omit [Finite G] in
 theorem normalizes_of_commutator {p : ℕ} {B S I C : Subgroup G}
     (hI : GLAPComponent p C I)
     (hall : ∀ I' : Subgroup G, GLAPComponent p C I' → B ≤ Subgroup.normalizer (I' : Set G))
@@ -313,6 +316,7 @@ theorem normalizes_of_commutator {p : ℕ} {B S I C : Subgroup G}
       rw [hcomm]
       exact Subgroup.mul_mem _ hb1 hu
 
+omit [Finite G] in
 theorem commutator_subgroupOf_of_le {N F₁ F₂ : Subgroup G} (h₁ : F₁ ≤ N) (h₂ : F₂ ≤ N) :
     (⁅F₁, F₂⁆ : Subgroup G).subgroupOf N = ⁅F₁.subgroupOf N, F₂.subgroupOf N⁆ := by
   have h₃ : (⁅F₁, F₂⁆ : Subgroup G) ≤ N :=
@@ -321,6 +325,7 @@ theorem commutator_subgroupOf_of_le {N F₁ F₂ : Subgroup G} (h₁ : F₁ ≤ 
   rw [Subgroup.map_subgroupOf_eq_of_le h₃, Subgroup.map_commutator,
     Subgroup.map_subgroupOf_eq_of_le h₁, Subgroup.map_subgroupOf_eq_of_le h₂]
 
+omit [Finite G] in
 theorem autBar_commutator {p : ℕ} {F₁ F₂ L : Subgroup G}
     (h₁ : F₁ ≤ Subgroup.normalizer (L : Set G)) (h₂ : F₂ ≤ Subgroup.normalizer (L : Set G)) :
     autBar p (⁅F₁, F₂⁆ : Subgroup G) L =
@@ -331,6 +336,7 @@ theorem autBar_commutator {p : ℕ} {F₁ F₂ L : Subgroup G}
   rw [inf_eq_left.2 h₁, inf_eq_left.2 h₂, inf_eq_left.2 h₃,
     commutator_subgroupOf_of_le h₁ h₂, Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem autBar_le_autBar {p : ℕ} {F₁ F₂ L : Subgroup G} (h : F₁ ≤ F₂) :
     autBar p F₁ L ≤ autBar p F₂ L := by
   unfold autBar
@@ -339,11 +345,13 @@ theorem autBar_le_autBar {p : ℕ} {F₁ F₂ L : Subgroup G} (h : F₁ ≤ F₂
   exact Subgroup.mem_subgroupOf.2
     (Subgroup.mem_inf.2 ⟨h (Subgroup.mem_inf.1 (Subgroup.mem_subgroupOf.1 hg)).1, g.2⟩)
 
+omit [Finite G] in
 theorem barAut_mem_autBar {p : ℕ} {I F : Subgroup G} (hF : F ≤ Subgroup.normalizer (I : Set G))
     {x : G} (hx : x ∈ F) : barAut p I ⟨x, hF hx⟩ ∈ autBar p F I := by
   refine Subgroup.mem_map_of_mem _ ?_
   exact Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨hx, hF hx⟩)
 
+omit [Finite G] in
 theorem autBar_normalizes {p : ℕ} {F₁ F₂ L : Subgroup G}
     (h₁ : F₁ ≤ Subgroup.normalizer (L : Set G)) (h₂ : F₂ ≤ Subgroup.normalizer (L : Set G))
     (h : F₁ ≤ Subgroup.normalizer (F₂ : Set G)) :
@@ -360,6 +368,7 @@ theorem autBar_normalizes {p : ℕ} {F₁ F₂ L : Subgroup G}
     simpa [Subgroup.mem_subgroupOf] using this
   exact (Subgroup.map_mono hN).trans (Subgroup.le_normalizer_map _)
 
+omit [Finite G] in
 theorem isPGroup_autBar {p q : ℕ} {F L : Subgroup G} (hF : IsPGroup q F) :
     IsPGroup q (autBar p F L) := by
   rintro ⟨g, hg⟩
@@ -412,6 +421,7 @@ theorem autBar_index_le {p : ℕ} {S Ss L : Subgroup G} (hSsS : Ss ≤ S)
       _ = _ := by ring
   exact Nat.le_of_mul_le_mul_right key hpos
 
+omit [Finite G] in
 theorem innerAut_le_autBar {p : ℕ} {I F : Subgroup G} (hIF : I ≤ F)
     (hF : F ≤ Subgroup.normalizer (I : Set G)) : innerAut (barOf p I) ≤ autBar p F I := by
   rintro _ ⟨k, rfl⟩
@@ -423,8 +433,9 @@ theorem innerAut_le_autBar {p : ℕ} {I F : Subgroup G} (hIF : I ≤ F)
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective z
   rw [barAut_mk]
   simp only [MulAut.conj_apply]
-  first | rfl | simp [Subgroup.normalizerMonoidHom_apply_apply_coe] | done
+  first | rfl
 
+omit [Finite G] in
 theorem centMod_of_barAut_eq_one {p : ℕ} {I : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (I : Set G)) (h : barAut p I ⟨x, hx⟩ = 1) : CentMod p I x := by
   refine ⟨hx, ?_⟩
@@ -443,10 +454,12 @@ theorem centMod_of_barAut_eq_one {p : ℕ} {I : Subgroup G} {x : G}
   refine ⟨_, Subgroup.inv_mem _ h2, ?_⟩
   simp [Subgroup.normalizerMonoidHom_apply_apply_coe, commutatorElement_def, mul_assoc]
 
+omit [Finite G] in
 theorem barAut_ne_one {p : ℕ} {I : Subgroup G} {x : G} (hx : x ∈ Subgroup.normalizer (I : Set G))
     (hnc : ¬ CentMod p I x) : barAut p I ⟨x, hx⟩ ≠ 1 :=
   fun h => hnc (centMod_of_barAut_eq_one hx h)
 
+omit [Finite G] in
 theorem autBar_ne_bot {p : ℕ} {I S₁ : Subgroup G} (hS₁ : S₁ ≤ Subgroup.normalizer (I : Set G))
     {s : G} (hs : s ∈ S₁) (hsnc : ¬ CentMod p I s) : autBar p S₁ I ≠ ⊥ := by
   intro h
@@ -568,7 +581,7 @@ theorem image_le_core {p : ℕ} (hp : p.Prime) {I B S Ss : Subgroup G} {x : G}
     sup_le (sup_le hBI hSI) Subgroup.le_normalizer
   exact q4_image_le_core hp hVN (hBV hxB) hxp (hSsS.trans hSV) hSs
 
-theorem step10_delta {m : ℕ} (hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu G m) (hS3 : Stage3 G p)
+theorem step10_delta {m : ℕ} (_hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu G m) (hS3 : Stage3 G p)
     (hS4o : Stage4Order G p) (h1912 : I1912At) (h1913 : I1913At) (h2027 : I2027At)
     {B : Subgroup G} {x : G} {L : Subgroup G} (hD3 : D3Data G p B x L) {D S Ss : Subgroup G}
     (hP : Prop415Pre B x D S Ss) :
@@ -660,7 +673,7 @@ theorem prop415_final {m : ℕ} (hctx : ThmACtx G m) {p : ℕ} (hp : p ∈ Mu G 
   have hBS₁ : B ≤ Subgroup.normalizer ((⁅B, (⁅S, S⁆ : Subgroup G)⁆ : Subgroup G) : Set G) :=
     le_normalizer_commutator Subgroup.le_normalizer hBS'
   have hcop : Nat.Coprime 3 (Nat.card (⁅S, S⁆ : Subgroup G)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (hP.S2.to_le hSS').exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hpp Nat.prime_two).2 hp2)

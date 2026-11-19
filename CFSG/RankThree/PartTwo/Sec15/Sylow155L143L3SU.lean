@@ -37,7 +37,7 @@ private theorem su3_eq_diagonal_of_conj_eq {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : 
     calc σ ω = σ ω * ω ^ 3 := by rw [hω3, mul_one]
       _ = (σ ω * ω) * ω ^ 2 := by ring
       _ = ω ^ 2 := by rw [hωσ, one_mul]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have hlam : ∀ i : Fin 3, (![1, ω, ω ^ 2] : Fin 3 → K) i = ω ^ (i : ℕ) := by
     intro i
@@ -105,7 +105,7 @@ private theorem su3_exists_monomial {ω : K} (hω3 : ω ^ 3 = 1) {c : Fin 3 → 
     linear_combination hs
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal_apply] <;>
+      simp [Matrix.mul_apply, diagonal_apply] <;>
       first | ring1 | linear_combination (-s0) * hω3
   · ext i j
     fin_cases i <;> fin_cases j <;>
@@ -291,8 +291,8 @@ end GroupLemmas
 theorem not_l143Config_statedSU (heig : L143EigProp) {p f : ℕ} [Fact p.Prime] {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = (p ^ f) ^ 2)
     (a w : CFSG.Assembly.LowTwoRank.StatedSU 3 (p ^ f) K) : ¬ L143Config a w := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f) (by
     rw [← Nat.card_eq_fintype_card, hK]
     ring)
   refine su3_not_config hK (CFSG.LieType.BorelTits.unitaryInvolution K p f)

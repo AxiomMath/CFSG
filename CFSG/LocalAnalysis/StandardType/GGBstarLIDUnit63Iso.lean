@@ -193,7 +193,7 @@ theorem exists_stable_isotropic (h : UnitaryFieldData 2 n K)
     exact P.ne_bot_of_dvd_card hdvd
   set W : Subgroup (GL (Fin d) K) :=
     ((P : Subgroup ↥Vt).map Vt.subtype).map (unitarySU 2 n K d).subtype with hW
-  have hW2 : IsPGroup 2 W := (P.isPGroup'.map _).map _
+  have hW2 : IsPGroup 2 W := (P.isPGroup.map _).map _
   have hW1 : W ≠ ⊥ := by
     rw [hW, Ne, Subgroup.map_eq_bot_iff_of_injective _ (unitarySU 2 n K d).subtype_injective,
       Subgroup.map_eq_bot_iff_of_injective _ Vt.subtype_injective]

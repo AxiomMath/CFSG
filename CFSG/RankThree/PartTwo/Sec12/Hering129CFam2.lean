@@ -39,7 +39,7 @@ theorem census_false_of_cyclic_sylow {Q Lb : Type} [Group Q] [Finite Q] [Group L
     {I X : Subgroup Q} {f : ↥I →* Lb} (hD : Census129 c a I X f)
     (hcyc : ∀ P : Sylow 3 Q, IsCyclic P) : False :=
   (ppair_self hD).false_of_abelian_sylow fun P a b ha hb => by
-    letI := (hcyc P).commGroup
+    let := (hcyc P).commGroup
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : (P : Subgroup Q)) ⟨b, hb⟩)
 
 @[expose] def KFCensus46TwoPi : Prop :=

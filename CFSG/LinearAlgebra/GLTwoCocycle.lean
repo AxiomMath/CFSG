@@ -20,9 +20,7 @@ private lemma elem_mul_self {n : ℕ} (i j : Fin n) (hij : i ≠ j) :
     elem i j hij * elem i j hij = 1 := by
   ext a b
   simp [elem, Matrix.GeneralLinearGroup.transvection, Matrix.transvection,
-    Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_one,
-    Matrix.mul_add, Matrix.add_mul, Matrix.single_mul_single_of_ne, Matrix.single_mul_single_same,
-    Matrix.one_apply, Matrix.single_apply, hij, hij.symm]
+    Matrix.mul_add, Matrix.add_mul, Matrix.single_mul_single_of_ne, Matrix.one_apply, Matrix.single_apply, hij.symm]
   split_ifs <;> decide
 
 private lemma elem_mul_comm {n : ℕ} (i j k l : Fin n) (hij : i ≠ j) (hkl : k ≠ l)
@@ -30,9 +28,7 @@ private lemma elem_mul_comm {n : ℕ} (i j k l : Fin n) (hij : i ≠ j) (hkl : k
     elem i j hij * elem k l hkl = elem k l hkl * elem i j hij := by
   ext a b
   simp [elem, Matrix.GeneralLinearGroup.transvection, Matrix.transvection,
-    Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_one,
-    Matrix.mul_add, Matrix.add_mul, Matrix.single_mul_single_of_ne, Matrix.single_mul_single_same,
-    Matrix.one_apply, Matrix.single_apply, hjk, hjk.symm, hil, hil.symm]
+    Matrix.mul_add, Matrix.add_mul, Matrix.single_mul_single_of_ne, Matrix.one_apply, Matrix.single_apply, hjk, hil.symm]
   split_ifs <;> decide
 
 private lemma elem_steinberg {n : ℕ} (i j k : Fin n) (hij : i ≠ j) (hjk : j ≠ k)
@@ -40,9 +36,8 @@ private lemma elem_steinberg {n : ℕ} (i j k : Fin n) (hij : i ≠ j) (hjk : j 
     elem i j hij * elem j k hjk * elem i j hij = elem i k hik * elem j k hjk := by
   ext a b
   simp [elem, Matrix.GeneralLinearGroup.transvection, Matrix.transvection,
-    Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_one,
     Matrix.mul_add, Matrix.add_mul, Matrix.single_mul_single_of_ne, Matrix.single_mul_single_same,
-    Matrix.one_apply, Matrix.single_apply, hij, hij.symm, hjk, hjk.symm, hik, hik.symm]
+    Matrix.one_apply, Matrix.single_apply, hij.symm, hjk.symm, hik.symm]
   split_ifs <;> decide
 
 private lemma elem_mulVec {n : ℕ} (i j : Fin n) (hij : i ≠ j)
@@ -133,7 +128,7 @@ theorem exists_eq_mulVec_sub_of_cocycle {n : ℕ} (hn : 4 ≤ n) {Γ : Type*} [G
       hγ p q hpq, hγ i j hij] at heq
     rw [elem_mulVec, elem_mulVec] at heq
     have hp_eval := congrFun heq p
-    simp [Pi.add_apply, Pi.smul_apply, hpq, hpi, hpj] at hp_eval
+    simp [Pi.add_apply, Pi.smul_apply, hpi] at hp_eval
     abel_nf at hp_eval
     have h1 := add_left_cancel hp_eval
     change c (γ i j hij) q = 0
@@ -158,7 +153,7 @@ theorem exists_eq_mulVec_sub_of_cocycle {n : ℕ} (hn : 4 ≤ n) {Γ : Type*} [G
     have hv_ij_j : v i j hij j = 0 := hv_second i j hij
     rw [← Matrix.mulVec_mulVec] at heq
     simp only [v, elem_mulVec, hv_jk_k, hv_ij_k, hv_ij_j,
-      zero_smul, add_zero, ZModModule.add_self] at heq
+      zero_smul, add_zero] at heq
     have hi := congrFun heq i
     change c (γ j k hjk) j = c (γ i k hik) i
     have hv_jk_i : c (γ j k hjk) i = 0 := by simpa [v] using hv_off hjk hij hik

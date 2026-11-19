@@ -100,7 +100,7 @@ theorem rckIIp_config_classical_model
     refine hdnot ?_
     rw [h]
     exact Subgroup.one_mem _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder_d : orderOf d = 3 := orderOf_eq_prime hd3 hd1
   have hdN : d ∈ Subgroup.normalizer (K : Set X) := hB1K (hDB1 hdD)
   have hJd' : CFSG.Assembly.IsComponentOf J
@@ -168,7 +168,7 @@ theorem rckIIp_config_classical_model
           hKcomp.2.2)
         α (J.subgroupOf K) hα3 hαne hGLA hIsAlt dd.1 hcat
     have hKperf : commutator ↥K = ⊤ := hKcomp.2.2.1
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
     have hntK : Nontrivial (↥K ⧸ Subgroup.center ↥K) := inferInstance
     obtain ⟨-, labK, -, hlabK, hhasK, -, -⟩ :=
       exists_labels_dvd_of_innerDiag_component

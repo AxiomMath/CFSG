@@ -96,7 +96,7 @@ private theorem classCard_mul_commuterCard_eq_groupCard
     Nat.card (ConjClasses.mk g).carrier *
         Nat.card {x : G // x * g = g * x} = Nat.card G := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hst := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (ConjAct G) g
   have hst' : Fintype.card (ConjClasses.mk g).carrier *
       Fintype.card (MulAction.stabilizer (ConjAct G) g) = Fintype.card G := by
@@ -119,8 +119,8 @@ public theorem suzuki_ch6_formula_1_15
           chi mu Ci * chi mu Cj * star (chi mu Ck) /
             chi mu (ConjClasses.mk (1 : G)) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype (ConjClasses G) := Fintype.ofFinite (ConjClasses G)
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype (ConjClasses G) := Fintype.ofFinite (ConjClasses G)
   let a : ConjClasses G → ConjClasses G → ConjClasses G → ℕ :=
     fun i j s => Nat.card {p : i.carrier × j.carrier //
       p.1.1 * p.2.1 = Quotient.out s}
@@ -157,7 +157,7 @@ public theorem suzuki_ch6_formula_1_15
       Theory.Character.classSumScalar (ρ := rho mu) C =
         (Nat.card C.carrier : ℂ) * chi mu C /
           chi mu (ConjClasses.mk (1 : G)) := by
-    letI : Representation.IsIrreducible (rho mu) := hirr mu
+    let : Representation.IsIrreducible (rho mu) := hirr mu
     have h := Theory.Character.classSumScalar_eq_card_mul_character_div
       (ρ := rho mu) C
       (ConjClasses.mem_carrier_iff_mk_eq.mpr (Quotient.out_eq C))
@@ -167,7 +167,7 @@ public theorem suzuki_ch6_formula_1_15
       chi mu (ConjClasses.mk (1 : G)) ≠ 0 := by
     rw [hchar_one mu]
     have hpos : 0 < Module.finrank ℂ (Fin (n mu) → ℂ) := by
-      letI : Representation.IsIrreducible (rho mu) := hirr mu
+      let : Representation.IsIrreducible (rho mu) := hirr mu
       exact (Module.finrank_pos_iff (R := ℂ) (M := Fin (n mu) → ℂ)).2
         (Theory.Character.irreducible_nontrivial (ρ := rho mu))
     simpa [Representation.character] using
@@ -180,7 +180,7 @@ public theorem suzuki_ch6_formula_1_15
         ∑ s : ConjClasses G,
           (a Ci Cj s : ℂ) * (Nat.card s.carrier : ℂ) *
             chi mu s * star (chi mu Ck) := by
-    letI : Representation.IsIrreducible (rho mu) := hirr mu
+    let : Representation.IsIrreducible (rho mu) := hirr mu
     have hs := Theory.Character.classSumScalar_mul_eq_sum_of_coefficients
       (ρ := rho mu) a hdata Ci Cj
     have hd := hdegree_ne mu
@@ -217,11 +217,11 @@ public theorem suzuki_ch6_formula_1_15
         if s = Ck then (Nat.card {z : G // z * xk = xk * z} : ℂ) else 0 := by
     by_cases hs : s = Ck
     · subst s
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h := (suzuki_ch6_formula_1_7 chi hchi).2 xk xk |>.1 rfl
       simp_rw [hinv] at h
       simpa [hxk_mk] using h
-    · rw [if_neg hs]
+    · rw [ite_eq_right hs]
       have hout : ConjClasses.mk (Quotient.out s) = s := Quotient.out_eq s
       have hne : ConjClasses.mk (Quotient.out s) ≠ ConjClasses.mk xk := by
         intro h

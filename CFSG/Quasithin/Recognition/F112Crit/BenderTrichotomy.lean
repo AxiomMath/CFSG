@@ -62,7 +62,7 @@ theorem BenderType.normal_trichotomy [Finite K] {n i e : ℕ}
   by_cases hne : N = ⊥
   · exact Or.inl hne
   right
-  have hZN := hc.rootCenter_le_of_normal Q.isPGroup' hNP hN hD hne
+  have hZN := hc.rootCenter_le_of_normal Q.isPGroup hNP hN hD hne
   rcases h.cases' with ⟨hi, -, -⟩ | ⟨hi, he, -⟩ | ⟨hi, -, -⟩
   · subst hi
     right

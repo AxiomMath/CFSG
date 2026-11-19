@@ -120,8 +120,8 @@ theorem burnsideF411a_g2_map_parabolic :
 
 theorem burnsideF411a_swap_G2_three {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 3 f Gp M₁ M₂) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨chart, hB, hP1, hP2⟩ := hyp.lie_amalgam
   rcases chart.coordinates with
     ⟨c, hk, -⟩ | ⟨-, hp, hd, K, fK, finK, card, marking, h1, h2, h3, -, -⟩ | ⟨hk, -⟩ | ⟨hk, -⟩ |
@@ -129,9 +129,9 @@ theorem burnsideF411a_swap_G2_three {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
   · exact absurd hk (by cases c <;> decide)
   rotate_left
   iterate 4 exact absurd hk (by decide)
-  letI := fK
-  haveI := finK
-  haveI : CharP K ReeTag.G2.prime := (burnsideF4h_cl_charP card : CharP K 3)
+  let := fK
+  have := finK
+  have : CharP K ReeTag.G2.prime := (burnsideF4h_cl_charP card : CharP K 3)
   obtain ⟨hl, -, -⟩ := burnsideF4h_g2_full K 3 f hp hd card
   have hmap := burnsideF4h_isLieParabolics_marking Gp marking hl
   have e1 : ∀ L, G2Native.fullImage K marking L =

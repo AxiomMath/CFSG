@@ -29,10 +29,10 @@ theorem s16ku43_card_of_rk_twelve {W : Type} [CommGroup W] [Finite W]
 theorem s16kU43Noncyclic3_of_subgroup (h : S16kU43SubgroupNoncyclic3) : S16kU43Noncyclic3 := by
   intro W _ _ hW H hS hrk hirr w hw
   obtain ⟨S, hGrp, hLie, hHat⟩ := hS
-  letI := hGrp
+  let := hGrp
   have hcard : Nat.card W = 2 ^ 12 := s16ku43_card_of_rk_twelve hW hrk
-  haveI : Finite ↥H := inferInstance
-  haveI : Finite S := by
+  have : Finite ↥H := inferInstance
+  have : Finite S := by
     obtain ⟨-, -, ⟨e⟩⟩ := hHat
     exact Finite.of_equiv _ e.toEquiv
   obtain ⟨ψ, hψ, hidx⟩ := s16ku43_exists_embedding hHat hirr hcard hw

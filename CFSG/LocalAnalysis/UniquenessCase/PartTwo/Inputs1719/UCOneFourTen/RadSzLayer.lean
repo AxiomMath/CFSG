@@ -159,12 +159,12 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
     have hTMcoe : ((TM : Sylow 2 ↥M) : Subgroup ↥M) = (TQ : Subgroup Q).subgroupOf M :=
       Sylow.coe_subtype ..
     have hTp : IsPGroup 2 ↥(Subgroup.subgroupOf (TQ : Subgroup Q) M) := by
-      have h := TM.isPGroup'
+      have h := TM.isPGroup
       rwa [hTMcoe] at h
     obtain ⟨BSyl⟩ := Sylow.nonempty (p := 2) (G := ↥B)
     have hBSylne : (BSyl : Subgroup ↥B) ≠ ⊥ := Sylow.ne_bot_of_dvd_card BSyl hB2
     let P₂ : Subgroup ↥M := (BSyl : Subgroup ↥B).map (Subgroup.inclusion hBM)
-    have hP₂p : IsPGroup 2 ↥P₂ := BSyl.isPGroup'.map (Subgroup.inclusion hBM)
+    have hP₂p : IsPGroup 2 ↥P₂ := BSyl.isPGroup.map (Subgroup.inclusion hBM)
     obtain ⟨Q₂, hP₂Q₂⟩ := IsPGroup.exists_le_sylow hP₂p
     have hP₂TM : P₂ ≤ Subgroup.subgroupOf (TQ : Subgroup Q) M := by
       have hle : ((TM : Sylow 2 ↥M) : Subgroup ↥M) ≤ (Q₂ : Subgroup ↥M) := by
@@ -177,7 +177,7 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
     have hmeet : B ⊓ (TQ : Subgroup Q) ≠ ⊥ := by
       have hlt : (⊥ : Subgroup ↥B) < (BSyl : Subgroup ↥B) :=
         lt_of_le_of_ne bot_le (Ne.symm hBSylne)
-      obtain ⟨x, hx, hx0⟩ := SetLike.exists_of_lt hlt
+      obtain ⟨x, hx, hx0⟩ := _root_.IsConcreteLE.exists_of_lt hlt
       intro hbot
       have hxT : (Subgroup.inclusion hBM x : ↥M) ∈ (TQ : Subgroup Q).subgroupOf M :=
         hP₂TM (Subgroup.mem_map_of_mem (Subgroup.inclusion hBM) hx)
@@ -202,7 +202,7 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
       intro hbot
       have hlt : (⊥ : Subgroup Q) < B ⊓ (TQ : Subgroup Q) :=
         lt_of_le_of_ne bot_le (Ne.symm hmeet)
-      obtain ⟨y, hy, hy0⟩ := SetLike.exists_of_lt hlt
+      obtain ⟨y, hy, hy0⟩ := _root_.IsConcreteLE.exists_of_lt hlt
       have hmem : (⟨y, hy.1⟩ : ↥B) ∈ ψ.ker := by
         have h2 : (QuotientGroup.mk' (Subgroup.subgroupOf (TQ : Subgroup Q) M))
             (Subgroup.inclusion hBM ⟨y, hy.1⟩) = 1 :=
@@ -221,7 +221,7 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
             Subgroup.subgroupOf (TQ : Subgroup Q) M :=
           (QuotientGroup.eq_one_iff (Subgroup.inclusion hBM ⟨b, hb⟩)).mp hmem
         exact hmem'
-      have hBp : IsPGroup 2 ↥B := TQ.isPGroup'.to_le hBleT
+      have hBp : IsPGroup 2 ↥B := TQ.isPGroup.to_le hBleT
       have hcenter : Subgroup.center ↥B = ⊥ ∨ Subgroup.center ↥B = ⊤ :=
         IsSimpleGroup.eq_bot_or_eq_top_of_normal (G := ↥B) (Subgroup.center ↥B)
       have hcenter_ne_bot : Subgroup.center ↥B ≠ ⊥ := by
@@ -258,7 +258,7 @@ theorem exists_threePrime_sylow_overgroup {U : Subgroup S} (T : Sylow 2 S)
       · exact hV3 h
       · exact hE3 h
     have hT3 : ¬ 3 ∣ Nat.card (T : Subgroup S) := by
-      obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+      obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
       rw [hn]
       intro h3
       have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3

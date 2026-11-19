@@ -26,7 +26,7 @@ theorem sylow_eq_bot_of_le_center {G : Type*} [Group G] [Finite G] {p : ℕ} [Fa
     rw [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_mul,
       Subgroup.coe_inv, Subgroup.coe_inv, OneMemClass.coe_one, ← h]
     group
-  have h := MonoidHom.ker_transferSylow_disjoint P hN (P : Subgroup G) P.isPGroup'
+  have h := MonoidHom.ker_transferSylow_disjoint P hN (P : Subgroup G) P.isPGroup
   rwa [hker, top_disjoint] at h
 
 theorem perfect_modO2 {X : Type} [Group X] {B : Subgroup X} (hB : ⁅B, B⁆ = B) :
@@ -94,7 +94,7 @@ theorem false_of_sylowPart {X : Type} [Group X] [Finite X] {B₁ B₂ : Subgroup
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow r W'))
     set φ : W' →* ModO2 B₁ := (QuotientGroup.mk' (CFSG.pCore 2 ↥B₁)).comp W'.subtype
     have hker : Disjoint (Q : Subgroup W') φ.ker := by
-      refine IsPGroup.disjoint_of_ne r 2 hr2 _ _ Q.isPGroup' ?_
+      refine IsPGroup.disjoint_of_ne r 2 hr2 _ _ Q.isPGroup ?_
       have h2 := (CFSG.pCore_isPGroup (p := 2) (G := ↥B₁)).comap_of_injective W'.subtype
         W'.subtype_injective
       rwa [show φ.ker = (CFSG.pCore 2 ↥B₁).comap W'.subtype by

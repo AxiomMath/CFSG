@@ -116,7 +116,7 @@ theorem le_sup_pPrimeCore_of_abelian_sylow [Finite C] {L E : Subgroup C} [L.Norm
   have hcompl := MonoidHom.ker_transferSylow_isComplement' Q hP
   set N : Subgroup L := (MonoidHom.transferSylow Q hP).ker with hN
   have hNn : N.Normal := MonoidHom.normal_ker _
-  have hQp : IsPGroup 2 ↥(Q : Subgroup L) := Q.isPGroup'
+  have hQp : IsPGroup 2 ↥(Q : Subgroup L) := Q.isPGroup
   obtain ⟨k, hk⟩ := hQp.exists_card_eq
   have hNodd : Odd (Nat.card N) := by
     have h1 : (Q : Subgroup L).index = Nat.card N := hcompl.index_eq_card

@@ -53,8 +53,7 @@ theorem conj_facts (hEq : g22Elems = (List.range n).reverse.map (E R))
   simp only [conjK, Bool.and_eq_true] at hC
   obtain ⟨-, hall⟩ := hC
   have h := CFSG.KC.G2Three.allBelow_g2 hall hm t ht
-  try dsimp only at h
-  rw [hinv, cond_true] at h
+  rw [hinv, _root_.Bool.cond_true] at h
   simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
   obtain ⟨⟨⟨hy, hy'⟩, hyy⟩, hc⟩ := h
   set y := cfld C 0 t

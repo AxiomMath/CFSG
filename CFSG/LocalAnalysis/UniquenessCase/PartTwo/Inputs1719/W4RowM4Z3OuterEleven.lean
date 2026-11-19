@@ -14,7 +14,7 @@ theorem outer_index_ge_of_order_eleven {U : Type} [CommGroup U] [Finite U]
     (hker : ∀ y ∈ L, F y = 1 → y ^ 3 = 1) {t l : Y} (ht2 : t * t = 1)
     (hyL : t * (l * t * l⁻¹) ∈ L) (h11 : orderOf (F (t * (l * t * l⁻¹))) = 11) :
     2 ^ 5 ≤ (fixV (Subgroup.zpowers (ρ t))).index := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   set d : ℕ := (fixV (Subgroup.zpowers (ρ t))).index with hd
   let t' : Y := l * t * l⁻¹
   let y : Y := t * t'

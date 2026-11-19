@@ -215,7 +215,7 @@ theorem false_of_extremal_layer {Ω : Set (Subgroup G)}
     rw [← map_pow]
     have : (⟨x, hx⟩ : (P : Subgroup G)) ^ 2 = 1 := Subtype.ext (by simp [hx2])
     rw [this, map_one]
-  have hP2 : IsPGroup 2 ((P : Subgroup G) ⧸ U) := P.isPGroup'.to_quotient U
+  have hP2 : IsPGroup 2 ((P : Subgroup G) ⧸ U) := P.isPGroup.to_quotient U
   have hker : ⁅X, X⁆ ⊔ N ≤ ϕ.transfer.ker := by
     refine sup_le ?_ ?_
     · have hc : ⁅X, X⁆ ≤ commutator G := by
@@ -287,7 +287,7 @@ namespace Ctx
 theorem layer_perfect (C : Ctx Ω K K' W S R R' z t u₁ u₂ a) : Group.IsPerfect (layerBar Ω a) := by
   obtain ⟨hz, hu₁, hu₂, A, A', -, -, hD, -, -⟩ := C.om5
   obtain ⟨fr⟩ := Q3T8.Asc77.C5O.M.exists_frame hD
-  haveI := Q3T6.isPerfect_sp4_of_three_le (K := GaloisField 3 1)
+  have := Q3T6.isPerfect_sp4_of_three_le (K := GaloisField 3 1)
     Q3T7P25.natCard_gf3.ge
   exact Group.IsPerfect.ofSurjective fr.surj
 
@@ -300,7 +300,7 @@ theorem exists_conj_mem_S (C : Ctx Ω K K' W S R R' z t u₁ u₂ a) {w : G}
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (A₀ : Set G) := fun s hs =>
     Generic.mem_normalizer_of_conjSub_eq (cA_normal C.hyp hs)
   have hSsyl : IsSylow2In (S : Subgroup G) (Subgroup.normalizer (A₀ : Set G)) :=
-    ⟨hSN, S.isPGroup', fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
+    ⟨hSN, S.isPGroup, fun V' _ hV' hle => (S.maximal_isPGroup.eq_of_le hV' hle).symm⟩
   have hfixA : ∀ h ∈ A₀, w * h * w⁻¹ = h := by
     intro h hh
     rcases C.hA0 h hh with e | e | e | e <;> rw [e]

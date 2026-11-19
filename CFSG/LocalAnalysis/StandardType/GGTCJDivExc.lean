@@ -18,9 +18,9 @@ open CFSG.Open CFSG.Assembly CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GL
 open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup LieSemisimpleCent)
 
 theorem tcjExc_exists_compIdx_of_component {S : Type} [Group S] [Finite S]
-    (hS : IsSimpleGroup S) {d : TauCeti.ValidLieTypeIndex}
-    (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpc : p ≠ d.1.characteristic) (hI : KD264Lie.CompIdxAt p d.1 (TauCeti.CFSGIndex.lie d).Group)
+    (_hS : IsSimpleGroup S) {d : TauCeti.ValidLieTypeIndex}
+    (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hpc : p ≠ d.1.characteristic) (hI : KD264Lie.CompIdxAt p d.1 (TauCeti.CFSGIndex.lie d).Group)
     {β : MulAut S} (hβ : β ∈ CFSG.ComponentClassification.OuterAutomorphisms.innAutDerived S)
     (hβp : β ^ p = 1) (hβ1 : β ≠ 1) {J : Subgroup S}
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) :
@@ -35,11 +35,11 @@ theorem tcjExc_canon_n_dvd_of_component_top (hRig : GGLabelRigidInput) {S : Type
     (hJp : CFSG.Open.IsComponentOf J (⊤ : Subgroup S)) :
     (canonLabel labK).n ∣ (canonLabel labJ).n := by
   have hnt : Nontrivial ↥J := by
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJp.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJp.2.2.2
     exact Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center ↥J))
   have hne : J ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J).mp hnt
   have htop : J = ⊤ := by
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
     exact CFSG.LocalAnalysis.GLTheoremA.AltDown.eq_of_isSubnormal_of_isSimpleGroup hJp.2.1 hne
   have e : ↥J ≃* S := (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
   have hJ' : HasLabel S (fun l : GLALabel => l = labJ) :=
@@ -48,7 +48,7 @@ theorem tcjExc_canon_n_dvd_of_component_top (hRig : GGLabelRigidInput) {S : Type
 
 theorem tcjExc_innDiagAllExc_of_inputs
     (hRig : GGLabelRigidInput) (hRest : GGInndiagCommRestInput)
-    (hIdx : KD264Lie.LieCompIdx fun _ => True) (hL : LieSemisimpleCent) : InnDiagAllOn FamExc := by
+    (hIdx : KD264Lie.LieCompIdx fun _ => True) (_hL : LieSemisimpleCent) : InnDiagAllOn FamExc := by
   intro S _ _ p α J labK labJ hFam hp hp2 hcen hin hαp hlabJ hJ
   have hJ' : CFSG.Open.IsComponentOf J (fixSubgroup α) :=
     CFSG.Assembly.isComponentOf_iff_open.mp hJ
@@ -61,7 +61,7 @@ theorem tcjExc_innDiagAllExc_of_inputs
   · rw [hKn, show labK.n = 1 by have := hlamK.1; omega]
     exact one_dvd _
   have hq := hasLabel_isQuasisimple hK
-  haveI := hq.2
+  have := hq.2
   have hS : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
   by_cases hα1 : α = 1
   · subst hα1
@@ -102,9 +102,9 @@ theorem tcjExc_innDiagAllExc_of_inputs
       calc Nat.card ↥J ≤ Nat.card ↥(fixSubgroup α) := Subgroup.card_le_of_le hJ'.1
         _ < Nat.card ↥(⊤ : Subgroup S) := Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card S := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
-    haveI : Nontrivial ↥J := by
-      haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ'.2.2.2
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have : Nontrivial ↥J := by
+      have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ'.2.2.2
       exact Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center ↥J))
     have hperf : commutator ↥J = ⊤ := hJ'.2.2.1
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J).ne hperf

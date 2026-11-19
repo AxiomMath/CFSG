@@ -23,12 +23,12 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 variable {K : Type} [Field K]
 
 theorem pRank_add_one_le_pRank_of_centralizes {X : Type*} [Group X] [Finite X] {p : ℕ}
-    (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E) {x : X}
+    (hp : p.Prime) {E : Subgroup X} (_hE : IsElemAbelian p E) {x : X}
     (hxord : orderOf x = p) (hdisj : E ⊓ Subgroup.zpowers x = ⊥)
     (hc : ∀ a ∈ E, a * x = x * a) {H : Subgroup X}
     (hEH : E ≤ H) (hxH : Subgroup.zpowers x ≤ H) :
     CFSG.Open.pRank p E + 1 ≤ CFSG.Open.pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ a ∈ E, ∀ b ∈ Subgroup.zpowers x, a * b = b * a := by
     intro a ha b hb
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
@@ -56,7 +56,7 @@ theorem pRank_lt_sup_zpowers_of_centralizes_maximal {X : Type*} [Group X] [Finit
     (hEmax : Nat.card E = p ^ CFSG.Open.pRank p L)
     (hc : ∀ a ∈ E, a * x = x * a) :
     CFSG.Open.pRank p L < CFSG.Open.pRank p (L ⊔ Subgroup.zpowers x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdisjL : Disjoint L (Subgroup.zpowers x) :=
     CFSG.RankThree.PartTwo.disjoint_zpowers_of_not_mem (q := p) hxL
       (by rw [← hxord]; exact pow_orderOf_eq_one x)
@@ -78,7 +78,7 @@ theorem three_le_pRank_of_centralizes_rank_two {X : Type*} [Group X] [Finite X] 
     (hEcard : Nat.card E = p ^ 2)
     (hc : ∀ a ∈ E, a * x = x * a) :
     3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdisjL : Disjoint L (Subgroup.zpowers x) :=
     CFSG.RankThree.PartTwo.disjoint_zpowers_of_not_mem (q := p) hxL
       (by rw [← hxord]; exact pow_orderOf_eq_one x)

@@ -26,7 +26,7 @@ theorem sporadicTwoBalanceFive_Fi24Prime :
   refine isLocallyBalancedAbs_two_of_autModel Nat.prime_five (by norm_num)
     Fi24PrimeAux.fi24_autModel θ hcen hout ?_
   intro E hE hEc
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨d, hdE, hd1⟩ : ∃ d ∈ E, d ≠ 1 := by
     by_contra h
     have hbot : E = ⊥ := by

@@ -1334,7 +1334,7 @@ theorem yamada_3_21_sylow {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n)
     (Q : Sylow 2 (MulAut (adjointGroup .G2 K))) (hSQ : inn (S K) ≤ Q) :
     rankThompson (Q : Subgroup (MulAut (adjointGroup .G2 K))) = inn (S K) := by
   have : Finite (MulAut (adjointGroup .G2 K)) := MulEquiv.finite_left
-  exact (yamada_3_21 hK hn Q.isPGroup' hSQ).2.2
+  exact (yamada_3_21 hK hn Q.isPGroup hSQ).2.2
 
 end Thompson
 

@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 private theorem exists_mem_normalizer_of_lt_pGroup [Finite G] {H P : Subgroup G}
     (hP : IsPGroup 2 P) (hHP : H < P) :
     ∃ x ∈ P, x ∉ H ∧ x ∈ normalizer (H : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set IP : Subgroup P := H.subgroupOf P with hIP
   have hIPlt : IP < ⊤ := by
     refine lt_of_le_of_ne le_top fun htop => hHP.ne (le_antisymm hHP.le fun x hx => ?_)

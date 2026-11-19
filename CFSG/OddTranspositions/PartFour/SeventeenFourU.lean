@@ -16,8 +16,8 @@ open CFSG.Timmesfeld.Connectivity CFSG.LocalAnalysis.WeakClosure81.SevenK
 theorem pos_of_isUnitaryTransvection {X : Type} [Group X] {s : X} {d f : ℕ}
     (hs : IsUnitaryTransvection X d f s) : 0 < f := by
   obtain ⟨F, hF, hFfin, hFcard, -⟩ := hs
-  letI : Finite F := hFfin
-  letI : Field F := hF
+  let : Finite F := hFfin
+  let : Field F := hF
   have h2 : 1 < Nat.card F := Finite.one_lt_card
   rw [hFcard] at h2
   rcases Nat.eq_zero_or_pos f with rfl | h
@@ -99,7 +99,7 @@ theorem blockLine_eq_insert_orbit_of_isUnitaryTransvection
   have hle := ncard_blockLine_le h89 h113 hC hrad hW hn3 hMZ hv hw hvw hne hβ
   have hΔ := ncard_blockLine_diff_eq h113 hC hrad hn3 hHns hβ
   have hαℓ : hC.alpha ∈ blockLine D hC.alpha β := left_mem_blockLine hC.isBlock_alpha.subset
-  have hℓ := Set.ncard_diff_singleton_add_one hαℓ (Set.toFinite _)
+  have hℓ := Set.ncard_sdiff_singleton_add_one hαℓ (Set.toFinite _)
   have hβΔ : β ∈ blockLine D hC.alpha β \ {hC.alpha} :=
     ⟨right_mem_blockLine hβ.1 hβ.2.1, fun h => hβ.2.2.1 (Set.mem_singleton_iff.mp h)⟩
   have hr : 0 < (blockImage hC '' (blockLine D hC.alpha β \ {hC.alpha})).ncard :=

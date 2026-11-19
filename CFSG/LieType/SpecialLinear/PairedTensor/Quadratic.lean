@@ -118,18 +118,18 @@ theorem exists_parameter_line_of_mixed_quadratic
         · subst hij
           by_cases hkl : k = l
           · subst hkl
-            simp only [if_true] at h ⊢
+            simp only [ite_true] at h ⊢
             try ring_nf at h ⊢
             linear_combination h
-          · simp only [Prod.mk.injEq, hkl, true_and, if_false] at h ⊢
+          · simp only [Prod.mk.injEq, hkl, true_and, ite_false] at h ⊢
             try ring_nf at h ⊢
             linear_combination h
         · by_cases hkl : k = l
           · subst hkl
-            simp only [Prod.mk.injEq, hij, and_true, if_false, if_true] at h ⊢
+            simp only [Prod.mk.injEq, hij, and_true, ite_false, ite_true] at h ⊢
             try ring_nf at h ⊢
             linear_combination h
-          · simp only [Prod.mk.injEq, hij, hkl, false_and, if_false] at h ⊢
+          · simp only [Prod.mk.injEq, hij, hkl, false_and, ite_false] at h ⊢
             try ring_nf at h ⊢
             linear_combination h
       have hψLR : ψ L = ψ R := by rw [hLR]
@@ -291,39 +291,32 @@ theorem exists_parameter_line_of_mixed_quadratic
       · subst h_ij
         by_cases h_kl : k = l
         · subst h_kl
-          simp only [true_and, if_true] at h ⊢
+          simp only [true_and, ite_true] at h ⊢
           simp only [smul_eq_mul] at h ⊢
           ring_nf at h
           try rw [CharTwo.two_eq_zero] at h
-          try rw [CharTwo.two_eq_zero]
           simp only [mul_zero, add_zero, zero_add] at h ⊢
-          try ring_nf at h ⊢
           first | linear_combination h | linear_combination -h
-        · simp only [h_kl, true_and, if_false] at h ⊢
+        · simp only [h_kl, true_and, ite_false] at h ⊢
           simp only [zero_add, smul_eq_mul] at h ⊢
           ring_nf at h
           try rw [CharTwo.two_eq_zero] at h
-          try rw [CharTwo.two_eq_zero]
           simp only [mul_zero, add_zero] at h ⊢
           try ring_nf at h ⊢
           first | linear_combination h | linear_combination -h
       · by_cases h_kl : k = l
         · subst h_kl
-          simp only [h_ij, and_true, if_false, if_true] at h ⊢
+          simp only [h_ij, and_true, ite_false, ite_true] at h ⊢
           simp only [zero_add, smul_eq_mul] at h ⊢
           ring_nf at h
           try rw [CharTwo.two_eq_zero] at h
-          try rw [CharTwo.two_eq_zero]
           simp only [mul_zero, add_zero] at h ⊢
-          try ring_nf at h ⊢
           first | linear_combination h | linear_combination -h
-        · simp only [h_ij, h_kl, false_and, if_false] at h ⊢
+        · simp only [h_ij, h_kl, false_and, ite_false] at h ⊢
           simp only [zero_add, smul_eq_mul] at h ⊢
           ring_nf at h
           try rw [CharTwo.two_eq_zero] at h
-          try rw [CharTwo.two_eq_zero]
           simp only [mul_zero, add_zero] at h ⊢
-          try ring_nf at h ⊢
           first | linear_combination h | linear_combination -h
     have hyσ : y + σ y = 0 := by
       rcases mul_eq_zero.mp hmain with h | h

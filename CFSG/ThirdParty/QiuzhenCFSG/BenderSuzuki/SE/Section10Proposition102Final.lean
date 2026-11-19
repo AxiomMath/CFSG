@@ -104,12 +104,12 @@ public theorem proposition_10_2
       (W ⊓ (M ⊓ rightConjugate M t)) t) :
     let D : Subgroup X := M ⊓ rightConjugate M t
     let E : Subgroup X := W ⊓ D
-    let V : Subgroup X := peterfalviV D t
+    let _V : Subgroup X := peterfalviV D t
     Nonempty (Proposition102Conclusion M W D E t d) := by
   classical
   let D : Subgroup X := M ⊓ rightConjugate M t
   let E : Subgroup X := W ⊓ D
-  let V : Subgroup X := peterfalviV D t
+  let _V : Subgroup X := peterfalviV D t
   let H : Subgroup X := (derivedSubgroup E).map E.subtype
   have hDodd : Odd (Nat.card D) := by
     simpa [D] using hM.inf_rightConjugate_card_odd htM
@@ -119,15 +119,15 @@ public theorem proposition_10_2
     apply proposition102_mem_normalizer_of_rightConjugate_eq_of_involution ht
     simpa [D, E] using h96.rightConjugate_eq
   have hED : E ≤ D := inf_le_right
-  have hA : Proposition102PartAConclusion M W D E V t d := by
-    simpa [D, E, V] using proposition102_part_a
-      (D := D) hW (by simpa [D] using (inf_le_left : D ≤ M)) d d106
+  have hA : Proposition102PartAConclusion M W D E _V t d := by
+    simpa [D, E, _V] using proposition102_part_a
+      (D := D) hW (by simp [D]) d d106
         ht hDodd hDnorm
   have hLocal : Proposition102HallLocalData D E t := by
-    simpa [D, E, V] using proposition102_part_b_hall_D
-      (D := D) hW (by simpa [D] using (inf_le_left : D ≤ M)) d d106 hA
+    simpa [D, E, _V] using proposition102_part_b_hall_D
+      (D := D) hW (by simp [D]) d d106 hA
   have hHall : IsHallSubgroup (subgroupPrimeSet H) H := by
-    simpa [D, E, V, H] using proposition102_part_b_hall_X
+    simpa [D, E, _V, H] using proposition102_part_b_hall_X
       hM ht htM d83 hW d d106 hA h42
   have hHleD : H ≤ D :=
     (Subgroup.map_subtype_le (derivedSubgroup E)).trans hED
@@ -152,45 +152,45 @@ public theorem proposition_10_2
       hHnorm hKH h42 hLocal.support_dvd_kernel
   have hExp : Nonempty (Proposition102ExponentConclusion M W D E t d) := by
     exact proposition102_exponent_data d hA ht hDodd hED hDnorm hEnorm
-      (by simpa [H, V] using h93.derived_inf_fixed_ne_bot)
-      (by simpa [D, V] using h97.peterfalvi_centralizer_eq_bot)
+      (by simpa [H, _V] using h93.derived_inf_fixed_ne_bot)
+      (by simpa [D, _V] using h97.peterfalvi_centralizer_eq_bot)
   obtain ⟨e⟩ := hExp
-  have hRp : IsPGroup e.r (H ⊓ V : Subgroup X) := by
-    simpa [H, V] using proposition102_derived_inf_isPGroup d hA ht hDodd
-      hED hDnorm hEnorm (by simpa [D, V] using
+  have hRp : IsPGroup e.r (H ⊓ _V : Subgroup X) := by
+    simpa [H, _V] using proposition102_derived_inf_isPGroup d hA ht hDodd
+      hED hDnorm hEnorm (by simpa [D, _V] using
         h97.peterfalvi_centralizer_eq_bot) e
-  have hReq : e.R = H ⊓ V := by
-    simpa [H, V] using proposition102_exponent_R_eq_derived_inf d hA ht hDodd
-      hED hDnorm hEnorm (by simpa [D, V] using
+  have hReq : e.R = H ⊓ _V := by
+    simpa [H, _V] using proposition102_exponent_R_eq_derived_inf d hA ht hDodd
+      hED hDnorm hEnorm (by simpa [D, _V] using
         h97.peterfalvi_centralizer_eq_bot) e
-  have hRnormal : (e.R.subgroupOf V).Normal := by
-    simpa [H, V] using proposition102_exponent_R_normal_in_V d hA ht hDodd
-      hED hDnorm hEnorm (by simpa [D, V] using
+  have hRnormal : (e.R.subgroupOf _V).Normal := by
+    simpa [H, _V] using proposition102_exponent_R_normal_in_V d hA ht hDodd
+      hED hDnorm hEnorm (by simpa [D, _V] using
         h97.peterfalvi_centralizer_eq_bot) e hLocal.derived_normal_D
-  have hRsyl : theorem4bIsSylowSubgroupOf e.r e.R V := by
-    simpa [H, V] using proposition102_exponent_R_sylow_V_of_hall_D
+  have hRsyl : theorem4bIsSylowSubgroupOf e.r e.R _V := by
+    simpa [H, _V] using proposition102_exponent_R_sylow_V_of_hall_D
       d hA ht hDodd hED hDnorm hEnorm
-        (by simpa [D, V] using h97.peterfalvi_centralizer_eq_bot) e
+        (by simpa [D, _V] using h97.peterfalvi_centralizer_eq_bot) e
         hLocal.derived_normal_D hLocal.derived_hall_D
   obtain ⟨Q, hprodF, hQeq⟩ :=
     proposition102_fitting_internalDirectProduct_of_normal_sylow
       e.r_prime (by rw [hReq]; exact inf_le_right) hRsyl hRnormal
   have hQbot := proposition102_fitting_complement_eq_bot d hA ht hDodd hED
-    hDnorm hEnorm (by simpa [D, V] using h97.peterfalvi_centralizer_eq_bot)
+    hDnorm hEnorm (by simpa [D, _V] using h97.peterfalvi_centralizer_eq_bot)
     e hLocal.derived_normal_D Q hprodF hQeq
-  have hFit : fittingSubgroupOf V = H ⊓ V := by
+  have hFit : fittingSubgroupOf _V = H ⊓ _V := by
     calc
-      fittingSubgroupOf V = e.R ⊔ Q := internalDirectProduct_eq_sup hprodF
+      fittingSubgroupOf _V = e.R ⊔ Q := internalDirectProduct_eq_sup hprodF
       _ = e.R := by simp [hQbot]
-      _ = H ⊓ V := hReq
-  have hCent : subgroupCentralizerIn (fittingSubgroupOf V) d.choice.P = ⊥ := by
+      _ = H ⊓ _V := hReq
+  have hCent : subgroupCentralizerIn (fittingSubgroupOf _V) d.choice.P = ⊥ := by
     rw [hFit]
     apply le_antisymm
     · intro x hx
       have hxH : x ∈ subgroupCentralizerIn H d.choice.P :=
         ⟨hx.1.1, hx.2⟩
       rw [show subgroupCentralizerIn H d.choice.P = ⊥ by
-        simpa [H, V] using hA.centralizer_derived_P] at hxH
+        simpa [H, _V] using hA.centralizer_derived_P] at hxH
       exact hxH
     · exact bot_le
   refine ⟨{
@@ -201,11 +201,11 @@ public theorem proposition_10_2
     exponent := e
     derived_normal_D := by simpa [H] using hLocal.derived_normal_D
     kset_subset_derived := by simpa [H] using hKH
-    derived_inf_eq_exponent_R := by simpa [H, V] using hReq
-    derived_inf_isPGroup := by simpa [H, V] using hRp
-    derived_inf_normal_V := by simpa [V] using hRnormal
-    derived_inf_isSylow_V := by simpa [V] using hRsyl
-    fitting_eq_derived_inf := by simpa [H, V] using hFit
-    fitting_centralizer_P := by simpa [V] using hCent }⟩
+    derived_inf_eq_exponent_R := by simpa [H, _V] using hReq
+    derived_inf_isPGroup := by simpa [H, _V] using hRp
+    derived_inf_normal_V := by simpa [_V] using hRnormal
+    derived_inf_isSylow_V := by simpa [_V] using hRsyl
+    fitting_eq_derived_inf := by simpa [H, _V] using hFit
+    fitting_centralizer_P := by simpa [_V] using hCent }⟩
 
 end CFSG.BenderSuzuki

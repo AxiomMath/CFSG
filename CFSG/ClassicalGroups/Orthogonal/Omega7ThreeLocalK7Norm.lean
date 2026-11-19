@@ -52,7 +52,7 @@ theorem cast_sub_eq_cardMinusPi {q : ℕ} (hq : 1 ≤ q) (h3 : ¬ 3 ∣ q) {η :
 
 theorem not_three_dvd_natCard [Finite K] (h3 : (3 : K) ≠ 0) : ¬ 3 ∣ Nat.card K := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_addOrderOf_dvd_card' 3 h
   have hx0 : x ≠ 0 := by
     rintro rfl
@@ -89,7 +89,7 @@ theorem cubeRootSL_mem_torusSL : cubeRootSL K ∈ torusSL K := by
   rfl
 
 theorem orderOf_cubeRootSL : orderOf (cubeRootSL K) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
@@ -113,7 +113,7 @@ private theorem coe_torusA_eq (h3 : (3 : K) ≠ 0) :
       1 + (2 : K) • cubeRootMat K := by
   rw [coe_torusA]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [cubeRootMat] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [cubeRootMat]; ring
 
 private theorem coe_torusA_mul_self (h3 : (3 : K) ≠ 0) :
     ((torusA K h3 : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) *
@@ -171,7 +171,7 @@ theorem card_torusSL [Finite K] (hK : ringChar K ≠ 2) (h3 : (3 : K) ≠ 0) :
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero hK
   have hA := isInvolDiag_torusA h2 h3
   have hodd : Odd (Nat.card K) := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, Nat.odd_iff]
     exact FiniteField.odd_card_of_char_ne_two hK
   rw [← fixSub_torusA_eq h2 h3]
@@ -191,7 +191,7 @@ theorem card_torusSL [Finite K] (hK : ringChar K ≠ 2) (h3 : (3 : K) ≠ 0) :
 theorem exists_mem_torusSL_orderOf_eq [Finite K] (hK : ringChar K ≠ 2) (h3 : (3 : K) ≠ 0)
     {p : ℕ} (hp : p.Prime) (hdvd : p ∣ cardMinusPi (Nat.card K)) :
     ∃ t : SL(2, K), t ∈ torusSL K ∧ orderOf t = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← card_torusSL hK h3] at hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   exact ⟨x, x.2, by rw [← hx]; exact Subgroup.orderOf_coe x⟩
@@ -216,7 +216,7 @@ theorem exists_gl_commute_cubeRootMat_orderOf_eq [Finite K] (hK : ringChar K ≠
   obtain ⟨t, ht, hto⟩ := exists_mem_torusSL_orderOf_eq hK h3 hp hdvd
   refine ⟨Matrix.SpecialLinearGroup.toGL t, ?_, ?_, ?_⟩
   · simpa using mem_torusSL_iff.1 ht
-  · simpa using t.2
+  · simp
   · rw [← hto]
     exact orderOf_injective (Matrix.SpecialLinearGroup.toGL : SL(2, K) →* GL (Fin 2) K)
       (fun a b h => Subtype.ext (congrArg Units.val h)) t

@@ -84,7 +84,7 @@ theorem exists_matModel_of_pair_irr {W : Type} [CommGroup W] [Finite W] (hW : �
       _ = resHom I (x' * g') := by rw [hsub]
       _ = resHom I x' * resHom I g' := map_mul (resHom I) x' g'
   have hIne : I ≠ ⊥ := bot_lt_iff_ne_bot.mp hI.1
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).mpr hIne
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).mpr hIne
   have hMat : HasMatModel (autSub L₁ I) (autSub L₂ I) := by
     refine hasMatModel_of_irr (V := ↥I) (fun v : ↥I => ?_) hcommAut ?_
     · exact Subtype.ext (by simpa [pow_two] using hW (v : W))

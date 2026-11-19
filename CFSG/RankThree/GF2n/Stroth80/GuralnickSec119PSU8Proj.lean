@@ -39,7 +39,7 @@ private noncomputable def Ctx.outerConjNormal (hc : Ctx M Q Z B) :
 private theorem Ctx.mem_sup_centralizer_of_outerConjNormal_eq_one (hc : Ctx M Q Z B)
     {l : Mbar M Q} (h : Ctx.outerConjNormal hc l = 1) :
     l ∈ Xbar M Q Z B ⊔ Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)) := by
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   have hinner : centerQuotientHom ↥(Xbar M Q Z B)
       ((MulAut.conjNormal (H := Xbar M Q Z B)) l) ∈ inner (XbarMod M Q Z B) := by
     have h1 := h
@@ -198,10 +198,10 @@ theorem Ctx.bar_LB_le_Xbar_sup_centralizer_of_psu4 (hc : Ctx M Q Z B) {x : ℕ}
   exact Ctx.mem_sup_centralizer_of_outerConjNormal_eq_one hc
     (Ctx.outerConjNormal_eq_one_of_mem_bar_LB hc hU hl)
 
-private noncomputable def Ctx.xbarPreimageLB (hc : Ctx M Q Z B) : Subgroup ↥(Xbar M Q Z B) where
+private noncomputable def Ctx.xbarPreimageLB (_hc : Ctx M Q Z B) : Subgroup ↥(Xbar M Q Z B) where
   carrier := {y | ∃ c ∈ Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)),
     (y : Mbar M Q) * c ∈ bar M Q (LB M Q B)}
-  one_mem' := ⟨1, Subgroup.one_mem _, by simpa using (bar M Q (LB M Q B)).one_mem⟩
+  one_mem' := ⟨1, Subgroup.one_mem _, by simp⟩
   mul_mem' := by
     rintro y₁ y₂ ⟨c₁, hc₁, h₁⟩ ⟨c₂, hc₂, h₂⟩
     refine ⟨c₁ * c₂, Subgroup.mul_mem _ hc₁ hc₂, ?_⟩
@@ -217,10 +217,10 @@ private noncomputable def Ctx.xbarPreimageLB (hc : Ctx M Q Z B) : Subgroup ↥(X
     rw [he]
     exact (bar M Q (LB M Q B)).mul_mem h₁ h₂
   inv_mem' := by
-    rintro y ⟨c, hc, h⟩
-    refine ⟨c⁻¹, Subgroup.inv_mem _ hc, ?_⟩
+    rintro y ⟨c, _hc, h⟩
+    refine ⟨c⁻¹, Subgroup.inv_mem _ _hc, ?_⟩
     have hcomm : c⁻¹ * (y : Mbar M Q)⁻¹ = (y : Mbar M Q)⁻¹ * c⁻¹ :=
-      (Subgroup.mem_centralizer_iff.mp (Subgroup.inv_mem _ hc) (y : Mbar M Q)⁻¹
+      (Subgroup.mem_centralizer_iff.mp (Subgroup.inv_mem _ _hc) (y : Mbar M Q)⁻¹
         ((Xbar M Q Z B).inv_mem y.2)).symm
     have he : (((y⁻¹ : ↥(Xbar M Q Z B)) : Mbar M Q) * c⁻¹) =
         ((y : Mbar M Q) * c)⁻¹ := by
@@ -261,6 +261,7 @@ private noncomputable def xbarPreimageTheta (hc : Ctx M Q Z B)
     ((Subgroup.inclusion (le_sup_left : Xbar M Q Z B ≤ Xbar M Q Z B ⊔ C)).comp
       (hc.xbarPreimageLB).subtype)
 
+omit [Finite G] in
 private theorem xbarPreimageTheta_ker (hc : Ctx M Q Z B)
     [hN : ((Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q))).subgroupOf
       (Xbar M Q Z B ⊔ Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)))).Normal] :
@@ -295,6 +296,7 @@ private theorem xbarPreimageTheta_ker (hc : Ctx M Q Z B)
     refine (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr ?_)
     exact h2
 
+omit [Finite G] in
 private theorem xbarPreimageTheta_range (hc : Ctx M Q Z B)
     [hN : ((Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q))).subgroupOf
       (Xbar M Q Z B ⊔ Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)))).Normal]
@@ -303,7 +305,7 @@ private theorem xbarPreimageTheta_range (hc : Ctx M Q Z B)
     (xbarPreimageTheta hc (Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)))).range =
       (barLBQuotHom M Q Z B
         (Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q))) hLle).range := by
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   let L : Subgroup (Mbar M Q) := bar M Q (LB M Q B)
   let C : Subgroup (Mbar M Q) := Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q))
   let H : Subgroup ↥(Xbar M Q Z B) := hc.xbarPreimageLB
@@ -356,6 +358,7 @@ private theorem xbarPreimageTheta_range (hc : Ctx M Q Z B)
     rw [hc1, mul_one]
     rfl
 
+omit [Finite G] in
 private theorem barLBQuotHom_ker
     [hN : ((Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q))).subgroupOf
       (Xbar M Q Z B ⊔ Subgroup.centralizer (Xbar M Q Z B : Set (Mbar M Q)))).Normal]
@@ -401,9 +404,9 @@ private theorem Ctx.card_quotient_xbarPreimageLB (hc : Ctx M Q Z B) {x : ℕ}
   let N : Subgroup ↥H := ZX.subgroupOf H
   have hLle : L ≤ Xbar M Q Z B ⊔ C :=
     hc.bar_LB_le_Xbar_sup_centralizer_of_psu4 hU
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
-  haveI : C.Normal := Subgroup.normal_centralizer
-  haveI : (C.subgroupOf (Xbar M Q Z B ⊔ C)).Normal := Subgroup.normal_subgroupOf
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : C.Normal := Subgroup.normal_centralizer
+  have : (C.subgroupOf (Xbar M Q Z B ⊔ C)).Normal := Subgroup.normal_subgroupOf
   let fL : ↥L →* (↥(Xbar M Q Z B ⊔ C) ⧸ C.subgroupOf (Xbar M Q Z B ⊔ C)) :=
     barLBQuotHom M Q Z B C hLle
   let θ : ↥H →* (↥(Xbar M Q Z B ⊔ C) ⧸ C.subgroupOf (Xbar M Q Z B ⊔ C)) :=
@@ -432,14 +435,14 @@ private theorem Ctx.commutator_xbarPreimageLB_le (hc : Ctx M Q Z B) {x : ℕ}
   let ZX : Subgroup ↥(Xbar M Q Z B) := xbarCentralizerInXbar M Q Z B
   have hLle : L ≤ Xbar M Q Z B ⊔ C :=
     hc.bar_LB_le_Xbar_sup_centralizer_of_psu4 hU
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
-  haveI : C.Normal := Subgroup.normal_centralizer
-  haveI : (C.subgroupOf (Xbar M Q Z B ⊔ C)).Normal := Subgroup.normal_subgroupOf
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : C.Normal := Subgroup.normal_centralizer
+  have : (C.subgroupOf (Xbar M Q Z B ⊔ C)).Normal := Subgroup.normal_subgroupOf
   let fL : ↥L →* (↥(Xbar M Q Z B ⊔ C) ⧸ C.subgroupOf (Xbar M Q Z B ⊔ C)) :=
     barLBQuotHom M Q Z B C hLle
   let θ : ↥H →* (↥(Xbar M Q Z B ⊔ C) ⧸ C.subgroupOf (Xbar M Q Z B ⊔ C)) :=
     xbarPreimageTheta hc C
-  haveI hLcomm : IsMulCommutative ↥L := hc.isElemAbelian_bar_LB.1
+  have hLcomm : IsMulCommutative ↥L := hc.isElemAbelian_bar_LB.1
   have hRangeComm : IsMulCommutative ↥(fL.range) := Subgroup.range_isMulCommutative fL
   have hker : θ.ker = ZX.subgroupOf H := xbarPreimageTheta_ker hc
   have hrange : θ.range = fL.range := xbarPreimageTheta_range hc (hLle := hLle)
@@ -472,8 +475,8 @@ private theorem Ctx.xbarPreimageLB_quotient (hc : Ctx M Q Z B) {x : ℕ}
   let H : Subgroup ↥(Xbar M Q Z B) := hc.xbarPreimageLB
   let ZX : Subgroup ↥(Xbar M Q Z B) := xbarCentralizerInXbar M Q Z B
   let N : Subgroup ↥H := ZX.subgroupOf H
-  haveI hLcomm : IsMulCommutative ↥L := hc.isElemAbelian_bar_LB.1
-  haveI : ((L ⊓ C).subgroupOf L).Normal := Subgroup.normal_of_isMulCommutative _
+  have hLcomm : IsMulCommutative ↥L := hc.isElemAbelian_bar_LB.1
+  have : ((L ⊓ C).subgroupOf L).Normal := Subgroup.normal_of_isMulCommutative _
   have hquot2 : IsPGroup 2 (↥H ⧸ N) := by
     have h2 : IsPGroup 2 (↥L ⧸ (L ⊓ C).subgroupOf L) :=
       hc.isPGroup_bar_LB.to_quotient ((L ⊓ C).subgroupOf L)
@@ -493,6 +496,7 @@ private theorem Ctx.odd_card_xbarCentralizerInXbar (hc : Ctx M Q Z B) :
   refine Subgroup.mem_center_iff.mpr fun g => ?_
   exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hz (g : Mbar M Q) g.2)
 
+omit [Finite G] in
 private theorem xbarCentralizerInXbar_le_xbarPreimageLB (hc : Ctx M Q Z B) :
     xbarCentralizerInXbar M Q Z B ≤ hc.xbarPreimageLB := by
   intro z hz
@@ -617,13 +621,13 @@ theorem Ctx.exists_proj_bar_LB_of_psu4 (hc : Ctx M Q Z B) {n : ℕ} (hw : Width 
   let N : Subgroup ↥H := ZX.subgroupOf H
   obtain ⟨P, hP2, hPab, hPsup, -, hPcard⟩ :=
     hc.exists_isPGroup_two_complement_of_xbarPreimageLB hU
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   obtain ⟨-, -, hcardQ⟩ := hc.xbarPreimageLB_quotient hU
   let L₀ : Subgroup ↥(Xbar M Q Z B) := P.map H.subtype
   have hL0card : Nat.card ↥L₀ = Nat.card ↥P :=
     Subgroup.card_map_of_injective H.subtype_injective
-  haveI : IsMulCommutative ↥P := ⟨⟨hPab⟩⟩
-  haveI hL0comm : IsMulCommutative ↥L₀ := Subgroup.map_isMulCommutative P H.subtype
+  have : IsMulCommutative ↥P := ⟨⟨hPab⟩⟩
+  have hL0comm : IsMulCommutative ↥L₀ := Subgroup.map_isMulCommutative P H.subtype
   have hLle : L ≤ Xbar M Q Z B ⊔ C :=
     hc.bar_LB_le_Xbar_sup_centralizer_of_psu4 hU
   have hL0 : Nat.card (bar M Q (LB M Q B)) = Nat.card L₀ * Nat.card ↥(L ⊓ C) := by
@@ -677,11 +681,12 @@ private theorem map_range_sub_one_eq_of_commute {K E : Type} [Field K] [AddCommG
     have hcomp : ((T : E →ₗ[K] E).comp ((U : E →ₗ[K] E) - 1)) =
         ((((T * U * T⁻¹ : E ≃ₗ[K] E) : E →ₗ[K] E) - 1).comp (T : E →ₗ[K] E)) := by
       ext y
-      simp [LinearEquiv.mul_apply]
+      simp
     rw [hcomp, LinearMap.range_comp, LinearMap.range_eq_top.mpr T.surjective,
       Submodule.map_top]
   rw [hmap, show T * U * T⁻¹ = U from by rw [h]; group]
 
+omit [Finite G] in
 private theorem Ctx.phi_comm_of_mem_centralizer {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (hc : Ctx M Q Z B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
@@ -714,6 +719,7 @@ private theorem Ctx.phi_comm_of_mem_centralizer {K : Type} [Field K] {γ : G →
   exact commutatorElement_eq_one_iff_mul_comm.mp h1
 
 
+omit [Finite G] in
 private theorem cmComm_map_eq_self_of_comm {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ}
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)) {T : M₀.E ≃ₗ[K] M₀.E}

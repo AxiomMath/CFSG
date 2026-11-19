@@ -249,9 +249,9 @@ theorem TBJOmData.mixedFrame_power_eq_one_or_neg_one (Δ : TBJOmData Q p A r)
     rw [map_mul, map_pow]
     rfl
   have hfi : toAdd (f₀ i) = 1 := by
-    simp [f₀, Pi.mulSingle_apply, hij, hij.symm]
+    simp [f₀, hij]
   have hfj : toAdd (f₀ j) = (c : ZMod p) := by
-    simp [f₀, Pi.mulSingle_apply, hij, hij.symm, nsmul_eq_mul]
+    simp [f₀, hij.symm, nsmul_eq_mul]
   have he : (c : ZMod p) ≠ 0 := fun h => hc ((ZMod.natCast_eq_zero_iff c p).mp h)
   have hact : ∀ k d, (a : V ≃ₗ[K] V) (Δ.θ k d) =
       Δ.θ k ((Δ.c ^ (toAdd (f₀ k)).val) d) := by
@@ -359,15 +359,15 @@ theorem TBJOmData.exists_reflFixed_of_twoLocal (Δ : TBJOmData Q p A r)
   have hpair : ((ρ i * ρ j ^ c : ↥(orthDerived Q)) : V ≃ₗ[K] V) = Δ.τ f₀ := by
     rw [map_mul, map_pow]
     rfl
-  have hfi : toAdd (f₀ i) = 1 := by simp [f₀, Pi.mulSingle_apply, hij, hij.symm]
+  have hfi : toAdd (f₀ i) = 1 := by simp [f₀, hij]
   have hfj : toAdd (f₀ j) = (c : ZMod p) := by
-    simp [f₀, Pi.mulSingle_apply, hij, hij.symm, nsmul_eq_mul]
+    simp [f₀, hij.symm, nsmul_eq_mul]
   have hsingle : ∀ k, k ≠ i → k ≠ j →
       Pi.mulSingle k (ofAdd (1 : ZMod p)) ∈ reflFixedCoord p r i j ∧
       Pi.mulSingle k (ofAdd (1 : ZMod p)) ∈ reflFixedCoordPos p r i j := by
     intro k hki hkj
     constructor <;> simp [reflFixedCoord, reflFixedCoordPos, MonoidHom.mem_ker,
-      Pi.mulSingle_apply, hki.symm, hkj.symm]
+      hki.symm, hkj.symm]
   refine ⟨i, j, hij, ?_⟩
   rcases he with he | he
   · left

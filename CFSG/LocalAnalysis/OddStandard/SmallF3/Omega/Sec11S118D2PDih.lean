@@ -13,11 +13,11 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G]
 
 theorem sec11d2_setup [Finite G] {C D Y : Subgroup G} {z : G} (hD2 : IsPGroup 2 D)
-    (hCD : C ≤ D) (hYD : Y ≤ D) (hY : IsCyclic Y) (hYi : Y.relIndex D = 2) (hC : IsD8 C)
+    (hCD : C ≤ D) (_hYD : Y ≤ D) (hY : IsCyclic Y) (hYi : Y.relIndex D = 2) (hC : IsD8 C)
     (hzC : z ∈ C) (hz2 : z * z = 1) (hz1 : z ≠ 1) (hzcC : ∀ x ∈ C, x * z = z * x) :
     ∃ c ∈ C, c ∈ Y ∧ orderOf c = 4 ∧ c * c = z ∧ ∃ t0 ∈ C, t0 ∉ Y ∧ t0 * c * t0⁻¹ = c⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC8 : Nat.card C = 8 := sec11_isD8_card hC
   have hrel : Y.relIndex C ≤ 2 := by
     have h := Subgroup.relIndex_le_of_le_right (H := Y) hCD (by rw [hYi]; norm_num)
@@ -98,7 +98,7 @@ theorem sec11d2_comm_mod_z [Finite G] {D Y : Subgroup G} {z c t0 a : G} (hD2 : I
     (ht0c : t0 * c * t0⁻¹ = c⁻¹) (haD : ∀ x ∈ D, a * x * a⁻¹ ∈ D) (haa : a * a = 1)
     (hac : a * c = c * a) (hat0 : a * t0 = t0 * a) (hzD : ∀ x ∈ D, x * z = z * x) :
     ∀ x ∈ D, a * x * a⁻¹ * x⁻¹ ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY2 : IsPGroup 2 Y := hD2.to_le hYD
   have hYcomm : ∀ x ∈ Y, ∀ y ∈ Y, x * y = y * x :=
     fun x hx y hy => sec11d2_mul_comm_of_isCyclic hY hx hy
@@ -176,7 +176,7 @@ theorem sec11d2_exists_X [Finite G] {D Y : Subgroup G} {z c d : G} (hYD : Y ≤ 
     (hzD : ∀ x ∈ D, x * z = z * x) (hdc : d ∉ zpowers c) :
     ∃ X : Subgroup G, X ≤ D ∧ d ∈ X ∧ z ∈ X ∧ IsElemAbelianMod z X ∧ 8 ≤ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcD : c ∈ D := hYD hcY
   have hdedY : d * c * d⁻¹ ∈ Y := sec11d2_conj_mem hYD hYi hdD hcY
   have hded4 : orderOf (d * c * d⁻¹) = 4 := by

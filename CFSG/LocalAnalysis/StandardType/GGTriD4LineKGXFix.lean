@@ -33,8 +33,8 @@ theorem triD4Line_centralizer_z0_eq
     (hz : trialityOuterTorus K σ ω ∈ graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (L : Type) [Field L] [Algebra K L] [IsAlgClosure K L] :
     Subgroup.centralizer {triD4LineZ0 K σ ω hz} = triD4LineH1 K σ ⊔ triD4LineNR K σ L := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  let : Fintype K := Fintype.ofFinite K
   have hcard : ∀ c : K, c ^ Nat.card K = c := fun c => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -48,12 +48,12 @@ theorem triD4Line_centralizer_z0_eq
   have hq : 2 ≤ 2 ^ n := by
     have := Nat.pow_le_pow_right (show 0 < 2 by norm_num) hn
     simpa using this
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hσ3 : σ ^ 3 = 1 := by
     ext c
     rw [ringEquiv_pow_three_apply]
@@ -65,7 +65,7 @@ theorem triD4Line_centralizer_z0_eq
         _ = c ^ (2 ^ n) ^ 3 := by congr 1; ring
         _ = c ^ Nat.card K := by rw [hK]
     rw [hiter]
-    simpa using hcard c
+    simp
   have h3 : ∀ c, σ (σ (σ c)) = c := by
     intro c
     rw [← ringEquiv_pow_three_apply σ c, hσ3]

@@ -56,7 +56,7 @@ theorem commutator_eq (hc : ∀ a ∈ U, ∀ b ∈ U, a * b = b * a) (hsq : ∀ 
   · rw [Subgroup.commutator_le]
     intro g₁ hg₁ g₂ hg₂
     rcases eq_one_or_eq_of_mem_zpowers_invol hy2 hg₂ with rfl | rfl
-    · simp only [commutatorElement_def, mul_one, one_mul, inv_one, mul_inv_cancel]
+    · simp only [commutatorElement_def, mul_one, inv_one, mul_inv_cancel]
       exact one_mem _
     · refine ⟨commHom U hc g₂ hy ⟨g₁, hg₁⟩, ⟨⟨g₁, hg₁⟩, rfl⟩, ?_⟩
       show g₁ * (g₂ * g₁ * g₂⁻¹) = ⁅g₁, g₂⁆
@@ -100,9 +100,11 @@ namespace KSetup
 
 variable {Γ : Type*} [Group Γ] [Finite Γ] {U K : Subgroup Γ} {x v t : Γ}
 
+omit [Finite Γ] in
 theorem sq_conj_mem (h : KSetup U K x v t) {u : Γ} (hu : u ∈ U) : v ^ 2 * u * (v ^ 2)⁻¹ ∈ U :=
   (mem_normalizer_iff.1 h.hF.sq_norm u).1 hu
 
+omit [Finite Γ] in
 theorem t_comm_sq (h : KSetup U K x v t) : t * v ^ 2 = v ^ 2 * t := by
   rw [pow_two, ← mul_assoc, h.htv, mul_assoc, h.htv, mul_assoc]
 

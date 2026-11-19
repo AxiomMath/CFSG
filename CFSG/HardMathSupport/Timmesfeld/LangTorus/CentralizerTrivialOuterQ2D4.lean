@@ -20,7 +20,7 @@ open scoped commutatorElement
 
 theorem fixed_mem_rationalComponent_of_perfect
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p : ℕ}
-    (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
+    (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ} (_hT : rootDiagUnit τ a ∈ S.D.torus)
     (i : KernelComponent (rootCharHom a)) (hperf : TwoDExcFixedPointsPerfect S a i
       (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)))
     (hs1 : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 1) :
@@ -84,16 +84,16 @@ theorem commute_rootSpan_of_commute_component_outer_d4_two
       (twistKind S.ρ (rootCharHom a) i = .exc ∧
         compRank (componentRoots (rootCharHom a) i) = 4) := by
     unfold twistKind
-    rw [hs1, Function.iterate_one, if_neg hNotInner]
+    rw [hs1, Function.iterate_one, ite_eq_right hNotInner]
     by_cases hexc : (compRank (componentRoots (rootCharHom a) i) = 6 ∧
         (componentRoots (rootCharHom a) i).ncard = 72) ∨
         (compRank (componentRoots (rootCharHom a) i) = 4 ∧
           (componentRoots (rootCharHom a) i).ncard = 24 ∧
           ¬ twistInner (componentRoots (rootCharHom a) i)
             ((S.ρ : (Fin tau.rank → ℤ) → _)^[2 * 1]))
-    · rw [if_pos hexc]
+    · rw [ite_eq_left hexc]
       exact Or.inr ⟨rfl,hRank⟩
-    · rw [if_neg hexc, if_pos (by rw [hRank,hCard];norm_num)]
+    · rw [ite_eq_right hexc, ite_eq_left (by rw [hRank,hCard];norm_num)]
       exact Or.inl rfl
   have hmem := outer_d4_mem_rationalComponent S hT i hkind hs1
   obtain ⟨f,z0,phi,hf,hPos,hPin,hz0,hPhi,hPhiS,hNe,w,hw,hForm⟩ :=

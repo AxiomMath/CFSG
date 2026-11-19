@@ -134,8 +134,7 @@ theorem zbar_ne_one : zbar ≠ 1 := by
   obtain ⟨u, hu⟩ := h
   have h1 := congrArg (fun g : GL ι2 (ZMod 3) => (g : Matrix ι2 ι2 (ZMod 3)) (Sum.inl 0) (Sum.inl 0)) hu
   have h2 := congrArg (fun g : GL ι2 (ZMod 3) => (g : Matrix ι2 ι2 (ZMod 3)) (Sum.inl 1) (Sum.inl 1)) hu
-  simp [zsp, mkSp, zMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-    Matrix.diagonal_apply] at h1 h2
+  simp [zsp, mkSp, zMat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h1 h2
   have h3 : (1 : (ZMod 3)ˣ) = -1 := h2.symm.trans h1
   revert h3
   decide
@@ -182,7 +181,7 @@ theorem psp43_exists_inv_E9 : ∃ z : PSp43, z ^ 2 = 1 ∧ z ≠ 1 ∧ ∃ E : S
 
 theorem psp43_exists_order3_normalizes_two : ∃ y : PSp43, orderOf y = 3 ∧
     ∃ W : Subgroup PSp43, IsPGroup 2 W ∧ W ≠ ⊥ ∧ y ∈ Subgroup.normalizer (W : Set PSp43) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective (Tphi.comp emb2) := fun x y h => emb2_injective (Tphi_injective h)
   set y := (Tphi.comp emb2) (Multiplicative.ofAdd ((1 : ZMod 3), (0 : ZMod 3))) with hy
   have hy3 : y ^ 3 = 1 := by rw [hy, ← map_pow, pow_three_eq_one₂, map_one]
@@ -217,7 +216,7 @@ theorem center_pQuot_eq_bot_u4two (hGA : CFSG.Open.GriessAllModelsStatement) {J 
   have hdvd := card_center_dvd_of_table hGA hq hm (a := 1) (b := 1) (c := 2) (d := 1)
     (by decide) (by decide) (by norm_num)
   by_contra hne
-  haveI : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center (PQuot 3 J)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact false_of_pGroup_dvd Nat.prime_three
     (CFSG.LocalAnalysis.GLTheoremA.I2611.isPGroup_center_pQuot' Nat.prime_three J) hdvd
     (by norm_num)

@@ -63,8 +63,8 @@ theorem rationalLieType_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = 
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hrc : ringChar L = r := ringChar.eq L r
   have hQ' : Q r (r ^ e) := by
     have h := hQ
@@ -98,8 +98,8 @@ theorem rationalLieType_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = 
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hdat := CompsPTwoDDatumG.rationalLieType_of_datum_gen hτ D hm5 hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
     hsw.1 hsw.2
@@ -123,7 +123,7 @@ theorem rationalLieType_of_dClassTwistedG_E6 (S : LangSetup Tag.E6 L p₀) (hp :
     (Q : ℕ → ℕ → Prop) (hrec : TwoDChainRecogAll L Q) (hQ : Q (ringChar L) S.D.q) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClassTwistedG (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check
-    e6_lt e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h5
+    e6_lt e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h5
     hn hkind Q hrec hQ
 
 theorem rationalLieType_of_dClassTwistedG_E7 (S : LangSetup Tag.E7 L p₀) (hp : p.Prime)
@@ -137,7 +137,7 @@ theorem rationalLieType_of_dClassTwistedG_E7 (S : LangSetup Tag.E7 L p₀) (hp :
     (Q : ℕ → ℕ → Prop) (hrec : TwoDChainRecogAll L Q) (hQ : Q (ringChar L) S.D.q) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClassTwistedG (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7 e7_tree e7_adj
-    e7_check e7_lt e7_card e7_dcount e7_dtrees (fun {F} _ x y h => e7_frames x y h) S hp hpL hTor
+    e7_check e7_lt e7_card e7_dcount e7_dtrees (fun {_F} _ x y h => e7_frames x y h) S hp hpL hTor
     hTp i h5 hn hkind Q hrec hQ
 
 theorem rationalLieType_of_dClassTwistedG_E8 (S : LangSetup Tag.E8 L p₀) (hp : p.Prime)
@@ -151,7 +151,7 @@ theorem rationalLieType_of_dClassTwistedG_E8 (S : LangSetup Tag.E8 L p₀) (hp :
     (Q : ℕ → ℕ → Prop) (hrec : TwoDChainRecogAll L Q) (hQ : Q (ringChar L) S.D.q) :
     RationalLieType (ringChar L) (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
   rationalLieType_of_dClassTwistedG (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8 e8_tree e8_adj
-    e8_check e8_lt e8_card e8_dcount e8_dtrees (fun {F} _ x y h => e8_frames x y h) S hp hpL hTor
+    e8_check e8_lt e8_card e8_dcount e8_dtrees (fun {_F} _ x y h => e8_frames x y h) S hp hpL hTor
     hTp i h5 hn hkind Q hrec hQ
 
 end PerTag

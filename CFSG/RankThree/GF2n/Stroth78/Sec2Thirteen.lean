@@ -12,7 +12,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem QaOf_eq_map_conj (S : Setting z E F) {a g : G}
+omit [Finite G] in
+theorem QaOf_eq_map_conj (_S : Setting z E F) {a g : G}
     (hg : g * z * g⁻¹ = a) :
     QaOf a = (Q z).map (MulAut.conj g).toMonoidHom := by
   have ha : a = g * z * g⁻¹ := hg.symm
@@ -20,6 +21,7 @@ theorem QaOf_eq_map_conj (S : Setting z E F) {a g : G}
     (fStar (Subgroup.centralizer ({z} : Set G))).map (MulAut.conj g).toMonoidHom
   rw [ha, centralizer_map_conj z g, fStar_map_conj]
 
+omit [Finite G] in
 theorem centerIn_QaOf_eq_map_conj (S : Setting z E F) {a g : G}
     (hg : g * z * g⁻¹ = a) :
     centerIn (QaOf a) = (ZQ z).map (MulAut.conj g).toMonoidHom := by
@@ -111,6 +113,7 @@ theorem inf_ZQ_Qa_le_centerIn (S : Setting z E F) {a : G}
     exact (ZQ z).mul_mem hyxZ hxinv
   exact haZ haZQ
 
+omit [Finite G] in
 theorem mem_QaOf_of_forall_commutator_mem_centerIn (S : Setting z E F) {a c g : G}
     (hg : g * z * g⁻¹ = a)
     (hcCa : c ∈ Subgroup.centralizer ({a} : Set G))
@@ -166,7 +169,7 @@ theorem mem_QaOf_of_forall_commutator_mem_centerIn (S : Setting z E F) {a c g : 
 theorem z_not_mem_centerIn_Qa
     (S : Setting z E F)
     {a : G} (haQ : a ∈ Q z) (hconj : IsConj z a) (haZ : a ∉ ZQ z)
-    (hza : z ∈ QaOf a) :
+    (_hza : z ∈ QaOf a) :
     z ∉ centerIn (QaOf a) := by
   intro hz
   have hQa_le_H : QaOf a ≤ H z := by

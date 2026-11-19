@@ -20,6 +20,7 @@ section Existence
 variable (hBN : BN.IsAlt) (hBNnd : BN.Nondegenerate) (hdim : 6 ≤ finrank K N)
 include hBN hBNnd hdim
 
+omit [Finite K] [CharP K 2] in
 theorem exists_isLine_of_ne_zero {a : N} (ha : a ≠ 0) : ∃ ℓ, IsLine BN ℓ ∧ a ∈ ℓ := by
   have hperp : finrank K ↥(BN.orthogonal (Submodule.span K {a})) = finrank K N - 1 := by
     rw [LinearMap.BilinForm.finrank_orthogonal hBNnd, finrank_span_singleton ha]
@@ -34,6 +35,7 @@ theorem exists_isLine_of_ne_zero {a : N} (ha : a ≠ 0) : ∃ ℓ, IsLine BN ℓ
     Submodule.subset_span (by simp)⟩
   rw [← Matrix.range_cons_cons_empty a c ![], finrank_span_eq_card hind, Fintype.card_fin]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_two_planes_through {ℓ : Submodule K N} (hℓ : IsLine BN ℓ) :
     ∃ π π' : Submodule K N, IsPlane BN π ∧ IsPlane BN π' ∧ ℓ ≤ π ∧ ℓ ≤ π' ∧ π ≠ π' := by
   obtain ⟨H, hH⟩ := exists_isLeviSpace hBN hBNnd hℓ
@@ -41,7 +43,7 @@ theorem exists_two_planes_through {ℓ : Submodule K N} (hℓ : IsLine BN ℓ) :
     rw [hH.finrank_orthogonal hBNnd]
     omega
   have hWpos : 0 < finrank K ↥(BN.orthogonal H) := by omega
-  haveI : Nontrivial ↥(BN.orthogonal H) := Module.nontrivial_of_finrank_pos hWpos
+  have : Nontrivial ↥(BN.orthogonal H) := Module.nontrivial_of_finrank_pos hWpos
   obtain ⟨n, hn⟩ := exists_ne (0 : ↥(BN.orthogonal H))
   have hn0 : (n : N) ≠ 0 := fun h => hn (Subtype.ext h)
   obtain ⟨n', hn'W, hind⟩ := exists_mem_linearIndependent_pair hW n.2 hn0
@@ -62,6 +64,7 @@ theorem exists_two_planes_through {ℓ : Submodule K N} (hℓ : IsLine BN ℓ) :
 
 end Existence
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] in
 theorem exists_ne_one_mem_planeGroup (hBN : BN.IsAlt) (hBNnd : BN.Nondegenerate)
     {ℓ : Submodule K N} (hℓ : IsLine BN ℓ) : ∃ g ∈ planeGroup hBN ℓ, g ≠ 1 := by
   obtain ⟨a, c, hac, hind, rfl⟩ := hℓ.exists_pair
@@ -72,17 +75,20 @@ theorem exists_ne_one_mem_planeGroup (hBN : BN.IsAlt) (hBNnd : BN.Nondegenerate)
     (σ : Submodule K N) : Submodule K V :=
   commutatorSpace (planeFamily hBN ρ σ)
 
+omit [Finite K] [FiniteDimensional K N] [FiniteDimensional K V] [CharP K 2] in
 theorem famSpace_map (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) (g : Gsp BN)
     (σ : Submodule K N) :
     famSpace hBN ρ (σ.map g.lin) = (famSpace hBN ρ σ).map (ρ g : V →ₗ[K] V) := by
   unfold famSpace
   rw [planeFamily_map, commutatorSpace_conjSubgroup]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem movedSpace_le_famSpace (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V))
     {σ : Submodule K N} {g : Gsp BN} (hg : g ∈ planeGroup hBN σ) :
     movedSpace (ρ g) ≤ famSpace hBN ρ σ :=
   movedSpace_le_commutatorSpace ⟨g, hg, rfl⟩
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem famSpace_mono (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {σ σ' : Submodule K N}
     (h : σ ≤ σ') : famSpace hBN ρ σ ≤ famSpace hBN ρ σ' := by
   refine commutatorSpace_le_of_forall_axes_le fun A hA => ?_
@@ -100,6 +106,7 @@ theorem finrank_famSpace_of_isPlane {π : Submodule K N} (hπ : IsPlane BN π) :
     finrank K (famSpace hBN ρ π) = 3 :=
   (hs.isSiegelFamily_planeFamily hπ).finrank_commutatorSpace_of_copl hs.nondeg (hcopl π hπ)
 
+omit hcopl in
 theorem qf_eq_zero_of_mem_famSpace_isPlane {π : Submodule K N} (hπ : IsPlane BN π) :
     ∀ w ∈ famSpace hBN ρ π, Qf w = 0 :=
   (hs.isSiegelFamily_planeFamily hπ).qf_eq_zero_of_mem_commutatorSpace hs.nondeg

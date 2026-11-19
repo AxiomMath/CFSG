@@ -21,6 +21,7 @@ section Pkg
 variable
   {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] [CharP F 2] in
 theorem hasTorusSL2_spinMinus_short (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     [Fact (∀ r : F, r ^ 2 ≠ -c + b * r)] [Finite (ShortField b c)] [CharP (ShortField b c) 2]
     (h4 : 4 ≤ Nat.card (ShortField b c)) {k : Fin (n - 1)} (hk : ¬ k.val + 1 < n - 1) :

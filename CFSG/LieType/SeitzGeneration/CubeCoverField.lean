@@ -26,8 +26,8 @@ theorem seitzHyperGamma_eq_top_of_cover_overgroups {K S : Type*} [Group K] [Grou
       ∀ H : Subgroup S, J ≤ H → H ≤ fixedSubgroup x ∨ H = ⊤) :
     seitzHyperGamma p E = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite S := Finite.of_surjective θ.toMonoidHom θ.surjective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite S := Finite.of_surjective θ.toMonoidHom θ.surjective
   let π : K →* S := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   let ind : MulAut K →* MulAut S :=
     (MulAut.congr θ).toMonoidHom.comp (quotientCenterAut' K)
@@ -293,7 +293,7 @@ theorem le_closure_uni_fixed {S T : Type*} [Group S] [Group T] {J : Subgroup S}
 
 
 theorem fixedFieldImage_le_closure_uni_of_plane {K : Type} [Field K] [Finite K]
-    (hK3 : ringChar K ≠ 3) (σ : K ≃+* K) (hσ : orderOf σ = 3)
+    (hK3 : ringChar K ≠ 3) (σ : K ≃+* K) (_hσ : orderOf σ = 3)
     (h3 : 3 ∣ Nat.card (fixSubfield σ) - 1)
     {A : Subgroup (MulAut ↥(adjointGroup Tag.E6 K))}
     (hA : IsElemAbelian 3 A) (hAc : Nat.card A = 3 ^ 2) (hAD : A ≤ e6Inndiag K)
@@ -338,12 +338,12 @@ theorem seitzHyperGamma_eq_top_e6_field_cube {K : Type} [Group K] [Finite K]
     (hED : ¬ coverImage θ E ≤ e6Inndiag k) :
     seitzHyperGamma 3 E = ⊤ := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card k (ringChar k)
   have hK : Nat.card k = ringChar k ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
     exact hn
-  haveI : CharP k (ringChar k) := ringChar.charP k
+  have : CharP k (ringChar k) := ringChar.charP k
   have hEab : IsElemAbelian 3 (coverImage θ E) := isElemAbelian_coverImage θ hE
   have hAc : Nat.card ↥(coverImage θ E ⊓ e6Inndiag k) = 3 ^ 2 :=
     card_inf_e6Inndiag (K := k) (E := coverImage θ E) hEab

@@ -17,10 +17,12 @@ open Classical in
 noncomputable def act (p : ℕ) (K : Subgroup G) (g : G) : MulAut (PSimple p K) :=
   if h : g ∈ Subgroup.normalizer (K : Set G) then chevAut p K ⟨g, h⟩ else 1
 
+omit [Finite G] in
 theorem act_of_mem {p : ℕ} {K : Subgroup G} {g : G} (h : g ∈ Subgroup.normalizer (K : Set G)) :
     act p K g = chevAut p K ⟨g, h⟩ :=
-  dif_pos h
+  dite_eq_left h
 
+omit [Finite G] in
 theorem act_mul {p : ℕ} {K : Subgroup G} {g h : G} (hg : g ∈ Subgroup.normalizer (K : Set G))
     (hh : h ∈ Subgroup.normalizer (K : Set G)) : act p K (g * h) = act p K g * act p K h := by
   rw [act_of_mem hg, act_of_mem hh, act_of_mem (Subgroup.mul_mem _ hg hh), ← map_mul]
@@ -32,6 +34,7 @@ theorem act_eq_one_iff {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPCom
   rw [act_of_mem hg]
   exact chevAut_eq_one_iff hp hK hg
 
+omit [Finite G] in
 theorem act_of_mem_K {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K) :
     act p K k = MulAut.conj (chevQuotHom p K ⟨k, hk⟩) := by
   rw [act_of_mem (Subgroup.le_normalizer hk)]
@@ -45,6 +48,7 @@ theorem act_of_mem_K {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K) :
 noncomputable def actImage (p : ℕ) (K S : Subgroup G) : Subgroup (MulAut (PSimple p K)) :=
   (S.subgroupOf (Subgroup.normalizer (K : Set G))).map (chevAut p K)
 
+omit [Finite G] in
 theorem mem_actImage_iff {p : ℕ} {K S : Subgroup G} (hS : S ≤ Subgroup.normalizer (K : Set G))
     {t : MulAut (PSimple p K)} : t ∈ actImage p K S ↔ ∃ g ∈ S, act p K g = t := by
   constructor
@@ -53,18 +57,22 @@ theorem mem_actImage_iff {p : ℕ} {K S : Subgroup G} (hS : S ≤ Subgroup.norma
   · rintro ⟨g, hg, rfl⟩
     exact ⟨⟨g, hS hg⟩, Subgroup.mem_subgroupOf.2 hg, (act_of_mem (hS hg)).symm⟩
 
+omit [Finite G] in
 theorem actImage_mono {p : ℕ} {K S T : Subgroup G} (h : S ≤ T) :
     actImage p K S ≤ actImage p K T :=
-  Subgroup.map_mono fun x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
+  Subgroup.map_mono fun _x hx => Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx))
 
+omit [Finite G] in
 theorem isSubnormal_actImage {p : ℕ} {K J C : Subgroup G} (hJC : IsSubnormal J C) :
     IsSubnormal (actImage p K J) (actImage p K C) :=
   isSubnormal_map' (chevAut p K) (isSubnormal_comap' (Subgroup.normalizer (K : Set G)).subtype hJC)
 
+omit [Finite G] in
 theorem act_mem_range {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K) :
     act p K k ∈ (MulAut.conj : PSimple p K →* MulAut (PSimple p K)).range :=
   ⟨chevQuotHom p K ⟨k, hk⟩, (act_of_mem_K hk).symm⟩
 
+omit [Finite G] in
 theorem actImage_K_eq_range {p : ℕ} {K : Subgroup G} :
     actImage p K K = (MulAut.conj : PSimple p K →* MulAut (PSimple p K)).range := by
   ext t
@@ -79,7 +87,7 @@ theorem actImage_K_eq_range {p : ℕ} {K : Subgroup G} :
 theorem conj_injective {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPComponent p X K) :
     Function.Injective (MulAut.conj : PSimple p K →* MulAut (PSimple p K)) := by
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs
+  have := hs
   have hz : Subgroup.center (PSimple p K) = ⊥ := chev_center_eq_bot_of_simple_nonabelian hna
   intro s t hst
   have hzc : t * s⁻¹ ∈ Subgroup.center (PSimple p K) := by
@@ -109,7 +117,7 @@ theorem eq_bot_or_eq_of_isSubnormal_simple {M : Type*} [Group M] (R : Subgroup M
     · left
       exact le_bot_iff.1 (hM ▸ hHM)
     · subst hM
-      haveI : (H.subgroupOf M').Normal := hn
+      have : (H.subgroupOf M').Normal := hn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf M') with h1 | h1
       · left
         ext y
@@ -132,14 +140,15 @@ theorem eq_bot_or_eq_of_isSubnormal_simple {M : Type*} [Group M] (R : Subgroup M
 theorem not_coprime_card_psimple {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hK : GLAPComponent p X K) : ¬ Nat.Coprime p (Nat.card (PSimple p K)) := by
   intro hcop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have htop : (⊤ : Subgroup (PSimple p K)) ≤ GLAPPrimeCore p (PSimple p K) :=
     le_sSup ⟨inferInstance, by rwa [Subgroup.card_top]⟩
   rw [glaPPrimeCore_pSimple_eq_bot hp hK, le_bot_iff] at htop
   obtain ⟨hs, _⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs.toNontrivial
+  have := hs.toNontrivial
   exact ((Subgroup.nontrivial_iff_ne_bot (⊤ : Subgroup (PSimple p K))).1 inferInstance) htop
 
+omit [Finite G] in
 theorem conj_mem_centMod' {p : ℕ} {L : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hc : c ∈ centModSubgroup p L) :
     g * c * g⁻¹ ∈ centModSubgroup p L := by
@@ -156,6 +165,7 @@ theorem conj_mem_centMod' {p : ℕ} {L : Subgroup G} {g c : G}
       simp only [commutatorElement_def]; group
     rw [h3]; exact h2
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centMod' (p : ℕ) (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (centModSubgroup p L : Set G) := by
   intro b hb
@@ -165,6 +175,7 @@ theorem normalizer_le_normalizer_centMod' (p : ℕ) (L : Subgroup G) :
   have := conj_mem_centMod' (Subgroup.inv_mem _ hb) hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_sup_centMod {p : ℕ} {L : Subgroup G} {x : G} (hx : x ∈ L ⊔ centModSubgroup p L) :
     ∃ l ∈ L, ∃ n ∈ centModSubgroup p L, x = l * n := by
   have h : L ≤ Subgroup.normalizer (centModSubgroup p L : Set G) := fun l hl =>
@@ -174,6 +185,7 @@ theorem mem_sup_centMod {p : ℕ} {L : Subgroup G} {x : G} (hx : x ∈ L ⊔ cen
   obtain ⟨a, ha, n, hn, rfl⟩ := Set.mem_mul.1 hx'
   exact ⟨a, ha, n, hn, rfl⟩
 
+omit [Finite G] in
 theorem mem_sup_centMod' {p : ℕ} {L A : Subgroup G} (hA : A ≤ Subgroup.normalizer (L : Set G))
     {x : G} (hx : x ∈ A ⊔ centModSubgroup p L) :
     ∃ a ∈ A, ∃ n ∈ centModSubgroup p L, x = a * n := by
@@ -227,7 +239,7 @@ theorem act_core_eq_one {x : G} {p : ℕ} (hp : p.Prime) (hx : x ^ p = 1)
   rw [hKs_img] at hsn
   have hNN : GLAPPrimeCoreOf p Ks ≤ Subgroup.normalizer (K : Set G) := hNKs.trans hKsN
   have himg : actImage p K (GLAPPrimeCoreOf p Ks) = ⊥ := by
-    haveI := isSimpleGroup_range hp hK
+    have := isSimpleGroup_range hp hK
     rcases eq_bot_or_eq_of_isSubnormal_simple
       (MulAut.conj : PSimple p K →* MulAut (PSimple p K)).range hsn rfl with h | h
     · exact h

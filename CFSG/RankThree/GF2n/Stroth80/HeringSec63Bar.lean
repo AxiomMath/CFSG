@@ -23,7 +23,7 @@ variable {M Q}
 
 theorem piM_of_mem {g : G} (hg : g ∈ M) : piM M Q g = QuotientGroup.mk ⟨g, hg⟩ := by
   unfold piM
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem piM_mul {g h : G} (hg : g ∈ M) (hh : h ∈ M) :
     piM M Q (g * h) = piM M Q g * piM M Q h := by
@@ -70,7 +70,7 @@ theorem bar_mono {S T : Subgroup G} (h : S ≤ T) : bar M Q S ≤ bar M Q T := f
   obtain ⟨g, hg, hgM, rfl⟩ := (mem_bar y).mp hy
   exact piM_mem_bar (h hg) hgM
 
-theorem bar_eq_bot_of_le {S : Subgroup G} (hSQ : S ≤ Q) (hSM : S ≤ M) : bar M Q S = ⊥ := by
+theorem bar_eq_bot_of_le {S : Subgroup G} (hSQ : S ≤ Q) (_hSM : S ≤ M) : bar M Q S = ⊥ := by
   rw [eq_bot_iff]
   intro y hy
   obtain ⟨g, hg, hgM, rfl⟩ := (mem_bar y).mp hy
@@ -102,7 +102,7 @@ theorem piM_comm_of_comm_mem {g h : G} (hg : g ∈ M) (hh : h ∈ M) (hc : ⁅g,
   rw [h2] at h1
   exact commutatorElement_eq_one_iff_mul_comm.mp h1
 
-theorem bar_inf {S T : Subgroup G} (hQS : Q ≤ S) (hQT : Q ≤ T) :
+theorem bar_inf {S T : Subgroup G} (_hQS : Q ≤ S) (hQT : Q ≤ T) :
     bar M Q (S ⊓ T) = bar M Q S ⊓ bar M Q T := by
   apply le_antisymm
   · exact le_inf (bar_mono inf_le_left) (bar_mono inf_le_right)

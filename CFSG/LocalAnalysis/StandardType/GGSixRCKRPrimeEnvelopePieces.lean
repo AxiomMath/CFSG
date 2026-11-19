@@ -62,9 +62,8 @@ theorem rckNC_exc_shape {τ : Tag} {ρ : Equiv.Perm (Fin τ.rank → ℤ)}
     {χ : Multiplicative (Fin τ.rank → ℤ) →* GGLˣ} {i : KernelComponent χ}
     (h : twistKind ρ χ i = .exc) : RCKNonclassShape ρ (componentRoots χ i) := by
   unfold twistKind at h
-  split_ifs at h with c1 c2 c3 c4 <;>
+  split_ifs at h with c1 c2 c3 c4;
     first
-    | exact absurd h (by decide)
     | (rcases c2 with c2 | c2
        · exact Or.inl c2
        · exact Or.inr (Or.inr c2))

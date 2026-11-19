@@ -31,16 +31,16 @@ theorem ggWPlusTableB_PSL {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
   have hI : (ggLAutImage L' θ E : Set (MulAut (projectiveSL d K))) ⊆
       Set.range (conjAut d K) := by
     intro a ha
-    simp only [ggLAutImage, Subgroup.mem_map] at ha
+    simp only [ggLAutImage] at ha
     obtain ⟨x, hx, rfl⟩ := ha
     have hxe : (⟨(x : M), hE hx⟩ : Subgroup.normalizer (L' : Set M)) = x :=
       Subtype.ext rfl
     rw [← hxe]
     exact hP.2.2.2.1 ⟨(x : M), hx⟩
   have hX := ggSolvQuotLeTwo_PSL hp hp2 hpK hd h4 hsec hA hI hr hsc
-  haveI : ((MulAut.conj : projectiveSL d K →* MulAut (projectiveSL d K)).range).Normal :=
+  have : ((MulAut.conj : projectiveSL d K →* MulAut (projectiveSL d K)).range).Normal :=
     ggInnNormal _
-  haveI : Finite (MulAut (projectiveSL d K)) :=
+  have : Finite (MulAut (projectiveSL d K)) :=
     Finite.of_injective (fun f : MulAut (projectiveSL d K) =>
       (f : projectiveSL d K → projectiveSL d K)) DFunLike.coe_injective
   exact wplus_of_automizer hp hp2 _

@@ -30,7 +30,7 @@ theorem eq_one_of_inverted_elemAbelian (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W
     (hp : p.Prime) (hp2 : p ≠ 2) (hgood : 3 < p ∨ InducesTransvection t ⊤) (hn : 0 < n)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelianOfRank p n ↥X)
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) : n = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbridge := n_mul_dihedralDeg_le_two_mul_rk hW ht hp hp2 hn hX hinv
   have h6 : n * dihedralDeg p ≤ 6 := by
     calc n * dihedralDeg p ≤ 2 * rk ↥(commSub ⊤ (Subgroup.zpowers t)) := hbridge
@@ -44,7 +44,7 @@ theorem eq_one_of_inverted_elemAbelian (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W
     nlinarith [h6, hgt, hn]
   have hd3 : dihedralDeg 3 = 2 := by
     unfold dihedralDeg dParam
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [orderOf_eq_prime (p := 2) (by decide) (by decide)]
     norm_num
   have hd5 : dihedralDeg 5 = 4 := by
@@ -57,7 +57,7 @@ theorem eq_one_of_inverted_elemAbelian (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W
     norm_num
   have hd7 : dihedralDeg 7 = 6 := by
     unfold dihedralDeg dParam
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [orderOf_eq_prime (p := 3) (by decide) (by decide)]
     norm_num
   have hcases : p = 3 ∨ p = 5 ∨ p = 7 := by
@@ -86,7 +86,7 @@ theorem false_of_inverted_orderOf_sq (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W}
 theorem eq_one_or_orderOf_eq_prime_of_inverted {p : ℕ} {t : MulAut W}
     {P : Subgroup (MulAut W)} (h : InvCfg131 p t P) {c : MulAut W} (hcP : c ∈ P)
     (hinv : t * c * t⁻¹ = c⁻¹) : c = 1 ∨ orderOf c = p := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   obtain ⟨k, hk⟩ := h.hP.exists_orderOf_eq_pow (⟨c, hcP⟩ : ↥P)
   have hck : orderOf c = p ^ k := by
     rw [← Subgroup.orderOf_mk c hcP]
@@ -117,6 +117,7 @@ theorem eq_one_or_orderOf_eq_prime_of_inverted {p : ℕ} {t : MulAut W}
     exact false_of_inverted_orderOf_sq h.hW h.ht h.hrk h.hp hp2 h.hgood hdord
       (w16g_conj_pow_inv hinv (p ^ (k - 2)))
 
+omit [Finite W] in
 theorem le_closure_inverted {t : MulAut W} (ht : t * t = 1) {P : Subgroup (MulAut W)}
     (hn : ∀ x ∈ P, t * x * t⁻¹ ∈ P) (hc : ⁅P, Subgroup.zpowers t⁆ = P) :
     P ≤ Subgroup.closure {c | c ∈ P ∧ t * c * t⁻¹ = c⁻¹} := by
@@ -139,7 +140,7 @@ theorem le_closure_inverted {t : MulAut W} (ht : t * t = 1) {P : Subgroup (MulAu
 theorem card_eq_prime_of_central_inverted {p : ℕ} {t : MulAut W} {P : Subgroup (MulAut W)}
     (h : InvCfg131 p t P) {z : MulAut W} (hzP : z ∈ P) (hz : orderOf z = p)
     (hzc : ∀ y ∈ P, y * z = z * y) (hzi : t * z * t⁻¹ = z⁻¹) : Nat.card P = p := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   have htt : t * t = 1 := by
     have := pow_orderOf_eq_one t
     rw [h.ht, pow_two] at this
@@ -159,11 +160,11 @@ theorem card_eq_prime_of_central_inverted {p : ℕ} {t : MulAut W} {P : Subgroup
         rw [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
         rcases ha with ha | ha
         · rcases hb with hb | hb
-          · simpa [ha, hb] using Commute.refl y
+          · simp [ha, hb]
           · simpa [ha, hb] using (commute_iff_eq y z).mpr (hzc y hyP)
         · rcases hb with hb | hb
           · simpa [ha, hb] using (commute_iff_eq z y).mpr (hzc y hyP).symm
-          · simpa [ha, hb] using Commute.refl z
+          · simp [ha, hb]
       have hEc : IsMulCommutative X := Subgroup.isMulCommutative_closure hpair
       have hcommX : ∀ a b : ↥X, a * b = b * a := fun a b => hEc.is_comm.comm a b
       have hy_pow : y ^ p = 1 := by
@@ -455,10 +456,10 @@ theorem card_eq_prime_of_central_comm_eq_bot {p : ℕ} {t : MulAut W} {P : Subgr
     (ih : ∀ (W' : Type) [CommGroup W'] [Finite W'] (t' : MulAut W')
       (P' : Subgroup (MulAut W')), Nat.card W' < Nat.card W → InvCfg131 p t' P' →
         Nat.card P' = p)
-    {Z : Subgroup (MulAut W)} (hZP : Z ≤ P) (hZc : ∀ z ∈ Z, ∀ y ∈ P, y * z = z * y)
+    {Z : Subgroup (MulAut W)} (_hZP : Z ≤ P) (hZc : ∀ z ∈ Z, ∀ y ∈ P, y * z = z * y)
     (hZ : IsElemAbelianOfRank p 1 ↥Z) (hZt : ∀ z ∈ Z, t * z * t⁻¹ = z)
     (h0 : commSub (commSub ⊤ Z) (Subgroup.zpowers t) = ⊥) : Nat.card P = p := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   have htt : t * t = 1 := by
     have h2 := pow_orderOf_eq_one t
     rw [h.ht, pow_two] at h2
@@ -683,11 +684,11 @@ theorem card_eq_prime_of_central_comm_eq_bot {p : ℕ} {t : MulAut W} {P : Subgr
     hne' hP'card hc'
 
 theorem eq_seven_of_central_comm_ne_bot {p : ℕ} {t : MulAut W} {P : Subgroup (MulAut W)}
-    (h : InvCfg131 p t P) {Z : Subgroup (MulAut W)} (hZP : Z ≤ P)
-    (hZc : ∀ z ∈ Z, ∀ y ∈ P, y * z = z * y) (hZ : IsElemAbelianOfRank p 1 ↥Z)
+    (h : InvCfg131 p t P) {Z : Subgroup (MulAut W)} (_hZP : Z ≤ P)
+    (_hZc : ∀ z ∈ Z, ∀ y ∈ P, y * z = z * y) (hZ : IsElemAbelianOfRank p 1 ↥Z)
     (hZt : ∀ z ∈ Z, t * z * t⁻¹ = z)
     (hS : commSub (commSub ⊤ Z) (Subgroup.zpowers t) ≠ ⊥) : p = 7 := by
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   have htt : t * t = 1 := by
     have := pow_orderOf_eq_one t
     rw [h.ht, pow_two] at this

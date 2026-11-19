@@ -27,7 +27,7 @@ theorem sec10A2_sylow_PC (hb : Asc82Basic10) (hctx : Sec10Ctx G t L S z K1 K2) :
 
 theorem sec10A2_card_P (hf : Asc82Facts10) (hb : Asc82Basic10)
     (hctx : Sec10Ctx G t L S z K1 K2) : Nat.card ↥(S ⊓ L) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := sec10A2_sylow_PC hb hctx
   have hpsp : IsPSp43 L := (hb G t L S z hctx.toSec10Z).1
   have hC : Nat.card ↥(L ⊓ centralizer ({z} : Set G)) = 576 :=
@@ -114,6 +114,7 @@ theorem sec10A2_B_facts (hf : Asc82Facts10) (hb : Asc82Basic10)
   · rw [hJ]
     exact hBuniq D hD hDc (by rw [hD16]; norm_num)
 
+omit [Finite G] in
 theorem sec10A2_isElemAbelian_mono {D E : Subgroup G} (hDE : D ≤ E)
     (hE : CFSG.Open.IsElemAbelian 2 E) : CFSG.Open.IsElemAbelian 2 D :=
   ⟨isMulCommutative_iff.mpr fun a b =>

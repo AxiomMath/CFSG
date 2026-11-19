@@ -25,8 +25,9 @@ variable {G : Type} [Group G] [Finite G] {F : StrothFrame G} {D : Subgroup G} {m
 namespace Stroth310T201
 
 theorem two_le_k (hm : 2 ≤ m) (i : Fin 3) : 2 ≤ (StrothTypeIndex.t201 m).k i := by
-  fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> omega
+  fin_cases i <;> simp [StrothTypeIndex.k, Type201.k]; omega
 
+omit [Finite G] in
 theorem card_D (dD : StrothWeakTypeData D (.t201 m)) : Nat.card D = 2 ^ (3 * m + 4) := by
   rw [dD.card]
   change 2 ^ (m + (m + 2) + (m + 2)) = 2 ^ (3 * m + 4)
@@ -42,24 +43,28 @@ theorem φuv_om_ne (hm : 1 ≤ m) :
   rw [t201_φuv_om hm]
   intro h
   have h1 := (om201_eq_iff hm _ _).mp h 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h1
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h1
   norm_num [Int.ModEq] at h1
 
+omit [Finite G] in
 theorem uv_not_mem (dD : StrothWeakTypeData D (.t201 m)) (hm : 1 ≤ m) :
     ¬ ∀ w ∈ omegaIn 1 D, w * dD.uv = dD.uv * w :=
   dD.not_forall_commute_uv_of_torus (by rw [two_nsmul]; exact om201_add_self hm _) (φuv_om_ne hm)
 
+omit [Finite G] in
 theorem c_pow_mem (dD : StrothWeakTypeData D (.t201 m)) (hm : 1 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 1) ∈ omegaIn 1 D := by
   rw [Stroth44Core.c_pow_om dD]
   exact mem_omegaIn_one_of_mul_self (dD.ofTorus_mem _) (om201_mul_self dD hm _)
 
+omit [Finite G] in
 theorem c_pow_not_commute (dD : StrothWeakTypeData D (.t201 m)) (hm : 1 ≤ m) :
     ¬ (dD.c : G) ^ 2 ^ (m - 1) * dD.uv = dD.uv * (dD.c : G) ^ 2 ^ (m - 1) := by
   rw [Stroth44Core.c_pow_om dD, dD.uv_mul_ofTorus]
   intro h
   exact φuv_om_ne hm (dD.ofTorus_inj (mul_right_cancel h).symm)
 
+omit [Finite G] in
 theorem a₁_b₁ (dD : StrothWeakTypeData D (.t201 m)) (hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m + 1) ≠ 1 ∧ (dD.b : G) ^ 2 ^ (m + 1) ≠ 1 ∧
       (dD.a : G) ^ 2 ^ (m + 1) ≠ (dD.b : G) ^ 2 ^ (m + 1) := by
@@ -69,7 +74,7 @@ theorem a₁_b₁ (dD : StrothWeakTypeData D (.t201 m)) (hm : 1 ≤ m) :
   rw [Ne, dD.ofTorus_inj.eq_iff, om201_eq_iff hm]
   intro h0
   have h1 := h0 1
-  simp only [Matrix.cons_val_one, Matrix.head_cons] at h1
+  simp only [Matrix.cons_val_one] at h1
   norm_num [Int.ModEq] at h1
 
 theorem hA (h : F.IsD D dD) (hm : 2 ≤ m) :
@@ -86,19 +91,19 @@ theorem hA (h : F.IsD D dD) (hm : 2 ≤ m) :
   · rw [← natCast_zsmul, ← Torus.ofInt_zsmul, om201]
     congr 1
     funext i
-    fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> ring
+    fin_cases i <;> simp [StrothTypeIndex.k, Type201.k]; ring
   · intro h0
     have h1 := (om201_eq_iff hm1 _ _).mp h0 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons] at h1
+    simp only [Matrix.cons_val_one] at h1
     norm_num [Int.ModEq] at h1
   · rw [t201_φu_om]
     congr 1
   · rw [t201_φuv_om hm1]
     refine (om201_eq_iff hm1 _ _).mpr fun i => ?_
-    fin_cases i <;> simp [Int.ModEq] <;> decide
+    fin_cases i <;> simp [Int.ModEq]
   · rw [t201_φt_om hm1]
     refine (om201_eq_iff hm1 _ _).mpr fun i => ?_
-    fin_cases i <;> simp [Int.ModEq] <;> decide
+    fin_cases i <;> simp [Int.ModEq]
 
 theorem bound_ii (dD : StrothWeakTypeData D (.t201 m)) (hm : 2 ≤ m) {e : G}
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (hc : e⁻¹ * (dD.c : G) * e = dD.c)

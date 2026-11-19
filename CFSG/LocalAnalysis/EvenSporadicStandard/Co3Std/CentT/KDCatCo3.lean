@@ -13,12 +13,12 @@ open scoped commutatorElement
 
 theorem false_of_perfect_index_two {G : Type*} [Group G] (hG : commutator G = ⊤)
     {H : Subgroup G} (h : H.index = 2) : False := by
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two h
+  have : H.Normal := Subgroup.normal_of_index_eq_two h
   have hq : Nat.card (G ⧸ H) = 2 := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (G ⧸ H) := isCyclic_of_prime_card hq
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (G ⧸ H) := isCyclic_of_prime_card hq
   have hcomm : ∀ a b : G ⧸ H, a * b = b * a := fun a b => by
-    letI : CommGroup (G ⧸ H) := IsCyclic.commGroup
+    let : CommGroup (G ⧸ H) := IsCyclic.commGroup
     exact mul_comm a b
   have hle : commutator G ≤ H := by
     rw [_root_.commutator_def]

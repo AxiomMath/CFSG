@@ -32,7 +32,7 @@ theorem exists_sevenTwelveConfig_statedSp {k n : ℕ} {F : Type} [Field F] [Fini
     (hg : IsSymplecticTransvectionIn k g) :
     ∃ (g₂ g₃ y : ↥(StatedSp k F)) (W T : Subgroup ↥(StatedSp k F)),
       SevenTwelveConfig (Subgroup.zpowers g) g₂ g₃ y W T := by
-  haveI : CharP F 2 := charP_two_of_card_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_card_eq_two_pow hF
   obtain ⟨a, c₀, ha, hc₀, rfl⟩ := borel86_spn_eq_spTransvection hg
   obtain ⟨l, hl⟩ := FiniteField.isSquare_of_char_two (ringChar.eq F 2) c₀
   have hl0 : l ≠ 0 := by

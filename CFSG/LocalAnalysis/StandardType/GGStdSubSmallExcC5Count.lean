@@ -106,10 +106,10 @@ theorem nodeCount_of_normalizer {B : Subgroup G} {g x y : G}
       simpa [MulAut.conj_apply] using this
     · intro hz
       refine ⟨g * z * g⁻¹, (Subgroup.mem_normalizer_iff.mp hg z).mp hz, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
   have hy : (MulAut.conj g⁻¹) y = x := by
     rw [← hxy]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [hB, hy]
   exact h
 

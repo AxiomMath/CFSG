@@ -15,6 +15,7 @@ open CFSG.LieType.BorelTits CFSG.Blueprint CFSG.LieType.Ree
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 private theorem relIndex_sup_left_of_le_normalizer {H N : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (H ⊔ N) = N.relIndex H := by
   let := Subgroup.normal_subgroupOf_of_le_normalizer hH
@@ -199,7 +200,7 @@ private theorem relIndex_inf_centralizer_le_of_isChiefStep {L X Z Q J : Subgroup
     calc x * u⁻¹ * x⁻¹ * u⁻¹⁻¹ = u⁻¹ * ((x * u * x⁻¹ * u⁻¹)⁻¹ * u) := by group
       _ = u⁻¹ * (u * (x * u * x⁻¹ * u⁻¹)⁻¹) := by rw [h1]
       _ = (x * u * x⁻¹ * u⁻¹)⁻¹ := by group
-  obtain ⟨u₀, hu₀Q, hu₀Y⟩ := SetLike.exists_of_lt hstep.2.2.1
+  obtain ⟨u₀, hu₀Q, hu₀Y⟩ := _root_.IsConcreteLE.exists_of_lt hstep.2.2.1
   obtain ⟨x₀, hx₀, hx₀u₀⟩ : ∃ x₀ ∈ X, x₀ * u₀ ≠ u₀ * x₀ := by
     by_contra h
     push Not at h
@@ -211,7 +212,7 @@ private theorem relIndex_inf_centralizer_le_of_isChiefStep {L X Z Q J : Subgroup
   obtain ⟨θ, hθ⟩ := exists_hom_zmod_two_ne_one (fun a ha b hb => hXc a (hZX ha) b (hZX hb))
     (fun a ha => hX2 a (hZX ha)) hc₀Z hc₀1
   obtain ⟨θ', hθ'⟩ : ∃ θ' : G → Multiplicative (ZMod 2), ∀ g (h : g ∈ Z), θ' g = θ ⟨g, h⟩ :=
-    ⟨fun g => if h : g ∈ Z then θ ⟨g, h⟩ else 1, fun g h => dif_pos h⟩
+    ⟨fun g => if h : g ∈ Z then θ ⟨g, h⟩ else 1, fun g h => dite_eq_left h⟩
   have hθ'mul : ∀ a ∈ Z, ∀ b ∈ Z, θ' (a * b) = θ' a * θ' b := fun a ha b hb => by
     rw [hθ' _ (Z.mul_mem ha hb), hθ' _ ha, hθ' _ hb]
     exact map_mul θ ⟨a, ha⟩ ⟨b, hb⟩
@@ -305,7 +306,7 @@ private theorem relIndex_inf_centralizer_le_of_isChiefStep {L X Z Q J : Subgroup
       exact this
     · intro h
       exact QuotientGroup.monoidHom_ext _ (MonoidHom.ext fun x => h.2 x x.2)
-  haveI := CFSG.EvenSporadicStandard.TwoB.RankLemma.finite_hom (↥X ⧸ J.subgroupOf X)
+  have := CFSG.EvenSporadicStandard.TwoB.RankLemma.finite_hom (↥X ⧸ J.subgroupOf X)
   calc (Q ⊓ Subgroup.centralizer (X : Set G)).relIndex E = Φ.ker.index := by rw [hker]; rfl
     _ = Nat.card Φ.range := Subgroup.index_ker Φ
     _ ≤ Nat.card (↥X ⧸ J.subgroupOf X →* Multiplicative (ZMod 2)) :=
@@ -351,6 +352,7 @@ private theorem eq_or_eq_two_mul_of_two_pow_sub_one_dvd {n j : ℕ} (hn : 0 < n)
   · left; ring
   · right; ring
 
+omit [Finite G] in
 private theorem mem_conjugate_inf_centralizer_iff (Q X : Subgroup G) (g z : G) :
     z ∈ CFSG.conjugate (Q ⊓ Subgroup.centralizer (X : Set G)) g ↔
       z ∈ CFSG.conjugate Q g ∧ z ∈ Subgroup.centralizer (CFSG.conjugate X g : Set G) := by
@@ -649,7 +651,7 @@ theorem str83G4_relIndex_x_y_eq_mul
       ((str83G4_q1_le_s hfr).trans (le_sup_right.trans (str83G4_sup_le_centralizer_z1 hfr)) hmQ)
       hkm
     exact Subgroup.mem_inf.mpr ⟨hmQ, hmC⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 Q := pCoreOf_isPGroup 2 (P1 L1 L2 S)
   obtain ⟨k₁, hk₁⟩ := IsPGroup.iff_card.mp (hQp.to_le hYQ)
   have hcop : Nat.Coprime (Nat.card d.D1) (Nat.card Y) := by

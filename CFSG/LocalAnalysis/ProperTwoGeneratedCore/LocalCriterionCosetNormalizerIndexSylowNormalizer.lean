@@ -16,7 +16,7 @@ theorem supplied_sylow_ambient_of_entire_normalizer_le
       (((S : Subgroup Y).map Y.subtype : Subgroup G) : Set G) ≤ Y) :
     ∃ Q : Sylow p G, (Q : Subgroup G) = (S : Subgroup Y).map Y.subtype := by
   let A : Subgroup G := (S : Subgroup Y).map Y.subtype
-  have hA : IsPGroup p A := S.isPGroup'.map Y.subtype
+  have hA : IsPGroup p A := S.isPGroup.map Y.subtype
   obtain ⟨Q, hAQ⟩ := hA.exists_le_sylow
   let R : Subgroup (Q : Subgroup G) := A.subgroupOf (Q : Subgroup G)
   let V : Subgroup G := (Subgroup.normalizer (R : Set (Q : Subgroup G))).map
@@ -32,7 +32,7 @@ theorem supplied_sylow_ambient_of_entire_normalizer_le
     rw [← hRmap]
     exact Subgroup.map_mono (Subgroup.le_normalizer (H := R))
   have hVp : IsPGroup p V :=
-    (Q.isPGroup'.to_subgroup (Subgroup.normalizer (R : Set (Q : Subgroup G)))).map
+    (Q.isPGroup.to_subgroup (Subgroup.normalizer (R : Set (Q : Subgroup G)))).map
       (Q : Subgroup G).subtype
   have hSmax : V.subgroupOf Y = (S : Subgroup Y) :=
     (S.maximal_isPGroup.eq_of_le hVp.comap_subtype
@@ -44,7 +44,7 @@ theorem supplied_sylow_ambient_of_entire_normalizer_le
   have hself : Subgroup.normalizer (R : Set (Q : Subgroup G)) = R := by
     apply Subgroup.map_injective (f := (Q : Subgroup G).subtype) Subtype.coe_injective
     exact hVA.trans hRmap.symm
-  let : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup.isNilpotent
   have hRtop : R = ⊤ := normalizerCondition_iff_only_full_group_self_normalizing.mp
     (Group.normalizerCondition_of_isNilpotent (G := (Q : Subgroup G))) R hself
   have hAQeq : A = (Q : Subgroup G) := by

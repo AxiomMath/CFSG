@@ -34,7 +34,7 @@ theorem s16c6_exists_elem9
     le_stabTil hS.setting.hyp16.hyp125.pairFacts.le_normalizer
       hS.setting.hyp16.hyp125.pairFacts.le_normalizer₀
   have hKstab : K ≤ stabTil V₀ V := hKM.trans hMstab
-  haveI hsimpleI : IsSimpleGroup (Bar2 K) := hsimple
+  have hsimpleI : IsSimpleGroup (Bar2 K) := hsimple
   let π : ↥K →* ↥(barSub V₀ V hV K) :=
     ((actTil V₀ V hV).comp (Subgroup.inclusion hKstab)).codRestrict (barSub V₀ V hV K)
       (fun x => actTil_mem_barSub V₀ V hV x.2 (hKstab x.2))
@@ -123,7 +123,7 @@ theorem s16c6_exists_elem9
   have h9 : 9 ∣ Nat.card ↥(Êb.comap π) := by
     rw [← hcardφ]
     exact dvd_mul_left 9 (Nat.card φ.ker)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨S, hScard, -, hSle⟩ :=
     Sylow.exists_subgroup_card_pow_prime_le_le (p := 3) (by norm_num) (n := 2)
       (H := ⊥) (L := Êb.comap π) (by rw [Subgroup.card_bot]; exact one_dvd _)
@@ -161,7 +161,7 @@ theorem s16c6_exists_elem9
       exact ⟨s.2, hsφ⟩
     exact Subgroup.mem_bot.2 (Subtype.ext (Subgroup.mem_bot.mp hsbot))
   have hSsubelem : IsElemAbelian 3 (S.subgroupOf (Êb.comap π)) := by
-    haveI := hÊbelem.1
+    have := hÊbelem.1
     have hcomm : ∀ a b : ↥(S.subgroupOf (Êb.comap π)),
         ψ a * ψ b = ψ b * ψ a := fun a b => mul_comm' _ _
     have hpow : ∀ a : ↥(S.subgroupOf (Êb.comap π)), (ψ a) ^ 3 = 1 :=

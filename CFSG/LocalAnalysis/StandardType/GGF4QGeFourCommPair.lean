@@ -90,12 +90,12 @@ theorem exists_conj_commPair_mixed_of_label2 {G : Type} [Group G] [Finite G] {p 
     rw [ht₁, ht₂, ← hsimp i, ← hsimp j, R.cls_conj hsi, R.cls_conj hsj, R.cls_s, R.cls_s]
     by_cases h1 : i.val < 2
     · have h2 : ¬ j.val < 2 := by have := hij.1 h1; omega
-      simp only [h1, h2, if_true, if_false]
+      simp only [h1, h2, ite_true, ite_false]
       decide
     · have h2 : j.val < 2 := by
         by_contra h2
         exact h1 (hij.2 (by omega))
-      simp only [h1, h2, if_true, if_false]
+      simp only [h1, h2, ite_true, ite_false]
       decide
   obtain ⟨v, hv⟩ := R.exists_conj_pair_mixed h₁ h₂ hc hcls
   obtain ⟨φ, -, haR, ha01, ha12, ha02, haX⟩ :=

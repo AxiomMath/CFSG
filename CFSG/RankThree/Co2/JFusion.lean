@@ -284,7 +284,7 @@ theorem exists_sylow_eq_of_normalizer_le {C : Type*} [Group C] [Finite C] {p : �
     intro x hx
     have : (⟨x, hx⟩ : P) ∈ T.subgroupOf P := by rw [htop]; exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 this
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := P)
   obtain ⟨x, hxN, hxT⟩ := IsConcreteLE.exists_of_lt (hnc _ hlt)
   apply hxT

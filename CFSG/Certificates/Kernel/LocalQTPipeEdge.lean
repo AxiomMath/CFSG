@@ -42,7 +42,7 @@ private theorem getD_push_lt {A : Array (Array Nat)} {x : Array Nat} {i : Nat} (
 
 private theorem getD_push_size (A : Array (Array Nat)) (x : Array Nat) :
     (A.push x).getD A.size #[] = x := by
-  rw [Array.getD_eq_getD_getElem?, Array.getElem?_push_eq]
+  rw [Array.getD_eq_getD_getElem?, Array.getElem?_push_size]
   rfl
 
 private def pushStep (F : Nat → Array Nat → Array Nat) (par : Array Nat)
@@ -153,11 +153,11 @@ private theorem tree_rep {n w W N : Nat} (hw : n ≤ 2 ^ w)
     by_cases hg : gen.getD i 0 = 0
     · rw [hg]
       change Rep n w (mulW n w ca (RF (par.getD i 0))) _
-      simp only [if_true]
+      simp only [ite_true]
       exact rep_mul hca (ih _ hp (by omega))
     · rw [beq_false' hg]
       change Rep n w (mulW n w cb (RF (par.getD i 0))) _
-      simp only [if_neg hg]
+      simp only [ite_eq_right hg]
       exact rep_mul hcb (ih _ hp (by omega))
 
 private def Tab (n : Nat) (t : Array Nat) : Prop := t.size = n ∧ ∀ q < n, img t q < n
@@ -212,9 +212,9 @@ private theorem inv_tabs {n N : Nat} {ta tb tai tbi par gen : Array Nat}
     obtain ⟨ih1, ih2, ih3⟩ := ih _ hp (by omega)
     rw [Tk i (by omega) hi, Uk i (by omega) hi]
     by_cases hg : gen.getD i 0 = 0
-    · simp only [if_pos hg]
+    · simp only [ite_eq_left hg]
       exact (fun h => ⟨h.2.1, h.1, h.2.2⟩) (step_inv hta htai ih2 ih1 (fun q hq => (hinv q hq).1) ih3)
-    · simp only [if_neg hg]
+    · simp only [ite_eq_right hg]
       exact (fun h => ⟨h.2.1, h.1, h.2.2⟩) (step_inv htb htbi ih2 ih1 (fun q hq => (hinv q hq).2) ih3)
 
 private theorem testBit_invW (w s p : Nat) : ∀ m,
@@ -472,7 +472,7 @@ private theorem rl_mem {n w : Nat} (hw : n ≤ 2 ^ w) (a b : Array (Array Nat))
   have hqa : ∀ p ∈ qp, p.1 < slpT.size := by
     intro p hp
     have := hq1 p hp
-    simp only [andB_eq, Bool.and_eq_true, Nat.blt_eq, lenA_eq] at this
+    simp only [Bool.and_eq_true, Nat.blt_eq, lenA_eq] at this
     rw [← hlen, lenA_eq]
     exact this.1
   have hGen : ∀ g ∈ qp.map (fun p => nodeK R p.1),

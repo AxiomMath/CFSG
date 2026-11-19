@@ -67,7 +67,7 @@ private theorem tw3f_f4CartanMul_injective {p : ℕ} [Fact p.Prime] :
       ((Tag.F4.cartan.det : ℤ) : ZMod p) := (RingHom.map_det _ _).symm
   rw [e, Matrix.mulVec_injective_iff_isUnit, Matrix.isUnit_iff_isUnit_det, hd,
     CFSG.LieType.Chevalley.det_cartan_F4]
-  simpa using (isUnit_one : IsUnit (1 : ZMod p))
+  simp
 
 private theorem tw3f_f4CartanMul_surjective {p : ℕ} [Fact p.Prime] :
     Function.Surjective (tw3f_f4CartanMul (p := p)) :=
@@ -184,7 +184,7 @@ theorem tw3f_markedWeyl_three
           (⊤ : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ))
           (ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ).range),
         ∀ a, (e (simple Tag.F4 a) : MulAut _) = ggConjAut _ (hnN a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ι := ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ
   have hodd : Odd 3 := by decide
   exact exists_markedWeyl_ggAutomizer hodd (E := ι.range) (ι := ι)
@@ -193,7 +193,7 @@ theorem tw3f_markedWeyl_three
     (fun a s => by
       simpa only [ι, E6RelativeWeyl.stdFrame] using
         E6RelativeWeyl.nNative_conj (K := K) (σ := σ) (p := 3) (hp := Nat.prime_three)
-          (hζo := hζo) (hζ := hζ) (hζσ := hζσ) (a := a) (s := s))
+          (_hζo := hζo) (hζ := hζ) (hζσ := hζσ) (a := a) (s := s))
     (fun g hg => tw3f_normalizer_action_three σ hζo hζ hζσ g hg)
 
 theorem tw3f_centralizer_three

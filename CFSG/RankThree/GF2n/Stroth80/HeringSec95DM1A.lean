@@ -189,8 +189,8 @@ theorem eqv_second (θ : Wd K Y₁ Y₂ →ₗ[K] Matrix (Fin 2) (Fin 2) K)
     fin_cases i <;> fin_cases j
     · simp [hθw, hT₂apply, (hF0 (w 0)).2]
     · simp [hθw, hT₂apply, (hF0 (w 0)).1]
-    · simp [hθw, hrow]
-    · simp [hθw, hrow]
+    · simp [hrow]
+    · simp [hrow]
 
 theorem eqv_second_11 (θ : Wd K Y₁ Y₂ →ₗ[K] Matrix (Fin 2) (Fin 2) K)
     (hθ : ∀ (s s' : K) (y : Wd K Y₁ Y₂),
@@ -209,7 +209,7 @@ theorem actW_one_conj_second (N : Matrix (Fin 2) (Fin 2) K) (s' : K) (w : Fin 2 
   refine Prod.ext ?_ ?_
   · simp [actW, smulVec_one]
   · ext i
-    fin_cases i <;> simp [actW, smulVec, Matrix.one_apply, add_smul, smul_smul] <;> abel
+    fin_cases i <;> simp [actW, smulVec, add_smul, smul_smul] <;> abel
 
 theorem actW_one_conj_first (N : Matrix (Fin 2) (Fin 2) K) (s' : K) (u : Fin 2 → Y₁) :
     actW (1 : Matrix (Fin 2) (Fin 2) K) (1 + s' • N) (u, (0 : Fin 2 → Y₂)) = (u, 0) := by
@@ -283,10 +283,11 @@ variable [Fintype K] [DecidableEq K] [CharP K 2]
 
 theorem sum_units_one : ∑ _μ : Kˣ, (1 : K) = 1 := by
   have h := FiniteField.sum_pow_units K 0
-  simp only [pow_zero, Units.val_one, dvd_zero, if_true] at h
+  simp only [pow_zero, dvd_zero, ite_true] at h
   rw [h]
   exact CharTwo.neg_eq (1 : K)
 
+omit [CharP K 2] in
 theorem sum_units_pow (hq : 4 ≤ Fintype.card K) (i : ℕ) (hi0 : 0 < i) (hi : i < 3) :
     ∑ μ : Kˣ, ((μ : K) ^ i) = 0 := by
   have h := FiniteField.sum_pow_units K i
@@ -458,7 +459,7 @@ theorem pure_ne_zero (β₁ : Y₁ →ₗ[K] Y₁ →ₗ[K] K) (β₂ : Y₂ →
   have e1 := congrFun (congrFun hθx₁ 0) 1
   have e2 := congrFun (congrFun h0 0) 1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e1
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e1
   have e2' : a (c₁ • y) = 0 := by
     have h3 : (pureMap a) x₁ 0 1 = a (x₁.2 1) := by simp [pureMap_apply]
     rw [h3, hw] at e2
@@ -475,7 +476,7 @@ variable {K : Type} [Field K]
 
 theorem uMat_mul (s s' : K) : uMat s * uMat s' = uMat (s + s') := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uMat, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uMat, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 @[expose] def uSL (s : K) : SL(2, K) :=
   ⟨uMat s, by simp [uMat, Matrix.det_fin_two]⟩
@@ -507,8 +508,7 @@ theorem tMat_unit_smul (μ : Kˣ) :
       (μ : K) • Matrix.single (0 : Fin 2) (0 : Fin 2) (1 : K) := by
   rw [tMat_transpose]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [tMat, Matrix.mul_apply, Fin.sum_univ_two,
-    Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [tMat, Matrix.mul_apply, Matrix.single_apply]
 
 theorem exists_uMat_of_fix [CharP K 2] (g h : SL(2, K))
     (hE : (g : Matrix (Fin 2) (Fin 2) K) * Matrix.single 0 0 1 * (h : Matrix (Fin 2) (Fin 2) K)ᵀ =
@@ -564,7 +564,7 @@ theorem conj_uMat [CharP K 2] (h : SL(2, K)) (s : K) :
   rw [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uMat, nilMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+    simp [uMat, nilMat, Matrix.mul_apply, Fin.sum_univ_two]
   · linear_combination dh - (s * (h : Matrix (Fin 2) (Fin 2) K) 0 0 *
       (h : Matrix (Fin 2) (Fin 2) K) 1 0) * h2
   · ring

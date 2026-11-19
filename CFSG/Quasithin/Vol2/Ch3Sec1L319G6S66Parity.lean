@@ -23,7 +23,7 @@ private theorem allBlocks_not_isPerfect_of_perm {K : Type} [Group K] {m : ℕ} (
         simp at this
       exact ⟨Equiv.swap _ _, Equiv.Perm.sign_swap hne⟩
   have hZ : Group.IsPerfect ℤˣ := Group.IsPerfect.ofSurjective hsign
-  haveI : IsMulCommutative ℤˣ := ⟨⟨fun a b => mul_comm a b⟩⟩
+  have : IsMulCommutative ℤˣ := ⟨⟨fun a b => mul_comm a b⟩⟩
   have h1 : (-1 : ℤˣ) = 1 := Subsingleton.elim _ _
   have h2 := congrArg (fun u : ℤˣ => (u : ℤ)) h1
   norm_num at h2

@@ -33,6 +33,7 @@ structure Setup (b : G) (L B : Subgroup G) (b₁ b₂ b₃ t₀ : G) (fL : K3 �
 
 def thetaM (fL : K3 →* G) (g : G) : K3 →* G := (MulAut.conj g).toMonoidHom.comp fL
 
+omit [Finite G] in
 theorem thetaM_apply (x : K3) : thetaM fL g x = g * fL x * g⁻¹ := rfl
 
 theorem Setup.thetaM_injective (hs : Setup b L B b₁ b₂ b₃ t₀ fL g) :
@@ -67,7 +68,7 @@ theorem Setup.exists_thetaM_eq (hs : Setup b L B b₁ b₂ b₃ t₀ fL g) {r : 
       _ = g⁻¹ * (b₃ * r) * g := by rw [hrc]
       _ = b * (g⁻¹ * r * g) := by rw [← h0]; group
   have hpow : (g⁻¹ * r * g) ^ (2 ^ k) = 1 := by
-    rw [show g⁻¹ * r * g = (MulAut.conj g⁻¹) r by simp [MulAut.conj_apply], ← map_pow, hk,
+    rw [show g⁻¹ * r * g = (MulAut.conj g⁻¹) r by simp, ← map_pow, hk,
       map_one]
   have hL : g⁻¹ * r * g ∈ L := hb.mem_of_pow_two hcen hpow
   rw [← hs.range] at hL
@@ -90,16 +91,19 @@ theorem Setup.card_Rp
   rw [← heq, card_conjBy]
   exact h32
 
+omit [Finite G] in
 theorem Rp_normal {x : G} (hxt : x ∈ Cen t₀) (hxb : x ∈ Cen b₃) {r : G} (hr : r ∈ Rp t₀ b₃) :
     x * r * x⁻¹ ∈ Rp t₀ b₃ :=
   ⟨op_two_conj hxt hr.1, (Cen b₃).mul_mem ((Cen b₃).mul_mem hxb hr.2) ((Cen b₃).inv_mem hxb)⟩
 
+omit [Finite G] in
 theorem Rp_two_pow {r : G} (hr : r ∈ Rp t₀ b₃) : ∃ k : ℕ, r ^ (2 ^ k) = 1 := by
   obtain ⟨k, hk⟩ := op_two_isPGroup t₀ ⟨r, hr.1⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 def Qsub (fL : K3 →* G) (g t₀ b₃ : G) : Subgroup K3 := (Rp t₀ b₃).comap (thetaM fL g)
 
+omit [Finite G] in
 theorem mem_Qsub {x : K3} : x ∈ Qsub fL g t₀ b₃ ↔ thetaM fL g x ∈ Rp t₀ b₃ := Iff.rfl
 
 theorem Setup.map_Qsub (hs : Setup b L B b₁ b₂ b₃ t₀ fL g) :
@@ -228,7 +232,7 @@ theorem Setup.transv
 
 abbrev S3 : Subgroup K3 := complSp (ZMod 2) (2 : Fin 3)
 
-theorem S3_le_P3 : S3 ≤ P3 := fun y hy =>
+theorem S3_le_P3 : S3 ≤ P3 := fun _y hy =>
   Subgroup.mem_centralizer_singleton_iff.mpr (commute_tM_of_mem_complSp hy).eq.symm
 
 theorem S3_normal_isPGroup_eq_bot {N : Subgroup K3} (hNS : N ≤ S3)
@@ -243,8 +247,8 @@ theorem S3_normal_isPGroup_eq_bot {N : Subgroup K3} (hNS : N ≤ S3)
   have hp' : IsPGroup 2 ↥(N.subgroupOf S3) :=
     hp.of_injective (Subgroup.subgroupOfEquivOfLe hNS).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hNS).injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(N.subgroupOf S3) := hp'.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(N.subgroupOf S3) := hp'.isNilpotent
   have hsol : Group.IsSolvable ↥(N.subgroupOf S3) := inferInstance
   have hle := CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical hNn hsol
   rw [CFSG.RankThree.CASymplecticSubfield.solvableRadical_eq_bot_of_mulEquiv_perm_six e,
@@ -317,7 +321,7 @@ theorem Setup.le_Q
         have := W.mul_mem h₁ h₂
         convert this using 1
         group
-      one_mem' := ⟨S3.one_mem, 1, Q.one_mem, by simpa using W.one_mem⟩
+      one_mem' := ⟨S3.one_mem, 1, Q.one_mem, by simp⟩
       inv_mem' := by
         rintro y ⟨hy, q, hq, h⟩
         refine ⟨S3.inv_mem hy, y⁻¹ * q⁻¹ * y⁻¹⁻¹,
@@ -354,6 +358,7 @@ theorem Setup.le_Q
 
 noncomputable def Phi2 {t₀ : G} (T : ThetaData t₀ fL) : ↥P3 →* G := T.Θ.comp shiftHom
 
+omit [Finite G] in
 theorem Phi2_apply {t₀ : G} (T : ThetaData t₀ fL) (x : ↥P3) :
     Phi2 T x = T.Θ (shiftHom x) := rfl
 

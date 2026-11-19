@@ -117,12 +117,12 @@ theorem leaves_sum : ∑ j ∈ Finset.range 8572, TL j = 8800 + 2 ^ 24 * 800 := 
     | zero => simp
     | succ m ih =>
       have hs := module_sum m (by omega)
-      rw [if_pos (by omega)] at hs
+      rw [ite_eq_left (by omega)] at hs
       have e : 536 * (m + 1) = 536 * m + 536 := by ring
       rw [e, Finset.sum_range_add, ih (by omega), hs, Finset.sum_range_succ]
   have h15 := key 15 le_rfl
   have hlast := module_sum 15 (by norm_num)
-  rw [if_neg (by norm_num)] at hlast
+  rw [ite_eq_right (by norm_num)] at hlast
   have e : (8572 : ℕ) = 536 * 15 + 532 := by norm_num
   rw [e, Finset.sum_range_add, h15, hlast]
   decide +kernel
@@ -467,17 +467,17 @@ theorem rows_mulVec {A B : Matrix (Fin 133) (Fin 133) (ZMod 5)} {m n : ℕ}
       if hc : i.val < n ∧ m + i.val < 133 then (A *ᵥ x) ⟨m + i.val, hc.2⟩ else 0 := by
     intro i
     by_cases hc : i.val < n ∧ m + i.val < 133
-    · rw [dif_pos hc]
-      simp only [Matrix.mulVec, dotProduct, h, dif_pos hc]
-    · rw [dif_neg hc]
-      simp only [Matrix.mulVec, dotProduct, h, dif_neg hc, zero_mul, Finset.sum_const_zero]
+    · rw [dite_eq_left hc]
+      simp only [Matrix.mulVec, dotProduct, h, dite_eq_left hc]
+    · rw [dite_eq_right hc]
+      simp only [Matrix.mulVec, dotProduct, h, dite_eq_right hc, zero_mul, Finset.sum_const_zero]
   constructor
   · intro h0 i h1 h2
     have hc : i.val - m < n ∧ m + (i.val - m) < 133 := ⟨by omega, by omega⟩
     have key := hB ⟨i.val - m, by omega⟩
     rw [h0] at key
     dsimp only at key
-    rw [dif_pos hc] at key
+    rw [dite_eq_left hc] at key
     have e : (⟨m + (i.val - m), hc.2⟩ : Fin 133) = i := Fin.ext (Nat.add_sub_cancel' h1)
     rw [e] at key
     exact key.symm

@@ -32,6 +32,7 @@ abbrev barY (h : G) (K : Subgroup G) : Subgroup (YBar h) :=
 abbrev barMap (h : G) {K : Subgroup G} (hK : K ≤ yOf h) : ↥K →* YBar h :=
   (QuotientGroup.mk' (pPrimeCore 2 ↥(yOf h))).comp (Subgroup.inclusion hK)
 
+omit [Finite G] in
 theorem barY_eq_range_barMap (h : G) {K : Subgroup G} (hK : K ≤ yOf h) :
     barY h K = (barMap h hK).range := by
   ext x
@@ -42,14 +43,17 @@ theorem barY_eq_range_barMap (h : G) {K : Subgroup G} (hK : K ≤ yOf h) :
   · rintro ⟨k, rfl⟩
     exact ⟨⟨(k : G), hK k.2⟩, Subgroup.mem_subgroupOf.mpr k.2, rfl⟩
 
+omit [Finite G] in
 theorem mem_barY_iff (h : G) {K : Subgroup G} (hK : K ≤ yOf h) {x : YBar h} :
     x ∈ barY h K ↔ ∃ k : ↥K, barMap h hK k = x := by
   rw [barY_eq_range_barMap h hK]
   exact MonoidHom.mem_range
 
+omit [Finite G] in
 theorem barY_mono (h : G) {K L : Subgroup G} (hKL : K ≤ L) : barY h K ≤ barY h L :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono (yOf h) hKL)
 
+omit [Finite G] in
 theorem barY_map_subtype (h : G) (K : Subgroup ↥(yOf h)) :
     barY h (K.map (yOf h).subtype) =
       K.map (QuotientGroup.mk' (pPrimeCore 2 ↥(yOf h))) := by
@@ -64,6 +68,7 @@ theorem barY_map_subtype (h : G) (K : Subgroup ↥(yOf h)) :
     exact ⟨⟨(k : G), k.2⟩,
       Subgroup.mem_subgroupOf.mpr (Subgroup.mem_map_of_mem (yOf h).subtype hk), rfl⟩
 
+omit [Finite G] in
 theorem barY_conj (h : G) {y : G} (hy : y ∈ yOf h) {K : Subgroup G} (hK : K ≤ yOf h) :
     conjSubgroup (QuotientGroup.mk' (pPrimeCore 2 ↥(yOf h)) ⟨y, hy⟩) (barY h K) =
       barY h (conjSubgroup y K) := by
@@ -95,7 +100,7 @@ theorem barY_conj (h : G) {y : G} (hy : y ∈ yOf h) {K : Subgroup G} (hK : K �
             ⟨k, k.2, MulAut.conj_apply y (k : G)⟩⟩ : ↥(conjSubgroup y K)) : ↥(yOf h)) =
           (⟨y, hy⟩ : ↥(yOf h)) * Subgroup.inclusion hK k * (⟨y, hy⟩ : ↥(yOf h))⁻¹ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [hcomp]
       simp only [map_mul, map_inv]
   · intro hx
@@ -124,40 +129,47 @@ namespace EpsIn
 
 variable {h : G} (hE : EpsIn M V h)
 
+omit [Finite G] in
 theorem le_yOf (hE : EpsIn M V h) : V ≤ yOf h := by
   exact hE.le_p0.trans inf_le_right
 
+omit [Finite G] in
 theorem conjSubgroup_le_yOf (hE : EpsIn M V h) {y : G} (hy : y ∈ yOf h) :
     conjSubgroup y V ≤ yOf h := by
   rintro x ⟨v, hv, rfl⟩
   exact (yOf h).mul_mem ((yOf h).mul_mem hy (hE.le_yOf hv)) ((yOf h).inv_mem hy)
 
+omit [Finite G] in
 theorem le_rOf (hE : EpsIn M V h) : V ≤ rOf M h := by
   exact le_inf hE.root.le_M hE.le_yOf
 
+omit [Finite G] in
 theorem oOf_le_rOf : oOf M h ≤ rOf M h := by
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem rOf_le_yOf : rOf M h ≤ yOf h := by
   exact inf_le_right
 
-theorem odd_oOf (hE : EpsIn M V h) : Odd (Nat.card (oOf M h)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+theorem odd_oOf (_hE : EpsIn M V h) : Odd (Nat.card (oOf M h)) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [oOf, inSubgroup, Subgroup.card_map_of_injective (rOf M h).subtype_injective]
   exact Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := ↥(rOf M h)))
 
-theorem odd_oddCore_yOf (hE : EpsIn M V h) :
+theorem odd_oddCore_yOf (_hE : EpsIn M V h) :
     Odd (Nat.card (inSubgroup (pPrimeCore 2) (yOf h))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [inSubgroup, Subgroup.card_map_of_injective (yOf h).subtype_injective]
   exact Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := ↥(yOf h)))
 
+omit [Finite G] in
 theorem oOf_le_centralizer_p0 (hE : EpsIn M V h) :
     oOf M h ≤ cenOf (p0Of M V (Subgroup.zpowers h)) := by
   calc oOf M h ≤ oOf M h ⊔ V := le_sup_left
     _ = rOf M h ⊓ cenOf (p0Of M V (Subgroup.zpowers h)) := hE.cen.symm
     _ ≤ cenOf (p0Of M V (Subgroup.zpowers h)) := inf_le_right
 
+omit [Finite G] in
 theorem oOf_commute_V (hE : EpsIn M V h) {o v : G} (ho : o ∈ oOf M h) (hv : v ∈ V) :
     o * v = v * o := by
   have hvP : v ∈ p0Of M V (Subgroup.zpowers h) := hE.le_p0 hv
@@ -166,7 +178,7 @@ theorem oOf_commute_V (hE : EpsIn M V h) {o v : G} (ho : o ∈ oOf M h) (hv : v 
 theorem oddCore_yOf_le (hE : EpsIn M V h) :
     inSubgroup (pPrimeCore 2) (yOf h) ≤ oOf M h ∧
       ∀ y ∈ yOf h, inSubgroup (pPrimeCore 2) (yOf h) ≤ cenOf (conjSubgroup y V) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set OY : Subgroup G := inSubgroup (pPrimeCore 2) (yOf h) with hOY
   have hOYodd : Odd (Nat.card OY) := by
     rw [hOY]
@@ -185,7 +197,7 @@ theorem oddCore_yOf_le (hE : EpsIn M V h) :
         _ = M := hE.root.normalizer_eq
     have hOYR : OY ≤ rOf M h :=
       le_inf hOYM (Subgroup.map_subtype_le (pPrimeCore 2 ↥(yOf h)))
-    haveI hOYnormal : (OY.subgroupOf (rOf M h)).Normal :=
+    have hOYnormal : (OY.subgroupOf (rOf M h)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hOYR).mpr
         ((inf_le_right : rOf M h ≤ yOf h).trans hOYnorm)
     exact subgroupOf_le_pPrimeCore_map (p := 2) hOYR hOYcop
@@ -196,7 +208,7 @@ theorem oddCore_yOf_le (hE : EpsIn M V h) :
       exact hE.root.four_le_card
     · exact (hE.conjSubgroup_le_yOf hy).trans hOYnorm
 
-theorem disjoint_conj_oddCore (hE : EpsIn M V h) {y : G} (hy : y ∈ yOf h) :
+theorem disjoint_conj_oddCore (hE : EpsIn M V h) {y : G} (_hy : y ∈ yOf h) :
     Disjoint (conjSubgroup y V) (inSubgroup (pPrimeCore 2) (yOf h)) := by
   rw [disjoint_iff]
   refine le_bot_iff.mp ?_
@@ -244,7 +256,8 @@ theorem mem_conj_of_mul_self_eq_one_of_mem_sup (hE : EpsIn M V h) {y x : G}
   rw [hvo, ho1, mul_one]
   exact hv
 
-theorem barMap_injective_of_disjoint (hE : EpsIn M V h) {K : Subgroup G} (hK : K ≤ yOf h)
+omit [Finite G] in
+theorem barMap_injective_of_disjoint (_hE : EpsIn M V h) {K : Subgroup G} (hK : K ≤ yOf h)
     (hdisj : Disjoint K (inSubgroup (pPrimeCore 2) (yOf h))) :
     Function.Injective (barMap h hK) := by
   intro a b hab
@@ -468,8 +481,8 @@ private theorem conjSubgroup_eq_of_normalizes_twoGroup (hE : EpsIn M V h)
     (hZT : T ⊓ Subgroup.centralizer (T : Set G) ≤ V)
     (hxT : x ∈ Subgroup.normalizer (T : Set G)) :
     conjSubgroup x V = V := by
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
-  haveI : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
+  have : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
   obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center ↥T)
   let Z : Subgroup G := T ⊓ Subgroup.centralizer (T : Set G)
   have hwT : ((w : ↥T) : G) ∈ T := (w : ↥T).2
@@ -513,10 +526,11 @@ private theorem conjSubgroup_eq_of_normalizes_twoGroup (hE : EpsIn M V h)
     exact hz1 (Subtype.ext (Subgroup.mem_bot.mp hzbot))
   exact conjSubgroup_eq_of_isTI hE.root.ti hVx
 
+omit [Finite G] in
 private theorem exists_sylow_above_p0 :
     ∃ S : Sylow 2 ↥(yOf h), p0Of M V (Subgroup.zpowers h) ≤
       ((S : Subgroup ↥(yOf h)).map (yOf h).subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP0_2 : IsPGroup 2 (p0Of M V (Subgroup.zpowers h)) := by
     rw [p0Of]
     exact (inSubgroup_pCore_two M).1.to_le (inf_le_left.trans inf_le_left)
@@ -537,7 +551,7 @@ private theorem sylow_le_rOf (hE : EpsIn M V h) {S : Sylow 2 ↥(yOf h)} {P0 : S
     (hP0S : P0 ≤ ((S : Subgroup ↥(yOf h)).map (yOf h).subtype)) :
     ((S : Subgroup ↥(yOf h)).map (yOf h).subtype) ≤ rOf M h := by
   let Sfun : Subgroup G := (S : Subgroup ↥(yOf h)).map (yOf h).subtype
-  have hS2 : IsPGroup 2 Sfun := (S.isPGroup').map (yOf h).subtype
+  have hS2 : IsPGroup 2 Sfun := (S.isPGroup).map (yOf h).subtype
   have hSfunY : Sfun ≤ yOf h := Subgroup.map_subtype_le _
   have hP0_R : P0 ≤ rOf M h := by
     rw [hP0]
@@ -552,7 +566,7 @@ private theorem sylow_le_rOf (hE : EpsIn M V h) {S : Sylow 2 ↥(yOf h)} {P0 : S
     rw [← hEq]
     exact inf_le_right
   have hgrowth := CFSG.GroupTheory.FT63ChII.lt_inf_normalizer_of_lt (q := 2) hS2 hTlt
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt hgrowth
+  obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt hgrowth
   have hxS : x ∈ Sfun := (Subgroup.mem_inf.mp hxN).1
   have hxNT : x ∈ Subgroup.normalizer (T : Set G) := (Subgroup.mem_inf.mp hxN).2
   have hxY : x ∈ yOf h := hSfunY hxS
@@ -592,12 +606,12 @@ private theorem exists_mem_V_centralized (hE : EpsIn M V h) {S : Sylow 2 ↥(yOf
   let Sfun : Subgroup G := (S : Subgroup ↥(yOf h)).map (yOf h).subtype
   have hSne : (S : Subgroup ↥(yOf h)) ≠ ⊥ := by
     intro hbot
-    have hbot' : Sfun ≤ ⊥ := by simpa [Sfun, hbot]
+    have hbot' : Sfun ≤ ⊥ := by simp [Sfun, hbot]
     exact hE.root.ne_bot (le_bot_iff.mp (hE.le_p0.trans (hP0S.trans hbot')))
-  haveI : Nontrivial ↥(S : Subgroup ↥(yOf h)) :=
+  have : Nontrivial ↥(S : Subgroup ↥(yOf h)) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr hSne
-  haveI : Nontrivial ↥(Subgroup.center ↥(S : Subgroup ↥(yOf h))) :=
-    S.isPGroup'.center_nontrivial
+  have : Nontrivial ↥(Subgroup.center ↥(S : Subgroup ↥(yOf h))) :=
+    S.isPGroup.center_nontrivial
   obtain ⟨sZ, hsZ1⟩ := exists_ne (1 : Subgroup.center ↥(S : Subgroup ↥(yOf h)))
   let s : ↥(yOf h) := ((sZ : ↥(S : Subgroup ↥(yOf h))) : ↥(yOf h))
   let z : G := (s : G)
@@ -641,7 +655,7 @@ private theorem exists_mem_sup_of_mem_centralizer (hE : EpsIn M V h)
     have hcop := pPrimeCore_coprime_card (p := 2) (G := ↥(yOf h))
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hcop
   have hcentmap := CFSG.Semidihedral.Local.map_centralizer_eq_of_coprime (p := 2)
-    (G := ↥(yOf h)) (pPrimeCore 2 ↥(yOf h)) hNodd (S : Subgroup ↥(yOf h)) S.isPGroup'
+    (G := ↥(yOf h)) (pPrimeCore 2 ↥(yOf h)) hNodd (S : Subgroup ↥(yOf h)) S.isPGroup
   rw [hSbar_map] at hzCbar
   rw [← hcentmap] at hzCbar
   obtain ⟨c, hcCent, hcq⟩ := Subgroup.mem_map.mp hzCbar
@@ -709,7 +723,7 @@ private theorem mem_barY_of_mem_sup (hE : EpsIn M V h) {Sbar : Sylow 2 (YBar h)}
     have hqv2 : qv ^ 2 = 1 := by
       rw [show qv = q ⟨v, hvY⟩ from rfl, ← map_pow, hvpow, map_one]
     exact orderOf_dvd_of_pow_eq_one (by simpa [pow_two] using hqv2)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Sbar.isPGroup') ⟨zbar, hzSbar⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Sbar.isPGroup) ⟨zbar, hzSbar⟩
   have horder_qc : orderOf (q c) = 2 ^ k := by
     rw [hcq]
     simpa using hk
@@ -736,12 +750,12 @@ theorem exists_sylow (hE : EpsIn M V h) :
         barY h ((S : Subgroup ↥(yOf h)).map (yOf h).subtype) ∧
       (Sbar : Subgroup (YBar h)) ⊓
         Subgroup.centralizer ((Sbar : Subgroup (YBar h)) : Set (YBar h)) ≤ barY h V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P0 : Subgroup G := p0Of M V (Subgroup.zpowers h) with hP0
   obtain ⟨S, hP0_Sfun⟩ := exists_sylow_above_p0 (M := M) (V := V) (h := h)
   rw [← hP0] at hP0_Sfun
   let Sfun : Subgroup G := (S : Subgroup ↥(yOf h)).map (yOf h).subtype
-  have hS2 : IsPGroup 2 Sfun := (S.isPGroup').map (yOf h).subtype
+  have hS2 : IsPGroup 2 Sfun := (S.isPGroup).map (yOf h).subtype
   have hSR : Sfun ≤ rOf M h := hE.sylow_le_rOf hP0 hP0_Sfun
   let Sbar : Sylow 2 (YBar h) :=
     Sylow.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore 2 ↥(yOf h))) S
@@ -774,7 +788,7 @@ theorem mem_rOf_of_bar_mem (hE : EpsIn M V h) {z : G} (hz : z ∈ yOf h)
   rw [show z = (z * (r : G)⁻¹) * r by group]
   exact (rOf M h).mul_mem hmemR r.2
 
-theorem commute_of_conj_mem_rOf (hE : EpsIn M V h) {x v : G} (hx : x ∈ yOf h)
+theorem commute_of_conj_mem_rOf (hE : EpsIn M V h) {x v : G} (_hx : x ∈ yOf h)
     (hv : v ∈ V) (hv1 : v ≠ 1) (hmem : x * v * x⁻¹ ∈ rOf M h) :
     ∀ a ∈ V, ∀ b ∈ conjSubgroup x V, a * b = b * a := by
   have hz : x * v * x⁻¹ ∈ conjSubgroup x V := by
@@ -820,7 +834,7 @@ private theorem exists_central_pCore {K : Subgroup (YBar h)} {Sbar : Sylow 2 (YB
       (congrArg (fun x : ↥(SK : Subgroup ↥K) => ((x : ↥K))) hq1)
   have hQinf : Q' ⊓ Subgroup.center ↥(SK : Subgroup ↥K) ≠ ⊥ :=
     CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
-      SK.isPGroup' Q' hQ'ne
+      SK.isPGroup Q' hQ'ne
   obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hQinf
   let wSK : ↥(SK : Subgroup ↥K) := (w : ↥(SK : Subgroup ↥K))
   let wK : ↥K := (wSK : ↥K)
@@ -929,6 +943,7 @@ private theorem commute_of_mem_comap (hE : EpsIn M V h) {K : Subgroup (YBar h)}
     hE.mem_rOf_of_bar_mem hxYv hmemBar
   exact hE.commute_of_conj_mem_rOf xY.2 v.2 hvne hxvR a ha b hb
 
+omit [Finite G] in
 private theorem isElemAbelian_closure_conj (hE : EpsIn M V h) {K' : Subgroup G}
     (hCommVx : ∀ x ∈ K', ∀ a ∈ V, ∀ b ∈ conjSubgroup x V, a * b = b * a) :
     Assembly.IsElemAbelian 2
@@ -991,7 +1006,7 @@ private theorem closure_conj_eq_V (hE : EpsIn M V h) {K' : Subgroup G}
       refine ⟨k⁻¹ * y * k, ⟨k⁻¹ * x, K'.mul_mem (K'.inv_mem hk) hx, ?_⟩,
         by rw [MulAut.conj_apply]; group⟩
       rw [conjSubgroup_mul]
-      exact Subgroup.mem_map.mpr ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨y, hy, by simp⟩
   have hK'N : K' ≤ Subgroup.normalizer (W : Set G) := by
     intro k hk
     rw [← conjSubgroup_eq_self_iff]
@@ -1005,7 +1020,7 @@ private theorem closure_conj_eq_V (hE : EpsIn M V h) {K' : Subgroup G}
 
 theorem le_of_pCore_ne_bot (hE : EpsIn M V h) {K : Subgroup (YBar h)}
     (hRK : barY h (rOf M h) ≤ K) (hK : pCore 2 ↥K ≠ ⊥) : K ≤ barY h (rOf M h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, Sbar, hSR, hP0S, hZS, hSbar_eq, hZbar⟩ := hE.exists_sylow
   have hSbarK : (Sbar : Subgroup (YBar h)) ≤ K :=
     hSbar_eq.symm ▸ (barY_mono h hSR).trans hRK

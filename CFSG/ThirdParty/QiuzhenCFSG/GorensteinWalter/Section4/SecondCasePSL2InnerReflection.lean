@@ -63,10 +63,10 @@ public theorem secondCase_psl2_odd_subgroup_centralizes_component_of_inner_refle
     (hFcentT : F ≤ Subgroup.centralizer ({(t : G)} : Set G))
     (hFcentS : F ≤ Subgroup.centralizer ({(s : G)} : Set G))
     (T : Subgroup (E ⧸ Subgroup.center E))
-    (hTinv : ∀ x : E ⧸ Subgroup.center E, x ∈ T →
+    (_hTinv : ∀ x : E ⧸ Subgroup.center E, x ∈ T →
       QuotientGroup.mk' (Subgroup.center E) s * x *
         (QuotientGroup.mk' (Subgroup.center E) s)⁻¹ = x⁻¹)
-    (hTcontain : ∀ X : Subgroup (E ⧸ Subgroup.center E),
+    (_hTcontain : ∀ X : Subgroup (E ⧸ Subgroup.center E),
       (∀ x : E ⧸ Subgroup.center E, x ∈ X → Odd (orderOf x)) →
         X ≤ Subgroup.centralizer
           ({QuotientGroup.mk' (Subgroup.center E) t} :

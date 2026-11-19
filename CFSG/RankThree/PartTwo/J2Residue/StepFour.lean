@@ -25,7 +25,7 @@ omit [Finite G] in
 theorem le_sup_commutator_map_conj_of_isPerfect {L Q : Subgroup G} {q : G}
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) (hL : Group.IsPerfect L) (hq : q ∈ Q) :
     L ≤ ⁅L, L.map (MulAut.conj q).toMonoidHom⁆ ⊔ Q := by
-  haveI : Group.IsPerfect L := hL
+  have : Group.IsPerfect L := hL
   have hex : ∀ b ∈ L, ∃ c ∈ Q, q * b * q⁻¹ = b * c := by
     intro b hb
     refine ⟨b⁻¹ * q * b * q⁻¹, ?_, by group⟩
@@ -186,10 +186,10 @@ private theorem false_of_commutator_le_theta {LB LBt T : Subgroup G} {d : G}
   have hLBtK : LBt ≤ K := hLBt_le
   have hTnormK : (T.subgroupOf K).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hLBnormT
-  letI : (T.subgroupOf K).Normal := hTnormK
+  let : (T.subgroupOf K).Normal := hTnormK
   let π := QuotientGroup.mk' (T.subgroupOf K)
   have hLBperfK : Group.IsPerfect (LB.subgroupOf K) := by
-    haveI : Group.IsPerfect LB := hLBperf
+    have : Group.IsPerfect LB := hLBperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hLBK).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hLBK).symm.surjective
@@ -230,7 +230,7 @@ private theorem false_of_commutator_le_theta {LB LBt T : Subgroup G} {d : G}
       Subgroup.mem_map_of_mem π hdK
     rw [hbot] at hmem
     exact hdImage_ne (Subgroup.mem_bot.mp hmem)
-  haveI : Nontrivial ((LB.subgroupOf K).map π) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Nontrivial ((LB.subgroupOf K).map π) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   exact Group.IsPerfect.not_isSolvable _ hsolvLBImage
 
 private theorem map_conj_mem_thetaComponentsAt {L : Subgroup G} {b t : G}
@@ -283,19 +283,19 @@ private theorem exists_fixed_of_coprime_action {F₁ F₂ B : Subgroup G}
     (hBF₁ : B ≤ Subgroup.normalizer (F₁ : Set G))
     (hBF₂ : B ≤ Subgroup.normalizer (F₂ : Set G))
     (hF₁N : F₁ ≤ Subgroup.normalizer (F₂ : Set G))
-    (hF₂ltF₁ : F₂ < F₁)
+    (_hF₂ltF₁ : F₂ < F₁)
     (hcop : Nat.Coprime (Nat.card B) (Nat.card (F₂.subgroupOf F₁)))
     (hF₂solv : Group.IsSolvable (F₂.subgroupOf F₁))
     (htriv : ⁅F₁, B⁆ ≤ F₂) :
     ∀ f : F₁, ∃ c : F₁, (∀ b : B, (b : G) * (c : G) * (b : G)⁻¹ = (c : G)) ∧
       c⁻¹ * f ∈ F₂.subgroupOf F₁ := by
-  letI : Subgroup.Normalizes B F₁ := ⟨hBF₁⟩
-  letI act : MulDistribMulAction B F₁ := Subgroup.conjMulDistribMulActionOfLeNormalizer B F₁ hBF₁
+  let : Subgroup.Normalizes B F₁ := ⟨hBF₁⟩
+  let act : MulDistribMulAction B F₁ := Subgroup.conjMulDistribMulActionOfLeNormalizer B F₁ hBF₁
   have hF₂norm : (F₂.subgroupOf F₁).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hF₁N (g : F₁).2) (n : G)).mp hn
-  letI : (F₂.subgroupOf F₁).Normal := hF₂norm
+  let : (F₂.subgroupOf F₁).Normal := hF₂norm
   have hF₂inv : CFSG.IsInvariant B F₁ (F₂.subgroupOf F₁) := by
     refine ⟨fun b x => ?_⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
@@ -381,7 +381,7 @@ private theorem T_le_normalizer_L {L LB Θ : Subgroup G} {b d : G}
     have hsolv : Group.IsSolvable (inSubgroup (aschbacherSolvableCore 3) C) :=
       Group.isSolvable_of_surjective
         (MonoidHom.subgroupMap_surjective C.subtype (aschbacherSolvableCore 3 C))
-    haveI : Group.IsSolvable (inSubgroup (aschbacherSolvableCore 3) C) := hsolv
+    have : Group.IsSolvable (inSubgroup (aschbacherSolvableCore 3) C) := hsolv
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLBcommθ)
   have hLBt_le : LB.map (MulAut.conj t).toMonoidHom ≤ LB ⊔ T := by
     rintro x ⟨l, hl, rfl⟩
@@ -414,8 +414,8 @@ theorem exists_commutator_not_mem_of_alpha {L LB Θ : Subgroup G} {b d e : G}
   by_contra hcon
   push Not at hcon
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
   let B : Subgroup G := Subgroup.closure ({b, d} : Set G)
   let T : Subgroup G := Θ ⊓ Subgroup.centralizer (B : Set G)
   have hB_eq : B = Subgroup.closure ({e, d} : Set G) :=
@@ -455,7 +455,7 @@ theorem exists_commutator_not_mem_of_alpha {L LB Θ : Subgroup G} {b d e : G}
   have hF₂rSub : IsPGroup r (F₂.subgroupOf F₁) :=
     hF₂r.of_equiv (Subgroup.subgroupOfEquivOfLe hch.1.le).symm
   have hF₂solv : Group.IsSolvable (F₂.subgroupOf F₁) := by
-    haveI : Group.IsNilpotent (F₂.subgroupOf F₁) := hF₂rSub.isNilpotent
+    have : Group.IsNilpotent (F₂.subgroupOf F₁) := hF₂rSub.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hcop : Nat.Coprime (Nat.card B) (Nat.card (F₂.subgroupOf F₁)) := by
     have hcop' : Nat.Coprime (Nat.card B) (Nat.card F₂) :=
@@ -502,7 +502,7 @@ theorem exists_commutator_not_mem_of_alpha {L LB Θ : Subgroup G} {b d e : G}
     have hcl_O₂ : ⁅c, l⁆ ∈ CFSG.Open.pCoreOf 2 LB :=
       J2Config.inf_le_pCoreOf hJ hLBnormF₁ hF₁3 hcl_inf
     have hone : ⁅c, l⁆ = 1 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hdisj : Disjoint (CFSG.Open.pCoreOf 2 LB) F₁ :=
         IsPGroup.disjoint_of_ne 2 r (by omega) _ _ (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) LB) hF₁r
       have hxbot : ⁅c, l⁆ ∈ CFSG.Open.pCoreOf 2 LB ⊓ F₁ :=

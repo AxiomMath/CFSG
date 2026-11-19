@@ -30,8 +30,7 @@ theorem glConj_mulVec {K : Type*} [Field K] {n ι : Type*} [Fintype n] [Decidabl
           (Matrix.GeneralLinearGroup.toLin g) : (ι → K) →ₗ[K] (ι → K)) (S v) := by rw [h]
     _ = S ((g : Matrix n n K) *ᵥ v) := by
         rw [LinearMap.GeneralLinearGroup.congrLinearEquiv_apply]
-        simp [LinearEquiv.trans_apply, Matrix.GeneralLinearGroup.toLin_apply,
-          Matrix.mulVecLin_apply]
+        simp [LinearEquiv.trans_apply]
 
 theorem mem_isometryCore_iff {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field K]
     {Q : (ι → K) → K} (A : GL ι K) :

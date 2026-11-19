@@ -10,13 +10,13 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
   carrier := {g | (g p = p ∧ g q = q) ∨ (g p = q ∧ g q = p)}
   mul_mem' := by
     intro g h hg hh
-    simp only [Set.mem_setOf_eq, Equiv.Perm.coe_mul, Function.comp_apply] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq, Equiv.Perm.coe_mul, Function.comp_apply] at hg hh ⊢
     rcases hh with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;> rcases hg with ⟨g1, g2⟩ | ⟨g1, g2⟩ <;>
       simp [h1, h2, g1, g2]
   one_mem' := by simp
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     rcases hg with ⟨g1, g2⟩ | ⟨g1, g2⟩
     · left
       exact ⟨by rw [Equiv.Perm.inv_eq_iff_eq, g1], by rw [Equiv.Perm.inv_eq_iff_eq, g2]⟩

@@ -54,7 +54,7 @@ theorem exists_ggKacDatum_of_ggK0MainB_centJ
           LargeEvenInLambda2 o.lab ∧ GGHasLabel o.lab (↥J ⧸ Subgroup.center ↥J) := by
   obtain ⟨R, hR, I, ψ, lab, D, hrest⟩ :=
     exists_ggKacDatum_core hK0 hS hloc h8 hm hgen
-  letI := hR
+  let := hR
   obtain ⟨hlab, hSlab, hgenlab, hhas, hZ, hValid, hC, hE, hbij, hrest⟩ := hrest
   obtain ⟨o', ho', hqs', hndvd, hΛ, hlabJ⟩ := hrest
   have hrZ : D.rZ ≤ 1 := eux_rZ_le_one_of_centJ hloc hcent hZ hE

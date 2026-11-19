@@ -33,7 +33,7 @@ private theorem card_psl2GF_eight : Nat.card (PSL2GF 2 3) = 504 := by
   norm_num
 
 theorem isSimpleGroup_of_mulEquiv_psl27 (e : X ≃* PSL2GF 7 1) : IsSimpleGroup X := by
-  haveI : IsSimpleGroup (PSL2GF 7 1) :=
+  have : IsSimpleGroup (PSL2GF 7 1) :=
     isSimpleGroup_psl2GF (p := 7) (n := 1) (by norm_num)
   exact MulEquiv.isSimpleGroup e
 
@@ -41,7 +41,7 @@ theorem exists_ne_comm_of_mulEquiv_psl27 (e : X ≃* PSL2GF 7 1) :
     ∃ a b : X, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI : IsMulCommutative X := isMulCommutative_iff.mpr h
+  have : IsMulCommutative X := isMulCommutative_iff.mpr h
   have hprime : (Nat.card X).Prime :=
     (Group.is_simple_iff_prime_card).mp (isSimpleGroup_of_mulEquiv_psl27 e)
   have hcard : Nat.card X = 168 :=
@@ -59,7 +59,7 @@ theorem card_mulAut_le_of_mulEquiv_psl27 (e : X ≃* PSL2GF 7 1) :
 
 theorem eq_one_of_commute_involution_psl27 (e : X ≃* PSL2GF 7 1)
     {v y : X} (hv : orderOf v = 2) (hyv : y * v = v * y) (hy : y ^ 3 = 1) : y = 1 := by
-  letI : Fintype (GaloisField 7 1) := Fintype.ofFinite _
+  let : Fintype (GaloisField 7 1) := Fintype.ofFinite _
   let z : PSL2GF 7 1 := e v
   have hzord : orderOf z = 2 := by
     change orderOf (e v) = 2
@@ -90,7 +90,7 @@ theorem eq_one_of_commute_involution_psl27 (e : X ≃* PSL2GF 7 1)
   exact e.injective (by simpa using hey1)
 
 theorem isSimpleGroup_of_mulEquiv_psl28 (e : X ≃* PSL2GF 2 3) : IsSimpleGroup X := by
-  haveI : IsSimpleGroup (PSL2GF 2 3) :=
+  have : IsSimpleGroup (PSL2GF 2 3) :=
     isSimpleGroup_psl2GF (p := 2) (n := 3) (by norm_num)
   exact MulEquiv.isSimpleGroup e
 
@@ -98,7 +98,7 @@ theorem exists_ne_comm_of_mulEquiv_psl28 (e : X ≃* PSL2GF 2 3) :
     ∃ a b : X, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI : IsMulCommutative X := isMulCommutative_iff.mpr h
+  have : IsMulCommutative X := isMulCommutative_iff.mpr h
   have hprime : (Nat.card X).Prime :=
     (Group.is_simple_iff_prime_card).mp (isSimpleGroup_of_mulEquiv_psl28 e)
   have hcard : Nat.card X = 504 :=
@@ -139,7 +139,7 @@ theorem eq_one_of_commute_involution_psl28 (e : X ≃* PSL2GF 2 3)
 
 private theorem center_eq_bot_of_mulEquiv_psl28 (e : X ≃* PSL2GF 2 3) :
     Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl28 e
+  have : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl28 e
   obtain ⟨a, b, hab⟩ := exists_ne_comm_of_mulEquiv_psl28 e
   exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
     (fun h => hab (h.is_comm.comm a b))
@@ -166,14 +166,14 @@ theorem eq_one_of_conj_fixed_psl28 (e : X ≃* PSL2GF 2 3) {τ : MulAut X} {x : 
 
 theorem false_of_psl27 [Finite X] {A : Subgroup (MulAut X)} {τ : MulAut X}
     {B : Subgroup X} (D : LayerData X A τ B) (e : X ≃* CFSG.AGLEmbedding.PSL2GF 7 1) : False := by
-  haveI : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl27 e
+  have : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl27 e
   exact D.false_of_outTwo (exists_ne_comm_of_mulEquiv_psl27 e)
     (card_mulAut_le_of_mulEquiv_psl27 e)
     (fun v y hv hyv hy => eq_one_of_commute_involution_psl27 e hv hyv hy)
 
 theorem false_of_psl28 [Finite X] {A : Subgroup (MulAut X)} {τ : MulAut X}
     {B : Subgroup X} (D : LayerData X A τ B) (e : X ≃* CFSG.AGLEmbedding.PSL2GF 2 3) : False := by
-  haveI : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl28 e
+  have : IsSimpleGroup X := isSimpleGroup_of_mulEquiv_psl28 e
   obtain ⟨x, hx⟩ := D.inner_of_outOdd (exists_ne_comm_of_mulEquiv_psl28 e) (k := 3)
     (by norm_num : Odd 3) (card_mulAut_of_mulEquiv_psl28 e)
   exact D.false_of_W1 fun y hyτ hy =>

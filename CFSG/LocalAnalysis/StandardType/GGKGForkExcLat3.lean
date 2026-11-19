@@ -83,7 +83,7 @@ noncomputable def ggKGEl_pi
     apply ggKGEl_conj_injective F
     dsimp only
     rw [ggKGEl_pick_spec, Subgroup.coe_one, ggKGEl_conj_one]
-    simp only [Pi.zero_apply, zpow_zero, Pi.one_apply]
+    simp only [Pi.zero_apply, zpow_zero]
     exact rootDiagUnit_one
   map_add' y y' := by
     change Additive.ofMul (ggKGEl_pick hp hp5 hτ F hΦ ζ hζ hact (y + y')) =
@@ -128,7 +128,7 @@ theorem ggKGEl_pi_surjective
       weylTuple F.w (fun i => Units.map Fr.toMonoidHom (ζ ^ y i)) = (fun i => ζ ^ y i)) :
     Function.Surjective (ggKGEl_pi hp hp5 hτ F hΦ ζ hζ hact) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro e
   let Ψ : ↥E →* ModGL τ (AlgebraicClosure K) :=
     { toFun := fun x => F.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))

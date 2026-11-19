@@ -13,7 +13,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 open scoped commutatorElement
 
 theorem y7c_card_SL3Four : Nat.card SL3Four = 60480 := by
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 2) = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
     norm_num

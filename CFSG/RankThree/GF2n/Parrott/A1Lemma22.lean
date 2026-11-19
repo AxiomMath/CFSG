@@ -60,7 +60,7 @@ theorem card_sq_eq_one_le_of_isExtraspecialPGroup {Q : Type*} [Group Q] [Finite 
     rw [Finset.mem_coe, Finset.mem_filter] at hx
     show CFSG.RankThree.Literature.FSmith.extraspecialQuadForm hQ
       (Additive.ofMul (Abelianization.of x)) = 0
-    rw [CFSG.RankThree.Literature.FSmith.extraspecialQuadForm_apply, if_pos hx.2]
+    rw [CFSG.RankThree.Literature.FSmith.extraspecialQuadForm_apply, ite_eq_left hx.2]
   have himgcard : (S.image π).card ≤ 136 := by
     have h := Set.ncard_le_ncard himg (Set.toFinite _)
     rw [Set.ncard_coe_finset] at h
@@ -121,6 +121,7 @@ local notation "uQ" => (⟨u, u_mem_Q⟩ : ↥QP45.originalSubgroup)
 
 private noncomputable abbrev ιP : P45Q →* A45 := Subgroup.inclusion QP45_le_QA45
 
+omit [Finite G] in
 private theorem orderOf_map_eq_three (hcard : Nat.card (J z) = 2 ^ 9) {Q : Type*} [Group Q]
     (φ : ↥(H z) →* Q) (hker : φ.ker = (J z).subgroupOf (H z)) {x : ↥(H z)}
     (hx : orderOf x = 3) : orderOf (φ x) = 3 := by

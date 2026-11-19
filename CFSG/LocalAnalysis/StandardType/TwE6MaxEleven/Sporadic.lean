@@ -68,8 +68,8 @@ private theorem actsTrivially_of_frattini_three {G A : Type*} [Group G] [Finite 
     [Finite A] [MulDistribMulAction A G] (hG : IsPGroup 3 G)
     (hcop : Nat.Coprime (Nat.card A) (Nat.card G))
     (h : ∀ (a : A) (x : G), x⁻¹ * (a • x) ∈ frattini G) : ∀ (a : A) (x : G), a • x = x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 G) := ⟨hG⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 G) := ⟨hG⟩
   have hsolv : Group.IsSolvable G := by
     have := hG.isNilpotent
     infer_instance
@@ -107,7 +107,7 @@ private theorem mulAut_eq_one_of_order_dvd_eleven {V : Type*} [Group V] [Finite 
     [IsElementaryAbelian 3 V] (hcard : Nat.card V ≤ 3 ^ 4) {σ : MulAut V}
     (hσ : orderOf σ ∣ 11) : σ = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   have hodd : orderOf σ ≠ 1 := fun h => hne (orderOf_eq_one_iff.mp h)
   have h11 : orderOf σ = 11 := by
     rcases (Nat.dvd_prime Nat.prime_eleven).mp hσ with h | h
@@ -341,7 +341,7 @@ private theorem not_eleven_dvd_centralizer_xB_ambient :
   have hnormC : ∀ g ∈ C, ∀ a ∈ A, g * a * g⁻¹ ∈ A := by simpa [A, C] using hnorm
   have hcentC : C ⊓ Subgroup.centralizer (A : Set (Equiv.Perm (Fin 1782))) ≤ A := by
     simpa [A, C, inf_assoc, inf_comm, inf_left_comm] using hcent
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   obtain ⟨u, huord⟩ := exists_prime_orderOf_dvd_card' (G := C) 11 (by simpa [C] using h11)
   have hC_le_norm : C ≤ Subgroup.normalizer (A : Set (Equiv.Perm (Fin 1782))) := by
     intro g hg
@@ -383,10 +383,10 @@ private theorem not_eleven_dvd_centralizer_xB_ambient :
       orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk, huord', hAcard] at hdvd
     norm_num at hdvd
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (IsPGroup 3 ↥A) := ⟨hA3⟩
-  letI : Finite ↥A := inferInstance
-  haveI : IsElementaryAbelian 3 (↥A ⧸ frattini ↥A) :=
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (IsPGroup 3 ↥A) := ⟨hA3⟩
+  let : Finite ↥A := inferInstance
+  have : IsElementaryAbelian 3 (↥A ⧸ frattini ↥A) :=
     @CFSG.isElementaryAbelian_quotient_frattini ↥A (inferInstance) (inferInstance) 3
       (inferInstance) (inferInstance)
   have hrankV : Group.rank (↥A ⧸ frattini ↥A) ≤ 4 :=

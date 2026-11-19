@@ -121,7 +121,7 @@ theorem sl3_ne_psl2_prime {m p : ℕ} (hm : 3 ≤ m) (hp : Odd p) (hp5 : 5 ≤ p
   have hsize : p + 1 < 2 ^ (3 * m) := by
     rw [hq3]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h8p : 7 * q ^ 3 ≤ 8 * p := by omega
     have hA5 : (q ^ 2 - 1) * (q ^ 3 - 1) ≤ q ^ 5 := by
       calc (q ^ 2 - 1) * (q ^ 3 - 1) ≤ q ^ 2 * q ^ 3 :=
@@ -256,7 +256,7 @@ theorem nb3_psl2_two_false {X Y : Type} [Group X] [Group Y] [Finite X] {n : ℕ}
     have hsimp : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (le_refl 2)
         (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega))
-    haveI : IsSimpleGroup X := e.isSimpleGroup
+    have : IsSimpleGroup X := e.isSimpleGroup
     have hY1 : 1 < Nat.card Y := by
       rw [hY]
       have := sl3_card_ge hm
@@ -279,7 +279,7 @@ theorem nb3_psl2_p_false {X Y : Type} [Group X] [Group Y] [Finite X] {p : ℕ} (
   have hsimp : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (le_refl 2)
       (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega))
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hY1 : 1 < Nat.card Y := by
     rw [hY]
     have := sl3_card_ge hm
@@ -293,7 +293,7 @@ theorem nb3_sz_false {X Y : Type} [Group X] [Group Y] [Finite X]
     {m : ℕ} (hm : 3 ≤ m) (hmo : Odd m)
     (hY : Nat.card Y = (2 ^ m) ^ 3 * (((2 ^ m) ^ 2 - 1) * ((2 ^ m) ^ 3 - 1))) : False := by
   obtain ⟨-, -, hsimp⟩ := CFSG.LieType.Ree.suzuki_simple ha hK
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hX : Nat.card X =
       (2 ^ (2 * a + 1)) ^ 2 * (2 ^ (2 * a + 1) - 1) * ((2 ^ (2 * a + 1)) ^ 2 + 1) := by
     rw [Nat.card_congr e.toEquiv]
@@ -380,9 +380,9 @@ theorem nb3_surj {V H L : Subgroup G} (hVred : IsTwoReducedIn H V) (hL : L ≤ H
     rfl
 
 theorem nb3_autI_of_certs
-    (h38 : A38ForSQTK) {H T V L : Subgroup G} {t : G} (hH : CharTwo H)
+    (h38 : A38ForSQTK) {H T V L : Subgroup G} {t : G} (_hH : CharTwo H)
     (hVred : IsTwoReducedIn H V) (hT : IsSylowTwoOf T H) (hSQ : IsSQTKTC H) (hL : L ∈ cComp H)
-    (hq : QuasiData V L) (P : GroupPair H T L t) : NoBigSL3 (autI hVred.2.2.1 L) := by
+    (_hq : QuasiData V L) (P : GroupPair H T L t) : NoBigSL3 (autI hVred.2.2.1 L) := by
   unfold NoBigSL3
   rintro ⟨m, K, hKf, hKfin, hm, hmo, hK, ⟨e⟩⟩
   have hY : Nat.card ↥(autI hVred.2.2.1 L) =

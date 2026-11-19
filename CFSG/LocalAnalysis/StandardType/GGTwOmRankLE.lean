@@ -59,7 +59,7 @@ theorem ggTwOm_rankLE_rec {K : Type} [Field K] [Finite K] [CharP K 2] {n m r : �
         CFSG.Open.pRank 3 (⊤ : Subgroup
           (CFSG.Open.StatedProj (CFSG.Open.StatedOmega
             (CFSG.Open.StatedQuadMinus (m + 1) K b c)))) = m := by
-      rw [hformula, if_pos hdvd, if_neg (by rw [hord]; decide), hord, Nat.div_one]
+      rw [hformula, ite_eq_left hdvd, ite_eq_right (by rw [hord]; decide), hord, Nat.div_one]
       omega
     have heq := CFSG.LieType.SeitzGeneration.standardTypeOmegaMinusEquiv m K b c
     have hrankR : CFSG.Open.pRank 3 (⊤ : Subgroup

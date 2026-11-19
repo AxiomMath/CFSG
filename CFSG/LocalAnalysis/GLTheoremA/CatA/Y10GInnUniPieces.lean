@@ -13,7 +13,7 @@ open CFSG.Open CFSG.LieType.SemisimpleCentralizers.Held CFSG.LocalAnalysis.GLThe
 open scoped commutatorElement
 
 @[expose] def UniScalar : Prop :=
-  ∀ (K : Type) [Field K] [Finite K] (Q d : ℕ) (τ : K ≃+* K) (hτ : ∀ x, τ (τ x) = x),
+  ∀ (K : Type) [Field K] [Finite K] (Q d : ℕ) (τ : K ≃+* K) (_hτ : ∀ x, τ (τ x) = x),
     (∀ x, τ x = x ^ Q) → Nat.card K = Q ^ 2 → 3 ≤ d → (d, Q) ≠ (3, 2) →
       ∀ B : GL (Fin d) K, (∀ g : GL (Fin d) K, g ∈ StatedSU d Q K → ∃ c : K,
         (B : Matrix (Fin d) (Fin d) K) * (g : Matrix (Fin d) (Fin d) K) *

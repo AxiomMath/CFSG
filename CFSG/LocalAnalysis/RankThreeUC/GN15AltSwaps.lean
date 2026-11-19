@@ -21,10 +21,12 @@ namespace GNAltModData
 
 variable (S : GNAltModData T L g)
 
+omit [Finite X] in
 theorem eq_of_swap_mem_Q {x y z : Fin n} (hxy : x ≠ y) (hxz : x ≠ z)
     (h1 : swap x y ∈ S.Q) (h2 : swap x z ∈ S.Q) : y = z :=
   CFSG.CGT.PushingUpLit.BHSSym.eq_of_swap_mem S.sylow.1 hxy hxz h1 h2
 
+omit [Finite X] in
 theorem swap_conj_mem_Q {a b a' b' : Fin n} (hab : a ≠ b)
     (hab' : a' ≠ b') (haa' : a ≠ a') (hab'' : a ≠ b') (hba' : b ≠ a') (hbb' : b ≠ b')
     (h1 : swap a b ∈ S.Q) (h2 : swap a' b' ∈ S.Q) :
@@ -86,6 +88,7 @@ theorem swap_conj_mem_Q {a b a' b' : Fin n} (hab : a ≠ b)
   rw [hfix x hxa hxb hxa' hxb', hfix y hya hyb hya' hyb']
   exact hQ
 
+omit [Finite X] in
 theorem conj_J_le_Q {γ : Perm (Fin n)}
     (h : ∀ x y : Fin n, x ≠ y → swap x y ∈ S.Q → swap (γ x) (γ y) ∈ S.Q) :
     ∀ j ∈ S.J, γ * j * γ⁻¹ ∈ S.Q := by
@@ -102,6 +105,7 @@ theorem conj_J_le_Q {γ : Perm (Fin n)}
   intro j hj
   exact hle hj
 
+omit [Finite X] in
 theorem exists_lift_of_mem_alternatingGroup {γ : Perm (Fin n)}
     (hγ : γ ∈ alternatingGroup (Fin n)) :
     ∃ (l : X) (hl : toStar T l ∈ L), S.ρ ⟨l, Subgroup.le_normalizer hl⟩ = γ := by

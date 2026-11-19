@@ -153,7 +153,7 @@ theorem not_decomposable_of_submodule_of_four_le (hn : 4 ≤ S.width)
     ∀ g : G, g * S.z * g⁻¹ ∈ S.QG → g * S.z * g⁻¹ = S.z
 
 theorem nondegWeaklyClosed_of_four_le (hn : 4 ≤ S.width) : NondegWeaklyClosed S :=
-  fun W hinv hnd h0 htop g hgQ =>
+  fun W hinv hnd h0 htop _g hgQ =>
     not_decomposable_of_submodule_of_four_le S hn W hinv hnd h0 htop hgQ
 
 end CFSG.LargeExtraspecial.DW

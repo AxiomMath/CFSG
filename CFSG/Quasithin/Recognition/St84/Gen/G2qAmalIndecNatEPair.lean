@@ -283,7 +283,7 @@ private theorem psi_mul (hC : G2qNatEConf L1 L2 S Q1 Q2 Z1 Z2 W E α₁ α₂ vE
 theorem E_le_W (hC : G2qNatEConf L1 L2 S Q1 Q2 Z1 Z2 W E α₁ α₂ vE nv zv) [Finite F₂]
     [CharP F₂ 2] (hEQ : E ≤ Q2) : E ≤ W := by
   by_contra hEW
-  obtain ⟨e₀, he₀E, he₀W⟩ := SetLike.not_le_iff_exists.mp hEW
+  obtain ⟨e₀, he₀E, he₀W⟩ := IsConcreteLE.not_le_iff_exists.mp hEW
   have he₀0 : nv e₀ 0 ≠ 0 := by
     intro h0
     refine he₀W ((hC.split.natW.eq_zero_iff _ (hEQ he₀E)).mp ?_)

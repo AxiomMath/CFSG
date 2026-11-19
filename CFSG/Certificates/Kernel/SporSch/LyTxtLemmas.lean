@@ -190,7 +190,7 @@ theorem char_of_beq {c : Char} {n : Nat} (h : Nat.beq c.toNat n = true) (hn : n 
   apply Char.ext
   apply UInt32.toNat_inj.mp
   rw [← Char.toNat, e]
-  simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, hn, (by omega : n < 55296)]
+  simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, (by omega : n < 55296)]
 
 theorem filter_digits {ds : List Char} (hd : ∀ c ∈ ds, c.isDigit = true) :
     ds.filter (· != '_') = ds := by
@@ -286,7 +286,7 @@ theorem ne_of_beq_false {c : Char} {n : Nat} (h : Nat.beq c.toNat n = false) (hn
     c ≠ Char.ofNat n := by
   rintro rfl
   have e : (Char.ofNat n).toNat = n := by
-    simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, hn, (by omega : n < 55296), Char.toNat]
+    simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, (by omega : n < 55296), Char.toNat]
   rw [e, Nat.beq_refl] at h
   exact Bool.noConfusion h
 
@@ -329,7 +329,7 @@ theorem parse_inv : ∀ (cs : List Char) (ds : List Char) (v len : Nat) (neg : B
     · have hdig' : (Nat.ble 48 ch.toNat && Nat.ble ch.toNat 57) = false := Bool.eq_false_iff.2 hdig
       simp only [hdig'] at h
       by_cases hmin : Nat.beq ch.toNat 45 = true
-      · simp only [hmin, Bool.true_and, Bool.and_eq_true] at h
+      · simp only [hmin, Bool.and_eq_true] at h
         obtain ⟨h0, h⟩ := h
         cases neg
         · simp only at h

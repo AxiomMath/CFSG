@@ -38,7 +38,7 @@ theorem tzPart_le_torusGroup (m : ℕ) : tzPart m ≤ torusGroup .G2 L := by
 
 theorem card_tzPart (m : ℕ) (hm : m ≠ 0) {ζ : L} (hζ : IsPrimitiveRoot ζ m) :
     Nat.card (tzPart m : Subgroup (ModGL .G2 L)) = m ^ 2 := by
-  haveI : NeZero m := ⟨hm⟩
+  have : NeZero m := ⟨hm⟩
   let f : (rootsOfUnity m L × rootsOfUnity m L) → (tzPart m : Subgroup (ModGL .G2 L)) :=
     fun p => ⟨tz p.1 p.2, ⟨p.1, p.2, p.1.2, p.2.2, rfl⟩⟩
   have hf_inj : Function.Injective f := by
@@ -90,7 +90,7 @@ theorem tz_fixed_by_yq {s t : Lˣ} (h : (yq : ModGL .G2 L) * tz s t * yq⁻¹ = 
   rw [ht2] at h2
   exact mul_eq_right.1 h2
 
-theorem mem_zpowers_of_yq_fixed_tzPart {m : ℕ} (hm3 : 3 ∣ m) {ω : Lˣ} (hω3 : ω ^ 3 = 1)
+theorem mem_zpowers_of_yq_fixed_tzPart {m : ℕ} (_hm3 : 3 ∣ m) {ω : Lˣ} (_hω3 : ω ^ 3 = 1)
     (hω : IsPrimitiveRoot (ω : L) 3) {x : ModGL .G2 L} (hx : x ∈ tzPart m)
     (hfix : (yq : ModGL .G2 L) * x * yq⁻¹ = x) : x ∈ Subgroup.zpowers (tz 1 ω) := by
   obtain ⟨s, t, hs, ht, rfl⟩ := hx
@@ -320,7 +320,7 @@ theorem sylow_center_inversion_transport
 
 theorem padicValNat_three_sq_sub_one_of_mod_one {q : ℕ} (hq : 3 ≤ q) (hmod : q % 3 = 1) :
     padicValNat 3 (q ^ 2 - 1) = padicValNat 3 (q - 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : q - 1 ≠ 0 := by omega
   have hq1' : q + 1 ≠ 0 := by omega
   have h3q1 : ¬ 3 ∣ q + 1 := by
@@ -335,7 +335,7 @@ theorem padicValNat_three_sq_sub_one_of_mod_one {q : ℕ} (hq : 3 ≤ q) (hmod :
 
 theorem padicValNat_three_sq_sub_one_of_mod_two {q : ℕ} (hq : 3 ≤ q) (hmod : q % 3 = 2) :
     padicValNat 3 (q ^ 2 - 1) = padicValNat 3 (q + 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : q - 1 ≠ 0 := by omega
   have hq1' : q + 1 ≠ 0 := by omega
   have h3q1 : ¬ 3 ∣ q - 1 := by
@@ -362,7 +362,7 @@ theorem pow_padicValNat_three_sq_sub_one_dvd_of_mod_two {q : ℕ} (hq : 3 ≤ q)
 
 theorem one_le_padicValNat_three_sq_sub_one {q : ℕ} (h3 : ¬ 3 ∣ q) (hq : 2 ≤ q) :
     1 ≤ padicValNat 3 (q ^ 2 - 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : q ^ 2 - 1 ≠ 0 := by
     have : 1 < q ^ 2 := Nat.one_lt_pow (by norm_num) (by omega)
     omega
@@ -444,8 +444,8 @@ theorem g2_exists_sylow_inversion_data
       rw [show (3 : K) = ((3 : ℕ) : K) by norm_num, map_natCast]
       exact h
     exact (algebraMap K L).injective (h'.trans (map_zero _).symm)
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3L⟩
-  haveI : NeZero ((3 ^ b : ℕ) : L) := ⟨by
+  have : NeZero ((3 : ℕ) : L) := ⟨h3L⟩
+  have : NeZero ((3 ^ b : ℕ) : L) := ⟨by
     rw [Nat.cast_pow]
     exact pow_ne_zero b h3L⟩
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.prim (M := L) (n := 3 ^ b)
@@ -771,8 +771,8 @@ theorem g2_inverting_of_lieModel
   have hm : CFSG.Blueprint.UntwistedChevalleyModel X .G2 (p ^ 1) := hc.2
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eX⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (τ := .G2) hm
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hKp : Nat.card K = p := by simpa using hKcard
   have hq3 : 3 ≤ Nat.card K := by
     rw [hKp]

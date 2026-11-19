@@ -147,21 +147,21 @@ private theorem jx_inner {N ng : ℕ} {tab par lab : List ℕ} (i : ℕ)
       intro k
       rw [jxStep, jx_getD_push, hs]
     refine ⟨hsz, fun k hk => ?_, fun j hj => ?_⟩
-    · rw [hpush, if_neg (by omega), hp k hk]
+    · rw [hpush, ite_eq_right (by omega), hp k hk]
     · by_cases hjm : j = m
       · subst hjm
         by_cases hj0 : j = 0
         · subst hj0
-          simp only [hpush, if_true, if_pos]
+          simp only [hpush, ite_eq_left]
         · have := hpar j (by omega) (by omega)
-          simp only [hpush, if_pos, if_neg hj0, if_neg (show i * N + par.getD j 0 ≠ i * N + j by omega)]
+          simp only [hpush, ite_eq_left, ite_eq_right hj0, ite_eq_right (show i * N + par.getD j 0 ≠ i * N + j by omega)]
       · have hjm' : j < m := by omega
-        simp only [hpush, if_neg (show i * N + j ≠ i * N + m by omega)]
+        simp only [hpush, ite_eq_right (show i * N + j ≠ i * N + m by omega)]
         rw [hv j hjm']
         by_cases hj0 : j = 0
         · simp [hj0]
         · have := hpar j (by omega) (by omega)
-          simp only [if_neg hj0, if_neg (show i * N + par.getD j 0 ≠ i * N + m by omega)]
+          simp only [ite_eq_right hj0, ite_eq_right (show i * N + par.getD j 0 ≠ i * N + m by omega)]
 
 private theorem jx_outer {N ng : ℕ} {tab par lab : List ℕ}
     (hpar : ∀ j, 0 < j → j < N → par.getD j 0 < j) :
@@ -198,7 +198,7 @@ private theorem jx_outer {N ng : ℕ} {tab par lab : List ℕ}
       · simp [hj0]
       · have := hpar j (by omega) hj
         have hlt2 : i * N + par.getD j 0 < n * N := by omega
-        simp only [if_neg hj0, h2 _ hlt2]
+        simp only [ite_eq_right hj0, h2 _ hlt2]
 
 private theorem jx_mul {N ng : ℕ} {tab par lab : List ℕ} {M : ℕ → ℕ → ℕ}
     (hpar : ∀ j, 0 < j → j < N → par.getD j 0 < j)
@@ -218,11 +218,11 @@ private theorem jx_mul {N ng : ℕ} {tab par lab : List ℕ} {M : ℕ → ℕ �
     have h2 : mulG N ng tab par lab i j = (mtG N ng tab par lab).getD (i * N + j) 0 := rfl
     by_cases hj0 : j = 0
     · subst hj0
-      rw [h2, h1, if_pos rfl, hM0 i hi]
+      rw [h2, h1, ite_eq_left rfl, hM0 i hi]
     · have hp := hpar j (by omega) hj
       have h3 : mulG N ng tab par lab i (par.getD j 0) =
           (mtG N ng tab par lab).getD (i * N + par.getD j 0) 0 := rfl
-      rw [h2, h1, if_neg hj0, ← h3, ih _ hp (by omega), hMrec i hi j hj hj0]
+      rw [h2, h1, ite_eq_right hj0, ← h3, ih _ hp (by omega), hMrec i hi j hj hj0]
 
 private theorem jx_chunks {N K L : ℕ} (hKL : N ≤ K * L) {f : ℕ → Bool}
     (h : ∀ s < K, allBlk (Nat.mul s L) (fun i => bIf(Nat.blt i N, f i, true)) L = true) :
@@ -241,7 +241,7 @@ private theorem jx_chunks {N K L : ℕ} (hKL : N ≤ K * L) {f : ℕ → Bool}
     rw [Nat.mul_eq, Nat.mul_comm]; exact Nat.div_add_mod i L
   rw [heq] at h1
   have hb : Nat.blt i N = true := by rw [Nat.blt_eq]; exact hi
-  rw [jx_bIf, hb, cond_true] at h1
+  rw [jx_bIf, hb, _root_.Bool.cond_true] at h1
   exact h1
 
 private theorem jx_isInv {b : ℕ} {MR : ℕ → ℕ} {k : ℕ} :
@@ -326,7 +326,7 @@ private theorem jx_tri_spec {b gb N : ℕ} {MR GW : ℕ → ℕ} {i : ℕ}
     ∀ j < N, isInvJ b MR j = true → ∀ k < N, isInvJ b MR k = true →
       tripJ b gb MR GW i j k = true := by
   unfold triJX at h
-  rw [jx_bIf, hi, cond_true] at h
+  rw [jx_bIf, hi, _root_.Bool.cond_true] at h
   intro j hj hjj k hk hkk
   exact jx_rec2 (fun j k => tripJ b gb MR GW i j k) _ _ h j
     ((jx_invs_mem N j).2 ⟨hj, hjj⟩) k ((jx_invs_mem N k).2 ⟨hk, hkk⟩)
@@ -337,8 +337,7 @@ private theorem jx_trip_spec {b gb : ℕ} {MR GW : ℕ → ℕ} {i j k : ℕ}
       mtJ b MR i k = mtJ b MR k i ∧ mtJ b MR j k = mtJ b MR k j) :
     goodJ gb GW i j = true ∨ goodJ gb GW i k = true ∨ goodJ gb GW j k = true := by
   unfold tripJ at h
-  simp only [jx_bIf, jx_c1, jx_c2, jx_c3, jx_c4, Bool.and_eq_true, Bool.or_eq_true, Bool.not_eq_true',
-    Nat.beq_eq] at h
+  simp only [jx_bIf, jx_c1, jx_c2, jx_c4, Bool.or_eq_true, Bool.not_eq_true'] at h
   have e : ∀ x y : ℕ, Nat.beq x y = decide (x = y) := fun x y => by
     cases hh : Nat.beq x y
     · have : ¬ x = y := fun hxy => by rw [hxy] at hh; simp at hh
@@ -381,7 +380,7 @@ private theorem jx_wit_spec {b N : ℕ} {MR IT : ℕ → ℕ} {reps : List (ℕ 
     cases hh : Nat.beq v 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true hh) hv
-  rw [jx_bIf, hv0, cond_false] at h
+  rw [jx_bIf, hv0, Bool.cond_false] at h
   simp only [jx_strictB, jx_bIf, jx_c1, jx_c3, Bool.and_eq_true, Bool.not_eq_true', Nat.beq_eq,
     Nat.blt_eq] at h
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
@@ -414,15 +413,14 @@ private theorem jx_goodTbl {N : ℕ} {mulF : ℕ → ℕ → ℕ} {invF : ℕ �
   have hmod : (i * N + j) % N = j := by
     rw [Nat.mul_comm i N, Nat.mul_add_mod, Nat.mod_eq_of_lt hj]
   simp only [goodTblF, hk, hdiv, hmod, Array.getD_eq_getD_getElem?, List.getElem?_toArray,
-    List.getElem?_map, List.getElem?_range, Option.map_some, Option.getD_some, if_true,
-    Bool.and_eq_true, h1, h2, h4, beq_iff_eq, h3, and_self]
+    List.getElem?_map, List.getElem?_range, Option.map_some, Option.getD_some, Bool.and_eq_true, h1, h2, h4, beq_iff_eq, h3, and_self]
 
 private theorem jx_inFg {b N : ℕ} {MR : ℕ → ℕ} {mulF : ℕ → ℕ → ℕ} {a b' : ℕ}
     (ha : a < N) (hb : b' < N) (hmul : ∀ i < N, ∀ j < N, mulF i j = mtJ b MR i j) (u : ℕ) :
     inFgF mulF a b' u = inFgJ b MR a b' u := by
   unfold inFgF inFgJ
   rw [hmul a ha b' hb]
-  simp only [jx_bIf, jx_beq, Bool.or_eq_true]
+  simp only [jx_bIf, jx_beq]
   by_cases h1 : u = a <;> by_cases h2 : u = b' <;> simp [h1, h2, beq_eq_decide]
 
 open CFSG.KC.Enum CFSG.KC.LQT.SV in
@@ -462,7 +460,7 @@ theorem idxJX_sound {b gb N ng K L : ℕ} {tab par lab : List ℕ} {reps : List 
     obtain ⟨hIT, hIT0, hITmin⟩ := (row_spec (hrow s hs)).2.2.1
     unfold invG invTG
     simp only [Array.getD_eq_getD_getElem?, List.getElem?_toArray, List.getElem?_map,
-      List.getElem?_range, hs, if_true, Option.map_some, Option.getD_some]
+      List.getElem?_range, hs, Option.map_some, Option.getD_some]
     rw [List.findIdx_eq (by simpa using hIT)]
     constructor
     · simp [List.getElem_range, hmul s hs _ hIT, hIT0]
@@ -515,10 +513,10 @@ theorem idxJX_sound {b gb N ng K L : ℕ} {tab par lab : List ℕ} {reps : List 
     have hlt := hMlt i hi j hj
     by_cases hj0 : j = 0
     · subst hj0
-      simp only [if_true, hmij, hM0 i hi]
+      simp only [ite_true, hmij, hM0 i hi]
       simp [hi]
     · have hpj := hpar j (by omega) hj
-      simp only [if_neg hj0, hmij, hmul i hi _ (by omega : par.getD j 0 < N)]
+      simp only [ite_eq_right hj0, hmij, hmul i hi _ (by omega : par.getD j 0 < N)]
       rw [← hMrec i hi j hj hj0]
       simp [hlt]
   · unfold invOKG
@@ -598,7 +596,7 @@ theorem idxJX_tab {b gb N ng K L : ℕ} {tab par lab : List ℕ} {reps : List (�
   refine ⟨?_, hIT⟩
   unfold invG invTG
   simp only [Array.getD_eq_getD_getElem?, List.getElem?_toArray, List.getElem?_map,
-    List.getElem?_range, hs, if_true, Option.map_some, Option.getD_some]
+    List.getElem?_range, hs, Option.map_some, Option.getD_some]
   rw [List.findIdx_eq (by simpa using hIT)]
   constructor
   · simp [List.getElem_range, hmul s hs _ hIT, hIT0]

@@ -29,8 +29,8 @@ theorem ggResDepE6Input_of_inputs (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput
     hAL, hAK, hdel, hJ⟩ := hdat
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hxBs : x ∈ Bs := hH.1.tableB_facts.2.2.1
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hdep : ¬ LinearIndependent (ZMod p) fun i : Λ => h (some i) := hsel
   have hαL : ∀ c : Λ, α (some c) (h (some c)) = 2 := by
     intro c
@@ -89,7 +89,7 @@ theorem ggResDepE6Input_of_inputs (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput
             h (some (e j))) (e.symm b)
         rw [hsplit] at hrel
         have hz : (((![1, 0, 2, 0, 1, 2] : Fin 6 → ℕ) (e.symm b) : ℕ) : ZMod p) •
-            h (some (e (e.symm b))) = 0 := by simp [hbe, hk1]
+            h (some (e (e.symm b))) = 0 := by simp [hbe]
         rw [hz, zero_add] at hrel
         simpa using hrel
       have hsum_some : ∑ i : {i : Λ // i ≠ b},

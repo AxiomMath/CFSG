@@ -44,7 +44,7 @@ theorem fs81_row_out_not_dvd_three
     (hK : LargeEvenMarking K (fun lab _ _ _ _ _ => FSLab lab))
     (hZ : Subgroup.center K = ⊥) :
     ¬ 3 ∣ Nat.card (Outer K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨lab, hFS, hlab⟩ := exists_glaLabel hK
   obtain ⟨hn1, hcases⟩ := hFS
   have hmarked := CFSG.StandardType.Canonical.largeEvenMarking_markedModel hlab
@@ -59,8 +59,8 @@ theorem fs81_row_out_not_dvd_three
   rcases hcases with ⟨hD, hr6⟩ | ⟨htwD, hr7⟩ | ⟨hE7, hr0⟩
   · have h1 : markTag lab = .POmegaPlus := by simp [markTag, hD, hr6]
     have h2 : markRank lab = 6 := by simp [markRank, hD, hr6]
-    have h3 : markChar lab = 2 := by simp [markChar, hD, hr6]
-    have h4 : markDeg lab = 1 := by simp [markDeg, hD, hr6, hn1]
+    have h3 : markChar lab = 2 := by simp [markChar, hD]
+    have h4 : markDeg lab = 1 := by simp [markDeg, hD, hn1]
     have hmR : LieModel ↥K .POmegaPlus 6 2 1 := by
       have h := hmodK
       unfold MarkedModel at h
@@ -74,7 +74,7 @@ theorem fs81_row_out_not_dvd_three
     omega
   · have h1 : markTag lab = .POmegaMinus := by simp [markTag, htwD, hr7]
     have h2 : markRank lab = 7 := by simp [markRank, htwD, hr7]
-    have h3 : markChar lab = 2 := by simp [markChar, htwD, hr7]
+    have h3 : markChar lab = 2 := by simp [markChar, htwD]
     have h4 : markDeg lab = 1 := by simp [markDeg, htwD, hr7, hn1]
     have hmR : LieModel ↥K .POmegaMinus 7 2 1 := by
       have h := hmodK
@@ -105,7 +105,7 @@ theorem fs81_E7_maxElemAb3_card
     (hK : IsEm 7 K) (hZ : Subgroup.center K = ⊥) (hA : IsMaxElemAb3 K A)
     (hcard : 3 ^ 6 ≤ Nat.card A) :
     Nat.card A = 3 ^ 7 ∧ K ⊓ Subgroup.centralizer (A : Set G) = A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨t, r, n⟩, hP, hlab⟩ := exists_glaLabel hK
   obtain ⟨hmt, -, hn⟩ := hP
   subst hn

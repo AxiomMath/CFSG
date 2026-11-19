@@ -35,7 +35,7 @@ theorem sec7l771_main [Finite G] (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (h73 
       QuotEquivTo (CFSG.conjugate L g ⊓ MSub S B) (CFSG.conjugate L g ⊓ ASub S B)
         (Equiv.Perm (Fin 5)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hctx := hc.ctx
   have hL : IsOm6P L := hctx.isOm6P
   have hc' := hctx.conjugate g

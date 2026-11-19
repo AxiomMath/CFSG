@@ -538,7 +538,7 @@ theorem S1_sylow : ∃ R : Sylow 2 X, (R : Subgroup X) = S1 c.s.h.S c.u := by
     have : (⟨x, hx⟩ : ↥(V : Subgroup X)) ∈ (S1 c.s.h.S c.u).subgroupOf (V : Subgroup X) :=
       htop ▸ mem_top _
     exact mem_subgroupOf.mp this
-  have : Group.IsNilpotent ↥(V : Subgroup X) := V.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(V : Subgroup X) := V.isPGroup.isNilpotent
   obtain ⟨g, hgN, hgS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hgN' : (g : X) ∈ normalizer (S1 c.s.h.S c.u : Set X) := by
     rw [mem_normalizer_iff]
@@ -557,7 +557,7 @@ theorem S1_sylow : ∃ R : Sylow 2 X, (R : Subgroup X) = S1 c.s.h.S c.u := by
     sup_le hV (zpowers_le.mpr g.2)
   have hWN : S1 c.s.h.S c.u ⊔ zpowers (g : X) ≤ normalizer (c.F : Set X) :=
     sup_le c.S1_le_N (zpowers_le.mpr (normalizer_le_normalizer_Je _ hgN'))
-  have h1 := c.le_S1_of_isPGroup (V.isPGroup'.to_le hWV) le_sup_left hWN
+  have h1 := c.le_S1_of_isPGroup (V.isPGroup.to_le hWV) le_sup_left hWN
     (mem_sup_right (mem_zpowers _))
   exact hgS (mem_subgroupOf.mpr h1)
 

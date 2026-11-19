@@ -27,7 +27,7 @@ private lemma s16h_e3_map_commSub_of_mem_normalizer {W : Type} [CommGroup W]
       rw [Subgroup.mem_normalizer_iff_conj_image_eq.mp hg, MulAut.conj_apply] at hmem
       exact hmem
     have hgx : g (x w) = (g * x * g⁻¹) (g w) := by
-      simp [MulAut.mul_apply, MulAut.conj_apply]
+      simp [MulAut.mul_apply]
     rw [map_mul, map_inv, hgx]
     exact Subgroup.subset_closure ⟨g * x * g⁻¹, hconj, g w, trivial, rfl⟩
   simpa [Subgroup.mem_comap] using h hu

@@ -86,8 +86,8 @@ theorem weyl {t t' : G} (ht : t ∈ T) (ht' : t' ∈ Tg)
         rw [e1, e2]; simp only [mul_assoc]
   have hconj : (t * t' * t) * x * (t * t' * t)⁻¹ = (f₁ * d₁) * c₁ * (g₁ * e₁) * (c₁ * x) := by
     rw [← h3, ← h2, ← h1]; group
-  haveI : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (D.K_comm a a.2 b b.2)⟩⟩
-  letI : CommGroup ↥K := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (D.K_comm a a.2 b b.2)⟩⟩
+  let : CommGroup ↥K := IsMulCommutative.instCommGroup
   have hcc1 : (⟨c₁, hc₁K⟩ : ↥K) * ⟨c₁, hc₁K⟩ = 1 := Subtype.ext (D.K_sq c₁ hc₁K)
   have hre := rearr (⟨f₁, (D.B_le hf₁).2⟩ : ↥K) ⟨d₁, (D.Bg_le hd₁).2⟩ ⟨c₁, hc₁K⟩ ⟨g₁, hg₁.2⟩
     ⟨e₁, he₁.2⟩ ⟨x, hxK⟩ hcc1
@@ -168,8 +168,8 @@ theorem inj_mod [Finite G] {t t' : G} (ht : t ∈ T) (ht' : t' ∈ Tg)
   set S' := Bg ⊔ (T ⊓ Tg) with hS'def
   set T₀ := T ⊓ K with hT₀
   set T₀' := Tg ⊓ K with hT₀'
-  haveI : IsMulCommutative ↥T₀ := ⟨⟨fun a b => Subtype.ext (D.K_comm a (a.2).2 b (b.2).2)⟩⟩
-  haveI : (S.subgroupOf T₀).Normal := Subgroup.normal_of_comm _
+  have : IsMulCommutative ↥T₀ := ⟨⟨fun a b => Subtype.ext (D.K_comm a (a.2).2 b (b.2).2)⟩⟩
+  have : (S.subgroupOf T₀).Normal := Subgroup.normal_of_isMulCommutative _
   have hmemT₀ : ∀ y ∈ T₀', ⁅t, y⁆ ∈ T₀ := fun y hy => D.T_K t ht y hy.2
   let Dh : ↥T₀' →* ↥T₀ :=
     { toFun := fun y => ⟨⁅t, y⁆, hmemT₀ y y.2⟩
@@ -232,14 +232,14 @@ theorem card_le_relIndex [Finite G] {F : Type} [AddCommGroup F] [Finite F]
     (hF2 : ∀ s : F, s + s = 0) (u : F → G) (hu : ∀ s, u s ∈ T)
     (hadd : ∀ s s', ∃ κ ∈ T ⊓ K, u (s + s') = u s * u s' * κ)
     (hinj : ∀ s ≠ 0, ∀ y ∈ Tg ⊓ K, ⁅u s, y⁆ ∈ B ⊔ (T ⊓ Tg) → y ∈ Bg ⊔ (T ⊓ Tg))
-    (hS : B ⊔ (T ⊓ Tg) ≤ T ⊓ K) {y₀ : G} (hy₀ : y₀ ∈ Tg ⊓ K)
+    (_hS : B ⊔ (T ⊓ Tg) ≤ T ⊓ K) {y₀ : G} (hy₀ : y₀ ∈ Tg ⊓ K)
     (hy₀S : y₀ ∉ Bg ⊔ (T ⊓ Tg)) :
     Nat.card F ≤ (B ⊔ (T ⊓ Tg)).relIndex (T ⊓ K) := by
   classical
   set S := B ⊔ (T ⊓ Tg) with hSdef
   set T₀ := T ⊓ K with hT₀
-  haveI : IsMulCommutative ↥T₀ := ⟨⟨fun a b => Subtype.ext (D.K_comm a (a.2).2 b (b.2).2)⟩⟩
-  haveI : (S.subgroupOf T₀).Normal := Subgroup.normal_of_comm _
+  have : IsMulCommutative ↥T₀ := ⟨⟨fun a b => Subtype.ext (D.K_comm a (a.2).2 b (b.2).2)⟩⟩
+  have : (S.subgroupOf T₀).Normal := Subgroup.normal_of_isMulCommutative _
   have hmem : ∀ s, ⁅u s, y₀⁆ ∈ T₀ := fun s => D.T_K (u s) (hu s) y₀ hy₀.2
   let Φ : F → ↥T₀ ⧸ S.subgroupOf T₀ := fun s => QuotientGroup.mk ⟨⁅u s, y₀⁆, hmem s⟩
   have hΦ : Function.Injective Φ := by
@@ -291,7 +291,7 @@ theorem T0_le_sup [Finite G] {F : Type} [AddCommGroup F] [Finite F] (hF2 : ∀ s
   have hr1 : S.relIndex (T ⊓ K) ≠ 1 := fun h => hne (Subgroup.relIndex_eq_one.mp h)
   have hT₀'S' : ¬ (Tg ⊓ K) ≤ S' := fun h => hr1 (by
     rw [← hcard]; exact Subgroup.relIndex_eq_one.mpr h)
-  obtain ⟨y₀, hy₀, hy₀S'⟩ := SetLike.not_le_iff_exists.mp hT₀'S'
+  obtain ⟨y₀, hy₀, hy₀S'⟩ := IsConcreteLE.not_le_iff_exists.mp hT₀'S'
   have hinj : ∀ s ≠ 0, ∀ y ∈ Tg ⊓ K, ⁅u s, y⁆ ∈ S → y ∈ S' := fun s hs =>
     D.inj_mod (hu s) (hv s) (hw s hs) hcard hS
   have hcount := D.card_le_relIndex hF2 u hu hadd hinj hS hy₀ hy₀S'

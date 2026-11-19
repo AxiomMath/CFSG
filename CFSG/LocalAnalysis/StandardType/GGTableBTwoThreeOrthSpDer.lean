@@ -72,7 +72,6 @@ theorem le_center_of_normal_of_card_le_two {G : Type*} [Group G] {C : Subgroup G
       | exact absurd hv.symm hc1
       | exact absurd hv hc1
       | exact absurd hv.symm hgc1
-      | exact absurd hv hgc1
       | exact absurd hv hgcc
       | exact absurd hv.symm hgcc
   have := Nat.card_le_card_of_injective f hinj

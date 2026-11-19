@@ -34,7 +34,7 @@ theorem no_member_commutes_q8 (hc : P23Cfg n Y R S t K' W u e g) {v' : Y}
         m * QuotientGroup.mk' (classicalInvolutionOddCore ↥(coreHull (Om R) u)) vH := by
   intro J hJ
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hd := hc.data
   have hC := CoreData.of_S hc.std.perp.core
   have hΩ : HypOmegaGen (Om R) := hC.hyp

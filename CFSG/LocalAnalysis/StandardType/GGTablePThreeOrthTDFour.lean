@@ -133,7 +133,7 @@ private theorem orthTDFour_quasi_two_le
     (hm : 2 ≤ primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1))
     (hn2 : 2 ≤ n) :
     CFSG.IsQuasisimple ↥(specialBlock Q x (X ^ 2 + X + 1)) := by
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem⟩
   obtain ⟨hU, B, hBsymm, hBl, ⟨e₁⟩⟩ :=
     CFSG.StandardType.D4Inner.exists_specialBlock_phi_mulEquiv_sesqSpecialUnitaryGroup
@@ -154,7 +154,7 @@ private theorem orthTDFour_block_eq_fixed
     {Ā : Subgroup (MulAut (ProjOrthDerived Q))} {δ' : MulAut (ProjOrthDerived Q)}
     {J' : Subgroup (ProjOrthDerived Q)} (hR : RDatum Ā δ' J')
     (hĀI : ∀ a ∈ Ā, a ∈ LargeEvenInnSet (ProjOrthDerived Q))
-    {x : ↥(orthDerived Q)} (hx : OddOrderIsometry Q 3 (x : V ≃ₗ[K] V))
+    {x : ↥(orthDerived Q)} (_hx : OddOrderIsometry Q 3 (x : V ≃ₗ[K] V))
     (hxδ : MulAut.conj (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q)) x) = δ')
     {h : K[X]} (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h)) :
@@ -164,7 +164,7 @@ private theorem orthTDFour_block_eq_fixed
       MulAut.conj (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q)) x) := by
     rw [hx₀δ, hxδ]
   have hmk := orthTDFour_conj_injective hQ hT hconj
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := K) (by have := Submodule.finrank_le U; omega)
   have hinj : Function.Injective
@@ -334,7 +334,7 @@ private theorem orthTDFour_fixed_data
     CFSG.StandardType.D4Inner.three_dvd_card_add_one (K := K) hK hn
   have hmem : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap :=
     CFSG.HardMathSupport.Dickson.Bal207.OrthFix.phi_mem hx hpq hx1
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem⟩
   refine ⟨hdim8, hplus, ?_, ?_⟩
   · by_contra hle
@@ -386,7 +386,7 @@ private theorem orthTDFour_t_bound
       CFSG.StandardType.D4Inner.three_dvd_card_add_one (K := K) hK hn
     have hmem : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap :=
       CFSG.HardMathSupport.Dickson.Bal207.OrthFix.phi_mem hx hpq hx1
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+    have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
       ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem⟩
     have hothers : othersSpace (x : V ≃ₗ[K] V).toLinearMap (X - 1) =
         primaryComponent (x : V ≃ₗ[K] V).toLinearMap (X ^ 2 + X + 1) :=

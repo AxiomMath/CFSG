@@ -41,6 +41,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 variable (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem mem_centralizerAt_of_mem_isElemAbelian
     (hA : CFSG.Open.IsElemAbelian 3 A) (ha : a ∈ A) {b : G} (hb : b ∈ A) :
     b ∈ centralizerAt a := by
@@ -61,30 +62,30 @@ theorem isComponent_thetaImgAt {K : Subgroup G} (hK : K ∈ thetaComponentsAt 3 
     ((CFSG.RankThree.PartOne.mem_thetaComponentsAt_iff (p := 3) (a := a) (L := K)).mp hK).2
 
 theorem A_normalizes_orbit'
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
-    (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
+    (hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
+    (_hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
     (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
-    {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)
-    (h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
-    (h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
-    (hS1 : ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
+    {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (_h3 : ¬ 3 ∣ Nat.card J)
+    (_h6 : (orbitConjugates (perfectCoreL c a) J).ncard = 6)
+    (_h7J : ¬ 7 ∣ Nat.card (J ⧸ CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 J))
+    (_hS1 : ∀ z ∈ zSub P c.L, ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       z ∈ Subgroup.normalizer (K : Set G))
-    (hS2 : ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
+    (_hS2 : ∀ K ∈ orbitConjugates (perfectCoreL c a) J,
       autThetaQuot (zSub P c.L) K = ⊥)
-    {z : G} (hz : z ∈ zSub P c.L) (hz1 : z ≠ 1)
+    {z : G} (_hz : z ∈ zSub P c.L) (_hz1 : z ≠ 1)
     (hzgen : zSub P c.L = Subgroup.zpowers z)
     {W : Subgroup G}
     (hWH : W ≤ centralizerAt a)
@@ -160,9 +161,9 @@ theorem A_normalizes_orbit'
     rw [Subgroup.mem_normalizer_iff]
     intro z
     constructor
-    · intro hz
+    · intro _hz
       obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hy
-      obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hz
+      obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp _hz
       have huT : (u : G) ∈ T := Subgroup.mem_subgroupOf.mp hu
       have hqQ : (q : G) ∈ Q := Subgroup.mem_subgroupOf.mp hq
       have hconj : (u : G) * (q : G) * (u : G)⁻¹ ∈ Q :=
@@ -279,15 +280,15 @@ theorem A_normalizes_orbit'
       (show IsPGroup 2 (Q.subgroupOf (centralizerAt a)) from hQ2.comap_subtype).map π
     have hCnotQ : ¬ C ≤ Qbar := by
       intro hle
-      haveI : Nontrivial ↥C := CFSG.LocalCores.isQuasisimple_nontrivial hCcomp.1
-      haveI : Group.IsNilpotent ↥Qbar := IsPGroup.isNilpotent hQbar2
-      haveI : Group.IsSolvable ↥Qbar := IsNilpotent.to_isSolvable
-      haveI : Group.IsPerfect ↥C := hCcomp.1.1
+      have : Nontrivial ↥C := CFSG.LocalCores.isQuasisimple_nontrivial hCcomp.1
+      have : Group.IsNilpotent ↥Qbar := IsPGroup.isNilpotent hQbar2
+      have : Group.IsSolvable ↥Qbar := IsNilpotent.to_isSolvable
+      have : Group.IsPerfect ↥C := hCcomp.1.1
       exact Group.IsPerfect.not_isSolvable ↥C
         (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
           (Subgroup.inclusion_injective hle))
     let Qsub : Subgroup Tbar := Qbar.subgroupOf Tbar
-    haveI hQsub : Qsub.Normal := hQbarNorm
+    have hQsub : Qsub.Normal := hQbarNorm
     let ψ : Tbar →* Tbar ⧸ Qsub := QuotientGroup.mk' Qsub
     let C1 : Subgroup Tbar := C.subgroupOf Tbar
     let C2 : Subgroup Tbar := Cb.subgroupOf Tbar
@@ -346,9 +347,9 @@ theorem A_normalizes_orbit'
       CFSG.LocalCores.isQuasisimple_map hC1.1 ψ hC1notQ
     have hna : ∃ a ∈ C1.map ψ, ∃ b ∈ C1.map ψ, a * b ≠ b * a := by
       have hnc : ¬ IsMulCommutative ↥(C1.map ψ) := by
-        haveI : Nontrivial ↥(C1.map ψ) :=
+        have : Nontrivial ↥(C1.map ψ) :=
           CFSG.LocalCores.isQuasisimple_nontrivial hqimg
-        haveI : Group.IsPerfect ↥(C1.map ψ) := hqimg.1
+        have : Group.IsPerfect ↥(C1.map ψ) := hqimg.1
         exact Group.IsPerfect.not_isMulCommutative (G := ↥(C1.map ψ))
       obtain ⟨a, b, hab⟩ : ∃ a b : ↥(C1.map ψ), a * b ≠ b * a := by
         by_contra h

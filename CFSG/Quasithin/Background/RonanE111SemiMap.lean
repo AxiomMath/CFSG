@@ -64,7 +64,7 @@ theorem SemisimpleMod.map_of_injective {Q G : Type} [Group Q] [Group G] (f : Q �
     rw [← Subgroup.map_commutator]
     exact hle.mpr (h.comm S hS S' hS' hSS)
   · rw [← sSup_eq_iSup, sSup_image, ← h.gen, Subgroup.map_iSup]
-    simp [sSup_eq_iSup, Subgroup.map_iSup]
+    simp [Subgroup.map_iSup]
   · rintro _ ⟨S, hS, rfl⟩ t' ht'
     obtain ⟨t, ht, rfl⟩ := ht'
     exact ⟨A1b.conjSub t S, h.conj S hS t ht, (hconj t S).symm⟩

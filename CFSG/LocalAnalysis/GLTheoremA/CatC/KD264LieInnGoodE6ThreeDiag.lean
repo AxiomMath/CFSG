@@ -71,7 +71,7 @@ theorem e6Three_exists_good_of_plane {K : Type} [Field K] [Finite K] (hK3 : ring
     have h3 : ¬ 3 ∣ Nat.card K := by
       intro h3
       have : Fintype K := Fintype.ofFinite K
-      haveI := ringChar.charP K
+      have := ringChar.charP K
       obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
       rw [Nat.card_eq_fintype_card, hcard] at h3
       exact hK3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp
@@ -96,7 +96,7 @@ theorem e6Three_exists_good_of_plane {K : Type} [Field K] [Finite K] (hK3 : ring
       (MulAut.conj g0⁻¹).toMonoidHom.comp
         ((baseChangeGL (algebraMap K L)).comp (e6InndiagGL K).subtype)
     have hθ : ∀ x, θ x = g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL Tag.E6 K) * g0 :=
-      fun x => by simp [θ, MulAut.conj_apply]
+      fun x => by simp [θ]
     have hθinj : Function.Injective θ :=
       (MulAut.conj g0⁻¹).injective.comp
         ((baseChangeGL_injective _).comp Subtype.val_injective)

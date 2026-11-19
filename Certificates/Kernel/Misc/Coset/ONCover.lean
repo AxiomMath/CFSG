@@ -324,7 +324,7 @@ theorem prod_commW {G : Type*} [Group G] (f : Fin 10 → G) (c x : Fin 10)
     (h : f c ∈ Subgroup.center G) :
     ((commW c x).map fun l => cond l.2 (f l.1) (f l.1)⁻¹).prod = 1 := by
   rw [Subgroup.mem_center_iff] at h
-  simp only [commW, List.map_cons, List.map_nil, cond_true, cond_false, List.prod_cons,
+  simp only [commW, List.map_cons, List.map_nil, _root_.Bool.cond_true, Bool.cond_false, List.prod_cons,
     List.prod_nil, mul_one]
   rw [← mul_assoc, ← h (f x), mul_assoc, mul_inv_cancel_left, mul_inv_cancel]
 
@@ -355,7 +355,6 @@ theorem psi_rel : ∀ r ∈ Urel, FreeGroup.lift (psiImg e₁ e₂ e₃) r = 1 :
   · simpa [psiImg, pow_succ, mul_assoc] using zz_pow_cube (e₁ := e₁) (e₂ := e₂) (e₃ := e₃) e₂
   · simpa [psiImg, pow_succ, mul_assoc] using zz_pow_cube (e₁ := e₁) (e₂ := e₂) (e₃ := e₃) e₃
   · apply prod_commW
-    try simp only [List.mem_cons, List.mem_nil_iff, or_false] at hc
     rcases hc with rfl | rfl | rfl
     · simpa [psiImg] using zz_pow_center (e₁ := e₁) (e₂ := e₂) (e₃ := e₃) e₁
     · simpa [psiImg] using zz_pow_center (e₁ := e₁) (e₂ := e₂) (e₃ := e₃) e₂

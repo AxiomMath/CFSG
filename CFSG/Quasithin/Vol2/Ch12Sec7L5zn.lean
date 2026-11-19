@@ -49,7 +49,7 @@ theorem eq_of_central_sylow {H C U : Subgroup G} (hCH : C ≤ H)
     intro g hg
     rw [hN, MonoidHom.mem_ker]
     set y := MonoidHom.transferSylow P hPC g with hy
-    obtain ⟨k, hk⟩ := (P.isPGroup') y
+    obtain ⟨k, hk⟩ := (P.isPGroup) y
     have h1 : orderOf y ∣ orderOf g := orderOf_map_dvd _ g
     have h2 : orderOf y ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have hcop : Nat.Coprime (2 ^ k) (orderOf g) :=

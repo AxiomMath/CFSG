@@ -105,7 +105,7 @@ theorem sum_filter_eq_zero_of_forall_eval {F E ι : Type*} [Field F] [Fintype F]
   rw [Finset.sum_filter]
   refine (Finset.sum_congr rfl fun i _ => ?_).trans hcoeff
   by_cases hc : a i = m
-  · rw [if_pos hc, if_pos hc.symm]
-  · rw [if_neg hc, if_neg (Ne.symm hc)]
+  · rw [ite_eq_left hc, ite_eq_left hc.symm]
+  · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]
 
 end CFSG.FrobeniusMonomials

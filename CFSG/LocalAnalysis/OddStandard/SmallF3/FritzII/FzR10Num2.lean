@@ -14,7 +14,7 @@ open Certificates.FzL26 Certificates.FzR10 Subgroup CFSG.OddStandard.SmallF3.Har
 variable {G : Type} [Group G] [Finite G] {t : G} {x₁ x₂ lam rho tau : G} {T₂ : Subgroup G}
 variable (D : FzDat t x₁ x₂ lam rho tau T₂)
 
-private theorem fzrAux_digits {x : ℕ} (hx : x < 512) :
+private theorem fzrAux_digits {x : ℕ} (_hx : x < 512) :
     (fzEOf x).1 = fzElt (x % 64) ∧
     (fzEOf x).2.1.val = x / 64 % 2 ∧
     (fzEOf x).2.2.1.val = x / 128 % 2 ∧
@@ -46,6 +46,7 @@ private theorem fzrAux_idx_mod16 (x : FzUT) : fzIdx x % 16 = 0 ↔ FzInZ x := by
   simp only [FzInZ]
   decide +kernel
 
+omit [Finite G] in
 private theorem fzrAux_base_le_wreath :
     (baseGrp x₁ x₂ : Subgroup G) ≤ wreathGrp x₁ x₂ lam := by
   unfold baseGrp wreathGrp
@@ -61,6 +62,7 @@ private theorem fzrAux_conj_triple {G : Type} [Group G] {rho t tau : G} (a : G) 
       = (rho * a * rho⁻¹) * (rho * t ^ i * rho⁻¹) * (rho * tau ^ j * rho⁻¹) := by group
     _ = (rho * a * rho⁻¹) * t ^ i * tau ^ j := by rw [ht, htau]
 
+omit [Finite G] in
 private theorem fzrAux_fzEOf_rho {x : ℕ} (hx : x < 256) :
     fzEOf ((fzrCPar D).rhoMap x) = (fzRho0 (fzEOf x).1, (fzEOf x).2) := by
   have hx512 : x < 512 := by omega
@@ -79,6 +81,7 @@ private theorem fzrAux_fzEOf_rho {x : ℕ} (hx : x < 256) :
       = fzEOf (fzEIdx (fzRho0 (fzEOf x).1, (fzEOf x).2)) := by rw [hidx]
     _ = (fzRho0 (fzEOf x).1, (fzEOf x).2) := fzEOf_fzEIdx _
 
+omit [Finite G] in
 theorem fzrCMu_rho {x : ℕ} (hx : x < 256) :
     fzrCMu D ((fzrCPar D).rhoMap x) = rho * fzrCMu D x * rho⁻¹ := by
   have hx512 : x < 512 := by omega
@@ -107,6 +110,7 @@ theorem fzrCMu_rho {x : ℕ} (hx : x < 256) :
   exact (fzrAux_conj_triple ((D.φ.symm (fzEOf x).1 : ↥(fzP t x₁ x₂ rho)) : G)
     (fzEOf x).2.1.val (fzEOf x).2.2.1.val (ht _) (htau _)).symm
 
+omit [Finite G] in
 theorem fzrCMu_inW {x : ℕ} (h : (fzrCPar D).inW x = true) : fzrCMu D x ∈ ctxW t x₁ x₂ := by
   simp only [fzrCPar, parOf, Bool.and_eq_true_iff, beq_iff_eq, decide_eq_true_iff] at h
   obtain ⟨hap, hlt⟩ := h
@@ -128,6 +132,7 @@ theorem fzrCMu_inW {x : ℕ} (h : (fzrCPar D).inW x = true) : fzrCMu D x ∈ ctx
   rw [show fzrCMu D x = D.mu y from rfl, hμ]
   exact (ctxW t x₁ x₂).mul_mem (D.str.EW hbase) ((ctxW t x₁ x₂).pow_mem D.str.t_mem _)
 
+omit [Finite G] in
 theorem fzrCMu_inTL {x : ℕ} (hx : x < 512) (h : (fzrCPar D).inTL x = true) :
     fzrCMu D x ∈ wreathGrp x₁ x₂ lam := by
   simp only [fzrCPar, parOf, Bool.and_eq_true_iff, beq_iff_eq] at h

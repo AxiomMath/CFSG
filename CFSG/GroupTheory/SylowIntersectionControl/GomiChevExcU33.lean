@@ -27,7 +27,7 @@ private theorem u33J_le_g2CG :
 private theorem u33XE_mem_u33J_of_lt
     {i : ℕ} (hi : i < 32) : u33XE i ∈ u33J := by
   unfold u33XE
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
   unfold u33Tel
   exact wordProd_mem_pred (P := fun k => k < 3) (K := u33J)
     (fun k _ => u33GenP_mem k) (u33P_letters.1 i hi)

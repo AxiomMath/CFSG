@@ -17,17 +17,17 @@ theorem k5ONanSharp_holds :
     K5ONanSharp := by
   intro Y _ _ hThree p hp h5 hp7
   obtain ⟨hq, -, hSpor⟩ := hThree
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup (MulAut Y))]
   obtain ⟨e⟩ := hSpor
-  haveI hS : IsSimpleGroup (Y ⧸ center Y) := hq.2
+  have hS : IsSimpleGroup (Y ⧸ center Y) := hq.2
   have hcardS : Nat.card (Y ⧸ center Y) = 460815505920 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.ON.card_ON
   have hnab : ∃ a b : Y ⧸ center Y, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative (Y ⧸ center Y) := ⟨⟨fun a b => hc a b⟩⟩
+    have : IsMulCommutative (Y ⧸ center Y) := ⟨⟨fun a b => hc a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card (α := Y ⧸ center Y)).1 hS
     rw [hcardS] at hprime
     norm_num at hprime

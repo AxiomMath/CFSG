@@ -15,6 +15,7 @@ namespace Cfg1667
 
 variable {M V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     (hcomm : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a) {v : G}
     (hv : v ∈ W₁ ⊔ W₂) : ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, w₁ * w₂ = v := by
@@ -34,6 +35,7 @@ private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     exact ⟨a₁⁻¹, W₁.inv_mem ha₁, a₂⁻¹, W₂.inv_mem ha₂,
       by rw [← mul_inv_rev a₂ a₁, hcomm a₁ ha₁ a₂ ha₂]⟩
 
+omit [Finite G] in
 private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = ⊥)
     {a₁ a₂ b₁ b₂ : G} (ha₁ : a₁ ∈ W₁) (ha₂ : a₂ ∈ W₂) (hb₁ : b₁ ∈ W₁) (hb₂ : b₂ ∈ W₂) :
     a₁ * a₂ = b₁ * b₂ ↔ a₁ = b₁ ∧ a₂ = b₂ := by
@@ -63,8 +65,8 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
     (hsq : ∀ x ∈ W, x ^ 2 = 1) : IsKleinFour ↥W where
   card_four := hcard
   exponent_two := by
-    haveI : Fintype ↥W := Fintype.ofFinite ↥W
-    haveI : Nontrivial ↥W := by
+    have : Fintype ↥W := Fintype.ofFinite ↥W
+    have : Nontrivial ↥W := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcard]
       norm_num
     rw [Monoid.exponent_eq_prime_iff (by norm_num : Nat.Prime 2)]
@@ -76,7 +78,7 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
 private theorem relIndex_centralizer_le_two_of_kleinFour {W R : Subgroup G}
     (hW : IsKleinFour ↥W) (hRW : R ≤ Subgroup.normalizer (W : Set G)) (hR : IsPGroup 2 ↥R) :
     (Subgroup.centralizer (W : Set G)).relIndex R ≤ 2 := by
-  haveI : IsKleinFour ↥W := hW
+  have : IsKleinFour ↥W := hW
   let ψ : ↥R →* MulAut ↥W :=
     (Subgroup.normalizerMonoidHom (H := W)).comp (Subgroup.inclusion hRW)
   have hker : ψ.ker = (Subgroup.centralizer (W : Set G)).subgroupOf R := by
@@ -224,6 +226,7 @@ theorem relIndex_centralizer_B (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ 
   rw [hpow, hk2]
   norm_num
 
+omit [Finite G] in
 theorem card_centralizer_swap (h : Cfg1667 M V W₁ W₂) {s : G} (hs : s * s = 1)
     (hs₁ : conjSubgroup W₁ s = W₂) (hs₂ : conjSubgroup W₂ s = W₁) :
     Nat.card (V ⊓ centralizer ({s} : Set G) : Subgroup G) = 4 := by
@@ -341,7 +344,7 @@ theorem exists_eq_zpowers (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) 
   set U : Subgroup G := V ⊓ conjSubgroup M g
   set B : Subgroup G := conjSubgroup V g ⊓ M
   have hcard : Nat.card (U ⊓ B : Subgroup G) = 2 := card_U_inf_B h hg
-  haveI hnt : Nontrivial ↥(U ⊓ B) := by
+  have hnt : Nontrivial ↥(U ⊓ B) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(U ⊓ B))

@@ -49,9 +49,9 @@ theorem prod_perm_five {p : Fin 5 → M} (hp : ∀ i j, Commute (p i) (p j))
   have hc : (Set.range p).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ _
     exact hp i j
-  haveI hcomm : IsMulCommutative (Subgroup.closure (Set.range p)) :=
+  have hcomm : IsMulCommutative (Subgroup.closure (Set.range p)) :=
     Subgroup.isMulCommutative_closure hc
-  letI : CommGroup (Subgroup.closure (Set.range p)) := IsMulCommutative.instCommGroup
+  let : CommGroup (Subgroup.closure (Set.range p)) := IsMulCommutative.instCommGroup
   let q : Fin 5 → Subgroup.closure (Set.range p) :=
     fun i => ⟨p i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have h1 : ∏ i, q (σ i) = ∏ i, q i := Equiv.prod_comp σ q
@@ -68,9 +68,9 @@ theorem eq_zero_or_one_of_prod_eq_one {w : Fin 5 → M} (hsq : ∀ i, w i * w i 
   have hc' : (Set.range w).Pairwise Commute := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ _
     exact hc i j
-  haveI hcomm : IsMulCommutative (Subgroup.closure (Set.range w)) :=
+  have hcomm : IsMulCommutative (Subgroup.closure (Set.range w)) :=
     Subgroup.isMulCommutative_closure hc'
-  letI : CommGroup (Subgroup.closure (Set.range w)) := IsMulCommutative.instCommGroup
+  let : CommGroup (Subgroup.closure (Set.range w)) := IsMulCommutative.instCommGroup
   let u : Fin 5 → Subgroup.closure (Set.range w) :=
     fun i => ⟨w i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hu1 : ∀ i, u i ≠ 1 := fun i h => h1 i (congrArg Subtype.val h)
@@ -82,7 +82,7 @@ theorem eq_zero_or_one_of_prod_eq_one {w : Fin 5 → M} (hsq : ∀ i, w i * w i 
   have hz : ∀ z : ZMod 2, z = 0 ∨ z = 1 := by decide
   have hpow : ∀ i, u i ^ (x i).val = if x i = 1 then u i else 1 := by
     intro i
-    rcases hz (x i) with h | h <;> simp [h, zmod_two_val_one]
+    rcases hz (x i) with h | h <;> simp [h]
   have hxu : ∏ i, u i ^ (x i).val = 1 := by
     rw [Fin.prod_univ_five]
     exact Subtype.ext hx
@@ -113,7 +113,7 @@ theorem eq_zero_or_one_of_prod_eq_one {w : Fin 5 → M} (hsq : ∀ i, w i * w i 
   have h2S := key Sᶜ hcomp
   have hcard : S.card + Sᶜ.card = 5 := by
     have := Finset.card_add_card_compl S
-    simpa using this
+    simp
   have hS5 : S.card ≤ 5 := by omega
   have hcases : S.card = 0 ∨ S.card = 5 := by omega
   rcases hcases with h0 | h5
@@ -339,10 +339,10 @@ theorem le_of_central_quotient {B Q X : Subgroup G} [B.Normal] (hBQ : B ≤ Q)
     obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hv
     obtain ⟨g, rfl⟩ := hπ g
     exact (hcent g q hq).symm
-  haveI hVn : V.Normal := ⟨fun n hn g => by
+  have hVn : V.Normal := ⟨fun n hn g => by
     rw [← hVc n hn g, mul_assoc, mul_inv_cancel, mul_one]
     exact hn⟩
-  haveI hVc' : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (hVc a.1 a.2 b.1)⟩⟩
+  have hVc' : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (hVc a.1 a.2 b.1)⟩⟩
   have hV2 : IsPGroup 2 V := hQ2.map π
   let P' : Sylow 2 (G ⧸ B) := S.mapSurjective hπ
   have hP' : (P' : Subgroup (G ⧸ B)) = (S : Subgroup G).map π := Sylow.coe_mapSurjective hπ S
@@ -605,7 +605,7 @@ theorem beta_single (γ : Fin 5) :
     h.w a 2 ^ ((Pi.single γ (1 : ZMod 2) : Fin 5 → ZMod 2) 2).val *
     h.w a 3 ^ ((Pi.single γ (1 : ZMod 2) : Fin 5 → ZMod 2) 3).val *
     h.w a 4 ^ ((Pi.single γ (1 : ZMod 2) : Fin 5 → ZMod 2) 4).val = h.w a γ
-  fin_cases γ <;> simp [Pi.single_apply, A5Q.zmod_two_val_one]
+  fin_cases γ <;> simp
 
 theorem beta_eq_one_iff (f : Multiplicative (Fin 5 → ZMod 2)) :
     h.beta a f = 1 ↔ (f.toAdd = 0 ∨ f.toAdd = fun _ => 1) := by
@@ -830,7 +830,7 @@ theorem range_beta_eq : (h.beta a).range = pCore 2 G := by
   classical
   have hQn : (pCore 2 G).Normal := CFSG.pCore_normal
   refine le_antisymm (h.range_beta_le a) ?_
-  haveI hBn : (h.beta a).range.Normal :=
+  have hBn : (h.beta a).range.Normal :=
     ⟨fun n hn g => by
       obtain ⟨f, rfl⟩ := hn
       exact ⟨_, (h.conj_beta a g f).symm⟩⟩
@@ -967,7 +967,7 @@ theorem card_pCore : Nat.card (pCore 2 G) = 16 := by
 theorem exists_complement : ∃ H : Subgroup G, (pCore 2 G).IsComplement' H := by
   classical
   have hQn : (pCore 2 G).Normal := CFSG.pCore_normal
-  haveI hQc : IsMulCommutative (pCore 2 G) := by
+  have hQc : IsMulCommutative (pCore 2 G) := by
     refine ⟨⟨fun x y => ?_⟩⟩
     have hx : x.1 ∈ (h.beta a).range := by rw [h.range_beta_eq a]; exact x.2
     have hy : y.1 ∈ (h.beta a).range := by rw [h.range_beta_eq a]; exact y.2

@@ -40,18 +40,18 @@ theorem wc_structure (hd : Sec23Data V H)
     ((∃ n f : ℕ, 3 ≤ n ∧ 1 ≤ f ∧
         StatedClassicalModel (Xbar V H ⧸ Subgroup.center (Xbar V H)) .PSL n 2 f) ∨
       Nonempty (Xbar V H ⧸ Subgroup.center (Xbar V H) ≃* alternatingGroup (Fin 6))) := by
-  have hH := hc.tilde_hyp hd hnd
-  haveI := hH.finite
+  have hH := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_hyp hd hnd
+  have := hH.finite
   have hsimple : IsSimpleGroup (Xbar V H ⧸ Subgroup.center (Xbar V H)) :=
     (CFSG.Timmesfeld.conclusions _ (Dtilde V H) hH.isClass hH.root.1 hH.gen hH.oddCore hH.twoCore
       hH.root.2.1 hH.root.2.2 hH.nondeg).1.1
   refine ⟨hsimple, ?_⟩
-  haveI := hsimple
+  have := hsimple
   have hcl := hc.classD_Vtilde hd hnd
   obtain ⟨a₀, ha₀V, ha₀1, ha₀D⟩ := hc.exists_Vtilde_ne_one hd
   have hyp : Lemma26Hyp (Xbar V H ⧸ Subgroup.center (Xbar V H)) (Vtilde V H) := by
     refine ⟨hwc, ?_, ?_, ?_, ?_⟩
-    · rw [hc.card_Vtilde hd]
+    · rw [CFSG.RankThree.GF2n.Tim79a.MinCex.card_Vtilde hd]
       omega
     · refine ⟨a₀, ?_⟩
       rw [hcl]
@@ -78,19 +78,19 @@ theorem degenerate_of_inputs (h : Tim75aTINotWCRoot) (hd : Sec23Data V H) :
   have hnd : ∃ d ∈ Dy V H, ∃ e ∈ Dy V H, orderOf (d * e) = 4 := ⟨d, hdD, e, heD, h4⟩
   rcases hc.card_barOf_V_eq_two_or_four_le with h2 | h4'
   · exact hc.degenerate_of_card_two hd h2 d hdD e heD h4
-  have hH := hc.tilde_hyp hd hnd
-  haveI := hH.finite
+  have hH := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_hyp hd hnd
+  have := hH.finite
   by_cases hwc : IsWC (Vtilde V H)
   · obtain ⟨hsimple, hstr⟩ := hc.wc_structure hd hnd h4' hwc
     rcases hstr with ⟨n, f, hn, hf, hM⟩ | hA6
     · obtain ⟨-, F, hFfield, hFfin, hF, ⟨e'⟩⟩ := hM
-      haveI : CharP F 2 := charP_two_of_card hF
+      have : CharP F 2 := charP_two_of_card hF
       obtain ⟨-, hV, -⟩ := lin_wc hn e' hwc (hc.Vtilde_ne_bot hd)
       exact hc.false_of_linear hd hn e' hV
     · obtain ⟨e'⟩ := hA6
       exact hc.false_of_alt6 hd hnd e'
   · obtain ⟨d', hd', hle⟩ := h _ _ hH (Vtilde V H) (hc.Vtilde_ne_bot hd)
-      (fun a ha ha1 => hc.Vtilde_mem_Dtilde ha ha1) hc.isElemAbelian_Vtilde
+      (fun a ha ha1 => CFSG.RankThree.GF2n.Tim79a.MinCex.Vtilde_mem_Dtilde ha ha1) hc.isElemAbelian_Vtilde
       (hc.isTI_Vtilde hd) hwc
     exact hc.false_of_le_rootGroup hd hnd hd' hle
 

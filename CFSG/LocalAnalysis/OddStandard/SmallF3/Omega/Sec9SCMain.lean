@@ -19,6 +19,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B E1 : Subgroup G}
 
+omit [Finite G] in
 private theorem sec9c_layerCent_le (L : Subgroup G) (s : G) : layerCent L s ≤ L :=
   (Subgroup.map_subtype_le (CFSG.layer ↥(L ⊓ centralizer ({s} : Set G)))).trans inf_le_left
 

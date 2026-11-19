@@ -77,7 +77,7 @@ theorem twenty_le_finrank_of_heis5 {E V : Type*} [Field E] [IsAlgClosed E] [AddC
     [Module E V] [FiniteDimensional E V] (hE : ringChar E ≠ 5) (x y z g w : Module.End E V)
     (hz : z ^ 5 = 1) (hz1 : z ≠ 1) (hx : IsUnit x) (hy : IsUnit y) (hg : IsUnit g)
     (hxz : x * z = z * x) (hyz : y * z = z * y) (hgz : g * z = z ^ 2 * g)
-    (hwx : w * x = x * w) (hwy : w * y = y * w) (hwz : w * z = z * w) (hw2 : w ^ 2 = 1)
+    (_hwx : w * x = x * w) (_hwy : w * y = y * w) (hwz : w * z = z * w) (hw2 : w ^ 2 = 1)
     (hc : x * y = z * w * (y * x)) : 20 ≤ finrank E V := by
   have h5 : ((5 : ℕ) : E) ≠ 0 := five_ne_zero_of_ringChar_ne hE
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_isAlgClosed h5

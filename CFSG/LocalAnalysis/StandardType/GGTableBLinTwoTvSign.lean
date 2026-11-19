@@ -43,7 +43,7 @@ theorem exists_single_of_hamWt_eq_one {v : Fin s → ZMod 3} (h : hamWt v = 1) :
       rw [hj]
       simpa using hi
     have h0 : v i = 0 := by simpa using hn
-    simp [Pi.single_apply, hi, h0]
+    simp [hi, h0]
 
 theorem smul_single_one (i : Fin s) (c : ZMod 3) :
     c • (Pi.single i 1 : Fin s → ZMod 3) = Pi.single i c := by
@@ -72,7 +72,7 @@ theorem eq_id_of_hamWt_sq (τ : (Fin s → ZMod 3) →ₗ[ZMod 3] (Fin s → ZMo
       simp [mul_comm]
     have h2 := hinj _ h1
     have h3 := congrFun h2 i
-    simp [Pi.single_apply, hne, Ne.symm hne] at h3
+    simp [hne] at h3
     exact hc0 j h3
   by_contra hcon
   push Not at hcon
@@ -104,8 +104,7 @@ theorem eq_id_of_hamWt_sq (τ : (Fin s → ZMod 3) →ₗ[ZMod 3] (Fin s → ZMo
     have h2 := congrFun (hsq (Pi.single i 1)) (π i)
     rw [map_sub, hτe, hτs] at h2
     have hπj : ¬ π i = π (π i) := fun h => hπi (hπinj h.symm)
-    simp only [Pi.sub_apply, Pi.single_apply, hπj, hπi, if_false, if_true, zero_sub, sub_zero,
-      ite_true] at h2
+    simp only [Pi.sub_apply, Pi.single_apply, hπj, hπi, ite_false, ite_true, zero_sub, sub_zero] at h2
     have h4 : (2 : ZMod 3) * c i = 0 := by linear_combination -h2
     have h5 : c i = 0 := by
       have h6 : ∀ x : ZMod 3, 2 * x = 0 → x = 0 := by decide

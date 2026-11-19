@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 namespace Z4Good
 
+omit [Finite G] in
 private theorem conj_inv_mul {b v : G} (hb : t * b * t⁻¹ = b)
     (hv : t * v * t⁻¹ = v * b ^ 2) (hcomm : Commute b v) (hb4 : b ^ 4 = 1)
     (hv2 : v * v = 1) : t * (b * v) * t⁻¹ = (b * v)⁻¹ := by
@@ -28,6 +29,7 @@ private theorem conj_inv_mul {b v : G} (hb : t * b * t⁻¹ = b)
 variable (hg : Z4Good t L S x₁ x₂ lam rho tau)
 include hg
 
+omit [Finite G] hg in
 theorem mem_cent_ttau_iff (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ = a⁻¹) {a : G}
     (ha : a ∈ ctxQ t tau x₁ x₂ rho) :
     a ∈ centralizer ({t * tau} : Set G) ↔ t * a * t⁻¹ = a⁻¹ := by
@@ -61,13 +63,13 @@ theorem C_Q_ttau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ 
     rcases hgen with rfl | rfl
     · have hQ : x₁ * v₁ ∈ ctxQ t tau x₁ x₂ rho :=
         mul_mem hg.x₁_mem_Q (hV.V'_le_Q hg.toZ4Pre hV.v₁_mem)
-      refine ⟨hQ, (hg.mem_cent_ttau_iff htau hQ).mpr ?_⟩
+      refine ⟨hQ, (CFSG.OddStandard.SmallF3.HarrisU33.Z4Good.mem_cent_ttau_iff htau hQ).mpr ?_⟩
       exact conj_inv_mul (hg.t_conj_B (subset_closure (by simp))) hV.t_v₁
         (hg.Q_comm x₁ hg.x₁_mem_Q v₁ (hV.V'_le_Q hg.toZ4Pre hV.v₁_mem))
         hg.x₁_pow_four (hV.sq_eq_one hV.v₁_mem)
     · have hQ : x₂ * v₂ ∈ ctxQ t tau x₁ x₂ rho :=
         mul_mem hg.x₂_mem_Q (hV.V'_le_Q hg.toZ4Pre hV.v₂_mem)
-      refine ⟨hQ, (hg.mem_cent_ttau_iff htau hQ).mpr ?_⟩
+      refine ⟨hQ, (CFSG.OddStandard.SmallF3.HarrisU33.Z4Good.mem_cent_ttau_iff htau hQ).mpr ?_⟩
       exact conj_inv_mul (hg.t_conj_B (subset_closure (by simp))) hV.t_v₂
         (hg.Q_comm x₂ hg.x₂_mem_Q v₂ (hV.V'_le_Q hg.toZ4Pre hV.v₂_mem))
         hg.x₂_pow_four (hV.sq_eq_one hV.v₂_mem)
@@ -123,7 +125,7 @@ theorem C_Q_ttau (htau : ∀ a ∈ ctxQ t tau x₁ x₂ rho, tau * a * tau⁻¹ 
       rw [← hident]
       exact mul_mem ⟨haQ, haC⟩ (inv_mem hbv'D)
     have hu_inv : t * (v * v'⁻¹) * t⁻¹ = (v * v'⁻¹)⁻¹ :=
-      (hg.mem_cent_ttau_iff htau huQ).mp huD.2
+      (CFSG.OddStandard.SmallF3.HarrisU33.Z4Good.mem_cent_ttau_iff htau huQ).mp huD.2
     have hz : z4Comm t (v * v'⁻¹) = 1 := by
       unfold z4Comm
       rw [hu_inv, ← mul_inv_rev, hV.sq_eq_one huV, inv_one]

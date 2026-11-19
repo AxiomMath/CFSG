@@ -34,11 +34,11 @@ private lemma plh_ncard_coe_submodule {K V : Type*} [Field K] [Finite K] [AddCom
 
 theorem exists_mem_notMem_affine_of_sum_lt {K V ι : Type*} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [Module.Finite K V] (U : Submodule K V) (s : Finset ι) (T : ι → Submodule K V)
-    (c : ι → V) (hT : ∀ i ∈ s, T i ≤ U) (hc : ∀ i ∈ s, c i ∈ U)
+    (c : ι → V) (_hT : ∀ i ∈ s, T i ≤ U) (_hc : ∀ i ∈ s, c i ∈ U)
     (h : ∑ i ∈ s, Nat.card K ^ finrank K (T i) < Nat.card K ^ finrank K U) :
     ∃ u ∈ U, ∀ i ∈ s, u - c i ∉ T i := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   let A : ι → Set V := fun i => (fun x : V => x + c i) '' (T i : Set V)
   have hA : ∀ i, (A i).ncard = Nat.card K ^ finrank K (T i) := fun i =>
     plh_ncard_translate_image (T i) (c i)
@@ -65,7 +65,7 @@ theorem exists_mem_notMem_affine_of_sum_lt_exc {K V ι : Type*} [Field K] [Finit
     (h : ∑ i ∈ s, Nat.card K ^ finrank K (T i) + R.card < Nat.card K ^ finrank K U) :
     ∃ u ∈ U, (∀ i ∈ s, u - c i ∉ T i) ∧ u ∉ R := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   let A : ι → Set V := fun i => (fun x : V => x + c i) '' (T i : Set V)
   have hA : ∀ i, (A i).ncard = Nat.card K ^ finrank K (T i) := fun i =>
     plh_ncard_translate_image (T i) (c i)

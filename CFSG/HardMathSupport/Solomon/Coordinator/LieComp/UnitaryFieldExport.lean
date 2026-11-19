@@ -80,7 +80,7 @@ theorem unitary_fieldAut_components (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n
     ¬ (n = 3 ∧ ℓ ^ (f / p) = 2) ∧
       ∃ g : ↥(CFSG.Open.StatedSU n (ℓ ^ (f / p)) (fixSubfield σ)) →* ↥K',
         Function.Surjective g ∧ g.ker ≤ Subgroup.center _ := by
-  haveI := h.finite
+  have := h.finite
   have h₀ : UnitaryFieldData ℓ (f / p) (fixSubfield σ) :=
     fixSubfield_unitaryFieldData h hp hp2 hσ
   have hbar := fixSubfield_unitaryFieldData_bar h hp hp2 hσ
@@ -99,12 +99,12 @@ theorem unitary_fieldAut_components (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n
   · exfalso
     obtain ⟨hn3, hq2⟩ := hq₀
     subst hn3
-    haveI := isSolvable_gramSU_three_two h₀ hq2
-    haveI : Group.IsSolvable ↥(CFSG.Open.StatedSU 3 (ℓ ^ (f / p)) (fixSubfield σ)) :=
+    have := isSolvable_gramSU_three_two h₀ hq2
+    have : Group.IsSolvable ↥(CFSG.Open.StatedSU 3 (ℓ ^ (f / p)) (fixSubfield σ)) :=
       Group.isSolvable_of_surjective
         (f := (MulEquiv.subgroupCongr (unitarySU_eq_gramSU h₀ 3)).symm.toMonoidHom)
         (MulEquiv.surjective _)
-    haveI : Group.IsSolvable ↥(fixSubgroup α) :=
+    have : Group.IsSolvable ↥(fixSubgroup α) :=
       Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
     obtain ⟨i, -⟩ := components_of_centralQuotient π hπ hker α _ hαβ (fun i : Empty => i.elim)
       (fun i => i.elim) (fun i => i.elim) (fun i => i.elim) (MonoidHom.id ↥(fixSubgroup α))
@@ -114,8 +114,8 @@ theorem unitary_fieldAut_components (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n
         exact Subgroup.one_mem _) K' hK'
     exact i.elim
   · refine ⟨hq₀, ?_⟩
-    haveI : Fact ℓ.Prime := ⟨h.prime⟩
-    haveI : Finite (fixSubfield σ) := inferInstance
+    have : Fact ℓ.Prime := ⟨h.prime⟩
+    have : Finite (fixSubfield σ) := inferInstance
     have hcard : Nat.card (fixSubfield σ) = (ℓ ^ (f / p)) ^ 2 := by
       rw [h₀.card, ← pow_mul, mul_comm]
     have hq : CFSG.IsQuasisimple ↥(fixSubgroup α) :=
@@ -144,14 +144,14 @@ theorem unitary_fixSubfield_lieFactorData (hSU : SUFactorFacts) (h : UnitaryFiel
     ¬ (n = 3 ∧ ℓ ^ (f / p) = 2) →
       LieFactorData ℓ ↥(CFSG.Open.StatedSU n (ℓ ^ (f / p)) (fixSubfield σ)) := by
   intro hne
-  haveI := h.finite
+  have := h.finite
   have h₀ : UnitaryFieldData ℓ (f / p) (fixSubfield σ) :=
     fixSubfield_unitaryFieldData h hp hp2 hσ
-  haveI : Fintype (fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype (fixSubfield σ) := Fintype.ofFinite _
   have hcard : Fintype.card (fixSubfield σ) = (ℓ ^ (f / p)) ^ 2 := by
     rw [Fintype.card_eq_nat_card, h₀.card, ← pow_mul, mul_comm]
   have hchar : ringChar (fixSubfield σ) = ℓ := by
-    haveI := h.charP
+    have := h.charP
     rw [Algebra.ringChar_eq (fixSubfield σ) K]
     exact ringChar.eq K ℓ
   have := hSU (fixSubfield σ) n (ℓ ^ (f / p)) hcard hn
@@ -164,10 +164,10 @@ theorem lieCompExport_primeFormFieldHom (hSU : SUFactorFacts) (hSU6 : SUAltSixFa
     {ℓ f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     (hC : IsPrimeFormGram (1 : GL (Fin n) K)) (σ : K ≃+* K) (hσ : orderOf σ = 3) :
     LieCompExport ℓ (primeFormFieldHom h hC σ) := by
-  haveI := h.finite
+  have := h.finite
   have h₀ : UnitaryFieldData ℓ (f / 3) (fixSubfield σ) :=
     fixSubfield_unitaryFieldData h Nat.prime_three (by norm_num) hσ
-  haveI : Fintype (fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype (fixSubfield σ) := Fintype.ofFinite _
   have hcard : Fintype.card (fixSubfield σ) = (ℓ ^ (f / 3)) ^ 2 := by
     rw [Fintype.card_eq_nat_card, h₀.card, ← pow_mul, mul_comm]
   have hLF := unitary_fixSubfield_lieFactorData hSU h hn Nat.prime_three (by norm_num) hσ

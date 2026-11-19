@@ -53,7 +53,7 @@ theorem s15_Three_odd_center {X : Type} [Group X] [Finite X] (h : CFSG.pCore 2 X
     rcases Nat.even_or_odd (Nat.card (Subgroup.center X)) with he | ho
     · exact even_iff_two_dvd.1 he
     · exact absurd ho hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hzc : ((z : Subgroup.center X) : X) ∈ Subgroup.center X := z.2
   have hN : (Subgroup.zpowers ((z : Subgroup.center X) : X)).Normal := by
@@ -91,7 +91,7 @@ theorem s15_Three_qs_of_open {X : Type} [Group X] (h : CFSG.Open.IsQuasisimple X
     have h1 := map_commutatorElement (QuotientGroup.mk' (Subgroup.center X)) x y
     rw [commutatorElement_eq_one_iff_mul_comm.2 (hc _ _)] at h1
     exact (QuotientGroup.eq_one_iff _).1 h1
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, ha⟩ := exists_ne (1 : X ⧸ Subgroup.center X)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   have hx : x ∈ commutator X := by
@@ -101,12 +101,12 @@ theorem s15_Three_qs_of_open {X : Type} [Group X] (h : CFSG.Open.IsQuasisimple X
 
 theorem s15_Three_bar2_facts {M K : Subgroup G} (hK : K ∈ calC M) :
     CFSG.Open.IsQuasisimple (Bar2 K) ∧ Odd (Nat.card (Subgroup.center (Bar2 K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨hK.2.2, s15_Three_odd_center CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot⟩
 
 theorem s15_Three_hyp81_of_rank {M K : Subgroup G} (hK : K ∈ calC M)
     (h3 : 2 < CFSG.Open.pRank 3 (⊤ : Subgroup (Bar2 K))) : F08.Hyp81 M K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hK.1, hK.2.1, ?_, Or.inl (s15_Three_qs_of_open hK.2.2)⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥K) := by
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (G := ↥K) (p := 2)).exists_card_eq
@@ -132,7 +132,7 @@ theorem s15_Three_strong_alt {hV : IsElemAbelian 2 V} (h880 : F08.R880 D)
       IsLn ↥(barSub V₀ V hV K₀) 4 1 ∨ IsLn ↥(barSub V₀ V hV K₀) 5 1) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := by
   by_contra hns
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKC, -, -, -, ⟨e⟩⟩ := hK
   obtain ⟨hqs, hodd⟩ := s15_Three_bar2_facts hKC
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M

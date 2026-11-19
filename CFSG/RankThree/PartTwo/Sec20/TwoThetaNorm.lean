@@ -27,14 +27,14 @@ theorem hom_eq_one_of_threeElements
   obtain ⟨P⟩ : Nonempty (Sylow 3 Λ) := inferInstance
   have hPker : (P : Subgroup Λ) ≤ ψ.ker := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hk' : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact h x ⟨k, hk'⟩
   have hdvd : ψ.ker.index ∣ (P : Subgroup Λ).index := Subgroup.index_dvd_of_le hPker
   have h3 : ¬ 3 ∣ Nat.card ψ.range := by
     rw [← Subgroup.index_ker]
     exact fun h3 => P.not_dvd_index (h3.trans hdvd)
-  haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hH : CFSG.Open.pRank 3 (⊤ : Subgroup ψ.range) ≤ 1 := by
     rw [CFSG.RankThreeEvenClassification.Helpers.pRank_eq_zero_of_not_dvd 3 Nat.prime_three h3]
     exact Nat.zero_le _

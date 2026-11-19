@@ -30,8 +30,8 @@ theorem no_glaPComponent_of_central_sylow (hGA : GriessAllModelsStatement)
     (Subgroup.card_subgroup_dvd_card K).trans (Subgroup.card_subgroup_dvd_card C)
   have h1341 := FiveCentralLeaf.five_central_leaf hGA hSpM hq hKg h5K (hKG.trans hM)
   have h13 : 13 ∣ Nat.card ↥K := (Dvd.intro 41 rfl).trans h1341
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥K)) 5 h5K
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 13 h13
   let φ : ↥K →* G := C.subtype.comp K.subtype

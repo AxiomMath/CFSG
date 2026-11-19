@@ -80,7 +80,7 @@ theorem case3Core_of_gomiSU {V Hh : Subgroup G} {u : G}
     Case3Core G (u ^ 2) Hh := by
   classical
   set Gh : Subgroup G := centralizer (V : Set G) with hGh_def
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu_mem_V : u ∈ V := by rw [hV]; exact Subgroup.mem_zpowers u
   have hu_mem_Hh : u ∈ Hh := hVH hu_mem_V
   have hu2_mem_V : u ^ 2 ∈ V := by rw [hV]; exact Subgroup.pow_mem _ (Subgroup.mem_zpowers u) 2
@@ -100,7 +100,7 @@ theorem case3Core_of_gomiSU {V Hh : Subgroup G} {u : G}
       exact ((Subgroup.mem_centralizer_iff.mp (hle y.2)) x.1 hx).symm
     · exact IsPGroup.of_card (n := 2) (by rw [hV, Nat.card_zpowers, hu]; norm_num)
   set Z : Subgroup ↥Hh := CFSG.pCore 2 ↥Hh with hZ_def
-  haveI hZnormal : Z.Normal := CFSG.RankThreeCoreUniqueness.Helpers.pCore_normal 2
+  have hZnormal : Z.Normal := CFSG.RankThreeCoreUniqueness.Helpers.pCore_normal 2
   have hpc_center : Z ≤ center ↥Hh := by
     rcases normal_le_center_or_eq_top_of_isQuasisimple hq Z with h | h
     · exact h
@@ -108,12 +108,12 @@ theorem case3Core_of_gomiSU {V Hh : Subgroup G} {u : G}
       have hp : IsPGroup 2 (⊤ : Subgroup ↥Hh) :=
         h ▸ CFSG.RankThreeCoreUniqueness.Helpers.pCore_isPGroup 2
       have hp2 : IsPGroup 2 ↥Hh := hp.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent ↥Hh := IsPGroup.isNilpotent (p := 2) hp2
-      haveI : Group.IsPerfect ↥Hh := hq.1
-      haveI : Nontrivial ↥Hh := by
+      have : Group.IsNilpotent ↥Hh := IsPGroup.isNilpotent (p := 2) hp2
+      have : Group.IsPerfect ↥Hh := hq.1
+      have : Nontrivial ↥Hh := by
         rw [← not_subsingleton_iff_nontrivial]
         intro hsub
-        haveI : Subsingleton (↥Hh ⧸ center ↥Hh) := inferInstance
+        have : Subsingleton (↥Hh ⧸ center ↥Hh) := inferInstance
         obtain ⟨a, b, hab⟩ := hq.2.2
         exact hab (by rw [Subsingleton.elim a b])
       exact Group.IsPerfect.not_isSolvable ↥Hh inferInstance

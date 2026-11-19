@@ -121,7 +121,7 @@ theorem y2l_ng_rels :
       ∀ y ∈ y2l_ws7 1, FreeGroup.lift y2l_ngElt (FreeGroup.mk y) ≠ 1 := by
   obtain ⟨-, hrel, h7⟩ := y2l_ng_check
   refine ⟨fun x hx => ?_, fun y hy => ?_⟩
-  · rw [y2l_rels26_eq, Set.mem_setOf_eq] at hx
+  · rw [y2l_rels26_eq, Set.mem_ofPred_eq] at hx
     obtain ⟨r, hr, rfl⟩ := List.mem_map.mp hx
     rw [y2l_lift_ngElt, y2l_ngEltR_eq_one_iff]
     exact hrel r hr

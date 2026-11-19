@@ -17,15 +17,15 @@ theorem oddCore_eq_bot_of_wreath (hA5 : Sec8T84FactA5) {G : Type} [Group G] (E B
     (hfix : ∀ e : ↥E, u e = e ↔ (e : G) ∈ B)
     (hA : Nonempty (↥A ≃* alternatingGroup (Fin 6))) (hAu : ∀ a ∈ A, a * u = u * a)
     (hAf : ∀ a ∈ A, (∀ e : ↥E, (e : G) ∈ B → a e = e) → a = 1)
-    (huH : u ∈ H) (hAH : A ≤ H) (hPH : P ≤ H) (hPn : ∀ h ∈ H, ∀ p ∈ P, h * p * h⁻¹ ∈ P)
+    (huH : u ∈ H) (hAH : A ≤ H) (_hPH : P ≤ H) (hPn : ∀ h ∈ H, ∀ p ∈ P, h * p * h⁻¹ ∈ P)
     (hPodd : Odd (Nat.card ↥P)) (hPu : ∀ p ∈ P, p * u = u * p → p = 1)
     (hW : WreathMod H P M1 M2 u) : P = ⊥ := by
   classical
   obtain ⟨⟨hEcomm, hEexp⟩, hEcard⟩ := hE
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (setLike_mul_comm a.2 b.2) }
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hctx : Ctx ↥E u H (B.subgroupOf E) :=
     { sq := fun v => Subtype.ext (by simpa [pow_two] using hEexp v v.2)
       card := hEcard

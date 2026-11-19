@@ -22,6 +22,7 @@ theorem uc22s21rn_not_le_of_uniqueMax (D : Data G) {H E : Subgroup G}
   rw [hE] at hmem
   exact hH.2.1 ((Set.mem_singleton_iff.1 hmem) ▸ hHN)
 
+omit [Finite G] in
 theorem uc22s21rn_exists_sylow_ge {q : ℕ} [Fact q.Prime] {K E : Subgroup G} (hEK : E ≤ K)
     (hE : IsPGroup q E) : ∃ Q : Subgroup G, IsSylowOf q Q K ∧ E ≤ Q := by
   obtain ⟨S, hS⟩ := (hE.comap_subtype (K := K)).exists_le_sylow
@@ -33,7 +34,7 @@ theorem uc22s21rn_uniqueMax (D : Data G) (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D) {
       rankThreeGamma 1 q Q ≤ D.M)
     {E : Subgroup G} (hE : E ≤ barPreimage D.M X) (hEp : IsPGroup q E) (hnc : ¬ IsCyclic E) :
     UniqueMax D.M E := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   have hEM : E ≤ D.M := hE.trans (Subgroup.map_subtype_le _)
   refine uc22p22u_uniqueMax_of_noncyclic D h61 h63 hq hq2 hEM hEp hnc ?_
   rcases hΓ with hsig | hΓ
@@ -50,6 +51,7 @@ theorem uc22s21rn_cyclic_of_le (D : Data G) (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D
   by_contra hnc
   exact uc22s21rn_not_le_of_uniqueMax D hH (uc22s21rn_uniqueMax D h61 h63 hq hq2 hΓ hE hEp hnc) hEH
 
+omit [Finite G] in
 theorem uc22s21rn_isCyclic_of_barImage_eq {M Q : Subgroup G} (hQM : Q ≤ M)
     {R : Subgroup (Bar2 M)} (h : barImage M Q = R) (hc : IsCyclic Q) : IsCyclic R := by
   have hmem : ∀ x : Q, QuotientGroup.mk' (CFSG.pCore 2 ↥M) (Subgroup.inclusion hQM x) ∈ R :=
@@ -69,7 +71,7 @@ theorem uc22s21rn_piece_cyclic (D : Data G) (h61 : UC6.R6_1 D) (h63 : UC6.R6_3 D
       rankThreeGamma 1 q Q ≤ D.M)
     {R : Subgroup (Bar2 D.M)} (hRX : R ≤ X) (hR : IsPGroup q R) {H : Subgroup G}
     (hH : H ∈ hSet D.T D.M) (hRH : barPreimage D.M R ≤ H) : IsCyclic R := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨Q, hQ⟩ := CFSG.ABGLocalTools.exists_isSylowOf q (barPreimage D.M R)
   obtain ⟨hQM, hQR, -⟩ := uc22s21rq_barImage_sylow D.M hq hq2 hR hQ
   have hQX : Q ≤ barPreimage D.M X :=

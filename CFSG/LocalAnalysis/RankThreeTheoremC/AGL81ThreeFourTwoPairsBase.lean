@@ -12,11 +12,11 @@ variable {G : Type*} [Group G]
 
 theorem eq_bot_of_perfect_of_le_isSolvable {J S : Subgroup G} (hJS : J ≤ S)
     (hS : Group.IsSolvable S) (hJ : ⁅J, J⁆ = J) : J = ⊥ := by
-  haveI : Group.IsSolvable J :=
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJS)
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
   by_contra hne
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
   exact Group.IsPerfect.not_isSolvable J inferInstance
 
 theorem le_of_perfect_of_card_eq_two_mul [Finite G] {J L M : Subgroup G} (hLM : L ≤ M)
@@ -30,8 +30,8 @@ theorem le_of_perfect_of_card_eq_two_mul [Finite G] {J L M : Subgroup G} (hLM : 
     exact Nat.eq_of_mul_eq_mul_left hpos (h.trans (mul_comm 2 _))
   have hLn : L'.Normal := Subgroup.normal_of_index_eq_two hidx
   have hcardQ : Nat.card (M ⧸ L') = 2 := by rw [← Subgroup.index_eq_card]; exact hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (M ⧸ L') := isCyclic_of_prime_card hcardQ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (M ⧸ L') := isCyclic_of_prime_card hcardQ
   have hker := Abelianization.commutator_subset_ker (QuotientGroup.mk' L')
   rw [QuotientGroup.ker_mk'] at hker
   have hMM : ⁅M, M⁆ ≤ L := by

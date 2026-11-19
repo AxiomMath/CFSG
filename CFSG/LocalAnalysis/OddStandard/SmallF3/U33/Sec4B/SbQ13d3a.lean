@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem charIn_of_unique_normal_elemAb {H X : Subgroup G} (hXH : X ≤ H)
     (hX : CFSG.Open.IsElemAbelian 2 X) (hXn : NormalIn X H)
     (huniq : ∀ Y : Subgroup G, NormalIn Y H → CFSG.Open.IsElemAbelian 2 Y →
@@ -52,11 +53,12 @@ private theorem charIn_of_unique_normal_elemAb {H X : Subgroup G} (hXH : X ≤ H
   show ((φ x : ↥H) : G) ∈ X
   exact hmemF
 
+omit [Finite G] in
 private theorem subgroupOf_inf_centralizer {H K : Subgroup G} (hKH : K ≤ H) :
     (H ⊓ centralizer (K : Set G)).subgroupOf H =
       Subgroup.centralizer ((K.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   ext x
-  simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
+  simp only [Subgroup.mem_centralizer_iff]
   constructor
   · rintro ⟨-, hx⟩ y hy
     apply Subtype.ext
@@ -82,7 +84,7 @@ theorem q13d_cent_N_char_U (h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hB : Q13Bs t x₁ x₂ lam tau) :
     CharIn (ctxU t tau x₁ x₂ lam ⊓ centralizer ((ctxN tau x₁ x₂ : Subgroup G) :
       Set G)) (ctxU t tau x₁ x₂ lam) := by
-  haveI : ((ctxN tau x₁ x₂).subgroupOf (ctxU t tau x₁ x₂ lam)).Characteristic :=
+  have : ((ctxN tau x₁ x₂).subgroupOf (ctxU t tau x₁ x₂ lam)).Characteristic :=
     (q13d_N_char_U h hB).2
   refine ⟨inf_le_left, ?_⟩
   rw [subgroupOf_inf_centralizer (q13d_N_le_U h)]

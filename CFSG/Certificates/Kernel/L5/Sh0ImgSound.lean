@@ -100,9 +100,9 @@ theorem relsUT_all (t : Nat → Nat) (gs : List Nat) (W : Nat → List Nat) (x :
   rw [List.all_filterMap]
   refine congrArg (List.all (List.range 3)) (funext fun k => ?_)
   by_cases h : (W g ++ [k] == W (t (g * 128 + gs.getD k 0))) = true
-  · rw [if_pos h, beq_iff_eq.mp h]
+  · rw [ite_eq_left h, beq_iff_eq.mp h]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
 
 section
 

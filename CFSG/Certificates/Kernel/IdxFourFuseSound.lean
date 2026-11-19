@@ -24,7 +24,7 @@ theorem lvlGrp_eq_genGrp {gs : List (Array Nat)} (htl : TL.getD 0 [] = List.rang
   rw [lvlGrp, Viol.genGrp, htl]
   congr 1
   ext U
-  simp only [Viol.GenSet, Set.mem_setOf_eq]
+  simp only [Viol.GenSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, hg, hU⟩
     rw [List.mem_range] at hg
@@ -129,7 +129,7 @@ theorem recW_zero {s : Nat} {w : List Nat} (h : recW T O ET EO Q L W s w = true)
     (h0 : w.getD 0 0 = 0) : fullOK ET EO Q L s (w.drop 1) = true := by
   unfold recW at h
   have hb : Nat.beq (nthD 0 w 0) 0 = true := by rw [nthD_eq, h0]; rfl
-  rwa [hb, cond_true, dropN_eq] at h
+  rwa [hb, _root_.Bool.cond_true, dropN_eq] at h
 
 theorem recW_ne {s : Nat} {w : List Nat} (h : recW T O ET EO Q L W s w = true)
     (h0 : w.getD 0 0 ≠ 0) :
@@ -143,7 +143,7 @@ theorem recW_ne {s : Nat} {w : List Nat} (h : recW T O ET EO Q L W s w = true)
     cases h' : Nat.beq (w.getD 0 0) 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true h') h0
-  rw [hb, cond_false] at h
+  rw [hb, Bool.cond_false] at h
   simp only [Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq, nthD_eq, conjOK, Nat.mul_eq] at h
   exact ⟨h.1.1.1.2, h.1.1.2, h.1.2, h.2⟩
 
@@ -151,7 +151,7 @@ theorem witOK_spec {q : Nat} (h : witOK T O ET EO Q L W q = true)
     (hsq : mulP (eltP T O q) (eltP T O q) = idP) :
     recW T O ET EO Q L W (eltP T O q) (W.getD q []) = true := by
   unfold witOK sqOK at h
-  rwa [hsq, Nat.beq_refl, cond_true, nthD_eq] at h
+  rwa [hsq, Nat.beq_refl, _root_.Bool.cond_true, nthD_eq] at h
 
 theorem fuseBlk_spec {c : Nat} (h : fuseBlk T O ET EO Q L W c = true) :
     ∀ j < 32, witOK T O ET EO Q L W (32 * c + j) = true := by

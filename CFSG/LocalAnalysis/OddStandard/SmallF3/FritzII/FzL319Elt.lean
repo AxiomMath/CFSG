@@ -73,7 +73,7 @@ private theorem fzEIdx_mulC (t s l : MulAut FzUT) (x y : FzElt) :
 private theorem fzAutI_apb (σ : MulAut FzUT) (b : ZMod 2) (w : FzUT) :
     (fzAutI σ).apb b.val (fzIdx w) = fzIdx (fzAp b σ w) := by
   by_cases h : b = 0
-  · simp [AutI.apb, fzAp, h, (ZMod.val_eq_zero b).mpr h]
+  · simp [AutI.apb, fzAp, h]
   · have hv : b.val ≠ 0 := fun hv => h ((ZMod.val_eq_zero b).mp hv)
     simp [AutI.apb, fzAp, h, hv, fzAutI_ap]
 

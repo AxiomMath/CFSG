@@ -21,7 +21,7 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 2]
   {k : Type} [Field k] [Algebra K k] [CharP k 2] {V : Type} [AddCommGroup V] [Module k V]
 
 @[expose] def repEquiv {G : Type*} [Group G] (ρ : Representation k G V) (g : G) : V ≃ₗ[k] V :=
-  LinearEquiv.ofLinear (ρ g) (ρ g⁻¹) (by rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one]; rfl)
+  LinearEquiv.ofLinearMap (ρ g) (ρ g⁻¹) (by rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one]; rfl)
     (by rw [← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one]; rfl)
 
 theorem copies_finrank_orbit [Module.Finite k V]

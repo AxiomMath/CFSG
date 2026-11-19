@@ -24,23 +24,23 @@ theorem Cfg813.fitting_odd (h : Cfg813 T A B R L₀) : Odd (Nat.card (genFitting
     rw [hF]
     change Group.IsNilpotent ↥(CFSG.fittingSubgroup Q)
     infer_instance
-  haveI : Group.IsNilpotent F := hFnil
+  have : Group.IsNilpotent F := hFnil
   let P : Sylow 2 ↥F := Classical.arbitrary _
   have hPne : (P : Subgroup ↥F) ≠ ⊥ := P.ne_bot_of_dvd_card h2dvd
   have hPchar : (P : Subgroup ↥F).Characteristic :=
     P.characteristic_of_normal (inferInstance : P.Normal)
-  haveI : (P : Subgroup ↥F).Characteristic := hPchar
+  have : (P : Subgroup ↥F).Characteristic := hPchar
   have hFnormal : F.Normal := by
     rw [hF]
     change (CFSG.fittingSubgroup Q).Normal
     infer_instance
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   have hmapNormal : ((P : Subgroup ↥F).map F.subtype).Normal := inferInstance
   have hmapNe : ((P : Subgroup ↥F).map F.subtype) ≠ ⊥ := by
     intro hbot
     exact hPne ((Subgroup.map_eq_bot_iff_of_injective (P : Subgroup ↥F)
       (f := F.subtype) F.subtype_injective).mp hbot)
-  exact hmapNe (h.no_normal_two _ hmapNormal (P.isPGroup'.map F.subtype))
+  exact hmapNe (h.no_normal_two _ hmapNormal (P.isPGroup.map F.subtype))
 
 theorem Cfg813.fitting_commute (h : Cfg813 T A B R L₀) :
     ∀ a ∈ A, ∀ y ∈ genFittingFitting Q, a * y = y * a := by
@@ -71,8 +71,7 @@ theorem Cfg813.fitting_commute (h : Cfg813 T A B R L₀) :
     rwa [mul_assoc, hv2, mul_one, one_mul] at h2
   have hgen : ∀ b ∈ A, ∀ c ∈ A, c ≠ 1 →
       F ⊓ Subgroup.centralizer ({c} : Set Q) ≤ Subgroup.centralizer ({b} : Set Q) := by
-    intro b hbA c hcA hc1
-    intro y hy
+    intro b hbA c hcA hc1 y hy
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
     rw [Set.mem_singleton_iff.mp hz]
@@ -149,7 +148,7 @@ theorem Cfg813.inf_centralizer_layer (h : Cfg813 T A B R L₀) :
       exact Subgroup.mem_centralizer_singleton_iff.mp (hsup hx)
     simpa [hFs, genFittingFStar.eq_sup, hF, hE] using hmem
   have haFstar : a ∈ Fstar := by
-    have hmem := CFSG.Open.Open.generalized_fitting_self_centralizing Q hFstara
+    have hmem := CFSG.Open.Thm.generalized_fitting_self_centralizing Q hFstara
     simpa [hFs] using hmem
   let Z : Subgroup Q := (Subgroup.center ↥Fstar).map Fstar.subtype
   have haZ : a ∈ Z := by
@@ -171,8 +170,8 @@ theorem Cfg813.inf_centralizer_layer (h : Cfg813 T A B R L₀) :
     simpa [hFs, hF, hE, genFittingFStar.eq_sup] using hsup
   have hZnormal : Z.Normal := by
     dsimp [Z]
-    haveI : Fstar.Normal := hFstarNormal
-    haveI : (Subgroup.center ↥Fstar).Characteristic := Subgroup.centerCharacteristic
+    have : Fstar.Normal := hFstarNormal
+    have : (Subgroup.center ↥Fstar).Characteristic := Subgroup.centerCharacteristic
     infer_instance
   have hZnil : Group.IsNilpotent ↥Z := by
     dsimp [Z]

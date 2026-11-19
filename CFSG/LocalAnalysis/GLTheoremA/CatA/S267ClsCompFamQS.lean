@@ -52,6 +52,7 @@ theorem orderOf_blkSubEquiv (hUW : IsCompl U W)
   rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq, Subgroup.orderOf_mk]
 
 omit [DecidableEq ι] in
+omit [Fintype ι] in
 theorem commutator_le_ker_det (H : Subgroup (U ≃ₗ[K] U)) :
     ⁅H, H⁆ ≤ (LinearEquiv.det : (U ≃ₗ[K] U) →* Kˣ).ker := by
   rw [Subgroup.commutator_le]
@@ -109,6 +110,7 @@ end Toral
 
 section Linear
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem isomU_zero (U : Submodule K (ι → K)) :
     isomU (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) U = ⊤ :=
   eq_top_iff.2 fun _ _ _ _ => rfl
@@ -121,6 +123,7 @@ theorem isomU_zero (U : Submodule K (ι → K)) :
   right_inv _ := rfl
   map_mul' _ _ := rfl
 
+omit [DecidableEq ι] in
 theorem isQuasisimple_ker_det [Finite K] (U : Submodule K (ι → K))
     (hdim : 3 ≤ finrank K U ∨ (finrank K U = 2 ∧ 4 ≤ Nat.card K)) :
     CFSG.Open.IsQuasisimple (LinearEquiv.det : (U ≃ₗ[K] U) →* Kˣ).ker := by
@@ -132,6 +135,7 @@ theorem isQuasisimple_ker_det [Finite K] (U : Submodule K (ι → K))
   exact CFSG.Open.IsQuasisimple.of_mulEquiv (slEquivKerDet U).symm
     ⟨Group.isPerfect_def.1 hq.1, hq.2.1⟩
 
+omit [DecidableEq ι] in
 theorem commutator_isomU_zero [Finite K] (U : Submodule K (ι → K))
     (hdim : 3 ≤ finrank K U ∨ (finrank K U = 2 ∧ 4 ≤ Nat.card K)) :
     ⁅isomU (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) U,
@@ -151,7 +155,7 @@ theorem dvd_card_blkI_zero [Finite K] {U W : Submodule K (ι → K)} (hUW : IsCo
     {x : GL ι K} (hx : x ∈ blkSub (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) U W)
     (hxp : orderOf x = p) :
     p ∣ Nat.card (blkI (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) U W) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have horth : ∀ u ∈ U, ∀ w ∈ W, (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) u w = 0 ∧
       (0 : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K) w u = 0 := fun _ _ _ _ => ⟨rfl, rfl⟩
   have heq := commutator_isomU_zero (σ := σ) U hdim
@@ -251,11 +255,13 @@ end Symplectic
 
 section Orthogonal
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem polar_comp_subtype (Q : QuadraticForm K (ι → K)) (U : Submodule K (ι → K)) (x y : U) :
     QuadraticMap.polar (Q.comp U.subtype) x y = QuadraticMap.polar Q x y := by
   simp only [QuadraticMap.polar, QuadraticMap.comp_apply, Submodule.subtype_apply,
     Submodule.coe_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem isomU_polarBilin_eq (h2 : (2 : K) ≠ 0) (Q : QuadraticForm K (ι → K))
     (U : Submodule K (ι → K)) :
     isomU (QuadraticMap.polarBilin Q) U =
@@ -275,6 +281,7 @@ theorem isomU_polarBilin_eq (h2 : (2 : K) ≠ 0) (Q : QuadraticForm K (ι → K)
     simp only [QuadraticMap.polar]
     rw [← map_add g x y, hg, hg, hg]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem polarBilin_comp_nondegenerate (Q : QuadraticForm K (ι → K)) {U : Submodule K (ι → K)}
     (hnd : ∀ u ∈ U, (∀ u' ∈ U, QuadraticMap.polarBilin Q u u' = 0) → u = 0) :
     (Q.comp U.subtype).polarBilin.Nondegenerate := by
@@ -285,6 +292,7 @@ theorem polarBilin_comp_nondegenerate (Q : QuadraticForm K (ι → K)) {U : Subm
   · have h := hy ⟨u', hu'⟩
     rwa [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype, QuadraticMap.polar_comm] at h
 
+omit [DecidableEq ι] in
 theorem isQuasisimple_commutator_orthogonalGroup [Finite K] (hodd : Odd (Nat.card K))
     (Q : QuadraticForm K (ι → K)) {U : Submodule K (ι → K)}
     (hnd : ∀ u ∈ U, (∀ u' ∈ U, QuadraticMap.polarBilin Q u u' = 0) → u = 0)
@@ -350,6 +358,7 @@ end Orthogonal
 
 section Unitary
 
+omit [DecidableEq ι] in
 theorem unitForm_swap (hσσ : ∀ c, σ (σ c) = c) (x y : ι → K) :
     σ (unitForm σ x y) = unitForm σ y x := by
   simp only [unitForm_apply, dotProduct, Function.comp_apply, map_sum, map_mul, hσσ]
@@ -363,14 +372,17 @@ theorem unitForm_swap (hσσ : ∀ c, σ (σ c) = c) (x y : ι → K) :
     (fun x y y' => by rw [Submodule.coe_add, map_add, LinearMap.add_apply])
     (fun c x y => by rw [Submodule.coe_smul, map_smul, LinearMap.smul_apply, RingHom.id_apply])
 
+omit [DecidableEq ι] in
 theorem unitFormU_apply (τ : K →+* K) (hτ : ∀ c, τ c = σ c) (U : Submodule K (ι → K))
     (x y : U) : unitFormU τ hτ U x y = unitForm σ (y : ι → K) (x : ι → K) :=
   rfl
 
+omit [DecidableEq ι] in
 theorem unitFormU_isSymm (τ : K →+* K) (hτ : ∀ c, τ c = σ c) (hσσ : ∀ c, σ (σ c) = c)
     (U : Submodule K (ι → K)) : (unitFormU τ hτ U).IsSymm :=
   ⟨fun x y => by rw [unitFormU_apply, unitFormU_apply, hτ, unitForm_swap hσσ]⟩
 
+omit [DecidableEq ι] in
 theorem unitFormU_nondegenerate (τ : K →+* K) (hτ : ∀ c, τ c = σ c)
     (hσσ : ∀ c, σ (σ c) = c) {U : Submodule K (ι → K)}
     (hnd : ∀ u ∈ U, (∀ u' ∈ U, unitForm σ u u' = 0) → u = 0) :
@@ -380,6 +392,7 @@ theorem unitFormU_nondegenerate (τ : K →+* K) (hτ : ∀ c, τ c = σ c)
   rw [← unitForm_swap hσσ u' (x : ι → K)]
   exact (congrArg σ (hx ⟨u', hu'⟩)).trans (map_zero σ)
 
+omit [DecidableEq ι] in
 private theorem isomU_unitForm_eq (τ : K ≃+* K) (hτ : ∀ c, τ.toRingHom c = σ c)
     (U : Submodule K (ι → K)) :
     isomU (unitForm σ) U =
@@ -412,14 +425,15 @@ private theorem torHom_mem_Uid (τ : K ≃+* K) {n : ℕ} (i j : Fin n) {ζ : K�
   simp only [Units.val_mul, map_mul]
   rw [mul_mul_mul_comm, h1 ζ hζ i k, h1 ζ⁻¹ hinv j k, one_mul]
 
+omit [DecidableEq ι] in
 theorem isQuasisimple_isomU_inf_ker_det {r f : ℕ}
     (hK : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r f K) (hr : r ≠ 2)
     {U : Submodule K (ι → K)} (hnd : ∀ u ∈ U, (∀ u' ∈ U, unitForm hK.bar u u' = 0) → u = 0)
     (hdim : 3 ≤ finrank K U ∨ (finrank K U = 2 ∧ r ^ f ≠ 3)) :
     CFSG.Open.IsQuasisimple
       ↥(isomU (unitForm hK.bar) U ⊓ (LinearEquiv.det : (U ≃ₗ[K] U) →* Kˣ).ker) := by
-  haveI : Fact r.Prime := ⟨hK.prime⟩
-  haveI : Finite K := hK.finite
+  have : Fact r.Prime := ⟨hK.prime⟩
+  have : Finite K := hK.finite
   have hE : Nat.card K = (r ^ f) ^ 2 := by rw [hK.card, ← pow_mul, mul_comm]
   let τ := CatalogueBUnitaryTwo.unitaryFieldConjugation r f hE
   have hτ : ∀ c, τ.toRingHom c = hK.bar c := fun c => by
@@ -453,6 +467,7 @@ theorem isQuasisimple_isomU_inf_ker_det {r f : ℕ}
     (Subgroup.equivMapOfInjective _ _ (Subgroup.subtype_injective _)).symm)
     ⟨Group.isPerfect_def.1 hq.1, hq.2.1⟩
 
+omit [DecidableEq ι] in
 theorem commutator_isomU_unitForm {r f : ℕ}
     (hK : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r f K) (hr : r ≠ 2)
     {U : Submodule K (ι → K)} (hnd : ∀ u ∈ U, (∀ u' ∈ U, unitForm hK.bar u u' = 0) → u = 0)
@@ -481,7 +496,7 @@ theorem dvd_card_blkI_unitForm {r f : ℕ}
     (hdim : 3 ≤ finrank K U ∨ (finrank K U = 2 ∧ r ^ f ≠ 3)) {p : ℕ} (hp : p.Prime)
     {x : GL ι K} (hx : x ∈ blkSub (unitForm hK.bar) U W) (hxp : orderOf x = p) :
     p ∣ Nat.card (blkI (unitForm hK.bar) U W) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have heq := commutator_isomU_unitForm hK hr hnd hdim
   have hyp := (orderOf_blkSubEquiv hUW horth hx).trans hxp
   have hyH := (blkSubEquiv hUW horth ⟨x, hx⟩).2
@@ -492,8 +507,8 @@ theorem dvd_card_blkI_unitForm {r f : ℕ}
   have hζp : LinearEquiv.det y ^ p = 1 := by
     rw [← map_pow, ← hyp, pow_orderOf_eq_one, map_one]
   have hord : orderOf (LinearEquiv.det y) = p := orderOf_eq_prime hζp hζ
-  haveI : Fact r.Prime := ⟨hK.prime⟩
-  haveI : Finite K := hK.finite
+  have : Fact r.Prime := ⟨hK.prime⟩
+  have : Finite K := hK.finite
   have hE : Nat.card K = (r ^ f) ^ 2 := by rw [hK.card, ← pow_mul, mul_comm]
   let τ := CatalogueBUnitaryTwo.unitaryFieldConjugation r f hE
   have hτ : ∀ c, τ.toRingHom c = hK.bar c := fun c => by

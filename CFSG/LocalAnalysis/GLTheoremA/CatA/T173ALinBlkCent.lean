@@ -39,8 +39,7 @@ private theorem conj_transvection_eq_self {d : ℕ} {F : Type} [Field F]
   set E : Matrix (Fin d) (Fin d) F := Matrix.single j i (1 : F) with hE
   have h1' : 1 + G * E * Gi = c • (1 + E) := by
     rw [← h1]
-    simp only [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, hGGi, Matrix.one_mul,
-      Matrix.mul_assoc]
+    simp only [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, hGGi, Matrix.mul_assoc]
   have hc1 : c • (1 : Matrix (Fin d) (Fin d) F) = (c - 1) • 1 + 1 := by
     conv_lhs => rw [← sub_add_cancel c 1]
     rw [add_smul, one_smul]
@@ -147,7 +146,7 @@ private theorem entry_eq_zero_of_comm_blocks {d : ℕ} {F : Type} [Field F]
     have hne : ¬ (j = p ∧ i = q) := by
       rintro ⟨hp, hq⟩
       exact hpq.elim (fun h => h (hp ▸ hI_mem_j)) (fun h => h (hq ▸ hI_mem_i))
-    rw [if_neg hne, add_zero]
+    rw [ite_eq_right hne, add_zero]
   let e0 : ↥(LinSL d F) := ⟨tGL, htGL_mem⟩
   have he0mem : e0 ∈ (LinBlockGrp d F I).subgroupOf (LinSL d F) :=
     Subgroup.mem_subgroupOf.mpr htGL_block
@@ -204,7 +203,7 @@ private theorem entry_eq_zero_of_comm_blocks {d : ℕ} {F : Type} [Field F]
     intro k _
     rw [Matrix.single_apply]
     have hne : ¬ (j = i ∧ i = k) := fun hc => hij hc.1.symm
-    rw [if_neg hne, zero_mul]
+    rw [ite_eq_right hne, zero_mul]
   have hh := congrFun (congrFun hGE i) i
   rw [Matrix.mul_single_apply_same] at hh
   rw [hR, mul_one] at hh

@@ -61,7 +61,7 @@ private theorem blk_mat_self_self {K : Type*} [Field K] (i : Fin 4)
 
 private theorem blk_mat_self_succ {K : Type*} [Field K] (i : Fin 4)
     (B : Matrix (Fin 3) (Fin 3) K) (l : Fin 3) : blk_mat i B i (i.succAbove l) = 0 := by
-  rw [blk_mat_self_row, if_neg (Fin.succAbove_ne i l)]
+  rw [blk_mat_self_row, ite_eq_right (Fin.succAbove_ne i l)]
 
 private theorem blk_mat_succ_self {K : Type*} [Field K] (i : Fin 4)
     (B : Matrix (Fin 3) (Fin 3) K) (k : Fin 3) : blk_mat i B (i.succAbove k) i = 0 := by
@@ -116,15 +116,14 @@ private theorem blk_mat_mul {K : Type*} [Field K] (i : Fin 4) (B C : Matrix (Fin
     blk_mat i B * blk_mat i C = blk_mat i (B * C) := by
   refine blk_ext i ?_ ?_ ?_ ?_
   · simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_self, blk_mat_self_succ,
-      blk_mat_succ_self, blk_mat_succ_succ]
+      blk_mat_succ_self]
   · intro l
     simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_self, blk_mat_self_succ,
-      blk_mat_succ_self, blk_mat_succ_succ]
+      blk_mat_succ_succ]
   · intro k
-    simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_self, blk_mat_self_succ,
-      blk_mat_succ_self, blk_mat_succ_succ]
+    simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_self, blk_mat_succ_self, blk_mat_succ_succ]
   · intro k l
-    simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_self, blk_mat_self_succ,
+    simp [Matrix.mul_apply, Fin.sum_univ_succAbove _ i, blk_mat_self_succ,
       blk_mat_succ_self, blk_mat_succ_succ]
 
 private theorem blk_mat_det {K : Type*} [Field K] (i : Fin 4) (B : Matrix (Fin 3) (Fin 3) K) :
@@ -138,7 +137,7 @@ private theorem blk_mat_det {K : Type*} [Field K] (i : Fin 4) (B : Matrix (Fin 3
     rw [blk_mat_self_self, hsub, hs]
     ring
   · intro j _ hj
-    rw [blk_mat_self_row, if_neg hj, mul_zero, zero_mul]
+    rw [blk_mat_self_row, ite_eq_right hj, mul_zero, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -218,7 +217,7 @@ theorem centQuasi_diagonal_block {K : Type} [Field K] [Finite K] (hK : Nat.card 
       rw [blk_mat_succ_succ]
       by_cases hkl : k = l
       · simp [hkl, Fin.succAbove_ne]
-      · simp [hkl, Fin.succAbove_right_inj, Matrix.diagonal_apply_ne, Matrix.one_apply]
+      · simp [hkl, Matrix.diagonal_apply_ne]
   have hBC : ∀ B : Matrix.SpecialLinearGroup (Fin 3) K, B * C₀ = C₀ * B := by
     intro B
     apply Subtype.ext
@@ -304,8 +303,6 @@ theorem centQuasi_diagonal_block {K : Type} [Field K] [Finite K] (hK : Nat.card 
         (by norm_num), hK]
     first
     | decide
-    | rfl
-    | norm_num [Finset.prod_Icc_succ_top]
   unfold CentQuasi
   exact Or.inr ⟨blk_H i, hHC, hcomm, hqH, ⟨d, hdH, hd1, hd3, hdcen⟩, dvd_of_eq hcard⟩
 

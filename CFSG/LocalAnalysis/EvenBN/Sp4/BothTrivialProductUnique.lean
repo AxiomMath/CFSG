@@ -283,8 +283,8 @@ theorem comm_of_mem_inf_X {c m : G} (hc : c ∈ P ⊓ X)
     _ = (c * a) * b := by rw [h1]
     _ = c * (a * b) := by group
 
-theorem inf_X_le_cBt : P ⊓ X ≤ cBt X t ρ := fun c hc =>
-  mem_inf.2 ⟨(mem_inf.1 hc).2, mem_centralizer_iff.2 fun m hm => comm_of_mem_inf_X d hc hm⟩
+theorem inf_X_le_cBt : P ⊓ X ≤ cBt X t ρ := fun _c hc =>
+  mem_inf.2 ⟨(mem_inf.1 hc).2, mem_centralizer_iff.2 fun _m hm => comm_of_mem_inf_X d hc hm⟩
 
 theorem comm_mem_cBt {l x : G} (hl : l ∈ prodFst ρ) (hx : x ∈ X) :
     l * x * l⁻¹ * x⁻¹ ∈ cBt X t ρ := by
@@ -418,6 +418,7 @@ theorem Theta_inv {x : G} (hx : x ∈ X) :
   rw [h1, a.psi_one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit d in
 theorem Theta_one : psi (1 * (t * 1 * t⁻¹)) = 0 := by
   have h1 : (1 : G) * (t * 1 * t⁻¹) = 1 := by group
   rw [h1, a.psi_one]
@@ -507,7 +508,7 @@ def uqH1 {K : Type} [Field K] {N X P Ai : Subgroup G} {t : G} {ρ : N →* SL(2,
       calc b₁ * b₁' * (b₂ * b₂') = b₁ * (b₁' * b₂) * b₂' := by group
         _ = b₁ * (b₂ * b₁') * b₂' := by rw [hc]
         _ = (b₁ * b₂) * (b₁' * b₂') := by group
-  one_mem' := ⟨1, one_mem _, 1, one_mem _, by rw [Theta_one d a]; rfl, (mul_one 1).symm⟩
+  one_mem' := ⟨1, one_mem _, 1, one_mem _, by rw [Theta_one a]; rfl, (mul_one 1).symm⟩
   inv_mem' := by
     rintro _ ⟨b, hb, b', hb', h, rfl⟩
     refine ⟨b⁻¹, inv_mem hb, b'⁻¹, inv_mem hb', ?_, ?_⟩
@@ -611,7 +612,7 @@ theorem key {y : G} (hyN : y ∈ N) {c : K} (hc : c ≠ 0)
     (fun n hn => comm_of_mem_cB_inf_cBt d hd₀B hd₀Bt hn), Theta_conj_s d a (upperSL c) hb'X,
     Theta_inv d a hb'X] at hΘ
   have h1 := congrFun hΘ 0
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, coe_upperSL] at h1
+  simp [dotProduct, Fin.sum_univ_two, coe_upperSL] at h1
   rcases h1 with h1 | h1
   · exact absurd h1 hc
   · exact ⟨b, hb, b', hb', h1, rfl⟩
@@ -847,7 +848,7 @@ theorem UniqueAux.rho_S_eq_prod (h : FCHyp L K n φ t)
     (𝐒.subgroupOf 𝐍𝐂[i]).map ρ = ((upperSL2 K).map β.toMonoidHom).prod
       ((upperSL2 K).map β.toMonoidHom) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hf := closureSetupFacts h hbt i
   have hPS := (BothTrivialSlice.S_inf_C h hbt).symm.le.trans inf_le_left
   have hScard := (card_barSub hf.X_le_S hf.S_le).symm
@@ -908,7 +909,7 @@ theorem mem_normalizer_X_of_mem_normalizer_S (h : FCHyp L K n φ t)
     (hbt : ∀ i : Axis, ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ = ⊥) (i : Axis)
     (ρ : 𝐍𝐂[i] →* SL(2, K) × SL(2, K)) (hρ : Function.Surjective ρ)
     (hker : ρ.ker = 𝐗[i].subgroupOf 𝐍𝐂[i])
-    (hswap : ∀ x y : 𝐍𝐂[i], (y : G) = t * x * t⁻¹ → ρ y = (ρ x).swap)
+    (hswap : ∀ _x y : 𝐍𝐂[i], (y : G) = t * _x * t⁻¹ → ρ y = (ρ _x).swap)
     (β : SL(2, K) ≃* SL(2, K))
     (hβ : ∀ (M : SL(2, K)) (hM : ((φ.symm (sHom K i M) : L) : G) ∈ 𝐍𝐂[i]),
       ρ ⟨_, hM⟩ = (β M, β M))
@@ -917,21 +918,21 @@ theorem mem_normalizer_X_of_mem_normalizer_S (h : FCHyp L K n φ t)
     (hPmax : ∀ Q : Subgroup G, Q ≤ prodFst ρ → ⁅Q, Q⁆ = Q → Q ≤ P)
     {y : G} (hyS : y ∈ normalizer (𝐒 : Set G)) (hyX : y ∈ normalizer (𝐗[i.swap] : Set G)) :
     y ∈ normalizer (𝐗[i] : Set G) :=
-  UniqueAux.mem_normalizer_X_aux hyS hyX (X_le_S i) (fun x hx => X_mul_self h hbt i hx) (X_inf_X_swap h i)
-    (center_S h hbt) fun A hAS hAsq hcard hAX =>
+  UniqueAux.mem_normalizer_X_aux hyS hyX (X_le_S i) (fun _x hx => X_mul_self h hbt i hx) (X_inf_X_swap h i)
+    (center_S h hbt) fun _A hAS hAsq hcard hAX =>
       eq_X_of_elementary h hbt i ρ hρ hker hswap β hβ hPΛ hP hPX hPt hPmax hAS
         (isElementaryAbelian_of_mul_self hAsq) hcard hAX
 
 theorem mem_normalizer_prodFst_of_odd (h : FCHyp L K n φ t)
-    (hbt : ∀ i : Axis, ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ = ⊥) (i : Axis)
+    (_hbt : ∀ i : Axis, ⁅𝐀[i], 𝐅 ⊓ 𝐃[i.swap]⁆ = ⊥) (i : Axis)
     (ρ : 𝐍𝐂[i] →* SL(2, K) × SL(2, K)) (hρ : Function.Surjective ρ)
     (hker : ρ.ker = 𝐗[i].subgroupOf 𝐍𝐂[i])
     (hswap : ∀ x y : 𝐍𝐂[i], (y : G) = t * x * t⁻¹ → ρ y = (ρ x).swap)
     {y : G} (hyX : y ∈ normalizer (𝐗[i] : Set G)) (hy : Odd (orderOf y)) :
     y ∈ normalizer ((prodFst ρ : Subgroup G) : Set G) :=
   UniqueAux.mem_normalizer_prodFst_of_odd_aux h.four_le_card hρ (le_sup_right.trans (sup_le_NC i)) hker
-    (mem_normalizer_of_conj_le fun z hz => conj_mem_NC i (t_mem_normalizer_X h i) hz)
-    h.setup.t_mul_t hswap (mem_normalizer_of_conj_le fun z hz => conj_mem_NC i hyX hz) hyX hy
+    (mem_normalizer_of_conj_le fun _z hz => conj_mem_NC i (t_mem_normalizer_X h i) hz)
+    h.setup.t_mul_t hswap (mem_normalizer_of_conj_le fun _z hz => conj_mem_NC i hyX hz) hyX hy
 
 end Setting
 

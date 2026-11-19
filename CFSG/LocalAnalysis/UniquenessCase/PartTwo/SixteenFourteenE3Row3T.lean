@@ -40,7 +40,7 @@ private lemma s1614e3_mem_of_card_sq_of_central {G : Type*} [Group G] [Finite G]
     (hz : z ∈ Subgroup.center G) (hnc : ¬ ∀ a b : G, a * b = b * a)
     {R : Subgroup G} (hR : Nat.card R = p ^ 2) : z ∈ R := by
   by_contra hzR
-  have hRc : ∀ a b : R, a * b = b * a := IsPGroup.commutative_of_card_eq_prime_sq hR
+  have hRc : ∀ a b : R, a * b = b * a := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hR).is_comm.comm
   set H : Subgroup G := Subgroup.closure ((R : Set G) ∪ {z}) with hH
   have hRH : R ≤ H := fun x hx => Subgroup.subset_closure (Or.inl hx)
   have hzH : z ∈ H := Subgroup.subset_closure (Or.inr rfl)
@@ -82,7 +82,7 @@ private lemma s1614e3_mem_of_card_sq_of_central {G : Type*} [Group G] [Finite G]
 
 theorem s1614e3_row3_lin {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x = 1)
     (hcard : Nat.card W = 2 ^ 6) {z t : MulAut W} (hz3 : z * z * z = 1)
-    (hzfix : ∀ x : W, z x = x → x = 1) (ht2 : t * t = 1) (hzt : t * z = z * t)
+    (hzfix : ∀ x : W, z x = x → x = 1) (_ht2 : t * t = 1) (hzt : t * z = z * t)
     (hk : 1 < rkIdx (fixV (Subgroup.zpowers t))) {Wd : Subgroup W}
     (hWd : Wd ≤ fixV (Subgroup.zpowers t)) (hrk : rkIdx Wd ≤ 3) :
     ∃ Z : Subgroup W, Z ≠ ⊥ ∧ Z ≤ Wd ∧ Z.map z.toMonoidHom = Z := by
@@ -143,7 +143,7 @@ theorem s1614e3_row3_lin {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x 
   exact ⟨Wd ⊓ Wd.comap z.toMonoidHom, hZne, inf_le_left, hZmap⟩
 
 theorem s1614e3_row3_inv {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x = 1)
-    (hcard : Nat.card W = 2 ^ 6) {z t : MulAut W} (hz3 : z * z * z = 1)
+    (hcard : Nat.card W = 2 ^ 6) {z t : MulAut W} (_hz3 : z * z * z = 1)
     (hzfix : ∀ x : W, z x = x → x = 1) (ht2 : t * t = 1) (htz : t * z = z * z * t) :
     rkIdx (fixV (Subgroup.zpowers t)) = 3 ∧
       ∀ m : MulAut W, (m * z = z * m ∨ m * z = z * z * m) →
@@ -245,9 +245,9 @@ theorem s1614e3_row3_sylow {W : Type} [CommGroup W] [Finite W] {L X : Subgroup (
         ∀ ℓ : ↥L, ℓ ∈ Subgroup.center ↥L → (ℓ : MulAut W) ∈ E := by
 
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 3 ^ 3 := hL.2.1
   have hLfac : (Nat.card ↥L).factorization 3 = 3 := by
     rw [hLcard, Nat.Prime.factorization_pow Nat.prime_three, Finsupp.single_eq_same]

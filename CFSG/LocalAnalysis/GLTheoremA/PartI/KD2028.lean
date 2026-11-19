@@ -73,15 +73,15 @@ private theorem kdP_mul_kdP : (kdP : Matrix (Fin 3) (Fin 3) K) * kdP = 1 := by
 
 private theorem kdT_mul_kdX (ω : K) : kdT * kdX ω = kdX ω * kdT := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [kdT, kdX, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [kdT, kdX, Matrix.mul_apply, Fin.sum_univ_three]
 
 private theorem kdU_zero : kdU (0 : K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [kdU, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [kdU]
 
 private theorem kdU_mul (s t : K) : kdU s * kdU t = kdU (s + t) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [kdU, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [kdU, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 private theorem kdU_mul_neg (t : K) : kdU t * kdU (-t) = 1 := by
   rw [kdU_mul, add_neg_cancel, kdU_zero]
@@ -104,7 +104,7 @@ private theorem kdXi_mul_kdU {ω : K} (h : ω ^ 3 = 1) (s : K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [kdX, kdXi, kdU, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination h | linear_combination (ω * s) * h
+    first | linear_combination h | linear_combination (ω * s) * h
 
 private theorem kd_conj_cancel {P Q M : Matrix (Fin 3) (Fin 3) K} (h : Q * P = 1) :
     Q * (P * M * Q) * P = M := by
@@ -120,7 +120,6 @@ private theorem kd_not_comm {ω : K} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) {M : Matr
   simp [kdX, Matrix.mul_apply, Fin.sum_univ_three, hM] at e
   first
   | exact h1 (kd_eq_one_of_sq_eq h3 e)
-  | exact h1 (kd_eq_one_of_sq_eq h3 e.symm)
 
 private def kdXgl {ω : K} (h : ω ^ 3 = 1) : GL (Fin 3) K :=
   ⟨kdX ω, kdXi ω, kdX_mul_kdXi h, kdXi_mul_kdX h⟩
@@ -169,9 +168,9 @@ private theorem kd_exists_cube_root (K : Type) [Field K] [Finite K] (h3 : Nat.ca
 private theorem kd_two_ne_zero_of_card (K : Type) [Field K] [Finite K] {q : ℕ}
     (hq : Nat.card K = q ^ 2) (hodd : q % 2 = 1) : (2 : K) ≠ 0 := by
   intro h2
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
-    haveI : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by simpa using h2)
+    have : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by simpa using h2)
     exact ringChar.eq K 2
   have hev := FiniteField.even_card_of_char_two hchar
   rw [← Nat.card_eq_fintype_card, hq] at hev

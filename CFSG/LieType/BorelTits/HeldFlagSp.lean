@@ -14,7 +14,7 @@ theorem heldFlagSp {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
       (∀ v ∈ W, ∀ w ∈ W, v ⬝ᵥ (fromBlocks 0 1 (-1) 0 *ᵥ w) = 0) ∧
       ∀ y ∈ Subgroup.normalizer (U : Set (StatedSp n K)), ∀ w ∈ W,
         ((y : GL (Fin n ⊕ Fin n) K) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) *ᵥ w ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hρ := isIsometric_natRep_statedSp n K
   have hinj : Function.Injective (natRep (StatedSp n K)) := natRep_injective _
   refine ⟨isoSeq (spForm n K) (natRep (StatedSp n K)) U 1,

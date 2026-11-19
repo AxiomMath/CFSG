@@ -167,10 +167,10 @@ private theorem kbar_l227_elements
   have hW₂V : D.W₂ ≤ D.V := by
     rw [D.cfg.join]
     exact le_sup_right.trans le_sup_left
-  haveI : Nontrivial ↥D.W₁ :=
+  have : Nontrivial ↥D.W₁ :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [D.cfg.card₁]; norm_num)
   obtain ⟨w₁, hw₁1⟩ := exists_ne (1 : ↥D.W₁)
-  haveI : Nontrivial ↥D.W₂ :=
+  have : Nontrivial ↥D.W₂ :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [D.cfg.card₂]; norm_num)
   obtain ⟨w₂, hw₂1⟩ := exists_ne (1 : ↥D.W₂)
   let t₁H : ↥H := ⟨D.t₁, (D.t₁_mem hc.data).1⟩

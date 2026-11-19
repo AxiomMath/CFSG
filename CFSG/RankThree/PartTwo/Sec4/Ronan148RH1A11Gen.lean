@@ -31,7 +31,7 @@ theorem eq_one_of_mem_centralizer_of_partTwo (hEF : partTwoE G = partTwoF G)
     (hF9 : Nat.card F = 9) (hF' : CFSG.Assembly.IsElemAbelian 3 F') (hF'27 : Nat.card F' = 27)
     {t : G} (htL : t ∈ L) (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) (htF : ∀ f ∈ F, t * f = f * t)
     {w : G} (hw : w ∈ Subgroup.centralizer (L : Set G)) (hw3 : w ^ 3 = 1) : w = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hw1
   have hW : CFSG.Assembly.IsElemAbelian 3 (Subgroup.zpowers w) :=
     CFSG.RankThree.PartTwo.Sec13.isElemAbelian_zpowers hw3
@@ -69,7 +69,7 @@ theorem eq_one_of_mem_centralizer_of_partTwo (hEF : partTwoE G = partTwoF G)
   have ht2' : orderOf t = 2 := orderOf_eq_prime ht2 ht1
   have hEmem : F ⊔ Subgroup.zpowers w ∈ partTwoE G :=
     ⟨hE, hEc, Subgroup.zpowers t, fun h => ht1 (Subgroup.zpowers_eq_bot.mp h),
-      IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, ht2'] <;> norm_num⟩, hEt⟩
+      IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, ht2']; norm_num⟩, hEt⟩
   have hcF' : ∀ x ∈ F', ∀ y ∈ Subgroup.zpowers w, x * y = y * x := fun x hx y hy =>
     hLW x (hF'L hx) y hy
   have hB : CFSG.Assembly.IsElemAbelian 3 (F' ⊔ Subgroup.zpowers w) :=
@@ -89,6 +89,7 @@ theorem eq_one_of_mem_centralizer_of_partTwo (hEF : partTwoE G = partTwoF G)
   rw [hBc, hME.2.1] at hle
   norm_num at hle
 
+omit [Finite G] in
 theorem le_of_inner_of_centralizer {L A : Subgroup G} (hZ : Subgroup.center L = ⊥)
     (hcube : CubeInner L) (hAN : A ≤ Subgroup.normalizer (L : Set G))
     (hA : CFSG.Assembly.IsElemAbelian 3 A)

@@ -148,7 +148,7 @@ variable (cc : Fin 7 → Fin 7 → V) (ops : List M)
   else if i.1 = 2 then us ++ [cr cc (us.getD i.2.1 0) (us.getD i.2.2.1 0)]
   else us
 
-@[expose] def chkV (gv : List V) (i : Ins) (us : List V) : Prop :=
+@[expose] def chkV (_gv : List V) (i : Ins) (us : List V) : Prop :=
   if i.1 = 0 then True
   else if i.1 = 1 then True
   else if i.1 = 2 then True
@@ -194,6 +194,7 @@ theorem lc_map (g : M) : ∀ (cs : List ℕ) (us : List V), lc cs (us.map (g *�
 variable {g : (M)ˣ} (hg : g ∈ A cc) (hops : ∀ o ∈ ops, (g : M) * o = o * g)
 include hg hops
 
+omit hg in
 theorem ops_comm (a : ℕ) (v : V) : ops.getD a 0 *ᵥ ((g : M) *ᵥ v) = (g : M) *ᵥ (ops.getD a 0 *ᵥ v) := by
   rw [mulVec_mulVec, mulVec_mulVec]
   congr 1
@@ -209,7 +210,7 @@ theorem pushV_map (gv : List V) (i : Ins) (us : List V) :
   split_ifs
   · rw [List.map_append, getD_map_mulVec]
     rfl
-  · rw [List.map_append, getD_map_mulVec, ops_comm hg hops]
+  · rw [List.map_append, getD_map_mulVec, ops_comm hops]
     rfl
   · rw [List.map_append, getD_map_mulVec, getD_map_mulVec, ← hg]
     rfl
@@ -219,39 +220,39 @@ theorem chkV_map (gv : List V) (i : Ins) (us : List V) (h : chkV cc ops gv i us)
     chkV cc ops (gv.map ((g : M) *ᵥ ·)) i (us.map ((g : M) *ᵥ ·)) := by
   unfold chkV at h ⊢
   by_cases h0 : i.1 = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     trivial
-  rw [if_neg h0] at h ⊢
+  rw [ite_eq_right h0] at h ⊢
   by_cases h1 : i.1 = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     trivial
-  rw [if_neg h1] at h ⊢
+  rw [ite_eq_right h1] at h ⊢
   by_cases h2 : i.1 = 2
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     trivial
-  rw [if_neg h2] at h ⊢
+  rw [ite_eq_right h2] at h ⊢
   by_cases h3 : i.1 = 3
-  · rw [if_pos h3] at h ⊢
-    rw [getD_map_mulVec, ops_comm hg hops, lc_map, h]
-  rw [if_neg h3] at h ⊢
+  · rw [ite_eq_left h3] at h ⊢
+    rw [getD_map_mulVec, ops_comm hops, lc_map, h]
+  rw [ite_eq_right h3] at h ⊢
   by_cases h4 : i.1 = 4
-  · rw [if_pos h4] at h ⊢
+  · rw [ite_eq_left h4] at h ⊢
     rw [getD_map_mulVec, getD_map_mulVec, ← hg, lc_map, h]
-  rw [if_neg h4] at h ⊢
+  rw [ite_eq_right h4] at h ⊢
   by_cases h5 : i.1 = 5
-  · rw [if_pos h5] at h ⊢
+  · rw [ite_eq_left h5] at h ⊢
     rw [getD_map_mulVec, getD_map_mulVec, β_aut cc hg]
     exact h
-  rw [if_neg h5] at h ⊢
+  rw [ite_eq_right h5] at h ⊢
   by_cases h6 : i.1 = 6
-  · rw [if_pos h6] at h ⊢
+  · rw [ite_eq_left h6] at h ⊢
     rw [getD_map_mulVec]
     intro e
     apply h
     have := congrArg (((g⁻¹ : (M)ˣ) : M) *ᵥ ·) e
     simp only [mulVec_mulVec, Units.inv_mul, one_mulVec, mulVec_zero] at this
     exact this
-  rw [if_neg h6] at h
+  rw [ite_eq_right h6] at h
   exact h.elim
 
 theorem mRun_map (gv : List V) :

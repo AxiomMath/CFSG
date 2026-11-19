@@ -24,7 +24,7 @@ theorem pSubgroup_sylow_of_sylow_in_normalizer {G : Type u} [Group G] [Finite G]
     exact hpgroup.of_injective equivalence.toMonoidHom equivalence.injective
   have hnormalizerPGroup : IsPGroup prime
       (Subgroup.normalizer (subgroup : Set G) ⊓ (sylow : Subgroup G) : Subgroup G) :=
-    sylow.isPGroup'.of_injective (Subgroup.inclusion inf_le_right)
+    sylow.isPGroup.of_injective (Subgroup.inclusion inf_le_right)
       (Subgroup.inclusion_injective inf_le_right)
   have hnormalizerEq := hmaximal _ inf_le_left hnormalizerPGroup
     (le_inf Subgroup.le_normalizer hle)
@@ -39,7 +39,7 @@ theorem pSubgroup_sylow_of_sylow_in_normalizer {G : Type u} [Group G] [Finite G]
       exact ⟨fun hmem => ⟨hmem, element.property⟩, fun hmem => hmem.1⟩
     rw [heq, hnormalizerEq]
   have : Fact prime.Prime := ⟨hprime⟩
-  have : Group.IsNilpotent (sylow : Subgroup G) := sylow.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (sylow : Subgroup G) := sylow.isPGroup.isNilpotent
   have htop := (normalizerCondition_iff_only_full_group_self_normalizing.mp
     (Group.normalizerCondition_of_isNilpotent (G := (sylow : Subgroup G))))
       (subgroup.subgroupOf (sylow : Subgroup G)) hinternalNormalizer
@@ -92,7 +92,7 @@ theorem exists_normalized_sylow_containing_normalized_pSubgroup
     exact hmapped
   have hambientEq : ambientSylow = maximal :=
     (hmaximal.eq_of_le ⟨(Subgroup.map_subtype_le _).trans inf_le_left,
-      normalizerSylow.isPGroup'.map normalizer.subtype, hnormalizerSylowNormalized⟩ hmaximalSylowLe).symm
+      normalizerSylow.isPGroup.map normalizer.subtype, hnormalizerSylowNormalized⟩ hmaximalSylowLe).symm
   have hmaximalInNormalizer : ∀ larger : Subgroup overgroup,
       larger ≤ Subgroup.normalizer (maximal.subgroupOf overgroup : Set overgroup) →
         IsPGroup sylowPrime larger → maximal.subgroupOf overgroup ≤ larger →

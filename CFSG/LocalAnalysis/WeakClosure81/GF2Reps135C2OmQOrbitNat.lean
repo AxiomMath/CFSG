@@ -65,7 +65,7 @@ theorem weylAction_simple_omNatWt {n : ℕ} (hn : 3 ≤ n) {k : Fin n} (hk : k.v
         (omRealizes_simple_of_lt (n := n) hlt)
       have hne1 : (⟨0, by omega⟩ : Fin n) ≠ ⟨k.val + 1, hlt⟩ := fun hh => by
         have hv := congrArg Fin.val hh
-        simp only [Fin.val_mk] at hv
+        simp only at hv
         omega
       rw [Equiv.swap_apply_of_ne_of_ne hne_k hne1] at h
       simpa using h
@@ -73,10 +73,10 @@ theorem weylAction_simple_omNatWt {n : ℕ} (hn : 3 ≤ n) {k : Fin n} (hk : k.v
         (omRealizes_simple_of_not_lt (n := n) hn2 hlt)
       have hne1 : (⟨0, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := fun hh => by
         have hv := congrArg Fin.val hh
-        simp only [Fin.val_mk] at hv
+        simp only at hv
         omega
       have hif : (if n ≤ (⟨0, by omega⟩ : Fin n).val + 2 then (-1 : ℤ) else 1) = 1 :=
-        if_neg (by simp only [Fin.val_mk]; omega)
+        ite_eq_right (by simp only; omega)
       rw [Equiv.swap_apply_of_ne_of_ne hne1 hne_k, hif] at h
       simpa using h
   apply toStdD_injective n

@@ -109,7 +109,7 @@ theorem exists_conj_weyl_matrix (h2 : (2 : F) ≠ 0) {X : Matrix (Fin 2) (Fin 2)
       · rw [hb, hc]
         ext i j
         fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-          first | ring1 | linear_combination hdet | linear_combination -hdet
+          first | linear_combination hdet | linear_combination -hdet
     ·
       rw [hc] at hdet
       refine ⟨!![0, b'; 1, -a], ?_, ?_⟩

@@ -441,7 +441,7 @@ theorem psi_of_rows {K : Subgroup G12} {T : List (List ℕ)} (hT : ∀ g : G12, 
     unfold psiRows at hr
     have := List.all_eq_true.1 (List.all_eq_true.1 hr s hs) t ht
     simp only [Bool.and_eq_true, beq_iff_eq, Bool.or_eq_true, Bool.not_eq_true',
-      Bool.and_eq_false_iff, bne_iff_ne] at this
+      Bool.and_eq_false_iff] at this
     refine ⟨this.1, fun h1 h2 => ?_⟩
     rcases this.2 with (h | h) | h
     · exact absurd h1 (by simpa using h)

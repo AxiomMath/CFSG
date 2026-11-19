@@ -20,7 +20,7 @@ theorem L210_eq_of_burnside {M : Subgroup X} [M.Normal] (hAM : A ≤ M) (hAb : I
       exact le_inf inf_le_right (inf_le_left.trans hSN)
     · exact le_inf hAS hAM
   have hA2 : IsPGroup 2 (A.subgroupOf M) :=
-    (S.isPGroup'.to_le hAS).comap_subtype (K := M)
+    (S.isPGroup.to_le hAS).comap_subtype (K := M)
   have hrel : A.relIndex M = (S : Subgroup X).relIndex ((S : Subgroup X) ⊔ M) := by
     have h1 : M.relIndex ((S : Subgroup X) ⊔ M) = M.relIndex (S : Subgroup X) :=
       Subgroup.relIndex_sup_right (H := (S : Subgroup X)) (K := M)
@@ -57,7 +57,7 @@ theorem L210_eq_of_burnside {M : Subgroup X} [M.Normal] (hAM : A ≤ M) (hAb : I
     rw [hnorm]
     exact Subgroup.le_centralizer_iff_isMulCommutative.mpr
       (hPcoe.symm ▸ (inferInstance : IsMulCommutative (A.subgroupOf M)))
-  haveI : Finite (Sylow 2 M) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 M) := Sylow.finite_of_finiteIndex P
   let K : Subgroup M := (MonoidHom.transferSylow P hP).ker
   have hcomp : IsComplement' K P := MonoidHom.ker_transferSylow_isComplement' P hP
   have hK_odd : Odd (Nat.card K) := by
@@ -86,7 +86,7 @@ theorem exists_conj_mem_sylow_of_le {N : Subgroup X} (S : Sylow 2 X) (hSN : (S :
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_dvd_iff_pow_eq_one.mpr (by simpa [pow_two] using hqN2)
   obtain ⟨T', hT'⟩ := h2grp.exists_le_sylow
-  haveI : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex S'
+  have : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex S'
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq (M := N) S' T'
   have hmq : m⁻¹ * qN * m ∈ (S' : Subgroup N) := by
     have hmem : qN ∈ ((m • S' : Sylow 2 N) : Subgroup N) := by

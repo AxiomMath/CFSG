@@ -22,7 +22,7 @@ theorem a2l_typU_statedSp_four {F : Type} [Field F] [Finite F] (hF : Nat.card F 
   have hq : CFSG.IsQuasisimple (StatedSp 2 F) :=
     LieType.Universal.Symplectic.isQuasisimple 2 F (by omega) (Or.inr (Or.inl ⟨hF, le_rfl⟩))
   have h2 : IsPGroup 2 ↥(center (StatedSp 2 F)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hc : Nat.card (center (StatedSp 2 F)) = 2 := by
       rw [LieType.Universal.Symplectic.center_eq]
       exact a2l_card_scalars_sp_four (by rw [hF]; decide)
@@ -41,7 +41,7 @@ theorem a2l_typU_statedSp_four {F : Type} [Field F] [Finite F] (hF : Nat.card F 
 theorem a2l_rowPSp_two {X : Type} [Group X] [Finite X] {n f : ℕ} (hn : 2 ≤ n) (hf : 2 ≤ f)
     (hm : LieModel X .PSp n 3 f) : a2lDatum X := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hFc : Fintype.card F = 3 ^ f := by rw [← Nat.card_eq_fintype_card, hcard]
   have hodd : Odd (3 ^ f) := Odd.pow (by decide)
   have h9 : 9 ≤ 3 ^ f :=
@@ -70,14 +70,14 @@ theorem a2l_rowPSp_one {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 3 ≤ n)
     (hm : LieModel X .PSp n 3 1) : a2lDatum X := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hF3 : Nat.card F = 3 := by rw [hcard]; norm_num
   have hF : Fintype.card F = 3 := by rw [← Nat.card_eq_fintype_card, hF3]
   have h2 : (2 : F) ≠ 0 := Ring.two_ne_zero (a2l_ringChar_ne_two (by rw [hF]; decide))
-  haveI : Fact (¬ IsSquare (-1 : F)) :=
+  have : Fact (¬ IsSquare (-1 : F)) :=
     ⟨fun h => FiniteField.isSquare_neg_one_iff.1 h (by rw [hF])⟩
-  haveI := a2l_finite_quadAlg (-1 : F)
-  haveI := Fintype.ofFinite (QuadraticAlgebra F (-1) 0)
+  have := a2l_finite_quadAlg (-1 : F)
+  have := Fintype.ofFinite (QuadraticAlgebra F (-1) 0)
   have hE : Fintype.card (QuadraticAlgebra F (-1) 0) = 9 := by
     rw [← Nat.card_eq_fintype_card, a2l_card_quadAlg, hF3]
   let σ : Fin 2 → Fin n := Fin.castLE (by omega)

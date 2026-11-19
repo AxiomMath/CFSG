@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem stroth_11_6 [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
+theorem stroth_11_6 [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} (_hw : Width Q Z n)
     {d : Mbar M Q} (hd : d ∈ Ebar M Q Z B) {τ : Mbar M Q} (hτ : d⁻¹ * τ * d = τ⁻¹)
     (hodd : Odd (orderOf τ)) : orderOf τ ∣ Nat.card Z ^ 2 - 1 := by
   classical

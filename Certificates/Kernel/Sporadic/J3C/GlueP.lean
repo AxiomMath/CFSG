@@ -123,11 +123,11 @@ theorem actPb : ∀ x < 20520, actN J3Groups.pb x = r32 TB x := fun x hx => by
   rw [actN_of_lt _ hx, ← bGet hx]
   exact ((abRep 1 (by norm_num)).apply hx).symm
 
-theorem actPai : ∀ x < 20520, actN J3Groups.pa⁻¹ x = r32 J3K.AI x :=
-  invAct actPa fun x hx => ⟨(inv_facts hx).1, (inv_facts hx).2.1⟩
+theorem actPai : ∀ _x < 20520, actN J3Groups.pa⁻¹ _x = r32 J3K.AI _x :=
+  invAct actPa fun _x hx => ⟨(inv_facts hx).1, (inv_facts hx).2.1⟩
 
-theorem actPbi : ∀ x < 20520, actN J3Groups.pb⁻¹ x = r32 J3K.BI x :=
-  invAct actPb fun x hx => ⟨(inv_facts hx).2.2.1, (inv_facts hx).2.2.2⟩
+theorem actPbi : ∀ _x < 20520, actN J3Groups.pb⁻¹ _x = r32 J3K.BI _x :=
+  invAct actPb fun _x hx => ⟨(inv_facts hx).2.2.1, (inv_facts hx).2.2.2⟩
 
 theorem paEq : J3Groups.pa = SC.permF 20520 (r32 TA) :=
   Equiv.ext fun x => Fin.ext (by rw [SC.permF_val permTA x, ← actN_fin, actPa _ x.isLt])

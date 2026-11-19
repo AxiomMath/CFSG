@@ -104,7 +104,7 @@ private theorem embGL_mulVec_k {K : Type} [Field K]
 private theorem quadMinus_split {K : Type} [Field K] (b c : K) (w : Idx3 → K) :
     StatedQuadMinus 3 K b c w =
       w (Sum.inl 0) * w (Sum.inr (Sum.inl 0)) + StatedQuadMinus 2 K b c (w ∘ embJ) := by
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp only [StatedQuadMinus]
   have h3 : (∑ i : Fin (3 - 1), w (Sum.inl i) * w (Sum.inr (Sum.inl i))) =
       w (Sum.inl 0) * w (Sum.inr (Sum.inl 0)) +
         w (Sum.inl 1) * w (Sum.inr (Sum.inl 1)) := by

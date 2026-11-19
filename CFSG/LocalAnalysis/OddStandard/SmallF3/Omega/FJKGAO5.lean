@@ -41,9 +41,9 @@ theorem fjKGAAt_omegaProj_five (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
 theorem fjKGAAt_of_lieModel_psp {Y : Type} [Group Y] (h : LieModel Y .PSp 2 3 1) :
     FJKGAAt Y := by
   obtain ⟨W, i1, i2, i3, R, hR, hdim, hs, ⟨f⟩⟩ := isOmegaStar_of_lieModel_psp h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact fjKGAAt_of_mulEquiv f.symm (fjKGAAt_omegaProj_five hR hdim hs)
 
 end CFSG.OddStandard.SmallF3.Omega

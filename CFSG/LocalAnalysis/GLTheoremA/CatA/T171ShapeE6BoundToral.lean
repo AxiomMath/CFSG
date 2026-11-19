@@ -114,8 +114,8 @@ private theorem e6Bound_true_of (hMt : TwE6Marking) (hXt : TwE6BigToralExit) :
   have h5 : 3 ^ 5 ≤ Nat.card A := three_pow_five_le_card_of_not_le hS hle
   obtain ⟨n, K, hK, hKfin, hn, h3, hcardK, _, θ, hact⟩ :=
     hMt G L J A d b hS (by simpa using hcat)
-  letI := hK
-  letI := hKfin
+  let := hK
+  let := hKfin
   obtain ⟨E, hE, hEI, hcardE, hind⟩ :=
     exists_faithful_image hS θ (TwE6Delta.RecipeI K n) hact
   have hE5 : 3 ^ 5 ≤ Nat.card E := by rw [hcardE]; exact h5
@@ -129,8 +129,8 @@ private theorem e6Bound_false_of (hMu : E6Marking) (hXu : E6BigToralExit) :
   have h5 : 3 ^ 5 ≤ Nat.card A := three_pow_five_le_card_of_not_le hS hle
   obtain ⟨n, K, hK, hKfin, hn, h3, hcardK, θ, hact⟩ :=
     hMu G L J A d b hS (by simpa using hcat)
-  letI := hK
-  letI := hKfin
+  let := hK
+  let := hKfin
   obtain ⟨E, hE, hEI, hcardE, hind⟩ :=
     exists_faithful_image hS θ
       (LargeEvenChevIDImage (LargeEvenCartanE 6) K

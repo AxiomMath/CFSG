@@ -76,9 +76,9 @@ theorem l3Singer_psl {K : Type} [Group K] [Finite K] {p f : ℕ}
   obtain ⟨hadm, F, hFf, hFfin, hF, ⟨e⟩⟩ := hK
   have hp : p.Prime := hadm.1
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   have hq' : Nat.card F % 3 = 2 := by rw [hF]; exact hq
   let e' : K ≃* SL(3, F) := (e.trans (projectiveSpecialLinearGroupEquivStatedProj 3 F).symm).trans
     ((QuotientGroup.quotientMulEquivOfEq (center_SL3_eq_bot (cube_roots_trivial hq'))).trans
@@ -106,9 +106,9 @@ theorem l3Singer_psu {K : Type} [Group K] [Finite K] {p f : ℕ}
   obtain ⟨hadm, F, hFf, hFfin, hF, ⟨e⟩⟩ := hK
   have hp : p.Prime := hadm.1
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime_pow (f := 2 * f)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [← Nat.card_eq_fintype_card, hF, ← pow_mul, mul_comm])
   let e₁ : K ≃* StatedSU 3 (p ^ f) F :=
     (e.trans (QuotientGroup.quotientMulEquivOfEq

@@ -181,7 +181,7 @@ theorem uCitedRoot_smul (h : UnitaryFieldData p f K) {v : HypIndex r ε → K}
         ← mul_assoc, mul_inv_cancel₀ hNμ, one_mul]
 
 theorem exists_smul_of_uCitedRoot_eq (h : UnitaryFieldData p f K) {v w : HypIndex r ε → K}
-    (hv0 : v ≠ 0) (hw0 : w ≠ 0) (hv : hypForm h r ε v v = 0) (hw : hypForm h r ε w w = 0)
+    (_hv0 : v ≠ 0) (hw0 : w ≠ 0) (hv : hypForm h r ε v v = 0) (hw : hypForm h r ε w w = 0)
     (hvw : uCitedRoot h r ε v = uCitedRoot h r ε w) : ∃ μ : K, w = μ • v := by
   obtain ⟨τ, hτ, hτ0⟩ := h.exists_mem_traceZero_ne_zero
   obtain ⟨xw, hxw⟩ := spUCited_exists_mem_hypSU_hermTransvection h hw hτ
@@ -199,7 +199,7 @@ theorem exists_smul_of_uCitedRoot_eq (h : UnitaryFieldData p f K) {v w : HypInde
   rw [hw_eq, h2, smul_smul]
 
 theorem map_conj_uCitedRoot (h : UnitaryFieldData p f K) (g : ↥(hypSU h r ε))
-    {v : HypIndex r ε → K} (hv : hypForm h r ε v v = 0) :
+    {v : HypIndex r ε → K} (_hv : hypForm h r ε v v = 0) :
     (uCitedRoot h r ε v).map (MulAut.conj g).toMonoidHom =
       uCitedRoot h r ε
         (((g : GL (HypIndex r ε) K) : Matrix (HypIndex r ε) (HypIndex r ε) K) *ᵥ v) := by

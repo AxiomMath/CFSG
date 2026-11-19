@@ -46,7 +46,7 @@ theorem r7_8At3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
             S ≤ normalizer (CFSG.RankThree.PartOne.omegaOne k.p P : Set G) ∧ IsCyclic S ∧
               S ≤ CFSG.Open.rankThreeLayer (UC22.Opp k.p H) ∧
                 S ≤ centralizer (PPrimeCoreIn k.p H : Set G))) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hPHM, hPp, -⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hP
   have hPH : P ≤ H := hPHM.trans inf_le_left
   have h75 := step75_of_stronglyEmbeddedThree k hp3 hK3
@@ -66,7 +66,7 @@ theorem r7_8At3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
         (h.trans (CFSG.Quasithin.Ch1Sec3.frattiniIn_eq_commutator hPp hpow).ge) hFW)
     · exact Or.inr h
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨-, -, hFn, hFc⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
     rw [hP'eq] at h9 h18 h27 hNF
     have hPF : ¬ (P.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) ≤

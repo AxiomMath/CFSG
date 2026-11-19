@@ -31,6 +31,7 @@ private theorem w16g_conj_inv_of_involution {A : Type*} [Group A] {t y : A}
     _ = (MulAut.conj t y)⁻¹ * y := by rw [map_mul, map_inv, hφ]
     _ = (y⁻¹ * (t * y * t⁻¹))⁻¹ := by rw [mul_inv_rev, inv_inv, MulAut.conj_apply]
 
+omit [Finite W] in
 private theorem w16g_mem_z2_iff {P : Subgroup (MulAut W)} {x : MulAut W} (hx : x ∈ P) :
     x ∈ w16gZ2 P ↔ ∀ y ∈ P, ⁅x, y⁆ ∈ w16gZP P := by
   constructor
@@ -40,7 +41,7 @@ private theorem w16g_mem_z2_iff {P : Subgroup (MulAut W)} {x : MulAut W} (hx : x
       have h2 := Subgroup.mem_upperCentralSeries_succ_iff.mp hx' (⟨y, hy⟩ : ↥P)
       rwa [Subgroup.upperCentralSeries_one] at h2
     refine Subgroup.mem_map.mpr ⟨⁅x', (⟨y, hy⟩ : ↥P)⁆, hmem, ?_⟩
-    simpa using map_commutatorElement (f := P.subtype) x' (⟨y, hy⟩ : ↥P)
+    simp
   · intro h
     refine Subgroup.mem_map.mpr ⟨⟨x, hx⟩, ?_, rfl⟩
     rw [Subgroup.mem_upperCentralSeries_succ_iff]
@@ -54,6 +55,7 @@ private theorem w16g_mem_z2_iff {P : Subgroup (MulAut W)} {x : MulAut W} (hx : x
     rw [heq]
     exact hc
 
+omit [Finite W] in
 private theorem w16g_center_of_mem_centerMap {P : Subgroup (MulAut W)} {z : MulAut W}
     (hz : z ∈ w16gZP P) : z ∈ P ∧ ∀ y ∈ P, y * z = z * y := by
   obtain ⟨c, hc, hc_eq⟩ := Subgroup.mem_map.mp hz
@@ -66,8 +68,8 @@ private theorem w16g_center_of_mem_centerMap {P : Subgroup (MulAut W)} {z : MulA
 private theorem w16g_exists_z2_not_center {t : MulAut W} {P : Subgroup (MulAut W)}
     (h : InvCfg131 7 t P) (hnab : ∃ x ∈ P, ∃ y ∈ P, x * y ≠ y * x) :
     ∃ s ∈ w16gZ2 P, s ∉ w16gZP P := by
-  haveI : Fact (Nat.Prime 7) := ⟨h.hp⟩
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent h.hP
+  have : Fact (Nat.Prime 7) := ⟨h.hp⟩
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent h.hP
   have hZne : Subgroup.upperCentralSeries ↥P 1 ≠ Subgroup.upperCentralSeries ↥P 2 := by
     intro heq
     have htop := Subgroup.upperCentralSeries.eq_top (G := ↥P) (a := 1) (b := 2)
@@ -90,6 +92,7 @@ private theorem w16g_exists_z2_not_center {t : MulAut W} {P : Subgroup (MulAut W
     rw [hcx] at hc
     exact hx1 hc
 
+omit [Finite W] in
 private theorem w16g_z2_le_center_of_fixes {t : MulAut W} {P : Subgroup (MulAut W)}
     (h : InvCfg131 7 t P)
     (hcen : ∀ z ∈ P, (∀ y ∈ P, y * z = z * y) → t * z * t⁻¹ = z)
@@ -148,6 +151,7 @@ private theorem w16g_z2_le_center_of_fixes {t : MulAut W} {P : Subgroup (MulAut 
   apply Subtype.ext
   exact ((Subgroup.mem_centralizer_iff.mp (hPS g.2)) s hs).symm
 
+omit [Finite W] in
 private theorem w16g_conj_mem_z2 {t : MulAut W} {P : Subgroup (MulAut W)}
     (h : InvCfg131 7 t P)
     (hcen : ∀ z ∈ P, (∀ y ∈ P, y * z = z * y) → t * z * t⁻¹ = z)
@@ -192,7 +196,7 @@ theorem beta2_exists_heisenberg {t : MulAut W} {P : Subgroup (MulAut W)} (h : In
     ∃ x z y : MulAut W, x ∈ P ∧ z ∈ P ∧ y ∈ P ∧ orderOf x = 7 ∧ orderOf z = 7 ∧
       t * x * t⁻¹ = x⁻¹ ∧ t * z * t⁻¹ = z ∧ x * z = z * x ∧ y * x * y⁻¹ = x * z ∧
       y * z = z * y := by
-  haveI : Fact (Nat.Prime 7) := ⟨h.hp⟩
+  have : Fact (Nat.Prime 7) := ⟨h.hp⟩
   have htt : t * t = 1 := by
     have h2 := pow_orderOf_eq_one t
     rw [h.ht, pow_two] at h2

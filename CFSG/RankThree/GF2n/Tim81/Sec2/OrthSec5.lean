@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] {l : 
   {hF : Fintype.card F = 2 ^ (2 * l)} {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
   {ρ : Representation (ZMod 2) SL(2, F) W}
 
+omit [Algebra (ZMod 2) F] in
 theorem exists_mem_orderOf_mul_eq_three {A A' : Subgroup SL(2, F)}
     (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = Fintype.card F)
     (hA'2 : ∀ a ∈ A', a * a = 1) (hA' : Nat.card A' = Fintype.card F) (hne : A ≠ A')
@@ -102,6 +103,7 @@ private theorem fixedSub_zpowers_uMat_eq_hermPlane (t : F) (ht : t ≠ 0) :
   · rintro ⟨h11, c, hc, h01⟩
     exact ⟨h11, c, hc, by rw [h01, mul_comm]⟩
 
+omit [Finite W] [Algebra (ZMod 2) F] in
 private theorem m3_setup (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l))
     {x : SL(2, F)} (hx : x ∈ A) (hx1 : x ≠ 1) :
@@ -143,6 +145,7 @@ private theorem m3_setup (horth : IsOrthModule hF ρ)
     group
   exact ⟨j, β, B, c, t, hβ, rfl, hxB_eq, hEq, ht⟩
 
+omit [Algebra (ZMod 2) F] in
 private theorem m3_fixator_subgroup (hF : Fintype.card F = 2 ^ (2 * l))
     {A : Subgroup SL(2, F)} {j : ℕ} {B : Subgroup SL(2, F)} {c : SL(2, F)} {t : F}
     (hB : B = A.map (fieldAut F j)) (hEq : B = upperSylow.map (MulAut.conj c).toMonoidHom)
@@ -201,6 +204,7 @@ private theorem m3_fixator_subgroup (hF : Fintype.card F = 2 ^ (2 * l))
     exact CFSG.Timmesfeld.RankOne.mem_map_conj.mp hsS
   exact ⟨C, hC_le_A, hcardC, hC_mem, hAs⟩
 
+omit [Finite W] in
 private theorem m3_vector {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     {A B : Subgroup SL(2, F)} {c : SL(2, F)} {t : F} {x : SL(2, F)}
@@ -241,9 +245,10 @@ private theorem m3_vector {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     exact ⟨p, hpS, hp_eq⟩
   exact ⟨p, hp, hp_not, hp_eq, hp_def⟩
 
+omit [Finite W] in
 private theorem m3_action_iff {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
-    {A : Subgroup SL(2, F)} {C : Subgroup SL(2, F)} {c : SL(2, F)} {t : F}
+    {_A : Subgroup SL(2, F)} {C : Subgroup SL(2, F)} {c : SL(2, F)} {t : F}
     {p : ↥(hermA l F)} {w : W} (hp : p ∈ hermPlane l t)
     (hp_not : p ∉ fixedSub (hermRep l hF) upperSylow)
     (hp_eq : hermRep l hF c p = β w) (hp_def : p = hermRep l hF c⁻¹ (β w))
@@ -293,6 +298,7 @@ private theorem m3_action_iff {j : ℕ} {β : W ≃+ ↥(hermA l F)}
   rw [hiff, hfix_iff]
   exact hC.symm
 
+omit [Finite W] in
 theorem IsOrthModule.exists_fixator_fixedSub_zpowers (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l))
     {x : SL(2, F)} (hx : x ∈ A) (hx1 : x ≠ 1) :
@@ -307,13 +313,15 @@ theorem IsOrthModule.exists_fixator_fixedSub_zpowers (horth : IsOrthModule hF ρ
   intro w hw hwNot a ha
   obtain ⟨p, hp, hp_not, hp_eq, hp_def⟩ :=
     m3_vector (hF := hF) hβ hB hEq hxB_eq ht hw hwNot
-  exact m3_action_iff (hF := hF) (A := A) (a := a) hβ hp hp_not hp_eq hp_def
+  exact m3_action_iff (hF := hF) (_A := A) (a := a) hβ hp hp_not hp_eq hp_def
     (hC_mem a ha) (hAs a ha)
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem tMat_mem_torus (c : F) (hc : c ≠ 0) : tMat c hc ∈ torus F := by
   rw [mem_torus_entries]
   simp [tMat_coe]
 
+omit [Algebra (ZMod 2) F] in
 private theorem exists_frobFix_ne_zero_one (hF : Fintype.card F = 2 ^ (2 * l)) (hl : 2 ≤ l) :
     ∃ b : ↥(frobFixField l F), b ≠ 0 ∧ b ≠ 1 := by
   classical
@@ -402,6 +410,7 @@ private theorem fixedSub_torus_eq_bot (hl : 2 ≤ l) :
   fin_cases i <;> fin_cases j <;>
     simp [h00, h01, h11, hermA_10 (a := l) X, sig_apply]
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem map_conj_eq_of_subgroupOf_map_conj {G D : Subgroup SL(2, F)} {n : G}
     (hDleG : D ≤ G) (htorusG : torus F ≤ G)
     (hn : D.subgroupOf G = ((torus F).subgroupOf G).map (MulAut.conj n).toMonoidHom) :
@@ -413,6 +422,7 @@ private theorem map_conj_eq_of_subgroupOf_map_conj {G D : Subgroup SL(2, F)} {n 
     _ = (torus F).map (MulAut.conj ((n : G) : SL(2, F))).toMonoidHom :=
         CFSG.map_subgroupOf_map_conj_eq htorusG n
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 private theorem exists_conj_eq_torus_of_le_normalizer
     (hF : Fintype.card F = 2 ^ (2 * l)) (hl : 2 ≤ l)
     {D : Subgroup SL(2, F)}
@@ -484,8 +494,6 @@ private theorem fixedSub_eq_bot_of_map_conj_inv {D : Subgroup SL(2, F)} {c : SL(
     fixedSub (hermRep l hF) D = ⊥ := by
   have hD_eq : D = (D.map (MulAut.conj c⁻¹).toMonoidHom).map
       (MulAut.conj c).toMonoidHom := by
-    change D = (D.map (MulAut.conj c⁻¹).toMonoidHom).map
-      (MulAut.conj c).toMonoidHom
     rw [Subgroup.map_map]
     have hcomp : (MulAut.conj c).toMonoidHom.comp
         (MulAut.conj c⁻¹).toMonoidHom = MonoidHom.id (SL(2, F)) := by
@@ -497,6 +505,7 @@ private theorem fixedSub_eq_bot_of_map_conj_inv {D : Subgroup SL(2, F)} {c : SL(
     rw [hcomp, Subgroup.map_id]
   rw [hD_eq, fixedSub_map_conj, h, Submodule.map_bot]
 
+omit [Finite W] in
 private theorem fixedSub_eq_bot_of_map_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
     {T : Subgroup SL(2, F)} (h : fixedSub (hermRep l hF) (T.map (fieldAut F j)) = ⊥) :
@@ -508,6 +517,7 @@ private theorem fixedSub_eq_bot_of_map_fieldAut {j : ℕ} {β : W ≃+ ↥(hermA
   rw [h] at hβw
   simpa using hβw
 
+omit [Finite W] in
 theorem IsOrthModule.fixedSub_eq_bot_of_torus (horth : IsOrthModule hF ρ)
     (hl : 2 ≤ l) {A T : Subgroup SL(2, F)} (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l))
@@ -569,6 +579,7 @@ theorem IsOrthModule.fixedSub_eq_bot_of_torus (horth : IsOrthModule hF ρ)
     fixedSub_eq_bot_of_map_conj_inv hDc_bot
   exact fixedSub_eq_bot_of_map_fieldAut hβ hD_bot
 
+omit [Algebra (ZMod 2) F] in
 private theorem hermAct_wMat_hermDiag (a : F) (ha : a ^ 2 ^ l = a) :
     hermAct l (sig_sig hF) wMat (hermDiag l hF a ha) =
       hermDiag11 l hF a ha := by
@@ -577,10 +588,12 @@ private theorem hermAct_wMat_hermDiag (a : F) (ha : a ^ 2 ^ l = a) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Algebra (ZMod 2) F] in
 private theorem isPGroup_upperSylow : IsPGroup 2 ↥(upperSylow (F := F)) := by
   rw [upperSylow_eq_utri]
   exact isPGroup_utri
 
+omit [Algebra (ZMod 2) F] in
 private theorem hermDiag_eq_zero {a : F} (ha : a ^ 2 ^ l = a) (ha0 : a = 0) :
     hermDiag l hF a ha = 0 := by
   apply Subtype.ext
@@ -772,7 +785,7 @@ theorem IsOrthModule.eq_of_commute_of_iterate (horth : IsOrthModule hF ρ)
     (φ : W →+ W) (hφ : ∀ g w, φ (ρ g w) = ρ g (φ w)) {k : ℕ}
     (hk : ∀ w, φ^[2 ^ k] w = w) : ∀ w, φ w = w := by
   classical
-  haveI : Fact ρ.IsIrreducible := ⟨IsOrthModule.isIrreducible horth⟩
+  have : Fact ρ.IsIrreducible := ⟨IsOrthModule.isIrreducible horth⟩
   let φₗ : W →ₗ[ZMod 2] W := φ.toZModLinearMap 2
   have hφcomm : ∀ g v, φₗ (ρ g v) = ρ g (φₗ v) := hφ
   obtain ⟨ψ, hψ⟩ := (mem_endRing_iff ρ φₗ).mpr hφcomm
@@ -783,7 +796,7 @@ theorem IsOrthModule.eq_of_commute_of_iterate (horth : IsOrthModule hF ρ)
     have hiter : ψ^[2 ^ k] w = φ^[2 ^ k] w := by rw [hψfun]
     rw [hiter, hk w]
   have hψ1 : ψ = 1 := by
-    haveI : CharP (EndRing ρ) 2 :=
+    have : CharP (EndRing ρ) 2 :=
       charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
     have hiter : iterateFrobenius (EndRing ρ) 2 k ψ =
         iterateFrobenius (EndRing ρ) 2 k 1 := by
@@ -793,6 +806,7 @@ theorem IsOrthModule.eq_of_commute_of_iterate (horth : IsOrthModule hF ρ)
   have hw : ψ w = w := by rw [hψ1, Module.End.one_apply]
   simpa [hψfun] using hw
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] [Finite W] in
 private theorem linearMap_map_commSub_eq {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
     (σ : Representation (ZMod 2) SL(2, F) N) (a : SL(2, F))
     (f : N →ₗ[ZMod 2] W) (hf : ∀ g n, f (σ g n) = ρ g (f n))
@@ -837,7 +851,7 @@ theorem IsOrthModule.linearMap_eq_zero (horth : IsOrthModule hF ρ)
     (f : N →ₗ[ZMod 2] W) (hf : ∀ g n, f (σ g n) = ρ g (f n)) : f = 0 := by
   have hl : 1 ≤ l := one_le_of_card hF
   by_contra hf0
-  haveI : ρ.IsIrreducible := IsOrthModule.isIrreducible horth
+  have : ρ.IsIrreducible := IsOrthModule.isIrreducible horth
   let fmap : Representation.IntertwiningMap σ ρ :=
     LinearMap.intertwiningMap_of_isIntertwiningMap σ ρ f hf
   have hsurjF : Function.Surjective fmap := by

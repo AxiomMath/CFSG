@@ -17,7 +17,7 @@ section Aux
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {Q : QuadraticForm (ZMod 2) V}
 
 theorem torus_mono {l l' : List (V × V)} (h : ∀ q ∈ l', q ∈ l) : torus Q l' ≤ torus Q l :=
-  Subgroup.closure_mono (fun g ⟨q, hq, hg⟩ => ⟨q, h q hq, hg⟩)
+  Subgroup.closure_mono (fun _g ⟨q, hq, hg⟩ => ⟨q, h q hq, hg⟩)
 
 theorem polar_Wspan_Wspan {l₁ l₂ : List (V × V)} (h : ∀ p ∈ l₁, ∀ q ∈ l₂, PairPerp Q p q) {a b : V}
     (ha : a ∈ Wspan l₁) (hb : b ∈ Wspan l₂) : polar Q a b = 0 := by
@@ -42,6 +42,7 @@ section Assemble
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem isPlusType_of_no_minusPair {X : Submodule (ZMod 2) V} (hX2 : finrank (ZMod 2) X = 2)
     (hno : ¬ ∃ a b : V, a ∈ X ∧ b ∈ X ∧ MinusPair Q a b) : IsPlusType (Q.comp X.subtype) := by
   by_cases hex : ∃ x ∈ X, x ≠ 0 ∧ Q x = 0
@@ -66,7 +67,7 @@ theorem isPlusType_of_no_minusPair {X : Submodule (ZMod 2) V} (hX2 : finrank (ZM
       have := Submodule.finrank_mono hle
       rw [finrank_span_singleton ha0, hX2] at this
       omega
-    obtain ⟨b, hb, hba⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨b, hb, hba⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     have hb0 : b ≠ 0 := fun h => hba (by rw [h]; exact Submodule.zero_mem _)
     have hbne : b ≠ a := fun h => hba (by rw [h]; exact Submodule.mem_span_singleton_self a)
     have hab0 : a + b ≠ 0 := by
@@ -124,7 +125,7 @@ theorem omCore_abstract (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : �
     · have hlen : l'.length + 3 = n := by simpa using hs
       have hlI : IsFrame Q l' := hl.tail.tail.tail
       have hlJ : IsFrame Q [p₁, p₂, p₃] :=
-        hl.sublist (List.Sublist.cons₂ _ (List.Sublist.cons₂ _ (List.Sublist.cons₂ _
+        hl.sublist (List.Sublist.cons_cons _ (List.Sublist.cons_cons _ (List.Sublist.cons_cons _
           (List.nil_sublist _))))
       have hPI : finrank (ZMod 2) (perpL Q l') = 6 := by
         rw [perpL, LinearMap.BilinForm.finrank_orthogonal hQ, hdim, hlI.finrank_Wspan]

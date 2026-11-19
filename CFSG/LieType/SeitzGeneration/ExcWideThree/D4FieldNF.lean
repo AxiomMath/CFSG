@@ -18,7 +18,7 @@ theorem rootDiagAut_eq_normalAut (a : Fin Tag.D4.rank → Kˣ) :
     rootDiagAut Tag.D4 K a = exactNormalAut Tag.D4 K a 1 0 := by
   refine MulEquiv.ext fun h => Subtype.ext ?_
   rw [coe_rootDiagAut, coe_exactNormalAut, exactQ_D4]
-  simp only [inv_one, mul_one, one_mul]
+  simp only [inv_one, mul_one]
   congr 2
   exact (Units.ext (entrywise_id _)).symm
 

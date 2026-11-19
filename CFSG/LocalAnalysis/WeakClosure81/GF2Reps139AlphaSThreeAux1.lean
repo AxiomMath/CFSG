@@ -102,6 +102,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
       Additive.toMul (e (Additive.ofMul a)) * Additive.toMul (e (Additive.ofMul b))
     rw [ofMul_mul, map_add, toMul_add]
 
+omit [Finite W] in
 @[simp]
 theorem w1369_mulAutOfAddEquiv_apply (e : Additive W ≃+ Additive W) (w : W) :
     w1369_mulAutOfAddEquiv e w = Additive.toMul (e (Additive.ofMul w)) := rfl
@@ -121,10 +122,12 @@ theorem w1369_mulAutOfAddEquiv_apply (e : Additive W ≃+ Additive W) (w : W) :
     simp [autAddHom]
   map_add' := map_add (autAddHom s)
 
+omit [Finite W] in
 @[simp]
 theorem w1369_addEquivOfMulAut_apply (s : MulAut W) (v : Additive W) :
     w1369_addEquivOfMulAut s v = autAddHom s v := rfl
 
+omit [Finite W] in
 theorem w1369_commute_mulAutOfAddEquiv_iff (e : Additive W ≃+ Additive W) (k : MulAut W) :
     (∀ v : Additive W, e (autAddHom k v) = autAddHom k (e v)) ↔
       w1369_mulAutOfAddEquiv e * k = k * w1369_mulAutOfAddEquiv e := by
@@ -148,7 +151,7 @@ variable (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^ 3 = 1)
 theorem w1369_root_smul (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     w1369_root • v = autAddHom x v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   change (f4RingHom hw2 x hx3 hfix (f4AlgEquivGalois.symm w1369_root)) v = autAddHom x v
   have hsymm : f4AlgEquivGalois.symm w1369_root = AdjoinRoot.root F4poly := by
     simp [w1369_root]
@@ -157,6 +160,7 @@ theorem w1369_root_smul (v : Additive W) :
   rw [f4AlgHom_root]
   rfl
 
+omit [Finite W] in
 theorem w1369_autAddHom_mul_apply (a b : MulAut W) (v : Additive W) :
     autAddHom (a * b) v = autAddHom a (autAddHom b v) := by
   simp [autAddHom, MulAut.mul_apply]
@@ -164,18 +168,18 @@ theorem w1369_autAddHom_mul_apply (a b : MulAut W) (v : Additive W) :
 theorem w1369_pow_root_smul (n : ℕ) (v : Additive W) :
     letI := galoisModule hw2 x hx3 hfix
     (w1369_root ^ n) • v = autAddHom (x ^ n) v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   induction n with
   | zero => simp
   | succ n ih =>
       rw [pow_succ', pow_succ', w1369_autAddHom_mul_apply]
       rw [mul_smul, ih, w1369_root_smul hw2 x hx3 hfix]
 
-theorem w1369_scalar_of_mem_zpowers (hx_ord3 : orderOf x = 3) {a : MulAut W}
+theorem w1369_scalar_of_mem_zpowers (_hx_ord3 : orderOf x = 3) {a : MulAut W}
     (ha : a ∈ Subgroup.zpowers x) :
     letI := galoisModule hw2 x hx3 hfix
     ∃ c : GaloisField 2 2, ∀ v : Additive W, autAddHom a v = c • v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   rw [zpow_eq_zpow_emod' (x := x) i hx3]
   have hcases : i % (↑(3 : ℕ) : ℤ) = 0 ∨ i % (↑(3 : ℕ) : ℤ) = 1 ∨
@@ -208,6 +212,7 @@ section Form
         Multiplicative.toAdd ((B (Additive.toMul u)) (Additive.toMul b))
     rw [toMul_add, map_mul, toAdd_mul]
 
+omit [Finite W] in
 @[simp]
 theorem w1369_addFormInner_apply (B : W →* W →* Multiplicative (ZMod 2))
     (u v : Additive W) :
@@ -235,6 +240,7 @@ theorem w1369_addFormInner_apply (B : W →* W →* Multiplicative (ZMod 2))
         Multiplicative.toAdd ((B (Additive.toMul b)) (Additive.toMul v))
     rw [toMul_add, map_mul, MonoidHom.mul_apply, toAdd_mul]
 
+omit [Finite W] in
 @[simp]
 theorem w1369_addForm_apply (B : W →* W →* Multiplicative (ZMod 2)) (u v : Additive W) :
     w1369_addForm B u v =
@@ -242,6 +248,7 @@ theorem w1369_addForm_apply (B : W →* W →* Multiplicative (ZMod 2)) (u v : A
   show w1369_addFormInner B u v = Multiplicative.toAdd (B (Additive.toMul u) (Additive.toMul v))
   rw [w1369_addFormInner_apply]
 
+omit [Finite W] in
 theorem w1369_addForm_alt (B : W →* W →* Multiplicative (ZMod 2))
     (halt : ∀ x : W, B x x = 1) (u : Additive W) :
     w1369_addForm B u u = 0 := by
@@ -250,6 +257,7 @@ theorem w1369_addForm_alt (B : W →* W →* Multiplicative (ZMod 2))
   rw [halt]
   rfl
 
+omit [Finite W] in
 theorem w1369_addForm_left_nondegenerate (B : W →* W →* Multiplicative (ZMod 2))
     (hnd : ∀ x : W, (∀ y : W, B x y = 1) → x = 1) :
     ∀ u : Additive W, (∀ v, w1369_addForm B u v = 0) → u = 0 := by
@@ -261,6 +269,7 @@ theorem w1369_addForm_left_nondegenerate (B : W →* W →* Multiplicative (ZMod
   have h1 : Additive.toMul u = 1 := hnd _ h
   simpa using congrArg Additive.ofMul h1
 
+omit [Finite W] in
 theorem w1369_addForm_symm (B : W →* W →* Multiplicative (ZMod 2))
     (halt : ∀ x : W, B x x = 1) (u v : Additive W) :
     w1369_addForm B u v = w1369_addForm B v u := by
@@ -286,30 +295,32 @@ theorem w1369_addForm_symm (B : W →* W →* Multiplicative (ZMod 2))
   exact LinearMap.mk₂ (ZMod 2) (fun u v => w1369_addForm B u v)
     (fun u₁ u₂ v => by
       have h := map_add (w1369_addForm B) u₁ u₂
-      simpa using congrArg (fun f : Additive W →+ ZMod 2 => f v) h)
+      simp)
     (fun c u v => by
       have h := ZMod.map_smul (n := 2) (w1369_addForm B) c u
       simpa using congrArg (fun f : Additive W →+ ZMod 2 => f v) h)
     (fun u v₁ v₂ => by
       have h := map_add (w1369_addForm B u) v₁ v₂
-      simpa using h)
+      simp)
     (fun c u v => by
       have h := ZMod.map_smul (n := 2) (w1369_addForm B u) c v
       simpa using h)
 
+omit [Finite W] in
 theorem w1369_bilinForm_apply (hw2 : ∀ w : W, w ^ 2 = 1)
     (B : W →* W →* Multiplicative (ZMod 2)) (u v : Additive W) :
     letI := addModTwo hw2
     w1369_bilinForm hw2 B u v = w1369_addForm B u v := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   rfl
 
+omit [Finite W] in
 theorem w1369_bilinForm_nondegenerate (hw2 : ∀ w : W, w ^ 2 = 1)
     (B : W →* W →* Multiplicative (ZMod 2))
     (hnd : ∀ x : W, (∀ y : W, B x y = 1) → x = 1) (halt : ∀ x : W, B x x = 1) :
     letI := addModTwo hw2
     (w1369_bilinForm hw2 B).Nondegenerate := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   refine ⟨?_, ?_⟩
   · intro u hu
     exact w1369_addForm_left_nondegenerate B hnd u fun v => by
@@ -320,12 +331,13 @@ theorem w1369_bilinForm_nondegenerate (hw2 : ∀ w : W, w ^ 2 = 1)
     rw [w1369_bilinForm_apply] at h
     rwa [w1369_addForm_symm B halt v u]
 
+omit [Finite W] in
 theorem w1369_bilinForm_symm (hw2 : ∀ w : W, w ^ 2 = 1)
     (B : W →* W →* Multiplicative (ZMod 2)) (halt : ∀ x : W, B x x = 1)
     (u v : Additive W) :
     letI := addModTwo hw2
     w1369_bilinForm hw2 B u v = w1369_bilinForm hw2 B v u := by
-  letI := addModTwo hw2
+  let := addModTwo hw2
   rw [w1369_bilinForm_apply, w1369_bilinForm_apply, w1369_addForm_symm B halt]
 
 end Form
@@ -344,13 +356,13 @@ theorem w1369_smul_adjoint (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x 
     letI := galoisModule hw2 x hx3 hfix
     ∃ μ' : GaloisField 2 2, ∀ u v : Additive W,
       w1369_addForm B (μ • u) v = w1369_addForm B u (μ' • v) := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   by_cases hμ : μ = 0
   · refine ⟨0, fun u v => ?_⟩
     rw [hμ, zero_smul, zero_smul]
     simp
   · have hμ' : μ ≠ 0 := hμ
-    letI := addModTwo hw2
+    let := addModTwo hw2
     let Blin := w1369_bilinForm hw2 B
     have hBlin : Blin.Nondegenerate := w1369_bilinForm_nondegenerate hw2 B hnd halt
     have hBsymm : ∀ a b : Additive W, Blin a b = Blin b a :=
@@ -468,13 +480,13 @@ theorem w1369_b_invariant (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W) (hx3 : x ^
       (∀ u v : Additive W, w1369_addForm B u v =
         Algebra.trace (ZMod 2) (GaloisField 2 2) (b u v)) →
       ∀ k ∈ K, ∀ u v : Additive W, b (autAddHom k u) (autAddHom k v) = b u v := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro b hbtr k hk u v
   have hb_smul : ∀ (a : GaloisField 2 2) (p c : Additive W),
       b (a • p) c = a * b p c := by
     intro a p c
     have h := congrArg (fun f : Additive W →ₛₗ[θ] GaloisField 2 2 => f c) (map_smul b a p)
-    simpa [LinearMap.smul_apply, smul_eq_mul] using h
+    simp [LinearMap.smul_apply, smul_eq_mul]
   have hkl : ∀ (a : GaloisField 2 2) (w : Additive W),
       a • autAddHom k w = autAddHom k (a • w) := by
     intro a w
@@ -520,7 +532,7 @@ def w1369_fixedSubfield (θ : GaloisField 2 2 →+* GaloisField 2 2) :
   inv_mem' := by intro a ha; change θ a⁻¹ = a⁻¹; rw [map_inv₀, ha]
 
 theorem w1369_fixed_card (θ : GaloisField 2 2 →+* GaloisField 2 2)
-    (hθ2 : ∀ c : GaloisField 2 2, θ (θ c) = c)
+    (_hθ2 : ∀ c : GaloisField 2 2, θ (θ c) = c)
     (hθ1 : θ ≠ RingHom.id (GaloisField 2 2)) :
     Nat.card {c : GaloisField 2 2 // θ c = c} = 2 := by
   let F : Subfield (GaloisField 2 2) := w1369_fixedSubfield θ
@@ -533,7 +545,7 @@ theorem w1369_fixed_card (θ : GaloisField 2 2 →+* GaloisField 2 2)
   have hpow : Nat.card F ^ Module.finrank F (GaloisField 2 2) = 4 := by
     rw [← Module.natCard_eq_pow_finrank (K := F) (V := GaloisField 2 2), hcardE]
   have hge : 2 ≤ Nat.card F := by
-    haveI : Nontrivial F :=
+    have : Nontrivial F :=
       ⟨⟨⟨0, F.zero_mem⟩, ⟨1, F.one_mem⟩,
         fun h => zero_ne_one (Subtype.ext_iff.mp h)⟩⟩
     have := Finite.one_lt_card (α := F)
@@ -545,8 +557,8 @@ theorem w1369_fixed_card (θ : GaloisField 2 2 →+* GaloisField 2 2)
       ext c
       by_contra hc
       exact h ⟨c, hc⟩
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+    have : Fintype F := Fintype.ofFinite F
+    have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
     have h := Fintype.card_lt_of_injective_of_notMem (Subfield.subtype F)
       (Subfield.subtype_injective F) (b := b) (by
         rintro ⟨x, rfl⟩
@@ -580,13 +592,13 @@ end FixedField
 theorem w1369_hermitian_case (hw2 : ∀ w : W, w ^ 2 = 1)
     (S : Std139 G X D s Y n) (hn : n = 3) {K : Subgroup (MulAut W)}
     (hK : Comp139 G X D K) (hirr : IsIrrOn K ⊤ ⊥)
-    {x : MulAut W} (hxgen : X = Subgroup.zpowers x) (hx3 : x ^ 3 = 1) (hxne : x ≠ 1)
+    {x : MulAut W} (hxgen : X = Subgroup.zpowers x) (hx3 : x ^ 3 = 1) (_hxne : x ≠ 1)
     (hfix : fixV (Subgroup.zpowers x) = ⊥) (hx_ord3 : orderOf x = 3)
     (hcommK : ∀ k ∈ K, k * x = x * k)
     (hcent : Subgroup.centralizer (K : Set (MulAut W)) = Subgroup.zpowers x)
     {B : W →* W →* Multiplicative (ZMod 2)}
-    (hnd : ∀ y : W, (∀ z : W, B y z = 1) → y = 1) (halt : ∀ y : W, B y y = 1)
-    (hinv : ∀ k ∈ K, ∀ u v : W, B (k u) (k v) = B u v)
+    (_hnd : ∀ y : W, (∀ z : W, B y z = 1) → y = 1) (_halt : ∀ y : W, B y y = 1)
+    (_hinv : ∀ k ∈ K, ∀ u v : W, B (k u) (k v) = B u v)
     {θ : GaloisField 2 2 →+* GaloisField 2 2}
     (hθ2 : ∀ c : GaloisField 2 2, θ (θ c) = c)
     (hθid : θ ≠ RingHom.id (GaloisField 2 2)) :
@@ -598,7 +610,7 @@ theorem w1369_hermitian_case (hw2 : ∀ w : W, w ^ 2 = 1)
       (∀ u v : Additive W, b v u = θ (b u v)) →
       (∀ k ∈ K, ∀ u v : Additive W, b (autAddHom k u) (autAddHom k v) = b u v) →
       False := by
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   intro b hbtr hbnd hbsymm hbinv
   have hxX : x ∈ X := by rw [hxgen]; exact Subgroup.mem_zpowers x
   have hcardY : Nat.card Y = 16 := by
@@ -813,7 +825,7 @@ theorem w1369_hermitian_case (hw2 : ∀ w : W, w ^ 2 = 1)
     have hv := congrArg (fun g : Additive W ≃ₗ[GaloisField 2 2] Additive W =>
       Additive.toMul (g (Additive.ofMul w))) h1
     simpa [hGaloisLinearEquiv_apply, autAddHom_apply] using hv
-  haveI : Finite (Additive W ≃ₗ[GaloisField 2 2] Additive W) :=
+  have : Finite (Additive W ≃ₗ[GaloisField 2 2] Additive W) :=
     Finite.of_injective (fun g : Additive W ≃ₗ[GaloisField 2 2] Additive W =>
       (g : Additive W → Additive W)) (fun g h hgh => by ext x; exact congrFun hgh x)
   have hcard_le : Nat.card ↥D ≤ Nat.card

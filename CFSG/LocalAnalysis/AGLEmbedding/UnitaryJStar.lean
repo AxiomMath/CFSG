@@ -34,7 +34,7 @@ theorem stmtUnitaryToJConfig_of (hB : StmtUnitaryBorel) : StmtUnitaryToJConfig :
     rw [hbot, Subgroup.card_bot] at hZbcard
     have := Nat.one_lt_pow hn0 hp.one_lt
     omega
-  have hZbp : IsPGroup p Zb := Rbar.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hZbp : IsPGroup p Zb := Rbar.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hph3 : D1PhaseThree p P M H R := h.ext.toPhaseThreeU h.glob
     (h.ext.primeCore_inf_eq_iff.mpr (primeComplementCore_eq_bot_of_dichotomy hD1 hZbp hZb1))
   have hUb : (U.subgroupOf H).map π = Ub := by rw [hUK, ← hRbar]
@@ -242,7 +242,7 @@ theorem unitary_elim_self (hKU2 : KFactUnitarySylowStructure) (hKU11 : KFactUnit
     have hS := (hKU2 L₀ p d' hp2 hd' ⟨e'⟩ S).1
     have hS'A : (S : Subgroup L₀).map MulAut.conj ≤ A :=
       (Subgroup.map_le_range _ _).trans hA
-    have hdvd := hcardA _ hS'A (S.isPGroup'.map _)
+    have hdvd := hcardA _ hS'A (S.isPGroup.map _)
     rw [Subgroup.card_map_of_injective hinjc, hS] at hdvd
     have h1 := Nat.le_of_dvd (by positivity) hdvd
     have h2 : p ^ (3 * d.1.fieldExponent) * d.1.fieldExponent <

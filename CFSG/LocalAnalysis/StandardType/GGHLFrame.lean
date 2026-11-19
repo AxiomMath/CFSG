@@ -93,8 +93,8 @@ theorem ggHL_lines_of_compat {G : Type} [Group G] [Finite G] {S : ℕ → LargeE
       exact hbcent
   obtain ⟨VA, hVAadd, hVAmod, ιA, q, hA', αA, hqι, hqsurj, hqker, hqh, hqα, hlinA⟩ :=
     ggHL_descent hBsN hxB hker ι φ h α hlin hxker ψ hcompat
-  letI : AddCommGroup VA := hVAadd
-  letI : Module (ZMod p) VA := hVAmod
+  let : AddCommGroup VA := hVAadd
+  let : Module (ZMod p) VA := hVAmod
   have hpairA : ∀ i j, αA i (hA' j) = (C i j : ZMod p) := by
     intro i j
     rw [← hqh j, hqα i, hpair i j]

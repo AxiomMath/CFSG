@@ -475,7 +475,7 @@ theorem escaping_maximal_elementary_rank_two_sylow_normal_elementary_rank_bound
   have hnonnormal := escaping_elementary_rank_two_not_normal_in_containing_sylow prime hprime
     sylow hsylow hcore hsylowRank helementary hcard hcontained hescape
   rw [pRank_map_of_injective prime hprime (sylow : Subgroup ambient).subtype Subtype.val_injective]
-  exact nonnormal_maximal_elementary_rank_two_normal_elementary_rank_bound prime sylow.isPGroup'
+  exact nonnormal_maximal_elementary_rank_two_normal_elementary_rank_bound prime sylow.isPGroup
     localElementary hlocalElementary hlocalCard hlocalMaximal hnonnormal normal hnormal
 
 end CFSG.PreuniquenessRankFour.Helpers

@@ -147,7 +147,7 @@ theorem e7Split_frame
       ∃ wt : GGTorusTorWit (Nat.card K - 1) 7 (adjointGroup .E7 K)
           ((TableBExc.torusPow .E7 K p).map
             (MulAut.conj : adjointGroup .E7 K →* MulAut (adjointGroup .E7 K))),
-        (∀ k, wt.n k = n k) ∧ wt.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ := by
+        (∀ k, wt.n k = n k) ∧ wt.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ := by
   classical
   have hp : p.Prime := Fact.out
   have hpk : p ∣ Nat.card Kˣ := by rwa [Nat.card_units]

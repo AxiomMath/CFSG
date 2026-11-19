@@ -20,7 +20,7 @@ theorem mem_conjugate_iff {H : Subgroup G} {g x : G} :
   · rintro ⟨h, hh, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hh
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 theorem conjugate_conjugate (H : Subgroup G) (a b : G) :
     CFSG.conjugate (CFSG.conjugate H a) b = CFSG.conjugate H (a * b) := by
@@ -56,7 +56,7 @@ theorem exists_sylow_of_isSylowOf_top [Fact p.Prime] {S : Subgroup G} (hS : IsSy
 theorem isSylowOf_top_of_sylow [Fact p.Prime] (P : Sylow p G) :
     IsSylowOf p (P : Subgroup G) ⊤ := by
   rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-  exact ⟨le_top, P.isPGroup', P.not_dvd_index⟩
+  exact ⟨le_top, P.isPGroup, P.not_dvd_index⟩
 
 theorem exists_le_conjugate [Fact p.Prime] {S Q : Subgroup G} (hS : IsSylowOf p S ⊤)
     (hQ : IsPGroup p Q) : ∃ g : G, Q ≤ CFSG.conjugate S g := by
@@ -81,13 +81,14 @@ theorem pRank_conjugate (hp : 1 < p) (H : Subgroup G) (g : G) :
     rwa [map_conj_conjugate] at h
   · exact CFSG.SectionRank.pRank_le_map hp _ (MulAut.conj g⁻¹).injective H
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian p E) :
     IsPGroup p E :=
   fun y => ⟨1, Subtype.ext (by simpa using hE.2 y y.2)⟩
 
 theorem pRank_le_of_isSylowOf (hp : p.Prime) {S : Subgroup G} (hS : IsSylowOf p S ⊤)
     (H : Subgroup G) : CFSG.Open.pRank p H ≤ CFSG.Open.pRank p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEH, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt H
   obtain ⟨g, hg⟩ := exists_le_conjugate hS (isPGroup_of_isElemAbelian hE)
   rw [← pRank_conjugate hp.one_lt S g]
@@ -105,15 +106,17 @@ theorem pRank_le_one_of_isCyclic (hp : 1 < p) {H : Subgroup G} (hH : IsCyclic H)
   rw [← IsCyclic.exponent_eq_card, pow_one]
   exact Nat.le_of_dvd (by omega) hexp
 
+omit [Finite G] in
 theorem pow_eq_one_of_card {Z : Subgroup G} (hZ : Nat.card Z = p) {z : G} (hz : z ∈ Z) :
     z ^ p = 1 := by
   have h := Subgroup.orderOf_dvd_natCard Z hz
   rw [hZ] at h
   exact orderOf_dvd_iff_pow_eq_one.mp h
 
+omit [Finite G] in
 theorem isElemAbelian_of_card (hp : p.Prime) {Z : Subgroup G} (hZ : Nat.card Z = p) :
     CFSG.Open.IsElemAbelian p Z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : IsCyclic Z := isCyclic_of_prime_card hZ
   obtain ⟨g, hg⟩ := hc.exists_generator
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => pow_eq_one_of_card hZ hx⟩

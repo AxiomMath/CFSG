@@ -279,7 +279,7 @@ private theorem uc22s23pc_not_comm_of_isL2_or_isU3 {X : Type} [Group X] [Finite 
       have hn1 : n = 1 := by omega
       subst hn1
       exact hne (by norm_num)
-  haveI : IsMulCommutative X := ⟨⟨fun a b => hcomm a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => hcomm a b⟩⟩
   have h1 : 1 ≤ n := by
     rcases h with hL | hU
     · exact hL.admissible.2.1
@@ -318,13 +318,13 @@ theorem false_of_s23_8_of_hinf_prod (D : Data G) (Ch : Choice2011 G) (h8 : S23_8
     rcases hA with hL | hU
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSU) (by decide) hU
-  haveI : Nontrivial B := hBsimp.toNontrivial
-  haveI : Nontrivial A := hAsimp.toNontrivial
-  haveI : Finite (Bar2 (Hinf D.M)) := inferInstance
-  haveI : Finite (A × B) :=
+  have : Nontrivial B := hBsimp.toNontrivial
+  have : Nontrivial A := hAsimp.toNontrivial
+  have : Finite (Bar2 (Hinf D.M)) := inferInstance
+  have : Finite (A × B) :=
     Finite.of_injective e.toEquiv.symm e.toEquiv.symm.injective
-  haveI : Finite A := Finite.prod_left B
-  haveI : Finite B := Finite.prod_right A
+  have : Finite A := Finite.prod_left B
+  have : Finite B := Finite.prod_right A
   have hAab : ¬ ∀ x y : A, x * y = y * x := uc22s23pc_not_comm_of_isL2_or_isU3 hA
   have hBab : ¬ ∀ x y : B, x * y = y * x := uc22s23pc_not_comm_of_isL2_or_isU3 (Or.inl hB)
   have hbadm := hB.admissible

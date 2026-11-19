@@ -29,7 +29,7 @@ theorem s16h_e3_normalizer_lift (D : Data G) {V : Subgroup G} (hV : IsElemAbelia
       P ≤ D.M ⊓ normalizer
         ((D.T ⊓ centralizer ((preTil ⊥ V hV Ut : Subgroup G) : Set G) : Subgroup G) : Set G) ∧
       IsPGroup p P ∧ ¬ IsCyclic ↥P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTΓ : D.T ≤ stabTil ⊥ V := D.sylowM.le.trans hMΓ
   have hTM : D.T.subgroupOf (stabTil ⊥ V) ≤ D.M.subgroupOf (stabTil ⊥ V) :=
     Subgroup.subgroupOf_mono (stabTil ⊥ V) D.sylowM.le
@@ -109,13 +109,14 @@ theorem s16h_e3_normalizer_lift (D : Data G) {V : Subgroup G} (hV : IsElemAbelia
             ((D.T ⊓ Subgroup.centralizer (Z : Set G) : Subgroup G) : Set G) := by
             rw [Subgroup.map_subgroupOf_eq_of_le hMΓ, hHmap]
   · intro hcyc
-    haveI : IsCyclic ↥(P.map (stabTil ⊥ V).subtype) := hcyc
+    have : IsCyclic ↥(P.map (stabTil ⊥ V).subtype) := hcyc
     exact hPnc (isCyclic_of_injective
       (Subgroup.equivMapOfInjective P (stabTil ⊥ V).subtype
         (Subgroup.subtype_injective (stabTil ⊥ V))).toMonoidHom
       (Subgroup.equivMapOfInjective P (stabTil ⊥ V).subtype
         (Subgroup.subtype_injective (stabTil ⊥ V))).injective)
 
+omit [Finite G] in
 theorem s16h_e3_preTil_imgTil_eq {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hUV : U ≤ V) :
     preTil ⊥ V hV (imgTil ⊥ V hV U) = U := by
   refine le_antisymm ?_ (le_trans (le_inf le_rfl hUV) (le_preTil_imgTil ⊥ V hV U))

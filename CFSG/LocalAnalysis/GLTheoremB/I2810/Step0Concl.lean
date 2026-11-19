@@ -13,6 +13,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810
 section Concl
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem s0_quasithinOmegaOneCenter_le_vOf (h : Setup28 W K S) :
     quasithinOmegaOneCenter S ≤ vOf W K S := by
   refine (Subgroup.closure_le _).2 fun z hz => ?_

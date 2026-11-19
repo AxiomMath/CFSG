@@ -79,7 +79,7 @@ theorem sylow_abelian_no_inversion {G : Type*} [Group G] [Finite G] (S : Sylow 2
   intro hinv
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht
   have hxp : IsPGroup 2 (Subgroup.zpowers x) := by
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     apply IsPGroup.of_card_dvd_pow (n := k)
     rw [Nat.card_zpowers]
     apply orderOf_dvd_of_pow_eq_one
@@ -436,7 +436,7 @@ theorem homocyclic_sylow_simple_exponent_two {G : Type} [Group G] [Finite G] [Is
     simp only [θ, ψ₁]
     rw [homocyclicParityChar_eq_one hn _ (homocyclic_coord_of_orderOf_ne hn e x hxo), sub_self]
   obtain ⟨-, hI1, hI2, hI3⟩ := principal_noninversion_restriction_identities basis ideal 2
-    principal (S : Subgroup G) S.isPGroup' J hJ U hUQ hU θ hθ hθU
+    principal (S : Subgroup G) S.isPGroup J hJ U hUQ hU θ hθ hθU
   have hacol : ∀ χ, characterPairing
       (fun x : (S : Subgroup G) => (basis.representation χ).character x.val) θ = (b t₀ χ : ℂ) := by
     intro χ

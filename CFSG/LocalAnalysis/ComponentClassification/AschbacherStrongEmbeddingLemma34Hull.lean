@@ -330,11 +330,11 @@ theorem exists_bender
   have h := m.hyp
   obtain ⟨z₀, hz₀, hz₀2, hchoice⟩ : ∃ z₀ ∈ A₁, orderOf z₀ = 2 ∧ (z₀ ∈ A₂ ∨ A₁ ⊓ A₂ = ⊥) := by
     by_cases hI : A₁ ⊓ A₂ = ⊥
-    · obtain ⟨w, hw, hw2, -⟩ := exists_central_involution (S.isPGroup'.to_le h.le_one)
+    · obtain ⟨w, hw, hw2, -⟩ := exists_central_involution (S.isPGroup.to_le h.le_one)
         h.ne_bot_one
       exact ⟨w, hw, hw2, Or.inr hI⟩
     · obtain ⟨w, hw, hw2, -⟩ :=
-        exists_central_involution (S.isPGroup'.to_le (inf_le_left.trans h.le_one)) hI
+        exists_central_involution (S.isPGroup.to_le (inf_le_left.trans h.le_one)) hI
       exact ⟨w, hw.1, hw2, Or.inl hw.2⟩
   have hz1 : z₀ ≠ 1 := (orderOf_eq_prime_iff.mp hz₀2).2
   obtain ⟨huniq, h2, h3⟩ := m.theorem33 himp hcov hz₀ hz₀2 hchoice

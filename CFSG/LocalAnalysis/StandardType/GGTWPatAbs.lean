@@ -190,22 +190,22 @@ theorem ggTW_pattern_abs {L : ℕ} (hL : 2 ≤ L)
       · exact Or.inr (Or.inr ⟨by omega, by omega, hthird, rfl, rfl⟩)
     · intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 3 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 3 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, -⟩ | ⟨hm, h1, h2⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_left hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
   ·
-    have hkM : M none (some k) = 4 := by rw [hrow k, if_pos rfl]
+    have hkM : M none (some k) = 4 := by rw [hrow k, ite_eq_left rfl]
     have hprod : C none (some k) * C (some k) none = 2 ∧ C none (some k) < 0 ∧
         C (some k) none < 0 := by
       rcases hC.2 none (some k) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ |
@@ -224,34 +224,34 @@ theorem ggTW_pattern_abs {L : ℕ} (hL : 2 ≤ L)
     · refine ⟨k, -1, -2, Or.inl ⟨hend, Or.inr (Or.inl ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm1 hn2; exact ⟨hm1, hn2⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
     · refine ⟨k, -2, -1, Or.inl ⟨hend, Or.inr (Or.inr ⟨rfl, rfl⟩)⟩, ?_⟩
       intro i
       by_cases hik : i = k
-      · have hMk : M none (some i) = 4 := by rw [hrow i, if_pos hik]
+      · have hMk : M none (some i) = 4 := by rw [hrow i, ite_eq_left hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, -, -⟩ | ⟨hm, -, -⟩ | ⟨hm, -, -, -⟩ |
           ⟨hm, -, -, -⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
-        · simp only [if_pos hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
+        · simp only [ite_eq_left hik]; rw [← hik] at hm2 hn1; exact ⟨hm2, hn1⟩
         · rw [hMk] at hm; omega
-      · have hMk : M none (some i) = 2 := by rw [hrow i, if_neg hik]
+      · have hMk : M none (some i) = 2 := by rw [hrow i, ite_eq_right hik]
         rcases hC.2 none (some i) (by simp) with ⟨hm, h1, h2⟩ | ⟨hm, -, -⟩ |
           ⟨hm, -, -, -⟩ | ⟨hm, -, -, -⟩
-        · simp only [if_neg hik]; exact ⟨h1, h2⟩
+        · simp only [ite_eq_right hik]; exact ⟨h1, h2⟩
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega
         · rw [hMk] at hm; omega

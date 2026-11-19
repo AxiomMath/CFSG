@@ -16,21 +16,21 @@ variable {W : Type} [CommGroup W] [Finite W]
 theorem s16h_e3_l3_central_conj_comm_rank_move
     (hW : ∀ w : W, w ^ 2 = 1)
     {A L : Subgroup (MulAut W)} {t : MulAut W}
-    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
-    (htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3)
+    (_ht : t ∈ A) (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1)
+    (_htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3)
     (hconc : Conc4_136W A t L)
-    (hcomp : IsComponentOf L A)
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 → CFSG.Open.pRank q L ≤ 1)
-    (hZ : commSub ⊤ L ⊓ fixV L ≠ ⊥)
+    (_hcomp : IsComponentOf L A)
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 → CFSG.Open.pRank q L ≤ 1)
+    (_hZ : commSub ⊤ L ⊓ fixV L ≠ ⊥)
     (hL3 : s16h_H5L3Sum L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3)
-    (hd2 : rk ↥(commSub ⊤ L ⊓ fixV L) ≤ 2)
-    {τ : MulAut W} (hτ : τ ∈ A) (hτ2 : τ ^ 2 = 1) (hτ1 : τ ≠ 1)
-    (hτN : τ ∈ normalizer (L : Set (MulAut W)))
-    (hτC : τ ∈ centSub (commSub ⊤ L))
+    (_hd2 : rk ↥(commSub ⊤ L ⊓ fixV L) ≤ 2)
+    {τ : MulAut W} (hτ : τ ∈ A) (hτ2 : τ ^ 2 = 1) (_hτ1 : τ ≠ 1)
+    (_hτN : τ ∈ normalizer (L : Set (MulAut W)))
+    (_hτC : τ ∈ centSub (commSub ⊤ L))
     {g : MulAut W} (hg : g ∈ A)
-    (hgN : g ∉ normalizer (L : Set (MulAut W)))
+    (_hgN : g ∉ normalizer (L : Set (MulAut W)))
     (hmov : τ ∉ stabSub ((commSub ⊤ L).map g.toMonoidHom))
-    (hne : commSub ((commSub ⊤ L).map g.toMonoidHom) (Subgroup.zpowers τ) ≠ ⊥) :
+    (_hne : commSub ((commSub ⊤ L).map g.toMonoidHom) (Subgroup.zpowers τ) ≠ ⊥) :
     3 ≤ rk ↥(commSub ((commSub ⊤ L).map g.toMonoidHom) (Subgroup.zpowers τ)) := by
   have hττ : τ * τ = 1 := by simpa [pow_two] using hτ2
   let a : MulAut W := g⁻¹ * τ * g
@@ -71,7 +71,7 @@ theorem s16h_e3_l3_central_conj_comm_rank_move
       refine Subgroup.mem_map.mpr ⟨a (g⁻¹ u),
         (mem_stabSub.mp ha_stab (g⁻¹ u)).mpr (hv' ▸ hv), ?_⟩
       rw [← hgτ]
-      simp [hgu]
+      simp
   have hInt : commSub (⊤ : Subgroup W) L ⊓ (commSub (⊤ : Subgroup W) L).map a.toMonoidHom
       ≤ commSub (⊤ : Subgroup W) L ⊓ fixV L :=
     le_inf inf_le_left (s16h_e3_two_inf_map_le_fixV A L t a hconc haA ha2 haN)

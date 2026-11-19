@@ -30,7 +30,7 @@ theorem exists_semilinear (hK : PiField false p f K) (h2 : 2 < p ^ f)
   obtain ⟨σ, A, hA, hβ⟩ := unitary_three_full_semilinear_automorphism_realization h h2
     (QuotientGroup.congr (unitaryScalars h 3) (unitaryScalars h 3) α' hZ)
   refine ⟨A, (mem_glPi_false h).2 hA, σ, fun s => ?_⟩
-  haveI : Group.IsPerfect ↥(unitarySU p f K 3) :=
+  have : Group.IsPerfect ↥(unitarySU p f K 3) :=
     (Item462AltProof.KSLThree.isQuasisimple_slPi hK h2).1
   let φ : MulAut ↥(unitarySU p f K 3) := suConj h ⟨A, hA⟩ * suField h σ
   have hφ : ∀ g : ↥(unitarySU p f K 3), ((φ g : ↥(unitarySU p f K 3)) : GL (Fin 3) K) =

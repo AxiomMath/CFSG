@@ -50,8 +50,7 @@ structure OpenRows : Prop where
 theorem kFactSporLocal_of_rows
     (h : OpenRows) : KFactSporLocal := by
   rw [kFactSporLocal_iff_rows]
-  intro s p
-  intro A _ _ L K₀ z hL h2 hloc hp hp5 hrk hz hK₀L hzK hnL hN hcl hy hNN
+  intro s p A _ _ L K₀ z hL h2 hloc hp hp5 hrk hz hK₀L hzK hnL hN hcl hy hNN
   have hzL : z ∈ L := hK₀L hzK
   cases s
   · have hdvd := prime_dvd_of_orderOf L hzL hz

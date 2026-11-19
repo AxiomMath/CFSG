@@ -98,7 +98,7 @@ theorem c19_10_of : C19_10Tmp p f := by
   intro G _ _ _ K z S W hd heq
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ K ⊔ W) :=
-    S.isPGroup'.to_le (sup_le inf_le_left hd.hWS)
+    S.isPGroup.to_le (sup_le inf_le_left hd.hWS)
   have hPX : (S : Subgroup G) ⊓ K ⊔ W ≤ sec19X K z :=
     sup_le (inf_le_right.trans (le_sec19X_member hd)) (le_sec19X hd)
   have hPN : (S : Subgroup G) ⊓ K ⊔ W ≤

@@ -1065,7 +1065,7 @@ theorem mem_map_of_maximal {A : Subgroup G}
   have hStop : ((S.mapSurjective hf : Sylow 3 E) : Subgroup E) = ⊤ :=
     (S.mapSurjective hf).maximal_isPGroup.eq_of_le hEp le_top
   set S' : Subgroup G := (S : Subgroup M).map M.subtype with hS'
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map M.subtype
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map M.subtype
   have hinj : Set.InjOn (QuotientGroup.mk' N) (S' : Set G) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hS'p
     have hdisj : Disjoint S' N := Subgroup.disjoint_of_coprime_natCard (by

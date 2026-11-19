@@ -10,6 +10,7 @@ section
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggMap_conj_centralizer (g : G) (H : Subgroup G) :
     (Subgroup.centralizer (H : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ((H.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) := by
@@ -40,6 +41,7 @@ theorem ggMap_conj_centralizer (g : G) (H : Subgroup G) :
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
 
+omit [Finite G] in
 theorem ggOTwoPrime_map_conj (g : G) (Y : Subgroup G) :
     (ggOTwoPrime Y).map (MulAut.conj g).toMonoidHom =
       ggOTwoPrime (Y.map (MulAut.conj g).toMonoidHom) := by
@@ -62,6 +64,7 @@ theorem ggOTwoPrime_map_conj (g : G) (Y : Subgroup G) :
     calc w ^ (2 ^ k) = g⁻¹ * (g * w ^ (2 ^ k) * g⁻¹) * g := by group
       _ = 1 := by rw [h1]; group
 
+omit [Finite G] in
 theorem ggHyperplane_map_conj {Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹) (r : MulAut ↥Bs) :
     (ggHyperplane Bs r).map (MulAut.conj g).toMonoidHom = ggHyperplane Bs (a * r * a⁻¹) := by
@@ -88,12 +91,14 @@ theorem ggHyperplane_map_conj {Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
       rw [← ha (a⁻¹ c), MulAut.apply_inv_self]
       exact hcz
 
+omit [Finite G] in
 theorem ggRankOne_map_conj {Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹) (r : MulAut ↥Bs) :
     (ggRankOne Bs r).map (MulAut.conj g).toMonoidHom = ggRankOne Bs (a * r * a⁻¹) := by
   rw [ggRankOne, ggRankOne, ggOTwoPrime_map_conj, ggMap_conj_centralizer,
     ggHyperplane_map_conj ha r]
 
+omit [Finite G] in
 theorem ggRankOneIn_map_conj {X Bs : Subgroup G} {g : G} {a : MulAut ↥Bs}
     (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹) (r : MulAut ↥Bs) :
     (ggRankOneIn X Bs r).map (MulAut.conj g).toMonoidHom =
@@ -123,6 +128,7 @@ theorem exists_ggRankOnePerf_conj_of_mem_ggAutomizer {X Bs : Subgroup G} {a : Mu
   obtain ⟨g, hgX, hgN, hg⟩ := mem_ggAutomizer_iff.mp ha
   exact ⟨g, hgX, hgN, ggRankOnePerf_map_conj hg r⟩
 
+omit [Finite G] in
 theorem exists_ggRankOneIn_conj_of_mem_ggAutomizer {X Bs : Subgroup G} {a : MulAut ↥Bs}
     (ha : a ∈ ggAutomizer X Bs) (r : MulAut ↥Bs) :
     ∃ g ∈ X, g ∈ Subgroup.normalizer (Bs : Set G) ∧

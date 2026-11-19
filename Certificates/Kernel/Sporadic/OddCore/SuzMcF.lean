@@ -327,7 +327,6 @@ theorem idWords {ws : List (List Nat)} (hc : ∀ w ∈ ws, ∀ c ∈ w, c < 16)
   refine all_of_get [] fun i hi => ?_
   have h' := h i hi
   rw [wget_eq] at h'
-  try dsimp only
   rw [eqA_P (word_P _ (hc _ (getD_mem [] hi))) pidn_P]
   exact h'
 
@@ -380,7 +379,6 @@ theorem rels : mcRelsOK = true := by
     have h := relsA_ok i hi
     unfold SuzMcK.rA at h
     rw [pget_eq] at h
-    try dsimp only
     rw [eqA_P (word_P _ hc.1) (word_P _ hc.2)]
     exact h
   · refine all_of_get ([], []) fun i hi => ?_
@@ -389,7 +387,6 @@ theorem rels : mcRelsOK = true := by
     unfold SuzMcK.rE at h
     rw [strictB_eq, pget_eq] at h
     have hu := word_P _ hc.1
-    try dsimp only
     rw [commA_P hu pP1, eqA_P (word_P _ hc.2) (conj_P pS pSI hu)]
     unfold SuzMcK.cmK at h
     exact h

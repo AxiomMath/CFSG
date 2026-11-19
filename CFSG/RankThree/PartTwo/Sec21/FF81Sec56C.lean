@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace S56
 
+omit [Finite G] in
 theorem eq_one_of_mem_op_two {s₀ x : G} (hx : x ∈ Op 2 (Cen s₀)) {n : ℕ} (hn : Nat.Coprime 2 n)
     (hxn : x ^ n = 1) : x = 1 := by
   obtain ⟨k, hk⟩ := op_two_isPGroup s₀ ⟨x, hx⟩
@@ -33,7 +34,7 @@ theorem exists_lift {H K : Type*} [Group H] [Group K] (ψ : H →* K) {n : ℕ}
     (hN : Nat.card ψ.ker = 2 ^ n) {f x : K} (hf : f ∈ ψ.range) (hx : x ∈ ψ.range)
     (hfo : orderOf f = 5) (hxo : orderOf x = 3) (hfx : f * x = x * f) :
     ∃ f₂ x₂ : H, orderOf f₂ = 5 ∧ x₂ ^ 3 = 1 ∧ x ∈ Subgroup.zpowers (ψ x₂) ∧ f₂ * x₂ = x₂ * f₂ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨d₀, hd₀⟩ := ψ.range.mul_mem hf hx
   have hf5 : f ^ 5 = 1 := by rw [← hfo]; exact pow_orderOf_eq_one f
   have hx3 : x ^ 3 = 1 := by rw [← hxo]; exact pow_orderOf_eq_one x
@@ -83,6 +84,7 @@ variable {s₀ : G} (hs : orderOf s₀ = 2)
   (hκ : κ ⟨s₀, s₀_mem_center hs⟩ = Multiplicative.ofAdd (Pi.single 0 1))
 
 include hκ in
+omit [Finite G] in
 theorem sq_mem_of_rhoBar_eq_one
     (hcen : CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) = Op 2 (Cen s₀)) {g : G}
     (hg : g ∈ Cen s₀) (h1 : rhoBar hs κ hκ ⟨g, hg⟩ = 1) : g ^ 2 ∈ Op 2 (Cen s₀) := by
@@ -101,6 +103,7 @@ theorem sq_mem_of_rhoBar_eq_one
     _ = g ^ 2 * z := by group
 
 include hκ in
+omit [Finite G] in
 theorem mem_S_of_rhoBar_eq_one
     (hcen : CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) = Op 2 (Cen s₀)) {g : G}
     (hg : g ∈ Cen s₀) (h1 : rhoBar hs κ hκ ⟨g, hg⟩ = 1) : g ∈ Op 2 (Cen s₀) := by
@@ -132,7 +135,7 @@ theorem FF81Sec5.u_mem_A₁ : b₂ * b₃ ∈ A₁sub b b₁ b₂ b₃ := h5.εA
 theorem FF81Sec5.orderOf_u : orderOf (b₂ * b₃) = 3 := by
   rw [← h5.εA_u₃]; exact h5.coordA.orderOf (by decide)
 
-theorem FF81Sec5.A₁_le_D : A₁sub b b₁ b₂ b₃ ≤ Cen s₀ ⊓ Cen (b₂ * b₃) := fun a ha =>
+theorem FF81Sec5.A₁_le_D : A₁sub b b₁ b₂ b₃ ≤ Cen s₀ ⊓ Cen (b₂ * b₃) := fun _a ha =>
   Subgroup.mem_inf.mpr ⟨h5.A₁_le_cen_s₀ ha,
     Subgroup.mem_centralizer_singleton_iff.mpr (h5.A₁_comm ha h5.u_mem_A₁)⟩
 
@@ -144,8 +147,8 @@ theorem FF81Sec5.no_five (c2 : FF81Conc5_2 b b₁ b₂ b₃ s₀)
     {f x : G} (hf : f ∈ Cen s₀ ⊓ Cen (b₂ * b₃)) (hx : x ∈ Cen s₀ ⊓ Cen (b₂ * b₃))
     (hfo : orderOf f = 5) (hx3 : x ^ 3 = 1) (hxu : x ∉ Subgroup.zpowers (b₂ * b₃))
     (hfx : f * x = x * f) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, hhyp⟩ := c2
   have hB := h5.basis
   have hC := hKC G L hB.hyp.model b₁ b₂ b₃ hB.hb₁ hB.hb₂ hB.hb₃ hB.elem hB.selfcen
@@ -287,6 +290,7 @@ include h5
 theorem FF81Sec5.u_mem_D : b₂ * b₃ ∈ Cen s₀ ⊓ Cen (b₂ * b₃) := h5.A₁_le_D h5.u_mem_A₁
 
 omit h5 in
+omit [Finite G] in
 theorem FF81Sec5.J_le_D (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀) :
     OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀ ⊓ Cen (b₂ * b₃) := fun j hj => by
   have hj' : j ∈ CenS (Subgroup.closure {b₂, b₃}) := Subgroup.map_subtype_le _ hj
@@ -350,7 +354,7 @@ theorem FF81Sec5.rhoD_facts :
   have hS3 : ∀ {y : G}, y ∈ Op 2 (Cen s₀) → y ^ 3 = 1 → y = 1 := fun hy h =>
     S56.eq_one_of_mem_op_two hy (by norm_num) h
   have hu'3 : orderOf u' = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime ?_ ?_
     · have : (⟨b₂ * b₃, huD⟩ : ↥(Cen s₀ ⊓ Cen (b₂ * b₃))) ^ 3 = 1 :=
         Subtype.ext (by simpa using hu3)
@@ -394,7 +398,7 @@ theorem FF81Sec5.rhoD_facts :
   · exact hY
   ·
     exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hkp : IsPGroup 2 ψ.ker := fun k => by
       have hkS : ((k : ↥(Cen s₀ ⊓ Cen (b₂ * b₃))) : G) ∈ Op 2 (Cen s₀) :=
         hker (hDs (k : ↥(Cen s₀ ⊓ Cen (b₂ * b₃))).2) k.2

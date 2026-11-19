@@ -19,7 +19,7 @@ theorem twoRankLe_seven_M
   subst hi
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   rw [← CFSG.HardMathSupport.Timmesfeld.Tables.Census.glaTwoLocalRank_congr (by norm_num)
     (e.trans b.symm)]
   exact glaTwoLocalRank_seven_Gmat

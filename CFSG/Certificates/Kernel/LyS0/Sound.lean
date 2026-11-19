@@ -461,7 +461,7 @@ theorem tabMul_eq {T : Nat → Nat}
     rw [tabMul, tmF_succ, nIf_eq, hpa]
     by_cases hlt : PP T a < a
     · have hb' : Nat.blt (PP T a) a = true := blt_iff hlt
-      rw [dif_pos hlt, hb']
+      rw [dite_eq_left hlt, hb']
       simp only [↓reduceIte]
       have ha0 : a ≠ 0 := by
         rintro rfl
@@ -475,7 +475,7 @@ theorem tabMul_eq {T : Nat → Nat}
         rw [Bool.eq_false_iff]
         intro e
         exact hlt (blt_of e)
-      rw [dif_neg hlt, hb']
+      rw [dite_eq_right hlt, hb']
       exact ⟨rfl, hb⟩
 
 theorem tm_eq {T : Nat → Nat}

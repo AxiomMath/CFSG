@@ -108,7 +108,7 @@ theorem isPGroup_three_of_pow_nine (H : Subgroup G) (h : ∀ x ∈ H, x ^ 9 = 1)
     Q →* Z where
   toFun x := ⟨⁅g, (x : G)⁆, hQ.1 g hg x x.2⟩
   map_one' := Subtype.ext (commutatorElement_one_right g)
-  map_mul' x y := Subtype.ext (commutator_mul_right_of_central (hQ.comm_central hZ hg y.2))
+  map_mul' _x y := Subtype.ext (commutator_mul_right_of_central (hQ.comm_central hZ hg y.2))
 
 @[expose] def commHomLeft (hZ : ScalarLike Z) (hQ : IsGoodIn Z Q) {h : G} (hh : h ∈ Q) :
     Q →* Z where

@@ -46,7 +46,7 @@ theorem map_mem_USet (hN : Odd (Nat.card N)) {U : Subgroup G} (hU : U ∈ USet �
   · refine relIndex_two_of_card (Subgroup.map_mono hUR) ?_
     rw [natCard_map_of_isPGroup hN hR2, natCard_map_of_isPGroup hN hU2, hcard]
 
-theorem lift_USet (hΩ' : HypOmegaGen (quotFamily Ω N)) (hΩ : HypOmegaGen Ω)
+theorem lift_USet (_hΩ' : HypOmegaGen (quotFamily Ω N)) (hΩ : HypOmegaGen Ω)
     (hN : Odd (Nat.card N)) {T : Subgroup G} (hT : IsPGroup 2 T)
     {Ub : Subgroup (G ⧸ N)} (hUb : Ub ∈ USet (quotFamily Ω N))
     (hle : Ub ≤ T.map (QuotientGroup.mk' N)) :
@@ -120,7 +120,8 @@ theorem inf_comap_map_eq (hN : Odd (Nat.card N)) {T U : Subgroup G} (hT : IsPGro
   · intro hx
     exact ⟨hUT hx, Subgroup.mem_map_of_mem _ hx⟩
 
-theorem image_conj (T : Subgroup G) {s : G} (U : Subgroup G) :
+omit [Finite G] in
+theorem image_conj (_T : Subgroup G) {s : G} (U : Subgroup G) :
     (conjSub s U).map (QuotientGroup.mk' N) = conjSub (QuotientGroup.mk' N s) (U.map (QuotientGroup.mk' N)) :=
   AscQuot.map_conjSub _ _ _
 
@@ -129,7 +130,7 @@ theorem map_mem_WSet (hΩ : HypOmegaGen Ω) (hΩ' : HypOmegaGen (quotFamily Ω N
     W.map (QuotientGroup.mk' N) ∈ WSet (quotFamily Ω N) := by
   obtain ⟨η, ⟨T, hη, hinv⟩, rfl⟩ := hW
   set π := QuotientGroup.mk' N with hπ
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   let Tb : Sylow 2 (G ⧸ N) := Sylow.mapSurjective (f := π) (QuotientGroup.mk'_surjective N) T
   have hTb : (Tb : Subgroup (G ⧸ N)) = (T : Subgroup G).map π :=
     Sylow.coe_mapSurjective (f := π) (QuotientGroup.mk'_surjective N) T

@@ -64,6 +64,7 @@ theorem ggReflGenerated_of_ggTorusReflGenW_card {p r : ℕ} {B Bs : Subgroup G} 
     (hT K (ggQuotHom θ) (ggGamma K hN).range
       (ggTorusTBGroup_of_nbr_card hcfg hr3 hnb hK θ hN hBsI hr))
 
+omit [Finite G] in
 theorem exists_innerDiagDatum_of_labelAll (hRig : GGLabelRigidInput) {Bs K : Subgroup G}
     (hInnK : GGInnerDiagOn Bs K) {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hhas : GGHasLabel lab (↥K ⧸ Subgroup.center ↥K)) {P : LargeEvenRawCont}
@@ -94,6 +95,7 @@ theorem largeEvenSplit_of_twE6BadLabel {p : ℕ} {lab : LargeEvenLabel}
   obtain ⟨ht, rfl, hd⟩ := h
   exact Or.inr (Or.inl ⟨by simp [LargeEvenUntwisted, ht], by simp [ht], hd⟩)
 
+omit [Finite G] in
 theorem ggInnerDiagOnLab_of_twE6BadMarking (hRig : GGLabelRigidInput) {p : ℕ}
     {Bs K : Subgroup G} (hInnK : GGInnerDiagOn Bs K)
     (hbad : LargeEvenMarking ↥K fun lab _ _ _ _ _ => GGTwE6BadLabel p lab) :

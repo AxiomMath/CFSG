@@ -46,7 +46,7 @@ theorem e0OK_parts : e0Elems.length = 16 ∧ (∀ t ∈ cent0List, t ∈ e0Elems
 
 theorem card_E0g_le : Nat.card E0g ≤ 16 := by
   classical
-  haveI : Fintype PG := Fintype.ofFinite PG
+  have : Fintype PG := Fintype.ofFinite PG
   let S : Finset PG := Finset.univ.filter (· ∈ E0g)
   have hS : S.card = Nat.card E0g := by
     simp [S, Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -67,7 +67,7 @@ theorem E0g_conj_eq {E : Subgroup PG} {X : PG} (hX : HasFix E X) (hEcard : Nat.c
     intro x hx
     obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp hx
     intro f hf
-    have e : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp [MulAut.conj_apply]
+    have e : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp
     rw [e]
     have hfl := F0_lt f hf
     have hq : act 100 X f < 100 := act_lt _ hfl
@@ -122,7 +122,7 @@ theorem out_dichotomy {E : Subgroup PG} {X : PG} (hX : HasFix E X) (hEcard : Nat
     intro z₀ hz₀
     rw [← hE0] at hz₀
     obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp hz₀
-    have e : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp [MulAut.conj_apply]
+    have e : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp
     rw [e]
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     calc _ = (X : Equiv.Perm (Fin 100))⁻¹ * (r * (z : Equiv.Perm (Fin 100))) *
@@ -147,7 +147,7 @@ theorem out_dichotomy {E : Subgroup PG} {X : PG} (hX : HasFix E X) (hEcard : Nat
     rw [← hE0] at hz₀
     obtain ⟨z, hz, hzz⟩ := Subgroup.mem_map.mp hz₀
     refine ⟨z, hz, ?_⟩
-    have e1 : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp [MulAut.conj_apply]
+    have e1 : (MulAut.conj X⁻¹).toMonoidHom z = X⁻¹ * z * X := by simp
     rw [e1] at hzz
     have e2 : (X : Equiv.Perm (Fin 100))⁻¹ * r * (X : Equiv.Perm (Fin 100)) =
         (X : Equiv.Perm (Fin 100))⁻¹ * (z : Equiv.Perm (Fin 100)) * (X : Equiv.Perm (Fin 100)) := by

@@ -27,7 +27,7 @@ open Classical in
 
 theorem rootAny_of {w : Fin 4 → KF} (h : vnorm hKF w = 0) : rootAny w = rootSU w h := by
   unfold rootAny
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem rootAny_smul {w : Fin 4 → KF} (hw : IsIsoVec hKF w) {μ : KF} (hμ : μ ≠ 0) :
     rootAny (μ • w) = rootAny w := by
@@ -37,7 +37,7 @@ theorem rootAny_smul {w : Fin 4 → KF} (hw : IsIsoVec hKF w) {μ : KF} (hμ : �
 
 theorem exists_smul_of_rootAny_eq {a b : Fin 4 → KF} (ha : IsIsoVec hKF a) (hb : IsIsoVec hKF b)
     (h : rootAny a = rootAny b) : ∃ μ : KF, μ ≠ 0 ∧ a = μ • b := by
-  haveI : CharP KF 2 := hKF.charP
+  have : CharP KF 2 := hKF.charP
   rw [rootAny_of ha.2, rootAny_of hb.2] at h
   have h1 : tvSU a ha.2 1 (map_one _) ∈ rootSU a ha.2 := tvSU_mem a ha.2 1 (map_one _)
   rw [h] at h1
@@ -163,8 +163,8 @@ theorem exists_fixed_of_card {P : Type} [Group P] {X : Type} [MulAction P X] [Fi
 
 theorem Rs_totIso (W : Subgroup (GL (Fin 4) KF))
     (hWu : ∀ w ∈ W, ((w : Matrix (Fin 4) (Fin 4) KF).map hKF.bar)ᵀ * (w : Matrix (Fin 4) (Fin 4) KF) = 1) :
-    ∀ x ∈ Rs W, ∀ y ∈ Rs W, dotB hKF x y = 0 :=
-  fun x hx y hy => dotB_eq_zero_of_mem_Rs hKF hWu hx ((mem_Rs.1 hy).1)
+    ∀ _x ∈ Rs W, ∀ _y ∈ Rs W, dotB hKF _x _y = 0 :=
+  fun _x hx _y hy => dotB_eq_zero_of_mem_Rs hKF hWu hx ((mem_Rs.1 hy).1)
 
 theorem Om_map_mem (W : Subgroup (GL (Fin 4) KF))
     (hWu : ∀ w ∈ W, ((w : Matrix (Fin 4) (Fin 4) KF).map hKF.bar)ᵀ * (w : Matrix (Fin 4) (Fin 4) KF) = 1)

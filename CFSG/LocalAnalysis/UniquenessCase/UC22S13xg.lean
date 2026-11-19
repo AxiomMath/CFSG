@@ -86,11 +86,11 @@ theorem uc22s13xg_frattini_le_ker {D Y : Type*} [Group D] [Finite D] [Group Y] {
     [Fact p.Prime] (f : D →* Y) (hexp : ∀ a : D, a ^ p = 1)
     (hcomm : ∀ a b : D, f a * f b = f b * f a) : frattini D ≤ f.ker := by
   have hsurj : Function.Surjective f.rangeRestrict := f.rangeRestrict_surjective
-  haveI : Finite f.range := Finite.of_surjective _ hsurj
-  haveI : Fact (IsPGroup p f.range) := ⟨fun y => by
+  have : Finite f.range := Finite.of_surjective _ hsurj
+  have : Fact (IsPGroup p f.range) := ⟨fun y => by
     obtain ⟨a, rfl⟩ := hsurj y
     exact ⟨1, by rw [pow_one, ← map_pow, hexp, map_one]⟩⟩
-  haveI : IsElementaryAbelian p f.range :=
+  have : IsElementaryAbelian p f.range :=
     { toIsMulCommutative := ⟨⟨fun y z => by
         obtain ⟨a, rfl⟩ := hsurj y
         obtain ⟨b, rfl⟩ := hsurj z
@@ -109,7 +109,7 @@ theorem uc22s13xg_sylow_comm_l2 {X : Type} [Group X] [Finite X] {n p : ℕ} [hp 
     (hp2 : p ≠ 2) (hX : IsL2 X n) (S : Sylow p X) : IsMulCommutative (S : Subgroup X) := by
   obtain ⟨-, K, _, _, hK, ⟨φ⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hX
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK : ¬ p ∣ Fintype.card K := by
     rw [Fintype.card_eq_nat_card, hK]
     intro h
@@ -131,7 +131,7 @@ theorem uc22s13xg_sylow_comm_u3 {X : Type} [Group X] [Finite X] {n p : ℕ} [hp 
     IsMulCommutative (S : Subgroup X) := by
   obtain ⟨-, K, _, _, hK, ⟨φ⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hX
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Fintype.card K = (2 ^ n) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hK
   have hpq : ¬ p ∣ 2 ^ n := fun h =>
     hp2 ((Nat.prime_dvd_prime_iff_eq hp.out Nat.prime_two).1 (hp.out.dvd_of_dvd_pow h))
@@ -257,7 +257,7 @@ theorem uc22s13xg_le_of_alt1 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M H P D�
     (h1 : H ⊓ M = H ⊓ normalizer (P : Set G))
     (h2 : IrrOnMod (rankThreeLayer H ⊓ normalizer (P : Set G)) D₀ (inSubgroup frattini D₀))
     (h3 : P = D₀) {x : G} (hxD : x ∈ D₀) (hxL : x ∈ L) (hx1 : x ≠ 1) : D₀ ≤ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   subst h3
   have hMN : M ≤ normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn

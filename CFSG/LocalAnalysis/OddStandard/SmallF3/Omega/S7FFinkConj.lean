@@ -29,7 +29,7 @@ theorem s7f_conj_eq_of_involutions [Finite G] {C : Subgroup G}
     (hcyc : ∀ P : Sylow 2 ↥C, IsCyclic (P : Subgroup ↥C)) {w t : G} (hw : w ∈ C)
     (hw2 : orderOf w = 2) (ht : t ∈ C) (ht2 : orderOf t = 2) :
     ∃ d ∈ C, d * w * d⁻¹ = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htp : IsPGroup 2 (zpowers (⟨t, ht⟩ : ↥C)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, ht2, pow_one])
   obtain ⟨P, hP⟩ := htp.exists_le_sylow
@@ -60,7 +60,7 @@ theorem s7f_exists_conj_commute [Finite G] {L : Subgroup G}
     (hTg : T ≤ (centralizer (L : Set G)).map (MulAut.conj g').toMonoidHom)
     (hT2 : 2 ∣ Nat.card T) (hRT : R ≤ centralizer (T : Set G)) :
     ∃ h : G, h⁻¹ * t * h ≠ t ∧ x * (h⁻¹ * t * h) = (h⁻¹ * t * h) * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR'card : Nat.card (R.subgroupOf (centralizer (L : Set G))) =
       2 ^ (Nat.card (centralizer (L : Set G))).factorization 2 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRC).toEquiv).trans hRcard

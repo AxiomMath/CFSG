@@ -41,7 +41,7 @@ theorem centerOf_eq_zpowers {G : Type} [Group G] {z : G} (hz2 : orderOf z = 2)
   have hcard_z : Nat.card ↥(Subgroup.zpowers (GxSelf z)) = 2 := by
     rw [Nat.card_zpowers]
     simpa [GxSelf] using hz2
-  haveI : Finite ↥(centerOf Q) :=
+  have : Finite ↥(centerOf Q) :=
     Nat.finite_of_card_ne_zero (by rw [hcard_center]; norm_num)
   exact (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hmem)
     (le_of_eq (hcard_center.trans hcard_z.symm))).symm

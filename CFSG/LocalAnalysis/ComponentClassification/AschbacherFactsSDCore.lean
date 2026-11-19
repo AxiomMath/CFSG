@@ -159,7 +159,7 @@ theorem exists_fixed_involution_pair (hsimple : SimpleFixedInvolutionPair) {G : 
       rw [injective_iff_map_eq_one]
       intro s hs
       have hsZ : (s : L) ∈ Z := (QuotientGroup.eq_one_iff _).mp hs
-      have h2 : IsPGroup 2 (S : Subgroup L) := S.isPGroup'
+      have h2 : IsPGroup 2 (S : Subgroup L) := S.isPGroup
       obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp h2) s
       have hodd := FactsL2.odd_orderOf_of_mem_center hZ hsZ
       rw [Subgroup.orderOf_coe, hk] at hodd

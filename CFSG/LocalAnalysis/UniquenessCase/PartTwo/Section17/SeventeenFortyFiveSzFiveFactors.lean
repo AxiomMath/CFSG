@@ -158,11 +158,11 @@ variable {G : Type} [Group G] [Finite G]
 theorem factors_of_case8100Four (D : Data G)
     {V₀ V L X : Subgroup G} {p n l r : ℕ} {C Dc : Subgroup G} {Gamma : Set G} {x : G}
     {A₀ A B : Subgroup G}
-    (hV₀ : V₀ ≠ ⊥) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma)
+    (_hV₀ : V₀ ≠ ⊥) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma)
     (h8100 : F08.Hyp8100 D ![L, conjSubgroup L x] ![n, n] r p A₀ X)
     (hc4 : F08.Case8100FourR D ![L, conjSubgroup L x] p X)
-    (hAsyl : CFSG.ABGLocalTools.IsSylowOf r A X) (hAT : Permutes A D.T) (hBM : B ≤ D.M)
-    (hBcard : Nat.card B = p) (hAB : ⁅A, B⁆ = A) (hBT : Permutes B D.T) :
+    (hAsyl : CFSG.ABGLocalTools.IsSylowOf r A X) (_hAT : Permutes A D.T) (hBM : B ≤ D.M)
+    (hBcard : Nat.card B = p) (hAB : ⁅A, B⁆ = A) (_hBT : Permutes B D.T) :
     Nat.card ↥(A ⊓ L) = 31 ∧ Nat.card ↥(A ⊓ conjSubgroup L x) = 31 ∧
       (A ⊓ L) ≤ Subgroup.centralizer ((A ⊓ conjSubgroup L x : Subgroup G) : Set G) ∧
       (A ⊓ L) ⊓ (A ⊓ conjSubgroup L x) = ⊥ ∧ Nat.card ↥B = 5 ∧
@@ -215,7 +215,7 @@ theorem factors_of_case8100Four (D : Data G)
   have hLmemSelf : L ∈ conjSetOf D.M L := by
     refine ⟨1, D.M.one_mem, ?_⟩
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hLcalX : L ∈ calC X := by
     rw [ctx.X_eq]; exact hsubset L hLmemSelf
   have hKcalX : K ∈ calC X := by
@@ -229,7 +229,7 @@ theorem factors_of_case8100Four (D : Data G)
     rcases (Nat.dvd_prime (by norm_num : Nat.Prime 31)).mp hdvd31 with h | h
     · exact absurd h hr.ne_one
     · exact h
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hAsyl31 : CFSG.ABGLocalTools.IsSylowOf 31 A X := by
     rw [← hr31]; exact hAsyl
   have hXfact : (Nat.card X).factorization 31 = 2 := by
@@ -314,7 +314,7 @@ theorem factors_of_case8100Four (D : Data G)
       have h2 : (⟨z, hzX⟩ : ↥X) ∈ (CFSG.Open.pCoreOf 2 X).subgroupOf X := by
         rwa [CFSG.openPCoreOf_subgroupOf]
       exact Subgroup.mem_subgroupOf.mp h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hO2 : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 X) :=
       CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
     have hdisj := IsPGroup.disjoint_of_ne 31 2 (by norm_num) A (CFSG.Open.pCoreOf 2 X) hA31 hO2
@@ -339,7 +339,7 @@ theorem factors_of_case8100Four (D : Data G)
   have hJbot : ⁅(A ⊓ L), (A ⊓ K)⁆ = ⊥ := by
     refine le_antisymm ?_ bot_le
     have hsub : ⁅(A ⊓ L), (A ⊓ K)⁆ ≤ A ⊓ CFSG.Open.pCoreOf 2 L := le_inf hJleA hJleO2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hO2 : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 L) :=
       CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
     have hdisj : A ⊓ CFSG.Open.pCoreOf 2 L = ⊥ :=

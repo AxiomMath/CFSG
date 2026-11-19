@@ -16,7 +16,7 @@ theorem IsMaximalTwoSubgroup.of_card {G : Type*} [Group G] {S L H : Subgroup G} 
     (hSL : S ≤ L) (hLH : L ≤ H) (hS : Nat.card S = 2 ^ k) (hk : ¬ 2 ^ (k + 1) ∣ Nat.card H) :
     IsMaximalTwoSubgroup S L := by
   refine ⟨hSL, IsPGroup.of_card hS, fun P hPL hP hSP => ?_⟩
-  haveI : Finite P := Finite.of_injective _ (Subgroup.inclusion_injective (hPL.trans hLH))
+  have : Finite P := Finite.of_injective _ (Subgroup.inclusion_injective (hPL.trans hLH))
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hP
   have hdvd : Nat.card P ∣ Nat.card H := Subgroup.card_dvd_of_le (hPL.trans hLH)
   have hnk : n ≤ k := by
@@ -56,12 +56,12 @@ private theorem mem_map_conj_iff {L : Subgroup H} {g x : H} :
 
 private theorem exists_conj_le [Finite H] {T L R : Subgroup H} (hT : IsMaximalTwoSubgroup T L)
     (hRL : R ≤ L) (hR : IsPGroup 2 R) : ∃ m ∈ L, ∀ r ∈ R, m * r * m⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hTL, hT2, hTmax⟩ := hT
   have hTl : IsPGroup 2 (T.subgroupOf L) := hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTL).symm
   obtain ⟨P, hP⟩ := hTl.exists_le_sylow
   have hPT : (P : Subgroup ↥L).map L.subtype = T :=
-    hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _) fun t ht =>
+    hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup.map _) fun t ht =>
       Subgroup.mem_map.2 ⟨⟨t, hTL ht⟩, hP ht, rfl⟩
   have hRl : IsPGroup 2 (R.subgroupOf L) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRL).symm
   obtain ⟨Q, hQ⟩ := hRl.exists_le_sylow
@@ -77,14 +77,14 @@ private theorem exists_conj_le [Finite H] {T L R : Subgroup H} (hT : IsMaximalTw
 private theorem exists_normalizing_gt [Finite H] {P Q : Subgroup H} (hP : IsPGroup 2 P)
     (hQP : Q < P) :
     ∃ Y : Subgroup H, Q < Y ∧ Y ≤ P ∧ Y ≤ Subgroup.normalizer (Q : Set H) ∧ IsPGroup 2 Y := by
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hlt : Q.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
     rw [Subgroup.subgroupOf_eq_top] at h
     exact not_le_of_gt hQP h
   have hgrow := Group.normalizerCondition_of_isNilpotent (G := ↥P) _ hlt
-  obtain ⟨x, hxN, hxQ⟩ := SetLike.exists_of_lt hgrow
+  obtain ⟨x, hxN, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hgrow
   have hxN' : (x : H) ∈ Subgroup.normalizer (Q : Set H) := by
     have := hxN
     rw [← Subgroup.subgroupOf_normalizer_eq hQP.le] at this
@@ -100,8 +100,8 @@ private theorem exists_normalizing_gt [Finite H] {P Q : Subgroup H} (hP : IsPGro
 private theorem exists_central_involution [Finite H] {Q R : Subgroup H} (hR : IsPGroup 2 R)
     (hQR : Q ≤ R) (hN : R ≤ Subgroup.normalizer (Q : Set H)) (hQ : Q ≠ ⊥) :
     ∃ i ∈ Q, i * i = 1 ∧ i ≠ 1 ∧ ∀ y ∈ R, y * i = i * y := by
-  haveI : Group.IsNilpotent ↥R := hR.isNilpotent
-  haveI hnorm : (Q.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
+  have : Group.IsNilpotent ↥R := hR.isNilpotent
+  have hnorm : (Q.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hN
   have hne : Q.subgroupOf R ≠ ⊥ := by
     intro h
     apply hQ

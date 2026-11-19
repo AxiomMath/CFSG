@@ -60,24 +60,24 @@ theorem dval_snoc (ds : List Nat) (d : Nat) : dval (ds ++ [d]) = dval ds * 10 + 
 theorem decV_eq (c : Nat) : decV c = if c < 48 then 10 else if c < 58 then c - 48 else 10 := by
   unfold decV
   by_cases h1 : c < 48
-  · rw [Nat.blt_eq.mpr h1, if_pos h1]
-  · rw [blt_false h1, if_neg h1]
+  · rw [Nat.blt_eq.mpr h1, ite_eq_left h1]
+  · rw [blt_false h1, ite_eq_right h1]
     by_cases h2 : c < 58
-    · rw [Nat.blt_eq.mpr h2, if_pos h2]
+    · rw [Nat.blt_eq.mpr h2, ite_eq_left h2]
       rfl
-    · rw [blt_false h2, if_neg h2]
+    · rw [blt_false h2, ite_eq_right h2]
 
 theorem decV_dig {c : Nat} (h : Nat.blt (decV c) 10 = true) : IsDig c ∧ decV c = c - 48 := by
   have h' := Nat.blt_eq.mp h
   rw [decV_eq] at h' ⊢
   by_cases h1 : c < 48
-  · rw [if_pos h1] at h'
+  · rw [ite_eq_left h1] at h'
     omega
-  · rw [if_neg h1] at h' ⊢
+  · rw [ite_eq_right h1] at h' ⊢
     by_cases h2 : c < 58
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       exact ⟨⟨by omega, h2⟩, rfl⟩
-    · rw [if_neg h2] at h'
+    · rw [ite_eq_right h2] at h'
       omega
 
 theorem joinW_head (w : Nat) (rest : List Nat) :
@@ -472,7 +472,7 @@ theorem decRun_lines {w lines sgn : Nat} {C : Nat → List Nat} {E : Nat → Nat
       · exact Or.inl h'
       · right
         rw [e1] at hl
-        simp only [List.getLast?_append, List.getLast?_cons, List.getLast?_concat] at hl ⊢
+        simp only [List.getLast?_append, List.getLast?_cons] at hl ⊢
         simpa using hl
     obtain ⟨ls, f1, f2, f3⟩ := decRun_lines n bs' (L + 1) (by omega) e3 hl'
     refine ⟨l :: ls, by simp [f1], by rw [e1, f2]; simp, fun i hi => ?_⟩
@@ -484,7 +484,7 @@ theorem decRun_lines {w lines sgn : Nat} {C : Nat → List Nat} {E : Nat → Nat
       simpa using this
 
 theorem charOfNat_toNat {x : Nat} (hx : x < 128) : (Char.ofNat x).toNat = x := by
-  simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, hx, (by omega : x < 55296), Char.toNat]
+  simp [Char.ofNat, Char.ofNatAux, Nat.isValidChar, (by omega : x < 55296), Char.toNat]
 
 theorem charOfNat_beq {x y : Nat} (hx : x < 128) (hy : y < 128) :
     (Char.ofNat x == Char.ofNat y) = (x == y) := by
@@ -529,7 +529,7 @@ theorem toNat!_of {s : String} {v : Nat} (h : s.toNat? = some v) : s.toNat! = v 
   unfold String.toNat? String.Slice.toNat? at h
   unfold String.toNat! String.Slice.toNat!
   split at h
-  · rw [if_pos ‹_›]
+  · rw [ite_eq_left ‹_›]
     exact Option.some.inj h
   · exact absurd h (by simp)
 
@@ -566,7 +566,7 @@ theorem foldl_push (ps : List String) (acc : Array Nat) (h : ∀ p ∈ ps, p.isE
   induction ps generalizing acc with
   | nil => simp
   | cons p ps ih =>
-    rw [List.foldl_cons, if_neg (by simp [h p List.mem_cons_self]),
+    rw [List.foldl_cons, ite_eq_right (by simp [h p List.mem_cons_self]),
       ih _ (fun q hq => h q (List.mem_cons_of_mem _ hq))]
     simp
 
@@ -662,7 +662,7 @@ theorem tokS_int {sgn L x : Nat} {p : List Nat} (h : TokS sgn L x p) (hL : sgn �
     unfold CFSG.KS.SporSch.LyTxt.tv at this
     rw [this, ofDigitChars_map p hd, hv]
     unfold decI
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     congr 2
     omega
   · apply toInt!_of
@@ -670,7 +670,7 @@ theorem tokS_int {sgn L x : Nat} {p : List Nat} (h : TokS sgn L x p) (hL : sgn �
     unfold CFSG.KS.SporSch.LyTxt.tv at this
     rw [List.map_cons, show Char.ofNat 45 = '-' from rfl, this, ofDigitChars_map q hd, hv]
     unfold decI
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
     congr 3
     omega
 
@@ -690,7 +690,7 @@ theorem parseInts_line {sgn w : Nat} {C : Nat → List Nat} {E : Nat → Nat} {L
     intro p hp
     obtain ⟨e, he, rfl⟩ := List.getElem_of_mem hp
     simp only [Function.comp_apply, isEmpty_ofList]
-    rw [if_neg (by simpa using (htok e he).chars.1)]
+    rw [ite_eq_right (by simpa using (htok e he).chars.1)]
   rw [List.filterMap_congr hf, List.filterMap_eq_map']
   apply List.ext_getElem
   · simp [hlen]

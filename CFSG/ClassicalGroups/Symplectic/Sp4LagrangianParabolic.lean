@@ -184,9 +184,8 @@ theorem tau_leviSp_mulVec_e1 (A : GL (Fin 2) K) {C : Matrix (Fin 2) (Fin 2) K} (
       Sum.elim ((A : Matrix (Fin 2) (Fin 2) K) *ᵥ Pi.single (0 : Fin 2) 1) 0 := by
   rw [Subgroup.coe_mul, Units.val_mul, SymplecticFour.coe_tau, coe_leviSp,
     Matrix.fromBlocks_multiply, Matrix.fromBlocks_mulVec]
-  simp [Matrix.mulVec_zero, Matrix.zero_mulVec, Matrix.one_mulVec, Matrix.mulVec_add,
-    Matrix.add_mulVec, Matrix.zero_mul, Matrix.mul_zero, Matrix.one_mul, add_zero, zero_add,
-    Function.comp, Pi.single]
+  simp [Matrix.mulVec_zero, Matrix.zero_mulVec, add_zero, zero_add,
+    Pi.single]
 
 theorem exists_unitri_of_mulVec_e1 {A : Matrix.SpecialLinearGroup (Fin 2) K}
     (hA : (A : Matrix (Fin 2) (Fin 2) K) *ᵥ Pi.single (0 : Fin 2) 1 = Pi.single 0 1) :
@@ -279,6 +278,7 @@ section CharTwo
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem sl2W_conj_torusHom (β : Kˣ) :
     (lam (1 : Fin 2) (sl2W (k := K))) *
         torusHom (r := 2) (k := K) (Pi.mulSingle (1 : Fin 2) β) *
@@ -287,12 +287,14 @@ theorem sl2W_conj_torusHom (β : Kˣ) :
   simpa only [map_mul, map_inv, lam_sl2Diag] using
     congrArg (lam (1 : Fin 2)) (CFSG.LinearAlgebra.sl2W_mul_sl2Diag_mul_sl2W_inv (K := K) β)
 
+omit [CharP K 2] in
 theorem orderOf_lagrangianTorus (β : Kˣ) : orderOf (lagrangianTorus β) = orderOf β := by
   rw [lagrangianTorus, torusHom_pair_eq_leviSp]
   exact (orderOf_injective ((leviSp (r := 2) (k := K)).comp SpecialLinearGroup.toGL)
     (BinarySymplecticSix.leviSp_injective.comp SpecialLinearGroup.toGL_injective) (sl2Diag β)).trans
     (CFSG.LinearAlgebra.orderOf_sl2Diag β)
 
+omit [CharP K 2] in
 theorem lagrangianWeyl_conj_lagrangianTorus (β : Kˣ) :
     lagrangianWeyl * lagrangianTorus β * (lagrangianWeyl (K := K))⁻¹ = (lagrangianTorus β)⁻¹ := by
   rw [lagrangianTorus, torusHom_pair_eq_leviSp, lagrangianWeyl]
@@ -300,6 +302,7 @@ theorem lagrangianWeyl_conj_lagrangianTorus (β : Kˣ) :
     congrArg (fun A => leviSp (r := 2) (k := K) (SpecialLinearGroup.toGL A))
       (CFSG.LinearAlgebra.sl2W_mul_sl2Diag_mul_sl2W_inv (K := K) β)
 
+omit [CharP K 2] in
 theorem lam_sl2W_conj_lagrangianTorus (β : Kˣ) :
     lam (1 : Fin 2) (sl2W (k := K)) * lagrangianTorus β * (lam (1 : Fin 2) (sl2W (k := K)))⁻¹ =
       torusHom (r := 2) (k := K) (fun _ : Fin 2 => β) := by
@@ -341,6 +344,7 @@ theorem leviConjHom_commute_lagrangianTorus (β : Kˣ) (A : SpecialLinearGroup (
   rw [leviConjHom_apply, hb]
   exact hL.map (MulAut.conj (lam (1 : Fin 2) (sl2W (k := K)))).toMonoidHom
 
+omit [CharP K 2] in
 theorem radical_relIndex_unipotent [Finite K] :
     (SymplecticFour.radical K).relIndex (unipotent 2 K) = Nat.card K := by
   have hmul := relIndex_mul_card (H := SymplecticFour.radical K) (K := unipotent 2 K)

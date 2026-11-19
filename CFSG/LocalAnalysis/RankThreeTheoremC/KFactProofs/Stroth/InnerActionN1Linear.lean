@@ -31,7 +31,7 @@ private theorem permGL_mul_dglHom {n : ℕ} (σ : Equiv.Perm (Fin n)) (a : Fin n
     Option.some_inj]
   by_cases h : σ⁻¹ i = j
   · subst h; simp
-  · simp only [h, if_false, zero_mul, mul_zero]
+  · simp only [h, ite_false, zero_mul, mul_zero]
 
 private theorem permGL_conj_dglHom {n : ℕ} (σ : Equiv.Perm (Fin n)) (a : Fin n → Fˣ) :
     permGL F n σ * dglHom n a * (permGL F n σ)⁻¹ = dglHom n (fun i => a (σ⁻¹ i)) := by
@@ -221,7 +221,7 @@ private theorem exists_noncomm_pSubgroup_psl (F : Type) [Field F] [Finite F] {n 
       ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hpn' : p ≤ n := Nat.le_of_dvd (by omega) hpn
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨z, hz1, hz2⟩ := exists_pslDiag_root F hp hpn hn2 hpq hspec
   let i0 : Fin n := ⟨p - 1, by omega⟩
   let σ : Equiv.Perm (Fin n) := Fin.cycleRange i0
@@ -270,7 +270,7 @@ end Aux
 theorem n1PSL_holds : N1PSL := by
   intro K _ _ n ℓ f hmodel p hp hp2 hpn hpq hspec S hS hSi
   obtain ⟨⟨-, -, hn2, -⟩, F, _, _, hF, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq' : p ∣ Nat.card F - 1 := by rw [hF]; exact hpq
   have hspec' : ¬ (n = 3 ∧ p = 3 ∧ ¬ 9 ∣ Nat.card F - 1) := by rw [hF]; exact hspec
   obtain ⟨H, hH, a, ha, b, hb, hab⟩ :=

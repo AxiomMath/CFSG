@@ -50,9 +50,9 @@ theorem testBit_of_shr {r : Nat} (h : Nat.shiftRight r 4060 = 0) {p : Nat}
 
 theorem move_spec {NW : Nat} {g : Nat → Nat} (hN : NetOf NW g) {r : Nat}
     (hr : Nat.shiftRight r 4060 = 0) (p : Nat) :
-    (applyNW NW 1 r).testBit p = true ↔ ∃ q, r.testBit q = true ∧ g q = p :=
-  applyNW_img hN.1 hN.2.1 hN.2.2.1 (S := fun q => r.testBit q = true)
-    (fun q hq => testBit_of_shr hr hq) (fun _ => Iff.rfl) p
+    (applyNW NW 1 r).testBit p = true ↔ ∃ _q, r.testBit _q = true ∧ g _q = p :=
+  applyNW_img hN.1 hN.2.1 hN.2.2.1 (S := fun _q => r.testBit _q = true)
+    (fun _q hq => testBit_of_shr hr hq) (fun _ => Iff.rfl) p
 
 theorem fwd_spec {NW : Nat} {g h : Nat → Nat} (hN : NetOf NW g)
     (hh : ∀ y < 4060, h y < 4060 ∧ g (h y) = y) {rx rp : Nat} (hrp : Nat.shiftRight rp 4060 = 0)
@@ -85,7 +85,7 @@ theorem reachK_succ (par : Nat → Nat) (f x : Nat) :
   by_cases hx : x = 0
   · subst hx
     rfl
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     have : Nat.beq x 0 = false := by
       cases h : Nat.beq x 0
       · rfl
@@ -135,7 +135,7 @@ theorem rows_sound {lab' : Nat → Nat} {c' : Nat} (h0 : NetOf NW0 g0) (h1 : Net
       by_cases hx0 : x = 0
       · rw [hx0]
         exact hroot'
-      · rw [if_neg hx0] at hx
+      · rw [ite_eq_right hx0] at hx
         have hp := hpar x hxn
         obtain ⟨hpr, hpy⟩ := ih (par x) hp hx
         have hk := andB_iff'.1 (hrow x (Nat.pos_of_ne_zero hx0) hxn)

@@ -53,7 +53,7 @@ private theorem eq_diagonal_of_mulVec_single {M : Matrix (Fin 4) (Fin 4) F} {d :
   by_cases hab : a = b
   · subst hab
     simp [Pi.smul_apply]
-  · simp [Pi.smul_apply, Pi.single_apply, hab]
+  · simp [Pi.smul_apply, hab]
 
 private theorem diagonal_eq_smul_one_of_eq {d : Fin 4 → F} {c : F} (hd : ∀ i, d i = c) :
     diagonal d = c • 1 := by
@@ -201,7 +201,7 @@ private theorem eq_of_uTrans_single_eq {n : ℕ} {i : Fin n} (hi : i ≠ Fin.rev
   have hii : (vecMulVec (Pi.single i 1) (uRow σ (Pi.single i 1))) i (Fin.rev i) = 1 := by
     simp [vecMulVec_apply, uRow_apply]
   have h1i : (1 : Matrix (Fin n) (Fin n) F) i (Fin.rev i) = 0 := by
-    simp [Matrix.one_apply, hi]
+    simp [hi]
   simp only [uTrans, uNil, Matrix.add_apply, Matrix.smul_apply, h1i, hii, smul_eq_mul, mul_one,
     zero_add] at h'
   exact h'
@@ -247,7 +247,7 @@ private theorem commute_coord_of_diagonal [CharP F 2] {d : Fin 4 → F} {g : SU 
     by_cases h : x = i
     · subst h
       simp
-    · simp [Pi.smul_apply, Pi.single_apply, h]
+    · simp [Pi.smul_apply, h]
   have h1 : g * x * g⁻¹ = x := by
     refine suMat_injective σ ?_
     rw [suMat_conj_of_eq σ hx' g, hge, uTrans_smul, hd i, one_mul, ← hx']
@@ -272,7 +272,7 @@ private theorem mul_sigma_eq_one_of_commute_coord [CharP F 2] {i : Fin 4}
     by_cases h : x = i
     · subst h
       simp
-    · simp [Pi.smul_apply, Pi.single_apply, h]
+    · simp [Pi.smul_apply, h]
   have h := suMat_conj_of_eq σ ht g
   rw [hgt, ht, hcol, uTrans_smul, mul_one] at h
   exact eq_of_uTrans_single_eq hi h.symm
@@ -340,7 +340,7 @@ private theorem exists_diagonal_data [CharP F 2] {T₀ T₁ T₂ T₃ : Subgroup
     by_cases hab : a = b
     · subst hab
       simp [Pi.smul_apply]
-    · simp [Pi.smul_apply, Pi.single_apply, hab]
+    · simp [Pi.smul_apply, hab]
   have hnorm : ∀ i, d i * σ (d i) = 1 := by
     intro i
     fin_cases i

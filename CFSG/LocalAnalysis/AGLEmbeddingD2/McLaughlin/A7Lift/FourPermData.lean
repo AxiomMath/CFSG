@@ -106,7 +106,7 @@ theorem fourD_le_fourPa : fourD ≤ fourPa :=
 
 theorem fourPa_le_fourPS : fourPa ≤ fourPS := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPa, List.mem_append] at hg
   rcases hg with hg | hg
   · exact Subgroup.subset_closure (List.mem_append_left _ hg)
@@ -130,12 +130,12 @@ private theorem fourD1_mem_alt :
     (swap 0 1 * swap 1 2 * swap 2 3 * swap 4 5 : Perm (Fin 7)) ∈
       alternatingGroup (Fin 7) := by
   rw [mem_alternatingGroup]
-  simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [Equiv.Perm.sign_mul]
 
 private theorem fourD2_mem_alt :
     (swap 0 2 * swap 4 5 : Perm (Fin 7)) ∈ alternatingGroup (Fin 7) := by
   rw [mem_alternatingGroup]
-  simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [Equiv.Perm.sign_mul]
 
 private theorem fourPb_extra_mem_alt :
     (swap 4 5 * swap 5 6 : Perm (Fin 7)) ∈ alternatingGroup (Fin 7) :=
@@ -159,11 +159,11 @@ private theorem fourPS_extra_mem_alt :
     (swap 0 1 * swap 1 2 * swap 2 3 * swap 3 6 : Perm (Fin 7)) ∈
       alternatingGroup (Fin 7) := by
   rw [mem_alternatingGroup]
-  simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [Equiv.Perm.sign_mul]
 
 theorem fourPb_le_alt : fourPb ≤ alternatingGroup (Fin 7) := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPb, List.mem_append] at hg
   rcases hg with hg | hg
   · rw [gD, List.mem_cons, List.mem_singleton] at hg
@@ -176,7 +176,7 @@ theorem fourPb_le_alt : fourPb ≤ alternatingGroup (Fin 7) := by
 
 theorem fourPc_le_alt : fourPc ≤ alternatingGroup (Fin 7) := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPc, List.mem_append] at hg
   rcases hg with hg | hg
   · rw [gD, List.mem_cons, List.mem_singleton] at hg
@@ -189,7 +189,7 @@ theorem fourPc_le_alt : fourPc ≤ alternatingGroup (Fin 7) := by
 
 theorem fourPS_le_alt : fourPS ≤ alternatingGroup (Fin 7) := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPS, List.mem_append] at hg
   rcases hg with hg | hg
   · rw [gD, List.mem_cons, List.mem_singleton] at hg
@@ -307,7 +307,7 @@ theorem gen_cS : alternatingGroup (Fin 7) ≤
 
 private theorem fourA5_le_fourPS : fourA5 ≤ fourPS := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq, gA5, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+  simp only [Set.mem_ofPred_eq, gA5, List.mem_cons, List.not_mem_nil,
     or_false] at hg
   rcases hg with rfl | rfl
   · exact (mem_fourPS _).2 (by decide +kernel)
@@ -315,7 +315,7 @@ private theorem fourA5_le_fourPS : fourA5 ≤ fourPS := by
 
 private theorem fourPS_le_sup : fourPS ≤ fourA5 ⊔ fourD := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPS, List.mem_append] at hg
   rcases hg with hg | hg
   · exact (le_sup_right : fourD ≤ fourA5 ⊔ fourD) (Subgroup.subset_closure hg)
@@ -338,14 +338,14 @@ theorem fourD_le_normalizer_fourA5 :
     · rw [fourA5, MonoidHom.map_closure]
       refine (Subgroup.closure_le _).2 fun x hx => ?_
       obtain ⟨a, ha, rfl⟩ := hx
-      simp only [gA5, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at ha
+      simp only [gA5, List.mem_cons, List.not_mem_nil, or_false] at ha
       rcases ha with rfl | rfl
       · exact (mem_fourA5 _).2 (by decide +kernel)
       · exact (mem_fourA5 _).2 (by decide +kernel)
     · rw [fourA5, MonoidHom.map_closure]
       refine (Subgroup.closure_le _).2 fun x hx => ?_
       obtain ⟨a, ha, rfl⟩ := hx
-      simp only [gA5, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at ha
+      simp only [gA5, List.mem_cons, List.not_mem_nil, or_false] at ha
       rcases ha with rfl | rfl
       · exact (mem_fourA5 _).2 (by decide +kernel)
       · exact (mem_fourA5 _).2 (by decide +kernel)
@@ -378,17 +378,17 @@ private theorem extendFive_cycle5 :
 private theorem fourA5_le_map :
     fourA5 ≤ (alternatingGroup (Fin 5)).map extendFive := by
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq, gA5, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+  simp only [Set.mem_ofPred_eq, gA5, List.mem_cons, List.not_mem_nil,
     or_false] at hg
   rcases hg with rfl | rfl
   · rw [← extendFive_cycle3]
     exact Subgroup.mem_map_of_mem extendFive (by
       rw [mem_alternatingGroup]
-      simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap])
+      simp [Equiv.Perm.sign_mul])
   · rw [← extendFive_cycle5]
     exact Subgroup.mem_map_of_mem extendFive (by
       rw [mem_alternatingGroup]
-      simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap])
+      simp [Equiv.Perm.sign_mul])
 
 private theorem fourA5_eq_map :
     fourA5 = (alternatingGroup (Fin 5)).map extendFive := by
@@ -450,7 +450,7 @@ private theorem fourPS_le_closure_rep1 :
     have hS : ∀ s : Perm (Fin 7),
         s ∈ insert r1 {σ : Perm (Fin 7) | σ ∈ gD} ↔ s ∈ gD ++ [r1] := by
       intro s
-      simp only [Set.mem_insert_iff, Set.mem_setOf_eq, List.mem_append, List.mem_singleton]
+      simp only [Set.mem_insert_iff, Set.mem_ofPred_eq, List.mem_append, List.mem_singleton]
       tauto
     have hcode : enc (swap 0 1 * swap 1 2 * swap 2 3 * swap 3 6 : Perm (Fin 7)) ∈ LR1 := by
       decide +kernel
@@ -467,7 +467,7 @@ private theorem fourPS_le_closure_rep1 :
       · exact Set.mem_insert_iff.2 (Or.inr (Subgroup.subset_closure hx))
     exact hle hmem
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPS, List.mem_append] at hg
   rcases hg with hg | hg
   · exact hD (Subgroup.subset_closure hg)
@@ -483,7 +483,7 @@ private theorem fourPS_le_closure_rep2 :
     have hS : ∀ s : Perm (Fin 7),
         s ∈ insert r2 {σ : Perm (Fin 7) | σ ∈ gD} ↔ s ∈ gD ++ [r2] := by
       intro s
-      simp only [Set.mem_insert_iff, Set.mem_setOf_eq, List.mem_append, List.mem_singleton]
+      simp only [Set.mem_insert_iff, Set.mem_ofPred_eq, List.mem_append, List.mem_singleton]
       tauto
     have hcode : enc (swap 0 1 * swap 1 2 * swap 2 3 * swap 3 6 : Perm (Fin 7)) ∈ LR2 := by
       decide +kernel
@@ -500,7 +500,7 @@ private theorem fourPS_le_closure_rep2 :
       · exact Set.mem_insert_iff.2 (Or.inr (Subgroup.subset_closure hx))
     exact hle hmem
   refine (Subgroup.closure_le _).2 fun g hg => ?_
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   rw [gPS, List.mem_append] at hg
   rcases hg with hg | hg
   · exact hD (Subgroup.subset_closure hg)

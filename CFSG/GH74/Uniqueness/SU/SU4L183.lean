@@ -44,7 +44,7 @@ theorem Setup18Core.isNormalEp2 {S : Sylow 2 G} {U : Subgroup G} (h : Setup18Cor
     SU1.IsNormalEp2 2 (S : Subgroup G) U := ⟨h.four.1, h.normal, h.four.2.1, h.four.2.2⟩
 
 theorem Setup18Core.isPGroup {S : Sylow 2 G} {U : Subgroup G} (_h : Setup18Core S U) :
-    IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+    IsPGroup 2 (S : Subgroup G) := S.isPGroup
 
 theorem normalizer_le_stabComp {S : Sylow 2 G} {U : Subgroup G} (h : Setup18Core S U)
     {E : Subgroup G} (hE2 : 2 ≤ Open.pRank 2 E)

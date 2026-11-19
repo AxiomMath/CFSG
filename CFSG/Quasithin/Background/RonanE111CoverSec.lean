@@ -19,6 +19,7 @@ section Helpers
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem le_Cov_of_dimg {X T A J C : Subgroup G} [Fintype ↥C] (h : DiagSetting X T A J C)
     {U H₁ : Subgroup G} (hUJ : U ≤ J) (hU : dimg h.diagComm U ≤ H₁) : U ≤ Cov H₁ J := by
   intro x hx
@@ -27,11 +28,13 @@ theorem le_Cov_of_dimg {X T A J C : Subgroup G} [Fintype ↥C] (h : DiagSetting 
     inv_mul_diagHom_mem h.diagComm ⟨x, hxJ⟩⟩
   exact (mem_dimg_iff h.diagComm).mpr ⟨⟨x, hxJ⟩, hx, rfl⟩
 
+omit [Finite G] in
 theorem Cov_mono {H₁ H₂ : Subgroup G} (J : Subgroup G) (h : H₁ ≤ H₂) : Cov H₁ J ≤ Cov H₂ J :=
   fun _ hg => ⟨hg.1, hg.2.choose, h hg.2.choose_spec.1, hg.2.choose_spec.2⟩
 
+omit [Finite G] in
 theorem le_of_le_sup_of_perfect {XM R YM : Subgroup G} (hXperf : ⁅XM, XM⁆ = XM)
-    (hRX : ∀ x ∈ XM, ∀ r ∈ R, x * r * x⁻¹ ∈ R) (hRY : ∀ y ∈ YM, ∀ r ∈ R, y * r * y⁻¹ ∈ R)
+    (_hRX : ∀ x ∈ XM, ∀ r ∈ R, x * r * x⁻¹ ∈ R) (hRY : ∀ y ∈ YM, ∀ r ∈ R, y * r * y⁻¹ ∈ R)
     (hYs : Group.IsSolvable ↥YM) (hle : XM ≤ R ⊔ YM) : XM ≤ R := by
   have key : ∀ k, XM ≤ R ⊔ derivedSeriesOf YM k := by
     intro k

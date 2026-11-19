@@ -86,7 +86,7 @@ theorem not_ordOmegaMinusFour_dvd_ordOFourPlus {q : ℕ} (hq : 2 ≤ q) :
   have hq0 : 0 < q := by omega
   have hqsq : 1 ≤ q ^ 2 := by nlinarith [hq]
   have h' : q ^ 2 * (q ^ 4 - 1) ∣ q ^ 2 * (2 * (q ^ 2 - 1) ^ 2) := by
-    convert h using 1 <;> ring
+    convert h using 1; ring
   have hdiv : q ^ 4 - 1 ∣ 2 * (q ^ 2 - 1) ^ 2 :=
     Nat.dvd_of_mul_dvd_mul_left (pow_pos hq0 2) h'
   rw [← sq_add_one_mul_sq_sub_one q] at hdiv

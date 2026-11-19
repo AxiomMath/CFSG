@@ -58,7 +58,7 @@ theorem diagSUSL_mul (a b a' b' : Ωˣ) :
   congr 1
   funext i
   fin_cases i <;>
-    simp [Pi.mul_apply, mul_inv_rev, mul_assoc, mul_comm, mul_left_comm]
+    simp [mul_inv_rev, mul_assoc, mul_comm, mul_left_comm]
 
 theorem diagSUSL_one : diagSUSL (1 : Ωˣ) 1 = 1 := by
   apply Subtype.ext
@@ -81,12 +81,12 @@ theorem diagSUSL_injective : Function.Injective (fun p : Ωˣ × Ωˣ => diagSUS
     Matrix.cons_val_one] at h0 h1
   exact Prod.ext (Units.ext h0) (Units.ext h1)
 
-noncomputable def qTorusSL (q q₀ : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin 3) Ω) :=
+noncomputable def qTorusSL (q _q₀ : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin 3) Ω) :=
   ((rootsOfUnity q Ω).prod (rootsOfUnity q Ω)).map (diagSUSLHom (Ω := Ω))
 
 theorem card_qTorusSL {q q₀ : ℕ} [Fact q.Prime] {ζ : Ω} (hζ : IsPrimitiveRoot ζ q) :
     Nat.card (qTorusSL (Ω := Ω) q q₀) = q ^ 2 := by
-  haveI : NeZero q := ⟨(Fact.out : q.Prime).ne_zero⟩
+  have : NeZero q := ⟨(Fact.out : q.Prime).ne_zero⟩
   have hinj : Function.Injective (diagSUSLHom (Ω := Ω)) := by
     intro a b hab
     exact diagSUSL_injective hab
@@ -130,7 +130,7 @@ private theorem diagSUSL_entry_pow {q q₀ : ℕ} (hqd : q ∣ q₀ + 1) {a b : 
   · simp [hm, pow_mul, hbq]
   · simp [hm, pow_mul, mul_pow, haq, hbq]
 
-private theorem diagSUSL_prod {q₀ : ℕ} {a b : Ωˣ} :
+private theorem diagSUSL_prod {_q₀ : ℕ} {a b : Ωˣ} :
     ∏ i : Fin 3, ![((a : Ω)), ((b : Ω)), (((a : Ω) * (b : Ω))⁻¹)] i = 1 := by
   have hU : (∏ i : Fin 3, (![a, b, (a * b)⁻¹] : Fin 3 → Ωˣ) i) = 1 := by
     rw [Fin.prod_univ_three]
@@ -148,7 +148,7 @@ theorem qTorusSL_toGL_mem_unitarySet {q q₀ : ℕ} (hq1 : 1 ≤ q₀) (hqd : q 
   obtain ⟨ha, hb⟩ := hp
   change Matrix.SpecialLinearGroup.toGL (diagSUSL p.1 p.2) ∈ unitarySet q₀ 3
   have hd := diagSUSL_entry_pow (Ω := Ω) hqd ha hb
-  have hprod := diagSUSL_prod (Ω := Ω) (q₀ := q₀) (a := p.1) (b := p.2)
+  have hprod := diagSUSL_prod (Ω := Ω) (_q₀ := q₀) (a := p.1) (b := p.2)
   have hdet : IsUnit (Matrix.diagonal
       ![((p.1 : Ω)), ((p.2 : Ω)), (((p.1 : Ω) * (p.2 : Ω))⁻¹)]).det := by
     rw [Matrix.det_diagonal, hprod]
@@ -184,7 +184,7 @@ theorem exists_qTorus_in_layer {q q₀ : ℕ} [Fact q.Prime] {ζ : Ω} (hζ : Is
       T ≤ rootSpan Tag.E6 Ω S ⊓ (tw6Theta Ω Fr).eqLocus (MonoidHom.id _) ∧
       IsElemAbelian q T ∧ Nat.card T = q ^ 2 := by
   classical
-  haveI : NeZero q := ⟨(Fact.out : q.Prime).ne_zero⟩
+  have : NeZero q := ⟨(Fact.out : q.Prime).ne_zero⟩
   set T_SL : Subgroup (Matrix.SpecialLinearGroup (Fin 3) Ω) :=
     qTorusSL (Ω := Ω) q q₀ with hT_SL
   have hT_SL_card : Nat.card T_SL = q ^ 2 := card_qTorusSL hζ

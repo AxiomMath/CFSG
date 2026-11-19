@@ -21,12 +21,13 @@ section SelfDual
 variable {τ : L ≃+* L} {m : ℕ} {s : Matrix (Fin n) (Fin n) L} {F : Finset L[X]}
   {a b : L[X] → L[X]}
 
+omit [Finite L] in
 theorem dvd_starP_of_self_dual (H : PrimaryHyp τ s m F a b) {f : L[X]} (hf : f ∈ F)
     (hPf : Pmat s b F f ≠ 0) (hself : adjM τ (Pmat s b F f) = Pmat s b F f) :
     f ∣ starP τ m f := by
-  rw [← aeval_mul_Pmat_iff H.hirr H.hmon H.hprod H.hsm H.hab hf hPf]
+  rw [← aeval_mul_Pmat_iff H.hirr H.hprod H.hsm hf hPf]
   have h1 : adjM τ (aeval s f * Pmat s b F f) = 0 := by
-    rw [aeval_mul_Pmat_self H.hirr H.hmon H.hprod H.hsm H.hab hf, adjM_zero' τ]
+    rw [aeval_mul_Pmat_self H.hprod H.hsm hf, adjM_zero' τ]
   rw [adjM_mul, hself, adjM_aeval_eq_aeval_starP τ H.hτ H.hm s H.hsm H.hs f] at h1
   have hc : aeval s (starP τ m f) * Pmat s b F f = Pmat s b F f * aeval s (starP τ m f) := by
     rw [Pmat, ← map_mul, ← map_mul, mul_comm]
@@ -45,12 +46,14 @@ theorem dvd_starP_of_self_dual (H : PrimaryHyp τ s m F a b) {f : L[X]} (hf : f 
     (fun c x y => by
       rw [Submodule.coe_smul, hfm_smul_right, RingHom.id_apply, smul_eq_mul])
 
+omit [Finite L] in
 theorem hW_apply (τ : L ≃+* L) (s : Matrix (Fin n) (Fin n) L) (b : L[X] → L[X])
     (F : Finset L[X]) (f : L[X]) (x y : Vf s b F f) :
     hW τ s b F f x y = hfm τ (x : Fin n → L) (y : Fin n → L) := rfl
 
 variable {f : L[X]}
 
+omit [Finite L] in
 theorem hW_smul_adj (H : PrimaryHyp τ s m F a b) [Fact (∀ x ∈ Vf s b F f, aeval s f *ᵥ x = 0)]
     (hdiv : f ∣ starP τ m f) (c : AdjoinRoot f) (x y : Vf s b F f) :
     hfm τ (((c • x : Vf s b F f)) : Fin n → L) (y : Fin n → L) =
@@ -60,6 +63,7 @@ theorem hW_smul_adj (H : PrimaryHyp τ s m F a b) [Fact (∀ x ∈ Vf s b F f, a
     rw [coe_smul_mk, sigmaK_mk, coe_smul_mk, hfm_mulVec, adjM_aeval_eq_aeval_starP τ H.hτ H.hm s
       H.hsm H.hs q]
 
+omit [Finite L] in
 theorem hW_nondeg (H : PrimaryHyp τ s m F a b) {f : L[X]} (hf : f ∈ F)
     (hself : adjM τ (Pmat s b F f) = Pmat s b F f) :
     ∀ x : Vf s b F f, (∀ y : Vf s b F f, hW τ s b F f x y = 0) → x = 0 := by
@@ -110,8 +114,8 @@ theorem selfDual_unitaryOrLinear (H : PrimaryHyp τ s m F a b) {f : L[X]} [Fact 
     sigmaK_sigmaK τ H.hτ H.hm hdiv hdvd
   have hσL : ∀ l : L, sigmaK τ m hdiv (algebraMap L (AdjoinRoot f) l) =
       algebraMap L (AdjoinRoot f) (τ l) := fun l => sigmaK_of τ m hdiv l
-  haveI : Module.Finite L (AdjoinRoot f) := (H.hmon f hf).finite_adjoinRoot
-  haveI : Finite (AdjoinRoot f) :=
+  have : Module.Finite L (AdjoinRoot f) := (H.hmon f hf).finite_adjoinRoot
+  have : Finite (AdjoinRoot f) :=
     Finite.of_equiv (Fin (Module.finrank L (AdjoinRoot f)) → L)
       (Module.finBasis L (AdjoinRoot f)).equivFun.toEquiv.symm
   let σE : AdjoinRoot f ≃+* AdjoinRoot f := invEquiv (sigmaK τ m hdiv) hσσ
@@ -147,8 +151,8 @@ theorem selfDual_unitaryOrLinear (H : PrimaryHyp τ s m F a b) {f : L[X]} [Fact 
   obtain ⟨B, hsymm, hsep, hrep⟩ :=
     exists_trace_form hUFD.bar (τ : L →+* L) hρE hρL (hW τ s b F f) hherm hadj
       (hW_nondeg H hf hself)
-  haveI : Module.Finite L (Vf s b F f) := inferInstance
-  haveI : FiniteDimensional (AdjoinRoot f) (Vf s b F f) :=
+  have : Module.Finite L (Vf s b F f) := inferInstance
+  have : FiniteDimensional (AdjoinRoot f) (Vf s b F f) :=
     Module.Finite.of_restrictScalars_finite L (AdjoinRoot f) (Vf s b F f)
   obtain ⟨e0, he0⟩ :=
     UnitaryFieldData.exists_orthonormal_basis hUFD (B := B) (LinearMap.isSymm_def.mpr hsymm) hsep

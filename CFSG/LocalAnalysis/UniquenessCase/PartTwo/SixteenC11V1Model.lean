@@ -21,7 +21,7 @@ private theorem s16c11_v1_cyc_pow_three : s16c11_v1_cyc ^ 3 = 1 := by decide +ke
 private theorem s16c11_v1_cyc_ne_one : s16c11_v1_cyc ≠ 1 := by decide +kernel
 
 private theorem s16c11_v1_orderOf_cyc : orderOf s16c11_v1_cyc = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime s16c11_v1_cyc_pow_three s16c11_v1_cyc_ne_one
 
 private theorem s16c11_v1_tr_sq (i : Fin 3) : s16c11_v1_tr i * s16c11_v1_tr i = 1 := by
@@ -40,7 +40,7 @@ private theorem s16c11_v1_fix_zero_eq :
   decide +kernel
 
 theorem s16c11_v1_model_of_fpf {W : Type} [CommGroup W] [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1)
-    {K X : Subgroup (MulAut W)} (hKX : K ≤ X) (hK : IsSym ↥K 3)
+    {K X : Subgroup (MulAut W)} (_hKX : K ≤ X) (hK : IsSym ↥K 3)
     (hfpf : ∀ k ∈ K, orderOf k = 3 → ∀ w : W, k w = w → w = 1) :
     ∃ J₀ : Subgroup W, S16C11Model X K J₀ := by
   classical
@@ -81,10 +81,10 @@ theorem s16c11_v1_model_of_fpf {W : Type} [CommGroup W] [Finite W] (hW2 : ∀ w 
   let T : Fin 3 → ↥K := ![t0, c ^ 2 * t0, c * t0]
   have hSe : ∀ i, e (S i) = s16c11_v1_sg i := by
     intro i
-    fin_cases i <;> simp [S, s16c11_v1_sg, hce, hte] <;> decide +kernel
+    fin_cases i <;> simp [S, s16c11_v1_sg, hce, hte]; decide +kernel
   have hTe : ∀ i, e (T i) = s16c11_v1_tr i := by
     intro i
-    fin_cases i <;> simp [T, s16c11_v1_tr, hce, hte] <;> decide +kernel
+    fin_cases i <;> simp [T, s16c11_v1_tr, hce, hte]; decide +kernel
   have hc_inv : c⁻¹ = c ^ 2 := by
     rw [inv_eq_iff_mul_eq_one, ← pow_succ', hc3]
   have hc3apply : ∀ u : W, (c : MulAut W) ((c : MulAut W) ((c : MulAut W) u)) = u := by

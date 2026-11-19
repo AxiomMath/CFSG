@@ -16,7 +16,7 @@ theorem y4a_cent_shape {G : Type} [Group G] [Finite G] {Y M : Subgroup G}
     (ψ : ↥Y →* alternatingGroup (Fin 5)) (hker : ∀ l : ↥Y, ψ l = 1 ↔ (l : G) ∈ M)
     (hMY : M ≤ Y) (hM : IsElemTwo 4 M) {t : G} (ht : t ∈ M) (hC : Nat.card ↥(Gx t ⊓ Y) = 96) :
     IsExtensionShape ↥(Gx t ⊓ Y) (Elem2 4) (Sym 3) := by
-  haveI hcommM : IsMulCommutative ↥M := hM.1.1
+  have hcommM : IsMulCommutative ↥M := hM.1.1
   have hMGx : M ≤ Gx t := by
     intro m hm
     rw [mem_Gx]

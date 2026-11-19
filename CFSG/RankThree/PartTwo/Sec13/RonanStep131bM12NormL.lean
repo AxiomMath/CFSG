@@ -110,7 +110,7 @@ theorem conj_commutator_mem_of_mixed {G : Type} [Group G] [Finite G] {E P₁ P�
     have hconj : t * b' ^ k * t⁻¹ = (b' * w') ^ k := by
       rw [← htb']
       have := map_zpow (MulAut.conj t) b' k
-      simpa [MulAut.conj_apply] using this
+      simp
     have hexp : (b' * w') ^ k = b' ^ k * w' ^ k := hcommbw.mul_zpow k
     have hm : w' ^ k * (t * z * t⁻¹) * z⁻¹ ∈ Z :=
       mul_mem (mul_mem (Subgroup.zpow_mem _ hwZ' k) (htZ z hz)) (inv_mem hz)

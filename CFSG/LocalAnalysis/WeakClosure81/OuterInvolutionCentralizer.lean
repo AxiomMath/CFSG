@@ -111,11 +111,11 @@ theorem sigmaFacts_of_fixed_perfect_model
     rw [hcentralizer, Subgroup.mem_bot] at hxcent
     calc g = j x := hgx.symm
       _ = 1 := by rw [hxcent]; simp
-  haveI : IsSimpleGroup ↥N := hNsimple
-  haveI : Group.IsPerfect ↥N := hNperfect
+  have : IsSimpleGroup ↥N := hNsimple
+  have : Group.IsPerfect ↥N := hNperfect
   let eN : ↥N ≃* ↥NG := Subgroup.equivMapOfInjective N j hj_inj
-  haveI : IsSimpleGroup ↥NG := eN.symm.isSimpleGroup
-  haveI : Group.IsPerfect ↥NG :=
+  have : IsSimpleGroup ↥NG := eN.symm.isSimpleGroup
+  have : Group.IsPerfect ↥NG :=
     Group.IsPerfect.ofSurjective (f := eN.toMonoidHom) eN.surjective
   have hnc : ¬ IsMulCommutative ↥NG := Group.IsPerfect.not_isMulCommutative ↥NG
   have hnonab : ∃ x y : ↥NG, x * y ≠ y * x := by

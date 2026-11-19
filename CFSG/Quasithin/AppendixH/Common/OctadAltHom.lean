@@ -43,8 +43,8 @@ theorem eq_octFix_or_eq_octStab_of_normal {O : Finset (Fin 24)}
     Subgroup.subgroupOf_mono (octStab O) h1
   have hα : 5 ≤ Nat.card ↥O := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, hO.1]; norm_num
-  haveI : IsSimpleGroup (alternatingGroup ↥O) := alternatingGroup.isSimpleGroup hα
-  haveI hmapN : ((N.subgroupOf (octStab O)).map φ).Normal := hN.map φ hsurj
+  have : IsSimpleGroup (alternatingGroup ↥O) := alternatingGroup.isSimpleGroup hα
+  have hmapN : ((N.subgroupOf (octStab O)).map φ).Normal := hN.map φ hsurj
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf (octStab O)).map φ) with
     hbot | htop
   ·

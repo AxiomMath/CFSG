@@ -180,12 +180,12 @@ theorem insO_eq (a : Nat) : ∀ l : List Nat, insO a l = l.orderedInsert (· ≤
       have h : ¬ a ≤ b := by
         rw [← Nat.ble_eq, hb]
         decide
-      rw [if_neg h]
+      rw [ite_eq_right h]
       rfl
     | true =>
       have h : a ≤ b := by
         rw [← Nat.ble_eq, hb]
-      rw [if_pos h]
+      rw [ite_eq_left h]
       rfl
 
 theorem insN_eq : ∀ l : List Nat, insN l = List.insertionSort (· ≤ ·) l
@@ -234,7 +234,7 @@ theorem e64_sound {n : Nat} {B : List Nat} {ltabs : Array (Array Nat)} {L : Nat 
     refine all_congr' fun w hw => all_congr' fun Lb hLb => ?_
     have e : Lb.map (fun p => (wordTabA ltabs n w).getD p 0) = Lb.map (wordF L w) :=
       List.map_congr_left fun p hp => ((good_word hL (hw2 w hw)).2 p (hlab Lb hLb p hp)).1
-    simp only [Function.comp, ptAct, e, sortN_eq]
+    simp only [ptAct, e, sortN_eq]
   · rw [pairCheck_eq hB hy hts]
     exact h7
 

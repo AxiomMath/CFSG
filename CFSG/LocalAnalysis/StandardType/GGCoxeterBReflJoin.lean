@@ -21,7 +21,7 @@ private lemma coxeterB_apply {n : ℕ} (i j : Fin n) :
 private lemma coxeterB_entry_even {n : ℕ} {i j : Fin n}
     (hlast : (i : ℕ) + 1 = n ∨ (j : ℕ) + 1 = n) (hij : i ≠ j) :
     Even ((CoxeterMatrix.B n) i j) := by
-  rw [coxeterB_apply, if_neg hij]
+  rw [coxeterB_apply, ite_eq_right hij]
   have hi := i.isLt
   have hj := j.isLt
   split_ifs with h4 h3
@@ -50,13 +50,13 @@ private lemma coxeterB_liftable (n : ℕ) :
   · by_cases hi : i.val + 1 < n <;> by_cases hj : j.val + 1 < n
     · simp [hi, hj]
     · have hlast : (j : ℕ) + 1 = n := by have := j.isLt; omega
-      have hfi : (if i.val + 1 < n then (1 : ℤˣ) else -1) = 1 := if_pos hi
-      have hfj : (if j.val + 1 < n then (1 : ℤˣ) else -1) = -1 := if_neg hj
+      have hfi : (if i.val + 1 < n then (1 : ℤˣ) else -1) = 1 := ite_eq_left hi
+      have hfj : (if j.val + 1 < n then (1 : ℤˣ) else -1) = -1 := ite_eq_right hj
       rw [hfi, hfj, one_mul]
       exact neg_one_pow_eq_one_of_even (coxeterB_entry_even (Or.inr hlast) hij)
     · have hlast : (i : ℕ) + 1 = n := by have := i.isLt; omega
-      have hfi : (if i.val + 1 < n then (1 : ℤˣ) else -1) = -1 := if_neg hi
-      have hfj : (if j.val + 1 < n then (1 : ℤˣ) else -1) = 1 := if_pos hj
+      have hfi : (if i.val + 1 < n then (1 : ℤˣ) else -1) = -1 := ite_eq_right hi
+      have hfj : (if j.val + 1 < n then (1 : ℤˣ) else -1) = 1 := ite_eq_left hj
       rw [hfi, hfj, mul_one]
       exact neg_one_pow_eq_one_of_even (coxeterB_entry_even (Or.inl hlast) hij)
     · exfalso
@@ -121,7 +121,7 @@ private def SignedElt.one (n p : ℕ) : SignedElt n p := ⟨1, fun _ => false⟩
 
 private theorem SignedElt.toPerm_one : (SignedElt.one n p).toPerm = 1 := by
   ext v t
-  simp [SignedElt.toPerm_apply, SignedElt.one, Equiv.Perm.one_symm]
+  simp [SignedElt.toPerm_apply, SignedElt.one, ← Equiv.Perm.inv_def 1, inv_one]
 
 private theorem SignedElt.mul_inv (D : SignedElt n p) : D.mul D.inv = SignedElt.one n p := by
   cases D with
@@ -173,7 +173,7 @@ private theorem spReflPerm_mem_signedSubgroup (k : Fin n) :
     intro v
     funext t
     by_cases ht : t = k <;>
-      simp [SignedElt.toPerm_apply, SpJoin.coordInv_apply, ht, Equiv.Perm.one_symm]
+      simp [SignedElt.toPerm_apply, SpJoin.coordInv_apply, ht, ← Equiv.Perm.inv_def 1, inv_one]
 
 private theorem exists_signedElt_of_mem_spSignedGroup
     {g : Equiv.Perm (Fin n → Multiplicative (ZMod p))}
@@ -234,7 +234,7 @@ private lemma ofAdd_one_inv_ne_one [Fact p.Prime] (hp2 : p ≠ 2) :
 private lemma ofAdd_inv_ne_one [Fact p.Prime] :
     (Multiplicative.ofAdd (1 : ZMod p) : Multiplicative (ZMod p))⁻¹ ≠ 1 := by
   intro h
-  have h' : (-1 : ZMod p) = 0 := Multiplicative.ofAdd.injective (by simpa using h)
+  have h' : (-1 : ZMod p) = 0 := Multiplicative.ofAdd.injective (by simp at h)
   exact (neg_ne_zero.mpr (one_ne_zero : (1 : ZMod p) ≠ 0)) h'
 
 private lemma ofAdd_one_ne_one [Fact p.Prime] :
@@ -255,7 +255,7 @@ private theorem mem_coordSupp_iff [Fact p.Prime] (hp2 : p ≠ 2) (D : SignedElt 
     have hsymm : D.perm.symm t = t := by
       rw [Equiv.symm_apply_eq]
       exact hperm.symm
-    exact hv (by rw [SignedElt.toPerm_apply, if_neg h.1, hsymm])
+    exact hv (by rw [SignedElt.toPerm_apply, ite_eq_right h.1, hsymm])
   · intro ht
     rw [mem_supp_iff] at ht
     rcases ht with hf | hp
@@ -264,7 +264,7 @@ private theorem mem_coordSupp_iff [Fact p.Prime] (hp2 : p ≠ 2) (D : SignedElt 
         have hsym : D.perm.symm t = t := by
           rw [Equiv.symm_apply_eq]
           exact hpt.symm
-        rw [SignedElt.toPerm_apply, if_pos hf, hsym, Pi.mulSingle_eq_same]
+        rw [SignedElt.toPerm_apply, ite_eq_left hf, hsym, Pi.mulSingle_eq_same]
         exact ofAdd_one_inv_ne_one hp2
       · refine ⟨(Pi.mulSingle (D.perm.symm t) (Multiplicative.ofAdd 1) :
           Fin n → Multiplicative (ZMod p)), ?_⟩
@@ -273,9 +273,9 @@ private theorem mem_coordSupp_iff [Fact p.Prime] (hp2 : p ≠ 2) (D : SignedElt 
           exact hpt (by simpa [h] using Equiv.apply_symm_apply D.perm t)
         have h1 : (Pi.mulSingle (D.perm.symm t) (Multiplicative.ofAdd (1 : ZMod p)) :
             Fin n → Multiplicative (ZMod p)) t = 1 := by
-          rw [Pi.mulSingle_apply, if_neg]
+          rw [Pi.mulSingle_apply, ite_eq_right]
           exact fun h => hne h.symm
-        rw [SignedElt.toPerm_apply, if_pos hf, Pi.mulSingle_eq_same, h1]
+        rw [SignedElt.toPerm_apply, ite_eq_left hf, Pi.mulSingle_eq_same, h1]
         exact ofAdd_inv_ne_one
     · refine ⟨(Pi.mulSingle (D.perm.symm t) (Multiplicative.ofAdd 1) :
           Fin n → Multiplicative (ZMod p)), ?_⟩
@@ -284,12 +284,12 @@ private theorem mem_coordSupp_iff [Fact p.Prime] (hp2 : p ≠ 2) (D : SignedElt 
         exact hp (by simpa [h] using Equiv.apply_symm_apply D.perm t)
       have h1 : (Pi.mulSingle (D.perm.symm t) (Multiplicative.ofAdd (1 : ZMod p)) :
           Fin n → Multiplicative (ZMod p)) t = 1 := by
-        rw [Pi.mulSingle_apply, if_neg]
+        rw [Pi.mulSingle_apply, ite_eq_right]
         exact fun h => hne h.symm
       by_cases hflip : D.flip t
-      · rw [SignedElt.toPerm_apply, if_pos hflip, Pi.mulSingle_eq_same, h1]
+      · rw [SignedElt.toPerm_apply, ite_eq_left hflip, Pi.mulSingle_eq_same, h1]
         exact ofAdd_inv_ne_one
-      · rw [SignedElt.toPerm_apply, if_neg hflip, Pi.mulSingle_eq_same, h1]
+      · rw [SignedElt.toPerm_apply, ite_eq_right hflip, Pi.mulSingle_eq_same, h1]
         exact ofAdd_one_ne_one
 
 private theorem SignedElt.mul_comm_perm {D E : SignedElt n p} (h : Disjoint D.supp E.supp) :
@@ -360,7 +360,7 @@ private theorem coordInv_eq_toPerm (j : Fin n) :
   apply Equiv.ext
   intro v
   funext t
-  rw [SpJoin.coordInv_apply, SignedElt.toPerm_apply, Equiv.Perm.one_symm,
+  rw [SpJoin.coordInv_apply, SignedElt.toPerm_apply, ← Equiv.Perm.inv_def 1, inv_one,
     Function.update_apply]
   by_cases ht : t = j <;> simp [ht]
 
@@ -847,7 +847,7 @@ private theorem exists_long_gen (C : Ctx n p κ)
     rw [C.hw a, map_mul, map_mul, map_inv]
     simp only [mul_comm (coxeterBSign n (C.w a))
       (coxeterBSign n ((CoxeterMatrix.B n).simple (C.i a))), mul_inv_cancel_right]
-  rw [hconj, coxeterBSign_simple n (C.i a), if_pos hi]
+  rw [hconj, coxeterBSign_simple n (C.i a), ite_eq_left hi]
 
 private theorem J_of_long [Fact p.Prime] (C : Ctx n p κ) {a₀ : κ}
     (h : ¬ (C.i a₀).val + 1 < n) : (C.D a₀).perm (C.i a₀) ∈ C.J := by

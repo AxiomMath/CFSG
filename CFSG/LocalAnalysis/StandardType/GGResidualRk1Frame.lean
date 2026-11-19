@@ -93,7 +93,7 @@ theorem OrthWeakFrame.rk1Ex_of_swapElt (hRig : GGLabelRigidInput) (hM2 : OrthRan
       Φ.Δ.τ (SpCoord.permAut (Equiv.swap i j) f))
     {a : MulAut ↥Bs} (haA : a ∈ ggAutomizer X Bs) (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = Φ.ψ w * b * (Φ.ψ w)⁻¹) :
     GGIsReflection p a ∧ GGRk1ConclEx p Bs X a := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   have haR : GGIsReflection p a :=
     isReflection_of_inner Φ.ψ Φ.β Φ.hinj Φ.hcompat Φ.hβA Φ.hβsurj (Fact.out : p.Prime).one_lt ha
       (fun t ht => Φ.Δ.swap_sq_comm hw t ht) (fun t => Φ.Δ.mem_reflFixed_iff hw t) (Φ.Δ.card_reflFixed hij)

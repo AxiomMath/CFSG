@@ -19,7 +19,7 @@ open scoped commutatorElement
 theorem glaPComponent_of_normal {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {X K : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥K) (hpK : p ∣ Nat.card K) (hKX : K ≤ X)
     (hKn : (K.subgroupOf X).Normal) : GLAPComponent p X K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsn : IsSubnormal K X := isSubnormal_of_normal hKX hKn
   set π := QuotientGroup.mk' (GLAPPrimeCore p ↥X) with hπ
   set ψ : ↥K →* ↥X ⧸ GLAPPrimeCore p ↥X := π.comp (Subgroup.inclusion hKX) with hψ
@@ -71,9 +71,9 @@ theorem glaPComponent_of_normal {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
       rw [← map_mul, ← map_mul, this]
     have hcomm' : ∀ a b : ↥((K.subgroupOf X).map π), a * b = b * a := fun a b =>
       Subtype.ext (hcomm a a.2 b b.2)
-    haveI : Group.IsSolvable ↥((K.subgroupOf X).map π) := isSolvable_of_comm hcomm'
-    haveI : Group.IsPerfect ↥((K.subgroupOf X).map π) := ⟨hqK.1⟩
-    haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hqK
+    have : Group.IsSolvable ↥((K.subgroupOf X).map π) := _root_.Group.isSolvable_of_comm hcomm'
+    have : Group.IsPerfect ↥((K.subgroupOf X).map π) := ⟨hqK.1⟩
+    have := CFSG.ComponentClassification.Quasisimple.nontrivial hqK
     exact Group.IsPerfect.not_isSolvable _
       (inferInstance : Group.IsSolvable ↥((K.subgroupOf X).map π))
   · exact hlt.ne' (le_antisymm (Subgroup.subgroupOf_eq_top.1 htop) hlt.le)
@@ -92,7 +92,7 @@ theorem core_le_centralizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pr
     (hap : a ^ p = 1) (hloc : IsCompLocallyBalanced p 1 A K) :
     GLAPPrimeCoreOf p (X₁ ⊓ Subgroup.centralizer ({a} : Set G)) ≤
       Subgroup.centralizer (K : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKc : GLAPComponent p X₁ K := glaPComponent_of_normal hp hq hpK hKX hKn
   have hX₁N : X₁ ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).1 hKn
@@ -150,7 +150,7 @@ theorem core_le_centralizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pr
     have hTn : ((K ⊓ GLAPPrimeCoreOf p X₁).subgroupOf K).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).2 fun x hx =>
         mem_normalizer_inf (hX₁N (hKX hx)) (hnormO (hKX hx))
-    haveI := hTn
+    have := hTn
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hq
       ((K ⊓ GLAPPrimeCoreOf p X₁).subgroupOf K) with hc | htop
     · intro t ht
@@ -165,7 +165,7 @@ theorem core_le_centralizer {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pr
         ((Subgroup.subgroupOf_eq_top.1 htop) hx).2
       have h1 : Nat.card K ∣ Nat.card (GLAPPrimeCoreOf p X₁) := Subgroup.card_dvd_of_le hKO
       exact not_dvd_card_glaPPrimeCoreOf hp X₁ (hpK.trans h1)
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hdbl : ⁅⁅K, S⁆, K⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
     exact fun x hx => hTcen ⟨hKS hx, hcomm hx⟩
@@ -224,7 +224,7 @@ theorem barX_le_centralizer_components {G : Type} [Group G] [Finite G] {p : ℕ}
     barX p C W₁ ≤ Subgroup.centralizer (L : Set (↥C ⧸ GLAPPrimeCore p ↥C)) := by
   set π := QuotientGroup.mk' (GLAPPrimeCore p ↥C) with hπ
   have hO : GLAPPrimeCore p (↥C ⧸ GLAPPrimeCore p ↥C) = ⊥ := glaPPrimeCore_quotient_eq_bot hp
-  haveI : (barX p C N).Normal := Subgroup.Normal.map hNn π (QuotientGroup.mk'_surjective _)
+  have : (barX p C N).Normal := Subgroup.Normal.map hNn π (QuotientGroup.mk'_surjective _)
   have hexpZ : ∀ x ∈ barX p C M, ∃ n : ℕ, Nat.Coprime p n ∧ x ^ n ∈ barX p C N := by
     rintro _ ⟨y, hy, rfl⟩
     obtain ⟨n, hn, hyn⟩ := hexp (y : G) (Subgroup.mem_subgroupOf.1 hy)
@@ -314,7 +314,7 @@ theorem local_step {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2
     W ⊓ (⨅ (J : Subgroup X)
         (_ : GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J),
         Subgroup.normalizer (J : Set X)) ≤ Subgroup.centralizer (K : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haB : a ∈ B := hAB haA
   have hap : a ^ p = 1 := hBel.2 a haB
   have hX₁N : X₁ ≤ Subgroup.normalizer (K : Set X) :=

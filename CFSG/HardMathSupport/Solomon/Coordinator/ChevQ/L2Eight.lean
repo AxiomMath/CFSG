@@ -23,9 +23,9 @@ theorem isLTwoEight_of_index {S : Type} [Group S] (d : TauCeti.ValidLieTypeIndex
     have hc8 : Nat.card F = 8 := by
       rw [hcard, hq.1, hq.2]
       norm_num
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+    have : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
       (by rw [← Nat.card_eq_fintype_card, hc8]; norm_num)
     have hZ := CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot (K := F)
     let g : StatedProj (StatedSL 2 F) ≃* StatedSL 2 F :=

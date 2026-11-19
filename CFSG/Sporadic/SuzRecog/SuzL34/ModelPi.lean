@@ -28,11 +28,11 @@ theorem isPi_iff_of_mulEquiv {H K : Type*} [Group H] [Group K] {P : Subgroup H}
       CFSG.Open.IsElemAbelian 2 (Subgroup.center ↥Q) := by
     constructor
     · intro h
-      haveI : CFSG.IsElementaryAbelian 2 (Subgroup.center ↥Q) :=
+      have : CFSG.IsElementaryAbelian 2 (Subgroup.center ↥Q) :=
         CFSG.IsElementaryAbelian.of_mulEquiv eC h.isElementaryAbelian
       exact CFSG.Open.isElemAbelian_of_isElementaryAbelian
     · intro h
-      haveI : CFSG.IsElementaryAbelian 2 (Subgroup.center ↥P) :=
+      have : CFSG.IsElementaryAbelian 2 (Subgroup.center ↥P) :=
         CFSG.IsElementaryAbelian.of_mulEquiv eC.symm h.isElementaryAbelian
       exact CFSG.Open.isElemAbelian_of_isElementaryAbelian
   constructor
@@ -370,8 +370,8 @@ private theorem l1_eq_closure_l1BasisPerm :
     · exact Subgroup.subset_closure
         ⟨([8, 9, 8, 9, 4], 99), by simp [l1Decs], by simp [l1BasisPerm, l1Decs]⟩
 
-theorem card_normalizer_l1 (hF1 : F1Prop) (hF2 : F2Prop)
-    (hcard : Nat.card ↥(invE 1) = 3317760) (hL : decSubgroup l1Decs ≤ invE 1) :
+theorem card_normalizer_l1 (_hF1 : F1Prop) (hF2 : F2Prop)
+    (_hcard : Nat.card ↥(invE 1) = 3317760) (_hL : decSubgroup l1Decs ≤ invE 1) :
     Nat.card ↥(Subgroup.normalizer (decSubgroup l1Decs : Set (Equiv.Perm (Fin 1782))) ⊓
       invE 1) = 73728 := by
   classical

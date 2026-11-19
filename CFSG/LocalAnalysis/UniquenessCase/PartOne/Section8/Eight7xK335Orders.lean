@@ -211,23 +211,23 @@ theorem k335_v3_pow {q : ℕ} (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) {i : ℕ} (hi : 1
     omega
   rcases hmod with hm | hm
   · refine ⟨?_, ?_⟩
-    · rw [if_pos (Or.inl hm)]
+    · rw [ite_eq_left (Or.inl hm)]
       exact k335v3_sub_mod1 hq h3 hm hi
-    · rw [if_neg (by rintro ⟨h2, -⟩; omega)]
+    · rw [ite_eq_right (by rintro ⟨h2, -⟩; omega)]
       exact k335v3_add_mod1_zero hm
   · rcases Nat.even_or_odd i with hev | ho
     · refine ⟨?_, ?_⟩
-      · rw [if_pos (Or.inr hev)]
+      · rw [ite_eq_left (Or.inr hev)]
         exact k335v3_sub_mod2_even hq h3 hm hev hi
-      · rw [if_neg (by rintro ⟨-, ho'⟩; exact (Nat.not_even_iff_odd.mpr ho') hev)]
+      · rw [ite_eq_right (by rintro ⟨-, ho'⟩; exact (Nat.not_even_iff_odd.mpr ho') hev)]
         exact k335v3_add_mod2_even_zero hm hev
     · refine ⟨?_, ?_⟩
-      · rw [if_neg (by
+      · rw [ite_eq_right (by
           rintro (h1 | he)
           · omega
           · exact (Nat.not_even_iff_odd.mpr ho) he)]
         exact k335v3_sub_mod2_odd_zero (by omega) hm ho
-      · rw [if_pos ⟨hm, ho⟩, k335v3_lte_add h3 (k335v3_three_dvd_add hm) ho,
+      · rw [ite_eq_left ⟨hm, ho⟩, k335v3_lte_add h3 (k335v3_three_dvd_add hm) ho,
           k335v3_A_eq_add hq hm]
 
 private def k335vcl_PowHyp : Prop :=
@@ -250,14 +250,14 @@ private theorem k335vcl_v3_sub_even (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hev : Even i) :
     (q ^ i - 1).factorization 3 = (q ^ 2 - 1).factorization 3 + i.factorization 3 := by
   have h := (hpow hq h3 hi).1
-  rw [if_pos (Or.inr hev)] at h
+  rw [ite_eq_left (Or.inr hev)] at h
   exact h
 
 private theorem k335vcl_v3_sub_odd (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hm : q % 3 = 2) (ho : Odd i) :
     (q ^ i - 1).factorization 3 = 0 := by
   have h := (hpow hq h3 hi).1
-  rw [if_neg] at h
+  rw [ite_eq_right] at h
   · exact h
   · rintro (h1 | h2)
     · omega
@@ -267,21 +267,21 @@ private theorem k335vcl_v3_sub_modone (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hm : q % 3 = 1) :
     (q ^ i - 1).factorization 3 = (q ^ 2 - 1).factorization 3 + i.factorization 3 := by
   have h := (hpow hq h3 hi).1
-  rw [if_pos (Or.inl hm)] at h
+  rw [ite_eq_left (Or.inl hm)] at h
   exact h
 
 private theorem k335vcl_v3_add_odd (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hm : q % 3 = 2) (ho : Odd i) :
     (q ^ i + 1).factorization 3 = (q ^ 2 - 1).factorization 3 + i.factorization 3 := by
   have h := (hpow hq h3 hi).2
-  rw [if_pos ⟨hm, ho⟩] at h
+  rw [ite_eq_left ⟨hm, ho⟩] at h
   exact h
 
 private theorem k335vcl_v3_add_even (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hev : Even i) :
     (q ^ i + 1).factorization 3 = 0 := by
   have h := (hpow hq h3 hi).2
-  rw [if_neg] at h
+  rw [ite_eq_right] at h
   · exact h
   · rintro ⟨-, ho⟩
     exact (Nat.not_even_iff_odd.mpr ho) hev
@@ -290,7 +290,7 @@ private theorem k335vcl_v3_add_modone (hpow : k335vcl_PowHyp) {q i : ℕ}
     (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) (hi : 1 ≤ i) (hm : q % 3 = 1) :
     (q ^ i + 1).factorization 3 = 0 := by
   have h := (hpow hq h3 hi).2
-  rw [if_neg] at h
+  rw [ite_eq_right] at h
   · exact h
   · rintro ⟨h1, -⟩
     omega
@@ -402,11 +402,11 @@ private theorem k335vcl_num_psu4 (hpow : k335vcl_PowHyp) {q : ℕ} (hq : 2 ≤ q
   have hnum : lieOrderNumerator .PSU 4 q = q^6 * ((q^2-1)*(q^3+1)*(q^4-1)) := by
     simp only [lieOrderNumerator]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 3 + 1 by norm_num)]
-    rw [if_pos (show Even (4:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (4:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 2 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (3:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (3:ℕ) by norm_num)]
     rw [Finset.Icc_self, Finset.prod_singleton]
-    rw [if_pos (show Even (2:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (2:ℕ) by norm_num)]
   rw [hnum]
   have h6nz : q ^ 6 ≠ 0 := pow_ne_zero 6 (by omega)
   have h2nz := k335vcl_sub_ne_zero hq (show 1 ≤ (2:ℕ) by norm_num)
@@ -517,15 +517,15 @@ private theorem k335vcl_num_psu6 (hpow : k335vcl_PowHyp) {q : ℕ} (hq : 2 ≤ q
       = q^15 * ((q^2-1)*(q^3+1)*(q^4-1)*(q^5+1)*(q^6-1)) := by
     simp only [lieOrderNumerator]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 5 + 1 by norm_num)]
-    rw [if_pos (show Even (6:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (6:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 4 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (5:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (5:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 3 + 1 by norm_num)]
-    rw [if_pos (show Even (4:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (4:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 2 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (3:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (3:ℕ) by norm_num)]
     rw [Finset.Icc_self, Finset.prod_singleton]
-    rw [if_pos (show Even (2:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (2:ℕ) by norm_num)]
   rw [hnum]
   have h15nz : q ^ 15 ≠ 0 := pow_ne_zero 15 (by omega)
   have h2nz := k335vcl_sub_ne_zero hq (show 1 ≤ (2:ℕ) by norm_num)
@@ -559,17 +559,17 @@ private theorem k335vcl_num_psu7 (hpow : k335vcl_PowHyp) {q : ℕ} (hq : 2 ≤ q
       = q^21 * ((q^2-1)*(q^3+1)*(q^4-1)*(q^5+1)*(q^6-1)*(q^7+1)) := by
     simp only [lieOrderNumerator]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 6 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (7:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (7:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 5 + 1 by norm_num)]
-    rw [if_pos (show Even (6:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (6:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 4 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (5:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (5:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 3 + 1 by norm_num)]
-    rw [if_pos (show Even (4:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (4:ℕ) by norm_num)]
     rw [Finset.prod_Icc_succ_top (show 2 ≤ 2 + 1 by norm_num)]
-    rw [if_neg (show ¬ Even (3:ℕ) by norm_num)]
+    rw [ite_eq_right (show ¬ Even (3:ℕ) by norm_num)]
     rw [Finset.Icc_self, Finset.prod_singleton]
-    rw [if_pos (show Even (2:ℕ) by norm_num)]
+    rw [ite_eq_left (show Even (2:ℕ) by norm_num)]
   rw [hnum]
   have h21nz : q ^ 21 ≠ 0 := pow_ne_zero 21 (by omega)
   have h2nz := k335vcl_sub_ne_zero hq (show 1 ≤ (2:ℕ) by norm_num)
@@ -762,21 +762,21 @@ private theorem k335vev_psu_prod_2_3 (q : ℕ) :
     (∏ i ∈ Finset.Icc 2 3, (if Even i then q ^ i - 1 else q ^ i + 1)) =
       (q ^ 2 - 1) * (q ^ 3 + 1) := by
   rw [k335vev_prod_2_3 (fun i => if Even i then q ^ i - 1 else q ^ i + 1),
-    if_pos (show Even 2 by norm_num), if_neg (show ¬ Even 3 by norm_num)]
+    ite_eq_left (show Even 2 by norm_num), ite_eq_right (show ¬ Even 3 by norm_num)]
 
 private theorem k335vev_psu_prod_2_4 (q : ℕ) :
     (∏ i ∈ Finset.Icc 2 4, (if Even i then q ^ i - 1 else q ^ i + 1)) =
       (q ^ 2 - 1) * (q ^ 3 + 1) * (q ^ 4 - 1) := by
   rw [k335vev_prod_2_4 (fun i => if Even i then q ^ i - 1 else q ^ i + 1),
-    if_pos (show Even 2 by norm_num), if_neg (show ¬ Even 3 by norm_num),
-    if_pos (show Even 4 by norm_num)]
+    ite_eq_left (show Even 2 by norm_num), ite_eq_right (show ¬ Even 3 by norm_num),
+    ite_eq_left (show Even 4 by norm_num)]
 
 private theorem k335vev_psu_prod_2_5 (q : ℕ) :
     (∏ i ∈ Finset.Icc 2 5, (if Even i then q ^ i - 1 else q ^ i + 1)) =
       (q ^ 2 - 1) * (q ^ 3 + 1) * (q ^ 4 - 1) * (q ^ 5 + 1) := by
   rw [k335vev_prod_2_5 (fun i => if Even i then q ^ i - 1 else q ^ i + 1),
-    if_pos (show Even 2 by norm_num), if_neg (show ¬ Even 3 by norm_num),
-    if_pos (show Even 4 by norm_num), if_neg (show ¬ Even 5 by norm_num)]
+    ite_eq_left (show Even 2 by norm_num), ite_eq_right (show ¬ Even 3 by norm_num),
+    ite_eq_left (show Even 4 by norm_num), ite_eq_right (show ¬ Even 5 by norm_num)]
 
 private theorem k335vev_psp_prod_1_2 (q : ℕ) :
     (∏ i ∈ Finset.Icc 1 2, (q ^ (2 * i) - 1)) = (q ^ 2 - 1) * (q ^ 4 - 1) := by
@@ -848,7 +848,7 @@ private theorem k335vev_psl3
   have h3v : ((p ^ f) ^ 3 - 1).factorization 3 =
       ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).1
-    rw [if_pos (Or.inl hmod), k335vev_fac3] at hh
+    rw [ite_eq_left (Or.inl hmod), k335vev_fac3] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSL 3 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
@@ -891,7 +891,7 @@ private theorem k335vev_psu3
   have h3v : ((p ^ f) ^ 3 + 1).factorization 3 =
       ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).2
-    rw [if_pos ⟨hmod, (show Odd 3 by norm_num)⟩, k335vev_fac3] at hh
+    rw [ite_eq_left ⟨hmod, (show Odd 3 by norm_num)⟩, k335vev_fac3] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSU 3 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
@@ -930,7 +930,7 @@ private theorem k335vev_psp2
     rw [k335vev_psp_prod_1_2]
   have h4v : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
     have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+    rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSp 2 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 := by
@@ -972,17 +972,17 @@ private theorem k335vev_triality
   have h6v : ((p ^ f) ^ 6 - 1).factorization 3 =
       ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
     have hh := (hpow hq2 h3q (i := 6) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 6 by norm_num)), k335vev_fac6] at hh
+    rw [ite_eq_left (Or.inr (show Even 6 by norm_num)), k335vev_fac6] at hh
     exact hh
   have htri : ((p ^ f) ^ 8 + (p ^ f) ^ 4 + 1).factorization 3 = 1 := by
     have h12 : ((p ^ f) ^ 12 - 1).factorization 3 =
         ((p ^ f) ^ 2 - 1).factorization 3 + 1 := by
       have hh := (hpow hq2 h3q (i := 12) (by norm_num)).1
-      rw [if_pos (Or.inr (show Even 12 by norm_num)), k335vev_fac12] at hh
+      rw [ite_eq_left (Or.inr (show Even 12 by norm_num)), k335vev_fac12] at hh
       exact hh
     have h4 : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
       have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-      rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+      rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
       exact hh
     have hprod : ((p ^ f) ^ 8 + (p ^ f) ^ 4 + 1) * ((p ^ f) ^ 4 - 1) = (p ^ f) ^ 12 - 1 := by
       have hq4 : 1 ≤ (p ^ f) ^ 4 := Nat.one_le_pow 4 (p ^ f) (by omega)
@@ -1030,14 +1030,14 @@ private theorem k335vev_psl4
     rw [k335vev_prod_2_4 (fun i => (p ^ f) ^ i - 1)]
   have h3v : ((p ^ f) ^ 3 - 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).1
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro (h | h)
       · omega
       · exact (by norm_num : ¬ Even 3) h)] at hh
     exact hh
   have h4v : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
     have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+    rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSL 4 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 := by
@@ -1078,11 +1078,11 @@ private theorem k335vev_psu4
     rw [k335vev_psu_prod_2_4]
   have h3v : ((p ^ f) ^ 3 + 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).2
-    rw [if_neg (by rintro ⟨h, -⟩; omega)] at hh
+    rw [ite_eq_right (by rintro ⟨h, -⟩; omega)] at hh
     exact hh
   have h4v : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
     have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+    rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSU 4 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 := by
@@ -1123,21 +1123,21 @@ private theorem k335vev_psl5
     rw [k335vev_prod_2_5 (fun i => (p ^ f) ^ i - 1)]
   have h3v : ((p ^ f) ^ 3 - 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).1
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro (h | h)
       · omega
       · exact (by norm_num : ¬ Even 3) h)] at hh
     exact hh
   have h5v : ((p ^ f) ^ 5 - 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 5) (by norm_num)).1
-    rw [if_neg (by
+    rw [ite_eq_right (by
       rintro (h | h)
       · omega
       · exact (by norm_num : ¬ Even 5) h)] at hh
     exact hh
   have h4v : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
     have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+    rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSL 5 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 := by
@@ -1180,15 +1180,15 @@ private theorem k335vev_psu5
     rw [k335vev_psu_prod_2_5]
   have h3v : ((p ^ f) ^ 3 + 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 3) (by norm_num)).2
-    rw [if_neg (by rintro ⟨h, -⟩; omega)] at hh
+    rw [ite_eq_right (by rintro ⟨h, -⟩; omega)] at hh
     exact hh
   have h5v : ((p ^ f) ^ 5 + 1).factorization 3 = 0 := by
     have hh := (hpow hq2 h3q (i := 5) (by norm_num)).2
-    rw [if_neg (by rintro ⟨h, -⟩; omega)] at hh
+    rw [ite_eq_right (by rintro ⟨h, -⟩; omega)] at hh
     exact hh
   have h4v : ((p ^ f) ^ 4 - 1).factorization 3 = ((p ^ f) ^ 2 - 1).factorization 3 := by
     have hh := (hpow hq2 h3q (i := 4) (by norm_num)).1
-    rw [if_pos (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
+    rw [ite_eq_left (Or.inr (show Even 4 by norm_num)), k335vev_fac4, add_zero] at hh
     exact hh
   have hnumfac : (lieOrderNumerator .PSU 5 (p ^ f)).factorization 3 =
       2 * ((p ^ f) ^ 2 - 1).factorization 3 := by

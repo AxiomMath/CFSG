@@ -17,6 +17,7 @@ private lemma twoCore_eq_zpowers (h : Ctx t L S x₁ x₂ lam rho tau)
     (Subgroup.zpowers_le.mpr h.hyp.mem_twoCore) ?_).symm
   rw [hK, Nat.card_zpowers, h.hyp.ord_t]
 
+omit [Finite G] in
 private theorem fzl_prod_sup_equiv {H₁ H₂ : Subgroup G}
     (hcomm : ∀ x ∈ H₁, ∀ y ∈ H₂, Commute x y) (hdisj : H₁ ⊓ H₂ = ⊥) :
     Nonempty ((H₁ × H₂) ≃* (H₁ ⊔ H₂ : Subgroup G)) := by
@@ -31,7 +32,7 @@ private theorem fzl_prod_sup_equiv {H₁ H₂ : Subgroup G}
     rw [MonoidHom.noncommCoprod_range, Subgroup.range_subtype, Subgroup.range_subtype]
   exact ⟨(MonoidHom.ofInjective hf).trans (MulEquiv.subgroupCongr hrange)⟩
 
-private lemma fourGrp_le_sq (h : Ctx t L S x₁ x₂ lam rho tau) :
+private lemma fourGrp_le_sq (_h : Ctx t L S x₁ x₂ lam rho tau) :
     fourGrp x₁ x₂ ≤ Subgroup.closure {z : G | ∃ w ∈ ctxW t x₁ x₂, w ^ 2 = z} := by
   rw [fourGrp, Subgroup.closure_le]
   rintro g (hg : g ∈ ({x₁ ^ 2, (x₁ * x₂) ^ 2} : Set G))
@@ -96,7 +97,7 @@ theorem fzl_card_Z (h : Ctx t L S x₁ x₂ lam rho tau) :
     Nat.card (fourGrp x₁ x₂) = 4 :=
   (WreathRel.fourGrp_eq_omega h.wreath).2.2
 
-theorem fzl_Z_le_W (h : Ctx t L S x₁ x₂ lam rho tau) :
+theorem fzl_Z_le_W (_h : Ctx t L S x₁ x₂ lam rho tau) :
     fourGrp x₁ x₂ ≤ ctxW t x₁ x₂ :=
   (S4A.pt_four_le_base x₁ x₂).trans le_sup_right
 

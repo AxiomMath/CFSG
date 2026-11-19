@@ -128,13 +128,13 @@ theorem exists_two_local_model_of (hK : PiField π p f K) (hq : ModThree π (p ^
         ∀ b ∈ B, ∀ t ∈ T, b t ∈ T := by
   classical
   have := hK.finite
-  haveI : Finite (ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (ProjGenLinGroup.mk : GL (Fin 3) K →* _) (QuotientGroup.mk'_surjective _)
-  haveI : Finite (MulAut (projImage (slPi π 3 (p ^ f) K))) :=
+  have : Finite (MulAut (projImage (slPi π 3 (p ^ f) K))) :=
     Finite.of_injective (fun α : MulAut (projImage (slPi π 3 (p ^ f) K)) =>
       (α : projImage (slPi π 3 (p ^ f) K) → projImage (slPi π 3 (p ^ f) K)))
       fun _ _ h => MulEquiv.ext (congrFun h)
-  haveI := Sec13.isPerfect_projImage_slPi hK hq2
+  have := Sec13.isPerfect_projImage_slPi hK hq2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hK hq

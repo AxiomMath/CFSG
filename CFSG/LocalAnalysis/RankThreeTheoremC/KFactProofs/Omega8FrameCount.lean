@@ -39,7 +39,7 @@ theorem card_centralizer_invPerm (S : Set Y) (hS : ∀ x ∈ S, x⁻¹ ∈ S) (h
     Nat.card (centralizer ({invPerm S hS} : Set (Equiv.Perm S))) = 48 := by
   classical
   have hfin : Finite S := Set.finite_of_ncard_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hS6 : Fintype.card S = 6 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, hcard]
   have hmove : ∀ x : S, invPerm S hS x ≠ x := fun x hx => hfix x x.2 (congrArg Subtype.val hx)
@@ -129,7 +129,7 @@ theorem FrameProps.eq_of_relIndex_eq_three {ν : Y → ℕ} {s : ℕ} {R J : Sub
   set N := normalizer (J : Set Y)
   set K : Subgroup N := (normalizer ((zpowers b : Subgroup Y) : Set Y)).subgroupOf N
   have hKidx : Nat.card (N ⧸ K) = 3 := hrel
-  haveI : Finite (N ⧸ K) := Nat.finite_of_card_ne_zero (by rw [hKidx]; norm_num)
+  have : Finite (N ⧸ K) := Nat.finite_of_card_ne_zero (by rw [hKidx]; norm_num)
   have hf : Function.Injective
       (fun k : Fin 4 => (QuotientGroup.mk (⟨m k, (hm k).2⟩ : N) : N ⧸ K)) := by
     intro k l hkl

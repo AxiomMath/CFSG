@@ -53,7 +53,7 @@ theorem four_le_card_inf_centralizer_of_isCyclic {X : Type*} [Group X] [Finite X
     (hLF : L ≤ normalizer (F : Set X)) (hcyc : IsCyclic F) :
     4 ≤ Nat.card ↥(L ⊓ centralizer (F : Set X)) := by
   classical
-  letI : IsCyclic F := hcyc
+  let : IsCyclic F := hcyc
   have haut : Nat.card (MulAut F) = 6 := by
     rw [IsCyclic.card_mulAut, hF9]
     rw [show (9 : ℕ) = 3 ^ 2 by norm_num,
@@ -192,7 +192,7 @@ theorem card_oddCore_of_layer_eq_bot (hw : S.width = 4) (H : Hyp4 S g) (hNo : No
         _ = b := by rw [ha2, one_mul]
     obtain ⟨n, hn⟩ := card_eq_three_pow_of_four hObarOdd ha2 hb2 habc
       (hnorm a haL) (hnorm b hbL) (h9 a haL ha1) (h9 b hbL hb1) (h9 (a * b) habL hab1)
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hcard3 : Nat.card (timmesfeldOddCore S.Mbar) = 3 ^ n := by
       rw [← S7.card_Obar]
       exact hn

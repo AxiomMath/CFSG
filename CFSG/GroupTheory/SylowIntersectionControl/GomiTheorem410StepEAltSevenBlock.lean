@@ -358,13 +358,13 @@ private theorem isNaturalAltFactor_one_ea7b {D : Type} [Group D] {X Y₀ : Subgr
   rcases htype with ⟨n, hn2, hnat⟩ | ⟨n, hn1, hnat⟩
   · exfalso
     obtain ⟨φ, ψ, hsurj, hker, hact⟩ := hnat
-    haveI : IsMulCommutative (D ⧸ pCore 2 D) := hDab
+    have : IsMulCommutative (D ⧸ pCore 2 D) := hDab
     exact not_isMulCommutative_sl2_ea7b (φ.surjective.isMulCommutative)
   · rcases eq_or_lt_of_le hn1 with h | h
     · exact h ▸ hnat
     · exfalso
       obtain ⟨φ, ψ, hsum, hsurj, hker, hact⟩ := hnat
-      haveI : IsMulCommutative (D ⧸ pCore 2 D) := hDab
+      have : IsMulCommutative (D ⧸ pCore 2 D) := hDab
       exact not_isMulCommutative_alternating_ea7b (m := 2 * n + 1) (by omega)
         (φ.surjective.isMulCommutative)
 

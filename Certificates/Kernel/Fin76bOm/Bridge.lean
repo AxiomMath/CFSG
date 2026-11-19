@@ -37,10 +37,10 @@ theorem j2OmG_eq {l : ℕ} (hl : l < 5) : j2OmG l = J2CentT.F (j2OmI l) := by
   interval_cases l <;> rfl
 
 theorem j2Gs_lt {l : ℕ} (hl : l < 4) : j2Gs l = tp 315 (j2CentTbl (32 + l)) := by
-  rw [j2Gs, j2OmI, if_pos hl]
+  rw [j2Gs, j2OmI, ite_eq_left hl]
 
 theorem j2Gs_four : j2Gs 4 = tp 315 (j2CentTbl 31) := by
-  rw [j2Gs, j2OmI, if_neg (by norm_num)]
+  rw [j2Gs, j2OmI, ite_eq_right (by norm_num)]
 
 theorem j2_permOK {k : ℕ} (hk : k < 42) : permOK 315 (j2CentTbl k) = true :=
   List.all_eq_true.1 j2_permOK_all k (List.mem_range.2 hk)
@@ -103,7 +103,7 @@ theorem j2Om_card : Nat.card (closure (tp 32 '' {x | x ∈ j2Og})) = 1920 := by
   rw [hs.card, hsize]
 
 theorem j2_data :
-    ∃ ht : tp 315 (j2CentTbl 31) ∈ j2P,
+    ∃ _ht : tp 315 (j2CentTbl 31) ∈ j2P,
       closure (j2Gs '' {l | l < 4}) =
         j2P ⊓ centralizer ({tp 315 (j2CentTbl 31)} : Set (Perm (Fin 315))) ∧
       Nat.card (closure (j2Gs '' {l | l < 4})) = Nat.card (closure (j2Rs '' {l | l < 4})) := by
@@ -171,7 +171,7 @@ theorem j3OmG_eq {l : ℕ} (hl : l < 6) : j3OmG l = J3CentP (j3OmI l) := by
   interval_cases l <;> rfl
 
 theorem j3Gs_lt {l : ℕ} (hl : l < 5) : j3Gs l = tp 6156 (j3CentTbl (10 + l)) := by
-  rw [j3Gs, j3OmI, if_pos hl]
+  rw [j3Gs, j3OmI, ite_eq_left hl]
 
 theorem j3_permOK {k : ℕ} (hk : k < 31) : permOK 6156 (j3CentTbl k) = true :=
   List.all_eq_true.1 j3_permOK_all k (List.mem_range.2 hk)
@@ -230,7 +230,7 @@ theorem j3Om_hg : ∀ l < 6, ∀ i : Fin 6156,
   exact h1
 
 theorem j3Gs_five : j3Gs 5 = tp 6156 (j3CentTbl 9) := by
-  rw [j3Gs, j3OmI, if_neg (by norm_num)]
+  rw [j3Gs, j3OmI, ite_eq_right (by norm_num)]
 
 theorem j3_omega : ∃ Ω : Fin 80 → Fin 6156, Function.Injective Ω ∧
     ∀ l < 6, ∀ j, j3Gs l (Ω j) = Ω (j3Rs l j) :=
@@ -244,7 +244,7 @@ theorem j3Om_card : Nat.card (closure (tp 80 '' {x | x ∈ j3Og})) = 1920 := by
   rw [hs.card, hsize]
 
 theorem j3_data :
-    ∃ ht : tp 6156 (j3CentTbl 9) ∈ j3P,
+    ∃ _ht : tp 6156 (j3CentTbl 9) ∈ j3P,
       closure (j3Gs '' {l | l < 5}) =
         j3P ⊓ centralizer ({tp 6156 (j3CentTbl 9)} : Set (Perm (Fin 6156))) ∧
       Nat.card (closure (j3Gs '' {l | l < 5})) = Nat.card (closure (j3Rs '' {l | l < 5})) := by

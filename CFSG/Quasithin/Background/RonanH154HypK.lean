@@ -143,7 +143,7 @@ theorem xor32_closed4 (u v s t : Fin 32) (hs : s = 0 ∨ s = u ∨ s = v ∨ s =
     RonanH143.xor32 s t = 0 ∨ RonanH143.xor32 s t = u ∨ RonanH143.xor32 s t = v ∨
       RonanH143.xor32 s t = RonanH143.xor32 u v := by
   rcases hs with rfl | rfl | rfl | rfl <;> rcases ht with rfl | rfl | rfl | rfl
-  all_goals simp only [xor32_self, xor32_zero, zero_xor32, xor32_cancel_left, xor32_cancel_left',
-    xor32_cancel_right, xor32_cancel_right', xor32_comm, eq_self_iff_true, true_or, or_true]
+  all_goals simp only [xor32_self, xor32_zero, zero_xor32, xor32_cancel_left',
+    xor32_comm, true_or, or_true]
 
 end CFSG.Quasithin.RonanH154.HypK

@@ -11,29 +11,34 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16g_map_mul (U : Subgroup W) (g h : MulAut W) :
     (U.map g.toMonoidHom).map h.toMonoidHom = U.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [w16g_map_mul, inv_mul_cancel]
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_map_map_inv' (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [w16g_map_mul, mul_inv_cancel]
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_isIrrOn_map_of_normalizes {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X)
     {U : Subgroup W} (hU : IsIrrOn X U ⊥) : IsIrrOn X (U.map g.toMonoidHom) ⊥ := by
@@ -61,6 +66,7 @@ private theorem w16g_isIrrOn_map_of_normalizes {X : Subgroup (MulAut W)} {g : Mu
       rw [h]
     rwa [w16g_map_map_inv'] at h'
 
+omit [Finite W] in
 private theorem w16g_le_fixV_iff_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) : A ≤ fixV X ↔ B ≤ fixV X := by
   obtain ⟨-, -, hSA, -, -, -, β, hβB, hβiff, hβsurj, hβeq⟩ := h
@@ -95,6 +101,7 @@ private theorem w16g_le_fixV_iff_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Su
     have h5 : x a * a⁻¹ = 1 := by simpa using congrArg Subtype.val h4
     exact mul_inv_eq_one.mp h5
 
+omit [Finite W] in
 private theorem w16g_commSub_eq_self_of_isIrrOn {X : Subgroup (MulAut W)} {V : Subgroup W}
     (hV : IsIrrOn X V ⊥) (hbot : V ⊓ fixV X = ⊥) : commSub V X = V := by
   have hstab : StableUnder X (commSub V X) :=
@@ -110,6 +117,7 @@ private theorem w16g_commSub_eq_self_of_isIrrOn {X : Subgroup (MulAut W)} {V : S
   · exact absurd h hne
   · exact h
 
+omit [Finite W] in
 private theorem w16g_commSub_map_conj (U : Subgroup W) (L : Subgroup (MulAut W))
     (g : MulAut W) :
     commSub (U.map g.toMonoidHom) (L.map (MulAut.conj g).toMonoidHom) =
@@ -124,13 +132,15 @@ private theorem w16g_commSub_map_conj (U : Subgroup W) (L : Subgroup (MulAut W))
     simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
   · rintro ⟨d, ⟨l, hl, u, hu, rfl⟩, rfl⟩
     refine ⟨g * l * g⁻¹, ⟨l, hl, rfl⟩, g u, ⟨u, hu, rfl⟩, ?_⟩
-    simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
+    simp [MulAut.mul_apply, map_mul, map_inv]
 
+omit [Finite W] in
 private theorem w16g_le_s13IsoSum {X : Subgroup (MulAut W)} {U₀ V₁ : Subgroup W}
     (h : IsIrrOn X V₁ ⊥ ∧ SecIsoOn X V₁ ⊥ U₀ ⊥) : V₁ ≤ s13IsoSum X U₀ := by
   unfold s13IsoSum
   exact le_iSup₂ (f := fun W₁ (_ : IsIrrOn X W₁ ⊥ ∧ SecIsoOn X W₁ ⊥ U₀ ⊥) => W₁) V₁ h
 
+omit [Finite W] in
 private theorem w16g_s13IsoSum_map {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) (U₀ : Subgroup W) :
     (s13IsoSum X U₀).map g.toMonoidHom = s13IsoSum X (U₀.map g.toMonoidHom) := by
@@ -168,7 +178,7 @@ private theorem w16g_inv_mem_of_mapsTo {U : Subgroup W} {a : MulAut W}
   rw [← hvu', ← MulAut.mul_apply, inv_mul_cancel, MulAut.one_apply]
   exact hv
 
-theorem w16g_commSub_sup_le_of_le_centSub (hW : ∀ w : W, w * w = 1)
+theorem w16g_commSub_sup_le_of_le_centSub (_hW : ∀ w : W, w * w = 1)
     {U : Subgroup W} {H : Subgroup (MulAut W)} {X Z : Subgroup (MulAut W)}
     (hH : H ≤ centSub U) (hU : StableUnder X U) (hZ : Z ≤ X) :
     commSub U (H ⊔ Z) ≤ commSub U Z := by
@@ -212,6 +222,7 @@ theorem w16g_commSub_sup_le_of_le_centSub (hW : ∀ w : W, w * w = 1)
   rintro _ ⟨x, hx, u, hu, rfl⟩
   exact (hle hx u hu).2
 
+omit [Finite W] in
 private theorem w16g_commSub_iSup_left {ι : Sort*} (U : ι → Subgroup W)
     (X : Subgroup (MulAut W)) :
     commSub (⨆ i, U i) X = ⨆ i, commSub (U i) X := by
@@ -233,8 +244,8 @@ private theorem w16g_commSub_iSup_left {ι : Sort*} (U : ι → Subgroup W)
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Finite X := inferInstance
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 (x : MulAut W) x.2)⟩
@@ -242,6 +253,7 @@ private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p
   rw [hn]
   exact Odd.pow (hp.odd_of_ne_two hp2)
 
+omit [Finite W] in
 theorem w16g_map_mem_s13IsoComps {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) {U : Subgroup W}
     (hU : U ∈ s13IsoComps X) : U.map g.toMonoidHom ∈ s13IsoComps X := by
@@ -253,6 +265,7 @@ theorem w16g_map_mem_s13IsoComps {X : Subgroup (MulAut W)} {g : MulAut W}
   intro h
   exact hne₀ ((Subgroup.map_eq_bot_iff_of_injective (commSub U₀ X) g.injective).mp h)
 
+omit [Finite W] in
 theorem w16g_s13Supp_conj {X L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) :
     s13Supp X (L.map (MulAut.conj g).toMonoidHom) =
@@ -275,6 +288,7 @@ theorem w16g_s13Supp_conj {X L : Subgroup (MulAut W)} {g : MulAut W}
     intro h
     exact hV.2 ((Subgroup.map_eq_bot_iff_of_injective (commSub V L) g.injective).mp h)
 
+omit [Finite W] in
 private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ : MulAut W}
     {p : ℕ} (hp : p.Prime) (hHle : H ≤ X) (hHrel : H.relIndex X = p) (hℓX : ℓ ∈ X)
     (hℓnot : ℓ ∉ H) : H ⊔ Subgroup.zpowers ℓ = X := by
@@ -296,8 +310,9 @@ private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ
       exact Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1')
     exact le_antisymm hle (Subgroup.relIndex_eq_one.mp he1)
 
+omit [Finite W] in
 private theorem w16g_commSub_isotypic_eq_self {X : Subgroup (MulAut W)} {U₀ : Subgroup W}
-    (hirr₀ : IsIrrOn X U₀ ⊥) (hne₀ : commSub U₀ X ≠ ⊥)
+    (_hirr₀ : IsIrrOn X U₀ ⊥) (hne₀ : commSub U₀ X ≠ ⊥)
     (hUstab : StableUnder X (s13IsoSum X U₀)) :
     commSub (s13IsoSum X U₀) X = s13IsoSum X U₀ := by
   refine le_antisymm (commSub_le_of_invariant hUstab) ?_
@@ -418,7 +433,7 @@ private theorem w16g_disjoint_sSup_sdiff_comps (hW : ∀ w : W, w * w = 1)
     (hS : S ⊆ s13IsoComps X) :
     Disjoint (sSup S) (sSup (s13IsoComps X \ S)) := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
+  have : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
     SetLike.coe_injective
   have hind : sSupIndep (s13IsoComps X) := s13IsoComps_sSupIndep hW hXodd
   have hi : iSupIndep ((↑) : s13IsoComps X → Subgroup W) := (sSupIndep_iff _).mp hind
@@ -447,6 +462,7 @@ private theorem w16g_disjoint_sSup_sdiff_comps (hW : ∀ w : W, w * w = 1)
       exact le_sSup hU
   rwa [hSsup, hScd]
 
+omit [Finite W] in
 private theorem w16g_s13Supp_conj_mul {X L : Subgroup (MulAut W)} {g k : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) :
     s13Supp X (L.map (MulAut.conj (g * k)).toMonoidHom) =
@@ -466,7 +482,7 @@ theorem w16g_sSupIndep_conjSubs_of_s13Supp (hW : ∀ w : W, w * w = 1) {p : ℕ}
       Disjoint (s13Supp X (L.map (MulAut.conj g).toMonoidHom)) (s13Supp X L)) :
     sSupIndep (conjSubs A (commSub ⊤ L)) := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
+  have : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
     SetLike.coe_injective
   have hXodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian hp hp2 hX
   have hnorm : ∀ g ∈ A, ∀ x ∈ X, g⁻¹ * x * g ∈ X := by

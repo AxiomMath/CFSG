@@ -18,6 +18,7 @@ section Eight
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))} {s : X}
 
+omit [Finite X] in
 private theorem bcdEight_normalizes_E {Zs B : Subgroup X} {u : X}
     (huN : u ∈ normalizer (Zs : Set X)) (huB : u ∈ normalizer (B : Set X)) :
     u ∈ normalizer (oTwoPrimeOf (B ⊓ centralizer (Zs : Set X)) : Set X) := by
@@ -42,12 +43,13 @@ private theorem bcdEight_normalizes_E {Zs B : Subgroup X} {u : X}
   exact oTwoPrimeOf_normalizes (A := Subgroup.zpowers u) (H := B ⊓ centralizer (Zs : Set X))
     ((Subgroup.zpowers_le).2 (mem_normalizer_inf huB hCZ)) (Subgroup.mem_zpowers u)
 
+omit [Finite X] in
 private theorem bcdEight_exists_cent {D : Subgroup X} (Λ : Subgroup ↥D) [Λ.Normal] :
     ∃ Ĉ : Subgroup ↥D, Ĉ.Normal ∧
       ∀ c : ↥D, c ∈ Ĉ ↔ ∀ x ∈ Λ, ⁅(x : X), (c : X)⁆ ∈ oddCoreOf D := by
   classical
   set π : ↥D →* ↥D ⧸ pPrimeCore 2 ↥D := QuotientGroup.mk' (pPrimeCore 2 ↥D) with hπ
-  haveI : (Λ.map π).Normal :=
+  have : (Λ.map π).Normal :=
     Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective _)
   refine ⟨(Subgroup.centralizer ((Λ.map π : Subgroup (↥D ⧸ pPrimeCore 2 ↥D)) :
     Set (↥D ⧸ pPrimeCore 2 ↥D))).comap π, inferInstance, fun c => ?_⟩
@@ -150,7 +152,7 @@ private theorem bcdEight_u_cent (h : Sec5Data X n z Z S) (hs : IsSec5Inv X Z s)
       ∀ x ∈ (pLayer ↥(centralizer ({y} : Set X)) 2).map (centralizer ({y} : Set X)).subtype,
         ⁅x, u⁆ ∈ oddCoreOf (centralizer ({y} : Set X)) := by
   classical
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 8 ≤ n := h.maxdeg.1
   obtain ⟨hM₀c, hM₀M, hcovM⟩ := exists_mirror_comp h hM
   set M₀ : Subgroup X := oTwoPrimeOf (M ⊓ centralizer (Z : Set X)) with hM₀def
@@ -207,8 +209,8 @@ private theorem bcdEight_u_cent (h : Sec5Data X n z Z S) (hs : IsSec5Inv X Z s)
   have hQM₀ : Q ≤ M₀ := fun q hq => hEM₀ (hQEC hq).1
   have hsCy : s ∈ centralizer ({y} : Set X) := Subgroup.mem_centralizer_singleton_iff.2 hys.symm
   have huCy : u ∈ centralizer ({y} : Set X) := Subgroup.mem_centralizer_singleton_iff.2 huy
-  haveI hΛ : (pLayer ↥(centralizer ({y} : Set X)) 2).Normal := by
-    haveI := CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic
+  have hΛ : (pLayer ↥(centralizer ({y} : Set X)) 2).Normal := by
+    have := CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic
       (G := ↥(centralizer ({y} : Set X))) (p := 2)
     infer_instance
   obtain ⟨Ĉ, hĈn, hĈ⟩ := bcdEight_exists_cent (D := centralizer ({y} : Set X))

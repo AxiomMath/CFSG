@@ -310,14 +310,17 @@ section NF
 
 variable {G : Type} [Group G] [Finite G] {E F : Subgroup G} {x y : G}
 
+omit [Finite G] in
 theorem HeisFrame.x_not_mem {Z : Subgroup G} (h : HeisFrame Z x y) : x ∉ Z := fun hx => by
   have := (h.ind 1 0 (by simpa using hx)).1
   omega
 
+omit [Finite G] in
 theorem HeisFrame.y_not_mem {Z : Subgroup G} (h : HeisFrame Z x y) : y ∉ Z := fun hy => by
   have := (h.ind 0 1 (by simpa using hy)).2
   omega
 
+omit [Finite G] in
 theorem HeisFrame.orderOf_comm {Z : Subgroup G} (h : HeisFrame Z x y) (hd1 : ⁅x, y⁆ ≠ 1) :
     orderOf ⁅x, y⁆ = 3 :=
   orderOf_eq_prime h.comm_pow_three hd1
@@ -407,6 +410,7 @@ theorem mem_right_iff (hframe : HeisFrame (E ⊓ F) x y) (hyF : y ∈ F)
     rw [pow_mul, hframe.x3, one_pow, one_mul]
     exact mul_mem (pow_mem hyF j) (Subgroup.mem_inf.mp hz).2
 
+omit [Finite G] in
 theorem mem_inf_of_commute (hframe : HeisFrame (E ⊓ F) x y) (hd1 : ⁅x, y⁆ ≠ 1) {p : G}
     {i j : ℕ} (hp : IsNF (E ⊓ F) x y p i j) (hpx : p * x = x * p) (hpy : p * y = y * p) :
     p ∈ E ⊓ F := by
@@ -455,6 +459,7 @@ theorem conj_mem_inf_of_mem_normalizer (hframe : HeisFrame (E ⊓ F) x y) (hd1 :
   exact mem_inf_of_commute hframe hd1 hij (hcomm x (Subgroup.mem_sup_left hxE))
     (hcomm y (Subgroup.mem_sup_right hyF))
 
+omit [Finite G] in
 theorem pow_three_of_mem_sup (hFN : F ≤ Subgroup.normalizer (E : Set G))
     (hEN : E ≤ Subgroup.normalizer (F : Set G)) (hE3 : CFSG.Assembly.IsElemAbelian 3 E)
     (hF3 : CFSG.Assembly.IsElemAbelian 3 F) {p : G} (hp : p ∈ E ⊔ F) : p ^ 3 = 1 := by

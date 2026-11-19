@@ -82,15 +82,14 @@ theorem exists_mul_swapGL_eq (G : GL (Fin 2) K) (l : Kˣ)
     rw [Matrix.eta_fin_two A]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | ring1 | linear_combination e00 | linear_combination e01 | linear_combination e10 |
-        linear_combination e11
+      first | linear_combination e00 | linear_combination e01 | linear_combination e10
   · push Not at hc
     by_cases hb : A 0 1 ≠ 0
     · refine key !![0, A 0 1; 1, A 1 1] (by simp [Matrix.det_fin_two, hb]) ?_
       rw [Matrix.eta_fin_two A]
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-        first | ring1 | linear_combination e00 | linear_combination e01 |
+        first | linear_combination e00 | linear_combination e01 |
           linear_combination e10 | linear_combination e11
     · push Not at hb
       have had : A 0 0 ≠ A 1 1 := fun h => hns ⟨hb, hc, h⟩
@@ -102,7 +101,7 @@ theorem exists_mul_swapGL_eq (G : GL (Fin 2) K) (l : Kˣ)
       rw [Matrix.eta_fin_two A, hb, hc]
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-        first | ring1 | linear_combination e00 | linear_combination e11
+        first | linear_combination e00 | linear_combination e11
 
 theorem exists_eq_sq_or_eq_sq_mul [Finite K] (hK : ringChar K ≠ 2) (ν : Kˣ)
     (hν : ¬ IsSquare (ν : K)) (l : Kˣ) : ∃ μ : Kˣ, l = μ ^ 2 ∨ l = μ ^ 2 * ν := by
@@ -111,7 +110,7 @@ theorem exists_eq_sq_or_eq_sq_mul [Finite K] (hK : ringChar K ≠ 2) (ν : Kˣ)
   · obtain ⟨y, hy⟩ := (FiniteField.isSquare_iff hK l.ne_zero).mpr h
     have hy0 : y ≠ 0 := by
       rintro rfl
-      exact l.ne_zero (by simpa using hy)
+      exact l.ne_zero (by simp at hy)
     exact ⟨Units.mk0 y hy0, Or.inl (Units.ext (by simp [hy, sq]))⟩
   · have hν' : (ν : K) ^ (Fintype.card K / 2) = -1 := by
       rcases FiniteField.pow_dichotomy hK ν.ne_zero with h' | h'
@@ -123,7 +122,7 @@ theorem exists_eq_sq_or_eq_sq_mul [Finite K] (hK : ringChar K ≠ 2) (ν : Kˣ)
       norm_num)
     have hy0 : y ≠ 0 := by
       rintro rfl
-      exact hne (by simpa using hy)
+      exact hne (by simp at hy)
     refine ⟨Units.mk0 y hy0, Or.inr (Units.ext ?_)⟩
     have hν0 : (ν : K) ≠ 0 := ν.ne_zero
     simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.val_mk0]

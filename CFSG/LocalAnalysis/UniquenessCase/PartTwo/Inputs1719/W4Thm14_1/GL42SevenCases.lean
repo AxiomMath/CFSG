@@ -162,7 +162,7 @@ private lemma orbit_card_eight_case_seven {M : Subgroup (MulAut U)} {V : Subgrou
     (hMV : ¬ StableUnder M V) : False := by
   have hv₁O : v₁ ∈ orbit M v₁ := mem_orbit_self v₁
   have hVdiff : ((V : Set U) \ {1}).ncard = 7 := by
-    rw [Set.ncard_diff (Set.singleton_subset_iff.mpr V.one_mem), Set.ncard_singleton,
+    rw [Set.ncard_sdiff (Set.singleton_subset_iff.mpr V.one_mem), Set.ncard_singleton,
       ← Nat.card_coe_set_eq]
     change Nat.card V - 1 = 7
     rw [hV]
@@ -173,7 +173,7 @@ private lemma orbit_card_eight_case_seven {M : Subgroup (MulAut U)} {V : Subgrou
     have : u ∈ orbit M v₁ ∩ (V : Set U) := by rw [hOVeq]; exact hu
     exact this.1
   have hOdiff : orbit M v₁ \ (V : Set U) = {v₁} := by
-    have h := Set.ncard_inter_add_ncard_diff_eq_ncard (orbit M v₁) (V : Set U)
+    have h := Set.ncard_inter_add_ncard_sdiff_eq_ncard (orbit M v₁) (V : Set U)
     rw [h7, hO8] at h
     have h1 : (orbit M v₁ \ (V : Set U)).ncard = 1 := by omega
     obtain ⟨a, ha⟩ := (Set.ncard_eq_one (s := orbit M v₁ \ (V : Set U))).mp h1
@@ -227,7 +227,7 @@ private lemma orbit_card_eight_contradiction (h16 : Nat.card U = 16)
       rw [hempty, Set.ncard_empty]
     rwa [hzero] at h
   have hVdiff : ((V : Set U) \ {1}).ncard = 7 := by
-    rw [Set.ncard_diff (Set.singleton_subset_iff.mpr V.one_mem), Set.ncard_singleton,
+    rw [Set.ncard_sdiff (Set.singleton_subset_iff.mpr V.one_mem), Set.ncard_singleton,
       ← Nat.card_coe_set_eq]
     change Nat.card V - 1 = 7
     rw [hV]

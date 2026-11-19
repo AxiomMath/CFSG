@@ -16,7 +16,7 @@ section Data
 theorem pCore_quotient_pCore (Y : Type*) [Group Y] (p : ℕ) :
     CFSG.pCore p (Y ⧸ CFSG.pCore p Y) = ⊥ := by
   set N := CFSG.pCore p Y with hN
-  haveI : N.Normal := BaerSuzuki.Helpers.pCore_normal p
+  have : N.Normal := BaerSuzuki.Helpers.pCore_normal p
   set M := CFSG.pCore p (Y ⧸ N) with hM
   have hMn : M.Normal := BaerSuzuki.Helpers.pCore_normal p
   have hMp : IsPGroup p M := BaerSuzuki.Helpers.pCore_isPGroup p
@@ -69,8 +69,8 @@ theorem commutator_twoFitting_le_pCore_of_double
     ⁅K, inSubgroup twoFitting (thetaCent a)⁆ ≤ inSubgroup (CFSG.pCore 2) (thetaCent a) := by
   classical
   set θ := thetaCent a with hθ
-  haveI hNc : (CFSG.pCore 2 ↥θ).Characteristic := BaerSuzuki.Helpers.pCore_characteristic 2
-  haveI hNn : (CFSG.pCore 2 ↥θ).Normal := BaerSuzuki.Helpers.pCore_normal 2
+  have hNc : (CFSG.pCore 2 ↥θ).Characteristic := BaerSuzuki.Helpers.pCore_characteristic 2
+  have hNn : (CFSG.pCore 2 ↥θ).Normal := BaerSuzuki.Helpers.pCore_normal 2
   set N := CFSG.pCore 2 ↥θ with hN
   have hCθ : Subgroup.normalizer ((Subgroup.centralizer ({a} : Set G) : Subgroup G) : Set G) ≤
       Subgroup.normalizer (θ : Set G) := Sec6.normalizer_le_normalizer_theta _
@@ -86,7 +86,7 @@ theorem commutator_twoFitting_le_pCore_of_double
   have hθ3 : ¬ 3 ∣ Nat.card θ := not_three_dvd_card_inSubgroup_theta _
   have hlow : ∀ p : ℕ, p.Prime → p < 5 → CFSG.pCore p (↥θ ⧸ N) = ⊥ := by
     intro p hp hp5
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h23 : p = 2 ∨ p = 3 := by
       have h2 := hp.two_le
       have h234 : p = 2 ∨ p = 3 ∨ p = 4 := by omega
@@ -115,7 +115,7 @@ theorem commutator_twoFitting_le_pCore_of_double
       (hloc r Fact.out (by omega)) θ N hNev P hP
   let KΓ : Subgroup Γ := K.subgroupOf Γ
   let TΓ : Subgroup Γ := θ.subgroupOf Γ
-  haveI hTΓn : TΓ.Normal := Subgroup.normal_in_normalizer
+  have hTΓn : TΓ.Normal := Subgroup.normal_in_normalizer
   let nΓ : Γ := ⟨n, hnΓ⟩
   have hKΓperf : ⁅KΓ, KΓ⁆ = KΓ := by
     apply Subgroup.map_injective Γ.subtype_injective

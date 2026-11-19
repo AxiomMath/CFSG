@@ -36,9 +36,9 @@ theorem twelveNine [Finite G] (hS : Asc72.Setup G D) (hL : IsHypLineSpace D)
         apply a.injective
         rw [RelIso.apply_inv_self, ha v hv] }
   have hEmem : ∀ τ : A, τ ∈ E ↔ ∀ v : D, Commute (v : G) u → τ v = v := fun _ => Iff.rfl
-  haveI : Finite A :=
+  have : Finite A :=
     Finite.of_injective (fun f : A => f.toEquiv) RelIso.toEquiv_injective
-  haveI : Finite E :=
+  have : Finite E :=
     Finite.of_injective (fun g : E => (↑g : A)) Subtype.coe_injective
   let φ : D → D := fun v => ⟨u * (v : G) * u, by simpa [hu_inv] using hS.conj_mem u v.2⟩
   have hφφ : ∀ v : D, φ (φ v) = v := by
@@ -99,7 +99,7 @@ theorem twelveNine [Finite G] (hS : Asc72.Setup G D) (hL : IsHypLineSpace D)
       Set.ncard_sdiff_singleton_of_mem hline_u]
   have hE_dvd : ∀ w ∈ D, ¬ Commute w u → Nat.card E ∣ (X w).ncard := by
     intro w hw hwu
-    letI : MulAction E D := MulAction.compHom D (Subgroup.subtype E)
+    let : MulAction E D := MulAction.compHom D (Subgroup.subtype E)
     refine CFSG.GF2Type.Smith1979.W4As.Surv.card_dvd_ncard_of_free (G := E) (S := X w)
       (Set.toFinite (X w)) ?_ ?_
     · intro g a ha

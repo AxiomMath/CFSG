@@ -50,7 +50,7 @@ theorem exists_typeW0_of_e6AdLangToral [IsAlgClosed Ω] [CharP Ω 2] {n : ℕ} (
     ∃ g1 ∈ adjointGroup Tag.E6 Ω, g1⁻¹ * twistE6 Ω Fr g1 = TwistedDiag.n0 Ω ∧
       ∀ x ∈ X, x ∈ (twistedTorusOf (TwistedDiag.n0 Ω) (twistE6 Ω Fr)).map
         (MulAut.conj g1).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v, g0, hg0, hF, hX⟩ := h
   choose a ha3 hax hafix using fun x : X =>
     exists_rootDiagUnit_of_mem_langTorus (hX x x.2) (hX3 x x.2)

@@ -44,7 +44,7 @@ theorem commutator_sup_le_of_comm {N E : Subgroup G}
 theorem isMulCommutative_sylow_of_commutator_le [Finite G] {R V : Subgroup G}
     (hRR : ⁅R, R⁆ ≤ V) (hV : Odd (Nat.card V)) (S : Sylow 2 R) :
     IsMulCommutative (S : Subgroup R) := by
-  have hS2 : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup'.map _
+  have hS2 : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup.map _
   have hSV : V ⊓ (S : Subgroup R).map R.subtype = ⊥ := inf_eq_bot_of_odd_of_isPGroup hV hS2
   refine ⟨⟨fun x y => ?_⟩⟩
   have hc : ⁅(((x : R) : G)), (((y : R) : G))⁆ ∈ V ⊓ (S : Subgroup R).map R.subtype := by

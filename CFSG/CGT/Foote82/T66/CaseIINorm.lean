@@ -33,6 +33,7 @@ theorem Ctx.exists_gd (c : Ctx G L z v H₁ ψ) (hG1 : CaseIIG1) : ∃ g, GD c g
 abbrev UU (z u : GLV V) : Submodule (ZMod 2) V :=
   commSpace (Subgroup.zpowers z) ⊤ ⊓ commSpace (Subgroup.zpowers u) ⊤
 
+omit [Finite V] in
 theorem sup_inf_sup_eq {V₀ V₁ A B C : Submodule (ZMod 2) V} (h01 : V₀ ⊓ V₁ = ⊥) (hA : A ≤ V₀)
     (hB : B ≤ V₀) (hC : C ≤ V₁) (hAB : A ⊓ B = ⊥) : (A ⊔ C) ⊓ (B ⊔ C) = C := by
   refine le_antisymm ?_ (le_inf le_sup_right le_sup_right)
@@ -61,11 +62,15 @@ theorem g_mem_H₁ : g ∈ H₁ := c.H_le d.mem
 theorem u_mem_H₁ : g * z * g⁻¹ ∈ H₁ :=
   H₁.mul_mem (H₁.mul_mem d.g_mem_H₁ c.z_mem) (H₁.inv_mem d.g_mem_H₁)
 
+omit d in
+include c in
+variable (c) in
 theorem u_mul_u : (g * z * g⁻¹) * (g * z * g⁻¹) = 1 := by
   have h := c.z_mul_z
   calc (g * z * g⁻¹) * (g * z * g⁻¹) = g * (z * z) * g⁻¹ := by group
     _ = 1 := by rw [h, mul_one, mul_inv_cancel]
 
+omit [Finite V] d in
 theorem u_eq_z_mul : g * z * g⁻¹ = z * (z⁻¹ * (g * z * g⁻¹)) := by group
 
 theorem zinv_u_mem_H : z⁻¹ * (g * z * g⁻¹) ∈ HH G L v := by
@@ -108,6 +113,9 @@ theorem inf_V₀ (hs : CaseIISplit) :
   rw [Submodule.mem_bot]
   exact congrArg Subtype.val h4
 
+omit d in
+include c in
+variable (c) in
 theorem Vz_eq (hs : CaseIISplit) : commSpace (Subgroup.zpowers z) ⊤ =
     (commSpace (HH G L v) ⊤).map (subOne z) ⊔ (fixedSpace (HH G L v)).map (subOne z) := by
   rw [commSpace_zpowers_top_eq_range c.z_mul_z]
@@ -118,11 +126,11 @@ theorem U_eq (hs : CaseIISplit) :
   have hVu : commSpace (Subgroup.zpowers (g * z * g⁻¹)) ⊤ =
       (commSpace (HH G L v) ⊤).map (subOne (g * z * g⁻¹)) ⊔
         (fixedSpace (HH G L v)).map (subOne z) := by
-    rw [commSpace_zpowers_top_eq_range d.u_mul_u, range_eq_sup_of_isCompl (c.split hs)]
+    rw [commSpace_zpowers_top_eq_range (CFSG.CGT.Foote82.CaseII.GD.u_mul_u c), range_eq_sup_of_isCompl (c.split hs)]
     congr 1
-    rw [d.u_eq_z_mul]
-    exact c.map_V₁_eq d.zinv_u_mem_H
-  rw [UU, d.Vz_eq hs, hVu]
+    rw [CFSG.CGT.Foote82.CaseII.GD.u_eq_z_mul]
+    exact CFSG.CGT.Foote82.CaseII.Ctx.map_V₁_eq d.zinv_u_mem_H
+  rw [UU, (CFSG.CGT.Foote82.CaseII.GD.Vz_eq c) hs, hVu]
   exact sup_inf_sup_eq (c.split hs).inf_eq_bot (c.map_V₀_le c.z_mem) (c.map_V₀_le d.u_mem_H₁)
     (c.map_V₁_le c.z_mem) (d.inf_V₀ hs)
 
@@ -130,19 +138,22 @@ theorem U_le_V₁ (hs : CaseIISplit) : UU z (g * z * g⁻¹) ≤ fixedSpace (HH 
   rw [d.U_eq hs]
   exact c.map_V₁_le c.z_mem
 
-theorem v_mem_V₁ : v ∈ fixedSpace (HH G L v) := fun h hh =>
+omit d in
+include c in
+variable (c) in
+theorem v_mem_V₁ : v ∈ fixedSpace (HH G L v) := fun _h hh =>
   (c.data.component.1 hh).2
 
 theorem v_mem_U (hs : CaseIISplit) : v ∈ UU z (g * z * g⁻¹) := by
   rw [d.U_eq hs]
   have hvz : v ∈ commSpace (Subgroup.zpowers z) ⊤ := c.hv
-  rw [d.Vz_eq hs] at hvz
+  rw [(CFSG.CGT.Foote82.CaseII.GD.Vz_eq c) hs] at hvz
   obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.1 hvz
   have h0 : a ∈ commSpace (HH G L v) ⊤ ⊓ fixedSpace (HH G L v) := by
     refine ⟨c.map_V₀_le c.z_mem ha, ?_⟩
     have : a = v - b := by rw [← hab]; abel
     rw [this]
-    exact Submodule.sub_mem _ d.v_mem_V₁ (c.map_V₁_le c.z_mem hb)
+    exact Submodule.sub_mem _ (CFSG.CGT.Foote82.CaseII.GD.v_mem_V₁ c) (c.map_V₁_le c.z_mem hb)
   rw [(c.split hs).inf_eq_bot, Submodule.mem_bot] at h0
   have hvb : v = b := by rw [← hab, h0, zero_add]
   convert hb using 1
@@ -163,7 +174,7 @@ theorem U_le (hs : CaseIISplit) {h : GLV V} (hh : h ∈ HH G L v) :
   have e : h * z * h⁻¹ = z * (z⁻¹ * (h * z * h⁻¹)) := by group
   rw [show (fixedSpace (HH G L v)).map (subOne z) =
     (fixedSpace (HH G L v)).map (subOne (h * z * h⁻¹)) by
-      rw [e]; exact (c.map_V₁_eq hmem).symm]
+      rw [e]; exact (CFSG.CGT.Foote82.CaseII.Ctx.map_V₁_eq hmem).symm]
   exact LinearMap.map_le_range
 
 theorem isComponentOf_H (hs : CaseIISplit) :
@@ -174,6 +185,7 @@ theorem isComponentOf_H (hs : CaseIISplit) :
   · intro k hk
     exact ⟨hk.1, hk.2 v (d.v_mem_U hs)⟩
 
+omit [Finite V] d in
 theorem map_centralizerOn {x : GLV V} (hxG : x ∈ G)
     (hxU : ∀ w, w ∈ UU z (g * z * g⁻¹) ↔ x w ∈ UU z (g * z * g⁻¹)) :
     (centralizerOn G (UU z (g * z * g⁻¹))).map (MulAut.conj x).toMonoidHom =
@@ -203,17 +215,17 @@ theorem mem_normalizer_H (hs : CaseIISplit) {x : GLV V} (hxG : x ∈ G)
   have hfi : Function.Injective f := (MulAut.conj x).injective
   have hcomp := CFSG.HardMathSupport.Dickson.Bal207.D42Tri.isComponentOf_map_of_injective
     hfi (d.isComponentOf_H hs)
-  rw [d.map_centralizerOn hxG hxU] at hcomp
+  rw [CFSG.CGT.Foote82.CaseII.GD.map_centralizerOn hxG hxU] at hcomp
   have heq : (HH G L v).map f = HH G L v := by
     by_contra hne
     have hle : (HH G L v).map f ≤ G ⊓ Subgroup.centralizer (L : Set (GLV V)) := by
       intro y hy
       refine ⟨(hcomp.1 hy).1, Subgroup.mem_centralizer_iff.2 fun l hl => ?_⟩
       exact (CFSG.LargeExtraspecial.S5.mul_comm_of_isComponentOf_ne hcomp
-        (d.isComponentOf_H hs) hne hy (c.L_le_H hl)).symm
+        (d.isComponentOf_H hs) hne hy (CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hl)).symm
     have h1 : 2 ≤ CFSG.Open.pRank 2 ((HH G L v).map f) :=
       c.two_le_pRank_L.trans ((CFSG.SectionRank.pRank_le_map (by norm_num) f hfi L).trans
-        (CFSG.SectionRank.pRank_mono (by norm_num) (Subgroup.map_mono c.L_le_H)))
+        (CFSG.SectionRank.pRank_mono (by norm_num) (Subgroup.map_mono CFSG.CGT.Foote82.CaseII.Ctx.L_le_H)))
     have h2 := CFSG.SectionRank.pRank_mono (p := 2) (by norm_num) hle
     rw [c.rank] at h2
     omega
@@ -309,7 +321,7 @@ theorem odd_card_CH (hG1 : CaseIIG1) :
   intro k hk
   have hkK : k ∈ G ⊓ Subgroup.centralizer (L : Set (GLV V)) :=
     ⟨hk.1, Subgroup.mem_centralizer_iff.2 fun l hl =>
-      Subgroup.mem_centralizer_iff.1 hk.2 l (c.L_le_H hl)⟩
+      Subgroup.mem_centralizer_iff.1 hk.2 l (CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hl)⟩
   refine ⟨hkK, ⟨k, hkK, ?_⟩⟩
   have hgk : g * k = k * g := Subgroup.mem_centralizer_iff.1 hk.2 g d.mem
   show g * k * g⁻¹ = k

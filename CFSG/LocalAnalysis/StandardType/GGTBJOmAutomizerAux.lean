@@ -19,15 +19,18 @@ open CFSG.RankThree.Classical2 (orthDerived)
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p r : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] [FiniteDimensional K V] in
 @[simp] theorem tbjA_coe_tauOmega (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     (f : Fin r → Multiplicative (ZMod p)) :
     ((Δ.τΩ hA f : ↥(orthDerived Q)) : V ≃ₗ[K] V) = Δ.τ f :=
   rfl
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem tbjA_tauOmega_injective (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q) :
     Function.Injective (Δ.τΩ hA) :=
-  fun f g h => Δ.τ_inj (Subtype.ext_iff.mp h)
+  fun _f _g h => Δ.τ_inj (Subtype.ext_iff.mp h)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem tbjA_isSignedPerm_of_induced (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {J : Subgroup ↥(orthDerived Q)} {σ : MulAut (Fin r → Multiplicative (ZMod p))}
     (hσ : ∃ n ∈ J, ∀ f, n * Δ.τΩ hA f * n⁻¹ = Δ.τΩ hA (σ f)) : IsSignedPerm (⇑σ) := by
@@ -52,7 +55,7 @@ theorem tbjA_isSignedPerm_of_induced (Δ : TBJOmData Q p A r) (hA : A ≤ orthDe
     permAut (p := p) (σ * τ) = permAut σ * permAut τ := by
   refine MulEquiv.ext fun f => funext fun j => ?_
   simp only [MulAut.mul_apply, permAut_apply, Function.comp_apply, Equiv.Perm.coe_mul,
-    Equiv.Perm.mul_apply, mul_inv_rev]
+    mul_inv_rev]
 
 theorem tbjA_eq_permAut_mul_diagAut {u : MulAut (Fin r → Multiplicative (ZMod p))}
     {π : Equiv.Perm (Fin r)} {ε : Fin r → ZMod p} (hε : ∀ i, ε i * ε i = 1)
@@ -292,9 +295,9 @@ theorem tbjA_mem_evenSignedSupportedAut_of [Fact p.Prime] (hp2 : p ≠ 2)
       have hc' : ε = fun i => if i ∈ T then (-1 : ZMod p) else 1 := by
         funext i
         by_cases hi : i ∈ T
-        · rw [if_pos hi]
+        · rw [ite_eq_left hi]
           exact (Finset.mem_filter.mp hi).2
-        · rw [if_neg hi]
+        · rw [ite_eq_right hi]
           exact (hε i).resolve_right (by simpa [hT] using hi)
       rw [hc', Finset.prod_ite_mem_eq, Finset.prod_const]
     obtain ⟨n, hn⟩ := (neg_one_pow_eq_one_iff_even hneg).mp (he.symm.trans hprod)
@@ -309,7 +312,7 @@ theorem tbjA_mem_evenSignedSupportedAut_of [Fact p.Prime] (hp2 : p ≠ 2)
 
 theorem tbjA_mem_twistedPermAut_of [Fact p.Prime] {u : MulAut (Fin r → Multiplicative (ZMod p))}
     (S : Finset (Fin r)) (s : Fin r → ZMod p) (hs : ∀ i, s i * s i = 1)
-    {π : Equiv.Perm (Fin r)} {ε : Fin r → ZMod p} (hε : ∀ i, ε i = 1 ∨ ε i = -1)
+    {π : Equiv.Perm (Fin r)} {ε : Fin r → ZMod p} (_hε : ∀ i, ε i = 1 ∨ ε i = -1)
     (hπ : ∀ i ∉ S, π i = i) (hεS : ∀ i ∉ S, ε i = 1)
     (hu : ∀ f i, toAdd (u f (π i)) = ε i * toAdd (f i))
     {f₀ : Fin r → Multiplicative (ZMod p)} {c : ZMod p} (hc : c ≠ 0)
@@ -373,7 +376,7 @@ theorem tbjA_exists_mem_of_card_centralizer_le {p r : ℕ} (hp : p.Prime) {G : T
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     ∃ i, P i := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   have hcount' : p ^ 2 * Nat.card {f // f ∈ C} ≤ p ^ r := hcount
   by_contra hPempty
@@ -412,7 +415,7 @@ theorem tbjA_le_card_class_of_centralizer {p r k : ℕ} (hp : p.Prime) {G : Type
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     k ≤ Nat.card {i : Fin r // P i} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   let I : Finset (Fin r) := Finset.univ.filter P
   have hcardI : Nat.card {i : Fin r // P i} = I.card := by
@@ -481,8 +484,8 @@ theorem tbjA_three_le_card_class_of_ne_zero {p r : ℕ} (hp : p.Prime) {G : Type
       ∀ j ∈ J, τ f * j = j * τ f} ≤ p ^ r) :
     3 ≤ Nat.card {i : Fin r // P i} := by
   classical
-  haveI : Fact p.Prime := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C : Set (Fin r → Multiplicative (ZMod p)) := {f | ∀ j ∈ J, τ f * j = j * τ f}
   let I : Finset (Fin r) := Finset.univ.filter P
   have hcardI : Nat.card {i : Fin r // P i} = I.card := by
@@ -555,7 +558,7 @@ theorem tbjA_fixed_of_mem_evenSignedSupportedAut [Fact p.Prime] (hp2 : p ≠ 2) 
   rw [← ofAdd_toAdd (f i), h0, ofAdd_zero]
 
 theorem tbjA_conj_diag_permAut_swap_toAdd (s : Fin r → ZMod p) (hs : ∀ i, s i * s i = 1)
-    {i k : Fin r} (hik : i ≠ k) (f : Fin r → Multiplicative (ZMod p)) :
+    {i k : Fin r} (_hik : i ≠ k) (f : Fin r → Multiplicative (ZMod p)) :
     toAdd ((MulAut.conj (diagAut s hs : MulAut (Fin r → Multiplicative (ZMod p))))
       (permAut (Equiv.swap i k)) f i) = s i * s k * toAdd (f k) := by
   simp only [MulAut.conj_apply, MulAut.mul_apply, tbjA_diagAut_inv, diagAut_apply,

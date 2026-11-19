@@ -67,11 +67,11 @@ private theorem kSecLift_top_le_normalizer {G : Type*} [Group G] (N : Subgroup G
     ⟨fun hh => Subgroup.Normal.conj_mem inferInstance h hh g, fun hh => by
       simpa [mul_assoc] using Subgroup.Normal.conj_mem inferInstance _ hh g⁻¹⟩
 
-private theorem kSecLift_mem_of_pElement {G : Type*} [Group G] {L H : Subgroup G} (hLH : L ≤ H) [L.Normal]
+private theorem kSecLift_mem_of_pElement {G : Type*} [Group G] {L H : Subgroup G} (_hLH : L ≤ H) [L.Normal]
     {r : ℕ} (hr : r.Prime) (hcop : ¬ r ∣ L.relIndex H) {n : G} (hn : n ∈ H)
     (hrn : ∃ k : ℕ, n ^ r ^ k = 1) : n ∈ L := by
   obtain ⟨k, hk⟩ := hrn
-  haveI : (L.subgroupOf H).Normal := Subgroup.Normal.subgroupOf inferInstance H
+  have : (L.subgroupOf H).Normal := Subgroup.Normal.subgroupOf inferInstance H
   have h1 : (⟨n, hn⟩ : H) ^ r ^ k ∈ L.subgroupOf H := by
     have : (⟨n, hn⟩ : H) ^ r ^ k = 1 := Subtype.ext (by simpa using hk)
     rw [this]
@@ -96,8 +96,8 @@ theorem gnA_two_element_mem_map_normalizer_two {T T₁ T₂ : Subgroup X} (hX : 
     (hg : GNGood T T₁ T₂) {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X} (hL : LiftOf T L Ls)
     (hLn : L.Normal) {a : X ⧸ gnC T} (ha : a ∈ gnA T T₂ Ls) (h2 : ∃ k : ℕ, a ^ 2 ^ k = 1) :
     a ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ L).map (toStar T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hHn : (L ⊔ gnC T).Normal := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hHn : (L ⊔ gnC T).Normal := inferInstance
   have hmapH : (L ⊔ gnC T).map (toStar T) = L.map (toStar T) := by
     rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, sup_bot_eq]
   have hD : a ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ (L ⊔ gnC T)).map (toStar T) := by
@@ -133,7 +133,7 @@ theorem gnA_pElement_mem_map_normalizer_two_of_not_dvd {T T₂ : Subgroup X} {Ls
     (hcop : ¬ r ∣ (L ⊓ gnC T).relIndex (gnC T)) {a : X ⧸ gnC T} (ha : a ∈ gnA T T₂ Ls)
     (hra : ∃ k : ℕ, a ^ r ^ k = 1) :
     a ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ L).map (toStar T) := by
-  haveI := hLn
+  have := hLn
   have hD : a ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ (L ⊔ gnC T)).map (toStar T) := by
     obtain ⟨⟨n, hn, rfl⟩, haL⟩ := ha
     refine ⟨n, ⟨hn, ?_⟩, rfl⟩

@@ -37,7 +37,7 @@ private theorem w135c2_odd_normal_le_center {W : Type} [CommGroup W] [Finite W]
     {L : Subgroup (MulAut W)} (hQ : IsQuasisimple ↥L) :
     ∀ N : Subgroup ↥L, N.Normal → Odd (Nat.card N) → N ≤ Subgroup.center ↥L := by
   intro N hN hodd
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hQ.2.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hQ.2.1
   have hNmap : (N.map (QuotientGroup.mk' (Subgroup.center ↥L))).Normal :=
     hN.map (QuotientGroup.mk' (Subgroup.center ↥L))
       (QuotientGroup.mk'_surjective (Subgroup.center ↥L))
@@ -62,8 +62,8 @@ private theorem w135c2_mQuot_le_two_mul {W : Type} [CommGroup W] [Finite W]
     (hW2 : ∀ a : Additive W, (2 : ℕ) • a = 0) (t l : MulAut W) (k : ℕ) :
     E3.mQuot ⊤ (fixV (Subgroup.zpowers ((t * (l⁻¹ * t * l)) ^ k))) ≤
       2 * E3.mQuot ⊤ (fixV (Subgroup.zpowers t)) := by
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   rw [mQuot_fixV_zpowers_eq_finrank_range_sub_one,
     mQuot_fixV_zpowers_eq_finrank_range_sub_one]
   exact Thm14_5.finrank_range_pow_mul_conj_le (V := Additive W) (G := MulAut W)
@@ -75,7 +75,7 @@ theorem w135c2_psu_outer_involution {W : Type} [CommGroup W] [Finite W]
     ∃ y ∈ L, y ≠ 1 ∧ y * y = 1 ∧
       E3.mQuot ⊤ (fixV (Subgroup.zpowers y)) ≤ 2 * E3.mQuot ⊤ (fixV (Subgroup.zpowers t)) := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
   have hW2 : ∀ a : Additive W, (2 : ℕ) • a = 0 := fun a => by
     apply Additive.toMul.injective

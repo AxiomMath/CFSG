@@ -28,8 +28,8 @@ theorem card_centralizer_of_isConj {G : Type*} [Group G] {x y : G} (h : IsConj x
 
 theorem isPGroup_centralizer_psl2 (h3 : ringChar K = 3) (hq : 5 ≤ Fintype.card K)
     {x : PSL2 K} (hx : orderOf x = 3) : IsPGroup 3 (Subgroup.centralizer ({x} : Set (PSL2 K))) := by
-  haveI : CharP K 3 := ringChar.of_eq h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := ringChar.of_eq h3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF : ringChar K ≠ 2 := by rw [h3]; norm_num
   obtain ⟨ν, hν⟩ := FiniteField.exists_nonsquare hF
   obtain ⟨n, -, hn⟩ := FiniteField.card K 3
@@ -125,14 +125,14 @@ theorem index_inner_pglAction (hK : CFSG.GorensteinWalter.IsOddPrimePower (Nat.c
 
 theorem rowS148_psl2_of_char_three (h3 : ringChar K = 3) (hq : 5 ≤ Fintype.card K)
     (hZ : Subgroup.center (PSL2 K) = ⊥) : RowS148 (PSL2 K) := by
-  haveI : CharP K 3 := ringChar.of_eq h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := ringChar.of_eq h3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K 3
   have hKcard : Nat.card K = 3 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   set D := (pglAction K).range with hD
   set ι : PSL2 K →* MulAut (PSL2 K) := MulAut.conj with hι
-  haveI : D.Normal := by rw [hD, range_pglAction_eq_ker]; infer_instance
-  haveI : ι.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : D.Normal := by rw [hD, range_pglAction_eq_ker]; infer_instance
+  have : ι.range.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   refine rowS148_of_inndiag hZ D ?_ ?_ ?_ ?_
   ·
     intro σ τ
@@ -153,9 +153,9 @@ theorem rowS148_psl2_of_char_three (h3 : ringChar K = 3) (hq : 5 ≤ Fintype.car
         KFacts.pglAction_injective (by rw [map_pow, hg, hE.2 e e.2, map_one])
       obtain ⟨x, hx⟩ := KFacts.exists_toPGL_eq_of_pow_odd (by decide : Odd 3) hg3
       exact hcon e e.2 he1 ⟨x, by rw [← pglAction_toPGL, hx, hg]⟩
-    haveI : IsCyclic (K ≃+* K) :=
+    have : IsCyclic (K ≃+* K) :=
       (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_three K hKcard).2
-    haveI hcycE : IsCyclic E :=
+    have hcycE : IsCyclic E :=
       isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm.toMonoidHom
         (MonoidHom.ofInjective hinj).symm.surjective
     obtain ⟨g, hg⟩ := hcycE.exists_generator
@@ -191,7 +191,7 @@ end L2
 
 theorem rowSOf148_one_three (e : ℕ) (he : 1 ≤ e) : RowSOf148 (projSL 2 (GaloisField 3 e)) := by
   intro S _ _ hs hna ⟨eS⟩
-  haveI : Fintype (GaloisField 3 e) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 e) := Fintype.ofFinite _
   classical
   have hchar : ringChar (GaloisField 3 e) = 3 := ringChar.eq (GaloisField 3 e) 3
   have hcard : Fintype.card (GaloisField 3 e) = 3 ^ e := by
@@ -212,7 +212,7 @@ theorem rowSOf148_one_three (e : ℕ) (he : 1 ≤ e) : RowSOf148 (projSL 2 (Galo
     have hc := RonanK432.card_psl2_mul_gcd (GaloisField 3 1)
     rw [Nat.card_eq_fintype_card (α := GaloisField 3 1), hcard] at hc
     norm_num at hc
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Fintype S := Fintype.ofFinite S
     have h12' : Fintype.card (PSL2 (GaloisField 3 1)) = 12 := by omega
     have h12 : Nat.card (PSL2 (GaloisField 3 1)) = 12 := Nat.card_eq_fintype_card.trans h12'
     have hS : Fintype.card S = 2 ^ 2 * 3 ^ 1 := by

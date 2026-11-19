@@ -86,7 +86,7 @@ theorem not_thin8_of_isU3 {X : Subgroup G} {n : ℕ} (h : IsU3 (Bar2 X) n) :
   obtain ⟨r, hr, hr2, hrank⟩ :=
     CFSG.QuasithinUnique.Vol2Native.EvenWit.exists_two_le_pRank_psu_three_even
       (S := Bar2 X) hn2 (LieModel.statedClassicalModel h (by decide))
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrankBar : 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup (Bar2 X)) := by
     rwa [CFSG.SectionRank.pRank_eq_open_pRank_top r (Bar2 X)] at hrank
   exact not_thin8_of_two_le_pRank hr hr2

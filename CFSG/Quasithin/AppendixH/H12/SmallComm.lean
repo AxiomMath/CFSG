@@ -41,16 +41,16 @@ theorem faithIrr12_of_small_comm
     (hinj : Function.Injective σ) (hirr : IsIrredOn σ.range ⊤)
     (ht : ∃ t : G, orderOf t = 2 ∧ rk ↥(commV (Subgroup.zpowers (σ t))) ≤ 4) :
     IsFaithIrr12 (σ.comp L.subtype) := by
-  haveI : Finite U := by
+  have : Finite U := by
     obtain ⟨⟨u₀, _⟩, hu₀ne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hirr.1
     have hu₀1 : u₀ ≠ 1 := fun h => hu₀ne (Subtype.ext h)
     let S : Set U := Set.range fun g : G => σ g u₀
     let N : Subgroup U := Subgroup.closure S
     have hNfg : N.FG := (Subgroup.fg_iff N).mpr ⟨S, rfl, Set.toFinite S⟩
-    haveI : Group.FG ↥N := (Group.fg_iff_subgroup_fg N).mpr hNfg
+    have : Group.FG ↥N := (Group.fg_iff_subgroup_fg N).mpr hNfg
     have htors : IsMulTorsion ↥N := fun y => isOfFinOrder_iff_pow_eq_one.mpr
       ⟨2, by norm_num, Subtype.ext (by simpa using hU2 (y : U))⟩
-    haveI : Finite ↥N := CommGroup.finite_of_fg_isMulTorsion ↥N htors
+    have : Finite ↥N := CommGroup.finite_of_fg_isMulTorsion ↥N htors
     have hNne : N ≠ ⊥ := by
       intro h
       have hu₀N : u₀ ∈ N := by

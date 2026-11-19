@@ -77,7 +77,7 @@ theorem critical_local_quotient_standard_component_at_of_inputs
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   obtain ⟨-, hA5⟩ :=
     critical_two_subgroup_full_layer_and_odd_two_core_of_inputs hS hU hheld hnonab hK ha hJa hJ
@@ -704,7 +704,7 @@ theorem critical_local_quotient_standard_component_at_of_inputs
       obtain ⟨s, hs, hsu⟩ := h1
       exact ⟨s, hs, hsu⟩
     set S₁G := ((S₁ : Subgroup ↥Y₁).map Y₁.subtype).map (H B).subtype with hS₁Gdef
-    have hS₁G2 : IsPGroup 2 S₁G := (S₁.isPGroup'.map _).map _
+    have hS₁G2 : IsPGroup 2 S₁G := (S₁.isPGroup.map _).map _
     have hS₁GL : S₁G ≤ normalizer (B : Set G) ⊓ normalizer (X B : Set G) := by
       rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
       have hyLh : ((y : Y₁) : H B) ∈ Lh := (mem_inf.mp y.2).2

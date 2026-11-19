@@ -19,7 +19,7 @@ theorem mem_sylow_of_mem_normalizer_of_mul_self_eq_one {K : Type} [Group K] (S :
     intro x
     have hsq : (x : K) * (x : K) ∈ (S : Subgroup K) :=
       mul_self_mem_of_mem_sup_zpowers hg2 hg x.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨(x : K) * (x : K), hsq⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨(x : K) * (x : K), hsq⟩
     refine ⟨k + 1, ?_⟩
     apply Subtype.ext
     have h1 := congrArg Subtype.val hk
@@ -105,7 +105,7 @@ theorem XData.odd_mem_of_mem_zHull {Z : Set X} {M L D O : Subgroup X} {u : X}
       have h1 := orderOf_map_dvd φ (⟨x, hxD⟩ : ↥D)
       have h2 : orderOf (⟨x, hxD⟩ : ↥D) = orderOf x := Subgroup.orderOf_mk _ _
       rwa [h2] at h1
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S₂.isPGroup' ⟨φ ⟨x, hxD⟩, hφx⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S₂.isPGroup ⟨φ ⟨x, hxD⟩, hφx⟩
     have hk' : orderOf (φ ⟨x, hxD⟩) = 2 ^ k := by
       rw [← Subgroup.orderOf_mk (φ ⟨x, hxD⟩) hφx]
       exact hk

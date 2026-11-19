@@ -22,7 +22,7 @@ theorem oppFixed_of_raise [Finite H] (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Su
     (hraise : ∀ p : ℕ, p.Prime → p ≠ 2 → RaiseProp P ρ 𝔉 p) :
     OppositeFixed (H ⧸ Z) := by
   intro p hp hp2 R hR Q hQ0 hQ2 hcore hNtop hRQ hCN
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Qt, hQt2, hQtmap⟩ := exists_isPGroup_map_eq (r := 2) Z hQ2
   obtain ⟨Rh, hRhs, hRhP, hRhp, hRhN, hRhA, hRhB⟩ := hlift p hp hp2 R hR
   rw [eq_bot_iff]

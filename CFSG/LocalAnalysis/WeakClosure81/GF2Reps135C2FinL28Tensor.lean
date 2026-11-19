@@ -25,8 +25,8 @@ theorem finL28_frobTensor_uElt_one_apply {F : Type} [Field F] {E : Type} [Field 
         ∏ i : J, twistMat E ((i : ℕ)) (uElt (1 : F)) (y i) (x i) from rfl, hprod,
       Fintype.prod_boole]
     by_cases h : y ≤ x
-    · rw [if_pos h, if_pos (Pi.le_def.mp h)]
-    · rw [if_neg h, if_neg (fun hh => h (Pi.le_def.mpr hh))]
+    · rw [ite_eq_left h, ite_eq_left (Pi.le_def.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (Pi.le_def.mpr hh))]
   · intro b _ hb
     rw [Pi.single_eq_of_ne hb, mul_zero]
   · intro hx
@@ -60,7 +60,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
     by_cases hyx : y = x
     · subst hyx
       simp
-    · rw [if_neg hyx]
+    · rw [ite_eq_right hyx]
       by_cases hle : y ≤ x
       · have hlt : y < x := lt_of_le_of_ne hle hyx
         simp [hle, hlt]
@@ -87,7 +87,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
     rw [hza] at ha
     by_cases hab : a = b
     · exact hne (by subst hab; rfl)
-    · have hb1 : xa b a = 1 := by simp [xa, hab, Ne.symm hab]
+    · have hb1 : xa b a = 1 := by simp [xa, hab]
       rw [hb1] at ha
       exact absurd ha (by decide)
   have hzero_top : (0 : J → Fin 2) < top := by
@@ -102,7 +102,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
     refine ⟨fun i => Fin.zero_le _, ?_⟩
     intro h
     obtain ⟨i, hi⟩ := Fintype.exists_ne_of_one_lt_card hlt_card a
-    have h1 : xa a i = 1 := by simp [xa, hi, Ne.symm hi]
+    have h1 : xa a i = 1 := by simp [xa, hi]
     have h2 := congrFun h i
     rw [h1] at h2
     change (0 : Fin 2) = 1 at h2
@@ -114,7 +114,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
     · intro i
       by_cases hib : i = b
       · subst hib; simp [delta, top]
-      · simp [delta, hib, Fin.zero_le]
+      · simp [delta, hib]
     · intro h
       obtain ⟨i, hi⟩ := Fintype.exists_ne_of_one_lt_card hlt_card b
       have h0 : delta b i = 0 := by simp [delta, hi]
@@ -132,7 +132,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
       rw [h1] at hb
       have h0 : xa a b = 0 := by
         simp only [xa]
-        rw [if_pos hab.symm]
+        rw [ite_eq_left hab.symm]
       rw [h0] at hb
       exact absurd hb (by simp only [Fin.le_def]; norm_num)
     · intro hab
@@ -142,7 +142,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
         · rw [hib]
           have hba : b ≠ a := fun h => hab h.symm
           simp [delta, xa, hba]
-        · simp [delta, hib, Fin.zero_le]
+        · simp [delta, hib]
       · intro h
         have hcard_erase : 1 < (J.erase a).card := by
           rw [Finset.card_erase_of_mem a.2]
@@ -154,7 +154,7 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
         have hiJ_a : iJ ≠ a := fun hh => hi_a (congrArg Subtype.val hh)
         have hiJ_b : iJ ≠ b := fun hh => hi_ne (congrArg Subtype.val hh)
         have h1 : delta b iJ = 0 := by simp [delta, hiJ_b]
-        have h2 : xa a iJ = 1 := by simp [xa, hiJ_a, Ne.symm hiJ_a]
+        have h2 : xa a iJ = 1 := by simp [xa, hiJ_a]
         have h3 := congrFun h iJ
         rw [h1, h2] at h3
         exact absurd h3 (by decide)
@@ -168,19 +168,19 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
     have hc_none : c none = 0 := by
       have h1 := hc_apply (xa b0)
       rw [Fintype.sum_eq_single none] at h1
-      · rw [hw_none, hN top (xa b0), if_pos (hxa_top b0), mul_one] at h1
+      · rw [hw_none, hN top (xa b0), ite_eq_left (hxa_top b0), mul_one] at h1
         exact h1
       · intro i hi
         cases i with
         | none => exact absurd rfl hi
-        | some a => rw [hw_some, hN (xa a) (xa b0), if_neg (hxa_xa a b0), mul_zero]
+        | some a => rw [hw_some, hN (xa a) (xa b0), ite_eq_right (hxa_xa a b0), mul_zero]
     have hS : (∑ a : J, c (some a)) = 0 := by
       have h1 := hc_apply (0 : J → Fin 2)
       rw [Fintype.sum_option] at h1
       have h2 : ∀ a : J, c (some a) * w (some a) 0 = c (some a) := by
         intro a
-        rw [hw_some, hN (xa a) 0, if_pos (hzero_xa a), mul_one]
-      rw [hw_none, hN top 0, if_pos hzero_top, mul_one, hc_none, zero_add] at h1
+        rw [hw_some, hN (xa a) 0, ite_eq_left (hzero_xa a), mul_one]
+      rw [hw_none, hN top 0, ite_eq_left hzero_top, mul_one, hc_none, zero_add] at h1
       simp only [h2] at h1
       exact h1
     have hcb : ∀ b : J, c (some b) = 0 := by
@@ -193,11 +193,11 @@ theorem finL28_four_le_finrank_range_uElt {F : Type} [Field F] {E : Type} [Field
           intro a
           rw [hw_some, hN (xa a) (delta b)]
           by_cases hab : a ≠ b
-          · rw [if_pos ((hdelta_xa a b).mpr hab), if_pos hab]
+          · rw [ite_eq_left ((hdelta_xa a b).mpr hab), ite_eq_left hab]
             simp
-          · rw [if_neg (fun hh => hab ((hdelta_xa a b).mp hh)), if_neg hab]
+          · rw [ite_eq_right (fun hh => hab ((hdelta_xa a b).mp hh)), ite_eq_right hab]
             simp
-        rw [hw_none, hN top (delta b), if_pos (hdelta_top b), mul_one,
+        rw [hw_none, hN top (delta b), ite_eq_left (hdelta_top b), mul_one,
           hc_none, zero_add] at h1
         simp only [h2] at h1
         exact h1

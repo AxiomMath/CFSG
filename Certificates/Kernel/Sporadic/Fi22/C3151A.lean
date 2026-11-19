@@ -111,15 +111,15 @@ theorem card_inv
   rw [← Finset.card_range 3263]
   refine Finset.card_nbij' (fun x => PPf (iX x)) (fun k => xF (SV k)) (fun x hx => ?_)
     (fun k hk => ?_) (fun x hx => ?_) (fun k hk => ?_)
-  · rw [Finset.coe_filter, Set.mem_setOf_eq] at hx
+  · rw [Finset.coe_filter, Set.mem_ofPred_eq] at hx
     have hl := iX_lt x
     have hx' := hx.2
     rw [← xF_iX x, ← invB_xF hl] at hx'
     exact Finset.mem_coe.2 (Finset.mem_range.2 ((scan_parts (hS _ hl)).1 hx').1)
   · have hk' := Finset.mem_range.1 (Finset.mem_coe.1 hk)
-    rw [Finset.coe_filter, Set.mem_setOf_eq]
+    rw [Finset.coe_filter, Set.mem_ofPred_eq]
     exact ⟨Finset.mem_univ _, sv_inv hS hk'⟩
-  · rw [Finset.coe_filter, Set.mem_setOf_eq] at hx
+  · rw [Finset.coe_filter, Set.mem_ofPred_eq] at hx
     have hl := iX_lt x
     have hx' := hx.2
     rw [← xF_iX x, ← invB_xF hl] at hx'

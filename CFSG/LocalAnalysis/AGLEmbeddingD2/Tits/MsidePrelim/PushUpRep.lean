@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {M H R : Subgroup G}
   {Rbar : Sylow 3 (H ⧸ primeComplementCore (G := H) 3)}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
 theorem L34Ctx.pCore_two_autOn_eq_bot (hd : L34Ctx M H R Rbar K)
-    (hL : IsLinThreeFour K) {D₀ V W Z : Subgroup G} (hD₀H : D₀ ≤ H) (hOD : GLBPrimeCore 3 H ≤ D₀)
+    (_hL : IsLinThreeFour K) {D₀ V W Z : Subgroup G} (hD₀H : D₀ ≤ H) (hOD : GLBPrimeCore 3 H ≤ D₀)
     (hV : IsSylowTwoOf V D₀)
     (hXW : L34FF.threeComp H R K ⊔ V ≤ Subgroup.normalizer (W : Set G))
     (hVZ : V ≤ Subgroup.centralizer (Z : Set G))

@@ -37,7 +37,7 @@ theorem sec128_tau_inverts_oddCore {Y : Type} [Group Y] [Finite Y] (tau : Y)
   have hNodd : Odd (Nat.card N) := by
     rw [hNcard]
     exact hOodd.of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left)
-  haveI : (N.map e.toMonoidHom).Normal :=
+  have : (N.map e.toMonoidHom).Normal :=
     (inferInstance : N.Normal).map e.toMonoidHom e.surjective
   have hmapbot : N.map e.toMonoidHom = ⊥ :=
     sec128_model_oddNormal_bot (N.map e.toMonoidHom) (by

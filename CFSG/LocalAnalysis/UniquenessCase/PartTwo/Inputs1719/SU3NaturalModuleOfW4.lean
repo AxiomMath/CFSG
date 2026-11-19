@@ -29,7 +29,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
           S17.CNatModSU3Sub W (CFSG.Quasithin.commSub (⊤ : Subgroup W) K) K n ∧
             E3.mParam Y = 2 * n
 
-theorem k_SU3NaturalModule_of_w4 (h128 : W4Lem12_8) (h36 : W4Lem3_6)
+theorem k_SU3NaturalModule_of_w4 (h128 : W4Lem12_8) (_h36 : W4Lem3_6)
     (hMin : K_SU3MinDegree) (hAlt : K_SU3NaturalModuleAltTwo) : K_SU3NaturalModule := by
   intro W _ _ hWsq Y K n hKY hKcomp hKne hSU hn3 hO2 hbasic hfix hmY
   let H : Subgroup (MulAut W) := ⨆ X ∈ conjSet K Y, X

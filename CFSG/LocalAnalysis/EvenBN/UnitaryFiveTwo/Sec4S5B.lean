@@ -26,8 +26,8 @@ namespace Data.Hyp
 
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
-theorem S₃_le_normalizer_V₃ (h : d.Hyp) : d.S₃ ≤ normalizer (d.V₃ : Set G) := fun g hg =>
-  mem_normalizer_fintype fun x hx => h.conj_mem_V₃ hg hx
+theorem S₃_le_normalizer_V₃ (h : d.Hyp) : d.S₃ ≤ normalizer (d.V₃ : Set G) := fun _g hg =>
+  mem_normalizer_fintype fun _x hx => h.conj_mem_V₃ hg hx
 
 theorem S_eq_A₁_sup_A₂ : d.S = d.A₁ ⊔ d.A₂ := by
   show d.pull Ssub = d.pull A₁sub ⊔ d.pull A₂sub
@@ -292,7 +292,7 @@ theorem D₁_le_normalizer_S₃ (h : d.Hyp) (hKY : ∀ m ∈ d.M, m ∈ normaliz
     (S₃_le_R₃ hg), mul_mem (mul_mem hxC (S₃_le_centralizer_W hg)) (inv_mem hxC)⟩
 
 theorem D₁_le_normalizer_V₃ (h : d.Hyp) (hKY : ∀ m ∈ d.M, m ∈ normalizer (d.Y : Set G)) :
-    d.D₁ ≤ normalizer (d.V₃ : Set G) := fun x hx =>
+    d.D₁ ≤ normalizer (d.V₃ : Set G) := fun _x hx =>
   h.mem_normalizer_V₃ (h.D₁_le_normalizer_S₃ hKY hx) (h.D₁_le_normalizer_Y hKY hx)
 
 theorem D₁_le_normalizer_A₁V₃ (h : d.Hyp)
@@ -353,7 +353,7 @@ theorem D₁_le_normalizer_A₂V₃ (h : d.Hyp)
     rwa [show x⁻¹ * (x * a * x⁻¹) * x⁻¹⁻¹ = a by group] at this
   · exact mem_normalizer_fintype h2
 
-theorem S_le_normalizer_V₃ (h : d.Hyp) : d.S ≤ normalizer (d.V₃ : Set G) := fun g hg =>
+theorem S_le_normalizer_V₃ (h : d.Hyp) : d.S ≤ normalizer (d.V₃ : Set G) := fun _g hg =>
   h.S₃_le_normalizer_V₃ (h.S_le_S₃ hg)
 
 theorem D₂_inf_A₁V₃_le_V₃ (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W)

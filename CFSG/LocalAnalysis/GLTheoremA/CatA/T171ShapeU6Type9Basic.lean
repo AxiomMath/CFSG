@@ -118,7 +118,7 @@ theorem exists_unitary_rescale {K : Type} [Field K] {n : ℕ}
             ⟨M, hMN⟩ =
           TableB.projConj (unitarySU 2 n K 6) ⟨M', hM'N⟩ := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let M' : GL (Fin 6) K := Matrix.GeneralLinearGroup.scalar (Fin 6) c⁻¹ * M
   have hM'gu : M' ∈ LargeEvenGUSet (Fin 6) K (2 ^ n) :=
     scalar_mul_mem_gu h c⁻¹ hM

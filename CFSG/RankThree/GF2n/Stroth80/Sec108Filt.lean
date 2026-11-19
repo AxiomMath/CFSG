@@ -73,6 +73,7 @@ theorem Sec108Data.img_Ut_eq (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.Act
   exact mem_img_comm_zpowers_sup_iff AM.M₀ AM.glob.reg (AM.φ ⟨t, D.t_mem_H0⟩) htQ htQ'
     (fun x hx => AM.φ_π ⟨t, D.t_mem_H0⟩ x hx) v
 
+omit [Finite G] in
 theorem Sec108Data.finrank_E (D : Sec108Data hc t Y) (AM : Smith81.Smith23E1.ActionModel M Q Z) :
     Module.finrank AM.K AM.M₀.E = 12 := by
   have hK : 1 < Nat.card AM.K := by
@@ -254,8 +255,7 @@ theorem Sec108Data.Pform_nu (D : Sec108Data hc t Y)
     (u : LinearMap.range (D.nu AM)) :
     D.Pform AM ⟨D.nu AM e, LinearMap.mem_range_self _ e⟩ u = AM.M₀.B e u := by
   simp only [Sec108Data.Pform, LinearMap.comp_apply, LinearEquiv.coe_coe,
-    Submodule.liftQ_apply, LinearMap.quotKerEquivRange_symm_apply_image, dualOnRange,
-    LinearMap.coe_mk, AddHom.coe_mk, Submodule.coe_subtype]
+    LinearMap.quotKerEquivRange_symm_apply_image, dualOnRange]
   rfl
 
 theorem Sec108Data.Pform_nondegenerate (D : Sec108Data hc t Y)

@@ -28,10 +28,10 @@ theorem exists_twistedE6RootGroup_of_catalogIs_isTE6two {S : Type} [Group S]
     have hq2 : q.card = 2 := hP
     obtain ⟨K, hKfield, σ, hK, hσ, ⟨e⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-    letI : Field K := hKfield
+    let : Field K := hKfield
     have hq : q.p ^ q.exponent = 2 := (TauCeti.PrimePower.card_def q).symm.trans hq2
     have hK4 : Nat.card K = 4 := by rw [hK, hq]; norm_num
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
     exact ⟨K, hKfield, inferInstance, σ, hK4, fun c => by rw [hσ c, hq], ⟨e0.trans e⟩⟩
   | _ => exact hP.elim
 
@@ -47,7 +47,7 @@ theorem exists_conj_gen_of_elemAbelian_nine {K : Type} [Field K] [Finite K]
     ∃ s : twistedE6RootGroup K σ, orderOf s = 3 ∧ ∃ b ∈ A,
       Subgroup.closure {MulAut.conj s, b} = A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK2 : Nat.card K = 2 ^ 2 := by rw [hK]; norm_num
   have hσ2 : ∀ c, σ c = c ^ (2 : ℕ) := hσ
   have hA9 : Nat.card A = 9 := by rw [h9]; norm_num

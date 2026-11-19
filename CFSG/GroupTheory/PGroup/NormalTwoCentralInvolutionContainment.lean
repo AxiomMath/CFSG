@@ -8,11 +8,11 @@ public section
 namespace CFSG.LocalAnalysis.RankThreeUC.ProofSupport.NormalTwoCentralInvolutionContainment
 
 theorem mem {H : Type*} [Group H] [Finite H] (hH2 : IsPGroup 2 H)
-    (z : H) (hz : z ∈ Subgroup.center H) (hz2 : z ^ 2 = 1) (hz1 : z ≠ 1)
+    (z : H) (_hz : z ∈ Subgroup.center H) (_hz2 : z ^ 2 = 1) (_hz1 : z ≠ 1)
     (huniq : ∀ y ∈ Subgroup.center H, y ^ 2 = 1 → y ≠ 1 → y = z)
     (N : Subgroup H) [N.Normal] (hN : N ≠ ⊥) : z ∈ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent H := hH2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent H := hH2.isNilpotent
   have hK : N ⊓ Subgroup.center H ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hN
   rw [ne_eq, Subgroup.eq_bot_iff_forall] at hK

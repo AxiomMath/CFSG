@@ -148,8 +148,8 @@ theorem cfInner_coherentImage_eq_ite (H : Subgroup L) [H.Normal]
       = if k = l then cfInner (ξ k) (ξ k) else 0 := by
   rw [coherentImage_apply, coherentImage_apply, hν.inner_eq]
   by_cases hkl : k = l
-  · rw [if_pos hkl, hkl]
-  · rw [if_neg hkl]
+  · rw [ite_eq_left hkl, hkl]
+  · rw [ite_eq_right hkl]
     exact NormalInducedFamily.cfInner_eq_zero_of_mem_indFam H (mem_indFam_of_range_eq hS k)
       (mem_indFam_of_range_eq hS l) fun h => hkl (hinj h)
 
@@ -161,10 +161,10 @@ theorem cfInner_weightedCoherentSum_coherentImage (H : Subgroup L) [H.Normal]
   classical
   rw [weightedCoherentSum_apply, cfInner_sum_left,
     Finset.sum_eq_single_of_mem k₀ (Finset.mem_univ k₀)]
-  · rw [cfInner_smul_left, cfInner_coherentImage_eq_ite H hinj hS hν, if_pos rfl,
+  · rw [cfInner_smul_left, cfInner_coherentImage_eq_ite H hinj hS hν, ite_eq_left rfl,
       div_mul_cancel₀ _ (cfInner_self_ne_zero (mem_indFam_of_range_eq hS k₀))]
   · intro k _ hk
-    rw [cfInner_smul_left, cfInner_coherentImage_eq_ite H hinj hS hν, if_neg hk, mul_zero]
+    rw [cfInner_smul_left, cfInner_coherentImage_eq_ite H hinj hS hν, ite_eq_right hk, mul_zero]
 
 theorem cfInner_weightedCoherentSum_coherentImage_of_apply_one_eq (H : Subgroup L) [H.Normal]
     (hinj : Function.Injective ξ) (hS : Set.range ξ = indFam H (Irr H \ {1}))
@@ -188,10 +188,10 @@ theorem cfInner_self_weightedCoherentSum (H : Subgroup L) [H.Normal]
     intro k
     rw [cfInner_sum_right, Finset.sum_eq_single_of_mem k (Finset.mem_univ k)]
     · rw [cfInner_smul_left, cfInner_smul_right, hconj k,
-        cfInner_coherentImage_eq_ite H hinj hS hν, if_pos rfl]
+        cfInner_coherentImage_eq_ite H hinj hS hν, ite_eq_left rfl]
     · intro l _ hl
       rw [cfInner_smul_left, cfInner_smul_right, cfInner_coherentImage_eq_ite H hinj hS hν,
-        if_neg (Ne.symm hl), mul_zero, mul_zero]
+        ite_eq_right (Ne.symm hl), mul_zero, mul_zero]
   rw [Finset.sum_congr rfl fun k _ => hrow k, ← sum_sq_div_cfInner H hinj hS]
   refine Finset.sum_congr rfl fun k _ => ?_
   have hn := cfInner_self_ne_zero (H := H) (mem_indFam_of_range_eq hS k)

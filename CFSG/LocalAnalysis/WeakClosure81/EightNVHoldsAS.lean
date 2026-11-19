@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_of_le {T H C : Subgroup G} (hTH : T ≤ H)
     (hHC : H ≤ normalizer (C : Set G)) : T ≤ normalizer ((T ⊓ C : Subgroup G) : Set G) := by
   intro t ht
@@ -27,7 +28,7 @@ private theorem le_normalizer_inf_of_le {T H C : Subgroup G} (hTH : T ≤ H)
 theorem Sit813.inf_cGrp_le_pCoreOf_AS (h5_11 : Asch5_11AS) (h5_13 : Asch5_13AS)
     {V H T A L K : Subgroup G} {i : ℕ} (h : Sit813 V H T i A L K) :
     T ⊓ cGrp H T ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyp := h.minCex.hyp
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH h.calH0.1 hyp.sylow
   have hCH : cGrp H T ≤ H := h.concl813.comp.2.1.trans h.concl813.comp.2.2.1

@@ -138,7 +138,7 @@ private noncomputable def permOfP (n w P : ℕ) : Equiv.Perm (Fin n) :=
 
 private theorem permOfP_spec {n w P : ℕ} (h : ∃ g, RP n w P g) : RP n w P (permOfP n w P) := by
   unfold permOfP
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 private theorem permOfP_eq {n w P : ℕ} {g : Equiv.Perm (Fin n)} (h : RP n w P g) :
@@ -206,7 +206,6 @@ private theorem regRef_pos_ge (regs : List ℕ) (len j : ℕ) (h : ¬ j < len) :
   show Bool.rec (motive := fun _ => Int) (Int.ofNat 0)
     (Int.ofNat (Nat.succ (getN regs (Nat.sub (Nat.sub len j) 1)))) (Nat.blt j len) = _
   rw [hb]
-  try rfl
 
 private theorem regRef_neg_lt (regs : List ℕ) (len j : ℕ) (h : j < len) :
     regRef regs len (Int.negSucc j) = Int.negSucc (getN regs (len - j - 1)) := by
@@ -225,7 +224,6 @@ private theorem regRef_neg_ge (regs : List ℕ) (len j : ℕ) (h : ¬ j < len) :
   show Bool.rec (motive := fun _ => Int) (Int.ofNat 0)
     (Int.negSucc (getN regs (Nat.sub (Nat.sub len j) 1))) (Nat.blt j len) = _
   rw [hb]
-  try rfl
 
 private theorem regRef_zero (regs : List ℕ) (len : ℕ) :
     regRef regs len (Int.ofNat 0) = Int.ofNat 0 := rfl
@@ -327,7 +325,7 @@ private theorem inSP_spec (X XI : ℕ → ℕ) : ∀ (IN INI : List ℕ) (j : �
 private theorem wfSP_spec : ∀ (D : List (ℤ × ℤ)) (j : ℕ), wfSP j D = true →
     ∀ (pre post : List (ℤ × ℤ)) (a b : ℤ), D = pre ++ (a, b) :: post →
       refLt a (j + pre.length) = true ∧ refLt b (j + pre.length) = true
-  | [], _, _, pre, post, a, b, hD => by simp at hD <;> cases pre <;> simp at hD
+  | [], _, _, pre, post, a, b, hD => by simp at hD
   | ab :: D', j, h, pre, post, a, b, hD => by
     change bAnd(refLt ab.1 j, bAnd(refLt ab.2 j, strictB (Nat.succ j) fun j' => wfSP j' D')) = true
       at h
@@ -387,7 +385,7 @@ private theorem nodeSP_spec {n w gi : ℕ} {D : List (ℤ × ℤ)} {X XI : ℕ �
   have e : getPr D (Nat.sub j gi) = (a, b) := by
     change getPr D (j - gi) = _
     rw [getPr_eq, hD, hj, Nat.add_sub_cancel_left]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_append_right]
+    simp [List.getD_eq_getElem?_getD]
   unfold nodeSP at h
   rw [e] at h
   change refSP (pidn n w) X XI a (fun A AI => refSP (pidn n w) X XI b fun B BI =>
@@ -591,7 +589,7 @@ private theorem cl_sound {n gi : ℕ} {perm : ℕ → Equiv.Perm (Fin n)} {D : L
     have hD : D = st.ns.reverse ++ (g, Int.ofNat (Nat.succ (t0 + (m - (c + 1))))) ::
         (Int.ofNat (Nat.succ st.cnt), Int.neg g) :: ext' := by
       rw [hext']
-      simp [hst', stepC, hidx, hidx']
+      simp [hst', stepC, hidx']
     have h1 := hGD st.ns.reverse _ g _ hD
     have h2 := hGD (st.ns.reverse ++ [(g, Int.ofNat (Nat.succ (t0 + (m - (c + 1)))))]) ext'
       (Int.ofNat (Nat.succ st.cnt)) (Int.neg g) (by rw [hD]; simp)

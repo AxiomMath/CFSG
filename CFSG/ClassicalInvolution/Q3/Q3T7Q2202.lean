@@ -268,7 +268,7 @@ namespace Asc77
 open CFSG.ClassicalInvolution.Asc77
 open CFSG.ClassicalInvolution.Generic
 
-theorem thmEWithSylow_of_nonToral [Fact Q3T7E.ThmEWithSylow3] (hNT : G2D4Models.G2NonToralGenerate
+theorem thmEWithSylow_of_nonToral [Fact Q3T7E.ThmEWithSylow3] (_hNT : G2D4Models.G2NonToralGenerate
     3) :
     Q3T7E.ThmEWithSylow3 := Fact.out
 end Asc77
@@ -329,7 +329,7 @@ section Statements
 end Statements
 
 theorem thm6SectBelow'_of_citBelow
-    (hP1
+    (_hP1
     : Ih8SmallEdge 3) {n : ℕ} (hn : Q3T8.Generic.CITBelowU n) :
     Q3T8.Asc77.Thm6SectBelow' n := by
   intro X _ _ hlt Φ hG hne htop hDE

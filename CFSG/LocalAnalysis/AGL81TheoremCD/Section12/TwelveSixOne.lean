@@ -17,7 +17,7 @@ theorem forall_isStronglyPEmbedded_of_mem_weakBlockSet {M : Subgroup G} {p : ℕ
     {Q H L : Subgroup G} (h : TwelveCtx G M p Q H) (hL : L ∈ weakBlockSet M H) :
     ∀ q ∈ sigmaSet G M, CFSG.RankThree.PartOne.IsStronglyPEmbedded q M := by
   intro q hq
-  haveI : Fact q.Prime :=
+  have : Fact q.Prime :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime q hq.1⟩
   exact isStronglyPEmbedded_of_twelveCtx' h (not_isSolvable_of_mem_weakBlockSet hL) q hq
 
@@ -38,7 +38,7 @@ theorem normalizer_le_of_mem_weakBlockSet {M : Subgroup G} {p : ℕ} {Q H : Subg
     omega
   have hW3 : IsPGroup 3 W := IsPGroup.of_card (n := 1) (by rw [hW]; norm_num)
   have hsolv : Group.IsSolvable (MulAut ↥W) := by
-    haveI : Group.IsSolvable (Equiv.Perm ↥W) :=
+    have : Group.IsSolvable (Equiv.Perm ↥W) :=
       Equiv.Perm.isSolvable (by rw [hW]; norm_num)
     exact Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm (M := ↥W))
       (fun _ _ hab => MulEquiv.toEquiv_injective hab)
@@ -51,7 +51,7 @@ theorem normalizer_le_of_mem_weakBlockSet {M : Subgroup G} {p : ℕ} {Q H : Subg
     rwa [inf_comm]
   have hs := forall_isStronglyPEmbedded_of_mem_weakBlockSet h hL
   by_cases hd3 : d = 3
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact CFSG.RankThree.PartOne.IsStronglyPEmbedded.normalizer_le
       (hs 3 (hd3 ▸ hd)) hWne hW3 hWM
   · have h5 : 5 ≤ d := Nat.Prime.five_le_of_ne_two_of_ne_three hdP hd2 hd3

@@ -125,8 +125,8 @@ private theorem eq_of_commute_unitary_involutions {F X : Type*} [Field F] [Finty
     ∀ x, t₁ x = t₂ x := by
   classical
   have h2 : (2 : F) = 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
     exact_mod_cast CharP.cast_eq_zero F 2
   have h4 : ∀ c : F, c ^ 4 = c := fun c => by rw [← hF]; exact FiniteField.pow_card c
   have hsq : ∀ c : F, c ^ 2 = c → c = 0 ∨ c = 1 := fun c hc => by
@@ -275,7 +275,7 @@ private theorem card_linearEquiv_of_card_four {F M : Type*} [Field F] [Finite F]
     [Module F M] [FiniteDimensional F M] (hF : Nat.card F = 4) :
     Nat.card (M ≃ₗ[F] M) = ∏ i : Fin (finrank F M), (4 ^ finrank F M - 4 ^ (i : ℕ)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let b : Module.Basis (Fin (finrank F M)) F M := Module.finBasisOfFinrankEq F M rfl
   let e : GL (Fin (finrank F M)) F ≃* (M ≃ₗ[F] M) :=
     (Matrix.GeneralLinearGroup.toLin' b).trans
@@ -306,7 +306,7 @@ private theorem eq_one_of_central_of_not_prime4 {Y : Type*} [Group Y] [Finite Y]
       Subgroup.mem_zpowers_iff.1 (htop ▸ Subgroup.mem_top y : y ∈ Subgroup.zpowers a)
     rw [← zpow_add, ← zpow_add, add_comm]
   have h1 : 1 < Nat.card Y := Finite.one_lt_card_iff_nontrivial.2 IsSimpleGroup.toNontrivial
-  haveI : Fact (Nat.card Y).minFac.Prime := ⟨Nat.minFac_prime h1.ne'⟩
+  have : Fact (Nat.card Y).minFac.Prime := ⟨Nat.minFac_prime h1.ne'⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (Nat.card Y).minFac (Nat.minFac_dvd _)
   have hc1 : c ≠ 1 := fun h => by
     rw [h, orderOf_one] at hc
@@ -361,11 +361,11 @@ private theorem sub_mem_of_simple_section4 {F V : Type*} [Field F] [Finite F] [A
     (hzU : ∀ v ∈ U, z v ∈ U) (hzU' : ∀ v ∈ U', z v ∈ U') (hle : U ≤ U')
     (hdim : finrank F U' ≤ finrank F U + 3) (y : Y) {v : V} (hv : v ∈ U') : α y v - v ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2F : (2 : F) = 0 := by
-    letI : Fintype F := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
+    let : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2)
       (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
     exact_mod_cast CharP.cast_eq_zero F 2
   have hmap : ∀ {g : V ≃ₗ[F] V} {S : Submodule F V}, (∀ v ∈ S, g v ∈ S) →
@@ -488,7 +488,7 @@ private theorem sub_mem_of_section4 {F V : Type*} [Field F] [Finite F] [AddCommG
     (hU : ∀ y, ∀ v ∈ U, α y v ∈ U) (hU' : ∀ y, ∀ v ∈ U', α y v ∈ U') (hle : U ≤ U')
     (hdim : finrank F U' ≤ finrank F U + 3) (y : Y) {v : V} (hv : v ∈ U') : α y v - v ∈ U := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨c, -, hc⟩ := Finset.exists_mem_notMem_of_card_lt_card
     (s := ({0, 1} : Finset F)) (t := Finset.univ)
     (by
@@ -537,11 +537,11 @@ private theorem false_of_commute_unitary {F V : Type*} [Field F] [Fintype F]
   classical
   have hF' : Nat.card F = 4 := by rw [Nat.card_eq_fintype_card, hF]
   have h2F : (2 : F) = 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
     exact_mod_cast CharP.cast_eq_zero F 2
   have h2V : ∀ v : V, v + v = 0 := fun v => by rw [← two_smul F v, h2F, zero_smul]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y₃, hy₃⟩ := exists_prime_orderOf_dvd_card' (G := Y) 3
     ((dvd_pow_self 3 (by norm_num : 4 ≠ 0)).trans hY)
   have hy₃1 : α y₃ ≠ 1 := fun h => by
@@ -875,8 +875,8 @@ private theorem false_of_unitary_blocks {F V : Type*} [Field F] [Fintype F]
   classical
   have hF' : Nat.card F = 4 := by rw [Nat.card_eq_fintype_card, hF]
   have h2F : (2 : F) = 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
     exact_mod_cast CharP.cast_eq_zero F 2
   obtain ⟨ω, -, hω⟩ := Finset.exists_mem_notMem_of_card_lt_card
     (s := ({0, 1} : Finset F)) (t := Finset.univ)
@@ -1133,7 +1133,7 @@ private theorem false_of_unitary_blocks {F V : Type*} [Field F] [Fintype F]
               Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
             rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at this
             exact this
-          letI : CommGroup Y₀ := { ‹Group Y₀› with mul_comm := hc }
+          let : CommGroup Y₀ := { ‹Group Y₀› with mul_comm := hc }
           exact IsSimpleGroup.prime_card
         have hmem : w ∈ (LinearEquiv.det.comp β).ker := by
           have := Abelianization.commutator_subset_ker (LinearEquiv.det.comp β)
@@ -1167,8 +1167,8 @@ private theorem trivial_of_perfect_of_commute {F V : Type*} [Field F] [Fintype F
   classical
   have hF' : Nat.card F = 4 := by rw [Nat.card_eq_fintype_card, hF]
   have h2F : (2 : F) = 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2) (by rw [hF]; norm_num)
     exact_mod_cast CharP.cast_eq_zero F 2
   obtain ⟨ω, -, hω⟩ := Finset.exists_mem_notMem_of_card_lt_card
     (s := ({0, 1} : Finset F)) (t := Finset.univ)
@@ -1295,8 +1295,7 @@ private noncomputable def glLin (n : ℕ) :
 
 private theorem glLin_apply {n : ℕ} (A : GL (Fin n) F4) (v : Fin n → F4) :
     glLin n A v = (A : Matrix (Fin n) (Fin n) F4) *ᵥ v := by
-  simp [glLin, LinearMap.GeneralLinearGroup.coeFn_generalLinearEquiv,
-    Matrix.GeneralLinearGroup.toLin_apply]
+  simp [glLin, LinearMap.GeneralLinearGroup.coeFn_generalLinearEquiv]
 
 private theorem isHerm4_stdHermForm (n : ℕ) :
     IsHerm4 (fun x y : Fin n → F4 => stdHermForm hF4 n x y) where
@@ -1310,7 +1309,7 @@ private theorem isHerm4_stdHermForm (n : ℕ) :
   nondeg x hx := by
     funext i
     have h := hx (Pi.single i 1)
-    rw [stdHermForm_apply, Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj])
+    rw [stdHermForm_apply, Finset.sum_eq_single i (fun j _ hj => by simp [hj])
       (by simp)] at h
     simp only [Pi.single_eq_same, mul_one, hF4.bar_apply, pow_one] at h
     exact (pow_eq_zero_iff (by norm_num)).1 h
@@ -1327,7 +1326,7 @@ private theorem exists_smul_of_mem_statedScalars {n : ℕ} {s : GL (Fin n) F4}
     ∃ c : F4, ∀ v, (s : Matrix (Fin n) (Fin n) F4) *ᵥ v = c • v := by
   obtain ⟨c, rfl⟩ := hs
   refine ⟨(c : F4), fun v => ?_⟩
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.smul_mulVec, Matrix.one_mulVec]
+  simp [Matrix.GeneralLinearGroup.scalar]
 
 private theorem mul_comm_of_mem_statedScalars {n : ℕ} {s : GL (Fin n) F4}
     (hs : s ∈ StatedScalars (Fin n) F4) (g : GL (Fin n) F4) : s * g = g * s := by
@@ -1353,7 +1352,7 @@ private theorem commutator_subgroup_eq_self {G : Type*} [Group G] (H : Subgroup 
 
 private theorem not_comm_of_isSimpleGroup {G : Type*} [Group G] [IsSimpleGroup G] [Finite G]
     (hp : ¬ (Nat.card G).Prime) : ¬ ∀ a b : G, a * b = b * a := fun hc => by
-  letI : CommGroup G := { ‹Group G› with mul_comm := hc }
+  let : CommGroup G := { ‹Group G› with mul_comm := hc }
   exact hp IsSimpleGroup.prime_card
 
 private theorem commutatorElement_mul_central {G : Type*} [Group G] {a b s t : G}
@@ -1542,8 +1541,8 @@ private theorem false_of_matrix_config {n : ℕ} (hn : n ≤ 7) {z : GL (Fin n) 
   have hγw : ∀ y, γ y * wW = wW * γ y := fun y => Subtype.ext (hwWk y y.2).symm
   have hwu : ∀ x x', stdHermForm hF4 n (β wW x) (β wW x') = stdHermForm hF4 n x x' :=
     fun x x' => by rw [hβ, hlin, hlin]; exact stdHermForm_mulVec_of_mem (e'.symm wW : G').1.2 x x'
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Nontrivial P := Finite.one_lt_card_iff_nontrivial.1 (by rw [hP]; norm_num)
+  have : Fintype P := Fintype.ofFinite P
+  have : Nontrivial P := Finite.one_lt_card_iff_nontrivial.1 (by rw [hP]; norm_num)
   obtain ⟨p₁, hp₁1⟩ := exists_ne (1 : P)
   obtain ⟨p₂, -, hp₂⟩ := Finset.exists_mem_notMem_of_card_lt_card
     (s := ({1, p₁} : Finset P)) (t := Finset.univ)
@@ -1686,8 +1685,8 @@ theorem false_of_psu_le_seven_pumpUp_config {n : ℕ} (hn : n ≤ 7) {L : Type} 
     (hwWk : ∀ x ∈ Wk, w * x = x * w) {P : Subgroup L} (hP : Nat.card P = 4)
     (hP2 : ∀ p ∈ P, p ^ 2 = 1) (hPWk : ∀ p ∈ P, ∀ x ∈ Wk, p * x = x * p) : False := by
   classical
-  haveI : IsSimpleGroup (W.map e.toMonoidHom) := (e.subgroupMap W).symm.isSimpleGroup
-  haveI : IsSimpleGroup (Wk.map e.toMonoidHom) := (e.subgroupMap Wk).symm.isSimpleGroup
+  have : IsSimpleGroup (W.map e.toMonoidHom) := (e.subgroupMap W).symm.isSimpleGroup
+  have : IsSimpleGroup (Wk.map e.toMonoidHom) := (e.subgroupMap Wk).symm.isSimpleGroup
   have hcard : ∀ H : Subgroup L, Nat.card (H.map e.toMonoidHom) = Nat.card H := fun H =>
     Subgroup.card_map_of_injective e.injective
   have hzs : ∀ c : F4, ∃ v, (z : Matrix (Fin n) (Fin n) F4) *ᵥ v ≠ c • v := by

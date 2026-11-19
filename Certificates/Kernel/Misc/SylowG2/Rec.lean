@@ -3,7 +3,7 @@ module
 public meta import Certificates.Kernel.SporSch.HN.GenNTree
 public import Certificates.Kernel.SporSch.HN.GenNTree
 import Certificates.Kernel.Misc.YamakiRep.Gen
-import Mathlib.Data.FunLike.Basic
+import Mathlib.Basic.FunLike.Basic
 
 namespace CFSG.KD.SylowG2.Gen
 

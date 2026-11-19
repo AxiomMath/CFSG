@@ -16,23 +16,23 @@ private theorem four_le_sub_of_prime_dvd {m' r : ℕ} (hr : r.Prime) (hm : 5 ≤
     (hr5 : r ≠ 5) :
     4 ≤ m' - (if r ∣ m' + 1 then 1 else 0) := by
   by_cases hrm : r ∣ m' + 1
-  · rw [if_pos hrm]
+  · rw [ite_eq_left hrm]
     have hne5 : m' + 1 ≠ 5 := by
       intro h5
       exact hr5 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_five).mp (h5 ▸ hrm))
     have hm6 : 6 ≤ m' + 1 := by omega
     omega
-  · rw [if_neg hrm]
+  · rw [ite_eq_right hrm]
     omega
 
 private theorem isSylowTwoOf_projUnitriangular {F : Type} [Field F] [Finite F] [CharP F 2]
     (m' : ℕ) :
     CFSG.QuasithinUnique.IsSylowTwoOf (LinearFlag.projUnitriangular (m' + 1) F) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := LinearFlag.exists_sylow_projUnitriangular (K := F) 2 (n := m' + 1) (by omega)
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [show ((LinearFlag.projUnitriangular (m' + 1) F).subgroupOf ⊤).index =
       (LinearFlag.projUnitriangular (m' + 1) F).index from Subgroup.relIndex_top_right _, ← hP]
     exact P.not_dvd_index
@@ -43,7 +43,7 @@ private theorem torusPSL_range_le_normalizer {F : Type} [Field F] [Finite F] [Ch
       Subgroup.normalizer (((LinearFlag.projUnitriangular (m' + 1) F).map
         (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
           (m' + 1) F).symm.toMonoidHom : Subgroup (PSL(m' + 1, F))) : Set (PSL(m' + 1, F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eSL : Matrix.ProjectiveSpecialLinearGroup (Fin (m' + 1)) F ≃*
       LinearFlag.projectiveSL (m' + 1) F :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
@@ -107,11 +107,11 @@ theorem k_CartanRankLarge_psl :
   have hm' : 1 ≤ m' := by omega
   obtain ⟨F, hFld, hFin, hFcard, ⟨eSL⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hL
-  letI := hFld
-  letI := hFin
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
+  let := hFld
+  let := hFin
+  let : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rwa [← Nat.card_eq_fintype_card])
   let ePSL : K ⧸ Subgroup.center K ≃* PSL(m' + 1, F) := eSL.trans
     (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL
@@ -125,8 +125,8 @@ theorem k_CartanRankLarge_psl :
   have hker : φ.ker ≤ Subgroup.center K := le_of_eq hker_eq
   obtain ⟨r, hr, hr2, hr5, hrdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.exists_odd_prime_dvd_two_pow_sub_one_ne_five hf2
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have hcard_units : r ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hFcard]
     exact hrdvd

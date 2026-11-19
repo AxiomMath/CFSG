@@ -126,6 +126,5 @@ theorem burnsideC56_not_cube_dvd_of_dvd_72 {N p : ℕ} (hN : N ∣ 72) (hp : p.P
   interval_cases p <;> first
     | (exfalso; revert hp; norm_num; done)
     | omega
-    | (exfalso; revert h1; norm_num; done)
 
 end CFSG.ASVolI

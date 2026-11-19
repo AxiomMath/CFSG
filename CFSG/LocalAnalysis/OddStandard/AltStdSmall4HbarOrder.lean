@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {n : ℕ}
   {θ : L ≃* alternatingGroup (Fin n)} {hn : 8 ≤ n} {z : G} {T : Subgroup G}
 
+omit [Finite G] in
 theorem N0Data.card_eq (h : N0Data θ hn z T) : Nat.card T = 64 := by
   rcases h.homo with h1 | h1
   · obtain ⟨e⟩ := h1
@@ -45,7 +46,7 @@ theorem card_centralizer_eq (h : HData θ hn z T) :
     rw [MonoidHom.noncommCoprod_range, range_subtype, range_subtype]
   have hT64 := h.n0.card_eq
   have hinf : T ⊓ O = ⊥ :=
-    inf_eq_bot_of_coprime (by rw [hT64]; exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hT64]; exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))))
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     rintro ⟨a, b⟩ hab
@@ -62,6 +63,7 @@ theorem card_centralizer_eq (h : HData θ hn z T) :
   rw [h.cent, ← hrange, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, Nat.card_prod,
     hT64]
 
+omit [Finite G] in
 theorem mem_ker_normAct_iff (g : normalizer (T : Set G)) :
     g ∈ (AltStdBal.normAct T).ker ↔ (g : G) ∈ centralizer (T : Set G) := by
   rw [MonoidHom.mem_ker, mem_centralizer_iff]

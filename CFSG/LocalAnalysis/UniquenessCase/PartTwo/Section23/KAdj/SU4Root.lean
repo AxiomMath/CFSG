@@ -27,12 +27,12 @@ private theorem four_le_card_fixedField_D05 (ha : 2 ≤ a) : 4 ≤ Nat.card h.fi
 
 private theorem isQuasisimple_sl2_D05 (ha : 2 ≤ a) :
     CFSG.Open.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) := by
-  haveI := h.finite
+  have := h.finite
   exact CFSG.AGLEmbedding.LeviBlock.isQuasisimple_SL_of_four_le (K := h.fixedField)
     (four_le_card_fixedField_D05 h ha) le_rfl
 
 theorem su4_isSLn_levHom_range : IsSLn ↥(levHom h).range 2 a := by
-  haveI := h.finite
+  have := h.finite
   refine ⟨h.fixedField, inferInstance, inferInstance, h.card_fixedField, ⟨?_⟩⟩
   exact (MonoidHom.ofInjective (CFSG.Quasithin.F112R.St84.levHom_injective_u4 h)).symm.trans
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 h.fixedField)
@@ -47,22 +47,22 @@ theorem su4_levHom_range_le_hinf_parP (ha : 2 ≤ a) : (levHom h).range ≤ Hinf
 
 theorem su4_not_isPGroup_levHom_range (ha : 2 ≤ a) : ¬ IsPGroup 2 ↥(levHom h).range := by
   intro hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
   have hq := isQuasisimple_sl2_D05 h ha
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) h.fixedField ⧸
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) h.fixedField ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) h.fixedField)) := hq.2
-  haveI hnt : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :=
+  have hnt : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :=
     (QuotientGroup.mk'_surjective (N := Subgroup.center
       (Matrix.SpecialLinearGroup (Fin 2) h.fixedField))).nontrivial
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) h.fixedField) :=
     Group.isPerfect_def.mpr hq.1
   let e : Matrix.SpecialLinearGroup (Fin 2) h.fixedField ≃* ↥(levHom h).range :=
     MonoidHom.ofInjective (CFSG.Quasithin.F112R.St84.levHom_injective_u4 h)
-  haveI : Group.IsPerfect ↥(levHom h).range :=
+  have : Group.IsPerfect ↥(levHom h).range :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-  haveI : Nontrivial ↥(levHom h).range := e.injective.nontrivial
+  have : Nontrivial ↥(levHom h).range := e.injective.nontrivial
   exact Group.IsPerfect.not_isNilpotent ↥(levHom h).range hp.isNilpotent
 
 theorem su4_isQuasisimple_bar2_hinf_parP (ha : 2 ≤ a) :
@@ -77,8 +77,8 @@ theorem su4_normal_closure_levHom_range (ha : 2 ≤ a) :
     ∀ N : Subgroup ↥(hypSU h 2 0), N ≤ Hinf (parP h) →
       Hinf (parP h) ≤ Subgroup.normalizer (N : Set ↥(hypSU h 2 0)) →
         (levHom h).range ≤ N → N = Hinf (parP h) := by
-  haveI := h.finite
-  haveI : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
+  have := h.finite
+  have : Finite (hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
   intro N hNK hnorm hX
   exact normal_closure_top_of_perfect (Hinf (parP h))
     (CFSG.RankThree.PartTwo.Sec18.commutator_inSubgroup_perfectResidual (parP h))

@@ -166,7 +166,7 @@ theorem three_mul_card_eq_of_quasisimple {T L : Subgroup G} (h1434 : Lemma1434On
     rw [hb', hcard168, pow_add]
     ring
   obtain ⟨S, hS⟩ := hAm.sylow
-  have hS2 : IsPGroup 2 ↥(g1 ⊓ g2) := hS ▸ S.isPGroup'
+  have hS2 : IsPGroup 2 ↥(g1 ⊓ g2) := hS ▸ S.isPGroup
   have hSi : ¬ 2 ∣ (g1 ⊓ g2).index := hS ▸ S.not_dvd_index
   have hsyl : IsSylowTwoOf (g1 ⊓ g2) ⊤ :=
     ⟨le_top, hS2, by rwa [← Subgroup.relIndex, Subgroup.relIndex_top_right]⟩

@@ -22,7 +22,7 @@ namespace W19Aux
 
 theorem inf_eq_bot_of_isPGroup {p : ℕ} {P Q : Subgroup G} (hp : p.Prime) (hodd : p ≠ 2)
     (hP : IsPGroup p P) (hQ : IsPGroup 2 Q) : P ⊓ Q = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp : IsPGroup p ↥(P ⊓ Q) := hP.to_le inf_le_left
   have hT2 : IsPGroup 2 ↥(P ⊓ Q) := hQ.to_le inf_le_right
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hXp
@@ -37,6 +37,7 @@ theorem inf_eq_bot_of_isPGroup {p : ℕ} {P Q : Subgroup G} (hp : p.Prime) (hodd
   rw [ha0, pow_zero] at ha
   exact Subgroup.eq_bot_of_card_eq _ ha
 
+omit [Finite G] in
 theorem coe_sup_eq_mul_of_perm {A B : Subgroup G} (hperm : (A : Set G) * B = B * A) :
     ((A ⊔ B : Subgroup G) : Set G) = (A : Set G) * (B : Set G) := by
   rw [Subgroup.sup_eq_closure_mul]
@@ -62,6 +63,7 @@ theorem coe_sup_eq_mul_of_perm {A B : Subgroup G} (hperm : (A : Set G) * B = B *
       _ = a * (b * a') * b' := by rw [hcd']
       _ = a * b * (a' * b') := by group
 
+omit [Finite G] in
 theorem card_sup_of_perm {A B : Subgroup G} (hAB : A ⊓ B = ⊥)
     (hperm : (A : Set G) * B = B * A) :
     Nat.card ↥(A ⊔ B) = Nat.card ↥A * Nat.card ↥B := by
@@ -123,6 +125,7 @@ theorem exists_conj_of_isSylowIn' {p : ℕ} [Fact p.Prime] {S S' H : Subgroup G}
       group
     exact this
 
+omit [Finite G] in
 theorem conjSubgroup_eq_self_of_mem {M : Subgroup G} {y : G} (hy : y ∈ M) :
     conjSubgroup M y = M := by
   ext x
@@ -150,6 +153,7 @@ theorem coe_mul_eq_of_card {A B L : Subgroup G} (hAL : A ≤ L) (hBL : B ≤ L) 
     obtain ⟨⟨a, b⟩, hab⟩ := hbij.2 ⟨z, hz⟩
     exact ⟨a, a.2, b, b.2, congrArg Subtype.val hab⟩
 
+omit [Finite G] in
 theorem isCyclic_of_le' {P S : Subgroup G} (hS : IsCyclic S) (hPS : P ≤ S) : IsCyclic P := by
   have : IsCyclic (P.subgroupOf S) := Subgroup.isCyclic _
   exact (Subgroup.subgroupOfEquivOfLe hPS).isCyclic.mp this
@@ -180,7 +184,7 @@ theorem isSylowIn_T (h : Hyp193 D V₀ p X) : IsSylowIn 2 D.T (X ⊔ D.T) := by
   have hpos : 0 < Nat.card ↥D.T := Nat.card_pos
   have h2 : D.T.relIndex (X ⊔ D.T) = Nat.card ↥X := Nat.eq_of_mul_eq_mul_right hpos h1
   rw [h2]
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 h.isPGroup
   rw [ha]
   intro hd
@@ -204,7 +208,7 @@ theorem isSylowIn_X (h : Hyp193 D V₀ p X) : IsSylowIn p X (X ⊔ D.T) := by
 
 theorem orderOf_eq (h : Hyp193 D V₀ p X) {x : G} (hx : x ∈ X ⊔ D.T) :
     ∃ a b : ℕ, orderOf x = 2 ^ a * p ^ b := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 h.isPGroup
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 D.sylowM.isPGroup
   have hdvd : orderOf x ∣ Nat.card ↥(X ⊔ D.T) := by
@@ -218,7 +222,7 @@ theorem orderOf_eq (h : Hyp193 D V₀ p X) {x : G} (hx : x ∈ X ⊔ D.T) :
 
 theorem exists_conj_le (h : Hyp193 D V₀ p X) {P : Subgroup G} (hPH : P ≤ X ⊔ D.T)
     (hP : IsPGroup p P) : ∃ y ∈ X ⊔ D.T, P ≤ conjSubgroup X y := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨S, hS, hPS⟩ := exists_isSylowIn_ge p hPH hP
   obtain ⟨g, hg, hgx⟩ := exists_conj_of_isSylowIn' (isSylowIn_X h) hS
   refine ⟨g⁻¹, (X ⊔ D.T).inv_mem hg, fun x hx => ?_⟩
@@ -292,7 +296,7 @@ theorem inf_conj_M_eq_bot (h : Hyp193 D V₀ p X) (hN₀ : D.M ≤ normalizer (V
 theorem isPGroup_two_inf_conj_M (h : Hyp193 D V₀ p X) (hN₀ : D.M ≤ normalizer (V₀ : Set G))
     {g : G} (hg : g ∉ D.M) (hV₀ : V₀ ≤ conjSubgroup D.M g) :
     IsPGroup 2 ↥((X ⊔ D.T) ⊓ conjSubgroup D.M g) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set Q : Subgroup G := (X ⊔ D.T) ⊓ conjSubgroup D.M g with hQ
   have hQH : Q ≤ X ⊔ D.T := inf_le_left
   have hdvd : Nat.card ↥Q ∣ Nat.card ↥(X ⊔ D.T) := Subgroup.card_dvd_of_le hQH

@@ -160,7 +160,7 @@ private theorem false_of_n_eq_one_of_starImg_le {H I J : Subgroup G} {n : ℕ}
   rw [hn] at hIt
   have hIcard : Nat.card I =
       2 ^ ((Nat.card (CFSG.pCore 2 ↥I)).factorization 2 + 1) * 3 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨e⟩ := hIt
     have hQcard : Nat.card (modTwoCore I) = 6 := by
       rw [Nat.card_congr e.toEquiv,
@@ -187,11 +187,12 @@ private theorem false_of_n_eq_one_of_starImg_le {H I J : Subgroup G} {n : ℕ}
       (a := (Nat.card (CFSG.pCore 2 ↥I)).factorization 2 + 1) (b := 1)
       Nat.prime_two Nat.prime_three (by simpa using hJdvd)
   have hcomp : CFSG.IsComponent (starImg p H J) := isComponent_starImg hJ
-  haveI : Nontrivial ↥(starImg p H J) :=
+  have : Nontrivial ↥(starImg p H J) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hcomp.1
-  haveI : Group.IsPerfect ↥(starImg p H J) := hcomp.1.1
+  have : Group.IsPerfect ↥(starImg p H J) := hcomp.1.1
   exact Group.IsPerfect.not_isSolvable ↥(starImg p H J) hsolv
 
+omit [Finite G] in
 private theorem le_pCoreOf_two_of_map_eq_bot {I S : Subgroup G}
     {π : ↥I →* modTwoCore I} (hπ : π = QuotientGroup.mk' (CFSG.pCore 2 ↥I))
     (hSI : S ≤ I) (hbot : (S.subgroupOf I).map π = ⊥) : S ≤ pCoreOf 2 I := by
@@ -216,7 +217,7 @@ private theorem false_of_le_pCoreOf_two_of_starImg_le {H I J : Subgroup G} (hp :
     change starImg p H (pCoreOf 2 I ⊔ relPPrimeCore p H) ≤ starImg p H (pCoreOf 2 I)
     rw [starImg_sup_relPPrimeCore hp
       ((CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 I).trans hIH)]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2I : IsPGroup 2 (pCoreOf 2 I) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥I)).map I.subtype
   have hp2IH : IsPGroup 2 ((pCoreOf 2 I).subgroupOf H) :=
@@ -226,12 +227,13 @@ private theorem false_of_le_pCoreOf_two_of_starImg_le {H I J : Subgroup G} (hp :
     hp2IH.map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))
   have hJstar2 : IsPGroup 2 (starImg p H J) := h2star.to_le hJstar_le
   have hcomp : CFSG.IsComponent (starImg p H J) := isComponent_starImg hJ
-  haveI : Nontrivial ↥(starImg p H J) :=
+  have : Nontrivial ↥(starImg p H J) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hcomp.1
-  haveI : Group.IsNilpotent ↥(starImg p H J) := hJstar2.isNilpotent
-  haveI : Group.IsPerfect ↥(starImg p H J) := hcomp.1.1
+  have : Group.IsNilpotent ↥(starImg p H J) := hJstar2.isNilpotent
+  have : Group.IsPerfect ↥(starImg p H J) := hcomp.1.1
   exact Group.IsPerfect.not_isNilpotent ↥(starImg p H J) hJstar2.isNilpotent
 
+omit [Finite G] in
 private theorem three_dvd_card_of_map_eq_top {I S P : Subgroup G} {π : ↥I →* modTwoCore I}
     (h3Q : 3 ∣ Nat.card (modTwoCore I)) (hSI : S ≤ I) (hSP : S ≤ P)
     (htop : (S.subgroupOf I).map π = ⊤) : 3 ∣ Nat.card P := by
@@ -256,7 +258,7 @@ private theorem three_dvd_card_sup_of_starImg_le_of_three_le {H I J : Subgroup G
   have hSJO : S ≤ J ⊔ relPPrimeCore p H := by rw [hS]; exact inf_le_left
   have hSsub : CFSG.Open.IsSubnormal S I :=
     isSubnormal_inf_sup_relPPrimeCore hp hIH hJH hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hIt
   have hQsimple : IsSimpleGroup (modTwoCore I) :=
     CFSG.CGT.Timmesfeld75.isSimpleGroup_of_psl2 (by omega : 2 ≤ n) e
@@ -290,7 +292,7 @@ private theorem exists_sylow_three_with_unique_order_three {I P : Subgroup G}
     ∃ (T W₀ : Subgroup G), CFSG.ABGLocalTools.IsSylowOf 3 T P ∧ W₀ ≤ T ∧
       Nat.card W₀ = 3 ∧ normalizer (T : Set G) ≤ normalizer (W₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hTsyl⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 P
   have hfac : 0 < (Nat.card P).factorization 3 :=
     Nat.Prime.factorization_pos_of_dvd Nat.prime_three Nat.card_pos.ne' h3
@@ -336,7 +338,7 @@ private theorem normalizer_le_of_order_three_conjugate {I T W W₀ : Subgroup G}
     (hNT_le : normalizer (T : Set G) ≤ normalizer (W₀ : Set G)) :
     normalizer (T : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hyIO, hyW'⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.exists_mem_map_conj_eq_of_card_eq_prime (p := 3)
       hIOrank (hWI.trans le_sup_left) hW₀IO hW hW₀card

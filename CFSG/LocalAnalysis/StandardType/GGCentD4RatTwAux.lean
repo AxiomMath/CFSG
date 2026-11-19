@@ -82,7 +82,7 @@ theorem ntpRT_entrywise_eq_conj {K : Type} [Field K] [Finite K] {L : Type} [Fiel
     rw [← coe_fieldActor (t := TwistTag.D4) σ (σ ^ (3 - ε)) x] at h'
     rw [map_mul, map_mul, map_inv, map_pow, baseChangeGL_diagramMap] at h'
     exact h'
-  convert hmain using 2 <;> rfl
+  convert hmain using 2; rfl
 
 theorem ntpRT_map_entrywise_adjointGroup {L : Type} [Field L] [IsAlgClosed L] (f : ℕ)
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f)) :
@@ -111,8 +111,8 @@ theorem ntpRT_S_surj {L : Type} [Field L] [IsAlgClosed L] (f : ℕ) (Fr : L →+
   rw [hFa]
   exact ntpRT_d4P_conj_cancel hr b
 
-theorem ntpRT_S_fixed {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = ((2 : ℕ) ^ f) ^ 3) {L : Type} [Field L] [IsAlgClosed L]
+theorem ntpRT_S_fixed {f : ℕ} (_hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
+    (_hK : Nat.card K = ((2 : ℕ) ^ f) ^ 3) {L : Type} [Field L] [IsAlgClosed L]
     [Algebra K L] (r : ℕ) (hr : r = 1 ∨ r = 2) (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f)) (g : ↥(adjointGroup Tag.D4 L)) (ε : ℕ)
     (hε : ε = 1 ∨ ε = 2)
@@ -173,7 +173,7 @@ theorem ntpRT_S_fixed {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
     rw [h3] at h2
     rw [hSaS] at h2
     refine Subtype.ext ?_
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     calc (b : ModGL Tag.D4 L) * ((g : ModGL Tag.D4 L)⁻¹ * S (g : ModGL Tag.D4 L)) =
         (g : ModGL Tag.D4 L)⁻¹ *
           ((g : ModGL Tag.D4 L) * (b : ModGL Tag.D4 L) * (g : ModGL Tag.D4 L)⁻¹) *
@@ -212,11 +212,11 @@ theorem ntpRT_mem_image {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
       x ∈ adjointGroup TwistTag.D4.tag L ∧ diagramMap TwistTag.D4 L ^ r *
         Units.map (entrywiseHom Fr) x * (diagramMap TwistTag.D4 L ^ r)⁻¹ = x} := by
     refine ⟨g.2, ?_⟩
-    convert hg using 2 <;> rfl
+    convert hg using 2; rfl
   rw [hset] at hmem
   obtain ⟨g', hg', hgg⟩ := hmem
   refine ⟨⟨g', hg'⟩, ?_⟩
-  convert hgg using 2 <;> rfl
+  convert hgg using 2; rfl
 
 theorem ntpRT_sigma_eq_frob_pow {f r : ℕ} (hf : 1 ≤ f) {K : Type} [Field K]
     (hK : Nat.card K = ((2 : ℕ) ^ f) ^ 3) (σ : K ≃+* K)

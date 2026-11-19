@@ -31,12 +31,12 @@ private theorem two_mul_div_two_xor_mod_two (x : ℕ) :
     intro j
     rw [Nat.testBit_xor, Nat.testBit_two_pow_mul_add (x / 2) (by omega) j]
     by_cases hji : j < 1
-    · rw [if_pos hji]
+    · rw [ite_eq_left hji]
       have hz : (2 ^ 1 * (x / 2)).testBit j = false := by
         rw [Nat.testBit_two_pow_mul]
         simp [Nat.not_le.mpr hji]
       rw [hz, Bool.false_xor]
-    · rw [if_neg hji]
+    · rw [ite_eq_right hji]
       have hge : 1 ≤ j := Nat.le_of_not_lt hji
       have h1 : (2 ^ 1 * (x / 2)).testBit j = (x / 2).testBit (j - 1) := by
         rw [Nat.testBit_two_pow_mul]
@@ -391,7 +391,7 @@ private theorem foldl_range_delta (X : ℕ → ℕ) :
     by_cases hlt : t₁ < n
     · rw [ih t₁ t₂ hlt]
       have h0 : (if t₁ = n then t₂ else 0) &&& X n = 0 := by
-        rw [if_neg (by omega), Nat.zero_and]
+        rw [ite_eq_right (by omega), Nat.zero_and]
       rw [h0, Nat.xor_zero]
     · have heq : t₁ = n := by omega
       rw [heq]
@@ -400,7 +400,7 @@ private theorem foldl_range_delta (X : ℕ → ℕ) :
         apply foldl_zero
         intro v hv
         rw [List.mem_range] at hv
-        rw [if_neg (by omega), Nat.zero_and]
+        rw [ite_eq_right (by omega), Nat.zero_and]
       rw [hz, Nat.zero_xor]
       simp
 
@@ -415,8 +415,8 @@ private theorem foldl_var_acc (v : ℕ) :
     intro m
     rw [List.foldl_cons, ih]
     by_cases h : t.1 = v
-    · rw [if_pos h, List.foldl_cons, if_pos h, Nat.zero_xor, ih t.2, Nat.xor_assoc]
-    · rw [if_neg h, List.foldl_cons, if_neg h]
+    · rw [ite_eq_left h, List.foldl_cons, ite_eq_left h, Nat.zero_xor, ih t.2, Nat.xor_assoc]
+    · rw [ite_eq_right h, List.foldl_cons, ite_eq_right h]
 
 private theorem foldl_terms_group (X : ℕ → ℕ) :
     ∀ (ts : List (ℕ × ℕ)) (nv : ℕ), (∀ t ∈ ts, t.1 < nv) →
@@ -717,6 +717,6 @@ theorem farkasCase_sound {dat : Data} {F : List Fact} {node ks : List ℕ}
 
 theorem mem_of_mem_basisIn {l : List ℕ} {x : ℕ} (hx : x ∈ basisIn l) : x ∈ l := by
   simp only [basisIn, List.mem_filter] at hx
-  exact List.contains_iff.mp hx.2
+  exact _root_.List.contains_iff_mem.mp hx.2
 
 end CFSG.Monster.B.TwoA.Sp8.P0Rank

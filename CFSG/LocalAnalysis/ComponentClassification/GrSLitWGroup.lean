@@ -288,7 +288,7 @@ theorem exists_isSylowTwoIn_mem {H : Subgroup G} {a : G} (ha : a ∈ H) (ha2 : o
 omit [Finite G] in
 theorem IsSylowTwoIn.isPGroup {S H : Subgroup G} (h : IsSylowTwoIn S H) : IsPGroup 2 S := by
   obtain ⟨hSH, P, hP⟩ := h
-  have hp := P.isPGroup'
+  have hp := P.isPGroup
   rw [hP] at hp
   exact hp.of_equiv (subgroupOfEquivOfLe hSH)
 
@@ -402,7 +402,7 @@ private theorem sylow_and_fusion_of_threeConnected_within {S : Subgroup G}
       refine lt_top_iff_ne_top.mpr fun htop => hQS fun q hq => ?_
       have : (⟨q, hq⟩ : Q) ∈ S.subgroupOf Q := by rw [htop]; exact mem_top _
       exact mem_subgroupOf.mp this
-    have hnil : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
     obtain ⟨y, hyN, hyS⟩ :=
       IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hyM : (y : G) ∈ M := by
@@ -413,7 +413,7 @@ private theorem sylow_and_fusion_of_threeConnected_within {S : Subgroup G}
       have := (mem_normalizer_iff.mp hyN _).mp hx'
       exact mem_subgroupOf.mp this
     have hQ' : IsPGroup 2 ↥(S ⊔ zpowers (y : G)) :=
-      Q.isPGroup'.to_le (sup_le hSQ (zpowers_le.mpr y.2))
+      Q.isPGroup.to_le (sup_le hSQ (zpowers_le.mpr y.2))
     have heq := hSyl.eq_of_le le_sup_left (sup_le hSM (zpowers_le.mpr hyM)) hQ'
     have hyS' : (y : G) ∈ S ⊔ zpowers (y : G) :=
       (le_sup_right : zpowers (y : G) ≤ S ⊔ zpowers (y : G)) (mem_zpowers (y : G))

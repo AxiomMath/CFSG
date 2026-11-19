@@ -270,7 +270,7 @@ theorem heisenbergMatrix_weyl (hσ : ∀ c, σ (σ c) = c) {i k : Fin n} (hi : i
     mono_simp
     funext r
     simp only [Pi.add_apply, Pi.sub_apply, Pi.single_apply]
-    split_ifs <;> first | (exfalso; simp_all; done) | skip
+    split_ifs <;> try (exfalso; simp_all; done)
     all_goals field_simp
     all_goals first | ring1 | linear_combination hab | linear_combination -a * hab
   by_cases hsi' : s = Fin.rev i
@@ -280,7 +280,7 @@ theorem heisenbergMatrix_weyl (hσ : ∀ c, σ (σ c) = c) {i k : Fin n} (hi : i
     mono_simp
     funext r
     simp only [Pi.add_apply, Pi.sub_apply, Pi.single_apply]
-    split_ifs <;> first | (exfalso; simp_all; done) | skip
+    split_ifs <;> try (exfalso; simp_all; done)
     all_goals field_simp
     all_goals first | ring1 | linear_combination hab
   have e1 : i ≠ s := Ne.symm hsi

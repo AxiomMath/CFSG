@@ -17,7 +17,7 @@ private theorem ltrd4e_datum
     {E : Subgroup (MulAut L)} {labL : LargeEvenLabel}
     (hΛL : LargeEvenInLambda2 labL)
     (hpairKac : GGKacExcPair labL 3) (hperfL : commutator L = ⊤)
-    (hraw : LargeEvenRawDatum labL (fun R _ I F =>
+    (hraw : LargeEvenRawDatum labL (fun R _ I _F =>
       IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
         ∃ θ : L ⧸ Subgroup.center L ≃* R, GGInducedInn E θ I))
     (hyE : y ∈ E) (hy3 : y ^ 3 = 1)
@@ -25,7 +25,7 @@ private theorem ltrd4e_datum
     ∃ D : GGKacDatum, GGKacValid labL 3 D ∧ ∃ o ∈ D.orbits,
       LargeEvenInLambda2 o.lab ∧ GGHasLabel o.lab (J ⧸ Subgroup.center J) := by
   have hmain := hB 3 labL hΛL hpairKac _ hraw
-  obtain ⟨R, hRgrp, I, F, hQR⟩ := largeEvenRawDatum_exists hmain
+  obtain ⟨R, hRgrp, I, _F, hQR⟩ := largeEvenRawDatum_exists hmain
   obtain ⟨hsimple, hna, θ, hInd⟩ := hQR.1
   let ψ : L →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψ : Function.Surjective ψ := by
@@ -120,16 +120,16 @@ private theorem ltrd4e_exc
       ⟨by rw [hoeq]; exact htag, by rw [hoeq]; exact hrk⟩
 
 theorem ggInnerOnD4_tagF4
-    (hB : GGK0ExcB) : GGInnerOnD4On fun lab => lab.tag = .F4 :=
-  GGInnerOnD4On.mono (fun lab h => Or.inl h) (ltrd4e_exc hB)
+    (hB : GGK0ExcB) : GGInnerOnD4On fun _lab => _lab.tag = .F4 :=
+  GGInnerOnD4On.mono (fun _lab h => Or.inl h) (ltrd4e_exc hB)
 
 theorem ggInnerOnD4_tagE7
-    (hB : GGK0ExcB) : GGInnerOnD4On fun lab => lab.tag = .E7 :=
-  GGInnerOnD4On.mono (fun lab h => Or.inr (Or.inl h)) (ltrd4e_exc hB)
+    (hB : GGK0ExcB) : GGInnerOnD4On fun _lab => _lab.tag = .E7 :=
+  GGInnerOnD4On.mono (fun _lab h => Or.inr (Or.inl h)) (ltrd4e_exc hB)
 
 theorem ggInnerOnD4_tagE8
-    (hB : GGK0ExcB) : GGInnerOnD4On fun lab => lab.tag = .E8 :=
-  GGInnerOnD4On.mono (fun lab h => Or.inr (Or.inr h)) (ltrd4e_exc hB)
+    (hB : GGK0ExcB) : GGInnerOnD4On fun _lab => _lab.tag = .E8 :=
+  GGInnerOnD4On.mono (fun _lab h => Or.inr (Or.inr h)) (ltrd4e_exc hB)
 
 end CFSG.StandardType
 

@@ -257,6 +257,7 @@ theorem evalSy_syl (w : List Nat) {x : Nat} (hx : x < 693) :
       at' 10 (Bool.rec (motive := fun _ => Nat) Y X (Nat.beq z 1)) (evalXY X Y w x)
     rw [sylStep_eval hX hY z _ hx, ih]
 
+set_option exponentiation.threshold 6930 in
 theorem tvSy_spec {G : Nat} {w : List Nat} (h : tvSy X Y w G = true) : wordXY X Y w = G := by
   simp only [tvSy, CFSG.KS.PK.letB_eq, CFSG.KS.PK.andB_eq, Bool.and_eq_true, Nat.blt_eq,
     CFSG.KS.PK.allN_lqt_iff, Nat.beq_eq] at h

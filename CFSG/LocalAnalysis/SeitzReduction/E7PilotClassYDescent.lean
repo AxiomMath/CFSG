@@ -19,7 +19,7 @@ theorem entrywiseFrobGL_rootProd {L : Type} [Field L] [CharP L 2]
     (l : List (Fin Tag.E7.rank → ℤ)) (c : (Fin Tag.E7.rank → ℤ) → L) :
     entrywiseFrobGL .E7 L 2 1 (rootProd .E7 L l c) =
       rootProd .E7 L l (fun β => c β ^ 2) := by
-  simp only [rootProd, map_list_prod, List.map_map, Function.comp_apply]
+  simp only [rootProd, map_list_prod, List.map_map]
   congr 1
   refine List.map_congr_left fun β _ => ?_
   change entrywiseFrobGL .E7 L 2 1 (pinnedX .E7 L β (c β)) = pinnedX .E7 L β (c β ^ 2)

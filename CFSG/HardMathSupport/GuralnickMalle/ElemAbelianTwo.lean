@@ -20,17 +20,20 @@ variable {K : Type*} [Field K] [CharP K 2]
     (T : Fin r → V ≃ₗ[K] V) (S : Fin r → W ≃ₗ[K] W) : Submodule K (V ⊗[K] W) :=
   ⨅ i : Fin r, LinearMap.ker (TensorProduct.map (T i : V →ₗ[K] V) (S i : W →ₗ[K] W) - 1)
 
+omit [CharP K 2] in
 theorem mem_iterFixed {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     {T : Fin r → V ≃ₗ[K] V} {i : ℕ} {v : V} :
     v ∈ iterFixed T i ↔ ∀ j : Fin r, (j : ℕ) < i → T j v = v := by
   simp only [iterFixed, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply,
     Module.End.one_apply, sub_eq_zero, Subtype.forall, LinearEquiv.coe_coe]
 
+omit [CharP K 2] in
 theorem iterFixed_zero {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     (T : Fin r → V ≃ₗ[K] V) : iterFixed T 0 = ⊤ := by
   ext v
   simp [mem_iterFixed]
 
+omit [CharP K 2] in
 theorem iterFixed_succ {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     {T : Fin r → V ≃ₗ[K] V} {i : ℕ} (hi : i < r) :
     iterFixed T (i + 1) = iterFixed T i ⊓ LinearMap.ker ((T ⟨i, hi⟩ : V →ₗ[K] V) - 1) := by
@@ -47,6 +50,7 @@ theorem iterFixed_succ {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
       rw [hji]
       exact h2
 
+omit [CharP K 2] in
 theorem iterFixed_castSucc {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     (T : Fin (r + 1) → V ≃ₗ[K] V) {i : ℕ} (hi : i ≤ r) :
     iterFixed (fun j : Fin r => T (Fin.castSucc j)) i = iterFixed T i := by
@@ -60,6 +64,7 @@ theorem iterFixed_castSucc {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
   · intro h j hj
     exact h (Fin.castSucc j) (by simpa using hj)
 
+omit [CharP K 2] in
 theorem iInf_fin_succ {M : Type*} [AddCommGroup M] [Module K M] {r : ℕ}
     (p : Fin (r + 1) → Submodule K M) :
     (⨅ i, p i) = (⨅ i : Fin r, p (Fin.castSucc i)) ⊓ p (Fin.last r) := by
@@ -70,6 +75,7 @@ theorem iInf_fin_succ {M : Type*} [AddCommGroup M] [Module K M] {r : ℕ}
     · exact h.1 j
     · exact h.2⟩
 
+omit [CharP K 2] in
 theorem tensorFixed_castSucc {V W : Type*} [AddCommGroup V] [Module K V]
     [AddCommGroup W] [Module K W] {r : ℕ}
     (T : Fin (r + 1) → V ≃ₗ[K] V) (S : Fin (r + 1) → W ≃ₗ[K] W) :
@@ -82,6 +88,7 @@ theorem tensorFixed_castSucc {V W : Type*} [AddCommGroup V] [Module K V]
   rw [tensorFixed, tensorFixed]
   exact iInf_fin_succ _
 
+omit [CharP K 2] in
 theorem restrict_comp_self {V : Type*} [AddCommGroup V] [Module K V]
     {f : V →ₗ[K] V} (hf : f.comp f = 1) {A : Submodule K V}
     (hA : ∀ x ∈ A, f x ∈ A) : (f.restrict hA).comp (f.restrict hA) = 1 := by
@@ -91,6 +98,7 @@ theorem restrict_comp_self {V : Type*} [AddCommGroup V] [Module K V]
   simp only [LinearMap.comp_apply, LinearMap.coe_restrict_apply, Module.End.one_apply]
   exact congrArg (fun g : V →ₗ[K] V => g (x : V)) hf
 
+omit [CharP K 2] in
 theorem finrank_ker_restrict_sub_one {M : Type*} [AddCommGroup M] [Module K M]
     {f : M →ₗ[K] M} {A : Submodule K M} (hA : ∀ x ∈ A, f x ∈ A) :
     Module.finrank K (LinearMap.ker ((f.restrict hA) - 1)) =

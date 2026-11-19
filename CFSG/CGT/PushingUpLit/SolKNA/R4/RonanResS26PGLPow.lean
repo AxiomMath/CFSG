@@ -34,7 +34,7 @@ theorem pgl_mu_comm_Z {K : Type} [Field K] {C μ : PGammaL2 K} {γ : Kˣ}
 theorem pgl_card_ringEquiv {K : Type} [Field K] [Finite K] (p : ℕ) [Fact p.Prime]
     [Algebra (ZMod p) K] : Nat.card (K ≃+* K) = Module.finrank (ZMod p) K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let e : (K ≃+* K) ≃* (K ≃ₐ[ZMod p] K) := {
     toFun := fun sigma =>
       AlgEquiv.ofRingEquiv (f := sigma) (by
@@ -55,11 +55,11 @@ theorem pgl_sigma_pow_eq_one {K : Type} [Field K] [Finite K] (h2 : (2 : K) ≠ 0
     (hN : padicValNat 2 (Nat.card K - 1) = r) {σ : K ≃+* K} (hσ : σ ^ 2 ^ (r - 1) = 1) :
     σ ^ 2 ^ (r - 2) = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hchar
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hchar
+  let : Algebra (ZMod p) K := ZMod.algebra K p
   have hcardK : Nat.card K = p ^ Module.finrank (ZMod p) K :=
     (FiniteField.pow_finrank_eq_natCard p K).symm
   set f := Module.finrank (ZMod p) K with hfdef

@@ -37,7 +37,7 @@ theorem exists_pSubgroup_normalizer_not_le_center [Finite G] {p : ℕ} [Fact p.P
   obtain ⟨Q, hQ⟩ := hW.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p L) hnd
   set U := (Q : Subgroup L).map L.subtype with hUdef
   have hUL : U ≤ L := map_subtype_le _
-  have hUp : IsPGroup p U := Q.isPGroup'.map L.subtype
+  have hUp : IsPGroup p U := Q.isPGroup.map L.subtype
   have hWU : W ≤ normalizer (U : Set G) := by
     refine CFSG.GH74.AS16.le_normalizer_of_conj_mem fun w hw u hu => ?_
     obtain ⟨q, hq, rfl⟩ := hu

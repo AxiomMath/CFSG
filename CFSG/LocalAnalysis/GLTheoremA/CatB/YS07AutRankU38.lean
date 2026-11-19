@@ -55,7 +55,7 @@ theorem ys07_card_cen {pts : Array (Array ℕ)} {Q : Subgroup (Equiv.Perm (Fin 5
       (cenOf pts i).toFinset.image (fun j => permOfArr 513 pts[j]!) from ?_]
   · rw [Finset.card_image_of_injOn, List.toFinset_card_of_nodup hnd]
     intro j hj k hk h
-    simp only [Finset.coe_image, Set.mem_image, List.coe_toFinset, Set.mem_setOf_eq] at hj hk
+    simp only [List.coe_toFinset, Set.mem_ofPred_eq] at hj hk
     exact ys07_index_inj hmem hcard (ys07_mem_cenOf.1 hj).1 (ys07_mem_cenOf.1 hk).1 h
   · ext y
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Subgroup.mem_inf,
@@ -95,7 +95,7 @@ theorem ys07_elemAb_lt_81_of_pts {pts : Array (Array ℕ)} {Q : Subgroup (Equiv.
     have h := hck
     simp only [noE81Pts, Bool.and_eq_true, List.all_eq_true] at h
     have hmemp := h.2 (i, cenOf pts i) (List.mem_map.2 ⟨i, hi, rfl⟩)
-    simp only [bne_iff_ne, ne_eq, Bool.or_eq_true, decide_eq_true_eq, Bool.not_eq_true] at hmemp
+    simp only [bne_iff_ne, ne_eq, Bool.or_eq_true] at hmemp
     rcases hmemp with h' | h'
     · exact absurd h81 h'
     · exact h'
@@ -143,7 +143,7 @@ theorem ys07_elemAb_lt_81_of_pts {pts : Array (Array ℕ)} {Q : Subgroup (Equiv.
   have hC_ge : 81 ≤ Nat.card C := hlt.trans hEC'
   have hC81 : Nat.card C = 81 := by
     rw [hCk] at hC_lt hC_ge ⊢
-    interval_cases k <;> (try norm_num at hC_ge) <;> (try norm_num at hC_lt) <;> norm_num
+    interval_cases k <;> (try norm_num at hC_ge) <;> (try norm_num at hC_lt); norm_num
   have hEeq : E = C := Subgroup.eq_of_le_of_card_ge hEC (by omega)
   have hlen : (cenOf pts i).length = 81 := by
     rw [← ys07_card_cen hval hmem hcard hi]
@@ -205,7 +205,7 @@ theorem u38_elemAb_le_27
     rw [U38Q, Subgroup.closure_le]
     rintro _ ⟨k, hk, rfl⟩
     exact mem_U38G_of_sift1 (enumOK_gens_valid henum hk) (allLt_spec hsift hk)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Qs : Subgroup U38G := U38Q.subgroupOf U38G
   have hQs : Nat.card Qs = 3 ^ 6 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQΓ).toEquiv, hQ]

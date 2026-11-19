@@ -18,12 +18,13 @@ section Cent
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V}
 
+omit [CharP F 2] in
 theorem exists_eq_X_sub_C_of_mem_primaryFactors {p : ℕ} (hp : p.Prime) (hpq : p ∣ Nat.card F - 1)
     {d : V ≃ₗ[F] V} (hd : d ^ p = 1) {h : F[X]} (hh : h ∈ primaryFactors d.toLinearMap) :
     ∃ u : Fˣ, u ^ p = 1 ∧ h = X - C (u : F) := by
   classical
   obtain ⟨hirr, hmonic, hdvd⟩ := mem_primaryFactors.mp hh
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp : d.toLinearMap ^ p = 1 := by
     have h := map_pow (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := F) (M := V)) d p
     rw [hd, map_one] at h
@@ -53,6 +54,7 @@ theorem exists_eq_X_sub_C_of_mem_primaryFactors {p : ℕ} (hp : p.Prime) (hpq : 
   · rw [heq]
     simp
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_weight_of_mem_primaryFactors_aux1 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
     (v : V) (j : Fin m) :
@@ -79,15 +81,16 @@ private theorem exists_weight_of_mem_primaryFactors_aux1 {m : ℕ} {e f : Fin m 
   refine (Fintype.sum_eq_single j (fun i hij => ?_)).trans ?_
   · simp only [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right, smul_eq_mul]
     have h1 : QuadraticMap.polar Q (f j) (e i) = 0 := by
-      rw [QuadraticMap.polar_comm Q (f j) (e i), hef.polar_ef i j, if_neg hij]
+      rw [QuadraticMap.polar_comm Q (f j) (e i), hef.polar_ef i j, ite_eq_right hij]
     have h2 : QuadraticMap.polar Q (f j) (f i) = 0 := hef.polar_ff j i
     rw [h1, h2, mul_zero, mul_zero, add_zero]
   · simp only [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right, smul_eq_mul]
     have h1 : QuadraticMap.polar Q (f j) (e j) = 1 := by
-      rw [QuadraticMap.polar_comm Q (f j) (e j), hef.polar_ef j j, if_pos rfl]
+      rw [QuadraticMap.polar_comm Q (f j) (e j), hef.polar_ef j j, ite_eq_left rfl]
     have h2 : QuadraticMap.polar Q (f j) (f j) = 0 := hef.polar_ff j j
     rw [h1, h2, mul_one, mul_zero, add_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_weight_of_mem_primaryFactors_aux2 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
     (v : V) (j : Fin m) :
@@ -115,15 +118,16 @@ private theorem exists_weight_of_mem_primaryFactors_aux2 {m : ℕ} {e f : Fin m 
   · simp only [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right, smul_eq_mul]
     have h1 : QuadraticMap.polar Q (e j) (e i) = 0 := hef.polar_ee j i
     have h2 : QuadraticMap.polar Q (e j) (f i) = 0 := by
-      rw [hef.polar_ef j i, if_neg (Ne.symm hij)]
+      rw [hef.polar_ef j i, ite_eq_right (Ne.symm hij)]
     rw [h1, h2, mul_zero, mul_zero, add_zero]
   · simp only [QuadraticMap.polar_add_right, QuadraticMap.polar_smul_right, smul_eq_mul]
     have h1 : QuadraticMap.polar Q (e j) (e j) = 0 := hef.polar_ee j j
     have h2 : QuadraticMap.polar Q (e j) (f j) = 1 := by
-      rw [hef.polar_ef j j, if_pos rfl]
+      rw [hef.polar_ef j j, ite_eq_left rfl]
     rw [h1, h2, mul_zero, mul_one, zero_add]
 
-theorem exists_weight_of_mem_primaryFactors (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {m : ℕ}
+omit [Finite F] [CharP F 2] in
+theorem exists_weight_of_mem_primaryFactors (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {u : Fˣ} (hu : u ≠ 1)
     (hh : X - C (u : F) ∈ primaryFactors d.toLinearMap) : ∃ i, c i = u ∨ c i = u⁻¹ := by
@@ -171,21 +175,24 @@ theorem exists_weight_of_mem_primaryFactors (hQ : (QuadraticMap.polarBilin Q).No
   · exact hu (Units.ext (sub_eq_zero.mp h1).symm)
   · exact hv0 h2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem finrank_fixedSpace_of_weightOne_aux1 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
     (v : V) (j : Fin m) :
     QuadraticMap.polar Q (d v) (f j) = QuadraticMap.polar Q v (f j) * (c j : F) :=
   exists_weight_of_mem_primaryFactors_aux1 hef hd v j
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem finrank_fixedSpace_of_weightOne_aux2 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
     (v : V) (j : Fin m) :
     QuadraticMap.polar Q (d v) (e j) = QuadraticMap.polar Q v (e j) * (((c j)⁻¹ : Fˣ) : F) :=
   exists_weight_of_mem_primaryFactors_aux2 hef hd v j
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem finrank_fixedSpace_of_weightOne_aux3 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
-    {j : Fin m} (hcj : c j ≠ 1) (hc1 : ∀ i, i ≠ j → c i = 1) :
+    {j : Fin m} (hcj : c j ≠ 1) (_hc1 : ∀ i, i ≠ j → c i = 1) :
     fixedSpace d ≤ LinearMap.ker ((QuadraticMap.polarBilin Q (e j)).prod
       (QuadraticMap.polarBilin Q (f j))) := by
   intro v hv
@@ -213,6 +220,7 @@ private theorem finrank_fixedSpace_of_weightOne_aux3 {m : ℕ} {e f : Fin m → 
       exact (mul_eq_zero.mp h2).resolve_right (sub_ne_zero.mpr hne)
     exact h3
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem finrank_fixedSpace_of_weightOne_aux4 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c d)
     {j : Fin m} (hc1 : ∀ i, i ≠ j → c i = 1) :
@@ -244,6 +252,7 @@ private theorem finrank_fixedSpace_of_weightOne_aux4 {m : ℕ} {e f : Fin m → 
       simp
   rw [hvdecomp, map_add, hs, hdw]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem finrank_fixedSpace_of_weightOne_aux5 {m : ℕ} {e f : Fin m → V}
     (hef : IsHypFamily Q e f) (j : Fin m) :
     LinearMap.range ((QuadraticMap.polarBilin Q (e j)).prod
@@ -261,12 +270,12 @@ private theorem finrank_fixedSpace_of_weightOne_aux5 {m : ℕ} {e f : Fin m → 
       exact hef.polar_ee j j
     · show QuadraticMap.polarBilin Q (f j) (e j) = 1
       rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_comm Q (f j) (e j),
-        hef.polar_ef j j, if_pos rfl]
+        hef.polar_ef j j, ite_eq_left rfl]
   have h2 : φ (f j) = (1, 0) := by
     rw [LinearMap.prod_apply]
     refine Prod.ext ?_ ?_
     · show QuadraticMap.polarBilin Q (e j) (f j) = 1
-      rw [QuadraticMap.polarBilin_apply_apply, hef.polar_ef j j, if_pos rfl]
+      rw [QuadraticMap.polarBilin_apply_apply, hef.polar_ef j j, ite_eq_left rfl]
     · show QuadraticMap.polarBilin Q (f j) (f j) = 0
       rw [QuadraticMap.polarBilin_apply_apply]
       exact hef.polar_ff j j
@@ -276,7 +285,8 @@ private theorem finrank_fixedSpace_of_weightOne_aux5 {m : ℕ} {e f : Fin m → 
   rw [h3]
   exact LinearMap.mem_range_self φ _
 
-theorem finrank_fixedSpace_of_weightOne (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {m : ℕ}
+omit [Finite F] [CharP F 2] in
+theorem finrank_fixedSpace_of_weightOne (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {j : Fin m} (hcj : c j ≠ 1) (hc1 : ∀ i, i ≠ j → c i = 1) :
     finrank F (fixedSpace d) + 2 = finrank F V := by
@@ -293,10 +303,12 @@ theorem finrank_fixedSpace_of_weightOne (hQ : (QuadraticMap.polarBilin Q).Nondeg
   rw [hrank, ← hker] at h
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem eq_one_of_isHypDiag_one {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     {d : V ≃ₗ[F] V} (hd : IsHypDiag Q e f (fun _ => 1) d) : d = 1 :=
   IsHypDiag.eq_of_isHypDiag hef hd ⟨fun i => by simp, fun i => by simp, fun v _ _ => rfl⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux1 {e f : V} (he : Q e = 0) (hf : Q f = 0)
     (hef : QuadraticMap.polar Q e f = 1) :
     (QuadraticMap.polarBilin (Q.comp (Submodule.span F {e, f}).subtype)).Nondegenerate := by
@@ -334,6 +346,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux1 {e f : V}
   rw [← hab, ha, hb, zero_smul, zero_smul, add_zero]
   rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux2 {p m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     {c : Fin m → Fˣ} {g : V ≃ₗ[F] V} (hd : IsHypDiag Q e f c g)
     (hcp : ∀ i, c i ^ p = 1) : g ^ p = 1 := by
@@ -365,6 +378,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux2 {p m : �
       exact hfix p
   exact eq_one_of_isHypDiag_one hef hdiag
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux3 (u : Fˣ) :
     reciprocalPolynomial (X - C (u : F)) = X - C (((u⁻¹ : Fˣ) : F)) := by
   have h0 : (X - C (u : F) : F[X]).coeff 0 = -(u : F) := by simp
@@ -387,6 +401,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux3 (u : Fˣ)
       rw [mul_comm (C (((u⁻¹ : Fˣ) : F))) (C ((u : Fˣ) : F)), hCmul]
     _ = X - C (((u⁻¹ : Fˣ) : F)) := by ring
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux4 {x : V ≃ₗ[F] V} {μ : F}
     {v : V} (hv : v ≠ 0) (hxv : x v = μ • v) :
     (X - C μ : F[X]) ∈ primaryFactors x.toLinearMap := by
@@ -397,6 +412,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux4 {x : V �
   exact mem_primaryFactors.mpr ⟨irreducible_X_sub_C μ, monic_X_sub_C μ,
     dvd_iff_isRoot.mpr (Module.End.hasEigenvalue_iff_isRoot.mp hev)⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux5 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) (i : Fin m) : e i ≠ 0 ∧ f i ≠ 0 := by
   have h1 : QuadraticMap.polar Q (e i) (f i) = 1 := by simpa using hef.polar_ef i i
@@ -408,6 +424,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux5 {m : ℕ}
     rw [h0, QuadraticMap.polar_zero_right] at h1
     exact zero_ne_one h1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux6 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {g : V ≃ₗ[F] V}
     (hg : IsHypDiag Q e f c g) {i : Fin m} (hci : c i ≠ 1) : g ≠ 1 := by
@@ -421,11 +438,12 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux6 {m : ℕ}
     exact sub_eq_zero.mp ((smul_eq_zero.mp h5).resolve_right (exists_mem_centralizer_specialBlock_not_mem_zpowers_aux5 hef i).1)
   exact hci (Units.ext h4)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux7 {p m : ℕ}
     (hp : p.Prime) {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ}
     (hcp : ∀ i, c i ^ p = 1) {g : ↥(orthDerived Q)} (hg : IsHypDiag Q e f c (g : V ≃ₗ[F] V))
     (hne : ∃ i, c i ≠ 1) : orderOf g = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgp : (g : V ≃ₗ[F] V) ^ p = 1 := exists_mem_centralizer_specialBlock_not_mem_zpowers_aux2 hef hg hcp
   have hgp' : g ^ p = 1 := Subtype.ext (by simpa using hgp)
   have hg1 : g ≠ 1 := by
@@ -434,6 +452,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux7 {p m : �
       (by simpa using congrArg (fun x : ↥(orthDerived Q) => (x : V ≃ₗ[F] V)) h1)
   exact orderOf_eq_prime hgp' hg1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux8 {T : V ≃ₗ[F] V} {v : V}
     (h : T v = v) (n : ℤ) : (T ^ n) v = v := by
   have hinv : T⁻¹ v = v := by
@@ -454,6 +473,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux8 {T : V �
   · rw [zpow_negSucc, ← inv_pow]
     simpa using hneg (k + 1)
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux16 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {u : Fˣ} {j : Fin m} (hj1 : c j ≠ u) (hj2 : c j ≠ u⁻¹)
@@ -477,6 +497,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux16 {m : ℕ
   exact CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.apply_eq_of_mem_specialBlock hmem hne hne' hg
     ((CFSG.RankThree.PartOne.KCUnitaryScalar.mem_primaryComponent_X_sub_C).2 (hd.1 j))
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux17 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {u : Fˣ} {j : Fin m} (hj1 : c j ≠ u) (hj2 : c j ≠ u⁻¹)
@@ -503,6 +524,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux17 {m : ℕ
   exact CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.apply_eq_of_mem_specialBlock hmem hne hne' hg
     ((CFSG.RankThree.PartOne.KCUnitaryScalar.mem_primaryComponent_X_sub_C).2 (hd.2.1 j))
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux9 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {u : Fˣ} {j : Fin m} (hj1 : c j ≠ u) (hj2 : c j ≠ u⁻¹)
@@ -511,6 +533,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux9 {m : ℕ}
   ⟨exists_mem_centralizer_specialBlock_not_mem_zpowers_aux16 hef hd hj1 hj2 hg,
     exists_mem_centralizer_specialBlock_not_mem_zpowers_aux17 hef hd hj1 hj2 hg⟩
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux10 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c : Fin m → Fˣ} {d : V ≃ₗ[F] V}
     (hd : IsHypDiag Q e f c d) {j : Fin m} (hj : c j ≠ 1)
@@ -540,6 +563,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux10 {m : ℕ
       ((CFSG.RankThree.PartOne.KCUnitaryScalar.mem_primaryComponent_X_sub_C).2 (hd.2.1 j))
   exact ⟨hfix_e, hfix_f⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux11 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c' : Fin m → Fˣ} {a : V ≃ₗ[F] V}
     (ha : IsHypDiag Q e f c' a) {j : Fin m} (hc' : ∀ i, i ≠ j → c' i = 1) :
@@ -572,6 +596,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux11 {m : ℕ
     exact Finset.sum_congr rfl fun i _ => hterm i
   rw [hxv, map_add, hs, ha.2.2 w hw1 hw2]
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux12 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c' : Fin m → Fˣ} {a b : V ≃ₗ[F] V}
     (ha : IsHypDiag Q e f c' a) {j : Fin m} (hc' : ∀ i, i ≠ j → c' i = 1)
@@ -594,6 +619,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux12 {m : ℕ
   exact CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.commute_of_apply_eq (Q := Q) (U := U) hU
     hb_orth hgU heU (exists_mem_centralizer_specialBlock_not_mem_zpowers_aux11 hef ha hc')
 
+omit [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux13 {p : ℕ}
     {a d : ↥(orthDerived Q)} (horda : orderOf a = p) (hordd : orderOf d = p) {v : V} {μ : F}
     (hav : (a : V ≃ₗ[F] V) v = v) (hdv : (d : V ≃ₗ[F] V) v = μ • v) (hμ : μ ≠ 1)
@@ -622,6 +648,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux13 {p : ℕ
     rw [sub_smul, one_smul, ← hdv, hd_e, sub_self]
   exact hμ (sub_eq_zero.mp ((smul_eq_zero.mp h5).resolve_right hv))
 
+omit [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux14 {p m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c c' : Fin m → Fˣ}
     {d a : ↥(orthDerived Q)} (hd : IsHypDiag Q e f c (d : V ≃ₗ[F] V))
@@ -646,6 +673,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux14 {p m : �
     (hd.1 i) (fun h => hci_ne1 (Units.ext h))
     (exists_mem_centralizer_specialBlock_not_mem_zpowers_aux5 hef i).1
 
+omit [Finite F] [CharP F 2] in
 private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux15 {m : ℕ}
     {e f : Fin m → V} (hef : IsHypFamily Q e f) {c c' : Fin m → Fˣ}
     {d a : ↥(orthDerived Q)} (hd : IsHypDiag Q e f c (d : V ≃ₗ[F] V))
@@ -664,7 +692,7 @@ private lemma exists_mem_centralizer_specialBlock_not_mem_zpowers_aux15 {m : ℕ
     (orthDerived_le_orthogonalGroup b.2) hb_e hb_f)
 
 theorem exists_mem_centralizer_specialBlock_not_mem_zpowers
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
@@ -675,7 +703,7 @@ theorem exists_mem_centralizer_specialBlock_not_mem_zpowers
         (((specialBlock Q (d : V ≃ₗ[F] V) (X - C (u : F))).subgroupOf (orthDerived Q) :
           Subgroup ↥(orthDerived Q)) : Set ↥(orthDerived Q)) ∧ a ∉ Subgroup.zpowers d := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p (by rwa [Nat.card_units])
   have hζp : ζ ^ p = 1 := by rw [← hζ]; exact pow_orderOf_eq_one ζ
   have hζ1 : ζ ≠ 1 := by
@@ -688,7 +716,7 @@ theorem exists_mem_centralizer_specialBlock_not_mem_zpowers
     by_cases hi : i = j
     · subst hi
       simpa [c'] using hζp
-    · simp [c', if_neg hi]
+    · simp [c', ite_eq_right hi]
   obtain ⟨a, ha⟩ := exists_isHypDiag_mem_orthDerived hp hp2 hef hc'p
   have haA : a ∈ A := (hAeq a).2 ⟨c', hc'p, ha⟩
   have horda : orderOf a = p :=
@@ -704,14 +732,14 @@ theorem exists_mem_centralizer_specialBlock_not_mem_zpowers
     exists_mem_centralizer_specialBlock_not_mem_zpowers_aux7 hp hef hcp hd ⟨i, hci_ne1⟩
   refine ⟨a, haA, ?_, ?_⟩
   · exact exists_mem_centralizer_specialBlock_not_mem_zpowers_aux15 hef hd ha hj1 hj2
-      (fun i hi => by simp [c', if_neg hi])
+      (fun i hi => by simp [c', ite_eq_right hi])
   · exact exists_mem_centralizer_specialBlock_not_mem_zpowers_aux14 hef hd ha hu hI' hj1 hj2
-      horda hordd (fun i hi => by simp [c', if_neg hi])
+      horda hordd (fun i hi => by simp [c', ite_eq_right hi])
 
 
 theorem exists_mem_centralizer_supportedFixedDerived_not_mem_zpowers
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hpq : p ∣ Nat.card F - 1) {m : ℕ} {e f : Fin m → V} (hef : IsHypFamily Q e f)
     {A : Subgroup ↥(orthDerived Q)}
     (hAeq : ∀ g : ↥(orthDerived Q), g ∈ A ↔ InTorsionTorus Q p e f (g : V ≃ₗ[F] V))
     {c : Fin m → Fˣ} (hcp : ∀ i, c i ^ p = 1) {d : ↥(orthDerived Q)}
@@ -720,14 +748,14 @@ theorem exists_mem_centralizer_supportedFixedDerived_not_mem_zpowers
     ∃ a ∈ A, a ∈ Subgroup.centralizer ((G.subgroupOf (orthDerived Q) : Subgroup ↥(orthDerived Q)) :
         Set ↥(orthDerived Q)) ∧ a ∉ Subgroup.zpowers d := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let c' : Fin m → Fˣ := fun i => if i = j₁ then c j₁ else 1
   have hc'p : ∀ i, c' i ^ p = 1 := by
     intro i
     by_cases hi : i = j₁
     · subst hi
       simpa [c'] using hcp i
-    · simp [c', if_neg hi]
+    · simp [c', ite_eq_right hi]
   obtain ⟨a, ha⟩ := exists_isHypDiag_mem_orthDerived hp hp2 hef hc'p
   have haA : a ∈ A := (hAeq a).2 ⟨c', hc'p, ha⟩
   have horda : orderOf a = p :=
@@ -744,16 +772,17 @@ theorem exists_mem_centralizer_supportedFixedDerived_not_mem_zpowers
     obtain ⟨hb_e, hb_f⟩ :=
       exists_mem_centralizer_specialBlock_not_mem_zpowers_aux10 hef hd h₁ hbs
     exact Subtype.ext (exists_mem_centralizer_specialBlock_not_mem_zpowers_aux12 hef ha
-      (fun i hi => by simp [c', if_neg hi]) (orthDerived_le_orthogonalGroup b.2) hb_e hb_f)
+      (fun i hi => by simp [c', ite_eq_right hi]) (orthDerived_le_orthogonalGroup b.2) hb_e hb_f)
   refine ⟨a, haA, hcentral, ?_⟩
   have ha_fix : (a : V ≃ₗ[F] V) (e j₂) = e j₂ := by
-    rw [ha.1 j₂, show ((c' j₂ : Fˣ) : F) = 1 from by simp [c', if_neg (Ne.symm hj)]]
+    rw [ha.1 j₂, show ((c' j₂ : Fˣ) : F) = 1 from by simp [c', ite_eq_right (Ne.symm hj)]]
     simp
   exact exists_mem_centralizer_specialBlock_not_mem_zpowers_aux13 horda hordd ha_fix
     (hd.1 j₂) (fun h => h₂ (Units.ext h))
     (exists_mem_centralizer_specialBlock_not_mem_zpowers_aux5 hef j₂).1
 
 
+omit [CharP F 2] in
 theorem glaLayer_top_eq_top (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) (hl : 4 ≤ l) :
     GLALayer (⊤ : Subgroup ↥(orthDerived Q)) = ⊤ := by
@@ -765,6 +794,7 @@ theorem glaLayer_top_eq_top (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l 
   exact eq_top_iff.2 (le_sSup (show (⊤ : Subgroup ↥(orthDerived Q)) ∈
     {K : Subgroup ↥(orthDerived Q) | IsComponentOf K ⊤} from hc))
 
+omit [CharP F 2] in
 private theorem standard_classification_part1 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {l : ℕ}
     (hdim : finrank F V = 2 * l) (hl : 4 ≤ l) {d : ↥(orthDerived Q)} (hd1 : d = 1) :
     GLALayer (Subgroup.centralizer ({d} : Set ↥(orthDerived Q))) = ⊤ := by
@@ -850,7 +880,7 @@ private theorem standard_classification_part4 (hQ : (QuadraticMap.polarBilin Q).
     (∃ u : Fˣ, u ≠ 1 ∧ (∀ i, c i = u ∨ c i = u⁻¹) ∧
       GLALayer (Subgroup.centralizer ({d} : Set ↥(orthDerived Q))) =
         (specialBlock Q (d : V ≃ₗ[F] V) (X - C (u : F))).subgroupOf (orthDerived Q)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp : d ^ p = 1 := hA.1.2 d hdA
   have hdp' : (d : V ≃ₗ[F] V) ^ p = 1 := by
     simpa using congrArg (fun x : ↥(orthDerived Q) => (x : V ≃ₗ[F] V)) hdp
@@ -888,7 +918,7 @@ theorem standard_classification (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
           GLALayer (Subgroup.centralizer ({d} : Set ↥(orthDerived Q))) =
             (specialBlock Q (d : V ≃ₗ[F] V) (X - C (u : F))).subgroupOf (orthDerived Q))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, f, hef, hAeq⟩ := exists_hypFamily_of_isBmax hQ hdim hl hp hp2 hpq hA
   obtain ⟨c, hcp, hd⟩ := (hAeq d).1 hdA
   refine ⟨e, f, c, hef, hAeq, hcp, hd, ?_⟩

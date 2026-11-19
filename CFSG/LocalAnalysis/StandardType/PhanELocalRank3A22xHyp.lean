@@ -13,11 +13,13 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
 private def plh_v2 (s : K) : Fin 2 → K := ![s, 1]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_ne_zero (s : K) : plh_v2 s ≠ 0 := by
   intro h
   have h1 := congrFun h 1
-  simpa [plh_v2] using h1
+  simp [plh_v2] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t = s := by
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp h
   have h1 : a = 1 := by
@@ -28,6 +30,7 @@ private theorem plh_v2_mem_iff (s t : K) (h : plh_v2 t ∈ K ∙ plh_v2 s) : t =
     simpa [plh_v2] using h
   rw [← h0, h1, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_v2_finrank (s : K) : finrank K (K ∙ plh_v2 s) = 1 :=
   finrank_span_singleton (plh_v2_ne_zero s)
 
@@ -36,14 +39,17 @@ private def plh_lift (u : Fin 2 → K) : Fin 4 → K := ![u 0, u 1, 0, 0]
 private noncomputable def plh_bad (u : Fin 2 → K) : Submodule K (Fin 4 → K) :=
   sgS K f 4 (K ∙ plh_lift u)
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_lift_apply_of_le (u : Fin 2 → K) {j : Fin 4} (hj : 2 ≤ j.val) :
     plh_lift u j = 0 := by
   fin_cases j <;> simp_all [plh_lift]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_lift_mem_Vsub (u : Fin 2 → K) : plh_lift u ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_lift]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_lift_ne_zero {u : Fin 2 → K} (hu : u ≠ 0) : plh_lift u ≠ 0 := by
   intro h
   apply hu
@@ -73,51 +79,64 @@ private def plh_e1 : Fin 4 → K := ![1, 0, 0, 0]
 private def plh_e2 : Fin 4 → K := ![0, 1, 0, 0]
 private def plh_e3 : Fin 4 → K := ![1, 1, 0, 0]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_mem_Vsub : plh_e1 (K := K) ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_e1]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e2_mem_Vsub : plh_e2 (K := K) ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_e2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e3_mem_Vsub : plh_e3 (K := K) ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_e3]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_ne_zero : plh_e1 (K := K) ≠ 0 := by
   intro h
   have h0 := congrFun h 0
   simp [plh_e1] at h0
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e2_ne_zero : plh_e2 (K := K) ≠ 0 := by
   intro h
   have h1 := congrFun h 1
   simp [plh_e2] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e3_ne_zero : plh_e3 (K := K) ≠ 0 := by
   intro h
   have h0 := congrFun h 0
   simp [plh_e3] at h0
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_span_finrank : finrank K (K ∙ plh_e1 (K := K)) = 1 :=
   finrank_span_singleton plh_e1_ne_zero
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e2_span_finrank : finrank K (K ∙ plh_e2 (K := K)) = 1 :=
   finrank_span_singleton plh_e2_ne_zero
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e3_span_finrank : finrank K (K ∙ plh_e3 (K := K)) = 1 :=
   finrank_span_singleton plh_e3_ne_zero
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_le_Vsub : (K ∙ plh_e1 (K := K) : Submodule K (Fin 4 → K)) ≤ Vsub 4 2 :=
   (Submodule.span_singleton_le_iff_mem _ _).mpr plh_e1_mem_Vsub
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e2_le_Vsub : (K ∙ plh_e2 (K := K) : Submodule K (Fin 4 → K)) ≤ Vsub 4 2 :=
   (Submodule.span_singleton_le_iff_mem _ _).mpr plh_e2_mem_Vsub
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e3_le_Vsub : (K ∙ plh_e3 (K := K) : Submodule K (Fin 4 → K)) ≤ Vsub 4 2 :=
   (Submodule.span_singleton_le_iff_mem _ _).mpr plh_e3_mem_Vsub
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_ne_e2 :
     (K ∙ plh_e1 (K := K) : Submodule K (Fin 4 → K)) ≠ K ∙ plh_e2 := by
   intro h
@@ -126,8 +145,9 @@ private theorem plh_e1_ne_e2 :
     exact Submodule.mem_span_singleton_self _
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp hmem
   have h1 := congrFun ha 1
-  simpa [plh_e1, plh_e2] using h1
+  simp [plh_e1, plh_e2] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e1_ne_e3 :
     (K ∙ plh_e1 (K := K) : Submodule K (Fin 4 → K)) ≠ K ∙ plh_e3 := by
   intro h
@@ -136,8 +156,9 @@ private theorem plh_e1_ne_e3 :
     exact Submodule.mem_span_singleton_self _
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp hmem
   have h1 := congrFun ha 1
-  simpa [plh_e1, plh_e3] using h1
+  simp [plh_e1, plh_e3] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e2_ne_e3 :
     (K ∙ plh_e2 (K := K) : Submodule K (Fin 4 → K)) ≠ K ∙ plh_e3 := by
   intro h
@@ -146,7 +167,7 @@ private theorem plh_e2_ne_e3 :
     exact Submodule.mem_span_singleton_self _
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.mp hmem
   have h0 := congrFun ha 0
-  simpa [plh_e2, plh_e3] using h0
+  simp [plh_e2, plh_e3] at h0
 
 private theorem plh_good_of_not_mem (hK : Nat.card K = (2 ^ f) ^ 2) {u : Fin 2 → K}
     {w : Fin 4 → K} (hw : w ∈ Vsub 4 2) (hwbad : w ∉ plh_bad f u) :
@@ -277,7 +298,7 @@ theorem clsHyp_a3_22x (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · intro S hS
     by_contra h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hmem : ∀ s : K, K ∙ plh_v2 s ∈ S := by
       intro s
       by_contra hs

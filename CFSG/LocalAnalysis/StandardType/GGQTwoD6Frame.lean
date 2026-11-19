@@ -275,7 +275,7 @@ private theorem ggQ2d6l_exists_F {G : Type} [Group G] [Finite G] {B Bs : Subgrou
   have hli := ggQ2d6l_coroot_li N e hcart
   have hnot := ggQ2d6l_yV_not_mem N e hcart hy hroot hyV0
   have hli' : LinearIndependent (ZMod 3) (Fin.cons yV (fun i : Fin 6 => N.coroot (e i))) :=
-    LinearIndependent.fin_cons hli hnot
+    LinearIndependent.finCons hli hnot
   have hcard : Fintype.card (Fin 7) = Module.finrank (ZMod 3) N.V := by
     rw [hfin, Fintype.card_fin]
   let B := basisOfLinearIndependentOfCardEqFinrank hli' hcard
@@ -390,7 +390,7 @@ theorem ggQ2_d6_finrank {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x :
     have h0 : ((Int.castRingHom (ZMod 3)).mapMatrix N.cartan).mulVec c = 0 := by
       funext j
       have hj := DFunLike.congr_fun hc j
-      simp only [Finsupp.coe_finset_sum, Finsupp.coe_smul, Finset.sum_apply, Pi.smul_apply,
+      simp only [_root_.Finsupp.coe_finsetSum, Finsupp.coe_smul, Finset.sum_apply, Pi.smul_apply,
         Finsupp.coe_zero, Pi.zero_apply, hΦ, N.pairing, smul_eq_mul] at hj
       rw [Matrix.mulVec, dotProduct]
       rw [show (∑ i, ((Int.castRingHom (ZMod 3)).mapMatrix N.cartan) j i * c i) =

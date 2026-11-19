@@ -165,7 +165,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem normal_subgroupOf {X N : Subgroup G} (hNX : N ≤ X) (hNn : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) :
+theorem normal_subgroupOf {X N : Subgroup G} (_hNX : N ≤ X) (hNn : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) :
     (N.subgroupOf X).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -175,7 +175,7 @@ theorem frattini_G {X N P : Subgroup G} (hNX : N ≤ X) (hPX : P ≤ X)
     (hNn : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) (hN : Odd (Nat.card N)) (hP : IsPGroup 2 P) {x : G}
     (hx : x ∈ X) (hxP : ∀ y ∈ P, ∃ y' ∈ P, ∃ n ∈ N, x * y * x⁻¹ = y' * n) :
     ∃ o ∈ N, ∀ y ∈ P, (o⁻¹ * x) * y * (o⁻¹ * x)⁻¹ ∈ P := by
-  haveI := normal_subgroupOf hNX hNn
+  have := normal_subgroupOf hNX hNn
   have hNodd : Odd (Nat.card (N.subgroupOf X)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNX).toEquiv]
     exact hN
@@ -201,7 +201,7 @@ theorem involution_G {X N P : Subgroup G} (hNX : N ≤ X) (hPX : P ≤ X)
     (hNn : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) (hN : Odd (Nat.card N)) (hP : IsPGroup 2 P) {τ : G}
     (hτ : τ ∈ X) (hτ2 : τ * τ = 1) (hτP : ∀ y ∈ P, ∃ y' ∈ P, ∃ n ∈ N, τ * y * τ⁻¹ = y' * n) :
     ∃ ν ∈ N, ∀ y ∈ P, (ν * τ * ν⁻¹) * y * (ν * τ * ν⁻¹)⁻¹ ∈ P := by
-  haveI := normal_subgroupOf hNX hNn
+  have := normal_subgroupOf hNX hNn
   have hNodd : Odd (Nat.card (N.subgroupOf X)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNX).toEquiv]
     exact hN

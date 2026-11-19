@@ -35,8 +35,8 @@ theorem ggTBJ_su_torusJNoncomm
       GGIsReflection p (ggConjAut A h₁) ∧ GGIsReflection p (ggConjAut A h₂) ∧
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let hU : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK (by omega)
   obtain ⟨u, hu, huq, hord, ψP, σ, Θ, hψPsurj, hkerP, hψσ, hΘ, hWeyl⟩ :=
     ggTBJ_su_stdModel (p := p) (r := r) (I := I) (L' := L') (h := hU)

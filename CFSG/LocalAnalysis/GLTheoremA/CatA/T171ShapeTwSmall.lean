@@ -43,7 +43,7 @@ section TitsCerts
 theorem setup_false_of_tits {G : Type} [Group G] [Finite G] {p : ℕ} {L J A : Subgroup G}
     {d b : G} (h : Setup p L J A d b) (hv : (TauCeti.LieTypeIndex.tits).Valid)
     (he : Nonempty (PSimple p L ≃* (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group)) : False := by
-  haveI : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
+  have : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
   have hnc := exists_ne_comm_pSimple h
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=
     S171.normalizer_of_innerDiagMarking h.idiag h.d_mem
@@ -62,12 +62,12 @@ theorem setup_false_of_tits {G : Type} [Group G] [Finite G] {p : ℕ} {L J A : S
       rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hdp, one_zpow]
     simpa using hx
   obtain ⟨hperf, hle, hne⟩ := chevTransfer_perfect_ne_bot h (hdN := hdN) hdP
-  haveI hsolveI : Group.IsSolvable ↥(fixSubgroup (chevAut p L ⟨d, hdN⟩)) := hsolve
+  have hsolveI : Group.IsSolvable ↥(fixSubgroup (chevAut p L ⟨d, hdN⟩)) := hsolve
   have hJsolv : Group.IsSolvable ↥(chevTransfer p L J) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Nontrivial ↥(chevTransfer p L J) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-  haveI : Group.IsPerfect ↥(chevTransfer p L J) := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥(chevTransfer p L J) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Group.IsPerfect ↥(chevTransfer p L J) := Subgroup.isPerfect_iff.2 hperf
   exact Group.IsPerfect.not_isSolvable ↥(chevTransfer p L J) hJsolv
 
 end TitsCerts

@@ -18,12 +18,12 @@ theorem TwoWitness.of_sylow_pred {K : Type} [Group K] [Finite K] {p : ℕ} (hp :
     (Pr : Subgroup K → K → Prop)
     (hPr : ∀ (S : Subgroup K) (x g : K), Pr S x →
       Pr (S.map (MulAut.conj g).toMonoidHom) (g * x * g⁻¹))
-    {S₀ : Sylow p K} {u₀ : K} (hu₀Pr : Pr (S₀ : Subgroup K) u₀) (h₀ : TwoWitness u₀)
+    {S₀ : Sylow p K} {u₀ : K} (_hu₀Pr : Pr (S₀ : Subgroup K) u₀) (h₀ : TwoWitness u₀)
     (horb : ∀ x ∈ (S₀ : Subgroup K), x ≠ 1 → Pr (S₀ : Subgroup K) x →
       ∃ n ∈ normalizer ((S₀ : Subgroup K) : Set K), n * u₀ * n⁻¹ = x)
     (S : Sylow p K) {u : K} (huS : u ∈ (S : Subgroup K)) (hu1 : u ≠ 1)
     (hu : Pr (S : Subgroup K) u) : TwoWitness u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K S₀ S
   have hSmap : (S : Subgroup K) = (S₀ : Subgroup K).map (MulAut.conj g).toMonoidHom := by
     rw [← hg]

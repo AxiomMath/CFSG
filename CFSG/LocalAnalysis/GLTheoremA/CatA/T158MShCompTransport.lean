@@ -95,7 +95,7 @@ theorem nonempty_pSimple_equiv_of_central_surjective {G : Type} [Group G] [Finit
     (hT : CFSG.Open.IsComponentOf ((J.subgroupOf L).map (piCenterQuot θ)) (fixSubgroup φ))
     {S : Type} [Group S]
     (g : S →* ↥((J.subgroupOf L).map (piCenterQuot θ)))
-    (hg : Function.Surjective g) (hker : g.ker ≤ Subgroup.center S)
+    (hg : Function.Surjective g) (_hker : g.ker ≤ Subgroup.center S)
     (hS : IsSimpleGroup (S ⧸ Subgroup.center S)) :
     Nonempty (PSimple p J ≃* S ⧸ Subgroup.center S) := by
   have hJL : J ≤ L := hJ.1.trans hXL
@@ -128,7 +128,7 @@ theorem nonempty_pSimple_equiv_of_central_surjective {G : Type} [Group G] [Finit
     QuotientGroup.lift (Subgroup.center S) f hZ
   have hφ'surj : Function.Surjective φ' :=
     QuotientGroup.lift_surjective_of_surjective _ f hf hZ
-  haveI : IsSimpleGroup (↥((J.subgroupOf L).map (piCenterQuot θ)) ⧸
+  have : IsSimpleGroup (↥((J.subgroupOf L).map (piCenterQuot θ)) ⧸
       Subgroup.center ↥((J.subgroupOf L).map (piCenterQuot θ))) := hT.2.2.2
   have hφ'inj : Function.Injective φ' :=
     CFSG.QuasithinUnique.SQTK.injective_of_isSimpleGroup_of_surjective φ' hφ'surj

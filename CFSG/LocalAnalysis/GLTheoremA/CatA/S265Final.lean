@@ -21,7 +21,7 @@ theorem i265UsedAt_of_facts (hNL : QFactUNL) {G : Type} [Group G] [Finite G] (p 
 
 theorem i265UsedAt_of_facts' (hNL : QFactUNL) {G : Type} [Group G] [Finite G] {m : ℕ} (hctx : ThmACtx G m)
     {p : ℕ} (hp : p ∈ Mu G m) : I265UsedAt G p :=
-  i265UsedAt_of_facts hNL p hp.1.1 hp.1.2.1 fun y hy =>
+  i265UsedAt_of_facts hNL p hp.1.1 hp.1.2.1 fun _y hy =>
     isKGroup_of_isKProper hctx.1.kProper (centralizer_ne_top_of_ne_one hctx.1.simple hctx.1.nonabelian hy)
 
 theorem i265StdAt_of_facts (hNL : QFactSNL) {G : Type} [Group G] [Finite G] (p : ℕ) : I265StdAt G p :=

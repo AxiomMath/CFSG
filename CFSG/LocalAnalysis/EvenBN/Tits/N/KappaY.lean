@@ -373,7 +373,7 @@ theorem main (F E : Subgroup G) (t v7 v8 v9 v10 v11 z x y j : G)
   have hfin : v11 * z = u₀ * w' := by rw [← hgsq, hsq, hsq']
   exact final_cases hz2 (hFc v10 h10F z hzF) hne1 hnez h10 h10' hu₀ hw' hfin
 
-theorem kapJ_conj {x5 x6 x7 x8 x9 x10 x11 x12 : G} (s10 : x10 * x10 = 1) (s11 : x11 * x11 = 1)
+theorem kapJ_conj {x5 x6 x7 x8 x9 x10 x11 x12 : G} (s10 : x10 * x10 = 1) (_s11 : x11 * x11 = 1)
     (s12 : x12 * x12 = 1) (q5 : x5 * x5 = x12) (q6 : x6 * x6 = x11)
     (z5 : x12 * x5 = x5 * x12) (z6 : x12 * x6 = x6 * x12) (z10 : x12 * x10 = x10 * x12)
     (z11 : x12 * x11 = x11 * x12) (c57 : x5 * x7 = x7 * x5 * x11)

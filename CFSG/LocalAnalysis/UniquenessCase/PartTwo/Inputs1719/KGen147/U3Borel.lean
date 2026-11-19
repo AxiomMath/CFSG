@@ -64,7 +64,7 @@ theorem commutator_normalizer_rootGroup_le {K : Type} [Field K] [Finite K]
       ((IsMulCommutative.is_comm (M := torusGroup J hJ)).comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hcomm : IsMulCommutative ((torusGroup J hJ).subgroupOf N) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hTc _ a.2 _ b.2))⟩⟩
-  haveI : IsMulCommutative ((torusGroup J hJ).subgroupOf N) := hcomm
+  have : IsMulCommutative ((torusGroup J hJ).subgroupOf N) := hcomm
   have hle := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   rw [Subgroup.commutator_le]
   intro a ha b hb
@@ -84,7 +84,7 @@ theorem exists_isCoatom_normalizer_of_psu {L : Type} [Group L] [Finite L] {f : �
   obtain ⟨T, hRT⟩ := hR.exists_le_sylow
   obtain ⟨P, hP⟩ := CFSG.AGLEmbedding.UnitaryModel.exists_sylow_eq_rootGroup J hJ hK hfix hf
   obtain ⟨e', he'⟩ := CFSG.AGLEmbedding.UnitaryModel.exists_equiv_map_eq e T P
-  refine ⟨T, hRT, T.isPGroup', ?_, ?_⟩
+  refine ⟨T, hRT, T.isPGroup, ?_, ?_⟩
   · have hco := CFSG.AGLEmbedding.UnitaryModel.isCoatom_normalizer_rootGroup J hJ hK hfix hq
     rw [← hP, ← he', ← Subgroup.map_equiv_normalizer_eq] at hco
     exact (OrderIso.isCoatom_iff (MulEquiv.mapSubgroup e') _).mp hco

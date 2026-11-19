@@ -16,7 +16,7 @@ theorem prop189_rank3 (hKI1 : K.KI1r3) (hKI2 : K.KI2) : Prop189Rank3Stmt := by
   intro G _ _ S U M V x z hc h hrank3
   have hSM : (S : Subgroup G) ≤ M := h.S_le
   have hSyl : IsSylowIn M (S : Subgroup G) := h.isSylowIn_M
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hxM : x ∈ M := hc.x_mem
   have hxS : x ∈ (S : Subgroup G) := hc.x_mem_S
   have hzS : z ∈ (S : Subgroup G) := hc.z_mem_S

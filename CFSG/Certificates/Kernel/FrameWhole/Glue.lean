@@ -75,7 +75,7 @@ theorem whole_facts {n C m RP CL PT d LV : ℕ} (hn : n ≤ 8) (hnm : n ≤ m)
   · have e : {r | ConjDer (sS (Cm n C)) r} =
         (fun a => rf (Cm n C) (Rv n RP a)) '' {a | a < m ∧ True} := by
       ext r
-      rw [Set.mem_setOf_eq, conjDer_iff hC hR r]
+      rw [Set.mem_ofPred_eq, conjDer_iff hC hR r]
       constructor
       · rintro ⟨a, ha, rfl⟩
         exact ⟨a, ⟨ha, trivial⟩, rfl⟩

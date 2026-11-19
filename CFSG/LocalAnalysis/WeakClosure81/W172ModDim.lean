@@ -12,8 +12,8 @@ open CFSG.SignalizerFunctorTheorem.Quadratic Subgroup
 theorem w172_orderOf_two_dvd_finrank {U : Type} [AddCommGroup U] [Module (ZMod 2) U] [Finite U]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {t : LGL 2 U} (ht : t ^ p = 1)
     (hfix : ∀ u : U, t u = u → u = 0) : orderOf (2 : ZMod p) ∣ Module.finrank (ZMod 2) U := by
-  haveI : Fact p.Prime := Fact.mk hp
-  haveI : FiniteDimensional (ZMod 2) U := Module.Finite.of_finite
+  have : Fact p.Prime := Fact.mk hp
+  have : FiniteDimensional (ZMod 2) U := Module.Finite.of_finite
   refine CFSG.LinearAlgebra.CoprimeActions.PrimeCyclicFixedFreeDimension.orderOf_two_dvd_finrank
     p hp2 t ht ?_
   rw [LinearMap.ker_eq_bot']
@@ -26,7 +26,7 @@ theorem w172_orderOf_two_dvd_finrank_sub {W : Type} [AddCommGroup W] [Module (ZM
     [Finite W] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {y : LGL 2 W} (hy : y ^ p = 1)
     (M : Submodule (ZMod 2) W) (hyM : ∀ x ∈ M, y x ∈ M) (hfix : ∀ x ∈ M, y x = x → x = 0) :
     orderOf (2 : ZMod p) ∣ Module.finrank (ZMod 2) ↥M := by
-  haveI : Finite ↥M := inferInstance
+  have : Finite ↥M := inferInstance
   have hpowmem : ∀ n : ℕ, ∀ x ∈ M, (y ^ n) x ∈ M := by
     intro n
     induction n with

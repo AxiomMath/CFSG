@@ -40,7 +40,7 @@ theorem fritzFusionInput_of_labels (hGT : FzInvolT) (hGZ : FzInvolZ) (hSyl : FzS
   have hz3R3 : (x₁ * x₂) ^ 2 ∈ fzR3 t x₁ x₂ a₃₂ := by
     rw [← fz_sq_a31 hctx.toCtx0]; exact Subgroup.pow_mem _ (subset_closure (by simp)) 2
   rcases fzR3_trichotomy hset ha with rfl | rfl | ha2
-  · simpa using ha
+  · simp
   · rw [hg_z]; exact hz3R3
   by_contra hu
   set u := g * a * g⁻¹ with hu_def

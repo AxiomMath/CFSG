@@ -23,15 +23,15 @@ theorem exists_coord_homs {x : G} {ι₁ : Perm (Fin 10) →* G} (hC : CentData 
     intro u v
     rcases Int.units_eq_one_or u with rfl | rfl <;>
       rcases Int.units_eq_one_or v with rfl | rfl
-    · rw [one_mul, if_pos rfl, one_mul]
-    · rw [one_mul, if_neg (by decide), if_pos rfl, one_mul]
-    · rw [mul_one, if_neg (by decide), if_pos rfl, mul_one]
-    · rw [show ((-1 : ℤˣ) * (-1)) = 1 from by decide, if_pos rfl,
-        if_neg (by decide), hC.mul_self])
+    · rw [one_mul, ite_eq_left rfl, one_mul]
+    · rw [one_mul, ite_eq_right (by decide), ite_eq_left rfl, one_mul]
+    · rw [mul_one, ite_eq_right (by decide), ite_eq_left rfl, mul_one]
+    · rw [show ((-1 : ℤˣ) * (-1)) = 1 from by decide, ite_eq_left rfl,
+        ite_eq_right (by decide), hC.mul_self])
   have ha_one : a (1 : ℤˣ) = 1 := rfl
   have ha_neg : a (-1 : ℤˣ) = x := by
     show (if (-1 : ℤˣ) = 1 then (1 : G) else x) = x
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
   have hax : ∀ u : ℤˣ, a u * x = x * a u := by
     intro u
     rcases Int.units_eq_one_or u with rfl | rfl

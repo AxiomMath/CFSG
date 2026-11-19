@@ -17,13 +17,13 @@ theorem conj_eq_inv_of_mem_centralizer (hp : p.Prime) (hp2 : p ≠ 2) {A : Subgr
     (hmem : ∀ z ∈ centralizer (A : Set X), z ^ p = 1 → z ∈ A) {t : X} (ht : t ^ 2 = 1)
     (htA : ∀ a ∈ A, t * a * t⁻¹ = a⁻¹) {c : X} (hc : c ∈ centralizer (A : Set X)) :
     t * c * t⁻¹ = c⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hAn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hAn
   let σ : MulAut ↥(centralizer (A : Set X)) := MulAut.conjNormal t
   have hσ2 : ∀ c : ↥(centralizer (A : Set X)), σ (σ c) = c := by
     intro c
     apply Subtype.ext
-    simp only [σ, MulAut.conjNormal_apply, Subtype.coe_mk]
+    simp only [σ, MulAut.conjNormal_apply]
     have htt : t * t = 1 := by rw [← pow_two, ht]
     rw [show t * (t * (c : X) * t⁻¹) * t⁻¹ = (t * t) * (c : X) * (t * t)⁻¹ by group,
       htt, one_mul, inv_one, mul_one]
@@ -74,6 +74,7 @@ theorem conj_eq_inv_of_mem_centralizer (hp : p.Prime) (hp2 : p ≠ 2) {A : Subgr
   have := congrArg (Subtype.val) hval
   simpa [σ, MulAut.conjNormal_apply] using this
 
+omit [Finite X] in
 theorem commute_of_conj_eq_inv {K : Subgroup X} {t : X} (hinv : ∀ c ∈ K, t * c * t⁻¹ = c⁻¹)
     {c d : X} (hc : c ∈ K) (hd : d ∈ K) : c * d = d * c := by
   have h1 : (c * d)⁻¹ = (d * c)⁻¹ := by
@@ -83,6 +84,7 @@ theorem commute_of_conj_eq_inv {K : Subgroup X} {t : X} (hinv : ∀ c ∈ K, t *
       _ = (d * c)⁻¹ := by rw [mul_inv_rev]
   exact inv_injective h1
 
+omit [Finite X] in
 theorem le_commutator_of_conj_eq_inv {V K : Subgroup X} (hVn : V.Normal) {t : X} (htV : t ∈ V)
     (hinv : ∀ c ∈ K, t * c * t⁻¹ = c⁻¹) (hodd : Odd (Nat.card K)) : K ≤ ⁅V, V⁆ := by
   intro c hc
@@ -118,7 +120,7 @@ theorem le_commutator_of_conj_eq_inv {V K : Subgroup X} (hVn : V.Normal) {t : X}
 theorem mem_centralizer_of_mem_normalizer_of_card_eq_prime (hp : p.Prime) {B : Subgroup X}
     (hB : Nat.card B = p) {x : X} (hx : x ^ p = 1) (hxN : x ∈ normalizer (B : Set X)) :
     x ∈ centralizer (B : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Subgroup X := normalizer (B : Set X)
   have hBN : B ≤ N := Subgroup.le_normalizer
   let y : ↥N := ⟨x, hxN⟩
@@ -130,7 +132,7 @@ theorem mem_centralizer_of_mem_normalizer_of_card_eq_prime (hp : p.Prime) {B : S
         left_inv := by rintro ⟨⟨n, hn⟩, hb⟩; rfl
         right_inv := by rintro ⟨b, hb⟩; rfl }
     rw [Nat.card_congr e, hB]
-  haveI : IsCyclic ↥(B.subgroupOf N) := isCyclic_of_prime_card hcard
+  have : IsCyclic ↥(B.subgroupOf N) := isCyclic_of_prime_card hcard
   have hyp : y ^ p = 1 := by
     apply Subtype.ext
     simpa using hx
@@ -152,6 +154,7 @@ theorem mem_centralizer_of_mem_normalizer_of_card_eq_prime (hp : p.Prime) {B : S
     simpa [σ, MulAut.conjNormal_apply, y] using hval
   exact (mul_inv_eq_iff_eq_mul.mp hxb).symm
 
+omit [Finite X] in
 private theorem conj_pow_eq_of_conj_eq {g b : X} (h : g * b * g⁻¹ = b) (k : ℕ) :
     g * b ^ k * g⁻¹ = b ^ k := by
   induction k with
@@ -161,6 +164,7 @@ private theorem conj_pow_eq_of_conj_eq {g b : X} (h : g * b * g⁻¹ = b) (k : �
         _ = b ^ k * b := by rw [ih, h]
         _ = b ^ (k + 1) := by rw [pow_succ]
 
+omit [Finite X] in
 private theorem pow_conj_eq_of_conj_eq_mul {g a b : X} (hga : g * a * g⁻¹ = b * a)
     (hgb : g * b * g⁻¹ = b) (k : ℕ) : g ^ k * a * (g ^ k)⁻¹ = b ^ k * a := by
   induction k with
@@ -180,14 +184,14 @@ theorem not_le_normalizer_of_card_eq_prime (hp : p.Prime) {A : Subgroup X} (hAn 
     (hV : ¬ IsPGroup p ↥(closure {x : X | orderOf x = p})) {B : Subgroup X} (hBA : B ≤ A)
     (hB : Nat.card B = p) : ¬ closure {x : X | orderOf x = p} ≤ normalizer (B : Set X) := by
   intro hVB
-  haveI := hAn
+  have := hAn
   let D : Subgroup X :=
     { carrier := {g | (∀ b ∈ B, g * b * g⁻¹ = b) ∧
           ∀ a ∈ A, g * a * g⁻¹ * a⁻¹ ∈ B}
       one_mem' := by
         refine ⟨?_, ?_⟩
         · intro b hb; group
-        · intro a ha; simpa using B.one_mem
+        · intro a ha; simp
       mul_mem' := by
         rintro g h ⟨hgB, hgA⟩ ⟨hhB, hhA⟩
         refine ⟨?_, ?_⟩
@@ -270,12 +274,12 @@ theorem not_le_normalizer_of_card_eq_prime (hp : p.Prime) {A : Subgroup X} (hAn 
     · have hax : a * x = x * a := (Subgroup.mem_centralizer_iff.mp hxK) a ha
       have hx_conj : x * a * x⁻¹ = a := by rw [← hax]; group
       rw [hx_conj]
-      simpa using B.one_mem
+      simp
     · have hxK' : ¬ ∀ h ∈ A, h * x = x * h := fun h =>
         hxK (Subgroup.mem_centralizer_iff.mpr h)
       push Not at hxK'
       obtain ⟨a₀, ha₀A, ha₀x⟩ := hxK'
-      haveI hcommA : IsMulCommutative ↥A := hA.1
+      have hcommA : IsMulCommutative ↥A := hA.1
       let α : MulAut ↥A := MulAut.conjNormal x
       have hα_apply : ∀ a : ↥A, ((α a : ↥A) : X) = x * (a : X) * x⁻¹ :=
         fun a => MulAut.conjNormal_apply x a
@@ -347,7 +351,6 @@ theorem not_le_normalizer_of_card_eq_prime (hp : p.Prime) {A : Subgroup X} (hAn 
             (Subgroup.eq_top_of_card_eq (H := f.ker) (by rw [hk, hcardA]))
       have hker_eq : f.ker = B.subgroupOf A :=
         (Subgroup.eq_of_le_of_card_ge hBker (by
-          change Nat.card ↥f.ker ≤ Nat.card ↥(B.subgroupOf A)
           rw [hkercard]
           exact le_of_eq hBcard.symm)).symm
       have hindex : f.ker.index = p := by

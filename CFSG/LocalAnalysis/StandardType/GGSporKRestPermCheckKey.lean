@@ -25,7 +25,7 @@ theorem eq_of_keyOf_eq {n : ℕ} {B : List ℕ} {H : Subgroup (Perm (Fin n))} (h
     have h1 : (keyOf B x)[k]? = (keyOf B y)[k]? := by rw [h]
     simp only [keyOf, List.getElem?_map, List.getElem?_eq_getElem hk, Option.map_some] at h1
     have hBkn : B[k] < n := by rw [hBk]; exact hn
-    simp only [dif_pos hBkn] at h1
+    simp only [dite_eq_left hBkn] at h1
     have hxy : x ⟨B[k], hBkn⟩ = y ⟨B[k], hBkn⟩ := Fin.ext (Option.some.inj h1)
     have hfin : (⟨B[k], hBkn⟩ : Fin n) = ⟨i, hn⟩ := Fin.ext hBk
     rw [hfin] at hxy
@@ -186,7 +186,7 @@ theorem checkMatK_sound {n : ℕ} {B : List ℕ} {a b : Perm (Fin n)} {sylowOrde
   rw [sgMat_eq, ggSporKRestKey_tabK] at h
   simp only [tableOkK, classesOkK, censusOkK, ggSporKRestKey_lettersK, repMat_eq, keyEq,
     Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, List.contains_iff] at h
+    Bool.or_eq_true, _root_.List.contains_iff_mem] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨hlen, hnodup_keys⟩, hkey0⟩, hmem1⟩, hcl⟩, hclasses⟩, hcensus⟩, hcov⟩ := h
   unfold spec
   refine ⟨hlen, List.Nodup.of_map (keyOf B) hnodup_keys, ?_, ?_, ?_, ?_⟩
@@ -288,7 +288,7 @@ theorem checkPowMatK_sound {n : ℕ} {B : List ℕ} {p : ℕ} {a b : Perm (Fin n
   rw [sgMat_eq, ggSporKRestKey_tabK] at h
   simp only [tableOkK, classesOkK, censusOkK, ggSporKRestKey_lettersK, repMat_eq, keyEq,
     Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, List.contains_iff, Bool.not_eq_true_eq_eq_false,
+    Bool.or_eq_true, _root_.List.contains_iff_mem, Bool.not_eq_true_eq_eq_false,
     decide_eq_false_iff_not] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨hlen, hnodup_keys⟩, hkey0⟩, hmem1⟩, hcl⟩, hclasses⟩, hcensus⟩, hcov⟩ := h
   unfold specPow
@@ -392,7 +392,7 @@ theorem checkEMatK_sound {n : ℕ} {B : List ℕ} {p : ℕ} {a b : Perm (Fin n)}
   rw [sgMat_eq, ggSporKRestKey_tabK] at h
   simp only [tableOkK, classesOkK, censusOkK, ggSporKRestKey_lettersK, repMat_eq, keyEq,
     Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true, List.mem_range,
-    Bool.or_eq_true, List.contains_iff] at h
+    _root_.List.contains_iff_mem] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨hlen, hnodup_keys⟩, hkey0⟩, _hmem1⟩, hcl⟩, hclasses⟩, hcensus⟩, hmul⟩, hcond⟩ := h
   unfold specE
   refine ⟨hlen, List.Nodup.of_map (keyOf B) hnodup_keys, ?_, ?_, ?_, ?_, ?_, hcond⟩

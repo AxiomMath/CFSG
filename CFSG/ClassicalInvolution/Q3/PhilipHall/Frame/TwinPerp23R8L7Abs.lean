@@ -73,7 +73,7 @@ theorem not_isSolvable_map {G H : Type} [Group G] [Group H] (ψ : G →* H)
     apply hker
     have h1 := MonoidHom.mem_ker.mp a.2
     exact congrArg Subtype.val h1
-  haveI : Group.IsSolvable ↥g.ker := Group.isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥g.ker := Group.isSolvable_of_comm fun a b =>
     Subtype.ext (Subtype.ext ((Subgroup.mem_center_iff.mp (hcent a) ((b : ↥E) : G)).symm))
   exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 

@@ -90,7 +90,7 @@ theorem p23E8AZ8M_proved : P23E8AZ8M n := by
     have h1 : TwinExitPf6.secAut (Om R) u hΩ hc2 gy (QuotientGroup.mk x) =
         TwinExitPf6.secAut (Om R) u hΩ hc2 1 (QuotientGroup.mk x) := by
       rw [heq, secAut_one hΩ hc2]
-    have h2 := act_conj hΩ hc2 x hvx hd.he2 heC hAB gy 1 hyC (by simp [C]) h1
+    have h2 := act_conj hΩ hc2 x hvx hd.he2 heC hAB gy 1 hyC (by simp) h1
     simp only [Subgroup.coe_one, inv_one, one_mul, mul_one] at h2
     obtain ⟨o, ho, hyo⟩ := exists_mem_conj_of_odd (oddCoreOf_odd_natCard C)
       (by

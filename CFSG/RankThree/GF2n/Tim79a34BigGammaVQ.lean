@@ -351,7 +351,7 @@ private theorem gammaV_smul_mem {S : AddSubgroup (GaloisField 2 f)}
 
 private theorem gammaV_S_ne_top [Finite G] (h : BigEndHyp M V Q P H)
     (hZ : Subgroup.center (Xbar V H) = ⊥)
-    (hNat : BigNatCfg V H h.setup.mc.toMinCex.V_le_H Φ ψ) (ha : a ≠ 0)
+    (hNat : BigNatCfg V H h.setup.mc.toMinCex.V_le_H Φ ψ) (_ha : a ≠ 0)
     (hT : CaseM.IsTransGroup a T) (hTV : T.map Φ.toMonoidHom = Vy V H)
     {D : Subgroup G} (hDdef : D = ⁅V, Q⁆ ⊔ (V ⊓ wOf V H)) (hDlt : D < V)
     {tau : GaloisField 2 f → ↥(StatedSp n (GaloisField 2 f))}

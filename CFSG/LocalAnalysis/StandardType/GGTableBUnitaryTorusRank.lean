@@ -16,16 +16,17 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
   {L' : Type} [Group L'] [Finite L'] {φ : ↥(unitarySU 2 n K 6) →* L'}
 
+omit [CharP K 2] in
 theorem false_of_diagonal_frame_card_twentyseven
     (hM : UnitTB.Model φ) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hpq : 3 ∣ 2 ^ n + 1)
-    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A)
+    {A : Subgroup (MulAut L')} (_hA : CFSG.Open.IsElemAbelian 3 A)
     (hsc : GGTorusSelfCent 3 A)
     (hdiag : ∀ a ∈ A, ∃ t : Fin 6 → K, LineU.ActsDiagU φ a t)
     (hcardA : Nat.card A = 27) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | hn
     · norm_num at hpq
@@ -92,7 +93,7 @@ theorem false_of_diagonal_frame_card_twentyseven
       rw [← hsc x]
       exact ⟨(D x.1 : GL (Fin 6) K), rfl⟩
     rw [h0] at hDunit
-    simpa using hDunit
+    simp at hDunit
   have hsc_pow : ∀ x : τ.ker, (sc x) ^ 3 = 1 := by
     intro x
     have hmatpow := congrArg (fun z : ↥(unitarySU 2 n K 6) =>

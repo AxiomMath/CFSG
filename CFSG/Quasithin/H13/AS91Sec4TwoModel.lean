@@ -217,14 +217,14 @@ theorem ncard_inO1 : {v : V12 | InO1 v}.ncard = 693 := by
   rw [← Nat.card_coe_set_eq, ← orbitOK42_spec.2.2.2.2.2.1]
   refine card_of_codes (P := fun v => v ∈ {v : V12 | InO1 v}) (List.nodup_range.filter _)
     (fun n hn => List.mem_range.1 (List.mem_of_mem_filter hn)) (fun y => ?_)
-  simp only [Set.mem_setOf_eq, List.mem_filter, List.mem_range, InO1, decide_eq_true_eq]
+  simp only [Set.mem_ofPred_eq, List.mem_filter, List.mem_range, InO1]
   exact ⟨fun h => ⟨codeOf_lt y, h⟩, fun h => h.2⟩
 
 theorem ncard_inO2 : {v : V12 | InO2 v}.ncard = 1386 := by
   rw [← Nat.card_coe_set_eq, ← orbitOK42_spec.2.2.2.2.2.2]
   refine card_of_codes (P := fun v => v ∈ {v : V12 | InO2 v}) (List.nodup_range.filter _)
     (fun n hn => List.mem_range.1 (List.mem_of_mem_filter hn)) (fun y => ?_)
-  simp only [Set.mem_setOf_eq, List.mem_filter, List.mem_range, InO2, decide_eq_true_eq]
+  simp only [Set.mem_ofPred_eq, List.mem_filter, List.mem_range, InO2]
   exact ⟨fun h => ⟨codeOf_lt y, h⟩, fun h => h.2⟩
 
 @[expose] def fval (a b c : ZMod 2) (n : ℕ) : ZMod 2 :=

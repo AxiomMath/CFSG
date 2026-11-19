@@ -30,7 +30,7 @@ theorem outTowerAt_of_orthLayers_three {K : Type} [Field K] [Finite K] {d : ℕ}
   have hL₁ := specialRange_normal Q hsurj
   have hL₂ := isometryRange_normal Q hsurj
   have hL₃ := linearConjugationRange_normal Q hsurj
-  haveI : Finite (MulAut (matrixProjectiveDerived Q)) := inferInstance
+  have : Finite (MulAut (matrixProjectiveDerived Q)) := inferInstance
   have hcyc := isCyclic_quotient_linearRange Q hsurj
   have h1 := relIndex_inner_specialRange_le_two Q hab hneg
   have h2 := relIndex_specialRange_isometryRange_le_two Q hnd

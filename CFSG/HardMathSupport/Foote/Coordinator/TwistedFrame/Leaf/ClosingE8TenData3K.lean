@@ -17,7 +17,7 @@ theorem e8t3K_mem_iff {v : Fin Tag.E8.rank → ℤ} :
 
 theorem e8t3K_vec_ofFn (v : Fin Tag.E8.rank → ℤ) : e8t3K_vec (List.ofFn v) = v := by
   funext i
-  simp [e8t3K_vec, List.getD_eq_getElem]
+  simp [e8t3K_vec]
 
 theorem e8t3K_forall {Q : (Fin Tag.E8.rank → ℤ) → Prop}
     (h : ∀ l ∈ Tag.E8.artifactRoots, Q (e8t3K_vec l)) : ∀ v ∈ rootFinset Tag.E8, Q v := by

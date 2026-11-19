@@ -13,7 +13,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 @[expose] def GGTWNValid (p N : ℕ) (q : GGDepANPair) : Prop :=
   q.1.length = N - 1 ∧ q.2.length = N - 1 ∧ ggDepANDot p q.2 q.1 = 2 % p
 
-@[expose] abbrev ggTWNRflOf (p N : ℕ) (q : GGDepANPair) : Module.End (ZMod p) (GGTWE p N) :=
+abbrev ggTWNRflOf (p N : ℕ) (q : GGDepANPair) : Module.End (ZMod p) (GGTWE p N) :=
   ggTWRefl (ggTWNToZ p N q.1) (ggTWNToZ p N q.2)
 
 @[expose] def ggTWNNews (p N : ℕ) (news : List GGDepANPair) : Set (GGTWE p N × GGTWE p N) :=
@@ -137,12 +137,12 @@ private lemma l05nE3_pair_i {p N : ℕ} (hN : 3 ≤ N) (i : Fin (N - 1)) :
   · rw [Finset.sum_eq_single_of_mem (⟨0, by omega⟩ : Fin (N - 1)) (Finset.mem_univ _)]
     · have hα : ggTWα p N i (⟨0, by omega⟩ : Fin (N - 1)) = -1 := by
         rw [ggTWα, hi]
-        rw [if_neg (by omega : ¬ ((0 : ℕ) + 2 = N)),
-          if_neg (by omega : ¬ ((0 : ℕ) + 1 = 0)),
-          if_pos (by omega : (0 : ℕ) + 2 = 0 ∨ (0 : ℕ) = 0)]
+        rw [ite_eq_right (by omega : ¬ ((0 : ℕ) + 2 = N)),
+          ite_eq_right (by omega : ¬ ((0 : ℕ) + 1 = 0)),
+          ite_eq_left (by omega : (0 : ℕ) + 2 = 0 ∨ (0 : ℕ) = 0)]
       have hh : ggTWh p N i (⟨0, by omega⟩ : Fin (N - 1)) = -2 := by
         rw [ggTWh]
-        rw [if_neg (by omega : ¬ ((0 : ℕ) + 2 = N)), if_pos hi]
+        rw [ite_eq_right (by omega : ¬ ((0 : ℕ) + 2 = N)), ite_eq_left hi]
         norm_num
       rw [hα, hh]
       ring
@@ -151,10 +151,10 @@ private lemma l05nE3_pair_i {p N : ℕ} (hN : 3 ≤ N) (i : Fin (N - 1)) :
         intro h; apply hj; apply Fin.ext; simpa using h
       have hα0 : ggTWα p N i j = 0 := by
         by_cases hj2 : j.val + 2 = N
-        · rw [ggTWα, if_pos hj2]
-        · rw [ggTWα, if_neg hj2, hi]
-          rw [if_neg (by omega : ¬ (j.val + 1 = 0)),
-            if_neg (by omega : ¬ (j.val + 2 = 0 ∨ j.val = 0))]
+        · rw [ggTWα, ite_eq_left hj2]
+        · rw [ggTWα, ite_eq_right hj2, hi]
+          rw [ite_eq_right (by omega : ¬ (j.val + 1 = 0)),
+            ite_eq_right (by omega : ¬ (j.val + 2 = 0 ∨ j.val = 0))]
       rw [hα0, zero_mul]
   · let j0 : Fin (N - 1) := ⟨i.val - 1, by omega⟩
     have hj0val : j0.val = i.val - 1 := rfl
@@ -162,11 +162,11 @@ private lemma l05nE3_pair_i {p N : ℕ} (hN : 3 ≤ N) (i : Fin (N - 1)) :
     · have hα : ggTWα p N i j0 = 2 := by
         have hj2 : ¬ (j0.val + 2 = N) := by rw [hj0val]; omega
         have h1 : j0.val + 1 = i.val := by rw [hj0val]; omega
-        rw [ggTWα, if_neg hj2, if_pos h1]
+        rw [ggTWα, ite_eq_right hj2, ite_eq_left h1]
       have hh : ggTWh p N i j0 = 1 := by
         have hj2 : ¬ (j0.val + 2 = N) := by rw [hj0val]; omega
         have h1 : j0.val + 1 = i.val := by rw [hj0val]; omega
-        rw [ggTWh, if_neg hj2, if_neg hi, if_pos h1]
+        rw [ggTWh, ite_eq_right hj2, ite_eq_right hi, ite_eq_left h1]
       rw [hα, hh, mul_one]
     · intro j _ hj
       have hji : ¬ (j.val + 1 = i.val) := by
@@ -177,8 +177,8 @@ private lemma l05nE3_pair_i {p N : ℕ} (hN : 3 ≤ N) (i : Fin (N - 1)) :
         omega
       have hh0 : ggTWh p N i j = 0 := by
         by_cases hj2 : j.val + 2 = N
-        · rw [ggTWh, if_pos hj2]
-        · rw [ggTWh, if_neg hj2, if_neg hi, if_neg hji]
+        · rw [ggTWh, ite_eq_left hj2]
+        · rw [ggTWh, ite_eq_right hj2, ite_eq_right hi, ite_eq_right hji]
       rw [hh0, mul_zero]
 
 private lemma l05nE3_H_length (p N i : ℕ) : (ggTWNH p N i).length = N - 1 := by
@@ -212,17 +212,17 @@ private lemma l05nE3_toZ_H {p N : ℕ} [Fact p.Prime] (i : Fin (N - 1)) :
   rw [List.getElem_map]
   simp only [List.range_eq_range', List.getElem_range'_1, Nat.zero_add]
   by_cases hj2 : j.val + 2 = N
-  · rw [if_pos hj2, if_pos hj2]; simp
-  · rw [if_neg hj2, if_neg hj2]
+  · rw [ite_eq_left hj2, ite_eq_left hj2]; simp
+  · rw [ite_eq_right hj2, ite_eq_right hj2]
     by_cases hi : i.val = 0
-    · rw [if_pos hi, if_pos hi]
+    · rw [ite_eq_left hi, ite_eq_left hi]
       rw [l05nE3_cast_neg p (j.val + 2)]
       push_cast
       ring
-    · rw [if_neg hi, if_neg hi]
+    · rw [ite_eq_right hi, ite_eq_right hi]
       by_cases h1 : j.val + 1 = i.val
-      · rw [if_pos h1, if_pos h1]; simp
-      · rw [if_neg h1, if_neg h1]; simp
+      · rw [ite_eq_left h1, ite_eq_left h1]; simp
+      · rw [ite_eq_right h1, ite_eq_right h1]; simp
 
 private lemma l05nE3_toZ_A {p N : ℕ} [Fact p.Prime] (i : Fin (N - 1)) :
     ggTWNToZ p N (ggTWNA p N i.val) = ggTWα p N i := by
@@ -236,15 +236,15 @@ private lemma l05nE3_toZ_A {p N : ℕ} [Fact p.Prime] (i : Fin (N - 1)) :
   rw [List.getElem_map]
   simp only [List.range_eq_range', List.getElem_range'_1, Nat.zero_add]
   by_cases hj2 : j.val + 2 = N
-  · rw [if_pos hj2, if_pos hj2]; simp
-  · rw [if_neg hj2, if_neg hj2]
+  · rw [ite_eq_left hj2, ite_eq_left hj2]; simp
+  · rw [ite_eq_right hj2, ite_eq_right hj2]
     by_cases h1 : j.val + 1 = i.val
-    · rw [if_pos h1, if_pos h1]; simp
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]; simp
+    · rw [ite_eq_right h1, ite_eq_right h1]
       by_cases h2 : j.val + 2 = i.val ∨ j.val = i.val
-      · rw [if_pos h2, if_pos h2]
+      · rw [ite_eq_left h2, ite_eq_left h2]
         rw [l05nE3_cast_pred p]
-      · rw [if_neg h2, if_neg h2]; simp
+      · rw [ite_eq_right h2, ite_eq_right h2]; simp
 
 private lemma l05nE3_dot_of_valid {p N : ℕ} [Fact p.Prime] {q : GGDepANPair}
     (h : GGTWNValid p N q) :
@@ -264,7 +264,7 @@ private lemma l05nE3_valid_of_dot {p N : ℕ} [Fact p.Prime] {q : GGDepANPair}
   rw [ZMod.natCast_eq_natCast_iff'] at h2
   simpa [ggDepANDot, Nat.mod_mod] using h2
 
-theorem ggTWNGen_valid {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
+theorem ggTWNGen_valid {p N : ℕ} [Fact p.Prime] (_hp : 3 ≤ p) (hN : 5 ≤ N)
     {news : List GGDepANPair}
     (hnews : ∀ q ∈ news, GGTWNValid p N q) {g : ℕ} (hg : g < N - 1 + news.length) :
     GGTWNValid p N (ggTWNGen p N news g) := by
@@ -277,8 +277,8 @@ theorem ggTWNGen_valid {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
     have hA : ggTWNToZ p N (ggTWNA p N g) = ggTWα p N ⟨g, hg'⟩ :=
       l05nE3_toZ_A (p := p) (N := N) ⟨g, hg'⟩
     refine ⟨?_, ?_, ?_⟩
-    · simpa [ggTWNGen, if_pos h] using hHlen
-    · simpa [ggTWNGen, if_pos h] using hAlen
+    · simpa [ggTWNGen, ite_eq_left h] using hHlen
+    · simpa [ggTWNGen, ite_eq_left h] using hAlen
     · have hdot : ggDepAdot (ggDepANToZ p (N - 1) (ggTWNA p N g))
           (ggDepANToZ p (N - 1) (ggTWNH p N g)) = 2 := by
         change ggDepAdot (ggTWNToZ p N (ggTWNA p N g)) (ggTWNToZ p N (ggTWNH p N g)) = 2
@@ -291,15 +291,15 @@ theorem ggTWNGen_valid {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
           ((2 % p : ℕ) : ZMod p) := by
         rw [ZMod.natCast_mod]; exact hcast
       rw [ZMod.natCast_eq_natCast_iff'] at h2
-      simpa [ggTWNGen, if_pos h, ggDepANDot, Nat.mod_mod] using h2
+      simpa [ggTWNGen, ite_eq_left h, ggDepANDot, Nat.mod_mod] using h2
   · have hk : g + 1 - N < news.length := by omega
     have hmem : news[g + 1 - N] ∈ news := List.getElem_mem hk
     have hq := hnews (news[g + 1 - N]) hmem
-    rw [ggTWNGen, if_neg h,
+    rw [ggTWNGen, ite_eq_right h,
       List.getD_eq_getElem (l := news) (d := ([], [])) (n := g + 1 - N) hk]
     exact hq
 
-theorem ggTWNGen_mem {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
+theorem ggTWNGen_mem {p N : ℕ} [Fact p.Prime] (_hp : 3 ≤ p) (hN : 5 ≤ N)
     {news : List GGDepANPair}
     {g : ℕ} (hg : g < N - 1 + news.length) :
     ggTWNRflOf p N (ggTWNGen p N news g) ∈
@@ -310,10 +310,10 @@ theorem ggTWNGen_mem {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
       l05nE3_toZ_H (p := p) (N := N) ⟨g, hg'⟩
     have hA : ggTWNToZ p N (ggTWNA p N g) = ggTWα p N ⟨g, hg'⟩ :=
       l05nE3_toZ_A (p := p) (N := N) ⟨g, hg'⟩
-    simp only [ggTWNRflOf, ggTWNGen, if_pos h, hH, hA]
+    simp only [ggTWNRflOf, ggTWNGen, ite_eq_left h, hH, hA]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, hg'⟩, rfl⟩)
   · have hk : g + 1 - N < news.length := by omega
-    rw [ggTWNRflOf, ggTWNGen, if_neg h,
+    rw [ggTWNRflOf, ggTWNGen, ite_eq_right h,
       List.getD_eq_getElem (l := news) (d := ([], [])) (n := g + 1 - N) hk]
     refine Submonoid.subset_closure (Or.inr ?_)
     exact ⟨(ggTWNToZ p N (news[g + 1 - N]).1, ggTWNToZ p N (news[g + 1 - N]).2),

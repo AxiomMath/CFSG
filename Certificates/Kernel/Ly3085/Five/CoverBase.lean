@@ -129,12 +129,15 @@ theorem evalWord_eq {t : List ℤ} (ht : ∀ z ∈ t, z = 1 ∨ z = 2) :
     congr 1
     exact (List.map_congr_left fun z hz => abLet_inv (ht z (List.mem_reverse.1 hz))).symm
 
+omit [LySeed] in
 theorem words_12 : (∀ z ∈ xWord, z = 1 ∨ z = 2) ∧ (∀ z ∈ y3Word, z = 1 ∨ z = 2) ∧
     (∀ z ∈ y1Word, z = 1 ∨ z = 2) := by decide
 
+omit [LySeed] in
 theorem gx_lt : (∀ l ∈ CFSG.KD.LyFive.GX, l < 41) ∧ (∀ l ∈ CFSG.KD.LyFive.GY, l < 41) := by
   decide +kernel
 
+omit [LySeed] in
 theorem tw_lt : (∀ l ∈ CFSG.KD.LyFive.tAW, l < 41) ∧ (∀ l ∈ CFSG.KD.LyFive.tBW, l < 41) := by
   decide
 
@@ -173,7 +176,7 @@ theorem conj_tA : ∃ g : J, g * lyTA * g⁻¹ = fiveX :=
 theorem conj_tB : ∃ g : J, g * lyTB * g⁻¹ = fiveY :=
   conj_of_check gx_lt.2 (by decide) y_facts.1 y_facts.2 CFSG.KD.LyFive.gy
 
-@[expose] def RelF (u : J) : Prop :=
+def RelF (u : J) : Prop :=
   ∃ g : J, ∃ r ∈ ({fiveX, fiveY} : Set J), ∃ m : ℕ, 1 ≤ m ∧ m ≤ 4 ∧ g * u * g⁻¹ = r ^ m
 
 theorem relF_conj {u v t : J} (h : t * u * t⁻¹ = v) (hu : RelF u) : RelF v := by
@@ -196,10 +199,13 @@ theorem relF_pow {u v : J} {j : ℕ} (hj2 : 2 ≤ j) (hj4 : j ≤ 4) (h : u ^ j 
   · rw [← h, ← conj_pow, e, ← pow_mul]
     conv_lhs => rw [← Nat.div_add_mod (m * j) 5, pow_add, pow_mul, r5, one_pow, one_mul]
 
+omit [LySeed] in
 theorem bw_lt : ∀ j < 17, ∀ l ∈ CFSG.KD.LyFive.BW.getD j [], l < 41 := by decide +kernel
 
+omit [LySeed] in
 theorem cj_lt : ∀ l < 8, CFSG.KD.LyFive.CJ.getD l 0 < 41 := by decide
 
+omit [LySeed] in
 theorem nt_eq : CFSG.KD.LyFive.NT = 5624 := rfl
 
 theorem root_rel {j : ℕ} (hj : j < 17) (hn : CFSG.KD.LyFive.RT.getD j 0 < 15625) :
@@ -263,6 +269,7 @@ theorem tree_rel : ∀ i < CFSG.KD.LyFive.NT, CFSG.KC.LyFive.recF CFSG.KD.LyFive
 theorem fiveEl_zero : fiveEl 0 = 1 := by
   simp [fiveEl, fiveNF, fiveDigits]
 
+omit [LySeed] in
 theorem comm_el_gen {G : Type*} [Group G] (a x : G) (v : Fin 4 → G) (hx : x = a ^ 5)
     (hv : ∀ i, x * v i = v i * x) (k e3 e2 e1 e0 c : ℕ) :
     x * (a ^ k * (v 3 ^ e3 * v 2 ^ e2 * v 1 ^ e1 * v 0 ^ e0 * x ^ c)) =
@@ -313,8 +320,7 @@ theorem fiveEl_base {n : ℕ} (hn : n < 15625) : fiveEl n = fiveEl (n - n % 5) *
   have hc0 : (n % 3125 - n % 5) % 5 = 0 := by omega
   have hc : n % 3125 % 5 = n % 5 := by omega
   unfold fiveEl fiveNF fiveDigits
-  simp only [digit_val, hk, hq, hd, hc0, hc, Nat.cast_zero, ZMod.val_zero, pow_zero, one_mul,
-    mul_one, mul_assoc]
+  simp only [digit_val, hk, hq, hd, hc0, hc, Nat.cast_zero, ZMod.val_zero, pow_zero, mul_one, mul_assoc]
 
 theorem not_pow5 {n : ℕ} (hn : n < 15625)
     (hpos : posF CFSG.KD.LyFive.PB n = 16383) (h1 : fiveEl n ≠ 1) : fiveEl n ^ 5 ≠ 1 := by

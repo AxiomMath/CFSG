@@ -172,7 +172,7 @@ theorem eq_one_of_slCode {A : SL23} (h : slCode A = 28) : A = 1 := by
   norm_num at e1 e2 e3 e4
   ext i j
   fin_cases i <;> fin_cases j <;> apply ZMod.val_injective <;>
-    simp [Matrix.one_apply, ← e1, ← e2, ← e3, ← e4, ZMod.val_one]
+    simp [← e1, ← e2, ← e3, ← e4, ZMod.val_one]
 
 theorem p_codes : (slList ()).map slCode = fb442cdL := by
   decide +kernel

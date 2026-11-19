@@ -15,6 +15,7 @@ open CFSG.GorensteinWalter
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutatorElement_mem_of_index_two {H : Subgroup G} (hH : H.index = 2) (x y : G) :
     x * y * x⁻¹ * y⁻¹ ∈ H := by
   have h1 : x * y ∈ H ↔ (x ∈ H ↔ y ∈ H) := Subgroup.mul_mem_iff_of_index_two hH
@@ -127,7 +128,7 @@ theorem three_le_of_isOddPrimePower {q : ℕ} (hq : IsOddPrimePower q) : 3 ≤ q
 theorem isOddPrimePower_of_sq {F : Type} [Field F] [Finite F] {q : ℕ}
     (hq : IsOddPrimePower q) (h : Nat.card F ^ 2 = q) : IsOddPrimePower (Nat.card F) := by
   classical
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   obtain ⟨n, hp, hn⟩ := FiniteField.card F (ringChar F)
   have hpf : Fact (ringChar F).Prime := ⟨hp⟩
   refine ⟨ringChar F, n, hp, ?_, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
@@ -144,8 +145,8 @@ theorem card_le_120_of_pgl2 {C : Type} [Group C] [Finite C] {F₀ : Type} [Field
     (hψ : ∀ c : C, ψ c = 1 → ∀ x ∈ X, c * x = x * c) : Nat.card C ≤ 120 := by
   classical
   obtain ⟨J, hJn, hJ2, hJC, ⟨eJ⟩⟩ := CFSG.OddStandard.SmallF3.Omega.sec5sh8_pgl_layer hF₀ φ
-  haveI : IsSimpleGroup J := by
-    haveI : IsSimpleGroup (PSL2 F₀) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
+  have : IsSimpleGroup J := by
+    have : IsSimpleGroup (PSL2 F₀) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
     exact eJ.isSimpleGroup
   have hXJ : X ≤ J := by
     rw [← CFSG.GH74.Generic.S45.a5_perfect eX, Subgroup.commutator_le]
@@ -220,8 +221,8 @@ theorem Config.eq_of_normal_psl2 (hQ : Config D u w v z a K₁ S') {L N₀ : Sub
     · exact h
   have hF : CFSG.GH74.GLS.IVK.L2Field K :=
     ⟨by obtain ⟨p, n, hp, hpo, -, hq⟩ := hK; rw [hq]; exact hpo.pow, hK3⟩
-  haveI hsimp : IsSimpleGroup N₀ := by
-    haveI : IsSimpleGroup (PSL2 K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
+  have hsimp : IsSimpleGroup N₀ := by
+    have : IsSimpleGroup (PSL2 K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
     exact eN.isSimpleGroup
   have hnab : ∃ x y : N₀, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by decide +kernel
@@ -229,7 +230,7 @@ theorem Config.eq_of_normal_psl2 (hQ : Config D u w v z a K₁ S') {L N₀ : Sub
     have h' : eK.symm a * eK.symm b = eK.symm b * eK.symm a :=
       Subtype.ext (by simpa using congrArg Subtype.val h)
     simpa using congrArg eK h'
-  haveI hN₀G : N₀.Normal :=
+  have hN₀G : N₀.Normal :=
     normal_of_simple_of_odd_relIndex hN₀L hN₀n hodd hsimp hK₁L ⟨eK⟩
   have hZ : Subgroup.center N₀ = ⊥ := by
     rcases (inferInstance : (Subgroup.center N₀).Normal).eq_bot_or_eq_top with h | h
@@ -267,8 +268,8 @@ theorem Config.eq_of_normal_psl2 (hQ : Config D u w v z a K₁ S') {L N₀ : Sub
         ⟨F₀, i₁, i₂, hF₀, ⟨φ⟩⟩
     · exact (not_A5_le_of_isDihedralOrder hdih (X := K₁N.subgroupOf _)
         ⟨(Subgroup.subgroupOfEquivOfLe hK₁F).trans eK₁N⟩).elim
-    · letI := i₁
-      haveI := i₂
+    · let := i₁
+      have := i₂
       set C := CFSG.GH74.GLS.fixedSubgroup N₀ σ
       have hF₀odd : IsOddPrimePower (Nat.card F₀) := isOddPrimePower_of_sq hK hF₀
       set XC : Subgroup C := K₁N.subgroupOf C
@@ -316,12 +317,12 @@ theorem Config.eq_of_normal_psl2 (hQ : Config D u w v z a K₁ S') {L N₀ : Sub
             (Nat.pow_le_pow_left hq7 2) 1))
         norm_num at this; omega
       rw [← hF₀, hq5]; norm_num
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K25 := Fintype.ofFinite K25
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K25 := Fintype.ofFinite K25
   have eKK : K ≃+* K25 := FiniteField.ringEquivOfCardEq (K := K) (K' := K25) (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard25, card_K25])
   have eN25 : N₀ ≃* PSL225 := eN.trans (psl2RingEquiv eKK)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hLie : CFSG.Blueprint.LieModel N₀ .PSL 2 5 2 := by
     refine Or.inl ⟨by decide, ?_⟩
     exact CFSG.Assembly.LowTwoRank.statedClassicalModel_psl_two_of_mulEquiv N₀ 5 2

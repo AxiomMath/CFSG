@@ -50,6 +50,7 @@ private theorem secHyp_bot_of_data (hd : D4qVertexOneData Q Z K H f) :
     rw [Subgroup.mem_bot, ← pow_two]
     exact hd.sq_eq_one a ha
 
+omit [Finite G] in
 private theorem leviRep_bot_eq_one (hd : D4qVertexOneData Q Z K H f) {W : Type}
     [AddCommGroup W] [Module (ZMod 2) W] (s₀ : SecRep (K ⊔ H) ⊥ Z W) (k : ↥K) :
     s₀.ρ (Subgroup.inclusion le_sup_left k) = 1 := by
@@ -72,6 +73,7 @@ variable {W W₀ W' W₀' : Type}
   [AddCommGroup W₀'] [Module (ZMod 2) W₀'] [Finite W₀']
 
 
+omit [Finite W] [Finite W'] [Finite G] [Finite G'] in
 private lemma f₀_K_equivariant (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s' : SecRep (K' ⊔ H') Z' Q' W') (e_K : ↥K ≃* ↥K')
@@ -102,6 +104,7 @@ private lemma f₀_K_equivariant (hd : D4qVertexOneData Q Z K H f)
     _ = s'.ρ (Subgroup.inclusion le_sup_left (e_K k)) (f₀ w) :=
         LinearMap.congr_fun h2 (f₀ w)
 
+omit [Finite W] in
 private lemma torus_injective (hd : D4qVertexOneData Q Z K H f)
     (s : SecRep (K ⊔ H) Z Q W) :
     Function.Injective (s.ρ.comp (Subgroup.inclusion le_sup_right) :
@@ -122,6 +125,7 @@ private lemma torus_injective (hd : D4qVertexOneData Q Z K H f)
   have h1eq : h1 * h2⁻¹ = 1 := Subtype.ext h1eqG
   exact mul_inv_eq_one.mp h1eq
 
+omit [Finite G] [Finite W] in
 private lemma torus_commutes (hd : D4qVertexOneData Q Z K H f)
     (s : SecRep (K ⊔ H) Z Q W) (h : ↥H) (k : ↥K) (w : W) :
     s.ρ (Subgroup.inclusion le_sup_right h)
@@ -142,7 +146,7 @@ private lemma torus_commutes (hd : D4qVertexOneData Q Z K H f)
 private lemma exists_e_H (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s' : SecRep (K' ⊔ H') Z' Q' W') (e_K : ↥K ≃* ↥K')
-    (he_K : e_K = hd.levi_mulEquiv.some.trans hd'.levi_mulEquiv.some.symm)
+    (_he_K : e_K = hd.levi_mulEquiv.some.trans hd'.levi_mulEquiv.some.symm)
     (f₀ : W ≃ₗ[ZMod 2] W')
     (hf₀K : ∀ (k : ↥K) (w : W), f₀ (s.ρ (Subgroup.inclusion le_sup_left k) w) =
       s'.ρ (Subgroup.inclusion le_sup_left (e_K k)) (f₀ w)) :
@@ -169,13 +173,14 @@ private lemma exists_e_H (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     rw [hcard_end', hd'.card_torus]
     have h1 : 1 ≤ 2 ^ f := Nat.one_le_two_pow
     omega
-  haveI : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
-  haveI : Fact (leviRep le_sup_left s').IsIrreducible := ⟨hd'.isIrreducible_leviRep hf s'⟩
+  have : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
+  have : Fact (leviRep le_sup_left s').IsIrreducible := ⟨hd'.isIrreducible_leviRep hf s'⟩
   obtain ⟨e_H, he_H⟩ := exists_mulEquiv_of_commute_of_card
     (leviRep le_sup_left s) (leviRep le_sup_left s') e_K f₀ hf₀K
     τ τ' hτ hτ' hτρ hτρ' hcard hcard'
   exact ⟨e_H, he_H⟩
 
+omit [Finite G] [Finite G'] in
 private lemma exists_e (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (e_K : ↥K ≃* ↥K') (e_H : ↥H ≃* ↥H') :
     ∃ e : ↥(K ⊔ H) ≃* ↥(K' ⊔ H'),
@@ -225,6 +230,7 @@ private lemma exists_e (hd : D4qVertexOneData Q Z K H f)
     simp
   exact ⟨e, he_apply, he_left, he_right⟩
 
+omit [Finite G] [Finite G'] [Finite W] [Finite W'] in
 private lemma f₀_R_equivariant (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s' : SecRep (K' ⊔ H') Z' Q' W') (e_K : ↥K ≃* ↥K') (e_H : ↥H ≃* ↥H')
@@ -260,6 +266,7 @@ private lemma f₀_R_equivariant (hd : D4qVertexOneData Q Z K H f)
   rw [hr', map_mul]
   rfl
 
+omit [Finite W] [Finite W₀] in
 private lemma commForm_levi_inv (hd : D4qVertexOneData Q Z K H f)
     (s : SecRep (K ⊔ H) Z Q W) (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
     (hKZ : ∀ k : ↥K, s₀.ρ (Subgroup.inclusion le_sup_left k) = 1) :
@@ -274,6 +281,7 @@ private lemma commForm_levi_inv (hd : D4qVertexOneData Q Z K H f)
   rw [h, hKZ k]
   rfl
 
+omit [Finite G] [Finite W] [Finite W'] [Finite W₀'] in
 private lemma commForm_comp_inv (hd' : D4qVertexOneData Q' Z' K' H' f)
     (s : SecRep (K ⊔ H) Z Q W)
     (s' : SecRep (K' ⊔ H') Z' Q' W')
@@ -298,6 +306,7 @@ private lemma commForm_comp_inv (hd' : D4qVertexOneData Q' Z' K' H' f)
   rw [h, leviRep_bot_eq_one hd' s₀' (e_K k)]
   rfl
 
+omit [Finite W'] in
 private lemma exists_g₀ (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
@@ -367,11 +376,12 @@ private lemma exists_g₀ (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     hd.card_endRing_leviRep hf s
   have hE : Nat.card (EndRing (leviRep le_sup_left s)) ≤ Nat.card W₀ := by
     rw [hcard_end, hcardW₀]
-  haveI : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
+  have : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
   obtain ⟨g₀, hg₀_add⟩ := exists_linearEquiv_comp_eq_of_invariant
     (leviRep le_sup_left s) hE hZZ' c c'F hc_inv hc'F_inv hspan hspan'F
   exact ⟨g₀, fun x y => by simpa [c, c', c'F] using hg₀_add x y⟩
 
+omit [Finite W] [Finite W₀] [Finite W'] [Finite W₀'] in
 private lemma g₀_H_equivariant (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
@@ -414,14 +424,12 @@ private lemma g₀_H_equivariant (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f
         c' (f₀ (s.ρ (Subgroup.inclusion le_sup_right h) y))
           (f₀ (s.ρ (Subgroup.inclusion le_sup_right h) z)) from hg₀_add' _ _]
     rw [he_H h y, he_H h z]
-    change c' (s'.ρ (Subgroup.inclusion le_sup_right (e_H h)) (f₀ y))
-        (s'.ρ (Subgroup.inclusion le_sup_right (e_H h)) (f₀ z)) =
-      s₀'.ρ (Subgroup.inclusion le_sup_right (e_H h)) (g₀ (c y z))
     rw [SecRep.commForm_ρ hd'.secHyp s' s₀' hd'.commute_of_mem hd'.commutator_mem
       (Subgroup.inclusion le_sup_right (e_H h)) (f₀ y) (f₀ z)]
     rw [hg₀_add' y z]
   exact LinearMap.congr_fun hL x
 
+omit [Finite G] [Finite G'] [Finite W₀] [Finite W₀'] in
 private lemma g₀_R_equivariant (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
     (s₀' : SecRep (K' ⊔ H') (⊥ : Subgroup G') Z' W₀')
@@ -463,6 +471,7 @@ private lemma g₀_R_equivariant (hd : D4qVertexOneData Q Z K H f)
   rw [hKZ k, hK'Z' (e_K k)]
   exact hg₀H h x
 
+omit [Finite W₀] [Finite W₀'] [Finite G] [Finite G'] in
 private lemma exists_g (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
     (s₀' : SecRep (K' ⊔ H') (⊥ : Subgroup G') Z' W₀') (g₀ : W₀ ≃ₗ[ZMod 2] W₀') :
     ∃ g : ↥Z ≃* ↥Z',
@@ -496,6 +505,7 @@ private lemma exists_g (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
       rw [hg_apply, h, ← h2]
   exact ⟨g, hg_apply, hg_iff⟩
 
+omit [Finite G] [Finite W₀] [Finite W₀'] [Finite G'] in
 private lemma g_cond (hd' : D4qVertexOneData Q' Z' K' H' f)
     (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
     (s₀' : SecRep (K' ⊔ H') (⊥ : Subgroup G') Z' W₀')
@@ -527,6 +537,7 @@ private lemma g_cond (hd' : D4qVertexOneData Q' Z' K' H' f)
     exact congrArg Multiplicative.ofAdd (s₀'.act (e r) (g z) ⟨_, hmem⟩ rfl)
   exact congrArg (fun y : ↥Z' => (y : G')) hEq
 
+omit [Finite W] [Finite W'] [Finite G] [Finite G'] in
 private lemma exists_fmap (s : SecRep (K ⊔ H) Z Q W)
     (s' : SecRep (K' ⊔ H') Z' Q' W') (f₀ : W ≃ₗ[ZMod 2] W')
     [hWn : (Z.subgroupOf Q).Normal] [hW'n : (Z'.subgroupOf Q').Normal] :
@@ -567,6 +578,7 @@ private lemma exists_fmap (s : SecRep (K ⊔ H) Z Q W)
       rw [h]
   exact ⟨fmap, hf_apply, hf_iff⟩
 
+omit [Finite G] [Finite G'] [Finite W] [Finite W'] in
 private lemma f_cond (s : SecRep (K ⊔ H) Z Q W) (s' : SecRep (K' ⊔ H') Z' Q' W')
     [hWn : (Z.subgroupOf Q).Normal] [hW'n : (Z'.subgroupOf Q').Normal]
     (e : ↥(K ⊔ H) ≃* ↥(K' ⊔ H')) (f₀ : W ≃ₗ[ZMod 2] W')
@@ -588,6 +600,7 @@ private lemma f_cond (s : SecRep (K ⊔ H) Z Q W) (s' : SecRep (K' ⊔ H') Z' Q'
     _ = s'.ρ (e r) (s'.cl v') := by rw [hvv]
     _ = s'.cl w' := by rw [hclw']
 
+omit [Finite W₀] [Finite W'] [Finite W₀'] in
 private lemma sqMap_g₀_eq (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f) (s : SecRep (K ⊔ H) Z Q W)
     (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
@@ -680,7 +693,7 @@ private lemma sqMap_g₀_eq (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     rw [hsqρ, hsqρ', hsqρ'', hKZ k, hK'Z' (e_K k)]
     rfl
   have hntρ : ∃ k : ↥K, leviRep le_sup_left s k ≠ 1 := hd.exists_leviRep_ne_one hf s
-  haveI : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
+  have : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
   have hδzero : δ = 0 := eq_zero_of_invariant_linearMap (leviRep le_sup_left s) hntρ δ hδinv
   intro v
   have h := congrArg (fun L : W →ₗ[ZMod 2] W₀' => L v) hδzero
@@ -689,13 +702,14 @@ private lemma sqMap_g₀_eq (hf : 2 ≤ f) (hd : D4qVertexOneData Q Z K H f)
     simpa [δ, δadd, δfun, sq, sq'] using h
   exact sub_eq_zero.mp h0
 
+omit [Finite W] [Finite W₀] [Finite W'] [Finite W₀'] in
 private lemma hsq_cond (hd : D4qVertexOneData Q Z K H f)
     (hd' : D4qVertexOneData Q' Z' K' H' f)
     (s : SecRep (K ⊔ H) Z Q W) (s₀ : SecRep (K ⊔ H) (⊥ : Subgroup G) Z W₀)
     (s' : SecRep (K' ⊔ H') Z' Q' W')
     (s₀' : SecRep (K' ⊔ H') (⊥ : Subgroup G') Z' W₀')
     [hWn : (Z.subgroupOf Q).Normal] [hW'n : (Z'.subgroupOf Q').Normal]
-    (e_H : ↥H ≃* ↥H') (f₀ : W ≃ₗ[ZMod 2] W')
+    (_e_H : ↥H ≃* ↥H') (f₀ : W ≃ₗ[ZMod 2] W')
     (fmap : ↥Q ⧸ Z.subgroupOf Q ≃* ↥Q' ⧸ Z'.subgroupOf Q')
     (g : ↥Z ≃* ↥Z') (g₀ : W₀ ≃ₗ[ZMod 2] W₀')
     (hg_apply : ∀ z : ↥Z, SecRep.equivOfBot s₀' (g z) =
@@ -827,32 +841,32 @@ theorem D4qVertexOneData.exists_mulEquiv (hf : 2 ≤ f) (hd : D4qVertexOneData Q
       (∀ x : ↥(Q ⊔ (K ⊔ H)), (x : G) ∈ H ↔ (ψ x : G') ∈ H') := by
   classical
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hd.secHyp
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   obtain ⟨W₀, hW₀add, hW₀mod, hW₀fin, ⟨s₀⟩⟩ :=
     exists_secRep (secHyp_bot_of_data hd)
-  letI : AddCommGroup W₀ := hW₀add
-  letI : Module (ZMod 2) W₀ := hW₀mod
-  letI : Finite W₀ := hW₀fin
+  let : AddCommGroup W₀ := hW₀add
+  let : Module (ZMod 2) W₀ := hW₀mod
+  let : Finite W₀ := hW₀fin
   obtain ⟨W', hW'add, hW'mod, hW'fin, ⟨s'⟩⟩ := exists_secRep hd'.secHyp
-  letI : AddCommGroup W' := hW'add
-  letI : Module (ZMod 2) W' := hW'mod
-  letI : Finite W' := hW'fin
+  let : AddCommGroup W' := hW'add
+  let : Module (ZMod 2) W' := hW'mod
+  let : Finite W' := hW'fin
   obtain ⟨W₀', hW₀'add, hW₀'mod, hW₀'fin, ⟨s₀'⟩⟩ :=
     exists_secRep (secHyp_bot_of_data hd')
-  letI : AddCommGroup W₀' := hW₀'add
-  letI : Module (ZMod 2) W₀' := hW₀'mod
-  letI : Finite W₀' := hW₀'fin
-  letI hWn : (Z.subgroupOf Q).Normal := SecRep.normal_subgroupOf s
-  letI hW'n : (Z'.subgroupOf Q').Normal := SecRep.normal_subgroupOf s'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
+  let : AddCommGroup W₀' := hW₀'add
+  let : Module (ZMod 2) W₀' := hW₀'mod
+  let : Finite W₀' := hW₀'fin
+  let hWn : (Z.subgroupOf Q).Normal := SecRep.normal_subgroupOf s
+  let hW'n : (Z'.subgroupOf Q').Normal := SecRep.normal_subgroupOf s'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 (3 * f)) = 2 ^ (3 * f) := by
     rw [Fintype.card_eq_nat_card]
     exact GaloisField.card 2 (3 * f) (by omega)
-  haveI : Fact (hd.leviRepSL s).IsIrreducible := ⟨hd.isIrreducible_leviRepSL hf s⟩
-  haveI : Fact (hd'.leviRepSL s').IsIrreducible := ⟨hd'.isIrreducible_leviRepSL hf s'⟩
+  have : Fact (hd.leviRepSL s).IsIrreducible := ⟨hd.isIrreducible_leviRepSL hf s⟩
+  have : Fact (hd'.leviRepSL s').IsIrreducible := ⟨hd'.isIrreducible_leviRepSL hf s'⟩
   obtain ⟨f₀, hf₀⟩ := exists_equiv_of_card_eq_two_pow_eight_mul hf hF (hd.leviRepSL s)
     (hd'.leviRepSL s') (hd.exists_leviRepSL_ne_one hf s) (hd'.exists_leviRepSL_ne_one hf s')
     (hd.card_secRep s) (hd'.card_secRep s')

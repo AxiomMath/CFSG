@@ -66,6 +66,7 @@ theorem oddBarConj_mem_range_conj_of_footeFixed {a b : G} {K : Subgroup G}
     D →* K ⧸ pPrimeCore 2 K :=
   (QuotientGroup.mk' (pPrimeCore 2 K)).comp (Subgroup.inclusion hDK)
 
+omit [Finite G] in
 theorem oddCoreRestriction_apply {D K : Subgroup G} (hDK : D ≤ K) (d : D) :
     oddCoreRestriction hDK d =
       ((Subgroup.inclusion hDK d : K) : K ⧸ pPrimeCore 2 K) := rfl

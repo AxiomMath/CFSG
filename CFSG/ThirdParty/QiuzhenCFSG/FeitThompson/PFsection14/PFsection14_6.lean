@@ -115,10 +115,10 @@ public theorem section14_sylow_map_to_overgroup_sylow
     (P : Sylow p.val K) :
     ∃ PH : Sylow p.val H, (PH : Subgroup H) = (P : Subgroup K).map K.subtype := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Psub : Subgroup H := (P : Subgroup K).map K.subtype
   have hPsubp : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup' K.subtype
+    IsPGroup.map (p := p.val) (H := (P : Subgroup K)) P.isPGroup K.subtype
   have hnot_index : ¬ p.val ∣ Psub.index := by
     intro hpidx
     have hidx : Psub.index = (P : Subgroup K).index * K.index := by
@@ -199,7 +199,7 @@ public theorem section14_hall_ambientSylow_to_overgroup
     ∃ PH : Sylow p.val H,
       section10AmbientSylowSubgroup H PH = section10AmbientSylowSubgroup K P := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Kloc : Subgroup H := K.subgroupOf H
   let e : Kloc ≃* K := Subgroup.subgroupOfEquivOfLe (H := K) (K := H) hKH
   let Ploc : Sylow p.val Kloc :=
@@ -253,7 +253,7 @@ public theorem section14_exists_nontrivial_pSubgroup_of_prime_dvd_card_subgroup
     ∃ R : Subgroup G, R ≤ A ∧ IsPGroup r R ∧ R ≠ ⊥ ∧
       ∃ RA : Sylow r A, R = (RA : Subgroup A).map A.subtype := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let RA : Sylow r A := Classical.choice (Sylow.nonempty (p := r) (G := A))
   have hRA_ne : (RA : Subgroup A) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := A) RA hrA
@@ -266,7 +266,7 @@ public theorem section14_exists_nontrivial_pSubgroup_of_prime_dvd_card_subgroup
     exact a.property
   have hRp : IsPGroup r R := by
     simpa [R] using
-      IsPGroup.map (p := r) (H := (RA : Subgroup A)) RA.isPGroup' A.subtype
+      IsPGroup.map (p := r) (H := (RA : Subgroup A)) RA.isPGroup A.subtype
   have hR_ne : R ≠ ⊥ := by
     intro hR_bot
     have hRA_bot : (RA : Subgroup A) = ⊥ :=
@@ -303,7 +303,7 @@ public theorem section14_exists_ambient_sylow_containing_pSubgroup
     exact a.property
   have hRp : IsPGroup r R := by
     simpa [R] using
-      IsPGroup.map (p := r) (H := (RA : Subgroup A)) RA.isPGroup' A.subtype
+      IsPGroup.map (p := r) (H := (RA : Subgroup A)) RA.isPGroup A.subtype
   exact ⟨R, hR0_le_R, hR_le_A, hRp, RA, rfl⟩
 
 public theorem section14_caseA_prime_dvd_barU_card_of_u_formula
@@ -322,7 +322,7 @@ public theorem section14_caseA_prime_dvd_barU_card_of_u_formula
     rw [hu]
     exact section14_dvd_square_div_four_of_dvd_half hr_dvd
   refine ⟨hCU, hnormal, ?_⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   rw [hcard]
   exact hr_dvd_u
 
@@ -336,7 +336,7 @@ public theorem section14_caseA_prime_dvd_U_card_of_u_formula
     r ∣ Nat.card U := by
   rcases section14_caseA_prime_dvd_barU_card_of_u_formula hcaseA hr_dvd hu with
     ⟨_hCU, hnormal, hbarU_r_dvd⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  let : (C.subgroupOf U).Normal := hnormal
   exact hbarU_r_dvd.trans (Subgroup.card_quotient_dvd_card (s := C.subgroupOf U))
 
 public theorem section14_caseA_exists_nontrivial_rSubgroup_U_of_u_formula
@@ -387,11 +387,11 @@ public theorem section14_fixedPointFree_card_prime_square_congruence
     (hfree : ∀ a : A, a ≠ 1 → ∀ e : E, a • e = e → e = 1) :
     p ∣ r ^ 2 - 1 := by
   classical
-  letI : Fintype A := Fintype.ofFinite A
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype A := Fintype.ofFinite A
+  let : Fintype E := Fintype.ofFinite E
   have hdivAE : Nat.card A ∣ Nat.card E - 1 := by
     let α := {e : E // e ≠ 1}
-    letI : MulAction A α :=
+    let : MulAction A α :=
       { smul := fun a e => ⟨a • (e : E), by
           intro h
           apply e.2
@@ -422,8 +422,8 @@ public theorem section14_fixedPointFree_card_prime_square_congruence
       exact e.2 (hfree a ha_ne (e : E) hfix)
     have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
     have hcardα : Nat.card α = Nat.card E - 1 := by
-      letI : Fintype E := Fintype.ofFinite E
-      letI : Fintype α := Fintype.ofFinite α
+      let : Fintype E := Fintype.ofFinite E
+      let : Fintype α := Fintype.ofFinite α
       rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
       change Fintype.card {e : E // e ≠ 1} = Fintype.card E - 1
       simp
@@ -457,7 +457,7 @@ public theorem section14_frobeniusWithKernel_invariant_subgroup_fixedPointFree_a
     ∃ _hAction : MulDistribMulAction A Ω,
       ∀ a : A, a ≠ 1 → ∀ e : Ω, a • e = e → e = 1 := by
   classical
-  letI : Subgroup.Normalizes A Ω := ⟨hA_norm_Ω⟩
+  let : Subgroup.Normalizes A Ω := ⟨hA_norm_Ω⟩
   refine ⟨inferInstance, ?_⟩
   intro a ha e hfix
   have hconj : (a : G) * (e : G) * (a : G)⁻¹ = (e : G) := by
@@ -518,7 +518,7 @@ public theorem section14_natCard_fin_fun_multiplicative_zmod_q3
     (ha0 : a ≠ 0)
     (hq3 : q = 3) :
     Nat.card (Fin (q - 1) → Multiplicative (ZMod a)) = a ^ 2 := by
-  haveI : NeZero a := ⟨ha0⟩
+  have : NeZero a := ⟨ha0⟩
   subst q
   rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin]
   rw [show Fintype.card (Multiplicative (ZMod a)) = a by simp [ZMod.card]]
@@ -540,8 +540,8 @@ public theorem section14_caseA_quotient_card_le_square_of_q_eq_three
     have ha0 : a = 0 := Nat.eq_zero_of_not_pos hnot
     rw [ha0, Nat.zero_dvd] at ha
     exact (not_le_of_gt hp.one_lt) (Nat.sub_eq_zero_iff_le.mp ha)
-  haveI : NeZero a := ⟨ha_pos.ne'⟩
-  letI : (C.subgroupOf U).Normal := hnormalInj
+  have : NeZero a := ⟨ha_pos.ne'⟩
+  let : (C.subgroupOf U).Normal := hnormalInj
   have hquot_le :
       Nat.card (U ⧸ C.subgroupOf U) ≤
         Nat.card (Fin (q - 1) → Multiplicative (ZMod a)) :=
@@ -559,7 +559,7 @@ public theorem section14_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup
     (hPp : IsPGroup p.val P) [Nontrivial P] :
     section10OmegaOneCenter p P ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hZ_nontrivial : Nontrivial (Subgroup.center P) := hPp.center_nontrivial
   have hpdvd_center : p.val ∣ Nat.card (Subgroup.center P) := by
     have hcenter_p : IsPGroup p.val (Subgroup.center P) :=
@@ -585,22 +585,22 @@ public theorem section14_omegaOneCenter_card_eq_prime_or_prime_sq_of_le_square
     Nat.card (section10OmegaOneCenter rp R) = rp.val ∨
       Nat.card (section10OmegaOneCenter rp R) = rp.val ^ 2 := by
   classical
-  haveI : Fact rp.val.Prime := ⟨rp.property⟩
+  have : Fact rp.val.Prime := ⟨rp.property⟩
   have hR_ne : R ≠ ⊥ := by
     intro hRbot
     exact hR0_ne (le_bot_iff.mp (by simpa [hRbot] using hR0R))
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR_ne
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR_ne
   let Z : Subgroup G := section10OmegaOneCenter rp R
   have hZne : Z ≠ ⊥ :=
     section14_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup hRp
   have hZelem : IsElementaryAbelian rp.val Z := by
     have hΩelem : IsElementaryAbelian rp.val (Ω₁Z rp.val R) :=
       omega1Z_isElementaryAbelian (p := rp.val) (R := R)
-    letI : IsElementaryAbelian rp.val (Ω₁Z rp.val R) := hΩelem
+    let : IsElementaryAbelian rp.val (Ω₁Z rp.val R) := hΩelem
     exact section10_isElementaryAbelian_map_pre
       (G := R) (p := rp.val) (A := Ω₁Z rp.val R) (G' := G) R.subtype
   have hZp : IsPGroup rp.val Z := by
-    letI : IsElementaryAbelian rp.val Z := hZelem
+    let : IsElementaryAbelian rp.val Z := hZelem
     exact IsElementaryAbelian.isPGroup rp.val Z
   rcases hZp.exists_card_eq with ⟨k, hk⟩
   have hk_pos : 0 < k := by
@@ -629,11 +629,11 @@ public theorem section14_characteristicSubgroupIn_of_mf_sylow
     (hRH : R ≤ H)
     (hR_sylow : ∃ RH : Sylow r H, R = (RH : Subgroup H).map H.subtype) :
     characteristicSubgroupIn R H := by
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
   rcases hLHMf.1 with ⟨_hHL, _hHnormal, hHnil, _hHall⟩
   rcases hR_sylow with ⟨RH, hR_eq⟩
   have hRH_normal : (RH : Subgroup H).Normal := by
-    letI : Group.IsNilpotent H := hHnil
+    let : Group.IsNilpotent H := hHnil
     exact Group.IsNilpotent.sylow_normal (p := r) inferInstance RH
   have hRH_char : (RH : Subgroup H).Characteristic :=
     Sylow.characteristic_of_normal RH hRH_normal
@@ -673,7 +673,7 @@ public theorem section14_omegaOneCenter_card_bound_of_le_rank_two
     (hR0_rank : groupRank R0 ≤ 2) :
     Nat.card (section10OmegaOneCenter rp R) ≤ rp.val ^ 2 := by
   classical
-  haveI : Fact rp.val.Prime := ⟨rp.property⟩
+  have : Fact rp.val.Prime := ⟨rp.property⟩
   let Ω : Subgroup G := section10OmegaOneCenter rp R
   let Ω0 : Subgroup R0 := Ω.subgroupOf R0
   have hΩcard : Nat.card Ω0 = Nat.card Ω :=
@@ -681,13 +681,13 @@ public theorem section14_omegaOneCenter_card_bound_of_le_rank_two
   have hΩelem : IsElementaryAbelian rp.val Ω := by
     have hΩlocal : IsElementaryAbelian rp.val (Ω₁Z rp.val R) :=
       omega1Z_isElementaryAbelian (p := rp.val) (R := R)
-    letI : IsElementaryAbelian rp.val (Ω₁Z rp.val R) := hΩlocal
+    let : IsElementaryAbelian rp.val (Ω₁Z rp.val R) := hΩlocal
     exact section10_isElementaryAbelian_map_pre
       (G := R) (p := rp.val) (A := Ω₁Z rp.val R) (G' := G) R.subtype
   have hΩ0elem : IsElementaryAbelian rp.val Ω0 := by
-    letI : IsElementaryAbelian rp.val Ω := hΩelem
+    let : IsElementaryAbelian rp.val Ω := hΩelem
     exact IsElementaryAbelian.subgroupOf hΩR0
-  letI : IsElementaryAbelian rp.val Ω0 := hΩ0elem
+  let : IsElementaryAbelian rp.val Ω0 := hΩ0elem
   have hΩ0p : IsPGroup rp.val Ω0 := IsElementaryAbelian.isPGroup rp.val Ω0
   have hΩ0comm : IsMulCommutative Ω0 := inferInstance
   have hΩ0rank : generatorRank Ω0 ≤ 2 :=
@@ -818,9 +818,9 @@ public theorem section14_caseA_R0_groupRank_le_two_of_quotient_embedding
     have ha0 : a = 0 := Nat.eq_zero_of_not_pos hnot
     rw [ha0, Nat.zero_dvd] at ha
     exact (not_le_of_gt hp.one_lt) (Nat.sub_eq_zero_iff_le.mp ha)
-  haveI : NeZero a := ⟨ha_pos.ne'⟩
-  haveI : IsCyclic (Multiplicative (ZMod a)) := by infer_instance
-  letI : (C.subgroupOf U).Normal := hnormal
+  have : NeZero a := ⟨ha_pos.ne'⟩
+  have : IsCyclic (Multiplicative (ZMod a)) := by infer_instance
+  let : (C.subgroupOf U).Normal := hnormal
   have hCsub_bot : C.subgroupOf U = ⊥ :=
     section14_subgroupOf_eq_bot_of_eq_bot hCbot
   let eU : U ⧸ C.subgroupOf U ≃* U :=
@@ -871,8 +871,8 @@ public theorem section14_caseA_R0_card_dvd_embedding_of_isCyclic
     have ha0 : a = 0 := Nat.eq_zero_of_not_pos hnot
     rw [ha0, Nat.zero_dvd] at ha
     exact (not_le_of_gt hp.one_lt) (Nat.sub_eq_zero_iff_le.mp ha)
-  haveI : NeZero a := ⟨ha_pos.ne'⟩
-  letI : (C.subgroupOf U).Normal := hnormal
+  have : NeZero a := ⟨ha_pos.ne'⟩
+  let : (C.subgroupOf U).Normal := hnormal
   have hCsub_bot : C.subgroupOf U = ⊥ :=
     section14_subgroupOf_eq_bot_of_eq_bot hCbot
   let eU : U ⧸ C.subgroupOf U ≃* U :=
@@ -890,7 +890,7 @@ public theorem section14_caseA_R0_card_dvd_embedding_of_isCyclic
     have hUeq : iR0U x = iR0U y := eU.symm.injective hquot
     apply Subtype.ext
     exact congrArg (fun z : U => (z : G)) hUeq
-  haveI : IsCyclic R0 := hR0cyc
+  have : IsCyclic R0 := hR0cyc
   exact ⟨a, ha, section14_natCard_dvd_of_isCyclic_injective_to_fin_two_zmod
     φR0 hφR0_inj⟩
 
@@ -901,7 +901,7 @@ public theorem section14_R0_sylow_factorization_eq_U
     (hR0_sylow : ∃ R0U : Sylow r U, R0 = (R0U : Subgroup U).map U.subtype) :
     Nat.factorization (Nat.card R0) r = Nat.factorization (Nat.card U) r := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rcases hR0_sylow with ⟨R0U, hR0_eq⟩
   have hcard : Nat.card R0 = Nat.card (R0U : Subgroup U) := by
     rw [hR0_eq]
@@ -1145,21 +1145,21 @@ public theorem section14_exists_elementCentralizerIn_of_BG116
     (hPne : P ≠ ⊥) :
     ∃ x : G, x ∈ R0 ∧ x ≠ 1 ∧ elementCentralizerIn P x ≠ ⊥ := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI : MulDistribMulAction (↥R0) (↥P) :=
+  have : Fact r.Prime := ⟨hr⟩
+  let : MulDistribMulAction (↥R0) (↥P) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (G := G) R0 P hR0normP
   have htop :
       (⨆ (a : R0) (_ : a ≠ 1),
         fixedPointSubgroup (↥(Subgroup.zpowers a)) P) = ⊤ := by
     let commR0 : CommGroup (↥R0) := IsMulCommutative.instCommGroup
-    letI : CommGroup (↥R0) := commR0
-    letI : Group (↥R0) := commR0.toGroup
+    let : CommGroup (↥R0) := commR0
+    let : Group (↥R0) := commR0.toGroup
     have hR0p' : IsPGroup r (↥R0) := by
       intro a
       obtain ⟨k, hk⟩ := hR0p a
       refine ⟨k, ?_⟩
       exact Subtype.ext (congrArg Subtype.val hk)
-    haveI : Fact (IsPGroup r (↥R0)) := ⟨hR0p'⟩
+    have : Fact (IsPGroup r (↥R0)) := ⟨hR0p'⟩
     have hR0noncyc' : ¬ @IsCyclic (↥R0) ZPow.toPow := by
       intro h
       apply hR0noncyc
@@ -1235,7 +1235,7 @@ public theorem section14_caseA_P_le_Msigma_source_adapter
     ⟨hSmaxMF, _hW1cyc, _hW1ne, _hW1hall, _hW1comp, _hUleDer, _hUnil,
       _hW1normU, _hcompPU, _hPnoncyc, _hSecond, _hFitEq, _hFitLe, _hW2le,
       _hW2cyc, _hW2ne, _hCentralizer, _hHatNorm⟩
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   have hMF15 : section15MFSubgroup Smax P := by
     simpa [section16MFSubgroup, section16NilpotentNormalHallIn,
       section15MFSubgroup, section15NilpotentNormalHallIn] using hSmaxMF
@@ -1270,7 +1270,7 @@ public theorem section14_caseA_r_coprime_card_P_source_adapter
     have hr_le_half : r ≤ (p - 1) / 2 := Nat.le_of_dvd hhalf_pos hr_dvd
     have hhalf_lt_p : (p - 1) / 2 < p := by omega
     exact ne_of_lt (lt_of_le_of_lt hr_le_half hhalf_lt_p)
-  letI : IsElementaryAbelian p P := hPelem
+  let : IsElementaryAbelian p P := hPelem
   exact section14_coprime_card_of_isElementaryAbelian_of_ne
     (Q := P) hr hp hr_ne_p
 
@@ -1326,8 +1326,8 @@ public theorem section14_caseA_R0_sylow_in_Smax_source_adapter
   have hUHallD :
       IsHallSubgroup (subgroupPrimeSet P)ᶜ (U.subgroupOf D0) :=
     section14_complement_isHall_compl_of_isHall hPHallD hCompLocal
-  haveI : Fact rp.val.Prime := ⟨rp.property⟩
-  haveI : Nontrivial R0 := (Subgroup.nontrivial_iff_ne_bot R0).2 hR0_ne
+  have : Fact rp.val.Prime := ⟨rp.property⟩
+  have : Nontrivial R0 := (Subgroup.nontrivial_iff_ne_bot R0).2 hR0_ne
   have hrp_dvd_R0 : rp.val ∣ Nat.card R0 := by
     rcases (IsPGroup.nontrivial_iff_card
         (p := rp.val) (G := R0) (hG := hR0p)).1 inferInstance with
@@ -1461,7 +1461,7 @@ public theorem section14_caseA_BG116_inputs_source_adapter
           _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
           _hZeroDegree, _hConjIndex, _hConjBetaTau, _hChoice,
           hmin, _hFourSixS, _hFourSixT⟩
-      letI : IsMinCE G := hmin
+      let : IsMinCE G := hmin
       exact odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card U)
     have hb_odd : Odd b := by
       have hbsq_odd : Odd (b ^ 2) := by
@@ -2222,9 +2222,9 @@ public theorem section14_mixed_13_10_q_eq_three_case_a_fixedPointFree_square_con
       ⟨hΩAction, hΩfree⟩
     exact ⟨Ω, inferInstance, inferInstance, hΩAction, hΩ_card, hΩfree⟩
   rcases hOmegaAction with ⟨E, hEGroup, hEFinite, hEAction, hEcard, hfree⟩
-  letI : Group E := hEGroup
-  letI : Finite E := hEFinite
-  letI : MulDistribMulAction (W2.conjBy y) E := hEAction
+  let : Group E := hEGroup
+  let : Finite E := hEFinite
+  let : MulDistribMulAction (W2.conjBy y) E := hEAction
   exact section14_fixedPointFree_card_prime_square_congruence
     (A := W2.conjBy y) (E := E) hW2y_card hr hEcard hfree
 

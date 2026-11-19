@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem o4dich_le_normalizer {Z A B : Subgroup G}
     (hc : ∀ x ∈ Z, ∀ y ∈ Z, x * y = y * x) (hA : A ≤ Z) (hB : B ≤ Z) :
     A ≤ normalizer (B : Set G) := by
@@ -46,7 +47,7 @@ private theorem o4dich_main {Q A B Z E Z0 D : Subgroup G} {f : ℕ}
   · left
     rw [hQA, Subgroup.eq_of_le_of_card_ge hBA hcard.ge, inf_idem]
   right
-  obtain ⟨x, hxB, hxA⟩ := SetLike.not_le_iff_exists.mp hBA
+  obtain ⟨x, hxB, hxA⟩ := IsConcreteLE.not_le_iff_exists.mp hBA
   have hZle : Z ≤ A ⊔ B := by
     intro y hy
     by_cases hyA : y ∈ A
@@ -96,18 +97,18 @@ theorem centerOf_LX_eq_QT_or_caseII {f : ℕ}
     (hDA : t.D2 ≤ normalizer (centerOf (t.LX t.QT (-1)) : Set G))
     (hfpf : ∀ k ∈ t.D2, k ≠ 1 → ∀ e ∈ t.EX t.QT 1,
       ⁅e, k⁆ ∈ centerOf (t.LX t.QT 1) → e ∈ centerOf (t.LX t.QT 1))
-    (htr : ∀ x ∈ centerOf (t.PX t.QT), x ∉ centerOf (t.LX t.QT 1) →
+    (htr : ∀ _x ∈ centerOf (t.PX t.QT), _x ∉ centerOf (t.LX t.QT 1) →
       ∀ y ∈ centerOf (t.PX t.QT), y ∉ centerOf (t.LX t.QT 1) →
-        ∃ k ∈ t.D2, k * x * k⁻¹ * y⁻¹ ∈ centerOf (t.LX t.QT 1)) :
+        ∃ k ∈ t.D2, k * _x * k⁻¹ * y⁻¹ ∈ centerOf (t.LX t.QT 1)) :
     centerOf (t.LX t.QT 1) = t.QT ∨
       (t.Zv 0 ≤ centerOf (t.LX t.QT 1) ⊔ centerOf (t.LX t.QT (-1)) ∧
         t.QT.relIndex (centerOf (t.LX t.QT 1)) = 2 ^ f ∧
-        (∀ k ∈ t.D2, k ≠ 1 → ∀ x ∈ centerOf (t.LX t.QT (-1)),
-          k * x * k⁻¹ * x⁻¹ ∈ t.QT → x ∈ t.QT) ∧
-        (∀ x ∈ centerOf (t.LX t.QT (-1)), x ∉ t.QT →
-          ∀ y ∈ centerOf (t.LX t.QT (-1)), y ∉ t.QT → ∃ k ∈ t.D2, k * x * k⁻¹ * y⁻¹ ∈ t.QT)) :=
+        (∀ k ∈ t.D2, k ≠ 1 → ∀ _x ∈ centerOf (t.LX t.QT (-1)),
+          k * _x * k⁻¹ * _x⁻¹ ∈ t.QT → _x ∈ t.QT) ∧
+        (∀ _x ∈ centerOf (t.LX t.QT (-1)), _x ∉ t.QT →
+          ∀ y ∈ centerOf (t.LX t.QT (-1)), y ∉ t.QT → ∃ k ∈ t.D2, k * _x * k⁻¹ * y⁻¹ ∈ t.QT)) :=
   o4dich_main hQA (hEE.symm.le.trans inf_le_left) hAZ
-    (fun x hx y hy => ((mem_centralizer_iff.mp hx.2) y hy.1).symm) hZ0 hidx hcard hDA hfpf htr
+    (fun _x hx y hy => ((mem_centralizer_iff.mp hx.2) y hy.1).symm) hZ0 hidx hcard hDA hfpf htr
 
 end Track
 

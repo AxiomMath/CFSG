@@ -78,7 +78,7 @@ theorem uc22p22p_calCGS_le_of_normalizes (D : Data G) {R S : Subgroup G} (hST : 
     (hloc : ∀ H : Subgroup G, IsTwoLocal H → R ≤ H → H ≤ D.M) : UC6.calCGS S ≤ D.M := by
   unfold UC6.calCGS
   refine iSup_le fun C => iSup_le fun hC1 => iSup_le fun hC2 => iSup_le fun hC3 => ?_
-  haveI := hC3
+  have := hC3
   have hCmap : (C.subgroupOf S).map S.subtype = C := Subgroup.map_subgroupOf_eq_of_le hC2
   have key : ∀ y ∈ normalizer (S : Set G), ∀ c ∈ C, y * c * y⁻¹ ∈ C := by
     intro y hy c hc

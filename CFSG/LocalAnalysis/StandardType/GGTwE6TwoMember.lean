@@ -57,9 +57,9 @@ theorem ggRk1ConclEx_of_twE6Two_member_unguarded (hRig : GGLabelRigidInput)
     by_cases hUL : GGMemberUnitary p Bs L
     · obtain ⟨K, hKfield, hKfin, hKchar, f, n, ψ, hKcard, hn4, hker, hrange, hpf, hacts, hlab⟩ :=
         ggNSLie_cover_of_esu hUL
-      letI : Field K := hKfield
-      letI : Finite K := hKfin
-      letI : CharP K 2 := hKchar
+      let : Field K := hKfield
+      let : Finite K := hKfin
+      let : CharP K 2 := hKchar
       exact ggRk1ConclEx_of_unitaryCover_nbr hcfg hpres (Or.inl rfl) hns hKcard hn4 hker hrange hpf
         hacts hlab hr₀A hr₀C
     · exact hbase hUL r₀ hr₀A hr₀C

@@ -29,7 +29,7 @@ theorem exists_even_mem_young_move {n : ℕ} (O : Finset (Fin n)) (h2 : 2 ≤ O.
     refine ⟨Equiv.swap p x * Equiv.swap c d, ?_, ?_, ?_⟩
     · rw [Perm.mem_alternatingGroup, Perm.sign_mul, Perm.sign_swap hxp.symm,
         Perm.sign_swap hdc.symm]
-      all_goals first | rfl | decide | norm_num | simp
+      all_goals first | rfl
     · exact mul_mem (bt_swap_mem_young (iff_of_true hp hx))
         (bt_swap_mem_young (iff_of_false hc hd))
     · rw [Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hpc hpd, Equiv.swap_apply_left]
@@ -46,7 +46,7 @@ theorem exists_even_mem_young_move {n : ℕ} (O : Finset (Fin n)) (h2 : 2 ≤ O.
     refine ⟨Equiv.swap p y * Equiv.swap a a', ?_, ?_, ?_⟩
     · rw [Perm.mem_alternatingGroup, Perm.sign_mul, Perm.sign_swap hyp.symm,
         Perm.sign_swap haa']
-      all_goals first | rfl | decide | norm_num | simp
+      all_goals first | rfl
     · exact mul_mem (bt_swap_mem_young (iff_of_false hp hy))
         (bt_swap_mem_young (iff_of_true ha ha'))
     · rw [Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hpa hpa', Equiv.swap_apply_left]

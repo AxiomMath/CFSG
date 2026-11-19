@@ -78,7 +78,7 @@ theorem isInternalDirectProduct_oddPart {Y P : Subgroup G} (hPY : P ≤ Y) (hP :
   set N := (MonoidHom.transferSylow S hNC).ker with hNdef
   have hcomp : Subgroup.IsComplement' N S := MonoidHom.ker_transferSylow_isComplement' S hNC
   have hcardY : Nat.card N * Nat.card (S : Subgroup Y) = Nat.card Y := hcomp.card_mul_card
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hNodd : Nat.Coprime 2 (Nat.card N) := by
     have h1 : Nat.card N = (S : Subgroup Y).index := by
       have := (S : Subgroup Y).card_mul_index

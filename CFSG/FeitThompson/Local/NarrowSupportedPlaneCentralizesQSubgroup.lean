@@ -83,7 +83,7 @@ theorem FTS_supported_plane_narrow_centralization
   exact commutator_eq_bot_of_le_commutator_normalizer hodd hp hq hqodd hpq hQp
     (halt.imp id fun ⟨B, hB⟩ =>
       ⟨B, maximal_isElementaryAbelian_of_maximal_isElementaryAbelianSubgroup hB.1, hB.2⟩)
-    P.isPGroup' hPN
+    P.isPGroup hPN
 
 end
 

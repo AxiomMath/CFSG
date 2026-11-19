@@ -65,7 +65,7 @@ theorem twE6Cov_central_cube {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.Open.IsQ
   have hker : p.ker = Subgroup.center Q := by
     rw [MonoidHom.ker_comp_of_injective _ e.toMonoidHom e.injective]
     exact QuotientGroup.ker_mk' _
-  haveI : Group.IsPerfect Q := ⟨hQ.1⟩
+  have : Group.IsPerfect Q := ⟨hQ.1⟩
   obtain ⟨D, _, _, η, φ, hηs, -, -, hηsq, hφs, hfib⟩ :=
     derived_fibre_facts (π := p) hp hker.le
   have hφk : ∀ c ∈ η.ker, φ c = 1 := by

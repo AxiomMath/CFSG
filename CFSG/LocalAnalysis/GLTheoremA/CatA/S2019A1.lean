@@ -24,15 +24,15 @@ theorem card_le_sq_aut_L2 {F : Type} [Field F] [Finite F]
     (e : K ≃* CFSG.GH74.GLS.IVK.L2 F) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpF : ¬ p ∣ Nat.card F)
     {A : Subgroup (MulAut K)} (hA : IsElemAbelian p A) : Nat.card A ≤ p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
     (fun f g h => MulEquiv.ext (congrFun h))
   set Δ := CFSG.GH74.GLS.IVK.innDiagSub e with hΔ
   set I := CFSG.GH74.GLS.IVK.innAut K with hI
-  haveI hΔn : Δ.Normal := CFSG.GH74.GLS.IVK.innDiagSub_normal e
+  have hΔn : Δ.Normal := CFSG.GH74.GLS.IVK.innDiagSub_normal e
   have hsup : Δ ⊔ CFSG.GH74.GLS.IVK.fieldAutSub e = ⊤ :=
     CFSG.GH74.GLS.IVK.innDiagSub_sup_fieldAutSub e
-  haveI hcyc : IsCyclic ↥(CFSG.GH74.GLS.IVK.fieldAutSub e) :=
+  have hcyc : IsCyclic ↥(CFSG.GH74.GLS.IVK.fieldAutSub e) :=
     CFSG.GH74.GLS.IVK.isCyclic_fieldAutSub e
   have hrel : I.relIndex Δ = 2 := CFSG.GH74.GLS.IVK.innAut_relIndex_two e hF
   set π : MulAut K →* MulAut K ⧸ Δ := QuotientGroup.mk' Δ with hπ
@@ -49,7 +49,7 @@ theorem card_le_sq_aut_L2 {F : Type} [Field F] [Finite F]
     have := hΔn.conj_mem d hd f⁻¹
     simpa [mul_assoc] using this
   set ρ : ↥A →* MulAut K ⧸ Δ := π.comp A.subtype with hρ
-  haveI : IsCyclic ρ.range := inferInstance
+  have : IsCyclic ρ.range := inferInstance
   have hApow : ∀ a : ↥A, a ^ p = 1 := fun a => Subtype.ext (by simpa using hA.2 a a.2)
   have hrange : Nat.card ρ.range ≤ p := by
     refine card_le_of_isCyclic_of_pow_eq_one hp.pos ?_
@@ -106,13 +106,13 @@ theorem card_le_sq_aut_L2 {F : Type} [Field F] [Finite F]
       have := hA.2 _ hx
       simpa [map_pow] using this
     have hX'p : IsPGroup p ↥X' := fun x => ⟨1, by simpa using hX'pow x⟩
-    haveI : Group.IsNilpotent ↥X' := hX'p.isNilpotent
+    have : Group.IsNilpotent ↥X' := hX'p.isNilpotent
     obtain ⟨m, hm⟩ := hX'p.exists_card_eq
     have hX'odd : Odd (Nat.card ↥X') := hm ▸ (hp.odd_of_ne_two hp2).pow
     rw [← hcardX']
     rcases CFSG.GH74.GLS.IVK.Proofs2.ivk_1_2l F hF K e X' hX'odd inferInstance with
       ⟨hcycX, -⟩ | ⟨p', -, -, hdvdF⟩
-    · haveI := hcycX
+    · have := hcycX
       exact card_le_of_isCyclic_of_pow_eq_one hp.pos hX'pow
     · rcases Nat.eq_zero_or_pos m with h0 | hpos
       · rw [hm, h0, pow_zero]; exact hp.one_lt.le
@@ -130,8 +130,7 @@ theorem lieModel_A1 {S : Type} [Group S] (Q : TauCeti.PrimePower)
   CFSG.Models.LieModel.toBlueprint (by decide) (CFSG.Models.lieModel_A 1 Q hv e)
 
 theorem s2019FactA1_holds : S2019FactA1 := by
-  intro p q hp hp2 hq hq2 hqp Ω _ _ S B D J hSn hSq hSp hcat hBel hSB hrank
-  intro hC hDB hCD hrel hD hJ hBJ hcm T hTS hT2 hJT
+  intro p q hp hp2 hq hq2 hqp Ω _ _ S B D J hSn hSq hSp hcat hBel hSB hrank hC hDB hCD hrel hD hJ hBJ hcm T hTS hT2 hJT
   exfalso
   let eS : PQuot p S ≃* ↥S :=
     (QuotientGroup.quotientMulEquivOfEq hSp).trans QuotientGroup.quotientBot

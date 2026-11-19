@@ -25,10 +25,12 @@ def imageSub (U : Subgroup P) : Submodule (ZMod 2) (Additive (P ⧸ center P)) :
   (AddSubgroup.toZModSubmodule (n := 2))
     (Subgroup.toAddSubgroup (U.map (QuotientGroup.mk' (center P))))
 
+omit [Finite P] in
 theorem mem_imageSub (U : Subgroup P) (x : Additive (P ⧸ center P)) :
     x ∈ imageSub U ↔ Additive.toMul x ∈ U.map (QuotientGroup.mk' (center P)) := by
   simp [imageSub]
 
+omit [Finite P] in
 theorem natCard_map_eq_natCard_imageSub (U : Subgroup P) :
     Nat.card (U.map (QuotientGroup.mk' (center P))) = Nat.card (imageSub U) :=
   Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul fun a =>
@@ -46,6 +48,7 @@ variable {P : Type*} [Group P] [Finite P] [Fact (Nat.Prime 2)]
   {v : ℕ} (hdim : Module.finrank (ZMod 2) (Additive (P ⧸ center P)) = 2 * v)
 
 include hrule in
+omit [Finite P] in
 theorem imageSub_isotropic (hc : c ≠ 1) {U : Subgroup P} (hU : CFSG.Open.IsElemAbelian 2 U) :
     ∀ x ∈ imageSub U, ∀ y ∈ imageSub U, b x y = 0 := by
   intro x hx y hy
@@ -57,7 +60,7 @@ theorem imageSub_isotropic (hc : c ≠ 1) {U : Subgroup P} (hU : CFSG.Open.IsEle
     simp [hux]
   have hy' : y = Additive.ofMul ((u' : P) : P ⧸ center P) := by
     simp [huy]
-  haveI : IsMulCommutative U := hU.1
+  have : IsMulCommutative U := hU.1
   have hcomm : u * u' = u' * u := by
     have h := (IsMulCommutative.is_comm (M := U)).comm ⟨u, hu⟩ ⟨u', hu'⟩
     exact congrArg Subtype.val h
@@ -90,13 +93,14 @@ theorem natCard_map_le_pow (hnd : b.Nondegenerate) (hc : c ≠ 1)
   rw [natCard_map_eq_natCard_imageSub, Module.natCard_eq_pow_finrank (K := ZMod 2), hcard2]
   exact Nat.pow_le_pow_right (by norm_num) hv
 
+omit [Finite P] [Fact (Nat.Prime 2)] [IsElementaryAbelian 2 (P ⧸ center P)] in
 theorem natCard_eq_natCard_inf_mul (U : Subgroup P) :
     Nat.card U = Nat.card (U ⊓ center P : Subgroup P) *
       Nat.card (U.map (QuotientGroup.mk' (center P))) := by
   have hker : ((QuotientGroup.mk' (center P)).comp U.subtype).ker
       = (U ⊓ center P).subgroupOf U := by
     ext x
-    simp [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, QuotientGroup.eq_one_iff, Subgroup.mem_inf]
+    simp [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, QuotientGroup.eq_one_iff]
   have hrange : ((QuotientGroup.mk' (center P)).comp U.subtype).range
       = U.map (QuotientGroup.mk' (center P)) := by
     ext y
@@ -109,10 +113,11 @@ theorem natCard_eq_natCard_inf_mul (U : Subgroup P) :
   rw [hker, hK, hrange] at h1
   exact h1.symm
 
+omit [Finite P] [Fact (Nat.Prime 2)] [IsElementaryAbelian 2 (P ⧸ center P)] in
 theorem natCard_inf_center_le_two (hZ : IsCyclic (center P)) {U : Subgroup P}
     (hU : CFSG.Open.IsElemAbelian 2 U) :
     Nat.card (U ⊓ center P : Subgroup P) ≤ 2 := by
-  haveI := hZ
+  have := hZ
   have hK : Nat.card (U ⊓ center P : Subgroup P) =
       Nat.card ((U ⊓ center P).subgroupOf (center P)) :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv).symm

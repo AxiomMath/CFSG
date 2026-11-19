@@ -92,7 +92,7 @@ private theorem eq_one_of_mul_mul_eq [CharP F 2] {A B : Matrix (Fin 2) (Fin 2) F
     Matrix.mem_range_scalar_iff_commute_single'.mpr fun i j => (hcomm _).symm
   have hc1 : c = 1 := by
     have hdet : (Matrix.scalar (Fin 2) c).det = c ^ 2 := by
-      simp [Matrix.scalar_apply, Matrix.det_diagonal, Fin.prod_univ_two, sq]
+      simp [Matrix.scalar_apply, Matrix.det_diagonal, sq]
     rw [hc, hA] at hdet
     have : c ^ 2 = 1 ^ 2 := by rw [← hdet, one_pow]
     exact CharTwo.sq_inj.mp this
@@ -219,10 +219,12 @@ section Model
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {TM : TensorModel M Q Z B}
 
+omit [Finite G] in
 private theorem conj_mem_Q (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) {x : G} (hx : x ∈ Q) :
     m * x * m⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hm) x).mp hx
 
+omit [Finite G] in
 private theorem exists_phi_eq (g : Matrix (Fin 2) (Fin 2) TM.F) (hg : g.det = 1) :
     ∃ s : ↥(Lgen M (LB M Q B)), (TM.φ s : Matrix (Fin 2) (Fin 2) TM.F) = g := by
   have hmem : Matrix.GeneralLinearGroup.mkOfDetNeZero g (by rw [hg]; exact one_ne_zero) ∈
@@ -276,7 +278,7 @@ private theorem exists_matrix_form (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
   · have := hform (TM.Φ e)
     rw [hT'_apply, AddEquiv.symm_apply_apply] at this
     rw [this]
-    simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hr0]
+    simp [smul_smul, hr0]
 
 private theorem mem_Gamma_of_form (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
     {P : Matrix (Fin 2) (Fin 2) TM.F} (hP : P.det = 1) {H : GL (Fin 2) TM.F}
@@ -320,6 +322,7 @@ private theorem mem_Gamma_of_form (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
   rw [e, hact _ (conj_mem_Q hc hs'M hx₂), a1, hinvact _ hx₁, a2]
   simp only [Matrix.mul_assoc, Units.inv_mul, Units.mul_inv_cancel_left, Matrix.mul_one]
 
+omit [Finite G] in
 private theorem pow_orderOf_eq_one_of_form (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
     {P H : Matrix (Fin 2) (Fin 2) TM.F} (hP : P.det = 1)
     (hform : ∀ x ∈ Q, TM.Φ (TM.M₀.π (t * x * t⁻¹)) = P * TM.Φ (TM.M₀.π x) * H) :
@@ -475,7 +478,7 @@ theorem torus_lemma_full (hc : Ctx M Q Z B) (hw : Width Q Z 2) {C : Subgroup G}
     have hcμ : μ = c := smul_left_injective TM.F hu₀ (hμ.symm.trans h1)
     have hdet : H.det = c ^ 2 := by
       rw [hcH]
-      simp [Matrix.scalar_apply, Matrix.det_diagonal, Fin.prod_univ_two, sq]
+      simp [Matrix.scalar_apply, Matrix.det_diagonal, sq]
     apply hne
     rw [hδμ, ← hcμ, sq] at hdet
     exact (mul_left_cancel₀ hμ0 hdet).symm

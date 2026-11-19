@@ -21,6 +21,7 @@ variable {F : Type} [Field F] [Finite F]
 @[expose] noncomputable def fY {Y₁ : Subgroup (SL3 F)} (hYP : Y₁ ≤ P1) : ↥Y₁ →* GL (Fin 2) F :=
   rho1.comp (Subgroup.inclusion hYP)
 
+omit [Finite F] in
 theorem fY_injective {Y₁ : Subgroup (SL3 F)} (hYP : Y₁ ≤ P1) (hb : Y₁ ⊓ Q1 = ⊥) :
     Function.Injective (fY hYP) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -32,6 +33,7 @@ theorem fY_injective {Y₁ : Subgroup (SL3 F)} (hYP : Y₁ ≤ P1) (hb : Y₁ �
   rw [hb, Subgroup.mem_bot] at h1
   exact Subgroup.mem_bot.mpr (Subtype.ext h1)
 
+omit [Finite F] in
 theorem fY_surjective {Y₁ : Subgroup (SL3 F)} (hYP : Y₁ ≤ P1)
     (htop : (Y₁.subgroupOf P1).map rho1 = ⊤) : Function.Surjective (fY hYP) := by
   intro X
@@ -39,6 +41,7 @@ theorem fY_surjective {Y₁ : Subgroup (SL3 F)} (hYP : Y₁ ≤ P1)
   obtain ⟨g, hg, hgX⟩ := hX
   exact ⟨⟨g.1, Subgroup.mem_subgroupOf.mp hg⟩, hgX⟩
 
+omit [Finite F] in
 theorem neg_one_ne_one (h2 : (2 : F) ≠ 0) : (-1 : GL (Fin 2) F) ≠ 1 := by
   intro h
   have := congrArg (fun g : GL (Fin 2) F => ((g : Matrix (Fin 2) (Fin 2) F)) 0 0) h

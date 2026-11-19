@@ -64,7 +64,7 @@ private theorem uc22s2320_element (D : Data G) (Ch : Choice2011 G)
       (x : G) ∈ c.CME ∧ (x : G) ∈ barPreimage D.M (CFSG.pCore q (Bar2 D.M)) ∧
         orderOf (x : G) = q ∧ q ∉ D.sig := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [piSet] at hpi
   obtain ⟨-, hdvd⟩ := hpi
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card'
@@ -90,7 +90,7 @@ private theorem uc22s2320_element (D : Data G) (Ch : Choice2011 G)
       exact ⟨hq, hdvdCME⟩
     have hmem : q ∈ D.sig ∩ piSet c.CMETilde := ⟨hqsig, hpiCME⟩
     rw [h201 h1930 c] at hmem
-    simpa using hmem
+    simp at hmem
   exact ⟨x, hxCME, hxPq, hxordG, hqsig⟩
 
 private theorem uc22s2320_pq_facts (D : Data G) {q p : ℕ} (hq : q.Prime)
@@ -98,7 +98,7 @@ private theorem uc22s2320_pq_facts (D : Data G) {q p : ℕ} (hq : q.Prime)
     (barPreimage D.M (CFSG.pCore q (Bar2 D.M)) ≤ D.M) ∧
       (((barPreimage D.M (CFSG.pCore q (Bar2 D.M))).subgroupOf D.M).Normal) ∧
       (barPreimage D.M (CFSG.pCore q (Bar2 D.M)) ≤ CFSG.Open.relPPrimeCore p D.M) := by
-  haveI hcore : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
+  have hcore : (CFSG.pCore q (Bar2 D.M)).Normal := CFSG.pCore_normal
   have hPqM : barPreimage D.M (CFSG.pCore q (Bar2 D.M)) ≤ D.M :=
     uc22p21c_barPreimage_le D.M _
   have hPqNormM : D.M ≤ Subgroup.normalizer
@@ -111,12 +111,12 @@ private theorem uc22s2320_pq_facts (D : Data G) {q p : ℕ} (hq : q.Prime)
     barPreimage_le_relPPrimeCore hcore (CFSG.pCore_isPGroup) hp hq hpq hp2
   exact ⟨hPqM, hPqN, hPqRel⟩
 
-private theorem uc22s2320_sylow (D : Data G) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
+private theorem uc22s2320_sylow (D : Data G) {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2)
     {Pq : Subgroup G} (hPqM : Pq ≤ D.M) {x : G} (hxPq : x ∈ Pq)
     (hxordG : orderOf x = q) (hPqrank : 1 < CFSG.Open.pRank q Pq) :
     ∃ Q0 : Subgroup G, CFSG.ABGLocalTools.IsSylowOf q Q0 Pq ∧ x ∈ Q0 ∧
       Q0 ≤ D.M ∧ IsPGroup q Q0 ∧ ¬ IsCyclic ↥Q0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let X : Subgroup G := Subgroup.zpowers x
   have hXPq : X ≤ Pq := Subgroup.zpowers_le.mpr hxPq
   have hXq : IsPGroup q X := by
@@ -133,7 +133,7 @@ private theorem uc22s2320_sylow (D : Data G) {q : ℕ} (hq : q.Prime) (hq2 : q �
   have hQ0p : IsPGroup q Q0 := hQ0syl.isPGroup
   have hQ0nc : ¬ IsCyclic ↥Q0 := by
     intro hcyc
-    letI : IsCyclic ↥Q0 := hcyc
+    let : IsCyclic ↥Q0 := hcyc
     have hcycTop : IsCyclic (⊤ : Subgroup ↥Q0) := Subgroup.isCyclic ⊤
     have h1 : CFSG.Open.pRank q (⊤ : Subgroup ↥Q0) ≤ 1 :=
       CFSG.SectionRank.pRank_le_one_of_isCyclic hq hcycTop
@@ -192,7 +192,7 @@ private theorem uc22s2320_center_element {D : Data G} {Ch : Choice2011 G}
     (hxCME : x ∈ c.CME) (hxQ0 : x ∈ Q0) (hxordG : orderOf x = q) :
     ∃ z : ↥Q0, z ∈ (c.CME ⊓ Q0).subgroupOf Q0 ∧ z ∈ Subgroup.center ↥Q0 ∧
       z ≠ 1 ∧ orderOf z = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hx1 : x ≠ 1 := by
     intro h
     have hq1 : q = 1 := by rw [← hxordG, h, orderOf_one]
@@ -200,7 +200,7 @@ private theorem uc22s2320_center_element {D : Data G} {Ch : Choice2011 G}
   have hQ0CME : Q0 ≤ Subgroup.normalizer (c.CME : Set G) :=
     hQ0M.trans (uc22s2320_normalizes_CME c)
   let N : Subgroup G := c.CME ⊓ Q0
-  haveI hNn : (N.subgroupOf Q0).Normal := by
+  have hNn : (N.subgroupOf Q0).Normal := by
     have h := Subgroup.normal_subgroupOf_of_le_normalizer hQ0CME
     simpa [N, Subgroup.inf_subgroupOf_right] using h
   have hxN : x ∈ N := Subgroup.mem_inf.mpr ⟨hxCME, hxQ0⟩
@@ -210,7 +210,7 @@ private theorem uc22s2320_center_element {D : Data G} {Ch : Choice2011 G}
       Subgroup.mem_subgroupOf.mpr hxN
     rw [hbot] at hxH
     exact hx1 (congrArg Subtype.val (Subgroup.mem_bot.mp hxH))
-  haveI : Group.IsNilpotent ↥Q0 := hQ0p.isNilpotent
+  have : Group.IsNilpotent ↥Q0 := hQ0p.isNilpotent
   have hZne : N.subgroupOf Q0 ⊓ Subgroup.center ↥Q0 ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   obtain ⟨w, hwne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZne

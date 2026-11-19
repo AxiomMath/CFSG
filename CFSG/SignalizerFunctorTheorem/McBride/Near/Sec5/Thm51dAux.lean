@@ -225,7 +225,7 @@ theorem exists_invariant_complement_of_central (hp : p.Prime) (hA : IsElemAbelia
     A W hApG hAW hWcop
   set R : Subgroup G := (P : Subgroup W).map W.subtype with hRdef
   have hRW : R ≤ W := Subgroup.map_subtype_le _
-  have hRr : IsPGroup r R := P.isPGroup'.map W.subtype
+  have hRr : IsPGroup r R := P.isPGroup.map W.subtype
   have hRcop : Nat.Coprime p (Nat.card R) :=
     hWcop.coprime_dvd_right (Subgroup.card_dvd_of_le hRW)
   have hZP : Z₀.subgroupOf W ≤ (P : Subgroup W) := by

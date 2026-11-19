@@ -33,7 +33,7 @@ namespace TenElevenOneLie
 
 theorem not_three_dvd_card_pCore_two (X : Type*) [Group X] [Finite X] :
     ¬ 3 ∣ Nat.card (CFSG.pCore 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (CFSG.pCore_isPGroup (p := 2) (G := X))
   rw [hk]
   intro h
@@ -63,13 +63,13 @@ variable {M : Subgroup G}
 theorem exists_bar_of_not_centRankThreeAt (hc : ¬ CentRankThreeAt 3 M) :
     ∃ E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M), IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       Open.pRank 3 (Subgroup.centralizer (E : Set (↥M ⧸ CFSG.pCore 2 ↥M))) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   simp only [CentRankThreeAt, not_forall, not_le] at hc
   obtain ⟨E, hEM, hE, hcard, hr⟩ := hc
   have hN := not_three_dvd_card_pCore_two ↥M
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   set E' : Subgroup ↥M := E.subgroupOf M
-  haveI := hE.1
+  have := hE.1
   have hE' : IsElemAbelian 3 E' := by
     refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
     · change ((a : ↥M) : G) * ((b : ↥M) : G) = ((b : ↥M) : G) * ((a : ↥M) : G)
@@ -97,14 +97,15 @@ theorem exists_bar_of_not_centRankThreeAt (hc : ¬ CentRankThreeAt 3 M) :
     have h4 := CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) h3
     exact h1.trans (by omega)
 
+omit [Finite G] in
 theorem exists_bar_normal_index (hNI : HasNormalIndex M 3) :
     ∃ N : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M), N.Normal ∧ N.index = 3 := by
   obtain ⟨N, -, hNn, hNi⟩ := hNI
   set N' : Subgroup ↥M := N.subgroupOf M
-  haveI := hNn
+  have := hNn
   have hle : CFSG.pCore 2 ↥M ≤ N' := by
     intro x hx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := CFSG.pCore_isPGroup (p := 2) (G := ↥M) ⟨x, hx⟩
     have hk' : x ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have h1 : orderOf (x : ↥M ⧸ N') ∣ 2 ^ k :=
@@ -127,7 +128,7 @@ theorem AGL81ElevenNineData.lie_of_not_centRankThreeAt (hKF : KFactTenElevenOneL
     (hd : AGL81ElevenNineData 3 P M H Q K L W a₀) (hc : ¬ CentRankThreeAt 3 M)
     (hNI : HasNormalIndex M 3) :
     ∃ e : ℕ, IsLieOver (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) (.A 2) 2 e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT := hd.data.toTwoLocalPhaseThree' hS h98
   have hK : Open.IsKGroup ↥M := (hT.toTwoLocalPair.isKGroup_of_isKProper hS.kProper).1
   have hX : ¬ InClassXBlock (L : Subgroup G) := (hT.nineThree_not_one hK h85 hNX hd.block).1

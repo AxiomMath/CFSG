@@ -36,6 +36,7 @@ section RootHypConj
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
+omit [Finite G] in
 theorem RootHyp.conjSubgroup (h : RootHyp M V) (a : G) :
     RootHyp (CGT.Timmesfeld75.conjSubgroup a M) (CGT.Timmesfeld75.conjSubgroup a V) where
   toHyp := Hyp.conjSubgroup h.toHyp a
@@ -64,6 +65,7 @@ section RootHypCen
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
+omit [Finite G] in
 theorem RootHyp.conj_le_centralizer_of_mem_normalizer (hR : RootHyp M V) {a x t : G}
     (ht : t ∈ CGT.Timmesfeld75.conjSubgroup a V) (ht1 : t ≠ 1)
     (htN : t ∈ Subgroup.normalizer (CGT.Timmesfeld75.conjSubgroup x V : Set G)) :

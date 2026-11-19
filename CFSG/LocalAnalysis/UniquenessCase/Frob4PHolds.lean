@@ -22,7 +22,7 @@ theorem frob4Prime_holds (hK : FrobKFacts) (hS : Standing4 G) (hU : uniqueFourUn
   intro p P P₀ hH h5 hab hcl d hdL hdp
   by_contra hdc
   have hpσ : p ∈ uniqueFourSigma S.M := hH.mem_sig2.1
-  haveI : Fact p.Prime := ⟨hpσ.1.1⟩
+  have : Fact p.Prime := ⟨hpσ.1.1⟩
   have hp2 : p ≠ 2 := by omega
   have hM : Group.IsSolvable S.M :=
     UC6S846.solvable_of_sigmaTwo4 hU S.maxLocal hpσ hH.mem_sig2.2

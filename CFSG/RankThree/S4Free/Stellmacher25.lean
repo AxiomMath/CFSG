@@ -59,7 +59,7 @@ theorem map_eq_self_of_mem_stabSub {g : MulAut V} {U : Subgroup V} (hg : g ∈ s
     exact (hg u).mpr hu
   · intro hv
     refine ⟨g⁻¹ v, (hg (g⁻¹ v)).mp (by rw [MulAut.apply_inv_self]; exact hv), ?_⟩
-    simp [MulAut.apply_inv_self]
+    simp
 
 theorem map_eq_self_of_le_fixV {X : Subgroup (MulAut V)} {C : Subgroup V} (hC : C ≤ fixV X)
     {g : MulAut V} (hg : g ∈ X) : C.map g.toMonoidHom = C := by
@@ -155,7 +155,7 @@ theorem map_W (h : Setting25 A L Z₀ W) {l : MulAut V} (hl : l ∈ L) : W.map l
 
 theorem commSub_le (h : Setting25 A L Z₀ W) {X : Subgroup (MulAut V)} (hX : X ≤ L) :
     commSub W X ≤ W :=
-  commSub_le_of_invariant fun x hx w hw => ((h.mem_stabSub (hX hx)) w).mpr hw
+  commSub_le_of_invariant fun _x hx w hw => ((h.mem_stabSub (hX hx)) w).mpr hw
 
 theorem map_conj_le (h : Setting25 A L Z₀ W) {y : MulAut V} (hy : y ∈ L) :
     A.map (MulAut.conj y).toMonoidHom ≤ L := by
@@ -167,7 +167,7 @@ theorem quad_conj [Finite V] (h : Setting25 A L Z₀ W) {y : MulAut V} (hy : y �
   rw [fixV_map_conj, ← h.map_W hy, ← map_commSub]
   exact Subgroup.map_mono h.quad
 
-theorem map_fix (h : Setting25 A L Z₀ W) {y : MulAut V} (hy : y ∈ L) :
+theorem map_fix (_h : Setting25 A L Z₀ W) {y : MulAut V} (hy : y ∈ L) :
     (W ⊓ fixV L).map y.toMonoidHom = W ⊓ fixV L :=
   map_eq_self_of_le_fixV inf_le_right hy
 
@@ -386,7 +386,7 @@ theorem mem_of_comm_mem [Finite V] (h : Setting25 A L Z₀ W) {a x : MulAut V} (
   exact Subgroup.mem_inf.mpr ⟨hw, Subgroup.mem_inf.mpr
     ⟨(Subgroup.mem_inf.mp hw1).2, (Subgroup.mem_inf.mp hw2').2⟩⟩
 
-theorem two_mul_rk_inf_fixV [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (h : Setting25 A L Z₀ W)
+theorem two_mul_rk_inf_fixV [Finite V] (_hV : ∀ v : V, v ^ 2 = 1) (h : Setting25 A L Z₀ W)
     {a x : MulAut V} (haA : a ∈ A) (hxL : x ∈ L) (hx : A ⊔ A.map (MulAut.conj x).toMonoidHom = L)
     (hfix : W ⊓ fixV (Subgroup.zpowers a) = W ⊓ fixV A)
     (hbot : commSub W (Subgroup.zpowers a) ⊓ (W ⊓ fixV L) = ⊥) {U : Subgroup V}
@@ -514,6 +514,7 @@ section L24
 
 variable [Finite V] {S M A L : Subgroup (MulAut V)}
 
+omit [Finite V] in
 theorem IsL24.exists_mem_not_mem_oTwo (hL : IsL24 S M A L) :
     ∃ a ∈ A, a ∉ (oTwo ↥L).map L.subtype := by
   by_contra hcon
@@ -610,6 +611,7 @@ namespace Hyp25
 
 variable [Finite V] {S M A L : Subgroup (MulAut V)} {Z₀ W : Subgroup V}
 
+omit [Finite V] in
 theorem setting (h : Hyp25 S M A L Z₀ W) : Setting25 A L Z₀ W where
   le_L := h.isL24.le
   quad := (commSub_mono le_top le_rfl).trans ((commV_eq_commSub A).symm.le.trans h.quadratic)

@@ -51,7 +51,7 @@ theorem mk_mem_Xbar_of_LB (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal] (a : 
 
 @[expose] def CMF4Width : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) → IsF4Char2 (XbarMod M Q Z B) → 26 ≤ 2 * n
 
 @[expose] def piPre {K : Type} [Field K] {Q Z : Subgroup G} {γ : G → K}
@@ -108,7 +108,7 @@ theorem mk_mem_Xbar_of_LB (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal] (a : 
 
 @[expose] def CMSpStructure : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSp m 2 x →
     2 ^ x ≤ Nat.card Z ∧
@@ -145,7 +145,7 @@ theorem mk_mem_Xbar_of_LB (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal] (a : 
 
 @[expose] def CMOmegaFiltration : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     (CFSG.Blueprint.LieModel (XbarMod M Q Z B) .POmegaPlus m 2 x ∨
       CFSG.Blueprint.LieModel (XbarMod M Q Z B) .POmegaMinus m 2 x ∨
@@ -175,7 +175,7 @@ theorem mk_mem_Xbar_of_LB (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal] (a : 
 
 @[expose] def CMLmChain : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n m x : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL m 2 x →
     3 ≤ m →
@@ -198,7 +198,7 @@ theorem mk_mem_Xbar_of_LB (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal] (a : 
 
 @[expose] def CMLmThree : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n x : ℕ), Width Q Z n → 2 < n →
+    (_hc : Ctx M Q Z B) (n x : ℕ), Width Q Z n → 2 < n →
     (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     CFSG.Blueprint.LieModel (XbarMod M Q Z B) .PSL 3 2 x → 2 ^ x = Nat.card Z →
     Lgen M (LB M Q B) ≤ XbarPre M Q Z B

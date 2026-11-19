@@ -20,9 +20,11 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Universal CFSG.LieType.CurtisTits
 
 variable (k : Type) [Field k] [Finite k] [CharP k 2]
 
+omit [Finite k] [CharP k 2] in
 theorem e6Datum_cartan : (e6Datum k).cartan = CartanMatrix.E 6 :=
   cartan_E6
 
+omit [Finite k] [CharP k 2] in
 theorem coxeterMatrix_e6Datum :
     coxeterMatrix (e6Datum k).isFiniteType = CoxeterMatrix.E₆ :=
   coxeterMatrix_cartanE6 _ (e6Datum_cartan k)
@@ -34,17 +36,20 @@ theorem rhoPerm_eq : ∀ i : Fin 6, rhoPerm i = rhoE6 i := by
 noncomputable def e6W0 : (coxeterMatrix (e6Datum k).isFiniteType).Group :=
   (exists_longest_E6 (e6Datum k).isFiniteType (e6Datum_cartan k)).choose
 
+omit [Finite k] [CharP k 2] in
 theorem e6W0_isLongest :
     CFSG.Monster.B.Geometry.IsLongest (coxeterMatrix (e6Datum k).isFiniteType).toCoxeterSystem
       Set.univ (e6W0 k) :=
   (exists_longest_E6 (e6Datum k).isFiniteType (e6Datum_cartan k)).choose_spec.1
 
+omit [Finite k] [CharP k 2] in
 theorem e6W0_table (i : Fin (e6Datum k).rank) :
     weylAction (e6Datum k).isFiniteType (e6W0 k) (Pi.single i 1) = -Pi.single (rhoPerm i) 1 := by
   have e : rhoPerm i = rhoE6 i := rhoPerm_eq i
   rw [e]
   exact (exists_longest_E6 (e6Datum k).isFiniteType (e6Datum_cartan k)).choose_spec.2.1 i
 
+omit [Finite k] [CharP k 2] in
 theorem e6W0_hop (i : Fin (e6Datum k).rank) :
     e6W0 k * (coxeterMatrix (e6Datum k).isFiniteType).toCoxeterSystem.simple i * e6W0 k =
       (coxeterMatrix (e6Datum k).isFiniteType).toCoxeterSystem.simple (rhoPerm i) := by
@@ -56,6 +61,7 @@ theorem e6_hedge_aux : ∀ i j : Fin 6, i < j → CoxeterMatrix.E₆ i j = 3 →
   intro i j hij h
   fin_cases i <;> fin_cases j <;> simp_all [CoxeterMatrix.E₆, edgeE]
 
+omit [Finite k] [CharP k 2] in
 theorem e6_hedge : ∀ i j : Fin (e6Datum k).rank, i < j →
     coxeterMatrix (e6Datum k).isFiniteType i j = 3 → edgeE (e6Datum k).rank i j := by
   intro i j hij h
@@ -68,6 +74,7 @@ variable {k} (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c)
     FrobData (e6Datum k) (e6Data_valid.nm k) (e6Data_valid.torus k) (e6W0 k) :=
   e6FrobData θ hθ (e6W0_hop k)
 
+omit [Finite k] in
 theorem e6_nm_mul_self (i : Fin (e6Datum k).rank) :
     e6Data_valid.nm k i * e6Data_valid.nm k i = 1 :=
   minNm_mul_self_of_charTwo e6Data_valid k i
@@ -82,9 +89,9 @@ noncomputable def e6RankOne (hθne : ∃ c, θ c ≠ c) :
     (minChevModel e6Data_valid isFiniteType_cartan_E6 k).PhiCompat (e6Frob θ hθ) θ where
   ρ := rho
   ρ_single i := rho_single i
-  ρ_mem γ hγ := (e6Data_valid.mem_minDatum_roots isFiniteType_cartan_E6 k).2
+  ρ_mem _γ hγ := (e6Data_valid.mem_minDatum_roots isFiniteType_cartan_E6 k).2
     (isRoot_rho ((e6Data_valid.mem_minDatum_roots isFiniteType_cartan_E6 k).1 hγ))
-  phi_x γ hγ c := sigma_xm_charTwo θ
+  phi_x _γ hγ c := sigma_xm_charTwo θ
     ((e6Data_valid.mem_minDatum_roots isFiniteType_cartan_E6 k).1 hγ) c
 
 theorem rhoPerm_rhoPerm (i : Fin 6) : rhoPerm (rhoPerm i) = i := by

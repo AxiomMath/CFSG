@@ -42,9 +42,9 @@ variable [Finite G]
 
 theorem bgen_of_sec4 {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂) :
     BGen b b₁ b₂ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hEl, hcardB⟩ := h4.mono.1
-  haveI := hEl
+  have := hEl
   have hBeq := h4.mono.2.1
   have hbB : b ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₁B : b₁ ∈ B := (Subgroup.mem_inf.mp h4.hb₁).1
@@ -53,7 +53,7 @@ theorem bgen_of_sec4 {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b
     elemPow_eq_one_of_isElementaryAbelian (A := B) g hg
   have hcomm : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (hEl.toIsMulCommutative.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
-  letI : CommGroup ↥B :=
+  let : CommGroup ↥B :=
     { (inferInstance : Group ↥B) with
       mul_comm := fun x y => Subtype.ext (hcomm _ x.2 _ y.2) }
   let b' : ↥B := ⟨b, hbB⟩
@@ -134,6 +134,7 @@ namespace BGen
 variable {b b₁ b₂ : G} {B : Subgroup G} (hB : BGen b b₁ b₂ B)
 include hB
 
+omit [Finite G] in
 theorem crd_mul (p q : ℤ × ℤ × ℤ) : crd b b₁ b₂ p * crd b b₁ b₂ q = crd b b₁ b₂ (p + q) := by
   obtain ⟨hb1, hb2, hb12⟩ := hB.comm
   have c1 : Commute b b₁ := hb1
@@ -157,12 +158,14 @@ theorem crd_mul (p q : ℤ × ℤ × ℤ) : crd b b₁ b₂ p * crd b b₁ b₂ 
         rw [swap h2 (b₁ ^ j' * (b₂ ^ k * b₂ ^ k'))]
     _ = _ := by simp only [mul_assoc]
 
+omit [Finite G] hB in
 theorem crd_zero : crd b b₁ b₂ (0, 0, 0) = 1 := by simp [crd]
 
+omit [Finite G] in
 theorem crd_eq {p q : ℤ × ℤ × ℤ} (h : crd b b₁ b₂ p = crd b b₁ b₂ q) :
     (3 : ℤ) ∣ p.1 - q.1 ∧ (3 : ℤ) ∣ p.2.1 - q.2.1 ∧ (3 : ℤ) ∣ p.2.2 - q.2.2 := by
   have h1 : crd b b₁ b₂ q * crd b b₁ b₂ (-q) = 1 := by
-    rw [hB.crd_mul, ← hB.crd_zero]; congr 1; simp; rfl
+    rw [hB.crd_mul, ← CFSG.RankThree.PartTwo.Sec21.FF79.BGen.crd_zero]; congr 1; simp; rfl
   have h2 : crd b b₁ b₂ (p + -q) = 1 := by
     rw [← hB.crd_mul, h, h1]
   obtain ⟨i, j, k⟩ := p
@@ -171,24 +174,31 @@ theorem crd_eq {p q : ℤ × ℤ × ℤ} (h : crd b b₁ b₂ p = crd b b₁ b�
   simp only [Prod.mk_add_mk, Prod.neg_mk, crd] at h2 ⊢
   omega
 
+omit [Finite G] hB in
 theorem crd_b : b = crd b b₁ b₂ (1, 0, 0) := by simp [crd]
+omit [Finite G] hB in
 theorem crd_b₁ : b₁ = crd b b₁ b₂ (0, 1, 0) := by simp [crd]
+omit [Finite G] hB in
 theorem crd_b₂ : b₂ = crd b b₁ b₂ (0, 0, 1) := by simp [crd]
+omit [Finite G] hB in
 theorem crd_binv : b⁻¹ = crd b b₁ b₂ (-1, 0, 0) := by simp [crd]
+omit [Finite G] hB in
 theorem crd_b₁inv : b₁⁻¹ = crd b b₁ b₂ (0, -1, 0) := by simp [crd]
+omit [Finite G] hB in
 theorem crd_b₂inv : b₂⁻¹ = crd b b₁ b₂ (0, 0, -1) := by simp [crd]
 
+omit [Finite G] in
 theorem S_cases {x : G} (hx : x ∈ ({b, b⁻¹, b₁, b₁⁻¹, b₂, b₂⁻¹} : Set G)) :
     ∃ p ∈ ({(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)} :
       Set (ℤ × ℤ × ℤ)), x = crd b b₁ b₂ p := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
   rcases hx with rfl | rfl | rfl | rfl | rfl | rfl
-  · exact ⟨_, by simp, hB.crd_b⟩
-  · exact ⟨_, by simp, hB.crd_binv⟩
-  · exact ⟨_, by simp, hB.crd_b₁⟩
-  · exact ⟨_, by simp, hB.crd_b₁inv⟩
-  · exact ⟨_, by simp, hB.crd_b₂⟩
-  · exact ⟨_, by simp, hB.crd_b₂inv⟩
+  · exact ⟨_, by simp, BGen.crd_b⟩
+  · exact ⟨_, by simp, BGen.crd_binv⟩
+  · exact ⟨_, by simp, BGen.crd_b₁⟩
+  · exact ⟨_, by simp, BGen.crd_b₁inv⟩
+  · exact ⟨_, by simp, BGen.crd_b₂⟩
+  · exact ⟨_, by simp, BGen.crd_b₂inv⟩
 
 end BGen
 
@@ -238,36 +248,36 @@ theorem mono_fix_beta {b b₁ b₂ : G} {J B : Subgroup G} (h4 : FF79Sec4 b J B 
         ((show Commute b₁ b₂ from hB.comm.2.2).symm.zpow_zpow w3 w2).eq
       rcases hcases with ⟨hu1, hu2, hu3, hv1, hv2, hv3⟩ | ⟨hu1, hu2, hu3, hv1, hv2, hv3⟩
       · subst hu1 hu2 hu3 hv1 hv2 hv3
-        have e1 : n * b₁ * n⁻¹ = b₁ := by rw [h1, ← hB.crd_b₁]
-        have e2 : n * b₂ * n⁻¹ = b₂ := by rw [h2, ← hB.crd_b₂]
+        have e1 : n * b₁ * n⁻¹ = b₁ := by rw [h1, ← BGen.crd_b₁]
+        have e2 : n * b₂ * n⁻¹ = b₂ := by rw [h2, ← BGen.crd_b₂]
         have hfix : n * crd b b₁ b₂ (0, w2, w3) * n⁻¹ = crd b b₁ b₂ (0, w2, w3) := by
           rw [hb₁c, hcn, e1, e2]
         have hb : b = crd b b₁ b₂ (0, w2, w3) := hinj _ _ (hbw.trans hfix.symm)
         have hb' : crd b b₁ b₂ (1, 0, 0) = crd b b₁ b₂ (0, w2, w3) := by
-          rw [← hB.crd_b]; exact hb
+          rw [← BGen.crd_b]; exact hb
         have := hB.crd_eq hb'
         omega
       · subst hu1 hu2 hu3 hv1 hv2 hv3
-        have e1 : n * b₁ * n⁻¹ = b₂ := by rw [h1, ← hB.crd_b₂]
-        have e2 : n * b₂ * n⁻¹ = b₁ := by rw [h2, ← hB.crd_b₁]
+        have e1 : n * b₁ * n⁻¹ = b₂ := by rw [h1, ← BGen.crd_b₂]
+        have e2 : n * b₂ * n⁻¹ = b₁ := by rw [h2, ← BGen.crd_b₁]
         have hfix : n * crd b b₁ b₂ (0, w3, w2) * n⁻¹ = crd b b₁ b₂ (0, w2, w3) := by
           rw [hb₁c, hcn, e1, e2, hc12, hb₁c]
         have hb : b = crd b b₁ b₂ (0, w3, w2) := hinj _ _ (hbw.trans hfix.symm)
         have hb' : crd b b₁ b₂ (1, 0, 0) = crd b b₁ b₂ (0, w3, w2) := by
-          rw [← hB.crd_b]; exact hb
+          rw [← BGen.crd_b]; exact hb
         have := hB.crd_eq hb'
         omega
   obtain ⟨hw2, hw3⟩ := hw23
   subst hw2 hw3
   refine ⟨?_, ?_⟩
   · rcases hw with ⟨rfl, -, -⟩ | ⟨rfl, -, -⟩ | ⟨-, h, -⟩ | ⟨-, h, -⟩ | ⟨-, -, h⟩ | ⟨-, -, h⟩
-    · left; rw [h0, ← hB.crd_b]
-    · right; rw [h0, ← hB.crd_binv]
+    · left; rw [h0, ← BGen.crd_b]
+    · right; rw [h0, ← BGen.crd_binv]
     all_goals omega
   · rcases hcases with ⟨hu1, hu2, hu3, hv1, hv2, hv3⟩ | ⟨hu1, hu2, hu3, hv1, hv2, hv3⟩
     · subst hu1 hu2 hu3 hv1 hv2 hv3
-      left; exact ⟨by rw [h1, ← hB.crd_b₁], by rw [h2, ← hB.crd_b₂]⟩
+      left; exact ⟨by rw [h1, ← BGen.crd_b₁], by rw [h2, ← BGen.crd_b₂]⟩
     · subst hu1 hu2 hu3 hv1 hv2 hv3
-      right; exact ⟨by rw [h1, ← hB.crd_b₂], by rw [h2, ← hB.crd_b₁]⟩
+      right; exact ⟨by rw [h1, ← BGen.crd_b₂], by rw [h2, ← BGen.crd_b₁]⟩
 
 end CFSG.RankThree.PartTwo.Sec21.FF79

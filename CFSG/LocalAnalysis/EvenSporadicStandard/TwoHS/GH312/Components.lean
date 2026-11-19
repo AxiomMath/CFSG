@@ -15,11 +15,12 @@ namespace CFSG.EvenSporadicStandard.TwoHS.GH312
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem center_layer_le_fitting' :
     (Subgroup.center ↥(CFSG.layer X)).map (CFSG.layer X).subtype ≤ CFSG.fittingSubgroup X := by
   set Z := (Subgroup.center ↥(CFSG.layer X)).map (CFSG.layer X).subtype with hZ
   have hchar : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer X).Characteristic := hchar
+  have : (CFSG.layer X).Characteristic := hchar
   have hn : (CFSG.layer X).Normal := inferInstance
   have hZmem : ∀ g ∈ Z, g ∈ CFSG.layer X ∧ ∀ l ∈ CFSG.layer X, l * g = g * l := by
     rintro _ ⟨c, hc, rfl⟩
@@ -116,8 +117,8 @@ private theorem central_involution_mem_orbitJoin (hF : CFSG.fittingSubgroup X = 
     {M : Subgroup X} (hM : CFSG.IsComponent M) :
     (zP : X) ∈ sSup (Set.range fun g : ↥(P : Subgroup X) => CFSG.conjugate M (g : X)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP2 : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hP2 : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup
   set S : Set (Subgroup X) :=
     Set.range fun g : ↥(P : Subgroup X) => CFSG.conjugate M (g : X) with hSdef
   set E : Subgroup X := sSup S with hEdef
@@ -161,7 +162,7 @@ private theorem central_involution_mem_orbitJoin (hF : CFSG.fittingSubgroup X = 
     simpa [CFSG.ComponentClassification.UnbalancedLayer.conjugate_one] using hmem
   have hM4 : 4 ∣ Nat.card ↥M := by
     obtain ⟨hsimple, hna⟩ := component_isSimple' hF hM
-    haveI : IsSimpleGroup ↥M := hsimple
+    have : IsSimpleGroup ↥M := hsimple
     exact CFSG.GH74.GLS.TwoThin.four_dvd_card_of_simple_nonabelian hna
   have hPinfE_ne : (P : Subgroup X) ⊓ E ≠ ⊥ := by
     obtain ⟨Q, hQ⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hEsubX
@@ -188,14 +189,14 @@ private theorem central_involution_mem_orbitJoin (hF : CFSG.fittingSubgroup X = 
     have hx' : (⟨x, hx.1⟩ : ↥(P : Subgroup X)) ∈ A.subgroupOf (P : Subgroup X) := hx
     rw [h, Subgroup.mem_bot] at hx'
     exact Subtype.ext_iff.mp hx'
-  haveI : Group.IsNilpotent ↥(P : Subgroup X) := hP2.isNilpotent
-  haveI : (A.subgroupOf (P : Subgroup X)).Normal := hAnorm
+  have : Group.IsNilpotent ↥(P : Subgroup X) := hP2.isNilpotent
+  have : (A.subgroupOf (P : Subgroup X)).Normal := hAnorm
   have hZne : (A.subgroupOf (P : Subgroup X)) ⊓ Subgroup.center ↥(P : Subgroup X) ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
   set Z : Subgroup ↥(P : Subgroup X) :=
     (A.subgroupOf (P : Subgroup X)) ⊓ Subgroup.center ↥(P : Subgroup X) with hZdef
   have hZ2 : IsPGroup 2 ↥Z := hP2.to_subgroup Z
-  haveI : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr (by simpa [hZdef] using hZne)
+  have : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr (by simpa [hZdef] using hZne)
   have hZ2dvd : 2 ∣ Nat.card ↥Z := hZ2.card_eq_or_dvd.resolve_left (by
     have := Finite.one_lt_card (α := ↥Z)
     omega)
@@ -221,17 +222,17 @@ theorem exists_mem_sylow_conjugate_eq_of_isComponent (hF : CFSG.fittingSubgroup 
     {K L : Subgroup X} (hK : CFSG.IsComponent K) (hL : CFSG.IsComponent L) :
     ∃ g ∈ (P : Subgroup X), CFSG.conjugate K g = L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hconj
   obtain ⟨hKsimple, hna⟩ := component_isSimple' hF hK
-  haveI : IsSimpleGroup ↥K := hKsimple
+  have : IsSimpleGroup ↥K := hKsimple
   have hK4 : 4 ∣ Nat.card ↥K := CFSG.GH74.GLS.TwoThin.four_dvd_card_of_simple_nonabelian hna
   have hXeven : 2 ∣ Nat.card X :=
     (dvd_trans (by norm_num : 2 ∣ 4) hK4).trans (Subgroup.card_subgroup_dvd_card K)
   have hPne : (P : Subgroup X) ≠ ⊥ := P.ne_bot_of_dvd_card hXeven
-  have hP2 : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup'
-  haveI : Nontrivial ↥(P : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot (P : Subgroup X)).mpr hPne
-  haveI hcenter_nt : Nontrivial ↥(Subgroup.center ↥(P : Subgroup X)) := hP2.center_nontrivial
+  have hP2 : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup
+  have : Nontrivial ↥(P : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot (P : Subgroup X)).mpr hPne
+  have hcenter_nt : Nontrivial ↥(Subgroup.center ↥(P : Subgroup X)) := hP2.center_nontrivial
   have hcenter2 : IsPGroup 2 ↥(Subgroup.center ↥(P : Subgroup X)) := hP2.to_subgroup _
   have hcenter2dvd : 2 ∣ Nat.card ↥(Subgroup.center ↥(P : Subgroup X)) :=
     hcenter2.card_eq_or_dvd.resolve_left (by
@@ -279,7 +280,7 @@ theorem exists_mem_sylow_conjugate_eq_of_isComponent (hF : CFSG.fittingSubgroup 
         apply hLnotK
         rw [horbK]
         refine ⟨⟨g * h⁻¹, P.mul_mem g.2 (P.inv_mem h.2)⟩, ?_⟩
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_inv]
         rw [← CFSG.ComponentClassification.UnbalancedLayer.conjugate_conjugate, hg, ← hh,
           CFSG.ComponentClassification.UnbalancedLayer.conjugate_conjugate_inv]
       have hEL_le : sSup orbL ≤ Subgroup.centralizer (M : Set X) := by
@@ -334,11 +335,11 @@ theorem ncard_setOf_isComponent_le_two (hF : CFSG.fittingSubgroup X = ⊥) (P : 
     (hP : Nat.card (P : Subgroup X) ≤ 2 ^ 7) :
     {K : Subgroup X | CFSG.IsComponent K}.ncard ≤ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let 𝒞 : Set (Subgroup X) := {K : Subgroup X | CFSG.IsComponent K}
   change 𝒞.ncard ≤ 2
   by_contra hle
-  push_neg at hle
+  push Not at hle
   have hne : 𝒞.Nonempty := by
     rw [Set.nonempty_iff_ne_empty]
     intro hempty
@@ -361,14 +362,14 @@ theorem ncard_setOf_isComponent_le_two (hF : CFSG.fittingSubgroup X = ⊥) (P : 
     rw [horbK] at h1
     rw [h1]
     exact Subgroup.relIndex_dvd_card _ _
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(P : Subgroup X))).mp P.isPGroup'
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(P : Subgroup X))).mp P.isPGroup
   have hdvd' : 𝒞.ncard ∣ 2 ^ m := by rwa [hm] at hdvd
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd'
   have h4 : 4 ≤ 𝒞.ncard := by
     have hle' : 2 < 2 ^ k := by rwa [hk] at hle
     have hk2 : 2 ≤ k := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases k <;> norm_num at hle'
     rw [hk, show (4 : ℕ) = 2 ^ 2 by norm_num]
     exact Nat.pow_le_pow_right (by norm_num) hk2
@@ -397,7 +398,7 @@ theorem ncard_setOf_isComponent_le_two (hF : CFSG.fittingSubgroup X = ⊥) (P : 
   have h4comp : ∀ K' : CFSG.LocalCores.ComponentIndex X, 4 ∣ Nat.card ↥(K'.1) := by
     intro K'
     obtain ⟨hsimple, hna⟩ := component_isSimple' hF K'.2
-    haveI : IsSimpleGroup ↥(K'.1) := hsimple
+    have : IsSimpleGroup ↥(K'.1) := hsimple
     exact CFSG.GH74.GLS.TwoThin.four_dvd_card_of_simple_nonabelian hna
   have h4prod : 4 ^ Fintype.card (CFSG.LocalCores.ComponentIndex X) ∣
       ∏ K' : CFSG.LocalCores.ComponentIndex X, Nat.card ↥(K'.1) := by
@@ -445,7 +446,7 @@ theorem componentLayerOf_top_eq_of_components_eq_singleton
     rw [CFSG.Walter.componentLayerOf_top_eq_layer X, CFSG.layer.eq_sSup, hall, sSup_singleton]
   have hKnorm : K.Normal := by
     rw [← hlayer, CFSG.Walter.componentLayerOf_top_eq_layer X]
-    haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
   have hFstar : CFSG.GorensteinWalter.generalizedFittingSubgroupOf (⊤ : Subgroup X) = K := by
     rw [CFSG.GorensteinWalter.generalizedFittingSubgroupOf,

@@ -62,6 +62,7 @@ variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
     Subgroup.mem_map_of_mem _ (Subgroup.mem_map_of_mem _ (show (⟨x, hxC⟩ : stdCent K) ∈
       G.subgroupOf (stdCent K) from hxG))⟩
 
+omit [Finite K] in
 theorem plusBar_mul (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x y : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (hyG : y ∈ G) (hyC : y ∈ stdCent K) :
     plusBar h2 hxG hxC * plusBar h2 hyG hyC = plusBar h2 (G.mul_mem hxG hyG) (mul_mem hxC hyC) := by
@@ -69,6 +70,7 @@ theorem plusBar_mul (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x y : GL V�
   simp only [plusBar, Subgroup.coe_mul, ← map_mul]
   rfl
 
+omit [Finite K] in
 theorem plusBar_pow (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (k : ℕ) :
     plusBar h2 hxG hxC ^ k = plusBar h2 (G.pow_mem hxG k) (pow_mem hxC k) := by
@@ -76,6 +78,7 @@ theorem plusBar_pow (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x : GL V₄
   simp only [plusBar, SubgroupClass.coe_pow, ← map_pow]
   rfl
 
+omit [Finite K] in
 theorem plusBar_eq_one_iff (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)} {x : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) :
     plusBar h2 hxG hxC = 1 ↔ plusBlock (x : Matrix V₄ V₄ K) = 1 ∨
@@ -112,6 +115,7 @@ variable (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)} (hU0 : ∀ x ∈ G, IsSqZero
   (hneg : (-1 : GL V₄ K) ∈ G)
 include hp2 hU0 hneg
 
+omit [Finite K] in
 theorem pow_eq_one_or_neg_of_plusBar {x : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈ stdCent K)
     {β : K} (hx : (x : Matrix V₄ V₄ K) * x = (2 * β) • (x : Matrix V₄ V₄ K) - 1)
     (hx1 : x ≠ 1) (hxm : x ≠ -1) {k : ℕ}
@@ -132,7 +136,7 @@ theorem pow_eq_one_or_neg_of_plusBar {x : GL V₄ K} (hxG : x ∈ G) (hxC : x �
     have hsq := congrArg plusBlock hx
     rw [plusBlock_mul h2 hxt hxt, plusBlock_sub, plusBlock_smul, plusBlock_one, hc] at hsq
     have hsq' := congrFun (congrFun hsq 0) 0
-    simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.smul_apply,
+    simp only [Matrix.mul_smul, Matrix.smul_apply,
       Matrix.sub_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one] at hsq'
     have hβ : β = c := by
       have : (2 : K) * (β - c) = 0 := by linear_combination (-2 * β + c) * hdet - c * hsq'
@@ -186,6 +190,7 @@ theorem pow_eq_one_or_neg_of_plusBar {x : GL V₄ K} (hxG : x ∈ G) (hxC : x �
     rw [Units.val_pow_eq_pow_val, hcases (-1) (by rw [hk, neg_one_smul]), neg_one_smul,
       Units.val_neg, Units.val_one]
 
+omit hneg in
 theorem not_dvd_card_plusImage : ¬ p ∣ Nat.card (plusImage (two_ne_zero_of_charP hp2) G) := by
   have h2 := two_ne_zero_of_charP (K := K) hp2
   intro hdvd
@@ -218,6 +223,7 @@ theorem two_lt_orderOf_plusBar_of {x : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈ s
   · exact (hxm _ hpos hlt).1 h
   · exact (hxm _ hpos hlt).2 h
 
+omit [Finite K] hU0 hneg in
 theorem plusBar_inv {x : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈ stdCent K) :
     (plusBar (two_ne_zero_of_charP hp2) hxG hxC)⁻¹ =
       plusBar (two_ne_zero_of_charP hp2) (G.inv_mem hxG) (inv_mem hxC) := by
@@ -226,6 +232,7 @@ theorem plusBar_inv {x : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈ stdCent K) :
   rfl
 
 omit hU0 hneg in
+omit [Fact p.Prime] hp2 in
 theorem card_eq_pow_of_finite : ∃ f : ℕ, Nat.card K = p ^ f := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K p
@@ -240,8 +247,8 @@ theorem plusBlock_commutator_of_rotations {x y : GL V₄ K} (hxG : x ∈ G) (hxC
     plusBlock ((x * y * x⁻¹ * y⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) = 1 ∨
       plusBlock ((x * y * x⁻¹ * y⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) = -1 := by
   have h2 := two_ne_zero_of_charP (K := K) hp2
-  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p) hp2
-  have hH := not_dvd_card_plusImage hp2 hU0 hneg
+  obtain ⟨f, hF⟩ := card_eq_pow_of_finite (K := K) (p := p)
+  have hH := not_dvd_card_plusImage hp2 hU0
   have hxo := two_lt_orderOf_plusBar_of hp2 hU0 hneg hxG hxC hx hx6 (by norm_num)
   have hyo := two_lt_orderOf_plusBar_of hp2 hU0 hneg hyG hyC hy hy3 (by norm_num)
   have hcomm := commute_of_six_le_orderOf hF _ hH hxo (show 2 < orderOf (plusBar h2 hxG hxC) by
@@ -253,11 +260,12 @@ theorem plusBlock_commutator_of_rotations {x y : GL V₄ K} (hxG : x ∈ G) (hxC
   refine (plusBar_eq_one_iff h2 hcG hcC).mp ?_
   have e : plusBar h2 hcG hcC = plusBar h2 hxG hxC * plusBar h2 hyG hyC *
       (plusBar h2 hxG hxC)⁻¹ * (plusBar h2 hyG hyC)⁻¹ := by
-    rw [plusBar_inv hp2 hU0 hneg, plusBar_inv hp2 hU0 hneg, plusBar_mul, plusBar_mul, plusBar_mul]
+    rw [plusBar_inv hp2, plusBar_inv hp2, plusBar_mul, plusBar_mul, plusBar_mul]
   rw [e, hcomm]
   group
 
 omit hp2 hU0 hneg in
+omit [Finite K] in
 theorem conj_hyps (k : GL V₄ K) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (hneg : (-1 : GL V₄ K) ∈ G) :
     (∀ x ∈ G.map (MulAut.conj k).toMonoidHom, IsSqZero x → x = 1) ∧
       (-1 : GL V₄ K) ∈ G.map (MulAut.conj k).toMonoidHom := by
@@ -301,7 +309,7 @@ theorem minusBlock_commutator_of_rotations {x y : GL V₄ K} (hxG : x ∈ G) (hx
           rw [Matrix.mul_assoc _ swapMat tStdMat]
       _ = -(swapMat * ((z : Matrix V₄ V₄ K) * tStdMat) * swapMat) := by
           rw [hs]
-          simp only [Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_assoc]
+          simp only [Matrix.mul_neg, Matrix.mul_assoc]
       _ = -(swapMat * (tStdMat * (z : Matrix V₄ V₄ K)) * swapMat) := by rw [hz2]
       _ = -((swapMat * tStdMat) * (z : Matrix V₄ V₄ K) * swapMat) := by
           simp only [Matrix.mul_assoc]
@@ -370,7 +378,7 @@ theorem commute_of_rotations_tStd {x y : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈
   set α' : K := (2 : K)⁻¹ * (a - b)
   have hcM' : (c : Matrix V₄ V₄ K) = α • (1 : Matrix V₄ V₄ K) + α' • tStdMat := by
     rw [hcM]
-    simp only [α, α', smul_add, smul_sub, smul_smul, add_smul, sub_smul]
+    simp only [α, α', smul_add, smul_sub, smul_smul]
     module
   have hcx : c * x = x * c := by
     apply Units.ext
@@ -385,7 +393,7 @@ theorem commute_of_rotations_tStd {x y : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈
     have hexp : (α • (1 : Matrix V₄ V₄ K) + α' • tStdMat) * (α • 1 + α' • tStdMat) =
         (α * α + α' * α') • (1 : Matrix V₄ V₄ K) + (2 * (α * α')) • tStdMat := by
       simp only [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul,
-        Matrix.mul_one, htt, smul_smul]
+        Matrix.mul_one, htt]
       module
     have e1 : α * α + α' * α' = 1 := by
       simp only [α, α']
@@ -425,6 +433,7 @@ theorem commute_of_rotations_tStd {x y : GL V₄ K} (hxG : x ∈ G) (hxC : x ∈
     exact sub_eq_zero.mp h
 
 omit hp2 hU0 hneg in
+omit [Finite K] in
 theorem conj_pow_ne {z : GL V₄ K} (k : GL V₄ K) {n : ℕ} (h : z ^ n ≠ 1 ∧ z ^ n ≠ -1) :
     (k * z * k⁻¹) ^ n ≠ 1 ∧ (k * z * k⁻¹) ^ n ≠ -1 := by
   have e : (k * z * k⁻¹) ^ n = k * z ^ n * k⁻¹ := by
@@ -439,6 +448,7 @@ theorem conj_pow_ne {z : GL V₄ K} (k : GL V₄ K) {n : ℕ} (h : z ^ n ≠ 1 �
       _ = -1 := by rw [h']; simp
 
 omit hp2 hU0 hneg in
+omit [Finite K] in
 theorem conj_rotation {z : GL V₄ K} (k : GL V₄ K) {δ : K}
     (hz : (z : Matrix V₄ V₄ K) * z = (2 * δ) • (z : Matrix V₄ V₄ K) - 1) :
     ((k * z * k⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) * (k * z * k⁻¹ : GL V₄ K) =

@@ -21,9 +21,10 @@ section SDCore
 variable {X : Type} [Group X] [Finite X] {F : Type} [Field F] [Finite F] {Q : Subgroup X} {r : ℕ}
   {p f : ℕ}
 
+omit [Finite X] in
 theorem isPGroup_two_of_equiv_quaternion (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) :
     IsPGroup 2 ↥Q := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   refine IsPGroup.of_card (n := 2 + (r - 2)) ?_
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card,
     show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_add]

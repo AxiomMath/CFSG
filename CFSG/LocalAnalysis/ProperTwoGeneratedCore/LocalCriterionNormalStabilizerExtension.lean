@@ -97,7 +97,7 @@ theorem normal_two_involution_extension_sylow (M : Subgroup A) [M.Normal]
     Subgroup.zpowers_le.mpr (Subgroup.centralizer_le_normalizer _ hzC)
   have hZtwo : IsPGroup 2 Z := IsPGroup.of_card (n := 1)
     (by simpa only [pow_one] using (Nat.card_zpowers z).trans hz)
-  have hKtwo : IsPGroup 2 K := (S.isPGroup'.map M.subtype).to_sup_of_normal_left'
+  have hKtwo : IsPGroup 2 K := (S.isPGroup.map M.subtype).to_sup_of_normal_left'
     hZtwo hUnorm
   have hUrel : U.relIndex K = 2 := by
     apply Subgroup.relIndex_eq_two_iff_exists_notMem_and.mpr

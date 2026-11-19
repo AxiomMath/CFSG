@@ -27,7 +27,7 @@ theorem twM0_mul {f : ℕ} (hf : 1 ≤ f) (g : ℕ) :
   obtain ⟨gh, hgh⟩ := F4Exc.exists_gh hd (Nat.gcd_dvd_left f g)
   rw [twM0_eq hf hgh, hgh]
 
-theorem twM0_arith {f g : ℕ} (hf : 1 ≤ f) (hg : 1 ≤ g) (hgf : g ∣ 2 * f) (ht : 3 ≤ 2 * f / g) :
+theorem twM0_arith {f g : ℕ} (hf : 1 ≤ f) (hg : 1 ≤ g) (_hgf : g ∣ 2 * f) (ht : 3 ≤ 2 * f / g) :
     3 ≤ twM0 f g ∧ Odd (twM0 f g) ∧ twM0 f g ∣ 2 ^ f - 1 ∧
       ∀ j : ℕ, 0 < j → j < f → ¬ twM0 f g ∣ 2 ^ j - 1 := by
   have hd : 1 ≤ Nat.gcd f g := Nat.gcd_pos_of_pos_left g (by omega)

@@ -15,6 +15,7 @@ open CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma blockInr_commSp_apply {s : OGroup Q} (hs : s * s = 1)
     (b : OGroup (Q.restrict (commSp s))) (x : commSp s) :
     (((blockInr hs b : OGroup Q) : V ≃ₗ[ZMod 3] V) (x : V)) =
@@ -23,6 +24,7 @@ private lemma blockInr_commSp_apply {s : OGroup Q} (hs : s * s = 1)
   rw [blockInr_apply]
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma piOrth_mul_t_eq_blockHom {t : OGroup Q} (htt : t * t = 1) :
     (piOrth Q * t : OGroup Q) =
       blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
@@ -36,6 +38,7 @@ private lemma piOrth_mul_t_eq_blockHom {t : OGroup Q} (htt : t * t = 1) :
     _ = blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
           rw [Prod.mk_mul_mk, mul_one, piOrth_mul_self]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma piOrth_mul_t_mul_blockInr {t : OGroup Q} (htt : t * t = 1)
     (b : OGroup (Q.restrict (commSp t))) :
     (piOrth Q * t) * blockInr htt b =
@@ -69,6 +72,7 @@ private lemma mul_blockInr_comm (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t *
     (Subgroup.mem_centralizer_singleton_iff.mp (blockInr_mem_centralizer hQ htt b₅)).symm
   exact ((hpi5.mul_left hb5t).mul_left hbb).eq
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma u_apply_on_commSp {t : OGroup Q} (htt : t * t = 1)
     (b : OGroup (Q.restrict (commSp t))) {x : V} (hx : x ∈ commSp t) :
     ((((piOrth Q * t) * blockInr htt b : OGroup Q) : V ≃ₗ[ZMod 3] V) x) =
@@ -79,6 +83,7 @@ private lemma u_apply_on_commSp {t : OGroup Q} (htt : t * t = 1)
   rw [h0] at h
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma blockInr_neg_on_commSp {t : OGroup Q} (htt : t * t = 1)
     {b₅ : OGroup (Q.restrict (commSp t))} {x : V} (hx : x ∈ commSp t)
     (hxneg : ((blockInr htt b₅ : OGroup Q) : V ≃ₗ[ZMod 3] V) x = -x) :
@@ -167,13 +172,13 @@ theorem sec4FD_exists_two (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
       simpa only [invType, invDim] using congrArg Prod.fst (invType_piOrth_mul hQU hbb)
     have hbfin : Module.finrank (ZMod 3) (commSp b) = 1 := by
       simpa only [invDim] using hbdim
-    rw [hb₅, h, hfinU, hbfin] <;> norm_num
+    rw [hb₅, h, hfinU, hbfin]
   set u : OGroup Q := (piOrth Q * t) * blockInr htt b with hu
   have huu : u * u = 1 := by
     rw [hu]
     exact sec4FD_block_neg_sq hQ htt hbb
   have htype : invType u = (2, -1) := by
-    rw [hu, sec4FD_invType_mul_block hQ hdim hσ htt ht6 hbb, hbdim, hbsign] <;> simp
+    rw [hu, sec4FD_invType_mul_block hQ hdim hσ htt ht6 hbb, hbdim, hbsign]; simp
   have hdimu : invDim u = 2 := by
     simpa only [invType] using congrArg Prod.fst htype
   have hsignu : invSign u = -1 := by
@@ -270,7 +275,7 @@ theorem sec4FD_exists_six (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
     have hpow : (-1 : ℤˣ) ^ 5 = -1 := by
       rw [neg_one_pow_eq_neg_one_iff_odd (by decide : (-1 : ℤˣ) ≠ 1)]
       decide
-    rw [hu, sec4FD_invType_mul_block hQ hdim hσ htt ht6 hbb, hbdim, hbsign, hpow] <;> simp
+    rw [hu, sec4FD_invType_mul_block hQ hdim hσ htt ht6 hbb, hbdim, hbsign, hpow]; simp
   have hdimu : invDim u = 6 := by
     simpa only [invType] using congrArg Prod.fst htype
   have hsignu : invSign u = -1 := by

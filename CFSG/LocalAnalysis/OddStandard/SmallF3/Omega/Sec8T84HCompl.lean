@@ -57,6 +57,7 @@ private lemma monoD_eq_invol_mul :
       ∃ σ₁ ∈ monoD, ∃ σ₂ ∈ monoD, σ₁ * σ₁ = 1 ∧ σ₂ * σ₂ = 1 ∧ σ = σ₁ * σ₂ := by
   decide +kernel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hB0_inf_hD1 (fr : NFrame Q (Fin 6) c) : ffB0 fr ⊓ hD1 fr = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -77,6 +78,7 @@ theorem ffP0_eq_B0_mul_D1 (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) {g : 
   · rwa [Finset.card_map]
   · exact fr.permOrth_mul_signChange σ J
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hU2_inf_hD2 (fr : NFrame Q (Fin 6) c) : hU2 fr ⊓ hD2 fr = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -118,7 +120,7 @@ theorem lift_cases (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) {U : Subgrou
       intro u hu
       obtain ⟨σ, hσ, J, hJ, rfl⟩ := ff_liftE16_subset hQ fr hU h hu
       exact (mem_hU2_iff fr).mpr ⟨σ, hσ, J, hJ, rfl⟩
-    haveI : Finite (hU2 fr) := Nat.finite_of_card_ne_zero (by rw [hU2_card fr]; norm_num)
+    have : Finite (hU2 fr) := Nat.finite_of_card_ne_zero (by rw [hU2_card fr]; norm_num)
     exact Subgroup.eq_of_le_of_card_ge hle (by simp [hU2_card fr, hU.2.2.1])
 
 theorem ffP0_le_closure_involutions (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) :

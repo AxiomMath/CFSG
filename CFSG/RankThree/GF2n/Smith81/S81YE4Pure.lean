@@ -25,7 +25,7 @@ theorem e4V_pure_sub [CharP K 2] {x : G7 K} (hx : IsRootEltL K x) {q : V K} (hq 
   have hinv : ∀ z : V K, act7 p (act7 p⁻¹ z) = z := by
     intro z
     have h1 : act7 (p * p⁻¹) z = z := by
-      rw [mul_inv_cancel, act7_one] <;> rfl
+      rw [mul_inv_cancel, act7_one]; rfl
     rw [act7_mul, LinearEquiv.mul_apply] at h1
     exact h1
   have key : ∀ z : V K, act7 x z - z =
@@ -57,7 +57,7 @@ theorem e4V_pure_sub [CharP K 2] {x : G7 K} (hx : IsRootEltL K x) {q : V K} (hq 
   rw [key, hv, hxv]
   by_cases hμ : pr μ theta4 = -1
   · right
-    rw [if_pos hμ] at hx2
+    rw [ite_eq_left hμ] at hx2
     have hν : shift theta4 μ ∈ idx0 := shift_mem_idx0 theta4_mem_Perp hμI hμ
     obtain ⟨l, hlLam, hl⟩ := Lam_transitive_wt (K := K) a0.2 hν
     have hlG : lamToG7 (⟨l, hlLam⟩ : ↥(Lam K)) ∈ LG K := lamToG7_mem _
@@ -72,7 +72,7 @@ theorem e4V_pure_sub [CharP K 2] {x : G7 K} (hx : IsRootEltL K x) {q : V K} (hq 
     simp only [map_smul, smul_smul]
     rw [hY]
   · left
-    rw [if_neg hμ, smul_zero] at hx2
+    rw [ite_eq_right hμ, smul_zero] at hx2
     rw [hx2, map_zero, smul_zero, map_zero]
 
 theorem e4_pure_sub [CharP K 2] {r : W K ≃ₗ[K] W K} (hr : IsRt4 r) {p : W K}

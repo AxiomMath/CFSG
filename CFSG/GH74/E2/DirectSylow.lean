@@ -15,7 +15,7 @@ theorem card_of_max {G : Type} [Group G] [Finite G] {K S : Subgroup G} (hS : S �
     Nat.card S = 2 ^ (Nat.card K).factorization 2 := by
   have hp' : IsPGroup 2 (S.subgroupOf K) := hSp.comap_subtype
   obtain ⟨T, hT⟩ := hp'.exists_le_sylow
-  have h1 : IsPGroup 2 ((T : Subgroup ↥K).map K.subtype) := T.isPGroup'.map K.subtype
+  have h1 : IsPGroup 2 ((T : Subgroup ↥K).map K.subtype) := T.isPGroup.map K.subtype
   have h2 : (T : Subgroup ↥K).map K.subtype ≤ K := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

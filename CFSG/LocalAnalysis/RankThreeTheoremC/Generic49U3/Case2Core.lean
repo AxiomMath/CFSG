@@ -16,11 +16,13 @@ namespace Case2Data
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 private theorem cc_mem_zOf {z : Y} : z ∈ zOf T ↔ z ∈ T ∧ ∀ g ∈ T, g * z = z * g := by
   unfold zOf
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   rfl
 
+omit [Finite Y] in
 private theorem cc_conj_mem_centralizer {L : Subgroup Y} {g c : Y}
     (hg : g ∈ normalizer (L : Set Y)) (hc : c ∈ centralizer (L : Set Y)) :
     g * c * g⁻¹ ∈ centralizer (L : Set Y) := by
@@ -50,9 +52,9 @@ private theorem cc_aux (h : Case2Data p P T D F x) {C : Subgroup Y} (hCle : C �
     by_cases hA0 : C ⊓ T = ⊥
     · exact Or.inl hA0
     · right
-      haveI := h.fact
-      haveI : Group.IsNilpotent (↥T) := (IsPGroup.of_card (p := p) h.pdata.T_card).isNilpotent
-      haveI : ((C ⊓ T).subgroupOf T).Normal := ⟨fun n hn g => by
+      have := h.fact
+      have : Group.IsNilpotent (↥T) := (IsPGroup.of_card (p := p) h.pdata.T_card).isNilpotent
+      have : ((C ⊓ T).subgroupOf T).Normal := ⟨fun n hn g => by
         rw [Subgroup.mem_subgroupOf] at hn ⊢
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         exact hnorm _ g.2 _ hn⟩
@@ -203,7 +205,7 @@ theorem case2_core {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup
     by_contra hnot
     have hex : ∃ L : Subgroup Y, IsComponentOf L ⊤ ∧ ¬ T ≤ centralizer (L : Set Y) := by
       by_contra hne
-      push_neg at hne
+      push Not at hne
       exact hnot (h.le_pCore_of_forall_le_centralizer hne)
     obtain ⟨L, hL, hTL⟩ := hex
     rcases h.centralizer_cases hL hTL with hC | hC

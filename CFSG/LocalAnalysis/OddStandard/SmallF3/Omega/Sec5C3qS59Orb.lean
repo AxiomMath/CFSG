@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G} {B A : Subgroup G}
   {φ : (Fin 6 → ZMod 2) → G}
 
+omit [Finite G] in
 private theorem sec5c3q_conjClass_eq_of_mem {N : Subgroup G} {x x' y : G}
     (hx : y ∈ conjClassIn N x) (hx' : y ∈ conjClassIn N x') :
     conjClassIn N x = conjClassIn N x' := by
@@ -38,6 +39,7 @@ private theorem sec5c3q_conjClass_eq_of_mem {N : Subgroup G} {x x' y : G}
     rw [hx'x]
     group
 
+omit [Finite G] in
 private theorem sec5c3q_conjClass_subset {x : G} (hxA : x ∈ A) (hx1 : x ≠ 1) :
     conjClassIn (normalizer (A : Set G)) x ⊆ (A : Set G) \ {1} := by
   rintro y ⟨m, hmM, rfl⟩
@@ -123,7 +125,7 @@ theorem sec5c3q_s59_tzM_bounds (hy : Sec5B59Hyp) (hR : Sec5RCtx G t L S z r B A)
     have hA64 : (A : Set G).ncard = 64 := by
       rw [← Nat.card_coe_set_eq]
       exact hm.perm.card_A
-    rw [Set.ncard_diff_singleton_of_mem A.one_mem, hA64]
+    rw [Set.ncard_sdiff_singleton_of_mem A.one_mem, hA64]
   have hle := Set.ncard_le_ncard hsub (Set.toFinite _)
   rw [Set.ncard_union_eq (Set.disjoint_union_left.mpr ⟨hTZ, hUZ⟩), Set.ncard_union_eq hTU,
     sec5b_zM_ncard hy hR hm, h7, hA63] at hle

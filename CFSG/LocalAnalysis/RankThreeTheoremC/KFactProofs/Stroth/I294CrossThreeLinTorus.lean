@@ -74,7 +74,7 @@ theorem shiftOp_add (a a' : Fin 3 → ZMod 3) :
 @[expose] noncomputable def shiftHom : Multiplicative (Fin 3 → ZMod 3) →* Module.End K V where
   toFun a := shiftOp b (Multiplicative.toAdd a)
   map_one' := shiftOp_zero b
-  map_mul' a a' := shiftOp_add b _ _
+  map_mul' _a _a' := shiftOp_add b _ _
 
 theorem basis_pair_indep {ι' : Type*} (b' : Basis ι' K V) {x y : ι'} (hxy : x ≠ y) :
     ∀ α β : K, α • b' x + β • b' y = 0 → α = 0 ∧ β = 0 := by

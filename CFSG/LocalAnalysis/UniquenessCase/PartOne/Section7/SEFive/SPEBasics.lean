@@ -84,7 +84,7 @@ theorem exists_pElement_not_mem_of_centralizer_not_le {N : Subgroup X}
   obtain ⟨Q, hQle⟩ := hPxp.exists_le_sylow
   have hxQ : (⟨x, hxC⟩ : ↥C) ∈ Q := hQle hxPx
   let Qm : Subgroup X := (Q : Subgroup ↥C).map C.subtype
-  have hQm_p : IsPGroup p Qm := Q.isPGroup'.map C.subtype
+  have hQm_p : IsPGroup p Qm := Q.isPGroup.map C.subtype
   have hxQm : x ∈ Qm := ⟨⟨x, hxC⟩, hxQ, rfl⟩
   have hQm_ne : Qm ≠ ⊥ := by
     intro hbot
@@ -93,7 +93,7 @@ theorem exists_pElement_not_mem_of_centralizer_not_le {N : Subgroup X}
   have hQm_leN : Qm ≤ N := by
     intro z hz
     obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hz
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_orderOf_eq_pow ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_eq_pow ⟨q, hq⟩
     have hkq : orderOf q = p ^ k := by
       change orderOf ((⟨q, hq⟩ : ↥Q) : ↥C) = p ^ k
       rw [Subgroup.orderOf_coe]
@@ -105,7 +105,7 @@ theorem exists_pElement_not_mem_of_centralizer_not_le {N : Subgroup X}
   have hQR : Q ≤ R := by
     intro q hq
     change q ∈ CFSG.pElementsSubgroup p ↥C
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_orderOf_eq_pow ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_eq_pow ⟨q, hq⟩
     have hkq : orderOf q = p ^ k := by
       change orderOf ((⟨q, hq⟩ : ↥Q) : ↥C) = p ^ k
       rw [Subgroup.orderOf_coe]
@@ -113,9 +113,9 @@ theorem exists_pElement_not_mem_of_centralizer_not_le {N : Subgroup X}
     exact Subgroup.subset_closure ⟨k, hkq⟩
   have hRchar : R.Characteristic :=
     CFSG.pElementsSubgroup_characteristic p ↥C
-  haveI : R.Characteristic := hRchar
-  haveI : R.Normal := Subgroup.normal_of_characteristic R
-  haveI : Finite (Sylow p ↥R) := Sylow.finite_of_finiteIndex (Q.subtype hQR)
+  have : R.Characteristic := hRchar
+  have : R.Normal := Subgroup.normal_of_characteristic R
+  have : Finite (Sylow p ↥R) := Sylow.finite_of_finiteIndex (Q.subtype hQR)
   have hfr := Sylow.normalizer_sup_eq_top (N := R) (P := Q.subtype hQR)
   have hmapQ : Subgroup.map R.subtype ↑(Q.subtype hQR) = (Q : Subgroup ↥C) := by
     rw [Sylow.coe_subtype, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hQR]

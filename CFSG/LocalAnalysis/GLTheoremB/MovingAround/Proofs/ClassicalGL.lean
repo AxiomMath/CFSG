@@ -106,7 +106,7 @@ theorem exists_gen_bound [Finite G] {p : ℕ} [Fact p.Prime] {X A N : Subgroup G
     · rw [pow_zero, one_mul]
       exact Subgroup.card_le_of_le hHA
     · rw [pow_zero, Subgroup.coe_bot, Subgroup.centralizer_eq_top_iff_subset.2
-        (by simp [Subgroup.one_mem]), Subgroup.relIndex_top_left]
+        (by simp), Subgroup.relIndex_top_left]
   · obtain ⟨v, hvA, hvH⟩ := Set.not_subset.1 hAH
     set H' := H ⊔ Subgroup.zpowers v with hH'
     have hH'A : H' ≤ A := sup_le hHA (Subgroup.zpowers_le.2 hvA)
@@ -306,7 +306,7 @@ theorem card_le_pow_four_mul_card_commutator [Finite G] {p : ℕ} [Fact p.Prime]
   have hZW : Z ≤ W := Subgroup.map_subtype_le _
   have hZc : ∀ z ∈ Z, ∀ w ∈ W, w * z = z * w := fun z hz =>
     ((Lemma1211.mem_centerOf_iff' W z).1 hz).2
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have hZPr : Z ≤ W ∧ Z ≤ Subgroup.centralizer (Z : Set G) := by
     refine ⟨hZW, fun z hz => ?_⟩
@@ -386,8 +386,8 @@ section Assembly
 
 theorem input_rankGL4_holds : Claims1211b.Input_rankGL4 := by
   intro p hp _hp5 Y _ _ W hWn hexp hcl hab hker E hE
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hWn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hWn
   set D := ⁅W, W⁆ with hD
   set π : Y →* Y ⧸ D := QuotientGroup.mk' D with hπ
   set V := W.map π with hV
@@ -423,7 +423,7 @@ theorem input_rankGL4_holds : Claims1211b.Input_rankGL4 := by
   have hCL := relIndex_centralizer_le_pow_four hPp hPc hVp hVc hPV hV4
   set K₀ := (Subgroup.centralizer (V : Set (Y ⧸ D))).comap π with hK₀
   have hK₀n : K₀.Normal := by
-    haveI : V.Normal := hVn
+    have : V.Normal := hVn
     exact Subgroup.Normal.comap inferInstance π
   have hK₀p : IsPGroup p K₀ := by
     intro k
@@ -531,7 +531,7 @@ theorem card_addSubgroup_V3 (U : AddSubgroup V3) :
 theorem card_modEq_fix (hP : IsPGroup 13 P) (U : AddSubgroup V3)
     (hU : ∀ g ∈ P, ∀ u ∈ U, g • u ∈ U) :
     Nat.card U ≡ Nat.card ↥(U ⊓ fixSub P) [MOD 13] := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let A : SubMulAction ↥P V3 :=
     { carrier := U
       smul_mem' := fun g u hu => hU g g.2 u hu }
@@ -642,8 +642,8 @@ theorem neg_one_mem_centralizer (s : Set G33) : (-1 : G33) ∈ Subgroup.centrali
 
 theorem le_centralizer_of_card_13 (hP : Nat.card P = 13) :
     P ≤ Subgroup.centralizer (P : Set G33) := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : IsCyclic P := isCyclic_of_prime_card hP
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : IsCyclic P := isCyclic_of_prime_card hP
   intro x hx
   rw [Subgroup.mem_centralizer_iff]
   intro y hy
@@ -655,7 +655,7 @@ theorem card_centralizer_13 (hP : Nat.card P = 13) :
   have h13 : 13 ∣ Nat.card (Subgroup.centralizer (P : Set G33)) :=
     hP ▸ Subgroup.card_dvd_of_le (le_centralizer_of_card_13 hP)
   have h2 : 2 ∣ Nat.card (Subgroup.centralizer (P : Set G33)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hm := neg_one_mem_centralizer (P : Set G33)
     have hord : orderOf (⟨-1, hm⟩ : Subgroup.centralizer (P : Set G33)) = 2 := by
       apply orderOf_eq_prime
@@ -678,7 +678,7 @@ theorem factorization_G33_13 : (Nat.card G33).factorization 13 = 1 := by
 
 theorem card_normalizer_13 (hP : Nat.card P = 13) :
     Nat.card (Subgroup.normalizer (P : Set G33)) = 78 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have h1 := Subgroup.card_ker_mul_card_range (Subgroup.normalizerMonoidHom P)
   rw [Subgroup.normalizerMonoidHom_ker] at h1
   have hCN : Subgroup.centralizer (P : Set G33) ≤ Subgroup.normalizer (P : Set G33) :=
@@ -688,7 +688,7 @@ theorem card_normalizer_13 (hP : Nat.card P = 13) :
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCN).toEquiv, card_centralizer_13 hP]
   rw [hk] at h1
   have hAut : Nat.card (MulAut P) = 12 := by
-    haveI : IsCyclic P := isCyclic_of_prime_card hP
+    have : IsCyclic P := isCyclic_of_prime_card hP
     rw [IsCyclic.card_mulAut, hP]
     decide
   have hr : Nat.card (Subgroup.normalizerMonoidHom P).range ∣ 12 :=
@@ -766,7 +766,7 @@ theorem card_cases (hKSL : K ≤ SL33) (hPK : P ≤ K) (hP : Nat.card P = 13) :
       (Nat.card K = 13 ∨ Nat.card K = 351 ∨ Nat.card K = 1872)) ∨
     (Nat.card ↥(K ⊓ Subgroup.normalizer (P : Set G33)) = 39 ∧
       (Nat.card K = 39 ∨ Nat.card K = 5616)) := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   set N := Subgroup.normalizer (P : Set G33) with hN
   have hm1 : Nat.card ↥(K ⊓ N) ∣ 39 := by
     rw [← card_SL_inf_normalizer_13 hP]
@@ -836,7 +836,7 @@ theorem isSolvable_of_card_dvd_432 {H : Type} [Group H] [Finite H]
 theorem isSolvable_of_selfNormalizing {K P : Subgroup G33} (hPK : P ≤ K) (hP : Nat.card P = 13)
     (hm : Nat.card ↥(K ⊓ Subgroup.normalizer (P : Set G33)) = 13) (hK : Nat.card K ∣ 5616) :
     Group.IsSolvable K := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   set P' : Subgroup ↥K := P.subgroupOf K with hP'def
   have hP' : Nat.card P' = 13 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPK).toEquiv, hP]
@@ -849,7 +849,7 @@ theorem isSolvable_of_selfNormalizing {K P : Subgroup G33} (hPK : P ≤ K) (hP :
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv, inf_comm, hm]
   have heq : Subgroup.normalizer (P' : Set ↥K) = P' :=
     (Subgroup.eq_of_le_of_card_ge Subgroup.le_normalizer (by rw [hNcard, hP'])).symm
-  haveI : IsCyclic P' := isCyclic_of_prime_card hP'
+  have : IsCyclic P' := isCyclic_of_prime_card hP'
   have hNS : Subgroup.normalizer ((S : Subgroup ↥K) : Set ↥K) ≤
       Subgroup.centralizer ((S : Subgroup ↥K) : Set ↥K) := by
     rw [hSP, heq]
@@ -861,12 +861,12 @@ theorem isSolvable_of_selfNormalizing {K P : Subgroup G33} (hPK : P ≤ K) (hP :
   have hcard := hcompl.card_mul_card
   have hSc : Nat.card (S : Subgroup ↥K) = 13 := hP'
   rw [hSc] at hcard
-  haveI : Group.IsSolvable (MonoidHom.transferSylow S hNS).ker := by
+  have : Group.IsSolvable (MonoidHom.transferSylow S hNS).ker := by
     apply isSolvable_of_card_dvd_432
     have h' : Nat.card (MonoidHom.transferSylow S hNS).ker * 13 ∣ 432 * 13 := by
       rw [hcard]; simpa using hK
     exact Nat.dvd_of_mul_dvd_mul_right (by norm_num) h'
-  haveI : Group.IsSolvable ↥(S : Subgroup ↥K) := by
+  have : Group.IsSolvable ↥(S : Subgroup ↥K) := by
     rw [hSP]
     exact Group.isSolvable_of_comm fun a b => mul_comm' a b
   exact Group.isSolvable_of_ker_le_range (MonoidHom.transferSylow S hNS).ker.subtype
@@ -876,7 +876,7 @@ theorem eq_SL33_of_not_isSolvable {X₀ : Subgroup G33} (hX₀ : X₀ ≤ SL33)
     (hns : ¬ Group.IsSolvable X₀) : X₀ = SL33 := by
   have hX₀d : Nat.card X₀ ∣ 5616 := card_SL33 ▸ Subgroup.card_dvd_of_le hX₀
   by_cases h13 : 13 ∣ Nat.card X₀
-  · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X₀) 13 h13
     set P := Subgroup.zpowers (x : G33) with hPdef
     have hP : Nat.card P = 13 := by rw [hPdef, Nat.card_zpowers, Subgroup.orderOf_coe, hx]
@@ -902,7 +902,7 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal (isPSolva
 
 theorem SL33_le_of_not_isPSolvable {X : Subgroup G33}
     (hX : ¬ CFSG.HallHigman.IsPSolvable 3 X) : SL33 ≤ X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hns : ¬ Group.IsSolvable ↥(SL33 ⊓ X) := by
     intro hsol
     apply hX
@@ -983,21 +983,21 @@ theorem det_uGL (x y z : ZMod 3) : uGL x y z ∈ SL33 := by
   carrier := {g | ∃ x z, g = uGL x 0 z}
   mul_mem' := by
     rintro _ _ ⟨x, z, rfl⟩ ⟨x', z', rfl⟩
-    exact ⟨x + x', z + z', by rw [uGL_mul]; congr 1 <;> ring⟩
+    exact ⟨x + x', z + z', by rw [uGL_mul]; congr 1; ring⟩
   one_mem' := ⟨0, 0, uGL_zero.symm⟩
   inv_mem' := by
     rintro _ ⟨x, z, rfl⟩
-    exact ⟨-x, -z, by rw [uGL_inv]; congr 1 <;> ring⟩
+    exact ⟨-x, -z, by rw [uGL_inv]; congr 1⟩
 
 @[expose] def R2 : Subgroup G33 where
   carrier := {g | ∃ y z, g = uGL 0 y z}
   mul_mem' := by
     rintro _ _ ⟨y, z, rfl⟩ ⟨y', z', rfl⟩
-    exact ⟨y + y', z + z', by rw [uGL_mul]; congr 1 <;> ring⟩
+    exact ⟨y + y', z + z', by rw [uGL_mul]; congr 1; ring⟩
   one_mem' := ⟨0, 0, uGL_zero.symm⟩
   inv_mem' := by
     rintro _ ⟨y, z, rfl⟩
-    exact ⟨-y, -z, by rw [uGL_inv]; congr 1 <;> ring⟩
+    exact ⟨-y, -z, by rw [uGL_inv]; congr 1; ring⟩
 
 theorem card_U3 : Nat.card U3 = 27 := by
   let f : ZMod 3 × ZMod 3 × ZMod 3 → U3 := fun t => ⟨uGL t.1 t.2.1 t.2.2, _, _, _, rfl⟩
@@ -1008,7 +1008,7 @@ theorem card_U3 : Nat.card U3 = 27 := by
     · obtain ⟨x, y, z, hg⟩ := g.2
       exact ⟨(x, y, z), Subtype.ext hg.symm⟩
   rw [← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod, ZMod.card]
+  simp [ZMod.card]
 
 theorem card_R1 : Nat.card R1 = 9 := by
   let f : ZMod 3 × ZMod 3 → R1 := fun t => ⟨uGL t.1 0 t.2, _, _, rfl⟩
@@ -1019,7 +1019,7 @@ theorem card_R1 : Nat.card R1 = 9 := by
     · obtain ⟨x, z, hg⟩ := g.2
       exact ⟨(x, z), Subtype.ext hg.symm⟩
   rw [← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod, ZMod.card]
+  simp [ZMod.card]
 
 theorem card_R2 : Nat.card R2 = 9 := by
   let f : ZMod 3 × ZMod 3 → R2 := fun t => ⟨uGL 0 t.1 t.2, _, _, rfl⟩
@@ -1030,7 +1030,7 @@ theorem card_R2 : Nat.card R2 = 9 := by
     · obtain ⟨y, z, hg⟩ := g.2
       exact ⟨(y, z), Subtype.ext hg.symm⟩
   rw [← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod, ZMod.card]
+  simp [ZMod.card]
 
 theorem R1_le_U3 : R1 ≤ U3 := by
   rintro _ ⟨x, z, rfl⟩
@@ -1095,7 +1095,7 @@ theorem bG_conj (x z : ZMod 3) : bG * uGL x 0 z * bG⁻¹ = uGL x 0 (-z) := by
   apply Units.ext
   show bMat * uMat x 0 z * bMat = uMat x 0 (-z)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [bMat, uMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [bMat, uMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem s1_conj (y z : ZMod 3) : s1 * uGL 0 y z * s1⁻¹ = uGL 0 (-z) y := by
   apply Units.ext
@@ -1121,7 +1121,7 @@ theorem U3_le_normalizer_R1 : U3 ≤ Subgroup.normalizer (R1 : Set G33) := by
   congr 1 <;> ring
 
 theorem orderOf_c : orderOf (s1 * s2 * bG) = 13 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one]
@@ -1133,7 +1133,7 @@ theorem orderOf_c : orderOf (s1 * s2 * bG) = 13 := by
     exact absurd (h1 : s1Mat * s2Mat * bMat = 1) (by decide)
 
 theorem orderOf_bG : orderOf bG = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime
   · apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one]
@@ -1216,7 +1216,7 @@ theorem genProp_of_one {Z : Type} [Group Z] [Finite Z] (S₀ : Sylow 3 Z)
     (h : (⊤ : Subgroup Z) ≤
       ⨆ (Q : Subgroup Z) (_ : Q ≤ S₀ ∧ Q.relIndex S₀ = 3), Subgroup.normalizer (Q : Set Z)) :
     GenProp Z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq Z S₀ S
   refine le_antisymm ?_ le_top
@@ -1244,7 +1244,7 @@ theorem genProp_of_one {Z : Type} [Group Z] [Finite Z] (S₀ : Sylow 3 Z)
       · rw [hφ, Subgroup.map_equiv_normalizer_eq]
 
 theorem genProp_of_SL33_le (X : Subgroup G33) (hX : SL33 ≤ X) : GenProp X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU3X : U3 ≤ X := U3_le_SL33.trans hX
   have hXc : Nat.card X = 5616 ∨ Nat.card X = 11232 := by
     have h1 : Nat.card X ∣ 11232 := card_G33 ▸ Subgroup.card_subgroup_dvd_card X
@@ -1308,8 +1308,8 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal (isPSolva
 theorem genProp_of_surjective {Y Z : Type} [Group Y] [Group Z] [Finite Y] (f : Y →* Z)
     (hf : Function.Surjective f) (hker : IsPGroup 3 f.ker) (hZ : GenProp Z) [Nontrivial Z] :
     GenProp Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Z := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Z := Finite.of_surjective f hf
   intro S
   set S' : Sylow 3 Z := S.mapSurjective hf with hS'def
   have hS' := hZ S'
@@ -1360,18 +1360,18 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure (isPSolvable_of_no
 open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal (isPSolvable_of_mulEquiv)
 
 theorem card_GL_dvd_432 {n : ℕ} (hn : n ≤ 2) : Nat.card (GL (Fin n) (ZMod 3)) ∣ 432 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
-  interval_cases n <;> simp [Fin.prod_univ_two] <;> norm_num
+  interval_cases n <;> simp [Fin.prod_univ_two]
 
 theorem genProp_of_hom {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : n ≤ 3)
     (ρ : Y →* GL (Fin n) (ZMod 3)) (hker : IsPGroup 3 ρ.ker)
     (hns : ¬ CFSG.HallHigman.IsPSolvable 3 Y) : GenProp Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrange : ¬ CFSG.HallHigman.IsPSolvable 3 ρ.range := by
     intro h
     apply hns
-    haveI := hker.isNilpotent
+    have := hker.isNilpotent
     exact isPSolvable_of_normal ρ.ker (isPSolvable_of_isSolvable Nat.prime_three inferInstance)
       (isPSolvable_of_mulEquiv (QuotientGroup.quotientKerEquivRange ρ).symm h)
   have hsmall : n ≤ 2 → False := fun h2 =>
@@ -1381,7 +1381,7 @@ theorem genProp_of_hom {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : n ≤ 3)
     by_contra h
     exact hsmall (by omega)
   subst hn3
-  haveI : Nontrivial ρ.range := by
+  have : Nontrivial ρ.range := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     exact hrange (isPSolvable_of_isSolvable Nat.prime_three inferInstance)
@@ -1390,12 +1390,12 @@ theorem genProp_of_hom {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : n ≤ 3)
 
 theorem input_GL3_holds : Claims1211b.Input_GL3 := by
   intro Y _ _ W hWn hexp hcard hker hns
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hWn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hWn
   set D := ⁅W, W⁆ with hD
   set π : Y →* Y ⧸ D := QuotientGroup.mk' D with hπ
   set V := W.map π with hV
-  haveI hVn : V.Normal := hWn.map π (QuotientGroup.mk'_surjective D)
+  have hVn : V.Normal := hWn.map π (QuotientGroup.mk'_surjective D)
   set ρ : Y →* MulAut ↥V := (MulAut.conjNormal (H := V)).comp π with hρ
   have hkerρ : IsPGroup 3 ρ.ker := by
     intro k

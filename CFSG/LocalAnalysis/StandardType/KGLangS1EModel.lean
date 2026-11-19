@@ -85,7 +85,7 @@ theorem kgLangS1E_J0_model_E7
   let F : Set (MulAut R) := LargeEvenChevFieldImage (LargeEvenCartanE 7) K₁
     (LargeEvenChevH (LargeEvenCartanE 7) K₁ false)
   let F₀ : ModGL .E7 L →* ModGL .E7 L := frobTwistGL .E7 L 2 e Q
-  haveI hcharK : CharP K₁ 2 := charP_two_of_card hK₁
+  have hcharK : CharP K₁ 2 := charP_two_of_card hK₁
   have hQ1 : Q = 1 := by
     rcases hQ with h | ⟨t, j, ht, h⟩
     · exact h
@@ -99,7 +99,7 @@ theorem kgLangS1E_J0_model_E7
     chev_isQuasisimple (τ := .E7) (Or.inr (Or.inl rfl)) K₁
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K₁ .E7
   have hRsimple : IsSimpleGroup R := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 K₁) := hq₁.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 K₁) := hq₁.2.1
     exact eQ.isSimpleGroup
   have hRnab : ∃ a b : R, a * b ≠ b * a :=
     kgLangS1EModelAux_nonabelian eQ.symm hq₁.2.2
@@ -221,7 +221,7 @@ theorem kgLangS1E_J0_model_E7
   have hq_k : CFSG.IsQuasisimple ↥(adjointGroup .E7 k) :=
     chev_isQuasisimple (τ := .E7) (Or.inr (Or.inl rfl)) k
   have hCs : IsSimpleGroup ↥C := by
-    haveI : IsSimpleGroup (↥(adjointGroup .E7 k) ⧸
+    have : IsSimpleGroup (↥(adjointGroup .E7 k) ⧸
         Subgroup.center ↥(adjointGroup .E7 k)) := hq_k.2.1
     exact (eC.trans ebot.symm).isSimpleGroup
   have hCna : ∃ a b : ↥C, a * b ≠ b * a :=

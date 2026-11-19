@@ -32,14 +32,14 @@ theorem gamma_le_of_O812sixAt {M : Subgroup G} (hO : O812sixAt G M) (h7 : 7 ∈ 
     (hr : 2 ≤ CFSG.Open.pRank 7 (M ⊓ Subgroup.centralizer (Q : Set G)))
     (hns : ¬ CFSG.HallHigman.IsPSolvable 7 ↥(M ⊓ Subgroup.centralizer (Q : Set G))) :
     rankThreeGamma 1 3 Q ≤ M := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   unfold rankThreeGamma GLBCore
   refine sSup_le ?_
   rintro N ⟨B, hBQ, hB1, rfl⟩
   have hB3 : IsPGroup 3 B := hQ3.to_le hBQ
   have hBne : B ≠ ⊥ := by
     intro hB
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨E, hEB, -, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3)
       (H := B) (k := 1) hB1
     have hE : E = ⊥ := le_bot_iff.mp (hB ▸ hEB)
@@ -154,7 +154,7 @@ theorem row1528_cyclic_gen (hKSML3 : KSML3) {M T : Subgroup G} {T₁ T₂ : Subg
   have h3 : IsLThreeOfExp 1 ↥Ls := h25.2 Ls L hLs hL
   obtain ⟨hbar, hZ⟩ := barO2_isLThree_of_lift hKSML3 ctx.gn hLs.1 hL h3
   have hLn : L.Normal := hLN Ls L hLs hL
-  haveI : (cMHat L).Normal := cMHat_normal hLn
+  have : (cMHat L).Normal := cMHat_normal hLn
   have hIM : CFSG.IsPComponent 7 I := isPComponent_of_normal hI hIc
   have hLM : CFSG.IsPComponent 7 L := isPComponent_of_isLThree hL.1 hbar (Or.inr rfl)
   obtain ⟨hL3r, hL7r⟩ := pRank_eq_one_of_isLThree hL.1 hbar

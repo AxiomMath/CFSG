@@ -47,7 +47,7 @@ theorem sec39c_normal_in_prod {D₁ D₂ D K : Subgroup Q} (h1 : IsSimpleGroup D
   have key : ∀ X : Subgroup Q, IsSimpleGroup X → X ≤ D → D ≤ normalizer (X : Set Q) →
       K ⊓ X = ⊥ ∨ X ≤ K := by
     intro X hX hXD hNX
-    haveI : ((K ⊓ X).subgroupOf X).Normal := ⟨fun n hn g => by
+    have : ((K ⊓ X).subgroupOf X).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨hKn _ (hXD g.2) _ hn.1, (g * n * g⁻¹).2⟩⟩
     rcases hX.eq_bot_or_eq_top_of_normal ((K ⊓ X).subgroupOf X) with e | e
@@ -180,7 +180,7 @@ theorem sec39c_mem_of_odd_mul {L Y : Subgroup Q} (hYL : Y ≤ L)
     (hY : ∀ g ∈ L, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) {s y o : Q} (hs : s ∈ L) (hy : y ∈ Y)
     (ho : o ∈ L) (hso : s = y * o) {k m : ℕ} (hsk : s ^ 2 ^ k = 1) (hom : o ^ m = 1)
     (hm : Odd m) : s ∈ Y := by
-  haveI : (Y.subgroupOf L).Normal := ⟨fun n hn g => by
+  have : (Y.subgroupOf L).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hY g.1 g.2 n hn⟩
   set N := Y.subgroupOf L with hN
@@ -660,7 +660,7 @@ theorem sec39c_CE_le_D (hp : d.CaseHyp) (S : Subgroup G) (hS : IsSylowOf 2 S d.L
     ∃ hmH : m ∈ sec39cH d, (⟨m, hmH⟩ : ↥(sec39cH d)) ∈ standardComponentOddCore ↥(sec39cH d)
 
 theorem sec39c_claimY (hp : d.CaseHyp) (k8 : d.Know8) (S : Subgroup G)
-    (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (ha : d.Sec39a S) (hY₂ : d.Sec39cY₂) :
+    (hS : IsSylowOf 2 S d.L₂) (_hP : d.P ≤ S) (ha : d.Sec39a S) (hY₂ : d.Sec39cY₂) :
     ∀ s ∈ S, (∀ e ∈ d.E, ⁅s, e⁆ ∈ d.V) → s ∈ d.E := by
   intro s hs hsc
   have hd := hp.hyp
@@ -798,7 +798,7 @@ theorem sec39c_Z₂ (hp : d.CaseHyp) (k8 : d.Know8) (S : Subgroup G)
   rw [hz']
   exact d.W.mul_mem hwW (d.W.mul_mem (hVW hv₁) (hd.Z₂p_le_W hGMS ha₁Z₂))
 
-theorem sec39c_D (hp : d.CaseHyp) (k8 : d.Know8) (S : Subgroup G)
+theorem sec39c_D (hp : d.CaseHyp) (_k8 : d.Know8) (S : Subgroup G)
     (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (ha : d.Sec39a S) (hb : d.Sec39b) :
     d.D = S ⊓ centralizer (d.W : Set G) := by
   have hd := hp.hyp

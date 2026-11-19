@@ -54,7 +54,7 @@ theorem tim78_2_4_acting [Finite Γ] [Finite V] (ρ : Γ →* MulAut V)
       Nat.card V ≤ Nat.card A * Nat.card (fixedSub ρ A)) :
     Nat.card V ≤ Nat.card L * Nat.card (fixedSub ρ L) := by
   classical
-  haveI : Finite (V ⋊[ρ] Γ) :=
+  have : Finite (V ⋊[ρ] Γ) :=
     Finite.of_equiv _ (SemidirectProduct.equivProd (N := V) (G := Γ) (φ := ρ)).symm
   set V' : Subgroup (V ⋊[ρ] Γ) := (⊤ : Subgroup V).map SemidirectProduct.inl with hV'
   set L' : Subgroup (V ⋊[ρ] Γ) := L.map SemidirectProduct.inr with hL'
@@ -252,7 +252,7 @@ theorem exists_sl2_torus_lift {Y : Type} [Group Y] [Finite Y] {f : ℕ} (hf : f 
     rw [hZ, Subgroup.mem_comap, MonoidHom.mem_ker.mp hx]
     exact (torus F).one_mem
   set N' : Subgroup Z := ε.ker.subgroupOf Z with hN'
-  haveI hN'n : N'.Normal := Subgroup.Normal.subgroupOf inferInstance Z
+  have hN'n : N'.Normal := Subgroup.Normal.subgroupOf inferInstance Z
   let ε' : Z →* torus F := (ε.comp Z.subtype).codRestrict (torus F) fun z => z.2
   have hε'ker : ε'.ker = N' := by
     ext z

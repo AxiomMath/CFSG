@@ -173,7 +173,7 @@ theorem ker_not_dvd_two_of_max {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     CFSG.RankThreeEvenClassification.Helpers.exists_normalized_sylow_in_prime_complement_subgroup
       p hp E (kerG I e) hEp hodpCg (le_normalizer_kerG hEN) 2 Nat.prime_two
   set Q : Subgroup G := (sylow : Subgroup ↥(kerG I e)).map (kerG I e).subtype with hQ
-  have hQ2 : IsPGroup 2 Q := sylow.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := sylow.isPGroup.map _
   have hQC : Q ≤ kerG I e := Subgroup.map_subtype_le _
   have hQne : Q ≠ ⊥ := by
     intro h

@@ -39,7 +39,7 @@ theorem selF_xor : ∀ (bs : List Nat) (g h : Nat → Bool),
     simp only [selF]
     rw [selF_xor bs (fun m => g (m + 1)) (fun m => h (m + 1))]
     cases g 0 <;> cases h 0 <;>
-      simp [Nat.xor_assoc, Nat.xor_comm, xor_left_comm', xor_cancel_left']
+      simp [Nat.xor_assoc, xor_left_comm', xor_cancel_left']
 
 theorem selF_false : ∀ (bs : List Nat), selF (fun _ => false) bs = 0
   | [] => rfl
@@ -59,7 +59,7 @@ theorem kcRed_xor {bs ps : List Nat} (h : bs.length = ps.length) (x y : Nat) :
     funext m
     rw [Nat.testBit_xor]
   rw [e, selF_xor]
-  simp only [Nat.xor_assoc, Nat.xor_comm, xor_left_comm']
+  simp only [Nat.xor_assoc, xor_left_comm']
 
 theorem kcRed_zero {bs ps : List Nat} (h : bs.length = ps.length) : kcRed bs ps 0 = 0 := by
   rw [kcRed_def, kcPick_eq _ bs ps h]
@@ -127,7 +127,7 @@ theorem kcZc_eq : ∀ (rs : List Nat) (acc : Nat), kcZc rs acc =
       simp only [selF]
       have h0 : (2 * d + 1).testBit 0 = true := by simp [Nat.testBit_zero]
       rw [h0, selF_congr rs (g' := d.testBit) fun m _ => testBit_two_mul_add_one_succ d m]
-      simp only [cond_true]
+      simp only [_root_.Bool.cond_true]
       rw [← Nat.xor_assoc]
       rfl
     rw [e1, e2]

@@ -25,7 +25,7 @@ theorem certificate7113 :
     intro y hy
     rw [T12.len] at hy
     rw [fixTab_get FixTab12.tab y (by simp [hMc]; omega)]
-    simp [fixMasks, List.getD_eq_getElem?_getD, List.getElem?_take, hy]
+    simp [fixMasks, List.getD_eq_getElem?_getD, hy]
   have hmem : ∀ x ∈ inv12s2, act12s2 x = actM (T12.Mc.getD (inv12s2.idxOf x) []) := by
     intro x hx
     rw [← T12.act_el (by rw [← T12.len]; exact idxOf_le x), el_idxOf (Or.inl hx)]

@@ -21,12 +21,12 @@ theorem step74_of_pPrimeCore_eq_bot (k : Sec7Core4 G)
   intro H hH
   classical
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact k.p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := CFSG.Open.pCoreOf 2 k.M
   let R : Subgroup G := Q ⊓ H
   let K : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
-  haveI : K.Normal := CFSG.pPrimeCore_normal
+  have : K.Normal := CFSG.pPrimeCore_normal
   let q : ↥H →* ↥H ⧸ K := QuotientGroup.mk' K
   let B : Subgroup ↥H := (H ⊓ k.M).subgroupOf H
   let A : Subgroup ↥H := R.subgroupOf H
@@ -58,7 +58,7 @@ theorem step74_of_pPrimeCore_eq_bot (k : Sec7Core4 G)
     exact Subgroup.mem_subgroupOf.mpr (by simpa using hmem)
   have hRbar_le_Nbar : Rbar ≤ Nbar :=
     Subgroup.map_mono (Subgroup.subgroupOf_mono H hRleB)
-  haveI : (A.subgroupOf B).Normal := hAnorm
+  have : (A.subgroupOf B).Normal := hAnorm
   have hRbarSubNorm : (Rbar.subgroupOf Nbar).Normal :=
     CFSG.SignalizerFunctorTheorem.normal_map_subgroupOf q hAB
   have hR2sub : IsPGroup 2 ↥(R.subgroupOf H) :=

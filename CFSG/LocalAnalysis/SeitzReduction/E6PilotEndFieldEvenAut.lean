@@ -326,7 +326,7 @@ theorem exists_conj_mem_innerStdE6 {n : ℕ} (hK : Nat.card K = 2 ^ n)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 (innerStdE6 K)) := inferInstance
   set P := (S₀ : Subgroup (innerStdE6 K)).map (innerStdE6 K).subtype with hP
-  have hPp : IsPGroup 2 P := S₀.isPGroup'.map _
+  have hPp : IsPGroup 2 P := S₀.isPGroup.map _
   have hPidx : ¬ 2 ∣ P.index := by
     rw [hP, Subgroup.index_map_subtype]
     exact (Fact.out : (2 : ℕ).Prime).not_dvd_mul S₀.not_dvd_index

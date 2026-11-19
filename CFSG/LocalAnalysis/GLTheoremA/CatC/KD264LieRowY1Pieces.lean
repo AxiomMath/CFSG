@@ -90,7 +90,7 @@ theorem kd264Y1Row_of_pieces
   have hAin : A ≤ inner (TauCeti.CFSGIndex.lie d).Group := fun a ha =>
     hOut d hns hk2 hk3 hpR a (hA ha) (hE.2 a ha)
   obtain ⟨-, hsimp⟩ := CFSG.Assembly.lie_finite_simple d
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
   obtain ⟨Ab, hAbE, hAbc, hinj, hmap⟩ := exists_comap_of_le_inner hAin hE hc
   have hp3 : CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.CFSGIndex.lie d).Group) = 3 :=
     le_antisymm hpR (three_le_pRank_top hAbE hAbc)

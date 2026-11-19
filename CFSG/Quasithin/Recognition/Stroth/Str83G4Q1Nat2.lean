@@ -91,7 +91,7 @@ theorem str83G4SecPart_le_commutator_sup
     let W := ↥X ⧸ NX
     have hZnorm : (Z.subgroupOf X).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hXH.trans (str83G4_sup_le_normalizer_z1 hfr))
-    haveI : NX.Normal := hZnorm
+    have : NX.Normal := hZnorm
     have hXp : IsPGroup 2 X := (pCoreOf_isPGroup 2 (P1 L1 L2 S)).to_le (str83X_le_q1 hfr)
     have hE : IsElemAbelian 2 (Ch3z.chiefMod Z X) :=
       CFSG.Quasithin.isElemAbelian_chiefMod hXstep hXH hXp
@@ -114,7 +114,7 @@ theorem str83G4SecPart_le_commutator_sup
     let U := ↥A ⧸ NA
     have hAnorm : (M''.subgroupOf A).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hAleH.trans hHM'')
-    haveI : NA.Normal := hAnorm
+    have : NA.Normal := hAnorm
     have hAsq : ∀ a : A, ((a : G) ^ 2) ∈ M'' := by
       intro a
       have haM' : (a : G) ∈ M' := hAleM' a.2
@@ -138,7 +138,7 @@ theorem str83G4SecPart_le_commutator_sup
       rw [← map_mul, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff,
         Subgroup.mem_subgroupOf]
       simpa [pow_two] using hAsq a
-    letI : CommGroup W := by
+    let : CommGroup W := by
       refine { (inferInstance : Group W) with mul_comm := ?_ }
       intro a b
       induction a using QuotientGroup.induction_on with
@@ -154,7 +154,7 @@ theorem str83G4SecPart_le_commutator_sup
           rw [e]
           exact str83G4_commutator_x_q1_le hfr
             (Subgroup.commutator_mem_commutator x.2 (str83X_le_q1 hfr y.2))
-    letI : CommGroup U := by
+    let : CommGroup U := by
       refine { (inferInstance : Group U) with mul_comm := ?_ }
       intro a b
       induction a using QuotientGroup.induction_on with
@@ -200,14 +200,14 @@ theorem str83G4SecPart_le_commutator_sup
       rw [show (⟨⁅(z : G), (u : G)⁆,
         ((mem_str83G4SecPart hfr hM.1 Z').mp u.2).2 z z.2⟩ : ↥Z') = 1 from
         Subtype.ext h1]
-      simpa using map_one χ
+      simp
     let phiLift (u : ↥M') : W →* C2 :=
       QuotientGroup.lift (Z.subgroupOf X) (phi u) (phi_kill u)
     let Θ₀ : ↥M' → (W →* C2) := fun u => phiLift u
     have hM''norm : (M''.subgroupOf M').Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (hM'leH.trans hHM'')
     let NM : Subgroup ↥M' := M''.subgroupOf M'
-    haveI : NM.Normal := hM''norm
+    have : NM.Normal := hM''norm
     let V := ↥M' ⧸ NM
     have hΘ₀ker : ∀ u ∈ NM, Θ₀ u = 1 := by
       intro u hu
@@ -240,10 +240,6 @@ theorem str83G4SecPart_le_commutator_sup
             χ ⟨⁅(x : G), (b : G)⁆,
               ((mem_str83G4SecPart hfr hM.1 Z').mp b.2).2 x x.2⟩
           rw [hb]
-          change χ ⟨⁅(x : G), (a : G)⁆,
-              ((mem_str83G4SecPart hfr hM.1 Z').mp a.2).2 x x.2⟩ =
-            χ ⟨⁅(x : G), ((a * m : ↥M') : G)⁆,
-              ((mem_str83G4SecPart hfr hM.1 Z').mp (a * m).2).2 x x.2⟩
           have hma : ⁅(x : G), (a : G)⁆ ∈ Z' :=
             ((mem_str83G4SecPart hfr hM.1 Z').mp a.2).2 x x.2
           have hmm : ⁅(x : G), (m : G)⁆ ∈ Z' :=
@@ -337,7 +333,7 @@ theorem str83G4SecPart_le_commutator_sup
       rw [show (⟨⁅(x : G), (u : G)⁆,
           ((mem_str83G4SecPart hfr hM.1 Z').mp (hAleM' u.2)).2 x x.2⟩ : ↥Z') = 1 from
         Subtype.ext h1]
-      simpa using map_one χ
+      simp
     let Ψbar : W → (U →* C2) :=
       Quotient.lift (fun x : ↥X => Ψ₀ x) (by
         intro a b hab
@@ -380,7 +376,7 @@ theorem str83G4SecPart_le_commutator_sup
             rw [show (⟨⁅(z : G), (u : G)⁆,
               ((mem_str83G4SecPart hfr hM.1 Z').mp (hAleM' u.2)).2 z z.2⟩ : ↥Z') = 1 from
               Subtype.ext hzu]
-            simpa using map_one χ
+            simp
           rw [hchi, mul_one]
         exact hEq)
     have hΨ : Function.Injective Ψbar := by
@@ -422,8 +418,8 @@ theorem str83G4SecPart_le_commutator_sup
         rw [hXA] at h
         simpa using h
       simpa [Subgroup.coe_div] using hZmem
-    haveI : Finite (W →* C2) := Finite.of_injective _ DFunLike.coe_injective
-    haveI : Finite (U →* C2) := Finite.of_injective _ DFunLike.coe_injective
+    have : Finite (W →* C2) := Finite.of_injective _ DFunLike.coe_injective
+    have : Finite (U →* C2) := Finite.of_injective _ DFunLike.coe_injective
     have hW2' : ∀ x : W, x ^ 2 = 1 := fun x => by simpa [pow_two] using hW2 x
     have hU2' : ∀ x : U, x ^ 2 = 1 := fun x => by simpa [pow_two] using hU2 x
     have hcard : Nat.card V ≤ Nat.card U :=
@@ -569,8 +565,8 @@ theorem str83G4_eq_commutator_sup_y_of_le
           str83G4SecPart_bot hfr hM.1 hYM
         rw [h0]
         exact le_sup_right
-      · haveI : Nontrivial ↥Z' := (Subgroup.nontrivial_iff_ne_bot Z').mpr hbot
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      · have : Nontrivial ↥Z' := (Subgroup.nontrivial_iff_ne_bot Z').mpr hbot
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         obtain ⟨B, hBidx⟩ :=
           CFSG.SolvableHall.exists_index_eq_prime (p := 2) (A := ↥Z') (hZ1p.to_le hZ')
         let Z'' : Subgroup G := B.map Z'.subtype

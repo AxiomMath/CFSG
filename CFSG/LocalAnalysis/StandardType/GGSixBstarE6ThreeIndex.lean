@@ -17,6 +17,7 @@ open TableBExc.E6Three
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem hatAut_range_eq_sup :
     (hatAut .E6 K).range =
       (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)).range ⊔
@@ -47,7 +48,7 @@ theorem exists_sup_zpowers_of_not_mem_innerAut
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Φ, -, hker, hdvd⟩ := exists_outer_hom_E (K := K) (τ := Tag.E6) (Or.inl rfl)
   set N := CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .E6 K) with hN
-  haveI : N.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : N.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   set π := QuotientGroup.mk' N with hπ
   have h3 : Nat.card Φ.ker ∣ 3 := by
     have h := hdvd

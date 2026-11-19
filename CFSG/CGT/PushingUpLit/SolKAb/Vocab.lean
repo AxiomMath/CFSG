@@ -14,6 +14,6 @@ abbrev sylowImg {G : Type} [Group G] {K : Subgroup G} (R : Sylow 2 K) : Subgroup
 
 theorem isPGroup_sylowImg {G : Type} [Group G] {K : Subgroup G} (R : Sylow 2 K) :
     IsPGroup 2 (sylowImg R) :=
-  R.isPGroup'.map K.subtype
+  R.isPGroup.map K.subtype
 
 end CFSG.CGT.PushingUpLit.SolKAb

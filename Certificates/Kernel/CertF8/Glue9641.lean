@@ -188,7 +188,7 @@ theorem checkN : D48CheckN := by
   have h := ch9641N
   rw [d48NQ, letQ_eq, letQ_eq, letQ_eq, chkNQ] at h
   simp only [letQ_eq, nChkQ, eqQ_eq, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
-    List.mem_range, List.any_eq_true, and_assoc] at h
+    List.mem_range, List.any_eq_true] at h
   unfold D48CheckN
   intro j hj
   obtain ⟨hn, hg⟩ := h j (List.mem_range.1 hj)

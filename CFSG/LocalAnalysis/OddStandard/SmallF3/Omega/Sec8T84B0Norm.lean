@@ -17,7 +17,7 @@ theorem normal_of_orders {M : Type*} [Group M] {H₁ H₀ : Subgroup M} (hle : H
     have h := Subgroup.relIndex_mul_card (H := H₁) (K := H₀)
     rw [inf_of_le_left hle, h1, h0] at h
     omega
-  haveI : (H₁.subgroupOf H₀).Normal := Subgroup.normal_of_index_eq_two hrel
+  have : (H₁.subgroupOf H₀).Normal := Subgroup.normal_of_index_eq_two hrel
   intro h hh a ha
   exact Subgroup.mem_subgroupOf.mp
     (Subgroup.Normal.conj_mem inferInstance ⟨a, hle ha⟩ (Subgroup.mem_subgroupOf.mpr ha) ⟨h, hh⟩)

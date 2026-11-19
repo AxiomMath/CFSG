@@ -120,7 +120,7 @@ instance finite_SL_three_c3 (K : Type) [Field K] [Finite K] : Finite SL(3, K) :=
     Subtype.val_injective
 
 instance finite_projSL_three_c3 (K : Type) [Field K] [Finite K] : Finite (projSL 3 K) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   infer_instance

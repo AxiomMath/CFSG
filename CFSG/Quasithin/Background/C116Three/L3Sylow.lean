@@ -45,10 +45,10 @@ theorem Pline_inv' {a : L3.Γ} (ha : L3F.Pline a) : L3F.Pline a⁻¹ := by
 
 @[expose] def USub : Subgroup L3.Γ where
   carrier := {γ | L3F.Ustd γ}
-  mul_mem' := fun {a b} ha hb => Ustd_iff.2 ⟨Ppt_mul' (Ustd_iff.1 ha).1 (Ustd_iff.1 hb).1,
+  mul_mem' := fun {_a _b} ha hb => Ustd_iff.2 ⟨Ppt_mul' (Ustd_iff.1 ha).1 (Ustd_iff.1 hb).1,
     Pline_mul' (Ustd_iff.1 ha).2 (Ustd_iff.1 hb).2⟩
   one_mem' := Ustd_iff.2 ⟨Ppt_one', Pline_one'⟩
-  inv_mem' := fun {a} ha => Ustd_iff.2 ⟨Ppt_inv' (Ustd_iff.1 ha).1, Pline_inv' (Ustd_iff.1 ha).2⟩
+  inv_mem' := fun {_a} ha => Ustd_iff.2 ⟨Ppt_inv' (Ustd_iff.1 ha).1, Pline_inv' (Ustd_iff.1 ha).2⟩
 
 theorem card_USub : Nat.card USub = 8 := by
   have h : Nat.card USub = Nat.card {γ : L3.Γ // L3F.Ustd γ} :=
@@ -73,8 +73,8 @@ theorem jw_factorization_168 : (168 : ℕ).factorization 2 = 3 := by
 theorem exists_conj_std (D : L3Data G M C) {P : Subgroup (MulAut V)} (hP : P ≤ G)
     (hP2 : IsPGroup 2 P) :
     ∃ g ∈ G, ∀ x ∈ P, ∃ γ : L3.Γ, L3F.Ustd γ ∧ D.rho γ = g⁻¹ * x * g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥G := Finite.of_surjective D.π D.π_surj
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥G := Finite.of_surjective D.π D.π_surj
   have hcard : Nat.card (sylowQ D) = 2 ^ (Nat.card ↥G).factorization 2 := by
     rw [card_sylowQ, D.card_G, jw_factorization_168]
     norm_num

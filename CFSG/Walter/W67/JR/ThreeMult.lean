@@ -87,7 +87,7 @@ theorem eq_bot_of_layers [Finite E] [Finite L] {π : E →* L} (hπ : Function.S
       intro h
       have := orderOf_le_of_pow_eq_one hj0 h
       omega
-    exact layerConj_free hπ hker hZ3 P.isPGroup' hZ1 ha3 hodd hinv hgN hga haj v hv
+    exact layerConj_free hπ hker hZ3 P.isPGroup hZ1 ha3 hodd hinv hgN hga haj v hv
   have hexpV : ∀ v : LayerQ Pt 0, v ^ 3 = 1 := by
     intro v
     induction v using QuotientGroup.induction_on with

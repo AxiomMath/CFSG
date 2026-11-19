@@ -84,6 +84,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem parL1_exists_complement_of_elemAbelian {F C : Subgroup G} (hF : IsElemAbelian 2 F)
     (hCF : C ≤ F) : ∃ K : Subgroup G, K ≤ F ∧ C ⊓ K = ⊥ ∧ C ⊔ K = F := by
   let _ : CommGroup ↥F := commGroupOfElemAbelian hF

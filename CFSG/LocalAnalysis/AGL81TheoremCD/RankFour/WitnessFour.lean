@@ -57,7 +57,7 @@ theorem exists_witnessFour (hU : uniqueFourUnique G) {p : ℕ} {M : Subgroup G}
   · exact le_trans (by norm_num) (four_le_pRank_sylow hpβ P)
   · simpa [rankThreeGamma, uniqueFourGamma] using hΓ
   · rcases hcase with ⟨hdvd, hstrong⟩ | ⟨h5, hsolv, -, P₀, hP₀⟩
-    · haveI : Fact p.Prime := ⟨hpβ.1⟩
+    · have : Fact p.Prime := ⟨hpβ.1⟩
       have hPne : (P : Subgroup G) ≠ ⊥ :=
         Sylow.ne_bot_of_dvd_card (G := G) (p := p) P hpβ.2.2.1
       have hstr :=

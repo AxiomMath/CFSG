@@ -96,7 +96,7 @@ theorem tau_sq : d.tau * d.tau = 1 := by
 theorem isPGroup_RM : IsPGroup 2 d.RM := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := d.RM_sylow
-  have h1 := T.isPGroup'.map h.M3.subtype
+  have h1 := T.isPGroup.map h.M3.subtype
   rwa [hT, subgroupOf_map_subtype, inf_eq_left.mpr d.RM_le] at h1
 
 theorem Q1_le_RM : h.Q ⊓ h.M3 ≤ d.RM := le_sup_left.trans d.Q1g_le

@@ -14,7 +14,7 @@ open CFSG Subgroup CFSG.Blueprint.Multiplier CFSG.Assembly.LowTwoRank
 theorem sylow_two_card_le_two_of_not_four_dvd {M : Type*} [Group M] [Finite M]
     (h : ¬ 4 ∣ Nat.card M) (S : Sylow 2 M) : Nat.card S ≤ 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 S.isPGroup
   have hdvd : Nat.card S ∣ Nat.card M := S.toSubgroup.card_subgroup_dvd_card
   rw [hk] at hdvd ⊢
   rcases k with _ | _ | k

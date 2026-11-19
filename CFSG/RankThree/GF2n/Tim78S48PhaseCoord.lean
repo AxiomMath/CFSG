@@ -26,7 +26,7 @@ section Acting
 
 variable {Γ W : Type} [Group Γ] [CommGroup W]
 
-def distribActionOfMulAut (ρ : Γ →* MulAut W) : DistribMulAction Γ (Additive W) where
+@[instance_reducible] def distribActionOfMulAut (ρ : Γ →* MulAut W) : DistribMulAction Γ (Additive W) where
   smul γ v := Additive.ofMul (ρ γ (Additive.toMul v))
   one_smul v := by
     show Additive.ofMul (ρ 1 (Additive.toMul v)) = v
@@ -213,6 +213,7 @@ theorem comm_T_W_mem_B (h48 : Hyp48 M B T g) {t : G} (ht : t ∈ T) {w : G}
   exact (Subgroup.mem_normalizer_iff.mp (H.M_le_normalizer_B (H.B_le_M ha)) _).mp h2 |> fun h => by
     simpa using h
 
+omit [Finite G] in
 theorem commute_of_mem_utri {F : Type} [Field F] (D : L2Coords B T g F)
     {y : ↥(T ⊔ conjSubgroup g T)} (hy : D.ε y ∈ utri F) {b : G} (hb : b ∈ B) :
     (y : G) * b = b * (y : G) := by
@@ -231,6 +232,7 @@ theorem commute_of_mem_utri {F : Type} [Field F] (D : L2Coords B T g F)
     _ = (b * y') * ((y'⁻¹ * y : ↥(T ⊔ conjSubgroup g T)) : G) := by rw [hc2]
     _ = b * (y' * ((y'⁻¹ * y : ↥(T ⊔ conjSubgroup g T)) : G)) := by rw [mul_assoc]
 
+omit [Finite G] in
 theorem commute_of_mem_ltri {F : Type} [Field F] (D : L2Coords B T g F)
     {y : ↥(T ⊔ conjSubgroup g T)} (hy : D.ε y ∈ ltri F) {b : G} (hb : b ∈ conjSubgroup g B) :
     (y : G) * b = b * (y : G) := by
@@ -301,8 +303,8 @@ theorem exists_natural_W (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXW : XX ≤ Subgroup.normalizer (WW : Set G) := H.X_le_normalizer_W h48
   have hWe : Assembly.IsElemAbelian 2 WW := H.W_elem h48
-  haveI : IsMulCommutative ↥WW := hWe.1
-  letI : CommGroup ↥WW := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥WW := hWe.1
+  let : CommGroup ↥WW := IsMulCommutative.instCommGroup
   let ε := D.ε
   let φ₀ : ↥XX →* MulAut ↥WW := (Subgroup.normalizerMonoidHom WW).comp (Subgroup.inclusion hXW)
   have hφ₀ : ∀ (x : ↥XX) (w : ↥WW), ((φ₀ x w : ↥WW) : G) = (x : G) * w * (x : G)⁻¹ :=
@@ -318,7 +320,7 @@ theorem exists_natural_W (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   have hρ : ∀ x : ↥XX, ρ (ε x) = φ₀ x := fun x =>
     ε.liftOfRightInverse_comp_apply (Function.surjInv D.surj)
       (Function.rightInverse_surjInv D.surj) ⟨φ₀, hkerφ⟩ x
-  letI : DistribMulAction SL(2, F) (Additive ↥WW) := distribActionOfMulAut ρ
+  let : DistribMulAction SL(2, F) (Additive ↥WW) := distribActionOfMulAut ρ
   have hsmul : ∀ (x : ↥XX) (v : Additive ↥WW),
       ((((ε x) • v).toMul : ↥WW) : G) = (x : G) * (v.toMul : G) * (x : G)⁻¹ := fun x v => by
     show ((ρ (ε x) v.toMul : ↥WW) : G) = _

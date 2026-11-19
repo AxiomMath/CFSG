@@ -53,19 +53,19 @@ theorem isSolvable_sup_of_perm_odd_two {G : Type} [Group G] [Finite G] {B U : Su
     apply Subtype.ext
     exact hBab x (Subgroup.mem_subgroupOf.1 hx) y (Subgroup.mem_subgroupOf.1 hy)
   have hA_nil : Group.IsNilpotent ↥(B.subgroupOf (B ⊔ U)) := by
-    letI : CommGroup ↥(B.subgroupOf (B ⊔ U)) :=
+    let : CommGroup ↥(B.subgroupOf (B ⊔ U)) :=
       { (inferInstance : Group ↥(B.subgroupOf (B ⊔ U))) with
         mul_comm := fun x y => hA_comm x y }
     infer_instance
   have hUsub : IsPGroup 2 (U.subgroupOf (B ⊔ U)) := by
     exact hU.of_equiv (Subgroup.subgroupOfEquivOfLe (le_sup_right : U ≤ B ⊔ U)).symm
   have hC_nil : Group.IsNilpotent ↥(U.subgroupOf (B ⊔ U)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact hUsub.isNilpotent
   have hcardA : Nat.card ↥(B.subgroupOf (B ⊔ U)) = Nat.card B :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_sup_left : B ≤ B ⊔ U)).toEquiv
   have hcardU : ∃ n : ℕ, Nat.card ↥(U.subgroupOf (B ⊔ U)) = 2 ^ n := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (IsPGroup.iff_card).1 hUsub
   obtain ⟨n, hn⟩ := hcardU
   have hcop : Nat.Coprime (Nat.card ↥(B.subgroupOf (B ⊔ U)))

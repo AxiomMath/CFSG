@@ -44,14 +44,14 @@ theorem layer_eq_bot_of_forall_component_le (h74 : AGL81SevenFourTwo) (hOut : KF
 theorem isCyclic_center_of_layer_eq_bot (h : ReducedNongeneration p Y Rb Y₀)
     (hlayer : CFSG.layer Y = ⊥) : IsCyclic (Subgroup.center (Rb : Subgroup Y)) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q := CFSG.pCore p Y with hQ
   have hQp : IsPGroup p Q := CFSG.pCore_isPGroup
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hQR : Q ≤ (Rb : Subgroup Y) := hQp.le_sylow_of_normal Rb
   have hQc : Subgroup.centralizer (Q : Set Y) ≤ Q :=
     CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot Y p h.core_eq_bot hlayer
-  haveI hZ : IsCyclic (Subgroup.center Q) :=
+  have hZ : IsCyclic (Subgroup.center Q) :=
     h.isCyclic_of_characteristic_of_isMulCommutative (Subgroup.center Q)
       (IsMulCommutative.of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a))
   have hcomm : ∀ z : Subgroup.center (Rb : Subgroup Y), ∀ q ∈ Q,
@@ -80,11 +80,11 @@ theorem isCyclic_center_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo) (hOut : KFact
     (hB : CFSG.ABGLocalTools.IsSylowOf p B (N ⊓ M)) (hB3 : 3 ≤ Open.pRank p B) :
     IsCyclic ↥(Subgroup.center ↥B) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS⟩ := hB
   have hBNM : B ≤ N ⊓ M := hS ▸ Subgroup.map_subtype_le _
   have hBM : B ≤ M := hBNM.trans inf_le_right
-  have hBp : IsPGroup p B := hS ▸ S.isPGroup'.map _
+  have hBp : IsPGroup p B := hS ▸ S.isPGroup.map _
   have hBQ : IsAGLQ p M B :=
     ⟨hBM, hBp, Or.inl (by rw [CFSG.SectionRank.pRank_coe_eq_openPRank]; exact hB3)⟩
   have hBin : CFSG.Quasithin.IsSylowIn p B (N ⊓ M) := by
@@ -124,7 +124,7 @@ theorem isCyclic_center_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo) (hOut : KFact
     have hLK : L ≤ d1KBar p M N := le_iSup₂_of_le L ⟨hL, hLX⟩ le_rfl
     rw [hK] at hLK
     exact hLX (hLK.trans bot_le)
-  haveI hc := isCyclic_center_of_layer_eq_bot hred
+  have hc := isCyclic_center_of_layer_eq_bot hred
     (layer_eq_bot_of_forall_component_le h74 hOut hred hX hle)
   set π := QuotientGroup.mk' (primeComplementCore (G := N) p) with hπ
   have hO : p.Coprime (Nat.card (primeComplementCore (G := N) p)) :=
@@ -134,7 +134,7 @@ theorem isCyclic_center_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo) (hOut : KFact
     have hxO : (x : N) ∈ primeComplementCore (G := N) p := by
       rw [← QuotientGroup.ker_mk' (primeComplementCore (G := N) p)]
       exact hx
-    obtain ⟨k, hk⟩ := T.isPGroup' x
+    obtain ⟨k, hk⟩ := T.isPGroup x
     have h1 : orderOf (x : N) ∣ p ^ k :=
       orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
     have h2 : orderOf (x : N) ∣ Nat.card (primeComplementCore (G := N) p) :=

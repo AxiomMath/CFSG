@@ -123,9 +123,9 @@ private theorem homVal_congr (I : TabI M inv c RW PAR LAB INV) {t t' : List Nat}
   | f + 1, a, ha => by
     unfold homVal
     by_cases h0 : a = 0
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
     · have hp := I.par_lt a ha (Nat.pos_of_ne_zero h0)
-      rw [if_neg h0, if_neg h0, I.lab_eq a ha, h _ (I.lab_lt a ha (Nat.pos_of_ne_zero h0)),
+      rw [ite_eq_right h0, ite_eq_right h0, I.lab_eq a ha, h _ (I.lab_lt a ha (Nat.pos_of_ne_zero h0)),
         I.par_eq a ha, homVal_congr I h f _ (by omega)]
 
 private theorem ix_homTab_val {t : List Nat} {a : Nat} (ha : a < 2048) :
@@ -252,7 +252,7 @@ private theorem letter_eq (I : TabI M inv c RW PAR LAB INV) {gi : List Nat}
   by_cases h12 : l < 12
   · have e1 : letterTab 2048 M inv gi K l =
         tab 2048 (fun a => mt M (mt M (ix inv (letF inv gi l)) a) (letF inv gi l)) := by
-      unfold letterTab; rw [if_pos h12]; rfl
+      unfold letterTab; rw [ite_eq_left h12]; rfl
     have e2 : czLetterAt RW INV (czPack gi) KS KI l a = czMt RW (czMt RW
         (fget INV (czLet INV (czPack gi) l) 11) a) (czLet INV (czPack gi) l) := by
       unfold czLetterAt; rw [Nat.blt_eq.mpr h12]
@@ -265,14 +265,14 @@ private theorem letter_eq (I : TabI M inv c RW PAR LAB INV) {gi : List Nat}
       · exact absurd (Nat.blt_eq.mp e) h12
     by_cases h2 : l % 2 = 0
     · have e1 : letterTab 2048 M inv gi K l = K.getD (l / 2 - 6) #[] := by
-        unfold letterTab; rw [if_neg h12, if_pos h2]
+        unfold letterTab; rw [ite_eq_right h12, ite_eq_left h2]
       have e2 : czLetterAt RW INV (czPack gi) KS KI l a =
           fget (neGet 0 KS (l / 2 - 6)) a 11 := by
         have hb2 : Nat.beq (Nat.mod l 2) 0 = true := Nat.beq_eq.mpr h2
         unfold czLetterAt; rw [hb, hb2]; try rfl
       rw [e1, e2, hK _ hj a ha]
     · have e1 : letterTab 2048 M inv gi K l = invCand 2048 (K.getD (l / 2 - 6) #[]) := by
-        unfold letterTab; rw [if_neg h12, if_neg h2]
+        unfold letterTab; rw [ite_eq_right h12, ite_eq_right h2]
       have hb2 : Nat.beq (Nat.mod l 2) 0 = false := by
         cases e : Nat.beq (Nat.mod l 2) 0
         · rfl

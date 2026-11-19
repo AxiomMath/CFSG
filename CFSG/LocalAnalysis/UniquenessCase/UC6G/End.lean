@@ -17,9 +17,9 @@ namespace Mz614
 
 variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 
-theorem Z_le_normalizer_L : m.Z ≤ normalizer (m.L : Set G) := fun z hz =>
+theorem Z_le_normalizer_L : m.Z ≤ normalizer (m.L : Set G) := fun _z hz =>
   (Subgroup.centralizer_le_normalizer (m.L : Set G))
-    (mem_centralizer_iff.2 fun l hl => (m.Z_comm_L hz hl).symm)
+    (mem_centralizer_iff.2 fun _l hl => (m.Z_comm_L hz hl).symm)
 
 theorem Z_le_X : m.Z ≤ m.K ⊓ normalizer (m.L : Set G) := le_inf m.Z_le_K m.Z_le_normalizer_L
 
@@ -55,7 +55,7 @@ theorem false_of_claims (h67 : R6_7 Dat) (h619 : m.C619) (h620 : m.C620)
       exact sup_le (h620.1.trans hZLY) (le_sup_right.trans hZLY)
     have hNtop : normalizer (Y : Set G) ≠ ⊤ := by
       intro h
-      haveI : (Y).Normal := Subgroup.normalizer_eq_top_iff.1 h
+      have : (Y).Normal := Subgroup.normalizer_eq_top_iff.1 h
       rcases Dat.standing.simple.eq_bot_or_eq_top_of_normal Y with hb | ht
       · exact hY1 hb
       · have hYM : Y ≤ m.M := hYX.trans (hXK.trans m.K_le_M)

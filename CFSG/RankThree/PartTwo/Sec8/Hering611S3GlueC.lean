@@ -17,6 +17,7 @@ open scoped Bracket
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem glueC_mem_normalizer {S : Subgroup G} {g : G} (h : ∀ s ∈ S, g * s = s * g) :
     g ∈ Subgroup.normalizer (S : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -106,7 +107,7 @@ theorem Cfg611.card_inf_K (C : Cfg611 G A c L E T d S K)
     (hZ : Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) = ⊥)
     (hAdec : ∀ x ∈ A, ∃ k ∈ A ⊓ K, x * k⁻¹ ∈ Subgroup.zpowers d) :
     Nat.card (A ⊓ K : Subgroup G) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 := C.toFrame611.d_pow_three
   have hd1 := C.toFrame611.d_ne_one
   have hdA := C.toFrame611.d_mem_A
@@ -148,7 +149,7 @@ theorem Cfg611.card_inf_K (C : Cfg611 G A c L E T d S K)
   omega
 
 theorem Cfg611.invariant_of_gens (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d S K) {k : K} {j : ℤ}
-    (hkA : (k : G) ∈ A) (hck : c = d ^ j * (k : G))
+    (_hkA : (k : G) ∈ A) (hck : c = d ^ j * (k : G))
     {a : G} (haA : a ∈ A) (haK : a ∈ K) {W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)}
     (hk : QuotientGroup.mk' (aschbacherSolvableCore 3 K) k ∈
       Subgroup.normalizer (W : Set (K ⧸ aschbacherSolvableCore 3 K)))
@@ -195,7 +196,7 @@ theorem Cfg611.invariant_of_gens (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d 
   exact (hxW w).mp hw
 
 theorem Cfg611.thetaBarAct_y (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d S K) {k : K} {j : ℤ}
-    (hkA : (k : G) ∈ A) (hck : c = d ^ j * (k : G)) {a : G} (haA : a ∈ A) (haK : a ∈ K)
+    (_hkA : (k : G) ∈ A) (hck : c = d ^ j * (k : G)) {a : G} (haA : a ∈ A) (haK : a ∈ K)
     (m : ℕ) (hyN : c * a ^ m ∈ Subgroup.normalizer (K : Set G)) :
     Sec12.thetaBarAct K ⟨c * a ^ m, hyN⟩ = MulAut.conj
       (QuotientGroup.mk' (aschbacherSolvableCore 3 K) k *

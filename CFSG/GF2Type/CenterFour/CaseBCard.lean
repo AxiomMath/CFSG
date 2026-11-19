@@ -61,7 +61,7 @@ private theorem card_inf_centerAt (hC : Config z n) {g : G}
   generalize Nat.card (coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G) ⊓ centerAt z : Subgroup G) =
     m at hdvd hne4 hne1 ⊢
   have hle : m ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd
-  interval_cases m <;> first | omega | norm_num at hdvd
+  interval_cases m <;> first | omega
 
 theorem CaseB.card_sup (hC : Config z n) {g : G}
     (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
@@ -78,6 +78,7 @@ theorem CaseB.card_sup (hC : Config z n) {g : G}
   rw [card_inf_centerAt hC hH hK, hC.card_center] at hprod
   omega
 
+omit [Finite G] in
 private theorem psi_eq_iff_inv_mul_mem (hC : Config z n) {z₁ a b : G} (ha : a ∈ coreAt z)
     (hb : b ∈ coreAt z) :
     psi z₁ a = psi z₁ b ↔ a⁻¹ * b ∈ coreAt z ⊓ centralizer ({z₁} : Set G) := by
@@ -90,6 +91,7 @@ private theorem psi_eq_iff_inv_mul_mem (hC : Config z n) {z₁ a b : G} (ha : a 
     have h' := inv_mem_iff.mpr h
     rwa [mul_inv_rev, inv_inv] at h'
 
+omit [Finite G] in
 theorem CaseB.ncard_range_psi (hC : Config z n) (z₁ : G) :
     Set.ncard ((fun q => psi z₁ q) '' (coreAt z : Set G)) *
         Nat.card (coreAt z ⊓ centralizer ({z₁} : Set G) : Subgroup G) =
@@ -174,6 +176,7 @@ theorem CaseB.card (hC : Config z n) {g : G}
     linarith
   exact eq_pow_of_dvd_bounds hdvd hle hsq
 
+omit [Finite G] in
 private theorem sq_eq_one_of_mem_zpowers {y : G} (hy2 : y ^ 2 = 1) {q : G}
     (hq : q ∈ Subgroup.zpowers y) : q ^ 2 = 1 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hq
@@ -181,6 +184,7 @@ private theorem sq_eq_one_of_mem_zpowers {y : G} (hy2 : y ^ 2 = 1) {q : G}
   have h : y ^ ((2 : ℕ) : ℤ) = 1 := by simpa using hy2
   rw [h, one_zpow]
 
+omit [Finite G] in
 private theorem commute_zpowers {R₁ : Subgroup G} {y : G} (hyR : ∀ r ∈ R₁, y * r = r * y) :
     ∀ x ∈ R₁, ∀ w ∈ Subgroup.zpowers y, x * w = w * x := by
   intro x hx w hw

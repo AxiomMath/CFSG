@@ -110,7 +110,7 @@ theorem isFiveReflectionModel_four_true_false_of_derived {G : Type} [Group G] [F
     intro g
     rfl
   refine ⟨ψ, fun g => ?_⟩
-  rw [Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq]
   constructor
   · intro hconj
     have hconjΦ : IsConj (Φ u) (Φ g) := MonoidHom.map_isConj Φ.toMonoidHom hconj

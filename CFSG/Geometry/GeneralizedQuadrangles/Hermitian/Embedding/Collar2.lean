@@ -62,7 +62,7 @@ theorem isFullSubquadrangle_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
     have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero hy₀S.1 hL.1
     have hL'1 : c L' = 1 := color_eq_one_of_adj_of_color_eq_zero hy₀S.1 hL'.1
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hL1]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hL1]; decide)]
     have hLlt : 1 < (Γ.neighborSet L).ncard := by
       rw [ncard_neighborSet]
       omega
@@ -75,7 +75,7 @@ theorem isFullSubquadrangle_collar (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
     obtain ⟨N, hN, hNL⟩ := Set.exists_ne_of_one_lt_ncard h2ltx L
     have hN1 : c N = 1 := color_eq_one_of_adj_of_color_eq_zero hx0 hN.1
     have hdegN : Γ.degree N = s + 1 := by
-      rw [hdeg N, if_neg (by rw [hN1]; decide)]
+      rw [hdeg N, ite_eq_right (by rw [hN1]; decide)]
     have hNlt : 1 < (Γ.neighborSet N).ncard := by
       rw [ncard_neighborSet]
       omega
@@ -185,7 +185,7 @@ theorem polar_ne_ambient (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     subquadrangleColoring c P'
   let B : Submodule K W := polar c ι X
   have hBA : B ≤ A := polar_le_ambient hι X
-  haveI : FiniteDimensional K B := Submodule.finiteDimensional_of_le hBA
+  have : FiniteDimensional K B := Submodule.finiteDimensional_of_le hBA
   have hP' : IsGeneralizedPolygon (Γ.induce (subquadrangleSet Γ c P')) 4 :=
     isGeneralizedPolygon_subquadrangleGraph hP hT c hdeg hF
   have hT' : IsThick (Γ.induce (subquadrangleSet Γ c P')) :=
@@ -207,13 +207,13 @@ theorem polar_ne_ambient (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     · have hveq : v = ⟨v.1, mem_subquadrangleSet.mpr (Or.inl hvP)⟩ := Subtype.ext rfl
       rw [hveq, degree_subquadrangleGraph_of_mem_point c hF hvP]
       have hv0 : c' v = 0 := hF.1 v.1 hvP
-      rw [if_pos hv0]
+      rw [ite_eq_left hv0]
     · have hveq : v =
           ⟨v.1, mem_subquadrangleSet.mpr (Or.inr (mem_subquadrangleLines.mp hvL))⟩ :=
         Subtype.ext rfl
       rw [hveq, degree_subquadrangleGraph_of_mem_line c hdeg hF hvL]
       have hv1 : c' v = 1 := (mem_subquadrangleLines.mp hvL).1
-      rw [if_neg (by rw [hv1]; decide)]
+      rw [ite_eq_right (by rw [hv1]; decide)]
   intro hBAeq
   have hB5 : finrank K B = 5 := by
     change finrank K (polar c ι X) = 5
@@ -296,14 +296,14 @@ theorem le_polar_self_iff (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   constructor
   · intro hle
     by_contra hXP
-    haveI : Finite A := Module.finite_of_finite K
-    haveI : Finite {M : Submodule K W // M ≤ A} := by
-      haveI : Finite (Submodule K A) :=
+    have : Finite A := Module.finite_of_finite K
+    have : Finite {M : Submodule K W // M ≤ A} := by
+      have : Finite (Submodule K A) :=
         Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
       exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
     let Ssub : Set (Submodule K W) :=
       {M | X ≤ M ∧ M ≤ polar c ι X ∧ finrank K M = finrank K X + 1}
-    haveI : FiniteDimensional K (polar c ι X) :=
+    have : FiniteDimensional K (polar c ι X) :=
       Submodule.finiteDimensional_of_le (polar_le_ambient hι X)
     have hSsubcard : Ssub.ncard = s ^ 2 + s + 1 := by
       have hdim : finrank K (polar c ι X) = 4 := by
@@ -324,7 +324,7 @@ theorem le_polar_self_iff (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
         finrank K M = finrank K X + 1} = s ^ 2 + s + 1
       rw [h, hsum]
       ring
-    haveI : Finite Ssub :=
+    have : Finite Ssub :=
       Finite.of_injective (fun M : Ssub =>
         (⟨M.1, M.2.2.1.trans (polar_le_ambient hι X)⟩ : {M : Submodule K W // M ≤ A}))
         (fun a b h => Subtype.ext
@@ -392,7 +392,7 @@ theorem le_polar_self_iff (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
         rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
         simp [Finset.bipartiteBelow]
       rw [hcard, Nat.card_congr e, Nat.card_coe_set_eq, ncard_neighborSet, hdeg y.1,
-        if_pos hy0]
+        ite_eq_left hy0]
     have hdouble := Finset.card_mul_le_card_mul
       (r := fun (L : Lall) (y : {y : V // y ∈ collar c ι X}) => Γ.Adj L.1 y.1)
       (s := (Finset.univ : Finset Lall))
@@ -449,9 +449,9 @@ theorem eq_of_polar_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   let R : Submodule K W := D ⊓ polar c ι X
   have hRA : R ≤ A := (inf_le_left : D ⊓ polar c ι X ≤ D).trans hDA
   have hR1 : finrank K R = 1 := by
-    haveI : FiniteDimensional K D := Submodule.finiteDimensional_of_le hDA
-    haveI : FiniteDimensional K (polar c ι X) := Submodule.finiteDimensional_of_le hPXA
-    haveI : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRA
+    have : FiniteDimensional K D := Submodule.finiteDimensional_of_le hDA
+    have : FiniteDimensional K (polar c ι X) := Submodule.finiteDimensional_of_le hPXA
+    have : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRA
     have hsup : D ⊔ polar c ι X = A := by
       have hle : D ⊔ polar c ι X ≤ A := sup_le hDA hPXA
       have hlt : polar c ι X < D ⊔ polar c ι X := by
@@ -479,7 +479,7 @@ theorem eq_of_polar_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   have hmono : polar c ι X ≤ polar c ι R := by
     refine iSup_le fun y => ?_
     exact le_polar_of_mem_collar (hSsub y.2)
-  haveI : FiniteDimensional K (polar c ι R) :=
+  have : FiniteDimensional K (polar c ι R) :=
     Submodule.finiteDimensional_of_le (polar_le_ambient hι R)
   have hXdim := finrank_polar_add_one hP hT c hdeg hι hsec hℓ h5 hX1 hXA
   have hRdimp := finrank_polar_add_one hP hT c hdeg hι hsec hℓ h5 hR1 hRA

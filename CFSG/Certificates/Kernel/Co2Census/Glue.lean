@@ -115,7 +115,7 @@ theorem coset_eq (hgen : jGenK GJ = true) (henum : jEnumK GJ JE JS = true)
   have e2 : jm ((w ^^^ vmF 10 (PE (CL s)) w) ^^^ SC s) = jm 0 :=
     calc jm ((w ^^^ vmF 10 (PE (CL s)) w) ^^^ SC s)
         = jm w * (jm (vmF 10 (PE (CL s)) w) * MatP 22 (LT s)) * MatP 22 (LT s) := by
-          rw [jm_xor hgen henum, jm_xor hgen henum, ← hsc]
+          rw [jm_xor hgen, jm_xor hgen, ← hsc]
           simp only [mul_assoc]
       _ = jm w * (MatP 22 (LT s) * jm w) * MatP 22 (LT s) := by rw [← hL w hw]
       _ = y * y := by
@@ -152,9 +152,9 @@ theorem conj_coset (hgen : jGenK GJ = true) (henum : jEnumK GJ JE JS = true)
   have e1 : MatP 22 (LT s) * jm w' = jm (vmF 10 (PE (CL s)) w') * MatP 22 (LT s) := hL w' hw'
   rw [he, ((jEnum_sound henum).1 _ hRk).2]
   calc jm w' * (jm (repAt (RR s) k) * MatP 22 (LT s))
-      = jm (w' ^^^ repAt (RR s) k) * MatP 22 (LT s) := by rw [jm_xor hgen henum, mul_assoc]
+      = jm (w' ^^^ repAt (RR s) k) * MatP 22 (LT s) := by rw [jm_xor hgen, mul_assoc]
     _ = jm (w ^^^ vmF 10 (PE (CL s)) w') * MatP 22 (LT s) := by rw [hx]
-    _ = jm w * MatP 22 (LT s) * jm w' := by rw [jm_xor hgen henum, mul_assoc, ← e1, ← mul_assoc]
+    _ = jm w * MatP 22 (LT s) * jm w' := by rw [jm_xor hgen, mul_assoc, ← e1, ← mul_assoc]
 
 theorem census_T (hgen : jGenK GJ = true) (henum : jEnumK GJ JE JS = true)
     (hin : jInTK G GJ JW JL = true) (hco : coordAllK G GJ JE MK = true)

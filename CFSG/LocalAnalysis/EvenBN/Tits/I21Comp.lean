@@ -23,7 +23,7 @@ theorem exists_fixed_involution {K : Type*} [Group K] [Finite K] (α : K →* K)
     (hα : ∀ x, α (α x) = x) (heven : 2 ∣ Nat.card K) :
     ∃ i : K, i ≠ 1 ∧ i ^ 2 = 1 ∧ α i = i := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let f : Function.End K := ⇑α
   have hf : f ^ 2 ^ 1 = 1 := by
     rw [pow_one, sq]
@@ -104,8 +104,8 @@ theorem false_of_commute_conj {K : Subgroup G} [Nontrivial K] [Group.IsPerfect K
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hcent g g.2 l hlK')
-  haveI : Group.IsSolvable (center K) := inferInstance
-  haveI := hsol
+  have : Group.IsSolvable (center K) := inferInstance
+  have := hsol
   exact Group.IsPerfect.not_isSolvable K (Group.isSolvable_of_ker_le_range _ φ' hker)
 
 end Invariance
@@ -133,8 +133,8 @@ theorem sec622_component_t_invariant (h : Sec622Bar G t u x) {K : Subgroup G}
   rcases CFSG.LocalCores.distinct_components_commute hK hK' with heq | hcomm
   · exact heq.symm
   · exfalso
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-    haveI : Group.IsPerfect K := hK.1.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    have : Group.IsPerfect K := hK.1.1
     exact I21.Comp.false_of_commute_conj h.secTwo.t_mul_t (sec622_centralizer_solvable h) hcomm
 
 theorem sec622_component_contains_zj (h : Sec622Bar G t u x)
@@ -144,7 +144,7 @@ theorem sec622_component_contains_zj (h : Sec622Bar G t u x)
     ∃ j : ℕ, x ^ j * u ^ 2 ∈ K := by
   obtain ⟨N, hNn, hNi, htN⟩ := hN
   have hKN : K ≤ N := sec622_le_of_perfect hNn hNi hK.1.1
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
   have hpp : CFSG.pPrimeCore 2 G = ⊥ := I21.Comp.pPrimeCore_eq_bot h.oddCore
   have heven : 2 ∣ Nat.card K := by
     by_contra hnd

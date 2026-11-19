@@ -283,10 +283,10 @@ theorem tgt_spec (i : Nat) {z : PG 6 R18} (hz : HasFact i z) :
     xR i * z * gen18 5 * (xR (tgt hc hd hbc i z).val * tgtElt i z)⁻¹ ∈ Hcd := by
   have ht : (tgt hc hd hbc i z).val = (nt.getD hz.choose (0, 0)).2 := by
     unfold tgt
-    rw [dif_pos hz]
+    rw [dite_eq_left hz]
   have hv : tgtElt i z = val (wordOf (vw.getD hz.choose [])) := by
     unfold tgtElt
-    rw [dif_pos hz]
+    rw [dite_eq_left hz]
   rw [ht, hv]
   obtain ⟨hp, hi, hzp⟩ := hz.choose_spec
   obtain ⟨-, -, -, -, ha, e⟩ := fact_holds hc hd hbc hp
@@ -356,7 +356,7 @@ theorem hgen : Subgroup.closure ((Hcd : Set (PG 6 R18)) ∪ {gen18 5}) = ⊤ := 
   · apply Subgroup.subset_closure
     left
     have e : (PresentedGroup.of i : PG 6 R18) = val [(i, true)] := by
-      simp [val, lift_mk_cons, lift_mk_nil]
+      simp [val]
     rw [e]
     exact val_mem hc hd hbc ((isBWord_iff _).2 (by simpa using hi))
   · apply Subgroup.subset_closure

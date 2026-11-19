@@ -44,20 +44,20 @@ private theorem dHom_range_card (hp : p.Prime) {u : MulAut (Fin k → Multiplica
     (hcard : Nat.card {f : Fin k → Multiplicative (ZMod p) // u f = f} * p =
       Nat.card (Fin k → Multiplicative (ZMod p))) :
     Nat.card (dHom u).range = p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hV : Nat.card (Fin k → Multiplicative (ZMod p)) =
       Nat.card (dHom u).range * Nat.card (dHom u).ker :=
     (TableB.card_range_mul_card_ker _).symm
   have h2 : Nat.card (dHom u).range * Nat.card (dHom u).ker = p * Nat.card (dHom u).ker := by
     rw [← hV, dHom_ker_card, ← hcard, mul_comm]
   have hKpos : 0 < Nat.card (dHom u).ker := by
-    haveI : Nonempty (dHom u).ker := ⟨⟨1, (dHom u).ker.one_mem⟩⟩
+    have : Nonempty (dHom u).ker := ⟨⟨1, (dHom u).ker.one_mem⟩⟩
     exact Nat.card_pos
   exact Nat.mul_right_cancel hKpos h2
 
 private theorem coord_supp (hp : p.Prime) {x y : Fin k → Multiplicative (ZMod p)} (hy : y ≠ 1)
     (hpow : ∃ c : ℕ, x ^ c = y) : ∀ j, toAdd (y j) = 0 ↔ toAdd (x j) = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := hpow
   have h1 : ∀ j, toAdd (y j) = ((c : ℕ) : ZMod p) * toAdd (x j) := fun j => by
     rw [← hc]
@@ -78,7 +78,7 @@ private theorem mem_supp_self (hp : p.Prime) {u : MulAut (Fin k → Multiplicati
     (hπ : ∀ f i, toAdd (u f (π i)) = ε i * toAdd (f i)) (j : Fin k)
     (hj : dHom u (Pi.mulSingle j (ofAdd 1)) ≠ 1) :
     toAdd (dHom u (Pi.mulSingle j (ofAdd 1)) j) ≠ 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   by_cases hpj : π j = j
   · intro h0
     apply hj
@@ -132,8 +132,8 @@ theorem signedRefl_cases (hp : p.Prime) (hp2 : p ≠ 2) {u : MulAut (Fin k → M
       Nat.card (Fin k → Multiplicative (ZMod p))) :
     (∃ a, u = sgnAut a) ∨ ∃ x : OmPlusIdx k, u = omPlusRefl p x := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, ε, hε, hπ⟩ := hu
   have hrange : Nat.card (dHom u).range = p := dHom_range_card hp hcard
   have hex : ∃ i, dHom u (Pi.mulSingle i (ofAdd 1)) ≠ 1 := by
@@ -146,7 +146,7 @@ theorem signedRefl_cases (hp : p.Prime) (hp2 : p ≠ 2) {u : MulAut (Fin k → M
       have hr : (1 : (Fin k → Multiplicative (ZMod p)) →*
           (Fin k → Multiplicative (ZMod p))).range = ⊥ := by
         ext x
-        simp [MonoidHom.mem_range, eq_comm]
+        simp
       rw [hr]
       exact Subgroup.card_bot
     rw [hrange] at h1
@@ -202,7 +202,7 @@ theorem signedRefl_cases (hp : p.Prime) (hp2 : p ≠ 2) {u : MulAut (Fin k → M
       refine (dHom_eq_one_iff hp hπ hε j).mp ?_
       by_contra hdj
       refine hmem j hdj ((hsupp j hdj j).mpr ?_)
-      rw [hx0 j, if_neg hj1, if_neg hj0]
+      rw [hx0 j, ite_eq_right hj1, ite_eq_right hj0]
       ring
     have hπi1 : π i1 = i0 := by
       by_contra hne
@@ -267,8 +267,7 @@ theorem signedRefl_cases (hp : p.Prime) (hp2 : p ≠ 2) {u : MulAut (Fin k → M
         · by_cases h1 : l = i1
           · subst h1
             simp [Function.update_self, Function.update_of_ne hi1, Equiv.swap_apply_left]
-          · simp [Function.update_of_ne h0, Function.update_of_ne h1,
-              Equiv.swap_apply_of_ne_of_ne h1 h0, Equiv.swap_apply_of_ne_of_ne h0 h1, h0, h1]
+          · simp [Equiv.swap_apply_of_ne_of_ne h1 h0, Equiv.swap_apply_of_ne_of_ne h0 h1, h0, h1]
     ·
       refine Or.inr ⟨(⟨(i0, i1), hlt⟩, decide (ε i0 = -1)), MulEquiv.ext fun f =>
         eq_of_toAdd_eq fun l => ?_⟩
@@ -287,8 +286,7 @@ theorem signedRefl_cases (hp : p.Prime) (hp2 : p ≠ 2) {u : MulAut (Fin k → M
         · by_cases h1 : l = i1
           · subst h1
             simp [Function.update_self, Function.update_of_ne hi1, Equiv.swap_apply_right]
-          · simp [Function.update_of_ne h0, Function.update_of_ne h1,
-              Equiv.swap_apply_of_ne_of_ne h0 h1, h0, h1]
+          · simp [Equiv.swap_apply_of_ne_of_ne h0 h1, h0, h1]
 
 end RealKGSignedRefl
 

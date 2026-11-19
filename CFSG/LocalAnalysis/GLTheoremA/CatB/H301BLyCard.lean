@@ -21,6 +21,7 @@ theorem Config.fixed_unique {E : Subgroup (Perm X)} (c : Config E) {x y z : X}
     | exact absurd (h1.trans h2.symm) hxy
     | exact absurd (h3.trans h2.symm) hzy
 
+omit [Fintype X] [DecidableEq X] in
 theorem le_normalizer_inf_stabilizer {E T : Subgroup (Perm X)} (hET : E ≤ normalizer T) {x : X}
     (hx : ∀ e ∈ E, e x = x) :
     E ≤ normalizer (T ⊓ stabilizer (Perm X) x : Subgroup (Perm X)) := fun e he =>

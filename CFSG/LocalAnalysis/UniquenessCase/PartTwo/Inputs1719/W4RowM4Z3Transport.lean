@@ -32,14 +32,14 @@ theorem fi22_outer_transport
       (∀ p ∈ fi22P, ∃ l : ↥L, F (Subgroup.inclusion hLY l) = p) ∧
       (∀ y : ↥Y, F y ∈ fi22P → (y : MulAut W) ∈ L) ∧
       (∀ l : ↥L, F (Subgroup.inclusion hLY l) = 1 → l ∈ Subgroup.center ↥L) := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   let L' : Subgroup ↥Y := L.subgroupOf Y
-  haveI : L'.Normal := hLn
+  have : L'.Normal := hLn
   let ι : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLY
   have hperf' : commutator ↥L' = ⊤ := by
-    haveI : Group.IsPerfect ↥L := hq.1
-    haveI : Group.IsPerfect ↥L' :=
+    have : Group.IsPerfect ↥L := hq.1
+    have : Group.IsPerfect ↥L' :=
       Group.IsPerfect.ofSurjective (f := ι.symm.toMonoidHom) ι.symm.surjective
     exact Group.IsPerfect.commutator_eq_top
   let qiso : ↥L' ⧸ Subgroup.center ↥L' ≃* ↥L ⧸ Subgroup.center ↥L :=

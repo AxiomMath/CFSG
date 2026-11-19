@@ -22,11 +22,11 @@ theorem ggK1D_raw_plus {p nf r : ℕ} (h4 : 4 ≤ r) (Q : LargeEvenRawCont)
       Q R I F ∧ GGK1Cont GGMultValidCl p ⟨.D, r, nf⟩ R I := by
   have h3 : r ≠ 3 := by omega
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg h3] at hQ ⊢
+  rw [ite_eq_right h3] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1D_raw_minus {p nf r : ℕ} (h4 : 4 ≤ r) (Q : LargeEvenRawCont)
@@ -41,11 +41,11 @@ theorem ggK1D_raw_minus {p nf r : ℕ} (h4 : 4 ≤ r) (Q : LargeEvenRawCont)
   have h2 : r ≠ 2 := by omega
   have h3 : r ≠ 3 := by omega
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg h2, if_neg h3] at hQ ⊢
+  rw [ite_eq_right h2, ite_eq_right h3] at hQ ⊢
   obtain ⟨K, i1, i2, hK, b, c, hirr, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, b, c, hirr, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK b c hirr
 
 theorem ggK1D_coprime_center_plus (hS : GGK0Schur GGKacGenericClD)
@@ -73,7 +73,7 @@ theorem ggK1D_coprime_center_plus (hS : GGK0Schur GGKacGenericClD)
   have hQpin : LargeEvenRawDatum ⟨.D, r, nf⟩
       (fun R _ _ _ => Nonempty (R ≃* LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K r)))) := by
     dsimp only [LargeEvenRawDatum]
-    rw [if_neg (show r ≠ 3 by omega)]
+    rw [ite_eq_right (show r ≠ 3 by omega)]
     exact ⟨K, inferInstance, inferInstance, hKcard, ⟨MulEquiv.refl _⟩⟩
   have hSchur := hS p ⟨.D, r, nf⟩ hlab hgenD _ hQpin
   obtain ⟨R₀, _hR₀grp, _I₀, _F₀, hQ₀, hCop⟩ := largeEvenRawDatum_exists hSchur
@@ -112,7 +112,7 @@ theorem ggK1D_coprime_center_minus (hS : GGK0Schur GGKacGenericClD)
       (fun R _ _ _ => Nonempty (R ≃* LargeEvenProj
         (LargeEvenOmega (LargeEvenQMinus (r - 1) b c)))) := by
     dsimp only [LargeEvenRawDatum]
-    rw [if_neg (show r ≠ 2 by omega), if_neg (show r ≠ 3 by omega)]
+    rw [ite_eq_right (show r ≠ 2 by omega), ite_eq_right (show r ≠ 3 by omega)]
     exact ⟨K, inferInstance, inferInstance, hKcard, b, c, hirr, ⟨MulEquiv.refl _⟩⟩
   have hSchur := hS p ⟨.twD, r, nf⟩ hlab hgenD _ hQpin
   obtain ⟨R₀, _hR₀grp, _I₀, _F₀, hQ₀, hCop⟩ := largeEvenRawDatum_exists hSchur
@@ -127,8 +127,7 @@ theorem ggK1D_coprime_center_minus (hS : GGK0Schur GGKacGenericClD)
 theorem ggK0MainBS_clD (hS : GGK0Schur GGKacGenericClD) :
     GGK0MainBS GGKacGenericClD GGMultValidCl := by
   classical
-  intro p lab hlab hgen
-  intro Q hQ
+  intro p lab hlab hgen Q hQ
   obtain ⟨tag, r, nf⟩ := lab
   have hp : p.Prime := hgen.1.1
   have hp2 : p ≠ 2 := hgen.1.2.1

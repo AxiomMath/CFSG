@@ -188,6 +188,7 @@ section CharTwo
 variable
     {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 private theorem smul_single_one (s : Fin 4 ⊕ Fin 4) (c : F) :
     c • (Pi.single s (1 : F) : Fin 4 ⊕ Fin 4 → F) = Pi.single s c := by
   funext x
@@ -210,10 +211,10 @@ private theorem d4ElementaryMap_single_charTwo_smul {p q : Fin 4 ⊕ Fin 4}
   rw [smul_add]
   congr 1
   by_cases h1 : s = p.swap
-  · rw [if_pos h1, if_pos h1, smul_smul, mul_comm]
+  · rw [ite_eq_left h1, ite_eq_left h1, smul_smul, mul_comm]
   · by_cases h2 : s = q.swap
-    · rw [if_neg h1, if_neg h1, if_pos h2, if_pos h2, smul_smul, mul_comm]
-    · rw [if_neg h1, if_neg h1, if_neg h2, if_neg h2, smul_zero]
+    · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_left h2, ite_eq_left h2, smul_smul, mul_comm]
+    · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, smul_zero]
 
 private theorem d4Psi_xUnit_single (k : Fin 4) (c d : F) (j : Fin 8) :
     d4Psi F ⟨xUnit Tag.E6 F (C2E6Std.jD k) c, xUnit_mem_d4Levi k c⟩
@@ -250,8 +251,8 @@ private theorem d4Psi_xUnit_single_raise (k : Fin 4) (c d : F) {j j' : Fin 8}
       Pi.single (C2E6Std.natD j) d + Pi.single (C2E6Std.natD j') (c * d) := by
   rw [d4Psi_xUnit_single]
   rcases C2E6Std.raise_natD j j' k hj' with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [if_pos h1, h2, smul_single_one]
-  · rw [if_neg, if_pos h1, h2, smul_single_one]
+  · rw [ite_eq_left h1, h2, smul_single_one]
+  · rw [ite_eq_right, ite_eq_left h1, h2, smul_single_one]
     intro h
     exact (center_param_ne k).1 (h1.symm.trans h).symm
 
@@ -265,7 +266,7 @@ private theorem d4Psi_xUnit_single_noroot (k : Fin 4) (c d : F) (j : Fin 8)
     intro hs
     obtain ⟨j', hj'⟩ := (C2E6Std.raise_rootD j k).2 hs
     exact h (hj' ▸ C2E6Std.isRoot_rootD j')
-  rw [if_neg (fun h1 => hno (Or.inl h1)), if_neg (fun h2 => hno (Or.inr h2)), add_zero]
+  rw [ite_eq_right (fun h1 => hno (Or.inl h1)), ite_eq_right (fun h2 => hno (Or.inr h2)), add_zero]
 
 private theorem d4Psi_yUnit_single_lower (k : Fin 4) (c d : F) {j j' : Fin 8}
     (hj' : C2E6Std.rootD j' = C2E6Std.rootD j - (Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ)) :
@@ -274,8 +275,8 @@ private theorem d4Psi_yUnit_single_lower (k : Fin 4) (c d : F) {j j' : Fin 8}
       Pi.single (C2E6Std.natD j) d + Pi.single (C2E6Std.natD j') (c * d) := by
   rw [d4Psi_yUnit_single]
   rcases C2E6Std.lower_natD j j' k hj' with ⟨h1, h2⟩ | ⟨h1, h2⟩
-  · rw [if_pos h1, h2, smul_single_one]
-  · rw [if_neg, if_pos h1, h2, smul_single_one]
+  · rw [ite_eq_left h1, h2, smul_single_one]
+  · rw [ite_eq_right, ite_eq_left h1, h2, smul_single_one]
     intro h
     exact (center_param_ne k).2 (h1.symm.trans h).symm
 
@@ -289,7 +290,7 @@ private theorem d4Psi_yUnit_single_noroot (k : Fin 4) (c d : F) (j : Fin 8)
     intro hs
     obtain ⟨j', hj'⟩ := (C2E6Std.lower_rootD j k).2 hs
     exact h (hj' ▸ C2E6Std.isRoot_rootD j')
-  rw [if_neg (fun h1 => hno (Or.inl h1)), if_neg (fun h2 => hno (Or.inr h2)), add_zero]
+  rw [ite_eq_right (fun h1 => hno (Or.inl h1)), ite_eq_right (fun h2 => hno (Or.inr h2)), add_zero]
 
 private theorem rootD_ne_raised {k : Fin 4} {j j' : Fin 8}
     (hj' : C2E6Std.rootD j' = C2E6Std.rootD j + (Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ)) : j ≠ j' := by
@@ -297,7 +298,7 @@ private theorem rootD_ne_raised {k : Fin 4} {j j' : Fin 8}
   subst h
   have h0 : ((Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ) : Fin Tag.E6.rank → ℤ) = 0 := by
     have h := congrArg (fun v : Fin Tag.E6.rank → ℤ => v - C2E6Std.rootD j) hj'.symm
-    simpa using h
+    simp at h
   have h1 := congrFun h0 (C2E6Std.jD k)
   simp at h1
 
@@ -307,7 +308,7 @@ private theorem rootD_ne_lowered {k : Fin 4} {j j' : Fin 8}
   subst h
   have h0 : ((Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ) : Fin Tag.E6.rank → ℤ) = 0 := by
     have h := congrArg (fun v : Fin Tag.E6.rank → ℤ => v + (Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ)) hj'.symm
-    simpa using h
+    simp at h
   have h1 := congrFun h0 (C2E6Std.jD k)
   simp at h1
 
@@ -353,6 +354,7 @@ private theorem conj_xUnit_raise (k : Fin 4) (j j' : Fin 8) (c d : F)
   rw [← hcomm', commutatorElement_def]
   group
 
+omit [CharP F 2] in
 private theorem conj_xUnit_commute (k : Fin 4) (j : Fin 8) (c d : F)
     (h : ¬ IsRoot Tag.E6 (C2E6Std.rootD j + (Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ))) :
     xUnit Tag.E6 F (C2E6Std.jD k) c * pinnedX Tag.E6 F (C2E6Std.rootD j) d *
@@ -420,6 +422,7 @@ private theorem conj_yUnit_lower (k : Fin 4) (j j' : Fin 8) (c d : F)
   rw [← hcomm', commutatorElement_def]
   group
 
+omit [CharP F 2] in
 private theorem conj_yUnit_commute (k : Fin 4) (j : Fin 8) (c d : F)
     (h : ¬ IsRoot Tag.E6 (C2E6Std.rootD j - (Pi.single (C2E6Std.jD k) (1 : ℤ) : Fin Tag.E6.rank → ℤ))) :
     yUnit Tag.E6 F (C2E6Std.jD k) c * pinnedX Tag.E6 F (C2E6Std.rootD j) d *
@@ -473,6 +476,7 @@ private theorem d4Psi_conj_rootD_single_yUnit (k : Fin 4) (c d : F) (j : Fin 8) 
   · rw [d4Psi_yUnit_single_noroot k c d j h, d4RootWord_single,
       conj_yUnit_commute k j c d h]
 
+omit [CharP F 2] in
 private theorem d4Psi_add (g : d4Levi F) (z₁ z₂ : Fin 4 ⊕ Fin 4 → F) :
     d4Psi F g (z₁ + z₂) = d4Psi F g z₁ + d4Psi F g z₂ :=
   map_add (d4Psi F g) z₁ z₂
@@ -481,12 +485,14 @@ private def d4Good (g : ModGL Tag.E6 F) : Prop :=
   ∀ (hg : g ∈ d4Levi F) (z : Fin 4 ⊕ Fin 4 → F),
     g * d4RootWord z * g⁻¹ = d4RootWord (d4Psi F ⟨g, hg⟩ z)
 
+omit [CharP F 2] in
 private theorem d4Good_one : d4Good (1 : ModGL Tag.E6 F) := by
   intro hg z
   have hsub : (⟨1, hg⟩ : d4Levi F) = 1 := Subtype.ext rfl
   rw [hsub, map_one]
   simp
 
+omit [CharP F 2] in
 private theorem d4Good_mul {x y : ModGL Tag.E6 F} (hx : x ∈ d4Levi F)
     (hy : y ∈ d4Levi F) (hxg : d4Good x) (hyg : d4Good y) : d4Good (x * y) := by
   intro hxy z

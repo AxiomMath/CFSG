@@ -12,6 +12,7 @@ open CFSG.Open CFSG.StandardType CFSG.StandardType.SpFrame CFSG.LieType.Universa
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mul_comm_of_mem {p : ℕ} {Bs : Subgroup G} (h : IsElemAbelian p Bs)
     {a b : G} (ha : a ∈ Bs) (hb : b ∈ Bs) : a * b = b * a :=
   congrArg Subtype.val (h.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -52,7 +53,7 @@ theorem spEnd_eq_one_of_frame_inv {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm
     (hzuc : z = u * c) (hsX : s ∈ X) (hsN : s ∈ Subgroup.normalizer (Bs : Set G))
     (hsu : s * u * s⁻¹ = u⁻¹) : c = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcB : c ∈ Bs := (Subgroup.zpowers_le.mpr hz₁) hc
   set z' : G := s * z * s⁻¹ with hz'def
   have hz' : z' ∈ Bs := by

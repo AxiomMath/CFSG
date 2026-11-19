@@ -42,7 +42,7 @@ private theorem exists_graphFixed_of_tauCeti (q : TauCeti.PrimePower)
   have hp2 : q.p ≠ 2 := by
     rw [hq3]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK₀ : Nat.card (GaloisField 3 (3 * f)) = (3 ^ f) ^ 3 := by
     rw [GaloisField.card 3 (3 * f) (by omega), ← pow_mul, mul_comm]
   have hσ₀ : ∀ c : GaloisField 3 (3 * f),
@@ -64,8 +64,8 @@ theorem trialityThreeOuter_of_core (hcore : TrialityThreeCore) :
     CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityThreeOuter := by
   intro q hv S _ _ _ _ e hq3 β hβ hout
   obtain ⟨f, hf, K, _, _, σ, hK, hσ, ⟨e₁⟩⟩ := exists_graphFixed_of_tauCeti q hv e hq3
-  haveI : CharP K 3 := charP_three_of_card K hK
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : CharP K 3 := charP_three_of_card K hK
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv S e₁.toEquiv
   have hαp : MulAut.congr e₁ β ^ 3 = 1 := by
     rw [← map_pow, hβ, map_one]

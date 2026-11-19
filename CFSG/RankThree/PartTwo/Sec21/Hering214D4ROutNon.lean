@@ -26,11 +26,11 @@ theorem outer_nonstd_four (P : D4Par n F σ) (hev : Even n) {β : MulAut (C0 σ)
     {x g : C0 σ} (hβg : β g = g) (hβx : β x = x) (hxg : x * g * x⁻¹ = g⁻¹) (hg3 : g ^ 3 = 1)
     (hg1 : g ≠ 1) : FourFixedMoved β (MulAut.conj g) := by
   have hn1 := P.one_le
-  haveI := P.charP
+  have := P.charP
   have hPGL := Sec8.kF89D4SecondCentEven_of_y0 Sec8.kF89D4SecondCentY0Even_holds n hev hn1 F σ
     P.card P.frob β hβ3 hβout hstd
   obtain ⟨K', _, _, hK'c, ⟨ι⟩⟩ := hPGL
-  haveI : CharP K' 2 :=
+  have : CharP K' 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK'c
   have h3 : 3 ∣ Nat.card K' - 1 := by

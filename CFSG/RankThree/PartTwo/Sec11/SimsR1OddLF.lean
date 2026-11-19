@@ -114,7 +114,7 @@ theorem lfAt_c_odd (hB : KFacts.BlackburnRankTwo) (hDk : SimsR1L2CubeTwoLocal)
     LFAt L c := by
   have hθodd := odd_card_theta_L_odd hB hDk h45 h hT hodd
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
+  have := hp
   have hp5 := five_le_of_prime_of_three_lt hp.out hp3
   have hLC := le_centralizer_of_config h
   have hCH : Subgroup.centralizer ({c} : Set G) ≤ Subgroup.normalizer
@@ -185,11 +185,11 @@ theorem commutator_L_thetaCent_c_eq_bot_odd (hB : KFacts.BlackburnRankTwo)
     rw [hcomm, Subgroup.mem_bot] at h7
     exact commutatorElement_eq_one_iff_mul_comm.mp h7
   obtain ⟨p, hp, hp3, ⟨e⟩⟩ := hodd
-  haveI := hp
+  have := hp
   have hp5 := five_le_of_prime_of_three_lt hp.out hp3
   have hF : Nat.card (GaloisField p (3 * 1)) = p ^ 3 := by
     simpa using GaloisField.card p (3 * 1) (by norm_num)
-  haveI : Group.IsPerfect L := hperf
+  have : Group.IsPerfect L := hperf
   set π : L →* projSL 2 (GaloisField p (3 * 1)) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (aschbacherSolvableCore 3 L)) with hπ
   have hπs : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)

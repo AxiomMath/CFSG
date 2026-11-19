@@ -27,7 +27,7 @@ private lemma map_mem_inf_E11 {K : Type} [Field K] [Finite K] [CharP K 2]
     (ht : t ∈ Hinf (omegaPlusQAlpha K) ⊓ omegaPlusQZero K) :
     omegaPlusEmb K t ∈ Hinf (plusFlagStab K 3 ({2, 3} : Finset ℕ)) ⊓
       plusFlagStab K 3 ({1} : Finset ℕ) := by
-  haveI : Finite (PlusLin K) :=
+  have : Finite (PlusLin K) :=
     Finite.of_injective
       (fun g : PlusLin K => (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
       DFunLike.coe_injective
@@ -44,7 +44,7 @@ private lemma map_mem_inf_E11 {K : Type} [Field K] [Finite K] [CharP K 2]
 private lemma map_hinf_omegaPlusQZero_E11 (K : Type) [Field K] [Finite K] [CharP K 2] :
     (Hinf (omegaPlusQZero K)).map (omegaPlusEmb K) =
       Hinf (plusFlagStab K 3 ({1} : Finset ℕ)) := by
-  haveI : Finite (PlusLin K) :=
+  have : Finite (PlusLin K) :=
     Finite.of_injective
       (fun g : PlusLin K => (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
       DFunLike.coe_injective

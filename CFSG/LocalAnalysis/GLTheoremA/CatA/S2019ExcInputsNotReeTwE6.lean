@@ -30,7 +30,7 @@ theorem s2019OuterComp_twistedE6 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   classical
   have hp2 : p ≠ 2 := by omega
   obtain ⟨K₂, _, σ, hK, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K₂ := Nat.finite_of_card_ne_zero (by
+  have : Finite K₂ := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   set ℓ := q.p with hℓdef
@@ -75,9 +75,9 @@ theorem s2019OuterComp_twistedE6 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   set C := graphFixedRootGroup TwistTag.E6 K₂ σ.toRingHom with hC
   set N := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ) with hNdef
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-  haveI : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
   have eNC : N.subgroupOf C ≃* N := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hNs : IsSimpleGroup (N.subgroupOf C) := eNC.isSimpleGroup
   have hNn : ∃ x y : N.subgroupOf C, x * y ≠ y * x := by
     by_contra hcon

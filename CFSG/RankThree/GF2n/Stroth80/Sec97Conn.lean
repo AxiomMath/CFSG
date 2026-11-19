@@ -22,6 +22,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec97_polar_of_left {hc : Ctx M Q Z B} {n : ℕ} {t : G}
     (hs : Sec9Hyp hc n t) {K : Type} [Field K] [Finite K] [CharP K 2]
     [(Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal]
@@ -90,7 +91,7 @@ private theorem sec97_polar_of_left {hc : Ctx M Q Z B} {n : ℕ} {t : G}
   have hsum : toMat K (u + secVec ψ ⟨f, hfV⟩) =
       (1 + c • (A : Matrix (Fin 2) (Fin 2) K)) * toMat K u := by
     rw [map_add, hmat]
-    simp [Matrix.add_mul, Matrix.smul_mul]
+    simp [Matrix.add_mul]
   have hsum0 : quadPlus 2 K (u + secVec ψ ⟨f, hfV⟩) = 0 := by
     rw [coe_quadPlus, ← det_toMat, hsum, Matrix.det_mul, hdet, mul_zero]
   have hpol : polar (quadPlus 2 K) u (secVec ψ ⟨f, hfV⟩) = 0 := by
@@ -134,8 +135,8 @@ theorem sec97Conn_of (h34 : Stroth34Statement) : Sec97ConnStatement := by
   obtain ⟨m, hm, rfl⟩ := hF
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, hW, hdet, hu0⟩ :=
     sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   let φ'' : ↥(Rt M (LB M Q B) t) →*
       (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K) :=
     (Ψ K).toMonoidHom.comp φ

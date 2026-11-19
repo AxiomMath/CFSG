@@ -120,7 +120,7 @@ theorem card_le_four_mul_of_noncentral_m22f [Finite A] {σ : A →* A} (h3 : ∀
       exact L.one_mem
     rw [hCeq] at hmemC
     exact hmemC
-  obtain ⟨v, hvN, hvL⟩ := SetLike.exists_of_lt hLN
+  obtain ⟨v, hvN, hvL⟩ := _root_.IsConcreteLE.exists_of_lt hLN
   set w : A := σ v with hwdef
   have hwN : w ∈ N := hN v hvN
   set S : Subgroup A := (L ⊔ Subgroup.zpowers v) ⊔ Subgroup.zpowers w with hSdef

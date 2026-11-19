@@ -116,7 +116,7 @@ theorem exists_lift_exponent_three {L : Type*} [Group L] [Finite L] {R : Subgrou
       have hmap : D.map π = A := Subgroup.map_comap_eq_self_of_surjective
         (QuotientGroup.mk'_surjective R) A
       exact hA9.trans (hmap ▸ Subgroup.card_map_dvd D π)
-    obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 S₀.isPGroup'
+    obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 S₀.isPGroup
     have hidx : ¬ 3 ∣ (S₀ : Subgroup D).index := S₀.not_dvd_index
     have hcop : Nat.Coprime 9 (S₀ : Subgroup D).index :=
       Nat.Coprime.pow_left 2 ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hidx)
@@ -129,7 +129,7 @@ theorem exists_lift_exponent_three {L : Type*} [Group L] [Finite L] {R : Subgrou
     have hR3 : (s : L) ^ 3 ∈ R := by
       rwa [← QuotientGroup.ker_mk' R, MonoidHom.mem_ker]
     obtain ⟨n, hn⟩ := hR ⟨_, hR3⟩
-    obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S₀.isPGroup ⟨s, hs⟩
     have hn' : ((s : L) ^ 3) ^ 2 ^ n = 1 := by
       simpa using congrArg Subtype.val hn
     have hk' : ((s : L) ^ 3) ^ 3 ^ k = 1 := by

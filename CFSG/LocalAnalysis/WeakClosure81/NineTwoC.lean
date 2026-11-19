@@ -16,8 +16,8 @@ theorem nine_two_two_R (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
     ∃ r ∈ pCoreOf 2 K, B' = conjSubgroup B r := by
   obtain ⟨a, hBa, -, hBO⟩ := mem_omegaSet.mp hB.1
   obtain ⟨a', hB'a, -, hB'O⟩ := mem_omegaSet.mp hB'.1
-  obtain ⟨b, hb, hbR⟩ := SetLike.not_le_iff_exists.mp hBO
-  obtain ⟨b', hb', hb'R⟩ := SetLike.not_le_iff_exists.mp hB'O
+  obtain ⟨b, hb, hbR⟩ := IsConcreteLE.not_le_iff_exists.mp hBO
+  obtain ⟨b', hb', hb'R⟩ := IsConcreteLE.not_le_iff_exists.mp hB'O
   have hbS : b ∈ S := hB.2 hb
   have hb'S : b' ∈ S := hB'.2 hb'
   have hbK : b ∈ K := h.base.sylowTwo.le hbS
@@ -89,7 +89,7 @@ theorem nine_two_two_R (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p)
   congr 1
   group
 
-theorem nine_two_three (hV : Hyp7 V) (hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p) :
+theorem nine_two_three (hV : Hyp7 V) (_hm : 2 < rk ↥V) (h : Nine2Hyp V K S X p) :
     IsMulCommutative ↥(⨆ B ∈ nineOmegaIn V K S, B) := by
   refine (Subgroup.le_centralizer_iff_isMulCommutative).mp ?_
   refine iSup₂_le fun B hB => ?_

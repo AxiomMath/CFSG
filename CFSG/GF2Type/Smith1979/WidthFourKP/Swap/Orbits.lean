@@ -125,7 +125,7 @@ theorem SwapW4.card_stab_a_le (W : SwapW4 D) :
       exact Nat.card_congr (Equiv.ofInjective f hf_inj)
     rw [h1, h2]
     exact hsub
-  haveI : IsSimpleGroup ↥D.Z := SwapW4.isSimpleGroup_Z D W
+  have : IsSimpleGroup ↥D.Z := SwapW4.isSimpleGroup_Z D W
   have hN_ne_top : N ≠ ⊤ := by
     intro hN
     have hnormal : P.Normal := Subgroup.normalizer_eq_top_iff.mp hN
@@ -149,7 +149,7 @@ theorem SwapW4.card_orbit_a (W : SwapW4 D) :
   classical
   let E : Subgroup S.O := D.Z ⊔ D.W
   let a : S.Qt := aV D.mem_Lbar
-  letI : MulAction ↥E S.Qt :=
+  let : MulAction ↥E S.Qt :=
     MulAction.compHom (M := S.O) (N := ↥E) S.Qt (Subgroup.subtype E)
   have horb : SwapW4.orb E a = MulAction.orbit ↥E a := by
     ext y
@@ -198,7 +198,7 @@ theorem SwapW4.card_orbit_a (W : SwapW4 D) :
 
 theorem SwapW4.exists_x (W : SwapW4 D)
     (Q : QuadraticForm (ZMod 2) (Vt S g D.t)) (hQ : Q.polarBilin.Nondegenerate)
-    (hR : RmodN S g D.t = omegaGroup Q hQ)
+    (_hR : RmodN S g D.t = omegaGroup Q hQ)
     (hsing : ∀ v : Vt S g D.t, v ≠ 0 →
       (Q v = 0 ↔ v ∈ orbitOf (RmodN S g D.t) (aV D.mem_Lbar)))
     (hmin : ∀ U : Submodule (ZMod 2) (Vt S g D.t), finrank (ZMod 2) U = 2 →
@@ -241,7 +241,7 @@ theorem SwapW4.exists_x (W : SwapW4 D)
   have hu0ne : u ≠ 0 := by
     intro h0
     rw [h0] at huQ
-    simpa using huQ
+    simp at huQ
   have hu0Q1 : Q u = 1 := by
     have h01 : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
     rcases h01 (Q u) with h | h
@@ -332,7 +332,7 @@ theorem SwapW4.mem_P_of_sq_mem (W : SwapW4 D) {n : D.Z}
           (fun x : Psub => (⟨x.1, hPsub_le x.2⟩ : S))
           (fun a b h => Subtype.ext (congrArg (fun x : S => (x.1 : N)) h))
   have hS_card_le : Nat.card ↥S ≤ 4 := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hdvd : Nat.card ↥S ∣ 60 := by
       rw [← SwapW4.card_Z D W]
       exact hS_card_dvd
@@ -498,8 +498,6 @@ theorem SwapW4.not_mem_orb_E2 (W : SwapW4 D) {v : Vt S g D.t}
     exact SwapW4.e_inv_t_e_t_decomp D W u hu hp0 hz1 hz2
   have hq_L7 : q = ((p * n : D.Z) : S.O) * (D.t * (n : S.O) * D.t⁻¹) := by
     rw [hq_eq, S5.SwapData.chi_apply]
-    change (p : S.O) * ((n : S.O) * (D.t * (n : S.O) * D.t⁻¹)) =
-      ((p * n : D.Z) : S.O) * (D.t * (n : S.O) * D.t⁻¹)
     rw [Subgroup.coe_mul]
     group
   have huniqQ := (SwapW4.decomp D W hqE).choose_spec.2
@@ -593,7 +591,7 @@ theorem SwapW4.card_K_ge_of_ne (W : SwapW4 D) {x : G}
         (S.q v = 0 ∧ v ∉ ({0} : Set S.Qt))
       simp only [Set.mem_singleton_iff]
     rw [hdiff]
-    have h := Set.ncard_diff_singleton_add_one h0
+    have h := Set.ncard_sdiff_singleton_add_one h0
     omega
   have hsub_a : SwapW4.orb E a ⊆ Nsing := by
     rintro y ⟨e, he, rfl⟩
@@ -603,7 +601,7 @@ theorem SwapW4.card_K_ge_of_ne (W : SwapW4 D) {x : G}
         _ = 0 := hqa
     · intro h0
       have h := congrArg (((e : S.O)⁻¹) : S.Qt ≃ₗ[ZMod 2] S.Qt) h0
-      simpa [a, aV_ne_zero W.H D.mem_Lbar] using h
+      simp [a, aV_ne_zero W.H D.mem_Lbar] at h
   have hsub_x : SwapW4.orb E xv ⊆ Nsing := by
     rintro y ⟨e, he, rfl⟩
     refine ⟨?_, ?_⟩
@@ -638,7 +636,7 @@ theorem SwapW4.card_K_ge_of_ne (W : SwapW4 D) {x : G}
     have h := SwapW4.card_orbit_a D W
     simpa [E, a, Nat.card_coe_set_eq] using h
   have hx_card : (SwapW4.orb E xv).ncard ≤ 60 := by omega
-  letI : MulAction ↥E S.Qt :=
+  let : MulAction ↥E S.Qt :=
     MulAction.compHom (M := S.O) (N := ↥E) S.Qt (Subgroup.subtype E)
   let Sx : Subgroup ↥E := MulAction.stabilizer ↥E xv
   have horb_x_eq : SwapW4.orb E xv = MulAction.orbit ↥E xv := by

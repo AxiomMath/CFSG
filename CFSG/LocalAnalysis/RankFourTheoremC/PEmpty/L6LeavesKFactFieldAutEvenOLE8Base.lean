@@ -39,7 +39,7 @@ theorem not_dvd_card_normalizer_adjoint (τ : Tag) {K : Type} [Field K] [Finite 
     ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set (adjointGroup τ K))) := by
   classical
   intro hdvd
-  haveI hfin : Finite (ModGL τ K) := finite_modGL
+  have hfin : Finite (ModGL τ K) := finite_modGL
   obtain ⟨J, hJ, hdvdJ⟩ := card_dvd_parabolic_of_normalizes τ hR hR2 le_rfl
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
   have hsub : J ⊆ ((maskSet τ (coat i) : Finset (Fin τ.rank)) : Set (Fin τ.rank)) :=
@@ -73,14 +73,14 @@ theorem exists_ppd_prime_not_dvd_normalizer (τ : Tag) {K : Type} [Group K] {F :
     ∃ r : ℕ, r.Prime ∧ r ∣ (2 ^ f₀) ^ e - 1 ∧ ¬ r ∣ 2 ^ f₀ - 1 ∧
       ∀ R : Subgroup K, IsPGroup 2 R → R ≠ ⊥ →
         ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf1 : 1 ≤ f := by
     rw [hf]
     exact Nat.mul_pos hp.pos hf₀
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hFcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨r, m, hrm, hm, hcorr⟩ := exists_ppd_data hf₀ he2 he6
   have hppd := fun k => ppd_dvd_iff hrm hm hcorr hp hpe k
   have hr : r.Prime := hrm.1

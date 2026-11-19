@@ -26,7 +26,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem subgroupOf_pCoreOf_le {N : Subgroup X} {d : X} (hdN : d ∈ N) :
     (pCoreOf 2 (Subgroup.centralizer ({d} : Set X))).subgroupOf N ≤
       pCoreOf 2 (Subgroup.centralizer ({(⟨d, hdN⟩ : ↥N)} : Set ↥N)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_pCoreOf_of_normal ?_ ?_ ?_
   · intro x hx
     have hx' : (x : X) ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) := hx

@@ -61,7 +61,7 @@ theorem not_sporadic
   case B => exact hmem _ (by decide) CFSG.Monster.Existence.card_nativeB
   case M =>
     obtain ⟨a, b, hab⟩ := hnab
-    haveI : Nontrivial T := ⟨⟨a * b, b * a, hab⟩⟩
+    have : Nontrivial T := ⟨⟨a * b, b * a, hab⟩⟩
     obtain ⟨x, hx8, hx4⟩ := exists_order_eight_of_mulEquiv_M e
     exact hx4 (h4 x 3 (by simpa using hx8))
 

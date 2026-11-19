@@ -53,10 +53,10 @@ theorem wordA_eq {S : Array (Array Nat)} {k : Nat} {G : Nat → Nat} (hs : S.siz
       unfold letterA letK
       by_cases hpos : 0 < l
       · have hj : l.toNat - 1 < k := by omega
-        rw [if_pos hpos, decide_eq_true hpos]
+        rw [ite_eq_left hpos, decide_eq_true hpos]
         exact ⟨hS _ hj, hP _ hj⟩
       · have hj : (-l).toNat - 1 < k := by omega
-        rw [if_neg hpos, decide_eq_false hpos, getElem!_pos _ _ (by rw [Array.size_map]; omega),
+        rw [ite_eq_right hpos, decide_eq_false hpos, getElem!_pos _ _ (by rw [Array.size_map]; omega),
           Array.getElem_map, ← getElem!_pos S _ (by omega), hS _ hj]
         exact ⟨inv_eq (hP _ hj), P_pinv (hP _ hj)⟩
     have e : wordA 4060 S (S.map (invCand 4060)) (l :: w) =
@@ -181,11 +181,11 @@ theorem any_ofFn {m : Nat} (f : Fin m → Array Nat) (p : Array Nat → Bool) :
   · rintro ⟨i, hi, h⟩
     rw [Array.size_ofFn] at hi
     refine ⟨i, List.mem_range.2 hi, ?_⟩
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     simpa using h
   · rintro ⟨i, hi, h⟩
     have hi' := List.mem_range.1 hi
-    rw [dif_pos hi'] at h
+    rw [dite_eq_left hi'] at h
     exact ⟨i, by simpa using hi', by simpa using h⟩
 
 theorem any_congr_mem {l : List Nat} {f g : Nat → Bool} (h : ∀ x ∈ l, f x = g x) :
@@ -202,7 +202,7 @@ theorem inW_eq {T : Nat} (hT : P T) : g2InW (unpack 4060 12 T) = inWK T := by
   apply any_congr_mem
   intro e he
   have he' := List.mem_range.1 he
-  rw [dif_pos he', (wprod_eq e).1, eq_eq hT (wprod_eq e).2]
+  rw [dite_eq_left he', (wprod_eq e).1, eq_eq hT (wprod_eq e).2]
 
 theorem inV_eq {T : Nat} (hT : P T) : g2InV (unpack 4060 12 T) = inVK T := by
   unfold g2InV g2VArr inVK
@@ -210,7 +210,7 @@ theorem inV_eq {T : Nat} (hT : P T) : g2InV (unpack 4060 12 T) = inVK T := by
   apply any_congr_mem
   intro e he
   have he' := List.mem_range.1 he
-  rw [dif_pos he', (vprod_eq e).1, eq_eq hT (vprod_eq e).2]
+  rw [dite_eq_left he', (vprod_eq e).1, eq_eq hT (vprod_eq e).2]
 
 theorem allLt_eq {n : Nat} {f g : Nat → Bool} (h : ∀ i < n, f i = g i) :
     allLt n f = (List.range n).all g := by

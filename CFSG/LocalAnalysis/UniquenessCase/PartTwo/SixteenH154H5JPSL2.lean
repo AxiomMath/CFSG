@@ -19,11 +19,11 @@ theorem s16jp_row_SL2 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
     rk ↥(commSub ⊤ L ⊓ fixV L) ≤ 2 := by
   obtain ⟨_, hBN⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hBN
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨π, hπ⟩ := hreal
   have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-  haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+  have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   have hperf : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective (f := π) hπ.1
   have hmem : ∀ l ∈ L, ∀ y ∈ (⊤ : Subgroup W), l y ∈ (⊤ : Subgroup W) :=

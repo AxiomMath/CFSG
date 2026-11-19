@@ -385,7 +385,7 @@ theorem cell_F4_b0 :
   intro s hs
   simp only [GGResIDisp.F4.shapes_F4_b0, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl
-  · simp only [wits_F4_b0, if_pos rfl]
+  · simp only [wits_F4_b0]
     exact hwits_F4b0c3
 theorem hsideOK_F4_b0 :
     ∀ s ∈ GGResIDisp.F4.shapes_F4_b0, ∀ w ∈ wits_F4_b0 s,
@@ -413,7 +413,7 @@ theorem cell_F4_b3 :
   intro s hs
   simp only [GGResIDisp.F4.shapes_F4_b3, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl
-  · simp only [wits_F4_b3, if_pos rfl]
+  · simp only [wits_F4_b3]
     exact hwits_F4b3c0
 theorem hsideOK_F4_b3 :
     ∀ s ∈ GGResIDisp.F4.shapes_F4_b3, ∀ w ∈ wits_F4_b3 s,

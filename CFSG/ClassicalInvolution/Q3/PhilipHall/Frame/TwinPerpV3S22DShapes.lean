@@ -91,7 +91,7 @@ theorem not_mem_center_of_twin_pair (hS : Q8Section X Φ) (h2 : ∀ J ∈ Φ, Is
       · exact le_sup_right
       · exact le_sup_left
   rw [htop] at hsup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hsup
   have hX : Nat.card X = 2 ^ k := by rw [← hk]; exact (Subgroup.card_top (G := X)).symm
   rw [hX] at h3

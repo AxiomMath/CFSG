@@ -36,9 +36,9 @@ private theorem inv_normalizes_dCoordinateBlock {p : ℕ} (hp : p.Prime) (i0 : F
   intro w hw
   let W := dCoordinateBlock 4 p i0
   let F : ↥W → ↥W := fun x => ⟨u * x.1 * u⁻¹, hu x.1 x.2⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (V4 p) := inferInstance
-  haveI : Finite (MulAut (V4 p)) := MulEquiv.finite_left
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (V4 p) := inferInstance
+  have : Finite (MulAut (V4 p)) := MulEquiv.finite_left
   have hFin : Finite ↥W := Subtype.finite
   have hinj : Function.Injective F := by
     intro x y hxy
@@ -57,7 +57,7 @@ private theorem inv_normalizes_dCoordinateBlock {p : ℕ} (hp : p.Prime) (i0 : F
 
 private theorem onAxis_map_of_normalizes {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (i0 : Fin 4)
     {v : MulAut (V4 p)}
-    (hv : ∀ w ∈ dCoordinateBlock 4 p i0, v * w * v⁻¹ ∈ dCoordinateBlock 4 p i0)
+    (_hv : ∀ w ∈ dCoordinateBlock 4 p i0, v * w * v⁻¹ ∈ dCoordinateBlock 4 p i0)
     (hv' : ∀ w ∈ dCoordinateBlock 4 p i0, v⁻¹ * w * v ∈ dCoordinateBlock 4 p i0)
     {f : V4 p} (hf : onAxis i0 f) : onAxis i0 (v f) := by
   intro k hk
@@ -78,7 +78,7 @@ private def resFun {p : ℕ} (i0 : Fin 4) (F : V4 p) : VC p i0 :=
 @[simp] private theorem resFun_extFun {p : ℕ} (i0 : Fin 4) (f : VC p i0) :
     resFun i0 (extFun i0 f) = f := by
   funext k
-  simp only [resFun, extFun, dif_neg k.2]
+  simp only [resFun, extFun, dite_eq_right k.2]
 
 private theorem extFun_mul {p : ℕ} (i0 : Fin 4) (f g : VC p i0) :
     extFun i0 (f * g) = extFun i0 f * extFun i0 g := by
@@ -134,8 +134,6 @@ private noncomputable def transportAut {p : ℕ} (i0 : Fin 4) (u : MulAut (V4 p)
     rw [resFun_eq_of_mul_onAxis i0 (hu l hl), resFun_extFun] at h2
     exact h2.symm
   map_mul' f g := by
-    change resFun i0 (u (extFun i0 (f * g))) =
-      resFun i0 (u (extFun i0 f)) * resFun i0 (u (extFun i0 g))
     rw [extFun_mul, map_mul]
     rfl
 
@@ -240,7 +238,7 @@ private theorem coe_swap_subtype {i0 : Fin 4} {a b c : CIdx i0} :
     simp [Equiv.swap_apply_left]
   · by_cases hcb : c = b
     · subst hcb
-      simp [Equiv.swap_apply_right, hca]
+      simp [Equiv.swap_apply_right]
     · have h1 : c.1 ≠ a.1 := fun h => hca (Subtype.ext h)
       have h2 : c.1 ≠ b.1 := fun h => hcb (Subtype.ext h)
       simp [Equiv.swap_apply_of_ne_of_ne hca hcb,
@@ -285,8 +283,8 @@ private theorem permAut_swap_mul_negTrans {p : ℕ} {a b : Fin 4} (hab : a ≠ b
           calc i = Equiv.swap a b (Equiv.swap a b i) := (Equiv.swap_apply_self a b i).symm
             _ = Equiv.swap a b b := by rw [h]
             _ = a := Equiv.swap_apply_right a b)
-      simp [hsw_a, hsw_b, hia, hib, Equiv.swap_apply_of_ne_of_ne hia hib, MulAut.mul_apply,
-        sgnAut_apply, Function.update_of_ne hia, Function.update_of_ne hib]
+      simp [hia, hib, Equiv.swap_apply_of_ne_of_ne hia hib, MulAut.mul_apply,
+        sgnAut_apply]
 
 private theorem sgnAut_mul_mem_dCoordinateBlock {p : ℕ} (i0 : Fin 4) {a b : Fin 4}
     (hab : a ≠ b) (ha : a ≠ i0) (hb : b ≠ i0) :
@@ -379,7 +377,7 @@ private noncomputable def permAutCHom {p : ℕ} (i0 : Fin 4) :
     simp [permAutC_apply]
   map_mul' σ τ := by
     refine MulEquiv.ext fun f => funext fun c => ?_
-    simp [permAutC_apply, Equiv.Perm.mul_apply]
+    simp [permAutC_apply]
 
 private noncomputable def HC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (i0 : Fin 4) :
     Subgroup (MulAut (VC p i0)) :=
@@ -404,7 +402,7 @@ private theorem restrictHom_permAut_swap_mem_DC {p : ℕ} (hp : p.Prime) (hp2 : 
     restrictHom hp hp2 i0 ⟨permAut (Equiv.swap a.1 b.1),
         Subgroup.subset_closure (Or.inl ⟨a.1, b.1, fun h => hab (Subtype.ext h), a.2, b.2, rfl⟩)⟩ ∈
       DC hp i0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [mem_DC_iff, restrictHom_permAut_swap hp hp2 i0 (a := a) (b := b) hab, congr_permAutC]
   have hmem : permAut (p := p) ((coordEquiv i0).trans
       ((Equiv.swap a b).trans (coordEquiv i0).symm)) ∈
@@ -417,7 +415,7 @@ private theorem restrictHom_sgnAut_mul_mem_DC {p : ℕ} (hp : p.Prime) (hp2 : p 
     restrictHom hp hp2 i0 ⟨sgnAut a.1 * sgnAut b.1,
         sgnAut_mul_mem_dCoordinateBlock (p := p) i0
           (fun h => hab (Subtype.ext h)) a.2 b.2⟩ ∈ DC hp i0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [mem_DC_iff, restrictHom_sgnAut_mul hp hp2 i0 (a := a) (b := b) hab, map_mul,
     congr_sgnAutC, congr_sgnAutC]
   have hne : (coordEquiv i0).symm a ≠ (coordEquiv i0).symm b := by
@@ -553,7 +551,7 @@ private theorem permAutC_mem_HC {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (i0 : F
 
 private theorem D3_le_HC_map {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (i0 : Fin 4) :
     D3 p hp ≤ (HC hp hp2 i0).map (MulAut.congr (coordMulEquiv p i0)).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : DScalarTorus.evenSignedGroup (p := p) (N := 3) ≤
       (HC hp hp2 i0).map (MulAut.congr (coordMulEquiv p i0)).toMonoidHom := by
     refine DScalarTorus.evenSignedGroup_le hp2 ?_ ?_
@@ -618,7 +616,7 @@ private theorem inv_conj_mem_of_forall_conj_mem {G : Type*} [Group G] {H : Subgr
 
 private theorem isSignedPerm_of_mem_D3 {p : ℕ} (hp : p.Prime) {u : MulAut (Fin 3 → Multiplicative (ZMod p))}
     (hu : u ∈ D3 p hp) : IsSignedPerm ⇑u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, ε, hε, -, hdata⟩ := hu
   exact ⟨π, ε, hε, hdata⟩
 
@@ -636,7 +634,7 @@ private theorem normalize_signed_of_normalize_D3 {p : ℕ} (hp : p.Prime)
         IsSignedPerm ⇑u → IsSignedPerm ⇑(Φ * u * Φ⁻¹)) ∧
       (∀ u : MulAut (Fin 3 → Multiplicative (ZMod p)),
         IsSignedPerm ⇑u → IsSignedPerm ⇑(Φ⁻¹ * u * Φ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd : ∀ i j : Fin 3, i ≠ j → sgnAut i * sgnAut j ∈ D3 p hp := fun i j hij => by
     simpa [D3] using DScalarTorus.sgnAut_pair_mem_evenSignedGroup (p := p) (N := 3) hij
   have ht : ∀ σ : Equiv.Perm (Fin 3), permAut σ ∈ D3 p hp := fun σ => by
@@ -756,7 +754,7 @@ theorem exists_smul_mem_dCoordinateBlock_four_of_normalizes {p : ℕ} (hp : p.Pr
         ∀ (f : Fin 4 → Multiplicative (ZMod p)) (k : Fin 4), k ≠ i0 →
           toAdd (u f k) = γ * toAdd (w f k) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let W := dCoordinateBlock 4 p i0
   have hu_inv : ∀ w ∈ W, u⁻¹ * w * u ∈ W :=
     inv_normalizes_dCoordinateBlock hp i0 hu
@@ -824,7 +822,7 @@ theorem exists_smul_mem_dCoordinateBlock_four_of_normalizes {p : ℕ} (hp : p.Pr
       have h2 : wE (Θ fC) = Θ (wC fC) := by
         have h2' : wC fC = Θ.symm (wE (Θ fC)) := by
           dsimp [wC]
-          simpa using mulAut_congr_apply_apply Θ.symm wE (Θ fC)
+          simp
         have := congrArg Θ h2'
         simpa using this.symm
       rw [h1, h2] at h
@@ -855,7 +853,7 @@ theorem exists_smul_mem_dCoordinateBlock_four_of_normalizes {p : ℕ} (hp : p.Pr
           simpa [resFun, c0] using this.symm]
   by_cases hprod : (∏ i : Fin 3, ε3 i) = 1
   · have hwE : w3 ∈ D3 p hp := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hmem : w3 ∈ DScalarTorus.evenSignedGroup (p := p) (N := 3) :=
         ⟨π3, ε3, hε3, hprod, hdata3⟩
       simpa [D3] using hmem
@@ -880,7 +878,7 @@ theorem exists_smul_mem_dCoordinateBlock_four_of_normalizes {p : ℕ} (hp : p.Pr
       rw [h1, hprod_neg]
       norm_num
     have hwE : wE ∈ D3 p hp := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hmem : wE ∈ DScalarTorus.evenSignedGroup (p := p) (N := 3) := by
         refine ⟨π3, fun i => -ε3 i, ?_, hprodE, hdataE⟩
         intro i

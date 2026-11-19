@@ -21,7 +21,7 @@ private theorem torusDiag_mul {F : Type} [Field F] (a b a' b' : Fˣ) :
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp <;> ring
+  fin_cases i <;> simp; ring
 
 private noncomputable def torusDiagHom (F : Type) [Field F] :
     Fˣ × Fˣ →* Matrix.SpecialLinearGroup (Fin 3) F :=
@@ -48,7 +48,7 @@ private theorem card_units_eq_sub_one (F : Type) [Field F] [Fintype F] :
 theorem exists_torus_elemAbelian {F : Type} [Field F] [Fintype F] {p : ℕ} (hp : p.Prime)
     (hpF : p ∣ Fintype.card F - 1) :
     ∃ E : Subgroup ↥(StatedSL 3 F), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p
     (by rw [card_units_eq_sub_one F]; exact hpF)
   have hμcard : Nat.card (Subgroup.zpowers ζ) = p := by

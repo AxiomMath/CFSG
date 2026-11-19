@@ -69,7 +69,8 @@ variable {S : Type} [CommGroup S] [Finite S] {G Lt : Subgroup (MulAut S)} {hLG :
 
 open CFSG.HardMathSupport.Cooperstein.AlternatingGeometry
 
-theorem swap_properties (D : AltNatData G Lt hLG m) (hm : 9 ≤ m) (hodd : Odd m)
+omit [Finite S] in
+theorem swap_properties (D : AltNatData G Lt hLG m) (_hm : 9 ≤ m) (_hodd : Odd m)
     {b : MulAut S} (hb : b ∈ G) (hsw : (D.θ ⟨b, hb⟩).IsSwap) :
     b ^ 2 = 1 ∧ IsQuadratic (Subgroup.zpowers b) ∧ b ≠ 1 ∧
       Nat.card S = 2 * Nat.card (fixV (Subgroup.zpowers b)) := by
@@ -215,6 +216,7 @@ theorem swap_properties (D : AltNatData G Lt hLG m) (hm : 9 ≤ m) (hodd : Odd m
   refine ⟨hsq1, hIsQ, hb1, ?_⟩
   rw [hFeq, ← hcard, Nat.mul_comm]
 
+omit [Finite S] in
 theorem range_eq_top_of_swap (D : AltNatData G Lt hLG m) {b : MulAut S} (hb : b ∈ G)
     (hsw : (D.θ ⟨b, hb⟩).IsSwap) : D.θ.range = ⊤ := by
   obtain ⟨a, c, hac, ht⟩ := hsw
@@ -240,12 +242,13 @@ section Glue
 
 variable {S : Type} [CommGroup S] [Finite S] {G Lt : Subgroup (MulAut S)} {hLG : Lt ≤ G} {m : ℕ}
 
+omit [Finite S] in
 theorem theta_mem_alt (D : AltNatData G Lt hLG m) (hperf : Group.IsPerfect ↥Lt) (x : ↥Lt) :
     D.θ (Subgroup.inclusion hLG x) ∈ alternatingGroup (Fin m) := by
-  haveI := hperf
+  have := hperf
   let φ : ↥Lt →* ℤˣ := Equiv.Perm.sign.comp (D.θ.comp (Subgroup.inclusion hLG))
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
-  haveI : Subsingleton ↥φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+  have : Subsingleton ↥φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   have hx : φ x = 1 := by
     have h1 : (⟨φ x, MonoidHom.mem_range.mpr ⟨x, rfl⟩⟩ : ↥φ.range) = 1 :=
       Subsingleton.elim _ _

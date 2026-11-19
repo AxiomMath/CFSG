@@ -73,7 +73,7 @@ theorem local_three_of_perp (c : FiveChart hC n) (hn : 5 ≤ n) {w u x : G} (hw 
   have hxw : x ∈ commSet D w := mem_commSet_of_commute hwd hx hx_comm_w
   obtain ⟨z', hz'0, hz'x, hz'norm, hPx⟩ := exists_local_hyperplane c hn hw hwd ⟨hx, hxw⟩
   have hz' : c.b z' z' = 2 := by
-    rw [if_neg h3ne] at hz'norm
+    rw [ite_eq_right h3ne] at hz'norm
     exact hz'norm
   have hu_comm_x : Commute u x := hx_comm_u.symm
   have huz' : c.b (c.vec u) z' = 0 :=
@@ -126,10 +126,10 @@ theorem isFiveHyperplane_three (c : FiveChart hC n) (hn : 5 ≤ n) {w : G} (hw :
   obtain ⟨v₀, hv₀⟩ := hΓ
   obtain ⟨z, hz0, hzv₀, hznorm, hP⟩ := exists_local_hyperplane c hn hw hwd hv₀
   have hz : c.b z z = 2 := by
-    rw [if_neg (by rw [h3]; decide)] at hznorm
+    rw [ite_eq_right (by rw [h3]; decide)] at hznorm
     exact hznorm
   have hzif : (if orderOf (hC.d * w) = 5 then c.b z z = 0 else c.b z z = 2) := by
-    rw [if_neg (by rw [h3]; decide)]
+    rw [ite_eq_right (by rw [h3]; decide)]
     exact hz
   refine ⟨z, hz0, hzif, ?_⟩
   intro y hy

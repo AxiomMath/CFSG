@@ -149,7 +149,7 @@ private theorem transport_U_y {K G : Type} [Group K] [Finite K] [Group G] [Finit
     exact hz' (by simpa [y, map_mul] using congrArg e hzy)
   have hy_ord : orderOf y = 3 := by
     have := e.symm.orderOf_eq y'
-    simpa [y, hy'ord] using this
+    simp [y, hy'ord]
   have hy_norm : y ∈ Subgroup.normalizer (U : Set K) := by
     have hmap := Subgroup.map_equiv_normalizer_eq (U' : Subgroup G) e.symm
     have hmem : e.symm y' ∈ (Subgroup.normalizer (U' : Set G)).map e.symm.toMonoidHom :=
@@ -202,7 +202,7 @@ theorem i114FactB_of_coreSL (h : I114CoreSL) : I114FactB := by
     exists_field_of_isSLThreeExc hK hcat
   let _ := hF
   let _ := hFfin
-  haveI := hchar
+  have := hchar
   let G := Matrix.SpecialLinearGroup (Fin 3) F
   let c : MulAut K ≃* MulAut G := MulAut.congr e
   let H' : Subgroup (MulAut G) := H.map c.toMonoidHom

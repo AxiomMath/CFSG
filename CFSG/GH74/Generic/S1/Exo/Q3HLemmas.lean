@@ -132,7 +132,7 @@ theorem exists_commuting_involution_of_le {S : Type} [Group S] [Finite S] (Q : S
   · push Not at hcen
     obtain ⟨t, htQ, hst⟩ := hcen
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    have hQP : IsPGroup 2 (Q : Subgroup S) := Q.isPGroup'
+    have hQP : IsPGroup 2 (Q : Subgroup S) := Q.isPGroup
     have hnt : Nontrivial (Q : Subgroup S) := ⟨⟨⟨s, hsQ⟩, 1, fun h => hs1 (congrArg Subtype.val h)⟩⟩
     have hZ := hQP.center_nontrivial
     obtain ⟨k, hk, hkcard⟩ :=

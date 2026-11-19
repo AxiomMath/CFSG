@@ -104,7 +104,7 @@ theorem olRow_of_E16_ext (S : Type) [Group S]
     rw [injective_iff_map_eq_one]
     intro x hx
     have hxK : ((x : W) : L) ∈ K := hker _ hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T2.isPGroup') x
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp T2.isPGroup) x
     have h1 : orderOf ((x : W) : L) = 2 ^ n := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hn]
     have h2 : orderOf ((x : W) : L) ∣ 3 := hK3 ▸ Subgroup.orderOf_dvd_natCard K hxK
@@ -300,7 +300,7 @@ theorem OLCfg.le_innerSub (hcfg : OLCfg P L Q) (h : InnerThree ↥L) :
     have hm : q⁻¹ * (l : X) * q⁻¹⁻¹ ∈ L :=
       (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hqN) l).mp l.2
     have h1 := hkp ⟨_, hm⟩
-    simp only [Subgroup.coe_mk] at h1 ⊢
+    simp only at h1 ⊢
     calc q * p * q⁻¹ * (l : X) * (q * p * q⁻¹)⁻¹ =
         q * (p * (q⁻¹ * (l : X) * q⁻¹⁻¹) * p⁻¹) * q⁻¹ := by group
       _ = q * ((kp : X) * (q⁻¹ * (l : X) * q⁻¹⁻¹) * (kp : X)⁻¹) * q⁻¹ := by rw [h1]

@@ -71,11 +71,13 @@ theorem F2_ranPre (i : Fin 8) : (rho K (tInv2 K) - 1) (ranPre2 K i) = ranG2 K i 
   simp (config := {decide := true}) [ranPre2, ranG2, vA, vB, cfm_ub_mask, cfm_rho_X23, cfm_add,
     CharTwo.add_self_eq_zero, -Representation.exteriorPower_apply]
 
+omit [CharP K 2] in
 theorem kerG2_pivots : ∀ i j, cfm K (kerG2 K i) (kerP2 j) = if i = j then (1 : K) else 0 := by
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp (config := {decide := true}) [kerG2, kerP2, vA, vB, cfm_ub_mask, cfm_add]
 
+omit [CharP K 2] in
 theorem ranG2_pivots : ∀ i j, cfm K (ranG2 K i) (ranP2 j) = if i = j then (1 : K) else 0 := by
   intro i j
   fin_cases i <;> fin_cases j <;>
@@ -196,7 +198,7 @@ theorem mem_range_of_InR2 {η : Cube K} (h : InR2 η) :
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12⟩ := h
   rcases exists_mask3 hm hc with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
     rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-  simp (config := {decide := true}) [ranG2, ranP2, vA, vB, cfm_ub_mask, cfm_zero, cfm_add,
+  simp (config := {decide := true}) [ranG2, ranP2, vA, vB, cfm_ub_mask, cfm_add,
     cfm_smul, Fin.sum_univ_succ, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12]
 
 theorem model2_hUC {u : GL (Fin 6) K} (hu : u ∈ Uset2 K) :
@@ -231,14 +233,14 @@ theorem model2_hUfix :
   · rw [z 38 (by norm_num) (by decide), z 41 (by norm_num) (by decide)]
 
 theorem model2_P3 :
-    ∃ U : Set (GL (Fin 6) K), (∀ u ∈ U, (u : Matrix (Fin 6) (Fin 6) K).det = 1) ∧
-      (∀ u ∈ U, u * tInv2 K = tInv2 K * u) ∧
-      (∀ u ∈ U, ∀ ξ ∈ LinearMap.ker (rho K (tInv2 K) - 1),
-        rho K u ξ - ξ ∈ LinearMap.range (rho K (tInv2 K) - 1)) ∧
-      (∀ ξ ∈ LinearMap.ker (rho K (tInv2 K) - 1), (∀ u ∈ U, rho K u ξ = ξ) →
+    ∃ U : Set (GL (Fin 6) K), (∀ _u ∈ U, (_u : Matrix (Fin 6) (Fin 6) K).det = 1) ∧
+      (∀ _u ∈ U, _u * tInv2 K = tInv2 K * _u) ∧
+      (∀ _u ∈ U, ∀ ξ ∈ LinearMap.ker (rho K (tInv2 K) - 1),
+        rho K _u ξ - ξ ∈ LinearMap.range (rho K (tInv2 K) - 1)) ∧
+      (∀ ξ ∈ LinearMap.ker (rho K (tInv2 K) - 1), (∀ _u ∈ U, rho K _u ξ = ξ) →
         ξ ∈ LinearMap.range (rho K (tInv2 K) - 1)) :=
-  ⟨Uset2 K, fun u hu => (Uset2_det_commute hu).1, fun u hu => (Uset2_det_commute hu).2,
-    fun u hu => model2_hUC hu, model2_hUfix⟩
+  ⟨Uset2 K, fun _u hu => (Uset2_det_commute hu).1, fun _u hu => (Uset2_det_commute hu).2,
+    fun _u hu => model2_hUC hu, model2_hUfix⟩
 
 theorem model2_P1 :
     LinearMap.ker (rho K (tInv2 K) - 1) ≤
@@ -280,11 +282,13 @@ theorem model2_P1 :
     | exact hA
     | exact hB
 
+omit [CharP K 2] in
 private theorem beta_u034_u124 : beta K (ub K 0 3 4) (ub K 1 2 4) = 0 :=
   beta_cubeBasis_of_not_disjoint (K := K)
     (I := tripleSet 0 3 4 (by decide) (by decide) (by decide))
     (J := tripleSet 1 2 4 (by decide) (by decide) (by decide)) (by decide)
 
+omit [CharP K 2] in
 private theorem beta_u035_u125 : beta K (ub K 0 3 5) (ub K 1 2 5) = 0 :=
   beta_cubeBasis_of_not_disjoint (K := K)
     (I := tripleSet 0 3 5 (by decide) (by decide) (by decide))

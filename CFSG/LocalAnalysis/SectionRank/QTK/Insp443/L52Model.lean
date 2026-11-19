@@ -180,7 +180,7 @@ theorem mem_tests_s {k z w : ℕ} (hk : k < 24) (hz : z < 7) (hw : w < 2)
   refine mem_tests_cand hk ?_
   rw [hkd]
   unfold candTests
-  rw [if_pos rfl, getD_map_lt (spanTabs 31) (by rw [length_e16]; exact hz) [] [],
+  rw [ite_eq_left rfl, getD_map_lt (spanTabs 31) (by rw [length_e16]; exact hz) [] [],
     getD_map_range _ hw]
   exact List.mem_cons_self
 
@@ -189,7 +189,7 @@ theorem mem_tests_c2 {k z w : ℕ} (hk : k < 24) (hkd : kind7.getD k (3, 0, 0) =
   refine mem_tests_cand hk ?_
   rw [hkd]
   unfold candTests
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   exact List.mem_cons_of_mem _ List.mem_cons_self
 
 theorem mem_tests_cent {k z w : ℕ} (hk : k < 24) (hw : w < 2)
@@ -198,7 +198,7 @@ theorem mem_tests_cent {k z w : ℕ} (hk : k < 24) (hw : w < 2)
   refine mem_tests_cand hk ?_
   rw [hkd]
   unfold candTests
-  rw [if_neg (by simp), if_pos rfl, getD_map_range _ hw]
+  rw [ite_eq_right (by simp), ite_eq_left rfl, getD_map_range _ hw]
   exact List.mem_cons_self
 
 end CFSG.SectionRank.QTK.Insp443.L52

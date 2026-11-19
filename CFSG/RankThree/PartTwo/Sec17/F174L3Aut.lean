@@ -18,7 +18,7 @@ theorem l3Aut_holds : ∀ (H : Type) [Group H] [Finite H] (n : ℕ), Odd n →
   have hn0 : n ≠ 0 := by
     rintro rfl
     exact absurd hn (by decide)
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact GaloisField.card 2 n hn0

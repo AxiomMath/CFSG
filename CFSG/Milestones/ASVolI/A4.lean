@@ -147,7 +147,7 @@ private theorem a4_twoReducedProduct_eq (M : Subgroup G) :
     twoReducedProduct M = CFSG.Quasithin.twoReducedJoin M := by
   unfold twoReducedProduct CFSG.Quasithin.twoReducedJoin
   rw [sSup_eq_iSup]
-  simp only [Set.mem_setOf_eq, a4_isTwoReduced_iff]
+  simp only [Set.mem_ofPred_eq, a4_isTwoReduced_iff]
 
 end Bridge
 

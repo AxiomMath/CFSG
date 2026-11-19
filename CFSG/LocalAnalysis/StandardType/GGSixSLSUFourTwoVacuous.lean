@@ -26,7 +26,7 @@ private theorem det_eq_one_gfTwo (A : GL (Fin 4) (GaloisField 2 1)) :
   have hcard : Nat.card (Units (GaloisField 2 1)) = 1 := by
     rw [Nat.card_units, GaloisField.card 2 1 (by norm_num)]
     norm_num
-  haveI : Subsingleton (Units (GaloisField 2 1)) := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton (Units (GaloisField 2 1)) := (Nat.card_eq_one_iff_unique.mp hcard).1
   have hdet : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
   rw [← Matrix.GeneralLinearGroup.val_det_apply, hdet]
   rfl

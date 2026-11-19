@@ -161,7 +161,7 @@ theorem tm_mul_spin (D : KleinDataEven F K σ₀ b c) (s : spinGroup (quadMinus 
   have hsingle : (fun a => algebraMap F K ((Pi.single q (1 : F) : Fin 6 → F) a)) =
       (Pi.single q (1 : K) : Fin 6 → K) := by
     funext a
-    by_cases haq : a = q <;> simp [Pi.single_apply, haq]
+    by_cases haq : a = q <;> simp [haq]
   rw [hsingle] at h
   simpa [Matrix.mulVec_single_one] using h
 
@@ -180,7 +180,7 @@ theorem tm_mul_tmInv (D : KleinDataEven F K σ₀ b c) : Tm D * TmInv D = 1 := b
   have h' : D.δ * D.ε = 1 := D.δ_mul_ε
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Tm, TmInv, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;>
+    simp [Tm, TmInv, Matrix.mul_apply, Fin.sum_univ_six] <;>
     first | linear_combination h | linear_combination -h | linear_combination h' | ring
 
 theorem tmInv_mul_tm (D : KleinDataEven F K σ₀ b c) : TmInv D * Tm D = 1 :=

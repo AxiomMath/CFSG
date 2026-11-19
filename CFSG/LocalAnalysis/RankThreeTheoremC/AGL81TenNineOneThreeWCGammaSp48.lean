@@ -34,7 +34,7 @@ theorem dS_sq : dS * dS = 1 := by
 
 theorem fuse_T0_sq {a : ↥(StatedSp 2 F8)} (ha : a ∈ T0) (ha3 : orderOf a = 3) :
     ∃ n : ↥(StatedSp 2 F8), n * n = 1 ∧ n * a * n⁻¹ ∈ T0 ∧ n * a * n⁻¹ ∉ zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨x, y⟩, ⟨hx, hy⟩, hxy⟩ := mem_T0_iff.1 ha
   have hxy' : ((a : GL Ix F8)) = psi (x, y) := hxy.symm
   have hord : orderOf (x, y) = 3 := by
@@ -124,7 +124,7 @@ theorem kFactTenNineWCGammaSp48 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ hK S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨d1, hv⟩, ⟨q, hqp, hqe, hd1⟩, ⟨e⟩⟩ := hK
   change d1 = _ at hd1
   subst hd1
@@ -144,7 +144,7 @@ theorem kFactTenNineWCGammaSp48 :
   set eK : K ≃* TF := e.trans eT.symm
   set eS : K ≃* ↥(StatedSp 2 F8) := eK.trans eQ
   have hZK : ∀ k : K, (∀ x : K, k * x = x * k) → k = 1 := by
-    haveI hs : IsSimpleGroup TF := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp
+    have hs : IsSimpleGroup TF := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp
       F8 2 (by norm_num) (Or.inl (Or.inr (by rw [card_F8]; norm_num)))
     have hZ : Subgroup.center TF = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center TF) with h | h

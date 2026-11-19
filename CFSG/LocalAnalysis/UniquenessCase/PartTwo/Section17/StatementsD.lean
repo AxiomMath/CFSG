@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
   (IsL2Square (Bar2 (Lp D p)) n ∧ Sp D p ≠ ⊥) ∨
     (IsL2U3Product (Bar2 (Lp D p)) n ∧ Sp D p = ⊥)
 
-@[expose] def R17_55At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_55At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (L : Subgroup G), L ≤ D.M → (L.subgroupOf D.M).Normal →
     ∀ n : ℕ, (IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) →
       ∀ s : ℕ, Odd s → s ∣ n →
@@ -27,15 +27,15 @@ variable {G : Type} [Group G] [Finite G]
           ∀ X : Subgroup G, X ≤ L → Nat.card X = r →
             conjSetOf (⊤ : Subgroup G) X ∩ {Y : Subgroup G | Y ≤ D.M} ≠ conjSetOf D.M X
 
-@[expose] def R17_56At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_56At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p →
     Opp p D.M = Lp D p ⊔ Sp D p ∨
       (p = 3 ∧ ∃ L ∈ calC D.M, IsL3 (Bar2 L) 2)
 
-@[expose] def R17_57At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_57At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p → CFSG.Open.pRank p (Sp D p) ≤ 1
 
-@[expose] def R17_58At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_58At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p → ∀ L ∈ calC D.M, ¬ IsL3 (Bar2 L) 2
 
 structure Ctx17_58 (D : Data G) (V₀ V L : Subgroup G) (p : ℕ) : Prop where
@@ -65,27 +65,27 @@ structure Ctx17_58 (D : Data G) (V₀ V L : Subgroup G) (p : ℕ) : Prop where
     ∀ K ∈ calC D.M, K ≠ L →
       ∃ n : ℕ, Odd n ∧ (IsL2 (Bar2 K) n ∨ IsSz (Bar2 K) n)
 
-@[expose] def R17_64_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_64_1At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p → Hinf D.M = Lp D p
 
-@[expose] def R17_64_2At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_64_2At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p → ∃ n : ℕ, P17_64_2 D p n
 
-@[expose] def R17_64_3At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_64_3At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, Hyp1754 D p → ∀ n : ℕ, P17_64_2 D p n →
     IsPowTwo n ∧ (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]
 
-@[expose] def R17_65At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_65At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, p ∈ D.sig → (calL0Star D p).Nonempty
 
 @[expose] def R17_65 (D : Data G) : Prop :=
-  ∀ (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V), R17_65At D V₀ V
+  ∀ (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V), R17_65At D V₀ V
 
-@[expose] def R17_66_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_66_1At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, p ∈ D.sig → ∀ L ∈ calLp D p, ∀ X : Subgroup G, X = conjClosure D.M L →
     X ∈ calL0Star D p → UniqueMax D.M L ∨ IsAlt (Bar2 L) 5
 
-@[expose] def R17_67At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_67At (D : Data G) (V₀ _V : Subgroup G) : Prop :=
   V₀ ≠ ⊥ → ∀ p : ℕ, p ∈ D.sig →
     ∀ L ∈ calLp D p, ∀ X : Subgroup G, X = conjClosure D.M L →
       X ∈ calL0Star D p →
@@ -95,7 +95,7 @@ structure Ctx17_58 (D : Data G) (V₀ V L : Subgroup G) (p : ℕ) : Prop where
         (X ≠ L ∧ ∃ n : ℕ, IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) ∨
         (∃ n : ℕ, IsPowTwo n ∧ (IsL2 (Bar2 X) n ∨ IsU3 (Bar2 X) n))
 
-@[expose] def R17_68At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_68At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ p : ℕ, p ∈ D.sig →
     ∀ L ∈ calLp D p, ∀ X : Subgroup G, X = conjClosure D.M L →
       X ∈ calL0Star D p → IsAlt (Bar2 L) 5 →

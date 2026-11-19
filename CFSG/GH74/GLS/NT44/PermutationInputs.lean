@@ -37,13 +37,13 @@ private theorem toLetters_schreierLetterCode_cons {j : ℕ}
   cases s
   · have h : (-((i.val + 1 : ℕ) : ℤ)) ≠ 0 ∧ i.val + 1 ≤ j := by
       constructor <;> omega
-    simp only [CFSG.Certificates.schreierLetterCode, Bool.false_eq_true, if_false,
+    simp only [CFSG.Certificates.schreierLetterCode, Bool.false_eq_true, ite_false,
       CFSG.Monster.B.Co2.toLetters, List.filterMap_cons, dite_eq_left h,
       Int.natAbs_neg, Int.natAbs_natCast]
     simp
   · have h : ((i.val + 1 : ℕ) : ℤ) ≠ 0 ∧ i.val + 1 ≤ j := by
       constructor <;> omega
-    simp only [CFSG.Certificates.schreierLetterCode, if_true,
+    simp only [CFSG.Certificates.schreierLetterCode, ite_true,
       CFSG.Monster.B.Co2.toLetters, List.filterMap_cons, dite_eq_left h,
       Int.natAbs_natCast]
     simp

@@ -29,8 +29,8 @@ theorem ggResDepAThreeInput_of_inputs
   have hp3 : p = 3 := hP.1
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hxBs : x ∈ Bs := hH.1.tableB_facts.2.2.1
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hdep : ¬ LinearIndependent (ZMod p) fun i : Λ => h (some i) := hsel
   have htypA : GGIsTypeA ML := htyp
   have hαL : ∀ c : Λ, α (some c) (h (some c)) = 2 := by

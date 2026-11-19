@@ -218,7 +218,7 @@ theorem burnsideC6h_c63_two_pow_le_relIndex {G : Type} [Group G] {R U A : Subgro
     [Finite U] (hU2 : IsPGroup 2 U) (hA : A ≤ U)
     (hlt : R ⊓ Subgroup.centralizer (U : Set G) < R ⊓ Subgroup.centralizer (A : Set G)) :
     2 ^ ChC.mRU R U ≤ A.relIndex U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hU2.index (A.subgroupOf U)
   have hk' : A.relIndex U = 2 ^ k := hk
   have hmem : k ∈ {k : ℕ | ∃ A : Subgroup G, A ≤ U ∧ R ⊓ Subgroup.centralizer (U : Set G) <
@@ -319,7 +319,7 @@ theorem burnsideC6h_c63_part2_pow {G : Type} [Group G] {R U Q : Subgroup G} {x :
     2 ^ ChC.mRU R U ≤
       (ChC.rconj x U ⊓ Subgroup.centralizer (U : Set G)).relIndex (ChC.rconj x U) := by
   have hVR : ChC.rconj x U ≤ R := burnsideC6h_c63_rconj_le_of_normalizer hxR hUR
-  haveI : Finite (ChC.rconj x U) := burnsideC6h_c63_finite_of_le hVR
+  have : Finite (ChC.rconj x U) := burnsideC6h_c63_finite_of_le hVR
   have hV2 : IsPGroup 2 (ChC.rconj x U) := burnsideC6h_c63_isPGroup_rconj x hU2
   have hA'V : ChC.rconj x U ⊓ Subgroup.centralizer (U : Set G) ≤ ChC.rconj x U := inf_le_left
   have hlt : R ⊓ Subgroup.centralizer ((ChC.rconj x U : Subgroup G) : Set G) <
@@ -347,9 +347,9 @@ theorem burnsideC6h_c63_part2 {G : Type} [Group G] {R U Q : Subgroup G} {x : G}
     (hCQ : R ⊓ Subgroup.centralizer (U : Set G) ≤ Q) (hxQ : ¬ ChC.rconj x U ≤ Q) :
     ChC.mRU R U ≤
       Nat.log 2 ((ChC.rconj x U ⊓ Subgroup.centralizer (U : Set G)).relIndex (ChC.rconj x U)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVR : ChC.rconj x U ≤ R := burnsideC6h_c63_rconj_le_of_normalizer hxR hUR
-  haveI : Finite (ChC.rconj x U) := burnsideC6h_c63_finite_of_le hVR
+  have : Finite (ChC.rconj x U) := burnsideC6h_c63_finite_of_le hVR
   have hV2 : IsPGroup 2 (ChC.rconj x U) := burnsideC6h_c63_isPGroup_rconj x hU2
   have h1 := burnsideC6h_c63_part2_pow hxR hUR hU2 hCQ hxQ
   obtain ⟨k, hk⟩ := hV2.index ((ChC.rconj x U ⊓ Subgroup.centralizer (U : Set G)).subgroupOf
@@ -369,7 +369,7 @@ theorem burnsideC6h_c63_part3i_core {G : Type} [Group G] {R U Q : Subgroup G} {x
       r = u * c) ∧
     (∀ q ∈ Q, ∃ u ∈ U, ∃ c ∈ Q ⊓ Subgroup.centralizer ((ChC.rconj x U : Subgroup G) : Set G),
       q = u * c) := by
-  haveI : Finite U := burnsideC6h_c63_finite_of_le hUR
+  have : Finite U := burnsideC6h_c63_finite_of_le hUR
   have hVR : ChC.rconj x U ≤ R := burnsideC6h_c63_rconj_le_of_normalizer hxR hUR
   have hQR : Q ≤ R := by rw [hQC]; exact inf_le_left
   have hR2 : ∀ r ∈ R, ∃ u ∈ U, ∃ c ∈ R ⊓ Subgroup.centralizer
@@ -473,9 +473,9 @@ theorem burnsideC6h_c63_afam {G : Type} [Group G] {R U Q Q' : Subgroup G} {n : �
     (hn : ∀ A : Subgroup G, A ≤ U → R ⊓ Subgroup.centralizer (U : Set G) <
       R ⊓ Subgroup.centralizer (A : Set G) → 2 ^ n ≤ A.relIndex U) :
     ChC.AFam R = {Q, Q'} := by
-  haveI : Finite Q := burnsideC6h_c63_finite_of_le hQR
-  haveI : Finite Q' := burnsideC6h_c63_finite_of_le hQ'R
-  haveI : Finite U := burnsideC6h_c63_finite_of_le hUR
+  have : Finite Q := burnsideC6h_c63_finite_of_le hQR
+  have : Finite Q' := burnsideC6h_c63_finite_of_le hQ'R
+  have : Finite U := burnsideC6h_c63_finite_of_le hUR
   have hEcentral : ∀ e ∈ Q ⊓ Q', ∀ r ∈ R, e * r = r * e := by
     intro e he r hr
     obtain ⟨q, hq, q', hq', rfl⟩ := hprod r hr
@@ -554,8 +554,8 @@ theorem burnsideC6h_c63_afam {G : Type} [Group G] {R U Q Q' : Subgroup G} {n : �
     intro B hBR hBe
     by_contra hcon
     rcases not_or.1 hcon with ⟨h1, h2⟩
-    obtain ⟨b1, hb1, hb1Q⟩ := SetLike.not_le_iff_exists.1 h1
-    obtain ⟨b2, hb2, hb2Q'⟩ := SetLike.not_le_iff_exists.1 h2
+    obtain ⟨b1, hb1, hb1Q⟩ := IsConcreteLE.not_le_iff_exists.1 h1
+    obtain ⟨b2, hb2, hb2Q'⟩ := IsConcreteLE.not_le_iff_exists.1 h2
     have hb1Q' : b1 ∈ Q' := (hunion b1 (hBR hb1) (hBe.2 b1 hb1)).resolve_left hb1Q
     have hb2Q : b2 ∈ Q := (hunion b2 (hBR hb2) (hBe.2 b2 hb2)).resolve_right hb2Q'
     rcases hunion (b1 * b2) (hBR (B.mul_mem hb1 hb2)) (hBe.2 _ (B.mul_mem hb1 hb2)) with h | h
@@ -700,7 +700,7 @@ theorem burnsideC6h_c63_noTwoQuotient {G : Type} [Group G] {L : Subgroup G}
     (hL : L = CFSG.Quasithin.oTwoUpper L) :
     ∀ (N : Subgroup ↥L) [N.Normal], IsPGroup 2 (↥L ⧸ N) → N = ⊤ := by
   intro N _ hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgen : ∀ y ∈ L, Odd (orderOf y) → y ∈ N.map L.subtype := by
     intro y hy hodd
     refine ⟨⟨y, hy⟩, ?_, rfl⟩
@@ -873,14 +873,14 @@ theorem burnsideC6h_c63_conj2 {G : Type} [Group G] {L R TH Λ : Subgroup G}
               Subgroup.centralizer ((⁅pCoreOf 2 L, L⁆ : Subgroup G) : Set G)).relIndex
               (ChC.rconj x ⁅pCoreOf 2 L, L⁆)) := by
   intro hCQ x hx hxQ
-  haveI := h.R_finite
+  have := h.R_finite
   exact burnsideC6h_c63_part2 (burnsideC6h_c63_mem_normalizer_R h hx)
     (burnsideC6h_c63_U_le_R h) (burnsideC6h_c63_isPGroup_U h) hCQ hxQ
 
 theorem burnsideC6h_c63_sq_mem_of_frattini {G : Type} [Group G] {Q D : Subgroup G} [Finite Q]
     (hQ2 : IsPGroup 2 Q) (hΦ : (frattini ↥Q).map Q.subtype ≤ D) : ∀ q ∈ Q, q ^ 2 ∈ D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
   intro q hq
   have h1 : (⟨q, hq⟩ : ↥Q) ^ 2 ∈ frattini ↥Q :=
     CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥Q) (p := 2) ⟨q, hq⟩
@@ -908,7 +908,7 @@ theorem burnsideC6h_c63_D_normalized {G : Type} [Group G] {L R TH Λ : Subgroup 
   exact (Subgroup.mem_normalizer_iff.1 hN d).1 hd
 
 theorem burnsideC6h_c63_D_le_Q {G : Type} [Group G] {L R TH Λ : Subgroup G}
-    (h : ChC.HypC_6_2 L R TH Λ)
+    (_h : ChC.HypC_6_2 L R TH Λ)
     (hQC : pCoreOf 2 (L ⊔ R) = R ⊓ Subgroup.centralizer ((⁅pCoreOf 2 L, L⁆ : Subgroup G) : Set G)) :
     R ⊓ Subgroup.centralizer (L : Set G) ≤ pCoreOf 2 (L ⊔ R) := by
   rw [hQC]
@@ -997,7 +997,7 @@ theorem burnsideC6h_c63_part3iii {G : Type} [Group G] {L R TH Λ : Subgroup G}
       ChC.rconj x (R ⊓ Subgroup.centralizer (L : Set G)) = ⊥ ∧
     (frattini ↥(R ⊓ Subgroup.centralizer (L : Set G))).map
       (R ⊓ Subgroup.centralizer (L : Set G)).subtype = ⊥ := by
-  haveI := h.R_finite
+  have := h.R_finite
   set U : Subgroup G := ⁅pCoreOf 2 L, L⁆ with hU
   set Q : Subgroup G := pCoreOf 2 (L ⊔ R) with hQ
   set D : Subgroup G := R ⊓ Subgroup.centralizer (L : Set G) with hD
@@ -1006,8 +1006,8 @@ theorem burnsideC6h_c63_part3iii {G : Type} [Group G] {L R TH Λ : Subgroup G}
   have hUQ : U ≤ Q := burnsideC6h_c63_U_le_Q h
   have hQR : Q ≤ R := h.O2_le
   have hU2 : IsPGroup 2 U := burnsideC6h_c63_isPGroup_U h
-  haveI : Finite U := burnsideC6h_c63_finite_of_le hUR
-  haveI : Finite Q := burnsideC6h_c63_finite_of_le hQR
+  have : Finite U := burnsideC6h_c63_finite_of_le hUR
+  have : Finite Q := burnsideC6h_c63_finite_of_le hQR
   have hTHX := burnsideC6h_c63_TH_le_normalizer_X h.R_norm h.TH_norm
   have hxW : x ∈ (Λ ⊓ Subgroup.normalizer (R : Set G)) ⊔ TH := by
     have e := Subgroup.coe_mul_of_right_le_normalizer_left
@@ -1088,20 +1088,19 @@ theorem burnsideC6h_c63_part3iii {G : Type} [Group G] {L R TH Λ : Subgroup G}
       exact R.mul_mem (hQR hq) (hQ'R hq')
   · have hDQ : D ≤ Q := burnsideC6h_c63_D_le_Q h hQC
     have hDe : CFSG.QuasithinUnique.C5.ElemAb2 D := hQe.mono hDQ
-    haveI : Finite D := burnsideC6h_c63_finite_of_le (hDQ.trans hQR)
-    haveI : IsElementaryAbelian 2 ↥D :=
+    have : Finite D := burnsideC6h_c63_finite_of_le (hDQ.trans hQR)
+    have : IsElementaryAbelian 2 ↥D :=
       { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hDe.1 a a.2 b b.2)⟩⟩
         exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun d =>
           Subtype.ext (by simpa using hDe.2 d d.2) }
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 ↥D) := ⟨CFSG.IsElementaryAbelian.isPGroup 2 ↥D⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 ↥D) := ⟨CFSG.IsElementaryAbelian.isPGroup 2 ↥D⟩
     rw [CFSG.frattini_eq_bot_of_isElementaryAbelian (R := ↥D) (p := 2), Subgroup.map_bot]
 
 open scoped Pointwise in
 theorem as_C_6_3 : C_6_3 := by
-  intro G _ L R TH Λ h
-  intro X Q D U
-  haveI := h.R_finite
+  intro G _ L R TH Λ h X Q D U
+  have := h.R_finite
   refine ⟨burnsideC6h_c63_conj1 h, burnsideC6h_c63_conj2 h, ?_⟩
   intro hQC hΦ hquot x hx hxQ
   have hxR := burnsideC6h_c63_mem_normalizer_R h hx
@@ -1110,7 +1109,7 @@ theorem as_C_6_3 : C_6_3 := by
   have hUQ : U ≤ Q := burnsideC6h_c63_U_le_Q h
   have hU2 : IsPGroup 2 U := burnsideC6h_c63_isPGroup_U h
   have hQR : Q ≤ R := h.O2_le
-  haveI : Finite Q := burnsideC6h_c63_finite_of_le hQR
+  have : Finite Q := burnsideC6h_c63_finite_of_le hQR
   have hQD : ∀ q ∈ Q, q ^ 2 ∈ D :=
     burnsideC6h_c63_sq_mem_of_frattini (burnsideC6h_c63_isPGroup_pCoreOf (L ⊔ R)) hΦ
   refine ⟨burnsideC6h_c63_part3i hxR hUR hUQ hU2 hQC rfl hidx hxQ, ?_, ?_⟩
@@ -1151,7 +1150,7 @@ theorem burnsideC6h_c64a_perm_eq_one (σ : Equiv.Perm (Fin 7))
     (burnsideC6h_c64a_pair_even i (i + 1) hij) i
   have h2 := h (fun m => if m = i ∨ m = i + 2 then 1 else 0)
     (burnsideC6h_c64a_pair_even i (i + 2) hik) i
-  simp only [true_or, if_true] at h1 h2
+  simp only [true_or, ite_true] at h1 h2
   by_contra hne'
   by_cases ha : σ i = i + 1
   · by_cases hb : σ i = i + 2
@@ -1200,7 +1199,7 @@ theorem burnsideC6h_c64a_swap_add (x : Fin 7 → ZMod 2) (m : Fin 7) :
   · subst h1
     simp [Equiv.swap_apply_right]
   rw [Equiv.swap_apply_of_ne_of_ne h0 h1]
-  simp only [h0, h1, or_self, if_false]
+  simp only [h0, h1, or_self, ite_false]
   exact CharTwo.add_self_eq_zero _
 
 open CFSG.QuasithinUnique CFSG.Quasithin CFSG.ASVolI.ChC in
@@ -1627,7 +1626,7 @@ theorem burnsideC6h_c64a_comm_UR_ge {G : Type} [Group G] {H L R : Subgroup G}
       rw [h3, burnsideC6h_c64a_vec_commU_swap hc r hr, hu₁]
       have h0 : (if (0 : Fin 7) = 0 ∨ (0 : Fin 7) = 2 then (1 : ZMod 2) else 0) = 1 := by decide
       have h01 : (if (1 : Fin 7) = 0 ∨ (1 : Fin 7) = 2 then (1 : ZMod 2) else 0) = 0 := by decide
-      simp only [h0, h01, add_zero]
+      simp only [h01, add_zero]
       rfl
     have h4 := burnsideC6h_c64a_coe_commU hc r u₁
     rw [h2] at h4
@@ -1748,7 +1747,7 @@ theorem burnsideC6h_c64a_mRU_one {G : Type} [Group G] {H L R : Subgroup G}
   refine burnsideC6h_c64a_mRU_eq_one ⟨burnsideC6h_c64a_F β, burnsideC6h_c64a_F_le β, ?_,
     burnsideC6h_c64a_F_relIndex hc.ident.β_bij.2⟩
   obtain ⟨r, hrR, hr⟩ := burnsideC6h_c64a_exists_swap hc
-  refine SetLike.lt_iff_le_and_exists.mpr
+  refine IsConcreteLE.lt_iff_le_and_exists.mpr
     ⟨inf_le_inf_left R (Subgroup.centralizer_le (burnsideC6h_c64a_F_le β)), (r : G),
       Subgroup.mem_inf.mpr ⟨hrR, ?_⟩, ?_⟩
   · rw [Subgroup.mem_centralizer_iff]
@@ -2183,7 +2182,7 @@ theorem burnsideC6h_c64a_cv_exists_x {G : Type} [Group G] {H L R : Subgroup G}
   have hγ1 : ∀ ℓ : ↥L, γ (burnsideC6h_c64a_aL hc.ctx ℓ) = burnsideC6h_c64a_cv hc hq ℓ := by
     intro ℓ
     have h : ∃ ℓ' : ↥L, burnsideC6h_c64a_aL hc.ctx ℓ' = burnsideC6h_c64a_aL hc.ctx ℓ := ⟨ℓ, rfl⟩
-    simp only [γ, dif_pos h]
+    simp only [γ, dite_eq_left h]
     have hspec := h.choose_spec
     have hn : burnsideC6h_c64a_aL hc.ctx (h.choose⁻¹ * ℓ) = 1 := by
       rw [map_mul, map_inv, hspec, inv_mul_cancel]
@@ -2304,7 +2303,7 @@ theorem burnsideC6h_c64a_Q_eq {G : Type} [Group G] {L R TH Λ : Subgroup G}
 theorem burnsideC6h_c64b_exists_sq_mem {G : Type} [Group G] {X R : Subgroup G}
     (hX : IsPGroup 2 X) (hXR : ¬ X ≤ R) : ∃ y ∈ X, y ∉ R ∧ y ^ 2 ∈ R := by
   classical
-  obtain ⟨x, hxX, hxR⟩ := SetLike.not_le_iff_exists.1 hXR
+  obtain ⟨x, hxX, hxR⟩ := IsConcreteLE.not_le_iff_exists.1 hXR
   obtain ⟨k, hk⟩ := hX ⟨x, hxX⟩
   have hk' : x ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hex : ∃ j : ℕ, x ^ 2 ^ j ∈ R := ⟨k, by rw [hk']; exact R.one_mem⟩
@@ -2415,13 +2414,13 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
 theorem burnsideC6h_c64b_quotHas_E2 {G : Type} [Group G] {R Q : Subgroup G} [Finite R]
     (hQR : Q ≤ R) (hN : R ≤ Subgroup.normalizer (Q : Set G)) (h2 : Q.relIndex R = 2) :
     QuotHas R Q (fun Y _ => IsE2 1 Y) := by
-  haveI : (Q.subgroupOf R).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQR).mpr hN
+  have : (Q.subgroupOf R).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQR).mpr hN
   refine ⟨↥R ⧸ Q.subgroupOf R, inferInstance, QuotientGroup.mk' (Q.subgroupOf R),
     QuotientGroup.mk'_surjective _, QuotientGroup.ker_mk' _, ?_⟩
   have hcard : Nat.card (↥R ⧸ Q.subgroupOf R) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : IsCyclic (↥R ⧸ Q.subgroupOf R) := isCyclic_of_prime_card hcard
   have hcard' : Nat.card (Multiplicative (Fin 1 → ZMod 2)) = 2 := by
     simp [Nat.card_eq_fintype_card]
@@ -2468,13 +2467,13 @@ theorem burnsideC6h_c64b_frattini_le {G : Type} [Group G] {Q D U : Subgroup G} [
   have hQN : Q ≤ Subgroup.normalizer (D : Set G) := by
     rw [hQ]
     exact sup_le Subgroup.le_normalizer hUN
-  haveI : (D.subgroupOf Q).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDQ).mpr hQN
+  have : (D.subgroupOf Q).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDQ).mpr hQN
   have hdec : ∀ a ∈ Q, ∃ d ∈ D, ∃ u ∈ U, d * u = a := by
     intro a ha
     have h1 : a ∈ ((D ⊔ U : Subgroup G) : Set G) := hQ ▸ ha
     rw [Subgroup.coe_mul_of_left_le_normalizer_right D U hDU] at h1
     exact Set.mem_mul.1 h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ a b : ↥Q, ⁅a, b⁆ ∈ D.subgroupOf Q := by
     intro a b
     obtain ⟨d, hd, u, hu, hau⟩ := hdec a a.2
@@ -2544,7 +2543,7 @@ theorem burnsideC6h_c64b_core {G : Type} [Group G] {L R TH Λ : Subgroup G}
   have hRΛ : R ≤ Λ := hIIU ▸ inf_le_left
   have hRX : R ≤ Λ ⊓ Subgroup.normalizer (R : Set G) := le_inf hRΛ Subgroup.le_normalizer
   have hXΛ : Λ ⊓ Subgroup.normalizer (R : Set G) ≤ Λ := inf_le_left
-  haveI : Finite ↥(Λ ⊓ Subgroup.normalizer (R : Set G)) := burnsideC6h_c63_finite_of_le hXΛ
+  have : Finite ↥(Λ ⊓ Subgroup.normalizer (R : Set G)) := burnsideC6h_c63_finite_of_le hXΛ
   have hX2 : IsPGroup 2 ↥(Λ ⊓ Subgroup.normalizer (R : Set G)) := hΛ2.to_le hXΛ
   have hnotXR : ¬ Λ ⊓ Subgroup.normalizer (R : Set G) ≤ R := by
     intro h
@@ -2562,7 +2561,7 @@ theorem burnsideC6h_c64b_core {G : Type} [Group G] {L R TH Λ : Subgroup G}
       exact Subgroup.mul_mem _ hyX (hRX h)
   have hX₁N : X₁ ≤ Subgroup.normalizer (R : Set G) := hX₁X.trans inf_le_right
   have hX₁Λ : X₁ ≤ Λ := hX₁X.trans hXΛ
-  haveI : Finite X₁ := burnsideC6h_c63_finite_of_le hX₁Λ
+  have : Finite X₁ := burnsideC6h_c63_finite_of_le hX₁Λ
   have hrel : R.relIndex X₁ = 2 := burnsideC6h_c64b_relIndex_X1 hyX₁ hyR hy2 hyN hmem
   have hyp' : HypC_6_2 L R R X₁ :=
     { L_finite := inferInstance
@@ -2900,7 +2899,7 @@ theorem burnsideC6h_c64c_card_le_of_le {K : Type} [Group K] [Finite K] {E A : Su
   by_cases hAE : A ≤ E
   · calc Nat.card A ≤ Nat.card E := Subgroup.card_le_of_le hAE
       _ ≤ 2 * Nat.card E := by omega
-  · obtain ⟨a, haA, haE⟩ := SetLike.not_le_iff_exists.1 hAE
+  · obtain ⟨a, haA, haE⟩ := IsConcreteLE.not_le_iff_exists.1 hAE
     let f : ↥A → ↥E × Bool := fun b =>
       if hb : (b : K) ∈ E then (⟨b, hb⟩, false)
       else (⟨a * b, (key a haA haE b b.2).resolve_left hb⟩, true)
@@ -3425,7 +3424,7 @@ theorem burnsideC6h_c64c_data {G : Type} [Group G] {L R TH Λ : Subgroup G}
 open CFSG.Quasithin.C64Dihedral in
 theorem burnsideC6h_c64c_exists_complement {G : Type} [Group G] {E : Subgroup G} [Finite E] {u : G}
     (hEsq : ∀ x ∈ E, x ^ 2 = 1) (hEc : ∀ x ∈ E, ∀ x' ∈ E, x * x' = x' * x)
-    (huE : u ∈ E) (hu1 : u ≠ 1) :
+    (_huE : u ∈ E) (hu1 : u ≠ 1) :
     ∃ Q₀ : Subgroup G, Q₀ ≤ E ∧ u ∉ Q₀ ∧ ∀ e ∈ E, e ∈ Q₀ ∨ e * u ∈ Q₀ := by
   classical
   let T : Set ℕ := {n | ∃ Q₁ : Subgroup G, Q₁ ≤ E ∧ u ∉ Q₁ ∧ Nat.card Q₁ = n}
@@ -3442,7 +3441,7 @@ theorem burnsideC6h_c64c_exists_complement {G : Type} [Group G] {E : Subgroup G}
     rw [← pow_two]
     exact hEsq e he
   have hQ₁E : Q₀ ⊔ Subgroup.zpowers e ≤ E := sup_le hQ₀E (Subgroup.zpowers_le.2 he)
-  haveI : Finite ↥(Q₀ ⊔ Subgroup.zpowers e) := burnsideC6h_c63_finite_of_le hQ₁E
+  have : Finite ↥(Q₀ ⊔ Subgroup.zpowers e) := burnsideC6h_c63_finite_of_le hQ₁E
   have hlt : Q₀ < Q₀ ⊔ Subgroup.zpowers e :=
     lt_of_le_of_ne le_sup_left fun h => heQ (h ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers e))
   have hcard : Nat.card Q₀ < Nat.card ↥(Q₀ ⊔ Subgroup.zpowers e) := Subgroup.card_lt_of_lt hlt
@@ -3510,14 +3509,14 @@ theorem burnsideC6h_c64c_dihedral {G : Type} [Group G] {Λ E R : Subgroup G} [Fi
       Q₀.relIndex (centerOf R) = 2 ∧ ∃ n : ℕ, 4 ≤ n ∧ Nonempty (↥D₀ ≃* DihedralGroup n) := by
   classical
   have hEΛ : E ≤ Λ := le_sup_left.trans hPΛ
-  haveI : Finite E := burnsideC6h_c63_finite_of_le hEΛ
+  have : Finite E := burnsideC6h_c63_finite_of_le hEΛ
   have hcenter : centerOf R = E := by
     rw [hR]
     exact burnsideC6h_c64c_centerOf_eq d
   obtain ⟨Q₀, hQ₀E, hQ₀u, hQ₀c⟩ :=
     burnsideC6h_c64c_exists_complement d'.sq d'.comm d'.uE d'.u1
   have hD₀Λ : Subgroup.closure {s, t'} ≤ Λ := le_sup_right.trans hPΛ
-  haveI : Finite ↥(Subgroup.closure {s, t'}) := burnsideC6h_c63_finite_of_le hD₀Λ
+  have : Finite ↥(Subgroup.closure {s, t'}) := burnsideC6h_c63_finite_of_le hD₀Λ
   have hsD : s ∈ Subgroup.closure {s, t'} := Subgroup.subset_closure (by simp)
   have htD : t' ∈ Subgroup.closure {s, t'} := Subgroup.subset_closure (by simp)
   have huD : u ∈ Subgroup.closure {s, t'} := by
@@ -4039,8 +4038,8 @@ theorem burnsideC6h_c64e_blockZ_eq_bot {G : Type} [Group G] {L : Subgroup G} [Fi
     (h : burnsideC6h_c64e_Blk L α β) : blockZ L = ⊥ := by
   have hcomm : ∀ a b : ↥(blockU L), a * b = b * a := fun a b =>
     Subtype.ext (C1.blockU_comm h.short a a.2 b (C1.blockU_le_blockQ h.short b.2))
-  haveI : IsMulCommutative ↥(blockU L) := ⟨⟨hcomm⟩⟩
-  haveI : Finite ↥(blockU L) :=
+  have : IsMulCommutative ↥(blockU L) := ⟨⟨hcomm⟩⟩
+  have : Finite ↥(blockU L) :=
     Finite.of_injective (Subgroup.inclusion ((C1.blockU_le_blockQ h.short).trans
       (C1.blockQ_le L))) (Subgroup.inclusion_injective _)
   exact burnsideC6h_c64e_cover (L := L) (V := blockU L) (C1.blockU_sq h.short)
@@ -4099,7 +4098,7 @@ open CFSG.Quasithin.SteinbergCB (permAct7) in
 theorem burnsideC6h_c64e_exists_ident {G : Type} [Group G] {L R TH : Subgroup G}
     [Finite L] [Finite R] [Finite TH]
     (hLH : L = oTwoUpper (L ⊔ TH)) (hblk : IsBlock2 (L ⊔ TH) L) (h7 : IsAltType L 7)
-    (hTH : IsPGroup 2 TH) (hRTH : R ≤ TH) (hQR : pCoreOf 2 (L ⊔ TH) ≤ R)
+    (_hTH : IsPGroup 2 TH) (_hRTH : R ≤ TH) (_hQR : pCoreOf 2 (L ⊔ TH) ≤ R)
     (α : ↥(L ⊔ TH) →* Equiv.Perm (Fin 7)) (hα : A7QuotientIdent (L ⊔ TH) R α) :
     ∃ β : ↥(blockU L) →* Multiplicative (evenWeight 7), A7Ident (L ⊔ TH) L R α β := by
   have hHN : L ⊔ TH ≤ Subgroup.normalizer (L : Set G) := by
@@ -4325,7 +4324,7 @@ theorem burnsideC6h_c64d_step {G : Type} [Group G] {LV Λ P : Subgroup G} [Finit
     clear hx
     induction hx' using Subgroup.closure_induction with
     | mem z hz => exact hconj z hz.1 hz.2
-    | one => simpa using LV.one_mem
+    | one => simp
     | mul a b _ _ iha ihb => simpa [mul_assoc] using LV.mul_mem iha ihb
     | inv a _ ih => simpa [mul_assoc] using LV.inv_mem ih
   have hinv : y⁻¹ ∈ Subgroup.normalizer (LV : Set G) :=
@@ -4523,7 +4522,7 @@ theorem burnsideC6h_c64d_Lambda_le {G : Type} [Group G] {L R TH Λ : Subgroup G}
     Λ ≤ Subgroup.normalizer (oTwoUpper (L ⊓ Subgroup.normalizer (R : Set G)) : Set G) := by
   set LV := oTwoUpper (L ⊓ Subgroup.normalizer (R : Set G)) with hLVdef
   have hLVL : LV ≤ L := (oTwoUpper_le _).trans inf_le_left
-  haveI : Finite ↥LV := burnsideC6h_c63_finite_of_le hLVL
+  have : Finite ↥LV := burnsideC6h_c63_finite_of_le hLVL
   have hLVperf : LV = oTwoUpper LV := (burnsideC6h_c64d_oTwoUpper_idem _).symm
   have hHN : L ⊔ TH ≤ Subgroup.normalizer (L : Set G) := by
     have h1 := le_normalizer_oTwoUpper (L ⊔ TH)
@@ -4794,7 +4793,7 @@ theorem burnsideC6h_c64d_comm_of_mem_normalizer {G : Type} [Group G] {H L R : Su
     rw [h] at hk
     have : Equiv.swap (0 : Fin 7) 1 = 1 := by
       have := congrArg (fun x => (α g)⁻¹ * x * α g) hk.symm
-      simpa [mul_assoc] using this
+      simp [mul_assoc] at this
     exact burnsideC6h_c64a_swap_ne_one this
   · rw [h] at hk
     calc α g * Equiv.swap 0 1 = (α g * Equiv.swap 0 1 * (α g)⁻¹) * α g := by group
@@ -4995,8 +4994,8 @@ theorem burnsideC6h_c64d_alpha_V {G : Type} [Group G] {H L R : Subgroup G}
   have hVH : pCoreOf 2 LV ≤ H := hVLV.trans (hLVL.trans hc.LH)
   have hV2 : IsPGroup 2 ↥(pCoreOf 2 LV) := burnsideC6h_c63_isPGroup_pCoreOf LV
   let ρ : ↥(pCoreOf 2 LV) →* Equiv.Perm (Fin 7) := α.comp (Subgroup.inclusion hVH)
-  letI : MulAction ↥(pCoreOf 2 LV) (Fin 7) := MulAction.compHom (Fin 7) ρ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥(pCoreOf 2 LV) (Fin 7) := MulAction.compHom (Fin 7) ρ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hV2.card_modEq_card_fixedPoints (Fin 7)
   have hmemfix : ∀ a : Fin 7, a ∈ MulAction.fixedPoints ↥(pCoreOf 2 LV) (Fin 7) ↔
       ∀ w : ↥(pCoreOf 2 LV), ρ w a = a := by
@@ -5158,7 +5157,7 @@ theorem burnsideC6h_c64d_V_le_Q {G : Type} [Group G] {H L R : Subgroup G}
     {α : ↥H →* Equiv.Perm (Fin 7)} {β : ↥(blockU L) →* Multiplicative (evenWeight 7)}
     (hs : burnsideC6h_c64d_Std H L R α β) {v : G}
     (hv : v ∈ pCoreOf 2 (burnsideC6h_c64d_LV L R)) : v ∈ pCoreOf 2 H := by
-  haveI := hs.finL
+  have := hs.finL
   have hvLV : v ∈ burnsideC6h_c64d_LV L R :=
     CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 _ hv
   have hvH : v ∈ H := hs.ctx.LH (burnsideC6h_c64d_LV_le L R hvLV)
@@ -5271,7 +5270,7 @@ theorem burnsideC6h_c64d_hS1 {G : Type} [Group G] {H L R : Subgroup G}
     ∀ s ∈ ⁅pCoreOf 2 (burnsideC6h_c64d_LV L R), burnsideC6h_c64d_LV L R⁆,
       (∀ l ∈ burnsideC6h_c64d_LV L R, l * s * l⁻¹ = s) → s = 1 := by
   intro s hsS hfix
-  haveI := hs.finL
+  have := hs.finL
   obtain ⟨u, rfl, h0, h1⟩ := burnsideC6h_c64d_S_coords hs hsS
   have hconst : ∀ a b : Fin 7, a ≠ 0 → a ≠ 1 → b ≠ 0 → b ≠ 1 →
       burnsideC6h_c64a_vec β u a = burnsideC6h_c64a_vec β u b := by
@@ -5304,7 +5303,7 @@ theorem burnsideC6h_c64d_pair_mem_V {G : Type} [Group G] {H L R : Subgroup G}
     (hs : burnsideC6h_c64d_Std H L R α β) {q : Fin 7} (hq : 2 < q) {u : ↥(blockU L)}
     (hu : burnsideC6h_c64a_vec β u = burnsideC6h_c64d_pair q) :
     (u : G) ∈ pCoreOf 2 (burnsideC6h_c64d_LV L R) := by
-  haveI := hs.finL
+  have := hs.finL
   obtain ⟨hq0, hq1, hq2⟩ := burnsideC6h_c64d_D9 q hq
   obtain ⟨c, hc0, hc1, hc2', hcq⟩ := burnsideC6h_c64d_third 2 q (by decide) (by decide) hq0 hq1
     (Ne.symm hq2)
@@ -5332,7 +5331,7 @@ theorem burnsideC6h_c64d_pair_mem_S {G : Type} [Group G] {H L R : Subgroup G}
     (hs : burnsideC6h_c64d_Std H L R α β) {q : Fin 7} (hq : 2 < q) {u : ↥(blockU L)}
     (hu : burnsideC6h_c64a_vec β u = burnsideC6h_c64d_pair q) :
     (u : G) ∈ ⁅pCoreOf 2 (burnsideC6h_c64d_LV L R), burnsideC6h_c64d_LV L R⁆ := by
-  haveI := hs.finL
+  have := hs.finL
   obtain ⟨hq0, hq1, hq2⟩ := burnsideC6h_c64d_D9 q hq
   obtain ⟨c, hc0, hc1, hc2', hcq⟩ := burnsideC6h_c64d_third 2 q (by decide) (by decide) hq0 hq1
     (Ne.symm hq2)
@@ -5362,7 +5361,7 @@ theorem burnsideC6h_c64d_hgen {G : Type} [Group G] {H L R : Subgroup G}
         Subgroup.closure X ∧
       ∀ x ∈ X, ∀ z ∈ (⁅pCoreOf 2 (burnsideC6h_c64d_LV L R), burnsideC6h_c64d_LV L R⁆ : Subgroup G),
         (∀ b ∈ burnsideC6h_c64d_LV L R, b * x * b⁻¹ = x → b * z * b⁻¹ = z) → z = 1 ∨ z = x := by
-  haveI := hs.finL
+  have := hs.finL
   set X : Set G := {g | ∃ q : Fin 7, 2 < q ∧ ∃ u : ↥(blockU L), (u : G) = g ∧
     burnsideC6h_c64a_vec β u = burnsideC6h_c64d_pair q} with hXdef
   refine ⟨X, ?_, ?_, ?_⟩
@@ -5548,12 +5547,11 @@ theorem burnsideC6h_c64d_part9 {G : Type} [Group G] {L R TH Λ : Subgroup G}
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC in
 open scoped Pointwise in
 theorem as_C_6_4 : C_6_4 := by
-  intro G _ L R TH Λ hyp
-  intro H X Q D U LV hLH hblk h7 hQR α hα hII hΛ2 hLV
-  haveI := hyp.L_finite
-  haveI := hyp.R_finite
-  haveI := hyp.TH_finite
-  haveI := hyp.Λ_finite
+  intro G _ L R TH Λ hyp H X Q D U LV hLH hblk h7 hQR α hα hII hΛ2 hLV
+  have := hyp.L_finite
+  have := hyp.R_finite
+  have := hyp.TH_finite
+  have := hyp.Λ_finite
   obtain ⟨β, hid⟩ :=
     burnsideC6h_c64e_exists_ident hLH hblk h7 hyp.TH_two hyp.R_le hQR α hα
   have h16 := burnsideC6h_c64_part1to6 hyp hLH hblk h7 hQR α β hid hII hΛ2

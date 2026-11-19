@@ -143,7 +143,7 @@ theorem exists_small_orbit_omegaMinus (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0
           refine Nat.card_congr ?_
           exact
           { toFun := fun x => ⟨Multiplicative.toAdd (x : Multiplicative (OW F)), x.2⟩
-            invFun := fun x => ⟨Multiplicative.ofAdd (x : OW F), by simpa using x.2⟩
+            invFun := fun x => ⟨Multiplicative.ofAdd (x : OW F), by simp⟩
             left_inv := fun x => by ext; simp
             right_inv := fun x => by ext; simp }
         have h2 : Nat.card ↥T.toAddSubgroup = Nat.card ↥T := by
@@ -323,7 +323,7 @@ theorem exists_small_orbit_omegaMinus (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0
         refine Nat.card_congr ?_
         exact
         { toFun := fun x => ⟨Multiplicative.toAdd (x : Multiplicative (OW F)), x.2⟩
-          invFun := fun x => ⟨Multiplicative.ofAdd (x : OW F), by simpa using x.2⟩
+          invFun := fun x => ⟨Multiplicative.ofAdd (x : OW F), by simp⟩
           left_inv := fun x => by ext; simp
           right_inv := fun x => by ext; simp }
       rw [hcard]

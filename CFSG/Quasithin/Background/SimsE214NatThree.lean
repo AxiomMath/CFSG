@@ -280,7 +280,7 @@ theorem e214_three
   obtain ⟨-, -, -, -, hnc, -⟩ := Ch3n.exists_cubic_of_pair hp hcharI hIV
   have hPZ : ∃ x ∈ (kerIn (M ⊓ I) I ⊓ V) ⊔ B6.conjSub g⁻¹ (kerIn (M ⊓ I) I ⊓ V),
       x ∉ V ⊓ B6.conjSub g⁻¹ V := by
-    obtain ⟨a, ha, hac⟩ := SetLike.not_le_iff_exists.1 hnc
+    obtain ⟨a, ha, hac⟩ := IsConcreteLE.not_le_iff_exists.1 hnc
     refine ⟨a, le_sup_right (b := B6.conjSub g⁻¹ (kerIn (M ⊓ I) I ⊓ V)) ha, fun haZ => hac ?_⟩
     rw [Subgroup.mem_centralizer_iff]
     intro v hv

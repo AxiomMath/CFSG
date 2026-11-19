@@ -65,6 +65,7 @@ theorem fe_eq {d j : Nat} (hj : j < (unpack 2080 15 (FAM d)).toList.length) :
     CFSG.KC.Misc.PairCount.unpack_get hj']
   rfl
 
+set_option exponentiation.threshold 1950 in
 theorem fld_fld (A b i : Nat) (hi : i < 130) :
     fld(fld(A, Nat.mul 1950 b, mask 1950), Nat.mul 15 i, mask 15) =
       fld(A, Nat.mul 15 (Nat.add (Nat.mul 130 b) i), mask 15) := by
@@ -232,7 +233,7 @@ theorem img_facts {k d : Nat} (hk : k < 2) (hd : d < 1782) :
   simp only [sB, bA, Bool.and_eq_true] at h
   refine ⟨Eq.mp Nat.blt_eq h.1, fun j hj => ?_⟩
   have h2 := CFSG.KS.allN_spec h.2 j hj
-  simp only [sB, bA, Bool.and_eq_true] at h2
+  simp only [Bool.and_eq_true] at h2
   exact ⟨_, Eq.mp Nat.blt_eq h2.1, Nat.eq_of_beq_eq_true h2.2⟩
 
 theorem imgSorted_eq {k d : Nat} (hk : k < 2) (hd : d < 1782) :

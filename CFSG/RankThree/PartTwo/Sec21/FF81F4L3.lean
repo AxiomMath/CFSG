@@ -78,7 +78,7 @@ theorem L3_C {U : Subgroup F42C} (hU : Nat.card ↥U = 2 ^ 24) :
     Nat.card ↥(Subgroup.center ↥U) = 4 ∧
     U = Subgroup.closure {u | u ∈ U ∧ orderOf u = 2 ∧
       Nat.card ↥(Subgroup.centralizer ({u} : Set F42C)) = cenRoot} := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : IsSylowOf 2 U (⊤ : Subgroup F42C) := isSylowOf_of_card_p le_top
     (by rw [hU, Subgroup.card_top, card_F42C, factorization_two_card])

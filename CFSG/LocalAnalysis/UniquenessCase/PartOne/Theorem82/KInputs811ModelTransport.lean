@@ -47,7 +47,7 @@ theorem exists_centralizer_map_eq_of_model
         Set (H ⧸ N))) =
       (centralizer ((A₀.map (QuotientGroup.mk' N) : Subgroup (H ⧸ N)) : Set (H ⧸ N))).map
         (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA₀' : IsElemAbelian 3 (A₀.map (QuotientGroup.mk' N)) := hA₀.map _
   have hA' : IsElemAbelian 3 ((A.map (QuotientGroup.mk' Z)).map e.toMonoidHom) :=
     (hA.map _).map _
@@ -92,7 +92,7 @@ theorem pRank_centralizer_eq_of_model {ℓ : ℕ} [Fact ℓ.Prime]
     (e : Y ⧸ Z ≃* H ⧸ N) {A₀ : Subgroup H} (hA₀ : IsElemAbelian 3 A₀) (h₀27 : Nat.card A₀ = 27)
     {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     CFSG.Open.pRank ℓ (centralizer (A : Set Y)) = CFSG.Open.pRank ℓ (centralizer (A₀ : Set H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← CoprimeTransport.pRank_centralizer_map_mk_eq (s := 3) hZ hZℓ hA.isPGroup,
     ← CoprimeTransport.pRank_centralizer_map_mk_eq (s := 3) hN hNℓ hA₀.isPGroup]
   exact pRank_centralizer_map_eq_of_model hU hN hZ e hA₀ h₀27 hA h27
@@ -103,7 +103,7 @@ theorem dvd_card_centralizer_iff_of_model {ℓ : ℕ} [Fact ℓ.Prime]
     (e : Y ⧸ Z ≃* H ⧸ N) {A₀ : Subgroup H} (hA₀ : IsElemAbelian 3 A₀) (h₀27 : Nat.card A₀ = 27)
     {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     ℓ ∣ Nat.card (centralizer (A : Set Y)) ↔ ℓ ∣ Nat.card (centralizer (A₀ : Set H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← CoprimeTransport.dvd_card_centralizer_map_mk_iff (s := 3) hZ hZℓ hA.isPGroup,
     ← CoprimeTransport.dvd_card_centralizer_map_mk_iff (s := 3) hN hNℓ hA₀.isPGroup,
     card_centralizer_map_eq_of_model hU hN hZ e hA₀ h₀27 hA h27]
@@ -116,7 +116,7 @@ theorem two_le_pRank_centralizer_of_model {ℓ : ℕ} [Fact ℓ.Prime]
       Set (H ⧸ N))))
     {A : Subgroup Y} (hA : IsElemAbelian 3 A) (h27 : Nat.card A = 27) :
     2 ≤ CFSG.pRank ℓ (centralizer (A : Set Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
   refine CentralQuotient.two_le_pRank_centralizer_of_quotient (s := 3) hZ hℓ hA.isPGroup ?_
   rwa [pRank_centralizer_map_eq_of_model hU hN hZ e hA₀ h₀27 hA h27]
@@ -153,7 +153,7 @@ theorem two_le_pRank_centralizer_map_mk_of_three_le {H : Type} [Group H] [Finite
     (h : 3 ≤ CFSG.Open.pRank ℓ (centralizer (A₀ : Set H))) :
     2 ≤ CFSG.Open.pRank ℓ (centralizer ((A₀.map (QuotientGroup.mk' N) : Subgroup (H ⧸ N)) :
       Set (H ⧸ N))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.GroupTheory.SteinbergBS.centralizer_map_mk'_eq (p := 3) hN hA₀.isPGroup]
   have := pRank_le_pRank_map_mk_add_one_of_isCyclic (ℓ := ℓ) N (centralizer (A₀ : Set H))
   omega
@@ -165,7 +165,7 @@ theorem pRank_centralizer_image_eq_of_model {ℓ : ℕ} [Fact ℓ.Prime]
     {A : Subgroup Y} {c : Multiplicative (Fin 3 → ZMod 3) →* Y} (h : IsSignedCoords A c)
     (S : Set (Multiplicative (Fin 3 → ZMod 3))) :
     CFSG.Open.pRank ℓ (centralizer (c '' S)) = CFSG.Open.pRank ℓ (centralizer (c₀ '' S)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSA : c '' S ⊆ A := by
     rintro _ ⟨v, -, rfl⟩
     rw [← h.2.1]
@@ -196,7 +196,7 @@ theorem dvd_card_centralizer_image_iff_of_model {ℓ : ℕ} [Fact ℓ.Prime]
     {A : Subgroup Y} {c : Multiplicative (Fin 3 → ZMod 3) →* Y} (h : IsSignedCoords A c)
     (S : Set (Multiplicative (Fin 3 → ZMod 3))) :
     ℓ ∣ Nat.card (centralizer (c '' S)) ↔ ℓ ∣ Nat.card (centralizer (c₀ '' S)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSA : c '' S ⊆ A := by
     rintro _ ⟨v, -, rfl⟩
     rw [← h.2.1]
@@ -232,7 +232,7 @@ theorem k6r_of_model {r : ℕ} [Fact r.Prime]
         c (Multiplicative.ofAdd ![0, 1, 0])} : Set Y)) ∧
       1 ≤ CFSG.pRank r (centralizer ({c (Multiplicative.ofAdd ![1, 1, 1]),
         c (Multiplicative.ofAdd ![0, 0, 1])} : Set Y))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨hp1, hp2, hp3⟩, hpl1, hpl2⟩ := hr
   have hpt : ∀ c : Multiplicative (Fin 3 → ZMod 3) →* Y, IsSignedCoords A c →
       ∀ x : Multiplicative (Fin 3 → ZMod 3),

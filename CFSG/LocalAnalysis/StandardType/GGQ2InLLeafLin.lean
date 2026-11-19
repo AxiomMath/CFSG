@@ -48,7 +48,7 @@ theorem planeLin_noInternal {t : ℕ} (ε : Fin 2) (h4 : 4 ≤ t) (vx : PlaneRaw
         rw [PlaneRaw.mem_cent_zero]
         intro i' hi'
         have : i' ≠ i := fun h => hi (h ▸ hi')
-        simp [Pi.single_apply, this]
+        simp [this]
       have hmem' : (Pi.single i (1 : ZMod 3) : PlaneRaw.V t) ∈ Submodule.span (ZMod 3) {vx} := by
         rw [← hcent]
         exact hmem
@@ -75,7 +75,7 @@ theorem planeLin_noInternal {t : ℕ} (ε : Fin 2) (h4 : 4 ≤ t) (vx : PlaneRaw
         intro i1 h1 j1 h2
         have n1 : i1 ≠ i := fun h => (PlaneRaw.mem_extSupport e i1).1 h1 (h ▸ hi)
         have n2 : j1 ≠ i := fun h => (PlaneRaw.mem_extSupport e j1).1 h2 (h ▸ hi)
-        simp [Pi.single_apply, n1, n2]
+        simp [n1, n2]
       have hmem' : (Pi.single i (1 : ZMod 3) : PlaneRaw.V t) ∈ Submodule.span (ZMod 3) {vx} := by
         rw [← hcent]
         exact hmem

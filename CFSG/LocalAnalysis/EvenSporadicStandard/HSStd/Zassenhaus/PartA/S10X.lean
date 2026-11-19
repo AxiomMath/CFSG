@@ -16,6 +16,7 @@ section Main
 variable {G : Type} [Group G] [Finite G] {L A : Subgroup G} {t u y : G}
   {σ : Equiv.Perm (Fin 5)}
 
+omit [Finite G] in
 theorem tBar_ne_one (S : FusionSetup G L A t u) : tBar S ≠ 1 := by
   intro h1
   have hT := S.tu_sq
@@ -28,6 +29,7 @@ theorem tBar_ne_one (S : FusionSetup G L A t u) : tBar S ≠ 1 := by
       exact h4.symm
     exact S.u_ne this
 
+omit [Finite G] in
 theorem orderOf_tBar (S : FusionSetup G L A t u) : orderOf (tBar S) = 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact tBar_sq S) (tBar_ne_one S)
@@ -54,6 +56,7 @@ theorem quot_isSporadic (hHiS : Harris311HiS) (S : FusionSetup G L A t u) (hn : 
   exact harris_hs hHiS hK (fusionOddCore_quotT_eq_bot S hn hOH) (orderOf_tBar S) e
     (mkT (t * u) F.yH) (F.orderOf_mkT_yH hnc) (five_nonempty_mulEquiv_centralizer F)
 
+omit [Finite G] in
 theorem card_cent_tBar (S : FusionSetup G L A t u) (hn : ¬ IsConj t u)
     (eA : ↥A ≃* MulAut (alternatingGroup (Fin 6))) :
     Nat.card ↥(centralizer ({tBar S} : Set (QuotT (t * u)))) = 2880 := by

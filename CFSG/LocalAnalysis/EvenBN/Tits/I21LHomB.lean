@@ -37,12 +37,12 @@ theorem eq_or_eq_top_of_le (M H : Subgroup G) {q : ℕ} (hq : q.Prime) (hMq : M.
   carrier := {g | er ρ g * e = e * er ρ g}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, map_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, map_mul] at ha hb ⊢
     rw [mul_assoc, hb, ← mul_assoc, ha, mul_assoc]
   one_mem' := by simp
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have h1 : er ρ g * er ρ g⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
     have h2 : er ρ g⁻¹ * er ρ g = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
     calc er ρ g⁻¹ * e = er ρ g⁻¹ * e * (er ρ g * er ρ g⁻¹) := by rw [h1, mul_one]
@@ -51,6 +51,7 @@ theorem eq_or_eq_top_of_le (M H : Subgroup G) {q : ℕ} (hq : q.Prime) (hMq : M.
       _ = (er ρ g⁻¹ * er ρ g) * e * er ρ g⁻¹ := by simp only [mul_assoc]
       _ = e * er ρ g⁻¹ := by rw [h2, one_mul]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem finrank_range_cj (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (e : Module.End (ZMod 2) V) :
     finrank (ZMod 2) (LinearMap.range (cj ρ g e)) = finrank (ZMod 2) (LinearMap.range e) := by
   have h : (LinearMap.range e).map (ρ g : V →ₗ[ZMod 2] V) = LinearMap.range (cj ρ g e) := by
@@ -64,6 +65,7 @@ theorem finrank_range_cj (ρ : G →* (V ≃ₗ[ZMod 2] V)) (g : G) (e : Module.
       simp [cj_apply, er_apply]
   exact (LinearEquiv.ofSubmodules (ρ g) _ _ h).finrank_eq.symm
 
+omit [Module.Finite (ZMod 2) V] in
 theorem eq_one_of_idem_range_top {e : Module.End (ZMod 2) V} (hi : e * e = e)
     (h : LinearMap.range e = ⊤) : e = 1 := by
   ext v
@@ -77,6 +79,7 @@ theorem eq_of_finrank_range_eq_of_idem {e p : Module.End (ZMod 2) V}
     LinearMap.range p = LinearMap.range e :=
   Submodule.eq_of_le_of_finrank_le hle hr
 
+omit [Module.Finite (ZMod 2) V] in
 theorem eq_of_range_eq {a p : Module.End (ZMod 2) V} (hpi : p * p = p) (hpa : p * a = p)
     (hra : LinearMap.range a = LinearMap.range p) : a = p := by
   ext v
@@ -191,13 +194,16 @@ theorem sum_idem_rank {e : ℕ → Module.End (ZMod 2) V} (n : ℕ)
         _ = F + e n := by rw [ih1, hFa, haF, hi n (by omega)]; simp
     · rw [finrank_range_add ih1 (hi n (by omega)) hFa haF, ih2]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem comm_mono (ρ : G →* (V ≃ₗ[ZMod 2] V)) {M N : Subgroup G} (h : M ≤ N)
     {z : Module.End (ZMod 2) V} (hz : z ∈ comm ρ N) : z ∈ comm ρ M :=
   (mem_comm ρ M z).mpr fun m hm => (mem_comm ρ N z).mp hz m (h hm)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem le_centE (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) {e : Module.End (ZMod 2) V}
     (he : e ∈ comm ρ M) : M ≤ centE ρ e := fun m hm => (mem_comm ρ M e).mp he m hm
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_cz_top_of_centE (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
     {e : Module.End (ZMod 2) V} (he : e ∈ cz ρ M) (h : centE ρ e = ⊤) : e ∈ cz ρ ⊤ := by
   obtain ⟨hec, hez⟩ := (mem_cz ρ M e).mp he
@@ -206,11 +212,13 @@ theorem mem_cz_top_of_centE (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
   have : g ∈ centE ρ e := by rw [h]; trivial
   exact this
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cj_eq_of_mem_centE (ρ : G →* (V ≃ₗ[ZMod 2] V)) {g : G} {f : Module.End (ZMod 2) V}
     (hg : g ∈ centE ρ f) : cj ρ g f = f := by
   have hg' : er ρ g * f = f * er ρ g := hg
   rw [cj_apply, hg', mul_assoc, ← map_mul, mul_inv_cancel, map_one, mul_one]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem mem_centE_of_cj_eq (ρ : G →* (V ≃ₗ[ZMod 2] V)) {g : G} {f : Module.End (ZMod 2) V}
     (h : cj ρ g f = f) : g ∈ centE ρ f := by
   show er ρ g * f = f * er ρ g

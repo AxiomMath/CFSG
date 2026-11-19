@@ -114,6 +114,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner Outer equivalence)
 
 variable {C : Type*} [Group C] [Finite C]
 
+omit [Finite C] in
 theorem exists_mul_mem_centralizer_of_alt6 {E : Subgroup C} [E.Normal]
     (eE : E ≃* alternatingGroup (Fin 6)) (hidx : E.index = 9) (c : C) :
     ∃ x ∈ E, c * x⁻¹ ∈ Subgroup.centralizer (E : Set C) := by
@@ -156,6 +157,7 @@ theorem exists_mul_mem_centralizer_of_alt6 {E : Subgroup C} [E.Normal]
         rw [← h']
     _ = c * (x : C)⁻¹ * y := by group
 
+omit [Finite C] in
 theorem alt6_split {E : Subgroup C} [E.Normal] (eE : E ≃* alternatingGroup (Fin 6))
     (hidx : E.index = 9) :
     Nat.card (Subgroup.center C) = 9 ∧ Subgroup.center C ⊓ E = ⊥ ∧
@@ -197,7 +199,7 @@ theorem alt6_split {E : Subgroup C} [E.Normal] (eE : E ≃* alternatingGroup (Fi
       rw [h1, inv_one, mul_one]
   have hKab : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a := by
     have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    have hcomm := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (G := K) (by rw [hKcard]; norm_num)
+    have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := K) (by rw [hKcard]; norm_num)).is_comm.comm
     exact fun a ha b hb => congrArg Subtype.val (hcomm ⟨a, ha⟩ ⟨b, hb⟩)
   have hZK : Subgroup.center C = K := by
     apply le_antisymm
@@ -262,6 +264,7 @@ variable {Y : Type} [Group Y] [Finite Y] (e : Y ≃* CFSG.Blueprint.NativeSporad
 @[expose] noncomputable def plane (d : Y) : Subgroup Y := centerIn (Subgroup.centralizer ({d} : Set Y))
 
 include e in
+omit [Finite Y] in
 theorem plane_facts {d : Y} (hd : orderOf d = 3) :
     Nat.card (Subgroup.centralizer ({d} : Set Y)) = 3240 ∧ Nat.card (plane d) = 9 ∧ d ∈ plane d := by
   obtain ⟨E, hn, ⟨eE⟩, hidx⟩ := alt6_normal_centralizer_ON e hd
@@ -309,6 +312,7 @@ theorem plane_eq_of_mem_plane {d d' : Y} (hd : orderOf d = 3) (hd' : d' ∈ plan
   rw [plane, plane, centralizer_eq_of_mem_plane e hd hd' hd'1]
 
 include e in
+omit [Finite Y] in
 theorem centralizer_plane {d : Y} (hd : orderOf d = 3) :
     Subgroup.centralizer ((plane d : Subgroup Y) : Set Y) = Subgroup.centralizer ({d} : Set Y) := by
   apply le_antisymm
@@ -348,7 +352,7 @@ theorem plane_le_sylow {d : Y} (hd : orderOf d = 3) (S : Sylow 3 Y) (hdS : d ∈
           _ = z⁻¹ * (z * (z * s * z⁻¹)) := by rw [h]
           _ = z * s * z⁻¹ := by group]
       exact hs
-  have hsup : IsPGroup 3 ↥(plane d ⊔ (S : Subgroup Y)) := hp.to_sup_of_normal_right' S.isPGroup' hN
+  have hsup : IsPGroup 3 ↥(plane d ⊔ (S : Subgroup Y)) := hp.to_sup_of_normal_right' S.isPGroup hN
   exact le_sup_left.trans (S.maximal_isPGroup.le_of_ge hsup le_sup_right)
 
 include e in

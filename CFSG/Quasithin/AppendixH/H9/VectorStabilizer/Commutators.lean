@@ -34,7 +34,7 @@ private theorem exists_ne_zero_ne_pair (hm : 2 ≤ m) (s : Fin m → ZMod 2) :
   have he01 : (Pi.single i0 (1 : ZMod 2) : Fin m → ZMod 2) ≠ Pi.single i1 1 := by
     intro h
     have := congrFun h i0
-    simp [Pi.single_apply, h01] at this
+    simp [h01] at this
   by_cases hs : s = Pi.single i0 1
   · exact ⟨Pi.single i1 1, he1, fun h => he01 (hs ▸ h.symm)⟩
   · exact ⟨Pi.single i0 1, he0, fun h => hs h.symm⟩

@@ -15,6 +15,7 @@ section Sp
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem torus_sp_eq_bot (hF : Nat.card F = 2) (k : Fin n) : Symplectic.torus n F k = ⊥ := by
   rw [eq_bot_iff]
   intro g hg
@@ -168,14 +169,14 @@ theorem sp_root_support {x y : Fin n} (hxy : x.val + 2 ≤ y.val) {γ : Fin n �
       (by simp [hq]; omega))
     have hqpos : 0 < q.val := by simp [hq]
     have : (if h : 0 < q.val then γ ⟨q.val - 1, by omega⟩ else 0) = γ x := by
-      rw [dif_pos hqpos]
+      rw [dite_eq_left hqpos]
       congr 1
     rw [this, h0]
     omega
   have e3 : toStd n γ y ≠ 0 := by
     simp only [toStd]
     have : (if h : 0 < y.val then γ ⟨y.val - 1, by omega⟩ else 0) = 0 := by
-      rw [dif_pos (by omega)]
+      rw [dite_eq_left (by omega)]
       exact hs _ (Fin.ne_of_val_ne (by simp; omega)) (Fin.ne_of_val_ne (by simp; omega))
     rw [this, sub_zero]
     split_ifs <;> omega
@@ -186,8 +187,8 @@ theorem not_adjacent_of_cartanC_eq_zero {i j : Fin n} (hij : i ≠ j) (h : carta
     ¬(i.val + 1 = j.val ∨ j.val + 1 = i.val) := by
   intro hadj
   have hv : i.val ≠ j.val := fun e => hij (Fin.ext e)
-  simp only [cartanC, Matrix.of_apply, if_neg hij, if_pos hadj] at h
-  split_ifs at h <;> omega
+  simp only [cartanC, Matrix.of_apply, ite_eq_right hij, ite_eq_left hadj] at h
+  split_ifs at h
 
 omit [Finite F] [CharP F 2] in
 theorem sp_orthogonal_cases (hn0 : 0 < n) (hn : n ≤ 4) (I : Set (Fin n))
@@ -288,8 +289,8 @@ theorem sp_lines_core (hn0 : 0 < n) (hn : n ≤ 4) (hF : Nat.card F = 2)
       (hAS {x, y} hsub).trans (sup_le_sup_left iSup_pair.le _)
     have hcz : cartanC n x y = 0 := by
       have : (D.cartan x y) = cartanC n x y := rfl
-      simp only [cartanC, Matrix.of_apply, if_neg hxy']
-      rw [if_neg]
+      simp only [cartanC, Matrix.of_apply, ite_eq_right hxy']
+      rw [ite_eq_right]
       intro hadj
       omega
     refine exists_line_of_two_nodes hext hH hU2

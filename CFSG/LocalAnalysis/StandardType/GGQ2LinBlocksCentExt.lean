@@ -277,11 +277,11 @@ private theorem coe_apply_of_mat_levi {S : Finset (Fin t)}
     G x y = (1 : Matrix (Fin t ⊕ Fin t) (Fin t ⊕ Fin t) K) x y := by
   have h' := congrFun (congrFun hG x) y
   rw [SpBlocks.planeIdem, Matrix.mul_diagonal, Matrix.diagonal_apply,
-    if_pos (Finset.mem_compl.mpr hy), mul_one] at h'
+    ite_eq_left (Finset.mem_compl.mpr hy), mul_one] at h'
   rw [h', Matrix.one_apply]
   by_cases hxy : x = y
-  · rw [if_pos hxy, if_pos hxy, hxy, if_pos (Finset.mem_compl.mpr hy)]
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_left hxy, ite_eq_left hxy, hxy, ite_eq_left (Finset.mem_compl.mpr hy)]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
 
 omit [Finite K] [CharP K 2] in
 private theorem planeBlock_eq_zero_of_mat_levi {S : Finset (Fin t)}
@@ -399,9 +399,9 @@ private theorem linBlockMat_one (hK : Nat.card K = 2)
   rw [SpBlocks.normBlock, SpBlocks.planeBlock_one]
   by_cases hab : a = b
   · subst hab
-    rw [Matrix.one_apply_eq, if_pos rfl, Matrix.mul_one, SpBlocks.coe_normSL_mul_inv]
+    rw [Matrix.one_apply_eq, ite_eq_left rfl, Matrix.mul_one, SpBlocks.coe_normSL_mul_inv]
     rfl
-  · rw [Matrix.one_apply_ne hab, if_neg fun h => hab (Subtype.ext h), Matrix.mul_zero,
+  · rw [Matrix.one_apply_ne hab, ite_eq_right fun h => hab (Subtype.ext h), Matrix.mul_zero,
       Matrix.zero_mul]
     rfl
 
@@ -410,7 +410,7 @@ private theorem linBlockMat_mul (hK : Nat.card K = 2)
     (g h : ↥(blockGroup ζ t ε (PlaneRaw.Code.extension e))) :
     linBlockMat hK hζ (g * h) = linBlockMat hK hζ g * linBlockMat hK hζ h := by
   refine Matrix.ext fun a b => Subtype.ext ?_
-  rw [Matrix.mul_apply, AddSubmonoidClass.coe_finset_sum]
+  rw [Matrix.mul_apply, _root_.AddSubmonoidClass.coe_finsetSum]
   change SpBlocks.normBlock e (linPlanePart
       (((g * h : ↥(blockGroup ζ t ε (PlaneRaw.Code.extension e))) : GL (LinIdx t ε) K) :
         Matrix (LinIdx t ε) (LinIdx t ε) K)) a b =
@@ -469,10 +469,10 @@ private theorem linBlockMat_tau (hK : Nat.card K = 2)
   rw [linPlanePart_tau, SpBlocks.normBlock, SpBlocks.planeBlock_planeMat, Matrix.diagonal_apply]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, if_pos rfl, SpBlocks.coe_normSL_conj_zeta hK hζ
+    rw [ite_eq_left rfl, ite_eq_left rfl, SpBlocks.coe_normSL_conj_zeta hK hζ
       ((PlaneRaw.mem_extSupport e a).mp a.2) (u a)]
     rfl
-  · rw [if_neg fun h => hab (Subtype.ext h), if_neg hab, Matrix.mul_zero, Matrix.zero_mul]
+  · rw [ite_eq_right fun h => hab (Subtype.ext h), ite_eq_right hab, Matrix.mul_zero, Matrix.zero_mul]
     rfl
 
 private theorem linDet_tau (hK : Nat.card K = 2)

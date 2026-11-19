@@ -18,7 +18,7 @@ theorem s16n9b_case4_data {T : Type} [CommGroup T] [Finite T] {X : Subgroup (Mul
   obtain ⟨Z, hZ, hind, hsup, hcard, hsym⟩ := hS
   have hfin : (conjSubs X Z).Finite :=
     Set.finite_of_ncard_pos (by rw [hcard]; omega)
-  letI : Fintype ↥(conjSubs X Z) := hfin.fintype
+  let : Fintype ↥(conjSubs X Z) := hfin.fintype
   refine ⟨↥(conjSubs X Z), inferInstance, Subtype.val, ?_, Subtype.val_injective,
     ?_, ?_, ?_, ?_, ?_⟩
   · exact (sSupIndep_iff (conjSubs X Z)).1 hind
@@ -44,7 +44,7 @@ private theorem s16n9b_case4_ker_card_elemAbelianOfRank {X : Type} [Group X] {p 
     Nat.card_zmod, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 private theorem s16n9b_case4_ker_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 

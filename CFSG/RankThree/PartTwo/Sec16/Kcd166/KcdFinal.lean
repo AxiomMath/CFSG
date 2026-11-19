@@ -13,7 +13,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 theorem gFlatAt166_of_mainAlg166 (hmain : MainAlg166) : GFlatAt166 := by
   intro G _ _ p hp hp3 hloc X hXperf hT d hd3 hdZ I₁ hI₁p hI₁d hI₁2 hI₁A5
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three (by omega) (by omega)
   obtain ⟨hθs, -, hθ3, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three
@@ -25,8 +25,8 @@ theorem gFlatAt166_of_mainAlg166 (hmain : MainAlg166) : GFlatAt166 := by
       ∀ F : Subgroup ↥X, N ≤ F → F ≤ M → (∀ f ∈ F, t * f * t⁻¹ * f⁻¹ ∈ N) →
         N.relIndex F ≤ p ^ 3 := by
     intro N M hN hM hNM hab hexp t ht2 htnt F hNF hFM hFt
-    haveI := hN
-    haveI := hM
+    have := hN
+    have := hM
     refine relIndex_le_pow_three hp5
       (card_le_sq_subgroup (card_le_sq_of_localRank_lt hp hloc) X) hNM (hN.subgroupOf M) hab
       hexp ht2 ?_ ?_ htnt hNF hFM hFt

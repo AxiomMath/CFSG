@@ -46,7 +46,7 @@ theorem exists_fused_psi {G : Type} [Group G] [Finite G] {z : G} {S : Subgroup G
   have hS₁G : CFSG.ABGLocalTools.IsSylowOf 2 (S₁ : Subgroup Gs) ⊤ := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S₁.isPGroup', ?_⟩
+    refine ⟨le_top, S₁.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₁.not_dvd_index
   have hS₁C' : CFSG.ABGLocalTools.IsSylowOf 2 (S₁ : Subgroup Gs) (Cen z₁) := hS₁G.of_le hS₁C le_top
@@ -70,7 +70,7 @@ theorem exists_fused_psi {G : Type} [Group G] [Finite G] {z : G} {S : Subgroup G
   obtain ⟨hN', hB'⟩ := modelLayerBar Gs p f S₁ z₁ hGsm hLU0 hz₁o hcen₁
   have hB'' : barOf z₁ (layerTimesSylow z₁ (S₁ : Subgroup Gs)) =
       Stage1.Thm3.Sec8.layerSBar z₁ (S₁ : Subgroup Gs) := by
-    rw [layerSBar_eq_sup, layer_sup_barOf_eq_of_barOf_eq S₁.isPGroup' hS₁C hB', hB']
+    rw [layerSBar_eq_sup, layer_sup_barOf_eq_of_barOf_eq S₁.isPGroup hS₁C hB', hB']
   have hAC := layerTimesSylow_le_Cen hS₁C
   have hSA : (S₁ : Subgroup Gs) ≤ layerTimesSylow z₁ (S₁ : Subgroup Gs) := le_sup_right
   let ι : ↥(layerTimesSylow z₁ (S₁ : Subgroup Gs)) ≃* ↥(Stage1.Thm3.Sec8.layerSBar z₁ (S₁ : Subgroup Gs)) :=

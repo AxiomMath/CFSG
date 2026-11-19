@@ -67,7 +67,7 @@ theorem s9g3_subgroupOf_normal {G : Type} [Group G] {H K : Subgroup G}
 theorem s9g3_relIndex_eq {G : Type} [Group G] [Finite G] {H K T : Subgroup G}
     (hKH : K ≤ H) (hTH : T ≤ H) (hHKT : H = K ⊔ T) (hKn : (K.subgroupOf H).Normal) :
     T.relIndex K = T.relIndex H := by
-  haveI := hKn
+  have := hKn
   have hKH' : K.relIndex H = K.relIndex T := by
     have hsup : (K.subgroupOf H) ⊔ (T.subgroupOf H) = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hKH hTH, ← hHKT, Subgroup.subgroupOf_self]

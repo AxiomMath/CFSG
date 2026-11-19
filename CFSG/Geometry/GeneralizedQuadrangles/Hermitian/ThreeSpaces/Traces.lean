@@ -36,7 +36,7 @@ private theorem ncard_cone_le (hΓ : IsThasQuadrangle Γ c q) {x y z : V} (hx : 
   have hLf_of_mem : ∀ w (h : w ∈ spanSet Γ x y), Lf w = commonNeighbor hP (hzw_of_mem w h) := by
     intro w hw
     show (if h : w ∈ spanSet Γ x y then commonNeighbor hP (hzw_of_mem w h) else z) = _
-    rw [dif_pos hw]
+    rw [dite_eq_left hw]
   have hcover : ptPerp Γ c {z} ∩ clSet Γ x y ⊆
       ({z} : Set V) ∪ ↑(S.biUnion fun w => Γ.neighborFinset (Lf w)) := by
     intro p hp
@@ -81,7 +81,7 @@ private theorem ncard_cone_le (hΓ : IsThasQuadrangle Γ c q) {x y z : V} (hx : 
       rw [hLw]
       exact color_eq_one_of_adj_of_color_eq_zero hz0
         (commonNeighbor_adj_left hP (hzw_of_mem w hwspan))
-    rw [hΓ.deg (Lf w), if_neg (by rw [hL1]; decide)]
+    rw [hΓ.deg (Lf w), ite_eq_right (by rw [hL1]; decide)]
   calc (ptPerp Γ c {z} ∩ clSet Γ x y).ncard
       ≤ (({z} : Set V) ∪ ↑(S.biUnion fun w => Γ.neighborFinset (Lf w))).ncard :=
         Set.ncard_le_ncard hcover
@@ -112,7 +112,7 @@ private theorem ncard_lt_of_isFullSubquadrangle_of_trace_or_cone
     ring_nf
   have hTle : T.ncard ≤ (q + 1) * (q ^ 2 + 1) + 1 := by
     rcases hT with ⟨y, z, hy0, hyz, rfl⟩ | ⟨x, y, z, hx0, hxy, hz, rfl⟩
-    · rw [ncard_trace hP hyz, hΓ.deg y, if_pos hy0]
+    · rw [ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy0]
       have hq' : (2 : ℤ) ≤ (q : ℤ) := by exact_mod_cast hΓ.two_le
       rw [← Nat.cast_le (α := ℤ)]
       push_cast
@@ -352,7 +352,7 @@ private theorem lineBundle_case (hΓ : IsThasQuadrangle Γ c q) {L : V} (hL : c 
     have hyS : y ∈ subquadrangleSet Γ c E := mem_subquadrangleSet.mpr (Or.inl hyE')
     have hperpx : φ (ptPerp Γ c {x}) = ptPerp (Γ.induce S) c' {⟨x, hxS⟩} := by
       ext v
-      simp only [φ, Set.mem_setOf_eq]
+      simp only [φ, Set.mem_ofPred_eq]
       rw [mem_ptPerp, mem_ptPerp]
       constructor
       · rintro ⟨hv0, hvd⟩
@@ -372,7 +372,7 @@ private theorem lineBundle_case (hΓ : IsThasQuadrangle Γ c q) {L : V} (hL : c 
           exact hvd ⟨x, hxS⟩ (Set.mem_singleton _)
     have hperpy : φ (ptPerp Γ c {y}) = ptPerp (Γ.induce S) c' {⟨y, hyS⟩} := by
       ext v
-      simp only [φ, Set.mem_setOf_eq]
+      simp only [φ, Set.mem_ofPred_eq]
       rw [mem_ptPerp, mem_ptPerp]
       constructor
       · rintro ⟨hv0, hvd⟩

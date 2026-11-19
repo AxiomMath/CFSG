@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s13IsoComps_stable {X : Subgroup (MulAut W)} {U : Subgroup W} (hU : U ∈ s13IsoComps X) :
     StableUnder X U := by
   obtain ⟨U₀, -, -, hUeq⟩ := hU
@@ -33,12 +34,14 @@ theorem s13IsoComps_le_commSub (hW : ∀ w : W, w * w = 1) {X : Subgroup (MulAut
     refine iSup_le fun V₁ => iSup_le fun hV => ?_
     exact w16g_irr_le_commSub hW hX hIrr hne hV.1 hV.2
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16g_secIsoOn_symm {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) : SecIsoOn X B ⊥ A ⊥ := by
   classical
@@ -105,8 +108,9 @@ private theorem w16g_secIsoOn_symm {X : Subgroup (MulAut W)} {A B : Subgroup W}
       rw [hγ b', hγ b, h4, mul_inv_cancel]
     simpa using hgoal
 
+omit [Finite W] in
 private theorem w16g_s13IsoSum_eq_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Subgroup W}
-    (hA : IsIrrOn X A ⊥) (hB : IsIrrOn X B ⊥) (h : SecIsoOn X A ⊥ B ⊥) :
+    (_hA : IsIrrOn X A ⊥) (_hB : IsIrrOn X B ⊥) (h : SecIsoOn X A ⊥ B ⊥) :
     s13IsoSum X A = s13IsoSum X B := by
   apply le_antisymm
   · unfold s13IsoSum
@@ -123,7 +127,7 @@ private theorem w16g_secIsoOn_of_le_s13IsoSum (hW : ∀ w : W, w * w = 1)
     (hle : V ≤ s13IsoSum X U₀) : SecIsoOn X V ⊥ U₀ ⊥ := by
   classical
   let P : Subgroup W → Prop := fun V₁ => IsIrrOn X V₁ ⊥ ∧ SecIsoOn X V₁ ⊥ U₀ ⊥
-  haveI : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
+  have : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
     SetLike.coe_injective
   have hsum : s13IsoSum X U₀ = ⨆ i : {V₁ : Subgroup W // P V₁}, (i.1 : Subgroup W) := by
     unfold s13IsoSum
@@ -135,6 +139,7 @@ private theorem w16g_secIsoOn_of_le_s13IsoSum (hW : ∀ w : W, w * w = 1)
     (hW := fun w => by rw [pow_two]; exact hW w) hV (fun i => i.2.1) hle'
   exact secIsoOn_trans hsec i.2.2
 
+omit [Finite W] in
 private theorem w16g_stableUnder_sSup {X : Subgroup (MulAut W)} {S : Set (Subgroup W)}
     (hS : ∀ U ∈ S, StableUnder X U) : StableUnder X (sSup S) := by
   rw [sSup_eq_iSup]
@@ -151,12 +156,12 @@ private theorem w16g_exists_stable_compl (hW : ∀ w : W, w * w = 1)
     (hTM : T ≤ M) (hT : StableUnder X T) (hM : StableUnder X M) :
     ∃ T' : Subgroup W, StableUnder X T' ∧ T ⊓ T' = ⊥ ∧ T ⊔ T' = M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsElementaryAbelian 2 W :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsElementaryAbelian 2 W :=
     { exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x => by
         rw [pow_two]; exact hW x }
-  letI : MulDistribMulAction ↥X W := MulDistribMulAction.compHom W X.subtype
-  haveI : Fintype ↥X := Fintype.ofFinite ↥X
+  let : MulDistribMulAction ↥X W := MulDistribMulAction.compHom W X.subtype
+  have : Fintype ↥X := Fintype.ofFinite ↥X
   have hcop : ¬ 2 ∣ Fintype.card ↥X := by
     rw [Fintype.card_eq_nat_card, ← even_iff_two_dvd]
     exact Nat.not_even_iff_odd.mpr hX
@@ -176,7 +181,7 @@ private theorem w16g_exists_stable_compl (hW : ∀ w : W, w * w = 1)
     exact h.symm
 
 theorem s13IsoComps_sSupIndep (hW : ∀ w : W, w * w = 1) {X : Subgroup (MulAut W)}
-    (hX : Odd (Nat.card X)) : sSupIndep (s13IsoComps X) := by
+    (_hX : Odd (Nat.card X)) : sSupIndep (s13IsoComps X) := by
   classical
   intro U hU
   rw [disjoint_iff]

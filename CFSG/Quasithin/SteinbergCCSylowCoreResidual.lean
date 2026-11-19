@@ -108,7 +108,7 @@ theorem sylow_core_normalizer_perfect_residual_retains_original_prime_witness
         (sup_le (le_normalizer_of_conj_mem hXS) (le_normalizer_of_conj_mem hTS))
     have hS2 : IsPGroup 2 (((T : Subgroup H) ⊓ (coreQuotConj X).ker).subgroupOf
         (X ⊔ (T : Subgroup H))) :=
-      (T.isPGroup'.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe hSXT).symm
+      (T.isPGroup.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe hSXT).symm
     have h1 := le_pCore_of_normal_of_isPGroup hSn hS2
     intro s hs
     exact ⟨⟨s, hSXT hs⟩, h1 (mem_subgroupOf.mpr hs), rfl⟩
@@ -134,12 +134,12 @@ theorem sylow_core_normalizer_perfect_residual_retains_original_prime_witness
       exact mul_mem ((mem_normalizer_iff.mp (hXN hx) r).mp hr) (inv_mem hr)
   have hRT : R ≤ T := by
     have h := T.maximal_isPGroup.2
-      (T.isPGroup'.to_sup_of_normal_right' hR2 hTN) le_sup_left
+      (T.isPGroup.to_sup_of_normal_right' hR2 hTN) le_sup_left
     exact le_sup_right.trans h
   have hRS : R = (T : Subgroup H) ⊓ (coreQuotConj X).ker := le_antisymm (le_inf hRT hRC) hSR
   have hTsyl : IsSylowOf 2 (T : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   have hRsyl : IsSylowOf 2 R (coreQuotConj X).ker := by
     rw [hRS]
     exact hTsyl.inf_of_le_normalizer le_top (by rw [normalizer_eq_top])
@@ -190,7 +190,7 @@ theorem sylow_core_normalizer_perfect_residual_retains_original_prime_witness
       refine ⟨(a * t) * a' * (a * t)⁻¹, hNA _ (mul_mem (hAN ha) (hTN ht)) a' ha', ?_⟩
       simp only [map_mul, map_inv, hma, MonoidHom.mem_ker.mp hc, one_mul]⟩
     have hM2 : IsPGroup 2 (H ⧸ (A.map (coreQuotConj X)).comap (coreQuotConj X)) := by
-      refine T.isPGroup'.of_surjective
+      refine T.isPGroup.of_surjective
         ((QuotientGroup.mk' _).comp (T : Subgroup H).subtype) ?_
       intro v
       obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective _ v

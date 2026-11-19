@@ -46,7 +46,7 @@ theorem E6QTwo.isPGroup_two_center_of_omegaPlus
     [Finite K] (hK : Nat.card K = 2) {L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (hperf : commutator ↥L = ⊤) :
     IsPGroup 2 (Subgroup.center L) := by
-  haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
+  have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   let ψ : ↥L →* OrthRest.RPlus K 4 :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hψ : Function.Surjective ψ :=

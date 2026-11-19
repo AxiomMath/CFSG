@@ -58,7 +58,7 @@ theorem natural_realizes_injective {V : Type} [CommGroup V] {K' : Type} [Field K
   ext i j
   have h1 := hact (Multiplicative.ofAdd (Pi.single j 1))
   have h2 := congrFun (congrArg Multiplicative.toAdd h1) i
-  simp [natAct, Matrix.mulVec_single_one] at h2
+  simp [natAct] at h2
   simpa [Matrix.one_apply, Pi.single_apply] using h2
 
 theorem isSolvable_statedSL_of_card_two {K' : Type} [Field K'] [Finite K'] (h : Nat.card K' = 2) :
@@ -67,7 +67,7 @@ theorem isSolvable_statedSL_of_card_two {K' : Type} [Field K'] [Finite K'] (h : 
     rw [← Nat.card_congr (specialLinearGroupEquivStatedSL 2 K').toEquiv,
       CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, h]
     norm_num
-  haveI : Finite ↥(StatedSL 2 K') :=
+  have : Finite ↥(StatedSL 2 K') :=
     Finite.of_equiv _ (specialLinearGroupEquivStatedSL 2 K').toEquiv
   exact isSolvable_of_card_six hc
 
@@ -91,13 +91,13 @@ theorem isLin2Type_of_natural_shape {V K : Subgroup G} (hV : IsElemAbelian 2 V)
     have hK2 : Nat.card K' = 2 := by simpa using hcard
     have hs : Group.IsSolvable ↥(StatedSL 2 K') := isSolvable_statedSL_of_card_two hK2
     have hsL : Group.IsSolvable ↥(autI hV K) := by
-      haveI : Group.IsSolvable (FFModel.nat (StatedSL 2 K')).Gam := hs
+      have : Group.IsSolvable (FFModel.nat (StatedSL 2 K')).Gam := hs
       exact Group.isSolvable_of_surjective hπsurj
-    haveI : Nontrivial ↥(autI hV K) := CFSG.LocalCores.isQuasisimple_nontrivial hq
-    haveI : Group.IsPerfect ↥(autI hV K) := hq.1
+    have : Nontrivial ↥(autI hV K) := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect ↥(autI hV K) := hq.1
     exact Group.IsPerfect.not_isSolvable (autI hV K) hsL
   refine ⟨e, he2, ?_⟩
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K' := Fintype.ofFinite K'
   let D := FFModel.nat (StatedSL 2 K')
   have hkerle : D.ker.subgroupOf D.sec ≤ (D.sec.subtype).ker := by
     intro a ha

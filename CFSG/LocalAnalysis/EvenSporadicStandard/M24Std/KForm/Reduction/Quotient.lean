@@ -70,7 +70,7 @@ theorem inf_fusionOddCore_centralizer_eq_bot_of_equiv {X : Type} [Group X] [Fini
     fusionOddCore X ⊓ centralizer ({z} : Set X) = ⊥ := by
   have hcen : fusionOddCore ↥(centralizer ({z} : Set X)) = ⊥ :=
     CFSG.EvenSporadicStandard.M23Std.fusionOddCore_eq_bot_of_equiv ζ hB
-  haveI hn : ((fusionOddCore X ⊓ centralizer ({z} : Set X)).subgroupOf
+  have hn : ((fusionOddCore X ⊓ centralizer ({z} : Set X)).subgroupOf
       (centralizer ({z} : Set X))).Normal :=
     CFSG.EvenSporadicStandard.M24Std.inf_centralizer_subgroupOf_normal inferInstance z
   have hodd : Odd (Nat.card ((fusionOddCore X ⊓ centralizer ({z} : Set X)).subgroupOf
@@ -165,7 +165,7 @@ theorem quotient_setting {X : Type} [Group X] [Finite X] (hK : CFSG.SectionRank.
   have hzbar2 : (QuotientGroup.mk' (fusionOddCore X) z) ^ 2 = 1 := by
     rw [pow_two, ← map_mul, htt, map_one]
   have hord : orderOf (QuotientGroup.mk' (fusionOddCore X) z) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hzbar2 hzbar_ne
   exact ⟨hO, hK.quotient (fusionOddCore X), hord,
     ⟨(nonempty_centralizer_mk_equiv hz hker).some.symm.trans ζ⟩⟩

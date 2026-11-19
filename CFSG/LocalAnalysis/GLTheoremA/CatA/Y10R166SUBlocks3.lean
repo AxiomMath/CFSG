@@ -36,10 +36,10 @@ theorem suRadConjVec_bar_suRadVec (h : UnitaryFieldData 2 f K) {c : K} (hc : h.n
       suRadVec (fun i => c⁻¹ * d i * h.bar (m i)) := by
   funext i
   by_cases hi : i = 2 ∨ i = 3 ∨ i = 4
-  · simp only [suRadVec, suRadConjVec, hi, if_true]
+  · simp only [suRadVec, suRadConjVec, hi, ite_true]
     rw [map_mul, map_mul, map_inv₀, bar_eq_inv_of_norm_eq_one h hc,
       bar_eq_inv_of_norm_eq_one h (hd i), inv_inv]
-  · simp only [suRadVec, suRadConjVec, hi, if_false, map_zero]
+  · simp only [suRadVec, suRadConjVec, hi, ite_false, map_zero]
 
 theorem suRadVec_suRadConjVec (c : K) (d m : Fin 6 → K) :
     suRadVec (suRadConjVec c d m) = suRadConjVec c d m := by
@@ -50,7 +50,7 @@ theorem unitaryRadMatrix_conj_diag (h : UnitaryFieldData 2 f K) {d : Fin 6 → K
     (hd : ∀ i, h.norm (d i) = 1) (hd0 : d 0 = d 1) (m : Fin 6 → K) (y : K) :
     diagonal d * unitaryRadMatrix h m y * diagonal (fun i => (d i)⁻¹) =
       unitaryRadMatrix h (suRadConjVec (d 0) d m) y := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hdne : ∀ i, d i ≠ 0 := fun i =>
     CFSG.GH74.Uniqueness.Bender.Frame.ne_zero_of_norm_eq_one (hd i)
   have h1 : (fun i => d i * suLineVec i) = d 0 • suLineVec := by
@@ -79,7 +79,7 @@ theorem unitaryRadMatrix_conj_diag (h : UnitaryFieldData 2 f K) {d : Fin 6 → K
     congr 1
     funext j
     by_cases hj : j = 2 ∨ j = 3 ∨ j = 4
-    · simp only [suRadVec, suRadConjVec, hj, if_true, Pi.smul_apply, smul_eq_mul]
+    · simp only [suRadVec, suRadConjVec, hj, ite_true, Pi.smul_apply, smul_eq_mul]
       ring
     · simp [suRadVec, hj, Pi.smul_apply, smul_eq_mul]
   have hW : diagonal d * vecMulVec (suRadVec (fun i => h.bar (m i))) suLineVec *
@@ -90,7 +90,7 @@ theorem unitaryRadMatrix_conj_diag (h : UnitaryFieldData 2 f K) {d : Fin 6 → K
     rw [suRadConjVec_bar_suRadVec h (hd 0) hd m]
     funext i
     by_cases hi : i = 2 ∨ i = 3 ∨ i = 4
-    · simp only [suRadVec, hi, if_true, Pi.smul_apply, smul_eq_mul]
+    · simp only [suRadVec, hi, ite_true, Pi.smul_apply, smul_eq_mul]
       ring
     · simp [suRadVec, hi, Pi.smul_apply, smul_eq_mul]
   have h1d : diagonal d * diagonal (fun i => (d i)⁻¹) = 1 := by
@@ -98,10 +98,8 @@ theorem unitaryRadMatrix_conj_diag (h : UnitaryFieldData 2 f K) {d : Fin 6 → K
     have h : (fun i => d i * (d i)⁻¹) = fun _ => 1 := by
       funext i; exact mul_inv_cancel₀ (hdne i)
     rw [h, Matrix.diagonal_one]
-  simp only [unitaryRadMatrix, mul_add, add_mul, Matrix.mul_smul, Matrix.smul_mul, mul_one,
-    one_mul]
+  simp only [unitaryRadMatrix, mul_add, add_mul, Matrix.mul_smul, Matrix.smul_mul, mul_one]
   rw [h1d, hU, hV, hW]
-  try module
 
 
 theorem diagSU_inv (h : UnitaryFieldData 2 f K) {d : Fin 6 → K}
@@ -130,7 +128,7 @@ theorem suRadCocycle_suRadConjVec (h : UnitaryFieldData 2 f K) {c : K} (hc : h.n
   rw [suRadVec_suRadConjVec]
   simp only [suRadConjVec, suRadVec, Fin.sum_univ_six, Fin.isValue]
   norm_num
-  simp only [map_mul, map_inv₀, bar_eq_inv_of_norm_eq_one h hc,
+  simp only [bar_eq_inv_of_norm_eq_one h hc,
     bar_eq_inv_of_norm_eq_one h (hd 2), bar_eq_inv_of_norm_eq_one h (hd 3),
     bar_eq_inv_of_norm_eq_one h (hd 4), inv_inv]
   try field_simp [hc0, hd0 2, hd0 3, hd0 4]
@@ -162,7 +160,7 @@ theorem diagSU_mem_normalizer_unitaryLineRadical (h : UnitaryFieldData 2 f K) {d
     have hd' : ∀ i, h.norm ((d i)⁻¹) = 1 := fun i => by rw [norm_inv_eq h, hd i, inv_one]
     have hdet' : ∏ i, (d i)⁻¹ = 1 := by
       rw [show (∏ i, (d i)⁻¹) = (∏ i, d i)⁻¹ from by
-        simpa using Finset.prod_inv_distrib (s := Finset.univ) d, hdet, inv_one]
+        simp, hdet, inv_one]
     have hd0' : (d 0)⁻¹ = (d 1)⁻¹ := by rw [hd0]
     have hthis := diagSU_conj_unitaryRadElem h hd' hdet' hd0' m y hy
     rw [diagSU_inv] at hthis
@@ -193,7 +191,7 @@ theorem eq_diagFiveLast_of_mem_centralizer (h : UnitaryFieldData 2 f K) {d : Fin
     (hcent : diagSU h d hd hdet ∈
       Subgroup.centralizer (unitaryLineRadical h : Set (unitarySU 2 f K 6))) :
     ∃ (hc : h.norm (d 0) = 1), diagSU h d hd hdet = diagFiveLast h (d 0) hc := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨y1, hy1⟩ := h.traceLin_surjective
     ⟨suRadCocycle h (fun _ => (1 : K)), suRadCocycle_bar h _⟩
   have hy1' : y1 + h.bar y1 = suRadCocycle h (fun _ => (1 : K)) := by
@@ -216,7 +214,7 @@ theorem eq_diagFiveLast_of_mem_centralizer (h : UnitaryFieldData 2 f K) {d : Fin
     simp only [Subgroup.coe_mul, Units.val_mul, coe_diagSU, coe_unitaryRadElem,
       unitaryRadMatrix, Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.add_apply,
       Matrix.one_apply, Matrix.smul_apply, Matrix.vecMulVec_apply, suLineVec, suRadVec,
-      hi0, hi1, h0i, h1i, hi, if_true, if_false, Pi.one_apply, smul_eq_mul] at h
+      hi0, hi1, h0i, hi, ite_true, ite_false, smul_eq_mul] at h
     norm_num at h
     exact h.symm
   have e2 : d 2 = d 0 := hentry 2 (by simp)
@@ -233,7 +231,7 @@ theorem eq_diagFiveLast_of_mem_centralizer (h : UnitaryFieldData 2 f K) {d : Fin
   simp only [coe_diagSU, coe_diagFiveLast]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, diagFiveLastEntries, hd0, e2, e3, e4, hd5]
+    simp [diagFiveLastEntries, hd0, e2, e3, e4, hd5]
 
 
 theorem diagFiveLast_pow (h : UnitaryFieldData 2 f K) {ζu : Kˣ} (hζ : h.norm (ζu : K) = 1)
@@ -246,10 +244,9 @@ theorem diagFiveLast_pow (h : UnitaryFieldData 2 f K) {ζu : Kˣ} (hζ : h.norm 
   funext i
   by_cases hi : i = (5 : Fin 6)
   · subst hi
-    simp only [diagFiveLastEntries, if_pos, Pi.pow_apply, Units.val_inv_eq_inv_val,
-      Units.val_pow_eq_pow_val, inv_pow]
+    simp only [diagFiveLastEntries, ite_eq_left, Pi.pow_apply, inv_pow]
     rw [← pow_mul, ← pow_mul, mul_comm]
-  · simp only [diagFiveLastEntries, if_neg hi, Pi.pow_apply]
+  · simp only [diagFiveLastEntries, ite_eq_right hi, Pi.pow_apply]
 
 theorem inf_centralizer_unitaryLineRadical_le_zpowers (h : UnitaryFieldData 2 f K)
     {B : Subgroup (unitarySU 2 f K 6)} {ζu : Kˣ} (hζ : h.norm (ζu : K) = 1)

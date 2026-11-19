@@ -43,11 +43,11 @@ theorem normalizer_le_normalizer_primeCore (r : ℕ) (K : Subgroup A) :
 
 theorem S_le_normalizer_inf (c : KQCfg A p Kb Sb Bb Mb z) :
     Sb ≤ normalizer ((Sb ⊓ Kb : Subgroup A) : Set A) :=
-  fun s hs => mem_normalizer_inf' (Subgroup.le_normalizer hs) (c.S_le_K hs)
+  fun _s hs => mem_normalizer_inf' (Subgroup.le_normalizer hs) (c.S_le_K hs)
 
 theorem B_le_normalizer_inf (c : KQCfg A p Kb Sb Bb Mb z) :
     Bb ≤ normalizer ((Sb ⊓ Kb : Subgroup A) : Set A) :=
-  fun b hb => mem_normalizer_inf' (c.B_le_S hb) (c.B_le_K hb)
+  fun _b hb => mem_normalizer_inf' (c.B_le_S hb) (c.B_le_K hb)
 
 theorem normalizer_inf_le (c : KQCfg A p Kb Sb Bb Mb z) (hne : Sb ⊓ Kb ≠ ⊥) :
     normalizer ((Sb ⊓ Kb : Subgroup A) : Set A) ≤ Mb :=
@@ -55,7 +55,7 @@ theorem normalizer_inf_le (c : KQCfg A p Kb Sb Bb Mb z) (hne : Sb ⊓ Kb ≠ ⊥
 
 theorem pCoreOf_le_inf (c : KQCfg A p Kb Sb Bb Mb z) :
     pCoreOf 2 (normalizer ((Sb ⊓ Kb : Subgroup A) : Set A) ⊓ Kb) ≤ Sb ⊓ Kb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K0 : Subgroup A := normalizer ((Sb ⊓ Kb : Subgroup A) : Set A) ⊓ Kb with hK0
   set R : Subgroup A := pCoreOf 2 K0 with hR
   have hSK0 : Sb ≤ normalizer (K0 : Set A) := fun s hs =>
@@ -76,7 +76,7 @@ theorem pCoreOf_le_inf (c : KQCfg A p Kb Sb Bb Mb z) :
 
 theorem isParabolicTwo_inf (c : KQCfg A p Kb Sb Bb Mb z) (hchev : IsChevSimple 2 ↥Kb)
     (h131 : KFact131) (hne : Sb ⊓ Kb ≠ ⊥) : IsParabolicTwo A Kb (Kb ⊓ Mb) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup A := Sb ⊓ Kb with hT
   set K0 : Subgroup A := normalizer (T : Set A) ⊓ Kb with hK0
   have hT2 : IsPGroup 2 T := c.S_two.to_le inf_le_left
@@ -106,7 +106,7 @@ theorem isSylowOf_inf_primeCore (c : KQCfg A p Kb Sb Bb Mb z) :
     CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ rankThreePrimeCore p (Kb ⊓ Mb))
       (rankThreePrimeCore p (Kb ⊓ Mb)) := by
   have hp := c.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := c.five_le; omega
   set K₀ : Subgroup A := Kb ⊓ Mb with hK₀
   set D : Subgroup A := rankThreePrimeCore p K₀ with hD
@@ -131,8 +131,8 @@ theorem not_le_primeCore_of_not_sylow (c : KQCfg A p Kb Sb Bb Mb z) (hchev : IsC
     (hns : ¬ CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ Kb) Kb) :
     ∀ U : Subgroup A, CFSG.ABGLocalTools.IsSylowOf 2 U (Kb ⊓ Mb) →
       ¬ U ≤ rankThreePrimeCore p (Kb ⊓ Mb) := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨c.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro U hU hUD
   set K₀ : Subgroup A := Kb ⊓ Mb with hK₀
   obtain ⟨hDK₀, -, -⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p K₀
@@ -153,6 +153,7 @@ theorem not_le_primeCore_of_not_sylow (c : KQCfg A p Kb Sb Bb Mb z) (hchev : IsC
     hSDK.eq_of_le hSDW inf_le_right (c.S_two.to_le inf_le_left)
   exact hns (by rw [hWeq]; exact hSDK)
 
+omit [Finite A] in
 theorem mem_of_pow_mem' {K S : Subgroup A} (hS : S ≤ normalizer (K : Set A)) {y : A}
     (hy : y ∈ K ⊔ S) {q : ℕ} (hq : q.Prime) (hcop : ∀ s ∈ S, Nat.Coprime (orderOf s) q)
     (hyq : y ^ q = 1) : y ∈ K := by
@@ -170,9 +171,9 @@ theorem mem_of_pow_mem' {K S : Subgroup A} (hS : S ≤ normalizer (K : Set A)) {
 theorem exists_commuting_of_dvd_card {p : ℕ} (hp : p.Prime) {N : Subgroup A} {z : A}
     (hzo : orderOf z = p) (hz : z ∈ normalizer (N : Set A)) (hdvd : p ∣ Nat.card N) :
     ∃ w ∈ N, orderOf w = p ∧ w * z = z * w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZN : zpowers z ≤ normalizer (N : Set A) := Subgroup.zpowers_le.mpr hz
-  letI : MulDistribMulAction (zpowers z) ↥N :=
+  let : MulDistribMulAction (zpowers z) ↥N :=
     { smul := fun g n => ⟨(g : A) * n * (g : A)⁻¹, (mem_normalizer_iff.mp (hZN g.2) n).mp n.2⟩
       one_smul := fun n => Subtype.ext (by change (1 : A) * n * 1⁻¹ = n; group)
       mul_smul := fun a b n => Subtype.ext (by
@@ -205,7 +206,7 @@ theorem exists_commuting_of_dvd_card {p : ℕ} (hp : p.Prime) {N : Subgroup A} {
 theorem not_dvd_card_of_section {p : ℕ} (hp : p.Prime) {X H N : Subgroup A}
     (hrk : CFSG.Open.pRank p X ≤ 1) (hHX : H ≤ X) (hs : S622IsSimpleSection H N) {z : A}
     (hzH : z ∈ H) (hzN : z ∉ N) (hzo : orderOf z = p) : ¬ p ∣ Nat.card N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hdvd
   have hNH : N ≤ H := hs.1
   have hzNorm : z ∈ normalizer (N : Set A) :=
@@ -231,7 +232,7 @@ theorem not_dvd_card_of_section {p : ℕ} (hp : p.Prime) {X H N : Subgroup A}
 theorem eq_primeCore_of_section {p : ℕ} (hp : p.Prime) {X H N : Subgroup A}
     (hrk : CFSG.Open.pRank p X ≤ 1) (hHX : H ≤ X) (hs : S622IsSimpleSection H N) {z : A}
     (hzH : z ∈ H) (hzN : z ∉ N) (hzo : orderOf z = p) : N = rankThreePrimeCore p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpN := not_dvd_card_of_section hp hrk hHX hs hzH hzN hzo
   obtain ⟨hNH, hNn, hne, hmin, hnab⟩ := hs
   obtain ⟨hCH, hHC, hcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p H
@@ -241,8 +242,8 @@ theorem eq_primeCore_of_section {p : ℕ} (hp : p.Prime) {X H N : Subgroup A}
       (Subgroup.normal_subgroupOf_iff_le_normalizer hCH).mpr hHC
     have hsupn : ((N ⊔ rankThreePrimeCore p H).subgroupOf H).Normal := by
       rw [Subgroup.subgroupOf_sup hNH hCH]
-      haveI := hNn
-      haveI := hCn
+      have := hNn
+      have := hCn
       exact Subgroup.sup_normal _ _
     rcases hmin (N ⊔ rankThreePrimeCore p H) le_sup_left (sup_le hNH hCH) hsupn with h | h
     · exact h ▸ le_sup_right
@@ -264,7 +265,7 @@ theorem false_of_not_sylow (c : KQCfg A p Kb Sb Bb Mb z) (hse : KQStrongEmb A p 
     (hchev : IsChevSimple 2 ↥Kb) (h131 : KFact131) (hpc : KFactParabolicCover)
     (hne : Sb ⊓ Kb ≠ ⊥) (hns : ¬ CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ Kb) Kb) : False := by
   have hp := c.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK₀par := isParabolicTwo_inf c hchev h131 hne
   have hzM : z ∈ Mb := c.cover_Z (Subgroup.le_normalizer (Subgroup.mem_zpowers z))
   have hzK₀ : z ∈ Kb ⊓ Mb := ⟨c.z_mem_K, hzM⟩

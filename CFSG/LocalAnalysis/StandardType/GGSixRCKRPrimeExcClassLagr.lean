@@ -20,7 +20,7 @@ theorem rckExc_weyl_lagrangian
     (hge : p ^ 4 ≤ Nat.card {z : Fin Tag.E8.rank → ZMod p //
       (modMat p (weylMatrix w))ᵀ *ᵥ z = lam • z}) :
     ∀ u : Fin Tag.E8.rank → ℤ, w • (w • u) + u = rckChebC d • (w • u) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hlam0, hlam2, hsum, hp5⟩ := rckCL_lam_facts hp hp2 hd hlam
   let B : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) (ZMod p) := modMat p Tag.E8.symmetrizedCartan
   let N : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) (ZMod p) := modMat p (weylMatrix w)
@@ -90,7 +90,6 @@ theorem rckExc_weyl_lagrangian
     refine rckCL_descent hp hp5 hd ?_ ?_
     · have hmodd : modMat p (weylMatrix (w ^ d)) = 1 := by
         rw [weylMatrix_pow]
-        change modMat p ((weylMatrix w) ^ d) = 1
         rw [rckCL_modMat_pow]
         exact hNd
       have hwd : w ^ d = 1 :=

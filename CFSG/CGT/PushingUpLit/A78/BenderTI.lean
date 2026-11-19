@@ -185,7 +185,7 @@ theorem oTwoPrime_eq_of_tiSylow_core (S : Sylow 2 X) {I : Subgroup X}
     intro h
     rw [h, Subgroup.card_bot] at hZcard
     omega
-  have hZp : IsPGroup 2 Z := S.isPGroup'
+  have hZp : IsPGroup 2 Z := S.isPGroup
   have hF : Nat.card (GaloisField 2 e) = 2 ^ e := GaloisField.card 2 e (by omega)
   have hSLs : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 e)) :=
     isSimpleGroup_SL2_charTwo _ (by rw [hF]; exact h4)

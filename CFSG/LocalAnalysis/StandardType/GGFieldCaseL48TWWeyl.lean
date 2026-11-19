@@ -77,7 +77,7 @@ theorem exists_mul_of_mem_normalizer {p : ℕ} [Fact p.Prime] {B₁ U U₁ : Sub
     rw [hC, Subgroup.mem_centralizer_iff]
     intro b hb
     have hcomm := Subgroup.mem_centralizer_iff.mp (hUC hu) _ (hninv b hb)
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     calc b * (n * u * n⁻¹) = n * ((n⁻¹ * b * n) * u) * n⁻¹ := by group
       _ = n * (u * (n⁻¹ * b * n)) * n⁻¹ := by rw [hcomm]
       _ = n * u * n⁻¹ * b := by group
@@ -85,7 +85,7 @@ theorem exists_mul_of_mem_normalizer {p : ℕ} [Fact p.Prime] {B₁ U U₁ : Sub
   have hle : U' ≤ U.map (MulAut.conj g).toMonoidHom := by
     intro y hy
     refine ⟨g⁻¹ * y * g, hg y hy, ?_⟩
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   have heq : U' = U.map (MulAut.conj g).toMonoidHom :=
     Subgroup.eq_of_le_of_card_ge hle (by
@@ -102,7 +102,7 @@ theorem exists_mul_of_mem_normalizer {p : ℕ} [Fact p.Prime] {B₁ U U₁ : Sub
     have h1 : n * y * n⁻¹ ∈ U' := ⟨y, hy, by simp [MulAut.conj_apply]⟩
     rw [heq] at h1
     obtain ⟨z, hz, hzy⟩ := h1
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
     have : g⁻¹ * n * y * (g⁻¹ * n)⁻¹ = z := by
       calc g⁻¹ * n * y * (g⁻¹ * n)⁻¹ = g⁻¹ * (n * y * n⁻¹) * g := by group
         _ = g⁻¹ * (g * z * g⁻¹) * g := by rw [hzy]
@@ -113,7 +113,7 @@ theorem exists_mul_of_mem_normalizer {p : ℕ} [Fact p.Prime] {B₁ U U₁ : Sub
       ⟨_, hy, by simp [MulAut.conj_apply]⟩
     rw [← heq] at h1
     obtain ⟨z, hz, hzy⟩ := h1
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hzy
     have : y = z := by
       have e : g * (g⁻¹ * n * y * (g⁻¹ * n)⁻¹) * g⁻¹ = n * y * n⁻¹ := by group
       rw [e] at hzy
@@ -140,7 +140,7 @@ theorem mem_commutator_sup_of_weyl {p : ℕ} [Fact p.Prime] {B₁ U U₁ K S : S
   have hcK : c ∈ Subgroup.normalizer (K : Set G) := hCK hcC
   have hS'U₁ : S' ≤ U₁ := by
     rintro _ ⟨s, hs, rfl⟩
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     refine hUK ⟨hc s hs, ?_⟩
     have := (Subgroup.mem_normalizer_iff.mp ((Subgroup.normalizer (K : Set G)).inv_mem hcK) s).mp
       (hSK hs)
@@ -158,10 +158,10 @@ theorem mem_commutator_sup_of_weyl {p : ℕ} [Fact p.Prime] {B₁ U U₁ K S : S
   simp only [Set.mem_iUnion, Set.mem_image] at hz ⊢
   obtain ⟨n, hn, s, hs, rfl⟩ := hz
   refine ⟨n * c, ⟨n, hn, rfl⟩, c⁻¹ * s * c, ⟨s, hs, ?_⟩, by group⟩
-  simp [MulAut.conj_apply]
+  simp
 
 theorem not_mem_sup_of_pElement_mem {p : ℕ} [hp : Fact p.Prime] {N Q B : Subgroup G} {x : G}
-    (hQN : Q ≤ N) (hnorm : ∀ n ∈ N, ∀ q ∈ Q, n * q * n⁻¹ ∈ Q) (hBN : B ≤ N) (hxN : x ∈ N)
+    (_hQN : Q ≤ N) (hnorm : ∀ n ∈ N, ∀ q ∈ Q, n * q * n⁻¹ ∈ Q) (hBN : B ≤ N) (hxN : x ∈ N)
     (hxp : ∃ k : ℕ, x ^ p ^ k = 1) (hxQ : x ∉ Q)
     (hB : ∀ c ∈ B, (∃ k : ℕ, c ^ p ^ k = 1) → c ∈ Q) : x ∉ Q ⊔ B := by
   have hBQ : B ≤ Subgroup.normalizer (Q : Set G) := by
@@ -223,7 +223,7 @@ theorem not_mem_lField_of_torusWeyl {G : Type} [Group G] [Finite G]
         ggL48U2 x U₁ ⊔ (L ⊓ Subgroup.centralizer
           ((Bs ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) : Set G)) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hcan, hX1, hX2, hX3, hX4, hX5⟩, -, h43, -, -, h44, h45, hID, hNU⟩ := id hS
   obtain ⟨hDd, hd1, hNbr, hyd, -⟩ := h44
   obtain ⟨hUC, hUp, hUmax, hBsU⟩ := h45

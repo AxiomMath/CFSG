@@ -22,7 +22,7 @@ theorem r8_108_holds
     (hSE : StronglyEmbeddedFive) :
     R8_108 (CFSG.LocalAnalysis.UniquenessCase.UC6.dataOfSetup4 hS hU S) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro L hL hSL hclass
   obtain ⟨L', hne, hset⟩ := hclass
   have hLL' : L ≠ L' := fun h => hne h.symm

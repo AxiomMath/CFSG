@@ -169,11 +169,11 @@ theorem hsq_one_of_mem_inf {z : G} (hz : IsZ H₁ H₂ z) {y : G} (hy : y ∈ H�
   · rw [h, one_pow]
   · rw [h, hz.sq]
 
-theorem pow4_mem_sylow (hH : G23One H H₁ H₂) {T : Subgroup G} (hTH : T ≤ H)
+theorem pow4_mem_sylow (hH : G23One H H₁ H₂) {T : Subgroup G} (_hTH : T ≤ H)
     (hT : quasithinIsSylowTwo (T.subgroupOf H)) {x : G} (hx : x ∈ H₁) (hx4 : x ^ 4 = 1) :
     x ∈ T := by
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hnorm : ((dq1Sub hH.iso_one).subgroupOf H).Normal := dq1_normal hH
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hnorm : ((dq1Sub hH.iso_one).subgroupOf H).Normal := dq1_normal hH
   obtain ⟨hT2, hTidx⟩ := hT
   have hQT : (dq1Sub hH.iso_one).subgroupOf H ≤ T.subgroupOf H := by
     have hle := IsPGroup.le_sylow_of_normal (dq1_isPGroup hH) (hT2.toSylow hTidx)
@@ -184,7 +184,7 @@ theorem pow4_mem_sylow (hH : G23One H H₁ H₂) {T : Subgroup G} (hTH : T ≤ H
 
 theorem pow4_mem_pCoreOf (hH : G23One H H₁ H₂) {x : G} (hx : x ∈ H₁) (hx4 : x ^ 4 = 1) :
     x ∈ pCoreOf 2 H := by
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmemS : (dq1Sub hH.iso_one).subgroupOf H ∈ {K : Subgroup H | K.Normal ∧ IsPGroup 2 K} :=
     ⟨dq1_normal hH, dq1_isPGroup hH⟩
   have hle : (dq1Sub hH.iso_one).subgroupOf H ≤ CFSG.pCore 2 H := le_sSup hmemS
@@ -289,7 +289,7 @@ theorem mem_sylow_z (hH : G23One H H₁ H₂) {z : G} (hz : IsZ H₁ H₂ z) {T 
 theorem card_sylow_H (hH : G23One H H₁ H₂) {T : Subgroup G} (hTH : T ≤ H)
     (hT : quasithinIsSylowTwo (T.subgroupOf H)) : Nat.card T = 64 := by
   obtain ⟨hp, hodd⟩ := hT
-  haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [card_H_of_G23One hH]; norm_num)
+  have : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [card_H_of_G23One hH]; norm_num)
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hp
   have hc := Subgroup.card_mul_index (T.subgroupOf H)
   have hTcard : Nat.card ↥(T.subgroupOf H) = Nat.card T :=
@@ -306,7 +306,7 @@ theorem card_sylow_H (hH : G23One H H₁ H₂) {T : Subgroup G} (hTH : T ≤ H)
     interval_cases n
     all_goals first
       | rfl
-      | (norm_num at hc <;> omega)
+      | (norm_num at hc; omega)
   rw [hn]
   exact h64
 

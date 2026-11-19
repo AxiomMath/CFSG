@@ -134,7 +134,7 @@ theorem t263Desc_exc_of (he : T263SelWP t263GExcEasy) (hg : T263SelWP t263GExcGF
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GExc, t263GExcEasy, t263GExcGF2, t263GExcHard, onLie] at hi ⊢ <;>
-      first | exact hi.elim | exact cover_three hi
+      exact cover_three hi
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -148,7 +148,7 @@ theorem t263Desc_e6_of (he : T263SelWP t263GE6Easy) (hs : T263SelWP t263GE6Shape
     obtain ⟨d, hv⟩ := d
     cases d <;>
       simp only [t263GE6, t263GE6Easy, t263GE6Shape, t263GE6GF2, t263GE6Hard, onLie] at hi ⊢ <;>
-      first | exact hi.elim | exact cover_four hi _
+      exact cover_four hi _
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -160,8 +160,8 @@ theorem t263Desc_td4_of (he : T263SelWP t263GTD4Easy) (hg : T263SelWP t263GTD4GF
   cases i with
   | lie d =>
     obtain ⟨d, hv⟩ := d
-    cases d <;> simp only [t263GTD4, t263GTD4Easy, t263GTD4GF2, t263GTD4Hard, onLie] at hi ⊢ <;>
-      first | exact hi.elim | exact cover_three hi
+    cases d <;> simp only [t263GTD4, t263GTD4Easy, t263GTD4GF2, t263GTD4Hard, onLie] at hi ⊢;
+      exact cover_three hi
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim

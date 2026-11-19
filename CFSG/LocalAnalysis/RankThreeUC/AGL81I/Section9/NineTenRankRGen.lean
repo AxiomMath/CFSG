@@ -25,16 +25,16 @@ theorem not_starImg_le_of_normal (h : NineSettingGen G M p Q H E 2) (hU : NineNi
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)))).Normal)
     (hUp : IsPGroup p U) : ¬ starImg p H E ≤ U := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro hle
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
   let Y : Subgroup (StarGroup p H) :=
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))
   let pre : Subgroup (StarGroup p H) → Subgroup G := fun K => (K.comap π).map H.subtype
-  haveI hYnorm : Y.Normal := by
-    haveI hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hYnorm : Y.Normal := by
+    have hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
       CFSG.LocalCores.layer_characteristic
-    haveI hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+    have hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
     dsimp only [Y]
     infer_instance
   have hpre_sub : ∀ K : Subgroup (StarGroup p H), (pre K).subgroupOf H = K.comap π := by
@@ -195,7 +195,7 @@ theorem two_le_pRank_pCore (h : NineSettingGen G M p Q H E 2) (hU : NineNineOne 
     (hY : ¬ centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) ≤ starImg p H M) :
     2 ≤ CFSG.Open.pRank p (CFSG.pCore p (StarGroup p H)) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let Rstar : Subgroup (StarGroup p H) := CFSG.pCore p (StarGroup p H)
   let Y : Subgroup (StarGroup p H) :=
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))
@@ -204,13 +204,13 @@ theorem two_le_pRank_pCore (h : NineSettingGen G M p Q H E 2) (hU : NineNineOne 
   have hlt1 : CFSG.Open.pRank p Rstar ≤ 1 := by
     have := Nat.not_le.mp hlt
     omega
-  haveI hRnorm : Rstar.Normal := CFSG.pCore_normal (p := p) (G := StarGroup p H)
-  haveI hRp : IsPGroup p Rstar := CFSG.pCore_isPGroup (p := p) (G := StarGroup p H)
-  haveI hCnorm : (centralizer (Rstar : Set (StarGroup p H))).Normal := inferInstance
-  haveI hYnorm : Y.Normal := by
-    haveI hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hRnorm : Rstar.Normal := CFSG.pCore_normal (p := p) (G := StarGroup p H)
+  have hRp : IsPGroup p Rstar := CFSG.pCore_isPGroup (p := p) (G := StarGroup p H)
+  have hCnorm : (centralizer (Rstar : Set (StarGroup p H))).Normal := inferInstance
+  have hYnorm : Y.Normal := by
+    have hchar : (CFSG.layer (StarGroup p H)).Characteristic :=
       CFSG.LocalCores.layer_characteristic
-    haveI hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+    have hnorm : (CFSG.layer (StarGroup p H)).Normal := inferInstance
     dsimp only [Y]
     infer_instance
   have hnorm_of_normal : ∀ g : StarGroup p H, g ∈ normalizer (Rstar : Set (StarGroup p H)) := by
@@ -219,7 +219,7 @@ theorem two_le_pRank_pCore (h : NineSettingGen G M p Q H E 2) (hU : NineNineOne 
     exact Subgroup.mem_top g
   have hRcyc : IsCyclic ↥Rstar := by
     by_contra hnc
-    haveI : Fact (IsPGroup p ↥Rstar) := ⟨hRp⟩
+    have : Fact (IsPGroup p ↥Rstar) := ⟨hRp⟩
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (R := ↥Rstar) h.ne_two hnc
     have hSab : IsElemAbelian p (S.map Rstar.subtype) :=
       (CFSG.Open.isElemAbelian_iff_isElementaryAbelian).mpr

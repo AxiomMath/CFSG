@@ -32,6 +32,7 @@ private theorem e18c_exists_rep (h : EndHyp Ω) {W R : Subgroup G} (hW : W ∈ W
     ⟨le_rfl, h.thmD.two R hRΩ, fun _ hVR _ hRV => le_antisymm hVR hRV⟩
   exact ⟨⟨R, R, r, hRΩ, hR, hRR, hr, hrW⟩, rfl⟩
 
+omit [Finite G] in
 private theorem e18c_rep_mem (h : EndHyp Ω) {W : Subgroup G} (ρ : Asc77.Thompson.Rep Ω W) :
     ρ.K ∈ DSet Ω W := by
   have hKR : ρ.K = ρ.R := ρ.hRK.2.2 ρ.K le_rfl (h.thmD.two ρ.K ρ.hK) ρ.hRK.1

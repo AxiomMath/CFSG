@@ -25,7 +25,7 @@ private theorem ltqD4s_three_dvd (n : ℕ) : 3 ∣ 2 ^ n - 1 ∨ 3 ∣ 2 ^ n + 1
       refine ⟨2 * k - 1, ?_⟩
       rw [pow_succ]; omega
 
-private theorem ltqD4s_kacRE {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
+private theorem ltqD4s_kacRE {lab : LargeEvenLabel} (_hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .E6 ∨ lab.tag = .twE6) : GGKacRE lab 3 := by
   refine ⟨by norm_num, by norm_num, ltqD4s_three_dvd lab.n, ?_⟩
   rcases htag with h | h
@@ -145,7 +145,7 @@ private theorem ltqD4s_extract_false {tw : Bool} {n n₀ : ℕ}
 private theorem ltqD4s_shape {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .E6 ∨ lab.tag = .twE6)
     {D : GGKacDatum} (hValid : GGKacValid lab 3 D)
-    {o : GGKacOrbit} (ho : o ∈ D.orbits) (hqs : o.qs = true)
+    {o : GGKacOrbit} (ho : o ∈ D.orbits) (_hqs : o.qs = true)
     (htagD : o.lab.tag = .D) (hrankD : o.lab.rank = 4)
     (hdvd : lab.n ∣ o.lab.n) :
     o.lab.n = lab.n ∧ (lab.tag = .E6 → 3 ∣ 2 ^ lab.n - 1) ∧

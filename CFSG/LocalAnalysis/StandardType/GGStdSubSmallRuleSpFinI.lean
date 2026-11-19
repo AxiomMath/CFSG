@@ -29,12 +29,14 @@ open CFSG.Open (StatedSp)
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
 
+omit [CharP K 2] in
 theorem finite_statedSp_group : Finite (StatedSp m K) :=
   Finite.of_injective
-    (fun x : StatedSp m K =>
-      ((x : GL (Fin m ⊕ Fin m) K) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K))
-    (fun x y hxy => Subtype.ext (Units.ext hxy))
+    (fun _x : StatedSp m K =>
+      ((_x : GL (Fin m ⊕ Fin m) K) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K))
+    (fun _x _y hxy => Subtype.ext (Units.ext hxy))
 
+omit [Finite K] [CharP K 2] in
 theorem isoSetup_map {Ã : Subgroup (StatedSp m K)} (hÃ : IsElemAbelian 3 Ã) :
     IsoSetup (spForm m K) (Ã.map (spLin m K)) where
   comm := by
@@ -47,6 +49,7 @@ theorem isoSetup_map {Ã : Subgroup (StatedSp m K)} (hÃ : IsElemAbelian 3 Ã) :
     rintro _ ⟨a, ha, rfl⟩ v w
     exact mem_sesqUnitaryGroup.mp (spLin_mem a) v w
 
+omit [Finite K] [CharP K 2] in
 theorem fixedFactor_fix_range {x d : StatedSp m K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) (hd : d ∈ spFixedFactor x) :
     ∀ w ∈ LinearMap.range (spEnd x - 1), spEnd d w = w := by
@@ -73,6 +76,7 @@ theorem fixedFactor_fix_range {x d : StatedSp m K}
   · intro a b ha hb
     simp only [map_add, ha, hb]
 
+omit [Finite K] in
 theorem commute_of_fix_fixedFactor {x b d : StatedSp m K} (hx3 : x ^ 3 = 1)
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) (hbx : b * x = x * b)
     (hb : ∀ u ∈ LinearMap.ker (spEnd x - 1), spEnd b u = u) (hd : d ∈ spFixedFactor x) :
@@ -104,6 +108,7 @@ omit [Finite K] [CharP K 2] in
 theorem finrank_spSpace (m : ℕ) : finrank K (Fin m ⊕ Fin m → K) = 2 * m := by
   rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin, ← two_mul]
 
+omit [Finite K] [CharP K 2] in
 theorem isQuasisimple_fixedFactor_of_six_le (hK : Nat.card K = 2) {x : StatedSp m K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj m K x)) (hd : 6 ≤ spFixedDim x) :
     CFSG.IsQuasisimple (spFixedFactor x) := by
@@ -132,8 +137,8 @@ theorem coreI (hK : Nat.card K = 2) (hm : 5 ≤ m) {Ã : Subgroup (StatedSp m K)
       ((∃ b ∈ Ã, b ∉ Subgroup.zpowers x ∧ ∀ q ∈ Q, b * q = q * b) ∨
         3 ^ 3 ≤ Nat.card (Ã ⊓ Q : Subgroup (StatedSp m K))) := by
   classical
-  haveI := finite_statedSp_group (K := K) (m := m)
-  haveI := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
+  have := finite_statedSp_group (K := K) (m := m)
+  have := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   set Xg : Subgroup (Module.End K (Fin m ⊕ Fin m → K))ˣ := Ã.map (spLin m K) with hXg
   have hXiso := isoSetup_map hÃ

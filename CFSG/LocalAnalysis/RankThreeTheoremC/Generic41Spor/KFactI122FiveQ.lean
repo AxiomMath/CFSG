@@ -83,7 +83,7 @@ private theorem conj_pow_five_comm {X : Type*} [Group X] (C : Subgroup X) (c : X
     rw [hord] at h2
     exact_mod_cast h2
   have h5m : (5 : ℤ) ∣ m - 1 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have h3 : ((m ^ 5 - 1 : ℤ) : ZMod 5) = 0 := by
       rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
       exact dvd_trans (by norm_num) h25

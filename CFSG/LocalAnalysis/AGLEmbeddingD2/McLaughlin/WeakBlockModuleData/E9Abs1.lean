@@ -121,7 +121,7 @@ theorem not_hasInvolMod_c_one {T : Subgroup H} {x y : H}
     (hx2 : x * x = 1) (hy2 : y * y = 1) (hxy3 : (x * y) ^ 3 = 1) (hxy1 : x * y ≠ 1) :
     ¬ HasInvolMod H (x * y) := by
   rintro ⟨u, huO, hu2, hcomm⟩
-  haveI : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
   set O : Subgroup H := CFSG.pCore 2 H with hO
   set cl : Subgroup H := Subgroup.closure {x, y} with hcl
   have hTN : T ≤ Subgroup.normalizer (cl : Set H) := fun t ht =>

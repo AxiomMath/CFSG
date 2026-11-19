@@ -163,7 +163,7 @@ theorem exists_yData_of_normal
       intro p hp hpZ
       have : Fact p.Prime := ⟨hp⟩
       obtain ⟨Q⟩ : Nonempty (Sylow p X) := inferInstance
-      refine ⟨this, Q, isMulCommutative_of_sq_not_dvd_index hZc ?_ Q.isPGroup'⟩
+      refine ⟨this, Q, isMulCommutative_of_sq_not_dvd_index hZc ?_ Q.isPGroup⟩
       have hpO : p ∣ Nat.card O := by
         refine hpZ.trans ?_
         rw [hZcard]

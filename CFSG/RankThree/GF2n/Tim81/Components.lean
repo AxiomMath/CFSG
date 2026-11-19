@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
 namespace Hyp
 
+omit [Finite G] in
 private theorem eq_one_of_mem_two_and_coprime {P N : Subgroup G} (hP : IsPGroup 2 P)
     (hN : Nat.Coprime 2 (Nat.card N)) {x : G} (hxP : x ∈ P) (hxN : x ∈ N) : x = 1 := by
   obtain ⟨j, hj⟩ := hP ⟨x, hxP⟩
@@ -25,6 +26,7 @@ private theorem eq_one_of_mem_two_and_coprime {P N : Subgroup G} (hP : IsPGroup 
   exact orderOf_eq_one_iff.mp
     (Nat.eq_one_of_dvd_coprimes (Nat.Coprime.pow_left j hN) h2 h3)
 
+omit [Finite G] in
 private theorem not_isCyclic_of_mul_self {P : Subgroup G} (hexp : ∀ a ∈ P, a * a = 1)
     (h4 : 4 ≤ Nat.card P) : ¬ IsCyclic P := by
   intro hcyc
@@ -189,6 +191,7 @@ theorem components_commute_inf {K L : Subgroup G} (hF : fittingSubgroup G = ⊥)
   rw [center_component_eq_bot hF hK, Subgroup.mem_bot] at hxZ
   exact Subgroup.mem_bot.2 (congrArg Subtype.val hxZ)
 
+omit [Finite G] in
 theorem generalizedFitting_eq_layer_of_fittingSubgroup_eq_bot
     (hF : fittingSubgroup G = ⊥) : generalizedFitting G = layer G := by
   rw [generalizedFitting, hF, bot_sup_eq]
@@ -205,6 +208,7 @@ theorem generalizedFitting_simple_of_unique (hF : fittingSubgroup G = ⊥) {K : 
   rw [hlayer]
   exact ⟨hs, hnab⟩
 
+omit [Finite G] in
 theorem isComponent_conjSubgroup {K : Subgroup G} (hK : IsComponent K) (g : G) :
     IsComponent (conjSubgroup g K) := by
   simpa [conjSubgroup] using
@@ -219,6 +223,7 @@ open CFSG CFSG.CGT.Timmesfeld75
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_conj_subgroupOf_eq_conjSubgroup {K M : Subgroup G} (hKM : K ≤ M) (m : M) :
     ((K.subgroupOf M).map (MulAut.conj m).toMonoidHom).map M.subtype =
       conjSubgroup (m : G) K := by
@@ -348,6 +353,7 @@ open CFSG CFSG.CGT.Timmesfeld75
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem isMulCommutative_sup_of_le_centralizer {A B : Subgroup G}
     (hA : IsMulCommutative A) (hB : IsMulCommutative B)
     (hAB : A ≤ Subgroup.centralizer (B : Set G)) :
@@ -382,7 +388,7 @@ theorem inf_V_eq_bot_of_ne (h : Hyp M V)
     (hX : IsComponent X) (hY : IsComponent Y) (hXY : X ≠ Y) :
     V ⊓ X = ⊥ := by
   by_contra hne
-  haveI : Nontrivial ↥(V ⊓ X) := (Subgroup.nontrivial_iff_ne_bot (V ⊓ X)).mpr hne
+  have : Nontrivial ↥(V ⊓ X) := (Subgroup.nontrivial_iff_ne_bot (V ⊓ X)).mpr hne
   obtain ⟨x0, hx0⟩ := exists_ne (1 : ↥(V ⊓ X))
   set u : G := (x0 : G)
   have hu : u ∈ V ⊓ X := x0.2
@@ -448,7 +454,7 @@ private theorem closure_orbit_isMulCommutative (h : Hyp M V)
     · exact inf_V_eq_bot_of_ne h hF hZ hX hZX
   have hpair : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := by
     intro a ha b hb
-    simp only [S, Set.mem_setOf_eq] at ha hb
+    simp only [S, Set.mem_ofPred_eq] at ha hb
     obtain ⟨Za, ⟨hZa, _⟩, haZa⟩ := ha
     obtain ⟨Zb, ⟨hZb, _⟩, hbZb⟩ := hb
     by_cases hZab : Za = Zb
@@ -463,6 +469,7 @@ private theorem closure_orbit_isMulCommutative (h : Hyp M V)
     exact hpair a ha b hb
   exact Subgroup.isMulCommutative_closure hpair'
 
+omit [Finite G] in
 private theorem closure_orbit_le_Pc {X : Subgroup G} :
     Subgroup.closure {x : G | ∃ Z : Subgroup G,
       (IsComponent Z ∧ ∃ m : M, Z = conjSubgroup (m : G) X) ∧ x ∈ Pc M V ⊓ Z} ≤
@@ -472,10 +479,11 @@ private theorem closure_orbit_le_Pc {X : Subgroup G} :
   change Subgroup.closure S ≤ Pc M V
   refine (Subgroup.closure_le (K := Pc M V)).2 ?_
   intro x hx
-  simp only [S, Set.mem_setOf_eq] at hx
+  simp only [S, Set.mem_ofPred_eq] at hx
   obtain ⟨Z, ⟨_, _⟩, hxZ⟩ := hx
   exact (Subgroup.mem_inf.mp hxZ).1
 
+omit [Finite G] in
 private theorem le_normalizer_closure_orbit (h : Hyp M V) {X : Subgroup G} :
     M ≤ Subgroup.normalizer (Subgroup.closure {x : G | ∃ Z : Subgroup G,
       (IsComponent Z ∧ ∃ m : M, Z = conjSubgroup (m : G) X) ∧ x ∈ Pc M V ⊓ Z} : Set G) := by
@@ -483,12 +491,11 @@ private theorem le_normalizer_closure_orbit (h : Hyp M V) {X : Subgroup G} :
     (IsComponent Z ∧ ∃ m : M, Z = conjSubgroup (m : G) X) ∧ x ∈ Pc M V ⊓ Z}
   change M ≤ Subgroup.normalizer (Subgroup.closure S : Set G)
   refine Quasithin.MS93.le_normalizer_of_map_conj_le fun m hm => ?_
-  change (Subgroup.closure S).map (MulAut.conj m).toMonoidHom ≤ Subgroup.closure S
   rw [MonoidHom.map_closure]
   refine (Subgroup.closure_le (K := Subgroup.closure S)).2 ?_
   rintro x ⟨y, hy, rfl⟩
   have hmemS : (MulAut.conj m).toMonoidHom y ∈ S := by
-    simp only [S, Set.mem_setOf_eq] at hy ⊢
+    simp only [S, Set.mem_ofPred_eq] at hy ⊢
     obtain ⟨Z, hZ, hyZ⟩ := hy
     refine ⟨conjSubgroup (m : G) Z, ?_, ?_⟩
     · obtain ⟨hZcomp, k, hk⟩ := hZ
@@ -561,7 +568,7 @@ theorem inf_Pc_eq_bot_of_ne (h : Hyp M V)
       change ((P : Subgroup G) ⊓ X) ≤ Subgroup.closure S
       intro x hx
       apply Subgroup.subset_closure
-      simp only [S, Set.mem_setOf_eq]
+      simp only [S, Set.mem_ofPred_eq]
       exact ⟨X, hXorbit, hx⟩
     exact h1.trans hWleV
   rw [eq_bot_iff]

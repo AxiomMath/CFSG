@@ -51,11 +51,11 @@ theorem exists_isStronglyPEmbedded_quotient_center {q : ℕ} [Fact q.Prime] {G :
   obtain ⟨R⟩ : Nonempty (Sylow q ↥L) := inferInstance
   have hR1 : (R : Subgroup ↥L) ≠ ⊥ := R.ne_bot_of_dvd_card hqL
   set R' : Subgroup G := (R : Subgroup ↥L).map L.subtype with hR'
-  have hR'p : IsPGroup q R' := R.isPGroup'.map _
+  have hR'p : IsPGroup q R' := R.isPGroup.map _
   have hR'1 : R' ≠ ⊥ := fun h0 => hR1 ((Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective).1 h0)
   obtain ⟨P, hRP⟩ := hR'p.exists_le_sylow
   have hP : CFSG.RankThree.PartOne.IsSylowOf q (P : Subgroup G) ⊤ :=
-    ⟨le_top, P.isPGroup', by
+    ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index⟩
   obtain ⟨g, hg⟩ := hN.exists_conj_ge hP
@@ -74,7 +74,7 @@ theorem exists_isStronglyPEmbedded_quotient_center {q : ℕ} [Fact q.Prime] {G :
     refine hN'.centralizer_le_of_isPGroup hR'1 hR'p hR'N (Subgroup.mem_centralizer_iff.2 fun r hr => ?_)
     obtain ⟨r₀, hr₀, rfl⟩ := hr
     exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hz r₀)
-  haveI : (Subgroup.center ↥L).Normal := inferInstance
+  have : (Subgroup.center ↥L).Normal := inferInstance
   have hpZ : ¬ q ∣ Nat.card (Subgroup.center ↥L) := hY₀.not_dvd_card_of_normal_le hcen
   exact ⟨_, hY₀.map_quotient hcen hpZ⟩
 
@@ -124,7 +124,7 @@ theorem k36SporSixNoStrongThree_holds : K36SporSixNoStrongThree := by
     exact hs (by decide)
   have hΓ := CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.sporGammaOneAt_three s h11 hJ1
     (TauCeti.CFSGIndex.sporadic s).Group ⟨MulEquiv.refl _⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 (TauCeti.CFSGIndex.sporadic s).Group) := inferInstance
   exact ⟨dvd_card_of_glbCore_eq_top (hΓ T), not_isStronglyPEmbedded_of_glbCore_eq_top hΓ⟩
 
@@ -138,7 +138,7 @@ theorem k36EqlStarSporGe4_of_six
     (hR6 : K36SporSixNoStrongThree) : K36EqlStarSporGe4 := by
   intro G _ _ hG hq M p E h hS L hL hLc hne hX s hs hφ
   obtain ⟨φ⟩ := hφ
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   exfalso
   have hfin : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ φ.toEquiv
   have hsimple : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group :=
@@ -153,7 +153,7 @@ theorem k36EqlStarSporGe4_of_six
   · obtain ⟨q, hq, hq2, h4⟩ := hq
     exact absurd (h1 q hq hq2) (not_le.2 h4)
   · exact h2 h3G
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨Y, hY⟩ := exists_isStronglyPEmbedded_quotient_center hN h3L
     exact hno _ (isStronglyPEmbedded_map_mulEquiv φ hY)
 

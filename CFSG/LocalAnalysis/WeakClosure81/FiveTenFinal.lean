@@ -15,6 +15,7 @@ theorem conjSub_kerMOf_of_mem {M H : Subgroup G} {m : G} (hm : m ∈ H) :
     A1b.conjSub m (kerMOf M H) = kerMOf M H :=
   B6.conjSub_eq_self (E1.mem_normalizer_of_conj_mem fun _ hx => conj_mem_kerMOf hm hx)
 
+omit [Finite G] in
 theorem kerMOf_conjSub_of_mem {M H : Subgroup G} {m : G} (hm : m ∈ M) :
     kerMOf M (A1b.conjSub m H) = A1b.conjSub m (kerMOf M H) := by
   ext x
@@ -86,6 +87,7 @@ theorem FiveTenConc.exists_le_sylow {H M T : Subgroup G} {Ω : Set (Subgroup G)}
     rw [h3] at h2
     exact h2
 
+omit [Finite G] in
 theorem maxOver_kerQuotImg_of_inf {M H A : Subgroup G} (hAH : A ≤ H)
     (h : maxOver H (A ⊔ kerMOf M H) = {M ⊓ H}) :
     maxOver ⊤ (kerQuotImg M H A) = {kerQuotImg M H M} := by
@@ -102,7 +104,7 @@ theorem maxOver_kerQuotImg_of_inf {M H A : Subgroup G} (hAH : A ≤ H)
     have e2 : A ⊔ kerMOf M H ≤ kerQuotLift M H Y ↔ kerQuotImg M H A ≤ Y := by
       rw [sup_le_iff, le_kerQuotLift_iff hAH]
       exact ⟨fun h => h.1, fun h => ⟨h, kerMOf_le_kerQuotLift M H Y⟩⟩
-    simp only [maxOver, Set.mem_setOf_eq, e, e2]
+    simp only [maxOver, Set.mem_ofPred_eq, e, e2]
   ext Y
   rw [key, h, Set.mem_singleton_iff, Set.mem_singleton_iff]
   constructor

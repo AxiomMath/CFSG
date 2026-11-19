@@ -20,7 +20,7 @@ variable {G : Type} [Group G]
 
 theorem exists_conj_ge_of_isSylow2In [Finite G] {S Q : Subgroup G} (hS : IsSylow2In S ⊤)
     (hQ : IsPGroup 2 ↥Q) : ∃ g : G, Q ≤ conjSub g S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 G :=
     { toSubgroup := S
       maximal_isPGroup.left := hS.2.1

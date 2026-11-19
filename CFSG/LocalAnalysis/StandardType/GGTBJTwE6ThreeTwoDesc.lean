@@ -194,7 +194,7 @@ theorem eq_of_central_perfect {J C : Subgroup G} (hJ : commutator ↥J = ⊤)
     ∀ j ∈ J, a j = j := by
   have hcen : ∀ y ∈ C, ∀ g : G, g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hC hy) g
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := fun x y => Subtype.ext (hcen y y.2 x) }
   let f : ↥J →* C :=
     { toFun := fun j => ⟨(j : G)⁻¹ * a j, h j j.2⟩
@@ -304,7 +304,7 @@ theorem nonempty_quotCenter_map {K Q : Type} [Group K] [Group Q] (π : K →* Q)
     have h1 : π (j : K) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.mp hj)
     have hjc := Subgroup.mem_center_iff.mp (hker (MonoidHom.mem_ker.mpr h1))
     exact Subgroup.mem_center_iff.mpr fun g => Subtype.ext (hjc g)
-  haveI : Group.IsPerfect ↥J := ⟨hJ⟩
+  have : Group.IsPerfect ↥J := ⟨hJ⟩
   exact ⟨CFSG.Quasithin.SmithC27.quotCenterEquivOfSurjective φ hφ hφk⟩
 
 theorem isComponentOf_map {K Q : Type} [Group K] [Group Q] (π : K →* Q)
@@ -315,7 +315,7 @@ theorem isComponentOf_map {K Q : Type} [Group K] [Group Q] (π : K →* Q)
   · exact (hJ.2.1.map π).trans (IsSubnormal.step (map_fixSubgroup_le π hker α β hαβ)
       (normal_map_fixSubgroup π hker α β hαβ hπ) (IsSubnormal.refl _))
   · have hφ : Function.Surjective (π.subgroupMap J) := π.subgroupMap_surjective J
-    haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
     obtain ⟨e⟩ := nonempty_quotCenter_map π hker hJ.2.2.1
     exact ⟨(Group.IsPerfect.ofSurjective hφ).commutator_eq_top,
       (MulEquiv.isSimpleGroup_congr e).mp hJ.2.2.2⟩

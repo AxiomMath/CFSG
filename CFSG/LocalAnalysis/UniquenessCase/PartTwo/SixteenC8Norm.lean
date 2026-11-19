@@ -20,6 +20,7 @@ theorem c8_rk_eq_mQuot_add {X : Type*} [Group X] [Finite X] {A B : Subgroup X} (
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c8_wTil_ne_bot {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hL : barSub V₀ V hV L ≠ ⊥) : wTil V₀ V hV L ≠ ⊥ :=
   fun h0 => hL (s15_Lin_eq_bot_of_commSub_top_eq_bot h0)
@@ -68,6 +69,7 @@ theorem c8_wTil_spin (D : Data G) (h1217 : R1217 D) (hA : RSp6SmallMod) {V₀ V 
     · have := Nat.mul_le_mul_right (gamma15 D.M V₀ V hV L) hs2
       omega
 
+omit [Finite G] in
 theorem c8_map_conj_lbar_eq (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (L : Subgroup G)
     (hs : s15 M V₀ V hV L = 1) :
     ∀ φ ∈ Mbar M V₀ V hV,

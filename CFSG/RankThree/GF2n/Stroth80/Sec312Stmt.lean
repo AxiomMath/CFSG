@@ -34,6 +34,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
       QuotSat (L₁ ⊔ L₂) (inSubgroup (pCore 2) (L₁ ⊔ L₂)) (IsSLModel 2 (Nat.card Z)) ∨
         L₁ ⊔ L₂ = Rt M (LB M Q B) t
 
+omit [Finite G] in
 theorem iSup_pair_eq_sup (L₁ L₂ : Subgroup G) [DecidableEq (Subgroup G)] :
     (⨆ L' ∈ ({L₁, L₂} : Finset (Subgroup G)), L') = L₁ ⊔ L₂ := by
   rw [Finset.iSup_insert, Finset.iSup_singleton]
@@ -55,7 +56,7 @@ theorem stroth44_of_312ab (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hle : L₁ ⊔ L₂ ≤ ⨆ L' ∈ 𝓛, L' :=
     sup_le (le_iSup₂_of_le L₁ h₁ le_rfl) (le_iSup₂_of_le L₂ h₂ le_rfl)
   have hsolv' : Group.IsSolvable ↥(L₁ ⊔ L₂) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   have hne' : L₁ ⊔ L₂ ≠ LB M Q B := by
     intro hX
     have hc₁ : Nat.card L₁ = Nat.card (LB M Q B) := hL₁ ▸ card_conjSubgroup m₁ _

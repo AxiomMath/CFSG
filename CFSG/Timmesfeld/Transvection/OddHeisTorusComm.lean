@@ -287,19 +287,19 @@ private theorem yroot_inj (hθo : Odd (Nat.card θ.ker))
     (hd : OddFrameCompatible hFn hr (R.toHom hFn (even_two_mul r) hm) θ) {s t : F}
     (h : yroot s = yroot t) : s = t :=
   SURelations.eq_of_ξ_eq R (unitaryInvolution_involutive hFn) (exists_unitaryInvolution_ne hFn)
-    idx_prev_last (fun u hu => lprev_eq_one hθo hd hu) h
+    idx_prev_last (fun _u hu => lprev_eq_one hθo hd hu) h
 
 private theorem zroot_inj (hθo : Odd (Nat.card θ.ker))
     (hd : OddFrameCompatible hFn hr (R.toHom hFn (even_two_mul r) hm) θ) {s t : F}
     (h : zroot s = zroot t) : s = t :=
   SURelations.eq_of_ξ_eq R (unitaryInvolution_involutive hFn) (exists_unitaryInvolution_ne hFn)
-    idx_prev_prev (fun u hu => lprev_eq_one hθo hd hu) h
+    idx_prev_prev (fun _u hu => lprev_eq_one hθo hd hu) h
 
 private theorem ybar_inj (hθo : Odd (Nat.card θ.ker))
     (hd : OddFrameCompatible hFn hr (R.toHom hFn (even_two_mul r) hm) θ) {s t : F}
     (h : ybar s = ybar t) : s = t :=
   SURelations.eq_of_ξ_eq R (unitaryInvolution_involutive hFn) (exists_unitaryInvolution_ne hFn)
-    idx_last_prev (fun u hu => llong_eq_one hθo hd hu) h
+    idx_last_prev (fun _u hu => llong_eq_one hθo hd hu) h
 
 private theorem zroot_eq_lprev_eq_one (hθo : Odd (Nat.card θ.ker))
     (hd : OddFrameCompatible hFn hr (R.toHom hFn (even_two_mul r) hm) θ) {u v : F}
@@ -564,7 +564,7 @@ private theorem exists_scalar_action (hΔ : IsRootClass Δ) (hR : R.HasFrameImag
     intro h0
     have h1 := hN 1
     rw [h0, map_zero, zero_mul] at h1
-    simpa using h1
+    simp at h1
   have hee : e = e' := by
     refine RelBuild.eq_of_tw_eq (exists_unitaryInvolution_ne hFn) fun u => ?_
     have h := hrel u
@@ -598,7 +598,7 @@ private theorem exists_scalar_action (hΔ : IsRootClass Δ) (hR : R.HasFrameImag
   have hκ0ne : κ ≠ 0 := by
     intro h0
     rw [h0] at hNκ
-    simpa using hNκ
+    simp at hNκ
   refine ⟨κ, κ', hκ0ne, hNκ, hκ'inv, ?_, ?_⟩
   · intro s
     rw [show (θ h * θ h) * yroot s * (θ h * θ h)⁻¹ =
@@ -621,7 +621,7 @@ private theorem commute_weyl_torus (hΔ : IsRootClass Δ) (hR : R.HasFrameImages
   obtain ⟨κ, κ', hκne, hNκ, hκ'inv, hactY, hactYb⟩ :=
     exists_scalar_action hΔ hR hθr hθo hd hlong
   have hk : (cPrevIdx r hr).val + 1 < 2 * r / 2 := by
-    simp only [cPrevIdx, Fin.val_mk]
+    simp only
     omega
   set t : H := θ h * θ h with ht
   set W : H := (R.toHom hFn (even_two_mul r) hm)

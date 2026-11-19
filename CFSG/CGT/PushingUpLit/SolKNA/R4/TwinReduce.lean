@@ -59,7 +59,7 @@ theorem exists_S₀_pairK (hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ k)
   rw [map_mul] at h3'
   exact h3'
 
-theorem exists_sq_of_conjSub_neK (hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ k)
+theorem exists_sq_of_conjSub_neK (hd : Q8TwinDatum R S t) {k : ℕ} (_hk : 3 ≤ k)
     (hq : Nonempty (↥(S : Subgroup R) ≃* QuaternionGroup (2 ^ (k - 2)))) {A : Subgroup Y} {s : Y}
     (hs : s ∈ (S : Subgroup R).map R.subtype) (hsA : conjSub s A ≠ A) :
     ∃ s' ∈ (S : Subgroup R).map R.subtype, s' * s' = t ∧ conjSub s' A ≠ A := by
@@ -85,7 +85,8 @@ theorem exists_sq_of_conjSub_neK (hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ 
     · exact ⟨(((e.symm z : ↥(S : Subgroup R)) : ↥R) : Y), ⟨_, (e.symm z).2, rfl⟩,
         TL4.sq_eq_of_quat e hct hz, hzA⟩
 
-theorem inv_in_S₀K (hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ k)
+omit [Finite Y] in
+theorem inv_in_S₀K (_hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ k)
     (hq : Nonempty (↥(S : Subgroup R) ≃* QuaternionGroup (2 ^ (k - 2)))) :
     ∀ r ∈ (S : Subgroup R).map R.subtype, ∃ s ∈ (S : Subgroup R).map R.subtype,
       s * r * s⁻¹ = r⁻¹ := by
@@ -103,6 +104,7 @@ theorem inv_in_S₀K (hd : Q8TwinDatum R S t) {k : ℕ} (hk : 3 ≤ k)
   have h2 := congrArg (fun v : ↥(S : Subgroup R) => ((v : ↥R) : Y)) h1
   simpa using h2
 
+omit [Finite Y] in
 theorem exists_noncommK (hd : Q8TwinDatum R S t) (hinv : ∀ r ∈ (S : Subgroup R).map R.subtype, ∃ s ∈ (S : Subgroup R).map R.subtype, s * r * s⁻¹ = r⁻¹) {r : Y}
     (hrS : r ∈ (S : Subgroup R).map R.subtype) (hrr : r * r = t) :
     ∃ s ∈ (S : Subgroup R).map R.subtype, s * r ≠ r * s := by
@@ -486,7 +488,7 @@ theorem conjSub_component_eq_of_casesK
     (hinv : ∀ r ∈ (S : Subgroup R).map R.subtype, ∃ s ∈ (S : Subgroup R).map R.subtype, s * r * s⁻¹ = r⁻¹) (hsq : ∀ (A : Subgroup Y) (s : Y), s ∈ (S : Subgroup R).map R.subtype → conjSub s A ≠ A → ∃ s' ∈ (S : Subgroup R).map R.subtype, s' * s' = t ∧ conjSub s' A ≠ A)
     (hO : classicalInvolutionOddCore Y = ⊥)
     (hE2 : ¬ ∃ P : Subgroup Y, P.Normal ∧ IsPGroup 2 ↥P ∧ t ∈ P) {A : Subgroup Y}
-    (hA : CFSG.IsComponent A) (htA : conjSub t A = A)
+    (hA : CFSG.IsComponent A) (_htA : conjSub t A = A)
     (hcent : ∀ r ∈ (S : Subgroup R).map R.subtype, conjSub r A ≠ A →
       (∀ x ∈ A, x * t = t * x) → False)
     {s : Y} (hs : s ∈ (S : Subgroup R).map R.subtype) : conjSub s A = A := by

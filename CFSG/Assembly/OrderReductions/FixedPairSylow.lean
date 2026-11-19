@@ -77,7 +77,7 @@ theorem sylow_of_normalizer_control {group : Type*} [Group group] [Finite group]
       Subgroup.normalizer (subgroup : Set group) ⊓ larger ≤ subgroup) :
     ∃ sylow : Sylow prime group, (sylow : Subgroup group) = subgroup := by
   obtain ⟨sylow, contains⟩ := prime_group.exists_le_sylow
-  have : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup.isNilpotent
   have normalizer_condition := normalizerCondition_iff_only_full_group_self_normalizing.mp
     (Group.normalizerCondition_of_isNilpotent (G := (sylow : Subgroup group)))
   have full : subgroup.subgroupOf (sylow : Subgroup group) = ⊤ := by
@@ -86,7 +86,7 @@ theorem sylow_of_normalizer_control {group : Type*} [Group group] [Finite group]
     apply le_antisymm
     · intro element normalizes
       exact Subgroup.mem_subgroupOf.mpr
-        (control sylow sylow.isPGroup' contains
+        (control sylow sylow.isPGroup contains
           ⟨Subgroup.mem_subgroupOf.mp normalizes, element.property⟩)
     · exact Subgroup.subgroupOf_mono _ subgroup.le_normalizer
   exact ⟨sylow, le_antisymm (Subgroup.subgroupOf_eq_top.mp full) contains⟩
@@ -99,7 +99,7 @@ theorem sylow_extension_of_normalizer_le {group : Type*} [Group group] [Finite g
     ∃ sylow : Sylow prime group,
       (sylow : Subgroup group) = (internal : Subgroup ambient).map ambient.subtype := by
   let image := (internal : Subgroup ambient).map ambient.subtype
-  have image_prime : IsPGroup prime image := internal.isPGroup'.map ambient.subtype
+  have image_prime : IsPGroup prime image := internal.isPGroup.map ambient.subtype
   apply sylow_of_normalizer_control prime image image_prime
   intro larger larger_prime contains
   let intersection := Subgroup.normalizer (image : Set group) ⊓ larger
@@ -157,7 +157,7 @@ theorem sylow_in_subgroup_of_normalizer_intersection_le {group : Type*}
     intro element mem_image
     obtain ⟨original, _, equal_image⟩ := Subgroup.mem_map.mp mem_image
     exact equal_image ▸ smaller_le original.property
-  have image_prime : IsPGroup prime image := internal.isPGroup'.map smaller.subtype
+  have image_prime : IsPGroup prime image := internal.isPGroup.map smaller.subtype
   have restricted_prime : IsPGroup prime (image.subgroupOf ambient) :=
     image_prime.of_equiv (Subgroup.subgroupOfEquivOfLe image_le).symm
   obtain ⟨sylow, equal_image⟩ := sylow_of_normalizer_control prime
@@ -296,7 +296,7 @@ theorem exists_ambient_sylow_fixed_pair_of_odd {group points : Type*}
     exists_sylow_fixed_pair prime subgroup prime_group first second distinct fixed_pair
   let stabilizer := MulAction.stabilizer group first
   let image := (first_sylow : Subgroup stabilizer).map stabilizer.subtype
-  have image_prime : IsPGroup prime image := first_sylow.isPGroup'.map stabilizer.subtype
+  have image_prime : IsPGroup prime image := first_sylow.isPGroup.map stabilizer.subtype
   obtain ⟨sylow, equal_image⟩ := sylow_of_normalizer_control prime image image_prime (by
     intro larger larger_prime contains_image
     apply internal_sylow_controls_normalizer prime stabilizer first_sylow
@@ -573,13 +573,13 @@ theorem exists_larger_prime_subgroup_in_normalizer {group : Type*}
   have not_full : internal ≠ ⊤ := by
     intro full
     exact not_sylow ⟨sylow, le_antisymm (Subgroup.subgroupOf_eq_top.mp full) contains⟩
-  have : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (sylow : Subgroup group) := sylow.isPGroup.isNilpotent
   have internal_lt : internal < Subgroup.normalizer (internal : Set (sylow : Subgroup group)) :=
     Group.normalizerCondition_of_isNilpotent internal (lt_top_iff_ne_top.mpr not_full)
   let normalizer := Subgroup.normalizer (internal : Set (sylow : Subgroup group))
   let larger := normalizer.map (sylow : Subgroup group).subtype
   have larger_prime : IsPGroup prime larger :=
-    (sylow.isPGroup'.to_subgroup normalizer).map (sylow : Subgroup group).subtype
+    (sylow.isPGroup.to_subgroup normalizer).map (sylow : Subgroup group).subtype
   have larger_le : larger ≤ Subgroup.normalizer (subgroup : Set group) := by
     change (Subgroup.normalizer (subgroup.subgroupOf
       (sylow : Subgroup group) : Set (sylow : Subgroup group))).map

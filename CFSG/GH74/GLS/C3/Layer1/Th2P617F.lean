@@ -215,7 +215,7 @@ theorem mem_R_of_involution_local
     (hSimple : IsSimpleGroup G) (hNonab : ∃ a b : G, a * b ≠ b * a)
     (hxCentral : IsCentralInvolution x)
     (hQ8 : Nonempty (↥(T ⊓ CxK x K) ≃* DihedralGroup 4))
-    (hTS : T = S) {s : G} (hsT : s ∈ T) (hs2 : orderOf s = 2) :
+    (_hTS : T = S) {s : G} (hsT : s ∈ T) (hs2 : orderOf s = 2) :
     s ∈ (T ⊓ K) ⊔ (T ⊓ CxK x K) := by
   by_contra hR
   have hcen := centerlessBar_of_A7 h7
@@ -236,6 +236,7 @@ theorem mem_R_of_involution_local
       sylowQ := ⟨T ⊓ CxK x K, hs.sylow_Q, Or.inr hQmax⟩ }
   exact C3.Layer1.Bk.prop34N_false hyp (hs.T_le_C hsT) hs2 hind
 
+omit [Finite G] in
 theorem T_le_normalizer_of_KN (hs : Th2Std x y K T S)
     (hKn : ∀ c ∈ centralizer ({x} : Set G), ∀ k ∈ K, c * k * c⁻¹ ∈ K) :
     T ≤ normalizer (K : Set G) := by
@@ -248,7 +249,7 @@ theorem mem_R_of_involution_of_KN
     (hKn : ∀ c ∈ centralizer ({x} : Set G), ∀ k ∈ K, c * k * c⁻¹ ∈ K)
     (hSimple : IsSimpleGroup G) (hNonab : ∃ a b : G, a * b ≠ b * a)
     (hxCentral : IsCentralInvolution x)
-    (hQ4 : Nat.card ↥(T ⊓ CxK x K) ≤ 4) (hTS : T = S)
+    (hQ4 : Nat.card ↥(T ⊓ CxK x K) ≤ 4) (_hTS : T = S)
     {s : G} (hsT : s ∈ T) (hs2 : orderOf s = 2) :
     s ∈ (T ⊓ K) ⊔ (T ⊓ CxK x K) := by
   by_contra hR

@@ -13,7 +13,7 @@ theorem ggNbrLSide_large_of_L {G : Type} [Group G] (L : Subgroup G) {E U : Subgr
     (hE : CFSG.Open.IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 5) (hU2 : IsPGroup 2 U)
     (hU : U ≠ ⊥) (hEU : E ≤ Subgroup.normalizer (U : Set ↥L)) : GGLarge3RankIn2Local L := by
   have hinj : Function.Injective L.subtype := Subtype.val_injective
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   refine ⟨E.map L.subtype, U.map L.subtype, Subgroup.map_subtype_le E, Subgroup.map_subtype_le U,
     ⟨Subgroup.map_isMulCommutative E L.subtype, ?_⟩, ?_, hU2.of_equiv
       (U.equivMapOfInjective L.subtype hinj), ?_, ?_⟩

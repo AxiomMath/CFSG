@@ -15,8 +15,8 @@ variable {Y : Type} [Group Y]
 private theorem finite_of_index_two {C Ŷ : Type} [Group C] [Finite C] [Group Ŷ]
     (e : Y ≃* C) (ι : Y →* Ŷ) (hι : Function.Injective ι) (hidx : ι.range.index = 2) :
     Finite Ŷ := by
-  haveI : Finite Y := Finite.of_injective e.toMonoidHom e.injective
-  haveI : Finite ↥(ι.range) := Finite.of_surjective
+  have : Finite Y := Finite.of_injective e.toMonoidHom e.injective
+  have : Finite ↥(ι.range) := Finite.of_surjective
     ((MonoidHom.ofInjective hι).toMonoidHom) (MonoidHom.ofInjective hι).surjective
   exact (Subgroup.finite_iff_finite_and_finiteIndex (H := ι.range)).mpr
     ⟨inferInstance, Subgroup.finiteIndex_iff.mpr (by rw [hidx]; decide)⟩
@@ -32,7 +32,7 @@ private theorem eq_top_of_range_le_maxTwoLocal {C Ŷ : Type} [Group C] [Finite C
     (ι : Y →* Ŷ) (hι : Function.Injective ι) (hidx : ι.range.index = 2)
     {M : Subgroup Ŷ} (hM : IsMaximalTwoLocal M) (hY0M : ι.range ≤ M) : M = ⊤ := by
   classical
-  haveI : Finite Ŷ := finite_of_index_two e ι hι hidx
+  have : Finite Ŷ := finite_of_index_two e ι hι hidx
   obtain ⟨R, hRne, hR2, rfl⟩ := hM.1
   have hY0N : ι.range ≤ Subgroup.normalizer (R : Set Ŷ) := hY0M
   have hY0Ninf : ι.range ≤ Subgroup.normalizer ((R ⊓ ι.range : Subgroup Ŷ) : Set Ŷ) :=
@@ -96,8 +96,8 @@ private theorem exists_theta_of_index_two {C Ŷ : Type} [Group C] [Finite C] [Gr
         IsYAmalgamPair ((T ⊓ ι.range).subgroupOf ι.range)
           (P₀.map θ.toMonoidHom) (P₁.map θ.toMonoidHom) := by
   classical
-  haveI : Finite Ŷ := finite_of_index_two e ι hι hidx
-  haveI : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : Finite Ŷ := finite_of_index_two e ι hι hidx
+  have : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
   have hTN : T ≤ Subgroup.normalizer (ι.range : Set Ŷ) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr inferInstance]
     exact le_top
@@ -183,8 +183,8 @@ private theorem parabolics_fixed_under_automorphism {C Y0 : Type} [Group C] [Gro
       _ = P₁.map θ.toMonoidHom := by rw [hβP1]
 
 private theorem conjNormal_fixes_theta_U {C Ŷ : Type} [Group C] [Group Ŷ]
-    {U : Subgroup C} (ι : Y →* Ŷ) (hι : Function.Injective ι)
-    (hidx : ι.range.index = 2) [ι.range.Normal] {T : Subgroup Ŷ} {θ : C ≃* ↥(ι.range)}
+    {U : Subgroup C} (ι : Y →* Ŷ) (_hι : Function.Injective ι)
+    (_hidx : ι.range.index = 2) [ι.range.Normal] {T : Subgroup Ŷ} {θ : C ≃* ↥(ι.range)}
     (hθU : U.map θ.toMonoidHom = (T ⊓ ι.range).subgroupOf ι.range) {x : Ŷ}
     (hx : x ∈ Subgroup.normalizer (T : Set Ŷ)) :
     (U.map θ.toMonoidHom).map (MulAut.conjNormal (H := ι.range) x).toMonoidHom =
@@ -207,7 +207,7 @@ private theorem conjNormal_fixes_theta_U {C Ŷ : Type} [Group C] [Group Ŷ]
       refine ⟨φx.symm z, ?_, MulEquiv.apply_symm_apply φx z⟩
       refine Subgroup.mem_subgroupOf.mpr ⟨?_, (φx.symm z).2⟩
       rw [show ((φx.symm z : ↥(ι.range)) : Ŷ) = x⁻¹ * (z : Ŷ) * x by
-        simp only [φx, MulEquiv.coe_toMonoidHom, MulAut.conjNormal_symm_apply]]
+        simp only [φx, MulAut.conjNormal_symm_apply]]
       change x⁻¹ * (z : Ŷ) * x ∈ T
       simpa only [inv_inv] using
         (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hx) (z : Ŷ)).mp hzT
@@ -216,14 +216,14 @@ private theorem conjNormal_fixes_theta_U {C Ŷ : Type} [Group C] [Group Ŷ]
 private theorem normalizer_T_normalizes_Q {C Ŷ : Type} [Group C] [Finite C] [Group Ŷ]
     {U P₀ P₁ : Subgroup C} (S : CFSG.Quasithin.H13.Sec53F.Yam.YamStd C U P₀ P₁)
     (hswap : ∀ φ : C ≃* C, P₀.map φ.toMonoidHom ≠ P₁)
-    (e : Y ≃* C) (ι : Y →* Ŷ) (hι : Function.Injective ι) (hidx : ι.range.index = 2)
+    (_e : Y ≃* C) (ι : Y →* Ŷ) (hι : Function.Injective ι) (hidx : ι.range.index = 2)
     {T : Subgroup Ŷ} {θ : C ≃* ↥(ι.range)}
     (hθU : U.map θ.toMonoidHom = (T ⊓ ι.range).subgroupOf ι.range) (i : Fin 2) :
     Subgroup.normalizer (T : Set Ŷ) ≤ Subgroup.normalizer
       (((![(P₀.map θ.toMonoidHom), (P₁.map θ.toMonoidHom)] :
         Fin 2 → Subgroup ↥(ι.range)) i).map ι.range.subtype : Set Ŷ) := by
   intro x hx
-  haveI : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
   let P : Fin 2 → Subgroup ↥(ι.range) := ![(P₀.map θ.toMonoidHom), (P₁.map θ.toMonoidHom)]
   let φx : ↥(ι.range) ≃* ↥(ι.range) := MulAut.conjNormal (H := ι.range) x
   have hφU : (U.map θ.toMonoidHom).map φx.toMonoidHom = U.map θ.toMonoidHom :=
@@ -237,7 +237,7 @@ private theorem normalizer_T_normalizes_Q {C Ŷ : Type} [Group C] [Finite C] [Gr
       (MulAut.conj x).toMonoidHom.comp ι.range.subtype := by
     ext z
     simp only [φx, MonoidHom.comp_apply, Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom,
-      MulAut.conjNormal_apply, MulAut.conj_apply, inv_inv]
+      MulAut.conjNormal_apply, MulAut.conj_apply]
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   change ((P i).map ι.range.subtype).map (MulAut.conj x).toMonoidHom =
     (P i).map ι.range.subtype
@@ -254,7 +254,7 @@ private theorem range_Q_le_M_or_M {C Ŷ : Type} [Group C] [Finite C] [Group Ŷ] 
       (((![(P₀.map θ.toMonoidHom), (P₁.map θ.toMonoidHom)] :
         Fin 2 → Subgroup ↥(ι.range)) i).map ι.range.subtype ≤ M₂) := by
   classical
-  haveI : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : ι.range.Normal := Subgroup.normal_of_index_eq_two hidx
   let P : Fin 2 → Subgroup ↥(ι.range) :=
     ![(P₀.map θ.toMonoidHom), (P₁.map θ.toMonoidHom)]
   let Q : Subgroup ↥(ι.range) := P i
@@ -363,7 +363,7 @@ theorem InvertsByWeyl.of_index_two {C : Type} [Group C] [Finite C] {U P₀ P₁ 
     (ι : Y →* Ŷ) (hι : Function.Injective ι) (hidx : ι.range.index = 2)
     {T M₁ M₂ : Subgroup Ŷ} (hY : IsYAmalgamPair T M₁ M₂) : InvertsByWeyl M₁ M₂ m := by
   classical
-  haveI : Finite Ŷ := finite_of_index_two e ι hι hidx
+  have : Finite Ŷ := finite_of_index_two e ι hι hidx
   obtain ⟨θ, hθU, -⟩ := exists_theta_of_index_two S e ι hι hidx hY.1
   let P : Fin 2 → Subgroup ↥(ι.range) :=
     ![(P₀.map θ.toMonoidHom), (P₁.map θ.toMonoidHom)]

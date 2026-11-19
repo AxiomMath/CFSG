@@ -65,7 +65,7 @@ theorem mem_coreLayer_of {τ : G} (hC : τ ∈ Subgroup.centralizer ({c} : Set G
     (hH : (⟨τ, hC⟩ : ↥(Subgroup.centralizer ({c} : Set G))) ∈ coreHull Ω c) : τ ∈ coreLayer Ω c :=
   ⟨⟨τ, hC⟩, hH, rfl⟩
 
-theorem exists_mem_sylow_of_mem_secImg (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
+theorem exists_mem_sylow_of_mem_secImg (_hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
     {J T : Subgroup G} (hJ : J ∈ tqMembers3 Ω c) (hT : IsSylow2In T J)
     (hTc : T ≤ Subgroup.centralizer ({c} : Set G))
     (hA : IsPGroup 2 ↥(TwinDisc.secImg Ω c J)) {y0 : ↥(coreHull Ω c) ⧸

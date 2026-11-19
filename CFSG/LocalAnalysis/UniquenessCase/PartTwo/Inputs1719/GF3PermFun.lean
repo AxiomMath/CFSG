@@ -29,7 +29,7 @@ private theorem card_sl2_galoisField_three : Nat.card (SL(2, GaloisField 3 1)) =
   norm_num
 
 private theorem subgroupMap_injective_of_fundamental {X : Type} [Group X] {p : ℕ}
-    [Fact p.Prime] {t : StatedLieTag} {n e : ℕ} (hp2 : p ≠ 2) (hfund : IsFundTag t)
+    [Fact p.Prime] {t : StatedLieTag} {n e : ℕ} (_hp2 : p ≠ 2) (hfund : IsFundTag t)
     (hadm : StatedLieAdmissible t n p e) (hA1 : ¬ (t = .PSL ∧ n = 2))
     {ψ : (modelUniv t n p e Fact.out).K →* X}
     (hker : ψ.ker ≤ Subgroup.center (modelUniv t n p e Fact.out).K)
@@ -110,7 +110,7 @@ private theorem member_piece_facts {X : Type} [Group X] [Finite X] {U : Sylow 2 
       norm_num
     exact GF3.sl2_mod_eight_three_facts h27 e hK.2
 
-private theorem card_fund_g2 {k : ℕ} (hadm : StatedLieAdmissible .G2 k 3 1)
+private theorem card_fund_g2 {k : ℕ} (_hadm : StatedLieAdmissible .G2 k 3 1)
     {R : Subgroup (modelUniv .G2 k 3 1 Fact.out).K} (hR : R ∈ ModelFund 3 .G2 k 1) :
     Nat.card R = 24 := by
   obtain ⟨eR⟩ : Nonempty (↥R ≃* SL(2, GaloisField 3 1)) :=

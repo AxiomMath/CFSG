@@ -22,7 +22,7 @@ open scoped MatrixGroups
 theorem k461_of_inputsFix (h46 : K46List) (hJ1 : InspJ1) (hL3 : InspL3) (hL2 : InspL2)
     (hex : L2Exceptional) (hQ : Asc82Q64Fix) (hH : HigmanNatSL2) (hK42 : K42) : K461 := by
   intro G _ _ hK V _ _ _ ρ hρ hirr D hD hDG hfix h3 hperf
-  haveI : ρ.IsIrreducible := hirr
+  have : ρ.IsIrreducible := hirr
   have hfixV : fixV ρ D = ⊥ := by
     rw [← hfix]
     exact Submodule.ext fun v => Iff.rfl

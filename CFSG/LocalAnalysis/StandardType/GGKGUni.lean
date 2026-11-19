@@ -47,11 +47,11 @@ theorem kgUni_holds :
       hτ hτQ hcardF hA hord hu hue hKopen with
     ⟨a, dd, E, hE, hEfin, τ', hτ', ha2, hτ'Q, hcardE, ⟨eM⟩⟩ |
     ⟨b, e', E, hE, hEfin, hb2, hcardE, ⟨eM⟩⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ dd = 2 ^ (lab.n * dd) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hτ'Q hcardE
     exact kg_false_of_quot_su hKopen.2.2 τ' hτ' ha2 hτ'Q hcardE ⟨eM⟩ hk hlabK
-  · letI := hE
+  · let := hE
     have hpw : Q ^ (2 * e') = 2 ^ (lab.n * (2 * e')) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hcardE
     exact kg_false_of_quot_sl hKopen.2.2 hb2 hcardE ⟨eM⟩ hk hlabK

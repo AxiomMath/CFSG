@@ -47,7 +47,7 @@ theorem qTwoSixWin_map_coordBlockSU {m k i : ℕ} (h : i + k ≤ m) (J : Finset 
     intro a b hab
     rw [coe_coe_blockEmb, blockMat_apply]
     by_cases hboth : (i ≤ a.val ∧ a.val < i + k) ∧ (i ≤ b.val ∧ b.val < i + k)
-    · rw [dif_pos hboth]
+    · rw [dite_eq_left hboth]
       have ha : qTwoSixWinEmb h ⟨a.val - i, by omega⟩ = a := by
         ext
         rw [qTwoSixWinEmb_val]
@@ -81,10 +81,10 @@ theorem qTwoSixWin_map_coordBlockSU {m k i : ℕ} (h : i + k ≤ m) (J : Finset 
       have hif : (if (⟨a.val - i, by omega⟩ : Fin k) = ⟨b.val - i, by omega⟩ then
           (1 : K) else 0) = if a = b then 1 else 0 := by
         by_cases hEq : a = b
-        · rw [if_pos hEq, if_pos (hiff.mp hEq)]
-        · rw [if_neg hEq, if_neg (fun h' => hEq (hiff.mpr h'))]
+        · rw [ite_eq_left hEq, ite_eq_left (hiff.mp hEq)]
+        · rw [ite_eq_right hEq, ite_eq_right (fun h' => hEq (hiff.mpr h'))]
       exact hx''.trans hif
-    · rw [dif_neg hboth]
+    · rw [dite_eq_right hboth]
       exact Matrix.one_apply
   · rw [Subgroup.card_map_of_injective (blockEmb_injective h),
       qTwoS34_card_coordBlockSU, qTwoS34_card_coordBlockSU, Finset.card_map]
@@ -162,7 +162,7 @@ theorem qTwoSixWin_lift_eq (hK : Nat.card K = 4) (s : Fin 3) (i : Fin 18)
     (hs : s.val + 4 ≤ 6) (hin : qTwoSixData_inWindow s i) :
     blockEmb K 2 1 6 4 s.val hs (qTwoSixWin_lift hK s i) = nativeSu hK i := by
   have h := Classical.choose_spec (qTwoSixWin_lift_exists hK s i hin)
-  simp only [qTwoSixWin_lift, dif_pos hin]
+  simp only [qTwoSixWin_lift, dite_eq_left hin]
   exact h
 
 theorem qTwoSixWin_lift_mem (hK : Nat.card K = 4) (s : Fin 3) (i : Fin 18)

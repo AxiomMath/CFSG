@@ -20,21 +20,21 @@ private theorem exists_addMonoidHom_embedding {V : Type} [AddCommGroup V] [Modul
     ∃ (x z : ℕ) (β : V →+ GaloisField 2 n), Function.Injective β ∧
       (∀ v, β (T₁ v) = ζ ^ x * β v) ∧ (∀ v, β (T₂ v) = ζ ^ z * β v) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 1 < 2 ^ n := Nat.one_lt_two_pow hn
   set N : ℕ := 2 ^ n - 1 with hNdef
   have hN : N ≠ 0 := by omega
   have hNn : N + 1 = 2 ^ n := by omega
-  haveI : Finite (Module.End (ZMod 2) V) :=
+  have : Finite (Module.End (ZMod 2) V) :=
     Finite.of_injective _ (DFunLike.coe_injective (F := V →ₗ[ZMod 2] V))
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   let u₁ : LinearMap.GeneralLinearGroup (ZMod 2) V := (IsUnit.of_pow_eq_one h₁ hN).unit
   let u₂ : LinearMap.GeneralLinearGroup (ZMod 2) V := (IsUnit.of_pow_eq_one h₂ hN).unit
   have hu₁₂ : Commute u₁ u₂ := Units.ext hT
   let A : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) V) := Subgroup.closure {u₁, u₂}
   have hu₁A : u₁ ∈ A := Subgroup.subset_closure (by simp)
   have hu₂A : u₂ ∈ A := Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative A := Subgroup.isMulCommutative_closure (by
+  have : IsMulCommutative A := Subgroup.isMulCommutative_closure (by
     intro x hx y hy hxy
     rcases hx with rfl | rfl <;> rcases hy with rfl | rfl
     · exact absurd rfl hxy
@@ -59,9 +59,9 @@ private theorem exists_addMonoidHom_embedding {V : Type} [AddCommGroup V] [Modul
     fun W hW => hirr W (fun v hv => hW u₁ hu₁A v hv) (fun v hv => hW u₂ hu₂A v hv)
   have hKfield := adjoin_isField_of_irreducible hAcomm hirrA
   set K := Algebra.adjoin (ZMod 2) (Set.range (glEndHom A))
-  letI : Field K := hKfield.toField
-  haveI : Finite K := Subtype.finite
-  haveI : CharP K 2 := charP_of_injective_algebraMap' (ZMod 2) 2
+  let : Field K := hKfield.toField
+  have : Finite K := Subtype.finite
+  have : CharP K 2 := charP_of_injective_algebraMap' (ZMod 2) 2
   have hgen : ∀ a ∈ A, (a : Module.End (ZMod 2) V) ∈ K := fun a ha =>
     Algebra.subset_adjoin ⟨⟨a, ha⟩, by simp⟩
   let t₁ : K := ⟨(u₁ : Module.End (ZMod 2) V), hgen u₁ hu₁A⟩
@@ -189,8 +189,8 @@ private theorem exists_embedding_of_exp_two {Q : Type} [Group Q] [Finite Q] [Non
       (∀ a, β a = 0 ↔ a = 1) ∧ (∀ a, β (t₁ a) = ζ ^ x * β a) ∧
       (∀ a, β (t₂ a) = ζ ^ z * β a) := by
   classical
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
-  letI : Module (ZMod 2) (Additive Q) := elemModule 2 hexp
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
+  let : Module (ZMod 2) (Additive Q) := elemModule 2 hexp
   let T : Monoid.End Q →* Module.End (ZMod 2) (Additive Q) :=
     { toFun := fun f => AddMonoidHom.toZModLinearMap 2 (MonoidHom.toAdditive f)
       map_one' := LinearMap.ext fun _ => rfl
@@ -360,7 +360,7 @@ section Elementary
 variable {C S : Subgroup G} [(C.subgroupOf S).Normal]
 
 private theorem repSec_nontrivial (hlt : C < S) : Nontrivial (repSec C S) := by
-  obtain ⟨s, hsS, hsC⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨s, hsS, hsC⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   refine ⟨⟨QuotientGroup.mk ⟨s, hsS⟩, 1, fun h => hsC ?_⟩⟩
   exact mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h)
 
@@ -374,7 +374,7 @@ private theorem center_and_sq_eq_one [Finite G] {d₁ d₂ : G}
     (hs₁ : Function.Surjective t₁) (hs₂ : Function.Surjective t₂) :
     ∀ q : repSec C S, q ∈ center (repSec C S) ∧ q ^ 2 = 1 := by
   classical
-  haveI : Nontrivial (repSec C S) := repSec_nontrivial hY.1
+  have : Nontrivial (repSec C S) := repSec_nontrivial hY.1
   have hQ : IsPGroup 2 (repSec C S) := hS.to_quotient (C.subgroupOf S)
   have hinv : ∀ t : Monoid.End (repSec C S), Function.Surjective t →
       ∀ q ∈ repCentralInv (repSec C S), t q ∈ repCentralInv (repSec C S) := by
@@ -387,7 +387,7 @@ private theorem center_and_sq_eq_one [Finite G] {d₁ d₂ : G}
   rcases eq_bot_or_top_of_repInvariant hY t₁ t₂ ht₁ ht₂ (repCentralInv (repSec C S))
     (hinv t₁ hs₁) (hinv t₂ hs₂) with hbot | htop
   · exfalso
-    haveI := hQ.center_nontrivial
+    have := hQ.center_nontrivial
     have hcp : IsPGroup 2 (center (repSec C S)) :=
       hQ.of_injective (center (repSec C S)).subtype Subtype.val_injective
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hcp
@@ -420,7 +420,7 @@ theorem exists_isChiEmb [Finite G] {ζ : GaloisField 2 n} {d₁ d₂ : G} {C S :
     (hζ : orderOf ζ = 2 ^ n - 1) :
     ∃ φ β, IsChiEmb ζ d₁ d₂ C S φ β := by
   classical
-  haveI : (C.subgroupOf S).Normal := (normal_subgroupOf_iff_le_normalizer hY.1.le).2 hY.2.1
+  have : (C.subgroupOf S).Normal := (normal_subgroupOf_iff_le_normalizer hY.1.le).2 hY.2.1
   have hd₁ : d₁ ∈ zpowers d₁ ⊔ zpowers d₂ := mem_sup_left (mem_zpowers d₁)
   have hd₂ : d₂ ∈ zpowers d₁ ⊔ zpowers d₂ := mem_sup_right (mem_zpowers d₂)
   let a₁ : ↥(normalizer (S : Set G) ⊓ normalizer (C : Set G)) :=
@@ -444,13 +444,13 @@ theorem exists_isChiEmb [Finite G] {ζ : GaloisField 2 n} {d₁ d₂ : G} {C S :
       repAct a₂ (QuotientGroup.mk s) = (QuotientGroup.mk s' : repSec C S) :=
     fun s s' h => repAct_mk a₂ s s' h
   have hq := center_and_sq_eq_one hY hS (repAct a₁) (repAct a₂) ht₁ ht₂ (hsurj a₁) (hsurj a₂)
-  haveI : Nontrivial (repSec C S) := repSec_nontrivial hY.1
+  have : Nontrivial (repSec C S) := repSec_nontrivial hY.1
   have hcommQ : ∀ a b : repSec C S, a * b = b * a := fun a b => (mem_center_iff.mp (hq b).1) a
   have hexpQ : ∀ a : repSec C S, a ^ 2 = 1 := fun a => (hq a).2
   have hirrQ : ∀ P : Subgroup (repSec C S), (∀ q ∈ P, repAct a₁ q ∈ P) →
       (∀ q ∈ P, repAct a₂ q ∈ P) → P = ⊥ ∨ P = ⊤ := by
     intro P hP₁ hP₂
-    haveI : P.Normal := ⟨fun m hm g => by rw [hcommQ g m, mul_inv_cancel_right]; exact hm⟩
+    have : P.Normal := ⟨fun m hm g => by rw [hcommQ g m, mul_inv_cancel_right]; exact hm⟩
     exact eq_bot_or_top_of_repInvariant hY _ _ ht₁ ht₂ P hP₁ hP₂
   obtain ⟨x, z, β, hβm, hβ0, hβ₁, hβ₂⟩ := exists_embedding_of_exp_two hcommQ hexpQ hn hζ
     (repAct a₁) (repAct a₂) (by rw [← map_mul, ha₁₂, map_mul])
@@ -462,18 +462,18 @@ theorem exists_isChiEmb [Finite G] {ζ : GaloisField 2 n} {d₁ d₂ : G} {C S :
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro s hs t ht
     have hst : s * t ∈ S := S.mul_mem hs ht
-    simp only [dif_pos hs, dif_pos ht, dif_pos hst]
+    simp only [dite_eq_left hs, dite_eq_left ht, dite_eq_left hst]
     exact hβm (QuotientGroup.mk ⟨s, hs⟩) (QuotientGroup.mk ⟨t, ht⟩)
   · intro s hs
-    simp only [dif_pos hs]
+    simp only [dite_eq_left hs]
     rw [hβ0, QuotientGroup.eq_one_iff, mem_subgroupOf]
   · intro s hs
     have hs' : d₁ * s * d₁⁻¹ ∈ S := (mem_normalizer_iff.mp (hY.2.2.2.1 hd₁) s).mp hs
-    simp only [dif_pos hs, dif_pos hs']
+    simp only [dite_eq_left hs, dite_eq_left hs']
     rw [← repAct_mk a₁ ⟨s, hs⟩ ⟨d₁ * s * d₁⁻¹, hs'⟩ rfl, hβ₁, hval]
   · intro s hs
     have hs' : d₂ * s * d₂⁻¹ ∈ S := (mem_normalizer_iff.mp (hY.2.2.2.1 hd₂) s).mp hs
-    simp only [dif_pos hs, dif_pos hs']
+    simp only [dite_eq_left hs, dite_eq_left hs']
     rw [← repAct_mk a₂ ⟨s, hs⟩ ⟨d₂ * s * d₂⁻¹, hs'⟩ rfl, hβ₂, hval]
 
 end CFSG.Quasithin.Stroth.G5

@@ -19,9 +19,9 @@ theorem center_eq_bot_of_psp
     (hm : CFSG.Open.StatedClassicalModel (Y ⧸ Subgroup.center Y) .PSp n 2 f) :
     Subgroup.center Y = ⊥ := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK
-  haveI : Group.IsPerfect Y := hR.quasisimple.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK
+  have : Group.IsPerfect Y := hR.quasisimple.1
   exact CFSG.SectionRank.EvenCover.center_eq_bot_of_even_symplectic
     (odd_card_center_of_pCore_eq_bot hR.pCore_two) e
 
@@ -31,8 +31,8 @@ theorem survPSp_holds :
   by_contra hcon
   have hZ := center_eq_bot_of_psp hR hm
   obtain ⟨hadm, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hK
   have hf : 1 ≤ f := hadm.2.1
   let eY : Y ≃* StatedProj (StatedSp n K) := (mulEquivQuotientCenterOfEqBot hZ).trans e
   have hTB : TooBig (StatedProj (StatedSp n K)) := by

@@ -25,7 +25,7 @@ theorem two_le_pRank_of_commuting_involutions {X : Type} [Group X] [Finite X] {x
 theorem sylow_cyclic_or_quaternion {X : Type} [Group X] [Finite X] (hr : CFSG.pRank 2 X = 1)
     (P : Sylow 2 X) :
     IsCyclic ↥P ∨ ∃ e : ℕ, 1 ≤ e ∧ Nonempty (QuaternionGroup (2 ^ e) ≃* ↥P) := by
-  refine rank_one_two_cyclic_or_quaternion P.isPGroup' ?_
+  refine rank_one_two_cyclic_or_quaternion P.isPGroup ?_
   intro first second hcomm
   by_contra hne
   have hx : orderOf ((first.1 : ↥P) : X) = 2 := by

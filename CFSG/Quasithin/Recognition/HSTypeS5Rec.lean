@@ -188,7 +188,7 @@ theorem s4_or_s5_of_dihedral
   have hzC : z ∈ Subgroup.centralizer ({z} : Set C) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have hzD : z ∈ (D : Subgroup C) := by rw [← hC]; exact hzC
-  have hCp : IsPGroup 2 (Subgroup.centralizer ({z} : Set C)) := hC ▸ D.isPGroup'
+  have hCp : IsPGroup 2 (Subgroup.centralizer ({z} : Set C)) := hC ▸ D.isPGroup
   have hcardD : Nat.card (D : Subgroup C) = 8 :=
     (Nat.card_congr eD.toEquiv).trans DihedralGroup.nat_card
   have hDz : ∀ y : (D : Subgroup C), (y : C) * z = z * y := fun y => by
@@ -268,7 +268,7 @@ theorem s4_or_s5_of_dihedral
         MonoidHom.range_eq_top.mpr eQ.surjective, Subgroup.index_top, mul_one]
       exact hLodd
     let eL : L' ≃* L := (L.equivMapOfInjective eQ.toMonoidHom eQ.injective).symm
-    have hDL : (D : Subgroup C) ≤ L' := le_of_odd_index hL'odd D.isPGroup'
+    have hDL : (D : Subgroup C) ≤ L' := le_of_odd_index hL'odd D.isPGroup
     have hnotPSL : ∀ M : Subgroup C, Nonempty (M ≃* PSL2 K) → ∀ (hzM : z ∈ M) (hfM : f ∈ M),
         False := by
       intro M ⟨eM⟩ hzM hfM
@@ -421,7 +421,7 @@ theorem s4_or_s5_of_dihedral
             have : u = 1 := Subtype.ext hu1
             rw [this, orderOf_one] at hu
             exact absurd hu (by norm_num)
-          have : Group.IsNilpotent (D : Subgroup C) := D.isPGroup'.isNilpotent
+          have : Group.IsNilpotent (D : Subgroup C) := D.isPGroup.isNilpotent
           obtain ⟨⟨c, hcH, hcZ⟩, hc1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
             (Group.IsNilpotent.inf_center_ne_bot_of_normal hH1)
           have hc1' : c ≠ 1 := fun h => hc1 (Subtype.ext h)

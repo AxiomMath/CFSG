@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.F151
 open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 open CFSG.LocalAnalysis.GLTheoremA (isOmM isOmMA)
 
-private theorem primePower_p_eq_two {q : TauCeti.PrimePower} {f : ℕ} (hf : 1 ≤ f)
+private theorem primePower_p_eq_two {q : TauCeti.PrimePower} {f : ℕ} (_hf : 1 ≤ f)
     (h : q.card = 2 ^ f) : q.p = 2 := by
   have hdvd : q.p ∣ 2 ^ f := by
     rw [← h, TauCeti.PrimePower.card_def]
@@ -28,7 +28,6 @@ private theorem onLie_charTwo_of_isOmM {i : TauCeti.CFSGIndex} {n f : ℕ} (hf :
   · simp [isOmM, onLie] at h
   · cases d <;>
       simp only [isOmM, onLie, TauCeti.LieTypeIndex.characteristic_twistedD] at h ⊢
-    all_goals try contradiction
     exact primePower_p_eq_two hf (by simpa [TauCeti.PrimePower.card_def] using h.2)
   · simp [isOmM, onLie] at h
 

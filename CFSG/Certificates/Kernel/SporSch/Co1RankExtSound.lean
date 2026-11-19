@@ -64,7 +64,7 @@ theorem eq_of_two_pow {K H X : Subgroup G} {r : ℕ} (hKH : K ≤ H) (hHX : H �
 theorem ext_step {S : Subgroup G} {A : Set G} (hA : ∀ s ∈ S, ∀ x, s * x * s⁻¹ ∈ A ↔ x ∈ A)
     {c : G} (R : ℕ → ℕ → Subgroup G) (n : ℕ → ℕ)
     (hcard : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, Nat.card (R r a) = 2 ^ r)
-    (hcR : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, c ∈ R r a)
+    (_hcR : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, c ∈ R r a)
     (hext : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, ∀ y ∈ S, y * y = 1 → (∀ e ∈ R r a, e * y = y * e) →
       y ∉ R r a → (∀ e ∈ R r a, e * y ∉ A) →
       r < 4 ∧ ∃ a' < n (r + 1), ∃ s ∈ S, R r a ≤ (R (r + 1) a').map (MulAut.conj s).toMonoidHom ∧

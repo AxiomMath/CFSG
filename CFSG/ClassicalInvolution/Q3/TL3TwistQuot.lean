@@ -148,7 +148,7 @@ theorem comap_oddCore_le {G H : Type} [Group G] [Group H] [Finite G] (f : G →*
       have e : Subgroup.zpowers (m : G) = (Subgroup.zpowers m).map M.subtype :=
         (MonoidHom.map_zpowers M.subtype m).symm
       rw [← MonoidHom.map_zpowers, e]
-      exact ((P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hm)).map _).map _
+      exact ((P.isPGroup.to_le (Subgroup.zpowers_le.mpr hm)).map _).map _
     exact eq_one_of_isPGroup_of_mem_odd (CFSG.ComponentClassification.OddCore.odd_card H) m.2 hm2
   have hPeq : (P : Subgroup ↥M) = Z' := le_antisymm hPZ hZP
   have hPc : Subgroup.normalizer (P : Set ↥M) ≤ Subgroup.centralizer (P : Set ↥M) := by

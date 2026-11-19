@@ -137,7 +137,7 @@ theorem ggE0_e6_innDiagOn
       CFSG.LocalAnalysis.GLTheoremA.S10.InnDiagOn 2 (Subgroup.zpowers w) X := by
   intro hm
   classical
-  haveI : Finite ↥(adjointGroup .E6 K) := CFSG.LieType.Chevalley.generated_group_finite .E6 K
+  have : Finite ↥(adjointGroup .E6 K) := CFSG.LieType.Chevalley.generated_group_finite .E6 K
   have hfix : CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj s) =
       Subgroup.centralizer ({s} : Set ↥(adjointGroup .E6 K)) :=
     fixSubgroup_conj_eq_centralizer s

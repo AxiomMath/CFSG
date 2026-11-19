@@ -18,12 +18,14 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem eq_one_of_pow_two_of_odd {c : G} {k m : ℕ} (hk : c ^ (2 ^ k) = 1) (hm : orderOf c ∣ m)
     (hodd : Odd m) : c = 1 := by
   have h1 : orderOf c ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
   have hc : Nat.Coprime (2 ^ k) m := Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr hodd)
   exact orderOf_eq_one_iff.mp ((hc.coprime_dvd_left h1).eq_one_of_dvd hm)
 
+omit [Finite G] in
 theorem mem_conjBy_iff {g y : G} {U : Subgroup G} : y ∈ conjBy g U ↔ g⁻¹ * y * g ∈ U := by
   change y ∈ U.map (MulAut.conj g).toMonoidHom ↔ _
   rw [Subgroup.mem_map_equiv]
@@ -38,14 +40,17 @@ theorem mem_nor_conjBy {g y : G} {U : Subgroup G}
   rwa [show (g⁻¹ * y * g) * (g⁻¹ * r * g) * (g⁻¹ * y * g)⁻¹ = g⁻¹ * (y * r * y⁻¹) * g by group]
     at this
 
+omit [Finite G] in
 theorem conjBy_inf_cen (g x : G) (U : Subgroup G) :
     conjBy g (U ⊓ Cen x) = conjBy g U ⊓ Cen (g * x * g⁻¹) := by
   rw [cen_conj]
   exact Subgroup.map_inf_eq _ _ _ (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem card_conjBy (g : G) (U : Subgroup G) : Nat.card ↥(conjBy g U) = Nat.card U :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem conj_mem_of_closure {S : Set G} {K : Subgroup G} {n : G}
     (h : ∀ x ∈ S, n * x * n⁻¹ ∈ K) {x : G} (hx : x ∈ Subgroup.closure S) : n * x * n⁻¹ ∈ K := by
   have hle : Subgroup.closure S ≤ K.comap (MulAut.conj n).toMonoidHom :=
@@ -83,6 +88,7 @@ theorem cen_eq_nor_zpowers_of_two {t : G} (ht : orderOf t = 2) :
     calc g * t = (g * t * g⁻¹) * g := by group
       _ = t * g := by rw [hmem]
 
+omit [Finite G] in
 theorem exists_pow_mul_pow_of_mem_closure {x y : G} (hxy : x * y = y * x) (hx : x ^ 3 = 1)
     (hy : y ^ 3 = 1) {e : G} (he : e ∈ Subgroup.closure ({x, y} : Set G)) :
     ∃ i j : ℕ, e = x ^ i * y ^ j := by
@@ -115,9 +121,11 @@ theorem exists_pow_mul_pow_of_mem_closure {x y : G} (hxy : x * y = y * x) (hx : 
     rw [mul_inv_rev, hxi, hyj]
     exact ((hc.pow_pow (2 * i) (2 * j)).eq).symm
 
+omit [Finite G] in
 theorem pow_mod_three {x : G} (hx : x ^ 3 = 1) (i : ℕ) : x ^ i = x ^ (i % 3) := by
   conv_lhs => rw [← Nat.div_add_mod i 3, pow_add, pow_mul, hx, one_pow, one_mul]
 
+omit [Finite G] in
 theorem mem_cen_line {x y v e : G} (hxy : x * y = y * x) (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (he : e ∈ Subgroup.closure ({x, y} : Set G)) (he1 : e ≠ 1) (hv : v ∈ Cen e) :
     v ∈ Cen x ∨ v ∈ Cen y ∨ v ∈ Cen (x * y) ∨ v ∈ Cen (x * y⁻¹) := by
@@ -290,19 +298,24 @@ theorem FF81Sec4.exists_swap {t₀ : G} (h4 : FF81Sec4 b L B b₁ b₂ b₃ t₀
   · rw [hconj b₁ (by simp), e1]
   · rw [hconj b₃ (by simp), e3]
 
+omit [Finite G] in
 theorem op_two_isPGroup (t₀ : G) : IsPGroup 2 (Op 2 (Cen t₀)) :=
   CFSG.pCore_isPGroup.map (Cen t₀).subtype
 
+omit [Finite G] in
 theorem op_two_le (t₀ : G) : Op 2 (Cen t₀) ≤ Cen t₀ := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem op_two_conj {t₀ g u : G} (hg : g ∈ Cen t₀) (hu : u ∈ Op 2 (Cen t₀)) :
     g * u * g⁻¹ ∈ Op 2 (Cen t₀) :=
   inSubgroup_conj_mem (CFSG.pCore_normal (p := 2) (G := ↥(Cen t₀))) hg hu
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_two {t₀ : G} (ht : orderOf t₀ = 2) :
     IsPGroup 2 (Subgroup.zpowers t₀) :=
   IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
 
+omit [Finite G] in
 theorem mem_op_two_self {t₀ : G} (ht : orderOf t₀ = 2) : t₀ ∈ Op 2 (Cen t₀) := by
   set c : Cen t₀ := ⟨t₀, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hn : (Subgroup.zpowers c).Normal := ⟨fun n hn g => by
@@ -329,7 +342,7 @@ theorem FF81Basis.mem_op_two_of_comm (hB : FF81Basis b L B b₁ b₂ b₃) {t₀
 theorem FF81Basis.b_facts (hB : FF81Basis b L B b₁ b₂ b₃) :
     b₁ ^ 3 = 1 ∧ b₂ ^ 3 = 1 ∧ b₃ ^ 3 = 1 ∧ b₁ * b₂ = b₂ * b₁ ∧ b₁ * b₃ = b₃ * b₁ ∧
       b₂ * b₃ = b₃ * b₂ := by
-  haveI := hB.elem.1
+  have := hB.elem.1
   have hm : ∀ x ∈ ({b₁, b₂, b₃} : Set G), x ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) :=
     fun x hx => Subgroup.subset_closure hx
   have hc := comm_of_isElemAb hB.elem
@@ -406,7 +419,7 @@ theorem FF81Sec4.le_of_le_le {t₀ : G} (h4 : FF81Sec4 b L B b₁ b₂ b₃ t₀
     (E := Subgroup.closure ({b₂, b₃} : Set G))
     ⟨⟨⟨fun a c => Subtype.ext (hEc a a.2 c c.2)⟩⟩, fun y hy => ?_⟩ hB.card_E
     (op_two_isPGroup t₀) ?_ ?_
-  · haveI := hB.elem.1
+  · have := hB.elem.1
     exact CFSG.elemPow_eq_one_of_isElementaryAbelian _
       (Subgroup.closure_mono (Set.subset_insert b₁ ({b₂, b₃} : Set G)) hy)
   · intro e he

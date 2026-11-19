@@ -18,16 +18,19 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_iff_conj {H : Subgroup G} {g : G} :
     g ∈ Subgroup.normalizer (H : Set G) ↔ conjSubgroup g H = H := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   rfl
 
+omit [Finite G] in
 theorem conj_eq_of_mem_M {M : Subgroup G} {g : G} (hg : g ∈ M) :
     conjSubgroup g (CFSG.Open.pCoreOf 2 M) = CFSG.Open.pCoreOf 2 M :=
   Setting.map_conj_eq_of_normalized (fun _ hx => pCoreOf_normalized M hg hx)
     (fun _ hx => pCoreOf_normalized M (M.inv_mem hg) hx)
 
+omit [Finite G] in
 theorem conj_le_TOf {M : Subgroup G}
     (hQab : ∀ q ∈ CFSG.Open.pCoreOf 2 M, ∀ q' ∈ CFSG.Open.pCoreOf 2 M, q * q' = q' * q)
     (hH : ∀ x ∈ CFSG.Open.pCoreOf 2 M, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤ M)

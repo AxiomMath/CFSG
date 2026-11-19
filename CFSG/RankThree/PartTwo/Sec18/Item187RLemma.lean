@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_conj_eq_of_commute {y r z : G} (hyz : y * z = z * y) :
     ⁅y * r * y⁻¹, z⁆ = ⁅y * r, z⁆ := by
   have hconj : y⁻¹ * z * y = z := by rw [mul_assoc, ← hyz, inv_mul_cancel_left]
@@ -21,6 +22,7 @@ private theorem commutator_conj_eq_of_commute {y r z : G} (hyz : y * z = z * y) 
   rw [e, hconj]
   group
 
+omit [Finite G] in
 private theorem le_normalizer_commutator_self (A Z : Subgroup G) :
     A ≤ Subgroup.normalizer ((⁅A, Z⁆ : Subgroup G) : Set G) := by
   have key : ∀ g ∈ A, ∀ d ∈ ⁅A, Z⁆, g * d * g⁻¹ ∈ ⁅A, Z⁆ := by
@@ -50,7 +52,7 @@ private theorem exists_commute_mul_of_commutator_le {X Q : Subgroup G} {c : G}
     (hcQ : c ∈ Subgroup.normalizer (Q : Set G))
     (h : ⁅X, Subgroup.zpowers c⁆ ≤ Q) {x : G} (hx : x ∈ X) :
     ∃ q ∈ Q, c * (x * q) = x * q * c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : c * c * c = 1 := by
     have := pow_orderOf_eq_one c
     rwa [hc3, pow_three'] at this
@@ -88,7 +90,7 @@ private theorem exists_commute_mul_of_commutator_le {X Q : Subgroup G} {c : G}
     ext p
     simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
     exact congrArg Subtype.val (hσ3p p)
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   have hα : ¬ 3 ∣ Fintype.card Q := by
     rw [← Nat.card_eq_fintype_card]
     exact fun h3 => hX3 (h3.trans (Subgroup.card_dvd_of_le hQX))

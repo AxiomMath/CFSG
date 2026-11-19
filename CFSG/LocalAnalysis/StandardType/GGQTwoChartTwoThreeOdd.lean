@@ -14,9 +14,9 @@ open scoped Pointwise Matrix
 variable {G : Type} [Group G] [Finite G]
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
 
-theorem qTwoChartTwoThree_oTwoPrime_eq_self {Y : Subgroup G} (hs : IsSolvable ↥Y)
+theorem qTwoChartTwoThree_oTwoPrime_eq_self {Y : Subgroup G} (hs : Group.IsSolvable ↥Y)
     (hi : ∃ k : ℕ, (commutator ↥Y).index = 2 ^ k) : qTwoOTwoPrime Y = Y := by
-  haveI : Group.IsSolvable ↥Y := hs
+  have : Group.IsSolvable ↥Y := hs
   let S : Set G := {y : G | y ∈ Y ∧ ∃ k : ℕ, y ^ (2 ^ k) = 1}
   let N : Subgroup G := Subgroup.closure S
   have hN : qTwoOTwoPrime Y = N := rfl
@@ -35,7 +35,7 @@ theorem qTwoChartTwoThree_oTwoPrime_eq_self {Y : Subgroup G} (hs : IsSolvable �
       intro x hx
       rw [Subgroup.mem_subgroupOf]
       refine Subgroup.subset_closure ⟨x.2, ?_⟩
-      obtain ⟨j, hj⟩ := isPGroup_iff_pow_pow_eq_one.mp P.isPGroup' ⟨x, hx⟩
+      obtain ⟨j, hj⟩ := isPGroup_iff_pow_pow_eq_one.mp P.isPGroup ⟨x, hx⟩
       exact ⟨j, by simpa using congrArg (fun z : ↥(P : Subgroup ↥Y) => ((z : ↥Y) : G)) hj⟩
     have hPnot : ¬ 2 ∣ (P : Subgroup ↥Y).index := Sylow.not_dvd_index P
     exact fun h => hPnot (h.trans (Subgroup.index_dvd_of_le hPle))
@@ -50,8 +50,8 @@ theorem qTwoChartTwoThree_oTwoPrime_eq_self {Y : Subgroup G} (hs : IsSolvable �
     · exact Subgroup.index_dvd_of_le le_sup_right
   have hKtop : K = ⊤ := by
     by_contra hne
-    haveI : K.Normal := hKnormal
-    haveI : Nontrivial (↥Y ⧸ K) := QuotientGroup.nontrivial_iff.mpr hne
+    have : K.Normal := hKnormal
+    have : Nontrivial (↥Y ⧸ K) := QuotientGroup.nontrivial_iff.mpr hne
     have hcomm : (commutator ↥Y).map (QuotientGroup.mk' K) = commutator (↥Y ⧸ K) := by
       rw [map_commutator_eq,
         MonoidHom.range_eq_top_of_surjective _ (QuotientGroup.mk'_surjective K)]
@@ -65,7 +65,7 @@ theorem qTwoChartTwoThree_oTwoPrime_eq_self {Y : Subgroup G} (hs : IsSolvable �
     have hperfect : Group.IsPerfect (↥Y ⧸ K) := by
       rw [Group.isPerfect_def, ← hcomm]
       exact htop
-    haveI : Group.IsPerfect (↥Y ⧸ K) := hperfect
+    have : Group.IsPerfect (↥Y ⧸ K) := hperfect
     exact (Group.IsPerfect.not_isSolvable (↥Y ⧸ K))
       (Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective K))
   have hNYeq : N = Y := by

@@ -42,7 +42,7 @@ private theorem s6Mat_comm :
 
 @[expose] def s6Gen (i : ℕ) : GL6 := if h : i < 5 then s6Unit ⟨i, h⟩ else 1
 
-theorem s6Gen_of_lt {i : ℕ} (hi : i < 5) : s6Gen i = s6Unit ⟨i, hi⟩ := dif_pos hi
+theorem s6Gen_of_lt {i : ℕ} (hi : i < 5) : s6Gen i = s6Unit ⟨i, hi⟩ := dite_eq_left hi
 
 private theorem s6Gen_val {i : ℕ} (hi : i < 5) :
     ((s6Gen i : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) = s6Mat ⟨i, hi⟩ := by
@@ -104,7 +104,7 @@ theorem s6Unit_mem_MDot (i : Fin 5) : s6Unit i ∈ MDot := by
     ⟨x1 - x2, qV_x1_sub_x2_ne_zero⟩]).2 ⟨⟨1, rfl⟩, ?_⟩
   · rw [s6Unit_eq_refl]
     simpa [reflOf] using h
-  · simp [List.countP_cons, qV_s6W, qV_s6_d]
+  · simp [qV_s6W, qV_s6_d]
 
 private theorem s6Mat_mulVec_x6 : ∀ i : Fin 5, s6Mat i *ᵥ x6 = x6 := by
   decide +kernel
@@ -137,7 +137,7 @@ private theorem isSwap_adjSwap_five {i : ℕ} (hi : i < 5) :
 theorem s6Hom_injective : Function.Injective s6Hom := by
   rw [← MonoidHom.ker_eq_bot_iff]
   by_contra hne
-  haveI : Nontrivial s6Hom.ker := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial s6Hom.ker := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have hA : alternatingGroup (Fin 6) ≤ s6Hom.ker :=
     Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 6) (by simp) this
   have hmem := hA (Equiv.Perm.mul_mem_alternatingGroup_of_isSwap (isSwap_adjSwap_five (i := 0)
@@ -314,7 +314,7 @@ theorem s6_index_CGDot12_subgroupOf_DDot : (CGDot12.subgroupOf DDot).index = 2 :
       refine ⟨GDot.mul_mem b.2.1 zDot_mem_GDot, ?_⟩
       show (((b : GL6) * zDot : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ (x1 - x2) = x1 - x2
       rw [Units.val_mul, ← Matrix.mulVec_mulVec, s6_zDot_mulVec_d, Matrix.mulVec_neg, h, neg_neg]
-  show Xor' ((b : GL6) * zDot ∈ CGDot12) ((b : GL6) ∈ CGDot12)
+  show Xor ((b : GL6) * zDot ∈ CGDot12) ((b : GL6) ∈ CGDot12)
   rw [e1, e2]
   rcases s6_DDot_mulVec b.2 with h | h
   · exact Or.inr ⟨h, fun h' => hd (h.symm.trans h')⟩
@@ -404,7 +404,7 @@ private theorem s6_blk4_of_mul_E {g : GL6} {B : Matrix (Fin 4) (Fin 4) (ZMod 3)}
     (h : (g : Matrix (Fin 6) (Fin 6) (ZMod 3)) * s6E = s6E * B) : blk4 g = B := by
   ext i j
   rw [s6_blk4_apply, h, Matrix.mul_apply]
-  simp only [s6E_bidx, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [s6E_bidx, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 private theorem s6_decomp : ∀ y : V6, y 1 = y 0 → y 5 = 0 →
     y = s6E *ᵥ (fun i => y (bidx i)) := by

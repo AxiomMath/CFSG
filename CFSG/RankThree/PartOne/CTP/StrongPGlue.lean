@@ -213,7 +213,7 @@ theorem IsStronglyPEmbedded.exists_isSylowOf_le [Fact p.Prime] (hY : IsStronglyP
   have hsub : ((Q₀ : Subgroup Y).map Y.subtype).subgroupOf Y = (Q₀ : Subgroup Y) := by
     rw [← Subgroup.comap_subtype]
     exact Subgroup.comap_map_eq_self_of_injective Y.subtype_injective _
-  refine ⟨(Q₀ : Subgroup Y).map Y.subtype, ⟨le_top, Q₀.isPGroup'.map Y.subtype, ?_⟩,
+  refine ⟨(Q₀ : Subgroup Y).map Y.subtype, ⟨le_top, Q₀.isPGroup.map Y.subtype, ?_⟩,
     Subgroup.map_subtype_le _⟩
   rw [Subgroup.relIndex_top_right, ← Subgroup.relIndex_mul_index (Subgroup.map_subtype_le _),
     Subgroup.relIndex, hsub]

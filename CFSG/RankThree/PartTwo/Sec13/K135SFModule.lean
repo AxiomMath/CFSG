@@ -29,7 +29,7 @@ theorem sf2_holds : SF2Statement := by
   intro M _ _ hloc R _ hRodd X _ S _ _ hS hSn π hπ hodd hnot
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N₀ : Subgroup M := (CFSG.pPrimeCore 3 R).map R.subtype with hN₀def
-  haveI hN₀n : N₀.Normal := normal_map_pPrimeCore R 3
+  have hN₀n : N₀.Normal := normal_map_pPrimeCore R 3
   have hN₀R : N₀ ≤ R := Subgroup.map_subtype_le _
   have hN₀3 : ¬ 3 ∣ Nat.card N₀ := by
     rw [hN₀def, Subgroup.card_map_of_injective R.subtype_injective]
@@ -40,18 +40,18 @@ theorem sf2_holds : SF2Statement := by
   let q : M →* M ⧸ N₀ := QuotientGroup.mk' N₀
   have hqker : q.ker = N₀ := QuotientGroup.ker_mk' N₀
   set R₁ : Subgroup (M ⧸ N₀) := R.map q with hR₁def
-  haveI hR₁n : R₁.Normal := Subgroup.Normal.map ‹R.Normal› q (QuotientGroup.mk'_surjective N₀)
+  have hR₁n : R₁.Normal := Subgroup.Normal.map ‹R.Normal› q (QuotientGroup.mk'_surjective N₀)
   have hcore : CFSG.pPrimeCore 3 R₁ = ⊥ := pPrimeCore_map_quotient_eq_bot R N₀ rfl
   have hRsolv : Group.IsSolvable R := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hRodd
   have hsolv : Group.IsSolvable R₁ :=
     Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective q R)
   set Q : Subgroup (M ⧸ N₀) := (CFSG.pCore 3 R₁).map R₁.subtype with hQdef
-  haveI hQchar : (CFSG.pCore 3 R₁).Characteristic := CFSG.BaerSuzuki.Helpers.pCore_characteristic 3
-  haveI hQn : Q.Normal := normal_map_of_characteristic R₁ (CFSG.pCore 3 R₁)
+  have hQchar : (CFSG.pCore 3 R₁).Characteristic := CFSG.BaerSuzuki.Helpers.pCore_characteristic 3
+  have hQn : Q.Normal := normal_map_of_characteristic R₁ (CFSG.pCore 3 R₁)
   have hQp : IsPGroup 3 Q := (CFSG.BaerSuzuki.Helpers.pCore_isPGroup (G := R₁) 3).map R₁.subtype
   have hQR : Q ≤ R₁ := Subgroup.map_subtype_le _
   set Xb : Subgroup (M ⧸ N₀) := X.map q with hXbdef
-  haveI : Group.IsPerfect Xb := Group.IsPerfect.map q
+  have : Group.IsPerfect Xb := Group.IsPerfect.map q
   let φ : X →* Xb := q.subgroupMap X
   have hφs : Function.Surjective φ := MonoidHom.subgroupMap_surjective q X
   have hφker : Odd (Nat.card φ.ker) := by
@@ -120,7 +120,7 @@ theorem sf2_holds : SF2Statement := by
     obtain ⟨x, rfl⟩ := hφs y
     have := DFunLike.congr_fun h x
     simpa [hρX] using this
-  haveI hπsolv : Group.IsSolvable π.ker := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have hπsolv : Group.IsSolvable π.ker := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hkerle : ρX.ker ≤ π.ker := ker_le_of_perfect_solvable_kernel hS π hπ hπsolv ρX hρX1
   refine ⟨n, X, inferInstance, inferInstance, ρX, π.ker, inferInstance, hn12, inferInstance, hρX1,
     hkerle, hodd, ⟨QuotientGroup.quotientKerEquivOfSurjective π hπ⟩, ?_⟩

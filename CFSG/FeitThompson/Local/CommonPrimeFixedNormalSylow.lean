@@ -29,7 +29,7 @@ theorem not_dvd_natCard_of_isNilpotent_of_pCore_eq_bot {G : Type*} [Group G] [Fi
   have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P⟩ : Nonempty (Sylow q G) := inferInstance
   have hle : (P : Subgroup G) = ⊥ :=
-    le_bot_iff.1 (h ▸ le_pCore hq (sylow_normal_of_isNilpotent P) P.isPGroup')
+    le_bot_iff.1 (h ▸ le_pCore hq (sylow_normal_of_isNilpotent P) P.isPGroup)
   have hcard : Nat.card ((P : Subgroup G)) = q ^ (Nat.card G).factorization q :=
     P.card_eq_multiplicity
   rw [hle, Subgroup.card_bot] at hcard
@@ -240,6 +240,7 @@ theorem natCard_mul_natCard_pCoreIn :
     simp [Nat.factorization_eq_zero_of_not_dvd hDq, h.prime.factorization_pow]
   rw [h.natCard_pCoreIn_eq_pow_factorization_S, hfac, ← ha, hmul]
 
+omit hDS hDidx in
 theorem inf_pCoreIn_eq_bot : pCoreIn q S ⊓ D = ⊥ := by
   have hcop : (Nat.card ↥(pCoreIn q S)).Coprime (Nat.card ↥D) := by
     rw [h.natCard_pCoreIn_eq_pow_factorization_S]
@@ -256,7 +257,7 @@ theorem isComplement'_subgroupOf_of_hallQCompl :
   · rw [disjoint_iff]
     have he : (pCoreIn q S).subgroupOf S ⊓ D.subgroupOf S = (pCoreIn q S ⊓ D).subgroupOf S :=
       (Subgroup.comap_inf _ _ _).symm
-    rw [he, h.inf_pCoreIn_eq_bot hDS hDq hDidx, Subgroup.bot_subgroupOf]
+    rw [he, h.inf_pCoreIn_eq_bot hDq, Subgroup.bot_subgroupOf]
 
 theorem sup_pCoreIn_eq : pCoreIn q S ⊔ D = S := by
   have hc := h.isComplement'_subgroupOf_of_hallQCompl hDS hDq hDidx
@@ -302,6 +303,6 @@ theorem isNilpotent_and_isComplement'_of_hallQCompl {X : Type u} [Group X] {q : 
       ((pCoreIn q S).subgroupOf S).IsComplement' (D.subgroupOf S) :=
   haveI := h.finite
   ⟨h.isNilpotent_of_hallQCompl hDS hDq hDidx, h.sup_pCoreIn_eq hDS hDq hDidx,
-    h.inf_pCoreIn_eq_bot hDS hDq hDidx, h.isComplement'_subgroupOf_of_hallQCompl hDS hDq hDidx⟩
+    h.inf_pCoreIn_eq_bot hDq, h.isComplement'_subgroupOf_of_hallQCompl hDS hDq hDidx⟩
 
 end CFSG.FeitThompson

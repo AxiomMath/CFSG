@@ -133,13 +133,13 @@ theorem exists_coprime_pow_eq_one_algClosure {K : Type} [Field K] [Finite K] {�
     (hK : ringChar K = ℓ) {ι : Type} [Finite ι] (b : ι → (AlgebraicClosure K)ˣ) :
     ∃ N : ℕ, Nat.Coprime N ℓ ∧ ∀ i, b i ^ N = 1 := by
   classical
-  haveI : CharP K ℓ := hK ▸ ringChar.charP K
+  have : CharP K ℓ := hK ▸ ringChar.charP K
   set F : IntermediateField K (AlgebraicClosure K) :=
     IntermediateField.adjoin K (Set.range fun i => ((b i : (AlgebraicClosure K)ˣ) : AlgebraicClosure K))
-  haveI : FiniteDimensional K F :=
+  have : FiniteDimensional K F :=
     IntermediateField.finiteDimensional_adjoin fun x _ => Algebra.IsIntegral.isIntegral x
-  haveI : Finite F := Module.finite_of_finite K
-  haveI : CharP F ℓ := charP_of_injective_algebraMap (algebraMap K F).injective ℓ
+  have : Finite F := Module.finite_of_finite K
+  have : CharP F ℓ := charP_of_injective_algebraMap (algebraMap K F).injective ℓ
   refine ⟨Nat.card F - 1, ?_, fun i => Units.ext ?_⟩
   · rw [← Nat.card_units]
     exact Inputs256e.coprime_card_units hℓp (ringChar.eq F ℓ)
@@ -147,7 +147,7 @@ theorem exists_coprime_pow_eq_one_algClosure {K : Type} [Field K] [Finite K] {�
     IntermediateField.subset_adjoin K _ ⟨i, rfl⟩
   set y : F := ⟨_, hmem⟩
   have hy0 : y ≠ 0 := fun h => (b i).ne_zero (congrArg Subtype.val h)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h1 := FiniteField.pow_card_sub_one_eq_one y hy0
   rw [← Nat.card_eq_fintype_card] at h1
   have h2 := congrArg Subtype.val h1
@@ -248,7 +248,7 @@ theorem exists_coprime_pow_of_mem_center_orbitQ (hK : ringChar K = ℓ) (hℓp :
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -303,7 +303,7 @@ theorem exists_perfect_orbit_of_comp (hK : ringChar K = ℓ) (hℓp : ℓ.Prime)
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   set P := outerOrbitFamily S hT i hs hmin with hP
   have hPA : P.A = rootSpan τ (AlgebraicClosure K) (rationalRoots S.ρ (rootCharHom a) i) :=
     outerOrbitFamily_A S hT i hs hmin
@@ -357,7 +357,7 @@ theorem compCharElem_inner (hK : ringChar K = ℓ) (hℓp : ℓ.Prime) (h4 : 4 �
     CFSG.HardMathSupport.Timmesfeld.RootAut.rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hqe⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hqe, ← pow_mul]
   have hes : 0 < e * s := Nat.mul_pos he hs0
   have hQ : 4 ≤ r ^ (e * s) := by
@@ -473,8 +473,8 @@ theorem compCharElem_of_unitary_frame (hK : ringChar K = ℓ) (hℓp : ℓ.Prime
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hrℓ : r = ℓ := by
     have hLℓ : ringChar L = ℓ := by
       rw [CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure, hK]
@@ -648,8 +648,8 @@ theorem compCharElem_of_unitary_frame (hK : ringChar K = ℓ) (hℓp : ℓ.Prime
       have h1 : (stdUnitary σQ.toRingHom X₁) ^ ℓ ^ n = 1 := by rw [← map_pow, hX₁n, map_one]
       rw [e1, hcomm.mul_pow, hX₁n, mul_one] at h1
       exact h1
-    haveI : Fact ℓ.Prime := ⟨hℓp⟩
-    haveI : CharP L ℓ := hrℓ ▸ hchar
+    have : Fact ℓ.Prime := ⟨hℓp⟩
+    have : CharP L ℓ := hrℓ ▸ hchar
     have hc₁1 : c₁ = 1 := eq_one_of_mem_center_SL_charPow (by omega) hc₁c hc₁n
     have hX₁C : X₁ ∈ C := by
       rw [hCmem]
@@ -728,10 +728,10 @@ theorem mem_iSup_of_charElem_family (hK : ringChar K = ℓ) (hℓp : ℓ.Prime) 
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 hk).1, (Subgroup.mem_inf.1 hk).2⟩
   have hkU := mem_rootSpan_of_charElem hK hℓp hp hpℓ hap hkX hkm
   have hkF : S.D.step k = k := hΓfix k (Subgroup.mem_inf.1 hk).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
-  haveI : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
+  have : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ (AlgebraicClosure K)) :=
     fun O => rootSpan τ (AlgebraicClosure K) O.1
   have hc : ∀ O O', O ≠ O' → ∀ x ∈ A O, ∀ y ∈ A O', Commute x y := by
@@ -876,7 +876,7 @@ theorem exists_perfect_of_charElem (hout : LangOuterCharElem) (hK : ringChar K =
     have hLℓ : ringChar (AlgebraicClosure K) = ℓ := by
       rw [CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure, hK]
     have hrℓ : r = ℓ := by
-      haveI := hchar
+      have := hchar
       rw [← hLℓ]
       exact (ringChar.eq (AlgebraicClosure K) r).symm
     rw [hqe, hrℓ]
@@ -940,7 +940,7 @@ theorem qGen_of_langSetup_charElem (hout : LangOuterCharElem) {p : ℕ} (hp : p.
   obtain ⟨P, hPle, hPperf, hsP⟩ := exists_perfect_of_charElem S hout hK hℓp h5 hp hpℓ hT hap h1 hιs hιn
   have hPR := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.perfect_le_iSup_rationalComponent_of_prime
     S hp hT hap h1 hTame P hPle hPperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
   let Q := {i : KernelComponent (rootCharHom a) // CFSG.IsQuasisimple (R i)}
   have hcompR : ∀ i : Q, IsComponentOf (R i.1) (S.Γ ⊓ Subgroup.centralizer {d}) := by

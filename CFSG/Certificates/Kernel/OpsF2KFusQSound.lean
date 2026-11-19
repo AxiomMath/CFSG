@@ -43,7 +43,7 @@ theorem unpackR_pqF (d : Nat) : ∀ n X e, e < 2 ^ n →
     have h0 : e = 0 := by simpa using he
     subst h0
     unfold Ops.pow
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact unpackR_idF_eq_one d
   | succ n ih =>
     intro X e he
@@ -53,14 +53,14 @@ theorem unpackR_pqF (d : Nat) : ∀ n X e, e < 2 ^ n →
     by_cases h0 : e = 0
     · subst h0
       have hb : Nat.beq 0 0 = true := rfl
-      rw [if_pos hb, if_pos rfl]
+      rw [ite_eq_left hb, ite_eq_left rfl]
       exact unpackR_idF_eq_one d
-    rw [qBeq_false h0, if_neg Bool.false_ne_true, if_neg h0]
+    rw [qBeq_false h0, ite_eq_right Bool.false_ne_true, ite_eq_right h0]
     by_cases h1 : e = 1
     · subst h1
       have hb : Nat.beq 1 1 = true := rfl
-      rw [if_pos hb, if_pos rfl]
-    rw [qBeq_false h1, if_neg Bool.false_ne_true, if_neg h1]
+      rw [ite_eq_left hb, ite_eq_left rfl]
+    rw [qBeq_false h1, ite_eq_right Bool.false_ne_true, ite_eq_right h1]
     have hs : Nat.shiftRight e 1 = e / 2 := by
       change e >>> 1 = e / 2
       rw [Nat.shiftRight_eq_div_pow, pow_one]
@@ -74,8 +74,8 @@ theorem unpackR_pqF (d : Nat) : ∀ n X e, e < 2 ^ n →
     dsimp only
     by_cases ho : e % 2 = 1
     · have hb : Nat.beq (e % 2) 1 = true := by rw [ho]; rfl
-      rw [if_pos hb, if_pos ho, unpackR_mulF, key]
-    · rw [qBeq_false ho, if_neg Bool.false_ne_true, if_neg ho, key]
+      rw [ite_eq_left hb, ite_eq_left ho, unpackR_mulF, key]
+    · rw [qBeq_false ho, ite_eq_right Bool.false_ne_true, ite_eq_right ho, key]
 
 theorem pqF_lt (d : Nat) : ∀ n X e, X < 2 ^ (d * d) → pqF d n X e < 2 ^ (d * d) := by
   intro n

@@ -54,9 +54,9 @@ theorem kstar_equiv_sl3 (hGA : CFSG.Open.GriessAllModelsStatement) (h : HypF918 
     {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
     (π : ↥(StatedSL 3 F) ≃* ↥(autIH V₁ I H K)) :
     Nonempty (↥(autIH V₁ Vp H K) ≃* ↥(StatedSL 3 F)) := by
-  haveI : Group.IsPerfect ↥(StatedSL 3 F) :=
+  have : Group.IsPerfect ↥(StatedSL 3 F) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) F
-  haveI : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL F (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   obtain ⟨e₁⟩ := kstar_quot_equiv h hIU hnt
@@ -75,8 +75,8 @@ theorem kstar_equiv_sp4 (hGA : CFSG.Open.GriessAllModelsStatement) (h : HypF918 
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Group.IsPerfect ↥(StatedSp 2 F) := isPerfect_statedSp_of_four_le 2 h4
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 F)) :=
+  have : Group.IsPerfect ↥(StatedSp 2 F) := isPerfect_statedSp_of_four_le 2 h4
+  have : IsSimpleGroup (StatedProj (StatedSp 2 F)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp F 2 (by norm_num)
       (Or.inl (Or.inr h4))
   obtain ⟨e₁⟩ := kstar_quot_equiv h hIU hnt
@@ -89,9 +89,9 @@ theorem kstar_equiv_sl4 (hGA : CFSG.Open.GriessAllModelsStatement) (h : HypF918 
     (hnt : ¬ ∀ k ∈ conjClosure K T, ∀ i ∈ I, k * i * k⁻¹ * i⁻¹ ∈ V₁) {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ 1) (π : ↥(StatedSL 4 F) ≃* ↥(autIH V₁ I H K)) :
     Nonempty (↥(autIH V₁ Vp H K) ≃* ↥(StatedSL 4 F)) := by
-  haveI : Group.IsPerfect ↥(StatedSL 4 F) :=
+  have : Group.IsPerfect ↥(StatedSL 4 F) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) F
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 4 F)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL F (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   obtain ⟨e₁⟩ := kstar_quot_equiv h hIU hnt
@@ -105,9 +105,9 @@ theorem kstar_equiv_sl5 (hGA : CFSG.Open.GriessAllModelsStatement) (h : HypF918 
     (hnt : ¬ ∀ k ∈ conjClosure K T, ∀ i ∈ I, k * i * k⁻¹ * i⁻¹ ∈ V₁) {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 2 ^ 1) (π : ↥(StatedSL 5 F) ≃* ↥(autIH V₁ I H K)) :
     Nonempty (↥(autIH V₁ Vp H K) ≃* ↥(StatedSL 5 F)) := by
-  haveI : Group.IsPerfect ↥(StatedSL 5 F) :=
+  have : Group.IsPerfect ↥(StatedSL 5 F) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) F
-  haveI : IsSimpleGroup (StatedProj (StatedSL 5 F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 5 F)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL F (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
   obtain ⟨e₁⟩ := kstar_quot_equiv h hIU hnt

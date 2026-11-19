@@ -51,9 +51,9 @@ theorem oddPCoreInClosure_supportedBlock_selfDual (hx : OddOrderIsometry Q p x) 
     exact Iff.rfl
   let e₁ : ↥(supportedBlock Q x h) ≃* ↥(sesqUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.blockGL_injective hh)).trans (MulEquiv.subgroupCongr hrange)
-  haveI : CharP (AdjoinRoot h) 2 := charP_of_injective_ringHom (AdjoinRoot.of h).injective 2
+  have : CharP (AdjoinRoot h) 2 := charP_of_injective_ringHom (AdjoinRoot.of h).injective 2
   have hℓ : ℓ = 2 := CharP.eq (AdjoinRoot h) hU.charP inferInstance
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   exact OddPCoreInClosure.of_mulEquiv e₁.symm
     (oddPCoreInClosure_sesqUnitaryGroup hp hp2 hℓ hBsymm hBl)
 
@@ -76,9 +76,9 @@ theorem oddPCoreInClosure_isometryCentralizer (hx : OddOrderIsometry Q p x) (hp 
   · exact OddPCoreInClosure.of_mulEquiv (MulEquiv.subgroupCongr (hx.blocks_iSup_eq hRep)) hprod
   · rintro ⟨h, hmem⟩
     have hhf : h ∈ primaryFactors x.toLinearMap := hRep.1 hmem
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhf⟩
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
-    haveI : CharP (AdjoinRoot h) 2 := charP_of_injective_ringHom (AdjoinRoot.of h).injective 2
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hhf⟩
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite K
+    have : CharP (AdjoinRoot h) 2 := charP_of_injective_ringHom (AdjoinRoot.of h).injective 2
     by_cases h1 : h = X - 1
     · subst h1
       exact OddPCoreInClosure.of_mulEquiv (fixedBlockEquiv hx).symm

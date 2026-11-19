@@ -34,9 +34,9 @@ private theorem not_dvd_card_quotient_pElementSubgroup {X : Type} [Group X] [Fin
     (hp : p.Prime) :
     ¬ p ∣ Nat.card (X ⧸ CFSG.RankThree.PartOne.pElementSubgroup p (⊤ : Subgroup X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let L : Subgroup X := CFSG.RankThree.PartOne.pElementSubgroup p (⊤ : Subgroup X)
-  haveI hLn : L.Normal := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_pElementSubgroup_normal
+  have hLn : L.Normal := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_pElementSubgroup_normal
   intro hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective L x
@@ -172,7 +172,7 @@ private theorem false_of_r72_alt_two_mul {p : ℕ} [hp : Fact p.Prime]
     omega
   ·
     subst hp11
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     obtain ⟨e⟩ := hJ4
     have hfac : (Nat.card L).factorization 11 = 3 := by
       rw [Nat.card_congr e.toEquiv]
@@ -210,7 +210,7 @@ theorem not_isL2_section_of_sec7Hyp_of_dvd
   have hHtop : H ≠ ⊤ := hH.2.2.2.1
   have hHnotle : ¬ H ≤ D.M := hH.2.2.2.2.1
   have hHrank : 1 < CFSG.Open.pRank p (H ⊓ D.M) := hH.2.2.2.2.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvdHM : p ∣ Nat.card (H ⊓ D.M : Subgroup G) := by
     have h2 : p ^ 2 ∣ Nat.card (H ⊓ D.M : Subgroup G) :=
       (pow_dvd_pow p (by omega : 2 ≤ CFSG.Open.pRank p (H ⊓ D.M))).trans
@@ -238,7 +238,7 @@ theorem not_isL2_section_of_sec7Hyp_of_dvd
   have hKH : CFSG.Open.IsKGroup ↥H := D.standing.kProper.isKGroup H hHtop
   have hKq : CFSG.Open.IsKGroup (QuotK7 p H) := hKH.quotient (CFSG.pPrimeCore p ↥H)
   have hcases := hK35 (QuotK7 p H) hKq p hp hp2 (ImageModK p H (H ⊓ D.M)) hMbar h2Hbar hcore
-  haveI hLnorm : (Opp p (⊤ : Subgroup (QuotK7 p H))).Normal := by
+  have hLnorm : (Opp p (⊤ : Subgroup (QuotK7 p H))).Normal := by
     simpa [Opp] using CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_pElementSubgroup_normal
   have hbridge : LKQuot7 p H ≃* ↥(Opp p (⊤ : Subgroup (QuotK7 p H))) :=
     MulEquiv.subgroupCongr (imageModK_opp_eq_pElementSubgroup hp H)
@@ -277,7 +277,7 @@ theorem not_isL2_section_of_sec7Hyp_of_dvd
     exact (CFSG.LocalAnalysis.RankThreeUC.S15.K421GrpProof.not_isPSolvable_of_simple
       hSsimple hp hSdvd (by
         intro hc
-        haveI : IsCyclic (↥Y ⧸ N) := isCyclic_of_prime_card hc
+        have : IsCyclic (↥Y ⧸ N) := isCyclic_of_prime_card hc
         exact hSnonab IsCyclic.isMulCommutative)) hSPS
   ·
     obtain ⟨eAlt⟩ := hAlt
@@ -415,7 +415,7 @@ theorem not_isL2_section_of_sec7Hyp_of_dvd
       rcases hBranch with hSz | hTits | hMcL | hAlt10
       ·
         obtain ⟨S, hSgrp, hSzS, ⟨eAut⟩⟩ := hSz
-        letI : Group S := hSgrp
+        let : Group S := hSgrp
         have hSuz : CFSG.Blueprint.SuzukiModel S 2 5 :=
           (CFSG.Blueprint.LieModel.suzukiModel hSzS).2
         have hSsimple : IsSimpleGroup S :=
@@ -424,7 +424,7 @@ theorem not_isL2_section_of_sec7Hyp_of_dvd
         have hSnonab : ∃ x y : S, x * y ≠ y * x := by
           by_contra hcon
           push Not at hcon
-          haveI : IsMulCommutative S := ⟨⟨hcon⟩⟩
+          have : IsMulCommutative S := ⟨⟨hcon⟩⟩
           have hpS := CFSG.OrderReductions.Helpers.prime_card_of_simple_commutative S
           rw [hcardS, CFSG.Open.ordSuzuki] at hpS
           norm_num at hpS

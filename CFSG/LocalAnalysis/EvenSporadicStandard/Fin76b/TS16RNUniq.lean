@@ -92,7 +92,7 @@ theorem exists_conj_of_equiv {G : Type} [Group G] [Finite G] {L : Subgroup G} {z
         have h' : (⟨a, haE⟩ : ↥E) = 1 := ψ.injective (h.trans (map_one ψ).symm)
         exact congrArg Subtype.val h'
       apply Subgroup.subset_closure
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       exact ⟨(ψ ⟨a, haE⟩).2, congrArg Subtype.val hsq, fun h => hne (Subtype.ext h)⟩
     | one =>
       show ((ψ 1 : ↥P) : G) ∈ _

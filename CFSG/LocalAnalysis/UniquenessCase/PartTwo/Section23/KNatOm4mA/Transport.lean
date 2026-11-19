@@ -94,8 +94,8 @@ private theorem congrHom_pi_A02 {W : Type*} [CommGroup W] {H : Subgroup (MulAut 
 theorem one_le_of_natOmegaMinus {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {k : ℕ}
     (h : NatOmegaMinus H ⊤ ⊥ 4 k) : 1 ≤ k := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, -, -⟩ := h
-  letI : Field K := hField
-  haveI : Finite K := hFinite
+  let : Field K := hField
+  have : Finite K := hFinite
   have h1 : 1 < Nat.card K := Finite.one_lt_card
   rw [hK] at h1
   exact Nat.pos_of_ne_zero fun hk0 => by
@@ -105,7 +105,7 @@ theorem one_le_of_natOmegaMinus {W : Type} [CommGroup W] {H : Subgroup (MulAut W
 theorem exists_field_card {k : ℕ} (hk : 1 ≤ k) :
     ∃ (F : Type) (_ : Field F) (_ : Fintype F) (_ : CharP F 2),
       Fintype.card F = 2 ^ (2 * k) := by
-  haveI : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
   refine ⟨GaloisField 2 (2 * k), inferInstance, inferInstance, inferInstance, ?_⟩
   rw [← Nat.card_eq_fintype_card]
   exact GaloisField.card 2 (2 * k) (by omega)
@@ -149,8 +149,8 @@ theorem exists_equiv_vh {W : Type} [CommGroup W] [Finite W] {H : Subgroup (MulAu
     (hF : Fintype.card F = 2 ^ (2 * k)) (hσ : SigInv k F) :
     ∃ E : W ≃* VH k F, H.map (CFSG.Quasithin.H.congrHom E) = LH hσ := by
   obtain ⟨-, K, hKf, hKfin, b, c, hKcard, hirr, hreal⟩ := h
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
+  let : Field K := hKf
+  have : Finite K := hKfin
   rw [show 4 / 2 = 2 by norm_num] at hreal
   obtain ⟨π, e, hπe⟩ := exists_natEquiv hreal
   obtain ⟨M, Φ, _, hMrange, hΦ⟩ := exists_herm_coords hk hF hσ hKcard hirr

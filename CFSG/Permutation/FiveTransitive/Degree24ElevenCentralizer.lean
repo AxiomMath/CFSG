@@ -85,7 +85,7 @@ private theorem order_eleven_centralizer_card_ne_forty_four
       hgCycleType, hcard]
     norm_num
   intro hCcard
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let T : Sylow 2 C := Sylow.nonempty.some
   have hTcard : Nat.card T = 4 := by
     rw [T.card_eq_multiplicity, hCcard,
@@ -241,7 +241,7 @@ theorem five_point_stabilizer_card_ne_eleven_residue_five_cases
   have hPcard : Nat.card P = 5100480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hPfactorization :
       (5100480 * h).factorization 11 = 1 := by
     rw [show 5100480 = 11 * 463680 by norm_num,
@@ -261,9 +261,9 @@ theorem five_point_stabilizer_card_ne_eleven_residue_five_cases
     rw [S.card_eq_multiplicity, hPcard,
       hPfactorization]
     norm_num
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   have hnotElevenSqP : ¬11 ^ 2 ∣ Nat.card P := by
     intro hdvd

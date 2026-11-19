@@ -22,7 +22,7 @@ theorem parabComm_of_projectiveSL
     (_hf : 1 ≤ f) (e : ↥Y ⧸ Subgroup.center ↥Y ≃* projectiveSL n (GaloisField 2 f))
     (hpar : IsParabolicTwo Y P) (hne : P ≠ Y)
     (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) : PairComm p Y P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (Subgroup.center ↥Y)) :=
     odd_card_center_of_pCore_eq_bot (pCore_eq_bot_of_pCoreOf h2)
   obtain ⟨I, C, hI, hne'⟩ := exists_linCover hGA hY hodd hn e hpar

@@ -105,7 +105,7 @@ variable (σ : F ≃+* F)
 
 theorem conjTr_dMat (a b c : F) : conjTr σ (dMat a b c) = dMat (σ a) (σ b) (σ c) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [conjTr, dMat, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [conjTr, dMat]
 
 theorem conjTr_sMat' (a b c : F) : conjTr σ (sMat' a b c) = sMat' (σ b) (σ a) (σ c) := by
   ext i j

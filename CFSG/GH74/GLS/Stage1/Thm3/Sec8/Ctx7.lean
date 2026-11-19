@@ -19,7 +19,7 @@ theorem conjugate_card {G : Type} [Group G] (H : Subgroup G) (g : G) :
 theorem not_comm_of_isDihedralTwoGroup {Y : Type} [Group Y] {n : ℕ} (h : IVK.IsDihedralTwoGroup Y n)
     (h8 : 8 ≤ Nat.card Y) : ∃ a b : Y, a * b ≠ b * a := by
   obtain ⟨-, k, hk, hk2, ⟨e⟩⟩ := h
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   have hcard : Nat.card Y = 2 * k := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, DihedralGroup.card]
   have hk3 : 3 ≤ k := by omega

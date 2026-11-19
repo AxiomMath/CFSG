@@ -31,7 +31,7 @@ namespace CFSG.Sporadic.RuSchreier
 
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates CFSG.Certificates.Native
 
-@[expose] def NoOddNormal (G : Type*) [Group G] : Prop :=
+def NoOddNormal (G : Type*) [Group G] : Prop :=
   ∀ R : Subgroup G, R.Normal → Odd (Nat.card R) → R = ⊥
 
 theorem NoOddNormal.of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)

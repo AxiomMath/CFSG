@@ -17,7 +17,7 @@ section Generic
 variable {Λ : Type*} [Group Λ] [Finite Λ]
 
 theorem trivOn_mono_left {B B' C : Subgroup Λ} (hBC : B ≤ C) (hB'C : B' ≤ C) (h : B ≤ B') :
-    trivOn B C hBC ≤ trivOn B' C hB'C := fun φ hφ =>
+    trivOn B C hBC ≤ trivOn B' C hB'C := fun _φ hφ =>
   mem_trivOn.2 fun c hc => h (mem_trivOn.1 hφ c hc)
 
 end Generic
@@ -41,7 +41,7 @@ theorem z0_ne_one' (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) : z
 
 theorem card_Zz (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : Node10 d z₀) :
     Nat.card ↥(Zz d z₀) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz₀z₀ : z₀ * z₀ = 1 := h10.sq_V hz.mem_V
   have hnorm : zpowers z₀ ≤ normalizer ((zpowers d.z : Subgroup G) : Set G) := by
     rw [Subgroup.zpowers_le]
@@ -61,7 +61,7 @@ theorem card_Zz (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 :
 
 theorem card_E0 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : Node10 d z₀) :
     Nat.card ↥(d.E ⊔ zpowers z₀ : Subgroup G) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz₀z₀ : z₀ * z₀ = 1 := h10.sq_V hz.mem_V
   have hnorm : zpowers z₀ ≤ normalizer ((d.E : Subgroup G) : Set G) := by
     rw [Subgroup.zpowers_le]

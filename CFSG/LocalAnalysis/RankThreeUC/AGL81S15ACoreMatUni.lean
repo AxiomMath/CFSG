@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankThreeUC.S15.ACore CFSG.Open
 
 theorem uniCoreMatrix : UniCoreMatrix := by
   intro F _ _ q m r hr hr2 hF hrq hrm hm3 hq3 Z₀ _ hZ₀
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hm4 : 4 ≤ m
   · rw [uniMat_ge4 (perm_module_bound hr2 hm4) hr2 hm4 hF hrq
       (fun H hHU hH => exists_conj_monomial_GU hr2 hF hrq (by omega) H

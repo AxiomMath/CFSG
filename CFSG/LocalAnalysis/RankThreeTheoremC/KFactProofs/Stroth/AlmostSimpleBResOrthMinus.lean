@@ -35,7 +35,7 @@ theorem minus_outer_fixesPair {L : Type} [Group L] [Finite L] {n f p : ℕ}
   obtain ⟨⟨hℓ, hf, hn4⟩, F, _, _, hF, b, c, hirr, ⟨e⟩⟩ := hcl
   have hn1 : 1 ≤ n := by omega
   obtain ⟨hchar, -⟩ := coordinate_model_witness_minus hcl' F hF b c hirr e
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates L .POmegaMinus
     (Or.inr (Or.inr rfl)) n 2 f hcl' hn1 F hF b c hirr e
   set θ := coordinateMinusWitnessEquiv F hn1 b c e with hθ
@@ -79,8 +79,8 @@ theorem minus_outer_fixesPair {L : Type} [Group L] [Finite L] {n f p : ℕ}
     rw [hFk]
     push_cast
     exact ZMod.pow_card _
-  haveI : CharP F 2 := ringChar.of_eq hchar
-  haveI : CharP k 2 := RingHom.charP k.subtype k.subtype_injective 2
+  have : CharP F 2 := ringChar.of_eq hchar
+  have : CharP k 2 := RingHom.charP k.subtype k.subtype_injective 2
   obtain ⟨hQnd, hT⟩ := regular_quadMinus (K := F) (n := n) hn4 hirr
   obtain ⟨hQnd', hT'⟩ := regular_quadMinus (K := k) (n := n) hn4 hirr'
   obtain ⟨E, hE', hEc⟩ := hge

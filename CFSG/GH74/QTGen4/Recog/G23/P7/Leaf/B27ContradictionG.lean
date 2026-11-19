@@ -17,7 +17,7 @@ open CFSG.GroupTheory
 
 variable {G : Type} [Group G]
 
-noncomputable def conjMDMA (E S : Subgroup G) (hE : ∀ a ∈ E, ∀ x ∈ S, a * x * a⁻¹ ∈ S) :
+@[instance_reducible] noncomputable def conjMDMA (E S : Subgroup G) (hE : ∀ a ∈ E, ∀ x ∈ S, a * x * a⁻¹ ∈ S) :
     MulDistribMulAction E S where
   smul a x := ⟨(a : G) * (x : G) * (a : G)⁻¹, hE a a.2 x x.2⟩
   one_smul x := by
@@ -93,11 +93,11 @@ theorem four_group_bw [Finite G] (E S : Subgroup G) (hE4 : Nat.card E = 4)
     (t : G) (ht : t ∈ E) (ht1 : t ≠ 1) :
     Nat.card S = 729 ∧ Nat.card ↥(Subgroup.centralizer {t} ⊓ S) = 9 := by
   classical
-  letI M : MulDistribMulAction E S := conjMDMA E S hnorm
+  let M : MulDistribMulAction E S := conjMDMA E S hnorm
   have hM : ∀ (a : E) (x : S), ((a • x : S) : G) = (a : G) * (x : G) * (a : G)⁻¹ :=
     fun a x => rfl
-  haveI : IsKleinFour E := isKleinFour_of_sq hE4 (fun x => Subtype.ext (hEsq x.1 x.2))
-  haveI : Fintype E := Fintype.ofFinite E
+  have : IsKleinFour E := isKleinFour_of_sq hE4 (fun x => Subtype.ext (hEsq x.1 x.2))
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨hid, -⟩ := odd_group_four_group_centralizer_order_identity (A := E) (X := S) hS
   set f : E → ℕ := fun a => Nat.card ↥(FixedPoints.subgroup (Subgroup.zpowers a) S) with hf
   have hF : ∀ a : E, a ≠ 1 → f a ∣ 9 := by

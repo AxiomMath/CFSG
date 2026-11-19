@@ -20,7 +20,7 @@ theorem OutLift.split {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.Prime) 
     (S : Sylow p (MulAut K)) :
     ∃ R : Subgroup (MulAut K), R ≤ (S : Subgroup (MulAut K)) ∧ R ⊓ inner K = ⊥ ∧
       ((S : Subgroup (MulAut K)) ⊓ inner K) ⊔ R = (S : Subgroup (MulAut K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨R, hRp, hRI, hidx⟩ := h
   exact exists_complement_in_sylow (inner K) R hRp hRI hidx S
 
@@ -28,9 +28,9 @@ theorem outLift_of_split {K : Type*} [Group K] [Finite K] {p : ℕ} (hp : p.Prim
     (S : Sylow p (MulAut K))
     (h : ∃ R : Subgroup (MulAut K), R ≤ (S : Subgroup (MulAut K)) ∧ R ⊓ inner K = ⊥ ∧
       ((S : Subgroup (MulAut K)) ⊓ inner K) ⊔ R = (S : Subgroup (MulAut K))) : OutLift p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨R, hRS, hRI, hsup⟩ := h
-  refine ⟨R, S.isPGroup'.to_le hRS, hRI, fun hd => ?_⟩
+  refine ⟨R, S.isPGroup.to_le hRS, hRI, fun hd => ?_⟩
   have hle : (S : Subgroup (MulAut K)) ≤ inner K ⊔ R := by
     rw [← hsup]
     exact sup_le_sup inf_le_right le_rfl
@@ -59,7 +59,7 @@ theorem outLift_of_not_dvd {p : ℕ} {K : Type*} [Group K] (h : ¬ p ∣ Nat.car
 theorem outLift_of_chain {p : ℕ} (hp : p.Prime) {K : Type*} [Group K] [Finite K]
     {D F : Subgroup (MulAut K)} [D.Normal] (hID : inner K ≤ D) (hF : F ⊓ D = ⊥)
     (hD : ¬ p ∣ (inner K).relIndex D) (hFD : ¬ p ∣ (D ⊔ F).index) : OutLift p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact exists_lift_of_chain hID hF hD hFD
 
 theorem index_sup_inner_mul_card {K : Type*} [Group K] [Finite K] {R : Subgroup (MulAut K)}
@@ -78,7 +78,7 @@ theorem outLift_of_hom {p : ℕ} (hp : p.Prime) {K : Type*} [Group K] [Finite K]
     [Group Q] [Finite Q] (φ : Q →* MulAut K) (hφ : ∀ q : Q, φ q ∈ inner K → q = 1)
     (hcard : (Nat.card (Outer K)).factorization p ≤ (Nat.card Q).factorization p) :
     OutLift p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Function.Injective φ := by
     rw [injective_iff_map_eq_one]
     intro q hq
@@ -93,7 +93,7 @@ theorem outLift_of_hom {p : ℕ} (hp : p.Prime) {K : Type*} [Group K] [Finite K]
   have hRcard : Nat.card R = p ^ (Nat.card Q).factorization p := by
     rw [hR, Subgroup.card_map_of_injective hinj]
     exact P.card_eq_multiplicity
-  refine ⟨R, P.isPGroup'.map φ, hRI, fun hd => ?_⟩
+  refine ⟨R, P.isPGroup.map φ, hRI, fun hd => ?_⟩
   have h1 := index_sup_inner_mul_card hRI
   have hne : Nat.card (Outer K) ≠ 0 := Nat.card_pos.ne'
   have h2 : p ^ ((Nat.card Q).factorization p + 1) ∣ Nat.card (Outer K) := by

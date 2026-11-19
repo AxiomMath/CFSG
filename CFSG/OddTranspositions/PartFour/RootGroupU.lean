@@ -21,17 +21,17 @@ private theorem rootGroupU_single_add_smul_ne_zero {d : ℕ} {K : Type} [Field K
   intro h
   have h' := congrFun h i
   have h1 : (1 : K) = 0 := by
-    simpa [Pi.single_eq_same, Pi.single_eq_of_ne hij] using h'
+    simp [Pi.single_eq_same, Pi.single_eq_of_ne hij] at h'
   exact one_ne_zero h1
 
 private theorem rootGroupU_herm_pair {n : ℕ} {K : Type} [Field K] {σ : K ≃+* K}
     {i j : Fin n} (hij : i ≠ j) (c d : K) :
     herm σ (Pi.single i 1 + c • Pi.single j 1)
       (Pi.single i 1 + d • Pi.single j 1) = 1 + σ c * d := by
-  simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-    herm_single_left, herm_single_right, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+  simp only [herm_add_right, herm_smul_right,
+    herm_single_right, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
     Pi.single_eq_same, Pi.single_eq_of_ne hij, Pi.single_eq_of_ne (Ne.symm hij),
-    map_add, map_mul, map_zero, map_one, one_mul, mul_zero, zero_mul, mul_one,
+    map_one, mul_zero, mul_one,
     add_zero, zero_add]
   ring
 
@@ -40,13 +40,11 @@ private theorem rootGroupU_herm_disjoint {n : ℕ} {K : Type} [Field K] {σ : K 
     (c d : K) :
     herm σ (Pi.single i 1 + c • Pi.single j 1)
       (Pi.single k 1 + d • Pi.single l 1) = 0 := by
-  simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-    herm_single_left, herm_single_right, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
-    Pi.single_eq_same, Pi.single_eq_of_ne hik, Pi.single_eq_of_ne hil,
-    Pi.single_eq_of_ne hjk, Pi.single_eq_of_ne hjl, Pi.single_eq_of_ne (Ne.symm hik),
+  simp only [herm_add_right, herm_smul_right,
+    herm_single_right, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+    Pi.single_eq_of_ne (Ne.symm hik),
     Pi.single_eq_of_ne (Ne.symm hil), Pi.single_eq_of_ne (Ne.symm hjk),
-    Pi.single_eq_of_ne (Ne.symm hjl), map_add, map_mul, map_zero, map_one, one_mul,
-    mul_zero, zero_mul, mul_one, add_zero, zero_add]
+    Pi.single_eq_of_ne (Ne.symm hjl), map_zero, mul_zero, mul_one, add_zero]
 
 private theorem rootGroupU_centre_pair {d : ℕ} {K : Type} [Field K] [CharP K 2]
     {σ : K ≃+* K} {i j : Fin d} (hij : i ≠ j) {ω : K}
@@ -84,12 +82,12 @@ private theorem rootGroupU_four_indices {d : ℕ} (hd : 4 ≤ d) :
   let i₂ : Fin d := ⟨2, by omega⟩
   let i₃ : Fin d := ⟨3, by omega⟩
   refine ⟨i₀, i₁, i₂, i₃, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · simpa [i₀, i₁] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
-  · simpa [i₀, i₂] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
-  · simpa [i₀, i₃] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
-  · simpa [i₁, i₂] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
-  · simpa [i₁, i₃] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
-  · simpa [i₂, i₃] using rootGroupU_fin_ne (by omega) (by omega) (by omega)
+  · simp [i₀, i₁]
+  · simp [i₀, i₂]
+  · simp [i₀, i₃]
+  · simp [i₁, i₂]
+  · simp [i₁, i₃]
+  · simp [i₂, i₃]
 
 private theorem rootGroupU_four_centres {d : ℕ} {K : Type} [Field K] [CharP K 2]
     {σ : K ≃+* K} (hσ : IsUnitaryInvolution σ) (hd : 4 ≤ d) :
@@ -163,11 +161,11 @@ private theorem rootGroupU_model_ncard {m n : ℕ} {F : Type} [Field F] [Finite 
     have hcard : ({s : F | s + unitaryInvolution F 2 n s = 0} : Set F).ncard = 2 ^ n := by
       rw [← Nat.card_coe_set_eq]
       exact kFacts_card_traceZero hF
-    have hdiff := Set.ncard_diff_singleton_of_mem h0
+    have hdiff := Set.ncard_sdiff_singleton_of_mem h0
     rw [hcard] at hdiff
     have hset : B = {s : F | s + unitaryInvolution F 2 n s = 0} \ {0} := by
       ext s
-      simp only [B, Set.mem_setOf_eq, Set.mem_sdiff, Set.mem_singleton_iff]
+      simp only [B, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨hs0, hs⟩
         exact ⟨hs, hs0⟩
@@ -252,9 +250,9 @@ theorem exists_subgroup_eq_insert_Vmem_of_isUnitaryTransvection {X : Type} [Grou
     ∃ R : Subgroup X, (R : Set X) = insert 1 (Vmem {y | IsConj s y} x) := by
   obtain ⟨K, hKfield, hKfin, hKchar, hK, φ, e₀, he₀0, he₀i, hφs, hclass⟩ :=
     rootGroupU_data hZ hd hs
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hxS : φ x ∈ {y | ∃ c : Fin d → K, c ≠ 0 ∧
       herm (unitaryInvolution K 2 f) c c = 0 ∧ y = kFactsSuProjTv hK d c 1} := by
     rw [← hclass]
@@ -291,9 +289,9 @@ theorem ncard_Vmem_of_isUnitaryTransvection {X : Type} [Group X]
     (Vmem {y | IsConj s y} x).ncard = 2 ^ f - 1 := by
   obtain ⟨K, hKfield, hKfin, hKchar, hK, φ, e₀, he₀0, he₀i, hφs, hclass⟩ :=
     rootGroupU_data hZ hd hs
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hxS : φ x ∈ {y | ∃ c : Fin d → K, c ≠ 0 ∧
       herm (unitaryInvolution K 2 f) c c = 0 ∧ y = kFactsSuProjTv hK d c 1} := by
     rw [← hclass]
@@ -322,9 +320,9 @@ theorem exists_four_of_isUnitaryTransvection {X : Type} [Group X]
         Commute v t ∧ Commute v u ∧ Commute w t ∧ Commute w u := by
   obtain ⟨K, hKfield, hKfin, hKchar, hK, φ, e₀, he₀0, he₀i, hφs, hclass⟩ :=
     rootGroupU_data hZ (by omega) hs
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨t', ht', u', hu', v', hv', w', hw', htu, hvw, hvt, hvu, hwt, hwu⟩ :=
     rootGroupU_four_model hK hd
   have hclass' : φ.symm '' {y | ∃ c : Fin d → K, c ≠ 0 ∧

@@ -71,7 +71,7 @@ private theorem rckIIpData_card_T : Nat.card rckIIpData_T = 4 := by
     have h1 : x ∈ s ↔ x = 1 ∨ x = rA8 ∨ x = sA8 ∨ x = rA8 * sA8 := by
       simp only [s, Finset.mem_insert, Finset.mem_singleton]
     exact h1.trans (rckIIpData_mem_T_iff x).symm
-  letI : Fintype ↑(rckIIpData_T : Set (alternatingGroup (Fin 8))) := Fintype.ofFinset s H
+  let : Fintype ↑(rckIIpData_T : Set (alternatingGroup (Fin 8))) := Fintype.ofFinset s H
   rw [show Nat.card ↥rckIIpData_T =
       Nat.card ↑(rckIIpData_T : Set (alternatingGroup (Fin 8))) from rfl]
   rw [Nat.card_eq_fintype_card]

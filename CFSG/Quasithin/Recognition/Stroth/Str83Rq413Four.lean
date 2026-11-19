@@ -21,6 +21,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem r8four_Gw_left {a b : ℤ} {X : Subgroup G}
     (hX : X ≤ t.Gw a b) (hY : X ≤ t.Gv (a - 1)) : X ≤ t.Gw (a - 1) b := by
   intro x hx
@@ -29,6 +30,7 @@ private theorem r8four_Gw_left {a b : ℤ} {X : Subgroup G}
   · subst i; exact hY hx
   · exact mem_win_iff.mp (hX hx) i (by omega) hi2
 
+omit [Finite G] in
 private theorem r8four_Gw_right {a b : ℤ} {X : Subgroup G}
     (hX : X ≤ t.Gw a b) (hY : X ≤ t.Gv (b + 1)) : X ≤ t.Gw a (b + 1) := by
   intro x hx
@@ -89,7 +91,7 @@ private theorem r8four_card_Zv {a f : ℕ}
       omegaOneCenterOf (pCoreOf 2 (t.Gw (ε - 2) ((ε - 2) + ((4 : ℕ) : ℤ)))) = t.Zv ε :=
     le_antisymm hWle hZleW
   have hcardW := hshift.card_omegaOneCenterOf t hfr (e := ε + 2) (Or.inr (by ring))
-  simpa only [hWeq, if_pos (hε.add (by norm_num : Even (2 : ℤ)))] using hcardW
+  simpa only [hWeq, ite_eq_left (hε.add (by norm_num : Even (2 : ℤ)))] using hcardW
 
 private theorem r8four_card_pCoreOf_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} (h : t.IsMaxArc ε 4) (hε : Even ε) :
@@ -106,14 +108,14 @@ private theorem r8four_card_pCoreOf_le {a f : ℕ}
   have hX1w : X1 ≤ t.Gw (ε - 1) (ε + 1) :=
     r8four_Gw_left t (inf_le_left.trans hX0w) inf_le_right
   have c1 := t.card_le_mul_card_inf_Gv_sub_one hfr ε hX0p hX0w
-  rw [if_pos hε, ← hX1] at c1
+  rw [ite_eq_left hε, ← hX1] at c1
   have hX2p : IsPGroup 2 X2 := hX1p.to_le inf_le_left
   have hX1wε : X1 ≤ t.Gw (ε - 1) ((ε - 1) + 1) := by
     have h' : X1 ≤ t.Gw (ε - 1) ε := hX1w.trans (win_mono le_rfl (by omega))
     simpa only [show (ε : ℤ) - 1 + 1 = ε by ring] using h'
   have c2 := t.card_le_mul_card_inf_Gv_sub_one hfr (ε - 1) hX1p hX1wε
   have hodd1 : ¬ Even (ε - 1) := by rw [Int.even_sub_one]; exact not_not.mpr hε
-  rw [if_neg hodd1, show (ε : ℤ) - 1 - 1 = ε - 2 by ring, ← hX2] at c2
+  rw [ite_eq_right hodd1, show (ε : ℤ) - 1 - 1 = ε - 2 by ring, ← hX2] at c2
   have hX2w : X2 ≤ t.Gw (ε - 2) (ε + 1) := by
     simpa only [show (ε : ℤ) - 1 - 1 = ε - 2 by ring] using
       r8four_Gw_left t (inf_le_left.trans hX1w) inf_le_right
@@ -121,7 +123,7 @@ private theorem r8four_card_pCoreOf_le {a f : ℕ}
     simpa only [show (ε : ℤ) + 1 - 1 = ε by ring] using hX2w.trans (win_mono (by omega) le_rfl)
   have c3 := t.card_le_mul_card_inf_Gv_add_one hfr (ε + 1) hX2p hX2w'
   have hodd2 : ¬ Even (ε + 1) := by rw [Int.even_add_one]; exact not_not.mpr hε
-  rw [if_neg hodd2, show (ε : ℤ) + 1 + 1 = ε + 2 by ring, ← hX3] at c3
+  rw [ite_eq_right hodd2, show (ε : ℤ) + 1 + 1 = ε + 2 by ring, ← hX3] at c3
   have hX3p : IsPGroup 2 X3 := hX2p.to_le inf_le_left
   have hX3w : X3 ≤ t.Gw (ε - 2) (ε + 2) := by
     have hY : X3 ≤ t.Gv ((ε + 1) + 1) := by
@@ -133,7 +135,7 @@ private theorem r8four_card_pCoreOf_le {a f : ℕ}
     simpa only [show (ε : ℤ) + 2 - 1 = ε + 1 by ring] using hX3w.trans (win_mono (by omega) le_rfl)
   have c4 := t.card_le_mul_card_inf_Gv_add_one hfr (ε + 2) hX3p hX3w'
   have heven2 : Even (ε + 2) := hε.add (by norm_num : Even (2 : ℤ))
-  rw [if_pos heven2, show (ε : ℤ) + 2 + 1 = ε + 3 by ring, ← hX4] at c4
+  rw [ite_eq_left heven2, show (ε : ℤ) + 2 + 1 = ε + 3 by ring, ← hX4] at c4
   have hX4p : IsPGroup 2 X4 := hX3p.to_le inf_le_left
   have hX4w : X4 ≤ t.Gw (ε - 2) (ε + 3) := by
     have hY : X4 ≤ t.Gv ((ε + 2) + 1) := by
@@ -181,7 +183,7 @@ private theorem r8four_relIndex_Zv_Qv_add_one {a f : ℕ}
   have hrelQ : Q.relIndex P = 2 ^ f := by
     rw [hQ, hP]
     have h := (t.relIndex_Qv_pCoreOf hfr (ε + 1)).1
-    rw [show (ε : ℤ) + 1 - 1 = ε by ring, if_neg hodd] at h
+    rw [show (ε : ℤ) + 1 - 1 = ε by ring, ite_eq_right hodd] at h
     exact h
   have hcardP : Nat.card P = 2 ^ f * Nat.card Q := by
     have h := Subgroup.relIndex_mul_card Q P
@@ -221,8 +223,8 @@ private theorem r8four_relIndex_Zv_Qv_add_one {a f : ℕ}
   exact lt_of_le_of_lt hRle hlt
 
 private theorem r8four_exists_fixedPointFree {a f : ℕ}
-    (hfr : Frame L1 L2 S a f) {ε : ℤ} (h : t.IsMaxArc ε 4) (hε : Even ε)
-    (hf : f = 2 * (2 * a + 1)) (hC : t.Lv ε ≤ centralizer (t.Zv ε : Set G))
+    (hfr : Frame L1 L2 S a f) {ε : ℤ} (_h : t.IsMaxArc ε 4) (hε : Even ε)
+    (_hf : f = 2 * (2 * a + 1)) (_hC : t.Lv ε ≤ centralizer (t.Zv ε : Set G))
     (hZ : t.Zv ε ≤ t.Zv (ε + 1)) (hcard : Nat.card (t.Zv (ε + 1)) = (2 ^ f) ^ 2) :
     ∃ w ∈ t.Lv (ε + 1), Odd (orderOf w) ∧
       t.Zv (ε + 1) ⊓ centralizer ({w} : Set G) = ⊥ := by
@@ -232,7 +234,7 @@ private theorem r8four_exists_fixedPointFree {a f : ℕ}
     exact t.false_of_Zv_le_of_le_centralizer hfr (Or.inr rfl) hZ hC'
   have hcard' : Nat.card (t.Zv (ε + 1)) =
       if Even (ε + 1) then (2 ^ (2 * a + 1)) ^ 4 else (2 ^ f) ^ 2 := by
-    rw [if_neg hodd, hcard]
+    rw [ite_eq_right hodd, hcard]
   have hirr : ∀ U : Subgroup G, U ≤ t.Zv (ε + 1) →
       t.Lv (ε + 1) ≤ normalizer (U : Set G) → U = ⊥ ∨ U = t.Zv (ε + 1) :=
     fun U hU hUL => t.eq_bot_or_eq_of_card_Zv hfr (ε + 1) hcard' hCnext hU hUL
@@ -260,8 +262,8 @@ private theorem r8four_commutator_mem_Qv {a f : ℕ}
     ((t.Lv_le_Gv v).trans (t.Gv_le_normalizer_Zv v)) hlt hg hodd
 
 private theorem r8four_Qv_add_one_eq_Zv {a f : ℕ}
-    (hfr : Frame L1 L2 S a f) {ε : ℤ} {w : G} (hwL : w ∈ t.Lv (ε + 1))
-    (hodd : Odd (orderOf w))
+    (_hfr : Frame L1 L2 S a f) {ε : ℤ} {w : G} (_hwL : w ∈ t.Lv (ε + 1))
+    (_hodd : Odd (orderOf w))
     (hcomm : ∀ x ∈ t.Qv (ε + 1), ⁅w, x⁆ ∈ t.Zv (ε + 1))
     (hfix : t.Zv (ε + 1) ⊓ centralizer ({w} : Set G) = ⊥) :
     t.Qv (ε + 1) = t.Zv (ε + 1) := by
@@ -287,7 +289,7 @@ private theorem r8four_Qv_add_one_eq_Zv {a f : ℕ}
 private theorem r8four_card_Qv_eps {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} (hε : Even ε) (hf : f = 2 * (2 * a + 1))
     (hcard : Nat.card (t.Zv (ε + 1)) = (2 ^ f) ^ 2)
-    (hPle : Nat.card (pCoreOf 2 (t.Gw ε (ε + 1))) ≤
+    (_hPle : Nat.card (pCoreOf 2 (t.Gw ε (ε + 1))) ≤
       (2 ^ (2 * a + 1)) ^ 4 * (2 ^ f) ^ 2)
     (hQeqZ : t.Qv (ε + 1) = t.Zv (ε + 1)) :
     Nat.card (t.Qv ε) = (2 ^ (2 * a + 1)) ^ 4 := by
@@ -306,7 +308,7 @@ private theorem r8four_card_Qv_eps {a f : ℕ}
   have hrelAdd : (t.Qv (ε + 1)).relIndex P = 2 ^ f := by
     rw [hP]
     have h := (t.relIndex_Qv_pCoreOf hfr (ε + 1)).1
-    rw [show (ε : ℤ) + 1 - 1 = ε by ring, if_neg hodd] at h
+    rw [show (ε : ℤ) + 1 - 1 = ε by ring, ite_eq_right hodd] at h
     exact h
   have hcardPadd : Nat.card P = 2 ^ f * Nat.card (t.Qv (ε + 1)) := by
     have h := Subgroup.relIndex_mul_card (t.Qv (ε + 1)) P
@@ -323,7 +325,7 @@ private theorem r8four_card_Qv_eps {a f : ℕ}
   have hrelε : (t.Qv ε).relIndex P = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [hP]
     have h := (t.relIndex_Qv_pCoreOf hfr ε).2
-    rwa [if_pos hε] at h
+    rwa [ite_eq_left hε] at h
   have hcardPε : Nat.card P = (2 ^ (2 * a + 1)) ^ 2 * Nat.card (t.Qv ε) := by
     have h := Subgroup.relIndex_mul_card (t.Qv ε) P
     rw [inf_eq_left.mpr hQPε, hrelε] at h
@@ -346,7 +348,7 @@ private theorem r8four_false_of_odd_elt {a f : ℕ}
     {d : G} (hdK : d ∈ t.K) (hdL : d ∈ t.Lv ε) (hd1 : d ≠ 1)
     (hodd : Odd (orderOf d))
     (hcomm : ∀ x ∈ t.Qv ε, ⁅d, x⁆ ∈ t.Zv ε) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : (orderOf d).Coprime 2 := hodd.coprime_two_right
   have hcent : d ∈ centralizer (t.Qv ε : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -387,7 +389,7 @@ theorem IsMaxArc.false_of_four
   obtain ⟨w, hwL, hwodd, hwfix⟩ := r8four_exists_fixedPointFree t hfr h hε hf hC hZ hcard
   have hodd : ¬ Even (ε + 1) := by rw [Int.even_add_one]; exact not_not.mpr hε
   have hcommW : ∀ x ∈ t.Qv (ε + 1), ⁅w, x⁆ ∈ t.Zv (ε + 1) :=
-    r8four_commutator_mem_Qv t hfr (ε + 1) (by rw [if_neg hodd]; exact hltAddOne) hwL hwodd
+    r8four_commutator_mem_Qv t hfr (ε + 1) (by rw [ite_eq_right hodd]; exact hltAddOne) hwL hwodd
   have hQeqZ : t.Qv (ε + 1) = t.Zv (ε + 1) :=
     r8four_Qv_add_one_eq_Zv t hfr hwL hwodd hcommW hwfix
   have hQvE := r8four_card_Qv_eps t hfr hε hf hcard hPle hQeqZ
@@ -403,12 +405,12 @@ theorem IsMaxArc.false_of_four
     exact Nat.eq_of_mul_eq_mul_left (by positivity : 0 < 2 ^ (2 * a + 1)) hmul
   have hltε : (t.Zv ε).relIndex (t.Qv ε) <
       if Even ε then (2 ^ (2 * a + 1)) ^ 4 else (2 ^ f) ^ 2 := by
-    rw [if_pos hε, hrelZ]
+    rw [ite_eq_left hε, hrelZ]
     have hq1 : 1 < 2 ^ (2 * a + 1) := by
       have ha1 : 1 ≤ a := hfr.ha
       have h1 : 1 < 2 * a + 1 := by omega
       have := Nat.pow_lt_pow_right (show 1 < (2 : ℕ) by norm_num) h1
-      simpa using this
+      simp
     exact Nat.pow_lt_pow_right hq1 (by norm_num)
   obtain ⟨⟨d, hdmem⟩, hd1⟩ :=
     Subgroup.ne_bot_iff_exists_ne_one.mp (t.K_inf_Lv_ne_bot hfr ε)

@@ -65,12 +65,12 @@ theorem treeOK_sound {n w m a b tr : Nat} (hn : 0 < n) (h : treeOK n w m a b tr 
       cases hlab : Nat.beq (trLab tr p) 0 with
       | true =>
         have hl : trLab tr p = 0 := Nat.eq_of_beq_eq_true hlab
-        rw [if_pos hl]
+        rw [ite_eq_left hl]
         rw [hlab] at hpg'
         exact hpg'
       | false =>
         have hl : trLab tr p ≠ 0 := Nat.ne_of_beq_eq_false hlab
-        rw [if_neg hl]
+        rw [ite_eq_right hl]
         rw [hlab] at hpg'
         exact hpg'
 
@@ -164,8 +164,8 @@ private theorem beq_zero_eq_false {a : Nat} (h : a ≠ 0) :
 private theorem nIf_beq_eq_ite (a b : Nat) :
     nIf(Nat.beq a b, nat_lit 1, nat_lit 0) = if a = b then 1 else 0 := by
   cases hb : Nat.beq a b with
-  | false => rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-  | true => rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  | false => rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+  | true => rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 private theorem recOK_step {F : Nat → Nat} {G G22 : List Nat} {a b ai bi zW zL k : Nat}
     (h : recOK F G G22 a b ai bi zW zL k = true)

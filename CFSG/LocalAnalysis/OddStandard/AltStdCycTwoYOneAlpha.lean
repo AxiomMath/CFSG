@@ -179,6 +179,7 @@ theorem LocalDatum.qact_ne_one (h : LocalDatum t D Ω) (η : D ≃* alternatingG
       ⟨b, h.le_cent b.2⟩ (hDK b.2)
     exact Subtype.ext (congrArg Subtype.val h4).symm
 
+omit [Finite X] in
 theorem LocalDatum.qact_injOn (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω)
     {K : Subgroup X} [Group.IsPerfect K] (hDK : D ≤ K) :
     Function.Injective ((qact K).comp (D.subgroupOf (normalizer (K : Set X))).subtype) := by
@@ -195,6 +196,7 @@ theorem LocalDatum.qact_injOn (h : LocalDatum t D Ω) (η : D ≃* alternatingGr
   apply Subtype.ext
   simpa using congrArg Subtype.val h2
 
+omit [Finite X] in
 theorem isSubnormal_qact_image {K : Subgroup X} [Group.IsPerfect K]
     (ht : t ∈ normalizer (K : Set X)) (hDK : D ≤ K) (hDt : D ≤ centralizer ({t} : Set X))
     (hDc : CFSG.IsComponent (D.subgroupOf (K ⊓ centralizer ({t} : Set X)))) :
@@ -577,6 +579,7 @@ theorem LocalDatum.moved_card_le_four (h : LocalDatum t D Ω) (η : D ≃* alter
   rw [map_mul, map_inv, hk₁φ, hk₂φ, hord] at hdvd
   exact absurd (Odd.of_dvd_nat hodd' hdvd) (by decide)
 
+omit [Finite X] in
 theorem LocalDatum.exists_beta (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω)
     {K : Subgroup X} (ht : t ∈ normalizer (K : Set X)) (hDK : D ≤ K)
     {N : ℕ} {φ : normalizer (K : Set X) →* Perm (Fin N)}
@@ -744,6 +747,7 @@ theorem map_conj_mul (a b : X) (K : Subgroup X) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite X] in
 theorem normalizer_of_alpha (ht2 : t * t = 1) {K : Subgroup X} (hK : CFSG.IsComponent K)
     (hiff : ∀ M : Subgroup X, CFSG.IsComponent M →
       (⁅D, M⁆ ≠ ⊥ ↔ M = K ∨ M = K.map (MulAut.conj t).toMonoidHom))

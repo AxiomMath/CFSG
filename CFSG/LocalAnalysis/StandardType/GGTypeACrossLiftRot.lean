@@ -168,7 +168,7 @@ theorem commute_slUpperBlockHom_of_transvection (hn : 2 ≤ n)
     (h : ∀ (a b : Fin (n + 1)) (hab : a ≠ b), a.val < n → b.val < n → ∀ c : F,
       Commute T (φ (SpecialLinearGroup.transvection hab c)))
     (s : SpecialLinearGroup (Fin n) F) : Commute T (φ (slUpperBlockHom n F s)) := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   have htop : (Subgroup.centralizer ({T} : Set X)).comap (φ.comp (slUpperBlockHom n F)) = ⊤ := by
     refine CFSG.ClassicalGroups.SpecialLinear.eq_top_of_forall_transvection_mem _ ?_
     intro i j hij c
@@ -194,7 +194,7 @@ theorem eq_top_of_slLowerBlockHom_le (h2 : (2 : F) = 0) {n : ℕ} (hn : 2 ≤ n)
     (H : Subgroup (SpecialLinearGroup (Fin (n + 1)) F))
     (hlow : ∀ s, slLowerBlockHom n F s ∈ H) {i : Fin n} (hi : i.val = 0)
     (hw : weylRep n F i ∈ H) : H = ⊤ := by
-  haveI : Nontrivial (Fin (n + 1)) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin (n + 1)) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hz : i.castSucc = (0 : Fin (n + 1)) := Fin.ext (by simpa using hi)
   have hone : i.succ = (1 : Fin (n + 1)) := by
     ext

@@ -52,9 +52,9 @@ theorem szProbe {K : Type} [Field K] [CharP K 2] [Fintype K]
     intro h
     have : u ∈ (⊥ : Submodule k W) := h ▸ huM
     exact hu ((Submodule.mem_bot (R := k)).mp this)
-  haveI hMsubNontriv : Nontrivial Msub.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hMne
-  haveI hMsubFin : Module.Finite k Msub.toSubmodule := by
-    haveI : Module.Finite k (⊤ : Submodule k W) :=
+  have hMsubNontriv : Nontrivial Msub.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hMne
+  have hMsubFin : Module.Finite k Msub.toSubmodule := by
+    have : Module.Finite k (⊤ : Submodule k W) :=
       Module.Finite.equiv (Submodule.topEquiv (R := k) (M := W)).symm
     exact Submodule.finiteDimensional_of_le (le_top : Msub.toSubmodule ≤ ⊤)
   obtain ⟨N, hN⟩ := exists_isCoatom_subrep Msub.toRepresentation

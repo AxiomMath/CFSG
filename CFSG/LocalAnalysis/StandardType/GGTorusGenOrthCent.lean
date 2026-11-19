@@ -77,7 +77,7 @@ private theorem stable_perpPieces_frame (F : SevOm.Frame Q p E r)
       (motive := fun x => (F.ι t) x ∈ ⨆ j, F.U j) F.U hr ?_ ?_ ?_
     · intro j x hx
       exact Submodule.mem_iSup_of_mem j (F.mapsTo t j x hx)
-    · simpa using Submodule.zero_mem (⨆ j, F.U j)
+    · simp
     · intro x y hx hy
       simpa using Submodule.add_mem (⨆ j, F.U j) hx hy
 
@@ -348,7 +348,7 @@ private theorem conj_central (hp : p.Prime) (F : SevOm.Frame Q p E r) {w : V ≃
   have : Fact p.Prime := ⟨hp⟩
   intro c hc
   have hsurj : ∃ c' ∈ E, w * c' * w⁻¹ = c := by
-    haveI : Finite E := Finite.of_surjective
+    have : Finite E := Finite.of_surjective
       (fun s : Multiplicative (Fin r → ZMod p) => (⟨F.ι s, F.mem s⟩ : E))
       (fun x => by obtain ⟨s, hs⟩ := F.exists_eq x.2; exact ⟨s, Subtype.ext hs⟩)
     let φ : E → E := fun x => ⟨w * (x : V ≃ₗ[K] V) * w⁻¹, hwE x x.2⟩

@@ -48,7 +48,7 @@ theorem exists_invariant_sylow [Finite G] {H A : Subgroup G} (hA : IsPGroup 2 A)
     rw [Nat.ModEq, h2, Nat.mod_eq_of_lt (Fact.out : Nat.Prime 2).one_lt] at h1
     exact zero_ne_one h1
   obtain ⟨Q₀, hQ₀⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 H) hcard
-  refine ⟨(Q₀ : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q₀.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q₀ : Subgroup H).map H.subtype, ⟨map_subtype_le _, Q₀.isPGroup.map _, ?_⟩, ?_⟩
   · have e : ((Q₀ : Subgroup H).map H.subtype).subgroupOf H = (Q₀ : Subgroup H) :=
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
     rw [Subgroup.relIndex, e]

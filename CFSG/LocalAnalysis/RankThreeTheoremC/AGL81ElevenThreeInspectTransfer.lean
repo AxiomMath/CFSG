@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem map_member_le_wSup {M X I : Subgroup G} (hX : X ≤ M) (hI : I ∈ cZero X) :
     (I.subgroupOf X).map (hatHom M X hX) ≤
       wSup (↥(barM M X) ⧸ CFSG.pCore 2 ↥(barM M X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIX : I ≤ X := hI.le
   set T := (I.subgroupOf X).map (hatHom M X hX) with hT
   have hTs : IsSubnormal T ⊤ := by
@@ -57,7 +57,7 @@ theorem map_jZero_eq_wSup (M H L : Subgroup G) (hX : H ⊓ L ≤ M) :
   rw [← this]
   exact hy
 
-theorem not_two_dvd_relIndex_map {M H L T : Subgroup G} (hX : H ⊓ L ≤ M) (hTJ : T ≤ jZero H L)
+theorem not_two_dvd_relIndex_map {M H L T : Subgroup G} (hX : H ⊓ L ≤ M) (_hTJ : T ≤ jZero H L)
     (hT : ¬ 2 ∣ T.relIndex (jZero H L)) :
     ¬ 2 ∣ ((T.subgroupOf (H ⊓ L)).map (hatHom M (H ⊓ L) hX)).relIndex
       (wSup (↥(barM M (H ⊓ L)) ⧸ CFSG.pCore 2 ↥(barM M (H ⊓ L)))) := by
@@ -77,7 +77,7 @@ theorem exists_nontrivial_of_not_commutator {M H L : Subgroup G} (hX : H ⊓ L �
         wSup (↥(barM M (H ⊓ L)) ⧸ CFSG.pCore 2 ↥(barM M (H ⊓ L))) ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ * w *
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩)⁻¹ * w⁻¹ ∉ pCoreOf 2 (barM M (H ⊓ L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxX : x ∈ H ⊓ L := jZero_le H L hx
   set u : ↥(H ⊓ L) := ⟨x, hxX⟩
   refine ⟨(barHom M (H ⊓ L) hX u : ↥(barM M (H ⊓ L))), (barHom M (H ⊓ L) hX u).2, ?_, ?_⟩

@@ -15,21 +15,26 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem pCoreOf_le_self (X : Subgroup A) : pCoreOf 2 X ≤ X :=
   Subgroup.map_subtype_le _
 
+omit [Finite A] in
 theorem isPGroup_pCoreOf (X : Subgroup A) : IsPGroup 2 (pCoreOf 2 X) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
 
+omit [Finite A] in
 theorem pcore_subgroupOf_pCoreOf (X : Subgroup A) :
     (pCoreOf 2 X).subgroupOf X = CFSG.pCore 2 ↥X :=
   Subgroup.comap_map_eq_self_of_injective Subtype.val_injective _
 
+omit [Finite A] in
 theorem normalizer_pCoreOf (X : Subgroup A) : X ≤ normalizer (pCoreOf 2 X : Set A) := by
   rw [← Subgroup.normal_subgroupOf_iff_le_normalizer (pCoreOf_le_self X),
     pcore_subgroupOf_pCoreOf]
   exact CFSG.pCore_normal
 
+omit [Finite A] in
 theorem le_pCoreOf_of_normalizes {X N : Subgroup A} (hN2 : IsPGroup 2 N) (hNX : N ≤ X)
     (hnorm : X ≤ normalizer (N : Set A)) : N ≤ pCoreOf 2 X := by
   have hnormal : (N.subgroupOf X).Normal :=
@@ -40,6 +45,7 @@ theorem le_pCoreOf_of_normalizes {X N : Subgroup A} (hN2 : IsPGroup 2 N) (hNX : 
   have h2 := Subgroup.map_mono (f := X.subtype) hle
   rwa [Subgroup.map_subgroupOf_eq_of_le hNX] at h2
 
+omit [Finite A] in
 theorem pCoreOf_le_of_odd_index {X S : Subgroup A} (hS : IsPGroup 2 S) (hSX : S ≤ X)
     (hidx : ¬ 2 ∣ (S.subgroupOf X).index) : pCoreOf 2 X ≤ S := by
   have hSp : IsPGroup 2 (S.subgroupOf X) :=
@@ -57,10 +63,12 @@ open scoped Pointwise commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem normalizer_omegaCenter {N Y : Subgroup A} (hY : Y ≤ normalizer (N : Set A)) :
     Y ≤ normalizer (omegaCenter N : Set A) :=
   hY.trans (normalizer_le_normalizer_omegaCenter N)
 
+omit [Finite A] in
 private theorem normalizer_conj_commutator_mem {H L : Subgroup A} {g : A}
     (hH : ∀ x ∈ H, g * x * g⁻¹ ∈ H) (hL : ∀ x ∈ L, g * x * g⁻¹ ∈ L) :
     ∀ x ∈ (⁅H, L⁆ : Subgroup A), g * x * g⁻¹ ∈ (⁅H, L⁆ : Subgroup A) := by
@@ -75,6 +83,7 @@ private theorem normalizer_conj_commutator_mem {H L : Subgroup A} {g : A}
   intro x hx
   exact key hx
 
+omit [Finite A] in
 theorem normalizer_commutator_of_normalizes {H L Y : Subgroup A}
     (hH : Y ≤ normalizer (H : Set A)) (hL : Y ≤ normalizer (L : Set A)) :
     Y ≤ normalizer ((⁅H, L⁆ : Subgroup A) : Set A) := by
@@ -92,11 +101,12 @@ theorem normalizer_commutator_of_normalizes {H L Y : Subgroup A}
       (fun y hy => (Subgroup.mem_normalizer_iff.1 (hL (Y.inv_mem hg)) y).1 hy) _ hx
     simpa [mul_assoc] using h
 
+omit [Finite A] in
 theorem omegaOneCenterOf_eq_omegaCenter (S : Subgroup A) :
     CFSG.Quasithin.omegaOneCenterOf S = omegaCenter S := by
   have hset : {x | x ∈ CFSG.Quasithin.centerOf S ∧ x ^ 2 = 1} = (omegaCenter S : Set A) := by
     ext x
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, mem_omegaCenter, CFSG.Quasithin.centerOf,
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, mem_omegaCenter, CFSG.Quasithin.centerOf,
       Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
     constructor
     · rintro ⟨⟨hxS, hxc⟩, hx2⟩
@@ -106,6 +116,7 @@ theorem omegaOneCenterOf_eq_omegaCenter (S : Subgroup A) :
   show Subgroup.closure {x | x ∈ CFSG.Quasithin.centerOf S ∧ x ^ 2 = 1} = omegaCenter S
   rw [hset, Subgroup.closure_eq]
 
+omit [Finite A] in
 theorem normalizer_inf_of_normalizes {B C Y : Subgroup A} (hB : Y ≤ normalizer (B : Set A))
     (hC : Y ≤ normalizer (C : Set A)) : Y ≤ normalizer ((B ⊓ C : Subgroup A) : Set A) := by
   intro g hg
@@ -123,6 +134,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem bot_conditions (X K : Subgroup A) :
     K ≤ centralizer ((⊥ : Subgroup A) : Set A) ∧ X ≤ normalizer ((⊥ : Subgroup A) : Set A) := by
   refine ⟨fun k _ => ?_, fun g _ => ?_⟩
@@ -143,6 +155,7 @@ theorem bot_conditions (X K : Subgroup A) :
       calc h = g⁻¹ * (g * h * g⁻¹) * g := by group
         _ = 1 := by rw [this]; group
 
+omit [Finite A] in
 theorem mem_normalizer_centralizer_of_mem_normalizer {K : Subgroup A} {g : A}
     (hg : g ∈ normalizer (K : Set A)) :
     g ∈ normalizer ((centralizer (K : Set A) : Subgroup A) : Set A) := by
@@ -165,6 +178,7 @@ theorem mem_normalizer_centralizer_of_mem_normalizer {K : Subgroup A} {g : A}
   have := key g⁻¹ hg' _ hh
   simpa [mul_assoc] using this
 
+omit [Finite A] in
 theorem CampbellHyp.c134CQ_conditions (h : CampbellHyp X K R P) :
     K ≤ centralizer ((CFSG.Quasithin.c134CQ X K : Subgroup A) : Set A) ∧
       X ≤ normalizer ((CFSG.Quasithin.c134CQ X K : Subgroup A) : Set A) := by
@@ -187,8 +201,8 @@ variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
 theorem closure_odd_of_perfect {K : Subgroup A} (hK : ⁅K, K⁆ = K) :
     K ≤ Subgroup.closure {k | k ∈ K ∧ Odd (orderOf k)} := by
-  haveI hperf : Group.IsPerfect K := Subgroup.isPerfect_iff.2 hK
-  haveI hN : ((CFSG.Quasithin.opResidual 2 K).subgroupOf K).Normal :=
+  have hperf : Group.IsPerfect K := Subgroup.isPerfect_iff.2 hK
+  have hN : ((CFSG.Quasithin.opResidual 2 K).subgroupOf K).Normal :=
     CFSG.Quasithin.opResidual_normal 2 K
   have hpg : IsPGroup 2 (K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) := by
     intro q
@@ -198,9 +212,9 @@ theorem closure_odd_of_perfect {K : Subgroup A} (hK : ⁅K, K⁆ = K) :
       refine ⟨k, ?_⟩
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
       exact hk
-  haveI : Subsingleton (K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) := by
+  have : Subsingleton (K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) := by
     by_contra hns
-    haveI : Nontrivial (K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) :=
+    have : Nontrivial (K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) :=
       not_subsingleton_iff_nontrivial.1 hns
     exact Group.IsPerfect.not_isNilpotent _ hpg.isNilpotent
   have hres : CFSG.Quasithin.opResidual 2 K =
@@ -212,6 +226,7 @@ theorem closure_odd_of_perfect {K : Subgroup A} (hK : ⁅K, K⁆ = K) :
       K ⧸ (CFSG.Quasithin.opResidual 2 K).subgroupOf K) = 1 := Subsingleton.elim _ _
   exact (Subgroup.mem_subgroupOf).1 ((QuotientGroup.eq_one_iff _).1 hx1)
 
+omit [Finite A] in
 theorem centralizes_of_odd_generation {K : Subgroup A}
     (hKgen : K ≤ Subgroup.closure {k | k ∈ K ∧ Odd (orderOf k)}) {e : A}
     (h : ∀ k ∈ K, Odd (orderOf k) →

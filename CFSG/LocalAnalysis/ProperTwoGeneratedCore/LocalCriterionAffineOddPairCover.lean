@@ -39,7 +39,7 @@ theorem normal_binary_image_has_actual_two_group_cover [Finite Y]
       hQ.le_sylow_of_normal (S.mapSurjective hπ)
   let R : Subgroup Y := (S : Subgroup Y) ⊓ Q.comap π
   let ρ : R →* Q := (π.comp R.subtype).codRestrict Q (fun r => r.property.2)
-  have hRp : IsPGroup 2 R := S.isPGroup'.of_injective
+  have hRp : IsPGroup 2 R := S.isPGroup.of_injective
     (Subgroup.inclusion (show R ≤ (S : Subgroup Y) from inf_le_left))
     (Subgroup.inclusion_injective _)
   refine ⟨R, hRp, ρ, ?_, fun r => rfl⟩

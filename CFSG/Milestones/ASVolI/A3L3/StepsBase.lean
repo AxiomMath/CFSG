@@ -11,7 +11,7 @@ open scoped Pointwise
 
 theorem burnsideA315y_inf_eq_bot_of_odd {X : Type} [Group X] [Finite X] {B S : Subgroup X}
     (hBodd : Odd (Nat.card ↥B)) (hS : IsPGroup 2 ↥S) : B ⊓ S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS.exists_card_eq
   have hdB : Nat.card ↥(B ⊓ S) ∣ Nat.card ↥B := Subgroup.card_dvd_of_le inf_le_left
   have hdS : Nat.card ↥(B ⊓ S) ∣ 2 ^ k := hk ▸ Subgroup.card_dvd_of_le inf_le_right
@@ -37,7 +37,7 @@ theorem burnsideA315y_le_of_odd {X : Type} [Group X] [Finite X] {B S N : Subgrou
     (hperm : (B : Set X) * (S : Set X) = (S : Set X) * (B : Set X))
     (hN : N ≤ B ⊔ S) (hBN : B ≤ Subgroup.normalizer (N : Set X)) (hNodd : Odd (Nat.card ↥N)) :
     N ≤ B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS.exists_card_eq
   have h1 : B.relIndex (B ⊔ S) = 2 ^ k := hk ▸ burnsideA315y_relIndex_sup hBodd hS hperm
   have h2 : B.relIndex (N ⊔ B) = B.relIndex N := burnsideA315x_relIndex_sup hBN
@@ -55,12 +55,12 @@ theorem burnsideA315y_sup_solvable {X : Type} [Group X] [Finite X] {B S : Subgro
     (hBab : IsMulCommutative ↥B) (hBodd : Odd (Nat.card ↥B)) (hS : IsPGroup 2 ↥S)
     (hperm : (B : Set X) * (S : Set X) = (S : Set X) * (B : Set X)) :
     Group.IsSolvable ↥(B ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBle : B ≤ B ⊔ S := le_sup_left
   have hle : S ≤ B ⊔ S := le_sup_right
   have eA : ↥(B.subgroupOf (B ⊔ S)) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBle
   have eC : ↥(S.subgroupOf (B ⊔ S)) ≃* ↥S := Subgroup.subgroupOfEquivOfLe hle
-  haveI : Group.IsNilpotent ↥B := inferInstance
+  have : Group.IsNilpotent ↥B := inferInstance
   refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf (B ⊔ S))
     (S.subgroupOf (B ⊔ S)) (Group.nilpotent_of_mulEquiv eA.symm)
     ((hS.of_equiv eC.symm).isNilpotent) ?_ ?_
@@ -86,12 +86,12 @@ theorem burnsideA315y_le_normalizer_map {X : Type*} [Group X] {H : Subgroup X}
       exact this ▸ hy
     · intro hx
       exact ⟨x, hx, rfl⟩
-  haveI : ((R.map H.subtype).subgroupOf H).Normal := by rw [heq]; infer_instance
+  have : ((R.map H.subtype).subgroupOf H).Normal := by rw [heq]; infer_instance
   exact Subgroup.le_normalizer_of_normal_subgroupOf hle
 
 theorem burnsideA315y_fitting_odd {H : Type*} [Group H] [Finite H] (hO : CFSG.pCore 2 H = ⊥) :
     Odd (Nat.card ↥(CFSG.fittingSubgroup H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := CFSG.fittingSubgroup H
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥F) := inferInstance
   have hQ : (Q : Subgroup ↥F).map F.subtype ≤ CFSG.pCore 2 H :=
@@ -111,7 +111,7 @@ theorem burnsideA315y_fitting_odd {H : Type*} [Group H] [Finite H] (hO : CFSG.pC
 theorem burnsideA315y_fitting : burnsideA315y_FittingStatement := by
   intro X _ _ B S hBab hBodd hS hperm
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup X := B ⊔ S with hHdef
   have hBH : B ≤ H := le_sup_left
   have hSH : S ≤ H := le_sup_right
@@ -141,7 +141,7 @@ theorem burnsideA315y_fitting : burnsideA315y_FittingStatement := by
     have hBF : B.subgroupOf H ≤ F :=
       hBC.trans (CFSG.centralizer_fittingSubgroup_le_fittingSubgroup_of_solvable hsolv)
     have hFeq : F = B.subgroupOf H := le_antisymm hFB hBF
-    haveI : (B.subgroupOf H).Normal := hFeq ▸ CFSG.fittingSubgroup_normal
+    have : (B.subgroupOf H).Normal := hFeq ▸ CFSG.fittingSubgroup_normal
     exact hSH.trans (Subgroup.le_normalizer_of_normal_subgroupOf hBH)
   · left
     have hScard : Nat.card ↥(S.subgroupOf H) = Nat.card ↥S :=

@@ -97,7 +97,7 @@ theorem ggKGOmM_isChevSimple_statedOmega {K : Type} [Field K] [Finite K] [CharP 
     CFSG.Yardstones.Md0ec50421ce4.IsChevSimple 2
       (↥(StatedOmega (StatedQuadMinus n K b c))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let V := Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K
   let Q : QuadraticForm K V := CFSG.LieType.Universal.Spin.quadMinus n K b c
   have hQ : ⇑Q = StatedQuadMinus n K b c :=

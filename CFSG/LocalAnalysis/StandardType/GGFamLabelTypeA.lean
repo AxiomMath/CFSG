@@ -33,8 +33,8 @@ theorem fam_label_rankOne
   classical
   obtain ⟨K, hKfield, hKfin, f, hf1, hKcard, hfield, _hchrK, hK4, g, hgsurj, hgker⟩ :=
     fam_exists_slCover_rankOne S hρ i hr1 hn hq
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchr : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, hchr]
   have hfield' : 2 ^ f = S.D.q ^ componentOrbitLength S.ρ (componentRoots χ i) := by
@@ -43,7 +43,7 @@ theorem fam_label_rankOne
     rw [hK2] at hK4
     by_contra hlt
     push Not at hlt
-    interval_cases f <;> norm_num at hK4
+    interval_cases f; norm_num at hK4
   have hN : (componentRoots χ i).ncard =
       compRank (componentRoots χ i) * (compRank (componentRoots χ i) + 1) := by
     rw [hn, hr1]
@@ -77,8 +77,8 @@ theorem fam_label_splitFrame
   classical
   obtain ⟨K, hKfield, hKfin, f, hf1, hKcard, hfield, _hchrK, g, hgsurj, hgker⟩ :=
     fam_exists_slCover_splitFrame S hρ i hν hψ hΨ π hπ
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchr : ringChar L = 2 := ringChar.eq L 2
   have hK2 : Nat.card K = 2 ^ f := by rw [hKcard, hchr]
   have hfield' : 2 ^ f = S.D.q ^ componentOrbitLength S.ρ (componentRoots χ i) := by
@@ -132,8 +132,8 @@ theorem fam_label_unitaryFrame
   have hcover := fam_exists_suCover_unitaryFrame S hρ i hν hψ hΨ π hπ hq
   rw [hchr] at hcover
   obtain ⟨K, hKfield, hKfin, f, hf1, hKcard, hfield, _hchrK, h32, g, hgsurj, hgker⟩ := hcover
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hK2 : Nat.card K = (2 ^ f) ^ 2 := hKcard
   have hfield' : 2 ^ f = S.D.q ^ componentOrbitLength S.ρ (componentRoots χ i) := hfield
   have hκ : (1 : ℤ) ≠ 0 := one_ne_zero

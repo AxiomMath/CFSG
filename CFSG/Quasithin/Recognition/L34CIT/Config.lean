@@ -77,7 +77,7 @@ theorem mem_Z_iff {x : A} :
         rw [show C.Z = C.L from le_antisymm inf_le_left hle]
       rw [C.card_Z, C.card_L] at hcard
       norm_num at hcard
-    obtain ⟨y, hyL, hyZ⟩ := SetLike.not_le_iff_exists.mp hnotL
+    obtain ⟨y, hyL, hyZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotL
     have hxL : x ∈ C.L := by
       have hxcent : x ∈ centralizer ({y} : Set A) := by
         rw [Subgroup.mem_centralizer_iff]
@@ -93,7 +93,7 @@ theorem mem_Z_iff {x : A} :
         rw [show C.Z = C.M from le_antisymm inf_le_right hle]
       rw [C.card_Z, C.card_M] at hcard
       norm_num at hcard
-    obtain ⟨y, hyM, hyZ⟩ := SetLike.not_le_iff_exists.mp hnotM
+    obtain ⟨y, hyM, hyZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotM
     have hxM : x ∈ C.M := by
       have hxcent : x ∈ centralizer ({y} : Set A) := by
         rw [Subgroup.mem_centralizer_iff]
@@ -116,7 +116,7 @@ theorem L_ne_M : C.L ≠ C.M := by
 
 private theorem map_conj_eq_self_of_two [Finite A] {t : A} (ht : t ∈ C.T) {E F : Subgroup A}
     (hEt : E ≤ C.T) (hEea : IsElemAbelian 2 E) (hEcard : Nat.card E = 16)
-    (hEF : E ≠ F) (hZEF : E ⊓ F = C.Z)
+    (_hEF : E ≠ F) (hZEF : E ⊓ F = C.Z)
     (honly : ∀ X : Subgroup A, X ≤ C.T → IsElemAbelian 2 X → Nat.card X = 16 →
       X = E ∨ X = F) :
     E.map (MulAut.conj t).toMonoidHom = E := by
@@ -200,7 +200,7 @@ theorem T_le_normalizer_M [Finite A] : (C.T : Subgroup A) ≤ normalizer (C.M : 
   intro t ht
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   refine map_conj_eq_self_of_two C ht C.M_le C.isElemAbelian_M C.card_M C.L_ne_M.symm ?_ ?_
-  · simpa [Config.Z, inf_comm]
+  · simp [Config.Z, inf_comm]
   · intro X hX hEA hXc
     rcases C.eq_or_eq X hX hEA hXc with h | h
     · exact Or.inr h

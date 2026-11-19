@@ -111,7 +111,7 @@ theorem exists_scalar_mul_mem_statedSU (h : UnitaryFieldData ℓ f K) {p : ℕ} 
     ∃ c : Kˣ, c ^ p = 1 ∧
       Matrix.GeneralLinearGroup.scalar (Fin n) c ∈ Cls.isomGL (Cls.unitForm (ι := Fin n) h.bar) ∧
       Matrix.GeneralLinearGroup.scalar (Fin n) c * g ∈ StatedSU n (ℓ ^ f) K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgg := map_bar_transpose_mul_of_mem_isomGL h hg
   set d : Kˣ := (Matrix.GeneralLinearGroup.det g)⁻¹ with hd
   have hdp : d ^ p = 1 := by rw [hd, inv_pow, ← map_pow, hgp, map_one, inv_one]
@@ -181,12 +181,14 @@ section Field
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {ℓ f n : ℕ} {K : Type} [Field K]
 
+omit [Finite Ω] [S.Normal] in
 theorem outPChain_uni (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ ℓ ^ f = 2))
     (hp : p.Prime) (hdiag : ¬ p ∣ Nat.gcd n (ℓ ^ f + 1))
     (e : ↥S ≃* StatedProj (StatedSU n (ℓ ^ f) K)) : OutPChain p ↥S :=
   (CFSG.RankThree.PartOne.OutStructure.outPNice_primeFormP h hn hq hp hdiag).toChain.of_mulEquiv
     (e.trans (suProjEquiv h (by omega)))
 
+omit [Finite Ω] in
 theorem exists_fieldAct_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2)
     (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) (hpℓ : p ≠ ℓ)
     (hdiag : ¬ p ∣ Nat.gcd n (ℓ ^ f + 1)) (φ : ↥(StatedSU n (ℓ ^ f) K) →* Ω)
@@ -196,7 +198,7 @@ theorem exists_fieldAct_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 :
     ∃ (A : GL (Fin n) K) (σ : K ≃+* K),
       A ∈ primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ∧
       FieldAct p φ b A σ ∧ FormRel (Cls.unitForm (ι := Fin n) h.bar) A σ := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   set e : primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≃* ↥S :=
     (suProjEquiv h (by omega)).symm.trans (coverProjEquiv φ hφS hφk) with he
@@ -221,7 +223,7 @@ theorem exists_fieldAct_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 :
     exact hbN ((transAut_mem_inner_iff e b).1 (mem_of_pow_mem_of_coprime _ hγD
       (by rw [hγp]; exact one_mem _) hcop))
   have hσo : orderOf σ = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hσp hσ1
   obtain ⟨hpf, hcardK0, -, -, -, M, hM⟩ :=
     CFSG.RankThree.UnitaryDescent.unitary_prime_semilinear_field_descent h hn hq hp hp2 hpℓ γ
@@ -259,6 +261,7 @@ theorem exists_fieldAct_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 :
     rw [Units.val_one, one_mul, one_mul, semiMap_apply, semiMap_apply, unitForm_mulVec_of_mem h M.2,
       unitForm_map, unitForm_mulVec_of_mem h (inv_mem M.2)]
 
+omit [Finite Ω] in
 theorem exists_clsData_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : p ≠ 2)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hZ : Subgroup.center ↥S = ⊥) (hn : 3 ≤ n)
     (hq : ¬(n = 3 ∧ ℓ ^ f = 2)) (hpℓ : p ≠ ℓ) (hdiag : ¬ p ∣ Nat.gcd n (ℓ ^ f + 1))
@@ -279,7 +282,7 @@ theorem exists_clsData_uni (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hp2 : 
               A ∈ primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ∧
               FieldAct p φ b A σ ∧ FormRel (Cls.unitForm (ι := Fin n) h.bar) A σ ∧
               ∀ x, semiConj A σ ((θ x : ↥(StatedSU n (ℓ ^ f) K)) : GL (Fin n) K) = θ x) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨φ, hφS, hφk⟩ := exists_cover_of_center_eq_bot hcore hZ e
   have hker : φ.ker ≤ Subgroup.center ↥(StatedSU n (ℓ ^ f) K) :=
     hφk ▸ CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center _

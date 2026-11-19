@@ -13,7 +13,8 @@ section L828SLem13
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem s828_derived_le_of_quot {Y N : Subgroup G} (hN : N ≤ Y) [(N.subgroupOf Y).Normal]
+omit [Finite G] in
+theorem s828_derived_le_of_quot {Y N : Subgroup G} (_hN : N ≤ Y) [(N.subgroupOf Y).Normal]
     [hsolv : Group.IsSolvable (↥Y ⧸ N.subgroupOf Y)] :
     ∃ m : ℕ, derivedSeries ↥Y m ≤ N.subgroupOf Y := by
   obtain ⟨m, hm⟩ := hsolv.solvable
@@ -27,6 +28,7 @@ theorem s828_derived_le_of_quot {Y N : Subgroup G} (hN : N ≤ Y) [(N.subgroupOf
   rw [Subgroup.mem_bot] at hmem
   exact (QuotientGroup.eq_one_iff x).mp hmem
 
+omit [Finite G] in
 theorem s828_perfect_le_of_solvable_quot {Y N W : Subgroup G} (hN : N ≤ Y)
     [(N.subgroupOf Y).Normal] [hsolv : Group.IsSolvable (↥Y ⧸ N.subgroupOf Y)] (hWY : W ≤ Y)
     (hperf : ⁅W, W⁆ = W) :
@@ -47,6 +49,7 @@ theorem s828_perfect_le_of_solvable_quot {Y N W : Subgroup G} (hN : N ≤ Y)
   have hw' : (⟨w, hWY hw⟩ : ↥Y) ∈ W.subgroupOf Y := Subgroup.mem_subgroupOf.mpr hw
   exact Subgroup.mem_subgroupOf.mp (hm (hW'D m hw'))
 
+omit [Finite G] in
 theorem s828_mem_mul_of_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L : Set G))
     (hY : Y = L ⊔ S) {y : G} (hy : y ∈ Y) : ∃ l ∈ L, ∃ s ∈ S, y = l * s := by
   let M : Subgroup G :=
@@ -71,6 +74,7 @@ theorem s828_mem_mul_of_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.normalizer
   have hYM : Y ≤ M := by rw [hY]; exact sup_le hLM hSM
   exact hYM hy
 
+omit [Finite G] in
 theorem s828_normal_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L : Set G))
     (hY : Y = L ⊔ S) : (L.subgroupOf Y).Normal := by
   have hLY : L ≤ Y := hY ▸ le_sup_left
@@ -81,9 +85,9 @@ theorem s828_normal_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L 
 theorem s828_quot_solvable_of_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L : Set G))
     (hY : Y = L ⊔ S) (hSY : S ≤ Y) (hSp : IsPGroup 2 ↥S) [(L.subgroupOf Y).Normal] :
     Group.IsSolvable (↥Y ⧸ L.subgroupOf Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥S := by
-    haveI : Group.IsNilpotent ↥S := hSp.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥S := by
+    have : Group.IsNilpotent ↥S := hSp.isNilpotent
     infer_instance
   let f : ↥S →* ↥Y ⧸ L.subgroupOf Y :=
     (QuotientGroup.mk' (L.subgroupOf Y)).comp (Subgroup.inclusion hSY)
@@ -103,7 +107,7 @@ theorem s828_quot_solvable_of_sup {Y L S : Subgroup G} (hS : S ≤ Subgroup.norm
   convert hn using 1
   group
 
-theorem s828_lemma13 {T L I H : Subgroup G} {h : G} {k : ℕ}
+theorem s828_lemma13 {T L I _H : Subgroup G} {h : G} {k : ℕ}
     [IsMulCommutative ↥(fsuV T I)] (hC5 : Concl825 T L I h k)
     (hS : QuasithinUnique.IsSylowTwoOf T (Subgroup.normalizer (ch82U (fsuV T I) h : Set G)))
     (hLUT : T ≤ Subgroup.normalizer (ch82LU L (ch82U (fsuV T I) h) : Set G))
@@ -141,8 +145,8 @@ theorem s828_lemma13 {T L I H : Subgroup G} {h : G} {k : ℕ}
     exact h1.trans (CFSG.QuasithinUnique.EscapingLocal.pCoreOf_le_of_isSylowTwoOf hS)
   have hS' : pCoreOf 2 K ≤ Subgroup.normalizer (LU : Set G) := hO2T.trans hLUT
   have hYdef : LU ⊔ pCoreOf 2 K = LU ⊔ pCoreOf 2 K := rfl
-  haveI hnorm : (LU.subgroupOf (LU ⊔ pCoreOf 2 K)).Normal := s828_normal_sup hS' rfl
-  haveI hsolv : Group.IsSolvable (↥(LU ⊔ pCoreOf 2 K) ⧸ LU.subgroupOf (LU ⊔ pCoreOf 2 K)) :=
+  have hnorm : (LU.subgroupOf (LU ⊔ pCoreOf 2 K)).Normal := s828_normal_sup hS' rfl
+  have hsolv : Group.IsSolvable (↥(LU ⊔ pCoreOf 2 K) ⧸ LU.subgroupOf (LU ⊔ pCoreOf 2 K)) :=
     s828_quot_solvable_of_sup hS' rfl le_sup_right (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
   have hXC : ¬ K ≤ Subgroup.centralizer (U : Set G) := fun hKC => hLUC (hLUK.trans hKC)
   have hcc := commutator_centralizer_le_828 hKle hKn hK.2.1 hq hXC

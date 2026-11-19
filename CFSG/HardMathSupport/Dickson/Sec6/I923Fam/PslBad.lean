@@ -44,7 +44,7 @@ theorem noL2Layer_psl_three_four (hO : LieOrderFormulasInput) {X : Type} [Group 
     rw [hprod] at hM
     norm_num at hM
     omega
-  haveI := hfin
+  have := hfin
   refine noL2Layer_of_card_dvd_pp ψ (N := 20160) ?_ fun r m hr hpp hm =>
     not_dvd_psl_three_four r m hr hpp hm
   rw [← hcard]

@@ -111,7 +111,7 @@ theorem omegaMinus_card_fixedSubgroup {G : Type} [Group G] [Finite G] {n f : ℕ
   have hfix := card_fixedSubgroup_eq_subfieldFixedGroup hsetup Θ g' hg'l hg'r hΘ'
   refine ⟨f / p, (Nat.mul_div_cancel' hpf).symm, ?_⟩
   rw [hfix, ← hcard']
-  haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
   rw [card_subfieldFixedGroup_eq_model _ hsetup.hext hsetup.hnd₀ hsetup.hT₀ hsetup.hnd]
   exact card_model_minus_eq _ n hn4 hirr'
 
@@ -164,10 +164,10 @@ theorem stOrderBody_omegaMinus {l n : ℕ} (hl : 4 ≤ l) (hn : 1 ≤ n) {K : Ty
     (I F : Set (MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c)))))
     (hF : InnFree p F) :
     StOrderBody p (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))) I F := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   intro f hf hord
   have hcl := statedClassicalModel_omegaMinus l n hK b c hirr ⟨Nat.prime_two, hn, hl⟩
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hαp : f ^ p = 1 := hord ▸ pow_orderOf_eq_one f
   obtain ⟨f₀, hf0, hfix⟩ := omegaMinus_card_fixedSubgroup hcl hp hp2 f hαp

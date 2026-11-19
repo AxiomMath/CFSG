@@ -14,7 +14,7 @@ theorem e4_sq {b : ℕ} (hb : b = 1) (g : DihedralGroup (2 ^ b)) : g * g = 1 := 
   subst hb; revert g; decide
 
 theorem e4_card {b : ℕ} (hb : b = 1) : Nat.card (DihedralGroup (2 ^ b)) = 4 := by
-  subst hb; simp [DihedralGroup.nat_card]
+  subst hb; simp
 
 theorem e4_enum {b : ℕ} (hb : b = 1) (u v : DihedralGroup (2 ^ b)) (hu : u ≠ 1) (hv : v ≠ 1)
     (huv : u ≠ v) (s : DihedralGroup (2 ^ b)) : s = 1 ∨ s = u ∨ s = v ∨ s = u * v := by
@@ -24,10 +24,10 @@ end E4
 
 variable {a : Fin 3 → ℕ}
 
-theorem central_apply_cases' {i : Fin 3} (hi : 2 ≤ a i) {c : PX a} (hc : ∀ x, x * c = c * x) :
-    c i = 1 ∨ c i = zc (a i) :=
+theorem central_apply_cases' {_i : Fin 3} (hi : 2 ≤ a _i) {c : PX a} (hc : ∀ x, x * c = c * x) :
+    c _i = 1 ∨ c _i = zc (a _i) :=
   eq_one_or_zc_of_comm hi fun g =>
-    ((comm_mulSingle_iff c).mp (fun i h => (hc _).symm) i g).symm
+    ((comm_mulSingle_iff c).mp (fun _i _h => (hc _).symm) _i g).symm
 
 theorem central_sq' (hcase : ∀ i, a i = 1 ∨ 2 ≤ a i) {c : PX a} (hc : ∀ x, x * c = c * x) :
     c * c = 1 := by
@@ -110,7 +110,7 @@ theorem ιY_mulSingle (j : Fin 2) (d : DihedralGroup (2 ^ a j.succ)) :
     ιY a (Pi.mulSingle j d) = Pi.mulSingle j.succ d := by
   ext i
   refine Fin.cases ?_ (fun i => ?_) i
-  · simp [ιY_zero, Pi.mulSingle_eq_of_ne (Fin.succ_ne_zero j).symm]
+  · simp [ιY_zero]
   · by_cases h : i = j
     · subst h; simp [ιY_succ]
     · rw [ιY_succ, Pi.mulSingle_eq_of_ne h, Pi.mulSingle_eq_of_ne (fun h' => h (Fin.succ_injective _ h'))]

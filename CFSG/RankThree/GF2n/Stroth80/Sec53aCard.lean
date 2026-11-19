@@ -18,23 +18,23 @@ theorem Ctx.le_sup_imgQInfQB_sp_of_hplane (h34 : Stroth34Statement)
     (hs : Sec5Hyp hc n t) (hm : 2 ≤ m) (hV : SpMNat hc t m) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) (hplane : HypPlane Q Z B (conjSubgroup r B) t)
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
-    {M₀ : Tim79.QuadModel Q Z K γ} (hD : GlobalModelData M Q Z γ M₀)
+    {M₀ : Tim79.QuadModel Q Z K γ} (_hD : GlobalModelData M Q Z γ M₀)
     (T : Submodule K M₀.E) (hTmem : ∀ e : M₀.E,
       e ∈ T ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t)) :
     T ≤ imgQInfQB M₀ B ⊔ imgQInfQB M₀ (conjSubgroup r B) := by
   obtain ⟨K₁, iF, iFin, hK, hrep⟩ := hV
-  letI := iF
-  letI := iFin
-  haveI : CharP K₁ 2 := by
+  let := iF
+  let := iFin
+  have : CharP K₁ 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hnat : SpNat hc t := ⟨K₁, iF, iFin, hK, m, hm, hrep⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hrep
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hnotQB : ¬ Vt M (LB M Q B) B Z t ≤ QB B :=
     stroth310NotQB_of_34 h34 G M Q Z B hc n t hs (Or.inl hnat)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ₂, M₀₂, hD₂, θ, hθ, u₀, hu₀, hBiff₀, hW₀⟩ :=
     Ctx.sp_perp_data h34 hc hs hnotQB hK hm φ hφ hker ψ hψ
   obtain ⟨u₁, hu₁, hBiff₁, hL₁, hplane₁⟩ :=
@@ -68,7 +68,7 @@ theorem Ctx.le_sup_imgQInfQB_sp_of_hplane (h34 : Stroth34Statement)
   exact Ctx.le_sup_imgQInfQB_sp (K := K₁) (K₂ := K) (M₀ := M₀)
     hc hs φ hφ ψ hψ hr hW₀ hne₀ T hTmem
 
-theorem Ctx.finrank_inf_imgQInfQB_of_card_vone (h34 : Stroth34Statement)
+theorem Ctx.finrank_inf_imgQInfQB_of_card_vone (_h34 : Stroth34Statement)
     (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Sec5Hyp hc n t) (hV : SpMNat hc t m)
     {C : Subgroup G} (hcC : Ctx M Q Z C) (hnoC : NoA2 Q Z (LB M Q C))
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
@@ -81,8 +81,8 @@ theorem Ctx.finrank_inf_imgQInfQB_of_card_vone (h34 : Stroth34Statement)
     (hcard : Nat.card ↥(Vone Q B C (Vt M (LB M Q B) B Z t))
       = Nat.card ↥(Vt M (LB M Q B) B Z t) * Nat.card Z) :
     Module.finrank K ↥(imgQInfQB M₀ B ⊓ imgQInfQB M₀ C) + 1 = 2 * m := by
-  haveI : FiniteDimensional K M₀.E := M₀.fin
-  haveI hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
+  have : FiniteDimensional K M₀.E := M₀.fin
+  have hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega

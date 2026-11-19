@@ -18,15 +18,18 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1_subgroupOf_pCoreOf (K : Subgroup G) :
     (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K :=
   Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
 
+omit [Finite G] in
 private theorem s16c1_mk_eq_one_iff {K : Subgroup G} (k : ↥K) :
     (k : Bar2 K) = 1 ↔ (k : G) ∈ pCoreOf 2 K := by
   rw [QuotientGroup.eq_one_iff, ← s16c1_subgroupOf_pCoreOf K, Subgroup.mem_subgroupOf]
 
-theorem s16c1_orders_of_cases {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
+omit [Finite G] in
+theorem s16c1_orders_of_cases {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (_hz : z ∈ V)
     (hcases : ∀ h ∈ centralizer ({z} : Set G), ∀ w ∈ V,
       w ∉ pCoreOf 2 (centralizer ({z} : Set G)) →
         ⁅w, h⁻¹ * w * h⁆ ∈ pCoreOf 2 (centralizer ({z} : Set G)) ∨

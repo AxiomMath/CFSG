@@ -24,14 +24,17 @@ theorem map_conj_eq_of_le {K M : Subgroup G} {g : G}
   Subgroup.eq_of_le_of_card_ge h (by
     rw [Subgroup.card_map_of_injective (fun a b e => (MulAut.conj g).injective e), hc])
 
+omit [Finite G] in
 theorem card_map_conj (K : Subgroup G) (g : G) :
     Nat.card (K.map (MulAut.conj g).toMonoidHom) = Nat.card K :=
-  Subgroup.card_map_of_injective (fun a b e => (MulAut.conj g).injective e)
+  Subgroup.card_map_of_injective (fun _a _b e => (MulAut.conj g).injective e)
 
+omit [Finite G] in
 theorem map_conj_one (K : Subgroup G) : K.map (MulAut.conj (1 : G)).toMonoidHom = K := by
   ext x
   simp
 
+omit [Finite G] in
 theorem map_conj_map_conj (K : Subgroup G) (a b : G) :
     (K.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom =
       K.map (MulAut.conj (a * b)).toMonoidHom := by

@@ -220,7 +220,7 @@ theorem eq_one_of_mem_fittingSubgroup (h2 : CFSG.pCore 2 H = ⊥) {u : H}
     exact ⟨m, by rw [Subgroup.orderOf_coe] at hm; exact hm⟩
   obtain ⟨S, hS⟩ := hv2.exists_le_sylow
   have hSn : (S : Subgroup F).Normal := inferInstance
-  have hSO : (S : Subgroup F) ≤ CFSG.pCore 2 F := le_sSup ⟨hSn, S.isPGroup'⟩
+  have hSO : (S : Subgroup F) ≤ CFSG.pCore 2 F := le_sSup ⟨hSn, S.isPGroup⟩
   have hvO : v ∈ CFSG.pCore 2 F := hSO (hS (Subgroup.mem_zpowers v))
   have huO : u ∈ CFSG.pCore 2 H :=
     Sec14.pCore_map_le_pCore F ⟨v, hvO, rfl⟩

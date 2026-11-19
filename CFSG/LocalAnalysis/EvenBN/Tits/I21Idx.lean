@@ -17,7 +17,7 @@ include h
 theorem exists_normal_index_two (S : Sylow 2 G) (hRS : secTwoR t u ≤ S) (hne : secTwoR t u ≠ S) :
     ∃ N : Subgroup G, N.Normal ∧ N.index = 2 ∧ t ∉ N := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hdvd : (secTwoR t u).relIndex S ∣ 2 ^ n := by
     have := Subgroup.relIndex_mul_card (secTwoR t u) (S : Subgroup G)
     rw [← hn]
@@ -31,7 +31,7 @@ theorem exists_normal_index_two (S : Sylow 2 G) (hRS : secTwoR t u ≤ S) (hne :
       exact le_antisymm hRS hj
     · rw [pow_one] at hj
       obtain ⟨U, hUS, hUrel, hUinv⟩ :=
-        h.secTwo.exists_index_two_unique_involution S.isPGroup' hRS hj
+        h.secTwo.exists_index_two_unique_involution S.isPGroup hRS hj
       refine exists_normal_index_two_of_free_coset h.secTwo.t_mul_t (U := U) ?_ ?_
       · intro g hg
         have hsq : (g⁻¹ * t * g) ^ 2 = 1 := by

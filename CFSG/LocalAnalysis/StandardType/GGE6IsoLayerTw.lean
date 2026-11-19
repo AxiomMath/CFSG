@@ -161,16 +161,16 @@ private theorem eq_bot_of_perfect
     exact h6 k
   have hnq : ∀ i, ¬ CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
     intro i hqs
-    haveI := hsolv i
+    have := hsolv i
     obtain ⟨x, y, hxy⟩ := hqs.2.2
     obtain ⟨x', rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨y', rfl⟩ := QuotientGroup.mk_surjective y
-    haveI : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Nontrivial ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       ⟨⟨x', y', fun h => hxy (by rw [h])⟩⟩
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial _).ne (Group.isPerfect_def.mp hqs.1)
   have hle := perfect_le_iSup_rationalComponent_of_prime S Nat.prime_three hT hap h1
     (fun i => Or.inr (hsolv i)) P hP hperf
-  haveI : IsEmpty {i : KernelComponent (rootCharHom a) //
+  have : IsEmpty {i : KernelComponent (rootCharHom a) //
       CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)} := ⟨fun i => hnq i.1 i.2⟩
   rw [iSup_of_empty] at hle
   exact le_bot_iff.1 hle
@@ -204,8 +204,8 @@ theorem kgTwAdjNonIso :
             (twistedE6RootGroup K σ)) ∧ J' ≠ J := by
   intro n hn _ K _ _ σ hK hσ Fr hFr v hv g0 hg0C hg0 ζ hζ hζ1 t ht ht' J hJ
   classical
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     rw [show ((3 : ℕ) : AlgebraicClosure K) = 1 + 2 by norm_num, CharTwo.two_eq_zero, add_zero]
@@ -214,11 +214,11 @@ theorem kgTwAdjNonIso :
   set D := LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0 with hD
   have hΓS : S.Γ = D.Γ := by
     show S.D.Γ = D.Γ
-    rw [hSD] <;> rfl
+    rw [hSD]; rfl
   set a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ := zetaVec (τ := Tag.E6) ζ hζ ggE6IsoBase
     with ha
   have hdt : rootDiagUnit Tag.E6 a = twThetaHom g0 t := by
-    rw [twThetaHom_apply, ht'] <;> rfl
+    rw [twThetaHom_apply, ht']; rfl
   have hap : ∀ i, a i ^ 3 = 1 := fun i => zetaVec_apply_pow_three hζ _ i
   have h1 : rootDiagUnit Tag.E6 a ≠ 1 := rootDiagUnit_iso_ne_one hζ hζ1
   have h18 : (kernelRoots (rootCharHom a)).ncard = 18 := ncard_kernelRoots_iso hζ hζ1

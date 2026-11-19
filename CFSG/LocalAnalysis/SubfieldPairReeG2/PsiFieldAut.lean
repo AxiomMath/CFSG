@@ -18,7 +18,7 @@ section Ree
 
 variable {a : ℕ} {K : Type} [Field K] [Finite K] [CharP K G2.prime]
 
-theorem reeGammaFieldAut_psi (hK : Nat.card K = 3 ^ (2 * a + 1))
+theorem reeGammaFieldAut_psi (_hK : Nat.card K = 3 ^ (2 * a + 1))
     {ψ : SL2 K →* G2.reeGamma K a}
     (huψ : ∀ b : K, (ψ (uSL b) : ModGL G2.tag K) = smallReeU a K 0 b 0)
     (hwψ : ∀ w₀ : WeylGroup G2.tag,

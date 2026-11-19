@@ -37,7 +37,7 @@ private theorem theorem_8_11_ambientSylow_prime_dvd_card
     (hPne : section10AmbientSylowSubgroup H P ≠ ⊥) :
     p.val ∣ Nat.card H := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hPgroup : IsPGroup p.val (section10AmbientSylowSubgroup H P) :=
     section11_ambientSylow_isPGroup H P
   rcases hPgroup.card_eq_or_dvd with hcard | hp

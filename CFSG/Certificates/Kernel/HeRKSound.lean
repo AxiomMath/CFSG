@@ -152,11 +152,11 @@ private theorem letter_eq {g : Array (Array Nat)} {G GI : Nat → Nat}
         (G (c / 2 % 8)) (Nat.beq (c % 2) 0)) = true
   cases h : Nat.beq (c % 2) 0
   · have h' := Nat.ne_of_beq_eq_false h
-    simp only [h', decide_false, Bool.false_eq_true, if_false]
+    simp only [h', decide_false, Bool.false_eq_true, ite_false]
     rw [getD_map_he hs hi, hg _ hi, CFSG.KC.LQT.Cov.T.invCand_unpack (hp _ hi)]
     exact ⟨rfl, canon_inv_of_permOK (hp _ hi)⟩
   · have h' := Nat.eq_of_beq_eq_true h
-    simp only [h', decide_true, if_true]
+    simp only [h', decide_true, ite_true]
     rw [getD_he hs hi, hg _ hi]
     exact ⟨rfl, canon_of_permOK (hp _ hi)⟩
 
@@ -222,9 +222,9 @@ private theorem build_eq {O : Array (Array Nat)} {W : Array (List Int)} {PS PSI 
     have hval : (if k < O.size then O[k]! else wordA 8330 S (S.map (invCand 8330)) W[k]!) =
         unpack 8330 14 (PS k) := by
       by_cases hkO : k < O.size
-      · rw [if_pos hkO]
+      · rw [ite_eq_left hkO]
         exact hO k hkO
-      · rw [if_neg hkO]
+      · rw [ite_eq_right hkO]
         exact (wordEqK_sound ⟨hs, hv⟩
           (CFSG.KS.Raw.Orb.allN_iff.2 fun j hj => hp j (by omega))
           (hw k (by omega) (by omega))).1
@@ -234,7 +234,7 @@ private theorem build_eq {O : Array (Array Nat)} {W : Array (List Int)} {PS PSI 
     · rw [Array.getElem_push_lt (by rw [hs]; exact h), ← getElem!_pos S j (by rw [hs]; exact h)]
       exact hv j h
     · subst h
-      rw [Array.getElem_push, dif_neg (by omega)]
+      rw [Array.getElem_push, dite_eq_right (by omega)]
       exact hval
 
 theorem heGenArrsOK_eq : heGenArrsOK = heGenArrsOKG heGenArrs8 := rfl
@@ -278,7 +278,7 @@ theorem heRK_sound {g : Array (Array Nat)} {G GI PS PSI : Nat → Nat}
   ·
     unfold heRInvolOKG
     simp only [hW, commutesA, compA_mul, eqA_beq, hC, canon_mul, idA_he, canon_pidn,
-      ← fixK_eq, h11, h21, h4, h51, h12, h22, h52, Nat.eq_of_beq_eq_true h13,
+      ← fixK_eq, h11, h21, h4, h12, h22, h52, Nat.eq_of_beq_eq_true h13,
       Nat.eq_of_beq_eq_true h23, Nat.eq_of_beq_eq_true h53]
     rfl
   ·
@@ -324,7 +324,7 @@ theorem heRK_sound {g : Array (Array Nat)} {G GI PS PSI : Nat → Nat}
       unfold commArr commP
       simp (config := { maxDischargeDepth := 6 }) only [hW,
         CFSG.KC.LQT.Cov.T.invCand_unpack (hpC a ha),
-        CFSG.KC.LQT.Cov.T.invCand_unpack (hpC b hb), compA_mul, hC, ia, ib, canon_mul]
+        CFSG.KC.LQT.Cov.T.invCand_unpack (hpC b hb), compA_mul, hC, canon_mul]
     have h30 : Nat.beq (PS 0) (commP (codeK G GI (heRCentWords.getD 0 []))
         (codeK G GI (codeInv (heRCentWords.getD 0 []))) (codeK G GI (heRCentWords.getD 1 []))
         (codeK G GI (codeInv (heRCentWords.getD 1 [])))) = true := hK3 0 (by decide)

@@ -130,17 +130,17 @@ private theorem torusGroup_le_range_outerThetaHom :
   · rw [show TwistTag.D4.tag.cartan n0 ⟨0, by decide⟩ = 2 by decide,
         show TwistTag.D4.tag.cartan n1 ⟨0, by decide⟩ = 0 by decide,
         show TwistTag.D4.tag.cartan n3 ⟨0, by decide⟩ = 0 by decide,
-        Pi.mulSingle_apply, if_neg (by decide)]
+        Pi.mulSingle_apply, ite_eq_right (by decide)]
     simp [zpow_ofNat, ha0]
   · rw [show TwistTag.D4.tag.cartan n0 ⟨1, by decide⟩ = 0 by decide,
         show TwistTag.D4.tag.cartan n1 ⟨1, by decide⟩ = 2 by decide,
         show TwistTag.D4.tag.cartan n3 ⟨1, by decide⟩ = 0 by decide,
-        Pi.mulSingle_apply, if_neg (by decide)]
+        Pi.mulSingle_apply, ite_eq_right (by decide)]
     simp [zpow_ofNat, ha1]
   · rw [show TwistTag.D4.tag.cartan n0 ⟨2, by decide⟩ = -1 by decide,
         show TwistTag.D4.tag.cartan n1 ⟨2, by decide⟩ = -1 by decide,
         show TwistTag.D4.tag.cartan n3 ⟨2, by decide⟩ = -1 by decide,
-        Pi.mulSingle_apply, if_pos rfl]
+        Pi.mulSingle_apply, ite_eq_left rfl]
     have hmiddle : a0⁻¹ * a1⁻¹ * a3⁻¹ * (b n2 * a0 * a1 * a3) = b n2 := by
       have h1 : a0⁻¹ * a1⁻¹ * a3⁻¹ = (a0 * a1 * a3)⁻¹ := by
         rw [_root_.mul_inv_rev, _root_.mul_inv_rev]
@@ -152,7 +152,7 @@ private theorem torusGroup_le_range_outerThetaHom :
   · rw [show TwistTag.D4.tag.cartan n0 ⟨3, by decide⟩ = 0 by decide,
         show TwistTag.D4.tag.cartan n1 ⟨3, by decide⟩ = 0 by decide,
         show TwistTag.D4.tag.cartan n3 ⟨3, by decide⟩ = 2 by decide,
-        Pi.mulSingle_apply, if_neg (by decide)]
+        Pi.mulSingle_apply, ite_eq_right (by decide)]
     simp [zpow_ofNat, ha3]
 
 end Torus

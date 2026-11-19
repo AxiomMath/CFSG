@@ -73,7 +73,7 @@ private noncomputable def bar (V : Subgroup Y) (x : Y) :
   if hx : x ∈ normalizer (V : Set Y) then QuotientGroup.mk ⟨x, hx⟩ else 1
 
 private theorem bar_of_mem {x : Y} (hx : x ∈ normalizer (U : Set Y)) :
-    bar U x = QuotientGroup.mk ⟨x, hx⟩ := dif_pos hx
+    bar U x = QuotientGroup.mk ⟨x, hx⟩ := dite_eq_left hx
 
 private theorem bar_mul {x y : Y} (hx : x ∈ normalizer (U : Set Y))
     (hy : y ∈ normalizer (U : Set Y)) : bar U (x * y) = bar U x * bar U y := by

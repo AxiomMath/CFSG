@@ -99,6 +99,7 @@ section Criteria
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem card_theta_quot_dvd (K : Subgroup S) :
     Nat.card (K ⧸ aschbacherSolvableCore 3 K) ∣ Nat.card K :=
   Subgroup.card_quotient_dvd_card _
@@ -129,7 +130,7 @@ theorem noCC425_of_abelian_sylow
     (h : ∀ P : Sylow 3 S, ∀ a b : S, a ∈ (P : Subgroup S) → b ∈ (P : Subgroup S) →
       a * b = b * a) :
     NoCQ425 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro s K hs3 hsK hKs hKq _
   have hKp : Group.IsPerfect K := hKq.1
   set k : K := ⟨s, hsK⟩
@@ -138,7 +139,7 @@ theorem noCC425_of_abelian_sylow
       rw [Nat.card_zpowers, Subgroup.orderOf_mk, hs3, pow_one])
   obtain ⟨Q, hQ⟩ := hk3.exists_le_sylow
   have hkQ : k ∈ (Q : Subgroup K) := hQ (Subgroup.mem_zpowers k)
-  have hQ3 : IsPGroup 3 ((Q : Subgroup K).map K.subtype) := Q.isPGroup'.map _
+  have hQ3 : IsPGroup 3 ((Q : Subgroup K).map K.subtype) := Q.isPGroup.map _
   obtain ⟨P, hP⟩ := hQ3.exists_le_sylow
   have hQab : ∀ a b : K, a ∈ (Q : Subgroup K) → b ∈ (Q : Subgroup K) → a * b = b * a := by
     intro a b ha hb
@@ -155,6 +156,7 @@ theorem noCC425_of_abelian_sylow
 
 variable {T : Type} [Group T] [Finite T]
 
+omit [Finite T] in
 theorem NoCQ425.of_mulEquiv (e : S ≃* T) (h : NoCQ425 T) : NoCQ425 S := by
   intro s K hs3 hsK hKs hKq hT
   have eK : K ≃* K.map (e : S →* T) := K.equivMapOfInjective _ e.injective

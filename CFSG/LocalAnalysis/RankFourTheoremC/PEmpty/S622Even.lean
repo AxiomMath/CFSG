@@ -21,7 +21,7 @@ theorem s622_odd_core (hKD : S622KFactD) (c : S622Conf p P M x z T S)
   have hS := c.config.situation
   have hprime := c.config.prime
   have hp2 : p ≠ 2 := c.config.ne_two
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨H, hH⟩ : ∃ H : Subgroup G, H = centralizer ({x} : Set G) := ⟨_, rfl⟩
   obtain ⟨D, hDdef⟩ : ∃ D : Subgroup G, D = smallRankD p x := ⟨_, rfl⟩
   have hspec : D ≤ H ∧ H ≤ normalizer (D : Set G) ∧ Nat.Coprime p (Nat.card D) := by
@@ -33,7 +33,7 @@ theorem s622_odd_core (hKD : S622KFactD) (c : S622Conf p P M x z T S)
     exact Nat.not_odd_iff_even.mp hodd
   have hpD : ¬ p ∣ Nat.card D := (Nat.Prime.coprime_iff_not_dvd hprime).mp hcop
   have hDn : (D.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hDH).mpr hHD
-  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup'.to_le c.config.B_le_P
+  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup.to_le c.config.B_le_P
   have hBH : zpowers x ⊔ zpowers z ≤ H := hH ▸ c.config.B_le_centralizer
   have hBD : zpowers x ⊔ zpowers z ≤ normalizer (D : Set G) := hBH.trans hHD
   have hmax : IsMaxTwoInvariantIn (zpowers x ⊔ zpowers z) H S := hH ▸ c.isMax

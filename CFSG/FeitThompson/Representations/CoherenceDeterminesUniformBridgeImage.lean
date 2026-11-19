@@ -186,6 +186,7 @@ theorem primeTIrow_sub_smul_zeta_mem_charSpanZero (hB : h.IsUniformBridgeData σ
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, hM1, hB.apply_one]
     ring
 
+omit [Fintype L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem exists_ne_ne_of_isPrimeCyclicTIHyp (h : IsPrimeCyclicTIHyp K W₁ W₂) (j : Irr ↥W₂) :
     ∃ k : Irr ↥W₂, k ≠ j ∧ k ≠ principalIrr ↥W₂ := by
   classical
@@ -214,8 +215,8 @@ theorem cfInner_primeTIbridge_primeTIrow_eq_zero (hB : h.IsUniformBridgeData σ 
     (i : Irr ↥W₁) {j k : Irr ↥W₂} (hkj : k ≠ j) (hk0 : k ≠ principalIrr ↥W₂) :
     cfInner (h.primeTIbridge σ ζ δ n i j) (h.primeTIrow σ k) = 0 := by
   classical
-  rw [h.cfInner_primeTIbridge_primeTIrow hB i j k, if_neg (fun hc => hkj hc.symm),
-    if_neg (fun hc => hk0 hc.symm)]
+  rw [h.cfInner_primeTIbridge_primeTIrow hB i j k, ite_eq_right (fun hc => hkj hc.symm),
+    ite_eq_right (fun hc => hk0 hc.symm)]
   ring
 
 theorem cfInner_primeTIbridge_test (hB : h.IsUniformBridgeData σ ζ d n δ)
@@ -293,6 +294,7 @@ noncomputable def tauBridge (hC : IsUniformBridgeCoherenceData h σ ζ d n δ A 
     charSpanZero (Irr G)) : G → ℂ)
 
 omit [Fintype ↑(Irr ↥W₁)] in
+omit [K.Normal] in
 theorem tauBridge_def (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
     hC.tauBridge i hj = ((dadeZMap hC.isDadeData
       ⟨h.primeTIbridge σ ζ δ n i j,
@@ -300,12 +302,14 @@ theorem tauBridge_def (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalI
     charSpanZero (Irr G)) : G → ℂ) := (rfl)
 
 omit [Fintype ↑(Irr ↥W₁)] in
+omit [K.Normal] in
 theorem cfInner_self_tauBridge (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
     cfInner (hC.tauBridge i hj) (hC.tauBridge i hj) = 2 + (n : ℂ) ^ 2 := by
   rw [tauBridge, cfInner_dadeZMap]
   exact h.cfInner_self_primeTIbridge hC.local_data i hj
 
 omit [Fintype ↑(Irr ↥W₁)] in
+omit [K.Normal] in
 theorem tauBridge_mem_virtualChars (i : Irr ↥W₁) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) : hC.tauBridge i hj ∈ virtualChars G :=
   dadeZMap_mem_virtualChars hC.isDadeData _
@@ -340,17 +344,20 @@ theorem cfInner_tauBridge_nu (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ pri
 noncomputable def nuZeta (hC : IsUniformBridgeCoherenceData h σ ζ d n δ A T ω ν) : G → ℂ :=
   (ν ⟨ζ, Submodule.subset_span hC.local_data.mem_indFam⟩ : G → ℂ)
 
+omit [K.Normal] [Fintype ↑(Irr ↥W₁)] in
 theorem nuZeta_def : hC.nuZeta
     = (ν ⟨ζ, Submodule.subset_span hC.local_data.mem_indFam⟩ : G → ℂ) := (rfl)
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem cfInner_self_nuZeta : cfInner hC.nuZeta hC.nuZeta = 1 := by
   rw [nuZeta, hC.nu_inner]
   exact cfInner_self_of_mem_Irr hC.local_data.mem_Irr
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem nuZeta_mem_virtualChars : hC.nuZeta ∈ virtualChars G :=
   (ν ⟨ζ, Submodule.subset_span hC.local_data.mem_indFam⟩).2
 
@@ -360,12 +367,14 @@ noncomputable def nuRow (hC : IsUniformBridgeCoherenceData h σ ζ d n δ A T ω
     (primeTIrow_mem_indFam_sdiff hC.local_data hk)⟩ : G → ℂ)
 
 include hC in
+omit [K.Normal] in
 theorem cfInner_self_nuRow {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     cfInner (hC.nuRow hk) (hC.nuRow hk) = (Nat.card ↥W₁ : ℂ) := by
   rw [nuRow, hC.nu_inner]
   exact h.cfInner_self_primeTIrow hC.local_data.isometry k
 
 include hC in
+omit [K.Normal] in
 theorem nuRow_sub_smul_nuZeta {k : Irr ↥W₂} (hk : k ≠ principalIrr ↥W₂) :
     hC.nuRow hk - (d : ℂ) • hC.nuZeta
       = (ν ⟨h.primeTIrow σ k - (d : ℂ) • ζ,
@@ -427,18 +436,20 @@ theorem cfInner_tauBridge_nuZeta (i : Irr ↥W₁) {j : Irr ↥W₂}
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem star_zeta_mem_indFam : star ζ ∈ indFam K (Irr ↥K \ {1}) :=
   NormalInducedFamily.star_mem_of_mem rfl hC.local_data.mem_indFam
 
 noncomputable def nuStarZeta (hC : IsUniformBridgeCoherenceData h σ ζ d n δ A T ω ν) : G → ℂ :=
   (ν ⟨star ζ, Submodule.subset_span hC.star_zeta_mem_indFam⟩ : G → ℂ)
 
-omit [Fintype ↑(Irr ↥W₁)] in
+omit [Fintype ↑(Irr ↥W₁)] [K.Normal] in
 theorem nuStarZeta_def : hC.nuStarZeta
     = (ν ⟨star ζ, Submodule.subset_span hC.star_zeta_mem_indFam⟩ : G → ℂ) := (rfl)
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem zeta_sub_star_mem_charSpanZero :
     ζ - star ζ ∈ charSpanZero (indFam K (Irr ↥K \ {1})) := by
   refine mem_charSpanZero.2 ⟨sub_mem (Submodule.subset_span hC.local_data.mem_indFam)
@@ -447,6 +458,7 @@ theorem zeta_sub_star_mem_charSpanZero :
   simp
 
 include hC in
+omit [Fintype ↑(Irr ↥W₁)] [K.Normal] in
 theorem nuZeta_sub_nuStarZeta :
     hC.nuZeta - hC.nuStarZeta
       = (ν ⟨ζ - star ζ, charSpanZero_le _ hC.zeta_sub_star_mem_charSpanZero⟩ : G → ℂ) := by
@@ -457,6 +469,7 @@ theorem nuZeta_sub_nuStarZeta :
   rw [hsplit, map_sub, hC.nuZeta_def, hC.nuStarZeta_def, Submodule.coe_sub]
 
 include hC in
+omit [K.Normal] [Fintype ↑(Irr ↥W₁)] in
 theorem cfInner_primeTIbridge_star_zeta (i : Irr ↥W₁) (j : Irr ↥W₂) :
     cfInner (h.primeTIbridge σ ζ δ n i j) (star ζ) = 0 := by
   have hKn := h.normal
@@ -475,6 +488,7 @@ theorem cfInner_primeTIbridge_star_zeta (i : Irr ↥W₁) (j : Irr ↥W₂) :
   ring
 
 include hC in
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem cfInner_tauBridge_nuStarZeta (i : Irr ↥W₁) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) : cfInner (hC.tauBridge i hj) hC.nuStarZeta = 0 := by
   have hdiff : cfInner (hC.tauBridge i hj) (hC.nuZeta - hC.nuStarZeta) = -(n : ℂ) := by
@@ -492,11 +506,13 @@ noncomputable def tauBridgeCorrected
   hC.tauBridge i hj + (n : ℂ) • hC.nuZeta
 
 omit [Fintype ↑(Irr ↥W₁)] in
+omit [K.Normal] in
 theorem tauBridgeCorrected_def (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
     hC.tauBridgeCorrected i hj = hC.tauBridge i hj + (n : ℂ) • hC.nuZeta := (rfl)
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem tauBridgeCorrected_mem_virtualChars (i : Irr ↥W₁) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) : hC.tauBridgeCorrected i hj ∈ virtualChars G := by
   rw [tauBridgeCorrected_def, show (n : ℂ) • hC.nuZeta = n • hC.nuZeta from
@@ -520,6 +536,7 @@ theorem cfInner_self_tauBridgeCorrected (i : Irr ↥W₁) {j : Irr ↥W₂}
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem cyclicTIDiff_subset_param :
     cyclicTIDiff ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) ⊆ A := by
   intro g hg
@@ -528,6 +545,7 @@ theorem cyclicTIDiff_subset_param :
   exact hC.image_subset ⟨x, mem_primeTIbridgeSupport_of_isConj hx (IsConj.refl _), rfl⟩
 
 include hC in
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem nuZeta_apply_eq_zero_of_mem_cyclicTIDiff {v : G}
     (hv : v ∈ cyclicTIDiff ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype)) :
     hC.nuZeta v = 0 := by
@@ -547,6 +565,7 @@ theorem nuZeta_apply_eq_zero_of_mem_cyclicTIDiff {v : G}
 
 omit [Fintype ↑(Irr ↥W₁)] in
 include hC in
+omit [K.Normal] in
 theorem tauBridge_apply_of_mem_cyclicTIDiff (i : Irr ↥W₁) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) {v : G}
     (hv : v ∈ cyclicTIDiff ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype)
@@ -557,6 +576,7 @@ theorem tauBridge_apply_of_mem_cyclicTIDiff (i : Irr ↥W₁) {j : Irr ↥W₂}
   exact dadeZMap_apply_mem hC.isDadeData _ (hC.cyclicTIDiff_subset_param hv)
 
 include hC in
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem tauBridgeCorrected_apply_of_mem_cyclicTIDiff (i : Irr ↥W₁) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) (v : ↥((W₁ ⊔ W₂).map L.subtype))
     (hv : (v : G) ∈ cyclicTIDiff ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype)
@@ -592,6 +612,7 @@ theorem tauBridgeCorrected_apply_of_mem_cyclicTIDiff (i : Irr ↥W₁) {j : Irr 
       prodChar_irrMapSubtype h.isCyclicTIPair hC.isCyclicTIPair]
 
 include hC in
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem tau_primeTIbridge_eq (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
     hC.tauBridge i hj
       = (δ : ℂ) • (hC.isCyclicTIPair.prodCharEta ω (irrMapSubtype L W₁ i) (irrMapSubtype L W₂ j)

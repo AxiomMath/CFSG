@@ -21,8 +21,8 @@ theorem pRank_statedProj_Sp_formula {F : Type} [Field F] [Finite F] {p n : ℕ} 
       (if Even (orderOf (Nat.card F : ZMod p)) then 2 * n else n) /
         orderOf (Nat.card F : ZMod p) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hZ : ¬ p ∣ Nat.card ((StatedScalars (Fin n ⊕ Fin n) F).subgroupOf (StatedSp n F)) := by
     intro h
@@ -39,7 +39,7 @@ theorem pRank_statedProj_Sp_eq_of_pow {F F₀ : Type} [Field F] [Field F₀] [Fi
     (hpF : ¬ p ∣ Nat.card F) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSp n F))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSp n F₀))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF₀ : ¬ p ∣ Nat.card F₀ := fun h => hpF (hcard ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   rw [pRank_statedProj_Sp_formula hp hp2 hpF, pRank_statedProj_Sp_formula hp hp2 hF₀, hcard,
     OFRC.orderOf_natCast_pow_prime]

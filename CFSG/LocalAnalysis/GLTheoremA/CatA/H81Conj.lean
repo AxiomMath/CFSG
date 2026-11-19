@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_glaPPrimeCoreOf_iff' {p : ℕ} {J : Subgroup G} {g : G} :
     g ∈ GLAPPrimeCoreOf p J ↔ ∃ h ∈ GLAPPrimeCore p ↥J, (h : G) = g := by
   unfold GLAPPrimeCoreOf
@@ -23,11 +24,12 @@ theorem mem_glaPPrimeCoreOf_iff' {p : ℕ} {J : Subgroup G} {g : G} :
 @[expose] def conjLE (L : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (L : Set G)) : ↥L ≃* ↥L where
   toFun k := ⟨g * k * g⁻¹, (Subgroup.mem_normalizer_iff.1 hg (k : G)).1 k.2⟩
   invFun k := ⟨g⁻¹ * k * g, (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * k * g)).2 (by
-    simpa [mul_assoc] using k.2)⟩
+    simp [mul_assoc])⟩
   left_inv k := Subtype.ext (by simp [mul_assoc])
   right_inv k := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 @[simp] theorem conjLE_coe (L : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (L : Set G))
     (k : ↥L) : ((conjLE L g hg k : ↥L) : G) = g * k * g⁻¹ := rfl
 
@@ -36,11 +38,13 @@ theorem mem_glaPPrimeCoreOf_iff' {p : ℕ} {J : Subgroup G} {g : G} :
   QuotientGroup.congr (GLAPPrimeCore p ↥L) (GLAPPrimeCore p ↥L) (conjLE L g hg)
     (pPrimeCore_map_iso p (conjLE L g hg))
 
+omit [Finite G] in
 theorem alphaPQ_mk (p : ℕ) (L : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (L : Set G))
     (k : ↥L) :
     alphaPQ p L g hg (QuotientGroup.mk k) = QuotientGroup.mk (conjLE L g hg k) :=
   QuotientGroup.congr_mk _ _ _ _ _
 
+omit [Finite G] in
 theorem alphaPQ_one (p : ℕ) (L : Subgroup G) :
     alphaPQ p L 1 (Subgroup.one_mem _) = MulEquiv.refl _ := by
   refine MulEquiv.ext fun q => ?_
@@ -49,6 +53,7 @@ theorem alphaPQ_one (p : ℕ) (L : Subgroup G) :
   congr 1
   exact Subtype.ext (by simp)
 
+omit [Finite G] in
 theorem alphaPQ_mul (p : ℕ) (L : Subgroup G) (g h : G) (hg : g ∈ Subgroup.normalizer (L : Set G))
     (hh : h ∈ Subgroup.normalizer (L : Set G)) :
     alphaPQ p L (g * h) (Subgroup.mul_mem _ hg hh) = alphaPQ p L g hg * alphaPQ p L h hh := by

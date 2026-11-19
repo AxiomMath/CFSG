@@ -16,10 +16,10 @@ theorem abL4_eq (A Ai B Bi : V) (z : Int) :
   · rfl
   · rfl
   · change Bi = _
-    rw [Int.ofNat_eq_coe, if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [Int.ofNat_eq_natCast, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
   · rfl
   · change Bi = _
-    rw [Int.negSucc_eq, if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [Int.negSucc_eq, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem abK4_unlane {d : Nat} (hd : 0 < d) {I A Ai B Bi : V} (hI : IdL d I) (f : Int → Array V)
     (hf : ∀ z, f z = unlane d (abL4 A Ai B Bi z)) (w : List Int) :
@@ -42,10 +42,10 @@ theorem evalKn_unlane {d m : Nat} (hd : 0 < d) {I : V} (hI : IdL d I) {X Xi : Na
     obtain ⟨⟨i, hi⟩, b⟩ := l
     rw [List.foldr_cons, ih]
     cases b
-    · rw [if_neg Bool.false_ne_true, hEi i hi, mul_unlane hd]
+    · rw [ite_eq_right Bool.false_ne_true, hEi i hi, mul_unlane hd]
       change _ = unlane d (mulL d (spreadE d d) (Xi i) (evalKn d (spreadE d d) I X Xi w))
       rw [mulL_eq]
-    · rw [if_pos rfl, hE i hi, mul_unlane hd]
+    · rw [ite_eq_left rfl, hE i hi, mul_unlane hd]
       change _ = unlane d (mulL d (spreadE d d) (X i) (evalKn d (spreadE d d) I X Xi w))
       rw [mulL_eq]
 

@@ -78,7 +78,7 @@ theorem tableC_holds : HypA2.TableC := by
           exact hθu)
       exact Or.inr (res_alt hm' hbot
         (((QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot).symm.trans θ))
-  haveI := hsimple
+  have := hsimple
   rcases (Milestones.ct_catalog_nonabelian_type_partition _ hna).mp hcat with
     ⟨m, hm, ⟨θ⟩⟩ | ho | ⟨τ, n, f, -, hL⟩ | hsp
   · exact halt m hm θ

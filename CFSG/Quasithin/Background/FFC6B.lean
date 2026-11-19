@@ -23,7 +23,7 @@ theorem exists_isSylowTwoOf_ge {Ab : Subgroup (MulAut M)} (hAX : Ab ≤ X) (hA2 
   have hP : IsPGroup 2 ↥(Ab.subgroupOf X) :=
     hA2.of_equiv (Subgroup.subgroupOfEquivOfLe hAX).symm
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥X).map X.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup ↥X).map X.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩, ?_⟩
   · have : ((Q : Subgroup ↥X).map X.subtype).subgroupOf X = (Q : Subgroup ↥X) :=
       Subgroup.comap_map_eq_self_of_injective X.subtype_injective _
     rw [this]

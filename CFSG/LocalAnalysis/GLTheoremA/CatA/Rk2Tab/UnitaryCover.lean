@@ -67,9 +67,9 @@ theorem exists_mulEquiv_statedSU_quot_of_isLabel (hG : CFSG.Open.GriessAllModels
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.statedClassicalModel (by decide : StatedLieTag.PSU ∈ classicalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hFcard
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hFcard
   have hperfK : Group.IsPerfect K := Group.isPerfect_def.mpr hQ.1
   have hℓ : 2 ≤ ℓ := hlab.2.1
   have hd3 : 3 ≤ ℓ + 1 := by omega
@@ -111,7 +111,7 @@ theorem exists_mulEquiv_statedSU_quot_of_isLabel (hG : CFSG.Open.GriessAllModels
 
 theorem rk2_split_up_twA (hG : CFSG.Open.GriessAllModelsStatement)
     {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLabel K lab)
-    (htag : lab.tag = .twA) (hn : 2 ≤ lab.n) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
+    (htag : lab.tag = .twA) (hn : 2 ≤ lab.n) {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2)
     (hrq : r ∣ 2 ^ lab.n + 1)
     (hSU : ∀ (F : Type) [Field F] [Finite F] [CharP F 2] (f d : ℕ),
       Nat.card F = (2 ^ f) ^ 2 → 3 ≤ d → r ∣ 2 ^ f + 1 →
@@ -127,10 +127,10 @@ theorem rk2_split_up_twA (hG : CFSG.Open.GriessAllModelsStatement)
   have hℓ : 2 ≤ ℓ := hlab.2.1
   obtain ⟨F, hFld, hFin, hChar, C, hCn, hFcard, hCcen, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSU_quot_of_isLabel hG hK (by rfl) (by simpa using hn)
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := hChar
-  haveI : C.Normal := hCn
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := hChar
+  have : C.Normal := hCn
   have hb : CFSG.Open.twoLocalPrimeRank r (StatedSU (ℓ + 1) (2 ^ n) F ⧸ C) ≤ ℓ - 1 := by
     have h := hSU F n (ℓ + 1) hFcard (by omega) (by simpa using hrq) C hCcen
     have hd : (ℓ + 1) - 2 = ℓ - 1 := by omega

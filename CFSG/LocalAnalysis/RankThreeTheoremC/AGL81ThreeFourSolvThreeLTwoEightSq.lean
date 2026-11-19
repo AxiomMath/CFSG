@@ -62,7 +62,7 @@ theorem exists_mem_sylow_orderOf_nine_of_l28 {q : TauCeti.PrimePower}
   refine ⟨t, ht, ?_⟩
   have h1 : orderOf (ε₀ t) = orderOf t := MulEquiv.orderOf_eq ε₀ t
   have h2 : orderOf y = 9 := by
-    rw [hy, show g⁻¹ * g9 * g = MulAut.conj g⁻¹ g9 by simp [MulAut.conj_apply],
+    rw [hy, show g⁻¹ * g9 * g = MulAut.conj g⁻¹ g9 by simp,
       MulEquiv.orderOf_eq, orderOf_g9]
   have hty' : ε₀ t = y := hty
   rw [← h1, hty']
@@ -77,13 +77,13 @@ theorem le_normalizer_sylow_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLi
     (hJ3 : ∀ x ∈ J, x ^ 3 ∈ centralizer (N : Set G)) (hJC : ¬ J ≤ centralizer (N : Set G)) :
     Y₀ ≤ normalizer (((T : Subgroup N).map N.subtype : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eK⟩ := hNX
   have hKc : IsCaseTwoGroup 3 ↥N := ⟨d, Or.inl ⟨rfl, q, hq2, hq3, hd⟩, ⟨eK⟩⟩
   obtain ⟨ε₀⟩ := nonempty_equiv_G8 hKc
   have hdT : L28Data ↥N (T : Subgroup ↥N) := l28Data_of_equiv ε₀ T
   have hcardA : Nat.card (MulAut ↥N) = 1512 := card_mulAut_of_isCaseTwoGroup_three hKc
-  haveI : Finite (MulAut ↥N) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
+  have : Finite (MulAut ↥N) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
   set θ : G →* (MulAut ↥N) := MulAut.conjNormal with hθ
   set C := centralizer (N : Set G) with hC
   set ι : ↥N →* (MulAut ↥N) := MulAut.conj with hι
@@ -127,7 +127,7 @@ theorem le_normalizer_sylow_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLi
     exact hn
   have hW₀T : W₀ ≤ (T : Subgroup ↥N) := by
     have hp : IsPGroup 3 (W₀ ⊔ (T : Subgroup ↥N) : Subgroup ↥N) :=
-      hW₀p.to_sup_of_normal_left' T.isPGroup' hTW₀
+      hW₀p.to_sup_of_normal_left' T.isPGroup hTW₀
     exact le_sup_left.trans (T.maximal_isPGroup.le_of_ge hp le_sup_right)
   obtain ⟨k, hkW₀, hk1⟩ : ∃ k ∈ W₀, k ≠ 1 := by
     by_contra hne
@@ -176,14 +176,14 @@ theorem le_centralizer_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLieType
     (hq2 : q.p = 2) (hq3 : q.exponent = 3) (hd : d.1 = .A 1 q) {N Y₀ : Subgroup G} [N.Normal]
     (hNX : Nonempty (N ≃* (TauCeti.CFSGIndex.lie d).Group)) (T : Sylow 3 N)
     (hTY₀ : (T : Subgroup N).map N.subtype ≤ Y₀) {I₀ : Type} [Group I₀] [Finite I₀]
-    (σ : I₀ →* G) (hσY : σ.range ≤ Y₀) (hσs : IsSubnormal σ.range Y₀)
+    (σ : I₀ →* G) (_hσY : σ.range ≤ Y₀) (hσs : IsSubnormal σ.range Y₀)
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀))
     (hO2 : (CFSG.pCore 2 I₀).map σ ≤ centralizer (N : Set G)) :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ ≤
       centralizer (N : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJ
   set D := σ.range with hD
   by_contra hJC
@@ -199,7 +199,7 @@ theorem le_centralizer_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLieType
   have hdata : ∀ T : Sylow 3 ↥N, L28Data ↥N (T : Subgroup ↥N) := fun T => l28Data_of_equiv ε₀ T
   have hdT := hdata T
   have hcardA : Nat.card (MulAut ↥N) = 1512 := card_mulAut_of_isCaseTwoGroup_three hKc
-  haveI : Finite (MulAut ↥N) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
+  have : Finite (MulAut ↥N) := Nat.finite_of_card_ne_zero (by rw [hcardA]; norm_num)
   set θ : G →* (MulAut ↥N) := MulAut.conjNormal with hθ
   set C := centralizer (N : Set G) with hC
   set ι : ↥N →* (MulAut ↥N) := MulAut.conj with hι
@@ -386,9 +386,9 @@ theorem factor_normalizes_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.ValidLieT
     (∀ y ∈ Y₀ ⊓ Y₁, ∀ t ∈ (R : Subgroup Y) ⊓ L, y * t * y⁻¹ ∈ (R : Subgroup Y) ⊓ L) ∧
       ∃ τ ∈ (R : Subgroup Y) ⊓ L, orderOf τ = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup ↥Y₁ := L.subgroupOf Y₁ with hN
-  haveI : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLY₁).mpr hY₁L
+  have : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLY₁).mpr hY₁L
   have hNX : Nonempty (N ≃* (TauCeti.CFSGIndex.lie d).Group) := by
     obtain ⟨f⟩ := hLX
     exact ⟨(Subgroup.subgroupOfEquivOfLe hLY₁).trans f⟩
@@ -437,9 +437,9 @@ theorem factor_le_centralizer_of_l28 {q : TauCeti.PrimePower} {d : TauCeti.Valid
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ ≤
       centralizer (L : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup ↥Y₁ := L.subgroupOf Y₁ with hN
-  haveI : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLY₁).mpr hY₁L
+  have : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLY₁).mpr hY₁L
   have hNX : Nonempty (N ≃* (TauCeti.CFSGIndex.lie d).Group) := by
     obtain ⟨f⟩ := hLX
     exact ⟨(Subgroup.subgroupOfEquivOfLe hLY₁).trans f⟩
@@ -487,12 +487,12 @@ theorem threeFourSolvThreeLTwoEightSq_holds : ThreeFourSolvThreeLTwoEightSq := b
   intro q d hq2 hq3 hd Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX _ _ _ _ _ hER hE hEc hcore hO2 _ hσY hσs
     hb _ _
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hs, hnab, -⟩ := lTwoEight_catalog_facts hq2 hq3 hd
-  haveI := hs
-  haveI := finite_lTwoEight hq2 hq3 hd
+  have := hs
+  have := finite_lTwoEight hq2 hq3 hd
   have hZX : center (TauCeti.CFSGIndex.lie d).Group = ⊥ :=
     CFSG.ComponentClassification.Helpers.center_eq_bot _ hnab
   obtain ⟨e⟩ := hKX
@@ -649,7 +649,7 @@ theorem threeFourSolvThreeLTwoEightSq_holds : ThreeFourSolvThreeLTwoEightSq := b
     rw [hn, mul_one] at h2
     exact hy (h2 ▸ Y₁.inv_mem h1)
   have hRY₁ : (R : Subgroup Y) ≤ Y₁ := fun r hr => h3Y₁ r (by
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩)
   have hJY₁ : J ≤ Y₁ := oUpperTwo_map_le_of_odd σ fun y hy hodd =>
     h3Y₁ y ⟨1, by rw [pow_one]; exact pow_three_eq_one_of_mem_range_of_odd σ hb hy hodd⟩
@@ -714,7 +714,7 @@ theorem threeFourSolvThreeLTwoEightSq_holds : ThreeFourSolvThreeLTwoEightSq := b
     rw [hTdef, Subgroup.map_sup, ← hT₂, hT₂, ← map_conj_mul_l28, hs2T₁, sup_comm]
   have hsN : Subgroup.zpowers s ≤ normalizer (T : Set Y) :=
     Subgroup.zpowers_le.mpr (mem_normalizer_of_map_conj_eq hsT)
-  have hT₁p : IsPGroup 3 T₁ := R.isPGroup'.to_le inf_le_left
+  have hT₁p : IsPGroup 3 T₁ := R.isPGroup.to_le inf_le_left
   have hT₂p : IsPGroup 3 T₂ := hT₁p.map _
   have hT₂N : T₂ ≤ normalizer (T₁ : Set Y) := fun b hb => Subgroup.mem_normalizer_fintype
     fun a ha => by

@@ -21,17 +21,19 @@ theorem out1517_of_bar_aux_not_dvd_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   intro hdvd
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hdvd))
 
+omit [Finite X] in
 theorem out1517_of_bar_aux_injOn {N : Subgroup X} [N.Normal] (hN : IsPGroup 2 N) {P : Subgroup X}
     (hP : IsPGroup 3 P) :
     ∀ x ∈ P, ∀ y ∈ P, QuotientGroup.mk' N x = QuotientGroup.mk' N y → x = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : P ⊓ N = ⊥ := disjoint_iff.1 (IsPGroup.disjoint_of_ne 3 2 (by norm_num) P N hP hN)
   intro x hx y hy hxy
   have hmem : x⁻¹ * y ∈ P ⊓ N := ⟨P.mul_mem (P.inv_mem hx) hy, QuotientGroup.eq.1 hxy⟩
   rw [hbot, mem_bot, inv_mul_eq_one] at hmem
   exact hmem
 
+omit [Finite X] in
 theorem out1517_of_bar_aux_card_map {Y : Type*} [Group Y] (f : X →* Y) {P : Subgroup X}
     (h : ∀ x ∈ P, ∀ y ∈ P, f x = f y → x = y) : Nat.card (P.map f) = Nat.card P := by
   rw [← SetLike.coe_sort_coe, Subgroup.coe_map, Nat.card_image_of_injOn h]
@@ -67,6 +69,7 @@ theorem out1517_of_bar_aux_centralizer_map_eq {N : Subgroup X} [N.Normal] (hN : 
     rintro _ ⟨d, hd, rfl⟩
     rw [← map_mul, ← map_mul, Subgroup.mem_centralizer_iff.1 hy d hd]
 
+omit [Finite X] in
 theorem nonTrans_of_bar
     (h : ∀ E : Subgroup (X ⧸ CFSG.pCore 2 X), IsElemAbelian 3 E → Nat.card E = 9 →
       NonTrans1517 E) :
@@ -85,6 +88,7 @@ theorem nonTrans_of_bar
   rw [map_mul, map_mul, map_inv] at h2
   exact h2
 
+omit [Finite X] in
 theorem out1517_of_bar_aux_isElemAbelian_of_map {Y : Type*} [Group Y] (f : X →* Y) {q : ℕ}
     {P : Subgroup X} (hf : ∀ x ∈ P, ∀ y ∈ P, f x = f y → x = y)
     (h : IsElemAbelian q (P.map f)) : IsElemAbelian q P := by
@@ -94,10 +98,11 @@ theorem out1517_of_bar_aux_isElemAbelian_of_map {Y : Type*} [Group Y] (f : X →
     exact h.comm (Subgroup.mem_map_of_mem f a.2) (Subgroup.mem_map_of_mem f b.2)
   · rw [map_pow, h.2 _ (Subgroup.mem_map_of_mem f hx), map_one]
 
+omit [Finite X] in
 theorem out1517_of_bar_aux_isCyclic_center {Y : Type*} [Group Y] (f : X →* Y) {P : Subgroup X}
     (hf : ∀ x ∈ P, ∀ y ∈ P, f x = f y → x = y)
     (h : IsCyclic ↥(Subgroup.center ↥(P.map f))) : IsCyclic ↥(Subgroup.center ↥P) := by
-  haveI := h
+  have := h
   let e : P →* P.map f := f.subgroupMap P
   have he : Function.Surjective e := f.subgroupMap_surjective P
   have hec : ∀ z ∈ Subgroup.center ↥P, e z ∈ Subgroup.center ↥(P.map f) := by
@@ -116,8 +121,8 @@ theorem out1517_of_bar_aux_isCyclic_center {Y : Type*} [Group Y] (f : X →* Y) 
 theorem out1517_of_bar_aux_caseA {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {N : Subgroup X} [N.Normal]
     (hN : IsPGroup 2 N) {D : Subgroup X} (hD : Nat.card D = 3)
     (h : CaseA1517 p (D.map (QuotientGroup.mk' N))) : CaseA1517 p D := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3 : IsPGroup 3 D := IsPGroup.of_card (n := 1) (by rw [hD]; norm_num)
   obtain ⟨_, hrk, hns⟩ := h
   rw [out1517_of_bar_aux_centralizer_map_eq hN hD3] at hrk hns
@@ -132,7 +137,7 @@ theorem out1517_of_bar_aux_isSylowOf_map {N : Subgroup X} [N.Normal] (hN : IsPGr
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (Subgroup.normalizer (D : Set X))) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P.map (QuotientGroup.mk' N))
       (Subgroup.normalizer ((D.map (QuotientGroup.mk' N) : Subgroup (X ⧸ N)) : Set (X ⧸ N))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [out1517_of_bar_aux_normalizer_map_eq hN hD]
   obtain ⟨Q, rfl⟩ := hP
   let ψ : Subgroup.normalizer (D : Set X) →*
@@ -145,7 +150,7 @@ theorem out1517_of_bar_aux_isSylowOf_map {N : Subgroup X} [N.Normal] (hN : IsPGr
 
 theorem out1517_of_bar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Out1517 (X ⧸ CFSG.pCore 2 X) p) : Out1517 X p := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : IsPGroup 2 (CFSG.pCore 2 X) := CFSG.pCore_isPGroup
   have hD3 : ∀ D : Subgroup X, Nat.card D = 3 → IsPGroup 3 D := fun D hD =>
     IsPGroup.of_card (n := 1) (by rw [hD]; norm_num)

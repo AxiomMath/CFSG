@@ -23,7 +23,7 @@ theorem CSideSetup.cent_eq_of_one_coord [Finite C]
     (hσL : σ ∈ commutator C) (hσ : orderOf σ = p) (hg : orderOf (S.θ ⟨σ, hσL⟩) = p)
     (h1 : (S.θ ⟨σ, hσL⟩).1 = 1 ∨ (S.θ ⟨σ, hσL⟩).2 = 1) :
     Q ⊓ Subgroup.centralizer ({σ} : Set C) = centerOf Q := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   have hE := hC.isExtraspecialPGroup
   have hρ : Odd (orderOf σ) := by
     rw [hσ]
@@ -43,7 +43,7 @@ theorem CSideSetup.cent_plusExtraspecial_of_three [Finite C]
     (hσ : orderOf σ = 3) (hg : orderOf (S.θ ⟨σ, hσL⟩) = 3) (h1 : (S.θ ⟨σ, hσL⟩).1 ≠ 1)
     (h2 : (S.θ ⟨σ, hσL⟩).2 ≠ 1) :
     IsPlusExtraspecial 2 (Q ⊓ Subgroup.centralizer ({σ} : Set C)) := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   have hE := hC.isExtraspecialPGroup
   have hρ : Odd (orderOf σ) := by rw [hσ]; norm_num
   have hM := S.model hC
@@ -64,7 +64,7 @@ theorem CSideSetup.cent_of_five_both [Finite C]
       Q ⊓ Subgroup.centralizer ({σ} : Set C) = centerOf Q) ∧
     (¬ IsConj (S.θ ⟨σ, hσL⟩).1 (S.θ ⟨σ, hσL⟩).2 →
       IsMinusExtraspecial 2 (Q ⊓ Subgroup.centralizer ({σ} : Set C))) := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   have hE := hC.isExtraspecialPGroup
   have hρ : Odd (orderOf σ) := by rw [hσ]; norm_num
   have hM := S.model hC

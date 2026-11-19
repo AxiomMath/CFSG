@@ -14,8 +14,9 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] {QF V : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2]
   {γ : G → K}
 
+omit [Finite K] [CharP K 2] in
 theorem span_ne_inf_ker (M₀ : Tim79.QuadModel QF V K γ) (Y : Submodule K M₀.E) {w : M₀.E}
-    (hdim : Module.finrank K Y = 4) (hw : w ∈ Y) :
+    (hdim : Module.finrank K Y = 4) (_hw : w ∈ Y) :
     Submodule.span K {w} ≠ Y ⊓ LinearMap.ker (M₀.B w) := by
   intro heq
   have h1 := Submodule.finrank_sup_add_finrank_inf_eq Y (LinearMap.ker (M₀.B w))
@@ -40,7 +41,7 @@ theorem card_le_two_mul_of_stab (M₀ : Tim79.QuadModel QF V K γ)
     (hfR : ∀ T ∈ P, ∀ y ∈ Wp, T y = y) (hst : ∀ T ∈ P, ∀ y ∈ Wn, T y ∈ Wn) :
     Nat.card P ≤ 2 * Nat.card K := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hsymm : ∀ x y : M₀.E, M₀.B x y = M₀.B y x := fun x y => by
     rw [Tim79.QuadModel.B_comm, CharTwo.neg_eq]

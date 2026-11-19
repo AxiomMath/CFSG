@@ -99,7 +99,7 @@ theorem mem_of_centralizes {L P : Subgroup G} (hP : IsSylowTwoOf P L)
   have hQ : (Q : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) = (P.subgroupOf L).map π := rfl
   obtain ⟨q, k, hq4, hBor⟩ := exists_borel_of_bender hB
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hsup⟩, -, -, -⟩ := hBor Q
-  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup' hDcyc hsup
+  have hsolvN := isSolvable_normalizer_of_sup_cyclic Q.isPGroup hDcyc hsup
   have hxN' : π ⟨x, hxL⟩ ∈ Subgroup.normalizer
       ((Q : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) : Set (↥L ⧸ CFSG.pCore 2 ↥L)) := by
     rw [Subgroup.mem_normalizer_iff]

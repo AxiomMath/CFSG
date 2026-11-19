@@ -21,6 +21,7 @@ lemma subtype_commSub_conjNormal_apply (x : ↥H) :
   rw [Subgroup.coe_mul, Subgroup.coe_inv, MulAut.conjNormal_apply, commutatorElement_def]
   group
 
+omit [H.Normal] in
 lemma conjugate_mem_closure_commutator (g : Γ) (hgH : ∀ y : ↥H, g * (y : Γ) * g⁻¹ ∈ H)
     (hgd : g * d * g⁻¹ = d) (c : Γ) (hc : c ∈ commutatorClosure H d) :
     g * c * g⁻¹ ∈ commutatorClosure H d := by
@@ -32,7 +33,7 @@ lemma conjugate_mem_closure_commutator (g : Γ) (hgH : ∀ y : ↥H, g * (y : Γ
       rcases hx with ⟨y, rfl⟩
       refine Subgroup.subset_closure ⟨⟨g * (y : Γ) * g⁻¹, hgH y⟩, ?_⟩
       simpa [hgd] using (conjugate_commutatorElement (y : Γ) d g).symm
-  | one => simpa using C.one_mem
+  | one => simp
   | mul x y _ _ ihx ihy =>
       have heq : g * (x * y) * g⁻¹ = g * x * g⁻¹ * (g * y * g⁻¹) := by group
       rw [heq]
@@ -83,7 +84,7 @@ lemma commutator_zpow_mem_closure_commutator (y : ↥H) (n : ℤ) :
   let C : Subgroup Γ := commutatorClosure H d
   change ⁅(y : Γ), d ^ n⁆ ∈ C
   induction n using Int.induction_on with
-  | zero => simpa using C.one_mem
+  | zero => simp
   | succ m ih =>
       rw [zpow_add_one d (m : ℤ), commutatorElement_mul_right_eq_mul_conj]
       have hconj : d ^ (m : ℤ) * ⁅(y : Γ), d⁆ * (d ^ (m : ℤ))⁻¹ ∈ C :=
@@ -107,6 +108,7 @@ lemma commutator_zpow_mem_closure_commutator (y : ↥H) (n : ℤ) :
       rw [hassoc]
       exact C.mul_mem ih hconj
 
+omit [H.Normal] in
 lemma closure_commutator_le_commutator_zpowers :
     commutatorClosure H d ≤ ⁅H, Subgroup.zpowers d⁆ := by
   unfold commutatorClosure

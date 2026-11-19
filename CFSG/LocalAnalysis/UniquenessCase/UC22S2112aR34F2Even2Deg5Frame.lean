@@ -509,7 +509,7 @@ private theorem uc22s2112r34_deg5_conj_signedPerm_torusDiag {K : Type} [Field K]
   ext i j
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   by_cases h : i = π j
-  · simp only [CFSG.LieType.Universal.SpecialLinear.signedPerm_apply, if_pos h]
+  · simp only [CFSG.LieType.Universal.SpecialLinear.signedPerm_apply, ite_eq_left h]
     have hsym : π.symm i = j := by rw [h, Equiv.symm_apply_apply]
     rw [hsym]
     ring

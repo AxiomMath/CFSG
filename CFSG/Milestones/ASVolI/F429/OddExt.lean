@@ -13,7 +13,7 @@ open CFSG.Open CFSG.ASVolI.ChF CFSG.Quasithin
 theorem burnsideF429_odd_index_of_two_le {E : Type} [Group E] [Finite E] {Gp M₁ M₂ : Subgroup E}
     [Gp.Normal] (hsplit : ∀ e : E, ∃ n ∈ Gp, ∃ h ∈ M₁ ⊓ M₂, e = n * h)
     (h2 : ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 → r ∈ Gp) : Odd Gp.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2d : 2 ∣ Nat.card (E ⧸ Gp) := by
     rw [← Subgroup.index]
@@ -37,14 +37,14 @@ theorem burnsideF429_odd_index_of_two_le {E : Type} [Group E] [Finite E] {Gp M�
 
 theorem burnsideF429_odd_index_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf : Odd f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_odd_index_of_two_le hyp.split (burnsideF429a_two_le_L3 hyp hf)
 
 theorem burnsideF429_odd_index_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : Odd f) : Odd Gp.index := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF429_odd_index_of_two_le hyp.split (burnsideF429a_two_le_Sp4 hyp hf)
 
 @[expose] def burnsideF429_OddCase' (κ : GLKind) (f : ℕ) : Prop :=

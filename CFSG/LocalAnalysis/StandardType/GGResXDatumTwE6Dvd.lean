@@ -22,24 +22,14 @@ theorem ggWeylTypeFamilyOn_twE6Dvd :
   refine ⟨Or.inr (Or.inr (Or.inl ⟨Or.inr htag, hdvd⟩)), ?_, ?_, ?_⟩
   · first
       | exact Nat.dvd_trans hdvd (Nat.sub_one_dvd_pow_sub_one (2 ^ lab.n) 2)
-      | (have e : (2 ^ lab.n) ^ 2 - 1 = (2 ^ lab.n + 1) * (2 ^ lab.n - 1) := by
-           simpa using Nat.pow_two_sub_pow_two (2 ^ lab.n) 1
-         rw [e]
-         exact dvd_mul_of_dvd_right hdvd _)
   · rintro ⟨h1, -⟩
     rw [htag] at h1
     first
       | exact h1
-      | simp [LargeEvenUntwisted] at h1
   · rintro ⟨-, -, h3⟩
     have hpos : 1 ≤ 2 ^ lab.n := Nat.one_le_two_pow
     first
       | omega
-      | (have h1 := Nat.dvd_sub h3 hdvd
-         have h2 : 2 ^ lab.n + 1 - (2 ^ lab.n - 1) = 2 := by omega
-         rw [h2] at h1
-         have := Nat.le_of_dvd (by norm_num : 0 < 2) h1
-         omega)
 
 theorem ggTBXDatumResOn_of_twE6Dvd (hRig : GGLabelRigidInput) (hcyc : GGLabelCenterPCyclicInput)
     {S : ℕ → LargeEvenLabel → Prop}

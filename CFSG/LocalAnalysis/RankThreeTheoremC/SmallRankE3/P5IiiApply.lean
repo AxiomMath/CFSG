@@ -16,9 +16,9 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x z :
   {T : Subgroup G} {f : ℕ}
 
 theorem centralizer_singleton_le_of_involution3 (hL : L630Setting3 G P M x z T f)
-    {c : G} (hcS : c ∈ smallRankS x T) (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) (hzc : z * c = c * z) :
+    {c : G} (hcS : c ∈ smallRankS x T) (_hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) (hzc : z * c = c * z) :
     centralizer ({c} : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : zpowers c ≠ ⊥ := zpowers_eq_bot.not.mpr hc1
   have hcz : z ∈ centralizer ({c} : Set G) := mem_centralizer_singleton_iff.mpr hzc
   have hzN : zpowers z ≤ normalizer ((zpowers c : Subgroup G) : Set G) :=
@@ -52,11 +52,11 @@ theorem stepApplyI2026_holds3 (hL : L630Setting3 G P M x z T f)
         (((smallRankR x z T).subgroupOf
           (normalizer ((smallRankF 5 f x : Subgroup G) : Set G))).map
           (Subgroup.normalizerMonoidHom (smallRankF 5 f x))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hf5 : Nat.Prime 5 := by norm_num
   have hf : f.Prime := hL.prime
   have hf2 : f ≠ 2 := hL.ne_two
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hz5 : z ^ 5 = 1 := hL.central.pow_eq_one
   have hz1 : z ≠ 1 := hL.central.ne_one
   have hx : x ∈ (P : Subgroup G) := hL.point.mem
@@ -77,7 +77,7 @@ theorem stepApplyI2026_holds3 (hL : L630Setting3 G P M x z T f)
   have hC_z : centralizer ({z} : Set G) ≤ M := hL.centralizer_z_le
   have hodd : Odd (Nat.card (centralizer (smallRankF 5 f x : Set G))) :=
     odd_card_centralizer_of_rank hf hFe hFc hloc
-  haveI : Finite (MulAut (smallRankF 5 f x)) :=
+  have : Finite (MulAut (smallRankF 5 f x)) :=
     Finite.of_injective (fun e : MulAut (smallRankF 5 f x) => e.toEquiv)
       (fun a b h => MulEquiv.ext fun y =>
         congrArg (fun e : smallRankF 5 f x ≃ smallRankF 5 f x => e y) h)
@@ -140,7 +140,7 @@ theorem stepApplyI2026_holds3 (hL : L630Setting3 G P M x z T f)
       have hc : (a : G) * g = g * a := (mem_centralizer_iff.mp hg) a a.2
       calc (g : G) * (a : G) * (g : G)⁻¹ = ((a : G) * (g : G)) * (g : G)⁻¹ := by rw [← hc]
         _ = (a : G) := by group
-  haveI hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
+  have hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using conj_mem_centralizer_of_mem_normalizer g.2 hn⟩
   have hodd' : Odd (Nat.card (C.subgroupOf N)) := by

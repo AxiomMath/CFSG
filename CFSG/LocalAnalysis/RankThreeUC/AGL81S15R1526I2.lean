@@ -20,11 +20,11 @@ theorem exists_fixed_point_mul_aux_central {G : Type} [Group G] [Finite G]
     (hG : _root_.commutator G = ⊤) {K : Subgroup G} (hK : K ≤ Subgroup.center G)
     (hidx : K.index = 168) {z : G} (hz : z ∈ K) (hz3 : z ^ 3 = 1) : z = 1 := by
   classical
-  haveI hKn : K.Normal := ⟨fun n hn g => by
+  have hKn : K.Normal := ⟨fun n hn g => by
     have h := Subgroup.mem_center_iff.1 (hK hn) g
     have : g * n * g⁻¹ = n := by rw [h]; group
     rw [this]; exact hn⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card (G ⧸ K) := by
     rw [← Subgroup.index_eq_card, hidx]; norm_num
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := G ⧸ K) 3 h3
@@ -38,8 +38,8 @@ theorem exists_fixed_point_mul_aux_central {G : Type} [Group G] [Finite G]
   have hHcomm : ∀ a b : ↥Hc, a * b = b * a := by
     let f : ↥Hc →* ↥(Subgroup.zpowers q) :=
       ((QuotientGroup.mk' K).comp Hc.subtype).codRestrict (Subgroup.zpowers q) (fun h => h.2)
-    haveI : IsCyclic ↥(Subgroup.zpowers q) := inferInstance
-    refine commutative_of_cyclic_center_quotient f ?_
+    have : IsCyclic ↥(Subgroup.zpowers q) := inferInstance
+    refine (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f ?_).is_comm.comm
     intro h hh
     have hh1 : (QuotientGroup.mk' K) (h : G) = 1 := congrArg Subtype.val hh
     have hhK : (h : G) ∈ K := (QuotientGroup.eq_one_iff (N := K) (h : G)).1 hh1
@@ -47,9 +47,9 @@ theorem exists_fixed_point_mul_aux_central {G : Type} [Group G] [Finite G]
     intro g
     apply Subtype.ext
     exact (Subgroup.mem_center_iff.1 (hK hhK) g)
-  haveI : IsMulCommutative ↥Hc := ⟨⟨hHcomm⟩⟩
-  letI : CommGroup ↥Hc := { (inferInstance : Group ↥Hc) with mul_comm := hHcomm }
-  haveI : Hc.FiniteIndex := inferInstance
+  have : IsMulCommutative ↥Hc := ⟨⟨hHcomm⟩⟩
+  let : CommGroup ↥Hc := { (inferInstance : Group ↥Hc) with mul_comm := hHcomm }
+  have : Hc.FiniteIndex := inferInstance
   let ϕ : ↥Hc →* ↥Hc := MonoidHom.id ↥Hc
   have hV : ϕ.transfer = 1 := by
     have h1 := Abelianization.commutator_subset_ker (ϕ.transfer)
@@ -161,8 +161,8 @@ section Fixed
 theorem exists_fixed_point_mul_aux_fix {Y : Type} [Group Y] [Finite Y] (hY : Nat.card Y = 8)
     {σ : MulAut Y} (hσ : σ ^ 3 = 1) : ∃ y : Y, y ≠ 1 ∧ σ y = y := by
   classical
-  haveI := Fintype.ofFinite Y
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite Y
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : (MulAut.toPerm Y σ) ^ 3 ^ 1 = 1 := by
     rw [pow_one, ← map_pow, hσ, map_one]
   have hmod := Equiv.Perm.card_compl_support_modEq hp
@@ -194,7 +194,7 @@ theorem exists_fixed_point_mul_aux_bits (ρ : Lg →* MulAut G) (ρ₁ : Lg →*
     (ε : N →* G) (hε : ∀ l n, ε (ρ₁ l n) = ρ l (ε n)) :
     ∃ s t : Bool, ∀ n, ε n = (if s then j₁ n else 1) * (if t then j₂ n else 1) := by
   classical
-  haveI : Nontrivial N := Finite.one_lt_card_iff_nontrivial.1 (by rw [hN8]; norm_num)
+  have : Nontrivial N := Finite.one_lt_card_iff_nontrivial.1 (by rw [hN8]; norm_num)
   obtain ⟨π₁, π₂, hπ⟩ := IsNatSum.fixed_eq_one_aux_proj hGc j₁ j₂ hj₁ hj₂ hrange hinf
   have hdec : ∀ g, g = j₁ (π₁ g) * j₂ (π₂ g) := by
     intro g
@@ -225,9 +225,9 @@ theorem exists_fixed_point_mul_aux_bits (ρ : Lg →* MulAut G) (ρ₁ : Lg →*
         obtain ⟨a, ha⟩ := exists_ne (1 : N)
         have := congrArg (fun f : N →* N => f a) h
         exact ha (by simpa using this.symm)
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       simpa using congrArg (fun f : N →* N => f n) h1
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       simpa using congrArg (fun f : N →* N => f n) h1
   have e2 : ∀ n, π₂ (ε n) = (if π₂.comp ε = MonoidHom.id N then n else 1) := by
     intro n
@@ -238,9 +238,9 @@ theorem exists_fixed_point_mul_aux_bits (ρ : Lg →* MulAut G) (ρ₁ : Lg →*
         obtain ⟨a, ha⟩ := exists_ne (1 : N)
         have := congrArg (fun f : N →* N => f a) h
         exact ha (by simpa using this.symm)
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
       simpa using congrArg (fun f : N →* N => f n) h2
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       simpa using congrArg (fun f : N →* N => f n) h2
   refine ⟨decide (π₁.comp ε = MonoidHom.id N), decide (π₂.comp ε = MonoidHom.id N), fun n => ?_⟩
   calc ε n = j₁ (π₁ (ε n)) * j₂ (π₂ (ε n)) := hdec _
@@ -265,7 +265,7 @@ theorem exists_fixed_point_mul_aux_core (ρ : Lg →* MulAut G) (ρ₁ : Lg →*
     (l₀ : Lg) (hl₀3 : ρ₁ l₀ ^ 3 = 1) (hl₀ : ∃ n : N, ρ₁ l₀ n ≠ n) :
     ∃ g : G, g ≠ 1 ∧ ρ l₀ (β g) = g := by
   classical
-  haveI : Nontrivial N := Finite.one_lt_card_iff_nontrivial.1 (by rw [hN8]; norm_num)
+  have : Nontrivial N := Finite.one_lt_card_iff_nontrivial.1 (by rw [hN8]; norm_num)
   have hβ3' : ∀ g, β (β (β g)) = g := fun g => by
     have := congrArg (fun f : MulAut G => f g) hβ3
     simpa [pow_succ, MulAut.mul_apply] using this
@@ -343,7 +343,7 @@ theorem exists_fixed_point_mul_aux_core (ρ : Lg →* MulAut G) (ρ₁ : Lg →*
     rw [hs1] at e
     exact hw1 (hj₂ (by rw [e, map_one]))
   cases s₁ <;> cases t₁ <;> cases s₂ <;> cases t₂ <;>
-    simp only [Bool.false_eq_true, if_false, if_true, mul_one, one_mul] at h₁' h₂'
+    simp only [Bool.false_eq_true, ite_false, ite_true, mul_one, one_mul] at h₁' h₂'
   · exact absurd (β.map_eq_one_iff.1 (h₁' n₀)) hx1
   · exact absurd (β.map_eq_one_iff.1 (h₁' n₀)) hx1
   · exact absurd (β.map_eq_one_iff.1 (h₁' n₀)) hx1
@@ -393,7 +393,7 @@ theorem exists_fixed_point_mul {T : Subgroup X} (hX : GNSetting X T) {Ls : Subgr
     (hab : a * b = b * a) :
     ∃ u ∈ (⁅L, gnV T⁆ : Subgroup X), u ≠ 1 ∧ (a * b) * u = u * (a * b) := by
   classical
-  haveI hVn : (gnV T).Normal := Subgroup.normalClosure_normal
+  have hVn : (gnV T).Normal := Subgroup.normalClosure_normal
   have hUV : ⁅L, gnV T⁆ ≤ gnV T := Subgroup.commutator_le_right L (gnV T)
   have hVea := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV T hX
   have hUc := comm_of_le_gnV hX hUV

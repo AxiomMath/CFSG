@@ -52,6 +52,7 @@ theorem exists_conj_mulAut {M : Subgroup H} {x : H} (hx : orderOf x = 2)
     exact (UnbalancedCorr.isPComponent_subgroupOf_subgroupOf_iff' (L := T) inf_le_left 2
       Nat.prime_two).mpr (CatalogueBPrimeJoin.pComponent_subgroupOf_of_le hTM' inf_le_right hTpc)
 
+omit [Finite H] in
 theorem mem_fusionZStar_of_mem_map {M : Subgroup H} {w : H} (hwM : w ∈ M)
     (hwZ : w ∈ (Open.fusionZStar ↥M).map M.subtype) : (⟨w, hwM⟩ : ↥M) ∈ Open.fusionZStar ↥M := by
   obtain ⟨m, hm, hmw⟩ := hwZ

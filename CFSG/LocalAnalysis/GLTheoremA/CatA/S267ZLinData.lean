@@ -54,8 +54,7 @@ theorem diag3_conj_x12 {d : Fin 3 → K} (hd : ∏ i, d i = 1) (c : K) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_diag3, x12,
     Matrix.SpecialLinearGroup.transvection_coe, diagonal_mul, mul_diagonal]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, hd0, mul_comm, div_eq_mul_inv,
-      mul_left_comm]
+    simp [Matrix.add_apply, hd0, mul_comm, div_eq_mul_inv]
 
 theorem fieldAut_proj_x12 (σ : K ≃+* K) (c : K) :
     fieldAut 3 K σ (proj 3 K (x12 c)) = proj 3 K (x12 (σ c)) := by
@@ -65,7 +64,7 @@ theorem fieldAut_proj_x12 (σ : K ≃+* K) (c : K) :
   intro i j
   simp only [Matrix.SpecialLinearGroup.map_apply_coe, x12, Matrix.SpecialLinearGroup.transvection_coe,
     RingHom.mapMatrix_apply, Matrix.map_apply]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.add_apply]
 
 theorem eq_zero_of_proj_x12_commute {v : K}
     (h : proj 3 K (x12 v) * proj 3 K (x21 1) = proj 3 K (x21 1) * proj 3 K (x12 v)) : v = 0 := by
@@ -90,7 +89,7 @@ theorem glaPPrimeCore_le_center {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
     {J : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥J)
     (hdvd : p ∣ Nat.card (↥J ⧸ Subgroup.center ↥J)) :
     GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq
     (GLAPPrimeCore.normal p _) fun htop => ?_
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥J)) := CFSG.pPrimeCore_coprime_card
@@ -171,14 +170,17 @@ section Data
 
 variable [Finite K] {p : ℕ} {lam : K}
 
+omit [Finite K] in
 theorem lam_ne_zero (hp : p.Prime) (hζ : IsPrimitiveRoot (lam ^ 3) p) : lam ≠ 0 := by
   intro h
   rw [h, zero_pow (by norm_num)] at hζ
   exact hζ.ne_zero hp.ne_zero rfl
 
+omit [Finite K] in
 theorem zeta_ne_zero (hp : p.Prime) (hζ : IsPrimitiveRoot (lam ^ 3) p) : lam ^ 3 ≠ 0 :=
   hζ.ne_zero hp.ne_zero
 
+omit [Finite K] in
 theorem zeta_ne_one (hp : p.Prime) (hζ : IsPrimitiveRoot (lam ^ 3) p) : lam ^ 3 ≠ 1 :=
   hζ.ne_one hp.one_lt
 
@@ -193,6 +195,7 @@ noncomputable def uE : projectiveSL 3 K := proj 3 K (diag3 ![1, -1, -1] prod_du)
 variable (hp : p.Prime) (hζ : IsPrimitiveRoot (lam ^ 3) p)
 include hp hζ
 
+omit [Finite K] in
 theorem rE_pow : rE hp hζ ^ p = 1 := by
   have h0 := lam_ne_zero hp hζ
   have hlp : (lam ^ p) ^ 3 = 1 := by rw [← pow_mul, mul_comm, pow_mul, hζ.pow_eq_one]
@@ -214,16 +217,18 @@ theorem rE_pow : rE hp hζ ^ p = 1 := by
     · rfl
   · rw [diagonal_apply_ne _ hij, scalar_apply, diagonal_apply_ne _ hij]
 
+omit [Finite K] in
 theorem rE_ne_one : rE hp hζ ≠ 1 := by
   intro h
   have h01 := eq_of_proj_diag3_eq_one _ h 0 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h01
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h01
   have h0 := lam_ne_zero hp hζ
   apply zeta_ne_one hp hζ
   calc lam ^ 3 = lam ^ 2 * lam := by ring
     _ = lam ^ 2 * (lam ^ 2)⁻¹ := by rw [h01]
     _ = 1 := mul_inv_cancel₀ (pow_ne_zero 2 h0)
 
+omit [Finite K] in
 theorem tE_pow : tE hp hζ ^ p = 1 := by
   rw [tE, ← map_pow, proj_eq_one_iff]
   refine ⟨1, one_pow 3, ?_⟩
@@ -239,21 +244,26 @@ theorem tE_pow : tE hp hζ ^ p = 1 := by
       rw [inv_pow, hζ.pow_eq_one, inv_one]
   · rw [diagonal_apply_ne _ hij, scalar_apply, diagonal_apply_ne _ hij]
 
+omit [Finite K] in
 theorem tE_ne_one : tE hp hζ ≠ 1 := by
   intro h
   have h01 := eq_of_proj_diag3_eq_one _ h 0 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h01
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h01
   exact zeta_ne_one hp hζ h01.symm
 
+omit [Finite K] in
 theorem rE_tE_commute : rE hp hζ * tE hp hζ = tE hp hζ * rE hp hζ :=
   proj_diag3_commute _ _
 
+omit [Finite K] in
 theorem rE_uE_commute : rE hp hζ * uE = uE * rE hp hζ :=
   proj_diag3_commute _ _
 
+omit [Finite K] in
 theorem tE_uE_commute : tE hp hζ * uE = uE * tE hp hζ :=
   proj_diag3_commute _ _
 
+omit [Finite K] in
 theorem rE_commute_J3 {x : projectiveSL 3 K} (hx : x ∈ J3 K) : rE hp hζ * x = x * rE hp hζ := by
   obtain ⟨g, hg, rfl⟩ := hx
   have hgc := coordBlockSL_le_centralizer_diag3 (d := ![(lam ^ 2)⁻¹, lam, lam])
@@ -261,6 +271,7 @@ theorem rE_commute_J3 {x : projectiveSL 3 K} (hx : x ∈ J3 K) : rE hp hζ * x =
   rw [Subgroup.mem_centralizer_singleton_iff] at hgc
   rw [rE, ← map_mul, ← map_mul, hgc]
 
+omit [Finite K] in
 theorem conj_tE_x12 (c : K) :
     MulAut.conj (tE hp hζ) (proj 3 K (x12 c)) = proj 3 K (x12 ((lam ^ 3) ^ 2 * c)) := by
   rw [tE, conj_proj_diag3_x12]
@@ -269,6 +280,7 @@ theorem conj_tE_x12 (c : K) :
   rw [div_inv_eq_mul]
   ring
 
+omit [Finite K] in
 theorem conj_tE_zpow_x12 (j : ℤ) (c : K) :
     (MulAut.conj (tE hp hζ) ^ j) (proj 3 K (x12 c)) =
       proj 3 K (x12 ((lam ^ 3) ^ (2 * j) * c)) := by
@@ -289,17 +301,18 @@ theorem conj_tE_zpow_x12 (j : ℤ) (c : K) :
     rw [_root_.zpow_add_one, MulAut.mul_apply, conj_tE_x12, ih]
     congr 2
     rw [← mul_assoc, show ((lam ^ 3) ^ 2 : K) = (lam ^ 3) ^ (2 : ℤ) by norm_cast, ← zpow_add₀ hz]
-    congr 2 <;> ring
+    congr 2
   | pred n ih =>
     rw [_root_.zpow_sub_one, MulAut.mul_apply, hinv, ih]
     congr 2
     rw [← mul_assoc, ← zpow_add₀ hz]
-    congr 2 <;> ring
+    congr 2; ring
 
 
 variable {σ : K ≃+* K} (hζσ : σ (lam ^ 3) = lam ^ 3)
 include hζσ
 
+omit [Finite K] in
 theorem rE_fix : fieldAut 3 K σ (rE hp hζ) = rE hp hζ := by
   have h0 := lam_ne_zero hp hζ
   set e : K := σ lam / lam with he
@@ -320,6 +333,7 @@ theorem rE_fix : fieldAut 3 K σ (rE hp hζ) = rE hp hζ := by
   · exact hσl
   · exact hσl
 
+omit [Finite K] in
 theorem tE_fix : fieldAut 3 K σ (tE hp hζ) = tE hp hζ := by
   rw [tE, fieldAut_proj_diag3]
   congr 1
@@ -335,6 +349,7 @@ theorem tE_fix : fieldAut 3 K σ (tE hp hζ) = tE hp hζ := by
     rw [map_inv₀, hζσ]
 
 omit hp hζ hζσ in
+omit [Finite K] in
 theorem uE_fix : fieldAut 3 K σ (uE : projectiveSL 3 K) = uE := by
   rw [uE, fieldAut_proj_diag3]
   congr 1
@@ -425,7 +440,7 @@ theorem isElemAbelian_card_zpowers_sup [Finite G] {p : ℕ} (hp : p.Prime) {a b 
     (hint : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥) :
     IsElemAbelian p (Subgroup.zpowers a ⊔ Subgroup.zpowers b) ∧
       Nat.card ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ x ∈ Subgroup.zpowers a, ∀ y ∈ Subgroup.zpowers b, x * y = y * x := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩
     exact (Commute.zpow_zpow hab i j).eq
@@ -453,19 +468,21 @@ section Main
 
 variable [Finite K] {p : ℕ} {lam : K}
 
+omit [Finite K] in
 theorem proj_x12_mul_inv (a b : K) :
     proj 3 K (x12 a) * (proj 3 K (x12 b))⁻¹ = proj 3 K (x12 (a - b)) := by
   rw [← map_inv, ← map_mul, x12, x12, x12, Matrix.SpecialLinearGroup.transvection_inv,
     ← Matrix.SpecialLinearGroup.transvection_add, sub_eq_add_neg]
 
+omit [Finite K] in
 theorem eq_of_proj_x12_eq {a b : K} (h : proj 3 K (x12 a) = proj 3 K (x12 b)) : a = b := by
   have h1 : proj 3 K (x12 (a - b)) = 1 := by rw [← proj_x12_mul_inv, h, mul_inv_cancel]
   have h2 := eq_one_of_mem_coordBlockSL_of_proj_eq_one (x12_mem_coordBlockSL (a - b)) h1
   have h3 := congrArg (fun g : SpecialLinearGroup (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 1 2) h2
-  simp [x12, Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply, Matrix.one_apply,
-    Matrix.single_apply] at h3
+  simp [x12, Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply] at h3
   exact sub_eq_zero.1 h3
 
+omit [Finite K] in
 theorem zpow_apply_eq_of_apply_eq {σ : K ≃+* K} {x : K} (hx : σ x = x) (k : ℤ) : (σ ^ k) x = x := by
   have hx' : σ⁻¹ x = x := by
     rw [RingAut.inv_apply, RingEquiv.symm_apply_eq]
@@ -478,9 +495,10 @@ theorem zpow_apply_eq_of_apply_eq {σ : K ≃+* K} {x : K} (hx : σ x = x) (k : 
 variable (hp : p.Prime) (hp2 : p ≠ 2) (hζ : IsPrimitiveRoot (lam ^ 3) p)
 include hp hp2 hζ
 
+omit [Finite K] in
 theorem zpowers_rE_inf_zpowers_tE :
     Subgroup.zpowers (rE hp hζ) ⊓ Subgroup.zpowers (tE hp hζ) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   intro x hx
   obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 (Subgroup.mem_inf.1 hx).1
@@ -521,8 +539,8 @@ theorem centMod_R (k : ℤ) (s : projectiveSL 3 K)
     (hs : s ∈ Subgroup.zpowers (rE hp hζ) ⊔ Subgroup.zpowers (tE hp hζ))
     (h : ∀ j ∈ J3 K, (fieldAut 3 K σ ^ k * MulAut.conj s) j * j⁻¹ ∈ GLAPPrimeCoreOf p (J3 K)) :
     fieldAut 3 K σ ^ k = 1 ∧ s ∈ Subgroup.zpowers (rE hp hζ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  have hq := isQuasisimple_J3 hp hp2 hζ hF
+  have : Fact p.Prime := ⟨hp⟩
+  have hq := isQuasisimple_J3 hF
   have hdvd := dvd_card_J3 (F := K) hp hp2 hζ
   have hJ1 : proj 3 K (x21 1) ∈ J3 K := Subgroup.mem_map_of_mem _ (x21_mem_coordBlockSL 1)
   have hJc : ∀ c : K, proj 3 K (x12 c) ∈ J3 K := fun c =>
@@ -578,12 +596,14 @@ noncomputable abbrev incl0 : SpecialLinearGroup (Fin 3) (semilinearFixedSubfield
     SpecialLinearGroup (Fin 3) K :=
   Matrix.SpecialLinearGroup.map (semilinearFixedSubfield σ).subtype
 
+omit [Finite K] in
 theorem incl0_injective : Function.Injective (incl0 σ) := by
   intro g g' hgg'
   refine Subtype.ext (Matrix.ext fun a b => Subtype.val_injective ?_)
   have h1 := congrArg (fun x : SpecialLinearGroup (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K) a b) hgg'
   simpa [Matrix.SpecialLinearGroup.map_apply_coe] using h1
 
+omit [Finite K] in
 theorem incl0_mem_coordBlockSL {g : SpecialLinearGroup (Fin 3) (semilinearFixedSubfield σ)}
     (hg : g ∈ coordBlockSL (semilinearFixedSubfield σ) blk) : incl0 σ g ∈ coordBlockSL K blk := by
   rw [mem_coordBlockSL_iff] at hg ⊢
@@ -596,10 +616,12 @@ theorem incl0_mem_coordBlockSL {g : SpecialLinearGroup (Fin 3) (semilinearFixedS
 noncomputable abbrev L0 : Subgroup (projectiveSL 3 K) :=
   ((coordBlockSL (semilinearFixedSubfield σ) blk).map (incl0 σ)).map (proj 3 K)
 
+omit [Finite K] in
 theorem B0_le : (coordBlockSL (semilinearFixedSubfield σ) blk).map (incl0 σ) ≤ coordBlockSL K blk := by
   rintro _ ⟨g, hg, rfl⟩
   exact incl0_mem_coordBlockSL σ hg
 
+omit [Finite K] in
 theorem J3_inf_fixSubgroup_eq : J3 K ⊓ fixSubgroup (fieldAut 3 K σ) = L0 σ := by
   have hk : ∀ x : K, x ∈ semilinearFixedSubfield σ ↔ σ x = x := fun x => Iff.rfl
   apply le_antisymm
@@ -684,6 +706,7 @@ section Assembly
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem uE_sq : (uE : projectiveSL 3 K) ^ 2 = 1 := by
   rw [uE, ← map_pow, proj_eq_one_iff]
   refine ⟨1, one_pow 3, ?_⟩
@@ -695,13 +718,15 @@ theorem uE_sq : (uE : projectiveSL 3 K) ^ 2 = 1 := by
     fin_cases i <;> simp
   · rw [diagonal_apply_ne _ hij, scalar_apply, diagonal_apply_ne _ hij]
 
+omit [Finite K] in
 theorem uE_ne_one (h2K : (2 : K) ≠ 0) : (uE : projectiveSL 3 K) ≠ 1 := by
   intro h
   have h01 := eq_of_proj_diag3_eq_one _ h 0 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h01
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h01
   apply h2K
   linear_combination h01
 
+omit [Finite K] in
 theorem uE_commute_J3 {x : projectiveSL 3 K} (hx : x ∈ J3 K) : x * uE = uE * x := by
   obtain ⟨g, hg, rfl⟩ := hx
   have hgc := coordBlockSL_le_centralizer_diag3 (d := ![1, -1, -1]) (hd := prod_du) rfl hg

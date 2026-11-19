@@ -36,13 +36,13 @@ theorem testBit_and_sub_one (k q j : Nat) :
     Nat.testBit_two_pow_mul_add q (b := 2 ^ k - 1) (by omega), Nat.testBit_two_pow,
     Nat.testBit_two_pow_sub_one]
   by_cases hj : j < k + 1
-  · rw [if_pos hj, if_pos hj]
+  · rw [ite_eq_left hj, ite_eq_left hj]
     by_cases hjk : j = k
     · subst hjk
       simp
     · have : j < k := by omega
       simp [hjk, this, Ne.symm hjk]
-  · rw [if_neg hj, if_neg hj]
+  · rw [ite_eq_right hj, ite_eq_right hj]
     have : j ≠ k := by omega
     simp [this]
 
@@ -67,7 +67,7 @@ theorem card_and_sub_one (n : Nat) : (setM (n &&& (n - 1))).card = (setM n).card
     · rfl
     · have hk : 2 ^ k < 2 ^ (k + 1) := Nat.pow_lt_pow_right (by omega) (by omega)
       have hbit : (2 ^ (k + 1) * q + 2 ^ k).testBit k = true := by
-        rw [Nat.testBit_two_pow_mul_add q hk, if_pos (by omega), Nat.testBit_two_pow]
+        rw [Nat.testBit_two_pow_mul_add q hk, ite_eq_left (by omega), Nat.testBit_two_pow]
         simp
       have h64 : 64 ≤ k := by
         by_contra hlt
@@ -77,7 +77,7 @@ theorem card_and_sub_one (n : Nat) : (setM (n &&& (n - 1))).card = (setM n).card
         rw [mem_setM, Nat.testBit_two_pow_mul_add q hk]
         constructor
         · rintro ⟨hx, hb⟩
-          rw [if_pos (by omega), Nat.testBit_two_pow] at hb
+          rw [ite_eq_left (by omega), Nat.testBit_two_pow] at hb
           simp only [decide_eq_true_eq] at hb
           omega
         · simp

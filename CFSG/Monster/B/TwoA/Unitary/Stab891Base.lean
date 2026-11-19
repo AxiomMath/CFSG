@@ -35,7 +35,7 @@ abbrev qWv : QuadraticForm (ZMod 2) (Wv v0) := qW v0 qL_v0
 
 abbrev bW : LinearMap.BilinForm (ZMod 2) (Wv v0) := QuadraticMap.polarBilin qWv
 
-@[expose] def sigmaPerp :
+def sigmaPerp :
     Submodule (ZMod 2) (Wv v0) := LinearMap.ker (bW sigmaW)
 
 theorem bW_comm (x y : Wv v0) : bW x y = bW y x := QuadraticMap.polar_comm _ x y
@@ -108,7 +108,7 @@ theorem finrank_sigmaPerp :
   change Module.finrank (ZMod 2) (LinearMap.ker (bW sigmaW)) = 21
   omega
 
-@[expose] def spanDual : List ℕ :=
+def spanDual : List ℕ :=
   [4639, 4183471, 3126715, 35503, 3011771, 4193969, 1114644, 1311252, 1050915, 528175, 3149603,
     4192562, 1049088, 664, 4193184, 532, 512, 1280, 1408, 4192256, 256]
 

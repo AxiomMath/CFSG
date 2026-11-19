@@ -26,6 +26,7 @@ noncomputable def OrthFrameCore.componentEquiv (Φ : OrthFrameCore p Bs L) :
 
 variable [Finite G] [Fact p.Prime]
 
+omit [Finite G] in
 theorem OrthFrameCore.beta_eq_one_iff (Φ : OrthFrameCore p Bs L)
     (hpZ : ¬ p ∣ Nat.card (Subgroup.center ↥L)) (b : ↥Bs) (hbP : b ^ p = 1) :
     Φ.β b = 1 ↔ (b : G) ∈ Subgroup.centralizer (L : Set G) := by
@@ -99,6 +100,7 @@ theorem OrthFrameCore.card_beta_range_mul
       hC, Nat.card_zpowers, orderOf_eq_prime (hE.2 x hxE) hS.2.2.1]
   simpa only [hkerCard] using TableB.card_range_mul_card_ker f
 
+omit [Finite G] in
 theorem OrthFrameCore.beta_range_card (Φ : OrthFrameCore p Bs L) :
     Nat.card Φ.β.range = p ^ Φ.r := by
   have hmap : Φ.β.range.map (orthDerived Φ.Q).subtype = Φ.A := by
@@ -148,7 +150,7 @@ theorem OrthFrameCore.exists_slTwo_centralizing_B (Φ : OrthFrameCore p Bs L)
     ∃ θ : Matrix.SpecialLinearGroup (Fin 2) Φ.F →* G,
       Function.Injective θ ∧ θ.range ≤ L ∧
         θ.range ≤ Subgroup.centralizer (B : Set G) := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   let βB := Φ.β.comp (Subgroup.inclusion hC.2.1.1)
   let H := βB.range
   let S := U.comap Φ.ψ

@@ -65,8 +65,8 @@ theorem N203_le_X203 (K K' : Subgroup G) (z : G) : N203 K K' z ≤ X203 K K' z :
   sup_le (oddCoreOf_le_self _) (sup_le le_sec20X_left le_sec20X_right)
 
 theorem N203_le_kerG (d : Std20Frame K K' J S R R' W V z t) : N203 K K' z ≤ kerG K :=
-  sup_le (fun y hy => oddCoreX_le_kerG d hy)
-    (sup_le (fun y hy => K_le_kerG d hy) (fun y hy => K'_le_kerG d hy))
+  sup_le (fun _y hy => oddCoreX_le_kerG d hy)
+    (sup_le (fun _y hy => K_le_kerG d hy) (fun _y hy => K'_le_kerG d hy))
 
 theorem conj_mem_N203 (d : Std20Frame K K' J S R R' W V z t) {x n : G}
     (hx : x ∈ X203 K K' z) (hn : n ∈ N203 K K' z) : x * n * x⁻¹ ∈ N203 K K' z := by

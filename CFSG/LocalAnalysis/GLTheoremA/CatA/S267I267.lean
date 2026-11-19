@@ -19,7 +19,7 @@ theorem i267At_of_facts (hgen : S267FactGen) (hp3 : S267FactP3) (hcls : S267Fact
     (G : Type) [Group G] [Finite G] (p : ℕ) : I267At G p := by
   classical
   intro hp hp2 q hq hq2 hqp X K B hX hK hChev hBel hBX hm2 hB4 hBC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKX : K ≤ X := hK ▸ P65.glaPLayer_le_self X
   have hXK : X ≤ Subgroup.normalizer (K : Set G) := by
     have := P65.le_normalizer_glaPLayer (p := p) (X := X) (B := X) Subgroup.le_normalizer
@@ -30,9 +30,9 @@ theorem i267At_of_facts (hgen : S267FactGen) (hp3 : S267FactP3) (hcls : S267Fact
   have hHX : H ≤ X := sup_le hKX hBX
   have hHN : H ≤ Subgroup.normalizer (K : Set G) := hHX.trans hXK
   set K₀ : Subgroup ↥H := K.subgroupOf H with hK₀
-  haveI hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
+  have hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
   set N₀ : Subgroup ↥H := GLAPPrimeCoreOf p K₀ with hN₀def
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K₀
     rw [Subgroup.normalizer_eq_top_iff.2 hK₀n, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h

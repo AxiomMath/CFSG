@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem noKlein_comm_mem {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f S X N z)
     {w : K} (hwS : w ∈ S) (hw1 : w ≠ 1) (hzw : z * w = w * z) {n : K} (hnX : n ∈ X)
     (hn : w * n = n * w) : n ∈ N := by
@@ -69,7 +70,7 @@ theorem no_klein_in_centralizer {p f : ℕ} {S X N : Subgroup K} {z : K}
     (h : Setup628 p f S X N z) {e₁ e₂ : K} (he₁ : e₁ ∈ S) (he₂ : e₂ ∈ S)
     (hz₁ : z * e₁ = e₁ * z) (hz₂ : z * e₂ = e₂ * z) (h₁ : e₁ ^ 2 = 1) (h₂ : e₂ ^ 2 = 1)
     (h₁ne : e₁ ≠ 1) (h₂ne : e₂ ≠ 1) (hne : e₁ ≠ e₂) (hc : e₁ * e₂ = e₂ * e₁) : False := by
-  haveI : Fact f.Prime := ⟨h.hf⟩
+  have : Fact f.Prime := ⟨h.hf⟩
   have hsq₁ : e₁ * e₁ = 1 := (sq e₁).symm.trans h₁
   have hsq₂ : e₂ * e₂ = 1 := (sq e₂).symm.trans h₂
   have hw1 : e₁ * e₂ ≠ 1 := fun h12 =>
@@ -103,7 +104,7 @@ theorem isCyclic_of_abelian_centralizer {p f : ℕ} {S X N : Subgroup K} {z : K}
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hzA : ∀ a ∈ A, z * a = a * z) : IsCyclic A := by
   by_contra hnc
   have hA2 : IsPGroup 2 A := IsPGroup.to_le h.hS hAS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnt : Nontrivial A := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
@@ -159,6 +160,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem exists_fpf_subgroup {A : Subgroup K} {z : K} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hz : z ^ p = 1) (hA2 : IsPGroup 2 A) (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hzA : z ∈ normalizer (A : Set K)) (hnc : ∃ a ∈ A, z * a ≠ a * z) :
@@ -202,10 +204,11 @@ theorem exists_fpf_subgroup {A : Subgroup K} {z : K} {p : ℕ} (hp : p.Prime) (h
       Nat.Coprime.pow_right _ ((Nat.coprime_primes hp Nat.prime_two).mpr hp2)
     exact (pow_eq_one_iff_of_coprime hcop).mp ⟨h1, hk'⟩
 
+omit [Finite K] in
 theorem clifford_commute_of_mem_zpowers {z : K} {p : ℕ} (hp : p.Prime) (hz : z ^ p = 1)
     (hz1 : z ≠ 1) {b k : K} (hb : b ∈ zpowers z) (hb1 : b ≠ 1) (hbk : b * k = k * b) :
     z * k = k * z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (zpowers z) = p := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime hz hz1
@@ -233,7 +236,7 @@ theorem z_centralizes_abelian {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setu
   push Not at hnc
   obtain ⟨B, hBA, hBne, hzB, hBfix⟩ :=
     exists_fpf_subgroup h.hp h.hp2 h.hzp (h.hS.to_le hAS) hAc hzA hnc
-  haveI : Fact f.Prime := ⟨h.hf⟩
+  have : Fact f.Prime := ⟨h.hf⟩
   obtain ⟨W, _, _, _, ρ, hW, hS₀, hz⟩ := exists_module h
   have hBS : B ≤ S := hBA.trans hAS
   have hBG : B ≤ S ⊔ zpowers z := hBS.trans le_sup_left

@@ -60,10 +60,10 @@ theorem toEq_eq_coe (g : omegaGroup hQ) :
   simp [toEq]
 
 theorem toEq_one (x : V) : toEq hQ 1 x = x := by
-  first | rfl | simp [toEq]
+  first | rfl
 
 theorem toEq_mul (g h : omegaGroup hQ) (x : V) : toEq hQ (g * h) x = toEq hQ g (toEq hQ h x) := by
-  first | rfl | simp [toEq]
+  first | rfl
 
 noncomputable instance instMulActionFinset : MulAction (omegaGroup hQ) (Finset V) where
   smul g S := S.image (toEq hQ g)
@@ -108,7 +108,7 @@ theorem refl_mul_mem (u w : V) (hu : qV u = 1) (hw : qV w = 1) :
   rw [mem_omegaGroup_iff hQ, map_mul, detSpinorNorm_reflEl hQ u hu, detSpinorNorm_reflEl hQ w hw]
   refine Prod.ext ?_ ?_
   · show (-1 : (ZMod 3)ˣ) * -1 = 1
-    first | decide | simp
+    first | decide
   · show (1 : Multiplicative (SquareClassGroup (ZMod 3))) * 1 = 1
     exact mul_one 1
 

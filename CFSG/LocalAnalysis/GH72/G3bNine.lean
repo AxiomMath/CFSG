@@ -148,6 +148,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 @[expose] def ConjIn (C : Subgroup G) (x y : G) : Prop := ∃ c ∈ C, c * x * c⁻¹ = y
 
+omit [Finite G] in
 private theorem conjIn_trans {C : Subgroup G} {x y z : G}
     (hxy : ConjIn C x y) (hyz : ConjIn C y z) : ConjIn C x z := by
   obtain ⟨c, hc, hcxy⟩ := hxy
@@ -157,11 +158,13 @@ private theorem conjIn_trans {C : Subgroup G} {x y z : G}
     _ = d * y * d⁻¹ := by rw [hcxy]
     _ = z := hdyz
 
+omit [Finite G] in
 private theorem conjIn_of_isConj_coe {H C : Subgroup G} (hCH : H ≤ C) {x y : H}
     (h : IsConj x y) : ConjIn C (x : G) (y : G) := by
   obtain ⟨g, hg⟩ := isConj_iff.mp h
   exact ⟨g, hCH g.2, congrArg Subtype.val hg⟩
 
+omit [Finite G] in
 theorem isConj_involutions_of_dihedral_center {H C : Subgroup G} (hH : IsDihNonab H)
     {a b z : G} (ha : a ∈ H) (hb : b ∈ H)
     (ha2 : a * a = 1) (hb2 : b * b = 1)
@@ -174,7 +177,7 @@ theorem isConj_involutions_of_dihedral_center {H C : Subgroup G} (hH : IsDihNona
   classical
   obtain ⟨k, hk2, ⟨e⟩⟩ := hH
   have hk1 : 1 ≤ k := by omega
-  haveI : NeZero (2 ^ k) := ⟨pow_ne_zero k two_ne_zero⟩
+  have : NeZero (2 ^ k) := ⟨pow_ne_zero k two_ne_zero⟩
   have ha1 : a ≠ 1 := by
     rintro rfl
     obtain ⟨g, -, hg⟩ := haconj
@@ -359,17 +362,18 @@ section CorrectedFactor
 
 variable {G : Type*} [Group G] [Finite G]
 
-theorem corrected_factor_core {S X Y W : Subgroup G} (hX : IsDihNonab X)
+omit [Finite G] in
+theorem corrected_factor_core {_S X Y W : Subgroup G} (hX : IsDihNonab X)
     {a b zX zY ε₁ ε₂ : G} {k : ℕ} (hk : 2 ≤ k)
     (ha : a ∈ X) (hb : b ∈ X) (ha2 : a * a = 1) (hb2 : b * b = 1)
-    (hgen : X = Subgroup.closure {a, b})
+    (_hgen : X = Subgroup.closure {a, b})
     (hzX : zX ∈ X) (hzX2 : zX * zX = 1) (hzX1 : zX ≠ 1)
     (hzX_center : X ⊓ Subgroup.centralizer (X : Set G) = Subgroup.zpowers zX)
     (hzX_ab : zX = (a * b) ^ (2 ^ (k - 1)))
     (hY_comm : Y ≤ Subgroup.centralizer (X : Set G))
-    (hzY : zY ∈ Y)
+    (_hzY : zY ∈ Y)
     (hε₁ : ε₁ ∈ Y) (hε₂ : ε₂ ∈ Y)
-    (hε₁c : ∀ d ∈ Y, d * ε₁ = ε₁ * d) (hε₂c : ∀ d ∈ Y, d * ε₂ = ε₂ * d)
+    (hε₁c : ∀ d ∈ Y, d * ε₁ = ε₁ * d) (_hε₂c : ∀ d ∈ Y, d * ε₂ = ε₂ * d)
     (hε₁2 : ε₁ * ε₁ = 1) (hε₂2 : ε₂ * ε₂ = 1)
     (hW : W = Subgroup.closure {a * ε₁, b * ε₂})
     (hWX : Nonempty (↥W ≃* ↥X))
@@ -476,6 +480,7 @@ theorem corrected_factor_core {S X Y W : Subgroup G} (hX : IsDihNonab X)
     hzX_W hzX2 hzX1 hcenterW hW_cent hconj₁ hconj₂
   exact ⟨hdihW, hcenterW, hfusion⟩
 
+omit [Finite G] in
 theorem centralizer_center_eq_singleton {H : Subgroup G} {z : G}
     (hcenter : H ⊓ Subgroup.centralizer (H : Set G) = Subgroup.zpowers z) :
     Subgroup.centralizer ((H ⊓ Subgroup.centralizer (H : Set G) : Subgroup G) : Set G) =
@@ -508,11 +513,12 @@ theorem corrected_factor_left (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S�
   have hWU : W = U := hWeq.trans hU.symm
   rw [hWU] at hdW
   rw [hWU] at eW
-  have hcore := corrected_factor_core (S := 𝔖.S) (X := 𝔖.S₁) (Y := 𝔖.S₂) (W := U)
+  have hcore := corrected_factor_core (_S := 𝔖.S) (X := 𝔖.S₁) (Y := 𝔖.S₂) (W := U)
     h₁ hk ha hb ha2 hb2 hgen hz₁ hz₁2 hz₁1 hz₁center hz₁_ab 𝔖.decomp.commute hz₂
     hε₁ hε₂ hε₁c hε₂c hε₁2 hε₂2 hU ⟨eW⟩ (hdW.commute hz₂) hconj₁ hconj₂
   exact ⟨hdW, ⟨eW⟩, hcore.1, hcore.2.1, hcore.2.2⟩
 
+omit [Finite G] in
 theorem ddSwap {S S₁ S₂ : Subgroup G} (h : DDDecomp S S₁ S₂) (h₁ : IsDihNonab S₁) :
     DDDecomp S S₂ S₁ :=
   { sup_eq := by rw [sup_comm]; exact h.sup_eq
@@ -522,7 +528,7 @@ theorem ddSwap {S S₁ S₂ : Subgroup G} (h : DDDecomp S S₁ S₂) (h₁ : IsD
     dih₂ := h₁ }
 
 theorem corrected_factor_right (𝔖 : Sec3Setting G) {U : Subgroup G}
-    (hU_dih : IsDihNonab U)
+    (_hU_dih : IsDihNonab U)
     (hdU : DDDecomp (𝔖.S : Subgroup G) U 𝔖.S₂)
     {c d z₂ z₁ ε₃ ε₄ : G} {V : Subgroup G} {k₂ : ℕ}
     (hk₂ : 2 ≤ k₂)
@@ -552,7 +558,7 @@ theorem corrected_factor_right (𝔖 : Sec3Setting G) {U : Subgroup G}
     Subgroup.le_centralizer_iff.mp hdU.commute
   have hz₁_centV : z₁ ∈ Subgroup.centralizer (V : Set G) :=
     (Subgroup.le_centralizer_iff.mp hdUV'.commute) hz₁
-  have hcore := corrected_factor_core (S := 𝔖.S) (X := 𝔖.S₂) (Y := U) (W := V)
+  have hcore := corrected_factor_core (_S := 𝔖.S) (X := 𝔖.S₂) (Y := U) (W := V)
     𝔖.decomp.dih₂ hk₂ hc hd hc2 hd2 hgen₂ hz₂ hz₂2 hz₂1 hz₂center hz₂_cd hU_comm hz₁
     hε₃ hε₄ hε₃c hε₄c hε₃2 hε₄2 hV ⟨eV'⟩ hz₁_centV hconj₃ hconj₄
   exact ⟨hdUV', ⟨eV'⟩, hcore.1, hcore.2.1, hcore.2.2⟩
@@ -667,12 +673,13 @@ private def DihGen.swap {D : Subgroup G} (g : DihGen D) : DihGen D where
     rw [g.hz_ab, h, inv_pow, ← g.hz_ab]
     exact (inv_eq_of_mul_eq_one_right g.hz2).symm
 
+omit [Finite G] in
 private theorem exists_dihGen {D : Subgroup G} (hD : IsDihNonab D) : Nonempty (DihGen D) := by
   classical
   have hD' : IsDihNonab D := hD
   obtain ⟨k, hk, ⟨e⟩⟩ := hD
   have hk1 : 1 ≤ k := by omega
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   let a : G := (e.symm (DihedralGroup.sr 0) : ↥D)
   let b : G := (e.symm (DihedralGroup.sr 1) : ↥D)
   let z : G := (e.symm (CFSG.CGT.Foote81L6.zc k) : ↥D)
@@ -813,15 +820,18 @@ private theorem exists_dihGen {D : Subgroup G} (hD : IsDihNonab D) : Nonempty (D
   exact ⟨⟨k, hk, a, b, z, ha, hb, hz, ha2, hb2, hz2, hz1, hgen, card_D, hz_central,
     hz_center, hab_order, hz_ab⟩⟩
 
+omit [Finite G] in
 private theorem DihGen.z_mem_rotation {D : Subgroup G} (g : DihGen D) :
     g.z ∈ Subgroup.zpowers (g.a * g.b) := by
   rw [g.hz_ab]
   exact Subgroup.pow_mem _ (Subgroup.mem_zpowers (g.a * g.b)) _
 
+omit [Finite G] in
 private theorem DihGen.rotation_le {D : Subgroup G} (g : DihGen D) :
     Subgroup.zpowers (g.a * g.b) ≤ D :=
   Subgroup.zpowers_le.mpr (mul_mem g.ha g.hb)
 
+omit [Finite G] in
 private theorem DihGen.rotation_relIndex {D : Subgroup G} (g : DihGen D) :
     (Subgroup.zpowers (g.a * g.b)).relIndex D = 2 := by
   have hcardR : Nat.card ↥(Subgroup.zpowers (g.a * g.b)) = 2 ^ g.k := by
@@ -831,6 +841,7 @@ private theorem DihGen.rotation_relIndex {D : Subgroup G} (g : DihGen D) :
   have hpos : 0 < 2 ^ g.k := by positivity
   exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h, mul_comm])
 
+omit [Finite G] in
 private theorem noncentral_of_dihGen {D : Subgroup G} (hD : IsDihNonab D) (g : DihGen D) :
     ∃ y ∈ D, y * g.a ≠ g.a * y := by
   by_contra h
@@ -854,6 +865,7 @@ private theorem noncentral_of_dihGen {D : Subgroup G} (hD : IsDihNonab D) (g : D
   obtain ⟨x, hx, y, hy, hxy⟩ := hD.exists_mul_ne_mul
   exact hxy (congrArg Subtype.val (hcomm' ⟨x, hx⟩ ⟨y, hy⟩))
 
+omit [Finite G] in
 private theorem card_inf_centralizer_left_eq {S D₁ D₂ : Subgroup G}
     (hd : DDDecomp S D₁ D₂) {a : G} (ha : a ∈ D₁) (ha2 : a * a = 1)
     (hnc : ∃ y ∈ D₁, y * a ≠ a * y) :
@@ -869,6 +881,7 @@ private theorem card_inf_centralizer_left_eq {S D₁ D₂ : Subgroup G}
     CFSG.CGT.Foote81L6.card_sup_of_le_normalizer
       (CFSG.CGT.Foote81L6.le_normalizer_of_comm hcomm) hinf, hfour.2.2]
 
+omit [Finite G] in
 private theorem card_inf_centralizer_right_eq {S D₁ D₂ : Subgroup G}
     (hd : DDDecomp S D₁ D₂) {a : G} (ha : a ∈ D₂) (ha2 : a * a = 1)
     (hnc : ∃ y ∈ D₂, y * a ≠ a * y) :
@@ -884,6 +897,7 @@ private theorem card_inf_centralizer_right_eq {S D₁ D₂ : Subgroup G}
       (CFSG.CGT.Foote81L6.le_normalizer_of_comm hcomm) hinf, hfour.2.2]
   omega
 
+omit [Finite G] in
 private theorem central_of_mem_rotation_involution {D : Subgroup G} (hD : IsDihNonab D)
     (g : DihGen D) {r : G} (hr : r ∈ Subgroup.zpowers (g.a * g.b)) (hr2 : r * r = 1) :
     ∀ y ∈ D, y * r = r * y := by
@@ -901,9 +915,9 @@ private theorem central_of_mem_rotation_involution {D : Subgroup G} (hD : IsDihN
   have hnoFour : ∀ V, CFSG.CGT.Foote81L6.TStruct.IsFourIn D V →
       ¬ V ≤ Subgroup.zpowers (g.a * g.b) := by
     intro V hV hVR
-    haveI : IsCyclic ↥(Subgroup.zpowers (g.a * g.b)) := Subgroup.isCyclic_zpowers _
+    have : IsCyclic ↥(Subgroup.zpowers (g.a * g.b)) := Subgroup.isCyclic_zpowers _
     have hVcyc : IsCyclic ↥V := Subgroup.isCyclic_of_le hVR
-    haveI : IsKleinFour ↥V := isKleinFour_of_isFourIn hV
+    have : IsKleinFour ↥V := isKleinFour_of_isFourIn hV
     exact IsKleinFour.not_isCyclic hVcyc
   obtain ⟨zR, hzR, hzR2, huniq⟩ :=
     (isDih_of_isDihNonab hD).exists_unique_involution hRle hRne hnoFour
@@ -918,6 +932,7 @@ private theorem central_of_mem_rotation_involution {D : Subgroup G} (hD : IsDihN
     rw [hr_eq, ← hz_eq]
     exact g.hz_central
 
+omit [Finite G] in
 private theorem card_inf_centralizer_of_mem_rotation {S D₁ D₂ : Subgroup G}
     (hd : DDDecomp S D₁ D₂) (h₁ : IsDihNonab D₁) (g₁ : DihGen D₁)
     {t : G} (htT : t ∈ Subgroup.zpowers (g₁.a * g₁.b) ⊔ D₂)
@@ -961,7 +976,7 @@ private theorem card_inf_centralizer_le_of_extremal {S : Subgroup G} (hS : IsPGr
     Nat.card ↥(S ⊓ Subgroup.centralizer ({u} : Set G)) ≤
       Nat.card ↥(S ⊓ Subgroup.centralizer ({x} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := Subgroup.centralizer ({u} : Set G)
   have hCu : IsPGroup 2 ↥((S : Subgroup G) ⊓ (C : Subgroup G)) :=
     IsPGroup.to_le (H := (S : Subgroup G) ⊓ (C : Subgroup G)) (K := (S : Subgroup G)) hS inf_le_left
@@ -980,13 +995,13 @@ private theorem card_inf_centralizer_le_of_extremal {S : Subgroup G} (hS : IsPGr
     _ = Nat.card ↥(S ⊓ Subgroup.centralizer ({x} : Set G)) := hPcard
 
 private theorem exists_extremal_conj (𝔖 : Sec3Setting G) {a : G}
-    (haS : a ∈ (𝔖.S : Subgroup G)) (ha2 : orderOf a = 2) :
+    (_haS : a ∈ (𝔖.S : Subgroup G)) (ha2 : orderOf a = 2) :
     ∃ t ∈ (𝔖.S : Subgroup G), IsConj a t ∧
       CFSG.ABGLocalTools.IsSylowOf 2
         ((𝔖.S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G))
         (Subgroup.centralizer ({t} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ha2' : a * a = 1 := by
     rw [← pow_two, ← ha2]
     exact pow_orderOf_eq_one a
@@ -1031,7 +1046,7 @@ private theorem exists_extremal_conj (𝔖 : Sec3Setting G) {a : G}
       rw [Subgroup.mem_centralizer_singleton_iff]
       have hxt : x * t = t * x := Subgroup.mem_centralizer_singleton_iff.mp hx
       have h := congrArg (fun z => g⁻¹ * z * g) hxt
-      simp only [t, MulAut.conj_apply] at h ⊢
+      simp only [t] at h ⊢
       calc (g⁻¹ * x * g) * a = g⁻¹ * (x * (g * a * g⁻¹)) * g := by group
         _ = g⁻¹ * ((g * a * g⁻¹) * x) * g := by rw [← h]
         _ = a * (g⁻¹ * x * g) := by group
@@ -1053,12 +1068,13 @@ private theorem exists_extremal_conj (𝔖 : Sec3Setting G) {a : G}
     · rw [← hCmap]
       exact Subgroup.map_mono hPSylow.le
   have hQ2 := IsPGroup.to_inf_left (p := 2) (H := (𝔖.S : Subgroup G))
-    (K := Subgroup.centralizer ({t} : Set G)) 𝔖.S.isPGroup' 
+    (K := Subgroup.centralizer ({t} : Set G)) 𝔖.S.isPGroup
   have heq : (𝔖.S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G) =
       P.map (MulAut.conj g).toMonoidHom :=
     CFSG.ABGLocalTools.IsSylowOf.eq_of_le hPmap' hle inf_le_right hQ2
   exact ⟨t, htS, hconj, by rw [heq]; exact hPmap'⟩
 
+omit [Finite G] in
 private theorem card_inf_centralizer_le_of_not_mem_center {S D₁ D₂ : Subgroup G}
     (hd : DDDecomp S D₁ D₂) (h₁ : IsDihNonab D₁) (h₂ : IsDihNonab D₂)
     {x : G} (hxS : x ∈ S) (hx2 : x * x = 1)
@@ -1117,7 +1133,7 @@ private theorem card_inf_centralizer_le_of_not_mem_center {S D₁ D₂ : Subgrou
     rw [hcomm, card_inf_centralizer_right_eq hd g₂.ha g₂.ha2 hanc₂] at hle
     exact hle.trans (le_max_left _ _)
 
-private theorem isSylowOf_of_card_eq_extremal {S : Subgroup G} (hS : IsPGroup 2 S) {x y : G}
+private theorem isSylowOf_of_card_eq_extremal {S : Subgroup G} (_hS : IsPGroup 2 S) {x y : G}
     (hx : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ Subgroup.centralizer ({x} : Set G))
       (Subgroup.centralizer ({x} : Set G)))
     (hxy : IsConj x y)
@@ -1125,7 +1141,7 @@ private theorem isSylowOf_of_card_eq_extremal {S : Subgroup G} (hS : IsPGroup 2 
       Nat.card ↥(S ⊓ Subgroup.centralizer ({x} : Set G))) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ Subgroup.centralizer ({y} : Set G))
       (Subgroup.centralizer ({y} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card (p := 2)
     (P := (S : Subgroup G) ⊓ Subgroup.centralizer ({y} : Set G))
     (K := Subgroup.centralizer ({y} : Set G)) inf_le_right ?_
@@ -1136,7 +1152,7 @@ private theorem isSylowOf_of_card_eq_extremal {S : Subgroup G} (hS : IsPGroup 2 
 
 private theorem extremal_disjunction (𝔖 : Sec3Setting G) {D₁ D₂ : Subgroup G}
     (hd : DDDecomp (𝔖.S : Subgroup G) D₁ D₂) (h₁ : IsDihNonab D₁) (h₂ : IsDihNonab D₂)
-    (g₁ : DihGen D₁) {z₂ : G} (hz₂D : z₂ ∈ D₂) (hz₂2 : orderOf z₂ = 2)
+    (g₁ : DihGen D₁) {z₂ : G} (hz₂D : z₂ ∈ D₂) (_hz₂2 : orderOf z₂ = 2)
     (hz₂c : D₂ ⊓ Subgroup.centralizer (D₂ : Set G) = Subgroup.zpowers z₂)
     {t : G} (htT : t ∈ Subgroup.zpowers (g₁.a * g₁.b) ⊔ D₂) (htconj : IsConj g₁.a t)
     (hmax : ∀ y ∈ Subgroup.zpowers (g₁.a * g₁.b) ⊔ D₂, IsConj g₁.a y →
@@ -1151,10 +1167,10 @@ private theorem extremal_disjunction (𝔖 : Sec3Setting G) {D₁ D₂ : Subgrou
         ((𝔖.S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G))
         (Subgroup.centralizer ({t} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup G := (𝔖.S : Subgroup G)
   let T : Subgroup G := Subgroup.zpowers (g₁.a * g₁.b) ⊔ D₂
-  have hS : IsPGroup 2 S := 𝔖.S.isPGroup'
+  have hS : IsPGroup 2 S := 𝔖.S.isPGroup
   have haS : g₁.a ∈ S := hd.le_left g₁.ha
   have hnc₁ := noncentral_of_dihGen h₁ g₁
   have ha2pow : g₁.a ^ 2 = 1 := by rw [pow_two]; exact g₁.ha2
@@ -1249,7 +1265,7 @@ private theorem exists_max_conj_in_rotation (𝔖 : Sec3Setting G) {D₁ D₂ : 
         (fun x => by
           intro hx
           exact h ⟨x, hx⟩)
-    haveI : N.Normal := hNnorm
+    have : N.Normal := hNnorm
     have hQ2 : IsPGroup 2 (G ⧸ N) := by
       rw [isPGroup_iff_pow_pow_eq_one]
       intro y
@@ -1280,7 +1296,7 @@ private theorem exists_max_conj_in_rotation (𝔖 : Sec3Setting G) {D₁ D₂ : 
     obtain ⟨M, hM⟩ :=
       CFSG.QuasiDihedralFusion.exists_index_two_of_two_pow_index N hNidx hmpos
     exact 𝔖.noIndexTwo M (Subgroup.normal_of_index_eq_two hM) hM
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let s : Finset G := Finset.univ.filter (fun y => y ∈ T ∧ IsConj g₁.a y)
   have hs : s.Nonempty := by
     obtain ⟨g, hg⟩ := hconjT
@@ -1293,6 +1309,7 @@ private theorem exists_max_conj_in_rotation (𝔖 : Sec3Setting G) {D₁ D₂ : 
   intro y hy hyconj
   exact hmax y (Finset.mem_filter.mpr ⟨Finset.mem_univ _, hy, hyconj⟩)
 
+omit [Finite G] in
 private theorem exists_sylow_centralizer_containing {S : Subgroup G} (hS : IsPGroup 2 S)
     {a : G} :
     ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 R
@@ -1330,6 +1347,7 @@ private theorem isSylowOf_centralizer_of_central {S : Subgroup G}
     CFSG.ABGLocalTools.IsSylowOf 2 S (Subgroup.centralizer ({t} : Set G)) :=
   hS.of_le ht le_top
 
+omit [Finite G] in
 private theorem eq_one_or_eq_of_mem_zpowers_sq {z w : G} (hz2 : z * z = 1)
     (hw : w ∈ Subgroup.zpowers z) : w = 1 ∨ w = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
@@ -1339,6 +1357,7 @@ private theorem eq_one_or_eq_of_mem_zpowers_sq {z w : G} (hz2 : z * z = 1)
   · right
     rw [hm, zpow_add_one, zpow_mul, zpow_two, hz2, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem mem_sup_zpowers_involution {z₁ z₂ w : G}
     (hz₁2 : z₁ * z₁ = 1) (hz₂2 : z₂ * z₂ = 1)
     (hcomm : ∀ x ∈ Subgroup.zpowers z₁, ∀ y ∈ Subgroup.zpowers z₂, x * y = y * x)
@@ -1361,8 +1380,9 @@ private theorem mem_sup_zpowers_involution {z₁ z₂ w : G}
     · right; right; right
       rw [hu1, hv1]
 
+omit [Finite G] in
 private theorem eq_center_of_mem_commutator_involution {D : Subgroup G} (hD : IsDihNonab D)
-    {z w : G} (hzD : z ∈ D) (hz2 : z * z = 1) (hz1 : z ≠ 1)
+    {z w : G} (_hzD : z ∈ D) (hz2 : z * z = 1) (_hz1 : z ≠ 1)
     (hzc : D ⊓ Subgroup.centralizer (D : Set G) = Subgroup.zpowers z)
     (hw : w ∈ ⁅D, D⁆) (hw2 : w * w = 1) (hw1 : w ≠ 1) : w = z := by
   have hwD : w ∈ D := by
@@ -1379,6 +1399,7 @@ private theorem eq_center_of_mem_commutator_involution {D : Subgroup G} (hD : Is
   · exact absurd h hw1
   · exact h
 
+omit [Finite G] in
 private theorem map_commutator_le_of_map_le {H K : Subgroup G} {u : G}
     (h : H.map (MulAut.conj u).toMonoidHom ≤ K) :
     (⁅H, H⁆).map (MulAut.conj u).toMonoidHom ≤ ⁅K, K⁆ := by
@@ -1388,7 +1409,7 @@ private theorem map_commutator_le_of_map_le {H K : Subgroup G} {u : G}
 private theorem exists_conj_le_of_isSylowOf_poly {K P Q : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 2 P K) (hQK : Q ≤ K) (hQ : IsPGroup 2 Q) :
     ∃ c ∈ K, ∀ q ∈ Q, c * q * c⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := hP.exists_sylow_eq_subgroupOf
   have hQ' : IsPGroup 2 (Q.subgroupOf K) := hQ.comap_subtype
   obtain ⟨R, hR⟩ := hQ'.exists_le_sylow
@@ -1407,7 +1428,7 @@ private theorem exists_conj_extremal_poly {S : Subgroup G} (hS : IsPGroup 2 S) {
       ∀ c ∈ S ⊓ Subgroup.centralizer ({u} : Set G),
         g⁻¹ * c * g ∈ S ⊓ Subgroup.centralizer ({v} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := S ⊓ Subgroup.centralizer ({u} : Set G)
   set P' : Subgroup G := P.map (MulAut.conj h).toMonoidHom
   have hP'K : P' ≤ Subgroup.centralizer ({v} : Set G) := by
@@ -1433,6 +1454,7 @@ private theorem exists_conj_extremal_poly {S : Subgroup G} (hS : IsPGroup 2 S) {
     rwa [show c * (h * x * h⁻¹) * c⁻¹ =
       (h⁻¹ * c⁻¹)⁻¹ * x * (h⁻¹ * c⁻¹) by group] at this
 
+omit [Finite G] in
 private theorem conj_mem_center_of_mem_center_map {R S : Subgroup G} {u x : G}
     (hRmap : R.map (MulAut.conj u).toMonoidHom = S)
     (hx : x ∈ R ⊓ Subgroup.centralizer (R : Set G)) :
@@ -1452,6 +1474,7 @@ private theorem conj_mem_center_of_mem_center_map {R S : Subgroup G} {u x : G}
     _ = u * (x * y') * u⁻¹ := by rw [hcomm]
     _ = (u * x * u⁻¹) * (u * y' * u⁻¹) := by group
 
+omit [Finite G] in
 private theorem le_centralizer_of_mem_commutator_of_map_conj {S R D₁ D₂ : Subgroup G}
     (hd : DDDecomp S D₁ D₂) (h₁ : IsDihNonab D₁) {u : G}
     (hRmap : R.map (MulAut.conj u).toMonoidHom = S)
@@ -1477,6 +1500,7 @@ private theorem le_centralizer_of_mem_commutator_of_map_conj {S R D₁ D₂ : Su
   have h := congrArg (fun z => u⁻¹ * z * u) hcomm
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 private theorem exists_rotation_decomp {S D₁ D₂ : Subgroup G} (hd : DDDecomp S D₁ D₂)
     (h₁ : IsDihNonab D₁) (g : DihGen D₁) {t : G}
     (htT : t ∈ Subgroup.zpowers (g.a * g.b) ⊔ D₂) (ht2 : t * t = 1)
@@ -1525,9 +1549,9 @@ private theorem false_of_max_conj_noncentral (𝔖 : Sec3Setting G) {D₁ D₂ :
     (htZ : t ∉ (𝔖.S : Subgroup G) ⊓
       Subgroup.centralizer ((𝔖.S : Subgroup G) : Set G)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup G := (𝔖.S : Subgroup G)
-  have hS : IsPGroup 2 S := 𝔖.S.isPGroup'
+  have hS : IsPGroup 2 S := 𝔖.S.isPGroup
   have hnc_a : ∃ y ∈ D₁, y * g.a ≠ g.a * y := noncentral_of_dihGen h₁ g
   have ha_ord : orderOf g.a = 2 := by
     have ha2pow : g.a ^ 2 = 1 := by rw [pow_two]; exact g.ha2
@@ -1595,7 +1619,7 @@ private theorem false_of_max_conj_noncentral (𝔖 : Sec3Setting G) {D₁ D₂ :
     have hzder : u⁻¹ * g.z * u ∈ ⁅S ⊓ Subgroup.centralizer ({g.a} : Set G),
         S ⊓ Subgroup.centralizer ({g.a} : Set G)⁆ := by
       refine hleD ?_
-      exact Subgroup.mem_map.mpr ⟨g.z, by rw [ht_eq, hcomm_t]; exact hz₁D', by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨g.z, by rw [ht_eq, hcomm_t]; exact hz₁D', by simp⟩
     rw [hcomm_a] at hzder
     have hw2 : (u⁻¹ * g.z * u) * (u⁻¹ * g.z * u) = 1 := by
       have h := congrArg (fun x => u⁻¹ * x * u) g.hz2
@@ -1622,7 +1646,7 @@ private theorem false_of_max_conj_noncentral (𝔖 : Sec3Setting G) {D₁ D₂ :
     have hzder : u⁻¹ * z₂ * u ∈ ⁅S ⊓ Subgroup.centralizer ({t} : Set G),
         S ⊓ Subgroup.centralizer ({t} : Set G)⁆ := by
       refine hleD ?_
-      exact Subgroup.mem_map.mpr ⟨z₂, by rw [hcomm_a]; exact hz₂D', by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨z₂, by rw [hcomm_a]; exact hz₂D', by simp⟩
     rw [ht_eq, hcomm_t] at hzder
     have hz₂2' : z₂ * z₂ = 1 := hz₂2
     have hw2 : (u⁻¹ * z₂ * u) * (u⁻¹ * z₂ * u) = 1 := by
@@ -1651,9 +1675,9 @@ private theorem exists_correction_of_reflection (𝔖 : Sec3Setting G) {D₁ D�
     ∃ ε ∈ D₂, (∀ d ∈ D₂, d * ε = ε * d) ∧ ε * ε = 1 ∧
       ConjIn (Subgroup.centralizer ({z₂} : Set G)) (g.a * ε) g.z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup G := (𝔖.S : Subgroup G)
-  have hS : IsPGroup 2 S := 𝔖.S.isPGroup'
+  have hS : IsPGroup 2 S := 𝔖.S.isPGroup
   have hnc_a : ∃ y ∈ D₁, y * g.a ≠ g.a * y := noncentral_of_dihGen h₁ g
   have ha1 : g.a ≠ 1 := by
     intro h
@@ -1817,7 +1841,7 @@ theorem lemma_3_9 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁) :
           ((S₁' ⊓ Subgroup.centralizer (S₁' : Set G) : Subgroup G) : Set G),
           g * x * g⁻¹ = y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₁⟩ := exists_dihGen h₁
   obtain ⟨g₂⟩ := exists_dihGen 𝔖.decomp.dih₂
   have h38 : ∀ s ∈ (𝔖.S : Subgroup G), ∀ t ∈ (𝔖.S : Subgroup G),

@@ -31,7 +31,7 @@ private theorem card_outer_dvd_eight {S : Type} [Group S] [Finite S] {r : ℕ} (
 theorem k6L4_out_two {Y : Type} [Group Y] [Finite Y] {r : ℕ} (hlie : IsLie811 Y .l4 r 1) :
     ∀ φ : MulAut Y, ∃ k : ℕ, φ ^ (2 ^ k) ∈ innAut Y := by
   obtain ⟨hq, -, hr, -, hm⟩ := hlie
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   have hdvd := card_outer_dvd_eight hr hm
   intro φ
   refine ⟨3, ?_⟩

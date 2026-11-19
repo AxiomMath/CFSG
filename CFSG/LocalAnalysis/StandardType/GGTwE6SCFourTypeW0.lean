@@ -25,10 +25,10 @@ include hn hK hσ hFr in
 private theorem mem_Cgrp_of_mul_self (h3 : 3 ∣ 2 ^ n + 1) {x : ModGL Tag.E6 Ω}
     (hx : x ∈ TwistedDiag.Rgrp Ω Fr) (hx2 : x * x = 1) :
     x ∈ TwistedDiag.Cgrp K σ.toRingHom Ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, hCn, hCi, -⟩ :=
     TwistedDiag.cgrp_facts (ℓ := 2) (f := n) hn K hK σ.toRingHom hσ h3 Ω Fr hFr
-  haveI := hCn
+  have := hCn
   have h1 := Subgroup.pow_index_mem
     ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr)) ⟨x, hx⟩
   have hidx : ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf
@@ -167,12 +167,12 @@ theorem conj_torusElt_mem_rgrpModel
       x ∈ (twistedTorusOf (TwistedDiag.n0 Ω) (twistE6 Ω Fr)).map (MulAut.conj g0).toMonoidHom)
     {ζ : Ωˣ} (hζ : orderOf ζ = 3) (i : Fin Tag.E6.rank) :
     g0 * torusElt Tag.E6 Ω i ζ * g0⁻¹ ∈ rgrpModel hn hK σ hσ Fr hFr ε (TypeA.inducedSub ψ A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hζ3 : ζ ^ 3 = 1 := hζ ▸ pow_orderOf_eq_one ζ
   obtain ⟨hu3, ht2, htu⟩ := inverts_conj_torusElt (CharP.cast_eq_zero Ω 2) g0 hζ3 i
   refine mem_rgrpModel_of_inverts hn hK σ hσ Fr hFr ε hε h3 hψ hker hAI hSC

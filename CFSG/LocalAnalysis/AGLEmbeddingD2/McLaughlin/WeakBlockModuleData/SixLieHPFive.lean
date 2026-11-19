@@ -36,10 +36,10 @@ theorem center_su_five_eq_bot (hF : Nat.card F = (2 ^ 1) ^ 2) :
     have hc : conjTr (unitaryInvolution F 2 1) (u • (1 : Matrix (Fin 5) (Fin 5) F)) =
         (unitaryInvolution F 2 1 u) • (1 : Matrix (Fin 5) (Fin 5) F) := by
       ext a b
-      by_cases hab : a = b <;> simp [conjTr, Matrix.one_apply, eq_comm, hab]
+      by_cases hab : a = b <;> simp [conjTr, eq_comm, hab]
     rw [hc, smul_mul_assoc, one_mul, mul_smul_comm, mul_one, smul_smul] at hunit
     have h := congrFun (congrFun hunit ⟨0, by norm_num⟩) ⟨4, by norm_num⟩
-    simp [antidiag, unitaryInvolution_apply] at h
+    simp [antidiag] at h
     have h' : u * u ^ 2 = 1 := by simpa [frobenius_def] using h
     calc u ^ 3 = u * u ^ 2 := by ring
       _ = 1 := h'

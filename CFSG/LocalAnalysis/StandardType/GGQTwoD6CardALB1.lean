@@ -51,11 +51,11 @@ private lemma ggQ2d6l_psum_succ (i k : Fin 5) :
     rcases lt_or_gt_of_ne hne with hlt | hgt
     · have h1 : ¬ ((i : ℕ) ≤ (k : ℕ)) := by omega
       have h2 : ¬ ((i : ℕ) + 1 ≤ (k : ℕ)) := by omega
-      rw [if_neg h1, if_neg h2]
+      rw [ite_eq_right h1, ite_eq_right h2]
       simp [hki]
     · have h1 : (i : ℕ) ≤ (k : ℕ) := by omega
       have h2 : (i : ℕ) + 1 ≤ (k : ℕ) := by omega
-      rw [if_pos h1, if_pos h2]
+      rw [ite_eq_left h1, ite_eq_left h2]
       simp [hki]
 
 private noncomputable def ggQ2d6l_mu {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -185,7 +185,7 @@ private lemma ggQ2d6l_mu_swap {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       rw [Finset.sum_eq_single i]
       · simp
       · intro k _ hki
-        rw [if_neg hki, zero_smul]
+        rw [ite_eq_right hki, zero_smul]
       · intro hi
         exact absurd (Finset.mem_univ i) hi
     calc
@@ -208,9 +208,9 @@ private lemma ggQ2d6l_mu_delta {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     ggQ2d6l_mu h (Pi.single i.castSucc 1 - Pi.single i.succ 1) = h i := by
   simp only [ggQ2d6l_mu, LinearMap.coe_mk, AddHom.coe_mk]
   rw [Finset.sum_eq_single i]
-  · rw [ggQ2d6l_psum_succ, if_pos rfl, one_smul]
+  · rw [ggQ2d6l_psum_succ, ite_eq_left rfl, one_smul]
   · intro k _ hki
-    rw [ggQ2d6l_psum_succ, if_neg hki, zero_smul]
+    rw [ggQ2d6l_psum_succ, ite_eq_right hki, zero_smul]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 

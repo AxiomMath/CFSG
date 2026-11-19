@@ -41,7 +41,7 @@ theorem pfilter_countP (f P : Nat → Bool) : ∀ (Ls : List (List Nat)) (g : Na
       acc.countP P + pcountProducts n w (fun x => f x && P x) Ls g
   | [], g, acc => by
     unfold pfilterProducts pcountProducts
-    cases hf : f g <;> cases hp : P g <;> simp [List.countP_cons, hp]
+    cases hf : f g <;> cases hp : P g <;> simp [hp]
   | T :: Ts, g, acc => by
     unfold pfilterProducts pcountProducts
     suffices ∀ (T : List Nat) (acc : List Nat) (c : Nat),

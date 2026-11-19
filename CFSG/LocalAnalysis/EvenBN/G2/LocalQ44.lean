@@ -39,51 +39,67 @@ theorem exists_centralizer_mul_of_le_J (d : G2Data L K) {A M N : Subgroup G} (hA
 
 namespace Q44
 
+omit [Finite G] [Finite K] in
 theorem M_le_M₅ (d : G2Data L K) (t : G) : d.M ≤ yamadaM₅ d t :=
   (le_sup_left : d.M ≤ yamadaM₂ d t).trans
     ((le_sup_right : yamadaM₂ d t ≤ yamadaM₃ d t).trans le_sup_left)
 
+omit [Finite G] [Finite K] in
 theorem M₂_le_M₅ (d : G2Data L K) (t : G) : yamadaM₂ d t ≤ yamadaM₅ d t :=
   (le_sup_right : yamadaM₂ d t ≤ yamadaM₃ d t).trans le_sup_left
 
+omit [Finite G] [Finite K] in
 theorem Y₂_le_F₂ (d : G2Data L K) (t : G) : yamadaY₂ d t ≤ yamadaF₂ d t := le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem F₂_le_F₃ (d : G2Data L K) (t : G) : yamadaF₂ d t ≤ yamadaF₃ d t := le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem F₂_le_F₄ (d : G2Data L K) (t : G) : yamadaF₂ d t ≤ yamadaF₄ d t := le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem F₃_le_F₅ (d : G2Data L K) (t : G) : yamadaF₃ d t ≤ yamadaF₅ d t := le_sup_left
 
+omit [Finite G] [Finite K] in
 theorem F₄_le_F₅ (d : G2Data L K) (t : G) : yamadaF₄ d t ≤ yamadaF₅ d t := le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem F₂_le_F₅ (d : G2Data L K) (t : G) : yamadaF₂ d t ≤ yamadaF₅ d t :=
   (F₂_le_F₃ d t).trans (F₃_le_F₅ d t)
 
+omit [Finite G] [Finite K] in
 theorem Y₂_le_F₅ (d : G2Data L K) (t : G) : yamadaY₂ d t ≤ yamadaF₅ d t :=
   (Y₂_le_F₂ d t).trans (F₂_le_F₅ d t)
 
+omit [Finite G] [Finite K] in
 theorem F_le_F₅ (d : G2Data L K) (t : G) : d.F ≤ yamadaF₅ d t :=
   (le_sup_left : d.F ≤ yamadaF₂ d t).trans (F₂_le_F₅ d t)
 
+omit [Finite G] [Finite K] in
 theorem W₃_le_F₅ (d : G2Data L K) (t : G) : yamadaW₃ d t ≤ yamadaF₅ d t :=
   (le_sup_left : yamadaW₃ d t ≤ yamadaF₃ d t).trans (F₃_le_F₅ d t)
 
+omit [Finite G] [Finite K] in
 theorem X₄_le_F₅ (d : G2Data L K) (t : G) : yamadaX₄ d t ≤ yamadaF₅ d t :=
   (le_sup_left : yamadaX₄ d t ≤ yamadaF₄ d t).trans (F₄_le_F₅ d t)
 
+omit [Finite G] [Finite K] in
 theorem F₅_le_M₅ (d : G2Data L K) (t : G) : yamadaF₅ d t ≤ yamadaM₅ d t :=
   sup_le_sup (sup_le_sup_left (yamadaF₂_le_yamadaM₂ d t) _)
     (sup_le_sup_left (yamadaF₂_le_yamadaM₂ d t) _)
 
+omit [Finite G] [Finite K] in
 theorem M₅_le_S₅ (d : G2Data L K) (t : G) : yamadaM₅ d t ≤ yamadaS₅ d t := by
   have hMS : d.M ≤ d.S := d.inclusions.2.2.2.2.2.2.2.2.1
   exact sup_le_sup (sup_le_sup_left (sup_le_sup_right hMS _) _)
     (sup_le_sup_left (sup_le_sup_right hMS _) _)
 
+omit [Finite G] [Finite K] in
 theorem S_le_S₅ (d : G2Data L K) (t : G) : d.S ≤ yamadaS₅ d t :=
   (le_sup_left : d.S ≤ yamadaS₂ d t).trans
     ((le_sup_right : yamadaS₂ d t ≤ yamadaS₃ d t).trans le_sup_left)
 
+omit [Finite G] [Finite K] in
 theorem F₅_le_S₅ (d : G2Data L K) (t : G) : yamadaF₅ d t ≤ yamadaS₅ d t :=
   (F₅_le_M₅ d t).trans (M₅_le_S₅ d t)
 
@@ -161,9 +177,11 @@ theorem F₂_le_R₂ (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^
     (hD : h.DoublingFacts d) : yamadaF₂ d t ≤ yamadaR₂ d t :=
   (yamadaF₂_le_yamadaM₂ d t).trans ((h.yamadaM₂_le_yamadaL₂ d hK hD).trans le_sup_left)
 
+omit [Finite G] [Finite K] in
 theorem W₂_le_F₂ (d : G2Data L K) (t : G) : yamadaW₂ d t ≤ yamadaF₂ d t :=
   sup_le_sup_right d.inclusions.2.2.2.2.1 _
 
+omit [Finite G] [Finite K] in
 theorem X₂_le_F₂ (d : G2Data L K) (t : G) : yamadaX₂ d t ≤ yamadaF₂ d t :=
   sup_le_sup_right d.inclusions.2.2.2.1 _
 
@@ -369,6 +387,7 @@ theorem map_wb_map_wb (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 
       _ = x := by rw [wb_mul_self h d hK]; group
   rw [this]
 
+omit [Finite G] in
 theorem mem_normalizer_map_conj {X : Subgroup G} {w g : G}
     (hg : w⁻¹ * g * w ∈ normalizer (X : Set G)) :
     g ∈ normalizer ((X.map (MulAut.conj w).toMonoidHom : Subgroup G) : Set G) := by
@@ -403,7 +422,7 @@ theorem wb_mem_normalizer_W₃ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L
     d.wb ∈ normalizer (yamadaW₃ d t : Set G) :=
   h.normalizer_yamadaL₃_le_normalizer_yamadaW₃ hW d hK hQ (wb_mem_normalizer_L₃ hW h d hK hQ)
 
-theorem F_inf_map_wb (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f) :
+theorem F_inf_map_wb (_h : Setup G L f t) (d : G2Data L K) (_hK : Nat.card K = 2 ^ f) :
     d.F ⊓ d.F.map (MulAut.conj d.wb).toMonoidHom = d.W ∧
       d.F ⊔ d.F.map (MulAut.conj d.wb).toMonoidHom = d.M := by
   obtain ⟨-, hwW, hwM⟩ := d.wb_mem_normalizer
@@ -431,6 +450,7 @@ theorem F_inf_map_wb (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^
   exact (Subgroup.eq_of_le_of_card_ge (le_inf hWF (hWm.ge.trans (Subgroup.map_mono hWF)))
     (by rw [h2, d.cards.2.2.2.1])).symm
 
+omit [Finite G] in
 theorem inv_conj_mem {X : Subgroup G} {w x : G} (hw : w ∈ normalizer (X : Set G)) (hx : x ∈ X) :
     w⁻¹ * x * w ∈ X := by
   have := (mem_normalizer_iff.1 (inv_mem hw) x).1 hx
@@ -628,7 +648,7 @@ theorem L₆_le_normalizer_M₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G 
 theorem L₆_le_normalizer_map_wb (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     yamadaL₆ d t ≤ normalizer ((yamadaM₅ d t).map (MulAut.conj d.wb).toMonoidHom : Set G) :=
-  fun x hx => mem_normalizer_map_conj
+  fun _x hx => mem_normalizer_map_conj
     (L₆_le_normalizer_M₅ hW h d hK hQ (inv_conj_mem (wb_mem_normalizer_L₆ h d) hx))
 
 theorem M₆_le_L₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G2Data L K)
@@ -726,11 +746,12 @@ theorem J_le_normalizer_five (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f
 
 theorem J_le_normalizer_M₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G2Data L K)
     (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
-    d.J ≤ normalizer (yamadaM₆ d t : Set G) := fun j hj =>
+    d.J ≤ normalizer (yamadaM₆ d t : Set G) := fun _j hj =>
   mem_normalizer_sup ((J_le_normalizer_five hW h d hK hQ).2.2 hj)
     (mem_normalizer_map_conj ((J_le_normalizer_five hW h d hK hQ).2.2
       (inv_conj_mem (h.wb_mem_normalizer_J d hK) hj)))
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem rootGroup_yamadaRoot_le_centralizer_Ji (d : G2Data L K) (i : Fin 6) :
     d.rootGroup (Model.yamadaRoot i) ≤ centralizer (d.Ji i : Set G) := by
   have h := d.image_inf_centralizer (rootSubgroup .G2 K (Model.yamadaRoot i))
@@ -1293,6 +1314,7 @@ theorem S₅_inf_R₂ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d 
     exact Subgroup.mem_inf.2 ⟨hs₃, hs₃R₂⟩
   exact mul_mem hs₃S₂ hs₄S₂
 
+omit [Finite G] in
 theorem upperCentralSeries_of_forall {S' U Y : Subgroup G} (hUS : U ≤ S') (hYS : Y ≤ S')
     (hZ : S' ⊓ centralizer (S' : Set G) = U)
     (hiff : ∀ x ∈ S', (x ∈ Y ↔ ∀ g ∈ S', x * g * x⁻¹ * g⁻¹ ∈ U)) :
@@ -1331,6 +1353,7 @@ theorem upperCentralSeries_of_forall {S' U Y : Subgroup G} (hUS : U ≤ S') (hYS
     · intro hx
       exact ⟨⟨x, hYS hx⟩, (hmem2 _).2 hx, rfl⟩
 
+omit [Finite G] in
 theorem commutator_mem_of_mem_Z₂ {S' U Y : Subgroup G}
     (hU : (Subgroup.upperCentralSeries S' 1).map S'.subtype = U)
     (hY : (Subgroup.upperCentralSeries S' 2).map S'.subtype = Y) {x : G} (hx : x ∈ Y) {g : G}
@@ -1342,14 +1365,17 @@ theorem commutator_mem_of_mem_Z₂ {S' U Y : Subgroup G}
   rw [← hU]
   exact ⟨_, h1, rfl⟩
 
+omit [Finite K] in
 theorem S₁_le_S₂ (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f)
     (hD : h.DoublingFacts d) : yamadaS₁ d t ≤ yamadaS₂ d t := by
   rw [h.yamadaS₁_eq_sup d hK hD]
   exact sup_le_sup_left (yamadaU₁_le_yamadaY₂ d t) _
 
+omit [Finite G] [Finite K] in
 theorem U₁_le_S₂ (d : G2Data L K) (t : G) : yamadaU₁ d t ≤ yamadaS₂ d t :=
   (yamadaU₁_le_yamadaY₂ d t).trans le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem S₂_le_S₅ (d : G2Data L K) (t : G) : yamadaS₂ d t ≤ yamadaS₅ d t :=
   (le_sup_right : yamadaS₂ d t ≤ yamadaS₃ d t).trans le_sup_left
 
@@ -1467,8 +1493,8 @@ theorem le_centralizer_U₁_of_centralizer_J₁_le (h : Setup G L f t) (d : G2Da
     (hJP : d.J₁ ≤ normalizer (P : Set G)) (hPU₁ : P ≤ normalizer (yamadaU₁ d t : Set G))
     (hC : P ⊓ centralizer (d.J₁ : Set G) ≤ yamadaU₁ d t) :
     P ≤ centralizer (yamadaU₁ d t : Set G) :=
-  le_centralizer_U₁_of_centralizer_J₁_le_centralizer h d hD hP hJP hPU₁ fun x hx =>
-    mem_centralizer_iff.2 fun u hu => hD.mul_comm hu (hC hx)
+  le_centralizer_U₁_of_centralizer_J₁_le_centralizer h d hD hP hJP hPU₁ fun _x hx =>
+    mem_centralizer_iff.2 fun _u hu => hD.mul_comm hu (hC hx)
 
 theorem S₂_le_S₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G2Data L K)
     (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) : yamadaS₂ d t ≤ yamadaS₆ d t :=
@@ -1478,6 +1504,7 @@ theorem U₁_le_S₆ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d :
     (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) : yamadaU₁ d t ≤ yamadaS₆ d t :=
   (U₁_le_S₂ d t).trans (S₂_le_S₆ hW h d hK hQ)
 
+omit [Finite G] [Finite K] in
 theorem Y₂_le_S₂ (d : G2Data L K) (t : G) : yamadaY₂ d t ≤ yamadaS₂ d t := le_sup_right
 
 theorem S₆_le_normalizer_S₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)

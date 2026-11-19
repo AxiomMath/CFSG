@@ -20,9 +20,9 @@ theorem ggL45NtCoreOn_famTypeACase1 : GGL45NtCoreOn GGL45FamTypeACase1 := by
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
     have hq' : ¬ p ∣ Fintype.card K - 1 := by
       intro h
       apply hq
@@ -36,9 +36,9 @@ theorem ggL45NtCoreOn_famTypeACase1 : GGL45NtCoreOn GGL45FamTypeACase1 := by
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 :=
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (show 1 ≤ 2 * n by have hn1 : 1 ≤ n := hlab.1; omega) (by rw [hK, ← pow_mul, mul_comm])
     have hK' : Fintype.card K = (2 ^ n) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK

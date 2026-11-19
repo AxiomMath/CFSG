@@ -90,7 +90,7 @@ theorem exists_mem_param [CharP F 2] {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
       spForm (0 : Fin n ⊕ Fin n → F) v • a + ((-e) * spForm a v) • a := by
     intro v
     rw [he', spTrans_mulVec]
-    simp [spForm_zero_left]
+    simp
   have hs' : s = x₀ * t⁻¹ := by rw [hst, mul_inv_cancel_right]
   refine ⟨s, hs, -e, fun v => ?_⟩
   rw [hs', mat_mul_mulVec_of_param hw (spForm_zero_right a) hx₀v ht' v]
@@ -216,7 +216,7 @@ theorem exists_triple {a : Fin n ⊕ Fin n → F} (hn : 3 ≤ n) (ha : a ≠ 0) 
 end Radical
 
 theorem no_invariant_complement_spRad {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F] [CharP F 2]
-    [Finite F] (hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
+    [Finite F] (_hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
     {T S : Subgroup (StatedSp n F)} (hT : CaseM.IsTransGroup a T) (hS : S ≤ spRad a)
     (hsup : S ⊔ T = spRad a) (hinf : S ⊓ T = ⊥)
     (hinv : ∀ (w : Fin n ⊕ Fin n → F) (g : StatedSp n F), spForm a w = 0 →
@@ -237,11 +237,11 @@ section Order
 
 variable {n : ℕ} {F : Type} [Field F]
 
-theorem spRad_comm [CharP F 2] (hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
+theorem spRad_comm [CharP F 2] (_hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
     {g h : StatedSp n F} (hg : g ∈ spRad a) (hh : h ∈ spRad a) : g * h = h * g :=
   spRadCommStmt_holds ha g hg h hh
 
-theorem spRad_sq [CharP F 2] (hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
+theorem spRad_sq [CharP F 2] (_hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
     {g : StatedSp n F} (hg : g ∈ spRad a) : g * g = 1 := by
   obtain ⟨w, l, haw, hx⟩ := exists_param_of_mem_spRad ha hg
   refine eq_of_mat_mulVec_eq fun v => ?_
@@ -304,8 +304,8 @@ theorem natCard_ker_spFormL [Finite F] {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0
   rw [Module.Dual.range_eq_top_of_ne_zero hf, finrank_top, Module.finrank_self,
     Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin] at h
   have hfr : Module.finrank F (LinearMap.ker (spFormL a)) = 2 * n - 1 := by omega
-  haveI hK : Fintype F := Fintype.ofFinite F
-  haveI hV : Fintype (LinearMap.ker (spFormL a)) := Fintype.ofFinite _
+  have hK : Fintype F := Fintype.ofFinite F
+  have hV : Fintype (LinearMap.ker (spFormL a)) := Fintype.ofFinite _
   have hcard : Fintype.card (LinearMap.ker (spFormL a)) = Fintype.card F ^ (2 * n - 1) :=
     (Module.card_eq_pow_finrank (K := F) (V := LinearMap.ker (spFormL a))).trans (by rw [hfr])
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
@@ -334,9 +334,9 @@ theorem spRad_card_eq_ker [CharP F 2] {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0)
     rw [hgx b, hb, one_smul, mul_one]
     linear_combination (norm := module) (1 : F) • two_smul_vec_eq_zero (spForm v b • a)
 
-theorem spRad_card [CharP F 2] (hF : Nat.card F = 2) (hn : 1 ≤ n) {a : Fin n ⊕ Fin n → F}
+theorem spRad_card [CharP F 2] (hF : Nat.card F = 2) (_hn : 1 ≤ n) {a : Fin n ⊕ Fin n → F}
     (ha : a ≠ 0) : Nat.card (spRad a) = 2 ^ (2 * n - 1) := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   rw [spRad_card_eq_ker ha, natCard_ker_spFormL ha, hF]
 
 end Order

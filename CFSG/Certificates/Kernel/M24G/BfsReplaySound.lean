@@ -50,7 +50,7 @@ private def ksBfsInv {α : Type} [Inhabited α] (key : α → Nat) (L : List α)
 private theorem ksBfs_take_getElem! {β : Type} [Inhabited β] {l : List β} {sz i : Nat}
     (hi : i < sz) : ((l.take sz).toArray)[i]! = l[i]! := by
   rw [List.getElem!_toArray]
-  simp only [List.getElem!_eq_getElem?_getD, List.getElem?_take, if_pos hi]
+  simp only [List.getElem!_eq_getElem?_getD, List.getElem?_take, ite_eq_left hi]
 
 private theorem ksBfs_push_take {β : Type} {l : List β} {sz : Nat} {a : Array β}
     (ha : a = (l.take sz).toArray) (hlt : sz < l.length) {y : β} (hy : l[sz] = y) :
@@ -234,7 +234,7 @@ private theorem ksBfs_outer_step {α : Type} [Inhabited α] [DecidableEq α] {ke
       replayGo key steps pos f (L.drop (h + 1)) (h + 1) (L.drop sz') (par.drop sz')
         (gen.drop sz') sz' = true := by
   simp only [replayGo] at hr
-  rw [if_pos hlt] at hr
+  rw [ite_eq_left hlt] at hr
   split at hr
   · cases hr
   · rename_i x hs'
@@ -252,7 +252,7 @@ private theorem ksBfs_outer_step {α : Type} [Inhabited α] [DecidableEq α] {ke
           st.2.2.2.1 hstep hI
       have hbody : ksBfsOuter key steps lo st = pure (.yield (lA', pA', gA', mA', h + 1)) := by
         unfold ksBfsOuter
-        rw [if_pos (by rw [hsize, hst]; exact hlt)]
+        rw [ite_eq_left (by rw [hsize, hst]; exact hlt)]
         simp only [hst, hx]
         have hin' : forIn steps (st.1, st.2.1, st.2.2.1, st.2.2.2.1, 0)
             (ksBfsInner key x h) = (lA', pA', gA', mA', 0 + steps.length) := hin
@@ -270,7 +270,7 @@ private theorem ksBfs_outer_done {α : Type} [Inhabited α] [DecidableEq α] {ke
     ∃ st', ksBfsOuter key steps lo st = pure (.done st') ∧
       st'.1 = L.toArray ∧ st'.2.1 = par.toArray ∧ st'.2.2.1 = gen.toArray := by
   simp only [replayGo] at hr
-  rw [if_neg hge] at hr
+  rw [ite_eq_right hge] at hr
   simp only [Bool.and_eq_true, List.isEmpty_iff] at hr
   obtain ⟨⟨n1, n2⟩, n3⟩ := hr
   have m1 : L.length ≤ sz := List.drop_eq_nil_iff.1 (by rw [← e1]; exact n1)

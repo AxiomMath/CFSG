@@ -33,7 +33,7 @@ theorem pElementSubgroup_le_of_k2 {X : Type} [Group X] [Finite X] (L : Subgroup 
       ¬ R ≤ (MulAut.conj : ↥L →* MulAut ↥L).range → 4 ≤ CFSG.Open.pRank 3 R) :
     CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.pElementSubgroup 3
       (⊤ : Subgroup X) ≤ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (Subgroup.closure_le L).2 ?_
   rintro x ⟨-, k, hk⟩
   have hxk : x ^ 3 ^ k = 1 := hk ▸ pow_orderOf_eq_one x
@@ -46,7 +46,7 @@ theorem pElementSubgroup_le_of_k2 {X : Type} [Group X] [Finite X] (L : Subgroup 
   set c : X →* MulAut ↥L := MulAut.conjNormal (H := L)
   have hinj : ∀ z ∈ (P : Subgroup X), c z = 1 → z = 1 := by
     intro z hz hz1
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨z, hz⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨z, hz⟩
     have hzj : z ^ 3 ^ j = 1 := congrArg Subtype.val hj
     exact eq_one_of_mem_centralizer_of_pow_three_pow hZ h3L.ge h3X.le
       ((conjNormal_eq_one_iff_mem_centralizer L).1 hz1) hzj
@@ -58,7 +58,7 @@ theorem pElementSubgroup_le_of_k2 {X : Type} [Group X] [Finite X] (L : Subgroup 
     refine hxL (mem_of_mem_sup_centralizer hZ h3L.ge h3X.le ?_ hxk)
     rw [hxeq]
     exact Subgroup.mul_mem_sup l.2 hcen
-  have h4 := H ((P : Subgroup X).map c) ((P.isPGroup').map c)
+  have h4 := H ((P : Subgroup X).map c) ((P.isPGroup).map c)
     (isSylowOf_inf_inner L P) hnle
   rw [pRank_map_of_injOn (by norm_num) c (P : Subgroup X) hinj] at h4
   have h5 : CFSG.Open.pRank 3 (P : Subgroup X) ≤
@@ -136,7 +136,7 @@ theorem not_isThreeOnePlusFour_of_psp43 {X : Type} [Group X] [Finite X]
       (by simpa using hexpR x hx)
   have hR3 : IsPGroup 3 R := IsPGroup.of_card (p := 3) (n := 5) hcard
   have hmap3 : IsPGroup 3 (R.map c) := hR3.map c
-  haveI : Group.IsPerfect ↥L := (Group.isPerfect_def).2 hq.1
+  have : Group.IsPerfect ↥L := (Group.isPerfect_def).2 hq.1
   have hInner : R.map c ≤ innAut ↥L :=
     le_innAut_of_card_outer_le_two (card_outer_le_two_of_psp43 hm) hmap3
   have hsup : ∀ x ∈ R, x ∈ L ⊔ Subgroup.centralizer (L : Set X) → x ∈ L := by

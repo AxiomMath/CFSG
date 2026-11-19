@@ -29,7 +29,7 @@ theorem langFamTame_twoD_high
     {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2) {ι : Type}
     {a : ι → Fin τ.rank → Lˣ} (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus)
-    (hap : ∀ u j, a u j ^ p = 1) (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1)
+    (hap : ∀ u j, a u j ^ p = 1) (_h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1)
     (i : KernelComponent (famCharHom a))
     (hk : twistKindM S.ρ (famCharHom a) i = .twoD)
     (h5 : 5 ≤ compRank (componentRoots (famCharHom a) i)) :
@@ -60,8 +60,8 @@ theorem langFamTame_twoD_high
     rw [hcomp] at hβ ⊢
     exact hf.apply_mem_simpleRoots hΨ hpos hβ
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  letI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  let : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨y, hyZ_b, hyM, hyv, hpin_b⟩ := S.exists_twoD_pin (a := b) hq j hv_b hΔ_b
   have hyZ_fam : y ∈ torusGroup τ L ⊔ rootSpan τ L (componentRoots (famCharHom a) i) := by
     rw [← hcomp]; exact hyZ_b

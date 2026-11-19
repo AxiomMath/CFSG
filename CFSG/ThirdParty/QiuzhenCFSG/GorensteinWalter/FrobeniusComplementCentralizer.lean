@@ -44,7 +44,7 @@ public theorem centralizer_mem_le_complement
           h * ((a : G) * (b : G)) * h⁻¹ := by group
       _ = h * g * h⁻¹ := by rw [hx_eq]
       _ = g := hcentral
-  have hyx : y = x := huniq y (by simpa [hprod] using hprod)
+  have hyx : y = x := huniq y (by simp [hprod])
   have hb_eq : h * (b : G) * h⁻¹ = (b : G) := by
     have hcong : (bK : G) = (b : G) :=
       congrArg (fun z : H × K => (z.2 : G)) hyx

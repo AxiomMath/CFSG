@@ -69,7 +69,7 @@ theorem odd_card_center_of_pCore_eq_bot {X : Type} [Group X] [Finite X]
     (h : CFSG.pCore 2 X = ⊥) : Odd (Nat.card (Subgroup.center X)) := by
   by_contra hodd
   rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
-  haveI : Finite ↥(Subgroup.center X) :=
+  have : Finite ↥(Subgroup.center X) :=
     Finite.of_injective (Subtype.val : ↥(Subgroup.center X) → X) Subtype.coe_injective
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hodd
   let y : X := (z : X)
@@ -109,7 +109,7 @@ theorem not_isTrialityOddTransp_quotient (hMarked : TrialityMarkedInput)
     (hs : s ∈ barSub (kSub V H E) φ V) (hs1 : s ≠ 1) :
     ¬ IsTrialityOddTransp (X ⧸ Subgroup.center X) (QuotientGroup.mk s) := by
   intro hT
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨hord, -, hncl, hpc⟩ := seven_eleven_small_hyps h hφ hS hs hs1
   have hZ : Subgroup.center X = ⊥ :=
     hCentral X s hord hncl (odd_card_center_of_pCore_eq_bot hpc) hT

@@ -119,7 +119,7 @@ theorem smallRankIsQ8D8_map_of_injOn {H K : Type} [Group H] [Group K] (φ : H �
 
 theorem mem_zpowers_of_sq_one {H : Type} [Group H] {c e : H} (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1)
     (he : e ∈ zpowers c) : e = 1 ∨ e = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoc : orderOf c = 2 := orderOf_eq_prime hc2 hc1
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp he
   have hmod : c ^ k = c ^ (k % (orderOf c : ℤ)) := (zpow_mod_orderOf c k).symm
@@ -138,7 +138,7 @@ theorem exists_conj_of_involution {Γ : Type} [Group Γ] [Finite Γ] {a b : Γ}
     (ha2 : a ^ 2 = 1) (ha1 : a ≠ 1) (hb2 : b ^ 2 = 1) (hb1 : b ≠ 1)
     (hia : ¬ 2 ∣ (zpowers a).index) (hib : ¬ 2 ∣ (zpowers b).index) :
     ∃ g : Γ, g * a * g⁻¹ = b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoa : orderOf a = 2 := orderOf_eq_prime ha2 ha1
   have hob : orderOf b = 2 := orderOf_eq_prime hb2 hb1
   have hpa : IsPGroup 2 (zpowers a) :=
@@ -212,7 +212,7 @@ theorem mem_mul_centralizer_of_involution {H : Type} [Group H] [Finite H] (C : S
     [C.Normal] (hodd : Odd (Nat.card C)) {c : H} (hc2 : c ^ 2 = 1) (hcC : c ∉ C)
     (hinv : ∀ n : H, ∃ e ∈ C, n * c * n⁻¹ = e * c) (n : H) :
     ∃ d ∈ C, ∃ m : H, m * c * m⁻¹ = c ∧ n = d * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc1 : c ≠ 1 := fun h1 => hcC (h1 ▸ C.one_mem)
   have hcc : c * c = 1 := by rw [← sq]; exact hc2
   have hcinv : c⁻¹ = c := inv_eq_of_mul_eq_one_right hcc

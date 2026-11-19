@@ -22,8 +22,9 @@ variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
 @[expose] noncomputable def fiveQ (rep : Fin 64 → G) : Subgroup G :=
   CFSG.Open.pCoreOf 2 (fiveCent rep)
 
+omit [Finite G] in
 private theorem commute_of_mem_fiveCent
-    (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) {g : G}
+    (_hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) {g : G}
     (hg : g ∈ fiveCent rep) : g * rep 5 = rep 5 * g :=
   (Subgroup.mem_centralizer_iff.mp hg (rep 5) (by simp)).symm
 
@@ -37,12 +38,14 @@ private theorem blockU_le_fiveCent (S : Setting G M L)
   subst y
   exact (S.blockU_comm hx (hc.mem 5)).symm
 
+omit [Finite G] in
 private theorem normalizer_zpowers_of_commute {a b : G} (h : a * b = b * a) :
     a ∈ Subgroup.normalizer (Subgroup.zpowers b : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers]
-  simp only [MulAut.conj_apply, MonoidHom.coe_coe]
+  simp only [MulAut.conj_apply, _root_.MonoidHom.coe_ofClass]
   rw [show a * b * a⁻¹ = b from by rw [h]; group]
 
+omit [Finite G] in
 private theorem zpowers_five_le_fiveQ
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) :
     Subgroup.zpowers (rep 5) ≤ fiveQ rep := by
@@ -59,20 +62,24 @@ private theorem zpowers_five_le_fiveQ
     rw [Nat.card_zpowers]
     exact orderOf_dvd_of_pow_eq_one (by simpa [pow_two] using rep_mul_self hc 5)
 
+omit [Finite G] in
 private theorem fiveQ_le_fiveCent (rep : Fin 64 → G) : fiveQ rep ≤ fiveCent rep :=
   CFSG.LieType.BorelTits.pCoreOf_le 2 _
 
 private theorem fiveQ_isPGroup (rep : Fin 64 → G) : IsPGroup 2 (fiveQ rep) :=
   CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
 
+omit [Finite G] in
 private theorem fiveCent_normalizes_fiveQ (rep : Fin 64 → G) :
     fiveCent rep ≤ Subgroup.normalizer (fiveQ rep : Set G) :=
   CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _
 
+omit [Finite G] in
 private theorem conj_mem_fiveQ {g q : G} (hg : g ∈ fiveCent rep) (hq : q ∈ fiveQ rep) :
     g * q * g⁻¹ ∈ fiveQ rep :=
   (Subgroup.mem_normalizer_iff.mp (fiveCent_normalizes_fiveQ rep hg) q).mp hq
 
+omit [Finite G] in
 private theorem le_fiveQ_of_normal {K : Subgroup G} (hKH : K ≤ fiveCent rep)
     (hKn : ∀ h ∈ fiveCent rep, ∀ k ∈ K, h * k * h⁻¹ ∈ K) (hKp : IsPGroup 2 K) :
     K ≤ fiveQ rep := by
@@ -156,7 +163,7 @@ private theorem exists_mem_L_fiveCent (S : Setting G M L)
 
 private theorem conj_rep_mem_fiveQ (S : Setting G M L)
     (hF : ModelFacts) (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
-    (hC1 : Subgroup.centralizer (L : Set G) = ⊥)
+    (_hC1 : Subgroup.centralizer (L : Set G) = ⊥)
     {a : Equiv.Perm (Fin 64)} (ha : a ∈ hexaL) (ha5 : a 5 = 5) {w : Fin 64}
     (hw : rep w ∈ fiveQ rep) : rep (a w) ∈ fiveQ rep := by
   obtain ⟨m, -, hmH, hmψ⟩ := exists_mem_L_fiveCent S hF hc ha ha5
@@ -675,7 +682,7 @@ private theorem le_centralizer_of_le_blockU_of_normal (S : Setting G M L)
     (hF : ModelFacts) (hD : DModelFacts)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
     (hC1 : Subgroup.centralizer (L : Set G) = ⊥)
-    (hcM : ¬ fiveCent rep ≤ M) {Y : Subgroup G} (hYQ : Y ≤ fiveQ rep)
+    (hcM : ¬ fiveCent rep ≤ M) {Y : Subgroup G} (_hYQ : Y ≤ fiveQ rep)
     (hYV : Y ≤ blockU L)
     (hYn : ∀ g ∈ fiveCent rep, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) :
     Y ≤ Subgroup.centralizer (fiveQ rep : Set G) := by

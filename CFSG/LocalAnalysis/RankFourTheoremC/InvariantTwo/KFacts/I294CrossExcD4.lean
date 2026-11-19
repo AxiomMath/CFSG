@@ -17,8 +17,8 @@ theorem crossSylowAbelianAt_trialityD4 {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) :
     CrossSylowAbelianAt ⟨.trialityD4 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by simpa using hdp
   have hm : 0 < TwistTag.D4.order := by decide
   have hK : Nat.card (GaloisField q.p (q.exponent * TwistTag.D4.order)) =

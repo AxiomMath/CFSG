@@ -19,7 +19,7 @@ theorem map_tau_of_isLift (S : LinSetting p q₀ d k K ψ E) {x : GL (Fin d) k} 
   by_cases hc1 : c = 1
   · rw [hc, hc1, map_one, one_mul]
   exfalso
-  haveI : Fact p.Prime := ⟨S.hp⟩
+  have : Fact p.Prime := ⟨S.hp⟩
   have hprim : IsPrimitiveRoot c p :=
     IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hcp hc1)
   have h1 := S.card_E_mul_le

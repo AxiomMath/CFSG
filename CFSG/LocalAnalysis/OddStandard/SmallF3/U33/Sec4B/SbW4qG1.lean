@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem w4q_mem_of_normalizes {P K : Subgroup G} (hP : IsSylowIn 2 P K) {c : G} (hcK : c ∈ K)
     (hcN : ∀ s ∈ P, c * s * c⁻¹ ∈ P) (hc2 : c ^ 2 ∈ P) : c ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : zpowers c ≤ Subgroup.normalizer (P : Set G) :=
     Subgroup.zpowers_le.mpr (Subgroup.mem_normalizer_fintype (S := (P : Set G)) hcN)
   have hzp2 : IsPGroup 2 (zpowers c) := by

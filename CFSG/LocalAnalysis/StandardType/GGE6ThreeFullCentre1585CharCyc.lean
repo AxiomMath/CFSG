@@ -32,7 +32,7 @@ private theorem ltrv4a_rootChar_zsmul {K : Type} [Field K] {τ : Tag}
     rootChar a (n • v) = rootChar a v ^ n := by
   cases n with
   | ofNat n =>
-      rw [Int.ofNat_eq_coe, natCast_zsmul, ltrv4a_rootChar_nsmul, zpow_natCast]
+      rw [Int.ofNat_eq_natCast, natCast_zsmul, ltrv4a_rootChar_nsmul, zpow_natCast]
   | negSucc n =>
       have hcast : (↑n + 1 : ℤ) = (↑(n + 1) : ℤ) := by push_cast; ring
       have hz : (Int.negSucc n) • v = -((n + 1 : ℕ) • v) := by
@@ -83,9 +83,9 @@ theorem isCyclic_charKilled_of_isAddCyclic {τ : Tag} {Omega : Type} [Field Omeg
   obtain ⟨g, hg⟩ := h
   obtain ⟨v₀, hv₀⟩ := Submodule.mkQ_surjective N g
   let m := Nat.card ((Fin τ.rank → ℤ) ⧸ N)
-  haveI : Fintype ((Fin τ.rank → ℤ) ⧸ N) := Fintype.ofFinite _
-  haveI : Nonempty ((Fin τ.rank → ℤ) ⧸ N) := ⟨N.mkQ 0⟩
-  haveI : NeZero m := ⟨by
+  have : Fintype ((Fin τ.rank → ℤ) ⧸ N) := Fintype.ofFinite _
+  have : Nonempty ((Fin τ.rank → ℤ) ⧸ N) := ⟨N.mkQ 0⟩
+  have : NeZero m := ⟨by
     rw [show m = Fintype.card ((Fin τ.rank → ℤ) ⧸ N) from Nat.card_eq_fintype_card]
     exact Fintype.card_ne_zero⟩
   have hmg : m • g = 0 :=

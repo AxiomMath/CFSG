@@ -10,7 +10,7 @@ universe u
 
 lemma qCoreOf_fittingSubgroupOf_le_qCoreOf
     {G : Type u} [Group G] [Finite G]
-    (A : Subgroup G) (q : ℕ) (hq : q.Prime) :
+    (A : Subgroup G) (q : ℕ) (_hq : q.Prime) :
     qCoreOf (_root_.CFSG.fittingSubgroupOf A) q ≤ qCoreOf A q := by
   let F : Subgroup G := _root_.CFSG.fittingSubgroupOf A
   have hQFnormA : IsNormalIn (qCoreOf F q) A := by

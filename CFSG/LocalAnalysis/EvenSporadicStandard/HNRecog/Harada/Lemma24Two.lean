@@ -19,7 +19,7 @@ private lemma coordElt_injective {ι : Elem2 6 →* G} (hι : Function.Injective
   simpa using congrArg Multiplicative.toAdd h
 
 theorem card_two_subgroup_le [Finite G] {t z z₁ : G} (h : Setting24 ι a) (hD3 : HData3 G t z z₁)
-    (ht : coordElt ι tv = t) (hat : a ∈ centralizer ({t} : Set G)) (ha3 : orderOf a = 3)
+    (_ht : coordElt ι tv = t) (hat : a ∈ centralizer ({t} : Set G)) (ha3 : orderOf a = 3)
     (hconj : ∀ v, IsConj t (coordElt ι v) ↔ qp v = 1) :
     ∀ R : Subgroup G, R ≤ centralizer ({a} : Set G) → IsPGroup 2 R → Nat.card R ≤ 64 := by
   classical
@@ -30,7 +30,7 @@ theorem card_two_subgroup_le [Finite G] {t z z₁ : G} (h : Setting24 ι a) (hD3
     obtain ⟨c, hc⟩ := hx
     exact ⟨g * c, by rw [← hc]; group⟩
   have hP2 : IsPGroup 2 (P24 ι a) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.iff_card.mpr ⟨6, by rw [card_P24 h]; norm_num⟩
   have hEab : IsMulCommutative ↥(E24 ι a) := by
     rw [isMulCommutative_iff]
@@ -58,7 +58,7 @@ theorem card_two_subgroup_le [Finite G] {t z z₁ : G} (h : Setting24 ι a) (hD3
     have hset2 : {v : V6 | v ∈ Fix3 ∧ qp v = 1}
         = ((Fix3.filter fun v => qp v = 1 : Finset V6) : Set V6) := by
       ext v
-      simp only [Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter]
+      simp only [Set.mem_ofPred_eq, Finset.mem_coe, Finset.mem_filter]
     rw [hset2, Set.ncard_coe_finset, card_Fix3_qp_one]
   have hmove : ∀ x ∈ E24 ι a, IsConj t x → ∃ p ∈ P24 ι a, p * x * p⁻¹ ≠ x := by
     intro x hxE hxEx
@@ -68,7 +68,7 @@ theorem card_two_subgroup_le [Finite G] {t z z₁ : G} (h : Setting24 ι a) (hD3
       exact (hconj v).mp hxEx
     have hne : uV v ≠ v ∨ wV v ≠ v := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hq0 := Fix3_Vg_fixed_qp_zero v hvF hcon.1 hcon.2
       rw [hv1] at hq0
       exact one_ne_zero hq0

@@ -30,7 +30,7 @@ theorem inE_of_solvable_quotient {i : ℕ} (hi : 1 ≤ i) :
     · subst hR
       exact inE_top_of_mulEquiv (QuotientGroup.quotientBot : (Q ⧸ (⊥ : Subgroup Q)) ≃* Q) hI
     obtain ⟨N, hNn, hNR, hN1, hNmin⟩ := CFSG.exists_minimal_normal_le R ‹R.Normal› hR
-    haveI : N.Normal := hNn
+    have : N.Normal := hNn
     have hNs : Group.IsSolvable ↥N :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hNR)
     have hIM : CFSG.IsMinimalNormal N := ⟨fun K _ hKN => by
@@ -45,7 +45,7 @@ theorem inE_of_solvable_quotient {i : ℕ} (hi : 1 ≤ i) :
       have h3 := Nat.card_pos (α := Q ⧸ N)
       nlinarith
     set R' : Subgroup (Q ⧸ N) := R.map (QuotientGroup.mk' N) with hR'
-    haveI : R'.Normal := Subgroup.Normal.map ‹R.Normal› _ (QuotientGroup.mk'_surjective N)
+    have : R'.Normal := Subgroup.Normal.map ‹R.Normal› _ (QuotientGroup.mk'_surjective N)
     have hR's : Group.IsSolvable ↥R' :=
       Group.isSolvable_of_surjective (f := (QuotientGroup.mk' N).subgroupMap R)
         ((QuotientGroup.mk' N).subgroupMap_surjective R)
@@ -92,7 +92,7 @@ theorem nParam_top_le_of_levi {N : Subgroup Q} [N.Normal]
     refine le_antisymm ?_ (CFSG.LieType.BorelTits.le_pCore 2 (MonoidHom.normal_ker π) hker)
     have hnorm : ((CFSG.pCore 2 ↥N).map π).Normal :=
       (CFSG.LieType.BorelTits.pCore_normal 2).map π hπ
-    haveI := hnorm
+    have := hnorm
     rcases hsimple.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥N).map π) with h | h
     · rw [Subgroup.map_eq_bot_iff] at h
       exact h
@@ -104,10 +104,10 @@ theorem nParam_top_le_of_levi {N : Subgroup Q} [N.Normal]
       have := h3.isNilpotent
       obtain ⟨a, b, hab⟩ := hnab
       have hnt : Nontrivial SL(2, F) := ⟨⟨a * b, b * a, hab⟩⟩
-      haveI := hperf
+      have := hperf
       exact Group.IsPerfect.not_isSolvable SL(2, F) inferInstance
   set R : Subgroup Q := CFSG.pCore 2 Q with hRdef
-  haveI hRn : R.Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hRn : R.Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hR2 : IsPGroup 2 ↥R := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hVR : pCoreOf 2 N ≤ R := by
     refine CFSG.LieType.BorelTits.le_pCore 2 ?_ (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N)
@@ -139,9 +139,9 @@ theorem nParam_top_le_of_levi {N : Subgroup Q} [N.Normal]
     (QuotientGroup.quotientKerEquivOfSurjective ρ hρs).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hkerρ).trans
         (QuotientGroup.quotientKerEquivOfSurjective π hπ))
-  haveI hLn : (N.map (QuotientGroup.mk' R)).Normal :=
+  have hLn : (N.map (QuotientGroup.mk' R)).Normal :=
     Subgroup.Normal.map ‹N.Normal› _ (QuotientGroup.mk'_surjective R)
-  haveI hLsimple : IsSimpleGroup ↥(N.map (QuotientGroup.mk' R)) := e.isSimpleGroup
+  have hLsimple : IsSimpleGroup ↥(N.map (QuotientGroup.mk' R)) := e.isSimpleGroup
   have hLnab : ∃ a b : ↥(N.map (QuotientGroup.mk' R)), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -179,7 +179,7 @@ theorem nParam_top_le_of_levi {N : Subgroup Q} [N.Normal]
       rw [CFSG.Quasithin.Vol2.Ch11.SecE3.center_eq_bot_of_simple hLnab, Subgroup.mem_bot] at hz
       exact congrArg Subtype.val hz
     set C' : Subgroup Q := C.comap (QuotientGroup.mk' R) with hC'def
-    haveI hC'n : C'.Normal := Subgroup.normal_comap _
+    have hC'n : C'.Normal := Subgroup.normal_comap _
     have hC'2 : IsPGroup 2 ↥C' := by
       intro g
       obtain ⟨k, hk⟩ := hC2 (QuotientGroup.mk' R (g : Q)) g.2

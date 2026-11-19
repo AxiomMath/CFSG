@@ -20,6 +20,7 @@ section Cases
 
 variable {K : Subgroup (GLV V)} {J : Submodule (ZMod 2) V}
 
+omit [Finite V] in
 theorem restrictRange_eq_top_of_restrictG (hJ : IsIrr K J) (h : restrictG K J hJ.1 = ⊤) :
     restrictRange K J hJ.1 = ⊤ := by
   refine eq_top_iff.2 fun g _ => ?_
@@ -28,6 +29,7 @@ theorem restrictRange_eq_top_of_restrictG (hJ : IsIrr K J) (h : restrictG K J hJ
   have h2 := (mem_restrictG_iff hJ.1 _).1 h1
   rwa [MulEquiv.apply_symm_apply] at h2
 
+omit [Finite V] in
 theorem mem_restrictRange_of_bilin (hJ : IsIrr K J) (f : LinearMap.BilinForm (ZMod 2) ↥J)
     (h : restrictG K J hJ.1 = CFSG.LocalAnalysis.ComponentInitial.bilinIsometryGroup f) (g : ↥J ≃ₗ[ZMod 2] ↥J) :
     g ∈ restrictRange K J hJ.1 ↔ ∀ x y, f (g x) (g y) = f x y := by
@@ -45,6 +47,7 @@ theorem mem_restrictRange_of_bilin (hJ : IsIrr K J) (f : LinearMap.BilinForm (ZM
     rw [coe_symm_generalLinearEquiv, coe_symm_generalLinearEquiv]
     exact hg x y
 
+omit [Finite V] in
 theorem mem_restrictRange_of_orth (hJ : IsIrr K J) (Q : QuadraticForm (ZMod 2) ↥J)
     (h : restrictG K J hJ.1 = (TauCeti.QuadraticMap.orthogonalGroup Q).comap
       (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) ↥J).toMonoidHom)

@@ -35,7 +35,7 @@ theorem exists_normalizer_moving_or_solvable
     {B : Subgroup (Equiv.Perm (Fin 2457))} (hBG : B ≤ d4G) (hB : IsElemAbelian 3 B)
     (h27 : 27 ≤ Nat.card B) {u : Equiv.Perm (Fin 2457)} (huB : u ∈ B) (huP : u ∈ d4P)
     (hu1 : u ≠ 1) :
-    IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
+    Group.IsSolvable ↥(centralizer {u} ⊓ d4P) ∨
       ∃ n ∈ d4P, n ∈ normalizer (B : Set (Equiv.Perm (Fin 2457))) ∧ n * u * n⁻¹ ∉ zpowers u := by
   have hBP9 : Nat.card ↥(B ⊓ d4P) ≤ 9 := hrk _ inf_le_right (hB.mono inf_le_left)
   have hB3 := card_le_three_mul_card_inf_d4P hBG

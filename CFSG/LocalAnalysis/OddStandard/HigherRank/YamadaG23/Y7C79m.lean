@@ -13,9 +13,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conjSub_eq_bot_iff {t : G} {Y : Subgroup G} : conjSub t Y = ⊥ ↔ Y = ⊥ :=
   Subgroup.map_eq_bot_iff_of_injective Y (MulAut.conj t).injective
 
+omit [Finite G] in
 private lemma map_subgroupOf_equivMapOfInjective (E N : Subgroup G) (f : G →* G)
     (hf : Function.Injective f) :
     (N.subgroupOf E).map (Subgroup.equivMapOfInjective E f hf) =
@@ -38,7 +40,7 @@ theorem y7c_isGL3Ext_conjSub {E N : Subgroup G} {t : G} (h : IsGL3Ext E N)
     (hN : conjSub t N = N) : IsGL3Ext (conjSub t E) N := by
   unfold IsGL3Ext SecProp at h ⊢
   obtain ⟨hNE, hNnorm, ⟨e0⟩⟩ := h
-  haveI : (N.subgroupOf E).Normal := hNnorm
+  have : (N.subgroupOf E).Normal := hNnorm
   have hEnorm : E ≤ normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNE).mp hNnorm
   let f : G →* G := (MulAut.conj t).toMonoidHom
@@ -61,7 +63,7 @@ theorem y7c_isGL3Ext_conjSub {E N : Subgroup G} {t : G} (h : IsGL3Ext E N)
   have hsub' : (N.subgroupOf E).map e = N.subgroupOf (E.map f) := by
     rw [hNf] at hsub
     exact hsub
-  haveI : (N.subgroupOf (E.map f)).Normal := hnorm
+  have : (N.subgroupOf (E.map f)).Normal := hnorm
   exact ⟨(QuotientGroup.congr (N.subgroupOf E) (N.subgroupOf (E.map f)) e hsub').symm.trans e0⟩
 
 theorem y7c_79_main {M L1 P V J : Subgroup G} {t : G}

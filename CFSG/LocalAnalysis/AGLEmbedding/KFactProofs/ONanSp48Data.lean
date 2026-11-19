@@ -76,14 +76,14 @@ theorem kFactSp48Data : KFactSp48Data := by
     push Not at h
     exact hnot fun x hx => h x hx
   obtain ⟨m, hm⟩ : ∃ m : ℕ, y ^ (3 ^ m) = 1 := by
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨y, hyT⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨y, hyT⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have : K.Normal := hKn
   obtain ⟨Θ, hΘ, hΘinl, hΘK⟩ := exists_embedding hC (eK := eK) hyK hm
   have hidx := index_le_six (eK := eK) hC
   have hidx0 : K.index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hTle : Nat.card (T : Subgroup Y) ≤ 3 ^ 5 := by
-    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 T.isPGroup'
+    obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 T.isPGroup
     have hdvd : 3 ^ a ∣ 3 ^ 4 * 13045760 * K.index := by
       rw [← ha]
       have := Subgroup.card_subgroup_dvd_card (T : Subgroup Y)

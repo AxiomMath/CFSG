@@ -29,11 +29,11 @@ theorem perm_inv_apply {α : Type*} (g : Equiv.Perm α) (p : α) : g⁻¹ (g p) 
 @[expose] def K0 : Subgroup (Equiv.Perm (Fin 360)) where
   carrier := {g | ∀ p, blk (g p) = blk p}
   mul_mem' {g h} hg hh p := by
-    simp only [Set.mem_setOf_eq, Equiv.Perm.mul_apply] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq, Equiv.Perm.mul_apply] at hg hh ⊢
     rw [hg, hh]
   one_mem' p := rfl
   inv_mem' {g} hg p := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have h := hg (g⁻¹ p)
     rw [perm_apply_inv] at h
     exact h.symm
@@ -208,7 +208,7 @@ theorem omegaT_le_ker : omegaT.subgroupOf autT ≤ copyHom.ker := by
   exact copyHom_eq a 1 fun p => by rw [omegaT_le_K0 ha p]; rfl
 
 theorem ker_copyHom : copyHom.ker = omegaT.subgroupOf autT := by
-  haveI : Finite autT := Nat.finite_of_card_ne_zero (by rw [card_autT]; norm_num)
+  have : Finite autT := Nat.finite_of_card_ne_zero (by rw [card_autT]; norm_num)
   have hcard : Nat.card autT = Nat.card (copyHom.ker) * 6 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup copyHom.ker
     rw [Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective copyHom

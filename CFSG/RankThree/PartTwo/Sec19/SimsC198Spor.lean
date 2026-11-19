@@ -57,7 +57,7 @@ private theorem noAutDatum_M11
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.M11 := e.trans b.symm
-  haveI : Finite NativeSporadic.M11 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.M11 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.M11) e'
     (Sec4.not_three_dvd_card_outer_of_le_two CFSG.Sporadic.Schreier.at_m11_schreier.1) ?_
   rw [CFSG.Sporadic.Mathieu.card_M11]
@@ -68,7 +68,7 @@ private theorem noAutDatum_M12
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.M12 := e.trans b.symm
-  haveI : Finite NativeSporadic.M12 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.M12 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.M12) e'
     (Sec4.not_three_dvd_card_outer_of_le_two
       (CFSG.ComponentClassification.M12Cover.card_outer).le) ?_
@@ -80,7 +80,7 @@ private theorem noAutDatum_M22
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M22.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.M22 := e.trans b.symm
-  haveI : Finite NativeSporadic.M22 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.M22 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.M22) e'
     (Sec4.not_three_dvd_card_outer_of_le_two
       (Sec4.card_outer_le_two_of_card_mulAut_le CFSG.Sporadic.Schreier.m22_center_eq_bot'
@@ -93,7 +93,7 @@ private theorem noAutDatum_M23
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M23.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.M23 := e.trans b.symm
-  haveI : Finite NativeSporadic.M23 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.M23 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.M23) e'
     (Sec4.not_three_dvd_card_outer_of_le_two CFSG.Sporadic.Schreier.at_m23_schreier.1) ?_
   rw [CFSG.RankThree.Asc83Table.M23.card_M23]
@@ -102,10 +102,10 @@ private theorem noAutDatum_M23
 private theorem noAutDatum_M24
     {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (e : S ≃* Sec4.Spor .M24) :
     NoAutDatum S := by
-  haveI : IsSimpleGroup TauCeti.SporadicName.M24.Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup TauCeti.SporadicName.M24.Group := e.symm.isSimpleGroup
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_M24
   have e' : S ≃* NativeSporadic.M24 := e.trans b
-  haveI : Finite NativeSporadic.M24 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.M24 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.M24) e'
     (Sec4.not_three_dvd_card_outer_of_le_two
       (Sec4.card_outer_le_two_of_card_mulAut_le CFSG.Sporadic.Schreier.m24_center_eq_bot'
@@ -119,7 +119,7 @@ private theorem noAutDatum_J1
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J1.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.J1 := e.trans b.symm
-  haveI : Finite NativeSporadic.J1 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.J1 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.J1) e'
     (Sec4.not_three_dvd_card_outer_of_le_two
       (CFSG.Sporadic.Schreier.at_j1_schreier.1.le.trans (by norm_num))) ?_
@@ -131,7 +131,7 @@ private theorem noAutDatum_J2
     NoAutDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J2.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.J2 := e.trans b.symm
-  haveI : Finite NativeSporadic.J2 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.J2 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.J2) e'
     (Sec4.not_three_dvd_card_outer_of_le_two Sec4.card_outer_J2) ?_
   rw [CFSG.Sporadic.J2.card_J2]
@@ -140,10 +140,10 @@ private theorem noAutDatum_J2
 private theorem noAutDatum_HS
     {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (e : S ≃* Sec4.Spor .HS) :
     NoAutDatum S := by
-  haveI : IsSimpleGroup TauCeti.SporadicName.HS.Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup TauCeti.SporadicName.HS.Group := e.symm.isSimpleGroup
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_HS
   have e' : S ≃* NativeSporadic.HS := e.trans b
-  haveI : Finite NativeSporadic.HS := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.HS := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.HS) e'
     (Sec4.not_three_dvd_card_outer_of_le_two Sec4.card_outer_HS) ?_
   rw [CFSG.Sporadic.HS.card_HS]
@@ -152,10 +152,10 @@ private theorem noAutDatum_HS
 private theorem noAutDatum_Ru
     {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (e : S ≃* Sec4.Spor .Ru) :
     NoAutDatum S := by
-  haveI : IsSimpleGroup TauCeti.SporadicName.Ru.Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup TauCeti.SporadicName.Ru.Group := e.symm.isSimpleGroup
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_Ru
   have e' : S ≃* NativeSporadic.Ru := e.trans b
-  haveI : Finite NativeSporadic.Ru := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.Ru := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.Ru) e'
     (Sec4.not_three_dvd_card_outer_of_le_two Sec4.card_outer_Ru) ?_
   rw [CFSG.Sporadic.Ru.card_Ru]
@@ -164,10 +164,10 @@ private theorem noAutDatum_Ru
 private theorem noAutDatum_He
     {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (e : S ≃* Sec4.Spor .He) :
     NoAutDatum S := by
-  haveI : IsSimpleGroup TauCeti.SporadicName.He.Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup TauCeti.SporadicName.He.Group := e.symm.isSimpleGroup
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_He
   have e' : S ≃* NativeSporadic.He := e.trans b
-  haveI : Finite NativeSporadic.He := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.He := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.He) e'
     (Sec4.not_three_dvd_card_outer_of_le_two CFSG.Sporadic.Schreier.AT_He_Schreier.1) ?_
   rw [CFSG.Sporadic.He.card_He]
@@ -176,10 +176,10 @@ private theorem noAutDatum_He
 private theorem noAutDatum_J4
     {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (e : S ≃* Sec4.Spor .J4) :
     NoAutDatum S := by
-  haveI : IsSimpleGroup TauCeti.SporadicName.J4.Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup TauCeti.SporadicName.J4.Group := e.symm.isSimpleGroup
   obtain ⟨b⟩ := CFSG.RankThree.PartTwo.Census.nonempty_mulEquiv_carrier_J4
   have e' : S ≃* NativeSporadic.J4 := e.trans b
-  haveI : Finite NativeSporadic.J4 := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.J4 := Finite.of_equiv S e'.toEquiv
   refine noAutDatum_of_mulEquiv_card (T := NativeSporadic.J4) e'
     (Sec4.not_three_dvd_card_outer_of_le_two
       (CFSG.AGLEmbedding.card_outer_J4.le.trans (by norm_num))) ?_
@@ -262,7 +262,7 @@ private theorem noLocalDatum_McL
     {S : Type} [Group S] [Finite S] (e : S ≃* Sec4.Spor .McL) : NoLocalDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.McL := e.trans b.symm
-  haveI : Finite NativeSporadic.McL := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.McL := Finite.of_equiv S e'.toEquiv
   refine NoLocalDatum.of_mulEquiv (S' := NativeSporadic.McL) e'
     (noLocalDatum_of_centralizer fun c hc N hN => ?_)
   rcases CFSG.RankThree.PartTwo.KFacts.K426Rest.mclThreeCentralizerCard c hc with h | h <;> rw [h]
@@ -273,7 +273,7 @@ private theorem noLocalDatum_ON
     {S : Type} [Group S] [Finite S] (e : S ≃* Sec4.Spor .ONan) : NoLocalDatum S := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   have e' : S ≃* NativeSporadic.ON := e.trans b.symm
-  haveI : Finite NativeSporadic.ON := Finite.of_equiv S e'.toEquiv
+  have : Finite NativeSporadic.ON := Finite.of_equiv S e'.toEquiv
   refine NoLocalDatum.of_mulEquiv (S' := NativeSporadic.ON) e'
     (noLocalDatum_of_centralizer fun c hc N hN => ?_)
   rw [CFSG.RankThree.PartTwo.KFacts.K426Rest.onThreeCentralizer c hc]

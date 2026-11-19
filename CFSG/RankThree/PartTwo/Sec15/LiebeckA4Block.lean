@@ -97,7 +97,7 @@ private theorem eq_bot_or_eq_of_le {X W : Subgroup G} {c : G} (h : A4Data X W c)
     interval_cases Nat.card V
     · omega
     · exact le_rfl
-  haveI := h.finite_W
+  have := h.finite_W
   exact Subgroup.eq_of_le_of_card_ge hVW h4
 
 omit [Finite G] in

@@ -16,8 +16,8 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem isTwoLocal_ne_top (hS : Situation G p P M) {H : Subgroup G} (hH : IsTwoLocal H) :
     H ≠ ⊤ := by
-  haveI := hS.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ1, hQ2, rfl⟩ := hH
   intro htop
   have hnorm : Q.Normal := Subgroup.normalizer_eq_top_iff.mp htop
@@ -25,11 +25,12 @@ theorem isTwoLocal_ne_top (hS : Situation G p P M) {H : Subgroup G} (hH : IsTwoL
   · exact hQ1 h
   · subst h
     have hG2 : IsPGroup 2 G := hQ2.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent G := hG2.isNilpotent
+    have : Group.IsNilpotent G := hG2.isNilpotent
     have hsolv : Group.IsSolvable G := inferInstance
     obtain ⟨a, b, hab⟩ := hS.nonab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr hsolv a b)
 
+omit [Finite G] in
 theorem mem_normalizer_sup {A B' : Subgroup G} {g : G} (hA : g ∈ normalizer (A : Set G))
     (hB : g ∈ normalizer (B' : Set G)) : g ∈ normalizer ((A ⊔ B' : Subgroup G) : Set G) := by
   have key : ∀ g : G, g ∈ normalizer (A : Set G) → g ∈ normalizer (B' : Set G) →
@@ -60,6 +61,7 @@ theorem not_dvd_card_sup (hp : p.Prime) (hp2 : p ≠ 2) {H O S : Subgroup G} (hO
   rw [← hmap, Subgroup.card_map_of_injective H.subtype_injective] at *
   exact (Nat.Prime.coprime_iff_not_dvd hp).mp hsup
 
+omit [Finite G] in
 theorem pCoreOf_le_pCoreOf {H N : Subgroup G} (hNH : N ≤ H) (hQN : pCoreOf 2 H ≤ N) :
     pCoreOf 2 H ≤ pCoreOf 2 N := by
   have hHn := CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 H

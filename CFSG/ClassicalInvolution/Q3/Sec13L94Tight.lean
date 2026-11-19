@@ -15,6 +15,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem eq_one_of_isPGroup_of_odd {T N : Subgroup G} (hT : IsPGroup 2 T) (hN : Odd (Nat.card N))
     {x : G} (hxT : x ∈ T) (hxN : x ∈ N) : x = 1 := by
   obtain ⟨k, hk⟩ := hT ⟨x, hxT⟩
@@ -28,6 +29,7 @@ theorem eq_one_of_isPGroup_of_odd {T N : Subgroup G} (hT : IsPGroup 2 T) (hN : O
     Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hN)
   exact orderOf_eq_one_iff.mp ((Nat.Coprime.coprime_dvd_left h1 hcop).eq_one_of_dvd h2)
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_mul_self {x : G} (hx : x * x = 1) :
     IsPGroup 2 (Subgroup.zpowers x) := by
   have hdvd : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [sq, hx])
@@ -128,14 +130,17 @@ theorem exists_mGrp_conj (hP : Q3CL.PartIHypG Ω) {W : Subgroup G} (hW : W ∈ W
   rw [hKn] at h1
   exact (hr.eq h1).symm
 
+omit [Finite G] in
 theorem orderOf_inv_conj (y x : G) : orderOf (y⁻¹ * x * y) = orderOf x := by
   simpa [MulAut.conj_apply] using MulEquiv.orderOf_eq (MulAut.conj y⁻¹) x
 
+omit [Finite G] in
 theorem conjSub_inf_eq (h : G) (A B : Subgroup G) :
     conjSub h (A ⊓ B) = conjSub h A ⊓ conjSub h B := by
   ext x
   rw [mem_conjSub_iff, Subgroup.mem_inf, Subgroup.mem_inf, mem_conjSub_iff, mem_conjSub_iff]
 
+omit [Finite G] in
 theorem conjSub_sup_eq (h : G) (A B : Subgroup G) :
     conjSub h (A ⊔ B) = conjSub h A ⊔ conjSub h B :=
   Subgroup.map_sup _ _ _

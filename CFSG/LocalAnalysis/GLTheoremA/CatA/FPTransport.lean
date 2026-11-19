@@ -40,7 +40,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def OddAutCentralBody (p : ℕ) : LargeEvenRawCont := fun R _ I F =>
   ∀ α : MulAut R, α ^ p = 1 → CentralMod I α → ∃ u ∈ I, ∃ f ∈ Subgroup.closure F, α = u * f
 
-@[expose] def ConjBody (p : ℕ) : LargeEvenRawCont := fun R _ I F =>
+@[expose] def ConjBody (p : ℕ) : LargeEvenRawCont := fun _R _ I F =>
   ∀ u ∈ I, ∀ f ∈ Subgroup.closure F, u * f ∉ I → (u * f) ^ p = 1 →
     ∃ f' ∈ F, ∃ u' ∈ I, orderOf f' = p ∧ u * f = u' * f' * u'⁻¹
 
@@ -62,6 +62,7 @@ theorem canonTransportFacts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Larg
     rintro R _ I F ⟨⟨⟨hI, hC⟩, hO⟩, hL⟩ hs hna
     exact ⟨hI hs hna, hC hs hna, fun _ => ⟨hO hs hna, hL hs hna⟩⟩
 
+omit [Finite G] in
 theorem fieldOn_marking_transport {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {g : G}
     (hF : FieldOn p g L) {P : LargeEvenMarkProp (PQuot p L)}
     (hP : CFSG.Assembly.LargeEvenMarking (PQuot p L) P) :

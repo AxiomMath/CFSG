@@ -25,9 +25,9 @@ theorem nonempty_bar2_hinf_pointStab_equiv_of_levi (H : Subgroup (MulAut W)) (S 
         CFSG.pCore 2 ↥(CFSG.Quasithin.perfectCore (H ⊓ stabW (CFSG.fixedPointSubgroup ↥S W)))
           ≃* A) →
       Nonempty (Bar2 (Hinf (pointStab H S)) ≃* A) := by
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
-  haveI : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite (MulAut W) := Finite.of_injective _ MulEquiv.toEquiv_injective
   intro h
   have heq : (Hinf (pointStab H S)).map H.subtype =
       CFSG.Quasithin.perfectCore (H ⊓ stabW (CFSG.fixedPointSubgroup ↥S W)) := by
@@ -50,7 +50,7 @@ theorem isL2_bar2_hinf_pointStab_of_levi (H : Subgroup (MulAut W)) (S : Sylow 2 
         CFSG.pCore 2 ↥(CFSG.Quasithin.perfectCore (H ⊓ stabW (CFSG.fixedPointSubgroup ↥S W)))
           ≃* Matrix.SpecialLinearGroup (Fin 2) K) →
       IsL2 (Bar2 (Hinf (pointStab H S))) n := by
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   intro h
   obtain ⟨e⟩ := nonempty_bar2_hinf_pointStab_equiv_of_levi H S h

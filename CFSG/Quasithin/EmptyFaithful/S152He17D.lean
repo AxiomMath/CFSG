@@ -162,7 +162,7 @@ theorem mem_zpowers_of_order_five {Q : Type*} [Group Q] [Finite Q] {b : ℕ} (hb
   obtain ⟨P, hPa⟩ := (hpg a ha).exists_le_sylow
   obtain ⟨P', hPx⟩ := (hpg x hx).exists_le_sylow
   have hPcard : Nat.card (P : Subgroup Q) = 5 := by
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hdvd : Nat.card (P : Subgroup Q) ∣ Nat.card Q := Subgroup.card_subgroup_dvd_card _
     have h5 : 5 ∣ Nat.card (P : Subgroup Q) := by
       have := Subgroup.card_dvd_of_le hPa

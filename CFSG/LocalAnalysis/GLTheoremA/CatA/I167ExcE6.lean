@@ -38,6 +38,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 @[expose] def ExcE6SubIdx : TauCeti.CFSGIndex → Prop :=
   onLie fun | .twistedD r q => r = 4 ∧ q.card = 4 | .A r q => r = 5 ∧ q.card = 4 | _ => False
 
+omit [Finite Ω] in
 theorem type167J_case_c_of_ne_three {p : ℕ} {J : Subgroup Ω} (h : Type167J p J) (hp3 : p ≠ 3) :
     ∃ n k : ℕ, Odd n ∧ 3 ≤ n ∧ 1 ≤ k ∧ p ∣ 2 ^ k + 1 ∧ catalogIs (PSimple p J) (isOmPA n (2 ^ k)) := by
   rcases h with ⟨h3, -⟩ | ⟨h3, -⟩ | ⟨n, k, hn, hn3, -, hk, hpk, hJ⟩
@@ -47,7 +48,7 @@ theorem type167J_case_c_of_ne_three {p : ℕ} {J : Subgroup Ω} (h : Type167J p 
 
 section Certs
 
-private theorem e6_fieldRel_aux2 {p n k : ℕ} {S : Type} [Group S]
+private theorem e6_fieldRel_aux2 {_p n k : ℕ} {S : Type} [Group S]
     (h : catalogIs S (isOmP n (2 ^ k))) :
     CFSG.Blueprint.LieModel S .POmegaPlus n 2 k := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
@@ -75,13 +76,13 @@ private theorem e6_fieldRel_aux2 {p n k : ℕ} {S : Type} [Group S]
       exact CFSG.Models.LieModel.toBlueprint (by simp [CFSG.Blueprint.classicalTags]) hm
     | _ => exact absurd hi (by simp [isOmP, onLie])
 
-private theorem e6_fieldRel_aux5 {p k : ℕ} {S : Type} [Group S]
+private theorem e6_fieldRel_aux5 {_p k : ℕ} {S : Type} [Group S]
     (h : catalogIs S (isLnA 4 (2 ^ k))) :
     CFSG.Blueprint.LieModel S .PSL 4 2 k := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   cases i with
-  | cyclic c hc => exact absurd hi (by simp [isLnA, isLnEps, onLie, isAltN])
-  | sporadic s => exact absurd hi (by simp [isLnA, isLnEps, onLie, isAltN])
+  | cyclic c hc => exact absurd hi (by simp [isLnA, onLie, isAltN])
+  | sporadic s => exact absurd hi (by simp [isLnA, onLie, isAltN])
   | alternating a ha =>
     rw [isLnA] at hi
     rcases hi with h2a | h2b | h2c | h2d | h2e
@@ -162,10 +163,10 @@ private theorem e6_fieldRel_aux8 {p n k : ℕ} {X J : Subgroup Ω} {x : Ω}
     (CFSG.LocalAnalysis.GLTheoremA.catalogIs_congr eP).1 hJ
   obtain ⟨iJ, hiJ, ⟨eJ'⟩⟩ := hJ'cat
   rcases hiJ with h1 | ⟨-, h2⟩
-  · exact exc_label_of_lieModel (p := p) hp hJ' hJ'q (e6_fieldRel_aux2 (p := p) ⟨iJ, h1, ⟨eJ'⟩⟩)
-  · exact exc_label_of_lieModel (p := p) hp hJ' hJ'q (e6_fieldRel_aux5 (p := p) ⟨iJ, h2, ⟨eJ'⟩⟩)
+  · exact exc_label_of_lieModel (p := p) hp hJ' hJ'q (e6_fieldRel_aux2 (_p := p) ⟨iJ, h1, ⟨eJ'⟩⟩)
+  · exact exc_label_of_lieModel (p := p) hp hJ' hJ'q (e6_fieldRel_aux5 (_p := p) ⟨iJ, h2, ⟨eJ'⟩⟩)
 
-theorem e6_fieldRel {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x) {n k : ℕ} (hn : 3 ≤ n) (hk : 1 ≤ k)
+theorem e6_fieldRel {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x) {n k : ℕ} (_hn : 3 ≤ n) (_hk : 1 ≤ k)
     (hJ : catalogIs (PSimple p J) (isOmPA n (2 ^ k))) (hE6 : catalogIs (PSimple p X) ExcE6Idx) :
     catalogIs (PSimple p X) (ExcE6OverIdx k) := by
   obtain ⟨iE, hiE, ⟨eE⟩⟩ := hE6
@@ -262,9 +263,9 @@ private theorem e6_four_of_halfSplit_aux2 {p e k : ℕ} (hp : p.Prime) (hp2 : p 
 private theorem e6_four_of_halfSplit_aux3 {k : ℕ} {S : Type} [Group S]
     (h : catalogIs S (ExcE6OverIdx k)) :
     ∃ (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E6 q).Valid)
-      (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group),
+      (_e : S ≃* (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group),
       q.p = 2 ∧ q.exponent ∣ k ∧ CFSG.Blueprint.LieModel S .E6 0 2 q.exponent := by
-  obtain ⟨i, hi, ⟨e⟩⟩ := h
+  obtain ⟨i, hi, ⟨_e⟩⟩ := h
   cases i with
   | lie idx =>
     obtain ⟨d, hv⟩ := idx
@@ -272,11 +273,11 @@ private theorem e6_four_of_halfSplit_aux3 {k : ℕ} {S : Type} [Group S]
     | E6 q =>
       simp only [ExcE6OverIdx, onLie] at hi
       obtain ⟨hqp, hqdvd⟩ := hi
-      exact ⟨q, hv, e, hqp, hqdvd,
+      exact ⟨q, hv, _e, hqp, hqdvd,
         Or.inr (Or.inl ⟨rfl, by simp [CFSG.Blueprint.chevalleyExceptionalTags],
           ⟨Nat.prime_two, q.exponent_pos, rfl⟩,
           CFSG.StandardType.ChevTwo.untwistedChevalleyModel_of_bridge
-            CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv hqp e⟩)⟩
+            CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv hqp _e⟩)⟩
     | _ => simp [ExcE6OverIdx, onLie] at hi
   | _ => simp [ExcE6OverIdx, onLie] at hi
 
@@ -323,6 +324,7 @@ private theorem e6_four_of_halfSplit_aux5 {X : Type} [Group X] {e : ℕ}
     exact e6_four_of_halfSplit_aux4
       (CFSG.SeitzReduction.F4Pilot.statedLieAdmissible_of_lieModel hL).2.1 hcard.symm
 
+omit [Finite Ω] in
 private theorem e6_four_of_halfSplit_aux6 {e : ℕ} {X : Subgroup Ω} {lab : GLALabel}
     (hL : CFSG.Blueprint.LieModel (↥X ⧸ Subgroup.center ↥X) .E6 0 2 e)
     (hlab : LabelOf X lab) : lab = ⟨.E6, 0, e⟩ := by
@@ -351,7 +353,7 @@ theorem e6_four_of_halfSplit {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : Exc
     p = 5 ∧ Subgroup.center ↥X = ⊥ ∧ catalogIs (PSimple p X) ExcE6FourIdx ∧ LabelOf X ⟨.E6, 0, 2⟩ := by
   obtain ⟨lab, hlab, hhs⟩ := H.hhs
   obtain ⟨q, hv, e, hqp, hqdvd, hLM⟩ := e6_four_of_halfSplit_aux3 hE6
-  haveI : Nontrivial (PSimple p X) :=
+  have : Nontrivial (PSimple p X) :=
     (CFSG.LieType.Catalog.lieModel_finite_simple (PSimple p X) .E6 0 2 q.exponent hLM).2.1
   obtain ⟨eZX⟩ := CFSG.LocalAnalysis.GLTheoremA.S265.SF.nonempty_centerQuot_equiv_pSimple
     (p := p) H.hX
@@ -392,6 +394,7 @@ private theorem e6_four_sylow_data_aux2 {S B : Type} [Group S] [Group B]
   rw [MonoidHom.apply_ofInjective_symm]
   rfl
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_auxmark {X : Subgroup Ω} (hL : LabelOf X ⟨.E6, 0, 2⟩) :
     CFSG.Assembly.E6FourMark ↥X := by
   refine CFSG.Assembly.standardTypeRecognitionMarking_mono ?_ hL
@@ -404,8 +407,8 @@ private theorem e6_four_sylow_data_aux3 {B X : Subgroup Ω}
     ∃ β : B →* ↥X, ∀ (b : B) (j : ↥X),
       (b : Ω) * (j : Ω) * (b : Ω)⁻¹ =
         ((β b : ↥X) : Ω) * (j : Ω) * ((β b : ↥X) : Ω)⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsMulCommutative B := hB.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsMulCommutative B := hB.1
   let α : B →* MulAut ↥X :=
     (Subgroup.normalizerMonoidHom (H := X)).comp (Subgroup.inclusion hBN)
   have hα : ∀ (b : B) (j : ↥X),
@@ -417,6 +420,7 @@ private theorem e6_four_sylow_data_aux3 {B X : Subgroup Ω}
       (by rw [← map_pow, hb5, map_one]))
   exact ⟨β, fun b j => by rw [← hα, ← hβ]; rfl⟩
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux4 {B X : Subgroup Ω}
     (hB : CFSG.Open.IsElemAbelian 5 B)
     (hSC : ∀ g ∈ X ⊔ B, g ∈ Subgroup.centralizer (B : Set Ω) → orderOf g = 5 → g ∈ B)
@@ -425,8 +429,8 @@ private theorem e6_four_sylow_data_aux4 {B X : Subgroup Ω}
       ((β b : ↥X) : Ω) * (j : Ω) * ((β b : ↥X) : Ω)⁻¹) :
     (∀ b : B, ((β b : ↥X) : Ω) ∈ B) ∧
       (∀ b : B, ((β b : ↥X) : Ω) ∈ Subgroup.centralizer (B : Set Ω)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsMulCommutative B := hB.1
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsMulCommutative B := hB.1
   have hβcomm : ∀ b b' : B, (β b) * (β b') = (β b') * (β b) := fun b b' => by
     rw [← map_mul, ← map_mul, mul_comm']
   have hβcent : ∀ b : B, ((β b : ↥X) : Ω) ∈ Subgroup.centralizer (B : Set Ω) := by
@@ -450,6 +454,7 @@ private theorem e6_four_sylow_data_aux4 {B X : Subgroup Ω}
       rfl
     · exact fun h => hb1 (Subtype.ext h)
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux5 {B X : Subgroup Ω} {β : B →* ↥X}
     (hβc : ∀ (b : B) (j : ↥X), (b : Ω) * (j : Ω) * (b : Ω)⁻¹ =
       ((β b : ↥X) : Ω) * (j : Ω) * ((β b : ↥X) : Ω)⁻¹) :
@@ -473,6 +478,7 @@ private theorem e6_four_sylow_data_aux5 {B X : Subgroup Ω} {β : B →* ↥X}
           ((β b : ↥X) : Ω)⁻¹ := by rw [hb']
     _ = ((b : Ω) * ((β b : ↥X) : Ω)⁻¹) * y := by group
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux6 {B X : Subgroup Ω} {x : Ω}
     (hx : x ∈ B) {β : B →* ↥X}
     (hβc : ∀ (b : B) (j : ↥X), (b : Ω) * (j : Ω) * (b : Ω)⁻¹ =
@@ -507,15 +513,16 @@ private theorem e6_four_sylow_data_aux7a {X : Subgroup Ω}
       _ ≤ (Subgroup.normalizer (U₀ : Set ↥X)).map X.subtype := Subgroup.map_mono hE₀U₀
       _ ≤ Subgroup.normalizer (U₀.map X.subtype) := Subgroup.le_normalizer_map X.subtype
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux7b {B X E U : Subgroup Ω}
     (hB : CFSG.Open.IsElemAbelian 5 B) (hZ : Subgroup.center ↥X = ⊥)
     (hcardC : Nat.card ↥(B ⊓ cs X) = 5) (hEel : CFSG.Open.IsElemAbelian 5 E)
     (hEcard : Nat.card E = 5 ^ 4) (hEX : E ≤ X)
-    (hEUN : E ≤ Subgroup.normalizer (U : Set Ω)) (hUX : U ≤ X) (hU : U ≠ ⊥)
-    (hU2 : IsPGroup 2 U) :
+    (hEUN : E ≤ Subgroup.normalizer (U : Set Ω)) (hUX : U ≤ X) (_hU : U ≠ ⊥)
+    (_hU2 : IsPGroup 2 U) :
     ∃ J : Subgroup Ω, J ≤ X ⊔ B ∧ CFSG.Open.IsElemAbelian 5 J ∧ Nat.card J = 5 ^ 5 ∧
       J ≤ Subgroup.normalizer (U : Set Ω) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let C : Subgroup Ω := B ⊓ cs X
   have hCel : CFSG.Open.IsElemAbelian 5 C := hB.mono inf_le_left
   have hcommEC : ∀ e ∈ E, ∀ c ∈ C, e * c = c * e := by
@@ -554,7 +561,7 @@ private theorem e6_four_sylow_data_aux8 {B X J U : Subgroup Ω}
     (hJcard : Nat.card J = 5 ^ 5) (hU : U ≠ ⊥) (hU2 : IsPGroup 2 U)
     (hJN : J ≤ Subgroup.normalizer (U : Set Ω)) :
     5 ≤ GLATwoLocalRank 5 ↥(X ⊔ B) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let K : Subgroup Ω := X ⊔ B
   have hU'ne : U.subgroupOf K ≠ ⊥ := by
     intro h
@@ -622,7 +629,7 @@ private theorem e6_four_sylow_data_aux9b {B X : Subgroup Ω}
     (hmark : CFSG.Assembly.E6FourMark ↥X) (hZ : Subgroup.center ↥X = ⊥)
     (hB : CFSG.Open.IsElemAbelian 5 B) :
     Nat.card ↥(B ⊓ X) ≤ 5 ^ 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hBXel : CFSG.Open.IsElemAbelian 5 (B ⊓ X) := hB.mono inf_le_left
   have hsub : IsPGroup 5 ((B ⊓ X).subgroupOf X) := hBXel.isPGroup.comap_subtype
   obtain ⟨P, hP⟩ := hsub.exists_le_sylow
@@ -660,6 +667,7 @@ private theorem e6_four_sylow_data_aux11 {B X D J : Subgroup Ω} {x : Ω}
     exact Nat.le_of_mul_le_mul_left h1 (by norm_num)
   exact le_antisymm hle hge
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_auxCa {B X : Subgroup Ω} {a : Ω} (haX : a ∈ X) :
     (B ⊓ cs X) ≤ Subgroup.normalizer (Subgroup.zpowers a : Set Ω) := by
   have hcs : (B ⊓ cs X) ≤ Subgroup.centralizer (Subgroup.zpowers a : Set Ω) := by
@@ -671,6 +679,7 @@ private theorem e6_four_sylow_data_auxCa {B X : Subgroup Ω} {a : Ω} (haX : a �
     exact (hca.zpow_left n).eq
   exact hcs.trans (Subgroup.centralizer_le_normalizer (Subgroup.zpowers a : Set Ω))
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_auxDecomp {C A : Subgroup Ω}
     (hCa : C ≤ Subgroup.normalizer (A : Set Ω)) {z : Ω} (hz : z ∈ C ⊔ A) :
     ∃ c ∈ C, ∃ t ∈ A, z = c * t := by
@@ -708,6 +717,7 @@ private theorem e6_four_sylow_data_aux12a {B X D J : Subgroup Ω} {x : Ω}
       exact Subgroup.mul_mem_sup ((B ⊓ cs X).inv_mem hxq) (Subgroup.mem_zpowers x)
   exact ⟨a, ⟨hβmem ⟨x, H.hxB⟩, haX⟩, hβx, hDsup⟩
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux12b {B X D : Subgroup Ω} {a : Ω}
     (hZ : Subgroup.center ↥X = ⊥)
     (hDsup : D = (B ⊓ cs X) ⊔ Subgroup.zpowers a) (haX : a ∈ X) :
@@ -735,6 +745,7 @@ private theorem e6_four_sylow_data_aux12b {B X D : Subgroup Ω} {a : Ω}
   · intro z hz
     exact ⟨Subgroup.zpowers_le.2 haX hz, Subgroup.mem_sup_right hz⟩
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux12c {B X D J : Subgroup Ω} {a : Ω}
     (hDJ : D = B ⊓ cs J) (hXD : X ⊓ D = Subgroup.zpowers a) :
     (B ⊓ X) ⊓ cs J = Subgroup.zpowers a := by
@@ -745,6 +756,7 @@ private theorem e6_four_sylow_data_aux12c {B X D J : Subgroup Ω} {a : Ω}
     tauto
   rw [h1, hXD]
 
+omit [Finite Ω] in
 private theorem e6_four_sylow_data_aux12d {B X D : Subgroup Ω} {a : Ω}
     (hDsup : D = (B ⊓ cs X) ⊔ Subgroup.zpowers a) (haX : a ∈ X) :
     X ⊓ cs D = X ⊓ cx a := by
@@ -796,7 +808,7 @@ private lemma e6_four_normalizes_aux1 {G : Type} [Group G] [Finite G] {g : G} {C
     Function.Injective (fun i : Fin 5 => GLBConj (g ^ (i : ℕ)) C) := by
   have hHcard : Nat.card ↥(Subgroup.zpowers g) = 5 := by
     rw [Nat.card_zpowers, hord]
-  haveI : Fact (Nat.card ↥(Subgroup.zpowers g)).Prime := by
+  have : Fact (Nat.card ↥(Subgroup.zpowers g)).Prime := by
     rw [hHcard]; exact ⟨by norm_num⟩
   let NH : Subgroup ↥(Subgroup.zpowers g) :=
     (Subgroup.normalizer (C : Set G)).comap (Subgroup.zpowers g).subtype
@@ -837,7 +849,7 @@ private lemma e6_four_normalizes_aux1 {G : Type} [Group G] [Finite G] {g : G} {C
 private lemma e6_four_normalizes_aux2 {p : ℕ} (hp : p.Prime) {Y J : Subgroup Ω}
     (hJ : GLAPComponent p Y J) (hZ : Subgroup.center (PQuot p J) = ⊥) :
     ∃ e ∈ barX p Y J, orderOf e = p ∧ ∃ c ∈ barX p Y J, e * c ≠ c * e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZc : Subgroup.center ↥(barX p Y J) = ⊥ := by
     have he := CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns.barXEquiv hp hJ.2.1
     rw [← Subgroup.map_center_eq he, hZ, Subgroup.map_bot]
@@ -932,7 +944,7 @@ private lemma e6_four_normalizes_aux6 {p : ℕ} {B X D J : Subgroup Ω} {x : Ω}
     {b : Ω} (hb : b ∈ B ⊓ X) (hbN : b ∉ Subgroup.normalizer (J : Set Ω)) :
     ∃ E : Subgroup Ω, E ≤ X ∧ IsElemAbelian p E ∧ 5 ^ 5 ≤ Nat.card E := by
   obtain ⟨a, haA, haX, haJ, hA, hAJ⟩ := e6_four_sylow_data H hp5 hZ hE hL
-  haveI : Fact p.Prime := ⟨H.hp⟩
+  have : Fact p.Prime := ⟨H.hp⟩
   set Y : Subgroup Ω := X ⊓ cx a with hYdef
   have haJY : GLAPComponent p Y J := by rw [hYdef]; exact haJ
   have hYleX : Y ≤ X := by rw [hYdef]; exact inf_le_left
@@ -1076,6 +1088,7 @@ private theorem e6_four_subcomp_aux3 {p : ℕ} {B X J : Subgroup Ω} {a : Ω}
   exact centQuasiAt_holds Ω X a 5 Nat.prime_five (by norm_num) hK hX haA.2
     ⟨5, Nat.prime_five, by norm_num, hord⟩ J haJ
 
+omit [Finite Ω] in
 private theorem e6_four_subcomp_aux4 {p : ℕ} {X J : Subgroup Ω} {a : Ω} (haX : a ∈ X)
     (haJ : GLAPComponent p (X ⊓ cx a) J) (hJX : J ≤ X) (hqJ : CFSG.Open.IsQuasisimple ↥J) :
     CFSG.Open.IsComponentOf (J.subgroupOf X) (Subgroup.centralizer ({⟨a, haX⟩} : Set ↥X)) := by
@@ -1093,6 +1106,7 @@ private theorem e6_four_subcomp_aux4 {p : ℕ} {X J : Subgroup Ω} {a : Ω} (haX
   · exact CFSG.Open.IsSubnormal.comap X.subtype haJ.2.1
   · exact (CFSG.Open.IsQuasisimple.congr (Subgroup.subgroupOfEquivOfLe hJX)).2 hqJ
 
+omit [Finite Ω] in
 private theorem e6_four_subcomp_aux5 {B X J : Subgroup Ω}
     (hN : B ⊓ X ≤ Subgroup.normalizer (J : Set Ω)) :
     (B ⊓ X).subgroupOf X ≤ Subgroup.normalizer ((J.subgroupOf X : Subgroup ↥X) : Set ↥X) := by
@@ -1109,6 +1123,7 @@ private theorem e6_four_subcomp_aux5 {B X J : Subgroup Ω}
   · intro hh
     exact hiff.mpr (by simpa using hh)
 
+omit [Finite Ω] in
 private theorem e6_four_subcomp_aux6 {B J X : Subgroup Ω} {a : Ω} (haX : a ∈ X) (hJX : J ≤ X)
     (hAJ : (B ⊓ X) ⊓ cs J = Subgroup.zpowers a) :
     (B ⊓ X).subgroupOf X ⊓
@@ -1132,6 +1147,7 @@ private theorem e6_four_subcomp_aux6 {B J X : Subgroup Ω} {a : Ω} (haX : a ∈
   · rintro ⟨k, hk⟩; exact ⟨k, Subtype.ext hk⟩
   · rintro ⟨k, hk⟩; exact ⟨k, Subtype.ext_iff.mp hk⟩
 
+omit [Finite Ω] in
 private theorem e6_four_subcomp_aux7 {J X : Subgroup Ω}
     (hsub : CFSG.Assembly.E6FourSubcompMark ↥(J.subgroupOf X)) :
     catalogIs (↥(J.subgroupOf X) ⧸ Subgroup.center ↥(J.subgroupOf X)) ExcE6SubIdx := by
@@ -1166,7 +1182,7 @@ private theorem e6_four_subcomp_aux8 {p : ℕ} {X J : Subgroup Ω} {a : Ω}
   exact ⟨i, hi, ⟨(eZ.trans eP).symm.trans e'⟩⟩
 
 theorem e6_four_subcomp {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x) (hp5 : p = 5)
-    (hZ : Subgroup.center ↥X = ⊥) (hE : catalogIs (PSimple p X) ExcE6FourIdx) (hL : LabelOf X ⟨.E6, 0, 2⟩)
+    (hZ : Subgroup.center ↥X = ⊥) (_hE : catalogIs (PSimple p X) ExcE6FourIdx) (hL : LabelOf X ⟨.E6, 0, 2⟩)
     {a : Ω} (haA : a ∈ B ⊓ X) (haX : a ∉ cs X) (haJ : GLAPComponent p (X ⊓ cx a) J)
     (hA : Nat.card ↥(B ⊓ X) = p ^ 4) (hAJ : (B ⊓ X) ⊓ cs J = Subgroup.zpowers a)
     (hN : B ⊓ X ≤ Subgroup.normalizer (J : Set Ω)) : catalogIs (PSimple p J) ExcE6SubIdx := by

@@ -32,7 +32,7 @@ private theorem psuC3_subHom_coe {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) 
 private theorem psuC3_mat_ne_zero {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B)
     (u : (psuAlg B)ˣ) : psuC3_mat B u ≠ 0 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by have := S.four_le; omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by have := S.four_le; omega⟩⟩
   exact IsUnit.ne_zero ⟨psuC3_subHom B u, psuC3_subHom_coe B u⟩
 
 private theorem psuC3_J_mul_J (n : ℕ) (K : Type) [Field K] :
@@ -514,7 +514,7 @@ private theorem psuC3_count {A A' C D : Type} [Group A] [Group A'] [Group C] [Gr
       Nat.card N.ker * (Nat.card c.range * Nat.card δ.range) := by
     rw [h1, h2]; exact h3.trans (le_of_eq h4)
   rw [mul_comm (Nat.card N.range) (Nat.card N.ker)] at h5
-  haveI : Nonempty N.ker := ⟨1⟩
+  have : Nonempty N.ker := ⟨1⟩
   have h6 : Nat.card N.range ≤ Nat.card c.range * Nat.card δ.range :=
     Nat.le_of_mul_le_mul_left h5 Nat.card_pos
   rwa [mul_comm] at h6
@@ -523,8 +523,8 @@ theorem psuGraph_torus_bound {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP 
     {h : UnitaryFieldData 2 f K} {X B : GL (Fin n) K} (S : PSUGraphSetting h n X B) :
     Nat.card (psuNormImage h X B) ≤ (2 ^ f + 1) * Nat.gcd n (2 ^ f + 1) := by
   classical
-  haveI : NeZero (2 ^ f + 1) := ⟨Nat.succ_ne_zero _⟩
-  haveI : NeZero (Nat.gcd n (2 ^ f + 1)) :=
+  have : NeZero (2 ^ f + 1) := ⟨Nat.succ_ne_zero _⟩
+  have : NeZero (Nat.gcd n (2 ^ f + 1)) :=
     ⟨Nat.pos_iff_ne_zero.mp (Nat.gcd_pos_of_pos_right n (Nat.succ_pos _))⟩
   have hcount := psuC3_count (psuC3_N S) (psuC3_det S) (psuC3_c S) (psuC3_ker S)
   have hdetle : Nat.card (psuC3_det S).range ≤ 2 ^ f + 1 := by

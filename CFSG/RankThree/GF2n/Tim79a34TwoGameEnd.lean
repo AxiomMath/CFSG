@@ -384,7 +384,7 @@ theorem two_game_fin {G : Type} [Group G] {V Q P M : Subgroup G} {a v₀ b : G}
     (hm4 : ¬ ((ρ * b * ρ⁻¹) * (b * u' * b⁻¹) = (b * u' * b⁻¹) * (ρ * b * ρ⁻¹)))
     (hρM : ρ ∈ M)
     (hx₀ : x₀ * x₀ = 1) (hx₀M : x₀ ∈ M) (hbx₀ : b * x₀ = x₀ * b)
-    (hy₀ : y₀ = ρ * x * v₀ * (ρ * x)⁻¹ ∨ y₀ = ρ * x * (a * v₀) * (ρ * x)⁻¹) (hy₀M : y₀ ∈ M)
+    (hy₀ : y₀ = ρ * x * v₀ * (ρ * x)⁻¹ ∨ y₀ = ρ * x * (a * v₀) * (ρ * x)⁻¹) (_hy₀M : y₀ ∈ M)
     (hb'y₀ : (ρ * b * ρ⁻¹) * y₀ = y₀ * (ρ * b * ρ⁻¹))
     (hz : x₀ * y₀ ∈ V) (hz1 : x₀ * y₀ ≠ 1) : False := by
   have hbM : b * a = a * b := (h.M_cent b).mp h.b_mem

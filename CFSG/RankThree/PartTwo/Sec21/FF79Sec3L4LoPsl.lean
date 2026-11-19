@@ -109,7 +109,7 @@ theorem zmod5_cubic_ne : ∀ y : ZMod 5, y ^ 3 + 2 * y + 4 ≠ 0 := by decide
 
 theorem exists_root_cubic125 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 125) :
     ∃ t : K, t ^ 3 + 2 * t + 4 = 0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let f : Polynomial (ZMod 5) := Polynomial.X ^ 3 + Polynomial.C 2 * Polynomial.X +
     Polynomial.C 4
   have hdeg : f.natDegree = 3 := by unfold f; compute_degree!
@@ -121,17 +121,17 @@ theorem exists_root_cubic125 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 
       simp only [Polynomial.IsRoot, Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X,
         Polynomial.eval_mul, Polynomial.eval_C] at hx
       exact zmod5_cubic_ne x hx
-  haveI : Fact (Irreducible f) := ⟨hirr⟩
+  have : Fact (Irreducible f) := ⟨hirr⟩
   have hf0 : f ≠ 0 := hirr.ne_zero
-  haveI : Module.Finite (ZMod 5) (AdjoinRoot f) := (AdjoinRoot.powerBasis hf0).finite
-  haveI : Finite (AdjoinRoot f) := Module.finite_of_finite (ZMod 5)
+  have : Module.Finite (ZMod 5) (AdjoinRoot f) := (AdjoinRoot.powerBasis hf0).finite
+  have : Finite (AdjoinRoot f) := Module.finite_of_finite (ZMod 5)
   have hcard : Nat.card (AdjoinRoot f) = 125 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 5), Nat.card_zmod]
     have := (AdjoinRoot.powerBasis hf0).finrank
     rw [AdjoinRoot.powerBasis_dim, hdeg] at this
     rw [this]; norm_num
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite (AdjoinRoot f)
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite (AdjoinRoot f)
   have e : AdjoinRoot f ≃+* K := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hcard])
   refine ⟨e (AdjoinRoot.root f), ?_⟩
@@ -145,9 +145,9 @@ theorem exists_root_cubic125 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 
 theorem charP_five_of_card125 (K : Type) [Field K] [Finite K] (hK : Nat.card K = 125) :
     CharP K 5 := by
   obtain ⟨p, hpc⟩ := CharP.exists K
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : p ∣ 5 ^ 3 := by
     have : p ∣ p ^ (n : ℕ) := dvd_pow_self p n.ne_zero
     rw [← hn, ← Nat.card_eq_fintype_card, hK] at this
@@ -172,7 +172,7 @@ theorem coe_pow_three (T : SpecialLinearGroup (Fin 2) K) :
 
 theorem exists_orderOf_nine_card125 [Finite K] (hK : Nat.card K = 125) :
     ∃ g : StatedProj (StatedSL 2 K), orderOf g = 9 := by
-  haveI := charP_five_of_card125 K hK
+  have := charP_five_of_card125 K hK
   obtain ⟨t, ht⟩ := exists_root_cubic125 K hK
   have h5 : (5 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 5
   have h3 : (3 : K) ≠ 0 := by
@@ -198,7 +198,7 @@ theorem exists_orderOf_nine_card125 [Finite K] (hK : Nat.card K = 125) :
     have htr : N.trace = 1 := by
       rw [hS3, Matrix.trace_fin_two]
       simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+        Matrix.cons_val_fin_one, Matrix.empty_val', Matrix.cons_val_fin_one]
       linear_combination hτ
     have hsq : N * N = N - 1 := by
       rw [mat2_sq N, hdetN, htr]

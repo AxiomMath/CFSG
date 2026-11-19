@@ -14,6 +14,7 @@ section Config
 variable {X : Type} [Group X] [Finite X] (V E K : Subgroup X)
   [hN : ((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
+omit [Finite X] in
 private lemma ggSumRho_mk'_eq {a : ↥(E ⊔ K)} (haE : (a : X) ∈ E)
     (hmem : QuotientGroup.mk' ((ggRCSU V E K).subgroupOf (E ⊔ K)) a ∈ ggSumT V E K) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥(ggSumT V E K))
@@ -28,6 +29,7 @@ private lemma ggSumRho_mk'_eq {a : ↥(E ⊔ K)} (haE : (a : X) ∈ E)
     rfl
   rw [ggSumRho, MonoidHom.comp_apply, h]
 
+omit [Finite X] in
 private lemma mem_ggHypImage_iff {e' : GGHypQuot (ggSumT V E K)} :
     e' ∈ ggHypImage (ggSumT V E K)
         ((E.subgroupOf (E ⊔ K)).map
@@ -73,7 +75,7 @@ theorem ggSum_marking {p : ℕ} {Q : Subgroup X} {𝒞 : Set (Subgroup X)}
         (QuotientGroup.mk' ((ggRCSU V E K).subgroupOf (E ⊔ K)))), ∃ φ ∈ I,
         LargeEvenInduces θ (fun l l' => (l' : GGHypQuot (ggSumT V E K)) = e⁻¹ * l * e) φ) := by
   obtain ⟨hSKV, hQS, hsub, hperf, hES, hq⟩ := hS.2.2 S hS𝒞
-  haveI : (Q.subgroupOf S).Normal := ggSum_normal_subgroupOf_Q hS hS𝒞
+  have : (Q.subgroupOf S).Normal := ggSum_normal_subgroupOf_Q hS hS𝒞
   refine ⟨?_, ?_⟩
   · intro e' he'
     obtain ⟨ε, hεE, hε, rfl⟩ := (mem_ggHypImage_iff V E K).mp he'

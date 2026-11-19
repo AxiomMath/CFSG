@@ -10,6 +10,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem toStar_eq_one_iff_mem_gnC {T : Subgroup X} (x : X) : toStar T x = 1 ↔ x ∈ gnC T :=
   QuotientGroup.eq_one_iff x
 
@@ -21,8 +22,8 @@ theorem not_dvd_card_centralizer_of_cover {T T₁ T₂ : Subgroup X} (hc : GNCen
     (hoth : ∀ Is, GNYComponent T T₁ T₂ Is → Is ≠ Ls → ¬ p ∣ Nat.card ↥Is) (hn : Ls.Normal) :
     ¬ p ∣ Nat.card (Subgroup.centralizer (Ls : Set (X ⧸ gnC T))) := by
   intro hd
-  haveI := hn
-  haveI hEn : (CFSG.Open.rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal :=
+  have := hn
+  have hEn : (CFSG.Open.rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal :=
     CFSG.ComponentClassification.Layer.normal _
   set K : Subgroup (X ⧸ gnC T) := Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) with hK
   set E : Subgroup (X ⧸ gnC T) := CFSG.Open.rankThreeLayer ⊤ with hE
@@ -55,7 +56,7 @@ theorem not_dvd_card_centralizer_of_cover {T T₁ T₂ : Subgroup X} (hc : GNCen
   have hdvd : p ∣ Nat.card (Subgroup.zpowers (toStar T x)) := by
     rw [Nat.card_zpowers, hj]
     exact dvd_pow_self p hj0
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.zpowers (toStar T x))) p hdvd
   have hyo : orderOf (y : X ⧸ gnC T) = p := by rw [Subgroup.orderOf_coe, hy]
   have hyK : (y : X ⧸ gnC T) ∈ K := Subgroup.zpowers_le.2 hxK y.2

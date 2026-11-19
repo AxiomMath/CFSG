@@ -15,8 +15,8 @@ open CFSG.Assembly.LowTwoRank CFSG.GH74.GLS.IVK CFSG.GH74.GLS.IVK.Proofs2
 
 theorem nonempty_mulEquiv_sylow {G G' : Type} [Group G] [Group G'] [Finite G] (e : G ≃* G')
     (Q : Sylow 2 G) (T : Sylow 2 G') : Nonempty (↥Q ≃* ↥T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G' := Finite.of_equiv G e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G' := Finite.of_equiv G e.toEquiv
   exact ⟨(Subgroup.equivMapOfInjective (Q : Subgroup G) e.toMonoidHom e.injective).trans
     (Sylow.equiv (Sylow.mapSurjective (f := e.toMonoidHom) e.surjective Q) T)⟩
 
@@ -30,8 +30,8 @@ theorem dihedral_of_A1 {G : Type} [Group G] [Finite G] {q : TauCeti.PrimePower}
     φ.trans (projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
   have hodd : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card K) :=
     ⟨q.p, q.exponent, q.prime_p, q.prime_p.odd_of_ne_two hq2, q.exponent_pos, hcard⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := Finite.of_equiv G e2.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := Finite.of_equiv G e2.toEquiv
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K)))
   obtain ⟨m, -, ⟨eT⟩⟩ := CFSG.GorensteinWalter.psl2_odd_hasDihedralSylowTwo_model K hodd T
   obtain ⟨e3⟩ := nonempty_mulEquiv_sylow e2 Q T

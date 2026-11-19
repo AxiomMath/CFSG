@@ -15,8 +15,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl4_zz_cent_eq_alpha
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
@@ -109,8 +109,8 @@ theorem s16h_sl4_zz_cent_eq_alpha
     exact hZ (hZtdef ▸ hZt_bot)
 
 theorem s16h_sl4_zz_cent_eq_beta
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t

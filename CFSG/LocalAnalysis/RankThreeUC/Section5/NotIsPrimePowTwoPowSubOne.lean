@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.RankThreeUC.Section5
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_conj_of_inverts {B : Subgroup G} {g : G} (hg : ∀ b ∈ B, g * b * g⁻¹ = b⁻¹) :
     ∀ k : ℕ, ∀ b ∈ B, g ^ (2 * k) * b * (g ^ (2 * k))⁻¹ = b ∧
       g ^ (2 * k + 1) * b * (g ^ (2 * k + 1))⁻¹ = b⁻¹ := by
@@ -50,6 +51,7 @@ theorem exists_two_element_inverting {B : Subgroup G} {g : G} (hg : ∀ b ∈ B,
     intro b hb
     exact (pow_conj_of_inverts hg j b hb).2
 
+omit [Finite G] in
 theorem mem_normalizer_of_inverts {B : Subgroup G} {g : G} (hg : ∀ b ∈ B, g * b * g⁻¹ = b⁻¹) :
     g ∈ Subgroup.normalizer (B : Set G) := by
   have hinv : ∀ c ∈ B, g⁻¹ * c * g = c⁻¹ := by
@@ -70,6 +72,7 @@ theorem mem_normalizer_of_inverts {B : Subgroup G} {g : G} (hg : ∀ b ∈ B, g 
     rw [e, h]
     exact B.inv_mem hb
 
+omit [Finite G] in
 theorem mem_normalizer_commutator_of {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hC : g ∈ Subgroup.normalizer (C : Set G)) : g ∈ Subgroup.normalizer ((⁅A, C⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hA hC ⊢
@@ -77,11 +80,12 @@ theorem mem_normalizer_commutator_of {A C : Subgroup G} {g : G} (hA : g ∈ Subg
 
 theorem exists_sylow_coe {T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) :
     ∃ S : Sylow 2 G, (S : Subgroup G) = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, h2, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hT
   rw [Subgroup.relIndex_top_right] at hidx
   exact ⟨h2.toSylow hidx, IsPGroup.toSylow_coe h2 hidx⟩
 
+omit [Finite G] in
 theorem mem_smul_sylow_iff {Q : Sylow 2 G} {x y : G} :
     y ∈ ((x • Q : Sylow 2 G) : Subgroup G) ↔ x⁻¹ * y * x ∈ (Q : Subgroup G) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_smul_pointwise_iff_exists]
@@ -91,6 +95,7 @@ theorem mem_smul_sylow_iff {Q : Sylow 2 G} {x y : G} :
   · intro hy
     exact ⟨x⁻¹ * y * x, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem map_conj_eq_of_centralizes {P D : Subgroup G} (hDP : D ≤ P) {c : G}
     (hc : c ∈ Subgroup.centralizer (P : Set G)) : D.map (MulAut.conj c).toMonoidHom = D := by
   have hfix : ∀ y ∈ D, (MulAut.conj c).toMonoidHom y = y := by
@@ -124,6 +129,7 @@ theorem pRank_le_one_of_card_eq {p : ℕ} (hp : p.Prime) {P : Subgroup G} (hcard
   · rw [Set.not_nonempty_iff_eq_empty.1 hs, csSup_empty]
     exact bot_le
 
+omit [Finite G] in
 theorem map_eq_one_of_sq {H : Type*} [Group H] (f : G →* H) {b : G} (hb : Odd (orderOf b))
     (h2 : f b ^ 2 = 1) : f b = 1 := by
   have h1 : orderOf (f b) ∣ orderOf b := orderOf_map_dvd f b
@@ -148,7 +154,7 @@ theorem not_isPrimePow_two_pow_sub_one {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (hc : BinaryActionRankCounterexample G p P T B e ρ) : ¬ IsPrimePow (2 ^ e - 1) := by
   intro hr
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : P.Normal := hc.faithfulBinaryIrreducibleAction.normal
   set D₀ : Subgroup G := ⁅B, P⁆ with hD₀
   set act := DeltaConjugationAction.act (p := p) hP ρ with hact
@@ -179,7 +185,7 @@ theorem not_isPrimePow_two_pow_sub_one {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     rw [hact, DeltaConjugationAction.apply_eq]
     exact map_conj_eq_of_centralizes E.2.1 hc'
   have hCn : (Subgroup.centralizer (P : Set G)).Normal := by
-    haveI := hP
+    have := hP
     exact Subgroup.normal_centralizer
   obtain ⟨g, hg⟩ := ActorInversion.inverted hc
   obtain ⟨m, a, hga, hgB⟩ := exists_two_element_inverting hg

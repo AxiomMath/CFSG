@@ -84,7 +84,7 @@ theorem sOK_of_adm (A : FzbAdm (fzRho0 * fzRho0) aq as ay) :
       simp [pow_two]
     · right; right; right
       simp only [hk]
-      simp [pow_succ, pow_two]
+      simp [pow_succ]
   · rw [← enc_e1, ← enc_f1]
     simp only [hq, hs, enc_eq_iff]
     rcases A.s_q with h | h

@@ -75,7 +75,7 @@ theorem NatDec.irr (d : NatDec ρ Nbar Nb) (i : Fin m) {Y : Submodule (ZMod 2) V
 theorem natI_inv_of_normalizer {t : X} (ht : t ∈ normalizer (Nbar : Set X)) :
     ∀ v ∈ natI ρ Nbar, ρ t v ∈ natI ρ Nbar :=
   commOn_invariant (A := Nbar) (U := ⊤) (g := t) (fun a ha => (Subgroup.mem_normalizer_iff.1 ht a).1 ha)
-    (fun u _ => trivial)
+    (fun _u _ => trivial)
 
 theorem natC_inv_of_normalizer {t : X} (ht : t ∈ normalizer (Nbar : Set X)) :
     ∀ c ∈ natC ρ Nbar, ρ t c ∈ natC ρ Nbar := by

@@ -173,13 +173,13 @@ theorem tmSemi_transfer {G : Type} [Group G] [Finite G] (d m : ℕ) (hd : 4 ≤ 
   obtain ⟨M, hMgrp, hMfin, p, M0, ρ, hp_surj, hker_card, hM0_normal, hM0_index,
     hρ_inj, hρ_scalar⟩ :=
     exists_semilinearLift (X := ↥N) hK d hd ψ hψ
-  letI : Group M := hMgrp
-  letI : Finite M := hMfin
-  haveI hEsubN : (E.subgroupOf N).Normal :=
+  let : Group M := hMgrp
+  let : Finite M := hMfin
+  have hEsubN : (E.subgroupOf N).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := N) (N := E) le_rfl
   let Z : Subgroup M := p.ker
   let Etilde : Subgroup M := (E.subgroupOf N).comap p
-  haveI hEtildeNormal : Etilde.Normal := inferInstanceAs ((E.subgroupOf N).comap p).Normal
+  have hEtildeNormal : Etilde.Normal := inferInstanceAs ((E.subgroupOf N).comap p).Normal
   have hZ_card : Nat.card Z = 3 := hker_card
   have hZE : Z ≤ Etilde := by
     intro z hz

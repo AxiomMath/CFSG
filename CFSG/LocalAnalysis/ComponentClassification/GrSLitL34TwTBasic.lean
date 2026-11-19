@@ -32,6 +32,7 @@ theorem eq_of_rho_eq {M T : Subgroup G} (hT : IsSylowTwoIn T M) {ρ : ↥M →* 
   have h5 : m₁⁻¹ * m₂ = 1 := Subtype.ext h4
   exact inv_mul_eq_one.mp h5
 
+omit [Finite G] in
 theorem mem_imgT_iff {M T : Subgroup G} {ρ : ↥M →* WrE} {z : WrE} :
     z ∈ imgT T M ρ ↔ ∃ m : ↥M, (m : G) ∈ T ∧ ρ m = z := by
   unfold imgT

@@ -115,13 +115,13 @@ theorem card_cent_t3_three_dvd :
   exact h2.trans (by norm_num)
 
 theorem pConstrained_t3_one : PConstrainedShape 3 (Subgroup.centralizer ({t3 1} : Set CFSG.Sporadic.Fi23.J)) := by
-  haveI := finite_J23
+  have := finite_J23
   exact pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three (a := 20) (b := 13) card_cent_t3_one_dvd)
     (classData_core t3_classData.2.1)
 
 theorem pConstrained_t3_three : PConstrainedShape 3 (Subgroup.centralizer ({t3 3} : Set CFSG.Sporadic.Fi23.J)) := by
-  haveI := finite_J23
+  have := finite_J23
   exact pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three (a := 18) (b := 12) card_cent_t3_three_dvd)
     (classData_core t3_classData.2.2.2)

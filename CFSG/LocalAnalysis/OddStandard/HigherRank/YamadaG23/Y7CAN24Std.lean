@@ -36,9 +36,9 @@ theorem n24_std (D : Subgroup (GL (Fin 6) (ZMod 2)))
   let P : ↥D →* GL (Fin 3) (ZMod 2) :=
     { toFun := P0, map_one' := hPone, map_mul' := hPmul }
   have hFP (d : ↥D) : (d : GL (Fin 6) (ZMod 2)) = n24El (P d) (Q d) := hF0 d
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI : IsSimpleGroup ↥D := hD.some.isSimpleGroup
+  have : IsSimpleGroup ↥D := hD.some.isSimpleGroup
   have hinj : Function.Injective P := by
     rw [← MonoidHom.ker_eq_bot_iff P]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P.ker with h | h
@@ -168,7 +168,7 @@ theorem n24_std (D : Subgroup (GL (Fin 6) (ZMod 2)))
     simp only [u]
     rw [n24El_mul, n24El_mul]
     refine n24El_inj.mpr ⟨by simp, ?_⟩
-    simp only [Units.val_one, one_mul, mul_one, Matrix.one_mul, Matrix.mul_one]
+    simp only [Units.val_one, one_mul, mul_one]
     calc
       (A : N24Mat3) * m + (q A + m * (A : N24Mat3))
           = ((A : N24Mat3) * m + (A : N24Mat3) * m) +

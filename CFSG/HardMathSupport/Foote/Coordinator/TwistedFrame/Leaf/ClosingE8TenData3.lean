@@ -94,7 +94,7 @@ theorem caseA_u : uA0 ∈ mRoots ∧ uA1 ∈ mRoots ∧ (cls uA0 = 2 ∨ cls uA0
 
 theorem caseA_delta : dA0 ∈ rootFinset Tag.E8 ∧ dA0 7 = 0 ∧ dA1 ∈ rootFinset Tag.E8 ∧ dA1 7 = 0 ∧
     wm.mulVec dA0 = dA1 ∧ wm.mulVec dA1 = dA0 ∧ dA0 ≠ dA1 ∧ dA0 + dA1 ∉ rootFinset Tag.E8 := by
-  simp only [mRoots, Finset.mem_filter, e8t3K_mem_iff]
+  simp only [e8t3K_mem_iff]
   rw [e8t3K_wm]
   decide +kernel
 
@@ -136,7 +136,7 @@ theorem caseB_u : uB0 ∈ mRoots ∧ uB1 ∈ mRoots ∧ (cls uB0 = 1 ∨ cls uB0
 
 theorem caseB_delta : dB0 ∈ rootFinset Tag.E8 ∧ dB0 7 = 0 ∧ dB1 ∈ rootFinset Tag.E8 ∧ dB1 7 = 0 ∧
     wm.mulVec dB0 = dB1 ∧ wm.mulVec dB1 = dB0 ∧ dB0 ≠ dB1 ∧ dB0 + dB1 ∉ rootFinset Tag.E8 := by
-  simp only [mRoots, Finset.mem_filter, e8t3K_mem_iff]
+  simp only [e8t3K_mem_iff]
   rw [e8t3K_wm]
   decide +kernel
 

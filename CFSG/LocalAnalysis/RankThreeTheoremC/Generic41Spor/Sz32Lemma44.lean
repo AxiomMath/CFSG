@@ -15,7 +15,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.ABGLocalTools
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
 theorem sz32_lemma44 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hSz : Sz32Facts)
-    (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) :
+    (_hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) :
     ∀ X : Subgroup G, IsPGroup 2 X → X ≤ rankThreePrimeCore 5 M →
       X ≤ Subgroup.centralizer ({x} : Set G) → X = ⊥ := by
   have hiso : ∀ (A B : Type) [Group A] [Group B], A ≃* B → IsSz32Type 5 A → IsSz32Type 5 B :=

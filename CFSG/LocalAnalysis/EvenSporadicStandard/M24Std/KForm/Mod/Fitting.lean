@@ -17,7 +17,7 @@ theorem fixed_mem_zpowers_of_normal_two [Finite G] (h : ModData t B₀ ψ) {W : 
     [W.Normal] (hW : IsPGroup 2 W) : ∀ w ∈ W, t * w = w * t → w ∈ zpowers t := by
   intro w hw hwt
   let C := centralizer ({t} : Set G)
-  haveI : (W.subgroupOf C).Normal := (inferInstance : W.Normal).subgroupOf C
+  have : (W.subgroupOf C).Normal := (inferInstance : W.Normal).subgroupOf C
   have hP : IsPGroup 2 (W.subgroupOf C) := hW.comap_subtype (K := C)
   have hmem : (⟨w, mem_centralizer_singleton_iff.2 hwt.symm⟩ : ↥C) ∈ W.subgroupOf C := by
     rw [Subgroup.mem_subgroupOf]
@@ -34,7 +34,7 @@ theorem fittingSubgroup_eq_bot_or_center [Finite G] (h : ModData t B₀ ψ)
     rw [CFSG.LocalCores.fittingSubgroup_eq_iSup_pCore]
     refine iSup_eq_bot.2 fun p => ?_
     have hp : Nat.Prime (p : ℕ) := Nat.prime_of_mem_primeFactors p.2
-    haveI : Fact (Nat.Prime (p : ℕ)) := ⟨hp⟩
+    have : Fact (Nat.Prime (p : ℕ)) := ⟨hp⟩
     by_cases h2 : (p : ℕ) = 2
     · rw [h2]
       exact hW

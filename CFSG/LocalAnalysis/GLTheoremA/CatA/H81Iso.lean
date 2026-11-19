@@ -15,12 +15,14 @@ noncomputable def pSimpleEquiv {p : ℕ} {X : Subgroup G} {Y : Subgroup G'}
   QuotientGroup.congr (Subgroup.center (PQuot p X)) (Subgroup.center (PQuot p Y)) e
     (Subgroup.map_center_eq e)
 
+omit [Finite G] [Finite G'] in
 theorem pSimpleIsLie_of_mulEquiv {p : ℕ} {X : Subgroup G} {Y : Subgroup G'}
     (e : PQuot p X ≃* PQuot p Y) (d : TauCeti.LieTypeIndex) (h : pSimpleIsLie p Y d) :
     pSimpleIsLie p X d := by
   obtain ⟨i, hi, ⟨φ⟩⟩ := h
   exact ⟨i, hi, ⟨(pSimpleEquiv e).trans φ⟩⟩
 
+omit [Finite G] [Finite G'] in
 theorem isSL3Type_of_mulEquiv {p q : ℕ} {X : Subgroup G} {Y : Subgroup G'}
     (e : PQuot p X ≃* PQuot p Y) (h : IsSL3Type p q Y) : IsSL3Type p q X := by
   obtain ⟨Q, hQ, hL, hc⟩ := h
@@ -32,6 +34,7 @@ theorem isSL3Type_of_mulEquiv {p q : ℕ} {X : Subgroup G} {Y : Subgroup G'}
     apply hc h3
     rw [← Subgroup.map_center_eq e, hbot, Subgroup.map_bot]
 
+omit [Finite G] [Finite G'] in
 theorem isOmegaType_of_mulEquiv {p q : ℕ} {X : Subgroup G} {Y : Subgroup G'}
     (e : PQuot p X ≃* PQuot p Y) (h : IsOmegaType p q Y) : IsOmegaType p q X := by
   obtain ⟨Q, hQ, hL⟩ := h

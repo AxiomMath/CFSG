@@ -48,7 +48,7 @@ theorem Cfg.exists_E8_above {T : Sylow 2 H} {x : H} (h : Cfg H T x) {A : Subgrou
     (hAT : A ≤ (T : Subgroup H)) (hTA : (T : Subgroup H) ≤ normalizer (A : Set H))
     (hel : Open.IsElemAbelian 2 A) (hcard : Nat.card A = 4) :
     ∃ E : Subgroup H, A ≤ E ∧ Open.IsElemAbelian 2 E ∧ 8 ≤ Nat.card E := by
-  have hT2 : IsPGroup 2 (T : Subgroup H) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup H) := T.isPGroup
   have hTrank : 3 ≤ Open.pRank 2 (T : Subgroup H) := by
     rw [CFSG.ProperTwoGeneratedCore.sylow_two_rank_eq T]
     exact h.rank

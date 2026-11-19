@@ -27,7 +27,7 @@ theorem card_V0_F4 (h6211 : Stmt6_2_11_F4) : Nat.card ↥(V ⊓ CHU T L V) = 8 :
 include hk h hZ in
 
 theorem card_V1_F4 (h6211 : Stmt6_2_11_F4) : Nat.card ↥(conjSubgroup V g ⊓ CHU T L V) = 8 := by
-  rw [hk.V1_eq h hZ, CFSG.QuasithinUnique.C5.card_conjSubgroup, card_V0_F4 h h6211]
+  rw [hk.V1_eq hZ, CFSG.QuasithinUnique.C5.card_conjSubgroup, card_V0_F4 h h6211]
 
 include hk h hZ in
 

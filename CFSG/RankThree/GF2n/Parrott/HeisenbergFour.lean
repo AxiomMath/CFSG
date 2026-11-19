@@ -195,7 +195,7 @@ private theorem sum_normMap {x : E} (hcc : ∀ g : E, g * c = c * g) (hc3 : c ^ 
     _ = v := by rw [key1, key2, add_zero, add_zero, add_self_eq_zero', zero_add]
 
 private noncomputable def rhoEquiv (g : E) : M ≃ₗ[ZMod 2] M :=
-  LinearEquiv.ofLinear (ρ g) (ρ g⁻¹)
+  LinearEquiv.ofLinearMap (ρ g) (ρ g⁻¹)
     (by rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one, Module.End.one_eq_id])
     (by rw [← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one, Module.End.one_eq_id])
 

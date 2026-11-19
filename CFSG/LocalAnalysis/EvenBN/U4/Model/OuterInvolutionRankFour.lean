@@ -72,7 +72,7 @@ theorem exists_isSylowOf_map_diagonalHom_eq (hS : Setting h L η t Q T) {A : Sub
     intro u hu
     have hu1 : (u : A) ∈ δ.ker := hu
     have hZu : (u : A) ∈ center A := Common.ker_diagonalHom_le_center hcomm hu1
-    obtain ⟨k, hk⟩ := U₀.isPGroup' u
+    obtain ⟨k, hk⟩ := U₀.isPGroup u
     have h1 : orderOf (u : A) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
       simpa using congrArg Subtype.val hk)
     have h2 : orderOf (u : A) ∣ Nat.card (center A) := Subgroup.orderOf_dvd_natCard _ hZu

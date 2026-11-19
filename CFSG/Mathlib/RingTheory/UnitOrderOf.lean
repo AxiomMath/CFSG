@@ -14,7 +14,7 @@ theorem exists_unit_orderOf_eq_of_isAlgClosed {k : Type*} [Field k] [IsAlgClosed
     exact hn Nat.cast_zero
   have : NeZero n := ⟨hn0⟩
   have : NeZero (n : k) := ⟨hn⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot k n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot k n
   have hu : IsUnit ζ := hζ.isUnit hn0
   exact ⟨hu.unit, (IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)).eq_orderOf.symm⟩
 

@@ -69,8 +69,8 @@ theorem oddCore_commutator_le_centralizingLayer
   have hPK : IsSylow2In ((P : Subgroup X) ⊓ K) K := IsSylow2In.of_isSylowOf hK.2
   have hzP : z ∈ (P : Subgroup X) := (Sec6Gen.mem_of_isSylow2In hz hPK).1
   have hzH : z ∈ H := (le_sup_right : (P : Subgroup X) ≤ H) hzP
-  obtain ⟨hEO, hinv, hEE⟩ := oddCore_commutator_involution hBab hBo P.isPGroup' rfl hperm hzH hz.sq
-  have hOB : O ≤ B := oddCore_map_le_of_permuting hBo P.isPGroup' rfl hperm
+  obtain ⟨hEO, hinv, hEE⟩ := oddCore_commutator_involution hBab hBo P.isPGroup rfl hperm hzH hz.sq
+  have hOB : O ≤ B := oddCore_map_le_of_permuting hBo P.isPGroup rfl hperm
   have hEB : E ≤ B := hEO.trans hOB
   have hEodd : Odd (Nat.card E) := Odd.of_dvd_nat hBo (Subgroup.card_dvd_of_le hEB)
   have hEab : IsMulCommutative E :=

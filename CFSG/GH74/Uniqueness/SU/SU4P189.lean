@@ -50,7 +50,7 @@ theorem concl189_of_J2 {S : Sylow 2 G} {U M V : Subgroup G} {x z : G} (h : Hyp18
       K.Psub (Mbar M) T = generalizedFitting (Mbar M)) :
     Concl189 S U M x hc.x_mem := by
   have hSM : (S : Subgroup G) ≤ M := h.S_le
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   obtain ⟨hSJ2, hPL, E, hE⟩ := hJ
   set Pb : Subgroup (Mbar M) := K.Psub (Mbar M) T with hPb
   have hPleT : Pb ≤ (T : Subgroup (Mbar M)) := inf_le_left
@@ -194,7 +194,7 @@ theorem prop189 (hKI1 : K.KI1) (hKI2 : K.KI2) : Prop189Stmt := by
   intro G _ _ S U M V x z hc h
   have hSM : (S : Subgroup G) ≤ M := h.S_le
   have hSyl : IsSylowIn M (S : Subgroup G) := h.isSylowIn_M
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hxM : x ∈ M := hc.x_mem
   have hxS : x ∈ (S : Subgroup G) := hc.x_mem_S
   have hzS : z ∈ (S : Subgroup G) := hc.z_mem_S

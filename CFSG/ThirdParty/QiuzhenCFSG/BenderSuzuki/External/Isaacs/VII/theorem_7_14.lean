@@ -272,7 +272,7 @@ private theorem isaacs_7_14_extension_fields
       And (isCFLinearIsometryOnSpan (insert chi Y0) Tnew)
         (And (mapsIntegerSpanToVirtualCharacters (insert chi Y0) Tnew)
           (agreesOnIntegerSpanOn (insert chi Y0) puncturedSet tau Tnew)) := by
-  letI : Fintype N := Fintype.ofFinite N
+  let : Fintype N := Fintype.ofFinite N
   let S : Finset (ClassFunction N) := insert chi Y0
   classical
   rcases hcoherent with

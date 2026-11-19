@@ -19,8 +19,8 @@ theorem s16t3_alt_model (n : ℕ) {X : Subgroup (Equiv.Perm (Fin n))} (hX : IsPG
     hYP hYN hcard hexp hX le_top
 
 theorem s16t3_exists_parab_alt (h : ThreeNat A L T) {n : ℕ} (hn : 8 ≤ n) (halt : UC22.IsAlt ↥L n)
-    {I : Subgroup W} (hTI : StableUnder T I)
-    (hnat : SumOfNat (fun H U Z => AlternatingNatural H U Z n) L I (I ⊓ fixV L) 1) :
+    {I : Subgroup W} (_hTI : StableUnder T I)
+    (_hnat : SumOfNat (fun H U Z => AlternatingNatural H U Z n) L I (I ⊓ fixV L) 1) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧
       Nat.card ↥P = 3 ^ ((n + 1) / 4) * Nat.card ↥(T ⊓ L) ∧
       ∀ x ∈ P, ∀ m : ℕ, x ^ 3 ^ m = 1 → x ^ 3 = 1 :=

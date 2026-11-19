@@ -19,7 +19,7 @@ theorem map_nt
     {φ : e6Data_valid.minGroup k →* e6Data_valid.minGroup k}
     (hφ : ∀ γ c, φ (e6Data_valid.xm k γ c) = e6Data_valid.xm k γ (δ c)) (i : Fin (Tag.rank .E6))
     (t : kˣ) : φ (e6Data_valid.nt k i t) = e6Data_valid.nt k i (Units.map (δ : k →* k) t) := by
-  simp only [MinData.Valid.nt, map_mul, hφ, Units.coe_map, MonoidHom.coe_coe, map_neg,
+  simp only [MinData.Valid.nt, map_mul, hφ, Units.coe_map, _root_.MonoidHom.coe_ofClass, map_neg,
     Units.val_inv_eq_inv_val, map_inv₀]
 
 theorem map_hm
@@ -239,7 +239,7 @@ theorem exists_units_map_eq_pow {K : Type} [Field K] {δ : K ≃+* K} (hδ : δ 
   have h3 : Units.map (δ.toRingHom : K →* K) (Units.map (δ.toRingHom : K →* K)
       (Units.map (δ.toRingHom : K →* K) η)) = η := by
     refine Units.ext ?_
-    simp only [Units.coe_map, MonoidHom.coe_coe]
+    simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass]
     exact congrArg (fun φ : RingAut K => φ (η : K)) hδ
   have e1 : Units.map (δ.toRingHom : K →* K) η = η ^ (i * 1) := by rw [mul_one]; exact hδη
   rw [e1, hpow, hpow] at h3

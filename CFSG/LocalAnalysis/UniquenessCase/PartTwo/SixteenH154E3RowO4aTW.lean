@@ -13,7 +13,7 @@ private abbrev s16h_e3_o4atwIota : Type := Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2
 
 private theorem s16h_e3_o4atw_quad_zero {K : Type} [Field K] {b c : K} :
     StatedQuadMinus 2 K b c (0 : s16h_e3_o4atwIota → K) = 0 := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp [StatedQuadMinus]
 
 private theorem s16h_e3_o4atw_toAddMap_scalar {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] (ω : K) (hω : ω ≠ 0) (x : ι → K) :

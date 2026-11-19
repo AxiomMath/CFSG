@@ -18,7 +18,7 @@ theorem dedupAux_mem_iff (l : List ℕ) : ∀ (acc : List ℕ) (x : ℕ),
     cases hc : acc.contains y
     · have hy' : y ∉ acc := fun h' => by have h'' := List.contains_iff_mem.mpr h'; rw [hc] at h''; exact Bool.false_ne_true h''
       rw [dedupAux, hc]
-      simp only [Bool.false_eq_true, if_false, ih, List.mem_cons]
+      simp only [Bool.false_eq_true, ite_false, ih, List.mem_cons]
       constructor
       · rintro ((h | h) | h)
         · exact Or.inr (Or.inl h)
@@ -30,7 +30,7 @@ theorem dedupAux_mem_iff (l : List ℕ) : ∀ (acc : List ℕ) (x : ℕ),
         · exact Or.inr h
     · have hy' : y ∈ acc := List.contains_iff_mem.mp hc
       rw [dedupAux, hc]
-      simp only [if_true, ih, List.mem_cons]
+      simp only [ite_true, ih, List.mem_cons]
       constructor
       · rintro (h | h)
         · exact Or.inl h
@@ -48,10 +48,10 @@ theorem dedupAux_nodup (l : List ℕ) : ∀ (acc : List ℕ), acc.Nodup → (ded
     cases hc : acc.contains y
     · have hy' : y ∉ acc := fun h' => by have h'' := List.contains_iff_mem.mpr h'; rw [hc] at h''; exact Bool.false_ne_true h''
       rw [dedupAux, hc]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       exact ih (y :: acc) (List.nodup_cons.mpr ⟨hy', h⟩)
     · rw [dedupAux, hc]
-      simp only [if_true]
+      simp only [ite_true]
       exact ih acc h
 
 theorem mem_dedupN {l : List ℕ} {x : ℕ} : x ∈ dedupN l ↔ x ∈ l := by

@@ -34,7 +34,7 @@ theorem FiveFrame.nonabelian (F : FiveFrame α d z) : ∃ a b : ↥(cent2 α d),
   have hcard := F.card_H
   by_contra hcon
   push Not at hcon
-  letI : CommGroup ↥(cent2 α d) := { (inferInstance : Group ↥(cent2 α d)) with mul_comm := hcon }
+  let : CommGroup ↥(cent2 α d) := { (inferInstance : Group ↥(cent2 α d)) with mul_comm := hcon }
   have hpr := IsSimpleGroup.prime_card (α := ↥(cent2 α d))
   rw [hcard] at hpr
   norm_num at hpr

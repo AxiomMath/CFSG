@@ -41,7 +41,7 @@ theorem t29Spor_holds
       (CFSG.HardMathSupport.Timmesfeld.Coordinator.sporadicMultipliers_of_census
         CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.sporadicMultipliers_holds)
       hZ e
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hZc : IsCyclic ↥(center ↥L) := isCyclic_of_prime_card hcard3
     have hO := h.isCyclic_pCore_of_center_cyclic hZc hZ
     rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl

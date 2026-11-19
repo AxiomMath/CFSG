@@ -38,7 +38,7 @@ theorem ggLieSU3FixedInputOn_offSUFour :
     have hrank' : rank' = 2 := hA2.1
     subst htag'
     subst hrank'
-    simp only [LargeEvenRawDatum] at hraw'
+    simp only at hraw'
     obtain ⟨K', _instK', _instFinK', hK', hQK'⟩ := hraw'
     obtain ⟨-, -, θ', _hP'⟩ := hQK'
     exact gffa2_card_center_dvd_unitary hJperf hA2.2.1 hK' θ'
@@ -52,18 +52,18 @@ theorem ggLieSU3FixedInputOn_offSUFour :
     by_cases hr : rank = 2
     ·
       subst hr
-      simp only [LargeEvenRawDatum] at hraw
+      simp only at hraw
       obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hraw
       obtain ⟨-, -, θ, hP⟩ := hQK
       exact (ggLieSU3Fixed_false_of_slTwo hX hl hK θ hP.2.2).elim
     ·
       obtain ⟨r, rfl⟩ : ∃ r, rank = r + 4 := ⟨rank - 4, by omega⟩
-      simp only [LargeEvenRawDatum] at hraw
+      simp only at hraw
       obtain ⟨K, _instK, _instFinK, hK, b, c, hbc, hQK⟩ := hraw
       obtain ⟨-, -, θ, hP⟩ := hQK
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : CharP K 2 :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fintype K := Fintype.ofFinite K
+      have : CharP K 2 :=
         charP_of_card_eq_prime_pow (p := 2) (f := nn) (by rw [← Nat.card_eq_fintype_card, hK])
       have hker : (θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))).ker =
           Subgroup.center X := by

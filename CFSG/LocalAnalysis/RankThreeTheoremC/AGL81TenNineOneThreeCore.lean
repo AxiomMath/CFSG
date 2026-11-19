@@ -20,6 +20,7 @@ open CFSG.Open CFSG.SectionRank
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem noncommCoprod_injective {A C : Subgroup Q} (hcomm : ∀ a ∈ A, ∀ c ∈ C, Commute a c)
     (hdisj : A ⊓ C = ⊥) :
     Function.Injective (MonoidHom.noncommCoprod A.subtype C.subtype
@@ -95,7 +96,7 @@ theorem pRank_le_quot_add_one (N : Subgroup Q) [N.Normal] (hN : Open.pRank 3 N �
 theorem pRank_le_one_of_isCyclic {P : Type} [Group P] [Finite P] [IsCyclic P] :
     Open.pRank 3 (⊤ : Subgroup P) ≤ 1 := by
   refine pRank_le (by norm_num) fun E _ hE => ?_
-  haveI : IsCyclic E := Subgroup.isCyclic E
+  have : IsCyclic E := Subgroup.isCyclic E
   have hexp : Monoid.exponent E ∣ 3 :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (hE.2 _ x.2)
   rw [IsCyclic.exponent_eq_card] at hexp
@@ -104,8 +105,8 @@ theorem pRank_le_one_of_isCyclic {P : Type} [Group P] [Finite P] [IsCyclic P] :
 theorem eq_bot_of_pRank_eq_zero {C : Subgroup Q} (hC : IsPGroup 3 C) (h : Open.pRank 3 C = 0) :
     C = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hne
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hne
   have h3 : 3 ∣ Nat.card C := by
     obtain ⟨k, hk⟩ := hC.exists_card_eq
     have h1 : 1 < Nat.card C := Finite.one_lt_card
@@ -130,6 +131,7 @@ theorem eq_bot_of_pRank_eq_zero {C : Subgroup Q} (hC : IsPGroup 3 C) (h : Open.p
     · rw [Nat.card_zpowers, Subgroup.orderOf_coe, hc, pow_one]
   omega
 
+omit [Finite Q] in
 theorem comm_of_sup {A C : Subgroup Q} (hgen : A ⊔ C = ⊤) (hAc : ∀ a ∈ A, ∀ b ∈ A, Commute a b)
     (hCc : ∀ a ∈ C, ∀ b ∈ C, Commute a b) (hcomm : ∀ a ∈ A, ∀ c ∈ C, Commute a c) :
     ∀ x y : Q, x * y = y * x := by
@@ -150,14 +152,15 @@ theorem comm_of_sup {A C : Subgroup Q} (hgen : A ⊔ C = ⊤) (hAc : ∀ a ∈ A
 theorem comm_of_pRank_le_one {A C : Subgroup Q} (hC : IsPGroup 3 C) (hA : IsElemAbelian 3 A)
     (hcomm : ∀ a ∈ A, ∀ c ∈ C, Commute a c) (hgen : A ⊔ C = ⊤) (h : Open.pRank 3 C ≤ 1) :
     ∀ x y : Q, x * y = y * x := by
-  haveI := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.P64Asm.isCyclic_of_pRank_le_one
+  have := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.P64Asm.isCyclic_of_pRank_le_one
     Nat.prime_three (by norm_num) hC h
   have := hA.1
   refine comm_of_sup hgen (fun a ha b hb => ?_) (fun a ha b hb => ?_) hcomm
   · exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) ⟨b, hb⟩)
-  · have hc : (⟨a, ha⟩ : C) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := IsCyclic.commutative.is_comm.comm _ _
+  · have hc : (⟨a, ha⟩ : C) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := _root_.IsCyclic.isMulCommutative.is_comm.comm _ _
     exact congrArg Subtype.val hc
 
+omit [Finite Q] in
 theorem quot_comm (N : Subgroup Q) [N.Normal] (h : ∀ x y : Q, x * y = y * x) :
     ∀ a b : Q ⧸ N, a * b = b * a := by
   intro a b
@@ -173,7 +176,7 @@ theorem false_of_shapeSimple (hQ : IsPGroup 3 Q) {A C : Subgroup Q} (N : Subgrou
   have h1 := two_add_pRank_le hA hA9 hcomm hdisj
   have h2 := pRank_le_quot_add_one N hN
   rcases h with ⟨hcyc, h9⟩ | ⟨hnc, hrk⟩
-  · haveI := hcyc
+  · have := hcyc
     have h3 := pRank_le_one_of_isCyclic (P := Q ⧸ N)
     have hC0 : C = ⊥ := eq_bot_of_pRank_eq_zero hC (by omega)
     rw [hC0, sup_bot_eq] at hgen
@@ -193,7 +196,7 @@ theorem twentySeven_le_card_center (hQ : IsPGroup 3 Q) {A C : Subgroup Q}
     (hA : IsElemAbelian 3 A) (hA9 : Nat.card A = 9) (hcomm : ∀ a ∈ A, ∀ c ∈ C, Commute a c)
     (hdisj : A ⊓ C = ⊥) (hgen : A ⊔ C = ⊤) (hC1 : C ≠ ⊥) :
     27 ≤ Nat.card (Subgroup.center Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z : Subgroup Q := (Subgroup.center C).map C.subtype
   have hZC : Z ≤ C := Subgroup.map_subtype_le _
   have hcAZ : ∀ a ∈ A, ∀ z ∈ Z, Commute a z := fun a ha z hz => hcomm a ha z (hZC hz)
@@ -225,8 +228,8 @@ theorem twentySeven_le_card_center (hQ : IsPGroup 3 Q) {A C : Subgroup Q}
     exact Subgroup.card_le_of_le (hrange.trans hAZ)
   have hZ3 : 3 ≤ Nat.card Z := by
     have hCp : IsPGroup 3 C := hQ.to_subgroup C
-    haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC1
-    haveI := hCp.center_nontrivial
+    have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC1
+    have := hCp.center_nontrivial
     rw [Subgroup.card_map_of_injective C.subtype_injective]
     obtain ⟨k, hk⟩ := (hCp.to_subgroup (Subgroup.center C)).exists_card_eq
     have h1 : 1 < Nat.card (Subgroup.center C) := Finite.one_lt_card

@@ -44,7 +44,7 @@ theorem mem_inner_of_mem_innAutDerived_of_outPNice_three {X : Type} [Group X] [F
     (h : OutPNice 3 X) {a : MulAut X} (ha : a ∈ innAutDerived X) (ha3 : a ^ 3 = 1) :
     a ∈ inner X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, E, hID, hD2, hpE, hD4, -⟩ := h
   have hDE : D ≤ E := fun δ hδ => hpE δ ⟨0, by simpa using hδ⟩
   have hDn : D.Normal := ⟨fun δ hδ γ => by

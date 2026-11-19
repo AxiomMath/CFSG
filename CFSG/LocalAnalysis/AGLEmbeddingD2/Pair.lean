@@ -30,7 +30,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {M H R : Subgroup G}
 
 theorem isPGroup_R (h : AGLPair p M H R) : IsPGroup p R := by
   obtain ⟨T, hT⟩ := h.isSylow
-  exact hT ▸ T.isPGroup'.map H.subtype
+  exact hT ▸ T.isPGroup.map H.subtype
 
 theorem twoCore_le_primeCore (h : AGLPair p M H R) : pCoreOf 2 H ≤ GLBPrimeCore p H :=
   pCoreOf_le_glbPrimeCore Nat.prime_two

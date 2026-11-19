@@ -109,7 +109,7 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
       exact hxE h'
     have hxpN : xp ∉ E ⊔ Subgroup.closure ({x} : Set G) := by
       intro h
-      exact fzl_rho_mem_sup_closure (y := x) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna
+      exact fzl_rho_mem_sup_closure (_y := x) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna
         hxP hxE h
     set N : Subgroup G := E ⊔ Subgroup.closure ({x} : Set G) with hN
     have hEN : E ≤ N := le_sup_left
@@ -146,7 +146,7 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
       exact fzl_card_eq_32 _ hNle hNgt hne hNdiv
     have hNeq : N = Subgroup.closure ((E : Set G) ∪ {x}) := by
       rw [hN, Subgroup.closure_union, Subgroup.closure_eq]
-    haveI : IsMulCommutative N := by
+    have : IsMulCommutative N := by
       rw [hNeq]
       apply Subgroup.isMulCommutative_closure
       intro a ha b hb _
@@ -166,14 +166,14 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
       intro g
       apply Subtype.ext
       exact hEcent (z : G) hz (g : G) g.2
-    haveI hEnorm : (E.subgroupOf P).Normal := Subgroup.normal_of_le_center hEcent_sub
+    have hEnorm : (E.subgroupOf P).Normal := Subgroup.normal_of_le_center hEcent_sub
     have hQcard : Nat.card (P ⧸ (E.subgroupOf P)) = 4 := by
       have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (E.subgroupOf P)
       have h2 : Nat.card (E.subgroupOf P) = Nat.card E :=
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEP).toEquiv
       rw [hcardP, h2, hcardE] at h1
       omega
-    haveI hQcomm : IsMulCommutative (P ⧸ (E.subgroupOf P)) :=
+    have hQcomm : IsMulCommutative (P ⧸ (E.subgroupOf P)) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hQcard]; norm_num)
     set xP : P := ⟨x, hxP⟩ with hxP'
     set xpP : P := ⟨xp, hxpP⟩ with hxpP'
@@ -214,7 +214,7 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
               rw [IsMulCommutative.is_comm.comm (QuotientGroup.mk' (E.subgroupOf P) xpP)
                 (QuotientGroup.mk' (E.subgroupOf P) xP)]
     have hwE : w ∈ E := by
-      apply fzl_mem_of_coset (y := w) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna hwP
+      apply fzl_mem_of_coset (_y := w) hrho3 hcardP hcardE hEP hEcomm hEcent hrP hrE hfpf hna hwP
       have hmem : (wP⁻¹ * wρ : P) ∈ E.subgroupOf P := by
         rw [← QuotientGroup.eq_one_iff]
         change QuotientGroup.mk' (E.subgroupOf P) (wP⁻¹ * wρ) = 1
@@ -313,7 +313,7 @@ theorem fzl_cent_eq_E {P E : Subgroup G} {rho : G} (hrho3 : rho ^ 3 = 1)
         · exact (Subgroup.mem_centralizer_iff.mp hxp_cent b hbN).symm
         · rw [hb_eq]
     obtain ⟨a, haP, b, hbP, hab⟩ := hna
-    haveI : IsMulCommutative P := hMeq ▸ hMcomm
+    have : IsMulCommutative P := hMeq ▸ hMcomm
     exact hab (setLike_mul_comm (s := P) haP hbP)
 
 end CFSG.OddStandard.SmallF3.FritzII

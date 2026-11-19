@@ -23,12 +23,12 @@ theorem Sec7Hyp.not_slNat {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec7Hyp hc 
       have h2 : m = 2 := by omega
       subst h2
       exact hs.notPlus4 ⟨K, fK, finK, hK, hnat⟩
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     exact not_slNat_of_orth hc hsl hK (ElemMatrixIso.plus hm3)
       (nondegenerate_polarBilin_quadPlus m K) hnat (by simp; omega)
-  · haveI : CharP K 2 := by
+  · have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     exact not_slNat_of_orth hc hsl hK (ElemMatrixIso.minus hm hirr)
@@ -36,7 +36,7 @@ theorem Sec7Hyp.not_slNat {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec7Hyp hc 
 
 theorem sec7CommN_of_311b (h311 : Stroth311bCommStatement) : Sec7CommNStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hs5 := hs.toSec5
   obtain ⟨T, hT⟩ := exists_centLB hc t
   have hNT := h311 G M Q Z B hc n hs5.width hs5.n_gt hs5.noA2 hs5.gen t hs5.mem hs5.notQ

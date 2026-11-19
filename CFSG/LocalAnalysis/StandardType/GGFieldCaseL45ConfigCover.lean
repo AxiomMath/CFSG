@@ -35,7 +35,7 @@ theorem exists_inv_mul_mem_of_maxPSubgroup [Finite G] {p : ℕ} [Fact p.Prime]
     exact (Subgroup.mem_normalizer_iff.mp (hHX h.2) n).mp hn
   obtain ⟨S, hS⟩ := (hUp.comap_subtype (K := H)).exists_le_sylow
   have hSU : (S : Subgroup H).map H.subtype = U :=
-    hmax _ ((Subgroup.map_subtype_le _).trans hHC) (S.isPGroup'.map _)
+    hmax _ ((Subgroup.map_subtype_le _).trans hHC) (S.isPGroup.map _)
       (fun u hu => ⟨⟨u, hUH hu⟩, hS (Subgroup.mem_subgroupOf.mpr hu), rfl⟩)
   set π : H →* H ⧸ Z.subgroupOf H := QuotientGroup.mk' (Z.subgroupOf H) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _

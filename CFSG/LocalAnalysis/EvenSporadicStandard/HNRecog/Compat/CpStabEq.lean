@@ -65,12 +65,12 @@ theorem cp_surj_of_card_le (h : F5Std a z) (hα : IsIsoOn (Gx a) (Gx a') α) (h�
     {x : G} (hx : IsConj a x)
     (hc : Nat.card ↥(Gxy a' (θ x)) ≤ Nat.card ↥(Gxy a x)) :
     ∀ g' ∈ Gxy a' (θ x), ∃ g ∈ Gxy a x, α g = g' := by
-  haveI : Finite ↥(Gx a') := by
+  have : Finite ↥(Gx a') := by
     apply Nat.finite_of_card_ne_zero
     rw [← hα.natCard_eq, card_Gx_a h]
     norm_num
   have hle : Gxy a' (θ x) ≤ Gx a' := fun g hg => (mem_Gxy.mp hg).1
-  haveI : Finite ↥(Gxy a' (θ x)) :=
+  have : Finite ↥(Gxy a' (θ x)) :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   let f : ↥(Gxy a x) → ↥(Gxy a' (θ x)) :=
     fun g => ⟨α g.1, cp_stab_mem h hα hθ hx g.2⟩

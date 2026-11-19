@@ -186,6 +186,7 @@ theorem root_three_le_rad_of_adj {p : V D} (hp : (Γ D).Adj (v D false) p) :
     have h3 : (mi D false)⁻¹ * a * mi D false ∈ D.root 3 := by simpa using this
     exact root_le_Q_true D (k := 3) (by norm_num) (by norm_num) hU h3
 
+omit [Finite X] hU in
 theorem exists_normalizing_of_adj {p : V D} (hp : (Γ D).Adj (v D false) p) :
     ∃ g ∈ P D false, g • v D true = p ∧ ∀ a ∈ D.root 3, g * a * g⁻¹ ∈ D.root 3 ∧
       g⁻¹ * a * g ∈ D.root 3 := by
@@ -209,6 +210,7 @@ theorem exists_normalizing_of_adj {p : V D} (hp : (Γ D).Adj (v D false) p) :
           (mi D false)⁻¹ * (x⁻¹ * a * x) * mi D false by group, hxa]
       simpa using hb
 
+omit hψ in
 theorem root_three_le_rad_arm : D.root 3 ≤ rad D (mi D true • v D false) := by
   intro a ha
   rw [mem_rad_smul_iff, rad_v]

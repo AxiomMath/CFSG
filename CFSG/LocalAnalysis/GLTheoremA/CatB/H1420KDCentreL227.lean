@@ -43,8 +43,8 @@ theorem not_glaPComponent_fixSubgroup_of_l227 {S : Type} [Group S] [Finite S]
     exact hg
   obtain ⟨τ, g, hτ, hβeq⟩ :=
     exists_conj_fieldAut_of_outer_two Nat.prime_three (by norm_num) hK hβ' hout'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP F 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP F 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hK
   set k : Subfield F := semilinearFixedSubfield τ with hk_def
   obtain ⟨-, hkcard⟩ := card_semilinearFixedSubfield Nat.prime_three (by norm_num) hK hτ
   have hτp : τ ^ 3 = 1 := hτ ▸ pow_orderOf_eq_one τ

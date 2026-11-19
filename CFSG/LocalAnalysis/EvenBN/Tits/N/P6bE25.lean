@@ -81,7 +81,7 @@ theorem node23b_E25 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h
     congrArg Subtype.val (hc ⟨a, ha⟩ ⟨b, hb⟩)
   have hsG : ∀ a ∈ d.s56V, a * a = 1 := fun a ha => congrArg Subtype.val (hs ⟨a, ha⟩)
   have M := mdata_d h49 hd hz hinv hcard hh₀ hh
-  haveI hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
+  have hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
   have hW2 : ∀ w ∈ (Ws d).subgroupOf (Hs d), w * w = 1 := by
     intro w hw
     have := hWel.2 (w : MulAut ↥d.s56V) (Subgroup.mem_subgroupOf.1 hw)

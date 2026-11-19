@@ -28,7 +28,7 @@ theorem card_elemAbelian_outer_le {P : Type} [Group P] [Finite P]
     (A : Subgroup (Outer P)) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ Nat.card {c : MulAut P // c ∈ C ∧ c ^ 2 = 1} := by
   classical
-  haveI : Finite (MulAut P) := Finite.of_injective (fun f : MulAut P => (f : P → P))
+  have : Finite (MulAut P) := Finite.of_injective (fun f : MulAut P => (f : P → P))
     DFunLike.coe_injective
   let π : MulAut P →* Outer P := QuotientGroup.mk' (OuterAutomorphisms.inner P)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective (OuterAutomorphisms.inner P)
@@ -107,12 +107,12 @@ theorem card_involutions_compl_le {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] 
     Nat.card {c : MulAut (projectiveSL n K) //
       c ∈ (compl : Subgroup (MulAut (projectiveSL n K))) ∧ c ^ 2 = 1} ≤ 4 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨k, -, hk⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (k : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hk
   obtain ⟨hcard, hcyc⟩ := card_ringAut_and_isCyclic Nat.prime_two K hK
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact k.pos.ne')
-  haveI : Fintype (RingAut K) := Fintype.ofFinite _
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact k.pos.ne')
+  have : Fintype (RingAut K) := Fintype.ofFinite _
   have hp : Nat.card {σ : RingAut K // σ * σ = 1} ≤ 2 := by
     have h := IsCyclic.card_pow_eq_one_le (α := RingAut K) (n := 2) (by norm_num)
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -152,7 +152,7 @@ theorem card_involutions_compl_le {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] 
 theorem card_elemAbelian_outer_projectiveSL_le {n : ℕ} (hn : 3 ≤ n) {K : Type} [Field K]
     [Finite K] [CharP K 2] (A : Subgroup (Outer (projectiveSL n K))) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ 4 := by
-  haveI := inndiag_normal (n := n) (K := K) hn
+  have := inndiag_normal (n := n) (K := K) hn
   exact (card_elemAbelian_outer_le (inndiag (n := n) (K := K)) compl inn_le_inndiag
     odd_relIndex_inn_inndiag (exists_mul_compl hn) (inndiag_inf_compl hn) A hA).trans
     (card_involutions_compl_le (by omega))
@@ -161,8 +161,8 @@ theorem card_elemAbelian_outer_le_four_of_psl {S : Type} [Group S] {m f : ℕ} (
     (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2 ^ f)
     (e : S ≃* StatedProj (StatedSL m K)) (A : Subgroup (Outer S)) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ 4 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   let e' : S ≃* projectiveSL m K :=
     e.trans (CFSG.QuasithinUnique.Id2519.projectiveSLEquivStatedProj m K).symm
   obtain ⟨ε⟩ : Nonempty (Outer S ≃* Outer (projectiveSL m K)) :=

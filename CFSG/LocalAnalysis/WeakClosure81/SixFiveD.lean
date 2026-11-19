@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s65_SixFiveD_le_normalizer_of_conj {X S : Subgroup G}
     (h : ∀ x ∈ X, ∀ s ∈ S, x * s * x⁻¹ ∈ S) : X ≤ normalizer (S : Set G) := by
   intro x hx
@@ -24,6 +25,7 @@ private theorem s65_SixFiveD_le_normalizer_of_conj {X S : Subgroup G}
     have h2 := h x⁻¹ (X.inv_mem hx) (x * s * x⁻¹) hs
     rwa [show x⁻¹ * (x * s * x⁻¹) * x⁻¹⁻¹ = s by group] at h2
 
+omit [Finite G] in
 theorem KOf_le_LOf (M V : Subgroup G) (g : G) : KOf M V g ≤ LOf V g := by
   unfold KOf LOf UOf BOf
   exact sup_le_sup inf_le_left inf_le_left
@@ -32,6 +34,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem commutator_U_B_le_N (h : Hyp65 n M V₀ V g) :
     ⁅UOf M V g, BOf M V g⁆ ≤ NOf M V g := by
   rw [Subgroup.commutator_le]
@@ -53,6 +56,7 @@ theorem commutator_U_B_le_N (h : Hyp65 n M V₀ V g) :
   rw [NOf, Subgroup.mem_inf]
   refine ⟨⟨hcV, h.conjV_le_conjM hcVg⟩, hcVg, h.le_M hcV⟩
 
+omit [Finite G] in
 theorem N_le_centralizer_L (h : Hyp65 n M V₀ V g) :
     NOf M V g ≤ centralizer (LOf V g : Set G) := by
   have hNV : NOf M V g ≤ V := by
@@ -73,6 +77,7 @@ theorem N_le_centralizer_L (h : Hyp65 n M V₀ V g) :
     intro w hw
     exact (h.swap.elemAbelian.comm hv (hNB hw)).symm
 
+omit [Finite G] in
 theorem L_not_le_M (h : Hyp65 n M V₀ V g) : ¬ LOf V g ≤ M := by
   intro hle
   rw [LOf] at hle
@@ -187,6 +192,7 @@ theorem commutator_U_conjV_le_B (h : Hyp65 n M V₀ V g) :
     ⁅UOf M V g, conjSubgroup V g⁆ ≤ BOf M V g :=
   (Subgroup.commutator_mono (U_le_C h) le_rfl).trans (commutator_C_conjV_le_B h)
 
+omit [Finite G] in
 theorem K_coe_eq_mul (h : Hyp65 n M V₀ V g) :
     (KOf M V g : Set G) = (BOf M V g : Set G) * (UOf M V g : Set G) := by
   have hBU : BOf M V g ≤ normalizer (UOf M V g : Set G) := by
@@ -248,6 +254,7 @@ theorem K_normal (h : Hyp65 n M V₀ V g) :
     ((KOf M V g).subgroupOf (LOf V g)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (KOf_le_LOf M V g)).2 (L_le_normalizer_K h)
 
+omit [Finite G] in
 theorem V_inf_K (h : Hyp65 n M V₀ V g) : V ⊓ KOf M V g = UOf M V g := by
   apply le_antisymm
   · intro x hx
@@ -268,6 +275,7 @@ theorem V_inf_K (h : Hyp65 n M V₀ V g) : V ⊓ KOf M V g = UOf M V g := by
     exact ⟨(show UOf M V g ≤ V by rw [UOf]; exact inf_le_left) hx,
       (show UOf M V g ≤ KOf M V g by rw [KOf]; exact le_sup_left) hx⟩
 
+omit [Finite G] in
 theorem conjV_inf_K (h : Hyp65 n M V₀ V g) :
     conjSubgroup V g ⊓ KOf M V g = BOf M V g := by
   have h' := V_inf_K h.swap

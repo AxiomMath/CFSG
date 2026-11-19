@@ -78,7 +78,7 @@ theorem isPerfect_sl2 : Group.IsPerfect SL(2, S.K) :=
 
 theorem card_sl2 : Nat.card SL(2, S.K) = Nat.card S.K * (Nat.card S.K ^ 2 - 1) := by
   classical
-  letI := Fintype.ofFinite S.K
+  let := Fintype.ofFinite S.K
   have h := Matrix.card_SL_field (n := 2) (𝔽 := S.K)
   have hq : Nat.card S.K = Fintype.card S.K := Nat.card_eq_fintype_card
   have h4 := S.four_le
@@ -199,7 +199,7 @@ theorem exists_hom_ptCent_omega0 {w : W} (hw : S.Q w ≠ 0) :
 theorem isPerfect_ptCent_omega0 {w : W} (hw : S.Q w ≠ 0) :
     Group.IsPerfect ↥(ptCent S.omega0 w) := by
   obtain ⟨φ, -, hφ⟩ := S.exists_hom_ptCent_omega0 hw
-  haveI := S.isPerfect_sl2
+  have := S.isPerfect_sl2
   rw [← hφ]
   exact Group.IsPerfect.range (f := φ)
 
@@ -268,7 +268,7 @@ theorem exists_perfect_normalizing_of_totallySingular {U : Subgroup W}
     ∃ P₀ : Subgroup (MulAut W), P₀ ≤ S.omega0 ∧ Group.IsPerfect ↥P₀ ∧
       Nat.card ↥P₀ = Nat.card S.K * (Nat.card S.K ^ 2 - 1) ∧ ∀ h ∈ P₀, ∀ u ∈ U, h u ∈ U := by
   classical
-  haveI : Finite W := Finite.of_injective S.vec S.vec_injective
+  have : Finite W := Finite.of_injective S.vec S.vec_injective
   obtain ⟨z, h | h⟩ := S.totallySingular_le_plane hU
   · let Plane : Subgroup W :=
       { carrier := {w : W | ∃ y : Fin 2 → S.K, toMat (S.vec w) = Matrix.vecMulVec z y}
@@ -293,7 +293,7 @@ theorem exists_perfect_normalizing_of_totallySingular {U : Subgroup W}
     · intro x hx
       obtain ⟨a, rfl⟩ := MonoidHom.mem_range.mp hx
       exact MonoidHom.mem_range.mpr ⟨MonoidHom.inr SL(2, S.K) SL(2, S.K) a, rfl⟩
-    · haveI : Group.IsPerfect SL(2, S.K) := S.isPerfect_sl2
+    · have : Group.IsPerfect SL(2, S.K) := S.isPerfect_sl2
       exact Group.IsPerfect.range
         (f := S.jHom.comp (MonoidHom.inr SL(2, S.K) SL(2, S.K)))
     · have hinj : Function.Injective
@@ -339,7 +339,7 @@ theorem exists_perfect_normalizing_of_totallySingular {U : Subgroup W}
     · intro x hx
       obtain ⟨a, rfl⟩ := MonoidHom.mem_range.mp hx
       exact MonoidHom.mem_range.mpr ⟨MonoidHom.inl SL(2, S.K) SL(2, S.K) a, rfl⟩
-    · haveI : Group.IsPerfect SL(2, S.K) := S.isPerfect_sl2
+    · have : Group.IsPerfect SL(2, S.K) := S.isPerfect_sl2
       exact Group.IsPerfect.range
         (f := S.jHom.comp (MonoidHom.inl SL(2, S.K) SL(2, S.K)))
     · have hinj : Function.Injective

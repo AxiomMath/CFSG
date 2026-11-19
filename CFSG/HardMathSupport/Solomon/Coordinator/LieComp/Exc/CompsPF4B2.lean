@@ -59,7 +59,7 @@ theorem innerRecog_of_sp2 {p f : ℕ} (hp : p.Prime) (hf : 0 < f) {K : Type} [Fi
     (hK : Nat.card K = p ^ f) (hK3 : 3 ≤ Nat.card K) {G : Type} [Group G]
     (Ψ : StatedSp 2 K →* G) (hker : Ψ.ker ≤ Subgroup.center (StatedSp 2 K))
     {H : Subgroup G} (hrange : Ψ.range = H) : InnerRecog p ↥H := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hch : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
   have hne : (2, Fintype.card K) ≠ (2, 2) := by
     intro h
@@ -78,10 +78,10 @@ theorem innerRecog_f4_B2 {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Pri
       (rankOne (f4Datum K).rootGroup (f4Node 1)) (rankOne (f4Datum K).rootGroup (f4Node 2)) := by
     by_cases hp2 : p = 2
     · subst hp2
-      haveI : CharP K 2 := by
+      have : CharP K 2 := by
         have := ringChar_eq_of_natCard_eq_pow hp hK hf
         rw [← this]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         exact ringChar.charP K
       have hK4 : 4 ≤ Nat.card K := by
         rw [hK] at hK3 ⊢
@@ -130,8 +130,8 @@ theorem rationalLieType_of_f4B2_class {L : Type} [Field L] [IsAlgClosed L] {p₀
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf

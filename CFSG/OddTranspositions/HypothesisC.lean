@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type*} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem reach_of_not_disconnected (h : ¬ Disconnected D) {a b : G}
     (ha : a ∈ D) (hb : b ∈ D) : Reach D a b := by
   by_contra hab
@@ -32,14 +33,16 @@ variable (hC : HypothesisC (G := G) D)
 
 @[expose] def alpha : Set G := normSet D hC.E \ hC.E
 
+omit [Finite G] in
 theorem alpha_eq_normSet_diff : hC.alpha = normSet D hC.E \ hC.E := rfl
 
+omit [Finite G] in
 theorem d_mem_alpha : hC.d ∈ hC.alpha :=
   OddLocal.self_mem_F hC.setup.normal hC.hd hC.hE
 
 theorem isMaxBlock_alpha : IsMaxBlock D hC.alpha :=
   isMaxBlock_normSet_diff hC.setup
-    (fun a ha b hb => reach_of_not_disconnected hC.conn ha hb) hC.hd hC.hE
+    (fun _a ha _b hb => reach_of_not_disconnected hC.conn ha hb) hC.hd hC.hE
 
 theorem isBlock_alpha : IsBlock D hC.alpha := IsMaxBlock.isBlock hC.isMaxBlock_alpha
 

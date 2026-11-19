@@ -45,6 +45,7 @@ private theorem sylowCenterCore_le_pCoreOf {G : Type*} [Group G] (X : Subgroup G
   unfold sylowCenterCore
   exact iSup_le fun _ => iSup_le fun _ => inf_le_right
 
+omit [Finite H] in
 private theorem sylowCenterCore_subgroupOf {X K : Subgroup H} (hX : X ≤ K) :
     (sylowCenterCore X).subgroupOf K = sylowCenterCore (X.subgroupOf K) := by
   refine Subgroup.map_injective K.subtype_injective ?_
@@ -410,7 +411,7 @@ theorem f112_s3L2ZData_of_centralZData_of_hyp111R
                 rw [show E.subtype.comp (MulAut.conj g).toMonoidHom =
                   (MulAut.conj (E.subtype g)).toMonoidHom.comp E.subtype from by
                     ext y
-                    simp [MulAut.conj_apply, map_mul]]
+                    simp [MulAut.conj_apply]]
             _ = ((Y.Z 0).map E.subtype).map
                   (MulAut.conj (E.subtype g)).toMonoidHom :=
                 (Subgroup.map_map (Y.Z 0) (MulAut.conj (E.subtype g)).toMonoidHom

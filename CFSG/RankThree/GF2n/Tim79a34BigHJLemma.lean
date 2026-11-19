@@ -70,6 +70,7 @@ theorem conjAction_eq_one_iff (m : Mg) :
 
 variable {P V}
 
+omit [P.Normal] in
 theorem quot_mul_comm (hcomm : ∀ x ∈ P, ∀ y ∈ P, ⁅x, y⁆ ∈ V) (a b : ↥P ⧸ V.subgroupOf P) :
     a * b = b * a := by
   induction a using QuotientGroup.induction_on with | H x => ?_
@@ -83,11 +84,13 @@ theorem quot_mul_comm (hcomm : ∀ x ∈ P, ∀ y ∈ P, ⁅x, y⁆ ∈ V) (a b 
   rw [h2]
   exact h1
 
+omit [P.Normal] in
 theorem quot_mul_self (hsq : ∀ x ∈ P, x * x ∈ V) (a : ↥P ⧸ V.subgroupOf P) : a * a = 1 := by
   induction a using QuotientGroup.induction_on with | H x => ?_
   rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   exact hsq x x.2
 
+omit [P.Normal] [V.Normal] in
 theorem quot_card [Finite Mg] (hVP : V ≤ P) (hcard : Nat.card P = 2 ^ 8 * Nat.card V) :
     Nat.card (↥P ⧸ V.subgroupOf P) = 2 ^ 8 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (V.subgroupOf P)
@@ -102,7 +105,7 @@ end NormalSection
 theorem hj_data_of_pq {Mg : Type} [Group Mg] [Finite Mg] (Q P V : Subgroup Mg)
     [Q.Normal] [P.Normal] [V.Normal] (Lb : Subgroup (Mg ⧸ Q)) (Jg : Type) [Group Jg]
     [IsSimpleGroup Jg] (e : ↥Lb ≃* Jg)
-    (hVP : V ≤ P) (hPQ : P ≤ Q) (hsq : ∀ x ∈ P, x * x ∈ V)
+    (hVP : V ≤ P) (_hPQ : P ≤ Q) (hsq : ∀ x ∈ P, x * x ∈ V)
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, ⁅x, y⁆ ∈ V) (hQ : ∀ q ∈ Q, ∀ x ∈ P, ⁅q, x⁆ ∈ V)
     (hcard : Nat.card P = 2 ^ 8 * Nat.card V)
     (hnt : ∃ m : Mg, (m : Mg ⧸ Q) ∈ Lb ∧ ∃ x ∈ P, ⁅m, x⁆ ∉ V) :

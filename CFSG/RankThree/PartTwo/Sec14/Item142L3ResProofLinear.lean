@@ -67,7 +67,7 @@ theorem heisC_mul_diagTau {τ : K} (hτ : τ ^ 3 = 1) (β : K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [heisC, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination (-τ) * hτ | linear_combination (-β) * hτ
+    first | linear_combination (-τ) * hτ | linear_combination (-β) * hτ
 
 theorem heisC_mul_diagSL (β a b d : K) (h : a * b * d = 1) (h' : d * a * b = 1) :
     heisC β * ((diagSL a b d h : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =

@@ -59,7 +59,7 @@ private theorem commute_of_isComponentOf_ne {A B X : Subgroup G}
   · exact CFSG.StandardType.SmallExcC12.commute_of_commutator_subgroupOf_eq_bot hA.1 hB.1 hbot
 
 private theorem rank_bound_of_commuting_components
-    (hrank : ∀ t : G, t ≠ 1 → t ^ 2 = 1 → ∀ r : ℕ, r.Prime → r ≠ 2 →
+    (_hrank : ∀ t : G, t ≠ 1 → t ^ 2 = 1 → ∀ r : ℕ, r.Prime → r ≠ 2 →
       Open.pRank r (centralizer ({t} : Set G)) ≤ 3)
     {t : G} (ht : orderOf t = 2) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     {n : ℕ} {A : Fin n → Subgroup G} (hA : ∀ i, CFSG.Open.IsQuasisimple ↥(A i))
@@ -101,6 +101,7 @@ private theorem rank_bound_of_commuting_components
   exact CFSG.HardMathSupport.Solomon.Coordinator.le_pRank_of_elemAbelian
     hr.one_lt (hEsub.trans hclos) hEea hEcard
 
+omit [Finite G] in
 private theorem orbit_members_are_components {X K Y : Subgroup G} (hKX : K ≤ X)
     (hY : CFSG.Open.IsComponentOf Y X) :
     ∀ A ∈ MulAction.orbit K Y, CFSG.Open.IsComponentOf A X := by
@@ -142,7 +143,7 @@ private theorem orbit_index {X K Y : Subgroup G} (hKX : K ≤ X)
   have hcard : Nat.card O = n + 1 := by
     have h1 : S.ncard = O.ncard - 1 := by
       rw [show S = O \ {Y} from by ext A; simp [S],
-        Set.ncard_diff_singleton_of_mem hYinO]
+        Set.ncard_sdiff_singleton_of_mem hYinO]
     have h2 : O.ncard = Nat.card O := by
       let _ : Fintype O := Fintype.ofFinite O
       rw [Nat.card_eq_fintype_card, Set.ncard_eq_toFinset_card O (Set.toFinite O),
@@ -162,7 +163,7 @@ private theorem orbit_index {X K Y : Subgroup G} (hKX : K ≤ X)
 private theorem orbit_rank_bound
     (hrank : ∀ t : G, t ≠ 1 → t ^ 2 = 1 → ∀ r : ℕ, r.Prime → r ≠ 2 →
       Open.pRank r (centralizer ({t} : Set G)) ≤ 3)
-    {X K Y : Subgroup G} (hXk : CFSG.Open.IsKGroup ↥X) (hKX : K ≤ X)
+    {X K Y : Subgroup G} (hXk : CFSG.Open.IsKGroup ↥X) (_hKX : K ≤ X)
     (hY : CFSG.Open.IsComponentOf Y X) {n : ℕ} {A : Fin n → Subgroup G}
     (hAO : ∀ i, A i ∈ MulAction.orbit K Y)
     (hAcomp : ∀ i, CFSG.Open.IsComponentOf (A i) X)

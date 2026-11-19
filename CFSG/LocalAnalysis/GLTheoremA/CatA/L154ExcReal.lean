@@ -25,7 +25,7 @@ theorem l154_eq_conj_of_induces {M : Type} [Group M] {X : Subgroup M} (hX : comm
     (hw : w ∈ Subgroup.normalizer (X : Set M))
     (hwind : LargeEvenInduces θ (fun r r' : ↥X => w * (r : M) * w⁻¹ = (r' : M)) φ) :
     ∀ x ∈ X, σ x = w * x * w⁻¹ := by
-  haveI : Group.IsPerfect ↥X := ⟨hX⟩
+  have : Group.IsPerfect ↥X := ⟨hX⟩
   have hw' : ∀ x ∈ X, w⁻¹ * x * w ∈ X := fun x hx => by
     have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hw) x).1 hx
     simpa using this

@@ -21,7 +21,7 @@ theorem le_ffJ_of_jPair {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V} (P :
   obtain ⟨l, hl, rfl⟩ := Subgroup.mem_map.mp hk
   exact (Subgroup.mem_normalizer_iff.mp (B6.le_normalizer_ffJ X P.τ_mem) l).mp (P.L₁J hl)
 
-theorem case1_false (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
+theorem case1_false (_hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
     (P : JPair X L₁ L₂ τ) : ¬ B56Case1 (ffJ X) := by
   rintro ⟨hF, -, -⟩
   set J := ffJ X with hJdef
@@ -78,12 +78,12 @@ theorem case1_false (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut 
     exact InternalSec.not_commute_of_isQuasisimple P.q₁ fun a ha b hb =>
       P.comm a ha b (h12 ▸ hb)
 
-theorem case2_false (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
+theorem case2_false (_hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
     (P : JPair X L₁ L₂ τ) : ¬ B56Case2 (ffJ X) := by
   rintro ⟨⟨e⟩, -, -⟩
   exact InternalSec.not_le_perm_three P.q₁ P.L₁J e
 
-theorem case4_false (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
+theorem case4_false (_hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
     (P : JPair X L₁ L₂ τ) : ¬ B56Case4 (ffJ X) := by
   rintro ⟨G₁, G₂, t, hJt, -, hcomm, ⟨e₁⟩, hc₂, -, -, -, -, -, ht₁, ht₂, -, -⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩

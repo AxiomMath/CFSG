@@ -66,7 +66,7 @@ private theorem eq_top_of_isPerfect_of_dvd_card_five
     {V : Subgroup (alternatingGroup (Fin 5))}
     (hV : Group.IsPerfect V) (h5 : 5 ∣ Nat.card V) : V = ⊤ := by
   by_contra hne
-  have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hGcard : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
@@ -117,7 +117,7 @@ theorem eq_top_of_perfect_of_two_le_pRank_five
     (U : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5))) (hU : ⁅U, U⁆ = U)
     (h5 : 2 ≤ CFSG.Open.pRank 5 U) : U = ⊤ := by
   have hFact5V : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  have hSimpleV : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hSimpleV : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hA5card : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide

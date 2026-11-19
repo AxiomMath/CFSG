@@ -29,6 +29,7 @@ noncomputable def toSpanIrr {M : Type*} [AddCommGroup M] (φ : M →+ virtualCha
   ((LinearEquiv.ofEq _ _ (virtualChars_eq_span_Irr G)).toAddMonoidHom).comp φ
 
 omit [Fintype L] in
+omit [Fintype G] in
 theorem coe_toSpanIrr {M : Type*} [AddCommGroup M] (φ : M →+ virtualChars G) (x : M) :
     ((toSpanIrr φ x : Submodule.span ℤ (Irr G)) : G → ℂ) = ((φ x : virtualChars G) : G → ℂ) :=
   (rfl)

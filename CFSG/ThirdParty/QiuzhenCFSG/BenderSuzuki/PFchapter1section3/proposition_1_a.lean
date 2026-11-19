@@ -36,7 +36,7 @@ private theorem proposition_1_a_restricted_hypothesisA1
   classical
   let L : Subgroup G := Subgroup.centralizer (X : Set G)
   let ΩX : Type _ := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω X}
-  letI : MulAction L ΩX := fixedPointCentralizerAction G Ω X
+  let : MulAction L ΩX := fixedPointCentralizerAction G Ω X
   let HX : Subgroup L := H.comap L.subtype
   let DX : Subgroup L := D.comap L.subtype
   let QX : Subgroup L := Q.comap L.subtype
@@ -192,7 +192,7 @@ private theorem proposition_1_a_restricted_action_obligation
   classical
   let L : Subgroup G := Subgroup.centralizer (X : Set G)
   let ΩX : Type _ := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω X}
-  letI : MulAction L ΩX := fixedPointCentralizerAction G Ω X
+  let : MulAction L ΩX := fixedPointCentralizerAction G Ω X
   let HX : Subgroup L := H.comap L.subtype
   let DX : Subgroup L := D.comap L.subtype
   let QX : Subgroup L := Q.comap L.subtype
@@ -314,7 +314,7 @@ public theorem proposition_1_a_pair_transitive_on_fixed_points
   classical
   let L : Subgroup G := Subgroup.centralizer (X : Set G)
   let ΩX : Type _ := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω X}
-  letI : MulAction L ΩX := fixedPointCentralizerAction G Ω X
+  let : MulAction L ΩX := fixedPointCentralizerAction G Ω X
   let HX : Subgroup L := H.comap L.subtype
   let DX : Subgroup L := D.comap L.subtype
   let QX : Subgroup L := Q.comap L.subtype

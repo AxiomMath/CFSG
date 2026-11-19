@@ -17,10 +17,10 @@ theorem exists_normalized_sylow_two {Y : Type*} [Group Y] [Finite Y] {N W : Subg
       ∀ u ∈ N, (∃ k : ℕ, orderOf u = 2 ^ k) → u ∈ S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥N) := inferInstance
-  haveI : (P : Subgroup ↥N).Normal := inferInstance
-  haveI : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_normal P inferInstance
+  have : (P : Subgroup ↥N).Normal := inferInstance
+  have : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_normal P inferInstance
   refine ⟨(P : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map _, ?_, ?_⟩
+    P.isPGroup.map _, ?_, ?_⟩
   · exact hW.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic _)
   · intro u hu ⟨k, hk⟩
     have hp : IsPGroup 2 (Subgroup.zpowers (⟨u, hu⟩ : ↥N)) := by
@@ -37,7 +37,7 @@ theorem exists_normalized_sylow_two {Y : Type*} [Group Y] [Finite Y] {N W : Subg
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hd
       exact ⟨j, by rw [← hj, ← Subgroup.orderOf_coe]⟩
     obtain ⟨P', hP'⟩ := hp.exists_le_sylow
-    haveI : Unique (Sylow 2 ↥N) := Sylow.unique_of_normal P inferInstance
+    have : Unique (Sylow 2 ↥N) := Sylow.unique_of_normal P inferInstance
     have : P' = P := Subsingleton.elim _ _
     subst this
     exact ⟨⟨u, hu⟩, hP' (Subgroup.mem_zpowers _), rfl⟩

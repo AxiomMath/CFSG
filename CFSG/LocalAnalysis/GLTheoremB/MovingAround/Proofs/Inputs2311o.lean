@@ -102,7 +102,7 @@ theorem le_closure_hyperRSet_of_frame {G : Type*} [Group G] {p r : ℕ} (hp : p.
     (hgen : X ≤ Subgroup.closure
       {g | g ∈ X ∧ (∃ n : ℕ, g ^ r ^ n = 1) ∧ ∃ x ∈ V₁, x ≠ 1 ∧ g * x = x * g}) :
     X ≤ Subgroup.closure (hyperRSet ⊤ (V₁ ⊔ V₂) r p) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine hgen.trans (Subgroup.closure_mono ?_)
   rintro g ⟨hgX, hgr, x, hxV, hx1, hgx⟩
   have hzx : Nat.card (Subgroup.zpowers x) = p := by

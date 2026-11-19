@@ -18,11 +18,11 @@ section Cert
 
 variable (ws : List (List ℤ))
 
-@[expose] noncomputable def gEl (k : ℕ) : J := QT2A.el5 (ws.getD k [])
+noncomputable def gEl (k : ℕ) : J := QT2A.el5 (ws.getD k [])
 
-@[expose] noncomputable def eEl (m : ℕ) : J := QT2A.el5 (eW ws m)
+noncomputable def eEl (m : ℕ) : J := QT2A.el5 (eW ws m)
 
-@[expose] noncomputable def Vgrp : Subgroup J :=
+noncomputable def Vgrp : Subgroup J :=
   Subgroup.closure {x | x ∈ ws.map QT2A.el5}
 
 variable {ws}

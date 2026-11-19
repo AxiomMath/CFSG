@@ -35,10 +35,10 @@ theorem sylow_card_of_card_eq {p : ℕ} [hp : Fact p.Prime] {H N : Subgroup G} {
   rw [Sylow.card_eq_multiplicity, hH, factorization_card_eq_of_mul_pow hp.out hpN]
 
 theorem mul_normal_cover {p : ℕ} (hp : p.Prime) {H N Q : Subgroup G}
-    (hNH : N ≤ H) (hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hpN : Nat.Coprime p (Nat.card N))
+    (hNH : N ≤ H) (_hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hpN : Nat.Coprime p (Nat.card N))
     (hQH : Q ≤ H) (hQp : IsPGroup p Q) (hcard : Nat.card H = Nat.card N * Nat.card Q) :
     ∀ h ∈ H, ∃ q ∈ Q, ∃ n ∈ N, h = q * n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hQp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card Q) (Nat.card N) := by
     rw [hk]
@@ -84,7 +84,7 @@ theorem sylow_conj_of_normal {p : ℕ} [hp : Fact p.Prime] {H N : Subgroup G} {j
   have hQ₁G : Nat.card ((Q₁ : Subgroup H).map H.subtype) = p ^ j := by
     rw [Subgroup.card_map_of_injective H.subtype_injective, hQ₁card]
   have hQ₁H : (Q₁ : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _
-  have hQ₁p : IsPGroup p ((Q₁ : Subgroup H).map H.subtype) := Q₁.isPGroup'.map H.subtype
+  have hQ₁p : IsPGroup p ((Q₁ : Subgroup H).map H.subtype) := Q₁.isPGroup.map H.subtype
   obtain ⟨q, hq, n, hn, hgqn⟩ := mul_normal_cover hp.out hNH hNn hpN hQ₁H hQ₁p
     (by rw [hH, hQ₁G]) (g : G) g.2
   have hn' : q * n * q⁻¹ ∈ N := hNn q (hQ₁H hq) n hn
@@ -134,6 +134,7 @@ section BarLemmas
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_glaPPrimeCoreOf_iff' {p : ℕ} {C : Subgroup G} {x : G} (hx : x ∈ C) :
     x ∈ GLAPPrimeCoreOf p C ↔ (⟨x, hx⟩ : ↥C) ∈ GLAPPrimeCore p ↥C := by
   constructor
@@ -145,10 +146,12 @@ theorem mem_glaPPrimeCoreOf_iff' {p : ℕ} {C : Subgroup G} {x : G} (hx : x ∈ 
   · intro h
     exact Subgroup.mem_map.2 ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem mem_glaPPrimeCoreOf_iff {p : ℕ} {C : Subgroup G} {x : G} (hx : x ∈ C) :
     x ∈ GLAPPrimeCoreOf p C ↔ QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨x, hx⟩ = 1 := by
   rw [mem_glaPPrimeCoreOf_iff', QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
 
+omit [Finite G] in
 theorem mk_eq_mk_iff_mem {p : ℕ} {C : Subgroup G} {c d : G} (hc : c ∈ C) (hd : d ∈ C) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥C) (⟨c, hc⟩ : ↥C) =
       QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨d, hd⟩ ↔ c⁻¹ * d ∈ GLAPPrimeCoreOf p C := by
@@ -157,11 +160,13 @@ theorem mk_eq_mk_iff_mem {p : ℕ} {C : Subgroup G} {c d : G} (hc : c ∈ C) (hd
   rw [mem_glaPPrimeCoreOf_iff' hcd, ← e, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply,
     QuotientGroup.eq]
 
+omit [Finite G] in
 theorem barX_mono {p : ℕ} {C K K' : Subgroup G} (h : K ≤ K') : barX p C K ≤ barX p C K' := by
   rintro _ ⟨c, hc, rfl⟩
   exact ⟨c, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hc)), rfl⟩
 
-theorem card_eq_card_inter_mul_card_barX {p : ℕ} (hp : p.Prime) {C H : Subgroup G} (hHC : H ≤ C) :
+omit [Finite G] in
+theorem card_eq_card_inter_mul_card_barX {p : ℕ} (_hp : p.Prime) {C H : Subgroup G} (hHC : H ≤ C) :
     Nat.card H = Nat.card (GLAPPrimeCoreOf p C ⊓ H : Subgroup G) * Nat.card (barX p C H) := by
   let f : H →* (↥C ⧸ GLAPPrimeCore p ↥C) :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp (Subgroup.inclusion hHC)
@@ -212,7 +217,7 @@ theorem sylow_barX_cover {p : ℕ} [hp : Fact p.Prime] {C H : Subgroup G} (hHC :
     exact Subgroup.mem_inf.2 ⟨sec11_glaPPrimeCoreOf_conj_mem (hHC hh) (Subgroup.mem_inf.1 hn).1,
       H.mul_mem (H.mul_mem hh (Subgroup.mem_inf.1 hn).2) (H.inv_mem hh)⟩
   have hQH : (Q : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _
-  have hQp : IsPGroup p ((Q : Subgroup H).map H.subtype) := Q.isPGroup'.map H.subtype
+  have hQp : IsPGroup p ((Q : Subgroup H).map H.subtype) := Q.isPGroup.map H.subtype
   intro h hh
   obtain ⟨q, hq, n, hn, hqn⟩ := mul_normal_cover hp.out hNH hNn hcop hQH hQp
     (by rw [hH', hQ'card]) h hh
@@ -244,6 +249,7 @@ variable {G : Type} [Group G] [Finite G]
 def preimOf {p : ℕ} (C : Subgroup G) (W : Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) : Subgroup G :=
   ((W.comap (QuotientGroup.mk' (GLAPPrimeCore p ↥C))).map C.subtype)
 
+omit [Finite G] in
 theorem barX_preimOf {p : ℕ} (C : Subgroup G) (W : Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) :
     barX p C (preimOf (p := p) C W) = W := by
   apply le_antisymm
@@ -256,6 +262,7 @@ theorem barX_preimOf {p : ℕ} (C : Subgroup G) (W : Subgroup (↥C ⧸ GLAPPrim
     obtain ⟨c, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore p ↥C) w
     exact ⟨c, Subgroup.mem_subgroupOf.2 (Subgroup.mem_map.2 ⟨c, Subgroup.mem_comap.2 hw, rfl⟩), rfl⟩
 
+omit [Finite G] in
 theorem exists_sylow_above {p : ℕ} [Fact p.Prime] {H U : Subgroup G} (hUH : U ≤ H)
     (hU : IsPGroup p U) : ∃ Q : Sylow p H, U ≤ (Q : Subgroup H).map H.subtype := by
   have hUH' : IsPGroup p ↥(U.subgroupOf H) := hU.of_equiv (Subgroup.subgroupOfEquivOfLe hUH).symm
@@ -263,6 +270,7 @@ theorem exists_sylow_above {p : ℕ} [Fact p.Prime] {H U : Subgroup G} (hUH : U 
   refine ⟨Q, fun u hu => ?_⟩
   exact Subgroup.mem_map.2 ⟨⟨u, hUH hu⟩, hQ (Subgroup.mem_subgroupOf.2 hu), rfl⟩
 
+omit [Finite G] in
 theorem isPGroup_barX_of_le {p : ℕ} {C S : Subgroup G} (hSC : S ≤ C) (hS : IsPGroup p S) :
     IsPGroup p ↥(barX p C S) := by
   unfold barX
@@ -315,7 +323,7 @@ theorem exists_conj_commute {p : ℕ} [hp : Fact p.Prime] {C U V : Subgroup G} (
   intro u hu w hw
   set Q₁' := (Q₁ : Subgroup H).map H.subtype with hQ₁'
   have hQ1C : Q₁' ≤ C := (Subgroup.map_subtype_le _).trans hHC
-  have hQ1p : IsPGroup p Q₁' := Q₁.isPGroup'.map H.subtype
+  have hQ1p : IsPGroup p Q₁' := Q₁.isPGroup.map H.subtype
   have hwQ1 : w ∈ Q₁' := by
     have hle : GLBConj n V ≤ GLBConj n ((Q₂ : Subgroup H).map H.subtype) :=
       gLBConj_mono n hQ₂
@@ -378,8 +386,8 @@ theorem exists_conj_of_barX_eq {p : ℕ} [hp : Fact p.Prime] {C S T : Subgroup G
   obtain ⟨n, hn, hconj⟩ := sylow_conj_of_normal hNH hNn (coprime_inter_O C H) hcardH Q₁ Q₂
   have hQ1C : (Q₁ : Subgroup H).map H.subtype ≤ C := (Subgroup.map_subtype_le _).trans hHC
   have hQ2C : (Q₂ : Subgroup H).map H.subtype ≤ C := (Subgroup.map_subtype_le _).trans hHC
-  have hQ1p : IsPGroup p ((Q₁ : Subgroup H).map H.subtype) := Q₁.isPGroup'.map H.subtype
-  have hQ2p : IsPGroup p ((Q₂ : Subgroup H).map H.subtype) := Q₂.isPGroup'.map H.subtype
+  have hQ1p : IsPGroup p ((Q₁ : Subgroup H).map H.subtype) := Q₁.isPGroup.map H.subtype
+  have hQ2p : IsPGroup p ((Q₂ : Subgroup H).map H.subtype) := Q₂.isPGroup.map H.subtype
   have hQ1bar : barX p C ((Q₁ : Subgroup H).map H.subtype) = W :=
     (barX_sylow_eq hHC hHp Q₁).trans hbarH
   have hQ2bar : barX p C ((Q₂ : Subgroup H).map H.subtype) = W :=
@@ -429,14 +437,17 @@ section Connected
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_gLBConj {p : ℕ} {S : Subgroup G} (x : G)
     (hS : CFSG.Open.IsElemAbelian p S) : CFSG.Open.IsElemAbelian p (GLBConj x S) :=
   CFSG.SectionRank.isElemAbelian_map hS _
 
+omit [Finite G] in
 theorem card_gLBConj (x : G) (S : Subgroup G) : Nat.card (GLBConj x S) = Nat.card S := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj x⁻¹).injective
 
+omit [Finite G] in
 theorem isEkIn_top_gLBConj {p : ℕ} {S : Subgroup G} (x : G) (hS : IsEkIn p 3 ⊤ S) :
     IsEkIn p 3 ⊤ (GLBConj x S) :=
   ⟨le_top, isElemAbelian_gLBConj x hS.2.1, by rw [card_gLBConj, hS.2.2]⟩
@@ -454,20 +465,24 @@ theorem exists_isEkIn_three_le {p : ℕ} [hp : Fact p.Prime] {B : Subgroup G}
       (h3.trans (CFSG.SectionRank.le_pRank hp.out.one_lt le_rfl hB hk))
   exact ⟨W, hWB, le_top, hWel, hWcard⟩
 
+omit [Finite G] in
 theorem gLBConj_le_of_mem {C S : Subgroup G} {x : G} (hx : x ∈ C) (hS : S ≤ C) :
     GLBConj x S ≤ C := by
   have h1 : GLBConj x S ≤ GLBConj x C := gLBConj_mono x hS
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hx)] at h1
 
+omit [Finite G] in
 theorem isKConnStep_symm {p k : ℕ} {X U V : Subgroup G} (h : IsKConnStep p k X U V) :
     IsKConnStep p k X V U :=
-  ⟨h.2.1, h.1, fun v hv => Subgroup.mem_centralizer_iff.2 fun u hu =>
+  ⟨h.2.1, h.1, fun v hv => Subgroup.mem_centralizer_iff.2 fun _u hu =>
     (Subgroup.mem_centralizer_iff.1 (h.2.2 hu) v hv).symm⟩
 
+omit [Finite G] in
 theorem le_centralizer_of_forall {S T : Subgroup G} (h : ∀ s ∈ S, ∀ t ∈ T, s * t = t * s) :
     S ≤ Subgroup.centralizer (T : Set G) :=
   fun s hs => Subgroup.mem_centralizer_iff.2 fun t ht => (h s hs t ht).symm
 
+omit [Finite G] in
 theorem isKConnectedIn_symm' {p k : ℕ} {A B : Subgroup G} (h : IsKConnectedIn p k ⊤ A B) :
     IsKConnectedIn p k ⊤ B A := by
   obtain ⟨hA, hAel, hAc, hB, hBel, hBc, hcases⟩ := h
@@ -648,7 +663,7 @@ theorem pRank_eq_of_card {p : ℕ} [hp : Fact p.Prime] {E : Subgroup G} {k : ℕ
     exact (Nat.pow_le_pow_iff_right hp.out.one_lt).1 hle
   · exact CFSG.SectionRank.le_pRank hp.out.one_lt le_rfl hE hk
 
-theorem normalizer_le_glbCore {p : ℕ} [Finite G] {Q P : Subgroup G} (hQP : Q ≤ P)
+theorem normalizer_le_glbCore {p : ℕ} {Q P : Subgroup G} (hQP : Q ≤ P)
     (hQ : 2 ≤ CFSG.Open.pRank p Q) : Subgroup.normalizer (Q : Set G) ≤ GLBCore p 2 P := by
   unfold GLBCore
   exact le_sSup ⟨Q, hQP, hQ, rfl⟩
@@ -693,7 +708,7 @@ theorem isKHat_of_component {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsKG
       exact hy
     · intro hx
       exact ⟨x, hx, rfl⟩
-  haveI hnorm : (L.subgroupOf K).Normal := by
+  have hnorm : (L.subgroupOf K).Normal := by
     rw [hLsub]
     infer_instance
   let e : (↥K ⧸ L.subgroupOf K) ≃* (↥K ⧸ Subgroup.center ↥K) :=
@@ -734,7 +749,7 @@ theorem coprime_card_glaPPrimeCore {G : Type} [Group G] [Finite G] {p : ℕ} [Fa
 theorem glaPComponent_barX_top {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {C K : Subgroup G} (hK : GLAPComponent p C K) :
     GLAPComponent p (⊤ : Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) (barX p C K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := glaPComponent_top hK
   have hker : Nat.Coprime p (Nat.card ↥(⊤ ⊓ (QuotientGroup.mk' (GLAPPrimeCore p ↥C)).ker)) := by
     rw [top_inf_eq, QuotientGroup.ker_mk']
@@ -845,7 +860,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem glbCore_barX_le {p : ℕ} [hp : Fact p.Prime] {C B M' : Subgroup G} (k : ℕ)
     (hB : IsPGroup p B) (hBC : B ≤ C)
     (hnorm : ∀ E : Subgroup G, E ≤ B → k ≤ CFSG.Open.pRank p E → Subgroup.normalizer (E : Set G) ≤ M')
-    (hcore : GLAPPrimeCoreOf p C ≤ M') :
+    (_hcore : GLAPPrimeCoreOf p C ≤ M') :
     GLBCore p k (barX p C B) ≤ barX p C M' := by
   refine sSup_le ?_
   rintro _ ⟨Q, hQB, hQk, rfl⟩
@@ -857,7 +872,8 @@ theorem glbCore_barX_le {p : ℕ} [hp : Fact p.Prime] {C B M' : Subgroup G} (k :
   refine barX_mono (fun y hy => ?_)
   exact hnorm E hEB (by rw [hEr]; exact hQk) hy
 
-theorem barX_gLBConj_mem {p : ℕ} {C K : Subgroup G} {m : G} (hm : m ∈ C) (hK : K ≤ C) :
+omit [Finite G] in
+theorem barX_gLBConj_mem {p : ℕ} {C K : Subgroup G} {m : G} (hm : m ∈ C) (_hK : K ≤ C) :
     barX p C (GLBConj m K) =
       GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) (⟨m, hm⟩ : ↥C)) (barX p C K) := by
   ext z
@@ -892,6 +908,7 @@ theorem barX_gLBConj_mem {p : ℕ} {C K : Subgroup G} {m : G} (hm : m ∈ C) (hK
       rw [e2, map_mul, map_mul, map_inv, hkeq]
       group
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers_of_mem {p : ℕ} {A : Subgroup G} {a : G}
     (hA : CFSG.Open.IsElemAbelian p A) (ha : a ∈ A) :
     CFSG.Open.IsElemAbelian p (Subgroup.zpowers a) :=
@@ -899,7 +916,7 @@ theorem isElemAbelian_zpowers_of_mem {p : ℕ} {A : Subgroup G} {a : G}
 
 theorem barX_cg2_le_glaDelta {p : ℕ} [hp : Fact p.Prime] {e a : G}
     (haC : a ∈ Subgroup.centralizer ({e} : Set G)) (ha : IsPGroup p (Subgroup.zpowers a))
-    (hord : a ^ p = 1) (ha1 : a ≠ 1) :
+    (hord : a ^ p = 1) (_ha1 : a ≠ 1) :
     barX p (Subgroup.centralizer ({e} : Set G))
         (GLAPPrimeCoreOf p (Subgroup.centralizer ({e, a} : Set G))) ≤
       GLADelta p (Subgroup.zpowers (QuotientGroup.mk'
@@ -990,8 +1007,8 @@ theorem prop112_of_inputs (hI273 : Input27_3) (hI1913 : Input19_1_3Gen)
   obtain ⟨hnot_i, hnot_ii⟩ := hcon
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup G := hS.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup G := hS.simple
   have hp2 : p ≠ 2 := hS.ne_two
   obtain ⟨hO, hrank, K, hK, hcomm, hnotcov⟩ :=
     h114 ⟨h, ⟨ha, ha1⟩, ⟨he, he1⟩, hnot_i, hnot_ii⟩

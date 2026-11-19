@@ -81,7 +81,7 @@ theorem special_and_center {F : Type*} [Field F] {G : Type} [Group G] [Finite G]
     (E : Subgroup G) (hE1 : E ≠ ⊥) (hEq : IsPGroup q E)
     (hEF : (Nat.card E : F) ≠ 0) (hrF : (r : F) ≠ 0) (hDE : ⁅D, E⁆ = E) :
     IsSpecialPGroup E ∧ (Subgroup.center E).map E.subtype = E ⊓ Subgroup.centralizer (D : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcop : Nat.Coprime q (Nat.card D) := by
     rw [hD]; exact (Nat.coprime_primes hq hr).mpr hqr
   have hSE : ⁅E, D⁆ = E := by rw [Subgroup.commutator_comm]; exact hDE
@@ -102,14 +102,14 @@ theorem special_and_center {F : Type*} [Field F] {G : Type} [Group G] [Finite G]
 theorem nonabelian {F : Type*} [Field F] {G : Type} [Group G] [Finite G]
     {V : Type*} [AddCommGroup V] [Module F V]
     (ρ : Representation F G V) (hρ : Function.Injective ρ)
-    {q r : ℕ} (hq : q.Prime) (hr : r.Prime) (hqr : q ≠ r)
+    {q r : ℕ} (_hq : q.Prime) (hr : r.Prime) (_hqr : q ≠ r)
     (D : Subgroup G) (hD : Nat.card D = r)
     (hCV : (⨅ d ∈ D, LinearMap.ker (ρ d - LinearMap.id)) = (⊥ : Submodule F V))
-    (E : Subgroup G) (hE1 : E ≠ ⊥) (hEq : IsPGroup q E)
+    (E : Subgroup G) (hE1 : E ≠ ⊥) (_hEq : IsPGroup q E)
     (hEF : (Nat.card E : F) ≠ 0) (hrF : (r : F) ≠ 0) (hDE : ⁅D, E⁆ = E) :
     ¬ IsMulCommutative E := by
   intro hcomm
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   apply hE1
   have hcent := CFSG.GroupTheory.CoprimeActionSupport.FixedFreeNormalizerScalarExtension.centralizes
     ρ hρ r D hD hCV E (normalizes D E hDE) hEF hrF

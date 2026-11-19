@@ -448,7 +448,7 @@ theorem strong_closure_rank_one_action_inner_of_group
     (hP : IsSylowTwoOf ((S : Subgroup H) ⊓ L) L) :
     ∀ u ∈ U, ∃ p ∈ (S : Subgroup H) ⊓ L, ∀ x ∈ L, u⁻¹ * x * u = p⁻¹ * x * p := by
   have hS : IsSylowTwoOf (S : Subgroup H) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     have := S.not_dvd_index
     rwa [← Subgroup.relIndex, Subgroup.relIndex_top_right]
   exact strong_closure_rank_one_action_inner hS hUS hU

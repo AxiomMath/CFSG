@@ -112,14 +112,14 @@ theorem exists_V3 (hAU : (S.A : G) ∈ Uz z) : ∃ V₃ : Subgroup G, V₃ ≤ S
   refine ⟨(P : Subgroup ↥S.Vg).map S.Vg.subtype, ?_, ?_, hmax, ?_⟩
   · rintro _ ⟨v, -, rfl⟩
     exact v.2
-  · exact P.isPGroup'.map _
+  · exact P.isPGroup.map _
   · intro c hc x hx
     have hle : ((P : Subgroup ↥S.Vg).map S.Vg.subtype).map (MulAut.conj c).toMonoidHom ≤ S.Vg := by
       rintro _ ⟨y, hy, rfl⟩
       obtain ⟨v, -, rfl⟩ := hy
       exact S.conj_mem_Vg hc v.2
     have hp : IsPGroup 3 (((P : Subgroup ↥S.Vg).map S.Vg.subtype).map
-        (MulAut.conj c).toMonoidHom) := (P.isPGroup'.map _).map _
+        (MulAut.conj c).toMonoidHom) := (P.isPGroup.map _).map _
     exact hmax _ hle hp ⟨x, hx, rfl⟩
 
 end JWSetup

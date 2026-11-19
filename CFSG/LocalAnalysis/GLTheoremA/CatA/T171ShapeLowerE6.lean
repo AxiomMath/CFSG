@@ -50,8 +50,8 @@ theorem closure_range_hm_eq_map_torus {F : Type} [Field F] [Finite F] (ζ : Fˣ)
     ext k
     rw [zeta3Pi_apply, toAdd_ofAdd, Pi.single_apply, Pi.mulSingle_apply]
     by_cases hk : k = i
-    · rw [if_pos hk, if_pos hk, show (1 : ZMod 3).val = 1 from rfl, pow_one]
-    · rw [if_neg hk, if_neg hk, show (0 : ZMod 3).val = 0 from rfl, pow_zero]
+    · rw [ite_eq_left hk, ite_eq_left hk, show (1 : ZMod 3).val = 1 from rfl, pow_one]
+    · rw [ite_eq_right hk, ite_eq_right hk, show (0 : ZMod 3).val = 0 from rfl, pow_zero]
   have hgen : (fun i : Fin Tag.E6.rank =>
         ((e6Isogeny F).comp ((minTorus e6Data_valid F).comp (zeta3Pi ζ hζ)))
           (Multiplicative.ofAdd (Pi.single i (1 : ZMod 3)))) =
@@ -149,9 +149,9 @@ theorem lowerE6_holds : LowerE6 := by
     obtain ⟨F, hFld, hFfin, hFcard, hFchar, ⟨eAd⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
         (CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6) q hv
-    letI := hFld
-    letI := hFfin
-    haveI : CharP F 2 := by rw [← hq2]; exact hFchar
+    let := hFld
+    let := hFfin
+    have : CharP F 2 := by rw [← hq2]; exact hFchar
     let e : PSimple 3 L ≃* adjointGroup Tag.E6 F := eCat.trans eAd
     have h3F : 3 ∣ Nat.card F - 1 := by rw [hFcard]; exact h3q
     have h2F : (2 : F) = 0 := CharP.cast_eq_zero F 2
@@ -163,7 +163,7 @@ theorem lowerE6_holds : LowerE6 := by
           (zeta3Pi ζ hζ))).range) := by
         rw [MonoidHom.range_comp]
         exact three_pow_five_le_card_image ζ hζ
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hEab : IsElemAbelian 3 (((e6Isogeny F).comp ((minTorus e6Data_valid F).comp
           (zeta3Pi ζ hζ))).range) :=
         isElemAbelian_range_of_pow_three _ (fun a => pow_three_multiplicative_pi _ a)
@@ -194,7 +194,7 @@ theorem lowerE6_holds : LowerE6 := by
       exact Nat.prime_three.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hc h3L)
     have hOZ : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=
       CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq inferInstance hO
-    haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+    have : Group.IsPerfect ↥L := ⟨hq.1⟩
     let eP := CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot 3 hOZ
     let eAll : (↥L ⧸ Subgroup.center ↥L) ≃* adjointGroup Tag.E6 F := eP.trans e
     let π : ↥L →* adjointGroup Tag.E6 F :=

@@ -37,7 +37,7 @@ theorem val_pow_five_of_mem_rootsOfUnity {z : rootsOfUnity 5 F} :
 
 theorem card_rootsOfUnity_five {h : UnitaryFieldData 2 2 F} :
     Nat.card (rootsOfUnity 5 F) = 5 := by
-  haveI := h.finite
+  have := h.finite
   have hK : Nat.card F = 16 := by
     rw [h.card]; norm_num
   have hcard : Nat.card Fˣ = 15 := by
@@ -98,10 +98,9 @@ private noncomputable def torusParamFourHome {h : UnitaryFieldData 2 2 F}
     · rw [Fin.prod_univ_six]
       dsimp only [e]
       simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.cons_val_three, Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.tail_cons,
-        Fin.reduceFinMk]
+        Matrix.cons_val_three, Matrix.head_cons, Matrix.tail_cons]
       change a * a * b * c * d * (a ^ 2 * b * c * d)⁻¹ = 1
-      simpa [pow_two] using mul_inv_cancel (a * a * b * c * d)
+      simp [pow_two]
 
     · intro i hi j hj
       simp only [Finset.mem_insert, Finset.mem_singleton] at hi hj
@@ -214,7 +213,7 @@ theorem zeta_ne_one : (ζu : Fˣ) ≠ 1 := by
         congrArg (fun u : Fˣ => (u : F)) (zeta_pow_five hζu)
     refine ⟨?_, ?_, ?_⟩
     · intro i
-      fin_cases i <;> simp [h.norm_eq_pow, hz5, zeta_pow_five hζu]
+      fin_cases i <;> simp [h.norm_eq_pow, hz5]
     · rw [Fin.prod_univ_six]
       change ζu * ζu * ζu * ζu * ζu * 1 = 1
       rw [mul_one]
@@ -242,10 +241,10 @@ theorem diagFiveLast_mem_unitaryTorusSU :
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp only [Matrix.diagonal_apply, if_pos rfl]
+    simp only [Matrix.diagonal_apply]
     by_cases hi : i = (5 : Fin 6)
     · subst hi
-      simp only [diagFiveLastEntries, if_pos rfl]
+      simp only [diagFiveLastEntries]
       change (1 : F) = ((((ζu : Fˣ) : F)) ^ 5)⁻¹
       rw [hz5, inv_one]
     · fin_cases i
@@ -255,7 +254,7 @@ theorem diagFiveLast_mem_unitaryTorusSU :
       · rfl
       · rfl
       · exact absurd rfl hi
-  · simp only [Matrix.diagonal_apply, if_neg hij]
+  · simp only [Matrix.diagonal_apply, ite_eq_right hij]
 
 theorem diagFiveLast_ne_one : diagFiveLast h (ζu : Fˣ) (norm_zeta hζu) ≠ 1 := by
   intro h1
@@ -263,14 +262,14 @@ theorem diagFiveLast_ne_one : diagFiveLast h (ζu : Fˣ) (norm_zeta hζu) ≠ 1 
     (((A : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F))) h1
   rw [coe_diagFiveLast] at hmat
   have h00 := congrFun (congrFun hmat 0) 0
-  simp [Matrix.diagonal_apply, diagFiveLastEntries, zeta_ne_one hζu] at h00
+  simp [diagFiveLastEntries, zeta_ne_one hζu] at h00
 
 theorem exists_diag_of_mem_unitaryTorusSU {A : unitarySU 2 2 F 6}
     (hA : A ∈ unitaryTorusSU h ({0, 1} : Finset (Fin 6))) :
     ∃ (d : Fin 6 → F) (hd : ∀ i, h.norm (d i) = 1) (hdet : ∏ i, d i = 1) (n : ℕ),
       A = diagSU h d hd hdet ∧ d 0 = d 1 ∧ d 0 = ((ζu ^ n : Fˣ) : F) := by
   obtain ⟨c, hc, rfl⟩ := (mem_unitaryTorusSU h).1 hA
-  haveI := h.finite
+  have := h.finite
   have hc0 : c.1 0 ∈ rootsOfUnity 5 F :=
     (rootsOfUnityOfNormOne (c.1 0) (c.2.1 0)).2
   have hzmem : ζu ∈ rootsOfUnity 5 F := by

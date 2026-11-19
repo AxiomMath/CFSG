@@ -47,7 +47,7 @@ theorem blockA_not_mem (j : Fin 4) :
       (MulAction.stabilizer (Perm (Fin 12)) p).comap (alternatingGroup (Fin 12)).subtype := by
     rw [S8.CfgI.Triangular.lowerClosure, Subgroup.closure_le]
     rintro _ ⟨i, hi, rfl⟩
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     rw [SetLike.mem_coe, Subgroup.mem_comap, MulAction.mem_stabilizer_iff, Subgroup.coe_subtype,
       Perm.smul_def, blockA_val]
     revert hi
@@ -102,15 +102,15 @@ noncomputable def altFixEquiv (Λ : Set (Fin 12)) [DecidablePred (· ∈ Λᶜ)]
 theorem card_altFix {Λ : Set (Fin 12)} [DecidablePred (· ∈ Λᶜ)] (h6 : Nat.card ↥Λᶜ = 6) :
     Nat.card (altFix Λ) = 360 := by
   classical
-  haveI : Nontrivial ↥Λᶜ := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial ↥Λᶜ := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   rw [← Nat.card_congr (altFixEquiv Λ).toEquiv, nat_card_alternatingGroup, h6]
   rfl
 
 theorem isQuasisimple_altFix {Λ : Set (Fin 12)} [DecidablePred (· ∈ Λᶜ)]
     (h6 : Nat.card ↥Λᶜ = 6) : CFSG.Open.IsQuasisimple (altFix Λ) := by
   classical
-  haveI hs : IsSimpleGroup (alternatingGroup ↥Λᶜ) := alternatingGroup.isSimpleGroup (by omega)
-  haveI : IsSimpleGroup (altFix Λ) := @MulEquiv.isSimpleGroup _ _ _ _ hs (altFixEquiv Λ).symm
+  have hs : IsSimpleGroup (alternatingGroup ↥Λᶜ) := alternatingGroup.isSimpleGroup (by omega)
+  have : IsSimpleGroup (altFix Λ) := @MulEquiv.isSimpleGroup _ _ _ _ hs (altFixEquiv Λ).symm
   have hnc : ∃ a b : altFix Λ, a * b ≠ b * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple
       (by rw [card_altFix h6]; norm_num)
@@ -138,7 +138,7 @@ theorem exists_comp_of_elemAbelian {A : Subgroup (alternatingGroup (Fin 12))}
     ∃ σ ∈ A, σ ≠ 1 ∧ σ ≠ tri012A ∧ σ ≠ tri012A ^ 2 ∧ ∃ K : Subgroup (alternatingGroup (Fin 12)),
       GLAPComponent 3 (Subgroup.centralizer {tri012A} ⊓ Subgroup.centralizer {σ}) K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set t : Perm (Fin 12) := tri 0 1 2 with ht
   set B : Subgroup (Perm (Fin 12)) := A.map (alternatingGroup (Fin 12)).subtype with hB
   have hBmem : ∀ b ∈ B, ∃ a ∈ A, (a : Perm (Fin 12)) = b := by
@@ -176,7 +176,7 @@ theorem exists_comp_of_elemAbelian {A : Subgroup (alternatingGroup (Fin 12))}
       _ = 3 := by rw [Nat.card_coe_set_eq, Set.ncard_coe_finset]; unfold t tri; decide
   have hB0card : 27 ≤ Nat.card B0 := by
     rw [hB0, Subgroup.card_map_of_injective B.subtype_injective]
-    haveI : Nonempty (MulAction.orbit B (0 : Fin 12)) := ⟨⟨0, MulAction.mem_orbit_self 0⟩⟩
+    have : Nonempty (MulAction.orbit B (0 : Fin 12)) := ⟨⟨0, MulAction.mem_orbit_self 0⟩⟩
     have hpos : 0 < Nat.card (MulAction.orbit B (0 : Fin 12)) := Nat.card_pos
     have : 81 ≤ Nat.card (MulAction.orbit B (0 : Fin 12)) *
         Nat.card (MulAction.stabilizer B (0 : Fin 12)) := by rw [horb, hBcard]; exact hcard
@@ -241,7 +241,7 @@ theorem exists_comp_of_elemAbelian {A : Subgroup (alternatingGroup (Fin 12))}
     intro i hi
     by_contra h
     apply hi
-    simp only [hΛ, hΛf, Finset.coe_union, Finset.coe_filter, Set.mem_union, Set.mem_setOf_eq]
+    simp only [hΛ, hΛf, Finset.coe_union, Finset.coe_filter, Set.mem_union, Set.mem_ofPred_eq]
     exact Or.inl ⟨Finset.mem_univ _, (support_tri012 i).1 (Perm.mem_support.2 h)⟩
   have hσΛ : ∀ i ∉ Λ, σ i = i := by
     intro i hi
@@ -276,7 +276,7 @@ theorem exists_comp_of_elemAbelian {A : Subgroup (alternatingGroup (Fin 12))}
       simpa [← hσAe] using this
     have hpres : ∀ y ∈ Λ, ((g : alternatingGroup (Fin 12)) : Perm (Fin 12))⁻¹ y ∈ Λ := by
       intro y hy
-      simp only [hΛ, hΛf, Finset.coe_union, Finset.coe_filter, Set.mem_union, Set.mem_setOf_eq,
+      simp only [hΛ, hΛf, Finset.coe_union, Finset.coe_filter, Set.mem_union, Set.mem_ofPred_eq,
         Finset.mem_coe] at hy ⊢
       rcases hy with ⟨-, hy⟩ | hy
       · left

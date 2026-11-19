@@ -58,7 +58,7 @@ theorem ggFalse_of_perfect_of_center {H : Type*} [Group H] [Finite H] {p : ℕ} 
   obtain ⟨P, hP⟩ := hxp.exists_le_sylow
   have hxP : x ∈ (P : Subgroup H) := hP (Subgroup.mem_zpowers x)
   have hPc : IsCyclic (P : Subgroup H) := hcyc P
-  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup
   set N := Subgroup.normalizer ((P : Subgroup H) : Set H) with hN
   set r := (P : Subgroup H).relIndex N with hr
   have hrp : ¬ p ∣ r := fun h =>
@@ -205,7 +205,7 @@ theorem GGSixCtxV2.not_dvd_card_of_isComponentOf_le (h : GGSixCtxV2 p B Bs x L D
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp (hKx k'.2))
   · intro P
     have hPm : IsCyclic ((P : Subgroup ↥K).map K.subtype) :=
-      hcyc _ ((Subgroup.map_subtype_le _).trans hKL) (P.isPGroup'.map K.subtype)
+      hcyc _ ((Subgroup.map_subtype_le _).trans hKL) (P.isPGroup.map K.subtype)
     let e := Subgroup.equivMapOfInjective (P : Subgroup ↥K) K.subtype K.subtype_injective
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
 

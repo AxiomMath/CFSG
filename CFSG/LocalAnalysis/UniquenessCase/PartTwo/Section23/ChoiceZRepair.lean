@@ -136,6 +136,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem UC22pwrLift.pow_eq_one {L : Subgroup G} {F : Subgroup (Bar2 L)} {A : Subgroup G}
     (h : UC22pwrLift L F A) {k : ℕ} (hk : ∀ x ∈ F, x ^ k = 1) :
     ∀ a ∈ A, a ^ k = 1 := by
@@ -145,6 +146,7 @@ private theorem UC22pwrLift.pow_eq_one {L : Subgroup G} {F : Subgroup (Bar2 L)} 
     exact Subtype.ext (hk _ (h.equiv ⟨a, ha⟩).2)
   simpa using congrArg Subtype.val (h.equiv.injective h1)
 
+omit [Finite G] in
 private theorem UC22pwrLift.exists_noncyclic {L : Subgroup G} {F : Subgroup (Bar2 L)}
     {A : Subgroup G} (h : UC22pwrLift L F A) {p : ℕ}
     (hnc : ∃ Q : Subgroup (Bar2 L), Q ≤ F ∧ ¬ IsCyclic ↥Q ∧ ∀ x ∈ Q, x ^ p = 1) :
@@ -154,7 +156,7 @@ private theorem UC22pwrLift.exists_noncyclic {L : Subgroup G} {F : Subgroup (Bar
   have hQl : UC22pwrLift L QF Q := h.restrict hQF
   refine ⟨Q, fun x hx => hx.1, ?_, ?_⟩
   · intro hQcyc
-    letI : IsCyclic ↥Q := hQcyc
+    let : IsCyclic ↥Q := hQcyc
     exact hQFnc (isCyclic_of_surjective hQl.equiv hQl.equiv.surjective)
   · intro x hx
     have h1 : hQl.equiv ((⟨x, hx⟩ : ↥Q) ^ p) = hQl.equiv 1 := by
@@ -165,7 +167,7 @@ private theorem UC22pwrLift.exists_noncyclic {L : Subgroup G} {F : Subgroup (Bar
 private theorem exists_lift_of_full_torus (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M)
     {F : Subgroup (Bar2 L)} {k : ℕ}
     (hFU : F ≤ normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L)))
-    (hFodd : Odd (Nat.card F)) (hFab : IsMulCommutative ↥F) (hFsqf : Squarefree k)
+    (hFodd : Odd (Nat.card F)) (hFab : IsMulCommutative ↥F) (_hFsqf : Squarefree k)
     (hFpow : ∀ x ∈ F, x ^ k = 1)
     (hFnc : ∀ p : ℕ, p.Prime → p ∣ Nat.card F →
       ∃ Q ≤ F, ¬ IsCyclic ↥Q ∧ ∀ x ∈ Q, x ^ p = 1)
@@ -177,7 +179,7 @@ private theorem exists_lift_of_full_torus (D : Data G) {L : Subgroup G} (hL : L 
         ∃ Q ≤ A, ¬ IsCyclic ↥Q ∧ ∀ x ∈ Q, x ^ p = 1) ∧
       A ≤ normalizer ((D.T ⊓ L : Subgroup G) : Set G) ∧ piSet A = piSet F := by
   obtain ⟨A, hA⟩ := uc22pwr_exists_lift L hFodd
-  haveI : IsMulCommutative ↥F := hFab
+  have : IsMulCommutative ↥F := hFab
   have hAodd : Odd (Nat.card A) := by
     rw [hA.card_eq]
     exact hFodd
@@ -212,7 +214,7 @@ private theorem exists_faithful_of_lift (D : Data G) {A : Subgroup G} {k : ℕ}
 private theorem invertedOutside_of_full_torus (D : Data G) (hB : ListBNonabelian)
     (h1930 : H1930 D) {L A : Subgroup G} (hL : L ∈ calL D.T D.M)
     {F : Subgroup (Bar2 L)}
-    (hFU : F ≤ normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L)))
+    (_hFU : F ≤ normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L)))
     (hA : UC22pwrLift L F A) (hAodd : Odd (Nat.card A)) (w : Bar2 L) (hw2 : w ^ 2 = 1)
     (hwinvF : ∀ x ∈ F, w * x * w⁻¹ = x⁻¹)
     (hgen : normalizer ((uc22p20iSylowBar D L : Subgroup (Bar2 L)) : Set (Bar2 L)) ⊔

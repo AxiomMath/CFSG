@@ -33,8 +33,8 @@ theorem isQuasisimple_and_lieModel_subsystemGroup_e8D7 {K : Type} [Field K] [Fin
     CFSG.IsQuasisimple ↥(subsystemGroup Tag.E8 K (Set.range e8D7Node)) ∧
       LieModel (↥(subsystemGroup Tag.E8 K (Set.range e8D7Node)) ⧸
         Subgroup.center ↥(subsystemGroup Tag.E8 K (Set.range e8D7Node))) .POmegaPlus 7 2 f := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf1 : 1 ≤ f := by omega
   obtain ⟨O, C, hE⟩ := exists_e8_chevalleyExtras K
   obtain ⟨ρ, hρ, hcomm, hψ⟩ := exists_levi_frame hE rfl e8D7Node e8D7_adj e8D7_nadj

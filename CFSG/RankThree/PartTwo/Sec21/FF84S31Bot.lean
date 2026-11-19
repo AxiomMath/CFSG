@@ -100,6 +100,7 @@ theorem Opp3_Cen_b₁ (hZ : Nat.card (Subgroup.center L) ∣ 2) (h : FF84Sec3 b 
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem eq_one_of_two_pow_odd {c : G} {k m : ℕ} (hk : c ^ (2 ^ k) = 1) (hm : c ^ m = 1)
     (hodd : Odd m) : c = 1 := by
   have hcop : Nat.Coprime (2 ^ k) m := by
@@ -110,6 +111,7 @@ theorem eq_one_of_two_pow_odd {c : G} {k m : ℕ} (hk : c ^ (2 ^ k) = 1) (hm : c
   have := pow_gcd_eq_one.2 ⟨hk, hm⟩
   rwa [hcop, pow_one] at this
 
+omit [Finite G] in
 theorem mem_Nor_of_conj_closed {N : Subgroup G} {j : G} (h1 : ∀ n ∈ N, j * n * j⁻¹ ∈ N)
     (h2 : ∀ n ∈ N, j⁻¹ * n * j ∈ N) : j ∈ Nor N := by
   rw [Subgroup.mem_normalizer_iff]
@@ -118,6 +120,7 @@ theorem mem_Nor_of_conj_closed {N : Subgroup G} {j : G} (h1 : ∀ n ∈ N, j * n
   have := h2 _ hn
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conj_mem_sup {A B : Subgroup G} {j : G} (hA : ∀ a ∈ A, j * a * j⁻¹ ∈ A)
     (hB : ∀ c ∈ B, j * c * j⁻¹ ∈ B) : ∀ n ∈ A ⊔ B, j * n * j⁻¹ ∈ A ⊔ B := by
   intro n hn
@@ -127,7 +130,7 @@ theorem conj_mem_sup {A B : Subgroup G} {j : G} (hA : ∀ a ∈ A, j * a * j⁻�
     rcases hx with hx | hx
     · exact Subgroup.subset_closure (Or.inl (hA x hx))
     · exact Subgroup.subset_closure (Or.inr (hB x hx))
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : j * (x * y) * j⁻¹ = (j * x * j⁻¹) * (j * y * j⁻¹) := by group
     rw [this]
@@ -137,6 +140,7 @@ theorem conj_mem_sup {A B : Subgroup G} {j : G} (hA : ∀ a ∈ A, j * a * j⁻�
     rw [this]
     exact Subgroup.inv_mem _ hx
 
+omit [Finite G] in
 theorem conj_mem_comm {Q : Subgroup G} {j : G} (hj : j ∈ Nor Q) :
     ∀ n ∈ ⁅Q, Q⁆, j * n * j⁻¹ ∈ ⁅Q, Q⁆ := by
   have hle : ⁅Q, Q⁆ ≤ Subgroup.comap (MulAut.conj j).toMonoidHom ⁅Q, Q⁆ := by
@@ -156,7 +160,7 @@ theorem conj_mem_comm {Q : Subgroup G} {j : G} (hj : j ∈ Nor Q) :
 theorem Z_X_bot (hF : LemmaF) (hA8 : A8TJStmt) (hZ : Nat.card (Subgroup.center L) ∣ 2)
     (h : FF84Sec3 b L B b₁ b₂) (hodd : Odd (Nat.card (Opp 3 (Cen b)))) :
     Opp 3 (Cen b) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, H⟩ := exists_theta h hZ
   have P : PreTheta L θ := H.toPreTheta
   obtain ⟨T, K, hTA, hKA, hTe, hKT, hKs, hKc, hm₁, -⟩ := hA8
@@ -168,7 +172,7 @@ theorem Z_X_bot (hF : LemmaF) (hA8 : A8TJStmt) (hZ : Nat.card (Subgroup.center L
   have hT2 : IsPGroup 2 (preL P T) := by
     intro g
     refine ⟨2, ?_⟩
-    haveI := hTe.1
+    have := hTe.1
     have hg := g.2
     have h1 : (θ (g : G)) ^ 2 = 1 :=
       elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := T) _ hg.2

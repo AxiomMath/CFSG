@@ -29,10 +29,10 @@ variable {S G' : Type} [Group S] [Group G']
 theorem GoodJ2.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective f)
     (h : GoodJ2 (C.map f)) : GoodJ2 C := by
   intro P hPC hPs hPp N hN
-  haveI := hPp
+  have := hPp
   let eP : P ≃* P.map f := P.equivMapOfInjective f hf
-  haveI : (N.map (eP : P →* P.map f)).Normal := hN.map _ eP.surjective
-  haveI : Group.IsPerfect (P.map f) := Group.IsPerfect.map f
+  have : (N.map (eP : P →* P.map f)).Normal := hN.map _ eP.surjective
+  have : Group.IsPerfect (P.map f) := Group.IsPerfect.map f
   let eC : C ≃* C.map f := C.equivMapOfInjective f hf
   have heC : ∀ x : C, ((eC x : C.map f) : G') = f x := fun x =>
     Subgroup.coe_equivMapOfInjective_apply C f hf x
@@ -40,7 +40,7 @@ theorem GoodJ2.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective 
   have hmap := hPs.map hsurj
   have heq : (P.subgroupOf C).map (eC : C →* C.map f) = (P.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxP, hxy⟩
       refine ⟨x, hxP, ?_⟩
@@ -142,7 +142,7 @@ theorem noCfgJ2_of_inner (hZ : Subgroup.center S = ⊥) (hout : ¬ 3 ∣ Nat.car
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact h1 (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hso : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   rw [RonanK429H.autFix_conj]
   exact hgood s hso
@@ -203,22 +203,22 @@ theorem goodJ2_of_isQuasisimple {S : Type} [Group S] [Finite S] {C : Subgroup S}
     (hC : CFSG.IsQuasisimple C) (hZ : IsPGroup 3 (Subgroup.center C))
     (h : ∀ k : ℕ, Nat.card C ≠ 604800 * 3 ^ k) : GoodJ2 C := by
   intro P hPC hPs hPp N hN
-  haveI := hPp
+  have := hPp
   refine ⟨fun e => ?_⟩
   have hcard : Nat.card (P ⧸ N) = 604800 :=
     (Nat.card_congr e.toEquiv).trans KFacts.KS14.card_nativeJ2
-  haveI : Finite (P ⧸ N) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial (P ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
-  haveI : Nontrivial P := (QuotientGroup.mk'_surjective N).nontrivial
+  have : Finite (P ⧸ N) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial (P ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Nontrivial P := (QuotientGroup.mk'_surjective N).nontrivial
   rcases Res429.eq_top_or_le_center_of_isSubnormal hC hPs with htop | hcen
   · have hPeq : P = C := le_antisymm hPC (Subgroup.subgroupOf_eq_top.mp htop)
     subst hPeq
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hC hN with hNtop | hNcen
-    · haveI : Subsingleton (P ⧸ N) := by
+    · have : Subsingleton (P ⧸ N) := by
         rw [hNtop]
         exact QuotientGroup.subsingleton_quotient_top
       exact not_nontrivial _ ‹Nontrivial (P ⧸ N)›
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨a, ha⟩ := (hZ.to_le hNcen).exists_card_eq
       refine h a ?_
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, hcard, ha]

@@ -19,7 +19,7 @@ theorem openPCore_eq (p : ℕ) (G : Type) [Group G] : CFSG.Open.pCore p G = CFSG
 
 theorem odd_of_pCore_bot {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.pCore 2 Q = ⊥)
     (F : Subgroup Q) [F.Normal] [Group.IsNilpotent F] : Odd (Nat.card F) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card F := by
     rcases Nat.even_or_odd (Nat.card F) with h | h
@@ -41,12 +41,13 @@ theorem odd_of_pCore_bot {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.pCore 2 Q = 
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem pCore_quot_bot : CFSG.pCore 2 (X ⧸ CFSG.pCore 2 X) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := CFSG.pCore 2 X
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   set K := CFSG.pCore 2 (X ⧸ N)
-  haveI : K.Normal := CFSG.pCore_normal
+  have : K.Normal := CFSG.pCore_normal
   have hK : IsPGroup 2 K := CFSG.pCore_isPGroup
   have hN : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hc : IsPGroup 2 (K.comap (QuotientGroup.mk' N)) := by
@@ -63,10 +64,11 @@ theorem solvable_of_sup {Bx Tx : Subgroup X}
     (hperm : (Bx : Set X) * Tx = Tx * Bx) (hsup : Bx ⊔ Tx = ⊤) : Group.IsSolvable X := by
   have h := isSolvable_sup_of_perm_odd_two hBab hBodd hT hperm
   rw [hsup] at h
-  haveI := h
-  exact solvable_of_solvable_injective (f := (Subgroup.topEquiv (G := X)).symm.toMonoidHom)
+  have := h
+  exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.topEquiv (G := X)).symm.toMonoidHom)
     (Subgroup.topEquiv (G := X)).symm.injective
 
+omit [Finite X] in
 theorem mem_sup_mul {Bx Tx : Subgroup X} (hperm : (Bx : Set X) * Tx = Tx * Bx) {x : X}
     (hx : x ∈ Bx ⊔ Tx) : ∃ b ∈ Bx, ∃ t ∈ Tx, x = b * t := by
   let S : Subgroup X :=
@@ -97,17 +99,17 @@ theorem fittingQuotient_eq_actor_image {Bx Tx : Subgroup X}
     (hBab : ∀ a ∈ Bx, ∀ b ∈ Bx, a * b = b * a) (hBodd : Odd (Nat.card Bx)) (hT : IsPGroup 2 Tx)
     (hperm : (Bx : Set X) * Tx = Tx * Bx) (hsup : Bx ⊔ Tx = ⊤) :
     Bx.map (QuotientGroup.mk' (CFSG.pCore 2 X)) = CFSG.fittingSubgroup (X ⧸ CFSG.pCore 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   have hXs : Group.IsSolvable X := solvable_of_sup hBab hBodd hT hperm hsup
-  haveI hQs : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
-    solvable_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))
+  have hQs : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
+    Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 X))
   obtain ⟨Bb, hBb⟩ : ∃ Bb, Bb = Bx.map (QuotientGroup.mk' (CFSG.pCore 2 X)) := ⟨_, rfl⟩
   obtain ⟨Tb, hTb⟩ : ∃ Tb, Tb = Tx.map (QuotientGroup.mk' (CFSG.pCore 2 X)) := ⟨_, rfl⟩
   obtain ⟨F, hF⟩ : ∃ F, F = CFSG.fittingSubgroup (X ⧸ CFSG.pCore 2 X) := ⟨_, rfl⟩
   rw [← hBb, ← hF]
-  haveI : F.Normal := by rw [hF]; infer_instance
-  haveI : Group.IsNilpotent F := by rw [hF]; infer_instance
+  have : F.Normal := by rw [hF]; infer_instance
+  have : Group.IsNilpotent F := by rw [hF]; infer_instance
   have hFodd : Odd (Nat.card F) := odd_of_pCore_bot pCore_quot_bot F
   have hBbodd : Odd (Nat.card Bb) :=
     by rw [hBb]; exact Odd.of_dvd_nat hBodd (Subgroup.card_map_dvd (H := Bx) (QuotientGroup.mk' (CFSG.pCore 2 X)))
@@ -119,7 +121,7 @@ theorem fittingQuotient_eq_actor_image {Bx Tx : Subgroup X}
   have hcop : Nat.Coprime (Nat.card Bb) (Nat.card Tb) := by
     obtain ⟨k, hk⟩ := hTbp.exists_card_eq
     rw [hk]; exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hBbodd)
-  have hdisj : Bb ⊓ Tb = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hdisj : Bb ⊓ Tb = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hmul : (Bb : Set (X ⧸ CFSG.pCore 2 X)) * (Tb : Set (X ⧸ CFSG.pCore 2 X)) = Set.univ := by
     apply Set.eq_univ_of_forall
     intro q
@@ -174,7 +176,7 @@ theorem hall_conj {N S Hh K : Subgroup X} [N.Normal] (hN : IsPGroup 2 N) (hNS : 
     ∃ n ∈ N, K = Hh.map (MulAut.conj n⁻¹).toMonoidHom := by
   have hN' : IsPGroup 2 (N.subgroupOf S) :=
     hN.comap_of_injective S.subtype Subtype.coe_injective
-  haveI : Group.IsSolvable (N.subgroupOf S) := @IsNilpotent.to_isSolvable _ _ hN'.isNilpotent
+  have : Group.IsSolvable (N.subgroupOf S) := @IsNilpotent.to_isSolvable _ _ hN'.isNilpotent
   have key : ∀ (L : Subgroup X), L ≤ S → Odd (Nat.card L) →
       (∀ s ∈ S, ∃ n ∈ N, ∃ h ∈ L, s = n * h) →
       ((N.subgroupOf S : Subgroup S) : Set S) * ((L.subgroupOf S : Subgroup S) : Set S) = Set.univ ∧
@@ -188,7 +190,7 @@ theorem hall_conj {N S Hh K : Subgroup X} [N.Normal] (hN : IsPGroup 2 N) (hNS : 
       obtain ⟨n, hn, h, hh, hs⟩ := hL' s.1 s.2
       exact Set.mem_mul.mpr ⟨⟨n, hNS hn⟩, Subgroup.mem_subgroupOf.mpr hn, ⟨h, hLS hh⟩,
         Subgroup.mem_subgroupOf.mpr hh, Subtype.ext hs.symm⟩
-    · apply Subgroup.inf_eq_bot_of_coprime
+    · apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       obtain ⟨k, hk⟩ := hN'.exists_card_eq
       rw [hk, hcardL]
       exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hLodd)
@@ -274,7 +276,7 @@ theorem coprime_decomp {R A : Subgroup X} (hR : IsPGroup 2 R)
 theorem normal_two_le {Bx Tx N : Subgroup X} [N.Normal] (hNp : IsPGroup 2 N)
     (hBodd : Odd (Nat.card Bx)) (hT : IsPGroup 2 Tx) (hcard : Nat.card Bx * Nat.card Tx = Nat.card X) :
     N ≤ Tx := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (N ⊔ Tx : Subgroup X) := hNp.to_sup_of_normal_left hT
   obtain ⟨m, hm⟩ := hp.exists_card_eq
   have h1 : Nat.card (N ⊔ Tx : Subgroup X) ∣ Nat.card X :=
@@ -295,14 +297,14 @@ theorem part2 {Bx Tx : Subgroup X}
     (hA : ∀ n ∈ Tx, n ∈ Subgroup.normalizer (Bx : Set X) → n ∈ Subgroup.normalizer (A : Set X)) :
     (Tx : Set X) = (⁅CFSG.pCore 2 X, A⁆ : Subgroup X) *
       ((Tx ⊓ Subgroup.normalizer (A : Set X) : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNn : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNn : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   have hNp : IsPGroup 2 (CFSG.pCore 2 X) := CFSG.pCore_isPGroup
   have hF := fittingQuotient_eq_actor_image hBab hBodd hT hperm hsup
   have hcop0 : Nat.Coprime (Nat.card Bx) (Nat.card Tx) := by
     obtain ⟨k, hk⟩ := hT.exists_card_eq
     rw [hk]; exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hBodd)
-  have hdisj : Bx ⊓ Tx = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop0
+  have hdisj : Bx ⊓ Tx = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop0))
   have hmul : (Bx : Set X) * (Tx : Set X) = Set.univ := by
     apply Set.eq_univ_of_forall
     intro x
@@ -313,10 +315,10 @@ theorem part2 {Bx Tx : Subgroup X}
     Subgroup.isComplement'_of_disjoint_and_mul_eq_univ (disjoint_iff.mpr hdisj) hmul
   have hcard : Nat.card Bx * Nat.card Tx = Nat.card X := hcompl.card_mul_card
   have hNT : CFSG.pCore 2 X ≤ Tx := normal_two_le hNp hBodd hT hcard
-  haveI hBbn : (Bx.map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal := by rw [hF]; infer_instance
+  have hBbn : (Bx.map (QuotientGroup.mk' (CFSG.pCore 2 X))).Normal := by rw [hF]; infer_instance
   obtain ⟨S, hS⟩ : ∃ S : Subgroup X, S = (Bx.map (QuotientGroup.mk' (CFSG.pCore 2 X))).comap
       (QuotientGroup.mk' (CFSG.pCore 2 X)) := ⟨_, rfl⟩
-  haveI hSn : S.Normal := by rw [hS]; exact Subgroup.Normal.comap hBbn _
+  have hSn : S.Normal := by rw [hS]; exact Subgroup.Normal.comap hBbn _
   have hmemS : ∀ s, s ∈ S ↔ ∃ h ∈ Bx, QuotientGroup.mk' (CFSG.pCore 2 X) h =
       QuotientGroup.mk' (CFSG.pCore 2 X) s := by
     intro s; rw [hS, Subgroup.mem_comap, Subgroup.mem_map]
@@ -416,7 +418,7 @@ def conjAut {G : Type} [Group G] (B : Subgroup G) (g : G) (hg : ∀ x, x ∈ B �
     ↥B ≃* ↥B where
   toFun x := ⟨g * x * g⁻¹, (hg x).mp x.2⟩
   invFun x := ⟨g⁻¹ * x * g, by
-    have := (hg (g⁻¹ * x * g)).mpr (by simpa [mul_assoc] using x.2)
+    have := (hg (g⁻¹ * x * g)).mpr (by simp [mul_assoc])
     exact this⟩
   left_inv x := by ext; simp [mul_assoc]
   right_inv x := by ext; simp [mul_assoc]
@@ -465,7 +467,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem actor_le_twoFitting_preimage_and_sylow_factorization {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
-    (h51 : OddPrimeClassTwoAction G p P T B e) (h53 : FaithfulBinaryIrreducibleAction G p P T B ρ) :
+    (h51 : OddPrimeClassTwoAction G p P T B e) (_h53 : FaithfulBinaryIrreducibleAction G p P T B ρ) :
     B ≤ Section21.oTwoF (B ⊔ T) ∧
       ∀ A : Subgroup G, A ≤ B →
         (∀ φ : ↥B ≃* ↥B, Subgroup.map φ.toMonoidHom (A.subgroupOf B) = A.subgroupOf B) →

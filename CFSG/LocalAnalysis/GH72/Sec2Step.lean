@@ -85,7 +85,7 @@ theorem commutator_sup_le_of_abelian {S T U W : Subgroup G} (hS : U ≤ normaliz
     exact hW b (hle j hb) a (hle i ha)
   have h := iSup_commutator_eq_of_commute (H := fun b : Bool => cond b S T) (K := U)
     (fun b => by cases b <;> assumption) hcomm
-  simp only [iSup_bool_eq, cond_true, cond_false] at h
+  simp only [iSup_bool_eq, _root_.Bool.cond_true, Bool.cond_false] at h
   exact h.le
 
 theorem isKleinFour_map {Z₀ : Subgroup A₀} (hZ : IsKleinFour Z₀) {ι : A₀ →* G}
@@ -100,7 +100,7 @@ theorem le_iSup_centralizers {W : Subgroup G} (hW : Odd (Nat.card W)) {Z₀ : Su
     (hZ : IsKleinFour Z₀) {ι : A₀ →* G} (hι : Function.Injective ι)
     (hWn : Z₀.map ι ≤ normalizer (W : Set G)) :
     W ≤ ⨆ z : {z : A₀ // z ∈ Z₀ ∧ z ≠ 1}, W ⊓ C (ι z) := by
-  haveI := isKleinFour_map hZ hι
+  have := isKleinFour_map hZ hι
   obtain ⟨z₁, hz₁, hz₁1⟩ : ∃ z₁ ∈ Z₀, z₁ ≠ 1 := by
     by_contra h
     push Not at h
@@ -139,6 +139,7 @@ theorem le_iSup_centralizers {W : Subgroup G} (hW : Odd (Nat.card W)) {Z₀ : Su
   exact mul_mem (mul_mem (hle ⟨z₁, hz₁, hz₁1⟩ ha) (hle ⟨z₂, hz₂, hz₂1⟩ hb))
     (hle ⟨z₁ * z₂, hz₃, hz₃1⟩ hc)
 
+omit [Finite G] in
 theorem eq_one_or_inverts_of_isKleinFour {Z₀ : Subgroup A₀} (hZ : IsKleinFour Z₀)
     (ι : A₀ →* G) {z z' : A₀} (hz : z ∈ Z₀) (hz1 : z ≠ 1) (hz' : z' ∈ Z₀) (hz'1 : z' ≠ 1)
     {W : Subgroup G} (hW : Odd (Nat.card W)) {u : G} (hu : u ∈ W)
@@ -203,6 +204,7 @@ namespace Prop22Hyp
 variable {A₀ G : Type*} [Group A₀] [Group G] [Finite G] {X₀ Y₀ : Subgroup A₀} {ι : A₀ →* G}
   {K : Subgroup G} {Kxy : A₀ → A₀ → Subgroup G} {V : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_normalizer_pieces (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hKV : K ≤ normalizer (V : Set G))
     (hVA : ι.range ≤ normalizer (V : Set G)) {x y : A₀} (hx : x ∈ X₀) (hx1 : x ≠ 1) (hy : y ∈ Y₀)
     (hy1 : y ≠ 1) {g : G} (hg : g ∈ Kxy x y ∨ g ∈ ι.range) :
@@ -216,6 +218,7 @@ private theorem mem_normalizer_pieces (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hKV 
       (mem_centralizer_singleton_iff.mp hgy)
   · exact mem_normalizer_fourGroup (hVA ⟨c, rfl⟩) (hyp.commute_range c x) (hyp.commute_range c y)
 
+omit [Finite G] in
 private theorem isKxyGen_commutator_V₀ (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hVK : V ≤ K) {x y : A₀}
     (hx : x ∈ X₀) (hx1 : x ≠ 1) (hy : y ∈ Y₀) (hy1 : y ≠ 1) :
     IsKxyGen X₀ Y₀ Kxy ⁅V ⊓ C (ι x) ⊓ C (ι y), Kxy x y⁆ := by
@@ -241,7 +244,7 @@ private theorem isKxyGen_commutator_V₃ (hyp : Prop22Hyp X₀ Y₀ ι K Kxy)
   have hxV : ι x ∈ normalizer (V : Set G) := hVA ⟨x, rfl⟩
   have hyV : ι y ∈ normalizer (V : Set G) := hVA ⟨y, rfl⟩
   set V₃ : Subgroup G := ⁅V, zpowers (ι x)⁆ ⊓ ⁅V, zpowers (ι y)⁆ with hV₃
-  have hmem := fun h => mem_fourGroup₃_iff (h := h) hVab hVodd hx2 hy2 hxy hxV hyV
+  have hmem := fun h => mem_fourGroup₃_iff (h := h) hVab hVodd hx2 hy2 hxV hyV
   have hV₃V : V₃ ≤ V := fun h hh => ((hmem h).mp hh).1
   have hV₃odd : Odd (Nat.card V₃) := hVodd.of_dvd_nat (card_dvd_of_le hV₃V)
   have hV₃A : ι.range ≤ normalizer (V₃ : Set G) := fun g hg =>
@@ -290,7 +293,7 @@ theorem isKxyGen_commutator_V₁ (hyp : Prop22Hyp X₀ Y₀ ι K Kxy)
   have hxV : ι x ∈ normalizer (V : Set G) := hVA ⟨x, rfl⟩
   have hyV : ι y ∈ normalizer (V : Set G) := hVA ⟨y, rfl⟩
   set V₁ : Subgroup G := ⁅V ⊓ C (ι x), zpowers (ι y)⁆ with hV₁
-  have hmem := fun h => mem_fourGroup₁_iff (h := h) hVab hVodd hx2 hy2 hxy hxV hyV
+  have hmem := fun h => mem_fourGroup₁_iff (h := h) hVab hVodd hy2 hxy hyV
   have hV₁V : V₁ ≤ V := fun h hh => ((hmem h).mp hh).1
   have hV₁odd : Odd (Nat.card V₁) := hVodd.of_dvd_nat (card_dvd_of_le hV₁V)
   have hKxyV₁ : Kxy x y ≤ normalizer (V₁ : Set G) := fun k hk =>
@@ -454,7 +457,7 @@ private theorem exists_pCore_ne_bot {M : Type*} [Group M] [Finite M] [Group.IsSo
     exact commutatorElement_eq_one_iff_mul_comm.mp h
   have hcard : Nat.card D ≠ 1 := fun h => hD1 (card_eq_one.mp h)
   obtain ⟨p, hp, hpD⟩ := Nat.exists_prime_and_dvd hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S⟩ : Nonempty (Sylow p D) := inferInstance
   have hSn : (S : Subgroup D).Normal := ⟨fun n hn g => by
     have e : g * n * g⁻¹ = n := by
@@ -464,10 +467,10 @@ private theorem exists_pCore_ne_bot {M : Type*} [Group M] [Finite M] [Group.IsSo
       rw [this, mul_inv_cancel_right]
     rw [e]
     exact hn⟩
-  haveI : (S : Subgroup D).Characteristic := Sylow.characteristic_of_normal S hSn
-  haveI : D.Normal := derivedSeries_normal M m
+  have : (S : Subgroup D).Characteristic := Sylow.characteristic_of_normal S hSn
+  have : D.Normal := derivedSeries_normal M m
   have hSnM : ((S : Subgroup D).map D.subtype).Normal := inferInstance
-  have hle : (S : Subgroup D).map D.subtype ≤ pCore p M := le_sSup ⟨hSnM, S.isPGroup'.map _⟩
+  have hle : (S : Subgroup D).map D.subtype ≤ pCore p M := le_sSup ⟨hSnM, S.isPGroup.map _⟩
   refine ⟨p, hp, fun h => S.ne_bot_of_dvd_card hpD ?_⟩
   rw [h, le_bot_iff, map_eq_bot_iff_of_injective _ D.subtype_injective] at hle
   exact hle
@@ -486,7 +489,7 @@ private theorem pPrimeCore_eq_bot_of_forall {M : Type*} [Group M] [Finite M] [Gr
     rw [htop, mem_bot] at this
     exact (mem_bot).mpr (congrArg Subtype.val this)
   obtain ⟨p, hp, hpN⟩ := exists_pCore_ne_bot (M := N) hNtop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q := by
     intro hpq
     rw [hpq] at hpN
@@ -494,7 +497,7 @@ private theorem pPrimeCore_eq_bot_of_forall {M : Type*} [Group M] [Finite M] [Gr
     · exact hpN (card_eq_one.mp h1)
     · have hdvd' : q ∣ Nat.card N := hdvd.trans (card_subgroup_dvd_card _)
       exact (Nat.Prime.coprime_iff_not_dvd (Fact.out : q.Prime)).mp pPrimeCore_coprime_card hdvd'
-  haveI : N.Normal := pPrimeCore_normal
+  have : N.Normal := pPrimeCore_normal
   have hle : (pCore p N).map N.subtype ≤ pCore p M :=
     le_sSup ⟨inferInstance, (pCore_isPGroup (p := p) (G := N)).map _⟩
   rw [h p hp hpq, le_bot_iff, map_eq_bot_iff_of_injective _ N.subtype_injective] at hle
@@ -550,7 +553,7 @@ end Cores
 theorem prop22Step (A₀ : Type*) [Group A₀] (X₀ Y₀ : Subgroup A₀) : Prop22Step.{u} A₀ X₀ Y₀ := by
   intro G _ _ ι K Kxy hyp hnpow ih
   have hK1 : K ≠ ⊥ := fun h => hnpow 2 Nat.prime_two (h ▸ IsPGroup.of_bot)
-  haveI hsolv : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hyp.odd
+  have hsolv : Group.IsSolvable K := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hyp.odd
   have hKtop : (⊤ : Subgroup K) ≠ ⊥ := by
     intro htop
     apply hK1
@@ -560,7 +563,7 @@ theorem prop22Step (A₀ : Type*) [Group A₀] (X₀ Y₀ : Subgroup A₀) : Pro
     rw [htop, mem_bot] at this
     exact (mem_bot).mpr (congrArg Subtype.val this)
   obtain ⟨q, hq, hRq⟩ := exists_pCore_ne_bot (M := K) hKtop
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hA := hyp.isPGroup_range
   have hcore : ∀ r : ℕ, ((pCore r K).map K.subtype ≤ K) ∧
       IsPGroup r ((pCore r K).map K.subtype) ∧
@@ -596,7 +599,7 @@ theorem prop22Step (A₀ : Type*) [Group A₀] (X₀ Y₀ : Subgroup A₀) : Pro
     inf_normalizer_le_normalizer_inf ⟨hAR hg, mem_normalizer_centralizer (hAR hg)⟩
   have hVn : (V.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hVK).mpr hKV
   have hV1 : V ≠ ⊥ := by
-    haveI : Nontrivial R := (nontrivial_iff_ne_bot R).mpr hR1
+    have : Nontrivial R := (nontrivial_iff_ne_bot R).mpr hR1
     have hcen := (hRq'.bot_lt_center).ne'
     intro hV0
     apply hcen
@@ -616,7 +619,7 @@ theorem prop22Step (A₀ : Type*) [Group A₀] (X₀ Y₀ : Subgroup A₀) : Pro
   by_cases hp : ∃ p : ℕ, p.Prime ∧ p ≠ q ∧ pCore p K ≠ ⊥
   ·
     obtain ⟨p, hp, hpq, hRp⟩ := hp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨hRpK, hRpp, -, hARp, hRpn⟩ := hcore p
     obtain ⟨P, hP, hPA⟩ := ABGTheoremB.exists_isSylowOf_normalized_of_odd hp hA hyp.normalizes
       hyp.odd
@@ -667,8 +670,8 @@ theorem prop22Step (A₀ : Type*) [Group A₀] (X₀ Y₀ : Subgroup A₀) : Pro
     have hQn : Q ≤ normalizer (P₁ : Set G) := hQP₁.trans (sup_le le_normalizer
       ((le_centralizer_iff.mp ((hP₁Q.trans hQK).trans (le_centralizer_iff.mp hVcen))).trans
         (centralizer_le_normalizer _)))
-    haveI hN : (P₁.subgroupOf Q).Normal := (normal_subgroupOf_iff_le_normalizer hP₁Q).mpr hQn
-    haveI : Group.IsNilpotent Q := hQ.isPGroup.isNilpotent
+    have hN : (P₁.subgroupOf Q).Normal := (normal_subgroupOf_iff_le_normalizer hP₁Q).mpr hQn
+    have : Group.IsNilpotent Q := hQ.isPGroup.isNilpotent
     have hN1 : P₁.subgroupOf Q ≠ ⊥ := by
       intro h
       apply hP₁1
@@ -723,28 +726,34 @@ section Prop23
 
 variable {G : Type*} [Group G] [Finite G] {X Y : Subgroup G}
 
+omit [Finite G] in
 private theorem xySup_le' {f : G → G → Subgroup G} {N : Subgroup G}
     (h : ∀ x ∈ X, x ≠ 1 → ∀ y ∈ Y, y ≠ 1 → f x y ≤ N) : xySup X Y f ≤ N :=
   xySupOf_le (X₀ := X) (Y₀ := Y) (f := f) h
 
+omit [Finite G] in
 private theorem le_xySup' {f : G → G → Subgroup G} {x y : G} (hx : x ∈ X) (hx1 : x ≠ 1)
     (hy : y ∈ Y) (hy1 : y ≠ 1) : f x y ≤ xySup X Y f :=
   le_xySupOf (X₀ := X) (Y₀ := Y) (f := f) hx hx1 hy hy1
 
+omit [Finite G] in
 private theorem xySup_mono' {f g : G → G → Subgroup G}
     (h : ∀ x ∈ X, x ≠ 1 → ∀ y ∈ Y, y ≠ 1 → f x y ≤ g x y) : xySup X Y f ≤ xySup X Y g :=
   xySupOf_mono (X₀ := X) (Y₀ := Y) (f := f) (g := g) h
 
+omit [Finite G] in
 private theorem inf_Kxy_eq {F K : Subgroup G} (hFK : F ≤ K) :
     (fun x y => F ⊓ (K ⊓ O (C x) ⊓ O (C y))) = fun x y => F ⊓ O (C x) ⊓ O (C y) := by
   funext x y
   rw [← inf_assoc, ← inf_assoc, inf_eq_left.mpr hFK]
 
+omit [Finite G] in
 private theorem mem_normalizer_O_C {g z : G} (h : g * z = z * g) :
     g ∈ normalizer ((O (C z) : Subgroup G) : Set G) :=
   ProperTwoGeneratedCore.LocalCriterionDenominator.normalizer_normalizes_oddCore_image (C z)
     (mem_normalizer_C_of_commute h)
 
+omit [Finite G] in
 private theorem commutator_self_le (H : Subgroup G) : ⁅H, H⁆ ≤ H :=
   commutator_le.mpr fun a ha b hb => by
     rw [commutatorElement_def]
@@ -762,12 +771,12 @@ theorem prop_2_3 (hX : IsKleinFour X) (hY : IsKleinFour Y) (hXY : X ⊓ Y = ⊥)
     (∀ a ∈ X ⊔ Y, a ≠ 1 → ∀ b ∈ X ⊔ Y, b ≠ 1 →
       theta X Y a ⊓ centralizer {b} ≤ theta X Y b) := by
   have hXab : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := by
-    haveI := hX
+    have := hX
     intro a ha b hb
     exact congrArg Subtype.val
       ((IsKleinFour.isMulCommutative (G := X)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hYab : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a := by
-    haveI := hY
+    have := hY
     intro a ha b hb
     exact congrArg Subtype.val
       ((IsKleinFour.isMulCommutative (G := Y)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)

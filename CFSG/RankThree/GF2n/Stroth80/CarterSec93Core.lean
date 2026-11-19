@@ -22,6 +22,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem isPGroup_LB_of_ctx (hc : Ctx M Q Z B) : IsPGroup 2 ↥(LB M Q B) := by
   have hB : IsZConjugate Z B := hc.conj
   have hQB : IsPGroup 2 ↥(QB B) := hB.isPGroup_QB hc.hyp

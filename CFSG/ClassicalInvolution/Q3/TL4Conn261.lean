@@ -25,9 +25,9 @@ omit [Finite G] in
 theorem eq_of_isSylow2In_of_le_sylow_gen {M P Q : Subgroup G} (hP : IsSylow2In P M)
     (hQ : IsSylow2In Q M) (hPS : P ≤ (S : Subgroup G)) (hQS : Q ≤ (S : Subgroup G)) : P = Q := by
   have h1 : M ⊓ (S : Subgroup G) = P :=
-    hP.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hP.1 hPS)
+    hP.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hP.1 hPS)
   have h2 : M ⊓ (S : Subgroup G) = Q :=
-    hQ.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hQ.1 hQS)
+    hQ.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hQ.1 hQS)
   exact h1.symm.trans h2
 
 omit [Finite G] in

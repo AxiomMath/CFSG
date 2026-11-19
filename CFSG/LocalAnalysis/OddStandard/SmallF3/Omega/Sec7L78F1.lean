@@ -19,7 +19,7 @@ variable {G : Type} [Group G]
 
 private theorem sec7l78_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -48,7 +48,7 @@ private theorem sec7l78_le_normalizer_layerCent (L : Subgroup G) (r : G) :
     sec7l78_layerCent_subgroupOf L r
   have hN : ((layerCent L r).subgroupOf H).Normal := by
     rw [hEq]
-    haveI : (CFSG.layer ↥H).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer ↥H).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
   have hle : layerCent L r ≤ H := Subgroup.map_subtype_le (CFSG.layer ↥H)
   show H ≤ normalizer (layerCent L r : Set G)

@@ -156,10 +156,10 @@ theorem coverOK_spec {S : ℕ → ℕ} {cls : ℕ → ℕ → ℕ} {sz : ℕ →
   have h1 := h _ hm
   dsimp only at h1
   cases e : Nat.beq W[i] 0
-  · rw [e, cond_false] at h1
+  · rw [e, Bool.cond_false] at h1
     obtain ⟨hc, hj, hx⟩ := inCls_spec h1
     exact ⟨_, hc, _, hj, hx⟩
-  · rw [e, cond_true, hv] at h1
+  · rw [e, _root_.Bool.cond_true, hv] at h1
     exact Bool.noConfusion h1
 
 end CertificateChecks.KernelPermCent.U43P1

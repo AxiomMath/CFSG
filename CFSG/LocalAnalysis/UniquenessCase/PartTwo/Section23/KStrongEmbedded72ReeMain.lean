@@ -19,8 +19,8 @@ theorem kf7_reeType_one_recognition :
   intro X _ _ hO L N hLN hKL hshape hN
   obtain ⟨hKs, hKnab, hKn, hKC, -⟩ :=
     kf7_setup (p := 3) (by norm_num) (by norm_num) hO hLN hKL hN
-  haveI : IsSimpleGroup ↥(genFittingFStar X) := hKs
-  haveI : (genFittingFStar X).Normal := hKn
+  have : IsSimpleGroup ↥(genFittingFStar X) := hKs
+  have : (genFittingFStar X).Normal := hKn
   have hL8 : ∀ S : Sylow 2 ↥L, Nat.card (S : Subgroup ↥L) = 8 :=
     fun S => card_sylow_two_of_isReeType_one hshape S
   have hLab : ∀ S : Sylow 2 ↥L, IsMulCommutative (S : Subgroup ↥L) := hshape.2.1
@@ -28,8 +28,8 @@ theorem kf7_reeType_one_recognition :
   have hScomm : IsMulCommutative (S : Subgroup ↥(genFittingFStar X)) :=
     isMulCommutative_sylow_two_of_le hKL hLab S
   obtain ⟨t, ht, F, hField, hFintype, hFcard, ⟨eC⟩⟩ := hshape.2.2
-  letI : Field F := hField
-  letI : Fintype F := hFintype
+  let : Field F := hField
+  let : Fintype F := hFintype
   have hF : Fintype.card F = 3 := by simpa using hFcard
   have hC24 : Nat.card ↥(Subgroup.centralizer ({t} : Set ↥L)) = 24 :=
     card_centralizer_of_isReeType_one hshape ht F hF eC

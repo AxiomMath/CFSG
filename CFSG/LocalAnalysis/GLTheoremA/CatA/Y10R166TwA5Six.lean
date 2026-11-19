@@ -19,7 +19,7 @@ theorem card_suFiveIndex : suFiveIndex.card = 5 := by
 
 theorem compl_suFiveIndex : suFiveIndexᶜ = {5} := by
   ext i
-  simp [suFiveIndex, eq_comm]
+  simp [suFiveIndex]
 
 theorem six_two_pow_ne_three_two {f : ℕ} (hf : 2 ≤ f) : (6, 2 ^ f) ≠ (3, 2) := by
   intro hc
@@ -27,10 +27,12 @@ theorem six_two_pow_ne_three_two {f : ℕ} (hf : 2 ≤ f) : (6, 2 ^ f) ≠ (3, 2
   have h1 : f = 1 := Nat.pow_right_injective (le_refl 2) (by simpa using h2)
   omega
 
+omit [Finite F] in
 theorem center_unitaryPSU_six (hf : 2 ≤ f) :
     Subgroup.center (unitaryPSU h 6) = ⊥ :=
   center_unitaryPSU_eq_bot h (by norm_num) (six_two_pow_ne_three_two hf)
 
+omit [Finite F] in
 theorem isQuasisimple_unitaryPSU_six (hf : 2 ≤ f) :
     CFSG.IsQuasisimple (unitaryPSU h 6) :=
   isQuasisimple_unitaryPSU h (by norm_num) (six_two_pow_ne_three_two hf)

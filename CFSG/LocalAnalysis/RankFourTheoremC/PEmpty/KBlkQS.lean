@@ -45,7 +45,7 @@ theorem eq_top_of_quasisimple_of_sylow {Y : Type} [Group Y] [Finite Y] (N' : Sub
     [N'.Normal] (hq : CFSG.IsQuasisimple (Y ⧸ N')) (hev : 2 ∣ Nat.card (Y ⧸ N'))
     (N0 : Subgroup Y) [N0.Normal] (T : Subgroup Y) (hTN : T ≤ N0) (hNT : N' ≤ T)
     (hT2 : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) : N0 = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : Y →* Y ⧸ N' := QuotientGroup.mk' N'
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N'
   have hker : π.ker ≤ T := by
@@ -53,7 +53,7 @@ theorem eq_top_of_quasisimple_of_sylow {Y : Type} [Group Y] [Finite Y] (N' : Sub
     rw [QuotientGroup.ker_mk']
     exact hNT
   set M : Subgroup (Y ⧸ N') := N0.map π with hM
-  haveI : M.Normal := Subgroup.Normal.map ‹N0.Normal› π hπ
+  have : M.Normal := Subgroup.Normal.map ‹N0.Normal› π hπ
   have hTbar2 : IsPGroup 2 (T.map π) := hT2.map π
   have hTbarIdx : ¬ 2 ∣ (T.map π).index := by
     rw [Subgroup.index_map_eq T hπ hker]
@@ -62,8 +62,8 @@ theorem eq_top_of_quasisimple_of_sylow {Y : Type} [Group Y] [Finite Y] (N' : Sub
   have hperf : commutator (Y ⧸ N') = ⊤ := Group.isPerfect_def.mp hq.1
   set ρ : Y ⧸ N' →* (Y ⧸ N') ⧸ Subgroup.center (Y ⧸ N') :=
     QuotientGroup.mk' (Subgroup.center (Y ⧸ N')) with hρ
-  haveI : (M.map ρ).Normal := Subgroup.Normal.map ‹M.Normal› ρ (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup ((Y ⧸ N') ⧸ Subgroup.center (Y ⧸ N')) := hq.2.1
+  have : (M.map ρ).Normal := Subgroup.Normal.map ‹M.Normal› ρ (QuotientGroup.mk'_surjective _)
+  have : IsSimpleGroup ((Y ⧸ N') ⧸ Subgroup.center (Y ⧸ N')) := hq.2.1
   have hMtop : M = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map ρ) with hbot | htop
     ·

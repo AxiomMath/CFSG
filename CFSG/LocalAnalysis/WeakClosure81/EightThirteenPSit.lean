@@ -16,11 +16,13 @@ variable {G : Type} [Group G] [Finite G] {V H T A L K : Subgroup G} {i : ℕ}
 
 section SitHelpers
 
+omit [Finite G] [Finite Q] in
 private theorem wc813psit_barSub_mono {X Y : Subgroup G} (hXY : X ≤ Y) :
     barSub H φ X ≤ barSub H φ Y := by
   change (X.subgroupOf H).map φ ≤ (Y.subgroupOf H).map φ
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono H hXY)
 
+omit [Finite G] [Finite Q] in
 private theorem wc813psit_barSub_inf_of_le (hφ : IsBarMap H (cGrp H T) φ) {X Y : Subgroup G}
     (hCY : cGrp H T ≤ Y) : barSub H φ X ⊓ barSub H φ Y = barSub H φ (X ⊓ Y) := by
   refine le_antisymm ?_ (le_inf
@@ -41,6 +43,7 @@ private theorem wc813psit_barSub_inf_of_le (hφ : IsBarMap H (cGrp H T) φ) {X Y
     exact Y.mul_mem hmemY hbY
   exact mem_barSub.mpr ⟨a, Subgroup.mem_inf.mpr ⟨haX, haY⟩, haφ⟩
 
+omit [Finite G] [Finite Q] in
 private theorem wc813psit_relIndex_barSub (hφ : IsBarMap H (cGrp H T) φ)
     (hCH : cGrp H T ≤ H) {X Y : Subgroup G} (hXY : X ≤ Y) (hYH : Y ≤ H)
     (hCY : cGrp H T ≤ Y) :
@@ -55,6 +58,7 @@ private theorem wc813psit_relIndex_barSub (hφ : IsBarMap H (cGrp H T) φ)
   rw [Subgroup.relIndex_map_map, hker, ← Subgroup.subgroupOf_sup hXH hCH,
     sup_eq_left.mpr (Subgroup.subgroupOf_mono H hCY), Subgroup.relIndex_subgroupOf hYH]
 
+omit [Finite Q] [Finite G] in
 private theorem wc813psit_shape_barSub (hφ : IsBarMap H (cGrp H T) φ) (hLH : L ≤ H)
     (hCL : cGrp H T ≤ L) {P : ∀ (X : Type) [Group X], Prop}
     (h : HasQuotShape L (cGrp H T : Set G) P) :
@@ -64,7 +68,8 @@ private theorem wc813psit_shape_barSub (hφ : IsBarMap H (cGrp H T) φ) (hLH : L
   have h1 := hasQuotShape_barSub (C := cGrp H T) hφ (le_refl _) hCL hLH h
   rwa [hker] at h1
 
-private theorem wc813psit_conjClosure_le_barSub (hφ : IsBarMap H (cGrp H T) φ) (hLH : L ≤ H) :
+omit [Finite G] [Finite Q] in
+private theorem wc813psit_conjClosure_le_barSub (hφ : IsBarMap H (cGrp H T) φ) (_hLH : L ≤ H) :
     conjClosure (barSub H φ L) ⊤ ≤ barSub H φ (conjClosure L H) := by
   refine conjClosure_le fun q _ x hx => ?_
   obtain ⟨g, rfl⟩ := hφ.surjective q
@@ -74,6 +79,7 @@ private theorem wc813psit_conjClosure_le_barSub (hφ : IsBarMap H (cGrp H T) φ)
 
 end SitHelpers
 
+omit [Finite Q] in
 theorem Sit813.isComponentOf_barSub (h : Sit813 V H T i A L K)
     (hφ : IsBarMap H (cGrp H T) φ) : IsComponentOf (barSub H φ L) ⊤ := by
   have hker : barSub H φ (cGrp H T) = ⊥ := by
@@ -83,7 +89,7 @@ theorem Sit813.isComponentOf_barSub (h : Sit813 V H T i A L K)
   rw [hker] at hcomp
   obtain ⟨-, -, -, hsub, hshape⟩ := hcomp
   obtain ⟨X, hX, ψ, hψ, hkerψ, hqs⟩ := hshape
-  letI : Group X := hX
+  let : Group X := hX
   have hinj : Function.Injective ψ := by
     intro a b hab
     have h1 : ψ (a * b⁻¹) = 1 := by rw [map_mul, map_inv, hab]; group
@@ -98,6 +104,7 @@ theorem Sit813.isComponentOf_barSub (h : Sit813 V H T i A L K)
   exact CFSG.ComponentClassification.Components.quasisimple_of_equiv
     (MulEquiv.ofBijective ψ ⟨hinj, hψ⟩) hqs'
 
+omit [Finite Q] in
 theorem Sit813.caseAB_barSub (h : Sit813 V H T i A L K) (hφ : IsBarMap H (cGrp H T) φ)
     (hAB : Case813AB (cGrp H T) L K) :
     Case813AB (⊥ : Subgroup Q) (barSub H φ L) (barSub H φ K) := by
@@ -125,6 +132,7 @@ theorem Sit813.caseAB_barSub (h : Sit813 V H T i A L K) (hφ : IsBarMap H (cGrp 
                 rw [hodd]
           _ = oddResMod (⊥ : Subgroup Q) (barSub H φ P) := barSub_barPre hφ _
 
+omit [Finite Q] in
 theorem Sit813.caseUC_barSub (h : Sit813 V H T i A L K) (hφ : IsBarMap H (cGrp H T) φ)
     (hUC : Case813UC (cGrp H T) H T A L) :
     Case813UC (⊥ : Subgroup Q) ⊤ (barSub H φ T) (barSub H φ A) (barSub H φ L) := by
@@ -173,6 +181,7 @@ theorem Sit813.caseUC_barSub (h : Sit813 V H T i A L K) (hφ : IsBarMap H (cGrp 
         simp only [map_mul, map_inv]]
       exact htriv
 
+omit [Finite Q] in
 theorem Sit813.isSylowIn_barSub (h : Sit813 V H T i A L K) (hφ : IsBarMap H (cGrp H T) φ) :
     IsSylowIn 2 (barSub H φ T ⊓ barSub H φ K) (barSub H φ K) := by
   have hKH : K ≤ H := h.concl813.sub_L.trans h.concl813.comp.2.2.1

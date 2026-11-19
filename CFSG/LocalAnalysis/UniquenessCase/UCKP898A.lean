@@ -41,7 +41,7 @@ theorem u3_prime_descent {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsSU3 X
       ∀ y : StatedProj (StatedSU 3 (2 ^ n) K), uFieldAut h (by norm_num) φ y = y →
         autQuot α (e.symm (uConjAut h (by norm_num) M y)) = e.symm (uConjAut h (by norm_num) M y) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hn2 : 2 ≤ n := u3Range X n hX
   have hP : commutator X = ⊤ := hX.1.1
   have hcl : StatedClassicalModel (X ⧸ center X) .PSU 3 2 n :=

@@ -20,12 +20,12 @@ theorem eq_bot_of_normal_coprime_three_of_isAlt_six_wPH6
     {M : Subgroup Y} (hMnorm : M.Normal) (hMcop : Nat.Coprime 3 (Nat.card ↥M)) :
     M = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hAlt
   let π : Y →* Y ⧸ Z := QuotientGroup.mk' Z
-  haveI hsimple : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
+  have hsimple : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
   have hMπnorm : (M.map π).Normal := hMnorm.map π (QuotientGroup.mk'_surjective Z)
-  haveI : (M.map π).Normal := hMπnorm
+  have : (M.map π).Normal := hMπnorm
   rcases Subgroup.Normal.eq_bot_or_eq_top (M.map π) with hbot | htop
   · have hMZ : M ≤ Z := by
       have h := (Subgroup.map_eq_bot_iff M).mp hbot
@@ -47,12 +47,12 @@ theorem eq_bot_of_normal_coprime_three_of_isAlt_six_wPH6
 
 theorem Step41ThreeCase_holds
     (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     Step41ThreeCase c P x := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H : Subgroup G := pH x
   let Dp : Subgroup ↥H := pD x
   let DG : Subgroup G := Dp.map H.subtype
@@ -151,7 +151,7 @@ theorem Step41ThreeCase_holds
   have htI : (t : G) ∈ I := htG.1
   obtain ⟨k, hk, hkt⟩ := Subgroup.mem_map.mp htG.2
   have hk' : k ∈ Dp ⊔ pK x := hk
-  haveI : Dp.Normal := CFSG.pPrimeCore_normal
+  have : Dp.Normal := CFSG.pPrimeCore_normal
   obtain ⟨d, hd, z, hz, hdz⟩ := (Subgroup.mem_sup_of_normal_left).mp hk'
   let dG : G := H.subtype d
   let zG : G := H.subtype z
@@ -292,7 +292,7 @@ theorem Step42Surjection_holds
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     Step42Surjection c hx := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H : Subgroup G := pH x
   let I : Subgroup G := pI x c.L
   let N : Subgroup ↥c.L := CFSG.pCore 2 ↥c.L

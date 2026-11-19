@@ -227,9 +227,9 @@ theorem shortProj_lvec (L : List ℕ) (hL : ∀ l ∈ L, l < 52) :
         rw [hlab]
         exact posLabel_short_iff hdim
       by_cases h : p ∈ f4ShortPos
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         rw [Finsupp.filter_single_of_pos (p := fun x => x ∈ shortLabelsF4) (h := hshort.2 h)]
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         rw [Finsupp.filter_single_of_neg (p := fun x => x ∈ shortLabelsF4)
           (h := fun hh => h (hshort.1 hh))]
     rw [hto, hsingle]
@@ -299,7 +299,7 @@ theorem rankSubOne_conj (h g : ModGL Tag.F4 K) (hh : h ∈ adjointGroup Tag.F4 K
   let Hinv : Module.End K V := ((h⁻¹ : ModGL Tag.F4 K) : Module.End K (RootModule Tag.F4 K))
   have hHH' : H * Hinv = 1 := h.mul_inv
   have hH'H : Hinv * H = 1 := h.inv_mul
-  let eH : V ≃ₗ[K] V := LinearEquiv.ofLinear H Hinv hHH' hH'H
+  let eH : V ≃ₗ[K] V := LinearEquiv.ofLinearMap H Hinv hHH' hH'H
   exact LinearEquiv.finrank_map_eq eH _
 
 omit [CharP K 2] in

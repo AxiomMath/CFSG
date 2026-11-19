@@ -20,11 +20,11 @@ variable {A T R : Subgroup G}
 
 private lemma inf_pCoreOf_eq_bot (hA9 : Nat.card A = 9) :
     A ⊓ CFSG.Open.pCoreOf 2 (A ⊔ T) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRp : IsPGroup 2 (CFSG.Open.pCoreOf 2 (A ⊔ T)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 (A ⊔ T)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hRp
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hA9, hk]
   simpa using Nat.Coprime.pow 2 k (by norm_num : Nat.Coprime 3 2)
 
@@ -57,8 +57,8 @@ private lemma card_sup_pCoreOf (hA9 : Nat.card A = 9) :
 
 private lemma isSylowOf_three_sup_pCoreOf (hA9 : Nat.card A = 9) :
     CFSG.ABGLocalTools.IsSylowOf 3 A (A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRp : IsPGroup 2 (CFSG.Open.pCoreOf 2 (A ⊔ T)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 (A ⊔ T)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hRp
@@ -77,8 +77,8 @@ private lemma isSylowOf_conj_sup_pCoreOf (hA9 : Nat.card A = 9)
       ((A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T) : Subgroup G) : Set G)) {t : G} (ht : t ∈ T) :
     CFSG.ABGLocalTools.IsSylowOf 3 (A.map (MulAut.conj t).toMonoidHom)
       (A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A
       (A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T)) := isSylowOf_three_sup_pCoreOf (T := T) hA9
   have hAtle : A.map (MulAut.conj t).toMonoidHom ≤ A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T) := by
@@ -88,6 +88,7 @@ private lemma isSylowOf_conj_sup_pCoreOf (hA9 : Nat.card A = 9)
   refine CFSG.ABGLocalTools.isSylowOf_of_card hAtle ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj t).injective, hAsyl.card_eq]
 
+omit [Finite G] in
 private lemma mem_normalizer_of_conj_eq {t : G}
     {r : G} (hrconj : ∀ x : G,
       x ∈ A.map (MulAut.conj t).toMonoidHom ↔ r⁻¹ * x * r ∈ A) :
@@ -112,6 +113,7 @@ private lemma mem_normalizer_of_conj_eq {t : G}
       simpa [mul_assoc] using this.symm
     rwa [h3]
 
+omit [Finite G] in
 private lemma eq_mul_of_mem_normalizer (hRT : CFSG.Open.pCoreOf 2 (A ⊔ T) ≤ T)
     {t r : G} (htT : t ∈ T) (hrAR : r ∈ A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T))
     (hy : r⁻¹ * t ∈ Subgroup.normalizer (A : Set G)) :
@@ -156,8 +158,8 @@ private lemma le_mul_normalizer_pCoreOf (hA9 : Nat.card A = 9)
       ((A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T) : Subgroup G) : Set G)) :
     ∀ t ∈ T, ∃ n ∈ T ⊓ Subgroup.normalizer (A : Set G),
       ∃ s ∈ CFSG.Open.pCoreOf 2 (A ⊔ T), t = n * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro t htT
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A
       (A ⊔ CFSG.Open.pCoreOf 2 (A ⊔ T)) := isSylowOf_three_sup_pCoreOf (T := T) hA9
@@ -172,6 +174,7 @@ private noncomputable def rhoNT (f : Multiplicative (Fin 2 → ZMod 3) ≃* A) :
     ↥(T ⊓ Subgroup.normalizer (A : Set G)) →* GL23 :=
   (rho f).comp (Subgroup.inclusion inf_le_right)
 
+omit [Finite G] in
 private lemma ker_rhoNT (f : Multiplicative (Fin 2 → ZMod 3) ≃* A) :
     (rhoNT (T := T) f).ker =
       (T ⊓ Subgroup.centralizer (A : Set G)).subgroupOf
@@ -185,6 +188,7 @@ private lemma ker_rhoNT (f : Multiplicative (Fin 2 → ZMod 3) ≃* A) :
   · rintro ⟨-, h⟩
     simpa using h
 
+omit [Finite G] in
 private lemma ker_quot_mk_inclusion [hN : (R.subgroupOf T).Normal] :
     ((QuotientGroup.mk' (R.subgroupOf T)).comp
         (Subgroup.inclusion (inf_le_left :
@@ -213,7 +217,7 @@ private lemma inf_normalizer_pCoreOf_eq (hA9 : Nat.card A = 9)
     (hTp : IsPGroup 2 T) :
     CFSG.Open.pCoreOf 2 (A ⊔ T) ⊓ (T ⊓ Subgroup.normalizer (A : Set G)) =
       T ⊓ Subgroup.centralizer (A : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   ext x
   simp only [Subgroup.mem_inf]
   constructor
@@ -267,8 +271,6 @@ private lemma range_quot_mk_inclusion_eq_top (hA9 : Nat.card A = 9)
   change QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T) ⟨n, hnNT.1⟩ =
     QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T) t
   rw [h2]
-  change QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T) ⟨n, hnNT.1⟩ =
-    QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T) (⟨n, hnNT.1⟩ * ⟨s, hRT hsR⟩)
   rw [map_mul]
   have hs1 : QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T)
       (⟨s, hRT hsR⟩ : ↥T) = 1 := by
@@ -289,7 +291,7 @@ private lemma nonempty_quotEquiv_rhoNT (hA9 : Nat.card A = 9)
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRT).mpr
       ((le_sup_right : T ≤ A ⊔ T).trans
         (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 (A ⊔ T)))
-  haveI : ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T).Normal := hN
+  have : ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T).Normal := hN
   refine ⟨hN, ?_⟩
   have hφtop := range_quot_mk_inclusion_eq_top (T := T) (A := A) hA9 hRT hTAR
   have hker : ((QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 (A ⊔ T)).subgroupOf T)).comp
@@ -303,7 +305,7 @@ private lemma nonempty_quotEquiv_rhoNT (hA9 : Nat.card A = 9)
 variable {M E H : Subgroup G}
 
 private lemma nonempty_range_rhoNT_comp_quaternion (h : HypCGen G M 3 A H)
-    (hC3 : CaseThree M H) (hAK : A ≤ kSub 3 M H) {W T : Subgroup G} (hWT : W ≤ T)
+    (hC3 : CaseThree M H) (hAK : A ≤ kSub 3 M H) {W T : Subgroup G} (_hWT : W ≤ T)
     {hWNT : W ≤ T ⊓ Subgroup.normalizer (A : Set G)}
     (hW : CFSG.ABGLocalTools.IsSylowOf 2 W
       (Subgroup.normalizer (A : Set G) ⊓ kSub 3 M H))

@@ -39,8 +39,8 @@ theorem bigM12Statement_of_bar [IsSimpleGroup ↥NativeSporadic.M12]
     omega
   obtain ⟨eR⟩ := h1 G M V Q P H hH n f hn h2f ⟨MulEquiv.ofBijective Φ hΦ⟩
   have hm : 1 ≤ n - 1 := by omega
-  haveI : IsSimpleGroup ↥(RbarM M V H) := by
-    haveI := isSimpleGroup_statedSp_gf2f hm hf2
+  have : IsSimpleGroup ↥(RbarM M V H) := by
+    have := isSimpleGroup_statedSp_gf2f hm hf2
     exact eR.isSimpleGroup
   have hnc : ¬ IsMulCommutative ↥(RbarM M V H) := by
     intro hc

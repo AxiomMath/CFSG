@@ -11,8 +11,9 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barSub_subgroupOf_mbar_normal {M L V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hLM : L ≤ M) (hMN : M ≤ normalizer (L : Set G)) :
+    (_hLM : L ≤ M) (hMN : M ≤ normalizer (L : Set G)) :
     ((barSub V₀ V hV L).subgroupOf (Mbar M V₀ V hV)).Normal := by
   refine ⟨fun n hn m => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢

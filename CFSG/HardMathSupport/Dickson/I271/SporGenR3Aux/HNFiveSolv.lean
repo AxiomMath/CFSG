@@ -17,7 +17,7 @@ theorem isSolvable_of_card_dvd_two_five {G : Type*} [Group G] [Finite G] {a b : 
   obtain ⟨d₁, d₂, hd₁, hd₂, hd⟩ := Nat.dvd_mul.1 h
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hd₁
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_five).1 hd₂
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     Nat.prime_two Nat.prime_five (by norm_num)
     (by rw [← Nat.card_eq_fintype_card, ← hd, hi, hj])

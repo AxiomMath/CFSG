@@ -18,7 +18,7 @@ theorem exists_stable_sylow_in {G : Type*} [Group G] [Finite G] (α : MulAut G) 
     (P : Subgroup G) (hPα : ∀ x ∈ P, α x ∈ P) (S₀ : Sylow 3 G) (hS₀ : (S₀ : Subgroup G) ≤ P) :
     ∃ S : Sylow 3 G, (S : Subgroup G) ≤ P ∧ (S : Subgroup G).map α.toMonoidHom = S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPmap : P.map α.toMonoidHom = P := d3z_map_eq_of_forall_mem P α hPα
   let αP : MulAut ↥P :=
     (MulEquiv.subgroupMap (α : G ≃* G) P).trans (MulEquiv.subgroupCongr hPmap)
@@ -66,7 +66,7 @@ theorem normalizer_le_of_sylow {G : Type*} [Group G] [Finite G] (P : Subgroup G)
     (h₀ : (S₀ : Subgroup G) ≤ P) (h₁ : (S₁ : Subgroup G) ≤ P)
     (hN : Subgroup.normalizer ((S₀ : Subgroup G) : Set G) ≤ P) :
     Subgroup.normalizer ((S₁ : Subgroup G) : Set G) ≤ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨p, hp⟩ := MulAction.exists_smul_eq ↥P (S₀.subtype h₀) (S₁.subtype h₁)
   rw [Sylow.smul_subtype h₀ p] at hp
   have hS := Sylow.subtype_injective hp
@@ -75,7 +75,7 @@ theorem normalizer_le_of_sylow {G : Type*} [Group G] [Finite G] (P : Subgroup G)
   have hmem : ∀ u : G, u ∈ (S₁ : Subgroup G) ↔ (p : G)⁻¹ * u * (p : G) ∈ (S₀ : Subgroup G) := by
     intro u
     rw [hS', Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_inv_apply]
+    simp
   intro x hx
   have hxS := Subgroup.mem_normalizer_iff.1 hx
   have hconj : (p : G)⁻¹ * x * (p : G) ∈ Subgroup.normalizer ((S₀ : Subgroup G) : Set G) := by

@@ -21,20 +21,23 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem le_normalizer_inf' {H A B : Subgroup G} (hA : H ≤ normalizer (A : Set G))
     (hB : H ≤ normalizer (B : Set G)) : H ≤ normalizer ((A ⊓ B : Subgroup G) : Set G) :=
   fun _ hh => inf_normalizer_le_normalizer_inf (mem_inf.mpr ⟨hA hh, hB hh⟩)
 
+omit [Finite G] in
 private theorem eq_bot_of_le_Gw {b : ℤ} (hmax : ∀ u : ℤ, pCoreOf 2 (t.Gw u (u + 2 * b + 1)) = ⊥)
     {u : ℤ} {X : Subgroup G} (hX : IsPGroup 2 X) (hXw : X ≤ t.Gw u (u + 2 * b + 1))
     (hN : t.Gw u (u + 2 * b + 1) ≤ normalizer (X : Set G)) : X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact le_bot_iff.mp ((le_pCoreOf_of_le_normalizer 2 hXw hN hX).trans (hmax u).le)
 
+omit [Finite G] in
 private theorem Zv_le_Gw_of_even {b : ℤ} (hZ0 : t.Zv 0 ≤ t.Gw (-b) b) {v c d : ℤ} (hv : Even v)
     (hc : c = v - b) (hd : d = v + b) : t.Zv v ≤ t.Gw c d := by
   have h := Subgroup.map_mono (f := (MulAut.conj (t.edgeElt v)).toMonoidHom) hZ0
-  rw [t.map_Zv_edgeElt, t.map_Gw_edgeElt, if_pos hv, if_pos hv, add_zero, ← sub_eq_add_neg] at h
+  rw [t.map_Zv_edgeElt, t.map_Gw_edgeElt, ite_eq_left hv, ite_eq_left hv, add_zero, ← sub_eq_add_neg] at h
   rwa [hc, hd]
 
 private theorem Qv_one_le_centralizer {a f : ℕ}
@@ -68,7 +71,7 @@ theorem false_of_five_le_b {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hZL : L1 ≤ centralizer (t.Zv 0 : Set G)) (hcard : 2 ^ f ≤ Nat.card (t.Zv 0))
     (hR : ⁅⁅t.Zv 0, t.Zv (-b)⁆, t.Zv 0⁆ = ⊥) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := hbo
   have hev2 : Even (-b - 1) := ⟨-m - 1, by omega⟩
   have hev1 : Even (-b + 1) := ⟨-m, by omega⟩
@@ -99,7 +102,7 @@ theorem false_of_five_le_b {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hZ0.trans (win_le_qv (by omega) (by omega))).trans (t.Gv_le_normalizer_Qv (-b))
   have hEle : E ≤ t.Zv 0 ⊔ t.Qv (-b) := by
     have hidx := (t.relIndex_Qv_pCoreOf hfr (-b)).2
-    rw [if_neg hodd] at hidx
+    rw [ite_eq_right hodd] at hidx
     have hcE : Nat.card E = 2 ^ f * Nat.card (t.Qv (-b)) := by
       have h := Subgroup.relIndex_mul_card (t.Qv (-b)) E
       rw [inf_eq_left.mpr hQE, hidx] at h
@@ -116,8 +119,8 @@ theorem false_of_five_le_b {a f : ℕ} (hfr : Frame L1 L2 S a f)
     have h1 := t.map_Zv_edgeElt (-b) 1
     have h0 := t.map_Zv_edgeElt (-b) 0
     have hw := t.map_Gw_zero_one_edgeElt (-b)
-    rw [if_neg hodd, show -b + 1 - 1 = -b by ring] at h1
-    rw [if_neg hodd, sub_zero] at h0
+    rw [ite_eq_right hodd, show -b + 1 - 1 = -b by ring] at h1
+    rw [ite_eq_right hodd, sub_zero] at h0
     have hy1 : g⁻¹ * y * g ∈ t.Zv 1 := by
       rw [← h1] at hyZ
       exact mem_map_conj_iff.mp hyZ
@@ -172,7 +175,7 @@ theorem false_of_five_le_b {a f : ℕ} (hfr : Frame L1 L2 S a f)
   have hc3 : ⁅t.Qv (-b), t.Zv (-b - 1)⁆ = ⊥ := by
     have h := congrArg (Subgroup.map (MulAut.conj (t.edgeElt (-b - 1))).toMonoidHom) hc1
     rw [Subgroup.map_commutator, Subgroup.map_bot, t.map_Qv_edgeElt, t.map_Zv_edgeElt,
-      if_pos hev2, if_pos hev2, show -b - 1 + 1 = -b by ring, add_zero] at h
+      ite_eq_left hev2, ite_eq_left hev2, show -b - 1 + 1 = -b by ring, add_zero] at h
     exact h
   have hYp : t.Zv (-b - 1) ≤ t.Gw (-2 * b - 1) (-1) :=
     t.Zv_le_Gw_of_even hZ0 hev2 (by ring) (by ring)

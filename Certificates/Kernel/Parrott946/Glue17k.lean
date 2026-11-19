@@ -96,7 +96,7 @@ theorem rec_cover {f n : ℕ} {l : List ℕ} {Z : ℕ} {z : P45} (hz : PRep 45 6
 theorem ncard_invF (f : ℕ) : (invF f).ncard = (posF f).card := by
   have e : invF f = ((posF f).image xI : Set P45) := by
     ext x
-    simp only [invF, Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
+    simp only [invF, Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
     constructor
     · rintro ⟨j, hj, rfl⟩
       exact ⟨j, hj, rfl⟩

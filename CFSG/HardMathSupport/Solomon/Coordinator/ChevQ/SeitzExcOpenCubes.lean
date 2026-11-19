@@ -18,7 +18,7 @@ variable {G : Type*} [Group G] {p : ℕ}
 theorem exists_hyperplane_le_of_relIndex_le (hp : p.Prime) {D E : Subgroup G}
     (h1 : D.relIndex E ≤ p) (hE : Nat.card E = p ^ 3) :
     ∃ F : Subgroup G, F ≤ E ∧ F.relIndex E = p ∧ F ≤ D := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : D.relIndex E ∣ p ^ 3 := hE ▸ Subgroup.relIndex_dvd_card D E
   obtain ⟨i, hi, hi'⟩ := (Nat.dvd_prime_pow hp).1 h2
   have hi1 : i ≤ 1 := by
@@ -58,7 +58,7 @@ theorem frame_factor_le_hyperClosure (hp : p.Prime) {V V₁ V₂ X : Subgroup G}
     (hXV₂ : ∀ g ∈ X, ∀ b ∈ V₂, g * b = b * g) (hpow : ∀ x ∈ V₁, x ^ p = 1)
     (hPG : X ≤ Subgroup.closure {g | g ∈ X ∧ ∃ x ∈ V₁, x ≠ 1 ∧ g * x = x * g}) :
     X ≤ hyperClosure p ⊤ V := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine hPG.trans ?_
   rw [Subgroup.closure_le]
   rintro g ⟨hgX, x, hxV, hx1, hgx⟩
@@ -141,7 +141,7 @@ theorem hyperGen_of_map_central {X L : Type*} [Group X] [Group L] (hp : p.Prime)
     (hcop : ¬ p ∣ Nat.card π.ker) {A : Subgroup X} (hAp : ∀ a ∈ A, a ^ p = 1)
     (hAc : Nat.card A = p ^ 3) (h : HyperGen p ⊤ (A.map π)) : HyperGen p ⊤ A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F₁, hF₁A, hF₁⟩ := exists_hyperplane_of_card hAc
   have hkerM : π.ker ≤ hyperClosure p ⊤ A := fun z hz =>
     Subgroup.subset_closure ⟨Subgroup.mem_top z, F₁, hF₁A, hF₁,
@@ -243,7 +243,7 @@ theorem range_le_hyperClosure_of_hom {X : Type*} [Group X] [Finite X] (hp : p.Pr
     (Ψ : X →* G) (hΨcop : ¬ p ∣ Nat.card Ψ.ker) {E : Subgroup G} (hE : E ≤ Ψ.range)
     (hEa : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3) : Ψ.range ≤ hyperClosure p ⊤ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Ψ' : X →* Ψ.range := Ψ.rangeRestrict with hΨ'
   have hΨ'surj : Function.Surjective Ψ' := Ψ.rangeRestrict_surjective
   have hΨ'ker : Ψ'.ker = Ψ.ker := Ψ.ker_rangeRestrict
@@ -276,7 +276,7 @@ theorem cubes_of_central_quotient {X L : Type*} [Group X] [Group L] [Finite X] (
     (hπcop : ¬ p ∣ Nat.card π.ker)
     (hcube : ∀ E : Subgroup L, IsElemAbelian p E → Nat.card E = p ^ 3 → HyperGen p ⊤ E)
     (E : Subgroup X) (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3) : HyperGen p ⊤ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEbarea : IsElemAbelian p (E.map π) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE π
   have hcardEbar : Nat.card (E.map π) = p ^ 3 := by
@@ -301,7 +301,7 @@ theorem hyperGen_prod {A B : Type*} [Group A] [Group B] (hp : p.Prime)
     {E : Subgroup (A × B)} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3) :
     HyperGen p ⊤ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE₁ : IsElemAbelian p (E.map (MonoidHom.fst A B)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _
   have hE₂ : IsElemAbelian p (E.map (MonoidHom.snd A B)) :=
@@ -424,7 +424,7 @@ theorem hyperGen_prod_comm {A B : Type*} [CommGroup A] [Group B] (hp : p.Prime)
     {E : Subgroup (A × B)} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3) :
     HyperGen p ⊤ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE₂ : IsElemAbelian p (E.map (MonoidHom.snd A B)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _
   have hAH : ∀ a : A, ((a, 1) : A × B) ∈ hyperClosure p ⊤ E := by
@@ -595,7 +595,7 @@ theorem exists_hyperGen_of_frame_E8 {q : PrimePower} (hv : (LieTypeIndex.E8 q).V
     rw [card_sup_eq_mul_of_commute_disjoint hcomm hdisj, hV₁c, hV₂c]
     ring
   obtain ⟨P, hlayer, hQS, hPbig⟩ := hlay (V₁ ⊔ V₂) hVel hVc
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) :=
+  have : Finite (Cat ⟨.E8 q, hv⟩) :=
     (CFSG.HardMathSupport.Timmesfeld.CrossChar.finite_isSimpleGroup_cat_E8 hv).1
   have hXlt : Nat.card ↥(X₁ ⊔ X₂) < Nat.card ↥P := by
     have h1 := natCard_sup_le_mul_of_commute hXc
@@ -744,7 +744,7 @@ theorem hyperGen_adjoint_E8_four (K : Type) [Field K] [Finite K] {p : ℕ} (hp :
     (h7 : 7 ≤ p) (he : orderOf ((Nat.card K : ℕ) : ZMod p) = 4)
     {E₀ : Subgroup (adjointGroup .E8 K)} (hE₀ : IsElemAbelian p E₀) (hc : Nat.card E₀ = p ^ 3) :
     HyperGen p ⊤ E₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hpK := not_dvd_of_orderOf_eq_four hp he
@@ -803,7 +803,7 @@ theorem hyperGen_adjoint_E8_two (K : Type) [Field K] [Finite K] {p : ℕ} (hp : 
       IsElemAbelian p E → Nat.card E = p ^ 3 → HyperGen p ⊤ E)
     {E₀ : Subgroup (adjointGroup .E8 K)} (hE₀ : IsElemAbelian p E₀) (hc : Nat.card E₀ = p ^ 3) :
     HyperGen p ⊤ E₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   have hpq1 : ¬ p ∣ Nat.card K - 1 := by
     intro hd
@@ -972,7 +972,7 @@ theorem hyperGen_adjoint_E7_two (K : Type) [Field K] [Finite K] {p : ℕ} (hp : 
       IsElemAbelian p E → Nat.card E = p ^ 3 → HyperGen p ⊤ E)
     {E₀ : Subgroup (adjointGroup .E7 K)} (hE₀ : IsElemAbelian p E₀) (hc : Nat.card E₀ = p ^ 3) :
     HyperGen p ⊤ E₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact hyperGen_of_two_conj (e7A1D6 K) (e7FrameGroup K) (weylWordElt .E7 K e7Word)
     e7FrameGroup_le_e7A1D6 e7FrameGroup_le_conj_e7A1D6
     (fun M hX hn => eq_top_of_e7A1D6_le_of_conj_le M hX hn)
@@ -1037,10 +1037,10 @@ theorem twE6_su6_cubeCover (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (ℓ
       ¬ p ∣ Nat.card ψ.ker ∧
       (∀ F : Subgroup H, IsElemAbelian p F → Nat.card F = p ^ 3 → HyperGen p ⊤ F) ∧
       frameTorusGroup σ.toRingHom ⊔ leviRootGroups σ.toRingHom ≤ ψ.range := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   set σ' : K →+* K := σ.toRingHom with hσ'def
   have hσ' : ∀ c, σ' c = c ^ (ℓ ^ f) := hσ
   have hσσ : ∀ c, σ' (σ' c) = c := fun c => by
@@ -1168,7 +1168,7 @@ theorem twE6_d4_cubeCover (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (ℓ 
     rw [show ℓ ^ f + 1 - (ℓ ^ f - 1) = 2 by omega] at h1
     have := Nat.le_of_dvd (by norm_num) h1
     omega
-  haveI := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
+  have := finite_spinPlus_four (RingHom.eqLocusField σ.toRingHom (RingHom.id K))
   have hcen := not_dvd_card_center_spinPlus_four hpF.out (by omega) hpq1
   have hcomm : ∀ (t : ↥(normOne σ.toRingHom) × ↥(normOne σ.toRingHom))
       (x : spinGroup (Spin.quadPlus 4 (RingHom.eqLocusField σ.toRingHom (RingHom.id K)))),
@@ -1224,14 +1224,14 @@ theorem twE6_conj_frame_five {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K 
     (h5 : 5 ∣ ℓ ^ f + 1) (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀e : IsElemAbelian 5 E₀) :
     ∃ g : twistedE6RootGroup K σ,
       E₀.map (MulAut.conj g).toMonoidHom ≤ frameTorusGroup σ.toRingHom := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := hσ
   obtain ⟨ψ₁, hk₁, -, hX₁⟩ := TwFive.twE6SU6Cover_five K σ ℓ f hℓ hf hK hσ 5 le_rfl h5
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨e₂⟩ := TwFive.exists_mulEquiv_sl2_su2 (K := K) hK σ.toRingHom hσ'
   let θ : SL(2, RingHom.eqLocusField σ.toRingHom (RingHom.id K)) × unitarySL σ.toRingHom ≃*
       CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K 2 ×
@@ -1270,7 +1270,7 @@ theorem hyperGen_twE6_two_native (K : Type) [Field K] [Finite K] (σ : K ≃+* K
         Nat.card E = p ^ 3 → HyperGen p ⊤ E)
     {E₀ : Subgroup (twistedE6RootGroup K σ)} (hE₀ : IsElemAbelian p E₀)
     (hc : Nat.card E₀ = p ^ 3) : HyperGen p ⊤ E₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconj : ∃ g : twistedE6RootGroup K σ,
       E₀.map (MulAut.conj g).toMonoidHom ≤ frameTorusGroup σ.toRingHom := by
     rcases Nat.lt_or_ge p 7 with h7 | h7
@@ -1447,7 +1447,7 @@ theorem hyperGen_adjoint_F4_two (K : Type) [Field K] [Finite K] {p : ℕ} (hp : 
       IsElemAbelian p E → Nat.card E = p ^ 3 → HyperGen p ⊤ E)
     {E₀ : Subgroup (adjointGroup .F4 K)} (hE₀ : IsElemAbelian p E₀) (hc : Nat.card E₀ = p ^ 3) :
     HyperGen p ⊤ E₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact hyperGen_of_two_conj (⨆ k, b4Chain K k) (f4FrameGroup K)
     (CFSG.LieType.Chevalley.weylElement .F4 K (f4Node 3)) f4FrameGroup_le_b4 f4FrameGroup_le_conj_b4
     (fun M hX hn => eq_top_of_b4Chain_le_of_conj_le M hX hn)

@@ -85,6 +85,6 @@ theorem k_eq_one_of_not_normal {D : Data G} (hSg : UC6S846.SigmaStd D)
   have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
     UC6S846.sp_of_mem_sig hSg hns h3
   unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-  rw [if_pos hsp]
+  rw [ite_eq_left hsp]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

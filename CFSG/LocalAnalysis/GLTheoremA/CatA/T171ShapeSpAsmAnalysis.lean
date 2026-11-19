@@ -43,12 +43,12 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
           CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J)
 
 theorem sympCompMatrixAnalysis_of (hD : SympComponentDescent)
-    (hU : UnitaryBlockInnAutDerived) (hM : SympComponentBlockAnalysis) :
+    (_hU : UnitaryBlockInnAutDerived) (hM : SympComponentBlockAnalysis) :
     SympCompMatrixAnalysis := by
   intro G _ _ p L J A d b m n K _ _ x y θ hS hKcard hm2 hx hy hxp hyp hxy hbz hbJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : NeZero m := ⟨by omega⟩
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
@@ -98,7 +98,7 @@ theorem sympCompMatrixAnalysis_of (hD : SympComponentDescent)
       (f := (MulAut.conj (proj m K y) : StatedProj (StatedSp m K) →*
         StatedProj (StatedSp m K))) (MulAut.conj (proj m K y)).injective]
   obtain ⟨e, he⟩ := hD (p := p) (L := L) (J := J) (A := A) (d := d) (b := b) (m := m)
-    (n := n) (K := K) (x := x) (y := y) θ hS hx hy hN
+    (_n := n) (K := K) (x := x) (y := y) θ hS hx hy hN
   obtain ⟨htype, hmem⟩ | ⟨htype, hmem⟩ | hinner :=
     hM hKcard hm2 hS.prime hS.odd x y hxp hyp hxy hx1 Jbar hcompJbar hN
   · left

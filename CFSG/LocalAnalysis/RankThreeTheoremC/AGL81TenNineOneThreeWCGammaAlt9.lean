@@ -21,7 +21,7 @@ theorem kFactTenNineWCGammaAlt9 :
         GammaZeroIn (S : Subgroup (MulAut.conjNormal (H := K)).range) Y →
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEbar : ∀ x : alternatingGroup (Fin 9), x * ea = ea * x → x * eb = eb * x →
       x * ec = ec * x → x ∈ Ebar := by
     intro x ha hb hc

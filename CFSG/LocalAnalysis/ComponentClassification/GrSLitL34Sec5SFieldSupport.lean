@@ -82,7 +82,7 @@ theorem exists_involution_not_mem_zStarIn_of_l34
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPp : IsPGroup 2 ↥P := by
     obtain ⟨Q, hQ⟩ := hP.2
-    have h1 : IsPGroup 2 ↥(P.subgroupOf J) := hQ ▸ Q.isPGroup'
+    have h1 : IsPGroup 2 ↥(P.subgroupOf J) := hQ ▸ Q.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hP.1)
   have hDp : IsPGroup 2 ↥D := hPp.to_le (hDle.trans inf_le_left)
   obtain ⟨k, hk⟩ := hDp.exists_card_eq

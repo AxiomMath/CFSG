@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem isUnitri_diagonal_conj {ι : Type} [Fintype ι] [DecidableEq ι] {r : ι → ℕ}
     {a u : GL ι K} (ha : IsUnitri r a) (d e : ι → K)
     (hu : (u : Matrix ι ι K) = Matrix.diagonal d * a * Matrix.diagonal e)

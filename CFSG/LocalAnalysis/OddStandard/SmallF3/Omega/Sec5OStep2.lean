@@ -27,7 +27,7 @@ private theorem sec5o_mem_zpowers_eq_one_or_eq {G : Type} [Group G] {g x : G}
 
 private theorem sec5o_not_isCyclic_q8 : ¬ IsCyclic (QuaternionGroup 2) := by
   intro hcyc
-  haveI : IsCyclic (QuaternionGroup 2) := hcyc
+  have : IsCyclic (QuaternionGroup 2) := hcyc
   have hc : IsMulCommutative (QuaternionGroup 2) := inferInstance
   exact absurd (hc.is_comm.comm (QuaternionGroup.a (1 : ZMod (2 * 2)))
     (QuaternionGroup.xa (0 : ZMod (2 * 2)))) (by decide)
@@ -37,7 +37,7 @@ theorem sec5o_twoCoreIn_le_conj (h34a : Asc82Lemma34a) (h36 : Asc82Lemma36)
     (hs : Sec5Ctx G t L S z) {g : G} (hg : g⁻¹ * t * g = t * z) {K : Subgroup G}
     (hK : Sl23PocketIn L z K) (hq : Nonempty (↥(twoCoreIn K) ≃* QuaternionGroup 2)) :
     twoCoreIn K ≤ CFSG.conjugate L g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Sec3SettingLB G t L := hs.toSec5Setting.toSec3SettingLB
   have hLF : InFStar L :=
     (h36 G t L hS t L hS.involution hS.component (Or.inl hS.inF)).1
@@ -83,7 +83,7 @@ theorem sec5o_twoCoreIn_le_conj (h34a : Asc82Lemma34a) (h36 : Asc82Lemma36)
       intro x hx
       exact Subgroup.mem_map.mpr ⟨⟨x, hQH hx⟩, hQP hx, rfl⟩
     have hSyl : IsSylow2Of ((P : Subgroup ↥H).map H.subtype) H := isSylow2Of_map_sylow P
-    haveI : IsCyclic ↥((P : Subgroup ↥H).map H.subtype) :=
+    have : IsCyclic ↥((P : Subgroup ↥H).map H.subtype) :=
       sec5_isCyclic_of_isSylow2Of h52a' hSyl
     have hcycQ : IsCyclic ↥(twoCoreIn K) := Subgroup.isCyclic_of_le hle'
     obtain ⟨e⟩ := hq

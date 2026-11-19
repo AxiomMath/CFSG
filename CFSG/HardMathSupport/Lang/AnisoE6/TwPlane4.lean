@@ -98,12 +98,12 @@ theorem closure_centralizers_twistedE6_phi4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf
     (hE₀c : Nat.card E₀ = p ^ 2) (hR : ¬ NormRSub ℓ E₀) :
     cl E₀ = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
     intro c
     rw [hσ, ← hk, ← map_pow]
     congr 1
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   have hp' : p ∣ Nat.card k ^ 2 + 1 := by

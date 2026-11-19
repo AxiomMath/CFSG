@@ -15,6 +15,7 @@ open scoped Pointwise
 variable {H : Type} [Group H] [Finite H]
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
+omit [Finite H] in
 theorem FS79Hyp.card_bt (h : FS79Hyp b t b₁ b₂ J) :
     Nat.card ↥(Subgroup.closure ({b, t} : Set H)) = 6 := by
   classical
@@ -55,7 +56,7 @@ theorem FS79Hyp.card_bt (h : FS79Hyp b t b₁ b₂ J) :
       ← Subgroup.closure_union]
     congr 1
     ext x
-    simp [or_comm]
+    simp
   rw [hsup, h6]
 
 theorem FS79Hyp.bt_inf_J (h : FS79Hyp b t b₁ b₂ J) :
@@ -155,7 +156,7 @@ theorem FS79Hyp.bt_inf_J (h : FS79Hyp b t b₁ b₂ J) :
 theorem FS79Hyp.isSylow_B_N (h : FS79Hyp b t b₁ b₂ J) :
     IsSylowOf 3 (Subgroup.closure ({b, b₁, b₂} : Set H)) (Nor (Subgroup.zpowers b)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A : Subgroup H := Subgroup.zpowers b with hA
   set N : Subgroup H := Nor A with hN
   set O : Subgroup H := Opp 3 N with hO
@@ -286,7 +287,7 @@ theorem FS79Hyp.isSylow_B_N (h : FS79Hyp b t b₁ b₂ J) :
   · simpa [hN, hA, hB] using hBN
   · have hE := h.isElemAb_B
     rw [← hB] at hE
-    haveI : IsElementaryAbelian 3 ↥B := hE.1
+    have : IsElementaryAbelian 3 ↥B := hE.1
     simpa [hB] using (IsElementaryAbelian.isPGroup 3 B)
   · simpa [hN, hA, hB] using hrelNcop
 

@@ -24,11 +24,11 @@ theorem odd_centralizer_centralizes_of_component_orth_card_four
     {x : L} (hxodd : Odd (orderOf x)) (hxc : x ∈ Subgroup.centralizer (U : Set L)) :
     ∀ l : L, x * l = l * x := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.D m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   let E := StatedProj (StatedOmega (StatedQuadPlus m F))
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
@@ -43,8 +43,8 @@ theorem odd_centralizer_centralizes_of_component_orth_card_four
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   have hf : 2 ≤ Q.exponent := by
@@ -53,7 +53,7 @@ theorem odd_centralizer_centralizes_of_component_orth_card_four
       norm_num
     have := Nat.pow_right_injective (by norm_num : 2 ≤ 2) h
     omega
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hm3 : 3 ≤ m := by omega
   have eD : D ≃* E :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid m Q hv
@@ -157,8 +157,8 @@ theorem odd_centralizer_centralizes_of_component_orth_card_four
   simp
 
 theorem odd_centralizer_centralizes_of_component_orth_minus_card_four
-    {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
-    (m : ℕ) (hm : 4 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2) (hQ4 : Q.card = 4)
+    {L : Type} [Group L] [Finite L] (_hL : CFSG.Open.IsQuasisimple L)
+    (m : ℕ) (hm : 4 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2) (_hQ4 : Q.card = 4)
     (hv : (TauCeti.LieTypeIndex.twistedD m Q).Valid)
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
@@ -166,11 +166,11 @@ theorem odd_centralizer_centralizes_of_component_orth_minus_card_four
     {x : L} (hxodd : Odd (orderOf x)) (hxc : x ∈ Subgroup.centralizer (U : Set L)) :
     ∀ l : L, x * l = l * x := by
   classical
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   let d : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.twistedD m Q, hv⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField d)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype F := Fintype.ofFinite F
   let D := (TauCeti.CFSGIndex.lie d).Group
   have hQcardpow : Q.card = 2 ^ Q.exponent := by
     rw [TauCeti.PrimePower.card_def, hQ]
@@ -184,8 +184,8 @@ theorem odd_centralizer_centralizes_of_component_orth_minus_card_four
     change Nat.card ↥d.fixedField = 2 ^ Q.exponent
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow, hdchar, hdfexp]
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := Q.exponent)
       (by simpa [Nat.card_eq_fintype_card] using hFcardpow)
   obtain ⟨b, c, hirr, ⟨eD⟩⟩ :=

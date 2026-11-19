@@ -20,7 +20,7 @@ private theorem mem_centSub_zpowers_kzc {V : Type} [CommGroup V] {g : MulAut V} 
 
 private theorem kzFix_kz3_eq_centSub {V : Type} [CommGroup V] (z : V) :
     kzFix_kz3 z = centSub (Subgroup.zpowers z) :=
-  Subgroup.ext fun g => mem_centSub_zpowers_kzc.symm
+  Subgroup.ext fun _g => mem_centSub_zpowers_kzc.symm
 
 private theorem natCard_congr_kzc {G : Type*} [Group G] {H K : Subgroup G} (h : H = K) :
     Nat.card ↥H = Nat.card ↥K := by
@@ -130,7 +130,7 @@ theorem card_inf_kzFix_kz3
     {S : Subgroup (MulAut V)} (hSA : S ≤ A) (hS : Nat.card ↥S = 128) {z : V} (hz1 : z ≠ 1)
     (hzS : ∀ s ∈ S, s z = z) : Nat.card ↥(A ⊓ kzFix_kz3 z) = 5760 := by
   obtain ⟨e₀, he₀⟩ := code22_std hA
-  haveI : Finite V := Finite.of_equiv W10 e₀.symm.toEquiv
+  have : Finite V := Finite.of_equiv W10 e₀.symm.toEquiv
   have hcardA : Nat.card ↥A = 443520 :=
     (card_map_congrHom e₀ A).symm.trans
       ((natCard_congr_kzc (he₀.trans range_rhoC10_eq_imgC)).trans card_imgC_mog22)

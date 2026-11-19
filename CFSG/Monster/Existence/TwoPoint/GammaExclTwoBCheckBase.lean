@@ -14,7 +14,7 @@ namespace CFSG.Monster.Existence
 open CFSG.Monster CFSG.Monster.AxisCount CFSG.Monster.Griess CFSG.Monster.Generated
   CFSG.Monster.B CFSG.Monster.B.Short CFSG.Monster.Spin CFSG.Monster.Visible
 
-@[expose] def gxXWord : List Native.Gen := [.rho (true, 0, 0)]
+def gxXWord : List Native.Gen := [.rho (true, 0, 0)]
 
 theorem wordLin_gxXWord : wordLin gxXWord = xmat := by
   have h : Rep4371.pauliQ (true, 0, 0) = zQ := by
@@ -26,7 +26,7 @@ theorem wordLin_gxXWord : wordLin gxXWord = xmat := by
 
 theorem fiMkW_gxXWord : fiMkW gxXWord = xGriess := Subtype.ext wordLin_gxXWord
 
-@[expose, noinline] def gxTwoBCheck : Bool :=
+@[noinline] def gxTwoBCheck : Bool :=
   (gxXWord ++ gxCW9 ++ (gxCW9 ++ gxProdWord (gxXList 9))).all Native.Gen.validB &&
     checkP4 (HS.pw gxXWord ++ HS.pw gxCW9) (HS.pw gxCW9 ++ gxProdP (gxXList 9))
 

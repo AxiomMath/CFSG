@@ -65,7 +65,7 @@ section Cert
 
 theorem gen5a_holds : Gen5A := by
   intro G _ a z h x hx
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := h.loc.tableVII.self.shape_5A x hx
   obtain ⟨f⟩ := nonempty_psu3_mulEquiv_i50
   obtain ⟨t₀, t₀', ho, ho', hne, hcomm, hcl⟩ := gen5a_model

@@ -89,7 +89,7 @@ private theorem form27_rootOp_neg_mem (a : Fin TwistTag.E6.foldedTag.rank)
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     have hmem : ∀ c : K, c ∈ orbitField TwistTag.E6 K σ a := fun c => by
       rw [mem_orbitField, ha]
-      simp only [pow_two, RingHom.mul_def, RingHom.id_apply]
+      simp only [pow_two, RingHom.mul_def]
       exact sigma_sigma_eq hK σ hσ c
     have key := mem_of_forall_poly hq hcard S σ hσ
       (e6Data.rootOp K (-Pi.single (TwistTag.E6.orbitMin a) 1) w)
@@ -136,7 +136,7 @@ private theorem form27_apply_single_eq_zero {f₂₇ : Module.Dual K (Fin e6Data
   have hw : e6Data.wt (e6Data_valid.sRefl i b : ℕ) i = 1 := by
     rw [form27_wt_sRefl, hi]
     norm_num
-  rw [if_pos hw, form27_sRefl_sRefl] at h
+  rw [ite_eq_left hw, form27_sRefl_sRefl] at h
   exact h
 
 theorem form27_eq_coord {f₂₇ : Module.Dual K (Fin e6Data.d →₀ K)}
@@ -153,7 +153,7 @@ theorem form27_eq_coord {f₂₇ : Module.Dual K (Fin e6Data.d →₀ K)}
     by_cases hb : b = ⟨0, by decide⟩
     · subst hb
       have h0 : f₂₇ (Finsupp.single (⟨0, by decide⟩ : Fin e6Data.d) (1 : K)) = 1 := h1
-      rw [h0, mul_one, if_pos rfl]
-    · rw [form27_apply_single_eq_zero hf hK σ hσ hf₂₇ b hb, mul_zero, if_neg hb]
+      rw [h0, mul_one, ite_eq_left rfl]
+    · rw [form27_apply_single_eq_zero hf hK σ hσ hf₂₇ b hb, mul_zero, ite_eq_right hb]
 
 end CFSG.HardMathSupport.Cooperstein.Coordinator.TwE6

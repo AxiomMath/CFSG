@@ -24,6 +24,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem xpre_le_rt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) :
     E1Xpre M Q B t ≤ Rt M (LB M Q B) t :=
   sup_le (Subgroup.commutator_le.mpr fun a ha b hb => by
@@ -68,8 +69,8 @@ theorem natural_transfer_core (hH : E1Hyp M Q Z B t) (AM : ActionModel M Q Z)
   obtain ⟨m, φK, hn, ψK, c₀, hkerK, hψK, -, hcoordK, hSeqK⟩ :=
     exists_natural_data_of_subspace hc.hyp hVQ hZV hRH hRV (fun _ => Ctx.mem_CN (hc := hc))
       AM.glob (fun c _ he => hc.smul_mem_img_Vt AM.glob t c he)
-  haveI := hn
-  haveI := hZn
+  have := hn
+  have := hZn
   let Θ : (Fin m → AM.K) ≃+ (ι → K') := AddEquiv.toMultiplicative.symm (ψK.symm.trans ψ)
   have hΘ_apply : ∀ z : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t),
       Θ (Multiplicative.toAdd (ψK z)) = Multiplicative.toAdd (ψ z) := by
@@ -235,6 +236,7 @@ theorem fix_of_mem_CN (hc : Ctx M Q Z B) (AM : ActionModel M Q Z) (y : ↥(H0 M 
   rw [← AM.φ_π y w hwQ]
   exact (Tim79.QuadModel.comm_mem_iff (M₀ := AM.M₀) hwQ hywQ).mp ((Ctx.mem_CN.mp hy).2 w hwV)
 
+omit [Finite G] in
 theorem phi_comm_of_comm_mem (AM : ActionModel M Q Z) (a b : ↥(H0 M Z))
     (h : ⁅(a : G), (b : G)⁆ ∈ Q) : AM.φ a * AM.φ b = AM.φ b * AM.φ a := by
   have h1 : AM.φ ⁅a, b⁆ = 1 := (AM.φ_ker _).mpr (by simpa [commutatorElement_def] using h)
@@ -290,8 +292,8 @@ theorem e1NaturalK_of (hN : E1NaturalStatement) (hSplit : RtSplitStatement)
   obtain ⟨hP, hMi⟩ := hN G M Q Z B t hH
   refine ⟨fun hE => ?_, fun hE => ?_⟩
   · obtain ⟨K', hF, hFin, hK', hnat⟩ := hP hE
-    haveI := hFin
-    haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+    have := hFin
+    have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
     obtain ⟨σ, c, hact⟩ := NtLine.natural_transfer hH AM hNtCN hsup hinf hK'
       (addCommutantScalar_statedOmegaPlus_two
         (NtLine.exists_ne_zero_one_of_four_le (by omega))) hnat
@@ -305,8 +307,8 @@ theorem e1NaturalK_of (hN : E1NaturalStatement) (hSplit : RtSplitStatement)
       simp
     rwa [hf] at hact
   · obtain ⟨K', hF, hFin, hK', b, c', hirr, hnat⟩ := hMi hE
-    haveI := hFin
-    haveI : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have := hFin
+    have : Nonempty (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨σ, c, hact⟩ := NtLine.natural_transfer hH AM hNtCN hsup hinf hK'
       (addCommutantScalar_statedOmegaMinus (m := 2) le_rfl hirr) hnat
     refine ⟨σ b, σ c', irreducible_map σ hirr, c, ?_⟩

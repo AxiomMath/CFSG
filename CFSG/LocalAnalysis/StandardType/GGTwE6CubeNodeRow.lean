@@ -43,7 +43,7 @@ theorem cube_row_bound (hCore : TwE6RootAs.TwE6CorootCore) (hD5 : TwE6RootAs.TwE
       ggFix (rgrpConjAut hn hK σ hσ Fr hFr ⟨_, hd⟩) = X ⊔ D ∧ IsCyclic X ∧
         X ≤ Subgroup.centralizer (D : Set ↥(twistedE6RootGroup K σ)) ∧ CFSG.IsQuasisimple D by
     obtain ⟨X, D, hfix, hXc, hXD, hDq⟩ := h
-    haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+    have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
     rw [hfix] at hEx ⊢
     exact TwE6D3.card_le_three_mul_inf_layer hXc hXD
       ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).2 hDq) hE hEx
@@ -84,7 +84,7 @@ theorem cube_row_bound (hCore : TwE6RootAs.TwE6CorootCore) (hD5 : TwE6RootAs.TwE
         IsRoot TwistTag.E6.tag α ∧ rootChar (zetaVec ζ hζ v) α = 1} = 40 := by
       rw [← h40]
       exact congrArg Set.ncard (Set.ext fun α => and_congr_right fun _ => hker α)
-    haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+    have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
     obtain ⟨w, hw, hbc, hxw⟩ := exists_matrix_of_cube hn hK σ hσ Fr hFr hd
     have hS := le_refl (TwE6DD2.langCube hn hK σ hσ Fr hFr g)
     obtain ⟨X, D, hc, hXc, hXD, hDq⟩ := hD5 K σ (2 ^ n) hK hσ (ringChar.eq K 2) h3 Fr hFr _

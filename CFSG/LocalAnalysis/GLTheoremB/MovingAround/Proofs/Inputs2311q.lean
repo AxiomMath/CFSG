@@ -21,7 +21,7 @@ theorem mem_of_triple_of_normalizer (M : Subgroup G) {x₀ x₁ x₂ : K → G}
     (hu : ∀ a, x₀ a * x₁ (κ₀ * a) * x₂ (κ₁ * κ₀ * a) ∈ M)
     {d : G} (hd : d ∈ Subgroup.normalizer (M : Set G)) {μ₀ μ₁ μ₂ : K}
     (hd0 : ∀ c, d * x₀ c * d⁻¹ = x₀ (μ₀ * c)) (hd1 : ∀ c, d * x₁ c * d⁻¹ = x₁ (μ₁ * c))
-    (hd2 : ∀ c, d * x₂ c * d⁻¹ = x₂ (μ₂ * c)) (h01 : μ₀ ≠ μ₁) (h02 : μ₀ ≠ μ₂) (h12 : μ₁ ≠ μ₂)
+    (hd2 : ∀ c, d * x₂ c * d⁻¹ = x₂ (μ₂ * c)) (h01 : μ₀ ≠ μ₁) (h02 : μ₀ ≠ μ₂) (_h12 : μ₁ ≠ μ₂)
     (c : K) : x₀ c ∈ M := by
   set u : K → G := fun a => x₀ a * x₁ (κ₀ * a) * x₂ (κ₁ * κ₀ * a) with hu'
   have hconj1 : ∀ a b e, d * (x₀ a * x₁ b * x₂ e) * d⁻¹ =
@@ -66,7 +66,7 @@ theorem mem_of_triple_of_normalizer (M : Subgroup G) {x₀ x₁ x₂ : K → G}
 theorem closure_pair_eq_of_card_inputs2311q [Finite G] {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : Nat.card E = p ^ 2) {a b : G} (ha : a ∈ E) (hb : b ∈ E) (hbp : b ^ p = 1) (hb1 : b ≠ 1)
     (hab : a ∉ Subgroup.zpowers b) : Subgroup.closure {a, b} = E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C := Subgroup.closure ({a, b} : Set G) with hC
   have hCE : C ≤ E := by
     rw [hC, Subgroup.closure_le]
@@ -133,11 +133,11 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley in
 theorem rootChar_tupE2Sq (l : Kˣ) (r : Fin Tag.D4.rank → ℤ) :
     rootChar (tupE2Sq l) r = l ^ (2 * r ⟨2, by decide⟩) := by
   rw [rootChar, Finset.prod_eq_single (⟨2, by decide⟩ : Fin Tag.D4.rank)]
-  · have h : tupE2Sq l ⟨2, by decide⟩ = l ^ 2 := if_pos rfl
+  · have h : tupE2Sq l ⟨2, by decide⟩ = l ^ 2 := ite_eq_left rfl
     rw [h, zpow_mul]
     norm_cast
   · intro i _ hi
-    simp only [tupE2Sq, if_neg hi, one_zpow]
+    simp only [tupE2Sq, ite_eq_right hi, one_zpow]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -250,7 +250,7 @@ theorem fixedSubgroup_le_normalizer_inputs2311q [Finite K] (hK2 : ringChar K ≠
     hK3 hK5 B hB3 hB1
   obtain ⟨⟨w, hαw, hwx, hgen⟩, -, hns⟩ :=
     Inputs2311m.exists_rGen_escape_of_isPGLPiThree hK5 hfix hrp hK3 hrK hαx hx3
-  haveI hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) :=
+  have hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) :=
     CFSG.LieType.SeitzGeneration.ExcWideThree.isSimpleGroup_adjointGroup_D4 K
   have hα1 : gammaP K B ≠ 1 := by
     intro h
@@ -299,8 +299,8 @@ theorem gammaP_HSL_torusE2Sq (ω l : Kˣ) : gammaP K (HSL ω) (torusE2Sq l) = to
   have hρ : ∀ j : Fin Tag.D4.rank, rhoP.symm j = ⟨2, by decide⟩ ↔ j = ⟨2, by decide⟩ := by decide
   simp only [tupE2Sq]
   by_cases hj : j = ⟨2, by decide⟩
-  · rw [if_pos ((hρ j).2 hj), if_pos hj]
-  · rw [if_neg (fun h => hj ((hρ j).1 h)), if_neg hj]
+  · rw [ite_eq_left ((hρ j).2 hj), ite_eq_left hj]
+  · rw [ite_eq_right (fun h => hj ((hρ j).1 h)), ite_eq_right hj]
 
 theorem torusE2Sq_conj_xPar (l : Kˣ) {r : Fin Tag.D4.rank → ℤ} (hr : IsRoot Tag.D4 r) (c : K) :
     torusE2Sq l * 𝕩 r c * (torusE2Sq l)⁻¹ = 𝕩 r (((l ^ (2 * r ⟨2, by decide⟩) : Kˣ) : K) * c) := by
@@ -482,7 +482,7 @@ theorem isPGroup_spanRoots_pos [Finite K] {S : List (Fin Tag.D4.rank → ℤ)}
     rw [hσ c]
     exact le_iSup₂ (f := fun α (_ : α ∈ {α : Fin Tag.D4.rank → ℤ | IsRoot Tag.D4 α ∧ 0 < height α}) =>
       rootSubgroup Tag.D4 K α) s ⟨hsr, hsh⟩ (Subgroup.subset_closure ⟨_, rfl⟩)
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   have hP := ((positive_root_triangularity.{0, 0} Tag.D4).2 K (ringChar K)).2.1
   exact (hP.to_le hle).of_equiv
     (Subgroup.equivMapOfInjective _ _ (adjointGroup Tag.D4 K).subtype_injective).symm
@@ -498,7 +498,7 @@ theorem isPGroup_spanRoots_neg [Finite K] {S : List (Fin Tag.D4.rank → ℤ)}
     rw [hσ c]
     exact le_iSup₂ (f := fun α (_ : α ∈ {α : Fin Tag.D4.rank → ℤ | IsRoot Tag.D4 α ∧ height α < 0}) =>
       rootSubgroup Tag.D4 K α) s ⟨hsr, hsh⟩ (Subgroup.subset_closure ⟨_, rfl⟩)
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   have hP := ((positive_root_triangularity.{0, 0} Tag.D4).2 K (ringChar K)).2.2.2
   exact (hP.to_le hle).of_equiv
     (Subgroup.equivMapOfInjective _ _ (adjointGroup Tag.D4 K).subtype_injective).symm
@@ -620,7 +620,7 @@ theorem uniPlaneClosure_eq_top_gammaP_HSL [Finite K] (hK2 : ringChar K ≠ 2) (h
   set Ec := E.map (MulAut.congr (MulAut.conj c⁻¹)).toMonoidHom with hEc
   suffices h : uniPlaneClosure (ringChar K) Ec = ⊤ from
     (uniPlaneGen_map_congr (MulAut.conj c⁻¹) (ringChar K) E).1 h
-  haveI : CFSG.IsElementaryAbelian 3 ↥Ec := CFSG.IsElementaryAbelian.map _
+  have : CFSG.IsElementaryAbelian 3 ↥Ec := CFSG.IsElementaryAbelian.map _
   have hcEc : Nat.card Ec = 3 ^ 2 := by
     rw [hEc, Subgroup.card_map_of_injective (MulAut.congr (MulAut.conj c⁻¹)).injective, hc]
   have hαEc : gammaP K (HSL ω) ∈ Ec := ⟨_, hαE, mulAut_congr_conj_of_fixed_inputs2311q hcα'⟩
@@ -658,7 +658,7 @@ theorem uniPlaneClosure_eq_top_gammaP_HSL [Finite K] (hK2 : ringChar K ≠ 2) (h
     have hsq0 : (t * yP hω3 ^ 2) ^ 2 = t * (yP hω3 ^ 2 * t * (yP hω3 ^ 2)⁻¹) * yP hω3 := by
       have h3 := yP_pow_three (K := K) hω3
       have e : (t * yP hω3 ^ 2) ^ 2 = t * (yP hω3 ^ 2 * t * (yP hω3 ^ 2)⁻¹) * (yP hω3 ^ 3 * yP hω3) := by
-        simp only [sq, pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_mul_cancel_left]
+        simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc, inv_mul_cancel_left]
       rw [e, h3, one_mul]
     obtain ⟨t', ht'def⟩ : ∃ t', t' = t * (yP hω3 ^ 2 * t * (yP hω3 ^ 2)⁻¹) := ⟨_, rfl⟩
     have ht' : (t' : ModGL Tag.D4 K) =

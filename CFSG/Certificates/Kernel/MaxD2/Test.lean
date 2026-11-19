@@ -124,10 +124,10 @@ theorem sort_absent (hs : ∀ s < cnt, sortK w np kw cnt PT T FS KS s = true) {q
 end
 
 theorem testK_spec {n w np kw cnt : Nat} {PT T FS KS RB : Nat → Nat} {RP RPI k h : Nat}
-    (hn : szOK n w = true) (hT : ∀ e < cnt, Cn n w (T e))
+    (hn : szOK n w = true) (_hT : ∀ e < cnt, Cn n w (T e))
     (hs : ∀ s < cnt, sortK w np kw cnt PT T FS KS s = true) (hP : ∀ t < np, PT t < n)
     (hRP : permOK n w (mask w) (n * w) RP RPI = true)
-    (hRB : ∀ t < np, RB t = pg w (mask w) RP (PT t)) (hk : k < cnt)
+    (hRB : ∀ t < np, RB t = pg w (mask w) RP (PT t)) (_hk : k < cnt)
     (ht : testK n w np kw cnt T FS KS RP RPI RB k h = true) :
     (∃ e < cnt, T e = pcomp n w (mask w) (pcomp n w (mask w) RPI (T k)) RP) ↔
       Nat.land h 1 = 1 := by

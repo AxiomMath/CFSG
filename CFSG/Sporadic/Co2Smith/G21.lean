@@ -81,7 +81,7 @@ theorem exists_sylow_eq_map
       (P : Subgroup G) = (T : Subgroup _).map (centralizer ({z} : Set G)).subtype := by
   set T' := (T : Subgroup (centralizer ({z} : Set G))).map (centralizer ({z} : Set G)).subtype
     with hT'
-  have hT'p : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'p : IsPGroup 2 T' := T.isPGroup.map _
   obtain ⟨P, hP⟩ := hT'p.exists_le_sylow
   refine ⟨P, ?_⟩
   by_contra hne
@@ -92,7 +92,7 @@ theorem exists_sylow_eq_map
     refine le_antisymm (fun g hg => ?_) hP
     have : (⟨g, hg⟩ : P) ∈ T'.subgroupOf P := htop ▸ mem_top _
     exact this
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   obtain ⟨⟨u, huP⟩, hu, hunot⟩ :
       ∃ u ∈ normalizer ((T'.subgroupOf P : Subgroup P) : Set P), u ∉ T'.subgroupOf P :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
@@ -148,7 +148,7 @@ theorem exists_sylow_eq_map
       rw [hx]
       exact huP
   have hp'' : IsPGroup 2 T'' :=
-    (P.isPGroup'.to_le hle).of_equiv
+    (P.isPGroup.to_le hle).of_equiv
       (T''.equivMapOfInjective (centralizer ({z} : Set G)).subtype Subtype.val_injective).symm
   have heq : T'' = (T : Subgroup (centralizer ({z} : Set G))) :=
     T.maximal_isPGroup.eq_of_ge hp'' fun x hx => Subgroup.subset_closure (Set.mem_union_left _ hx)

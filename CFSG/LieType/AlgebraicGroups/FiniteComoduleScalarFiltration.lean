@@ -119,7 +119,7 @@ theorem exists_scalar_filtration_of_family {ι : Type*} (p : ι → WithConv (H 
         intro i
         by_cases hi : i = 0
         · simp [F',hi]
-        · simp only [F',hi,Nat.succ_ne_zero,if_false]
+        · simp only [F',hi,Nat.succ_ne_zero,ite_false]
           exact Submodule.comap_mono ((F.monotone (by omega : i - 1 ≤ i)))
       let T : ℕ →o Submodule k V := ⟨F',hmono⟩
       refine ⟨d + 1,T,?_,?_,?_,?_⟩
@@ -136,7 +136,7 @@ theorem exists_scalar_filtration_of_family {ι : Type*} (p : ι → WithConv (H 
           change q (TauCeti.Comodule.basePointsRepresentation V g v) =
             TauCeti.Comodule.basePointsRepresentation Q g (q v) at hqact
           change TauCeti.Comodule.basePointsRepresentation V g v ∈ F' i
-          simp only [F', hi, if_false, Submodule.mem_comap]
+          simp only [F', hi, ite_false, Submodule.mem_comap]
           change q (TauCeti.Comodule.basePointsRepresentation V g v) ∈ F (i - 1)
           rw [hqact]
           exact hact
@@ -169,7 +169,7 @@ theorem exists_scalar_filtration_of_family {ι : Type*} (p : ι → WithConv (H 
             TauCeti.Comodule.basePointsRepresentation Q (p t) (q v) at hqact
           change TauCeti.Comodule.basePointsRepresentation V
             (p t) v - c • v ∈ F' i
-          simp only [F', hi, if_false, Submodule.mem_comap]
+          simp only [F', hi, ite_false, Submodule.mem_comap]
           change q (TauCeti.Comodule.basePointsRepresentation V
             (p t) v - c • v) ∈ F (i - 1)
           rw [map_sub,map_smul,hqact]

@@ -76,7 +76,7 @@ theorem linModelHyps {p : ℕ} {K : Type} [Field K] [Finite K] (hp : p.Prime) (h
     (hpK : p ∣ Nat.card K - 1) {ŷ : GL (Fin p) K} {ω : K}
     (hy : (ŷ : Matrix (Fin p) (Fin p) K) ^ p = Matrix.scalar (Fin p) ω)
     (hω : ∀ b : K, b ^ p ≠ ω) : ModelHyps (linModel p K hn) ŷ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   refine ⟨Subgroup.mem_top _, ?_, ?_, ?_⟩
   · intro Th hTh hT2 hTne hyN
@@ -124,7 +124,7 @@ theorem linHyps_of_cfg {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ p := by omega
   have hodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKcard : 1 < Nat.card K := Finite.one_lt_card
   have hωnp : ∀ b : K, b ^ p ≠ (ω : K) := by
     have ha : 1 ≤ (Nat.card K - 1).factorization p :=
@@ -184,9 +184,9 @@ theorem kd292CaseBSylow_lin (p : ℕ) (Y : Type) [Group Y] [Finite Y] (P : Subgr
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le
   obtain ⟨K, instF, instFin, e, ŷ, ω, hpK, hŷp, hω, hact⟩ := hmodel
@@ -206,9 +206,9 @@ theorem kd292CaseBConstr_lin (p : ℕ) (Y : Type) [Group Y] [Finite Y] (P : Subg
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le
   obtain ⟨K, instF, instFin, e, ŷ, ω, hpK, hŷp, hω, hact⟩ := hmodel

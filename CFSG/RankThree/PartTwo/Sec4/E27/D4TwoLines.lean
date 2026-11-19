@@ -125,7 +125,7 @@ theorem conj_not_mem_zpowers {K : Type*} [Group K]
 
 theorem comm_of_isElemAbelian {G : Type*} [Group G] {p : ℕ} {E : Subgroup G}
     (hE : IsElemAbelian p E) {x y : G} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
-  haveI := hE.1
+  have := hE.1
   have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : E) ⟨y, hy⟩)
   simpa using this
 

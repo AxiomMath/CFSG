@@ -72,7 +72,7 @@ theorem walk_sound : ∀ (X cs : List ℕ) (d : ℕ) (t : NT ℕ), d ≤ fr'.len
         refine ⟨g - d, by omega, ?_⟩
         convert h1 using 2
         omega
-      have es : stepN (fr'.drop d, t) y = (fr'.drop d, t) := by simp only [stepN, hy, if_true]
+      have es : stepN (fr'.drop d, t) y = (fr'.drop d, t) := by simp only [stepN, hy, ite_true]
       rw [List.foldl_cons, es]
       obtain ⟨a1, a2, a3, a4⟩ := walk_sound X cs d t hp ht hw
       refine ⟨a1, a2, a3, fun z hz => ?_⟩
@@ -106,7 +106,7 @@ theorem walk_sound : ∀ (X cs : List ℕ) (d : ℕ) (t : NT ℕ), d ≤ fr'.len
         rw [ht y, Bool.eq_false_iff, ne_eq, List.contains_iff_mem]
         exact hny
       have es : stepN (fr'.drop (g + 1), t) y = (y :: fr'.drop (g + 1), insP t y) := by
-        simp only [stepN, hy, Bool.false_eq_true, if_false]
+        simp only [stepN, hy, Bool.false_eq_true, ite_false]
       rw [List.foldl_cons, es, ← hfg]
       obtain ⟨a1, a2, a3, a4⟩ := walk_sound X cs g (insP t y) (Nat.le_of_lt hgf) (fun q => by
         rw [memP_insP, ht q, hWg, List.contains_cons, HJ12K.beq_symm y q]) hw
@@ -233,7 +233,6 @@ theorem ok46_ofW (hw : wordsOK46 = true) (h1 : w1OK46Q = true) (h2 : eb46Q = tru
     | exact List.mem_append_right _ hx
     | exact List.mem_append_right _ (List.mem_append_right _ hx)
     | exact List.mem_append_right _ (List.mem_append_right _ (List.mem_append_right _ hx))
-    | simpa using hx
 
 theorem all_chunks (p : ℕ → Bool) (fr : List ℕ) (c : ℕ) : ∀ (m i : ℕ), fr.length ≤ c * (i + m) →
     (∀ j, i ≤ j → j < i + m → (chunkL c j fr).all p = true) → (fr.drop (c * i)).all p = true

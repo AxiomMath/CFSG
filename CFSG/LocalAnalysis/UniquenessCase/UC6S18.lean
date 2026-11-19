@@ -19,7 +19,7 @@ theorem exists_frattini_of_isPConstrained {X : Type} [Group X] [Finite X] {r : �
     ∃ P : Subgroup X, E ≤ P ∧ IsPGroup r P ∧
       CFSG.pPrimeCore r X ⊔ normalizer (P : Set X) = ⊤ := by
   classical
-  haveI hNn : (CFSG.Op_p'p r X).Normal := CFSG.Op_p'p_normal r X
+  have hNn : (CFSG.Op_p'p r X).Normal := CFSG.Op_p'p_normal r X
   have hSyl : IsSylowOf r (S ⊓ CFSG.Op_p'p r X) (CFSG.Op_p'p r X) :=
     hS.inf_of_le_normalizer le_top (by rw [normalizer_eq_top_iff.mpr hNn])
   have hEP : E ≤ S ⊓ CFSG.Op_p'p r X := by
@@ -73,7 +73,7 @@ theorem le_M_of_isPConstrained {Z : Subgroup G} (hZ : c.IsZ Z)
     (h69 : R6_9 (dataOfSetup4 c.hS c.hU c.S)) {X : Subgroup G} (hEX : c.E ≤ X)
     (hX : IsPConstrained c.r X) : X ≤ c.M := by
   classical
-  haveI : Fact c.r.Prime := ⟨c.d.prime⟩
+  have : Fact c.r.Prime := ⟨c.d.prime⟩
   have hE1 := c.E_ne_bot
   have hEp : IsPGroup c.r c.E := IsElemAbelian.isPGroup c.d.E_el
   obtain ⟨S, hS, hES⟩ := exists_isSylowOf_ge hEX hEp
@@ -122,8 +122,8 @@ theorem le_M_of_isPConstrained {Z : Subgroup G} (hZ : c.IsZ Z)
         rw [normalizer_eq_top_iff.mpr (CFSG.pPrimeCore_normal (p := c.r) (G := X))]
         exact mem_top _
       exact coe_mem_normalizer_map_subtype hn
-    haveI : CFSG.IsElementaryAbelian c.r c.E := c.d.E_el.isElementaryAbelian
-    haveI : Nontrivial c.E := (Subgroup.nontrivial_iff_ne_bot c.E).2 hE1
+    have : CFSG.IsElementaryAbelian c.r c.E := c.d.E_el.isElementaryAbelian
+    have : Nontrivial c.E := (Subgroup.nontrivial_iff_ne_bot c.E).2 hE1
     have hgen := CFSG.RankThree.PartOne.KE8F.le_iSup_hyperplane_centralizers (p := c.r)
       (A := c.E) (V := Y) hEnorm hcop
     have hYle : Y ≤ c.M := by

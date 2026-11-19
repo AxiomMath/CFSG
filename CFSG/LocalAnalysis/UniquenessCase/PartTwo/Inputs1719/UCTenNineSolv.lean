@@ -26,7 +26,7 @@ theorem exists_isChiefFactorUnder_of_minimal {H X Y : Subgroup G} (hYX : Y < X) 
   let Q := X ⧸ Y.subgroupOf X
   have hQcomm : IsMulCommutative Q :=
     CFSG.GroupTheory.isMulCommutative_quotient_subgroupOf_of_commutator_le hab
-  letI : CommGroup Q := IsMulCommutative.instCommGroup
+  let : CommGroup Q := IsMulCommutative.instCommGroup
   have hQnontriv : Nontrivial Q := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop

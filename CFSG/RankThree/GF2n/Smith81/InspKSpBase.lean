@@ -17,9 +17,9 @@ open CFSG.Timmesfeld.ARS CFSG.LieType CFSG.LieType.Universal CFSG.Blueprint CFSG
   CFSG.LieType.Universal.Symplectic CFSG.LieType.Universal.Symplectic.SpExtras
   CFSG.LargeExtraspecial.A2Mod.Frame
 
-theorem charP_two_of_card {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f)
+theorem charP_two_of_card {K : Type} [Field K] [Finite K] {f : ℕ} (_hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hp := ringChar.charP K
   obtain ⟨n, hprime, hn⟩ := FiniteField.card K (ringChar K)
   have h1 : (ringChar K) ∣ 2 ^ f := by

@@ -418,7 +418,7 @@ theorem step204YKO3CommFive_holds : Step204YKO3CommFive := by
   have hYX : Y ≤ X := Res6.normalClosureIn_le_self (hKX (self_mem_normalClosureIn M c))
   have hOX : O ≤ X := (Res6.inSubgroup_pPrimeCore_le 3 Y).trans hYX
   have hperf : Group.IsPerfect K := isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
-  haveI := hperf
+  have := hperf
   have hKO : K ≤ Subgroup.normalizer (O : Set G) :=
     hKY.trans (Res6.le_normalizer_inSubgroup_pPrimeCore 3 Y)
   have hXO : X ≤ Subgroup.normalizer (O : Set G) :=

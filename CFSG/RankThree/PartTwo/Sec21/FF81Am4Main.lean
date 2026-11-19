@@ -231,7 +231,7 @@ theorem Setup.range_thetaM_le_OUpp (hs : Setup b L B b₁ b₂ b₃ t₀ fL g) :
     rw [Subgroup.closure_le]
     intro w hw
     have hw2 : thetaM fL g w * thetaM fL g w = 1 := by
-      rw [← map_mul]; rw [Set.mem_setOf_eq] at hw; rw [hw, map_one]
+      rw [← map_mul]; rw [Set.mem_ofPred_eq] at hw; rw [hw, map_one]
     exact ⟨⟨thetaM fL g w, hs.thetaM_mem_cen w⟩,
       Subgroup.subset_normalClosure ⟨1, Subtype.ext (by
         show thetaM fL g w ^ (2 ^ 1) = 1

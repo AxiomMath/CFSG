@@ -101,7 +101,7 @@ theorem map_W0 : ae6ModelW.map omegaT.subtype = (wQ ()).originalSubgroup := by
   rw [wQ, certificate_originalSubgroup, ae6ModelW, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq,
+  simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq,
     w0Gens, wWords, List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil, or_false,
     Subgroup.coe_subtype]
   constructor
@@ -211,7 +211,7 @@ theorem card_twin_inf_W0 {J : Subgroup AE6Om} (hJ : J ∈ ae6ModelTwins) :
     · rw [Subgroup.zpowers_le]
       exact Subgroup.mem_inf.mpr ⟨hxJ, hxW0⟩
   rw [heq, Nat.card_zpowers, ← Subgroup.orderOf_coe]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : ¬ x ^ 2 ^ 1 = 1 := by
     intro h
     rw [pow_one, sq] at h
@@ -285,7 +285,7 @@ theorem admissible_conj (W₁ : Subgroup AE6Om) (hW : AE6Admissible W₁) :
     ∃ c ∈ Subgroup.centralizer ({ae6ModelZ} : Set AE6Om), conjSub c ae6ModelW = W₁ := by
   obtain ⟨hcomm, hcard, htw⟩ := hW
   have hn := degree_lt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : ae6ModelK ∈ ae6ModelTwins := ⟨1, Subgroup.one_mem _, conjSub_one _⟩
   have hz : ae6ModelZ ∈ W₁ := by
     have h4 := (htw _ hK).2

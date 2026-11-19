@@ -167,14 +167,14 @@ private theorem fget_lor_shl {X v a : Nat} (hv : v < 2048) (hX : fget X a 11 = 0
   by_cases hb : b < 11
   · by_cases hj : j = a
     · subst hj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h1 : X.testBit (j * 11 + b) = false := by
         have := congrArg (fun x => x.testBit b) hX
         simp only [testBit_fget, Nat.zero_testBit] at this
         simpa [hb] using this
       rw [h1, show j * 11 + b - 11 * j = b by omega]
       simp [hb, show 11 * j ≤ j * 11 + b by omega]
-    · rw [if_neg hj, testBit_fget]
+    · rw [ite_eq_right hj, testBit_fget]
       have : (decide (j * 11 + b ≥ 11 * a) && v.testBit (j * 11 + b - 11 * a)) = false := by
         rcases Nat.lt_or_gt_of_ne hj with h | h
         · have : ¬ j * 11 + b ≥ 11 * a := by omega
@@ -280,18 +280,18 @@ private theorem tabL_spec {f : Nat → Nat} (hf : ∀ i < 2048, f i < 2048) :
   | 0, _, j => fget_zero _ _
   | n + 1, hn, j => by
     have ih := tabL_spec hf n (by omega)
-    rw [tabL_succ, fget_lor_shl (hf n (by omega)) (by rw [ih, if_neg (Nat.lt_irrefl _)]), ih]
+    rw [tabL_succ, fget_lor_shl (hf n (by omega)) (by rw [ih, ite_eq_right (Nat.lt_irrefl _)]), ih]
     by_cases hj : j = n
-    · rw [if_pos hj, if_pos (by omega), hj]
-    · rw [if_neg hj]
+    · rw [ite_eq_left hj, ite_eq_left (by omega), hj]
+    · rw [ite_eq_right hj]
       by_cases hj' : j < n
-      · rw [if_pos hj', if_pos (by omega)]
-      · rw [if_neg hj', if_neg (by omega)]
+      · rw [ite_eq_left hj', ite_eq_left (by omega)]
+      · rw [ite_eq_right hj', ite_eq_right (by omega)]
 
 theorem czTab_fget {f : Nat → Nat} (hf : ∀ i < 2048, f i < 2048) {i : Nat} (hi : i < 2048) :
     fget (czTab f) i 11 = f i := by
   change fget (tabL f 2048) i 11 = f i
-  rw [tabL_spec hf 2048 (Nat.le_refl _), if_pos hi]
+  rw [tabL_spec hf 2048 (Nat.le_refl _), ite_eq_left hi]
 
 private theorem filt_aux (p : Nat → Bool) : ∀ (n : Nat) (acc : List Nat),
     Nat.rec (motive := fun _ => List Nat → List Nat) (fun acc => acc)
@@ -412,7 +412,7 @@ private theorem bitset_spec (κ : Nat → Nat) (c : Nat → Prop) [DecidablePred
         · subst hj'; exact absurd e (hnew i hi')
         · subst hi'; exact absurd e.symm (hnew j hj')
         · omega
-      · rw [hs, if_pos hc, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true, hbit,
+      · rw [hs, ite_eq_left hc, Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true, hbit,
           decide_eq_true_eq]
         constructor
         · rintro (⟨j, hj, e⟩ | h)
@@ -492,9 +492,9 @@ private theorem invL_spec {K : Nat}
     refine ⟨fun i hi => ?_, fun j hj => ?_⟩
     · rw [fget_lor_shl hv hz]
       rcases (by omega : i < n ∨ i = n) with hi' | hi'
-      · rw [if_neg (fun e => by have := hinj i (by omega) n (by omega) e; omega), h1 i hi']
-      · rw [if_pos (by rw [hi']), hi']
-    · rw [fget_lor_shl hv hz, if_neg (fun e => hj n (by omega) e.symm),
+      · rw [ite_eq_right (fun e => by have := hinj i (by omega) n (by omega) e; omega), h1 i hi']
+      · rw [ite_eq_left (by rw [hi']), hi']
+    · rw [fget_lor_shl hv hz, ite_eq_right (fun e => hj n (by omega) e.symm),
         h2 j (fun i hi => hj i (by omega))]
 
 theorem czInvT_fget {K : Nat} (h : czInj K = true) :
@@ -522,9 +522,9 @@ private theorem hv_fuel {RW : Nat → Nat} {PAR LAB T : Nat}
   | f + 1, g + 1, a, hf, hg, ha => by
     rw [hv_succ, hv_succ]
     by_cases h0 : a = 0
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
     · have hp := hpar a ha (by omega)
-      rw [if_neg h0, if_neg h0, hv_fuel (RW := RW) (LAB := LAB) (T := T) hpar f g _ (by omega) (by omega) (by omega)]
+      rw [ite_eq_right h0, ite_eq_right h0, hv_fuel (RW := RW) (LAB := LAB) (T := T) hpar f g _ (by omega) (by omega) (by omega)]
 
 private noncomputable def homL (RW : Nat → Nat) (PAR LAB T : Nat) (n : Nat) : Nat :=
   Nat.rec (motive := fun _ => Nat) 0 (fun a H => strictN H fun H =>
@@ -552,37 +552,37 @@ private theorem homL_spec {RW : Nat → Nat} {PAR LAB T : Nat}
     rw [homL_succ]
     by_cases h0 : m = 0
     · subst h0
-      rw [if_pos rfl, ih]
+      rw [ite_eq_left rfl, ih]
       by_cases hj : j = 0
       · subst hj
-        rw [if_neg (Nat.lt_irrefl _), if_pos (by decide), show 2048 = 2047 + 1 from rfl, hv_succ,
-          if_pos rfl]
-      · rw [if_neg (Nat.not_lt_zero _), if_neg (by omega)]
+        rw [ite_eq_right (Nat.lt_irrefl _), ite_eq_left (by decide), show 2048 = 2047 + 1 from rfl, hv_succ,
+          ite_eq_left rfl]
+      · rw [ite_eq_right (Nat.not_lt_zero _), ite_eq_right (by omega)]
     · have hlt : czMt RW (fget T (fget LAB m 3) 11) (fget (homL RW PAR LAB T m) (fget PAR m 11) 11)
           < 2048 := fget11_lt _ _
       have hp := hpar m (by omega) (by omega)
-      rw [if_neg h0, fget_lor_shl hlt (by rw [ih, if_neg (Nat.lt_irrefl _)]), ih]
+      rw [ite_eq_right h0, fget_lor_shl hlt (by rw [ih, ite_eq_right (Nat.lt_irrefl _)]), ih]
       by_cases hj : j = m
       · subst hj
         have e : hv RW PAR LAB T 2048 j =
             czMt RW (fget T (fget LAB j 3) 11) (hv RW PAR LAB T 2047 (fget PAR j 11)) := by
           have := hv_succ RW PAR LAB T 2047 j
-          rw [if_neg h0] at this
+          rw [ite_eq_right h0] at this
           exact this
-        rw [if_pos rfl, if_pos (Nat.lt_succ_self _), e,
+        rw [ite_eq_left rfl, ite_eq_left (Nat.lt_succ_self _), e,
           hv_fuel (RW := RW) (LAB := LAB) (T := T) hpar 2047 2048 _ (by omega) (by omega)
-            (by omega), if_pos hp]
-      · rw [if_neg hj, ih]
+            (by omega), ite_eq_left hp]
+      · rw [ite_eq_right hj, ih]
         by_cases hj' : j < m
-        · rw [if_pos hj', if_pos (by omega)]
-        · rw [if_neg hj', if_neg (by omega)]
+        · rw [ite_eq_left hj', ite_eq_left (by omega)]
+        · rw [ite_eq_right hj', ite_eq_right (by omega)]
 
 theorem czHom_fget {RW : Nat → Nat} {PAR LAB : Nat} (T : Nat)
     (hpar : ∀ a < 2048, 0 < a → fget PAR a 11 < a) :
     ∀ a < 2048, fget (czHom RW PAR LAB T) a 11 = czHomVal RW PAR LAB T a := by
   intro a ha
   change fget (homL RW PAR LAB T 2048) a 11 = hv RW PAR LAB T 2048 a
-  rw [homL_spec hpar 2048 (Nat.le_refl _), if_pos ha]
+  rw [homL_spec hpar 2048 (Nat.le_refl _), ite_eq_left ha]
 
 structure TabI (M : Array (Array Nat)) (inv : Array Nat) (c : ArrCert) (RW : Nat → Nat)
     (PAR LAB INV : Nat) : Prop where

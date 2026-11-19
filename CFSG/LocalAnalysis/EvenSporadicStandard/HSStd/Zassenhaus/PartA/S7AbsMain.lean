@@ -42,7 +42,7 @@ theorem s7_abstract
   obtain ⟨N, hNdef⟩ : ∃ N : Subgroup X, N = normalClosureOf (centralizerDerived (κ t)) :=
     ⟨_, rfl⟩
   rw [← hNdef] at hB0 hcases
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     rw [hNdef]; unfold normalClosureOf; infer_instance
   have hLN : centralizerDerived (κ t) ≤ N := by
     rw [hNdef]; exact Subgroup.subset_normalClosure
@@ -65,7 +65,7 @@ theorem s7_abstract
     show κ (g * x * g⁻¹) ∈ N
     rw [map_mul, map_mul, map_inv]
     exact hNn.conj_mem _ hx' _
-  haveI hEnorm : E.Normal :=
+  have hEnorm : E.Normal :=
     ⟨fun n hn g => conj_le_perfectCore hEp hEP hmax (hconj g) hn⟩
   have htE : ∀ g ∈ E, t * g * t⁻¹ ∈ E := fun g hg =>
     conj_le_perfectCore hEp hEP hmax (hconj t) hg
@@ -87,8 +87,8 @@ theorem s7_abstract
       simpa [commutatorElement_def] using this
     · intro M hMn hMle hcomm
       rw [hEN] at hMle ⊢
-      haveI : IsSimpleGroup ↥N := hSimp ↥N hU4
-      haveI : (M.subgroupOf N).Normal := inferInstance
+      have : IsSimpleGroup ↥N := hSimp ↥N hU4
+      have : (M.subgroupOf N).Normal := inferInstance
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.subgroupOf N) with h | h
       · exfalso
         have hM1 : ∀ m ∈ M, m = 1 := by

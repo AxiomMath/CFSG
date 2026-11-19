@@ -103,11 +103,11 @@ variable (b) in
 
 theorem act_refl {v : Fin n → ZMod 5} (hv : b v v = 1) (x : Fin n → ZMod 5) :
     act (refl b v) x = x + (-2 * b x v) • v := by
-  rw [act, refl, dif_pos hv]
+  rw [act, refl, dite_eq_left hv]
   exact reflMat_mulVec v x
 
 theorem refl_of_ne {v : Fin n → ZMod 5} (hv : b v v ≠ 1) : refl b v = 1 :=
-  dif_neg hv
+  dite_eq_right hv
 
 theorem act_refl_self {v : Fin n → ZMod 5} (hv : b v v = 1) : act (refl b v) v = -v := by
   rw [act_refl hv, hv]
@@ -125,7 +125,7 @@ theorem ne_zero_of_norm_ne_zero {v : Fin n → ZMod 5} (hv : b v v ≠ 0) : v �
 theorem refl_mul_self (v : Fin n → ZMod 5) : refl b v * refl b v = 1 := by
   by_cases hv : b v v = 1
   · exact Units.ext (by
-      rw [Units.val_mul, refl, dif_pos hv]
+      rw [Units.val_mul, refl, dite_eq_left hv]
       exact reflMat_mul_self hv)
   · rw [refl_of_ne hv, one_mul]
 

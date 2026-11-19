@@ -16,6 +16,7 @@ theorem sec8t84g4_J0_eq (D : Sec8T84TData G t E T T1 T2 V1 V2 F1 F2) :
   rw [← sec8t84g4_diag_U1 D, sec8t84g4_diagSub_sup D.wr D.mod1.V_le D.mod1.F_le,
     sec8t84g4_diag_V1 D, sec8t84g4_diag_F1 D]
 
+omit [Finite G] in
 theorem sec8t84g4_map_cent_inf {γ : G} (hγt : γ * t = t * γ) (X : Subgroup G) :
     (X ⊓ centralizer ({t} : Set G)).map (MulAut.conj γ).toMonoidHom =
       X.map (MulAut.conj γ).toMonoidHom ⊓ centralizer ({t} : Set G) := by
@@ -25,11 +26,13 @@ theorem sec8t84g4_map_cent_inf {γ : G} (hγt : γ * t = t * γ) (X : Subgroup G
       (Subgroup.le_normalizer (Subgroup.mem_centralizer_singleton_iff.mpr hγt))
   rw [Subgroup.map_inf _ _ _ (MulAut.conj γ).injective, hC]
 
+omit [Finite G] in
 theorem sec8t84g4_mem_normalizer_sup {X Y : Subgroup G} {d : G}
     (hX : d ∈ normalizer (X : Set G)) (hY : d ∈ normalizer (Y : Set G)) :
     d ∈ normalizer ((X ⊔ Y : Subgroup G) : Set G) :=
   Subgroup.inf_normalizer_le_normalizer_sup X Y (Subgroup.mem_inf.mpr ⟨hX, hY⟩)
 
+omit [Finite G] in
 theorem sec8t84g4_inf_cent_mul {H : Subgroup G} {a k : G} (h : ∀ x ∈ H, x * k = k * x) :
     H ⊓ centralizer ({a * k} : Set G) = H ⊓ centralizer ({a} : Set G) := by
   ext x

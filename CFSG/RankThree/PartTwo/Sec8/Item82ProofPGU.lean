@@ -76,9 +76,9 @@ theorem isCyclic_sylow_three_gu (hf : Even f) (h : UnitaryFieldData 2 f K)
     rw [h.card, ← pow_mul, mul_comm]
   refine isCyclic_of_map_subtype_le (M := Assembly.LowTwoRank.StatedSU 3 (2 ^ f) K)
     (fun P => ClassicalInvolution.ModelFacts.OddCover.statedSU_three_isCyclic_sylow hK
-      (by norm_num) (by norm_num) hq P) S.isPGroup' ?_
+      (by norm_num) (by norm_num) hq P) S.isPGroup ?_
   rintro _ ⟨x, hx, rfl⟩
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
   have hk' : (x : GL (Fin 3) K) ^ 3 ^ k = 1 := by
     have := congrArg (fun y : (S : Subgroup (Sec4.glPi false 3 (2 ^ f) K)) =>
       ((y : Sec4.glPi false 3 (2 ^ f) K) : GL (Fin 3) K)) hk

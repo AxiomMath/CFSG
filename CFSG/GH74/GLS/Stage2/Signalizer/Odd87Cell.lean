@@ -46,6 +46,7 @@ section Reductions
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem layer_normal : (layer A).Normal := by
   have hc : (layer A).Characteristic := LocalCores.layer_characteristic
   infer_instance
@@ -102,10 +103,12 @@ noncomputable def layerAut (zb : A) : MulAut ↥(layer A) :=
   haveI : (layer A).Normal := layer_normal
   MulAut.conjNormal zb
 
+omit [Finite A] in
 theorem coe_layerAut (zb : A) (x : ↥(layer A)) : ((layerAut zb x : ↥(layer A)) : A) = zb * x * zb⁻¹ := by
   have : (layer A).Normal := layer_normal
   exact MulAut.conjNormal_apply zb x
 
+omit [Finite A] in
 theorem layerAut_layerAut {zb : A} (hz2 : zb * zb = 1) (x : ↥(layer A)) :
     layerAut zb (layerAut zb x) = x := by
   apply Subtype.ext
@@ -148,6 +151,7 @@ variable {A : Type} [Group A] [Finite A]
 @[expose] def CentSection (zb : A) (T : Type) [Group T] : Prop :=
   ∃ (U : Subgroup A) (f : ↥U →* T), U ≤ centralizer ({zb} : Set A) ∧ Function.Surjective f
 
+omit [Finite A] in
 theorem centSection_of_fixed_perfect {zb : A} {P : Type} [Group P] {π : ↥(layer A) →* P}
     (hπ : Function.Surjective π) (hker : π.ker ≤ center ↥(layer A)) {α : MulAut P}
     (hcomm : ∀ x, π (layerAut zb x) = α (π x)) (Q : Subgroup P) [Group.IsPerfect Q]

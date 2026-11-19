@@ -34,11 +34,11 @@ theorem false_of_graph_form_rankOne {k : Type} [Field k] [Finite k] [CharP k 2]
     (hC : ∀ h ∈ Subgroup.normalizer (rootSL k k k : Set (SpecialLinearGroup k (DSpace k k))),
       α h * h⁻¹ ∈ QK k k k)
     (σ : k ≃+* k) (T : Module.Dual k (DSpace k k) ≃+ DSpace k k)
-    (hT : ∀ (c : k) (f : Module.Dual k (DSpace k k)), T (c • f) = σ c • T f)
+    (_hT : ∀ (c : k) (f : Module.Dual k (DSpace k k)), T (c • f) = σ c • T f)
     (hα : ∀ (g : SpecialLinearGroup k (DSpace k k)) (f : Module.Dual k (DSpace k k)),
       α g (T f) = T (f ∘ₗ (SpecialLinearGroup.toLinearEquiv g⁻¹).toLinearMap)) : False := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcardk : 3 ≤ Fintype.card k := by simpa [Nat.card_eq_fintype_card] using hk
   have hcard_units : 2 ≤ Fintype.card kˣ := by
     rw [Fintype.card_units]
@@ -67,7 +67,7 @@ theorem false_of_graph_form_rankOne {k : Type} [Field k] [Finite k] [CharP k 2]
       (SpecialLinearGroup.toLinearEquiv t) v - v ∈ flagK k k k := by
     intro v
     rw [mem_flagK_iff]
-    simp [t, blockSL_apply, blockDiag_apply]
+    simp [t, blockSL_apply]
   have hfixW : ∀ w ∈ flagW k k k, α t w = w :=
     fun w hw => action_fixes_flagW_of_trivial_quotient α hR T hα htriv hw
   have htinv : (SpecialLinearGroup.toLinearEquiv t⁻¹) ((1 : k), (0 : k), (0 : k)) =

@@ -45,7 +45,7 @@ theorem linKernelScalar_of_three_le [Finite K] (hN : 3 ≤ N)
     (X : GL (Fin N) K) ∈ LargeEvenScalars (Fin N) K := by
   have hperf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin N) K) := by
     let e := MulEquiv.subgroupCongr (largeEvenSLGroup_eq_statedSL (K := K) N)
-    haveI : Group.IsPerfect ↥(StatedSL N K) :=
+    have : Group.IsPerfect ↥(StatedSL N K) :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hN K
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hker : (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K)).ker ≤
@@ -69,7 +69,7 @@ theorem uniKernelScalar (h : UnitaryFieldData 2 n K) (hN : 3 ≤ N)
     (X : GL (Fin N) K) ∈ LargeEvenScalars (Fin N) K := by
   have hcard : Nat.card K = (2 ^ n) ^ 2 := by
     rw [h.card, Nat.mul_comm 2 n, ← pow_mul]
-  haveI := h.finite
+  have := h.finite
   exact TableBUE.mem_scalars_of_projConj_eq_one h hcard hN hNq hp hpq hX
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

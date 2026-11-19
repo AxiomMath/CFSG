@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_dvd_card_of_normal_le {d : ℕ} [Fact d.Prime] {M J N : Subgroup G}
     (hstr : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M) (hJM : ¬ J ≤ M)
     (hN : (N.subgroupOf J).Normal) (hNJ : N ≤ J) (hNM : N ≤ M) :

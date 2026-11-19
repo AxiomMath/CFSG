@@ -73,13 +73,12 @@ theorem equivariant_biadditive_eq_zero {K : Type*} [Field K] [Finite K] [CharP K
     rw [e, map_add] at h
     have h0 := congrFun h 0
     have h1 := congrFun h 1
-    simp only [AddMonoidHom.add_apply, Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons] at h0 h1
+    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
     ext i
     fin_cases i
     · simp only [Fin.zero_eta, Matrix.cons_val_zero, hα]
       linear_combination h0
-    · simp only [Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero]
+    · simp only [Fin.mk_one, Matrix.cons_val_one, Matrix.cons_val_zero]
       linear_combination h1
   have S3 : ∀ l y : K, (f ![l, 0] ![0, y]) 1 = y * α l := by
     intro l y
@@ -89,8 +88,7 @@ theorem equivariant_biadditive_eq_zero {K : Type*} [Field K] [Finite K] [CharP K
       fin_cases i <;> simp
     rw [e, map_add, S2] at h
     have h0 := congrFun h 0
-    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      one_mul] at h0
+    simp only [Pi.add_apply, Matrix.cons_val_zero, one_mul] at h0
     linear_combination -h0
   have hαadd : ∀ l l' : K, α (l + l') = α l + α l' := by
     intro l l'
@@ -103,8 +101,7 @@ theorem equivariant_biadditive_eq_zero {K : Type*} [Field K] [Finite K] [CharP K
   have hαunit : ∀ u : K, u ≠ 0 → α u = α 1 := by
     intro u hu
     have h := map_diag f hf (Units.mk0 u hu) ![1, 0] ![1, 0]
-    simp only [Units.val_mk0, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      mul_one, mul_zero] at h
+    simp only [Units.val_mk0, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, mul_zero] at h
     rw [S2, S2] at h
     have h0 := congrFun h 0
     simp only [Matrix.cons_val_zero] at h0
@@ -145,21 +142,21 @@ theorem equivariant_biadditive_eq_zero {K : Type*} [Field K] [Finite K] [CharP K
   have S9 : ∀ l a b : K, f ![0, l] ![a, b] = ![0, β l a] := by
     intro l a b
     have h := map_weyl f hf ![l, 0] ![b, a]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h
     rw [S8] at h
     simpa using h
   have hβ : ∀ l t : K, β l t = 0 := by
     intro l t
     have h := map_upper f hf t ![0, l] ![0, 1]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, zero_add,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, zero_add,
       mul_one] at h
     have e : (![t * l, l] : Fin 2 → K) = ![t * l, 0] + ![0, l] := by
       ext i
       fin_cases i <;> simp
     rw [e, map_add, AddMonoidHom.add_apply, S8, S9, S9] at h
     have h1 := congrFun h 1
-    simp only [Pi.add_apply, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero,
-      add_zero, zero_add] at h1
+    simp only [Pi.add_apply, Matrix.cons_val_one, Matrix.cons_val_zero,
+      zero_add] at h1
     have h0 : β l 0 = 0 := by
       simp [hβdef, vec2_zero]
     rw [h0] at h1

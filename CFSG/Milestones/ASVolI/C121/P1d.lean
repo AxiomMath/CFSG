@@ -180,6 +180,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W : Subgroup Ω}
 
 include c D
 
+omit [Finite Ω] c in
 theorem isQuasisimple_quot (hn : 2 ≤ n) : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y) := by
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, D.card]
@@ -191,7 +192,7 @@ theorem isQuasisimple_quot (hn : 2 ≤ n) : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pC
     rw [Subgroup.mem_subgroupOf, CFSG.mem_openPCoreOf_iff]
   let e : (↥Y ⧸ CFSG.pCore 2 ↥Y) ≃* SL(2, F) :=
     (QuotientGroup.quotientMulEquivOfEq hpc).trans
-      (QuotientGroup.quotientKerEquivOfSurjective D.α (c.alpha_surjective D hn))
+      (QuotientGroup.quotientKerEquivOfSurjective D.α (CFSG.ASVolI.burnsideC121_YCtx.alpha_surjective D hn))
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
     (CFSG.Quasithin.C126.Nat.isQuasisimple_sl2 h4)
 
@@ -209,13 +210,13 @@ theorem exists_fixed_commW (h123 : I_2_3) (hn : 2 ≤ n) :
   have hM : IsElemAbelian 2 M := c.commW_elem
   have hHN : burnsideC121_H X T Y ≤ Subgroup.normalizer (M : Set Ω) := c.H_le_normalizer_commW
   have hred : IsTwoReducedIn (burnsideC121_H X T Y) M := c.isTwoReducedIn_commW D
-  have hYN : Y ≤ Subgroup.normalizer (M : Set Ω) := c.Y_le_H.trans hHN
-  have hPN : burnsideC121_P X R T Y ≤ Subgroup.normalizer (M : Set Ω) := c.P_le_H.trans hHN
+  have hYN : Y ≤ Subgroup.normalizer (M : Set Ω) := CFSG.ASVolI.burnsideC121_YCtx.Y_le_H.trans hHN
+  have hPN : burnsideC121_P X R T Y ≤ Subgroup.normalizer (M : Set Ω) := (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)).trans hHN
   have hCY : Y ⊓ Subgroup.centralizer (M : Set Ω) = pCoreOf 2 Y := c.inf_centralizer_commW D
-  have hαs := c.alpha_surjective D hn
+  have hαs := CFSG.ASVolI.burnsideC121_YCtx.alpha_surjective D hn
   have hMY : ⁅M, Y⁆ = M := c.commutator_commutator_W
-  obtain ⟨-, -, hFstar, -⟩ := C124.B2_10_2 hM hred c.pCore_H_le_P le_rfl c.P_sylow c.Y_le_H
-    c.H_le_normalizer c.H_prod (c.commutator_commW_ne_bot D) (Or.inl (c.isQuasisimple_quot D hn))
+  obtain ⟨-, -, hFstar, -⟩ := C124.B2_10_2 hM hred c.pCore_H_le_P le_rfl c.P_sylow CFSG.ASVolI.burnsideC121_YCtx.Y_le_H
+    c.H_le_normalizer c.H_prod (c.commutator_commW_ne_bot D) (Or.inl (CFSG.ASVolI.burnsideC121_YCtx.isQuasisimple_quot D hn))
   obtain ⟨e, he⟩ := burnsideC121_exists_autIEquiv hM hYN D.α hαs (by rw [hCY, D.αk])
   let ε := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F
   let marking : ↥(StatedSL 2 F) →* ↥(autI hM Y) := e.symm.toMonoidHom.comp ε.symm.toMonoidHom
@@ -301,7 +302,7 @@ theorem exists_fixed_commW (h123 : I_2_3) (hn : 2 ≤ n) :
         (congrArg (fun g : ↥(StatedSL 2 F) => ((g : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F))
           (ε.apply_symm_apply γ))
   have hsup : autI hM (burnsideC121_H X T Y) = autI hM Y ⊔ autI hM (burnsideC121_P X R T Y) := by
-    rw [c.H_eq]
+    rw [(CFSG.ASVolI.burnsideC121_YCtx.H_eq (X := X) (R := R) (T := T) (Y := Y))]
     exact autI_sup hM hYN hPN
   have hFn : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, D.card]
   have h2 := h123 (IntMod M hM) (fun v => IntMod.sq_eq_one v) (autI hM (burnsideC121_H X T Y))

@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_of_commutator_le {L A : Subgroup G}
     (hAL : ⁅A, L⁆ ≤ pCoreOf 2 L) : A ≤ normalizer (L : Set G) := by
   rw [Subgroup.le_normalizer_iff_commutator_le_right]
@@ -22,10 +23,12 @@ private def conjAction {L A : Subgroup G} (hAL : A ≤ normalizer (L : Set G)) :
     ↥A →* MulAut ↥L :=
   L.normalizerMonoidHom.comp (Subgroup.inclusion hAL)
 
+omit [Finite G] in
 private theorem conjAction_coe {L A : Subgroup G} (hAL : A ≤ normalizer (L : Set G))
     (a : ↥A) (l : ↥L) :
     ((conjAction hAL a l : ↥L) : G) = (a : G) * (l : G) * (a : G)⁻¹ := rfl
 
+omit [Finite G] in
 private theorem mem_pCore_iff_mem_pCoreOf {L : Subgroup G} (l : ↥L) :
     l ∈ CFSG.pCore 2 ↥L ↔ (l : G) ∈ pCoreOf 2 L := by
   constructor
@@ -35,6 +38,7 @@ private theorem mem_pCore_iff_mem_pCoreOf {L : Subgroup G} (l : ↥L) :
     have hnl' : n = l := Subtype.ext hnl
     rwa [← hnl']
 
+omit [Finite G] in
 private theorem conjAction_mem_pCore {L A : Subgroup G}
     (hAL : ⁅A, L⁆ ≤ pCoreOf 2 L) (a : ↥A) {n : ↥L}
     (hn : n ∈ CFSG.pCore 2 ↥L) :
@@ -48,11 +52,12 @@ private theorem conjAction_mem_pCore {L A : Subgroup G}
   rw [e]
   exact (pCoreOf 2 L).mul_mem h hn
 
+omit [Finite G] in
 private theorem quotientAction_eq_of_commutator_le {L A : Subgroup G}
     (hAL : ⁅A, L⁆ ≤ pCoreOf 2 L) (a : ↥A) {x : G} (hx : x ∈ L) :
     CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction
       (conjAction (le_normalizer_of_commutator_le hAL)) (CFSG.pCore 2 ↥L)
-      (fun a n hn => conjAction_mem_pCore hAL a hn) a
+      (fun a _n hn => conjAction_mem_pCore hAL a hn) a
       ((⟨x, hx⟩ : ↥L) : ↥L ⧸ CFSG.pCore 2 ↥L) =
     ((⟨x, hx⟩ : ↥L) : ↥L ⧸ CFSG.pCore 2 ↥L) := by
   rw [CFSG.Semidihedral.Principal.CoprimeFixedPoint.quotientAction_mk, QuotientGroup.eq,
@@ -77,7 +82,7 @@ private theorem exists_centralizing_mul_mem_pCoreOf {L A : Subgroup G} {r : ℕ}
     (hAL : ⁅A, L⁆ ≤ pCoreOf 2 L) {x : G} (hx : x ∈ L) :
     ∃ (c : ↥L) (n : G), (c : G) ∈ centralizer (A : Set G) ∧
       n ∈ pCoreOf 2 L ∧ x = (c : G) * n := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hinv : ∀ a : ↥A, ∀ n ∈ CFSG.pCore 2 ↥L,
       conjAction (le_normalizer_of_commutator_le hAL) a n ∈ CFSG.pCore 2 ↥L := by
     intro a n hn

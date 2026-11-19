@@ -36,11 +36,9 @@ theorem even_of_smul_eBasis_one_add_two_eq_zero (m : ℕ) (A B : ℤ)
     have h1 := congrFun h 1
     rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, zsmul_eq_mul, zsmul_eq_mul,
       eBasis_one, eBasis_two] at h1
-    simp only [Pi.smul_apply, Pi.add_apply, gen, Pi.single_eq_same,
-      Pi.single_eq_of_ne (by decide : (2 : Fin 3) ≠ 1),
+    simp only [Pi.smul_apply, gen, Pi.single_eq_same,
       Pi.single_eq_of_ne (by decide : (1 : Fin 3) ≠ 2),
-      Pi.zero_apply, Pi.one_apply, nsmul_eq_mul, mul_one, mul_zero, add_zero, one_mul,
-      zero_mul, zero_add] at h1
+      Pi.zero_apply, nsmul_eq_mul, mul_one, mul_zero, add_zero] at h1
     rw [Nat.cast_pow, Nat.cast_ofNat] at h1
     change (↑A : ZMod (2 ^ (m + 2))) * (2 : ZMod (2 ^ (m + 2))) ^ (m + 1) = 0 at h1
     exact h1
@@ -48,11 +46,9 @@ theorem even_of_smul_eBasis_one_add_two_eq_zero (m : ℕ) (A B : ℤ)
     have h2 := congrFun h 2
     rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, zsmul_eq_mul, zsmul_eq_mul,
       eBasis_one, eBasis_two] at h2
-    simp only [Pi.smul_apply, Pi.add_apply, gen, Pi.single_eq_same,
+    simp only [Pi.smul_apply, gen, Pi.single_eq_same,
       Pi.single_eq_of_ne (by decide : (2 : Fin 3) ≠ 1),
-      Pi.single_eq_of_ne (by decide : (1 : Fin 3) ≠ 2),
-      Pi.zero_apply, Pi.one_apply, nsmul_eq_mul, mul_one, mul_zero, add_zero, one_mul,
-      zero_mul, zero_add] at h2
+      Pi.zero_apply, nsmul_eq_mul, mul_one, mul_zero, zero_add] at h2
     rw [Nat.cast_pow, Nat.cast_ofNat] at h2
     change (↑B : ZMod (2 ^ (m + 2))) * (2 : ZMod (2 ^ (m + 2))) ^ (m + 1) = 0 at h2
     exact h2
@@ -60,8 +56,8 @@ theorem even_of_smul_eBasis_one_add_two_eq_zero (m : ℕ) (A B : ℤ)
 theorem eBit_eq_zero_or_one (x : Torus (Type200.k m)) (i : Fin 3) :
     eBit x i = 0 ∨ eBit x i = 1 := by
   by_cases h0 : x i = 0
-  · left; simp only [eBit]; rw [if_pos h0]
-  · right; simp only [eBit]; rw [if_neg h0]
+  · left; simp only [eBit]; rw [ite_eq_left h0]
+  · right; simp only [eBit]; rw [ite_eq_right h0]
 
 theorem eBit_eq_zero_of_even (x : Torus (Type200.k m)) (i : Fin 3)
     (h : Even (eBit x i)) : eBit x i = 0 := by
@@ -77,6 +73,7 @@ theorem eq_of_even_add_of_bits {a b : ℤ} (ha : a = 0 ∨ a = 1) (hb : b = 0 �
   · exfalso; norm_num [Even] at h
   · rfl
 
+omit [Finite S] in
 theorem cocycleUV_two_smul (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -94,6 +91,7 @@ theorem cocycleUV_two_smul (E : TorusBasisEquivFour D hBC e f)
   rw [hδ]
   exact piBasis_two_smul h2p h2q x
 
+omit [Finite S] in
 theorem cocycleT_two_smul (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -112,6 +110,7 @@ theorem cocycleT_two_smul (E : TorusBasisEquivFour D hBC e f)
   exact piBasis_two_smul h2p h2q x
 
 
+omit [Finite S] in
 theorem cocycleUV_uv_sq
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -170,9 +169,10 @@ theorem cocycleUV_uv_sq
     simpa [add_assoc] using hexp.symm
   exact add_left_cancel h'
 
+omit [Finite S] in
 theorem cocycleUV_uv_rho
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
-    (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
+    (_he : e * e = ⟨D.a, hBC D.a.2⟩) (_hf : f * f = ⟨D.b, hBC D.b.2⟩)
     (hρ : cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0)
     (x : Torus (Type200.k m)) :
     (Type200.action m).φρ (cocycleUV (D := D) (hBC := hBC) (e := e) (f := f) E hL x) =
@@ -200,6 +200,7 @@ theorem cocycleUV_uv_rho
   rw [hβ] at hrel
   exact add_left_cancel hrel
 
+omit [Finite S] in
 theorem cocycleUV_cocycleT_t_u
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -299,6 +300,7 @@ theorem cocycleUV_cocycleT_t_u
   exact hmain
 
 
+omit [Finite S] in
 theorem cocycleUV_uv_gen1
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -318,6 +320,7 @@ theorem cocycleUV_uv_gen1
   rw [one_zsmul, one_zsmul, h2q]
   simp
 
+omit [Finite S] in
 theorem cocycleUV_uv_gen2
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -337,6 +340,7 @@ theorem cocycleUV_uv_gen2
   rw [one_zsmul, one_zsmul, h2p]
   simp
 
+omit [Finite S] in
 theorem cocycleT_uv_gen1
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -356,6 +360,7 @@ theorem cocycleT_uv_gen1
   rw [one_zsmul, one_zsmul, h2s]
   simp
 
+omit [Finite S] in
 theorem cocycleT_uv_gen2
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -375,6 +380,7 @@ theorem cocycleT_uv_gen2
   rw [one_zsmul, one_zsmul, h2r]
   simp
 
+omit [Finite S] in
 theorem cocycleT_rho_gen2
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩) :
@@ -419,6 +425,7 @@ theorem cocycleT_rho_gen2
   simp [neg_smul, hrneg, hsneg]
 
 
+omit [Finite S] in
 theorem cocycleUV_cocycleT_forms
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)
@@ -470,7 +477,7 @@ theorem cocycleUV_cocycleT_forms
     rcases Nat.eq_zero_or_pos m with rfl | hm
     · have h1 : 2 ^ Type200.k 0 0 = 1 := by
         rw [show Type200.k 0 0 = 0 from rfl]; norm_num
-      haveI : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by rw [h1]; infer_instance
+      have : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by rw [h1]; infer_instance
       have hpzero : p 0 = 0 := Subsingleton.elim _ _
       simp [eBit, hpzero]
     · have h := huv1
@@ -496,7 +503,7 @@ theorem cocycleUV_cocycleT_forms
     rcases Nat.eq_zero_or_pos m with rfl | hm
     · have h1 : 2 ^ Type200.k 0 0 = 1 := by
         rw [show Type200.k 0 0 = 0 from rfl]; norm_num
-      haveI : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by rw [h1]; infer_instance
+      have : Subsingleton (ZMod (2 ^ Type200.k 0 0)) := by rw [h1]; infer_instance
       have hqzero : q 0 = 0 := Subsingleton.elim _ _
       simp [eBit, hqzero]
     · have h := huv2
@@ -705,6 +712,7 @@ theorem cocycleUV_cocycleT_forms
 
 
 
+omit [Finite S] in
 theorem type200Images_of_cocycle_values_eq_zero
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C)
     (he : e * e = ⟨D.a, hBC D.a.2⟩) (hf : f * f = ⟨D.b, hBC D.b.2⟩)

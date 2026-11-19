@@ -286,9 +286,9 @@ private lemma planeIdem_apply_eq {S : Finset (Fin t)} {x y : LinIdx t ε} :
   rw [planeIdem, Matrix.diagonal_apply]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     simpa [planeIdem, Matrix.diagonal_apply] using planeIdem_diag S x
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
     simp [hxy]
 
 omit [Finite K] [CharP K 2] in
@@ -300,40 +300,40 @@ private lemma reindex_planeIdem_zeroW (S : Finset (Fin t)) :
   intro W Wc e
   ext i j
   rcases i with i | i <;> rcases j with j | j
-  · simp only [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  · simp only [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
       Matrix.fromBlocks_apply₁₁, zeroBlock]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inl i, Equiv.sumCompl_apply_inl j, planeIdem_apply_eq]
     by_cases hij : i.1 = j.1
-    · rw [if_pos hij]
+    · rw [ite_eq_left hij]
       have hi : i.1 ∈ zeroW t ε S := by simpa only [W] using i.2
       have hij' : i = j := Subtype.ext hij
       subst hij'
       simp [hi]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       have hij' : i ≠ j := fun h => hij (congrArg Subtype.val h)
       simp [hij']
-  · simp only [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  · simp only [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
       Matrix.fromBlocks_apply₁₂, zeroBlock]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inl i, Equiv.sumCompl_apply_inr j, planeIdem_apply_eq]
     have hne : i.1 ≠ j.1 := fun h => j.2 (h ▸ i.2)
     simp [hne]
-  · simp only [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  · simp only [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
       Matrix.fromBlocks_apply₂₁, zeroBlock]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inr i, Equiv.sumCompl_apply_inl j, planeIdem_apply_eq]
     have hne : i.1 ≠ j.1 := fun h => i.2 (h ▸ j.2)
     simp [hne]
-  · simp only [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  · simp only [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
       Matrix.fromBlocks_apply₂₂, zeroBlock]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inr i, Equiv.sumCompl_apply_inr j, planeIdem_apply_eq]
     by_cases hij : i.1 = j.1
-    · rw [if_pos hij]
+    · rw [ite_eq_left hij]
       have hi : i.1 ∉ zeroW t ε S := by simpa only [W] using i.2
       simp [hi]
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       rfl
 
 omit [Finite K] [CharP K 2] in
@@ -370,9 +370,9 @@ private lemma one_sub_planeIdem_apply_of_not_mem {S : Finset (Fin t)} {x y : Lin
   rw [Matrix.sub_apply, Matrix.one_apply, planeIdem_apply_eq]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl, if_pos rfl, if_neg hy]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hy]
     simp
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
     simp
 
 omit [Finite K] [CharP K 2] in
@@ -382,9 +382,9 @@ private lemma one_sub_planeIdem_apply_of_mem {S : Finset (Fin t)} {x y : LinIdx 
   rw [Matrix.sub_apply, Matrix.one_apply, planeIdem_apply_eq]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl, if_pos rfl, if_pos hy]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left hy]
     simp
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
     simp
 
 omit [Finite K] [CharP K 2] in
@@ -394,9 +394,9 @@ private lemma one_sub_planeIdem_apply_of_not_mem_left {S : Finset (Fin t)} {x y 
   rw [Matrix.sub_apply, Matrix.one_apply, planeIdem_apply_eq]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl, if_pos rfl, if_neg hx]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hx]
     simp
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
     simp
 
 omit [Finite K] [CharP K 2] in
@@ -417,7 +417,7 @@ private lemma mul_one_sub_apply_of_not_mem {S : Finset (Fin t)}
   · rw [one_sub_planeIdem_apply_of_not_mem hy]
     simp
   · intro z _ hzy
-    rw [one_sub_planeIdem_apply_of_not_mem hy, if_neg hzy, mul_zero]
+    rw [one_sub_planeIdem_apply_of_not_mem hy, ite_eq_right hzy, mul_zero]
   · intro hy'
     exact absurd (Finset.mem_univ y) hy'
 
@@ -473,9 +473,9 @@ private lemma one_sub_planeIdem_apply_of_mem_left {S : Finset (Fin t)} {x y : Li
   rw [Matrix.sub_apply, Matrix.one_apply, planeIdem_apply_eq]
   by_cases hxy : x = y
   · subst hxy
-    rw [if_pos rfl, if_pos rfl, if_pos hx]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left hx]
     simp
-  · rw [if_neg hxy, if_neg hxy]
+  · rw [ite_eq_right hxy, ite_eq_right hxy]
     simp
 
 omit [Finite K] [CharP K 2] in
@@ -545,10 +545,10 @@ private lemma tau_mem_levi_of_support {S : Finset (Fin t)} {u : PlaneRaw.V t}
     by_cases hx : x ∈ zeroW t ε S
     · rw [mul_one_sub_apply_of_mem_left hx, one_sub_planeIdem_apply_of_mem_left hx]
     · rw [Matrix.mul_apply, Finset.sum_eq_single x]
-      · rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_pos rfl, one_mul,
+      · rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_left rfl, one_mul,
           tau_apply_of_not_mem_left hu hx y, one_sub_planeIdem_apply_of_not_mem_left hx]
       · intro z _ hzx
-        rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_neg (Ne.symm hzx), zero_mul]
+        rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_right (Ne.symm hzx), zero_mul]
       · intro hx'
         exact absurd (Finset.mem_univ x) hx'
 
@@ -645,7 +645,7 @@ private def swapGL (i : Fin t) : GL (LinIdx t ε) K where
       funext j
       by_cases hj : j = i
       · subst hj
-        rw [if_pos rfl, ← Matrix.SpecialLinearGroup.coe_mul, sl2W_mul_self,
+        rw [ite_eq_left rfl, ← Matrix.SpecialLinearGroup.coe_mul, sl2W_mul_self,
           Matrix.SpecialLinearGroup.coe_one]
       · simp [hj]
     rw [h]
@@ -660,7 +660,7 @@ private def swapGL (i : Fin t) : GL (LinIdx t ε) K where
       funext j
       by_cases hj : j = i
       · subst hj
-        rw [if_pos rfl, ← Matrix.SpecialLinearGroup.coe_mul, sl2W_mul_self,
+        rw [ite_eq_left rfl, ← Matrix.SpecialLinearGroup.coe_mul, sl2W_mul_self,
           Matrix.SpecialLinearGroup.coe_one]
       · simp [hj]
     rw [h]
@@ -769,10 +769,10 @@ private lemma mem_levi_of_fromBlocks_planeMat {S : Finset (Fin t)}
     by_cases hx : x ∈ zeroW t ε S
     · rw [mul_one_sub_apply_of_mem_left hx, one_sub_planeIdem_apply_of_mem_left hx]
     · rw [Matrix.mul_apply, Finset.sum_eq_single x]
-      · rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_pos rfl, one_mul,
+      · rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_left rfl, one_mul,
           planeMat_apply_of_not_mem_left hB hx y, one_sub_planeIdem_apply_of_not_mem_left hx]
       · intro z _ hzx
-        rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_neg (Ne.symm hzx), zero_mul]
+        rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_right (Ne.symm hzx), zero_mul]
       · intro hx'
         exact absurd (Finset.mem_univ x) hx'
 
@@ -784,7 +784,7 @@ private lemma swapGL_mem_levi [CharP K 2] {S : Finset (Fin t)} {i : Fin t} (hi :
         ((sl2W (k := K) : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)
         else (1 : Matrix (Fin 2) (Fin 2) K)) = 1 := by
     intro j hj
-    rw [if_neg]
+    rw [ite_eq_right]
     exact fun h => hj (h ▸ hi)
   exact mem_levi_of_fromBlocks_planeMat hB (coe_swapGL (K := K) (ε := ε) i)
 
@@ -813,7 +813,7 @@ private lemma tau_mul_swap_ne (hK : Nat.card K = 2) (hζ : Function.Injective ζ
   have hfuneq := WitSpNs.planeMat_injective hleft'
   have hi' := congrFun hfuneq i
   have hcommSL : ζ (Multiplicative.ofAdd (u i)) * sl2W =
-      sl2W * ζ (Multiplicative.ofAdd (u i)) := Subtype.ext (by simpa [if_true] using hi')
+      sl2W * ζ (Multiplicative.ofAdd (u i)) := Subtype.ext (by simpa [ite_true] using hi')
   have hcomm' : sl2W * ζ (Multiplicative.ofAdd (u i)) * sl2W⁻¹ =
       ζ (Multiplicative.ofAdd (u i)) := by
     rw [← hcommSL, mul_assoc, mul_inv_cancel, mul_one]
@@ -843,10 +843,10 @@ private lemma apply_of_mem_levi_left {S : Finset (Fin t)} {g : GL (LinIdx t ε) 
       1 - planeIdem (K := K) t ε S true := h.2
   have h' := congrFun (congrFun h2 x) y
   rw [Matrix.mul_apply, Finset.sum_eq_single x] at h'
-  · rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_pos rfl, one_mul] at h'
+  · rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_left rfl, one_mul] at h'
     exact h'
   · intro z _ hzx
-    rw [one_sub_planeIdem_apply_of_not_mem_left hx, if_neg (Ne.symm hzx), zero_mul]
+    rw [one_sub_planeIdem_apply_of_not_mem_left hx, ite_eq_right (Ne.symm hzx), zero_mul]
   · intro hx'
     exact absurd (Finset.mem_univ x) hx'
 
@@ -912,7 +912,7 @@ private lemma tau_apply_offplane {u : PlaneRaw.V t}
     {a b : Fin t ⊕ Fin t} (h : WitSpNs.plane a ≠ WitSpNs.plane b) :
     ((tau ζ t ε u : GL (LinIdx t ε) K) : Matrix (LinIdx t ε) (LinIdx t ε) K)
       (Sum.inl a) (Sum.inl b) = 0 := by
-  rw [coe_tau_eq_fromBlocks_planeMat, Matrix.fromBlocks_apply₁₁, WitSpNs.planeMat_apply, if_neg h]
+  rw [coe_tau_eq_fromBlocks_planeMat, Matrix.fromBlocks_apply₁₁, WitSpNs.planeMat_apply, ite_eq_right h]
 
 omit [Finite K] [CharP K 2] in
 private lemma tau_apply_inr_inl {u : PlaneRaw.V t}
@@ -944,7 +944,7 @@ private lemma reindex_levi_eq_blocks {S : Finset (Fin t)} {g : GL (LinIdx t ε) 
   refine ⟨rfl, ?_, ?_, ?_⟩
   · ext i j
     change (reindexGL e g : Matrix (W ⊕ Wc) (W ⊕ Wc) K) (Sum.inl i) (Sum.inr j) = 0
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inl i, Equiv.sumCompl_apply_inr j]
@@ -954,7 +954,7 @@ private lemma reindex_levi_eq_blocks {S : Finset (Fin t)} {g : GL (LinIdx t ε) 
     simp [hne]
   · ext i j
     change (reindexGL e g : Matrix (W ⊕ Wc) (W ⊕ Wc) K) (Sum.inr i) (Sum.inl j) = 0
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inr i, Equiv.sumCompl_apply_inl j]
@@ -965,7 +965,7 @@ private lemma reindex_levi_eq_blocks {S : Finset (Fin t)} {g : GL (LinIdx t ε) 
   · ext i j
     change (reindexGL e g : Matrix (W ⊕ Wc) (W ⊕ Wc) K) (Sum.inr i) (Sum.inr j) =
       (1 : Matrix Wc Wc K) i j
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inr i, Equiv.sumCompl_apply_inr j, Matrix.one_apply]
@@ -993,7 +993,7 @@ private lemma reindex_tau_eq_blocks_of_cent {S : Finset (Fin t)} {u : PlaneRaw.V
   · ext i j
     change (reindexGL e (tau ζ t ε u) : Matrix (W ⊕ Wc) (W ⊕ Wc) K) (Sum.inl i) (Sum.inl j) =
       (1 : Matrix W W K) i j
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inl i, Equiv.sumCompl_apply_inl j, Matrix.one_apply]
@@ -1006,7 +1006,7 @@ private lemma reindex_tau_eq_blocks_of_cent {S : Finset (Fin t)} {u : PlaneRaw.V
   · ext i j
     change (reindexGL e (tau ζ t ε u) : Matrix (W ⊕ Wc) (W ⊕ Wc) K)
       (Sum.inl i) (Sum.inr j) = 0
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inl i, Equiv.sumCompl_apply_inr j]
@@ -1030,7 +1030,7 @@ private lemma reindex_tau_eq_blocks_of_cent {S : Finset (Fin t)} {u : PlaneRaw.V
   · ext i j
     change (reindexGL e (tau ζ t ε u) : Matrix (W ⊕ Wc) (W ⊕ Wc) K)
       (Sum.inr i) (Sum.inl j) = 0
-    rw [coe_reindexGL, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+    rw [coe_reindexGL, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
       Matrix.submatrix_apply]
     simp only [e, Equiv.symm_symm]
     rw [Equiv.sumCompl_apply_inr i, Equiv.sumCompl_apply_inl j]

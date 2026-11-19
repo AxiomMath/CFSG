@@ -61,7 +61,7 @@ theorem pRank_Dc_le_three_of_borel {D : Data G} {V₀ V L X : Subgroup G} {p n l
 theorem seventeen_fortyfour_one_of_borel {D : Data G} {V₀ V : Subgroup G}
     (hV : Hyp125 D V₀ V) (h1 : R17_1At D V₀ V hV) (hSg : UC6S846.SigmaStd D) :
     R17_44_1AtB D V₀ V :=
-  fun L X p n l C Dc Gamma ctx f hB r hr hr2 =>
+  fun _L _X _p _n _l _C _Dc _Gamma ctx _f hB _r hr hr2 =>
     pRank_Dc_le_three_of_borel ctx hB h1 hSg hr hr2
 
 theorem seventeen_fortyfour_one {D : Data G} {V₀ V : Subgroup G} (hV : Hyp125 D V₀ V)

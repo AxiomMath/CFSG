@@ -73,7 +73,7 @@ theorem map_conj_le_iff (A B C : V12 ≃ₗ[ZMod 2] V12) (K M : Subgroup (V12 �
   obtain ⟨y, ⟨k, hk, rfl⟩, rfl⟩ := hx
   have hm := h ⟨k, hk, rfl⟩
   refine ⟨(C⁻¹ * (A * B)) * k * (C⁻¹ * (A * B))⁻¹, hm, ?_⟩
-  simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+  simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   group
 
 theorem map_conj_le_of_edgeOK {CS CSI FT FTi FC CG X k p : Nat} {ms : List Nat}
@@ -134,7 +134,7 @@ theorem entOK_of_blk {ED : List (List Nat)} {K : Nat} (hK : ED.length ≤ 16 * K
     exact Nat.div_add_mod X 16
   rw [hX'] at this
   simp only [List.getD_eq_getElem?_getD, List.getElem?_take, List.getElem?_drop] at this
-  rw [if_pos (Nat.mod_lt X (by norm_num)), hX'] at this
+  rw [ite_eq_left (Nat.mod_lt X (by norm_num)), hX'] at this
   simpa only [List.getD_eq_getElem?_getD] using this
 
 theorem forest_ind {ED : List (List Nat)}

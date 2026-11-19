@@ -33,7 +33,7 @@ private theorem closed_of_bool_check {c : Finset (Fin 24)} {u : V 0} {f : Fin 24
     ∀ i ∈ c, ∀ j : Fin 24, root 0 j u = 0 → Adj 0 i j → j ∈ c := by
   intro i hi j hj hadj
   have h1 := List.all_eq_true.mp hcheck i (List.mem_finRange i)
-  rw [if_pos hi] at h1
+  rw [ite_eq_left hi] at h1
   have h2 := List.all_eq_true.mp h1 j (List.mem_finRange j)
   exact (hf i j).mp h2 hj hadj
 
@@ -45,9 +45,9 @@ private theorem conn_of_bool_check {c : Finset (Fin 24)} {f : Fin 24 → Fin 24 
     ∀ i ∈ c, ∀ j ∈ c, ∃ k ∈ c, Adj 0 i k ∧ Adj 0 k j := by
   intro i hi j hj
   have h1 := List.all_eq_true.mp hcheck i (List.mem_finRange i)
-  rw [if_pos hi] at h1
+  rw [ite_eq_left hi] at h1
   have h2 := List.all_eq_true.mp h1 j (List.mem_finRange j)
-  rw [if_pos hj] at h2
+  rw [ite_eq_left hj] at h2
   obtain ⟨k, -, hk⟩ := List.any_eq_true.mp h2
   exact ⟨k, (hf i j k).mp hk⟩
 

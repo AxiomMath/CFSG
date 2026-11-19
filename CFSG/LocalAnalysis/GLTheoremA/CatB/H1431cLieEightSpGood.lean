@@ -62,13 +62,13 @@ theorem lieSEightSp_range_comp_eq_commutator {A : Subgroup G} {B X : Type*} [Gro
 theorem lieSEightSp_not_isSolvable_of_isQuasisimple_commutator {H : Subgroup G}
     (hQ : CFSG.IsQuasisimple ↥⁅H, H⁆) : ¬ Group.IsSolvable ↥H := by
   intro hs
-  haveI := hs
+  have := hs
   have hle : ⁅H, H⁆ ≤ H := lieSEightSp_commutator_le_self H
-  haveI : Group.IsSolvable ↥⁅H, H⁆ :=
+  have : Group.IsSolvable ↥⁅H, H⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥⁅H, H⁆ := hQ.1
-  haveI : Nontrivial ↥⁅H, H⁆ := by
+  have : Group.IsPerfect ↥⁅H, H⁆ := hQ.1
+  have : Nontrivial ↥⁅H, H⁆ := by
     obtain ⟨a, b, hab⟩ := hQ.2.2
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -107,6 +107,7 @@ section Factors
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem lieSEightSp_ker_proj_le_center :
     (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
   rw [SymplecticHigher.ker_proj]
@@ -120,7 +121,7 @@ theorem lieSEightSp_gl_card_ne (hLO : LieOrderBridge) {E : Type} [Field E] [Fint
   classical
   have hm : 2 ≤ m := by
     by_contra hlt
-    haveI := lieSEightSp_isSolvable_gl_of_le_one (E := E) (not_le.1 hlt |> Nat.lt_succ_iff.1)
+    have := lieSEightSp_isSolvable_gl_of_le_one (E := E) (not_le.1 hlt |> Nat.lt_succ_iff.1)
     exact lieSEightSp_not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   have h8 : 8 ≤ 2 ^ g := by
@@ -187,22 +188,22 @@ theorem lieSEightSp_gu_card_ne (hLO : LieOrderBridge) {g : ℕ} {E : Type} [Fiel
   have hfin : Module.finrank E V = m := by rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
   have hm : 2 ≤ m := by
     by_contra hlt
-    haveI := lieSEightSp_isSolvable_sesqUnitaryGroup_of_le_one hE
+    have := lieSEightSp_isSolvable_sesqUnitaryGroup_of_le_one hE
       (hfin ▸ (by omega : m ≤ 1) : Module.finrank E V ≤ 1) (Hf := Hf)
     exact lieSEightSp_not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   have h8 : 8 ≤ 2 ^ g := by
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ g := Nat.pow_le_pow_right (by norm_num) hg
-  haveI := hE.finite
-  haveI := Fintype.ofFinite E
-  haveI : Fact (Nat.Prime 2) := ⟨hE.prime⟩
-  haveI : CharP E 2 := hE.charP
+  have := hE.finite
+  have := Fintype.ofFinite E
+  have : Fact (Nat.Prime 2) := ⟨hE.prime⟩
+  have : CharP E 2 := hE.charP
   have hEcard : Fintype.card E = (2 ^ g) ^ 2 := by
     rw [Fintype.card_eq_nat_card]
     exact hE.card_eq_sq
-  haveI : Finite ↥hE.fixedField := inferInstance
-  haveI : Fintype ↥hE.fixedField := Fintype.ofFinite _
+  have : Finite ↥hE.fixedField := inferInstance
+  have : Fintype ↥hE.fixedField := Fintype.ofFinite _
   have hFcard : Fintype.card ↥hE.fixedField = 2 ^ g := by
     rw [Fintype.card_eq_nat_card]
     exact hE.card_fixedField

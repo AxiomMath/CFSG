@@ -140,7 +140,7 @@ theorem secAut_fix_secImg (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpo
     {J : Subgroup G} (hJ2 : IsPGroup 2 (secImg Ω c J)) {x : G}
     (hxc : x ∈ Subgroup.centralizer ({c} : Set G)) (hxJ : x ∈ centralizerModOdd ⊤ J) :
     ∀ j ∈ secImg Ω c J, secAut Ω c hΩ hc2 ⟨x, hxc⟩ j = j := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   intro j hj
   obtain ⟨h, hh, rfl⟩ := hj
   have hhJ : (((h : ↥(Subgroup.centralizer ({c} : Set G)))) : G) ∈ TwinADescent.coreAt c J := hh

@@ -69,7 +69,7 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_of_card_le_two (hp : p.Prime)
       x ∈ Subgroup.normalizer (H : Set (MulAut K)) →
         Nat.card (pCoreOf 2 (H ⊓ Subgroup.centralizer ({x} : Set (MulAut K)))) ≤ 2) :
     IsWeaklyLocallyOTwoBalancedWrtP p 1 K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA D hD H hH hAH
   obtain ⟨hDA, hDel, hDc⟩ := hD
   have hDne : D ≠ ⊥ := by
@@ -147,7 +147,7 @@ theorem mem_innerAut_of_pow_prime (hp : p.Prime) (hp2 : p ≠ 2) (hout : Nat.car
 theorem card_le_of_not_sq_dvd (hp : p.Prime) (hp2 : p ≠ 2) (hout : Nat.card (Outer K) ≤ 2)
     (hsq : ¬ p ^ 2 ∣ Nat.card K) (A : Subgroup (MulAut K)) (hA : IsElemAbelian p A) :
     Nat.card A ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAI : A ≤ innerAut K := fun a ha => mem_innerAut_of_pow_prime hp hp2 hout (hA.2 a ha)
   have h2 : Nat.card (innerAut K) ∣ Nat.card K := by
     have e := Nat.card_congr (QuotientGroup.quotientKerEquivRange
@@ -283,7 +283,7 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_of_card_lt (hp : p.Prime)
       x ∈ Subgroup.normalizer (H : Set (MulAut K)) →
         Nat.card (pCoreOf 2 (H ⊓ Subgroup.centralizer ({x} : Set (MulAut K)))) < p) :
     IsWeaklyLocallyOTwoBalancedWrtP p 1 K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA D hD H hH hAH
   obtain ⟨hDA, hDel, hDc⟩ := hD
   have hDne : D ≠ ⊥ := by
@@ -445,7 +445,7 @@ theorem oPrimeCoreTrivialAt_co3P_five :
     OPrimeCoreTrivialAt 5 ↥CFSG.Sporadic.Schreier.Co3.co3P := by
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlines, -⟩, htrans, hrec0, hrec25, -⟩ :=
     CFSG.RankThree.Native.R3E_Co3_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrimeCoreTrivialAt_of_sub _
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrime_of_lines Nat.prime_five hQP
       (CFSG.HardMathSupport.Solomon.Coordinator.card_eq_of_sylow_subgroupOf hQP hQsyl)
@@ -471,7 +471,7 @@ theorem oPrimeCoreTrivialAt_j2P_five :
     OPrimeCoreTrivialAt 5 ↥CFSG.Sporadic.Schreier.j2P := by
   obtain ⟨⟨hQP, -, -, -, hQsyl⟩, ⟨hlines, -⟩, -⟩ :=
     CFSG.RankThree.PartOne.R3E_J2_full_five_centralizer_structure
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hM := CFSG.Sporadic.SmallOddCore.j2_autModel
   exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrimeCoreTrivialAt_of_sub _
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrime_of_lines Nat.prime_five hQP
@@ -489,7 +489,7 @@ theorem oPrimeCoreTrivialAt_heP_five :
     OPrimeCoreTrivialAt 5 ↥CFSG.Sporadic.HeldB.heP := by
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlines, -⟩, htrans, hrec, -⟩ :=
     CFSG.RankThree.PartOne.R3E_He_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hM := CFSG.RankThree.PartOne.heAutModel
   refine CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrimeCoreTrivialAt_of_sub _
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oPrime_of_lines Nat.prime_five hQP
@@ -516,7 +516,7 @@ theorem card_glaPPrimeCoreOf_three_le_two {G : Type} [Group G] [Finite G] {C : S
     CFSG.HardMathSupport.Timmesfeld.Proving.coprime_card_GLAPPrimeCoreOf Nat.prime_three C
   have hcardN : Nat.card (N.subgroupOf C) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNC).toEquiv
-  haveI hN : (N.subgroupOf C).Normal := by
+  have hN : (N.subgroupOf C).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using CFSG.HardMathSupport.Timmesfeld.Proving.GLAPPrimeCoreOf_conj_mem (g : G) g.2 (x : G) hx
@@ -579,7 +579,7 @@ theorem card_core_le_of_lines {G : Type*} [Group G] [Finite G] {p c : ℕ} (hp :
     (hline : ∀ j, Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer ({line j} : Set G) ⊓ P)) ≤ c) :
     ∀ y ∈ P, orderOf y = p →
       Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer ({y} : Set G) ⊓ P)) ≤ c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro y hyP hyo
   obtain ⟨g, hgP, hgQ⟩ :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co3T.exists_conj_mem_of_full hQP hQ hyP hyo
@@ -665,7 +665,7 @@ theorem oPrimeCoreLeTwoAt_suzM_five :
     OPrimeCoreLeTwoAt 5 ↥CFSG.Sporadic.SuzOddCore.suzM := by
   obtain ⟨⟨hQP, -, -, -, hQsyl⟩, ⟨hlines, -⟩, -⟩ :=
     CFSG.RankThree.Native.R3E_Suz_full_five_centralizer_structures
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact oPrimeCoreLeTwoAt_of_sub _ (card_core_le_of_lines Nat.prime_five hQP
     (CFSG.HardMathSupport.Solomon.Coordinator.card_eq_of_sylow_subgroupOf hQP hQsyl)
     CFSG.RankThree.Native.suzFiveLine (CFSG.HardMathSupport.Solomon.Coordinator.lines_of_eq hlines)
@@ -752,7 +752,7 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_one_spor (F : SporadicFacts) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {name : TauCeti.SporadicName} (hS : IsSimpleGroup S)
     (hnab : ∃ a b : S, a * b ≠ b * a) (hs : IsSporType name S) (hexc : ¬ IsExc1917 name p) :
     IsWeaklyLocallyOTwoBalancedWrtP p 1 S := by
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 := F.outer S hS hnab name hs
@@ -789,7 +789,7 @@ theorem input19_17_2_simple (F : SporadicFacts) {p : ℕ} (hp : p.Prime)
 
 theorem input19_17_2_of_facts (F : SporadicFacts) : Lemma123.Input19_17_2 := by
   intro p hp hp2 s Y _ _ hq _ hs hnb
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   refine input19_17_2_simple F hp hp2 hq.2 (Prop1116Design.not_isCommutative_barQuot Y hq) hs ?_
   rcases hnb with h | h
   · exact Or.inl fun h2 => h (Inputs123a.isLocallyOTwoBalancedWrtP_of_quot hq.1 h2)
@@ -815,12 +815,12 @@ theorem input19_17_2S_of_facts (F : SporadicFacts)
     (hord : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable) : Inputs123a.Input19_17_2S := by
   intro p hp hp2 s S _ _ hs hnb
   obtain ⟨e⟩ := hs
-  haveI := hsimp s
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have := hsimp s
+  have : IsSimpleGroup S := e.isSimpleGroup
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative S := ⟨⟨hc⟩⟩
+    have : IsMulCommutative S := ⟨⟨hc⟩⟩
     have hpr : (Nat.card S).Prime := Group.is_simple_iff_prime_card.mp inferInstance
     rw [Nat.card_congr e.toEquiv, hord s] at hpr
     exact not_prime_sporOrd s hpr
@@ -894,7 +894,7 @@ theorem card_dvd_card_mulAut_of_quot {Y : Type} [Group Y] [Finite Y] (hY : commu
   have hf : Function.Injective ((MulAut.congr e).toMonoidHom.comp (Lemma123.autQ Y)) :=
     (MulAut.congr e).injective.comp (Lemma123.autQ_injective hY)
   rw [← Subgroup.card_map_of_injective hf]
-  haveI : Finite (MulAut T) := Finite.of_equiv _ (MulAut.congr e).toEquiv
+  have : Finite (MulAut T) := Finite.of_equiv _ (MulAut.congr e).toEquiv
   exact Subgroup.card_subgroup_dvd_card _
 
 theorem card_mulAut_alt5 : Nat.card (MulAut ↥(alternatingGroup (Fin 5))) = 120 := by
@@ -951,7 +951,7 @@ theorem input19_7_3_of_ys (h02 : LocalThreeBalanceCrossChar)
     (h03 : CFSG.Yardstones.M67c2c3e09a6b.LocalTwoBalanceThreeFive) (h04 : LocalTwoBalanceCrossCharGtFive)
     (hLp : Input19_7_3Lp) : Lemma123.Input19_7_3 := by
   intro p q hp hp2 hq hq2 hqp Y _ _ hY hO hchev k B' hk hB'el hB'c hnb
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hnab := Prop1116Design.not_isCommutative_barQuot Y hY
   have htr : ∀ k' : ℕ, IsLocallyOTwoBalancedWrtP p k' (Y ⧸ Subgroup.center Y) →
       IsLocallyOTwoBalanced p k' B' := fun k' h =>
@@ -1070,7 +1070,7 @@ theorem exists_fix_ne_two_four {D : Subgroup (Equiv.Perm (Fin 8))} (hD : IsElemA
     (hc : Nat.card D = 9) :
     ∃ σ ∈ D, σ ≠ 1 ∧ Fintype.card {i // σ i = i} ≠ 2 ∧ Fintype.card {i // σ i = i} ≠ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hcardfix : ∀ σ : ↥D, Fintype.card (MulAction.fixedBy (Fin 8) σ) =
@@ -1165,7 +1165,7 @@ theorem input19_16_two_of_ys (h02 : LocalThreeBalanceCrossChar)
     (hd3 : LocalTwoBalanceDefCharThree) (hd5 : LocalTwoBalanceDefCharFive) (hd7 : LocalTwoBalanceDefCharGtFive)
     (hLp : Input19_16_twoLp) : Lemma123.Input19_16_two := by
   intro p hp hp2 Y _ _ hY hO hchev k B' hk hB'el hB'c hnb
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hnab := Prop1116Design.not_isCommutative_barQuot Y hY
   have hbal : ∀ k' : ℕ, 1 ≤ k' → k' ≤ k → IsLocallyOTwoBalancedWrtP p k' (Y ⧸ Subgroup.center Y) → False :=
     fun k' h1 hk' h => hnb (Lemma123.isLocallyOTwoBalanced_of_le hp h1 hk'
@@ -1235,8 +1235,8 @@ theorem isWeaklyLocallyOTwoBalancedWrtP_of_inner {K : Type} [Group K] [Finite K]
     (hcomm : ∀ x y : MulAut K, x ∈ innerAut K → y ∈ innerAut K → orderOf x = p → y ^ p = 1 → x * y = y * x →
       ∀ t ∈ pCoreOf 2 (innerAut K ⊓ Subgroup.centralizer ({x} : Set (MulAut K))), y * t = t * y) :
     IsWeaklyLocallyOTwoBalancedWrtP p 1 K := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro A hA D hD H hH hAH
   obtain ⟨hDA, hDel, hDc⟩ := hD
   have hDne : D ≠ ⊥ := by

@@ -37,7 +37,7 @@ theorem isTypeL2_of_catalogIs_isL2n {X : Type} [Group X] {r : ℕ} (hr : Odd r)
       | A n q =>
           rcases n with _ | _ | n <;> simp [S10.isL2n] at hi
           obtain ⟨hp, hn⟩ := hi
-          haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+          have : Fact q.p.Prime := ⟨q.prime_p⟩
           refine ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, ?_,
             ⟨(e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)).trans
               (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2
@@ -60,7 +60,7 @@ private theorem exc_untw_three_components_false {τ : Tag}
     (hL₁ : IsTypeL2 q ↥J₁) (hL₂ : IsTypeL2 q ↥J₂) (hL₃ : IsTypeL2 q ↥J₃) : False := by
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := hinn β hβmem hβ3 hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hp3 : Nat.Prime 3 := Nat.prime_three
@@ -138,7 +138,7 @@ theorem censusBodyF4 : CensusBodyF4 := by
   exfalso
   obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  haveI := hKc
+  have := hKc
   have hchar : ringChar K = 2 := (ringChar.eq K q.p).trans hq2
   exact exc_untw_census_of_equiv (τ := .F4) (Or.inl rfl) excKac_f4 hchar
     (fun β hβ hβp hβ1 => exists_inndiag_of_mem_innAutDerived_F4 β hβ hβp hβ1) eK η hmem hη3 hη1
@@ -149,7 +149,7 @@ theorem censusBodyE6 : CensusBodyE6 := by
   exfalso
   obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-  haveI := hKc
+  have := hKc
   have hchar : ringChar K = 2 := (ringChar.eq K q.p).trans hq2
   exact exc_untw_census_of_equiv (τ := .E6) (Or.inr (Or.inl rfl)) excKac_e6 hchar
     (fun β hβ hβp hβ1 =>
@@ -161,7 +161,7 @@ theorem censusBodyE7 : CensusBodyE7 := by
   exfalso
   obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-  haveI := hKc
+  have := hKc
   have hchar : ringChar K = 2 := (ringChar.eq K q.p).trans hq2
   exact exc_untw_census_of_equiv (τ := .E7) (Or.inr (Or.inr (Or.inl rfl))) excKac_e7 hchar
     (fun β hβ hβp hβ1 =>
@@ -173,7 +173,7 @@ theorem censusBodyE8 : CensusBodyE8 := by
   exfalso
   obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  haveI := hKc
+  have := hKc
   have hchar : ringChar K = 2 := (ringChar.eq K q.p).trans hq2
   exact exc_untw_census_of_equiv (τ := .E8) (Or.inr (Or.inr (Or.inr rfl))) excKac_e8 hchar
     (fun β hβ hβp hβ1 =>

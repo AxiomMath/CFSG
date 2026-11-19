@@ -11,6 +11,7 @@ open Subgroup
 
 variable {A : Type} [Group A] [Finite A] {H : Subgroup A} {𝒮 : Set (Subgroup A)} {x : A}
 
+omit [Finite A] in
 private theorem l34g_uc_mem_normalizer {S : Subgroup A} {p : A}
     (h : CFSG.conjugate S p = S) : p ∈ normalizer (S : Set A) := by
   have h' : p⁻¹ ∈ normalizer (S : Set A) := by
@@ -19,6 +20,7 @@ private theorem l34g_uc_mem_normalizer {S : Subgroup A} {p : A}
     exact h
   simpa using (Subgroup.inv_mem _ h')
 
+omit [Finite A] in
 private theorem l34g_uc_mul_conj_mem {S : Subgroup A} {p : A}
     (h : CFSG.conjugate S p = S) {s : A} (hs : s ∈ S) : p * s * p⁻¹ ∈ S :=
   (Subgroup.mem_normalizer_iff.mp (l34g_uc_mem_normalizer h) s).mp hs

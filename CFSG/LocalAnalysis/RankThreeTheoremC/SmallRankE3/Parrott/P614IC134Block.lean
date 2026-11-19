@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem not_isC134Case5 (h : CampbellHyp X K R P) :
     ¬ CFSG.Quasithin.IsC134Case5 X (pCoreOf 2 P) K := by
   rintro ⟨-, h5⟩

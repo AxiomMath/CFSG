@@ -32,7 +32,7 @@ open CFSG.Quasithin.H13.F431.D4q.Struct CFSG.Quasithin.H13.F431.D4q.Loc CFSG.Blu
 theorem burnsideF4m_A42_chart_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (chart : NativeChart .D4tw 2 f Gp) (hm : chart.Matches M₁ M₂) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (σ : K ≃+* K)
-      (hσ3 : ∀ c, σ (σ (σ c)) = c), 1 ≤ f ∧ Nat.card K = (2 ^ f) ^ 3 ∧
+      (_hσ3 : ∀ c, σ (σ (σ c)) = c), 1 ≤ f ∧ Nat.card K = (2 ^ f) ^ 3 ∧
       (∀ c, σ.toRingHom c = c ^ (2 ^ f)) ∧
       ∃ φ : Cm σ ≃* ↥Gp,
         M₁.subgroupOf Gp = (Pst0 σ).map φ.toMonoidHom ∧
@@ -50,13 +50,13 @@ theorem burnsideF4m_A42_chart_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
       ⟨RingEquiv.ofBijective sigma
         ⟨sigma.injective, Finite.surjective_of_injective sigma.injective⟩, rfl⟩
     have hσ' : ∀ c, σ c = c ^ (2 ^ f) := hσ
-    have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ'
+    have _hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ'
     have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-    haveI hCharP : CharP K 2 :=
+    have hCharP : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (by omega) hK3
     have hchar : ringChar K = 2 := ringChar.eq K 2
-    have hΓ := twistedFixedGroup_eq_graphFixedRootGroup_triality σ hσ3 (Or.inl hchar)
+    have hΓ := twistedFixedGroup_eq_graphFixedRootGroup_triality σ _hσ3 (Or.inl hchar)
     obtain ⟨-, -, -, -, -, hD, hZ, -⟩ := even_triality_exact_automorphism_normal_form hf K hK σ hσ'
     obtain ⟨e, he⟩ := burnsideF4gD4_exists_derivedEquiv _ _ hD hZ
     have hmap : ∀ P : Subgroup (ModGL TwistTag.D4.tag K),
@@ -72,7 +72,7 @@ theorem burnsideF4m_A42_chart_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
       rw [← burnsideF4gD4_map_derivedImage _ _ P hD e he, Subgroup.map_map, hcomp]
     have h0 := burnsideF4gD4_trialityParabolic_zero σ.toRingHom hΓ
     have h1 := burnsideF4gD4_trialityParabolic_one σ.toRingHom hΓ
-    refine ⟨K, fK, finK, hCharP, σ, hσ3, hf, hK, hσ, e.symm.trans marking, ?_, ?_, ?_⟩
+    refine ⟨K, fK, finK, hCharP, σ, _hσ3, hf, hK, hσ, e.symm.trans marking, ?_, ?_, ?_⟩
     · have h : Gp ⊓ M₁ = (((trialityParabolic K σ.toRingHom 0).subgroupOf
           (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).map
             (e.symm.trans marking).toMonoidHom).map Gp.subtype := by
@@ -108,7 +108,7 @@ theorem burnsideF4m_A42_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) i)
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   obtain ⟨K, _, _, _, σ, hσ3, -, hK, hσq, φ, hP1, hP2, hS⟩ := burnsideF4m_A42_chart_D4 chart hm
   have S1 := CFSG.Quasithin.H13.F431.D4q.Loc.stdTwo_d4 σ hσ3 (by omega) hK hσq
@@ -153,7 +153,7 @@ theorem burnsideF4m_A42_D4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
         φ (CFSG.Quasithin.H13.F431.D4q.Loc.tC σ hσ3) : ↥Gp) : E) = 1
       rw [← map_mul, CFSG.Quasithin.H13.F431.D4q.Loc.tC_mul_self σ hσ3, map_one]
       rfl
-    · rw [if_pos rfl, hS]
+    · rw [ite_eq_left rfl, hS]
       refine ⟨φ b, ⟨b, hbS, rfl⟩, ?_⟩
       show (φ b : E) = (φ c : E) * (φ (CFSG.Quasithin.H13.F431.D4q.Loc.tC σ hσ3) : E) *
         ((φ c : E))⁻¹

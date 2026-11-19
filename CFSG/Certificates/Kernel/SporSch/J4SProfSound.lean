@@ -71,7 +71,7 @@ private theorem kR_succ (E SQ : Nat → Nat) (k n e m : Nat) :
   by_cases h : n = 0 ∧ e = 0
   · obtain ⟨rfl, rfl⟩ := h
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hb : Bool.rec (motive := fun _ => Bool) false (Nat.beq e 0) (Nat.beq n 0) = false := by
       rw [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_false_iff]
       by_cases hn : n = 0
@@ -86,9 +86,9 @@ private theorem find_succ (p : ℕ × ℕ) (k : ℕ) :
       else ((List.range k).find? (fun m => stepNF^[m] (stepNF p) == (0, 0))).map Nat.succ := by
   rw [List.range_succ_eq_map, List.find?_cons]
   by_cases hp : p = (0, 0)
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     simp [hp]
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have h0 : (stepNF^[0] p == (0, 0)) = false := by simpa using hp
     simp only [h0, List.find?_map, Function.comp_def, Function.iterate_succ_apply]
 
@@ -107,7 +107,7 @@ private theorem kR_spec {E SQ : Nat → Nat} (hE : ∀ e < 1024, elementColumns[
     · obtain ⟨rfl, rfl⟩ := h
       simp
     · have hp : (n, e) ≠ (0, 0) := fun e' => h (Prod.mk.inj e')
-      rw [if_neg h, if_neg hp, kR_spec hE hSQ hSQb k _ _ (m + 1) (hSQb e he)]
+      rw [ite_eq_right h, ite_eq_right hp, kR_spec hE hSQ hSQb k _ _ (m + 1) (hSQb e he)]
       cases ((List.range k).find? (fun i => stepNF^[i] (n ^^^ appK (E e) n, SQ e) == (0, 0))) with
       | none => rfl
       | some i =>
@@ -427,12 +427,12 @@ private theorem loopB_succ (E SQ : ℕ → ℕ) (c L k V e D m : ℕ) :
   by_cases hD : D = 0
   · subst hD
     rfl
-  · rw [if_neg hD,
+  · rw [ite_eq_right hD,
       show Nat.beq D 0 = false from Bool.eq_false_iff.2 fun h => hD (Nat.eq_of_beq_eq_true h)]
     by_cases he : e = 0
     · subst he
       rfl
-    · rw [if_neg he,
+    · rw [ite_eq_right he,
         show Nat.beq e 0 = false from Bool.eq_false_iff.2 fun h => he (Nat.eq_of_beq_eq_true h)]
       rfl
 
@@ -450,16 +450,16 @@ private theorem loopB_spec {E SQ : ℕ → ℕ} {c L : ℕ}
     by_cases hD : D = 0
     · subst hD
       simp
-    · rw [if_neg hD, cntZ_eq hL, loopB_spec hL k _ _ _ _ _ (step_rep hV) (step_hi hx),
+    · rw [ite_eq_right hD, cntZ_eq hL, loopB_spec hL k _ _ _ _ _ (step_rep hV) (step_hi hx),
         ← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun n hn => ?_
       have hz := nzB_bit hV hx (Finset.mem_range.1 hn)
       rw [kR_succ]
       by_cases he : e = 0
       · subst he
-        simp only [if_true, Nat.testBit_xor, Nat.testBit_and, hz]
+        simp only [ite_true, Nat.testBit_xor, Nat.testBit_and, hz]
         by_cases h0 : x n = 0 <;> cases D.testBit n <;> simp [h0]
-      · simp only [if_neg he, Nat.zero_testBit, Nat.xor_zero]
+      · simp only [ite_eq_right he, Nat.zero_testBit, Nat.xor_zero]
         cases D.testBit n <;> simp [he]
 
 private theorem idB_rep : Rep idB (fun n => n) := by
@@ -514,7 +514,7 @@ private theorem cntB_eq {E SQ CT : Nat → Nat}
   refine Finset.sum_congr rfl fun n hn => ?_
   have hD : (Nat.sub (Nat.shiftLeft 1 2048) 1).testBit n = true := by
     rw [mask_bit, decide_eq_true (Finset.mem_range.1 hn)]
-  rw [hD, if_pos rfl, ← kfunK_eq_kR, kfunK_eq hE hSQ hSQb he, ellK_eq]
+  rw [hD, ite_eq_left rfl, ← kfunK_eq_kR, kfunK_eq hE hSQ hSQb he, ellK_eq]
   rfl
 
 private theorem sliceB_eq (E SQ CT : Nat → Nat) (s : Nat) :
@@ -606,7 +606,7 @@ theorem prof_sound {E SQ CT S PTB : Nat → Nat}
         ∑ f ∈ Finset.range 192, (if idx CT n e = f then 1 else 0) * (2 ^ 24) ^ f := by
       intro e he n
       simp only [ite_mul, one_mul, zero_mul]
-      rw [Finset.sum_ite_eq, if_pos (Finset.mem_range.2 (hidx e he n)), ← pow_mul]
+      rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.2 (hidx e he n)), ← pow_mul]
     rw [Finset.sum_congr rfl fun e he => Finset.sum_congr rfl fun n _ =>
       hterm e (Finset.mem_range.1 he) n]
     rw [Finset.sum_congr rfl fun e _ => Finset.sum_comm, Finset.sum_comm]
@@ -641,7 +641,7 @@ theorem prof_sound {E SQ CT S PTB : Nat → Nat}
       have hi : idx CT n e = 6 * (ell n + 2 * CT e) + 5 := by
         unfold idx
         omega
-      calc 1 = (if idx CT n e = 6 * (ell n + 2 * CT e) + 5 then 1 else 0) := by rw [if_pos hi]
+      calc 1 = (if idx CT n e = 6 * (ell n + 2 * CT e) + 5 then 1 else 0) := by rw [ite_eq_left hi]
         _ ≤ ∑ n' ∈ Finset.range 2048,
               (if idx CT n' e = 6 * (ell n + 2 * CT e) + 5 then 1 else 0) :=
           Finset.single_le_sum (f := fun n' =>
@@ -665,19 +665,19 @@ theorem prof_sound {E SQ CT S PTB : Nat → Nat}
     rw [hCT, tabA_get he', Finset.card_filter,
       Fin.sum_univ_eq_sum_range (fun n => if ell n = b % 2 ∧ kfun n e = j then 1 else 0) 2048]
     by_cases hce : CT e = b / 2
-    · rw [if_pos hce]
+    · rw [ite_eq_left hce]
       refine Finset.sum_congr rfl fun n _ => ?_
       have h1 := ell_le n
       have h3 := kfun_le n e
       by_cases hp : ell n = b % 2 ∧ kfun n e = j
-      · rw [if_pos hp, if_pos (show idx CT n e = 6 * b + j by unfold idx; omega)]
-      · rw [if_neg hp, if_neg (show ¬ idx CT n e = 6 * b + j by unfold idx; omega)]
-    · rw [if_neg hce]
+      · rw [ite_eq_left hp, ite_eq_left (show idx CT n e = 6 * b + j by unfold idx; omega)]
+      · rw [ite_eq_right hp, ite_eq_right (show ¬ idx CT n e = 6 * b + j by unfold idx; omega)]
+    · rw [ite_eq_right hce]
       symm
       refine Finset.sum_eq_zero fun n _ => ?_
       have h1 := ell_le n
       have h3 := kfun_le n e
-      rw [if_neg (show ¬ idx CT n e = 6 * b + j by unfold idx; omega)]
+      rw [ite_eq_right (show ¬ idx CT n e = 6 * b + j by unfold idx; omega)]
 
 end CFSG.KS.SporSch.C11
 

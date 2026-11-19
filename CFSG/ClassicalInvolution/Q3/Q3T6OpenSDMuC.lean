@@ -58,7 +58,7 @@ theorem mem_sup_of_conj_mem (ht : Setup194Three K z) (hA : AllTypeTwo K z)
   have hI := ht.isUniqueInvolution
   have hcl : ∀ h : G, h * z * h⁻¹ ∈ (S : Subgroup G) →
       h * z * h⁻¹ ∈ R ⊔ Subgroup.zpowers (g * z * g⁻¹) := fun h hh =>
-    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup' hRS hSN hSz htS htz hh
+    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup hRS hSN hSz htS htz hh
   have hzR : IsUniqueInvolution R z := ht.isUniqueInvolution_of_mem_rSet_of_le hR hRK
   have hR2 : IsPGroup 2 R := isPGroup_of_mem_rSet hR
   have hRnc := (ht.exists_ne_comm_of_mem_rSet hR).1
@@ -75,7 +75,7 @@ theorem mem_sup_of_conj_mem (ht : Setup194Three K z) (hA : AllTypeTwo K z)
   have hsd := isSemidihedral_sup_of_allTypeTwo ht hA hR hRK (hSN htS) htzc htz
   have hPS : R ⊔ Subgroup.zpowers t ≤ (S : Subgroup G) :=
     sup_le hRS (Subgroup.zpowers_le.mpr htS)
-  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup'.to_le hPS) hsd
+  obtain ⟨a, b, M, hsdd⟩ := exists_sdData (S.isPGroup.to_le hPS) hsd
   have hM := hsdd.M_pos
   have ha2 : a * a ∈ R := mul_self_mem_of_mem_sup_zpowers ht2 (hSN htS) hsdd.a_mem
   have hza : z = a ^ (4 * (M : ℤ)) := by
@@ -104,7 +104,7 @@ theorem mem_sup_of_conj_mem (ht : Setup194Three K z) (hA : AllTypeTwo K z)
       rw [e]
       exact hcl _ (by rw [← e]; exact hyx)
   ·
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp (S.isPGroup'.to_le hPS)) ⟨x, hxP⟩
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp (S.isPGroup.to_le hPS)) ⟨x, hxP⟩
     rw [Subgroup.orderOf_mk] at hj
     have hj2 : 2 ≤ j := by
       by_contra hj2

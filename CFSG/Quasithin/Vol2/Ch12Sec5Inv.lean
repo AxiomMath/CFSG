@@ -35,7 +35,7 @@ theorem colMat_mulVec_single (v : Fin 5 → W5) (j : Fin 5) :
 theorem colMat_isUnit {v : Fin 5 → W5} (hv : LinearIndependent (ZMod 2) v) :
     IsUnit (colMat v) := by
   rw [← colMat_col v] at hv
-  exact Matrix.linearIndependent_cols_iff_isUnit.1 hv
+  exact Matrix.linearIndependent_col_iff_isUnit.1 hv
 
 theorem t1_cols : ∀ j : Fin 5, t1 *ᵥ Pi.single j 1 =
     Pi.single j 1 + if j = 4 then Pi.single 0 1 else 0 := by

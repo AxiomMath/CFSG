@@ -37,13 +37,13 @@ theorem sixThreeOneList_of_layer_eq_bot (h63 : SixThreeOne) (h : NineSettingGen 
 theorem exists_orderOf_map_kStar (h : NineSettingGen G M p Q H E 2) (hp : p ∉ sigmaM G M)
     (hU : NineNineOne M p) (hL : pLayerIn p H ≤ M) :
     ∃ x ∈ (kStar p M H).map (QuotientGroup.mk' (CFSG.pCore p (StarGroup p H))), orderOf x = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hEk : E ≤ kSub p M H :=
     le_kSub_of_le h.prime hL (h.stdE.2.1.trans h.Q_le_H) h.stdE.2.2.1.2
   have hstar_le : starImg p H E ≤ kStar p M H := by
     rw [kStar_eq_starImg p M H]
     exact Subgroup.map_mono (Subgroup.comap_mono hEk)
-  obtain ⟨e, heE, heR⟩ := SetLike.not_le_iff_exists.mp (h.not_starImg_le_pCore hp hU)
+  obtain ⟨e, heE, heR⟩ := IsConcreteLE.not_le_iff_exists.mp (h.not_starImg_le_pCore hp hU)
   change e ∈ (E.subgroupOf H).map
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p)) at heE
   obtain ⟨a, ha, hae⟩ := Subgroup.mem_map.mp heE
@@ -58,10 +58,10 @@ theorem exists_orderOf_map_kStar (h : NineSettingGen G M p Q H E 2) (hp : p ∉ 
 theorem nineTenThreeCorrected (h63 : SixThreeOne) (h : NineSettingGen G M p Q H E 2)
     (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M) (hU : NineNineOne M p)
     (hL : pLayerIn p H = ⊥) : NineTenThreeCorrected p M H := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hLM : pLayerIn p H ≤ M := by rw [hL]; exact bot_le
-  haveI hKnorm : (kStar p M H).Normal := kStar_normal_of_le hLM
-  haveI hNnorm : ((kStar p M H).map
+  have hKnorm : (kStar p M H).Normal := kStar_normal_of_le hLM
+  have hNnorm : ((kStar p M H).map
       (QuotientGroup.mk' (CFSG.pCore p (StarGroup p H)))).Normal :=
     hKnorm.map _ (QuotientGroup.mk'_surjective _)
   obtain ⟨hlist, hcard⟩ :=

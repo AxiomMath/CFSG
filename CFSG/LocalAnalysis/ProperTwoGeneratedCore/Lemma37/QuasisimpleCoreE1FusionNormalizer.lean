@@ -172,7 +172,7 @@ theorem exists_normalizer_conj_two :
       (S : Subgroup J).map (QuotientGroup.mk' (Subgroup.center J)) := Sylow.coe_mapSurjective _ _
   obtain ⟨k', hk', hk'P⟩ := exists_conj_mem_sylow_of_le S''
     (hS''.symm ▸ d.map_le_centralizer_forty) ((Subgroup.map_subtype_le _).trans inf_le_left)
-    (P.isPGroup'.map D.subtype)
+    (P.isPGroup.map D.subtype)
   have hk'N := d.mem_normalizer_of_conj_mem_map htype hk' fun s hs =>
     hS'' ▸ hk'P s (Subgroup.mem_map_of_mem D.subtype (hP (Subgroup.mem_subgroupOf.mpr hs) :
       (⟨s, hED hs⟩ : D) ∈ (P : Subgroup D)))

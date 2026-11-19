@@ -99,9 +99,9 @@ theorem eq_zeroBlock_or_classBlock_of_isComponentOf (hp2 : p ≠ 2) (hpK : ¬ p 
       right
       obtain ⟨j₀, hj₀, hJC⟩ := hCex
       refine ⟨j₀, hj₀, ?_⟩
-      haveI : CharP (AdjoinRoot g) 2 :=
+      have : CharP (AdjoinRoot g) 2 :=
         charP_of_injective_algebraMap (algebraMap K (AdjoinRoot g)).injective 2
-      haveI : Finite (AdjoinRoot g) := finite_adjoinRoot
+      have : Finite (AdjoinRoot g) := finite_adjoinRoot
       have hmap : (KC j₀).map φ =
           (coordBlockSL (AdjoinRoot g) (classSet (jointClass T j₀) 1)).map
             (φ.comp (theta g ε)) :=
@@ -162,6 +162,7 @@ theorem eq_zeroBlock_or_classBlock_of_isComponentOf (hp2 : p ≠ 2) (hpK : ¬ p 
       rw [← map_mul, ← map_mul, commute_of_comm_blocks_joint hprim hT hal ((hmemC₀ u).mp hu)
         ((hmemC₀ v).mp hv) (hZw u hx) (hZw v hy) (hcw u hx) (hcw v hy)]
 
+omit [Finite G] [CharP K 2] in
 theorem exists_jointAligned_frame (hζ : AdjoinRoot.root g ^ p = 1) (E : Subgroup G) :
     ∃ A₀' : Matrix.SpecialLinearGroup (Fin n) K,
       (frameHom ψ A₀' ε hC hCp).range = (frameHom ψ A₀ ε hC hCp).range ∧

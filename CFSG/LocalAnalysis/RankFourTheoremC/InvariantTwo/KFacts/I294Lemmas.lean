@@ -14,7 +14,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeTheoremC Subgroup
 
 theorem exists_commutator_of_isPlaneDiagonal {X : Type*} [Group X] [Finite X] {p : ℕ}
     [Fact p.Prime] (hp5 : 5 ≤ p) {D : Subgroup X} (hD : IsElemAbelian p D)
-    (hcard : Nat.card D = p ^ 2) {z g : X} (hz : z ∈ D) (hz1 : z ≠ 1)
+    (_hcard : Nat.card D = p ^ 2) {z g : X} (hz : z ∈ D) (hz1 : z ≠ 1)
     (hg : IsPlaneDiagonal p D z g) :
     ∀ d ∈ D, ∃ d' ∈ D, d = d'⁻¹ * g * d' * g⁻¹ := by
   obtain ⟨hgN, -, a, b, hab, hord, hga, hgd⟩ := hg
@@ -148,7 +148,7 @@ theorem glaPPrimeCoreOf_top_eq_bot_of_subgroup {X : Type} [Group X] {p : ℕ} (H
 theorem le_of_isSylowOf_central {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     {K D : Subgroup X} (hsyl : CFSG.ABGLocalTools.IsSylowOf p D K)
     (hcomm : ∀ k ∈ K, ∀ d ∈ D, k * d = d * k)
-    {E : Subgroup X} (hEp : ∀ x ∈ E, x ^ p = 1) (hEK : E ≤ K) (hDE : D ≤ E) : E ≤ D := by
+    {E : Subgroup X} (hEp : ∀ x ∈ E, x ^ p = 1) (hEK : E ≤ K) (_hDE : D ≤ E) : E ≤ D := by
   obtain ⟨Q, hQ⟩ := hsyl
   have hmemQ : ∀ x : K, x ∈ (Q : Subgroup K) ↔ (x : X) ∈ D := by
     intro x
@@ -169,7 +169,7 @@ theorem le_of_isSylowOf_central {X : Type} [Group X] [Finite X] {p : ℕ} [Fact 
       rw [hcomm (g : X) g.2 (n : X) hn, mul_assoc, mul_inv_cancel, mul_one]
     rw [hgn]
     exact hn
-  haveI : Unique (Sylow p K) := Sylow.unique_of_normal Q hQn
+  have : Unique (Sylow p K) := Sylow.unique_of_normal Q hQn
   have hEp' : IsPGroup p (E.subgroupOf K) := fun e =>
     ⟨1, Subtype.ext (Subtype.ext (by simpa using hEp e.1 (Subgroup.mem_subgroupOf.1 e.2)))⟩
   obtain ⟨Q', hQ'⟩ := hEp'.exists_le_sylow
@@ -188,8 +188,8 @@ theorem signalizer_eq_bot_of_constrained {X : Type} [Group X] [Finite X] {p : �
       GLAPPrimeCoreOf p (centralizer ({d} : Set X)) = ⊥) :
     ∀ T : Subgroup X, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set X) → T = ⊥ := by
   intro T hT hDT
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative D := hD.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative D := hD.1
   have hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := fun a ha b hb => setLike_mul_comm ha hb
   have hcent : ∀ d ∈ D, d ≠ 1 → T ⊓ centralizer ({d} : Set X) = ⊥ := by
     intro d hd hd1
@@ -207,7 +207,7 @@ theorem signalizer_eq_bot_of_constrained {X : Type} [Group X] [Finite X] {p : �
         D.subgroupOf (centralizer ({d} : Set X)) ≤ E' →
         E' = D.subgroupOf (centralizer ({d} : Set X)) := by
       intro E' hE' hBE'
-      haveI : IsMulCommutative E' := hE'.1
+      have : IsMulCommutative E' := hE'.1
       have hE''p : ∀ x ∈ E'.map (centralizer ({d} : Set X)).subtype, x ^ p = 1 := by
         rintro _ ⟨y, hy, rfl⟩
         simpa using congrArg (centralizer ({d} : Set X)).subtype (hE'.2 y hy)
@@ -342,12 +342,12 @@ theorem le_pRank_of_isElemAbelian_le {P : Type*} [Group P] [Finite P] {p : ℕ} 
   exact le_trans (Nat.lt_pow_self (Fact.out : p.Prime).one_lt : m < p ^ m).le h1
 
 theorem three_le_pRank_centralizer_of_normal {P : Type*} [Group P] [Finite P] {p : ℕ}
-    [Fact p.Prime] (hp5 : 5 ≤ p) (hP : IsPGroup p P) {x : P} (hx : orderOf x = p)
+    [Fact p.Prime] (hp5 : 5 ≤ p) (_hP : IsPGroup p P) {x : P} (hx : orderOf x = p)
     {E : Subgroup P} [E.Normal] (hE : IsElemAbelian p E) (he : p ^ (p + 1) ≤ Nat.card E) :
     3 ≤ CFSG.Open.pRank p (centralizer ({x} : Set P)) := by
   have hp : p.Prime := Fact.out
   have hxp : x ^ p = 1 := hx ▸ pow_orderOf_eq_one x
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have hEp : IsPGroup p E := fun e => ⟨1, Subtype.ext (by simpa using hE.2 e e.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hEp
   have hk3 : p + 1 ≤ k := by
@@ -362,7 +362,7 @@ theorem three_le_pRank_centralizer_of_normal {P : Type*} [Group P] [Finite P] {p
     exact le_trans (by omega) (le_pRank_of_isElemAbelian_le hEC hE hk)
   · set C : Subgroup P := centralizer ({x} : Set P)
     have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
-    letI : CommGroup E := IsMulCommutative.instCommGroup
+    let : CommGroup E := IsMulCommutative.instCommGroup
     let φ : E →* E := ((MulAut.conj x).toMonoidHom.comp E.subtype).codRestrict E
       (fun e => Subgroup.Normal.conj_mem inferInstance (e : P) e.2 x)
     let σ : AddMonoid.End (Additive E) := MonoidHom.toAdditive φ
@@ -395,7 +395,7 @@ theorem three_le_pRank_centralizer_of_normal {P : Type*} [Group P] [Finite P] {p
     have hntV : Nontrivial (Additive E) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hcardV]
       exact lt_of_lt_of_le (Nat.one_lt_pow (by omega) hp.one_lt) he
-    haveI hchar : CharP (AddMonoid.End (Additive E)) p := by
+    have hchar : CharP (AddMonoid.End (Additive E)) p := by
       refine ⟨fun n => ⟨fun hn => ?_, fun hdvd => ?_⟩⟩
       · obtain ⟨v, hv⟩ := exists_ne (0 : Additive E)
         have hnv : n • v = 0 := by

@@ -11,9 +11,9 @@ open Subgroup
 theorem not_isPGroup_two {T : Type*} [Group T] [Finite T] [IsSimpleGroup T]
     (hnab : ∃ a b : T, a * b ≠ b * a) : ¬ IsPGroup 2 T := by
   intro hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial T := IsSimpleGroup.toNontrivial
-  haveI := hT.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial T := IsSimpleGroup.toNontrivial
+  have := hT.center_nontrivial
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center T) with h1 | h1
   · exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance h1
   · obtain ⟨a, b, hab⟩ := hnab
@@ -36,9 +36,9 @@ theorem exists_odd_orderOf {T : Type*} [Group T] [Finite T] [IsSimpleGroup T]
   push Not at hno
   apply not_isPGroup_two hnab
   rw [IsPGroup.iff_card (p := 2)]
-  haveI : Nonempty T := ⟨1⟩
+  have : Nonempty T := ⟨1⟩
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {r} hr hrd => ?_⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' r hrd
   by_contra hr2
   have hodd : Odd r := hr.eq_two_or_odd'.resolve_left hr2
@@ -82,7 +82,7 @@ theorem orbit_inj {σ : Equiv.Perm ι} {p : ℕ} (hp : p.Prime) (hσ : σ ^ p = 
           _ = p * b + a := by congr 2; omega
       simpa [e] using this
     have h4 : p * b + a ≡ a [MOD p] := by
-      simp [Nat.ModEq, Nat.mul_add_mod]
+      simp [Nat.ModEq]
     exact h4.symm.trans h3
   have hcop : Nat.Coprime ((p - 1) * b + a) (orderOf σ) := by
     rw [hord]; exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hdvd).symm
@@ -99,7 +99,7 @@ theorem exists_diag [Finite ι] (hF : IsFactorization N S) {p : ℕ} (hp : p.Pri
       (∀ g : Q, g * d = d * g → ∀ s s' : ↥(S i), (s' : Q) = g * s * g⁻¹ →
         g * Φ s * g⁻¹ = Φ s') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set σ := hF.actHom d with hσdef
   have hσ : σ ^ p = 1 := by rw [hσdef, ← map_pow, hd, map_one]
   let idx : ZMod p → ι := fun k => (σ ^ k.val) i
@@ -114,12 +114,12 @@ theorem exists_diag [Finite ι] (hF : IsFactorization N S) {p : ℕ} (hp : p.Pri
     intro k x hx
     obtain ⟨s, rfl⟩ := hx
     rw [show S (idx k) = cj (d ^ k.val) (S i) from hF.S_actHom_pow d k.val i, mem_cj, hι'apply]
-    simpa [mul_assoc] using s.2
+    simp [mul_assoc]
   have hcomm : Pairwise fun k l => ∀ (x y : ↥(S i)), Commute (ι' k x) (ι' l y) := by
     intro k l hkl x y
     exact hF.commute (fun h => hkl (hidx h)) (hrange k ⟨x, rfl⟩) (hrange l ⟨y, rfl⟩)
   let ψ : (ZMod p → ↥(S i)) →* Q := MonoidHom.noncommPiCoprod ι' hcomm
-  let δ : ↥(S i) →* (ZMod p → ↥(S i)) := Pi.monoidHom fun _ => MonoidHom.id ↥(S i)
+  let δ : ↥(S i) →* (ZMod p → ↥(S i)) := _root_.MonoidHom.pi fun _ => MonoidHom.id ↥(S i)
   let Φ : ↥(S i) →* Q := ψ.comp δ
   have hΦapply : ∀ s, Φ s = Finset.univ.noncommProd (fun k => ι' k s)
       (fun k _ l _ hkl => hcomm hkl s s) := fun s => MonoidHom.noncommPiCoprod_apply (hcomm := hcomm) ι' (fun _ => s)

@@ -20,7 +20,7 @@ structure Cfg813 {Q : Type} [Group Q] [Finite Q] (T A B R L₀ : Subgroup Q) : P
   TIS : ∀ q : Q, A ⊓ conjSubgroup B q = ⊥ ∨ A ≤ conjSubgroup B q
   maxT : calNIn (⊤ : Subgroup Q) T = {B}
   R_normal : R.Normal
-  R_solvable : IsSolvable R
+  R_solvable : Group.IsSolvable R
   R_le_B : R ≤ B
   L₀_comp : IsComponentModN R ⊤ L₀
   L₀_simple : HasQuotShape L₀ (R : Set Q) (fun X _ => IsSimpleGroup X)
@@ -50,7 +50,7 @@ def Astar (T J A : Subgroup Q) : Subgroup Q where
     rw [this]
     exact A.mul_mem hxc hyc
   one_mem' := ⟨(T ⊓ J).one_mem, 1, (T ⊓ centralizer (J : Set Q)).one_mem, by
-    simpa using A.one_mem⟩
+    simp⟩
   inv_mem' := by
     rintro x ⟨hx, c, hc, hxc⟩
     refine ⟨(T ⊓ J).inv_mem hx, c⁻¹, (T ⊓ centralizer (J : Set Q)).inv_mem hc, ?_⟩

@@ -194,7 +194,7 @@ theorem escaping_local_odd_sylow_is_normalized_abelian_and_inverted
         hcoverage s hsC hs hts.symm H hVH hJH hR ell hdiv W hVW
   have hJW : (localCentralizingLayer t).map (C t).subtype ≤
       Subgroup.normalizer (Wa : Set G) := hJA.trans inf_le_right
-  have hWp : IsPGroup ell Wa := W.isPGroup'.map
+  have hWp : IsPGroup ell Wa := W.isPGroup.map
     (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)
   have hWRa : Wa ≤ Ra := by
     rintro w ⟨x, hx, rfl⟩
@@ -654,7 +654,7 @@ theorem escaping_local_odd_sylow_has_original_exchanged_fixed_eigensubgroups :
   let : IsMulCommutative Wa := hab
   have hellodd : Odd ell :=
     (Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv
-  have hWp : IsPGroup ell Wa := W.isPGroup'.map
+  have hWp : IsPGroup ell Wa := W.isPGroup.map
     (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)
   have hWaodd : Odd (Nat.card Wa) :=
     StationaryOddLocalization.odd_card_of_pgroup hell hellodd Wa hWp
@@ -896,7 +896,7 @@ theorem escaping_local_odd_sylow_fixed_factors_lie_in_original_layer_preimages
       p f hp hpodd hf hq hmodel hcov H hVH hJH hR hell hdiv W hVW hescape
   have hellodd : Odd ell :=
     (Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv
-  have hWp : IsPGroup ell Wa := W.isPGroup'.map
+  have hWp : IsPGroup ell Wa := W.isPGroup.map
     (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)
   have hWaodd : Odd (Nat.card Wa) :=
     StationaryOddLocalization.odd_card_of_pgroup hell hellodd Wa hWp
@@ -1147,7 +1147,7 @@ theorem escaping_local_odd_sylow_fixed_factors_have_exact_original_projective_ke
       p f hp hpodd hf hq hmodel hcov H hVH hJH hR hell hdiv W hVW hescape
   have hellodd : Odd ell :=
     (Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv
-  have hWp : IsPGroup ell Wa := W.isPGroup'.map
+  have hWp : IsPGroup ell Wa := W.isPGroup.map
     (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)
   have hWaodd : Odd (Nat.card Wa) :=
     StationaryOddLocalization.odd_card_of_pgroup hell hellodd Wa hWp
@@ -1710,7 +1710,7 @@ theorem original_escaping_trivial_odd_intersection_forces_defining_square_orders
     (StationaryOddLocalization.odd_card_of_pgroup hell
       ((Nat.coprime_two_left.mp
         (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv)
-      Wa (W.isPGroup'.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype))).of_dvd_nat
+      Wa (W.isPGroup.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype))).of_dvd_nat
         (Subgroup.card_dvd_of_le (show Wi ≤ Wa from inf_le_left))
   have hpiinj : Function.Injective
       (LocalProjectiveKernelQuotients.originalLayerRestriction i Wi hWC hWY) := by
@@ -1755,7 +1755,7 @@ theorem original_escaping_trivial_odd_intersection_forces_defining_square_orders
     ((Nat.coprime_two_left.mp
       (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv)
     hf hcard hq beta hbetasurj hbetacentral hbetaodd htminus htcenter htorder
-    (W.isPGroup'.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)) hWC hWY ei hpiinj
+    (W.isPGroup.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype)) hWC hWY ei hpiinj
 
 end OriginalTrivialFactor
 
@@ -1863,7 +1863,7 @@ theorem original_escaping_fixed_factors_lie_in_actual_lift_and_hall
     StationaryOddLocalization.odd_card_of_pgroup hell
       ((Nat.coprime_two_left.mp
         (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))).of_dvd_nat hdiv)
-      Wa (W.isPGroup'.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype))
+      Wa (W.isPGroup.map (H.subtype.comp (CFSG.pPrimeCore 2 H).subtype))
   have hWiodd : Odd (Nat.card Wi) := hWaodd.of_dvd_nat
     (Subgroup.card_dvd_of_le (show Wi ≤ Wa from inf_le_left))
   have hWiinv : ∀ w ∈ Wi, t * w * t⁻¹ = w⁻¹ := fun w hw => hinv w hw.1

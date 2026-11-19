@@ -79,7 +79,7 @@ theorem exists_sylow_S0
     refine lt_top_iff_ne_top.mpr fun h => hne fun x hx => ?_
     have : (⟨x, hx⟩ : (P : Subgroup X)) ∈ S := by rw [h]; exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp this
-  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (P : Subgroup X) := P.isPGroup.isNilpotent
   obtain ⟨q, hqN, hqS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent S hlt)
   have hqS0 : ∀ a ∈ M.S0, ((q : X) : G) * a * ((q : X) : G)⁻¹ ∈ M.S0 := by
@@ -95,7 +95,7 @@ theorem exists_sylow_S0
     (Subgroup.mem_centralizer_iff.mp (q : X).2 y hy).symm
   have hqC := M.mem_Cen_of_centralizes hs hs1 hp hYL hY hqY hqS0
   obtain ⟨a, ha, y, hy, hqa⟩ := M.exists_S0_mul_Y hs hs1 hp hYL hY hqC hqY
-  obtain ⟨k, hk⟩ := P.isPGroup' q
+  obtain ⟨k, hk⟩ := P.isPGroup q
   have hk' : ((q : X) : G) ^ 2 ^ k = 1 := by
     have := congrArg (fun x : (P : Subgroup X) => ((x : X) : G)) hk
     simpa using this
@@ -206,7 +206,7 @@ theorem exists_S0_mul_of_centralizes
     have ha1 := M.eq_one_of_odd_elt hp hY ha hy (M.comm_S0_Ls hs hs1 ha (hYL hy)) hodd hpow
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, hoa, ha1, one_mul]
     exact hy
-  have hgen := a117_generation (A := (P : Subgroup X)) P.isPGroup' (G := O) hOodd
+  have hgen := a117_generation (A := (P : Subgroup X)) P.isPGroup (G := O) hOodd
   have htop : (⊤ : Subgroup O) ≤ (Y.subgroupOf X).subgroupOf O :=
     hgen.symm.le.trans (iSup₂_le fun B hB => hfix B hB.1)
   have hOY : ∀ o : O, ((o : X) : G) ∈ Y := fun o => by

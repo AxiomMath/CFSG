@@ -130,7 +130,7 @@ theorem exists_coord_equiv [Finite K] (hσ : σ ^ 2 = 1) (hne : σ ≠ 1) {n : �
     (hT : ∀ U : Submodule K (Fin n → K), (U.map T).map T = U) :
     ∃ (e : (Fin n → K) ≃ₗ[K] (Fin n → K)) (c : K), c ≠ 0 ∧
       ∀ v, e (c • T v) = coordSigma σ n (e v) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   obtain ⟨c, hc0, hc⟩ := exists_involutive_smul σ hσ hne T hT
   obtain ⟨x₀, hx₀⟩ := CatalogueBUnitaryNorm.exists_not_fixed σ hne
   let T' : (Fin n → K) →ₛₗ[(σ : K →+* K)] (Fin n → K) :=

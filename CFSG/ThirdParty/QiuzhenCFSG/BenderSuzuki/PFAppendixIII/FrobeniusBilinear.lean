@@ -58,7 +58,7 @@ public theorem frobeniusBilinear_expansion
   have hfinrank_linear : Module.finrank K (K →ₗ[ZMod 2] K) = n := by
     rw [Module.finrank_linearMap, GaloisField.finrank 2 hn.ne']
     simp
-  letI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  let : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hspan : Submodule.span K (Set.range frob) = ⊤ := by
     apply Submodule.eq_top_of_finrank_eq
     rw [finrank_span_eq_card hfrob, Fintype.card_fin, hfinrank_linear]

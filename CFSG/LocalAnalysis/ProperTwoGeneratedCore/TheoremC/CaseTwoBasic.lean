@@ -79,7 +79,7 @@ theorem caseTwo_commute_component_of_pRank_le_one {P : Sylow 2 X} {y : X} (hy : 
     ∀ j ∈ J, Commute y j :=
   commute_of_pRank_le_one hc.center hc.order hJ huJ hrank hy
     (mem_normalizer_component hc.oddCore_eq_bot P hyc hJ) inf_le_right
-    (P.isPGroup'.to_le inf_le_left)
+    (P.isPGroup.to_le inf_le_left)
     (fun _ hRJ hR => card_le_card_sylow_inf_of_isSubnormal P hJ.2 hRJ hR)
     (fun q hq => (Subgroup.mem_centralizer_iff.mp hyc q hq.1).symm)
 

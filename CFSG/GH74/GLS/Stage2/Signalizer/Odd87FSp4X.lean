@@ -61,7 +61,7 @@ theorem exists_lift {F : Type} [Field F] [Finite F] (hodd : ringChar F ≠ 2) {p
       (by norm_num), Finsupp.add_apply, (Fact.out : p.Prime).factorization_pow, Finsupp.single_eq_same,
       Nat.factorization_eq_zero_of_not_dvd (fun h => hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out) Nat.prime_two).mp h))]
     rfl
-  have hQp : IsPGroup p (Q : Subgroup Y) := Q.isPGroup'
+  have hQp : IsPGroup p (Q : Subgroup Y) := Q.isPGroup
   have hX₀p : IsPGroup p X₀ := hQp.map _
   have hX₀le : X₀ ≤ Y := by
     rintro _ ⟨z, -, rfl⟩

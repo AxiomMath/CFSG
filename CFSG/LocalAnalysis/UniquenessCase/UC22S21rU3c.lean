@@ -45,6 +45,7 @@ theorem uc22s21ru3c_isSolvable_centralizer {E : Subgroup Q} (hE : CFSG.perfectRe
     (G := ↥S)
   exact ⟨n, hn.symm.trans hbot⟩
 
+omit [Finite Q] in
 theorem uc22s21ru3c_isSolvable_sup {N T : Subgroup Q} [hN : N.Normal] (hNs : Group.IsSolvable ↥N)
     (hTs : Group.IsSolvable ↥T) : Group.IsSolvable ↥(N ⊔ T) := by
   let L : Subgroup Q := N ⊔ T
@@ -83,7 +84,7 @@ theorem uc22s21ru3c_isSolvable_barPreimage {M : Subgroup G} {H : Subgroup (Bar2 
     exact H.one_mem
   have hK : IsPGroup 2 ↥((CFSG.pCore 2 ↥M).subgroupOf Hc) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
-  haveI := hK.isNilpotent
+  have := hK.isNilpotent
   have hHcs : Group.IsSolvable ↥Hc := by
     refine Group.isSolvable_of_ker_le_range ((CFSG.pCore 2 ↥M).subgroupOf Hc).subtype
       ((uc22p21cPi M).subgroupComap H) ?_
@@ -100,14 +101,14 @@ theorem uc22s21ru3c_isSolvable_barImage {M T : Subgroup G} (hTM : T ≤ M) (hT :
     Group.IsSolvable ↥(barImage M T) := by
   have h1 : IsPGroup 2 ↥(T.subgroupOf M) := hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTM).symm
   have h2 : IsPGroup 2 ↥(barImage M T) := h1.map _
-  haveI := h2.isNilpotent
+  have := h2.isNilpotent
   infer_instance
 
 theorem uc22s21ru3c_exists_Y (D : Data G) (hS : Group.IsSolvable ↥(centE D.M)) :
     ∃ Y : Subgroup G, D.T ≤ Y ∧ Y ≤ D.M ∧ Group.IsSolvable ↥Y ∧
       barPreimage D.M (centE D.M) ≤ Y := by
   have hLn : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hSn : (centE D.M).Normal := uc22p21c_normal_centralizer (CFSG.layer (Bar2 D.M))
+  have hSn : (centE D.M).Normal := uc22p21c_normal_centralizer (CFSG.layer (Bar2 D.M))
   have hTs : Group.IsSolvable ↥(barImage D.M D.T) :=
     uc22s21ru3c_isSolvable_barImage D.sylowM.le D.sylowM.isPGroup
   refine ⟨barPreimage D.M (centE D.M ⊔ barImage D.M D.T), ?_, uc22p21c_barPreimage_le _ _,
@@ -121,7 +122,7 @@ theorem uc22s21ru3c_exists_Y (D : Data G) (hS : Group.IsSolvable ↥(centE D.M))
 
 theorem uc22s21ru3c_pRank_eq_zero {Z Y : Subgroup G} {p : ℕ} (hp : p.Prime) (hZY : Z ≤ Y)
     (hnd : ¬ p ∣ Nat.card Y) : CFSG.Open.pRank p Z = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine Nat.le_zero.1 (CFSG.SectionRank.pRank_le hp.one_lt fun E hEZ hE => ?_)
   have hEp : IsPGroup p ↥E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g.1 g.2)⟩
   rcases hEp.card_eq_or_dvd with h | h

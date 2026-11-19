@@ -55,8 +55,8 @@ theorem exists_slHom_of_card_four
     exact h4
   obtain ⟨F, _, _, hF, hiso⟩ :=
     CFSG.Quasithin.H13.S126P31.exists_mulEquiv_psl_or_sl_of_quotient hperf hodd hPSL
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype F := Fintype.ofFinite F
   let τ : K ≃+* F := FiniteField.ringEquivOfCardEq (K := K) (K' := F) (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hF])
   let mτ : SpecialLinearGroup (Fin 3) K →* SpecialLinearGroup (Fin 3) F :=

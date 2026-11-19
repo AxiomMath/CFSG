@@ -37,7 +37,7 @@ theorem Std.relIndex_L_H (h : Std G L E t) : L.relIndex (centralizer ({t} : Set 
   have hne : L.relIndex (centralizer ({t} : Set G)) ≠ 1 := by
     intro h1
     exact h.ne (le_antisymm (Subgroup.relIndex_eq_one.mp h1) h.L_le_H)
-  haveI : Nonempty ↥(centralizer ({t} : Set G)) := ⟨1, Subgroup.one_mem _⟩
+  have : Nonempty ↥(centralizer ({t} : Set G)) := ⟨1, Subgroup.one_mem _⟩
   have hpos : 0 < L.relIndex (centralizer ({t} : Set G)) :=
     Nat.pos_of_dvd_of_pos (Subgroup.relIndex_dvd_card (H := L)
       (K := centralizer ({t} : Set G))) Nat.card_pos

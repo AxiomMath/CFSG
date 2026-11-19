@@ -37,12 +37,12 @@ theorem dV_digG (γ : ℕ → G) (φ : G) (l : Fin 8 × Bool) :
   · have e : digG (k, false) = k.val + 8 := rfl
     rw [e]
     unfold dV
-    rw [if_neg (by omega), if_pos (by omega), Nat.add_sub_cancel]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), Nat.add_sub_cancel]
     rfl
   · have e : digG (k, true) = k.val := rfl
     rw [e]
     unfold dV
-    rw [if_pos hk]
+    rw [ite_eq_left hk]
     rfl
 
 theorem wV_flatG (γ : ℕ → G) (φ : G) (w : List (Fin 8 × Bool)) :
@@ -78,13 +78,13 @@ theorem wV_mem {H : Subgroup G} {γ : ℕ → G} {φ : G} (hγ : ∀ k < 8, γ k
       change Nat.add (Bool.rec (motive := fun _ => ℕ)
         (Bool.rec (motive := fun _ => ℕ) 2 1 (Nat.beq d 16)) 0 (Nat.blt d 16)) (cntD w) = _
       by_cases h16 : d < 16
-      · rw [Nat.blt_eq.mpr h16, if_pos h16]
+      · rw [Nat.blt_eq.mpr h16, ite_eq_left h16]
         rfl
       · have hb : Nat.blt d 16 = false := by
           rw [Bool.eq_false_iff]
           intro hb
           exact h16 (Nat.blt_eq.mp hb)
-        rw [hb, if_neg h16]
+        rw [hb, ite_eq_right h16]
         by_cases he : d = 16
         · subst he
           rfl
@@ -92,27 +92,27 @@ theorem wV_mem {H : Subgroup G} {γ : ℕ → G} {φ : G} (hγ : ∀ k < 8, γ k
             rw [Bool.eq_false_iff]
             intro hb2
             exact he (Nat.eq_of_beq_eq_true hb2)
-          rw [hb2, if_neg he]
+          rw [hb2, ite_eq_right he]
           rfl
     rw [wV_cons, e, ec]
     by_cases h16 : d < 16
-    · rw [if_pos h16, zero_add]
+    · rw [ite_eq_left h16, zero_add]
       refine ⟨dV γ φ d * h, H.mul_mem ?_ hh, by rw [mul_assoc]⟩
       unfold dV
       by_cases h8 : d < 8
-      · rw [if_pos h8]
+      · rw [ite_eq_left h8]
         exact hγ d h8
-      · rw [if_neg h8, if_pos h16]
+      · rw [ite_eq_right h8, ite_eq_left h16]
         exact H.inv_mem (hγ (d - 8) (by omega))
-    · rw [if_neg h16]
+    · rw [ite_eq_right h16]
       unfold dV
-      rw [if_neg (by omega), if_neg h16]
+      rw [ite_eq_right (by omega), ite_eq_right h16]
       by_cases he : d = 16
-      · rw [if_pos he, if_pos he]
+      · rw [ite_eq_left he, ite_eq_left he]
         refine ⟨φ * h * φ⁻¹, hn h hh, ?_⟩
         rw [pow_add, pow_one]
         simp only [mul_assoc, inv_mul_cancel_left]
-      · rw [if_neg he, if_neg he]
+      · rw [ite_eq_right he, ite_eq_right he]
         refine ⟨φ * (φ * h * φ⁻¹) * φ⁻¹, hn _ (hn h hh), ?_⟩
         rw [pow_add, pow_two]
         simp only [mul_assoc, inv_mul_cancel_left]
@@ -137,15 +137,15 @@ theorem dPt_spec (hγ : ∀ k < 8, ∀ p : Fin 26572, (γ k p : ℕ) = tabAt F k
     (d : ℕ) (p : Fin 26572) : dPt F P d p = (dV γ φ d p : ℕ) := by
   unfold dPt dV
   by_cases h8 : d < 8
-  · rw [Nat.blt_eq.mpr h8, if_pos h8]
+  · rw [Nat.blt_eq.mpr h8, ite_eq_left h8]
     exact (hγ d h8 p).symm
   have hb8 : Nat.blt d 8 = false := by
     rw [Bool.eq_false_iff]
     intro hb
     exact h8 (Nat.blt_eq.mp hb)
-  rw [hb8, if_neg h8]
+  rw [hb8, ite_eq_right h8]
   by_cases h16 : d < 16
-  · rw [Nat.blt_eq.mpr h16, if_pos h16]
+  · rw [Nat.blt_eq.mpr h16, ite_eq_left h16]
     change strictN (tabAt F (d - 8) p) (tabAt F (d - 8)) = _
     rw [strictN_eqP, inv_apply_of_cube (h3 (d - 8) (by omega)), ← hγ (d - 8) (by omega) p,
       ← hγ (d - 8) (by omega)]
@@ -153,16 +153,16 @@ theorem dPt_spec (hγ : ∀ k < 8, ∀ p : Fin 26572, (γ k p : ℕ) = tabAt F k
     rw [Bool.eq_false_iff]
     intro hb
     exact h16 (Nat.blt_eq.mp hb)
-  rw [hb16, if_neg h16]
+  rw [hb16, ite_eq_right h16]
   by_cases he : d = 16
   · subst he
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact (hφ p).symm
   have hbe : Nat.beq d 16 = false := by
     rw [Bool.eq_false_iff]
     intro hb
     exact he (Nat.eq_of_beq_eq_true hb)
-  rw [hbe, if_neg he]
+  rw [hbe, ite_eq_right he]
   change strictN (tabAt P 0 p) (tabAt P 0) = _
   rw [strictN_eqP, inv_apply_of_cube hφ3, ← hφ p, ← hφ]
 

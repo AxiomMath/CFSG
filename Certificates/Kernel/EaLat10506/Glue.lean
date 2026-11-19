@@ -124,8 +124,8 @@ theorem enc_eltPos (w : ℕ) : ∀ len,
       simp [wordOf, List.range_succ]
     rw [e, eltPos_snoc, enc10_closEnc.enc_mul, enc_eltPos w len, wK_succ]
     cases w.testBit len
-    · rw [if_neg Bool.false_ne_true, enc_gen0]
-    · rw [if_pos rfl, enc_gen1]
+    · rw [ite_eq_right Bool.false_ne_true, enc_gen0]
+    · rw [ite_eq_left rfl, enc_gen1]
 
 theorem GT_eq (i : Fin 4) : GT i.val = enc10 (t24Gen i) := by
   exact (GT_wK i.val i.isLt).trans (enc_eltPos _ _).symm
@@ -136,7 +136,7 @@ theorem gensT_closure : Subgroup.closure {g | g ∈ gensT} = t24 := by
   unfold t24
   congr 1
   ext g
-  simp only [gensT, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_range]
+  simp only [gensT, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_range]
   constructor
   · rintro (h | h | h | h)
     exacts [⟨0, h.symm⟩, ⟨1, h.symm⟩, ⟨2, h.symm⟩, ⟨3, h.symm⟩]
@@ -231,7 +231,7 @@ open Classical in
   if h : ∃ g : PM24, enc10 g = V i then h.choose else 1
 
 theorem enc_vI {i : ℕ} (h : ∃ g : PM24, enc10 g = V i) : enc10 (vI i) = V i := by
-  rw [vI, dif_pos h]
+  rw [vI, dite_eq_left h]
   exact h.choose_spec
 
 theorem finite_PM24 : Finite PM24 :=

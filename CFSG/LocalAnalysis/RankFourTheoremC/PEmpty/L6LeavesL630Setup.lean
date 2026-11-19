@@ -19,14 +19,17 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (smallRankD smallRankF smallRankCenter
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rankThreePrimeCore_le_self (p : ℕ) (H : Subgroup G) : rankThreePrimeCore p H ≤ H := by
   unfold rankThreePrimeCore relPPrimeCore
   exact sSup_le fun _ hN => hN.1
 
+omit [Finite G] in
 theorem pCoreOf_le_self (p : ℕ) (H : Subgroup G) : pCoreOf p H ≤ H := by
   unfold pCoreOf
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem le_pCoreOf {p : ℕ} {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal)
     (hpN : IsPGroup p N) : N ≤ pCoreOf p H := by
   have hsub : IsPGroup p (N.subgroupOf H) := hpN.comap_subtype
@@ -36,6 +39,7 @@ theorem le_pCoreOf {p : ℕ} {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgrou
   calc N = (N.subgroupOf H).map H.subtype := h2
     _ ≤ _ := Subgroup.map_mono h1
 
+omit [Finite G] in
 theorem pCoreOf_subgroupOf_normal (p : ℕ) (H : Subgroup G) :
     ((pCoreOf p H).subgroupOf H).Normal := by
   unfold pCoreOf
@@ -43,6 +47,7 @@ theorem pCoreOf_subgroupOf_normal (p : ℕ) (H : Subgroup G) :
   rw [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
   infer_instance
 
+omit [Finite G] in
 theorem pCoreOf_isPGroup (p : ℕ) (H : Subgroup G) : IsPGroup p (pCoreOf p H) := by
   unfold pCoreOf
   exact (CFSG.pCore_isPGroup (p := p) (G := ↥H)).map H.subtype
@@ -51,10 +56,11 @@ theorem rankThreePrimeCore_subgroupOf_normal {p : ℕ} (hp : p.Prime) (C : Subgr
     ((rankThreePrimeCore p C).subgroupOf C).Normal :=
   CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_normal hp C
 
+omit [Finite G] in
 theorem conj_mem_pCoreOf {q : ℕ} {C D : Subgroup G} (hDC : D ≤ C)
-    (hD : (D.subgroupOf C).Normal) (hq : q.Prime) {g : G} (hg : g ∈ C) {k : G}
+    (hD : (D.subgroupOf C).Normal) (_hq : q.Prime) {g : G} (hg : g ∈ C) {k : G}
     (hk : k ∈ pCoreOf q D) : g * k * g⁻¹ ∈ pCoreOf q D := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨_hq⟩
   set K : Subgroup G := pCoreOf q D with hKdef
   have hKD : K ≤ D := pCoreOf_le_self q D
   have hKn : (K.subgroupOf D).Normal := pCoreOf_subgroupOf_normal q D
@@ -94,6 +100,7 @@ theorem conj_mem_pCoreOf {q : ℕ} {C D : Subgroup G} (hDC : D ≤ C)
   have hN_le : N ≤ pCoreOf q D := le_pCoreOf hND hNn hNp
   exact hN_le (Subgroup.mem_map.mpr ⟨k, hk, rfl⟩)
 
+omit [Finite G] in
 theorem conj_mem_closure_of_gen {S : Set G} (g : G)
     (h : ∀ s ∈ S, g * s * g⁻¹ ∈ closure S) : ∀ a ∈ closure S, g * a * g⁻¹ ∈ closure S := by
   have hle : closure S ≤ (closure S).comap (MulAut.conj g).toMonoidHom := by
@@ -149,7 +156,8 @@ theorem mem_normalizer_smallRankF {p f : ℕ} {x g : G} (hp : p.Prime) (hf : f.P
     have := hfwd g⁻¹ (C.inv_mem hg) _ ha
     simpa [mul_assoc] using this
 
-theorem smallRankF_le_centralizer {p f : ℕ} {x : G} (hf : f.Prime) :
+omit [Finite G] in
+theorem smallRankF_le_centralizer {p f : ℕ} {x : G} (_hf : f.Prime) :
     smallRankF p f x ≤ centralizer ({x} : Set G) := by
   have hK : smallRankF p f x ≤ pCoreOf f (smallRankD p x) := by
     unfold smallRankF smallRankOmega
@@ -161,6 +169,7 @@ theorem smallRankF_le_centralizer {p f : ℕ} {x : G} (hf : f.Prime) :
     rankThreePrimeCore_le_self p (centralizer ({x} : Set G))
   exact hK.trans ((pCoreOf_le_self f _).trans hDC)
 
+omit [Finite G] in
 theorem le_fittingSubgroupOf_of_normal {H N : Subgroup G} (hNH : N ≤ H)
     (hN : (N.subgroupOf H).Normal) (hnil : Group.IsNilpotent N) :
     N ≤ fittingSubgroupOf H := by
@@ -175,7 +184,7 @@ theorem le_fittingSubgroupOf_of_normal {H N : Subgroup G} (hNH : N ≤ H)
 theorem smallRankF_inf_eq_bot {p f : ℕ} {x : G} {M : Subgroup G} (hf : f.Prime) (hf2 : f ≠ 2)
     (hfit : fittingSubgroupOf (rankThreePrimeCore 2 (smallRankD p x)) ⊓ M = ⊥) :
     smallRankF p f x ⊓ M = ⊥ := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set D : Subgroup G := smallRankD p x with hD
   set K : Subgroup G := pCoreOf f D with hK
   set O : Subgroup G := rankThreePrimeCore 2 D with hO
@@ -249,6 +258,7 @@ theorem odd_card_centralizer_of_rank {f : ℕ} (hf : f.Prime) {F : Subgroup G}
   unfold rankThreeLocalRank at hloc
   omega
 
+omit [Finite G] in
 theorem eq_one_of_mem_smallRankF_comm {p f : ℕ} {x z : G} {M : Subgroup G}
     (hC : centralizer ({z} : Set G) ≤ M) (hFM : smallRankF p f x ⊓ M = ⊥)
     {a : G} (ha : a ∈ smallRankF p f x) (hz : a * z = z * a) : a = 1 := by

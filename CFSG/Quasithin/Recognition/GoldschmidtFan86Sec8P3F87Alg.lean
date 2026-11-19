@@ -4,7 +4,7 @@ public import CFSG.Quasithin.Recognition.GoldschmidtFan86Sec8Base
 public import Mathlib.Algebra.BigOperators.Fin
 public import Mathlib.Tactic.Group
 public import Mathlib.Tactic.FinCases
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 
 public section
 

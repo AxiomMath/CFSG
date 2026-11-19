@@ -30,12 +30,6 @@ theorem largeEvenRawDatumLegacy_of_canonical_carrier {lab : LargeEvenLabel}
   all_goals dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRawDatumLegacy] at h ⊢
   all_goals first
     | exact h
-    | (dsimp only [LargeEvenRecipeG2Derived, LargeEvenRecipeChevalley] at h ⊢
-       obtain ⟨K, hf, hfin, hK, hQ⟩ := h
-       exact ⟨K, hf, hfin, hK, hQ⟩)
-    | (dsimp only [LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4] at h ⊢
-       obtain ⟨K, hf, hfin, hK, hQ⟩ := h
-       exact ⟨K, hf, hfin, hK, hQ⟩)
 
 theorem ggHasLabel_of_hasLabel {J : Type} [Group J] {lab : GLALabel}
     (h : HasLabel J (· = lab)) :
@@ -45,7 +39,7 @@ theorem ggHasLabel_of_hasLabel {J : Type} [Group J] {lab : GLALabel}
   obtain ⟨R, _, I, F, hs, -, θ, hθeq⟩ :=
     CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   subst lab'
-  haveI := hs
+  have := hs
   refine ⟨hlam, θ.isSimpleGroup, ?_⟩
   have hraw' : CFSG.Assembly.LargeEvenRawDatum lab
       (fun R' _ _ _ => Nonempty (J ⧸ Subgroup.center J ≃* R')) := by
@@ -86,7 +80,7 @@ theorem canonLabel_eq_of_ggLabelIso {lab lab' : GLALabel} (h : GGLabelIso lab la
 theorem not_isSimpleGroup_of_card_eq_six {Q : Type*} [Group Q] (hQ : Nat.card Q = 6) :
     ¬ IsSimpleGroup Q := by
   intro hsimple
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
   have h3dvd : 3 ∣ Nat.card Q := by rw [hQ]; norm_num
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Q) 3 h3dvd
   set H : Subgroup Q := Subgroup.zpowers g with hHdef
@@ -96,8 +90,8 @@ theorem not_isSimpleGroup_of_card_eq_six {Q : Type*} [Group Q] (hQ : Nat.card Q 
     have hci := Subgroup.card_mul_index (H := H)
     rw [hHcard, hQ] at hci
     omega
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hHindex
-  haveI : IsSimpleGroup Q := hsimple
+  have : H.Normal := Subgroup.normal_of_index_eq_two hHindex
+  have : IsSimpleGroup Q := hsimple
   rcases Subgroup.Normal.eq_bot_or_eq_top H with hbot | htop
   · rw [hbot, Subgroup.card_bot] at hHcard
     omega
@@ -140,7 +134,7 @@ theorem linLabelDict_of_ggLabelRigidInput (hRig : GGLabelRigidInput) : LinLabelD
   intro J _ _ labJ a m E _ _ ha hE hJ he
   obtain ⟨e⟩ := he
   obtain ⟨hlab, hs, hhas⟩ := ggHasLabel_of_hasLabel hJ
-  haveI := hs
+  have := hs
   have hM : StatedClassicalModel (J ⧸ Subgroup.center J) .PSL a 2 m :=
     statedClassicalModel_psl_of_isSimpleGroup ha hE e
   have hM' : StatedClassicalModel (J ⧸ Subgroup.center J) .PSL (a - 1 + 1) 2 m := by

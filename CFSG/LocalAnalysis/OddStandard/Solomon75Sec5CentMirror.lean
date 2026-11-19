@@ -68,7 +68,7 @@ theorem exists_isSylowTwoIn_normalized {Y B : Subgroup X} (hB : IsPGroup 2 ↥B)
   obtain ⟨Q, hQ⟩ := exists_sylow_normalized hB hBY
   set Zs : Subgroup X := (Q : Subgroup ↥Y).map Y.subtype with hZs
   have hsyl : IsSylowTwoIn Y Zs := by
-    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map Y.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map Y.subtype, ?_⟩
     show ¬ 2 ∣ (Zs.subgroupOf Y).index
     have : Zs.subgroupOf Y = (Q : Subgroup ↥Y) := by
       rw [hZs, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]

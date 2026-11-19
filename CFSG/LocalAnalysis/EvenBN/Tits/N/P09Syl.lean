@@ -95,7 +95,7 @@ theorem p09_card_cases (hd : d.Hyp) :
 
 theorem p09_sylow (hd : d.Hyp) :
     fusionIsSylowIn 2 (sylT d) (centralizer ({d.t} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk, hkC⟩ : ∃ k : ℕ, Nat.card (sylT d) = 2 ^ k ∧
       Nat.card (centralizer ({d.t} : Set G)) = 2 ^ k * 8775 := by
     rcases p09_card_cases hd with ⟨h1, h2⟩ | ⟨h1, h2⟩

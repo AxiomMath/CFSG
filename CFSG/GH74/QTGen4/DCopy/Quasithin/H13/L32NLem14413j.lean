@@ -260,11 +260,10 @@ theorem Orders_F4.isDSystemIn_F4 (h1332 : Stmt13_3_2_F4) (O : C.Orders_F4) :
     · exact absurd rfl hij
   · intro i j k hij hik hjk
     fin_cases i <;> fin_cases j <;> fin_cases k <;>
-      first
+      try first
       | exact absurd rfl hij
       | exact absurd rfl hik
       | exact absurd rfl hjk
-      | skip
     · exact fun h => O.not_L1_le_H3_F4 ((le_inf (CFSG.Quasithin.H13.L14413.XCtx.L1_le_L.trans le_sup_left) hL1 |>.trans
         h.le).trans inf_le_right)
     · exact fun h => O.not_L1_le_H3_F4 ((le_inf (CFSG.Quasithin.H13.L14413.XCtx.L1_le_L.trans le_sup_left) hL1 |>.trans

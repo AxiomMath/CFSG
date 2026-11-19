@@ -346,7 +346,7 @@ theorem isPiSubgroup_sylowPiPart_piThreePrimes (hnil : Group.IsNilpotent (commut
   refine (isPiSubgroup_piCore (piThreePrimes X) X).of_le (sylowPiPart_le fun p hp hπ P => ?_)
   have : Fact p.Prime := ⟨hp⟩
   exact le_piCore (sylow_normal_of_mem_piThreePrimes hnil hπ P)
-    (((isPiSubgroup_singleton_iff hp _).2 P.isPGroup').mono (Set.singleton_subset_iff.2 hπ))
+    (((isPiSubgroup_singleton_iff hp _).2 P.isPGroup).mono (Set.singleton_subset_iff.2 hπ))
 
 theorem isHallSubgroup_sylowPiPart_piThreePrimes (hnil : Group.IsNilpotent (commutator X)) :
     IsHallSubgroup (piThreePrimes X) (sylowPiPart (piThreePrimes X) X) where

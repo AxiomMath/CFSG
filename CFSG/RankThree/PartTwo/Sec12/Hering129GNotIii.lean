@@ -71,7 +71,7 @@ theorem exists_conj_of_autIn_sl23 {E F M : Subgroup G} {x : G} (hxE : x ∈ E) (
     have h1 : Ω = ((F.subgroupOf E : Subgroup E) : Set E) \ {1} := by
       ext w
       simp [hΩdef, Subgroup.mem_subgroupOf]
-    rw [h1, Set.ncard_diff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
+    rw [h1, Set.ncard_sdiff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
     have h2 : Nat.card (F.subgroupOf E) = Nat.card F :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFE).toEquiv
     rw [SetLike.coe_sort_coe, h2, hF9]

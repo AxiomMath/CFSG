@@ -40,7 +40,7 @@ theorem rank_eq_two_of_in1512_aux_eP {Q p : ℕ} (hp : p.Prime) (h : eP Q p = 2)
     unfold eP at h
     rw [h1, orderOf_one] at h
     omega
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rcases sq_eq_one_iff.mp h2 with h3 | h3
   · exact absurd h3 h1
   · rw [← CharP.cast_eq_zero_iff (ZMod p) p (Q + 1), Nat.cast_add, Nat.cast_one, h3]
@@ -57,7 +57,7 @@ theorem rank_eq_two_of_in1512_aux_eM {Q p : ℕ} (hp : p.Prime) (hQ : 1 ≤ Q) (
     unfold eM at h
     rw [h1, orderOf_one] at h
     omega
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rcases sq_eq_one_iff.mp h2 with h3 | h3
   · exact absurd h3 h1
   · exact (eP_eq_one_iff hQ).mp (orderOf_eq_one_iff.mpr (neg_inj.mp h3))
@@ -89,8 +89,8 @@ theorem rank_eq_two_of_in1512_aux_G2 {Q p : ℕ} (hQ : 1 ≤ Q) (h : rkG2 Q p = 
   unfold rkG2 at h
   by_cases h1 : eS Q p = 1
   · exact (eS_eq_one_iff hQ).mp h1
-  · rw [if_neg h1] at h
-    split_ifs at h <;> omega
+  · rw [ite_eq_right h1] at h
+    split_ifs at h; omega
 
 theorem rank_eq_two_of_in1512_aux_B2 {Q p : ℕ} (hQ : 1 ≤ Q) (h : rkSp 2 Q p = 2) :
     p ∣ Q ^ 2 - 1 := by
@@ -121,12 +121,12 @@ theorem rank_eq_two_of_in1512_aux_A3 {Q p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
     omega
   rw [rank_eq_two_of_in1512_aux_rkLin_true] at h
   by_cases h1 : eP Q p = 1
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     have hδ : ¬ (¬ p ∣ z ∧ p ∣ 4 ∧ 4 ≤ 4 ∧ padicValNat p (Q - 1) ≤ padicValNat p 4) :=
       fun hc => h4 hc.2.1
-    rw [if_neg hδ] at h
+    rw [ite_eq_right hδ] at h
     omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
     have : eP Q p = 2 := by omega
     exact rank_eq_two_of_in1512_aux_eP hp this
@@ -138,12 +138,12 @@ theorem rank_eq_two_of_in1512_aux_U4 {Q p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
     omega
   rw [rank_eq_two_of_in1512_aux_rkLin_false] at h
   by_cases h1 : eM Q p = 1
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     have hδ : ¬ (¬ p ∣ z ∧ p ∣ 4 ∧ 4 ≤ 4 ∧ padicValNat p (Q + 1) ≤ padicValNat p 4) :=
       fun hc => h4 hc.2.1
-    rw [if_neg hδ] at h
+    rw [ite_eq_right hδ] at h
     omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
     have : eM Q p = 2 := by omega
     exact rank_eq_two_of_in1512_aux_eM hp hQ this
@@ -153,7 +153,7 @@ theorem rank_eq_two_of_in1512_aux_A2 {Q p z : ℕ} (hQ : 1 ≤ Q) (h : rkLin 3 t
   rw [rank_eq_two_of_in1512_aux_rkLin_true] at h
   by_cases h1 : eP Q p = 1
   · exact (eP_eq_one_iff hQ).mp h1
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
     exfalso
     omega
@@ -167,7 +167,7 @@ theorem rank_eq_two_of_in1512_aux_eP_two_ne_one {p : ℕ} (hp5 : 5 ≤ p) : eP 2
 theorem rank_eq_two_of_in1512_aux_L5 {p z : ℕ} (hp5 : 5 ≤ p) (h : rkLin 5 true 2 p z = 2) :
     False := by
   rw [rank_eq_two_of_in1512_aux_rkLin_true,
-    if_neg (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
+    ite_eq_right (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
   have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
   have he : eP 2 p = 2 := by omega
   have h3 := rank_eq_two_of_in1512_aux_dvd_pow (Q := 2) (p := p) (by norm_num)
@@ -178,7 +178,7 @@ theorem rank_eq_two_of_in1512_aux_L5 {p z : ℕ} (hp5 : 5 ≤ p) (h : rkLin 5 tr
 theorem rank_eq_two_of_in1512_aux_L6 {p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h : rkLin 6 true 2 p z = 2) : p = 7 := by
   rw [rank_eq_two_of_in1512_aux_rkLin_true,
-    if_neg (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
+    ite_eq_right (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
   have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
   have he : eP 2 p = 3 := by omega
   have h3 := rank_eq_two_of_in1512_aux_dvd_pow (Q := 2) (p := p) (by norm_num)
@@ -188,7 +188,7 @@ theorem rank_eq_two_of_in1512_aux_L6 {p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
 theorem rank_eq_two_of_in1512_aux_L7 {p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h : rkLin 7 true 2 p z = 2) : p = 7 := by
   rw [rank_eq_two_of_in1512_aux_rkLin_true,
-    if_neg (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
+    ite_eq_right (rank_eq_two_of_in1512_aux_eP_two_ne_one hp5)] at h
   have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
   have he : eP 2 p = 3 := by omega
   have h3 := rank_eq_two_of_in1512_aux_dvd_pow (Q := 2) (p := p) (by norm_num)
@@ -199,9 +199,9 @@ theorem rank_eq_two_of_in1512_aux_U5 {p z : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h : rkLin 5 false 4 p z = 2) : False := by
   rw [rank_eq_two_of_in1512_aux_rkLin_false] at h
   by_cases h1 : eM 4 p = 1
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     split_ifs at h <;> omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     have h2 := rank_eq_two_of_in1512_aux_div (by norm_num) h
     have he : eM 4 p = 2 := by omega
     have h3 := rank_eq_two_of_in1512_aux_eM_sq (by norm_num) he

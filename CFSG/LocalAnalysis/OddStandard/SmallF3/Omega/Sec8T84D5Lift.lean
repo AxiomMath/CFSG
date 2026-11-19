@@ -160,7 +160,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
   have hσ2 : σ ^ 2 = 1 := by
     change (MulAction.toPermHom (MulAut ↥K) (Sylow 2 ↥K) φ) ^ 2 = 1
     rw [← map_pow, hφ2, map_one]
-  haveI : Fintype (Sylow 2 ↥K) := Fintype.ofFinite _
+  have : Fintype (Sylow 2 ↥K) := Fintype.ofFinite _
   have hodd : ¬ 2 ∣ Fintype.card (Sylow 2 ↥K) := by
     rw [← Nat.card_eq_fintype_card]
     exact not_dvd_card_sylow 2 ↥K
@@ -176,7 +176,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
     rw [hfix] at h1
     simpa using h1
   let PG : Subgroup G := (P' : Subgroup ↥K).map K.subtype
-  have hPG2 : IsPGroup 2 PG := P'.isPGroup'.map K.subtype
+  have hPG2 : IsPGroup 2 PG := P'.isPGroup.map K.subtype
   have hPGleK : PG ≤ K := Subgroup.map_subtype_le _
   have hPGlePQ : PG ≤ P ⊔ Q := hPGleK.trans hKlePQ
   have hP'Q : PG ⊓ Q = ⊥ := by
@@ -231,7 +231,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
     exact (Subgroup.mem_normalizer_iff.mp (hNleNormQ (hKleN g.2)) (n : G)).mp
       (Subgroup.mem_subgroupOf.mp hn)
   have hquot : IsPGroup 2 (↥K ⧸ Q.subgroupOf K) := by
-    haveI : (Q.subgroupOf K).Normal := hQnormK
+    have : (Q.subgroupOf K).Normal := hQnormK
     have hPQle : P ≤ Subgroup.normalizer (Q : Set G) := hPnorm
     have hPQ : P ⊓ Q = ⊥ := by
       have hdisj : Disjoint P Q :=
@@ -258,7 +258,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
       exact (e1.trans e2).trans (e3.trans e4)
     exact hP2.of_equiv e.symm
   have hKle : K ≤ PG ⊔ Q := by
-    haveI : (Q.subgroupOf K).Normal := hQnormK
+    have : (Q.subgroupOf K).Normal := hQnormK
     intro x hxK
     have hq : QuotientGroup.mk' (Q.subgroupOf K) ⟨x, hxK⟩ ∈
         (P' : Subgroup ↥K).map (QuotientGroup.mk' (Q.subgroupOf K)) := by
@@ -276,7 +276,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
       group
     have hx_eq : x = (y : G) * (((y⁻¹ * ⟨x, hxK⟩ : ↥K) : G)) := by
       have := congrArg Subtype.val (show (⟨x, hxK⟩ : ↥K) = y * (y⁻¹ * ⟨x, hxK⟩) by group)
-      simpa using this
+      simp
     rw [hx_eq]
     exact Subgroup.mul_mem_sup (Subgroup.mem_map_of_mem K.subtype hyP)
       (Subgroup.mem_subgroupOf.mp hyker)
@@ -287,6 +287,7 @@ theorem sec8t84d5_lift {N E P : Subgroup G} {t : G} (hEN : E ≤ N) (hE2 : IsPGr
         _ ≤ PG ⊔ Q := sup_le hKle le_sup_right
   exact ⟨PG, hPGle, hPG2, hcentral, hP'Q, hPGQ⟩
 
+omit [Finite G] in
 theorem sec8t84d5_equiv_of_sup_eq {A B Q : Subgroup G} (hA : A ⊓ Q = ⊥) (hB : B ⊓ Q = ⊥)
     (hsup : A ⊔ Q = B ⊔ Q) (hn : ∀ x ∈ A ⊔ Q, ∀ q ∈ Q, x * q * x⁻¹ ∈ Q) :
     Nonempty (↥A ≃* ↥B) := by
@@ -302,10 +303,10 @@ theorem sec8t84d5_equiv_of_sup_eq {A B Q : Subgroup G} (hA : A ⊓ Q = ⊥) (hB 
   have hdisjB : Disjoint Q B := disjoint_iff.mpr (by rw [inf_comm]; exact hB)
   have hqA : Q.subgroupOf A = ⊥ := Subgroup.subgroupOf_eq_bot.mpr hdisjA
   have hqB : Q.subgroupOf B = ⊥ := Subgroup.subgroupOf_eq_bot.mpr hdisjB
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hAle
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAle
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hBle
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBle
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hAle
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAle
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hBle
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBle
   have eA : ↥A ≃* ↥(A ⊔ Q) ⧸ Q.subgroupOf (A ⊔ Q) := by
     have h := QuotientGroup.quotientInfEquivProdNormalizerQuotient A Q hAle
     exact ((QuotientGroup.quotientBot (G := ↥A)).symm.trans

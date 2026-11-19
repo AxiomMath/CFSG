@@ -59,8 +59,8 @@ theorem false_of_three_members {A : Type} [Group A] [Finite A] {Y P : Subgroup A
       norm_num
     · rintro k - ⟨hki, hkj⟩
       exact natCard_gl_fin_of_le_one hK (by have := hk0 k hki hkj; omega)
-  haveI : Group.IsSolvable (↥P ⧸ CFSG.pCore 2 ↥P) := by
-    haveI := Fintype.ofFinite (↥P ⧸ CFSG.pCore 2 ↥P)
+  have : Group.IsSolvable (↥P ⧸ CFSG.pCore 2 ↥P) := by
+    have := Fintype.ofFinite (↥P ⧸ CFSG.pCore 2 ↥P)
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 2) (q := 3) (a := 2) (b := 2) Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
@@ -87,8 +87,8 @@ theorem false_of_three_members {A : Type} [Group A] [Finite A] {Y P : Subgroup A
     omega
   ·
     obtain ⟨hperf, hsimple⟩ := hq
-    haveI : Group.IsPerfect ↥X₁ := Group.isPerfect_def.mpr hperf
-    haveI : Nontrivial ↥X₁ := (QuotientGroup.mk'_surjective (Subgroup.center ↥X₁)).nontrivial
+    have : Group.IsPerfect ↥X₁ := Group.isPerfect_def.mpr hperf
+    have : Nontrivial ↥X₁ := (QuotientGroup.mk'_surjective (Subgroup.center ↥X₁)).nontrivial
     exact Group.IsPerfect.not_isSolvable (G := ↥X₁) inferInstance
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNotLe.AltEight

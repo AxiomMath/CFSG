@@ -42,7 +42,7 @@ theorem factorization_card_range_monEmb {F : Type} [Field F] {r : ℕ} [Fact r.P
     padicValNat.prime_pow]
 
 theorem exists_conj_monomial_GL {F : Type} [Field F] [Fintype F] {r m : ℕ} [Fact r.Prime]
-    (hr : r ≠ 2) (hrF : r ∣ Fintype.card F - 1) (hm : 1 ≤ m)
+    (hr : r ≠ 2) (hrF : r ∣ Fintype.card F - 1) (_hm : 1 ≤ m)
     (H : Subgroup (GL (Fin m) F)) (hH : IsPGroup r H) :
     ∃ g : GL (Fin m) F, ∀ x ∈ H,
       g * x * g⁻¹ ∈ (monEmb (unitsPPart F r).subtype m).range := by

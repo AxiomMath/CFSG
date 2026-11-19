@@ -88,7 +88,7 @@ theorem le_of_normal {V L S M : Subgroup H} (hc : LocConf H V L S M) {K : Subgro
     exact h1
   have hPle : (P : Subgroup ↥W).map W.subtype ≤ pCoreOf 2 W :=
     LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (Subgroup.map_subtype_le _) hPW
-      (P.isPGroup'.map W.subtype)
+      (P.isPGroup.map W.subtype)
   rw [hR, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ W.subtype_injective] at hPle
   have hodd : Nat.Coprime 2 (Nat.card ↥W) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr fun h2 =>

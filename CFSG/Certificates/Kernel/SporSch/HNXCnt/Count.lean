@@ -92,12 +92,12 @@ theorem hnxC_eq (b : Nat) : hnxC b = if b < 17812 then 64 else 32 := by
   rw [count_nIf_eq]
   by_cases hb : b < 17812
   · have : Nat.blt b 17812 = true := Nat.blt_eq.mpr hb
-    simp only [this, hb, if_true]
+    simp only [this, hb, ite_true]
   · have : Nat.blt b 17812 = false := by
       cases h : Nat.blt b 17812
       · rfl
       · exact absurd (Nat.blt_eq.mp h) hb
-    simp only [this, hb, if_false]
+    simp only [this, hb, ite_false]
     rfl
 
 theorem hnxS_eq (m : Nat) : hnxS m = if m < 17812 then 64 else 31 := by
@@ -105,12 +105,12 @@ theorem hnxS_eq (m : Nat) : hnxS m = if m < 17812 then 64 else 31 := by
   rw [count_nIf_eq]
   by_cases hb : m < 17812
   · have : Nat.blt m 17812 = true := Nat.blt_eq.mpr hb
-    simp only [this, hb, if_true]
+    simp only [this, hb, ite_true]
   · have : Nat.blt m 17812 = false := by
       cases h : Nat.blt m 17812
       · rfl
       · exact absurd (Nat.blt_eq.mp h) hb
-    simp only [this, hb, if_false]
+    simp only [this, hb, ite_false]
     rfl
 
 theorem count_sum_blocks (f : Nat → Nat) (N : Nat) :
@@ -128,9 +128,9 @@ theorem sum_leaves (f : Nat → Nat) :
   have h1 : ∑ b ∈ Finset.range 17812, ∑ r ∈ Finset.range (hnxC b), f (64 * b + r) =
       ∑ b ∈ Finset.range 17812, ∑ r ∈ Finset.range 64, f (64 * b + r) := by
     refine Finset.sum_congr rfl (fun b hb => ?_)
-    rw [hnxC_eq, if_pos (Finset.mem_range.mp hb)]
+    rw [hnxC_eq, ite_eq_left (Finset.mem_range.mp hb)]
   have h2 : hnxC 17812 = 32 := by
-    rw [hnxC_eq, if_neg (Nat.lt_irrefl _)]
+    rw [hnxC_eq, ite_eq_right (Nat.lt_irrefl _)]
   rw [h1, h2, count_sum_blocks, show (1140000 : Nat) = 64 * 17812 + 32 from rfl,
     Finset.sum_range_add]
 

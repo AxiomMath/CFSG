@@ -58,7 +58,7 @@ theorem prep_cBTab' :
 
 theorem cIdx_of (y : X) :
     cIdx y.val = ((cR • y : X) : ℕ) := by
-  rw [cIdx, dif_pos y.isLt]
+  rw [cIdx, dite_eq_left y.isLt]
 
 theorem alpha_get {i : ℕ} (hi : i < hnsData.n) :
     (natTab (hnsData.orbit ()).alpha)[i]! = ap alphaT i :=
@@ -74,7 +74,7 @@ theorem cIdx_step {g : JH}
   have hy : (⟨t[i]!, ht.lt hi⟩ : X) = g • (⟨i, hi⟩ : X) :=
     Fin.ext ((ht.apply hi).trans (congrArg Fin.val (permJ_apply g _)))
   have hc : cIdx i = ((cR • (⟨i, hi⟩ : X) : X) : ℕ) := cIdx_of ⟨i, hi⟩
-  rw [cIdx, dif_pos (ht.lt hi), hy, cR_smul_conj, hc, hct.apply (cR • (⟨i, hi⟩ : X)).isLt,
+  rw [cIdx, dite_eq_left (ht.lt hi), hy, cR_smul_conj, hc, hct.apply (cR • (⟨i, hi⟩ : X)).isLt,
     permJ_apply]
 
 theorem cRec_facts :
@@ -86,7 +86,7 @@ theorem cRec_facts :
   refine cRec_spec (α := ap alphaT) (β := ap betaT) (fun i hi => alpha_get hi)
     (fun i hi => beta_get hi) (fun i hi => ⟨(matA_PK hi).1, (matB_PK hi).1⟩) hns_bfsOrder ?_
     (fun i hi => ?_) (fun i hi => ?_)
-  · rw [cIdx, dif_pos (by decide)]
+  · rw [cIdx, dite_eq_left (by decide)]
     exact congrArg Fin.val cR_smul_x0
   · rw [← alpha_get hi]
     exact cIdx_step prep_aTab prep_cATab' hi

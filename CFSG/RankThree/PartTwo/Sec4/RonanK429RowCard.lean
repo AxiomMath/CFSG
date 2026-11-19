@@ -47,8 +47,8 @@ theorem le_card_of_isoLThreePi {T : Type} [Group T] [Finite T] [Group.IsPerfect 
     · exfalso
       obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp hq2
       have hs := Sec13.isSolvable_projSU_two
-      have hsolv : IsSolvable T :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+      have hsolv : Group.IsSolvable T :=
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       have h1 : Nat.card T = 1 := by
         by_contra hne
         have : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp (by
@@ -102,7 +102,7 @@ theorem noCfgS429_of_card_lt
     {S : Type} [Group S] [Finite S] (h : Nat.card S < 2520) :
     NoCfgS429 S := by
   intro A σ K hc
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have h1 := le_card_of_isType429 hc.isType
   have h2 : Nat.card (K ⧸ CFSG.pCore 2 K) ≤ Nat.card K :=
     Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card _)

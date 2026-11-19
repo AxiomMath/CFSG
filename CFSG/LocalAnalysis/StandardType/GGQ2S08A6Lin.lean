@@ -53,7 +53,7 @@ private lemma a6_perm6_e6 (σ : Equiv.Perm (Fin 6)) (i : Fin 6) :
     perm6 σ (e6 i) = e6 (σ i) := by
   funext j
   rw [perm6_apply]
-  simp only [e6, Pi.single_apply, Equiv.apply_eq_iff_eq_symm_apply, Equiv.symm_symm]
+  simp only [e6, Pi.single_apply, ← _root_.Equiv.eq_symm_apply, Equiv.symm_symm]
 
 private lemma a6_dualVec_perm6 (σ : Equiv.Perm (Fin 6)) (a : V6) :
     dualVec ((perm6 σ).symm : V6 →ₗ[ZMod 3] V6) a = fun i => a (σ.symm i) := by
@@ -62,7 +62,7 @@ private lemma a6_dualVec_perm6 (σ : Equiv.Perm (Fin 6)) (a : V6) :
   have h : (perm6 σ).symm (e6 i) = e6 (σ.symm i) := by
     funext j
     rw [a6_perm6_symm_apply]
-    simp only [e6, Pi.single_apply, Equiv.apply_eq_iff_eq_symm_apply]
+    simp only [e6, Pi.single_apply, ← _root_.Equiv.eq_symm_apply]
   change a ⬝ᵥ (perm6 σ).symm (e6 i) = a (σ.symm i)
   rw [h]
   simp [e6, dotProduct_single]
@@ -426,12 +426,12 @@ private lemma a6diag_union {s t : Finset (Fin 6)} (h : Disjoint s t) :
   rw [LinearEquiv.mul_apply, a6diag_apply, a6diag_apply, a6diag_apply]
   by_cases hs : i ∈ s
   · have ht : i ∉ t := Finset.disjoint_left.mp h hs
-    rw [if_pos (Finset.mem_union_left t hs), if_pos hs, if_neg ht]
+    rw [ite_eq_left (Finset.mem_union_left t hs), ite_eq_left hs, ite_eq_right ht]
     ring
   · by_cases ht : i ∈ t
-    · rw [if_pos (Finset.mem_union_right s ht), if_neg hs, if_pos ht]
+    · rw [ite_eq_left (Finset.mem_union_right s ht), ite_eq_right hs, ite_eq_left ht]
       ring
-    · rw [if_neg (by simp [hs, ht]), if_neg hs, if_neg ht]
+    · rw [ite_eq_right (by simp [hs, ht]), ite_eq_right hs, ite_eq_right ht]
       ring
 
 private lemma a6diag_insert_insert {i j : Fin 6} {t : Finset (Fin 6)}
@@ -589,9 +589,9 @@ theorem monoEven_mem {M : Subgroup (V6 ≃ₗ[ZMod 3] V6)} (hW : ∀ σ, perm6 �
   have hsign : ∀ i, ε i = if i ∈ S then -1 else 1 := by
     intro i
     by_cases hi : i ∈ S
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact (hmemS i).mp hi
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       rcases hε1 i with h | h
       · exact h
       · exact absurd ((hmemS i).mpr h) hi

@@ -48,11 +48,11 @@ noncomputable def centralSection (P Q : Subgroup G) : Subgroup G :=
 
 theorem centralSection_of_inf_eq_bot (hQ : Q ⊓ (P ⊓ centralizer (P : Set G)) = ⊥) :
     centralSection P Q = P ⊓ centralizer (P : Set G) ⊓ ⁅P, P⁆ := by
-  rw [centralSection, if_pos hQ]
+  rw [centralSection, ite_eq_left hQ]
 
 theorem centralSection_of_inf_ne_bot (hQ : Q ⊓ (P ⊓ centralizer (P : Set G)) ≠ ⊥) :
     centralSection P Q = Q := by
-  rw [centralSection, if_neg hQ]
+  rw [centralSection, ite_eq_right hQ]
 
 structure IsPrimeFixedTISetup (G : Type*) [Group G] (p a : ℕ) (L P E Q : Subgroup G) : Prop where
   prime : p.Prime
@@ -104,7 +104,7 @@ theorem natCard_eq_pow_factorization : Nat.card P = p ^ (Nat.card G).factorizati
   have : Fact p.Prime := ⟨h.prime⟩
   have hfin : Finite G := h.finite
   obtain ⟨R, hPR⟩ := IsPGroup.exists_le_sylow (IsPGroup.of_card h.natCard_eq_pow)
-  obtain ⟨k, hk⟩ := (R.isPGroup'.to_le (inf_le_left (b := L))).exists_card_eq
+  obtain ⟨k, hk⟩ := (R.isPGroup.to_le (inf_le_left (b := L))).exists_card_eq
   have hdvd : p ^ k ∣ Nat.card P * Nat.card E := by
     rw [← hk, ← h.natCard_middle]
     exact Subgroup.card_dvd_of_le inf_le_right
@@ -117,14 +117,14 @@ theorem natCard_eq_pow_factorization : Nat.card P = p ^ (Nat.card G).factorizati
     rw [hk, h.natCard_eq_pow]
     exact Nat.le_of_dvd (pow_pos h.prime.pos a) hdvd'
   have hnil : Group.IsNilpotent ↥(R : Subgroup G) := by
-    obtain ⟨n, hn⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := R.isPGroup.exists_card_eq
     exact isNilpotent_of_natCard_eq_prime_pow h.prime hn
   have htop : P.subgroupOf (R : Subgroup G) = ⊤ := by
     by_contra hne
     have hlt := Group.normalizerCondition_of_isNilpotent (P.subgroupOf (R : Subgroup G))
       (lt_top_iff_ne_top.mpr hne)
     rw [← Subgroup.subgroupOf_normalizer_eq hPR, h.normalizer_eq] at hlt
-    obtain ⟨x, hxL, hxP⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxL, hxP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact hxP (Subgroup.mem_subgroupOf.mpr (hPeq ▸ ⟨x.2, Subgroup.mem_subgroupOf.mp hxL⟩))
   have hPR' : P = (R : Subgroup G) := le_antisymm hPR (Subgroup.subgroupOf_eq_top.mp htop)
   rw [hPR', R.card_eq_multiplicity]

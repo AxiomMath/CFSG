@@ -152,6 +152,7 @@ theorem parabolic_large (a : Fin TwistTag.D4.foldedTag.rank)
   · exact hVB.trans le_sup_left
   · exact hMc.trans le_sup_right
 
+omit [CharP K 2] in
 theorem parabolic_small (a : Fin TwistTag.D4.foldedTag.rank)
     (hU : IsPGroup 2 ↥(graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom))
     (h2 : Nat.card ↥(orbitField TwistTag.D4 K σ.toRingHom a) = 2) :
@@ -207,7 +208,7 @@ theorem exists_parabolic_data_of_model {G : Type} [Group G] [Finite G] {L T : Su
           m ≤ 3 * f ∧ ∃ π : ↥(J j) →* SL(2, F), Function.Surjective π ∧ IsPGroup 2 ↥π.ker) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨hSylU, hcov, h0, h1, hgen, hi0, hi1⟩ := triality_named_covers hf σ hK hσ
   obtain ⟨σ', hσ', -, hcard, -, -⟩ :=
     finite_graph_field_parameter_fields TwistTag.D4 Nat.prime_two hf K hK
@@ -249,7 +250,7 @@ theorem exists_parabolic_data_of_model {G : Type} [Group G] [Finite G] {L T : Su
   have hBs : Group.IsSolvable ↥B₁ := isSolvable_graphFixedRootBorel σ.surjective
   have hsolv : ∀ (H : Subgroup (ModGL TwistTag.D4.tag K)), H ≤ C₀ → Group.IsSolvable ↥H →
       Group.IsSolvable ↥((H.subgroupOf C₀).map ψ) := fun H hHC hH => by
-    haveI : Group.IsSolvable ↥(H.subgroupOf C₀) :=
+    have : Group.IsSolvable ↥(H.subgroupOf C₀) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hHC).toMonoidHom) (MulEquiv.injective _)
     exact Group.isSolvable_of_isSolvable_injective
@@ -362,7 +363,7 @@ theorem exists_parabolic_data {G : Type} [Group G] [Finite G] {L T : Subgroup G}
     CFSG.QuasithinUnique.isSylowTwoOf_subgroupOf_top hS
   obtain ⟨K, hF, hFin, σ, φ, hK, hσ, hφU, -, -⟩ := even_rank_two_residual_triality hL hU
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK3
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hK3
   exact exists_parabolic_data_of_model σ hLT hf hK hσ φ hφU
 
 theorem nParam_le_three_mul {G : Type} [Group G] [Finite G] {L T : Subgroup G} [L.Normal]

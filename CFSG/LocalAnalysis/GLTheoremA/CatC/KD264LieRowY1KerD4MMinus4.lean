@@ -17,8 +17,8 @@ section Arith
 theorem three_not_dvd_card {K : Type} [Field K] [Finite K] (h3 : (3 : K) ≠ 0) :
     ¬ 3 ∣ Nat.card K := by
   intro hdvd
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at hdvd
   have h3p : 3 ∣ ringChar K := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hdvd
@@ -69,7 +69,7 @@ theorem mem_commutator_of_perfect {G : Type*} [Group G] {H : Subgroup G}
 theorem not_comm_of_perfect {H : Type*} [Group H] [Nontrivial H] (hp : Group.IsPerfect H) :
     ¬ ∀ x y : H, x * y = y * x := by
   intro hc
-  haveI : IsMulCommutative H := ⟨⟨hc⟩⟩
+  have : IsMulCommutative H := ⟨⟨hc⟩⟩
   exact Group.IsPerfect.not_isMulCommutative H inferInstance
 
 end Comm
@@ -83,7 +83,7 @@ theorem minus4_char2 [CharP K 2] (h3 : (3 : K) ≠ 0) (hdim : finrank K U = 4)
     ∃ N : Subgroup (U ≃ₗ[K] U), N ≤ TauCeti.QuadraticMap.orthogonalGroup Q ∧
       (∀ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, ∀ n ∈ N, g * n * g⁻¹ ∈ N) ∧
       IsSimpleGroup N ∧ Group.IsPerfect N ∧ (¬ ∀ x y : N, x * y = y * x) ∧ 3 ∣ Nat.card N := by
-  haveI : FiniteDimensional K U := Module.finite_of_finrank_eq_succ hdim
+  have : FiniteDimensional K U := Module.finite_of_finrank_eq_succ hdim
   have hts : ∀ U' : Submodule K U, finrank K U' = finrank K U / 2 → ∃ u ∈ U', Q u ≠ 0 := by
     intro U' hU'
     by_contra hcon
@@ -158,7 +158,7 @@ theorem minus4_odd (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) (hdim : finrank K U
       rw [← Subgroup.map_commutator]
       exact Subgroup.mem_map_of_mem ψ (mem_commutator_of_perfect hΩp hn)
     exact hcommΩ (Subgroup.commutator_mono hle hle hmem)
-  · haveI := hΩs.toNontrivial
+  · have := hΩs.toNontrivial
     exact not_comm_of_perfect hΩp
   · have h3d : 3 ∣ Nat.card Ω * 2 := by
       rw [hΩcard]
@@ -171,7 +171,7 @@ theorem minus4_component (h3 : (3 : K) ≠ 0) (hdim : finrank K U = 4) (Q : Quad
       (∀ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, ∀ n ∈ N, g * n * g⁻¹ ∈ N) ∧
       IsSimpleGroup N ∧ Group.IsPerfect N ∧ (¬ ∀ x y : N, x * y = y * x) ∧ 3 ∣ Nat.card N := by
   by_cases h2 : (2 : K) = 0
-  · haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  · have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     exact minus4_char2 h3 hdim Q hnd hnp
   · exact minus4_odd h2 h3 hdim Q hnd hnp
 

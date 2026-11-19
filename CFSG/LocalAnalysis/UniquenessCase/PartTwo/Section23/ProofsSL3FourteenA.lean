@@ -20,7 +20,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem inf_ne_bot_of_mQuot_le_one {U Y V : Subgroup G} (hV : IsPGroup 2 V) (hUV : U ≤ V)
+theorem inf_ne_bot_of_mQuot_le_one {U Y V : Subgroup G} (hV : IsPGroup 2 V) (_hUV : U ≤ V)
     (hYV : Y ≤ V) (hU : mQuot V U ≤ 1) (hY : 2 < Nat.card Y) : U ⊓ Y ≠ ⊥ := by
   intro hbot
   have hcard : Nat.card Y = U.relIndex Y := by
@@ -83,7 +83,7 @@ private theorem conjSubgroup_Z_invariant (c : Ctx23L D Ch) (h4 : S23_4 D Ch) (h1
     exact lt_of_lt_of_le (by norm_num) (c.card_Z_ge_four h4 h1930 hn)
   have hne' : U ⊓ conjSubgroup D.Z k ≠ ⊥ :=
     inf_ne_bot_of_mQuot_le_one hVelem.isPGroup hUV hYV hU hYcard
-  haveI : Nontrivial ↥(U ⊓ conjSubgroup D.Z k) :=
+  have : Nontrivial ↥(U ⊓ conjSubgroup D.Z k) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hne'
   obtain ⟨u, hu, hu1⟩ := Subgroup.exists_ne_one_of_nontrivial (U ⊓ conjSubgroup D.Z k)
   have hux : x * u * x⁻¹ = u := by
@@ -208,8 +208,8 @@ private theorem center_wClos_one_ne_bot (c : Ctx2311 D Ch) (h4 : S23_4 D Ch)
     wClos c.V 1 D.T ⊓ Subgroup.centralizer (wClos c.V 1 D.T : Set G) ≠ ⊥ := by
   have hW2 := c.isPGroup_wClos 1
   have hWne := c.wClos_ne_bot h4 h1930 hn (i := 1) le_rfl
-  haveI : Nontrivial ↥(wClos c.V 1 D.T) := (Subgroup.nontrivial_iff_ne_bot _).2 hWne
-  haveI := hW2.center_nontrivial
+  have : Nontrivial ↥(wClos c.V 1 D.T) := (Subgroup.nontrivial_iff_ne_bot _).2 hWne
+  have := hW2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center ↥(wClos c.V 1 D.T)))
   intro hbot
   have hzmem : ((z : ↥(wClos c.V 1 D.T)) : G) ∈
@@ -280,7 +280,7 @@ theorem not_le_normalizer_wClos_one (c : Ctx2311 D Ch) (h4 : S23_4 D Ch) (h1930 
     (hL0X : c.L0 ≤ c.X) :
     ¬ c.X ⊔ D.T ≤ Subgroup.normalizer (wClos c.V 1 D.T : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hXT
   have hXN : c.X ≤ Subgroup.normalizer (wClos c.V 1 D.T : Set G) := le_sup_left.trans hXT
   have hVelem := c.isElemAbelian_V h4 h1930

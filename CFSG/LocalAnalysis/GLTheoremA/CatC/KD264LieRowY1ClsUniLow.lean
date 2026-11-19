@@ -69,7 +69,7 @@ theorem Θ_range_card [Finite K] {h : UnitaryFieldData p f K} (β : BlockOrder3 
     Nat.card (Θ β r).range = 3 ^ 4 := by
   have hdom : Nat.card (Multiplicative (Fin 4 → ZMod 3)) = 3 ^ 4 := by
     rw [← Nat.card_congr Multiplicative.ofAdd]
-    simp [Nat.card_pi, Nat.card_zmod]
+    simp
   rw [← hdom]
   exact (Nat.card_congr (MonoidHom.ofInjective (Θ_injective β r)).toEquiv).symm
 
@@ -127,7 +127,7 @@ theorem KD264Y1ClsUni_core_pos (r : ℕ) (q : TauCeti.PrimePower) (ℓ f : ℕ) 
     (hpR : CFSG.Open.pRank 3 (⊤ : Subgroup S) = 3) (hL : KD264Y1UniLowEightPos) :
     KD264Y1Fam (TauCeti.LieTypeIndex.twistedA r q) := by
   subst hℓ hf
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqcard : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
   have hpS : CFSG.Open.pRank 3
       (⊤ : Subgroup (StatedProj (StatedSU (r + 1) (q.p ^ q.exponent)
@@ -200,7 +200,7 @@ theorem KD264Y1ClsUni_holds : KD264Y1ClsUni := by
     TauCeti.LieTypeIndex.characteristic_twistedA r q
   have hf : TauCeti.ValidLieTypeIndex.fieldExponent ⟨TauCeti.LieTypeIndex.twistedA r q, hv⟩ =
       q.exponent := TauCeti.LieTypeIndex.fieldExponent_twistedA r q
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hp3 : q.p ≠ 3 := by
     intro hp3
     apply hR

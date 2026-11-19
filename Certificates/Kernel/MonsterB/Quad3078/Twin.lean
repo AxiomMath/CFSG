@@ -66,10 +66,10 @@ theorem xorK_eq (R base n : ℕ) (m : ℕ → ℕ) (hm : ∀ j < 8, byteK R (bas
 theorem affK_eq {k : ℕ} (hk : k < 45) (n : ℕ) : affK RW CK k n = affN k n := by
   rw [affK_def, affN]
   by_cases h : k < 44
-  · rw [if_pos h, trans_ok k h, xorK_eq RW (8 * k) n (genRow k) (rows_ok k h)]
+  · rw [ite_eq_left h, trans_ok k h, xorK_eq RW (8 * k) n (genRow k) (rows_ok k h)]
   · have e : k = 44 := by omega
     subst e
-    rw [if_neg h, trans44, xorK_eq RW (8 * 44) n (fun j => triRows.getD j 0) tri_ok, Nat.zero_xor]
+    rw [ite_eq_right h, trans44, xorK_eq RW (8 * 44) n (fun j => triRows.getD j 0) tri_ok, Nat.zero_xor]
 
 theorem affN_lt {k : ℕ} (hk : k < 45) (n : ℕ) : affN k n < 256 := by
   rw [← affK_eq hk]
@@ -102,14 +102,14 @@ theorem bvec_xorRows (m : ℕ → ℕ) (n : ℕ) :
   rw [xorRows, bvec_foldl, ← Fin.sum_univ_eq_sum_range]
   rfl
 
-theorem affN_spec' {k : ℕ} (hk : k < 45) (n : ℕ) (hn : n < 256) :
+theorem affN_spec' {k : ℕ} (hk : k < 45) (n : ℕ) (_hn : n < 256) :
     bvec 8 (affN k n) = affM k (bvec 8 n) ∧ affN k n < 256 := by
   refine ⟨?_, affN_lt hk n⟩
   rw [affN, affM]
   by_cases h : k < 44
-  · rw [if_pos h, if_pos h, bvec_xor, bvec_xorRows]
+  · rw [ite_eq_left h, ite_eq_left h, bvec_xor, bvec_xorRows]
     rfl
-  · rw [if_neg h, if_neg h, bvec_xorRows]
+  · rw [ite_eq_right h, ite_eq_right h, bvec_xorRows]
     rfl
 
 theorem keepK_def (t : ℕ) :

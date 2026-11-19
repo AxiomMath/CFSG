@@ -97,7 +97,7 @@ theorem eq_bot_of_fixSub_le_fixSub_of_odd {V : Type} [AddCommGroup V] [Module (Z
     [Finite V] {Q B : Subgroup (LGL 2 V)} (hQ : Odd (Nat.card Q))
     (hB : IsPGroup 2 B) (hBnorm : B ≤ Subgroup.normalizer (Q : Set (LGL 2 V)))
     (hfix : fixSub B ≤ fixSub Q) : Q = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime 2 (Nat.card Q) := Nat.coprime_two_left.2 hQ
   have hdisj : fixSub Q ⊓ commSub Q = ⊥ := (isCompl_fixSub_commSub hcop).inf_eq_bot
   have hWinv : ∀ g ∈ B, ∀ w ∈ commSub Q, g w ∈ commSub Q :=

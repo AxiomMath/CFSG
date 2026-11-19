@@ -29,7 +29,7 @@ private theorem comm_first_third {G : Type*} [Group G] {y : G} (hy3 : y ^ 3 = 1)
   rw [hy]
   simpa only [inv_inv] using h2
 
-private theorem comm_second_third {G : Type*} [Group G] {y : G} (hy3 : y ^ 3 = 1) {R : Subgroup G}
+private theorem comm_second_third {G : Type*} [Group G] {y : G} (_hy3 : y ^ 3 = 1) {R : Subgroup G}
     (hcomm : ∀ r ∈ R, ∀ s ∈ R, Commute r (y * s * y⁻¹)) {r s : G} (hr : r ∈ R) (hs : s ∈ R) :
     Commute (y * r * y⁻¹) (y ^ 2 * s * (y ^ 2)⁻¹) := by
   have h := Commute.map (hcomm r hr s hs) (MulAut.conj y).toMonoidHom

@@ -86,7 +86,7 @@ theorem mem_fixV_zpowers_iff_fixW {V : Type} [CommGroup V] (ρ : ↥M24g →* Mu
   rw [mem_fixV_rImg_iff ρ e he (Subgroup.zpowers y) x, mem_fixV_img11_iff, mem_fixW]
   constructor
   · intro h
-    exact h ⟨y, hy⟩ (by simpa using Subgroup.mem_zpowers y)
+    exact h ⟨y, hy⟩ (by simp)
   · intro h γ hγ
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hγ
     have hγ' : γ = (⟨y, hy⟩ : ↥AutPerm) ^ k := by

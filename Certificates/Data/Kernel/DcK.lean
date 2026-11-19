@@ -165,7 +165,7 @@ structure EnumK where
     | some v => (optL f ks).map (v :: ·)
     | none => none
 
-structure DcK where
+structure DcKData where
   n : Nat
   B : List Nat
   ab : Nat → Nat → Nat
@@ -186,9 +186,9 @@ structure DcK where
   order : Nat
   hpos : Nat → Nat → Nat
 
-namespace DcK
+namespace DcKData
 
-variable (K : DcK)
+variable (K : DcKData)
 
 @[expose] def vg (ex : Nat → Nat → Nat) (t : Nat) : Nat → Nat :=
   if t < K.nr then K.rt t else ex (t - K.nr)
@@ -256,9 +256,9 @@ variable (K : DcK)
   decide (K.order < 2 * (K.reach.map fun j => K.R.N * (K.R.N / H.getD j 0)).sum) &&
     decide (K.order ≤ (H.map fun h => K.R.N * (K.R.N / h)).sum + K.ulb)
 
-end DcK
+end DcKData
 
-@[expose] def chkAllK (K : DcK) (I H : List Nat) : Bool :=
+@[expose] def chkAllK (K : DcKData) (I H : List Nat) : Bool :=
   K.invOK && K.basicOK && K.labOK && K.distOK I && K.edgesOK && K.vsOK && K.hitOK H && K.massOK H
 
 end CFSG.KC.DcK

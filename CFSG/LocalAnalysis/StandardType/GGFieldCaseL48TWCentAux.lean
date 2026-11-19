@@ -161,7 +161,7 @@ theorem normalizer_le_centralizer_of_isCyclic {T : Type*} [Group T] [Finite T] {
     (hzS : z ∈ (S : Subgroup T)) (hz1 : z ≠ 1) (hzp : z ^ p = 1) (hzc : ∀ t : T, t * z = z * t) :
     normalizer ((S : Subgroup T) : Set T) ≤ centralizer ((S : Subgroup T) : Set T) := by
   obtain ⟨w, hwS, hSw⟩ := exists_eq_zpowers hS
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨w, hwS⟩
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨w, hwS⟩
   have ha' : orderOf w = p ^ a := (Subgroup.orderOf_coe (⟨w, hwS⟩ : (S : Subgroup T))).trans ha
   have hzo : orderOf z = p := orderOf_eq_prime hzp hz1
   have hzw : z ∈ zpowers w := hSw ▸ hzS
@@ -222,7 +222,7 @@ theorem exists_normal_complement {T : Type*} [Group T] [Finite T] {p : ℕ} [hp 
       Subgroup.orderOf_dvd_natCard _ ht
     exact Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd hp.out).mpr (fun h => hd (h.trans hot)))
   · rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') (MonoidHom.transferSylow S hN t)
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) (MonoidHom.transferSylow S hN t)
     have hdvd : p ^ k ∣ orderOf t := hk ▸ orderOf_map_dvd _ t
     have hk0 : k = 0 := by
       by_contra h0
@@ -237,7 +237,7 @@ theorem exists_normal_complement {T : Type*} [Group T] [Finite T] {p : ℕ} [hp 
 theorem le_zpowers_of_isCyclic [Finite G] {p : ℕ} (hp : p.Prime) {T : Subgroup G}
     (hT : IsCyclic T) (hexp : ∀ t ∈ T, t ^ p = 1) {x : G} (hxT : x ∈ T) (hx1 : x ≠ 1) :
     T ≤ zpowers x := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨w, hwT, hTw⟩ := exists_eq_zpowers hT
   have hxo : orderOf x = p := orderOf_eq_prime (hexp x hxT) hx1
   have hwo : orderOf w ∣ p := orderOf_dvd_of_pow_eq_one (hexp w hwT)
@@ -375,7 +375,7 @@ theorem exists_invariant_cyclic_complement [Finite G] {p : ℕ} [hp : Fact p.Pri
       (∀ g : G, g ∈ O ↔ g ∈ Y ∧ (orderOf g).Coprime p) ∧
       ∀ g ∈ Y, ∃ o ∈ O, ∃ s ∈ zpowers w, g = o * s := by
   let φ : B₁ →* MulAut Y := (Y.normalizerMonoidHom).comp (Subgroup.inclusion hB₁N)
-  letI : MulDistribMulAction B₁ Y := MulDistribMulAction.compHom Y φ
+  let : MulDistribMulAction B₁ Y := MulDistribMulAction.compHom Y φ
   have hsmul : ∀ (b : B₁) (t : Y), ((b • t : Y) : G) = (b : G) * t * (b : G)⁻¹ := by
     intro b t
     show ((Y.normalizerMonoidHom (Subgroup.inclusion hB₁N b)) t : G) = _
@@ -399,14 +399,14 @@ theorem exists_invariant_cyclic_complement [Finite G] {p : ℕ} [hp : Fact p.Pri
   set S' : Subgroup G := (S : Subgroup Y).map Y.subtype with hS'
   have hS'Y : S' ≤ Y := by
     rintro g ⟨t, -, rfl⟩; exact t.2
-  have hS'p : IsPGroup p S' := S.isPGroup'.map _
+  have hS'p : IsPGroup p S' := S.isPGroup.map _
   have hS'c : IsCyclic S' := hcyc S' hS'Y hS'p
   obtain ⟨w, hwS', hS'w⟩ := exists_eq_zpowers hS'c
   obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp hS'p) ⟨w, hwS'⟩
   have ha' : orderOf w = p ^ a := (Subgroup.orderOf_coe (⟨w, hwS'⟩ : S')).trans ha
   have hSc : IsCyclic (S : Subgroup Y) := by
     let e := (S : Subgroup Y).equivMapOfInjective Y.subtype Y.subtype_injective
-    haveI := hS'c
+    have := hS'c
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   set z' : Y := ⟨z, hzY⟩ with hz'
   have hz'c : ∀ t : Y, t * z' = z' * t := fun t => Subtype.ext (hzc t t.2)

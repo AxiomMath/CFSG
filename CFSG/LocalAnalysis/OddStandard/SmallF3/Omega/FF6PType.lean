@@ -29,6 +29,7 @@ private theorem ffC'_some (i : Fin 5) : ffC' (some i) = 1 := Units.ext rfl
 
 private theorem toSign_neg_one_ff : toSign (-1 : (ZMod 3)ˣ) = -1 := by decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem PFrame.commSp_signChange_opt (fr : PFrame Q (Option (Fin 5)) ffC)
     (J : Finset (Option (Fin 5))) :
     commSp (fr.signChange J) = Submodule.span (ZMod 3) (fr.b '' (J : Set (Option (Fin 5)))) := by
@@ -41,7 +42,7 @@ private theorem PFrame.commSp_signChange_opt (fr : PFrame Q (Option (Fin 5)) ffC
     have h1 : fr.b.repr (((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) v) i =
         fr.b.repr (-v) i := by rw [hv]
     rw [fr.repr_signChange J v i, map_neg, Finsupp.neg_apply,
-      if_neg (by simpa only [Finset.mem_coe] using hiJ)] at h1
+      ite_eq_right (by simpa only [Finset.mem_coe] using hiJ)] at h1
     have h2 : (2 : ZMod 3) * fr.b.repr v i = 0 := by
       rw [two_mul]
       exact eq_neg_iff_add_eq_zero.mp h1
@@ -59,6 +60,7 @@ private theorem PFrame.commSp_signChange_opt (fr : PFrame Q (Option (Fin 5)) ffC
         exact hiJ (by simpa only [Finset.mem_coe] using hsupp hmem)
       simp [hiJ, h0]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem PFrame.finrank_span_frame_opt (fr : PFrame Q (Option (Fin 5)) ffC)
     (J : Finset (Option (Fin 5))) :
     Module.finrank (ZMod 3)
@@ -76,7 +78,7 @@ private theorem PFrame.prod_toSign_ffC (J : Finset (Option (Fin 5))) :
       (if none ∈ J then (-1 : ℤˣ) else 1) := by
   rw [Finset.prod_coe_sort (s := J) (f := fun i : Option (Fin 5) => toSign (ffC' i))]
   by_cases hnone : none ∈ J
-  · rw [if_pos hnone]
+  · rw [ite_eq_left hnone]
     calc ∏ b ∈ J, toSign (ffC' b) = toSign (ffC' none) :=
           Finset.prod_eq_single none
             (fun b _ hne => by
@@ -85,7 +87,7 @@ private theorem PFrame.prod_toSign_ffC (J : Finset (Option (Fin 5))) :
               | some j => rw [ffC'_some j, map_one])
             (fun hnot => absurd hnone hnot)
       _ = -1 := by rw [ffC'_none, toSign_neg_one_ff]
-  · rw [if_neg hnone]
+  · rw [ite_eq_right hnone]
     apply Finset.prod_eq_one
     intro b hb
     have hne : b ≠ none := fun h => hnone (h ▸ hb)
@@ -102,7 +104,7 @@ private theorem PFrame.quadSign_span_frame_opt (fr : PFrame Q (Option (Fin 5)) f
       (if none ∈ J then (-1 : ℤˣ) else 1) * (-1) ^ (J.card / 2) := by
   rcases J.eq_empty_or_nonempty with rfl | hne
   · rw [Finset.coe_empty, Set.image_empty, Submodule.span_empty]
-    haveI : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
+    have : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
       rw [Submodule.subsingleton_iff_eq_bot]
     rw [quadSign_of_subsingleton]
     simp
@@ -243,7 +245,7 @@ theorem exists_pframe_six_plus (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
         (QuadraticMap.two_nsmul_associated (S := ZMod 3)
           (QuadraticMap.weightedSumSquares (ZMod 3) ffC))
         (Pi.single i (1 : ZMod 3))) (Pi.single j (1 : ZMod 3))
-      simp only [LinearMap.smul_apply, Pi.smul_apply, nsmul_eq_mul] at h
+      simp only [LinearMap.smul_apply, nsmul_eq_mul] at h
       have hcast : (↑(2 : ℕ) : ZMod 3) = 2 := by norm_num
       rw [hcast] at h
       simpa only [smul_eq_mul] using h

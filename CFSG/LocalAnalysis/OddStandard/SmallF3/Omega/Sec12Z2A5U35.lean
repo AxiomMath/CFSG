@@ -18,7 +18,7 @@ variable {Y : Type} [Group Y] {τ : Y}
 theorem z2a5_not_U35 [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y} (hS : FixedData Y S) :
     ¬ LieModel ↥S .PSU 3 5 1 := by
   intro hL
-  haveI := hS.normal
+  have := hS.normal
   obtain ⟨k, _, _, d⟩ := z2a5_datum h hS
   have hM := OddClassicalRankOne.statedClassicalModel_of_lieModel (by decide) hL
   obtain ⟨hSs, hSnab, hSK', -⟩ := OddClassicalRankOne.subgroupOf_fixedRoot_data le_rfl d.card_eq

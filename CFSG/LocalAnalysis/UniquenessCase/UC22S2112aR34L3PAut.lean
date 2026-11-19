@@ -115,7 +115,7 @@ private theorem exists_diag {X : Type} [Group X] [Finite X] {K : Type} [Field K]
   have hN : zpowers (π f) ≤ normalizer (zpowers (π r) : Set X) := by
     rw [zpowers_le, mem_normalizer_iff_map_conj_eq, MonoidHom.map_zpowers]
     rw [show (MulAut.conj (π f) : X →* X) (π r) = (π r)⁻¹ by
-      rw [MonoidHom.coe_coe, MulAut.conj_apply, hvinv]
+      rw [_root_.MonoidHom.coe_ofClass, MulAut.conj_apply, hvinv]
       exact eq_inv_of_mul_eq_one_left hvu, zpowers_inv]
   obtain ⟨g, hg⟩ := exists_conj_commute
     (IsPGroup.to_sup_of_normal_right' (isPGroup_zpowers hv) (isPGroup_zpowers hu) hN) S hx

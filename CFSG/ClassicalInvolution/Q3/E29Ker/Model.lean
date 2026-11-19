@@ -36,12 +36,12 @@ theorem nC_zero : nC 0 = 1 := by
 theorem nG_even (j : ℕ) : nG (2 * j) = nC j * nA * (nC j)⁻¹ := by
   have h1 : 2 * j / 2 = j := by omega
   have h2 : 2 * j % 2 = 0 := by omega
-  simp only [nG, h1, h2, if_true]
+  simp only [nG, h1, h2, ite_true]
 
 theorem nG_odd (j : ℕ) : nG (2 * j + 1) = nC j * nB * (nC j)⁻¹ := by
   have h1 : (2 * j + 1) / 2 = j := by omega
   have h2 : (2 * j + 1) % 2 = 1 := by omega
-  simp only [nG, h1, h2, one_ne_zero, if_false]
+  simp only [nG, h1, h2, one_ne_zero, ite_false]
 
 theorem nG_zero : nG 0 = nA := by
   decide +kernel
@@ -64,7 +64,7 @@ theorem model_check :
     · have hn : eqPi ((n8 0).getD s 1) ((n8 0).getD t 1) = false :=
         Bool.eq_false_iff.mpr fun h => hC s hs t ht hst (eqPi_iff.mp h)
       rw [hn]
-      simp [hst]
+      simp
   · refine List.all_eq_true.mpr fun j hj => List.all_eq_true.mpr fun k hk => ?_
     rw [List.mem_range] at hj hk
     by_cases hjk : j = k
@@ -74,7 +74,7 @@ theorem model_check :
         obtain ⟨x, hx, hxe⟩ := List.any_eq_true.mp h
         obtain ⟨W, hW, rfl⟩ := List.mem_map.mp hx
         exact hD j hj k hk hjk W hW (eqPi_iff.mp hxe)
-      simp [hjk, hn]
+      simp [hn]
   · refine List.all_eq_true.mpr fun p hp => ?_
     obtain ⟨h1, h2, h3⟩ := hE p hp
     simp only [Bool.and_eq_true, decide_eq_true_eq, bne_iff_ne, ne_eq]

@@ -29,8 +29,8 @@ theorem isNaturalSection_of_isLin2Type_two {G : Type} [Group G] [Finite G] {L : 
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Fintype.card F = 2 ^ 2 ∧
       IsNaturalSection L (blockU L) (blockZ L) (CFSG.pCore 2 ↥L) (StatedSL 2 F) := by
   obtain ⟨F, hFld, hFintype, hFcard, α, hαs, hαker, β, hβs, hβker, hβeq⟩ := h
-  letI := hFld
-  letI := hFintype
+  let := hFld
+  let := hFintype
   let e := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F
   refine ⟨F, hFld, hFintype, hFcard, CFSG.QuasithinUnique.C1.le_normalizer_blockU L,
     e.toMonoidHom.comp α, e.surjective.comp hαs, ?_, β, hβs, hβker, ?_⟩
@@ -76,8 +76,8 @@ theorem KConfig.conclK_of_sixteen_a5
   ·
     have hlin : IsLin2Type L 2 := Lin2D.isLin2Type_of_natural hq hc he hn hNatSec
     obtain ⟨F, hFld, hFintype, hFcard, hsec⟩ := isNaturalSection_of_isLin2Type_two hlin
-    letI := hFld
-    letI := hFintype
+    let := hFld
+    let := hFintype
     have h2n : (2 : F) ^ 2 = 0 := by
       have h := FiniteField.cast_card_eq_zero F
       rw [hFcard] at h
@@ -98,7 +98,7 @@ theorem KConfig.conclK_of_sixteen_a5
     have hN : (CFSG.pCore 2 ↥L).map L.subtype ≤ Subgroup.centralizer (blockU L : Set G) := by
       rw [hEq, hU, hO]
       simpa [hO] using h.pCoreOf_le
-    haveI : IsMulCommutative ↥(blockU L) := by
+    have : IsMulCommutative ↥(blockU L) := by
       rw [hU]
       exact he.1
     have hFFL : IsFFModule (V := ↥(blockU L)) (autOn L (blockU L)) :=
@@ -109,7 +109,7 @@ theorem KConfig.conclK_of_sixteen_a5
         (autOn (Subgroup.normalizer (blockU L : Set G)) (blockU L)) :=
       CFSG.Quasithin.H13.Prop329.isFFModule_of_le
         (CFSG.Quasithin.AutOn.autOn_mono hLU) hFFL
-    letI : IsMulCommutative ↥V := h.elemAbelian.1
+    let : IsMulCommutative ↥V := h.elemAbelian.1
     have hFF : IsFFModule (V := ↥V) (autOn (Subgroup.normalizer (V : Set G)) V) :=
       hUV ▸ hFF'
     have hCL : ConclKLeft G L V MK :=
@@ -139,11 +139,11 @@ theorem KConfig.conclK_of_sixteen_a5
     have hU : blockU L = CFSG.Open.pCoreOf 2 L := blockU_eq_pCoreOf a5Facts a5Facts.groupO hpre M
     have hUV : blockU L = V := hU.trans hO
     have hZ : blockZ L = ⊥ := blockZ_eq_bot (fixZero_HO a5Facts) M hU
-    haveI : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
-    haveI : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
-    haveI : DSLeaf LeafM3 := ⟨leafM3⟩
-    haveI : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
-    haveI : DSLeaf LeafOmega4MinusOfOrth := ⟨leafOmega4MinusOfOrth⟩
+    have : DSLeaf LeafFaithfulA5 := ⟨leafFaithfulA5⟩
+    have : DSLeaf LeafShort2OfA5 := ⟨leafShort2OfA5⟩
+    have : DSLeaf LeafM3 := ⟨leafM3⟩
+    have : DSLeaf LeafAlt5OfOrth := ⟨leafAlt5OfOrth⟩
+    have : DSLeaf LeafOmega4MinusOfOrth := ⟨leafOmega4MinusOfOrth⟩
     have hIso : IsOmega4MinusType L 1 := omega4_minus_of_orth hq hc he hn hNotNatSec
     have hLU : L ≤ Subgroup.normalizer (blockU L : Set G) := by
       rw [hU, hO]
@@ -151,7 +151,7 @@ theorem KConfig.conclK_of_sixteen_a5
     have hQU : CFSG.Open.pCoreOf 2 L ≤ Subgroup.centralizer (blockU L : Set G) := by
       rw [hU, hO]
       simpa [hO] using h.pCoreOf_le
-    haveI : IsMulCommutative ↥(blockU L) := by
+    have : IsMulCommutative ↥(blockU L) := by
       rw [hU]
       exact he.1
     have hO' : BinaryOrthogonalFour (V := ↥(blockU L)) (autOn L (blockU L)) ⊤ ⊥ 1 :=

@@ -35,14 +35,14 @@ theorem exists_complement_mod_central {G : Type*} [Group G] [Finite G]
   have hK0Q : K0 ≤ Q0 := by rw [hQ]; exact le_sup_right
   have hker : (QuotientGroup.mk' Δ).ker ≤ Q0 := fun x hx =>
     hΔQ ((QuotientGroup.eq_one_iff x).mp (MonoidHom.mem_ker.mp hx))
-  haveI : (V0.map (QuotientGroup.mk' Δ)).Normal := Subgroup.Normal.map inferInstance _ hsurj
+  have : (V0.map (QuotientGroup.mk' Δ)).Normal := Subgroup.Normal.map inferInstance _ hsurj
   have hcomm : ∀ a ∈ V0.map (QuotientGroup.mk' Δ), ∀ b ∈ V0.map (QuotientGroup.mk' Δ),
       a * b = b * a := by
     intro a ha b hb
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp ha
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hb
     rw [← map_mul, ← map_mul, hV x hx y hy]
-  haveI : IsMulCommutative (V0.map (QuotientGroup.mk' Δ)) :=
+  have : IsMulCommutative (V0.map (QuotientGroup.mk' Δ)) :=
     ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
   have hQ0 : IsPGroup 2 Q0 := by
     rw [hQ]; exact IsPGroup.to_sup_of_normal_left hV2 hK02

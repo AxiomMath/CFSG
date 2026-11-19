@@ -82,8 +82,8 @@ theorem Rb_inf_component_ne_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pC
     rw [hx] at hcomm
     exact hcomm.symm
   have hKle : K ≤ Rb := hcent.trans hR.cent
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-  haveI : Group.IsPerfect ↥K := hK.1.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Group.IsPerfect ↥K := hK.1.1
   have hcommK : IsMulCommutative ↥K :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (hR.comm (a : B) (hKle a.2) (b : B) (hKle b.2))
@@ -102,18 +102,18 @@ theorem card_components_le (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2
   let s : ℕ → B := fun j => if h : j < n then (a (e ⟨j, h⟩)).1 else 1
   have hs : ∀ j < n, s j ∈ Q j := by
     intro j hj
-    simp only [s, Q, dif_pos hj]
+    simp only [s, Q, dite_eq_left hj]
     exact (a (e ⟨j, hj⟩)).2.2
   have hmemRb : ∀ j < n, s j ∈ Rb := by
     intro j hj
-    simp only [s, dif_pos hj]
+    simp only [s, dite_eq_left hj]
     exact (a (e ⟨j, hj⟩)).2.1
   have hcomm : ∀ j < n, ∀ k < n, j ≠ k → ∀ x ∈ Q j, ∀ y ∈ Q k, x * y = y * x := by
     intro j hj k hk hjk x hx y hy
     have hne : e ⟨j, hj⟩ ≠ e ⟨k, hk⟩ := fun heq =>
       hjk (congrArg Fin.val (e.injective heq))
     have hxy := CFSG.LocalCores.componentIndex_commute hne x y
-    simp only [Q, dif_pos hj, dif_pos hk] at hx hy
+    simp only [Q, dite_eq_left hj, dite_eq_left hk] at hx hy
     exact hxy hx hy
   have hnc : ∀ j < n, ∃ q ∈ Q j, s j * q ≠ q * s j := by
     intro j hj
@@ -130,9 +130,9 @@ theorem card_components_le (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2
     push Not at hnotmem
     obtain ⟨g, hgne⟩ := hnotmem
     refine ⟨(g : B), ?_, ?_⟩
-    · simp only [Q, dif_pos hj]
+    · simp only [Q, dite_eq_left hj]
       exact g.2
-    · simp only [s, dif_pos hj]
+    · simp only [s, dite_eq_left hj]
       intro heq
       exact hgne (Subtype.ext heq.symm)
   have htwo := CFSG.EvenSporadicStandard.TwoB.two_pow_le_card_closure_of_noncomm Q s n hs hcomm hnc

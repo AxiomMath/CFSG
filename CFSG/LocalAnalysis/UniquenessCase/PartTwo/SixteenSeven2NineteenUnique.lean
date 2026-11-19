@@ -12,12 +12,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c167_n19_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y hxy
   exact IntMod.val_injective
     (mul_inv_eq_one.1 (Subgroup.mem_bot.1 ((mkTil_eq_iff ⊥ V hV x y).1 hxy)))
 
+omit [Finite G] in
 private theorem s16c167_n19_imgTil_inj {V U U' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU : U ≤ V) (hU' : U' ≤ V) (h : imgTil ⊥ V hV U = imgTil ⊥ V hV U') : U = U' := by
   have hmkTil_inj : Function.Injective (mkTil (⊥ : Subgroup G) V hV) :=
@@ -33,6 +35,7 @@ private theorem s16c167_n19_imgTil_inj {V U U' : Subgroup G} (hV : IsElemAbelian
     simpa only [intSub] using congrArg (Subgroup.map V.subtype) h1
   rwa [Subgroup.map_subgroupOf_eq_of_le hU, Subgroup.map_subgroupOf_eq_of_le hU'] at h2
 
+omit [Finite G] in
 private theorem s16c167_n19_conjSubgroup_centralizer_singleton {g u m : G}
     (hm : m = g * u * g⁻¹) :
     conjSubgroup (Subgroup.centralizer ({m} : Set G)) g =

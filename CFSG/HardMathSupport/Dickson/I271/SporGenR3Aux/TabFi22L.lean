@@ -131,7 +131,7 @@ theorem index_lSub_lev2 :
 theorem lSub_normalized_lev2 : ∀ m ∈ fi22Chain.levelSubgroup 2, ∀ l ∈ lSub,
     m * l * m⁻¹ ∈ lSub := by
   intro m hm l hl
-  haveI : (lSub.subgroupOf (fi22Chain.levelSubgroup 2)).Normal :=
+  have : (lSub.subgroupOf (fi22Chain.levelSubgroup 2)).Normal :=
     Subgroup.normal_of_index_eq_two index_lSub_lev2
   have := (inferInstance : (lSub.subgroupOf (fi22Chain.levelSubgroup 2)).Normal).conj_mem
     ⟨l, lSub_le_lev2 hl⟩ (Subgroup.mem_subgroupOf.2 hl) ⟨m, hm⟩

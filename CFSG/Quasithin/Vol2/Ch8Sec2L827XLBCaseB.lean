@@ -109,14 +109,13 @@ private theorem fixed_free_baseChange_caseB {F : Type*} [Field F] [Algebra (ZMod
     rw [hΦ, sub_eq_zero] at h
     exact h
   have hΦinjF : Function.Injective (LinearMap.baseChange F Φ) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap Φ hΦinj
   have hid : ∀ (m : TensorProduct (ZMod 2) F W) (x : E),
       TensorProduct.piRight (ZMod 2) F F (fun _ : E => W) (LinearMap.baseChange F Φ m) x
         = LinearMap.baseChange F (ρ x) m - m := by
     intro m
-    induction m using TensorProduct.induction_on with
-    | zero => intro x; simp
+    induction m using TensorProduct.inductionOn with
     | tmul f w => intro x; simp [hΦ, TensorProduct.tmul_sub]
     | add m n hm hn => intro x; simp only [map_add, Pi.add_apply, hm, hn]; abel
   intro m hm
@@ -189,7 +188,7 @@ private theorem sixteen_le_of_field_caseB {p : ℕ} [hp : Fact p.Prime]
   have hFpos : 0 < Module.finrank F (TensorProduct (ZMod 2) F W) := by
     rw [Module.finrank_baseChange]
     exact hWpos
-  haveI : Nontrivial (TensorProduct (ZMod 2) F W) := Module.nontrivial_of_finrank_pos hFpos
+  have : Nontrivial (TensorProduct (ZMod 2) F W) := Module.nontrivial_of_finrank_pos hFpos
   have hcore := core_sixteen_le hζ hpF hE σ τM ρM hρ0M hρaddM hcompatM hCM hO2 hO3 hy
   have hTM : ρM y - 1 = LinearMap.baseChange F (ρ y - 1) := by
     rw [hρM, LinearMap.baseChange_sub, LinearMap.baseChange_one]

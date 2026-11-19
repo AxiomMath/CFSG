@@ -53,10 +53,10 @@ theorem not_l3u3Pumpup_twE6 (hres : ∀ k, Char2L3U3 Tag.E6 k) (q : TauCeti.Prim
     (hβ : β ∈ innAutDerived S) : ¬ L3U3Pumpup S β := by
   intro hp
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
   have hp' := hp.of_congr e'
   obtain ⟨hβ3, hβ1, hno⟩ := (l3u3Pumpup_iff _).1 hp'

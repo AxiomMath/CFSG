@@ -130,8 +130,8 @@ theorem inExc_f4 :
     InExc .F4 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   have hpq : p ≤ Nat.card K := by
     rw [hK]
     calc p = p ^ 1 := (pow_one p).symm
@@ -151,8 +151,8 @@ theorem inExc_e6 :
     InExc .E6 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   have hpq : p ≤ Nat.card K := by
     rw [hK]
     calc p = p ^ 1 := (pow_one p).symm
@@ -172,8 +172,8 @@ theorem inExc_e7 :
     InExc .E7 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   have hpq : p ≤ Nat.card K := by
     rw [hK]
     calc p = p ^ 1 := (pow_one p).symm
@@ -193,8 +193,8 @@ theorem inExc_e8 :
     InExc .E8 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   have hpq : p ≤ Nat.card K := by
     rw [hK]
     calc p = p ^ 1 := (pow_one p).symm
@@ -214,8 +214,8 @@ theorem inG2Two :
     InG2Two := by
   intro p f hp hp5 hf G _ _ hmodel _
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_card_eq_prime_pow (by omega) hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_card_eq_prime_pow (by omega) hK
   refine rankThreeCent_of_height (τ := Tag.G2) e (m := 3) (by norm_num) (Nm := 3)
     (Nm1 := 2) ?_ ?_ ?_ (hdiff_of (by norm_num : 3 = 2 + 1) ?_) (by norm_num)
   · exact (CFSG.Timmesfeld.ExceptionalOrders.ncard_setOf_isRoot_and (τ := Tag.G2)
@@ -230,7 +230,7 @@ theorem inG2Two :
 
 theorem rankThreeCent_of_twistedHeight
     {f : ℕ} (hf : 1 ≤ f) {t : TwistTag} (hord : 0 < t.order) {G : Type} [Group G] [Finite G]
-    (h : TwistedChevalleyModel G t (p ^ f)) {m : ℤ} (hm : 1 ≤ m) {Nm Nm1 : ℕ}
+    (h : TwistedChevalleyModel G t (p ^ f)) {m : ℤ} (_hm : 1 ≤ m) {Nm Nm1 : ℕ}
     (hNm : {α : Fin t.tag.rank → ℤ | IsRoot t.tag α ∧ 0 < height α ∧ m ≤ height α}.ncard = Nm)
     (hNm1 : {α : Fin t.tag.rank → ℤ | IsRoot t.tag α ∧ 0 < height α ∧ m + 1 ≤ height α}.ncard =
       Nm1)
@@ -238,7 +238,7 @@ theorem rankThreeCent_of_twistedHeight
     (hdiff : p ^ 2 * (p ^ f) ^ Nm1 ≤ (p ^ f) ^ Nm) (h3 : 3 ≤ Nm) : RankThreeCent p G := by
   obtain ⟨K, hKf, hKfin, σ, hKcard, hσ, ⟨e⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card t hp.out hf h
-  haveI : CharP K p := charP_of_card_eq_prime_pow (f := f * t.order)
+  have : CharP K p := charP_of_card_eq_prime_pow (f := f * t.order)
     (Nat.mul_pos (by omega) hord) (by rw [hKcard, pow_mul])
   have hσs : Function.Surjective σ.toRingHom := σ.surjective
   have hσ' : ∀ c, σ.toRingHom c = c ^ (p ^ f) := hσ
@@ -337,7 +337,7 @@ theorem inExc_twistedE6 :
     InExc .twistedE6 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, hm⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≤ p ^ f := by
     calc p = p ^ 1 := (pow_one p).symm
       _ ≤ p ^ f := Nat.pow_le_pow_right hp.pos hf
@@ -357,7 +357,7 @@ theorem inExc_trialityD4 :
     InExc .trialityD4 := by
   intro p f hp hp5 hf G _ _ hmodel
   obtain ⟨hadm, hm⟩ := hmodel
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≤ p ^ f := by
     calc p = p ^ 1 := (pow_one p).symm
       _ ≤ p ^ f := Nat.pow_le_pow_right hp.pos hf

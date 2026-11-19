@@ -805,7 +805,7 @@ theorem b5_exists_R {P S B : Subgroup G} (hSP : S ≤ Subgroup.normalizer (P : S
     rw [Subgroup.card_map_of_injective W.subtype_injective]
     exact Sylow.card_eq_multiplicity R₀
   refine ⟨(R₀ : Subgroup W).map W.subtype, Subgroup.map_subtype_le _, ?_, ?_, hR₀, hcard⟩
-  · exact R₀.isPGroup'.map W.subtype
+  · exact R₀.isPGroup.map W.subtype
   · intro hbot
     have h1 : Nat.card ((R₀ : Subgroup W).map W.subtype) = 1 := by rw [hbot]; simp
     rw [hcard] at h1

@@ -18,6 +18,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.F112R
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 theorem caseA_Z_commute_Qy (v : f112Gamma L1 L2 S) {z y : (f112Amalgam L1 L2 S).Ghat}
     (hz : z ∈ caseAZ v) (hy : y ∈ CosetGeom.Qy v) : z * y = y * z := by
   have hz' : z ∈ omegaOneCenterOf (CosetGeom.Qy v) := hz
@@ -125,7 +126,7 @@ theorem caseA_mem_caseAS_of_two_elem {a : ℕ}
       obtain ⟨k, hk⟩ := h2
       refine ⟨k, ?_⟩
       have hzeq : z = MulAut.conj ((g₀ : (f112Amalgam L1 L2 S).Ghat)⁻¹) g := by
-        simp [z, MulAut.conj_apply]
+        simp [z]
       rw [hzeq, MulEquiv.orderOf_eq (MulAut.conj ((g₀ : (f112Amalgam L1 L2 S).Ghat)⁻¹)) g, hk]
     have hmemz : z ∈ caseAS (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S) :=
       v1a_mem_caseAS_of_two_elem_base hfr hz0 hz1 hz2
@@ -147,7 +148,7 @@ theorem caseA_mem_caseAS_of_two_elem {a : ℕ}
       obtain ⟨k, hk⟩ := h2
       refine ⟨k, ?_⟩
       have hzeq : z = MulAut.conj ((g₀ : (f112Amalgam L1 L2 S).Ghat)⁻¹) g := by
-        simp [z, MulAut.conj_apply]
+        simp [z]
       rw [hzeq, MulEquiv.orderOf_eq (MulAut.conj ((g₀ : (f112Amalgam L1 L2 S).Ghat)⁻¹)) g, hk]
     have hmemz : z ∈ caseAS (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S) :=
       v1a_mem_caseAS_of_two_elem_base hfr hz0 hz1 hz2
@@ -172,7 +173,7 @@ theorem caseA_Qy_le_caseAS {a : ℕ}
   have hQH : CosetGeom.Qy v ≤ CosetGeom.stab v ⊓ CosetGeom.stab w := fun y hy =>
     ⟨caseA_Qy_le_stab v hy, CosetGeom.ballStab_le_stab_of_dist_le (n := 1) (γ := v) (δ := w)
       hdist (caseA_Qy_le_ballStab_one hfr v hy)⟩
-  haveI : ((CosetGeom.Qy v).subgroupOf (CosetGeom.stab v ⊓ CosetGeom.stab w)).Normal := by
+  have : ((CosetGeom.Qy v).subgroupOf (CosetGeom.stab v ⊓ CosetGeom.stab w)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hQH]
     exact inf_le_left.trans (caseA_stab_le_normalizer_Qy v)
   have hp : IsPGroup 2 (CosetGeom.Qy v) := by

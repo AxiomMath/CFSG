@@ -56,7 +56,7 @@ theorem card_H_eq_three_mul_B (S : A5.Setting G T L V) (hH : H ∈ S.Hz) (D : Da
         omega
       have heq : I ⊓ (L ⊔ T) = I := Subgroup.eq_of_le_of_card_ge inf_le_left hcard
       exact hIM (by rw [← heq]; exact inf_le_right)
-  haveI : (I.subgroupOf H).Normal :=
+  have : (I.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer D.I_le).mpr D.I_normal
   have hinf : ∀ X Y : Subgroup G, (X ⊓ Y).subgroupOf H = X.subgroupOf H ⊓ Y.subgroupOf H :=
     fun X Y => by
@@ -81,7 +81,7 @@ theorem card_H_eq_three_mul_B (S : A5.Setting G T L V) (hH : H ∈ S.Hz) (D : Da
   rw [hsup, Subgroup.card_top, hcardAL, hcardA, hcardL] at hprod
   omega
 
-theorem mem_H_iff_fix_four (S : A5.Setting G T L V) (hH : H ∈ S.Hz) (D : Data13515 S H I)
+theorem mem_H_iff_fix_four (S : A5.Setting G T L V) (_hH : H ∈ S.Hz) (D : Data13515 S H I)
     (m : ↥(L ⊔ T)) :
     (m : G) ∈ H ↔ S.frame.ρ ⟨(m : G), LT_le_normalizer S m.2⟩ 4 = 4 := by
   have hmN := LT_le_normalizer S m.2

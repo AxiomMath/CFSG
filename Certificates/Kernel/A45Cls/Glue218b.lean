@@ -153,7 +153,7 @@ theorem tA_pock : Certificates.P43Twin.tA () ∈ KAs ∧
     exact prep_eq (Nat.eq_of_beq_eq_true h ▸ prep_ky m hm) prep_tA
 
 theorem fact_e (u : P45) (hu : InvC 96 u)
-    (hAB : ∀ k ∈ KAs, u * k * u⁻¹ ∈ KBs) (hBA : ∀ k ∈ KBs, u * k * u⁻¹ ∈ KAs) :
+    (hAB : ∀ k ∈ KAs, u * k * u⁻¹ ∈ KBs) (_hBA : ∀ k ∈ KBs, u * k * u⁻¹ ∈ KAs) :
     u * Certificates.P43Twin.tA () = Certificates.P43Twin.tA () * u ∧
       InvC 1440 (u * Certificates.P43Twin.tA ()) := by
   set t := Certificates.P43Twin.tA ()

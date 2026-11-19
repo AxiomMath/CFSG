@@ -76,7 +76,7 @@ private theorem subLabels_of {k : Nat} {Lst : Nat → Array Nat} {LB : Nat → N
     | zero =>
       intro _
       refine ⟨by simp, fun p hp => ?_⟩
-      simp only [List.range'_zero, List.foldl_nil, Nat.not_lt_zero, if_false]
+      simp only [List.range'_zero, List.foldl_nil, Nat.not_lt_zero, ite_false]
       rw [getElem!_pos _ p (by simpa using hp), Array.getElem_replicate]
     | succ i ih =>
       intro hi
@@ -92,7 +92,7 @@ private theorem subLabels_of {k : Nat} {Lst : Nat → Array Nat} {LB : Nat → N
       by_cases hm : LB p = i
       · simp [(hmem i (by omega) p hp).2 hm, hm]
       · have : p ∉ Lst i := fun h => hm ((hmem i (by omega) p hp).1 h)
-        simp only [this, if_false]
+        simp only [this, ite_false]
         by_cases hl : LB p < i
         · simp [hl, show LB p < i + 1 by omega]
         · simp [hl, show ¬ LB p < i + 1 by omega]
@@ -105,7 +105,7 @@ private theorem subLabels_of {k : Nat} {Lst : Nat → Array Nat} {LB : Nat → N
   · simp [h1]
   · intro p hp1 hp2
     have hp : p < 1100 := by simpa using hp2
-    rw [← getElem!_pos _ p hp1, h2 p hp, if_pos (hLB p hp), Array.getElem_ofFn]
+    rw [← getElem!_pos _ p hp1, h2 p hp, ite_eq_left (hLB p hp), Array.getElem_ofFn]
 
 private theorem subOrbits_of {k : Nat} {Lst : Nat → Array Nat} {LB F : Nat → Nat}
     (H : Array (Array Nat)) (hLB : ∀ p < 1100, LB p < k)
@@ -149,7 +149,7 @@ private theorem subOrbits_of {k : Nat} {Lst : Nat → Array Nat} {LB F : Nat →
       by_cases hl : LB R < j
       · have hstep : step H st R = st := by
           unfold step
-          rw [if_neg (by rw [hseen R (by omega)]; simp [hl])]
+          rw [ite_eq_right (by rw [hseen R (by omega)]; simp [hl])]
         rw [hstep]
         refine ⟨j, hjk, fun i hi => by have := hj1 i hi; omega, fun hj => ?_, hs, hseen, hres⟩
         rcases Nat.lt_or_eq_of_le (hj2 hj) with h | h
@@ -167,7 +167,7 @@ private theorem subOrbits_of {k : Nat} {Lst : Nat → Array Nat} {LB F : Nat →
         have hstep : step H st R =
             (Array.foldl (fun b a => b.setIfInBounds a true) st.1 (Lst j), st.2.push (Lst j)) := by
           unfold step
-          rw [if_pos (by rw [hseen R (by omega)]; simp [hl]), hb]
+          rw [ite_eq_left (by rw [hseen R (by omega)]; simp [hl]), hb]
         rw [hstep]
         obtain ⟨h3, h4⟩ := afoldl_set true (Lst j) st.1
         refine ⟨j + 1, hjk', fun i hi => ?_, fun hj => ?_, by rw [h3, hs], fun p hp => ?_, ?_⟩
@@ -182,7 +182,7 @@ private theorem subOrbits_of {k : Nat} {Lst : Nat → Array Nat} {LB F : Nat →
           by_cases hm : LB p = j
           · simp [(hmem j hjk' p hp).2 hm, hm]
           · have : p ∉ Lst j := fun h => hm ((hmem j hjk' p hp).1 h)
-            simp only [this, if_false]
+            simp only [this, ite_false]
             by_cases hl' : LB p < j
             · simp [hl', show LB p < j + 1 by omega]
             · simp [hl', show ¬ LB p < j + 1 by omega]

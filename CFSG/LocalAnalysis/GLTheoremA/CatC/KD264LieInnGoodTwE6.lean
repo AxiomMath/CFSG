@@ -62,14 +62,14 @@ theorem perfectCentralizerPlanes_cat_twistedE6 (q : TauCeti.PrimePower)
     (hpq : p ≠ q.p) : PerfectCentralizerPlanes p (Cat ⟨.twistedE6 q, hv⟩) := by
   classical
   obtain ⟨K, hF, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-  letI : Field K := hF
+  let : Field K := hF
   have hℓ := q.prime_p
   have hf := q.exponent_pos
   have hqc : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ q.p ^ q.exponent := fun h =>
     hpq ((Nat.prime_dvd_prime_iff_eq hp hℓ).1 (hp.dvd_of_dvd_pow h))
   have hp3 : 3 < p := by omega
@@ -111,9 +111,9 @@ theorem perfectCentralizerPlanes_cat_twistedE6 (q : TauCeti.PrimePower)
         exact perfectCentralizerPlanes_twistedE6_three_cyc hℓ K hf hK σ hσ hp hp3 hd
       ·
         have hd : p ∣ (q.p ^ q.exponent) ^ 2 + 1 := dvd_of_orderOf_eq_four hp h4
-        haveI : Fact q.p.Prime := ⟨hℓ⟩
-        haveI : Fintype K := Fintype.ofFinite K
-        haveI : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+        have : Fact q.p.Prime := ⟨hℓ⟩
+        have : Fintype K := Fintype.ofFinite K
+        have : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
           (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
         exact perfectCentralizerPlanes_twistedE6_four K hf hK σ hσ hp hp5 hd
       ·
@@ -143,11 +143,11 @@ theorem innGoodAt_twistedE6 (q : TauCeti.PrimePower)
     InnGoodAt p (.twistedE6 q) (Cat ⟨.twistedE6 q, hv⟩) := by
   classical
   obtain ⟨K, hF, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-  letI : Field K := hF
+  let : Field K := hF
   have hℓ := q.prime_p
   have hf := q.exponent_pos
   have hqc : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   refine innGoodAt_of_mulEquiv e.symm ?_

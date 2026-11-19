@@ -180,7 +180,7 @@ theorem gs82ResidueStatement'_of
   intro X _ _ hamb q₀ hq₀ t K R T w h htL hK16
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hsimple, hnonab, hKP, hcat, hz, hU⟩ := id hamb
-  haveI := hsimple
+  have := hsimple
   have hKg : ∀ v : X, orderOf v = 2 → SectionRank.IsKGroupCat ↥(centralizer ({v} : Set X)) :=
     fun v hv => GSThmB.isKGroupCat_of_ne_top' hKP
       (Helpers.centralizer_ne_top_of_involution X hnonab v hv)

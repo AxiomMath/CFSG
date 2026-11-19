@@ -99,11 +99,11 @@ theorem wt_orbN
     have hv'0 : v' 0 = 0 := by
       have hsym : (Equiv.swap (0 : Fin (n + 1)) i).symm 0 = i := by
         have := Equiv.symm_apply_apply (Equiv.swap (0 : Fin (n + 1)) i) i
-        simpa [Equiv.swap_apply_right] using this
+        simp
       change (((P : GL (Fin (n + 1)) (ZMod 3)) :
         Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ v) 0 = 0
       rw [hPmat, spMat_mulVec]
-      simpa [hsym, hi]
+      simp [hi]
     have hwtv' : wt v' = wt v := by
       change wt (((P : GL (Fin (n + 1)) (ZMod 3)) :
         Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)) *ᵥ v) = wt v

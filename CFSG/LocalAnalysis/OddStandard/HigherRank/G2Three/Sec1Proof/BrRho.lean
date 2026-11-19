@@ -96,7 +96,7 @@ private theorem rhoFun_conj (g : NG) :
     rhoFun (MulAut.conj g) = wdiag (iotaN g) (iotaN (phiN g)) := by
   unfold rhoFun
   have hp : ∃ x : NG, MulAut.conj g = MulAut.conj x := ⟨g, rfl⟩
-  rw [dif_pos hp]
+  rw [dite_eq_left hp]
   have hc : hp.choose = g := (conj_inj_NG hp.choose_spec).symm
   rw [hc]
 
@@ -105,7 +105,7 @@ private theorem rhoFun_conj_mul_phi (g : NG) :
   unfold rhoFun
   have hp : ¬ ∃ x : NG, MulAut.conj g * phiN = MulAut.conj x :=
     conj_mul_phi_not_inner g
-  rw [dif_neg hp]
+  rw [dite_eq_right hp]
   let x := (Or.resolve_left (aut_cases_NG (MulAut.conj g * phiN)) hp).choose
   have hxspec : MulAut.conj g * phiN = MulAut.conj x * phiN :=
     (Or.resolve_left (aut_cases_NG (MulAut.conj g * phiN)) hp).choose_spec

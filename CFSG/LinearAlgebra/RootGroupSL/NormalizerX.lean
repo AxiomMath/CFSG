@@ -13,10 +13,12 @@ open CFSG.Open
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma flagW_coord (v : DSpace E X) :
     v ∈ flagW k E X ↔ v.2.1 = 0 ∧ v.2.2 = 0 := by
   simp [flagW, Prod.ext_iff]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma flagK_coord (v : DSpace E X) :
     v ∈ flagK k E X ↔ v.2.2 = 0 := by
   simp [flagK]
@@ -50,6 +52,7 @@ private def rhoLinearMap (n : rootNorm k E X) : X →ₗ[k] X where
         c (0, x, 0))
     simpa [rhoApply] using h
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rho_eq_zero (n : rootNorm k E X) (x : X)
     (h : (rhoApply n (0, x, 0)).2.1 = 0) : x = 0 := by
   have hK : (rhoApply n (0, x, 0)) ∈ flagK k E X :=
@@ -62,6 +65,7 @@ private lemma rho_eq_zero (n : rootNorm k E X) (x : X)
   have := (flagW_coord (0, x, 0)).mp hvW
   simpa using this.1
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rho_injective (n : rootNorm k E X) :
     Function.Injective (rhoLinearMap n) := by
   intro x y hxy
@@ -70,6 +74,7 @@ private lemma rho_injective (n : rootNorm k E X) :
   have h0 : x - y = 0 := rho_eq_zero n (x - y) hz
   exact sub_eq_zero.mp h0
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rho_surjective (n : rootNorm k E X) :
     Function.Surjective (rhoLinearMap n) := by
   intro y
@@ -99,15 +104,18 @@ private lemma rho_surjective (n : rootNorm k E X) :
 private noncomputable def rhoEquiv (n : rootNorm k E X) : X ≃ₗ[k] X :=
   LinearEquiv.ofBijective (rhoLinearMap n) ⟨rho_injective n, rho_surjective n⟩
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rhoEquiv_apply (n : rootNorm k E X) (x : X) :
     rhoEquiv n x = (rhoApply n (0, x, 0)).2.1 := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rhoApply_mul (m n : rootNorm k E X) (v : DSpace E X) :
     rhoApply (m * n) v = rhoApply m (rhoApply n v) := by
   change SpecialLinearGroup.toLinearEquiv ((m : SpecialLinearGroup k (DSpace E X)) *
       (n : SpecialLinearGroup k (DSpace E X))) v = _
   rw [map_mul, LinearEquiv.mul_apply]
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 private lemma units_smul_one_pow (c : kˣ) (n : ℕ) :
     ((c : kˣ) • (1 : X ≃ₗ[k] X)) ^ n = (c ^ n : kˣ) • (1 : X ≃ₗ[k] X) := by
   induction n with
@@ -145,12 +153,14 @@ private noncomputable def rhoHom : rootNorm k E X →* (X ≃ₗ[k] X) where
     simp only [Prod.fst_add, Prod.snd_add]
     rw [hsec, add_zero]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma blockSL_one_det (s : SpecialLinearGroup k X) :
     LinearEquiv.det (1 : E ≃ₗ[k] E) *
         LinearEquiv.det (SpecialLinearGroup.toLinearEquiv s) *
         LinearEquiv.det (1 : E ≃ₗ[k] E) = 1 := by
   simpa only [map_one, one_mul, mul_one, SpecialLinearGroup.toLinearEquiv_eq_coe] using s.2
 
+omit [Finite k] [CharP k 2] in
 private lemma blockSL_one_mem_rootNorm (s : SpecialLinearGroup k X) :
     blockSL (1 : E ≃ₗ[k] E) (SpecialLinearGroup.toLinearEquiv s) (1 : E ≃ₗ[k] E)
       (blockSL_one_det s) ∈ rootNorm k E X := by
@@ -162,6 +172,7 @@ private noncomputable def blockOfSL (s : SpecialLinearGroup k X) : rootNorm k E 
   ⟨blockSL (1 : E ≃ₗ[k] E) (SpecialLinearGroup.toLinearEquiv s) (1 : E ≃ₗ[k] E)
     (blockSL_one_det s), blockSL_one_mem_rootNorm s⟩
 
+omit [Finite k] [CharP k 2] in
 private lemma rhoHom_blockSL_rootNorm (s : SpecialLinearGroup k X) :
     rhoHom (blockOfSL (E := E) s) = SpecialLinearGroup.toLinearEquiv s := by
   ext x
@@ -175,6 +186,7 @@ private noncomputable def rhoP (O : Subgroup (SpecialLinearGroup k (DSpace E X))
     Subgroup (SpecialLinearGroup k X) :=
   (rhoY O).comap SpecialLinearGroup.toLinearEquiv
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rho_conj_mem (n : rootNorm k E X) {y : X ≃ₗ[k] X}
     (hy : y ∈ rhoY (pCoreOf 2 (rootNorm k E X))) :
     rhoHom n * y * (rhoHom n)⁻¹ ∈ rhoY (pCoreOf 2 (rootNorm k E X)) := by
@@ -261,7 +273,7 @@ private lemma rhoY_pCoreOf_rootN_eq_bot (hX : 0 < Module.finrank k X) :
     rw [← hpow, ← hy_eq]
     exact ha'
   have hc_pow : (c ^ 2 ^ a : kˣ) = 1 := by
-    haveI : Nontrivial X := Module.nontrivial_of_finrank_pos hX
+    have : Nontrivial X := Module.nontrivial_of_finrank_pos hX
     obtain ⟨x, hx⟩ := exists_ne (0 : X)
     have happ : (c ^ 2 ^ a : k) • x = x := by
       have := congrArg (fun e : X ≃ₗ[k] X => e x) h1

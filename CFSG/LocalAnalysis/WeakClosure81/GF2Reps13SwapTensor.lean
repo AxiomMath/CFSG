@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem natTensor_of_secMatTensor {K K' : Subgroup (MulAut W)} {U₀ U R : Subgroup W}
     (hKs : K ≤ secStabAll U U₀) (hK's : K' ≤ secStabAll U U₀) (hcomm : ⁅K, K'⁆ = ⊥) (hRU : R ≤ U)
     (hRst : StableUnder (K ⊔ K') R) (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U)
@@ -24,9 +25,10 @@ theorem natTensor_of_secMatTensor {K K' : Subgroup (MulAut W)} {U₀ U R : Subgr
   exact w16f_isMatTensor2_realizes (F := F) (n := n) hKs hK's hcomm hRU hRst hinf hsup hKf hK'f
     hF h
 
+omit [Finite W] in
 theorem isL2_of_secMatTensor {K K' : Subgroup (MulAut W)} {U₀ U R : Subgroup W}
-    (hKs : K ≤ secStabAll U U₀) (hK's : K' ≤ secStabAll U U₀) (hRU : R ≤ U)
-    (hRst : StableUnder K R) (hinf : R ⊓ U₀ = ⊥) (hsup : R ⊔ U₀ = U)
+    (hKs : K ≤ secStabAll U U₀) (_hK's : K' ≤ secStabAll U U₀) (hRU : R ≤ U)
+    (hRst : StableUnder K R) (hinf : R ⊓ U₀ = ⊥) (_hsup : R ⊔ U₀ = U)
     (hKf : K ⊓ centSub R = ⊥) {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 2 ≤ n)
     (hF : Nat.card F = 2 ^ n) (h : IsMatTensor2 (secImg K U U₀) (secImg K' U U₀) F) :
     UC22.IsL2 ↥K n := by
@@ -34,7 +36,7 @@ theorem isL2_of_secMatTensor {K K' : Subgroup (MulAut W)} {U₀ U R : Subgroup W
   obtain ⟨φ₁, -, -, -, -⟩ := h
   let ρ : ↥K ≃* ↥(secImg K U U₀) := w16f_secImgEquiv K U U₀ R hKs hRst hRU hinf hKf
   let e : ↥K ≃* Matrix.SpecialLinearGroup (Fin 2) F := ρ.trans φ₁
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hF
   obtain ⟨eP⟩ := CFSG.RankThree.PartOne.S15K.nonempty_sl2_mulEquiv_statedProj (F := F)

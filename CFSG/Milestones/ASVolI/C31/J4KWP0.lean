@@ -89,14 +89,14 @@ theorem burnsideJ4KW_maxNonParabolicCore_of_P0
   set L := Subgroup.normalizer (R : Set J) with hLdef
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := ↥L)
   set S' : Subgroup J := (S : Subgroup ↥L).map L.subtype with hS'def
-  have hS'2 : IsPGroup 2 ↥S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 ↥S' := S.isPGroup.map _
   have hS'L : S' ≤ L := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   obtain ⟨P, hSP⟩ := hS'2.exists_le_sylow
   obtain ⟨g, hg⟩ := burnsideJ4KW_exists_conj_P0 P
   have hRS' : R ≤ S' := by
-    haveI hn : (Subgroup.comap L.subtype R).Normal :=
+    have hn : (Subgroup.comap L.subtype R).Normal :=
       burnsideJ4KW_subgroupOf_normal Subgroup.le_normalizer le_rfl
     have hRS : R.subgroupOf L ≤ (S : Subgroup ↥L) :=
       IsPGroup.le_sylow_of_normal (hR2.comap_subtype (K := L)) S
@@ -106,13 +106,13 @@ theorem burnsideJ4KW_maxNonParabolicCore_of_P0
   have hRR' : R = R'.map (MulAut.conj g).toMonoidHom := by
     rw [hR'def, burnsideJ4KW_map_conj_map_conj, mul_inv_cancel]
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hNR' : Subgroup.normalizer (R' : Set J) = L.map (MulAut.conj g⁻¹).toMonoidHom :=
     burnsideJ4KW_normalizer_map_conj R g⁻¹
   have hNR : L = (Subgroup.normalizer (R' : Set J)).map (MulAut.conj g).toMonoidHom := by
     rw [hNR', burnsideJ4KW_map_conj_map_conj, mul_inv_cancel]
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hSP0 : S'.map (MulAut.conj g⁻¹).toMonoidHom ≤ P0 := by
     have h1 : S' ≤ P0.map (MulAut.conj g).toMonoidHom := hg ▸ hSP
     have h2 := Subgroup.map_mono (f := (MulAut.conj g⁻¹).toMonoidHom) h1

@@ -76,10 +76,10 @@ theorem j2_inverting_of_isSpor
     (Q : Sylow 3 X) {z : X}
     (hzQ : z ∈ (Q : Subgroup X))
     (hzc : z ∈ Subgroup.centralizer ((Q : Subgroup X) : Set X))
-    (hz3 : orderOf z = 3) :
+    (_hz3 : orderOf z = 3) :
     ∃ t : X, orderOf t = 2 ∧ t * z * t⁻¹ = z⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e0⟩ := hX
   let e : X ≃* GJ := e0.trans CFSG.ComponentClassification.J2Cover.nativeEquivP
   have hcard : Nat.card X = 604800 := (Nat.card_congr e.toEquiv).trans card_GJ
@@ -630,7 +630,7 @@ theorem u33_xy_ne : u33x * u33y ≠ u33y * u33x := by
 
 theorem u33_Psub_noncomm : ¬ IsMulCommutative ↥Psub := by
   intro hcomm
-  haveI : IsMulCommutative ↥Psub := hcomm
+  have : IsMulCommutative ↥Psub := hcomm
   have h1 : (⟨u33x, u33_x_mem_Psub⟩ : ↥Psub) * ⟨u33y, u33_y_mem_Psub⟩ =
       ⟨u33y, u33_y_mem_Psub⟩ * ⟨u33x, u33_x_mem_Psub⟩ := mul_comm' _ _
   apply u33_xy_ne
@@ -638,7 +638,7 @@ theorem u33_Psub_noncomm : ¬ IsMulCommutative ↥Psub := by
   simpa using h2
 
 theorem u33_isExtraspecial : CFSG.IsExtraspecialPGroup 3 ↥Psub := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card ↥Psub = 27 := card_Psub
   have hP : IsPGroup 3 ↥Psub := IsPGroup.of_card (n := 3) (by rw [hcard]; norm_num)
   have hexp : ∀ x : ↥Psub, x ^ 3 = 1 := fun x =>
@@ -704,10 +704,10 @@ theorem u33_inverting_of_lieModel
     (Q : Sylow 3 X) {z : X}
     (hzQ : z ∈ (Q : Subgroup X))
     (hzc : z ∈ Subgroup.centralizer ((Q : Subgroup X) : Set X))
-    (hz3 : orderOf z = 3) :
+    (_hz3 : orderOf z = 3) :
     ∃ t : X, orderOf t = 8 ∧ t * z * t⁻¹ = z⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.U33.equiv_of_lieModel hX
   let P : Subgroup (Equiv.Perm (Fin 28)) := CFSG.GH74.KGroups.U33.QP.originalSubgroup
   have hPcard : Nat.card P = 6048 := by
@@ -723,7 +723,7 @@ theorem u33_inverting_of_lieModel
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPsub_le).toEquiv]
     exact CFSG.SignalizerFunctorTheorem.NonLocalExc.card_Psub
   have hQsub_p : IsPGroup 3 Qsub := IsPGroup.of_card (n := 3) (by rw [hQsub_card]; norm_num)
-  haveI : Finite ↥Qsub := Nat.finite_of_card_ne_zero (by rw [hQsub_card]; norm_num)
+  have : Finite ↥Qsub := Nat.finite_of_card_ne_zero (by rw [hQsub_card]; norm_num)
   have hQsub_index : ¬ 3 ∣ Qsub.index := by
     rw [Subgroup.index_eq_card_div, hQsub_card, hPcard]
     norm_num

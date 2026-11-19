@@ -14,9 +14,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16c1_pCoreOf_le_M (D : Data G) {z : G}
     (hS : IsSylowIn 2 (D.T ⊓ centralizer ({z} : Set G)) (centralizer ({z} : Set G))) :
     pCoreOf 2 (centralizer ({z} : Set G)) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (CFSG.Quasithin.pCoreOf_le_of_isSylowIn hS).trans (inf_le_left.trans D.sylowM.le)
 
+omit [Finite G] in
 private lemma s16c1_conj_mem_pCoreOf {K : Subgroup G} {k : G} (hk : k ∈ K) :
     ∀ o ∈ pCoreOf 2 K, k * o * k⁻¹ ∈ pCoreOf 2 K := by
   intro o ho
@@ -25,6 +26,7 @@ private lemma s16c1_conj_mem_pCoreOf {K : Subgroup G} {k : G} (hk : k ∈ K) :
   exact ⟨⟨k, hk⟩ * n * ⟨k, hk⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥K)).conj_mem n hn ⟨k, hk⟩, by simp⟩
 
+omit [Finite G] in
 theorem s16c1_conjSubgroup_pCoreOf_self (K : Subgroup G) {k : G} (hk : k ∈ K) :
     conjSubgroup (pCoreOf 2 K) k = pCoreOf 2 K := by
   ext x
@@ -36,6 +38,7 @@ theorem s16c1_conjSubgroup_pCoreOf_self (K : Subgroup G) {k : G} (hk : k ∈ K) 
   · intro hx
     exact s16c1_conj_mem_pCoreOf (K := K) hk x hx
 
+omit [Finite G] in
 theorem s16c1_zpowers_le_pCoreOf {z : G} (hz : z ^ 2 = 1) :
     Subgroup.zpowers z ≤ pCoreOf 2 (centralizer ({z} : Set G)) := by
   let H := centralizer ({z} : Set G)
@@ -61,10 +64,12 @@ theorem s16c1_zpowers_le_pCoreOf {z : G} (hz : z ^ 2 = 1) :
   exact ⟨⟨z, hzH⟩, le_sSup (s := {K : Subgroup ↥H | K.Normal ∧ IsPGroup 2 K})
     ⟨hnormal, hpg⟩ (Subgroup.mem_zpowers _), rfl⟩
 
+omit [Finite G] in
 theorem s16c1_uOne_le_eOne (V : Subgroup G) (z : G) : uOne V z ≤ eOne V z := by
   rw [eOne, hConjClosure]
   exact le_iSup_of_le ⟨1, one_mem _⟩ (le_of_eq (conjSubgroup_one (uOne V z)).symm)
 
+omit [Finite G] in
 theorem s16c1_eOne_le_pCoreOf (V : Subgroup G) (z : G) :
     eOne V z ≤ pCoreOf 2 (centralizer ({z} : Set G)) := by
   rw [eOne, hConjClosure]
@@ -76,6 +81,7 @@ theorem s16c1_eOne_le_pCoreOf (V : Subgroup G) (z : G) :
     _ = pCoreOf 2 (centralizer ({z} : Set G)) :=
         s16c1_conjSubgroup_pCoreOf_self (centralizer ({z} : Set G)) h.2
 
+omit [Finite G] in
 theorem s16c1_pCoreOf_le_normalizer_uOne {V : Subgroup G} {z : G}
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) :
     pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer ((uOne V z : Subgroup G) : Set G) := by
@@ -99,17 +105,20 @@ theorem s16c1_pCoreOf_le_normalizer_uOne {V : Subgroup G} {z : G}
         (p * x * p⁻¹) hx.2
       rwa [show p⁻¹ * (p * x * p⁻¹) * (p⁻¹)⁻¹ = x by group] at h
 
+omit [Finite G] in
 theorem s16c1_uOne_subgroupOf_normal {V : Subgroup G} {z : G}
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) :
     ((uOne V z).subgroupOf (eOne V z)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (s16c1_uOne_le_eOne V z)]
   exact (s16c1_eOne_le_pCoreOf V z).trans (s16c1_pCoreOf_le_normalizer_uOne hP)
 
+omit [Finite G] in
 private theorem s16c1_conjSubgroup_inf (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊓ B) g = conjSubgroup A g ⊓ conjSubgroup B g := by
   ext x
   simp only [mem_conjSubgroup_iff, Subgroup.mem_inf]
 
+omit [Finite G] in
 theorem s16c1_conjSubgroup_uOne_eq {V : Subgroup G} {z h : G}
     (hh : h ∈ centralizer ({z} : Set G)) (hV : h ∈ normalizer (V : Set G)) :
     conjSubgroup (uOne V z) h = uOne V z := by
@@ -117,6 +126,7 @@ theorem s16c1_conjSubgroup_uOne_eq {V : Subgroup G} {z h : G}
     (conjSubgroup_eq_iff_mem_normalizer (A := V) (g := h)).2 hV,
     s16c1_conjSubgroup_pCoreOf_self (centralizer ({z} : Set G)) hh]
 
+omit [Finite G] in
 theorem s16c1_comm_uOne_conj_le {V : Subgroup G} {z h : G}
     (hh : h ∈ centralizer ({z} : Set G))
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) :
@@ -161,6 +171,7 @@ theorem s16c1_comm_uOne_conj_le {V : Subgroup G} {z h : G}
   exact ⟨by simpa only [mul_assoc] using U.mul_mem ha hbaU,
     (conjSubgroup U h).mul_mem habW ((conjSubgroup U h).inv_mem hb)⟩
 
+omit [Finite G] in
 theorem s16c1_ti_of_core {M V : Subgroup G} {z : G} (hM : M ≤ normalizer (V : Set G))
     (hcore : ∀ h ∈ centralizer ({z} : Set G),
       ¬ uOne V z ⊓ conjSubgroup (uOne V z) h ≤ Subgroup.zpowers z → h ∈ M) :
@@ -172,6 +183,7 @@ theorem s16c1_ti_of_core {M V : Subgroup G} {z : G} (hM : M ≤ normalizer (V : 
   · exact Or.inr hle
   · exact Or.inl (s16c1_conjSubgroup_uOne_eq hh (hM (hcore h hh hle)))
 
+omit [Finite G] in
 theorem s16c1_closure_comm_sq {T : Set G} {X Z : Subgroup G} (hX : Subgroup.closure T = X)
     (hZ : ∀ c ∈ Z, ∀ x ∈ X, c * x = x * c) (hcomm : ∀ a ∈ T, ∀ b ∈ T, ⁅a, b⁆ ∈ Z)
     (hsq : ∀ a ∈ T, a ^ 2 ∈ Z) : ⁅X, X⁆ ≤ Z ∧ ∀ e ∈ X, e ^ 2 ∈ Z := by
@@ -256,6 +268,7 @@ theorem s16c1_closure_comm_sq {T : Set G} {X Z : Subgroup G} (hX : Subgroup.clos
     rw [e]
     exact Z.inv_mem ihx
 
+omit [Finite G] in
 private lemma s16c1_conjSubgroup_zpowers_eq {z h : G} (hh : h ∈ centralizer ({z} : Set G)) :
     conjSubgroup (Subgroup.zpowers z) h = Subgroup.zpowers z := by
   rw [conjSubgroup_eq_iff_mem_normalizer, Subgroup.mem_normalizer_iff]
@@ -277,6 +290,7 @@ private lemma s16c1_conjSubgroup_zpowers_eq {z h : G} (hh : h ∈ centralizer ({
         _ = z ^ m := by group
     rw [hx_eq, hcalc]
 
+omit [Finite G] in
 theorem s16c1_phi_eOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G))
     (hTI : ∀ h ∈ centralizer ({z} : Set G),
@@ -323,7 +337,7 @@ theorem s16c1_phi_eOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
         have ha''U : (h' : G) * a * (h' : G)⁻¹ ∈ U := hkU' ▸ ha''
         have hb'V : (h' : G) * b * (h' : G)⁻¹ ∈ V := hb'.1
         have ha''V : (h' : G) * a * (h' : G)⁻¹ ∈ V := ha''U.1
-        letI : IsMulCommutative ↥V := hV.1
+        let : IsMulCommutative ↥V := hV.1
         have hcommute : Commute ((h' : G) * a * (h' : G)⁻¹)
             ((h' : G) * b * (h' : G)⁻¹) :=
           congrArg Subtype.val (mul_comm' (⟨_, ha''V⟩ : ↥V) (⟨_, hb'V⟩ : ↥V))
@@ -367,6 +381,7 @@ theorem s16c1_phi_eOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
     rw [hcalc, hsq1]
     simp
 
+omit [Finite G] in
 theorem s16c1_comm_V_eOne_le {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) :
     ⁅V, eOne V z⁆ ≤ uOne V z := by
@@ -378,7 +393,7 @@ theorem s16c1_comm_V_eOne_le {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     rw [hy]
-    letI : IsMulCommutative ↥V := hV.1
+    let : IsMulCommutative ↥V := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨z, hz⟩ : ↥V) (⟨v, hv⟩ : ↥V))
   rw [Subgroup.commutator_le]
   intro v hv e he
@@ -392,10 +407,12 @@ theorem s16c1_comm_V_eOne_le {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (
   exact Subgroup.mem_inf.mpr
     ⟨by simpa only [mul_assoc] using h1, by simpa only [mul_assoc] using h2⟩
 
+omit [Finite G] in
 theorem s16c1_zpowers_le_uOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V) :
     Subgroup.zpowers z ≤ uOne V z := by
   exact le_inf (Subgroup.zpowers_le.mpr hz) (s16c1_zpowers_le_pCoreOf (hV.2 z hz))
 
+omit [Finite G] in
 theorem s16c1_comm_V_eOne_sup_le {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) :
     ⁅V, eOne V z⁆ ⊔ Subgroup.zpowers z ≤ uOne V z := by

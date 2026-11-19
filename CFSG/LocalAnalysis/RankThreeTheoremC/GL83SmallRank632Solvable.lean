@@ -42,7 +42,7 @@ private theorem gl83Solv_isSolvable_of_card_dvd {H : Type*} [Group H] [Finite H]
   have : Subsingleton (Sylow 13 H) := Finite.card_le_one_iff_subsingleton.mp hn.le
   have : (P : Subgroup H).Normal := Sylow.normal_of_subsingleton P
   have : Group.IsSolvable P := by
-    have := P.isPGroup'.isNilpotent
+    have := P.isPGroup.isNilpotent
     infer_instance
   have : Group.IsSolvable (H ⧸ (P : Subgroup H)) := by
     apply gl83Solv_isSolvable_of_card_dvd_two_three (a := 5) (b := 1)

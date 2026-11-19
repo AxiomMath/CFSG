@@ -206,6 +206,7 @@ section Split
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem splitInnerDiagMarking16_subgroupOf {p : ℕ} {B L H : Subgroup G} (hBH : B ≤ H) (hLH : L ≤ H)
     (h : SplitInnerDiagMarking16 p B L) : SplitInnerDiagMarking16 p (B.subgroupOf H) (L.subgroupOf H) := by
   let e : ↥(L.subgroupOf H) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLH

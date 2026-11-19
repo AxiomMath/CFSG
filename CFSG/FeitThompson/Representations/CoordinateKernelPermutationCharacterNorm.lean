@@ -23,8 +23,8 @@ lemma extendByZero_one_eq_one {I : Subgroup L} {y : L} (hy : y ∈ I) :
 lemma extendByZero_one_eq_ite (I : Subgroup L) [DecidablePred (· ∈ I)] (y : L) :
     extendByZero I (1 : I → ℂ) y = if y ∈ I then 1 else 0 := by
   by_cases hy : y ∈ I
-  · rw [extendByZero_one_eq_one hy, if_pos hy]
-  · rw [extendByZero_of_notMem _ _ hy, if_neg hy]
+  · rw [extendByZero_one_eq_one hy, ite_eq_left hy]
+  · rw [extendByZero_of_notMem _ _ hy, ite_eq_right hy]
 
 lemma conj_extendByZero_one (I : Subgroup L) (y : L) :
     (starRingEnd ℂ) (extendByZero I (1 : I → ℂ) y) = extendByZero I (1 : I → ℂ) y := by

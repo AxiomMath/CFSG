@@ -32,11 +32,11 @@ theorem kDiag_of_isOmega8m_of_tail
   have hmodel : StatedClassicalModel X .POmegaMinus 4 2 n :=
     LieModel.statedClassicalModel hΩ (by decide)
   obtain ⟨⟨-, hf, -⟩, K, hKfield, hKfin, hKcard, b, c, hirr, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hchar : CharP K 2 :=
     finite_field_prime_power_characteristic (K := K) Nat.prime_two hf hKcard
-  letI : CharP K 2 := hchar
+  let : CharP K 2 := hchar
   have hE := commutator_orthogonalGroup_quadMinus (K := K) (b := b) (c := c) (n := 4)
     (by norm_num) hirr
   let e : X ≃* orthElementaryGroup (quadTail 3 (minusTailForm K b c)) :=

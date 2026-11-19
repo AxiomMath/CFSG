@@ -22,7 +22,7 @@ theorem testBit_fold (s : Fin 5 → Fin 5) (u j : Nat) : ∀ (l : List (Fin 5)) 
     rw [List.map_cons, List.nodup_cons] at hn
     rw [List.foldl_cons, testBit_fold s u j l _ hn.2, List.any_cons]
     by_cases hu : u.testBit i = true
-    · rw [if_pos hu, Nat.testBit_xor, Nat.testBit_two_pow, hu, Bool.true_and]
+    · rw [ite_eq_left hu, Nat.testBit_xor, Nat.testBit_two_pow, hu, Bool.true_and]
       by_cases hj : (s i : ℕ) = j
       · have : l.any (fun (k : Fin 5) => u.testBit k && decide ((s k : ℕ) = j)) = false := by
           rw [List.any_eq_false]
@@ -84,9 +84,8 @@ theorem sign_eq (σ : Equiv.Perm (Fin 5)) : ((Equiv.Perm.sign σ : Int)) = sgnT 
       ((if (σ 2 : Nat) < σ 4 then 1 else -1) * ((if (σ 3 : Nat) < σ 4 then 1 else -1) *
         1))))))))) := rfl
   rw [e]
-  simp only [Fin.prod_univ_five, h0, h1, h2, h3, h4, Finset.mem_insert, Finset.mem_singleton,
-    Finset.prod_insert, Finset.prod_singleton, Finset.prod_empty, Units.val_mul, Units.val_one,
-    apply_ite Units.val, Units.val_neg, Fin.lt_iff_val_lt_val]
+  simp only [Fin.prod_univ_five, h0, h1, h2, h3, h4, Finset.prod_singleton, Finset.prod_empty, Units.val_mul, Units.val_one,
+    apply_ite Units.val, Units.val_neg, Fin.lt_def]
   simp only [Finset.prod_insert (show (1 : Fin 5) ∉ ({2, 3, 4} : Finset (Fin 5)) by decide),
     Finset.prod_insert (show (2 : Fin 5) ∉ ({3, 4} : Finset (Fin 5)) by decide),
     Finset.prod_pair (show (3 : Fin 5) ≠ 4 by decide), Units.val_mul, apply_ite Units.val,

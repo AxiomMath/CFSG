@@ -180,7 +180,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_tree [Finite G] {p : ℕ} (hp : p.Prime) {y : 
       rcases Nat.eq_zero_or_pos i with rfl | h
       · exfalso; apply hne
         show treeG T (pairG gs) 0 = 1
-        rw [treeG.eq_def, dif_neg (by omega)]
+        rw [treeG.eq_def, dite_eq_right (by omega)]
       · exact h
     exact prodG_pow_ne_one_of_witOK hW hi (hwit i hi) hq (hw i hi hi0)
 

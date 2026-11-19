@@ -37,7 +37,7 @@ private theorem eq_one_of_mem_pCoreOf {A : Subgroup G} (hA : IsElemAbelian 3 A) 
   rw [show Nat.gcd 3 (2 ^ k) = 1 from hcop, pow_one] at h4
   exact h4
 
-private theorem eq_of_mk_eq_of_mem {A K : Subgroup G} (hA : IsElemAbelian 3 A) (hAK : A ≤ K)
+private theorem eq_of_mk_eq_of_mem {A K : Subgroup G} (hA : IsElemAbelian 3 A) (_hAK : A ≤ K)
     {x y : K} (hx : (x : G) ∈ A) (hy : (y : G) ∈ A)
     (h : QuotientGroup.mk' (CFSG.pCore 2 K) x = QuotientGroup.mk' (CFSG.pCore 2 K) y) : x = y := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply] at h
@@ -69,6 +69,7 @@ private theorem card_mk_map {A K : Subgroup G} (hA : IsElemAbelian 3 A) (hAK : A
   rw [card_map_of_injOn' _ _ hf]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (hSA.trans hAK)).toEquiv
 
+omit [Finite G] in
 private theorem eq_of_quotAct_eq {K P : Subgroup G}
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1)
     (x y : Subgroup.normalizer (K : Set G)) (hx : (x : G) ∈ P) (hy : (y : G) ∈ P)
@@ -82,6 +83,7 @@ private theorem eq_of_quotAct_eq {K P : Subgroup G}
   rw [Subgroup.coe_mul, Subgroup.coe_inv] at h1
   exact inv_mul_eq_one.mp h1
 
+omit [Finite G] in
 private theorem mul_comm_of_quotAct_comm {K P : Subgroup G}
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1)
     (x y : Subgroup.normalizer (K : Set G)) (hx : (x : G) ∈ P) (hy : (y : G) ∈ P)
@@ -97,6 +99,7 @@ private theorem mul_comm_of_quotAct_comm {K P : Subgroup G}
   rw [Subgroup.coe_mul, Subgroup.coe_mul] at h2
   exact h2
 
+omit [Finite G] in
 private theorem quotAct_comm_of_mul_comm {K : Subgroup G} (x y : Subgroup.normalizer (K : Set G))
     (h : (x : G) * (y : G) = (y : G) * (x : G)) :
     Sec19.SimsC198.quotAct K x * Sec19.SimsC198.quotAct K y =
@@ -105,6 +108,7 @@ private theorem quotAct_comm_of_mul_comm {K : Subgroup G} (x y : Subgroup.normal
   congr 1
   exact Subtype.ext (by rw [Subgroup.coe_mul, Subgroup.coe_mul]; exact h)
 
+omit [Finite G] in
 private theorem quotAct_conj_eq_of_mul {K : Subgroup G} (x z : Subgroup.normalizer (K : Set G))
     {d : G} (hd : d ∈ Subgroup.normalizer (K : Set G))
     (h : (x : G) * (z : G) * (x : G)⁻¹ = d * (z : G)) :
@@ -114,6 +118,7 @@ private theorem quotAct_conj_eq_of_mul {K : Subgroup G} (x z : Subgroup.normaliz
   congr 1
   exact Subtype.ext (by rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]; exact h)
 
+omit [Finite G] in
 private theorem card_actImage_of_le {K P D : Subgroup G}
     (hPN : P ≤ Subgroup.normalizer (K : Set G))
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1)
@@ -134,16 +139,19 @@ private theorem card_actImage_of_le {K P D : Subgroup G}
   have h1 := Nat.card_congr (Equiv.ofBijective _ hbij)
   rw [Sec19.SimsC198.actImage, ← h1, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDN).toEquiv]
 
+omit [Finite G] in
 private theorem mem_actImage_of {K D : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) (hx : x ∈ D) :
     Sec19.SimsC198.quotAct K ⟨x, hxN⟩ ∈ Sec19.SimsC198.actImage K D :=
   Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hx)
 
+omit [Finite G] in
 private theorem actImage_mono {K D D' : Subgroup G} (h : D ≤ D') :
     Sec19.SimsC198.actImage K D ≤ Sec19.SimsC198.actImage K D' := by
   rintro _ ⟨x, hx, rfl⟩
   exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr (h (Subgroup.mem_subgroupOf.mp hx)))
 
+omit [Finite G] in
 private theorem actImage_sup {K D₁ D₂ : Subgroup G} (h₁ : D₁ ≤ Subgroup.normalizer (K : Set G))
     (h₂ : D₂ ≤ Subgroup.normalizer (K : Set G)) :
     Sec19.SimsC198.actImage K (D₁ ⊔ D₂) =
@@ -151,6 +159,7 @@ private theorem actImage_sup {K D₁ D₂ : Subgroup G} (h₁ : D₁ ≤ Subgrou
   unfold Sec19.SimsC198.actImage
   rw [Subgroup.subgroupOf_sup h₁ h₂, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem subgroupOf_zpowers_eq {K : Subgroup G} {c : G} (hc : c ∈ K) :
     (Subgroup.zpowers c).subgroupOf K = Subgroup.zpowers (⟨c, hc⟩ : K) := by
   ext x
@@ -161,6 +170,7 @@ private theorem subgroupOf_zpowers_eq {K : Subgroup G} {c : G} (hc : c ∈ K) :
   · rintro ⟨k, rfl⟩
     exact ⟨k, by simp⟩
 
+omit [Finite G] in
 private theorem actImage_zpowers {K : Subgroup G} {c : G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) :
     Sec19.SimsC198.actImage K (Subgroup.zpowers c) =
@@ -168,6 +178,7 @@ private theorem actImage_zpowers {K : Subgroup G} {c : G}
   unfold Sec19.SimsC198.actImage
   rw [subgroupOf_zpowers_eq hcN, MonoidHom.map_zpowers]
 
+omit [Finite G] in
 private theorem actImage_self_eq_inner (K : Subgroup G) :
     Sec19.SimsC198.actImage K K = innerAut (K ⧸ CFSG.pCore 2 K) := by
   apply le_antisymm
@@ -184,6 +195,7 @@ private theorem actImage_self_eq_inner (K : Subgroup G) :
     rw [e] at hmem
     exact hmem
 
+omit [Finite G] in
 private theorem le_of_isSylowOf_normalizer {A P : Subgroup G} (hA : IsElemAbelian 3 A)
     (hP : IsSylowOf 3 P (Subgroup.normalizer (A : Set G))) : A ≤ P := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -191,7 +203,7 @@ private theorem le_of_isSylowOf_normalizer {A P : Subgroup G} (hA : IsElemAbelia
   have hn : (A.subgroupOf (Subgroup.normalizer (A : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAN).mpr le_rfl
   obtain ⟨Q, hQ⟩ := hP
-  haveI := hn
+  have := hn
   have hle := IsPGroup.le_sylow_of_normal
     (CFSG.Open.IsElemAbelian.subgroupOf hA (Subgroup.normalizer (A : Set G))).isPGroup Q
   have e : A = (A.subgroupOf (Subgroup.normalizer (A : Set G))).map
@@ -268,6 +280,7 @@ private theorem sylow_actImage {K P : Subgroup G} (hPK : IsSylowOf 3 P ⊤)
   rw [Subgroup.map_sup, hKi] at hmap
   exact hmap
 
+omit [Finite G] in
 private theorem not_mem_innerAut {K : Subgroup G} {c : G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G))
     (hout : ¬ InducesInnerMod c K (CFSG.Open.pCoreOf 2 K)) :
@@ -304,10 +317,11 @@ private theorem not_mem_innerAut {K : Subgroup G} {c : G}
   rw [e2] at hconj
   exact hconj
 
+omit [Finite G] in
 private theorem comm_actImage_of_normalizes {P : Subgroup G} {c : G} {K : Subgroup G}
     (hP3 : IsPGroup 3 P) (hc3 : orderOf c = 3)
     (hPz : P ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G))
-    (hPN : P ≤ Subgroup.normalizer (K : Set G)) (hcN : c ∈ Subgroup.normalizer (K : Set G)) :
+    (_hPN : P ≤ Subgroup.normalizer (K : Set G)) (hcN : c ∈ Subgroup.normalizer (K : Set G)) :
     ∀ x ∈ Sec19.SimsC198.actImage K P,
       x * Sec19.SimsC198.quotAct K ⟨c, hcN⟩ = Sec19.SimsC198.quotAct K ⟨c, hcN⟩ * x := by
   intro φ hφ
@@ -315,11 +329,12 @@ private theorem comm_actImage_of_normalizes {P : Subgroup G} {c : G} {K : Subgro
   have hcomm := commute_of_normalizes_zpowers hP3 hc3 hPz y (Subgroup.mem_subgroupOf.mp hy)
   exact quotAct_comm_of_mul_comm ⟨y, hyN⟩ ⟨c, hcN⟩ hcomm
 
+omit [Finite G] in
 private theorem dichotomy_of_caseTwo {A B P : Subgroup G} {c : G} {K : Subgroup G}
     (hS : SylowFive.CaseTwo P A B c)
     (hPN : P ≤ Subgroup.normalizer (K : Set G)) (hcN : c ∈ Subgroup.normalizer (K : Set G))
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1)
-    (hcA : c ∈ A) :
+    (_hcA : c ∈ A) :
     (∀ x ∈ Sec19.SimsC198.actImage K P,
         (∀ a ∈ Sec19.SimsC198.actImage K A, x * a = a * x) → x ∈ Sec19.SimsC198.actImage K A) ∧
       ∀ b ∈ Sec19.SimsC198.actImage K B, ∃ x ∈ Sec19.SimsC198.actImage K P ⊓
@@ -430,6 +445,7 @@ private theorem mem_normalizer_of_comm {X : Type} [Group X] {H : Subgroup X} {g 
     rw [e2]
     exact hh
 
+omit [Finite G] in
 private theorem mk_mem_normalizer_map {K B : Subgroup G} {m : K}
     (hm : (m : G) ∈ Subgroup.normalizer (B : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 K) m ∈
@@ -529,7 +545,7 @@ private theorem omega_inner {M K B : Subgroup G} {c : G} (hKM : K ≤ M) (hBK : 
 
 theorem false_of_inner {A M H : Subgroup G} {c : G} {P : Subgroup G}
     (hC : Ctx G A M H c P) (hIn : LeafInner) {K : Subgroup G} (hK : K ∈ oTwoComponentsIn M)
-    (hWK : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (K : Set G))
+    (_hWK : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (K : Set G))
     (hAK : A ≤ K)
     (hfaith : ∀ x ∈ P, (∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) → x = 1)
     (hΩ : A ⊓ inSubgroup perfectResidual H ≤
@@ -537,7 +553,7 @@ theorem false_of_inner {A M H : Subgroup G} {c : G} {P : Subgroup G}
         (M ⊓ Subgroup.centralizer ({c} : Set G)).subtype) : False := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   have hM : Sec18Std G A M := hC.toSec18H.toSec18Std
   have hA : IsElemAbelian 3 A := hC.planeQ8.isElemAbelian
   have hA3 : IsPGroup 3 A := CFSG.Open.IsElemAbelian.isPGroup hA

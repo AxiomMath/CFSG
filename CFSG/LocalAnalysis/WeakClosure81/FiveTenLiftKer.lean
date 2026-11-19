@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem kerMOf_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
     kerMOf M (kerQuotLift M H Y) = kerQuotLift M H (kerMOf (kerQuotImg M H M) Y) := by
   apply le_antisymm
@@ -47,6 +48,7 @@ theorem kerMOf_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
       rw [b5_FiveNineQuot_comap_kerQuotImg_self] at h2
       exact h2
 
+omit [Finite G] in
 theorem maxOver_kerQuotLift {M H : Subgroup G} {Y Z : Subgroup (KerQuot M H)}
     (h : maxOver Y Z = {kerQuotImg M H M ⊓ Y}) :
     maxOver (kerQuotLift M H Y) (kerQuotLift M H Z) = {M ⊓ kerQuotLift M H Y} := by
@@ -78,6 +80,7 @@ theorem maxOver_kerQuotLift {M H : Subgroup G} {Y Z : Subgroup (KerQuot M H)}
     Set (Subgroup (KerQuot M H)) :=
   {Y | ∃ A ∈ Ω, kerQuotImg M H A = Y}
 
+omit [Finite G] in
 theorem fiveTenConc_of_kerQuot {H M : Subgroup G} {Ω : Set (Subgroup G)} (hΩ : E1.IsInvColl H Ω)
     (h : FiveTenConc (⊤ : Subgroup (KerQuot M H)) (kerQuotImg M H M) (kerQuotOmega M H Ω)) :
     FiveTenConc H M Ω := by

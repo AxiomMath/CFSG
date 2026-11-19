@@ -31,7 +31,7 @@ private theorem not_dvd_twelve_of_five_le {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p
     ¬ p ∣ 12 := by
   intro h
   have hle : p ≤ 12 := Nat.le_of_dvd (by norm_num) h
-  interval_cases p <;> first | omega | norm_num at hp | norm_num at h
+  interval_cases p <;> first | omega | norm_num at hp
 
 private theorem card_weylGroup_G2 : Nat.card (WeylGroup Tag.G2) = 12 := by
   have h := CFSG.GH74.GLS.SP.card_coxeterGroup_fin_two

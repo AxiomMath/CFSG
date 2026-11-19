@@ -149,7 +149,7 @@ theorem finrank_Ha : finrank (ZMod 2) (Ha S g t) = 5 :=
   (Submodule.comapSubtypeEquivOfLe (inf_le_right : Ea S g ⊓
     commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt) ≤ _)).finrank_eq.trans D.finrank_Ea_inf
 
-theorem Vsub_le_Ha : Vsub g t ≤ Ha S g t := fun v hv => mem_Ha.mpr (D.Vt_le_Ea hv)
+theorem Vsub_le_Ha : Vsub g t ≤ Ha S g t := fun _v hv => mem_Ha.mpr (D.Vt_le_Ea hv)
 
 theorem mem_Ha_iff (u : commSpace (t : S.Qt ≃ₗ[ZMod 2] S.Qt)) :
     u ∈ Ha S g t ↔ omegaU t u D.aW = 0 := by

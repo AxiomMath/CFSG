@@ -118,7 +118,7 @@ theorem list189L2Odd_of (hL2e : List189L2Even)
     rcases h57 with rfl | rfl
     · obtain ⟨e'⟩ := nonempty_projSL_two_five_equiv_two_two
       exact hL2e Y X Q Γ x 2 h le_rfl ⟨e.trans e'⟩
-    · haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    · have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
       obtain ⟨e'⟩ :=
         CFSG.AGLEmbeddingD2.Wilson.Census424Rest.nonempty_projSL_two_seven_equiv_three_two
       exact hL3e Y X Q Γ x 1 h odd_one ⟨e.trans e'⟩

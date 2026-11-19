@@ -59,7 +59,7 @@ theorem eq_one_or_eq_allOnes_of_central {a : ↥Wsub} (h : ∀ b : ↥Wsub, a * 
   have hvec : ∀ τ : Equiv.Perm (Fin 6), ∀ i, (a : Wr 6).vec i = (a : Wr 6).vec (τ.symm i) := by
     intro τ i
     have h1 := congrArg (fun b : Wr 6 => b.vec i) (hc τ)
-    simp only [Wr.mul_vec, ofPerm, hperm] at h1
+    simp only [Wr.mul_vec, ofPerm] at h1
     simpa using h1
   have hconst : ∀ i, (a : Wr 6).vec i = (a : Wr 6).vec 0 := fun i => by
     have := hvec (Equiv.swap 0 i) i

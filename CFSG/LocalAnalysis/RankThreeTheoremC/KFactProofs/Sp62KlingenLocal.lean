@@ -64,15 +64,15 @@ theorem normal_dichotomy_N0
 
 theorem solvable_N0 :
     Group.IsSolvable N0 := by
-  haveI : (B0.subgroupOf N0).Normal :=
+  have : (B0.subgroupOf N0).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer B0_le_N0).2 N0_le_normalizer_B0
-  haveI : Group.IsSolvable B0 :=
+  have : Group.IsSolvable B0 :=
     Group.isSolvable_of_comm fun a b => B0_elemAbelian.1.is_comm.comm a b
-  haveI : Group.IsSolvable (B0.subgroupOf N0) :=
+  have : Group.IsSolvable (B0.subgroupOf N0) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe B0_le_N0).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe B0_le_N0).injective
-  haveI : Group.IsSolvable (N0 ⧸ B0.subgroupOf N0) := by
+  have : Group.IsSolvable (N0 ⧸ B0.subgroupOf N0) := by
     refine CFSG.GroupTheory.groups_order_below_sixty_solvable ?_
     have h := Subgroup.card_mul_index (B0.subgroupOf N0)
     have hc : Nat.card (B0.subgroupOf N0) = Nat.card B0 :=
@@ -109,7 +109,7 @@ theorem a3pInSitu_N0 :
     A3pInSitu 3 T0 B0 N0 where
   primeCore := fun _ hWN hW hc => primeCore_N0 hWN hW hc
   normal_dichotomy := fun _ hWN hW => normal_dichotomy_N0 hWN hW
-  centralizer_le := fun x hx => B0_le_T0 (centralizer_N0_le hx)
+  centralizer_le := fun _x hx => B0_le_T0 (centralizer_N0_le hx)
 
 theorem a3pInSitu_W0 :
     A3pInSitu 3 T0 B0 W0 where

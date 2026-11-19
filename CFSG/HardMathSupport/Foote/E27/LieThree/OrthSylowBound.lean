@@ -26,12 +26,14 @@ section Lemmas
 
 variable {B : LinearMap.BilinForm K V}
 
+omit [Finite K] in
 theorem orth_inf_orth (hB : B.Nondegenerate) (hs : B.IsSymm) {X : Submodule K V}
     (hX : X ⊓ B.orthogonal X = ⊥) : B.orthogonal X ⊓ B.orthogonal (B.orthogonal X) = ⊥ := by
   have h := LinearMap.BilinForm.orthogonal_orthogonal hB hs.isRefl X
   rw [h, inf_comm, hX]
 
-theorem sup_nondeg (hs : B.IsSymm) {X Y : Submodule K V} (hY : Y ≤ B.orthogonal X)
+omit [Finite K] [Module.Finite K V] in
+theorem sup_nondeg (_hs : B.IsSymm) {X Y : Submodule K V} (hY : Y ≤ B.orthogonal X)
     (hX : X ⊓ B.orthogonal X = ⊥) (hYn : Y ⊓ B.orthogonal Y = ⊥) :
     (X ⊔ Y) ⊓ B.orthogonal (X ⊔ Y) = ⊥ := by
   rw [eq_bot_iff]
@@ -63,9 +65,11 @@ theorem sup_nondeg (hs : B.IsSymm) {X Y : Submodule K V} (hY : Y ≤ B.orthogona
   have hy0 : y = 0 := (Submodule.mem_bot K).1 this
   simp [hy0]
 
+omit [Finite K] [Module.Finite K V] in
 theorem line_nondeg {v : V} (hv : B v v ≠ 0) : Submodule.span K {v} ⊓ B.orthogonal (Submodule.span K {v}) = ⊥ :=
   LinearMap.BilinForm.span_singleton_inf_orthogonal_eq_bot hv
 
+omit [Finite K] [Module.Finite K V] in
 theorem plane_nondeg (hs : B.IsSymm) {u v : V} (huv : B u v = 1) (hvv : B v v = 0) :
     Submodule.span K {u, v} ⊓ B.orthogonal (Submodule.span K {u, v}) = ⊥ := by
   rw [eq_bot_iff]
@@ -81,6 +85,7 @@ theorem plane_nondeg (hs : B.IsSymm) {u v : V} (huv : B u v = 1) (hvv : B v v = 
   have hb : b = 0 := by simpa [ha] using h2
   simp [ha, hb]
 
+omit [Finite K] in
 theorem finrank_sup_of_le_orth {X Y : Submodule K V} (hX : X ⊓ B.orthogonal X = ⊥)
     (hY : Y ≤ B.orthogonal X) : finrank K ↥(X ⊔ Y) = finrank K X + finrank K Y := by
   have hd : X ⊓ Y = ⊥ := by
@@ -96,6 +101,7 @@ theorem finrank_sup_of_le_orth {X Y : Submodule K V} (hX : X ⊓ B.orthogonal X 
 @[expose] def proj (B : LinearMap.BilinForm K V) (u v x : V) : V :=
   x - B x v • u - (B x u - B x v * B u u) • v
 
+omit [Finite K] [Module.Finite K V] in
 theorem proj_mem_orth (hs : B.IsSymm) {X : Submodule K V} {u v x : V} (hu : u ∈ B.orthogonal X)
     (hv : v ∈ B.orthogonal X) (hx : x ∈ B.orthogonal X) (huv : B u v = 1) (hvv : B v v = 0) :
     proj B u v x ∈ B.orthogonal (X ⊔ Submodule.span K {u, v}) := by
@@ -110,10 +116,10 @@ theorem proj_mem_orth (hs : B.IsSymm) {X : Submodule K V} {u v x : V} (hu : u �
   have h2 : B a u = 0 := (LinearMap.BilinForm.mem_orthogonal_iff.1 hu) a ha
   have h3 : B a v = 0 := (LinearMap.BilinForm.mem_orthogonal_iff.1 hv) a ha
   unfold proj
-  simp only [map_add, map_sub, map_smul, LinearMap.add_apply, LinearMap.sub_apply,
-    LinearMap.smul_apply, smul_eq_mul, h1, h2, h3, huv, hvu, hvv, hxu, hxv]
+  simp only [map_add, map_sub, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h1, h2, h3, huv, hvu, hvv, hxu, hxv]
   ring
 
+omit [Finite K] [Module.Finite K V] in
 theorem proj_injOn (hs : B.IsSymm) (h2 : (2 : K) ≠ 0) {u v x₁ x₂ : V} (hvv : B v v = 0)
     (hx₁v : B x₁ v = 1) (hx₂v : B x₂ v = 1) (hx₁ : B x₁ x₁ = B u u)
     (hx₂ : B x₂ x₂ = B u u) (h : proj B u v x₁ = proj B u v x₂) : x₁ = x₂ := by
@@ -147,7 +153,7 @@ theorem exists_fixed_vector (hK : Nat.card K = 3) {G : Type} [Group G] [Finite G
     (hW : ∀ g : G, ∀ w ∈ W, φ g w ∈ W) (hpos : 0 < finrank K W) :
     ∃ w ∈ W, w ≠ 0 ∧ ∀ g : G, φ g w = w := by
   classical
-  letI : MulAction G W :=
+  let : MulAction G W :=
     { smul := fun g w => ⟨φ g w.1, hW g w.1 w.2⟩
       one_smul := fun w => Subtype.ext (by change φ 1 w.1 = w.1; simp)
       mul_smul := fun g h w => Subtype.ext (by change φ (g * h) w.1 = φ g (φ h w.1); simp) }
@@ -169,6 +175,7 @@ end Lemmas
 
 variable {B : LinearMap.BilinForm K V}
 
+omit [Finite K] [Module.Finite K V] in
 theorem pair_finrank (hs : B.IsSymm) {u v : V} (huv : B u v = 1) (hvv : B v v = 0) :
     finrank K (Submodule.span K {u, v}) = 2 := by
   have hli : LinearIndependent K ![u, v] := by
@@ -269,7 +276,7 @@ theorem bound_aux (hK : Nat.card K = 3) (h2 : (2 : K) ≠ 0) (hB : B.Nondegenera
       refine (Nat.card_le_card_of_injective f hf).trans ?_
       rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K), hdimW'',
         ← Nat.card_eq_fintype_card (α := K), hK]
-    letI : MulAction G V := MulAction.compHom V φ
+    let : MulAction G V := MulAction.compHom V φ
     have hsm : ∀ (g : G) (x : V), g • x = φ g x := fun _ _ => rfl
     have horb : Nat.card (MulAction.orbit G u) ≤ 3 ^ (m - 2) := by
       refine le_trans (Nat.card_mono (Set.toFinite A) ?_) hAcard

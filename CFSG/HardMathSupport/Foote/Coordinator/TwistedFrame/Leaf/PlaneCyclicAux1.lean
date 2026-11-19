@@ -81,7 +81,7 @@ theorem entrywise_baseChangeGL (D : LangLevi τ K w) (x : ModGL τ K) :
   have hfix : ∀ c : K, D.Fr (algebraMap K D.L c) = algebraMap K D.L c := fun c => by
     rw [D.hFr, ← map_pow]
     congr 1
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   change entrywise D.Fr (baseChangeEnd (algebraMap K D.L) (x : Module.End K (RootModule τ K))) =
@@ -147,7 +147,7 @@ theorem UFrame.exists_embedding {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] 
     fun i j hij t => by rw [hshape i j hij t, hFr]
   obtain ⟨-, ⟨H, hH⟩, -, -, -⟩ :=
     sln_root_permuting_frobenius_fixed_unitary hℓ hf hk hν π Φ' b hshape'
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
   obtain ⟨k₂, hk₂F, hk₂A, hk₂C, hk₂card⟩ :=
     exists_finite_field_isAlgClosure ℓ (2 * f) (by omega) k L
   have hq2 : (ℓ ^ f) ^ 2 = ℓ ^ (2 * f) := by rw [← pow_mul, mul_comm]
@@ -225,11 +225,11 @@ theorem cyclic_of_UFrame (D : LangLevi τ K w) {S : Set (Fin τ.rank → ℤ)} {
   classical
   intro g hg
   obtain ⟨ℓ, hℓK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓp, hcard⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hKcard : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : ∀ c, D.Fr c = c ^ (ℓ ^ (f : ℕ)) := fun c => by rw [D.hFr, hKcard]
   obtain ⟨k₂, hk₂F, hk₂fin, hk₂, Λ, hΛ⟩ := U.exists_embedding (ℓ := ℓ) (f := (f : ℕ)) f.pos
@@ -242,7 +242,7 @@ theorem cyclic_of_UFrame (D : LangLevi τ K w) {S : Set (Fin τ.rank → ℤ)} {
   have hι : Function.Injective ι := fun x y h => by
     apply Subtype.ext
     exact frameEmb_injective D (congrArg Subtype.val h)
-  haveI := Fintype.ofFinite k₂
+  have := Fintype.ofFinite k₂
   have hk₂c : Fintype.card k₂ = Nat.card K ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hk₂, hKcard]
   exact isCyclic_centralizer_of_injective_hom hp (by omega) (by rw [hk₂c]; exact hord)

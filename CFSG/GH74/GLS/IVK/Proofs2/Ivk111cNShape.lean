@@ -1,7 +1,7 @@
 module
 
 public import CFSG.GH74.GLS.IVK.Proofs2.Ivk111cNDig
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

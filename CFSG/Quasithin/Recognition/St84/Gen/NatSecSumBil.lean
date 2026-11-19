@@ -57,7 +57,7 @@ private theorem commPair_of_mem {E V : Subgroup G} {F : Type} [Field F]
     {a b : G} (ha : a ∈ E) (hb : b ∈ E) :
     commPair β₂ hEE a b =
       toAdd (β₂ ⟨⁅a, b⁆, hEE (Subgroup.commutator_mem_commutator ha hb)⟩) :=
-  dif_pos ⟨ha, hb⟩
+  dite_eq_left ⟨ha, hb⟩
 
 private theorem exists_eq_mul_of_mem_upperUnipotent {L T : Subgroup G} {F : Type} [Field F]
     {α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) F}
@@ -86,7 +86,7 @@ private theorem commutator_mul_eq_conj_mul {L E V T : Subgroup G}
   refine ⟨by rw [commutatorElement_mul_left_eq_conj_mul], ?_⟩
   exact (Subgroup.mem_normalizer_iff.mp (hVnorm (hTL ht)) _).mp (hcore k hk c hc)
 
-private theorem commutator_mem_of_mem_upperUnipotent {L E V T : Subgroup G} (hEL : E ≤ L)
+private theorem commutator_mem_of_mem_upperUnipotent {L E V T : Subgroup G} (_hEL : E ≤ L)
     (hLE : L ≤ Subgroup.normalizer (E : Set G))
     (hVnorm : L ≤ Subgroup.normalizer (V : Set G)) (hTL : T ≤ L) (hVE : V ≤ E)
     (hcore : ∀ x ∈ pCoreOf 2 L, ∀ e ∈ E, ⁅x, e⁆ ∈ V)
@@ -254,7 +254,7 @@ private theorem commPair_add_right {L E V Z : Subgroup G} {F : Type} [Field F]
     toAdd_conj_eq hZV hcent hβ₂ker ⟨(b : G), hbE⟩ ⟨⁅(a : G), (b' : G)⁆, h3⟩ hmem]
 
 private theorem commPair_eq_zero_of_mem {L E V Z : Subgroup G} {F : Type} [Field F]
-    (hEE : ⁅E, E⁆ ≤ V) (hZV : Z ≤ V) (hVE : V ≤ E) (hcent : ⁅E, V⁆ ≤ Z)
+    (hEE : ⁅E, E⁆ ≤ V) (_hZV : Z ≤ V) (hVE : V ≤ E) (hcent : ⁅E, V⁆ ≤ Z)
     {β₂ : ↥V →* Multiplicative (Fin 2 → F)} (hβ₂ker : β₂.ker = Z.subgroupOf V) :
     (∀ l ∈ V.subgroupOf L, ∀ b ∈ E.subgroupOf L, commPair β₂ hEE (l : G) (b : G) = 0) ∧
       (∀ a ∈ E.subgroupOf L, ∀ l ∈ V.subgroupOf L, commPair β₂ hEE (a : G) (l : G) = 0) := by
@@ -275,7 +275,7 @@ private theorem commPair_eq_zero_of_mem {L E V Z : Subgroup G} {F : Type} [Field
 
 private theorem commPair_conj {L E V : Subgroup G} {F : Type} [Field F]
     (hEE : ⁅E, E⁆ ≤ V) (hLE : L ≤ Subgroup.normalizer (E : Set G))
-    (hVnorm : L ≤ Subgroup.normalizer (V : Set G))
+    (_hVnorm : L ≤ Subgroup.normalizer (V : Set G))
     {α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) F}
     {β₂ : ↥V →* Multiplicative (Fin 2 → F)}
     (hβ₂act : ∀ (ℓ : ↥L) (u v : ↥V), (v : G) = ℓ * u * ℓ⁻¹ →
@@ -339,11 +339,11 @@ theorem comm_le_of_quadratic {G : Type} [Group G] {P L E V Z T : Subgroup G} [Fi
   have hZV : Z ≤ V := hVZ.Z_le
   have hVnorm : L ≤ Subgroup.normalizer (V : Set G) := hVZ.normal.trans inf_le_left
   have hVP : V ≤ P := hVL.trans hV.le
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hV.le) (Subgroup.inclusion_injective hV.le)
   obtain ⟨α, hαsurj, hαker, hUpper⟩ :=
     CFSG.GroupTheory.exists_SL2_hom_map_sylowTwo_eq_upperUnipotent hV.quot hT
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)

@@ -28,7 +28,7 @@ theorem ggPD_comap_commute {K : Type} [Field K] {d : ℕ}
   classical
   let S := Matrix.GeneralLinearGroup (Fin d) K ⧸
     Subgroup.center (Matrix.GeneralLinearGroup (Fin d) K)
-  haveI hAe : CFSG.IsElementaryAbelian 3 A :=
+  have hAe : CFSG.IsElementaryAbelian 3 A :=
     CFSG.Open.IsElemAbelian.isElementaryAbelian hA
   have hCE : Subgroup.normalizer (A : Set S) ≤ Subgroup.normalizer (A : Set S) := le_rfl
   refine CFSG.RankThree.GroupTheory.commute_of_mem_comap_of_forms
@@ -47,14 +47,14 @@ theorem ggPD_comap_commute {K : Type} [Field K] {d : ℕ}
     have hcardV : Nat.card V = 3 ^ 4 := by
       rw [← Nat.card_congr ι.toEquiv]
       exact hcard
-    haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
-    letI : Fintype V := Fintype.ofFinite V
+    have : Finite V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
+    let : Fintype V := Fintype.ofFinite V
     have hfinrank : Module.finrank (ZMod 3) V = 4 := by
       have hcard3 := Module.card_eq_pow_finrank (K := ZMod 3) (V := V)
       rw [ZMod.card, ← Nat.card_eq_fintype_card] at hcard3
       rw [hcardV] at hcard3
       exact (Nat.pow_right_injective (by norm_num : 2 ≤ 3) hcard3).symm
-    haveI : Nonempty Γ := Fintype.card_pos_iff.mp (by rw [hΓ]; norm_num)
+    have : Nonempty Γ := Fintype.card_pos_iff.mp (by rw [hΓ]; norm_num)
     have hspan : Submodule.span (ZMod 3) (Set.range h) = ⊤ :=
       LinearIndependent.span_eq_top_of_card_eq_finrank hD.indep
         (by rw [hΓ, hfinrank])

@@ -31,7 +31,7 @@ theorem binaryNaturalSL_transport_L32S2 {G : Type} [Group G] (V₁ K J IH IH' : 
 theorem subM_map_actH_L32S2 {G : Type} [Group G] {V₁ IH H I : Subgroup G}
     [Fact (IsElemAbelian 2 (tildeOf V₁ IH))]
     (hV₁ : H ≤ Subgroup.normalizer (V₁ : Set G)) (hIHN : IH ≤ Subgroup.normalizer (V₁ : Set G))
-    (hIHH : H ≤ Subgroup.normalizer (IH : Set G)) (hV₁I : V₁ ≤ I) (hIIH : I ≤ IH) (x : ↥H) :
+    (hIHH : H ≤ Subgroup.normalizer (IH : Set G)) (hV₁I : V₁ ≤ I) (_hIIH : I ≤ IH) (x : ↥H) :
     (subM V₁ IH I).map (actH hV₁ hIHH x).toMonoidHom =
       subM V₁ IH (CFSG.Quasithin.conjSub (x : G) I) := by
   have hxN : (x : G) ∈ Subgroup.normalizer (IH : Set G) := hIHH x.2
@@ -98,7 +98,7 @@ theorem tildeOf_sup_eq_of_subM_L32S2 {G : Type} [Group G] {V₁ IH I J : Subgrou
 
 theorem leafBridge_holds : LeafBridge := by
   intro G _ _ T L V _ F H K h I hV₁I hIU hIH hyp
-  haveI := factElem h hIU
+  have := factElem h hIU
   obtain ⟨t, ht, hnat, hinf, hsup⟩ := hyp
   rw [autIH_eq_map h h.T_le_H] at ht
   obtain ⟨x, hxT, rfl⟩ := Subgroup.mem_map.mp ht

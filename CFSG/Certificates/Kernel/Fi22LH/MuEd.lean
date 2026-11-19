@@ -81,11 +81,10 @@ private theorem muw_muK (h : LHChecks D) {f : Nat} (hf : f < 3510) :
   unfold muSlW at hs
   rw [strictB_eq, strictB_eq, strictB_eq] at hs
   have hm := allN_iff.1 hs (f % 880) (Nat.mod_lt _ (by decide))
-  unfold muSl at hm
   have e : Nat.add (Nat.mul (nat_lit 880) (f / 880)) (f % 880) = f := by
     change 880 * (f / 880) + f % 880 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at hm
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at hm
   unfold muK at hm
   simpa only [strictB_eq, bIf_eq] using hm
 
@@ -103,14 +102,14 @@ theorem muW_eq (hO : OrbOK) (h : LHChecks D) :
     by_cases hb : (bs D.lb0).testBit f = true
     · have hroot : bitAt (bitsOf (lhData ())[0]!) f = true := by rw [hbB, hb]
       have hmk := muw_muK h hf
-      rw [memB_eq, hb, if_pos rfl] at hmk
+      rw [memB_eq, hb, ite_eq_left rfl] at hmk
       have hw : fd (D.P f) 14 4095 = 3510 := Nat.eq_of_beq_eq_true hmk
-      rw [hroot, if_pos rfl, hw]
+      rw [hroot, ite_eq_left rfl, hw]
     · have hbf : (bs D.lb0).testBit f = false := Bool.eq_false_iff.2 hb
       have hout : bitAt (bitsOf (lhData ())[0]!) f = false := by rw [hbB, hbf]
-      rw [hout, if_neg (by simp)]
+      rw [hout, ite_eq_right (by simp)]
       have hmk := muw_muK h hf
-      rw [memB_eq, hbf, if_neg (by simp)] at hmk
+      rw [memB_eq, hbf, ite_eq_right (by simp)] at hmk
       have hq : fd (D.P f) 0 16383 < 14080 := ((rowF_spec h hf).2 hbf).1
       have hA : (orbDec D.QA).sets[(rowRD D)[f]!]! =
           bitsOfNat (sb (D.QA (fd (D.P f) 0 16383))) := by
@@ -128,15 +127,15 @@ theorem muW_eq (hO : OrbOK) (h : LHChecks D) :
           (sb (D.QA (fd D.mt 0 16383)))) == 63) = true
       · have hc' : Nat.beq (popK masks (Nat.land (sb (D.QA (fd (D.P f) 0 16383)))
             (sb (D.QA (fd D.mt 0 16383))))) 63 = true := hc
-        rw [hc', if_pos rfl] at hmk
-        rw [if_pos hc]
+        rw [hc', ite_eq_left rfl] at hmk
+        rw [ite_eq_left hc]
         rw [hA, hV]
         exact (edgeWit_eq_of_edgeK hO h hq hv0 hmk).2.2
       · have hc' : Nat.beq (popK masks (Nat.land (sb (D.QA (fd (D.P f) 0 16383)))
             (sb (D.QA (fd D.mt 0 16383))))) 63 = false := Bool.eq_false_iff.2 hc
-        rw [hc', if_neg (by simp)] at hmk
+        rw [hc', ite_eq_right (by simp)] at hmk
         have hw : fd (D.P f) 14 4095 = 3510 := Nat.eq_of_beq_eq_true hmk
-        rw [if_neg hc, hw]
+        rw [ite_eq_right hc, hw]
 
 theorem muTree_eq (hO : OrbOK) (h : LHChecks D) :
     mkMuTree (tauAll orbL) (commBits (tauAll orbL)) (orbDec D.QA) (rowRD D) (muWD D) =
@@ -167,16 +166,16 @@ private theorem edw_edK (h : LHChecks D) {hN : Nat} (hh : hN < 3510) :
   have e : Nat.add (Nat.mul (nat_lit 440) (hN / 440)) (hN % 440) = hN := by
     change 440 * (hN / 440) + hN % 440 = hN
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hh)] at hstep
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hh)] at hstep
   unfold edK at hstep
   simp only [strictB_eq] at hstep
   rw [bIf_eq] at hstep
   constructor
   · intro hmb
-    rw [if_pos hmb, bAnd_eq, Bool.and_eq_true] at hstep
+    rw [ite_eq_left hmb, bAnd_eq, Bool.and_eq_true] at hstep
     exact Nat.eq_of_beq_eq_true hstep.1
   · intro hmb
-    rw [if_neg (by rw [hmb]; simp), bAnd_eq, Bool.and_eq_true] at hstep
+    rw [ite_eq_right (by rw [hmb]; simp), bAnd_eq, Bool.and_eq_true] at hstep
     obtain ⟨h1, h2⟩ := hstep
     rw [Nat.blt_eq] at h1
     rw [bAnd_eq, Bool.and_eq_true] at h2
@@ -235,7 +234,7 @@ theorem edW_eq (hO : OrbOK) (h : LHChecks D) :
       rw [memB_eq]
       exact ((bitsIs_bitsOfNat (sb (D.QA (fd D.mt 0 16383)))).2 hf.val
         (by omega)).1 hbit
-    rw [if_pos hbit]
+    rw [ite_eq_left hbit]
     exact (hK.1 hmb).symm
   · have hmb : memB (sb (D.QA (fd D.mt 0 16383))) hf.val = false := by
       rw [memB_eq]
@@ -243,7 +242,7 @@ theorem edW_eq (hO : OrbOK) (h : LHChecks D) :
         hbit (((bitsIs_bitsOfNat (sb (D.QA (fd D.mt 0 16383)))).2 hf.val
           (by omega)).2 ht)
     obtain ⟨he, hsub⟩ := hK.2 hmb
-    rw [if_neg hbit, edw_imgBits hO h hh hv0 he hsub]
+    rw [ite_eq_right hbit, edw_imgBits hO h hh hv0 he hsub]
     exact find_orbDec_of (fun i hi j hj e => sb_inj h.walkA hi hj e) he rfl
 
 private theorem ced_edWD_get {f : Nat} (hf : f < 3510) :
@@ -261,13 +260,13 @@ private theorem ced_edK {f : Nat} (hf : f < 3510) (hchk : LHChecks D) :
   have e : Nat.add (Nat.mul (nat_lit 440) (f / 440)) (f % 440) = f := by
     change 440 * (f / 440) + f % 440 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at hi
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at hi
   exact hi
 
 private theorem ced_root_muW (hchk : LHChecks D) {f : Nat} (hf : f < 3510)
     (hb : (bs D.lb0).testBit f = true) : fd (D.P f) 14 4095 = 3510 := by
   have hmk := muw_muK hchk hf
-  rw [memB_eq, hb, if_pos rfl] at hmk
+  rw [memB_eq, hb, ite_eq_left rfl] at hmk
   exact Nat.eq_of_beq_eq_true hmk
 
 private theorem ced_ml_facts (hchk : LHChecks D) :
@@ -342,7 +341,7 @@ private theorem ced_muTree_spec (h : LHChecks D) :
       exact h
   · have := allN_iff.1 hall f hf
     rw [bIf_eq] at this
-    rw [if_pos (blt_true hPf)] at this
+    rw [ite_eq_left (blt_true hPf)] at this
     rwa [Nat.blt_eq] at this
 
 private noncomputable def edeS (D : LHData) : Finset Nat :=
@@ -444,7 +443,7 @@ private theorem ede_find?_filter_range {P p : Nat → Bool} {N k : Nat} (hk : k 
       have := hpre t (List.mem_range.1 ht.1) ht.2
       rw [this]
       decide
-  rw [h1, List.find?_singleton, if_pos hpk]
+  rw [h1, List.find?_singleton, ite_eq_left hpk]
   rfl
 
 private theorem ede_rowR_lt (h : LHChecks D) {f : Nat} (hf : f < 3510)
@@ -461,9 +460,9 @@ private theorem ede_mem_facts (h : LHChecks D) {m : Nat} (hm : m < 3510)
       fd (D.P m) 52 4095 = 3510 := by
   have hk := ced_edK hm h
   unfold edK at hk
-  simp only [strictB_eq, bAnd_eq, memB_eq, Nat.blt_eq, Nat.beq_eq] at hk
+  simp only [strictB_eq, bAnd_eq, memB_eq] at hk
   rw [bIf_eq] at hk
-  rw [if_pos hb] at hk
+  rw [ite_eq_left hb] at hk
   simp only [Bool.and_eq_true, Nat.beq_eq] at hk
   exact hk
 
@@ -474,13 +473,13 @@ private theorem ede_nonfar_facts (h : LHChecks D) {m : Nat} (hm : m < 3510)
         fd (D.P m) 40 4095 = 3510 ∧ fd (D.P m) 52 4095 = 3510) := by
   have hk := ced_edK hm h
   unfold edK at hk
-  simp only [strictB_eq, bAnd_eq, memB_eq, Nat.blt_eq, Nat.beq_eq] at hk
+  simp only [strictB_eq, bAnd_eq, memB_eq] at hk
   simp only [bIf_eq] at hk
-  rw [if_neg (by rw [hb]; simp)] at hk
-  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hk
+  rw [ite_eq_right (by rw [hb]; simp)] at hk
+  simp only [Bool.and_eq_true, Nat.blt_eq] at hk
   obtain ⟨h1, -, h2⟩ := hk
   refine ⟨h1, fun hf => ?_⟩
-  rw [if_neg (by rw [hf]; simp)] at h2
+  rw [ite_eq_right (by rw [hf]; simp)] at h2
   simp only [Bool.and_eq_true, Nat.beq_eq] at h2
   exact h2
 
@@ -498,12 +497,12 @@ private theorem ede_far_facts (h : LHChecks D) {m : Nat} (hm : m < 3510)
         (sb (D.QA (fd (D.P m) 26 16383))) (fd (D.P m) 52 4095) = true := by
   have hk := ced_edK hm h
   unfold edK at hk
-  simp only [strictB_eq, bAnd_eq, memB_eq, Nat.blt_eq, Nat.beq_eq] at hk
+  simp only [strictB_eq, bAnd_eq, memB_eq] at hk
   simp only [bIf_eq] at hk
-  rw [if_neg (by rw [hb]; simp)] at hk
-  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hk
+  rw [ite_eq_right (by rw [hb]; simp)] at hk
+  simp only [Bool.and_eq_true, Nat.blt_eq] at hk
   obtain ⟨h1, -, h2⟩ := hk
-  rw [if_pos hf] at h2
+  rw [ite_eq_left hf] at h2
   simp only [Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq] at h2
   obtain ⟨hi, hg, hpre, hpos, hedge⟩ := h2
   refine ⟨h1, hi, hg, ?_, hpos, hedge⟩
@@ -634,7 +633,7 @@ private theorem ede_cond_split {q : Nat} (hq : q < 3510)
     rw [Bool.eq_false_iff]
     intro hb
     rw [hb] at hcond
-    simpa using hcond
+    simp at hcond
   have h2 : decide ((edWD D)[q]! < 14080) = true := by
     have h := hcond
     rw [h1, Bool.not_false, Bool.true_and, Bool.and_eq_true] at h
@@ -716,9 +715,9 @@ private theorem ede_val (h : LHChecks D) {m : Nat} (hm : m < 3510) :
     (if edeC D m then edeG D m else 3510) = fd (D.P m) 40 4095 ∧
       (if edeC D m then edeK D m else 3510) = fd (D.P m) 52 4095 := by
   cases hc : edeC D m with
-  | true => exact ⟨if_pos rfl, if_pos rfl⟩
+  | true => exact ⟨ite_eq_left rfl, ite_eq_left rfl⟩
   | false =>
-    rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true]
+    rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true]
     cases hb : (sb (D.QA (fd D.mt 0 16383))).testBit m with
     | true =>
       obtain ⟨-, h2, h3⟩ := ede_mem_facts h hm hb
@@ -738,20 +737,20 @@ private theorem ede_set_entry {q m : Nat} {c : Nat → Bool} {f : Nat → Nat} {
     (if q = m then f q else b[m]!) =
       (if m < q + 1 then (if c m then f m else d) else d) := by
   rcases Nat.lt_trichotomy m q with hlt | heq | hgt
-  · rw [if_neg (by omega), h3, if_pos hlt, if_pos (show m < q + 1 by omega)]
+  · rw [ite_eq_right (by omega), h3, ite_eq_left hlt, ite_eq_left (show m < q + 1 by omega)]
   · subst heq
-    rw [if_pos rfl, if_pos (show m < m + 1 by omega), if_pos hc]
-  · rw [if_neg (by omega), h3, if_neg (by omega), if_neg (show ¬m < q + 1 by omega)]
+    rw [ite_eq_left rfl, ite_eq_left (show m < m + 1 by omega), ite_eq_left hc]
+  · rw [ite_eq_right (by omega), h3, ite_eq_right (by omega), ite_eq_right (show ¬m < q + 1 by omega)]
 
 private theorem ede_skip_entry {q m d : Nat} {c : Nat → Bool} {f : Nat → Nat}
     (hc : c q = false) :
     (if m < q then (if c m then f m else d) else d) =
       (if m < q + 1 then (if c m then f m else d) else d) := by
   rcases Nat.lt_trichotomy m q with hlt | heq | hgt
-  · rw [if_pos hlt, if_pos (show m < q + 1 by omega)]
-  · rw [if_neg (show ¬m < q by omega), if_pos (show m < q + 1 by omega), heq, hc,
-      if_neg Bool.false_ne_true]
-  · rw [if_neg (by omega), if_neg (show ¬m < q + 1 by omega)]
+  · rw [ite_eq_left hlt, ite_eq_left (show m < q + 1 by omega)]
+  · rw [ite_eq_right (show ¬m < q by omega), ite_eq_left (show m < q + 1 by omega), heq, hc,
+      ite_eq_right Bool.false_ne_true]
+  · rw [ite_eq_right (by omega), ite_eq_right (show ¬m < q + 1 by omega)]
 
 private theorem ede_inv_zero :
     edeInv D 0 (Array.replicate 3510 3510, Array.replicate 3510 3510) := by
@@ -807,20 +806,20 @@ theorem ed_eq (hO : OrbOK) (h : LHChecks D) :
     · obtain ⟨h1, -, hfar⟩ := ede_cond_split hq hcond
       obtain ⟨hfind, hedge⟩ :=
         ede_find_lit hO h hq ((ede_bitAt_V h hq).symm.trans h1) hfar
-      rw [if_pos hcond]
+      rw [ite_eq_left hcond]
       simp only [hfind]
       rw [hedge]
       exact ede_inv_set hq hI hcond
-    · rw [if_neg hcond]
+    · rw [ite_eq_right hcond]
       exact ede_inv_skip hI (Bool.eq_false_iff.2 hcond)
   · intro s hs
     obtain ⟨h1, h2, h3, h4⟩ := hs
     refine Prod.ext (ext_get! h1 (by rw [Array.size_ofFn]) fun m hm => ?_)
       (ext_get! h2 (by rw [Array.size_ofFn]) fun m hm => ?_)
-    · rw [h3 m hm, if_pos hm, getElem!_pos _ m (by rw [Array.size_ofFn]; exact hm),
+    · rw [h3 m hm, ite_eq_left hm, getElem!_pos _ m (by rw [Array.size_ofFn]; exact hm),
         Array.getElem_ofFn]
       exact (ede_val h hm).1
-    · rw [h4 m hm, if_pos hm, getElem!_pos _ m (by rw [Array.size_ofFn]; exact hm),
+    · rw [h4 m hm, ite_eq_left hm, getElem!_pos _ m (by rw [Array.size_ofFn]; exact hm),
         Array.getElem_ofFn]
       exact (ede_val h hm).2
   · exact ede_inv_zero
@@ -954,7 +953,7 @@ theorem c_ed (hO : OrbOK) (h : LHChecks D) :
     unfold edK at hed
     simp only [strictB_eq] at hed
     rw [bIf_eq] at hed
-    rw [if_neg (by rw [hm]; simp)] at hed
+    rw [ite_eq_right (by rw [hm]; simp)] at hed
     simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at hed
     obtain ⟨he_lt, hsub, hfar_branch⟩ := hed
     have hmap : mapsOnto (tauAll orbL)[f]! ((orbDec D.QA).sets[fd D.mt 0 16383]!)
@@ -971,8 +970,8 @@ theorem c_ed (hO : OrbOK) (h : LHChecks D) :
         exact hfar
       simp only [hfar, Bool.not_true, Bool.false_or]
       rw [bIf_eq] at hfar_branch
-      rw [if_pos (by rw [hfarB])] at hfar_branch
-      simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hfar_branch
+      rw [ite_eq_left (by rw [hfarB])] at hfar_branch
+      simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hfar_branch
       obtain ⟨hi, hmlg, -, -, hedge⟩ := hfar_branch
       have hconj := ced_far_conj hO h he_lt hi hmlg hedge
       rw [ced_edF_get hf, ced_edK_get hf, muw_muWD_get hconj.1]

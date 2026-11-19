@@ -11,7 +11,7 @@ open CFSG.Open Subgroup
 
 theorem pCore_eq_bot_of_isSubnormal {Q : Type} [Group Q] [Finite Q] {T : Subgroup Q}
     (hT : IsSubnormal T ⊤) (hQ : CFSG.pCore 2 Q = ⊥) : CFSG.pCore 2 ↥T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ {A B : Subgroup Q}, IsSubnormal A B → pCoreOf 2 A ≤ pCoreOf 2 B := by
     intro A B h
     induction h with
@@ -57,10 +57,12 @@ variable {G : Type} [Group G] [Finite G]
 abbrev restr {X I : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q) (hIX : I ≤ X) : ↥I →* Q :=
   ψ.comp (inclusion hIX)
 
+omit [Finite G] in
 theorem range_restr {X I : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q) (hIX : I ≤ X) :
     (restr ψ hIX).range = (I.subgroupOf X).map ψ := by
   rw [MonoidHom.range_comp, inclusion_range]
 
+omit [Finite G] in
 theorem isPGroup_ker_restr {X I : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q) (hIX : I ≤ X)
     (hker : IsPGroup 2 ψ.ker) : IsPGroup 2 (restr ψ hIX).ker := by
   have : (restr ψ hIX).ker = ψ.ker.comap (inclusion hIX) := rfl
@@ -87,6 +89,7 @@ theorem pCore_eq_ker {X : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q)
     (MulEquiv.subgroupCongr (MonoidHom.range_eq_top.mpr hψ)).trans Subgroup.topEquiv
   rw [← CFSG.pCore_map_iso 2 e.symm, hQ, Subgroup.map_bot]
 
+omit [Finite G] in
 theorem pCoreOf_eq {X I : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q) (hIX : I ≤ X)
     (hI : CFSG.pCore 2 ↥I = (restr ψ hIX).ker) (hX : CFSG.pCore 2 ↥X = ψ.ker)
     (hkI : ψ.ker ≤ I.subgroupOf X) : pCoreOf 2 I = pCoreOf 2 X := by
@@ -100,6 +103,7 @@ theorem pCoreOf_eq {X I : Subgroup G} {Q : Type} [Group Q] (ψ : ↥X →* Q) (h
     have hxI : (x : G) ∈ I := mem_subgroupOf.mp (hkI hx)
     exact ⟨⟨x, hxI⟩, show ψ (inclusion hIX ⟨x, hxI⟩) = 1 from hx, rfl⟩
 
+omit [Finite G] in
 theorem isSubnormal_map_subtype {X : Subgroup G} {K : Subgroup ↥X} (hK : IsSubnormal K ⊤) :
     IsSubnormal (K.map X.subtype) X := by
   have := hK.map X.subtype

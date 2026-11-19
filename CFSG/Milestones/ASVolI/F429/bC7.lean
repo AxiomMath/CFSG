@@ -34,13 +34,13 @@ theorem burnsideF429b_eq_zero_or_one {L : Type} [Field L] [Finite L] (hL : Nat.c
   · exact Or.inl hv
   · right
     have h2 : Nat.card Lˣ = 1 := by rw [Nat.card_units, hL]
-    haveI : Subsingleton Lˣ := (Nat.card_eq_one_iff_unique.1 h2).1
+    have : Subsingleton Lˣ := (Nat.card_eq_one_iff_unique.1 h2).1
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 v hv) 1)
 
 theorem burnsideF429b_mem_of_commute_sylow [Finite G] {S : Subgroup G}
     (hS : ChF.IsSylowOf 2 S ⊤) {x : G} (hx : x * x = 1) (hc : ∀ s ∈ S, s * x = x * s) :
     x ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hS.2.2
@@ -162,9 +162,9 @@ theorem burnsideF429b_G2_chartB {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     ⟨c', hk, -⟩ | ⟨hk, hp, hd, K, fK, finK, card, marking, h1, h2, h3, h4, h5⟩ |
     ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, exponent, K, fK, finK, charK, scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c' <;> decide)
-  · letI := fK
-    haveI := finK
-    haveI : CharP K 2 := burnsideF4f_charP_of_card hd card
+  · let := fK
+    have := finK
+    have : CharP K 2 := burnsideF4f_charP_of_card hd card
     let Ψ : H13.F431.G2.C K ≃* ↥Gp := (H13.F431.G2.mk K).trans marking
     have hΨ : ∀ L : Subgroup (G2Native.Parent K),
         G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by
@@ -256,7 +256,7 @@ theorem burnsideF429b_G2_ctr_oPPrime {K : Type} [Field K] [Finite K] [CharP K 2]
       rw [hK]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
-    haveI : Finite (ModGL Tag.G2 K) := finite_modGL
+    have : Finite (ModGL Tag.G2 K) := finite_modGL
     obtain ⟨hU1, -, hc1, -⟩ := burnsideF429b_G2_model hK4
     rw [burnsideF429_oPPrime_eq_perfectCore hU1 hc1]
     exact H13.F431.G2.Cent.centerOf_perfectCore_Pr_eq_of_four_le hK4
@@ -281,7 +281,7 @@ theorem burnsideF429b_D4_model_ctr {K : Type} [Field K] [Finite K] [CharP K 2] (
     (hσ : ∀ c, σ (σ (σ c)) = c) {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ f)) :
     ctr (pCoreOf 2 (Pst0 σ ⊓ Pst1 σ)) = ctr (oPPrime 2 (Pst0 σ)) := by
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   rw [burnsideF4gD4Inv_pCore_B σ hf hK hσq]
   have hzS : zC σ ∈ ctr (Ust σ) :=
     ⟨zC_mem_Ust σ hσ, Subgroup.mem_centralizer_iff.2 fun y hy => Ust_commute_zC σ hσ hy⟩

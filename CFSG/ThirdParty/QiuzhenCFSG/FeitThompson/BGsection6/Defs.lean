@@ -2137,7 +2137,7 @@ private theorem CFSG.exists_conjClass_mem_normalizer_closure_inter
   let DA : Subgroup (A : Subgroup G) := D.subgroupOf (A : Subgroup G)
   have hDA_subnormal : Subgroup.IsSubnormal DA := by
     have : Group.IsNilpotent A :=
-      IsPGroup.isNilpotent (G := A) (p := p) A.isPGroup'
+      IsPGroup.isNilpotent (G := A) (p := p) A.isPGroup
     exact isSubnormal_of_normalizerCondition
       (G := (A : Subgroup G)) (Group.normalizerCondition_of_isNilpotent) DA
   rcases Subgroup.IsSubnormal.exists_chain hDA_subnormal with
@@ -2325,7 +2325,7 @@ public theorem CFSG.gorenstein_3_8_2_conjugacy_class_le_pCore
           intro P hCP
           have hcl_le : Subgroup.closure C ≤ (P : Subgroup G) :=
             (Subgroup.closure_le (K := (P : Subgroup G))).2 hCP
-          exact hcl_not_p (IsPGroup.to_le P.isPGroup' hcl_le)
+          exact hcl_not_p (IsPGroup.to_le P.isPGroup hcl_le)
         let P₀ : Sylow p G := default
         have hnot_CP₀ : ¬ C ⊆ (P₀ : Set G) := hnot_C_le_sylow P₀
         have hnot_forall_mem : ¬ ∀ z ∈ C, z ∈ (P₀ : Subgroup G) := by
@@ -2507,7 +2507,7 @@ public theorem CFSG.gorenstein_3_8_2_conjugacy_class_le_pCore
           exact hmap_p
         have hab_p : IsPGroup p (Subgroup.closure ({a, b} : Set G)) :=
           hpair_C a haC b hbC
-        have hD_p : IsPGroup p D := IsPGroup.to_le P.isPGroup' hD_le_P
+        have hD_p : IsPGroup p D := IsPGroup.to_le P.isPGroup hD_le_P
         have hab_le_norm :
             Subgroup.closure ({a, b} : Set G) ≤ Subgroup.normalizer (D : Set G) := by
           refine (Subgroup.closure_le (K := Subgroup.normalizer (D : Set G))).2 ?_
@@ -2816,7 +2816,7 @@ private theorem CFSG.gorenstein_3_8_1_two_dimensional_odd_order_forces_pgroup
   have hH_ringChar : IsPGroup (ringChar F) H := by
     let e : (P : Subgroup H) ≃* H :=
       (MulEquiv.subgroupCongr hP_top).trans Subgroup.topEquiv
-    exact P.isPGroup'.of_equiv e
+    exact P.isPGroup.of_equiv e
   simpa [hchar] using hH_ringChar
 
 omit [Fact p.Prime] in
@@ -4098,7 +4098,7 @@ public theorem CFSG.sylow_abelian_normal_le_op_pPrime_p_aux
     let z : Gb := QuotientGroup.mk' R xG
     have hx_p : IsPElement (p := p) xG := by
       obtain ⟨n, hn⟩ :=
-        (IsPGroup.iff_orderOf (p := p) (G := P.toSubgroup)).1 P.isPGroup' xP
+        (IsPGroup.iff_orderOf (p := p) (G := P.toSubgroup)).1 P.isPGroup xP
       exact ⟨n, by simpa [xG, xP, Subgroup.orderOf_coe] using hn⟩
     have hz_p : IsPElement (p := p) z := by
       rcases hx_p with ⟨n, hn⟩
@@ -4235,7 +4235,7 @@ public theorem CFSG.sylow_abelian_normal_le_op_pPrime_p
     have hP_bot : P.toSubgroup = ⊥ := by
       contrapose h2_not_dvd
       have h : 2 ∣ Nat.card P := by
-        rcases IsPGroup.iff_card.mp P.isPGroup' with ⟨n, hn⟩
+        rcases IsPGroup.iff_card.mp P.isPGroup with ⟨n, hn⟩
         rw [hn]
         refine dvd_pow_self 2 ?_
         contrapose h2_not_dvd

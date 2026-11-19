@@ -46,7 +46,7 @@ theorem s23_mul_hSL_mul_s23 (hk : Nat.card k = 4) {u : kˣ} (hu : u ≠ 1) [Char
   rw [coe_hSL hk, coe_zSL hk, coe_hSL_inv hk hu]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [LinearFieldFour.s₂₃Mat, LinearFieldFour.s₂₃M, LinearFieldFour.hM, hiM,
+    simp [LinearFieldFour.s₂₃M, LinearFieldFour.hM, hiM,
       Matrix.mul_apply, Fin.sum_univ_three]
   · linear_combination (-(u : k)) * h3
   · linear_combination (-1 : k) * h3

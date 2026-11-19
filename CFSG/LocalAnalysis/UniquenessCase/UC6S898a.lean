@@ -32,7 +32,7 @@ theorem eq_one_of_central_of_pow_eq_one {Z : Type*} [Group Z] [Finite Z] {B : Su
   have := congrArg (fun w : ↥(Subgroup.center ↥B) => ((w : ↥B) : Z)) h2
   simpa using this
 
-theorem exists_elemAbelian_le_sup_of_commute {Z : Type*} [Group Z] [Finite Z] {q a b : ℕ} (hq : q.Prime)
+theorem exists_elemAbelian_le_sup_of_commute {Z : Type*} [Group Z] [Finite Z] {q a b : ℕ} (_hq : q.Prime)
     {F F' : Subgroup Z} (hFel : IsElemAbelian q F) (hF'el : IsElemAbelian q F')
     (hFc : Nat.card F = q ^ a) (hF'c : Nat.card F' = q ^ b)
     (hcomm : ∀ x ∈ F, ∀ y ∈ F', x * y = y * x) (hint : F ⊓ F' = ⊥) :
@@ -99,7 +99,7 @@ theorem rank_sum_of_family {ι : Type*} [DecidableEq ι] {A E : ι → Subgroup 
     (S : Finset ι) :
     ∃ W : Subgroup Y, IsElemAbelian q W ∧ Nat.card W = q ^ (∑ i ∈ S, a i) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : Y →* Y ⧸ CFSG.pCore 2 Y := QuotientGroup.mk' (CFSG.pCore 2 Y)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   have hdisj : ∀ {F : Subgroup Y}, IsElemAbelian q F → Disjoint F π.ker := by

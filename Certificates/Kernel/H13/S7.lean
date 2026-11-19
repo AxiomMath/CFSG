@@ -31,7 +31,7 @@ theorem s7_cvB_true : cvB = true := by
   decide +kernel
 
 theorem s7_eWB_true : eWB = true := by
-  simp only [eWB, elemsOf_toF, hs_contains_toLR', mv8_toR]
+  simp only [eWB, elemsOf_toF, hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in

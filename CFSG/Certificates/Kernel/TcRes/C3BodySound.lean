@@ -147,8 +147,8 @@ theorem bx_spec {V COLS XM DD : ℕ} (hVl : ∀ k < 8, ∀ m < 8, fld (fld V 128
   rw [Finset.sum_congr rfl hterm] at hsv
   rw [hsv, boolRec_nat]
   by_cases hq : i = j
-  · rw [if_pos (beq_eq_true.2 hq), if_pos hq, hd]
-  · rw [if_neg (fun h' => hq (beq_eq_true.1 h')), if_neg hq, sv_ofs]
+  · rw [ite_eq_left (beq_eq_true.2 hq), ite_eq_left hq, hd]
+  · rw [ite_eq_right (fun h' => hq (beq_eq_true.1 h')), ite_eq_right hq, sv_ofs]
 
 theorem sv_smul_bd {x y : ℕ} {A B : ℤ} (hx : |sv x| ≤ A) (hy : |sv y| ≤ B)
     (hAB : A * B < 4294967296) : sv (smul x y) = sv x * sv y ∧ |sv x * sv y| ≤ A * B := by
@@ -622,14 +622,14 @@ theorem splitF_eq {l : TcrLab} (hl : l.r < 16) : splitF (tkLab l) = tcrSplitFree
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
   cases t <;> simp [tcrSplitFree, tcrUntw, untw, tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq,
-    nble_eq, nmod_eq] <;> tauto
+    nble_eq, nmod_eq]
 
 theorem halfF_eq {l : TcrLab} (hl : l.r < 16) : halfF (tkLab l) = tcrHalfFree l := by
   obtain ⟨a1, a2, a3⟩ := tkLab_dec hl
   rw [halfF, strictB_eq, strictB_eq, strictB_eq, a1, a2, a3, tcrHalfFree, ← splitF_eq hl]
   obtain ⟨t, r, n⟩ := l
   rw [Bool.eq_iff_iff]
-  cases t <;> simp [tkTg, orB_eq, andB_eq, notB_eq, nbeq_eq, nmod_eq] <;> tauto
+  cases t <;> simp [tkTg, orB_eq, andB_eq, nbeq_eq, nmod_eq]
 
 theorem jok3_spec {LPs : ℕ → ℕ} (h : jok3 LPs = true) :
     ∀ x < 13, Nat.land (LPs x) M240 ≠ Nat.land (LPs 12) M240 →

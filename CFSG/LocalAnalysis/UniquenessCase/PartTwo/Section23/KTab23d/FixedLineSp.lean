@@ -35,7 +35,7 @@ open CFSG.Open Matrix
 
 theorem sylowFixedLine_statedSp {K : Type} [Field K] [Finite K] [CharP K 2] (m : ℕ) [NeZero m] :
     KTabC.SylowFixedLine (StatedSp m K) (Pi.single (Sum.inl 0) 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedSp (K := K) 2 m
   have h := KTabC.sylowFixedLine_of_isPGroup U hU e hfix
   have he : e ≠ 0 := ne_zero_of_sylowFixedLine h

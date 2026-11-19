@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.N3
 
 theorem kFactI2026_holds : KFactI2026 := by
   intro q E _ _ hq hq2 hcomm hexp hcard X P S hPX hPcard hSX hSO hSP hQ8
-  haveI : Finite (MulAut E) :=
+  have : Finite (MulAut E) :=
     Finite.of_injective (fun g : MulAut E => (g : E → E)) DFunLike.coe_injective
   have hnt : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp
     (by rw [hcard]; exact Nat.one_lt_pow (by norm_num) hq.one_lt)

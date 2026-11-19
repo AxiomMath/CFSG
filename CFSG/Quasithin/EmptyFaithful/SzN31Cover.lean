@@ -186,7 +186,7 @@ theorem exists_equivariant_of_ker_pGroup {T Γ : Type} [Group T] [Finite T] [Gro
     exact q.2
   have hBt2 : ∀ x ∈ Bt, ∃ k : ℕ, x ^ (2 ^ k) = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := (Q.isPGroup'.map M.subtype) ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (Q.isPGroup.map M.subtype) ⟨x, hx⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hBt3 : ∀ x ∈ Bt, ψ x = 1 → x = 1 := fun x hx hx1 =>
     eq_one_of_pow_two_pow_of_pow_p_pow hp hp2 (hBt2 x hx) (hker x hx1)

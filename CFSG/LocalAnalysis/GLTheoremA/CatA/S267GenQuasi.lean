@@ -18,7 +18,7 @@ section Quasi
 theorem genCompQuasiOn_holds : GenCompQuasiOn fun _ => True := by
   intro p T _ _ d h _ x hx hx1 J hJ
   obtain ⟨e⟩ := h.iso
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (CFSG.Assembly.lie_finite_simple d).2
   have hperf : ⁅J, J⁆ = J := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ
   have hnc : ∃ a b : T, a * b ≠ b * a := by
     by_contra hc

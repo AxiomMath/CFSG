@@ -55,6 +55,7 @@ theorem ggNbr_y_not_mem_centralizer_left {p : ℕ} {B Bs : Subgroup G} {x : G} {
     nlinarith [hp.two_le]
   exact hp.one_lt.not_ge this
 
+omit [Finite G] in
 theorem ne_bot_of_isQuasisimple {J : Subgroup G} (hJ : CFSG.Assembly.IsQuasisimple ↥J) : J ≠ ⊥ := by
   intro h
   have hsub : Subsingleton ↥J := by
@@ -66,7 +67,7 @@ theorem ne_bot_of_isQuasisimple {J : Subgroup G} (hJ : CFSG.Assembly.IsQuasisimp
       rw [← h]
       exact b.2
     rw [Subgroup.mem_bot.mp ha, Subgroup.mem_bot.mp hb]
-  haveI := hJ.2
+  have := hJ.2
   have hq : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
     (QuotientGroup.mk_surjective :
       Function.Surjective (QuotientGroup.mk : ↥J → ↥J ⧸ Subgroup.center ↥J)).subsingleton
@@ -84,6 +85,7 @@ theorem GGConfig.stdSub_facts {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Sub
   rw [hJcomp.2.2.1, Subgroup.map_top, Subgroup.range_subtype] at h
   exact h.le
 
+omit [Finite G] in
 theorem commute_left_of_mul_eq {u c z j : G} (hz : z = u * c) (hjz : j * z = z * j)
     (hjc : j * c = c * j) : j * u = u * j := by
   apply mul_right_cancel (b := c)
@@ -117,7 +119,7 @@ theorem exists_lift_lam_zero_mul_of_configuration {F : Type} [Field F] [Finite F
         c ∈ Subgroup.centralizer (X : Set G) ∧ z = ψ (lam (0 : Fin (m + 1)) g) * c := by
   classical
   have hZ : Subgroup.center X = ⊥ := by
-    haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+    have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
     have := center_range_statedSp_eq_bot φ' hinj
     rwa [hrange] at this
   obtain ⟨ζ, φ, hl⟩ :=

@@ -35,10 +35,12 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem centerOf_comm {X : Subgroup G} {x y : G} (hx : x ∈ centerOf X) (hy : y ∈ X) :
     x * y = y * x :=
   ((Subgroup.mem_centralizer_iff.mp hx.2) y hy).symm
 
+omit [Finite G] in
 private theorem conj_centerOf {X : Subgroup G} {x y : G} (hx : x ∈ centerOf X) (hy : y ∈ X) :
     y * x * y⁻¹ = x := by
   rw [← centerOf_comm hx hy, mul_inv_cancel_right]
@@ -128,14 +130,14 @@ private theorem YX_map_subgroupOf_eq_top {a f : ℕ}
     (hD2 : t.D2 ≤ t.YX t.QT 1) :
     ((t.YX t.QT 1).subgroupOf (t.LX t.QT 1)).map
       (QuotientGroup.mk' (pCore 2 ↥(t.LX t.QT 1))) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (oTwoQuot ↥(t.LX t.QT 1)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (oTwoQuot ↥(t.LX t.QT 1)) :=
     CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot hfr.hf hq
   let L : Subgroup G := t.LX t.QT 1
   let Y : Subgroup G := t.YX t.QT 1
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L)
   have hNne : (Y.subgroupOf L).map π ≠ ⊥ := YX_map_ne_bot t hfr hE hD2
-  haveI hNn : ((Y.subgroupOf L).map π).Normal :=
+  have hNn : ((Y.subgroupOf L).map π).Normal :=
     (Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_oTwoRes L)).map π
       (QuotientGroup.mk'_surjective _)
   rcases Subgroup.Normal.eq_bot_or_eq_top ((Y.subgroupOf L).map π) with h | h

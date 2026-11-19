@@ -349,6 +349,7 @@ theorem SK : S ≤ K := hX.syl.le
 
 theorem VK : V ≤ K := hX.VS.trans hX.SK
 
+omit hX in
 theorem mem_H {h : G} : h ∈ 𝐇 ↔ h ∈ W ∧ h * j = j * h := by
   rw [mem_inf, mem_centralizer_singleton_iff]
 
@@ -385,7 +386,7 @@ theorem comm_iff {x w : G} (hxj : x * j ∈ V) (hw : w ∈ V) : w * x = x * w �
       _ = x * w := by rw [← mul_assoc, ← hx]
 
 theorem H_comm {x h : G} (hxj : x * j ∈ V) (hh : h ∈ 𝐇) : h * x = x * h :=
-  (hX.comm_iff hxj (hX.H_le_V hh)).2 ((hX.mem_H).1 hh).2
+  (hX.comm_iff hxj (hX.H_le_V hh)).2 ((ExtSetting.mem_H).1 hh).2
 
 def F8 {j' : G} (hj'S : j' ∈ S) (hj'V : j' ∉ V) (hj'2 : j' * j' = 1) : Subgroup G :=
   ext8 𝐇 j' hj'2 (fun _ hh => hX.H_comm (hX.mul_j_mem hj'S hj'V hj'2) hh)
@@ -434,7 +435,7 @@ theorem mem_H_of_mem_F8 {x : G} (hx : x ∈ hX.F8 hj'S hj'V hj'2) (hxV : x ∈ V
 
 theorem exists_trans {h : G} (hh : h ∈ 𝐇) :
     ∃ v ∈ V, (∀ x ∈ 𝐇, v * x * v⁻¹ = x) ∧ ∀ x, x * j' ∈ 𝐇 → v * x * v⁻¹ = x * h := by
-  obtain ⟨hW, hj⟩ := hX.mem_H.1 hh
+  obtain ⟨hW, hj⟩ := ExtSetting.mem_H.1 hh
   obtain ⟨v, hv, hvj⟩ := hX.comm h hW hj
   have hu : j * j' ∈ V := hX.j_mul_mem (hX.mul_j_mem hj'S hj'V hj'2)
   have hhV := hX.H_le_V hh
@@ -524,7 +525,7 @@ theorem classify [Finite G] {F : Subgroup G} (hFS : F ≤ S) (hF2 : ∀ x ∈ F,
       intro x hx
       by_cases hxV : x ∈ V
       · refine (hX.mem_F8 hj'S hj'V hj'2).2 (Or.inl ?_)
-        refine hX.mem_H.2 ⟨(hX.mem_W x).2 ⟨hxV, hF2 x hx⟩, ?_⟩
+        refine ExtSetting.mem_H.2 ⟨(hX.mem_W x).2 ⟨hxV, hF2 x hx⟩, ?_⟩
         exact (hX.comm_iff hj'j hxV).1 (hFc x hx j' hj'F)
       · refine (hX.mem_F8 hj'S hj'V hj'2).2 (Or.inr ?_)
         have hxj : x * j ∈ V := hX.mul_j_mem (hFS hx) hxV (hF2 x hx)
@@ -534,7 +535,7 @@ theorem classify [Finite G] {F : Subgroup G} (hFS : F ≤ S) (hF2 : ∀ x ∈ F,
           rw [e]
           exact mul_mem hxj hjj'
         have hF' : x * j' ∈ F := mul_mem hx hj'F
-        refine hX.mem_H.2 ⟨(hX.mem_W _).2 ⟨hV', hF2 _ hF'⟩, ?_⟩
+        refine ExtSetting.mem_H.2 ⟨(hX.mem_W _).2 ⟨hV', hF2 _ hF'⟩, ?_⟩
         exact (hX.comm_iff hj'j hV').1 (hFc _ hF' j' hj'F)
     exact eq_of_le_of_card_ge hle (by rw [hX.card_F8 hj'S hj'V hj'2, hF8])
 

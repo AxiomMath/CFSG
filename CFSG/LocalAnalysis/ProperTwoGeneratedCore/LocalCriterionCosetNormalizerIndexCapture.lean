@@ -98,7 +98,7 @@ theorem supplied_pair_sylow_centralizes [Finite G] (D : Subgroup G)
   rintro x ⟨y, hy, rfl⟩
   let yQ : (Q : Subgroup D) := ⟨y, hy⟩
   have heq : rightConjugateElem uQ yQ = uQ :=
-    involutions_eq_of_two_group_no_four Q.isPGroup' hQfour
+    involutions_eq_of_two_group_no_four Q.isPGroup hQfour
       (isInvolution_rightConjugateElem huQI) huQI
   have heqG : (y : G)⁻¹ * u * (y : G) = u :=
     congrArg (fun x : (Q : Subgroup D) => ((x : D) : G)) heq

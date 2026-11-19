@@ -29,7 +29,7 @@ theorem x_ne_one (h : IsF20 U x v) : x ≠ 1 := by
   omega
 
 theorem orderOf_x (h : IsF20 U x v) : orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime h.x5 h.x_ne_one
 
 theorem sq_ne_one (h : IsF20 U x v) : v ^ 2 ≠ 1 := by
@@ -330,7 +330,7 @@ theorem card_elemAb_le [Finite Γ] (h : IsF20 U x v) {D : Subgroup Γ}
       apply hgU
       rw [e]
       exact one_mem U
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hord : orderOf (u₀ * f₀) = 2 :=
       orderOf_eq_prime (by rw [pow_two]; exact hs _ hgD) hg1
     have hzg : Nat.card (zpowers (u₀ * f₀)) = 2 := by rw [Nat.card_zpowers, hord]

@@ -95,7 +95,7 @@ theorem isElemAbelian_or_card_le_of_r72_five {X : Type} [Group X] [Finite X]
     {Q : Subgroup X} (hQ : IsPGroup 5 ↥Q) :
     IsElemAbelian 5 Q ∨ Nat.card ↥Q ≤ 5 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases hX with hPSL | hPSU | hSz | hTits | hMcL | hAlt
   ·
     obtain ⟨n, hL⟩ := hPSL
@@ -137,9 +137,9 @@ theorem isElemAbelian_or_card_le_of_r72_five {X : Type} [Group X] [Finite X]
     have hSuz : CFSG.Blueprint.SuzukiModel S 2 5 :=
       (CFSG.Blueprint.LieModel.suzukiModel hSzS).2
     obtain ⟨-, a, ha, K, hKf, hKfin, hf, hK, ⟨eK⟩⟩ := hSuz
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : Finite S :=
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : Finite S :=
       Finite.of_equiv (CFSG.Blueprint.suzukiGroup (K := K) a) eK.symm.toEquiv
     right
     let A : Subgroup (MulAut S) := Q.map e.toMonoidHom
@@ -215,8 +215,8 @@ theorem eq_of_r7_8_one (D : Data G) (h72 : F07.R72 D) (h72u : R72UnitaryFiveOne 
       (inSubgroup frattini P)) :
     P = D' := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP5 : IsPGroup 5 ↥P := hP.isPGroup
   have hD'5 : IsPGroup 5 ↥D' := hP5.to_le hD'P
   have hD'M : D' ≤ D.M := (hD'P.trans hP.le).trans inf_le_right
@@ -296,7 +296,7 @@ theorem eq_of_r7_8_one (D : Data G) (h72 : F07.R72 D) (h72u : R72UnitaryFiveOne 
         rcases Nat.lt_or_ge k 2 with hklt | hkge
         · interval_cases k
           · have h1 : Nat.card ↥D' = 1 := by rw [hk]; norm_num
-            haveI : Subsingleton ↥D' := (Nat.card_eq_one_iff_unique.mp h1).1
+            have : Subsingleton ↥D' := (Nat.card_eq_one_iff_unique.mp h1).1
             exact absurd isCyclic_of_subsingleton hD'nc
           · have h1 : Nat.card ↥D' = 5 := by rw [hk]; norm_num
             exact absurd (isCyclic_of_prime_card h1) hD'nc
@@ -306,7 +306,7 @@ theorem eq_of_r7_8_one (D : Data G) (h72 : F07.R72 D) (h72u : R72UnitaryFiveOne 
         _ ≤ 5 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
     have hPnc : ¬ IsCyclic ↥P := by
       intro hcyc
-      letI : IsCyclic ↥P := hcyc
+      let : IsCyclic ↥P := hcyc
       exact hD'nc (Subgroup.isCyclic_of_le hD'P)
     have hPhi25 : 25 ≤ Nat.card ↥(inSubgroup frattini P) :=
       hD'25.trans (Subgroup.card_le_of_le hD'Phi)
@@ -407,8 +407,8 @@ theorem eq_of_r7_8_one (D : Data G) (h72 : F07.R72 D) (h72u : R72UnitaryFiveOne 
         CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hQel
       have hPelClass : CFSG.IsElementaryAbelian 5 ↥P :=
         CFSG.IsElementaryAbelian.of_mulEquiv ePQ.symm hQelClass
-      letI : IsElementaryAbelian 5 ↥P := hPelClass
-      letI : Fact (IsPGroup 5 ↥P) := ⟨hP5⟩
+      let : IsElementaryAbelian 5 ↥P := hPelClass
+      let : Fact (IsPGroup 5 ↥P) := ⟨hP5⟩
       have hPhiBot : CFSG.inSubgroup frattini P = ⊥ := by
         rw [CFSG.inSubgroup, CFSG.frattini_eq_bot_of_isElementaryAbelian (R := ↥P) (p := 5),
           Subgroup.map_bot]

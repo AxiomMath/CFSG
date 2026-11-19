@@ -97,7 +97,7 @@ theorem P_key {x : Nat} (hx : x < 245520) : P x = vecK (key ONW.K x) := by
   change vecOf (orbitData ()).keys[x]! = _
   rw [CertificateChecks.KernelSpor.ON2.key_get hx, vecK_wOfK (pv_key hx)]
 
-@[expose] noncomputable def matHom : J0 →* Matrix (Fin 154) (Fin 154) (ZMod 3) :=
+noncomputable def matHom : J0 →* Matrix (Fin 154) (Fin 154) (ZMod 3) :=
   (Units.coeHom _).comp J0.subtype
 
 theorem matHom_apply (g : J0) : matHom g = mat0 g := rfl
@@ -126,9 +126,9 @@ theorem colB (r c : Fin 154) : matHom gb0 r c = vecK (ONW.LB.getD c.val 0) r := 
       (CertificateChecks.KernelSpor.ON.list_eq ONW.LB ONW.CB
         (CFSG.KS.allN_spec CertificateChecks.KernelSpor.ON2.listB2))) r c
 
-@[expose] noncomputable def regs0G (r : ℕ) : J0 := if r = 0 then ga0 else if r = 1 then gb0 * ga0 * gb0 else 1
+noncomputable def regs0G (r : ℕ) : J0 := if r = 0 then ga0 else if r = 1 then gb0 * ga0 * gb0 else 1
 
-@[expose] noncomputable def gs0 (j : ℕ) : J0 := runSLPG prog regs0G (sel.toList.getD j 0)
+noncomputable def gs0 (j : ℕ) : J0 := runSLPG prog regs0G (sel.toList.getD j 0)
 
 theorem prog_lt : ∀ ins ∈ prog, instrRegsLt 26 ins := by
   have h : prog.all (instrLt 26) = true := by decide
@@ -197,25 +197,25 @@ theorem slp_rep : ∀ (prog : List Instr) (st : Array Table × Bool) (ρ : ℕ �
         simp only [stepT, stepG, getElem!_set!' _ _ _ _ hr, Function.update_apply]
         by_cases hkr : k = r
         · subst hkr
-          rw [if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
           exact Rep.compT (hR i hins.1) (hR j hins.2.1)
-        · rw [if_neg hkr, if_neg (Ne.symm hkr)]
+        · rw [ite_eq_right hkr, ite_eq_right (Ne.symm hkr)]
           exact hR r hr
       | pwr e i k =>
         simp only [stepT, stepG, getElem!_set!' _ _ _ _ hr, Function.update_apply]
         by_cases hkr : k = r
         · subst hkr
-          rw [if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
           exact Rep.powT nPts_lt (hR i hins.1) e
-        · rw [if_neg hkr, if_neg (Ne.symm hkr)]
+        · rw [ite_eq_right hkr, ite_eq_right (Ne.symm hkr)]
           exact hR r hr
       | iv i k =>
         simp only [stepT, stepG, getElem!_set!' _ _ _ _ hr, Function.update_apply]
         by_cases hkr : k = r
         · subst hkr
-          rw [if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
           exact Rep.inv_of_invOK (hR i hins.1) (invOK_invT (hR i hins.1))
-        · rw [if_neg hkr, if_neg (Ne.symm hkr)]
+        · rw [ite_eq_right hkr, ite_eq_right (Ne.symm hkr)]
           exact hR r hr
     have hok' : (stepT nPts st ins).2 = true := by
       cases ins with
@@ -280,12 +280,12 @@ theorem letters_get {l : ℕ} (hl : l < 8) : lettersT[l]! =
   simp only [lettersT, lettersOf, Array.getElem_ofFn]
 
 theorem rep_even {j : ℕ} (hj : j < 4) : Rep nPts lettersT[2 * j]! (gs0 j) := by
-  rw [letters_get (by omega), if_pos (by omega), show 2 * j / 2 = j by omega]
+  rw [letters_get (by omega), ite_eq_left (by omega), show 2 * j / 2 = j by omega]
   have := slp_facts.2.2 _ (sel_lt hj)
-  rwa [sel_get hj] at this ⊢
+  rw [sel_get hj] at this ⊢; assumption
 
 theorem rep_odd {j : ℕ} (hj : j < 4) : Rep nPts lettersT[2 * j + 1]! (gs0 j)⁻¹ := by
-  rw [letters_get (by omega), if_neg (by omega), show (2 * j + 1) / 2 = j by omega]
+  rw [letters_get (by omega), ite_eq_right (by omega), show (2 * j + 1) / 2 = j by omega]
   have := slp_facts.2.2 _ (sel_lt hj)
   rw [sel_get hj] at this ⊢
   exact Rep.inv_of_invOK this (invOK_invT this)

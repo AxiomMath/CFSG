@@ -54,12 +54,14 @@ theorem eq_one_or_eq_swap {α : Type*} [DecidableEq α] {a b : α} (hab : a ≠ 
 variable {G : Type} [Group G] [Finite G] (L : Subgroup G) [L.Normal] {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
   (φ : ↥L ⧸ center ↥L ≃* alternatingGroup (Fin n))
 
+omit [Finite G] in
 theorem coe_phi_mk_conj (g y : G) (hy : y ∈ L) (hy' : g * y * g⁻¹ ∈ L) :
     ((φ (QuotientGroup.mk ⟨g * y * g⁻¹, hy'⟩) : alternatingGroup (Fin n)) : Perm (Fin n)) =
       theta L hn hn6 φ g * (φ (QuotientGroup.mk ⟨y, hy⟩) : Perm (Fin n)) * (theta L hn hn6 φ g)⁻¹ := by
   rw [← psi_apply_coe L hn hn6 φ, Odd.psi_apply_mk, Odd.actHom_apply_mk]
   congr 3
 
+omit [Finite G] in
 theorem inducesTransposition_of_theta (L : Subgroup G) [L.Normal] (hZ : center ↥L = ⊥) (hn : 5 ≤ 11)
     (hn6 : (11 : ℕ) ≠ 6) (φ : ↥L ⧸ center ↥L ≃* alternatingGroup (Fin 11)) {t : G} {τ : Perm (Fin 11)}
     (hτ : τ.IsSwap) (ht : theta L hn hn6 φ t = τ) : UC6.InducesTransposition t L := by
@@ -69,7 +71,7 @@ theorem inducesTransposition_of_theta (L : Subgroup G) [L.Normal] (hZ : center �
   set ψ : ↥L →* alternatingGroup (Fin 11) := φ.toMonoidHom.comp (QuotientGroup.mk' (center ↥L))
   have hker : ψ.ker = center ↥L := by
     ext x
-    simp [ψ, MonoidHom.mem_ker]
+    simp [ψ]
   have hψ : Function.Bijective ψ :=
     ⟨(MonoidHom.ker_eq_bot_iff ψ).1 (hker.trans hZ), φ.surjective.comp (QuotientGroup.mk'_surjective _)⟩
   refine ⟨htN, MulEquiv.ofBijective ψ hψ, τ, hτ, fun x => ?_⟩
@@ -82,7 +84,7 @@ end Alt36
 
 namespace Hyp36
 
-open Alt36 Odd
+open Alt36 _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -93,10 +95,10 @@ theorem alt_conclusion (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : CFS
       (∃ y ∈ L, t * y * t⁻¹ ≠ y) ∧
       ∀ q ∈ pCoreOf 2 M, (∀ y ∈ L, q * y * q⁻¹ = y) ∨ (∀ y ∈ L, q * y * q⁻¹ = t * y * t⁻¹) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
-  have hLM : ¬ L ≤ M := fun hLM => h.false_of_component_le hL hne hLM
+  have hLM : ¬ L ≤ M := fun hLM => CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne hLM
   have hn6 : n ≠ 6 := by
     rintro rfl
     exact h.false_of_alt_six hL hne φ

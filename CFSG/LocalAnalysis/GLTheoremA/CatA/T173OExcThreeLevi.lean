@@ -87,13 +87,13 @@ theorem map_subtype_le_parabolicLevi_of_isComponentOf (τ : Tag) {K : Type} [Fie
     (hd : (d : ModGL τ K) ∈ parabolicLevi τ K J)
     (hK : Kb.map (adjointGroup τ K).subtype ≤ parabolicSubgroup τ K J) :
     Kb.map (adjointGroup τ K).subtype ≤ parabolicLevi τ K J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨hQP, hQn, -, hLP, -, -, huniq, -, -, -, -, -, hQgrp⟩ :=
     parabolic_root_radical_Levi_factors (τ := τ) (K := K) J
   have hQ2 : IsPGroup 2 (parabolicRadical τ K J) := (hQgrp 2).2.1
   have hQs : Group.IsSolvable ↥(parabolicRadical τ K J) := by
-    haveI := hQ2.isNilpotent
+    have := hQ2.isNilpotent
     infer_instance
   have h1 := (Y10F.isComponentOf_map_iff (adjointGroup τ K).subtype_injective).2 hcomp
   rw [CFSG.ComponentClassification.CatFC.map_centralizer_subtype_eq_inf] at h1

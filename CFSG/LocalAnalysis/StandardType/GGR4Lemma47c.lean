@@ -232,12 +232,12 @@ private theorem r4l_mulAut_ext_of_agree {G : Type} [Group G] {Bs A B : Subgroup 
     { carrier := {x | φ x = ψ x}
       mul_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_mul, map_mul, hx, hy]
       one_mem' := by simp
       inv_mem' := by
         intro x hx
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_inv, map_inv, hx] }
   have hAK : A.subgroupOf Bs ≤ K := by
     intro x hx

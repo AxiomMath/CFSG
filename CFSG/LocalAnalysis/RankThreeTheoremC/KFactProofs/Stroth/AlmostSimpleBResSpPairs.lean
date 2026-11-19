@@ -175,7 +175,7 @@ theorem exists_two_indep_fixed_sp [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p �
       (∀ i j : ℤ, x₁ ^ i * x₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j) ∧
       fieldAut n K τ x₁ = x₁ ∧ fieldAut n K τ x₂ = x₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg, hgτ⟩ := exists_fixed_orderOf_eq_prime (fieldSp e K τ)
     (by rw [← map_pow, hτ, map_one]) hdvd
   have hker : ∀ y : StatedSp n K, proj n K y = 1 → y ^ p = 1 → y = 1 := fun y hy hyp =>

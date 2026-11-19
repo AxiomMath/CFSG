@@ -63,7 +63,7 @@ theorem sylow_of_fusion {S : Subgroup G} {z : G} (hS : IsPGroup 2 S) (hzS : z �
   have hSeq : S = (P : Subgroup G) := by
     by_contra hne
     have hlt : S < (P : Subgroup G) := lt_of_le_of_ne hSP hne
-    have hPp : IsPGroup 2 ↥(P : Subgroup G) := P.isPGroup'
+    have hPp : IsPGroup 2 ↥(P : Subgroup G) := P.isPGroup
     have : Group.IsNilpotent ↥(P : Subgroup G) := hPp.isNilpotent
     have hnc : NormalizerCondition ↥(P : Subgroup G) := Group.normalizerCondition_of_isNilpotent
     have hS' : S.subgroupOf (P : Subgroup G) < ⊤ := by

@@ -12,7 +12,7 @@ open scoped Pointwise
 namespace CFSG.OddInvariantSylow
 
 theorem exists_isPGroup_normalizer {G : Type*} [Group G] [Finite G] {Y D : Subgroup G}
-    (hY : Odd (Nat.card Y)) (hD : D ≤ Subgroup.normalizer (Y : Set G)) (hDs : IsSolvable D)
+    (hY : Odd (Nat.card Y)) (hD : D ≤ Subgroup.normalizer (Y : Set G)) (hDs : Group.IsSolvable D)
     (hD23 : ∀ p : ℕ, p.Prime → p ∣ Nat.card D → p = 2 ∨ p = 3) :
     ∃ S : Subgroup G, S ≤ Y ∧ IsPGroup 3 S ∧
       (∀ R : Subgroup G, R ≤ Y → IsPGroup 3 R → S ≤ R → R = S) ∧

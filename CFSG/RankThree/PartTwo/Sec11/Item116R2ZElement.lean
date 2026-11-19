@@ -18,7 +18,7 @@ section Certified
 
 theorem zElement_holds : ZElement := by
   intro G _ _ A c L a R Y d h hAT hR1 hSurv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHyp : Sec8.Hyp81 G A c L a := h.toSec11StdLocal.toHyp81
   have hAel : CFSG.Assembly.IsElemAbelian 3 A := hHyp.mem_partTwoF.1
   have ha : a ∈ Subgroup.normalizer (L : Set G) := Sec8.Hyp81.a_mem_normalizer hHyp
@@ -40,8 +40,8 @@ theorem zElement_holds : ZElement := by
   have hLc : L ≤ Subgroup.centralizer ({c} : Set G) :=
     Sec6.le_centralizer_of_mem_thetaComponentsAt hHyp.mem_thetaComponentsAt
   set N : Subgroup L := aschbacherSolvableCore 3 L
-  haveI := Sec4.aschbacherSolvableCore_characteristic L
-  haveI : N.Normal := inferInstance
+  have := Sec4.aschbacherSolvableCore_characteristic L
+  have : N.Normal := inferInstance
   have hN : ¬ 3 ∣ Nat.card N := KFacts.not_three_dvd_card_aschbacherSolvableCore L
   set φ : MulAut L := Sec4.compAction L ⟨a, ha⟩ with hφdef
   have hφ3 : φ ^ 3 = 1 := by

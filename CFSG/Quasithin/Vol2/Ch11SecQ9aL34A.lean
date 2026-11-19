@@ -91,7 +91,7 @@ theorem eq_zpowers_of_sylow {u : SpecialLinearGroup (Fin 3) F4} (hu5 : u ^ 5 = 1
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have ho : orderOf u = 5 := orderOf_eq_prime hu5 hu1
   have hzc : Nat.card (Subgroup.zpowers u) = 5 := by rw [Nat.card_zpowers, ho]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdvd : Nat.card P ∣ 60480 := card_SL3F4 ▸ Subgroup.card_subgroup_dvd_card _
   have hk1 : k ≤ 1 := by
     by_contra hk2

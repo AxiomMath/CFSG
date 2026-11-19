@@ -50,7 +50,7 @@ theorem w183_pgl2Seven_fstar {Q : Type} [Group Q] [Finite Q] {L : Subgroup Q}
       CFSG.ComponentClassification.CatalogueBSmallRee.projectiveSpecialLinear_two_nonabelian
         F (by rw [hFcard]; norm_num) (by rw [hFcard]; norm_num)
     exact ⟨eL.symm a, eL.symm b, fun h => hab (by simpa using congrArg eL h)⟩
-  haveI : IsSimpleGroup ↥L' := hsimpleL
+  have : IsSimpleGroup ↥L' := hsimpleL
   have hquasi : CFSG.IsQuasisimple ↥L' :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnabL).1
   have hL'map : L'.map e.toMonoidHom =
@@ -93,14 +93,14 @@ theorem w183_le_of_asch6_4Seven (h4 : Asch6_4Seven) {Q : Type} [Group Q] [Finite
     [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {ρ : Q →* MulAut V}
     (hρ : Function.Injective ρ) {L A : Subgroup Q} (hL : genFittingFStar Q = L)
     (hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A) (hq : IsQuadraticOn ρ A)
-    (hL2 : F6.IsL2 7 1 ↥L) (hQcard : Nat.card Q = 336) (hLcard : Nat.card ↥L = 168) : A ≤ L := by
+    (hL2 : F6.IsL2 7 1 ↥L) (_hQcard : Nat.card Q = 336) (_hLcard : Nat.card ↥L = 168) : A ≤ L := by
   have hLnormal : L.Normal := by
     rw [← hL]
     exact CFSG.ComponentClassification.GeneralizedFitting.normal Q
   have hcent_le : Subgroup.centralizer (L : Set Q) ≤ L := by
     rw [← hL]
     exact CFSG.ComponentClassification.GeneralizedFitting.centralizer_le Q
-  haveI hsimp : IsSimpleGroup ↥L :=
+  have hsimp : IsSimpleGroup ↥L :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two hL2
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hL2
@@ -112,7 +112,7 @@ theorem w183_le_of_asch6_4Seven (h4 : Asch6_4Seven) {Q : Type} [Group Q] [Finite
     let e' := eF.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
     exact ⟨e'.symm x, e'.symm y, fun hc => hxy (by simpa using congrArg e' hc)⟩
-  haveI hperf : Group.IsPerfect ↥L :=
+  have hperf : Group.IsPerfect ↥L :=
     ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥L hnab⟩
   have hZ : Subgroup.center ↥L = ⊥ :=
     CFSG.ComponentClassification.Helpers.center_eq_bot ↥L hnab

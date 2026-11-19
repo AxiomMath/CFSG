@@ -47,9 +47,9 @@ theorem entryK_eq (c : ℕ) : entryK c = if 48 ≤ c ∧ c ≤ 57 then c - 48 el
     simp [andB_eq, Nat.ble_eq]
   rw [this]
   by_cases h : 48 ≤ c ∧ c ≤ 57
-  · rw [decide_eq_true h, if_pos h]
+  · rw [decide_eq_true h, ite_eq_left h]
     rfl
-  · rw [decide_eq_false h, if_neg h]
+  · rw [decide_eq_false h, ite_eq_right h]
 
 theorem afterNL_eq (cs : List ℕ) : afterNL cs = (cs.dropWhile fun c => c != 10).drop 1 := by
   induction cs with
@@ -60,7 +60,7 @@ theorem afterNL_eq (cs : List ℕ) : afterNL cs = (cs.dropWhile fun c => c != 10
     · subst h
       simp
     · rw [beq_false_of_ne' h]
-      simp [List.dropWhile_cons, h, ih]
+      simp [h, ih]
 
 @[expose] def f42Entries (cs : List ℕ) : List ℕ :=
   (((cs.dropWhile fun c => c != 10).drop 1).filter fun c =>
@@ -123,9 +123,9 @@ private theorem digit_ofNat (c : ℕ) :
     rw [e0, e9]
     omega
   by_cases h : 48 ≤ c ∧ c ≤ 57
-  · rw [if_pos (hc.2 h), if_pos h, e0]
+  · rw [ite_eq_left (hc.2 h), ite_eq_left h, e0]
     omega
-  · rw [if_neg (fun h' => h (hc.1 h')), if_neg h]
+  · rw [ite_eq_right (fun h' => h (hc.1 h')), ite_eq_right h]
 
 end F42Parse
 
@@ -190,16 +190,16 @@ private theorem decR_ent {c : ℕ} (h : wsK c = false) (l : List ℕ) (i acc : �
   by_cases h1 : 0 < v ∧ i < 2704
   · have : andB (Nat.blt 0 v) (Nat.blt i 2704) = true := by
       simp [andB_eq, Nat.blt_eq, h1]
-    rw [this, if_pos h1]
+    rw [this, ite_eq_left h1]
     by_cases h2 : v = 2
     · subst h2
       simp
-    · rw [beq_false_of_ne' h2, if_neg h2]
+    · rw [beq_false_of_ne' h2, ite_eq_right h2]
       rfl
   · have : andB (Nat.blt 0 v) (Nat.blt i 2704) = false := by
       rw [Bool.eq_false_iff]
       simpa [andB_eq, Nat.blt_eq] using h1
-    rw [this, if_neg h1]
+    rw [this, ite_eq_right h1]
 
 private def entFold : List ℕ → ℕ → ℕ → ℕ
   | [], _, acc => acc
@@ -229,9 +229,9 @@ private theorem entStep_testBit (i acc v b : ℕ) :
       (acc.testBit b || decide (0 < v ∧ i < 2704 ∧ b = if v = 2 then i + 2704 else i)) := by
   unfold entStep
   by_cases h : 0 < v ∧ i < 2704
-  · rw [if_pos h, Nat.testBit_or, testBit_one_shiftLeft]
-    simp only [h, true_and, decide_eq_true_eq]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, Nat.testBit_or, testBit_one_shiftLeft]
+    simp only [h, true_and]
+  · rw [ite_eq_right h]
     have : ¬ (0 < v ∧ i < 2704 ∧ b = if v = 2 then i + 2704 else i) :=
       fun ⟨h1, h2, _⟩ => h ⟨h1, h2⟩
     rw [decide_eq_false this]
@@ -245,7 +245,7 @@ private theorem entBit_step (G : List ℕ) (i b : ℕ) :
   by_cases hbi : b = i
   · subst hbi
     have : ¬ (2704 + b ≤ b) := by omega
-    simp only [this, false_and, and_false, or_false]
+    simp only [this, false_and, or_false]
     split_ifs <;> omega
   · by_cases hbm : b = i + 2704
     · subst hbm
@@ -357,7 +357,7 @@ theorem decodeK_entries (cs : List ℕ) :
       generalize G.getD (52 * i + j) 0 = x
       by_cases h1 : x % 3 = 1
       · have : ¬ x % 3 = 2 := by omega
-        simp [h1, this]
+        simp [h1]
       · simp [h1]
   apply Nat.eq_of_testBit_eq
   intro b
@@ -482,10 +482,10 @@ theorem toInt?_f42Tok {t : List ℕ} (h : F42Tok t) :
     simp only [f42TokCode]
     by_cases hv : decVal ds = 0
     · simp [hv, refOfCode]
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       simp only [refOfCode]
       have h2 : (2 * (decVal ds - 1) + 1) / 2 = decVal ds - 1 := by omega
-      rw [if_neg (by omega), h2]
+      rw [ite_eq_right (by omega), h2]
       have : 1 ≤ decVal ds := by omega
       congr 1
       omega
@@ -589,8 +589,8 @@ private theorem intsRun_nil (st : ℕ) :
     intsRun [] st = if 2 ≤ st then [intsK.codeOf st] else [] := by
   show Bool.rec (motive := fun _ => List ℕ) _ _ (Nat.ble 2 st) = _
   by_cases h : 2 ≤ st
-  · rw [if_pos h, ble_true h]
-  · rw [if_neg h, ble_false h]
+  · rw [ite_eq_left h, ble_true h]
+  · rw [ite_eq_right h, ble_false h]
 
 private theorem intsRun_sep {c : ℕ} (hc : c = 32 ∨ c = 10) (cs : List ℕ) (st : ℕ) :
     intsRun (c :: cs) st = (if 2 ≤ st then [intsK.codeOf st] else []) ++ intsRun cs 0 := by
@@ -600,9 +600,9 @@ private theorem intsRun_sep {c : ℕ} (hc : c = 32 ∨ c = 10) (cs : List ℕ) (
   rw [this]
   show Bool.rec (motive := fun _ => List ℕ) _ _ (Nat.ble 2 st) = _
   by_cases h : 2 ≤ st
-  · rw [if_pos h, ble_true h]
+  · rw [ite_eq_left h, ble_true h]
     rfl
-  · rw [if_neg h, ble_false h]
+  · rw [ite_eq_right h, ble_false h]
     rfl
 
 private theorem intsRun_digit {c : ℕ} (hc : 48 ≤ c ∧ c ≤ 57) (cs : List ℕ) (st : ℕ) :
@@ -674,13 +674,13 @@ private theorem codeOf_ge {st : ℕ} (h : 2 ≤ st) : intsK.codeOf st =
   rw [e]
   by_cases h1 : (st - 2) % 2 = 1 ∧ 0 < (st - 2) / 2
   · have : andB (Nat.beq ((st - 2) % 2) 1) (Nat.blt 0 ((st - 2) / 2)) = true := by
-      simp [andB_eq, Nat.blt_eq, Nat.beq_eq, h1]
-    rw [this, if_pos h1]
+      simp [andB_eq, Nat.blt_eq, h1]
+    rw [this, ite_eq_left h1]
     rfl
   · have : andB (Nat.beq ((st - 2) % 2) 1) (Nat.blt 0 ((st - 2) / 2)) = false := by
       rw [Bool.eq_false_iff]
       simpa [andB_eq, Nat.blt_eq, Nat.beq_eq] using h1
-    rw [this, if_neg h1]
+    rw [this, ite_eq_right h1]
     rfl
 
 private theorem intsSt_nil (ng : Bool) : intsSt ng [] = if ng then 1 else 0 := by
@@ -704,29 +704,29 @@ private theorem signOf_intsSt_nil (ng : Bool) :
 private theorem valOf_intsSt (ng : Bool) {ds : List ℕ} (h : ds ≠ []) :
     intsK.valOf (intsSt ng ds) = decVal ds := by
   rw [intsSt_ne h, valOf_ge (by omega)]
-  cases ng <;> simp <;> omega
+  cases ng <;> simp; omega
 
 private theorem signOf_intsSt (ng : Bool) {ds : List ℕ} (h : ds ≠ []) :
     intsK.signOf (intsSt ng ds) = if ng then 1 else 0 := by
   rw [intsSt_ne h, signOf_ge (by omega)]
-  cases ng <;> simp <;> omega
+  cases ng <;> simp
 
 private theorem codeOf_intsSt (ng : Bool) {ds : List ℕ} (h : ds ≠ []) :
     intsK.codeOf (intsSt ng ds) =
       if ng then (if decVal ds = 0 then 0 else 2 * (decVal ds - 1) + 1) else 2 * decVal ds := by
   rw [intsSt_ne h, codeOf_ge (by omega)]
   cases ng
-  · simp only [Bool.false_eq_true, if_false]
-    rw [if_neg (by omega)]
+  · simp only [Bool.false_eq_true, ite_false]
+    rw [ite_eq_right (by omega)]
     omega
-  · simp only [if_true]
+  · simp only [ite_true]
     by_cases hv : decVal ds = 0
-    · rw [if_neg (by omega), if_pos hv]
+    · rw [ite_eq_right (by omega), ite_eq_left hv]
       omega
-    · rw [if_pos (by omega), if_neg hv]
+    · rw [ite_eq_left (by omega), ite_eq_right hv]
       omega
 
-private theorem intsSt_digit (ng : Bool) (ds : List ℕ) {c : ℕ} (hc : 48 ≤ c ∧ c ≤ 57) :
+private theorem intsSt_digit (ng : Bool) (ds : List ℕ) {c : ℕ} (_hc : 48 ≤ c ∧ c ≤ 57) :
     2 + (2 * (10 * intsK.valOf (intsSt ng ds) + (c - 48)) + intsK.signOf (intsSt ng ds)) =
       intsSt ng (ds ++ [c]) := by
   have hne : ds ++ [c] ≠ [] := by simp
@@ -802,10 +802,10 @@ private theorem endTok (ng : Bool) (ds : List ℕ) (hds : ∀ c ∈ ds, 48 ≤ c
     have htok : intsK.codeOf (intsSt ng ds) = f42TokCode (tokPre ng ds) := by
       rw [codeOf_intsSt ng hd, f42TokCode_tokPre ng hdig]
     constructor
-    · rw [List.filter_cons, if_pos hbne, List.map_cons, if_neg hd, htok]
+    · rw [List.filter_cons, ite_eq_left hbne, List.map_cons, ite_eq_right hd, htok]
       rfl
     · intro l hl
-      rw [List.filter_cons, if_pos hbne] at hl
+      rw [List.filter_cons, ite_eq_left hbne] at hl
       rcases List.mem_cons.1 hl with rfl | hl'
       · exact Or.inr (isTok_tokPre ng hds hd)
       · exact Or.inl hl'
@@ -824,9 +824,9 @@ private theorem intsRun_nil_intsSt (ng : Bool) (ds : List ℕ) :
   rw [intsRun_nil]
   by_cases hd : ds = []
   · have : ¬ 2 ≤ intsSt ng ds := fun h => (two_le_intsSt ng ds).1 h hd
-    rw [if_neg this, if_pos hd]
+    rw [ite_eq_right this, ite_eq_left hd]
   · have : 2 ≤ intsSt ng ds := (two_le_intsSt ng ds).2 hd
-    rw [if_pos this, if_neg hd]
+    rw [ite_eq_left this, ite_eq_right hd]
 
 private theorem fmtRun_nil_iff' (st : ℕ) : fmtRun [] st = true ↔ st ≠ 1 := by
   rw [fmtRun_nil]
@@ -878,7 +878,7 @@ private theorem intsRun_main (cs : List ℕ) : ∀ (ng : Bool) (ds : List ℕ),
         simp [fmtSt] at hst1
       obtain ⟨ih1, ih2⟩ := ih false [] (by simp) (by simpa [fmtSt] using h')
       simp only [tokPre_false_nil, intsSt_nil, List.nil_append, Bool.false_eq_true,
-        if_false] at ih1 ih2
+        ite_false] at ih1 ih2
       have hf : f42Sep c = true := by rcases hsep with rfl | rfl <;> rfl
       obtain ⟨e1, e2⟩ := endTok ng ds hds hst (cs.splitOnP f42Sep)
       rw [List.splitOnP_append_cons_of_forall_mem (tokPre_nosep ng hds) c hf]
@@ -886,8 +886,8 @@ private theorem intsRun_main (cs : List ℕ) : ∀ (ng : Bool) (ds : List ℕ),
       · have : (if 2 ≤ intsSt ng ds then [intsK.codeOf (intsSt ng ds)] else []) =
             (if ds = [] then [] else [intsK.codeOf (intsSt ng ds)]) := by
           by_cases hd : ds = []
-          · rw [if_neg (fun h => (two_le_intsSt ng ds).1 h hd), if_pos hd]
-          · rw [if_pos ((two_le_intsSt ng ds).2 hd), if_neg hd]
+          · rw [ite_eq_right (fun h => (two_le_intsSt ng ds).1 h hd), ite_eq_left hd]
+          · rw [ite_eq_left ((two_le_intsSt ng ds).2 hd), ite_eq_right hd]
         rw [intsRun_sep hsep, this, e1, ih1]
       · rcases e2 l hl with h2 | h2
         · exact ih2 l h2
@@ -922,7 +922,7 @@ private theorem intsRun_main (cs : List ℕ) : ∀ (ng : Bool) (ds : List ℕ),
           obtain ⟨rfl, rfl⟩ := hdsnil
           obtain ⟨ih1, ih2⟩ := ih true [] (by simp) (by simpa [fmtSt] using h')
           simp only [tokPre_true_nil, tokPre_false_nil, intsSt_nil, List.nil_append,
-            List.singleton_append, if_true] at ih1 ih2 ⊢
+            List.singleton_append, ite_true] at ih1 ih2 ⊢
           refine ⟨?_, ih2⟩
           rw [intsRun_other (by omega) (by omega) (by omega)]
           exact ih1
@@ -947,7 +947,7 @@ private theorem filterMap_toInt (L : List (List ℕ)) (hL : ∀ t ∈ L, t = [] 
         · exact hne
         · simp
       have hb : (t != []) = true := by simpa using hne
-      rw [List.filterMap_cons, toInt?_f42Tok hT, List.filter_cons, if_pos hb]
+      rw [List.filterMap_cons, toInt?_f42Tok hT, List.filter_cons, ite_eq_left hb]
       simp [ih']
 
 end F42Parse
@@ -966,7 +966,7 @@ theorem intsK_toks {cs : List ℕ} (h : fmtK cs = true) :
     intsK cs = (f42Toks cs).map f42TokCode := by
   rw [fmtK_eq_run] at h
   obtain ⟨h1, -⟩ := intsRun_main cs false [] (by simp) (by simpa [fmtSt] using h)
-  simp only [tokPre_false_nil, intsSt_nil, List.nil_append, Bool.false_eq_true, if_false] at h1
+  simp only [tokPre_false_nil, intsSt_nil, List.nil_append, Bool.false_eq_true, ite_false] at h1
   rw [intsK_eq_run]
   exact h1
 

@@ -192,8 +192,7 @@ theorem d4t2ct_exists_lang {L : Type} [Field L] [IsAlgClosed L] {q : ℕ} (hq : 
   have hst0 := congrFun hst 0
   have hst1 := congrFun hst 1
   simp only [monoHom_apply, Fin.prod_univ_two, B, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons] at hst0 hst1
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at hst0 hst1
   have hs : (st 0 ^ q) ^ r₁₁ * (st 1 ^ q) ^ r₂₁ = st 0 := by
     rw [← zpow_natCast, ← zpow_natCast, ← zpow_mul, ← zpow_mul]
     rw [zpow_sub_one, mul_right_comm, mul_inv_eq_one] at hst0

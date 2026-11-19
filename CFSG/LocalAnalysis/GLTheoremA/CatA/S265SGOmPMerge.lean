@@ -52,8 +52,8 @@ private theorem exists_merge_elem {G : Type*} [Group G] {D E : Subgroup G} (hD :
     (hE : E.index = 3) (hDE : D ≠ E) {d : G} (hd : d ∈ D ↔ d ∈ E) :
     ∃ t : G, t ∉ D ∧ t ∉ E ∧ d ∈ D ⊓ E ⊔ Subgroup.zpowers t := by
   by_cases hdD : d ∈ D
-  · obtain ⟨a, haD, haE⟩ := SetLike.not_le_iff_exists.1 (not_le_of_index_three hE hD hDE.symm)
-    obtain ⟨b, hbE, hbD⟩ := SetLike.not_le_iff_exists.1 (not_le_of_index_three hD hE hDE)
+  · obtain ⟨a, haD, haE⟩ := IsConcreteLE.not_le_iff_exists.1 (not_le_of_index_three hE hD hDE.symm)
+    obtain ⟨b, hbE, hbD⟩ := IsConcreteLE.not_le_iff_exists.1 (not_le_of_index_three hD hE hDE)
     refine ⟨a * b, fun h => hbD ?_, fun h => haE ?_,
       Subgroup.mem_sup_left ⟨hdD, hd.1 hdD⟩⟩
     · simpa using D.mul_mem (D.inv_mem haD) h
@@ -71,8 +71,8 @@ theorem SG.exists_merged_block {F V : Type} [Field F] [CharP F 2] [AddCommGroup 
   have hpF : ((3 : ℕ) : F) ≠ 0 := fun h =>
     absurd ((CharP.cast_eq_zero_iff F 2 3).1 h) (by norm_num)
   have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : Fintype X := Fintype.ofFinite _
-  haveI : IsMulCommutative ↥X := hX.1
+  let : Fintype X := Fintype.ofFinite _
+  have : IsMulCommutative ↥X := hX.1
   obtain ⟨D, E, hDE, hD, hE, hdDE⟩ := SG.exists_blockPair X hpF hX hcard ⟨d, hd⟩
   obtain ⟨hU4, hUnd, hUinv, hUfix, hUL⟩ := SG.blockPair_spec X hQ hXO hX hDE hD hE
   have hDE' : D.1 ≠ E.1 := fun h => hDE (Subtype.ext h)

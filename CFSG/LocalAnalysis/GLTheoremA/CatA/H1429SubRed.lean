@@ -39,7 +39,7 @@ end H1429Sub
 
 theorem i1429SubfieldOut_of_simple (h : I1429SubSimple) : I1429SubfieldOut := by
   intro Q _ _ hQ hChev β hβ hout I hI hU
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   set π : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' (Subgroup.center Q) with hπ
   have hker : π.ker ≤ Subgroup.center Q := (QuotientGroup.ker_mk' _).le
   have hαβ : ∀ k, π (β k) = H1419.centerBar β (π k) := fun k => (H1419.centerBar_mk β k).symm
@@ -72,11 +72,11 @@ theorem i1429SubfieldOut_of_simple (h : I1429SubSimple) : I1429SubfieldOut := by
 theorem H1429Sub.false_of_solvable {G : Type} [Group G] [Finite G] {X I : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hI : GLAPComponent 3 X I) : False := by
   have hIX : I ≤ X := hI.1
-  haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIX)
       (Subgroup.inclusion_injective hIX)
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
   exact Group.IsPerfect.not_isSolvable (G := ↥I) inferInstance
 
 theorem H1429Sub.false_of_ambiguous (hamb : KDAmbSolv 3) {S : Type} [Group S] [Finite S]
@@ -91,7 +91,7 @@ theorem H1429Sub.false_of_ambiguous (hamb : KDAmbSolv 3) {S : Type} [Group S] [F
       exact ((MulAut.congr e).injective (h.trans (map_one _).symm)).symm⟩
   have hsol : Group.IsSolvable ↥(fixSubgroup (MulAut.congr e β)) := hamb i hi _ hβ' hβ1
   rw [CFSG.HardMathSupport.Dickson.I271.fixSubgroup_congr] at hsol
-  haveI := hsol
+  have := hsol
   let φ : ↥(fixSubgroup β) ≃* ↥((fixSubgroup β).map e.toMonoidHom) :=
     Subgroup.equivMapOfInjective (fixSubgroup β) e.toMonoidHom e.injective
   have hsolβ : Group.IsSolvable ↥(fixSubgroup β) :=

@@ -26,7 +26,7 @@ theorem b₀T_mul_b₁T_ne_one : b₀T hn * b₁T hn ≠ 1 := by
 
 theorem hCT_pow_half : hCT hn ^ 2 ^ (n - 1) = b₀T hn * b₁T hn := by
   rw [show 2 ^ (n - 1) = 2 * 2 ^ (n - 2) by rw [← pow_succ']; congr 1; omega, pow_mul, pow_two,
-    hCT_mul_hCT hn, ((commute_ρ₀T_ρ₁T hn).inv_inv).mul_pow, inv_pow, inv_pow, ← b₀T_eq hn,
+    hCT_mul_hCT hn, ((commute_ρ₀T_ρ₁T (n := n)).inv_inv).mul_pow, inv_pow, inv_pow, ← b₀T_eq hn,
     ← b₁T_eq hn, inv_eq_of_mul_eq_one_right (b₀T_mul_b₀T hn),
     inv_eq_of_mul_eq_one_right (b₁T_mul_b₁T hn)]
 
@@ -53,14 +53,14 @@ theorem tCT_mem_BT : tCT n ∈ BT hn :=
   mul_mem (B₀T_le_BT hn (κ₀T_mem_B₀T hn)) (B₁T_le_BT hn (κ₁T_mem_B₁T hn))
 
 theorem ρ₀T_mul_ρ₁T_eq : ρ₀T n * ρ₁T n = (hCT hn * hCT hn)⁻¹ := by
-  rw [hCT_mul_hCT hn, mul_inv_rev, inv_inv, inv_inv, (commute_ρ₀T_ρ₁T hn).eq]
+  rw [hCT_mul_hCT hn, mul_inv_rev, inv_inv, inv_inv, (commute_ρ₀T_ρ₁T (n := n)).eq]
 
 theorem mul_conj_tT_mem {u : TM n} (hu : u ∈ B₀T hn) :
     u * (tT n * u * (tT n)⁻¹) ∈ zpowers (hCT hn) ⊔ zpowers (tCT n) := by
   have hρ : ∀ k : ℕ, ρ₀T n ^ k * (tT n * ρ₀T n ^ k * (tT n)⁻¹) ∈
       zpowers (hCT hn) ⊔ zpowers (tCT n) := by
     intro k
-    rw [← conj_pow, tT_conj_ρ₀T hn, ← (commute_ρ₀T_ρ₁T hn).mul_pow, ρ₀T_mul_ρ₁T_eq hn]
+    rw [← conj_pow, tT_conj_ρ₀T hn, ← (commute_ρ₀T_ρ₁T (n := n)).mul_pow, ρ₀T_mul_ρ₁T_eq hn]
     exact mem_sup_left (pow_mem (inv_mem (mul_mem (mem_zpowers _) (mem_zpowers _))) _)
   obtain ⟨i, rfl | rfl⟩ := (mem_dihedralLift_range_iff _ _ _ _ _ _).1 hu
   · exact hρ i.val
@@ -70,7 +70,7 @@ theorem mul_conj_tT_mem {u : TM n} (hu : u ∈ B₀T hn) :
         (tT n * κ₀T n * (tT n)⁻¹) * (tT n * ρ₀T n ^ i.val * (tT n)⁻¹) by group, tT_conj_κ₀T hn,
         tCT, ← conj_pow, tT_conj_ρ₀T hn]
       have hc : ρ₀T n ^ i.val * κ₁T n = κ₁T n * ρ₀T n ^ i.val :=
-        ((commute_ρ₀T_κ₁T hn).pow_left _).eq
+        ((commute_ρ₀T_κ₁T).pow_left _).eq
       calc κ₀T n * ρ₀T n ^ i.val * (κ₁T n * ρ₁T n ^ i.val) =
           κ₀T n * (ρ₀T n ^ i.val * κ₁T n) * ρ₁T n ^ i.val := by group
         _ = κ₀T n * κ₁T n * (ρ₀T n ^ i.val * ρ₁T n ^ i.val) := by rw [hc]; group

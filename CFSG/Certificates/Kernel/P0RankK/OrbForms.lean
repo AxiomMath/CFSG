@@ -74,10 +74,10 @@ theorem p0bXS_lt (f : ℕ → ℕ) {j : ℕ} : ∀ n, j ≤ n →
     rfl
   | n + 1, hj => by
     by_cases h : j ≤ n
-    · rw [p0bXS_succ, p0bXS_lt f n h, if_neg (by omega), Nat.xor_zero]
+    · rw [p0bXS_succ, p0bXS_lt f n h, ite_eq_right (by omega), Nat.xor_zero]
     · have : j = n + 1 := by omega
       subst this
-      exact p0bXS_congr fun k hk => if_pos hk
+      exact p0bXS_congr fun k hk => ite_eq_left hk
 
 theorem p0b_colsAct_eq : ∀ (cs : List ℕ) (x : ℕ),
     colsAct cs x = p0bXS cs.length (fun k => if x.testBit k then cs.getD k 0 else 0)
@@ -161,12 +161,12 @@ theorem p0b_bc_facts {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta
           exact h'
         rw [hb] at h2
         exact Bool.noConfusion h2
-      rw [if_neg hn]
+      rw [ite_eq_right hn]
       rfl
     · have hp : i < j := by
         rw [← Nat.blt_eq]
         exact hb
-      rw [if_pos hp]
+      rw [ite_eq_left hp]
       rfl
 
 def p0oB (f : ℕ → ℕ → ℕ) (x y : ℕ) : ℕ :=
@@ -282,9 +282,9 @@ theorem p0o_bc_facts {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta
   · rw [hC i hi i hi, hsd.2 i hi]
   · rw [hU i hi j hj, hU j hj i hi, hC i hi j hj]
     rcases lt_trichotomy i j with hij | rfl | hij
-    · rw [if_pos hij, if_neg (by omega), Nat.xor_zero, hsd.1 j hj i hi]
-    · rw [if_neg (lt_irrefl _), Nat.xor_zero, hsd.2 i hi]
-    · rw [if_neg (by omega), if_pos hij, Nat.zero_xor]
+    · rw [ite_eq_left hij, ite_eq_right (by omega), Nat.xor_zero, hsd.1 j hj i hi]
+    · rw [ite_eq_right (lt_irrefl _), Nat.xor_zero, hsd.2 i hi]
+    · rw [ite_eq_right (by omega), ite_eq_left hij, Nat.zero_xor]
 
 theorem p0o_bet_comm {BC BU : ℕ} {beta : List (List ℕ)} (h : bcOK BC BU beta = true) {x y : ℕ}
     (hx : x < 2 ^ 16) (hy : y < 2 ^ 16) : bet BC x y = bet BC y x := by

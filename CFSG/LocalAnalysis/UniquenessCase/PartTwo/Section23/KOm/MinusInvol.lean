@@ -21,7 +21,7 @@ variable {K : Type} [Field K]
 private theorem eq_of_ne_one_of_card_le_two {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 2) {x y : G} (hx : x ≠ 1) (hy : y ≠ 1) : x = y := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   by_contra hxy
   have h3 : ({1, x, y} : Finset G).card = 3 := by
     rw [Finset.card_insert_of_notMem (by simp [Ne.symm hx, Ne.symm hy]),
@@ -49,8 +49,8 @@ theorem planeBlock_eq_of_not_mem_rootGroupGL [Finite K] [CharP K 2] {b c : K}
     (hhU : h ∉ rootGroupGL (quadMinus 2 K b c) (KTabC.e1M K)) :
     planeBlock (g : Matrix ιM ιM K) = planeBlock (h : Matrix ιM ιM K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   set φ : ↥T →* GL (Fin 2) K :=
     (planeHom b c).comp (Subgroup.inclusion (hT.trans (isoFix_le_lineStabilizer b c))) with hφdef
   have hφ : ∀ x : ↥T, (φ x : Matrix (Fin 2) (Fin 2) K) = planeBlock (x.1 : Matrix ιM ιM K) := by
@@ -145,6 +145,7 @@ private theorem mulVec_y_eq_of_isoFix {b c : K} {g : GL ιM K}
   rw [toLinEquiv_apply, toLinEquiv_apply, hfix, polar_e1M_eq_y, polar_e1M_eq_y] at h
   exact h
 
+omit [Field K] in
 private theorem funext_coords {u v : ιM → K} (hx : u (Sum.inl 0) = v (Sum.inl 0))
     (hy : u (Sum.inr (Sum.inl 0)) = v (Sum.inr (Sum.inl 0)))
     (hP : ∀ i : Fin 2, u (Sum.inr (Sum.inr i)) = v (Sum.inr (Sum.inr i))) : u = v := by

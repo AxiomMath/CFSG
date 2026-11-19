@@ -98,7 +98,7 @@ theorem y7b_M7_inf_W (c : Ctx7 G L) (hb : B5Std c) : M7 c.s ⊓ y7bW c.s = y7bBM
     rw [M7]
     exact le_sup_right
 
-theorem y7b_BM_le_M7 (c : Ctx7 G L) (hb : B5Std c) : y7bBM c.s ≤ M7 c.s := by
+theorem y7b_BM_le_M7 (c : Ctx7 G L) (_hb : B5Std c) : y7bBM c.s ≤ M7 c.s := by
   rw [M7]
   exact le_sup_right
 

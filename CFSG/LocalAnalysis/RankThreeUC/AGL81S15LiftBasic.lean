@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem pCore_le_gnC_aux1 {T : Subgroup X} (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) :
     CFSG.pCore 2 X ≤ T := by
   have hidx : ¬ 2 ∣ T.index := by
@@ -21,6 +22,7 @@ theorem pCore_le_gnC_aux1 {T : Subgroup X} (hT : CFSG.QuasithinUnique.IsSylowTwo
     rwa [Subgroup.relIndex_top_right] at h
   exact (CFSG.pCore_isPGroup (p := 2) (G := X)).le_sylow_of_normal (hT.2.1.toSylow hidx)
 
+omit [Finite X] in
 theorem pCore_le_gnC_aux2 {T : Subgroup X} (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) :
     CFSG.Quasithin.omegaOneCenterOf T ≤ Subgroup.centralizer (CFSG.pCore 2 X : Set X) := by
   have hPT : CFSG.pCore 2 X ≤ T := pCore_le_gnC_aux1 hT
@@ -37,9 +39,11 @@ theorem pCore_le_gnC {T : Subgroup X} (hX : GNSetting X T) : CFSG.pCore 2 X ≤ 
     Subgroup.normalClosure_le_normal (pCore_le_gnC_aux2 hX.sylow)
   exact Subgroup.le_centralizer_iff.2 hV
 
+omit [Finite X] in
 theorem isC2_normalizer_aux0 {N : Subgroup X} [N.Normal] (hN : IsPGroup 2 N) : N ≤ CFSG.pCore 2 X :=
   le_sSup ⟨inferInstance, hN⟩
 
+omit [Finite X] in
 theorem isC2_normalizer_aux1 {N : Subgroup X} {n g : X} (hn : n ∈ N)
     (hg : g ∈ Subgroup.normalizer (N : Set X)) : ⁅n, g⁆ ∈ N := by
   have h1 : g * n⁻¹ * g⁻¹ ∈ N := ((Subgroup.mem_normalizer_iff.1 hg) n⁻¹).1 (N.inv_mem hn)
@@ -116,6 +120,7 @@ theorem isC2_normalizer {L : Subgroup X} (hL : IsC2 L) (N : Subgroup X) [N.Norma
     exact L.mul_mem hx (fwd n hn x⁻¹ (L.inv_mem hx))
   · exact le_trans (Subgroup.commutator_le_right L N) (isC2_normalizer_aux0 hN)
 
+omit [Finite X] in
 theorem isC2_eq_of_barO2_eq_aux1 {L : Subgroup X} {l c : X} (hl : l ∈ L)
     (hc : c ∈ Subgroup.normalizer (L : Set X)) (n : ℕ) : ∃ l' ∈ L, (l * c) ^ n = l' * c ^ n := by
   induction n with
@@ -293,6 +298,7 @@ theorem liftOf_conj_aux1 {G : Type*} [Group G] {A : Subgroup G} {y : G}
     show y * (y⁻¹ * z * y) * y⁻¹ = z
     group
 
+omit [Finite X] in
 theorem liftOf_conj_aux2 {L : Subgroup X} (σ : X ≃* X) :
     (oddHull L).map σ.toMonoidHom ≤ oddHull (L.map σ.toMonoidHom) := by
   unfold oddHull
@@ -313,6 +319,7 @@ theorem liftOf_conj_aux3 {G : Type*} [Group G] {A : Subgroup G}
   · exact CFSG.Open.IsQuasisimple.of_mulEquiv
       (A.equivMapOfInjective τ.toMonoidHom τ.injective).symm hA.2.2
 
+omit [Finite X] in
 theorem liftOf_conj_aux4 {L : Subgroup X} (hL : IsC2 L) (x : X) :
     IsC2 (L.map (MulAut.conj x).toMonoidHom) := by
   refine ⟨?_, ?_, ?_⟩
@@ -348,7 +355,7 @@ theorem centre_barO2_odd {L : Subgroup X} (hL : IsC2 L) : Odd (Nat.card (Subgrou
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center ↥(barO2 L)) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hzsq : z ^ 2 = 1 := by
     have h3 := pow_orderOf_eq_one z

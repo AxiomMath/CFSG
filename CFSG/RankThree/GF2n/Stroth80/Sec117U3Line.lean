@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem act_sub_mem_of_not_mem_range {Q Z : Subgroup G} {K : Type} [Field K]
     {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) {T : M₀.E ≃ₗ[K] M₀.E}
     (hT : ∀ e, M₀.Qf (T e) = M₀.Qf e) (hT2 : ∀ e, T (T e) = e) {b : M₀.E}

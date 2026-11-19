@@ -186,7 +186,7 @@ theorem bender1970_1_3_of_le_commutator (T : Sylow 2 G) (hT : IsMulCommutative (
     intro heven
     exact hTodd ((even_iff_two_dvd.mp heven).trans (hdvd.trans hrel))
   set H : Subgroup E := R.subgroupOf E with hHdef
-  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hTp : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hRp : IsPGroup 2 R := hTp.to_le hRT
   have hcardE : Nat.card E = 2 ^ pRank 2 (T : Subgroup G) :=
     card_omegaOneOfComm hp2 _ hcommT hTp

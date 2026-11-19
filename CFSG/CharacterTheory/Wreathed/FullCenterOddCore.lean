@@ -133,7 +133,7 @@ theorem centralizerOddCore_inf_sylow_eq_bot [Finite G]
     centralizerOddCore n S e ⊓ (centralizerSylow n hn S e :
       Subgroup (involutionCentralizer n S e)) = ⊥ := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := (centralizerSylow n hn S e).isPGroup.exists_card_eq
   apply disjoint_iff.mp
   apply Subgroup.disjoint_of_coprime_natCard
   rw [hk]

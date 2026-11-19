@@ -138,18 +138,18 @@ theorem ycK_eq {m i j : ℕ} : ycK m i j = ycode m i j := by
         rw [← Nat.blt_eq] at h
         rw [h] at hji
         exact absurd hji (by decide)
-      simp only [hij', hji', if_false]
+      simp only [hij', hji', ite_false]
       rw [bt_eq]
       rfl
     · have hji' : j < i := by
         rw [← Nat.blt_eq]
         exact hji
-      simp only [hij', hji', if_false, if_true]
+      simp only [hij', hji', ite_false, ite_true]
       rw [mulT_eq (upc_lt _ _ _) (upc_lt _ _ _), hu]
   · have hij' : i < j := by
       rw [← Nat.blt_eq]
       exact hij
-    simp only [hij', if_true]
+    simp only [hij', ite_true]
     rw [hu]
 
 theorem ycK_lt (m i j : ℕ) : ycK m i j < 4 := by
@@ -212,7 +212,7 @@ theorem mbit_eq {Z : ℕ} {A : Matrix (Fin 8) (Fin 8) F4} (hZ : RepP Z A) (p : F
     · have hcr' : ¬ col8 p < row8 p := by
         rw [Fin.lt_def, hr, hc, ← Nat.blt_eq, hcr]
         exact Bool.false_ne_true
-      simp only [hrc', hcr', if_false]
+      simp only [hrc', hcr', ite_false]
       rw [ZMod.val_natCast]
       have e := hZ (row8 p) (row8 p)
       rw [hr] at e
@@ -221,7 +221,7 @@ theorem mbit_eq {Z : ℕ} {A : Matrix (Fin 8) (Fin 8) F4} (hZ : RepP Z A) (p : F
     · have hcr' : col8 p < row8 p := by
         rw [Fin.lt_def, hr, hc, ← Nat.blt_eq]
         exact hcr
-      simp only [hrc', hcr', if_false, if_true]
+      simp only [hrc', hcr', ite_false, ite_true]
       rw [ZMod.val_natCast]
       have e := hZ (col8 p) (row8 p)
       rw [hr, hc] at e
@@ -234,7 +234,7 @@ theorem mbit_eq {Z : ℕ} {A : Matrix (Fin 8) (Fin 8) F4} (hZ : RepP Z A) (p : F
   · have hrc' : row8 p < col8 p := by
       rw [Fin.lt_def, hr, hc, ← Nat.blt_eq]
       exact hrc
-    simp only [hrc', if_true]
+    simp only [hrc', ite_true]
     rw [ZMod.val_natCast]
     have e := hZ (row8 p) (col8 p)
     rw [hr, hc] at e
@@ -298,7 +298,7 @@ theorem codesChk_spec {P : ℕ} {A : Matrix (Fin 8) (Fin 8) F4} (h : codesChk P 
   have hk : 8 * i.val + j.val < 64 := by omega
   have e := allB_spec h _ hk
   simp only [Nat.beq_eq] at e
-  rw [e, entC, dif_pos hk]
+  rw [e, entC, dite_eq_left hk]
   rw [show (⟨8 * i.val + j.val, hk⟩ : Fin 64) = pos8 i j from rfl, row8_pos8, col8_pos8]
 
 open CFSG.KC.HMathieu

@@ -46,6 +46,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 @[expose] def blkMat (g : Matrix (Fin 3) (Fin 3) K) : Matrix (Fin 2) (Fin 2) K :=
   fun i j => g (Fin.castLE (by decide) i) (Fin.castLE (by decide) j)
 
+omit [Finite K] [CharP K 2] in
 theorem det_blkMat_of_perfW {g : SL(3, K)} (hg : g ∈ perfW K) :
     (blkMat (g : Matrix (Fin 3) (Fin 3) K)).det = 1 := by
   obtain ⟨h20, h21, h22⟩ := hg
@@ -62,10 +63,12 @@ theorem hermBlk_twisted (X : HMod n K) :
   simp only [Matrix.transpose_apply, Matrix.map_apply, hermBlk, barR_apply]
   exact (herm_apply X (Fin.castLE (by decide) j) (Fin.castLE (by decide) i)).symm
 
+omit [Finite K] in
 theorem hermBlk_mul (X Y : HMod n K) : hermBlk (X * Y) = hermBlk X + hermBlk Y := by
   ext i j
   simp [hermBlk, mat_mul]
 
+omit [Finite K] in
 theorem hermBlk_one : hermBlk (1 : HMod n K) = 0 := by
   ext i j
   simp [hermBlk, mat_one]
@@ -158,6 +161,7 @@ theorem toAdd_blkEquiv (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (X : ↥(b
     ((Multiplicative.toAdd (blkEquiv hn hK X) : twistedForm (barR n K)) :
       Matrix (Fin 2) (Fin 2) K) = hermBlk (X : HMod n K) := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem blkMat_embW (A : SL(2, K)) :
     blkMat (embW A : Matrix (Fin 3) (Fin 3) K) = (A : Matrix (Fin 2) (Fin 2) K) := by
   ext i j

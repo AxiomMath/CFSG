@@ -36,7 +36,7 @@ theorem treeBFS_pts (hn : n < 2 ^ 32) (hr : root < n)
   rfl
 
 theorem mem_run_pts_iff (hr : root < n) (hF : ∀ l ∈ lv, ∀ x < n, ap letters[l]! x < n)
-    {O : Nat → Bool} (hroot : O root = true) (hlt : ∀ x, O x = true → x < n)
+    {O : Nat → Bool} (hroot : O root = true) (_hlt : ∀ x, O x = true → x < n)
     (hcl : ∀ x, O x = true → ∀ l ∈ lv, O (ap letters[l]! x) = true)
     (hmin : ∀ P : Nat → Prop, P root → (∀ x, P x → ∀ l ∈ lv, P (ap letters[l]! x)) →
       ∀ x, O x = true → P x) (x : Nat) :

@@ -272,7 +272,7 @@ theorem false_of_sigma (hchar : IsCharTwoType G) (hS : CentASetting m Y L R b t 
   obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp hW2) ⟨q, hqW⟩
   have hn' : orderOf q = 2 ^ n := (Subgroup.orderOf_coe ⟨q, hqW⟩).trans hn
   have h3 : 3 ∣ orderOf q := by
-    simpa [horder_q] using dvd_refl 3
+    simp [horder_q]
   have h32 : 3 ∣ 2 := by
     refine Nat.Prime.dvd_of_dvd_pow (p := 3) (m := 2) (n := n) (by norm_num) ?_
     rwa [hn'] at h3

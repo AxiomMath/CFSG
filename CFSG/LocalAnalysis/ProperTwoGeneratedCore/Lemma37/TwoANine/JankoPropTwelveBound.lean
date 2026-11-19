@@ -16,7 +16,7 @@ theorem isSylowOf_of_forall_card_le {C P : Subgroup G} {p : ℕ} [Fact p.Prime] 
     IsSylowOf C p P := by
   obtain ⟨Q⟩ : Nonempty (Sylow p C) := inferInstance
   have hQ : IsSylowOf C p ((Q : Subgroup C).map C.subtype) := ⟨Q, rfl⟩
-  have h1 := hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _)
+  have h1 := hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _)
   have h2 := card_le_of_isSylowOf hQ hP hPC
   exact isSylowOf_of_card_eq hQ hPC (le_antisymm h2 h1)
 

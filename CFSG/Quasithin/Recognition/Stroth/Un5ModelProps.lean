@@ -21,6 +21,7 @@ private abbrev Un5Heis (hF : Nat.card F = (2 ^ k) ^ 2) :
   heisenbergSubgroup (unitaryInvolution F 2 k) (unitaryInvolution_involutive hF)
     (n := 5) (i := (1 : Fin 5)) (k := (2 : Fin 5)) (by decide) (by decide) (by decide)
 
+omit [Fact (Nat.Prime 2)] in
 private theorem weight_five_one :
     weight 5 (1 : Fin 5) = toStd 5 (octRootB 4) := by
   rw [octRootB_four]
@@ -64,8 +65,7 @@ private theorem heisMat_apply_irev (a b : F) :
     heisenbergMatrix (unitaryInvolution F 2 k) (1 : Fin 5) 2 a b 1 (Fin.rev 1) = b := by
   have r1 : Fin.rev (1 : Fin 5) = 3 := by decide
   rw [r1]
-  simp [heisenbergMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply,
-    Matrix.one_apply]
+  simp [heisenbergMatrix, Matrix.add_apply, Matrix.sub_apply]
 
 private noncomputable abbrev un5HeisElt (hF : Nat.card F = (2 ^ k) ^ 2) (a b : F)
     (hab : b + unitaryInvolution F 2 k b + unitaryInvolution F 2 k a * a = 0) :
@@ -183,6 +183,7 @@ private theorem un5Oct_four_card (hF : Nat.card F = (2 ^ k) ^ 2) :
     calc (2 ^ k) ^ 3 = Nat.card (Un5Heis hF) := (card_heisenbergSubgroup hF).symm
       _ ≤ Nat.card (un5Oct (p := 2) (f := k) hF 4) := Subgroup.card_le_of_le hle
 
+omit [Fact (Nat.Prime 2)] in
 private theorem mem_interiorVertices_range_map_gpath {V : Type} {Γ : SimpleGraph V} {n : ℕ}
     {p : GPath Γ n} {v : V} (hn : 1 ≤ n) :
     v ∈ interiorVertices ((List.range (n + 1)).map p) ↔
@@ -223,11 +224,11 @@ private theorem exists_baseGPath
         pathRootGroup (Un5Group k F) (un5System hF ζ).graph p =
           (un5System hF ζ).root (jIdx 4 first 0) := by
   classical
-  letI : MulAction (Un5Group k F) (un5System hF ζ).Vertex :=
+  let : MulAction (Un5Group k F) (un5System hF ζ).Vertex :=
     rtsMulAction (un5System hF ζ)
-  haveI : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
+  have : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
     un5System_faithfulSMul (hF := hF) (ζ := ζ)
-  haveI : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
+  have : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
     rtsGraphAction (un5System hF ζ)
   let l : List (un5System hF ζ).Vertex := (un5System hF ζ).basePath m₁ m₂ first
   have hl : IsGLSPath (un5System hF ζ).graph l :=
@@ -281,11 +282,11 @@ private theorem degree_vv_four (m₁ m₂ : (un5System hF ζ).N)
     (un5System hF ζ).graph.degree ((un5System hF ζ).vv m₁ m₂ first 4) =
       1 + Nat.card ((un5System hF ζ).root (jIdx 4 first 0)) := by
   classical
-  letI : MulAction (Un5Group k F) (un5System hF ζ).Vertex :=
+  let : MulAction (Un5Group k F) (un5System hF ζ).Vertex :=
     rtsMulAction (un5System hF ζ)
-  haveI : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
+  have : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
     un5System_faithfulSMul (hF := hF) (ζ := ζ)
-  haveI : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
+  have : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
     rtsGraphAction (un5System hF ζ)
   have hP : IsGeneralizedPolygon (un5System hF ζ).graph 4 :=
     un5System_isGeneralizedPolygon (hF := hF) (ζ := ζ)
@@ -298,8 +299,8 @@ private theorem degree_vv_four (m₁ m₂ : (un5System hF ζ).N)
   exact hdeg.symm.trans (Nat.add_comm _ _)
 
 private theorem isTypeOne_vv_false (m₁ m₂ : (un5System hF ζ).N)
-    (hm₁ : (m₁ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₁)
-    (hm₂ : (m₂ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₂) :
+    (_hm₁ : (m₁ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₁)
+    (_hm₂ : (m₂ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₂) :
     (un5System hF ζ).IsTypeOne ((un5System hF ζ).vv m₁ m₂ false 4) := by
   rw [(un5System hF ζ).isTypeOne_iff]
   rw [show (un5System hF ζ).vv m₁ m₂ false 4 = (un5System hF ζ).vv m₁ m₂ false (3 + 1) from rfl]
@@ -307,8 +308,8 @@ private theorem isTypeOne_vv_false (m₁ m₂ : (un5System hF ζ).N)
   decide
 
 private theorem isTypeTwo_vv_true (m₁ m₂ : (un5System hF ζ).N)
-    (hm₁ : (m₁ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₁)
-    (hm₂ : (m₂ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₂) :
+    (_hm₁ : (m₁ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₁)
+    (_hm₂ : (m₂ : (un5System hF ζ).Weyl) = (un5System hF ζ).w₂) :
     (un5System hF ζ).IsTypeTwo ((un5System hF ζ).vv m₁ m₂ true 4) := by
   rw [(un5System hF ζ).isTypeTwo_iff]
   rw [show (un5System hF ζ).vv m₁ m₂ true 4 = (un5System hF ζ).vv m₁ m₂ true (3 + 1) from rfl]
@@ -397,10 +398,10 @@ private theorem pathRootGroup_conj (p : GPath (un5System hF ζ).graph 4) (hp : p
       ∀ x : Un5Group k F, x ∈ pathRootGroup (Un5Group k F) (un5System hF ζ).graph p ↔
         g⁻¹ * x * g ∈ (un5System hF ζ).root kk := by
   classical
-  letI : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
-  haveI : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
+  let : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
+  have : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
     un5System_faithfulSMul (hF := hF) (ζ := ζ)
-  haveI : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
+  have : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
     rtsGraphAction (un5System hF ζ)
   let l : List (un5System hF ζ).Vertex := (List.range 5).map p
   have hl : IsGLSPath (un5System hF ζ).graph l := by
@@ -447,6 +448,7 @@ private theorem vtype_gpath_four (p : GPath (un5System hF ζ).graph 4) :
     _ = vtype (un5System hF ζ).B (un5System hF ζ).N (un5System hF ζ).w₁ (un5System hF ζ).w₂
           (p 0) := by rw [h2, h1]; simp
 
+omit [Fact (Nat.Prime 2)] in
 theorem un5RootGroupOrders :
     ∀ (k : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] [Fact (Nat.Prime 2)]
       (hF : Nat.card F = (2 ^ k) ^ 2) (ζ : traceZero (unitaryInvolution F 2 k))
@@ -457,6 +459,7 @@ theorem un5RootGroupOrders :
   exact ⟨un5System_root_one_card (hF := hF) (ζ := ζ),
     un5System_root_four_card (hF := hF) (ζ := ζ)⟩
 
+omit [Fact (Nat.Prime 2)] in
 theorem un5VertexDegrees :
     ∀ (k : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] [Fact (Nat.Prime 2)]
       (hF : Nat.card F = (2 ^ k) ^ 2) (ζ : traceZero (unitaryInvolution F 2 k))
@@ -478,6 +481,7 @@ theorem un5VertexDegrees :
   · exact degree_eq_short hF ζ m₁ m₂ hm₁ hm₂ _ (isTypeOne_vv_false hF ζ m₁ m₂ hm₁ hm₂)
   · exact degree_eq_long hF ζ m₁ m₂ hm₁ hm₂ _ (isTypeTwo_vv_true hF ζ m₁ m₂ hm₁ hm₂)
 
+omit [Fact (Nat.Prime 2)] in
 theorem un5ShortRootGroupsAbelian :
     ∀ (k : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] [Fact (Nat.Prime 2)]
       (hF : Nat.card F = (2 ^ k) ^ 2) (ζ : traceZero (unitaryInvolution F 2 k))
@@ -490,10 +494,10 @@ theorem un5ShortRootGroupsAbelian :
           a * b = b * a := by
   intro k F _ _ _ _ hF ζ hζ p hp hdeg a b ha hb
   classical
-  letI : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
-  haveI : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
+  let : MulAction (Un5Group k F) (un5System hF ζ).Vertex := rtsMulAction _
+  have : FaithfulSMul (Un5Group k F) (un5System hF ζ).Vertex :=
     un5System_faithfulSMul (hF := hF) (ζ := ζ)
-  haveI : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
+  have : GraphAction (Un5Group k F) (un5System hF ζ).graph :=
     rtsGraphAction (un5System hF ζ)
   have hP : IsGeneralizedPolygon (un5System hF ζ).graph 4 :=
     un5System_isGeneralizedPolygon (hF := hF) (ζ := ζ)

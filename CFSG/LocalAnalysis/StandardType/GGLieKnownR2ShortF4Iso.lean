@@ -31,7 +31,7 @@ theorem finiteExceptionalAut_F4_map_rootGroup
         (GGLongRoot (f4Datum K) β' ↔ ¬ GGLongRoot (f4Datum K) β) := by
   change β ∈ CFSG.LieType.RootSystem.roots (f4Datum K).isFiniteType
     (f4Datum K).divisible at hβ
-  simp only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_setOf_eq] at hβ
+  simp only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_ofPred_eq] at hβ
   obtain ⟨w, i, rfl⟩ | ⟨w, i, hi, -⟩ := hβ
   · obtain ⟨ω, rfl⟩ := (datumCS (f4Datum K)).wordProd_surjective w
     let ρ : Fin (f4Datum K).rank → Fin (f4Datum K).rank := fun j => ReeTag.F4.perm j

@@ -19,7 +19,7 @@ theorem u_c_data {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
       (N - 1 : ℤ) • Torus.c := by
   rw [matAct_gen_eq]
   simp [Type330.action, SigmaFourAction.ofMatEq, Type330.uM, uMat, ofCols_apply,
-    zero_smul, one_smul, add_zero]
+    zero_smul, add_zero]
 
 theorem u_phiu_a_eq {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (-8 * F * (N - 1) : ℤ) • Torus.c (k := Type330.k m) +
@@ -60,11 +60,11 @@ theorem u_a_half {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     rw [h2]
     ring
   · refine ⟨0, ?_⟩
-    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Matrix.head_cons, Fin.isValue]
+    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Fin.isValue]
     ring
   · refine ⟨0, ?_⟩
     simp only [Type330.k, Type32x.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons,
-      Fin.reduceFinMk, Fin.isValue]
+      Fin.isValue]
     push_cast
     ring
 
@@ -130,11 +130,11 @@ theorem u_ab_half {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     rw [h2, h3]
     ring
   · refine ⟨0, ?_⟩
-    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Matrix.head_cons, Fin.isValue]
+    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Fin.isValue]
     ring
   · refine ⟨0, ?_⟩
     simp only [Type330.k, Type32x.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons,
-      Fin.reduceFinMk, Fin.isValue]
+      Fin.isValue]
     ring
 
 theorem uv_c_data {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
@@ -142,15 +142,14 @@ theorem uv_c_data {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
       (-i : ℤ) • Torus.c + (1 + N : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   rw [matAct_gen_eq]
   simp [Type330.action, SigmaFourAction.ofMatEq, Type330.uvM, ofCols_apply,
-    zero_smul, one_smul, add_zero]
+    one_smul]
 
 theorem uv_a_data {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (Type330.action h).φuv (Torus.a (k := Type330.k m)) =
       (4 * F * i : ℤ) • Torus.c + (-5 * i : ℤ) • Torus.a +
         (2 * i : ℤ) • Torus.b := by
   rw [matAct_gen_eq]
-  simp [Type330.action, SigmaFourAction.ofMatEq, Type330.uvM, Type330.uvA, ofCols_apply,
-    zero_smul, one_smul, add_zero]
+  simp [Type330.action, SigmaFourAction.ofMatEq, Type330.uvM, Type330.uvA, ofCols_apply]
 
 theorem uv_a_half {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     (Type330.action h).φuv
@@ -181,7 +180,7 @@ theorem uv_a_half {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     rw [h2]
     ring
   · refine ⟨4 * (5 * G + 12), ?_⟩
-    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Matrix.head_cons, Fin.isValue]
+    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Fin.isValue]
     rw [show i = 8 * G + 19 from h.hi]
     have hm : 2 ≤ m := h.hm
     have h2 : (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) := by
@@ -194,7 +193,7 @@ theorem uv_a_half {m : ℕ} {i F G N : ℤ} (h : Type32x.Data m i F G N) :
     ring
   · refine ⟨-i, ?_⟩
     simp only [Type330.k, Type32x.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons,
-      Fin.reduceFinMk, Fin.isValue]
+      Fin.isValue]
     have hm : 2 ≤ m := h.hm
     have h2 : (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) := by
       have hm1 : m = (m - 1) + 1 := by omega
@@ -279,7 +278,7 @@ theorem uv_preimage {m : ℕ} {i F G N : ℤ} (hm3 : 3 ≤ m) (h : Type32x.Data 
     rw [h2]
     ring
   · refine ⟨2 * (5 * G + 12) - (2 : ℤ) ^ (m - 3), ?_⟩
-    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Matrix.head_cons, Fin.isValue]
+    simp only [Type330.k, Type32x.k, Matrix.cons_val_one, Fin.isValue]
     rw [show i = 8 * G + 19 from h.hi]
     rw [show N = (2 : ℤ) ^ (m - 1) from h.hN]
     have h2 : (2 : ℤ) ^ (m - 1) = 2 * 2 ^ (m - 2) := by
@@ -303,7 +302,7 @@ theorem uv_preimage {m : ℕ} {i F G N : ℤ} (hm3 : 3 ≤ m) (h : Type32x.Data 
     ring
   · refine ⟨-F, ?_⟩
     simp only [Type330.k, Type32x.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons,
-      Fin.reduceFinMk, Fin.isValue]
+      Fin.isValue]
     rw [show i = 8 * G + 19 from h.hi]
     rw [show F = 4 * G + 9 from h.hF]
     have h2 : (2 : ℤ) ^ m = 4 * 2 ^ (m - 2) := by
@@ -381,6 +380,7 @@ theorem t330_φuv_ab_half (m : ℕ) (hm : 3 ≤ m) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t330_u_swaps_a_half {D : Subgroup G} {m : ℕ} (hm : 3 ≤ m)
     (dD : StrothWeakTypeData D (StrothTypeIndex.t330 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (m - 1)) * dD.u = (dD.b : G) ^ 2 ^ (m - 1) := by
@@ -402,8 +402,8 @@ theorem t330_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (m - 1) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 2) * ab ^ 2 ^ (m - 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ m := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -564,7 +564,7 @@ theorem t330_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
       (2 ^ (m - 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t330 m hm).k) := by
     intro htor
     have h1 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h1
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h1
     exact two_pow_pred_ne_zero (n := m) (by omega) h1
   have hahb_ne : ah ≠ bh := by
     intro heq
@@ -612,6 +612,7 @@ theorem t330_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t330_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t330 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ (m - 2) =
@@ -631,8 +632,8 @@ theorem t330_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

@@ -15,7 +15,7 @@ theorem exists_fixed_order_three_lift {Y : Type} [Group Y] [Finite Y] {J : Subgr
     ∃ t : ↥J, z * (t : Y) * z⁻¹ = (t : Y) ∧ t ^ 3 = 1 ∧
       (QuotientGroup.mk t : barOf 3 J) ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup ↥J := GLAPPrimeCore 3 ↥J with hN
   set γ : ↥(stabAut J) := ⟨MulAut.conj z, hz⟩ with hγ
   obtain ⟨t₁, ht₁⟩ := QuotientGroup.mk_surjective tb
@@ -35,7 +35,7 @@ theorem exists_fixed_order_three_lift {Y : Type} [Group Y] [Finite Y] {J : Subgr
     intro y y' h
     apply Subtype.ext
     exact ρ.injective (congrArg Subtype.val h)
-  haveI : Finite T := Subtype.finite
+  have : Finite T := Subtype.finite
   let f : Equiv.Perm T := Equiv.ofBijective g hginj.bijective_of_finite
   have hρ3 : ∀ y : ↥J, ρ (ρ (ρ y)) = y := fun y => by
     apply Subtype.ext

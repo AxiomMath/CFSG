@@ -29,7 +29,7 @@ theorem nrep_Y : NRep 17 Ly0.deg NY0 Ly0.y0G := by
 theorem fix_y0 : {x : Fin Ly0.deg | Ly0.y0G x = x} = O0 := by
   have hf := fixM_sound (stagesValid_of_netValid ly6110_cp3validY) ly6110_cp3fix
   ext x
-  rw [Set.mem_setOf_eq, ← isMask_O0.mem x, hf x x.2, nrep_Y x, Fin.ext_iff]
+  rw [Set.mem_ofPred_eq, ← isMask_O0.mem x, hf x x.2, nrep_Y x, Fin.ext_iff]
 
 theorem img_smul (g : Perm (Fin Ly0.deg)) (S : Set (Fin Ly0.deg)) : g '' S = g • S := by
   ext x
@@ -42,7 +42,7 @@ theorem smul_fix_eq {w y : Perm (Fin Ly0.deg)} (h : w * y = y * w) :
     y • {x | w x = x} = {x | w x = x} := by
   have h' : w * y⁻¹ = y⁻¹ * w := (Commute.inv_right (show Commute w y from h)).eq
   ext x
-  rw [Set.mem_smul_set_iff_inv_smul_mem, Perm.smul_def, Set.mem_setOf_eq, Set.mem_setOf_eq]
+  rw [Set.mem_smul_set_iff_inv_smul_mem, Perm.smul_def, Set.mem_ofPred_eq, Set.mem_ofPred_eq]
   have e : w (y⁻¹ x) = y⁻¹ (w x) := by rw [← Perm.mul_apply, h', Perm.mul_apply]
   rw [e]
   exact (y⁻¹).injective.eq_iff

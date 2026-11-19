@@ -31,27 +31,33 @@ namespace Setting16
 
 variable {G : Type} [Group G] [Finite G] {Q Y : Subgroup G} {τ ω : G}
 
+omit [Finite G] in
 theorem tau_inv_eq (h : Setting16 Q Y τ ω) : τ⁻¹ = τ := by
   have h2 : τ * τ = 1 := by rw [← pow_two]; exact h.tau_sq
   exact inv_eq_of_mul_eq_one_right h2
 
+omit [Finite G] in
 theorem om_inv_eq (h : Setting16 Q Y τ ω) : ω⁻¹ = ω := by
   have h2 : ω * ω = 1 := by rw [← pow_two]; exact h.om_sq
   exact inv_eq_of_mul_eq_one_right h2
 
+omit [Finite G] in
 theorem Y_le_Q (h : Setting16 Q Y τ ω) : Y ≤ Q := by
   intro a ha
   exact ((h.mem_Y a).mp ha).1
 
+omit [Finite G] in
 theorem tau_mul (h : Setting16 Q Y τ ω) {a : G} (ha : a ∈ Q) : τ * a = a⁻¹ * τ := by
   calc τ * a = τ * a * τ⁻¹ * τ := by group
     _ = a⁻¹ * τ := by rw [h.tau_inv a ha]
 
+omit [Finite G] in
 theorem om_conj_Y (h : Setting16 Q Y τ ω) {a : G} (ha : a ∈ Y) : ω * a * ω = a := by
   have hω : ω * ω = 1 := by rw [← pow_two]; exact h.om_sq
   calc ω * a * ω = a * ω * ω := by rw [h.om_cent_Y a ha]
     _ = a := by rw [mul_assoc, hω, mul_one]
 
+omit [Finite G] in
 theorem mem_closure_pair_iff (h : Setting16 Q Y τ ω) {x : G} :
     x ∈ closure ({τ, ω} : Set G) ↔ x = 1 ∨ x = τ ∨ x = ω ∨ x = τ * ω := by
   have hττ : τ * τ = 1 := by rw [← pow_two]; exact h.tau_sq
@@ -96,9 +102,10 @@ theorem mem_closure_pair_iff (h : Setting16 Q Y τ ω) {x : G} :
     · exact (closure ({τ, ω} : Set G)).mul_mem
         (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 theorem cosets (h : Setting16 Q Y τ ω) (x : G) :
     ∃ q ∈ Q, x = q ∨ x = q * τ ∨ x = q * ω ∨ x = q * (τ * ω) := by
-  haveI := h.normal
+  have := h.normal
   have hx : x ∈ Q ⊔ closure ({τ, ω} : Set G) := by
     rw [h.gen]
     exact Subgroup.mem_top x
@@ -109,6 +116,7 @@ theorem cosets (h : Setting16 Q Y τ ω) (x : G) :
   · exact ⟨q, hq, Or.inr (Or.inr (Or.inl (by rw [← hqz, h1])))⟩
   · exact ⟨q, hq, Or.inr (Or.inr (Or.inr (by rw [← hqz, h1])))⟩
 
+omit [Finite G] in
 theorem tau_not_mem (h : Setting16 Q Y τ ω) : τ ∉ Q := by
   intro hτQ
   obtain ⟨a, haQ, ha2⟩ := h.exists_sq
@@ -148,7 +156,7 @@ theorem card_le (h : Setting16 Q Y τ ω) : Nat.card G ≤ 4 * Nat.card Q := by
   omega
 
 theorem index_le (h : Setting16 Q Y τ ω) : Q.index ≤ 4 := by
-  haveI : Nonempty ↥Q := ⟨⟨1, Q.one_mem⟩⟩
+  have : Nonempty ↥Q := ⟨⟨1, Q.one_mem⟩⟩
   have hpos : 0 < Nat.card Q := Nat.card_pos
   have hcard := Subgroup.card_mul_index Q
   have hle := h.card_le
@@ -157,7 +165,7 @@ theorem index_le (h : Setting16 Q Y τ ω) : Q.index ≤ 4 := by
 
 theorem sup_Q_eq_top (h : Setting16 Q Y τ ω) {A : Subgroup G} (hA : 64 ≤ Nat.card A)
     (hAQ : Nat.card ↥(A ⊓ Q) ≤ 16) : A ⊔ Q = ⊤ := by
-  haveI := h.normal
+  have := h.normal
   have hrelA : (A ⊓ Q).relIndex A = Q.relIndex A := by
     rw [inf_comm]
     exact Subgroup.inf_relIndex_right Q A
@@ -191,6 +199,7 @@ theorem sup_Q_eq_top (h : Setting16 Q Y τ ω) {A : Subgroup G} (hA : 64 ≤ Nat
   have hEq : Nat.card ↥(A ⊔ Q) = Nat.card G := le_antisymm hleG (by omega)
   exact Subgroup.eq_top_of_card_eq (A ⊔ Q) hEq
 
+omit [Finite G] in
 theorem sq_mul_tau (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q) : (q * τ) ^ 2 = 1 := by
   have hτ : τ * τ = 1 := by rw [← pow_two]; exact h.tau_sq
   rw [pow_two]
@@ -198,6 +207,7 @@ theorem sq_mul_tau (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q) : (q * τ) ^
     _ = q * q⁻¹ * 1 := by rw [h.tau_inv q hq, hτ]
     _ = 1 := by simp
 
+omit [Finite G] in
 theorem sq_tau_mul (h : Setting16 Q Y τ ω) {q : G} (hq : q ∈ Q) : (τ * q) ^ 2 = 1 := by
   have hτ : τ * τ = 1 := by rw [← pow_two]; exact h.tau_sq
   have hτinv : τ⁻¹ = τ := inv_eq_of_mul_eq_one_right hτ

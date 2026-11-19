@@ -136,9 +136,9 @@ theorem burnsideB49x_psi_bijective (hK : Nat.card K = 2)
     (hreal : (FFModel.nat (CFSG.Open.StatedSL n K)).RealizesVia G U ⊥ π)
     (hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U)
     (φ : V ⧸ U ≃* DualGrp ↥U) : Function.Bijective (burnsideB49x_psi hV U φ) := by
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
-  haveI : Finite (Dual (ZMod 2) (burnsideB49_W hV U)) := Module.finite_of_finite (ZMod 2)
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (Dual (ZMod 2) (burnsideB49_W hV U)) := Module.finite_of_finite (ZMod 2)
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = n := burnsideB49_finrank_W hV hK hreal hquot
   have hcardU : Nat.card ↥U = Nat.card (Dual (ZMod 2) (burnsideB49_W hV U)) := by
     rw [burnsideB49_card_U hreal, hK, Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod,
@@ -233,8 +233,8 @@ theorem burnsideB49x_isLevi (hbij : Function.Bijective (burnsideB49_iota hV U G 
     (u₀ : ↥U) {w₀ : burnsideB49_W hV U} (hw₀ : burnsideB49x_psi hV U φ u₀ w₀ = 1) :
     CFSG.ASVolI.ChB.IsLeviComplement (G ⊓ stabSub (Subgroup.zpowers (u₀ : V)))
       (burnsideB49x_preW hV U G hG (burnsideB49_K (burnsideB49x_psi hV U φ u₀) w₀)) := by
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   rw [burnsideB49x_stabSub_eq_preW hV U G hG φ hφ u₀]
   have hcore : CFSG.Open.pCoreOf 2 (burnsideB49x_preW hV U G hG
       (burnsideB49_stab (burnsideB49x_psi hV U φ u₀))) =
@@ -308,7 +308,7 @@ theorem burnsideB49x_five_levi (hK : Nat.card K = 2)
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
   have hbij := burnsideB49_iota_bijective hV hK hreal hquot
   set Â := burnsideB49x_hatW hV U G hG A with hÂ
-  obtain ⟨w₀, hw₀C, hw₀Z⟩ := SetLike.not_le_iff_exists.1 hlt
+  obtain ⟨w₀, hw₀C, hw₀Z⟩ := IsConcreteLE.not_le_iff_exists.1 hlt
   obtain ⟨f, hf0, hfZ⟩ := Submodule.exists_le_ker_of_notMem hw₀Z
   have hf1 : f w₀ = 1 := by
     have key : ∀ t : ZMod 2, t ≠ 0 → t = 1 := by decide
@@ -339,6 +339,7 @@ theorem burnsideB49x_five_levi (hK : Nat.card K = 2)
         (show (⟨a, hAG ha⟩ : ↥G) ∈ A.subgroupOf G from ha))
 
 include hV in
+omit [Finite K] in
 theorem burnsideB49x_five_rad
     (hreal : (FFModel.nat (CFSG.Open.StatedSL 5 K)).RealizesVia G U ⊥ π)
     (hdual : CFSG.ASVolI.ChB.QuotIsoDual G U) {A : Subgroup (MulAut V)} (hAG : A ≤ G)

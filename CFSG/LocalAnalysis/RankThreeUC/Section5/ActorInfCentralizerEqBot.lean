@@ -24,7 +24,7 @@ theorem actor_inf_centralizer_eq_bot {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     have hcardE : Nat.card (E.subgroupOf P) = p ^ k := by
       rw [← hcard]
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEP).toEquiv
-    haveI : Fintype (E.subgroupOf P) := Fintype.ofFinite _
+    have : Fintype (E.subgroupOf P) := Fintype.ofFinite _
     have hle := IsCyclic.card_pow_eq_one_le (α := E.subgroupOf P) (n := p) hp.pos
     have hall : (Finset.univ.filter fun x : E.subgroupOf P => x ^ p = 1) = Finset.univ := by
       ext x

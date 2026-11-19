@@ -24,7 +24,7 @@ theorem orderOf_mul_conj_commutator_ne_two_pow {X : Type} [Group X] [Finite X]
     (hdS : d ∉ (S : Subgroup X)) :
     ∀ n : ℕ, orderOf (θ * MulAut.conj d * θ⁻¹ * (MulAut.conj d)⁻¹) ≠ 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconj_inj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     P22y.conj_injective_of_center_eq_bot hZ
   have hSmap : (S : Subgroup X).map (θ : X ≃* X).toMonoidHom = (S : Subgroup X) := by
@@ -79,7 +79,7 @@ private theorem Ctx23L.exists_b_sylow_of_sz {D : Data G} {Ch : Choice2011 G}
         inducedQuotInfAut K b hbK y * y⁻¹ ∈ (S : Subgroup (xbar K)) →
           y ∈ (S : Subgroup (xbar K))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hm2, hP1⟩ := c₁.exists_mem_B0_not_mem_centralizer_Z hE h207 h52 h53 h1930
   have hne1 : 2 ^ CFSG.Open.pRank 2 D.Z - 1 ≠ 1 := by
     have h4 : 4 ≤ 2 ^ CFSG.Open.pRank 2 D.Z := by
@@ -112,7 +112,7 @@ theorem Ctx23L.false_of_szTorus_low {D : Data G} {Ch : Choice2011 G}
     (hx : ∀ b ∈ c₁.L0, b * x * b⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 c₁.L0) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, S, hbK, -, hbL0, -, hScoe, hSinv, hfp⟩ :=
     c₁.exists_b_sylow_of_sz hE h207 h52 h53 h54 h215 h2115 hBor hCentSz hsig h1930 hK hSz hne
   have hcomm_mem : b * x * b⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 c₁.L0 := hx b hbL0

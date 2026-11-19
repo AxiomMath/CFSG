@@ -38,7 +38,7 @@ theorem exists_joint_eigen {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGrou
   by_cases hV : Subsingleton V
   · refine ⟨PEmpty, inferInstance, PEmpty.elim, PEmpty.elim, ?_, ?_, ?_, ?_⟩
     · intro t; exact t.elim
-    · rw [iSupIndep_iff_finset_sum_eq_zero_imp_eq_zero]
+    · rw [iSupIndep_iff_finsetSum_eq_zero_imp_eq_zero]
       intro s v _ _ i _
       exact i.elim
     · have hbot : (⊤ : Submodule F V) = ⊥ :=
@@ -46,7 +46,7 @@ theorem exists_joint_eigen {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGrou
       rw [iSup_of_empty]
       exact hbot.symm
     · intro t; exact t.elim
-  · haveI : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
+  · have : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
     let f : G → Module.End F V := fun g => (φ g : V →ₗ[F] V)
     have hfcomm : Pairwise fun g h : G => Commute (f g) (f h) := by
       intro g h _
@@ -71,7 +71,7 @@ theorem exists_joint_eigen {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGrou
     let W : T → Submodule F V := fun t => ⨅ g, (f g).eigenspace (t.1 g)
     let χ : T → G → F := fun t => t.1
     have hFin : Finite T := by
-      haveI : Fintype T := hind.fintypeNeBotOfFiniteDimensional
+      have : Fintype T := hind.fintypeNeBotOfFiniteDimensional
       exact Finite.of_fintype T
     have hWne : ∀ t, W t ≠ ⊥ := fun t => t.2
     have hindW : iSupIndep W := hind.comp Subtype.val_injective

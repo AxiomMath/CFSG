@@ -80,7 +80,7 @@ theorem suzLike_of_suzukiModel {S : Type} [Group S] [Finite S]
       exact this.symm
     rw [hcenter, Subgroup.mem_bot] at this
     exact this
-  obtain ⟨j, hj⟩ := Q.isPGroup' ⟨y, hy⟩
+  obtain ⟨j, hj⟩ := Q.isPGroup ⟨y, hy⟩
   have hyj : y ^ 2 ^ j = 1 := congrArg Subtype.val hj
   have hord1 : orderOf y ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hyk
   have hord2 : orderOf y ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one hyj

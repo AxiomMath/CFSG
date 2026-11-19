@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.ComponentClassification.OutcomeLocalMcLGenerate
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic

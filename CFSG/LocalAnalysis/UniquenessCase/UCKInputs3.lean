@@ -18,7 +18,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 @[expose] def KSch : Prop :=
   ∀ (J : Type) [Group J] [Finite J], IsSimpleGroup J → CFSG.Open.IsKGroup J →
-    IsSolvable (MulAut J ⧸ (MulAut.conj : J →* MulAut J).range)
+    Group.IsSolvable (MulAut J ⧸ (MulAut.conj : J →* MulAut J).range)
 
 @[expose] def KMult : Prop :=
   ∀ (J : Type) [Group J] [Finite J], CFSG.Open.IsQuasisimple J →

@@ -18,7 +18,7 @@ theorem exists_conjugate_center_in_local
     ∃ g : G, conjugate (critCenter D) g ≤ M ∧ conjugate (critCenter D) g ≠ critCenter D := by
   classical
   obtain ⟨hYcyc, hY2, hYcard, hTI, hnorm, -⟩ := center_facts h
-  haveI : IsCyclic (critCenter D) := hYcyc
+  have : IsCyclic (critCenter D) := hYcyc
   have hTN : normalizer (T : Set G) = M := normalizer_order_four_eq h hTY hT4
   obtain ⟨g, hgT, hgne⟩ := hT
   have hTcyc : IsCyclic T :=

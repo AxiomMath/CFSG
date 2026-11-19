@@ -21,7 +21,7 @@ theorem s16h_e3_sl28_cover_gen (D : Data G) (S : s16h_Std D) {V L : Subgroup G}
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 3)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :

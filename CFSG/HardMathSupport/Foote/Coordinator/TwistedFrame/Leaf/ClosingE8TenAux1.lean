@@ -62,7 +62,7 @@ theorem Qθ_le_of_gen {G₀ : Subgroup (ModGL Tag.E8 F)}
 
 theorem actsBy_iff_le {g : ModGL Tag.E8 F} {M : Fn F →ₗ[F] Fn F} :
     ActsBy g M ↔ Qθ Tag.E8 F ≤ lactGood g M :=
-  ⟨fun h q hq => ⟨hq, h q hq⟩, fun h q hq => (h hq).2⟩
+  ⟨fun h _q hq => ⟨hq, h _q hq⟩, fun h _q hq => (h hq).2⟩
 
 @[expose] def Eop (a : (Fin Tag.E8.rank → ℤ) → (Fin Tag.E8.rank → ℤ) → ℤ) (γ : Fin Tag.E8.rank → ℤ) :
     Fn F →ₗ[F] Fn F where
@@ -171,7 +171,7 @@ theorem conj_gen_deg1' {γ μ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinse
       pinnedX_mem_Qθ_of_mem_Deg1 hD _
     have hconj := conj_of_root' hγ0 hμ1 hγr hμr h t c
     have he : t * (aE8 γ μ : F) * c = (commConst .E8 γ μ (1, 1) : F) * t * c := by
-      rw [aE8, if_pos (mem_rootFinset.2 h)]
+      rw [aE8, ite_eq_left (mem_rootFinset.2 h)]
       ring
     constructor
     · rw [hconj]
@@ -184,7 +184,7 @@ theorem conj_gen_deg1' {γ μ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinse
     constructor
     · rw [hconj]
       exact hμQ
-    · rw [hconj, hμc, actFun_single', aE8, if_neg hn]
+    · rw [hconj, hμc, actFun_single', aE8, ite_eq_right hn]
       simp
 
 theorem commute_theta' {γ : Fin Tag.E8.rank → ℤ} (hγ : γ ∈ rootFinset .E8) (hγ0 : γ 7 = 0)
@@ -254,7 +254,7 @@ theorem actsBy_torus (b : Fin Tag.E8.rank → Fˣ) : ActsBy (rootDiagUnit Tag.E8
       by_cases h : ν = β
       · subst h
         simp [diagOp_apply]
-      · simp [diagOp_apply, Pi.single_apply, h]
+      · simp [diagOp_apply, h]
   · have hθ : pinnedX Tag.E8 F (highRoot .E8) c ∈ Qθ Tag.E8 F := pinnedX_mem_rootSpan
       (by
         rw [mem_parabolicRadicalRoots_iff]
@@ -339,7 +339,7 @@ open Classical in
 
 theorem actsBy_linAct {g : ModGL Tag.E8 F} (hg : g ∈ Lθ Tag.E8 F) : ActsBy g (linAct g) := by
   have h := exists_actsBy hg
-  rw [linAct, dif_pos h]
+  rw [linAct, dite_eq_left h]
   exact h.choose_spec
 
 theorem actsBy_unique {g : ModGL Tag.E8 F} {M M' : Fn F →ₗ[F] Fn F} (h : ActsBy g M)
@@ -389,9 +389,9 @@ theorem adm_aE8 : Adm aE8 := by
   refine ⟨fun h => ?_, fun h => ?_⟩
   · obtain ⟨hε, -⟩ := (simply_laced_root_commutator_unit.{0} .E8
       (Or.inr (Or.inr (Or.inr rfl))) (mem_rootFinset.1 hγ) hμr hne hne').1 (mem_rootFinset.1 h)
-    rw [aE8, if_pos h]
+    rw [aE8, ite_eq_left h]
     rcases hε with h' | h' <;> simp [h']
-  · rw [aE8, if_neg h]
+  · rw [aE8, ite_eq_right h]
 
 theorem Eop_single (a : (Fin Tag.E8.rank → ℤ) → (Fin Tag.E8.rank → ℤ) → ℤ)
     (γ μ : Fin Tag.E8.rank → ℤ) (c : F) :

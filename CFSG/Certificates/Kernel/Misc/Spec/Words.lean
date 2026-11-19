@@ -73,7 +73,7 @@ theorem chCode_ofNat (c : ℕ) : chCode (Char.ofNat c) = kCode c := by
   · have hc' : 128 ≤ c := by omega
     have hk : kCode c = none := by
       unfold kCode
-      rw [if_pos (letterK_ge hc')]
+      rw [ite_eq_left (letterK_ge hc')]
     rw [hk]
     unfold chCode
     rw [letterIdx_ofNat_ge hc']
@@ -97,7 +97,7 @@ theorem parseK_cons (c : ℕ) (r : List ℕ) :
       rw [Bool.eq_false_iff]
       intro h'
       exact h (Nat.eq_of_beq_eq_true h')
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     cases CFSG.KC.Misc.G24.lowerK c <;> rfl
 
 theorem parseK_eq_filterMap (r : List ℕ) :
@@ -142,9 +142,9 @@ theorem xor_one_enc {m : ℕ} (i : Fin m) (b : Bool) :
       simp
     omega
   cases b
-  · simp only [encL, Bool.not_false, Bool.false_eq_true, if_true, if_false, Bool.true_eq_false]
+  · simp only [encL, Bool.not_false, Bool.false_eq_true, ite_true, ite_false]
     exact key _ _ rfl (by omega)
-  · simp only [encL, Bool.not_true, Bool.false_eq_true, if_true, if_false]
+  · simp only [encL, Bool.not_true, Bool.false_eq_true, ite_true, ite_false]
     exact key _ _ (by omega) (by omega)
 
 theorem invRevK_acc (w acc : List ℕ) :
@@ -303,7 +303,7 @@ theorem coverK_eq (RS : List (List ℕ)) (PS : List (List (List ℕ × List ℕ)
     rw [e, commK_enc]
   · rw [flatMap_singleton_eq]
     refine List.map_congr_left fun a _ => ?_
-    simp only [Function.comp_apply, encG, List.map_cons, encL, if_false]
+    simp only [Function.comp_apply, encG, List.map_cons, encL]
     rw [nthP_eq, commsK_eq]
     simp [encG]
 

@@ -116,7 +116,7 @@ theorem torusStep_of_secData
       exists_prod_of_mem_iSup W (hWtop ▸ Subgroup.mem_top (qv M₀ M₁ x))
     have havg : ∀ j, avgMap (Θi j) x ∈ M₁ ∧ qv M₀ M₁ (avgMap (Θi j) x) = f j := by
       intro j
-      haveI : Fintype ↥(Θi j) := Fintype.ofFinite _
+      have : Fintype ↥(Θi j) := Fintype.ofFinite _
       have hmem : avgMap (Θi j) x ∈ M₁ :=
         avgMap_mem (fun g hg w hw => hM₁Θ g (hΘ.Θi_le j hg) w hw) hxM₁
       refine ⟨hmem, ?_⟩
@@ -136,7 +136,7 @@ theorem torusStep_of_secData
       exact (qv_act hS.inv hS.stab₀ (hΘL (hΘ.Θi_le j g.2)) hxM₁).symm
     have hEE : EE Θi x = ∏ j, avgMap (Θi j) x := by
       unfold EE
-      rw [MonoidHom.finset_prod_apply]
+      rw [MonoidHom.finsetProd_apply]
     have hEEM : EE Θi x ∈ M₁ := by
       rw [hEE]
       exact Subgroup.prod_mem _ fun j _ => (havg j).1

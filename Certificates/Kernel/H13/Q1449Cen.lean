@@ -39,9 +39,9 @@ private theorem xs0 : xsS 0 = unpackM 10946295793368367362 := by decide +kernel
 
 private theorem xs1 : xsS 1 = unpackM 8617934786034467331 := by decide +kernel
 
-private theorem gam0 : gamE 0 = D.h2L.map unpackM := by rw [gamE, if_pos rfl, h2E_eq]
+private theorem gam0 : gamE 0 = D.h2L.map unpackM := by rw [gamE, ite_eq_left rfl, h2E_eq]
 
-private theorem gam1 : gamE 1 = D.omNL.map unpackM := by rw [gamE, if_neg Nat.one_ne_zero, omNE_eq]
+private theorem gam1 : gamE 1 = D.omNL.map unpackM := by rw [gamE, ite_eq_right Nat.one_ne_zero, omNE_eq]
 
 set_option maxHeartbeats 0 in
 private theorem cen0 : (gamE 0).filter (fun x => mul8 x (xsS 0) == mul8 (xsS 0) x) =

@@ -97,7 +97,7 @@ theorem odd_orderOf_of_mem_fittingOf [Finite V] {G : Subgroup (MulAut V)}
   have hnormN : G ≤ Subgroup.normalizer (N : Set (MulAut V)) := fun g hg =>
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (H := fittingOf G) _
       (hGnorm hg)
-  have hpN : IsPGroup 2 ↥N := P.isPGroup'.map (fittingOf G).subtype
+  have hpN : IsPGroup 2 ↥N := P.isPGroup.map (fittingOf G).subtype
   have hle := CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hNG hnormN hpN
   rw [hO2] at hle
   have hy1 : ((y : ↥(fittingOf G)) : MulAut V) ∈ N := Subgroup.mem_map_of_mem _ hyP

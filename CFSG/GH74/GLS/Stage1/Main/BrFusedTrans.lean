@@ -106,7 +106,7 @@ theorem FusedCtx.normal_E : ((C.E₁ ⊔ C.E₂).subgroupOf C.X).Normal := by
 omit [Finite G] in
 theorem FusedCtx.oRes_X : oResidual 2 ↥C.X = (C.E₁ ⊔ C.E₂).subgroupOf C.X := by
   have hT : IsPGroup 2 ↥(((C.S₁ : Subgroup Gs)).subgroupOf C.X) :=
-    C.S₁.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe C.S₁_le_X).symm
+    C.S₁.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe C.S₁_le_X).symm
   have hY : C.E₁.subgroupOf C.X ⊔ C.E₂.subgroupOf C.X ⊔ (C.S₁ : Subgroup Gs).subgroupOf C.X = ⊤ := by
     rw [← Subgroup.subgroupOf_sup C.E₁_le_X C.E₂_le_X,
       ← Subgroup.subgroupOf_sup C.E_le_X C.S₁_le_X, ← C.X_eq]
@@ -128,7 +128,7 @@ theorem FusedCtx.comps_X :
     {K : Subgroup ↥C.X | IsComponent K} = {C.E₁.subgroupOf C.X, C.E₂.subgroupOf C.X} := by
   have hcomp := C.pkg.data.comps
   have hT : IsPGroup 2 ↥((C.S₁ : Subgroup Gs).subgroupOf C.X) :=
-    C.S₁.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe C.S₁_le_X).symm
+    C.S₁.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe C.S₁_le_X).symm
   have hY : C.E₁.subgroupOf C.X ⊔ C.E₂.subgroupOf C.X ⊔ (C.S₁ : Subgroup Gs).subgroupOf C.X = ⊤ := by
     rw [← Subgroup.subgroupOf_sup C.E₁_le_X C.E₂_le_X,
       ← Subgroup.subgroupOf_sup C.E_le_X C.S₁_le_X, ← C.X_eq]

@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_normalizer_inf_centralizer_singleton {V : Subgroup G} {y f : G}
     (hfV : f ∈ Subgroup.normalizer (V : Set G))
     (hfC : f ∈ Subgroup.centralizer ({y} : Set G)) :

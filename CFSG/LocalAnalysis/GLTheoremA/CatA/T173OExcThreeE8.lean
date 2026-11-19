@@ -165,9 +165,9 @@ theorem stdVanishes_or_stdExtendsN_three_E8_two (hF : Nat.card F = 2)
   by_cases hv : StdVanishes A d
   · exact Or.inl hv
   obtain ⟨T, hT, hT2, hTN⟩ := not_not.1 hv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   obtain ⟨g, hAg, hKg⟩ := exists_conj_le_e7Levi_of_stdElt hF hAel h7 hd hT hT2 hTN
   have hcard' : Nat.card (A.map (MulAut.conj g).toMonoidHom) = Nat.card A :=

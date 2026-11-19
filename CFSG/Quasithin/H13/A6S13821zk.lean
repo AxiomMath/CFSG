@@ -14,6 +14,7 @@ attribute [local instance] commGroupOfFact
 
 variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
 
+omit [Finite G] in
 theorem autIH_perfect (hF : HypF918 T V L V₁ Vp H K) (hK₀ : conjClosure K T = K)
     [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] :
     ⁅autIH V₁ I H K, autIH V₁ I H K⁆ = autIH V₁ I H K := by

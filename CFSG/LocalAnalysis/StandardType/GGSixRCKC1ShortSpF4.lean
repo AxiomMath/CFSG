@@ -168,7 +168,7 @@ theorem rckGL1_of_cent
   rw [← hk'eq, ← hy's, ← map_mul, ← map_mul, hk'y']
 
 theorem rck_lemmaHC_BC_short
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .PSp m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .PSp m g).D.rank → ℤ}
     (hβ : β ∈ (ggU .PSp m g).D.roots) : RCKLemmaHCent (ggU .PSp m g) β := by
   change RCKLemmaHCent
     ⟨StatedSp m (GaloisField 2 g), Symplectic.rootDatum m (GaloisField 2 g)⟩ β
@@ -178,8 +178,8 @@ theorem rck_lemmaHC_F4_short
     {n f : ℕ} (hf : 1 ≤ f) {β : Fin (ggU .F4 n f).D.rank → ℤ}
     (hβ : β ∈ (ggU .F4 n f).D.roots) (hs : ¬ GGLongRoot (ggU .F4 n f).D β) :
     RCKLemmaHCent (ggU .F4 n f) β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 f) ReeTag.F4.prime :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (GaloisField 2 f) ReeTag.F4.prime :=
     inferInstanceAs (CharP (GaloisField 2 f) 2)
   let φ : MulAut (ggU .F4 n f).K := ReeTag.F4.finiteExceptionalAut (GaloisField 2 f)
   obtain ⟨β', hβ', hXβ', hXmβ', hlong⟩ :=

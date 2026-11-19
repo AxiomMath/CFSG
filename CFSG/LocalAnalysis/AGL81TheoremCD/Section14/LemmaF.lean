@@ -22,7 +22,7 @@ variable {X : Type} [Group X] [Finite X]
 
 private theorem pCoreOf_two_inf_eq_pCoreOf_two {K : Subgroup X} (hKn : K.Normal) :
     K ⊓ CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) = CFSG.Open.pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore 2]
   rw [CFSG.Open.pCoreOf]
   exact (CFSG.LocalAnalysis.ComponentInitial.pCore_normal_intersection 2 hKn).symm
@@ -37,9 +37,9 @@ theorem le_pCoreOf_two_of_commutator_le {K S Y : Subgroup X} (hS : IsPGroup 2 S)
   let O : Subgroup X := CFSG.Open.pCoreOf 2 (⊤ : Subgroup X)
   have hOnormal : O.Normal := by
     dsimp [O]
-    haveI : (CFSG.pCore 2 (⊤ : Subgroup X)).Characteristic := CFSG.pCore_characteristic
+    have : (CFSG.pCore 2 (⊤ : Subgroup X)).Characteristic := CFSG.pCore_characteristic
     exact ConjAct.normal_of_characteristic_of_normal
-  letI : O.Normal := hOnormal
+  let : O.Normal := hOnormal
   let π : X →* X ⧸ O := QuotientGroup.mk' O
   let Kbar : Subgroup (X ⧸ O) := K.map π
   let Ybar : Subgroup (X ⧸ O) := Y.map π
@@ -93,7 +93,7 @@ theorem le_pCoreOf_two_of_commutator_le {K S Y : Subgroup X} (hS : IsPGroup 2 S)
           rw [← hF1] at hmem
           exact hmem.2
         show φ k = 1
-        simp [φ, π, MonoidHom.mem_ker, hkO, QuotientGroup.eq_one_iff]
+        simp [φ, π, hkO, QuotientGroup.eq_one_iff]
     have eK : K ⧸ CFSG.pCore 2 K ≃* Kbar :=
       (QuotientGroup.quotientMulEquivOfEq hφker.symm).trans
         ((QuotientGroup.quotientKerEquivRange φ).trans (MulEquiv.subgroupCongr hφrange))
@@ -153,7 +153,7 @@ theorem le_pCoreOf_two_of_commutator_le {K S Y : Subgroup X} (hS : IsPGroup 2 S)
 
 
 theorem gnC_eq_pCoreOf_or_le_gnC {K S : Subgroup X}
-    (hC : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup X))
+    (_hC : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup X))
     (hS : IsPGroup 2 S)
     (hOS : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ S) (hKn : K.Normal)
     (hKS : K ⊔ S = ⊤)
@@ -180,7 +180,7 @@ theorem gnC_eq_pCoreOf_or_le_gnC {K S : Subgroup X}
       have hzcentS : z ∈ CFSG.Quasithin.centerOf S :=
         CFSG.Quasithin.A4.omegaOneCenterOf_le_centerOf S hz
       exact Subgroup.mem_centralizer_iff.mp hzcentS.2 o (hOS ho)
-    haveI : (Subgroup.centralizer (O : Set X)).Normal := Subgroup.normal_centralizer
+    have : (Subgroup.centralizer (O : Set X)).Normal := Subgroup.normal_centralizer
     have hVleCO : CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.gnV S ≤
         Subgroup.centralizer (O : Set X) := by
       rw [CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.gnV]
@@ -205,7 +205,7 @@ theorem gnC_eq_pCoreOf_or_le_gnC {K S : Subgroup X}
       infer_instance
     let q : K →* K ⧸ CFSG.pCore 2 K := QuotientGroup.mk' (CFSG.pCore 2 K)
     have hDsub_normal : (D.subgroupOf K).Normal := hDnormal.subgroupOf K
-    haveI : (D.subgroupOf K).Normal := hDsub_normal
+    have : (D.subgroupOf K).Normal := hDsub_normal
     have hmapne : (D.subgroupOf K).map q ≠ ⊥ := by
       intro hbot
       apply hle
@@ -243,11 +243,12 @@ theorem gnC_eq_pCoreOf_or_le_gnC {K S : Subgroup X}
     exact C.mul_mem hdC hoC
 
 
+omit [Finite X] in
 theorem normal_omegaOneCenterOf_of_le_gnC {K S : Subgroup X} (hKn : K.Normal) (hKS : K ⊔ S = ⊤)
     (hKleC : K ≤ CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.gnC S) :
     (CFSG.Quasithin.omegaOneCenterOf S).Normal := by
   classical
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   set Z : Subgroup X := CFSG.Quasithin.omegaOneCenterOf S with hZ
   refine ⟨fun z hz g => ?_⟩
   have hg : g ∈ K ⊔ S := by rw [hKS]; exact Subgroup.mem_top g
@@ -344,7 +345,7 @@ theorem thompsonJ_le_pCoreOf_of_l34
   have hCnormal : C.Normal := by
     rw [hCdef]
     infer_instance
-  letI : C.Normal := hCnormal
+  let : C.Normal := hCnormal
   let π : X →* X ⧸ C := QuotientGroup.mk' C
   let Kstar : Subgroup (X ⧸ C) :=
     CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.gnImg S K
@@ -386,7 +387,7 @@ theorem thompsonJ_le_pCoreOf_of_l34
         rw [hCeq]
         exact hkO
       show φ k = 1
-      simp [φ, π, MonoidHom.mem_ker, hkC, QuotientGroup.eq_one_iff]
+      simp [φ, π, hkC, QuotientGroup.eq_one_iff]
   have eK : K ⧸ CFSG.pCore 2 K ≃* Kstar :=
     (QuotientGroup.quotientMulEquivOfEq hφker.symm).trans
       ((QuotientGroup.quotientKerEquivRange φ).trans (MulEquiv.subgroupCongr hφrange))
@@ -402,7 +403,7 @@ theorem thompsonJ_le_pCoreOf_of_l34
     CFSG.HardMathSupport.Meierfrankenfeld.L34Offender.isPerfect_of_isLinThreeFour hKstar_lin
   have hKstar_qs : CFSG.Open.IsQuasisimple Kstar := by
     refine ⟨hKstar_perf.commutator_eq_top, ?_⟩
-    haveI : IsSimpleGroup Kstar := hKstar_simple
+    have : IsSimpleGroup Kstar := hKstar_simple
     let e : Kstar ⧸ Subgroup.center Kstar ≃* Kstar :=
       (QuotientGroup.quotientMulEquivOfEq hKstar_center).trans QuotientGroup.quotientBot
     exact e.isSimpleGroup
@@ -539,7 +540,7 @@ private theorem pCoreOf_two_ne_bot_of_l34
       CFSG.PGLModel.projSL 3 (GaloisField 2 2))) :
     CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hO
   set O : Subgroup X := CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) with hOdef
   have hFstar : CFSG.Open.quasithinGenFitting (⊤ : Subgroup X) = O :=
@@ -564,10 +565,10 @@ private theorem pCoreOf_two_ne_bot_of_l34
     rw [← hF1, hO]
     simp
   have hO2Knormal : (CFSG.Open.pCoreOf 2 K).Normal := by
-    letI : K.Normal := hKn
-    haveI : (CFSG.pCore 2 K).Characteristic := CFSG.pCore_characteristic
+    let : K.Normal := hKn
+    have : (CFSG.pCore 2 K).Characteristic := CFSG.pCore_characteristic
     exact ConjAct.normal_of_characteristic_of_normal
-  letI : (CFSG.Open.pCoreOf 2 K).Normal := hO2Knormal
+  let : (CFSG.Open.pCoreOf 2 K).Normal := hO2Knormal
   have hO2Kbot_int : CFSG.pCore 2 K = ⊥ :=
     Subgroup.map_injective K.subtype_injective (by
       rw [Subgroup.map_bot]
@@ -584,7 +585,7 @@ private theorem pCoreOf_two_ne_bot_of_l34
     CFSG.HardMathSupport.Meierfrankenfeld.L34Offender.isPerfect_of_isLinThreeFour hKlin
   have hKqs : CFSG.Open.IsQuasisimple K := by
     refine ⟨hKperf.commutator_eq_top, ?_⟩
-    haveI : IsSimpleGroup K := hKsimple
+    have : IsSimpleGroup K := hKsimple
     let e : K ⧸ Subgroup.center K ≃* K :=
       (QuotientGroup.quotientMulEquivOfEq hKcenter).trans QuotientGroup.quotientBot
     exact e.isSimpleGroup
@@ -605,12 +606,12 @@ theorem exists_char_normal_of_l34
     (hC : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup X)) {S K : Subgroup X}
     (hS : IsPGroup 2 S) (hOS : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ S) (hKn : K.Normal)
     (hKS : K ⊔ S = ⊤)
-    (hKodd : K = Subgroup.closure {x : X | x ∈ K ∧ Odd (orderOf x)})
+    (_hKodd : K = Subgroup.closure {x : X | x ∈ K ∧ Odd (orderOf x)})
     (hKL : Nonempty ((↥K ⧸ CFSG.pCore 2 ↥K) ≃*
       CFSG.PGLModel.projSL 3 (GaloisField 2 2))) :
     ∃ D : Subgroup X, D ≠ ⊥ ∧ D ≤ S ∧ (D.subgroupOf S).Characteristic ∧ D.Normal := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKLlin : CFSG.AGLEmbedding.IsLinThreeFour (K ⧸ CFSG.pCore 2 K) := by
     obtain ⟨e⟩ := hKL
     exact CFSG.AGLEmbedding.L34FF.isLinThreeFour_of_equiv e

@@ -39,7 +39,7 @@ namespace Cover46
 theorem not_three_dvd_card_center {G : Type} [Group G] [Finite G]
     (hperf : commutator G = ⊤) (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup G) = 1) :
     ¬ 3 ∣ Nat.card (Subgroup.center G) := by
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hperf
   intro h3
   have hpL : 3 ∣ Nat.card G := h3.trans (Subgroup.card_subgroup_dvd_card (Subgroup.center G))
   have h2 := (CFSG.SectionRank.perfect_cyclic_center_odd_elements (L := G) (p := 3)
@@ -87,8 +87,8 @@ theorem psl2_odd_of_lieModel
       (∃ (F : Type) (_ : Field F) (_ : Finite F), Odd (Nat.card F) ∧
         Nonempty (G ≃* SL(2, F))) := by
   obtain ⟨-, hf, F, _, _, hFcard, ⟨e₀⟩⟩ := CFSG.GH74.Generic.lieModel_psl_data hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
+  have : Fintype F := Fintype.ofFinite F
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
   have hG' : CFSG.IsQuasisimple G :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff G).2.2.1.mpr hG
   let e : (G ⧸ Subgroup.center G) ≃* PSL(2, F) :=
@@ -146,8 +146,8 @@ theorem psl2_even_center_eq_bot
     have : f ≠ 1 := fun h => hpf2 (by rw [h]; norm_num)
     omega
   obtain ⟨-, hf, F, _, _, hFcard, ⟨e₀⟩⟩ := CFSG.GH74.Generic.lieModel_psl_data hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
+  have : Fintype F := Fintype.ofFinite F
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
   have hG' : CFSG.IsQuasisimple G :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff G).2.2.1.mpr hG
   let e : (G ⧸ Subgroup.center G) ≃* PSL(2, F) :=
@@ -187,8 +187,8 @@ theorem psl3_center_eq_bot {G : Type} [Group G] [Finite G]
     (hL : LieModel (G ⧸ Subgroup.center G) .PSL 3 p f) :
     Subgroup.center G = ⊥ := by
   obtain ⟨-, hf, F, _, _, hFcard, ⟨e₀⟩⟩ := CFSG.GH74.Generic.lieModel_psl_data hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
+  have : Fintype F := Fintype.ofFinite F
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
   have hG' : CFSG.IsQuasisimple G :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff G).2.2.1.mpr hG
   let e : (G ⧸ Subgroup.center G) ≃* PSL(3, F) :=
@@ -217,7 +217,7 @@ theorem psl3_center_eq_bot {G : Type} [Group G] [Finite G]
   rcases (Nat.dvd_prime Nat.prime_three).1 hdvd3 with h1 | h3
   · exact Subgroup.eq_bot_of_card_eq _ h1
   · exfalso
-    exact h3Z (by simpa [h3])
+    exact h3Z (by simp [h3])
 
 theorem psu3_center_eq_bot
     {G : Type} [Group G] [Finite G]
@@ -226,9 +226,9 @@ theorem psu3_center_eq_bot
     (hL : LieModel (G ⧸ Subgroup.center G) .PSU 3 p f) :
     Subgroup.center G = ⊥ := by
   obtain ⟨hp, hf, F, _, _, hFcard, ⟨e₀⟩⟩ := CFSG.GH74.Generic.lieModel_psu_data hL
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hFcard
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hFcard
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hG.1
   have hG' : CFSG.IsQuasisimple G :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff G).2.2.1.mpr hG
   have hne : ((3 : ℕ), p ^ f) ≠ (3, 2) := by
@@ -250,7 +250,7 @@ theorem psu3_center_eq_bot
   rcases (Nat.dvd_prime Nat.prime_three).1 hdvd3 with h1 | h3
   · exact Subgroup.eq_bot_of_card_eq _ h1
   · exfalso
-    exact h3Z (by simpa [h3])
+    exact h3Z (by simp [h3])
 
 end Cover46
 
@@ -258,15 +258,15 @@ end Cover46
 theorem k46Quasisimple_holds
     : K46Quasisimple := by
   intro G _ _ hK hQ hrank
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hQ.1
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hQ.1
   have h3Z : ¬ 3 ∣ Nat.card (Subgroup.center G) :=
     Cover46.not_three_dvd_card_center hQ.1 hrank
   let X := G ⧸ Subgroup.center G
   have hXK : CFSG.Open.IsKGroup X := hK.quotient (Subgroup.center G)
   have hXsimple : IsSimpleGroup X := hQ.2
-  haveI : Nontrivial X := hXsimple.toNontrivial
+  have : Nontrivial X := hXsimple.toNontrivial
   have hXnab : ∃ a b : X, a * b ≠ b * a := by
-    haveI : Group.IsPerfect X :=
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center G))
     have hnc : ¬ IsMulCommutative X := Group.IsPerfect.not_isMulCommutative X
     rw [isMulCommutative_iff] at hnc

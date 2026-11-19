@@ -16,10 +16,10 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G]
 
 theorem sec126_le_of_alt5 [Finite G] {X H N : Subgroup G}
-    (hX : Nonempty (↥X ≃* ↥(alternatingGroup (Fin 5)))) (hXN : X ≤ N) (hHN : H ≤ N)
+    (hX : Nonempty (↥X ≃* ↥(alternatingGroup (Fin 5)))) (hXN : X ≤ N) (_hHN : H ≤ N)
     (hidx : H.relIndex N ≤ 2) : X ≤ H := by
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup ↥X := e.isSimpleGroup
+  have : IsSimpleGroup ↥X := e.isSimpleGroup
   have hpos : H.relIndex N ≠ 0 := Subgroup.index_ne_zero_of_finite
   have h1 : (H.subgroupOf X).index ≤ 2 :=
     (Subgroup.relIndex_le_of_le_right hXN hpos).trans hidx
@@ -31,7 +31,7 @@ theorem sec126_le_of_alt5 [Finite G] {X H N : Subgroup G}
     have : (⟨x, hx⟩ : ↥X) ∈ H.subgroupOf X := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.mp this
   · exfalso
-    haveI := Subgroup.normal_of_index_eq_two h
+    have := Subgroup.normal_of_index_eq_two h
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf X) with hb | ht
     · rw [hb, Subgroup.index_bot, Nat.card_congr e.toEquiv, nat_card_alternatingGroup] at h
       simp at h

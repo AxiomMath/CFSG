@@ -96,7 +96,7 @@ theorem pairing_det_mod_three {G : Type*} [Group G] {x y ω l₁ l₂ m : G} {a 
     rw [← mul_assoc] at h
     rw [zpow_add_one]
     exact mul_right_cancel h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have hdvd : ((orderOf ω : ℕ) : ℤ) ∣ (b * c + 1) - a * d :=
     orderOf_dvd_sub_iff_zpow_eq_zpow.mpr hEq

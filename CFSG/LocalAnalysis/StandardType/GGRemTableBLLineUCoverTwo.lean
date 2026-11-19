@@ -16,10 +16,10 @@ theorem unitaryCoverTwoEven_holds : UnitaryCoverTwoEven := by
   obtain ⟨r, rfl⟩ : ∃ r, d = 2 * r := ⟨d / 2, by obtain ⟨k, hk⟩ := hd; omega⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K :=
     ⟨Nat.prime_two, le_rfl, by norm_num [hK]⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by norm_num [hK]
   refine unitaryCoverAt_of_section (n := 1) ?_ ?_
-  · haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
+  · have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
       (show 4 ≤ 2 * r by omega)
     exact Group.IsPerfect.commutator_eq_top
   · intro E _ _ π hπ hcen

@@ -162,12 +162,12 @@ theorem exists_card_map_mk_twE6 {L : Type} [Group L] [Finite L] {q : TauCeti.Pri
       3 ^ 5 ≤ Nat.card (R.map (QuotientGroup.mk' (Subgroup.center L))) := by
   classical
   obtain ⟨F, _, σ, hF, hσ, ⟨e'⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hF]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP F q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP F q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hF, ← pow_mul])
   have hσ'' : ∀ x, σ.toRingHom x = x ^ (q.p ^ q.exponent) := fun x => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
@@ -182,7 +182,7 @@ theorem exists_card_map_mk_twE6 {L : Type} [Group L] [Finite L] {q : TauCeti.Pri
       x ∈ Subgroup.center L := fun x hx => by
     change Φ (QuotientGroup.mk x) = 1 at hx
     rwa [MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff] at hx
-  haveI : Finite ↥(twDerived σ.toRingHom) := Subtype.finite
+  have : Finite ↥(twDerived σ.toRingHom) := Subtype.finite
   obtain ⟨R, hR, hcard⟩ := exists_lift_twE6 σ.toRingHom q.exponent_pos h3 hF hσ'' _ hπs hker
   refine ⟨R, hR, ?_⟩
   rwa [← Subgroup.map_map, Subgroup.card_map_of_injective Φ.injective] at hcard

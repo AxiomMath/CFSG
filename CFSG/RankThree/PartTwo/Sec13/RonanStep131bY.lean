@@ -19,7 +19,7 @@ theorem exists_Y
     (h423 : Sec4.Item4_23) (hAlt : Sec4.Step463Alt)
     {G : Type} [Group G] [Finite G] (hst : PartTwoStanding G)
     {E F R : Subgroup G} {a b c : G}
-    (hEe : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27) (hbE : b ∈ E)
+    (hEe : CFSG.Assembly.IsElemAbelian 3 E) (_hE27 : Nat.card E = 27) (hbE : b ∈ E)
     (hFF : F ∈ partTwoF G) (hF27 : Nat.card F = 27) (haF : a ∈ F) (hbF : b ∈ F) (hcF : c ∈ F)
     (hb1 : b ≠ 1)
     (hB9 : Nat.card (Subgroup.zpowers a ⊔ Subgroup.zpowers c : Subgroup G) = 9)

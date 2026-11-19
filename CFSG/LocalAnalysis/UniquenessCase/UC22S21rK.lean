@@ -64,7 +64,7 @@ theorem uc22s21rk_two_ne_zero {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) : (2 : ZM
 
 theorem uc22s21rk_map_eq_one_of_perfect {G : Type*} [Group G] [Group.IsPerfect G] {A : Type*}
     [CommGroup A] (f : G →* A) (g : G) : f g = 1 := by
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   exact congrArg Subtype.val (Subsingleton.elim (⟨f g, g, rfl⟩ : f.range) 1)
 
 theorem uc22s21rk_isSolvable_of_cyclic_sylow {K : Type*} [Group K] [Finite K] (P : Sylow 2 K)
@@ -74,7 +74,7 @@ theorem uc22s21rk_isSolvable_of_cyclic_sylow {K : Type*} [Group K] [Finite K] (P
   have hs1 : Group.IsSolvable (pPrimeCore 2 K) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have : (pPrimeCore 2 K).Normal := hnormal
   have hs2 : Group.IsSolvable (K ⧸ pPrimeCore 2 K) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hq : IsPGroup 2 (K ⧸ pPrimeCore 2 K) :=
       IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card, hindex, hn])
     have := hq.isNilpotent
@@ -86,8 +86,8 @@ theorem uc22s21rk_eq_one_of_perfect {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {G 
     (hP : ∀ x ∈ P, ∀ y ∈ P, σ x * σ y = σ y * σ x) (g : G) : σ g = 1 := by
   have hdet : ∀ g : G, (σ g).det = 1 := fun g =>
     uc22s21rk_map_eq_one_of_perfect (Matrix.GeneralLinearGroup.det.comp σ) g
-  haveI : Group.IsPerfect σ.range := Group.IsPerfect.range σ
-  haveI : Finite σ.range := Finite.of_surjective _ σ.rangeRestrict_surjective
+  have : Group.IsPerfect σ.range := Group.IsPerfect.range σ
+  have : Finite σ.range := Finite.of_surjective _ σ.rangeRestrict_surjective
   let Pσ : Sylow 2 σ.range := P.mapSurjective σ.rangeRestrict_surjective
   have hcomm : ∀ x y : Pσ, x * y = y * x := by
     rintro ⟨x, hx⟩ ⟨y, hy⟩
@@ -110,8 +110,8 @@ theorem uc22s21rk_eq_one_of_perfect {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {G 
     · exact Or.inl (Subtype.ext (Subtype.ext h1))
     · exact Or.inr h1
   have hcyc : IsCyclic Pσ := by
-    letI : CommGroup Pσ := { (inferInstance : Group Pσ) with mul_comm := hcomm }
-    refine CFSG.ComponentClassification.FooteLit.isCyclic_of_unique_involution Pσ.isPGroup' ?_
+    let : CommGroup Pσ := { (inferInstance : Group Pσ) with mul_comm := hcomm }
+    refine CFSG.ComponentClassification.FooteLit.isCyclic_of_unique_involution Pσ.isPGroup ?_
     intro x y hx hy
     rcases key x hx with h1 | h1
     · exact Or.inl h1
@@ -121,7 +121,7 @@ theorem uc22s21rk_eq_one_of_perfect {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {G 
   have hsolv : Group.IsSolvable σ.range := uc22s21rk_isSolvable_of_cyclic_sylow Pσ hcyc
   have hsub : Subsingleton σ.range := by
     by_contra hns
-    haveI : Nontrivial σ.range := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial σ.range := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isSolvable σ.range hsolv
   exact congrArg Subtype.val (Subsingleton.elim (⟨σ g, g, rfl⟩ : σ.range) 1)
 
@@ -130,9 +130,9 @@ theorem uc22s21rk_perfect_le_ker_gl {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {W 
     (hS : ∀ s ∈ S, ∀ t ∈ S, σ s * σ t = σ t * σ s) {K : Subgroup W} (hK : ⁅K, K⁆ = K) :
     K ≤ σ.ker := by
   intro k hk
-  haveI : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
+  have : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
   obtain ⟨Q⟩ : Nonempty (Sylow 2 K) := inferInstance
-  obtain ⟨S', hS'⟩ := (Q.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S', hS'⟩ := (Q.isPGroup.map K.subtype).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq W S S'
   have hconj : ∀ x ∈ Q, ∃ s ∈ S, ((x : K) : W) = g * s * g⁻¹ := by
     intro x hx
@@ -162,11 +162,11 @@ theorem uc22s21rk_perfect_le_ker {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {V : T
   let Φ : MulAut V ≃* GL (Fin 2) (ZMod q) := (MulAut.congr e).trans (ruMulAutEquivGL 2)
   have hK' := uc22s21rk_perfect_le_ker_gl hq2 (Φ.toMonoidHom.comp ρ) S
     (fun s hs t ht => by
-      simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
       rw [← map_mul Φ (ρ s) (ρ t), ← map_mul Φ (ρ t) (ρ s), hS s hs t ht]) hK
   intro k hk
   have h1 := MonoidHom.mem_ker.mp (hK' hk)
-  simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe] at h1
+  simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass] at h1
   exact MonoidHom.mem_ker.mpr (Φ.injective (h1.trans (map_one Φ).symm))
 
 theorem uc22s21rk_comm_of_two_lines {V : Type*} [CommGroup V] {V₁ V₂ : Subgroup V}

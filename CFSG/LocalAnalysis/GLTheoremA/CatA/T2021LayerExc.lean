@@ -52,7 +52,7 @@ theorem t2021Layer_inner_l27 {S : Type} [Group S] {q : TauCeti.PrimePower}
   have hsc : StatedClassicalModel S .PSL 2 q.p q.exponent :=
     (CFSG.Models.lieModel_A 1 q hv e).2.resolve_right fun h => absurd h.1 (by norm_num)
   have hq7 : q.p ^ q.exponent = 7 := (TauCeti.PrimePower.card_def q).symm.trans hq
-  haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+  have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
   have hF : Nat.card (GaloisField 7 1) = q.p ^ q.exponent := by
     rw [GaloisField.card 7 1 (by norm_num), pow_one, hq7]
   obtain ⟨e7⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_stated q.p q.exponent
@@ -77,9 +77,9 @@ theorem t2021Layer_inner_psp43 {S : Type} [Group S] {p : ℕ} (hp : p.Prime) (hp
     α ∈ (MulAut.conj : S →* MulAut S).range := by
   obtain ⟨-, K, _, _, hK, ⟨eK⟩⟩ := hm
   have hK3 : Nat.card K = 3 := by rw [hK, pow_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 3 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 :=
     charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK])
   have hodd : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hout := CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.isPGroup_outer_psp4
@@ -108,7 +108,7 @@ theorem t2021Layer_inner_of_ambiguousChev_two {S : Type} [Group S] {p : ℕ} (hp
 theorem t2021Layer_exists_le_card_eq {G : Type} [Group G] [Finite G] {p k : ℕ} (hp : p.Prime)
     {E : Subgroup G} (hE : IsElemAbelian p E) (hk : p ^ k ≤ Nat.card E) :
     ∃ E' ≤ E, IsElemAbelian p E' ∧ Nat.card E' = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE.isPGroup
   rw [hn] at hk
   have hdvd : p ^ k ∣ Nat.card E :=
@@ -139,7 +139,7 @@ theorem t2021Layer_exc_u38 {S : Type} [Group S] [Finite S] (eS : S ≃* CFSG.PGL
     {E : Subgroup (MulAut S)} (hE : IsElemAbelian 3 E) (hE3 : 3 ^ 3 ≤ Nat.card E)
     {Y : Subgroup S} (hY2 : IsPGroup 2 Y) (hY1 : Y ≠ ⊥) (hEY : ∀ φ ∈ E, ∀ y ∈ Y, φ y ∈ Y) :
     False := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   obtain ⟨E', hE'E, hE', hE'27⟩ := t2021Layer_exists_le_card_eq Nat.prime_three hE hE3
   have hY3 : ¬ 3 ∣ Nat.card (Y.map (MulAut.conj : S →* MulAut S)) := by
     intro h3
@@ -211,7 +211,7 @@ theorem t2021Layer_inner_of_crossChar {S : Type} [Group S] {p : ℕ} (hp : p.Pri
         (GaloisField.card 2 2 (by norm_num)) (Or.inr rfl)) α hodd
     exact ⟨g, hg.symm⟩
   ·
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨e7⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel 7 1 (F := GaloisField 7 1)
       (by norm_num) (GaloisField.card 7 1 (by norm_num))
       (CFSG.LocalAnalysis.ComponentInitial.PSL3_two_PSL2_seven_paired_isomorphism S hX)

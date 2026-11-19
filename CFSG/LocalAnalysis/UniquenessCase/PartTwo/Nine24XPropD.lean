@@ -19,7 +19,7 @@ theorem eq_I9_sup_of_hyp97_L2_4n (D : Data G) (hR92 : F09.R92 D) (hKD : KFact913
     (hn : 1 < n) (hL2 : IsL2 (Bar2 X) (2 * n)) (hXp : ⁅X, X⁆ = X)
     (hSH : CFSG.ABGLocalTools.IsSylowOf 2 S H) (hXY : (X.subgroupOf Y).Normal)
     (hHt : H ≠ ⊤) : H = F09.I9 H ⊔ (H ⊓ D.M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYH : Y ≤ H := hyp.1.2.1.1
   have hYM : Y ≤ D.M := hyp.1.1.1
   have hXYle : X ≤ Y := hYX ▸ F09.opp_le_self 3 Y
@@ -79,7 +79,7 @@ theorem eq_I9_sup_of_hyp97_L2_4n (D : Data G) (hR92 : F09.R92 D) (hKD : KFact913
       Subgroup.mem_map.mpr ⟨x * (⟨l, hlH⟩ : ↥H)⁻¹, hu, rfl⟩
     have hux : (x * (⟨l, hlH⟩ : ↥H)⁻¹) * ⟨l, hlH⟩ = x := by group
     have h1 : (((x * (⟨l, hlH⟩ : ↥H)⁻¹ : ↥H)) : G) * l = (x : G) := by
-      simpa using congrArg (Subgroup.subtype H) hux
+      simp
     have hl_eq : l = (((x * (⟨l, hlH⟩ : ↥H)⁻¹ : ↥H)) : G)⁻¹ * (x : G) := by
       rw [← h1, inv_mul_cancel_left]
     rw [hl_eq]

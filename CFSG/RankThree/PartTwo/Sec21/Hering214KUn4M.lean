@@ -193,7 +193,7 @@ theorem un_four_inner {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1) (h�
     ∃ W : Subgroup ↥(gramSU h (Cid1 n K)), IsElemAbelian 2 W ∧ Nat.card W = 4 ∧
       (∀ w ∈ W, g₁ * w * g₁⁻¹ ∈ W) ∧ (∀ w ∈ W, g₂ * w * g₂⁻¹ ∈ W) ∧
       ∃ w ∈ W, g₁ * w * g₁⁻¹ ≠ w := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hMN : ((g₁ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
       ((g₂ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
       ((g₂ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -258,7 +258,7 @@ theorem un_four_fixed {σ : K ≃+* K} {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω
       (∀ w ∈ W, ((w : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).map σ =
         ((w : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) ∧
       (∀ w ∈ W, g * w * g⁻¹ ∈ W) ∧ ∃ w ∈ W, g * w * g⁻¹ ≠ w := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hM := gramSU_mat_pow_three h h3
   have hM1 : ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≠ 1 :=
     fun e => hg1 (Subtype.ext (Units.ext e))

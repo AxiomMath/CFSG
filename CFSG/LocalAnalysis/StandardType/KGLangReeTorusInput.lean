@@ -103,8 +103,8 @@ theorem kgLangReeTorusInput (hRLP : GGReeLangPositionF4)
     finite_ratPoints (q := 2 ^ (2 * b + 1))
       (Nat.one_lt_pow (by norm_num) (by omega)) hΦstein
   have hA_card : Nat.card A < p ^ nontoralMinRank ReeTag.F4.tag p := by
-    haveI : Finite ↥(CFSG.StandardType.LieCore.ratPoints Φ) := hfin
-    haveI : Finite A := Finite.of_injective (Subgroup.inclusion hA_le) (Subgroup.inclusion_injective hA_le)
+    have : Finite ↥(CFSG.StandardType.LieCore.ratPoints Φ) := hfin
+    have : Finite A := Finite.of_injective (Subgroup.inclusion hA_le) (Subgroup.inclusion_injective hA_le)
     rw [nontoralMinRank_eq_of_nonTorsion (τ := ReeTag.F4.tag) (by intro _; omega) (by intro h; cases h)]
     exact card_elemAbelian_lt (τ := ReeTag.F4.tag) (by norm_num) hp (by omega) hA_el
   have hM1' : CFSG.StandardType.ExcFramesHalf.IsToralSubgroup ReeTag.F4.tag L A :=

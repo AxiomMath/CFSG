@@ -197,7 +197,7 @@ theorem native_a2e6_line_le_hyperClosure (hD : QuasiHigh5E6Cover.TwE6ThreeOpenDi
   set Γ : Subgroup (ModGL Tag.E8 L) :=
     rootSpan Tag.E8 L (parabolicRoots Tag.E8 (e6Nodes Tag.E8)) ⊓ twistedFixedPoints n Φ with hΓ
   obtain ⟨hPfin, hPq, hfree⟩ := e6Layer_of_maps hf hnm hwS Γ rfl
-  haveI := hPfin
+  have := hPfin
   have hu' : u ∈ parabolicWeylGroup Tag.E8 (e6Set Tag.E8) := by rwa [e6Nodes_eq_e6Set] at hu
   obtain ⟨e⟩ := nonempty_layer_quotient_equiv_cat hf hnm (mul_mem hu' w0E6_mem)
     (act_rho_of_act_neg hnm hact) Γ rfl hqc hv

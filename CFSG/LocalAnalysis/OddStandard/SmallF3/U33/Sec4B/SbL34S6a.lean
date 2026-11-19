@@ -15,6 +15,7 @@ section General
 
 variable {a b : G}
 
+omit [Finite G] in
 theorem mem_closure_pair_iff (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) (u : G) :
     u ∈ closure ({a, b} : Set G) ↔ u = 1 ∨ u = a ∨ u = b ∨ u = a * b := by
   have ha' : ∀ y, a * (a * y) = y := fun y => by rw [← mul_assoc, ha, one_mul]
@@ -42,6 +43,7 @@ theorem mem_closure_pair_iff (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b 
     · exact subset_closure (by simp)
     · exact mul_mem (subset_closure (by simp)) (subset_closure (by simp))
 
+omit [Finite G] in
 theorem elemAbelian_closure_pair (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) :
     CFSG.Open.IsElemAbelian 2 (closure ({a, b} : Set G)) := by
   refine ⟨Subgroup.isMulCommutative_closure ?_, ?_⟩

@@ -128,7 +128,7 @@ theorem tp_hsCentTbl_32_mem :
 
 theorem orderOf_tp_hsCentTbl_32 :
     orderOf (tp 3850 (hsCentTbl 32)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · have h3 : TabRep
         (comp 3850 (comp 3850 (natArr (hsCentTbl 32)) (natArr (hsCentTbl 32)))

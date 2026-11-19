@@ -102,7 +102,7 @@ theorem testBit_rotk {S k x : ℕ} (hk : k ≤ 4) (hx : x < 2 ^ (4 * S)) {b p : 
     Nat.testBit_shiftLeft, Nat.testBit_shiftRight, Nat.testBit_two_pow_sub_one]
   interval_cases b <;> interval_cases k <;>
     simp (disch := omega) only [decide_eq_true, decide_eq_false, hz, Bool.and_true, Bool.true_and,
-      Bool.false_or, Bool.or_false, Bool.and_false, Bool.false_and, Nat.reduceAdd, Nat.reduceSub,
+      Bool.false_or, Bool.or_false, Bool.false_and, Nat.reduceAdd, Nat.reduceSub,
       Nat.reduceMod, Nat.zero_mul, Nat.zero_add, Nat.one_mul] <;>
     congr 1 <;> omega
 
@@ -226,7 +226,7 @@ theorem testBit_rep4' {S m : ℕ} (hm : m < 2 ^ S) {i p : ℕ} (hi : i < 4) (hp 
   have e : S <<< 1 = 2 * S := by rw [Nat.shiftLeft_eq, pow_one, Nat.mul_comm]
   rw [e]
   interval_cases i <;>
-    simp (disch := omega) only [decide_eq_true, decide_eq_false, hz, Bool.and_true, Bool.true_and,
+    simp (disch := omega) only [decide_eq_true, decide_eq_false, hz, Bool.true_and,
       Bool.false_or, Bool.or_false, Bool.and_false, Bool.false_and, Nat.zero_mul, Nat.zero_add,
       Nat.one_mul] <;>
     congr 1 <;> omega

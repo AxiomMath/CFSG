@@ -15,6 +15,7 @@ section Helpers
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {k : Type} [Field k] [CharP k 2]
 
+omit [Finite F] in
 private theorem c2slomqns_weylD_e_lt {n : ℕ} (hn : 3 ≤ n) {s : Fin n}
     (hs : s.val + 1 < n) :
     spinAction (quadPlus n F) (weylD F hn s) (plusVec n F s true) =
@@ -22,6 +23,7 @@ private theorem c2slomqns_weylD_e_lt {n : ℕ} (hn : 3 ≤ n) {s : Fin n}
   rw [spinAction_weylD, rootIdxD_of_lt n hs, rootIdxD'_of_lt n hs, rootSignD_of_lt n hs]
   simp [CharTwo.neg_eq]
 
+omit [Finite F] [CharP F 2] in
 private theorem c2slomqns_weylD_f_lt {n : ℕ} (hn : 3 ≤ n) {s : Fin n}
     (hs : s.val + 1 < n) :
     spinAction (quadPlus n F) (weylD F hn s) (plusVec n F ⟨s.val + 1, hs⟩ false) =
@@ -30,6 +32,7 @@ private theorem c2slomqns_weylD_f_lt {n : ℕ} (hn : 3 ≤ n) {s : Fin n}
   rw [longWeylSign_of_ne (m := ⟨s.val + 1, hs⟩) (Fin.ne_of_val_ne (by simp))]
   simp
 
+omit [Finite F] in
 private theorem c2slomqns_weylD_e_last {n : ℕ} (hn : 3 ≤ n) :
     spinAction (quadPlus n F) (weylD F hn (⟨n - 1, by omega⟩ : Fin n))
       (plusVec n F (⟨n - 2, by omega⟩ : Fin n) true) =
@@ -42,6 +45,7 @@ private theorem c2slomqns_weylD_e_last {n : ℕ} (hn : 3 ≤ n) :
     HypFrame.spinAction_longWeyl_vec (F := plusFrame n F hn)]
   simp [longWeylBool, longWeylSign, CharTwo.neg_eq]
 
+omit [Finite F] [CharP k 2] in
 private theorem c2slomqns_weylD_e_lt_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) {s : Fin n}
     (hs : s.val + 1 < n) :
     (omPlusNatRep n φ) (weylD F hn s) (Pi.single (Sum.inl s) (1 : k)) =
@@ -52,6 +56,7 @@ private theorem c2slomqns_weylD_e_lt_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+* 
   rw [c2slomqns_mapVec, c2slomqns_weylD_e_lt (F := F) hn hs]
   simpa using c2slomqns_phi_single φ (Sum.inl ⟨s.val + 1, hs⟩)
 
+omit [Finite F] [CharP F 2] [CharP k 2] in
 private theorem c2slomqns_weylD_f_lt_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) {s : Fin n}
     (hs : s.val + 1 < n) :
     (omPlusNatRep n φ) (weylD F hn s) (Pi.single (Sum.inr ⟨s.val + 1, hs⟩) (1 : k)) =
@@ -63,6 +68,7 @@ private theorem c2slomqns_weylD_f_lt_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+* 
   rw [c2slomqns_mapVec, c2slomqns_weylD_f_lt (F := F) hn hs]
   simpa using c2slomqns_phi_single φ (Sum.inr s)
 
+omit [Finite F] [CharP k 2] in
 private theorem c2slomqns_weylD_e_last_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) :
     (omPlusNatRep n φ) (weylD F hn (⟨n - 1, by omega⟩ : Fin n))
       (Pi.single (Sum.inl (⟨n - 2, by omega⟩ : Fin n)) (1 : k)) =
@@ -74,6 +80,7 @@ private theorem c2slomqns_weylD_e_last_rep {n : ℕ} (hn : 3 ≤ n) (φ : F →+
   rw [c2slomqns_mapVec, c2slomqns_weylD_e_last (F := F) hn]
   simpa using c2slomqns_phi_single φ (Sum.inr (⟨n - 1, by omega⟩ : Fin n))
 
+omit [Finite F] [CharP k 2] in
 private theorem c2slomqns_e_mem_orbit {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) (i : Fin n) :
     Pi.single (Sum.inl i) (1 : k) ∈
       orbitSpan (omPlusNatRep n φ) (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) := by
@@ -94,6 +101,7 @@ private theorem c2slomqns_e_mem_orbit {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) 
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) (weylD F hn ⟨j, hj'⟩) (ih hj')
   exact key i.val i.isLt
 
+omit [Finite F] [CharP k 2] in
 private theorem c2slomqns_f_mem_orbit {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) (i : Fin n) :
     Pi.single (Sum.inr i) (1 : k) ∈
       orbitSpan (omPlusNatRep n φ) (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) := by
@@ -130,6 +138,7 @@ private theorem c2slomqns_f_mem_orbit {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) 
   rw [hidx] at h
   exact h
 
+omit [Finite F] [CharP k 2] in
 private theorem c2slomqns_orbitSpan_top {n : ℕ} (hn : 3 ≤ n) (φ : F →+* k) :
     orbitSpan (omPlusNatRep n φ) (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) (1 : k)) = ⊤ := by
   rw [eq_top_iff, ← (Pi.basisFun k (Fin n ⊕ Fin n)).span_eq, Submodule.span_le]
@@ -144,12 +153,12 @@ end Helpers
 theorem omq_isSimpleRep_omPlusNatRep_embedding {n : ℕ} (hn : 3 ≤ n) {F k : Type} [Field F]
     [Finite F] [CharP F 2] [Field k] (φ : F →+* k) :
     CFSG.Quasithin.SmithCurtis.IsSimpleRep (omPlusNatRep n φ) := by
-  haveI : CharP k 2 := charP_of_injective_ringHom φ.injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (Fin n ⊕ Fin n → k) :=
+  have : CharP k 2 := charP_of_injective_ringHom φ.injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (Fin n ⊕ Fin n → k) :=
     ⟨0, Pi.single (Sum.inl (⟨0, by omega⟩ : Fin n)) 1, fun h => by
       have := congrFun h (Sum.inl (⟨0, by omega⟩ : Fin n))
-      simpa using this⟩
+      simp at this⟩
   exact (omPlusCurtisDatum n F hn).isSimpleRep_of_fixU (omPlusNatRep n φ)
     (c2slomqns_fixU_mem hn φ) (c2slomqns_orbitSpan_top hn φ)
 

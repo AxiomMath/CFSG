@@ -24,7 +24,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barOf barAut)
 theorem inputD4UpRank_of_barK (hres : InputD4UpRankBarK) : Claims1110i.InputD4UpRank := by
   intro G _ _ Y hY L hL x hxY hxN hx5 hnc K₁ hK₁ hs hlie R hRY hRN hRp hxR hfaith hrank
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (barOf 5 L) := Lemma1313.isQuasisimple_barOf_of_pComp hL
   have hKG : CFSG.Open.IsKGroup (barOf 5 L) := (hY.of_le hL.1).quotient _
   have hKH : CFSG.LocalAnalysis.GLTheoremA.IsKHat (barOf 5 L) :=

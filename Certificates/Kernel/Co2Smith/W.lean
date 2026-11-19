@@ -54,10 +54,10 @@ theorem gens_get {k : Nat} (hk : k < 6) : glMkGens[k]! = unpackR 22 (genK k) := 
   rw [getElem!_pos _ k (by simp [hk]), Array.getElem_ofFn]
   by_cases h0 : k = 0
   · subst h0
-    simp only [if_pos rfl]
+    simp only
     exact glZ_eq
   · have h0' : (k == 0) = false := by simp [h0]
-    simp only [h0, if_false, h0', Bool.false_eq_true]
+    simp only [h0, ite_false, h0', Bool.false_eq_true]
     exact mkT_get (by omega)
 
 theorem wGens {w : List Nat} (hw : ∀ k ∈ w, k < 6) : wRows glMkGens w = unpackR 22 (wK genK w) :=
@@ -68,10 +68,10 @@ theorem w7_get {k : Nat} (hk : k < 7) : glW7[k]! = unpackR 22 (w7K k) := by
   by_cases h6 : k = 6
   · subst h6
     rw [getElem!_pos _ 6 (by simp [glMkGens])]
-    simp only [glMkGens, Array.getElem_push, Array.size_ofFn, lt_irrefl, if_false, if_pos rfl]
+    simp only [glMkGens, Array.getElem_push, Array.size_ofFn, lt_irrefl]
     exact el_eqs.2.2.1
   · have h6' : (k == 6) = false := by simp [h6]
-    rw [h6', if_neg Bool.false_ne_true, ← gens_get (by omega),
+    rw [h6', ite_eq_right Bool.false_ne_true, ← gens_get (by omega),
       getElem!_pos _ k (by simp [glMkGens]; omega), getElem!_pos _ k (by simp [glMkGens]; omega),
       Array.getElem_push_lt]
 

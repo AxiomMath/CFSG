@@ -243,6 +243,7 @@ theorem barOmega_triangle (hQ : Config D u w v z a K₁ S') {e : G}
   rw [← map_mul φ, ← map_mul φ, orderOf_injective φ hφ, ← Subgroup.orderOf_coe]
   exact hord
 
+omit [Finite G] in
 theorem exists_conj_of_image_le (hQ : Config D u w v z a K₁ S') {Y : Subgroup G}
     {O : Subgroup Y} [O.Normal] (hKY : thirdK D z ≤ Y) (huY : u ∈ Y)
     {M₀ : Subgroup (Y ⧸ O)} [M₀.Normal]
@@ -337,7 +338,7 @@ theorem false_of_disconnected
   obtain ⟨eK⟩ := hQ.K₁_A5
   have hK₁z : K₁ ≤ thirdK D z := by rw [hQ.K_eq]; exact le_sup_left
   have hK₁Y : K₁ ≤ Y := hK₁z.trans hKY
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have : IsSimpleGroup K₁ := eK.isSimpleGroup
   have hcardK₁ : Nat.card K₁ = 60 := by
     rw [Nat.card_congr eK.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,

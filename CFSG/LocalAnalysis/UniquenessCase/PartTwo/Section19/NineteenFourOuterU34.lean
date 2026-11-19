@@ -164,7 +164,7 @@ theorem calP19_4_nonempty_of_outer_U34 (hU : Inputs1719.K_U34OuterInv) (D : Data
   have hAeq : A = conjSubgroup V₀ g :=
     (E3.mQuot_eq_zero_iff (E3.isPGroup_conjSubgroup hV0.2.2.2.isPGroup g) hAg).1 hmq
   have hAel : IsElemAbelian 2 A := hAeq ▸ E3.isElemAbelian_conjSubgroup hV0.2.2.2 g
-  obtain ⟨a, haA, haout⟩ := SetLike.not_le_iff_exists.mp hout
+  obtain ⟨a, haA, haout⟩ := IsConcreteLE.not_le_iff_exists.mp hout
   have haT : a ∈ D.T := hAT haA
   have haN : a ∈ normalizer (L : Set G) := hTL haT
   have hσout : UC6S846.rhoL L ⟨a, haN⟩ ∉

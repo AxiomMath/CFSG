@@ -379,7 +379,7 @@ theorem lieGridOK_of_order {ps : List ℕ} {N : ℕ} (hps : ∀ p, p.Prime → p
   | tits => exact h
 
 theorem hps_of_subset {N : ℕ} {ps : List ℕ} (hN : N ≠ 0) (h : N.primeFactorsList ⊆ ps) :
-    ∀ p, p.Prime → p ∣ N → p ∈ ps := fun p hp hd =>
+    ∀ _p, _p.Prime → _p ∣ N → _p ∈ ps := fun _p hp hd =>
   h ((Nat.mem_primeFactorsList hN).2 ⟨hp, hd⟩)
 
 theorem lieOrderFormula_ne_of_grid (ps : List ℕ) (N : ℕ) (hN0 : 0 < N) (hNlt : N < 2 ^ 60)

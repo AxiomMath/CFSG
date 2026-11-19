@@ -21,12 +21,12 @@ variable {K : Type} [Field K]
   carrier := {g | (g : Matrix V₄ V₄ K) * Z = Z * (g : Matrix V₄ V₄ K)}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul] at ha hb ⊢
     rw [Matrix.mul_assoc, hb, ← Matrix.mul_assoc, ha, Matrix.mul_assoc]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h1 : ((a⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) * (a : Matrix V₄ V₄ K) = 1 := by
       rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
     have h1' : (a : Matrix V₄ V₄ K) * ((a⁻¹ : GL V₄ K) : Matrix V₄ V₄ K) = 1 := by
@@ -85,7 +85,7 @@ theorem leviBlock_mul {g h : Matrix V₄ V₄ K} (hh : ∀ i j : Fin 2, h (Sum.i
 
 theorem leviBlock_one : leviBlock (1 : Matrix V₄ V₄ K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [leviBlock, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [leviBlock]
 
 theorem det_leviBlock {g : GL V₄ K} (hg : g ∈ isoCent K) : (leviBlock (g : Matrix V₄ V₄ K)).det =
     1 := by
@@ -258,7 +258,7 @@ theorem exists_conj_eq_smul_isoStd {r : Matrix V₄ V₄ K}
       rw [hRdef, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, ← hwe, Matrix.mulVec_mulVec,
         hhh, Matrix.one_mulVec]
     calc R (Sum.inr i) j = (R *ᵥ Pi.single j 1) (Sum.inr i) := by
-          simp [Matrix.mulVec_single_one]
+          simp
       _ = w (Sum.inr i) := by rw [hRj]
       _ = 0 := hw i
   have hRM : R ∈ (cliffSpace : Submodule K _) := by

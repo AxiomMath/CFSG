@@ -100,7 +100,7 @@ theorem false_of_fixedPoint_thompson [Finite G] [IsSimpleGroup G]
   obtain ⟨Q, hQ⟩ := hp'.exists_le_sylow
   set T : Subgroup G := (Q : Subgroup M).map M.subtype with hT
   have hTM : T ≤ M := Subgroup.map_subtype_le _
-  have hTp : IsPGroup 2 T := Q.isPGroup'.map M.subtype
+  have hTp : IsPGroup 2 T := Q.isPGroup.map M.subtype
   have hzQ : z' ∈ (Q : Subgroup M) := hQ (mem_zpowers z')
   have hzT : z ∈ T := ⟨z', hzQ, rfl⟩
   have hTidx : ¬ 2 ∣ T.index := by

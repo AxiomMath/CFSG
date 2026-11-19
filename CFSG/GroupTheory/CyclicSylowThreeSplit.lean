@@ -14,14 +14,14 @@ variable {A : Type*} [Group A]
 
 theorem mul_inv_mem_or_sq_mul_inv_mem_of_sup_zpowers {S P : Subgroup A} {a : A}
     (hP : P = S ⊔ Subgroup.zpowers a) (hSP : P ≤ Subgroup.normalizer (S : Set A))
-    (ha3 : a ^ 3 ∈ S) (haP : a ∈ P) (haS : a ∉ S) {y : A} (hyP : y ∈ P) (hyS : y ∉ S) :
+    (ha3 : a ^ 3 ∈ S) (haP : a ∈ P) (_haS : a ∉ S) {y : A} (hyP : y ∈ P) (hyS : y ∉ S) :
     y * a⁻¹ ∈ S ∨ y ^ 2 * a⁻¹ ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hSleP : S ≤ P := by rw [hP]; exact le_sup_left
   have hzpleP : Subgroup.zpowers a ≤ P := by rw [hP]; exact le_sup_right
   let K : Subgroup P := S.subgroupOf P
-  haveI hKn : K.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hSleP).mpr hSP
+  have hKn : K.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hSleP).mpr hSP
   have hzps : (Subgroup.zpowers a).subgroupOf P = Subgroup.zpowers (⟨a, haP⟩ : P) := by
     ext x
     simp only [Subgroup.mem_subgroupOf, Subgroup.mem_zpowers_iff]
@@ -92,8 +92,8 @@ theorem exists_mul_pow_three_eq_one_of_isCyclic {A : Type*} [Group A] [Finite A]
     (hSR : S ≤ R) {α : A} (hα : α ∈ R) (hα3 : α ^ 3 ∈ S) :
     ∃ s ∈ S, (s * α) ^ 3 = 1 := by
   classical
-  haveI h3 : Fact (Nat.Prime 3) := ⟨by decide⟩
-  haveI hScyc : IsCyclic ↥S := hSc
+  have h3 : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have hScyc : IsCyclic ↥S := hSc
   have hSeq : R ⊓ I = S :=
     hS.eq_of_le (le_inf hSR hS.le) inf_le_right hR.to_inf_left
   have hRnorm : R ≤ Subgroup.normalizer (S : Set A) := by
@@ -163,7 +163,7 @@ theorem exists_mul_pow_three_eq_one_of_isCyclic {A : Type*} [Group A] [Finite A]
       exact h1
     by_cases hPcyc : IsCyclic ↥P
     ·
-      haveI hPc : IsCyclic ↥P := hPcyc
+      have hPc : IsCyclic ↥P := hPcyc
       obtain ⟨Q, hQeq⟩ := hPsyl.exists_sylow_eq_subgroupOf
       have hPH : P ≤ I ⊔ P := le_sup_right
       have hQcyc : IsCyclic ↥(Q : Subgroup ↥(I ⊔ P)) := by
@@ -215,12 +215,12 @@ theorem exists_mul_pow_three_eq_one_of_isCyclic {A : Type*} [Group A] [Finite A]
           Subgroup.card_map_of_injective P.subtype_injective]
       have hEexp : ∀ x ∈ E, x ^ 3 = 1 := by
         rintro x ⟨b, hb, rfl⟩
-        haveI : CFSG.IsElementaryAbelian 3 ↥B := hBelem
+        have : CFSG.IsElementaryAbelian 3 ↥B := hBelem
         have hb3 : b ^ 3 = 1 := elemPow_eq_one_of_isElementaryAbelian (A := B) b hb
         simpa using congrArg (⇑P.subtype) hb3
       have hEnotS : ¬ E ≤ S := by
         intro hES
-        haveI : IsCyclic ↥E := Subgroup.isCyclic_of_le hES
+        have : IsCyclic ↥E := Subgroup.isCyclic_of_le hES
         have hdvd : Nat.card ↥E ∣ 3 := by
           rw [← IsCyclic.exponent_eq_card]
           exact Monoid.exponent_dvd_of_forall_pow_eq_one
@@ -228,7 +228,7 @@ theorem exists_mul_pow_three_eq_one_of_isCyclic {A : Type*} [Group A] [Finite A]
         have hle : Nat.card ↥E ≤ 3 := Nat.le_of_dvd (by norm_num) hdvd
         rw [hEcard] at hle
         norm_num at hle
-      obtain ⟨x, hxE, hxS⟩ := SetLike.not_le_iff_exists.mp hEnotS
+      obtain ⟨x, hxE, hxS⟩ := IsConcreteLE.not_le_iff_exists.mp hEnotS
       have hxP : x ∈ P := hEP hxE
       have hx3 : x ^ 3 = 1 := hEexp x hxE
       rcases mul_inv_mem_or_sq_mul_inv_mem_of_sup_zpowers hPdef hPnorm hα3 hαP hαS

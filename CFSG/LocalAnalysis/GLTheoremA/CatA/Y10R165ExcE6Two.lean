@@ -294,7 +294,7 @@ theorem centralizer_sl2_eq_of_isCyclic_of_mem {p : ℕ} [Fact p.Prime] (hp : p �
       have h := A.2
       rw [hc] at h
       have hcc : (c • (1 : Matrix (Fin 2) (Fin 2) K)).det = c * c := by
-        simp [Matrix.det_fin_two, sq]
+        simp [sq]
       rwa [hcc] at h
     have hc1 : c = 1 := F4Pilot.eq_one_of_sq_eq_one_of_charTwo (by rwa [sq])
     have hA1 : A = 1 := by
@@ -341,7 +341,7 @@ theorem centralizer_sl2_eq_of_isCyclic_of_mem {p : ℕ} [Fact p.Prime] (hp : p �
   have hle : X ≤ C := by
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
-    letI : IsCyclic X := hXcyc
+    let : IsCyclic X := hXcyc
     exact setLike_mul_comm hx hAX
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hXcard]; exact hcard)).symm
 

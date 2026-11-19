@@ -18,11 +18,11 @@ theorem delta_false (h309 : KD309) {G : Type} [Group G] [Finite G] {P : Sylow 5 
     {L : Subgroup (G ⧸ primeComplementCore (G := G) 5)} (hL : IsComponentOf L ⊤)
     (hLu : ∀ K : Subgroup (G ⧸ primeComplementCore (G := G) 5), IsComponentOf K ⊤ → K = L)
     (h29 : Is29a ↥L) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set Q : Subgroup G := CFSG.pCore 2 G with hQdef
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   have hQ2 : IsPGroup 2 ↥Q := CFSG.pCore_isPGroup
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
   have hQD : Q ≤ primeComplementCore (G := G) 5 := by
     refine normal_coprime_le_primeComplementCore 5 Q hQn ?_
     obtain ⟨n, hn⟩ := hQ2.exists_card_eq

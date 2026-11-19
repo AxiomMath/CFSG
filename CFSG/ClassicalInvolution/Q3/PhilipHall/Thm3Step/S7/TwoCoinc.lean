@@ -160,7 +160,7 @@ theorem card_eq_card_quotient_center {K X : Type} [Group K] [Group X] [IsSimpleG
 theorem coincTwin : CoincTwin := by
   intro X _ _ ht
   have hN := card_of_isTwinGroup ht
-  haveI : IsSimpleGroup X := by
+  have : IsSimpleGroup X := by
     rcases ht with h | h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h

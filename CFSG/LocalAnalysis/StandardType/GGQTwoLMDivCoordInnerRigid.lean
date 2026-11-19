@@ -23,7 +23,7 @@ private lemma qTwoLMDivCoordInner_rigid_cube_root {F0 : Type} [Field F0] [Finite
   · intro h
     have hζ1 : ζ = 1 := Units.ext h
     rw [hζ1] at hζ
-    have : (1 : ℕ) = 3 := by simpa using hζ
+    have : (1 : ℕ) = 3 := by simp at hζ
     omega
   · exact ζ.ne_zero
 
@@ -39,11 +39,11 @@ private lemma qTwoLMDivCoordInner_rigid_diag_mem {F0 : Type} [Field F0] [Finite 
     intro h
     have hv : (0 : ℕ) = 1 := by
       have := congrArg Fin.val h
-      simpa [Nat.mod_eq_of_lt hm1] using this
+      simp [Nat.mod_eq_of_lt hm1] at this
     omega
   have h10 : (1 : Fin m) ≠ (0 : Fin m) := Ne.symm h01
-  have hd0 : d (0 : Fin m) = ω := by dsimp only [d]; rw [if_pos rfl]
-  have hd1 : d (1 : Fin m) = ω ^ 2 := by dsimp only [d]; rw [if_neg h10, if_pos rfl]
+  have hd0 : d (0 : Fin m) = ω := by dsimp only [d]; rw [ite_eq_left rfl]
+  have hd1 : d (1 : Fin m) = ω ^ 2 := by dsimp only [d]; rw [ite_eq_right h10, ite_eq_left rfl]
   have hprod : ∏ i : Fin m, d i = 1 := by
     rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ (0 : Fin m))]
     rw [hd0]
@@ -58,23 +58,23 @@ private lemma qTwoLMDivCoordInner_rigid_diag_mem {F0 : Type} [Field F0] [Finite 
       intro i hi
       have hi0 : i ≠ (0 : Fin m) := by
         have h1 := (Finset.mem_sdiff.mp hi).1
-        exact fun h => (Finset.mem_sdiff.mp h1).2 (by simpa [h])
+        exact fun h => (Finset.mem_sdiff.mp h1).2 (by simp [h])
       have hi1 : i ≠ (1 : Fin m) := by
         have h1 := (Finset.mem_sdiff.mp hi).2
         simpa only [Finset.mem_singleton] using h1
       dsimp only [d]
-      rw [if_neg hi0, if_neg hi1]
+      rw [ite_eq_right hi0, ite_eq_right hi1]
     rw [hrest, mul_one, show ω * ω ^ 2 = ω ^ 3 by ring, hω]
   have hcube : ∀ i : Fin m, (d i) ^ 2 * d i = 1 := by
     intro i
     have h3 : (d i) ^ 3 = 1 := by
       by_cases h0 : i = (0 : Fin m)
-      · have : d i = ω := by dsimp only [d]; rw [if_pos h0]
+      · have : d i = ω := by dsimp only [d]; rw [ite_eq_left h0]
         rw [this, hω]
       · by_cases h1 : i = (1 : Fin m)
-        · have : d i = ω ^ 2 := by dsimp only [d]; rw [if_neg h0, if_pos h1]
+        · have : d i = ω ^ 2 := by dsimp only [d]; rw [ite_eq_right h0, ite_eq_left h1]
           rw [this, show (ω ^ 2) ^ 3 = (ω ^ 3) ^ 2 by ring, hω, one_pow]
-        · have : d i = 1 := by dsimp only [d]; rw [if_neg h0, if_neg h1]
+        · have : d i = 1 := by dsimp only [d]; rw [ite_eq_right h0, ite_eq_right h1]
           rw [this, one_pow]
     calc (d i) ^ 2 * d i = (d i) ^ 3 := by ring
       _ = 1 := h3
@@ -123,7 +123,7 @@ private lemma qTwoLMDivCoordInner_rigid_entries {F0 : Type} [Field F0] {m : ℕ}
     intro h
     have hv : (0 : ℕ) = 1 := by
       have := congrArg Fin.val h
-      simpa [Nat.mod_eq_of_lt hm1] using this
+      simp [Nat.mod_eq_of_lt hm1] at this
     omega
   have hdiag : ∀ i : Fin m, A i i = A 0 0 := by
     intro i
@@ -171,7 +171,7 @@ private lemma qTwoLMDivCoordInner_rigid_swap_comm {F0 : Type} [Field F0] [Finite
     {k : GL (Fin m) F0}
     (hk : ∀ s : Su F0 2 1 m, ∃ s' : Su F0 2 1 m,
       (s' : GL (Fin m) F0) = k * (s : GL (Fin m) F0) * k⁻¹ ∧ π s' = π s)
-    {i j : Fin m} (hij : i ≠ j) :
+    {i j : Fin m} (_hij : i ≠ j) :
     (k : Matrix (Fin m) (Fin m) F0) * (Equiv.swap i j).permMatrix F0 =
       (Equiv.swap i j).permMatrix F0 * (k : Matrix (Fin m) (Fin m) F0) := by
   set σ : Equiv.Perm (Fin m) := Equiv.swap i j with hσ
@@ -190,7 +190,7 @@ private lemma qTwoLMDivCoordInner_rigid_swap_comm {F0 : Type} [Field F0] [Finite
   have hσ2 : σ * σ = 1 := by
     rw [hσ]
     ext a
-    simp [Equiv.swap_apply_self]
+    simp
   have hP2 : P * P = 1 := by
     apply Subtype.ext
     apply Units.ext
@@ -257,7 +257,7 @@ theorem qTwoLMDivCoordInner_rigid {F0 : Type} [Field F0] [Finite F0] [CharP F0 2
     (hk : ∀ s : Su F0 2 1 m, ∃ s' : Su F0 2 1 m,
       (s' : GL (Fin m) F0) = k * (s : GL (Fin m) F0) * k⁻¹ ∧ π s' = π s) :
     ∃ c : F0, ((k : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = Matrix.diagonal fun _ => c := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hm1 : 1 < m := by omega
   set A : Matrix (Fin m) (Fin m) F0 := ((k : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)
     with hA
@@ -273,9 +273,9 @@ theorem qTwoLMDivCoordInner_rigid {F0 : Type} [Field F0] [Finite F0] [CharP F0 2
     rw [Matrix.diagonal_apply]
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hdiag i
-    · rw [if_neg hij, hoff i j hij]
+    · rw [ite_eq_right hij, hoff i j hij]
       exact hb
   · obtain ⟨ω, hω3, hω1, hω0⟩ := qTwoLMDivCoordInner_rigid_cube_root hF0
     obtain ⟨t, htmat⟩ := qTwoLMDivCoordInner_rigid_diag_mem hm hω3
@@ -320,37 +320,37 @@ theorem qTwoLMDivCoordInner_rigid {F0 : Type} [Field F0] [Finite F0] [CharP F0 2
       intro h
       have hv : (0 : ℕ) = 1 := by
         have := congrArg Fin.val h
-        simpa [Nat.mod_eq_of_lt hm1] using this
+        simp [Nat.mod_eq_of_lt hm1] at this
       omega
     have h10' : (1 : Fin m) ≠ (0 : Fin m) := Ne.symm h01'
     have h20 : (2 : Fin m) ≠ (0 : Fin m) := by
       intro h
       have hv : (2 : ℕ) = 0 := by
         have := congrArg Fin.val h
-        simpa [Nat.mod_eq_of_lt (by omega : 2 < m)] using this
+        simp [Nat.mod_eq_of_lt (by omega : 2 < m)] at this
       omega
     have h21 : (2 : Fin m) ≠ (1 : Fin m) := by
       intro h
       have hv : (2 : ℕ) = 1 := by
         have := congrArg Fin.val h
-        simpa [Nat.mod_eq_of_lt (by omega : 2 < m), Nat.mod_eq_of_lt hm1] using this
+        simp [Nat.mod_eq_of_lt (by omega : 2 < m), Nat.mod_eq_of_lt hm1] at this
       omega
-    have hd0 : d (0 : Fin m) = ω := by dsimp only [d]; rw [if_pos rfl]
-    have hd1 : d (1 : Fin m) = ω ^ 2 := by dsimp only [d]; rw [if_neg h10', if_pos rfl]
-    have hd2 : d (2 : Fin m) = 1 := by dsimp only [d]; rw [if_neg h20, if_neg h21]
+    have hd0 : d (0 : Fin m) = ω := by dsimp only [d]; rw [ite_eq_left rfl]
+    have hd1 : d (1 : Fin m) = ω ^ 2 := by dsimp only [d]; rw [ite_eq_right h10', ite_eq_left rfl]
+    have hd2 : d (2 : Fin m) = 1 := by dsimp only [d]; rw [ite_eq_right h20, ite_eq_right h21]
     have hA02 : A (0 : Fin m) (2 : Fin m) = A (0 : Fin m) (1 : Fin m) :=
       hoff _ _ (by
         intro h
         have hv : (0 : ℕ) = 2 := by
           have := congrArg Fin.val h
-          simpa [Nat.mod_eq_of_lt (by omega : 2 < m)] using this
+          simp [Nat.mod_eq_of_lt (by omega : 2 < m)] at this
         omega)
     have hA12 : A (1 : Fin m) (2 : Fin m) = A (0 : Fin m) (1 : Fin m) :=
       hoff _ _ (by
         intro h
         have hv : (1 : ℕ) = 2 := by
           have := congrArg Fin.val h
-          simpa [Nat.mod_eq_of_lt hm1, Nat.mod_eq_of_lt (by omega : 2 < m)] using this
+          simp [Nat.mod_eq_of_lt hm1, Nat.mod_eq_of_lt (by omega : 2 < m)] at this
         omega)
     rw [hd0, hd2, hA02] at h02
     rw [hd1, hd2, hA12] at h12

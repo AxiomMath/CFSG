@@ -14,12 +14,12 @@ open CFSG.Assembly CFSG.Assembly.LowTwoRank CFSG.LieType.Universal.SpecialLinear
 
 private lemma card_SL_eq_one_of_le_one {k : ℕ} (hk : k ≤ 1) (K : Type) [Field K] :
     Nat.card (SpecialLinearGroup (Fin k) K) = 1 := by
-  haveI : Subsingleton (SpecialLinearGroup (Fin k) K) := by
+  have : Subsingleton (SpecialLinearGroup (Fin k) K) := by
     interval_cases k
     · refine ⟨fun A B => Subtype.ext (Matrix.ext ?_)⟩
       intro i j
       exact Fin.elim0 i
-    · haveI : Subsingleton (Fin 1) := ⟨fun i j => Fin.ext (by omega)⟩
+    · have : Subsingleton (Fin 1) := ⟨fun i j => Fin.ext (by omega)⟩
       refine ⟨fun A B => Subtype.ext (Matrix.ext ?_)⟩
       intro i j
       have hA : (A : Matrix (Fin 1) (Fin 1) K) 0 0 = 1 := by

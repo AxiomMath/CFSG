@@ -264,10 +264,8 @@ theorem mem_map_of_rep (p : X →* Perm (Fin 6))
   have h1 : ⁅u, x⁆ ∈ T := hc (Subgroup.commutator_mem_commutator huV (Subgroup.mem_zpowers x))
   have h2 : ⁅v, x⁆ ∈ T := hc (Subgroup.commutator_mem_commutator hvV (Subgroup.mem_zpowers x))
   refine ⟨⟨p ⁅u, x⁆, ⟨_, h1, rfl⟩, ?_⟩, ⟨p ⁅v, x⁆, ⟨_, h2, rfl⟩, ?_⟩⟩
-  · change φ (p ⁅u, x⁆) = ⁅r, c⁆
-    rw [map_commutatorElement, map_commutatorElement, hpu, hφub, hpx]
-  · change φ (p ⁅v, x⁆) = ⁅c * r * c⁻¹, c⁆
-    rw [map_commutatorElement, map_commutatorElement, hφv, hpx]
+  · rw [map_commutatorElement, map_commutatorElement, hpu, hφub, hpx]
+  · rw [map_commutatorElement, map_commutatorElement, hφv, hpx]
 
 end Lift
 

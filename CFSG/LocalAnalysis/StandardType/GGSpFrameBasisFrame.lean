@@ -88,10 +88,10 @@ theorem exists_frame_of_family [FiniteDimensional k V] (h2 : (2 : k) ≠ 0) {m :
       by_cases h : j = i
       · subst h
         rw [show (1 - ε j : Module.End k V) (v j) = v j - ε j (v j) by
-              simp [sub_eq_add_neg, map_add, map_neg], (hA j).2]
+              simp [sub_eq_add_neg], (hA j).2]
         simp [sub_eq_add_neg, two_smul]
       · rw [show (1 - ε i : Module.End k V) (v j) = v j - ε i (v j) by
-              simp [sub_eq_add_neg, map_add, map_neg], hB i j (Ne.symm h)]
+              simp [sub_eq_add_neg], hB i j (Ne.symm h)]
         simp [h]
     have hcompute : (1 - ε i : Module.End k V) (∑ j, c j • v j) = c i • ((2 : k) • v i) := by
       calc (1 - ε i : Module.End k V) (∑ j, c j • v j)
@@ -104,7 +104,7 @@ theorem exists_frame_of_family [FiniteDimensional k V] (h2 : (2 : k) ≠ 0) {m :
               apply Finset.sum_congr rfl; intro j _
               by_cases h : j = i <;> simp [h]
         _ = c i • ((2 : k) • v i) := by
-              simpa using Finset.sum_ite_eq' Finset.univ i (fun j => c j • ((2 : k) • v j))
+              simp
     have h1 : c i • ((2 : k) • v i) = 0 := hcompute ▸ hzero
     rw [smul_eq_zero] at h1
     rcases h1 with h | h
@@ -141,9 +141,9 @@ theorem exists_frame_of_family [FiniteDimensional k V] (h2 : (2 : k) ≠ 0) {m :
     rw [coe_basisOfLinearIndependentOfCardEqFinrank]
     by_cases h : j = Fin.last m
     · subst h
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact (hA (Fin.last m)).2
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact hB (Fin.last m) j (Ne.symm h)
 
 end CFSG.StandardType.SpFrame

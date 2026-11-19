@@ -78,7 +78,7 @@ section SemiIsoClosure
 variable {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V]
 
 theorem semiIso_one (Φ : ReflForm F V) : SemiIso Φ 1 :=
-  ⟨RingEquiv.refl F, fun u v => rfl⟩
+  ⟨RingEquiv.refl F, fun _u _v => rfl⟩
 
 theorem semiIso_mul (Φ : ReflForm F V) {r s : Equiv.Perm V} (hr : SemiIso Φ r)
     (hs : SemiIso Φ s) : SemiIso Φ (r * s) := by
@@ -98,7 +98,7 @@ theorem semiIso_inv (Φ : ReflForm F V) {r : Equiv.Perm V} (hr : SemiIso Φ r) :
   rw [h, RingEquiv.symm_apply_apply]
 
 theorem semiIsoQ_one (Φ : QuadForm F V) : SemiIsoQ Φ 1 :=
-  ⟨RingEquiv.refl F, fun v => rfl⟩
+  ⟨RingEquiv.refl F, fun _v => rfl⟩
 
 theorem semiIsoQ_mul (Φ : QuadForm F V) {r s : Equiv.Perm V} (hr : SemiIsoQ Φ r)
     (hs : SemiIsoQ Φ s) : SemiIsoQ Φ (r * s) := by
@@ -217,7 +217,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
         (Matrix.mulVec (A : Matrix ι ι F) (fun j => σ (v j))) = fun j => σ (v j) := by
       rw [Matrix.mulVec_mulVec]
       simp
-    simp [h]
+    simp
   right_inv v := by
     funext i
     have h : Matrix.mulVec (A : Matrix ι ι F) (fun j => σ (σ.symm

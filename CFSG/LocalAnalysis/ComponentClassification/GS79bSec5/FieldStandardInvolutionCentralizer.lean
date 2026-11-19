@@ -48,7 +48,7 @@ theorem normal_sylow_two_involution_centralizer_of_odd_central_psl_three
       obtain ⟨S, hS⟩ :=
         exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
       rw [projUnip_eq_projUnitriangular, ← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     exact hU.map α.symm.toMonoidHom
   let L : Subgroup A := liftSubgroup 2 π V
   have hLp : IsPGroup 2 L := liftSubgroup_isPGroup (hp := hprime) hker hV
@@ -57,7 +57,7 @@ theorem normal_sylow_two_involution_centralizer_of_odd_central_psl_three
     show IsPGroup 2 (L.comap C.subtype) from hLp.comap_subtype (K := C)
   have hSQ : ∀ S : Sylow 2 C, (S : Subgroup C) ≤ Q := by
     intro S a ha
-    obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem (hp := hprime) S.isPGroup' ⟨a, ha⟩
+    obtain ⟨n, hn⟩ := exists_orderOf_eq_pow_of_mem (hp := hprime) S.isPGroup ⟨a, ha⟩
     have hnC : orderOf (a : C) = 2 ^ n := by
       simpa using hn
     have hnA : orderOf (a : A) = 2 ^ n := by

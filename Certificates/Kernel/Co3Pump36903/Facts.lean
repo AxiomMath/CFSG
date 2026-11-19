@@ -126,7 +126,7 @@ theorem length_filter_range (f : Nat → Bool) :
   | N + 1 => by
     rw [List.range_succ, List.filter_append, List.length_append, length_filter_range f N]
     change _ = Nat.add (cntN N f) (cond (f N) 1 0)
-    cases hf : f N <;> simp [List.filter_cons, hf]
+    cases hf : f N <;> simp [hf]
 
 theorem five_all : ∀ k < 1500, fiveK k = true := by
   intro k hk

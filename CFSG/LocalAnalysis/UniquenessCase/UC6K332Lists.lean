@@ -168,7 +168,7 @@ theorem row332_of_rows
     · exact goodRow_of_k33Cover hS hnaS hc
     · have hsL := isSimpleGroup_of_k33Models hm
       exact goodRow_quot_of_simple hsL hnaL (goodRow_of_k33Models hR hsL hnaL h2 hm)
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 3) (G := Subgroup.center L)).1 hZ3
     have hodd : Odd (Nat.card (Subgroup.center L)) := by
       rw [hn]

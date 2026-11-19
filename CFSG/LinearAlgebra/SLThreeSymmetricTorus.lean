@@ -32,13 +32,13 @@ private noncomputable def symChangeBasis (h2 : (2 : K) ≠ 0) : GL (Fin 3) K whe
   val_inv := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, h2, mul_inv_cancel₀ h2]
+      simp [Matrix.mul_apply, Fin.sum_univ_three]
     all_goals field_simp
     all_goals norm_num
   inv_val := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, h2, mul_inv_cancel₀ h2]
+      simp [Matrix.mul_apply, Fin.sum_univ_three]
     all_goals field_simp
     all_goals norm_num
 
@@ -76,7 +76,7 @@ theorem coe_symTorusMatHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
   rw [slConjugation_matrix, coe_diagTorusHom]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [symChangeBasis, symTorusA, symTorusB, Matrix.mul_apply, Fin.sum_univ_three, h2]
+    simp [symChangeBasis, symTorusA, symTorusB, Matrix.mul_apply, Fin.sum_univ_three]
   all_goals field_simp
   all_goals ring
 
@@ -100,8 +100,7 @@ private theorem symTorusMatHom_injective (h2 : (2 : K) ≠ 0) :
   rw [coe_symTorusMatHom h2, coe_symTorusMatHom h2] at h'
   have h00 := congrFun (congrFun h' 0) 0
   have h02 := congrFun (congrFun h' 0) 2
-  simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons, Matrix.zero_apply] at h00 h02
+  simp only [Matrix.of_apply, Matrix.cons_val_zero, Matrix.head_cons, Matrix.cons_val_two, Matrix.tail_cons] at h00 h02
   have hA : symTorusA lam = symTorusA mu := h00
   have hB : symTorusB lam = symTorusB mu := h02
   apply Units.ext
@@ -181,8 +180,7 @@ theorem oddDiag₃SL_conj_symTorusMat (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     coe_oddDiag₃SL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, symTorusA, symTorusB,
-      symTorusA_inv, symTorusB_inv]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, symTorusA, symTorusB]
   all_goals ring
 
 theorem oddDiag₂SL_conj_symTorusMat (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
@@ -241,7 +239,6 @@ theorem slConjugation_symTorusMat_of_diagonal (h2 : (2 : K) ≠ 0) {A : GL (Fin 
     simp [hA, hAinv, coe_symTorusMatHom h2, Matrix.mul_apply, Fin.sum_univ_three,
       Matrix.diagonal, δ, symTorusA, symTorusB]
   all_goals field_simp
-  all_goals ring
 
 theorem fieldAut_symTorusHom (h2 : (2 : K) ≠ 0) (σ : K ≃+* K) (lam : Kˣ) :
     fieldAut 3 K σ (symTorusHom (K := K) h2 lam) =
@@ -253,7 +250,7 @@ theorem fieldAut_symTorusHom (h2 : (2 : K) ≠ 0) (σ : K ≃+* K) (lam : Kˣ) :
     coe_symTorusMatHom h2, coe_symTorusMatHom h2]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [symTorusA, symTorusB, map_add, map_mul, map_inv₀, map_div₀, map_ofNat]
+    simp [symTorusA, symTorusB, map_add, map_inv₀, map_div₀, map_ofNat]
 
 theorem dualAut_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     dualAut 3 K (symTorusHom (K := K) h2 lam) =
@@ -302,7 +299,7 @@ theorem conjAut_d0Hom_of_diagonal {A : GL (Fin 3) K} {a0 a1 a2 : K}
         Matrix (Fin 3) (Fin 3) K) * (A : Matrix (Fin 3) (Fin 3) K) := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [hA, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal]
+      simp [hA, Matrix.mul_apply, Matrix.diagonal]
     all_goals ring
   calc (A : Matrix (Fin 3) (Fin 3) K) *
         (!![((δ : K)), 0, 0; 0, (((δ⁻¹ : Kˣ) : K)), 0; 0, 0, 1] :

@@ -20,7 +20,7 @@ theorem involution_split_of_index_two {H : Type} [Group H] {N : Subgroup H} (hN 
   · by_cases hyN : y ∈ N
     · exact Or.inr ⟨y, hy, x, hx, hy2, hx2, hyN, hxN⟩
     · refine Or.inr ⟨x * y, C.mul_mem hx hy, x, hx, ?_, hx2, ?_, hxN⟩
-      · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hx2' : x ^ 2 = 1 := by simpa [hx2] using pow_orderOf_eq_one x
         have hy2' : y ^ 2 = 1 := by simpa [hy2] using pow_orderOf_eq_one y
         have hsq : (x * y) ^ 2 = 1 := by

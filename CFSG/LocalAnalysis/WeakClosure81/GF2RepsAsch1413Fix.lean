@@ -17,7 +17,7 @@ theorem a1413_exists_fixed_of_odd {Q : Type} [Group Q] [Finite Q] {A : Subgroup 
     (hA : IsPGroup 2 A) {D : Set Q} (hD : ∀ a ∈ A, ∀ d ∈ D, a * d * a⁻¹ ∈ D)
     (hodd : Odd (Nat.card D)) : ∃ d ∈ D, ∀ a ∈ A, a * d * a⁻¹ = d := by
   classical
-  letI : MulAction ↥A ↥D :=
+  let : MulAction ↥A ↥D :=
     { smul := fun a d => ⟨a.1 * d.1 * a.1⁻¹, hD a.1 a.2 d.1 d.2⟩
       one_smul := fun d => Subtype.ext (by
         show (1 : ↥A).1 * d.1 * (1 : ↥A).1⁻¹ = d.1
@@ -37,7 +37,7 @@ theorem psp4_conj_class_invariant {K : Type} [Field K] [Finite K] (hodd : Odd (N
     (α : MulAut (StatedProj (StatedSp 2 K))) {x : StatedProj (StatedSp 2 K)}
     (hx : IsConj (u1 K) x) : IsConj (u1 K) (α x) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd_card hodd
   have hchar : ringChar K ≠ 2 := by
     intro h

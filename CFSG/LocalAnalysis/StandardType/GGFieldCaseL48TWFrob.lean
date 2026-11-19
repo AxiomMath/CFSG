@@ -30,7 +30,7 @@ theorem not_mem_commutator_of_automizer {p : ℕ} {B Bs : Subgroup G} {x : G}
       (Subgroup.normalizer (U₁ : Set G))).Normal) :
     x ∉ ⁅Subgroup.normalizer (U₁ : Set G), Subgroup.normalizer (U₁ : Set G)⁆ := by
   obtain ⟨hp, hxp, hxN, ⟨e, he⟩, hpel⟩ := ggL48_facts hS h46 hRp hRmax hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hab, ⟨s, hs2, hexp, ⟨u₀, hu₀, hord⟩, ⟨x', hx'x, hx'⟩, Hh, r, hHU, -, hHcard, hHB,
     hB₁card⟩, -, hB₁iff, -, -⟩ := id h46
   set B₁ : Subgroup G := Bs ⊓ Subgroup.centralizer (X : Set G) with hB₁

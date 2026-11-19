@@ -23,7 +23,7 @@ private theorem sylow_five_normalizer_card_le_seven_thousand_two_hundred
     (S : Sylow 5 P) (hScard : Nat.card S = 25) :
     Nat.card (Subgroup.normalizer (S : Set P)) ≤ 7200 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let D := DoubleFiveElements X P S
   have hDcard : Fintype.card D = 12 :=
     card_doubleFiveElements_eq_twelve
@@ -203,7 +203,7 @@ private theorem sylow_five_normalizer_card_le_seven_thousand_two_hundred
   rw [hNcardEq, hrEq]
   exact (Nat.mul_le_mul hRcardLe hCcardLe).trans (by norm_num)
 
-@[expose] abbrev DoubleFiveIncidences
+abbrev DoubleFiveIncidences
     (X : Type) [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) :=
   Σ S : Sylow 5 P, DoubleFiveElements X P S
@@ -231,7 +231,7 @@ theorem five_transitive_order_ninety_four_million_impossible
     (hPcard : Nat.card P = 94348800) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 P := Sylow.nonempty.some
   have hScard : Nat.card S = 25 := by
     rw [S.card_eq_multiplicity, hPcard]
@@ -357,14 +357,14 @@ theorem five_transitive_order_ninety_four_million_impossible
     refine ⟨g, ?_⟩
     ext i
     exact hg i
-  letI : MulAction.IsPretransitive P E := by
+  let : MulAction.IsPretransitive P E := by
     change MulAction.IsMultiplyPretransitive P X 5
     exact hP5
-  letI : Nonempty E := Fintype.card_pos_iff.mp (by
+  let : Nonempty E := Fintype.card_pos_iff.mp (by
     change 0 < Fintype.card (Fin 5 ↪ X)
     rw [Fintype.card_embedding_eq, Fintype.card_fin, hcard]
     norm_num)
-  letI : Unique (MulAction.orbitRel.Quotient P E) :=
+  let : Unique (MulAction.orbitRel.Quotient P E) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P E).mp hP5)

@@ -33,7 +33,7 @@ theorem rk_lt (i : Ix) : rk i < 4 := by
 @[expose] def rk2 : Ix → ℕ := Sum.elim (fun i => i.val) (fun i => 1 - i.val)
 
 theorem rk2_lt (i : Ix) : rk2 i < 2 := by
-  rcases i with i | i <;> simp [rk2] <;> omega
+  rcases i with i | i <;> simp [rk2]; omega
 
 @[expose] def Xm (T : Matrix (Fin 2) (Fin 2) F) : Matrix Ix Ix F := fromBlocks 1 T 0 1
 
@@ -97,8 +97,7 @@ theorem comm_YU_XU (T : Matrix (Fin 2) (Fin 2) F) :
   rw [commutatorElement_def]
   show Ym * Xm T * Ymi * Xm (-T) = Xm (mA * T * mDi - T)
   have h1 : Ym * Xm T * Ymi = Xm (mA * T * mDi) := by
-    simp only [Ym, Ymi, Xm, fromBlocks_multiply, Matrix.mul_one, Matrix.one_mul,
-      Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, mA_mul_mAi, mD_mul_mDi]
+    simp only [Ym, Ymi, Xm, fromBlocks_multiply, Matrix.mul_one, Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, mA_mul_mAi, mD_mul_mDi]
   rw [h1, Xm_mul, sub_eq_add_neg]
 
 @[expose] def mS : Matrix (Fin 2) (Fin 2) F := !![0, 0; 0, 1]
@@ -162,7 +161,7 @@ section Group
 
 variable {F : Type} [Field F] [Fact (Nat.Prime 3)] [CharP F 3]
 
-@[expose] def W (F : Type) [Field F] [Fact (Nat.Prime 3)] [CharP F 3] :
+@[expose] def W (F : Type) [Field F] [CharP F 3] :
     Subgroup (StatedSp 2 F) :=
   (unitriSubgroup 3 rk 4 rk_lt).subgroupOf (StatedSp 2 F)
 
@@ -175,6 +174,7 @@ theorem W_pow_nine {g : StatedSp 2 F} (hg : g ∈ W F) : g ^ 9 = 1 := by
 theorem YU_pow_three : (YU : GL Ix F) ^ 3 = 1 := by
   simpa using IsUnitri.pow_eq_one (p := 3) rk2_lt (YU_unitri2 (F := F)) 1 (by norm_num)
 
+omit [Fact (Nat.Prime 3)] in
 theorem XU_pow_three (T : Matrix (Fin 2) (Fin 2) F) : XU T ^ 3 = 1 := by
   rw [XU_pow, show (3 • T : Matrix (Fin 2) (Fin 2) F) = 0 by
     rw [← Nat.cast_smul_eq_nsmul F, CharP.cast_eq_zero, zero_smul], XU_zero]
@@ -274,7 +274,7 @@ theorem dichThreeLieAt_proj_sp4 [Finite (StatedProj (StatedSp 2 F))] :
       rw [← hb0val, h2, XU_zero]
       rfl
     exact XU_ne 0 0 (by simpa [mT2] using hF2) h3
-  haveI : IsCyclic ↥⁅U, U⁆ := hcyc
+  have : IsCyclic ↥⁅U, U⁆ := hcyc
   have hord : orderOf b' = 3 := orderOf_eq_prime hbp hb1
   have hcard : Nat.card (Subgroup.zpowers a') ∣ Nat.card (Subgroup.zpowers b') := by
     rw [Nat.card_zpowers, Nat.card_zpowers, hord]
@@ -304,11 +304,11 @@ section Certified
 theorem dichThreeLieAt_psp4_three (K : Type) [Group K] [Finite K]
     (hmodel : LieModel K .PSp 2 3 1) : DichThreeLieAt K := by
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hmodel.statedClassicalModel_of_ne_zero (by norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 3 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 3 :=
     charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hcard, pow_one])
-  haveI : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
+  have : Finite (StatedProj (StatedSp 2 F)) := Finite.of_equiv K e.toEquiv
   exact DichThreeLieAt.of_mulEquiv e (Psp4Three.dichThreeLieAt_proj_sp4 (F := F))
 
 theorem dichThreeLieAt_G2_three (K : Type) [Group K] [Finite K]
@@ -318,11 +318,11 @@ theorem dichThreeLieAt_G2_three (K : Type) [Group K] [Finite K]
   let e2 : AdjointQuotient .G2 F ≃* ↥(adjointGroup .G2 F) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let e3 : K ≃* ↥(adjointGroup .G2 F) := e.trans e2
-  haveI : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF3 : Nat.card F = 3 := by simpa using hF
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 3 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hF3])
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 3 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hF3])
   have hpow := G2Radical.radG2_pow F Nat.prime_three (by norm_num) hF3
   refine DichThreeLieAt.of_mulEquiv e3 (dichThreeLieAt_of_pair_exponent
     (hasNoncommPair_adjointG2 (K := F) (p := 3)) (U := G2Radical.radG2 F) ?_ hpow ?_)

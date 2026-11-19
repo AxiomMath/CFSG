@@ -16,7 +16,7 @@ theorem k_L2SzAutRank_holds : K_L2SzAutRank := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnab' : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnab ⟨⟨h⟩⟩
   have hAR : CFSG.Quasithin.E2.E22N.AutRankLe m ↥L := by
     rcases hLS with h | h

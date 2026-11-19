@@ -20,8 +20,10 @@ variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
   hat' V₁ Vp H K T J = hat' V₁ Vp H K T I' ⊔ hat' V₁ Vp H K T (conjSub t⁻¹ I') ∧
     hat' V₁ Vp H K T I' ⊓ hat' V₁ Vp H K T (conjSub t⁻¹ I') = ⊥
 
+omit [Finite G] in
 theorem subM_self (V₁ IH : Subgroup G) : subM V₁ IH IH = ⊤ := Subgroup.subgroupOf_self _
 
+omit [Finite G] in
 theorem conjSub_inv_le_conjClosure {t : G} (htH : t ∈ H) (I : Subgroup G) :
     conjSub t⁻¹ I ≤ conjClosure I H := by
   intro y hy
@@ -30,12 +32,14 @@ theorem conjSub_inv_le_conjClosure {t : G} (htH : t ∈ H) (I : Subgroup G) :
   have e : t⁻¹ * (t⁻¹⁻¹ * y * t⁻¹) * t⁻¹⁻¹ = y := by group
   rwa [e] at h2
 
+omit [Finite G] in
 theorem V₁_le_conjSub_inv (h : HypF918 T V L V₁ Vp H K) (hV₁I : V₁ ≤ I) {t : G} (htH : t ∈ H) :
     V₁ ≤ conjSub t⁻¹ I := by
   intro v hv
   rw [mem_conjSub, inv_inv]
   exact hV₁I ((Subgroup.mem_normalizer_iff.mp (h.H_le_normalizer_V₁ htH) v).mp hv)
 
+omit [Finite G] in
 theorem K₀_le_normalizer_conjSub_inv (h : HypF918 T V L V₁ Vp H K)
     (hKI : conjClosure K T ≤ Subgroup.normalizer (I : Set G)) {t : G} (htH : t ∈ H) :
     conjClosure K T ≤ Subgroup.normalizer (conjSub t⁻¹ I : Set G) := by

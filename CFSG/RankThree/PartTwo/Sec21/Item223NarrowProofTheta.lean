@@ -50,7 +50,7 @@ theorem item223ThetaTrivial_of_narrow
     Nat.prime_three Nat.prime_two A _ hA3 hAT hcop
   have hS2 : IsPGroup 2 ((S : Subgroup (inSubgroup (aschbacherSolvableCore 3) X)).map
       (inSubgroup (aschbacherSolvableCore 3) X).subtype) :=
-    S.isPGroup'.map _
+    S.isPGroup.map _
   have hcomm := Sec6.commutator_eq_bot_of_mem_partTwoS hpair.mem_S haA ha1 le_rfl
     ((Subgroup.map_subtype_le _).trans (theta_le_theta_centralizer hXa)) hS2 hSA
   have hzS : ∀ s ∈ (S : Subgroup (inSubgroup (aschbacherSolvableCore 3) X)).map

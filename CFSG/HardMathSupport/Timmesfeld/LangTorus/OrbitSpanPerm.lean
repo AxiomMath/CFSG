@@ -15,7 +15,7 @@ theorem rationalRoots_eq_iUnion {τ : Tag} {L : Type} [Field L]
     (i : KernelComponent χ) :
     rationalRoots ρ χ i = ⋃ k : ℕ, (ρ : (Fin τ.rank → ℤ) → _)^[k] '' componentRoots χ i := by
   ext γ
-  simp only [rationalRoots, Set.mem_setOf_eq, Set.mem_iUnion, Set.mem_image]
+  simp only [rationalRoots, Set.mem_ofPred_eq, Set.mem_iUnion, Set.mem_image]
   constructor
   · rintro ⟨k, δ, hδ, rfl⟩
     exact ⟨k, δ, hδ, rfl⟩

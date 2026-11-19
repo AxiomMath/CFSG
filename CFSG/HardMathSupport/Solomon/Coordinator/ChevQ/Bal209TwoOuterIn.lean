@@ -116,7 +116,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem unit_pow_three_of_card_four (hK : Nat.card K = 4) (c : K) (hc : c ≠ 0) : c ^ 3 = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := FiniteField.pow_card_sub_one_eq_one c hc
   rwa [← Nat.card_eq_fintype_card, hK] at h
 
@@ -276,6 +276,7 @@ theorem exists_ghat (hK : Nat.card K = 4) (σ : K ≃+* K) (hσ : ∀ c, σ c = 
 
 open CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.HardMathSupport.Timmesfeld.CrossChar.SmallQ3
   CFSG.HardMathSupport.Timmesfeld.LangTorus in
+omit [Finite K] in
 theorem conj_ghat_mem_model [CharP K 2] (hK : Nat.card K = 4) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2)
     {g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
     (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
@@ -302,7 +303,7 @@ theorem conj_ghat_mem_model [CharP K 2] (hK : Nat.card K = 4) (σ : K ≃+* K) (
     exact Subgroup.mem_map_of_mem _ h1
   change g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) ĝ * g0 ∈ D.model
   convert h3 using 1
-  simp [hD, LangDatum.ofTwist, MulAut.conj_apply]
+  simp [hD, LangDatum.ofTwist]
 
 end TwE6
 
@@ -552,7 +553,7 @@ theorem gLAPPrimeCoreOf_centralizer_ext (hω3 : orderOf ω = 3) {m : ℕ} (hm : 
         have h1 : ([al] : List (List ℕ)).length = 1 := rfl
         have := j.2
         omega
-      simp [List.get_eq_getElem, h0]
+      simp [List.get_eq_getElem]
     rw [hj]
     change dV ω (subLin e (Multiplicative.toAdd a)) * dV ω (listVec τ.rank al) =
       dV ω (listVec τ.rank al) * dV ω (subLin e (Multiplicative.toAdd a))
@@ -636,7 +637,7 @@ theorem famCentS_singleton {τ : Tag} {k : Type} [Field k] {G : Subgroup (ModGL 
         have h1 : ([al] : List (List ℕ)).length = 1 := rfl
         have := j.2
         omega
-      simp [List.get_eq_getElem, h0]
+      simp [List.get_eq_getElem]
     rw [hj]
     exact h
 
@@ -993,7 +994,7 @@ theorem twE6TwoOuterModel_of_exotic
   · exact h K hK σ hσ g0 hg0C hg0 m hmM hmΓ hm3 y hyG a ha3 hnon hsy
   ·
     have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-    haveI hFin : Finite ↥(⁅twE6TwoModel L, twE6TwoModel L⁆ : Subgroup (ModGL Tag.E6 L)) :=
+    have hFin : Finite ↥(⁅twE6TwoModel L, twE6TwoModel L⁆ : Subgroup (ModGL Tag.E6 L)) :=
       Finite.of_equiv _ (twE6TwoEquiv hK σ hσ hg0C hg0).toEquiv
     obtain ⟨ω₀, hω₀⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [card_units_four hK])
     set ω : Lˣ := Units.map (algebraMap K L).toMonoidHom ω₀ with hωdef
@@ -1030,7 +1031,7 @@ theorem bal209TwoOuter_of_innCore (h : TwE6TwoOuterInnCore) : Bal209TwoOuter := 
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hcard4 : Nat.card K' = 4 := by
       rw [hcard, hq2.1, hq2.2]; norm_num
-    haveI : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
+    have : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
     have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by
       have := hσ c
       rwa [hq2.1, hq2.2, pow_one] at this

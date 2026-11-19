@@ -73,7 +73,7 @@ theorem exists_mu_unitary {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) {K : Type} [
   set νK : K := -((μ₀ : K) * ε (μ₀ : K))⁻¹ with hνK
   have hνKne : νK ≠ 0 := by
     rw [hνK]
-    simpa using hκne
+    simp
   have hνmem : νK ∈ F := by
     rw [hFdef, mem_fixSubfield, hνK, map_neg, map_inv₀, hκσ]
   let σQ : ↥F ≃+* ↥F := fixSubfieldRestrict ε σ

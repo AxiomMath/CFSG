@@ -52,7 +52,7 @@ structure HeClassData (K : Type) [Group K] : Prop where
 
 theorem HeInvolutions.of_classData {K : Type} [Group K] (hK : HeClassData K) {H : Subgroup G}
     (e : ↥H ≃* K) : HeInvolutions H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcard, ⟨A, hAc, hAs, hA8⟩, tA, tB, sqA, neA, sqB, neB, hcov, hcA, hcB⟩ := hK
   have hcent : ∀ s : ↥H, Nat.card ↥(H ⊓ Subgroup.centralizer ({(s : G)} : Set G)) =
       Nat.card ↥(Subgroup.centralizer ({e s} : Set K)) := fun s =>
@@ -138,7 +138,7 @@ section ClassData
 
 
 theorem heClassData (hE8 : HePE8) : HeClassData ↥heP := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAP, hAc, hAs, hA8⟩ := hE8
   have hA2 : heGenPerm 0 ^ 2 = 1 := by
     have h := pow_orderOf_eq_one (heGenPerm 0)
@@ -277,7 +277,7 @@ theorem tabMSeven_shapeRkAt'_of_heP (hOut : SporadicOuterLeTwo) {G : Type} [Grou
     ShapeRkAt' 7 (GoodSpor 7 [.He]) (RkSpor 7 [.He]) k := by
   have hcard : Nat.card ↥H = 4030387200 := (Nat.card_congr e.toEquiv).trans card_heP
   have hZ : Subgroup.center ↥H = ⊥ := center_eq_bot_of_equiv_heP e
-  haveI : IsSimpleGroup ↥heP := heP_simple
+  have : IsSimpleGroup ↥heP := heP_simple
   have hs : IsSimpleGroup ↥H := MulEquiv.isSimpleGroup e
   have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
     by_contra hc
@@ -345,7 +345,7 @@ theorem tabMSeven_nonempty_mulEquiv_heP_of_relators {G : Type} [Group G] {x y : 
       exact ⟨presGen P 1, by rw [hψ1, h]⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
   have b' : NativeSporadic.He ≃* P.Group := b
-  haveI : IsSimpleGroup P.Group :=
+  have : IsSimpleGroup P.Group :=
     @MulEquiv.isSimpleGroup _ _ _ Units.instGroup CFSG.Sporadic.He.isSimpleGroup_He b'.symm
   have hker : ψ.ker = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with h | h

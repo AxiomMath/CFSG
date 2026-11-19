@@ -84,7 +84,7 @@ theorem mem_X [Finite Γ] (c : Ctx D E) (h : LChecks D Q) {g : Γ} (hg : g ∈ R
   have hstep : ∀ s ∈ {y | y ∈ D.gs.map E}, ∀ k < D.NE, ∃ k' < D.NE,
       X E D k' = s * X E D k := by
     intro s hs k hk
-    rw [Set.mem_setOf_eq] at hs
+    rw [Set.mem_ofPred_eq] at hs
     obtain ⟨g, hg, rfl⟩ := List.mem_map.1 hs
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hg
     obtain ⟨h1, h2⟩ := X_tg c h hk hi
@@ -123,7 +123,7 @@ theorem X_mem (c : Ctx D E) (h : LChecks D Q) {k : Nat} (hk : k < D.NE) : X E D 
         rw [ht] at e
         rw [e]
         refine (RX E D).mul_mem (Subgroup.subset_closure ?_) hpm
-        rw [Set.mem_setOf_eq, List.getD_eq_getElem _ _ hc]
+        rw [Set.mem_ofPred_eq, List.getD_eq_getElem _ _ hc]
         exact List.mem_map.2 ⟨_, List.getElem_mem hc, rfl⟩
   exact key _ k hk rfl
 

@@ -647,20 +647,20 @@ private lemma negTrans_eq_self_iff {n : ℕ} {a b : Fin n} (hab : a ≠ b)
   · intro h
     have h' := congrArg (fun g : Fin n → Multiplicative (ZMod 3) => g a) h
     rw [negTrans_apply a b hab f a] at h'
-    rw [if_pos rfl] at h'
+    rw [ite_eq_left rfl] at h'
     exact h'.symm
   · intro h
     funext k
     rw [negTrans_apply a b hab f k]
     by_cases hka : k = a
-    · rw [if_pos hka]
+    · rw [ite_eq_left hka]
       rw [hka]
       exact h.symm
     · by_cases hkb : k = b
-      · rw [if_neg hka, if_pos hkb]
+      · rw [ite_eq_right hka, ite_eq_left hkb]
         rw [h, inv_inv]
         exact congrArg f hkb.symm
-      · rw [if_neg hka, if_neg hkb]
+      · rw [ite_eq_right hka, ite_eq_right hkb]
 
 private lemma axis_fixed_of_mem_bCoordinateBlock {n : ℕ} (hp : Nat.Prime 3) (hp2 : 3 ≠ 2)
     {i0 : Fin n} {u : MulAut (Fin n → Multiplicative (ZMod 3))}
@@ -693,7 +693,7 @@ private lemma negTrans_axis_ne {n : ℕ} {i0 j : Fin n} (hij : i0 ≠ j) :
   intro h
   have h' := congrArg (fun f : Fin n → Multiplicative (ZMod 3) => f i0) h
   rw [negTrans_apply i0 j hij] at h'
-  rw [if_pos rfl] at h'
+  rw [ite_eq_left rfl] at h'
   rw [Pi.mulSingle_eq_of_ne (Ne.symm hij), Pi.mulSingle_eq_same] at h'
   have h1 : (1 : ZMod 3) = 0 := ofAdd_eq_one.mp h'.symm
   exact one_ne_zero h1
@@ -830,7 +830,7 @@ private lemma exists_coord_negTrans_of_mem_block {G : Type} [Group G] [Finite G]
     have ha_i0 : a ≠ i0 := by rw [← hbi0]; exact hab
     have h' := congrArg (fun f : Fin n → Multiplicative (ZMod 3) => f i0) hfix
     rw [negTrans_apply a i0 ha_i0] at h'
-    rw [if_neg (Ne.symm ha_i0), if_pos rfl] at h'
+    rw [ite_eq_right (Ne.symm ha_i0), ite_eq_left rfl] at h'
     rw [Pi.mulSingle_eq_of_ne ha_i0, Pi.mulSingle_eq_same] at h'
     have h1 : (1 : ZMod 3) = 0 := ofAdd_eq_one.mp h'.symm
     exact one_ne_zero h1

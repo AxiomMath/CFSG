@@ -48,7 +48,7 @@ private theorem w1369_ne_bot_of_isQuasisimple {K : Subgroup (MulAut M)}
     have ha : (a : MulAut M) = 1 := Subgroup.mem_bot.mp (hle a.2)
     have hb : (b : MulAut M) = 1 := Subgroup.mem_bot.mp (hle b.2)
     rw [ha, hb]
-  haveI : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
+  have : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
     have hc : Subgroup.center ↥K = ⊤ := by
       rw [eq_top_iff]
       intro x _
@@ -78,8 +78,8 @@ theorem beta_core_no_sympform {M : Type} [CommGroup M] [Finite M]
     (hDtv (e0 : MulAut M) he0mem he0ne').2
   have hKperf : ⁅K, K⁆ = K := w1369_perfect_of_isQuasisimple hKq
   have hK1 : K ≠ ⊥ := w1369_ne_bot_of_isQuasisimple hKq
-  letI : Module (ZMod 2) (Additive M) := CFSG.Quasithin.H13.Mult.zmodModuleW hM2
-  haveI : Module.Finite (ZMod 2) (Additive M) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive M) := CFSG.Quasithin.H13.Mult.zmodModuleW hM2
+  have : Module.Finite (ZMod 2) (Additive M) := Module.Finite.of_finite
   let eL : MulAut M ≃* (Additive M ≃ₗ[ZMod 2] Additive M) :=
     CFSG.Quasithin.H13.Mult.linEquiv
   let Kb : Subgroup (Additive M ≃ₗ[ZMod 2] Additive M) := K.map eL.toMonoidHom
@@ -260,11 +260,11 @@ theorem beta_core_no_sympform {M : Type} [CommGroup M] [Finite M]
   have hbound : Nat.card Sset ≤ 2 := by
     have h := lemmaH_alt hdim A' hA' b hb halt
     simpa only [Nat.card_zmod, Sset] using h
-  haveI : Finite (Additive M ≃ₗ[ZMod 2] Additive M) :=
+  have : Finite (Additive M ≃ₗ[ZMod 2] Additive M) :=
     Finite.of_injective (fun g : Additive M ≃ₗ[ZMod 2] Additive M =>
         (g : Additive M → Additive M))
       (fun g h hgh => LinearEquiv.ext (fun x => congrFun hgh x))
-  haveI : Finite Sset := Set.finite_univ.subset (Set.subset_univ Sset)
+  have : Finite Sset := Set.finite_univ.subset (Set.subset_univ Sset)
   let φ : D → Sset := fun e => ⟨eL (e : MulAut M), hmemA e e.2, hfixA e e.2, hpres e e.2⟩
   have hφinj : Function.Injective φ := by
     intro e1 e2 h

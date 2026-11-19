@@ -62,8 +62,8 @@ private theorem mem_stabilizer_of_toBlocks₂₁_eq_zero {n : ℕ} {g : StatedSp
     (h : (spMatrixOf g).toBlocks₂₁ = 0) (h' : (spMatrixOf g⁻¹).toBlocks₂₁ = 0) :
     g ∈ stabilizer n (ZMod 2) (lagrangianZero n) :=
   mem_stabilizer_of_mulVec_mem
-    (fun v hv => mulVec_mem_lagrangianZero_of_toBlocks₂₁_eq_zero h hv)
-    (fun v hv => mulVec_mem_lagrangianZero_of_toBlocks₂₁_eq_zero h' hv)
+    (fun _v hv => mulVec_mem_lagrangianZero_of_toBlocks₂₁_eq_zero h hv)
+    (fun _v hv => mulVec_mem_lagrangianZero_of_toBlocks₂₁_eq_zero h' hv)
 
 private theorem not_mem_range_tauSym_of_toBlocks₁₁_ne_one {n : ℕ} {g : StatedSp n (ZMod 2)}
     (h : (spMatrixOf g).toBlocks₁₁ ≠ 1) : g ∉ (tauSym n).range := by

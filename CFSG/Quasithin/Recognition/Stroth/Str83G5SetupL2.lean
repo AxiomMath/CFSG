@@ -29,13 +29,15 @@ private theorem q2_lt_s (hfr : Str83G4Frame L1 L2 S a) :
     omega
   exact lt_of_le_of_ne hQ2S hne
 
-private theorem d2_le_normalizer_q2 (hfr : Str83G4Frame L1 L2 S a)
+omit [Finite G] in
+private theorem d2_le_normalizer_q2 (_hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) :
     d.D2 ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) := by
   intro δ hδ
   exact le_normalizer_pCoreOf 2 (P2 L1 L2 S)
     ((le_sup_left : L2 ≤ P2 L1 L2 S) (F1.borelOf_le L2 S (d.hD2hall.1 hδ)))
 
+omit [Finite G] in
 private theorem d2_le_normalizer_s (hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) : d.D2 ≤ Subgroup.normalizer (S : Set G) := by
   obtain ⟨-, hB, -, -, -, -⟩ := hfr
@@ -43,6 +45,7 @@ private theorem d2_le_normalizer_s (hfr : Str83G4Frame L1 L2 S a)
     (le_sup_right : borelOf L2 S ≤ borelOf L1 S ⊔ borelOf L2 S).trans le_sup_left
   exact fun δ hδ => hB (hle (d.hD2hall.1 hδ))
 
+omit [Finite G] in
 private theorem s_le_normalizer_q2 :
     S ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) :=
   (le_sup_right : S ≤ bigB L1 L2 S).trans
@@ -52,7 +55,7 @@ private theorem s_le_normalizer_q2 :
 private theorem q2_orbitMap_injective
     (hfr : Str83G4Frame L1 L2 S a) (d : Str83G4Data L1 L2 S) {J : Subgroup G} {x : G}
     (hxJ : x ∈ J) (hxQ : x ∉ Q2 L1 L2 S) (hJS : J ≤ S)
-    (hDJ : d.D2 ≤ Subgroup.normalizer (J : Set G))
+    (_hDJ : d.D2 ≤ Subgroup.normalizer (J : Set G))
     (hmemJ : ∀ δ ∈ d.D2, δ * x * δ⁻¹ ∈ J) :
     Function.Injective (fun δ : d.D2 =>
       (QuotientGroup.mk (s := (Q2 L1 L2 S).subgroupOf J)
@@ -99,14 +102,14 @@ private theorem q2_orbitMap_injective
 
 private theorem q2_card_le_of_cartan
     (hfr : Str83G4Frame L1 L2 S a) (d : Str83G4Data L1 L2 S)
-    (hcard : Nat.card d.D2 = 2 ^ (2 * a + 1) - 1) {J : Subgroup G}
+    (_hcard : Nat.card d.D2 = 2 ^ (2 * a + 1) - 1) {J : Subgroup G}
     (hQJ : Q2 L1 L2 S ≤ J) (hJS : J ≤ S)
     (hDJ : d.D2 ≤ Subgroup.normalizer (J : Set G)) (hJQ : J ≠ Q2 L1 L2 S) :
     Nat.card d.D2 ≤ Nat.card (↥J ⧸ (Q2 L1 L2 S).subgroupOf J) - 1 := by
   classical
   have hlt : Q2 L1 L2 S < J := lt_of_le_of_ne hQJ (Ne.symm hJQ)
-  obtain ⟨x, hxJ, hxQ⟩ := SetLike.exists_of_lt hlt
-  haveI hQn : ((Q2 L1 L2 S).subgroupOf J).Normal :=
+  obtain ⟨x, hxJ, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
+  have hQn : ((Q2 L1 L2 S).subgroupOf J).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hJS.trans s_le_normalizer_q2)
   have hmemJ : ∀ δ ∈ d.D2, δ * x * δ⁻¹ ∈ J := fun δ hδ =>
     (Subgroup.mem_normalizer_iff.mp (hDJ hδ) x).mp hxJ
@@ -254,7 +257,7 @@ private theorem isUnit_label_of_chiEmb
       exact h
     dsimp only [N]
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   by_contra hnot
   obtain ⟨e, hepos, helt, hmod0⟩ := exists_mul_eq_zero_of_not_isUnit hN1 hnot
   have hzeta0 : ζ ^ (φ.1.val * e) = 1 := by
@@ -266,7 +269,7 @@ private theorem isUnit_label_of_chiEmb
     rw [← hg]
     exact Subgroup.mem_zpowers g
   have hS1 : g ∈ Subgroup.normalizer (S : Set G) := d2_le_normalizer_s hfr d hgD2
-  obtain ⟨s, hsS, hsQ⟩ := SetLike.exists_of_lt (q2_lt_s hfr)
+  obtain ⟨s, hsS, hsQ⟩ := _root_.IsConcreteLE.exists_of_lt (q2_lt_s hfr)
   have hβe : ∀ t ∈ S, β (g ^ e * t * (g ^ e)⁻¹) = β t := by
     intro t ht
     have h := (hβ.conj₁_pow hS1 e t ht).2
@@ -327,7 +330,7 @@ theorem exists_l2Emb
       exact h
     dsimp only [N]
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   let k : ℕ := ((hxunit.unit⁻¹ : (ZMod N)ˣ) : ZMod N).val
   let d₂ : G := g ^ k
   have hkZ : (k : ZMod N) = ((hxunit.unit : ZMod N)⁻¹) := by

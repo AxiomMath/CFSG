@@ -810,7 +810,7 @@ private theorem fi22NineIsSylowU :
   obtain ⟨S, hS⟩ := fi22OuterT_sylow
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   · change ¬ 2 ∣ (fi22NineT.subgroupOf fi22P).relIndex ⊤
     rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
@@ -1224,7 +1224,7 @@ private theorem fi22NineAGN :
 
 private theorem fi22NinePackageCore : IndexNinePackage ↥fi22NineNT := by
   classical
-  haveI := (fi22R_semidirect).1
+  have := (fi22R_semidirect).1
   refine ⟨fi22NineUN, fi22NinePR9, fi22NineQN, fi22NineIsSylowUN,
     fi22NineUN_le_PR9, ?_, ?_, fi22NineQN_le_PR9, fi22NineQN_card,
     fi22NineQN_three⟩
@@ -1240,7 +1240,7 @@ theorem index_nine_package : IndexNinePackage ↥(fi22P.subgroupOf fi22R) :=
 
 private theorem fi22NinePackageCore3 : IndexThreePackage ↥fi22NineNT := by
   classical
-  haveI := (fi22R_semidirect).1
+  have := (fi22R_semidirect).1
   refine ⟨fi22NineUN, fi22NinePR3, fi22NineAN, fi22NineGN,
     fi22NineIsSylowUN, fi22NineUN_le_PR3, ?_, ?_, fi22NineAN_mem_PR3,
     fi22NineAN_ne_one, fi22NineAN3, fi22NineAGN⟩

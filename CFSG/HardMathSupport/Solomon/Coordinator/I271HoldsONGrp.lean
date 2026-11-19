@@ -54,7 +54,7 @@ theorem i271on_alt_card (e : H ≃* alternatingGroup (Fin 6)) : Nat.card H = 360
   rw [Nat.card_congr e.toEquiv, i271on_card_alt6]
 
 theorem i271on_alt_center (e : H ≃* alternatingGroup (Fin 6)) : Subgroup.center H = ⊥ := by
-  haveI := i271on_alt_simple e
+  have := i271on_alt_simple e
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center H) with h | h
   · exact h
   · exfalso
@@ -126,10 +126,10 @@ theorem i271on_balanceH (e : H ≃* alternatingGroup (Fin 6)) {E : Subgroup H}
 
 theorem i271on_closure_threePrime (e : H ≃* alternatingGroup (Fin 6)) :
     Subgroup.closure {h : H | Nat.Coprime 3 (orderOf h)} = ⊤ := by
-  haveI := i271on_alt_simple e
+  have := i271on_alt_simple e
   have h360 := i271on_alt_card e
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite H := Nat.finite_of_card_ne_zero (by omega)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 2 (by rw [h360]; norm_num : 2 ∣ Nat.card H)
   have hg1 : g ≠ 1 := fun h => by simp [h] at hg
   have hN : Subgroup.normalClosure ({g} : Set H) = ⊤ := by
@@ -220,12 +220,12 @@ theorem i271onRes_conj (H : Subgroup S) {h : S} (hh : h ∈ H) :
   carrier := {y | σ y = y}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := map_one σ
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 end Restrict

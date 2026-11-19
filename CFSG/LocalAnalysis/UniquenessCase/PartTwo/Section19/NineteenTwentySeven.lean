@@ -30,12 +30,12 @@ private theorem exists_odd_prime_dvd_of_isComponent {H K : Subgroup G} (hKH : K 
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ q ∣ Nat.card K := by
   have hq : CFSG.IsQuasisimple ↥K :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKH) hK.1
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : Group.IsPerfect ↥K := hq.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
+  have : Group.IsPerfect ↥K := hq.1
   rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd (Nat.card K) with ⟨k, hk⟩ | hodd
   · exfalso
-    haveI : IsPGroup 2 ↥K := IsPGroup.iff_card.mpr ⟨k, hk⟩
-    haveI : Group.IsNilpotent ↥K := (show IsPGroup 2 ↥K from ‹_›).isNilpotent
+    have : IsPGroup 2 ↥K := IsPGroup.iff_card.mpr ⟨k, hk⟩
+    have : Group.IsNilpotent ↥K := (show IsPGroup 2 ↥K from ‹_›).isNilpotent
     exact Group.IsPerfect.not_isSolvable ↥K inferInstance
   · obtain ⟨q, hqprime, hqdvd, hqodd⟩ := hodd
     refine ⟨q, hqprime, ?_, hqdvd⟩
@@ -53,7 +53,7 @@ theorem nineteen_twentyseven (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
   have hAcomm : IsMulCommutative ↥A := isMulCommutative_of_isZModSq h.ctx22.ctx.hAcard
   have hAH : A ≤ H := h.hH ▸ le_centralizer_of_isMulCommutative_of_le hAcomm h.ctx22.hA₀
   by_contra hnot
-  rw [SetLike.le_def] at hnot
+  rw [_root_.IsConcreteLE.le_iff] at hnot
   push Not at hnot
   obtain ⟨a, haA, haN⟩ := hnot
   let f : ℕ → Subgroup G := fun i => K.map (MulAut.conj (a ^ i)).toMonoidHom
@@ -106,7 +106,7 @@ theorem nineteen_twentyseven (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
     intro i
     exact Subgroup.card_map_of_injective (MulAut.conj (a ^ i)).injective
   obtain ⟨q, hq, hq2, hqdvd⟩ := exists_odd_prime_dvd_of_isComponent hKH hKcomp
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqcard : ∀ i : ℕ, q ∣ Nat.card (f i) := by
     intro i
     rw [hf_card i]

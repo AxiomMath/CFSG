@@ -201,7 +201,7 @@ private theorem stage2_center_bot
     (hLx : L ≤ Subgroup.centralizer ({x} : Set G))
     (hrank_le : LargeEvenTwoLocalRank 3 G ≤ 4) :
     Subgroup.center ↥L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZdv : Nat.card (Subgroup.center ↥L) ∣ 2 :=
     hCentre (↥L ⧸ Subgroup.center ↥L) hmodelZ ↥L (MulEquiv.refl _) hperf
   have h3Z : ¬ 3 ∣ Nat.card (Subgroup.center ↥L) := by
@@ -297,7 +297,7 @@ private theorem stage3_hB0
     (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     (hBcard : Nat.card B = 3 ^ 4)
     (hCx : B ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
-    (hBsp : ∀ b ∈ B, b ^ 3 = 1)
+    (_hBsp : ∀ b ∈ B, b ^ 3 = 1)
     (hBab : IsElemAbelian 3 B)
     (hBstar : ∀ g : G, g ∈ Subgroup.centralizer (B : Set G) → g ^ 3 = 1 → g ∈ B) :
     ∀ S : Subgroup G, S ≤ L → IsPGroup 2 S → B ≤ Subgroup.normalizer (S : Set G) → S = ⊥ := by
@@ -348,7 +348,6 @@ private theorem stage3_hB0
     constructor
     · intro h
       refine ⟨b.2, ?_⟩
-      change (b : G) ∈ Subgroup.centralizer (L : Set G)
       rw [Subgroup.mem_centralizer_iff]
       intro m hm
       have hb := congrArg (fun f : MulAut ↥L => f ⟨m, hm⟩) h
@@ -586,7 +585,6 @@ theorem ggL48F4TwoThreeConfigInput_of_facts
         exact h1.symm
       ext g
       rw [hψ_coe t g, MulAut.one_apply]
-      change (t : G) * (g : G) * (t : G)⁻¹ = (g : G)
       have hg_comm : (g : G) * (t : G) = (t : G) * (g : G) :=
         Subgroup.mem_centralizer_iff.mp htC g g.2
       rw [← hg_comm]
@@ -599,7 +597,6 @@ theorem ggL48F4TwoThreeConfigInput_of_facts
       constructor
       · intro h
         refine ⟨t.2, ?_⟩
-        change (t : G) ∈ Subgroup.centralizer (L : Set G)
         rw [Subgroup.mem_centralizer_iff]
         intro m hm
         have hb := congrArg (fun f : MulAut ↥L => f ⟨m, hm⟩) h

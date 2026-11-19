@@ -72,10 +72,10 @@ theorem exists_good_twistedE6_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : �
     rw [← hg, hg1]
     simp
   obtain ⟨K₁, hK₁fin, hroot⟩ := exists_cubeExt K
-  haveI : Finite K₁ := hK₁fin
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K₁ := hK₁fin
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   by_cases hiso : TwistedE6DiagIsotropic K σ K₁ D
   ·
     have hC₁ : ∀ x ∈ D₀, baseChangeGL (algebraMap K K₁) (x : ModGL TwistTag.E6.tag K) ∈

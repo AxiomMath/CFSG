@@ -30,6 +30,7 @@ variable (hB : IsWeylDistanceBuilding cs δ) {J : Set ι} {a : C} {ι' Ω : Type
   (hpanel : ∀ (ω : Ω) (j : ↥J) (c : C), δ (Ψ ω) c = cs.simple j → c ∈ Set.range Ψ)
 
 include hB hadj hmem hbase hpanel in
+omit hB hadj in
 theorem range_eq_residue : Set.range Ψ = residue cs δ J a := by
   refine Set.Subset.antisymm (fun x hx => ?_) (fun y hy => ?_)
   · obtain ⟨ω, rfl⟩ := hx
@@ -53,7 +54,7 @@ noncomputable def chartOfMap (hB : IsWeylDistanceBuilding cs δ) {J : Set ι} {a
   have hsurj : Function.Surjective G := by
     intro x
     have hx : (x : C) ∈ Set.range Ψ := by
-      rw [range_eq_residue hB Y e Ψ hadj hmem hbase hpanel]
+      rw [range_eq_residue Ψ hmem hbase hpanel]
       exact x.2
     obtain ⟨ω, hω⟩ := hx
     exact ⟨ω, Subtype.ext hω⟩
@@ -160,7 +161,7 @@ private theorem hmbRC_mem_restrict_residue_of_mem (hB : IsWeylDistanceBuilding c
     exact ((buildingOver cs δ J).restrict _).mem_residue_trans (ih hb'R) hstep
 
 private theorem hmbRC_mem_residue_of_mem_restrict (hB : IsWeylDistanceBuilding cs δ)
-    {I J : Set ι} (hIJ : I ⊆ J) {a : C} {b : C} (hb : b ∈ residue cs δ J a)
+    {I J : Set ι} (_hIJ : I ⊆ J) {a : C} {b : C} (hb : b ∈ residue cs δ J a)
     {c : C} (hc : c ∈ residue cs δ J a)
     (h : (⟨c, hc⟩ : ↥(residue cs δ J a)) ∈
       ((buildingOver cs δ J).restrict (residue cs δ J a)).residue

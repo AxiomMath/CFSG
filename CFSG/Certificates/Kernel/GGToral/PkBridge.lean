@@ -118,12 +118,12 @@ theorem convN_le {n F G : ℕ} {f g : ℕ → ℕ} (hf : ∀ j < n, f j ≤ F) (
     calc _ ≤ (Finset.range n).card := Finset.card_le_card_of_injOn (fun x => x.1)
             (fun x hx => by
               simp only [Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-                Set.mem_setOf_eq] at hx
+                Set.mem_ofPred_eq] at hx
               simp only [Finset.coe_range, Set.mem_Iio]
               exact hx.1.1)
             (fun x hx y hy hxy => by
               simp only [Finset.coe_filter, Finset.mem_product, Finset.mem_range,
-                Set.mem_setOf_eq] at hx hy
+                Set.mem_ofPred_eq] at hx hy
               simp only at hxy
               exact Prod.ext hxy (by omega))
       _ = n := Finset.card_range n

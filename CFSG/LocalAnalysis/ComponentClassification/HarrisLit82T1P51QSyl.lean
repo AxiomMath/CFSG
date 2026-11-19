@@ -25,7 +25,7 @@ theorem exists_sylow_of_equiv {R T : Type} [Group R] [Finite R] [Group T] [Finit
     intro s
     rw [hψ, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.map_eq_one_iff,
       QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hSO : (S : Subgroup R) ⊓ O = ⊥ := by
     refine disjoint_iff.mp (disjoint_of_coprime_natCard ?_)
     rw [hk]

@@ -109,8 +109,8 @@ theorem c23a_equiv_star (D : Data G) (h1217 : R1217 D) {V₀ V L K₀ : Subgroup
   have hkereq : (F11.CTilde D.M V₀ V).subgroupOf K₀ =
       (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀ := by
     rw [fifteen_two_cent D h1217 h hV]
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf K₀).Normal := hker₀ ▸ MonoidHom.normal_ker σ₀
-  haveI : ((F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf K₀).Normal := hker₀ ▸ MonoidHom.normal_ker σ₀
+  have : ((F11.CTilde D.M (v1Sub D.M V₀ V hV L) V).subgroupOf K₀).Normal :=
     hker₁ ▸ MonoidHom.normal_ker σ₁
   let e0 : ↥K₀ ⧸ (F11.CTilde D.M V₀ V).subgroupOf K₀ ≃* ↥(barSub V₀ V hV K₀) :=
     QuotientGroup.liftEquiv ((F11.CTilde D.M V₀ V).subgroupOf K₀) hσ₀ hker₀.symm

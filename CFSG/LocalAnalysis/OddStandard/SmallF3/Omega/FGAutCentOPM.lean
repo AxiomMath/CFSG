@@ -17,7 +17,7 @@ theorem fg_subgroup_two_minus (hR : R.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) W = 2) (hs : quadSign R = -1) (B : Subgroup (OGroup R))
     (hB : ∀ g ∈ B, QuadraticMap.orthogonalDet R g = 1) :
     Nat.card B ≤ 2 ∨ Nonempty (↥B ≃* Multiplicative (ZMod 4)) := by
-  haveI : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h2 : 2 ≤ Module.finrank (ZMod 3) W := by rw [hdim]
   have hpos : 0 < Module.finrank (ZMod 3) W := by rw [hdim]; norm_num
   have hEven : Even (Module.finrank (ZMod 3) W) := by rw [hdim]; exact ⟨1, rfl⟩
@@ -63,7 +63,7 @@ theorem fg_subgroup_two_minus (hR : R.Nondegenerate)
     rw [← hzp_card]
     exact Subgroup.card_dvd_of_le hzp_le
   have hKpos : 0 < Nat.card K := by
-    haveI : Nonempty ↥K := ⟨1, K.one_mem⟩
+    have : Nonempty ↥K := ⟨1, K.one_mem⟩
     exact Finite.card_pos_iff.mpr inferInstance
   have hKle8 : Nat.card K ≤ 8 := Nat.le_of_dvd (by norm_num) hKdvd8
   have hKge4 : 4 ≤ Nat.card K := Nat.le_of_dvd hKpos hKdvd4

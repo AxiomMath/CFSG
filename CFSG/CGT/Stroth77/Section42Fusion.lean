@@ -9,21 +9,26 @@ namespace CFSG.CGT.Stroth77.Stroth42
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_pow' (g x : G) (k : ℕ) : (g⁻¹ * x * g) ^ k = g⁻¹ * x ^ k * g := by
   simpa using conj_pow (a := g⁻¹) (b := x) (i := k)
 
+omit [Finite G] in
 theorem isConj_of_conj_eq {g x y : G} (h : g⁻¹ * x * g = y) : IsConj y x :=
   isConj_iff.2 ⟨g, by rw [← h]; group⟩
 
+omit [Finite G] in
 theorem mul_self_eq_one_of_isConj {y z : G} (h : IsConj y z) (hz2 : z * z = 1) : y * y = 1 := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h
   calc y * y = c⁻¹ * (c * y * c⁻¹ * (c * y * c⁻¹)) * c := by group
     _ = 1 := by rw [hc, hz2]; group
 
+omit [Finite G] in
 theorem ne_one_of_isConj {y z : G} (h : IsConj y z) (hz1 : z ≠ 1) : y ≠ 1 := by
   rintro rfl
   exact hz1 (isConj_one_right.1 h)
 
+omit [Finite G] in
 theorem exists_pow_eq_of_even {x z : G} {j k : ℕ} (hxz : x ^ 2 ^ j = z) (hz2 : z * z = 1)
     (hz1 : z ≠ 1) (hk : x ^ (2 * k) ≠ 1) :
     ∃ l : ℕ, l + 1 ≤ j ∧ (x ^ (2 * k)) ^ 2 ^ l = z ∧ (x ^ (2 * k)) ^ 2 ^ j = 1 := by
@@ -45,12 +50,14 @@ theorem exists_pow_eq_of_even {x z : G} {j k : ℕ} (hxz : x ^ 2 ^ j = z) (hz2 :
   · rw [← pow_mul, show 2 * (2 ^ v * q) * 2 ^ (v + 1 + d) = 2 ^ (v + 1 + d + 1) * (2 ^ v * q) by
       ring, pow_mul, hx1, one_pow]
 
+omit [Finite G] in
 theorem mul_self_mem_of_relIndex {S U : Subgroup G} (hU : U.relIndex S = 2) {y : G}
     (hyS : y ∈ S) : y * y ∈ U := by
   have h := Subgroup.sq_mem_of_index_two (H := U.subgroupOf S) hU ⟨y, hyS⟩
   rw [Subgroup.mem_subgroupOf] at h
   simpa [sq] using h
 
+omit [Finite G] in
 theorem mul_self_mem_of_mul_mem {D : Subgroup G} {uv y : G}
     (huvD : uv ∈ Subgroup.normalizer (D : Set G)) (huv : uv * uv = 1) (hy : y * uv ∈ D) :
     y * y ∈ D := by
@@ -63,6 +70,7 @@ theorem mul_self_mem_of_mul_mem {D : Subgroup G} {uv y : G}
       _ = y * y := by rw [huv]; group
   rwa [e] at h2
 
+omit [Finite G] in
 theorem pow_mem_of_mul_self {D U : Subgroup G} {uv y z : G} {l : ℕ} (hl : 1 ≤ l)
     (huvD : uv ∈ Subgroup.normalizer (D : Set G)) (huv : uv * uv = 1) (hz2 : z * z = 1)
     (hyU : y * y ∈ U) (h5 : y * y ∈ D ∨ y * y * uv ∈ D)
@@ -80,6 +88,7 @@ theorem pow_mem_of_mul_self {D U : Subgroup G} {uv y z : G} {l : ℕ} (hl : 1 �
       rw [pow_succ', pow_mul, sq]
       exact D.pow_mem (mul_self_mem_of_mul_mem huvD huv h5) _
 
+omit [Finite G] in
 theorem exists_conj_pow_eq {D U P : Subgroup G} {y z : G} {l : ℕ} (hPU : P ≤ U)
     (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (h3 : ∀ y ∈ D, y * y = 1 → y ≠ 1 → IsConj y z → ∃ p ∈ P, p⁻¹ * y * p = z)
@@ -89,6 +98,7 @@ theorem exists_conj_pow_eq {D U P : Subgroup G} {y z : G} {l : ℕ} (hPU : P ≤
     hconj
   exact ⟨p, hPU hpP, by rw [conj_pow', hp]⟩
 
+omit [Finite G] in
 theorem conj_not_mem {D U P : Subgroup G} {x z uv : G} {j : ℕ} (hPU : P ≤ U) (hj : 1 ≤ j)
     (hxz : x ^ 2 ^ j = z) (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (huvD : uv ∈ Subgroup.normalizer (D : Set G)) (huv : uv * uv = 1)
@@ -116,7 +126,7 @@ theorem false_of_harada [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a
     (h6' : ∀ y ∈ (S : Subgroup G), y ∉ U → y * y = 1 → ¬ IsConj y z)
     (h8 : ∀ y ∈ (S : Subgroup G), y ∉ U → ∀ l : ℕ, 1 ≤ l → y ^ 2 ^ l = z → y ^ 2 ^ j ≠ 1)
     (hconj : ∀ g : G, g⁻¹ * x * g ∉ U) : False := by
-  refine EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup' S.not_dvd_index hUS
+  refine EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup S.not_dvd_index hUS
     hU hxS hxU (fun g k hgS => ?_) hconj
   by_contra hgU
   set y := g⁻¹ * x ^ (2 * k) * g with hy
@@ -215,7 +225,7 @@ theorem exists_conj_le_centralizer (S : Sylow 2 G) {D P : Subgroup G} {z : G}
       exact Subgroup.card_le_of_le hle
     have h2 : Nat.card Q₁ < Nat.card R := Subgroup.card_lt_of_lt hRgt
     omega
-  exact Stroth76.exists_conj_le_of_maximal inf_le_right (S.isPGroup'.to_le inf_le_left) hmax hQ
+  exact Stroth76.exists_conj_le_of_maximal inf_le_right (S.isPGroup.to_le inf_le_left) hmax hQ
     hQz |>.imp fun k ⟨hk, hkQ⟩ => ⟨hk, fun q hq => (hkQ q hq).1⟩
 
 theorem not_isConj_of_e16 (S : Sylow 2 G) {D P : Subgroup G} {z y : G}

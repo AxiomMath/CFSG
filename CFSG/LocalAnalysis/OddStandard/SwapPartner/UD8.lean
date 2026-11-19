@@ -40,20 +40,20 @@ theorem exists_hom (h : D8Rel z g x) :
         · exact Or.inl (Subtype.ext (by simpa using h.g_sq))
         · exact Or.inr (Or.inr (Or.inr (Subtype.ext (by simp))))
         · exact Or.inr (Or.inr (Or.inl (Subtype.ext
-            (by simp only [Subgroup.coe_mul, Subgroup.coe_one]
+            (by simp only [Subgroup.coe_mul]
                 rw [← mul_assoc, h.g_sq, one_mul]))))
         · exact Or.inr (Or.inr (Or.inl (Subtype.ext (by simp))))
         · exact Or.inr (Or.inr (Or.inr (Subtype.ext (by simpa using u_x_comm_g h))))
         · exact Or.inl (Subtype.ext (by simpa using h.x_sq))
         · exact Or.inr (Or.inl (Subtype.ext
-            (by simp only [Subgroup.coe_mul, Subgroup.coe_one]
+            (by simp only [Subgroup.coe_mul]
                 rw [← mul_assoc, u_x_comm_g h, mul_assoc, h.x_sq, mul_one])))
         · exact Or.inr (Or.inr (Or.inr (Subtype.ext (by simp))))
         · exact Or.inr (Or.inr (Or.inl (Subtype.ext
-            (by simp only [Subgroup.coe_mul, Subgroup.coe_one]
+            (by simp only [Subgroup.coe_mul]
                 rw [mul_assoc, u_x_comm_g h, ← mul_assoc, h.g_sq, one_mul]))))
         · exact Or.inr (Or.inl (Subtype.ext
-            (by simp only [Subgroup.coe_mul, Subgroup.coe_one]
+            (by simp only [Subgroup.coe_mul]
                 rw [mul_assoc, h.x_sq, mul_one])))
         · exact Or.inl (Subtype.ext
             (by simp only [Subgroup.coe_mul, Subgroup.coe_one]
@@ -138,16 +138,16 @@ theorem exists_hom (h : D8Rel z g x) :
     { toFun := fun q => if q ∈ W then (1 : ℤˣ) else -1
       map_one' := by
         show (if (1 : closure ({z, g} : Set G)) ∈ W then (1 : ℤˣ) else -1) = 1
-        rw [if_pos (one_mem W)]
+        rw [ite_eq_left (one_mem W)]
       map_mul' := by
         intro a b
         by_cases ha : a ∈ W <;> by_cases hb : b ∈ W <;>
           simp [ha, hb, Subgroup.mul_mem_iff_of_index_two hindexW] }
   refine ⟨ε, ?_, ?_⟩
   · show (if (⟨z, z_mem z g⟩ : closure ({z, g} : Set G)) ∈ W then (1 : ℤˣ) else -1) = -1
-    rw [if_neg hzW]
+    rw [ite_eq_right hzW]
   · show (if (⟨g, g_mem z g⟩ : closure ({z, g} : Set G)) ∈ W then (1 : ℤˣ) else -1) = 1
-    rw [if_pos (show (⟨g, g_mem z g⟩ : closure ({z, g} : Set G)) ∈ W from
+    rw [ite_eq_left (show (⟨g, g_mem z g⟩ : closure ({z, g} : Set G)) ∈ W from
       Or.inr (Or.inl rfl))]
 
 theorem subgroup_cases (h : D8Rel z g x) {S : Subgroup G} (hS : S ≤ closure ({z, g} : Set G))

@@ -136,7 +136,7 @@ private theorem exists_centre_avoid_both [FiniteDimensional K V]
       exact hx.1 z hz
   have hsO : s ∈ stabOrbit X p s := by
     rw [mem_stabOrbit]
-    exact ⟨1, X.one_mem, by simpa using Submodule.mem_span_singleton_self p, by simp⟩
+    exact ⟨1, X.one_mem, by simp, by simp⟩
   obtain ⟨g, hg, c, hgc⟩ := exists_map_centre hirr hs hp
   have hcO : c • p ∈ stabOrbit X p s := by
     rw [← hgc]
@@ -279,7 +279,7 @@ theorem isCentre_of_mem_span_pair [FiniteDimensional K V] (hK : 3 ≤ Nat.card K
       apply hρ0
       have hbot := iInf_axisSpace_eq_bot hirr ⟨p, hp⟩
       have hmem : ρ ∈ (⨅ v ∈ {v : V | IsCentre X v}, axisSpace X v) := by
-        simp only [Submodule.mem_iInf, Set.mem_setOf_eq]
+        simp only [Submodule.mem_iInf, Set.mem_ofPred_eq]
         exact fun T hT => hall T hT
       rw [hbot] at hmem
       exact (Submodule.mem_bot K).mp hmem
@@ -292,8 +292,8 @@ theorem isCentre_of_mem_span_pair [FiniteDimensional K V] (hK : 3 ≤ Nat.card K
       rw [hγ₀, eq_div_iff hμρ]
       linear_combination h0
     have hK3 : ∃ a b c : K, a ≠ b ∧ a ≠ c ∧ b ≠ c := by
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
-      haveI := Fintype.ofFinite K
+      have : Finite K := Nat.finite_of_card_ne_zero (by omega)
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card] at hK
       exact Fintype.two_lt_card_iff.mp (by omega)
     obtain ⟨a₀, b₀, c₀, hab', hac', hbc'⟩ := hK3
@@ -436,7 +436,7 @@ theorem isCentre_of_ne_zero [FiniteDimensional K V] (hK : 3 ≤ Nat.card K)
     { carrier := {x | x = 0 ∨ IsCentre X x}
       add_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rcases hx with rfl | hx
         · rw [zero_add]
           exact hy
@@ -465,7 +465,7 @@ theorem isCentre_of_ne_zero [FiniteDimensional K V] (hK : 3 ≤ Nat.card K)
       zero_mem' := by simp
       smul_mem' := by
         intro c x hx
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rcases hx with rfl | hx
         · exact Or.inl (smul_zero c)
         by_cases hc : c = 0

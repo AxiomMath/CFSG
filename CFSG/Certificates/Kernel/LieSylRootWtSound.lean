@@ -413,7 +413,7 @@ theorem search_eq (R : List (List Int)) (hR : ∀ ρ ∈ R, ρ.length = 4) (mask
     by_cases hk : k < 4
     · have hb : Nat.blt k 4 = true := Nat.blt_eq.mpr hk
       rw [hb]
-      simp only [searchOK, if_pos hk]
+      simp only [searchOK, ite_eq_left hk]
       rw [allK_eq, List.all_map]
       apply all_congr'
       intro γ _
@@ -434,7 +434,7 @@ theorem search_eq (R : List (List Int)) (hR : ∀ ρ ∈ R, ρ.length = 4) (mask
         · rfl
         · exact absurd (Nat.blt_eq.mp h) hk
       rw [hb]
-      simp only [searchOK, if_neg hk]
+      simp only [searchOK, ite_eq_right hk]
       exact orderOK_eq p e
 
 theorem stabCheck_eq (R : List (List Int)) (hR : ∀ ρ ∈ R, ρ.length = 4) (mask : Nat)

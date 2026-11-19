@@ -15,11 +15,11 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalSemilinear Subgroup
 private theorem s16h_e3_z3_card_sylow_seven
     {H : Subgroup (Matrix.GeneralLinearGroup (Fin 3) OmegaField)}
     (P : Sylow 7 ↥H) (hPbot : (P : Subgroup ↥H) ≠ ⊥) : Nat.card (P : Subgroup ↥H) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
-  obtain ⟨k, hk⟩ := (P.isPGroup').exists_card_eq
+  obtain ⟨k, hk⟩ := (P.isPGroup).exists_card_eq
   have hdvd1 : Nat.card (P : Subgroup ↥H) ∣ Nat.card ↥H := by
     simpa only [Subgroup.card_top] using
       (Subgroup.card_dvd_of_le (le_top : (P : Subgroup ↥H) ≤ ⊤))
@@ -87,9 +87,9 @@ theorem s16h_e3_z3_normalizer_seven {H : Subgroup (Matrix.GeneralLinearGroup (Fi
     intro y hy
     have hy' : y = 1 := by simpa using hy
     rw [hy', one_mul, mul_one]
-  · haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-    haveI : Finite OmegaField := by
-      haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  · have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Finite OmegaField := by
+      have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
       exact Module.finite_of_finite (ZMod 2)
     set Psub : Subgroup ↥H := (P : Subgroup ↥H) with hPsubdef
     have hPcard : Nat.card Psub = 7 := s16h_e3_z3_card_sylow_seven P hPbot

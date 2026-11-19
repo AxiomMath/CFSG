@@ -19,22 +19,22 @@ private def planeChain_F09 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
 private lemma planeChain_F09_zero {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     (W : Submodule K V) (v : V) : planeChain_F09 W v 0 = ⊥ := by
   unfold planeChain_F09
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private lemma planeChain_F09_one {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     (W : Submodule K V) (v : V) : planeChain_F09 W v 1 = Submodule.span K ({v} : Set V) := by
   unfold planeChain_F09
-  rw [if_neg (by omega), if_pos rfl]
+  rw [ite_eq_right (by omega), ite_eq_left rfl]
 
 private lemma planeChain_F09_two {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     (W : Submodule K V) (v : V) : planeChain_F09 W v 2 = W := by
   unfold planeChain_F09
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 private lemma planeChain_F09_add_two {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     (W : Submodule K V) (v : V) (k : ℕ) : planeChain_F09 W v (k + 2) = W := by
   unfold planeChain_F09
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem isPGroup_two_of_plane_flag {K V H : Type} [Field K] [CharP K 2] [AddCommGroup V]
     [Module K V] [Group H] (Φ : QuadForm K V) (ρ : H →* Module.End K V)
@@ -120,10 +120,10 @@ theorem isSolvable_of_fix_line_in_plane {K V H : Type} [Field K] [CharP K 2] [Ad
         have := congrArg Prod.snd (MonoidHom.mem_ker.mp hg)
         simpa [φ, MonoidHom.prod_apply] using this
       exact sub_mem_of_tau_eq_one Φ ρ hs hJW hτ htau x hx
-  haveI : Group.IsSolvable ↥R := by
-    haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsSolvable ↥R := by
+    have : Group.IsNilpotent ↥R := hR2.isNilpotent
     infer_instance
-  haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup q) := hsolvO
+  have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup q) := hsolvO
   exact Group.isSolvable_of_ker_le_range R.subtype φ (by rw [Subgroup.range_subtype])
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.O6m4FF

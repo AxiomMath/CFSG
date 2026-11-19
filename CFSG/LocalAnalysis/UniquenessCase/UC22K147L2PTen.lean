@@ -95,8 +95,8 @@ theorem exists_tensor_field [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
         rw [hx, hy]) hh
   obtain ⟨V, _, _, ρ, e, hnt, hfin, hact, -⟩ :=
     Offender.tensor_decomposition_core 2 (fun i => ↥(P i)) φ hc hirrF hendF
-  haveI : ∀ i, Finite (V i) := hfin
-  haveI : ∀ i, Module.Finite F (V i) := fun i => Module.Finite.of_finite
+  have : ∀ i, Finite (V i) := hfin
+  have : ∀ i, Module.Finite F (V i) := fun i => Module.Finite.of_finite
   refine ⟨F, inferInstance, inferInstance, inferInstance, inferInstance,
     fun f hf => (hcommF f).mp hf, V 0, V 1, inferInstance, inferInstance, inferInstance,
     inferInstance, inferInstance, inferInstance, ρ 0, ρ 1,
@@ -104,6 +104,7 @@ theorem exists_tensor_field [Nontrivial Y] {K₁ K₂ : Subgroup (GLV Y)}
   · exact (congrArg TensorAux.binEquiv (hact 0 g v)).trans (TensorAux.binEquiv_factorEnd_zero _ _)
   · exact (congrArg TensorAux.binEquiv (hact 1 g v)).trans (TensorAux.binEquiv_factorEnd_one _ _)
 
+omit [Finite Y] in
 theorem exists_smul_eq_of_match {F : Type} [Field F] [Module F Y] {K₁ K₂ : Subgroup (GLV Y)}
     (hcomm : ∀ x ∈ K₁, ∀ y ∈ K₂, x * y = y * x) (hirr : Offender.IsIrrAct (K₁ ⊔ K₂))
     (hcom : ∀ f : Module.End (ZMod 2) Y, (∀ h ∈ K₁ ⊔ K₂, ∀ w, f (h w) = h (f w)) →

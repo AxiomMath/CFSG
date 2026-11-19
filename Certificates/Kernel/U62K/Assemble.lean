@@ -20,7 +20,7 @@ theorem slvl_zero_eq :
   unfold CFSG.Perm.lettersGroup
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, CFSG.Perm.mem_levelLetters_zero, CFSG.Sporadic.Fi23.LS_size]
+  simp only [Set.mem_ofPred_eq, CFSG.Perm.mem_levelLetters_zero, CFSG.Sporadic.Fi23.LS_size]
   rfl
 
 theorem orbit_T (hL : ∀ l < 42, InTwo 31671 14566 18249 (CFSG.Perm.pairG sylG l)) :

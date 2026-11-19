@@ -12,7 +12,6 @@ open CFSG.Sporadic.LySchreier CFSG.Sporadic.Ly.Omega MulAction
 
 theorem b_pow_five [LySeed] : b ^ 5 = 1 := by
   apply mat_injective
-  change mat (b ^ 5) = mat 1
   rw [mat_one]
   change ((b ^ 5 : J) : GL (Fin 111) (ZMod 5)).val = 1
   rw [Subgroup.coe_pow, Units.val_pow_eq_pow_val]

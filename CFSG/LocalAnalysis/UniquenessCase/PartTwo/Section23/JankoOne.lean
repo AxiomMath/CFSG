@@ -21,7 +21,7 @@ theorem kJ1_holds :
   refine ⟨?_, ?_, fun θ => ?_⟩
   · rw [Nat.card_congr f.toEquiv]
     exact CFSG.Walter.J1Props.card_walterJ1
-  · haveI : IsSimpleGroup CFSG.Open.walterJ1 := CFSG.Walter.J1Props.J1_simple
+  · have : IsSimpleGroup CFSG.Open.walterJ1 := CFSG.Walter.J1Props.J1_simple
     exact f.isSimpleGroup
   · obtain ⟨x, hx⟩ := CFSG.QuasithinUnique.K1.autInner_of_mulEquiv f
       CFSG.QuasithinUnique.K1.autInner_walterJ1 θ

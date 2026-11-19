@@ -127,7 +127,7 @@ theorem Counterexample4.false_of_quasisimpleModOTwo (c : Counterexample4 G)
     (hSE : CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.StronglyEmbeddedFive)
     (h8 : Section8L4Residual c) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hK5 : K5 :=
     ⟨k5A9_holds, k5A10_holds, k5A11_holds, hK.k5J3, hK.k5ONan, hK.k5U42, hK.k5L227⟩
   obtain ⟨p, hp⟩ := c.sigma_nonempty

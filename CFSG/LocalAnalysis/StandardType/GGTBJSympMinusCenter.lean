@@ -28,7 +28,7 @@ theorem sympMinus_center_two
     have hX : CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .PSp 3 2 1 :=
       CFSG.Blueprint.LieModel.of_mulEquiv e.symm
         (CFSG.LieType.Steinberg.CentralExt.SpClosed.lieModel_statedProj_sp hK' hadm)
-    haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hY
+    have : Group.IsPerfect Y := Group.isPerfect_def.mpr hY
     have hle := CFSG.EvenSmallLie.SympSix.card_ker_le_two hX
       (QuotientGroup.mk' (Subgroup.center Y))
       (QuotientGroup.mk'_surjective (N := Subgroup.center Y)) (by rw [QuotientGroup.ker_mk'])

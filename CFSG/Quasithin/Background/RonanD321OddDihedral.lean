@@ -43,7 +43,7 @@ theorem exists_fin_two_inverting (A : Matrix (Fin 2) (Fin 2) K) (hA : A.det = 1)
     · rw [Matrix.det_fin_two_of]
       grind
     · ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
+      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; grind
     · ext i j
       fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
 
@@ -98,7 +98,7 @@ theorem false_of_dihedral_mul_elemAbelian {G : Type} [Group G] [Finite G] {M : S
     (huc : u * c = c * u) (huz : u * z = z * u) (hcz : c * z = z * c)
     (hsc : s * c = c * s) (hsz : s * z = z * s)
     (hzc : z ∉ Subgroup.zpowers c) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsinv : s⁻¹ = s := (eq_inv_of_mul_eq_one_left hss).symm
   have hu2 : u * u ≠ 1 := by
     intro h

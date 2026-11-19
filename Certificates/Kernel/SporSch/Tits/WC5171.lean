@@ -32,7 +32,7 @@ theorem wordK_eq {wd : List Int} (hl : lettersK 13 wd = true) :
   have e : Nat.beq (wordK 1755 11 (mask 11) (pidn 1755 11) TitsD.S TitsD.SI wd) (wK wd) = true :=
     Nat.beq_refl _
   unfold wordEqK
-  rw [hl, e] <;> rfl
+  rw [hl, e]; rfl
 
 theorem wa {wd : List Int} (hl : lettersK 13 wd = true) :
     wordArr 1755 titsDerivedArrs wd = unpack 1755 11 (wK wd) :=

@@ -169,15 +169,15 @@ theorem exists_conj_inn
 theorem normal_two_subgroup_le_Lbar0 {N : Subgroup (V12 ≃ₗ[ZMod 2] V12)}
     (hN : N ≤ stabIn M0 a0V) (hnorm : ∀ g ∈ stabIn M0 a0V, ∀ n ∈ N, g * n * g⁻¹ ∈ N)
     (h2 : IsPGroup 2 N) : N ≤ Lbar0 := by
-  letI : MulAction ↥(stabIn M0 a0V) InnTy := innAction
-  haveI : MulAction.IsPretransitive ↥(stabIn M0 a0V) InnTy := ⟨fun x y => by
+  let : MulAction ↥(stabIn M0 a0V) InnTy := innAction
+  have : MulAction.IsPretransitive ↥(stabIn M0 a0V) InnTy := ⟨fun x y => by
     obtain ⟨g, hg, hgxy⟩ := exists_conj_inn x y
     exact ⟨⟨g, hg⟩, Subtype.ext hgxy⟩⟩
   have hodd : Odd (Nat.card InnTy) := by
     rw [card_InnTy]
     decide
   set Nn : Subgroup ↥(stabIn M0 a0V) := N.subgroupOf (stabIn M0 a0V) with hNn
-  haveI : Nn.Normal := ⟨fun n hn g => by
+  have : Nn.Normal := ⟨fun n hn g => by
     rw [hNn, Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm g.1 g.2 n.1 hn⟩
   have hNn2 : IsPGroup 2 Nn :=

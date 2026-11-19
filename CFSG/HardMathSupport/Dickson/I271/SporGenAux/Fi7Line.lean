@@ -34,7 +34,7 @@ theorem pelt_mem_of_normal {C F : Subgroup X} {m : ℕ} (hFC : F ≤ C) (hFcard 
     rw [hS, Subgroup.mem_subgroupOf]
     have := hFn g g.2 x hx'
     simpa using this⟩
-  haveI : Finite (Sylow p C) := inferInstance
+  have : Finite (Sylow p C) := inferInstance
   set c' : C := ⟨c, hc⟩ with hc'
   have hcyc : IsPGroup p (Subgroup.zpowers c') := by
     have hn' : c' ^ (p ^ n) = 1 := Subtype.ext (by simpa using hn)
@@ -70,7 +70,7 @@ theorem normal_of_card_lt {C F : Subgroup X} {m : ℕ} (hFC : F ≤ C) (hFcard :
   have hScard : Nat.card S = p ^ (Nat.card C).factorization p := by
     rw [hfac, hS, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFC).toEquiv, hFcard]
   let P : Sylow p C := Sylow.ofCard S hScard
-  haveI : Finite (Sylow p C) := inferInstance
+  have : Finite (Sylow p C) := inferInstance
   have hidx : (P : Subgroup C).index = m := by
     have h1 := Subgroup.card_mul_index (P : Subgroup C)
     have h2 : Nat.card (P : Subgroup C) = p ^ 3 := by
@@ -87,7 +87,7 @@ theorem normal_of_card_lt {C F : Subgroup X} {m : ℕ} (hFC : F ≤ C) (hFcard :
     have h1 : Nat.card (Sylow p C) % p = 1 % p := hmod
     rw [Nat.mod_eq_of_lt (lt_of_le_of_lt hle hmp), Nat.mod_eq_of_lt hp'.one_lt] at h1
     exact h1
-  haveI : Subsingleton (Sylow p C) := (Nat.card_eq_one_iff_unique.1 hone).1
+  have : Subsingleton (Sylow p C) := (Nat.card_eq_one_iff_unique.1 hone).1
   have hPn : P.Normal := Sylow.normal_of_subsingleton P
   intro c hc f hf
   have hf' : (⟨f, hFC hf⟩ : C) ∈ S := Subgroup.mem_subgroupOf.2 hf
@@ -156,14 +156,14 @@ theorem center_eq_zpowers_of_nonabelian {Q : Subgroup X} {c : X} (hQ : Nat.card 
     · left; simpa using h2
   have hcyc : IsCyclic (Q ⧸ Z) := by
     rcases hidx with h1 | h1
-    · haveI : Subsingleton (Q ⧸ Z) :=
+    · have : Subsingleton (Q ⧸ Z) :=
         (Nat.card_eq_one_iff_unique.1 (show Nat.card (Q ⧸ Z) = 1 from h1)).1
       infer_instance
     · exact isCyclic_of_prime_card (p := p) (show Nat.card (Q ⧸ Z) = p from h1)
-  haveI := hcyc
+  have := hcyc
   obtain ⟨a, ha, b, hb, hab⟩ := hnab
-  have hcomm := commutative_of_cyclic_center_quotient (QuotientGroup.mk' Z)
-    (QuotientGroup.ker_mk' Z).le ⟨a, ha⟩ ⟨b, hb⟩
+  have hcomm := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' Z)
+    (QuotientGroup.ker_mk' Z).le).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact hab (congrArg Subtype.val hcomm)
 
 end Center
@@ -329,6 +329,7 @@ theorem sevenLine_of_core {w : X} {F : Subgroup X} {m : ℕ} (hw1 : w ≠ 1) (hw
   exact sevenLine_of_data hw1 hw7 hwF hC hm hFC hFcard hFn
     (cent_of_core hFC hFcard hC hm hFn hw1 hw7 hwF hwC hZ hcore)
 
+omit [Finite X] hp in
 theorem SevenLine.conj {w : X} {F : Subgroup X} (h : SevenLine p w F) (g : X) :
     SevenLine p (g * w * g⁻¹) (F.map (MulAut.conj g).toMonoidHom) := by
   have key : ∀ f : X, g⁻¹ * (g * f * g⁻¹) * g = f := fun f => by group

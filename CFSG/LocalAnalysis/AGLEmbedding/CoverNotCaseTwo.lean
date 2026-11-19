@@ -18,6 +18,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem false_of_surjective_core {J : Type*} [Group J] [Finite J] {L : Type*} [Group L]
     (ι : J →* Y) (hι : Function.Injective ι) (φ : J →* L) (hcop : p.Coprime (Nat.card φ.ker))
     (hdich : ∀ V : Subgroup J, V.Normal → V = ⊤ ∨ V ≤ φ.ker)
@@ -83,7 +84,7 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic_normal {Rb : Sylow p 
     (hcyc : IsCyclic ((Rb : Subgroup Y) ⊓ K : Subgroup Y))
     (hout : Group.IsSolvable (Outer K)) : False := by
   have hZ := h.center_eq_bot_of_isCyclic hK hcyc
-  refine false_of_surjective_of_normal_cyclic hL hLnab φ hφ hcop (Rb.isPGroup'.to_le hXR) hncl
+  refine false_of_surjective_of_normal_cyclic hL hLnab φ hφ hcop (Rb.isPGroup.to_le hXR) hncl
     hXJ hXnc hZ ?_ hCcyc hout
   intro A hA hAK
   obtain ⟨S, hAS⟩ := hA.exists_le_sylow
@@ -133,6 +134,7 @@ theorem isCyclic_of_le_component {L : Subgroup Y} (hL : IsComponentOf L ⊤) {Rb
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hAL).toMonoidHom
     (MulEquiv.surjective _)
 
+omit [Finite Y] in
 theorem normal_iInf_normalizer_components :
     (⨅ (L : Subgroup Y) (_ : IsComponentOf L ⊤), Subgroup.normalizer (L : Set Y)).Normal := by
   refine ⟨fun n hn y => ?_⟩
@@ -148,7 +150,7 @@ theorem normal_iInf_normalizer_components :
     · rintro ⟨l, hl, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using hl
     · intro hx
-      exact ⟨y * x * y⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨y * x * y⁻¹, hx, by simp [mul_assoc]⟩
   rw [Subgroup.mem_normalizer_iff] at hnL' ⊢
   intro x
   rw [show x = y * (y⁻¹ * x * y) * y⁻¹ by group, ← hmem, hnL', hmem]
@@ -199,9 +201,9 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic_product {Rb : Sylow p
     (hL₁ : ¬ L₁ ≤ Y₀) (hL₂ : ¬ L₂ ≤ Y₀) (hcyc₁ : IsCyclic ((Rb : Subgroup Y) ⊓ L₁ : Subgroup Y))
     (hout : Group.IsSolvable (Outer L₁)) : False := by
   have hp := h.prime
-  have hX : IsPGroup p Xt := Rb.isPGroup'.to_le hXR
+  have hX : IsPGroup p Xt := Rb.isPGroup.to_le hXR
   set N₁ := ⨅ (L : Subgroup Y) (_ : IsComponentOf L ⊤), Subgroup.normalizer (L : Set Y)
-  haveI : N₁.Normal := normal_iInf_normalizer_components
+  have : N₁.Normal := normal_iInf_normalizer_components
   have hXN : Xt ≤ N₁ := by
     intro x hx
     simp only [N₁, Subgroup.mem_iInf]
@@ -222,7 +224,7 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic_product {Rb : Sylow p
   set W := Subgroup.normalizer (L₁ : Set Y) with hW
   have hLW : L₁ ≤ W := Subgroup.le_normalizer
   set K' := L₁.subgroupOf W with hK'
-  haveI hK'n : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLW).mpr le_rfl
+  have hK'n : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLW).mpr le_rfl
   set e : K' ≃* L₁ := Subgroup.subgroupOfEquivOfLe hLW
   have hZ₁ := h.center_eq_bot_of_isCyclic h₁ hcyc₁
   have hZ' : Subgroup.center K' = ⊥ := by
@@ -236,8 +238,8 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic_product {Rb : Sylow p
   have hJK : ∀ j : Jt, ∃ k ∈ K', ∃ c ∈ Subgroup.centralizer (K' : Set W),
       Subgroup.inclusion hJN j = k * c := by
     intro j
-    haveI := hJ
-    haveI := hout
+    have := hJ
+    have := hout
     obtain ⟨l, hl⟩ :=
       ComponentClassification.OuterAutomorphisms.perfect_action_inner
         (L₁.normalizerMonoidHom.comp (Subgroup.inclusion hJN)) j
@@ -301,13 +303,13 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic {Rb : Sylow p Y}
     by_cases htwo : ∃ L₂ : Subgroup Y, IsComponentOf L₂ ⊤ ∧ L₂ ≠ L₁
     · obtain ⟨L₂, h₂, hne⟩ := htwo
       by_cases hL₂ : L₂ ≤ Y₀
-      · haveI := (h.normal_of_two_components hcyc h₁ h₂ hL₁ hL₂).1
+      · have := (h.normal_of_two_components hcyc h₁ h₂ hL₁ hL₂).1
         exact Hyp111.ReducedNongeneration.false_of_surjective_of_cyclic_component h hL hLnab φ hφ
           hcop hXR hncl hXJ hXnc h₁ hL₁ (hcyc L₁ h₁) (hout L₁ h₁)
       · exact Hyp111.ReducedNongeneration.false_of_surjective_of_cyclic_product h hL hLnab φ hφ
           hcop hXR hncl hXJ hXnc h₁ h₂ (Ne.symm hne) hL₁ hL₂ (hcyc L₁ h₁) (hout L₁ h₁)
     · push Not at htwo
-      haveI := normal_of_forall_isComponentOf_eq h₁ htwo
+      have := normal_of_forall_isComponentOf_eq h₁ htwo
       exact Hyp111.ReducedNongeneration.false_of_surjective_of_cyclic_component h hL hLnab φ hφ
         hcop hXR hncl hXJ hXnc h₁ hL₁ (hcyc L₁ h₁) (hout L₁ h₁)
   push Not at hout₀
@@ -317,7 +319,7 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic {Rb : Sylow p Y}
     exact h.false_of_two_components hK h₂ (Ne.symm hne) hcyc hout₀
   push Not at htwo
   by_cases hO : CFSG.pCore p Y = ⊥
-  · haveI := normal_of_forall_isComponentOf_eq hK htwo
+  · have := normal_of_forall_isComponentOf_eq hK htwo
     have hC := h.centralizer_eq_bot_of_unique_component htwo
       (h.center_eq_bot_of_isCyclic hK (hcyc K hK)) hO
     refine Hyp111.ReducedNongeneration.false_of_surjective_of_cyclic_normal h hL hLnab φ hφ hcop
@@ -328,6 +330,7 @@ theorem ReducedNongeneration.false_of_surjective_of_cyclic {Rb : Sylow p Y}
   · exact h.false_of_unique_component_of_pCore_ne_bot hK htwo (hcyc K hK) (hout₀ K hK) hO
 
 omit [Finite Y] in
+omit hp in
 theorem coprime_card_ker_comp_inclusion {L : Type*} [Group L] {Jt J : Subgroup Y} (φ : Jt →* L)
     (hcop : p.Coprime (Nat.card φ.ker)) (h : J ≤ Jt) :
     p.Coprime (Nat.card (φ.comp (Subgroup.inclusion h)).ker) := by

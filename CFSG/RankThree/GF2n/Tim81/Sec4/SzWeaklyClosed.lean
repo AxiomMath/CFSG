@@ -17,6 +17,7 @@ open scoped LinearAlgebra.Projectivization Pointwise
 
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
 
+omit [CharP K 2] in
 private theorem suzukiT_le_normalizer_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiT a K ≤ Subgroup.normalizer (suzukiZ0 a K : Set ↥(suzukiGroup a K)) := by
   intro d hd
@@ -30,6 +31,7 @@ private theorem suzukiT_le_normalizer_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1
     exact (mem_suzukiZ0_iff hK).mpr ⟨((↑l : K) ^ (2 ^ (a + 1) + 1))⁻¹ * v, by simp⟩
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup, card_suzukiZ0 hK])
 
+omit [CharP K 2] in
 private theorem suzukiDElt_fixed_eq_one (hK : Nat.card K = 2 ^ (2 * a + 1))
     {l : Kˣ} {v : K} (hv : v ≠ 0)
     (h : suzukiDElt a K l * suzukiSElt a K 0 v * (suzukiDElt a K l)⁻¹ =
@@ -48,6 +50,7 @@ private theorem suzukiDElt_fixed_eq_one (hK : Nat.card K = 2 ^ (2 * a + 1))
     exact hunit.trans (one_pow (2 ^ (a + 1) + 1)).symm
   exact inv_eq_one.mp h1
 
+omit [CharP K 2] [Fintype K] in
 private theorem conjSubgroup_eq_self_of_mem_normalizer
     {T₀ P Z : Subgroup ↥(suzukiGroup a K)}
     (hsq : ∀ t ∈ T₀, t * t = 1)
@@ -79,6 +82,7 @@ private theorem conjSubgroup_eq_self_of_mem_normalizer
     exact hZinv x hxP (by simpa [pow_two] using hx2)
   exact hTgZ.trans hZN
 
+omit [CharP K 2] [Fintype K] in
 private theorem le_of_forall_conj_eq_self
     {T₀ P Z : Subgroup ↥(suzukiGroup a K)}
     (hT1 : T₀ ≠ ⊥) (hTZ : T₀ ≤ Z)
@@ -102,6 +106,7 @@ private theorem le_of_forall_conj_eq_self
     rw [← hgz]
     exact hmem
 
+omit [CharP K 2] in
 private theorem exists_conj_eq_suzukiZ0_aux {T₀ : Subgroup ↥(suzukiGroup a K)}
     (hT : IsPGroup 2 T₀) (hT1 : T₀ ≠ ⊥)
     (hsq : ∀ t ∈ T₀, t * t = 1)
@@ -158,6 +163,7 @@ private theorem exists_conj_eq_suzukiZ0_aux {T₀ : Subgroup ↥(suzukiGroup a K
   refine ⟨c, P, hPc', hTZeq.trans hZeq, ?_⟩
   rw [hTZeq, hZcard]
 
+omit [CharP K 2] in
 theorem exists_conj_eq_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
     {T₀ : Subgroup ↥(suzukiGroup a K)} (hT : IsPGroup 2 T₀) (hT1 : T₀ ≠ ⊥)
     (hsq : ∀ t ∈ T₀, t * t = 1)
@@ -176,6 +182,7 @@ theorem exists_conj_eq_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
         group
     _ = conjSubgroup (c * (suzukiWElt a K)⁻¹) (szZ a K) := by rw [hszZ]
 
+omit [CharP K 2] in
 private theorem frobeniusComplement_conj (hK : Nat.card K = 2 ^ (2 * a + 1))
     {T₀ : Subgroup ↥(suzukiGroup a K)} {c : ↥(suzukiGroup a K)}
     (hT₀ : T₀ = conjSubgroup c (suzukiZ0 a K))
@@ -234,6 +241,7 @@ private theorem frobeniusComplement_conj (hK : Nat.card K = 2 ^ (2 * a + 1))
       calc d = c * (c⁻¹ * d * c) * c⁻¹ := by group
         _ = 1 := by rw [hzc]; group
 
+omit [CharP K 2] in
 theorem exists_frobeniusComplement_sz (hK : Nat.card K = 2 ^ (2 * a + 1))
     {T₀ : Subgroup ↥(suzukiGroup a K)} (hT : IsPGroup 2 T₀) (hT1 : T₀ ≠ ⊥)
     (hsq : ∀ t ∈ T₀, t * t = 1)
@@ -247,6 +255,7 @@ theorem exists_frobeniusComplement_sz (hK : Nat.card K = 2 ^ (2 * a + 1))
   obtain ⟨c, P, hP, hT₀, hcard⟩ := exists_conj_eq_suzukiZ0_aux hT hT1 hsq hwc hK
   exact ⟨conjSubgroup c (suzukiT a K), frobeniusComplement_conj hK hT₀ hcard⟩
 
+omit [CharP K 2] in
 private theorem suzukiB_le_normalizer_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiB a K ≤ Subgroup.normalizer (suzukiZ0 a K : Set ↥(suzukiGroup a K)) := by
   have hUcent : suzukiU a K ≤
@@ -265,12 +274,14 @@ theorem conj_smul_eq_conjSubgroup {G : Type*} [Group G] (g : G) (S : Subgroup G)
   rw [Subgroup.mem_smul_pointwise_iff_exists]
   rfl
 
+omit [CharP K 2] in
 private theorem suzukiU_smul_suzukiInfty (hK : Nat.card K = 2 ^ (2 * a + 1))
     {u : ↥(suzukiGroup a K)} (hu : u ∈ suzukiU a K) :
     u • suzukiInfty K = suzukiInfty K := by
   have h := suzukiB_le_stabilizer hK (suzukiU_le_suzukiB a K hu)
   rwa [MulAction.mem_stabilizer_iff] at h
 
+omit [CharP K 2] in
 private theorem le_suzukiU_of_le_suzukiB (hK : Nat.card K = 2 ^ (2 * a + 1))
     {Q : Subgroup ↥(suzukiGroup a K)} (hQ : IsPGroup 2 Q) (hQB : Q ≤ suzukiB a K) :
     Q ≤ suzukiU a K := by
@@ -323,6 +334,7 @@ private theorem conj_le_stabilizer {G X : Type*} [Group G] [MulAction G X]
     _ = t • x := by rw [hsfix]
     _ = y := htx
 
+omit [CharP K 2] in
 private theorem smul_infty_ne (hK : Nat.card K = 2 ^ (2 * a + 1))
     {c c' : ↥(suzukiGroup a K)} {T₀ T₀' : Subgroup ↥(suzukiGroup a K)}
     (hT₀ : T₀ = conjSubgroup c (suzukiZ0 a K))
@@ -343,6 +355,7 @@ private theorem smul_infty_ne (hK : Nat.card K = 2 ^ (2 * a + 1))
       simpa [mul_inv_rev] using (suzukiB a K).inv_mem hg0B)
   rw [hT₀, hT₀', hZeq]
 
+omit [CharP K 2] in
 private theorem exists_involution_swap (hK : Nat.card K = 2 ^ (2 * a + 1))
     {x y : ℙ K (Fin 4 → K)}
     (hxΩ : x ∈ suzukiOmega a K) (hyΩ : y ∈ suzukiOmega a K) (hxy : x ≠ y) :
@@ -379,6 +392,7 @@ private theorem exists_involution_swap (hK : Nat.card K = 2 ^ (2 * a + 1))
       _ = g • suzukiInfty K := by rw [suzukiWElt_smul_suzukiLine_zero hK]
   exact ⟨t, htt, ht1, htx, hty⟩
 
+omit [CharP K 2] in
 private theorem conjSubgroup_eq_suzukiU_of_transport (hK : Nat.card K = 2 ^ (2 * a + 1))
     {c c' : ↥(suzukiGroup a K)} {P : Sylow 2 ↥(suzukiGroup a K)}
     (hP : (P : Subgroup ↥(suzukiGroup a K)) = conjSubgroup c (suzukiU a K))
@@ -412,7 +426,7 @@ private theorem conjSubgroup_eq_suzukiU_of_transport (hK : Nat.card K = 2 ^ (2 *
     rwa [(suzuki_ovoid_stabilizer hK).1] at h
   have hQ2 : IsPGroup 2 Q := by
     dsimp [Q]
-    exact ((P.isPGroup').map (MulAut.conj t).toMonoidHom).map (MulAut.conj c'⁻¹).toMonoidHom
+    exact ((P.isPGroup).map (MulAut.conj t).toMonoidHom).map (MulAut.conj c'⁻¹).toMonoidHom
   have hQU : Q ≤ suzukiU a K := le_suzukiU_of_le_suzukiB hK hQ2 hQB
   have hQcard : Nat.card Q = Nat.card (suzukiU a K) := by
     dsimp [Q]
@@ -420,6 +434,7 @@ private theorem conjSubgroup_eq_suzukiU_of_transport (hK : Nat.card K = 2 ^ (2 *
       (suzuki_unipotent_structure hK).2.1]
   exact Subgroup.eq_of_le_of_card_ge hQU (by rw [hQcard])
 
+omit [CharP K 2] in
 private theorem conjZ0_conj_of_transport (hK : Nat.card K = 2 ^ (2 * a + 1))
     {c c' : ↥(suzukiGroup a K)} {P P' : Sylow 2 ↥(suzukiGroup a K)}
     {T₀ T₀' : Subgroup ↥(suzukiGroup a K)}
@@ -466,6 +481,7 @@ private theorem conjZ0_conj_of_transport (hK : Nat.card K = 2 ^ (2 * a + 1))
     rw [← hTt, conjSubgroup_conjSubgroup, htt, conjSubgroup_one]
   exact ⟨hTt, hTt'⟩
 
+omit [CharP K 2] in
 theorem exists_involution_conj_eq_of_weaklyClosed_ne_sz (hK : Nat.card K = 2 ^ (2 * a + 1))
     {T₀ T₀' : Subgroup ↥(suzukiGroup a K)}
     (hT : IsPGroup 2 T₀) (hT1 : T₀ ≠ ⊥) (hsq : ∀ t ∈ T₀, t * t = 1)

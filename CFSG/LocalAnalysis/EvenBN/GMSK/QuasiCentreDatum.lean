@@ -76,7 +76,7 @@ theorem isComponent (d : QFixedRootDatum D n α J) :
   exact ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (subgroupOfEquivOfLe d.le_fixed).symm hq,
     d.normal.isSubnormal⟩
 
-theorem card_quotient_center_dvd (d : QFixedRootDatum D n α J) :
+theorem card_quotient_center_dvd (_d : QFixedRootDatum D n α J) :
     Nat.card (J ⧸ center J) ∣ Nat.card J :=
   Subgroup.card_quotient_dvd_card (center J)
 

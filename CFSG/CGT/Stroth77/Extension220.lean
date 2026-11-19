@@ -43,7 +43,7 @@ theorem hasStrothType_t230_or_t231_of_noInvolutionsCentralizing
   have hs : 1 ≤ s := by omega
   suffices key : HasStrothType C (StrothTypeIndex.t230 s hs) ∨
       HasStrothType C (StrothTypeIndex.t231 s hs) from key
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
   by_cases hcyc : IsCyclic (C ⧸ B.subgroupOf C)
   · exfalso

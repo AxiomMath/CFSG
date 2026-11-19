@@ -38,7 +38,7 @@ theorem exists_zP (P V : Subgroup G) (hVc : ∀ p ∈ P, ∀ v ∈ V, p * v = v 
     exact hv
 
 theorem norm_trick_mem (O Q D V Z : Subgroup G) (ρ : G) (hρ3 : ρ * ρ * ρ = 1)
-    (hQO : Q ≤ O) (hDO : D ≤ O) (hVQ : V ≤ Q) (hVZ : V ≤ Z)
+    (hQO : Q ≤ O) (hDO : D ≤ O) (_hVQ : V ≤ Q) (hVZ : V ≤ Z)
     (hOc : ∀ a ∈ O, ∀ b ∈ O, a * b * a⁻¹ * b⁻¹ ∈ V) (hOs : ∀ a ∈ O, a * a ∈ V)
     (hVO : ∀ v ∈ V, ∀ a ∈ O, v * a = a * v)
     (hρQ : ∀ q ∈ Q, ρ * q * ρ⁻¹ ∈ Q) (hρD : ∀ d ∈ D, ρ * d = d * ρ)

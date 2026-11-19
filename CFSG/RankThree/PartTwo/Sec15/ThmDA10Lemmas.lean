@@ -13,10 +13,10 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
-theorem psiOf_eq_one_of_mem {A Y : Subgroup G} (hA3 : IsPGroup 3 A) (hAY : A ≤ Y)
+theorem psiOf_eq_one_of_mem {A Y : Subgroup G} (hA3 : IsPGroup 3 A) (_hAY : A ≤ Y)
     (e : ↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10)) {a : ↥Y} (ha : (a : G) ∈ A)
     (h : psiOf Y e a = 1) : a = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha' : a ∈ CFSG.pPrimeCore 3 ↥Y := (psiOf_eq_one_iff Y e a).mp h
   have hmem : (a : G) ∈ pPrimeCoreOf 3 Y := Subgroup.mem_map.mpr ⟨a, ha', rfl⟩
   have hcop : ¬ 3 ∣ Nat.card (pPrimeCoreOf 3 Y) :=
@@ -66,14 +66,14 @@ theorem exists_omega_conj_subgroupOf {A Y F : Subgroup G} (hAY : A ≤ Y) (hF : 
     simpa using hzx
 
 theorem exists_lift_psiOf {A Y : Subgroup G} (hA3 : IsPGroup 3 A)
-    (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAY : A ≤ Y)
+    (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (_hAY : A ≤ Y)
     (e : ↥Y ⧸ CFSG.pPrimeCore 3 ↥Y ≃* alternatingGroup (Fin 10)) {n : alternatingGroup (Fin 10)}
     (hn : n ∈ Subgroup.normalizer
       (((A.subgroupOf Y).map (psiOf Y e) : Subgroup (alternatingGroup (Fin 10))) :
         Set (alternatingGroup (Fin 10)))) :
     ∃ m ∈ Subgroup.normalizer ((A.subgroupOf Y : Subgroup ↥Y) : Set ↥Y),
       ∀ a ∈ A.subgroupOf Y, psiOf Y e (m * a * m⁻¹) = n * psiOf Y e a * n⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥Y) :=
     (Nat.prime_three.coprime_iff_not_dvd).mp
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥Y))
@@ -106,6 +106,7 @@ theorem exists_lift_psiOf {A Y : Subgroup G} (hA3 : IsPGroup 3 A)
     rw [hmeq a ha]
   rw [h1, map_mul, map_mul, map_inv, hy₀]
 
+omit [Finite G] in
 theorem zpowers_subgroupOf {Y : Subgroup G} {c : G} (hc : c ∈ Y) :
     Subgroup.zpowers (⟨c, hc⟩ : ↥Y) = (Subgroup.zpowers c).subgroupOf Y := by
   ext x
@@ -122,7 +123,7 @@ theorem exists_threeCycle_point (hK7 : A7CentralizerThreeCycle) {A Y : Subgroup 
       ((psiOf Y e ⟨c', hc'⟩ : alternatingGroup (Fin 10)) : Equiv.Perm (Fin 10)).IsThreeCycle := by
   obtain ⟨c', hc'A, hc'Ω, K, hKle, ⟨ι⟩⟩ := hK
   have hc' : c' ∈ Y := hAY hc'A
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf c' = 3 :=
     (Nat.card_zpowers c').symm.trans
       (CFSG.RankThree.PartTwo.Sec13.zpowers_mem_omegaA_iff.mp hc'Ω).2.1

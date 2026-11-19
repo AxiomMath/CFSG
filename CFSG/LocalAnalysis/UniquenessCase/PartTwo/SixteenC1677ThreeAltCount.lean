@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s168e3_isElemAbelian_comap_of_injective {X Y : Type*} [Group X] [Group Y]
     {p : ℕ} {E : Subgroup Y} (hE : IsElemAbelian p E) (f : X →* Y)
     (hf : Function.Injective f) : IsElemAbelian p (E.comap f) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · apply Subtype.ext
     change (a : X) * (b : X) = (b : X) * (a : X)
@@ -33,14 +33,14 @@ private theorem s168e3_mulAut_conj_smul_eq_map {A : Type*} [Group A] (a : A)
   rfl
 
 theorem s168e3_four_le_pRank_of_alt_cover {M Y Z : Subgroup G} {n : ℕ} (hn9 : 9 ≤ n)
-    (hYM : Y ≤ M) (hYN : (Y.subgroupOf M).Normal) (hZY : Z ≤ Y)
+    (hYM : Y ≤ M) (hYN : (Y.subgroupOf M).Normal) (_hZY : Z ≤ Y)
     (φ : ↥Y →* alternatingGroup (Fin n)) (hφ : Function.Surjective φ)
     (hker : φ.ker = Z.subgroupOf Y) (hZ2 : IsPGroup 2 ↥Z)
     {y : G} (hyM : y ∈ M) (hy3 : orderOf y = 3) (hyY : y ∉ Y)
     (hcomm : ∀ u ∈ Y, y * u * y⁻¹ * u⁻¹ ∈ Z) :
     4 ≤ CFSG.Open.pRank 3 M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := Y ⊔ Subgroup.zpowers y
   have hYH : Y ≤ H := le_sup_left
   have hH_le_M : H ≤ M := sup_le hYM (Subgroup.zpowers_le.mpr hyM)
@@ -49,7 +49,7 @@ theorem s168e3_four_le_pRank_of_alt_cover {M Y Z : Subgroup G} {n : ℕ} (hn9 : 
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYM).mp hYN
   have hYH_normal : (Y.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYH).mpr (hH_le_M.trans hM_norm)
-  letI : (Y.subgroupOf H).Normal := hYH_normal
+  let : (Y.subgroupOf H).Normal := hYH_normal
   have hzy : IsPGroup 3 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy3]; norm_num)
   have hzyH : IsPGroup 3 ((Subgroup.zpowers y).subgroupOf H) := hzy.comap_subtype (K := H)

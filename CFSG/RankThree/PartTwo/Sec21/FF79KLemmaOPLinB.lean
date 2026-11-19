@@ -19,7 +19,7 @@ variable {n : ℕ} {k : Type} [Field k]
 theorem prod_dg (p q : Fin n) (x y : k) : ∏ i, dg p q x y i = x * y := by
   unfold dg
   rw [Finset.prod_mul_distrib]
-  simp only [Finset.prod_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.prod_ite_eq', Finset.mem_univ, ite_true]
 
 @[expose] def dgSL (p q : Fin n) (x y : k) (h : x * y = 1) : SpecialLinearGroup (Fin n) k :=
   ⟨diagonal (dg p q x y), by rw [det_diagonal, prod_dg, h]⟩
@@ -45,7 +45,7 @@ theorem tv_comm_dgSL (i j : Fin n) (h : i ≠ j) (c : k) (p q : Fin n) (x y : k)
   · obtain ⟨rfl, rfl⟩ := hab
     simp [hij, mul_comm]
   · have hab' : ¬(i = a ∧ j = b) := fun h => hab ⟨h.1.symm, h.2.symm⟩
-    simp [Matrix.single_apply, hab']
+    simp [hab']
 
 theorem dgSL_comm (p q p' q' : Fin n) (x y x' y' : k) (h : x * y = 1) (h' : x' * y' = 1) :
     dgSL p q x y h * dgSL p' q' x' y' h' = dgSL p' q' x' y' h' * dgSL p q x y h := by
@@ -73,11 +73,11 @@ theorem dgSL_pow_three (p q : Fin n) (x y : k) (h : x * y = 1) (hx : x ^ 3 = 1) 
   rw [← diagonal_one]
   congr 1
   funext i
-  simp only [Pi.pow_apply, dg, mul_pow, Pi.one_apply]
+  simp only [Pi.pow_apply, dg, mul_pow]
   split_ifs <;> simp [hx, hy]
 
 theorem exists_cube_root (hk : Nat.card k = 4) [Finite k] : ∃ W : k, W ^ 3 = 1 ∧ W ≠ 1 := by
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   classical
   have hc : Fintype.card k = 4 := by rw [← Nat.card_eq_fintype_card, hk]
   by_contra hno
@@ -111,7 +111,7 @@ theorem not_mem_scalars_offdiag (A : SpecialLinearGroup (Fin n) k) (i j : Fin n)
   rintro ⟨c, -, hA⟩
   apply h
   rw [hA]
-  simp [scalar_apply, diagonal_apply, hij]
+  simp [scalar_apply, hij]
 
 theorem coe_dgSL_apply (p q : Fin n) (x y : k) (h : x * y = 1) (i : Fin n) :
     (dgSL p q x y h : Matrix (Fin n) (Fin n) k) i i = dg p q x y i := by
@@ -160,8 +160,8 @@ theorem exists_proj (hn : 5 ≤ n) [Finite k] [CharP k 2] (hk : Nat.card k = 4) 
   have hVn : V ∉ scalars n k := not_mem_scalars_diag V i0 i3 (by
     rw [coe_dgSL_apply, coe_dgSL_apply]
     simp [dg, h03, h04, h34, hW1.symm])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨proj n k T, proj n k U, proj n k V, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · refine orderOf_eq_prime (by rw [← map_pow, hT2, map_one]) ?_
     rwa [Ne, proj_eq_one_iff]
@@ -190,8 +190,7 @@ theorem exists_proj (hn : 5 ≤ n) [Finite k] [CharP k 2] (hk : Nat.card k = 4) 
     have k0 := key i0
     have k2 := key i2
     have k3 := key i3
-    simp [dg, h01, h02, h03, h04, h23, h24, h34, h02.symm, h03.symm, h04.symm, h23.symm,
-      h24.symm, h34.symm] at k0 k2 k3
+    simp [dg, h02, h03, h04, h23, h24, h34, h23.symm] at k0 k2 k3
     rw [← k0, mul_one] at k2 k3
     apply hW1
     rw [k3, ← pow_mul, mul_comm, pow_mul, ← k2, one_pow]

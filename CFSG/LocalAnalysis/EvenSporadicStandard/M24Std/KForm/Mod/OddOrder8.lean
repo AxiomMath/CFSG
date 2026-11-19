@@ -181,7 +181,7 @@ theorem order8Or2Pow6_psl_four_core (hO : LieOrderFormulasInput) (hK : Nat.card 
           (isometryGroupEquiv A⁻¹).symm.trans
             (MulEquiv.subgroupCongr (orthogonalGroup_matrixQuadraticForm hodd' A⁻¹ hR).symm)
         have hN₀ : IsComponent (N.map e₁.toMonoidHom) := LocalCores.isComponent_map_mulEquiv e₁ hN
-        haveI : Group.IsSolvable
+        have : Group.IsSolvable
             ↥(TauCeti.QuadraticMap.orthogonalGroup (matrixQuadraticForm A⁻¹)) :=
           ((CatalogueBOrthogonalLowDimensionFrontiers.orthogonal_four_split_p_components_frontier
             hodd (matrixQuadraticForm A⁻¹) hQ₀ hdim hS).2 hK).1
@@ -242,8 +242,8 @@ theorem order8Free_psu_three_core (hO : LieOrderFormulasInput) {K : Type} [Field
     (h : UnitaryFieldData 3 2 K) (σ : MulAut (primeFormP h (idGram K 3))) (hσ : orderOf σ = 2) :
     Order8Free σ := by
   intro D hD
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 3) K) := isPrimeFormGram_one
   have hn : 3 ≤ 3 := le_rfl
   have hq : ¬(3 = 3 ∧ 3 ^ 2 = 2) := by norm_num

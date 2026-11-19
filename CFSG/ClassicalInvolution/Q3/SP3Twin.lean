@@ -98,7 +98,7 @@ theorem twin_of_central (hsolv : Group.IsSolvable Y)
   have hQ₂U : quatIn e₂ ≤ U :=
     le_pCore_of_isSubnormal (isSubnormal_quatIn e₂ h₂) (isPGroup_quatIn e₂)
   obtain ⟨S⟩ : Nonempty (Sylow 3 Y) := inferInstance
-  have hP3 : IsPGroup 3 (S : Subgroup Y) := S.isPGroup'
+  have hP3 : IsPGroup 3 (S : Subgroup Y) := S.isPGroup
   obtain ⟨s₁, hs₁S, hs₁J, hs₁3, hs₁1⟩ :=
     exists_mem_inf_sylow_three h₁ (natCard_subgroup e₁) S
   obtain ⟨s₂, hs₂S, hs₂J, hs₂3, hs₂1⟩ :=

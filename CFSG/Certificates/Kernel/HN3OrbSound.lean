@@ -207,7 +207,7 @@ theorem orbK_dvd {G : List Nat} {gw : List (List Nat)}
       change u ᵥ* ρ y ᵥ* ρ y⁻¹ ∈ _
       rw [vecMul_vecMul, ← map_mul, mul_inv_cancel, map_one, vecMul_one]
       exact hu
-  letI := vecAct (ρ.comp Hs.subtype)
+  let := vecAct (ρ.comp Hs.subtype)
   have horb : MulAction.orbit Hs (toVec 5 133 13 v0) = (V : Set (Fin 133 → ZMod 5)) := by
     ext x
     constructor

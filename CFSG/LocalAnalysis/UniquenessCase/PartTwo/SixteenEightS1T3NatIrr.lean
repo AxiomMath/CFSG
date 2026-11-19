@@ -22,8 +22,9 @@ open scoped Matrix
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)} {U Z : Subgroup W}
 
+omit [Finite W] in
 private theorem s16t3_isIrrOn_of_action {M : Type} [Group M] {G : Type} [Group G]
-    {π : G →* ↥L} (hπs : Function.Surjective π) (act : G → M → M)
+    {π : G →* ↥L} (_hπs : Function.Surjective π) (act : G → M → M)
     {β : ↥U →* M} (hβs : Function.Surjective β)
     (hβk : ∀ u : ↥U, β u = 1 ↔ (u : W) ∈ Z)
     (hβe : ∀ (γ : G) (u : ↥U) (hu : ((π γ : ↥L) : MulAut W) (u : W) ∈ U),
@@ -81,6 +82,7 @@ private theorem s16t3_isIrrOn_of_action {M : Type} [Group M] {G : Type} [Group G
       rwa [heq] at hprod
 
 
+omit [Finite W] in
 private theorem s16t3_isIrrOn_of_natReal {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] {X : Subgroup (Matrix.GeneralLinearGroup ι K)}
     {H : Subgroup (MulAut W)} {U Z : Subgroup W} {π : ↥X →* ↥H}
@@ -92,6 +94,7 @@ private theorem s16t3_isIrrOn_of_natReal {ι : Type} [Fintype ι] [DecidableEq �
   exact s16t3_isIrrOn_of_action (β := β) R.surj (natAct X) hβs hβk hβe hZU R.U_inv R.Z_inv
     hirr hne
 
+omit [Finite W] in
 private theorem s16t3_eq_one_of_trivial_of_model {D : FFModel} (hf : D.Faithful)
     {π : D.Gam →* ↥L} (hR : D.RealizesVia L U Z π) {l : MulAut W} (hl : l ∈ L)
     (htriv : ∀ u ∈ U, l u * u⁻¹ ∈ Z) : l = 1 := by
@@ -130,6 +133,7 @@ private theorem s16t3_eq_one_of_trivial_of_model {D : FFModel} (hf : D.Faithful)
     _ = ((π (1 : D.Gam) : ↥L) : MulAut W) := by rw [hγ1]
     _ = 1 := by simp
 
+omit [Finite W] in
 private theorem s16t3_card_of_quotient {M : Type} [Group M] {β : ↥U →* M}
     (hβs : Function.Surjective β)
     (hβk : ∀ u : ↥U, β u = 1 ↔ (u : W) ∈ Z)
@@ -243,6 +247,7 @@ private theorem s16t3_natIrr_statedOmegaMinus {m : ℕ} {K : Type} [Field K] [Fi
       (CFSG.RankThree.GF2n.Stroth80.natIrred_statedOmegaMinus_two hpoly)
       (CFSG.RankThree.GF2n.Stroth80.addCommutantScalar_statedOmegaMinus hm hpoly)
 
+omit [Finite W] in
 private theorem s16t3_card_natReal {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] {X : Subgroup (Matrix.GeneralLinearGroup ι K)}
     {H : Subgroup (MulAut W)} {π : ↥X →* ↥H}
@@ -281,6 +286,7 @@ private theorem s16t3_altHeart_irr {n : ℕ} (hn : 4 ≤ n) :
     have hx' : Multiplicative.toAdd x ∈ Y := by rw [h]; exact AddSubgroup.mem_top _
     exact (Subgroup.mem_toAddSubgroup' A _).1 hx'
 
+omit [Finite W] in
 private theorem s16t3_alt_exists_beta {n : ℕ} (hn0 : 0 < n) {H : Subgroup (MulAut W)}
     {π : ↥(alternatingGroup (Fin n)) →* ↥H}
     (hR : (FFModel.altDn n).RealizesVia H U Z π) :
@@ -317,6 +323,7 @@ private theorem s16t3_alt_exists_beta {n : ℕ} (hn0 : 0 < n) {H : Subgroup (Mul
             (γ : Equiv.Perm (Fin n)) (Multiplicative.toAdd (e (β u)))) := by
           rw [← hmu]
 
+omit [Finite W] in
 private theorem s16t3_isIrrOn_altDn {n : ℕ} (hn : 4 ≤ n) {H : Subgroup (MulAut W)}
     {π : ↥(alternatingGroup (Fin n)) →* ↥H}
     (hR : (FFModel.altDn n).RealizesVia H U Z π) : IsIrrOn H U Z := by
@@ -379,6 +386,7 @@ private theorem s16t3_card_altHeart {n : ℕ} (hn : 5 ≤ n) :
     Nat.card_congr Multiplicative.toAdd
   rwa [hcard]
 
+omit [Finite W] in
 private theorem s16t3_summand_one {N : Subgroup (MulAut W) → Subgroup W → Subgroup W → Prop}
     {L : Subgroup (MulAut W)} {U Z : Subgroup W} (h : SumOfNat N L U Z 1) :
     ∃ I : Subgroup W, Z ≤ I ∧ I = U ∧ N L I Z := by
@@ -387,17 +395,18 @@ private theorem s16t3_summand_one {N : Subgroup (MulAut W) → Subgroup W → Su
   have hsup' : Z ⊔ I 0 = U := by
     rw [← hsup]
     congr 1
-    simpa using (iSup_unique I).symm
+    simp
   exact (sup_eq_right.mpr (hZI 0)).symm.trans hsup'
 
 private theorem s16t3_quasisimple_ne_bot {L : Subgroup (MulAut W)}
     (hq : CFSG.Open.IsQuasisimple ↥L) : L ≠ ⊥ := by
   intro hbot
-  haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hq.2.toNontrivial
-  haveI : Subsingleton ↥L := by rw [hbot]; infer_instance
-  haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := inferInstance
+  have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hq.2.toNontrivial
+  have : Subsingleton ↥L := by rw [hbot]; infer_instance
+  have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := inferInstance
   exact (not_subsingleton _) ‹Subsingleton _›
 
+omit [Finite W] in
 theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatShape L U Z 1) :
     IsIrrOn L U Z := by
   rcases h with ⟨n, hSL | hSp | hOp | hOm | hAlt⟩
@@ -405,8 +414,8 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn3 := s16k_three_le_of_isSLn hq hIs
@@ -415,14 +424,14 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     refine ⟨Multiplicative.ofAdd (Pi.single (⟨0, by omega⟩ : Fin n) (1 : K)), ?_⟩
     intro hcontra
     have h0 := congrFun (Multiplicative.toAdd.injective hcontra) (⟨0, by omega⟩ : Fin n)
-    have h0' : (1 : K) = 0 := by simpa using h0
+    have h0' : (1 : K) = 0 := by simp at h0
     exact one_ne_zero h0' 
   · obtain ⟨hIs, hsum⟩ := hSp
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn6 := s16k_six_le_of_isSpn hq hIs
@@ -433,14 +442,14 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     intro hcontra
     have h0 := congrFun (Multiplicative.toAdd.injective hcontra)
       (Sum.inl (⟨0, by omega⟩ : Fin (n / 2)))
-    have h0' : (1 : K) = 0 := by simpa using h0
+    have h0' : (1 : K) = 0 := by simp at h0
     exact one_ne_zero h0' 
   · obtain ⟨hIs, hsum⟩ := hOp
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn6 := s16k_six_le_of_isOmegaPlus hq hIs
@@ -453,20 +462,20 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     intro hcontra
     have h0 := congrFun (Multiplicative.toAdd.injective hcontra)
       (Sum.inl (⟨0, by omega⟩ : Fin (n / 2)))
-    have h0' : (1 : K) = 0 := by simpa using h0
+    have h0' : (1 : K) = 0 := by simp at h0
     exact one_ne_zero h0' 
   · obtain ⟨hIs, hsum⟩ := hOm
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, b, c, hKcard, hpoly, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hKcardF : Fintype.card K = 2 := by
       rw [← Nat.card_eq_fintype_card]; exact hKcard2
-    haveI : CharP K 2 := charP_of_card_eq_prime hKcardF
+    have : CharP K 2 := charP_of_card_eq_prime hKcardF
     obtain ⟨π, hπ⟩ := hReal
     have hn4 := s16k_four_le_of_isOmegaMinus hq hIs
     have hm2 : 2 ≤ n / 2 := by omega
@@ -478,7 +487,7 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     intro hcontra
     have h0 := congrFun (Multiplicative.toAdd.injective hcontra)
       (Sum.inr (Sum.inr (⟨0, by norm_num⟩ : Fin 2)))
-    have h0' : (1 : K) = 0 := by simpa using h0
+    have h0' : (1 : K) = 0 := by simp at h0
     exact one_ne_zero h0' 
   · obtain ⟨hIs, hsum⟩ := hAlt
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
@@ -486,6 +495,7 @@ theorem SumOfNatShape.isIrrOn (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOfNatS
     obtain ⟨π, hπ⟩ := hN
     exact s16t3_isIrrOn_altDn (n := n) (by have := s16k_five_le_of_isAlt hq hIs; omega) hπ
 
+omit [Finite W] in
 theorem SumOfNatShape.eq_one_of_trivial (hq : CFSG.Open.IsQuasisimple ↥L)
     (h : SumOfNatShape L U Z 1) {l : MulAut W} (hl : l ∈ L)
     (htriv : ∀ u ∈ U, l u * u⁻¹ ∈ Z) : l = 1 := by
@@ -494,24 +504,24 @@ theorem SumOfNatShape.eq_one_of_trivial (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     obtain ⟨π, hπ⟩ := hReal
     exact s16t3_eq_one_of_trivial_of_model (FFModel.nat_faithful (StatedSL n K)) hπ hl htriv
   · obtain ⟨hIs, hsum⟩ := hSp
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     obtain ⟨π, hπ⟩ := hReal
     exact s16t3_eq_one_of_trivial_of_model (FFModel.nat_faithful (StatedSp (n / 2) K)) hπ hl htriv
   · obtain ⟨hIs, hsum⟩ := hOp
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     obtain ⟨π, hπ⟩ := hReal
     exact s16t3_eq_one_of_trivial_of_model
       (FFModel.nat_faithful (StatedOmega (StatedQuadPlus (n / 2) K))) hπ hl htriv
@@ -519,8 +529,8 @@ theorem SumOfNatShape.eq_one_of_trivial (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, b, c, hKcard, hpoly, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     obtain ⟨π, hπ⟩ := hReal
     exact s16t3_eq_one_of_trivial_of_model
       (FFModel.nat_faithful (StatedOmega (StatedQuadMinus (n / 2) K b c))) hπ hl htriv
@@ -544,6 +554,7 @@ theorem SumOfNatShape.exists_move (hq : CFSG.Open.IsQuasisimple ↥L) (h : SumOf
     exact SumOfNatShape.eq_one_of_trivial hq h hl (hcon' l hl)
   exact s16t3_quasisimple_ne_bot hq (le_antisymm hLle bot_le)
 
+omit [Finite W] in
 theorem SumOfNatShape.eight_mul_card_le (hq : CFSG.Open.IsQuasisimple ↥L)
     (h : SumOfNatShape L U Z 1) : 8 * Nat.card ↥Z ≤ Nat.card ↥U := by
   rcases h with ⟨n, hSL | hSp | hOp | hOm | hAlt⟩
@@ -551,8 +562,8 @@ theorem SumOfNatShape.eight_mul_card_le (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn3 := s16k_three_le_of_isSLn hq hIs
@@ -563,8 +574,8 @@ theorem SumOfNatShape.eight_mul_card_le (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn6 := s16k_six_le_of_isSpn hq hIs
@@ -578,8 +589,8 @@ theorem SumOfNatShape.eight_mul_card_le (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, hKcard, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn6 := s16k_six_le_of_isOmegaPlus hq hIs
@@ -593,8 +604,8 @@ theorem SumOfNatShape.eight_mul_card_le (hq : CFSG.Open.IsQuasisimple ↥L)
     obtain ⟨I, hZI, hIU, hN⟩ := s16t3_summand_one hsum
     subst U
     obtain ⟨hEven, K, hKfield, hKfin, b, c, hKcard, hpoly, hReal⟩ := hN
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     have hKcard2 : Nat.card K = 2 := by simpa using hKcard
     obtain ⟨π, hπ⟩ := hReal
     have hn4 := s16k_four_le_of_isOmegaMinus hq hIs

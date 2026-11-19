@@ -16,7 +16,7 @@ theorem exists_fixed_ne_one_of_frobenius {E : Type*} [CommGroup E] (h2 : ∀ a :
     (hm : ∀ k, 0 < k → k < n → (m : ZMod p) ^ k ≠ 1) (hfix : ∀ a, Z a = a → a = 1)
     {a : E} (ha : a ≠ 1) : ∃ f, f ≠ 1 ∧ U f = f := by
   classical
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hZmod : ∀ k : ℕ, Z ^ k = Z ^ (k % p) := fun k => by
     conv_lhs => rw [← Nat.mod_add_div k p, pow_add, pow_mul, hZp, one_pow, mul_one]
   obtain ⟨Zp, hZpdef⟩ : ∃ f : ZMod p → Monoid.End E, ∀ x, f x = Z ^ x.val := ⟨_, fun _ => rfl⟩
@@ -141,7 +141,7 @@ theorem exists_ne_one_mem_centralizer_of_frobenius {G : Type*} [Group G] {p : �
     (hCz : ∀ x ∈ E, x * z = z * x → x = 1) (hE : E ≠ ⊥) :
     ∃ f ∈ E, f ≠ 1 ∧ f * u = u * f := by
   classical
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := fun a b => Subtype.ext (hEab a a.2 b b.2) }
   let c : normalizer (E : Set G) →* Monoid.End E :=
     { toFun := fun g =>
@@ -195,7 +195,7 @@ theorem eq_bot_of_normalizes {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     (huY : u ∈ normalizer (Y : Set G)) : Y = ⊥ := by
   classical
   by_contra hY1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup G :=
     { carrier := {y | y ∈ Y ∧ (∀ w ∈ Y, y * w = w * y) ∧ y * y = 1}
       mul_mem' := fun {a b} ha hb => ⟨Y.mul_mem ha.1 hb.1, fun w hw => by
@@ -230,7 +230,7 @@ theorem eq_bot_of_normalizes {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     have h := hconjE g⁻¹ (inv_mem hg) _ he
     rwa [show g⁻¹ * (g * e * g⁻¹) * g⁻¹⁻¹ = e by group] at h
   have hEne : E ≠ ⊥ := by
-    haveI : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hY1
+    have : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hY1
     have hZ : Nontrivial (center Y) := hY.center_nontrivial
     obtain ⟨k, hk0, hk⟩ := (hY.to_subgroup (center Y)).nontrivial_iff_card.mp hZ
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := center Y) 2
@@ -271,7 +271,7 @@ theorem row_of_orbitU {s : TauCeti.SporadicName} {p : ℕ} (X : Type) [Group X] 
     KFactSporLocalRow s p := by
   apply row_of_model
   intro G _ _ ⟨e'⟩ _ _ K z hz _ hzK hN _ hy _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ξ⟩ := hX
   set φ : G ≃* X := e'.trans ξ.symm with hφ
   have hz' : orderOf (φ z) = p := by rw [MulEquiv.orderOf_eq]; exact hz
@@ -301,7 +301,7 @@ theorem row_of_orbitU {s : TauCeti.SporadicName} {p : ℕ} (X : Type) [Group X] 
     exact h
   have hz₁K : ψ z₀ ∈ K := hN (by rw [← hψz]; exact le_normalizer (mem_zpowers _))
   have hu₁K : ψ u₀ ∈ K := hN (by rw [← hψz]; exact mem_normalizer_zpowers_of_conj_pow hu₁z)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot := eq_bot_of_normalizes hp2 hz₁p hn hu₁z hu₁n hm hinv₁ hbad₁ (pCoreOf_isPGroup 2 K)
     (localGroup_le_normalizer_pCoreOf 2 K hz₁K) (localGroup_le_normalizer_pCoreOf 2 K hu₁K)
   obtain ⟨y, hyY, hyz⟩ := hy

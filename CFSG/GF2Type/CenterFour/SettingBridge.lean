@@ -17,6 +17,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_pCore_of_central {M : Subgroup G} {z : G} (hzM : z ∈ M) (hz : orderOf z = 2)
     (hcent : ∀ m ∈ M, m * z = z * m) : (⟨z, hzM⟩ : M) ∈ CFSG.pCore 2 M := by
   set x : M := ⟨z, hzM⟩ with hx
@@ -35,12 +36,14 @@ theorem mem_pCore_of_central {M : Subgroup G} {z : G} (hzM : z ∈ M) (hz : orde
   have hle : Subgroup.zpowers x ≤ CFSG.pCore 2 M := le_sSup ⟨hK, hP⟩
   exact hle (Subgroup.mem_zpowers x)
 
+omit [Finite G] in
 theorem coreAt_le_centralizer (z : G) : coreAt z ≤ centralizer ({z} : Set G) := by
   intro x hx
   unfold coreAt CFSG.inSubgroup at hx
   obtain ⟨p, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact p.2
 
+omit [Finite G] in
 theorem self_mem_coreAt {z : G} (hz : orderOf z = 2) : z ∈ coreAt z := by
   have hzM : z ∈ centralizer ({z} : Set G) := Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have hcent : ∀ m ∈ centralizer ({z} : Set G), m * z = z * m :=
@@ -48,6 +51,7 @@ theorem self_mem_coreAt {z : G} (hz : orderOf z = 2) : z ∈ coreAt z := by
   unfold coreAt CFSG.inSubgroup
   exact Subgroup.mem_map.mpr ⟨⟨z, hzM⟩, mem_pCore_of_central hzM hz hcent, rfl⟩
 
+omit [Finite G] in
 theorem self_mem_centerAt {z : G} (hz : orderOf z = 2) : z ∈ centerAt z := by
   have hzQ : z ∈ coreAt z := self_mem_coreAt hz
   refine Subgroup.mem_map.mpr ⟨⟨z, hzQ⟩, Subgroup.mem_center_iff.mpr fun g => Subtype.ext ?_, rfl⟩
@@ -279,11 +283,12 @@ section Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_central_c {z : G} (hz : orderOf z = 2) :
     ∃ c : CFSG.pCore 2 (centralizer ({z} : Set G)), embAt z c = z :=
   ⟨⟨⟨z, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩,
     mem_pCore_of_central (Subgroup.mem_centralizer_singleton_iff.mpr rfl) hz
-      (fun m hm => Subgroup.mem_centralizer_singleton_iff.mp hm)⟩, rfl⟩
+      (fun _m hm => Subgroup.mem_centralizer_singleton_iff.mp hm)⟩, rfl⟩
 
 end Assembly
 
@@ -346,7 +351,7 @@ theorem exists_config {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {z : G}
     intro h
     rw [h, orderOf_one] at hz
     norm_num at hz
-  haveI := hEA
+  have := hEA
   obtain ⟨hel, hdisj, hpair⟩ := bounds_of_bridge (c := c) (embAt_injective z) hc_eq hz1
     (fun g hg => exists_embAt_eq hg) (embAt_center z) (isCyclic_center_pCore hcyc.1) b
     (by intro x y; apply embAt_injective z; rw [map_pow, hc_eq]; exact hcomm x y) hfinF hnd hAlt

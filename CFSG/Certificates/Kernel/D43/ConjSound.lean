@@ -35,7 +35,7 @@ theorem Ψ_mv_gen {RL : List (List Nat)} {k : Nat} (hr : rowsOK (RL.getD k []) k
       burnsideF48d_genEnd ω k (burnsideF48d_Ψ ω (vecOf (ofV (vOf X)))) := by
   rw [← rows_mulVecT hr (wf84_spec hX).1]
   have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) k =
-      burnsideF48d_genRows (burnsideF48d_colTab ()) k := if_neg (by omega)
+      burnsideF48d_genRows (burnsideF48d_colTab ()) k := ite_eq_right (by omega)
   rw [hrk]
   exact burnsideF48d_Ψ_combW ω (burnsideF48d_rowsWF _)
     (wf_of_canon154 (canon154_vOf (wf84_spec hX).2.1)) _ (burnsideF48d_Ψ_genRows ω hω k)
@@ -46,7 +46,7 @@ theorem Ψ_mv_frob {RL : List (List Nat)} (hr : rowsOK (RL.getD 8 []) 8 = true) 
     burnsideF48d_Ψ ω (vecOf (ofV (vOf (mv (RL.getD 8 []) X)))) =
       frobV (burnsideF48d_Ψ ω (vecOf (ofV (vOf X)))) := by
   rw [← rows_mulVecT hr (wf84_spec hX).1]
-  have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) 8 = burnsideF48d_frobRows () := if_pos rfl
+  have hrk : burnsideF48d_rows (burnsideF48d_colTab ()) 8 = burnsideF48d_frobRows () := ite_eq_left rfl
   rw [hrk]
   exact Ψ_combW_frob ω hω (wf_of_canon154 (canon154_vOf (wf84_spec hX).2.1))
 
@@ -77,8 +77,8 @@ variable (hK : Nat.card K = 27)
 include hK hω in
 theorem φ_surj (c : K) : ∃ n < 27, burnsideF48d_φ ω n = c := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hinj : Set.InjOn (burnsideF48d_φ ω) (Finset.range 27 : Set ℕ) := fun a ha b hb h =>
     burnsideF48d_φ_injOn ω hω (Finset.mem_range.1 ha) (Finset.mem_range.1 hb) h
   have hcard : ((Finset.range 27).image (burnsideF48d_φ ω)).card = Fintype.card K := by
@@ -101,7 +101,7 @@ theorem addHom_ext_b {f g : RootModule .D4 K →+ RootModule .D4 K}
   have hb : ∀ j < 3, Finsupp.single (toLabel burnsideF48d_hC i) (ω ^ j) =
       burnsideF48d_b ω (3 * l + j) := by
     intro j hj
-    rw [burnsideF48d_b, if_pos (by omega), show (3 * l + j) % 3 = j by omega,
+    rw [burnsideF48d_b, ite_eq_left (by omega), show (3 * l + j) % 3 = j by omega,
       show (3 * l + j) / 3 = l by omega, burnsideF48d_e, ← hi, Finsupp.smul_single, smul_eq_mul,
       mul_one]
   have hs : ∀ (m : ℕ) (x : K), Finsupp.single (toLabel burnsideF48d_hC i) ((m : K) * x) =
@@ -128,8 +128,8 @@ theorem frob_genEnd_b {RL : List (List Nat)} (hrows : ∀ k < 9, rowsOK (RL.getD
   simp only [Bool.and_eq_true] at hj
   obtain ⟨⟨ha, hc⟩, he⟩ := hj
   have hgk : burnsideF48d_rows (burnsideF48d_colTab ()) k =
-      burnsideF48d_genRows (burnsideF48d_colTab ()) k := if_neg (by omega)
-  have h8 : burnsideF48d_rows (burnsideF48d_colTab ()) 8 = burnsideF48d_frobRows () := if_pos rfl
+      burnsideF48d_genRows (burnsideF48d_colTab ()) k := ite_eq_right (by omega)
+  have h8 : burnsideF48d_rows (burnsideF48d_colTab ()) 8 = burnsideF48d_frobRows () := ite_eq_left rfl
   have g1 : burnsideF48d_Ψ ω (vecOf (burnsideF48d_genRows (burnsideF48d_colTab ()) k)[q]!) =
       burnsideF48d_genEnd ω k (burnsideF48d_b ω q) :=
     burnsideF48d_Ψ_genRows ω hω k ⟨q, by omega⟩
@@ -163,8 +163,8 @@ omit [CharP K 3] in
 include hK in
 theorem frobV_cube (v : RootModule .D4 K) : frobV (frobV (frobV v)) = v := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 27 := by rw [← Nat.card_eq_fintype_card, hK]
   ext l
   rw [frobV_apply, frobV_apply, frobV_apply, ← pow_mul, ← pow_mul,

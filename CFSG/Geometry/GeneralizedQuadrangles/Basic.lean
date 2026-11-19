@@ -287,13 +287,13 @@ theorem not_mem_spanSet_of_mem_traceSet [Fintype V] [DecidableRel Γ.Adj]
 theorem spanSet_disjoint_traceSet [Fintype V] [DecidableRel Γ.Adj]
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     {x y : V} (hxy : Γ.dist x y = 4) : Disjoint (spanSet Γ x y) (traceSet Γ x y) :=
-  Set.disjoint_left.mpr fun z hz hz' => not_mem_spanSet_of_mem_traceSet hP hT hxy hz' hz
+  Set.disjoint_left.mpr fun _z hz hz' => not_mem_spanSet_of_mem_traceSet hP hT hxy hz' hz
 
-theorem left_mem_spanSet {x y : V} (hxy : Γ.dist x y = 4) : x ∈ spanSet Γ x y := by
+theorem left_mem_spanSet {x y : V} (_hxy : Γ.dist x y = 4) : x ∈ spanSet Γ x y := by
   intro w hw
   exact le_of_eq hw.1
 
-theorem right_mem_spanSet {x y : V} (hxy : Γ.dist x y = 4) : y ∈ spanSet Γ x y := by
+theorem right_mem_spanSet {x y : V} (_hxy : Γ.dist x y = 4) : y ∈ spanSet Γ x y := by
   intro w hw
   exact le_of_eq hw.2
 
@@ -506,14 +506,17 @@ variable [Fintype V] [DecidableRel Γ.Adj]
 @[expose] def lineFinset (c : Γ.Coloring (Fin 2)) : Finset V :=
   Finset.univ.filter fun v => c v = 1
 
+omit [DecidableRel Γ.Adj] in
 @[simp] theorem mem_pointFinset {c : Γ.Coloring (Fin 2)} {v : V} :
     v ∈ pointFinset c ↔ c v = 0 := by
   simp [pointFinset]
 
+omit [DecidableRel Γ.Adj] in
 @[simp] theorem mem_lineFinset {c : Γ.Coloring (Fin 2)} {v : V} :
     v ∈ lineFinset c ↔ c v = 1 := by
   simp [lineFinset]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_two_of_adj_of_adj_of_ne (hP : IsGeneralizedPolygon Γ 4) {x y L : V}
     (hxL : Γ.Adj x L) (hLy : Γ.Adj L y) (hxy : x ≠ y) : Γ.dist x y = 2 := by
   have h1 : Γ.dist x L = 1 := SimpleGraph.dist_eq_one_iff_adj.mpr hxL
@@ -550,14 +553,14 @@ theorem card_collinear (hP : IsGeneralizedPolygon Γ 4)
               have hcL : c L = 1 := by
                 rw [mem_neighborFinset] at hL
                 exact color_eq_one_of_adj_of_color_eq_zero hx hL
-              rw [if_neg (by rw [hcL]; norm_num)]
+              rw [ite_eq_right (by rw [hcL]; norm_num)]
               omega
             · rw [mem_neighborFinset]
               rw [mem_neighborFinset] at hL
               exact hL.symm
       _ = (Γ.neighborFinset x).card • s := Finset.sum_const s
       _ = s * (t + 1) := by
-        rw [card_neighborFinset_eq_degree, hdeg, if_pos hx, smul_eq_mul]
+        rw [card_neighborFinset_eq_degree, hdeg, ite_eq_left hx, smul_eq_mul]
         exact Nat.mul_comm (t + 1) s
   · intro L hL L' hL' hne
     rw [Function.onFun, Finset.disjoint_left]
@@ -616,13 +619,13 @@ theorem card_lines_off_point (hP : IsGeneralizedPolygon Γ 4)
           = ∑ y ∈ Finset.univ.filter (fun y => Γ.dist x y = 2), t := by
             refine Finset.sum_congr rfl fun y hy => ?_
             rw [Finset.mem_filter] at hy
-            simp only [T, dif_pos hy.2]
+            simp only [T, dite_eq_left hy.2]
             rw [Finset.card_erase_of_mem]
             · rw [card_neighborFinset_eq_degree, hdeg]
               have hcy : c y = 0 := by
                 rw [← hx]
                 exact ((hP.eq_iff_even_dist c x y).2 (by rw [hy.2]; norm_num)).symm
-              rw [if_pos hcy]
+              rw [ite_eq_left hcy]
               omega
             · simpa using commonNeighbor_adj_right hP hy.2
       _ = (Finset.univ.filter fun y => Γ.dist x y = 2).card • t := Finset.sum_const t
@@ -670,7 +673,7 @@ theorem two_le_s (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) : 2 ≤ s := by
   obtain ⟨L, hL⟩ := exists_line hP hT c
   have h3 := hT L
-  rw [hdeg L, if_neg (by rw [hL]; decide)] at h3
+  rw [hdeg L, ite_eq_right (by rw [hL]; decide)] at h3
   omega
 
 theorem two_le_t (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
@@ -678,9 +681,10 @@ theorem two_le_t (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) : 2 ≤ t := by
   obtain ⟨⟨x, hx⟩⟩ := hP.exists_point (by norm_num) hT c
   have h3 := hT x
-  rw [hdeg x, if_pos hx] at h3
+  rw [hdeg x, ite_eq_left hx] at h3
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_three_of_not_adj_of_color_ne (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {x L : V} (hnot : ¬ Γ.Adj x L) (hc : c x ≠ c L) :
     Γ.dist x L = 3 := by
@@ -702,7 +706,7 @@ theorem card_lineFinset (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   obtain ⟨⟨x, hx⟩⟩ := hP.exists_point (by norm_num) hT c
   let Off := Finset.univ.filter fun L => Γ.dist x L = 3
   have hN : (Γ.neighborFinset x).card = t + 1 := by
-    rw [card_neighborFinset_eq_degree, hdeg, if_pos hx]
+    rw [card_neighborFinset_eq_degree, hdeg, ite_eq_left hx]
   have hOff : Off.card = s * t * (t + 1) := card_lines_off_point hP c hdeg hx
   have hdisj : Disjoint (Γ.neighborFinset x) Off := by
     rw [Finset.disjoint_left]
@@ -760,18 +764,18 @@ theorem card_pointFinset (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     intro v
     have hfin : ∀ a : Fin 2, a = 0 ∨ a = 1 := by decide
     rcases hfin (c v) with hv | hv
-    · rw [hdeg, if_pos hv]
+    · rw [hdeg, ite_eq_left hv]
       have hdc : dc v ≠ 0 := by
         show 1 - c v ≠ 0
         rw [hv]
         decide
-      rw [if_neg hdc]
-    · rw [hdeg, if_neg (by rw [hv]; simp)]
+      rw [ite_eq_right hdc]
+    · rw [hdeg, ite_eq_right (by rw [hv]; simp)]
       have hdc : dc v = 0 := by
         show 1 - c v = 0
         rw [hv]
         decide
-      rw [if_pos hdc]
+      rw [ite_eq_left hdc]
   have hdual : lineFinset dc = pointFinset c := by
     ext v
     rw [mem_lineFinset, mem_pointFinset]

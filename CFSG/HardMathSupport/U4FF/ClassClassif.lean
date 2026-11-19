@@ -66,6 +66,7 @@ theorem gm_hTor_mul_11 (hK : Nat.card K = (2 ^ n) ^ 2) (u : Kˣ) (v : (Fq K n)ˣ
   rw [gm_mul, gm_hTor0, gm_hTor1]
   simp [Matrix.mul_apply, Matrix.diagonal_apply, tor0Vec, tor1Vec]
 
+omit [CharP k 2] in
 theorem chiE_hTor (hK : Nat.card K = (2 ^ n) ^ 2) (e₁ e₂ : ℕ) (u : Kˣ) (v : (Fq K n)ˣ) :
     chiE k e₁ e₂ (hTor0 hK u * hTor1 hK v) =
       algebraMap K k ((u : K) ^ e₁ * ((v : Fq K n) : K) ^ e₂) := by
@@ -148,7 +149,7 @@ theorem char_exponents {V : Type*} [AddCommGroup V] [Module k V] {ρ : Represent
     (by
       simp only [hTor0_one]
       exact hμ.chi_one)
-  letI : Algebra (Fq K n) k := ((algebraMap K k).comp (Fq K n).subtype).toAlgebra
+  let : Algebra (Fq K n) k := ((algebraMap K k).comp (Fq K n).subtype).toAlgebra
   obtain ⟨e₂, he₂, hχ₁⟩ := exists_char_exponent (F := Fq K n) (k := k)
     (fun v => χ (hTor1 hK v))
     (fun v v' => by
@@ -169,6 +170,7 @@ theorem char_exponents {V : Type*} [AddCommGroup V] [Module k V] {ρ : Represent
     rw [hμ.chi_mul (hmem0 u) (hmem1 v), hχ₀, hχ₁, chiE_hTor, map_mul, map_pow, map_pow]
     rfl
 
+omit [CharP k 2] in
 theorem chiE_congr (hK : Nat.card K = (2 ^ n) ^ 2) {e₁ e₂ e₁' e₂' : ℕ}
     (h1 : e₁ ≡ e₁' [MOD 2 ^ (2 * n) - 1])
     (h2 : e₂ ≡ e₂' [MOD 2 ^ n - 1]) {h : G4 K n} (hh : h ∈ Hd K n) :
@@ -191,12 +193,14 @@ theorem chiE_congr (hK : Nat.card K = (2 ^ n) ^ 2) {e₁ e₂ e₁' e₂' : ℕ}
     exact congrArg (fun w : (Fq K n)ˣ => ((w : Fq K n) : K)) this
   rw [hu, hv]
 
+omit [CharP k 2] in
 theorem chiE_hTor0 (e₁ e₂ : ℕ) (u : Kˣ) :
     chiE k e₁ e₂ (hTor0 hK u) = algebraMap K k (u : K) ^ e₁ := by
   have h : hTor0 hK u = hTor0 hK u * hTor1 hK 1 := by rw [hTor1_one, mul_one]
   rw [h, chiE_hTor]
   simp [map_pow]
 
+omit [CharP k 2] in
 theorem chiE_hTor1 (e₁ e₂ : ℕ) (v : (Fq K n)ˣ) :
     chiE k e₁ e₂ (hTor1 hK v) = algebraMap K k ((v : Fq K n) : K) ^ e₂ := by
   have h : hTor1 hK v = hTor0 hK 1 * hTor1 hK v := by rw [hTor0_one, one_mul]
@@ -207,6 +211,7 @@ open Classical in
 noncomputable def Sfin (χ : G4 K n → k) : Finset (Fin 2) :=
   Finset.univ.filter fun s => ∀ u : (Fs K n s)ˣ, χ (I.R.hh s u) = 1
 
+omit [CharP k 2] in
 theorem mem_Sfin_zero (e₁ e₂ : ℕ) :
     (0 : Fin 2) ∈ Sfin I (chiE k e₁ e₂) ↔ 2 ^ (2 * n) - 1 ∣ e₁ := by
   classical
@@ -222,10 +227,11 @@ theorem mem_Sfin_zero (e₁ e₂ : ℕ) :
   rw [← h3]
   exact h2
 
+omit [CharP k 2] in
 theorem mem_Sfin_one (e₁ e₂ : ℕ) :
     (1 : Fin 2) ∈ Sfin I (chiE k e₁ e₂) ↔ 2 ^ n - 1 ∣ e₂ := by
   classical
-  letI : Algebra (Fq K n) k := ((algebraMap K k).comp (Fq K n).subtype).toAlgebra
+  let : Algebra (Fq K n) k := ((algebraMap K k).comp (Fq K n).subtype).toAlgebra
   simp only [Sfin, Finset.mem_filter, Finset.mem_univ, true_and]
   change (∀ v : (Fq K n)ˣ, chiE k e₁ e₂ (I.R.hh 1 v) = 1) ↔ _
   have h1 : ∀ v : (Fq K n)ˣ, chiE k e₁ e₂ (I.R.hh 1 v) =
@@ -240,6 +246,7 @@ theorem mem_Sfin_one (e₁ e₂ : ℕ) :
   rw [← h3]
   exact h2
 
+omit [CharP k 2] in
 theorem card_Sfin (e₁ e₂ : ℕ) :
     (Sfin I (chiE k e₁ e₂)).card =
       (if 2 ^ (2 * n) - 1 ∣ e₁ then 1 else 0) + (if 2 ^ n - 1 ∣ e₂ then 1 else 0) := by

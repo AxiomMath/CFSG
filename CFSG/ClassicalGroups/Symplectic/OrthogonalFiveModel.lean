@@ -23,7 +23,7 @@ theorem selfAdjointSymplecticImage_eq_commutator [Finite K] (hodd : Odd (Nat.car
       commutator (TauCeti.QuadraticMap.orthogonalGroup (selfAdjointForm K)) := by
   let h2 := CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
   apply le_antisymm
-  · haveI : Group.IsPerfect ↥(symplecticMultiplier (K := K)).ker :=
+  · have : Group.IsPerfect ↥(symplecticMultiplier (K := K)).ker :=
       (symplecticKernel_quasisimple hodd).1
     have hmap : Subgroup.map (selfAdjointSymplecticAction h2) ⁅(⊤ : Subgroup ↥(symplecticMultiplier (K := K)).ker), ⊤⁆ =
         ⁅(selfAdjointSymplecticAction h2).range, (selfAdjointSymplecticAction h2).range⁆ := by
@@ -71,7 +71,7 @@ theorem reindexGL_finSumFinEquiv_scalar (c : Kˣ) :
     Matrix.submatrix_apply]
   by_cases hij : i = j
   · subst hij; simp
-  · simp [hij, Equiv.apply_eq_iff_eq_symm_apply]
+  · simp [hij]
 
 noncomputable def selfAdjointStatedSpAction (h2 : (2 : K) ≠ 0) :
     StatedSp 2 K →* TauCeti.QuadraticMap.orthogonalGroup (selfAdjointForm K) :=
@@ -100,9 +100,6 @@ theorem selfAdjointStatedSpAction_ker (h2 : (2 : K) ≠ 0) :
     have heA : (statedSpEquivSymplecticKernel (K := K) A).val = selfAdjointScalarSimilitude c := by
       apply Subtype.ext
       apply Units.ext
-      change ((((statedSpEquivSymplecticKernel (K := K) A :
-          (symplecticMultiplier (K := K)).ker) : GL (Fin 4) K)) :
-          Matrix (Fin 4) (Fin 4) K) = _
       rw [congrArg (fun g : GL (Fin 4) K => (g : Matrix (Fin 4) (Fin 4) K))
         (statedSpEquivSymplecticKernel_val (K := K) A)]
       rw [← hc, reindexGL_finSumFinEquiv_scalar]
@@ -172,8 +169,7 @@ theorem pspFourEquivDerivedOrthogonal_proj [Finite K] (hodd : Odd (Nat.card K))
     rw [TauCeti.diagGL_coe]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [symplecticGram, Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_four] <;>
-      ring⟩
+      simp [symplecticGram, Matrix.diagonal, Matrix.mul_apply]⟩
 
 private theorem diagonalSimilitude_val (u : Kˣ) :
     Units.val ((diagonalSimilitude u : ↥(symplecticSimilitudes K)) : GL (Fin 4) K) =
@@ -188,7 +184,7 @@ private theorem diagonalSimilitude_spec (u : Kˣ) :
   rw [diagonalSimilitude_val u, TauCeti.diagGL_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [symplecticGram, Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+    simp [symplecticGram, Matrix.diagonal, Matrix.mul_apply]
 
 theorem symplecticMultiplier_diagonalSimilitude (u : Kˣ) :
     symplecticMultiplier (diagonalSimilitude u) = u := by
@@ -224,8 +220,7 @@ private theorem selfAdjointConjugation_diagonalSimilitude_coordinates
     TauCeti.diagGL_coe, TauCeti.diagGL_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_four,
-      selfAdjointCoordinates_val] <;>
+    simp [Matrix.diagonal, Matrix.mul_apply, selfAdjointCoordinates_val] <;>
     field_simp
 
 private theorem selfAdjointOrthogonalAction_diagonalSimilitude_det
@@ -295,13 +290,13 @@ private theorem selfAdjointOrthogonalAction_orthogonalDet_eq_one [Finite K]
     exact selfAdjointOrthogonalAction_diagonalSimilitude_det h2 _
   have hB : QuadraticMap.orthogonalDet (selfAdjointForm K)
       (selfAdjointOrthogonalAction h2 B) = 1 := by
-    haveI : Group.IsPerfect ↥(symplecticMultiplier (K := K)).ker :=
+    have : Group.IsPerfect ↥(symplecticMultiplier (K := K)).ker :=
       (symplecticKernel_quasisimple hodd).1
     let f : ↥(symplecticMultiplier (K := K)).ker →* Kˣ :=
       (QuadraticMap.orthogonalDet (selfAdjointForm K)).comp (selfAdjointSymplecticAction h2)
-    haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
-    haveI : IsMulCommutative f.range := inferInstance
-    haveI : Subsingleton f.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Group.IsPerfect f.range := Group.IsPerfect.range f
+    have : IsMulCommutative f.range := inferInstance
+    have : Subsingleton f.range := Group.IsPerfect.subsingleton_of_isMulCommutative
     have h1 : f B = 1 := by
       have hmem : f B ∈ f.range := ⟨B, rfl⟩
       have hsub : (⟨f B, hmem⟩ : f.range) = 1 := Subsingleton.elim _ _
@@ -370,7 +365,7 @@ private theorem selfAdjointOrthogonalAction_mem_symplecticImage_iff_isSquare
     classical
     have hr0 : r ≠ 0 := by
       rintro rfl
-      have hzero : (symplecticMultiplier A : K) = 0 := by simpa using hr
+      have hzero : (symplecticMultiplier A : K) = 0 := by simp at hr
       exact Units.ne_zero (symplecticMultiplier A) hzero
     let c : Kˣ := Units.mk0 r hr0
     have hc : symplecticMultiplier A = c ^ 2 := by
@@ -432,7 +427,7 @@ theorem selfAdjointSymplecticImage_relIndex_specialOrthogonalWithin [Finite K]
           selfAdjointSymplecticImage h2
       rw [← hA]
       have hprod : IsSquare ((symplecticMultiplier A : K) * (u₀ : K)) := by
-        letI : Fintype K := Fintype.ofFinite K
+        let : Fintype K := Fintype.ofFinite K
         rw [← quadraticChar_one_iff_isSquare
           (mul_ne_zero (Units.ne_zero (symplecticMultiplier A)) (Units.ne_zero u₀))]
         rw [map_mul, quadraticChar_neg_one_iff_not_isSquare.mpr hsqA,

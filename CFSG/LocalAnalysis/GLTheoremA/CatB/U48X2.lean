@@ -36,8 +36,7 @@ theorem swGL_mem : (TauCeti.permutationGL (k := K) sw : GL (Fin 4) K) ∈ SUid �
   · ext i j
     fin_cases i <;> fin_cases j <;>
       simp [conjTr, Matrix.mul_apply, Fin.sum_univ_four, TauCeti.permutationGL_coe,
-        Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, sw, Equiv.Perm.inv_def, Equiv.swap_apply_def] <;>
-      decide
+        Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, sw, Equiv.Perm.inv_def, Equiv.swap_apply_def]
 
 @[expose] def swSU : SU4 := ⟨TauCeti.permutationGL (k := K) sw, swGL_mem⟩
 
@@ -75,7 +74,7 @@ theorem swap_perm_mul_diag (d : Fin 4 → K) (hd : d 0 = d 1) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Matrix.diagonal_apply,
-      sw, Equiv.swap_apply_def, hd, Fin.sum_univ_four] <;> simp [hd]
+      sw, Equiv.swap_apply_def, hd, Fin.sum_univ_four]
 
 theorem tau4_const_entry01 (a : ZMod 9) :
     (fun k : Fin 4 => (torusSnoc 3 (powVec ζ9 ζ9_pow_nine (.ofAdd fun _ : Fin 3 => a)) k : K)) 0 =

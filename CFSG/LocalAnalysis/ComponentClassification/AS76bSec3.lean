@@ -48,7 +48,7 @@ theorem inf_centralizer_mulEquiv_of_tightlyEmbedded {K R T : Subgroup G} (hK : T
   have hRX : R ≤ X := fun x hx => ⟨⟨x, hRTle (mem_sup_left hx)⟩, hS (mem_sup_left hx), rfl⟩
   have hXK : X ⊓ K = R := by
     refine hR.eq_of_le (le_inf hRX hR.le) inf_le_right ?_
-    exact (S.isPGroup'.map (K ⊔ sylowImage _ T').subtype).to_le inf_le_left
+    exact (S.isPGroup.map (K ⊔ sylowImage _ T').subtype).to_le inf_le_left
   have hkey : relativeNormalizer (sylowImage _ T') X ⊓ K = R ⊓ centralizer (T : Set G) := by
     rw [relativeNormalizer, hTeq, inf_assoc, inf_comm X, ← inf_assoc, inf_assoc, inf_comm K,
       hXK, inf_comm]

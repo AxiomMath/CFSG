@@ -17,6 +17,7 @@ section Block
 variable {K : Type} [Field K] [Finite K] {n d : ℕ} (h : UnitaryFieldData 2 n K)
 
 include h in
+omit [Finite K] in
 theorem blockSU_map_iso {S : Finset (Fin d)} (hS : S.card < d) :
     Nonempty (((blockSU (n := n) (K := K) S).map (LargeEvenProjMk (unitarySU 2 n K d))) ≃*
       ↥(unitarySU 2 n K S.card)) := by
@@ -315,7 +316,7 @@ theorem unitarySU_four_isU42 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
   have h4 : Nat.card K = 4 := by rw [hK]; norm_num
   have hcube : ∀ u : Kˣ, u ^ 3 = 1 := by
     intro u
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact h4
     apply Units.ext
     have h := FiniteField.pow_card_sub_one_eq_one (u : K) u.ne_zero

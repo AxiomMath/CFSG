@@ -122,6 +122,7 @@ abbrev M₂ (N : T2N3 G) : Subgroup G := Subgroup.normalizer (N.X₂ : Set G)
 
 abbrev R₂ (N : T2N3 G) (p : ℕ) : Subgroup G := CFSG.Open.pCoreOf p (M₂ N)
 
+omit [Finite G] in
 theorem R₂_le_M₂ (N : T2N3 G) (p : ℕ) : R₂ N p ≤ M₂ N :=
   CFSG.LieType.BorelTits.pCoreOf_le p (M₂ N)
 
@@ -129,6 +130,7 @@ theorem R₂_pGroup (N : T2N3 G) {p : ℕ} (hp : p.Prime) : IsPGroup p ↥(R₂ 
   have : Fact p.Prime := ⟨hp⟩
   exact CFSG.LieType.BorelTits.pCoreOf_isPGroup p (M₂ N)
 
+omit [Finite G] in
 theorem R₂_norm (N : T2N3 G) (p : ℕ) {g : G} (hg : g ∈ M₂ N) {r : G} (hr : r ∈ R₂ N p) :
     g * r * g⁻¹ ∈ R₂ N p :=
   (Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf p (M₂ N) hg) r).1 hr

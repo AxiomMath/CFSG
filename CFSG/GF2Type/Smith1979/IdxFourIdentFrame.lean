@@ -63,6 +63,7 @@ section Group
 
 variable {A : Type} [CommGroup A] [Finite A]
 
+omit [Finite A] in
 theorem sup_zpowers_eq_top {H : Subgroup A} (hH : H.index = 3) {θ : A} (hθ : θ ∉ H) :
     H ⊔ Subgroup.zpowers θ = ⊤ := by
   have hd : (H ⊔ Subgroup.zpowers θ).index ∣ 3 := hH ▸ Subgroup.index_dvd_of_le le_sup_left
@@ -82,6 +83,7 @@ theorem exists_pow_mul {H : Subgroup A} (hH : H.index = 3) {θ : A} (hθ : θ �
   obtain ⟨n, rfl⟩ := (Submonoid.mem_powers_iff _ _).mp (mem_powers_iff_mem_zpowers.mpr hz)
   exact ⟨n, y, hy, mul_comm _ _⟩
 
+omit [Finite A] in
 theorem pow_mem_iff (hA3 : ∀ a : A, a ^ 3 = 1) {H : Subgroup A} {θ : A} (hθ : θ ∉ H) (n : ℕ) :
     θ ^ n ∈ H ↔ 3 ∣ n := by
   rw [pow_eq_pow_mod n (hA3 θ)]
@@ -209,7 +211,7 @@ theorem exists_frame
     ⟨hinj, LinearMap.injective_iff_surjective.mp hinj⟩
   have hgx : ∀ x, g x = famMap theta0 b x := fun x => rfl
   have hgθ : ∀ x, g (theta0 x) = theta0 (g x) := fun x =>
-    (theta_famMap hθq hθ3 hfix hfam x).symm
+    (theta_famMap hθ3 hfix x).symm
   have hgΓ : g ∈ gammaU := mem_gammaU.2 ⟨fun x => q_famMap hθq hθ3 hfix hfam x, Or.inl hgθ⟩
   have hplane : ∀ i x, x ∈ plane i ↔ g x ∈ V i := by
     intro i x

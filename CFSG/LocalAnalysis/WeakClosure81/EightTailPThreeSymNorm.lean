@@ -62,13 +62,13 @@ theorem map_setNormalizer_eq {Y : Type} [Group Y] [Finite Y] {m : ℕ}
   have hker : (symPi e).ker = fusionOddCore Y := by
     rw [symPi]
     ext z
-    simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp
   have hodd : Odd (Nat.card (symPi e).ker) := by
     rw [hker]
     exact CFSG.EvenSporadicStandard.Fin76b.odd_natCard_fusionOddCore Y
   have h := map_setNormalizer_eq_of_odd_ker (symPi e) (w85g_symPi_surjective e) hodd
     (C := {y : Y | IsConj t y}) (P := (P : Subgroup Y))
-    (fun g x hx => hx.trans (isConj_iff.mpr ⟨g, rfl⟩)) P.isPGroup'
+    (fun g x hx => hx.trans (isConj_iff.mpr ⟨g, rfl⟩)) P.isPGroup
   simpa only [symT] using h
 
 end CFSG.LocalAnalysis.WeakClosure81

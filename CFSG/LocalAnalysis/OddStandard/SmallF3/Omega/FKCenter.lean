@@ -30,9 +30,9 @@ theorem fk_center_omegaProj :
   have hcard : Nat.card ↥(omegaProj (nondegenerate_quadPlus 4 (ZMod 3))) = 4952179814400 := by
     rw [hmodel.card_eq_lieOrd (by norm_num : (4 : ℕ) ≠ 0)]
     decide +kernel
-  haveI : Finite ↥(omegaProj (nondegenerate_quadPlus 4 (ZMod 3))) :=
+  have : Finite ↥(omegaProj (nondegenerate_quadPlus 4 (ZMod 3))) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : IsSimpleGroup ↥(omegaProj (nondegenerate_quadPlus 4 (ZMod 3))) := hsimple
+  have : IsSimpleGroup ↥(omegaProj (nondegenerate_quadPlus 4 (ZMod 3))) := hsimple
   have hnotprime : ¬ (4952179814400).Prime := by
     intro hp
     have hodd := hp.odd_of_ne_two (by norm_num)

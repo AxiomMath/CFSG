@@ -13,7 +13,7 @@ open CFSG CFSG.Open Matrix
 theorem pCoreSevenTrivial_StatedSp {K : Type} [Field K] [Finite K] [CharP K 2] (n : ℕ) :
     PCoreSevenTrivial ↥(StatedSp n K) := by
   intro x hx
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hodd : Odd (orderOf (x : GL (Fin n ⊕ Fin n) K)) := by
     rw [Subgroup.orderOf_coe, hx]
     norm_num
@@ -22,7 +22,7 @@ theorem pCoreSevenTrivial_StatedSp {K : Type} [Field K] [Finite K] [CharP K 2] (
         Set (GL (Fin n ⊕ Fin n) K))).comap (StatedSp n K).subtype := by
     ext g
     simp only [Subgroup.mem_centralizer_iff, Subgroup.mem_comap,
-      Subgroup.mem_subgroupOf, Subgroup.coe_subtype, Set.mem_singleton_iff, forall_eq]
+      Subgroup.coe_subtype, Set.mem_singleton_iff, forall_eq]
     exact Subtype.ext_iff
   rw [hcent]
   exact pCoreOf_centralizer_StatedSp_eq_bot (x : GL (Fin n ⊕ Fin n) K) x.2 hodd

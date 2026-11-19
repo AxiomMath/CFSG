@@ -166,7 +166,7 @@ theorem G24Frame2.eElt_eq_of_mul_inv_mem [Finite G] (F : G24Frame2 L1 L2 S)
   obtain ⟨hfQ, hfC, hfSq, hfCm, hcard⟩ := F.frame_spec hD hu hn
   have hZcQ : ∀ y ∈ Z2, ∀ x ∈ Q2, y * x = x * y :=
     (F.special_data hD).2.2.2.1
-  haveI : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZcQ z hz x x.2).symm
   let qe := CFSG.GroupTheory.eEltQuotEquiv (n := 6) (Q := Q2) (Z := Z2)
     (f := v2Frame F.k u n) (inf_le_left : Z2 ≤ Q2) hfQ hfC hfSq hfCm

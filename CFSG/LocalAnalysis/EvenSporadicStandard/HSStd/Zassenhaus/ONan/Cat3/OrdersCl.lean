@@ -37,13 +37,13 @@ private theorem three_pow_three_dvd_pow_of_three_dvd {q E : ℕ} (h : 3 ∣ q) (
 private theorem nine_dvd_cube_sub_one {q : ℕ} (hq : q % 3 = 1) : 9 ∣ q ^ 3 - 1 := by
   have hr : q % 9 = 1 ∨ q % 9 = 4 ∨ q % 9 = 7 := by omega
   have h : q ^ 3 % 9 = 1 := by
-    rcases hr with h | h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h | h <;> rw [Nat.pow_mod, h]
   omega
 
 private theorem nine_dvd_cube_add_one {q : ℕ} (hq : q % 3 = 2) : 9 ∣ q ^ 3 + 1 := by
   have hr : q % 9 = 2 ∨ q % 9 = 5 ∨ q % 9 = 8 := by omega
   have h : q ^ 3 % 9 = 8 := by
-    rcases hr with h | h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h | h <;> rw [Nat.pow_mod, h]
   rw [Nat.dvd_iff_mod_eq_zero, Nat.add_mod, h]
 
 private theorem dvd_div_of_pow_of_coprime {q E P g : ℕ} (hgX : g ∣ q ^ E * P)
@@ -347,7 +347,7 @@ theorem classical_config {L : Type} [Group L] [Finite L] {t : StatedLieTag} {n p
     have hn4 : 4 ≤ n := by omega
     refine ⟨?_, ?_, ?_⟩
     · by_contra hn45
-      push_neg at hn45
+      push Not at hn45
       exact (false_of_27_dvd h3) (by
         rw [hcard]
         change 27 ∣ ordA (n - 1) (p ^ f)
@@ -382,7 +382,7 @@ theorem classical_config {L : Type} [Group L] [Finite L] {t : StatedLieTag} {n p
     have hn4 : 4 ≤ n := by omega
     refine ⟨?_, ?_, ?_⟩
     · by_contra hn45
-      push_neg at hn45
+      push Not at hn45
       exact (false_of_27_dvd h3) (by
         rw [hcard]
         change 27 ∣ ordTwistedA (n - 1) (p ^ f)

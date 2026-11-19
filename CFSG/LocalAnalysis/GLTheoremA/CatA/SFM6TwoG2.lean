@@ -66,7 +66,7 @@ theorem K148TwoG2Fact_holds : K148TwoG2Fact := by
     e.trans ((MulEquiv.subgroupCongr hfix).trans
       ((fixSubgroupFieldActorEquiv K σ hσ3).trans (sfm6TrialityFieldImageEquivG2 σ h2)))
   have hsimple := (CFSG.QuasithinUnique.Id2519.g2Two_derived hF).1
-  haveI := hsimple
+  have := hsimple
   have hS' : (S.map e3.toMonoidHom).IsSubnormal :=
     Subgroup.IsSubnormal.map (f := e3.toMonoidHom) e3.surjective hS
   let eS := Subgroup.equivMapOfInjective S e3.toMonoidHom e3.injective

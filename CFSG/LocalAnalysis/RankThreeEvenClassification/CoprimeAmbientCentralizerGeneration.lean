@@ -27,7 +27,7 @@ theorem coprime_centralizer_generation_of_plane {G : Type u} [Group G] [Finite G
     obtain ⟨sylow, hsylowNormalized⟩ := exists_normalized_sylow_in_prime_complement_subgroup
       prime hprime actor subgroup (IsPGroup.of_card hcard) hcomplement hnormalized sylowPrime hsylowPrime
     let ambient := (sylow : Subgroup subgroup).map subgroup.subtype
-    have hambientGroup : IsPGroup sylowPrime ambient := sylow.isPGroup'.map subgroup.subtype
+    have hambientGroup : IsPGroup sylowPrime ambient := sylow.isPGroup.map subgroup.subtype
     have : Group.IsNilpotent ambient := hambientGroup.isNilpotent
     have hambientLe : ambient ≤ subgroup := Subgroup.map_subtype_le _
     have hambientComplement : ¬prime ∣ Nat.card ambient :=

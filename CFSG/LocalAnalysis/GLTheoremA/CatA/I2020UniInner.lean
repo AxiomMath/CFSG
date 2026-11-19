@@ -295,7 +295,7 @@ private theorem fixFree_of_torusSigns {q f : ℕ} {K : Type} [Field K] [Finite K
       (Fin n → K) →ₗ[K] (Fin n → K)) v = torusMat h (b j0) (b j.1) (-1) *ᵥ v
     rw [toLinU_apply]
     ext i
-    simp [Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVecLin, Matrix.toLin'_apply, hmat]
+    simp [Matrix.GeneralLinearGroup.coe_toLin, Matrix.mulVecLin, hmat]
   have hT_b (j : {j : Fin (Module.finrank K W) // j ≠ j0})
       (l : Fin (Module.finrank K W)) :
       (uHom (Ttorus j)) (b l : Fin n → K) =
@@ -414,7 +414,7 @@ private theorem fixFree_of_torusSigns {q f : ℕ} {K : Type} [Field K] [Finite K
     map_mul' := by
       intro g g'
       ext v
-      simp [mul_smul] }
+      simp }
   have hR_b (j : {j : Fin (Module.finrank K W) // j ≠ j0})
       (l : Fin (Module.finrank K W)) :
       restrictGB (Tg j) (b l) = eps j l • b l := by
@@ -538,13 +538,12 @@ private lemma hSTlift_aux
   rw [map_mul, map_mul, map_inv, hx]
 
 theorem i2020UniInner : I2020UniInner := by
-  intro p q hp hp2 hq hq2 hqp f K _ h hpdvd n hn3 hn4 A c hA
-  intro J hJ _ T hT S hS2 hST hSβ hScomm s hs j hj
+  intro p q hp hp2 hq hq2 hqp f K _ h hpdvd n hn3 hn4 A c hA J hJ _ T hT S hS2 hST hSβ hScomm s hs j hj
   classical
-  haveI := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP K q := h.charP
+  have := h.finite
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact q.Prime := ⟨hq⟩
+  have : CharP K q := h.charP
   have hpq : p ≠ q := Ne.symm hqp
   have h2K : (2 : K) ≠ 0 := by
     intro h0
@@ -658,10 +657,10 @@ theorem i2020UniInner : I2020UniInner := by
       (toLinU_injective (h := h) (n := n))
   let TstarL : Subgroup ((Fin n → K) ≃ₗ[K] (Fin n → K)) := Tstar.map uHomG
   have hTstarL2 : IsPGroup 2 TstarL := hTstar2.map uHomG
-  haveI : Fintype ((Fin n → K) ≃ₗ[K] (Fin n → K)) :=
+  have : Fintype ((Fin n → K) ≃ₗ[K] (Fin n → K)) :=
     Fintype.ofInjective (fun f : (Fin n → K) ≃ₗ[K] (Fin n → K) =>
       (f : (Fin n → K) → (Fin n → K))) DFunLike.coe_injective
-  haveI : Fintype TstarL := Fintype.ofFinite _
+  have : Fintype TstarL := Fintype.ofFinite _
   have hTLcard : (Fintype.card TstarL : K) ≠ 0 := by
     obtain ⟨k, hk⟩ := hTstarL2.exists_card_eq
     rw [Nat.card_eq_fintype_card] at hk

@@ -56,7 +56,7 @@ theorem five_iii_cases_nofix (hO2 : CFSG.Quasithin.H13.T326.D321O2)
               (tildeOf V₁ (conjClosure I H)))) ≃*
                 (Multiplicative (ZMod 5) × Multiplicative (ZMod 5))))) ∨
         F918IiiD h hIU) := by
-  haveI := factElem h hIU
+  have := factElem h hIU
   have hKH : K ≤ H := le_of_mem_cComp h.K_cComp
   have htH : t ∈ H := h.T_le_H ht
   have hirr' : subM V₁ (conjClosure I H) I ∈ IrrPlusOn (autIH V₁ I H (conjClosure K T))

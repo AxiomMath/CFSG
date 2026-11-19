@@ -135,7 +135,7 @@ theorem classDefect_isPGroup {group : Type*} [Group group]
     {prime : ℕ} {conjugacyClass : ConjClasses group} {defect : Subgroup group}
     (hdefect : classDefect prime conjugacyClass defect) : IsPGroup prime defect := by
   obtain ⟨representative, _, sylow, rfl⟩ := hdefect
-  exact sylow.isPGroup'.map _
+  exact sylow.isPGroup.map _
 
 theorem classDefect_card_le {group : Type*} [Group group] [Finite group]
     {prime : ℕ} {conjugacyClass : ConjClasses group} {defect : Subgroup group}
@@ -198,7 +198,7 @@ theorem classDefect_subconjugate {group : Type*} [Group group] [Finite group]
     {left right : Subgroup group} (hleft : classDefect prime conjugacyClass left)
     (hright : classDefect prime conjugacyClass right) : subgroupSubconjugate left right := by
   obtain ⟨representative, hrepresentative, sylow, rfl⟩ := hleft
-  exact p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup'.map _) representative
+  exact p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup.map _) representative
     (sylow_image_le _ sylow) hrepresentative hright
 
 theorem classDefect_conjugate {group : Type*} [Group group] [Finite group]

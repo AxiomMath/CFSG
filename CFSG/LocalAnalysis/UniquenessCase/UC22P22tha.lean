@@ -18,10 +18,10 @@ theorem uc22p22th_center_eq_bot {X : Type} [Group X] [Finite X] (hX : commutator
     (hO2 : CFSG.pCore 2 X = ⊥)
     (hrank : ∀ r : ℕ, r.Prime → r ≠ 2 → CFSG.Open.pRank r (⊤ : Subgroup X) ≤ 1) :
     Subgroup.center X = ⊥ := by
-  haveI : Group.IsPerfect X := ⟨hX⟩
+  have : Group.IsPerfect X := ⟨hX⟩
   have hodd : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ Nat.card (Subgroup.center X) := by
     intro p hp hp2 hdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨E, hE, hcard⟩ := CFSG.SectionRank.exists_elemAbelian_sq_of_dvd_card_center hp2 hdvd
     have h2 : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) :=
       CFSG.SectionRank.le_pRank hp.one_lt (le_top : E ≤ ⊤) hE hcard
@@ -37,15 +37,15 @@ theorem uc22p22th_center_eq_bot {X : Type} [Group X] [Finite X] (hX : commutator
 
 theorem uc22p22th_simple {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X) (hZ : Subgroup.center X = ⊥) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
-  haveI hs : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have hs : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   let e : (X ⧸ Subgroup.center X) ≃* X :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI hsX : IsSimpleGroup X := e.isSimpleGroup_congr.1 hs
+  have hsX : IsSimpleGroup X := e.isSimpleGroup_congr.1 hs
   refine ⟨hsX, ?_⟩
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   by_contra h
   push Not at h
-  haveI : IsMulCommutative X := ⟨⟨fun a b => h a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => h a b⟩⟩
   exact Group.IsPerfect.not_isMulCommutative X ‹_›
 
 theorem uc22p22th_catalog {X : Type} [Group X] [Finite X] [IsSimpleGroup X] (hnonab : ∃ a b : X, a * b ≠ b * a)

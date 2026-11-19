@@ -71,7 +71,7 @@ theorem sxN_pow_three_mem :
   have hnormal : (sxKS.subgroupOf sxN).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer sxKS_le_sxN).2
       (sxN_le_sxGen.trans sxGen_le_normalizer_KS)
-  haveI := hnormal
+  have := hnormal
   have hcardSub : Nat.card ↥(sxKS.subgroupOf sxN) = 64 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe sxKS_le_sxN).toEquiv, card_sxKS]
   have hq : Nat.card (↥sxN ⧸ sxKS.subgroupOf sxN) = 3 := by

@@ -28,8 +28,8 @@ theorem agl81NineTwelveLThreeFour_of
   intro hS _ _ _ H _ _ hH _ _ K hKc hKL
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI := hS.simple
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have := hS.simple
   have hHtop : H ≠ ⊤ := CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hH.1
   obtain ⟨Y', hY', hYK⟩ := CFSG.LocalAnalysis.ComponentInitial.exists_isPComponent_of_isComponent
     3 (isComponent_of_isComponentOf_top'' hKc)
@@ -38,7 +38,7 @@ theorem agl81NineTwelveLThreeFour_of
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   have hY : IsPComponentIn 3 Y H := ⟨Subgroup.map_subtype_le _, by rw [hYY]; exact hY'⟩
   have hYH : Y ≤ H := hY.1
-  haveI : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
+  have : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
   obtain ⟨-, -, hsn, -, -⟩ := hY.2
   have hYK' : (Y.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) = K := by
     rw [hYY]

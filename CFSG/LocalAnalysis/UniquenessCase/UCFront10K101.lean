@@ -89,13 +89,13 @@ private theorem subgroupOf_mul_comm_inf {G : Type*} [Group G] {L B T : Subgroup 
 theorem k101_holds : K101 := by
   intro G _ _ T B hB ⟨n, ⟨e⟩⟩
   obtain ⟨hT, hBab, hBo, hBT, -⟩ := hB
-  haveI hLn : (genFittingFStar G).Normal := CFSG.ComponentClassification.GeneralizedFitting.normal G
+  have hLn : (genFittingFStar G).Normal := CFSG.ComponentClassification.GeneralizedFitting.normal G
   have hC : centralizer ((genFittingFStar G : Subgroup G) : Set G) ≤ genFittingFStar G :=
     CFSG.ComponentClassification.GeneralizedFitting.centralizer_le G
   rcases (show n ≤ 3 ∨ n = 4 ∨ 5 ≤ n by omega) with hn | rfl | hn
   ·
-    haveI : IsCyclic ↥(genFittingFStar G) := by
-      haveI := alternatingGroup.isCyclic_of_card_le_three (α := Fin n) (by simpa using hn)
+    have : IsCyclic ↥(genFittingFStar G) := by
+      have := alternatingGroup.isCyclic_of_card_le_three (α := Fin n) (by simpa using hn)
       exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
     have hL3 : Nat.card ↥(genFittingFStar G) ∣ 3 := by
       rw [Nat.card_congr e.toEquiv]
@@ -127,25 +127,25 @@ theorem k101_holds : K101 := by
     · exact IsPGroup.of_card (n := 1) (by rw [h, pow_one])
   ·
     exfalso
-    haveI : Group.IsSolvable (alternatingGroup (Fin 4)) :=
+    have : Group.IsSolvable (alternatingGroup (Fin 4)) :=
       alternatingGroup.isSolvable (by simp)
-    haveI : Group.IsSolvable ↥(genFittingFStar G) := solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
+    have : Group.IsSolvable ↥(genFittingFStar G) := Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hEL : genFittingLayer G ≤ genFittingFStar G := le_sup_right
-    haveI : Group.IsSolvable ↥(genFittingLayer G) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hEL)
-    haveI : Group.IsPerfect ↥(genFittingLayer G) := CFSG.ComponentClassification.Layer.perfect G
+    have : Group.IsSolvable ↥(genFittingLayer G) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hEL)
+    have : Group.IsPerfect ↥(genFittingLayer G) := CFSG.ComponentClassification.Layer.perfect G
     have hEbot : genFittingLayer G = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥(genFittingLayer G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+      have : Nontrivial ↥(genFittingLayer G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
       exact Group.IsPerfect.not_isSolvable (G := ↥(genFittingLayer G)) inferInstance
     have hLF : genFittingFStar G = CFSG.fittingSubgroup G := by
       rw [genFittingFStar.eq_sup, hEbot, sup_bot_eq]
       rfl
-    haveI : Group.IsNilpotent ↥(genFittingFStar G) := by
+    have : Group.IsNilpotent ↥(genFittingFStar G) := by
       rw [hLF]
       infer_instance
-    haveI : Group.IsNilpotent (alternatingGroup (Fin 4)) := Group.nilpotent_of_mulEquiv e
-    haveI : Nontrivial (alternatingGroup (Fin 4)) :=
+    have : Group.IsNilpotent (alternatingGroup (Fin 4)) := Group.nilpotent_of_mulEquiv e
+    have : Nontrivial (alternatingGroup (Fin 4)) :=
       alternatingGroup.nontrivial_of_three_le_card (by simp)
     exact Group.IsNilpotent.center_ne_bot (G := alternatingGroup (Fin 4))
       (alternatingGroup.center_eq_bot (by simp))
@@ -153,7 +153,7 @@ theorem k101_holds : K101 := by
     have hBL : B ≤ genFittingFStar G :=
       le_of_forall_conjNormal_eq_conj hC fun b hb =>
         exists_conj_of_odd_orderOf_alt hn e _ (odd_orderOf_conjNormal hBo hb)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hTL : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ genFittingFStar G) (genFittingFStar G) :=
       hT.inf_of_le_normalizer le_top (normalizer_eq_top (H := genFittingFStar G)).ge
     have hS : CFSG.ABGLocalTools.IsSylowOf 2 ((T ⊓ genFittingFStar G).subgroupOf (genFittingFStar G))
@@ -163,7 +163,7 @@ theorem k101_holds : K101 := by
       exact hTL
     have hS' := CFSG.ABGLocalTools.isSylowOf_iff.mp hS
     have eB : ↥(B.subgroupOf (genFittingFStar G)) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBL
-    haveI := hBab
+    have := hBab
     have h3 := isPGroup_three_of_permutes_alt hn e hS' (Group.nilpotent_of_mulEquiv eB.symm)
       (by rwa [Nat.card_congr eB.toEquiv]) (subgroupOf_mul_comm_inf hBL hBT)
     exact h3.of_equiv eB

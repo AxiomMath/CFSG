@@ -63,6 +63,7 @@ structure Concl166S (K : Type) [Group K] [Finite K] (p q : ℕ) (B' : Subgroup K
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem innerDiagMarking_of_map {K : Subgroup G} {B' J' : Subgroup K}
     (h : InnerDiagMarking B' J') : InnerDiagMarking (B'.map K.subtype) (J'.map K.subtype) := by
   have hι := K.subtype_injective

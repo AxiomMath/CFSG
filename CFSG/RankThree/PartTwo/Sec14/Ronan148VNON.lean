@@ -242,7 +242,7 @@ theorem false_of_le_img148_of_innerON (h134 : Item134) (h48 : Sec4.Item4_8)
     rw [hcardX, show (3 : ℕ) ^ 6 = 3 ^ 5 * 3 by norm_num]
     exact mul_dvd_mul h5J (by norm_num)
   · obtain ⟨e⟩ := nonempty_img148_deltaZero_centPre148_equiv hY.2 hAJ hJY hJc h3Jα (lB A)
-    letI := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
+    let := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
     have hce : Nat.card ↥(img148 A (centPre148 A Y J) (deltaZero A (lB A) (centPre148 A Y J)))
         = Nat.card Zα := Nat.card_congr e.toEquiv
     apply h9false

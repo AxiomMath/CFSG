@@ -137,7 +137,7 @@ theorem altFix_le_sup' (α P Q : Finset (Fin m)) (hPQ : Disjoint P Q) (hP : P.ca
         hcyc R hαR hle w z x hwz hwx hzx' hwR hzR hxR, ?_⟩
       show Equiv.swap w z (Equiv.swap w x w) = x
       rw [Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne hxw hzx'.symm]
-  haveI : MulAction.IsPretransitive Gs {x : Fin m // x ∉ α} := by
+  have : MulAction.IsPretransitive Gs {x : Fin m // x ∉ α} := by
     rw [MulAction.isPretransitive_iff_base w]
     intro x
     obtain ⟨g, hg, hgw⟩ : ∃ g ∈ Gs, g w = x := by

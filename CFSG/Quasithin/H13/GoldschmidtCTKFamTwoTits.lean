@@ -23,7 +23,7 @@ theorem exclA5BlockFor_two_tits :
   obtain ⟨S₀, P', hP'top, hNP', -, -, hS₀⟩ :=
     CFSG.LieType.BorelTits.holdsTits_of_reeTitsModel_tits hS V hV0 hV2
   have hU : IsSylowTwoOf (S₀ : Subgroup S) ⊤ := by
-    refine ⟨le_top, S₀.isPGroup', ?_⟩
+    refine ⟨le_top, S₀.isPGroup, ?_⟩
     rw [show ((S₀ : Subgroup S).subgroupOf ⊤).index = (S₀ : Subgroup S).index from
       Subgroup.relIndex_top_right _]
     exact S₀.not_dvd_index
@@ -31,7 +31,7 @@ theorem exclA5BlockFor_two_tits :
   have hPs : Group.IsSolvable ↥P' := by
     rcases hlat _ hS₀ with h | h | h | h
     · rw [h]
-      have hp : IsPGroup 2 ↥(S₀ : Subgroup S) := S₀.isPGroup'
+      have hp : IsPGroup 2 ↥(S₀ : Subgroup S) := S₀.isPGroup
       have : Group.IsNilpotent ↥(S₀ : Subgroup S) := hp.isNilpotent
       infer_instance
     · rw [h]; exact hHs

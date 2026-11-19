@@ -17,7 +17,7 @@ theorem closure_map_tabPerm {bs : List Table} (hb : EBasis (permB n bs)) :
   rw [eSub_eq_closure hb]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, List.mem_map, Set.mem_range]
   constructor
   · rintro ⟨T, hT, rfl⟩
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hT

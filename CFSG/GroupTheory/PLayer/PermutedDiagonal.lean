@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S12 CFSG.Yardstones.Md0ec50421ce4
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem fixedBar_zpowers_eq_fixedSub {X : Subgroup G} {x : G} (hp : p.Prime)
     (hxp : orderOf x = p) (hxN : x ∈ Subgroup.normalizer (X : Set G)) :
     fixedBar p X (Subgroup.zpowers x) =
@@ -47,7 +48,7 @@ theorem hasPermutedFixedComponent_of_conj_ne {X J : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (X : Set G))
     (hJx : J.map (MulAut.conj x).toMonoidHom ≠ J) :
     HasPermutedFixedComponent p X x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp' : x ^ p = 1 := by rw [← hxp]; exact pow_orderOf_eq_one x
   let Y : Subgroup G := X ⊔ Subgroup.zpowers x
   have hXY : X ≤ Y := le_sup_left

@@ -122,7 +122,7 @@ theorem natCard_fixField {n : ℕ} (hn : 1 ≤ n) [Finite K]
   rw [hk]
   exact hkcard
 
-def coordHom (hσσ : ∀ c, σ (σ c) = c) : (Fin Tag.F4.rank → (fixField σ)ˣ) →*
+def coordHom (_hσσ : ∀ c, σ (σ c) = c) : (Fin Tag.F4.rank → (fixField σ)ˣ) →*
     ↥(graphFixedRootGroup TwistTag.E6 K σ) := by
   let f : (Fin Tag.F4.rank → (fixField σ)ˣ) →* ModGL TwistTag.E6.tag K :=
     (rootDiagUnitHom TwistTag.E6.tag K).comp
@@ -136,7 +136,6 @@ def coordHom (hσσ : ∀ c, σ (σ c) = c) : (Fin Tag.F4.rank → (fixField σ)
         graphFixedRootGroup TwistTag.E6 K σ
     apply CFSG.SeitzReduction.TwistedE6Pilot.rootDiagUnit_relTuple_mem_C0
     intro j
-    change Units.map σ.toMonoidHom (fixUnit σ (a j)) = fixUnit σ (a j)
     apply Units.ext
     exact mem_fixField.mp (a j : fixField σ).property
   exact f.codRestrict _ hf

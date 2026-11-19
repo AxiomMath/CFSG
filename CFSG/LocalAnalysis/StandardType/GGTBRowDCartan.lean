@@ -25,7 +25,7 @@ theorem ggCartanD_forkTree {k : ℕ} (hk : 4 ≤ k) (root : Fin k) (hroot : root
   · have hij' : i.1 ≠ j.1 := fun h => hij (Fin.ext h)
     have hi := i.2
     have hj := j.2
-    simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, hval, hroot]
+    simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff, hval]
     split_ifs <;> omega
   · have hi' : i.1 ≠ 0 := fun h => hi (Fin.ext (h.trans hroot.symm))
     have hi2 := i.2

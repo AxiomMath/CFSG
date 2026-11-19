@@ -26,10 +26,10 @@ theorem exc3core_orthRow_testBit {τ : Tag} (hτ : NoG2 τ) {k : ℕ} (hk : k < 
         · rfl
         · exact absurd h ((hrow.mp hbit).2.2)
       rw [hb, decide_eq_true hl, Bool.true_xor]
-      simp [hb, hl, h]
+      simp [hl, h]
     · have hb : (RD.rowOf τ k).testBit l = true := hrow.mpr ⟨hk, hl, h⟩
       rw [hb, decide_eq_true hl, Bool.true_xor]
-      simp [hb, hl, h]
+      simp [hl, h]
   · have hb : (RD.rowOf τ k).testBit l = false := by
       cases hbit : (RD.rowOf τ k).testBit l
       · rfl
@@ -49,7 +49,7 @@ private theorem exc3core_orthSet_testBit_aux1 (τ : Tag) (V l : ℕ) :
     intro acc
     rw [List.foldl_cons]
     by_cases hV : V.testBit δ = true
-    · rw [if_pos hV, ih (Nat.lor acc (RD.rowM2 τ (2 ^ δ)))]
+    · rw [ite_eq_left hV, ih (Nat.lor acc (RD.rowM2 τ (2 ^ δ)))]
       rw [show Nat.lor acc (RD.rowM2 τ (2 ^ δ)) = (acc ||| RD.rowM2 τ (2 ^ δ)) from rfl,
         Nat.testBit_lor, Bool.or_eq_true]
       constructor
@@ -63,7 +63,7 @@ private theorem exc3core_orthSet_testBit_aux1 (τ : Tag) (V l : ℕ) :
           · subst δ'
             exact Or.inl (Or.inr hb')
           · exact Or.inr ⟨δ', hδ', hv', hb'⟩
-    · rw [if_neg hV, ih acc]
+    · rw [ite_eq_right hV, ih acc]
       constructor
       · rintro (h | ⟨δ', hδ', hv', hb'⟩)
         · exact Or.inl h
@@ -151,11 +151,11 @@ theorem exc3core_orth_class_iff {τ : Tag} (hτ : NoG2 τ) {k : ℕ} (hk : k < �
   constructor
   · intro h0
     refine ⟨l, ?_, rfl⟩
-    simp only [RD.bitsSet, Set.mem_setOf_eq]
+    simp only [RD.bitsSet, Set.mem_ofPred_eq]
     rw [exc3core_orthRow_testBit hτ hk l]
     exact decide_eq_true ⟨hl, by rwa [iform_comm]⟩
   · rintro ⟨x, hx, hxl⟩
-    simp only [RD.bitsSet, Set.mem_setOf_eq] at hx
+    simp only [RD.bitsSet, Set.mem_ofPred_eq] at hx
     have hdec : decide (x < τ.artifactRoots.length ∧ iform (RD.rt τ k) (RD.rt τ x) = 0) = true :=
       (exc3core_orthRow_testBit hτ hk x).symm.trans hx
     have hif : iform (RD.rt τ k) (RD.rt τ l) = 0 := by
@@ -166,7 +166,7 @@ theorem exc3core_orth_class_iff {τ : Tag} (hτ : NoG2 τ) {k : ℕ} (hk : k < �
 private theorem exc3core_orth_orth_aux1 {τ : Tag} (hτ : NoG2 τ) {k : ℕ}
     (hk : k < τ.artifactRoots.length) :
     k ∈ RD.bitsSet (exc3core_orthSet τ (exc3core_orthRow τ k)) := by
-  simp only [RD.bitsSet, Set.mem_setOf_eq]
+  simp only [RD.bitsSet, Set.mem_ofPred_eq]
   rw [exc3core_orthSet_testBit hτ (exc3core_orthRow τ k) k]
   refine decide_eq_true ⟨hk, ?_⟩
   intro δ _ hVδ
@@ -179,7 +179,7 @@ private theorem exc3core_orth_orth_aux2 {τ : Tag} (hτ : NoG2 τ) {k k' : ℕ}
     (hk : k < τ.artifactRoots.length) (hk' : k' < τ.artifactRoots.length)
     (hneg : -RD.rt τ k = RD.rt τ k') :
     k' ∈ RD.bitsSet (exc3core_orthSet τ (exc3core_orthRow τ k)) := by
-  simp only [RD.bitsSet, Set.mem_setOf_eq]
+  simp only [RD.bitsSet, Set.mem_ofPred_eq]
   rw [exc3core_orthSet_testBit hτ (exc3core_orthRow τ k) k']
   refine decide_eq_true ⟨hk', ?_⟩
   intro δ _ hVδ
@@ -226,7 +226,7 @@ theorem exc3core_orth_orth {τ : Tag} (hτ : NoG2 τ) {k : ℕ} (hk : k < τ.art
   have hSeq := exc3core_orth_orth_aux3 hτ hk hk' hneg h2
   obtain ⟨l, hl, rfl⟩ := RD.isRoot_iff_exists_rt.1 hε
   have hlS : l ∈ RD.bitsSet (exc3core_orthSet τ (exc3core_orthRow τ k)) := by
-    simp only [RD.bitsSet, Set.mem_setOf_eq]
+    simp only [RD.bitsSet, Set.mem_ofPred_eq]
     rw [exc3core_orthSet_testBit hτ (exc3core_orthRow τ k) l]
     refine decide_eq_true ⟨hl, ?_⟩
     intro δ _ hVδ

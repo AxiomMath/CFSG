@@ -43,6 +43,7 @@ theorem zSgn_mul_add_mul_eq_zero_iff (hb : 2 * b₀ = 1) (p q : Bool) :
     | exact fun h => absurd (by linear_combination -hb - h) one_ne_zero
     | exact fun h => absurd (by linear_combination -hb + h) one_ne_zero
 
+omit [Nontrivial R] in
 theorem zSgn_mul_add_mul_self (hb : 2 * b₀ = 1) (p : Bool) :
     zSgn R p * b₀ + zSgn R p * b₀ = zSgn R p := by
   linear_combination zSgn R p * hb
@@ -87,7 +88,7 @@ theorem exists_rootZ {α : Fin 4 → ℤ} (h : IsD4Root α) :
   calc α = Pi.single i (α i) + Pi.single j (α j) := hα
     _ = rootZ i j (decide (α i = 1)) (decide (α j = 1)) := by rw [rootZ, ← hi', ← hj']
 
-theorem castW_rootZ_apply {i j : Fin 4} (hij : i ≠ j) (u v : Bool) (k : Fin 4) :
+theorem castW_rootZ_apply {i j : Fin 4} (_hij : i ≠ j) (u v : Bool) (k : Fin 4) :
     castW N (rootZ i j u v) k =
       (if k = i then zSgn (ZMod N) u else 0) + (if k = j then zSgn (ZMod N) v else 0) := by
   simp only [castW, rootZ, Pi.add_apply, Pi.single_apply, Int.cast_add]
@@ -174,17 +175,17 @@ theorem hsWeight_add_castW_rootZ_eq_iff (hb : 2 * b₀ = 1) {i j : Fin 4} (hij :
   · intro h
     have hi := congrFun h i
     have hj := congrFun h j
-    simp only [Pi.add_apply, hsWeight_apply, castW_rootZ_apply hij, if_pos rfl, if_neg hij,
-      if_neg hij.symm, add_zero, zero_add] at hi hj
+    simp only [Pi.add_apply, hsWeight_apply, castW_rootZ_apply hij, ite_eq_right hij,
+      ite_eq_right hij.symm, add_zero, zero_add] at hi hj
     obtain ⟨hi1, hi2⟩ := (zSgn_mul_add_zSgn_eq_iff hb _ _ _).1 hi
     obtain ⟨hj1, hj2⟩ := (zSgn_mul_add_zSgn_eq_iff hb _ _ _).1 hj
     have hk : ∀ k, k ≠ i → k ≠ j → s k = s' k := by
       intro k hki hkj
       have hk := congrFun h k
-      simp only [Pi.add_apply, hsWeight_apply, castW_rootZ_apply hij, if_neg hki, if_neg hkj,
+      simp only [Pi.add_apply, hsWeight_apply, castW_rootZ_apply hij, ite_eq_right hki, ite_eq_right hkj,
         add_zero] at hk
       exact (zSgn_mul_eq_iff hb _ _).1 hk
-    rw [SignVec.step, if_pos ⟨hi1, hj1⟩]
+    rw [SignVec.step, ite_eq_left ⟨hi1, hj1⟩]
     congr 1
     funext k
     by_cases hkj : k = j
@@ -197,21 +198,21 @@ theorem hsWeight_add_castW_rootZ_eq_iff (hb : 2 * b₀ = 1) {i j : Fin 4} (hij :
       · rw [Function.update_of_ne hki, hk k hki hkj]
   · intro h
     by_cases hc : s i = !u ∧ s j = !v
-    · rw [SignVec.step, if_pos hc, Option.some.injEq] at h
+    · rw [SignVec.step, ite_eq_left hc, Option.some.injEq] at h
       subst h
       funext k
       simp only [Pi.add_apply, hsWeight_apply, castW_rootZ_apply hij]
       by_cases hkj : k = j
       · subst hkj
-        rw [if_neg hij.symm, if_pos rfl, Function.update_self, zero_add]
+        rw [ite_eq_right hij.symm, ite_eq_left rfl, Function.update_self, zero_add]
         exact (zSgn_mul_add_zSgn_eq_iff hb _ _ _).2 ⟨hc.2, rfl⟩
-      · rw [Function.update_of_ne hkj, if_neg hkj, add_zero]
+      · rw [Function.update_of_ne hkj, ite_eq_right hkj, add_zero]
         by_cases hki : k = i
         · subst hki
-          rw [if_pos rfl, Function.update_self]
+          rw [ite_eq_left rfl, Function.update_self]
           exact (zSgn_mul_add_zSgn_eq_iff hb _ _ _).2 ⟨hc.1, rfl⟩
-        · rw [if_neg hki, Function.update_of_ne hki, add_zero]
-    · rw [SignVec.step, if_neg hc] at h
+        · rw [ite_eq_right hki, Function.update_of_ne hki, add_zero]
+    · rw [SignVec.step, ite_eq_right hc] at h
       exact absurd h (by simp)
 
 theorem hsWeight_add_hsWeight_of_agree (hb : 2 * b₀ = 1) {s t : SignVec} {k : Fin 4}
@@ -221,9 +222,9 @@ theorem hsWeight_add_hsWeight_of_agree (hb : 2 * b₀ = 1) {s t : SignVec} {k : 
   simp only [Pi.add_apply, hsWeight_apply, Pi.single_apply]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl, ← (h i).2 rfl]
+    rw [ite_eq_left rfl, ← (h i).2 rfl]
     exact zSgn_mul_add_mul_self hb _
-  · rw [if_neg hik]
+  · rw [ite_eq_right hik]
     have h1 : s i ≠ t i := fun h' => hik ((h i).1 h')
     exact (zSgn_mul_add_mul_eq_zero_iff hb _ _).2 (bool_eq_not_of_ne h1)
 
@@ -235,13 +236,13 @@ theorem agree_of_hsWeight_add (hb : 2 * b₀ = 1) {s t : SignVec} {k : Fin 4} {r
   simp only [Pi.add_apply, hsWeight_apply, Pi.single_apply] at h1
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     refine ⟨fun _ => rfl, fun _ => ?_⟩
     by_contra hne
     have h0 := (zSgn_mul_add_mul_eq_zero_iff hb (s i) (t i)).2 (bool_eq_not_of_ne hne)
     rw [h0] at h1
     exact zSgn_ne_zero r h1.symm
-  · rw [if_neg hik] at h1
+  · rw [ite_eq_right hik] at h1
     have h0 := (zSgn_mul_add_mul_eq_zero_iff hb _ _).1 h1
     exact ⟨fun h' => absurd (h'.symm.trans h0) bool_ne_self_not, fun h' => absurd h' hik⟩
 
@@ -263,6 +264,7 @@ structure SpinNF (D : D4Datum G K) (ρ : Representation K G X) (e : ℕ)
 variable {D : D4Datum G K} {ρ : Representation K G X} {e : ℕ} {b₀ : ZMod (Nat.card Kˣ)}
   {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {b : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
 
+omit [Finite K] [CharP K 2] in
 theorem SpinNF.nontrivial (hN : SpinNF D ρ e b₀ C b) : Nontrivial (ZMod (Nat.card Kˣ)) :=
   haveI : Fact (1 < Nat.card Kˣ) := ⟨hN.two_le⟩
   inferInstance
@@ -284,26 +286,29 @@ variable (hN : SpinNF D ρ e b₀ C b) (L : ZLab e)
 
 include hN
 
+omit [Finite K] [CharP K 2] in
 theorem SpinNF.hsWeight_mem (m : Fin 4 ⊕ Fin 4) : hsWeight b₀ (L.lab m) ∈ C := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   exact (hN.mem_iff _).2 ((isSpinWt_hsWeight hN.two_mul).2 (L.minusCount_mod m))
 
+omit [Finite K] [CharP K 2] in
 theorem SpinNF.exists_lab_of_mem {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) :
     ∃ m, a = hsWeight b₀ (L.lab m) := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   obtain ⟨s, hs, rfl⟩ := exists_hsWeight_of_isSpinWt hN.two_mul ((hN.mem_iff a).1 ha)
   obtain ⟨m, rfl⟩ := L.surjective s hs
   exact ⟨m, rfl⟩
 
 theorem SpinNF.linearIndependent :
     LinearIndependent K (fun m => b (hsWeight b₀ (L.lab m))) := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   have hinj : Function.Injective (fun m => hsWeight b₀ (L.lab m)) :=
     (hsWeight_injective hN.two_mul).comp L.injective
   exact iSupIndep.linearIndependent _ ((D4Datum.iSupIndep_wtSpace D ρ).comp hinj)
     (fun m => hN.nf.mem_wtSpace _ (hN.hsWeight_mem L m))
     (fun m => hN.nf.ne_zero _ (hN.hsWeight_mem L m))
 
+omit [Finite K] [CharP K 2] in
 theorem SpinNF.span_range :
     ⊤ ≤ Submodule.span K (Set.range (fun m => b (hsWeight b₀ (L.lab m)))) := by
   refine le_trans (le_of_eq hN.nf.span_eq.symm) (Submodule.span_mono ?_)
@@ -336,18 +341,18 @@ theorem SpinNF.torus_apply (t : Fin 4 → Kˣ) (m : Fin 4 ⊕ Fin 4) :
 theorem SpinNF.root_apply_of_rel {i j : Fin 4} (hij : i ≠ j) {u v : Bool}
     {m m' : Fin 4 ⊕ Fin 4} (h : L.Rel i j u v m m') (c : K) :
     ρ (D.x (rootZ i j u v) c) (hN.basis L m) = hN.basis L m + c • hN.basis L m' := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   have hα := isD4Root_rootZ hij u v
   have h1 := hN.nf.root _ hα c _ (hN.hsWeight_mem L m)
   have hw : hsWeight b₀ (L.lab m) + castW (Nat.card Kˣ) (rootZ i j u v) =
       hsWeight b₀ (L.lab m') := (hsWeight_add_castW_rootZ_eq_iff hN.two_mul hij u v _ _).2 h
   simp only [pow_zero, one_smul, pow_one] at h1
-  rw [hN.basis_apply L, hN.basis_apply L, h1, hw, if_pos (hN.hsWeight_mem L m')]
+  rw [hN.basis_apply L, hN.basis_apply L, h1, hw, ite_eq_left (hN.hsWeight_mem L m')]
 
 theorem SpinNF.root_apply_of_not_rel {i j : Fin 4} (hij : i ≠ j) {u v : Bool}
     {m : Fin 4 ⊕ Fin 4} (h : ∀ m', ¬ L.Rel i j u v m m') (c : K) :
     ρ (D.x (rootZ i j u v) c) (hN.basis L m) = hN.basis L m := by
-  haveI := hN.nontrivial
+  have := hN.nontrivial
   have hα := isD4Root_rootZ hij u v
   have h1 := hN.nf.root _ hα c _ (hN.hsWeight_mem L m)
   simp only [pow_zero, one_smul, pow_one] at h1
@@ -357,7 +362,7 @@ theorem SpinNF.root_apply_of_not_rel {i j : Fin 4} (hij : i ≠ j) {u v : Bool}
     have hstep := (hsWeight_add_castW_rootZ_eq_iff hN.two_mul hij u v _ _).1 hs'e
     obtain ⟨m', rfl⟩ := L.surjective s' hs'
     exact h m' hstep
-  rw [hN.basis_apply L, h1, if_neg hn, add_zero]
+  rw [hN.basis_apply L, h1, ite_eq_right hn, add_zero]
 
 end Module
 

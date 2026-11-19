@@ -24,7 +24,7 @@ theorem card_sylow_of_hat {G : Type} [Group G] [Finite G] {E B : Subgroup G}
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hT₀B).toEquiv, hcard]
 
 theorem exists_conj_of_hat {G : Type} [Group G] [Finite G] {E B : Subgroup G}
-    (φ : ↥B →* ↥Hhat) (hφ : Function.Surjective φ)
+    (φ : ↥B →* ↥Hhat) (_hφ : Function.Surjective φ)
     (hker : φ.ker = (oddCoreIn E).subgroupOf B) {T : Subgroup G} (hTB : T ≤ B)
     (hT : Nat.card T = 512) :
     ∃ h : ↥Hhat,
@@ -69,7 +69,7 @@ theorem exists_conj_of_hat {G : Type} [Group G] [Finite G] {E B : Subgroup G}
     exact Nat.card_congr (MonoidHom.ofInjective hf₁).toEquiv.symm
   have hcardS : Nat.card (S0.subgroupOf Hhat) = 512 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe S0_le_Hhat).toEquiv, card_S0]
-  haveI : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [card_Hhat]; norm_num)
+  have : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [card_Hhat]; norm_num)
   have hidx : ∀ K : Subgroup ↥Hhat, Nat.card K = 512 → ¬ 2 ∣ K.index := by
     intro K hK h2
     have h := Subgroup.card_mul_index K

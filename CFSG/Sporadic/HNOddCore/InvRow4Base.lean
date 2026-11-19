@@ -60,11 +60,11 @@ theorem prep_t4 :
   rw [t4J_eq]
   exact prep_hWord (letters_of_natOK nat_parts.2.1)
 
-@[expose] def c4G (j : ℕ) : JH := hWordJ InvData.c4Words[j]!
+def c4G (j : ℕ) : JH := hWordJ InvData.c4Words[j]!
 
-@[expose] def x4J : JH := seedWordJ InvData.x4Root * hWordJ InvData.x4H
+def x4J : JH := seedWordJ InvData.x4Root * hWordJ InvData.x4H
 
-@[expose] def g4 (s : ℕ) : JH := if s < 9 then c4G s else x4J
+def g4 (s : ℕ) : JH := if s < 9 then c4G s else x4J
 
 theorem c4G_mem_HJ (j : ℕ) : c4G j ∈ HJ := hWordJ_mem _
 

@@ -33,7 +33,7 @@ theorem false_of_sevenFive (hS : Setting G) (h75 : KFactSevenFive) {p : ℕ}
   set Y : Subgroup N := L.comap π
   set ρ : Y →* L := π.subgroupComap L
   have hρ : Function.Surjective ρ :=
-    π.subgroupComap_surjective_of_surjective L (QuotientGroup.mk'_surjective O)
+    π.subgroupComap_surjective L (QuotientGroup.mk'_surjective O)
   let eY : Y ≃* Y.map N.subtype := Y.equivMapOfInjective N.subtype N.subtype_injective
   exact h75 G hS.rank p i hi (e.some.isSimpleGroup_congr.mp hLs) (Y.map N.subtype)
     ((e.some.toMonoidHom.comp ρ).comp eY.symm.toMonoidHom)

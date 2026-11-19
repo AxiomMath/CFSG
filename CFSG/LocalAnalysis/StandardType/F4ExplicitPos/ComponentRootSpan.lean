@@ -75,15 +75,15 @@ theorem component_le_rationalRootSpan_of_frobenius
     change ((MulAut.conj Δ.g0⁻¹).toMonoidHom.comp η₀).range = Δ.model
     rw [MonoidHom.range_comp, hfix]
     exact (LangDescent.model_eq Δ).symm
-  letI : Finite (ModGL .F4 K) := CFSG.LieType.Chevalley.finite_modGL
-  letI : Finite (adjointGroup .F4 K) := inferInstance
+  let : Finite (ModGL .F4 K) := CFSG.LieType.Chevalley.finite_modGL
+  let : Finite (adjointGroup .F4 K) := inferInstance
   have hfin : Finite Δ.model := by
     rw [← hrange]
     have hset : (η.range : Set (ModGL .F4 Ω)).Finite := by
       change (Set.range η).Finite
       exact Set.finite_range η
     exact hset.to_subtype
-  letI := hfin
+  let := hfin
   obtain ⟨v, hvT, hv⟩ := hT
   change Δ.g0 * v * Δ.g0⁻¹ = η₀ u at hv
   obtain ⟨a, hva⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hvT.1
@@ -122,7 +122,7 @@ theorem component_le_rationalRootSpan_of_frobenius
   have hM := CFSG.LocalAnalysis.ComponentInitial.isComponentOf_map_of_injective hQ η hη
   rw [hC] at hM
   have hperf : Group.IsPerfect (Q.map η) := ⟨hM.2.2.1⟩
-  letI := hperf
+  let := hperf
   have hMQM : Q.map η ≤ Δ.model := hM.1.trans inf_le_left
   have hMQΓ : Q.map η ≤ Δ.Γ := by
     calc

@@ -95,7 +95,7 @@ theorem burnsideF411_check5 (a b : Fin 5) (h1 : a ≠ b) (h2 : a ≠ Fin.rev a)
   rw [octRootB_one] at hw
   have e0 := congrFun hw 0
   have e1 := congrFun hw 1
-  fin_cases a <;> fin_cases b <;> simp_all [weight, toStd, Nat.even_iff, Fin.rev] <;> omega
+  fin_cases a <;> fin_cases b <;> simp_all [weight, toStd, Nat.even_iff, Fin.rev]
 
 include hF in
 theorem burnsideF411_un5Oct_one_le :
@@ -119,7 +119,7 @@ theorem burnsideF411_un5Oct_one_le :
       simp only [rootMatrix, toAdd_ofAdd, map_neg, hσ, r0, r1, r3, r4]
       ext x y
       simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply]
-      split_ifs <;> simp_all <;> ring
+      split_ifs <;> simp_all; ring
   · refine iSup_le fun a => iSup_le fun _ => iSup_le fun hw => ?_
     exfalso
     have e0 := congrFun hw 0
@@ -144,12 +144,12 @@ theorem burnsideF411_card_un5Oct_one_le : Nat.card (un5Oct hF 1) ≤ Nat.card F 
         Nat.card_le_card_of_surjective _ (MonoidHom.rangeRestrict_surjective _)
     _ = Nat.card F := rfl
 
+omit [Finite F] in
 theorem burnsideF411_heisenbergMatrix_apply_irev {σ : F ≃+* F} (a b : F) :
     heisenbergMatrix σ (1 : Fin 5) 2 a b 1 (Fin.rev 1) = b := by
   have r1 : Fin.rev (1 : Fin 5) = 3 := by decide
   rw [r1]
-  simp [heisenbergMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply,
-    Matrix.one_apply]
+  simp [heisenbergMatrix, Matrix.add_apply, Matrix.sub_apply]
 
 include hF in
 theorem burnsideF411_card_un5Oct_four_ge : Nat.card F * p ^ f ≤ Nat.card (un5Oct hF 4) := by
@@ -228,19 +228,19 @@ open CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits CFSG.Quasithin.H13.F4
 theorem burnsideF411_relIndex_ne_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 p f Gp M₁ M₂) :
     (Gp ⊓ (M₁ ⊓ M₂)).relIndex (Gp ⊓ M₁) ≠ (Gp ⊓ (M₁ ⊓ M₂)).relIndex (Gp ⊓ M₂) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hp : p.Prime := burnsideF4a_prime_of_isGenLie hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U4) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inl rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inl rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   let θ₀ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 4 (p ^ f) marking.field) ≃*
       StatedProj (nativeGroup .U4 (p ^ f) marking.field)).trans marking.identification
-  haveI : Finite (StatedProj (StatedSU 4 (p ^ f) marking.field)) :=
+  have : Finite (StatedProj (StatedSU 4 (p ^ f) marking.field)) :=
     Finite.of_equiv ↥Gp θ₀.symm.toEquiv
   refine burnsideF411_relIndex_ne_of_system hp hP θ₀ (burnsideF45U4_system hF ζ)
     (burnsideF45U4_system_isSylow hF ζ) ?_
@@ -265,25 +265,25 @@ theorem burnsideF411_relIndex_ne_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
 
 theorem burnsideF411_swap_U4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 p f Gp M₁ M₂) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   exact burnsideF411_swap_of_relIndex_ne hyp.normal hyp.split (burnsideF411_relIndex_ne_U4 hyp)
 
 theorem burnsideF411_relIndex_ne_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 p f Gp M₁ M₂) :
     (Gp ⊓ (M₁ ⊓ M₂)).relIndex (Gp ⊓ M₁) ≠ (Gp ⊓ (M₁ ⊓ M₂)).relIndex (Gp ⊓ M₂) := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hp : p.Prime := burnsideF4a_prime_of_isGenLie hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   obtain ⟨marking⟩ := burnsideF45U_nonempty_marking (c := .U5) hyp.toHypF_4_4g
-  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (if_pos (Or.inr rfl))
-  haveI : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+  have hF : Nat.card marking.field = (p ^ f) ^ 2 := marking.field_card.trans (ite_eq_left (Or.inr rfl))
+  have : CharP marking.field p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
+  have : Fact ((ζ : marking.field) ≠ 0) := ⟨hζ⟩
   let θ₀ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃* ↥Gp :=
     (MulEquiv.refl _ : StatedProj (StatedSU 5 (p ^ f) marking.field) ≃*
       StatedProj (nativeGroup .U5 (p ^ f) marking.field)).trans marking.identification
-  haveI : Finite (StatedProj (StatedSU 5 (p ^ f) marking.field)) :=
+  have : Finite (StatedProj (StatedSU 5 (p ^ f) marking.field)) :=
     Finite.of_equiv ↥Gp θ₀.symm.toEquiv
   refine burnsideF411_relIndex_ne_of_system hp hP θ₀ (burnsideF45U5_system hF ζ)
     (burnsideF45U5_system_isSylow hF ζ) ?_
@@ -308,7 +308,7 @@ theorem burnsideF411_relIndex_ne_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
 
 theorem burnsideF411_swap_U5 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 p f Gp M₁ M₂) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   exact burnsideF411_swap_of_relIndex_ne hyp.normal hyp.split (burnsideF411_relIndex_ne_U5 hyp)
 
 end Swap

@@ -269,7 +269,7 @@ theorem nfR_mem_A (H : PcHyp u2 u1 b x) (w : Fin 4 → ZMod 5) :
   rw [aG_three]
   exact H.rel.mem_x
 
-theorem cover_coset [Finite G] (H : PcHyp u2 u1 b x) (hx : x ≠ 1) (h4 : Comm4 (aG b x)) {v : V9}
+theorem cover_coset [Finite G] (H : PcHyp u2 u1 b x) (hx : x ≠ 1) (_h4 : Comm4 (aG b x)) {v : V9}
     (hv : v.red) :
     ∃ k < 3125, ∃ w, psi u2 u1 b x v = psi u2 u1 b x (cosT k) * hz (aG b x) w := by
   obtain ⟨he0, he1, h0, h1, h2, h3, h4', h5, h6⟩ := hv

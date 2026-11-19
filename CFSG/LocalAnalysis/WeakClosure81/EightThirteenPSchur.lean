@@ -17,8 +17,8 @@ private theorem wc813sch_card_center_dvd_griess_hopf {G : Type} [Group G] [Finit
     (hperf : Group.IsPerfect G) :
     Nat.card ↥(Subgroup.center G) ∣
       Nat.card (CFSG.Open.griessHopfMultiplier (G ⧸ Subgroup.center G)) := by
-  haveI : Group.IsPerfect G := hperf
-  haveI : Group.IsPerfect (G ⧸ Subgroup.center G) :=
+  have : Group.IsPerfect G := hperf
+  have : Group.IsPerfect (G ⧸ Subgroup.center G) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center G))
       (QuotientGroup.mk'_surjective _)
   obtain ⟨-, h, -, -, -, -, e, -⟩ :=

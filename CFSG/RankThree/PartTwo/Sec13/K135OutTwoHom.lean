@@ -27,11 +27,11 @@ theorem outTwoGen_of_hom_cyclic {X : Type*} [Group X] [Finite X] {C : Type*} [Gr
     (hb : ∃ g₁ ∈ Θ.ker, ∀ x ∈ Θ.ker, ∃ k : ℤ,
       g₁ ^ k * x ∈ (MulAut.conj : X →* MulAut X).range) :
     OutTwoGen X := by
-  haveI : ((MulAut.conj : X →* MulAut X).range).Normal :=
+  have : ((MulAut.conj : X →* MulAut X).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal X
   refine outTwoGen_of_tower (MulAut.conj : X →* MulAut X).range Θ.ker
     (fun δ hδ _ _ => hδ) hb ?_
-  haveI : IsCyclic ↥Θ.range := Subgroup.isCyclic Θ.range
+  have : IsCyclic ↥Θ.range := Subgroup.isCyclic Θ.range
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := ↥Θ.range)
   obtain ⟨g₂, hg₂⟩ := γ.2
   refine ⟨g₂, fun x => ?_⟩

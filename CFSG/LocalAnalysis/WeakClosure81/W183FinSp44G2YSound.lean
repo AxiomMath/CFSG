@@ -294,7 +294,7 @@ theorem w183finSp44G2Y_exists_z_rel {p : Nat × Nat} (hp : p ∈ pairsL) {g1 g2 
       exact hcalc.symm
 
 theorem w183finSp44G2Y_not_isTISub_of_check_aux {p : Nat × Nat} (hp : p ∈ pairsL) {e : Nat}
-    (he : 0 < e) (he' : (e - 1) / 3 < g2Pool.length)
+    (_he : 0 < e) (he' : (e - 1) / 3 < g2Pool.length)
     (hc : checkTIfail invsA[p.1]! invsA[p.2]! e = true) :
     ¬ IsTISub (MulAut S4) (kleinSub invsA[p.1]! invsA[p.2]!) := by
   intro hTI
@@ -305,7 +305,7 @@ theorem w183finSp44G2Y_not_isTISub_of_check_aux {p : Nat × Nat} (hp : p ∈ pai
   set g : El := (q / 4, q % 4) with hg
   set t : El := [invsA[p.1]!, invsA[p.2]!, gmulE invsA[p.1]! invsA[p.2]!].getD
     ((e - 1) % 3) oneE with ht
-  simp only [Bool.and_eq_true, beq_iff_eq, Bool.or_eq_true, Bool.not_eq_true] at hc
+  simp only [Bool.and_eq_true, beq_iff_eq, Bool.or_eq_true] at hc
   obtain ⟨hgt, hnotmem⟩ := hc
   have hj : (e - 1) % 3 < 3 := Nat.mod_lt _ (by norm_num)
   have hgvalid : validB g = true := by

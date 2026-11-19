@@ -13,7 +13,7 @@ namespace CFSG.GroupTheory
 private def powMemSubgroup {G : Type*} [Group G] {C A D : Subgroup G}
     (hDC : D ≤ C) (hC : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x) (n : ℕ) : Subgroup G where
   carrier := {x : G | x ∈ D ∧ x ^ n ∈ A}
-  one_mem' := ⟨D.one_mem, by simpa using A.one_mem⟩
+  one_mem' := ⟨D.one_mem, by simp⟩
   mul_mem' := by
     rintro x y ⟨hxD, hxA⟩ ⟨hyD, hyA⟩
     refine ⟨D.mul_mem hxD hyD, ?_⟩
@@ -112,7 +112,7 @@ private theorem powMemSubgroup_finite {G : Type*} [Group G] {C A D : Subgroup G}
     [Finite A] (hDC : D ≤ C) (hC : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x) (n : ℕ)
     (hT : (powTorsionSubgroup hDC hC n : Set G).Finite) :
     Finite ↥(powMemSubgroup (A := A) hDC hC n) := by
-  haveI : Finite ↥(powTorsionSubgroup hDC hC n) := hT.to_subtype
+  have : Finite ↥(powTorsionSubgroup hDC hC n) := hT.to_subtype
   have hker : (powMap (A := A) hDC hC n).ker =
       (powTorsionSubgroup hDC hC n).subgroupOf (powMemSubgroup (A := A) hDC hC n) :=
     powMap_ker hDC hC n
@@ -122,7 +122,7 @@ private theorem powMemSubgroup_finite {G : Type*} [Group G] {C A D : Subgroup G}
       (Subgroup.subgroupOfEquivOfLe
         (powTorsionSubgroup_le_powMemSubgroup (A := A) hDC hC n)).symm.toEquiv
   have hrangeFin : Finite (powMap (A := A) hDC hC n).range := by
-    haveI : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
+    have : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
     exact Subtype.finite
   exact (MonoidHom.finite_iff_finite_ker_range (powMap (A := A) hDC hC n)).mpr
     ⟨hkerFin, hrangeFin⟩
@@ -134,7 +134,7 @@ private theorem powMemSubgroup_card_le {G : Type*} [Group G] {C A D : Subgroup G
   have hcard := Subgroup.card_ker_mul_card_range (powMap (A := A) hDC hC n)
   have hker := powMap_ker_card (A := A) hDC hC n
   have hrange : Nat.card (powMap (A := A) hDC hC n).range ≤ Nat.card ↥(A ⊓ D) := by
-    haveI : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
+    have : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
     exact Nat.card_le_card_of_injective
       (fun x : (powMap (A := A) hDC hC n).range => (x.1 : ↥(A ⊓ D)))
       (fun x y h => Subtype.ext h)
@@ -227,7 +227,6 @@ private theorem card_join_eq_card_mul_set {G : Type*} [Group G] {A X : Subgroup 
       exact (A ⊔ X).mul_mem (Subgroup.mem_sup_left ha) (Subgroup.mem_sup_right hx)
   refine Nat.card_congr ?_
   refine ⟨fun x => ⟨x.1, by
-    change (x.1 : G) ∈ ((A : Set G) * (X : Set G))
     rw [← hsupSet]
     exact x.2⟩, fun x => ⟨x.1, by
     change (x.1 : G) ∈ ((A ⊔ X : Subgroup G) : Set G)
@@ -251,8 +250,8 @@ private theorem card_mul_set_le_torsion {G : Type*} [Group G] {C A D : Subgroup 
     powMulHom_card hcomm
   have hAXcard : Nat.card ↥(A ⊔ X) = Nat.card ↥((A : Set G) * (X : Set G)) :=
     card_join_eq_card_mul_set hcomm
-  haveI : Nonempty ↥(A ⊓ D) := ⟨⟨1, A.one_mem, D.one_mem⟩⟩
-  haveI : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
+  have : Nonempty ↥(A ⊓ D) := ⟨⟨1, A.one_mem, D.one_mem⟩⟩
+  have : Finite ↥(A ⊓ D) := Finite.Set.subset (A : Set G) (fun x hx => hx.1)
   have hpos : 0 < Nat.card ↥(A ⊓ D) := Nat.card_pos
   have hle : Nat.card A * Nat.card X ≤
       Nat.card A * (Nat.card ↥(A ⊓ D) * Nat.card T) :=
@@ -296,7 +295,7 @@ private theorem encard_pow_mem_le_of_finite {G : Type*} [Group G] {C A D : Subgr
       (powTorsionSubgroup hDC hC n : Set G) := rfl
   rw [hEq, hTset, ← Set.Finite.cast_ncard_eq hT,
     ← Nat.card_coe_set_eq (powTorsionSubgroup hDC hC n : Set G), ← Nat.cast_mul]
-  exact ENat.coe_le_coe.mpr hle
+  exact ENat.natCast_le_natCast.mpr hle
 
 private theorem encard_pow_mem_le_of_infinite {G : Type*} [Group G] {C A D : Subgroup G}
     [Finite A] (hDC : D ≤ C) (hC : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x) (n : ℕ)

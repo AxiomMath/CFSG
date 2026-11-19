@@ -111,11 +111,11 @@ theorem exists_tensor_of_isOmegaPlus_eight {W : Type} [CommGroup W]
         UC22.IsL2 ↥K 3 ∧ NatTensor L (commSub ⊤ L) ⊥ 2 3 := by
   have hcard : Nat.card ↥L = 254016 :=
     (Om8Excl.card_isOmegaPlus_four (by norm_num) hΩ).trans (by norm_num)
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rcases hW.2.2 with h1 | ⟨K, hK, g, hg, hne, hL, hc⟩ | h3 | h4
   ·
     obtain ⟨p, hp, hLp, -⟩ := h1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpG : IsPGroup p ↥(pCoreOf p A) :=
       (CFSG.pCore_isPGroup (p := p) (G := ↥A)).map A.subtype
     have hpL : IsPGroup p ↥L := hpG.to_le hLp
@@ -131,9 +131,9 @@ theorem exists_tensor_of_isOmegaPlus_eight {W : Type} [CommGroup W]
   · rcases hc with ⟨-, hT⟩ | ⟨-, hT⟩ | ⟨hK8, hT⟩
     ·
       obtain ⟨F, _, _, hF, π, hπ⟩ := hT
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+      have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
       have hF2 : Nat.card F = 2 := by rw [hF]; norm_num
-      haveI : Finite ↥(StatedSL 3 F) := inferInstance
+      have : Finite ↥(StatedSL 3 F) := inferInstance
       have hle : Nat.card ↥L ≤ Nat.card (↥(StatedSL 3 F) × ↥(StatedSL 3 F)) :=
         Nat.card_le_card_of_surjective (π : ↥(StatedSL 3 F) × ↥(StatedSL 3 F) → ↥L) hπ.1
       rw [Nat.card_prod, CFSG.Open.StatedAPI.card_statedSL_three_of_card_eq_two hF2] at hle
@@ -141,9 +141,9 @@ theorem exists_tensor_of_isOmegaPlus_eight {W : Type} [CommGroup W]
       omega
     ·
       obtain ⟨F, _, _, hF, π, hπ⟩ := hT
-      haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+      have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
       have hF2 : Nat.card F = 4 := by rw [hF]; norm_num
-      haveI : Finite ↥(StatedSL 2 F) := inferInstance
+      have : Finite ↥(StatedSL 2 F) := inferInstance
       have hle : Nat.card ↥L ≤ Nat.card (↥(StatedSL 2 F) × ↥(StatedSL 2 F)) :=
         Nat.card_le_card_of_surjective (π : ↥(StatedSL 2 F) × ↥(StatedSL 2 F) → ↥L) hπ.1
       rw [Nat.card_prod, CFSG.Open.StatedAPI.card_statedSL_two, hF2] at hle

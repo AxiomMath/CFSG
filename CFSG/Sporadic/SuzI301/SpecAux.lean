@@ -354,12 +354,12 @@ private theorem conj_foldl {C : Equiv.Perm (Fin 1782)} {w : ℕ → ℕ} (hw : �
     have hl' : ∀ j ∈ l, j < 6 := fun j hj => hl j (List.mem_cons_of_mem i hj)
     simp only [List.foldl_cons]
     by_cases hv : v.testBit i = true
-    · rw [if_pos hv, if_pos hv]
+    · rw [ite_eq_left hv, ite_eq_left hv]
       refine conj_foldl hw hC v l hl' (g * qGen i) (s ^^^ w i) ((gammaBit s (w i) + a + b i) % 2)
         (xor_lt hs (hw i hi)) ?_
       rw [show C * (g * qGen i) * C⁻¹ = C * g * C⁻¹ * (C * qGen i * C⁻¹) by group, h, hC i hi,
         coord_qVec.mul_mul hs (hw i hi)]
-    · rw [if_neg hv, if_neg hv]
+    · rw [ite_eq_right hv, ite_eq_right hv]
       exact conj_foldl hw hC v l hl' g s a hs h
 
 private theorem mat64_get (c : Array ℕ) {v : ℕ} (hv : v < 64) :
@@ -384,7 +384,6 @@ private theorem conj_qVec_of_coordsOK {c : Array ℕ} {C : Equiv.Perm (Fin 1782)
     (fun i hi => by have := hlt i hi; omega) (fun i hi => conj_qGen hc hi (hlt i hi)) v
     (List.range 6) (fun i hi => List.mem_range.1 hi) 1 0 0 (by norm_num)
     (by rw [mul_one, mul_inv_cancel, coord_qVec.q_zero, pow_zero, mul_one])
-  beta_reduce at hlt64 ha
   rw [← mat64_get c hv] at hlt64 ha
   refine ⟨hlt64, a % 2, Nat.mod_lt _ (by norm_num), ?_⟩
   rw [← coord_qVec.t_pow_mod]
@@ -507,10 +506,10 @@ private theorem tabRep_hl {k : ℕ} (hk : k < hlTabs.size) : TabRep hlTabs[k]! (
   rw [hlTabs_size] at hk
   interval_cases k
   · rw [show hlTabs[0]! = comp 64 (mat64 (sD ())) (comp 64 (mat64 (sB2 ()))
-      (comp 64 (mat64 (sB3 ())) (mat64 (sB3 ())))) by simp [hlTabs], hlY, if_pos rfl]
+      (comp 64 (mat64 (sB3 ())) (mat64 (sB3 ())))) by simp [hlTabs], hlY, ite_eq_left rfl]
     exact hD.comp (hB2.comp (hB3.comp hB3))
   · rw [show hlTabs[1]! = comp 64 (mat64 (sB2 ())) (comp 64 (mat64 (sB2 ()))
-      (comp 64 (mat64 (sB3 ())) (mat64 (sB3 ())))) by simp [hlTabs], hlY, if_neg (by norm_num)]
+      (comp 64 (mat64 (sB3 ())) (mat64 (sB3 ())))) by simp [hlTabs], hlY, ite_eq_right (by norm_num)]
     exact hB2.comp (hB2.comp (hB3.comp hB3))
 
 private theorem hl_cube {k : ℕ} (hk : k < hlTabs.size) : hlY k * (hlY k * hlY k) = 1 :=
@@ -519,11 +518,11 @@ private theorem hl_cube {k : ℕ} (hk : k < hlTabs.size) : hlY k * (hlY k * hlY 
 
 private theorem hlY_zero : hlY 0 = permOfArr 64 (mat64 (sD ())) * permOfArr 64 (mat64 (sB2 ())) *
     permOfArr 64 (mat64 (sB3 ())) ^ 2 := by
-  rw [hlY, if_pos rfl, sq, mul_assoc]
+  rw [hlY, ite_eq_left rfl, sq, mul_assoc]
 
 private theorem hlY_one :
     hlY 1 = permOfArr 64 (mat64 (sB2 ())) ^ 2 * permOfArr 64 (mat64 (sB3 ())) ^ 2 := by
-  rw [hlY, if_neg (by norm_num), sq, sq, mul_assoc]
+  rw [hlY, ite_eq_right (by norm_num), sq, sq, mul_assoc]
 
 theorem six4_facts :
     ∀ g ∈ Subgroup.closure (Set.range fun j : Fin 11 =>

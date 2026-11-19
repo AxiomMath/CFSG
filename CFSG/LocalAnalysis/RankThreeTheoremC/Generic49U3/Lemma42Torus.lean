@@ -21,9 +21,9 @@ theorem u3_torus_lift_gen (hTor : TypeTorusOnCenter Typ p) (hc : PointConfig Typ
     (hk : ¬ (p : ℤ) ∣ k) :
     ∃ h ∈ J, h ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ∧ h * c * h⁻¹ = c ^ k := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, instQ, ψ, hψsurj, hker, hU3⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψsurj
+  have : Finite Q := Finite.of_surjective ψ hψsurj
   have hcJ : c ∈ J := (Subgroup.mem_inf.mp hcT).2
   obtain ⟨hOJ, -, hcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p J
   have hcardker : Nat.card ψ.ker = Nat.card (rankThreePrimeCore p J) := by
@@ -40,7 +40,7 @@ theorem u3_torus_lift_gen (hTor : TypeTorusOnCenter Typ p) (hc : PointConfig Typ
     intro y
     rw [hT', Subgroup.mem_subgroupOf]
   have hinj : ∀ t ∈ (T' : Subgroup J), ψ t = 1 → t = 1 :=
-    u3main_eq_one_of_ker ψ hkercop T'.isPGroup'
+    u3main_eq_one_of_ker ψ hkercop T'.isPGroup
   obtain ⟨Ts, hTs⟩ : ∃ Ts : Sylow p Q, (Ts : Subgroup Q) = (T' : Subgroup J).map ψ :=
     ⟨Sylow.mapSurjective hψsurj T', rfl⟩
   have hTsmem : ∀ y : J, y ∈ (T' : Subgroup J) → ψ y ∈ (Ts : Subgroup Q) := by
@@ -169,7 +169,7 @@ theorem u3_torus_lift (hc : U3Config G p P M x J) {c : G} (hcT : c ∈ u3T P x J
     (hcZ : c ∈ Subgroup.centralizer ((u3T P x J : Subgroup G) : Set G)) (hc1 : c ≠ 1) (k : ℤ)
     (hk : ¬ (p : ℤ) ∣ k) :
     ∃ h ∈ J, h ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ∧ h * c * h⁻¹ = c ^ k := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   exact u3_torus_lift_gen (typeTorusOnCenter_u3 hc.five) (pointConfig_of_u3 hc) hcT hcZ hc1 k hk
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3

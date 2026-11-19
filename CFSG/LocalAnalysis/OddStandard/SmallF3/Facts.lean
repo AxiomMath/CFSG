@@ -96,7 +96,7 @@ theorem oddLieType {Q : Type} [Group Q] (hQ : SmallF3LieQuotient Q) : OddLieType
 
 private theorem nat_card_alternatingGroup_fin (m : ℕ) (hm : 2 ≤ m) :
     Nat.card (alternatingGroup (Fin m)) = Nat.factorial m / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 theorem not_nonempty_mulEquiv_alternatingGroup {Q : Type} [Group Q]
@@ -106,20 +106,19 @@ theorem not_nonempty_mulEquiv_alternatingGroup {Q : Type} [Group Q]
     rw [← Nat.card_congr e.toEquiv]
     exact card_mem_smallF3Orders hQ
   by_cases hm1 : m ≤ 1
-  · haveI : Subsingleton (Fin m) :=
+  · have : Subsingleton (Fin m) :=
       Fintype.card_le_one_iff_subsingleton.mp (by simpa [Fintype.card_fin] using hm1)
     have h1 : Nat.card (alternatingGroup (Fin m)) = 1 := Nat.card_unique
     rw [h1] at hcard
     exact absurd hcard (by decide)
-  · push_neg at hm1
+  · push Not at hm1
     have hm2 : 2 ≤ m := by omega
     rw [nat_card_alternatingGroup_fin m hm2] at hcard
     by_cases hm15 : m ≤ 15
     · interval_cases m <;> exact absurd hcard (by decide)
-    · push_neg at hm15
+    · push Not at hm15
       have hle : Nat.factorial m / 2 ≤ 10151968619520 := by
-        simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty,
-          or_false] at hcard
+        simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton] at hcard
         omega
       have hbig : 10151968619520 < Nat.factorial m / 2 := by
         rw [Nat.lt_div_iff_mul_lt (by norm_num : (0 : ℕ) < 2)]
@@ -132,8 +131,7 @@ theorem not_nonempty_mulEquiv_alternatingGroup {Q : Type} [Group Q]
 theorem not_card_dvd_card_M12 {Q : Type} [Group Q] (hQ : SmallF3LieQuotient Q) :
     ¬ Nat.card Q ∣ 2 ^ 6 * 3 ^ 3 * 5 * 11 := by
   have hmem := card_mem_smallF3Orders hQ
-  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty,
-    or_false] at hmem
+  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with h | h | h | h | h | h | h | h <;>
     rw [h, Nat.dvd_iff_mod_eq_zero] <;> decide +kernel
 

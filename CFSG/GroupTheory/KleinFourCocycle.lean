@@ -101,11 +101,11 @@ private lemma quotient_isKleinFour {G : Type*} [Group G] {Q T : Subgroup G} [Fin
     (hQn : (Q.subgroupOf T).Normal) (hidx : Q.relIndex T = 4)
     (hsq : ∀ t ∈ T, t ^ 2 ∈ Q) : IsKleinFour (T ⧸ Q.subgroupOf T) := by
   let Q' := Q.subgroupOf T
-  haveI : Q'.Normal := hQn
+  have : Q'.Normal := hQn
   let V := T ⧸ Q'
-  haveI : Finite V :=
+  have : Finite V :=
     Finite.of_surjective (QuotientGroup.mk' Q') (QuotientGroup.mk'_surjective (N := Q'))
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hcardV : Nat.card V = 4 := by
     rw [← hidx]
     rfl
@@ -135,11 +135,11 @@ private lemma exists_reps {G : Type*} [Group G] {Q T : Subgroup G} [Finite T]
   classical
   let Q' := Q.subgroupOf T
   let V := T ⧸ Q'
-  haveI : Q'.Normal := hQn
-  haveI : Finite V :=
+  have : Q'.Normal := hQn
+  have : Finite V :=
     Finite.of_surjective (QuotientGroup.mk' Q') (QuotientGroup.mk'_surjective (N := Q'))
-  letI : Fintype V := Fintype.ofFinite V
-  haveI : IsMulCommutative V := IsKleinFour.isMulCommutative
+  let : Fintype V := Fintype.ofFinite V
+  have : IsMulCommutative V := IsKleinFour.isMulCommutative
   have hcardV : Nat.card V = 4 := hK.card_four
   have hVcard_gt1 : 1 < Fintype.card V := by
     rw [← Nat.card_eq_fintype_card, hcardV]
@@ -149,7 +149,7 @@ private lemma exists_reps {G : Type*} [Group G] {Q T : Subgroup G} [Finite T]
   have ha_ne : QuotientGroup.mk' Q' a ≠ 1 := by rw [ha_mk]; exact haV_ne
   have hsubtype_card : Fintype.card {x : V // x ≠ 1} = 3 := by
     rw [Fintype.card_subtype_compl (fun x : V => x = 1)]
-    simp [hcardV]
+    simp
   have hsubtype_gt1 : 1 < Fintype.card {x : V // x ≠ 1} := by
     rw [hsubtype_card]; norm_num
   obtain ⟨bSub, hbSub_ne⟩ := Fintype.exists_ne_of_one_lt_card hsubtype_gt1
@@ -181,10 +181,10 @@ private lemma coset_decomp {G : Type*} [Group G] {Q T : Subgroup G} [Finite T]
   classical
   let Q' := Q.subgroupOf T
   let V := T ⧸ Q'
-  haveI : Q'.Normal := hQn
-  haveI : Finite V :=
+  have : Q'.Normal := hQn
+  have : Finite V :=
     Finite.of_surjective (QuotientGroup.mk' Q') (QuotientGroup.mk'_surjective (N := Q'))
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hV_univ : ({QuotientGroup.mk' Q' a * QuotientGroup.mk' Q' b,
       QuotientGroup.mk' Q' a, QuotientGroup.mk' Q' b, (1 : V)} : Finset V) = Finset.univ :=
     IsKleinFour.eq_finset_univ ha hb hab
@@ -426,7 +426,7 @@ private lemma fixed_points_card_le {G : Type*} [Group G] {Q T : Subgroup G}
         exact fixed_centralizes_T hQ hdecomp xm ym hx_fixed_comm hy_fixed_comm
           hq_x hq_y t ht
     ⟩
-  haveI : Finite ↥(Q ⊓ Subgroup.centralizer (T : Set G)) :=
+  have : Finite ↥(Q ⊓ Subgroup.centralizer (T : Set G)) :=
     Finite.of_injective (fun x => (⟨x.1, x.2.1⟩ : Q)) (fun x y h => by
       apply Subtype.ext
       exact congrArg (fun z : Q => (z : G)) h)
@@ -456,7 +456,6 @@ private lemma cocycle_values {G : Type*} [Group G] {Q T : Subgroup G}
     have h1 := hδ_cocycle a a
     have haa : (a * a : T) ∈ Q.subgroupOf T :=
       Subgroup.mem_subgroupOf.mpr (by
-        change ((a * a : T) : G) ∈ Q
         simpa [pow_two] using hsq a a.2)
     have h2 : δ (a * a) = 1 := hδ_Q ⟨a * a, haa⟩
     rw [h2] at h1
@@ -465,7 +464,6 @@ private lemma cocycle_values {G : Type*} [Group G] {Q T : Subgroup G}
     have h1 := hδ_cocycle b b
     have hbb : (b * b : T) ∈ Q.subgroupOf T :=
       Subgroup.mem_subgroupOf.mpr (by
-        change ((b * b : T) : G) ∈ Q
         simpa [pow_two] using hsq b b.2)
     have h2 : δ (b * b) = 1 := hδ_Q ⟨b * b, hbb⟩
     rw [h2] at h1
@@ -563,9 +561,9 @@ theorem exists_mul_commute_of_kleinFour_of_card_pow_le {G : Type*} [Group G]
     rw [inf_eq_left.mpr hQT, hidx] at h
     omega
   have hTfin : Finite T := Nat.finite_of_card_ne_zero (by rw [hcardT]; positivity)
-  haveI : Finite T := hTfin
+  have : Finite T := hTfin
   let Q' : Subgroup T := Q.subgroupOf T
-  haveI : Q'.Normal := hQn
+  have : Q'.Normal := hQn
   have hQ'comm : IsMulCommutative Q' := by
     refine IsMulCommutative.of_comm ?_
     intro x y
@@ -574,7 +572,7 @@ theorem exists_mul_commute_of_kleinFour_of_card_pow_le {G : Type*} [Group G]
     change ((x : T) : G) * ((y : T) : G) = ((y : T) : G) * ((x : T) : G)
     exact congrArg (fun z : Q => (z : G))
       (hQ.1.is_comm.comm ⟨((x : T) : G), x.2⟩ ⟨((y : T) : G), y.2⟩)
-  haveI : IsMulCommutative Q' := hQ'comm
+  have : IsMulCommutative Q' := hQ'comm
   have hQ'sq : ∀ q : Q', q * q = 1 := by
     intro q
     apply Subtype.ext
@@ -582,7 +580,7 @@ theorem exists_mul_commute_of_kleinFour_of_card_pow_le {G : Type*} [Group G]
     change ((q : T) : G) * ((q : T) : G) = 1
     have h := hQ.2 ((q : T) : G) q.2
     simpa [pow_two] using h
-  haveI : IsKleinFour (T ⧸ Q') := quotient_isKleinFour hQn hidx hsq
+  have : IsKleinFour (T ⧸ Q') := quotient_isKleinFour hQn hidx hsq
   obtain ⟨a, b, ha_ne, hb_ne, ha_ne_b, hcomm_mem⟩ := exists_reps hQn
   have hdecomp : ∀ t : T, ∃ q : Q', ∃ w : T,
       (w = 1 ∨ w = a ∨ w = b ∨ w = a * b) ∧ t = q * w :=
@@ -618,8 +616,8 @@ theorem exists_mul_commute_of_kleinFour_of_card_pow_le {G : Type*} [Group G]
   have hxy_mul : ∀ q : Q', xm (ym q) = ym (xm q) := conjOne_commute ρ a b hρ_comm
 
   let A := Additive Q'
-  haveI : Finite A := inferInstance
-  haveI : Module (ZMod 2) A := AddCommGroup.zmodModule (n := 2) (by
+  have : Finite A := inferInstance
+  have : Module (ZMod 2) A := AddCommGroup.zmodModule (n := 2) (by
     intro z
     rw [two_smul]
     rw [← ofMul_toMul z]
@@ -710,22 +708,22 @@ theorem exists_mul_commute_of_kleinFour_of_card_pow_le {G : Type*} [Group G]
 theorem exists_mul_commute_of_odd_index {G : Type*} [Group G] {L Q T : Subgroup G} [Finite L]
     (hQL : Q ≤ L) (hQn : (Q.subgroupOf L).Normal)
     (hQab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
-    (hQ2 : IsPGroup 2 Q) (hTL : T ≤ L) (hTodd : Odd (T.subgroupOf L).index)
+    (hQ2 : IsPGroup 2 Q) (_hTL : T ≤ L) (hTodd : Odd (T.subgroupOf L).index)
     {c : G} (hcQ : ∀ q ∈ Q, c * q = q * c)
     (hcL : ∀ l ∈ L, c * l * c⁻¹ * l⁻¹ ∈ Q)
     (hcT : ∀ t ∈ T, c * t = t * c) :
     ∃ y ∈ Q, ∀ l ∈ L, c * y * l = l * (c * y) := by
   classical
   let M : Subgroup L := Q.subgroupOf L
-  haveI : M.Normal := hQn
-  letI : CommGroup M :=
+  have : M.Normal := hQn
+  let : CommGroup M :=
     { (inferInstance : Group M) with
       mul_comm := fun x y => by
         apply Subtype.ext
         apply Subtype.ext
         change ((x : L) : G) * ((y : L) : G) = ((y : L) : G) * ((x : L) : G)
         exact hQab ((x : L) : G) x.2 ((y : L) : G) y.2 }
-  haveI : Finite M := Subtype.finite
+  have : Finite M := Subtype.finite
   have hM2 : IsPGroup 2 M := hQ2.comap_subtype
   let ρ : L →* MulAut M := MulAut.conjNormal
   let δ : L → M := fun l =>
@@ -773,7 +771,7 @@ theorem exists_mul_commute_of_kleinFour_odd_index_of_card_pow_le {G : Type*} [Gr
   have hcT : ∀ t ∈ T, c * t * c⁻¹ * t⁻¹ ∈ Q := fun t ht => hcL t (hTL ht)
   have hQfin : Finite Q :=
     Finite.of_injective (Subgroup.inclusion hQL) (Subgroup.inclusion_injective hQL)
-  haveI : Finite Q := hQfin
+  have : Finite Q := hQfin
   obtain ⟨n, hnQ, hnT⟩ :=
     exists_mul_commute_of_kleinFour_of_card_pow_le hQT hQnT hQ hTQ hTsq hfix hcQ hcT
   have hQab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
@@ -885,7 +883,7 @@ private lemma isElemAbelian_map_quotient {G : Type*} [Group G] {Z N Q : Subgroup
 
 private lemma normal_subgroupOf_map_quotient {G : Type*} [Group G] {Z N Q L : Subgroup G}
     [hN : (Z.subgroupOf N).Normal] (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
-    (hQL : Q ≤ L) (hLN : L ≤ N) :
+    (hQL : Q ≤ L) (_hLN : L ≤ N) :
     (((Q.subgroupOf N).map (QuotientGroup.mk' (Z.subgroupOf N))).subgroupOf
       ((L.subgroupOf N).map (QuotientGroup.mk' (Z.subgroupOf N)))).Normal := by
   let π := QuotientGroup.mk' (Z.subgroupOf N)
@@ -967,7 +965,7 @@ theorem exists_mul_commutator_mem_of_kleinFour_odd_index_mod {G : Type*} [Group 
     (hLZ : L ≤ Subgroup.normalizer (Z : Set G)) (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
     (hQsq : ∀ q ∈ Q, q ^ 2 ∈ Z) (hQcomm : ∀ x ∈ Q, ∀ y ∈ Q, ⁅x, y⁆ ∈ Z)
     (hTsq : ∀ t ∈ T, t ^ 2 ∈ Q) (hTQ : Q.relIndex T = 4)
-    (hZR : Z ≤ R) (hRQ : R ≤ Q) (hR : ∀ q ∈ Q, (∀ t ∈ T, ⁅q, t⁆ ∈ Z) → q ∈ R)
+    (_hZR : Z ≤ R) (hRQ : R ≤ Q) (hR : ∀ q ∈ Q, (∀ t ∈ T, ⁅q, t⁆ ∈ Z) → q ∈ R)
     (hfix : Z.relIndex R ^ 4 ≤ Z.relIndex Q)
     (hTodd : Odd (T.relIndex L))
     {c : G} (hcZ : c ∈ Subgroup.normalizer (Z : Set G))
@@ -980,10 +978,10 @@ theorem exists_mul_commutator_mem_of_kleinFour_odd_index_mod {G : Type*} [Group 
   have hLN : L ≤ N := hLZ
   have hRN : R ≤ N := hRQ.trans hQN
   let ZN : Subgroup N := Z.subgroupOf N
-  haveI : ZN.Normal := Subgroup.normal_in_normalizer
+  have : ZN.Normal := Subgroup.normal_in_normalizer
   let π : N →* N ⧸ ZN := QuotientGroup.mk' ZN
   let cN : N := ⟨c, hcZ⟩
-  haveI : Finite (N ⧸ ZN) := Finite.of_surjective π (QuotientGroup.mk'_surjective ZN)
+  have : Finite (N ⧸ ZN) := Finite.of_surjective π (QuotientGroup.mk'_surjective ZN)
   let Qbar : Subgroup (N ⧸ ZN) := (Q.subgroupOf N).map π
   let Tbar : Subgroup (N ⧸ ZN) := (T.subgroupOf N).map π
   let Lbar : Subgroup (N ⧸ ZN) := (L.subgroupOf N).map π

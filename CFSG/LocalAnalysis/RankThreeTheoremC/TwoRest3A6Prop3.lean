@@ -396,11 +396,11 @@ theorem index_centralizer_barM_le_three {P : Sylow 3 G} {M H R : Subgroup G}
     Subgroup.map_mono fun x hx => (Subgroup.mem_subgroupOf.mp hx).2
   have hcore := index_centralizer_le_three (U := ρ.range) e hJY hi hJne hT
     ((le_inf hT.1 Subgroup.le_normalizer).trans hTJ)
-    ((P.isPGroup'.to_le hRP).of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective)
+    ((P.isPGroup.to_le hRP).of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective)
     (by
       rintro _ ⟨r, rfl⟩
       have hr3 : IsPGroup 3 (Subgroup.zpowers (r : G)) :=
-        P.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hRP r.2))
+        P.isPGroup.to_le (Subgroup.zpowers_le.mpr (hRP r.2))
       have hrL := h.mem_normalizer_of_threeASix hThree hcyc hzM hz3 hCz hin hrk hL hZ ⟨e⟩
         (hPM (hRP r.2)) hr3
       have hrS : (r : G) ∈ Subgroup.normalizer (S : Set G) :=

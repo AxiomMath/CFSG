@@ -146,8 +146,8 @@ theorem card_P5 : Nat.card P5 = 25 := by
 theorem exists_conj_zz (x : omegaT) (hx : orderOf x = 5) :
     ∃ g : omegaT, ∃ a b : ℕ, a < 5 ∧ b < 5 ∧ ¬ (a = 0 ∧ b = 0) ∧
       x = g * (z1 ^ a * z2 ^ b) * g⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
   have hP5 : IsPGroup 5 P5 := IsPGroup.of_card (n := 2) (by rw [card_P5]; norm_num)
   have hidx : ¬ 5 ∣ P5.index := by
     intro h
@@ -206,8 +206,8 @@ theorem not_five_dvd_autFix (τ : MulAut omegaT) (hτ3 : τ ^ 3 = 1)
     (hout : τ ∉ (MulAut.conj : omegaT →* MulAut omegaT).range) :
     ¬ 5 ∣ Nat.card (autFix τ) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite omegaT := Nat.finite_of_card_ne_zero (by rw [card_omegaT]; norm_num)
   obtain ⟨a, rfl⟩ := autConj_bijective.2 τ
   have ha3 : a ^ 3 = 1 := autConj_injective (by rw [map_pow, hτ3, map_one])
   have haO : (a : Equiv.Perm (Fin 360)) ∉ omegaT := by

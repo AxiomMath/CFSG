@@ -19,10 +19,12 @@ noncomputable def fixVal (c : G ⧸ N) : A :=
   haveI := Classical.dec (c.out⁻¹ * a * c.out ∈ N)
   if h : c.out⁻¹ * a * c.out ∈ N then φ ⟨_, h⟩ else 1
 
+omit [Finite G] in
 theorem map_conj_eq (n z : ↥N) : φ (n⁻¹ * z * n) = φ z := by
   rw [map_mul, map_mul, map_inv]
   exact inv_mul_cancel_comm _ _
 
+omit [Finite G] in
 theorem fixVal_smul {q : G} (hq : q * a = a * q) (c : G ⧸ N) :
     fixVal N a φ (q • c) = fixVal N a φ c := by
   classical
@@ -48,7 +50,7 @@ theorem fixVal_smul {q : G} (hq : q * a = a * q) (c : G ⧸ N) :
   · have hmem' : (q • c).out⁻¹ * a * (q • c).out ∈ N := by
       rw [hconj]
       exact N.mul_mem (N.mul_mem (N.inv_mem n.2) hmem) n.2
-    rw [dif_pos hmem, dif_pos hmem']
+    rw [dite_eq_left hmem, dite_eq_left hmem']
     have e : (⟨(q • c).out⁻¹ * a * (q • c).out, hmem'⟩ : ↥N) = n⁻¹ * ⟨_, hmem⟩ * n :=
       Subtype.ext hconj
     rw [e, map_conj_eq]
@@ -58,8 +60,9 @@ theorem fixVal_smul {q : G} (hq : q * a = a * q) (c : G ⧸ N) :
       apply hmem
       have := N.mul_mem (N.mul_mem n.2 h) (N.inv_mem n.2)
       simpa [mul_assoc] using this
-    rw [dif_neg hmem, dif_neg hmem']
+    rw [dite_eq_right hmem, dite_eq_right hmem']
 
+omit [Finite G] in
 theorem prod_orbit_fixVal [Fintype (G ⧸ N)]
     [DecidableEq (Quotient (MulAction.orbitRel (Subgroup.zpowers a) (G ⧸ N)))] {p : ℕ}
     (hp : p.Prime) (ha : a ^ p = 1)
@@ -87,7 +90,7 @@ theorem prod_orbit_fixVal [Fintype (G ⧸ N)]
     rw [Fintype.prod_eq_single ⟨q.out, Quotient.out_eq q⟩]
     · show _ = fixVal N a φ q.out
       unfold fixVal
-      rw [dif_pos hmem]
+      rw [dite_eq_left hmem]
       exact congrArg φ (Subtype.ext (by simp [h1]))
     · rintro ⟨c, hc⟩ hne
       exfalso
@@ -121,12 +124,12 @@ theorem prod_orbit_fixVal [Fintype (G ⧸ N)]
       exact MulAction.injective (x : G) h'
     show fixVal N a φ c = 1
     unfold fixVal
-    rw [dif_neg hnc]
+    rw [dite_eq_right hnc]
 
 theorem transfer_eq_prod_fixVal [Fintype (G ⧸ N)] {p : ℕ} (hp : p.Prime) (ha : a ^ p = 1) :
     φ.transfer a = ∏ c : G ⧸ N, fixVal N a φ c := by
   classical
-  letI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers a) (G ⧸ N))) :=
+  let : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers a) (G ⧸ N))) :=
     Fintype.ofFinite _
   refine (MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot φ a).trans ?_
   rw [← Fintype.prod_fiberwise
@@ -134,16 +137,18 @@ theorem transfer_eq_prod_fixVal [Fintype (G ⧸ N)] {p : ℕ} (hp : p.Prime) (ha
     (fixVal N a φ)]
   exact Fintype.prod_congr _ _ (prod_orbit_fixVal N a φ hp ha)
 
+omit [Finite G] in
 theorem fixVal_one (ha : a ∈ N) : fixVal N a φ ((1 : G) : G ⧸ N) = φ ⟨a, ha⟩ := by
   have h0 : ((1 : G) : G ⧸ N).out ∈ N := by
     simpa using N.inv_mem (QuotientGroup.eq.1 (QuotientGroup.out_eq' ((1 : G) : G ⧸ N)))
   have hmem : ((1 : G) : G ⧸ N).out⁻¹ * a * ((1 : G) : G ⧸ N).out ∈ N :=
     N.mul_mem (N.mul_mem (N.inv_mem h0) ha) h0
   unfold fixVal
-  rw [dif_pos hmem]
+  rw [dite_eq_left hmem]
   have e : (⟨_, hmem⟩ : ↥N) = (⟨_, h0⟩ : ↥N)⁻¹ * ⟨a, ha⟩ * ⟨_, h0⟩ := Subtype.ext rfl
   rw [e, map_conj_eq]
 
+omit [Finite G] in
 theorem fixVal_pow {p : ℕ} (ha : a ^ p = 1) (c : G ⧸ N) : fixVal N a φ c ^ p = 1 := by
   unfold fixVal
   split_ifs with h
@@ -163,7 +168,7 @@ variable {p : ℕ} [hp : Fact p.Prime]
 
 theorem exists_conj_mem_sylow {N T : Subgroup G} (S : Sylow p G) (hSN : (S : Subgroup G) ≤ N)
     (hTN : T ≤ N) (hT : IsPGroup p T) : ∃ n ∈ N, ∀ t ∈ T, n⁻¹ * t * n ∈ (S : Subgroup G) := by
-  haveI : Finite (Sylow p G) := S.finite_of_finiteIndex
+  have : Finite (Sylow p G) := S.finite_of_finiteIndex
   have hT' : IsPGroup p (T.subgroupOf N) := hT.comap_subtype
   obtain ⟨R, hR⟩ := hT'.exists_le_sylow
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq N (S.subtype hSN) R
@@ -187,7 +192,7 @@ theorem eq_one_of_forall_smul_eq {Q : Subgroup G} (S : Sylow p G) (hQS : Q ≤ S
     rw [mem_conjSubgroup, inv_inv] at hy
     simpa [mul_assoc] using h1 _ hy
   have hT : IsPGroup p (conjSubgroup c.out⁻¹ Q) :=
-    (S.isPGroup'.to_le hQS).map (MulAut.conj c.out⁻¹).toMonoidHom
+    (S.isPGroup.to_le hQS).map (MulAut.conj c.out⁻¹).toMonoidHom
   obtain ⟨n, hnN, hn⟩ := exists_conj_mem_sylow S hSN hTN hT
   have hle : conjSubgroup (c.out * n)⁻¹ Q ≤ S := by
     intro y hy
@@ -248,11 +253,11 @@ theorem prod_fixVal_eq_fixVal_one {Q N : Subgroup G} [Fintype (G ⧸ N)] (hQp : 
           rw [MulAction.mem_fixedPoints]
           intro q
           exact Subtype.ext (by rw [SubMulAction.val_smul, Subgroup.smul_def]; exact hc₁ q)
-        haveI : Nonempty (MulAction.fixedPoints ↥Q Y) := ⟨⟨y1, hy1⟩⟩
-        haveI : Subsingleton (MulAction.fixedPoints ↥Q Y) :=
+        have : Nonempty (MulAction.fixedPoints ↥Q Y) := ⟨⟨y1, hy1⟩⟩
+        have : Subsingleton (MulAction.fixedPoints ↥Q Y) :=
           ⟨fun ⟨y, hy⟩ ⟨z, hz⟩ => Subtype.ext (Subtype.ext ((hfp y hy).trans (hfp z hz).symm))⟩
         exact Nat.card_unique
-      · haveI : IsEmpty (MulAction.fixedPoints ↥Q Y) :=
+      · have : IsEmpty (MulAction.fixedPoints ↥Q Y) :=
           ⟨fun ⟨y, hy⟩ => h1 (by rw [← hfp y hy]; exact y.2)⟩
         exact Nat.card_of_isEmpty
     rw [← hcard, ← hfpc]
@@ -271,7 +276,7 @@ theorem prod_fixVal_eq_fixVal_one {Q N : Subgroup G} [Fintype (G ⧸ N)] (hQp : 
     · rw [Nat.one_mod_eq_one.mpr hp.out.one_lt.ne', pow_one]
     · rw [Nat.zero_mod, pow_zero]
   rw [Finset.prod_congr rfl hterm, Finset.prod_ite_eq]
-  rw [if_pos (Finset.mem_image_of_mem f (Finset.mem_univ c₁))]
+  rw [ite_eq_left (Finset.mem_image_of_mem f (Finset.mem_univ c₁))]
 
 theorem transfer_apply_of_weaklyClosed {Q : Subgroup G} (S : Sylow p G) (hQS : Q ≤ S)
     (hSN : (S : Subgroup G) ≤ Subgroup.normalizer (Q : Set G))
@@ -279,9 +284,9 @@ theorem transfer_apply_of_weaklyClosed {Q : Subgroup G} (S : Sylow p G) (hQS : Q
     (hQab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) {A : Type*} [CommGroup A]
     (φ : ↥(Subgroup.normalizer (Q : Set G)) →* A) {a : G} (ha : a ∈ Q) (hap : a ^ p = 1) :
     φ.transfer a = φ ⟨a, Subgroup.le_normalizer ha⟩ := by
-  haveI : Fintype (G ⧸ Subgroup.normalizer (Q : Set G)) := Fintype.ofFinite _
+  have : Fintype (G ⧸ Subgroup.normalizer (Q : Set G)) := Fintype.ofFinite _
   refine (transfer_eq_prod_fixVal _ a φ hp.out hap).trans ?_
-  refine (prod_fixVal_eq_fixVal_one (S.isPGroup'.to_le hQS) Subgroup.le_normalizer
+  refine (prod_fixVal_eq_fixVal_one (S.isPGroup.to_le hQS) Subgroup.le_normalizer
     (fun c hc => eq_one_of_forall_smul_eq S hQS hSN hwc c hc) φ
     (fun q hq => hQab q hq a ha) hap).trans ?_
   exact fixVal_one _ a φ (Subgroup.le_normalizer ha)

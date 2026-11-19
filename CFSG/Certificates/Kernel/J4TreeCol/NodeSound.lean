@@ -41,11 +41,11 @@ theorem labJ_conj (g x : J) : labJ (g * x * g⁻¹) = labJ x := by
   classical
   unfold labJ
   by_cases h1 : x = 1
-  · rw [if_pos h1, if_pos ((conj_eq_one_iff g x).2 h1)]
-  · rw [if_neg h1, if_neg (fun h => h1 ((conj_eq_one_iff g x).1 h))]
+  · rw [ite_eq_left h1, ite_eq_left ((conj_eq_one_iff g x).2 h1)]
+  · rw [ite_eq_right h1, ite_eq_right (fun h => h1 ((conj_eq_one_iff g x).1 h))]
     by_cases h2 : burnsideJ4NP_Is2A x
-    · rw [if_pos h2, if_pos ((is2A_conj g x).2 h2)]
-    · rw [if_neg h2, if_neg (fun h => h2 ((is2A_conj g x).1 h))]
+    · rw [ite_eq_left h2, ite_eq_left ((is2A_conj g x).2 h2)]
+    · rw [ite_eq_right h2, ite_eq_right (fun h => h2 ((is2A_conj g x).1 h))]
 
 @[expose] noncomputable def qProd (x w : J) : ℕ := labJ (x * w)
 
@@ -121,7 +121,7 @@ theorem colCount_eq {bv : ℕ → J} {r : ℕ}
   have hset : {w : J | w ∈ Eg bv r ∧ lab w = a ∧ q (eta bv r i) w = b} =
       ↑(((Finset.range (2 ^ r)).filter fun j => L j = a ∧ Q i j = b).image (eta bv r)) := by
     ext w
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
       Set.mem_image]
     constructor
     · rintro ⟨hw, hwa, hwb⟩
@@ -213,7 +213,7 @@ theorem labOK_spec {sx : ℕ} {D : CRec} {X m : ℕ} {w : J} (h : labOK sx D X m
     refine ⟨?_, by simp [hl]⟩
     rw [hl, hw1]
     unfold labJ
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   · have hm0 : (m == 0) = false := Bool.eq_false_iff.2 fun e => hm (beq_iff_eq.1 e)
     have hl : labC D m ≠ 0 := by
       intro e
@@ -230,12 +230,12 @@ theorem labOK_spec {sx : ℕ} {D : CRec} {X m : ℕ} {w : J} (h : labOK sx D X m
     rw [burnsideJ4NP_affine2A_eq_with, ← burnsideJ4NP_encJ_of_mem hw.1.1] at hiff0
     have hiff : burnsideJ4NP_Is2A w ↔ burnsideJ4NP_treeTest (burnsideJ4NP_encJ w) = true := hiff0
     unfold labJ
-    rw [if_neg hw1]
+    rw [ite_eq_right hw1]
     rcases h3 with (h3 | ⟨hl1, h3⟩) | ⟨hl2, h3⟩
     · exact absurd h3 hl
-    · rw [if_pos (hiff.2 (is2AK_spec h3 hw.1.2 hsx)), hl1]
+    · rw [ite_eq_left (hiff.2 (is2AK_spec h3 hw.1.2 hsx)), hl1]
     · have hn := non2AK_spec h3 hw.1.2 hsx
-      rw [if_neg (fun h => by rw [hiff.1 h] at hn; exact Bool.noConfusion hn), hl2]
+      rw [ite_eq_right (fun h => by rw [hiff.1 h] at hn; exact Bool.noConfusion hn), hl2]
 
 theorem pk_uJ {j : ℕ} (hj : j < 11) : PK (uJ j) (UK.getD j oneK) := by
   have hl := uWord_letters.1 j hj
@@ -290,6 +290,7 @@ section Words
 variable {G : Mats} (hG : MatsOK G)
 include hG
 
+omit hG in
 theorem getN_isJ {R : List ℕ} (hR : ∀ t, IsJ (getN G.one R t)) (x : ℕ) (hx : IsJ x) :
     ∀ t, IsJ (getN G.one (x :: R) t)
   | 0 => hx
@@ -311,7 +312,7 @@ theorem rulesJ_isJ : ∀ (l R : List ℕ) (nr : ℕ), (∀ t, IsJ (getN G.one R 
     rw [strictL_eq]
     obtain ⟨g, hg⟩ := symJ_isJ hG hR nr (x % 65536)
     obtain ⟨h, hh⟩ := symJ_isJ hG hR nr (x / 65536)
-    exact rulesJ_isJ l _ (nr + 1) (getN_isJ hG hR _ ⟨_, prc_mul hG hg hh⟩)
+    exact rulesJ_isJ l _ (nr + 1) (getN_isJ hR _ ⟨_, prc_mul hG hg hh⟩)
 
 theorem seqJ_isJ {R : List ℕ} (hR : ∀ t, IsJ (getN G.one R t)) (nr : ℕ) :
     ∀ (f sq acc : ℕ), IsJ acc → IsJ (seqJ G R nr f sq acc)
@@ -407,7 +408,7 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
   have hlab : ∀ m < 2 ^ r, labJ (eta bv r m) = labC D m := fun m hm => (hlab' m hm).1
   have hlab1 : labJ 1 = 0 := by
     unfold labJ
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hinj : ∀ i < 2 ^ r, ∀ j < 2 ^ r, eta bv r i = eta bv r j → i = j := by
     intro i hi j hj e
     have hx : i ^^^ j < 2 ^ r := Nat.xor_lt_two_pow hi hj
@@ -420,14 +421,14 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
     by_cases hm0 : D.mode = 0
     · refine ⟨qProd, qProd_conj, fun i hi j hj => ?_⟩
       unfold qC qProd
-      rw [if_pos hm0, ← eta_xor hE le_rfl]
+      rw [ite_eq_left hm0, ← eta_xor hE le_rfl]
       exact hlab _ (Nat.xor_lt_two_pow hi hj)
     · have hm1 : D.mode = 1 := by
         have := Nat.le_of_ble_eq_true hmode
         omega
       refine ⟨burnsideJ4NP_colPair, burnsideJ4NP_colPair_conj, fun i hi j hj => ?_⟩
       unfold qC
-      rw [if_neg hm0]
+      rw [ite_eq_right hm0]
       split_ifs with hij
       · exact (pairP_label hG hE hi hj (hpair hm1 i j hij hj)).symm
       · rw [colPair_symm (eta_comm hE i j)]
@@ -439,7 +440,7 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
     fun hi hy hc => sig_eq_of_counts hinj hE q hlab hqn hi hy hc
   by_cases hk0 : D.kind = 0
   ·
-    rw [if_pos hk0] at hk
+    rw [ite_eq_left hk0] at hk
     unfold uniqOK at hk
     dsimp only at hk
     simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range, Bool.or_eq_true,
@@ -461,7 +462,7 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
     · exact absurd (by rw [← hlab i hi, hlx, hlab _ hy', hly]) hl
     · exact absurd (hsig hi hy' hcx) hs
   ·
-    rw [if_neg hk0, Bool.and_eq_true] at hk
+    rw [ite_eq_right hk0, Bool.and_eq_true] at hk
     obtain ⟨hun, hk⟩ := hk
     unfold unionOK at hun
     dsimp only at hun
@@ -536,7 +537,7 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
       exact h2
     by_cases hk1 : D.kind = 1
     ·
-      rw [if_pos hk1] at hk
+      rw [ite_eq_left hk1] at hk
       unfold normCodesOK at hk
       rw [Bool.and_eq_true, beq_iff_eq] at hk
       obtain ⟨hml, hk⟩ := hk
@@ -559,7 +560,7 @@ theorem colNode_sound {G : Mats} {T : Tabs} {D : CRec} (hG : MatsOK G) (hT : tab
       group
       all_goals rfl
     ·
-      rw [if_neg hk1, Bool.and_eq_true] at hk
+      rw [ite_eq_right hk1, Bool.and_eq_true] at hk
       obtain ⟨-, hk⟩ := hk
       obtain ⟨e, he⟩ := wordE_isJ hG D
       unfold normMatsOK at hk

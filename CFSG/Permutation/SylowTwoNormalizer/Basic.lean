@@ -75,6 +75,7 @@ theorem two_mul_padicValNat_two_factorial_lt {m : ℕ} (hm : m ≠ 0) :
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem card_dvd_of_isPGroup {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) :
     Nat.card R ∣ 2 ^ padicValNat 2 (Nat.card Ω).factorial := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hR
@@ -83,6 +84,7 @@ theorem card_dvd_of_isPGroup {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) :
   rw [hk] at hdvd ⊢
   exact pow_dvd_pow_padicValNat (Nat.factorial_ne_zero _) hdvd
 
+omit [DecidableEq Ω] in
 theorem card_eq_of_not_two_dvd_index {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
     (hRi : ¬ 2 ∣ R.index) : Nat.card R = 2 ^ padicValNat 2 (Nat.card Ω).factorial := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hR
@@ -97,6 +99,7 @@ theorem card_eq_of_not_two_dvd_index {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R
       padicValNat.prime_pow, padicValNat.eq_zero_of_not_dvd hRi, add_zero]
   rw [hk, hval]
 
+omit [DecidableEq Ω] in
 theorem not_two_dvd_index_of_dvd_card {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R)
     (hc : 2 ^ padicValNat 2 (Nat.card Ω).factorial ∣ Nat.card R) : ¬ 2 ∣ R.index := by
   intro h2dvd
@@ -115,7 +118,7 @@ theorem two_mul_card_dvd_of_le_alternatingGroup (h2 : 2 ≤ Nat.card Ω)
     {R : Subgroup (Perm Ω)} (hRA : R ≤ alternatingGroup Ω) (hR : IsPGroup 2 R) :
     2 * Nat.card R ∣ 2 ^ padicValNat 2 (Nat.card Ω).factorial := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hR
-  haveI : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have hdvd : Nat.card R ∣ Nat.card ↥(alternatingGroup Ω) := Subgroup.card_dvd_of_le hRA
   have h2dvd : 2 * Nat.card R ∣ (Nat.card Ω).factorial := by
     rw [← Nat.card_perm, ← two_mul_nat_card_alternatingGroup]
@@ -129,7 +132,7 @@ theorem two_mul_card_eq_of_not_two_dvd_relIndex (h2 : 2 ≤ Nat.card Ω)
     (hRi : ¬ 2 ∣ R.relIndex (alternatingGroup Ω)) :
     2 * Nat.card R = 2 ^ padicValNat 2 (Nat.card Ω).factorial := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hR
-  haveI : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have hrelcard :
       Nat.card R * R.relIndex (alternatingGroup Ω) = Nat.card ↥(alternatingGroup Ω) := by
     have h := Subgroup.relIndex_mul_card (H := R) (K := alternatingGroup Ω)
@@ -155,7 +158,7 @@ theorem not_two_dvd_relIndex_of_dvd_two_mul_card (h2 : 2 ≤ Nat.card Ω)
     (hc : 2 ^ padicValNat 2 (Nat.card Ω).factorial ∣ 2 * Nat.card R) :
     ¬ 2 ∣ R.relIndex (alternatingGroup Ω) := by
   intro hrel2
-  haveI : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have hdvd := two_mul_card_dvd_of_le_alternatingGroup h2 hRA hR
   have heq : 2 * Nat.card R = 2 ^ padicValNat 2 (Nat.card Ω).factorial := Nat.dvd_antisymm hdvd hc
   have hrelcard :
@@ -173,6 +176,7 @@ theorem not_two_dvd_relIndex_of_dvd_two_mul_card (h2 : 2 ≤ Nat.card Ω)
     rwa [h2card] at h1
   exact pow_succ_padicValNat_not_dvd (Nat.factorial_ne_zero _) hcontra
 
+omit [DecidableEq Ω] in
 theorem card_fiberSubgroup {ι : Type*} [Fintype ι] (f : Ω → ι) :
     Nat.card ↥(TauCeti.fiberSubgroup f) = ∏ i, (Nat.card {x // f x = i}).factorial := by
   calc Nat.card ↥(TauCeti.fiberSubgroup f)
@@ -182,6 +186,7 @@ theorem card_fiberSubgroup {ι : Type*} [Fintype ι] (f : Ω → ι) :
     _ = ∏ i, (Nat.card {a // f a = i}).factorial :=
         Finset.prod_congr rfl fun i _ => Nat.card_perm
 
+omit [DecidableEq Ω] in
 theorem padicValNat_card_fiberSubgroup {ι : Type*} [Fintype ι] (f : Ω → ι) :
     padicValNat 2 (Nat.card ↥(TauCeti.fiberSubgroup f)) =
       ∑ i, padicValNat 2 (Nat.card {x // f x = i}).factorial := by
@@ -194,7 +199,7 @@ theorem two_mul_card_inf_alternatingGroup {ι : Type*} [Fintype ι] (f : Ω → 
       Nat.card ↥(TauCeti.fiberSubgroup f) := by
   classical
   obtain ⟨i, hi⟩ := hi
-  haveI : Nontrivial {x // f x = i} := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial {x // f x = i} := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨a, b, hab⟩ := Nontrivial.exists_pair_ne (α := {x // f x = i})
   have hne : (a : Ω) ≠ b := fun h => hab (Subtype.ext h)
   have hmem : Equiv.swap (a : Ω) b ∈ TauCeti.fiberSubgroup f := by
@@ -213,7 +218,7 @@ theorem two_mul_card_inf_alternatingGroup {ι : Type*} [Fintype ι] (f : Ω → 
   have hsub : (F ⊓ A).subgroupOf F = (Equiv.Perm.sign.comp F.subtype).ker := by
     ext x
     simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, MonoidHom.mem_ker,
-      MonoidHom.comp_apply, Equiv.Perm.mem_alternatingGroup]
+      MonoidHom.comp_apply]
     constructor
     · exact fun h => h.2
     · exact fun h => ⟨x.2, h⟩
@@ -234,6 +239,7 @@ theorem two_mul_card_inf_alternatingGroup {ι : Type*} [Fintype ι] (f : Ω → 
     at hcard
   omega
 
+omit [DecidableEq Ω] in
 theorem card_dvd_of_forall_apply_eq {ι : Type*} [Fintype ι] [DecidableEq ι] (f : Ω → ι)
     {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) (hf : ∀ g ∈ R, ∀ x, f (g x) = f x) :
     Nat.card R ∣ 2 ^ ∑ i, padicValNat 2 (Nat.card {x // f x = i}).factorial := by

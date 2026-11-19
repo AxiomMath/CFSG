@@ -219,9 +219,9 @@ theorem layer_card_unitary_odd (P : D4ParOdd ℓ f X σ) (hq2 : ℓ ^ f % 3 = 2)
     (hx : IsClassX σ x) :
     Nat.card (layerSub σ x) = (ℓ ^ f) ^ 3 * ((ℓ ^ f) ^ 2 - 1) * ((ℓ ^ f) ^ 3 + 1) := by
   obtain ⟨h, U, hU, ⟨e⟩⟩ := layer_model_unitary_odd P hq2 hx
-  haveI : Fact ℓ.Prime := ⟨P.prime⟩
-  haveI : CharP X ℓ := P.charP
-  haveI : CharP (AlgebraicClosure X) ℓ :=
+  have : Fact ℓ.Prime := ⟨P.prime⟩
+  have : CharP X ℓ := P.charP
+  have : CharP (AlgebraicClosure X) ℓ :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective ℓ
   rw [← card_layer_conj h x, Nat.card_congr e.toEquiv]
   exact card_subgroup_unitarySet (ℓ := ℓ) (f := f) P.one_le U hU

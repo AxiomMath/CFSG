@@ -79,9 +79,9 @@ theorem sec53_hcentC (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     rw [hRt]
     exact (Rt M (LB M Q B) t).inv_mem hr
   obtain ⟨K₂, iF₂, iFin₂, iCh₂, γ, M₀, hD⟩ := stroth_globalModelData hcC.hyp
-  letI := iF₂
-  letI := iFin₂
-  letI := iCh₂
+  let := iF₂
+  let := iFin₂
+  let := iCh₂
   obtain ⟨T, hTmem, hBC'⟩ :=
     hBC G M Q Z C hcC n t hsC hspC r⁻¹ hrInv hplaneC m hspC' K₂ γ M₀ hD
   have hdzC : ∀ l ∈ (QB C ⊓ M) ⊓ hcC.CN t, ⁅l, d⁆ ∈ Z := by

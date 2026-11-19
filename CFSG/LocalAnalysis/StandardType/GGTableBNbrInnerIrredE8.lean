@@ -37,7 +37,7 @@ theorem ggSCWeylIrred_E8Plus_largePrime
     {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
     (hp : p.Prime) (hp3 : p ≠ 3) (hp5 : p ≠ 5) (hpq : p ∣ Nat.card K + 1) :
     GGSCWeylIrred p 7 (TableBExc.RecipeGroup .E8 K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
   have hp2 : p ≠ 2 := by
     intro hp2eq
@@ -68,7 +68,7 @@ theorem ggSCWeylIrred_E8Plus_largePrime
     have hle : p ≤ 2 := Nat.le_of_dvd (by norm_num) h3
     omega
   have hval : (-1 : ZMod p).val = p - 1 := by
-    rw [ZMod.neg_val, if_neg one_ne_zero, ZMod.val_one]
+    rw [ZMod.neg_val, ite_eq_right one_ne_zero, ZMod.val_one]
   have hn : n * s * n⁻¹ = s ^ (-1 : ZMod p).val := by
     rw [hn_inv, hval]
     refine inv_eq_of_mul_eq_one_right ?_

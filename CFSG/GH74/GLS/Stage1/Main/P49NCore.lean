@@ -241,7 +241,7 @@ theorem abstract_N (A S U : Subgroup M) (u' x p : M)
     intro h3
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
     omega
-  obtain ⟨f₀, hf₀⟩ := (Y.isPGroup' : IsPGroup 3 ↥(Y : Subgroup M)).nonempty_fixed_point_of_prime_not_dvd_card
+  obtain ⟨f₀, hf₀⟩ := (Y.isPGroup : IsPGroup 3 ↥(Y : Subgroup M)).nonempty_fixed_point_of_prime_not_dvd_card
     ↥F h3F
   have hf₀y : ∀ y ∈ (Y : Subgroup M), y * (f₀ : M) * y⁻¹ = f₀ := fun y hy =>
     congrArg Subtype.val (MulAction.mem_fixedPoints.1 hf₀ ⟨y, hy⟩)
@@ -298,7 +298,7 @@ theorem abstract_N (A S U : Subgroup M) (u' x p : M)
   have hYker : (Y : Subgroup M) ≤ sgn.ker := by
     intro y hy
     rw [MonoidHom.mem_ker]
-    obtain ⟨j, hj⟩ := (Y.isPGroup' : IsPGroup 3 ↥(Y : Subgroup M)) ⟨y, hy⟩
+    obtain ⟨j, hj⟩ := (Y.isPGroup : IsPGroup 3 ↥(Y : Subgroup M)) ⟨y, hy⟩
     have h1 : sgn y ^ (3 ^ j) = 1 := by
       have := congrArg (fun z : ↥(Y : Subgroup M) => sgn (z : M)) hj
       simpa [← map_pow] using this

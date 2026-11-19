@@ -34,7 +34,7 @@ theorem exists_elemAbelian_lift_leech {G : Type} [Group G] [Finite G] {t : G}
   have hSE : (S : Subgroup Y).map f = ⊤ := ((S.mapSurjective hfs).maximal_isPGroup.eq_of_le hEp le_top)
   have hdisj : Disjoint (((S : Subgroup Y).map Y.subtype).map
       (Subgroup.centralizer ({t} : Set G)).subtype) (leechQ t) :=
-    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ ((S.isPGroup'.map _).map _)
+    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ ((S.isPGroup.map _).map _)
       (IsPGroup.of_card hQ)
   have hinj : Function.Injective (f.comp (S : Subgroup Y).subtype) := by
     rw [injective_iff_map_eq_one]
@@ -48,7 +48,7 @@ theorem exists_elemAbelian_lift_leech {G : Type} [Group G] [Finite G] {t : G}
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
     rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, ← e1, hSE, Subgroup.card_top, hEc]
   have hab : IsElemAbelian 3 (S : Subgroup Y) := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨⟨⟨fun a b => hinj ?_⟩⟩, fun y hy => ?_⟩
     · rw [map_mul, map_mul]
       exact mul_comm' _ _

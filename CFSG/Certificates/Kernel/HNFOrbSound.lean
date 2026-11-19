@@ -13,9 +13,9 @@ open CFSG.KC.Ord CFSG.KS.Ord CFSG.KC.HNF26720 CFSG.KC.HNF26729 CFSG.KC.HNFFib CF
 private theorem andB_true {a b : Bool} (h : andB a b = true) : a = true ∧ b = true := by
   cases a <;> cases b <;> simp_all [andB]
 
-theorem tl_mem (P : Nat → Prop) : ∀ st : List Nat, (∀ x ∈ st, P x) → ∀ x ∈ tl st, P x
-  | [], _, x, hx => absurd hx List.not_mem_nil
-  | _ :: st, h, x, hx => h x (List.mem_cons_of_mem _ hx)
+theorem tl_mem (P : Nat → Prop) : ∀ _st : List Nat, (∀ _x ∈ _st, P _x) → ∀ _x ∈ tl _st, P _x
+  | [], _, _x, hx => absurd hx List.not_mem_nil
+  | _ :: _st, h, _x, hx => h _x (List.mem_cons_of_mem _ hx)
 
 theorem nilB_true : ∀ {K : List Nat}, nilB K = true → K = []
   | [], _ => rfl

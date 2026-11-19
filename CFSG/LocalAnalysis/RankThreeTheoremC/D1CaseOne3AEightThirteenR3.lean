@@ -58,6 +58,7 @@ theorem theoremFourHyp_of_setting (hS : Setting G) (h3 : 3 ∈ rankThreeSigmaA G
   evenRank_eq := hS.rank
   localRank_lt := localRank_lt_of_three_mem_sigmaA hS.rank h3
 
+omit [Finite G] in
 theorem isMaximalTwoLocal_of_glbIsMaxTwoLocal {M : Subgroup G} (hM : GLBIsMaxTwoLocal M) :
     CFSG.IsMaximalTwoLocal M :=
   ⟨hM.1, fun H hMH hH => hMH.ne (hM.2 H hH hMH.le).symm⟩

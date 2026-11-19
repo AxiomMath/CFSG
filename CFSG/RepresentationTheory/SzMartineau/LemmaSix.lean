@@ -97,9 +97,9 @@ private lemma torusDiag_eq_zpow (x : (F a)ˣ) (i : Fin 4) :
 private lemma torusMat_mulVec_apply (x : (F a)ˣ) (v : Fin 4 → F a) (r : Fin 4) :
     (torusMat a x *ᵥ v) r = torusDiag x r * v r := by
   rw [Matrix.mulVec_apply_eq_sum, Finset.sum_eq_single r]
-  · rw [torusMat_apply_eq, if_pos rfl]
+  · rw [torusMat_apply_eq, ite_eq_left rfl]
   · intro j _ hjr
-    rw [torusMat_apply_eq, if_neg (Ne.symm hjr), zero_mul]
+    rw [torusMat_apply_eq, ite_eq_right (Ne.symm hjr), zero_mul]
   · intro hr
     exact absurd (Finset.mem_univ r) hr
 
@@ -155,7 +155,7 @@ private lemma admTwist_of_coef_ne_zero {c₁ c₂ c₃ : ℕ}
     apply Units.ext
     rw [Units.val_zpow_eq_zpow_val, Units.val_zpow_eq_zpow_val]
     exact mul_right_cancel₀ h hx
-  letI : Fintype (F a) := Fintype.ofFinite _
+  let : Fintype (F a) := Fintype.ofFinite _
   have hval := zmod_intCast_eq_of_forall_zpow_eq (K := F a) hz
   rw [show Fintype.card (F a) = 2 ^ (2 * a + 1) from by
     rw [← Nat.card_eq_fintype_card]
@@ -163,7 +163,6 @@ private lemma admTwist_of_coef_ne_zero {c₁ c₂ c₃ : ℕ}
   push_cast at hval ⊢
   rw [szWt_eq_intCast_szWtInt]
   rw [szWt_eq_intCast_szWtInt, szWt_eq_intCast_szWtInt]
-  push_cast at hval
   exact hval.symm
 
 private lemma coef_eq_zero_of_not_adm {c₁ c₂ c₃ : ℕ}
@@ -206,7 +205,7 @@ private lemma bilin_basis_left (B : (Fin 4 → F a) →ₗ[F a] (Fin 4 → F a) 
     (s : Fin 4) (w : Fin 4 → F a) (r : Fin 4) :
     B (basis a s) w r = ∑ t : Fin 4, w t * coef B r s t := by
   conv_lhs => rw [eq_sum_smul_basis w]
-  simp only [map_sum, LinearMap.sum_apply, Finset.sum_apply]
+  simp only [map_sum, Finset.sum_apply]
   refine Finset.sum_congr rfl fun t _ => ?_
   rw [map_smul, Pi.smul_apply, smul_eq_mul]
   rfl

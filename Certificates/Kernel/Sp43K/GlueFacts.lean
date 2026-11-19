@@ -12,7 +12,7 @@ open CFSG.KC.Sp43K CFSG.Sp43 Subgroup
 @[expose] noncomputable def Mk (j : ℕ) : Subgroup G := sub2T (hA j) (hB j)
 
 theorem mk_lt {i : ℕ} (hi : i < 5) : Mk i = sub2T (gA i) (gB i) := by
-  rw [Mk, hA, hB, if_pos hi, if_pos hi]
+  rw [Mk, hA, hB, ite_eq_left hi, ite_eq_left hi]
 
 theorem mem_mk_of_fld {i t c : ℕ} (hi : i < 5) (ht : t < ords.getD i 0)
     (h : fldT (mP i) t = c) : ofT c ∈ Mk i := by
@@ -91,7 +91,7 @@ theorem wdC_spec : wordT G5.1 G5.2.1 (wd.getD 0 []) = p0.1 ∧
   exact ⟨h1, h2, h3, h4⟩
 
 theorem mk_five_eq : Mk 5 = sub2T G5.1 G5.2.1 := by
-  rw [Mk, hA, hB, if_neg (by norm_num), if_neg (by norm_num)]
+  rw [Mk, hA, hB, ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
 
 theorem mk_five : Mk 5 = ⊤ := by
   obtain ⟨g1, g2, -⟩ := inG_G5

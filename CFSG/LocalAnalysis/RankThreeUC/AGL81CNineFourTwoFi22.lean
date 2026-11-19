@@ -19,7 +19,7 @@ theorem exists_e9_le_inf_of_fi22 {X : Type} [Group X] [Finite X] {N K : Subgroup
     (∃ R : Subgroup X, R ≤ N ⊓ K ∧ CFSG.Open.IsElemAbelian 3 R ∧ Nat.card R = 9) ∧
       ¬ 3 ^ 7 ∣ Nat.card ↥(N ⊓ K) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P₀, ⟨-, hP₀p, hP₀i⟩, hP₀N⟩ := hN.exists_isSylowOf_le
   set P : Sylow 5 X := hP₀p.toSylow (by simpa [Subgroup.relIndex_top_right] using hP₀i)
   have hPN : (P : Subgroup X) ≤ N := by
@@ -37,7 +37,7 @@ theorem exists_e9_le_inf_of_fi22 {X : Type} [Group X] [Finite X] {N K : Subgroup
     have hQne : Q.map K.subtype ≠ ⊥ := fun h =>
       CFSG.LocalAnalysis.UniquenessCase.UCK.ne_bot_of_one_le_pRank hQ
         ((Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective).1 h)
-    have hQp : IsPGroup 5 ↥(Q.map K.subtype) := (T.isPGroup'.to_le hQT).map K.subtype
+    have hQp : IsPGroup 5 ↥(Q.map K.subtype) := (T.isPGroup.to_le hQT).map K.subtype
     have hQN : Q.map K.subtype ≤ N :=
       (Subgroup.map_mono hQT).trans (by rw [hTmap]; exact inf_le_left.trans hPN)
     exact hN.normalizer_le hQne hQp hQN
@@ -69,7 +69,7 @@ theorem not_sylow_three_le_of_fi22 {X : Type} [Group X] [Finite X] {N K : Subgro
     (hK : CFSG.AGLEmbedding.IsFi22 ↥K) (hKN : ¬ K ≤ N) (S : Sylow 3 X) :
     ¬ (S : Subgroup X) ≤ N := by
   intro hSN
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨-, hnot⟩ := exists_e9_le_inf_of_fi22 hN hK hKN
   apply hnot
   obtain ⟨T, hT⟩ := CFSG.Glauberman.sylow_inf_normal S (N := K)

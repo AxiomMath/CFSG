@@ -65,7 +65,7 @@ theorem exists_odd_complement_of_isCyclic [Finite G] {H U : Subgroup G} (hU : Is
         rw [← hmk]
         exact orderOf_map_dvd _ _
       rw [Subgroup.orderOf_mk] at h1
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨b, hb⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨b, hb⟩
       have h2 : orderOf ((QuotientGroup.mk' N) b) ∣ 2 ^ k := by
         rw [← hk, Subgroup.orderOf_mk]
         exact orderOf_map_dvd _ _

@@ -34,10 +34,10 @@ theorem card_fix_le_of [Finite P] (hP : Nat.card P = thOrder) {v : Fin 11 → P}
       have : Subsingleton (orb (v 0)) := by
         rw [hv0, orb_one]
         infer_instance
-      rw [fixB, if_pos rfl]
+      rw [fixB, ite_eq_left rfl]
       exact Finite.card_le_one_iff_subsingleton.2 inferInstance
     · have h1 := fix_orb_le (v D) t (hstab D) (hn D hD0) hc
-      rw [fixB, if_neg hD0]
+      rw [fixB, ite_eq_right hD0]
       exact (Nat.le_div_iff_mul_le (mD_pos D)).2 h1
   calc Nat.card {p : Om // (t : P) • p = p}
       = ∑ D, Nat.card {p : Om // lab v hc' p = D ∧ (t : P) • p = p} := by

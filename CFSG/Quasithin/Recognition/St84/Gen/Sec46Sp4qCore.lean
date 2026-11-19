@@ -90,8 +90,8 @@ theorem CaseBGen.odd_conj_mem (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) 
     (hk : k ∈ X.L i) (hodd : Odd (orderOf k)) {x : G} (hx : x ∈ X.Q i) :
     x⁻¹ * (k * x * k⁻¹) ∈ X.Z i := by
   classical
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
   obtain ⟨hNL, hNQ, hNZ⟩ := X.Gi_le_normalizer_L_Q_Z i
   have hLZ : X.L i ≤ Subgroup.normalizer (X.Z i : Set G) := (X.L_le_Gi i).trans hNZ
   have hLQ : X.L i ≤ Subgroup.normalizer (X.Q i : Set G) := (X.L_le_Gi i).trans hNQ
@@ -131,7 +131,7 @@ theorem CaseBGen.odd_conj_mem (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) 
     exact h2.trans (Subgroup.relIndex_dvd_of_le_left (X.Gi i) hSY)
   have hkC : k ∈ C := by
     set C' : Subgroup ↥(X.L i) := C.subgroupOf (X.L i) with hC'
-    haveI : C'.Normal :=
+    have : C'.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hCL).mpr ((X.L_le_Gi i).trans hGC)
     let q : ↥(X.L i) →* ↥(X.L i) ⧸ C' := QuotientGroup.mk' C'
     have hcoe := Subgroup.coe_mul_of_left_le_normalizer_right C (X.Q i) (hCL.trans hLQ)
@@ -180,19 +180,19 @@ theorem CaseBGen.odd_conj_mem (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) 
 
 private theorem s46sp4q_solvable (X : Setup Γ G) (i : ℤ) {A : Subgroup G} (hA : A ≤ X.Q i) :
     Group.IsSolvable ↥(A.subgroupOf (X.Gi i)) := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hAG : A ≤ X.Gi i := hA.trans (X.Q_le_Gi i)
   have hp : IsPGroup 2 ↥(A.subgroupOf (X.Gi i)) :=
     ((pCoreOf_isPGroup' (X.Gi i)).to_le hA).of_equiv (Subgroup.subgroupOfEquivOfLe hAG).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hp.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hp.isNilpotent
   infer_instance
 
 private theorem s46sp4q_coprime (X : Setup Γ G) (i : ℤ) {A K' : Subgroup G} (hA : A ≤ X.Q i)
     (hK' : Odd (Nat.card K')) : (Nat.card K').Coprime (Nat.card A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
-  haveI : Finite ↥A := Finite.of_injective (Subgroup.inclusion hA) (Subgroup.inclusion_injective hA)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
+  have : Finite ↥A := Finite.of_injective (Subgroup.inclusion hA) (Subgroup.inclusion_injective hA)
   obtain ⟨m, hm⟩ := ((pCoreOf_isPGroup' (X.Gi i)).to_le hA).exists_card_eq
   rw [hm]
   have h2 : Nat.Coprime 2 (Nat.card K') := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr
@@ -206,7 +206,7 @@ private theorem s46sp4q_odd_orderOf {K' : Subgroup G} (hK' : Odd (Nat.card K')) 
 theorem CaseBGen.exists_mul_of_odd (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1)
     {K' : Subgroup G} (hK'L : K' ≤ X.L i) (hK' : Odd (Nat.card K')) {x : G} (hx : x ∈ X.Q i) :
     ∃ c ∈ X.Q i ⊓ Subgroup.centralizer (K' : Set G), ∃ z ∈ X.Z i, x = c * z := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   obtain ⟨-, hNQ, hNZ⟩ := X.Gi_le_normalizer_L_Q_Z i
   exact exists_mem_inf_centralizer_mul_of_finite (X.Q_le_Gi i) (X.Z_le_Q i)
     (hK'L.trans (X.L_le_Gi i)) hNQ hNZ (s46sp4q_solvable X i le_rfl)
@@ -250,7 +250,7 @@ theorem CaseBGen.card_Z (B : X.CaseBGen) {i : ℤ}
 
 private theorem s46sp4q_card_center_pos (X : Setup Γ G) (i : ℤ) :
     0 < Nat.card (centerOf (X.L i)) := by
-  haveI : Finite ↥(centerOf (X.L i)) :=
+  have : Finite ↥(centerOf (X.L i)) :=
     finite_of_le_stabilizer X.hyp (H := centerOf (X.L i)) (inf_le_left.trans (X.L_le_Gi i))
   exact Nat.card_pos
 
@@ -258,7 +258,7 @@ theorem CaseBGen.card_cent (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) (hn
     (hnat : NatQuot (X.L i) (X.Z i) (centerOf (X.L i)) (X.n i)) {K' : Subgroup G}
     (hK'L : K' ≤ X.L i) (hK' : Odd (Nat.card K')) (hne : K' ≠ ⊥) :
     Nat.card ↥(X.Q i ⊓ Subgroup.centralizer (K' : Set G)) = 2 ^ X.n i := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   obtain ⟨-, -, hNZ⟩ := X.Gi_le_normalizer_L_Q_Z i
   set D := X.Q i ⊓ Subgroup.centralizer (K' : Set G) with hD
   have hDG : D ≤ X.Gi i := inf_le_left.trans (X.Q_le_Gi i)
@@ -289,7 +289,7 @@ private theorem s46sp4q_le_normalizer_inf {H A B : Subgroup G}
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.mp (hA hg) x)
     (Subgroup.mem_normalizer_iff.mp (hB hg) x)
 
@@ -305,7 +305,7 @@ theorem CaseBGen.cent_le_Q (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) (hn
     · simpa using (X.centerOf_L_le_Q_adj B.char 0).1
   set j := 1 - i with hjdef
   set H := X.Gi i ⊓ X.Gi j with hH
-  haveI : Finite ↥H := finite_of_le_stabilizer X.hyp (H := H) inf_le_left
+  have : Finite ↥H := finite_of_le_stabilizer X.hyp (H := H) inf_le_left
   obtain ⟨-, hNQi, hNZi⟩ := X.Gi_le_normalizer_L_Q_Z i
   obtain ⟨-, hNQj, -⟩ := X.Gi_le_normalizer_L_Q_Z j
   have hQiS := X.Q_le_S hi
@@ -331,7 +331,7 @@ theorem CaseBGen.cent_le_Q (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) (hn
       have e : A.subgroupOf H ≃* A.subgroupOf (X.Gi i) :=
         (Subgroup.subgroupOfEquivOfLe hAH).trans
           (Subgroup.subgroupOfEquivOfLe (hAH.trans inf_le_left)).symm
-      exact solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
+      exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
     · intro k hk q hq
       refine Subgroup.mem_inf.mpr ⟨B.odd_conj_mem hi (hK'L hk) (s46sp4q_odd_orderOf hK' hk)
         (Subgroup.mem_inf.mp hq).1, ?_⟩
@@ -403,7 +403,7 @@ theorem CaseBGen.cent_le_Q (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) (hn
     ext x
     simp only [hA, hD, Subgroup.mem_inf]
     tauto
-  haveI : Finite ↥D :=
+  have : Finite ↥D :=
     finite_of_le_stabilizer X.hyp (H := D) (inf_le_left.trans (X.Q_le_Gi i))
   have heq : D ⊓ X.Q j = D := Subgroup.eq_of_le_of_card_ge inf_le_left (by
     rw [← hAC, hcardAC, B.card_cent hi hn hnat hK'L hK' hne])

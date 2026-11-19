@@ -76,7 +76,7 @@ private theorem q2cLS_centerQuotEquiv {N : ℕ} {F : Type} [Field F] [Finite F]
   exact CFSG.LocalAnalysis.GLTheoremA.Y10F.quotEquiv_of_perfect_central f hf hperfC hker
 
 theorem q2cLS_split_component_unique {N p : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1) (h4 : 4 ≤ Nat.card F) (hN : 2 ≤ N)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1) (_h4 : 4 ≤ Nat.card F) (_hN : 2 ≤ N)
     {g : GL (Fin N) F} (hg : g ^ p = 1) (hu : TableB.linConjAut (Fin N) F g ≠ 1)
     {J₀ : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) F))}
     (hJ₀ : CFSG.Open.IsComponentOf J₀ (ggAutFixedSubgroup (TableB.linConjAut (Fin N) F g)))
@@ -148,8 +148,8 @@ theorem q2cLS_split_component_unique {N p : ℕ} {F : Type} [Field F] [Finite F]
     rw [← hmapid, heq]
   obtain ⟨a, ds, E, hEfld, hEfin, hEcard, h2a, hNa, hdsne, hdslen, hds1, ⟨eT⟩⟩ :=
     raLin_split_structure (K := F) hp hp2 hpk hpF hg hgne hT hTonly
-  letI : Field E := hEfld
-  letI : Fintype E := hEfin
+  let : Field E := hEfld
+  let : Fintype E := hEfin
   have hsumlen : ∀ l : List ℕ, (∀ x ∈ l, x = 1) → l.sum = l.length := by
     intro l hl
     induction l with
@@ -171,7 +171,7 @@ theorem q2cLS_split_component_unique {N p : ℕ} {F : Type} [Field F] [Finite F]
       Subgroup.map_center_eq eJ0T
     let eQ : (↥J₀ ⧸ Subgroup.center ↥J₀) ≃* (↥T ⧸ Subgroup.center ↥T) :=
       QuotientGroup.congr (Subgroup.center ↥J₀) (Subgroup.center ↥T) eJ0T hcenter
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have hcardfin : Fintype.card E = Fintype.card F := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hEcard]
     let eEF : projectiveSL a E ≃* projectiveSL a F :=

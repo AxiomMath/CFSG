@@ -41,7 +41,7 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
     (hOTwo : KS129OTwo) (hP8 : Hering129L.Psl28ProperSolvable) (hSp : Gap129YSporadic)
     (hG2R : Gap129YG2Range) (hPGL : KS129PGL3Shape) : Gap129YShape := by
   intro G _ _ A c L b a K S cfg q hq x hxD hxb Y hY hXY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd := cfg.std
   have hst : PartTwoStanding G := hstd.toPartTwoStanding
   have hAe : CFSG.Assembly.IsElemAbelian 3 A := hstd.isE27.1
@@ -71,7 +71,7 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
   obtain ⟨-, -, δ, hGK, hδ13, F, hFf, hFfin, hFcard, φK, hφK, hkerK⟩ :=
     exists_sl2_quotient_of_fix hTL hCen G A c L b a K S cfg q hq x hxD hxb
   obtain ⟨hq4, hq2, -⟩ := hCen.2 G A c L b a K S cfg q hq
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have hq3card : ¬ 3 ∣ q.card := not_three_dvd_of_isSLThreePiAt hq.1
   have hq3 : q.p ≠ 3 := fun hp => hq3card (by
     rw [TauCeti.PrimePower.card_def, hp]
@@ -86,7 +86,7 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
   have hFpow : Nat.card F = q.p ^ (q.exponent * δ) := by
     rw [Nat.card_eq_fintype_card, hFcard, TauCeti.PrimePower.card_def, ← pow_mul]
   have hn1 : 1 ≤ q.exponent * δ := Nat.mul_pos q.exponent_pos hδpos
-  haveI hqp : Fact q.p.Prime := ⟨q.prime_p⟩
+  have hqp : Fact q.p.Prime := ⟨q.prime_p⟩
   have hXT : (∃ n : ℕ, 1 ≤ n ∧
         Nonempty (↥(resCent K x) ⧸ aschbacherSolvableCore 3 ↥(resCent K x) ≃*
           projSL 2 (GaloisField 2 n))) ∨
@@ -95,7 +95,7 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
           projSL 2 (GaloisField p n))) := by
     by_cases hp2 : q.p = 2
     · left
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       refine ⟨q.exponent * δ, hn1, ?_⟩
       obtain ⟨e⟩ := Hering129KYa.nonempty_quotTheta_equiv_projSL (p := 2) (n := q.exponent * δ)
         (by rw [hFpow, hp2]) hF4 φK hφK hkerK
@@ -126,9 +126,9 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
   have hYq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hYx
   have hns : ¬ Group.IsSolvable (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) := by
     intro hsolv
-    haveI : Nontrivial (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) :=
+    have : Nontrivial (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hYq
-    haveI : Group.IsPerfect (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) := hYq.1
+    have : Group.IsPerfect (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) := hYq.1
     exact Group.IsPerfect.not_isSolvable _ hsolv
   have hYperf : Group.IsPerfect ↥Y := Sec6.isPerfect_of_mem_thetaComponentsAt hYx
   have hS4Y : SectionFourHyp ↥Y := by
@@ -143,8 +143,8 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
     intro r δ' hGY hr4 hrp3 hrδ hδ'13 hcase
     obtain ⟨F', hF'f, hF'fin, hF'card, φY, hφY, hkerY⟩ :=
       exists_sl2_image_Y hTL h1134N h1134ST hKK cfg ⟨q, hq⟩ hxD hxb hY hXY hGY hr4 hrp3 hrδ
-    haveI : Finite F' := Finite.of_fintype F'
-    haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+    have : Finite F' := Finite.of_fintype F'
+    have : Fact r.p.Prime := ⟨r.prime_p⟩
     have hδ'pos : 1 ≤ δ' := by rcases hδ'13 with rfl | rfl <;> norm_num
     have hF'pow : Nat.card F' = r.p ^ (r.exponent * δ') := by
       rw [Nat.card_eq_fintype_card, hF'card, TauCeti.PrimePower.card_def, ← pow_mul]
@@ -229,7 +229,7 @@ theorem gap129YShape_of (h424 : Sec4.Item4_24Used) (h45 : Sec4.Item4_5)
           · exact Or.inr (Or.inr (Or.inl h))
         · exact Or.inr (Or.inr (Or.inr (typ129IIIcType_of_d4 hLq hDY)))
     ·
-      haveI := hp
+      have := hp
       obtain ⟨h1, h2⟩ := l3_shape_of_commutator hns he hL3 ⟨eC⟩
       exact Or.inr (Or.inr (Or.inr (iii_of_l3 ⟨p, e, hp, he, h1⟩ h2)))
     ·

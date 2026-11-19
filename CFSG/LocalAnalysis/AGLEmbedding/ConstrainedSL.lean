@@ -204,7 +204,7 @@ theorem D1Extremal.exists_isolated_vertex_of_hasPrimeConstraint {G : Type} [Grou
   refine ⟨z, D, hDR, hD, hDcard, hzD, hDN,
     pRank_inf_centralizer_le_two_of_normalizer_not_le hp P h.sylow_le h.weakCore_le hD hDcard
       (hDR.trans h.le_P) hDN, hzp, hzc, huniq, hCM, hcoreM, ?_, ?_⟩
-  · exact odd_card_of_twoLocals_le hp P.isPGroup' hPC hCM (glbPrimeCore_le p _)
+  · exact odd_card_of_twoLocals_le hp P.isPGroup hPC hCM (glbPrimeCore_le p _)
       (glbPrimeCore_normal p _) (glbPrimeCore_coprime p _) hcoreM
       fun T hT hT1 hPT => h.normalizer_le_of_sylow_le hRP hT hT1 hPT
   · refine layer_ne_bot_of_four_le_pRank hp h.ne_two P h.sylow_le h.weakCore_le hCM

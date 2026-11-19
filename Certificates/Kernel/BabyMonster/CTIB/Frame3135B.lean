@@ -86,7 +86,7 @@ theorem fuse_act {k : ℕ} (hk : k < 37) (x : ℕ) :
       unfold fuseK
       rw [hb]
       rfl
-    rw [e, fuseAct, if_pos h, qconj, lift6, arrOf_getD AH6 h, QK.mulQ_eq, QK.mulQ_eq]
+    rw [e, fuseAct, ite_eq_left h, qconj, lift6, arrOf_getD AH6 h, QK.mulQ_eq, QK.mulQ_eq]
   · obtain ⟨t, rfl⟩ : ∃ t, k = 22 + t := ⟨k - 22, by omega⟩
     have ht : t < 15 := by omega
     have hb : Nat.blt (22 + t) 22 = false := Bool.eq_false_iff.2 fun e => h (blt_iff.1 e)
@@ -95,7 +95,7 @@ theorem fuse_act {k : ℕ} (hk : k < 37) (x : ℕ) :
       rw [hb]
       change mulQ LOq (nthN Ds (22 + t - 22)) (autQ LOq (nthN Gs (22 + t - 22)) x) = _
       rw [Nat.add_sub_cancel_left]
-    rw [e, fuseAct, if_neg h, Nat.add_sub_cancel_left, ga_get ht, ds_get ht, fuse, QK.autQ_eq,
+    rw [e, fuseAct, ite_eq_right h, Nat.add_sub_cancel_left, ga_get ht, ds_get ht, fuse, QK.autQ_eq,
       QK.mulQ_eq]
 
 theorem act_eq : fuseAct (liftImgsN 6).toArray (gA6 ()) ds6 =
@@ -150,10 +150,10 @@ theorem cntB_eq (f : ℕ → ℕ) (lo : ℕ) :
     rw [cntB_eq f lo len, Nat.count_succ]
     by_cases h : f (lo + len) = 2
     · have hb : Nat.beq (f (Nat.add lo len)) 2 = true := beq_iff.2 h
-      rw [hb, if_pos h]
+      rw [hb, ite_eq_left h]
       rfl
     · have hb : Nat.beq (f (Nat.add lo len)) 2 = false := Bool.eq_false_iff.2 fun e => h (beq_iff.1 e)
-      rw [hb, if_neg h]
+      rw [hb, ite_eq_right h]
       rfl
 
 theorem count_blocks (p : ℕ → Prop) [DecidablePred p] (B : ℕ) : ∀ m,
@@ -198,7 +198,7 @@ theorem frChk_spec (hC : CensusLists) {a e : ℕ}
       rw [hb]
       have hty : innerTy innerTab n ≠ 3 := by
         unfold innerTy
-        rw [if_pos hv]
+        rw [ite_eq_left hv]
         split_ifs <;> omega
       simp only [Bool.and_true, beq_eq_false_iff_ne.2 hty]
       rfl

@@ -45,7 +45,7 @@ private lemma orderOf_diagSp_dvd {K : Type} [Field K] [Finite K] {m : ℕ} (t : 
   let F : Fintype K := Fintype.ofFinite K
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, if_pos rfl, @Nat.card_eq_fintype_card K F]
+    rw [ite_eq_left rfl, ite_eq_left rfl, @Nat.card_eq_fintype_card K F]
     exact @FiniteField.pow_card_sub_one_eq_one K _ F (diagSpEntry t a) (by
       rcases a with i | i <;> simp)
   · simp [hab]

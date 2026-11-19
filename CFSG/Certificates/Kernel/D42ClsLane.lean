@@ -132,7 +132,7 @@ theorem ofNat'_entP_packA (A : Array GF8) {t : Nat} (ht : t < 64) :
 
 theorem getD_map_range {α : Type} (f : Nat → α) {n i : Nat} (d : α) (hi : i < n) :
     ((List.range n).map f).getD i d = f i := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hi]
+  simp [List.getD_eq_getElem?_getD, hi]
 
 theorem length_rowsP (x : Nat) : (rowsP x).length = 8 := by simp [rowsP]
 
@@ -296,10 +296,10 @@ theorem rowsOK_spec {N : Nat} {T TW : List Nat} {DP Vm : Nat} {S : List Nat}
     List.all_eq_true] at hok
   obtain ⟨⟨⟨⟨⟨⟨⟨-, hB⟩, hC⟩, hD⟩, hE⟩, hF⟩, hG⟩, hH⟩ := hok
   refine ⟨fun h1 => hD.resolve_left (by omega), fun hz => ?_, fun hz => ?_, hF, fun g' hg' => ?_⟩
-  · simp only [hz, beq_self_eq_true, cond_true, beq_iff_eq] at hE
+  · simp only [hz, beq_self_eq_true, _root_.Bool.cond_true, beq_iff_eq] at hE
     exact hE
   · have hz' : (byteD DP c0 == 0) = false := by simpa using hz
-    rw [hz', cond_false] at hE
+    rw [hz', Bool.cond_false] at hE
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hE
     exact ⟨p, hB, g, hC, hE.1, hE.2⟩
   · have hz : g' < (S.zip cl).length := by
@@ -426,7 +426,7 @@ theorem minS_spec : ∀ (ps : List Nat) (M acc : Nat), M ≠ 0 →
       cases M.testBit k <;> cases p.testBit k <;> rfl
     by_cases hz : M ^^^ (M &&& p) = 0
     · have hmin : minS (p :: ps) M acc = minS ps M (2 * acc + 1) := by
-        simp only [minS, hz, beq_self_eq_true, cond_true]
+        simp only [minS, hz, beq_self_eq_true, _root_.Bool.cond_true]
       have hpf : ∀ k, M.testBit k = true → pfxV (p :: ps) acc k = pfxV ps (2 * acc + 1) k := by
         intro k hk
         have h0 := hbit k
@@ -441,7 +441,7 @@ theorem minS_spec : ∀ (ps : List Nat) (M acc : Nat), M ≠ 0 →
       exact ⟨⟨k, hk, by rw [hpf k hk, he]⟩, fun k' hk' => by rw [hpf k' hk']; exact hle k' hk'⟩
     · have hmin : minS (p :: ps) M acc = minS ps (M ^^^ (M &&& p)) (2 * acc) := by
         have hf : (M ^^^ (M &&& p) == 0) = false := by simpa using hz
-        simp only [minS, hf, cond_false]
+        simp only [minS, hf, Bool.cond_false]
       obtain ⟨⟨k, hk, he⟩, hle⟩ := minS_spec ps _ (2 * acc) hz
       rw [hbit, Bool.and_eq_true, Bool.not_eq_true'] at hk
       rw [hmin]
@@ -458,7 +458,7 @@ theorem minS_spec : ∀ (ps : List Nat) (M acc : Nat), M ≠ 0 →
           exact Nat.le_of_lt (pfxV_lt ps k k' (by simp))
 
 theorem sweepK_spec {N : Nat} {P : List Nat} {key : Nat} {F : List N3} {fr : List Nat}
-    (h : sweepK (((1 <<< N) - 1) <<< 64) P key F fr = true) (hl : F.length = fr.length) :
+    (h : sweepK (((1 <<< N) - 1) <<< 64) P key F fr = true) (_hl : F.length = fr.length) :
     (∀ c < N, (∀ e < F.length, laneE (F.getD e (0, 0, 0)) (64 + c) = GF8.ofNat' (fr.getD e 0)) →
       c ∈ P) ∧
     (0 < N → (∃ c < N, keyV F (64 + c) = key) ∧ ∀ c < N, key ≤ keyV F (64 + c)) := by

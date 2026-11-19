@@ -148,8 +148,8 @@ theorem ggResCaseIILargeInput_of_inputs
     rw [ggTypRankGe] at hh
     rwa [Nat.card_eq_fintype_card] at hh
   have hrk : 3 ≤ Fintype.card Λ := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let U : Submodule (ZMod p) V :=
     Submodule.span (ZMod p) (Set.range fun i : Λ => h (some i))
   have hdimU : Module.finrank (ZMod p) U = Fintype.card Λ :=
@@ -213,7 +213,7 @@ theorem ggResCaseIILargeInput_of_inputs
     exact Submodule.smul_mem _ _ (hmemU o)
   have honeP : P 1 := by
     intro w
-    simp [P]
+    simp
   have hmulP : ∀ a b : V ≃ₗ[ZMod p] V, P a → P b → P (a * b) := by
     intro a b ha hb w
     have h1 : b w - w ∈ U := hb w
@@ -406,24 +406,24 @@ theorem ggResCaseIILargeInput_of_inputs
         have hval : ι (Additive.ofMul (Additive.toMul (ι.symm ((u : V) + αx)))) =
             (u : V) + αx := by simp
         rw [hval]
-        simpa using u.2
+        simp
       · intro bb
         apply Subtype.ext
         have hval : ι (Additive.ofMul (Additive.toMul
             (ι.symm (ι (Additive.ofMul (bb : ↥Bs)) - αx + αx)))) =
             ι (Additive.ofMul (bb : ↥Bs)) := by
           simp
-        simpa using hval
+        simp
       · intro u
         apply Subtype.ext
         have hval : ι (Additive.ofMul (Additive.toMul (ι.symm ((u : V) + αx)))) - αx = (u : V) := by
           simp
-        simpa using hval
+        simp
     have hpow : Nat.card U = p ^ Fintype.card Λ := by
       rw [← hdimU]
       exact (FiniteField.pow_finrank_eq_natCard p U).symm
     exact hSU.trans hpow
-  haveI : Finite U := Finite.of_injective (fun u : U => (u : V)) (fun a b hab => Subtype.ext hab)
+  have : Finite U := Finite.of_injective (fun u : U => (u : V)) (fun a b hab => Subtype.ext hab)
   have hWcard : Nat.card ↥(ggAutomizer L Bs) = Nat.card ML.Group :=
     (Nat.card_congr fL.toEquiv).symm
   have hjoin : Nat.card A' ≤ Nat.card S * ((p - 1) * 6 * Nat.card ML.Group) := by
@@ -459,7 +459,7 @@ theorem ggResCaseIILargeInput_of_inputs
           by_cases hπi : π ⟨a, ha⟩ i = i
           · exact hπi
           · exfalso
-            simp only [hπi, if_false, if_true, mul_zero, mul_one] at hcoord
+            simp only [hπi, ite_false, ite_true, mul_zero, mul_one] at hcoord
             exact hc2 hcoord.symm
         have h1 : (⟨a, ha⟩ : AU) = 1 := by
           have hmem : (⟨a, ha⟩ : AU) ∈ π.ker := hπa
@@ -600,7 +600,7 @@ theorem ggResCaseIILargeInput_of_inputs
             rw [← hdd']
             exact Subgroup.mem_comap.mp hd'mem
           · refine Subgroup.mem_map.mpr ⟨e.symm (δ : AU), Subgroup.mem_comap.mpr ?_, rfl⟩
-            simpa using δ.2
+            simp
           · intro d
             apply Subtype.ext
             simp

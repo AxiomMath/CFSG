@@ -149,7 +149,7 @@ private theorem finrank_span_triple {a d u : N} (h : LinearIndependent K' ![a, d
     ext x; simp [eq_comm]; tauto] at h3
   simpa using h3
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem ne_one_of_isLongRootElement (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 0)
     {s : V ≃ₗ[K] V} (hs : IsLongRootElement Qf s) : s ≠ 1 :=
   fun h => not_isLongRootElement_one hnd (h ▸ hs)
@@ -179,7 +179,7 @@ private theorem commutatorElement_rhoE {a b c d : N} (ha : QN a = 0) (hb : QN b 
   congr 1
   exact Subtype.ext (commutatorElement_eichler ha hb hc hd hab hcd hac had hbd)
 
-omit [Finite K'] [Finite K] [FiniteDimensional K V] in
+omit [Finite K'] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem OmegaSetting.single_axis_not_commute (hs : OmegaSetting QN Qf ρ) {a b c d : N}
     (ha : QN a = 0) (hb : QN b = 0) (hc : QN c = 0) (hd : QN d = 0) (hab : polar QN a b = 0)
     (hcd : polar QN c d = 0) (hac : polar QN a c = 0) (had : polar QN a d = 0)
@@ -190,7 +190,7 @@ private theorem OmegaSetting.single_axis_not_commute (hs : OmegaSetting QN Qf ρ
   rw [commutatorElement_rhoE ha hb hc hd hab hcd hac had hbd, hbc, one_smul] at h1
   exact ne_one_of_isLongRootElement hs.nd (hs.isLongRootElement_rhoE ha hd had hlad) h1
 
-omit [Finite K'] [Finite K] [FiniteDimensional K V] in
+omit [Finite K'] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem OmegaSetting.single_axis_mem_axes (hs : OmegaSetting QN Qf ρ) {u w : N}
     (hu : QN u = 0) (hw : QN w = 0) (huw : polar QN u w = 0) (hli : LinearIndependent K' ![u, w])
     {π : Submodule K' N} (hu' : u ∈ π) (hw' : w ∈ π) :

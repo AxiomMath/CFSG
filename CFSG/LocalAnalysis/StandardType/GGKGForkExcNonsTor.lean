@@ -106,7 +106,7 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
             (Units.map (entrywiseHom Fr)) := by
   classical
   have hp3 : 3 < p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set a : ℕ := padicValNat p (Nat.card K + 1) with ha
   obtain ⟨w0, hw0⟩ : ∃ w0 : WeylGroup τ, ∀ u : Fin τ.rank → ℤ, w0 • u = -u := by
     rcases hτ with rfl | rfl
@@ -184,8 +184,8 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
           twistedTorusOf (canonicalRep (coxeterSystem τ) L w0)
             (Units.map (entrywiseHom Fr))) ↔ _
       rw [MulAut.conj_apply, inv_inv]
-    haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-    haveI hTcomm : IsMulCommutative (twistedTorusOf (canonicalRep (coxeterSystem τ) L w0)
+    have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+    have hTcomm : IsMulCommutative (twistedTorusOf (canonicalRep (coxeterSystem τ) L w0)
         (Units.map (entrywiseHom Fr))) :=
       isMulCommutative_twistedTorusOf Fr w0 hw0
     have hφinj : Function.Injective φ :=
@@ -209,7 +209,7 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
       show (x ^ p = 1 ∧ x ∈ TF) ↔ (x ^ p = 1 ∧ _)
       rw [hTF_mem x]
     obtain ⟨S⟩ : Nonempty (Sylow p (adjointGroup τ K)) := inferInstance
-    obtain ⟨c, E0, hE0S, hE0card, hE0torus⟩ := hconj (S : Subgroup (adjointGroup τ K)) S.isPGroup'
+    obtain ⟨c, E0, hE0S, hE0card, hE0torus⟩ := hconj (S : Subgroup (adjointGroup τ K)) S.isPGroup
     have hScard : Nat.card (S : Subgroup (adjointGroup τ K)) = p ^ (τ.rank * a + 1) := by
       have h1 := Sylow.card_eq_multiplicity S
       rw [hfact] at h1
@@ -217,7 +217,7 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
     have hE0card_ge : p ^ (τ.rank * a) ≤ Nat.card E0 := by
       rw [hScard, pow_succ'] at hE0card
       exact Nat.le_of_mul_le_mul_left hE0card hp.pos
-    have hE0pg : IsPGroup p E0 := S.isPGroup'.to_le hE0S
+    have hE0pg : IsPGroup p E0 := S.isPGroup.to_le hE0S
     have hE1Q : ∀ x ∈ E0, c * x * c⁻¹ ∈ Q := by
       intro x hx
       refine ⟨?_, ?_⟩
@@ -252,13 +252,13 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
       have hle : Nat.card E0 ≤ Nat.card Q := Nat.card_le_card_of_injective _ hinj
       exact hE0card_ge.trans hle
     obtain ⟨P, hQleP⟩ := IsPGroup.exists_le_sylow hQpg
-    have hPpg : IsPGroup p (P : Subgroup (adjointGroup τ K)) := Sylow.isPGroup' P
+    have hPpg : IsPGroup p (P : Subgroup (adjointGroup τ K)) := Sylow.isPGroup P
     have hPcard : Nat.card (P : Subgroup (adjointGroup τ K)) = p ^ (τ.rank * a + 1) := by
       have h1 := Sylow.card_eq_multiplicity P
       rw [hfact] at h1
       exact h1
     obtain ⟨Se, hESe⟩ := IsPGroup.exists_le_sylow hE.isPGroup
-    haveI : MulAction.IsPretransitive (adjointGroup τ K) (Sylow p (adjointGroup τ K)) :=
+    have : MulAction.IsPretransitive (adjointGroup τ K) (Sylow p (adjointGroup τ K)) :=
       Sylow.isPretransitive_of_finite
     obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (adjointGroup τ K) P Se
     have hSmap : (Se : Subgroup (adjointGroup τ K)) =
@@ -366,7 +366,7 @@ theorem exists_nons_frame_conj_into_torus {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
             (u * e * u⁻¹) he
           simpa [mul_assoc] using h
       have hupQ : u ^ p ∈ Q := by
-        haveI : (Q.subgroupOf (P : Subgroup (adjointGroup τ K))).Normal := hQnorm
+        have : (Q.subgroupOf (P : Subgroup (adjointGroup τ K))).Normal := hQnorm
         have hmem := Subgroup.pow_index_mem (Q.subgroupOf (P : Subgroup (adjointGroup τ K)))
           (⟨u, huP⟩ : (P : Subgroup (adjointGroup τ K)))
         rw [hidxp] at hmem

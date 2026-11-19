@@ -564,8 +564,8 @@ public theorem CFSG.section16_exists_maximalConjugacyRepresentatives :
     ∃ Ms : List (Subgroup G), section16MaximalConjugacyRepresentatives (G := G) Ms := by
   classical
   let S : Setoid (Subgroup G) := section16SubgroupConjSetoid G
-  letI : Setoid (Subgroup G) := S
-  letI : Fintype (Quotient S) := Fintype.ofFinite _
+  let : Setoid (Subgroup G) := S
+  let : Fintype (Quotient S) := Fintype.ofFinite _
   let qs : List (Quotient S) := (Finset.univ : Finset (Quotient S)).toList
   let reps : List (Subgroup G) := qs.map fun q => Quotient.out q
   let Ms : List (Subgroup G) := reps.filter fun M => M ∈ section9MaximalSubgroups G

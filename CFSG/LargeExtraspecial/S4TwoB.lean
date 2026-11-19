@@ -54,7 +54,7 @@ theorem exists_mem_conj_eq_of_weaklyClosed {L K : Subgroup X} [K.Normal] (hLK : 
   obtain ⟨P, hP⟩ := hLK'.exists_le_sylow
   set S₀ := (P : Subgroup K).map K.subtype with hS₀
   have hLS : L ≤ S₀ := fun u hu => ⟨⟨u, hLK hu⟩, hP (mem_subgroupOf.mpr hu), rfl⟩
-  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup'.map K.subtype
+  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup.map K.subtype
   have hS₀N := le_normalizer_of_isPGroup_of_weaklyClosed hLS hS₀2 hwc
   have htop := Sylow.normalizer_sup_eq_top P
   have hx : x⁻¹ ∈ normalizer (S₀ : Set X) ⊔ K := htop ▸ mem_top _

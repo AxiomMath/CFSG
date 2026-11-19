@@ -30,7 +30,7 @@ abbrev V : Type := Fin n ⊕ Fin n → ZMod 2
 theorem Q_apply (v : V n) :
     Q n v = ∑ i, (v (Sum.inl i) * v (Sum.inr i) +
       (v (Sum.inl i) * v (Sum.inl i) + v (Sum.inr i) * v (Sum.inr i))) := by
-  simp only [Q, QuadraticMap.add_apply, quadPlus_apply, QuadraticMap.sum_apply,
+  simp only [Q, _root_.add_apply, quadPlus_apply, _root_.sum_apply,
     QuadraticMap.proj_apply]
   rw [Fintype.sum_sum_type, ← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
 
@@ -63,12 +63,12 @@ variable (n) in
 
 theorem mem_planeSpan {S : Finset (Fin n)} {v : V n} :
     v ∈ planeSpan n S ↔ ∀ k, planeOf k ∉ S → v k = 0 := by
-  simp only [planeSpan, Submodule.mem_pi, Set.mem_setOf_eq, Submodule.mem_bot]
+  simp only [planeSpan, Submodule.mem_pi, Set.mem_ofPred_eq, Submodule.mem_bot]
 
 theorem single_mem_planeSpan {T : Finset (Fin n)} {k : Fin n ⊕ Fin n}
     (hk : planeOf k ∈ T) : (Pi.single k (1 : ZMod 2) : V n) ∈ planeSpan n T :=
   mem_planeSpan.mpr fun l hl => by
-    rw [Pi.single_apply, if_neg]
+    rw [Pi.single_apply, ite_eq_right]
     rintro rfl
     exact hl hk
 
@@ -141,7 +141,7 @@ theorem apply_mem_planeSpan_of_mem_supp {S : Finset (Fin n)} {g : V n ≃ₗ[ZMo
     by_cases hlk : l = k
     · subst l
       exact False.elim (hl (Finset.mem_compl.mpr hk))
-    · simp [Pi.single_apply, hlk, Ne.symm hlk]
+    · simp [hlk]
   apply mem_planeSpan.mpr
   intro k hk
   rcases k with i | i
@@ -180,7 +180,7 @@ theorem commute_of_mem_supp_of_disjoint {S T : Finset (Fin n)} (hST : Disjoint S
     by_cases hlk : l = k
     · subst l
       exact False.elim (hl hk)
-    · simp [Pi.single_apply, hlk, Ne.symm hlk]
+    · simp [hlk]
   by_cases hkS : planeOf k ∈ S
   · have heS := hsingle S hkS
     have hhE := fix_other hST hh heS
@@ -200,7 +200,7 @@ theorem Q_single (k : Fin n ⊕ Fin n) : Q n (Pi.single k 1) = 1 := by
   rw [Q_apply, Finset.sum_eq_single (planeOf k)]
   · rcases k with i | i <;> simp [planeOf]
   · intro j _ hj
-    rcases k with i | i <;> simp_all [planeOf, Pi.single_apply]
+    rcases k with i | i <;> simp_all [planeOf]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -220,7 +220,7 @@ theorem polar_single_inl_apply (i : Fin n) (v : V n) :
   rw [polar_Q, Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp [Pi.single_apply, hj]
+    simp [hj]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -229,7 +229,7 @@ theorem polar_single_inr_apply (i : Fin n) (v : V n) :
   rw [polar_Q, Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp [Pi.single_apply, hj]
+    simp [hj]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -463,9 +463,9 @@ private theorem torusAux_rot_pow_single_inl_inr (j : Fin n) (m : ℕ) (hm : m = 
     ((rot n j ^ m) (Pi.single (Sum.inl j) (1 : ZMod 2) : V n)) (Sum.inr j) = 1 := by
   rcases hm with rfl | rfl
   · rw [pow_one, rot_apply_inr]
-    simp [Pi.single_apply, Sum.inr_ne_inl]
+    simp [Sum.inr_ne_inl]
   · rw [pow_two, LinearEquiv.mul_apply, rot_apply_inr, rot_apply_inl, rot_apply_inr]
-    simp [Pi.single_apply, Sum.inr_ne_inl]
+    simp [Sum.inr_ne_inl]
 
 private theorem torusAux_coe_prod_apply_of_fixes {s : Finset (Fin n)} {f : Fin n → torusAux_CN n} {w : V n}
     (hfix : ∀ i ∈ s, (↑(f i) : V n ≃ₗ[ZMod 2] V n) w = w) :
@@ -496,7 +496,7 @@ private theorem torusAux_psi_ne_one {a : Fin n → ZMod 3} (ha : a ≠ 0) :
     by_cases h : k = Sum.inl i0
     · subst h
       exact absurd (by simp [planeOf]) hk
-    · rw [Pi.single_apply, if_neg h]
+    · rw [Pi.single_apply, ite_eq_right h]
   have hsplit : torusAux_psi n (Multiplicative.ofAdd a) =
       torusAux_v n i0 ^ (a i0).val *
         ∏ i ∈ (Finset.univ : Finset (Fin n)) \ {i0}, torusAux_v n i ^ (a i).val := by
@@ -524,7 +524,7 @@ private theorem torusAux_psi_ne_one {a : Fin n → ZMod 3} (ha : a ≠ 0) :
       ((↑(1 : torusAux_CN n) : V n ≃ₗ[ZMod 2] V n) e) (Sum.inr i0) = 0 := by
     rw [Subgroup.coe_one]
     change e (Sum.inr i0) = 0
-    rw [he, Pi.single_apply, if_neg (Sum.inr_ne_inl)]
+    rw [he, Pi.single_apply, ite_eq_right (Sum.inr_ne_inl)]
   rw [h1] at hcoord
   rw [hzero] at hcoord
   exact zero_ne_one hcoord
@@ -586,7 +586,7 @@ private theorem torusAux_K_le_H (S : Finset (Fin n)) : torusAux_K S ≤ torusAux
   rw [torusAux_mem_D_iff, toAdd_ofAdd]
   intro k hk
   have hki : k ≠ i := by rintro rfl; exact hk hi
-  rw [Pi.single_apply, if_neg hki]
+  rw [Pi.single_apply, ite_eq_right hki]
 
 private theorem torusAux_H_eq_K (S : Finset (Fin n)) : torusAux_H S = torusAux_K S :=
   le_antisymm (torusAux_H_le_K S) (torusAux_K_le_H S)
@@ -838,7 +838,7 @@ theorem planePerm_conj_rot (σ : Equiv.Perm (Fin n)) (i : Fin n) :
       planePerm n σ * crefl n k * (planePerm n σ)⁻¹ = crefl n (Sum.map σ σ k) := by
     let e : QuadraticMap.IsometryEquiv (Q n) (Q n) :=
       { toLinearEquiv := planePerm n σ, map_app' := hpQ }
-    haveI : Invertible (Q n (e (Pi.single k (1 : ZMod 2)))) := by
+    have : Invertible (Q n (e (Pi.single k (1 : ZMod 2)))) := by
       change Invertible (Q n (planePerm n σ (Pi.single k (1 : ZMod 2))))
       rw [hsingle k]
       infer_instance
@@ -897,7 +897,7 @@ theorem planePerm_conj_mem_supp (σ : Equiv.Perm (Fin n)) {S : Finset (Fin n)}
       have h1 : planePerm n (1 : Equiv.Perm (Fin n)) = 1 := by
         have hsymm : (1 : Equiv.Perm (Fin n)).symm = 1 := rfl
         have hcongr : Equiv.sumCongr (1 : Equiv.Perm (Fin n)) (1 : Equiv.Perm (Fin n)) = 1 := by
-          simpa using (Equiv.sumCongr_refl (α := Fin n) (β := Fin n))
+          simp
         rw [planePerm, hsymm, hcongr]
         rfl
       have hmul : planePerm n σ * planePerm n σ⁻¹ = 1 := by

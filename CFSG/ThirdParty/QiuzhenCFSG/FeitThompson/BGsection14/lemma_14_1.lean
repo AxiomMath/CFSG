@@ -34,7 +34,7 @@ public theorem CFSG.section14_ambientSylow_isPGroup
     IsPGroup p.val (section10AmbientSylowSubgroup M S) := by
   change IsPGroup p.val ((S : Subgroup M).map M.subtype)
   exact IsPGroup.map (p := p.val) (H := (S : Subgroup M))
-    S.isPGroup' M.subtype
+    S.isPGroup M.subtype
 
 public theorem CFSG.section14_tau_split_of_not_sigma
     {M : Subgroup G} (hM : M ∈ section9MaximalSubgroups G) {p : Nat.Primes}
@@ -70,7 +70,7 @@ private theorem CFSG.section14_exists_rankTwo_in_ambientSylow_of_tau2
   have hS_noncyc : ¬ IsCyclic (S : Subgroup M) := by
     intro hS_cyc
     have hle : groupRank (S : Subgroup M) ≤ 1 := by
-      letI : IsCyclic (S : Subgroup M) := hS_cyc
+      let : IsCyclic (S : Subgroup M) := hS_cyc
       exact groupRank_le_one_of_isCyclic (S : Subgroup M)
     omega
   let Pamb : Subgroup G := section10AmbientSylowSubgroup M S
@@ -96,7 +96,7 @@ public theorem CFSG.section14_isComplement'_subgroupOf_sup_of_inf_eq_bot_of_le_n
   let S : Subgroup G := R ⊔ H
   let Hs : Subgroup S := H.subgroupOf S
   let Rs : Subgroup S := R.subgroupOf S
-  haveI : Hs.Normal := by
+  have : Hs.Normal := by
     simpa [S, Hs] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := R) (N := H) hRnorm)
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
@@ -138,8 +138,8 @@ private theorem CFSG.section14_nilpotent_msigma_of_prime_order_fixed_free
     simpa [T] using sup_le hRM hK_le_M
   have hR_norm_K : R ≤ Subgroup.normalizer (K : Set G) :=
     hRM.trans (by simpa [K] using section12_le_normalizer_msigma (M := M))
-  haveI : IsCyclic R := by
-    haveI : Fact (Nat.Prime (Nat.card R)) := ⟨hRprime⟩
+  have : IsCyclic R := by
+    have : Fact (Nat.Prime (Nat.card R)) := ⟨hRprime⟩
     exact isCyclic_of_prime_card (α := R) (p := Nat.card R) rfl
   have hR_le_cent : R ≤ Subgroup.centralizer (R : Set G) := by
     intro r hr
@@ -158,7 +158,7 @@ private theorem CFSG.section14_nilpotent_msigma_of_prime_order_fixed_free
       rw [← hTtop]
       exact hT_le_M
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvT : IsSolvable T :=
+  have hsolvT : Group.IsSolvable T :=
     IsMinCE.proper_subgroups_solvable T (lt_top_iff_ne_top.2 hTne_top)
   have hoddT : Odd (Nat.card T) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card T)
@@ -202,9 +202,9 @@ private theorem CFSG.section14_natCard_omegaOne_cyclic_pGroup_eq_prime
     [Fact (IsPGroup p.val H)] (hcyc : IsCyclic H) [Nontrivial H] :
     Nat.card (omega₁ (G := H) (p := p.val)) = p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  letI : IsCyclic H := hcyc
-  letI : CommGroup H := hcyc.commGroup
+  have : Fact p.val.Prime := ⟨p.2⟩
+  let : IsCyclic H := hcyc
+  let : CommGroup H := hcyc.commGroup
   have hOmega_eq_ker : omega₁ (G := H) (p := p.val) =
       (powMonoidHom p.val : H →* H).ker := by
     apply le_antisymm
@@ -235,8 +235,8 @@ public theorem CFSG.section14_omegaOneSubgroup_card_eq_prime_of_cyclic_pSubgroup
     (hHp : IsPGroup p.val H) (hHcyc : IsCyclic H) (hHne : H ≠ ⊥) :
     Nat.card (section12OmegaOneSubgroup p H) = p.val := by
   classical
-  haveI : Fact (IsPGroup p.val H) := ⟨hHp⟩
-  haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
+  have : Fact (IsPGroup p.val H) := ⟨hHp⟩
+  have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
   have hcard :
       Nat.card (section12OmegaOneSubgroup p H) =
         Nat.card (omega₁ (G := H) (p := p.val)) := by
@@ -254,7 +254,7 @@ private theorem CFSG.section14_omegaOne_ambientSylow_card_eq_prime_of_tau13
     Nat.card (section12OmegaOneSubgroup p (section10AmbientSylowSubgroup M S)) =
       p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   let Pamb : Subgroup G := section10AmbientSylowSubgroup M S
   have hp_dvd_M : p.val ∣ Nat.card M := by
     simpa [subgroupPrimeSet] using hpM

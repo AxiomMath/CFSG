@@ -26,8 +26,7 @@ private theorem fixSubgroup_conj_eq_centralizer {R : Type} [Group R] (x : R) :
 
 theorem diagOfBlock_holds :
     DiagOfBlock := by
-  intro R _ _ p hp hp2 hlayer hchev hB
-  intro x y hx hxp hyp hcomm J hJ hN
+  intro R _ _ p hp hp2 hlayer hchev hB x y hx hxp hyp hcomm J hJ hN
   have hfix : fixSubgroup (MulAut.conj x) = Subgroup.centralizer ({x} : Set R) :=
     fixSubgroup_conj_eq_centralizer x
   have hJfix : J ≤ fixSubgroup (MulAut.conj x) := by

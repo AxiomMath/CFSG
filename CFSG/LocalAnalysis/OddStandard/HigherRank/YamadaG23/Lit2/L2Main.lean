@@ -41,11 +41,11 @@ theorem lit2_main {X : Type} [Group X] [Finite X] {Z A : Subgroup X} [Z.Normal] 
     ∃ H : Subgroup X, H.Characteristic ∧ CFSG.IsQuasisimple ↥H ∧ Z ≤ H ∧
       centralizer (H : Set X) = litP Z ∧ IsSU43 (↥H ⧸ CFSG.oddCore ↥H) := by
   classical
-  haveI : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
+  have : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
   let π : X →* X ⧸ litP Z := QuotientGroup.mk' (litP Z)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective (litP Z)
   have hk : π.ker = litP Z := QuotientGroup.ker_mk' (litP Z)
-  haveI : Finite (X ⧸ litP Z) := Finite.of_surjective π hπ
+  have : Finite (X ⧸ litP Z) := Finite.of_surjective π hπ
   have hZmap : Z.map (τ : X →* X) = Z := by
     refine le_antisymm ?_ ?_
     · rw [Subgroup.map_le_iff_le_comap]
@@ -71,7 +71,7 @@ theorem lit2_main {X : Type} [Group X] [Finite X] {Z A : Subgroup X} [Z.Normal] 
   have hsolv : Group.IsSolvable ↥π.ker := by
     rw [hk]
     exact lit_solvable_litP h.central
-  haveI : M.Normal := hmono.normal
+  have : M.Normal := hmono.normal
   have hchar : (litPerf (M.comap π)).Characteristic :=
     lit_perf_char hπ hsolv hmono.simple hmono.nonab hmono.min
   have hq : CFSG.IsQuasisimple ↥(litPerf (M.comap π)) :=

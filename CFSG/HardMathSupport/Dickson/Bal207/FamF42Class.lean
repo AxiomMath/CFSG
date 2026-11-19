@@ -172,7 +172,7 @@ theorem exists_sp3_cover (S : LangSetup Tag.F4 L p₀) (hq2 : S.D.q = 2)
       refine (MulAut.conj (canonicalRep (coxeterSystem Tag.F4) (↥(fixSubfield σ)) v)).injective ?_
       rw [map_one]
       exact hy
-  haveI hperf : Group.IsPerfect (StatedSp 3 ↥(fixSubfield σ)) :=
+  have hperf : Group.IsPerfect (StatedSp 3 ↥(fixSubfield σ)) :=
     CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp 3 _ (Or.inr (Or.inr ⟨hF2, le_rfl⟩))
   have hmem : ∀ y, Ψv y ∈ componentRootSpan (fixSubfield σ) (rootCharHom a) i :=
     fun y => hΨvr ▸ ⟨y, rfl⟩
@@ -203,13 +203,13 @@ theorem compShape_conj_F4_two {K : Type} [Field K] [Finite K] (hK : Nat.card K =
     (x : ↥(adjointGroup Tag.F4 K)) (hx : orderOf x = 3) :
     CompShape F42CompType (MulAut.conj x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite ↥(adjointGroup Tag.F4 K) := by
+  have : Finite ↥(adjointGroup Tag.F4 K) := by
     have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
     infer_instance
   have hpK : ¬ 3 ∣ Nat.card K := by

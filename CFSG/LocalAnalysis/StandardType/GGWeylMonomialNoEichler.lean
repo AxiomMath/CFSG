@@ -127,7 +127,7 @@ private lemma ggMonoE_eq_smul_single_of_card_one {n : ℕ} {c : GGBCV n}
     have hci : c i = 0 := by
       by_contra hne
       exact hnot (Finset.mem_filter.mpr ⟨Finset.mem_univ i, hne⟩)
-    rw [Pi.smul_apply, Pi.single_apply, if_neg hi, smul_zero]
+    rw [Pi.smul_apply, Pi.single_apply, ite_eq_right hi, smul_zero]
     exact hci
 
 private lemma ggMonoE_eq_pair_of_card_two {n : ℕ} {c : GGBCV n}
@@ -141,18 +141,18 @@ private lemma ggMonoE_eq_pair_of_card_two {n : ℕ} {c : GGBCV n}
   funext p
   by_cases hpi : p = i
   · subst hpi
-    rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply, if_pos rfl,
-      if_neg hij, smul_eq_mul, mul_one, smul_eq_mul, mul_zero, add_zero]
+    rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply, ite_eq_left rfl,
+      ite_eq_right hij, smul_eq_mul, mul_one, smul_eq_mul, mul_zero, add_zero]
   · by_cases hpj : p = j
     · subst hpj
       rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg (Ne.symm hij), if_pos rfl, smul_eq_mul, mul_zero, smul_eq_mul, mul_one, zero_add]
+        ite_eq_right (Ne.symm hij), ite_eq_left rfl, smul_eq_mul, mul_zero, smul_eq_mul, mul_one, zero_add]
     · have hnot : p ∉ Finset.univ.filter (fun m => c m ≠ 0) := by rw [hset]; simp [hpi, hpj]
       have hcp : c p = 0 := by
         by_contra hne
         exact hnot (Finset.mem_filter.mpr ⟨Finset.mem_univ p, hne⟩)
       rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg hpi, if_neg hpj, smul_eq_mul, mul_zero, smul_eq_mul, mul_zero, add_zero]
+        ite_eq_right hpi, ite_eq_right hpj, smul_eq_mul, mul_zero, smul_eq_mul, mul_zero, add_zero]
       exact hcp
 
 private lemma ggMonoE_dot_self_smul_single {n : ℕ} (k : Fin n) (a : ZMod 3) (ha : a ≠ 0) :
@@ -191,8 +191,8 @@ private lemma ggMonoE_monomial_refl_weight_one {n : ℕ} {c : GGBCV n} (hc : c �
     have hci' : c i = if i = k then c k else 0 := by
       by_cases hik : i = k
       · subst hik
-        rw [if_pos rfl]
-      · rw [if_neg hik]
+        rw [ite_eq_left rfl]
+      · rw [ite_eq_right hik]
         have h := congr_fun hc_eq i
         rw [Pi.smul_apply, Pi.single_eq_of_ne hik, smul_zero] at h
         exact h
@@ -200,11 +200,11 @@ private lemma ggMonoE_monomial_refl_weight_one {n : ℕ} {c : GGBCV n} (hc : c �
     have h1i : (1 : Equiv.Perm (Fin n)) i = i := rfl
     simp only [h1i]
     by_cases hik : i = k
-    · rw [if_pos hik, hc_eq, smul_smul]
+    · rw [ite_eq_left hik, hc_eq, smul_smul]
       simp only [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
       rw [ggMonoE_zmod3_sq (c k) hk, one_smul, hik]
-      rw [if_pos rfl, ← ggMonoE_zmod3_one_add_one, add_smul, one_smul]
-    · rw [if_neg hik, zero_smul, add_zero, if_neg hik, one_smul]
+      rw [ite_eq_left rfl, ← ggMonoE_zmod3_one_add_one, add_smul, one_smul]
+    · rw [ite_eq_right hik, zero_smul, add_zero, ite_eq_right hik, one_smul]
 
 private lemma ggMonoE_refl_single_left {n : ℕ} {c : GGBCV n} (hc : c ⬝ᵥ c ≠ 0)
     {i j : Fin n} (hij : i ≠ j) (hi : c i ≠ 0) (hj : c j ≠ 0)
@@ -238,7 +238,7 @@ private lemma ggMonoE_refl_single_other {n : ℕ} {c : GGBCV n} (hc : c ⬝ᵥ c
     rw [hc_eq]; exact ggMonoE_dot_self_pair i j hij (c i) (c j) hi hj
   have hcm : c ⬝ᵥ Pi.single m 1 = 0 := by
     rw [hc_eq, ggMonoE_dot_pair i j m hij (c i) (c j)]
-    rw [if_neg hmi, if_neg hmj]
+    rw [ite_eq_right hmi, ite_eq_right hmj]
   rw [ggQ2x_ggBCRefl_apply, hcc, hcm]
   rw [zero_mul, zero_smul, add_zero]
 
@@ -250,9 +250,9 @@ private lemma ggMonoE_monomial_refl_weight_two {n : ℕ} {c : GGBCV n} (hc : c �
   · intro m
     change (if m = i ∨ m = j then -(c i * c j) else 1) ≠ 0
     by_cases h : m = i ∨ m = j
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact neg_ne_zero.mpr (mul_ne_zero hi hj)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact one_ne_zero
   · intro m
     by_cases hmi : m = i
@@ -264,14 +264,14 @@ private lemma ggMonoE_monomial_refl_weight_two {n : ℕ} {c : GGBCV n} (hc : c �
         rw [ggMonoE_refl_single_right hc hij hi hj hc_eq]
         simp [Equiv.swap_apply_right]
       · rw [ggMonoE_refl_single_other hc hij hi hj hc_eq hmi hmj]
-        simp [if_neg (show ¬(m = i ∨ m = j) from fun h => h.elim hmi hmj),
+        simp [ite_eq_right (show ¬(m = i ∨ m = j) from fun h => h.elim hmi hmj),
           Equiv.swap_apply_of_ne_of_ne hmi hmj]
 
 private lemma ggMonoE_reflSet_subset {n : ℕ} {S : Set (GGBCV n)} (hS : S ⊆ ggBCRoots n) :
     ggBCReflSet S ⊆ (ggMonoE_monGroup (n := n) : Set (GGBCV n ≃ₗ[ZMod 3] GGBCV n)) := by
   rintro t ⟨c, hcS, hc, rfl⟩
   have hroot := hS hcS
-  simp only [ggBCRoots, Set.mem_setOf_eq, ggBCWt] at hroot
+  simp only [ggBCRoots, Set.mem_ofPred_eq, ggBCWt] at hroot
   have hcard : (Finset.univ.filter (fun i => c i ≠ 0)).card = 1 ∨
       (Finset.univ.filter (fun i => c i ≠ 0)).card = 2 := by omega
   rcases hcard with h1 | h2

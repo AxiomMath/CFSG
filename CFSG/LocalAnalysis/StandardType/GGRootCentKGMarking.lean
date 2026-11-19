@@ -136,7 +136,7 @@ private theorem lemma119_su_mem_gu {K : Type} [Field K] [CharP K 2] {d n : ℕ}
 private theorem lemma119_charP_two {K : Type} [Field K] [Finite K] {n : ℕ}
     (h : Nat.card K = (2 ^ n) ^ 2) : CharP K 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hc⟩ := CharP.exists K
   obtain ⟨k, hp, hk⟩ := FiniteField.card K p
   have hcard : Fintype.card K = 2 ^ (2 * n) := by
@@ -152,7 +152,7 @@ private theorem lemma119_innSet_su {K : Type} [Field K] [CharP K 2] {d n : ℕ}
     (H : Subgroup (GL (Fin d) K)) (hH : H ≤ LargeEvenSUGroup (Fin d) K (2 ^ n)) :
     LargeEvenInnSet (LargeEvenProj H) ⊆
       LargeEvenMatConjImage (LargeEvenProjMk H) (LargeEvenGUSet (Fin d) K (2 ^ n)) :=
-  lemma119_innSet_gen H _ (fun h hh => lemma119_su_mem_gu (hH hh))
+  lemma119_innSet_gen H _ (fun _h hh => lemma119_su_mem_gu (hH hh))
 
 private theorem lemma119_recipeLinear_inn {d N : ℕ} {Q : LargeEvenRawCont}
     (h : LargeEvenRecipeLinear d N Q) :
@@ -192,7 +192,7 @@ private theorem largeEvenMarking_of_rawDatum_inn {X : Type} [Group X]
     (hQ : ∀ (R : Type) [Group R] (I F : Set (MulAut R)), Q R I F →
       Nonempty (X ⧸ Subgroup.center X ≃* R) ∧ LargeEvenInnSet R ⊆ I) :
     LargeEvenMarking X (fun lab R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet R ⊆ I) := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨hX.1, lab, hlab, ?_⟩
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hInn⟩ := hQ R I F hRI
@@ -333,7 +333,7 @@ theorem isQuasisimple_largeEvenMarking_commutator_of_equiv_statedSp_two {G : Typ
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {T : Subgroup G}
     (e : ↥T ≃* ↥(StatedSp 2 K)) :
     CFSG.Assembly.IsQuasisimple ↥⁅T, T⁆ ∧
-      LargeEvenMarking ↥⁅T, T⁆ (fun lab R _ I _ θ => GGChevStTag lab ∧
+      LargeEvenMarking ↥⁅T, T⁆ (fun lab _R _ I _ θ => GGChevStTag lab ∧
         ∀ α ∈ {α : MulAut ↥⁅T, T⁆ | ∃ t ∈ T, ∀ y : ↥⁅T, T⁆,
             ((α y : ↥⁅T, T⁆) : G) = t⁻¹ * (y : G) * t},
           ∃ φ ∈ I, ∀ y : ↥⁅T, T⁆, φ (θ (QuotientGroup.mk y)) =
@@ -383,21 +383,21 @@ theorem isQuasisimple_largeEvenMarking_commutator_of_equiv_statedSp_two {G : Typ
     CFSG.LocalCores.isQuasisimple_of_mulEquiv c₁.symm hSp4
   have hIsQ : CFSG.Assembly.IsQuasisimple ↥⁅T, T⁆ :=
     ⟨hqL.1.commutator_eq_top, hqL.2.1⟩
-  haveI hA₆ : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have hA₆ : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   obtain ⟨eRH⟩ := nonempty_largeEvenProj_equiv_of_card_two hK H
   obtain ⟨eR⟩ := nonempty_b2der_equiv_alternatingGroup hK
   have hSimpleR : IsSimpleGroup (LargeEvenProj H) := eR.isSimpleGroup
   let eA₆ : ↥⁅T, T⁆ ≃* ↥(alternatingGroup (Fin 6)) := e₁.trans (eRH.symm.trans eR)
   have hSimpleL : IsSimpleGroup ↥⁅T, T⁆ := eA₆.isSimpleGroup
-  haveI : Group.IsPerfect ↥⁅T, T⁆ := hqL.1
+  have : Group.IsPerfect ↥⁅T, T⁆ := hqL.1
   have hnabL : ∃ a b : ↥⁅T, T⁆, a * b ≠ b * a := by
     by_contra h
     push Not at h
     exact Group.IsPerfect.not_isMulCommutative _ ⟨⟨h⟩⟩
   have hnabR : ∃ a b : LargeEvenProj H, a * b ≠ b * a :=
     nonabelian_of_mulEquiv (e₁.trans eRH.symm) hnabL
-  haveI := hSimpleL
+  have := hSimpleL
   have hcenterL : Subgroup.center ↥⁅T, T⁆ = ⊥ :=
     center_eq_bot_of_isSimpleGroup_of_nonabelian hnabL
   have hscalarsH : (LargeEvenScalars (Fin 2 ⊕ Fin 2) K).subgroupOf H = ⊥ := by

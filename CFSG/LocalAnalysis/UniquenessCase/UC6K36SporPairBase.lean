@@ -27,21 +27,21 @@ structure SporFacts (s : TauCeti.SporadicName) : Prop where
 
 theorem SporFacts.center_eq_bot {s : TauCeti.SporadicName} (F : SporFacts s) :
     Subgroup.center (TauCeti.CFSGIndex.sporadic s).Group = ⊥ := by
-  haveI := F.simple
+  have := F.simple
   exact CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup F.nonabelian
 
 theorem noPlaneAt_of_sporPlaneKill {s : TauCeti.SporadicName} {p : ℕ} (F : SporFacts s) (hp : p.Prime)
     (hp2 : p ≠ 2) (h : SporPlaneKill s p) : NoPlaneAt s p := by
-  haveI := F.finite
-  haveI := F.simple
+  have := F.finite
+  have := F.simple
   intro Ē R
   exact not_sporPlaneConf_of_planeKill F.center_eq_bot hp hp2
     (h (TauCeti.CFSGIndex.sporadic s).Group F.simple F.nonabelian ⟨MulEquiv.refl _⟩).2
 
 theorem noPlaneAt_of_sporadicOnePairHolds {s : TauCeti.SporadicName} {p : ℕ} (F : SporFacts s)
     (hp : p.Prime) (hp2 : p ≠ 2) (h : SporadicOnePairHolds s p) : NoPlaneAt s p := by
-  haveI := F.finite
-  haveI := F.simple
+  have := F.finite
+  have := F.simple
   intro Ē R
   have e : (TauCeti.CFSGIndex.sporadic s).Group ≃* NativeSporadic.Carrier s := F.bridge.some.symm
   exact not_sporPlaneConf_of_planeGenOrExc F.center_eq_bot hp hp2
@@ -49,16 +49,16 @@ theorem noPlaneAt_of_sporadicOnePairHolds {s : TauCeti.SporadicName} {p : ℕ} (
 
 theorem noPlaneAt_of_centGen {s : TauCeti.SporadicName} {p : ℕ} (F : SporFacts s) (hp : p.Prime)
     (hp2 : p ≠ 2) (h : CentGen p (TauCeti.CFSGIndex.sporadic s).Group) : NoPlaneAt s p := by
-  haveI := F.finite
-  haveI := F.simple
+  have := F.finite
+  have := F.simple
   intro Ē R
   exact not_sporPlaneConf_of_planeGenOrExc F.center_eq_bot hp hp2
     (planeGenOrExc_of_centGen F.center_eq_bot F.outer hp hp2 h)
 
 theorem noPlaneAt_of_not_dvd {s : TauCeti.SporadicName} {p : ℕ} (F : SporFacts s) (hp : p.Prime)
     (hp2 : p ≠ 2) (h : ¬ p ^ 2 ∣ Nat.card (TauCeti.CFSGIndex.sporadic s).Group) : NoPlaneAt s p := by
-  haveI := F.finite
-  haveI := F.simple
+  have := F.finite
+  have := F.simple
   intro Ē R
   exact not_sporPlaneConf_of_planeGenOrExc F.center_eq_bot hp hp2
     (planeGenOrExc_of_not_dvd F.center_eq_bot

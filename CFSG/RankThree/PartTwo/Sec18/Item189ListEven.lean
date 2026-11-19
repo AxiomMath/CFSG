@@ -18,8 +18,8 @@ variable {Y : Type} [Group Y] {X Q : Subgroup Y} {Γ : Subgroup (MulAut Y)} {x :
 
 theorem absOutOrder_dvd_card_outer [Finite Y] (hX : X.Normal) :
     absOutOrder189 X ∣ Nat.card (Outer ↥X) := by
-  haveI := hX
-  haveI : Finite (MulAut ↥X) :=
+  have := hX
+  have : Finite (MulAut ↥X) :=
     Finite.of_injective (fun f : MulAut ↥X => (f : ↥X → ↥X)) DFunLike.coe_injective
   let φ : Y →* Outer ↥X :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥X)).comp
@@ -124,7 +124,7 @@ theorem two_pow_dvd_orderOf_of_swap_psl2 {Y : Type} [Group Y]
     (hne : U ≠ U') (hxU : x ∈ Subgroup.normalizer (U : Set Y))
     (hxU' : x ∈ Subgroup.normalizer (U' : Set Y))
     (hswap : U.map (MulAut.conj σ).toMonoidHom = U') : 2 ^ e ∣ orderOf σ := by
-  haveI := hX
+  have := hX
   obtain ⟨ex⟩ := e₀
   have hn2 : 2 ≤ n := by
     have h1 : 2 ^ 1 ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
@@ -207,7 +207,7 @@ theorem two_pow_dvd_orderOf_of_swap_psu3 {Y : Type} [Group Y]
     (hne : U ≠ U') (hxU : x ∈ Subgroup.normalizer (U : Set Y))
     (hxU' : x ∈ Subgroup.normalizer (U' : Set Y))
     (hswap : U.map (MulAut.conj σ).toMonoidHom = U') : 2 ^ (e + 1) ∣ orderOf σ := by
-  haveI := hX
+  have := hX
   obtain ⟨ex⟩ := e₀
   have hn2 : 2 ≤ n := by
     have h1 : 2 ^ 1 ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he

@@ -124,6 +124,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f : ℕ}
 
+omit [Finite K] in
 theorem mem_inner_of_mem_D_three [Finite (matrixProjectiveDerived Q)] (hg : OrthogonalGates Q f)
     {β : MulAut (matrixProjectiveDerived Q)} (hβD : β ∈ (linearConjugationHom Q).range)
     (hβp : β ^ 3 = 1) : β ∈ innerAut (matrixProjectiveDerived Q) := by

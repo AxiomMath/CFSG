@@ -225,7 +225,7 @@ theorem inverts_Obar (hodd : Nat.card (timmesfeldOddCore S.Mbar) ∣ 3)
     intro hc
     have hRc : ∀ r ∈ Rbar S g t, θ * r = r * θ := by
       have hle : Rbar S g t ≤ centralizer ({θ} : Set S.O) := by
-        rw [Rbar_eq_commutator_sup hCE H hNo C ht ht1 hVQ hΩ hN h6]
+        rw [Rbar_eq_commutator_sup H C ht ht1 hVQ hΩ hN h6]
         refine sup_le (fun y hy => ?_) (zpowers_le.mpr ?_)
         · rw [mem_centralizer_singleton_iff]
           exact hcomE y (hperf _ ((Subgroup.commutator_le_self _).trans Rbar_le_Mbar)

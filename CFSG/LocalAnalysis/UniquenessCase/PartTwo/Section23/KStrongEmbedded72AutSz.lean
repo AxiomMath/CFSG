@@ -23,38 +23,38 @@ theorem kf7_autSz_case
     (hN : CFSG.RankThree.PartOne.IsStronglyPEmbedded p N) :
     Group.IsSolvable ↥N := by
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨S, hSgrp, hSz, ⟨eL⟩⟩ := hshape
-  letI : Group S := hSgrp
+  let : Group S := hSgrp
   have hSM : CFSG.Blueprint.SuzukiModel S 2 5 :=
     (CFSG.Blueprint.LieModel.suzukiModel (G := S) hSz).2
-  haveI : Finite S := CFSG.LieType.Simplicity.fam_suzuki_finiteness S 2 5 hSM
+  have : Finite S := CFSG.LieType.Simplicity.fam_suzuki_finiteness S 2 5 hSM
   obtain ⟨-, a, ha, F, hFfield, hFfin, hf, hFcard, ⟨eS⟩⟩ := hSM
   have ha2 : a = 2 := by omega
   subst ha2
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
+  let : Field F := hFfield
+  let : Finite F := hFfin
   have hFcard' : Nat.card F = 2 ^ (2 * 2 + 1) := by
     rw [show 2 * 2 + 1 = 5 by norm_num]
     exact hFcard
   obtain ⟨-, hFsimple, hFnab⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suzukiGroup_simple_nonab
       (b := 2) (by norm_num) hFcard'
-  haveI : IsSimpleGroup (CFSG.Blueprint.suzukiGroup 2 F) := hFsimple
-  haveI : IsSimpleGroup S := eS.isSimpleGroup
+  have : IsSimpleGroup (CFSG.Blueprint.suzukiGroup 2 F) := hFsimple
+  have : IsSimpleGroup S := eS.isSimpleGroup
   have hSnab : ∃ x y : S, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hFnab
     refine ⟨eS.symm x, eS.symm y, fun h => hxy ?_⟩
     simpa using congrArg eS h
   set K : Subgroup X := genFittingFStar X with hKdef
   obtain ⟨hKs, -, hKn, -, -⟩ := kf7_setup hp (by norm_num) hO hLN hKL hN
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   let K' : Subgroup (MulAut S) := (K.subgroupOf L).map eL.toMonoidHom
   have hK'normal : K'.Normal :=
     (hKn.subgroupOf L).map eL.toMonoidHom eL.surjective
   have hK'simple : IsSimpleGroup ↥K' := by
-    haveI : IsSimpleGroup ↥(K.subgroupOf L) :=
+    have : IsSimpleGroup ↥(K.subgroupOf L) :=
       (Subgroup.subgroupOfEquivOfLe hKL).isSimpleGroup
     exact (eL.subgroupMap (K.subgroupOf L)).symm.isSimpleGroup
   have hK'eq : K' = innerAut S := by

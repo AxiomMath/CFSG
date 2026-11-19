@@ -249,6 +249,7 @@ theorem exists_pieces_cyc (hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (
       exact le_iSup_of_le j.succ (by simp)
 
 open Polynomial in
+omit [FiniteDimensional K V] in
 theorem IsPieceCyc.finrank_eq_orderOf {P : Submodule K V} (hP : IsPieceCyc Q g P)
     (hp : p.Prime) (hpl : p ≠ ringChar K) (hgp : g ^ p = 1)
     (hfix : ∀ s ∈ P, g s = s → s = 0) :
@@ -256,7 +257,7 @@ theorem IsPieceCyc.finrank_eq_orderOf {P : Submodule K V} (hP : IsPieceCyc Q g P
   classical
   set T : Module.End K V := g.toLinearMap with hT
   have hTP : ∀ x ∈ P, T x ∈ P := hP.2.2.1
-  haveI : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.1
+  have : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.1
   have hTp : T ^ p = 1 := by
     rw [hT, ← toLinearMap_pow, hgp]
     rfl
@@ -439,11 +440,11 @@ theorem exists_spin_conj_frameGroup_cyclic (hodd : Odd (Nat.card K)) {n : ℕ} (
     ∃ x : spinGroup (quadPlus n K), x * b * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
   have h2 : (2 : K) ≠ 0 := CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K hodd
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Invertible (2 : K) := invertibleOfNonzero h2
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd : (polarBilin (quadPlus n K)).Nondegenerate := nondegenerate_polarBilin_quadPlus n K
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   set g := spinAction (quadPlus n K) b with hg
   have hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus n K) :=

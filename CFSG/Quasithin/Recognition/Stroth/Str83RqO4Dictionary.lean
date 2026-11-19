@@ -57,6 +57,7 @@ theorem Z1_ne_Z2 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     exact (le_inf le_sup_left (le_sup_left.trans hP2Z2)).trans le_sup_left
   exact hZ1ne (eq_bot_of_le_bigB hfr.hF.1 hX h1 h2)
 
+omit [Finite G] in
 theorem normalizer_inf_le_bigB {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     P2 L1 L2 S ⊓ normalizer ((S ⊓ L2 : Subgroup G) : Set G) ≤ bigB L1 L2 S := by
@@ -86,24 +87,29 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 theorem map_Gv_x₁ (i : ℤ) :
     (t.Gv i).map (MulAut.conj t.x₁).toMonoidHom = t.Gv (-i) :=
   t.track.map_qv_x₁ Subgroup.le_normalizer Subgroup.le_normalizer i
 
+omit [Finite G] in
 theorem map_Gv_x₂ (i : ℤ) :
     (t.Gv i).map (MulAut.conj t.x₂).toMonoidHom = t.Gv (2 - i) :=
   t.track.map_qv_x₂ Subgroup.le_normalizer Subgroup.le_normalizer i
 
+omit [Finite G] in
 theorem map_Qv_x₁ (i : ℤ) :
     (t.Qv i).map (MulAut.conj t.x₁).toMonoidHom = t.Qv (-i) :=
   t.track.map_qv_x₁ (le_normalizer_pCoreOf 2 (P1 L1 L2 S))
     (le_normalizer_pCoreOf 2 (P2 L1 L2 S)) i
 
+omit [Finite G] in
 theorem map_Qv_x₂ (i : ℤ) :
     (t.Qv i).map (MulAut.conj t.x₂).toMonoidHom = t.Qv (2 - i) :=
   t.track.map_qv_x₂ (le_normalizer_pCoreOf 2 (P1 L1 L2 S))
     (le_normalizer_pCoreOf 2 (P2 L1 L2 S)) i
 
+omit [Finite G] in
 theorem map_Zv_x₁ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₁).toMonoidHom = t.Zv (-i) := by
   have hP1 : P1 L1 L2 S ≤ normalizer (Z1 L1 L2 S : Set G) :=
@@ -114,6 +120,7 @@ theorem map_Zv_x₁ (i : ℤ) :
       (A4.normalizer_le_normalizer_omegaOneCenterOf (Q2 L1 L2 S))
   exact t.track.map_qv_x₁ hP1 hP2 i
 
+omit [Finite G] in
 theorem map_Zv_x₂ (i : ℤ) :
     (t.Zv i).map (MulAut.conj t.x₂).toMonoidHom = t.Zv (2 - i) := by
   have hP1 : P1 L1 L2 S ≤ normalizer (Z1 L1 L2 S : Set G) :=
@@ -124,33 +131,41 @@ theorem map_Zv_x₂ (i : ℤ) :
       (A4.normalizer_le_normalizer_omegaOneCenterOf (Q2 L1 L2 S))
   exact t.track.map_qv_x₂ hP1 hP2 i
 
+omit [Finite G] in
 theorem x₁_mem_Gv_zero : t.x₁ ∈ t.Gv 0 := by
   rw [t.Gv_zero]
   exact t.track.x₁_mem
 
+omit [Finite G] in
 theorem x₁_not_mem_Gv_one : t.x₁ ∉ t.Gv 1 := by
   rw [t.Gv_one]
   exact t.track.x₁_not_mem
 
+omit [Finite G] in
 theorem x₂_mem_Gv_one : t.x₂ ∈ t.Gv 1 := by
   rw [t.Gv_one]
   exact t.track.x₂_mem
 
+omit [Finite G] in
 theorem x₂_not_mem_Gv_zero : t.x₂ ∉ t.Gv 0 := by
   rw [t.Gv_zero]
   exact t.track.x₂_not_mem
 
+omit [Finite G] in
 theorem GT_le_Gw (a b : ℤ) : t.GT ≤ t.Gw a b := by
   intro y hy
   exact mem_win_iff.mpr fun i _ _ => iInf_le (fun i : ℤ => t.Gv i) i hy
 
+omit [Finite G] in
 theorem GT_le_Gv (i : ℤ) : t.GT ≤ t.Gv i :=
   iInf_le (fun i : ℤ => t.Gv i) i
 
+omit [Finite G] in
 theorem K_le_GT : t.K ≤ t.GT := by
   intro x hx
   exact mem_iInf.mpr fun i => t.K_le_Gv i hx
 
+omit [Finite G] in
 theorem Gw_add_one (c : ℤ) : t.Gw c (c + 1) = t.Gv c ⊓ t.Gv (c + 1) := by
   ext y
   rw [mem_inf]
@@ -164,6 +179,7 @@ theorem Gw_add_one (c : ℤ) : t.Gw c (c + 1) = t.Gv c ⊓ t.Gv (c + 1) := by
       · exact h1
       · exact h2
 
+omit [Finite G] in
 theorem Gw_sub_one_add_one (c : ℤ) :
     t.Gw (c - 1) (c + 1) = t.Gv (c - 1) ⊓ t.Gv c ⊓ t.Gv (c + 1) := by
   ext y
@@ -180,6 +196,7 @@ theorem Gw_sub_one_add_one (c : ℤ) :
       · exact h2
       · exact h3
 
+omit [Finite G] in
 theorem x₁_mem_normalizer_pCoreOf_GT : t.x₁ ∈ normalizer (pCoreOf 2 t.GT : Set G) := by
   have hmap : (t.GT).map (MulAut.conj t.x₁).toMonoidHom = t.GT := by
     change (⨅ i : ℤ, t.Gv i).map (MulAut.conj t.x₁).toMonoidHom = ⨅ i : ℤ, t.Gv i
@@ -195,6 +212,7 @@ theorem x₁_mem_normalizer_pCoreOf_GT : t.x₁ ∈ normalizer (pCoreOf 2 t.GT :
     rwa [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact (normalizer_le_normalizer_pCoreOf 2 t.GT) hx
 
+omit [Finite G] in
 theorem x₂_mem_normalizer_pCoreOf_GT : t.x₂ ∈ normalizer (pCoreOf 2 t.GT : Set G) := by
   have hmap : (t.GT).map (MulAut.conj t.x₂).toMonoidHom = t.GT := by
     change (⨅ i : ℤ, t.Gv i).map (MulAut.conj t.x₂).toMonoidHom = ⨅ i : ℤ, t.Gv i
@@ -211,26 +229,29 @@ theorem x₂_mem_normalizer_pCoreOf_GT : t.x₂ ∈ normalizer (pCoreOf 2 t.GT :
     rwa [Subgroup.mem_normalizer_iff_map_conj_eq]
   exact (normalizer_le_normalizer_pCoreOf 2 t.GT) hx
 
+omit [Finite G] in
 theorem K_le_normalizer_pCoreOf_GT : t.K ≤ normalizer (pCoreOf 2 t.GT : Set G) :=
   t.K_le_GT.trans (le_normalizer_pCoreOf 2 t.GT)
 
 theorem pCoreOf_GT_le_Qv {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (i : ℤ) : pCoreOf 2 t.GT ≤ t.Qv i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX : IsPGroup 2 (pCoreOf 2 t.GT) := pCoreOf_isPGroup 2 t.GT
   have hXw : pCoreOf 2 t.GT ≤ t.Gw (i - 1) (i + 1) :=
     (pCoreOf_le 2 t.GT).trans (t.GT_le_Gw (i - 1) (i + 1))
   exact t.le_Qv_of_le_Gw hfr (u := i - 1) (w := i + 1) (j := i) (by omega) (by omega) hX hXw
 
+omit [Finite G] in
 theorem K_le_normalizer_Qv (i : ℤ) : t.K ≤ normalizer (t.Qv i : Set G) :=
-  fun x hx => t.Gv_le_normalizer_Qv i (t.K_le_Gv i hx)
+  fun _x hx => t.Gv_le_normalizer_Qv i (t.K_le_Gv i hx)
 
+omit [Finite G] in
 theorem K_le_normalizer_Zv (i : ℤ) : t.K ≤ normalizer (t.Zv i : Set G) :=
-  fun x hx => t.Gv_le_normalizer_Zv i (t.K_le_Gv i hx)
+  fun _x hx => t.Gv_le_normalizer_Zv i (t.K_le_Gv i hx)
 
 theorem K_comm {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     ∀ x ∈ t.K, ∀ y ∈ t.K, x * y = y * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBt1 : BenderType (oTwoQuot ↥L1) (2 * a + 1) 2 1 :=
     BenderType.suzuki a hfr.ha (Classical.choice hfr.hSz |>.trans
       (MulEquiv.subgroupCongr (szModel_eq_open_sz a).symm))
@@ -238,8 +259,8 @@ theorem K_comm {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     BenderType.linear f hfr.hf (Classical.choice hfr.hL2)
   have hc1 := card_isCyclic_of_hallTwoPrime hfr.hF.1.h1.sylow t.hD1hall t.hD1sup hBt1
   have hc2 := card_isCyclic_of_hallTwoPrime hfr.hF.1.h2.sylow t.hD2hall t.hD2sup hBt2
-  haveI : IsCyclic ↥t.D1 := hc1.2
-  haveI : IsCyclic ↥t.D2 := hc2.2
+  have : IsCyclic ↥t.D1 := hc1.2
+  have : IsCyclic ↥t.D2 := hc2.2
   have hcomm1 : ∀ x ∈ t.D1, ∀ y ∈ t.D1, x * y = y * x := by
     intro x hx y hy
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥t.D1) ⟨y, hy⟩)
@@ -327,7 +348,7 @@ theorem inf_L2_ne_map_x₂ {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   have hSle : S ≤ t.Qv 1 := hSQ.le.trans (sup_le le_rfl hTQ)
   have hQS : (t.Qv 1).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one, hQS] at h9
+  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one, hQS] at h9
   have h4 : 4 ≤ 2 ^ f :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
@@ -384,6 +405,7 @@ theorem L2_le_L0 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     hfr.hf hfr.hL2 hTsyl hT'syl hne hTX hT'X
   rwa [hX] at h
 
+omit [Finite G] in
 theorem L0_le_Gv_one : t.L0 ≤ t.Gv 1 := by
   have hS : S ≤ P2 L1 L2 S :=
     (le_sup_right : S ≤ bigB L1 L2 S).trans (le_sup_right : bigB L1 L2 S ≤ P2 L1 L2 S)
@@ -410,9 +432,11 @@ theorem Qv_le_Sm {a f : ℕ} (hfr : Frame L1 L2 S a f) :
       _ ≤ S.map (MulAut.conj t.x₂).toMonoidHom :=
           Subgroup.map_mono (t.Qv_zero.trans_le (Q1_le_S hfr.hF))
 
+omit [Finite G] in
 theorem L0_le_normalizer_Qv_one : t.L0 ≤ normalizer (t.Qv 1 : Set G) :=
   t.L0_le_Gv_one.trans (t.Gv_le_normalizer_Qv 1)
 
+omit [Finite G] in
 theorem L0_le_normalizer_Zv_one : t.L0 ≤ normalizer (t.Zv 1 : Set G) :=
   t.L0_le_Gv_one.trans (t.Gv_le_normalizer_Zv 1)
 
@@ -548,6 +572,7 @@ theorem Qv_one_not_le_Qv_zero {a f : ℕ}
         _ ≤ Q1 L1 L2 S := sup_le hTQ1 hQ
     exact false_of_S_le_Q1 hfr hSQ1
 
+omit [Finite G] in
 theorem map_W_x₂ : t.W.map (MulAut.conj t.x₂).toMonoidHom = t.W := by
   rw [W, Subgroup.map_inf (t.Qv 0) (t.Qv 2) (MulAut.conj t.x₂).toMonoidHom
     (MulAut.conj t.x₂).injective]
@@ -559,6 +584,7 @@ theorem map_W_x₂ : t.W.map (MulAut.conj t.x₂).toMonoidHom = t.W := by
     rwa [show (2 : ℤ) - 2 = 0 by norm_num] at e
   rw [e0, e2, inf_comm (t.Qv 2) (t.Qv 0)]
 
+omit [Finite G] in
 theorem map_Ap_x₂ : t.Ap.map (MulAut.conj t.x₂).toMonoidHom = t.Am := by
   rw [Ap, Am, Subgroup.map_inf (t.Qv 1) (t.Qv 0) (MulAut.conj t.x₂).toMonoidHom
     (MulAut.conj t.x₂).injective]
@@ -570,6 +596,7 @@ theorem map_Ap_x₂ : t.Ap.map (MulAut.conj t.x₂).toMonoidHom = t.Am := by
     rwa [sub_zero] at e
   rw [e1, e0]
 
+omit [Finite G] in
 theorem map_Am_x₂ : t.Am.map (MulAut.conj t.x₂).toMonoidHom = t.Ap := by
   rw [Ap, Am, Subgroup.map_inf (t.Qv 1) (t.Qv 2) (MulAut.conj t.x₂).toMonoidHom
     (MulAut.conj t.x₂).injective]

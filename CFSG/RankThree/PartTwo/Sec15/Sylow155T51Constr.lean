@@ -12,7 +12,7 @@ variable {M : Type} [Group M] [Finite M]
 
 theorem not_isPConstrained_quotient (h : ¬ CFSG.ABGLocalTools.IsPConstrained 3 M) :
     ¬ CFSG.ABGLocalTools.IsPConstrained 3 (M ⧸ CFSG.pPrimeCore 3 M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hq
   apply h
   rw [CFSG.LocalAnalysis.RankThreeTheoremC.isPConstrained_iff_hasPrimeConstraint] at hq ⊢
@@ -24,7 +24,7 @@ theorem not_isPConstrained_quotient (h : ¬ CFSG.ABGLocalTools.IsPConstrained 3 
 theorem exists_isComponent_of_not_isPConstrained
     (h : ¬ CFSG.ABGLocalTools.IsPConstrained 3 M) :
     ∃ Y : Subgroup (M ⧸ CFSG.pPrimeCore 3 M), CFSG.IsComponent Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hK⟩ :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs245b.exists_component_of_not_isPConstrained
       Nat.prime_three (CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3)

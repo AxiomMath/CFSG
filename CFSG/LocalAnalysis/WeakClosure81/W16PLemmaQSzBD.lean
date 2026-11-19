@@ -43,7 +43,7 @@ private theorem card_torusSzHom_range (a : ℕ) :
 
 private theorem rootSub_inf_torusSzHom_range (a : ℕ) :
     rootSub a ⊓ (torusSzHom a).range = ⊥ := by
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [card_rootSub, card_torusSzHom_range]
   have hodd : Odd (2 ^ (2 * a + 1) - 1) := by
     refine ⟨2 ^ (2 * a) - 1, ?_⟩
@@ -101,7 +101,7 @@ private theorem card_sup_rootSub_torusSzHom_range (a : ℕ) :
   rw [Nat.card_prod, card_rootSub, card_torusSzHom_range] at hcard
   exact hcard.symm
 
-theorem normalizer_rootSub_eq_sup {a : ℕ} (ha : 1 ≤ a) :
+theorem normalizer_rootSub_eq_sup {a : ℕ} (_ha : 1 ≤ a) :
     Subgroup.normalizer (rootSub a : Set ↥(Sz a)) = rootSub a ⊔ (torusSzHom a).range := by
   have hsup_le : rootSub a ⊔ (torusSzHom a).range ≤
       Subgroup.normalizer (rootSub a : Set ↥(Sz a)) :=

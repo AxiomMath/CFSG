@@ -26,7 +26,7 @@ open CFSG.Open (StatedLieTag)
 theorem ggLieBridge_inf_eq_bot_of_not_dvd {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     {D C : Subgroup X} (hD : IsElemAbelian p D) (hC : ¬ p ∣ Nat.card C) : D ⊓ C = ⊥ := by
   refine (Subgroup.eq_bot_iff_forall _).2 fun x hx => ?_
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_contra hx1
   have hord : orderOf x = p := orderOf_eq_prime (hD.2 x hx.1) hx1
   apply hC

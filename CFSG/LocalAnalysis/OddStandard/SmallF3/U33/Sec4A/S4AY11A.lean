@@ -108,6 +108,7 @@ theorem m11_fourGrp_sq (h : Ctx0 t L S x₁ x₂ lam rho) {g : G} (hg : g ∈ fo
   have := h.wreath.fourGrp_eq_omega.2.1.2 g hg
   rwa [pow_two] at this
 
+omit [Finite G] in
 theorem m11_fourGrp_le_B (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   have hx₁ : x₁ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
   have hx₂ : x₂ ∈ baseGrp x₁ x₂ := Subgroup.subset_closure (by simp)
@@ -119,7 +120,7 @@ theorem m11_fourGrp_le_B (x₁ x₂ : G) : fourGrp x₁ x₂ ≤ baseGrp x₁ x�
   · exact Subgroup.pow_mem _ (Subgroup.mul_mem _ hx₁ hx₂) 2
 
 theorem m11_fourGrp_le_Y (h : L41GPh10 t L S x₁ x₂ lam rho) :
-    fourGrp x₁ x₂ ≤ l41Y t x₁ x₂ rho := fun g hg =>
+    fourGrp x₁ x₂ ≤ l41Y t x₁ x₂ rho := fun _g hg =>
   (m11_mem_Y_iff h).mpr ⟨h.rfacts.fourGrp_le hg, m11_fourGrp_sq h.toCtx0 hg⟩
 
 theorem m11_Y_elem (h : L41GPh10 t L S x₁ x₂ lam rho) :
@@ -145,6 +146,7 @@ theorem m11_Y_inf_cent_t (h : L41GPh10 t L S x₁ x₂ lam rho) :
     rw [mem_invCent_iff]
     exact (m13_t_comm_base h.toL41GPh5 (m11_fourGrp_le_B x₁ x₂ hg)).symm
 
+omit [Finite G] in
 theorem m11_mem_closure_pair_iff {a b k : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) : k ∈ closure ({a, b} : Set G) ↔ k = 1 ∨ k = a ∨ k = b ∨ k = a * b := by
   have ha1 : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
@@ -166,7 +168,7 @@ theorem m11_mem_closure_pair_iff {a b k : G} (ha : a * a = 1) (hb : b * b = 1)
     | one => exact Or.inl rfl
     | mul x y _ _ hx hy =>
       rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;> rw [hx, hy] <;>
-        simp only [one_mul, mul_one, ha, hb, e1, e2, e3, e4, e5, e6, eq_self_iff_true, true_or,
+        simp only [one_mul, mul_one, ha, hb, e1, e2, e3, e4, e5, e6, true_or,
           or_true]
     | inv x _ hx =>
       rcases hx with hx | hx | hx | hx <;> rw [hx]
@@ -248,7 +250,7 @@ theorem m11_conj_Y (h : L41GPh10 t L S x₁ x₂ lam rho) {g : G}
 theorem m11_mem_normalizer_Y (h : L41GPh10 t L S x₁ x₂ lam rho) {g : G}
     (hg : g ∈ normalizer ((l41R t x₁ x₂ rho : Subgroup G) : Set G)) :
     g ∈ normalizer ((l41Y t x₁ x₂ rho : Subgroup G) : Set G) :=
-  mem_normalizer_of_conj_mem fun u hu => m11_conj_Y h hg hu
+  mem_normalizer_of_conj_mem fun _u hu => m11_conj_Y h hg hu
 
 end Y11A
 

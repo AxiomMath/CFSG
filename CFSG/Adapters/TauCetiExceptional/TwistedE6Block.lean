@@ -229,7 +229,7 @@ theorem e6_diag_eq_reflection {L : Type*} [Field L] {z : Matrix (Fin 54) (Fin 54
   simp only [e6Wt, Equiv.symm_apply_apply] at hw
   rcases hw with h | h | h
   · refine diag_eq_of_commute hz (hE i) ?_
-    simp [e6E, rootIntMatrix_apply', matrixWeight_apply, h, summandSign_cast_ne_zero]
+    simp [e6E, matrixWeight_apply, h, summandSign_cast_ne_zero]
   · have hfix : reflection i x = x := by
       cases x with
       | inl y =>
@@ -240,7 +240,7 @@ theorem e6_diag_eq_reflection {L : Type*} [Field L] {z : Matrix (Fin 54) (Fin 54
         simpa using h
     rw [hfix]
   · refine diag_eq_of_commute hz (hF i) ?_
-    simp [e6F, rootIntMatrix_apply', matrixWeight_apply, h, summandSign_cast_ne_zero]
+    simp [e6F, matrixWeight_apply, h, summandSign_cast_ne_zero]
 
 theorem e6_diag_eq_of_commute {L : Type*} [Field L] {z : Matrix (Fin 54) (Fin 54) L}
     (hz : ∀ a b, a ≠ b → z a b = 0) (hE : ∀ i, z * e6E L i = e6E L i * z)

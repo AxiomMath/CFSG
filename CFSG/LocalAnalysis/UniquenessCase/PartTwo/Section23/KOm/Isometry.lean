@@ -90,7 +90,7 @@ theorem exists_isoFix_of_mem_s16gNorm [Finite K] [CharP K 2] [Nonempty ι]
   have hpow : (μ A') ^ 2 ^ k = 1 := by
     rw [← map_pow, hA'1, map_one]
   have hodd : Odd (Nat.card K - 1) := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     have hK : Nat.card K = 2 ^ (n : ℕ) := by
       rw [Nat.card_eq_fintype_card]

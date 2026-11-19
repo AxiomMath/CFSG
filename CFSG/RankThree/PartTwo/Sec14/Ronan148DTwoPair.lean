@@ -31,7 +31,7 @@ theorem subgroupOf_le_theta {X N : Subgroup G} (hXN : X ≤ Subgroup.normalizer 
   · rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := (Subgroup.mem_normalizer_iff.mp (hXN g.2) n).mp hn
     simpa using this
-  · haveI := hNs
+  · have := hNs
     exact Group.isSolvable_of_isSolvable_injective hι
   · exact fun h3 => hN3 (h3.trans (Subgroup.card_dvd_of_injective ι hι))
 
@@ -73,7 +73,7 @@ theorem isCentralProductA6Covers_sup {a : G} (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1)
           solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three
         have hN : (θX.comap (Subgroup.inclusion hKX)).Normal := hθXn.comap _
         have hNs : Group.IsSolvable ↥(θX.comap (Subgroup.inclusion hKX)) := by
-          haveI := hθXs
+          have := hθXs
           let ι : ↥(θX.comap (Subgroup.inclusion hKX)) →* ↥θX :=
             { toFun := fun x => ⟨Subgroup.inclusion hKX x, x.2⟩
               map_one' := rfl

@@ -166,7 +166,7 @@ theorem weylTuple_simple_torV (h3 : ω ^ 3 = 1) (k : Fin Tag.E6.rank)
   have hsum : ∑ j, ((x j).val : ℤ) * (reflect .E6 k (Pi.single i 1)) j =
       ((x i).val : ℤ) - Tag.E6.cartan k i * ((x k).val : ℤ) := by
     simp only [reflect, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, mul_sub, Finset.sum_sub_distrib]
-    simp [Pi.single_apply, mul_comm, mul_left_comm]
+    simp [Pi.single_apply, mul_comm]
   have hn : ((((x i).val : ℤ) - Tag.E6.cartan k i * ((x k).val : ℤ) : ℤ) : ZMod 3) =
       x i - ((Tag.E6.cartan k i : ℤ) : ZMod 3) * x k := by
     push_cast

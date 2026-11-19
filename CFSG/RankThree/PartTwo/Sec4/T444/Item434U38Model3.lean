@@ -116,7 +116,7 @@ theorem conj_closure_mem {G : Type*} [Group G] (S : Set G) (K : Subgroup G) (g :
   intro h hh
   induction hh using Subgroup.closure_induction with
   | mem x hx => exact hS x hx
-  | one => simpa using K.one_mem
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -249,7 +249,7 @@ theorem card_P0 : Nat.card P0 = 5515776 := by
 theorem psiU38_apply (g : P0) (j : Fin 513) : psiU38 g j = ptsE (g • ptsE.symm j) := rfl
 
 theorem psiU38_injective : Function.Injective (psiU38) := by
-  haveI := faithfulSMul_isoPoint J64 J64_form 8 hK8 hfix8
+  have := faithfulSMul_isoPoint J64 J64_form 8 hK8 hfix8
   have h1 : Function.Injective (MulAction.toPermHom P0 (IsoPoint J64)) :=
     MulAction.toPerm_injective
   exact (Equiv.permCongrHom ptsE).injective.comp h1
@@ -309,7 +309,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 open CFSG.PGLModel (projSU)
 
 theorem statedModel_PSU3 : StatedClassicalModel (↥(CFSG.Open.PSU3 2 3)) .PSU 3 2 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨Nat.prime_two, by norm_num, le_rfl, by decide⟩, GaloisField 2 (2 * 3), inferInstance,
     inferInstance, ?_, ⟨?_⟩⟩
   · rw [GaloisField.card 2 (2 * 3) (by norm_num), ← pow_mul]

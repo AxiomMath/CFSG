@@ -17,12 +17,14 @@ section Inner
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem i271h_card_hatSix (hK : IsHatSix K) : Nat.card K = 1080 := by
   obtain ⟨-, hc, ⟨e⟩⟩ := hK
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center K), hc,
     Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
   simp [Nat.factorial]
 
+omit [Finite K] in
 theorem i271h_inner_index_dvd_four (hK : IsHatSix K) :
     (MulAut.conj : K →* MulAut K).range.index ∣ 4 := by
   have h1080 := i271h_card_hatSix hK
@@ -51,6 +53,7 @@ theorem i271h_inner_index_dvd_four (hK : IsHatSix K) :
     simpa using this
   exact Nat.dvd_of_mul_dvd_mul_left (by norm_num) h360
 
+omit [Finite K] in
 theorem i271h_mem_inner_of_pow_three (hK : IsHatSix K) {α : MulAut K} (h3 : α ^ 3 = 1) :
     α ∈ (MulAut.conj : K →* MulAut K).range := by
   have hdvd := i271h_inner_index_dvd_four hK

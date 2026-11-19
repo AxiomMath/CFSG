@@ -95,7 +95,7 @@ theorem HeSetup.stepKer (S : HeSetup G) (hB : S.BaseFacts) (hP : S.StepPsi) (hSp
   have hL2L : S.L2 ≤ S.L := le_sup_right
   obtain ⟨g₀, hg₀2, hg₀1⟩ : ∃ g₀ ∈ S.L2, g₀ ∉ S.L1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : S.L2 ≤ S.K := by
       rw [← hB.L1_inf_L2]
       exact le_inf (fun g h => hcon g h) le_rfl
@@ -117,7 +117,7 @@ theorem HeSetup.stepKer (S : HeSetup G) (hB : S.BaseFacts) (hP : S.StepPsi) (hSp
     he42ke_le_ker hψ₂ hRK fun l hl r hr => he42ke_R_normal S (hL2L hl) hr
   obtain ⟨g₁, hg₁1, hg₁K⟩ : ∃ g₁ ∈ S.L1, g₁ ∉ S.K := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hc := Subgroup.card_le_of_le (fun g h => hcon g h : S.L1 ≤ S.K)
     rw [hB.card_L1, hB.card_K] at hc
     omega

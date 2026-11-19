@@ -52,13 +52,13 @@ theorem exists_conj_mulAut_preserves_complement {Γ : Type*} [Group Γ] [Finite 
     (hUT : U.IsComplement' T) (σ : MulAut Γ) :
     (∀ b, b ∈ U ↔ σ b ∈ U) ∧ ∃ e ∈ U, ∀ b, b ∈ T ↔ (MulAut.conj e * σ) b ∈ T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ U.index := by
     rw [hUT.symm.index_eq_card]
     exact hT.not_two_dvd_nat
   have key : ∀ α : MulAut Γ, U.map α.toMonoidHom ≤ U := by
     intro α
-    haveI : (U.map α.toMonoidHom).Normal := hUn.map α.toMonoidHom α.surjective
+    have : (U.map α.toMonoidHom).Normal := hUn.map α.toMonoidHom α.surjective
     have h := (hU.map α.toMonoidHom).le_sylow_of_normal (hU.toSylow hidx)
     rwa [IsPGroup.toSylow_coe] at h
   have hσU : U.map σ.toMonoidHom = U :=
@@ -198,8 +198,8 @@ theorem dcProp_g2 [Finite K] [CharP K 2] {f : ℕ}
       exact ⟨⟨⟨g, borelGroup_le_adjointGroup' hg⟩, mem_g2ParA_inf_g2ParB.2 hg⟩, rfl⟩
     · rintro ⟨b, rfl⟩
       exact mem_g2ParA_inf_g2ParB.1 b.2
-  haveI := finite_modGL (τ := Tag.G2) (K := K)
-  haveI hUn := comap_posUnipotent_normal ι hrange
+  have := finite_modGL (τ := Tag.G2) (K := K)
+  have hUn := comap_posUnipotent_normal ι hrange
   obtain ⟨hσU, e, -, heT⟩ := exists_conj_mulAut_preserves_complement
     (isPGroup_comap_posUnipotent ι hι hK) (odd_card_comap_torusGroup ι hι hrange hK (by omega))
     (isComplement'_comap ι hι hrange) σ

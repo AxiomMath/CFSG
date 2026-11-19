@@ -44,7 +44,7 @@ private theorem isCyclic_sylow_three_of_not_nine_dvd
   have hSdvd : Nat.card ↥(S : Subgroup A) ∣ Nat.card A := by
     simpa using Subgroup.card_dvd_of_le (H := (S : Subgroup A)) (K := ⊤) le_top
   have h9S : ¬ 9 ∣ Nat.card ↥(S : Subgroup A) := fun h => h9 (h.trans hSdvd)
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hnle : n ≤ 1 := by
     by_contra h
     apply h9S
@@ -54,7 +54,7 @@ private theorem isCyclic_sylow_three_of_not_nine_dvd
   have hn01 : n = 0 ∨ n = 1 := by omega
   rcases hn01 with rfl | rfl
   · have hS1 : Nat.card ↥(S : Subgroup A) = 1 := by simpa using hn
-    haveI : Subsingleton ↥(S : Subgroup A) := (Nat.card_eq_one_iff_unique.mp hS1).1
+    have : Subsingleton ↥(S : Subgroup A) := (Nat.card_eq_one_iff_unique.mp hS1).1
     exact isCyclic_of_subsingleton
   · have hS3 : Nat.card ↥(S : Subgroup A) = 3 := by simpa using hn
     exact isCyclic_of_prime_card (p := 3) hS3
@@ -154,7 +154,7 @@ private theorem inf_center_eq_bot_of_hexad
         CFSG.Quasithin.F420.center_eq_bot_of_mulEquiv' φ
           (alternatingGroup.center_eq_bot (by norm_num))
       have hperf : Group.IsPerfect (↥L ⧸ CFSG.pCore 2 ↥L) := by
-        letI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hK.perfect
+        let : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hK.perfect
         exact Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L))
       obtain ⟨hcardC, ⟨eC⟩⟩ :=
         CFSG.SectionRank.QTK.Insp443.center_quot_pCore_of_le (K := K) (Z := Z) (L := L)
@@ -168,7 +168,7 @@ theorem conclK_M22
     {L V MK : Subgroup (NativeSporadic.Carrier .M22)}
     (h : KConfig (NativeSporadic.Carrier .M22) L V MK) :
     ConclK (NativeSporadic.Carrier .M22) L V MK := by
-  haveI : Finite (NativeSporadic.Carrier .M22) := by
+  have : Finite (NativeSporadic.Carrier .M22) := by
     change Finite ↥NativeSporadic.M22
     infer_instance
   obtain ⟨g, hg | hg | hg⟩ := KConfig.m22_cases h

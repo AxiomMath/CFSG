@@ -11,7 +11,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB
 
 @[expose] def LocalPFactorStatement : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
-    (h : Cex1310 G m p B M E A D T R L0 d) (h139a : Prop139a p M D),
+    (_h : Cex1310 G m p B M E A D T R L0 d) (_h139a : Prop139a p M D),
     CFSG.GH74.GLS.oResidual p ↥(Subgroup.normalizer ((CFSG.GH74.GLS.Bg.kLowInfty R : Subgroup G) : Set G)) ≠ ⊤
 
 theorem oResidual_normal (p : ℕ) (X : Type) [Group X] :

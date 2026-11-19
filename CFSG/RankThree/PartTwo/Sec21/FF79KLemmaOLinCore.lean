@@ -35,7 +35,7 @@ theorem prime_power_le_five {p f : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) (hf : 1 �
   refine ⟨hf2, ?_⟩
   interval_cases f
   · have hp5 : p ≤ 5 := by simpa using h5
-    interval_cases p <;> simp_all <;> revert hp <;> decide
+    interval_cases p <;> simp_all
   · have hp2 : p ≤ 2 := by
       by_contra hp2
       have : 3 ^ 2 ≤ p ^ 2 := Nat.pow_le_pow_left (by omega) 2

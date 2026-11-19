@@ -130,7 +130,7 @@ theorem false_of_perfect_of_solvable_quot {P S Q : Type*} [Group P] [Group S] [G
   set N' := N.map φ
   have hN' : N'.Normal := ψ.normal_ker.map φ hφ
   have hsolvPN : Group.IsSolvable (P ⧸ N) :=
-    solvable_of_surjective (f := (QuotientGroup.quotientKerEquivRange ψ).symm.toMonoidHom)
+    Group.isSolvable_of_surjective (f := (QuotientGroup.quotientKerEquivRange ψ).symm.toMonoidHom)
       (QuotientGroup.quotientKerEquivRange ψ).symm.surjective
   let θ : P ⧸ N →* S ⧸ N' := QuotientGroup.map N N' φ (Subgroup.le_comap_map φ N)
   have hθ : Function.Surjective θ := by
@@ -138,7 +138,7 @@ theorem false_of_perfect_of_solvable_quot {P S Q : Type*} [Group P] [Group S] [G
     obtain ⟨s, rfl⟩ := QuotientGroup.mk'_surjective N' y
     obtain ⟨p, rfl⟩ := hφ s
     exact ⟨QuotientGroup.mk p, rfl⟩
-  have hsolv : Group.IsSolvable (S ⧸ N') := solvable_of_surjective hθ
+  have hsolv : Group.IsSolvable (S ⧸ N') := Group.isSolvable_of_surjective hθ
   have hperf : _root_.commutator (S ⧸ N') = ⊤ := by
     rw [_root_.commutator, ← Subgroup.map_top_of_surjective (QuotientGroup.mk' N')
       (QuotientGroup.mk'_surjective N'), ← Subgroup.map_commutator, ← _root_.commutator, hS]
@@ -149,7 +149,7 @@ theorem false_of_perfect_of_solvable_quot {P S Q : Type*} [Group P] [Group S] [G
       intro hsub
       refine hne (eq_top_iff.2 fun s _ => ?_)
       exact (QuotientGroup.eq_one_iff s).1 (Subsingleton.elim _ _)
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (S ⧸ N')).ne hperf
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (S ⧸ N')).ne hperf
   have hdvd : Nat.card S ∣ Nat.card N := by
     have h := Subgroup.card_map_dvd N φ
     rwa [show N.map φ = N' from rfl, htop, Subgroup.card_top] at h
@@ -359,7 +359,7 @@ theorem normalizer_le_of_perfect (D : Data G) {p : ℕ} (hp : p.Prime) (hp2 : p 
     have : Group.IsSolvable
         ↥(((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := hsol
     have hψ : Group.IsSolvable ψ.range :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
     have hker : ψ.ker.map (Subgroup.inclusion hPH) ≤ CFSG.pPrimeCore p ↥H := by
       rintro _ ⟨x, hx, rfl⟩
       exact (QuotientGroup.eq_one_iff _).1 hx

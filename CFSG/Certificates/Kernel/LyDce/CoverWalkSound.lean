@@ -32,11 +32,8 @@ theorem cwS_walk {Nc Nd P K Tc Td : Nat} {Q : Nat → Prop} (hc : ∀ X, Q X →
       rw [hdr] at h
       dsimp only at h
       rw [cwS_strictBN] at h
-      beta_reduce at h
       rw [cwS_strictBN] at h
-      beta_reduce at h
       rw [cwS_strictBN] at h
-      beta_reduce at h
       obtain ⟨h1, h2⟩ := cwS_andB h
       have hmem : ∀ t ∈ top :: rest, t ∈ st := fun t ht => List.mem_of_mem_drop (hdr ▸ ht)
       obtain ⟨hq, hqc, hqd⟩ := hst top (hmem top List.mem_cons_self)

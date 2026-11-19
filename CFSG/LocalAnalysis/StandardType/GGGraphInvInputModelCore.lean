@@ -74,11 +74,11 @@ theorem ggGraphInv_component_false_of_solvable {G : Type} [Group G] {X L : Subgr
   have hLX : L ≤ X := hL.1
   have hcomm : commutator ↥L = ⊤ := hL.2.2.1
   have hsimple : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hsimple
-  haveI : Group.IsSolvable ↥L :=
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hsimple
+  have : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLX)
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hcomm
-  haveI : Nontrivial ↥L :=
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hcomm
+  have : Nontrivial ↥L :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥L inferInstance
 
@@ -96,7 +96,7 @@ private theorem ggOmW6cA_card_quotient_inner_le (C : Type) [Group C] [Finite C]
     (hsup : ∀ α : MulAut C, ∃ i ∈ (MulAut.conj : C →* MulAut C).range, ∃ c ∈ C', α = i * c)
     (hcard : Nat.card C' ≤ 2) :
     Nat.card (MulAut C ⧸ (MulAut.conj : C →* MulAut C).range) ≤ 2 := by
-  haveI hIn : ((MulAut.conj : C →* MulAut C).range).Normal := ggOmW6cA_inner_range_normal C
+  have hIn : ((MulAut.conj : C →* MulAut C).range).Normal := ggOmW6cA_inner_range_normal C
   have hsurj : Function.Surjective
       ((QuotientGroup.mk' ((MulAut.conj : C →* MulAut C).range)).comp C'.subtype) := by
     intro x
@@ -115,7 +115,7 @@ private theorem ggOmW6cA_index_subgroupOf_le_card_quotient (C : Type) [Group C] 
     (S : Subgroup (MulAut C)) :
     (((MulAut.conj : C →* MulAut C).range).subgroupOf S).index ≤
       Nat.card (MulAut C ⧸ (MulAut.conj : C →* MulAut C).range) := by
-  haveI hIn : ((MulAut.conj : C →* MulAut C).range).Normal := ggOmW6cA_inner_range_normal C
+  have hIn : ((MulAut.conj : C →* MulAut C).range).Normal := ggOmW6cA_inner_range_normal C
   have hker : MonoidHom.ker
       ((QuotientGroup.mk' ((MulAut.conj : C →* MulAut C).range)).comp S.subtype) =
       ((MulAut.conj : C →* MulAut C).range).subgroupOf S := by
@@ -285,7 +285,6 @@ private theorem ggOmW6cE_b_ne_one {d : ℕ} {K : Type} [Field K] (b : GL (Fin d)
     change LinearMap.ker
       (Matrix.toLin' (1 : Matrix (Fin d) (Fin d) K) - LinearMap.id) = ⊤
     rw [Matrix.toLin'_one]
-    change LinearMap.ker (LinearMap.id - LinearMap.id) = ⊤
     rw [sub_self, LinearMap.ker_zero]
   have hle1 : Module.finrank K
       (LinearMap.ker (Matrix.toLin' (b : Matrix (Fin d) (Fin d) K) - LinearMap.id)) ≤
@@ -345,7 +344,7 @@ private theorem ggOmW6cE_normal_two_subgroup_bot {d : ℕ} {K : Type} [Field K]
     let zg : G := ⟨(z : GL (Fin d) K), hzG⟩
     have hzgf : zg ∈ ggFixSubgroup α := by
       rw [hfix]
-      exact Subgroup.mem_subgroupOf.mpr (by simpa [zg] using z.2)
+      exact Subgroup.mem_subgroupOf.mpr (by simp [zg])
     have hmem := hNnorm m hmN zg hzgf
     have hiso : ((z * n * z⁻¹ : CΩ) : GL (Fin d) K) =
         G.subtype (zg * m * zg⁻¹) := by
@@ -408,7 +407,7 @@ theorem ggGraphInv_three_conclusions_of_transvection {d : ℕ} {K : Type} [Field
         CFSG.Open.StatedOmega ⇑Φ, s * g = g * s)
     (hconj : GGGraphInvConjBy Φ α s) :
     Nat.card K = 2 ∧ GGGraphInvFixClauses α := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hb' : b ∈ matrixDerived Φ := by
     rw [matrixDerived_eq_statedOmega Φ]
     exact hb

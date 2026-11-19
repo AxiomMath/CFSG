@@ -28,7 +28,7 @@ theorem conj_t_cases (ha : Ctx4P t L S x₁ x₂ lam rho tau) {B : Subgroup G} {
   have ht2 : t * t = 1 := T_sq hc t (Subgroup.subset_closure (Set.mem_insert t {tau}))
   have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   have hact : ∀ b ∈ (B : Set G), w * b * w⁻¹ = t * b * t⁻¹ :=
-    conj_act_eq (fourGrp x₁ x₂) (B : Set G) p t (V_sq hc) (P_comm_V ha p hp)
+    conj_act_eq (fourGrp x₁ x₂) (B : Set G) p t (V_sq hc) (P_comm_V p hp)
       (fun v hv => V_comm_O hc hc.t_mem_O hv)
       (fun b hb => hB.P_comm b hb p hp)
       (fun b hb => O_comm_le hc hc.t_mem_O (hc.Q_le_O (hB.le_Q hb)))

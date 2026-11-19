@@ -19,6 +19,7 @@ section Sigma
 
 variable {z : G} {F : Subgroup G}
 
+omit [Finite G] in
 theorem sq_mul_eq (hF : Width.CData z F) {x y : G} (hx : x ∈ F) (hy : y ∈ F) :
     (x * y) ^ 2 = ⁅x, y⁆ * x ^ 2 * y ^ 2 := by
   have hx2 : y * x ^ 2 = x ^ 2 * y := by
@@ -32,6 +33,7 @@ theorem sq_mul_eq (hF : Width.CData z F) {x y : G} (hx : x ∈ F) (hy : y ∈ F)
         rw [hx2, pow_two y]
         group
 
+omit [Finite G] in
 theorem sqBit_mul (hF : Width.CData z F) {x y : G} (hx : x ∈ F) (hy : y ∈ F) :
     sqBit z (x * y) = sqBit z x + sqBit z y + Width.cbit z x y := by
   have hzz : z * z = 1 := Width.zz_eq hF
@@ -42,17 +44,21 @@ theorem sqBit_mul (hF : Width.CData z F) {x y : G} (hx : x ∈ F) (hy : y ∈ F)
     rcases hcc with hc | hc <;>
     simp [sqBit, Width.cbit, h1, hx2, hy2, hc, hzz, hz1, hz1.symm] <;> decide
 
+omit [Finite G] in
 theorem sqBit_one (hF : Width.CData z F) : sqBit z (1 : G) = 0 := by
   have hz1 : z ≠ 1 := hF.z1
   simp [sqBit, hz1.symm]
 
+omit [Finite G] in
 theorem sqBit_of_sq_eq_one (hF : Width.CData z F) {x : G} (hx : x ^ 2 = 1) : sqBit z x = 0 := by
   have hz1 : z ≠ 1 := hF.z1
   simp [sqBit, hx, hz1.symm]
 
-theorem sqBit_of_sq_eq (hF : Width.CData z F) {x : G} (hx : x ^ 2 = z) : sqBit z x = 1 := by
+omit [Finite G] in
+theorem sqBit_of_sq_eq (_hF : Width.CData z F) {x : G} (hx : x ^ 2 = z) : sqBit z x = 1 := by
   simp [sqBit, hx]
 
+omit [Finite G] in
 theorem sqBit_conj (hF : Width.CData z F) {x h : G} (hxF : x ∈ F) (hh : h ∈ Hz z) :
     sqBit z (h * x * h⁻¹) = sqBit z x := by
   have hhz : h * z = z * h := Subgroup.mem_centralizer_singleton_iff.mp hh

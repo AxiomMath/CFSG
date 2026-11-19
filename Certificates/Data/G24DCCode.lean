@@ -192,7 +192,7 @@ theorem decode_mulN (A B : Mat) : decode (mulN A B) = decode A * decode B := by
   rw [Finset.sum_fin_eq_sum_range]
   apply Finset.sum_congr rfl
   intro j hj
-  rw [dif_pos (Finset.mem_range.mp hj)]
+  rw [dite_eq_left (Finset.mem_range.mp hj)]
 
 theorem rowVal_oneM (i j : Nat) (hj : j < 14) :
     rowVal (oneM.getD i zeroRow) j = if j = i then 1 else 0 := by
@@ -204,12 +204,12 @@ theorem rowVal_oneM (i j : Nat) (hj : j < 14) :
     rw [rowVal, hrow]
     by_cases h : j = i
     · subst h
-      simp [Nat.testBit_two_pow]
+      simp
     · have hne : i ≠ j := fun h' => h h'.symm
-      simp [h, Nat.testBit_two_pow, hne]
+      simp [h, hne]
   · have hne : j ≠ i := by omega
     have hnone : (List.finRange 14)[i]? = none := List.getElem?_eq_none (by simp; omega)
-    simp [oneM, rowVal, zeroRow, hne, hnone]
+    simp [rowVal, zeroRow, hne, hnone]
 
 theorem decCode_zero : decCode 0 = 0 := rfl
 
@@ -220,9 +220,9 @@ theorem decode_oneM : decode oneM = 1 := by
   rw [decode, Matrix.of_apply, Matrix.one_apply, rowVal_oneM i.val j.val j.isLt]
   by_cases h : i = j
   · have hji : j.val = i.val := by rw [h]
-    rw [if_pos hji, if_pos h, decCode_one]
+    rw [ite_eq_left hji, ite_eq_left h, decCode_one]
   · have hji : j.val ≠ i.val := fun hv => h (Fin.ext hv.symm)
-    rw [if_neg hji, if_neg h, decCode_zero]
+    rw [ite_eq_right hji, ite_eq_right h, decCode_zero]
 
 theorem decode_eq_of_matEq {A B : Mat} (h : matEq A B = true) : decode A = decode B := by
   have hAB : A = B := beq_iff_eq.mp (by simpa [matEq] using h)

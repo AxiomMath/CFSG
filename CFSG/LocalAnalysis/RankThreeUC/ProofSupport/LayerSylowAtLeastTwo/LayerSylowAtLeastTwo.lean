@@ -17,6 +17,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_conj_self {C : Subgroup G} {c : G} (hc : c ∈ C) :
     C.map (MulAut.conj c).toMonoidHom = C := by
   ext x
@@ -28,6 +29,7 @@ private theorem map_conj_self {C : Subgroup G} {c : G} (hc : c ∈ C) :
     refine ⟨c⁻¹ * x * c, C.mul_mem (C.mul_mem (C.inv_mem hc) hx) hc, ?_⟩
     group
 
+omit [Finite G] in
 theorem le_normalizer_layer (C : Subgroup G) :
     C ≤ Subgroup.normalizer ((CFSG.Open.rankThreeLayer C : Subgroup G) : Set G) := by
   intro c hc
@@ -54,7 +56,7 @@ theorem isSylow {p : ℕ} (hp : p.Prime) {P P₀ : Subgroup G}
     CFSG.ABGLocalTools.IsSylowOf p
       (P ⊓ CFSG.Open.rankThreeLayer (Subgroup.centralizer (P₀ : Set G)))
       (CFSG.Open.rankThreeLayer (Subgroup.centralizer (P₀ : Set G))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hC : CFSG.ABGLocalTools.IsSylowOf p P (Subgroup.centralizer (P₀ : Set G)) :=
     hP.of_le hPC le_top
   have hle : CFSG.Open.rankThreeLayer (Subgroup.centralizer (P₀ : Set G)) ≤
@@ -63,10 +65,11 @@ theorem isSylow {p : ℕ} (hp : p.Prime) {P P₀ : Subgroup G}
       (CFSG.Quasithin.perfectCore_le _)
   exact hC.inf_of_le_normalizer hle (le_normalizer_layer _)
 
+omit [Finite G] in
 private theorem elemAbelian_map {K : Type*} [Group K] {p : ℕ} {E : Subgroup K}
     (hE : CFSG.Open.IsElemAbelian p E) (f : K →* G) (hf : Function.Injective f) :
     CFSG.Open.IsElemAbelian p (E.map f) ∧ Nat.card (E.map f) = Nat.card E := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨⟨?_⟩⟩, ?_⟩, (Nat.card_congr (E.equivMapOfInjective f hf).toEquiv).symm⟩
   · rintro ⟨x, a, ha, rfl⟩ ⟨y, b, hb, rfl⟩
     apply Subtype.ext

@@ -28,7 +28,7 @@ theorem card_conj (r : Lg) :
       (Finset.univ.filter fun l : Lg => l ∈ BL).card := by
   apply Finset.card_equiv (MulAut.conj r⁻¹).toEquiv
   intro l
-  simp [MulAut.conj_apply, mul_assoc]
+  simp [mul_assoc]
 
 theorem card_F9 : Fintype.card F9 = 9 := by
   rw [Fintype.card_congr F9.equivProd, Fintype.card_prod, ZMod.card]

@@ -134,7 +134,7 @@ theorem nl1_le_norm : decSubgroup nl1Decs ≤
   | mem y hy =>
     obtain ⟨i, hi, rfl⟩ := hy
     exact conj_gen_mem hj hi
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     have e : ngp j * (a * b) * (ngp j)⁻¹ =
         (ngp j * a * (ngp j)⁻¹) * (ngp j * b * (ngp j)⁻¹) := by group
@@ -168,7 +168,7 @@ theorem cl1_le_norm_m1 : decSubgroup cl1Decs ≤
   | mem y hy =>
     obtain ⟨l, hl, rfl⟩ := hy
     exact conj_m1_gen hj hl
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     have e : (cgp j)⁻¹ * (a * b) * cgp j =
         ((cgp j)⁻¹ * a * cgp j) * ((cgp j)⁻¹ * b * cgp j) := by group

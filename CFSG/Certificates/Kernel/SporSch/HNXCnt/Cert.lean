@@ -20,6 +20,7 @@ theorem andB_true' {a b : Bool} (h : CFSG.KC.Ord.andB a b = true) : a = true ∧
   revert h
   cases a <;> cases b <;> decide
 
+set_option exponentiation.threshold 399 in
 theorem constsM {CM3 M : Nat} (hc : constsOK CM3 M = true) : M = 2 ^ 399 - 1 := by
   unfold constsOK at hc
   have h := ((CFSG.KS.bAnd_iff _ _).1 hc).2
@@ -28,6 +29,7 @@ theorem constsM {CM3 M : Nat} (hc : constsOK CM3 M = true) : M = 2 ^ 399 - 1 := 
   change (1 <<< 399) - 1 = _
   rw [Nat.shiftLeft_eq, Nat.one_mul]
 
+set_option exponentiation.threshold 399 in
 theorem xv_leaf (T : Nat → Nat) (b r : Nat) (hr : r < 64) :
     xv T (64 * b + r) = T b / 2 ^ (464 * r) % 2 ^ 399 := by
   unfold xv
@@ -44,6 +46,7 @@ theorem hnxC_le (b : Nat) : hnxC b ≤ 64 := by
   rw [hnxC_eq]
   split <;> omega
 
+set_option exponentiation.threshold 399 in
 theorem rootRun_spec {V : Nat} : ∀ (cs : List Char) (k : Nat), rootRun V cs k = true →
     k + cs.length = 133 ∧ V < 2 ^ 399 ∧ ∀ m (hm : m < cs.length),
       48 ≤ (cs[m]).toNat ∧ (cs[m]).toNat ≤ 52 ∧ (cs[m]).toNat - 48 = V / 2 ^ (3 * (k + m)) % 8
@@ -106,7 +109,7 @@ theorem root_vec {V : Nat} {cs : List Char} (h : rootK V cs = true) :
       have hd : ('0' ≤ cs[m] && cs[m] ≤ '9') = true := by
         simp only [Bool.and_eq_true, decide_eq_true_eq, char_le_iff]
         exact ⟨by simpa using a, by have : '9'.toNat = 57 := rfl; omega⟩
-      rw [hd, if_pos rfl, Nat.shiftRight_eq_div_pow, ← c]
+      rw [hd, ite_eq_left rfl, Nat.shiftRight_eq_div_pow, ← c]
       rfl
   · obtain ⟨a, b, c⟩ := hc j (by omega)
     omega
@@ -142,6 +145,7 @@ theorem core_count (h : HNXChecks D T CNT SGT MS CM3 M GA GB W1 W2 V0C cs1 cs2 c
     rw [Nat.eq_of_beq_eq_true hc]; exact hcnt _ hb'
   rw [← Nat.eq_of_beq_eq_true hc, (coreLeaf_sound (hnxC_le _) hlt).2]
 
+set_option exponentiation.threshold 399 in
 theorem img_lanes {CM3 M MS G W : Nat} (hc : constsOK CM3 M = true) (hm : masksOK MS = true)
     (hG : G = trM W) (hv : validHN W = true) {T : Nat → Nat} {b c r t : Nat} (hc64 : c ≤ 64)
     (hr : r < c)
@@ -161,7 +165,7 @@ theorem img_lanes {CM3 M MS G W : Nat} (hc : constsOK CM3 M = true) (hm : masksO
   unfold xe
   rw [← e1]
   refine congrArg (· % 5) (Finset.sum_congr rfl fun k _ => ?_)
-  simp only [if_pos hr]
+  simp only [ite_eq_left hr]
   rw [xv_leaf T b r (by omega)]
 
 theorem gf_of_checks (h : HNXChecks D T CNT SGT MS CM3 M GA GB W1 W2 V0C cs1 cs2 cr)
@@ -236,7 +240,7 @@ theorem orbitCert_sound_of_cnt {D : F5Data} {T CNT SGT : Nat → Nat}
     (hcnt : ∀ b < 17813, CNT b < 1048576)
     (hO : D.orbit () = P.toOrbit) (hP : hnxBindK T P = true)
     (hexp : D.expA = 2 ∧ D.expB = 3) (hvA : validHN W1 = true) (hvB : validHN W2 = true)
-    (hone : isIdK CFSG.KD.OrdHN.ONE = true)
+    (_hone : isIdK CFSG.KD.OrdHN.ONE = true)
     (hA2 : Nat.beq (CFSG.KC.LL.HN.mm W1 W1) CFSG.KD.OrdHN.ONE = true)
     (hB3 : Nat.beq (CFSG.KC.LL.HN.mm (CFSG.KC.LL.HN.mm W2 W2) W2) CFSG.KD.OrdHN.ONE = true)
     (hQ : D.Q.toList = Q) (hQn : ∀ q ∈ Q, q < 1140000) (hbasis : qBasisK T CM3 Q QG = true) :

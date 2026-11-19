@@ -217,7 +217,7 @@ theorem elemAbelian_of_triple {T A B : G} (hTA : T * A = A * T) (hTB : T * B = B
           List.prod_cons, List.prod_nil, mul_one] at hc
         simp only [Fin.succ_zero_eq_one, Fin.succ_one_eq_two, Matrix.cons_val_zero,
           Matrix.cons_val_one, Matrix.cons_val_two, Fin.isValue, Matrix.head_cons,
-          Matrix.cons_val_succ, Matrix.tail_cons] at hc
+          Matrix.tail_cons] at hc
         rw [← mul_assoc] at hc
         obtain ⟨e0, e1, e2⟩ := hind _ (ZMod.val_lt (c 0)) _ (ZMod.val_lt (c 1)) _
           (ZMod.val_lt (c 2)) hc

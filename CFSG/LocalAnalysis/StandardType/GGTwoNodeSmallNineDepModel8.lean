@@ -25,7 +25,7 @@ private lemma pk3_toVec_getD (w : Fin 8 → ZMod 3) (i : Fin 8) :
   pk3_getD_ofFn (fun i => (w i).val) i
 
 private lemma pk3_toVec_length (w : Fin 8 → ZMod 3) : (pk3_toVec w).length = 8 := by
-  simp [pk3_toVec, List.length_ofFn]
+  simp [pk3_toVec]
 
 private lemma pk3_mem_allVecs : ∀ (n : ℕ) (l : List ℕ),
     l ∈ allVecs n ↔ l.length = n ∧ ∀ x ∈ l, x < 3
@@ -235,7 +235,7 @@ private lemma pk3_mem_addPairs8 {e : ℕ} {o : ℕ × ℕ × ℕ} {fa hb : Vec}
       · rw [List.all_eq_true]
         intro x hx
         simp only [hAc x hx, beq_iff_eq]
-    · rw [if_pos (by simp [hdot])]
+    · rw [ite_eq_left (by simp [hdot])]
 
 theorem ninedep_model_8 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin 8 → V)
     (α : Fin 8 → Module.Dual (ZMod 3) V) (x : V) (u : Fin 8 → ZMod 3)
@@ -279,7 +279,7 @@ theorem ninedep_model_8 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
       apply Finset.sum_congr rfl
       intro j _
       rw [hb_def, pk3_toVec_getD, ZMod.natCast_zmod_val,
-        if_neg (by omega : ¬ (j : ℕ) = 8)]
+        ite_eq_right (by omega : ¬ (j : ℕ) = 8)]
       ring
     have hval : α i ha = ((if xx.2 = o.1 then o.2.1 else 0 : ℕ) : ZMod 3) := by
       have hh := hH i hle hlt
@@ -345,7 +345,7 @@ theorem ninedep_model_8 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : Fin
         simp only [pk3_frame8_get fa hb i, C.α_eq i w, Pt.dot, Pt.vec]
         apply Finset.sum_congr rfl
         intro j _
-        simp [if_neg (by omega : ¬ (j : ℕ) = 8)]
+        simp [ite_eq_right (by omega : ¬ (j : ℕ) = 8)]
     · simp only [pk3_frame8_get_last fa hb]
       funext j
       simp only [Pt.vec, hb_def, pk3_toVec_getD, ZMod.natCast_zmod_val]

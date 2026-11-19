@@ -166,17 +166,17 @@ theorem ggG5_Y_mem_range
   let T : Subgroup (WeylGroup (langTag t)) :=
     { carrier := {u | ggG5_Y F u ∈ (ggIota t n f hf).range}
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [ggG5_Y_one]
         exact Subgroup.one_mem _
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [ggG5_Y_mul]
         exact Subgroup.mul_mem _ ha hb
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [ggG5_Y_inv]
         exact Subgroup.inv_mem _ ha }
   have huT : u ∈ T := by

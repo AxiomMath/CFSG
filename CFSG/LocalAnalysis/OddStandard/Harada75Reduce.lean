@@ -46,7 +46,7 @@ theorem haradaInput_of_twoGroup (h : TwoGroupStatement) :
       intro y hy
       apply Subtype.ext
       exact hcomm _ (Subgroup.mem_subgroupOf.mp hy) _ (Subgroup.mem_subgroupOf.mp hx)
-  have hS := h (Q : Subgroup G) Q.isPGroup' (E.subgroupOf (Q : Subgroup G)) inferInstance hcard
+  have hS := h (Q : Subgroup G) Q.isPGroup (E.subgroupOf (Q : Subgroup G)) inferInstance hcard
     hcent
   classical
   refine CFSG.ClassicalInvolution.fourGenerated_of_sylow Q (fun P' hP'Q => ?_) P hP

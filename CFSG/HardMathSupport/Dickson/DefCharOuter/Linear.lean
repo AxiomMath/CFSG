@@ -137,7 +137,7 @@ private theorem perfectInLayer_projectiveSL_two_outer {K : Type} [Field K] [Fini
 
 theorem perfectInLayer_A_outer (r : ℕ) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A r q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.A r q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :

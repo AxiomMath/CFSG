@@ -68,7 +68,7 @@ theorem exists_cent_swap [Finite G] (hm : Sec11Model t L S z K1 K2 T Alt φ)
     (hd : Sec11CData t z L S K1 K2 T) (h8 : 8 ≤ Nat.card ↥(secCTQ K1 K2 T)) :
     ∃ r ∈ secCTQ K1 K2 T, hm.perm.rho r = Equiv.swap 0 1 := by
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hall : ∀ c ∈ secCTQ K1 K2 T, hm.perm.rho c = 1 := fun c hc =>
     (hm.cent_rho hd.TM hc.2 (sec11_cTQ_comm hc)).resolve_right (hno c hc)
   have h1 := Subgroup.card_le_of_le (hm.cent_le_pair hd.TM hall)
@@ -115,7 +115,7 @@ theorem cent_finish (hm : Sec11Model t L S z K1 K2 T Alt φ) (hd : Sec11CData t 
     {r : G} (hrC : r ∈ secCTQ K1 K2 T) (hρ : hm.perm.rho r = Equiv.swap 0 1) (hr2 : r * r = 1) :
     orderOf r = 2 ∧ secCTQ K1 K2 T = zpowers t ⊔ zpowers r ∧ IsD8 (secCTQ K1 K2 T) ∧
       ∀ v, r * φ v * r⁻¹ = φ (permVec (Equiv.swap 0 1) v) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrM : r ∈ secM t S L := hd.TM hrC.2
   have hconj : ∀ v, r * φ v * r⁻¹ = φ (permVec (Equiv.swap 0 1) v) := fun v => by
     have := hm.perm.conj_apply hrM v

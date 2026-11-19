@@ -26,7 +26,7 @@ theorem s16h_e3_uniqueMax_of_fixed_three (D : Data G) (S : s16h_Std D) {V₀ V L
     ∀ w ∈ wSub V₀ V h.hyp151.isElemAbelian L ⊔ v1Sub D.M V₀ V h.hyp151.isElemAbelian L,
       w ≠ 1 → UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
   have hV := h.hyp151.isElemAbelian
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer
       h.hyp151.hyp125.pairFacts.le_normalizer₀
@@ -43,7 +43,7 @@ theorem s16h_e3_uniqueMax_of_fixed_three (D : Data G) (S : s16h_Std D) {V₀ V L
       have h4 : Nat.card V₀ ≤ 4 := s16c34_card_v0_le_four D h.hyp16
       have h5 : (V₀ : Set G).ncard = Nat.card V₀ := (Nat.card_coe_set_eq (V₀ : Set G)).symm
       have h6 : ((V₀ : Set G) \ {1}).ncard = (V₀ : Set G).ncard - 1 :=
-        Set.ncard_diff_singleton_of_mem V₀.one_mem
+        Set.ncard_sdiff_singleton_of_mem V₀.one_mem
       omega
     have hSw : ∀ e ∈ E, e * w * e⁻¹ ∈ (V₀ : Set G) \ {1} := by
       intro e he

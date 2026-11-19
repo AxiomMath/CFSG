@@ -115,7 +115,7 @@ theorem sec5p510_model_twist (hm : Sec5Model58 t L z ρ A φ) :
         rw [hw] at he
         norm_num at he
       refine hm.type_one (sec5p510_twist w) (Or.inr ?_)
-      rw [sec5p510_weight_twist, if_neg hsum, hw]
+      rw [sec5p510_weight_twist, ite_eq_right hsum, hw]
     · have hsum : (∑ i, w i) ≠ 0 := by
         intro h0
         have he : Even (vecWeight w) :=
@@ -123,7 +123,7 @@ theorem sec5p510_model_twist (hm : Sec5Model58 t L z ρ A φ) :
         rw [hw] at he
         norm_num at he
       refine hm.type_one (sec5p510_twist w) (Or.inl ?_)
-      rw [sec5p510_weight_twist, if_neg hsum, hw]
+      rw [sec5p510_weight_twist, ite_eq_right hsum, hw]
   · intro w hw
     have hsum : (∑ i, w i) ≠ 0 := by
       intro h0
@@ -132,8 +132,9 @@ theorem sec5p510_model_twist (hm : Sec5Model58 t L z ρ A φ) :
       rw [hw] at he
       norm_num at he
     refine hm.type_three (sec5p510_twist w) ?_
-    rw [sec5p510_weight_twist, if_neg hsum, hw]
+    rw [sec5p510_weight_twist, ite_eq_right hsum, hw]
 
+omit [Group G] in
 theorem sec5p510_wclass_twist_one (φ : (Fin 6 → ZMod 2) → G) :
     wclass (fun v => φ (sec5p510_twist v)) 1 = wclass φ 5 := by
   rw [wclass, wclass, ← Set.image_image]
@@ -149,7 +150,7 @@ theorem sec5p510_wclass_twist_one (φ : (Fin 6 → ZMod 2) → G) :
       rw [hv'] at he
       norm_num at he
     show vecWeight (sec5p510_twist v) = 5
-    rw [sec5p510_weight_twist, if_neg hsum, hv']
+    rw [sec5p510_weight_twist, ite_eq_right hsum, hv']
   · intro hu
     have hu' : vecWeight u = 5 := hu
     refine ⟨sec5p510_twist u, ?_, sec5p510_twist_twist u⟩
@@ -160,8 +161,9 @@ theorem sec5p510_wclass_twist_one (φ : (Fin 6 → ZMod 2) → G) :
       rw [hu'] at he
       norm_num at he
     show vecWeight (sec5p510_twist u) = 1
-    rw [sec5p510_weight_twist, if_neg hsum, hu']
+    rw [sec5p510_weight_twist, ite_eq_right hsum, hu']
 
+omit [Group G] in
 theorem sec5p510_wclass_twist_six (φ : (Fin 6 → ZMod 2) → G) :
     wclass (fun v => φ (sec5p510_twist v)) 6 = wclass φ 6 := by
   have h1 : sec5p510_twist (1 : Fin 6 → ZMod 2) = 1 := sec5p510_twist_one

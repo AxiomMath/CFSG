@@ -66,6 +66,7 @@ open CFSG.Timmesfeld.ARS.NaturalModule
 variable {K V : Type*} [Field K] [CharP K 2] [PerfectRing K 2] [AddCommGroup V] [Finite V]
   [DistribMulAction (SpecialLinearGroup (Fin 2) K) V]
 
+omit [CharP K 2] [PerfectRing K 2] in
 theorem pow_mulVec_line (x : SpecialLinearGroup (Fin 2) K)
     (hx10 : (x : Matrix (Fin 2) (Fin 2) K) 1 0 = 0) (i : ℕ) (t : K) :
     ((x ^ i : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) *ᵥ ![t, 0] =
@@ -216,7 +217,7 @@ private theorem Qmod.mk_surjective (h : ModData φ C Lγ) :
 
 private theorem Qmod.mk_eq_mk_iff (h : ModData φ C Lγ) (a b : ↥C) :
     Qmod.mk h a = Qmod.mk h b ↔ (a : Γ)⁻¹ * b ∈ Lγ := by
-  letI : (Lγ.subgroupOf C).Normal := h.normal
+  let : (Lγ.subgroupOf C).Normal := h.normal
   have e : Qmod.mk h a = Qmod.mk h b ↔
       (QuotientGroup.mk a : ↥C ⧸ Lγ.subgroupOf C) = QuotientGroup.mk b :=
     ⟨fun hab => Additive.ofMul.injective hab, fun hab => congrArg Additive.ofMul hab⟩
@@ -280,12 +281,12 @@ private noncomputable instance (h : ModData φ C Lγ) :
     DistribMulAction (SpecialLinearGroup (Fin 2) K) (Qmod h) where
   smul := Qmod.smul' h
   one_smul v := by
-    letI : (Lγ.subgroupOf C).Normal := h.normal
+    let : (Lγ.subgroupOf C).Normal := h.normal
     show Additive.ofMul (actM h (Classical.choose (h.surj 1)) (Additive.toMul v)) = v
     rw [actM_eq h (z' := 1) (by rw [Classical.choose_spec (h.surj 1), map_one]), actM_one]
     rfl
   mul_smul g₁ g₂ v := by
-    letI : (Lγ.subgroupOf C).Normal := h.normal
+    let : (Lγ.subgroupOf C).Normal := h.normal
     show Additive.ofMul (actM h (Classical.choose (h.surj (g₁ * g₂))) (Additive.toMul v)) =
       Additive.ofMul (actM h (Classical.choose (h.surj g₁))
         (actM h (Classical.choose (h.surj g₂)) (Additive.toMul v)))
@@ -293,19 +294,19 @@ private noncomputable instance (h : ModData φ C Lγ) :
       rw [map_mul, Classical.choose_spec (h.surj g₁), Classical.choose_spec (h.surj g₂),
         Classical.choose_spec (h.surj (g₁ * g₂))]), actM_mul]
   smul_zero g := by
-    letI : (Lγ.subgroupOf C).Normal := h.normal
+    let : (Lγ.subgroupOf C).Normal := h.normal
     show Additive.ofMul (actM h _ (Additive.toMul (0 : Qmod h))) = 0
     rw [show Additive.toMul (0 : Qmod h) = 1 from rfl, map_one]
     rfl
   smul_add g v w := by
-    letI : (Lγ.subgroupOf C).Normal := h.normal
+    let : (Lγ.subgroupOf C).Normal := h.normal
     show Additive.ofMul (actM h _ (Additive.toMul (v + w))) = _
     rw [show Additive.toMul (v + w) = Additive.toMul v * Additive.toMul w from rfl, map_mul]
     rfl
 
 private theorem Qmod.smul_mk (h : ModData φ C Lγ) (z : Γ) (c : ↥C) :
     φ z • Qmod.mk h c = Qmod.mk h (cjC h z c) := by
-  letI : (Lγ.subgroupOf C).Normal := h.normal
+  let : (Lγ.subgroupOf C).Normal := h.normal
   show Additive.ofMul (actM h (Classical.choose (h.surj (φ z))) (QuotientGroup.mk c)) = _
   rw [actM_eq h (z' := z) (Classical.choose_spec (h.surj (φ z))), actM_mk]
   rfl
@@ -328,6 +329,7 @@ section GT1
 variable {Γ : Type*} [Group Γ] [Finite Γ] {K : Type} [Field K] [Finite K] [CharP K 2]
   [PerfectRing K 2]
 
+omit [Finite K] in
 theorem gt1_abs
     (φ : Γ →* SpecialLinearGroup (Fin 2) K) (hφ : Function.Surjective φ)
     (C Lγ C₁ : Subgroup Γ) (hLC₁ : Lγ ≤ C₁) (hC₁C : C₁ ≤ C)

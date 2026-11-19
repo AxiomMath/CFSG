@@ -37,7 +37,7 @@ theorem relIndex_dvd_index_of_normal' [Finite H] (S K : Subgroup H) [K.Normal] :
 
 theorem exists_sylow_subgroupOf [Finite H] {p : ℕ} [Fact p.Prime] (S : Sylow p H) (K : Subgroup H)
     [K.Normal] : ∃ Q : Sylow p ↥K, (Q : Subgroup ↥K) = (S : Subgroup H).subgroupOf K := by
-  have hS : IsPGroup p ↥((S : Subgroup H).subgroupOf K) := S.isPGroup'.comap_subtype
+  have hS : IsPGroup p ↥((S : Subgroup H).subgroupOf K) := S.isPGroup.comap_subtype
   have hidx : ¬ p ∣ ((S : Subgroup H).subgroupOf K).index := by
     intro hd
     have h2 : p ∣ (S : Subgroup H).relIndex K := hd

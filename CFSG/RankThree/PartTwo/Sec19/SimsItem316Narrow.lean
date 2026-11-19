@@ -152,6 +152,7 @@ theorem not_isPerfect_alternatingGroup_four : ¬ Group.IsPerfect (alternatingGro
     CFSG.SignalizerFunctorTheorem.McBride.PSL2Three.a4_card] at h4
   omega
 
+omit [Finite G] in
 theorem ne_four_of_isAltNaturalType {L : Subgroup G} {n : ℕ}
     (hq : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L)) (h : IsAltNaturalType L n) : n ≠ 4 := by
   rintro rfl

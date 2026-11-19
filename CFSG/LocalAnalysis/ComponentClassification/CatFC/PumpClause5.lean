@@ -41,7 +41,6 @@ theorem rows_psl4 (s : TauCeti.SporadicName) {i : ℕ} (hi : 1 ≤ i)
     rw [h2] at hd ⊢
     cases s <;> first
       | exact absurd hd (by simp only [AGLEmbedding.sporOrd]; decide)
-      | (simp only [SporadicInnerRow, SporadicOuterRow]; decide)
   · exfalso
     have h48 : 2 ^ 48 ∣ cardPSL4 i := by
       refine (Nat.pow_dvd_pow 2 ?_).trans (pow_dvd_cardPSL4 i)

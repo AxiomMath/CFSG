@@ -57,7 +57,7 @@ theorem nsJA2_false_of_le_pairBlock
       rwa [inf_eq_left.mpr hHle] at h
     rw [hcardH] at h1
     have h2 : Nat.card {b : ↥Bs // r b = b} * p = Nat.card Bs := hr.2
-    haveI : Nonempty {b : ↥Bs // r b = b} := ⟨⟨1, map_one r⟩⟩
+    have : Nonempty {b : ↥Bs // r b = b} := ⟨⟨1, map_one r⟩⟩
     have hpos : 0 < Nat.card {b : ↥Bs // r b = b} := Nat.card_pos
     rw [Nat.mul_comm] at h1
     exact Nat.eq_of_mul_eq_mul_left hpos (h1.trans h2.symm)

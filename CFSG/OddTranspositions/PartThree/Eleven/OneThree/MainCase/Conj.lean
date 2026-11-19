@@ -107,7 +107,7 @@ private theorem mul_not_mem_Q_of_mem_KOrbit (hC : HypothesisC D) {vH : H hC}
   have hoddH : Odd (orderOf (vH * (k * vH * k⁻¹))) := by
     rw [← Subgroup.orderOf_coe (vH * (k * vH * k⁻¹))]
     exact hoddG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ :=
     (CFSG.pCore_isPGroup (p := 2) (G := H hC)).exists_orderOf_eq_pow
       (⟨vH * (k * vH * k⁻¹), hmem⟩ : Q hC)
@@ -150,7 +150,7 @@ private theorem commute_map_mk_of_commute_conj (hC : HypothesisC D) {vH : H hC}
       QuotientGroup.mk' (Q hC) vH = QuotientGroup.mk' (Q hC) k := by
     have h := congrArg (· * QuotientGroup.mk' (Q hC) k) hq
     simp only [one_mul] at h
-    convert h using 1 <;> group
+    convert h using 1; group
   show QuotientGroup.mk' (Q hC) vH * QuotientGroup.mk' (Q hC) k =
     QuotientGroup.mk' (Q hC) k * QuotientGroup.mk' (Q hC) vH
   calc QuotientGroup.mk' (Q hC) vH * QuotientGroup.mk' (Q hC) k
@@ -161,6 +161,7 @@ private theorem commute_map_mk_of_commute_conj (hC : HypothesisC D) {vH : H hC}
           QuotientGroup.mk' (Q hC) vH) * QuotientGroup.mk' (Q hC) vH := by group
     _ = QuotientGroup.mk' (Q hC) k * QuotientGroup.mk' (Q hC) vH := by rw [hVK]
 
+omit [Finite G] in
 private theorem closure_image_DalphaStar_eq_top (hC : HypothesisC D) :
     Subgroup.closure ((fun x : H hC => QuotientGroup.mk' (Q hC) x) ''
       {x : H hC | (x : G) ∈ DalphaStar D hC.alpha}) = ⊤ := by
@@ -232,6 +233,7 @@ private theorem exists_not_commute_conj (h : MainHyp hC) {v : G}
       (by rintro d ⟨x, hx, rfl⟩; exact conj_mem_centralizer_oddCore hC hv hcommK hx)
   exact h.not_central hOtop
 
+omit [Finite G] in
 private theorem mem_closure_of_not_commute (hC : HypothesisC D) {s w : G}
     (hs : s ∈ D) (hw : w ∈ D) (hns : ¬ Commute s w) :
     w ∈ Subgroup.closure ({s, w * s * w⁻¹} : Set G) := by
@@ -358,7 +360,7 @@ private theorem perp_subset_of_mem_Dalpha_of_mem_closure (hC : HypothesisC D) {�
   · exact mem_perp_iff.mpr (Or.inl hβγ)
 
 private theorem mem_block_of_mem_closure_of_mem_Dalpha (hC : HypothesisC D) {β γ : Set G}
-    (hβ : β ∈ Dalpha D hC.alpha) (hγ : γ ∈ Dalpha D β) {w : G} (hwD : w ∈ D)
+    (hβ : β ∈ Dalpha D hC.alpha) (hγ : γ ∈ Dalpha D β) {w : G} (_hwD : w ∈ D)
     (hwX : w ∈ Subgroup.closure β) (hwγ : w ∈ γ) : w ∈ β := by
   have hβblock : IsBlock D β := isBlock_of_mem_blockClass hC.setup.normal hC.isBlock_alpha hβ.1
   have hsub := perp_subset_of_mem_Dalpha_of_mem_closure hC hβ hγ hwX hwγ

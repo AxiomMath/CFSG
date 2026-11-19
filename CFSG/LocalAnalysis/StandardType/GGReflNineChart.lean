@@ -53,7 +53,7 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
       · simp [pk5_d]
       · intro b _ hb
         have hbval : (b : ℕ) ≠ 0 := fun hh => hb (Fin.ext (by simpa using hh))
-        rw [if_neg hbval, mul_zero]
+        rw [ite_eq_right hbval, mul_zero]
       · intro hh; exact absurd (Finset.mem_univ 0) hh
     have h2 : ∑ k : Fin 8, pk5_d k * (c * u k) = c * du := by
       rw [show du = ∑ k : Fin 8, pk5_d k * u k from rfl, Finset.mul_sum]
@@ -97,11 +97,11 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
     funext j
     by_cases hj : j = 8
     · subst hj
-      simp only [pk5_Tinv, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
+      simp only [pk5_Tinv, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
         Pi.single_eq_same, hmv8]
       ring
-    · have hs : s8 j = 0 := by simp [s8, Pi.single_apply, hj]
-      have h8 : s8 8 = 1 := by simp [s8, Pi.single_apply]
+    · have hs : s8 j = 0 := by simp [s8, hj]
+      have h8 : s8 8 = 1 := by simp [s8]
       change s8 j + s8 8 * mv j + (c - 1) * s8 8 * s8 j = mv j + c * s8 j
       rw [hs, h8]
       ring
@@ -118,7 +118,7 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
         = (Pi.single (Fin.castSucc j) (1 : ZMod 3) : Fin 9 → ZMod 3) := by
       rw [hT]
       apply pk5_T_fix
-      fin_cases j <;> simp [Pi.single_apply]
+      fin_cases j <;> simp
     conv_lhs => rw [← hfix']
     rw [LinearEquiv.symm_apply_apply]
   have hα_basis (i : Fin 8) (j : Fin 8) :
@@ -130,7 +130,7 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
       (by intro hh; exact absurd (Finset.mem_univ _) hh)]
     have h8 : j.val ≠ 8 := by omega
     simp only [Pi.single_eq_same, mul_one, Fin.val_castSucc]
-    rw [if_neg h8, add_zero]
+    rw [ite_eq_right h8, add_zero]
   have hα8_getD7 : ∀ i : Fin 8, (alpha8 i.val)[7]?.getD 0 = 0 := by
     decide +kernel
   have hα_e0 (i : Fin 8) :
@@ -146,19 +146,19 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
       have hj7 : j.val < 7 := j.isLt
       have hg : ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
           + (if j.val = 8 then u i else 0)) = ((cl i.val j.val : ℕ) : ZMod 3) := by
-        rw [if_neg (by omega), add_zero, pk5_alpha8_getD i.val j.val hj7]
+        rw [ite_eq_right (by omega), add_zero, pk5_alpha8_getD i.val j.val hj7]
       have hmvj : mv (Fin.castSucc (Fin.castSucc j)) = m (Fin.castSucc j) := by
         show pk5_mvW w2 (Fin.castSucc (Fin.castSucc j)) = pk5_mFunW w2 (Fin.castSucc j)
-        simp only [pk5_mvW, Fin.val_castSucc, dif_pos hj7]
+        simp only [pk5_mvW, Fin.val_castSucc, dite_eq_left hj7]
         rfl
       simp only [Fin.val_castSucc]
       rw [hg, hmvj]
     have hsum_s8 : ∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
         + (if j.val = 8 then u i else 0)) * s8 j = u i := by
       rw [Finset.sum_eq_single (8 : Fin 9)
-        (by intro b _ hb; simp [s8, Pi.single_apply, hb])
+        (by intro b _ hb; simp [s8, hb])
         (by intro hh; exact absurd (Finset.mem_univ 8) hh)]
-      simp [s8, Pi.single_apply, alpha8]
+      simp [s8, alpha8]
     have hsplit_sum : ∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
         + (if j.val = 8 then u i else 0)) * (mv + c • s8) j
         = (∑ j : Fin 9, ((((alpha8 i.val).getD j.val 0 : ℕ) : ZMod 3)
@@ -197,7 +197,7 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
         List.getD_eq_default (alpha8 i.val) 0 (by simp [pk5_alpha8_length])
       show α i (E'.symm s8) = (((alpha8 i.val).getD (Fin.last 8).val 0 : ℕ) : ZMod 3) +
         (if (Fin.last 8).val = 8 then (if (i : ℕ) = 0 then (1 : ZMod 3) else 0) else 0)
-      rw [hα_e0 i, Fin.val_last, h8, if_pos rfl]
+      rw [hα_e0 i, Fin.val_last, h8, ite_eq_left rfl]
       simp
     · intro k
       rw [hα_basis i k]
@@ -206,7 +206,7 @@ theorem ninedep_chart_norm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (h : 
       have hk8 : (Fin.castSucc k).val ≠ 8 := by
         simp only [Fin.val_castSucc]
         omega
-      rw [if_neg hk8, add_zero, Fin.val_castSucc]
+      rw [ite_eq_right hk8, add_zero, Fin.val_castSucc]
 
 end CFSG.NineAll
 

@@ -51,8 +51,7 @@ theorem s3_NT_fix_t_RneT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥
         rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
       rw [hpow, hq2, hyt]
     have haz : q * y * q⁻¹ * y⁻¹ = q * (y * q * y⁻¹)⁻¹ := by
-      simp only [mul_inv_rev, inv_inv, mul_assoc, inv_mul_cancel, mul_inv_cancel,
-        mul_one, one_mul]
+      simp only [mul_inv_rev, inv_inv, mul_assoc]
     rcases s3_Q_sq_unique s hS hq hyq hq2 hyq2 with h | h
     · rw [haz, h, mul_inv_cancel]
       exact Subgroup.one_mem _
@@ -66,14 +65,13 @@ theorem s3_NT_fix_t_RneT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥
     have hy' : n⁻¹ * y * n ∈ s.T := by
       refine (hn' (n⁻¹ * y * n)).mpr ?_
       have heq : n * (n⁻¹ * y * n) * n⁻¹ = y := by
-        simp only [mul_assoc, inv_mul_cancel, mul_inv_cancel, mul_one, one_mul,
-          inv_mul_cancel_left, mul_inv_cancel_left]
+        simp only [mul_assoc, mul_inv_cancel, mul_one, mul_inv_cancel_left]
       rwa [heq]
     have hconj := conj_mem_cen hn (hcomm_q (n⁻¹ * y * n) hy')
     have heq : (n * q * n⁻¹) * y * (n * q * n⁻¹)⁻¹ * y⁻¹
         = n * (q * (n⁻¹ * y * n) * q⁻¹ * (n⁻¹ * y * n)⁻¹) * n⁻¹ := by
-      simp only [mul_inv_rev, inv_inv, mul_assoc, inv_mul_cancel, mul_inv_cancel,
-        mul_one, one_mul]
+      simp only [mul_inv_rev, inv_inv, mul_assoc, mul_inv_cancel,
+        mul_one]
     rw [heq]; exact hconj
   have hsqQ := s3_sq_mem_Q_of_Z2 s hS hOut hRT hxT hx2
   have hsq : (n * q * n⁻¹) ^ 2 = n * s.t * n⁻¹ := by

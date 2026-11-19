@@ -39,7 +39,7 @@ theorem exists_inner_or_conj_fieldAut_psl (hn : 3 ≤ n) (hq : 3 ∣ Nat.card K 
       exact hinn ⟨x, hxA, hx1, hxI⟩
     rw [hbot, Subgroup.card_bot, hA9] at h1
     omega
-  obtain ⟨α, hαA, hαD⟩ := SetLike.not_le_iff_exists.1 hAD
+  obtain ⟨α, hαA, hαD⟩ := IsConcreteLE.not_le_iff_exists.1 hAD
   obtain ⟨M, σ, hαM, hσ3⟩ := exists_semilinear_of_cube_eq_one hn (hA α hαA)
   have hσ1 : σ ≠ 1 := by
     rintro rfl

@@ -19,14 +19,14 @@ theorem kFactAutQ8D8Five_holds : KFactAutQ8D8Five := by
   have hcen : Nat.card (Subgroup.center R) = 2 := natCard_center eA eB hcomm hsup hAB
   have hfix : ∀ q : MulAut R, ∀ z ∈ Subgroup.center R, q z = z :=
     fun q z hz => apply_eq_of_mem_center hcen q hz
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite (MulAut R) :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite (MulAut R) :=
     Finite.of_injective (fun g : MulAut R => (g : R → R))
       (fun g h hgh => MulEquiv.ext (fun x => congrFun hgh x))
   classical
-  haveI : Fintype ↥P := Fintype.ofFinite ↥P
-  haveI : ∀ g : ↥P, Fintype (MulAction.fixedBy R g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (Quotient (MulAction.orbitRel ↥P R)) := Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite ↥P
+  have : ∀ g : ↥P, Fintype (MulAction.fixedBy R g) := fun g => Fintype.ofFinite _
+  have : Fintype (Quotient (MulAction.orbitRel ↥P R)) := Fintype.ofFinite _
   have hterm : ∀ g : ↥P,
       Fintype.card (MulAction.fixedBy R g) = 2 + if g = 1 then 30 else 0 := by
     intro g
@@ -35,10 +35,10 @@ theorem kFactAutQ8D8Five_holds : KFactAutQ8D8Five := by
     · subst hg1
       have hset : MulAction.fixedBy R (1 : ↥P) = Set.univ := by
         ext r
-        simp [MulAction.mem_fixedBy]
+        simp
       rw [hset, Nat.card_univ, hR32]
       simp
-    · rw [if_neg hg1, add_zero]
+    · rw [ite_eq_right hg1, add_zero]
       have hset : MulAction.fixedBy R g = (Subgroup.center R : Set R) := by
         ext r
         rw [MulAction.mem_fixedBy, SetLike.mem_coe]

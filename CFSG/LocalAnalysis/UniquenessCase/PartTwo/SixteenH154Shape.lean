@@ -119,11 +119,11 @@ private theorem s16h_card_of_isElemAbelianOfRank_two {G : Type*} [Group G]
     (h : IsElemAbelianOfRank 3 2 G) : Nat.card G = 9 := by
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 private theorem s16h_three_le_orderOf_two_zmod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hq3 : q ≠ 3) : 3 ≤ orderOf (2 : ZMod q) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have h2ne0 : (2 : ZMod q) ≠ 0 := by
     intro h
     have : q ∣ 2 := (ZMod.natCast_eq_zero_iff 2 q).mp h
@@ -220,7 +220,7 @@ theorem s16h_commute_of_normalizes_nine {X : Type*} [Group X] [Finite X] {L E : 
     (hL : IsElemAbelianOfRank 3 2 ↥L ∨ IsPOnePlusTwo 3 ↥L)
     (hEn : E ≤ normalizer (L : Set X)) (hEq : ∀ x ∈ E, x ^ q = 1) :
     ∀ x ∈ E, ∀ l ∈ L, x * l = l * x := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro x hxE l hlL
   have hxL : x ∈ Subgroup.normalizer (L : Set X) := hEn hxE
   have hxq : x ^ q = 1 := hEq x hxE
@@ -234,13 +234,13 @@ theorem s16h_commute_of_normalizes_nine {X : Type*} [Group X] [Finite X] {L E : 
     · have hcardL : Nat.card ↥L = 9 := by
         obtain ⟨e⟩ := hE9
         rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card]
-        simp [Fintype.card_fun, ZMod.card]
+        simp [ZMod.card]
       have hc : Nat.card C = 9 :=
         s16h_card_eq_of_dvd_modEq_nine hq hq2 hq3
           (by rw [← hcardL]; exact hCdiv) (by rw [← hcardL]; exact hmod)
       exact Subgroup.eq_of_le_of_card_ge (show C ≤ L by rw [hC]; exact inf_le_left)
         (by simp [hc, hcardL])
-    · haveI : CFSG.IsExtraspecial 3 ↥L := h312.1
+    · have : CFSG.IsExtraspecial 3 ↥L := h312.1
       have hcardL : Nat.card ↥L = 27 := h312.2.1
       have hcenter_eq : centerOf L = (Subgroup.center ↥L).map L.subtype := by
         ext z
@@ -314,7 +314,7 @@ theorem s16h_card_le_mul_cent_of_six {W : Type} [CommGroup W] [Finite W]
     (hrk : rk ↥(commSub (⊤ : Subgroup W) L) ≤ 6)
     (hEn : E ≤ normalizer (L : Set (MulAut W))) (hE : IsElemAbelian q E) :
     Nat.card ↥E ≤ q * Nat.card ↥(E ⊓ centSub (commSub (⊤ : Subgroup W) L)) := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hBE : ∀ b ∈ L, ∀ x ∈ E, b * x = x * b := fun b hb x hx =>
     (s16h_commute_of_normalizes_nine (X := MulAut W) hq hq2 hq3 hL hEn hE.2 x hx b hb).symm
@@ -365,7 +365,7 @@ theorem s16h_card_le_mul_cent_of_E9_eight {W : Type} [CommGroup W] [Finite W]
     (hx6 : ∀ x ∈ L, x ≠ 1 → rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers x)) = 6)
     (hEn : E ≤ normalizer (L : Set (MulAut W))) (hE : IsElemAbelian q E) :
     Nat.card ↥E ≤ q * Nat.card ↥(E ⊓ centSub (commSub (⊤ : Subgroup W) L)) := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hBE : ∀ b ∈ L, ∀ x ∈ E, b * x = x * b := fun b hb x hx =>
     (s16h_commute_of_normalizes_nine (X := MulAut W) hq hq2 hq3 (Or.inl hL) hEn hE.2
@@ -374,7 +374,7 @@ theorem s16h_card_le_mul_cent_of_E9_eight {W : Type} [CommGroup W] [Finite W]
   have hB : IsPGroup 3 ↥L :=
     IsPGroup.of_card (n := 2) (by rw [hcardL]; norm_num)
   obtain ⟨hcommL, hpowL⟩ := s16h_comm_pow_of_isElemAbelianOfRank_two hL
-  haveI : Nontrivial ↥L := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hcardL]; norm_num)
+  have : Nontrivial ↥L := (Finite.one_lt_card_iff_nontrivial).mp (by rw [hcardL]; norm_num)
   obtain ⟨x₀, hx₀ne⟩ := exists_ne (1 : ↥L)
   obtain ⟨x, hxL, hx1⟩ : ∃ x : MulAut W, x ∈ L ∧ x ≠ 1 :=
     ⟨x₀, x₀.2, fun h => hx₀ne (Subtype.ext h)⟩

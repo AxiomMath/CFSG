@@ -138,15 +138,15 @@ theorem sec5pef_exists_fixed_of_prime_dvd
     sec5pef_involution_centralizer hF e hy hy2
   refine ⟨δ, hδ, ?_⟩
   intro s hs hs2 hsdiv
-  haveI : Fact s.Prime := ⟨hs⟩
-  haveI : Finite (CFSG.GorensteinWalter.PGL2 F) :=
+  have : Fact s.Prime := ⟨hs⟩
+  have : Finite (CFSG.GorensteinWalter.PGL2 F) :=
     Finite.of_surjective
       (Matrix.ProjGenLinGroup.mk : GL (Fin 2) F →* CFSG.GorensteinWalter.PGL2 F)
       Matrix.ProjGenLinGroup.mk_surjective
   have hCle' : C ≤ innDiagSub e := le_trans hCle inf_le_right
-  haveI : Finite ↥(innDiagSub e) :=
+  have : Finite ↥(innDiagSub e) :=
     Finite.of_equiv (CFSG.GorensteinWalter.PGL2 F) (innDiagEquiv e).toEquiv.symm
-  haveI : Finite ↥C :=
+  have : Finite ↥C :=
     Finite.of_equiv ↥(C.subgroupOf (innDiagSub e))
       (Subgroup.subgroupOfEquivOfLe hCle').toEquiv
   have hdivn : s ∣ n := by

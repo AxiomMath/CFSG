@@ -40,7 +40,7 @@ theorem eq_bot_of_isPGroup_two {X : Type*} [Group X] {U : Subgroup X} (hU : IsPG
   rw [eq_bot_iff]
   intro u hu
   rw [Subgroup.mem_bot]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hU) ⟨u, hu⟩
   rw [Subgroup.orderOf_mk] at hk
   rcases k with _ | k
@@ -104,7 +104,7 @@ theorem false_of_fixed_perm_six {X : Type*} [Group X] {β : MulAut X}
   have hN : (R.subgroupOf C).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm g ((hC g).mp g.2) n hn⟩
-  haveI : ((R.subgroupOf C).map e.toMonoidHom).Normal := hN.map _ e.surjective
+  have : ((R.subgroupOf C).map e.toMonoidHom).Normal := hN.map _ e.surjective
   have hcard : Nat.card ((R.subgroupOf C).map e.toMonoidHom) = Nat.card R := by
     rw [Subgroup.card_map_of_injective e.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRC).toEquiv
@@ -264,7 +264,7 @@ theorem not_pullDatum_fieldAut (σ : F ≃+* F) : ¬ PullDatum (fieldAut 2 F σ)
     refine h.false_of_quasisimple_fixed _ hC hCq ?_
     rw [hZ, Subgroup.card_bot]
     exact odd_one
-  · haveI : Fintype k := Fintype.ofFinite k
+  · have : Fintype k := Fintype.ofFinite k
     have hk2 : Fintype.card k = 2 := by
       obtain ⟨m, -, hm⟩ := FiniteField.card k 2
       rw [← Nat.card_eq_fintype_card] at hm

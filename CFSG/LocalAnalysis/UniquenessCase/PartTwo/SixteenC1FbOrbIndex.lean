@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1_actTil_fix_of_mem_centralizer {V₀ V : Subgroup G}
     {hV : IsElemAbelian 2 V} {x : IntMod V hV} {g : stabTil V₀ V}
     (hg : (g : G) ∈ centralizer ({x.val} : Set G)) :
@@ -32,7 +33,7 @@ theorem s16c1_relIndex_T_cent_le_four {D : Data G} {V₀ V L : Subgroup G}
     (hodd : Odd ((ptCent (Mbar D.M V₀ V hV) (mkTil V₀ V hV x)).relIndex (Mbar D.M V₀ V hV))) :
     (D.T ⊓ centralizer ({x.val} : Set G)).relIndex D.T ≤ 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set w : Vtil V₀ V hV := mkTil V₀ V hV x with hw
   set P : Subgroup (MulAut (Vtil V₀ V hV)) :=
     ptCent (Mbar D.M V₀ V hV) w with hP

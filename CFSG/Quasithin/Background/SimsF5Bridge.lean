@@ -271,7 +271,7 @@ theorem br_exists_Bh (hμ : IsMuIso μ zb fb) (a : ↥(M₁ ⊓ M₂)) :
   refine ⟨⟨lamA.symm (μ.φ12 a), (lamA_mem_M1Dot _).1 (by simpa using hb.1),
     (lamA_mem_M2Dot _).1 (by simpa using hb.2)⟩, by simp⟩
 
-theorem brJ1_range (h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb fb) :
+theorem brJ1_range (_h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb fb) :
     (brJ1 β ε hμ).range = MiOne β ε := by
   ext g
   constructor
@@ -283,7 +283,7 @@ theorem brJ1_range (h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb f
     obtain ⟨x, hx⟩ := br_exists_P1h hμ b
     exact ⟨x, brJ1_eq hμ hx⟩
 
-theorem brJ2_range (h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb fb) :
+theorem brJ2_range (_h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb fb) :
     (brJ2 β ε hμ).range = MiTwo β ε := by
   ext g
   constructor
@@ -444,7 +444,7 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
   comm2 _ := rfl
   inter := by
     ext y
-    simp only [Subgroup.mem_inf, MonoidHom.mem_range, MonoidHom.mk'_apply, ofSubgroups]
+    simp only [Subgroup.mem_inf, ofSubgroups]
     constructor
     · rintro ⟨⟨⟨a, ha⟩, rfl⟩, ⟨⟨b, hb⟩, hbe⟩⟩
       have hab : b = a := Θ.injective hbe
@@ -469,8 +469,8 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem muOfIso_faithful (Θ : E ≃* ↥M0Dot) (hgen : M₁ ⊔ M₂ = ⊤) :
     (muOfIso Θ hgen).IsFaithful :=
-  ⟨fun a b hab => Subtype.ext (Θ.injective hab), fun a b hab => Subtype.ext (Θ.injective hab),
-    fun a b hab => Subtype.ext (Θ.injective hab)⟩
+  ⟨fun _a _b hab => Subtype.ext (Θ.injective hab), fun _a _b hab => Subtype.ext (Θ.injective hab),
+    fun _a _b hab => Subtype.ext (Θ.injective hab)⟩
 
 theorem mu_range_map (Θ : E ≃* ↥M0Dot) {X : Subgroup E} {XDot : Subgroup GL6}
     (hXDot : XDot ≤ M0Dot) (hX : ∀ x : E, ((Θ x : ↥M0Dot) : GL6) ∈ XDot ↔ x ∈ X)
@@ -549,7 +549,7 @@ theorem exists_PhiM (h : HypF5 Gp M₁ M₂ β ε z Tb fb) (hμ : IsMuIso μ zb 
     ∃ Φ : M ≃* ↥MDot,
       (∀ b : ↥M₁, ((Φ (ε (β.φ1 b)) : ↥MDot) : GL6) = ((μ.φ1 b : ↥M0Dot) : GL6)) ∧
       (∀ b : ↥M₂, ((Φ (ε (β.φ2 b)) : ↥MDot) : GL6) = ((μ.φ2 b : ↥M0Dot) : GL6)) := by
-  haveI := h.f431.finite_M
+  have := h.f431.finite_M
   obtain ⟨Φ, h1, h2⟩ := autCtx_iso (ctxOfMarked h hμ hz (hypF5_normalizers' h)) modelCtx
   refine ⟨Φ, fun b => ?_, fun b => ?_⟩
   · obtain ⟨x, hx⟩ := br_exists_P1h hμ b

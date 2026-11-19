@@ -38,7 +38,7 @@ private lemma smul_mem_fixedPoints_of_forall_conj_mem {n : ℕ}
     _ = q • x := by rw [hx']
 
 theorem y7a_normal_pgroup_trivial {n p : ℕ} [Fact p.Prime] (hp : ¬ p ∣ n)
-    (Q N : Subgroup (Equiv.Perm (Fin n))) (hNQ : N ≤ Q)
+    (Q N : Subgroup (Equiv.Perm (Fin n))) (_hNQ : N ≤ Q)
     (hN : ∀ q ∈ Q, ∀ m ∈ N, q * m * q⁻¹ ∈ N)
     (htrans : ∀ i j : Fin n, ∃ q ∈ Q, q i = j) (hpN : IsPGroup p N) : N = ⊥ := by
   obtain ⟨x₀, hx₀⟩ :=

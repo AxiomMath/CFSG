@@ -114,7 +114,7 @@ theorem three_le_pRank_mulAut_of_inf_sup_le (R : Sylow p X) {K : Subgroup X} [K.
     rintro _ ⟨r, hr, rfl⟩
     exact Subgroup.le_normalizer_map ρ
       ⟨r, le_normalizer_inf_of_normal_right (R : Subgroup X) K hr, rfl⟩
-  obtain ⟨y, hyS, hyp, hyc⟩ := exists_orderOf_eq_prime_commute (R.isPGroup'.map ρ)
+  obtain ⟨y, hyS, hyp, hyc⟩ := exists_orderOf_eq_prime_commute (R.isPGroup.map ρ)
     (Subgroup.map_mono inf_le_left) hSn hSne
   obtain ⟨w, ⟨-, hwK⟩, hwy⟩ := Subgroup.mem_map.mp hyS
   have hyp' : y ^ p = 1 := hyp ▸ pow_orderOf_eq_one y

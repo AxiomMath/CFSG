@@ -57,6 +57,7 @@ section Cd
 variable (hbc : RB5Bound)
 include hbc
 
+omit hbc in
 theorem cdPt (w : List ℤ) (hw : CdW w) (a : Fin Ly0.deg) :
     cdPtC cL dL (w.map lcode) a = (Ly0.wG Ly0.gens0 w a : Nat) :=
   cdPtC_wG cL_eq_cG dL_eq_dG (cG_mul_cG cL_eq_cG dL_eq_dG) (dG_pow_three cL_eq_cG dL_eq_dG) w hw a
@@ -79,18 +80,19 @@ theorem cdEq_eq {u v : List ℤ} (hu : CdW u) (hv : CdW v) (h : cdEq u v = true)
       ((Ly0.wG Ly0.gens0 v)⁻¹ * Ly0.wG Ly0.gens0 u) b = b := by
     intro b hb
     have e := cdEq_parts h b hb
-    rw [cdPt hbc u hu b, cdPt hbc v hv b] at e
+    rw [cdPt u hu b, cdPt v hv b] at e
     rw [Perm.mul_apply, Fin.ext e, ← Perm.mul_apply, inv_mul_cancel, Perm.one_apply]
   have h1 := eq_one_of_fix_base cL_eq_cG dL_eq_dG hbc (mul_mem (inv_mem (mem0 hv)) (mem0 hu))
     (key p0 (Or.inl rfl)) (key p3 (Or.inr (Or.inl rfl))) (key p1 (Or.inr (Or.inr rfl)))
   exact (inv_mul_eq_one.1 h1).symm
 
+omit hbc in
 theorem cdEq_ne {u v : List ℤ} (hu : CdW u) (hv : CdW v) (h : notB (cdEq u v) = true) :
     Ly0.wG Ly0.gens0 u ≠ Ly0.wG Ly0.gens0 v := by
   intro e
   have e' : ∀ b : Fin Ly0.deg,
       cdPtC cL dL (u.map lcode) b = cdPtC cL dL (v.map lcode) b := fun b => by
-    rw [cdPt hbc u hu b, cdPt hbc v hv b, e]
+    rw [cdPt u hu b, cdPt v hv b, e]
   have e0 : cdPtC cL dL (u.map lcode) 0 = cdPtC cL dL (v.map lcode) 0 := e' p0
   have e3 : cdPtC cL dL (u.map lcode) 3 = cdPtC cL dL (v.map lcode) 3 := e' p3
   have e1 : cdPtC cL dL (u.map lcode) 1 = cdPtC cL dL (v.map lcode) 1 := e' p1
@@ -217,7 +219,7 @@ theorem R0_cube : Ly0.R0G * (Ly0.R0G * Ly0.R0G) = 1 := by
 
 theorem R0_ne_one : Ly0.R0G ≠ 1 := by
   intro h1
-  have e := cdEq_ne hbc cdW_X (fun _ h => absurd h List.not_mem_nil) ly6110_sX1
+  have e := cdEq_ne cdW_X (fun _ h => absurd h List.not_mem_nil) ly6110_sX1
   rw [xw hbc, h1, inv_one, Ly0.wG_nil] at e
   exact e rfl
 
@@ -266,7 +268,7 @@ theorem structCheck_true (hbc : RB5Bound) : Ly0.structCheck = true := by
   have rci := Ly0.rep_cinv h
   unfold Ly0.structCheck
   simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, and_assoc, ne_eq,
-    Bool.not_eq_true, beq_eq_false_iff_ne]
+    beq_eq_false_iff_ne]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · unfold Ly0.tabX
     exact CFSG.KS.Tbl.invOK_invT Ly0.deg_lt rR
@@ -337,7 +339,7 @@ theorem cp1Check_true (hbc : RB5Bound) : Ly0.cp1Check = true := by
   have xw' := xw hbc
   unfold Ly0.cp1Check
   simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, and_assoc, ne_eq,
-    Bool.not_eq_true, beq_eq_false_iff_ne]
+    beq_eq_false_iff_ne]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · have e := comm_of hbc hY cdW_X ly6110_cYX
     rw [yw, xw'] at e
@@ -345,13 +347,13 @@ theorem cp1Check_true (hbc : RB5Bound) : Ly0.cp1Check = true := by
   · have e := cdEq_eq hbc (cdW_append hY (cdW_append hY hY)) cdW_nil ly6110_cY3
     rw [Ly0.wG_append, Ly0.wG_append, yw, Ly0.wG_nil] at e
     exact tab_eq (Ly0.compT_size _ _) Ly0.idT_size (rY.compT (rY.compT rY)) (Rep.idT Ly0.deg_lt) e
-  · have e := cdEq_ne hbc hY cdW_nil ly6110_cY1
+  · have e := cdEq_ne hY cdW_nil ly6110_cY1
     rw [yw, Ly0.wG_nil] at e
     exact tab_ne rY (Rep.idT Ly0.deg_lt) e
-  · have e := cdEq_ne hbc (cdW_append hY hY) (fun l hl => invW_mem cdW_X l hl) ly6110_cYYR
+  · have e := cdEq_ne (cdW_append hY hY) (fun l hl => invW_mem cdW_X l hl) ly6110_cYYR
     rw [Ly0.wG_append, wG_inv cdW_X, yw, xw', inv_inv] at e
     exact tab_ne (rY.compT rY) rR e
-  · have e := cdEq_ne hbc hY (fun l hl => invW_mem cdW_X l hl) ly6110_cYR
+  · have e := cdEq_ne hY (fun l hl => invW_mem cdW_X l hl) ly6110_cYR
     rw [wG_inv cdW_X, yw, xw', inv_inv] at e
     exact tab_ne rY rR e
   · have e := cdEq_eq hbc (cdW_append hF (cdW_append hF (cdW_append hF (cdW_append hF hF))))
@@ -359,7 +361,7 @@ theorem cp1Check_true (hbc : RB5Bound) : Ly0.cp1Check = true := by
     rw [Ly0.wG_append, Ly0.wG_append, Ly0.wG_append, Ly0.wG_append, fw, Ly0.wG_nil] at e
     exact tab_eq (powT_size 5 _) Ly0.idT_size (Rep.powT Ly0.deg_lt rF 5) (Rep.idT Ly0.deg_lt)
       ((pow_five_eq _).trans e)
-  · have e := cdEq_ne hbc hF cdW_nil ly6110_cF1
+  · have e := cdEq_ne hF cdW_nil ly6110_cF1
     rw [fw, Ly0.wG_nil] at e
     exact tab_ne rF (Rep.idT Ly0.deg_lt) e
   · have e := comm_of hbc hF hY ly6110_cFY
@@ -419,12 +421,12 @@ theorem markCheck_true (hbc : RB5Bound) : Ly0.markCheck = true := by
   have xw' := xw hbc
   unfold Ly0.markCheck
   simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, and_assoc, ne_eq,
-    Bool.not_eq_true, beq_eq_false_iff_ne]
+    beq_eq_false_iff_ne]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · have e := cdEq_eq hbc (cdW_append hT hT) cdW_nil ly6110_mT2
     rw [Ly0.wG_append, tw, Ly0.wG_nil] at e
     exact tab_eq (Ly0.compT_size _ _) Ly0.idT_size (rT.compT rT) (Rep.idT Ly0.deg_lt) e
-  · have e := cdEq_ne hbc hT cdW_nil ly6110_mT1
+  · have e := cdEq_ne hT cdW_nil ly6110_mT1
     rw [tw, Ly0.wG_nil] at e
     exact tab_ne rT (Rep.idT Ly0.deg_lt) e
   · have e := comm_of hbc hT cdW_X ly6110_mTX

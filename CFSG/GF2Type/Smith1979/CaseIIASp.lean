@@ -78,17 +78,21 @@ theorem zmod2_add_self (a : ZMod 2) : a + a = 0 := by
 
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem vec_add_self (u : W) : u + u = 0 := by
   rw [← two_smul (ZMod 2) u]
   have : (2 : ZMod 2) = 0 := by decide
   rw [this, zero_smul]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem neg_vec (u : W) : -u = u := by
   rw [neg_eq_iff_add_eq_zero, vec_add_self]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem vec_eq_of_add_eq_zero {u v : W} (h : u + v = 0) : u = v := by
   rw [eq_neg_of_add_eq_zero_left h, neg_vec]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem alt_symm (α : LinearMap.BilinForm (ZMod 2) W) (hα : ∀ u, α u u = 0) (u v : W) :
     α u v = α v u := by
   have h := hα (u + v)
@@ -109,6 +113,7 @@ namespace SpData
 variable (D : SpData ω V)
 include D
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem symm (u v : W) : ω u v = ω v u := alt_symm ω D.alt u v
 
 theorem perp_eq : ω.orthogonal V = V := by
@@ -121,6 +126,7 @@ theorem mem_of_forall {x : W} (h : ∀ v ∈ V, ω v x = 0) : x ∈ V := by
   rw [← D.perp_eq]
   exact LinearMap.BilinForm.mem_orthogonal_iff.mpr h
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem eq_zero_of_forall {x : W} (h : ∀ u, ω x u = 0) : x = 0 :=
   D.nondeg.1 x h
 
@@ -147,6 +153,7 @@ theorem exists_dual_of_notMem {p : Submodule (ZMod 2) X} {x : X} (hx : x ∉ p) 
   rw [hφp] at this
   exact this
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem exists_notMem_span_pair (hX : finrank (ZMod 2) X = 3) (x z : X) :
     ∃ y : X, y ∉ Submodule.span (ZMod 2) {x, z} := by
   by_contra hcon
@@ -160,6 +167,7 @@ theorem exists_notMem_span_pair (hX : finrank (ZMod 2) X = 3) (x z : X) :
   rw [htop, finrank_top, hX] at h1
   omega
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem exists_ne_zero_mem_ker (hX : finrank (ZMod 2) X = 3) (φ : Module.Dual (ZMod 2) X) :
     ∃ c : X, c ≠ 0 ∧ φ c = 0 := by
   by_contra hcon
@@ -200,7 +208,7 @@ theorem exists_apply_ne (hX : finrank (ZMod 2) X = 3) {x : X} (hx : x ≠ 0) :
   apply hc0
   simpa using h
 
-theorem exists_fix_apply_eq (hX : finrank (ZMod 2) X = 3) {a x y : X}
+theorem exists_fix_apply_eq (_hX : finrank (ZMod 2) X = 3) {a x y : X}
     (hx : x ∉ Submodule.span (ZMod 2) {a}) (hy : y ∉ Submodule.span (ZMod 2) {a}) :
     ∃ h : X ≃ₗ[ZMod 2] X, h a = a ∧ h x = y := by
   have hxp : x ∉ Submodule.span (ZMod 2) {a, x + y} := by
@@ -245,6 +253,7 @@ theorem alt_form_eq_zero (hX : finrank (ZMod 2) X = 3) (β : LinearMap.BilinForm
       add_zero, one_smul, map_add] at h
     exact add_eq_left.mp h
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem exists_notMem_span_singleton (hX : finrank (ZMod 2) X = 3) (c : X) :
     ∃ u : X, u ∉ Submodule.span (ZMod 2) {c} := by
   obtain ⟨u, hu⟩ := exists_notMem_span_pair hX c c
@@ -313,7 +322,7 @@ theorem eq_zero_of_conj (hX : finrank (ZMod 2) X = 3) (ψ : X →ₗ[ZMod 2] X)
   rw [h4, smul_eq_mul, mul_one] at h3
   exact h3
 
-theorem exists_apply_eq (hX : finrank (ZMod 2) X = 3) {x y : X} (hx : x ≠ 0) (hy : y ≠ 0) :
+theorem exists_apply_eq (_hX : finrank (ZMod 2) X = 3) {x y : X} (hx : x ≠ 0) (hy : y ≠ 0) :
     ∃ h : X ≃ₗ[ZMod 2] X, h x = y := by
   have hx' : x ∉ Submodule.span (ZMod 2) {x + y} := by
     intro hmem
@@ -346,14 +355,16 @@ structure IsGamma (Γ : Subgroup (W ≃ₗ[ZMod 2] W)) : Prop where
     (h₂ : ∀ v ∈ V, γ.symm v ∈ V) : V ≃ₗ[ZMod 2] V where
   toFun v := ⟨γ v, h₁ v v.2⟩
   invFun v := ⟨γ.symm v, h₂ v v.2⟩
-  map_add' u w := Subtype.ext (map_add γ _ _)
-  map_smul' c u := Subtype.ext (map_smul γ _ _)
-  left_inv u := Subtype.ext (γ.symm_apply_apply _)
-  right_inv u := Subtype.ext (γ.apply_symm_apply _)
+  map_add' _u _w := Subtype.ext (map_add γ _ _)
+  map_smul' _c _u := Subtype.ext (map_smul γ _ _)
+  left_inv _u := Subtype.ext (γ.symm_apply_apply _)
+  right_inv _u := Subtype.ext (γ.apply_symm_apply _)
 
+omit [FiniteDimensional (ZMod 2) W] in
 @[simp] theorem coe_resV (γ : W ≃ₗ[ZMod 2] W) (h₁ : ∀ v ∈ V, γ v ∈ V)
     (h₂ : ∀ v ∈ V, γ.symm v ∈ V) (v : V) : ((resV V γ h₁ h₂ v : V) : W) = γ v := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 @[simp] theorem coe_resV_symm (γ : W ≃ₗ[ZMod 2] W) (h₁ : ∀ v ∈ V, γ v ∈ V)
     (h₂ : ∀ v ∈ V, γ.symm v ∈ V) (v : V) :
     (((resV V γ h₁ h₂).symm v : V) : W) = γ.symm v := rfl
@@ -363,11 +374,14 @@ namespace IsGamma
 variable {Γ : Subgroup (W ≃ₗ[ZMod 2] W)} (hΓ : IsGamma ω V Γ)
 include hΓ
 
+omit [FiniteDimensional (ZMod 2) W] hΓ in
 theorem symm_mem {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) : γ.symm ∈ Γ := Γ.inv_mem hγ
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem stabV_symm {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) {v : W} (hv : v ∈ V) : γ.symm v ∈ V :=
-  hΓ.stabV _ (hΓ.symm_mem hγ) v hv
+  hΓ.stabV _ (IsGamma.symm_mem hγ) v hv
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem isom_symm {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) (u v : W) :
     ω (γ.symm u) v = ω u (γ v) := by
   have := hΓ.isom γ hγ (γ.symm u) v
@@ -375,14 +389,17 @@ theorem isom_symm {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) (u v : W) :
   exact this.symm
 
 @[expose] def res {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) : V ≃ₗ[ZMod 2] V :=
-  resV V γ (hΓ.stabV γ hγ) (fun v hv => hΓ.stabV_symm hγ hv)
+  resV V γ (hΓ.stabV γ hγ) (fun _v hv => hΓ.stabV_symm hγ hv)
 
+omit [FiniteDimensional (ZMod 2) W] in
 @[simp] theorem coe_res {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) (v : V) :
     ((hΓ.res hγ v : V) : W) = γ v := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 @[simp] theorem coe_res_symm {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) (v : V) :
     (((hΓ.res hγ).symm v : V) : W) = γ.symm v := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem exists_transvection {φ : Module.Dual (ZMod 2) V} {c : V} (h : φ c = 0) :
     ∃ γ ∈ Γ, ∀ v : V, γ (v : W) = (v : W) + φ v • (c : W) := by
   obtain ⟨γ, hγ, hγv⟩ := hΓ.onto (LinearEquiv.transvection h)
@@ -390,6 +407,7 @@ theorem exists_transvection {φ : Module.Dual (ZMod 2) V} {c : V} (h : φ c = 0)
   rw [hγv v, LinearEquiv.transvection.apply]
   rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem flat_transvection {φ : Module.Dual (ZMod 2) V} {c : V} (h : φ c = 0)
     {γ : W ≃ₗ[ZMod 2] W} (hγ : γ ∈ Γ) (hγφ : ∀ v : V, γ (v : W) = (v : W) + φ v • (c : W))
     (w : W) (v : V) : ω (γ w - w) (v : W) = φ v * ω w (c : W) := by
@@ -529,13 +547,16 @@ structure IsF (x : W ≃ₗ[ZMod 2] W) : Prop where
 
 namespace IsF
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem one : IsF ω V (1 : W ≃ₗ[ZMod 2] W) := ⟨fun _ _ => rfl, fun _ _ => rfl⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem mul {x y : W ≃ₗ[ZMod 2] W} (hx : IsF ω V x) (hy : IsF ω V y) : IsF ω V (x * y) :=
   ⟨fun u v => by
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hx.isom, hy.isom], fun v hv => by
     rw [LinearEquiv.mul_apply, hy.triv v hv, hx.triv v hv]⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem inv {x : W ≃ₗ[ZMod 2] W} (hx : IsF ω V x) : IsF ω V x⁻¹ :=
   ⟨fun u v => by
     have := hx.isom (x⁻¹ u) (x⁻¹ v)
@@ -544,8 +565,9 @@ theorem inv {x : W ≃ₗ[ZMod 2] W} (hx : IsF ω V x) : IsF ω V x⁻¹ :=
     calc x⁻¹ v = x⁻¹ (x v) := by rw [this]
       _ = v := by simp⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem conj {x g : W ≃ₗ[ZMod 2] W} (hx : IsF ω V x) (hg : ∀ u v, ω (g u) (g v) = ω u v)
-    (hgV : ∀ v ∈ V, g v ∈ V) (hgV' : ∀ v ∈ V, g.symm v ∈ V) : IsF ω V (g * x * g⁻¹) :=
+    (_hgV : ∀ v ∈ V, g v ∈ V) (hgV' : ∀ v ∈ V, g.symm v ∈ V) : IsF ω V (g * x * g⁻¹) :=
   ⟨fun u v => by
     have := hg (x (g.symm u)) (x (g.symm v))
     simp only [LinearEquiv.mul_apply]
@@ -595,6 +617,7 @@ theorem theta_add (u u' : W) :
   have hself := zmod2_add_self (ω (x u' - u') u)
   linear_combination hself
 
+omit [FiniteDimensional (ZMod 2) W] D hx in
 theorem theta_smul (c : ZMod 2) (u : W) :
     ω (x (c • u) - c • u) (c • u) = c • ω (x u - u) u := by
   rcases zmod2_cases c with rfl | rfl
@@ -604,7 +627,7 @@ theorem theta_smul (c : ZMod 2) (u : W) :
 @[expose] def theta : Module.Dual (ZMod 2) W where
   toFun u := ω (x u - u) u
   map_add' := hx.theta_add D
-  map_smul' c u := hx.theta_smul D c u
+  map_smul' c u := CFSG.GF2Type.Smith1979.Case2.Sp.IsF.theta_smul c u
 
 theorem mul_sub {y : W ≃ₗ[ZMod 2] W} (hy : IsF ω V y) (u : W) :
     (x * y) u - u = (x u - u) + (y u - u) := by
@@ -625,6 +648,7 @@ theorem theta_inv (u : W) : ω (x⁻¹ u - u) u = ω (x u - u) u := by
   rw [mul_inv_cancel, LinearEquiv.coe_one, id_eq, sub_self, map_zero, LinearMap.zero_apply] at h
   exact (zmod2_add_eq_zero h.symm).symm
 
+omit [FiniteDimensional (ZMod 2) W] D hx in
 theorem theta_conj {g : W ≃ₗ[ZMod 2] W} (hg : ∀ u v, ω (g u) (g v) = ω u v) (u : W) :
     ω ((g * x * g⁻¹) u - u) u = ω (x (g.symm u) - g.symm u) (g.symm u) := by
   have e : (g * x * g⁻¹) u = g (x (g.symm u)) := rfl
@@ -695,7 +719,7 @@ theorem IsGamma.mem_of_normalizes (D : SpData ω V) (hΓ : IsGamma ω V Γ)
       rw [this]
       exact Γ.mul_mem (hy'N g hg) (Γ.inv_mem hg)
     have h0 := hΓ0 _ hz hzF u
-    rw [hy'F.theta_mul D hconjF u, (hy'F.inv).theta_conj D hgF u,
+    rw [hy'F.theta_mul D hconjF u, CFSG.GF2Type.Smith1979.Case2.Sp.IsF.theta_conj hgF u,
       hy'F.theta_inv D (g.symm u)] at h0
     exact (zmod2_add_eq_zero h0).symm
   have hθV : ∀ v ∈ V, hy'F.theta D v = 0 := fun v hv => hy'F.theta_eq_zero_of_mem D hv
@@ -826,7 +850,7 @@ theorem card_AltGrp_le (D : SpData ω V) : Nat.card (AltGrp ω V D) ≤ 8 := by
     _ = 8 := hcard
 
 instance : Finite (W ≃ₗ[ZMod 2] W) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   exact Finite.of_injective (fun e : W ≃ₗ[ZMod 2] W => (e : W → W)) fun _ _ h =>
     LinearEquiv.ext (congrFun h)
 
@@ -834,7 +858,7 @@ theorem AltGrp.conj_mem (D : SpData ω V) {γ x : W ≃ₗ[ZMod 2] W}
     (hγ : ∀ u v, ω (γ u) (γ v) = ω u v) (hγV : ∀ v ∈ V, γ v ∈ V)
     (hx : x ∈ AltGrp ω V D) : γ * x * γ⁻¹ ∈ AltGrp ω V D :=
   ⟨hx.1.conj hγ hγV (fun v hv => symm_mem_of_mem hγV hv), fun u => by
-    rw [hx.1.theta_conj D hγ u]
+    rw [CFSG.GF2Type.Smith1979.Case2.Sp.IsF.theta_conj hγ u]
     exact hx.2 _⟩
 
 theorem eq_alt_of_card (D : SpData ω V) {Γ0 : Subgroup (W ≃ₗ[ZMod 2] W)}
@@ -913,6 +937,7 @@ theorem eq_bot_of_normal (D : SpData ω V) (hΓ : IsGamma ω V Γ) {a : W} (haV 
   rw [this]
   exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self b)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem eq_transvection (D : SpData ω V) {a : W} (ha0 : a ≠ 0) {x : W ≃ₗ[ZMod 2] W}
     (hx : ∀ u v, ω (x u) (x v) = ω u v)
     (hxa : ∀ u, x u - u ∈ Submodule.span (ZMod 2) {a}) :
@@ -1038,6 +1063,7 @@ theorem eq_perp_of_stable (D : SpData ω V) (hΓ : IsGamma ω V Γ) {a : W} (haV
     exact (sub_eq_zero.mp this).symm
   rw [hDeq, hd₀a, D.symm]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem sub_mem_span_of_all {a u₁ : W} (hu₁ : ω u₁ a = 1) {y : W ≃ₗ[ZMod 2] W}
     (hy : ∀ w, ω w a = 0 → y w - w ∈ Submodule.span (ZMod 2) {a})
     (hy1 : y u₁ - u₁ ∈ Submodule.span (ZMod 2) {a}) :
@@ -1062,6 +1088,7 @@ theorem sub_mem_span_of_all {a u₁ : W} (hu₁ : ω u₁ a = 1) {y : W ≃ₗ[Z
   rw [this]
   exact add_mem (Submodule.smul_mem _ _ hy1) (hy w' hw'a)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem eq_one_of_mem_span (D : SpData ω V) {a : W} (ha0 : a ≠ 0)
     {Λ : Subgroup (W ≃ₗ[ZMod 2] W)} (hiso : ∀ x ∈ Λ, ∀ u v, ω (x u) (x v) = ω u v)
     (hτ : ∀ x ∈ Λ, ¬ ∀ u, x u = u + ω u a • a) {y : W ≃ₗ[ZMod 2] W} (hy : y ∈ Λ)
@@ -1084,7 +1111,7 @@ theorem theta_eq_mul {a u₁ : W} (D : SpData ω V) (hu₁ : ω u₁ a = 1)
     obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.mp (hy (u + c • u₁) hu')
     rw [← hr, map_smul, LinearMap.smul_apply, D.symm a _, hu', smul_zero]
   have h1 := hyF.theta_add D (u + c • u₁) (c • u₁)
-  have h2 := hyF.theta_smul D c u₁
+  have h2 := CFSG.GF2Type.Smith1979.Case2.Sp.IsF.theta_smul (ω := ω) (x := y) c u₁
   have e : u + c • u₁ + c • u₁ = u := by rw [add_assoc, vec_add_self, add_zero]
   rw [e, h3, h2, zero_add, smul_eq_mul] at h1
   exact h1
@@ -1179,7 +1206,7 @@ theorem alt_of_Lambda (D : SpData ω V) (hΓ : IsGamma ω V Γ) {a : W} (haV : a
     have hκeq : ∀ γ ∈ Γ, γ a = a →
         ω ((γ * x * γ⁻¹) u₁ - u₁) u₁ = ω (x u₁ - u₁) u₁ := by
       intro γ hγ hγa
-      rw [hxF.theta_conj D (hΓ.isom γ hγ) u₁, theta_eq_mul D hu₁ (hΛc x hx) hxF (γ.symm u₁),
+      rw [CFSG.GF2Type.Smith1979.Case2.Sp.IsF.theta_conj (hΓ.isom γ hγ) u₁, theta_eq_mul D hu₁ (hΛc x hx) hxF (γ.symm u₁),
         hΓ.isom_symm hγ, hγa, hu₁, one_mul]
     have hx₁ : γ₁ * x * γ₁⁻¹ ∈ Λ := hΛn γ₁ hγ₁ hγ₁a x hx
     have hx₂ : γ₂ * x * γ₂⁻¹ ∈ Λ := hΛn γ₂ hγ₂ hγ₂a x hx

@@ -43,9 +43,10 @@ theorem qTwoChartMatch_permHom_mulVec (σ : Equiv.Perm (Fin m)) (i : Fin m) :
   funext k
   rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : k = σ i
-  · rw [if_pos (Equiv.Perm.inv_eq_iff_eq.mpr h), if_pos h]
-  · rw [if_neg (fun h' => h (Equiv.Perm.inv_eq_iff_eq.mp h')), if_neg h]
+  · rw [ite_eq_left (Equiv.Perm.inv_eq_iff_eq.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (Equiv.Perm.inv_eq_iff_eq.mp h')), ite_eq_right h]
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoChartMatch_diag_commute {g h : GL (Fin m) F0} (hg : ggIsDiagMat g)
     (hh : ggIsDiagMat h) : g * h = h * g := by
   obtain ⟨d, hd⟩ := hg
@@ -89,6 +90,7 @@ theorem qTwoChartMatch_isDiag_commutator (σ : Equiv.Perm (Fin m)) {g : GL (Fin 
   obtain ⟨d, hd⟩ := hg
   exact ⟨fun i => d (σ⁻¹ i) * Ring.inverse d i, qTwoChartMatch_commutator_GL_coe σ hd⟩
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartMatch_prod_update_two {i k : Fin m} (hik : i ≠ k) (a b : F0) :
     ∏ x, Function.update (Function.update (1 : Fin m → F0) i a) k b x = a * b := by
   rw [Finset.prod_update_of_mem (Finset.mem_univ k)]
@@ -124,6 +126,7 @@ private theorem qTwoChartMatch_diagTwo_coe (hF : Nat.card F0 = 4) {i k : Fin m}
         ((a⁻¹ : F0ˣ) : F0)) :=
   ggNSPosPB2_diagSU_coe _ _ _
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartMatch_swap_update_apply {i j : Fin m} (hij : i ≠ j) {e : Fin m → F0}
     (hene : ∀ x, e x ≠ 0) (c : F0ˣ) (hc : (c : F0) = e j / e i) :
     (fun x => e (Equiv.swap i j x) * Ring.inverse (e x)) =
@@ -143,6 +146,7 @@ private theorem qTwoChartMatch_swap_update_apply {i j : Fin m} (hij : i ≠ j) {
       rw [Ring.inverse_eq_inv]
       exact mul_inv_cancel₀ (hene x)
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qTwoChartMatch_ringInverse_apply_eq {e : Fin m → F0} (he : IsUnit e) (x : Fin m) :
     Ring.inverse e x = Ring.inverse (e x) := by
   rw [Ring.inverse_of_isUnit he, Units.val_inv_eq_inv_val, Pi.inv_apply,
@@ -157,8 +161,8 @@ theorem qTwoChartMatch_exists_finset_swap_commutator (hF : Nat.card F0 = 4) {i j
               (qTwoChartMatch_permHom (F0 := F0) (Equiv.swap i j) : GL (Fin m) F0)⁻¹ * g⁻¹ →
           d ∈ S := by
   classical
-  letI : Fintype F0 := Fintype.ofFinite F0
-  letI : Fintype F0ˣ := Fintype.ofFinite F0ˣ
+  let : Fintype F0 := Fintype.ofFinite F0
+  let : Fintype F0ˣ := Fintype.ofFinite F0ˣ
   let S : Finset (Su F0 2 1 m) :=
     Finset.univ.image (fun a : F0ˣ => qTwoChartMatch_diagTwo hF hij a)
   refine ⟨S, ?_, ?_⟩
@@ -267,10 +271,10 @@ theorem qTwoChartMatch_exists_diag_not_mem_center (hF : Nat.card F0 = 4) (hm : 5
     exact hσ (Equiv.ext h)
   obtain ⟨k, hki, hkj, -, -⟩ :=
     qTwoChartMatch_exists_ne_four hm i (σ⁻¹ i) (σ⁻¹ i) (σ⁻¹ i)
-  letI : Fintype F0 := Fintype.ofFinite F0
-  letI : Fintype F0ˣ := Fintype.ofFinite F0ˣ
+  let : Fintype F0 := Fintype.ofFinite F0
+  let : Fintype F0ˣ := Fintype.ofFinite F0ˣ
   have hcard : Nat.card F0ˣ = 3 := by rw [Nat.card_units, hF]
-  haveI : Nontrivial F0ˣ := by
+  have : Nontrivial F0ˣ := by
     have h : 1 < Fintype.card F0ˣ := by
       rw [← Nat.card_eq_fintype_card, hcard]
       norm_num

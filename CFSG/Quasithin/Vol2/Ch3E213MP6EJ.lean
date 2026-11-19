@@ -22,7 +22,7 @@ namespace P6E
 theorem isSylowTwoOf_top_of_sylow' {W : Type} [Group W] [Finite W] (S : Sylow 2 W) :
     IsSylowTwoOf (S : Subgroup W) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   rw [show ((S : Subgroup W).subgroupOf ⊤).index = (S : Subgroup W).index from
     Subgroup.relIndex_top_right _]
   exact S.not_dvd_index

@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_isF198 (D : Data G) (V X : Subgroup G) : ∃ F : Subgroup G, IsF198 D V X F := by
   classical
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   let S : Set (Subgroup G) :=
     {F | F ≤ V ∧ X ⊔ D.T ≤ normalizer (F : Set G) ∧ ⁅F, X⁆ = ⊥}
   have hne : S.Nonempty := by
@@ -40,7 +40,7 @@ theorem exists_chief198 {H V F : Subgroup G} (hVn : H ≤ normalizer (V : Set G)
     ∃ E : Subgroup G, F < E ∧ E ≤ V ∧ H ≤ normalizer (E : Set G) ∧
       ∀ U : Subgroup G, F ≤ U → U ≤ E → H ≤ normalizer (U : Set G) → U = F ∨ U = E := by
   classical
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   let S : Set (Subgroup G) := {E | F < E ∧ E ≤ V ∧ H ≤ normalizer (E : Set G)}
   have hne : S.Nonempty := ⟨V, hFV, le_rfl, hVn⟩
   obtain ⟨E, hE, hmin⟩ := (Set.toFinite S).exists_minimalFor (fun E : Subgroup G => E) S hne
@@ -51,6 +51,7 @@ theorem exists_chief198 {H V F : Subgroup G} (hVn : H ≤ normalizer (V : Set G)
     have hlt : F < U := lt_of_le_of_ne hFU (Ne.symm hUF)
     exact le_antisymm hUE (hmin ⟨hlt, hUE.trans hE.2.1, hUn⟩ hUE)
 
+omit [Finite G] in
 theorem mul_comm_of_comm_commutator {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2) {x e : G}
     (hxp : x ^ p = 1) (hxf : x * ⁅x, e⁆ = ⁅x, e⁆ * x) (hf2 : ⁅x, e⁆ ^ 2 = 1) :
     x * e = e * x := by

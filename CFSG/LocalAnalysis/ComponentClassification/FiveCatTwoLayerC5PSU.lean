@@ -201,7 +201,7 @@ end PSU2
 
 theorem fiveTwoLayer_char5_PSU : FiveTwoLayerCharFiveClause .PSU := by
   intro S _ _ hs hna ⟨n, f, hm⟩ σ P₁ P₂ h₁ h₂ hne hZ₁ hZ₂ e₁ e₂ huniq
-  haveI := hs
+  have := hs
   have hadm : StatedLieAdmissible .PSU n 5 f := hm.admissible
   have hσ1 : σ ≠ 1 := h₁.ne_one
   have hσσ : σ * σ = 1 := MulEquiv.ext fun y => h₁.1 y

@@ -35,7 +35,7 @@ theorem plane63E3_of_situation {G : Type} [Group G] [Finite G]
   have hzM : z ∈ M := hPM hz.mem
   refine ⟨hPM, hxM, hzM, ?_⟩
   have hprime : Nat.Prime 5 := Nat.prime_five
-  haveI : Fact (Nat.Prime 5) := ⟨hprime⟩
+  have : Fact (Nat.Prime 5) := ⟨hprime⟩
   have hne : M ≠ ⊤ := by
     intro h
     apply hx.not_centralizer_le
@@ -86,7 +86,7 @@ theorem plane63E3_of_situation {G : Type} [Group G] [Finite G]
     have hG : CFSG.ABGLocalTools.IsSylowOf 5 ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
         (centralizer ({x} : Set G)) :=
       CFSG.ABGLocalTools.isSylowOf_iff.mpr
-        ⟨inf_le_right, (P.isPGroup').to_le inf_le_left, hx.sylow_centralizer⟩
+        ⟨inf_le_right, (P.isPGroup).to_le inf_le_left, hx.sylow_centralizer⟩
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff M, hA, hB]
     exact CFSG.ABGLocalTools.IsSylowOf.of_le hG (inf_le_inf_right _ hPM) inf_le_right
 

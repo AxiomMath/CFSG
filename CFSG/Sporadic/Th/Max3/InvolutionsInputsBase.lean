@@ -9,10 +9,10 @@ namespace CFSG.Sporadic.Th.Max3.InvRep
 
 open CFSG.Sporadic.Th.Native
 
-@[expose] def wordOfString (s : String) : List Gen :=
+def wordOfString (s : String) : List Gen :=
   s.toList.map fun c => if c = 'x' then Gen.x else Gen.y
 
-@[expose] def conjTable : List (Nat × String) :=
+def conjTable : List (Nat × String) :=
   [(2, ""), (3, "yxyxyxyxyxyx"), (4, "x"), (5, "xyxyxyxyxyxyx"), (8, "yyyyx"), (9, "xyxyxyxyxyx"),
    (12, "yyyyxyx"), (13, "xyyyyxyxyxyyyxyx"), (14, "yyyxyyyyxyxyx"), (15, "yyxyyxyyxyyyx"),
    (16, "yxyxyxyxyx"), (17, "xyyyyx"), (18, "yyyyxyxyxyyyxyx"), (19, "xyyyyxyx"),
@@ -82,18 +82,18 @@ open CFSG.Sporadic.Th.Native
    (497, "yxyyyyyxyyyyx"), (500, "xyxyxyxyyxyx"), (501, "yyyyxyxyyxyx"), (502, "yxyyyyyxyyyx"),
    (503, "yyyyxyxyyyyx"), (510, "yyyyxyyxyyxyyyx"), (511, "yxyxyyxyyxyx")]
 
-@[expose] def conjWord (k : Fin 512) : List Gen :=
+def conjWord (k : Fin 512) : List Gen :=
   wordOfString ((List.lookup k.val conjTable).getD "")
 
-@[expose] def uTable : List (Nat × Nat) :=
+def uTable : List (Nat × Nat) :=
   [(0, 0), (1, 6), (6, 4), (7, 2), (24, 14), (25, 8), (30, 12), (31, 10), (160, 32), (161, 38),
    (166, 36), (167, 34), (184, 46), (185, 40), (190, 44), (191, 42), (320, 64), (321, 70),
    (326, 66), (327, 68), (344, 72), (345, 78), (350, 76), (351, 74), (480, 96), (481, 102),
    (486, 98), (487, 100), (504, 104), (505, 110), (510, 108), (511, 106)]
 
-@[expose] def uIdx (k : Fin 512) : Fin 512 :=
+def uIdx (k : Fin 512) : Fin 512 :=
   Fin.ofNat 512 ((List.lookup k.val uTable).getD 0)
 
-@[expose] def rowsConj (k : Fin 512) : Array V4 := wordRows rowsX rowsY (conjWord k)
+def rowsConj (k : Fin 512) : Array V4 := wordRows rowsX rowsY (conjWord k)
 
 end CFSG.Sporadic.Th.Max3.InvRep

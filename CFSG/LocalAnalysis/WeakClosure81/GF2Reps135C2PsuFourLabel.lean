@@ -37,17 +37,17 @@ private theorem w135c2_psu_four_natural_of_singleN
     {l : Lbl n} (hdimW : Module.finrank (EndRing ρ) (Additive S) = l.dim)
     (hinv : l.RotInv d) (hSN : l.SingleN) :
     NaturalU4Mod n L := by
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
   have h4 : Module.finrank (EndRing ρ) (Additive S) = 4 := by
     rw [hdimW]
     exact Lbl.dim_eq_four_of_singleN hSN
   have h2n : 2 * n ∣ d := Lbl.SingleN.two_mul_dvd hSN hinv
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
   obtain ⟨ι⟩ := ClassFinal.exists_ringHom_of_dvd hK' hDcard h2n
-  letI : Algebra K (EndRing ρ) := ι.toAlgebra
+  let : Algebra K (EndRing ρ) := ι.toAlgebra
   let b : Module.Basis (Fin 4) (EndRing ρ) (Additive S) :=
     Module.finBasisOfFinrankEq _ _ h4
   obtain ⟨l', -, ⟨Φ'⟩, hdim'⟩ :=
@@ -100,16 +100,16 @@ private theorem w135c2_psu_four_natural_of_singleO
     (hdimW : Module.finrank (EndRing ρ) (Additive S) = l.dim)
     (hinv : l.RotInv d) (hSO : l.SingleO) :
     NaturalU4Mod n L := by
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
   have h6 : Module.finrank (EndRing ρ) (Additive S) = 6 := by
     rw [hdimW]
     exact Lbl.dim_eq_six_of_singleO hSO
   obtain ⟨m', hm'⟩ := Lbl.SingleO.dvd hSO hinv
-  letI : Algebra K E := ιK.toAlgebra
-  letI : Algebra (EndRing ρ) E := ιD.toAlgebra
+  let : Algebra K E := ιK.toAlgebra
+  let : Algebra (EndRing ρ) E := ιD.toAlgebra
   let b : Module.Basis (Fin 6) (EndRing ρ) (Additive S) :=
     Module.finBasisOfFinrankEq _ _ h6
   obtain ⟨l', -, ⟨Φ'⟩, hdim'⟩ := u4_exists_label (classif_holds hK) hnt b ιK ιD
@@ -146,12 +146,12 @@ theorem w135c2_psu_four_label
         Nat.card S = 2 ^ (d * l.dim) ∧
         ∀ t ∈ L, t ≠ 1 → t * t = 1 → d * l.rk1 ≤ disp t := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨K, _, _, _, hK, ⟨η⟩⟩ := exists_equiv_SU hL
   obtain ⟨hSnt, x₀, hx₀⟩ := ClassFinal.nontrivial_of_isU4Group hL
-  haveI : Nontrivial S := hSnt
+  have : Nontrivial S := hSnt
   let ρ := ClassFinal.binRep L η
-  haveI : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirr⟩
   have hnt : ∃ g, ρ g ≠ 1 := ⟨η x₀, ClassFinal.binRep_ne_one L η x₀ hx₀⟩
   have hρ : ∀ (x : ↥L) (s : S),
       ρ (η x) (Additive.ofMul s) = Additive.ofMul ((x : MulAut S) s) :=
@@ -161,10 +161,10 @@ theorem w135c2_psu_four_label
     ClassFinal.binRep_eta_lin L η
   have hC : Classif K n := classif_holds hK
   obtain ⟨d, hd1, hDcard, hdesc⟩ := u4_descent hC hK hnt
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive S) := Module.Finite.of_finite
   let b₀ : Module.Basis (Fin (Module.finrank (EndRing ρ) (Additive S))) (EndRing ρ)
       (Additive S) := Module.finBasis (EndRing ρ) (Additive S)
   obtain ⟨E, _, _, _, ιK, ιD, l, hl0, ⟨Φ⟩, _hm1, _hm2, hdimW⟩ := hdesc b₀
@@ -183,7 +183,7 @@ theorem w135c2_psu_four_label
       rw [hdimW, ← pow_mul] at h1
       exact (Nat.card_congr Additive.toMul).symm.trans h1
     · intro t ht ht1 ht2
-      letI : Algebra K E := ιK.toAlgebra
+      let : Algebra K E := ιK.toAlgebra
       have hxt : (⟨t, ht⟩ : ↥L) * ⟨t, ht⟩ = 1 := Subtype.ext ht2
       have hηt : η ⟨t, ht⟩ * η ⟨t, ht⟩ = 1 := by rw [← map_mul, hxt, map_one]
       have hηt1 : η ⟨t, ht⟩ ≠ 1 := by

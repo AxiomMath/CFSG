@@ -29,13 +29,16 @@ private noncomputable abbrev Pmat : Matrix (Fin 3) (Fin 3) AM.K :=
 private noncomputable abbrev PinvMat : Matrix (Fin 3) (Fin 3) AM.K :=
   (((D.frameB AM)⁻¹ : Matrix.SpecialLinearGroup (Fin 3) AM.K) : Matrix (Fin 3) (Fin 3) AM.K)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameVec_mem (v : Fin 3 → AM.K) : D.frameVec AM v ∈ AM.Vsp hc t := by
   unfold Sec108Data.frameVec
   refine Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (D.bV AM i).2
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameVec_eq_sum (c : Fin 3 → AM.K) :
     D.frameVec AM c = ∑ i, (Pmat D AM *ᵥ c) i • (D.bV AM i : AM.M₀.E) := rfl
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frame_mul_inv (v : Fin 3 → AM.K) :
     Pmat D AM *ᵥ (PinvMat D AM *ᵥ v) = v := by
   have hmul : Pmat D AM * PinvMat D AM = 1 := by
@@ -51,6 +54,7 @@ private theorem frame_mul_inv (v : Fin 3 → AM.K) :
     _ = 1 *ᵥ v := by rw [hmul]
     _ = v := Matrix.one_mulVec v
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frame_inv_mul (v : Fin 3 → AM.K) :
     PinvMat D AM *ᵥ (Pmat D AM *ᵥ v) = v := by
   have hmul : PinvMat D AM * Pmat D AM = 1 := by
@@ -66,6 +70,7 @@ private theorem frame_inv_mul (v : Fin 3 → AM.K) :
     _ = 1 *ᵥ v := by rw [hmul]
     _ = v := Matrix.one_mulVec v
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem repr_frameVec (c : Fin 3 → AM.K) :
     ((D.bV AM).repr ⟨D.frameVec AM c, frameVec_mem D AM c⟩ : Fin 3 → AM.K) =
       Pmat D AM *ᵥ c := by
@@ -76,12 +81,14 @@ private theorem repr_frameVec (c : Fin 3 → AM.K) :
     rw [frameVec_eq_sum]
   rw [h, Module.Basis.repr_sum_self]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameCoord_apply {e : AM.M₀.E} (he : e ∈ AM.Vsp hc t) :
     D.frameCoord AM e =
       PinvMat D AM *ᵥ ((D.bV AM).repr ⟨e, he⟩ : Fin 3 → AM.K) := by
   unfold Sec108Data.frameCoord
-  rw [dif_pos he]
+  rw [dite_eq_left he]
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameCoord_frameVec (v : Fin 3 → AM.K) :
     D.frameCoord AM (D.frameVec AM v) = v := by
   rw [show D.frameCoord AM (D.frameVec AM v) =
@@ -90,6 +97,7 @@ private theorem frameCoord_frameVec (v : Fin 3 → AM.K) :
   rw [repr_frameVec]
   exact frame_inv_mul D AM v
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameVec_frameCoord {e : AM.M₀.E} (he : e ∈ AM.Vsp hc t) :
     D.frameVec AM (D.frameCoord AM e) = e := by
   calc D.frameVec AM (D.frameCoord AM e)
@@ -103,11 +111,13 @@ private theorem frameVec_frameCoord {e : AM.M₀.E} (he : e ∈ AM.Vsp hc t) :
         rw [frame_mul_inv D AM ((D.bV AM).repr ⟨e, he⟩ : Fin 3 → AM.K)]
     _ = e := congrArg Subtype.val (Module.Basis.sum_repr (D.bV AM) ⟨e, he⟩)
 
+omit [Finite G] [(Q.subgroupOf M).Normal] in
 private theorem e0_ne_zero : Sec108.e₀ AM.K ≠ 0 := by
   intro h
   have h1 := congrFun h 0
   simp [Sec108.e₀] at h1
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameVec_e0_ne_zero : D.frameVec AM (Sec108.e₀ AM.K) ≠ 0 := by
   intro h
   have h0 : D.frameCoord AM (0 : AM.M₀.E) = 0 := by
@@ -132,6 +142,7 @@ private theorem semiFun_eq_self_of_mem_ker
   rw [D.semiT_piM AM d.2 hdN v] at h
   simpa using h
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem frameCoord_act_eq
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hfun : ∀ v, D.semiFun AM d v = v) :
@@ -141,6 +152,7 @@ private theorem frameCoord_act_eq
   intro v
   simpa only [Sec108Data.semiFun] using hfun v
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem act_fixes_Vsp
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hcoord : ∀ v, D.frameCoord AM
@@ -165,7 +177,7 @@ private theorem act_fixes_Vsp
   · exfalso
     have hz : D.frameCoord AM (T e) = 0 := by
       rw [Sec108Data.frameCoord]
-      exact dif_neg hTmem
+      exact dite_eq_right hTmem
     rw [hz] at hcoord_e
     have he0 : e = 0 := by
       calc e = D.frameVec AM (D.frameCoord AM e) := (frameVec_frameCoord D AM he).symm
@@ -198,6 +210,7 @@ private noncomputable abbrev actScalar
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G))) : AM.Kˣ :=
   (AM.glob.act (d : G) (Subgroup.mem_inf.mp d.2).1).choose_spec.choose
 
+omit [Finite G] [(Q.subgroupOf M).Normal] in
 private theorem gamma_actScalar
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hσ : (AM.glob.act (d : G) (Subgroup.mem_inf.mp d.2).1).choose = 1) :
@@ -210,6 +223,8 @@ private theorem gamma_actScalar
     (Subgroup.mem_inf.mp d.2).1).choose_spec.choose_spec.choose_spec.2.2.1 z hz
   rw [h, hσγ]
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem gamma_conj_inv_one (hc : Ctx M Q Z B) {x : G} (hxM : x ∈ M) {a : AM.Kˣ}
     (hγ : ∀ z ∈ Z, AM.γ (x * z * x⁻¹) = (a : AM.K) * AM.γ z) :
     ∀ w ∈ Z, AM.γ (x⁻¹ * w * x) = ((a⁻¹ : AM.Kˣ) : AM.K) * AM.γ w := by
@@ -228,6 +243,8 @@ private theorem gamma_conj_inv_one (hc : Ctx M Q Z B) {x : G} (hxM : x ∈ M) {a
     _ = ((a⁻¹ : AM.Kˣ) : AM.K) * AM.γ w := by
         rw [← h, Units.val_inv_eq_inv_val]
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem gamma_conj_commutator_one (hc : Ctx M Q Z B) {d e : G} (hdM : d ∈ M)
     (heM : e ∈ M) {ad ae : AM.Kˣ}
     (hd : ∀ z ∈ Z, AM.γ (d * z * d⁻¹) = (ad : AM.K) * AM.γ z)
@@ -269,6 +286,8 @@ private theorem gamma_conj_commutator_one (hc : Ctx M Q Z B) {d e : G} (hdM : d 
             ((ae⁻¹ : AM.Kˣ) : AM.K)) * AM.γ w by ring]
         rw [hscalar, one_mul]
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem gamma_conj_pow_one (hc : Ctx M Q Z B) {x : G} (hxM : x ∈ M) {a : AM.Kˣ}
     (hγ : ∀ z ∈ Z, AM.γ (x * z * x⁻¹) = (a : AM.K) * AM.γ z) (n : ℕ) :
     ∀ z ∈ Z, AM.γ (x ^ n * z * (x ^ n)⁻¹) = ((a ^ n : AM.Kˣ) : AM.K) * AM.γ z := by
@@ -286,6 +305,8 @@ private theorem gamma_conj_pow_one (hc : Ctx M Q Z B) {x : G} (hxM : x ∈ M) {a
     rw [e, h1, ih z hz, pow_succ, Units.val_mul]
     ring
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem commutator_mem_H0_of_rep (hctx : Ctx M Q Z B)
     (d e : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hdσ : (AM.glob.act (d : G) (Subgroup.mem_inf.mp d.2).1).choose = 1)
@@ -318,6 +339,7 @@ private theorem repNLY_piM (g : ↥(NLYsub (M := M) (Q := Q) (B := B) (Y := Y)))
     ⟨g, NLY_le_bar_normalizer hc.hyp.Q_normal.1
       (D.root_le_LB.trans hc.LB_le_M) g.2⟩
 
+omit [Finite G] in
 private theorem piM_pow {x : G} (hx : x ∈ M) (n : ℕ) :
     HS6.piM M Q (x ^ n) = (HS6.piM M Q x) ^ n := by
   induction n with
@@ -325,6 +347,7 @@ private theorem piM_pow {x : G} (hx : x ∈ M) (n : ℕ) :
   | succ n ih =>
     rw [pow_succ, pow_succ, HS6.piM_mul (M.pow_mem hx n) hx, ih]
 
+omit [Finite G] in
 private theorem piM_commutator {x y : G} (hx : x ∈ M) (hy : y ∈ M) :
     HS6.piM M Q ⁅x, y⁆ = ⁅HS6.piM M Q x, HS6.piM M Q y⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
@@ -381,6 +404,7 @@ private theorem rho_eq_one_of_semiT_eq_one {u : ↥(NLYsub (M := M) (Q := Q) (B 
   have h2 := congrFun h i
   simpa [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.one_apply] using h2.symm
 
+omit [Finite G] in
 private theorem ker_barLift_le_of_ker_le {S T : Subgroup G} {H : Type*} [Monoid H]
     (f : ↥S →* H) (hf : ∀ s : ↥S, (s : G) ∈ Q → f s = 1)
     (hker : f.ker ≤ T.subgroupOf S) :
@@ -396,12 +420,16 @@ private theorem ker_barLift_le_of_ker_le {S T : Subgroup G} {H : Type*} [Monoid 
   rw [← hpi]
   exact HS6.piM_mem_bar (M := M) (Q := Q) hT (barRep_mem x)
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem odd_card_units (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) : Odd (Nat.card AM.Kˣ) := by
   have h := D.odd_card_units_prod AM
   rw [Nat.card_prod] at h
   exact Nat.Odd.of_mul_left h
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem units_eq_one_of_pow_two_pow (D : Sec108Data hc t Y) {a : AM.Kˣ} {k : ℕ}
     (h : a ^ 2 ^ k = 1) : a = 1 := by
   have hodd : Odd (Nat.card AM.Kˣ) := odd_card_units D AM
@@ -419,6 +447,7 @@ private theorem pow_mem_CN_of_pow_mem_bar (D₀ : Sec108Data hc t Y)
   exact (HS6.piM_mem_bar_iff (S := hc.CN t) (hc.Q_le_CN D₀.good.1.mem_LB)
     (M.pow_mem hdM _)).mp (by rw [hpowpi]; exact hk)
 
+omit [(Q.subgroupOf M).Normal] in
 private theorem actScalar_pow_eq_one (D₀ : Sec108Data hc t Y) (hctx : Ctx M Q Z B)
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hσ : (AM.glob.act (d : G) (Subgroup.mem_inf.mp d.2).1).choose = 1)
@@ -445,6 +474,8 @@ private theorem actScalar_rep_eq_one (g : ↥(NLYsub (M := M) (Q := Q) (B := B) 
     (actScalar_pow_eq_one (D₀ := D) (hctx := hc) (AM := AM) (repNLY D g)
       (act_sigma_of_rep D AM g hg) (pow_mem_CN_of_pow_mem_bar (D₀ := D) g k hk))
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 private theorem mem_H0_of_actScalar_eq_one (hctx : Ctx M Q Z B)
     (d : ↥(M ⊓ Subgroup.normalizer ((Y ⊔ Q : Subgroup G) : Set G)))
     (hσ : (AM.glob.act (d : G) (Subgroup.mem_inf.mp d.2).1).choose = 1)

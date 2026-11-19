@@ -181,8 +181,8 @@ private theorem hullDim_quad_le_eight [Module.Finite F V] [CharP F 2]
 private theorem exists_polar_one_quad [Finite F] [CharP F 2] [FiniteDimensional F V]
     (hQ : (polarBilin Q).Nondegenerate) (hV : 12 ≤ finrank F V)
     {a b c d : FrameVert Q ν n}
-    (hab : (frameGraph Q ν n).Adj a b) (hbc : (frameGraph Q ν n).Adj b c)
-    (hcd : (frameGraph Q ν n).Adj c d) (hda : (frameGraph Q ν n).Adj d a) :
+    (_hab : (frameGraph Q ν n).Adj a b) (hbc : (frameGraph Q ν n).Adj b c)
+    (hcd : (frameGraph Q ν n).Adj c d) (_hda : (frameGraph Q ν n).Adj d a) :
     ∃ m ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ((b.plane ⊔ d.plane) ⊔ c.plane),
       ∃ l ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ((b.plane ⊔ d.plane) ⊔ a.plane),
         polar Q m l = 1 := by

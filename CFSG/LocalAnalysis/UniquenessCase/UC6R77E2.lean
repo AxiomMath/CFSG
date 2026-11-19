@@ -41,14 +41,17 @@ variable {E : Subgroup G}
        map_mul' := fun a b => Commute.mul_pow (hc a b) k } : E →* E)
     hk.pow_left_bijective
 
+omit [Finite G] in
 theorem powAut_apply (hc : ∀ a b : E, a * b = b * a) {k : ℕ} (hk : (Nat.card E).Coprime k)
     (e : E) : powAut hc hk e = e ^ k :=
   rfl
 
+omit [Finite G] in
 theorem mul_comm_of_pow {z : MulAut E} {k : ℕ} (hz : ∀ e : E, z e = e ^ k) (σ : MulAut E) :
     σ * z = z * σ :=
   MulEquiv.ext fun e => by rw [MulAut.mul_apply, MulAut.mul_apply, hz, hz, map_pow]
 
+omit [Finite G] in
 theorem pow_apply_of_pow {z : MulAut E} {k : ℕ} (hz : ∀ e : E, z e = e ^ k) (j : ℕ) (e : E) :
     (z ^ j) e = e ^ (k ^ j) := by
   induction j generalizing e with
@@ -58,7 +61,7 @@ theorem pow_apply_of_pow {z : MulAut E} {k : ℕ} (hz : ∀ e : E, z e = e ^ k) 
 theorem exists_powAut {p r : ℕ} [hp : Fact p.Prime] [hr : Fact r.Prime] (hpr1 : p ∣ r - 1)
     (hE : IsElemAbelian r E) {n : ℕ} (hEcard : Nat.card E = r ^ n) (hn : n ≠ 0) :
     ∃ z : MulAut E, z ≠ 1 ∧ z ^ p = 1 ∧ ∃ k : ℕ, ∀ e : E, z e = e ^ k := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have hrE : ∀ e : E, e ^ r = 1 := fun e => Subtype.ext (by simpa using hE.2 e e.2)
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := (ZMod r)ˣ) p (by
     rwa [Nat.card_eq_fintype_card, ZMod.card_units])
@@ -74,7 +77,7 @@ theorem exists_powAut {p r : ℕ} [hp : Fact p.Prime] [hr : Fact r.Prime] (hpr1 
     exact ((Nat.Prime.coprime_iff_not_dvd hr.out).2 hrk).pow_left n
   have hz : ∀ e : E, powAut (fun a b => mul_comm' a b) hcop e = e ^ k := fun e => rfl
   refine ⟨powAut (fun a b => mul_comm' a b) hcop, fun h1 => ?_, ?_, k, hz⟩
-  · haveI : Nontrivial E := by
+  · have : Nontrivial E := by
       rw [← Finite.one_lt_card_iff_nontrivial, hEcard]
       exact Nat.one_lt_pow hn hr.out.one_lt
     obtain ⟨e, he⟩ := exists_ne (1 : E)
@@ -102,7 +105,7 @@ variable {r : ℕ} [hr : Fact r.Prime] {E : Subgroup G}
 
 theorem nonempty_mulAut_mulEquiv_GL (hE : IsElemAbelian r E) (hEcard : Nat.card E = r ^ 2) :
     Nonempty (MulAut E ≃* GL (Fin 2) (ZMod r)) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   obtain ⟨φ⟩ := CFSG.Sporadic.RuSchreier.ru_nonempty_mulEquiv_of_elementary (p := r)
     (fun a b : E => mul_comm' a b) (fun a => Subtype.ext (by simpa using hE.2 a a.2)) hEcard
   exact ⟨(MulAut.congr φ).trans (CFSG.Sporadic.RuSchreier.ruMulAutEquivGL 2)⟩
@@ -127,7 +130,7 @@ theorem isCyclic_of_mulAut {p : ℕ} [Fact p.Prime] (hpr : p ≠ r) (hpr1 : ¬ p
     (hE : IsElemAbelian r E) (hEcard : Nat.card E = r ^ 2) {B : Subgroup (MulAut E)}
     (hB : IsPGroup p B) : IsCyclic B := by
   obtain ⟨e⟩ := nonempty_mulAut_mulEquiv_GL hE hEcard
-  haveI := CFSG.AGLEmbeddingD2.CyclicSylowGL.isCyclic_of_isPGroup_GL (k := ZMod r) (m := 2)
+  have := CFSG.AGLEmbeddingD2.CyclicSylowGL.isCyclic_of_isPGroup_GL (k := ZMod r) (m := 2)
     (d := 2) (by norm_num) le_rfl (by
       rw [ZMod.card]
       exact fun h => hpr ((Nat.prime_dvd_prime_iff_eq Fact.out hr.out).1 h))
@@ -204,7 +207,7 @@ theorem rankThreeGamma_le_of_two_lt_pRank {p r : ℕ} [hp : Fact p.Prime] [hr : 
   have hj2' : j = 2 := by omega
   have hpr1 : p ∣ r - 1 := by
     by_contra hpr1
-    haveI := isCyclic_of_mulAut hpr hpr1 hE hEcard hAel.isPGroup
+    have := isCyclic_of_mulAut hpr hpr1 hE hEcard hAel.isPGroup
     have h := card_le_of_isCyclic hp.out.pos fun x : φ.range =>
       Subtype.ext (by simpa using hAel.2 x x.2)
     rw [hj, hj2'] at h
@@ -257,8 +260,8 @@ theorem r77E2_dataOfSetup4 (hSE : StronglyEmbeddedFive) (hS : Standing4 G)
     (hU : uniqueFourUnique G) (S : Setup4 G) (h3 : 3 ∉ uniqueFourBeta G) :
     UC22.F07.R77E2 (dataOfSetup4 hS hU S) := by
   intro _ p hp _ hsp r hr _ hrσ E hEM hEel hEcard h2
-  haveI : Fact p.Prime := ⟨((dataOfSetup4 hS hU S).sig_prime p hp).1⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨((dataOfSetup4 hS hU S).sig_prime p hp).1⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   exact UC6R77.rankThreeGamma_le_of_two_lt_pRank hpr
     (conclusion76_dataOfSetup4 hSE hS hU S h3 hp hsp) hEM hEel hEcard h2

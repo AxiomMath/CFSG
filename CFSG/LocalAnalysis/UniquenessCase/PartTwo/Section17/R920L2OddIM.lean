@@ -77,8 +77,8 @@ private theorem seven_le_of_prime_dvd_two_pow_sub_one {n p : ℕ} (hn : Odd n) (
 private theorem r920c3_setup {D : Data G} {L D₃ A : Subgroup G} {n : ℕ}
     (c : R920CfgL2 D L D₃ A n) {Y H S : Subgroup G} (h97 : F09.Hyp97 D Y H D₃ S)
     (hY : Opp 3 Y = L) : R920C3Setup D L D₃ Y H S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHt : H ≠ ⊤ := ne_top_of_hyp97 D h97
   obtain ⟨⟨hY9, hH9, hD₃X, -⟩, -, -, hSY⟩ := h97
   have hYH : Y ≤ H := hH9.1
@@ -130,7 +130,7 @@ private theorem r920c3_case_ne (hK462 : UCK.K462) {D : Data G} {L D₃ A : Subgr
     (hfix : ∀ u ∈ U, (∀ x ∈ D₃, x * u * x⁻¹ * u⁻¹ ∈ W) → u ∈ W)
     (hmin : ∀ V : Subgroup G, V ≤ F09.I9 H → Y ≤ normalizer (V : Set G) → ¬ V ≤ D.M →
       Nat.card U ≤ Nat.card V) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hs : (Nat.card A).Prime := c.A_prime
   have hs7 : 7 ≤ Nat.card A :=
     seven_le_of_prime_dvd_two_pow_sub_one c.odd c.A_prime c.A_dvd
@@ -166,8 +166,8 @@ theorem I9_le_M_of_isL2_odd (hK462 : UCK.K462) (hSch : CFSG.AGLEmbedding.KFactCa
     {D : Data G} {L D₃ A : Subgroup G} {n : ℕ} (c : R920CfgL2 D L D₃ A n)
     {Y H S : Subgroup G} (h97 : F09.Hyp97 D Y H D₃ S) (hY : Opp 3 Y = L)
     (hSH : IsSylowOf 2 S H) : F09.I9 H ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hIM
   obtain ⟨hYH, hYM, hLY, hYL, hD₃L, hLH, hHK, hIleH, hKK, hKG, hE9L, hCZ, hHI, hI3, hLgen,
     hSY⟩ := r920c3_setup c h97 hY

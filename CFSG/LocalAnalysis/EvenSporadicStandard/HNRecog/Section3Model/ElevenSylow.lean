@@ -19,8 +19,8 @@ theorem isConj_of_orderOf_eleven {G : Type} [Group G] [Finite G]
     (hC : ∀ x : G, orderOf x = 11 → Nat.card ↥(Subgroup.centralizer ({x} : Set G)) = 22)
     {x y : G} (hx : orderOf x = 11) (hy : orderOf y = 11) : IsConj x y := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by decide⟩
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 11) := ⟨by decide⟩
+  have : Fintype G := Fintype.ofFinite G
   set P : Subgroup G := Subgroup.zpowers x with hP
   set Q : Subgroup G := Subgroup.zpowers y with hQ
   have hSylx : Nat.card ↥P = 11 ^ (Nat.card G).factorization 11 := by
@@ -31,7 +31,7 @@ theorem isConj_of_orderOf_eleven {G : Type} [Group G] [Finite G]
   let Py : Sylow 11 G := Sylow.ofCard Q hSyly
   have hPx_coe : (Px : Subgroup G) = P := Sylow.coe_ofCard P hSylx
   have hPy_coe : (Py : Subgroup G) = Q := Sylow.coe_ofCard Q hSyly
-  haveI : Finite (Sylow 11 G) := Sylow.finite_of_finiteIndex Px
+  have : Finite (Sylow 11 G) := Sylow.finite_of_finiteIndex Px
   set N : Subgroup G := Subgroup.normalizer (P : Set G) with hN
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hCdef
   set n : ℕ := Nat.card (Sylow 11 G) with hn
@@ -96,7 +96,7 @@ theorem isConj_of_orderOf_eleven {G : Type} [Group G] [Finite G]
   have hmod_o : o ≡ 10 [MOD 11] := h1.trans (h2.trans h3)
   set S : Set P := {p : P | orderOf p = 11} with hSdef
   have hS_card : Nat.card S = 10 := by
-    haveI : IsCyclic P := by rw [hP]; exact Subgroup.isCyclic_zpowers x
+    have : IsCyclic P := by rw [hP]; exact Subgroup.isCyclic_zpowers x
     have hdvd : 11 ∣ Fintype.card P := by
       rw [← Nat.card_eq_fintype_card, hP, Nat.card_zpowers, hx]
     have h1 := IsCyclic.card_orderOf_eq_totient (α := P) (d := 11) hdvd

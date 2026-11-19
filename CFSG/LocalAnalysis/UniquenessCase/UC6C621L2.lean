@@ -49,7 +49,7 @@ theorem sl2U_add (b c : K) : sl2U b * sl2U c = sl2U (b + c) := by
   apply Subtype.ext
   change (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) * !![1, c; 0, 1] = !![1, b + c; 0, 1]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem sl2U_zero : sl2U (0 : K) = 1 := by
   apply Subtype.ext
@@ -63,7 +63,7 @@ theorem sl2D_mul_sl2U (a : K) (ha : a ≠ 0) (b : K) :
   change (!![a, 0; 0, a⁻¹] : Matrix (Fin 2) (Fin 2) K) * !![1, b; 0, 1] =
     !![1, a ^ 2 * b; 0, 1] * !![a, 0; 0, a⁻¹]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; field_simp
 
 theorem sl2D_sq_mul_sl2U (a : K) (ha : a ≠ 0) (b : K) :
     sl2D a ha * sl2D a ha * sl2U b = sl2U (a ^ 4 * b) * (sl2D a ha * sl2D a ha) := by
@@ -88,7 +88,7 @@ theorem sl2U_pow_three (h3 : (3 : K) = 0) (b : K) : sl2U b ^ 3 = 1 := by
 theorem charP_three_of_card_nine [Finite K] (hK : Nat.card K = 9) : CharP K 3 := by
   classical
   let _ : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact charP_of_card_eq_prime_pow (p := 3) (f := 2) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
 
 theorem exists_pow_four_eq_neg_one [Finite K] (hK : Nat.card K = 9) : ∃ a : K, a ^ 4 = -1 := by
@@ -120,7 +120,7 @@ theorem card_psl_two_of_card_nine [Finite K] (hK : Nat.card K = 9) :
 
 theorem invNormalizer_psl_two_of_card_nine [Finite K] (hK : Nat.card K = 9) :
     InvNormalizer 3 PSL(2, K) := by
-  haveI := charP_three_of_card_nine hK
+  have := charP_three_of_card_nine hK
   obtain ⟨a, ha4⟩ := exists_pow_four_eq_neg_one hK
   have h3 : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
   have hm1 : (-1 : K) ≠ 1 := by
@@ -129,7 +129,7 @@ theorem invNormalizer_psl_two_of_card_nine [Finite K] (hK : Nat.card K = 9) :
     exact one_ne_zero (by linear_combination h3 - h2 : (1 : K) = 0)
   have ha0 : a ≠ 0 := by
     rintro rfl
-    have : (0 : K) = -1 := by simpa using ha4
+    have : (0 : K) = -1 := by simp at ha4
     exact one_ne_zero (neg_eq_zero.1 this.symm)
   have hmk : ∀ A B : SpecialLinearGroup (Fin 2) K, (QuotientGroup.mk A : PSL(2, K)) *
       QuotientGroup.mk B = QuotientGroup.mk (A * B) := fun A B => (QuotientGroup.mk_mul _ _ _).symm
@@ -177,7 +177,7 @@ theorem invNormalizer_of_lieModel_psl_two {X : Type} [Group X]
   have hK9 : Nat.card K = 9 := by rw [hK]; norm_num
   let e' : X ≃* PSL(2, K) :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-  haveI : Finite X := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e'.symm.toEquiv
   exact (invNormalizer_psl_two_of_card_nine hK9).of_mulEquiv e'.symm
 
 end CFSG.LocalAnalysis.UniquenessCase.UC6

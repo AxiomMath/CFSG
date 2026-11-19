@@ -96,7 +96,7 @@ open scoped commutatorElement
 
 theorem catalogIs_u3eight {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 3) ^ 2) :
     catalogIs (LargeEvenProj (LargeEvenSUGroup (Fin 3) K (2 ^ 3))) S9.isU3eight := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 ^ 2 := by rw [hK]; norm_num
   have hKf : Fintype.card K = 8 ^ 2 := by rw [← Nat.card_eq_fintype_card, hK8]
   obtain ⟨q', hv, -, hq8, ⟨e⟩⟩ :=
@@ -111,7 +111,7 @@ theorem catalogIs_u3eight {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 
 
 theorem dvd_sub_one_of_dvd_pow_sub_one {p : ℕ} (hp : p.Prime) {a : ℕ} (ha : 1 ≤ a)
     (h : p ∣ a ^ p - 1) : p ∣ a - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   rw [Nat.cast_sub (Nat.one_le_pow _ _ ha)] at h
   rw [Nat.cast_sub ha]
@@ -120,7 +120,7 @@ theorem dvd_sub_one_of_dvd_pow_sub_one {p : ℕ} (hp : p.Prime) {a : ℕ} (ha : 
 
 theorem dvd_add_one_of_dvd_pow_add_one {p : ℕ} (hp : p.Prime) {a : ℕ} (h : p ∣ a ^ p + 1) :
     p ∣ a + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← ZMod.natCast_eq_zero_iff] at h ⊢
   push_cast at h ⊢
   rwa [ZMod.pow_card] at h
@@ -196,6 +196,7 @@ theorem mem_scalars_of_conj_triv (hd : 3 ≤ d) (hj : 1 ≤ j) (hK : Nat.card K 
   rw [hid]
   exact LinearFieldFix.commute_of_commutator_mem_center (commutator_su hK hd hdK) hcent hx
 
+omit [Finite K] in
 theorem uAdj_pow (M : Matrix (Fin d) (Fin d) K) (n : ℕ) : uAdj j (M ^ n) = (uAdj j M) ^ n := by
   induction n with
   | zero => rw [pow_zero, pow_zero, uAdj_one]

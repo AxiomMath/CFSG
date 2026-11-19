@@ -35,10 +35,10 @@ theorem powLE {M : Nat} (hM : vld M = true) (e : Nat) :
   by_cases he : e = 1
   · subst he
     have hb : Nat.beq 1 1 = true := rfl
-    rw [if_pos rfl, hb, if_pos rfl]
+    rw [ite_eq_left rfl, hb, ite_eq_left rfl]
     exact ⟨rfl, hM⟩
   · have hb : Nat.beq e 1 = false := Bool.eq_false_iff.2 fun h => he (Nat.eq_of_beq_eq_true h)
-    rw [if_neg he, hb]
+    rw [ite_eq_right he, hb]
     exact powE hM e
 
 theorem wordK_go (G : Nat → Nat) : ∀ (w : List (Nat × Nat)) (acc : Nat),
@@ -486,7 +486,7 @@ theorem mulIdx_eq (E : Nat → Nat → Nat) (PA LA : Nat → Nat) : ∀ f i j,
     · subst hi
       rfl
     · have hb : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi (Nat.eq_of_beq_eq_true h)
-      rw [if_neg hi, hb, tab_get, tab_get, mulIdx_eq E PA LA f, edges_get]
+      rw [ite_eq_right hi, hb, tab_get, tab_get, mulIdx_eq E PA LA f, edges_get]
       rfl
 
 theorem tabCheck_eq (V : Nat → Nat) (E : Nat → Nat → Nat) (PA LA : Nat → Nat) (idZ : Nat)

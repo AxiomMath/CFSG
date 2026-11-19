@@ -25,13 +25,13 @@ theorem isPGroup_pCoreOf (H : Subgroup X) : IsPGroup 2 (pCoreOf 2 H) :=
 
 theorem pCoreOf_le_of_odd_index [Finite X] {H S : Subgroup X} (hSH : S ≤ H) (hS : IsPGroup 2 S)
     (hodd : ¬ 2 ∣ S.index) : pCoreOf 2 H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrel : ¬ 2 ∣ (S.subgroupOf H).index := fun h => hodd (by
     rw [← Subgroup.relIndex_mul_index hSH]
     exact Dvd.dvd.mul_right h _)
   have hS' : IsPGroup 2 (S.subgroupOf H) :=
     hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
   let T : Sylow 2 H := hS'.toSylow hrel
   have hpc : CFSG.pCore 2 H ≤ (T : Subgroup H) :=
     (CFSG.pCore_isPGroup (G := H) (p := 2)).le_sylow_of_normal T
@@ -41,7 +41,7 @@ theorem pCoreOf_le_of_odd_index [Finite X] {H S : Subgroup X} (hSH : S ≤ H) (h
 
 theorem exists_conj_le_of_odd_index {S P : Subgroup X} (hS : ¬ 2 ∣ S.index)
     (hP : IsPGroup 2 P) : ∃ a : X, ∀ x ∈ P, a⁻¹ * x * a ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, hq⟩ := hP.nonempty_fixed_point_of_prime_not_dvd_card (X ⧸ S) hS
   induction q using QuotientGroup.induction_on with
   | H a =>

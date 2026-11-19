@@ -451,8 +451,7 @@ theorem symplectic_projective_primitivity (hr : 1 ≤ r) :
         rw [h, finrank_bot] at hZ
         omega)
     rw [LinearMap.BilinForm.orthogonal, Submodule.mem_orthogonalBilin_span] at hnZ
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp, forall_eq,
-      and_true] at hnZ
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, forall_eq_or_imp, forall_eq] at hnZ
     obtain ⟨hun, hvn⟩ := hnZ
     have hvn' : pairedSympForm K r v n = 0 := by
       rw [map_neg, LinearMap.neg_apply, neg_eq_zero] at hvn

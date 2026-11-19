@@ -54,7 +54,7 @@ private theorem ggHalfGraphAmalgam_frameOK (m : GGHalfE6Model) (hm : m.Good)
 
 private theorem ggHalfGraphAmalgam_neg_mem_Y (m : GGHalfE6Model) (b : GGHalfBlk)
     (hb : m.FrameOK b) {r : GGE6Root} (hr : r ∈ m.Y b) : -r ∈ m.Y b := by
-  simp only [GGHalfE6Model.Y, Set.mem_setOf_eq] at hr ⊢
+  simp only [GGHalfE6Model.Y, Set.mem_ofPred_eq] at hr ⊢
   obtain ⟨c, d, hc, hd, hcd, hframe⟩ := hr
   exact ⟨d, c, hd, hc, hcd.symm, by rw [hb.2.1 c d hc hd hcd, hframe]⟩
 
@@ -78,7 +78,7 @@ private theorem ggHalfGraphAmalgam_lab_surj (b : GGHalfBlk) {c : Fin 8} (hc : b.
 private theorem ggHalfGraphAmalgam_exists_labels (m : GGHalfE6Model) (b : GGHalfBlk)
     {r : GGE6Root} (hr : r ∈ m.Y b) :
     ∃ c d : Fin 6, c ≠ d ∧ m.frame b (b.lab c) (b.lab d) = r := by
-  simp only [GGHalfE6Model.Y, Set.mem_setOf_eq] at hr
+  simp only [GGHalfE6Model.Y, Set.mem_ofPred_eq] at hr
   obtain ⟨c, d, hc, hd, hcd, hframe⟩ := hr
   obtain ⟨c', hc'⟩ := ggHalfGraphAmalgam_lab_surj b hc
   obtain ⟨d', hd'⟩ := ggHalfGraphAmalgam_lab_surj b hd
@@ -140,7 +140,7 @@ private theorem ggHalfGraphAmalgam_rootGroup_le_theta
     rfl
 
 private theorem ggHalfGraphAmalgam_leviAmalgam_le_theta
-    (m : GGHalfE6Model) (hm : m.Good) (b : GGHalfBlk) (hb : m.FrameOK b)
+    (m : GGHalfE6Model) (_hm : m.Good) (b : GGHalfBlk) (hb : m.FrameOK b)
     (J : {J : Finset (Fin (Tag.rank .E6)) // J.card ≤ 2})
     (hJ : ∀ i ∈ J.1, GGHalfE6Model.simpleRoot i ∈ m.Y b) :
     (e6Datum (GaloisField 2 1)).leviAmalgam J ≤ (ggHalfGraphAmalgam_theta m b hb).range := by
@@ -357,7 +357,7 @@ private theorem ggHalfGraphAmalgam_transvection_ne_one {c d : Fin 6} (hcd : c �
 
 private theorem ggHalfGraphAmalgam_slE_ne_one {c d : Fin 6} (hcd : c ≠ d) :
     slE c d ≠ (1 : SpecialLinearGroup (Fin 6) F2) := by
-  rw [slE, dif_neg hcd]
+  rw [slE, dite_eq_right hcd]
   exact ggHalfGraphAmalgam_transvection_ne_one hcd
 
 private theorem ggHalfGraphAmalgam_slInjective {X : Type} [Group X]
@@ -414,10 +414,10 @@ private theorem ggHalfGraphAmalgam_lab_ne (b : GGHalfBlk) {c d : Fin 6} (hcd : c
 
 
 private theorem ggHalfGraphAmalgam_ggE6x_mem_singleton
-    (m : GGHalfE6Model) (i : Fin (Tag.rank .E6)) (s : Bool) :
+    (_m : GGHalfE6Model) (i : Fin (Tag.rank .E6)) (s : Bool) :
     ggE6x (if s then GGHalfE6Model.simpleRoot i else -GGHalfE6Model.simpleRoot i) ∈
       (e6Datum (GaloisField 2 1)).leviAmalgam ⟨{i}, by simp⟩ := by
-  haveI : NeZero (Tag.rank .E6) := ⟨by decide⟩
+  have : NeZero (Tag.rank .E6) := ⟨by decide⟩
   refine CFSG.LieType.CurtisTits.rankOne_le_levi (X := (e6Datum (GaloisField 2 1)).rootGroup)
     (Finset.mem_singleton_self i) ?_
   cases s with
@@ -440,7 +440,7 @@ theorem exists_e6_hom_of_frames
         (m.frame b (b.lab c) (b.lab d) = GGHalfE6Model.simpleRoot i ∨
           m.frame b (b.lab c) (b.lab d) = -GGHalfE6Model.simpleRoot i) →
         φ (ggE6x (m.frame b (b.lab c) (b.lab d))) = Φ b (slE c d) := by
-  haveI : NeZero (Tag.rank .E6) := ⟨by decide⟩
+  have : NeZero (Tag.rank .E6) := ⟨by decide⟩
   have hΦL : Function.Injective (Φ .L) := by
     apply ggHalfGraphAmalgam_slInjective
     obtain ⟨c, d, hcd, hne⟩ := hnt

@@ -24,9 +24,9 @@ theorem le_pRank_normalizerQuotient_of_comap_comm {Y T : Type} [Group Y] [Finite
     (S : Subgroup Y) (hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤) :
     k ≤ CFSG.Open.pRank r (⊤ : Subgroup (Subgroup.normalizerQuotient S)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite T := Finite.of_surjective φ hφ
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite T := Finite.of_surjective φ hφ
   obtain ⟨V, hVD, hVab, hVcard, -⟩ :=
     CFSG.RankThree.Classical2.exists_elemAbelian_le_centralizer (Y := Y) hφ hker hr hr2 hDr hDc hk
       (u := 1) (one_pow 2) (fun x _ => by rw [map_one]; exact Commute.one_left x)
@@ -45,7 +45,7 @@ theorem le_pRank_normalizerQuotient_of_comap_comm {Y T : Type} [Group Y] [Finite
     intro v hv
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     exact hPinv (MulAut.conj v) (hPconj v (hVD hv))
-  have hR2 : IsPGroup 2 R := P.isPGroup'.map (U.comap φ).subtype
+  have hR2 : IsPGroup 2 R := P.isPGroup.map (U.comap φ).subtype
   have hUidx : ¬ 2 ∣ U.index := by
     rw [← Subgroup.relIndex_top_right (H := U)]
     exact hU.2.2

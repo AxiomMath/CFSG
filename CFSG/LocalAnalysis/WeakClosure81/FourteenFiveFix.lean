@@ -17,6 +17,7 @@ namespace FourteenFive
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 private theorem s145_conj_eq_of_mem_NOf_of_mem_L (h : Hyp65 n M V₀ V g) {x e : G}
     (hxL : x ∈ LOf V g) (he : e ∈ NOf M V g) : x * e * x⁻¹ = e := by
   have hc := h.N_le_centralizer_L he
@@ -27,19 +28,22 @@ private theorem s145_conj_mem_K_of_mem_L (h : Hyp65 n M V₀ V g) {x l : G}
     (hlL : l ∈ LOf V g) (hx : x ∈ KOf M V g) : l * x * l⁻¹ ∈ KOf M V g :=
   (Subgroup.mem_normalizer_iff.1 (h.L_le_normalizer_K hlL) x).1 hx
 
+omit [Finite G] in
 private theorem s145_commutator_mem_N (h : Hyp65 n M V₀ V g) {k₁ k₂ : G}
     (hk₁ : k₁ ∈ KOf M V g) (hk₂ : k₂ ∈ KOf M V g) : ⁅k₁, k₂⁆ ∈ NOf M V g := by
   rw [commutatorElement_def]
   exact h.commutator_K_K_mem_N k₁ hk₁ k₂ hk₂
 
+omit [Finite G] in
 private theorem s145_S_mul (h : Hyp65 n M V₀ V g) {f x z : G}
-    (hxL : x ∈ LOf V g) (hzL : z ∈ LOf V g)
+    (hxL : x ∈ LOf V g) (_hzL : z ∈ LOf V g)
     (hx : ⁅x, f⁆ ∈ NOf M V g) (hz : ⁅z, f⁆ ∈ NOf M V g) :
     ⁅x * z, f⁆ ∈ NOf M V g := by
   rw [commutatorElement_mul_left_eq_conj_mul]
   rw [s145_conj_eq_of_mem_NOf_of_mem_L h hxL hz]
   exact (NOf M V g).mul_mem hz hx
 
+omit [Finite G] in
 private theorem s145_S_inv (h : Hyp65 n M V₀ V g) {f x : G} (hxL : x ∈ LOf V g)
     (hx : ⁅x, f⁆ ∈ NOf M V g) : ⁅x⁻¹, f⁆ ∈ NOf M V g := by
   have hfx : ⁅f, x⁆ ∈ NOf M V g := by
@@ -50,8 +54,9 @@ private theorem s145_S_inv (h : Hyp65 n M V₀ V g) {f x : G} (hxL : x ∈ LOf V
   rw [inv_inv] at h
   rwa [h]
 
+omit [Finite G] in
 private theorem s145_F_mul (h : Hyp65 n M V₀ V g) {y f₁ f₂ : G}
-    (hf₁L : f₁ ∈ LOf V g) (hf₂L : f₂ ∈ LOf V g)
+    (hf₁L : f₁ ∈ LOf V g) (_hf₂L : f₂ ∈ LOf V g)
     (h₁ : ⁅y, f₁⁆ ∈ NOf M V g) (h₂ : ⁅y, f₂⁆ ∈ NOf M V g) :
     ⁅y, f₁ * f₂⁆ ∈ NOf M V g := by
   rw [commutatorElement_mul_right_eq_mul_conj]
@@ -60,6 +65,7 @@ private theorem s145_F_mul (h : Hyp65 n M V₀ V g) {y f₁ f₂ : G}
   rw [s145_conj_eq_of_mem_NOf_of_mem_L h hf₁L h₂]
   exact (NOf M V g).mul_mem h₁ h₂
 
+omit [Finite G] in
 private theorem s145_F_inv (h : Hyp65 n M V₀ V g) {y f : G} (hfL : f ∈ LOf V g)
     (hfy : ⁅y, f⁆ ∈ NOf M V g) : ⁅y, f⁻¹⁆ ∈ NOf M V g := by
   have hfy' : ⁅f, y⁆ ∈ NOf M V g := by

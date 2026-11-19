@@ -29,7 +29,7 @@ theorem p622_inf_eq_bot (hP65 : P622Prop65 G) (hS : Setting G) (c : P622Conf p P
   by_contra hne
   have hsit := c.failure.situation
   have hprime := c.failure.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨H, hH⟩ : ∃ H : Subgroup G, H = centralizer ({x} : Set G) := ⟨_, rfl⟩
   obtain ⟨D, hDdef⟩ : ∃ D : Subgroup G, D = smallRankD p x := ⟨_, rfl⟩
   have hspec : D ≤ H ∧ H ≤ normalizer (D : Set G) ∧ Nat.Coprime p (Nat.card D) := by
@@ -40,7 +40,7 @@ theorem p622_inf_eq_bot (hP65 : P622Prop65 G) (hS : Setting G) (c : P622Conf p P
   rw [← hDdef, ← hH] at hnc
   have hpD : ¬ p ∣ Nat.card D := (Nat.Prime.coprime_iff_not_dvd hprime).mp hcop
   have hDn : (D.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hDH).mpr hHD
-  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup'.to_le c.B_le_P
+  have hBp : IsPGroup p ↥(zpowers x ⊔ zpowers z) := P.isPGroup.to_le c.B_le_P
   have hBH : zpowers x ⊔ zpowers z ≤ H := hH ▸ c.B_le_centralizer
   have hBD : zpowers x ⊔ zpowers z ≤ normalizer (D : Set G) := hBH.trans hHD
   have hBM : zpowers x ⊔ zpowers z ≤ M := c.B_le_M hS
@@ -63,7 +63,7 @@ theorem p622_inf_eq_bot (hP65 : P622Prop65 G) (hS : Setting G) (c : P622Conf p P
   have hFleM : F ≤ M := by
     by_contra hFM'
     have hlt : F ⊓ M < F := lt_of_le_of_ne inf_le_left (fun h => hFM' (h ▸ inf_le_right))
-    haveI : Fact f.Prime := ⟨hf⟩
+    have : Fact f.Prime := ⟨hf⟩
     obtain ⟨y, hyF, hyN, hyQ⟩ :=
       CFSG.LocalAnalysis.RankThreeTheoremC.sr628_exists_mem_normalizer_not_mem hFp hlt
     exact hyQ ⟨hyF, hNFM hyN⟩
@@ -80,7 +80,7 @@ theorem p622_primeCore_eq_bot (hK64 : Parrott.P614.KFact64ii) (hP65 : P622Prop65
   by_contra hD1
   have hprime := c.failure.prime
   have hp2 : p ≠ 2 := c.failure.ne_two
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hz := c.failure.central
   have hOD : rankThreePrimeCore 2 (smallRankD p x) = smallRankD p x :=
     s622_primeCore_two_eq_of_odd hodd
@@ -115,7 +115,7 @@ theorem p622_primeCore_eq_bot (hK64 : Parrott.P614.KFact64ii) (hP65 : P622Prop65
     simpa [mul_assoc] using mul_mem haL h1
   have hD2 : ∀ y : G, y ^ 2 = 1 → y ≠ 1 → y ∉ smallRankD p x := by
     intro y hy2 hy1 hyD
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hord : orderOf y = 2 := orderOf_eq_prime hy2 hy1
     have h2 : 2 ∣ Nat.card (smallRankD p x) := hord ▸ Subgroup.orderOf_dvd_natCard _ hyD
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 h2)
@@ -127,7 +127,7 @@ theorem p622_primeCore_eq_bot (hK64 : Parrott.P614.KFact64ii) (hP65 : P622Prop65
   have hfpf : ∀ r ∈ (⁅zpowers z, S⁆ : Subgroup G), z * r = r * z → r = 1 := by
     intro r hrR hrz
     by_contra hr1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     set C : Subgroup G := (⁅zpowers z, S⁆ : Subgroup G) ⊓ centralizer ({z} : Set G) with hCdef
     have hrC : r ∈ C := ⟨hrR, mem_centralizer_singleton_iff.mpr hrz.symm⟩
     have hC2 : IsPGroup 2 C := c.R_isPGroup.to_le inf_le_left

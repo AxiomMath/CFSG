@@ -16,6 +16,7 @@ open scoped IsMulCommutative Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_sup {A B : Subgroup G} {x : G}
     (hA : x ∈ Subgroup.normalizer (A : Set G)) (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊔ B : Subgroup G) : Set G) := by
@@ -81,7 +82,7 @@ theorem mem_L1_sup_of_central (hcomm : ⁅pCoreOf 2 (L ⊔ T), L⁆ = V) {d : G}
     (hdP : d ∈ pCoreOf 2 L) (hdC : d ∈ Subgroup.centralizer (L : Set G)) :
     d ∈ c.L1 ⊔ V := by
   classical
-  haveI := c.isPerfect_L
+  have := c.isPerfect_L
   have hdL : d ∈ L := pCoreOf_le 2 L hdP
   have hdCE : d ∈ Subgroup.centralizer (E : Set G) :=
     Subgroup.centralizer_le c.EV (c.f.pCore hdP)

@@ -65,7 +65,7 @@ theorem SGU6.card_mul_three_of_tyF {X : Type} [Group X] (h : catalogIs X (tyF 3)
   case A r q =>
     obtain ⟨hr, hq2, h3⟩ := (hi : r + 1 = 3 ∧ q.p = 2 ∧ 3 ∣ q.card - 1)
     obtain rfl : r = 2 := by omega
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hX : Nat.card X = Nat.card (CFSG.Open.StatedProj
         (CFSG.Open.StatedSL 3 (GaloisField q.p q.exponent))) :=
       Nat.card_congr ((e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)).trans
@@ -122,13 +122,13 @@ private theorem two_pow_mod_fifteen (n : ℕ) :
 private theorem toNat_even {q i : ℕ} (hq : 1 ≤ q) (hi : Even i) :
     ((q : ℤ) ^ i - (-1) ^ i).toNat = q ^ i - 1 := by
   have h : (q : ℤ) ^ i - (-1) ^ i = ((q ^ i - 1 : ℕ) : ℤ) := by
-    push_cast [Nat.cast_sub (Nat.one_le_pow i q hq), hi.neg_one_pow] <;> ring
+    push_cast [Nat.cast_sub (Nat.one_le_pow i q hq), hi.neg_one_pow]; ring
   rw [h, Int.toNat_natCast]
 
 private theorem toNat_odd {q i : ℕ} (hi : Odd i) :
     ((q : ℤ) ^ i - (-1) ^ i).toNat = q ^ i + 1 := by
   have h : (q : ℤ) ^ i - (-1) ^ i = ((q ^ i + 1 : ℕ) : ℤ) := by
-    push_cast [hi.neg_one_pow] <;> ring
+    push_cast [hi.neg_one_pow]; ring
   rw [h, Int.toNat_natCast]
 
 private theorem card_psu_four_five {K : Type} [Field K] {n : ℕ} (hn : 1 ≤ n)

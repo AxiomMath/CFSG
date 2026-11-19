@@ -37,7 +37,7 @@ theorem original_invariant_prime_Sylow_exists (n : ℕ) (hn : 2 ≤ n)
   let N := involutionCentralizer n S e
   let SI := centralizerSylow n hn S e
   obtain ⟨P, hP⟩ := normalized_subgroup_invariant_sylow 2 ell Nat.prime_two hell
-    (SI : Subgroup N) (CFSG.oddCore N) SI.isPGroup'
+    (SI : Subgroup N) (CFSG.oddCore N) SI.isPGroup
     Subgroup.le_normalizer_of_normal
     (CFSG.ComponentClassification.OddCore.odd_card N).coprime_two_left
   refine ⟨P, ?_⟩
@@ -124,7 +124,7 @@ theorem original_full_invariant_normalizer_core_Sylow
   let K := Subgroup.normalizer (ambientSylow N P : Set G)
   let O := ambientOddCore K
   obtain ⟨Q, hQ⟩ := normalized_subgroup_invariant_sylow 2 ell Nat.prime_two hell
-    (S : Subgroup G) O S.isPGroup' (hSP.trans (ambientOddCore_normalized K))
+    (S : Subgroup G) O S.isPGroup (hSP.trans (ambientOddCore_normalized K))
     (ambientOddCore_odd K).coprime_two_left
   exact ⟨Q, original_sylow_le_every_normalizer_core_sylow N P Q, hQ⟩
 

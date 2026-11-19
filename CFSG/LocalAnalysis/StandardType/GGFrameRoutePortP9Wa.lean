@@ -63,8 +63,8 @@ theorem P9_Wa_tbGroup_twA {S : ℕ → LargeEvenLabel → Prop} {Bs K : Subgroup
   rw [CFSG.Assembly.LargeEvenRawDatumLegacy, htag] at hraw
   rw [hn1] at hraw
   obtain ⟨F, hfield, hfin, hFcard, hQc⟩ := hraw
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   obtain ⟨-, -, θ, hpred⟩ := hQc
   obtain ⟨-, hBsN, hind⟩ := hpred
   have hrk := P9_Wa_card_range hBs hcard hz hz1 hN hker

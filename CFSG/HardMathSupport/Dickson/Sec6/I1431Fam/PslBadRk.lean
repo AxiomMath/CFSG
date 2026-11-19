@@ -100,7 +100,7 @@ theorem tDiag_mul (hn : 5 ≤ n) (a b c d a' b' c' d' : Kˣ) :
 
 theorem tDiag_one (hn : 5 ≤ n) : tDiag hn (1 : Kˣ) 1 1 1 = 1 := by
   apply Subtype.ext
-  simp only [coe_tDiag, tEntry_one, Units.val_one, SpecialLinearGroup.coe_one]
+  simp only [coe_tDiag, tEntry_one, Units.val_one]
   exact diagonal_one
 
 theorem tDiag_comm (hn : 5 ≤ n) (a b c d a' b' c' d' : Kˣ) :
@@ -124,10 +124,10 @@ theorem tDiag_scalar (hn : 6 ≤ n) {a b c d : Kˣ}
   have hz1 : (z : K) = 1 := by rw [← h5, h5', Units.val_one]
   refine ⟨?_, ?_, ?_, ?_⟩
   · have := hc ⟨0, by omega⟩
-    simp only [tEntry, if_true] at this
+    simp only [tEntry, ite_true] at this
     exact Units.ext (by rw [this, hz1, Units.val_one])
   · have := hc ⟨1, by omega⟩
-    simp only [tEntry, if_true, one_ne_zero, if_false] at this
+    simp only [tEntry, ite_true, one_ne_zero, ite_false] at this
     exact Units.ext (by rw [this, hz1, Units.val_one])
   · have := hc ⟨2, by omega⟩
     simp [tEntry] at this
@@ -141,7 +141,7 @@ theorem tDiag_scalar (hn : 6 ≤ n) {a b c d : Kˣ}
       SpecialLinearGroup (Fin n) K where
   toFun w := tDiag hn (w.1 : Kˣ) (w.2.1 : Kˣ) (w.2.2.1 : Kˣ) (w.2.2.2 : Kˣ)
   map_one' := tDiag_one hn
-  map_mul' w w' := tDiag_mul hn _ _ _ _ _ _ _ _
+  map_mul' _w _w' := tDiag_mul hn _ _ _ _ _ _ _ _
 
 theorem torusHom_scalar (hn : 6 ≤ n)
     {w : rootsOfUnity 3 K × rootsOfUnity 3 K × rootsOfUnity 3 K × rootsOfUnity 3 K}
@@ -237,7 +237,7 @@ theorem rootElt_zero (hn : 2 ≤ n) : rootElt hn (0 : K) = 1 := by
 @[expose] noncomputable def rootHom (hn : 2 ≤ n) : Multiplicative K →* SpecialLinearGroup (Fin n) K where
   toFun t := rootElt hn (Multiplicative.toAdd t)
   map_one' := rootElt_zero hn
-  map_mul' s t := (rootElt_mul hn _ _).symm
+  map_mul' _s _t := (rootElt_mul hn _ _).symm
 
 theorem rootHom_range_pGroup [CharP K 2] (hn : 2 ≤ n) : IsPGroup 2 (rootHom (K := K) hn).range := by
   rintro ⟨_, t, rfl⟩
@@ -258,8 +258,8 @@ theorem diagonal_mul_transvection {ι : Type} [Fintype ι] [DecidableEq ι] (d :
     (hd : ∀ k, d k ≠ 0) (i j : ι) (t : K) :
     diagonal d * transvection i j t = transvection i j (d i * t * (d j)⁻¹) * diagonal d := by
   ext x y
-  simp only [transvection, Matrix.add_mul, Matrix.mul_add, diagonal_mul, mul_diagonal, Matrix.add_apply,
-    one_apply, single_apply, Matrix.one_mul, Matrix.mul_one]
+  simp only [transvection, diagonal_mul, mul_diagonal, Matrix.add_apply,
+    one_apply, single_apply]
   by_cases h : i = x ∧ j = y
   · obtain ⟨rfl, rfl⟩ := h
     by_cases hij : i = j
@@ -301,7 +301,7 @@ theorem rkY_false_psl {Y : Type} [Group Y] (hRk : RkY Y) {K : Type} [Field K] [F
   have hcard := torus_card (K := K) hn hζ
   have hE := torus_elemAbelian (K := K) hn5
   by_cases h2 : ringChar K = 2
-  · haveI : CharP K 2 := ringChar.of_eq h2
+  · have : CharP K 2 := ringChar.of_eq h2
     refine rkY_false_of_cover hRk ρ q (proj n K) hcomp hZ hE hcard hEπ
       (rootHom_range_pGroup hn2) ?_ ?_
     · exact ⟨rootElt hn2 1, ⟨Multiplicative.ofAdd 1, rfl⟩,

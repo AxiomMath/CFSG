@@ -16,7 +16,7 @@ variable {A : Type} [Group A] [Finite A]
 
 theorem pCoreOf_le_of_maxInv {B X S : Subgroup A} (hS : IsMaxTwoInvariantIn B X S)
     (hBX : B ≤ X) : pCoreOf 2 X ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨hSX, hS2, hBS⟩, hmax⟩ := hS
   have hXO := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X
   have hinv : IsTwoInvariantIn B X (S ⊔ pCoreOf 2 X) :=
@@ -30,8 +30,8 @@ theorem pCoreOf_le_of_maxInv {B X S : Subgroup A} (hS : IsMaxTwoInvariantIn B X 
 theorem eq_or_eq_of_relIndex_le_two {O H S : Subgroup A} (hOH : O ≤ H) (hHS : H ≤ S)
     (h2 : O.relIndex S ≤ 2) : H = O ∨ H = S := by
   have h := relIndex_mul_relIndex O H S hOH hHS
-  haveI : O.IsFiniteRelIndex H := isFiniteRelIndex_of_finiteIndex
-  haveI : H.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
+  have : O.IsFiniteRelIndex H := isFiniteRelIndex_of_finiteIndex
+  have : H.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
   have h1 : O.relIndex H ≠ 0 := relIndex_ne_zero
   have h2' : H.relIndex S ≠ 0 := relIndex_ne_zero
   rcases (show O.relIndex H = 1 ∨ H.relIndex S = 1 by
@@ -47,10 +47,12 @@ theorem eq_or_eq_of_relIndex_le_two {O H S : Subgroup A} (hOH : O ≤ H) (hHS : 
 
 section Module
 
+omit [Finite A] in
 theorem isElemAbelian_omegaOneCenterOf (O : Subgroup A) :
     IsElemAbelian 2 (omegaOneCenterOf O) :=
   CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.ZJ.zj_isElemAbelian_omegaOneCenter O
 
+omit [Finite A] in
 theorem le_normalizer_omegaOneCenterOf {X O : Subgroup A} (hXO : X ≤ normalizer (O : Set A)) :
     X ≤ normalizer (omegaOneCenterOf O : Set A) := by
   intro g hg
@@ -59,6 +61,7 @@ theorem le_normalizer_omegaOneCenterOf {X O : Subgroup A} (hXO : X ≤ normalize
   unfold cjSub at hO ⊢
   rw [omegaOneCenterOf_map_mulEquiv, hO]
 
+omit [Finite A] in
 theorem le_centralizer_omegaOneCenterOf (O : Subgroup A) :
     O ≤ centralizer (omegaOneCenterOf O : Set A) := by
   intro o ho
@@ -68,6 +71,7 @@ theorem le_centralizer_omegaOneCenterOf (O : Subgroup A) :
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.ZJ.zj_omegaOneCenter_le_centerOf O hv
   exact (mem_centralizer_iff.mp hv'.2 o ho).symm
 
+omit [Finite A] in
 theorem omegaOneCenterOf_le_omegaOneCenterOf {S O X : Subgroup A} (hOS : O ≤ S) (hSX : S ≤ X)
     (hcent : X ⊓ centralizer (O : Set A) ≤ O) :
     omegaOneCenterOf S ≤ omegaOneCenterOf O := by
@@ -78,6 +82,7 @@ theorem omegaOneCenterOf_le_omegaOneCenterOf {S O X : Subgroup A} (hOS : O ≤ S
   have hxO : x ∈ O := hcent ⟨hSX hxS, hxCO⟩
   exact subset_closure ⟨⟨hxO, hxCO⟩, hx2⟩
 
+omit [Finite A] in
 theorem le_omegaOneCenterOf {S V : Subgroup A} (hVS : V ≤ S) (hV : IsElemAbelian 2 V)
     (hSC : S ≤ centralizer (V : Set A)) : V ≤ omegaOneCenterOf S := by
   intro v hv
@@ -189,6 +194,7 @@ theorem isTransvection_convI {W : Subgroup A} (hW : IsElemAbelian 2 W) {a : A}
 
 end Transvection
 
+omit [Finite A] in
 theorem le_normalizer_of_conj {H U : Subgroup A} (h : ∀ g ∈ H, ∀ u ∈ U, g * u * g⁻¹ ∈ U) :
     H ≤ normalizer (U : Set A) := by
   intro g hg
@@ -201,7 +207,7 @@ theorem le_normalizer_of_conj {H U : Subgroup A} (h : ∀ g ∈ H, ∀ u ∈ U, 
 theorem le_normalizer_of_index_two {K O S : Subgroup A} {a : A} (hOS : O ≤ S)
     (hidx : O.relIndex S ≤ 2) (haS : a ∈ S) (haO : a ∉ O) (hKO : K ≤ normalizer (O : Set A))
     (hka : ∀ k ∈ K, k * a * k⁻¹ * a⁻¹ ∈ O) : K ≤ normalizer (S : Set A) := by
-  haveI : O.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
+  have : O.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
   have h2 : O.relIndex S = 2 := by
     have h0 : O.relIndex S ≠ 0 := relIndex_ne_zero
     have h1 : O.relIndex S ≠ 1 := fun h => haO (relIndex_eq_one.mp h haS)

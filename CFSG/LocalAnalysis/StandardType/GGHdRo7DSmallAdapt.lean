@@ -18,7 +18,7 @@ private lemma hdRo7DSmAdaptAux_equivFun_basis {V : Type} [AddCommGroup V] [Modul
   rw [Module.Basis.equivFun_self, Pi.single_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg h, if_neg (fun hj => h hj.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun hj => h hj.symm)]
 
 private lemma hdRo7DSmAdaptAux_equivFun_basis_dStd {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod 3) V)

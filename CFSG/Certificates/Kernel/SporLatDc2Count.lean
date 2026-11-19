@@ -36,7 +36,7 @@ theorem length_filter_eq_ncard (f : ℕ → Bool) (x : PtL n) (hx : x.val.Nodup)
     ← Set.ncard_image_of_injective _ Fin.val_injective]
   congr 1
   ext p
-  simp only [List.coe_toFinset, List.mem_filter, Set.mem_setOf_eq, Set.mem_image]
+  simp only [List.coe_toFinset, List.mem_filter, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨hp, hf⟩
     exact ⟨⟨p, x.valid.2 p hp⟩, ⟨hf, hp⟩, rfl⟩
@@ -45,6 +45,7 @@ theorem length_filter_eq_ncard (f : ℕ → Bool) (x : PtL n) (hx : x.val.Nodup)
 
 variable [Finite Γ]
 
+omit [Finite Γ] in
 theorem image_meet {S : Subgroup Γ} {g : Γ} (hg : g ∈ S) (x : PtL n) (q : Fin n) :
     {y ∈ orbit S x | (g • q).val ∈ y.val} = (g • ·) '' {y ∈ orbit S x | q.val ∈ y.val} := by
   ext y
@@ -56,6 +57,7 @@ theorem image_meet {S : Subgroup Γ} {g : Γ} (hg : g ∈ S) (x : PtL n) (q : Fi
   · rintro ⟨z, ⟨hz, hq⟩, rfl⟩
     exact ⟨smul_mem_orbit' hg hz, (mem_smul_iff g z q).2 hq⟩
 
+omit [Finite Γ] in
 theorem image_pts {S : Subgroup Γ} {g : Γ} (hg : g ∈ S) (x : PtL n) (q₀ : Fin n) :
     {q ∈ orbit S q₀ | q.val ∈ (g • x).val} = (g • ·) '' {q ∈ orbit S q₀ | q.val ∈ x.val} := by
   ext q
@@ -126,7 +128,7 @@ theorem ncard_label_mem {T : Type*} (v : T → List ℕ) (hv : Function.Injectiv
     {z | v z ∈ L}.ncard = L.length := by
   have himg : v '' {z | v z ∈ L} = (L.toFinset : Set (List ℕ)) := by
     ext y
-    simp only [Set.mem_image, List.coe_toFinset, Set.mem_setOf_eq]
+    simp only [Set.mem_image, List.coe_toFinset, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨z, hz, rfl⟩
       exact hz

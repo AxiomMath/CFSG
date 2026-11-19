@@ -48,8 +48,8 @@ theorem s16h_pRank_cover_le_one_of_cyclic_sylow (D : Data G) {V₀ V : Subgroup 
     (hcyc : ∀ Q : Sylow q ↥(barSub V₀ V h.isElemAbelian K),
       IsCyclic ↥(Q : Subgroup ↥(barSub V₀ V h.isElemAbelian K))) :
     CFSG.Open.pRank q K ≤ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
   let f : Bar2 K →* ↥(barSub V₀ V h.isElemAbelian K) := barSubBar2HomOfHyp125 h hK
   have hf : Function.Surjective f := barSubBar2HomOfHyp125_surjective h hK
   have hfker : f.ker ≤ Subgroup.center (Bar2 K) :=

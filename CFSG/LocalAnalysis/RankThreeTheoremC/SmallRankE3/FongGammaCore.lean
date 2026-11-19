@@ -122,7 +122,7 @@ theorem exists_ne_one_ker {J : Type*} [Group J] [Finite J] {B : Subgroup A} [Fin
     (hp : p.Prime) (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ 2)
     (hJr : CFSG.Open.pRank p (⊤ : Subgroup J) ≤ 1) (lam : ↥B →* J) :
     ∃ w : ↥B, w ≠ 1 ∧ lam w = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hcomm : ∀ a b : ↥B, a * b = b * a := isMulCommutative_iff.1 hB.1
   have hpow : ∀ a : ↥B, a ^ p = 1 := fun a => Subtype.ext (by
@@ -153,7 +153,7 @@ theorem exists_ne_one_ker {J : Type*} [Group J] [Finite J] {B : Subgroup A} [Fin
     calc p ^ k ≤ p ^ 1 := Nat.pow_le_pow_right hp.pos hk1
       _ = p := pow_one p
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hker : lam.ker = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro w hw
@@ -173,14 +173,14 @@ theorem exists_ne_one_ker {J : Type*} [Group J] [Finite J] {B : Subgroup A} [Fin
 theorem exists_good_y [Finite A] {p : ℕ} (hp : p.Prime)
     (hBH : B ≤ normalizer (H : Set A)) (hBN : B ≤ normalizer (N : Set A))
     (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ 2) {z : A} (hzB : z ∈ B) (hzH : z ∈ H)
-    (hzo : orderOf z = p) (hNH : N ≤ H) (hNp : ¬ p ∣ Nat.card N)
+    (hzo : orderOf z = p) (_hNH : N ≤ H) (hNp : ¬ p ∣ Nat.card N)
     (hJ : IsSimpleGroup (↥H ⧸ N.subgroupOf H))
     (hJnc : ¬ ∀ a b : ↥H ⧸ N.subgroupOf H, a * b = b * a)
     (hJr : CFSG.Open.pRank p (⊤ : Subgroup (↥H ⧸ N.subgroupOf H)) ≤ 1) :
     ∃ y : ↥B, (y : A) ∉ zpowers z ∧ Bact H N B hBH hBN y ^ p = 1 ∧
       (Bact H N B hBH hBN y = 1 ∨ Bact H N B hBH hBN y ∉ inner (↥H ⧸ N.subgroupOf H)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   have hBpow : ∀ y : ↥B, y ^ p = 1 := fun y => Subtype.ext (by simpa using hB.2 (y : A) y.2)
   have hpow : ∀ y : ↥B, Bact H N B hBH hBN y ^ p = 1 := fun y => by
@@ -246,7 +246,7 @@ theorem fixed_le_image [Finite A] (hBH : B ≤ normalizer (H : Set A))
     fixedSubgroup (Bact H N B hBH hBN y) ≤
       ((H ⊓ centralizer ({(y : A)} : Set A)).subgroupOf H).map
         (QuotientGroup.mk' (N.subgroupOf H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyp : y ^ p = 1 := Subtype.ext (by simpa using hy)
   have hF : IsPGroup p ↥(Subgroup.zpowers y) := by
     intro g
@@ -295,7 +295,7 @@ theorem pSolvable_fixed [Finite A] (hBH : B ≤ normalizer (H : Set A))
     (hNp : ¬ p ∣ Nat.card N) (y : ↥B) (hy : (y : A) ^ p = 1)
     (h : CFSG.HallHigman.IsPSolvable p ↥(K₀ ⊓ centralizer ({(y : A)} : Set A))) :
     CFSG.HallHigman.IsPSolvable p ↥(fixedSubgroup (Bact H N B hBH hBN y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle₁ : H ⊓ centralizer ({(y : A)} : Set A) ≤ K₀ ⊓ centralizer ({(y : A)} : Set A) := by
     intro x hx
     exact Subgroup.mem_inf.mpr ⟨hHK (Subgroup.mem_inf.mp hx).1, (Subgroup.mem_inf.mp hx).2⟩
@@ -329,7 +329,7 @@ theorem gammaCore [Finite A] {p : ℕ} (hp : p.Prime)
     ∃ y ∈ B, y ∉ zpowers z ∧
       ¬ CFSG.HallHigman.IsPSolvable p ↥(K₀ ⊓ centralizer ({y} : Set A)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJr : CFSG.Open.pRank p (⊤ : Subgroup (↥H ⧸ N.subgroupOf H)) ≤ 1 :=
     (pRank_quot_le hp hHK hNH hNp).trans hK₀r
   obtain ⟨y, hyz, hyp, hy⟩ := exists_good_y hp hBH hBN hB hBc hzB hzH hzo hNH hNp hJ hJnc hJr
@@ -349,8 +349,8 @@ theorem gammaCore [Finite A] {p : ℕ} (hp : p.Prime)
         (Subgroup.topEquiv : (⊤ : Subgroup (↥H ⧸ N.subgroupOf H)) ≃* _) hfix
     have hne : Nat.card (↥H ⧸ N.subgroupOf H) ≠ p := by
       intro hc
-      haveI : Fact (Nat.card (↥H ⧸ N.subgroupOf H)).Prime := ⟨hc ▸ hp⟩
-      haveI := isCyclic_of_prime_card hc
+      have : Fact (Nat.card (↥H ⧸ N.subgroupOf H)).Prime := ⟨hc ▸ hp⟩
+      have := isCyclic_of_prime_card hc
       exact hJnc fun a b => (IsCyclic.commGroup (α := ↥H ⧸ N.subgroupOf H)).mul_comm a b
     exact CFSG.LocalAnalysis.RankThreeUC.S15.K421GrpProof.not_isPSolvable_of_simple hJ hp hJp hne
       hJsolv

@@ -79,7 +79,7 @@ theorem aeData_of_aeIdent (hm : 5 ≤ m) (hS : Q8Section X Φ) (I : AEIdent Φ m
   rw [hk K, hk J] at h
   exact Subgroup.map_injective (QuotientGroup.kerLift_injective f) h
 
-theorem ae_involution_eq (hm : 5 ≤ m) (hm8 : m ≠ 8) (D : AEData Φ m) {P P' : Subgroup X} {p : X}
+theorem ae_involution_eq (_hm : 5 ≤ m) (hm8 : m ≠ 8) (D : AEData Φ m) {P P' : Subgroup X} {p : X}
     (hP : P ∈ Φ) (hP' : P' ∈ Φ) (hPP' : P ≠ P') (hzP : IsUniqueInvolution P p)
     (hzP' : IsUniqueInvolution P' p) {M : Subgroup X} {w : X} (hM : M ∈ Φ)
     (hw : IsUniqueInvolution M w) (h : D.f w = D.f p) : w = p := by
@@ -139,13 +139,13 @@ theorem ofPerm_conj_zBar (σ : Equiv.Perm (Fin m)) {γ : Finset (Fin m)} (h : γ
         rw [hr₁, ← hyx]
         simpa using hy
       have h2 : x ∈ Set.range (emb (γ.image σ) h') := by rw [hr₂]; exact hx
-      rw [if_pos h1, if_pos h2]
+      rw [ite_eq_left h1, ite_eq_left h2]
     · have h1 : σ.symm x ∉ Set.range (emb γ h) := by
         intro hmem
         rw [hr₁] at hmem
         exact hx (Finset.mem_image.mpr ⟨σ.symm x, hmem, by simp⟩)
       have h2 : x ∉ Set.range (emb (γ.image σ) h') := by rw [hr₂]; exact hx
-      rw [if_neg h1, if_neg h2]
+      rw [ite_eq_right h1, ite_eq_right h2]
   · rw [ofPerm_conj_perm, zOf_perm, zOf_perm]
     simp
 

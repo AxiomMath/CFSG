@@ -16,8 +16,8 @@ theorem omegaOne_le_center_of_normal_cyclic
     (hCnorm : C.Normal) (hCcyc : IsCyclic C) :
     CFSG.RankThree.PartOne.omegaOne 3 C ≤ Subgroup.center G := by
   classical
-  haveI : C.Normal := hCnorm
-  haveI : IsCyclic C := hCcyc
+  have : C.Normal := hCnorm
+  have : IsCyclic C := hCcyc
   have htop : (CFSG.omega₁ (G := C) (p := 3)) = omegaOne 3 (⊤ : Subgroup C) := by
     ext x
     simp [CFSG.omega₁, CFSG.omega, omegaOne]
@@ -30,7 +30,7 @@ theorem omegaOne_le_center_of_normal_cyclic
     exact hmap.symm
   have hΩnorm : (omegaOne 3 C).Normal := by
     rw [hΩeq]
-    haveI : (CFSG.omega₁ (G := C) (p := 3)).Characteristic := CFSG.omega₁_characteristic C
+    have : (CFSG.omega₁ (G := C) (p := 3)).Characteristic := CFSG.omega₁_characteristic C
     infer_instance
   have hcard : Nat.card (omegaOne 3 C) = (Nat.card C).gcd 3 := by
     rw [hΩeq, Subgroup.card_subtype]

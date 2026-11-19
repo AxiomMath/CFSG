@@ -48,7 +48,7 @@ theorem Cfg.normal_two_subgroup_eq_bot (hpow : R3PowStmt) (hr3 : Open.twoRank H 
     exact IsElementaryAbelian.isPGroup 2 A
   have hAT : A ≤ (T : Subgroup H) := hA2.le_sylow_of_normal T
   set R : Subgroup H := (T : Subgroup H) ⊓ centralizer (A : Set H) with hRdef
-  have hR2 : IsPGroup 2 R := T.isPGroup'.to_le inf_le_left
+  have hR2 : IsPGroup 2 R := T.isPGroup.to_le inf_le_left
   have hAC : A ≤ centralizer (A : Set H) := by
     intro a ha
     rw [Subgroup.mem_centralizer_iff]
@@ -65,7 +65,7 @@ theorem Cfg.normal_two_subgroup_eq_bot (hpow : R3PowStmt) (hr3 : Open.twoRank H 
     have := Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hx).2 a haA
     calc x * a * x⁻¹ = a * x * x⁻¹ := by rw [← this]
       _ = a := by group
-  have hTeq := sylow_eq_sup hcard T.isPGroup' h.xT hxA
+  have hTeq := sylow_eq_sup hcard T.isPGroup h.xT hxA
   obtain ⟨y, hyN, hy3, hxy, hyA⟩ := exists_y h.cen hcard T hxx h.xT hxA
   have hyR : ∀ r ∈ R, y * r * y⁻¹ ∈ R := fun r hr =>
     (Subgroup.mem_normalizer_iff.mp hyN r).mp hr

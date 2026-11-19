@@ -108,7 +108,7 @@ theorem pComplCore_commutator_eq_inf_subgroupOf [Group.IsSolvable X] (hp : p.Pri
   have := Fact.mk hp
   ((isNormalPComplement_inf_commutator (P := (P : Subgroup X)) hp hoddX hpX
     P.card_eq_multiplicity (hasPLengthLeOne_iff_not_dvd_index_pComplPCore.1 hlen)
-    (isCyclic_or_maximal_plane_of_isPNarrow hp hodd P.isPGroup' hnarrow)).eq_pComplCore hp).symm
+    (isCyclic_or_maximal_plane_of_isPNarrow hp hodd P.isPGroup hnarrow)).eq_pComplCore hp).symm
 
 end
 

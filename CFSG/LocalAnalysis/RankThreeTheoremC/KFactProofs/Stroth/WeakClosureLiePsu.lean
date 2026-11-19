@@ -24,7 +24,7 @@ open CFSG.ClassicalGroups.UnitaryFlag (unitarySU unitarySU_eq_gramSU card_gramSU
 private theorem pow_add_one_eq_one_of_scalar_mem {L : Type} [Field L] [Finite L] {q n : ℕ}
     (hq : Nat.card L = q ^ 2) (hn : 1 ≤ n) {c : Lˣ}
     (hc : Matrix.GeneralLinearGroup.scalar (Fin n) c ∈ StatedSU n q L) : c ^ (q + 1) = 1 := by
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   have hq' : Fintype.card L = q ^ 2 := by rw [← Nat.card_eq_fintype_card, hq]
   obtain ⟨f, hqf, h⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData L hq'
   have hK : Nat.card L = (ringChar L ^ f) ^ 2 := by rw [← hqf, hq]
@@ -55,7 +55,7 @@ private theorem prod_Icc_neg_sub_one (q n : ℕ) (hn : 1 ≤ n) :
 private theorem natCard_statedGU_eq_mul_statedSU {L : Type} [Field L] [Finite L] {q : ℕ}
     (hq : Nat.card L = q ^ 2) {n : ℕ} (hn : 1 ≤ n) :
     Nat.card (StatedGU n q L) = (q + 1) * Nat.card (StatedSU n q L) := by
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   have hq' : Fintype.card L = q ^ 2 := by rw [← Nat.card_eq_fintype_card, hq]
   obtain ⟨f, hqf, h⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData L hq'
   have hG := CFSG.GroupTheory.WeirSylow.natCard_statedGU_cast hq' hn
@@ -125,7 +125,7 @@ theorem wcOn_projSU_of_not_dvd_add_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
   have hp1 : Odd p := hp.odd_of_ne_two hp2
   rcases Nat.eq_zero_or_pos n with rfl | hn
   ·
-    haveI : Subsingleton (GL (Fin 0) L) := ⟨fun a b => Units.ext (Matrix.ext fun i => i.elim0)⟩
+    have : Subsingleton (GL (Fin 0) L) := ⟨fun a b => Units.ext (Matrix.ext fun i => i.elim0)⟩
     have hH : Nat.card (StatedSU 0 q L) = 1 := Nat.card_of_subsingleton 1
     have hQ : Nat.card (StatedProj (StatedSU 0 q L)) ∣ 1 := by
       have := Subgroup.card_quotient_dvd_card
@@ -134,7 +134,7 @@ theorem wcOn_projSU_of_not_dvd_add_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
     apply WCOn.of_factorization_le_one
     rw [Nat.dvd_one.1 hQ, Nat.factorization_one]
     simp
-  · haveI : Fintype L := Fintype.ofFinite L
+  · have : Fintype L := Fintype.ofFinite L
     have hq' : Fintype.card L = q ^ 2 := by rw [← Nat.card_eq_fintype_card, hq]
     have hsc : ∀ c : Lˣ, Matrix.GeneralLinearGroup.scalar (Fin n) c ∈ StatedSU n q L →
         c ^ (q + 1) = 1 := fun c hc => pow_add_one_eq_one_of_scalar_mem hq hn hc
@@ -202,7 +202,7 @@ theorem crossClassical_psu : CrossClassical .PSU 3 := by
         refine Or.inr (Or.inr ⟨rfl, rfl, Or.inr ⟨rfl, ?_⟩⟩)
         omega
       refine WCOn.of_not_isMulCommutative fun P => ?_
-      exact InnerAction.n1PSU_holds K n ℓ f h p hp hp2 hpn hq1 hspec P P.isPGroup' P.not_dvd_index
+      exact InnerAction.n1PSU_holds K n ℓ f h p hp hp2 hpn hq1 hspec P P.isPGroup P.not_dvd_index
     · exact WCOn.of_mulEquiv e (wcOn_projSU_of_dvd_add_one hp2 hF hn hq1 hpn)
   · exact WCOn.of_mulEquiv e (wcOn_projSU_of_not_dvd_add_one hp2 hF hpq hq1 n)
 

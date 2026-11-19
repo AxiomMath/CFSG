@@ -44,8 +44,8 @@ theorem isSimpleGroup_bar2_of_hyp8102 {D : Data G} {L P : Subgroup G} {p n : ℕ
 
 theorem center_bar2_eq_bot_of_hyp8102 {D : Data G} {L P : Subgroup G} {p n : ℕ}
     (hH : F08.Hyp8102 D L P p n) : center (Bar2 L) = ⊥ := by
-  haveI hsimple := isSimpleGroup_bar2_of_hyp8102 hH
-  haveI hperf : Group.IsPerfect (Bar2 L) := ⟨hH.1.2.2.1⟩
+  have hsimple := isSimpleGroup_bar2_of_hyp8102 hH
+  have hperf : Group.IsPerfect (Bar2 L) := ⟨hH.1.2.2.1⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (Bar2 L)) with h | h
   · exact h
   · exact absurd (Subgroup.center_eq_top_iff.mp h)
@@ -63,6 +63,7 @@ theorem pRank_le_three_of_evenRank (D : Data G) (he : evenRank G = 3) {r : ℕ} 
     D.maxLocal.1
   omega
 
+omit [Finite G] in
 theorem mem_centralizer_of_rhoL_fix {L S : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hS : IsPGroup r S) (hSN : S ≤ normalizer (L : Set G)) {x : G} (hxS : x ∈ S) (hxL : x ∈ L)
     (hfix : ∀ (s : G) (hs : s ∈ S),
@@ -71,7 +72,7 @@ theorem mem_centralizer_of_rhoL_fix {L S : Subgroup G} {r : ℕ} (hr : r.Prime) 
     x ∈ centralizer (S : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro s hs
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hmem : s * x * s⁻¹ * x⁻¹ ∈ pCoreOf 2 L :=
     (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL_fix_iff L ⟨s, hSN hs⟩
       ⟨x, hxL⟩).mp (hfix s hs)

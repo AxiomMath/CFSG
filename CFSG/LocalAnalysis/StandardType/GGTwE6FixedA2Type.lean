@@ -273,7 +273,7 @@ theorem rootSpan_fixedA2_le_centralizer {L : Type} [Field L] {y : ModGL .E6 L}
   simp only [rootSpan]
   refine iSup₂_le ?_
   intro α hα
-  simp only [Set.mem_setOf_eq] at hα
+  simp only [Set.mem_ofPred_eq] at hα
   rw [mem_fixedA2E6] at hα
   rcases hα with rfl | rfl | rfl | rfl | rfl | rfl
   exacts [hc1.1, hc2.1, hc3.1, hc1.2, hc2.2, hc3.2]
@@ -519,7 +519,7 @@ theorem commute_twist_of_mem_closedIdentityComponent [IsAlgClosed Ω]
     refine ⟨p, ?_⟩
     change (if hp : ∃ y' : K', ∀ i, β y' i = (p i : Ωˣ) then
       QuotientGroup.mk (Classical.choose hp) else QuotientGroup.mk 1) = _
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     exact key _ _ (funext (Classical.choose_spec hp))
   have : Finite (K' ⧸ M.subgroupOf K') := Finite.of_surjective f hf
   have : (M.subgroupOf K').FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
@@ -609,7 +609,7 @@ theorem connected_centralizer_rank_three_cases [IsAlgClosed Ω] {ζ : Ωˣ}
   · left
     have hempty : {α | IsRoot .E6 α ∧ sigmaTest k α} = ∅ := by
       ext α
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       exact fun hα => h α (mem_rootFinset.mpr hα)
     simpa [hempty, rootSpan] using hC
   · refine Or.inr (Or.inl ⟨β, (Finset.mem_filter.mp hβ).1, h1, h2, h3, ?_⟩)
@@ -617,7 +617,7 @@ theorem connected_centralizer_rank_three_cases [IsAlgClosed Ω] {ζ : Ωˣ}
     apply sup_le_sup_left
     apply rootSpan_mono
     intro α hα
-    simpa only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] using
+    simpa only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] using
       (hroots α (mem_rootFinset.mpr hα.1)).mp hα.2
   · refine Or.inr (Or.inr (Or.inl (hC.trans (sup_le_sup_left (rootSpan_mono ?_) _))))
     intro α hα

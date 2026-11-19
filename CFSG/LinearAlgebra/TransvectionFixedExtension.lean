@@ -493,7 +493,7 @@ private lemma end_eq_zero_or_one_of_preserves_lines
       _ = l2 • b 0 + l2 • b 1 := smul_add l2 (b 0) (b 1)
   have hc0 := congrArg (fun x => b.repr x 0) hsum
   have hc1 := congrArg (fun x => b.repr x 1) hsum
-  simp only [map_add, map_smul, Module.Basis.repr_self_apply, smul_eq_mul] at hc0 hc1
+  simp only [map_add, map_smul] at hc0 hc1
   norm_num at hc0 hc1
   have hl0 : l0 = l2 := hc0
   have hl1 : l1 = l2 := hc1
@@ -619,7 +619,7 @@ private lemma cocycle_dichotomy [FiniteDimensional (ZMod 2) A]
     rw [finrank_span_singleton hv]
   have hfinWK : finrank (ZMod 2) WK = 1 := by
     exact (Submodule.comapSubtypeEquivOfLe hWK).finrank_eq.trans hfinW
-  haveI : Module.Finite (ZMod 2) K :=
+  have : Module.Finite (ZMod 2) K :=
     FiniteDimensional.finiteDimensional_submodule K
   have hdim : finrank (ZMod 2) (K ⧸ WK) = 2 := by
     have h := Submodule.finrank_quotient_add_finrank WK

@@ -99,7 +99,7 @@ theorem exists_subgroup_ker_normMap {X : Type*} [Group X] [Finite X] {B : Subgro
     (hCB : ∀ b ∈ B, x * b = b * x → b ∈ zpowers z) :
     ∃ KN : Subgroup X, KN ≤ B ∧ Nat.card KN = 9 ∧
       (∀ b ∈ B, normMap x b = 1 ↔ b ∈ KN) ∧ ∀ b ∈ B, normMap x b ∈ zpowers z := by
-  haveI : IsMulCommutative B := hBe.1
+  have : IsMulCommutative B := hBe.1
   have hB3 : ∀ t : B, t ^ 3 = 1 := fun t => Subtype.ext (by simpa using hBe.2 t.1 t.2)
   have hker : (phiB x hxB).ker = zpowers (⟨z, hzB⟩ : B) := by
     ext g

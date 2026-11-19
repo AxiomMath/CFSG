@@ -27,8 +27,7 @@ theorem card_quotient_map_comap {G H : Type*} [Group G] [Group H] (U : Subgroup 
       exact ha
     refine ⟨e ⟨u, huÃ⟩, ?_⟩
     apply Subtype.ext
-    simp only [ψ, ψ0, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.symm_apply_apply,
-      MonoidHom.codRestrict_apply, Subgroup.subtype_apply]
+    simp only [ψ, ψ0, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.symm_apply_apply]
     exact hu
   have hψk : ψ.ker = S.subgroupOf P := by
     ext x

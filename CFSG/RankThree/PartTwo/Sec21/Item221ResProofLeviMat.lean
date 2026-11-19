@@ -231,7 +231,7 @@ theorem commute_of_distinct {q : ℕ} {y g : GL (Fin 3) K} {l s t : Kˣ}
     simp only [Units.val_mul, coe_diagUnits] at hc'
     apply entry_eq_zero_of_commute_diagonal hc'
     fin_cases i <;> fin_cases j <;> simp at hij ⊢ <;>
-      first | exact h1s | exact h1s.symm | exact h1t | exact h1t.symm | exact hst2 |
+      first | exact h1s | exact h1t | exact hst2 |
         exact hst2.symm | exact hs1 | exact ht1
   have hdiag : ∀ X ∈ slPi true 3 q K ⊓ Subgroup.centralizer {diagUnits 1 s t},
       (X : Matrix (Fin 3) (Fin 3) K) = diagonal (fun i => (X : Matrix (Fin 3) (Fin 3) K) i i) := by
@@ -272,7 +272,7 @@ theorem eq_one_of_distinct_of_mul_self [CharP K 2] {q : ℕ} {y g : GL (Fin 3) K
     simp only [Units.val_mul, coe_diagUnits] at hc'
     apply entry_eq_zero_of_commute_diagonal hc'
     fin_cases i <;> fin_cases j <;> simp at hij ⊢ <;>
-      first | exact h1s | exact h1s.symm | exact h1t | exact h1t.symm | exact hst2 |
+      first | exact h1s | exact h1t | exact hst2 |
         exact hst2.symm | exact hs1 | exact ht1
   have hM₀M₀ : M₀ * M₀ = 1 := (MulAut.conj g).injective (by
     rw [map_mul, map_one]

@@ -65,7 +65,7 @@ theorem sec63PC_component_eq [Finite G] {H L K : Subgroup G} (hLH : L ≤ H)
     (hLn : ∀ h ∈ H, ∀ x ∈ L, h * x * h⁻¹ ∈ L) (hpow : ∃ a : ℕ, L.relIndex H = 2 ^ a)
     (hs : IsSimpleGroup ↥L) (hK : IsComponentIn K H) : K = L := by
   let F : Subgroup ↥H := L.subgroupOf H
-  haveI hFnorm : F.Normal := ⟨fun n hn g => hLn (g : G) g.2 (n : G) hn⟩
+  have hFnorm : F.Normal := ⟨fun n hn g => hLn (g : G) g.2 (n : G) hn⟩
   obtain ⟨a, ha⟩ := hpow
   have hq : Nat.card (↥H ⧸ F) = 2 ^ a := by
     simpa [F, Subgroup.relIndex, Subgroup.index] using ha

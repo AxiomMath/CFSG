@@ -26,7 +26,7 @@ private lemma triD4Line_omega_sq_cube_eq_one (k : Type) [Field k] (ω : k) (hω 
 private lemma triD4Line_vec_injective (k : Type) [Field k] (ω : k) (hω : ω ^ 3 = 1)
     (hω1 : ω ≠ 1) : Function.Injective ![1, ω, ω ^ 2] := by
   have hprim : IsPrimitiveRoot ω 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hω hω1)
   have h : (![1, ω, ω ^ 2] : Fin 3 → k) = fun i : Fin 3 => ω ^ (i : ℕ) := by
     funext i

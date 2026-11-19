@@ -25,66 +25,66 @@ private lemma ggQ2s08bf4_coxeterB_apply (n : ℕ) (u v : Fin n) :
       else if ((u = n - 1 ∧ v = n - 2) ∨ (v = n - 1 ∧ u = n - 2)) then 4
       else if (u.val + 1 = v.val ∨ v.val + 1 = u.val) then 3 else 2)
   by_cases huv : u = v
-  · rw [if_pos huv, if_pos huv]
-  · rw [if_neg huv, if_neg huv]
+  · rw [ite_eq_left huv, ite_eq_left huv]
+  · rw [ite_eq_right huv, ite_eq_right huv]
     by_cases h4 : (u = n - 1 ∧ v = n - 2 ∨ v = n - 1 ∧ u = n - 2)
-    · rw [if_pos h4, if_pos h4]
-    · rw [if_neg h4, if_neg h4]
+    · rw [ite_eq_left h4, ite_eq_left h4]
+    · rw [ite_eq_right h4, ite_eq_right h4]
       by_cases h : (v.val + 1 = u.val ∨ u.val + 1 = v.val)
-      · rw [if_pos h, if_pos (h.elim Or.inr Or.inl)]
-      · rw [if_neg h, if_neg (fun hh => h (hh.elim Or.inr Or.inl))]
+      · rw [ite_eq_left h, ite_eq_left (h.elim Or.inr Or.inl)]
+      · rw [ite_eq_right h, ite_eq_right (fun hh => h (hh.elim Or.inr Or.inl))]
 
 private lemma ggQ2s08bf4_coxeterB_double (r : ℕ) (hr : 2 ≤ r) :
     CoxeterMatrix.B r ⟨r - 1, by omega⟩ ⟨r - 2, by omega⟩ = 4 := by
   rw [ggQ2s08bf4_coxeterB_apply]
   have huv : (⟨r - 1, by omega⟩ : Fin r) ≠ ⟨r - 2, by omega⟩ := by
-    intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
-  rw [if_neg huv]
+    intro h; have := congrArg Fin.val h; simp only at this; omega
+  rw [ite_eq_right huv]
   have hdb : ((⟨r - 1, by omega⟩ : Fin r).val = r - 1 ∧
         (⟨r - 2, by omega⟩ : Fin r).val = r - 2) ∨
       ((⟨r - 2, by omega⟩ : Fin r).val = r - 1 ∧
         (⟨r - 1, by omega⟩ : Fin r).val = r - 2) := by
     left; exact ⟨rfl, rfl⟩
-  rw [if_pos hdb]
+  rw [ite_eq_left hdb]
 
 private lemma ggQ2s08bf4_coxeterD_adj1 (r : ℕ) (hr : 9 ≤ r) :
     ggCoxeterMatrixD r ⟨r - 3, by omega⟩ ⟨r - 4, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply]
   have hne : (⟨r - 3, by omega⟩ : Fin r) ≠ ⟨r - 4, by omega⟩ := by
-    intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
-  rw [if_neg hne]
+    intro h; have := congrArg Fin.val h; simp only at this; omega
+  rw [ite_eq_right hne]
   have hD : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 4, by omega⟩ ≠ 0 := by
     have h1 : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 4, by omega⟩ = -1 := by
       simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
       split_ifs <;> omega
     rw [h1]; norm_num
-  rw [if_neg hD]
+  rw [ite_eq_right hD]
 
 private lemma ggQ2s08bf4_coxeterD_adj2 (r : ℕ) (hr : 9 ≤ r) :
     ggCoxeterMatrixD r ⟨r - 3, by omega⟩ ⟨r - 2, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply]
   have hne : (⟨r - 3, by omega⟩ : Fin r) ≠ ⟨r - 2, by omega⟩ := by
-    intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
-  rw [if_neg hne]
+    intro h; have := congrArg Fin.val h; simp only at this; omega
+  rw [ite_eq_right hne]
   have hD : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 2, by omega⟩ ≠ 0 := by
     have h1 : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 2, by omega⟩ = -1 := by
       simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
       split_ifs <;> omega
     rw [h1]; norm_num
-  rw [if_neg hD]
+  rw [ite_eq_right hD]
 
 private lemma ggQ2s08bf4_coxeterD_adj3 (r : ℕ) (hr : 9 ≤ r) :
     ggCoxeterMatrixD r ⟨r - 3, by omega⟩ ⟨r - 1, by omega⟩ = 3 := by
   rw [ggCoxeterMatrixD_apply]
   have hne : (⟨r - 3, by omega⟩ : Fin r) ≠ ⟨r - 1, by omega⟩ := by
-    intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega
-  rw [if_neg hne]
+    intro h; have := congrArg Fin.val h; simp only at this; omega
+  rw [ite_eq_right hne]
   have hD : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 1, by omega⟩ ≠ 0 := by
     have h1 : CartanMatrix.D r ⟨r - 3, by omega⟩ ⟨r - 1, by omega⟩ = -1 := by
       simp only [CartanMatrix.D, Matrix.of_apply, Fin.ext_iff]
       split_ifs <;> omega
     rw [h1]; norm_num
-  rw [if_neg hD]
+  rw [ite_eq_right hD]
 
 private lemma ggQ2s08bf4_coxeterD_nonadj12 (r : ℕ) (hr : 9 ≤ r) :
     ggCoxeterMatrixD r ⟨r - 4, by omega⟩ ⟨r - 2, by omega⟩ = 2 := by
@@ -181,7 +181,7 @@ private theorem ggQ2s08bf4_swap_of_perm_refl {N : ℕ} {f0 : Fin N → Vn N}
       rw [Finsupp.smul_apply, Finsupp.sub_apply, Finsupp.sub_apply,
         Finsupp.single_eq_of_ne hcb, Finsupp.single_eq_of_ne hca,
         Finsupp.single_eq_same, Finsupp.single_eq_of_ne hc] at heval
-      have h01 : (0 : ZMod 3) = 1 := by simpa using heval
+      have h01 : (0 : ZMod 3) = 1 := by simp at heval
       exact (by norm_num : (0 : ZMod 3) ≠ 1) h01
     rcases h1 with h1 | h1
     · right
@@ -389,17 +389,17 @@ theorem ggQ2s08_big_roFrame_of_facts [Finite G] (M : GGQ2LDatum 3 Bs L x)
     have hne_phi : ∀ {u v : Fin lab.rank}, u ≠ v → e.symm (e' u) ≠ e.symm (e' v) :=
       fun huv h => huv (e'.injective (e.symm.injective h))
     have hne01 : i0 ≠ j1 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hne02 : i0 ≠ j2 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hne03 : i0 ≠ j3 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hne12 : j1 ≠ j2 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hne13 : j1 ≠ j3 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hne23 : j2 ≠ j3 := hne_phi (by
-      intro h; have := congrArg Fin.val h; simp only [Fin.val_mk] at this; omega)
+      intro h; have := congrArg Fin.val h; simp only at this; omega)
     have hrel3 : ∀ {u v : Fin lab.rank}, u ≠ v → Mx u v = 3 → (σ u * σ v) ^ 3 = 1 := by
       intro u v huv huv3
       have h := hrel u v huv

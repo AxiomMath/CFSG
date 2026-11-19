@@ -43,7 +43,7 @@ theorem dead_of_not_dvd_sylow_card {X : Type} [Group X] [Finite X] {p : ℕ} (hp
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEp : IsPGroup p Ē := IsElementaryAbelian.isPGroup p Ē
   obtain ⟨U, hU⟩ := exists_sylow_two_normalized hp Ē hEp hn
-  refine ⟨(U : Subgroup X), ?_, U.isPGroup', hU⟩
+  refine ⟨(U : Subgroup X), ?_, U.isPGroup, hU⟩
   intro hbot
   have hcard : Nat.card (U : Subgroup X) = 2 ^ (Nat.card X).factorization 2 := U.card_eq_multiplicity
   have hX0 : Nat.card X ≠ 0 := Nat.card_pos.ne'

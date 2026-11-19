@@ -337,7 +337,7 @@ theorem langRatNegOne_localNorm_of_twistInner
   obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted hτ'
   obtain ⟨hm0, hs, hmin⟩ := outer_componentOrbitLength_spec S hb i
   set m := componentOrbitLength S.ρ (componentRoots (rootCharHom b) i) with hmdef
-  haveI : NeZero m := ⟨hm0.ne'⟩
+  have : NeZero m := ⟨hm0.ne'⟩
   obtain ⟨e, hqe⟩ : ∃ e : ℕ, S.D.q = 2 ^ e := by
     obtain ⟨ℓ, e, -, hchar, -, hqe'⟩ := exists_char_pow S
     exact ⟨e, by rw [hqe', CharP.eq L hchar ‹CharP L 2›]⟩

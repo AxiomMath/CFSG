@@ -81,6 +81,7 @@ section Blocks
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem exists_elemAbelian_of_blocks (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) (k : ↥Rep → ℕ)
     (hk : ∀ i : ↥Rep, ∃ A : Subgroup (V ≃ₗ[K] V), A ≤ supportedBlock Q x ↑i ∧
@@ -115,6 +116,7 @@ theorem exists_elemAbelian_of_blocks (hx : OddOrderIsometry Q p x) {Rep : Finset
     simp only [hAcard]
     exact Finset.prod_pow_eq_pow_sum _ _ _
 
+omit [Finite K] in
 theorem exists_elemAbelian_two_indices (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) {r₁ r₂ : ↥Rep} (hne : r₁ ≠ r₂)
     {A₁ A₂ : Subgroup (V ≃ₗ[K] V)} {k₁ k₂ : ℕ}
@@ -132,12 +134,13 @@ theorem exists_elemAbelian_two_indices (hx : OddOrderIsometry Q p x) {Rep : Fins
         · subst hi2
           exact ⟨A₂, h₂.1, h₂.2.1, by simpa [Pi.single_apply, hne.symm] using h₂.2.2⟩
         · exact ⟨⊥, bot_le, CFSG.SectionRank.isElemAbelian_bot 5,
-            by simp [Pi.single_apply, hi1, hi2]⟩)
+            by simp [hi1, hi2]⟩)
   refine ⟨E, hE, hel, ?_⟩
   rw [hcard]
   congr 1
   simp [Finset.sum_add_distrib, Finset.sum_pi_single']
 
+omit [Finite K] in
 theorem exists_elemAbelian_three_indices (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) {r₁ r₂ r₃ : ↥Rep} (h12 : r₁ ≠ r₂) (h13 : r₁ ≠ r₃)
     (h23 : r₂ ≠ r₃) {A₁ A₂ A₃ : Subgroup (V ≃ₗ[K] V)} {k₁ k₂ k₃ : ℕ}
@@ -159,7 +162,7 @@ theorem exists_elemAbelian_three_indices (hx : OddOrderIsometry Q p x) {Rep : Fi
           · subst hi3
             exact ⟨A₃, h₃.1, h₃.2.1, by simpa [Pi.single_apply, h13.symm, h23.symm] using h₃.2.2⟩
           · exact ⟨⊥, bot_le, CFSG.SectionRank.isElemAbelian_bot 5,
-              by simp [Pi.single_apply, hi1, hi2, hi3]⟩)
+              by simp [hi1, hi2, hi3]⟩)
   refine ⟨E, hE, hel, ?_⟩
   rw [hcard]
   congr 1
@@ -172,6 +175,7 @@ section BlockElements
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem root_pow_eq_one_iff (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (n : ℕ) :
     AdjoinRoot.root h ^ n = 1 ↔ 5 ∣ n := by
@@ -179,12 +183,13 @@ theorem root_pow_eq_one_iff (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Irre
   rw [← hord, orderOf_dvd_iff_pow_eq_one, ← Units.val_inj, Units.val_pow_eq_pow_val,
     Units.val_mk0, Units.val_one]
 
+omit [Finite K] in
 theorem orderOf_scalar_block (hx : OddOrderIsometry Q 5 x) {h : K[X]} [Fact (Irreducible h)]
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (g : ↥(supportedBlock Q x h))
     (hg5 : g ^ 5 = 1)
     (hdet : blockDet Q x h g = AdjoinRoot.root h ^ primaryMultiplicity x.toLinearMap h)
     (hm5 : ¬ 5 ∣ primaryMultiplicity x.toLinearMap h) : orderOf (g : V ≃ₗ[K] V) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine orderOf_eq_prime (congrArg Subtype.val hg5) fun h1 => hm5 ?_
   have : g = 1 := Subtype.ext h1
   rw [this, map_one] at hdet
@@ -241,6 +246,7 @@ section Fixed
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem exists_rep_X_sub_one (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) (hW : fixedSpace x ≠ ⊥) :
     ∃ r : ↥Rep, (r : K[X]) = X - 1 := by
@@ -286,7 +292,7 @@ theorem false_of_elemAbelian_five_pow_four [Nontrivial V]
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
   have hEΩ : E ≤ orthDerived Q := fun g hg =>
     hodd g (hEO hg) (Odd.of_dvd_nat (by decide : Odd 5) (orderOf_dvd_of_pow_eq_one (hE.2 g hg)))
-  haveI : Finite (V ≃ₗ[K] V) := inferInstance
+  have : Finite (V ≃ₗ[K] V) := inferInstance
   set ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=
     QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q)) with hρ
   have hinj : Function.Injective (ρ.comp (Subgroup.inclusion hEΩ)) := by

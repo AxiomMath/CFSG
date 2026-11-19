@@ -71,11 +71,11 @@ theorem ggQ2_shape_linear {p : ℕ} [Fact p.Prime] {N : ℕ} {V : Type} [AddComm
   have hinf : Module.finrank (ZMod p) ↥(H ⊓ Submodule.span (ZMod p) {v}) =
       if v ∈ H then 1 else 0 := by
     by_cases hvH : v ∈ H
-    · rw [if_pos hvH]
+    · rw [ite_eq_left hvH]
       have hle : Submodule.span (ZMod p) {v} ≤ H :=
         (Submodule.span_singleton_le_iff_mem v H).mpr hvH
       rw [inf_eq_right.mpr hle, finrank_span_singleton hv0]
-    · rw [if_neg hvH]
+    · rw [ite_eq_right hvH]
       rw [disjoint_iff.mp ((Submodule.disjoint_span_singleton' hv0).mpr hvH), finrank_bot]
   have hHrank : Module.finrank (ZMod p) H =
       D.rank + (if v ∈ H then 1 else 0) := by
@@ -100,10 +100,10 @@ theorem ggQ2_shape_linear {p : ℕ} [Fact p.Prime] {N : ℕ} {V : Type} [AddComm
   · have hvH : v ∉ H := by
       rintro hvH
       have hHr : Module.finrank (ZMod p) H = N + 1 := by
-        rw [hHrank, if_pos hvH, hD]
+        rw [hHrank, ite_eq_left hvH, hD]
       omega
     have hHr : Module.finrank (ZMod p) H = N := by
-      rw [hHrank, if_neg hvH, add_zero, hD]
+      rw [hHrank, ite_eq_right hvH, add_zero, hD]
     have hLI : LinearIndependent (ZMod p) h := hLI_of_finrank hHr
     have hVN : Module.finrank (ZMod p) V = N + 1 := by
       rw [hVrank]
@@ -115,7 +115,7 @@ theorem ggQ2_shape_linear {p : ℕ} [Fact p.Prime] {N : ℕ} {V : Type} [AddComm
     exact Or.inl ⟨hLI, hvH, hsup⟩
   · by_cases hvH : v ∈ H
     · have hHr : Module.finrank (ZMod p) H = N := by
-        rw [hHrank, if_pos hvH, hD]
+        rw [hHrank, ite_eq_left hvH, hD]
       have hLI : LinearIndependent (ZMod p) h := hLI_of_finrank hHr
       rcases hVcases with hV | hV
       · refine Or.inr (Or.inr (Or.inr (Or.inr ⟨hLI, ?_⟩)))
@@ -123,7 +123,7 @@ theorem ggQ2_shape_linear {p : ℕ} [Fact p.Prime] {N : ℕ} {V : Type} [AddComm
       · refine Or.inr (Or.inl ⟨hLI, hvH, hV, ?_⟩)
         exact hsurj (by omega)
     · have hHr : Module.finrank (ZMod p) H + 1 = N := by
-        rw [hHrank, if_neg hvH, add_zero, hD]
+        rw [hHrank, ite_eq_right hvH, add_zero, hD]
       rcases hVcases with hV | hV
       · refine Or.inr (Or.inr (Or.inl ⟨hHr, hvH, ?_⟩))
         apply Submodule.eq_top_of_disjoint (s := H) (t := Submodule.span (ZMod p) {v})
@@ -237,7 +237,7 @@ private theorem mem_closure_iff_mem_span {G : Type} [Group G] {p : ℕ} [NeZero 
         ?_ ?_ ?_ ?_ hspan
       · rintro v ⟨k, rfl⟩
         simpa using Subgroup.subset_closure (Set.mem_range_self k)
-      · simpa using Subgroup.one_mem (Subgroup.closure (Set.range g))
+      · simp
       · intro x y _ _ hx hy
         have h1 : ((Additive.toMul (ι.symm (x + y)) : ↥Bs) : G) =
             ((Additive.toMul (ι.symm x) : ↥Bs) : G) *
@@ -271,7 +271,7 @@ theorem exists_ggQ2LDatum_of_torData_of_closure {G : Type} [Group G] [Finite G] 
       (∃ e : Fin N ≃ D.Λ, ∀ i j, D.cartan (e i) (e j) = C i j) ∧ D.Shape := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hxBL : x ∈ Bs ∧ x ∈ Subgroup.centralizer (L : Set G) := by
     rw [← Subgroup.mem_inf, hBL]
     exact Subgroup.mem_zpowers x
@@ -280,10 +280,10 @@ theorem exists_ggQ2LDatum_of_torData_of_closure {G : Type} [Group G] [Finite G] 
     Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp hxBL.2 l hl)
   obtain ⟨w, hw⟩ := hTor
   obtain ⟨V, iadd, imod, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
-  letI : AddCommGroup V := iadd
-  letI : Module (ZMod p) V := imod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let : AddCommGroup V := iadd
+  let : Module (ZMod p) V := imod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨hnk, hbk, α, hrefl, hpair, hγ, hsep⟩ :=
     ggTD_linearData hm hpm hBs hSC hN w hw V ιV
   have hAL : ggAutomizer L Bs =

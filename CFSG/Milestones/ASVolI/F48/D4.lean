@@ -142,11 +142,11 @@ theorem burnsideF48_cartanFPF_D4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
     (hP : ChF.IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂))
     (hpoly : IsGenPolygon (burnsideF48_setting hyp hp hm).ι.graph 6) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E := hyp.finite
   obtain ⟨K, fK, finK, σ, scope, ⟨marking⟩⟩ := burnsideF48_D4tw_marking hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨σE, rfl⟩ : ∃ σE : K ≃+* K, σE.toRingHom = σ :=
     ⟨RingEquiv.ofBijective σ ⟨σ.injective, Finite.surjective_of_injective σ.injective⟩,
       RingHom.ext fun _ => rfl⟩
@@ -190,13 +190,13 @@ theorem burnsideF48_cartanFPF_D4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M�
 theorem burnsideF48_simple_D4tw {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .D4tw p f Gp M₁ M₂) (hq : 2 ≤ p ^ f) : IsSimpleGroup ↥Gp := by
   obtain ⟨K, fK, finK, σ, scope, ⟨marking⟩⟩ := burnsideF48_D4tw_marking hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨σE, rfl⟩ : ∃ σE : K ≃+* K, σE.toRingHom = σ :=
     ⟨RingEquiv.ofBijective σ ⟨σ.injective, Finite.surjective_of_injective σ.injective⟩,
       RingHom.ext fun _ => rfl⟩
   obtain ⟨hp, hf, hK, hσq⟩ := scope
-  haveI := CFSG.GH74.GLS.Stage4.Hex.isSimpleGroup_d4Model σE.toRingHom hq hK hσq
+  have := CFSG.GH74.GLS.Stage4.Hex.isSimpleGroup_d4Model σE.toRingHom hq hK hσq
   obtain ⟨eC⟩ := burnsideF48_d4Model_equiv σE hp hf hK hσq
   obtain ⟨eD, -⟩ := burnsideF4h_tri_exists_equiv hp hf hK σE hσq
   exact (eC.trans (eD.symm.trans marking)).symm.isSimpleGroup

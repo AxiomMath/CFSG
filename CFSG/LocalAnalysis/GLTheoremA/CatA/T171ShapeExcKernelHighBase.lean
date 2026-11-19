@@ -26,7 +26,7 @@ theorem mem_of_pow_three_mul_conj {G : Type*} [Group G] {H : Subgroup G}
     (hcomm : commutator G ≤ H) {δ φ : G}
     (h3 : δ ^ 3 ∈ H) (h2 : δ * (φ * δ * φ⁻¹) ∈ H) : δ ∈ H := by
   classical
-  haveI hH : H.Normal := Subgroup.Normal.of_commutator_le G hcomm
+  have hH : H.Normal := Subgroup.Normal.of_commutator_le G hcomm
   have hc : ⁅φ, δ⁆ ∈ H := by
     have h := (Subgroup.commutator_le.mp hcomm φ (Subgroup.mem_top φ) δ
       (Subgroup.mem_top δ))
@@ -48,6 +48,7 @@ theorem mem_of_pow_three_mul_conj {G : Type*} [Group G] {H : Subgroup G}
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 variable {K : Type*} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem pow_three_eq_one_of_cartan {A : Matrix ι ι ℤ} (hdet : A.det = 3)
     {x : ι → Kˣ} (hx : ∀ j, ∏ i, x i ^ A i j = 1) : ∀ j, x j ^ 3 = 1 := by
   intro j
@@ -58,6 +59,7 @@ private theorem pow_three_eq_one_of_cartan {A : Matrix ι ι ℤ} (hdet : A.det 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
   {M : Type*} [CommGroup M] {χ : Multiplicative (Fin τ.rank → ℤ) →* M}
 
+omit [IsAlgClosed L] in
 theorem center_pow_three_eq_one_of_cartan_det_eq_three [CharP L 2]
     (i : KernelComponent χ)
     (hdet : (Matrix.of fun β γ : simpleRoots (componentRoots χ i) =>
@@ -212,7 +214,7 @@ theorem frobGL_center_mem_torus [CharP L 2] {a : Fin τ.rank → Lˣ}
     (hzS : z ∈ componentRootSpan L (rootCharHom a) i)
     (hz : ∀ x ∈ componentRootSpan L (rootCharHom a) i, x * z = z * x) :
     z ∈ torusGroup τ L := by
-  haveI : Infinite L := IsAlgClosed.instInfinite
+  have : Infinite L := IsAlgClosed.instInfinite
   exact unionTorus_le_torusGroup
     (central_mem_unionTorus (χ := rootCharHom a) (i := i)
       (exists_unit_sq_ne_one L)
@@ -320,13 +322,9 @@ theorem det_cartan_eq_three_of_rank_six
     have htE6 : t = .E6 := by
       simp only [countTypes, List.mem_cons, List.not_mem_nil, or_false] at hmem
       rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-      all_goals simp_all [TauCeti.DynkinType.rank_A, TauCeti.DynkinType.rank_B,
-        TauCeti.DynkinType.rank_C, TauCeti.DynkinType.rank_D, TauCeti.DynkinType.rank_E6,
-        TauCeti.DynkinType.rank_E7, TauCeti.DynkinType.rank_E8,
-        TauCeti.DynkinType.numRoots_A, TauCeti.DynkinType.numRoots_B,
-        TauCeti.DynkinType.numRoots_C, TauCeti.DynkinType.numRoots_D,
-        TauCeti.DynkinType.numRoots_E6, TauCeti.DynkinType.numRoots_E7,
-        TauCeti.DynkinType.numRoots_E8]
+      all_goals simp_all [TauCeti.DynkinType.rank_A, TauCeti.DynkinType.rank_D, TauCeti.DynkinType.rank_E6,
+        TauCeti.DynkinType.numRoots_A, TauCeti.DynkinType.numRoots_D,
+        TauCeti.DynkinType.numRoots_E6]
     have hmat : (Matrix.of fun β γ : simpleRoots Ψ =>
         corootPair (β : Fin τ.rank → ℤ) γ) =
         Matrix.submatrix (TauCeti.DynkinType.cartanMatrix t) e e := by

@@ -286,7 +286,7 @@ theorem eq_reflection_of_toMatrix {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U
     funext i
     rw [show f.repr (∑ j, v j • f j) = ∑ j, v j • Finsupp.single j (1 : ZMod p) by
       rw [map_sum]; simp [Module.Basis.repr_self]]
-    rw [Finsupp.finset_sum_apply]
+    rw [_root_.Finsupp.finsetSum_apply]
     rw [Finset.sum_eq_single i]
     · rw [Finsupp.smul_apply, Finsupp.single_eq_same, smul_eq_mul, mul_one]
     · intro j _ hji

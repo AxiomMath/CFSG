@@ -145,7 +145,7 @@ private theorem P1408_le_normalizer_blocks :
 section Cert26760
 
 
-theorem conj_mem_pPrime (hΛ : HSCtx)
+theorem conj_mem_pPrime (_hΛ : HSCtx)
     {c x : Equiv.Perm (Fin 1408)} (hc : c ∈ P1408)
     (hx : x ∈ pPrime) : c * x * c⁻¹ ∈ pPrime := by
   have hx' := Subgroup.mem_inf.mp hx
@@ -171,7 +171,7 @@ theorem Good.conj {S : Subgroup (Equiv.Perm (Fin 1408))} {t : Equiv.Perm (Fin 14
     Good (S.map (MulAut.conj c).toMonoidHom) (c * t * c⁻¹) := by
   let φ : Equiv.Perm (Fin 1408) ≃* Equiv.Perm (Fin 1408) := MulAut.conj c
   have hφ : ∀ x : Equiv.Perm (Fin 1408), φ x = c * x * c⁻¹ := fun x => MulAut.conj_apply c x
-  haveI : IsSimpleGroup ↥S := h.simple
+  have : IsSimpleGroup ↥S := h.simple
   refine { le := ?_, simple := ?_, mem := ?_, sq := ?_, ne := ?_, cover := ?_ }
   · intro y hy
     rcases Subgroup.mem_map.mp hy with ⟨s, hs, rfl⟩

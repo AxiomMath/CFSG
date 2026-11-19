@@ -18,6 +18,7 @@ section FixedPart
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem sdo_fixedPart (hx : OddOrderIsometry Q p x) {b : V ≃ₗ[K] V} (hb : b ∈ isometryCentralizer Q x) :
     ∃ (f : V ≃ₗ[K] V) (hf : f ∈ supportedBlock Q x (X - 1)),
       restrictFixed Q x ⟨f, hf⟩ = isometryRestrictFixed Q x ⟨b, hb⟩ ∧
@@ -68,6 +69,7 @@ theorem sdo_fixedPart (hx : OddOrderIsometry Q p x) {b : V ≃ₗ[K] V} (hb : b 
     rw [map_add g.1⁻¹, hginvr r hr, map_add b, hbginv _ hw, map_add l, hlr _ hbr]
   exact e1.trans e2.symm
 
+omit [Finite K] in
 theorem sdo_fixedPart_pow (hx : OddOrderIsometry Q p x) {b : V ≃ₗ[K] V}
     (hb : b ∈ isometryCentralizer Q x) {f : V ≃ₗ[K] V} (hf : f ∈ supportedBlock Q x (X - 1))
     (hfb : restrictFixed Q x ⟨f, hf⟩ = isometryRestrictFixed Q x ⟨b, hb⟩) (hbp : b ^ p = 1) :
@@ -103,6 +105,7 @@ theorem sdo_fixedPart_mem [CharP K 2] (hp : p.Prime) (hp2 : p ≠ 2) (hK3 : p = 
       dicksonDerived_fixedSpace_of_four_le_card (hK3 h3) hx hW3 _ hδ⟩
   · exact hq f hf p hp h3 hfp
 
+omit [Finite K] in
 theorem sdo_X_sub_one_mem_rep (hx : OddOrderIsometry Q p x) {Rep : Finset K[X]}
     (hRep : IsOrbitRepresentatives x Rep) (h1 : 1 ≤ finrank K (fixedSpace x)) :
     (X - 1 : K[X]) ∈ Rep := by

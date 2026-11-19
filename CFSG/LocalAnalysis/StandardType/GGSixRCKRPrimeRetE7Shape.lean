@@ -184,7 +184,7 @@ theorem rckRetE7_levi
     have hset : Set.range l = ↑(P.toFinset) := by
       rw [hrange]
       ext x
-      simp [List.mem_toFinset]
+      simp
     have hcomp : compRank (kacE8.rootsOf (Set.range l)) = 7 := by
       rw [← compRank_image v (kacE8.rootsOf (Set.range l)), ← hroots, hrank]
     have hPlen : P.length = 7 := by

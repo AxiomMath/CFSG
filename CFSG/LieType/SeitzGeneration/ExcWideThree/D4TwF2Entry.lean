@@ -30,7 +30,7 @@ theorem posLabel_27_eq (hp : 27 < dim Tag.D4) :
     funext i
     fin_cases i <;> rfl
   unfold posLabel
-  rw [dif_neg (by decide +kernel)]
+  rw [dite_eq_right (by decide +kernel)]
   show Sum.inr _ = Sum.inr _
   congr 1
   exact Subtype.ext hroot
@@ -39,7 +39,7 @@ theorem pcoord_eq_negLabel (w : RootModule Tag.D4 K) :
     pcoord K w 27 = w (negLabel isMaxHeightRoot_d4Root_22.1) := by
   have hp : 27 < dim Tag.D4 := by decide +kernel
   unfold pcoord posCoord
-  rw [dif_pos hp, Finsupp.lapply_apply, posLabel_27_eq hp]
+  rw [dite_eq_left hp, Finsupp.lapply_apply, posLabel_27_eq hp]
 
 theorem gram_row_theta : ∀ b < 28, gramZ 26 b = if b = 27 then 1 else 0 := by
   decide +kernel
@@ -54,12 +54,12 @@ theorem Bf_vTheta [CharP K 2] (w : RootModule Tag.D4 K) : Bf K (vTheta K) w = pc
   rw [h1]
   unfold Bzk
   rw [Finset.sum_eq_single 26]
-  · simp only [if_true, one_mul]
+  · simp only [ite_true, one_mul]
     rw [Finset.sum_eq_single 27]
     · rw [gram_row_theta 27 (by norm_num)]
       simp
     · intro b hb hb27
-      rw [gram_row_theta b (Finset.mem_range.1 hb), if_neg hb27]
+      rw [gram_row_theta b (Finset.mem_range.1 hb), ite_eq_right hb27]
       simp
     · intro h
       exact absurd (Finset.mem_range.2 (by norm_num)) h
@@ -103,7 +103,7 @@ theorem vanish_top {σ : K ≃+* K} [CharP K 2]
 
 theorem mem_fixedSubgroup_of_entries_F2 [CharP K 2] {θ : Fin Tag.D4.rank → ℤ} (hθ : IsMaxHeightRoot Tag.D4 θ)
     (hθ22 : θ = d4Root 22) {σ : K ≃+* K} [Finite K]
-    (hσ3 : ∀ c : K, σ (σ (σ c)) = c) (hK3top : 3 ≤ Nat.card (⊤ : Subfield K))
+    (_hσ3 : ∀ c : K, σ (σ (σ c)) = c) (hK3top : 3 ≤ Nat.card (⊤ : Subfield K))
     (hspan : Submodule.span K {x | ∃ r ∈ fixedSubgroup (d4Twist 1 σ), x = endHom K r (vTheta K)} = ⊤)
     {g : adjointGroup Tag.D4 K}
     (hall : ∀ r ∈ fixedSubgroup (d4Twist 1 σ), ∀ r' ∈ fixedSubgroup (d4Twist 1 σ),
@@ -181,9 +181,9 @@ theorem D4TwF2EntryProp_holds : D4TwF2EntryProp := by
     · exfalso
       have : (1 : K) = 0 := by
         have := congrArg (fun x => x - 1) h'
-        simpa using this
+        simp at this
       exact one_ne_zero this
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have h8 : Nat.card K = 8 := by
     have hKcard : Nat.card K = Nat.card (fixSubfield σ) ^ 3 :=
       (CFSG.RankThree.PartOne.SEITZ6.card_eq_card_fixSubfield_pow σ).trans (by rw [hσ])

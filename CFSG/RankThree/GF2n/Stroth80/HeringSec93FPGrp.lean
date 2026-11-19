@@ -26,7 +26,7 @@ theorem exists_fixed_mod_Z (hc : Ctx M Q Z B) {P : Subgroup G} (hP : IsPGroup 2 
   have hPN : P ≤ N := hPM.trans hMN
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
   have hQN : Q ≤ N := hQM.trans hMN
-  haveI hnorm : (Z.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have hnorm : (Z.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   let π : ↥N →* ↥N ⧸ Z.subgroupOf N := QuotientGroup.mk' (Z.subgroupOf N)
   have hPp : IsPGroup 2 ↥(P.subgroupOf N) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
   have hQp : IsPGroup 2 ↥(Q.subgroupOf N) :=
@@ -152,9 +152,11 @@ theorem comm_mem_Z_of_isPGroup (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n :
   rw [e2, hc.conj_Z_of_mem_Q (hc.le hb) hz]
   exact hz
 
+omit [Finite G] in
 theorem isPGroup_pCoreIn (X : Subgroup G) : IsPGroup 2 ↥(inSubgroup (pCore 2) X) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
 
+omit [Finite G] in
 theorem le_normalizer_pCoreIn (X : Subgroup G) :
     X ≤ Subgroup.normalizer (inSubgroup (pCore 2) X : Set G) := by
   have key : ∀ k ∈ X, ∀ o ∈ inSubgroup (pCore 2) X, k * o * k⁻¹ ∈ inSubgroup (pCore 2) X := by
@@ -169,6 +171,7 @@ theorem le_normalizer_pCoreIn (X : Subgroup G) :
   have e : k⁻¹ * (k * x * k⁻¹) * (k⁻¹)⁻¹ = x := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem pCoreIn_le (X : Subgroup G) : inSubgroup (pCore 2) X ≤ X := Subgroup.map_subtype_le _
 
 theorem comm_mem_Z_of_pCoreIn (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ}

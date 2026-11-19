@@ -22,7 +22,7 @@ theorem tau_fixes_of_commute (hn : 3 ≤ n) (hne : ¬(n = 3 ∧ ℓ ^ f = 2))
         primeFormConjHom h (idGram K n) B = primeFormConjHom h (idGram K n) B *
         primeFormPsi h (isPrimeFormGram_idGram (K := K) (n := n)) ⟨M', τ⟩) :
     τ (c : K) = c := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   set Ψ := primeFormPsi h (isPrimeFormGram_idGram (K := K) (n := n)) ⟨M', τ⟩ with hΨ
   obtain ⟨dA, hdA⟩ := exists_scalar_of_commute_conj hn hne hgA
   obtain ⟨dB, hdB⟩ := exists_scalar_of_commute_conj hn hne hgB

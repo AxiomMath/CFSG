@@ -23,6 +23,7 @@ theorem card_le_of_statedProj {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 0 <
   · rw [MonoidHom.range_eq_top.2 (QuotientGroup.mk'_surjective _)]
     exact le_top
 
+omit [Finite F] in
 theorem irreducible_X_sq_add_X_add_one_of_not_dvd (h3 : ((3 : ℕ) : F) ≠ 0)
     (hd : ¬ 3 ∣ Nat.card Fˣ) : Irreducible (X ^ 2 + X + 1 : F[X]) := by
   refine Polynomial.irreducible_of_degree_le_three_of_not_isRoot ?_ fun x hx => ?_
@@ -51,10 +52,10 @@ theorem card_le_of_statedProj_SL (h3 : ((3 : ℕ) : F) ≠ 0) (hn : 0 < n)
   by_cases hd : 3 ∣ Nat.card Fˣ
   · exact card_le_of_statedProj Nat.prime_three (by norm_num) hn hd E hE
   have hirr := irreducible_X_sq_add_X_add_one_of_not_dvd h3 hd
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨hirr⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨hirr⟩
   let F' := AdjoinRoot (X ^ 2 + X + 1 : F[X])
-  haveI : Module.Finite F F' := (AdjoinRoot.powerBasis hirr.ne_zero).finite
-  haveI : Finite F' := Module.finite_of_finite F
+  have : Module.Finite F F' := (AdjoinRoot.powerBasis hirr.ne_zero).finite
+  have : Finite F' := Module.finite_of_finite F
   let ι : GL (Fin n) F →* GL (Fin n) F' := Matrix.GeneralLinearGroup.map (algebraMap F F')
   have hinj : Function.Injective ι := by
     intro A B h

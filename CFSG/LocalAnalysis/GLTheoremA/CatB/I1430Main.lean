@@ -16,7 +16,7 @@ theorem I1430At_of_facts (G : Type) [Group G] [Finite G]
   intro X E D J I hX hEX hE hE27 hDE hD9 hXD hJ hEJ hI hIt hnot hrk
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hJX : J ≤ X := hJ.1
   have hJQ : CFSG.Open.IsQuasisimple (PQuot 3 J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hXJ : CFSG.Open.IsKGroup ↥J := CFSG.Open.IsKGroup.of_le hX hJ.1
@@ -28,7 +28,7 @@ theorem I1430At_of_facts (G : Type) [Group G] [Finite G]
     Subgroup.mem_centralizer_iff.1 (hXD (hJX hj)) d hd
   obtain ⟨x, hxE, hxD⟩ : ∃ x ∈ E, x ∉ D := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : Nat.card E ≤ Nat.card D := Subgroup.card_le_of_le h
     rw [hE27, hD9] at h1
     norm_num at h1

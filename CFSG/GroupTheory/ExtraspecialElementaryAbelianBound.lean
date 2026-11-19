@@ -76,7 +76,7 @@ theorem card_le_two_pow_succ_of_isElemAbelian {J : Subgroup G} (hJ : IsExtraspec
       exact piAddHom_apply J q0
     rw [hφ, extraspecialQuadForm_apply]
     have hq2 : q0 ^ 2 = 1 := Subtype.ext (by simpa using hU.2 (q0 : G) hq0)
-    rw [if_pos hq2]
+    rw [ite_eq_left hq2]
   have hW_le_orth : W ≤
       LinearMap.BilinForm.orthogonal (extraspecialQuadForm hE).polarBilin W := by
     intro x hx

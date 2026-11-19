@@ -63,7 +63,7 @@ private theorem ggQ2s08x1c_centralizer_three_mem_zpowers {G : Type} [Group G] [F
       have hab : Commute a b := hEc a ha b hb
       rw [hab.mul_pow, iha, ihb, one_mul]
     | inv a ha iha => rw [inv_pow, iha, inv_one]
-  haveI : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hEc a.1 a.2 b.1 b.2)⟩⟩
+  have : IsMulCommutative ↥E := ⟨⟨fun a b => Subtype.ext (hEc a.1 a.2 b.1 b.2)⟩⟩
   have hEel : CFSG.Open.IsElemAbelian 3 E := ⟨this, hE3⟩
   have hxE : x ∈ E := Subgroup.subset_closure (Set.mem_insert _ _)
   have hcE : c ∈ E := Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
@@ -80,7 +80,7 @@ private theorem ggQ2s08x1c_center_eq_one_of_not_mem {G : Type} [Group G] [Finite
   obtain ⟨hp, hBs, hxB, hLx, -⟩ := hS.1.1.tableB_facts
   have hSS : LargeEvenSStar 3 B x L := hS.1.1.1.2.2.2.2.2.2.1
   have hzG : (z : G) ∈ Subgroup.zpowers x := ggQ2s08_center_three_mem hS z hz h3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hx3 : x ^ 3 = 1 := hBs.2 x hxB
   have hx1 : x ≠ 1 := hSS.2.2.1
   have hz3 : (z : G) ^ 3 = 1 := by
@@ -162,7 +162,7 @@ theorem ggQ2s08x1p_inner_of_not_mem {G : Type} [Group G] [Finite G] {B Bs : Subg
     have hne : m % 3 ≠ 0 := fun h => h3m (Nat.dvd_of_mod_eq_zero h)
     omega
   have hmm : (m * m) % 3 = 1 := by
-    rcases hmmod with h | h <;> rw [Nat.mul_mod, h] <;> norm_num
+    rcases hmmod with h | h <;> rw [Nat.mul_mod, h]
   have hbmm : b ^ (m * m) = b := by
     have hsplit : m * m = 3 * (m * m / 3) + 1 := by
       have := Nat.div_add_mod (m * m) 3

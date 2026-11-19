@@ -20,8 +20,8 @@ set_option linter.unusedSectionVars false
 theorem kgg_card_eq_card_fix_sq {F : Type} [Field F] [Finite F] [CharP F 2] {δ : F ≃+* F}
     (hδ2 : δ * δ = 1) (hδ1 : δ ≠ 1) :
     Nat.card F = Nat.card (CFSG.LieType.Chevalley.fixSubfield δ) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have hF : Nat.card F = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hord : orderOf δ = 2 := orderOf_eq_prime (show δ ^ 2 = 1 by rw [sq]; exact hδ2) hδ1

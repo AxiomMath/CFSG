@@ -33,12 +33,12 @@ theorem card_eq_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] {X T : Subg
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hTV fun v hv => ?_)
     have : (⟨v, hv⟩ : V) ∈ T.subgroupOf V := h ▸ mem_top _
     exact this
-  have : Group.IsNilpotent (V : Subgroup G) := V.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (V : Subgroup G) := V.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyT⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   rw [← subgroupOf_normalizer_eq hTV] at hyN
   have hW := eq_of_le_of_isPGroup hTX hT (sup_le hTX (zpowers_le.mpr (hN hyN)))
-    (V.isPGroup'.to_le (sup_le hTV (zpowers_le.mpr y.2))) le_sup_left
+    (V.isPGroup.to_le (sup_le hTV (zpowers_le.mpr y.2))) le_sup_left
   exact hyT (hW ▸ mem_sup_right (mem_zpowers (y : G)) : (y : G) ∈ T)
 
 theorem exists_mem_normalizer_conj [Finite G] {p : ℕ} [Fact p.Prime] (T : Sylow p G)

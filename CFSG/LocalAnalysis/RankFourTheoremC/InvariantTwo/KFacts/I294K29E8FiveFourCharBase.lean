@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.E8FiveFour
 
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.HardMathSupport.Timmesfeld.Steinberg
 
-@[expose] def cinvInt (j k : Fin 8) : ℤ := cinvNat j k
+def cinvInt (j k : Fin 8) : ℤ := cinvNat j k
 
 theorem cartan_mul_cinv :
     ∀ i k : Fin Tag.E8.rank, ∑ j, Tag.E8.cartan i j * cinvInt j k = if i = k then 1 else 0 := by
@@ -18,7 +18,7 @@ theorem cartan_mul_cinv :
 
 theorem cinv_symm : ∀ j k : Fin 8, cinvInt j k = cinvInt k j := by decide
 
-@[expose] def normZ (b : Fin Tag.E8.rank → ZMod 5) : ZMod 5 :=
+def normZ (b : Fin Tag.E8.rank → ZMod 5) : ZMod 5 :=
   ∑ j, ∑ k, (cinvInt j k : ZMod 5) * b j * b k
 
 theorem cartan_mul_cinv_cast (i k : Fin Tag.E8.rank) :
@@ -38,18 +38,18 @@ theorem normZ_pReflect (i : Fin Tag.E8.rank) (b : Fin Tag.E8.rank → ZMod 5) :
   have hcb : ∑ j, ∑ k, c j * G j k * b k = t := by
     rw [Finset.sum_comm]
     simp only [← Finset.sum_mul, hS, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     exact ht.symm
   have hbc : ∑ j, ∑ k, G j k * c k * b j = t := by
     have : ∀ j, ∑ k, G j k * c k * b j = (∑ k, c k * G k j) * b j := fun j => by
       rw [Finset.sum_mul]
       exact Finset.sum_congr rfl fun k _ => by rw [hGs j k]; ring
-    simp only [this, hS, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    simp only [this, hS, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     exact ht.symm
   have hcc : ∑ j, ∑ k, c j * G j k * c k = 2 := by
     rw [Finset.sum_comm]
     simp only [← Finset.sum_mul, hS, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     simp only [hc, Tag.cartan_self]
     norm_num
   have hexp : ∀ j k, G j k * pReflect i b j * pReflect i b k =
@@ -73,7 +73,7 @@ theorem normZ_pAct (ω : List (Fin Tag.E8.rank)) (b : Fin Tag.E8.rank → ZMod 5
 
 theorem normZ_smul (c : ZMod 5) (b : Fin Tag.E8.rank → ZMod 5) :
     normZ (c • b) = c ^ 2 * normZ b := by
-  simp only [normZ, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
+  simp only [normZ, Finset.mul_sum]
   exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by
     change _ * (c * b _) * (c * b _) = _
     ring
@@ -143,7 +143,7 @@ theorem pAct_injective (ω : List (Fin τ.rank)) :
     Function.Injective (pAct (p := p) ω) := fun b b' h => by
   rw [← pAct_reverse_pAct ω b, h, pAct_reverse_pAct]
 
-@[expose] def pActHom (ω : List (Fin τ.rank)) : (Fin τ.rank → ZMod p) →+ (Fin τ.rank → ZMod p) where
+def pActHom (ω : List (Fin τ.rank)) : (Fin τ.rank → ZMod p) →+ (Fin τ.rank → ZMod p) where
   toFun := pAct ω
   map_zero' := by
     have h := pAct_smul ω (0 : ZMod p) 0
@@ -245,10 +245,10 @@ theorem exists_datum_of_check (hchk : e8FiveFourCheck () = true)
       intro d
       change (∑ i, d i • E i) ⟨e.piv.getD j 0, hj⟩ = d j
       rw [Finset.sum_apply, Finset.sum_eq_single j]
-      · simp only [Pi.smul_apply, smul_eq_mul, hE, hjv, if_true, mul_one]
+      · simp only [Pi.smul_apply, smul_eq_mul, hE, hjv, ite_true, mul_one]
       · intro i _ hij
         obtain ⟨hj', hjv'⟩ := (hbasis i).2 j
-        simp only [Pi.smul_apply, smul_eq_mul, hE, hjv', if_neg hij, mul_zero]
+        simp only [Pi.smul_apply, smul_eq_mul, hE, hjv', ite_eq_right hij, mul_zero]
       · simp
     rw [← key c, ← key c', h1]
   · rw [pAct_append, pAct_append, ← hk, pAct_reverse_pAct, hrep, pAct_smul]

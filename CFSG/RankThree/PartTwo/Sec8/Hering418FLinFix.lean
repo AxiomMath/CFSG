@@ -95,17 +95,17 @@ theorem ker_fixedCoreHom (σ : F ≃+* F) : (fixedCoreHom σ).ker = scalars 3 (f
     have hoff : ∀ i j : Fin 3, i ≠ j → (A : Matrix (Fin 3) (Fin 3) (fixedField σ)) i j = 0 := by
       intro i j hij
       apply (fixedField σ).subtype.injective
-      rw [hent i j, if_neg hij]
+      rw [hent i j, ite_eq_right hij]
       simp
     have hc0 : (A : Matrix (Fin 3) (Fin 3) (fixedField σ)) 0 0 ≠ 0 := by
       intro h0
       have := hent 0 0
       rw [h0] at this
-      simp only [map_zero, if_true] at this
+      simp only [map_zero, ite_true] at this
       exact c.ne_zero this.symm
     have hc3 : ((A : Matrix (Fin 3) (Fin 3) (fixedField σ)) 0 0) ^ 3 = 1 := by
       apply (fixedField σ).subtype.injective
-      rw [map_pow, hent 0 0, if_pos rfl, map_one, ← Units.val_pow_eq_pow_val, hc]
+      rw [map_pow, hent 0 0, ite_eq_left rfl, map_one, ← Units.val_pow_eq_pow_val, hc]
       simp
     refine ⟨Units.mk0 _ hc0, by
       rw [← Units.val_inj, Units.val_pow_eq_pow_val, Units.val_mk0, hc3, Units.val_one], ?_⟩
@@ -113,9 +113,9 @@ theorem ker_fixedCoreHom (σ : F ≃+* F) : (fixedCoreHom σ).ker = scalars 3 (f
     by_cases hij : i = j
     · subst hij
       rw [hdiag i]
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.scalar_apply]
     · rw [hoff i j hij]
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+      simp [Matrix.scalar_apply, hij]
   · rintro ⟨c, hc, hAc⟩
     refine ⟨Units.map (fixedField σ).subtype.toMonoidHom c, ?_, ?_⟩
     · rw [← map_pow, hc, map_one]
@@ -123,8 +123,8 @@ theorem ker_fixedCoreHom (σ : F ≃+* F) : (fixedCoreHom σ).ker = scalars 3 (f
       ext i j
       by_cases hij : i = j
       · subst hij
-        simp [Matrix.scalar_apply, Matrix.diagonal_apply]
-      · simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+        simp [Matrix.scalar_apply]
+      · simp [Matrix.scalar_apply, hij]
 
 noncomputable def fixedCoreEquiv (σ : F ≃+* F) :
     projectiveSL 3 (fixedField σ) ≃* ↥(fixedCore σ) :=
@@ -132,12 +132,12 @@ noncomputable def fixedCoreEquiv (σ : F ≃+* F) :
     (QuotientGroup.quotientKerEquivRange (fixedCoreHom σ))
 
 theorem fixedCore_isSimpleGroup (σ : F ≃+* F) : IsSimpleGroup ↥(fixedCore σ) := by
-  haveI : IsSimpleGroup (projectiveSL 3 (fixedField σ)) :=
+  have : IsSimpleGroup (projectiveSL 3 (fixedField σ)) :=
     Sec21.Item223CensusResProof.isSimpleGroup_projectiveSL' (K := fixedField σ) (n := 3) le_rfl
   exact (fixedCoreEquiv σ).symm.isSimpleGroup
 
 theorem not_isSolvable_fixedCore (σ : F ≃+* F) : ¬ Group.IsSolvable ↥(fixedCore σ) := by
-  haveI := fixedCore_isSimpleGroup σ
+  have := fixedCore_isSimpleGroup σ
   intro hs
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr hs
   obtain ⟨a, b, hab⟩ :=
@@ -164,7 +164,7 @@ theorem exists_core_of_fieldAut {X : Type} [Group X] (e : X ≃* projectiveSL 3 
   · intro y z hy hz
     refine ⟨⁅e y, e z⁆, commutator_mem_fixedCore ((hfix y).mp hy) ((hfix z).mp hz), ?_⟩
     simp [map_commutatorElement]
-  · haveI := fixedCore_isSimpleGroup σ
+  · have := fixedCore_isSimpleGroup σ
     exact ε.symm.isSimpleGroup
   · intro hs
     exact not_isSolvable_fixedCore σ

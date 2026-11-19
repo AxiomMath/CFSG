@@ -31,20 +31,17 @@ private theorem sign_eq_neg_one_of_four_cycle
     Equiv.swap a d * Equiv.swap a c * Equiv.swap a b
   have htauA : tau a = b := by
     simp [tau, Equiv.Perm.mul_apply, Equiv.swap_apply_def,
-      hab, hab.symm, hac, hac.symm, had, had.symm,
-      hbc, hbc.symm, hbd, hbd.symm, hcd, hcd.symm]
+      hab.symm, hbc, hbd]
   have htauB : tau b = c := by
     simp [tau, Equiv.Perm.mul_apply, Equiv.swap_apply_def,
-      hab, hab.symm, hac, hac.symm, had, had.symm,
-      hbc, hbc.symm, hbd, hbd.symm, hcd, hcd.symm]
+      hac.symm, hcd]
   have htauC : tau c = d := by
     simp [tau, Equiv.Perm.mul_apply, Equiv.swap_apply_def,
-      hab, hab.symm, hac, hac.symm, had, had.symm,
-      hbc, hbc.symm, hbd, hbd.symm, hcd, hcd.symm]
+      hac.symm, hbc.symm]
   have htauD : tau d = a := by
     simp [tau, Equiv.Perm.mul_apply, Equiv.swap_apply_def,
-      hab, hab.symm, hac, hac.symm, had, had.symm,
-      hbc, hbc.symm, hbd, hbd.symm, hcd, hcd.symm]
+      had.symm,
+      hbd.symm, hcd.symm]
   have hsigma : sigma = tau := by
     ext x
     by_cases hxa : x = a
@@ -95,7 +92,7 @@ theorem false_of_six_fixedSet_and_oriented_quarterTurn
   classical
   let A : Subgroup G := ambientSylow e Q
   let F := MulAction.fixedPoints A X
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hbp : b • p = p := by
     change p ∈ MulAction.fixedBy X b
     rw [hFb]
@@ -278,7 +275,7 @@ theorem false_of_seven_fixedSet_and_oriented_quarterTurn
   classical
   let A : Subgroup G := ambientSylow e Q
   let F := MulAction.fixedPoints A X
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hbp : b • p = p := by
     change p ∈ MulAction.fixedBy X b
     rw [hFb]

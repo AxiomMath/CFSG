@@ -96,7 +96,7 @@ theorem eq_bot_of_perfect_stab {Q : Type} [Group Q]
     have hle : Nat.card Ñ ≤ 168 := Nat.le_of_dvd (by norm_num) hdvd
     have hk7 : k ≤ 7 := by omega
     rw [hk] at hdvd ⊢
-    interval_cases k <;> first | omega | skip
+    interval_cases k <;> try omega
     · exfalso
       have hÑtop : Ñ = ⊤ := Subgroup.eq_top_of_card_eq Ñ (by rw [hQ]; omega)
       have : M'.Normal := Subgroup.normalizer_eq_top_iff.mp hÑtop

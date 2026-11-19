@@ -25,7 +25,7 @@ variable {D : Data G} {Y H : Subgroup G} {q : ℕ}
 
 theorem opp_inf_I9_le_pCoreOf (S : Core D Y H q) :
     Opp 3 Y ⊓ F09.I9 H ≤ pCoreOf 2 (Opp 3 Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.Quasithin.H13.U3.inf_le_pCoreOf_of_coprime_three
     (S.opp_le_H.trans (SteinbergBM.le_normalizer_inSubgroup_pPrimeCore 3 H))
     (SteinbergBM.coprime_card_inSubgroup_pPrimeCore H)

@@ -16,11 +16,12 @@ open scoped commutatorElement
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [CharP k 2] in
 private lemma finite_specialLinearGroup_dspace :
     Finite (SpecialLinearGroup k (DSpace E X)) := by
-  haveI : Finite X := Module.finite_of_finite k
-  haveI : Finite (DSpace E X) := inferInstance
-  haveI : Finite (DSpace E X ≃ₗ[k] DSpace E X) :=
+  have : Finite X := Module.finite_of_finite k
+  have : Finite (DSpace E X) := inferInstance
+  have : Finite (DSpace E X ≃ₗ[k] DSpace E X) :=
     Finite.of_injective (fun e : DSpace E X ≃ₗ[k] DSpace E X => e.toEquiv.toFun)
       (fun e f h => LinearEquiv.ext (fun x => congrFun h x))
   infer_instance
@@ -40,7 +41,7 @@ theorem rootNoCentral_rootSL (hdX : Module.finrank k E ≤ Module.finrank k X)
       A) : B' ≤ A := by
   have hX : 0 < Module.finrank k X :=
     lt_of_lt_of_le (Module.finrank_pos (R := k) (M := E)) hdX
-  haveI : Finite (SpecialLinearGroup k (DSpace E X)) :=
+  have : Finite (SpecialLinearGroup k (DSpace E X)) :=
     finite_specialLinearGroup_dspace (k := k) (E := E) (X := X)
   have hBQ : B' ≤ QK k E X :=
     hB.trans (le_of_eq (pCoreOf_normalizer_rootSL (k := k) (E := E) (X := X) hX))
@@ -60,7 +61,7 @@ theorem rootNoCentral_rootSL (hdX : Module.finrank k E ≤ Module.finrank k X)
       group
     rw [hsplit]
     exact A.mul_mem hcomm ha
-  haveI : (A.subgroupOf B').Normal := hN_normal
+  have : (A.subgroupOf B').Normal := hN_normal
   let H : Subgroup (SpecialLinearGroup k (DSpace E X)) := Subgroup.zpowers h
   let hH : H := ⟨h, Subgroup.mem_zpowers h⟩
   have hle : H ≤ Subgroup.normalizer (B' : Set (SpecialLinearGroup k (DSpace E X))) :=
@@ -174,7 +175,7 @@ theorem rootNoCentral_rootSL (hdX : Module.finrank k E ≤ Module.finrank k X)
   have hbdecomp : b = (((b₁ / b' : ↥B')) : SpecialLinearGroup k (DSpace E X))⁻¹ *
       (b₁ : SpecialLinearGroup k (DSpace E X)) := by
     have hcoe : (((b₁ / b' : ↥B')) : SpecialLinearGroup k (DSpace E X)) = b₁ * b⁻¹ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_div]
       rfl
     rw [hcoe]
     group

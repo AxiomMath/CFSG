@@ -168,7 +168,7 @@ theorem burnsideF4m_core12_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (∀ x ∈ centerOf (perfectCore M₁), x ≠ 1 → x * x = 1 → x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) ∧
     (∀ x ∈ centerOf (perfectCore M₂), x ≠ 1 → x * x = 1 →
       GLKind.U4 = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, h, Φ, h1, h2⟩ := burnsideF4m_U4_chart hyp.toHypF_4_4g
   have hc : ∀ a b : E, ⁅a, b⁆ ∈ Gp := burnsideF4m_commutator_mem_of_out hyp.centralizer_trivial
     (burnsideF4m_out_transport Φ (burnsideF4m_U4_out_comm h))

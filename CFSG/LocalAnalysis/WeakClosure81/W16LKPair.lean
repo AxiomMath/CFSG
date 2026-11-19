@@ -71,9 +71,9 @@ theorem IsU3Shape.isL2Pair_sylowCenter_sup (hX : IsU3Shape X n) {R R' : Sylow 2 
     calc 3 < 4 := by norm_num
       _ = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-  haveI : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model n) :=
+  have : Group.IsPerfect (CFSG.Theory.Comparator.PSL2Model n) :=
     CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three (GaloisField 2 n) hcard3
-  haveI : Group.IsPerfect ↥Lb :=
+  have : Group.IsPerfect ↥Lb :=
     Group.IsPerfect.ofSurjective (f := θ.symm.toMonoidHom) θ.symm.surjective
   have hperfLb : commutator ↥Lb = ⊤ := Group.IsPerfect.commutator_eq_top
   have hcentPSL : Subgroup.center (CFSG.Theory.Comparator.PSL2Model n) = ⊥ :=
@@ -83,7 +83,7 @@ theorem IsU3Shape.isL2Pair_sylowCenter_sup (hX : IsU3Shape X n) {R R' : Sylow 2 
         (θ : ↥Lb →* CFSG.Theory.Comparator.PSL2Model n) = ⊥ := by
       rw [Subgroup.map_center_eq θ, hcentPSL]
     exact (Subgroup.map_injective θ.injective) (by rw [hmap, Subgroup.map_bot])
-  haveI : Finite ↥L := inferInstance
+  have : Finite ↥L := inferInstance
   let φ : ↥L →* ↥Lb := (QuotientGroup.mk' (Subgroup.center X)).subgroupMap L
   have hφsurj : Function.Surjective φ :=
     (QuotientGroup.mk' (Subgroup.center X)).subgroupMap_surjective L
@@ -114,9 +114,9 @@ theorem IsU3Shape.isL2Pair_sylowCenter_sup (hX : IsU3Shape X n) {R R' : Sylow 2 
     rw [hmapC, Subgroup.comap_top] at h
     exact h.symm
   have hZc2 : IsPGroup 2 ((sylowCenter R).subgroupOf L) :=
-    ((R.isPGroup').comap_subtype (K := L)).to_le (by rintro x hx; exact hx.1)
+    ((R.isPGroup).comap_subtype (K := L)).to_le (by rintro x hx; exact hx.1)
   have hZc'2 : IsPGroup 2 ((sylowCenter R').subgroupOf L) :=
-    ((R'.isPGroup').comap_subtype (K := L)).to_le (by rintro x hx; exact hx.1)
+    ((R'.isPGroup).comap_subtype (K := L)).to_le (by rintro x hx; exact hx.1)
   have hsup' : (sylowCenter R).subgroupOf L ⊔ (sylowCenter R').subgroupOf L = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (show sylowCenter R ≤ L from le_sup_left)
       (show sylowCenter R' ≤ L from le_sup_right)]

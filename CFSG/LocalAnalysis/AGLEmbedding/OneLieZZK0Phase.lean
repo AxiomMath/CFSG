@@ -90,7 +90,7 @@ theorem centralizer_le (hc : D1OneLieKZeroData p P M H R Rbar K P' H₁ S)
       rw [Subgroup.normalizer_eq_top_iff.mpr (inferInstance : C.Normal)]
       exact le_top
     obtain ⟨z, ⟨hzR, hzC⟩, -, hzp⟩ :=
-      exists_mem_inf_centralizer_orderOf_eq Rb₁.isPGroup' inf_le_left hRbN hS1
+      exists_mem_inf_centralizer_orderOf_eq Rb₁.isPGroup inf_le_left hRbN hS1
     have hzL : z ∉ L := fun hzL => by
       rw [hLC z hzL hzC, orderOf_one] at hzp
       exact hp.one_lt.ne hzp

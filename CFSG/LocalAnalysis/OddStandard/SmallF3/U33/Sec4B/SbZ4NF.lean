@@ -55,7 +55,7 @@ theorem sigma_conj_t : ∃ h : G, h * t * h⁻¹ = lam * t := by
     rw [hcomm]; group
   have htmem : t * (x₁ * x₂) ^ 2 ∈ conjIn (ctxQ t tau x₁ x₂ rho) t := by
     rw [hz.tQ]
-    exact Set.mem_smul_set.mpr ⟨(x₁ * x₂) ^ 2, hz.z_mem_V, rfl⟩
+    exact Set.mem_smul_set.mpr ⟨(x₁ * x₂) ^ 2, CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V, rfl⟩
   obtain ⟨q, _, hq⟩ := htmem
   refine ⟨c * q, ?_⟩
   have hmain : (c * q) * t * (c * q)⁻¹ = t * lam := by
@@ -83,7 +83,7 @@ theorem exists_pow_four_y (hne : ∃ w ∈ ctxWN t tau x₁ x₂ rho, w ^ 4 ≠ 
   exact S4B.exists_pow_four_eq (P := ctxWN t tau x₁ x₂ rho) (V := fourGrp x₁ x₂)
     hw.W_comm hz.rho_pow_three (fun y hy => hz.rho_conj_ctxWN hy) hz.nPre.card_V
     (fun v hv => hz.rho_conj_V hv) (fun v hv h => hz.rho_fpf_V hv h)
-    hw.W_pow_four_mem_V hx hx4 (x₁ ^ 2) hz.y_mem_V
+    hw.W_pow_four_mem_V hx hx4 (x₁ ^ 2) CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
 
 theorem exists_sigma_fixed {w₁ : G} (hw₁ : w₁ ∈ ctxWN t tau x₁ x₂ rho) (h4 : w₁ ^ 4 = x₁ ^ 2) :
     ∃ N ∈ ctxWN t tau x₁ x₂ rho, (lam * t) * N * (lam * t)⁻¹ = N ∧
@@ -120,7 +120,7 @@ theorem exists_sigma_fixed {w₁ : G} (hw₁ : w₁ ∈ ctxWN t tau x₁ x₂ rh
   have hN8 : N ^ 8 = 1 := by
     rw [show (8 : ℕ) = 4 + 4 by norm_num, pow_add, hN4eq, ← pow_two, hz.z_sq]
   have hord : orderOf N = 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h := orderOf_eq_prime_pow (p := 2) (n := 2) (x := N) ?_ ?_
     · rwa [show (2 : ℕ) ^ (2 + 1) = 8 by norm_num] at h
     · rw [show (2 : ℕ) ^ 2 = 4 by norm_num]
@@ -135,7 +135,7 @@ theorem exists_abelian_big {N : G} (hN : N ∈ ctxWN t tau x₁ x₂ rho)
     ∃ A : Subgroup G, A ≤ centralizer ({lam * t} : Set G) ∧ IsMulCommutative A ∧
       IsPGroup 2 A ∧ N ∈ A ∧ 16 < Nat.card A := by
   have hz := hw.toCtx4Z
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ2 : (lam * t) * (lam * t) = 1 := hz.sigma_sq
   have hσ_ne : lam * t ≠ 1 := by
     intro h
@@ -148,7 +148,7 @@ theorem exists_abelian_big {N : G} (hN : N ∈ ctxWN t tau x₁ x₂ rho)
   obtain ⟨V', v₁, v₂, hV⟩ := hz.data_V
   obtain ⟨hVea, hVcard, hVQ, hVinf, hVY, hVρ, hv₁V, hv₂V, hv₁ne, hv₂notzp, hVcl,
     ht₁, ht₂, hσv₁, hQm⟩ := hV
-  haveI : IsMulCommutative ↥V' := hVea.1
+  have : IsMulCommutative ↥V' := hVea.1
   have hcommV' : ∀ a ∈ V', ∀ b ∈ V', a * b = b * a :=
     fun a ha b hb => congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V') ⟨b, hb⟩)
   let m : G := v₁ * v₂
@@ -171,7 +171,7 @@ theorem exists_abelian_big {N : G} (hN : N ∈ ctxWN t tau x₁ x₂ rho)
     exact Subgroup.mem_zpowers v₁
   have hmz : m ≠ (x₁ * x₂) ^ 2 := by
     intro h
-    have hzbase : (x₁ * x₂) ^ 2 ∈ baseGrp x₁ x₂ := hz.nPre.V_le_B hz.z_mem_V
+    have hzbase : (x₁ * x₂) ^ 2 ∈ baseGrp x₁ x₂ := hz.nPre.V_le_B CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V
     have hmem : m ∈ (⊥ : Subgroup G) := by
       rw [← hVinf]
       exact ⟨h ▸ hzbase, hmV'⟩
@@ -290,7 +290,7 @@ section
 
 theorem W_pow_four : ∀ w ∈ ctxWN t tau x₁ x₂ rho, w ^ 4 = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨w, hwmem, hw4⟩ := h
   have hz := hw.toCtx4Z
   obtain ⟨w₁, hw₁, h4⟩ := hw.exists_pow_four_y ⟨w, hwmem, hw4⟩

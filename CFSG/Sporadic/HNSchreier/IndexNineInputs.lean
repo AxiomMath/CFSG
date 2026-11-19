@@ -123,7 +123,6 @@ theorem sigPerm_eq_hnNinePerm_wk
     sigPerm (k : ℕ) = hnNinePerm (hnNineWk (k : ℕ)) := by
   apply PRep.unique (prep_sigPerm k.2)
   intro x
-  change (sigArrs[(k : ℕ)]!)[(x : ℕ)]! = (hnNinePerm (hnNineWk (k : ℕ)) x).val
   rw [hnNinePerm_apply]
   exact (hnNineWk_spec k x).symm
 
@@ -271,7 +270,7 @@ theorem hnNineU0_le_range :
     hnNineU0 ≤ phiQ.range := by
   rw [hnNineU0, Subgroup.closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq] at hx
+  simp only [Set.mem_ofPred_eq] at hx
   simp only [hnNineGens, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl | rfl | rfl | rfl
   exacts [hnNineA_mem, hnNineB_mem, hnNineC_mem, hnNineD_mem, hnNineT_mem]
@@ -297,7 +296,7 @@ theorem hnNineGens_subset_list : ∀ x ∈ hnNineGens, x ∈ hnNineList := by
 theorem hnNineU0_le_listSub : hnNineU0 ≤ hnNineListSub := by
   rw [hnNineU0, Subgroup.closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq] at hx
+  simp only [Set.mem_ofPred_eq] at hx
   exact hnNineGens_subset_list x hx
 
 theorem hnNineA_mem_U0 : hnNineA ∈ hnNineU0 :=

@@ -28,7 +28,7 @@ theorem Sec108Data.mem_Asp (D : Sec108Data hc t Y)
     e ∈ D.Asp AM ↔ e ∈ AM.M₀.img (Q ⊓ QB B) :=
   Iff.rfl
 
-private theorem smul_mem_img_B (D : Sec108Data hc t Y)
+private theorem smul_mem_img_B (_D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) (c : AM.K) (e : AM.M₀.E)
     (he : e ∈ AM.M₀.img B) : c • e ∈ AM.M₀.img B := by
   obtain ⟨b, -, -, hB, -, -⟩ := Ctx.dictB hc AM.glob
@@ -193,7 +193,7 @@ theorem Sec108Data.exists_delta_eq (D : Sec108Data hc t Y)
     (f : ↥(D.Asp AM) →ₗ[AM.K] ↥(D.Bsp AM))
     (hf : ∀ a : ↥(D.Asp AM), (a : AM.M₀.E) ∈ D.Bsp AM → f a = 0) :
     ∃ x : ↥(LB M Q B), D.delta AM x = f := by
-  haveI : Module.Free AM.K AM.M₀.E := Module.Free.of_divisionRing AM.K AM.M₀.E
+  have : Module.Free AM.K AM.M₀.E := Module.Free.of_divisionRing AM.K AM.M₀.E
   obtain ⟨b, hbY, hb0, hB, -, hex, -⟩ :=
     Ctx.elation_package hc D.hyp.width D.hyp.n_gt D.hyp.noA2
       (card_LB_of_ctx D.h34 hc D.hyp.width D.hyp.n_gt D.hyp.noA2 D.hyp.gen).1
@@ -205,7 +205,7 @@ theorem Sec108Data.exists_delta_eq (D : Sec108Data hc t Y)
   have hf'b : f' ⟨b, hbY⟩ = 0 := by
     have h0 : f ⟨b, hbY⟩ = 0 := hf ⟨b, hbY⟩ hbBsp
     rw [hf'def]
-    simp only [LinearMap.comp_apply, Submodule.coe_subtype, h0, Submodule.coe_zero, map_zero]
+    simp only [LinearMap.comp_apply, h0, map_zero]
   obtain ⟨l, hl, hexl⟩ := hex f' hf'b
   refine ⟨⟨l, hl⟩, ?_⟩
   ext a
@@ -271,7 +271,7 @@ private theorem eq_smul_of_ker_le (D : Sec108Data hc t Y)
     (hb : ∀ v : AM.M₀.E, v ∈ AM.M₀.img B ↔ ∃ s : AM.K, v = s • b)
     (hb0 : b ≠ 0) (hg : g ≠ 0) (hker : LinearMap.ker g ≤ LinearMap.ker f) :
     ∃ c : AM.K, f = c • g := by
-  haveI : Module.Free AM.K ↥(D.Bsp AM) := Module.Free.of_divisionRing AM.K ↥(D.Bsp AM)
+  have : Module.Free AM.K ↥(D.Bsp AM) := Module.Free.of_divisionRing AM.K ↥(D.Bsp AM)
   have hbB : (b : AM.M₀.E) ∈ D.Bsp AM := (D.mem_Bsp AM).mpr ((hb b).mpr ⟨1, (one_smul _ b).symm⟩)
   have hbne : (⟨b, hbB⟩ : ↥(D.Bsp AM)) ≠ 0 := fun h => hb0 (congrArg Subtype.val h)
   obtain ⟨gb, hgb⟩ := Module.Projective.exists_dual_eq_one AM.K hbne
@@ -312,7 +312,7 @@ private theorem eq_smul_of_ker_le (D : Sec108Data hc t Y)
   have h2 : gb (f a) = s := by rw [hs, map_smul, hgb, smul_eq_mul, mul_one]
   have h3 : gb (g a) = s' := by rw [hs', map_smul, hgb, smul_eq_mul, mul_one]
   rw [h2, h3] at h1
-  simp only [LinearMap.smul_apply, Submodule.coe_smul, Submodule.coe_mk, hs, hs', h1, mul_smul]
+  simp only [LinearMap.smul_apply, Submodule.coe_smul, hs, hs', h1, mul_smul]
 
 theorem Sec108Data.root_fix_range_nu (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) {y : G} (hy : y ∈ Y) {u : AM.M₀.E}
@@ -379,7 +379,7 @@ private theorem delta_injective_on_root (D : Sec108Data hc t Y)
     (h : D.delta AM ⟨y₁, D.root_le_LB h₁⟩ = D.delta AM ⟨y₂, D.root_le_LB h₂⟩) : y₁ = y₂ := by
   have hneg : D.delta AM ⟨y₁, D.root_le_LB h₁⟩⁻¹ = - D.delta AM ⟨y₁, D.root_le_LB h₁⟩ := by
     have hone : D.delta AM (⟨y₁, D.root_le_LB h₁⟩⁻¹ * ⟨y₁, D.root_le_LB h₁⟩) = 0 :=
-      (D.delta_eq_zero_iff AM _).mpr (by simpa using Q.one_mem)
+      (D.delta_eq_zero_iff AM _).mpr (by simp)
     have hm := D.delta_mul AM ⟨y₁, D.root_le_LB h₁⟩⁻¹ ⟨y₁, D.root_le_LB h₁⟩
     rw [hone] at hm
     exact eq_neg_of_add_eq_zero_left hm.symm
@@ -451,7 +451,7 @@ private theorem delta_inv_mul_mem_Q (D : Sec108Data hc t Y)
     (h : D.delta AM ⟨y, D.root_le_LB hy⟩ = D.delta AM x) : y⁻¹ * (x : G) ∈ Q := by
   have hneg : D.delta AM ⟨y, D.root_le_LB hy⟩⁻¹ = - D.delta AM ⟨y, D.root_le_LB hy⟩ := by
     have hone : D.delta AM (⟨y, D.root_le_LB hy⟩⁻¹ * ⟨y, D.root_le_LB hy⟩) = 0 :=
-      (D.delta_eq_zero_iff AM _).mpr (by simpa using Q.one_mem)
+      (D.delta_eq_zero_iff AM _).mpr (by simp)
     have hm := D.delta_mul AM ⟨y, D.root_le_LB hy⟩⁻¹ ⟨y, D.root_le_LB hy⟩
     rw [hone] at hm
     exact eq_neg_of_add_eq_zero_left hm.symm

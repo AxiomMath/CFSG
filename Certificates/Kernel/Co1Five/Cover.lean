@@ -51,7 +51,7 @@ theorem out_eq {s u : Nat} (hq : [s, 4, u, 4] ∈ getLLL Q 0) (hs : s % 2 = 0) (
     intro x hx
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl | rfl | rfl <;> omega)
-  rw [termG_eval, termG_eval, termG_eval, if_pos hs, if_pos hu, if_pos (by norm_num),
+  rw [termG_eval, termG_eval, termG_eval, ite_eq_left hs, ite_eq_left hu, ite_eq_left (by norm_num),
     nodeG_one, mul_one, mul_one] at h
   exact h
 

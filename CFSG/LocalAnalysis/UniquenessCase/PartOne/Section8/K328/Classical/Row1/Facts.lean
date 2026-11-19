@@ -148,7 +148,7 @@ private theorem k328r1f_t_mem {F : Type} [Field F] {ω : F} (h2 : (2 : F) = 0) (
     rw [hτ, hD, ht]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal_apply]
-    all_goals first | ring1 | linear_combination hω3 | linear_combination (-1 : F) * hω3
+    all_goals first | linear_combination hω3 | linear_combination (-1 : F) * hω3
   have hdetτ : (τ : Matrix (Fin 4) (Fin 4) F).det = 1 := by
     rw [hτ, Matrix.det_succ_row_zero]
     simp [Fin.sum_univ_succ, Matrix.det_succ_row_zero, Fin.succAbove]

@@ -109,7 +109,7 @@ theorem dag_matU (h : UnitaryFieldData p f K) {P : Subgroup (GL (Fin 7) K)}
   rw [Subgroup.coe_inv, Matrix.coe_units_inv]
 
 theorem projU_dag (h : UnitaryFieldData p f K)
-    (hP : ∀ x ∈ P, x ∈ StatedSU 7 (p ^ f) K) (c : P → K) (hcmul : ∀ x y, c (x * y) = c x * c y)
+    (hP : ∀ x ∈ P, x ∈ StatedSU 7 (p ^ f) K) (c : P → K) (_hcmul : ∀ x y, c (x * y) = c x * c y)
     (hcinv : ∀ x, c x⁻¹ = (c x)⁻¹) :
     dag h (projU (univ.filter fun x => c x = 1)) = projU (univ.filter fun x => c x = 1) := by
   unfold projU

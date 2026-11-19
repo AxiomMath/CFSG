@@ -155,7 +155,7 @@ theorem exists_perm_of_isometry (hW : ∀ v : W, v + v = 0) (hQ0 : Q 0 = 0)
       exact ⟨q, hpq.symm, e⟩
     · subst hx
       exact ⟨p, hpq, by rw [e, add_comm]⟩
-  haveI : Nonempty (Fin n) := ⟨a⟩
+  have : Nonempty (Fin n) := ⟨a⟩
   choose! τ' hτ'ne hτ' using hstar
   let τ : Fin n → Fin n := fun j => if j = a then x else τ' j
   have hτinj : Function.Injective τ := by
@@ -163,12 +163,12 @@ theorem exists_perm_of_isometry (hW : ∀ v : W, v + v = 0) (hQ0 : Q 0 = 0)
     by_cases hj : j = a
     · by_cases hk : k = a
       · rw [hj, hk]
-      · simp only [τ, hj, hk, if_true, if_false] at hjk
+      · simp only [τ, hj, hk, ite_true, ite_false] at hjk
         exact absurd hjk.symm (hτ'ne k hk)
     · by_cases hk : k = a
-      · simp only [τ, hj, hk, if_true, if_false] at hjk
+      · simp only [τ, hj, hk, ite_true, ite_false] at hjk
         exact absurd hjk (hτ'ne j hj)
-      · simp only [τ, hj, hk, if_false] at hjk
+      · simp only [τ, hj, hk, ite_false] at hjk
         have hgjk : g (c a + c j) = g (c a + c k) := by
           rw [hτ' j hj, hτ' k hk, hjk]
         exact eq_of_c_eq Q c hW hQ0 hA (add_left_cancel (hg hgjk))

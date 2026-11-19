@@ -301,7 +301,7 @@ private theorem movedSpace_le_axisSpace {a w : N} (haw : polar QN a w = 0) :
     movedSpace (rhoE ρ a w) ≤ axisSpace ρ a :=
   le_iSup₂_of_le (f := fun w (_ : polar QN a w = 0) => movedSpace (rhoE ρ a w)) w haw le_rfl
 
-omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] in
+omit [CharP K' 2] [Finite K'] [FiniteDimensional K' N] [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem apply_mem_axisSpace {g : ↥(elementaryGroup QN)} {a : N}
     (hga : (g : N ≃ₗ[K'] N) a = a) {z : V} (hz : z ∈ axisSpace ρ a) : ρ g z ∈ axisSpace ρ a := by
   have h := OmegaSetting.map_iSup_movedSpace_rhoE (ρ := ρ) g a

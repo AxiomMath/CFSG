@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.WeakClosure81
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private lemma conj_map_subtype_trialityD4 (L : Subgroup (MulAut W)) (t : MulAut W)
     (htN : t ∈ Subgroup.normalizer (L : Set (MulAut W))) (Z : Subgroup ↥L) :
     (Z.map L.subtype).map (MulAut.conj t).toMonoidHom =
@@ -50,12 +51,14 @@ private lemma map_conj_eq_of_invariant (T L : Subgroup (MulAut W)) (S : Subgroup
   have h := hZ _ (by rw [hSdef]; exact map_normalizerMonoidHom_subgroupOf_inf T L t ht htN)
   rw [h]
 
+omit [Finite W] in
 private lemma nonempty_bar2_map_subtype (L : Subgroup (MulAut W)) (Z : Subgroup ↥L) :
     Nonempty (Bar2 Z ≃* Bar2 (Z.map L.subtype)) := by
   let e : ↥Z ≃* ↥(Z.map L.subtype) := Z.equivMapOfInjective L.subtype L.subtype_injective
   exact ⟨QuotientGroup.congr (CFSG.pCore 2 ↥Z) (CFSG.pCore 2 ↥(Z.map L.subtype)) e
     (CFSG.pCore_map_iso 2 e)⟩
 
+omit [Finite W] in
 private lemma isSylowIn_sup_of_le_trialityD4 {T Y : Subgroup (MulAut W)} (hsyl : IsSylowIn 2 T Y)
     {K : Subgroup (MulAut W)} (hKY : K ≤ Y) : IsSylowIn 2 T (K ⊔ T) := by
   refine ⟨le_sup_right, hsyl.2.1, fun h => hsyl.2.2 ?_⟩
@@ -105,7 +108,7 @@ theorem bParam_le_four_mul_of_is3D4_of_kFacts
     (hTN : T ≤ Subgroup.normalizer (L : Set (MulAut W))) (hD : Is3D4 ↥L n) :
     bParam L Y ≤ 4 * n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTY : T ≤ Y := hsyl.1
   have hLY : L ≤ Y := hcomp.1
   have hTL : IsSylowIn 2 (T ⊓ L) L :=
@@ -178,7 +181,7 @@ theorem bParam_le_four_mul_of_is3D4_of_kFacts
       rw [show Nat.card A₂ = orderOf (y₂ : MulAut W) from Nat.card_zpowers _,
         Subgroup.orderOf_coe, hy₂]
     have hA₂inf : A₂ ⊓ T = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       rw [hA₂card]
       obtain ⟨k, hk⟩ := hsyl.2.1.exists_card_eq
       rw [hk]

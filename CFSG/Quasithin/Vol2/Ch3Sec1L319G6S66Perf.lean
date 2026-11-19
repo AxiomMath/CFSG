@@ -57,7 +57,7 @@ theorem O2_map_mulEquiv {Γ Γ' : Type} [Group Γ] [Group Γ'] (e : Γ ≃* Γ')
     unfold O2
     refine le_sInf fun N hN => ?_
     obtain ⟨hNn, n, hn⟩ := hN
-    haveI := hNn
+    have := hNn
     have hidx : (N.comap f.toMonoidHom).index = 2 ^ n := by
       rw [Subgroup.comap_equiv_eq_map_symm']
       exact (Subgroup.index_map_equiv (H := N) f.symm).trans hn
@@ -90,16 +90,16 @@ theorem O2_eq_of_perfect_normal {Γ : Type} [Group Γ] [Finite Γ] (Y P : Subgro
   unfold O2
   refine le_sInf fun N hN => ?_
   obtain ⟨hNn, m, hm⟩ := hN
-  haveI := hNn
+  have := hNn
   have hQ : IsPGroup 2 (Γ ⧸ N) := by
     rw [IsPGroup.iff_card]
     exact ⟨m, by rw [← Subgroup.index_eq_card]; exact hm⟩
-  haveI : Group.IsNilpotent (Γ ⧸ N) := hQ.isNilpotent
+  have : Group.IsNilpotent (Γ ⧸ N) := hQ.isNilpotent
   have hYp' : Group.IsPerfect ↥(Y.map (QuotientGroup.mk' N)) :=
     Group.IsPerfect.map (QuotientGroup.mk' N)
   have hbot : Y.map (QuotientGroup.mk' N) = ⊥ := by
     by_contra hne
-    haveI := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     exact Group.IsPerfect.not_isNilpotent ↥(Y.map (QuotientGroup.mk' N)) inferInstance
   intro y hy
   have hmem : (QuotientGroup.mk' N) y ∈ Y.map (QuotientGroup.mk' N) :=
@@ -139,8 +139,8 @@ theorem not_isPerfect_of_mulEquiv_perm {H : Type} [Group H] {m : ℕ} (hm : 2 �
         simp at this
       exact ⟨Equiv.swap _ _, Equiv.Perm.sign_swap hne⟩
   have hZ : Group.IsPerfect ℤˣ := Group.IsPerfect.ofSurjective hsign
-  haveI : IsMulCommutative ℤˣ := ⟨⟨fun a b => mul_comm a b⟩⟩
-  haveI : Subsingleton ℤˣ := inferInstance
+  have : IsMulCommutative ℤˣ := ⟨⟨fun a b => mul_comm a b⟩⟩
+  have : Subsingleton ℤˣ := inferInstance
   have h1 : (-1 : ℤˣ) = 1 := Subsingleton.elim _ _
   have h2 := congrArg (fun u : ℤˣ => (u : ℤ)) h1
   norm_num at h2

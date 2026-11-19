@@ -16,8 +16,8 @@ theorem card_normalizer_le_of_A6 {X : Type*} [Group X] [Finite X]
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]; decide
   have hA6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
-  haveI : IsSimpleGroup X := @MulEquiv.isSimpleGroup _ _ _ _ hA6 e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup X := @MulEquiv.isSimpleGroup _ _ _ _ hA6 e
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.card X).factorization 3 = 2 := by
     rw [hX, show (360 : ℕ) = 3 ^ 2 * 40 by norm_num]
     exact CFSG.RankThree.PartOne.factorization_pow_mulG Nat.prime_three (by norm_num)
@@ -50,7 +50,7 @@ theorem card_normalizer_le_of_A6 {X : Type*} [Group X] [Finite X]
     exact this
   have hn10 : 10 ≤ n := by
     have hle : n ≤ 40 := Nat.le_of_dvd (by norm_num) hndvd
-    interval_cases n <;> first | omega | (exfalso; revert hfact; decide) | skip
+    interval_cases n <;> first | omega | (exfalso; revert hfact; decide)
   have hcard := Subgroup.index_mul_card (normalizer ((P : Subgroup X) : Set X))
   rw [hX] at hcard
   have : Nat.card (normalizer ((P : Subgroup X) : Set X)) ≤ 36 := by nlinarith
@@ -152,7 +152,7 @@ theorem exists_u_J3Plain {Y : Type} [Group Y] [Finite Y] (e : Y ≃* NativeSpora
       rw [← Nat.card_coe_set_eq]; exact hF27
     have h2 : (B₁ : Set Y).ncard = 9 := by
       rw [← Nat.card_coe_set_eq]; exact hB₁c
-    rw [Set.ncard_diff hB₁F' (Set.toFinite _), h1, h2]
+    rw [Set.ncard_sdiff hB₁F' (Set.toFinite _), h1, h2]
   have hmemT : ∀ n : ↥N, (n : Y) * l * (n : Y)⁻¹ ∈ (F : Set Y) \ (B₁ : Set Y) := by
     intro n
     refine ⟨(Subgroup.mem_normalizer_iff.1 n.2 l).1 hlF, ?_⟩
@@ -296,7 +296,7 @@ theorem exists_u_J3Plain {Y : Type} [Group Y] [Finite Y] (e : Y ≃* NativeSpora
   have hT₀card : Nat.card (zpowers u₀') = 2 ^ 3 := by
     rw [Nat.card_zpowers, hu₀'ord]; norm_num
   have hpg : IsPGroup 2 (zpowers u₀') := IsPGroup.of_card hT₀card
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardQ : Nat.card (↥N ⧸ normalizer ((zpowers q : Subgroup ↥N) : Set ↥N)) = 9 := hindexS
   obtain ⟨x, hx⟩ := hpg.nonempty_fixed_point_of_prime_not_dvd_card
     (α := ↥N ⧸ normalizer ((zpowers q : Subgroup ↥N) : Set ↥N)) (by rw [hcardQ]; norm_num)

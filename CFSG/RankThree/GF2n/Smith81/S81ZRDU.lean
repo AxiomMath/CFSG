@@ -72,7 +72,7 @@ theorem uN_single (β : ↥(Phi a7)) (b : K) : uN (Pi.single β b) = xE β.1 b :
       have hγ' : γ ∈ Phi a7 := Finset.mem_toList.1 hγ
       rw [extN_of_mem hγ']
       have : (⟨γ, hγ'⟩ : ↥(Phi a7)) ≠ β := fun e => hne (congrArg Subtype.val e)
-      simp [Pi.single_apply, this])
+      simp [this])
   rw [h, extN_of_mem β.2]
   simp
 
@@ -82,7 +82,7 @@ theorem coef_uN (n : NU K) {δ : Rt} (hδ : IsRoot .E7 δ) (hδa : δ ∈ Phi a7
     (hb : pr b δ = -1) :
     endoE (uN n) (Finsupp.single b 1) (shift δ b) = n ⟨δ, hδa⟩ := by
   unfold uN
-  rw [coef_prodX a7 (extN n) b hδ hb, if_pos hδa, extN_of_mem hδa]
+  rw [coef_prodX a7 (extN n) b hδ hb, ite_eq_left hδa, extN_of_mem hδa]
 
 theorem uN_injective : Function.Injective (uN : NU K → Gp K) := by
   intro n m h

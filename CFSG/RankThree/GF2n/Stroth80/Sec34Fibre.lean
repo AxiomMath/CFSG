@@ -21,6 +21,7 @@ private theorem orthLe_comm_conj {X Y : Subgroup G} (h : ∀ x ∈ X, ∀ y ∈ 
   rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
   rw [← map_mul, ← map_mul, h x hx y hy]
 
+omit [Finite G] in
 theorem OrthLe.conj {M B : Subgroup G} (h : OrthLe M B) {m : G} (hm : m ∈ M) :
     OrthLe M (conjSubgroup m B) := by
   intro m' hm' hcomm

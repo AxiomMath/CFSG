@@ -58,7 +58,7 @@ theorem ncard_roots (e : K ≃* QuaternionGroup 2) : {y | y ∈ K ∧ y * y ≠ 
   have hinj : Function.Injective fun q : QuaternionGroup 2 => ((e.symm q : K) : G) :=
     Subtype.val_injective.comp e.symm.injective
   rw [h, Set.ncard_image_of_injective _ hinj,
-    Set.ncard_eq_toFinset_card', Set.toFinset_setOf]
+    Set.ncard_eq_toFinset_card', Set.toFinset_ofPred]
   exact q8_card_roots
 
 theorem card_of_equiv (e : K ≃* QuaternionGroup 2) : Nat.card K = 8 := by

@@ -39,6 +39,7 @@ theorem charTwo (h : Hyp183 D V₀ V H i) : CFSG.QuasithinUnique.CharTwo H := by
   rw [← hF']
   exact ⟨_, this, rfl⟩
 
+omit [Finite G] in
 theorem pCoreOf_le_self (H : Subgroup G) : pCoreOf 2 H ≤ H := by
   rintro _ ⟨x, -, rfl⟩
   exact x.2
@@ -46,9 +47,11 @@ theorem pCoreOf_le_self (H : Subgroup G) : pCoreOf 2 H ≤ H := by
 theorem isElemAbelian_eOmegaZ (h : Hyp183 D V₀ V H i) : IsElemAbelian 2 (eOmegaZ H D.T) :=
   omegaOneCenter_conjClosure_isElemAbelian h.charTwo h.isSylowIn_T
 
+omit [Finite G] in
 theorem normalizer_eOmegaZ (H T : Subgroup G) : H ≤ normalizer (eOmegaZ H T : Set G) :=
   le_normalizer_conjClosure _ _
 
+omit [Finite G] in
 theorem omegaOneCenterOf_le_eOmegaZ (H T : Subgroup G) : omegaOneCenterOf T ≤ eOmegaZ H T :=
   le_conjClosure _ _
 
@@ -84,7 +87,7 @@ theorem T_ne_bot (h : Hyp183 D V₀ V H i) : D.T ≠ ⊥ := fun hT =>
 
 theorem centralizer_eOmegaZ_le_M (h : Hyp183 D V₀ V H i) :
     Subgroup.centralizer (eOmegaZ H D.T : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hzc, hz2, hz1⟩ :=
     CFSG.QuasithinUnique.Setup.exists_involution_centerOf h.isSylowIn_T.isPGroup h.T_ne_bot
   have hzE : z ∈ eOmegaZ H D.T := omegaOneCenterOf_le_eOmegaZ H D.T (by

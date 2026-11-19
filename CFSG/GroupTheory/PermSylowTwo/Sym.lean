@@ -36,9 +36,9 @@ theorem isSylowTwoOf_map_mulEquiv {G G' : Type*} [Group G] [Group G'] (φ : G �
 
 theorem exists_isSylowTwoOf_top (G : Type*) [Group G] [Finite G] :
     ∃ R : Subgroup G, IsSylowTwoOf R ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := G)
-  refine ⟨S, le_top, S.isPGroup', ?_⟩
+  refine ⟨S, le_top, S.isPGroup, ?_⟩
   show ¬ 2 ∣ (S : Subgroup G).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact S.not_dvd_index
@@ -46,7 +46,7 @@ theorem exists_isSylowTwoOf_top (G : Type*) [Group G] [Finite G] :
 theorem exists_mem_conj_ge {G : Type*} [Group G] [Finite G] {A S F : Subgroup G}
     (hS : IsSylowTwoOf S A) (hFA : F ≤ A) (hF : IsPGroup 2 F) :
     ∃ g ∈ A, F ≤ S.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S' : Sylow 2 ↥A := hS.2.1.comap_subtype.toSylow hS.2.2
   obtain ⟨Q, hQ⟩ := hF.comap_subtype (K := A) |>.exists_le_sylow
   obtain ⟨a, ha⟩ := MulAction.exists_smul_eq ↥A S' Q
@@ -76,8 +76,8 @@ theorem isPGroup_two_of_sylow_le (α : Type) [Fintype α] [DecidableEq α]
     intro α _ _ hcard P H hP hPH h3
     rcases Nat.eq_zero_or_pos m with hm0 | hmpos
     ·
-      haveI : IsEmpty α := Fintype.card_eq_zero_iff.mp (hcard.trans hm0)
-      haveI : Subsingleton (Perm α) := ⟨fun f g => by ext x; exact (IsEmpty.false x).elim⟩
+      have : IsEmpty α := Fintype.card_eq_zero_iff.mp (hcard.trans hm0)
+      have : Subsingleton (Perm α) := ⟨fun f g => by ext x; exact (IsEmpty.false x).elim⟩
       exact fun g => ⟨0, by
         have h1 : g = 1 := Subsingleton.elim _ _
         rw [h1, one_pow]⟩
@@ -95,7 +95,7 @@ theorem isPGroup_two_of_sylow_le (α : Type) [Fintype α] [DecidableEq α]
         rw [show γ = Fin (m % 2) from rfl, Fin.subsingleton_iff_le_one]
         have := Nat.mod_lt m (by norm_num : 0 < 2)
         omega
-      haveI : Subsingleton γ := hγ
+      have : Subsingleton γ := hγ
       have hcardΩ : Fintype.card Ω = m := by
         have h := Nat.div_add_mod m 2
         simp only [Ω, β, γ, Fintype.card_sum, Fintype.card_prod, Fintype.card_bool,

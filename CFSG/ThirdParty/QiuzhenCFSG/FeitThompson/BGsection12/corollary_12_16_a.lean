@@ -203,7 +203,7 @@ private theorem CFSG.section12_exists_rankTwo_in_product_factor_of_rankTwo
   have hPamb_p : IsPGroup p.val Pamb := by
     have hSHp : IsPGroup p.val SH := by
       simpa [SH] using IsPGroup.map (p := p.val) (H := (S : Subgroup Usub))
-        S.isPGroup' Usub.subtype
+        S.isPGroup Usub.subtype
     simpa [Pamb] using IsPGroup.map (p := p.val) (H := SH) hSHp H.subtype
   have hPamb_noncyc : ¬ IsCyclic Pamb := by
     intro hPambcyc
@@ -419,7 +419,7 @@ public theorem CFSG.section12_exists_characteristic_pSubgroup_of_nontrivial
   have hXq : IsPGroup q.val X := by
     simpa [X, PF] using
       IsPGroup.map (p := q.val) (H := PF)
-        (IsPGroup.map (p := q.val) (H := (P : Subgroup F)) P.isPGroup' F.subtype)
+        (IsPGroup.map (p := q.val) (H := (P : Subgroup F)) P.isPGroup F.subtype)
         Y.subtype
   have hNormY_le_NormX :
       Subgroup.normalizer (Y : Set G) ≤ Subgroup.normalizer (X : Set G) := by

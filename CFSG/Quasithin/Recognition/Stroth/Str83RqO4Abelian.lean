@@ -27,15 +27,18 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {X : Subgroup G}
 
+omit [Finite G] in
 private theorem conjSub_eq_self_of_mem {H : Subgroup G} {g : G} (hg : g ∈ H) : conjSub g H = H :=
   Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hg)
 
+omit [Finite G] in
 private theorem conjSub_s_Gv_neg_one {s : G} (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.Gv (-1)) = t.Gv 1 := by
   have hsplit : s = t.x₁ * (t.x₁⁻¹ * s) := by group
   rw [hsplit, conjSub_mul, conjSub_eq_self_of_mem hs.2]
   simpa [conjSub] using t.map_Gv_x₁ (-1)
 
+omit [Finite G] in
 private theorem conjSub_s_Qv_one {s : G} (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.Qv 1) = t.Qv (-1) := by
   have hsplit : s = t.x₁ * (t.x₁⁻¹ * s) := by group
@@ -43,6 +46,7 @@ private theorem conjSub_s_Qv_one {s : G} (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.
     F7.conjSub_eq_of_mem_normalizer ((t.Gv_le_normalizer_Qv 1) hs.1)]
   simpa [conjSub] using t.map_Qv_x₁ 1
 
+omit [Finite G] in
 private theorem conjSub_s_Qv_neg_one {s : G} (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.Qv (-1)) = t.Qv 1 := by
   have hsplit : s = t.x₁ * (t.x₁⁻¹ * s) := by group
@@ -50,10 +54,12 @@ private theorem conjSub_s_Qv_neg_one {s : G} (hs : t.x₁⁻¹ * s ∈ t.Gv 1 �
     F7.conjSub_eq_of_mem_normalizer ((t.Gv_le_normalizer_Qv (-1)) hs.2)]
   simpa [conjSub] using t.map_Qv_x₁ (-1)
 
+omit [Finite G] in
 private theorem conjSub_s_Qv_zero {s : G} (hs0 : s ∈ t.MX X 0) :
     conjSub s (t.Qv 0) = t.Qv 0 :=
   F7.conjSub_eq_of_mem_normalizer ((t.Gv_le_normalizer_Qv 0) hs0.2)
 
+omit [Finite G] in
 private theorem conjSub_s_MX_neg_one {s : G} (hs0 : s ∈ t.MX X 0)
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.MX X (-1)) = t.MX X 1 := by
@@ -63,6 +69,7 @@ private theorem conjSub_s_MX_neg_one {s : G} (hs0 : s ∈ t.MX X 0)
     show t.MX X 1 = Subgroup.normalizer (X : Set G) ⊓ t.Gv 1 from rfl,
     conjSub_inf, hNX, t.conjSub_s_Gv_neg_one hs]
 
+omit [Finite G] in
 private theorem conjSub_s_EX_one {s : G} (hs0 : s ∈ t.MX X 0)
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.EX X 1) = t.EX X (-1) := by
@@ -72,6 +79,7 @@ private theorem conjSub_s_EX_one {s : G} (hs0 : s ∈ t.MX X 0)
     show t.EX X (-1) = (t.Qv (-1)) ⊓ Subgroup.normalizer (X : Set G) from rfl,
     conjSub_inf, t.conjSub_s_Qv_one hs, hNX]
 
+omit [Finite G] in
 private theorem conjSub_s_EX_neg_one {s : G} (hs0 : s ∈ t.MX X 0)
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) :
     conjSub s (t.EX X (-1)) = t.EX X 1 := by
@@ -97,6 +105,7 @@ private theorem conjSub_s_PX {a f : ℕ} (hfr : Frame L1 L2 S a f)
   rw [← t.inf_Qv_zero_MX_neg_one hfr, conjSub_inf, t.conjSub_s_Qv_zero hs0,
     t.conjSub_s_MX_neg_one hs0 hs, t.inf_Qv_zero_MX_neg_one hfr]
 
+omit [Finite G] in
 private theorem MX_le_normalizer_EX :
     t.MX X 1 ≤ Subgroup.normalizer (t.EX X 1 : Set G) := by
   intro m hm
@@ -107,6 +116,7 @@ private theorem MX_le_normalizer_EX :
   rw [conjSub_inf, F7.conjSub_eq_of_mem_normalizer ((t.Gv_le_normalizer_Qv 1) hmG),
     F7.conjSub_eq_of_mem_normalizer (Subgroup.le_normalizer hmN)]
 
+omit [Finite G] in
 private theorem MX_le_normalizer_YX :
     t.MX X 1 ≤ Subgroup.normalizer (t.YX X 1 : Set G) := by
   intro m hm
@@ -117,15 +127,18 @@ private theorem MX_le_normalizer_YX :
   change conjSub m (oTwoRes (t.LX X 1)) = oTwoRes (t.LX X 1)
   rw [conjSub_oTwoRes, hm']
 
+omit [Finite G] in
 private theorem MX_le_normalizer_commutator :
     t.MX X 1 ≤ Subgroup.normalizer (⁅t.EX X 1, t.YX X 1⁆ : Subgroup G) :=
   CFSG.Quasithin.D14.le_normalizer_commutator t.MX_le_normalizer_EX t.MX_le_normalizer_YX
 
+omit [Finite G] in
 private theorem commutator_le_EX :
     ⁅t.EX X 1, t.YX X 1⁆ ≤ t.EX X 1 :=
   Subgroup.le_normalizer_iff_commutator_le_left.mp
     ((oTwoRes_le (t.LX X 1)).trans ((oTwoPrime_le _).trans t.MX_le_normalizer_EX))
 
+omit [Finite G] in
 private theorem EX_eq_inf_PX (hEP : t.EX X 1 ≤ t.PX X) :
     t.EX X 1 = t.Qv 1 ⊓ t.PX X := by
   refine le_antisymm (le_inf inf_le_left hEP) ?_
@@ -139,12 +152,14 @@ private theorem EX_neg_one_le_PX {a f : ℕ}
     _ ≤ conjSub s (t.PX X) := conjSub_mono s hEP
     _ = t.PX X := t.conjSub_s_PX hfr hs0 hs
 
+omit [Finite G] in
 private theorem K_le_normalizer_EX (hMK : t.MX X 1 = t.LX X 1 ⊔ t.K) :
     t.K ≤ Subgroup.normalizer (t.EX X 1 : Set G) := by
   refine (le_sup_right : t.K ≤ t.LX X 1 ⊔ t.K).trans ?_
   rw [← hMK]
   exact t.MX_le_normalizer_EX
 
+omit [Finite G] in
 private theorem K_le_normalizer_EX_neg (hX : t.ArcL X) :
     t.K ≤ Subgroup.normalizer (t.EX X (-1) : Set G) := by
   intro k hk
@@ -157,11 +172,13 @@ private theorem K_le_normalizer_EX_neg (hX : t.ArcL X) :
     Subgroup.le_normalizer (hX.K_le hk)
   rw [conjSub_inf, F7.conjSub_eq_of_mem_normalizer hQ, F7.conjSub_eq_of_mem_normalizer hN]
 
+omit [Finite G] in
 private theorem K_le_normalizer_commutator (hMK : t.MX X 1 = t.LX X 1 ⊔ t.K) :
     t.K ≤ Subgroup.normalizer (⁅t.EX X 1, t.YX X 1⁆ : Subgroup G) :=
   ((le_sup_right : t.K ≤ t.LX X 1 ⊔ t.K).trans (le_of_eq hMK.symm)).trans
     t.MX_le_normalizer_commutator
 
+omit [Finite G] in
 private theorem conjSub_sqClosure (g : G) (A : Subgroup G) :
     conjSub g (sqClosure A) = sqClosure (conjSub g A) := by
   have hS : (MulAut.conj g).toMonoidHom '' {x : G | ∃ a ∈ A, a ^ 2 = x} =
@@ -176,6 +193,7 @@ private theorem conjSub_sqClosure (g : G) (A : Subgroup G) :
       exact ⟨a ^ 2, ⟨a, ha, rfl⟩, map_pow (MulAut.conj g).toMonoidHom a 2⟩
   rw [sqClosure, conjSub, MonoidHom.map_closure, hS, sqClosure]
 
+omit [Finite G] in
 private theorem sqClosure_eq_bot_iff {A : Subgroup G} :
     sqClosure A = ⊥ ↔ ∀ x ∈ A, x ^ 2 = 1 := by
   constructor
@@ -188,17 +206,20 @@ private theorem sqClosure_eq_bot_iff {A : Subgroup G} :
     rintro x ⟨a, ha, rfl⟩
     exact Subgroup.mem_bot.mpr (h a ha)
 
+omit [Finite G] in
 private theorem isElemAbelian_of_sqClosure_eq_bot {A : Subgroup G}
     (h : sqClosure A = ⊥) : IsElemAbelian 2 A := by
   have hsq := sqClosure_eq_bot_iff.mp h
   exact ⟨⟨⟨fun a b => (Commute.of_orderOf_dvd_two
     (fun g : A => orderOf_dvd_of_pow_eq_one (Subtype.ext (hsq g g.2))) a b).eq⟩⟩, hsq⟩
 
+omit [Finite G] in
 private theorem sqClosure_mono {A B : Subgroup G} (h : A ≤ B) : sqClosure A ≤ sqClosure B := by
   rw [sqClosure, sqClosure, Subgroup.closure_le]
   rintro x ⟨a, ha, rfl⟩
   exact Subgroup.subset_closure ⟨a, h ha, rfl⟩
 
+omit [Finite G] in
 private theorem sqClosure_sup_eq_right_of_central {H K : Subgroup G}
     (hHK : H ≤ Subgroup.centralizer (K : Set G)) (hH : sqClosure H = ⊥) :
     sqClosure (H ⊔ K) = sqClosure K := by
@@ -241,7 +262,8 @@ private theorem commutator_le_centerOf_EX {a f : ℕ} (hfr : Frame L1 L2 S a f)
   rw [hYX]
   exact ⟨hbaum.trans hW.1, hW.2.mono hbaum⟩
 
-private theorem commutator_ne_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
+omit [Finite G] in
+private theorem commutator_ne_bot {a f : ℕ} (_hfr : Frame L1 L2 S a f)
     (hq : IsL2Quot f (oTwoQuot ↥(t.LX X 1))) (hc : CharTwo (t.LX X 1))
     (hE : pCoreOf 2 (t.LX X 1) = t.EX X 1) (hEP : t.EX X 1 ≤ t.PX X)
     (hP : IsSylowTwoOf (t.PX X) (t.LX X 1))
@@ -269,7 +291,7 @@ private theorem commutator_ne_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
   have hpcore : CFSG.pCore 2 ↥(t.LX X 1) = ⊤ := by
     rw [← CFSG.openPCoreOf_subgroupOf 2 (t.LX X 1), hpc, Subgroup.subgroupOf_self]
   have htriv : Nat.card (oTwoQuot ↥(t.LX X 1)) = 1 := by
-    haveI : Subsingleton (oTwoQuot ↥(t.LX X 1)) := by
+    have : Subsingleton (oTwoQuot ↥(t.LX X 1)) := by
       change Subsingleton (↥(t.LX X 1) ⧸ CFSG.pCore 2 ↥(t.LX X 1))
       rw [hpcore]
       exact QuotientGroup.subsingleton_quotient_top
@@ -284,6 +306,7 @@ private theorem commutator_ne_bot {a f : ℕ} (hfr : Frame L1 L2 S a f)
   rw [← hcard, htriv] at h2
   exact Nat.prime_two.not_dvd_one h2
 
+omit [Finite G] in
 private theorem K_le_normalizer_PX (hX : t.ArcL X) :
     t.K ≤ Subgroup.normalizer (t.PX X : Set G) := by
   intro k hk
@@ -292,9 +315,11 @@ private theorem K_le_normalizer_PX (hX : t.ArcL X) :
       Subgroup.inf_normalizer_le_normalizer_inf (Subgroup.mem_inf.mpr
         ⟨Subgroup.le_normalizer (hX.K_le hk), Subgroup.le_normalizer ((t.K_le_Gv 1) hk)⟩)⟩)
 
+omit [Finite G] in
 private theorem PX_le_normalizer_PX : t.PX X ≤ Subgroup.normalizer (t.PX X : Set G) :=
   Subgroup.le_normalizer
 
+omit [Finite G] in
 private theorem cj_conjJoin_le_of_le {H Z : Subgroup G} {g : G}
     (hH : F53Push.cj g H ≤ H) (hZ : F53Push.cj g Z ≤ Z) :
     F53Push.cj g (F53Push.conjJoin H Z) ≤ F53Push.conjJoin H Z := by
@@ -312,7 +337,7 @@ private theorem cj_conjJoin_le_of_le {H Z : Subgroup G} {g : G}
   group
 
 private theorem cj_s_closure_t'_K_PX {a f : ℕ}
-    (hfr : Frame L1 L2 S a f) (hX : t.ArcL X) {s t' : G} (hs0 : s ∈ t.MX X 0)
+    (hfr : Frame L1 L2 S a f) (_hX : t.ArcL X) {s t' : G} (hs0 : s ∈ t.MX X 0)
     (hsK : s ∈ normalizer (t.K : Set G))
     (hs : t.x₁⁻¹ * s ∈ t.Gv 1 ⊓ t.Gv (-1)) (hst' : ⁅s, t'⁆ ∈ t.PX X) :
     F53Push.cj s (Subgroup.closure (({t'} : Set G) ∪ (t.K : Set G) ∪ (t.PX X : Set G))) ≤
@@ -371,6 +396,7 @@ private theorem closure_t'_K_PX_le_normalizer {a f : ℕ}
   · exact Subgroup.inf_normalizer_le_normalizer_inf
       (Subgroup.mem_inf.mpr ⟨hPNQ hx, t.PX_le_normalizer_PX hx⟩)
 
+omit [Finite G] in
 private theorem cj_sup_cj_eq {V : Subgroup G} {s : G}
     (hV : s * s ∈ Subgroup.normalizer (V : Set G)) :
     F53Push.cj s (V ⊔ F53Push.cj s V) = V ⊔ F53Push.cj s V := by
@@ -383,6 +409,7 @@ private theorem cj_sup_cj_eq {V : Subgroup G} {s : G}
   change F53Push.cj s V ⊔ V = V ⊔ F53Push.cj s V
   rw [sup_comm]
 
+omit [Finite G] in
 private theorem mem_normalizer_conjJoin_of_cj {H Z : Subgroup G} {s : G}
     (hHnR : H ≤ Subgroup.normalizer (F53Push.conjJoin H Z : Set G))
     (hcsH : F53Push.cj s H ≤ H)
@@ -494,11 +521,11 @@ private theorem rootOmega_neg_one_eq {a f : ℕ}
     t.le_pCoreOf_Gw hfr (by omega) (t.isPGroup_Qv (-1)) (t.Qv_neg_one_le_Gw hfr)
   have hrelΩ : (t.Qv (-1)).relIndex (t.rootOmega (-1)) = 2 ^ f := by
     have h := t.relIndex_rootOmega hfr (-1)
-    rw [if_neg hodd] at h
+    rw [ite_eq_right hodd] at h
     exact h
   have hrelR : (t.Qv (-1)).relIndex (pCoreOf 2 (t.Gw (-1) 0)) = 2 ^ f := by
     have h := (t.relIndex_Qv_pCoreOf hfr (-1)).2
-    rw [show (-1 : ℤ) + 1 = 0 from by norm_num, if_neg hodd] at h
+    rw [show (-1 : ℤ) + 1 = 0 from by norm_num, ite_eq_right hodd] at h
     exact h
   refine le_antisymm hΩR ?_
   have hprod := Subgroup.relIndex_mul_relIndex (H := t.Qv (-1)) (K := t.rootOmega (-1))

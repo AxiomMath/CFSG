@@ -68,7 +68,7 @@ theorem burnsideAut_conj_of_complements {p : ℕ} [Fact p.Prime] {E Z Y : Subgro
   have hZH : Z ≤ H₀ := le_sup_right
   have hYH : Y ≤ H₀ := hYZ ▸ le_sup_right
   have hH₀N : H₀ ≤ Subgroup.normalizer (E : Set A) := sup_le Subgroup.le_normalizer hZE
-  haveI : (E.subgroupOf H₀).Normal :=
+  have : (E.subgroupOf H₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hEH).2 hH₀N
   have hmul : ∀ g ∈ H₀, ∃ e ∈ E, ∃ z ∈ Z, e * z = g := by
     intro g hg
@@ -121,6 +121,7 @@ theorem burnsideAut_conj_of_complements {p : ℕ} [Fact p.Prime] {E Z Y : Subgro
     have := congrArg Subtype.val hyx
     simpa [MulAut.conj_apply] using this
 
+omit [Finite A] in
 theorem burnsideAut_card_sup_of_le_normalizer {X Y : Subgroup A}
     (hYX : Y ≤ Subgroup.normalizer (X : Set A)) (hXY : X ⊓ Y = ⊥) :
     Nat.card ↥(X ⊔ Y) = Nat.card X * Nat.card Y :=
@@ -186,7 +187,7 @@ theorem burnsideAut_case5_core_aux {Lb I J Φ Sb H₀ Bb : Subgroup A}
   have hFF₀n : F ≤ Subgroup.normalizer (F₀ : Set A) :=
     (le_inf Subgroup.le_normalizer hFJn).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hFHn : F ≤ Subgroup.normalizer (H : Set A) :=
-    (le_inf hFH₁n hFF₀n).trans (Subgroup.normalizer_inf_normalizer_le_normalizer_sup H₁ F₀)
+    (le_inf hFH₁n hFF₀n).trans (Subgroup.inf_normalizer_le_normalizer_sup H₁ F₀)
   have hF₀H₁n : F₀ ≤ Subgroup.normalizer (H₁ : Set A) := hF₀F.trans hFH₁n
   have hH₁F₀ : H₁ ⊓ F₀ = ⊥ := by
     rw [eq_bot_iff]
@@ -317,7 +318,7 @@ theorem burnsideAut_case5_core {Lb I J Φ Sb H₀ Bb : Subgroup A}
       CFSG.Quasithin.A315.IsCartan 2 Sb ((F ⊔ Bb ⊔ Lb) ⊓ J) H ∧
       F ⊔ Bb ⊔ Lb = H ⊔ Bb ⊔ Lb ∧ Bb ≤ F ⊔ H ∧
       ∀ x ∈ F, ∃ b ∈ Bb, x * b⁻¹ ∈ I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSbI : Sb ≤ I := hSbLb.trans hLbI
   have hIΦ' : ∀ {φ : A}, φ ∈ Φ → φ ∈ I → φ = 1 := fun {φ} hφ hφI => by
     have : φ ∈ I ⊓ Φ := ⟨hφI, hφ⟩
@@ -443,16 +444,16 @@ theorem burnsideAut_le_normalizer_of_hyp {G : Type} [Group G] {L T B : Subgroup 
     (h : CFSG.Quasithin.A315Hyp L T B)
     (hsb : burnsideAut_SolvBorel ↥L ((T ⊓ L).subgroupOf L)) :
     B ≤ Subgroup.normalizer ((T ⊓ L : Subgroup G) : Set G) := by
-  haveI := h.sqtk.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hLn : L.Normal := burnsideA315x_normal h
   have hT2 : IsPGroup 2 T := h.sylow.2.1
   have hS : CFSG.QuasithinUnique.IsSylowTwoOf (T ⊓ L) L := burnsideA315x_sylow_inf h.sylow
   have hBnil : Group.IsNilpotent ↥B := by
     rcases h.cases with hab | ⟨r, hr, hBr, -⟩
-    · haveI := hab
+    · have := hab
       exact CommGroup.isNilpotent
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       exact hBr.isNilpotent
   set X : Subgroup G := B ⊔ T with hX
   have hXsolv : Group.IsSolvable ↥X := by
@@ -460,7 +461,7 @@ theorem burnsideAut_le_normalizer_of_hyp {G : Type} [Group G] {L T B : Subgroup 
     have hTle : T ≤ X := le_sup_right
     have eA : ↥(B.subgroupOf X) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBle
     have eC : ↥(T.subgroupOf X) ≃* ↥T := Subgroup.subgroupOfEquivOfLe hTle
-    haveI := hBnil
+    have := hBnil
     refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf X)
       (T.subgroupOf X) (Group.nilpotent_of_mulEquiv eA.symm)
       ((hT2.of_equiv eC.symm).isNilpotent) ?_ ?_
@@ -479,7 +480,7 @@ theorem burnsideAut_le_normalizer_of_hyp {G : Type} [Group G] {L T B : Subgroup 
     have hinj : Function.Injective ((Subgroup.inclusion (inf_le_left : Y ≤ X)).comp
       e.toMonoidHom) :=
       (Subgroup.inclusion_injective (inf_le_left : Y ≤ X)).comp e.injective
-    exact solvable_of_solvable_injective hinj
+    exact Group.isSolvable_of_isSolvable_injective hinj
   have hSY : (T ⊓ L).subgroupOf L ≤ Y.subgroupOf L := by
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢

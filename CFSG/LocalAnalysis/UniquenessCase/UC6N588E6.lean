@@ -173,12 +173,12 @@ theorem conj_injective_Lbar (hSch : UCK.KSch) :
 
 omit hKM hK3 in
 theorem R_inf_L_sylow : IsSylowOf m.r (m.R ⊓ m.L) m.L := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact (m.R_sylow_H h69).inf_of_le_normalizer m.L_le_H m.H_le_normalizer_L
 
 omit hKM hK3 in
 theorem RbarL_sylow : IsSylowOf m.r m.RbarL ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h := m.R_inf_L_sylow h69
   rw [isSylowOf_iff] at h ⊢
   obtain ⟨-, hP, hnd⟩ := h
@@ -189,7 +189,7 @@ theorem RbarL_sylow : IsSylowOf m.r m.RbarL ⊤ := by
 omit hKM hK3 in
 theorem eq_one_of_mem_rCore_of_mem_R {x : G} (hxO : x ∈ N588.rCore m.r m.L) (hxR : x ∈ m.R) :
     x = 1 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf).1 (m.R_sylow_H h69).isPGroup ⟨x, hxR⟩
   rw [Subgroup.orderOf_mk] at hk
   have h1 : orderOf x ∣ Nat.card (N588.rCore m.r m.L) := by
@@ -203,7 +203,7 @@ theorem eq_one_of_mem_rCore_of_mem_R {x : G} (hxO : x ∈ N588.rCore m.r m.L) (h
 
 theorem mem_rCore_sup_Z_of_sig_eq_one (hSch : UCK.KSch) {y : ↥m.LA} (hy : m.sig y = 1) :
     (y : G) ∈ N588.rCore m.r m.L ⊔ m.Z := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h16 := m.hZ.sixteen h69
   obtain ⟨ℓ, hℓ, a, ha, hy'⟩ := m.exists_mul_of_mem_LA y.2
   set ℓ' : ↥m.L := ⟨ℓ, hℓ⟩ with hℓ'

@@ -202,6 +202,7 @@ section Linear7
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7_natural_data (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t) :
     NaturalScalarData hc t := by
   obtain ⟨m, hm2, hm⟩ := hs.orth
@@ -252,7 +253,7 @@ theorem endg_quot_facts (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n 
       subst h2
       exact hs.notPlus4 hP
     obtain ⟨K', hF, hFin, hcard, hnat⟩ := hP
-    haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+    have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
     have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
     obtain ⟨φ, hφr, hφk, -⟩ := hnat
     obtain ⟨π, hπs, hπk⟩ := hc.exists_bar_hom ht φ hφr hφk
@@ -261,7 +262,7 @@ theorem endg_quot_facts (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n 
     rw [hcard, ← ha]
     exact hpd
   · obtain ⟨K', hF, hFin, hcard, b, c, hirr, hnat⟩ := hMi
-    haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+    have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
     have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
     obtain ⟨φ, hφr, hφk, -⟩ := hnat
     obtain ⟨π, hπs, hπk⟩ := hc.exists_bar_hom ht φ hφr hφk

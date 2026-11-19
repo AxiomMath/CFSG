@@ -49,6 +49,7 @@ theorem NOf_lt_UOf (h : Hyp612Sym n M V g) : NOf M V g < UOf M V g :=
 theorem NOf_lt_BOf (h : Hyp612Sym n M V g) : NOf M V g < BOf M V g :=
   lt_of_le_of_ne inf_le_right (Ne.symm h.BOf_ne_NOf)
 
+omit [Finite G] in
 theorem BOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
     BOf M V g ≤ normalizer ((UOf M V g : Subgroup G) : Set G) := by
   have hconj_mem : ∀ b ∈ BOf M V g, ∀ u ∈ UOf M V g, b * u * b⁻¹ ∈ UOf M V g := by
@@ -75,12 +76,14 @@ theorem BOf_le_normalizer_UOf (h : Hyp612Sym n M V g) :
       hconj_mem b⁻¹ hb' (b * u * b⁻¹) hbu
     rwa [show b⁻¹ * (b * u * b⁻¹) * (b⁻¹)⁻¹ = u by group] at hmem
 
+omit [Finite G] in
 theorem coe_KOf_eq_BOf_mul_UOf (h : Hyp612Sym n M V g) :
     ((KOf M V g : Subgroup G) : Set G) = (BOf M V g : Set G) * (UOf M V g : Set G) := by
   rw [KOf, sup_comm]
   exact Subgroup.coe_mul_of_left_le_normalizer_right (BOf M V g) (UOf M V g)
     h.BOf_le_normalizer_UOf
 
+omit [Finite G] in
 theorem KOf_le_M (h : Hyp612Sym n M V g) : KOf M V g ≤ M :=
   sup_le (inf_le_left.trans h.le_M) inf_le_right
 
@@ -95,7 +98,7 @@ theorem card_BOf_le_card_UOf (h : Hyp612Sym n M V g) :
       exact hc ⟨x, hx, hxU⟩
     exact h.not_V_le_conjM (hle.trans inf_le_right)
   obtain ⟨v, hvV, hvU⟩ := hex
-  haveI hcomm : IsMulCommutative ↥(UOf M V g) :=
+  have hcomm : IsMulCommutative ↥(UOf M V g) :=
     (h.elemAbelian.mono (inf_le_left : UOf M V g ≤ V)).1
   let F : ↥(BOf M V g) →* (↥(UOf M V g)) ⧸ (NOf M V g).subgroupOf (UOf M V g) :=
     MonoidHom.mk' (fun b => ((⟨⁅v, (b : G)⁆, commutator_mem_U h b.2 hvV⟩ :
@@ -115,8 +118,7 @@ theorem card_BOf_le_card_UOf (h : Hyp612Sym n M V g) :
         rw [← mul_comm_of_mem_NOf h hn hAL]
         group
       rw [← QuotientGroup.mk_mul, QuotientGroup.eq_iff_div_mem]
-      simp only [Subgroup.mem_subgroupOf, Subgroup.coe_div, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.mem_subgroupOf, Subgroup.coe_div, Subgroup.coe_mul]
       have hdiv : ⁅v, (x : G) * (y : G)⁆ / (⁅v, (x : G)⁆ * ⁅v, (y : G)⁆) =
           ⁅v, (x : G)⁆ * ⁅(x : G), ⁅v, (y : G)⁆⁆ * (⁅v, (x : G)⁆)⁻¹ := by
         rw [div_eq_mul_inv, commutatorElement_mul_right_eq_mul_conj]
@@ -217,6 +219,7 @@ theorem one_le_mQuot_UOf (h : Hyp612Sym n M V g) : 1 ≤ E3.mQuot V (UOf M V g) 
 theorem one_le (h : Hyp612Sym n M V g) : 1 ≤ n :=
   (one_le_mQuot_UOf h).trans h.mQuot_U_le
 
+omit [Finite G] in
 theorem normalizer_le_of_mQuot_le (h : Hyp612Sym n M V g) {x : G} {Y : Subgroup G}
     (hYX : Y ≤ conjSubgroup V x) (hm : E3.mQuot (conjSubgroup V x) Y ≤ n) :
     normalizer (Y : Set G) ≤ normalizer (conjSubgroup V x : Set G) := by

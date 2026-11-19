@@ -152,9 +152,9 @@ private noncomputable def CEquivFinTwo (hn : 2 ≤ n) : C hn ≃ Fin 2 where
   toFun j := if j = c0 hn then 0 else 1
   invFun k := if k = 0 then c0 hn else cL hn
   left_inv j := by
-    rcases C_eq_c0_or_cL hn j with rfl | rfl <;> simp [c0_ne_cL hn, cL_ne_c0 hn]
+    rcases C_eq_c0_or_cL hn j with rfl | rfl <;> simp [cL_ne_c0 hn]
   right_inv k := by
-    fin_cases k <;> simp [c0_ne_cL hn, cL_ne_c0 hn]
+    fin_cases k <;> simp [cL_ne_c0 hn]
 
 private noncomputable def outerDiag (hn : 2 ≤ n) (α β : K) : Matrix (C hn) (C hn) K :=
   Matrix.diagonal (fun i => if i = c0 hn then α else β)
@@ -165,6 +165,7 @@ private noncomputable def diagFull (hn : 2 ≤ n) (ν : K) : Matrix (Fin n) (Fin
       (0 : Matrix (Fin (n - 2)) (C hn) K) (0 : Matrix (C hn) (Fin (n - 2)) K)
       (outerDiag hn (ν⁻¹ ^ (n - 1)) ν))
 
+omit [Finite K] [CharP K 2] in
 private lemma det_diagFull (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0) :
     (diagFull hn ν).det = 1 := by
   rw [diagFull, Matrix.det_reindexAlgEquiv, Matrix.det_fromBlocks_zero₂₁,
@@ -184,6 +185,7 @@ private lemma det_diagFull (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0) :
   have hpow : n - 2 + 1 = n - 1 := by omega
   rw [hpow]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_mul_outerDiag (hn : 2 ≤ n) (α β : K) (b : Fin (n - 2) → K) :
     Avec hn b * outerDiag hn α β = Avec hn (β • b) := by
   ext i j
@@ -191,12 +193,14 @@ private lemma Avec_mul_outerDiag (hn : 2 ≤ n) (α β : K) (b : Fin (n - 2) →
   rcases C_eq_c0_or_cL hn j with rfl | rfl <;>
     simp [Avec, Pi.smul_apply, cL_ne_c0 hn, c0_ne_cL hn, mul_comm]
 
+omit [Finite K] [CharP K 2] in
 private lemma outerDiag_mul_Bvec (hn : 2 ≤ n) (α β : K) (a : Fin (n - 2) → K) :
     outerDiag hn α β * Bvec hn a = Bvec hn (α • a) := by
   ext i j
   rw [Bvec, outerDiag, Matrix.diagonal_mul]
-  rcases C_eq_c0_or_cL hn i with rfl | rfl <;> simp [Bvec, Pi.smul_apply, c0_ne_cL hn, cL_ne_c0 hn]
+  rcases C_eq_c0_or_cL hn i with rfl | rfl <;> simp [Bvec, Pi.smul_apply, cL_ne_c0 hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma outerDiag_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0) (hβ : β ≠ 0) :
     (outerDiag hn α β)⁻¹ = outerDiag hn α⁻¹ β⁻¹ := by
   apply Matrix.inv_eq_right_inv
@@ -204,8 +208,9 @@ private lemma outerDiag_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0) (hβ : �
   rw [outerDiag, Matrix.diagonal_mul]
   rcases C_eq_c0_or_cL hn i with rfl | rfl <;>
     rcases C_eq_c0_or_cL hn j with rfl | rfl <;>
-    simp [outerDiag, Matrix.one_apply, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn]
+    simp [outerDiag, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma outerDiag_mul_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0) (hβ : β ≠ 0) :
     outerDiag hn α β * (outerDiag hn α β)⁻¹ = 1 := by
   rw [outerDiag_inv hn α β hα hβ]
@@ -213,13 +218,15 @@ private lemma outerDiag_mul_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0) (hβ
   rw [outerDiag, Matrix.diagonal_mul]
   rcases C_eq_c0_or_cL hn i with rfl | rfl <;>
     rcases C_eq_c0_or_cL hn j with rfl | rfl <;>
-    simp [outerDiag, Matrix.one_apply, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn]
+    simp [outerDiag, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_mul_outerDiag_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0)
     (hβ : β ≠ 0) (b : Fin (n - 2) → K) :
     Avec hn b * (outerDiag hn α β)⁻¹ = Avec hn (β⁻¹ • b) := by
   rw [outerDiag_inv hn α β hα hβ, Avec_mul_outerDiag]
 
+omit [Finite K] [CharP K 2] in
 private lemma outerDiag_mul_Dvec_mul_inv (hn : 2 ≤ n) (α β : K) (hα : α ≠ 0)
     (hβ : β ≠ 0) (c : K) :
     outerDiag hn α β * Dvec hn c * (outerDiag hn α β)⁻¹ =
@@ -229,28 +236,33 @@ private lemma outerDiag_mul_Dvec_mul_inv (hn : 2 ≤ n) (α β : K) (hα : α �
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   rcases C_eq_c0_or_cL hn i with rfl | rfl <;>
     rcases C_eq_c0_or_cL hn j with rfl | rfl <;>
-    simp [Dvec, Emat, Matrix.one_apply, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn,
-      div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm]
+    simp [Dvec, Emat, hα, hβ, c0_ne_cL hn, cL_ne_c0 hn,
+      mul_assoc, mul_comm, mul_left_comm]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_add (hn : 2 ≤ n) (b b' : Fin (n - 2) → K) :
     Avec hn b + Avec hn b' = Avec hn (b + b') := by
   ext i j
   by_cases h : j = cL hn <;> simp [Avec, h]
 
+omit [Finite K] [CharP K 2] in
 private lemma Bvec_add (hn : 2 ≤ n) (a a' : Fin (n - 2) → K) :
     Bvec hn a + Bvec hn a' = Bvec hn (a + a') := by
   ext i j
   by_cases h : i = c0 hn <;> simp [Bvec, h]
 
+omit [Finite K] [CharP K 2] in
 private lemma Emat_add (hn : 2 ≤ n) (c c' : K) :
     Emat hn c + Emat hn c' = Emat hn (c + c') := by
   ext i j
   by_cases h : i = c0 hn ∧ j = cL hn <;> simp [Emat, h]
 
+omit [Finite K] [CharP K 2] in
 private lemma Emat_add_Dvec (hn : 2 ≤ n) (x c : K) :
     Emat hn x + Dvec hn c = Dvec hn (c + x) := by
   rw [Dvec, Dvec, add_comm (Emat hn x) (1 + Emat hn c), add_assoc, Emat_add]
 
+omit [Finite K] [CharP K 2] in
 private lemma mul_Avec (hn : 2 ≤ n) (M : Matrix (Fin (n - 2)) (Fin (n - 2)) K)
     (b : Fin (n - 2) → K) :
     M * Avec hn b = Avec hn (M *ᵥ b) := by
@@ -261,6 +273,7 @@ private lemma mul_Avec (hn : 2 ≤ n) (M : Matrix (Fin (n - 2)) (Fin (n - 2)) K)
     simp [Avec, Matrix.mulVec, dotProduct]
   · simp [Avec, hj]
 
+omit [Finite K] [CharP K 2] in
 private lemma Bvec_mul (hn : 2 ≤ n) (a : Fin (n - 2) → K)
     (M : Matrix (Fin (n - 2)) (Fin (n - 2)) K) :
     Bvec hn a * M = Bvec hn (a ᵥ* M) := by
@@ -271,10 +284,12 @@ private lemma Bvec_mul (hn : 2 ≤ n) (a : Fin (n - 2) → K)
     simp [Bvec, Matrix.vecMul, dotProduct]
   · simp [Bvec, hi]
 
+omit [Finite K] [CharP K 2] in
 private lemma Dvec_add_Emat (hn : 2 ≤ n) (c x : K) :
     Dvec hn c + Emat hn x = Dvec hn (c + x) := by
   rw [add_comm, Emat_add_Dvec]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_mul_Bvec (hn : 2 ≤ n) (b a : Fin (n - 2) → K) :
     Avec hn b * Bvec hn a = 0 := by
   ext i j
@@ -285,6 +300,7 @@ private lemma Avec_mul_Bvec (hn : 2 ≤ n) (b a : Fin (n - 2) → K) :
     simp [Avec, Bvec, cL_ne_c0 hn]
   · simp [Avec, hk]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_mul_Emat (hn : 2 ≤ n) (b : Fin (n - 2) → K) (c : K) :
     Avec hn b * Emat hn c = 0 := by
   ext i j
@@ -295,10 +311,12 @@ private lemma Avec_mul_Emat (hn : 2 ≤ n) (b : Fin (n - 2) → K) (c : K) :
     simp [Avec, c0_ne_cL hn]
   · simp [Emat, hk]
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_mul_Dvec (hn : 2 ≤ n) (b : Fin (n - 2) → K) (c : K) :
     Avec hn b * Dvec hn c = Avec hn b := by
   rw [Dvec, Matrix.mul_add, Matrix.mul_one, Avec_mul_Emat, add_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma Emat_mul_Bvec (hn : 2 ≤ n) (a : Fin (n - 2) → K) (c : K) :
     Emat hn c * Bvec hn a = 0 := by
   ext i j
@@ -306,13 +324,15 @@ private lemma Emat_mul_Bvec (hn : 2 ≤ n) (a : Fin (n - 2) → K) (c : K) :
   refine Finset.sum_eq_zero fun k _ => ?_
   by_cases hk : k = cL hn
   · subst hk
-    simp [Bvec, cL_ne_c0 hn, c0_ne_cL hn, eq_comm]
+    simp [Bvec, cL_ne_c0 hn]
   · simp [Emat, hk]
 
+omit [Finite K] [CharP K 2] in
 private lemma Dvec_mul_Bvec (hn : 2 ≤ n) (a : Fin (n - 2) → K) (c : K) :
     Dvec hn c * Bvec hn a = Bvec hn a := by
   rw [Dvec, Matrix.add_mul, Matrix.one_mul, Emat_mul_Bvec, add_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma Bvec_mul_Avec (hn : 2 ≤ n) (a b : Fin (n - 2) → K) :
     Bvec hn a * Avec hn b = Emat hn (a ⬝ᵥ b) := by
   ext i j
@@ -334,6 +354,7 @@ private lemma Bvec_mul_Avec (hn : 2 ≤ n) (a b : Fin (n - 2) → K) :
     rw [Finset.sum_eq_zero hzero]
     simp [Emat, hi]
 
+omit [Finite K] [CharP K 2] in
 private lemma Emat_mul_Emat (hn : 2 ≤ n) (c c' : K) :
     Emat hn c * Emat hn c' = 0 := by
   ext i j
@@ -344,12 +365,14 @@ private lemma Emat_mul_Emat (hn : 2 ≤ n) (c c' : K) :
     simp [Emat, c0_ne_cL hn]
   · simp [Emat, hk]
 
+omit [Finite K] [CharP K 2] in
 private lemma Dvec_mul_Dvec (hn : 2 ≤ n) (c c' : K) :
     Dvec hn c * Dvec hn c' = Dvec hn (c + c') := by
   rw [Dvec, Dvec, Dvec, Matrix.add_mul, Matrix.mul_add, Matrix.mul_add, Matrix.one_mul,
     Matrix.one_mul, Matrix.mul_one, Emat_mul_Emat, add_zero, add_assoc,
     add_comm (Emat hn c') (Emat hn c), ← Emat_add]
 
+omit [Finite K] [CharP K 2] in
 private lemma coe_midBlock (hn : 2 ≤ n) (M : SpecialLinearGroup (Fin (n - 2)) K) :
     (midBlock hn M : Matrix (Fin n) (Fin n) K) =
       Matrix.reindexAlgEquiv K K (CFSG.Timmesfeld.ARS.Linear.embEquiv (midEmb hn))
@@ -362,6 +385,7 @@ private noncomputable def cornerMat (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c 
     (Matrix.fromBlocks (1 : Matrix (Fin (n - 2)) (Fin (n - 2)) K)
       (Avec hn b) (Bvec hn a) (Dvec hn c))
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_mul (hn : 2 ≤ n) (a b a' b' : Fin (n - 2) → K) (c c' : K) :
     cornerMat hn a b c * cornerMat hn a' b' c' =
       cornerMat hn (a + a') (b + b') (c + c' + a ⬝ᵥ b') := by
@@ -373,10 +397,11 @@ private lemma cornerMat_mul (hn : 2 ≤ n) (a b a' b' : Fin (n - 2) → K) (c c'
         (Dvec hn (c + c' + a ⬝ᵥ b')) := by
     rw [Matrix.fromBlocks_multiply]
     simp [Matrix.mul_one, Matrix.one_mul, Avec_mul_Bvec, Avec_mul_Dvec, Bvec_mul_Avec,
-      Dvec_mul_Bvec, Dvec_mul_Dvec, Emat_add_Dvec, Dvec_add_Emat, Avec_add, Bvec_add,
-      add_comm, add_left_comm, add_assoc]
+      Dvec_mul_Bvec, Dvec_mul_Dvec, Dvec_add_Emat, Avec_add, Bvec_add,
+      add_comm, add_assoc]
   rw [h]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_conj (hn : 2 ≤ n) (M : SpecialLinearGroup (Fin (n - 2)) K)
     (a b : Fin (n - 2) → K) (c : K) :
     (midBlock hn M : Matrix (Fin n) (Fin n) K) * cornerMat hn a b c *
@@ -409,9 +434,10 @@ private lemma cornerMat_conj (hn : 2 ≤ n) (M : SpecialLinearGroup (Fin (n - 2)
         Matrix.SpecialLinearGroup.coe_one]
     rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
     simp only [Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero, Matrix.zero_mul, add_zero,
-      zero_add, hMM, hM'M, mul_Avec, Bvec_mul]
+      zero_add, hMM, mul_Avec, Bvec_mul]
   rw [h]
 
+omit [Finite K] [CharP K 2] in
 private lemma midBlock_conj_apply (hn : 2 ≤ n)
     (A : SpecialLinearGroup (Fin (n - 2)) K) (X : Matrix (Fin n) (Fin n) K)
     (i j : Fin (n - 2)) :
@@ -427,7 +453,7 @@ private lemma midBlock_conj_apply (hn : 2 ≤ n)
     Matrix.reindexAlgEquiv K K e.symm X
   have hX : X = Matrix.reindexAlgEquiv K K e X' := by
     ext a b
-    simp [X', Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply]
+    simp [X', Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply]
   let X11 : Matrix (Fin (n - 2)) (Fin (n - 2)) K :=
     fun a b => X' (Sum.inl a) (Sum.inl b)
   let X12 : Matrix (Fin (n - 2)) (C hn) K := fun a b => X' (Sum.inl a) (Sum.inr b)
@@ -443,7 +469,7 @@ private lemma midBlock_conj_apply (hn : 2 ≤ n)
       rw [← CFSG.Timmesfeld.ARS.Linear.embEquiv_inl (midEmb hn) a, e.symm_apply_apply]
     have hb : e.symm (midEmb hn b) = Sum.inl b := by
       rw [← CFSG.Timmesfeld.ARS.Linear.embEquiv_inl (midEmb hn) b, e.symm_apply_apply]
-    simp [X11, Matrix.reindexAlgEquiv_apply, ha, hb]
+    simp [X11, Matrix.coe_reindexAlgEquiv, ha, hb]
   rw [hX, ← map_inv, coe_midBlock, coe_midBlock]
   rw [show midEmb hn i = e (Sum.inl i) from (CFSG.Timmesfeld.ARS.Linear.embEquiv_inl
     (midEmb hn) i).symm,
@@ -451,7 +477,7 @@ private lemma midBlock_conj_apply (hn : 2 ≤ n)
     (midEmb hn) j).symm]
   rw [← map_mul, ← map_mul, hX11, hX', Matrix.fromBlocks_multiply,
     Matrix.fromBlocks_multiply]
-  simp only [Matrix.reindexAlgEquiv_apply, Matrix.zero_mul, Matrix.mul_zero, add_zero,
+  simp only [Matrix.coe_reindexAlgEquiv, Matrix.zero_mul, Matrix.mul_zero, add_zero,
     zero_add, Matrix.mul_one, Matrix.one_mul]
   dsimp only [e]
   rw [Matrix.reindex_apply]
@@ -468,6 +494,7 @@ private noncomputable def revSL (m : ℕ) : SpecialLinearGroup (Fin m) K :=
     · rw [h]
       simpa using CharTwo.neg_eq (1 : K)⟩
 
+omit [Finite K] in
 private lemma revSL_conj_apply (m : ℕ) (X : Matrix (Fin m) (Fin m) K) (a b : Fin m) :
     ((revSL (K := K) m : Matrix (Fin m) (Fin m) K) * X *
         (((revSL (K := K) m)⁻¹ : SpecialLinearGroup (Fin m) K) :
@@ -479,7 +506,7 @@ private lemma revSL_conj_apply (m : ℕ) (X : Matrix (Fin m) (Fin m) K) (a b : F
     change Matrix.permMatrixHom (Fin.revPerm : Equiv.Perm (Fin m)) *
       Matrix.permMatrixHom (Fin.revPerm : Equiv.Perm (Fin m)) = 1
     rw [← map_mul, show (Fin.revPerm : Equiv.Perm (Fin m)) * Fin.revPerm = 1 from
-      Equiv.ext fun x => by simpa [Fin.revPerm_apply] using Fin.rev_rev x, map_one]
+      Equiv.ext fun x => by simp [Fin.revPerm_apply], map_one]
   have hinv : (revSL (K := K) m)⁻¹ = revSL (K := K) m := inv_eq_of_mul_eq_one_right hww
   rw [hinv]
   change ((Matrix.permMatrixHom (Fin.revPerm : Equiv.Perm (Fin m)) * X *
@@ -503,12 +530,14 @@ private lemma embEquiv_symm_mid (hn : 2 ≤ n) (i : Fin (n - 2)) :
   rw [Equiv.symm_apply_eq]
   exact (CFSG.Timmesfeld.ARS.Linear.embEquiv_inl (midEmb hn) i).symm
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_i0_i0 (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K) :
     cornerMat hn a b c (i0 hn) (i0 hn) = 1 := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
     Matrix.submatrix_apply, embEquiv_symm_i0, Matrix.fromBlocks_apply₂₂]
-  simp [Dvec, Emat, Matrix.one_apply, c0_ne_cL hn]
+  simp [Dvec, Emat, c0_ne_cL hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_i0_iLast (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K) :
     cornerMat hn a b c (i0 hn) (iLast hn) = c := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
@@ -518,6 +547,7 @@ private lemma cornerMat_apply_i0_iLast (hn : 2 ≤ n) (a b : Fin (n - 2) → K) 
   rw [Matrix.add_apply, Matrix.one_apply, Emat]
   simp [c0_ne_cL hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_i0_mid (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K)
     (j : Fin (n - 2)) : cornerMat hn a b c (i0 hn) (midEmb hn j) = a j := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
@@ -525,6 +555,7 @@ private lemma cornerMat_apply_i0_mid (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c
     Matrix.fromBlocks_apply₂₁]
   simp [Bvec]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_iLast_i0 (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K) :
     cornerMat hn a b c (iLast hn) (i0 hn) = 0 := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
@@ -534,20 +565,23 @@ private lemma cornerMat_apply_iLast_i0 (hn : 2 ≤ n) (a b : Fin (n - 2) → K) 
   rw [Matrix.add_apply, Matrix.one_apply, Emat]
   simp [cL_ne_c0 hn, c0_ne_cL hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_iLast_iLast (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K) :
     cornerMat hn a b c (iLast hn) (iLast hn) = 1 := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
     Matrix.submatrix_apply, embEquiv_symm_iLast, Matrix.fromBlocks_apply₂₂]
-  simp [Dvec, Emat, Matrix.one_apply, c0_ne_cL hn, cL_ne_c0 hn]
+  simp [Dvec, Emat, cL_ne_c0 hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_iLast_mid (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K)
     (j : Fin (n - 2)) : cornerMat hn a b c (iLast hn) (midEmb hn j) = 0 := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
     Matrix.submatrix_apply, embEquiv_symm_iLast, embEquiv_symm_mid,
     Matrix.fromBlocks_apply₂₁]
   change (if cL hn = c0 hn then a j else 0) = 0
-  rw [if_neg (cL_ne_c0 hn)]
+  rw [ite_eq_right (cL_ne_c0 hn)]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_mid_i0 (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K)
     (i : Fin (n - 2)) : cornerMat hn a b c (midEmb hn i) (i0 hn) = 0 := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
@@ -555,6 +589,7 @@ private lemma cornerMat_apply_mid_i0 (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c
     Matrix.fromBlocks_apply₁₂]
   simp [Avec, c0_ne_cL hn]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_mid_iLast (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K)
     (i : Fin (n - 2)) : cornerMat hn a b c (midEmb hn i) (iLast hn) = b i := by
   rw [cornerMat, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
@@ -562,6 +597,7 @@ private lemma cornerMat_apply_mid_iLast (hn : 2 ≤ n) (a b : Fin (n - 2) → K)
     Matrix.fromBlocks_apply₁₂]
   simp [Avec]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_apply_mid_mid (hn : 2 ≤ n) (a b : Fin (n - 2) → K) (c : K)
     (i j : Fin (n - 2)) :
     cornerMat hn a b c (midEmb hn i) (midEmb hn j) = if i = j then 1 else 0 := by
@@ -587,9 +623,10 @@ private lemma eq_zero_or_eq_last_or_mid (hn : 2 ≤ n) (i : Fin n) :
       apply Fin.ext
       show i.val = (midEmb hn ⟨i.val - 1, by omega⟩).val
       rw [midEmb_val]
-      simp only [Fin.val_mk]
+      simp only
       omega
 
+omit [Finite K] in
 private lemma midBlock_part_eq_one
     (hn : 2 ≤ n) {T : Subgroup (SLn n K)} (hTU : T ≤ unitriangular n K)
     (hG0 : ∀ A : SpecialLinearGroup (Fin (n - 2)) K,
@@ -641,6 +678,7 @@ private lemma midBlock_part_eq_one
           Matrix.one_apply_ne hij]
   simpa [X11] using hX11
 
+omit [Finite K] [CharP K 2] in
 private lemma exists_corner_of_mem_of_midBlock
     (hn : 2 ≤ n) {x : SLn n K} (hxU : x ∈ unitriangular n K)
     (hmid : (Matrix.of fun i j : Fin (n - 2) =>
@@ -668,6 +706,7 @@ private lemma exists_corner_of_mem_of_midBlock
       midEmb_lt_iLast,
       i0_lt_iLast]
 
+omit [Finite K] in
 private lemma exists_corner_of_mem
     (hn : 4 ≤ n) {T : Subgroup (SLn n K)} (hTU : T ≤ unitriangular n K)
     (hG0 : ∀ A : SpecialLinearGroup (Fin (n - 2)) K,
@@ -679,6 +718,7 @@ private lemma exists_corner_of_mem
   exact exists_corner_of_mem_of_midBlock hn2 (hTU hxT)
     (midBlock_part_eq_one hn2 hTU (fun A => hG0 A) hxT)
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_inj (hn : 2 ≤ n) {a b a' b' : Fin (n - 2) → K} {c c' : K}
     (h : cornerMat hn a b c = cornerMat hn a' b' c') :
     a = a' ∧ b = b' ∧ c = c' := by
@@ -692,6 +732,7 @@ private lemma cornerMat_inj (hn : 2 ≤ n) {a b a' b' : Fin (n - 2) → K} {c c'
   · simpa [cornerMat_apply_i0_iLast] using
       congrFun (congrFun h (i0 hn)) (iLast hn)
 
+omit [Finite K] in
 private lemma corner_commutator_block
     (hn : 4 ≤ n) (M : SpecialLinearGroup (Fin (n - 2)) K) (s : K)
     {i j : Fin (n - 2)} (hij : i ≠ j)
@@ -740,6 +781,7 @@ private lemma corner_commutator_block
     rw [CharTwo.add_self_eq_zero, zero_add, add_dotProduct, single_dotProduct]
   rw [hA, hB, hC]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_zero (hn : 2 ≤ n) (c : K) :
     cornerMat hn 0 0 c = 1 + Matrix.single (i0 hn) (iLast hn) c := by
   let e := CFSG.Timmesfeld.ARS.Linear.embEquiv (midEmb hn)
@@ -749,18 +791,18 @@ private lemma cornerMat_zero (hn : 2 ≤ n) (c : K) :
       1 + Matrix.single (Sum.inr (c0 hn)) (Sum.inr (cL hn)) c := by
     ext a b
     rcases a with a | a <;> rcases b with b | b
-    · simp [Matrix.fromBlocks_apply₁₁, Matrix.one_apply, Matrix.single_apply]
-    · simp [Matrix.fromBlocks_apply₁₂, Matrix.one_apply, Matrix.single_apply]
-    · simp [Matrix.fromBlocks_apply₂₁, Matrix.one_apply, Matrix.single_apply]
+    · simp [Matrix.fromBlocks_apply₁₁, Matrix.one_apply]
+    · simp [Matrix.fromBlocks_apply₁₂]
+    · simp [Matrix.fromBlocks_apply₂₁]
     · by_cases ha : a = c0 hn
       · subst a
         by_cases hb : b = cL hn
         · subst b
-          simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.single_apply]
+          simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply]
         · have hb' : ¬ cL hn = b := fun h => hb h.symm
-          simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.single_apply, hb, hb']
+          simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, hb']
       · have ha' : ¬ c0 hn = a := fun h => ha h.symm
-        simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, Matrix.single_apply, ha, ha']
+        simp [Matrix.fromBlocks_apply₂₂, Matrix.one_apply, ha']
   have hcorner : cornerMat hn 0 0 c =
       Matrix.reindexAlgEquiv K K e
         (Matrix.fromBlocks (1 : Matrix (Fin (n - 2)) (Fin (n - 2)) K)
@@ -780,18 +822,20 @@ private lemma cornerMat_zero (hn : 2 ≤ n) (c : K) :
     rcases a with a | a <;> rcases b with b | b <;>
       simp [Avec, Bvec, Dvec, Emat, Matrix.fromBlocks_apply₁₁,
         Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂,
-        Matrix.single_apply, eq_comm, and_comm]
-  rw [hcorner, hblock, map_add, map_one, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply,
+        Matrix.single_apply, eq_comm]
+  rw [hcorner, hblock, map_add, map_one, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply,
     Matrix.submatrix_single_equiv, Equiv.symm_symm,
     CFSG.Timmesfeld.ARS.Linear.embEquiv_inr,
     CFSG.Timmesfeld.ARS.Linear.embEquiv_inr]
   simp [c0, cL]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_zero_zero (hn : 2 ≤ n) :
     cornerMat hn 0 0 (0 : K) = 1 := by
   rw [cornerMat_zero hn 0]
   simp
 
+omit [Finite K] in
 private lemma cornerMat_dot_eq_zero (hn : 4 ≤ n)
     {T : Subgroup (SpecialLinearGroup (Fin n) K)} (hT : Assembly.IsElemAbelian 2 T)
     {x : SpecialLinearGroup (Fin n) K} (hxT : x ∈ T)
@@ -814,6 +858,7 @@ private lemma cornerMat_dot_eq_zero (hn : 4 ≤ n)
   have := (cornerMat_inj hn2 h2).2.2
   rwa [hcc, zero_add] at this
 
+omit [Finite K] in
 private lemma exists_commutator_params (hn : 4 ≤ n) (hn2 : 2 ≤ n)
     {T : Subgroup (SpecialLinearGroup (Fin n) K)} (hT : Assembly.IsElemAbelian 2 T)
     (hG0 : ∀ A : SpecialLinearGroup (Fin (n - 2)) K,
@@ -855,7 +900,7 @@ private lemma exists_central_corner
         1 + Matrix.single ⟨0, by omega⟩ ⟨n - 1, by omega⟩ b := by
   have hUN : unitriangular n K ≤ Subgroup.normalizer (T : Set (SLn n K)) :=
     le_trans (unitriangular_le_upperTriangular n K) hB
-  haveI hNormal : (T.subgroupOf (unitriangular n K)).Normal :=
+  have hNormal : (T.subgroupOf (unitriangular n K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTU).mpr hUN
   have hTne : T.subgroupOf (unitriangular n K) ≠ ⊥ := by
     intro h
@@ -869,7 +914,7 @@ private lemma exists_central_corner
     simpa using (congrArg Subtype.val (congrArg Subtype.val hx'))
   have hU2 : IsPGroup 2 (unitriangular n K) := by
     obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := K) 2 (n := n) (by omega)
-    have := P.isPGroup'
+    have := P.isPGroup
     rwa [hP] at this
   have hUnil : Group.IsNilpotent (unitriangular n K) := hU2.isNilpotent
   obtain ⟨⟨u, huT, huZ⟩, hu1⟩ :=
@@ -889,6 +934,7 @@ private lemma exists_central_corner
     simpa using hb
   exact ⟨u, huT, hu1', b, hb0, hb⟩
 
+omit [CharP K 2] in
 private lemma midBlock_mem_normalizer_of_perfect
     (hn : 4 ≤ n) (hq : n = 4 → 4 ≤ Nat.card K)
     {T : Subgroup (SLn n K)} {u : SLn n K} (huT : u ∈ T) (hu1 : u ≠ 1)
@@ -962,16 +1008,19 @@ private lemma exists_corner_and_G0
     exact ⟨u, huT, b, hb0, hb,
       midBlock_mem_normalizer_of_perfect hn hq huT hu1 hb hwti⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma Avec_smul (hn : 2 ≤ n) (c : K) (b : Fin (n - 2) → K) :
     Avec hn (c • b) = c • Avec hn b := by
   ext i j
   by_cases h : j = cL hn <;> simp [Avec, h]
 
+omit [Finite K] [CharP K 2] in
 private lemma Bvec_smul (hn : 2 ≤ n) (c : K) (a : Fin (n - 2) → K) :
     Bvec hn (c • a) = c • Bvec hn a := by
   ext i j
   by_cases h : i = c0 hn <;> simp [Bvec, h]
 
+omit [Finite K] [CharP K 2] in
 private lemma diagFull_mem_upperTriangular (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0) :
     (⟨diagFull hn ν, det_diagFull hn ν hν⟩ : SLn n K) ∈ upperTriangular n K := by
   change ∀ i j : Fin n, j < i → diagFull hn ν i j = 0
@@ -984,6 +1033,7 @@ private lemma diagFull_mem_upperTriangular (hn : 2 ≤ n) (ν : K) (hν : ν ≠
     exact Matrix.isDiag_diagonal _
   exact hdiag (ne_of_gt hji)
 
+omit [Finite K] [CharP K 2] in
 private lemma diagFull_conj (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0)
     (a b : Fin (n - 2) → K) (c : K) :
     diagFull hn ν * cornerMat hn a b c * (diagFull hn ν)⁻¹ =
@@ -1035,7 +1085,7 @@ private lemma diagFull_conj (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0)
         (Avec hn b) (Bvec hn (γ • a)) (Dvec hn (γ * c)) := by
     rw [hDinv, Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
     simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, Matrix.mul_one,
-      Matrix.one_mul, hA1, h12, h21, h22]
+      hA1, h12, h21, h22]
   calc
     diagFull hn ν * cornerMat hn a b c * (diagFull hn ν)⁻¹
         = Matrix.reindexAlgEquiv K K e
@@ -1047,7 +1097,7 @@ private lemma diagFull_conj (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0)
             (Matrix.fromBlocks (ν • (1 : Matrix (Fin (n - 2)) (Fin (n - 2)) K))
               (0 : Matrix (Fin (n - 2)) (C hn) K) (0 : Matrix (C hn) (Fin (n - 2)) K)
               (outerDiag hn α ν))⁻¹) := by
-          simp [diagFull, cornerMat, e, α, γ, map_mul, map_inv]
+          simp [diagFull, cornerMat, e, α, map_mul]
     _ = Matrix.reindexAlgEquiv K K e
           (Matrix.fromBlocks (1 : Matrix (Fin (n - 2)) (Fin (n - 2)) K)
             (Avec hn b) (Bvec hn (γ • a)) (Dvec hn (γ * c))) := by
@@ -1055,6 +1105,7 @@ private lemma diagFull_conj (hn : 2 ≤ n) (ν : K) (hν : ν ≠ 0)
     _ = cornerMat hn (γ • a) b (γ * c) := by
           simp [cornerMat, e]
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_row_eq_one_add_vecMulVec (hn : 2 ≤ n) (a : Fin (n - 2) → K) (c : K) :
     cornerMat hn a 0 c =
       1 + Matrix.vecMulVec (Pi.single (i0 hn) 1)
@@ -1086,10 +1137,11 @@ private lemma cornerMat_row_eq_one_add_vecMulVec (hn : 2 ≤ n) (a : Fin (n - 2)
       simp only [zero_mul, add_zero]
       by_cases h : i' = j'
       · subst h
-        simp [Matrix.one_apply]
+        simp
       · have h' : midEmb hn i' ≠ midEmb hn j' := fun hh => h ((midEmb hn).injective hh)
-        simp [Matrix.one_apply, h, h']
+        simp [h, h']
 
+omit [Finite K] [CharP K 2] in
 private lemma cornerMat_col_eq_one_add_vecMulVec (hn : 2 ≤ n) (b : Fin (n - 2) → K) (c : K) :
     cornerMat hn 0 b c =
       1 + Matrix.vecMulVec
@@ -1121,14 +1173,14 @@ private lemma cornerMat_col_eq_one_add_vecMulVec (hn : 2 ≤ n) (b : Fin (n - 2)
       simp only [mul_zero, add_zero]
       by_cases h : i' = j'
       · subst h
-        simp [Matrix.one_apply]
+        simp
       · have h' : midEmb hn i' ≠ midEmb hn j' := fun hh => h ((midEmb hn).injective hh)
-        simp [Matrix.one_apply, h, h']
+        simp [h, h']
 
 private lemma exists_inv_pow_four_ne_one (hK : 4 ≤ Nat.card K) :
     ∃ ν : K, ν ≠ 0 ∧ (ν⁻¹) ^ 4 ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : 2 < Fintype.card K := by
     rw [← Nat.card_eq_fintype_card]
     omega
@@ -1154,6 +1206,7 @@ private lemma exists_inv_pow_four_ne_one (hK : 4 ≤ Nat.card K) :
     exact hν1 (inv_eq_one.mp hνinv)
   exact ⟨ν, hν0, hγne⟩
 
+omit [Finite K] in
 private lemma exists_pure_row_conj_diag
     (hn4 : n = 4) {T : Subgroup (SLn n K)}
     (hB : upperTriangular n K ≤ Subgroup.normalizer (T : Set (SLn n K)))
@@ -1228,6 +1281,7 @@ private lemma exists_pure_row_of_n_eq_four
   obtain ⟨ν, hν0, hγne⟩ := exists_inv_pow_four_ne_one hq4
   exact exists_pure_row_conj_diag hn4 hB hxT hx ha hν0 hγne
 
+omit [Finite K] in
 private lemma exists_pure_row_of_five_le
     (hn5 : 5 ≤ n)
     {T : Subgroup (SLn n K)} (hT : Assembly.IsElemAbelian 2 T)
@@ -1276,6 +1330,7 @@ private lemma exists_pure_row_of_five_le
   have := congrFun h k
   simpa using this
 
+omit [Finite K] in
 private lemma exists_unit_row_of_exists_row
     (hn : 4 ≤ n)
     {T : Subgroup (SLn n K)} (hT : Assembly.IsElemAbelian 2 T)
@@ -1330,6 +1385,7 @@ private lemma exists_pure_row
   · exact exists_pure_row_of_n_eq_four hn4 (hq hn4) hB hxT hx ha
   · exact exists_pure_row_of_five_le (by omega) hT hG0 hxT hx ha
 
+omit [Finite K] in
 private lemma le_tvCenterSL_of_exists_row
     (hn : 4 ≤ n)
     {T : Subgroup (SLn n K)} (hT : Assembly.IsElemAbelian 2 T)
@@ -1372,6 +1428,7 @@ private lemma le_tvCenterSL_of_exists_row
   · simpa [w] using hx'.trans
       (cornerMat_row_eq_one_add_vecMulVec (show 2 ≤ n by omega) a₂ c₂)
 
+omit [Finite K] [CharP K 2] in
 private lemma le_tvAxisSL_of_forall_row_zero
     (hn : 4 ≤ n)
     {T : Subgroup (SLn n K)}
@@ -1425,6 +1482,7 @@ theorem le_tvCenterSL_or_le_tvAxisSL
       by_contra ha₂
       exact hrow ⟨x', hx'T, a₂, b₂, c₂, hx', ha₂⟩
 
+omit [Finite K] [CharP K 2] in
 theorem exists_invariant_of_le_tvCenterSL
     (hn : 3 ≤ n) {T : Subgroup (SpecialLinearGroup (Fin n) K)} {c : Fin n → K}
     (hTc : T ≤ tvCenterSL c) (hc : c ≠ 0) (g : SpecialLinearGroup (Fin n) K) :
@@ -1461,6 +1519,7 @@ theorem exists_invariant_of_le_tvCenterSL
     exact Subgroup.mem_map_of_mem _ hx
   simpa using hWinv _ hx' w hw
 
+omit [Finite K] [CharP K 2] in
 theorem exists_invariant_of_le_tvAxisSL
     (hn : 3 ≤ n) {T : Subgroup (SpecialLinearGroup (Fin n) K)} {a : Fin n → K}
     (hTa : T ≤ tvAxisSL a) (ha : a ≠ 0) (g : SpecialLinearGroup (Fin n) K) :

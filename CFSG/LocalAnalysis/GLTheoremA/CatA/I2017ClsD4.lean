@@ -83,7 +83,7 @@ theorem d4TwoNoA8_holds : D4TwoNoA8 := by
     have ht1 : t ≠ 1 := by
       rintro rfl
       exact hβ1 (map_one _)
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 7 ((by norm_num : 7 ∣ 20160).trans hJcard)
     have hfix : MulAut.conj t (y : _) = y := hJc.1 y.2
     rw [MulAut.conj_apply] at hfix
@@ -92,7 +92,7 @@ theorem d4TwoNoA8_holds : D4TwoNoA8 := by
       _ = y * t := by rw [hfix]
   ·
     push Not at hinn
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 ((by norm_num : 5 ∣ 20160).trans hJcard)
     exact h5 β hβ3 hinn y (by rw [Subgroup.orderOf_coe, hy]) (hJc.1 y.2)
 

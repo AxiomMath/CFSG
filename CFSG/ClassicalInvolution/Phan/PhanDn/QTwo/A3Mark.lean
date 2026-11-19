@@ -31,7 +31,7 @@ local notation "σ" => unitaryInvolution K 2 1
 
 private noncomputable def toLinEquiv (t : Su K 2 1 4) :
     (Fin 4 → K) ≃ₗ[K] (Fin 4 → K) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (Matrix.toLin' (((t : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)))
     (Matrix.toLin' (((t : GL (Fin 4) K)⁻¹ : GL (Fin 4) K) :
       Matrix (Fin 4) (Fin 4) K))

@@ -32,7 +32,7 @@ theorem sesq_eq_gramForm_of_basis {p f : ℕ} {K : Type} [Field K] {W : Type} [A
   have hx : Hf x y = Hf (∑ i, e.equivFun x i • e i) (∑ j, e.equivFun y j • e j) := by
     rw [e.sum_equivFun, e.sum_equivFun]
   rw [hx]
-  simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, map_smul, he,
+  simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, he,
     smul_eq_mul]
   simp [gramForm_apply, dotProduct]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
@@ -102,8 +102,8 @@ theorem resGU_mulEquiv {W : Type} [AddCommGroup W] [Module E W] [FiniteDimension
 
 theorem resGU_isSolvable_of_resSU {n : ℕ} {τ : E ≃+* E} {hτ : ∀ x, τ (τ x) = x}
     (hSU : Group.IsSolvable ↥(heldSU n E τ hτ)) : Group.IsSolvable ↥(heldGU n E τ hτ) := by
-  haveI := hSU
-  haveI : Group.IsSolvable Eˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
+  have := hSU
+  have : Group.IsSolvable Eˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
   have hle : heldSU n E τ hτ ≤ heldGU n E τ hτ := inf_le_left
   refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hle)
     ((Matrix.GeneralLinearGroup.det : GL (Fin n) E →* Eˣ).comp (heldGU n E τ hτ).subtype) ?_
@@ -121,24 +121,24 @@ theorem resGU_solvable (hE : UnitaryFieldData 2 1 E) :
   rcases Nat.lt_or_ge n 2 with h1 | h2
   · exact Group.isSolvable_of_comm fun a b =>
       Subtype.ext (mul_comm_GL_of_le_one (a := n) (by omega) a.1 b.1)
-  · haveI : Finite E := hE.finite
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP E 2 := hE.charP
+  · have : Finite E := hE.finite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP E 2 := hE.charP
     have hK : Nat.card E = (2 ^ 1) ^ 2 := by
-      rw [hE.card] <;> norm_num
+      rw [hE.card]; norm_num
     apply resGU_isSolvable_of_resSU
     interval_cases n
     · rw [hct_heldSU_eq_statedSU (resTau_apply hE)]
       have hc := CFSG.RankThree.SubgroupLists.card_statedSU_two (K := E) (r := 2) (f := 1) hK
       norm_num at hc
       exact hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two
-        Nat.prime_three (by norm_num) (by rw [hc] <;> norm_num)
+        Nat.prime_three (by norm_num) (by rw [hc]; norm_num)
     · rw [hct_heldSU_eq_statedSU (resTau_apply hE)]
       have hc :=
         CFSG.RankThree.PartTwo.Sec8.Item87Proof.card_statedSU_three_two (F := E) (f := 1) hK
       norm_num at hc
       exact hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two
-        Nat.prime_three (by norm_num) (by rw [hc] <;> norm_num)
+        Nat.prime_three (by norm_num) (by rw [hc]; norm_num)
 
 end CFSG.LocalAnalysis.GLTheoremA.HSubT
 

@@ -78,12 +78,12 @@ theorem l2_branch_dih {G : Type} [Group G] [Finite G] {H T M K V : Subgroup G} {
   have hVH : V ≤ H := hVT.trans hTH
   have hIH : ch82I V h ≤ H := ch82I_le_829 hVH hh
   have hT2 : IsPGroup 2 T := hT.2.1
-  haveI hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   have hYX : IsPGroup 2 (E2.StarQuot (H ⊓ M) H ⧸ E2.star (H ⊓ M) H K) :=
     isPGroup_starQuot_quotient_cs5 hT2 hHK hTK
   have hO2 : ∀ N : Subgroup (E2.StarQuot (H ⊓ M) H), N.Normal → IsPGroup 2 N → N = ⊥ :=
     fun N hN hN2 => by
-      haveI := hN
+      have := hN
       exact normal_twoGroup_starQuot_eq_bot_cs5 hT hTM N hN2
   have hC := eq_one_of_centralizes_normal_cs5 (center_eq_bot_of_isPSL_cs5 hn hKs) hYX hO2
   obtain ⟨S, hS, hB⟩ := hBor
@@ -140,12 +140,12 @@ theorem l2_branch_dih {G : Type} [Group G] [Finite G] {H T M K V : Subgroup G} {
     intro i hi
     rw [← hIstar] at hi
     exact hNnorm i hi
-  haveI hNI : ((E2.star (H ⊓ M) H (pCoreOf 2 (ch82I V h))).subgroupOf
+  have hNI : ((E2.star (H ⊓ M) H (pCoreOf 2 (ch82I V h))).subgroupOf
       (E2.star (H ⊓ M) H (ch82I V h))).Normal :=
     ⟨fun j hj g => Subgroup.mem_subgroupOf.mpr
       (hNnorm (g : E2.StarQuot (H ⊓ M) H) g.2 (j : E2.StarQuot (H ⊓ M) H)
         (Subgroup.mem_subgroupOf.mp hj))⟩
-  haveI hNI' : ((E2.star (H ⊓ M) H (pCoreOf 2 (ch82I V h))).subgroupOf
+  have hNI' : ((E2.star (H ⊓ M) H (pCoreOf 2 (ch82I V h))).subgroupOf
       (E ⊔ B6.conjSub (QuotientGroup.mk (⟨h, hh⟩ : ↥H) : E2.StarQuot (H ⊓ M) H) E)).Normal :=
     ⟨fun j hj g => Subgroup.mem_subgroupOf.mpr
       (hNnorm' (g : E2.StarQuot (H ⊓ M) H) g.2 (j : E2.StarQuot (H ⊓ M) H)

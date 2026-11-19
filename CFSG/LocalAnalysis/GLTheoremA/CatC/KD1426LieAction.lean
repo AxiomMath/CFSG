@@ -177,23 +177,23 @@ private theorem not_prime_card_of_l3Model {S : Type} [Group S] (h : L3Model S) :
 theorem isSimpleGroup_of_l3Model {S : Type} [Group S] (h : L3Model S) :
     IsSimpleGroup S := by
   rcases h with ⟨K, hK, hKf, hmod, ⟨e⟩⟩ | ⟨K, hK, hKf, p, f, hp, hf, hmod, hcard, ⟨e⟩⟩
-  · haveI : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
+  · have : IsSimpleGroup (StatedProj (StatedSL 3 K)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 3) K (by norm_num)
         (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact e.isSimpleGroup
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hne : (3, p ^ f) ≠ (3, 2) := by
       intro hpair
       have h2 : p ^ f = 2 := by simpa using congrArg Prod.snd hpair
       omega
-    haveI : IsSimpleGroup (StatedProj (StatedSU 3 (p ^ f) K)) :=
+    have : IsSimpleGroup (StatedProj (StatedSU 3 (p ^ f) K)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hcard 3
         (by norm_num) hne
     exact e.isSimpleGroup
 
 theorem center_eq_bot_of_l3Model {S : Type} [Group S] (h : L3Model S) :
     Subgroup.center S = ⊥ := by
-  haveI := isSimpleGroup_of_l3Model h
+  have := isSimpleGroup_of_l3Model h
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with hbot | htop
   · exact hbot
   · exfalso
@@ -335,7 +335,7 @@ theorem field_of_facts (hL : L3AutFieldFacts) {K B : Subgroup Y}
       (MonoidHom.subgroupMap π A) (MonoidHom.subgroupMap_surjective π A) hkA
   rw [hAmap] at eAZ
   have hJbarSimple : IsSimpleGroup (↥Jbar ⧸ Subgroup.center ↥Jbar) := by
-    haveI := isSimpleGroup_of_l3Model (l3Model_of_catalogIs hcatb)
+    have := isSimpleGroup_of_l3Model (l3Model_of_catalogIs hcatb)
     exact ((QuotientGroup.quotientMulEquivOfEq hZbar).trans QuotientGroup.quotientBot).isSimpleGroup
   have hAq : CFSG.Open.IsQuasisimple ↥A := by
     refine ⟨hAperf.commutator_eq_top, ?_⟩

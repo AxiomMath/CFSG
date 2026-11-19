@@ -19,7 +19,7 @@ theorem card_and_simple_of_lieModel {S : Type} [Group S] (hS : LieModel S .PSp 2
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hS.statedClassicalModel_of_ne_zero (by norm_num)
   have e : S ≃* StatedProj (StatedSp 2 (ZMod 5)) :=
     e0.trans (statedProjStatedSpEquivZModFive (by simpa using hK))
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 5) 2 (by norm_num)
       (Or.inl (Or.inr (by rw [Nat.card_zmod]; norm_num)))
   exact ⟨by rw [Nat.card_congr e.toEquiv, natCard_statedProj_statedSp_zmod_five],
@@ -72,6 +72,7 @@ variable {G : Type} [Group G] [Finite G] {ψ : G →* PGSp45} (h : PGSp45Emb ψ)
 
 include h
 
+omit [Finite G] in
 theorem exists_cent_of_mem_range {u : G} {z : PGSp45} (hz : z ∈ ψ.range)
     (hcomm : z * ψ u = ψ u * z) : ∃ w ∈ centralizer ({u} : Set G), ψ w = z := by
   obtain ⟨w, hw⟩ := hz

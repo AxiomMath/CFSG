@@ -213,9 +213,9 @@ theorem Trie.mem_ins {d : ℕ} (t : Trie) {k x : ℕ} (hk : k < 2 ^ d) (hx : x <
           rcases Nat.mod_two_eq_zero_or_one x with hx0 | hx1
         ·
           simp only [Trie.ins]
-          simp only [if_pos hk0]
+          simp only [ite_eq_left hk0]
           simp only [Trie.mem]
-          simp only [if_pos hx0]
+          simp only [ite_eq_left hx0]
           rw [ih Trie.nil hk2 hx2]
           simp only [Trie.mem_nil, Bool.or_false]
           have hiff : x / 2 = k / 2 ↔ x = k := by omega
@@ -224,27 +224,27 @@ theorem Trie.mem_ins {d : ℕ} (t : Trie) {k x : ℕ} (hk : k < 2 ^ d) (hx : x <
           have hne : x ≠ k := by omega
           have hxne : ¬(x % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_pos hk0]
+          simp only [ite_eq_left hk0]
           simp only [Trie.mem]
-          simp only [if_neg hxne]
+          simp only [ite_eq_right hxne]
           simp only [Trie.mem_nil, Bool.or_false]
           rw [decide_eq_false_iff_not.mpr hne]
         ·
           have hne : x ≠ k := by omega
           have hkne : ¬(k % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_neg hkne]
+          simp only [ite_eq_right hkne]
           simp only [Trie.mem]
-          simp only [if_pos hx0]
+          simp only [ite_eq_left hx0]
           simp only [Trie.mem_nil, Bool.or_false]
           rw [decide_eq_false_iff_not.mpr hne]
         ·
           have hkne : ¬(k % 2 = 0) := by omega
           have hxne : ¬(x % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_neg hkne]
+          simp only [ite_eq_right hkne]
           simp only [Trie.mem]
-          simp only [if_neg hxne]
+          simp only [ite_eq_right hxne]
           rw [ih Trie.nil hk2 hx2]
           simp only [Trie.mem_nil, Bool.or_false]
           have hiff : x / 2 = k / 2 ↔ x = k := by omega
@@ -254,9 +254,9 @@ theorem Trie.mem_ins {d : ℕ} (t : Trie) {k x : ℕ} (hk : k < 2 ^ d) (hx : x <
           rcases Nat.mod_two_eq_zero_or_one x with hx0 | hx1
         ·
           simp only [Trie.ins]
-          simp only [if_pos hk0]
+          simp only [ite_eq_left hk0]
           simp only [Trie.mem]
-          simp only [if_pos hx0]
+          simp only [ite_eq_left hx0]
           rw [ih l hk2 hx2]
           have hiff : x / 2 = k / 2 ↔ x = k := by omega
           simp only [hiff]
@@ -264,27 +264,27 @@ theorem Trie.mem_ins {d : ℕ} (t : Trie) {k x : ℕ} (hk : k < 2 ^ d) (hx : x <
           have hne : x ≠ k := by omega
           have hxne : ¬(x % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_pos hk0]
+          simp only [ite_eq_left hk0]
           simp only [Trie.mem]
-          simp only [if_neg hxne]
+          simp only [ite_eq_right hxne]
           rw [decide_eq_false_iff_not.mpr hne]
           simp only [Bool.false_or]
         ·
           have hne : x ≠ k := by omega
           have hkne : ¬(k % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_neg hkne]
+          simp only [ite_eq_right hkne]
           simp only [Trie.mem]
-          simp only [if_pos hx0]
+          simp only [ite_eq_left hx0]
           rw [decide_eq_false_iff_not.mpr hne]
           simp only [Bool.false_or]
         ·
           have hkne : ¬(k % 2 = 0) := by omega
           have hxne : ¬(x % 2 = 0) := by omega
           simp only [Trie.ins]
-          simp only [if_neg hkne]
+          simp only [ite_eq_right hkne]
           simp only [Trie.mem]
-          simp only [if_neg hxne]
+          simp only [ite_eq_right hxne]
           rw [ih r hk2 hx2]
           have hiff : x / 2 = k / 2 ↔ x = k := by omega
           simp only [hiff]
@@ -311,7 +311,7 @@ theorem sbfsGo_sound {gm : List ℕ} {t : Trie} {A : List ℕ} {L : List (ℕ ×
   | cons e l ih =>
       obtain ⟨st, j, p⟩ := e
       simp only [sbfsGo, Bool.and_eq_true, and_assoc, decide_eq_true_eq, beq_iff_eq,
-        Bool.not_eq_true', true_and] at h
+        Bool.not_eq_true'] at h
       obtain ⟨hj, hst_lt, hp_lt, htp, hstp, hnot, hgo⟩ := h
       have hpA : p ∈ A := by
         have hp := hI.2.2.2 p hp_lt
@@ -325,7 +325,7 @@ theorem sbfsGo_sound {gm : List ℕ} {t : Trie} {A : List ℕ} {L : List (ℕ ×
         have hs := hI.2.2.2 st hst_lt
         rw [hs] at hnot
         intro hmem
-        simpa [hmem] using hnot
+        simp [hmem] at hnot
       have hI' : SbfsInv gm (Trie.ins 36 t st) (A ++ [st]) := by
         refine ⟨?_, ?_, ?_, ?_⟩
         · rw [List.nodup_append]
@@ -347,7 +347,7 @@ theorem sbfsGo_sound {gm : List ℕ} {t : Trie} {A : List ℕ} {L : List (ℕ ×
           · exact hst_lt
         · intro x hx
           rw [Trie.mem_ins t hst_lt hx, hI.2.2.2 x hx]
-          by_cases hxk : x = st <;> simp [hxk, List.mem_append, List.mem_singleton]
+          by_cases hxk : x = st <;> simp [hxk, List.mem_append]
       obtain ⟨hnd, hreach⟩ := ih (t := Trie.ins 36 t st) (A := A ++ [st]) hgo hI'
       refine ⟨?_, ?_⟩
       · simpa [List.append_assoc] using hnd
@@ -381,7 +381,7 @@ theorem sbfsOK_sound {gm : List ℕ} {L : List (ℕ × ℕ × ℕ)} (h : sbfsOK 
           exact hx ▸ hid
         · intro x hx
           rw [Trie.mem_ins Trie.nil hid hx, Trie.mem_nil]
-          by_cases hxid : x = idSt <;> simp [hxid, List.mem_singleton]
+          by_cases hxid : x = idSt <;> simp [hxid]
       obtain ⟨hnd, hreach⟩ := sbfsGo_sound hgo hI
       refine ⟨?_, ?_, ?_⟩
       · simp [hst]

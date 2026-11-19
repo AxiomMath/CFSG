@@ -28,15 +28,15 @@ theorem tm_eq (mul : Nat → Nat → Nat) (FA g a b : Nat) : tm mul FA g a b =
   simp only [h1, h2]
   cases hA : Nat.beq (a % 2) 1 <;> cases hB : Nat.beq (b % 2) 1
   · have ha := Nat.ne_of_beq_eq_false hA
-    simp [ha, Nat.mul_comm]
+    simp [ha]
   · have ha := Nat.ne_of_beq_eq_false hA
-    simp [ha, Nat.mul_comm]
+    simp [ha]
   · have ha := Nat.eq_of_beq_eq_true hA
     have hb := Nat.ne_of_beq_eq_false hB
-    simp [ha, hb, Nat.mul_comm]
+    simp [ha, hb]
   · have ha := Nat.eq_of_beq_eq_true hA
     have hb := Nat.eq_of_beq_eq_true hB
-    simp [ha, hb, Nat.mul_comm]
+    simp [ha, hb]
 
 theorem dec2_two_mul_add (D : ExtData X) (dec : Nat → X) {m r : Nat} (hr : r < 2) :
     dec2 D dec (2 * m + r) = ⟨dec m, r == 1⟩ := by

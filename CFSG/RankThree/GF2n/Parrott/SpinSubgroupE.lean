@@ -33,9 +33,11 @@ variable {ψ : ↥(H z) →* A45} {κ : G → V}
   one_mem' := ⟨one_mem _, by rw [hκ.kappa_one]; exact W.zero_mem⟩
   inv_mem' := fun {a} ha => ⟨inv_mem ha.1, by rw [hκ.kappa_inv ha.1]; exact ha.2⟩
 
+omit [Finite G] in
 theorem kappaPre_le_J (hκ : IsSpinCoord ψ κ) (W : AddSubgroup V) : kappaPre hκ W ≤ J z :=
   fun _ hj => hj.1
 
+omit [Finite G] in
 theorem z_mem_kappaPre (hκ : IsSpinCoord ψ κ) (W : AddSubgroup V) (hzJ : z ∈ J z) :
     z ∈ kappaPre hκ W := by
   refine ⟨hzJ, ?_⟩
@@ -44,10 +46,13 @@ theorem z_mem_kappaPre (hκ : IsSpinCoord ψ κ) (W : AddSubgroup V) (hzJ : z �
 
 private noncomputable def zp (z : G) (a : ZMod 2) : G := if a = 0 then 1 else z
 
+omit [Finite G] in
 private theorem zp_zero (z : G) : zp z 0 = 1 := by simp [zp]
 
+omit [Finite G] in
 private theorem zp_one (z : G) : zp z 1 = z := by simp [zp]
 
+omit [Finite G] in
 private theorem zp_add (hz2 : z * z = 1) (a a' : ZMod 2) : zp z (a + a') = zp z a * zp z a' := by
   have h : ∀ a a' : ZMod 2, (a = 0 ∧ a' = 0) ∨ (a = 0 ∧ a' = 1) ∨ (a = 1 ∧ a' = 0) ∨
       (a = 1 ∧ a' = 1) := by decide
@@ -58,6 +63,7 @@ private theorem zp_add (hz2 : z * z = 1) (a a' : ZMod 2) : zp z (a + a') = zp z 
   · have : (1 : ZMod 2) + 1 = 0 := by decide
     rw [this, zp_zero, zp_one, hz2]
 
+omit [Finite G] in
 private theorem zp_injective (hz1 : z ≠ 1) {a a' : ZMod 2} (h : zp z a = zp z a') : a = a' := by
   have hc : ∀ a a' : ZMod 2, (a = 0 ∧ a' = 0) ∨ (a = 0 ∧ a' = 1) ∨ (a = 1 ∧ a' = 0) ∨
       (a = 1 ∧ a' = 1) := by decide
@@ -69,9 +75,11 @@ private theorem zp_injective (hz1 : z ≠ 1) {a a' : ZMod 2} (h : zp z a = zp z 
     exact absurd h hz1
   · rfl
 
+omit [Finite G] in
 theorem H_mul_z_comm {y : G} (hy : y ∈ H z) : y * z = z * y :=
   Subgroup.mem_centralizer_singleton_iff.mp hy
 
+omit [Finite G] in
 theorem exists_action_functional (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) (hz2 : z * z = 1)
     {x : G} (hx : x ∈ H z) (U : AddSubgroup V)
     (hU : ∀ u ∈ U, ((rhoA (ψ ⟨x, hx⟩) : GL8) : Mat8) *ᵥ u = u) :
@@ -93,12 +101,12 @@ theorem exists_action_functional (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) (hz2 
     rcases (hκ.kappa_eq_iff hj (hJn j hj)).mp hfix with e | e
     · have h0 : ℓ (κ j) = 0 := by
         simp only [ℓ]
-        rw [if_pos ⟨j, hj, rfl, e⟩]
+        rw [ite_eq_left ⟨j, hj, rfl, e⟩]
       rw [h0, zp_zero, mul_one]
       exact e
     · have h1 : ℓ (κ j) = 1 := by
         simp only [ℓ]
-        rw [if_neg]
+        rw [ite_eq_right]
         rintro ⟨j', hj', hκj', hxj'⟩
         rcases (hκ.kappa_eq_iff hj hj').mp hκj' with e' | e'
         · rw [e'] at hxj'
@@ -117,11 +125,11 @@ theorem exists_action_functional (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) (hz2 
   swap
   · rw [hspec j hj hjU]
     by_cases h0 : ℓ (κ j) = 0
-    · rw [h0, zp_zero, mul_one, if_pos rfl]
+    · rw [h0, zp_zero, mul_one, ite_eq_left rfl]
     · have h1 : ℓ (κ j) = 1 := by
         have : ∀ a : ZMod 2, a ≠ 0 → a = 1 := by decide
         exact this _ h0
-      rw [if_neg h0, h1, zp_one]
+      rw [ite_eq_right h0, h1, zp_one]
   intro u hu u' hu'
   obtain ⟨j, hj, rfl⟩ := hκ.surj u
   obtain ⟨j', hj', rfl⟩ := hκ.surj u'
@@ -150,19 +158,21 @@ theorem exists_action_functional (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) (hz2 
   rw [h3] at h4
   exact zp_injective hz1 (mul_left_cancel h4)
 
-theorem J_conj_formula (hκ : IsSpinCoord ψ κ) (hz : z * z = 1) {j f : G} (hj : j ∈ J z)
+omit [Finite G] in
+theorem J_conj_formula (hκ : IsSpinCoord ψ κ) (_hz : z * z = 1) {j f : G} (hj : j ∈ J z)
     (hf : f ∈ J z) : j * f * j⁻¹ = if b (κ j) (κ f) = 0 then f else f * z := by
   have h := hκ.comm j hj f hf
   by_cases hb : b (κ j) (κ f) = 0
-  · rw [if_pos hb] at h ⊢
+  · rw [ite_eq_left hb] at h ⊢
     calc j * f * j⁻¹ = (j * f * j⁻¹ * f⁻¹) * f := by group
       _ = f := by rw [h, one_mul]
-  · rw [if_neg hb] at h ⊢
+  · rw [ite_eq_right hb] at h ⊢
     calc j * f * j⁻¹ = (j * f * j⁻¹ * f⁻¹) * f := by group
       _ = z * f := by rw [h]
       _ = f * z := (H_mul_z_comm (J_le_H hf)).symm
 
-theorem J_conj_z (hz : z * z = 1) {j : G} (hj : j ∈ J z) : j * z * j⁻¹ = z := by
+omit [Finite G] in
+theorem J_conj_z (_hz : z * z = 1) {j : G} (hj : j ∈ J z) : j * z * j⁻¹ = z := by
   rw [H_mul_z_comm (J_le_H hj)]
   group
 
@@ -171,17 +181,21 @@ theorem J_conj_z (hz : z * z = 1) {j : G} (hj : j ∈ J z) : j * z * j⁻¹ = z 
 @[expose] noncomputable def spinFixE (hκ : IsSpinCoord ψ κ) : Subgroup G :=
   H z ⊓ Subgroup.centralizer (spinFixF hκ : Set G)
 
+omit [Finite G] in
 theorem mem_spinFixE_iff (hκ : IsSpinCoord ψ κ) (x : G) :
     x ∈ spinFixE hκ ↔ x ∈ H z ∧ ∀ f ∈ spinFixF hκ, f * x = x * f := by
   unfold spinFixE
   rw [Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   rfl
 
+omit [Finite G] in
 theorem spinFixF_le_J (hκ : IsSpinCoord ψ κ) : spinFixF hκ ≤ J z := kappaPre_le_J hκ _
 
+omit [Finite G] in
 theorem z_mem_spinFixF (hκ : IsSpinCoord ψ κ) (hzJ : z ∈ J z) : z ∈ spinFixF hκ :=
   z_mem_kappaPre hκ _ hzJ
 
+omit [Finite G] in
 theorem spinFixF_comm (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) {f f' : G} (hf : f ∈ spinFixF hκ)
     (hf' : f' ∈ spinFixF hκ) : f * f' = f' * f := by
   rw [hκ.commute_iff hz1 hf.1 hf'.1]
@@ -192,14 +206,17 @@ theorem spinFixF_comm (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) {f f' : G} (hf :
   rw [h1, h2, h3]
   decide
 
+omit [Finite G] in
 theorem spinFixF_sq (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) {f : G} (hf : f ∈ spinFixF hκ) :
     f * f = 1 :=
   (hκ.mul_self_eq_one_iff hz1 hf.1).mpr (spinFixS_singular _ hf.2)
 
+omit [Finite G] in
 theorem spinFixF_le_spinFixE (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) : spinFixF hκ ≤ spinFixE hκ :=
   fun f hf => (mem_spinFixE_iff hκ f).mpr
-    ⟨J_le_H (spinFixF_le_J hκ hf), fun f' hf' => spinFixF_comm hκ hz1 hf' hf⟩
+    ⟨J_le_H (spinFixF_le_J hκ hf), fun _f' hf' => spinFixF_comm hκ hz1 hf' hf⟩
 
+omit [Finite G] in
 theorem spinFixE_inf_J (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) : spinFixE hκ ⊓ J z = spinFixF hκ := by
   apply le_antisymm
   · intro j hj
@@ -211,6 +228,7 @@ theorem spinFixE_inf_J (hκ : IsSpinCoord ψ κ) (hz1 : z ≠ 1) : spinFixE hκ 
     exact (hκ.commute_iff hz1 hjJ hfJ).mp hc.symm
   · exact le_inf (spinFixF_le_spinFixE hκ hz1) (spinFixF_le_J hκ)
 
+omit [Finite G] in
 theorem spinFixE_le_H (hκ : IsSpinCoord ψ κ) : spinFixE hκ ≤ H z := inf_le_left
 
 theorem card_spinFixF (h : Tim79a.ParrottHypA z) (hκ : IsSpinCoord ψ κ) :
@@ -278,6 +296,7 @@ theorem rho_mem_spinFixS_of_mem_normalizer {a : A45}
   rw [inv_inv] at h1
   exact spinFixes_mulVec_of_conj (hv _ h1)
 
+omit [Finite G] in
 theorem conj_mem_spinFixF (hκ : IsSpinCoord ψ κ) {x : G} (hx : x ∈ H z)
     (hN : ψ ⟨x, hx⟩ ∈ Subgroup.normalizer (sQA45 : Set A45)) {f : G} (hf : f ∈ spinFixF hκ) :
     x * f * x⁻¹ ∈ spinFixF hκ := by
@@ -286,6 +305,7 @@ theorem conj_mem_spinFixF (hκ : IsSpinCoord ψ κ) {x : G} (hx : x ∈ H z)
   rw [hκ.act x hx f hf.1]
   exact rho_mem_spinFixS_of_mem_normalizer hN hf.2
 
+omit [Finite G] in
 theorem conj_mem_spinFixE (hκ : IsSpinCoord ψ κ) {x : G} (hx : x ∈ H z)
     (hN : ψ ⟨x, hx⟩ ∈ Subgroup.normalizer (sQA45 : Set A45)) {e : G} (he : e ∈ spinFixE hκ) :
     x * e * x⁻¹ ∈ spinFixE hκ := by
@@ -303,6 +323,7 @@ theorem conj_mem_spinFixE (hκ : IsSpinCoord ψ κ) {x : G} (hx : x ∈ H z)
     _ = x * (e * (x⁻¹ * f * x)) * x⁻¹ := by rw [h1]
     _ = (x * e * x⁻¹) * f := by group
 
+omit [Finite G] in
 theorem qH_mem_sQA45_of_mem_spinFixE (hκ : IsSpinCoord ψ κ) {x : G} (hx : x ∈ H z)
     (hxE : x ∈ spinFixE hκ) : ψ ⟨x, hx⟩ ∈ sQA45 := by
   refine mem_sQA45_of_fixes_spinFixS _ fun u hu => ?_
@@ -341,10 +362,10 @@ theorem exists_spinFixE_over (h : Tim79a.ParrottHypA z) (hκ : IsSpinCoord ψ κ
         _ = f := by
           rw [h1]
           by_cases hb : b c (κ f) = 0
-          · rw [hℓ, if_pos hb, h2, if_pos hb]
-          · rw [hℓ, if_neg hb]
+          · rw [hℓ, ite_eq_left hb, h2, ite_eq_left hb]
+          · rw [hℓ, ite_eq_right hb]
             calc j * (f * z) * j⁻¹ = (j * f * j⁻¹) * (j * z * j⁻¹) := by group
-              _ = (f * z) * z := by rw [h2, if_neg hb, J_conj_z hz2 hj]
+              _ = (f * z) * z := by rw [h2, ite_eq_right hb, J_conj_z hz2 hj]
               _ = f := by rw [mul_assoc, hz2, mul_one]
     rw [mul_inv_eq_iff_eq_mul] at h3
     exact h3.symm
@@ -463,6 +484,7 @@ theorem sQA45_le_Q : sQA45 ≤ QP45.originalSubgroup.subgroupOf QA45.originalSub
   · exact mul_mem beta1_mem_Q beta2_mem_Q
   · exact t_mem_Q
 
+omit [Finite G] in
 theorem commutator_le_map_P_H : ⁅H z, H z⁆ ≤ (P_H D).map (H z).subtype := by
   have hidx := index_P_H D
   rw [Subgroup.commutator_le]

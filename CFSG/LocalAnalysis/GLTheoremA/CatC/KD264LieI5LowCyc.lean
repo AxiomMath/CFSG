@@ -51,7 +51,7 @@ theorem card_le_of_pow_eq_one_of_le_zpowers {K : Type} [Group K] [Finite K] {p :
 
 theorem pRank_le_one_of_pElem {A K : Type} [CommGroup A] [Finite A] [Group K] [Finite K]
     {p : ℕ} (hp : p.Prime) (F : A →* K) (Z : Subgroup K)
-    (hrange : ∀ v, F v ∈ Z) (hsurj : ∀ z ∈ Z, ∃ v, F v = z)
+    (_hrange : ∀ v, F v ∈ Z) (hsurj : ∀ z ∈ Z, ∃ v, F v = z)
     (g0 : A) (hg0 : ∀ v : A, (∃ j : ℕ, v ^ (p ^ j) = 1) → v ∈ Subgroup.zpowers g0) :
     CFSG.Open.pRank p Z ≤ 1 := by
   refine CFSG.SectionRank.pRank_le hp.one_lt (k := 1) fun E hEZ hE => ?_
@@ -81,7 +81,7 @@ theorem pow_components {M N : Type} [Group M] [Group N] (x : M × N) (m : ℕ)
 
 theorem eq_one_of_pow_eq_one_of_coprime {c : ℕ} (hc : 0 < c) (x : Multiplicative (ZMod c))
     {k : ℕ} (hk : Nat.Coprime k c) (hx : x ^ k = 1) : x = 1 := by
-  haveI : NeZero c := ⟨hc.ne'⟩
+  have : NeZero c := ⟨hc.ne'⟩
   have hcard : Nat.card (Multiplicative (ZMod c)) = c := by
     rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod c) ≃ ZMod c)]
     rw [Nat.card_eq_fintype_card, ZMod.card]
@@ -101,7 +101,7 @@ theorem pElem_mem_zpowers {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {t : StatedLi
       ((Multiplicative.ofAdd (1 : ZMod (genericOrders t n p' f).1),
         (1 : Multiplicative (ZMod (genericOrders t n p' f).2))),
         (1 : exceptional t n p' f)) := by
-  haveI : NeZero (genericOrders t n p' f).1 :=
+  have : NeZero (genericOrders t n p' f).1 :=
     ⟨(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.genericOrders_fst_pos hadm).ne'⟩
   obtain ⟨⟨g1, g2⟩, ⟨h1, h2⟩⟩ := v
   obtain ⟨hu, hw⟩ := pow_components _ _ hj
@@ -171,13 +171,13 @@ theorem pRank_center_le_one {K X : Type} [Group K] [Finite K] [Group X]
     rw [MulEquiv.symm_apply_apply]
     exact congrArg Subtype.val hm'
   have hadm := hm.1
-  haveI : NeZero (genericOrders t n p' f).1 :=
+  have : NeZero (genericOrders t n p' f).1 :=
     ⟨(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.genericOrders_fst_pos hadm).ne'⟩
-  haveI : NeZero (genericOrders t n p' f).2 :=
+  have : NeZero (genericOrders t n p' f).2 :=
     ⟨(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.genericOrders_snd_le t n p' f).1.ne'⟩
-  haveI : NeZero (exceptionalOrders t n p' f).1 :=
+  have : NeZero (exceptionalOrders t n p' f).1 :=
     ⟨(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.exceptionalOrders_le t n p' f).1.1.ne'⟩
-  haveI : NeZero (exceptionalOrders t n p' f).2 :=
+  have : NeZero (exceptionalOrders t n p' f).2 :=
     ⟨(CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.exceptionalOrders_le t n p' f).2.1.ne'⟩
   refine pRank_le_one_of_pElem hp F (Subgroup.center K) hrange hsurj
     (((Multiplicative.ofAdd (1 : ZMod (genericOrders t n p' f).1),

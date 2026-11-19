@@ -26,10 +26,10 @@ variable {X : Setup Γ G}
 namespace U4qBase
 
 private theorem Q_le_Gi_succ (i : ℤ) : X.Q i ≤ X.Gi (i + 1) :=
-  fun x hx => (X.Q_le_Gi_adj i hx).2
+  fun _x hx => (X.Q_le_Gi_adj i hx).2
 
 private theorem Q_le_Gi_pred (i : ℤ) : X.Q i ≤ X.Gi (i - 1) :=
-  fun x hx => (X.Q_le_Gi_adj i hx).1
+  fun _x hx => (X.Q_le_Gi_adj i hx).1
 
 private theorem Gi_le_normalizer_Q (i : ℤ) :
     X.Gi i ≤ Subgroup.normalizer (X.Q i : Set G) := by
@@ -114,19 +114,19 @@ private theorem Q0_le_normalizer_Z0 (B : X.U4qBase) :
   rw [B.Z0_eq]
   exact (X.Q_le_L 0).trans (le_normalizer_centerOf_self (X.L 0))
 
-private theorem K_le_normalizer_Q0 (B : X.U4qBase) :
+private theorem K_le_normalizer_Q0 (_B : X.U4qBase) :
     X.K ≤ Subgroup.normalizer (X.Q 0 : Set G) :=
   (X.K_le_Gi 0).trans (Gi_le_normalizer_Q 0)
 
-private theorem K_le_normalizer_Q1 (B : X.U4qBase) :
+private theorem K_le_normalizer_Q1 (_B : X.U4qBase) :
     X.K ≤ Subgroup.normalizer (X.Q 1 : Set G) :=
   (X.K_le_Gi 1).trans (Gi_le_normalizer_Q 1)
 
-private theorem K_le_normalizer_Qm1 (B : X.U4qBase) :
+private theorem K_le_normalizer_Qm1 (_B : X.U4qBase) :
     X.K ≤ Subgroup.normalizer (X.Q (-1) : Set G) :=
   (X.K_le_Gi (-1)).trans (Gi_le_normalizer_Q (-1))
 
-private theorem K_le_normalizer_Z0 (B : X.U4qBase) :
+private theorem K_le_normalizer_Z0 (_B : X.U4qBase) :
     X.K ≤ Subgroup.normalizer (X.Z 0 : Set G) := by
   intro k hk
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -148,10 +148,10 @@ private theorem K_le_normalizer_relCent (B : X.U4qBase) {A : Subgroup G}
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hKA hk)
   rw [hkQ0, hkZ0, hkA]
 
-private theorem Q1_le_L0 (B : X.U4qBase) : X.Q 1 ≤ X.L 0 := by
+private theorem Q1_le_L0 (_B : X.U4qBase) : X.Q 1 ≤ X.L 0 := by
   simpa using (X.Q_le_edgeSylow 0).trans (X.edgeSylow_le_L 0)
 
-private theorem Qm1_le_L0 (B : X.U4qBase) : X.Q (-1) ≤ X.L 0 := by
+private theorem Qm1_le_L0 (_B : X.U4qBase) : X.Q (-1) ≤ X.L 0 := by
   refine (X.Q_le_edgeSylow_left (-1)).trans ?_
   exact le_oTwoPrime_of_isPGroup (X.isPGroup_edgeSylow (-1)) (fun x hx =>
     ((X.isSylowTwoOf_edgeSylow (-1)).1.trans inf_le_right) hx)
@@ -647,7 +647,7 @@ theorem Q0_inf_Q1_le_Z0 (B : X.U4qBase) (h : ⁅X.Q 0, X.Q 0⁆ = ⊥) :
 theorem commutator_Q0_ne_bot (B : X.U4qBase) : ⁅X.Q 0, X.Q 0⁆ ≠ ⊥ := by
   intro h
   have hle := Q0_inf_Q1_le_Z0 B h
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hcardle : Nat.card ↥(X.Q 0 ⊓ X.Q 1) ≤ Nat.card ↥(X.Z 0) :=
     Nat.card_le_card_of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   rw [B.card_Q0_inf_Q1, B.card_Z0] at hcardle
@@ -688,7 +688,7 @@ private theorem exists_commutator_not_mem_Z0 (B : X.U4qBase) (hnotsub : ¬ X.Q 0
 theorem n1_ne_n0 (B : X.U4qBase) : X.n 1 ≠ X.n 0 := by
   intro h
   have hn0 : 2 ≤ X.n 0 := B.gen.hyp.two_le_n 0
-  haveI hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
+  have hLfin : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
   have hquot : IsL2Quot (X.n 0) (oTwoQuot ↥(X.L 0)) :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 0)).quot
   have hpCore : pCoreOf 2 (X.L 0) = X.Q 0 :=

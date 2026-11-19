@@ -23,25 +23,24 @@ theorem certificate10081 :     Nat.card {y : Hprime // y * y = 1} = 146432 ∧
       hpElt 2 0 * hpElt 1 0 = hpElt 1 0 * hpElt 2 0 ∧
       hpElt 32 0 * hpElt 1 0 = hpElt 1 0 * hpElt 32 0 ∧
       hpElt 2 0 * hpElt 32 0 ≠ hpElt 32 0 * hpElt 2 0) := by
-  intros
   refine ⟨hp_card_inv, fun i r hr => ?_, fun e he h => hp_E_center he h, hp_E_comm, hp_E_misc⟩
   subst hr
   fin_cases i
   · obtain ⟨h1, h2⟩ := hp_sqrt0
     exact ⟨hp_rep (i := 0) (by norm_num), h1, h2,
       hp_cls_le (F := H0Ft) (er := 1) (nr := 0) (nf := 270) (slot := 0) (by norm_num) (by norm_num) (by norm_num)
-        (by rw [s0Rep, if_pos rfl, sElt_zero]) H0_fib⟩
+        (by rw [s0Rep, ite_eq_left rfl, sElt_zero]) H0_fib⟩
   · obtain ⟨h1, h2⟩ := hp_sqrt1
     exact ⟨hp_rep (i := 1) (by norm_num), h1, h2,
       hp_cls_le (F := H1Ft) (er := 0) (nr := 2331) (nf := 8) (slot := 2) (by norm_num) (by norm_num) (by norm_num)
-        (by rw [s0Rep, if_neg (by norm_num)]; rfl) (all_lt H1_fib)⟩
+        (by rw [s0Rep, ite_eq_right (by norm_num)]; rfl) (all_lt H1_fib)⟩
   · obtain ⟨h1, h2⟩ := hp_sqrt2
     exact ⟨hp_rep (i := 2) (by norm_num), h1, h2,
       hp_cls_le (F := H2Ft) (er := 2) (nr := 2331) (nf := 72) (slot := 2) (by norm_num) (by norm_num) (by norm_num)
-        (by rw [s0Rep, if_neg (by norm_num)]; rfl) (all_lt H2_fib)⟩
+        (by rw [s0Rep, ite_eq_right (by norm_num)]; rfl) (all_lt H2_fib)⟩
   · obtain ⟨h1, h2⟩ := hp_sqrt3
     exact ⟨hp_rep (i := 3) (by norm_num), h1, h2,
       hp_cls_le (F := H3Ft) (er := 0) (nr := 144) (nf := 32) (slot := 4) (by norm_num) (by norm_num) (by norm_num)
-        (by rw [s0Rep, if_neg (by norm_num)]; rfl) (all_lt H3_fib)⟩
+        (by rw [s0Rep, ite_eq_right (by norm_num)]; rfl) (all_lt H3_fib)⟩
 
 end Certificates

@@ -12,12 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_centralizer_sup_eq_of_commutator_le {p : ℕ} (hp : p.Prime) {W O P : Subgroup G}
     (hP : IsPGroup p P) (hO : ¬ p ∣ Nat.card O) (hOW : O ≤ W)
-    (hWO : W ≤ Subgroup.normalizer (O : Set G)) (hPO : P ≤ Subgroup.normalizer (O : Set G))
+    (_hWO : W ≤ Subgroup.normalizer (O : Set G)) (hPO : P ≤ Subgroup.normalizer (O : Set G))
     (hc : ∀ w ∈ W, ∀ g ∈ P, ⁅w, g⁆ ∈ O) :
     (W ⊓ Subgroup.centralizer (P : Set G)) ⊔ O = W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm (sup_le inf_le_left hOW)
   intro l hl
   have hmem : ∀ g ∈ P, ∀ o ∈ O, l⁻¹ * (g * (l * o) * g⁻¹) ∈ O := by
@@ -29,7 +30,7 @@ theorem inf_centralizer_sup_eq_of_commutator_le {p : ℕ} (hp : p.Prime) {W O P 
       group
     rw [h3]
     exact O.mul_mem h1 h2
-  letI act : MulAction P O :=
+  let act : MulAction P O :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show l⁻¹ * (((1 : P) : G) * (l * (o : G)) *
           ((1 : P) : G)⁻¹) = (o : G) by simp)
@@ -54,22 +55,23 @@ theorem inf_centralizer_sup_eq_of_commutator_le {p : ℕ} (hp : p.Prime) {W O P 
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left ⟨hyW, hyC⟩)
     (Subgroup.mem_sup_right (O.inv_mem o.2))
 
+omit [Finite G] in
 private theorem mem_normalizer_inf_of_mem {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hA hB ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hA h) (hB h)
 
 theorem exists_le_of_le_sup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S K O P : Subgroup G}
     (hS2 : IsPGroup 2 S) (hSKO : S ≤ K ⊔ O) (hSO : ¬ S ≤ O) (hO : ¬ p ∣ Nat.card O)
     (hKO : K ≤ Subgroup.normalizer (O : Set G)) (hSN : S ≤ Subgroup.normalizer (O : Set G))
     (hP : IsPGroup p P) (hPS : P ≤ Subgroup.normalizer ((S ⊔ O : Subgroup G) : Set G))
-    (hPK : P ≤ Subgroup.normalizer (K : Set G)) (hPO : P ≤ Subgroup.normalizer (O : Set G)) :
+    (hPK : P ≤ Subgroup.normalizer (K : Set G)) (_hPO : P ≤ Subgroup.normalizer (O : Set G)) :
     ∃ T : Subgroup G, T ≤ K ∧ IsPGroup 2 T ∧ P ≤ Subgroup.normalizer (T : Set G) ∧ ¬ T ≤ O := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hS2.exists_card_eq
   have hpS : ¬ p ∣ Nat.card S := by
     rw [hn]
@@ -92,7 +94,7 @@ theorem exists_le_of_le_sup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S K O P : 
   obtain ⟨T₀, hT₀⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_sylow_normalized (r := 2) hPY hP hYp
   refine ⟨(T₀ : Subgroup Y).map Y.subtype, ?_, ?_, hT₀, ?_⟩
   · exact (Subgroup.map_subtype_le (T₀ : Subgroup Y)).trans hYK
-  · exact T₀.isPGroup'.map Y.subtype
+  · exact T₀.isPGroup.map Y.subtype
   intro hTO
   have hSYO : S ≤ Y ⊔ O := by
     intro s hs

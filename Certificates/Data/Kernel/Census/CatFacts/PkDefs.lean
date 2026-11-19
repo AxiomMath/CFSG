@@ -66,17 +66,17 @@ theorem codeV_ok {n : Nat} (σ : Equiv.Perm (Fin n)) :
       pk n fun i => if h : i < n then (σ⁻¹ ⟨i, h⟩ : Nat) else 0) := by
   have h1 : ∀ j < n, (if h : j < n then (σ ⟨j, h⟩ : Nat) else 0) < n := by
     intro j hj
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     exact (σ _).2
   have h2 : ∀ j < n, (if h : j < n then (σ⁻¹ ⟨j, h⟩ : Nat) else 0) < n := by
     intro j hj
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     exact (σ⁻¹ _).2
   intro i hi
   refine ⟨by rw [fd_pk h1 hi]; exact h1 i hi, by rw [fd_pk h2 hi]; exact h2 i hi, ?_, ?_⟩
-  · rw [fd_pk h1 hi, fd_pk h2 (h1 i hi), dif_pos hi, dif_pos (σ _).2]
+  · rw [fd_pk h1 hi, fd_pk h2 (h1 i hi), dite_eq_left hi, dite_eq_left (σ _).2]
     simp
-  · rw [fd_pk h2 hi, fd_pk h1 (h2 i hi), dif_pos hi, dif_pos (σ⁻¹ _).2]
+  · rw [fd_pk h2 hi, fd_pk h1 (h2 i hi), dite_eq_left hi, dite_eq_left (σ⁻¹ _).2]
     simp
 
 @[expose] def codeV {n : Nat} (σ : Equiv.Perm (Fin n)) : VP n :=

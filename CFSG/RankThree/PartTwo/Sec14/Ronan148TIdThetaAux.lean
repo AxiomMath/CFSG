@@ -165,8 +165,7 @@ theorem commute_of_comm_scalar_of_pow {F : Type} [Field F] {a b : GL (Fin 3) F}
     simp only [map_mul, map_inv] at h2
     have h3 : Matrix.GeneralLinearGroup.det (GeneralLinearGroup.scalar (Fin 3) c) = c ^ 3 := by
       apply Units.ext
-      simp [Matrix.GeneralLinearGroup.val_det_apply, GeneralLinearGroup.coe_scalar,
-        Matrix.det_diagonal, Fin.prod_univ_three, pow_succ]
+      simp [pow_succ]
     rw [h3, mul_right_comm, mul_inv_cancel_right, mul_inv_cancel] at h2
     exact h2
   have hc1 : c = 1 := by
@@ -234,10 +233,10 @@ theorem scalar_of_abelian_normal_of_perfect {F : Type} [Field F] [Finite F]
       ⟨H, hHD, hHn, hHirr, hHcyc, -, -⟩ | hmono | ⟨-, -, habel⟩
   · exfalso
     set H' : Subgroup D := H.subgroupOf D with hH'
-    haveI : H'.Normal := ⟨fun x hx g => by
+    have : H'.Normal := ⟨fun x hx g => by
       rw [hH', Subgroup.mem_subgroupOf] at hx ⊢
       exact hHn g g.2 x hx⟩
-    haveI : IsCyclic H' := isCyclic_of_surjective
+    have : IsCyclic H' := isCyclic_of_surjective
       (Subgroup.subgroupOfEquivOfLe hHD).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hHD).symm.surjective
     have hcomm : ∀ g ∈ D, ∀ h ∈ H, g * h = h * g := by
@@ -251,13 +250,13 @@ theorem scalar_of_abelian_normal_of_perfect {F : Type} [Field F] [Finite F]
     · refine SubgroupLists.not_irreducible_of_forall_scalar (by norm_num) (fun h hh => ?_) hHirr
       exact hsc _ fun g hg => by rw [← Units.val_mul, ← Units.val_mul, hcomm g hg h hh]
     ·
-      haveI : IsCyclic D := hcyc
+      have : IsCyclic D := hcyc
       have hD1 : ∀ g : D, g = 1 := by
         intro g
         have hc : commutator D = ⊥ := by
           rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
           intro x _ y _
-          exact (IsCyclic.commutative.is_comm.comm x y).symm
+          exact (_root_.IsCyclic.isMulCommutative.is_comm.comm x y).symm
         have hg : g ∈ commutator D := by
           rw [Group.IsPerfect.commutator_eq_top]
           exact Subgroup.mem_top g

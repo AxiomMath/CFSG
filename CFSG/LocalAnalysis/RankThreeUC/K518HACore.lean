@@ -14,7 +14,7 @@ private theorem mem_zpowers_pow_of_mem_inf {G : Type*} [Group G] [Finite G] {p :
     {Q R : Subgroup G} (hQp : IsPGroup p Q) (hQc : IsCyclic Q) {r : G} (hr : ∃ k : ℕ, orderOf r = p ^ k)
     (hrQ : r ∈ Q) (hrR : r ∉ R) {x : G} (hxQ : x ∈ Q) (hxR : x ∈ R) :
     x ∈ Subgroup.zpowers (r ^ p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hr
   obtain ⟨i, hi⟩ : ∃ i : ℕ, orderOf x = p ^ i :=
     (IsPGroup.iff_orderOf.1 hQp) ⟨x, hxQ⟩ |>.imp fun i hi => by
@@ -79,7 +79,7 @@ theorem lambda_pRank {G H : Type} [Group G] [Finite G] [Group H] [Finite H] {p :
       2 ≤ CFSG.Open.pRank p (R.map φ ⊔ Subgroup.zpowers ψ)) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   have hle : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 1 := by omega
   have hcyc := CFSG.all_pSubgroups_isCyclic_of_pRank_le_one hp hp2 hle
@@ -118,7 +118,7 @@ theorem lambda_pRank {G H : Type} [Group G] [Finite G] [Group H] [Finite H] {p :
       exact (Nat.pow_le_pow_iff_right hp.one_lt).1 h1
     have hrp : IsPGroup p (Subgroup.zpowers r) := IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
     obtain ⟨Q, hrQ⟩ := hrp.exists_le_sylow
-    have hQc : IsCyclic ↥(Q : Subgroup G) := hcyc Q le_top Q.isPGroup'
+    have hQc : IsCyclic ↥(Q : Subgroup G) := hcyc Q le_top Q.isPGroup
     have hw₀p : IsPGroup p (Subgroup.zpowers w₀) := IsPGroup.of_card (by rw [Nat.card_zpowers, ha])
     obtain ⟨Q₁, hw₀Q₁⟩ := hw₀p.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q₁ Q
@@ -127,7 +127,7 @@ theorem lambda_pRank {G H : Type} [Group G] [Finite G] [Group H] [Finite H] {p :
       exact Subgroup.smul_mem_pointwise_smul w₀ (MulAut.conj g) _
         (hw₀Q₁ (Subgroup.mem_zpowers w₀))
     have hx'R : g * w₀ * g⁻¹ ∈ R := Subgroup.Normal.conj_mem ‹R.Normal› w₀ hw₀R g
-    have hx'z := mem_zpowers_pow_of_mem_inf hp Q.isPGroup' hQc ⟨k, hk⟩
+    have hx'z := mem_zpowers_pow_of_mem_inf hp Q.isPGroup hQc ⟨k, hk⟩
       (hrQ (Subgroup.mem_zpowers r)) hrR hx'Q hx'R
     have hmem : φ (g * w₀ * g⁻¹) ∈ Subgroup.zpowers (φ r ^ p) := by
       have := Subgroup.mem_map_of_mem φ hx'z

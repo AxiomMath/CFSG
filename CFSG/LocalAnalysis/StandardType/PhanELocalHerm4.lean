@@ -151,12 +151,12 @@ theorem gram_eq_zero_of_coeffs (hK : Nat.card K = (2 ^ f) ^ 2) {u a b : Fin 4 �
 theorem aniso_single_one : Aniso f (Pi.single (1 : Fin 4) (1 : K)) := by
   unfold Aniso
   rw [hh_apply]
-  simp [Pi.single_apply]
+  simp
 
 theorem aniso_single_two : Aniso f (Pi.single (2 : Fin 4) (1 : K)) := by
   unfold Aniso
   rw [hh_apply]
-  simp [Pi.single_apply]
+  simp
 
 theorem gram_single_one_two :
     gram f (Pi.single (1 : Fin 4) (1 : K)) (Pi.single (2 : Fin 4) (1 : K)) ≠ 0 := by
@@ -200,10 +200,11 @@ theorem hh_polar_self (hK : Nat.card K = (2 ^ f) ^ 2) (x y : Fin 4 → K) :
 @[expose] def pev (q : ℕ) (c : K × K × K × K) (s : K) : K :=
   c.1 * s ^ (q + 1) + c.2.1 * s ^ q + c.2.2.1 * s + c.2.2.2
 
+omit [CharP K 2] in
 theorem ncard_pev_roots_le (q : ℕ) (hq : 2 ≤ q) {c : K × K × K × K} (hc : c ≠ 0) :
     Set.ncard {s : K | pev q c s = 0} ≤ q + 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   set P : Polynomial K :=
     Polynomial.monomial (q + 1) c.1 + Polynomial.monomial q c.2.1 +
       Polynomial.monomial 1 c.2.2.1 + Polynomial.monomial 0 c.2.2.2 with hP
@@ -268,6 +269,7 @@ theorem ncard_pev_roots_le (q : ℕ) (hq : 2 ≤ q) {c : K × K × K × K} (hc :
   rw [hset, Set.ncard_coe_finset]
   exact le_trans hle hdeg
 
+omit [CharP K 2] in
 theorem exists_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     {c₁ c₂ c₃ : K × K × K × K} (h₁ : c₁ ≠ 0) (h₂ : c₂ ≠ 0) (h₃ : c₃ ≠ 0) :
     ∃ s : K, pev (2 ^ f) c₁ s ≠ 0 ∧ pev (2 ^ f) c₂ s ≠ 0 ∧ pev (2 ^ f) c₃ s ≠ 0 := by
@@ -280,9 +282,9 @@ theorem exists_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
   have hsub : (Set.univ : Set K) ⊆ A₁ ∪ A₂ ∪ A₃ := by
     intro s _
     by_contra hc
-    rw [Set.mem_union, Set.mem_union, hA₁, hA₂, hA₃, Set.mem_setOf_eq, Set.mem_setOf_eq,
-      Set.mem_setOf_eq] at hc
-    simp only [not_or, not_not] at hc
+    rw [Set.mem_union, Set.mem_union, hA₁, hA₂, hA₃, Set.mem_ofPred_eq, Set.mem_ofPred_eq,
+      Set.mem_ofPred_eq] at hc
+    simp only [not_or] at hc
     rcases hc with ⟨⟨h1, h2⟩, h3⟩
     exact h s ⟨h1, h2, h3⟩
   have hcard : Nat.card K ≤ A₁.ncard + A₂.ncard + A₃.ncard := by

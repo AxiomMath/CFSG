@@ -178,12 +178,12 @@ private theorem lemma119_innSet_su {K : Type} [Field K] [CharP K 2] {d n : ℕ} 
     (hH : H ≤ LargeEvenSUGroup (Fin d) K (2 ^ n)) :
     LargeEvenInnSet (LargeEvenProj H) ⊆
       LargeEvenMatConjImage (LargeEvenProjMk H) (LargeEvenGUSet (Fin d) K (2 ^ n)) :=
-  lemma119_innSet_gen H _ (fun h hh => lemma119_su_mem_gu (hH hh))
+  lemma119_innSet_gen H _ (fun _h hh => lemma119_su_mem_gu (hH hh))
 
 private theorem lemma119_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (h : Nat.card K = (2 ^ n) ^ 2) :
     CharP K 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hc⟩ := CharP.exists K
   obtain ⟨k, hp, hk⟩ := FiniteField.card K p
   have hcard : Fintype.card K = 2 ^ (2 * n) := by
@@ -234,7 +234,7 @@ private theorem lemma119_chevID_inn {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ} {
 private theorem lemma119_parentID_inn {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ} {K : Type} [Field K]
     (P H : Subgroup (LargeEvenChevGL A K)) :
     LargeEvenInnSet (LargeEvenCenterQuot H) ⊆ LargeEvenChevParentIDImage A K P H :=
-  fun φ hφ => Subgroup.subset_closure (Set.mem_union_left _ (lemma119_chevID_inn H hφ))
+  fun _φ hφ => Subgroup.subset_closure (Set.mem_union_left _ (lemma119_chevID_inn H hφ))
 
 private theorem lemma119_recipeOmegaPlus_inn {m q : ℕ} {Q : LargeEvenRawCont}
     (h : LargeEvenRecipeOmegaPlus m q Q) :
@@ -323,6 +323,7 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p p' : ℕ} {B B' : Subgroup G} {x x' : G} {L L' J : Subgroup G}
 
+omit [Finite G] in
 theorem le_normalizer_of_innerDiag {B L : Subgroup G} (h : InnerDiagMarking B L) : B ≤ Subgroup.normalizer (L : Set G) := by
   obtain ⟨-, -, -, R, _, I, F, θ, -, -, hBN, -⟩ := CFSG.StandardType.Canonical.largeEvenMarking_exists h
   exact hBN
@@ -336,6 +337,7 @@ theorem bstar_norm (hc : Cfg116 G m p L p' B' x' J) {L'' : Subgroup G}
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact isElemAbelian_commute hc.cfg.elem hb hc.cfg.mem
 
+omit [Finite G] in
 theorem exists_label_of_isChev2 {K : Subgroup G} (h : IsChev2 K) : ∃ lab : GLALabel, LabelOf K lab := by
   obtain ⟨hK, lab, hlab, hraw⟩ := h
   refine ⟨lab, hK, lab, hlab, ?_⟩
@@ -412,6 +414,7 @@ private theorem lemma119_mem_sup {G : Type} [Group G] {J : Subgroup G} {x : G}
   obtain ⟨j, hj, k, hk⟩ := hle ha
   exact ⟨j, hj, k, hk⟩
 
+omit [Finite G] in
 private theorem lemma119_normal_subgroupOf {H K : Subgroup G} (hK : K ≤ Subgroup.normalizer (H : Set G)) :
     (H.subgroupOf K).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -419,6 +422,7 @@ private theorem lemma119_normal_subgroupOf {H K : Subgroup G} (hK : K ≤ Subgro
   have h1 := (Subgroup.mem_normalizer_iff.1 (hK g.2) n).1 hn
   simpa using h1
 
+omit [Finite G] in
 private theorem lemma119_rl_conj_sup {Y Z W : Subgroup G} {g : G}
     (hY : ∀ y ∈ Y, g * y * g⁻¹ ∈ W) (hZ : ∀ z ∈ Z, g * z * g⁻¹ ∈ W) :
     ∀ w ∈ Y ⊔ Z, g * w * g⁻¹ ∈ W := by
@@ -428,6 +432,7 @@ private theorem lemma119_rl_conj_sup {Y Z W : Subgroup G} {g : G}
   intro w hw
   simpa using Subgroup.mem_comap.1 (hle hw)
 
+omit [Finite G] in
 private theorem lemma119_rl_le_normalizer {A Y : Subgroup G}
     (h : ∀ a ∈ A, ∀ y ∈ Y, a * y * a⁻¹ ∈ Y) : A ≤ Subgroup.normalizer (Y : Set G) := by
   intro a ha
@@ -439,12 +444,14 @@ private theorem lemma119_rl_le_normalizer {A Y : Subgroup G}
   rw [e] at h2
   exact h2
 
+omit [Finite G] in
 private theorem lemma119_rl_comm_mem {O : Subgroup G} {g o : G}
     (hg : g ∈ Subgroup.normalizer (O : Set G)) (ho : o ∈ O) : ⁅o, g⁆ ∈ O := by
   have e : ⁅o, g⁆ = o * (g * o⁻¹ * g⁻¹) := by rw [commutatorElement_def]; group
   rw [e]
   exact O.mul_mem ho ((Subgroup.mem_normalizer_iff.1 hg o⁻¹).1 (O.inv_mem ho))
 
+omit [Finite G] in
 private theorem lemma119_rl_comm_closure {O A E : Subgroup G}
     (hM : A ⊔ (E ⊔ O) ≤ Subgroup.normalizer (O : Set G)) {r : G}
     (hA : ∀ a ∈ A, ⁅a, r⁆ ∈ O) (hE : ∀ e ∈ E, ⁅e, r⁆ ∈ O) (hO : ∀ o ∈ O, ⁅o, r⁆ ∈ O) :
@@ -473,10 +480,11 @@ private theorem lemma119_rl_comm_closure {O A E : Subgroup G}
   intro x hx
   exact (hall hx).2
 
+omit [Finite G] in
 private theorem lemma119_rl_pow_mul {O M : Subgroup G} (hM : M ≤ Subgroup.normalizer (O : Set G))
     (hcomm : ∀ a ∈ M, ∀ b ∈ M, ⁅a, b⁆ ∈ O) {n : ℕ} {x z : G} (hx : x ∈ M) (hz : z ∈ M)
     (hxn : x ^ n ∈ O) (hzn : z ^ n ∈ O) : (x * z) ^ n ∈ O := by
-  haveI : (O.subgroupOf M).Normal := lemma119_normal_subgroupOf hM
+  have : (O.subgroupOf M).Normal := lemma119_normal_subgroupOf hM
   let a : ↥M := ⟨x, hx⟩
   let b : ↥M := ⟨z, hz⟩
   have hab : (QuotientGroup.mk a : ↥M ⧸ O.subgroupOf M) * QuotientGroup.mk b =
@@ -509,8 +517,8 @@ theorem rank_lift {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {O A E S : Subgroup G
     (hS2 : IsPGroup 2 S) (hSne : S ≠ ⊥) (hAS : A ≤ Subgroup.normalizer (S : Set G))
     (hES : ∀ e ∈ E, ∀ s ∈ S, ⁅s, e⁆ ∈ O) :
     Nat.card ↥A * Nat.card ↥E ≤ Nat.card ↥(A ⊓ (E ⊔ O)) * q ^ GLATwoLocalRank q G := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOM : O ≤ A ⊔ (E ⊔ O) := (le_sup_right : O ≤ E ⊔ O).trans le_sup_right
   have hEM : E ≤ A ⊔ (E ⊔ O) := (le_sup_left : E ≤ E ⊔ O).trans le_sup_right
   have hAM : A ≤ A ⊔ (E ⊔ O) := le_sup_left
@@ -622,7 +630,7 @@ theorem rank_lift {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {O A E S : Subgroup G
   have hcopQO : Nat.Coprime (Nat.card ↥O) Qc := by
     rw [hj]
     exact Nat.Coprime.pow_right j (Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd hq).2 hO))
-  haveI hNn : (O.subgroupOf (A ⊔ (E ⊔ O))).Normal := lemma119_normal_subgroupOf hMO
+  have hNn : (O.subgroupOf (A ⊔ (E ⊔ O))).Normal := lemma119_normal_subgroupOf hMO
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime
     (N := O.subgroupOf (A ⊔ (E ⊔ O))) (by rw [hNcard]; exact hcopQO)
   have hNH : O.subgroupOf (A ⊔ (E ⊔ O)) ⊓ H = ⊥ := disjoint_iff.1 hH.disjoint
@@ -787,6 +795,7 @@ theorem centMod_eq_zpowers_of_cfg (hc : Cfg116 G m p L p' B' x' J)
       exact hxc l hl
     exact (Subgroup.zpowers_le.2 hx) hbz
 
+omit [Finite G] in
 private theorem lemma119_O_le_centMod (p : ℕ) (L : Subgroup G) :
     GLAPPrimeCoreOf p L ≤ centModSubgroup p L := by
   intro o ho
@@ -803,7 +812,7 @@ theorem ab_case1_cent (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J)
   intro S hS hSp
   by_contra hnc
   have hq : p'.Prime := hc.cfg.prime
-  haveI : Fact p'.Prime := ⟨hq⟩
+  have : Fact p'.Prime := ⟨hq⟩
   have hq2 : p' ≠ 2 := hc.cfg.odd
   obtain ⟨E, hES', hE, hEcard⟩ := CFSG.Goldschmidt.G55.exists_isElemAbelian_card_sq hq hq2 hSp hnc
   have hEc : ∀ e ∈ E, e ∈ centModSubgroup p' L' ⊓ Subgroup.centralizer ({x'} : Set G) :=
@@ -877,7 +886,7 @@ theorem ab_case1_cent (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J)
 theorem ab_case1_cyc (hctx : ThmACtx G m) (hc : Cfg116 G m p L p' B' x' J)
     (hc117 : Concl117 G p p' B' x' x J L') (hB : B' ≤ J ⊔ Subgroup.zpowers x') : CycModSylow p' L' := by
   have hp' : p'.Prime := hc.cfg.prime
-  haveI : Fact p'.Prime := ⟨hp'⟩
+  have : Fact p'.Prime := ⟨hp'⟩
   have hxc : ∀ l ∈ L', l * x' = x' * l := fun l hl =>
     Subgroup.mem_centralizer_singleton_iff.1 (hc117.comp'.1 hl)
   have hx' : x' ∈ centModSubgroup p' L' := by
@@ -916,7 +925,7 @@ private theorem lemma119_induces_inner {G : Type} [Group G] {p : ℕ} {L' J : Su
   rw [hl'eq, MulAut.conj_apply]
   simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv, map_mul, map_inv, inv_inv]
 
-theorem ab_case1_idiag (h08 : YS08) (hsf : StageFacts G m) (hc : Cfg116 G m p L p' B' x' J) (hc117 : Concl117 G p p' B' x' x J L')
+theorem ab_case1_idiag (h08 : YS08) (_hsf : StageFacts G m) (hc : Cfg116 G m p L p' B' x' J) (hc117 : Concl117 G p p' B' x' x J L')
     (hB : B' ≤ J ⊔ Subgroup.zpowers x') (hchev : IsChevSimple 2 (PSimple p' L')) : InnDiagOn p' B' L' := by
   have hp' : p'.Prime := hc.cfg.prime
   have hnorm : B' ≤ Subgroup.normalizer (L' : Set G) :=
@@ -934,7 +943,7 @@ theorem ab_case1_idiag (h08 : YS08) (hsf : StageFacts G m) (hc : Cfg116 G m p L 
   exact ⟨MulAut.conj ((θ (QuotientGroup.mk (QuotientGroup.mk ⟨j, hc117.J_le hj⟩ : PQuot p' L')))⁻¹),
     hInn ⟨_, rfl⟩, lemma119_induces_inner hc117.J_le hc117.comp'.1 hj k θ⟩
 
-theorem ab_case1 (h08 : YS08) (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m p B x L) (hc : Cfg116 G m p L p' B' x' J)
+theorem ab_case1 (h08 : YS08) (hctx : ThmACtx G m) (hsf : StageFacts G m) (_hR : RQuad G m p B x L) (hc : Cfg116 G m p L p' B' x' J)
     (hc117 : Concl117 G p p' B' x' x J L') (hB : B' ≤ J ⊔ Subgroup.zpowers x') (hchev : IsChevSimple 2 (PSimple p' L')) :
     CycModSylow p' L' ∧ InnDiagOn p' B' L' :=
   ⟨ab_case1_cyc hctx hc hc117 hB, ab_case1_idiag h08 hsf hc hc117 hB hchev⟩
@@ -955,7 +964,7 @@ theorem u64_labelJ (h6 : U6StructAt G) (hc : Cfg116 G m p L p' B' x' J) (hU : La
 theorem u64_x_mem_J (h6 : U6StructAt G) (hc : Cfg116 G m p L p' B' x' J) (hU : LabelOf L ⟨.twA, 5, 2⟩)
     (hp5 : p' = 5) : x' ∈ J := by
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact h6.mem L J x' hU (hc.cfg.le hc.cfg.mem)
     (orderOf_eq_prime (hc.cfg.elem.2 x' hc.cfg.mem) hc.cfg.ne_one) hc.cfg.comp.2 (u64_labelJ h6 hc hU)
 
@@ -1015,7 +1024,7 @@ private theorem lemma119_u64_types_of_m4 (hm4 : m = 4) (h08 : YS08) (h64 : U64Ty
     GLAMarking (PQuot p' L') (fun lab _ _ _ _ _ => lab = ⟨.twA, 4, 2⟩ ∨ lab = ⟨.twA, 4, 6⟩) := by
   subst hp5
   have hq : Nat.Prime 5 := hc.cfg.prime
-  haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  have : Fact (Nat.Prime 5) := ⟨hq⟩
   have hqs : CFSG.Open.IsQuasisimple (PQuot 5 L') := isQuasisimple_pQuot_of_glaPComponent hq hc117.comp'
   obtain ⟨hcomm, lab, hlab, hraw⟩ := h08 (PQuot 5 L') hqs hchev
   have hmark : GLAMarking (PQuot 5 L') (fun lab' _ _ _ _ _ => lab' = lab) :=
@@ -1105,6 +1114,7 @@ private theorem y10x_two_dvd_of_perfect {K : Type} [Group K] [Finite K] [Nontriv
   have : Group.IsPerfect K := ⟨hK⟩
   exact Group.IsPerfect.not_isSolvable K ‹_›
 
+omit [Finite G] in
 private theorem y10x_inf_eq_bot {L A : Subgroup G} (hZ : Subgroup.center ↥L = ⊥)
     (hA : A ≤ Subgroup.centralizer (L : Set G)) : A ⊓ L = ⊥ := by
   refine eq_bot_iff.2 fun y hy => ?_
@@ -1114,6 +1124,7 @@ private theorem y10x_inf_eq_bot {L A : Subgroup G} (hZ : Subgroup.center ↥L = 
   rw [hZ, Subgroup.mem_bot] at hz
   exact Subgroup.mem_bot.2 (congrArg Subtype.val hz)
 
+omit [Finite G] in
 private theorem y10x_le_normalizer_of_comm {T E : Subgroup G} (h : ∀ e ∈ E, ∀ t ∈ T, e * t = t * e) :
     E ≤ Subgroup.normalizer (T : Set G) := by
   intro e he
@@ -1172,7 +1183,7 @@ private theorem y10x_attain {q : ℕ} (hq : q.Prime) {L : Subgroup G} [Nontrivia
       have := fwd e⁻¹ (E₀.inv_mem he) _ hh
       simpa [mul_assoc] using this
 
-theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p B x L) (hind : Cor112Indep G m p B x L)
+theorem u64_cent_rank (h6 : U6StructAt G) (_hctx : ThmACtx G m) (hR : RQuad G m p B x L) (hind : Cor112Indep G m p B x L)
     (hc : Cfg116 G m p L p' B' x' J) (hU : LabelOf L ⟨.twA, 5, 2⟩) (hm4 : m = 4) (hp3 : p = 3) (hp5 : p' = 5) :
     CFSG.Open.pRank p (Subgroup.centralizer (L : Set G)) ≤ 1 ∧ ¬ p' ∣ Nat.card ↥(Subgroup.centralizer (L : Set G)) ∧
       Odd (Nat.card ↥(Subgroup.centralizer (L : Set G))) := by
@@ -1187,15 +1198,15 @@ theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p
     have := hFL hf
     rw [h] at this
     exact this)
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hLne
   have hm1 : GLATwoLocalRank 3 ↥L = 3 := by rw [hind.rank, hm4]
   have hG3 : GLATwoLocalRank 3 G = 4 := by
     have h := hR.1
-    simp only [Mu, Set.mem_setOf_eq] at h
+    simp only [Mu, Set.mem_ofPred_eq] at h
     rw [h.2.1, hm4]
   have hG5 : GLATwoLocalRank 5 G = 4 := by
     have h := hc.mu
-    simp only [Mu, Set.mem_setOf_eq] at h
+    simp only [Mu, Set.mem_ofPred_eq] at h
     rw [h.2.1, hm4]
   have hL5 : GLATwoLocalRank 5 ↥L = 4 := by rw [hc.cfg.rank_K, hc.e_eq, hm4]
   have hZ : Subgroup.center ↥L = ⊥ := h6.center L hU
@@ -1203,7 +1214,7 @@ theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p
     obtain ⟨T, E₁, hT, hT2, hTL, hE₁L, hE₁a, hE₁c, hE₁N⟩ := y10x_attain (q := 3) Nat.prime_three hcomm
     rw [hm1] at hE₁c
     by_contra hk
-    push_neg at hk
+    push Not at hk
     obtain ⟨E, hEC, hEa, hEc⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num)
       (Subgroup.centralizer (L : Set G))
     have hEL : E ⊓ L = ⊥ := y10x_inf_eq_bot hZ hEC
@@ -1226,7 +1237,7 @@ theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p
     omega
   have h5 : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G)) := by
     intro h5
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨c, hc5⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer (L : Set G))) 5 h5
     have hc0 : (c : G) ∈ Subgroup.centralizer (L : Set G) := c.2
     have hzC5 : Subgroup.zpowers (c : G) ≤ Subgroup.centralizer (L : Set G) := Subgroup.zpowers_le.2 hc0
@@ -1277,6 +1288,7 @@ theorem u64_cent_rank (h6 : U6StructAt G) (hctx : ThmACtx G m) (hR : RQuad G m p
     omega
   exact ⟨h3, h5, hodd⟩
 
+omit [Finite G] in
 private theorem y10x_conj_mem_centralizer {g x : G} (hg : g ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G))
     {h : G} (hh : h ∈ Subgroup.centralizer ({x} : Set G)) :
     g * h * g⁻¹ ∈ Subgroup.centralizer ({x} : Set G) := by
@@ -1295,6 +1307,7 @@ private theorem y10x_conj_mem_centralizer {g x : G} (hg : g ∈ Subgroup.normali
     _ = x * g * h * g⁻¹ := by rw [hxg]
     _ = x * (g * h * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem y10x_normalizer_centralizer {g x : G} (hg : g ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G)) :
     g ∈ Subgroup.normalizer (Subgroup.centralizer ({x} : Set G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1308,11 +1321,12 @@ private theorem y10x_normalizer_centralizer {g x : G} (hg : g ∈ Subgroup.norma
     rw [e] at h2
     exact h2
 
+omit [Finite G] in
 private theorem y10x_normalizer_inf {A B : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hB : g ∈ Subgroup.normalizer (B : Set G)) : g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hA hB ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hA h) (hB h)
 
 private theorem y10x_comm_central {H : Type} [Group H] {A B u v : H}
@@ -1330,6 +1344,7 @@ private theorem y10x_comm_central {H : Type} [Group H] {A B u v : H}
   rw [commutatorElement_mul_right_eq_mul_conj, h1, h2, one_mul, hCu.eq, mul_inv_cancel_right,
     hCv.eq, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem y10x_cent_of_central_comm {K : Subgroup G} (hKq : commutator ↥K = ⊤) {g : G}
     (hz : ∀ j ∈ K, ⁅j, g⁆ ∈ K ∧ ∀ k ∈ K, ⁅j, g⁆ * k = k * ⁅j, g⁆) : ∀ j ∈ K, j * g = g * j := by
   have hcomm : ∀ a ∈ K, ∀ b ∈ K, ⁅a, b⁆ * g = g * ⁅a, b⁆ := by
@@ -1398,7 +1413,7 @@ private theorem y10x_central_comm {K L' : Subgroup G} {p' : ℕ} (hp' : p'.Prime
 
 theorem u64_normN_le (h6 : U6StructAt G) (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m p B x L)
     (hc : Cfg116 G m p L p' B' x' J) (hc117 : Concl117 G p p' B' x' x J L') (hU : LabelOf L ⟨.twA, 5, 2⟩)
-    (hp3 : p = 3) (hp5 : p' = 5) :
+    (_hp3 : p = 3) (hp5 : p' = 5) :
     ∀ g ∈ centModSubgroup p' L' ⊓ Subgroup.centralizer ({x'} : Set G) ⊓ Subgroup.normalizer (Subgroup.zpowers x : Set G),
       g ∈ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G) := by
   subst hp5
@@ -1430,7 +1445,7 @@ theorem u64_normN_le (h6 : U6StructAt G) (hctx : ThmACtx G m) (hsf : StageFacts 
   have hgCJ : g ∈ Subgroup.centralizer (J : Set G) :=
     Subgroup.mem_centralizer_iff.2 (fun h hh => hcent h hh)
   have hx'L : x' ∈ L := hc.cfg.le hc.cfg.mem
-  haveI : Fact (Nat.Prime 5) := ⟨hp5'⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5'⟩
   have hord : orderOf x' = 5 := orderOf_eq_prime (hc.cfg.elem.2 x' hc.cfg.mem) hc.cfg.ne_one
   obtain ⟨a, ha, hcon⟩ := h6.cent L J x' g hU hx'L hord hc.cfg.comp.2 (u64_labelJ h6 hc hU) hgL hgCJ
   have hgc : g * a⁻¹ ∈ Subgroup.centralizer (L : Set G) := by
@@ -1443,6 +1458,7 @@ theorem u64_normN_le (h6 : U6StructAt G) (hctx : ThmACtx G m) (hsf : StageFacts 
   have hfin := Subgroup.mul_mem _ (Subgroup.mem_sup_right hgc) (Subgroup.mem_sup_left ha)
   rwa [inv_mul_cancel_right] at hfin
 
+omit [Finite G] in
 private theorem y10x_cent_zpowers {c x : G} (h : c * x = x * c) :
     c ∈ Subgroup.centralizer (Subgroup.zpowers x : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -1450,6 +1466,7 @@ private theorem y10x_cent_zpowers {c x : G} (h : c * x = x * c) :
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
   exact ((show Commute c x from h).zpow_right k).eq.symm
 
+omit [Finite G] in
 private theorem y10x_conj_mem_centralizer_set {S : Set G} {a h : G}
     (ha : a ∈ Subgroup.centralizer S) (hh : h ∈ Subgroup.centralizer S) :
     a * h * a⁻¹ ∈ Subgroup.centralizer S := by
@@ -1466,6 +1483,7 @@ private theorem y10x_conj_mem_centralizer_set {S : Set G} {a h : G}
     _ = a * h * (a⁻¹ * s) := by rw [e3]
     _ = (a * h * a⁻¹) * s := by group
 
+omit [Finite G] in
 private theorem y10x_normalizer_centralizer_set {S : Set G} {a : G} (ha : a ∈ Subgroup.centralizer S) :
     a ∈ Subgroup.normalizer (Subgroup.centralizer S : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1478,6 +1496,7 @@ private theorem y10x_normalizer_centralizer_set {S : Set G} {a : G} (ha : a ∈ 
     have e : a⁻¹ * (a * h * a⁻¹) * a⁻¹⁻¹ = h := by group
     rwa [e] at h2
 
+omit [Finite G] in
 private theorem y10x_core_le_centMod (q : ℕ) (X : Subgroup G) :
     GLAPPrimeCoreOf q X ≤ centModSubgroup q X := by
   intro o ho
@@ -1495,7 +1514,7 @@ open scoped Pointwise in
 private theorem y10x_exists_conj_sylow {q : ℕ} (hq : q.Prime) {Y : Subgroup G} (Q : Sylow q Y)
     {S : Subgroup G} (hSY : S ≤ Y) (hS : IsPGroup q S) :
     ∃ g : Y, ∀ s ∈ S, ∃ t ∈ (Q : Subgroup Y), (t : G) = (g : G) * s * (g : G)⁻¹ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hS' : IsPGroup q (S.subgroupOf Y) := hS.comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hS'.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y Q₀ Q
@@ -1510,13 +1529,13 @@ private theorem y10x_exists_conj_sylow {q : ℕ} (hq : q.Prime) {Y : Subgroup G}
 private theorem y10x_cyc_of_max {Y P : Subgroup G} (hPY : P ≤ Y) (hP5 : IsPGroup 5 P) (hPc : IsCyclic ↥P)
     (hPmax : ∀ Q : Subgroup G, Q ≤ Y → IsPGroup 5 Q → P ≤ Q → Q = P)
     {S : Subgroup G} (hSY : S ≤ Y) (hS5 : IsPGroup 5 S) : IsCyclic ↥S := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hP' : IsPGroup 5 (P.subgroupOf Y) := hP5.comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hP'.exists_le_sylow
   have hQ₀P : (Q₀ : Subgroup Y).map Y.subtype = P := by
     apply hPmax
     · exact Subgroup.map_subtype_le _
-    · exact Q₀.isPGroup'.map Y.subtype
+    · exact Q₀.isPGroup.map Y.subtype
     · intro p hp
       exact ⟨⟨p, hPY hp⟩, hQ₀ (Subgroup.mem_subgroupOf.2 hp), rfl⟩
   obtain ⟨g, hg⟩ := y10x_exists_conj_sylow Nat.prime_five Q₀ hSY hS5
@@ -1537,10 +1556,10 @@ private theorem y10x_cyc_of_max {Y P : Subgroup G} (hPY : P ≤ Y) (hP5 : IsPGro
 
 private theorem y10x_exists_E25 {C : Subgroup G} (hC : IsPGroup 5 C) (hnc : ¬ IsCyclic ↥C) :
     ∃ E : Subgroup G, E ≤ C ∧ IsElemAbelian 5 E ∧ Nat.card E = 5 ^ 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (IsPGroup 5 ↥C) := ⟨hC⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (IsPGroup 5 ↥C) := ⟨hC⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := 5) (by norm_num) hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian 5 (S.map C.subtype) := CFSG.IsElementaryAbelian.map_subtype
   refine ⟨S.map C.subtype, Subgroup.map_subtype_le S, ?_, ?_⟩
   · exact (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 5 _).mp hSm
@@ -1561,6 +1580,7 @@ private theorem y10x_five_dvd_cube_sub {j : ℕ} {u : ℤ} (h : (5 : ℤ) ^ j �
   rw [hfac] at h
   exact (hcop.pow_left).dvd_of_dvd_mul_right h
 
+omit [Finite G] in
 private theorem y10x_cyc_cent {x : G} (hx3 : x ^ 3 = 1) {C : Subgroup G} (hC5 : IsPGroup 5 C)
     (hCc : IsCyclic ↥C) (hxN : x ∈ Subgroup.normalizer (C : Set G)) :
     C ≤ Subgroup.centralizer ({x} : Set G) := by
@@ -1622,8 +1642,8 @@ theorem u64_cyc_of_P (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m
     (hPB : B' ≤ Subgroup.normalizer (P : Set G)) (hPx : x ∈ Subgroup.normalizer (P : Set G))
     (hPc : P ⊓ Subgroup.centralizer ({x} : Set G) = Subgroup.zpowers x') : CycModSylow p' L' := by
   subst hp3 hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hH := rquad_hyp hsf hR
   have hx3 : x ^ 3 = 1 := hH.elem.2 x hH.mem
   have hxne : x ≠ 1 := hH.ne_one
@@ -1646,7 +1666,7 @@ theorem u64_cyc_of_P (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m
       (fun l hl => Subgroup.mem_centralizer_singleton_iff.1 (hc117.comp'.1 hl)) hx'ord
   have hG5 : GLATwoLocalRank 5 G = m := by
     have h := hc.mu
-    simp only [Mu, Set.mem_setOf_eq] at h
+    simp only [Mu, Set.mem_ofPred_eq] at h
     exact h.2.1
   have hm4 : 4 ≤ m := hctx.1.four_le
   have hcardB : Nat.card B' = 5 ^ m := by rw [hc.cfg.rank_B, hc.e_eq]
@@ -1738,6 +1758,7 @@ theorem u64_cyc_of_P (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m
   exact y10x_cyc_of_max hPY hP5 hPcyc hPmax' (fun g hg => centMod_iff.1 (hS' g hg)) hS'5
 
 
+omit [Finite G] in
 private theorem y10x_mem_sup_of_normalizes {N : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (N : Set G)) {g : G} (hg : g ∈ N ⊔ Subgroup.zpowers x) :
     ∃ n ∈ N, ∃ k : ℤ, g = n * x ^ k := by
@@ -1759,6 +1780,7 @@ private theorem y10x_mem_sup_of_normalizes {N : Subgroup G} {x : G}
     sup_le (fun n hn => ⟨n, hn, 0, by simp⟩) (Subgroup.zpowers_le.2 ⟨1, N.one_mem, 1, by simp⟩)
   exact hle hg
 
+omit [Finite G] in
 private theorem y10x_cent_normalizes_zpowers {c x : G} (h : c * x = x * c) :
     c ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
   have hcomm : ∀ k : ℤ, c * x ^ k = x ^ k * c := fun k => ((show Commute c x from h).zpow_right k).eq
@@ -1780,6 +1802,7 @@ private theorem y10x_cent_normalizes_zpowers {c x : G} (h : c * x = x * c) :
     have h2 : w = c⁻¹ * (c * w * c⁻¹) * c := by group
     rw [h2, ← hk, h1]
 
+omit [Finite G] in
 private theorem y10x_normalizer_cent_of_mem {L : Subgroup G} {a : G} (ha : a ∈ L) :
     a ∈ Subgroup.normalizer (Subgroup.centralizer (L : Set G) : Set G) := by
   have key : ∀ b ∈ L, ∀ c ∈ Subgroup.centralizer (L : Set G), b * c * b⁻¹ ∈ Subgroup.centralizer (L : Set G) := by
@@ -1801,12 +1824,14 @@ private theorem y10x_normalizer_cent_of_mem {L : Subgroup G} {a : G} (ha : a ∈
     have e : a⁻¹ * (a * c * a⁻¹) * a⁻¹⁻¹ = c := by group
     rwa [e] at this
 
+omit [Finite G] in
 private theorem y10x_zpow_five {x' : G} (hord : orderOf x' = 5) : x' ^ (5 : ℤ) = 1 := by
   rw [zpow_ofNat]
   have := pow_orderOf_eq_one x'
   rw [hord] at this
   exact this
 
+omit [Finite G] in
 private theorem y10x_zpowers_inf_cent_bot {L : Subgroup G} {x' : G}
     (hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (hord : orderOf x' = 5) :
     Subgroup.zpowers x' ⊓ Subgroup.centralizer (L : Set G) = ⊥ := by
@@ -1832,6 +1857,7 @@ private theorem y10x_zpowers_inf_cent_bot {L : Subgroup G} {x' : G}
     rwa [Subgroup.orderOf_mk] at this
   exact hZ (hord5 ▸ hdvdC)
 
+omit [Finite G] in
 private theorem y10x_card_K {L : Subgroup G} {x' : G} (hx'L : x' ∈ L)
     (hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (hord : orderOf x' = 5) :
     Nat.card ↥(Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G)) =
@@ -1843,6 +1869,7 @@ private theorem y10x_card_K {L : Subgroup G} {x' : G} (hx'L : x' ∈ L)
   rw [y10x_zpowers_inf_cent_bot hZ hord, Subgroup.card_bot, mul_one, Nat.card_zpowers, hord] at hA
   exact hA
 
+omit [Finite G] in
 private theorem y10x_three_mem_cent {L : Subgroup G} {x' g : G} (hx'L : x' ∈ L)
     (hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (hord : orderOf x' = 5)
     (hg : g ∈ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G)) (j : ℕ) (hj : g ^ 3 ^ j = 1) :
@@ -1876,9 +1903,9 @@ private theorem y10x_three_mem_cent {L : Subgroup G} {x' g : G} (hx'L : x' ∈ L
 
 private theorem y10x_exists_E_sq {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {C : Subgroup G} (hC : IsPGroup p C)
     (hnc : ¬ IsCyclic ↥C) : ∃ E : Subgroup G, E ≤ C ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact (IsPGroup p ↥C) := ⟨hC⟩
+  have : Fact (IsPGroup p ↥C) := ⟨hC⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := p) hp2 hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian p (S.map C.subtype) := CFSG.IsElementaryAbelian.map_subtype
   refine ⟨S.map C.subtype, Subgroup.map_subtype_le S, ?_, ?_⟩
   · exact (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p _).mp hSm
@@ -1891,6 +1918,7 @@ private theorem y10x_cyclic_of_pRank {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 
   have h2 := CFSG.SectionRank.le_pRank hp.out.one_lt (hES.trans hSC) hEa hEc
   omega
 
+omit [Finite G] in
 private theorem y10x_sup_K {L M : Subgroup G} {x x' : G} (hxN : x ∈ Subgroup.normalizer (M : Set G))
     (hxC : x ∈ Subgroup.centralizer (L : Set G))
     (h1 : ∀ n ∈ M, n ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) → n ∈ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G))
@@ -1905,6 +1933,7 @@ private theorem y10x_sup_K {L M : Subgroup G} {x x' : G} (hxN : x ∈ Subgroup.n
   have hxkC : x ^ k ∈ Subgroup.centralizer (L : Set G) := zpow_mem hxC k
   exact Subgroup.mul_mem _ (h1 n hn hnN) (Subgroup.mem_sup_right hxkC)
 
+omit [Finite G] in
 private theorem y10x_three_sub {L : Subgroup G} {x' : G} (hx'L : x' ∈ L)
     (hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (hord : orderOf x' = 5) {S : Subgroup G}
     (hS : S ≤ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G)) (hS3 : IsPGroup 3 S) :
@@ -1923,7 +1952,7 @@ private theorem y10x_cyc_three_sub_centx {L M : Subgroup G} {x x' : G} (hx'L : x
     (hrk : CFSG.Open.pRank 3 (Subgroup.centralizer (L : Set G)) ≤ 1)
     {S : Subgroup G} (hS : S ≤ (M ⊔ Subgroup.zpowers x) ⊓ Subgroup.centralizer ({x} : Set G))
     (hS3 : IsPGroup 3 S) : IsCyclic ↥S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSK : S ≤ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G) := by
     intro g hg
     obtain ⟨hgM, hgC⟩ := Subgroup.mem_inf.1 (hS hg)
@@ -1945,11 +1974,11 @@ private theorem y10x_transfer {q : ℕ} (hq : q.Prime) {Y : Subgroup G} {y : G} 
     (hyq : orderOf y = q)
     (h : ∀ S : Subgroup G, S ≤ Y ⊓ Subgroup.centralizer ({y} : Set G) → IsPGroup q S → IsCyclic S) :
     ∀ S : Subgroup G, S ≤ Y → IsPGroup q S → IsCyclic S := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hzp : IsPGroup q (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hyq, pow_one])
   obtain ⟨Q, hQ⟩ := (hzp.comap_subtype (K := Y)).exists_le_sylow
-  have hQ'p : IsPGroup q ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup'.map Y.subtype
+  have hQ'p : IsPGroup q ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup.map Y.subtype
   have hQ'Y : (Q : Subgroup Y).map Y.subtype ≤ Y := Subgroup.map_subtype_le _
   have hyQ' : y ∈ (Q : Subgroup Y).map Y.subtype :=
     ⟨⟨y, hy⟩, hQ (Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers y)), rfl⟩
@@ -1959,8 +1988,8 @@ private theorem y10x_transfer {q : ℕ} (hq : q.Prime) {Y : Subgroup G} {y : G} 
       rintro rfl
       rw [orderOf_one] at hyq
       exact hq.one_lt.ne hyq
-    haveI : Nontrivial Q' := ⟨⟨⟨y, hyQ'⟩, 1, fun h' => hy1 (congrArg Subtype.val h')⟩⟩
-    haveI : Nontrivial (Subgroup.center Q') := hQ'p.center_nontrivial
+    have : Nontrivial Q' := ⟨⟨⟨y, hyQ'⟩, 1, fun h' => hy1 (congrArg Subtype.val h')⟩⟩
+    have : Nontrivial (Subgroup.center Q') := hQ'p.center_nontrivial
     have hZp : IsPGroup q (Subgroup.center Q') := hQ'p.to_subgroup _
     have hdvd : q ∣ Nat.card (Subgroup.center Q') := by
       obtain ⟨n, hn0, hn⟩ := hZp.nontrivial_iff_card.1 inferInstance
@@ -1979,7 +2008,7 @@ private theorem y10x_transfer {q : ℕ} (hq : q.Prime) {Y : Subgroup G} {y : G} 
       rw [Set.mem_singleton_iff] at hu
       subst hu
       exact hzcomm u hyQ'
-    haveI hCcyc : IsCyclic ↥(Q' ⊓ Subgroup.centralizer ({y} : Set G)) :=
+    have hCcyc : IsCyclic ↥(Q' ⊓ Subgroup.centralizer ({y} : Set G)) :=
       h _ (inf_le_inf_right _ hQ'Y) (hQ'p.to_le inf_le_left)
     have hyC : y ∈ Q' ⊓ Subgroup.centralizer ({y} : Set G) :=
       ⟨hyQ', Subgroup.mem_centralizer_iff.2 fun u hu => by
@@ -2014,6 +2043,7 @@ private theorem y10x_transfer {q : ℕ} (hq : q.Prime) {Y : Subgroup G} {y : G} 
   exact isCyclic_of_injective φ hφ
 
 
+omit [Finite G] in
 private theorem y10x_orderOf_conj (g x : G) : orderOf (g * x * g⁻¹) = orderOf x := by
   have h := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
   simpa [MulAut.conj_apply] using h
@@ -2022,7 +2052,7 @@ private theorem y10x_three_pow_dvd_sub {a q : ℕ} {u : ℤ} (hq : Odd q) (h3 : 
     (h : (3 : ℤ) ^ a ∣ u ^ q - 1) : (3 : ℤ) ^ a ∣ u - 1 := by
   rcases Nat.eq_zero_or_pos a with rfl | ha
   · simp
-  haveI : NeZero (3 ^ a) := ⟨by positivity⟩
+  have : NeZero (3 ^ a) := ⟨by positivity⟩
   have hu : ((u : ZMod (3 ^ a))) ^ q = 1 := by
     have h' := (ZMod.intCast_zmod_eq_zero_iff_dvd (u ^ q - 1) (3 ^ a)).2 (by exact_mod_cast h)
     push_cast at h'
@@ -2131,6 +2161,7 @@ private theorem y10x_coprime_cent {T : Subgroup G} (hT : IsCyclic ↥T) (hT3 : I
   obtain ⟨k, rfl⟩ := hTt w hw
   exact (hcomm.zpow_left k).eq
 
+omit [Finite G] in
 private theorem y10x_mem_normalizer_zpowers {g x : G} (h1 : g * x * g⁻¹ ∈ Subgroup.zpowers x)
     (h2 : g⁻¹ * x * g⁻¹⁻¹ ∈ Subgroup.zpowers x) :
     g ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
@@ -2151,7 +2182,7 @@ private theorem y10x_mem_normalizer_zpowers {g x : G} (h1 : g * x * g⁻¹ ∈ S
 
 
 private theorem y10x_normalizer_cent_T {L M : Subgroup G} {x x' : G}
-    (hx'L : x' ∈ L) (hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (hord' : orderOf x' = 5)
+    (_hx'L : x' ∈ L) (_hZ : ¬ 5 ∣ Nat.card ↥(Subgroup.centralizer (L : Set G))) (_hord' : orderOf x' = 5)
     (hxN : x ∈ Subgroup.normalizer (M : Set G)) (hxC : x ∈ Subgroup.centralizer (L : Set G))
     (h1 : ∀ n ∈ M, n ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G) →
       n ∈ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G))
@@ -2214,7 +2245,7 @@ private theorem y10x_K0_exists {L M : Subgroup G} {x x' : G} (hx'L : x' ∈ L)
     (hKodd : Odd (Nat.card ↥(Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G))))
     (hrk : CFSG.Open.pRank 3 (Subgroup.centralizer (L : Set G)) ≤ 1) :
     ∃ K0 : Subgroup G, ∀ g : G, g ∈ K0 ↔ (g ∈ M ⊔ Subgroup.zpowers x ∧ ¬ 3 ∣ orderOf g) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set NN : Subgroup G := M ⊔ Subgroup.zpowers x with hNN
   have hxNN : x ∈ NN := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
   have hcyc : ∀ T : Subgroup G, T ≤ NN → IsPGroup 3 T → IsCyclic ↥T := fun T hT hT3 =>
@@ -2225,7 +2256,7 @@ private theorem y10x_K0_exists {L M : Subgroup G} {x x' : G} (hx'L : x' ∈ L)
   obtain ⟨Tt, hTt⟩ := hx3.exists_le_sylow
   set T : Subgroup G := (Tt : Subgroup ↥NN).map NN.subtype with hTdef
   have hTNN : T ≤ NN := Subgroup.map_subtype_le _
-  have hT3 : IsPGroup 3 T := Tt.isPGroup'.map NN.subtype
+  have hT3 : IsPGroup 3 T := Tt.isPGroup.map NN.subtype
   have hxT : x ∈ T := ⟨⟨x, hxNN⟩, hTt (Subgroup.mem_zpowers _), rfl⟩
   have hTcyc : IsCyclic ↥T := hcyc T hTNN hT3
   have hTmax : ∀ Q : Subgroup G, Q ≤ NN → IsPGroup 3 Q → T ≤ Q → Q = T := by
@@ -2267,11 +2298,11 @@ private theorem y10x_K0_exists {L M : Subgroup G} {x x' : G} (hx'L : x' ∈ L)
     exact Subgroup.mem_centralizer_iff.1 hgC (tt : G) ⟨tt, htt, rfl⟩
   have hcomp := MonoidHom.ker_transferSylow_isComplement' Tt hNH
   have hK3 := MonoidHom.not_dvd_card_ker_transferSylow Tt hNH
-  have hKdisj := MonoidHom.ker_transferSylow_disjoint Tt hNH (Tt : Subgroup ↥NN) Tt.isPGroup'
+  have hKdisj := MonoidHom.ker_transferSylow_disjoint Tt hNH (Tt : Subgroup ↥NN) Tt.isPGroup
 
   obtain ⟨Kt, hKt⟩ : ∃ Kt : Subgroup ↥NN, Kt = (MonoidHom.transferSylow Tt hNH).ker := ⟨_, rfl⟩
   rw [← hKt] at hK3 hKdisj
-  haveI hKn : Kt.Normal := by rw [hKt]; exact MonoidHom.normal_ker _
+  have hKn : Kt.Normal := by rw [hKt]; exact MonoidHom.normal_ker _
   have hchar : ∀ gt : ↥NN, ¬ 3 ∣ orderOf gt → gt ∈ Kt := by
     intro gt hgt
     obtain ⟨⟨⟨a, ha⟩, ⟨b, hb⟩⟩, hab, -⟩ :=
@@ -2283,7 +2314,7 @@ private theorem y10x_K0_exists {L M : Subgroup G} {x x' : G} (hx'L : x' ∈ L)
     have hφg : (QuotientGroup.mk' Kt gt : ↥NN ⧸ Kt) = QuotientGroup.mk' Kt b := by
       rw [← hab', map_mul, ha1, one_mul]
     have hφ1 : orderOf (QuotientGroup.mk' Kt gt) ∣ orderOf gt := orderOf_map_dvd _ _
-    obtain ⟨n, hn⟩ := Tt.isPGroup' ⟨b, hb'⟩
+    obtain ⟨n, hn⟩ := Tt.isPGroup ⟨b, hb'⟩
     have hbn : b ^ 3 ^ n = 1 := by
       have := congrArg Subtype.val hn
       simpa using this
@@ -2318,6 +2349,7 @@ private theorem y10x_K0_exists {L M : Subgroup G} {x x' : G} (hx'L : x' ∈ L)
     refine Subgroup.mem_map.2 ⟨⟨g, hgNN⟩, hchar ⟨g, hgNN⟩ ?_, rfl⟩
     rwa [Subgroup.orderOf_mk]
 
+omit [Finite G] in
 private theorem y10x_five_elt_not_three {Q : Subgroup G} (hQ5 : IsPGroup 5 Q) {g : G} (hg : g ∈ Q) :
     ¬ 3 ∣ orderOf g := by
   obtain ⟨n, hn⟩ := hQ5 ⟨g, hg⟩
@@ -2333,7 +2365,7 @@ private theorem y10x_five_elt_not_three {Q : Subgroup G} (hQ5 : IsPGroup 5 Q) {g
 private theorem y10x_not_three_dvd_of_char {K0 : Subgroup G}
     (hK0 : ∀ g : G, g ∈ K0 → ¬ 3 ∣ orderOf g) : ¬ 3 ∣ Nat.card ↥K0 := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := ↥K0) 3 h
   exact hK0 k.1 k.2 (by rw [Subgroup.orderOf_coe, hk])
 
@@ -2343,6 +2375,7 @@ private theorem y10x_five_group_not_three {Q : Subgroup G} (hQ5 : IsPGroup 5 Q) 
   have h3 : 3 ∣ 5 ^ n := h.trans hn
   exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3) (by norm_num)
 
+omit [Finite G] in
 private theorem y10x_mem_sup_normalizes_gen {N B : Subgroup G} (hBN : B ≤ Subgroup.normalizer (N : Set G))
     {g : G} (hg : g ∈ N ⊔ B) : ∃ n ∈ N, ∃ b ∈ B, g = n * b := by
   let W : Subgroup G :=
@@ -2362,6 +2395,7 @@ private theorem y10x_mem_sup_normalizes_gen {N B : Subgroup G} (hBN : B ≤ Subg
     (fun b hb => ⟨1, N.one_mem, b, hb, by simp⟩)
   exact hle hg
 
+omit [Finite G] in
 private theorem y10x_mem_normalizer_sup {N B : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (N : Set G)) (hxB : x ∈ Subgroup.normalizer (B : Set G))
     (hBN : B ≤ Subgroup.normalizer (N : Set G)) :
@@ -2382,6 +2416,7 @@ private theorem y10x_mem_normalizer_sup {N B : Subgroup G} {x : G}
     have e : x⁻¹ * (x * g * x⁻¹) * x⁻¹⁻¹ = g := by group
     rwa [e] at this
 
+omit [Finite G] in
 private theorem y10x_normalizer_of_centralizes {A : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.centralizer (A : Set G)) : g ∈ Subgroup.normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -2404,6 +2439,7 @@ private theorem y10x_normalizer_of_centralizes {A : Subgroup G} {g : G}
     rw [e, hginv _ ha]
     exact ha
 
+omit [Finite G] in
 private theorem y10x_conj_NN {M : Subgroup G} {x b : G} (hxM : x ∈ Subgroup.normalizer (M : Set G))
     (hbM : b ∈ Subgroup.normalizer (M : Set G)) (hbx : b * x * b⁻¹ = x) {g : G}
     (hg : g ∈ M ⊔ Subgroup.zpowers x) : b * g * b⁻¹ ∈ M ⊔ Subgroup.zpowers x := by
@@ -2413,6 +2449,7 @@ private theorem y10x_conj_NN {M : Subgroup G} {x b : G} (hxM : x ∈ Subgroup.no
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left ((Subgroup.mem_normalizer_iff.1 hbM m).1 hm))
     (Subgroup.mem_sup_right (zpow_mem (Subgroup.mem_zpowers x) k))
 
+omit [Finite G] in
 private theorem y10x_conj_K0 {M K0 : Subgroup G} {x b : G} (hK0 : ∀ g : G, g ∈ K0 ↔ (g ∈ M ⊔ Subgroup.zpowers x ∧ ¬ 3 ∣ orderOf g))
     (hxM : x ∈ Subgroup.normalizer (M : Set G))
     (hbM : b ∈ Subgroup.normalizer (M : Set G)) (hbx : b * x * b⁻¹ = x) :
@@ -2440,13 +2477,13 @@ private theorem y10x_conj_K0 {M K0 : Subgroup G} {x b : G} (hK0 : ∀ g : G, g �
 private theorem y10x_conj_into_max {Y S Q : Subgroup G} (hSY : S ≤ Y) (hS5 : IsPGroup 5 S)
     (hSmax : ∀ Q' : Subgroup G, Q' ≤ Y → IsPGroup 5 Q' → S ≤ Q' → Q' = S)
     (hQY : Q ≤ Y) (hQ5 : IsPGroup 5 Q) : ∃ g ∈ Y, ∀ s ∈ Q, g * s * g⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS' : IsPGroup 5 (S.subgroupOf Y) := hS5.comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hS'.exists_le_sylow
   have hQ₀S : (Q₀ : Subgroup Y).map Y.subtype = S := by
     apply hSmax
     · exact Subgroup.map_subtype_le _
-    · exact Q₀.isPGroup'.map Y.subtype
+    · exact Q₀.isPGroup.map Y.subtype
     · intro s hs
       exact ⟨⟨s, hSY hs⟩, hQ₀ (Subgroup.mem_subgroupOf.2 hs), rfl⟩
   obtain ⟨g, hg⟩ := y10x_exists_conj_sylow Nat.prime_five Q₀ hQY hQ5
@@ -2455,7 +2492,7 @@ private theorem y10x_conj_into_max {Y S Q : Subgroup G} (hSY : S ≤ Y) (hS5 : I
   rw [← ht, ← hQ₀S]
   exact ⟨t, htQ₀, rfl⟩
 
-theorem u64_exists_P (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m p B x L) (hc : Cfg116 G m p L p' B' x' J)
+theorem u64_exists_P (_hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m p B x L) (hc : Cfg116 G m p L p' B' x' J)
     (hc117 : Concl117 G p p' B' x' x J L') (hp3 : p = 3) (hp5 : p' = 5)
     (h1 : ∀ g ∈ centModSubgroup p' L' ⊓ Subgroup.centralizer ({x'} : Set G) ⊓ Subgroup.normalizer (Subgroup.zpowers x : Set G),
       g ∈ Subgroup.zpowers x' ⊔ Subgroup.centralizer (L : Set G))
@@ -2466,8 +2503,8 @@ theorem u64_exists_P (hctx : ThmACtx G m) (hsf : StageFacts G m) (hR : RQuad G m
       B' ≤ Subgroup.normalizer (P : Set G) ∧ x ∈ Subgroup.normalizer (P : Set G) ∧
       P ⊓ Subgroup.centralizer ({x} : Set G) = Subgroup.zpowers x' := by
   subst hp3 hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hrk, h5nd, hodd⟩ := h2
   have hH := rquad_hyp hsf hR
   have hx3 : x ^ 3 = 1 := hH.elem.2 x hH.mem

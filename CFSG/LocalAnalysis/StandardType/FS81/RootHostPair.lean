@@ -33,8 +33,8 @@ theorem sl3Two_le_closure_cube :
       show (g * a * g⁻¹) ^ 3 = 1
       rw [conj_pow, show a ^ 3 = 1 from ha, mul_one, mul_inv_cancel]
     exact hmap ⟨n, hn, rfl⟩
-  haveI := hs
-  haveI := hN
+  have := hs
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.closure S) with h | h
   · exfalso
     have hc : cubeSL ∈ Subgroup.closure S := Subgroup.subset_closure cubeSL_pow

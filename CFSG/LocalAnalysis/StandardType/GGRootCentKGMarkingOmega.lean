@@ -274,8 +274,8 @@ private theorem exists_statedClassicalModel_centerQuotient_of_orthFactorOver {q 
     | ⟨K', hfield, hfinite, hKcard, hchar, s, hs, hne, ⟨e⟩⟩
     | ⟨K', hfield, hfinite, V, hAdd, hMod, hFin, Q, hKcard, hchar, hQ, hdim7, hT, ⟨e⟩⟩
   ·
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     have hcardF : Fintype.card E = 2 ^ (f * j) := by
       rw [hcardE, hq, ← pow_mul]
     have hcardNat : Nat.card E = 2 ^ (f * j) := by
@@ -304,8 +304,8 @@ private theorem exists_statedClassicalModel_centerQuotient_of_orthFactorOver {q 
         (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj m E)⟩
     exact ⟨.PSL, m, f * j, ⟨hadm, E, inferInstance, inferInstance, hcardNat, hcc⟩⟩
   ·
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     have hq'2 : q' = 2 ^ (f * j) := by
       rw [hq', hq, ← pow_mul]
     have hcardF : Fintype.card E = (2 ^ (f * j)) ^ 2 := by
@@ -314,7 +314,7 @@ private theorem exists_statedClassicalModel_centerQuotient_of_orthFactorOver {q 
       rw [Nat.card_eq_fintype_card, hcardF]
     have hne2 : (m, 2 ^ (f * j)) ≠ (3, 2) := by
       rwa [← hq'2]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hfj : 1 ≤ f * j := by
       have := Nat.mul_pos (by omega : 0 < f) (by omega : 0 < j)
       omega
@@ -336,8 +336,8 @@ private theorem exists_statedClassicalModel_centerQuotient_of_orthFactorOver {q 
         (Subgroup.map_center_eq e)).trans (QuotientGroup.quotientMulEquivOfEq hZ')⟩
     exact ⟨.PSU, m, f * j, ⟨hadm, E, inferInstance, inferInstance, hcardNat, hcc⟩⟩
   ·
-    letI := hfield
-    letI := hfinite
+    let := hfield
+    let := hfinite
     have hK' : Nat.card K' = 2 ^ f := hKcard.trans hq
     have hne2 : (s, 2 ^ f) ≠ (2, 2) := by
       rwa [← hK']
@@ -348,12 +348,12 @@ private theorem exists_statedClassicalModel_centerQuotient_of_orthFactorOver {q 
         (CFSG.LieType.Universal.Symplectic.centerQuotientEquiv s K')⟩
     exact ⟨.PSp, s, f, ⟨hadm, K', inferInstance, inferInstance, hK', hcc⟩⟩
   ·
-    letI := hfield
-    letI := hfinite
-    letI := hAdd
-    letI := hMod
-    letI := hFin
-    haveI : CharP K' 2 := ringChar.of_eq hchar
+    let := hfield
+    let := hfinite
+    let := hAdd
+    let := hMod
+    let := hFin
+    have : CharP K' 2 := ringChar.of_eq hchar
     have hAlt : (QuadraticMap.polarBilin Q).IsAlt := fun x => by
       rw [QuadraticMap.polarBilin_apply_apply]
       exact CFSG.RankThree.OrthogonalInvolutions.polar_self_eq_zero Q x
@@ -376,7 +376,7 @@ theorem isQuasisimple_largeEvenMarking_of_equiv_orthDerived {K : Type} [Field K]
     CFSG.Assembly.IsQuasisimple X ∧
       LargeEvenMarking X (fun lab R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet R ⊆ I) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hring : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨f, -, hcardF⟩ := FiniteField.card K 2
   have hcardNat : Nat.card K = 2 ^ (f : ℕ) := by
@@ -387,7 +387,7 @@ theorem isQuasisimple_largeEvenMarking_of_equiv_orthDerived {K : Type} [Field K]
   obtain ⟨X', instX'G, instX'F, hLie, hfac, f', hf', hk'⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds (K := K) (V := W)
       (Q := Qw) hQw (⊤ : Subgroup ↥(CFSG.RankThree.Classical2.orthDerived Qw)) inferInstance hqs
-  letI := instX'G
+  let := instX'G
   have hfac' : OrthFactorOver 2 (Nat.card K) X' := by
     simpa only [hring] using hfac
   obtain ⟨t, n, g, hModel'⟩ :=

@@ -24,11 +24,11 @@ theorem str86_atom_action_perfect {L1 L2 S : Subgroup G} {k : ℕ}
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     {N : Subgroup G} (h1 : Str86AtomIn (L1 ⊔ S) (Z1 L1 L2 S) N)
-    (hNabel : IsElemAbelian 2 N) :
+    (_hNabel : IsElemAbelian 2 N) :
     Group.IsPerfect ↥(autOn (L1 ⊔ S) N) := by
   classical
   let H : Subgroup G := L1 ⊔ S
-  letI : CommGroup ↥N := commGroupOfElemAbelian hNabel
+  let : CommGroup ↥N := commGroupOfElemAbelian _hNabel
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn h1.1
   let φ : ↥H →* MulAut ↥N := (conjAct N).comp (Subgroup.inclusion hHN)
   have hφrange : φ.range = autOn H N := by
@@ -71,7 +71,7 @@ theorem str86_atom_action_perfect {L1 L2 S : Subgroup G} {k : ℕ}
   have hqL1 : CFSG.IsQuasisimple (oTwoQuot ↥L1) := isQuasisimple_oTwoQuot_of_u3 hk hFc hU3
   have hqH : CFSG.IsQuasisimple (oTwoQuot ↥H) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (u3QEquiv hF hSB hVU3).symm hqL1
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
+  have : Group.IsPerfect (oTwoQuot ↥H) := hqH.1
   have hperfRange : Group.IsPerfect ↥(ψ.range) := Group.IsPerfect.range ψ
   rwa [hψrange] at hperfRange
 
@@ -80,6 +80,7 @@ private noncomputable def str86ConjHom (H N : Subgroup G)
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) : ↥H →* MulAut ↥N :=
   (conjAct N).comp (Subgroup.inclusion hHN)
 
+omit [Finite G] in
 private theorem str86ConjHom_range (H N : Subgroup G)
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) :
     (str86ConjHom H N hHN).range = autOn H N := by
@@ -94,12 +95,12 @@ theorem str86_atom_center_quotient {L1 L2 S : Subgroup G}
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hC : Z1 L1 L2 S ⊓ Subgroup.centralizer ((L1 ⊔ S : Subgroup G) : Set G) = ⊥)
     {N : Subgroup G} (h1 : Str86AtomIn (L1 ⊔ S) (Z1 L1 L2 S) N)
-    (hNabel : IsElemAbelian 2 N) :
+    (_hNabel : IsElemAbelian 2 N) :
     Nonempty (↥(autOn (L1 ⊔ S) N) ⧸ Subgroup.center ↥(autOn (L1 ⊔ S) N) ≃*
       StatedProj (StatedSU 3 (2 ^ k) F)) := by
   classical
   let H : Subgroup G := L1 ⊔ S
-  letI : CommGroup ↥N := commGroupOfElemAbelian hNabel
+  let : CommGroup ↥N := commGroupOfElemAbelian _hNabel
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn h1.1
   let φ : ↥H →* MulAut ↥N := str86ConjHom H N hHN
   have hφrange : φ.range = autOn H N := str86ConjHom_range H N hHN
@@ -206,7 +207,7 @@ theorem str86_atom_center_quotient {L1 L2 S : Subgroup G}
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 k hFc 3 (by norm_num) hnq
     have hqPSU : CFSG.IsQuasisimple (StatedProj (StatedSU 3 (2 ^ k) F)) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv ePSU hqL1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hSUq := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
       (p := 2) (f := k) (F := F) hFc (by norm_num) hnq
     have hncPSU : ∃ a b : StatedProj (StatedSU 3 (2 ^ k) F), a * b ≠ b * a :=
@@ -223,14 +224,15 @@ theorem str86_atom_center_quotient {L1 L2 S : Subgroup G}
     exact ⟨eC.symm.trans (e1.trans e2)⟩
 
 
+omit [Finite G] in
 theorem str86_atom_irreducible {L1 L2 S : Subgroup G}
     {N : Subgroup G} (h1 : Str86AtomIn (L1 ⊔ S) (Z1 L1 L2 S) N)
-    (hNabel : IsElemAbelian 2 N) :
+    (_hNabel : IsElemAbelian 2 N) :
     ∀ U : Subgroup ↥N,
       (∀ g ∈ autOn (L1 ⊔ S) N, ∀ u ∈ U, g u ∈ U) → U = ⊥ ∨ U = ⊤ := by
   classical
   let H : Subgroup G := L1 ⊔ S
-  letI : CommGroup ↥N := commGroupOfElemAbelian hNabel
+  let : CommGroup ↥N := commGroupOfElemAbelian _hNabel
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn h1.1
   intro U hU
   let V : Subgroup G := U.map N.subtype

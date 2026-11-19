@@ -19,15 +19,15 @@ theorem isSolvable_comap_of_isPGroup_ker {L Q : Type} [Group L] [Finite L] [Grou
     intro b
     obtain ⟨l, hl⟩ := hpi (b : Q)
     exact ⟨⟨l, by rw [Subgroup.mem_comap, hl]; exact b.2⟩, Subtype.ext hl⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥(MonoidHom.ker pi) := by
-    haveI : Group.IsNilpotent ↥(MonoidHom.ker pi) := IsPGroup.isNilpotent hker
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥(MonoidHom.ker pi) := by
+    have : Group.IsNilpotent ↥(MonoidHom.ker pi) := IsPGroup.isNilpotent hker
     infer_instance
   have hker_le : MonoidHom.ker pi ≤ BQ.comap pi := by
     intro x hx
     rw [Subgroup.mem_comap, MonoidHom.mem_ker.mp hx]
     exact BQ.one_mem'
-  haveI : Group.IsSolvable ↥((MonoidHom.ker pi).subgroupOf (BQ.comap pi)) :=
+  have : Group.IsSolvable ↥((MonoidHom.ker pi).subgroupOf (BQ.comap pi)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hker_le).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hker_le).injective

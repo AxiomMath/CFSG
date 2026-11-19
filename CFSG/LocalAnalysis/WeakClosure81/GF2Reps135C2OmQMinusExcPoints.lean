@@ -131,7 +131,7 @@ theorem omq_minus_exists_exc_points_ne {m h : ℕ} (hm : Odd m) {a b : ZMod m} (
       have hc := congrArg (fun p : OmqMinusLat 3 m h => p.1 0) hh
       rw [hximg] at hc
       fin_cases i <;> fin_cases i' <;> simp [v0, v1, v2, v3] at hc <;>
-        first | exact ha hc | exact (neg_ne_zero.mpr ha) hc
+        first | exact ha hc
   · have hbne : b ≠ 0 := hb0
     have hb_neg : b ≠ -b := ZMod.ne_neg_self hm hbne
     have ha_neg : a ≠ -a := ZMod.ne_neg_self hm ha
@@ -230,7 +230,7 @@ theorem omq_minus_exists_exc_points_ne {m h : ℕ} (hm : Odd m) {a b : ZMod m} (
         have h' : -(-b) = -(-a) := congrArg Neg.neg hh'
         rwa [neg_neg, neg_neg] at h'
       fin_cases i <;> fin_cases i' <;> simp [v0, v1, v2, v3] at hc <;>
-        first | exact hba hc | exact hbna hc | exact hb_a hc | exact hb_na hc
+        first | exact hba hc | exact hbna hc | exact hb_a hc
 
 theorem omq_minus_exists_exc_points_single {m h : ℕ} (hm : Odd m) (hh : Odd h) {p : ZMod m}
     (hp : p ≠ 0) {e : ZMod h} (he : e ≠ 0) {π : Equiv.Perm (Fin 3)} {s : Fin 3 → ℤ}
@@ -333,6 +333,6 @@ theorem omq_minus_exists_exc_points_single {m h : ℕ} (hm : Odd m) (hh : Odd h)
     have hc := congrArg (fun p : OmqMinusLat 3 m h => p.1 0) hh
     rw [hximg] at hc
     fin_cases i <;> fin_cases i' <;> simp [v0, v1, v2, v3] at hc <;>
-      first | exact hp hc | exact (neg_ne_zero.mpr hp) hc
+      first | exact hp hc
 
 end CFSG.LocalAnalysis.WeakClosure81

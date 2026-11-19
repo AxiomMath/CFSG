@@ -158,7 +158,7 @@ theorem exists_lift_of_sylow {M H : Type*} [Group M] [Group H] [Finite H]
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hk]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr (odd_natCard_oddCore_stroth H))
-  have hinf : (P : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : (P : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hinj : Function.Injective
       ((QuotientGroup.mk' (CFSG.oddCore H)).comp (P : Subgroup H).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

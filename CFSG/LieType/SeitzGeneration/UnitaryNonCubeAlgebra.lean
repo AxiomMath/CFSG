@@ -139,7 +139,7 @@ theorem eigen_orthogonal {B : V →ₛₗ[τ] V →ₗ[K] K} {Y : Module.End K V
     (hu : Y u = l₁ • u) (hv : Y v = l₂ • v) : B u v = 0 := by
   have h1 := hY u v
   rw [hu, hv] at h1
-  simp only [map_smulₛₗ, LinearMap.smul_apply, map_smul, smul_eq_mul] at h1
+  simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul] at h1
   have h2 : (τ l₁ * l₂ - 1) * B u v = 0 := by linear_combination h1
   rcases mul_eq_zero.mp h2 with h | h
   · exact absurd (sub_eq_zero.mp h) hl

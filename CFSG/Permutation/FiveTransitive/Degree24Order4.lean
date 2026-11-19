@@ -24,7 +24,7 @@ private theorem five_group_action_on_card_four_is_trivial
     (hAcard : Nat.card A = 4) :
     ∀ t : T, ∀ a : A, t • a = a := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let C : Subgroup A :=
     FiveTransitive.Degree19.fixedPointsSubgroup T A
   have hCset :
@@ -115,7 +115,7 @@ theorem five_point_stabilizer_card_ne_four
     (s : Set X) (hs : s.ncard = 5) :
     Nat.card (fixingSubgroup P s) ≠ 4 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   intro hHcard
   let F : Set X := MulAction.fixedPoints H X
@@ -144,7 +144,7 @@ theorem five_point_stabilizer_card_ne_four
     · exact hfSix
     · rw [hfSeven] at hfMod
       norm_num at hfMod
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -424,8 +424,8 @@ theorem five_point_stabilizer_card_ne_four
         exact
           (Equiv.Perm.mem_support_iff_of_commute
             (hrCentralPerm h) x.1).mpr x.2⟩ }
-  letI : SMul H S := supportSmul
-  letI : MulAction H S :=
+  let : SMul H S := supportSmul
+  let : MulAction H S :=
     Subtype.coe_injective.mulAction
       Subtype.val (fun _ _ => rfl)
   let fixedSupportEquiv :

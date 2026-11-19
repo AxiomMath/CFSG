@@ -23,7 +23,7 @@ theorem s_not_central {s : G} (hs : s = t ∨ s = tau ∨ s = t * tau) :
     ∃ b ∈ ctxQ t tau x₁ x₂ rho, b * s ≠ s * b := by
   have hsf := s_facts hc hs
   by_contra h
-  push_neg at h
+  push Not at h
   have hV : ⁅ctxQ t tau x₁ x₂ rho, zpowers s⁆ = fourGrp x₁ x₂ := by
     rcases hs with hst | hst | hst
     · rw [hst]; exact comm_t_eq hc
@@ -43,7 +43,7 @@ theorem s_not_central {s : G} (hs : s = t ∨ s = tau ∨ s = t * tau) :
 
 theorem coprime_three_orderOf {a : G} (ha : a ∈ ctxO t tau x₁ x₂) : Nat.Coprime 3 (orderOf a) := by
   have hdvd : orderOf a ∣ Nat.card (ctxU t tau x₁ x₂ lam) :=
-    Subgroup.orderOf_dvd_natCard (ctxU t tau x₁ x₂ lam) (O_le_U hc ha)
+    Subgroup.orderOf_dvd_natCard (ctxU t tau x₁ x₂ lam) (O_le_U ha)
   rw [card_U hc] at hdvd
   exact (by norm_num : Nat.Coprime 3 (2 ^ 9)).coprime_dvd_right hdvd
 

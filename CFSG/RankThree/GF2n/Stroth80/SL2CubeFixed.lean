@@ -59,7 +59,7 @@ theorem irreducible_of_fixed_zero {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 :
     (hρQ : ∀ g e, Qf (ρ g e) = Qf e) (hC0 : ∀ e, (∀ g, ρ g e = e) → e = 0) :
     ∀ W : Submodule K E, (∀ g, ∀ v ∈ W, ρ g v ∈ W) → W = ⊥ ∨ W = ⊤ := by
   classical
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   intro W hW
   by_cases hW0 : W = ⊥
   · exact Or.inl hW0
@@ -98,6 +98,7 @@ section Plane
 variable {K : Type} [Field K] [CharP K 2] {E : Type} [AddCommGroup E] [Module K E]
   [Module.Finite K E]
 
+omit [Module.Finite K E] in
 theorem alt_symm (B : LinearMap.BilinForm K E) (halt : ∀ e, B e e = 0) (x y : E) :
     B y x = B x y := by
   have h := halt (x + y)
@@ -191,7 +192,7 @@ theorem false_of_fixed_ne_zero {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 
       ∀ e : E, (∀ g, ρ g e = e) → e = 0)
     (hC1 : ∃ e, (∀ g, ρ g e = e) ∧ e ≠ 0) (hnt1 : ∃ g : SL(2, F), g ≠ 1) : False := by
   classical
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   obtain ⟨u, v, hu, hv, huv⟩ :
       ∃ u v, (∀ g, ρ g u = u) ∧ (∀ g, ρ g v = v) ∧ B u v ≠ 0 := by
     by_contra hcon
@@ -234,7 +235,7 @@ theorem false_of_fixed_ne_zero {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 
     have hMdim : Module.finrank K M ≤ 5 := by
       have h1 : Module.finrank K (LinearMap.range lam) + Module.finrank K M =
           Module.finrank K E' := LinearMap.finrank_range_add_finrank_ker lam
-      haveI : Nontrivial (LinearMap.range lam) :=
+      have : Nontrivial (LinearMap.range lam) :=
         Submodule.nontrivial_iff_ne_bot.mpr (fun h => hlam0 (LinearMap.range_eq_bot.mp h))
       have h2 : 0 < Module.finrank K (LinearMap.range lam) := Module.finrank_pos
       omega
@@ -254,11 +255,11 @@ theorem false_of_fixed_ne_zero {k : ℕ} (hk : Fintype.card K = 2 ^ k) (hk1 : 1 
     exact hg (LinearMap.ext (trivial_of_extension hG σ' M hMtriv hMext g))
   · have hN'le : Module.finrank K N' ≤ Module.finrank K E' := Submodule.finrank_le N'
     have htop : N' = ⊤ := Submodule.eq_top_of_finrank_eq (by omega)
-    haveI : Nontrivial E' := Submodule.nontrivial_iff_ne_bot.mpr (by
+    have : Nontrivial E' := Submodule.nontrivial_iff_ne_bot.mpr (by
       intro h
       have h1 : Module.finrank K E' = 0 := by rw [h, finrank_bot]
       omega)
-    haveI : Fact σ'.IsIrreducible := ⟨(isIrreducible_iff σ').mpr ⟨inferInstance, fun U hU => by
+    have : Fact σ'.IsIrreducible := ⟨(isIrreducible_iff σ').mpr ⟨inferInstance, fun U hU => by
       rcases hmin U (htop ▸ le_top) hU with h | h
       · exact Or.inl h
       · exact Or.inr (h.trans htop)⟩⟩

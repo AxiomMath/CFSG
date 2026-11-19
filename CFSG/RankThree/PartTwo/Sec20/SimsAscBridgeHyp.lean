@@ -86,6 +86,7 @@ theorem exists_mulEquiv_of_minimal (hG₀ : Minimal (CoverYR M X T c) G₀) :
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hΦker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective Φ hΦs), fun g => rfl⟩
 
+omit [Finite G] in
 theorem map_map_subgroupOf_of_minimal (hG₀ : Minimal (CoverYR M X T c) G₀)
     {Ψ : (↥G₀ ⧸ CFSG.pPrimeCore 3 ↥G₀) ≃*
         (↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T)) ⧸
@@ -113,6 +114,7 @@ section YAlpha
 
 variable {M X T : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem yAlpha_normal_and_sup_eq_top
     (hRY : CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T) ≤ Subgroup.normalizer (yTwenty X c : Set G)) :
     (yAlpha M X T c).Normal ∧
@@ -217,10 +219,10 @@ theorem perfectResidual_eq_yAlpha
       CFSG.pPrimeCore 3 ↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T))) =
         yAlpha M X T c := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := (yAlpha_normal_and_sup_eq_top hRY).1
+  have := (yAlpha_normal_and_sup_eq_top hRY).1
   have hq2 := isPGroup_quotient_yAlpha hRY
   refine le_antisymm ?_ ((CFSG.perfect_residual_transport (MonoidHom.id _)).2.2 _ hY)
-  haveI : Group.IsNilpotent (_ ⧸ yAlpha M X T c) := hq2.isNilpotent
+  have : Group.IsNilpotent (_ ⧸ yAlpha M X T c) := hq2.isNilpotent
   exact ((CFSG.perfect_residual_characterization).2.2.2.2.1 (yAlpha M X T c)).mp inferInstance
 
 end YAlpha

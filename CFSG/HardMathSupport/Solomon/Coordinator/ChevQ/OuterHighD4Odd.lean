@@ -113,7 +113,7 @@ theorem conjSL_diagA_transvection (a : Fˣ) {i j : Fin 3} (hij : i ≠ j) (c : F
   ext k l
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   fin_cases i <;> fin_cases j <;> (try exact absurd rfl hij) <;> fin_cases k <;> fin_cases l <;>
-    simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply]
+    simp [Matrix.transvection]
 
 end Conj
 
@@ -129,9 +129,9 @@ theorem mul_comm_of_card_le_three {G : Type*} [Group G] [Finite G] (h : Nat.card
   rcases key with h1 | hp
   · have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 h1).1
     exact Subsingleton.elim _ _
-  · haveI : Fact (Nat.card G).Prime := ⟨hp⟩
-    haveI : IsCyclic G := isCyclic_of_prime_card rfl
-    exact (IsCyclic.commutative (α := G)).is_comm.comm x y
+  · have : Fact (Nat.card G).Prime := ⟨hp⟩
+    have : IsCyclic G := isCyclic_of_prime_card rfl
+    exact (_root_.IsCyclic.isMulCommutative (α := G)).is_comm.comm x y
 
 section Graph
 
@@ -178,7 +178,7 @@ theorem exists_frameHom [Finite F] {p f : ℕ}
   obtain ⟨hkerZ, hQn, -⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.sl3_hom_structure ρ hρ hcard
   set Q := ρ.range with hQ
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hidx : Q.index ≤ 3 := by
     have h1 := Subgroup.card_ker_mul_card_range ρ
     have h2 := Subgroup.card_mul_index Q
@@ -273,7 +273,7 @@ theorem exists_frameHom [Finite F] {p f : ℕ}
     intro g x hx
     have h1 : (⟨(g, Ψ g), hΨmem g⟩ : S) = ⟨(g, x), hx⟩ := hinj rfl
     exact congrArg (fun s : S => (s : GL (Fin 3) F × C).2) h1
-  haveI hperf : Group.IsPerfect ↥(CFSG.PGLModel.projImage (Sec4.slPi true 3 (p ^ f) F)) :=
+  have hperf : Group.IsPerfect ↥(CFSG.PGLModel.projImage (Sec4.slPi true 3 (p ^ f) F)) :=
     Sec13.isPerfect_projImage_slPi hF hq2
   have hker : Ψ.ker = (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _).ker := by
     ext g
@@ -628,34 +628,30 @@ theorem exists_fixSub_frameHom (h : A2Std σ d q) {p f : ℕ} (hp : p.Prime)
       (ψ₁.prod ψ₂)
       (fun c' => fam _ _ _ h1 (frameTuple_conj_fP1 hσc _ (hισ a))
         (fun c' => by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, Subfield.coe_mul];
+        first | rfl) c')
       (fun c' => fam _ _ 1 h2 (fun u => by rw [one_mul]; exact frameTuple_conj_fP2 hσc μ _ u)
         (fun c' => by
         simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul]) c')
       (fun c' => fam _ _ _ h3 (frameTuple_conj_fP3 hσc μ _ (hισ a))
         (fun c' => by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_two,
+          Matrix.head_cons, Matrix.tail_cons, mul_one, Subfield.coe_mul];
+        first | rfl) c')
       (fun c' => fam _ _ _ h4 (frameTuple_conj_fM1 hσc _ (hισ a))
         (fun c' => by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, one_mul, Subfield.coe_mul];
+        first | (rw [mul_comm]; rfl)) c')
       (fun c' => fam _ _ 1 h5 (fun u => by rw [one_mul]; exact frameTuple_conj_fM2 hσc μ _ u)
         (fun c' => by
         simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul]) c')
       (fun c' => fam _ _ _ h6 (frameTuple_conj_fM3 hσc μ _ (hισ a))
         (fun c' => by
-        simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-          Matrix.head_cons, Matrix.tail_cons, mul_one, one_mul, Subfield.coe_mul] <;>
-        first | rfl | (rw [mul_comm]; rfl)) c')
+        simp only [Matrix.cons_val_zero, Matrix.cons_val_two,
+          Matrix.head_cons, Matrix.tail_cons, one_mul, Subfield.coe_mul];
+        first | (rw [mul_comm]; rfl)) c')
     intro x
     exact hψ x
   obtain ⟨Ψ, hΨρ, hΨc, hΨs, hΨk⟩ := exists_frameHom hPi hmod hq2 ρ hρ hcard
@@ -793,14 +789,11 @@ theorem tTuple_conj_M1 :
   refine xa_triple_congr ?_ ?_ ?_
   · rw [e4.1, e4.2]; simp
   · rw [e6.1, e6.2]
-    simp only [hσc, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one, _root_.zpow_zero, mul_one,
+    simp only [hσc, Units.val_inv_eq_inv_val, _root_.zpow_zero, mul_one,
       _root_.zpow_neg, _root_.zpow_one]
     field_simp
   · rw [e10.1, e10.2]
-    simp only [hσc, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one, _root_.zpow_zero, mul_one,
-      _root_.zpow_neg, zpow_ofNat]
+    simp only [hσc, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, _root_.zpow_neg, zpow_ofNat]
     field_simp
 
 include hσc hσμ hσd in
@@ -818,13 +811,11 @@ theorem tTuple_conj_P2 :
   refine xa_triple_congr ?_ ?_ ?_
   · rw [e5.1, e5.2]; simp
   · rw [e7.1, e7.2]
-    simp only [map_mul, hσc, hσμ, Units.val_mul, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one, _root_.zpow_one]
+    simp only [map_mul, hσc, hσμ, Units.val_mul, _root_.zpow_one]
     ring
   · rw [e9.1, e9.2]
-    simp only [map_mul, map_pow, hσc, hσμ, hσd, Units.val_mul, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one,
-      _root_.zpow_one, zpow_ofNat]
+    simp only [map_mul, map_pow, hσc, hσμ, hσd, Units.val_mul, Units.val_pow_eq_pow_val, pow_one,
+      zpow_ofNat]
     ring
 
 include hd3 hσc hσμ hσd in
@@ -844,16 +835,15 @@ theorem tTuple_conj_M2 :
   refine xa_triple_congr ?_ ?_ ?_
   · rw [e11.1, e11.2]; simp
   · rw [e14.1, e14.2]
-    simp only [map_mul, map_inv₀, map_pow, hσc, hσμ, hσd, Units.val_mul, Units.val_inv_eq_inv_val,
-      Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val, pow_one, _root_.zpow_neg,
-      _root_.zpow_one, zpow_ofNat]
+    simp only [map_mul, map_inv₀, hσc, hσμ, Units.val_mul, Units.val_inv_eq_inv_val,
+      pow_one, _root_.zpow_neg,
+      zpow_ofNat]
     field_simp
     linear_combination c * hd3
   · rw [e16.1, e16.2]
-    simp only [map_mul, map_inv₀, map_pow, map_neg, hσc, hσμ, hσd, Units.val_mul,
-      Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val, pow_one,
-      _root_.zpow_neg, _root_.zpow_one,
-      zpow_ofNat]
+    simp only [map_mul, map_inv₀, map_pow, hσc, hσμ, hσd, Units.val_mul,
+      Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, pow_one,
+      _root_.zpow_neg, zpow_ofNat]
     field_simp
     linear_combination (-c) * hd3
 
@@ -871,18 +861,15 @@ theorem tTuple_conj_P3 :
   have e12 : d4Root 12 1 + 2 * d4Root 12 3 = 1 ∧ d4Root 12 2 = 1 := by decide
   refine xa_triple_congr ?_ ?_ ?_
   · rw [e15.1, e15.2]
-    simp only [Units.val_mul, Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val, pow_one,
-      _root_.zpow_one, zpow_ofNat]
+    simp only [Units.val_mul, Units.val_pow_eq_pow_val, pow_one,
+      zpow_ofNat]
     linear_combination (-(μ : L) * c) * hd3
   · rw [e13.1, e13.2]
-    simp only [map_mul, hσc, hσμ, Units.val_mul, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one, _root_.zpow_one,
-      zpow_ofNat]
+    simp only [map_mul, hσc, hσμ, Units.val_mul, Units.val_pow_eq_pow_val, pow_one, zpow_ofNat]
     ring
   · rw [e12.1, e12.2]
-    simp only [map_mul, map_pow, hσc, hσμ, hσd, Units.val_mul, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one,
-      _root_.zpow_one, zpow_ofNat]
+    simp only [map_mul, map_pow, hσc, hσμ, hσd, Units.val_mul, pow_one,
+      zpow_ofNat]
     linear_combination ((d : L) * μ * c) * hd3
 
 include hd3 hσc hσμ hσd in
@@ -901,20 +888,19 @@ theorem tTuple_conj_M3 :
   have hμ0 : (μ : L) ≠ 0 := Units.ne_zero μ
   refine xa_triple_congr ?_ ?_ ?_
   · rw [e20.1, e20.2]
-    simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
-      Units.val_pow_eq_pow_val, pow_one,
-      _root_.zpow_neg, _root_.zpow_one, zpow_ofNat]
+    simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val, pow_one,
+      _root_.zpow_neg, zpow_ofNat]
     field_simp
     linear_combination c * hd3
   · rw [e18.1, e18.2]
     simp only [map_mul, map_inv₀, hσc, hσμ, Units.val_mul, Units.val_inv_eq_inv_val,
-      Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val, pow_one, _root_.zpow_neg,
-      _root_.zpow_one, zpow_ofNat]
+      Units.val_pow_eq_pow_val, pow_one, _root_.zpow_neg,
+      zpow_ofNat]
     field_simp
   · rw [e17.1, e17.2]
     simp only [map_mul, map_inv₀, map_pow, hσc, hσμ, hσd, Units.val_mul, Units.val_inv_eq_inv_val,
-      Units.val_zpow_eq_zpow_val, Units.val_pow_eq_pow_val, pow_one, _root_.zpow_neg,
-      _root_.zpow_one, zpow_ofNat]
+      pow_one, _root_.zpow_neg,
+      zpow_ofNat]
     field_simp
     linear_combination (-c) * hd3
 
@@ -1385,7 +1371,7 @@ theorem isPGLPiThree_fixedSubgroup_gammaP_of_mod_three_eq_one {K : Type} [Field 
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hp, hcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   have h3 : 3 ∣ Nat.card K - 1 := by
     have := Nat.card_pos (α := K)

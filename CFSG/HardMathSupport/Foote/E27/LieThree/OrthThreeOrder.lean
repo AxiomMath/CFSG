@@ -92,7 +92,7 @@ theorem factorization_three_om_le : (Nat.card ↥Om).factorization 3 ≤ 9 := by
     formB_linHom (om_le_iso g.1.2) x y
   have hd : Module.finrank (ZMod 3) (Idx → ZMod 3) ≤ 7 := by
     rw [Module.finrank_fintype_fun_eq_card]; simp [Idx]
-  have h := card_le_generic Idx gramM formB_nondegenerate formB_symm hd φ hφ hiso P.isPGroup'
+  have h := card_le_generic Idx gramM formB_nondegenerate formB_symm hd φ hφ hiso P.isPGroup
   have h7 : Module.finrank (ZMod 3) (Idx → ZMod 3) = 7 := by
     rw [Module.finrank_fintype_fun_eq_card]; simp [Idx]
   rw [h7, hcard] at h

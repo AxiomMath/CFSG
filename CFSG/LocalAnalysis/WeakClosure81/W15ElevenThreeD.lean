@@ -39,7 +39,7 @@ theorem R_le_normalizer_zOmega15
     (hX : XData15 V₀ U H Q₀ p X v) (hR : IsSylowIn 2 R (F11.CTilde M V₀ V))
     (hPR : S ⊓ F11.CTilde M V₀ V ≤ R) :
     R ≤ normalizer (zOmega15 (qSub15 M V₀ V U H S) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRT : R ≤ normalizer (tSub15 M V₀ V U S : Set G) := c.R_le_normalizer_tSub15 hR hPR
   change R ≤ normalizer (elemCenterIn 2 (qSub15 M V₀ V U H S) : Set G)
   rcases hD M V₀ V U S H Q₀ p c with hA | hb
@@ -69,7 +69,7 @@ theorem H_le_normalizer_zOmega15
     (hD : W15Eleven3Dich G) (hS4 : W15Eleven3S4 G) (c : Cfg1511 M V₀ V U S H S Q₀ p)
     (hX : XData15 V₀ U H Q₀ p X v) :
     H ≤ normalizer (zOmega15 (qSub15 M V₀ V U H S) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR, hSR⟩ := exists_isSylowIn_ge 2 c.S_le_cTilde c.cex.sylow.isPGroup
   have hSR' : S ⊓ F11.CTilde M V₀ V ≤ R := inf_le_left.trans hSR
   have hRZ := c.R_le_normalizer_zOmega15 hD hS4 hX hR hSR'

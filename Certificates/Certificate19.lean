@@ -11,9 +11,9 @@ namespace Certificates
 
 open CFSG.M23 CFSG.M23.M23Group in
 open scoped Pointwise in
-theorem certificate19 : ∀ (x : Fin 23) (hx0 : x ≠ 0) (hx1 : x ≠ 1) (hx2 : x ≠ 2),
+theorem certificate19 : ∀ (x : Fin 23) (_hx0 : x ≠ 0) (_hx1 : x ≠ 1) (_hx2 : x ≠ 2),
       t3 x • (3 : Fin 23) = x := by
-  intro x hx0 hx1 hx2
+  intro x _hx0 _hx1 _hx2
   fin_cases x <;> simp_all <;> decide
 
 end Certificates

@@ -147,7 +147,7 @@ private lemma omPlusTwist_rootIdxD_ne_last {n : ℕ} (hn : 3 ≤ n) (k : Fin n) 
 
 private lemma omPlusTwist_flipAt_rootIdxD_true {n : ℕ} (hn : 3 ≤ n) (k : Fin n) :
     flipAt n ⟨n - 1, by omega⟩ (rootIdxD n k) true = true := by
-  rw [flipAt, if_neg (omPlusTwist_rootIdxD_ne_last hn k)]
+  rw [flipAt, ite_eq_right (omPlusTwist_rootIdxD_ne_last hn k)]
 
 private lemma omPlusTwist_flipAt_rootIdxD'_rootSignD_two {n : ℕ} (hn : 3 ≤ n) {k : Fin n}
     (h2 : k.val = n - 2) :
@@ -207,7 +207,7 @@ private lemma omPlusTwist_flipAt_rootIdxD'_rootSignD_ne_two {n : ℕ} (hn : 3 �
       omega
     have hsign : rootSignD n k = false := rootSignD_of_lt n hlt
     rw [hπ, hidx, hsign]
-    rw [flipAt, if_neg hne]
+    rw [flipAt, ite_eq_right hne]
 
 private lemma omPlusTwist_flipAt_rootIdxD'_rootSignD {n : ℕ} (hn : 3 ≤ n) (k : Fin n) :
     flipAt n ⟨n - 1, by omega⟩ (rootIdxD' n k) (rootSignD n k) =
@@ -252,7 +252,7 @@ private theorem omPlusTwist_graphSpin_negRootD {n : ℕ} {K : Type} [Field K] (h
   · exact (omPlusTwist_rootIdxD_omGraphSwap hn k).2.symm
   · exact (omPlusTwist_rootIdxD_omGraphSwap hn k).1.symm
   · rw [omPlusTwist_flipAt_not hn, omPlusTwist_flipAt_rootIdxD'_rootSignD hn]
-  · rw [flipAt, if_neg (omPlusTwist_rootIdxD_ne_last hn k)]
+  · rw [flipAt, ite_eq_right (omPlusTwist_rootIdxD_ne_last hn k)]
 
 private lemma omPlusTwist_boolSign_flipAt_mul {n : ℕ} (hn : 3 ≤ n) (a : Fin n) (u : Bool) :
     boolSign (flipAt n ⟨n - 1, by omega⟩ a u) * ((n : ℤ) - 1 - a) =
@@ -262,9 +262,9 @@ private lemma omPlusTwist_boolSign_flipAt_mul {n : ℕ} (hn : 3 ≤ n) (a : Fin 
     have hz : ((n : ℤ) - 1 - (⟨n - 1, by omega⟩ : Fin n)) = 0 := by
       simp only
       omega
-    rw [flipAt, if_pos rfl, hz]
+    rw [flipAt, ite_eq_left rfl, hz]
     simp
-  · rw [flipAt, if_neg ha]
+  · rw [flipAt, ite_eq_right ha]
 
 private theorem omPlusTwist_graphSpin_mem_posUnipotent {n : ℕ} {K : Type} [Field K]
     (hn : 3 ≤ n) {u : spinGroup (quadPlus n K)}

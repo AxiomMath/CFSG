@@ -21,12 +21,12 @@ variable {ℓ f : ℕ} {K : Type} [Field K]
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Units.val_mul, map_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul, map_mul] at ha hb ⊢
     calc h.bar a * h.bar b * (a * b) = (h.bar a * a) * (h.bar b * b) := by ring
       _ = 1 := by rw [ha, hb, one_mul]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Units.val_inv_eq_inv_val, map_inv₀] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_inv_eq_inv_val, map_inv₀] at ha ⊢
     rw [← mul_inv, ha, inv_one]
 
 theorem mem_unitNorm1 (h : UnitaryFieldData ℓ f K) {u : Kˣ} :
@@ -225,13 +225,13 @@ theorem diagonal_commute_swap (i j : Fin n) (d : Fin n → K) (hd : d i = d j) :
   rw [diagonal_mul, mul_diagonal, swap_permMatrix_apply]
   by_cases h : Equiv.swap i j a = b
   · subst h
-    rw [if_pos rfl, mul_one, one_mul]
+    rw [ite_eq_left rfl, mul_one, one_mul]
     rw [Equiv.swap_apply_def]
     split_ifs with h1 h2
     · rw [h1, hd]
     · rw [h2, hd]
     · rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp
 
 end Swap
@@ -276,7 +276,7 @@ theorem rkY_false_su {Y : Type} [Group Y] (hRk : RkY Y) [Finite K] (h : UnitaryF
   have hE := isElemAbelian_range (suTorus h hdvd hn5) pow_three_eq_one_prod
   by_cases h2 : ringChar K = 2
   · have h7 : 7 ≤ n := hodd.resolve_left (not_not.2 h2)
-    haveI : CharP K 2 := ringChar.of_eq h2
+    have : CharP K 2 := ringChar.of_eq h2
     refine rkY_false_of_cover hRk ρ q π hcomp hZ hE hcard hEπ
       (U₀ := Subgroup.zpowers (swapSU h h7))
       (isElemAbelian_zpowers (swapSU_sq h h7)).isPGroup ?_ ?_

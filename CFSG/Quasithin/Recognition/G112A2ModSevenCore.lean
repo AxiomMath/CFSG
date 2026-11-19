@@ -20,7 +20,7 @@ variable {K : Type} [Field K]
 
 theorem g112A2SevenTens_smul (g h : SL(2, K)) (c : K) (X : Matrix (Fin 2) (Fin 2) K) :
     c • g112A2SevenTens g h X = g112A2SevenTens g h (c • X) := by
-  simp [g112A2SevenTens, Matrix.mul_smul, Matrix.smul_mul]
+  simp [g112A2SevenTens]
 
 theorem g112A2SevenTens_inv (g h : SL(2, K)) (X : Matrix (Fin 2) (Fin 2) K) :
     g112A2SevenTens g h (g112A2SevenTens g⁻¹ h⁻¹ X) = X := by
@@ -39,11 +39,13 @@ section Core
 
 variable {K : Type} [Field K] [Algebra (ZMod 2) K]
 
+omit [Algebra (ZMod 2) K] in
 theorem g112A2Seven_detPolar_self (h2 : (2 : K) = 0) (X : Matrix (Fin 2) (Fin 2) K) :
     detPolar X X = 0 := by
   simp only [detPolar]
   linear_combination (X 0 0 * X 1 1 - X 0 1 * X 1 0) * h2
 
+omit [Algebra (ZMod 2) K] in
 theorem g112A2Seven_detPolar_smul_left (X Y : Matrix (Fin 2) (Fin 2) K) (μ : K) :
     detPolar (μ • X) Y = μ * detPolar X Y := by
   rw [detPolar_comm, detPolar_smul_right, detPolar_comm]

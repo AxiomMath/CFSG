@@ -60,13 +60,14 @@ theorem isElemAbelian_card_sup_zpowers_of_centralizer {p : ℕ} (hp : p.Prime)
     (Subgroup.zpowers y) hnorm hdisj, hEcard, Nat.card_zpowers, hyord]
   ring
 
+omit [Finite G] in
 theorem exists_sylow_two_image_of_two_element {H U : Subgroup G} (hUH : U ≤ H) {x : G}
     (hxU : x ∈ U) (hx1 : x ≠ 1) (hx2 : ∃ k : ℕ, orderOf x = 2 ^ k) :
     ∃ P : Sylow 2 (U.subgroupOf H), ∃ S : Subgroup G,
       S = (((P : Subgroup (U.subgroupOf H)).map (U.subgroupOf H).subtype).map H.subtype) ∧
       S ≤ U ∧ x ∈ S ∧ S ≠ ⊥ ∧ IsPGroup 2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup ↥H := U.subgroupOf H
   let xH : ↥H := ⟨x, hUH hxU⟩
   have hxN : xH ∈ N := by
@@ -97,7 +98,7 @@ theorem exists_sylow_two_image_of_two_element {H U : Subgroup G} (hUH : U ≤ H)
     intro hbot
     have hxbot : x ∈ (⊥ : Subgroup G) := by simpa [hbot] using hxS
     exact hx1 (Subgroup.mem_bot.mp hxbot)
-  have hS2 : IsPGroup 2 S := (P.isPGroup'.map N.subtype).map H.subtype
+  have hS2 : IsPGroup 2 S := (P.isPGroup.map N.subtype).map H.subtype
   exact ⟨P, S, rfl, hSU, hxS, hSne, hS2⟩
 
 theorem prime_dvd_card_quotient_of_orderOf_eq_pow_of_not_mem {p : ℕ} (hp : p.Prime)
@@ -141,8 +142,8 @@ theorem exists_five_mem_normalizer_two {U : Subgroup G} {f : G}
     ∃ S : Subgroup G, S ≤ U ∧ S ≠ ⊥ ∧ IsPGroup 2 S ∧ ∃ y : G, orderOf y = 5 ∧
       y ∈ U ⊔ Subgroup.zpowers f ∧ y ∈ Subgroup.normalizer (S : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set H : Subgroup G := U ⊔ Subgroup.zpowers f with hHdef
   have hfH : f ∈ H := by rw [hHdef]; exact Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
   have hUH : U ≤ H := by rw [hHdef]; exact le_sup_left
@@ -150,7 +151,7 @@ theorem exists_five_mem_normalizer_two {U : Subgroup G} {f : G}
     rw [hHdef]
     exact sup_le (fun u hu => Subgroup.le_normalizer hu) (Subgroup.zpowers_le.mpr hfU)
   let N : Subgroup ↥H := U.subgroupOf H
-  haveI hNnormal : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnorm
+  have hNnormal : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnorm
   obtain ⟨P, S, hSdef, hSU, hxS, hSne, hS2⟩ :=
     exists_sylow_two_image_of_two_element hUH hxU hx1 hx2
   obtain ⟨k, hk⟩ := hf5
@@ -164,7 +165,7 @@ theorem exists_five_mem_normalizer_two {U : Subgroup G} {f : G}
     CFSG.RankThree.PartOne.KFSU5.exists_orderOf_eq_normalizer_sylow N P h5card
   refine ⟨S, hSU, hSne, hS2, (yH : G), ?_, ?_, ?_⟩
   · simpa using hyHord
-  · simpa [hHdef] using yH.2
+  · simp [hHdef]
   · simpa [hSdef] using
       (CFSG.RankThree.PartTwo.Sec13.F135Last.r5b_map_normalizer_mem H.subtype_injective hyHnorm)
 

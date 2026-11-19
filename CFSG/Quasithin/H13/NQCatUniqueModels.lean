@@ -105,7 +105,7 @@ theorem le_normalizer_of_isSolvable_of_fusionBenderBorel [Finite G] {q k : ℕ}
       E ≤ normalizer (Q : Set G) → E ≤ B := fun Q hQ hQ1 hQT E hE =>
     U3.le_of_fusionStronglyEmbedded hSE hQ hQ1 (hQT.trans hTB) hE
   have hcyc : ∀ Y : Subgroup G, Y ≤ B → Odd (Nat.card Y) → IsCyclic Y := fun Y hYB hY =>
-    isCyclic_of_le_of_odd T.isPGroup' hTB normal_in_normalizer hDc hTDB hYB hY
+    isCyclic_of_le_of_odd T.isPGroup hTB normal_in_normalizer hDc hTDB hYB hY
   let TM : Sylow 2 M := T.subtype hTM
   have hTM' : (TM : Subgroup M) = (T : Subgroup G).subgroupOf M := T.coe_subtype hTM
   have hnorm : ∀ K : Subgroup M, K.Normal → M ≤ normalizer ((K.map M.subtype : Subgroup G) :
@@ -266,7 +266,7 @@ theorem exact_uniqueness_models_have_cyclic_large_prime_sylow_products
     set M := permProd P T hPT
     have hMsolv : Group.IsSolvable M := by
       obtain ⟨d, hdP, hcard⟩ := card_permProd P T hPT
-      obtain ⟨m, hm⟩ := T.isPGroup'.exists_card_eq
+      obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
       obtain ⟨n, hn⟩ := hP.exists_card_eq
       rw [hn] at hdP
       obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow hp).1 hdP
@@ -283,7 +283,7 @@ theorem exact_uniqueness_models_have_cyclic_large_prime_sylow_products
       (le_permProd_right P T hPT) hMsolv
     obtain ⟨-, ⟨D, hDc, -, -, hTDB⟩, -⟩ := hBB T
     obtain ⟨n, hn⟩ := hP.exists_card_eq
-    exact isCyclic_of_le_of_odd T.isPGroup' le_normalizer normal_in_normalizer hDc hTDB
+    exact isCyclic_of_le_of_odd T.isPGroup le_normalizer normal_in_normalizer hDc hTDB
       ((le_permProd_left P T hPT).trans hMB)
       (by rw [hn]; exact (hp.odd_of_ne_two (by omega)).pow)
   · rcases hS with ⟨p', hp', hp'7, -, ⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩

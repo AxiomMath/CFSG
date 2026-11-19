@@ -17,6 +17,7 @@ section Facts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem i1431_isElemAbelian_zpowers {y : G} (hy : y ^ 3 = 1) :
     IsElemAbelian 3 (Subgroup.zpowers y) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -101,7 +102,7 @@ theorem i1431_u42_not_alt {S : Type} [Group S] {m : ℕ} (hm : 5 ≤ m) (h : cat
     exact CFSG.LieType.Multipliers.U42.card_PSp43
   have h2 : Nat.card S = m.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv]
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, Nat.card_fin]
   have h3 : m.factorial / 2 = 25920 := h2.symm.trans h1
   rcases le_or_gt m 8 with h8 | h9

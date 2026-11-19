@@ -27,7 +27,7 @@ private theorem fi22oi_outer_mul_mem_P
   rwa [he] at h2
 
 private theorem fi22oi_conj_not_mem_P
-    {c τ : Equiv.Perm (Fin 3510)} (hc : c ∈ fi22P) (hτR : τ ∈ fi22R) (hτP : τ ∉ fi22P) :
+    {c τ : Equiv.Perm (Fin 3510)} (hc : c ∈ fi22P) (_hτR : τ ∈ fi22R) (hτP : τ ∉ fi22P) :
     c * τ * c⁻¹ ∉ fi22P := by
   intro h
   apply hτP
@@ -51,12 +51,12 @@ theorem fi22_outer_index_ge_sixteen
     (e : (↥L ⧸ Subgroup.center ↥L) ≃* CFSG.Blueprint.NativeSporadic.Fi22)
     {U : Type} [CommGroup U] [Finite U] (hU : ∀ w : U, w * w = 1) (ρ : ↥Y →* MulAut U)
     (hρL : Function.Injective (ρ.comp (Subgroup.inclusion hLY)))
-    {ζ : ↥L} (hζ : ζ ∈ Subgroup.center ↥L) (hζ1 : ζ ≠ 1)
+    {ζ : ↥L} (hζ : ζ ∈ Subgroup.center ↥L) (_hζ1 : ζ ≠ 1)
     (hfixL : ∀ u : U, (ρ.comp (Subgroup.inclusion hLY)) ζ u = u → u = 1)
     (h54 : 2 ^ 54 ≤ Nat.card U) {t : MulAut W} (htY : t ∈ Y) (hto : orderOf t = 2)
     (htL : t ∉ L) :
     2 ^ 4 ≤ (fixV (Subgroup.zpowers (ρ ⟨t, htY⟩))).index := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   obtain ⟨F, hFR, hFP, hsurj, hback, hker⟩ := fi22_outer_transport hLY hLn hF hq e
   let L' : Subgroup ↥Y := L.subgroupOf Y
@@ -113,7 +113,7 @@ theorem fi22_outer_index_ge_sixteen
       rw [← map_pow, hl3, map_one]
     rwa [hinc] at hmap
   have hperf' : Group.IsPerfect ↥L' := by
-    haveI : Group.IsPerfect ↥L := hq.1
+    have : Group.IsPerfect ↥L := hq.1
     exact Group.IsPerfect.ofSurjective (f := (ι.symm).toMonoidHom) ι.symm.surjective
   have hζ' : ι.symm ζ ∈ Subgroup.center ↥L' :=
     Subgroup.comap_center_le_center (f := ι.toMonoidHom) ι.injective (by

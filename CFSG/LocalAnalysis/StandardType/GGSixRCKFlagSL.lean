@@ -59,12 +59,12 @@ private lemma rckFlagSL_transvection
     change (LinearEquiv.transvection hφu : (ι → F) →ₗ[F] (ι → F)) = 1 + A
     rw [LinearEquiv.transvection.coe_toLinearMap]
     ext y
-    simp [A, LinearMap.transvection.apply, LinearMap.smulRight_apply]
+    simp [A, LinearMap.transvection.apply]
   have hGB : ((GB : (ι → F) ≃ₗ[F] (ι → F)) : (ι → F) →ₗ[F] (ι → F)) = 1 + B := by
     change (LinearEquiv.transvection hψsu : (ι → F) →ₗ[F] (ι → F)) = 1 + B
     rw [LinearEquiv.transvection.coe_toLinearMap]
     ext y
-    simp [B, LinearMap.transvection.apply, LinearMap.smulRight_apply]
+    simp [B, LinearMap.transvection.apply]
   have hG : (G : (ι → F) →ₗ[F] (ι → F)) = (1 + A) * (1 + B) := by
     have h1 : (G : (ι → F) →ₗ[F] (ι → F))
         = ((GA : (ι → F) ≃ₗ[F] (ι → F)) : (ι → F) →ₗ[F] (ι → F)) *
@@ -121,7 +121,7 @@ private lemma rckFlagSL_transvection
     rw [hjg, LinearMap.toMatrix'_mulVec]
     exact hxG
 
-theorem rckFlagIrredW_SL (m g : ℕ) (hg : 1 ≤ g) :
+theorem rckFlagIrredW_SL (m g : ℕ) (_hg : 1 ≤ g) :
     FlagIrredW (Matrix.SpecialLinearGroup.toGL (n := Fin (m + 1)) (R := GaloisField 2 g)) none := by
   intro R' W H hWH hv hB r hr hr1 P hPW hInv
   by_cases hbot : P = ⊥

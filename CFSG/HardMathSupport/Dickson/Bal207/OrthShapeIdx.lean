@@ -63,7 +63,7 @@ theorem orthCompIdx_cases {d : TauCeti.LieTypeIndex} (h : OrthCompIdx d) :
 theorem orthCompType_psl2 {E : Type} [Field E] [Finite E] (hE : Nat.card E = 8) :
     OrthCompType (Matrix.SpecialLinearGroup (Fin 2) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -79,7 +79,7 @@ theorem orthCompType_psu {E : Type} [Field E] [Finite E] {k m : ℕ}
     (hE : Nat.card E = (2 ^ k) ^ 2) (hk : k = 1 ∨ k = 3) (hm : 3 ≤ m)
     (hmq : (m, 2 ^ k) ≠ (3, 2)) :
     OrthCompType (↥(StatedSU m (2 ^ k) E) ⧸ Subgroup.center ↥(StatedSU m (2 ^ k) E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < k := by omega
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) hE hm hmq
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
@@ -96,8 +96,8 @@ theorem orthCompType_psu {E : Type} [Field E] [Finite E] {k m : ℕ}
     · norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -203,7 +203,7 @@ theorem famOrth_coprime_center (hGA : GriessAllModelsStatement) {K : Type} [Grou
     rw [hp2] at hL
     have heven : Even (2 ^ q.exponent) := (Nat.even_pow' q.exponent_pos.ne').mpr even_two
     have hg : ¬ 3 ∣ (genericOrders .POmegaPlus r 2 q.exponent).1 := by
-      simp only [genericOrders, if_pos heven]
+      simp only [genericOrders, ite_eq_left heven]
       norm_num
     exact centerAux_coprime_of_card_le_one Nat.prime_three
       ((center_torsion_le hGA hq e hL Nat.prime_three).trans

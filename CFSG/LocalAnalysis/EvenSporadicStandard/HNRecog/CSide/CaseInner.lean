@@ -17,7 +17,7 @@ theorem CSideSetup.card_comm_of_inner [Finite C]
     (hC : WeakHyp C Q) (S : CSideSetup C Q) {t : C} (htL : t ∈ commutator C)
     (ht2 : (t : C ⧸ Q) ^ 2 = 1) (ht1 : (t : C ⧸ Q) ≠ 1) :
     Nat.card {q : C // q ∈ Q ∧ ⁅q, t⁆ ∈ centerOf Q} = 2 ^ 5 := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   let l : ↥(commutator C) := ⟨t, htL⟩
   let g := S.θ l
   have hg1 : g ≠ 1 := by

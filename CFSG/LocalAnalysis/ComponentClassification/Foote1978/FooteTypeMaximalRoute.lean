@@ -478,7 +478,7 @@ section Certificates
 
 theorem footeMarkedRelativeIdentity_holds : FooteMarkedRelativeIdentity := by
   intro G _ _ t L 𝓢 hset H hH a A _ _ hP b K hCorr
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
     (GrSLit.fusionZStar_quotient_of_isPComponent hset.2.1.1.2.2.1.2.1
       hset.2.1.1.2.2.1.2.2).1
   exact (FooteMarked.relative_identity_of_localB_proper_H

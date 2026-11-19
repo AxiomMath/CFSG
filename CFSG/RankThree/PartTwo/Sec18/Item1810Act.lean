@@ -16,6 +16,7 @@ section Coords
 variable {D : Subgroup G} {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
   (f : Multiplicative V ≃* D)
 
+omit [Module (ZMod 3) V] in
 private theorem coordVec_eq_iff_apply {c : D} {w : V} :
     Sec12.coordVec f c = w ↔ f (Multiplicative.ofAdd w) = c := by
   constructor
@@ -41,6 +42,7 @@ theorem coordVec_zpow {y : G} (hy : y ∈ D) (k : ℤ) :
   unfold Sec12.coordVec
   rw [hpt, map_zpow, toAdd_zpow, Int.cast_smul_eq_zsmul]
 
+omit [Module (ZMod 3) V] in
 theorem coordVec_mul {y z : G} (hy : y ∈ D) (hz : z ∈ D) :
     Sec12.coordVec f ⟨y * z, D.mul_mem hy hz⟩ =
       Sec12.coordVec f ⟨y, hy⟩ + Sec12.coordVec f ⟨z, hz⟩ := by
@@ -48,10 +50,12 @@ theorem coordVec_mul {y z : G} (hy : y ∈ D) (hz : z ∈ D) :
   unfold Sec12.coordVec
   rw [hpt, map_mul, toAdd_mul]
 
+omit [Module (ZMod 3) V] in
 theorem exists_coordVec_eq (u : V) : ∃ (y : G) (hy : y ∈ D), Sec12.coordVec f ⟨y, hy⟩ = u := by
   exact ⟨(f (Multiplicative.ofAdd u) : G), (f (Multiplicative.ofAdd u)).2,
     (coordVec_eq_iff_apply f).mpr rfl⟩
 
+omit [Module (ZMod 3) V] in
 theorem eq_of_coordVec_eq {y z : G} (hy : y ∈ D) (hz : z ∈ D)
     (h : Sec12.coordVec f ⟨y, hy⟩ = Sec12.coordVec f ⟨z, hz⟩) : y = z := by
   have h' : Multiplicative.toAdd (f.symm ⟨y, hy⟩) = Multiplicative.toAdd (f.symm ⟨z, hz⟩) := h
@@ -110,7 +114,7 @@ theorem wAction_mem_zpowers [Finite G] {A : Subgroup G}
     rw [Subgroup.index_ker, hkerCard, hcard] at h1
     have hm : 0 < Nat.card (A ⊓ Subgroup.centralizer (D : Set G) : Subgroup G) := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hm (h1.trans (Nat.mul_comm 3 _))
-  haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hg : ψ ⟨a₀, ha₀⟩ ∈ ψ.range := MonoidHom.mem_range.mpr ⟨_, rfl⟩
   have hg1 : ψ ⟨a₀, ha₀⟩ ≠ 1 := fun h => ha₀D ((wAction_eq_one_iff f ⟨a₀, hAD ha₀⟩).mp h)
   have hord : orderOf (ψ ⟨a₀, ha₀⟩) = 3 := by
@@ -132,6 +136,7 @@ section Sylow
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {Q K : Subgroup G} (hQK : Q ≤ K)
     (hQ : IsPGroup p Q) : ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p R K ∧ Q ≤ R := by
   have hQ' : IsPGroup p (Q.subgroupOf K) := hQ.comap_subtype

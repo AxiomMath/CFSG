@@ -46,7 +46,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
   have := hKCn
   have hPKC : (Pbar : Subgroup (D1CzQuot p z)) ≤
       KC ⊔ Subgroup.centralizer (KC : Set (D1CzQuot p z)) := fun x hx => hB x (by
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨x, hx⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩)
   have hdec : ∀ r ∈ (Pbar : Subgroup (D1CzQuot p z)), ∃ t ∈ (Pbar : Subgroup _) ⊓ KC,
       ∃ c ∈ (Pbar : Subgroup _) ⊓ Subgroup.centralizer (KC : Set (D1CzQuot p z)), t * c = r :=
@@ -57,7 +57,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
     hzK hZKC
   have hzY : d1CzElt p z ∈ Y :=
     ⟨mem_sylow_of_mem_center hzZ hzp Pbar, Subgroup.center_le_centralizer _ hzZ⟩
-  have hYp : IsPGroup p Y := Pbar.isPGroup'.to_le inf_le_left
+  have hYp : IsPGroup p Y := Pbar.isPGroup.to_le inf_le_left
   have hcomm : ∀ a ∈ (Pbar : Subgroup (D1CzQuot p z)) ⊓ KC, ∀ c ∈ Y, Commute a c :=
     fun a ha c hc => Subgroup.mem_centralizer_iff.mp hc.2 a ha.2
   have hcard1 : Nat.card (Pbar : Subgroup (D1CzQuot p z)) ≤
@@ -67,7 +67,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
     rw [hcardKC, ← hT₁, Subgroup.card_map_of_injective K.subtype_injective]
   have hcard3 : Nat.card (Pbar : Subgroup (D1CzQuot p z)) =
       Nat.card ((T : Subgroup _).map (Subgroup.centralizer ({z} : Set G)).subtype) := by
-    rw [hPbar, card_map_mk_of_isPGroup hp _ (primeComplementCore_coprime p) T.isPGroup',
+    rw [hPbar, card_map_mk_of_isPGroup hp _ (primeComplementCore_coprime p) T.isPGroup,
       Subgroup.card_map_of_injective (Subgroup.centralizer ({z} : Set G)).subtype_injective]
   have hRne : R ≠ (T : Subgroup _).map (Subgroup.centralizer ({z} : Set G)).subtype :=
     fun h => hnB0 ⟨T, h.symm⟩
@@ -110,7 +110,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
     exact ht
   rw [hPbar] at hN ho
   obtain ⟨hN', o', ho', ho'z⟩ := exists_pow_eq_of_map hp _ (primeComplementCore_coprime p)
-    T.isPGroup' hzT hN ho
+    T.isPGroup hzT hN ho
   have hNG : ∀ t ∈ (T : Subgroup _).map (Subgroup.centralizer ({z} : Set G)).subtype,
       t ^ N ∈ Subgroup.zpowers z := by
     rintro _ ⟨t, ht, rfl⟩
@@ -119,7 +119,7 @@ theorem D1OneSmallData.false_of_b1_of_comp (hd : D1OneSmallData p P M H R Rbar K
       simpa using congrArg Subtype.val hj⟩
   have hoG : ∃ o ∈ (T : Subgroup _).map (Subgroup.centralizer ({z} : Set G)).subtype,
       o ^ N = z := ⟨o', ⟨o', ho', rfl⟩, by simpa using congrArg Subtype.val ho'z⟩
-  have hQp : IsPGroup p ((P : Subgroup G).map (MulAut.conj m).toMonoidHom) := P.isPGroup'.map _
+  have hQp : IsPGroup p ((P : Subgroup G).map (MulAut.conj m).toMonoidHom) := P.isPGroup.map _
   have hQC : (P : Subgroup G).map (MulAut.conj m).toMonoidHom ⊓
       Subgroup.centralizer ({z} : Set G) ≤
         (T : Subgroup _).map (Subgroup.centralizer ({z} : Set G)).subtype := by
@@ -179,7 +179,7 @@ theorem D1OneSmallData.false_of_b1 (hOut : KFactSmallOutPPrime) (hExp : KFactSma
       rw [← map_pow, ← map_pow, hxn, map_one, map_one]
   have hexp : ∀ t ∈ (Pbar : Subgroup (D1CzQuot p z)) ⊓ KC, t ^ p = 1 := by
     intro t ht
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨t, ht.1⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨t, ht.1⟩
     have htn : t ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hk1 : (⟨t, ht.2⟩ : KC) ^ p ^ n = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact htn)
     have h1 := hExp K hs hnab hc p hp hp2 T₁ hT₁nc hΓ hd.small (e ⟨t, ht.2⟩)

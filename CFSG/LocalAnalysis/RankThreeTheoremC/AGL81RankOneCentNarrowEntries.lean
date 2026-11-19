@@ -22,7 +22,7 @@ theorem narrowGamma_eq_top_of_seitz_rank {p : ℕ} {d : TauCeti.ValidLieTypeInde
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) (hZ : Subgroup.center K = ⊥)
     (h2 : 2 ≤ Open.pRank p (⊤ : Subgroup K)) (T : Sylow p K) :
     narrowGamma p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, -, hA, hAc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h2
   exact narrowGamma_eq_top_of_le_sylow hp (MulEquiv.refl K) hA.isPGroup
     (narrowGamma_eq_top_of_seitz CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds hp hp2 hpd
@@ -86,7 +86,7 @@ theorem narrowGamma_eq_top_onan
     {K : Type} [Group K] [Finite K]
     (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .ONan).Group)) (T : Sylow 7 K) :
     narrowGamma 7 (T : Subgroup K) = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   obtain ⟨eK⟩ := hK
   have hQP : onSevenQ ≤ Pv := onSeven_mem_P.1
@@ -106,7 +106,7 @@ theorem narrowGamma_eq_top_fi24
     {K : Type} [Group K] [Finite K]
     (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group)) (T : Sylow 7 K) :
     narrowGamma 7 (T : Subgroup K) = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcx : Commute Fi7.C7 Fi7.X7 := Fi7.fi7_cube.2.2.2.1
   have hc7 : Fi7.C7 ^ 7 = 1 := Fi7.C7_pow_seven
   have hx7 : Fi7.X7 ^ 7 = 1 := Fi7.fi7_cube.1

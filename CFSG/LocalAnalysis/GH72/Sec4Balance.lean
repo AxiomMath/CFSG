@@ -193,9 +193,9 @@ theorem mem_Y {a : G} : a ∈ 𝔖.Y A ↔ a ∈ A ∧ a ∈ 𝔖.S₂ := Iff.rf
 
 theorem S_eq : (𝔖.S : Subgroup G) = 𝔖.S₁ ⊔ 𝔖.S₂ := 𝔖.decomp.sup_eq.symm
 
-theorem isPGroup_S₁ : IsPGroup 2 𝔖.S₁ := 𝔖.S.isPGroup'.to_le 𝔖.decomp.le_left
+theorem isPGroup_S₁ : IsPGroup 2 𝔖.S₁ := 𝔖.S.isPGroup.to_le 𝔖.decomp.le_left
 
-theorem isPGroup_S₂ : IsPGroup 2 𝔖.S₂ := 𝔖.S.isPGroup'.to_le 𝔖.decomp.le_right
+theorem isPGroup_S₂ : IsPGroup 2 𝔖.S₂ := 𝔖.S.isPGroup.to_le 𝔖.decomp.le_right
 
 theorem S₂_le_C_z₁ : 𝔖.S₂ ≤ C 𝔖.z₁ := fun _ hs =>
   mem_centralizer_singleton_iff.mpr (𝔖.decomp.comm 𝔖.hz₁.1 hs).symm

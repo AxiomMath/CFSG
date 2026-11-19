@@ -57,7 +57,7 @@ theorem syl5_sylow
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hrank : Group.rank (P : Subgroup Rgrp) ≤ 3 := hext.pbar_groupRank_top
   have hle := le_centralizer_of_frattini (p := 3) (q := 5) (r := 3) (by norm_num)
-    P.isPGroup' hrank (by decide) h5 hg
+    P.isPGroup hrank (by decide) h5 hg
   have h1 := Subgroup.card_dvd_of_le hle
   rw [(hext.pbar_card : Nat.card P = 3 ^ 9)] at h1
   have := h1.trans (hC.c5 g h5)

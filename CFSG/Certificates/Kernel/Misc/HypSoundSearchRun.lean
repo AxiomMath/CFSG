@@ -37,37 +37,37 @@ private theorem combK_match {a b : Nat} {A B : Option (List Flags)}
   · intro h1
     rw [combK_eq] at h1
     by_cases h0 : a = 0 ∨ b = 0
-    · rw [if_pos h0] at h1; omega
-    · rw [if_neg h0] at h1
+    · rw [ite_eq_left h0] at h1; omega
+    · rw [ite_eq_right h0] at h1
       by_cases h1a : a = 1
-      · rw [if_pos h1a] at h1
+      · rw [ite_eq_left h1a] at h1
         have hA : A = some [] := ha1 h1a
         have hB : B = some [] := hb1 h1
         rw [hA, hB]; simp [combOpt]
-      · rw [if_neg h1a] at h1
+      · rw [ite_eq_right h1a] at h1
         by_cases h1b : b = 1
-        · rw [if_pos h1b] at h1
+        · rw [ite_eq_left h1b] at h1
           have hA : A = some [] := ha1 h1
           have hB : B = some [] := hb1 h1b
           rw [hA, hB]; simp [combOpt]
-        · rw [if_neg h1b] at h1; omega
+        · rw [ite_eq_right h1b] at h1; omega
   · intro S hS
     rw [combK_eq] at hS
     by_cases h0 : a = 0 ∨ b = 0
-    · rw [if_pos h0] at hS; omega
-    · rw [if_neg h0] at hS
+    · rw [ite_eq_left h0] at hS; omega
+    · rw [ite_eq_right h0] at hS
       by_cases h1a : a = 1
-      · rw [if_pos h1a] at hS
+      · rw [ite_eq_left h1a] at hS
         have hA : A = some [] := ha1 h1a
         have hB : B = some [fl S] := hb2 S hS
         rw [hA, hB]; simp [combOpt]
-      · rw [if_neg h1a] at hS
+      · rw [ite_eq_right h1a] at hS
         by_cases h1b : b = 1
-        · rw [if_pos h1b] at hS
+        · rw [ite_eq_left h1b] at hS
           have hA : A = some [fl S] := ha2 S hS
           have hB : B = some [] := hb1 h1b
           rw [hA, hB]; simp [combOpt]
-        · rw [if_neg h1b] at hS; omega
+        · rw [ite_eq_right h1b] at hS; omega
 
 private theorem branchAll_append {rec : Flags → Flags → Option (List Flags)} {C : HCtx}
     {x : Nat} {I X : Flags} (l : List Nat) (j : Nat) :
@@ -156,23 +156,23 @@ private theorem branchK_match {go : Nat → Nat → Nat} {rec : Flags → Flags 
 private theorem hstep_conflict {rec : Flags → Flags → Option (List Flags)} {I X : Flags}
     (hany : anyIn 693 (fun p => I[p]! && X[p]!) = true) : hstep C rec I X = some [] := by
   unfold hstep
-  rw [if_pos hany]
+  rw [ite_eq_left hany]
 
 private theorem hstep_complete {rec : Flags → Flags → Option (List Flags)} {I X : Flags}
     (hany : anyIn 693 (fun p => I[p]! && X[p]!) = false)
     (hall : allIn 0 693 (fun p => I[p]! || X[p]!) = true) : hstep C rec I X = some [I] := by
   unfold hstep
-  rw [if_neg (by rw [hany]; simp), if_pos hall]
+  rw [ite_eq_right (by rw [hany]; simp), ite_eq_left hall]
 
 private theorem hstep_empty {rec : Flags → Flags → Option (List Flags)} {I X : Flags}
     (hany : anyIn 693 (fun p => I[p]! && X[p]!) = false)
     (hall : allIn 0 693 (fun p => I[p]! || X[p]!) = false)
     (hcs : (candsAt C I X).any (fun c => c.2.isEmpty) = true) : hstep C rec I X = some [] := by
   unfold hstep
-  rw [if_neg (by rw [hany]; simp), if_neg (by rw [hall]; simp)]
+  rw [ite_eq_right (by rw [hany]; simp), ite_eq_right (by rw [hall]; simp)]
   dsimp only
   rw [show (filterRange (fun x => I[x]! && C.pl[x]!.any fun y => !(I[y]! || X[y]!)) 693 []).map
-      (fun x => (x, cands C x I X)) = candsAt C I X from rfl, if_pos hcs]
+      (fun x => (x, cands C x I X)) = candsAt C I X from rfl, ite_eq_left hcs]
 
 private theorem hstep_forced {rec : Flags → Flags → Option (List Flags)} {I X : Flags}
     (hany : anyIn 693 (fun p => I[p]! && X[p]!) = false)
@@ -182,11 +182,11 @@ private theorem hstep_forced {rec : Flags → Flags → Option (List Flags)} {I 
     hstep C rec I X = rec (extI C (forcedOf (candsAt C I X)) I)
       (extX C (forcedOf (candsAt C I X)) X) := by
   unfold hstep
-  rw [if_neg (by rw [hany]; simp), if_neg (by rw [hall]; simp)]
+  rw [ite_eq_right (by rw [hany]; simp), ite_eq_right (by rw [hall]; simp)]
   dsimp only
   rw [show (filterRange (fun x => I[x]! && C.pl[x]!.any fun y => !(I[y]! || X[y]!)) 693 []).map
       (fun x => (x, cands C x I X)) = candsAt C I X from rfl,
-    if_neg (by rw [hcs]; simp), if_pos (by rw [hf]; simp)]
+    ite_eq_right (by rw [hcs]; simp), ite_eq_left (by rw [hf]; simp)]
 
 private theorem hstep_branch {rec : Flags → Flags → Option (List Flags)} {I X : Flags}
     {d : Nat × List Nat}
@@ -197,11 +197,11 @@ private theorem hstep_branch {rec : Flags → Flags → Option (List Flags)} {I 
     (hd : pickMin (candsAt C I X) = some d) :
     hstep C rec I X = branchAll rec C d.1 I X d.2 := by
   unfold hstep
-  rw [if_neg (by rw [hany]; simp), if_neg (by rw [hall]; simp)]
+  rw [ite_eq_right (by rw [hany]; simp), ite_eq_right (by rw [hall]; simp)]
   dsimp only
   rw [show (filterRange (fun x => I[x]! && C.pl[x]!.any fun y => !(I[y]! || X[y]!)) 693 []).map
       (fun x => (x, cands C x I X)) = candsAt C I X from rfl,
-    if_neg (by rw [hcs]; simp), if_neg (by rw [hf]; simp), hd]
+    ite_eq_right (by rw [hcs]; simp), ite_eq_right (by rw [hf]; simp), hd]
 
 private theorem hM_eq : Nat.sub (Nat.shiftLeft 1 693) 1 = 2 ^ 693 - 1 := by
   rw [show Nat.shiftLeft 1 693 = 2 ^ 693 from Nat.one_shiftLeft 693]; rfl
@@ -213,11 +213,11 @@ private theorem hstep_none {rec : Flags → Flags → Option (List Flags)} {I X 
     (hf : (forcedOf (candsAt C I X)).isEmpty = true)
     (hpm : pickMin (candsAt C I X) = none) : hstep C rec I X = none := by
   unfold hstep
-  rw [if_neg (by rw [hany]; simp), if_neg (by rw [hall]; simp)]
+  rw [ite_eq_right (by rw [hany]; simp), ite_eq_right (by rw [hall]; simp)]
   dsimp only
   rw [show (filterRange (fun x => I[x]! && C.pl[x]!.any fun y => !(I[y]! || X[y]!)) 693 []).map
       (fun x => (x, cands C x I X)) = candsAt C I X from rfl,
-    if_neg (by rw [hcs]; simp), if_neg (by rw [hf]; simp), hpm]
+    ite_eq_right (by rw [hcs]; simp), ite_eq_right (by rw [hf]; simp), hpm]
 
 theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
     ∀ I X : Nat, I < 2 ^ 693 → X < 2 ^ 693 →
@@ -234,11 +234,11 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
     · have hb1 : notB (Nat.beq (Nat.land I X) 0) = false := by
         have h : Nat.beq (Nat.land I X) 0 = true := by rw [Nat.beq_eq, Nat.land_eq]; exact hc
         rw [h]; rfl
-      rw [if_neg (by rw [hb1]; simp)]
+      rw [ite_eq_right (by rw [hb1]; simp)]
       by_cases hcomp : I ||| X = 2 ^ 693 - 1
       · have hb2 : Nat.beq (Nat.lor I X) (Nat.sub (Nat.shiftLeft 1 693) 1) = true := by
           rw [hM_eq, Nat.beq_eq, Nat.lor_eq]; exact hcomp
-        rw [if_pos hb2]
+        rw [ite_eq_left hb2]
         have hany : anyIn 693 (fun p => (fl I)[p]! && (fl X)[p]!) = false := by
           rw [Bool.eq_false_iff]
           intro h
@@ -254,7 +254,7 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
           intro hbeq
           rw [Nat.beq_eq, Nat.lor_eq] at hbeq
           exact hcomp hbeq
-        rw [if_neg (by rw [hb2]; simp)]
+        rw [ite_eq_right (by rw [hb2]; simp)]
         dsimp only
         have hany : anyIn 693 (fun p => (fl I)[p]! && (fl X)[p]!) = false := by
           rw [Bool.eq_false_iff]
@@ -266,21 +266,21 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
           exact hcomp ((allIn_complete_iff hI hX).1 h)
         obtain ⟨hr1386, hr1387, hrI, hrX⟩ := passK_spec (C := C) hC hI hX hc
         by_cases h1386 : bitK (passK PB LB LI NL I X) 1386 = true
-        · rw [if_pos h1386]
+        · rw [ite_eq_left h1386]
           have hcs : (candsAt C (fl I) (fl X)).any (fun c => c.2.isEmpty) = true := by
             have h : (passK PB LB LI NL I X).testBit 1386 = true := by
               rw [← bitK_eq_testBit]; exact h1386
             rwa [hr1386] at h
           rw [hstep_empty hany hall hcs]
           exact ⟨fun _ => rfl, fun S h => by omega⟩
-        · rw [if_neg h1386]
+        · rw [ite_eq_right h1386]
           have hcs : (candsAt C (fl I) (fl X)).any (fun c => c.2.isEmpty) = false := by
             have h : (passK PB LB LI NL I X).testBit 1386 = false := by
               rw [← bitK_eq_testBit]
               exact Bool.eq_false_iff.mpr h1386
             rwa [hr1386] at h
           by_cases h1387 : bitK (passK PB LB LI NL I X) 1387 = true
-          · rw [if_pos h1387]
+          · rw [ite_eq_left h1387]
             have hf : (forcedOf (candsAt C (fl I) (fl X))).isEmpty = false := by
               have h : (passK PB LB LI NL I X).testBit 1387 = true := by
                 rw [← bitK_eq_testBit]; exact h1387
@@ -291,7 +291,7 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
               (passK PB LB LI NL I X >>> 693 &&& (2 ^ 693 - 1))
               (Nat.and_lt_two_pow _ (Nat.sub_lt (Nat.two_pow_pos 693) (by norm_num)))
               (Nat.and_lt_two_pow _ (Nat.sub_lt (Nat.two_pow_pos 693) (by norm_num)))
-          · rw [if_neg h1387]
+          · rw [ite_eq_right h1387]
             have hf : (forcedOf (candsAt C (fl I) (fl X))).isEmpty = true := by
               have h : (passK PB LB LI NL I X).testBit 1387 = false := by
                 rw [← bitK_eq_testBit]
@@ -303,7 +303,7 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
               have hbeq : Nat.beq (minAccK PB LI NL I X) (Nat.mul 1024 2048) = true := by
                 rw [Nat.beq_eq]
                 exact (minAccK_spec (C := C) hC hI hX hc).1 hpm
-              rw [if_pos hbeq, hstep_none hany hall hcs hf hpm]
+              rw [ite_eq_left hbeq, hstep_none hany hall hcs hf hpm]
               exact ⟨fun h => by omega, fun S h => by omega⟩
             | some d =>
               obtain ⟨ha_eq, hd1, hd2⟩ := (minAccK_spec (C := C) hC hI hX hc).2 d hpm
@@ -326,7 +326,7 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
                 rw [ha_eq, Nat.add_comm, Nat.mul_comm]
                 exact (Nat.add_mul_mod_self_right d.1 d.2.length 1024).trans
                   (Nat.mod_eq_of_lt (by omega))
-              rw [if_neg (by rw [hbeq]; simp), hstep_branch hany hall hcs hf hpm]
+              rw [ite_eq_right (by rw [hbeq]; simp), hstep_branch hany hall hcs hf hpm]
               rw [hmod, hd2']
               refine branchK_match (go := runK PB LB LI NL n) (rec := hsearch C n) (I := I)
                 (X := X) (x := d.1) (Cs := candK LI NL d.1 I X) (h := ?_)
@@ -354,7 +354,7 @@ theorem runK_match (hC : SearchCtx C PB LB LI GI PL NL) (n : Nat) :
           rw [Nat.beq_eq, Nat.land_eq] at hbeq
           exact hc hbeq
         rw [h]; rfl
-      rw [if_pos hb1]
+      rw [ite_eq_left hb1]
       have hany : anyIn 693 (fun p => (fl I)[p]! && (fl X)[p]!) = true :=
         (anyIn_conflict_iff hI hX).2 hc
       rw [hstep_conflict hany]

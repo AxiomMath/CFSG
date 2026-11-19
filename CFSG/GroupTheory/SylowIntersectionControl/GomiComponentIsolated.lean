@@ -286,20 +286,20 @@ private theorem coordHom_surjective (hN : IsDirectProduct S N)
     rw [hx, hN.coord_equiv hB z]
     by_cases hBO : B ∈ conjOrbit H A <;> simp [z, hBO]
   have hxE : x ∈ sSup (conjOrbit H A) :=
-    mem_sSup_conjOrbit hN hxN fun B hB hBO => by rw [hz B hB, if_neg hBO]
+    mem_sSup_conjOrbit hN hxN fun B hB hBO => by rw [hz B hB, ite_eq_right hBO]
   have hxH : x ∈ normalizer (H : Set G) := by
     refine mem_normalizer_of_forall_coord hN hSG hxN fun h hh B hB => ?_
     rw [hz B hB, hz _ (hSG h B hB)]
     by_cases hBO : B ∈ conjOrbit H A
     · have hBh := map_conj_mem_conjOrbit hBO hh
-      rw [if_pos hBO, if_pos hBh]
+      rw [ite_eq_left hBO, ite_eq_left hBh]
       exact conj_mul_inv_conj_mem hd₀I hh (hcH B hBO) (hcH _ hBh)
         (inv_mul_mul_mem_normalizer (hcB B hBO) (hcB _ hBh))
-    · rw [if_neg hBO, if_neg fun h' => hBO (of_map_conj_mem_conjOrbit hh h')]
+    · rw [ite_eq_right hBO, ite_eq_right fun h' => hBO (of_map_conj_mem_conjOrbit hh h')]
       simp
   refine ⟨⟨x, mem_inf.mpr ⟨hxE, hxH⟩⟩, Subtype.ext ?_⟩
   change ((hN.coord hA ⟨x, hxN⟩ : A) : G) = _
-  rw [hz A hA, if_pos hAO]
+  rw [hz A hA, ite_eq_left hAO]
 
 private theorem coordHom_ker_le (hN : IsDirectProduct S N)
     (hSG : ∀ g : G, ∀ J ∈ S, J.map (MulAut.conj g).toMonoidHom ∈ S) (hH : IsPGroup 2 H)

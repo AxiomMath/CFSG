@@ -188,7 +188,7 @@ theorem acts_tMat_of {G : Type} [Group G] {B : Basis3 G (5 + 1)} {t : G}
   by_cases hj0 : j = 0
   · subst hj0
     rw [ht0, tSign]
-    simp only [true_or, if_true]
+    simp only [true_or, ite_true]
     exact (pow_two_eq_inv_of_orderOf_three (B.ord 0)).symm
   · by_cases hj1 : j = 1
     · subst hj1
@@ -201,7 +201,7 @@ theorem acts_tMat_of {G : Type} [Group G] {B : Basis3 G (5 + 1)} {t : G}
         omega
       have hsign : tSign j = 1 := by
         simp only [tSign]
-        rw [if_neg (by rintro (h | h); exacts [hj0 h, hj1 h])]
+        rw [ite_eq_right (by rintro (h | h); exacts [hj0 h, hj1 h])]
       rw [ht2 j hj2, htinv, hsign, ZMod.val_one, pow_one]
       rw [mul_assoc, ht2sq, mul_one]
       simp
@@ -416,22 +416,22 @@ theorem ext2_spMat (σ : Equiv.Perm (Fin 6)) (s : Fin 6 → ZMod 3) :
   · have hia : i = e62 (Sum.inl a) := by rw [← hi]; simp
     have hjb : j = e62 (Sum.inl b) := by rw [← hj]; simp
     rw [hia, hjb]
-    simp [ext2, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.fromBlocks,
+    simp [ext2, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.fromBlocks,
       spMat, extPerm, extSign]
   · have hia : i = e62 (Sum.inl a) := by rw [← hi]; simp
     have hjb : j = e62 (Sum.inr b) := by rw [← hj]; simp
     rw [hia, hjb]
-    simp [ext2, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.fromBlocks,
+    simp [ext2, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.fromBlocks,
       spMat, extPerm]
   · have hia : i = e62 (Sum.inr a) := by rw [← hi]; simp
     have hjb : j = e62 (Sum.inl b) := by rw [← hj]; simp
     rw [hia, hjb]
-    simp [ext2, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.fromBlocks,
+    simp [ext2, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.fromBlocks,
       spMat, extPerm]
   · have hia : i = e62 (Sum.inr a) := by rw [← hi]; simp
     have hjb : j = e62 (Sum.inr b) := by rw [← hj]; simp
     rw [hia, hjb]
-    simp [ext2, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.fromBlocks,
+    simp [ext2, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.fromBlocks,
       Matrix.neg_apply, Matrix.one_apply, spMat, extPerm, extSign]
     by_cases hab : a = b <;> simp [hab]
 
@@ -720,7 +720,7 @@ theorem ext2_mul_three (A B C : Matrix (Fin 6) (Fin 6) (ZMod 3)) :
 
 theorem ext2_apply_inr_self (M : Matrix (Fin 6) (Fin 6) (ZMod 3)) (a : Fin 2) :
     ext2 M (e62 (Sum.inr a)) (e62 (Sum.inr a)) = -1 := by
-  simp [ext2, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.fromBlocks,
+  simp [ext2, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.fromBlocks,
     Matrix.neg_apply]
 
 theorem exists_y_full_support {G : Type} [Group G] [Finite G] {B : Basis3 G (5 + 1)}
@@ -964,12 +964,12 @@ theorem isSign_mul_prod_inv {s : Fin (5 + 1) → ZMod 3} (hs : IsSign s) :
 theorem prod_update_zero_eq_one (s : Fin (5 + 1) → ZMod 3) (hs : IsSign s) :
     (∏ i, (if i = 0 then s 0 * (∏ j, s j)⁻¹ else s i)) = 1 := by
   rw [Fin.prod_univ_six, Fin.prod_univ_six]
-  simp only [Fin.isValue, if_true,
-    if_neg (by decide : (1 : Fin (5 + 1)) ≠ 0),
-    if_neg (by decide : (2 : Fin (5 + 1)) ≠ 0),
-    if_neg (by decide : (3 : Fin (5 + 1)) ≠ 0),
-    if_neg (by decide : (4 : Fin (5 + 1)) ≠ 0),
-    if_neg (by decide : (5 : Fin (5 + 1)) ≠ 0)]
+  simp only [Fin.isValue, ite_true,
+    ite_eq_right (by decide : (1 : Fin (5 + 1)) ≠ 0),
+    ite_eq_right (by decide : (2 : Fin (5 + 1)) ≠ 0),
+    ite_eq_right (by decide : (3 : Fin (5 + 1)) ≠ 0),
+    ite_eq_right (by decide : (4 : Fin (5 + 1)) ≠ 0),
+    ite_eq_right (by decide : (5 : Fin (5 + 1)) ≠ 0)]
   have hsne : ∀ i, s i ≠ 0 := by
     intro i
     rcases hs i with h | h <;> rw [h] <;> decide
@@ -984,9 +984,9 @@ theorem isSign_update_zero (s : Fin (5 + 1) → ZMod 3) (hs : IsSign s) :
   intro i
   by_cases hi : i = 0
   · subst hi
-    simp only [if_true]
+    simp only [ite_true]
     exact isSign_mul_prod_inv hs
-  · simp only [if_neg hi]
+  · simp only [ite_eq_right hi]
     exact hs i
 
 theorem spMat_update_zero_mulVec (σ : Equiv.Perm (Fin (5 + 1)))
@@ -997,7 +997,7 @@ theorem spMat_update_zero_mulVec (σ : Equiv.Perm (Fin (5 + 1)))
   simp only [spMat_mulVec]
   by_cases h : σ.symm i = 0
   · rw [h, hu0, mul_zero, mul_zero]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
 
 theorem exists_evenAll0_map_of_zero_one {u v : Coords (5 + 1)} (hwt : wt u = wt v)
     (hu0 : u 0 = 0) (hu1 : u 1 = 0) (hv0 : v 0 = 0) (hv1 : v 1 = 0) :

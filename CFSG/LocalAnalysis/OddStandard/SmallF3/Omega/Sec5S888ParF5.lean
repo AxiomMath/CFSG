@@ -19,7 +19,7 @@ open Subgroup CFSG.Blueprint
           CFSG.conjugate K₂ g = K₂ → y ∈ normalizer (L : Set G) →
           K₁ ⊔ K₂ ≤ centralizer ({y} : Set G) → y * y ∈ centralizer (L : Set G) →
           y ∉ centralizer (L : Set G) → y * z ∉ centralizer (L : Set G) →
-            (Xor' (∃ k ∈ K₁, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₁)
+            (Xor (∃ k ∈ K₁, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₁)
                 (∃ k ∈ K₂, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn K₂) ↔
               (y⁻¹ * (g⁻¹ * y * g) ∉ centralizer (L : Set G) ∧
                 (y * z)⁻¹ * (g⁻¹ * y * g) ∉ centralizer (L : Set G)))

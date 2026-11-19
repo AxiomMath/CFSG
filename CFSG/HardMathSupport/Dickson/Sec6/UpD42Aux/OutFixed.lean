@@ -29,10 +29,10 @@ theorem UpD42Pumpup.not_solvable_fixed {S : Type} [Group S] [Finite S]
     {α : MulAut S} (h : UpD42Pumpup S α) : ¬ Group.IsSolvable ↥(fixSubgroup α) := by
   obtain ⟨-, -, I, hI, hD⟩ := h
   intro hsol
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hI.1)
       (Subgroup.inclusion_injective hI.1)
-  haveI := (isSimpleGroup_of_isD42Type hD).1
+  have := (isSimpleGroup_of_isD42Type hD).1
   obtain ⟨a, b, hab⟩ := (isSimpleGroup_of_isD42Type hD).2
   exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := barOf 3 I)).2 inferInstance a b)
 
@@ -42,7 +42,7 @@ theorem isD42Type_of_upD42Pumpup_of_simple_normal_comm {S : Type} [Group S] [Fin
     (hs : IsSimpleGroup ↥J) (hnab : ∃ a b : ↥J, a * b ≠ b * a) :
     IsCatalogLieIso ↥J IsD42Index := by
   obtain ⟨-, -, I, hI, hD⟩ := h
-  haveI := hs
+  have := hs
   have hq : CFSG.Open.IsQuasisimple ↥J := Up34Chev2.isQuasisimple_of_simple_up34 hnab
   have hIC : I ≤ fixSubgroup α := hI.1
   have hIJ : I ≤ J := by
@@ -62,7 +62,7 @@ theorem isD42Type_of_component_of_normal_simple {S : Type} [Group S] [Finite S]
     (hsol : Group.IsSolvable (↥D ⧸ J.subgroupOf D))
     (hs : IsSimpleGroup ↥J) (hnab : ∃ a b : ↥J, a * b ≠ b * a) :
     IsCatalogLieIso ↥J IsD42Index := by
-  haveI := hs
+  have := hs
   have hq : CFSG.Open.IsQuasisimple ↥J := Up34Chev2.isQuasisimple_of_simple_up34 hnab
   have hIJ : I ≤ J :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfect_le_of_solvable_quotient
@@ -77,7 +77,7 @@ theorem isD42Type_of_upD42Pumpup_of_fixEquiv_simple {S X : Type}
     [Group S] [Finite S] [Group X] {α : MulAut S} (h : UpD42Pumpup S α)
     (e : ↥(fixSubgroup α) ≃* X) (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) : IsCatalogLieIso X IsD42Index := by
-  haveI := hs
+  have := hs
   have hsC : IsSimpleGroup ↥(fixSubgroup α) := e.isSimpleGroup
   have hnabC : ∃ a b : ↥(fixSubgroup α), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab

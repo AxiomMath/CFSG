@@ -19,6 +19,7 @@ section Identities
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_centralizer_subgroupOf {H L : Subgroup G} {b : G} (hLH : L ≤ H) (hb : b ∈ H) :
     ((L.subgroupOf H) ⊓ Subgroup.centralizer ({(⟨b, hb⟩ : ↥H)} : Set ↥H) : Subgroup ↥H).map H.subtype =
       L ⊓ Subgroup.centralizer ({b} : Set G) := by
@@ -156,7 +157,7 @@ theorem concl_of_H {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hΩ : T156FactOmega
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p (L.subgroupOf H)
     rw [Subgroup.normalizer_eq_top_iff.2 hKH, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
-  haveI := hN0n
+  have := hN0n
   set N0 : Subgroup ↥H := GLAPPrimeCoreOf p (L.subgroupOf H) with hN0def
   set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
   have hN : ¬ p ∣ Nat.card π.ker := by
@@ -339,7 +340,7 @@ theorem i156At_of_facts {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     le_sup_right le_sup_left hHN
 
 theorem i156At_of_facts' (hΩ : ∀ p : ℕ, T156FactOmega p) (G : Type) [Group G] [Finite G] (m : ℕ)
-    (hctx : ThmACtx G m) (p : ℕ) (hp : p ∈ Mu G m) : I156At G p :=
+    (_hctx : ThmACtx G m) (p : ℕ) (hp : p ∈ Mu G m) : I156At G p :=
   i156At_of_facts hp.1.1 hp.1.2.1 (hΩ p)
 
 end CFSG.LocalAnalysis.GLTheoremA.T156

@@ -178,7 +178,7 @@ theorem lem12225Star_of
     by_contra hne
     set T₀ := (S : Subgroup G) ⊓ Subgroup.centralizer (L : Set G) ⊓
       Subgroup.centralizer (I : Set G) with hT₀
-    have hT₀2 : IsPGroup 2 T₀ := S.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+    have hT₀2 : IsPGroup 2 T₀ := S.isPGroup.to_le (inf_le_left.trans inf_le_left)
     have hloc : IsTwoLocal (Subgroup.normalizer (T₀ : Set G)) := ⟨T₀, hne, hT₀2, rfl⟩
     obtain ⟨M', hM', hle⟩ := exists_maxTwoLocal_ge hloc
     have hLN : L ≤ Subgroup.normalizer (T₀ : Set G) :=
@@ -244,7 +244,7 @@ theorem lem12225Star_of
     have hX2 : IsPGroup 2 X := by
       intro ⟨x, hx⟩
       obtain ⟨l, hl, t, ht, hlt⟩ := Lem24.exists_mul_of_mem_sup_normal hH.normalizes hx.1
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨t, ht⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨t, ht⟩
       have hk' : t ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       obtain ⟨z, hz, hzt⟩ := Lem24.exists_pow_eq_mul_pow hl (hH.normalizes ht) (2 ^ k)
       rw [hk', mul_one] at hzt
@@ -501,7 +501,7 @@ theorem lem12225Star_of
       exact Subgroup.mul_mem_sup (V.inv_mem hv) ⟨Subgroup.mul_mem _ (hVT hv) (hQT hq), hvq⟩
   have hCLQ : (S : Subgroup G) ⊓ Subgroup.centralizer (L : Set G) ≤ Q := by
     refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (inf_le_left.trans le_sup_right)
-      (sup_le ?_ ?_) (S.isPGroup'.to_le inf_le_left)
+      (sup_le ?_ ?_) (S.isPGroup.to_le inf_le_left)
     · exact (Subgroup.le_centralizer_iff.mp inf_le_right).trans
         (Subgroup.centralizer_le_normalizer _)
     · exact fun t ht => Subgroup.inf_normalizer_le_normalizer_inf

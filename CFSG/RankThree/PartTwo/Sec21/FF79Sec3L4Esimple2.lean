@@ -162,7 +162,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem e34_exists_fixed_sylow {β : MulAut G} (hβ : β ^ 3 = 1) {x : G} (hx : x ^ 3 = 1)
     (hβx : β x = x) :
     ∃ Q : Sylow 3 G, x ∈ (Q : Subgroup G) ∧ ∀ s ∈ (Q : Subgroup G), β s ∈ (Q : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set σ : MulAut G := MulAut.conj x with hσ
   have hσ3 : σ ^ 3 = 1 := by rw [hσ, ← map_pow, hx, map_one]
   have hcomm : Commute σ β := by
@@ -170,7 +170,7 @@ theorem e34_exists_fixed_sylow {β : MulAut G} (hβ : β ^ 3 = 1) {x : G} (hx : 
     show x * β g * x⁻¹ = β (x * g * x⁻¹)
     rw [map_mul, map_mul, map_inv, hβx]
   set Γ : Subgroup (MulAut G) := Subgroup.closure ({σ, β} : Set (MulAut G)) with hΓ
-  haveI : IsMulCommutative Γ := Subgroup.isMulCommutative_closure (by
+  have : IsMulCommutative Γ := Subgroup.isMulCommutative_closure (by
     intro a ha b hb _
     rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
     · exact Commute.refl _

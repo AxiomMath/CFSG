@@ -19,13 +19,13 @@ theorem coverActsTriviallyOnSmall_unitary {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
     CoverActsTriviallyOnSmall p L := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : IsSimpleGroup L := by
+  have : IsSimpleGroup L := by
     obtain ⟨-, -, hq, K, _, _, J, hJ, hK, hfix, ⟨eP⟩⟩ :=
       CFSG.AGLEmbedding.UnitaryModel.exists_equiv_psu
         (CFSG.AGLEmbedding.UnitaryModel.statedClassicalModel hd ⟨e⟩)
     have hsimple := CFSG.UnitaryThreeRecognition.Model.isSimpleGroup_psu J
       (p ^ d.1.fieldExponent) hK hfix hq
-    haveI := hsimple
+    have := hsimple
     exact eP.isSimpleGroup
   obtain ⟨U⟩ := Sylow.nonempty (p := p) (G := L)
   obtain ⟨hcard, hcomm, -, -⟩ :=
@@ -49,7 +49,7 @@ theorem coverActsTriviallyOnSmall_unitary {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
       rw [hcard]
       exact one_lt_pow₀ (by omega) (by omega)
     omega
-  exact coverActsTriviallyOnSmall_of_nonabelian Fact.out hp5 U.isPGroup' hnc
+  exact coverActsTriviallyOnSmall_of_nonabelian Fact.out hp5 U.isPGroup hnc
 
 theorem good_unitary {p : ℕ} [Fact p.Prime] {d : TauCeti.ValidLieTypeIndex}
     (hd : CFSG.AGLEmbedding.IsUnitaryIndex p d) {X : Type} [Group X] [Finite X]

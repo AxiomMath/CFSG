@@ -37,7 +37,7 @@ theorem eig_rel (h2 : (2 : K) ≠ 0) {a m l n ω : K} (hm : a * a * m = 1) (hn :
   rw [diagonal_mul_diagonal, diagonal_mul_diagonal, trace_diagonal, trace_diagonal,
     Fin.sum_univ_three, Fin.sum_univ_three] at E2
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-    Matrix.head_cons, Matrix.tail_cons, Pi.mul_apply] at E1 E2
+    Matrix.head_cons, Matrix.tail_cons] at E1 E2
   have key : ∀ T : K, (T - a) ^ 2 * (T - m) = (T - ω * l) ^ 2 * (T - ω * n) := by
     intro T
     have h' : (2 : K) * ((T - a) ^ 2 * (T - m) - (T - ω * l) ^ 2 * (T - ω * n)) = 0 := by
@@ -103,7 +103,7 @@ theorem map_diag_scalar (τ : K ≃+* K) (l : Kˣ) :
       diagonal ![τ (l : K), τ (l : K), (τ (l : K) * τ (l : K))⁻¹] := by
   simp only [SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, coe_blkP_scalar_gen]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem fix_field (h2 : (2 : K) ≠ 0) {l : Kˣ} {k : ℕ} (hl : l ^ 2 ^ k = 1) (hl3 : (l : K) ^ 3 ≠ 1)
     {g : GL (Fin 3) K} {τ : K ≃+* K}
@@ -113,7 +113,7 @@ theorem fix_field (h2 : (2 : K) ≠ 0) {l : Kˣ} {k : ℕ} (hl : l ^ 2 ^ k = 1) 
   rw [fieldAut_proj] at h
   obtain ⟨ω, hω3, hω⟩ := exists_conj_eq_smul h
   rw [map_diag_scalar, coe_blkP_scalar_gen] at hω
-  have hτ0 : τ (l : K) ≠ 0 := by simpa using l.ne_zero
+  have hτ0 : τ (l : K) ≠ 0 := by simp
   have hω3' : (ω : K) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, hω3, Units.val_one]
   have hl' : (l : K) ^ 2 ^ k = 1 := by rw [← Units.val_pow_eq_pow_val, hl, Units.val_one]
   have ha : (Units.mk0 (τ (l : K)) hτ0) ^ 2 ^ k = 1 := by
@@ -136,9 +136,9 @@ theorem fix_graph (h2 : (2 : K) ≠ 0) {l : Kˣ} {k : ℕ} (hl : l ^ 2 ^ k = 1) 
     simp only [SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply,
       SpecialLinearGroup.coe_transpose, coe_blkP_scalar_gen, diagonal_transpose]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   rw [hx, coe_blkP_scalar_gen] at hω
-  have hτ0 : τ ((l⁻¹ : Kˣ) : K) ≠ 0 := by simpa using (l⁻¹).ne_zero
+  have hτ0 : τ ((l⁻¹ : Kˣ) : K) ≠ 0 := by simp
   have hω3' : (ω : K) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, hω3, Units.val_one]
   have hl' : (l : K) ^ 2 ^ k = 1 := by rw [← Units.val_pow_eq_pow_val, hl, Units.val_one]
   have ha : (Units.mk0 (τ ((l⁻¹ : Kˣ) : K)) hτ0) ^ 2 ^ k = 1 := by

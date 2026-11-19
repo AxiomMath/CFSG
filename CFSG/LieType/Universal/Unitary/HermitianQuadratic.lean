@@ -175,7 +175,7 @@ private theorem mul_conjTr_eq_zero_of_hermitian [CharP F 2]
       _ = α * β * (M * conjTr σ α + α * M + α * M * conjTr σ α) := by rw [hh]
   have hγD : α * β * (M * conjTr σ α + α * M + α * M * conjTr σ α) =
       α * β * M * conjTr σ α := by
-    simp only [mul_add, mul_assoc, hcomm, hβαα, mul_zero, zero_mul, add_zero]
+    simp only [mul_add, mul_assoc, hcomm, hβαα, add_zero]
   have h3 : α * β * M * conjTr σ α * (1 + conjTr σ β) = α * β * M * conjTr σ α := by
     rw [← hγD]
     exact h2

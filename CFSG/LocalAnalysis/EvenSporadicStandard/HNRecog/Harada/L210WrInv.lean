@@ -29,13 +29,13 @@ theorem L210_exists_inverted_component {u : A5WrTwo} (hu : u ∈ commutator A5Wr
   have hpne : p ≠ 1 := fun h => hu1 (by rw [h, map_one])
   have hpor : p.1 ≠ 1 ∨ p.2 ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hpne (Prod.ext h.1 h.2)
   rcases hpor with ha | hb
   ·
     obtain ⟨x, hxne, hx5, hxconj⟩ := key p.1 ha hp1'
     refine ⟨x, ?_, Or.inl ?_⟩
-    · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       exact orderOf_eq_prime hx5 hxne
     · have hconj : A5WrTwo.baseEmb p * A5WrTwo.baseEmb (x, 1) * (A5WrTwo.baseEmb p)⁻¹
           = A5WrTwo.baseEmb (x⁻¹, 1) := by
@@ -47,7 +47,7 @@ theorem L210_exists_inverted_component {u : A5WrTwo} (hu : u ∈ commutator A5Wr
   ·
     obtain ⟨x, hxne, hx5, hxconj⟩ := key p.2 hb hp2'
     refine ⟨x, ?_, Or.inr ?_⟩
-    · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       exact orderOf_eq_prime hx5 hxne
     · have hconj : A5WrTwo.baseEmb p * A5WrTwo.baseEmb (1, x) * (A5WrTwo.baseEmb p)⁻¹
           = A5WrTwo.baseEmb (1, x⁻¹) := by

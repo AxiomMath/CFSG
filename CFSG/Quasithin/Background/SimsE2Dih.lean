@@ -102,7 +102,7 @@ theorem dihFour_holds : DihFour := by
   have hZP : Z ≤ P := hpr.inf_conj_le_P
   have hIP : I ≤ Subgroup.normalizer (P : Set Γ) := hpr.le_normalizer_P
   have hIZ : I ≤ Subgroup.normalizer (Z : Set Γ) := hpr.le_normalizer_Z
-  haveI : (Z.subgroupOf P).Normal :=
+  have : (Z.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZP).2 (hPI.trans hIZ)
   set ρ := conjSecAut P Z I hIP hIZ with hρ
   have hcomm : ∀ x y : ↥P ⧸ Z.subgroupOf P, x * y = y * x := by

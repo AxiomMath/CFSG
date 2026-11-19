@@ -19,11 +19,13 @@ open CFSG.CGT.Foote82
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w7_9_map_conj_pCoreOf {H : Subgroup G} {g : G} (hg : g ∈ H) :
     (pCoreOf 2 H).map (MulAut.conj g).toMonoidHom = pCoreOf 2 H :=
   Subgroup.mem_normalizer_iff_map_conj_eq.mp
     ((CFSG.LieType.BorelTits.le_normalizer_pCoreOf (r := 2) H) hg)
 
+omit [Finite G] in
 theorem w7_9_map_conj_iSup {Y P : Subgroup G} {g : G} (hg : g ∈ Y) :
     (⨆ y : ↥Y, P.map (MulAut.conj (y : G)).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       ⨆ y : ↥Y, P.map (MulAut.conj (y : G)).toMonoidHom := by
@@ -241,7 +243,7 @@ theorem w7_9_isPGroup_iSup_conj_sup_pCoreOf {H L Y P₁ : Subgroup G}
     IsPGroup 2 (((⨆ y : ↥Y, P₁.map (MulAut.conj (y : G)).toMonoidHom) ⊔ pCoreOf 2 H :
       Subgroup G)) := by
   classical
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   let A : ↥Y → Subgroup G := fun y => P₁.map (MulAut.conj (y : G)).toMonoidHom
   let T : Finset ↥Y → Subgroup G := fun s => (⨆ y ∈ s, A y) ⊔ pCoreOf 2 H
   have hA2 : ∀ y : ↥Y, IsPGroup 2 (A y) := fun y => hP.map _
@@ -270,7 +272,7 @@ theorem w7_9_exists_orbit_pGroup {H L Y P₁ : Subgroup G} (hL : IsTwoPrimeCompo
     ∃ W : Subgroup G, P₁ ≤ W ∧ pCoreOf 2 H ≤ W ∧ IsPGroup 2 W ∧ W ≤ H ∧
       Y ≤ normalizer (W : Set G) ∧ W ≤ normalizer (L : Set G) := by
   classical
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   let A : ↥Y → Subgroup G := fun y => P₁.map (MulAut.conj (y : G)).toMonoidHom
   let W : Subgroup G := (⨆ y : ↥Y, A y) ⊔ pCoreOf 2 H
   have hAH : ∀ y : ↥Y, A y ≤ H := by

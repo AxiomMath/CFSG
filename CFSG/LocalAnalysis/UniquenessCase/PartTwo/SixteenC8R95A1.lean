@@ -14,10 +14,12 @@ open CFSG.Blueprint (LieModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma r95_opp_le_self (p : ℕ) (Y : Subgroup G) : Opp p Y ≤ Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
   exact (Subgroup.closure_le Y).2 fun _ hx => hx.1
 
+omit [Finite G] in
 private lemma r95_opp_le_L9 (Y W : Subgroup G) : Opp 3 Y ≤ L9 Y W := by
   intro x hx
   have h : (Opp 3 Y).map (MulAut.conj ((1 : ↥W) : G)).toMonoidHom ≤ L9 Y W :=
@@ -63,7 +65,7 @@ theorem r95_isSimple_lbar {D : Data G} {Y H D₃ : Subgroup G}
   rcases hshape with ⟨-, h3⟩ | hJ | ⟨p, f, h⟩ | ⟨p, f, -, h⟩ | ⟨p, f, -, h⟩
   · exact absurd h3 hnot
   · obtain ⟨e⟩ := hJ
-    haveI : IsSimpleGroup CFSG.Open.walterJ1 := CFSG.Walter.J1Props.isSimpleGroup_walterJ1
+    have : IsSimpleGroup CFSG.Open.walterJ1 := CFSG.Walter.J1Props.isSimpleGroup_walterJ1
     exact (e.trans CFSG.Walter.walterJ1EquivNative.symm).isSimpleGroup
   · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   · exact CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
@@ -71,7 +73,7 @@ theorem r95_isSimple_lbar {D : Data G} {Y H D₃ : Subgroup G}
 
 theorem r95_section_lbar {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91 D Y H D₃) :
     ∃ (E : Subgroup (Lbar9 Y H)) (π : E →* BarO3 (Opp 3 Y)), Function.Surjective π := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYH : Y ≤ H := hyp.2.1.1
   have hXH : Opp 3 Y ≤ H := (r95_opp_le_self 3 Y).trans hYH
   have hXL : Opp 3 Y ≤ L9 Y H := r95_opp_le_L9 Y H

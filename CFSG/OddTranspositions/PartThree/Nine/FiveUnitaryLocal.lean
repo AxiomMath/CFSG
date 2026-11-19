@@ -428,7 +428,7 @@ private theorem eq_one_of_mem_sylow_of_commute_psl2 {K : Type*}
     hyI _ (I.mul_mem (I.mul_mem hgI (hZI hzZ)) (I.inv_mem hgI))
   have hyN := mem_normalizer_of_commute_of_isBenderGroup hKB (g • Q) hz'Q hz'2 hyz
   have hy2 : IsPGroup 2 (Subgroup.zpowers y) :=
-    Q.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyQ)
+    Q.isPGroup.to_le (Subgroup.zpowers_le.mpr hyQ)
   have hmem : y ∈ Subgroup.zpowers y ⊓ Subgroup.normalizer ((g • Q : Sylow 2 K) : Set K) :=
     ⟨Subgroup.mem_zpowers y, hyN⟩
   rw [hy2.inf_normalizer_sylow (g • Q)] at hmem
@@ -865,7 +865,7 @@ theorem not_commute_conj_of_psu3 (hH : Th91Hyp D hC)
   have htriv : ∀ k : ℕ, (∀ x : (Q : Subgroup J), (θ ((ψ ^ k) x)).1.1 = (θ x).1.1) →
       δ ^ k = 1 := by
     intro k hk
-    refine eq_one_of_mem_map_conj_of_odd Q.isPGroup' ?_
+    refine eq_one_of_mem_map_conj_of_odd Q.isPGroup ?_
       (Odd.of_dvd_nat hδodd (orderOf_pow_dvd k))
     refine CFSG.SeitzReduction.RankOne.mem_map_conj_of_forall_mem_rootCenter_unitary hB Q
       (Subgroup.pow_mem _ hδC k) fun x hx => ?_

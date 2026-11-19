@@ -15,7 +15,7 @@ theorem exists_conj_le_of_not_dvd_index {T A : Subgroup G} (hT : ¬ p ∣ T.inde
     (hA : IsPGroup p A) : ∃ g : G, A.map (MulAut.conj g).toMonoidHom ≤ T := by
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p T))
   set S : Subgroup G := (P : Subgroup T).map T.subtype with hS
-  have hSp : IsPGroup p S := P.isPGroup'.map T.subtype
+  have hSp : IsPGroup p S := P.isPGroup.map T.subtype
   have hPi : ¬ p ∣ (P : Subgroup T).index := P.not_dvd_index
   have hSi : ¬ p ∣ S.index := by
     rw [hS, Subgroup.index_map_subtype]

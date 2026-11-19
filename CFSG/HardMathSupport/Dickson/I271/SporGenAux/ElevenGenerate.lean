@@ -51,10 +51,13 @@ variable {G : Type*} [Group G]
   | [] => 1
   | l :: w => wordG3 x₃ x₄ x₅ w * letter3 x₃ x₄ x₅ l
 
+omit [Group G] in
 theorem letter3_zero (x₃ x₄ x₅ : G) : letter3 x₃ x₄ x₅ 0 = x₃ := by simp [letter3]
 
+omit [Group G] in
 theorem letter3_one (x₃ x₄ x₅ : G) : letter3 x₃ x₄ x₅ 1 = x₄ := by simp [letter3]
 
+omit [Group G] in
 theorem letter3_other (x₃ x₄ x₅ : G) {l : ℕ} (h0 : l ≠ 0) (h1 : l ≠ 1) :
     letter3 x₃ x₄ x₅ l = x₅ := by simp [letter3, h0, h1]
 
@@ -131,6 +134,7 @@ theorem y_ne_pow_x (hx1 : x ≠ 1) : ∀ k : ℕ, y ≠ x ^ k := by
   interval_cases r <;> norm_num at h3
 
 include hx hy hxy h4x h4y in
+omit hxy in
 theorem eps_ne_one (hx1 : x ≠ 1) {v : ℕ × ℕ} (h1 : v.1 < 11) (h2 : v.2 < 11) (hv : v ≠ (0, 0)) :
     eps x y v ≠ 1 := by
   have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
@@ -184,7 +188,7 @@ theorem closure_centralizers_eq_top (hx1 : x ≠ 1) {t : G} (htx : t * x = x * t
       wordAct3 w v = v → wordG3 x₃ x₄ x₅ w ∈ T := by
     intro w v h1 h2 hv hw
     rw [hT]
-    refine ⟨eps x y v, ⟨v, rfl⟩, eps_ne_one hx hy hxy h4x h4y hx1 h1 h2 hv, ?_⟩
+    refine ⟨eps x y v, ⟨v, rfl⟩, eps_ne_one hx hy h4x h4y hx1 h1 h2 hv, ?_⟩
     have := conj_word3_eps hx hy hxy h3x h3y h4x h4y h5x h5y w v
     rw [hw] at this
     calc wordG3 x₃ x₄ x₅ w * eps x y v

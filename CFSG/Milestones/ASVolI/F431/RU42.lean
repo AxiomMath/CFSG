@@ -19,7 +19,7 @@ set_option linter.unusedSectionVars false
 theorem burnsideF4r_mem_sylow_of_comm {G : Type} [Group G] [Finite G] {S H : Subgroup G}
     (hS : IsSylowTwoOf S H) {y : G} (hyH : y ∈ H) (hy2 : y * y = 1)
     (hyc : ∀ s ∈ S, s * y = y * s) : y ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyN : y ∈ Subgroup.normalizer (S : Set G) := by
     have e : ∀ s ∈ S, y * s * y⁻¹ = s := fun s hs => by
       rw [← hyc s hs, mul_assoc, mul_inv_cancel, mul_one]
@@ -60,7 +60,7 @@ theorem burnsideF4r_u42_T_sylow_P2 : IsSylowTwoOf U42.T U42.P2 := by
   decide
 
 theorem burnsideF4r_u42_pCoreOf_B0 : pCoreOf 2 U42.B0 = U42.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 U42.T := IsPGroup.of_card (n := 6) (by rw [U42.card_T]; norm_num)
   have hTB : IsSylowTwoOf U42.T U42.B0 :=
     CFSG.Quasithin.F7.isSylowTwoOf_mono_right burnsideF4r_u42_T_sylow_P2 U42.T_le_B0
@@ -75,8 +75,8 @@ theorem burnsideF4r_u42_eps (hyp : HypF_4_4 .U4 2 1 Gp M₁ M₂) {x : E}
     (hx : x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ θ : U42.Y ≃* ↥Gp, burnsideF48_img θ U42.B0 = Gp ⊓ (M₁ ⊓ M₂) ∧
       burnsideF48_img θ U42.P1 = Gp ⊓ M₁ ∧ burnsideF48_img θ U42.P2 = Gp ⊓ M₂ := by
-  haveI := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨θ₀⟩ := U42.nonempty_mulEquiv_Y (burnsideF48_lieModel_U4 hyp.model)
   obtain ⟨θ, hθB, hθ⟩ := burnsideF48_identify θ₀.symm burnsideF48s_u42_isLieParabolics hP
@@ -129,12 +129,12 @@ theorem burnsideF4r_u42_ctx (hyp : HypF_4_31 .U4 1 Gp M₁ M₂ β ε z) (hGp : 
       (∀ g, g ∈ U42.P1 ↔ ι g ∈ M₁) ∧ (∀ g, g ∈ U42.P2 ↔ ι g ∈ M₂) ∧
       U42.T.map ι = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧ U42.Vsub.map ι = pCoreOf 2 (Gp ⊓ M₂) ∧
       C.z = z ∧ C.φ2.range ≤ MiTwo β ε ∧
-      ∀ (g : U42.Y) (hg : g ∈ U42.P2) (hgM : ι g ∈ M₂),
+      ∀ (g : U42.Y) (_hg : g ∈ U42.P2) (hgM : ι g ∈ M₂),
         C.Φ2 g = burnsideF4d_bTwo β ε ⟨ι g, hgM⟩ := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz := hyp.z_mem.1 (by decide)
   rw [burnsideF4j_Z1_eq hyp] at hz
   obtain ⟨x, hxM1, hxZ, hxz⟩ := mem_subImg.mp hz
@@ -285,7 +285,7 @@ theorem burnsideF4r_U4_top_nonfused (hyp : HypF_4_31 .U4 f Gp M₁ M₂ β ε z)
     (hGp : Gp = ⊤) :
     ∃ v : ↥(M₁ ⊓ M₂), (v : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧ v ≠ 1 ∧ v * v = 1 ∧
       ¬ IsConj z (bM β ε v) := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hf1 : 1 ≤ f := hyp.amalgam.model.2.1
   obtain rfl : f = 1 := by omega
   obtain ⟨ι, C, hι, -, hm1, hm2, hTS, -, hCz, -, hΦ2⟩ := burnsideF4r_u42_ctx hyp hGp
@@ -316,8 +316,8 @@ theorem burnsideF4r_A42_U4 (hyp : HypF_4_31 .U4 f Gp M₁ M₂ β ε z) (hf : f 
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv .U4 Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have hf1 : 1 ≤ f := hyp.amalgam.model.2.1
   obtain rfl : f = 1 := by omega
   have hGp : Gp = ⊤ := burnsideF4r_top_of_odd_sq hyp.amalgam.normal

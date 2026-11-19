@@ -44,7 +44,7 @@ theorem exists_two_group_conj_le [Finite G] {N A B : Subgroup G} (hA : IsPGroup 
   obtain ⟨Q, hQ⟩ := (hB.comap_subtype (K := N)).exists_le_sylow
   obtain ⟨g, hg⟩ := exists_conjSubgroup_eq_of_sylow Q P
   refine ⟨(g : G), g.2, (P : Subgroup N).map N.subtype, ?_, ?_, ?_, ?_⟩
-  · exact (P.isPGroup').map N.subtype
+  · exact (P.isPGroup).map N.subtype
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
   · intro x hx

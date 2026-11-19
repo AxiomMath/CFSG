@@ -39,12 +39,10 @@ theorem rep_apply (f : VM ≃ₗ[ZMod 2] VM) (x y : Fin 3 → ZMod 2) :
   cases k with
   | inl i =>
     fin_cases i <;>
-      simp [mkV, repA, repB, Matrix.mulVec, dotProduct, Fin.sum_univ_three, xp, yp, ex,
-        Pi.single_apply] <;> ring
+      simp [mkV, repA, repB, Matrix.mulVec, dotProduct, Fin.sum_univ_three, xp, ex] <;> ring
   | inr i =>
     fin_cases i <;>
-      simp [mkV, repC, repD, Matrix.mulVec, dotProduct, Fin.sum_univ_three, xp, yp, ex,
-        Pi.single_apply] <;> ring
+      simp [mkV, repC, repD, Matrix.mulVec, dotProduct, Fin.sum_univ_three, yp, ex] <;> ring
 
 theorem mulVec_ex (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) (j i : Fin 3) :
     Matrix.mulVec M (ex j) i = M i j := by
@@ -140,7 +138,7 @@ theorem repC_eq_zero_of_stab {h : VM ≃ₗ[ZMod 2] VM} (hS : h ∈ stabM Sm) : 
 theorem stab_mkV_zero {h : VM ≃ₗ[ZMod 2] VM} (hS : h ∈ stabM Sm) (x : Fin 3 → ZMod 2) :
     h (mkV x 0) = mkV (Matrix.mulVec (repA h) x) 0 := by
   rw [rep_apply]
-  simp only [Matrix.mulVec_zero, add_zero, zero_add, repC_eq_zero_of_stab hS, Matrix.zero_mulVec]
+  simp only [Matrix.mulVec_zero, add_zero, repC_eq_zero_of_stab hS, Matrix.zero_mulVec]
 
 theorem stab_decomp {h : VM ≃ₗ[ZMod 2] VM} (hG : h ∈ GM) (hS : h ∈ stabM Sm) :
     ∃ u : GL3, ∃ B : Matrix (Fin 3) (Fin 3) (ZMod 2), IsAlt B ∧ h = LA u * gA B := by
@@ -180,7 +178,7 @@ theorem stab_decomp {h : VM ≃ₗ[ZMod 2] VM} (hG : h ∈ GM) (hS : h ∈ stabM
     intro x
     rw [LinearEquiv.mul_apply, h1 x]
     show mkV (Matrix.mulVec (repA h⁻¹) (Matrix.mulVec (repA h) x)) 0 = mkV x 0
-    simp only [hyy, Matrix.mulVec_zero]
+    simp only [hyy]
   obtain ⟨B, hB, hBeq⟩ := GM_fix_Sm (mul_mem (inv_mem (LA_mem_GM u)) hG) hfix
   refine ⟨u, B, hB, ?_⟩
   rw [← hBeq, mul_inv_cancel_left]
@@ -226,17 +224,17 @@ theorem card_GL3 : Nat.card GL3 = 168 := by
 theorem gA_mkV_zero (B : Matrix (Fin 3) (Fin 3) (ZMod 2)) (x : Fin 3 → ZMod 2) :
     gA B (mkV x 0) = mkV x 0 := by
   rw [gA_apply]
-  simp [gfun, yp_mkV_zero]
+  simp [gfun]
 
 theorem LA_mkV_zero (u : GL3) (x : Fin 3 → ZMod 2) :
     LA u (mkV x 0) = mkV (Matrix.mulVec (u : Matrix (Fin 3) (Fin 3) (ZMod 2)) x) 0 := by
   rw [LA_apply, LAfun]
-  simp [yp_mkV_zero]
+  simp
 
 theorem gA_mkV_zero_ex (B : Matrix (Fin 3) (Fin 3) (ZMod 2)) (y : Fin 3 → ZMod 2) :
     gA B (mkV 0 y) = mkV (Matrix.mulVec B y) y := by
   rw [gA_apply]
-  simp [gfun, xp_mkV_zero_left]
+  simp [gfun]
 
 theorem mat_eq_of_mulVec_ex {M N : Matrix (Fin 3) (Fin 3) (ZMod 2)}
     (h : ∀ j, Matrix.mulVec M (ex j) = Matrix.mulVec N (ex j)) : M = N := by

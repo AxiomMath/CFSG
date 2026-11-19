@@ -27,20 +27,20 @@ theorem outTowerAt_catC {r : ℕ} {q : TauCeti.PrimePower} (hv : (TauCeti.LieTyp
     {p : ℕ} : OutTowerAt (TauCeti.CFSGIndex.lie ⟨.C r q, hv⟩).Group p := by
   have hr : 3 ≤ r := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
   exact outTowerAt_of_outerComm (OuterComm.of_mulEquiv
     (CFSG.QuasithinUnique.SQTK.typeCGroupEquivStatedProj r q hv) (outerComm_statedProj_sp hr _))
 
 theorem outTowerAt_catB_two {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.B 2 q).Valid)
     {p : ℕ} : OutTowerAt (TauCeti.CFSGIndex.lie ⟨.B 2 q, hv⟩).Group p := by
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 q, hv⟩
   exact outTowerAt_of_outerComm (OuterComm.of_mulEquiv
     (CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv) (outerComm_statedProj_sp_two _))
 
 theorem outTowerAt_catB_even {r : ℕ} {q : TauCeti.PrimePower} (hr : 3 ≤ r) (hq : q.p = 2)
     (hv : (TauCeti.LieTypeIndex.B r q).Valid) {p : ℕ} :
     OutTowerAt (TauCeti.CFSGIndex.lie ⟨.B r q, hv⟩).Group p := by
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
   exact outTowerAt_of_outerComm (OuterComm.of_mulEquiv
     (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj r q hv hq hr)
     (outerComm_statedProj_sp hr _))

@@ -29,13 +29,16 @@ structure PHyp (S V : Subgroup P) (t : P) : Prop where
 
 variable {S V : Subgroup P} {t : P}
 
+omit [Finite P] in
 theorem PHyp.t_inv (h : PHyp S V t) : t⁻¹ = t := inv_eq_of_mul_eq_one_right h.t_sq
 
+omit [Finite P] in
 theorem PHyp.exists_mul_t (h : PHyp S V t) {y : P} (hy : y ∉ S) : ∃ s ∈ S, y = s * t := by
   refine ⟨y * t, ?_, by rw [mul_assoc, h.t_sq, mul_one]⟩
   rw [Subgroup.mul_mem_iff_of_index_two h.index_two]
   exact iff_of_false hy h.t_notMem
 
+omit [Finite P] in
 theorem PHyp.act_eq (h : PHyp S V t) {y : P} (hy : y ∉ S) {v : P} (hv : v ∈ V) :
     y * v * y⁻¹ = t * v * t⁻¹ := by
   obtain ⟨s, hs, rfl⟩ := h.exists_mul_t hy
@@ -44,6 +47,7 @@ theorem PHyp.act_eq (h : PHyp S V t) {y : P} (hy : y ∉ S) {v : P} (hv : v ∈ 
   calc s * t * v * (s * t)⁻¹ = s * (t * v * t⁻¹) * s⁻¹ := by group
     _ = t * v * t⁻¹ := by rw [hcomm]; group
 
+omit [Finite P] in
 theorem PHyp.V_normal (h : PHyp S V t) : V.Normal := by
   refine ⟨fun v hv g => ?_⟩
   by_cases hg : g ∈ S
@@ -52,6 +56,7 @@ theorem PHyp.V_normal (h : PHyp S V t) : V.Normal := by
   · rw [h.act_eq hg hv]
     exact h.t_normV v hv
 
+omit [Finite P] in
 theorem PHyp.exists_conj_of_mem_coset (h : PHyp S V t) {y x : P} (hy : y ∉ S) (hy2 : y * y = 1)
     (hx2 : x * x = 1) (hxy : y⁻¹ * x ∈ V) : ∃ w ∈ V, x = w * y * w⁻¹ := by
   set v := y⁻¹ * x with hv
@@ -87,6 +92,7 @@ theorem PHyp.exists_conj_of_mem_coset (h : PHyp S V t) {y x : P} (hy : y ∉ S) 
         _ = u⁻¹ * y⁻¹ * u := by rw [hy2, one_mul]
         _ = u⁻¹ * y * u := by rw [hyi]
 
+omit [Finite P] in
 theorem PHyp.exists_centralizer_of_comm_mod (h : PHyp S V t) {s : P} (hs : s ∈ S)
     (hcomm : (t * s)⁻¹ * (s * t) ∈ V) : ∃ c ∈ S, c * t = t * c ∧ s⁻¹ * c ∈ V := by
   have hti := h.t_inv
@@ -107,6 +113,7 @@ theorem PHyp.exists_centralizer_of_comm_mod (h : PHyp S V t) {s : P} (hs : s ∈
       _ = t * (s * w) := by group
   · simpa using hw
 
+omit [Finite P] in
 theorem card_eq_mul [V.Normal] (h : PHyp S V t) :
     Nat.card ↥(S ⊓ centralizer ({t} : Set P)) =
       Nat.card ↥(V ⊓ centralizer ({t} : Set P)) *
@@ -161,6 +168,7 @@ theorem card_quot_le [V.Normal] (h : PHyp S V t) :
   rw [mul_comm 2] at h2
   exact Nat.le_of_mul_le_mul_left h2 hpos
 
+omit [Finite P] in
 theorem PHyp.conj_mem_map (h : PHyp S V t) {q : P ⧸ V} [V.Normal]
     (hq : q ∈ S.map (QuotientGroup.mk' V)) :
     QuotientGroup.mk' V t * q * (QuotientGroup.mk' V t)⁻¹ ∈ S.map (QuotientGroup.mk' V) := by
@@ -172,7 +180,7 @@ theorem PHyp.conj_mem_map (h : PHyp S V t) {q : P ⧸ V} [V.Normal]
 theorem card_quot_ge [V.Normal] (h : PHyp S V t) (hne : S ≠ V) :
     2 ≤ Nat.card ↥(S.map (QuotientGroup.mk' V) ⊓
       centralizer ({QuotientGroup.mk' V t} : Set (P ⧸ V))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (P ⧸ V) := h.isPGroup.to_quotient V
   set St := S.map (QuotientGroup.mk' V) with hSt
   have hne1 : St ≠ ⊥ := by
@@ -217,6 +225,7 @@ theorem card_centralizer_eq [V.Normal] (h : PHyp S V t) (hne : S ≠ V) :
     Nat.card ↥(S ⊓ centralizer ({t} : Set P)) = 2 * Nat.card ↥(V ⊓ centralizer ({t} : Set P)) := by
   rw [card_eq_mul h, card_quot_eq h hne, mul_comm]
 
+omit [Finite P] in
 theorem PHyp.map_t_notMem [V.Normal] (h : PHyp S V t) :
     QuotientGroup.mk' V t ∉ S.map (QuotientGroup.mk' V) := by
   rintro ⟨s, hs, hst⟩
@@ -225,12 +234,14 @@ theorem PHyp.map_t_notMem [V.Normal] (h : PHyp S V t) :
   have := S.mul_mem hs (h.V_le hv)
   simpa using this
 
+omit [Finite P] in
 theorem PHyp.index_map [V.Normal] (h : PHyp S V t) :
     (S.map (QuotientGroup.mk' V)).index = 2 := by
   rw [Subgroup.index_map_eq S (QuotientGroup.mk'_surjective V)
     (by rw [QuotientGroup.ker_mk']; exact h.V_le)]
   exact h.index_two
 
+omit [Finite P] in
 theorem PHyp.map_t_sq [V.Normal] (h : PHyp S V t) :
     QuotientGroup.mk' V t * QuotientGroup.mk' V t = 1 := by
   rw [← map_mul, h.t_sq, map_one]
@@ -238,7 +249,7 @@ theorem PHyp.map_t_sq [V.Normal] (h : PHyp S V t) :
 theorem dihedral_or_semidihedral [V.Normal] (h : PHyp S V t) (hne : S ≠ V) :
     (∃ m : ℕ, 1 ≤ m ∧ Nonempty ((P ⧸ V) ≃* DihedralGroup (2 ^ m))) ∨
       ∃ k : ℕ, 4 ≤ k ∧ Nonempty ((P ⧸ V) ≃* SemidihedralGroup k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (P ⧸ V) := h.isPGroup.to_quotient V
   have ht1 : QuotientGroup.mk' V t ≠ 1 := by
     intro h1
@@ -257,6 +268,7 @@ theorem dihedral_or_semidihedral [V.Normal] (h : PHyp S V t) (hne : S ≠ V) :
   · obtain ⟨k, hk, ⟨e⟩⟩ := hSD
     exact Or.inr ⟨k, hk, ⟨Subgroup.topEquiv.symm.trans e⟩⟩
 
+omit [Finite P] in
 theorem PHyp.exists_conj_of_map_conj [V.Normal] (h : PHyp S V t) {x y : P} (hy : y ∉ S)
     (hx2 : x * x = 1) (hy2 : y * y = 1)
     (hconj : ∃ u ∈ S.map (QuotientGroup.mk' V),
@@ -278,6 +290,7 @@ theorem PHyp.exists_conj_of_map_conj [V.Normal] (h : PHyp S V t) {x y : P} (hy :
   rw [hwx]
   group
 
+omit [Finite P] in
 theorem PHyp.map_notMem [V.Normal] (h : PHyp S V t) {x : P} (hx : x ∉ S) :
     QuotientGroup.mk' V x ∉ S.map (QuotientGroup.mk' V) := by
   rintro ⟨s, hs, hsx⟩
@@ -289,7 +302,7 @@ theorem PHyp.map_notMem [V.Normal] (h : PHyp S V t) {x : P} (hx : x ∉ S) :
 theorem one_class_of_not_cyclic [V.Normal] (h : PHyp S V t) (hne : S ≠ V)
     (hcyc : ¬ IsCyclic ↥(S.map (QuotientGroup.mk' V))) {x : P} (hx : x ∉ S) (hx2 : x * x = 1) :
     ∃ s ∈ S, s * t * s⁻¹ = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (P ⧸ V) := h.isPGroup.to_quotient V
   obtain ⟨R, hR, hR2⟩ := exists_cyclic_index_two (dihedral_or_semidihedral h hne)
   set St := S.map (QuotientGroup.mk' V) with hSt
@@ -337,6 +350,7 @@ theorem two_classes_of_cyclic [V.Normal] (h : PHyp S V t) (hne : S ≠ V)
     · obtain ⟨s, hs, hsb⟩ := h.exists_conj_of_map_conj hb h.t_sq hb2 h23
       exact hbt' ⟨s⁻¹, S.inv_mem hs, by rw [← hsb]; group⟩
 
+omit [Finite P] in
 theorem exists_gen_of_cyclic [V.Normal] (h : PHyp S V t)
     (hcyc : IsCyclic ↥(S.map (QuotientGroup.mk' V))) : ∃ g ∈ S, S = zpowers g ⊔ V := by
   obtain ⟨c, hc⟩ := hcyc.exists_generator

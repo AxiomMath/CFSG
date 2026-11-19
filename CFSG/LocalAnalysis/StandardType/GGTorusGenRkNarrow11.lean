@@ -18,7 +18,7 @@ theorem ggL48TableBKnownFormsRestRkOpen10_of_open11
   · have hne : lab.tag ≠ .twE6 := by rw [hA.1]; decide
     have hrank : GGL48TB0Rank lab = lab.rank := by
       unfold GGL48TB0Rank
-      rw [if_neg hne]
+      rw [ite_eq_right hne]
     simpa [hrank] using largeEvenLabelAll_torusGenRk_twA_dvd hp hlab hv hA
   · exact h5 p lab hp hlab hS hv hE
 

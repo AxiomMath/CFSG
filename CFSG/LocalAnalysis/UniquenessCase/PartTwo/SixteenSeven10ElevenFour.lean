@@ -85,7 +85,7 @@ theorem s16c1610_pRank_seven_le_two_of_case168_11 (D : Data G) {V₀ V L : Subgr
     (hV : IsElemAbelian 2 V) (hconc : Conc4_136 D V₀ V hV L)
     (h11 : Case168_11 D V₀ V hV L) :
     CFSG.Open.pRank 7 (Mbar D.M V₀ V hV) ≤ 2 := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hcard : Nat.card (Vtil V₀ V hV) ≤ 256 := by
     have h := s16c1610_card_vtil_le_of_s_eq_two D hV hconc h11.2.1 h11.2.2.1
     exact h.trans (by norm_num)

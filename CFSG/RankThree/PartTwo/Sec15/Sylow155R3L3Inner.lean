@@ -58,7 +58,7 @@ private theorem fiveTorus_le (hK : Sec4.PiField true 2 f K) (h5 : 5 ∣ 2 ^ f - 
 
 private theorem card_fiveTorus [Finite K] (h5 : 5 ∣ Nat.card K - 1) :
     Nat.card (fiveTorus K) = 25 := by
-  haveI : NeZero 5 := ⟨by norm_num⟩
+  have : NeZero 5 := ⟨by norm_num⟩
   rw [fiveTorus, Subgroup.card_map_of_injective Sec4.torusHom_injective,
     Nat.card_congr (Subgroup.prodEquiv _ _).toEquiv, Nat.card_prod,
     CFSG.LinearGroups.card_rootsOfUnity_of_dvd h5]
@@ -80,8 +80,8 @@ theorem false_of_five_torus (hK : Sec4.PiField true 2 f K) (h5 : 5 ∣ 2 ^ f - 1
     (hrank5 : ∀ E R : Subgroup (Sec4.slPi true 3 (2 ^ f) K), Nat.card E = 25 →
       (∀ x ∈ E, x ^ 5 = 1) → IsPGroup 2 R → R ≠ ⊥ →
       E ≤ Subgroup.normalizer (R : Set (Sec4.slPi true 3 (2 ^ f) K)) → False) : False := by
-  haveI := hK.finite
-  haveI := hK.charP
+  have := hK.finite
+  have := hK.charP
   have hle := fiveTorus_le hK h5
   have hRle : Sec4.rootGL K ≤ Sec4.slPi true 3 (2 ^ f) K := Sec4.rootGL_le_slPi _
   refine hrank5 ((fiveTorus K).subgroupOf _) ((Sec4.rootGL K).subgroupOf _) ?_ ?_ ?_ ?_ ?_
@@ -113,7 +113,7 @@ theorem false_of_prime_torus (hK : Sec4.PiField true 2 f K) (hq : Sec4.ModThree 
     (hjz : j ∉ Subgroup.center (Sec4.slPi true 3 (2 ^ f) K))
     (hprimes : ∀ x : Sec4.slPi true 3 (2 ^ f) K, MulAut.conj j x = x → (orderOf x).Prime →
       orderOf x = 2 ∨ orderOf x = 3 ∨ orderOf x = 5 ∨ orderOf x = 7) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hjs : (j : GL (Fin 3) K) ∉ CFSG.Open.StatedScalars (Fin 3) K := fun hs =>
     hjz (Subgroup.mem_center_iff.mpr fun g =>
       Subtype.ext (Sec4.commute_of_mem_statedScalars hs (g : GL (Fin 3) K)))

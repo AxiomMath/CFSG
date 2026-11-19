@@ -56,8 +56,8 @@ theorem sec12S8Mod_facX_faithful {V X : Subgroup G}
   have hφ0 : φ 0 = 1 := s8FacX_phi_zero hφhom
   have hφinj : ∀ {v w : Fin 5 → ZMod 2}, IsEvenVec v → IsEvenVec w → φ v = φ w → v = w :=
     fun hv hw hh => s8FacX_phi_injective hφhom hφker hφ0 hv hw hh
-  haveI : IsSimpleGroup ↥X := by
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥X := by
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact MulEquiv.isSimpleGroup hA5.some
   let K : Subgroup G := X ⊓ Subgroup.centralizer (V : Set G)
   have hKnormal : (K.subgroupOf X).Normal := by
@@ -93,7 +93,7 @@ theorem sec12S8Mod_facX_faithful {V X : Subgroup G}
       rw [htop]; exact Subgroup.mem_top _
     rw [Subgroup.mem_subgroupOf] at this
     exact hx0notK this
-  haveI : (K.subgroupOf X).Normal := hKnormal
+  have : (K.subgroupOf X).Normal := hKnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top (K.subgroupOf X) with hbot | htop
   · have hxK : (⟨x, hx⟩ : ↥X) ∈ K.subgroupOf X := by
       rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -189,7 +189,7 @@ theorem sec12S8Mod_facX_prod {V V1 V2 : Subgroup G} (hV : IsElemAb2 V 8) (hsup :
         Nat.card {v : ↥V2 // x * (v : G) * x⁻¹ = v} := by
   have hV1V : V1 ≤ V := hsup ▸ le_sup_left
   have hV2V : V2 ≤ V := hsup ▸ le_sup_right
-  haveI hcomm : IsMulCommutative ↥V := hV.1.1
+  have hcomm : IsMulCommutative ↥V := hV.1.1
   let f : ↥V1 × ↥V2 → ↥V := fun p =>
     ⟨(p.1 : G) * (p.2 : G), V.mul_mem (hV1V p.1.2) (hV2V p.2.2)⟩
   have hf_inj : Function.Injective f := by
@@ -255,11 +255,11 @@ theorem sec12S8Mod_facX {V X V1 V2 : Subgroup G} (hV : IsElemAb2 V 8) (hsup : V1
       Nat.card {v : ↥V // h v = v} = 16 := by
   obtain ⟨_, hXnorm1, -, -, -, -, -, -⟩ := sec12S8Mod_facX_perm hn1
   obtain ⟨_, hXnorm2, -, -, -, -, -, -⟩ := sec12S8Mod_facX_perm hn2
-  haveI : Finite ↥X := Finite.of_injective hA5.some hA5.some.injective
+  have : Finite ↥X := Finite.of_injective hA5.some hA5.some.injective
   have hcardX : Nat.card ↥X = 60 := by
     rw [Nat.card_congr hA5.some.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x5, hx5ord⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 5 (by rw [hcardX]; norm_num)
   obtain ⟨x3, hx3ord⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 (by rw [hcardX]; norm_num)
   let g5 : G := (x5 : G)

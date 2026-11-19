@@ -41,7 +41,7 @@ private theorem s45_step10 (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X.HasB
   obtain ⟨h1l, h1r⟩ := X.hasB_one_bounds H hd₁
   constructor <;> omega
 
-private theorem Z_one_le_edgeSylow (H : X.Sec4Hyp s r) {d₁ : ℕ} (hd₁ : X.HasB 1 d₁) :
+private theorem Z_one_le_edgeSylow (_H : X.Sec4Hyp s r) {d₁ : ℕ} (hd₁ : X.HasB 1 d₁) :
     X.Z 1 ≤ X.edgeSylow (d₁ : ℤ) := by
   have hd1 : 1 ≤ d₁ := X.one_le_of_hasB hd₁
   have hfix := X.fixSet_Z 1 hd₁
@@ -66,7 +66,7 @@ private theorem Z_one_le_edgeSylow (H : X.Sec4Hyp s r) {d₁ : ℕ} (hd₁ : X.H
     rw [show (d₁ : ℤ) + 1 - 1 = (d₁ : ℤ) by ring] at h
     exact h.trans ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans inf_le_left)
   have hQle2 : X.Q ((d₁ : ℤ) + 1) ≤ X.Gi ((d₁ : ℤ) + 1) := X.Q_le_Gi _
-  haveI : Finite ↥(X.Gi (d₁ : ℤ) ⊓ X.Gi ((d₁ : ℤ) + 1)) :=
+  have : Finite ↥(X.Gi (d₁ : ℤ) ⊓ X.Gi ((d₁ : ℤ) + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi (d₁ : ℤ) ⊓ X.Gi ((d₁ : ℤ) + 1)) inf_le_left
   have hPle : (X.Z 1 ⊔ X.Q ((d₁ : ℤ) + 1) : Subgroup G) ≤
       (X.Gi (d₁ : ℤ) ⊓ X.Gi ((d₁ : ℤ) + 1) : Subgroup G) :=
@@ -169,12 +169,12 @@ private theorem sylow_centralizes_Z_one (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
   have hzfacts := X.centerOf_sylow_le_Z H.char 1 hP
   set C : Subgroup G := X.Z 1 ⊓ Subgroup.centralizer (P : Set G) with hC
   have hCeq : C = centerOf P := hzfacts.2
-  haveI : Finite ↥P := finite_of_le_stabilizer X.hyp (H := P) hP.1
+  have : Finite ↥P := finite_of_le_stabilizer X.hyp (H := P) hP.1
   have hcenterne : centerOf P ≠ ⊥ := by
     intro hbot
     have hnt : Nontrivial ↥P :=
       Finite.one_lt_card_iff_nontrivial.mp ((Subgroup.one_lt_card_iff_ne_bot P).mpr hPne)
-    haveI := hnt
+    have := hnt
     have hlt : ⊥ < Subgroup.center ↥P := IsPGroup.bot_lt_center hP.2.1
     obtain ⟨z, hz, hz1⟩ :=
       (Subgroup.bot_or_exists_ne_one (Subgroup.center ↥P)).resolve_left (ne_of_gt hlt)
@@ -942,8 +942,8 @@ private theorem d1_Q0_comm_L0_le_Z0 (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     ⁅X.Q 0, X.L 0⁆ ≤ X.Z 0 := by
   obtain ⟨hd0, hr, hs⟩ := d1_numeric X H hd₀ hd₁ hna hodd₀ h3
   subst h3; subst hd0; subst hr; subst hs
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
   have hS := d1_Q0_comm_S_le_Z0 X H hd₀ hd₁ hna hodd₀ rfl
   let D : Subgroup G :=
     { carrier := {g | g ∈ Subgroup.normalizer (X.Z 0 : Set G) ∧ ∀ q ∈ X.Q 0, ⁅g, q⁆ ∈ X.Z 0}
@@ -1074,9 +1074,9 @@ private theorem d1_Q0_inf_centralizer_Ki1_le_Z0 (H : X.Sec4Hyp s r) {d₀ d₁ :
   let C : Subgroup G := X.Q 0 ⊓ Subgroup.centralizer (X.Ki 1 : Set G)
   have hCQ0 : C ≤ X.Q 0 := inf_le_left
   have hC2 : IsPGroup 2 ↥C := (pCoreOf_isPGroup' (X.Gi 0)).to_le hCQ0
-  haveI hCfin : Finite ↥C :=
+  have hCfin : Finite ↥C :=
     finite_of_le_stabilizer X.hyp (H := C) (hCQ0.trans (X.Q_le_Gi 0))
-  haveI hKifin : Finite ↥(X.Ki 0) :=
+  have hKifin : Finite ↥(X.Ki 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 0)
       ((inf_le_left : X.Ki 0 ≤ X.K).trans (X.K_le_Gi 0))
   have hN : X.Ki 0 ≤ Subgroup.normalizer (C : Set G) :=
@@ -1087,7 +1087,7 @@ private theorem d1_Q0_inf_centralizer_Ki1_le_Z0 (H : X.Sec4Hyp s r) {d₀ d₁ :
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hC2
     rw [hk]
     exact (hoddKi.coprime_two_left.symm).pow_right k
-  haveI : Group.IsNilpotent ↥C := hC2.isNilpotent
+  have : Group.IsNilpotent ↥C := hC2.isNilpotent
   have hsolv : Group.IsSolvable ↥C := inferInstance
   have hdec : C ≤ ⁅C, X.Ki 0⁆ ⊔ C ⊓ Subgroup.centralizer (X.Ki 0 : Set G) :=
     CFSG.GroupTheory.le_commutator_sup_inf_centralizer_of_coprime_of_finite hN hcop hsolv
@@ -1113,9 +1113,9 @@ private theorem d1_false_of_d1_eq_three (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     (hodd₀ : Odd d₀) (h3 : d₁ = 3) : False := by
   have hQ0ne := d1_Q0_ne_Z0 X H hd₀ hd₁ hna hodd₀ h3
   have hCZ := d1_Q0_inf_centralizer_Ki1_le_Z0 X H hd₀ hd₁ hna hodd₀ h3
-  haveI hQ0fin : Finite ↥(X.Q 0) :=
+  have hQ0fin : Finite ↥(X.Q 0) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
-  haveI hKi1fin : Finite ↥(X.Ki 1) :=
+  have hKi1fin : Finite ↥(X.Ki 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 1)
       ((inf_le_left : X.Ki 1 ≤ X.K).trans (X.K_le_Gi 1))
   have hQ2 : IsPGroup 2 ↥(X.Q 0) := pCoreOf_isPGroup' (X.Gi 0)
@@ -1128,7 +1128,7 @@ private theorem d1_false_of_d1_eq_three (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ2
     rw [hk]
     exact (hoddKi.coprime_two_left.symm).pow_right k
-  haveI : Group.IsNilpotent ↥(X.Q 0) := hQ2.isNilpotent
+  have : Group.IsNilpotent ↥(X.Q 0) := hQ2.isNilpotent
   have hsolv : Group.IsSolvable ↥(X.Q 0) := inferInstance
   have hdec : X.Q 0 ≤ ⁅X.Q 0, X.Ki 1⁆ ⊔ X.Q 0 ⊓ Subgroup.centralizer (X.Ki 1 : Set G) :=
     CFSG.GroupTheory.le_commutator_sup_inf_centralizer_of_coprime_of_finite hN hcop hsolv
@@ -1387,7 +1387,7 @@ private def arcEps2 (y : G) (hy2 : y • X.vert 2 = X.vert 2)
     | n + 2 => omega
 
 private def arcEps3 (y : G) (hy3 : y • X.vert 3 = X.vert 3)
-    (hy2 : y • X.vert 2 ≠ X.vert 2) (hy1 : y • X.vert 1 ≠ X.vert 1) : Arc Γ 5 where
+    (hy2 : y • X.vert 2 ≠ X.vert 2) (_hy1 : y • X.vert 1 ≠ X.vert 1) : Arc Γ 5 where
   vert
     | 0 => X.vert 1
     | 1 => X.vert 2
@@ -1450,7 +1450,7 @@ private def arcEps3 (y : G) (hy3 : y • X.vert 3 = X.vert 3)
         norm_num at this
     | n + 4 => omega
 
-private theorem commutator_Z_one_Z_h_le_Z_h (H : X.Sec4Hyp s r) {d₁ : ℕ}
+private theorem commutator_Z_one_Z_h_le_Z_h (_H : X.Sec4Hyp s r) {d₁ : ℕ}
     (hd₁ : X.HasB 1 d₁) : ⁅X.Z 1, X.Z ((d₁ : ℤ) + 1)⁆ ≤ X.Z ((d₁ : ℤ) + 1) := by
   have hfix1 : X.fixSet (X.Z 1) = Set.Icc (2 - ((d₁ : ℤ) + 1)) ((d₁ : ℤ) + 1) := by
     have h := X.fixSet_Z 1 hd₁
@@ -1552,7 +1552,7 @@ private theorem commutator_Z_one_Z_h_le_Qg (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     have h0 : u ∈ X.Gi 0 := hRGi0 hu
     have h2 : u ∈ X.Gi ((r : ℤ) - 1) := hRGiEnd hu
     exact X.mem_Gi_of_between h0 h2 (by omega) (by omega)
-  haveI hfin01 : Finite ↥(X.Gi 0 ⊓ X.Gi (0 + 1)) :=
+  have hfin01 : Finite ↥(X.Gi 0 ⊓ X.Gi (0 + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi (0 + 1)) inf_le_left
   have hRedge0 : ⁅X.Z 1, X.Z ((d₁ : ℤ) + 1)⁆ ≤ X.edgeSylow 0 :=
     le_of_normal_isSylowTwoOf (X.isSylowTwoOf_edgeSylow 0)
@@ -1570,7 +1570,7 @@ private theorem commutator_Z_one_Z_h_le_Qg (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
   have hsing : ¬ X.RightTransAt 0 ((r : ℤ) - 1) := by
     intro h
     have h' : X.RightTransAt 0 (0 + ((r - 1 : ℕ) : ℤ)) := by
-      simpa [show ((r - 1 : ℕ) : ℤ) = (r : ℤ) - 1 by push_cast; omega] using h
+      simpa [show ((r - 1 : ℕ) : ℤ) = (r : ℤ) - 1 by omega] using h
     have hpar := (H.ends_even 0 (r - 1) (by omega)).1 h'
     obtain ⟨n, hn⟩ := H.even_r
     obtain ⟨m, hm⟩ := hpar
@@ -1708,14 +1708,14 @@ private theorem s45_R_le_Z_pred (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X
     have hne' : pCoreOf 2 (X.arcStab 0 (0 + (r : ℤ))) ≠ ⊥ := by simpa using hne
     obtain ⟨hcardQg, -, -, -, -⟩ := X.pCoreOf_arcStab_r H 0 hne'
     have hcardQg' : Nat.card (X.Qg r) = 2 ^ X.n 0 := by simpa using hcardQg
-    haveI : Finite ↥(X.Qg r) := by
-      haveI : Finite ↥(X.arcStab 0 (r : ℤ)) :=
+    have : Finite ↥(X.Qg r) := by
+      have : Finite ↥(X.arcStab 0 (r : ℤ)) :=
         finite_of_le_stabilizer X.hyp (H := X.arcStab 0 (r : ℤ))
           (X.arcStab_le_Gi_left (show (0 : ℤ) < (r : ℤ) by omega))
       exact Finite.of_injective
         (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 _))
         (Subgroup.inclusion_injective _)
-    haveI : Finite ↥(X.Z ((d₁ : ℤ) + 1 - 1)) :=
+    have : Finite ↥(X.Z ((d₁ : ℤ) + 1 - 1)) :=
       finite_of_le_stabilizer X.hyp (H := X.Z ((d₁ : ℤ) + 1 - 1)) (X.Z_le_Gi _)
     have heq : X.Z ((d₁ : ℤ) + 1 - 1) = X.Qg r :=
       Subgroup.eq_of_le_of_card_ge hZhm1le (by rw [hcardQg', hcardZ])
@@ -1901,7 +1901,7 @@ open Matrix
 private def vecE1 {K : Type*} [Field K] : K →+ (Fin 2 → K) where
   toFun s := ![s, 0]
   map_zero' := by ext i; fin_cases i <;> simp
-  map_add' s t := by ext i; fin_cases i <;> simp [add_comm]
+  map_add' s t := by ext i; fin_cases i <;> simp
 
 private theorem vecE1_injective {K : Type*} [Field K] : Function.Injective (vecE1 (K := K)) := by
   intro s t h
@@ -2003,7 +2003,7 @@ private theorem card_map_sylow_local {K : Type*} [Field K] [Finite K] [CharP K 2
     (hP : IsSylowTwoOf P L) (hOleP : pCoreOf 2 L ≤ P) :
     Nat.card ↥((P.subgroupOf L).map φ) = Nat.card K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup ↥L := P.subgroupOf L with hH
   have hHgrp : IsPGroup 2 H := by
     rw [hH, Subgroup.subgroupOf]
@@ -2050,7 +2050,7 @@ private theorem exists_SL2_hom_map_eq_upperUnipotent {L P : Subgroup G} [Finite 
       have hxy : x = y := Subtype.ext hyx.symm
       have h3 : x ∈ CFSG.pCore 2 ↥L := hxy ▸ hy
       have h2 : q x = 1 := (QuotientGroup.eq_one_iff x).mpr h3
-      simpa [φ, h2]
+      simp [φ, h2]
   have hOleP : pCoreOf 2 L ≤ P := pCoreOf_le_of_isSylowTwoOf hP
   have hUcard : Nat.card ↥((P.subgroupOf L).map φ) = Nat.card K :=
     card_map_sylow_local hφs hφker hP hOleP
@@ -2207,7 +2207,7 @@ private theorem Z_le_iSup_conj_inf_centralizer (H : X.Sec4Hyp s r) (i : ℤ)
     {P : Subgroup G} (hP : IsSylowTwoOf P (X.L i)) (hPG : IsSylowTwoOf P (X.Gi i)) :
     X.Z i ≤ ⨆ l : ↥(X.L i), (X.Z i ⊓ Subgroup.centralizer (P : Set G)).map
       (MulAut.conj (l : G)).toMonoidHom := by
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
   have hVdef : X.Z i = ⨆ (Q : Subgroup G) (_ : IsSylowTwoOf Q (X.Gi (i))),
       centerOf Q ⊓ X.Q (i) := rfl
   rw [hVdef]
@@ -2227,10 +2227,10 @@ private theorem Z_le_iSup_conj_inf_centralizer (H : X.Sec4Hyp s r) (i : ℤ)
       rw [← h1]
       exact Sylow.card_eq_multiplicity _
     rw [hcard hQL hQsyl, hcard hP.1 hP]
-  haveI : Finite ↥P :=
+  have : Finite ↥P :=
     Finite.of_injective (fun x : ↥P => (⟨x.1, hP.1 x.2⟩ : ↥(X.L i)))
       (fun a b h => Subtype.ext (congrArg (fun z : ↥(X.L i) => (z : G)) h))
-  haveI : Finite ↥(conjSub l P) := by
+  have : Finite ↥(conjSub l P) := by
     have hsurj : Function.Surjective (fun p : ↥P =>
         (⟨(MulAut.conj (l : G)) (p : G),
           Subgroup.mem_map_of_mem (f := (MulAut.conj (l : G)).toMonoidHom) p.2⟩ :
@@ -2299,10 +2299,10 @@ private theorem card_Z_h (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X.HasB 0
   let P : Subgroup G := X.edgeSylow (d₁ : ℤ)
   have hKcard : Nat.card K = 2 ^ X.n 0 :=
     GaloisField.card 2 (X.n 0) (by have := H.two_le_n 0; omega)
-  haveI hfL : Finite ↥L := by
-    haveI : Finite ↥(X.Gi ((d₁ : ℤ) + 1)) := X.hyp.finite_stab (X.vert _)
+  have hfL : Finite ↥L := by
+    have : Finite ↥(X.Gi ((d₁ : ℤ) + 1)) := X.hyp.finite_stab (X.vert _)
     exact Finite.of_injective (Subgroup.inclusion (X.L_le_Gi _)) (Subgroup.inclusion_injective _)
-  haveI hfV : Finite ↥V :=
+  have hfV : Finite ↥V :=
     finite_of_le_stabilizer X.hyp (H := V) (X.Z_le_Gi _)
   have hnh : X.n ((d₁ : ℤ) + 1) = X.n 0 := by
     obtain ⟨k, hk⟩ := (X.s45_lt_odd_of_not_comm_le H hd₀ hd₁ hna).2.1
@@ -2324,7 +2324,7 @@ private theorem card_Z_h (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X.HasB 0
     fun a ha x hx => (Subgroup.mem_normalizer_iff.mp (hLV ha) x).mp hx
   obtain ⟨S⟩ : Nonempty (CFSG.RankThree.GF2n.SectionModule L V ⊥ φ') :=
     X.nonempty_sectionModule_Z ((d₁ : ℤ) + 1) hφ's hφ'ker
-  haveI hfW : Finite S.W := Finite.of_surjective S.π S.surjective
+  have hfW : Finite S.W := Finite.of_surjective S.π S.surjective
   have hP_Gi : IsSylowTwoOf P (X.Gi ((d₁ : ℤ) + 1)) := by
     simpa [P] using X.isSylowTwoOf_edgeSylow_Gi_succ (d₁ : ℤ)
   have hPleL : P ≤ X.L (d₁ : ℤ) := by
@@ -2341,7 +2341,7 @@ private theorem card_Z_h (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X.HasB 0
     (Int.odd_coe_nat d₁).mpr (X.s45_lt_odd_of_not_comm_le H hd₀ hd₁ hna).2.1
   have hZc : X.Z (d₁ : ℤ) = centerOf (X.L (d₁ : ℤ)) :=
     X.Z_eq_centerOf_of_even_sub (hodd1.sub_odd odd_one) (X.s45_step11 H hd₀ hd₁ hna hodd₀).1
-  haveI hfZ : Finite ↥(X.Z (d₁ : ℤ)) :=
+  have hfZ : Finite ↥(X.Z (d₁ : ℤ)) :=
     finite_of_le_stabilizer X.hyp (H := X.Z (d₁ : ℤ)) (X.Z_le_Gi _)
   have hcardRle : Nat.card ↥⁅V, P⁆ ≤ 2 ^ X.n 0 := by
     calc Nat.card ↥⁅V, P⁆ ≤ Nat.card ↥(X.Z (d₁ : ℤ)) := Subgroup.card_le_of_le hRV
@@ -2713,7 +2713,7 @@ theorem s45_false_of_b₀_odd (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ} (hd₀ : X.H
     False := by
   obtain ⟨-, hd0, -, -, hdh, -⟩ := X.s45_facts H hd₀ hd₁ hna hodd₀
   have hEq : X.Z ((d₁ : ℤ) + 1) = X.Z (d₁ : ℤ) ⊔ X.Z ((d₁ : ℤ) + 2) := by
-    haveI : Finite ↥(X.Z ((d₁ : ℤ) + 1)) :=
+    have : Finite ↥(X.Z ((d₁ : ℤ) + 1)) :=
       finite_of_le_stabilizer X.hyp (H := X.Z ((d₁ : ℤ) + 1)) (X.Z_le_Gi _)
     refine (Subgroup.eq_of_le_of_card_ge (X.W_le_Z_h H hd₀ hd₁ hna hodd₀) ?_).symm
     exact ((X.card_Z_h H hd₀ hd₁ hna hodd₀).trans

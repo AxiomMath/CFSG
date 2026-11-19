@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem rt_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     Rt M (LB M Q (conjSubgroup m B)) (m * t * m⁻¹) = conjSubgroup m (Rt M (LB M Q B) t) := by
   have h := CFSG.RankThree.GF2n.Smith81.Rt_conj m M (LB M Q B) t
@@ -20,6 +21,7 @@ theorem rt_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
   rw [hc.LB_conj hm]
   exact h
 
+omit [Finite G] in
 theorem vt_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     Vt M (LB M Q (conjSubgroup m B)) (conjSubgroup m B) Z (m * t * m⁻¹) =
       conjSubgroup m (Vt M (LB M Q B) B Z t) := by
@@ -28,6 +30,7 @@ theorem vt_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
   rw [hc.LB_conj hm]
   exact h
 
+omit [Finite G] in
 theorem cn_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     (hc.conj_of_mem hm).CN (m * t * m⁻¹) = conjSubgroup m (hc.CN t) := by
   have hZn : ∀ a ∈ M, ∀ z ∈ Z, a * z * a⁻¹ ∈ Z := fun a ha z hz =>
@@ -60,6 +63,7 @@ theorem cn_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
       group
     rwa [e] at h1
 
+omit [Finite G] in
 theorem omegaPlusNat_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) (k : ℕ) :
     OmegaPlusNat (hc.conj_of_mem hm) (m * t * m⁻¹) k ↔ OmegaPlusNat hc t k := by
   unfold OmegaPlusNat
@@ -78,6 +82,7 @@ theorem omegaPlusNat_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : 
     rw [hc.conj_Z_eq hm] at h
     exact h
 
+omit [Finite G] in
 theorem omegaMinusNat_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) (k : ℕ) :
     OmegaMinusNat (hc.conj_of_mem hm) (m * t * m⁻¹) k ↔ OmegaMinusNat hc t k := by
   unfold OmegaMinusNat
@@ -96,6 +101,7 @@ theorem omegaMinusNat_conj_of_mem (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t :
     rw [hc.conj_Z_eq hm] at h
     exact h
 
+omit [Finite G] in
 theorem sec7Hyp_conj_of_mem (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n t) {m : G}
     (hm : m ∈ M) : Sec7Hyp (hc.conj_of_mem hm) n (m * t * m⁻¹) where
   toSec5 :=

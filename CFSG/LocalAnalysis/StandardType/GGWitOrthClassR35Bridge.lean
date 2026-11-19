@@ -14,8 +14,8 @@ theorem secondIso_of_check (w : Fin 5 → ZMod 3) (h : secondCheck w = true) :
         (2 * ∑ i, w i * (a i * u' i)) = 0 ∧
         (2 * ∑ i, w i * (u i * u' i)) = 0 ∧ u' ≠ u ∧ u' ≠ -u := by
   simp only [secondCheck, List.all_eq_true, List.any_eq_true, Bool.or_eq_true,
-    Bool.and_eq_true, Bool.not_eq_true', Bool.not_eq_false', beq_iff_eq, beq_eq_false_iff_ne,
-    bne_iff_ne, decide_eq_true_eq] at h
+    Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq, beq_eq_false_iff_ne,
+    bne_iff_ne] at h
   intro a ha u hu huab hu0
   have hqa : qw w a = 1 := (qw_eq_iff w a 1).mpr ha
   have hqu : qw w u = 0 := (qw_eq_iff w u 0).mpr hu

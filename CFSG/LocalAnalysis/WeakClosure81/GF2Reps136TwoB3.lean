@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_le_stabSub_of_stableUnder {A : Subgroup (MulAut W)} {U : Subgroup W}
     (hA : StableUnder A U) : A ≤ stabSub U := by
   intro a ha
@@ -26,6 +27,7 @@ private theorem w1369_le_stabSub_of_stableUnder {A : Subgroup (MulAut W)} {U : S
       simpa using h1,
     hA a ha u⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup_of_stable {A B : Subgroup (MulAut W)} {U : Subgroup W}
     (hA : StableUnder A U) (hB : StableUnder B U) : StableUnder (A ⊔ B) U := by
   have hle : A ⊔ B ≤ stabSub U :=
@@ -33,6 +35,7 @@ private theorem w1369_stableUnder_sup_of_stable {A B : Subgroup (MulAut W)} {U :
   intro y hy u hu
   exact (mem_stabSub.mp (hle hy) u).2 hu
 
+omit [Finite W] in
 private theorem w1369_centralizer_sup_eq (A B : Subgroup (MulAut W)) :
     Subgroup.centralizer ((A ⊔ B : Subgroup (MulAut W)) : Set (MulAut W)) =
       Subgroup.centralizer (A : Set (MulAut W)) ⊓
@@ -49,6 +52,7 @@ private theorem w1369_centralizer_sup_eq (A B : Subgroup (MulAut W)) :
     · exact hA' c hc
     · exact hB' c hc
 
+omit [Finite W] in
 private theorem w1369_commSub_sup_right (X Y : Subgroup (MulAut W)) :
     commSub (⊤ : Subgroup W) (X ⊔ Y) = commSub ⊤ X ⊔ commSub ⊤ Y := by
   refine le_antisymm ?_ (sup_le (commSub_mono le_rfl le_sup_left)
@@ -90,6 +94,7 @@ private theorem w1369_commutator_self_of_isQuasisimple {G : Type*} [Group G]
   rw [h.1] at h1
   rw [← h1, Subgroup.map_top, Subgroup.range_subtype]
 
+omit [Finite W] in
 private theorem w1369_commSub_commSub_eq_of_perfect {K : Subgroup (MulAut W)}
     (hKperf : ⁅K, K⁆ = K) :
     commSub (commSub ⊤ K) K = commSub ⊤ K := by
@@ -138,7 +143,7 @@ private theorem w1369_commSub_Wd_eq_bot_of_comm {L X K : Subgroup (MulAut W)}
 
 private theorem w1369_case_b_contra {L X K : Subgroup (MulAut W)} {Y : Subgroup (MulAut W)}
     (hS : Strong3 L X) (hC : Cd L = ⊥) (hXL : ⁅X, L⁆ = ⊥)
-    (hKcomp : IsComponentOf K Y) (hKneL : K ≠ L) (hKneX : K ≠ X)
+    (hKcomp : IsComponentOf K Y) (_hKneL : K ≠ L) (_hKneX : K ≠ X)
     (hKcomm : ⁅K, L ⊔ X⁆ = ⊥) (hKstab : StableUnder K (Wd L))
     (hK_Wd : commSub ⊤ K = Wd L) (hWd_ne_bot : Wd L ≠ ⊥) :
     False := by
@@ -156,7 +161,7 @@ private theorem w1369_case_b_contra {L X K : Subgroup (MulAut W)} {Y : Subgroup 
     ⁅L ⊔ Lc L g, (L ⊔ Lc L g).map (MulAut.conj h).toMonoidHom⁆ = ⊥ ∧
       commSub (commSub ⊤ (L ⊔ Lc L g)) ((L ⊔ Lc L g).map (MulAut.conj h).toMonoidHom) = ⊥
 
-theorem swap_T (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
+theorem swap_T (_hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {g : MulAut W} (S : Swap136 Y t L g)
     (hW : Wd (Lc L g) = Wd L) (hC : Cd L = ⊥) (hS : Strong3 L (Lc L g)) : SwapT Y L g := by
   intro h hhY hhN

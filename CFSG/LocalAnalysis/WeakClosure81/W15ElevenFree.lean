@@ -13,6 +13,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b15_prod_eq_one {A : Subgroup G} [IsMulCommutative A]
     {p : ℕ} (hp : p.Prime) (F : ℕ → A) (hper : F p = F 0) {z : G}
     (hzN : z ∈ normalizer (A : Set G))
@@ -60,13 +61,14 @@ private theorem b15_prod_eq_one {A : Subgroup G} [IsMulCommutative A]
   show N = 1
   exact hNbot
 
+omit [Finite G] in
 theorem inf_centralizer_le_commutator_of_inv {I : Subgroup G} (hI : IsElemAbelian 2 I)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x ι : G} (hx : x ^ p = 1)
-    (hxN : x ∈ normalizer (I : Set G)) (hιN : ι ∈ normalizer (I : Set G)) (hι : ι * ι = 1)
+    (hxN : x ∈ normalizer (I : Set G)) (_hιN : ι ∈ normalizer (I : Set G)) (_hι : ι * ι = 1)
     (hinv : ι * x * ι⁻¹ = x⁻¹) (hcx : I ⊓ centralizer ({x} : Set G) = ⊥) :
     I ⊓ centralizer ({ι} : Set G) ≤ ⁅I, zpowers ι⁆ := by
   classical
-  haveI : IsMulCommutative I := hI.1
+  have : IsMulCommutative I := hI.1
   intro i hi
   obtain ⟨hiI, hic⟩ := Subgroup.mem_inf.mp hi
   have hcomm_i : i * ι = ι * i := Subgroup.mem_centralizer_singleton_iff.mp hic
@@ -176,12 +178,13 @@ theorem inf_centralizer_le_commutator_of_inv {I : Subgroup G} (hI : IsElemAbelia
   rw [hi_eq]
   exact hPmem
 
+omit [Finite G] in
 theorem le_commutator_of_inf_centralizer_eq_bot {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {z : G} (hz : z ^ p = 1)
     (hzN : z ∈ normalizer (A : Set G)) (hcz : A ⊓ centralizer ({z} : Set G) = ⊥) :
     A ≤ ⁅A, zpowers z⁆ := by
   classical
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   intro a ha
   let aA : A := ⟨a, ha⟩
   have hmem : ∀ j : ℕ, z ^ j * a * (z ^ j)⁻¹ ∈ A := fun j =>

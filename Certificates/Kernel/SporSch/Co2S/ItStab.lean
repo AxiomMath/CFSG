@@ -64,7 +64,7 @@ theorem orbit_card :
   have hpos : 0 < Nat.card (MulAction.stabilizer co2P S) := Nat.card_pos
   have : 1024650 ≤ (MulAction.orbit co2P S).ncard := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have := Nat.mul_le_mul hstab (Nat.le_of_lt_succ (Nat.lt_succ_of_lt hlt))
     nlinarith
   exact this

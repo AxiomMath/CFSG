@@ -37,6 +37,7 @@ section Family
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inducesInner_of_mem_family {𝓛 : Set (Subgroup G)} {J : Subgroup G} (hJ : J ∈ 𝓛)
     (hcomm : ∀ L ∈ 𝓛, ∀ L' ∈ 𝓛, L ≠ L' → ∀ x ∈ L, ∀ y ∈ L', x * y = y * x) {k : G} (hk : k ∈ sSup 𝓛) :
     InducesInner 3 J k := by
@@ -153,7 +154,7 @@ theorem isQuasisimple_native {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple
 theorem input14_1CoreCyc_of_coreSimple (h : Input14_1CoreSimple) : Inputs141.Input14_1CoreCyc := by
   intro Y _ _ K hKq _ _ hchev b hbN hb3 hbK J hJ hJt k hk hkb hk2
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   set α : MulAut ↥K := K.normalizerMonoidHom ⟨b, hbN⟩ with hαdef
   have hαx : ∀ x : ↥K, ((α x : ↥K) : Y) = b * x * b⁻¹ := fun x => rfl
@@ -455,6 +456,7 @@ theorem structAt_of_congr (e : Q ≃* Q') {β : MulAut Q} {J : Subgroup Q}
 
 variable {K : Type} [Group K] [Finite K] [Finite Q]
 
+omit [Finite K] [Finite Q] in
 theorem exists_two_lift (π : K →* Q) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center K)
     (hodd : Nat.Coprime 2 (Nat.card π.ker)) (α : MulAut K) (β : MulAut Q) (hαβ : ∀ x, π (α x) = β (π x))
     {x : Q} (hx : x ∈ fixSubgroup β) (hx2 : IsPGroup 2 ↥(Subgroup.zpowers x)) :
@@ -509,6 +511,7 @@ theorem exists_two_lift (π : K →* Q) (hπ : Function.Surjective π) (hker : �
   show α g = g
   rw [hαg, hz1, mul_one]
 
+omit [Finite K] [Finite Q] in
 theorem isComponentOf_map_fixSubgroup (π : K →* Q) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) (α : MulAut K) (β : MulAut Q) (hαβ : ∀ x, π (α x) = β (π x))
     {L : Subgroup K} (hL : CFSG.Open.IsComponentOf L (fixSubgroup α)) :

@@ -88,7 +88,7 @@ theorem xs_ne_one {j : ℤ} (hj : Even j) {x : F.K} (hx : x ≠ 0) : F.xs j x �
   have harg : ((F.sigma x * x)⁻¹) ≠ 0 := inv_ne_zero (mul_ne_zero hσx hx)
   have hmem : F.xp (j + 8) ((F.sigma x * x)⁻¹).val ∈ T.U (j + 8) :=
     T.Uprime_le (j + 8) (F.xp_mem hj8 ((F.sigma x * x)⁻¹).mem)
-  rw [xs, if_neg hx]
+  rw [xs, ite_eq_right hx]
   exact T.nu'_ne_one (by norm_num : 3 ≤ 8) hmem (F.xp_ne_one_of_ne_zero hj8 harg)
 
 theorem xs_mem {j : ℤ} (hj : Even j) (x : F.K) : F.xs j x ∈ T.Usec j := by
@@ -102,7 +102,7 @@ theorem xs_mem {j : ℤ} (hj : Even j) (x : F.K) : F.xs j x ∈ T.Usec j := by
       have hsq : x ^ 2 = 0 := by rw [← F.sigma_sigma x, h, map_zero]
       exact hx (mul_self_eq_zero.mp (by simpa [pow_two] using hsq))
     have harg : ((F.sigma x * x)⁻¹) ≠ 0 := inv_ne_zero (mul_ne_zero hσx hx)
-    rw [xs, if_neg hx]
+    rw [xs, ite_eq_right hx]
     refine Or.inr ⟨F.xp (j + 8) ((F.sigma x * x)⁻¹).val, ?_, ?_, ?_⟩
     · have hmem := F.xp_mem hj8 ((F.sigma x * x)⁻¹).mem
       have hUp : T.Uprime (j + 8) = T.Uprime (j - 8) := by
@@ -118,7 +118,7 @@ theorem xs_mem_U {j : ℤ} (hj : Even j) (x : F.K) : F.xs j x ∈ T.U j :=
 
 theorem xs_of_ne_zero {j : ℤ} {x : F.K} (hx : x ≠ 0) :
     F.xs j x = T.nu' (j + 8) (F.xp (j + 8) ((F.sigma x * x)⁻¹).val) := by
-  rw [xs, if_neg hx]
+  rw [xs, ite_eq_right hx]
 
 theorem a_conj_xs {j : ℤ} (hj : Even j) (x : F.K) :
     F.a * F.xs j x * F.a⁻¹ = F.xs (10 - j) x := by
@@ -148,7 +148,7 @@ theorem a_conj_xs {j : ℤ} (hj : Even j) (x : F.K) :
         F.a_conj_xp hj8 ((F.sigma x * x)⁻¹).mem]
     rw [show (-1 : ℤ) * (j + 8) + 10 = 2 - j by ring] at hmc
     rw [← hxp] at hmc
-    simp only [xs, if_neg hx]
+    simp only [xs, ite_eq_right hx]
     have hnu : T.nu' (2 - j) (F.xp (2 - j) ((F.sigma x * x)⁻¹).val) =
         T.nu' (10 - j + 8) (F.xp (10 - j + 8) ((F.sigma x * x)⁻¹).val) := by
       have h := T.nu'_add_two_mul (by norm_num : 3 ≤ 8) (i := 2 - j) (k := 1)
@@ -220,7 +220,7 @@ theorem xs_bijective {j : ℤ} (hj : Even j) :
         exact (sigma_mul_self_bijective F.sigma F.sigma_sigma).1 hmul
   · intro y
     have hy : y.val ∈ T.Usec j := y.2
-    simp only [TitsSystem.Usec, Set.mem_setOf_eq] at hy
+    simp only [TitsSystem.Usec, Set.mem_ofPred_eq] at hy
     rcases hy with hone | ⟨u, hu, hu1, heq⟩
     · exact ⟨0, Subtype.ext (by change F.xs j 0 = y.val; rw [F.xs_zero, hone])⟩
     · have hU : T.Uprime (j + 8) = T.Uprime (j - 8) := by

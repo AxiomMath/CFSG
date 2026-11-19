@@ -47,10 +47,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
     (Π₀ i : Fin r, Δ.F.U i) →ₗ[K] V :=
   DFinsupp.lsum ℕ fun i => (Δ.F.U i).subtype
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.originalSumMap_injective (Δ : TBJOmData Q p A r) :
     Function.Injective (Δ.originalSumMap) :=
   iSupIndep.dfinsupp_lsum_injective Δ.F.iSupIndep_pieces
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.originalSumMap_range (Δ : TBJOmData Q p A r) :
     LinearMap.range Δ.originalSumMap = Δ.originalActive := by
   rw [TBJOmData.originalSumMap, TBJOmData.originalActive,
@@ -65,6 +67,7 @@ noncomputable def TBJOmData.originalActiveEquiv [Fact p.Prime]
         (LinearEquiv.ofEq (LinearMap.range Δ.originalSumMap) Δ.originalActive
           Δ.originalSumMap_range)))
 
+omit [Finite K] in
 theorem TBJOmData.originalActiveEquiv_single [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (i : Fin r) (e : Δ.F.U o) :
@@ -89,6 +92,7 @@ theorem TBJOmData.originalActiveEquiv_single [Fact p.Prime]
   exact DFinsupp.lsum_single ℕ (fun i => (Δ.F.U i).subtype) i
     (Δ.planeIsometry hQ o i e)
 
+omit [Finite K] in
 theorem TBJOmData.originalActiveEquiv_apply [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (x : Fin r → Δ.F.U o) :
@@ -111,7 +115,7 @@ theorem TBJOmData.originalActiveEquiv_apply [Fact p.Prime]
     _ = ∑ i, (((Δ.planeIsometry hQ o i) (x i) : Δ.F.U i) : V) := by
             have h := map_sum (Submodule.subtype Δ.originalActive)
               (fun i => Δ.originalActiveEquiv hQ o (Pi.single i (x i))) Finset.univ
-            simpa [Δ.originalActiveEquiv_single hQ o] using h
+            simp [Δ.originalActiveEquiv_single hQ o]
 
 noncomputable def TBJOmData.originalSumEquiv [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
@@ -126,6 +130,7 @@ noncomputable def TBJOmData.originalCoordinates [Fact p.Prime]
     V ≃ₗ[K] (Δ.originalAnchor × (Fin r → Δ.F.U o)) :=
   (Δ.originalSumEquiv hQ o hWS).symm
 
+omit [Finite K] in
 theorem TBJOmData.originalSumEquiv_apply [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive)
@@ -137,6 +142,7 @@ theorem TBJOmData.originalSumEquiv_apply [Fact p.Prime]
     Submodule.coe_prodEquivOfIsCompl', LinearEquiv.refl_apply]
   rw [TBJOmData.originalActiveEquiv_apply]
 
+omit [Finite K] in
 theorem TBJOmData.originalCoordinates_symm_apply [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive)
@@ -145,6 +151,7 @@ theorem TBJOmData.originalCoordinates_symm_apply [Fact p.Prime]
       (w : V) + ∑ i, (((Δ.planeIsometry hQ o i) (x i) : Δ.F.U i) : V) :=
   Δ.originalSumEquiv_apply hQ o hWS w x
 
+omit [Finite K] in
 theorem TBJOmData.originalCoordinates_symm_anchor [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive) (w : Δ.originalAnchor) :
@@ -152,6 +159,7 @@ theorem TBJOmData.originalCoordinates_symm_anchor [Fact p.Prime]
   rw [TBJOmData.originalCoordinates_symm_apply]
   simp
 
+omit [Finite K] in
 theorem TBJOmData.originalCoordinates_symm_single [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive)
@@ -166,6 +174,7 @@ theorem TBJOmData.originalCoordinates_symm_single [Fact p.Prime]
   · intro hi
     exact (hi (Finset.mem_univ i)).elim
 
+omit [Finite K] in
 theorem TBJOmData.originalCoordinates_quadratic [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive)
@@ -203,6 +212,7 @@ theorem TBJOmData.originalCoordinates_quadratic [Fact p.Prime]
             refine Finset.sum_congr rfl fun i _ => ?_
             exact (Δ.planeIsometry hQ o i).map_app (x i)
 
+omit [Finite K] in
 theorem TBJOmData.originalCoordinates_quadratic_apply [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive) (v : V) :
@@ -212,6 +222,7 @@ theorem TBJOmData.originalCoordinates_quadratic_apply [Fact p.Prime]
     ((Δ.originalCoordinates hQ o hWS) v).1 ((Δ.originalCoordinates hQ o hWS) v).2
   simpa using h
 
+omit [Finite K] in
 theorem TBJOmData.coordAnchor_originalCoordinates [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive) :
@@ -225,6 +236,7 @@ theorem TBJOmData.coordAnchor_originalCoordinates [Fact p.Prime]
   · intro hv
     exact ⟨⟨v, hv⟩, by rw [TBJOmData.originalCoordinates_symm_anchor]⟩
 
+omit [Finite K] in
 theorem TBJOmData.coordPlane_originalCoordinates [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive) (i : Fin r) :
@@ -241,6 +253,7 @@ theorem TBJOmData.coordPlane_originalCoordinates [Fact p.Prime]
     exact congrArg Subtype.val
       ((Δ.planeIsometry hQ o i).apply_symm_apply ⟨v, hv⟩)
 
+omit [Finite K] in
 theorem TBJOmData.coordSupport_originalCoordinates [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o : Fin r)
     (hWS : IsCompl Δ.originalAnchor Δ.originalActive) (T : Finset (Fin r)) :
@@ -251,6 +264,7 @@ theorem TBJOmData.coordSupport_originalCoordinates [Fact p.Prime]
   exact Finset.sup_congr rfl fun i _ =>
     Δ.coordPlane_originalCoordinates hQ o hWS i
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.originalPlaneForm_nondegenerate (Δ : TBJOmData Q p A r) (o : Fin r) :
     (polarBilin (Q.comp (Δ.F.U o).subtype)).Nondegenerate :=
   CFSG.LieType.SeitzGeneration.nondegenerate_comp_subtype

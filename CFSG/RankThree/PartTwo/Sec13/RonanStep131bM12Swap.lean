@@ -23,7 +23,7 @@ theorem thetaComponentsAt_inv_eq {G : Type} [Group G] (c : G) :
 theorem sq_centralizes_of_invData {G : Type} [Group G] [Finite G] {E EY Y : Subgroup G}
     {b c t : G} (hEe : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27) (hbE : b ∈ E)
     (hd : InvData E b c Y t EY) : ∀ x ∈ E, t * t * x * (t * t)⁻¹ = x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hEe.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hb1 : b ≠ 1 := fun h => hd.not_mem_b (h ▸ one_mem _)
@@ -82,7 +82,7 @@ theorem sq_centralizes_of_invData {G : Type} [Group G] [Finite G] {E EY Y : Subg
 
 theorem s2swap_holds : S2swap := by
   intro G _ _ A c L E F a b R Y hY t EY hd htL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hD, hSL2, -, hEle, hEe, hE27, hEC, hEL, -⟩ := hY.hCfg
   have hcL : c ∈ L := mem_of_isSLThreePiTwo slTwoCenter hD hSL2
   have hSL : Sec4.IsSLThreePi (L ⧸ aschbacherSolvableCore 3 L) :=

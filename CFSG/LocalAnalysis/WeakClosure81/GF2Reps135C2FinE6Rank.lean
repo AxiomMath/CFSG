@@ -124,8 +124,8 @@ theorem finrank_fixSub_le_twentyOne {K : Type} [Field K] [Finite K] [CharP K 2]
       have hchi := Min.e6Chi27_hmT (K := K) i u
       rw [hchi]
       by_cases h : i = Min.n0T
-      · rw [if_pos h, if_pos h, zpow_one]
-      · rw [if_neg h, if_neg h, zpow_zero]
+      · rw [ite_eq_left h, ite_eq_left h, zpow_one]
+      · rw [ite_eq_right h, ite_eq_right h, zpow_zero]
         simp
     have hχ' : ∀ i u, χ (e6Data_valid.hm K i u) =
         algebraMap K k (e6Chi27 (e6Data_valid.hm K i u)) :=
@@ -141,8 +141,8 @@ theorem finrank_fixSub_le_twentyOne {K : Type} [Field K] [Finite K] [CharP K 2]
       have hchi := Min.e6Chi27s_hmT (K := K) i u
       rw [hchi]
       by_cases h : i = Min.n5T
-      · rw [if_pos h, if_pos h, zpow_one]
-      · rw [if_neg h, if_neg h, zpow_zero]
+      · rw [ite_eq_left h, ite_eq_left h, zpow_one]
+      · rw [ite_eq_right h, ite_eq_right h, zpow_zero]
         simp
     have hχ' : ∀ i u, χ (e6Data_valid.hm K i u) =
         algebraMap K k (Min.e6Chi27s (e6Data_valid.hm K i u)) :=
@@ -160,7 +160,7 @@ theorem natCard_fixV_zpowers_le
     (hty : IsE6TwentySevenType (c.rep.comp D.π)) {g : MulAut W} (hgL : g ∈ L)
     (hg2 : orderOf g = 2) : Nat.card ↥(fixV (Subgroup.zpowers g)) ≤ 2 ^ 21 := by
   classical
-  haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup6 K
+  have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup6 K
   set s : ↥L := ⟨g, hgL⟩ with hs
   have hval : (s : MulAut W) = g := by rw [hs]
   have hs2 : s ^ 2 = 1 := by

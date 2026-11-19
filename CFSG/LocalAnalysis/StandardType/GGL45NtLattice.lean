@@ -23,7 +23,7 @@ private theorem lattice_exists_zpow_form {τ : Tag} {K : Type} [Field K] {p : �
     {a : Fin τ.rank → Kˣ}
     (ha : ∀ i, a i ^ p = 1) :
     ∃ (g : Kˣ) (f₀ : (Fin τ.rank → ℤ) →+ ℤ), g ^ p = 1 ∧ ∀ v, rootChar a v = g ^ f₀ v := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := rootsOfUnity p K)
   have hc : ∀ i, ∃ c : ℤ, (g : Kˣ) ^ c = a i := fun i => by
     obtain ⟨c, hc⟩ := Subgroup.mem_zpowers_iff.1 (hg ⟨a i, (mem_rootsOfUnity p (a i)).2 (ha i)⟩)
@@ -118,11 +118,11 @@ theorem mem_familyReflectionGroup_of_coprime {τ : Tag} {K : Type} [Field K] {ι
     (hw : w ∈ familyStabilizerSubgroup a) (hcop : Nat.Coprime (orderOf w) p) :
     w ∈ familyReflectionGroup a := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have hwj : ∀ j, w ∈ rootCharStabilizerSubgroup (a j) := fun j =>
     (Subgroup.mem_iInf.1 hw) j
   choose f hfw hfker using fun j => lattice_exists_invariant_form_of_coprime hp (ha j) (hwj j) hcop
-  haveI : Finite (WeylGroup τ) := (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
+  have : Finite (WeylGroup τ) := (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
   have hfin : {β : Fin τ.rank → ℤ | IsRoot τ β}.Finite :=
     (Set.finite_range (fun x : WeylGroup τ × Fin τ.rank =>
       x.1 • (Pi.single x.2 1 : Fin τ.rank → ℤ))).subset fun β hβ => by
@@ -139,7 +139,7 @@ theorem mem_familyReflectionGroup_of_coprime {τ : Tag} {K : Type} [Field K] {ι
   set e := Fintype.equivFin ι
   let F : (Fin τ.rank → ℤ) →+ ℤ := ∑ j, (2 * B + 1) ^ (e j : ℕ) • f j
   have hFapp : ∀ v, F v = ∑ j, (2 * B + 1) ^ (e j : ℕ) * f j v := fun v => by
-    simp [F, AddMonoidHom.finset_sum_apply]
+    simp [F]
   have hF : ∀ v, F (w • v) = F v := fun v => by simp only [hFapp, hfw]
   refine (Subgroup.closure_le (familyReflectionGroup a)).2 ?_ (mem_stab_closure_of_invariant F hF)
   rintro _ ⟨u, i, hui, rfl⟩
@@ -189,7 +189,7 @@ theorem conj_mem_fixReflectionGroup {τ : Tag} {p : ℕ} {x x' : WeylGroup τ} (
       rwa [← mul_smul, show g * x * g⁻¹ * g = g * x by group, mul_smul] at this
     have := hu f' hf'
     simpa [f', mul_smul] using this
-  | one => simpa using one_mem _
+  | one => simp
   | mul y z _ _ hy hz =>
     have e : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
     rw [e]; exact mul_mem hy hz
@@ -351,7 +351,7 @@ theorem sylowCert_of_chain {τ : Tag} {p : ℕ} (hp : p.Prime) (hW2 : ¬ p ^ 2 �
     (hwit : ∀ i ∈ l, (Pi.single i 1 : Fin τ.rank → ℤ) =
       l.foldr (reflect τ) (y i) - y i + (p : ℤ) • z i) :
     SylowCert τ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set w₀ := (l.map (simple τ)).prod
   refine ⟨hW2, w₀, orderOf_eq_prime ?_ ?_, ?_⟩
   · refine ext_single fun i => ?_
@@ -483,7 +483,7 @@ theorem sylowCert_E8_7 : SylowCert .E8 7 :=
     (fun i => if i.val = 0 then ![4, 5, 2, 0, 0, 0, 0, 0] else if i.val = 2 then ![5, 5, 2, 0, 0, 0, 0, 0] else if i.val = 3 then ![5, 5, 3, 0, 0, 0, 0, 0] else if i.val = 4 then ![5, 5, 3, 1, 0, 0, 0, 0] else if i.val = 5 then ![5, 5, 3, 1, 1, 0, 0, 0] else if i.val = 6 then ![5, 5, 3, 1, 1, 1, 0, 0] else 0) (fun i => if i.val = 0 then ![0, 0, -1, -1, 0, 0, 0, 0] else if i.val = 2 then ![0, 0, -1, -1, 0, 0, 0, 0] else if i.val = 3 then ![0, 0, -1, -1, 0, 0, 0, 0] else if i.val = 4 then ![0, 0, -1, -1, 0, 0, 0, 0] else if i.val = 5 then ![0, 0, -1, -1, 0, 0, 0, 0] else if i.val = 6 then ![0, 0, -1, -1, 0, 0, 0, 0] else 0) (by decide +kernel) (by decide +kernel) (by decide +kernel)
 
 theorem sylowCert_G2_3 : SylowCert .G2 3 := by
-  haveI := Fact.mk Nat.prime_three
+  have := Fact.mk Nat.prime_three
   set i0 : Fin Tag.G2.rank := ⟨0, by decide⟩
   set i1 : Fin Tag.G2.rank := ⟨1, by decide⟩
   set l : List (Fin Tag.G2.rank) := [i0, i1, i0, i1]

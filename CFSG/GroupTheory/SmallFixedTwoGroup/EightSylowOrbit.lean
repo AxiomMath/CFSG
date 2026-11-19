@@ -13,6 +13,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma orbit_card_and_subset {N T : Subgroup G} {t : G} [MulAction ↥N G]
     (hsmul : ∀ n : ↥N, n • t = (n : G) * t * (n : G)⁻¹)
     (hstab : MulAction.stabilizer ↥N t = (centralizer ({t} : Set G)).subgroupOf N)
@@ -39,7 +40,7 @@ theorem relIndex_normalizer_le_card_sub_one {T : Subgroup G} {t : G} (htT : t �
     T.relIndex (normalizer (T : Set G)) ≤ Nat.card T - 1 := by
   let N : Subgroup G := normalizer (T : Set G)
   let f : ↥N →* MulAut G := MulAut.conj.comp N.subtype
-  letI : MulAction ↥N G := MulAction.compHom G f
+  let : MulAction ↥N G := MulAction.compHom G f
   have hstab : MulAction.stabilizer ↥N t = (centralizer ({t} : Set G)).subgroupOf N := by
     ext n
     show (MulAut.conj (n : G)) t = t ↔ (n : G) ∈ centralizer ({t} : Set G)
@@ -70,7 +71,7 @@ theorem exists_conj_eq_of_relIndex_eq {T : Subgroup G} {t : G} (htT : t ∈ T)
     (hy1 : y ≠ 1) : ∃ n ∈ normalizer (T : Set G), n * t * n⁻¹ = y := by
   let N : Subgroup G := normalizer (T : Set G)
   let f : ↥N →* MulAut G := MulAut.conj.comp N.subtype
-  letI : MulAction ↥N G := MulAction.compHom G f
+  let : MulAction ↥N G := MulAction.compHom G f
   have hstab : MulAction.stabilizer ↥N t = (centralizer ({t} : Set G)).subgroupOf N := by
     ext n
     show (MulAut.conj (n : G)) t = t ↔ (n : G) ∈ centralizer ({t} : Set G)

@@ -38,7 +38,7 @@ theorem ggQ2s08core_swap_coxeter {m ℓ : ℕ} (hℓ : 9 ≤ ℓ) (τ : Fin ℓ 
         omega
       have hrelij := hrel i j hneij
       have hMij : CoxeterMatrix.A ℓ i j = 3 := by
-        simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hneij, if_pos (Or.inr hij)]
+        simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hneij, ite_eq_left (Or.inr hij)]
       rwa [hMij] at hrelij
     have hcomm : ∀ i j : Fin ℓ, (i : ℕ) + 2 ≤ j → τ i * τ j = τ j * τ i := by
       intro i j hij
@@ -48,8 +48,8 @@ theorem ggQ2s08core_swap_coxeter {m ℓ : ℕ} (hℓ : 9 ≤ ℓ) (τ : Fin ℓ 
         omega
       have hrelij := hrel i j hneij
       have hMij : CoxeterMatrix.A ℓ i j = 2 := by
-        simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hneij,
-          if_neg (by omega : ¬ ((j : ℕ) + 1 = i ∨ (i : ℕ) + 1 = j))]
+        simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hneij,
+          ite_eq_right (by omega : ¬ ((j : ℕ) + 1 = i ∨ (i : ℕ) + 1 = j))]
       have h2 : (τ i * τ j) ^ 2 = 1 := by
         rwa [hMij] at hrelij
       exact ggQ2s08k6_commute_of_sq_eq_one (ggQ2s08k6_isSwap_mul_self (hsw i))
@@ -67,8 +67,8 @@ theorem ggQ2s08core_swap_coxeter {m ℓ : ℕ} (hℓ : 9 ≤ ℓ) (τ : Fin ℓ 
       simp [i, j] at hv
       omega
     have hMij : CoxeterMatrix.B ℓ i j = 4 := by
-      simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hij]
-      rw [if_pos]
+      simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hij]
+      rw [ite_eq_left]
       right
       constructor <;> simp [i, j]
     have h4 : (τ i * τ j) ^ 4 = 1 := by
@@ -133,17 +133,17 @@ theorem ggQ2s08core_swap_coxeter {m ℓ : ℕ} (hℓ : 9 ≤ ℓ) (τ : Fin ℓ 
       simp only [CartanMatrix.D, Matrix.of_apply, b, c]
       split_ifs with h1 h2 h3 h4 h5 h6 <;> omega
     have hMza : ggCoxeterMatrixD ℓ z a = 3 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg hzne, if_neg hDza]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right hzne, ite_eq_right hDza]
     have hMzb : ggCoxeterMatrixD ℓ z b = 3 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg hzbe, if_neg hDzb]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right hzbe, ite_eq_right hDzb]
     have hMzc : ggCoxeterMatrixD ℓ z c = 3 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg hzce, if_neg hDzc]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right hzce, ite_eq_right hDzc]
     have hMab : ggCoxeterMatrixD ℓ a b = 2 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg habne, if_pos hDab]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right habne, ite_eq_left hDab]
     have hMac : ggCoxeterMatrixD ℓ a c = 2 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg hacne, if_pos hDac]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right hacne, ite_eq_left hDac]
     have hMbc : ggCoxeterMatrixD ℓ b c = 2 := by
-      simp only [ggCoxeterMatrixD_apply, if_neg hbcne, if_pos hDbc]
+      simp only [ggCoxeterMatrixD_apply, ite_eq_right hbcne, ite_eq_left hDbc]
     have h3a : (τ z * τ a) ^ 3 = 1 := by
       have h := hrel z a hzne
       rwa [hMza] at h

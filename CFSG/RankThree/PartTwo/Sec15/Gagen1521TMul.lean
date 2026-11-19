@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma le_normalizer_map_subtype_of_normal {M : Subgroup G} (X : Subgroup M)
     [hX : X.Normal] :
     M ≤ Subgroup.normalizer ((X.map M.subtype : Subgroup G) : Set G) := by
@@ -22,6 +23,7 @@ private lemma le_normalizer_map_subtype_of_normal {M : Subgroup G} (X : Subgroup
   rw [← Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.map_subtype_le X), hXsub]
   exact hX
 
+omit [Finite G] in
 private lemma exists_mul_pow_of_le_normalizer {N Q : Subgroup G}
     (hQN : Q ≤ Subgroup.normalizer (N : Set G)) {n : G} (hn : n ∈ N) {q : G} (hq : q ∈ Q) :
     ∀ k : ℕ, ∃ n' ∈ N, (n * q) ^ k = n' * q ^ k := by
@@ -51,10 +53,10 @@ theorem coe_sup_eq_mul_of_two_p {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {H Q P 
     (hPe : ∀ x ∈ P, x ^ p = 1) (hΩ : ∀ x ∈ Q, x ^ p = 1 → x ∈ P)
     (hT : CFSG.Open.fusionIsSylowIn 2 T H) :
     ((P ⊔ T : Subgroup G) : Set G) = (T : Set G) * (P : Set G) := by
-  haveI hsolvH : Group.IsSolvable ↥H := hH
+  have hsolvH : Group.IsSolvable ↥H := hH
   let K : Subgroup ↥H := CFSG.pCore 2 ↥H
   have hKn : K.Normal := CFSG.pCore_normal
-  letI : K.Normal := hKn
+  let : K.Normal := hKn
   let N : Subgroup G := K.map H.subtype
   have hK2 : IsPGroup 2 K := CFSG.pCore_isPGroup
   have hN2 : IsPGroup 2 N := hK2.map H.subtype
@@ -123,7 +125,7 @@ theorem coe_sup_eq_mul_of_two_p {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {H Q P 
     have h := IsPGroup.le_sylow_of_normal (N := CFSG.pCore p Hbar) CFSG.pCore_isPGroup QbarSyl
     rwa [hQbarSyl_coe] at h
   have hQbar_le_pCore : Qbar ≤ CFSG.pCore p Hbar := by
-    haveI : IsMulCommutative Qbar := hQbar_comm
+    have : IsMulCommutative Qbar := hQbar_comm
     have h1 : Qbar ≤ Subgroup.centralizer (Qbar : Set Hbar) := Subgroup.le_centralizer Qbar
     have h2 : Subgroup.centralizer (Qbar : Set Hbar) ≤
         Subgroup.centralizer (CFSG.pCore p Hbar : Set Hbar) :=
@@ -205,7 +207,7 @@ theorem isCharacteristicP_of_two_p {p : ℕ} [Fact p.Prime] {H : Subgroup G}
     (h0 : ∀ N : Subgroup G, N ≤ H → H ≤ Subgroup.normalizer (N : Set G) → IsPGroup p N →
       N = ⊥) :
     IsCharacteristicP 2 ↥H := by
-  haveI hsolvH : Group.IsSolvable ↥H := hH
+  have hsolvH : Group.IsSolvable ↥H := hH
   have hKbot : CFSG.pPrimeCore 2 ↥H = ⊥ := by
     set K : Subgroup ↥H := CFSG.pPrimeCore 2 ↥H with hK
     have hKn : K.Normal := CFSG.pPrimeCore_normal

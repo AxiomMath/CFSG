@@ -40,7 +40,7 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
 
 theorem hyp51u_of_four [Fact CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.Hyp22Hyp51u] (h :
     Q3T8.Asc77.Hyp22Setting Ω K K' K₃ z u₁ u₂ u₃) {K₄ : Subgroup G}
-    (hK₄ : K₄ ∈ twinSet Ω K) (hK₄K : K₄ ≠ K) (hK₄K' : K₄ ≠ K') (hK₄K₃ : K₄ ≠ K₃) :
+    (_hK₄ : K₄ ∈ twinSet Ω K) (_hK₄K : K₄ ≠ K) (_hK₄K' : K₄ ≠ K') (_hK₄K₃ : K₄ ≠ K₃) :
     ∀ c ∈ Subgroup.closure ({u₁ * u₂, z, u₂ * u₃} : Set G), c ≠ 1 → c ≠ z →
       Hyp51At (Subgroup.closure ({u₁ * u₂, z, u₂ * u₃} : Set G)) c := by
   intro c hc hc1 hcz

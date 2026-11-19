@@ -28,12 +28,12 @@ open CFSG CFSG.LocalCores Subgroup
 
 theorem kFact613rankP_of_case1 (hcase1 : RankPCase1) : KFact613rankP := by
   intro X _ _ p f hp hf hf5 hfp hK hC hcard htrans P hPnc h3 y hy
-  haveI := Fact.mk hp
-  haveI := Fact.mk hf
-  haveI hLc : (CFSG.pLayer X p).Characteristic :=
+  have := Fact.mk hp
+  have := Fact.mk hf
+  have hLc : (CFSG.pLayer X p).Characteristic :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic (G := X) (p := p)
-  haveI hLn : (CFSG.pLayer X p).Normal := inferInstance
-  haveI : (CFSG.pLayer X p ⊓ CFSG.pPrimeCore p X).Normal := inferInstance
+  have hLn : (CFSG.pLayer X p).Normal := inferInstance
+  have : (CFSG.pLayer X p ⊓ CFSG.pPrimeCore p X).Normal := inferInstance
   have hOp : ¬ p ∣ Nat.card (CFSG.pLayer X p ⊓ CFSG.pPrimeCore p X : Subgroup X) := by
     intro hdvd
     have hcop : Nat.Coprime p (Nat.card (CFSG.pPrimeCore p X)) := CFSG.pPrimeCore_coprime_card

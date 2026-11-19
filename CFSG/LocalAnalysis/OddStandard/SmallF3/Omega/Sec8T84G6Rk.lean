@@ -20,7 +20,7 @@ theorem sec8t84g6_rank [Finite G] (h64 : Asc82Lemma64) {γ : G} {K : Subgroup G}
       Nat.card E ≤ 4 := by
   intro E hEC hE
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, IsSylow2Of T (centralizer (K : Set G)) :=
     ⟨_, isSylow2Of_map_sylow (Classical.arbitrary (Sylow 2 ↥(centralizer (K : Set G))))⟩
   have hE2 : IsPGroup 2 ↥E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 (g : G) g.2)⟩

@@ -86,7 +86,7 @@ private theorem harCoreData_map {H K : Type} [Group H] [Group K] (f : H →* K)
 theorem _root_.CFSG.EvenSporadicStandard.TwoHS.IsF5Centralizer.eq_commutator
     {H : Type} [Group H] {E : Subgroup H} (hE : TwoHS.IsF5Centralizer H E) :
     E = commutator H := by
-  haveI : E.Normal := hE.normal
+  have : E.Normal := hE.normal
   apply le_antisymm
   ·
     intro x hx
@@ -100,10 +100,10 @@ theorem _root_.CFSG.EvenSporadicStandard.TwoHS.IsF5Centralizer.eq_commutator
     exact Subgroup.commutator_mono le_top le_top h1
   ·
     have hcomm : IsMulCommutative (H ⧸ E) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hcard : Nat.card (H ⧸ E) = 2 := by
         rw [← Subgroup.index_eq_card, hE.index_eq_two]
-      haveI : IsCyclic (H ⧸ E) := isCyclic_of_prime_card hcard
+      have : IsCyclic (H ⧸ E) := isCyclic_of_prime_card hcard
       infer_instance
     exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hcomm
 

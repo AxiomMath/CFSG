@@ -55,10 +55,10 @@ theorem kFactZJFactorizationAny_of_ffChev
     (hFF : CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531.FFChevModuleTheorem) :
     KFactZJFactorizationAny := by
   intro p hp hp2 X _ _ hsec hcent K hKn hK hT h3 h2cl S hS2 hcore hchar
-  haveI : K.Normal := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : K.Normal := hKn
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hKT⟩ := hT
-  haveI : Nontrivial X := zj_nontrivial_of_pComponent hK
+  have : Nontrivial X := zj_nontrivial_of_pComponent hK
   have hCh : CharTwo (⊤ : Subgroup X) := by
     unfold CharTwo
     rw [pCoreOf_top]
@@ -66,7 +66,7 @@ theorem kFactZJFactorizationAny_of_ffChev
   have hQS : pCoreOf 2 (⊤ : Subgroup X) ≤ S := by
     rw [pCoreOf_top]
     exact hcore
-  haveI : (gnC S).Normal := gnC_normal S
+  have : (gnC S).Normal := gnC_normal S
   have hKC : ¬ K ≤ gnC S := zj_not_le_centralizer hS2 hcore hcent hchar
   have hcoreC : CFSG.pCore 2 X ≤ gnC S := zj_pCore_le_gnC hcore hcent
   have hO2 := zj_pCore_quotient_eq_bot hp hp2 hK T hKT h2cl hcoreC hKC
@@ -86,7 +86,7 @@ theorem kFactZJFactorizationAny_of_ffChev
     exact hcentC
   obtain ⟨hq, ⟨e⟩⟩ := zj_component_image hK hKC
     (fun r hr y hy => hcentC' (Subgroup.commutator_mem_commutator hr hy))
-  haveI : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
+  have : (K.map (QuotientGroup.mk' (gnC S))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hKc : IsComponentOf (K.map (QuotientGroup.mk' (gnC S))) ⊤ :=
     (CFSG.isComponent_iff_open _).mp ⟨hq, Subgroup.Normal.isSubnormal inferInstance⟩

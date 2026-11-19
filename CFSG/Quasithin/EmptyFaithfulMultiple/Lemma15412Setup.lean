@@ -52,7 +52,7 @@ include h
 
 theorem isPGroup : IsPGroup 2 T := by
   obtain ⟨S, rfl⟩ := h.sylow
-  exact S.isPGroup'
+  exact S.isPGroup
 
 theorem le_normalizer : M ≤ Subgroup.normalizer (VZ T M : Set G) := h.red.2.1
 

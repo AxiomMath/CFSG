@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.WeakClosure81
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem realizes_of_autQuot (D : FFModel) {L : Subgroup (MulAut W)}
     (hfaith : ∀ y : stabSub (fixV L), (y : MulAut W) ∈ L → quotHom (fixV L) y = 1 →
       (y : MulAut W) = 1)
@@ -101,6 +102,7 @@ theorem realizes_of_autQuot (D : FFModel) {L : Subgroup (MulAut W)}
     dsimp only [β] at ⊢
     exact h1
 
+omit [Finite W] in
 theorem binaryNaturalSL_of_autQuot {L : Subgroup (MulAut W)} {d a : ℕ}
     (hfaith : ∀ y : stabSub (fixV L), (y : MulAut W) ∈ L → quotHom (fixV L) y = 1 →
       (y : MulAut W) = 1)
@@ -109,6 +111,7 @@ theorem binaryNaturalSL_of_autQuot {L : Subgroup (MulAut W)} {d a : ℕ}
   obtain ⟨K, hK, hKf, hcard, hreal⟩ := h
   exact ⟨K, hK, hKf, hcard, realizes_of_autQuot (FFModel.nat (StatedSL d K)) hfaith hreal⟩
 
+omit [Finite W] in
 theorem secIsoOn_autQuot {L : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn L (A ⊔ fixV L) (fixV L) (B ⊔ fixV L) (fixV L)) :
     SecIsoOn (autQuot L (fixV L)) (A.map (QuotientGroup.mk' (fixV L))) ⊥
@@ -236,6 +239,7 @@ theorem secIsoOn_autQuot {L : Subgroup (MulAut W)} {A B : Subgroup W}
     rw [← map_inv, ← map_mul, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact hgoal
 
+omit [Finite W] in
 theorem isNaturalClassicalModule_autSub_autQuot {L : Subgroup (MulAut W)} {J : Subgroup W} {n : ℕ}
     (hL : IsL2 ↥L n) (hJ : J ∈ irrSet L) (hnat : BinaryNaturalSL L J (J ⊓ fixV L) 2 n) :
     IsNaturalClassicalModule

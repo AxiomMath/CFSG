@@ -101,8 +101,10 @@ theorem twistDiag (hK4 : 4 ≤ Nat.card K) {B : SL2 K} (hB : B ∉ Subgroup.cent
     exact one_mem _
   exact hC (hZ _ hp _ h1)
 
+omit [Finite K] in
 theorem coe_uSL (t : K) : ((uSL t : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![1, t; 0, 1] := rfl
 
+omit [Finite K] in
 theorem coe_witnessX (t : K) :
     ((orderThreeSL K * (uSL t * orderThreeSL K * (uSL t)⁻¹) : SL2 K) :
       Matrix (Fin 2) (Fin 2) K) = !![-1, t - 1; t + 1, -t ^ 2] := by
@@ -111,6 +113,7 @@ theorem coe_witnessX (t : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
+omit [Finite K] in
 theorem coe_witnessY (t : K) :
     (((orderThreeSL K)⁻¹ * (uSL t * (orderThreeSL K)⁻¹ * (uSL t)⁻¹) : SL2 K) :
       Matrix (Fin 2) (Fin 2) K) = !![-t, t ^ 2 + 1; t - 1, -t ^ 2 + t - 1] := by
@@ -120,6 +123,7 @@ theorem coe_witnessY (t : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
+omit [Finite K] in
 theorem witness_entry (t : K) :
     ((⁅orderThreeSL K * (uSL t * orderThreeSL K * (uSL t)⁻¹),
         (orderThreeSL K)⁻¹ * (uSL t * (orderThreeSL K)⁻¹ * (uSL t)⁻¹)⁆ : SL2 K) :

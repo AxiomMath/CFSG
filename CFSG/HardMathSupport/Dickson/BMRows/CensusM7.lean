@@ -26,7 +26,7 @@ theorem census_M_seven_shape_of_heP {G : Type} [Group G] [Finite G] {k : G}
   have hcard : Nat.card ↥H = 4030387200 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.HeldB.card_heP
   have hZ : Subgroup.center ↥H = ⊥ := center_eq_bot_of_equiv_heP e
-  haveI : IsSimpleGroup ↥CFSG.Sporadic.HeldB.heP := CFSG.Sporadic.HeldB.heP_simple
+  have : IsSimpleGroup ↥CFSG.Sporadic.HeldB.heP := CFSG.Sporadic.HeldB.heP_simple
   have hs : IsSimpleGroup ↥H := MulEquiv.isSimpleGroup e
   have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
     by_contra hc
@@ -64,7 +64,7 @@ theorem census_M_seven_noComp
     (hQ16 : ∃ S : Subgroup Gmat, S ≤ Subgroup.centralizer ({z} : Set Gmat) ∧
       Nonempty (↥S ≃* QuaternionGroup 4)) :
     ∀ J : Subgroup Gmat, ¬ GLAPComponent 7 (Subgroup.centralizer ({z} : Set Gmat)) J := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have hO : GLAPPrimeCoreOf 7 (Subgroup.centralizer ({z} : Set Gmat)) = ⊥ :=
     gLAPPrimeCoreOf_eq_bot_of_isConj' (isConj_zG_of_not_conj hz hzd).symm gLAPPrimeCoreOf_zG
   obtain ⟨S, hSC, ⟨eS⟩⟩ := hQ16
@@ -92,7 +92,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterSevenCensus (monster
 theorem census_M_seven_gmat
     :
     CentShapeRk' 7 (fun T _ => catalogIs T (· = .sporadic .He)) (fun _ _ => True) Gmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨hcls, h2A, h2B, hG5⟩ := gmat_seven_bounds
   obtain ⟨hHk, ⟨e⟩⟩ := tabMSeven_he_le_cent_dG
   have hE8 : HePE8 := hePE8
@@ -109,7 +109,7 @@ theorem census_M_seven_gmat
       have h' := congrArg (fun x => g⁻¹ * x * g) h
       simpa [mul_assoc] using h'
     · have h1 : Nat.card ↥(Subgroup.centralizer ({zG} : Set Gmat)) = 7 * 4030387200 := by
-        haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
         rw [← card_centralizer_conj g zG, h, centralizer_pow_eq_of_prime orderOf_dG hm, hcard]
       have h6 := seven_pow_dvd_card_cent_zG
       rw [h1] at h6
@@ -150,7 +150,7 @@ theorem census_M_seven_gmat
   have hzG : ShapeRkAt' 7 (fun T _ => catalogIs T (· = .sporadic .He)) (fun _ _ => True) zG :=
     Or.inl (census_M_seven_noComp orderOf_zG hzd htA huB hQ)
   intro k hk1 hk7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hk : orderOf k = 7 := orderOf_eq_prime hk7 hk1
   rcases monsterSevenClasses k hk with h | h
   · obtain ⟨c, hc⟩ := isConj_iff.1 h
@@ -174,8 +174,8 @@ theorem census_M_seven
   let e : CFSG.Monster.Existence.MGriess ≃* NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
   let eG : Gmat ≃* NativeSporadic.Carrier .M := φ.symm.trans e
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
   exact pCompCensus_of_centShapeRk' (by norm_num) (CentShapeRk'.of_equiv (by norm_num)
     catalogIs_of_mulEquiv (fun _ _ _ _ _ h => h) eG census_M_seven_gmat)
 

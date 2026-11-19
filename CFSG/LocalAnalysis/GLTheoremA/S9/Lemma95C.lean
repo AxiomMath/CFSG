@@ -14,18 +14,19 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem l95c_coprime_two_group {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Subgroup G}
     (h2 : IsPGroup 2 S) : Nat.Coprime p (Nat.card S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h2.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
 
 private theorem l95c_coprime_q_group {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p) {S : Subgroup G}
     (hS : IsPGroup q S) : Nat.Coprime p (Nat.card S) := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   obtain ⟨n, hn⟩ := hS.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp hq).2 hqp.symm)
 
+omit [Finite G] in
 private theorem l95c_le_glaPPrimeCoreOf {p : ℕ} {X N : Subgroup G} (hNX : N ≤ X)
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p X := by
@@ -53,7 +54,7 @@ theorem glaPComponent_centralizer {p : ℕ} (hp : p.Prime) {x : G} {L E J : Subg
 theorem pCoreOf_inf_centralizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p) (Y : Subgroup G) (a : G) :
     pCoreOf q Y ⊓ Subgroup.centralizer ({a} : Set G) ≤
       GLAPPrimeCoreOf p (Y ⊓ Subgroup.centralizer ({a} : Set G)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hNX : pCoreOf q Y ⊓ Subgroup.centralizer ({a} : Set G) ≤ Y ⊓ Subgroup.centralizer ({a} : Set G) :=
     inf_le_inf_right _ (CFSG.LieType.BorelTits.pCoreOf_le q Y)
   have hXN : Y ⊓ Subgroup.centralizer ({a} : Set G) ≤
@@ -64,11 +65,11 @@ theorem pCoreOf_inf_centralizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hq
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup q Y).to_le inf_le_left
   exact l95c_le_glaPPrimeCoreOf hNX hXN (l95c_coprime_q_group hp hq hqp hNq)
 
-theorem covers_of_normalizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p)
+theorem covers_of_normalizer_le {p q : ℕ} (_hp : p.Prime) (hq : q.Prime) (_hqp : q ≠ p)
     {M C Q₂ : Subgroup G} (hQ₂C : Q₂ ≤ GLAPPrimeCoreOf p C) (hQ₂ : IsPGroup q Q₂)
     (hM : ∀ Q₃ : Subgroup G, Q₂ ≤ Q₃ → IsPGroup q Q₃ → Q₃ ≤ GLAPPrimeCoreOf p C →
       Subgroup.normalizer (Q₃ : Set G) ≤ M) : Covers p M C := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   show (M ⊓ C) ⊔ GLAPPrimeCoreOf p C = C
   obtain ⟨O, hO⟩ : ∃ O : Subgroup G, O = GLAPPrimeCoreOf p C := ⟨_, rfl⟩
   rw [← hO]
@@ -83,7 +84,7 @@ theorem covers_of_normalizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp :
     exact hQ₂C
   have hQ₂C' : Q₂ ≤ C := hQ₂O.trans hOC
   set N : Subgroup C := O.subgroupOf C with hN
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).2 hCN
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).2 hCN
   set Q₂N : Subgroup N := (Q₂.subgroupOf C).subgroupOf N with hQ₂Ndef
   have hQ₂N : IsPGroup q Q₂N := by
     intro x
@@ -106,7 +107,7 @@ theorem covers_of_normalizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp :
     obtain ⟨v, -, rfl⟩ := Subgroup.mem_map.1 hw
     exact Subgroup.mem_subgroupOf.1 v.2
   have hQ₃q : IsPGroup q Q₃ :=
-    (P.isPGroup'.map N.subtype).map C.subtype
+    (P.isPGroup.map N.subtype).map C.subtype
   have hQ₂Q₃ : Q₂ ≤ Q₃ := by
     intro x hx
     have hxC : x ∈ C := hQ₂C' hx
@@ -152,7 +153,7 @@ theorem covers_of_normalizer_le {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp :
 open scoped Pointwise in
 theorem le_core_of_covers_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M C S : Subgroup G}
     (hcov : Covers p M C) (hS : S ≤ pCoreOf 2 M ⊓ C) : S ≤ GLAPPrimeCoreOf p C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcov' : (M ⊓ C) ⊔ GLAPPrimeCoreOf p C = C := hcov
   obtain ⟨O, hO⟩ : ∃ O : Subgroup G, O = GLAPPrimeCoreOf p C := ⟨_, rfl⟩
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, T = pCoreOf 2 M ⊓ C := ⟨_, rfl⟩
@@ -262,7 +263,7 @@ theorem le_core_of_covers_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M C S : 
   exact Subgroup.mem_map.2 ⟨⟨s, hsC⟩, hle (Subgroup.mem_subgroupOf.2 hsK), rfl⟩
 
 theorem exists_Gstar_component {p : ℕ} (hc : S9Ctx G p) (h183 : Input18_3_4) {B E J : Subgroup G} {a : G}
-    (hB : IsElemAbelian p B) (hEB : E ≤ B) (hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 3)
+    (_hB : IsElemAbelian p B) (hEB : E ≤ B) (hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ 3)
     (haE : a ∈ E) (ha1 : a ≠ 1) (hJ : GLAPComponent p (Subgroup.centralizer (E : Set G)) J) :
     ∃ K₁ : Subgroup G, GLAPComponent p (cx a) K₁ ∧ J ≤ closureIn K₁ B ∧ IsGStar p B K₁ := by
   have hp : p.Prime := hc.ctx.prime
@@ -307,15 +308,15 @@ theorem exists_Gstar_component {p : ℕ} (hc : S9Ctx G p) (h183 : Input18_3_4) {
 theorem not_isPGroup_of_component {p r : ℕ} (hr : r.Prime) {X J : Subgroup G}
     (hJ : GLAPComponent p X J) : ¬ IsPGroup r J := by
   intro hrJ
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 (glaPComponent_ne_bot' hJ)
-  haveI : Group.IsNilpotent ↥J := hrJ.isNilpotent
+  have : Fact r.Prime := ⟨hr⟩
+  have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 (glaPComponent_ne_bot' hJ)
+  have : Group.IsNilpotent ↥J := hrJ.isNilpotent
   have h1 : commutator ↥J = ⊤ := commutator_top_of_perfect (glaPComponent_perfect hJ)
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J).ne h1
 
 theorem eq_bot_of_two_group_odd {S : Subgroup G} (h2 : IsPGroup 2 S) (hodd : Odd (Nat.card S)) :
     S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h2.exists_card_eq
   rw [hn] at hodd
   have hn0 : n = 0 := by
@@ -326,11 +327,12 @@ theorem eq_bot_of_two_group_odd {S : Subgroup G} (h2 : IsPGroup 2 S) (hodd : Odd
 
 theorem coprime_card_of_two_group {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Subgroup G}
     (h2 : IsPGroup 2 S) : Nat.Coprime p (Nat.card S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h2.exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
 
+omit [Finite G] in
 theorem card_mul_of_index_eq {p : ℕ} {K E : Subgroup G} (hKE : K ≤ E)
     (hi : (K.subgroupOf E).index = p) : Nat.card K * p = Nat.card E := by
   have h1 := Subgroup.card_mul_index (K.subgroupOf E)
@@ -397,13 +399,13 @@ theorem covers_cx_of_closure {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J D 
     (fun Q₃ h1 h2 _ => (hclosure Q₃ h1 h2).2)
 
 theorem exists_a_with_S {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ E J D M : Subgroup G}
-    (hc : S9Ctx G p) (hC : Contra92 p B x L q Q₁) (hE : EJ95 p B x L E J) (hDE : D ≤ E)
+    (hc : S9Ctx G p) (_hC : Contra92 p B x L q Q₁) (hE : EJ95 p B x L E J) (hDE : D ≤ E)
     (hDcard : Nat.card D = p ^ 2) (hM : IsTwoLocal M) (hJM : J ≤ M) (hDM : D ≤ M) :
     ∃ a ∈ D, a ≠ 1 ∧
       (⁅J, pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G)⁆ : Subgroup G) ≠ ⊥ := by
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDel : IsElemAbelian p D := isElemAbelian_mono hE.el hDE
   have hDne : D ≠ ⊥ := by
     intro hD0
@@ -440,11 +442,11 @@ theorem lemma95 {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ : Subgroup G} (hc :
     (hin : Lemma95Inputs G p) (hC : Contra92 p B x L q Q₁) :
     GLATwoLocalRank q G ≤ GLATwoLocalRank p G := by
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
   have hq : q.Prime := hC.setup.prime
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqdvd : q ∣ Nat.card G := by
     obtain ⟨⟨g, hg⟩, hg1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hC.setup.ne_bot
     have hg1' : g ≠ 1 := fun h => hg1 (Subtype.ext h)
@@ -478,7 +480,7 @@ theorem lemma95 {p q : ℕ} {B : Subgroup G} {x : G} {L Q₁ : Subgroup G} (hc :
   have haE : a ∈ E := hDE haD
   have hJa : J ≤ cx a :=
     hE.le_centralizer.trans (Subgroup.centralizer_le (Set.singleton_subset_iff.2 haE))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2M : IsPGroup 2 (pCoreOf 2 M) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   have hA'2 : IsPGroup 2 (pCoreOf 2 M ⊓ cx a : Subgroup G) := h2M.to_le inf_le_left
   have hJA' : J ≤ Subgroup.normalizer ((pCoreOf 2 M ⊓ cx a : Subgroup G) : Set G) :=

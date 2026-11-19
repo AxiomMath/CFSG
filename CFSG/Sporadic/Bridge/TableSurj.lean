@@ -3,7 +3,7 @@ module
 public import CFSG.Sporadic.Th.TableSpec
 public import CFSG.Sporadic.Bridge.Common
 public import Certificates.Data.CFSGNative.Bridge.SurjD
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.Interval.Finset.Box
 
 public section

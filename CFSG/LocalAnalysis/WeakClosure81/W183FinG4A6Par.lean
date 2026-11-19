@@ -235,7 +235,7 @@ theorem w183finG4A6_acts_of_not_induced {Y : Type} [Group Y]
         have hL : (((g₀ * σ CFSG.QuasithinUnique.Setup.X3E.gx * g₀⁻¹ :
             alternatingGroup (Fin 6)) : Perm (Fin 6)) ((g₀ : Perm (Fin 6)) i)) =
             (g₀ : Perm (Fin 6)) i := by
-          simp [Subgroup.coe_mul, Subgroup.coe_inv, hi]
+          simp [Subgroup.coe_mul, hi]
         have hR : (c[0,1,2] * c[3,4,5] : Perm (Fin 6)) ((g₀ : Perm (Fin 6)) i) =
             (g₀ : Perm (Fin 6)) i := by
           rwa [hg₀] at hL
@@ -263,7 +263,7 @@ theorem w183finG4A6_acts_of_not_mem_autS6 {M : Type} [Group M]
     have hz' : z ∈ Subgroup.center M := Subgroup.mem_center_iff.2 (fun g => (hz g).symm)
     rw [w183finG4A6_center_eq_bot e, Subgroup.mem_bot] at hz'
     exact hz'
-  haveI : (innAutOf M).Normal := innAutOf_normal M
+  have : (innAutOf M).Normal := innAutOf_normal M
   let eL : ↥(innAutOf M) ≃* alternatingGroup (Fin 6) :=
     (CFSG.GH74.Generic.BProg.B3.S3T5L3.innEquiv hZ).symm.trans e
   refine w183finG4A6_acts_of_not_induced (innAutOf M) eL γ ?_

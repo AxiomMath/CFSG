@@ -12,6 +12,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eFrame_norm {ζ : Kˣ} (hζ : ζ ^ 3 = 1) : (eFrame K ζ hζ).NormOK := by
   intro r S _ hS
   have hh : (MulAut.conj r : MulAut (adjointGroup .E6 K)) ∈ (hatAut .E6 K).range :=

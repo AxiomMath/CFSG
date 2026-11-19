@@ -12,12 +12,12 @@ open CFSG.KC.Enum CFSG.KC.N3153 CFSG.KS.Raw CFSG.Sporadic.FischerOddCore.Native
 
 theorem search_sound {n d np na k chunks T P CB : Nat} {nbr : Array (List Nat)} {t : Array Nat}
     {base SC : List Nat} {pool acc : Array (Array Nat)} {nodes : Array SNode}
-    {R M S PL AC DT : Nat → Nat} (hn0 : 0 < n) (hn : n < 4096) (hd : 0 < d) (hd' : d < 65536)
+    {R M S PL AC DT : Nat → Nat} (_hn0 : 0 < n) (hn : n < 4096) (_hd : 0 < d) (_hd' : d < 65536)
     (hnbr : nbr = rowsArr n d R) (hrow : ∀ x < n, rowOK n d R M S x = true)
     (hsym : ∀ x < n, ∀ y ∈ nbr[x]!, x ∈ nbr[y]!) (ht : t = unpack n 12 T)
     (hbase : base.length < 65536) (hpre : ∀ i < nodes.size, (nodes[i]!).pre.length < 65536)
     (hpreN : ∀ i < nodes.size, ∀ x ∈ (nodes[i]!).pre, x < n)
-    (hchunks : 0 < chunks) (hpool : pool.size = np) (hPL : ∀ j < np, pool[j]! = unpack n 12 (PL j))
+    (_hchunks : 0 < chunks) (hpool : pool.size = np) (hPL : ∀ j < np, pool[j]! = unpack n 12 (PL j))
     (hacc : acc.size = na) (hAC : ∀ i < na, acc[i]! = unpack n 12 (AC i))
     (hinj : injK n S T base k P = true) (hcb : colourK n S T base k = CB)
     (hsc : ∀ e < base.length, srcColK n S T base k e (SC.getD e 0) = true)

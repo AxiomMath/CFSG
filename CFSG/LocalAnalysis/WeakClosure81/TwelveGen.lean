@@ -332,6 +332,7 @@ section PartOne
 variable {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   [Finite V] {n m : ℕ}
 
+omit [Finite V] in
 theorem twelveOne_partOne {ρ : G →* LGL 2 V} {B : Subgroup G}
     {Z : Submodule (ZMod 2) V} {A : Subgroup G} (h : Setting12One ρ B Z A n m) {g : G}
     (hgen : A ⊔ A.map (MulAut.conj g).toMonoidHom = ⊤) :

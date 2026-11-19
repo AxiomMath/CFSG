@@ -35,7 +35,7 @@ private lemma B_self_RD (hd : GGCZDual e φ) {i j : Fin 4} (hij : i ≠ j) {ε :
     (hε : ε = 1 ∨ ε = -1) : ggCZForm φ (e i - ε • e j) (e i - ε • e j) = 2 := by
   rw [B_RD hd]
   simp only [map_sub, map_smul, phi_e hd, smul_eq_mul]
-  simp only [if_neg hij, if_neg (Ne.symm hij)]
+  simp only [ite_eq_right hij, ite_eq_right (Ne.symm hij)]
   rcases hε with rfl | rfl <;> norm_num
 
 private lemma B_S (hd : GGCZDual e φ) {i : Fin 4} (v : V) :
@@ -43,7 +43,7 @@ private lemma B_S (hd : GGCZDual e φ) {i : Fin 4} (v : V) :
 
 private lemma B_self_S (hd : GGCZDual e φ) (i : Fin 4) :
     ggCZForm φ (e i) (e i) = 1 := by
-  rw [B_S hd, phi_e hd, if_pos rfl]
+  rw [B_S hd, phi_e hd, ite_eq_left rfl]
 
 private noncomputable def ggCZHvec (e : Fin 4 → V) (w : Fin 4 → ZMod p) : V :=
   ∑ k, w k • e k
@@ -82,7 +82,7 @@ private lemma B_self_H (hd : GGCZDual e φ) {w : Fin 4 → ZMod p}
       rw [phi_e hd]
       by_cases h : i = k
       · subst h; simp
-      · rw [if_neg (Ne.symm h), if_neg h]; simp
+      · rw [ite_eq_right (Ne.symm h), ite_eq_right h]; simp
     rw [Finset.sum_congr rfl fun i _ => h2 i]
     rw [Finset.sum_eq_single k]
     · have hk1 : w k * w k = 1 := by

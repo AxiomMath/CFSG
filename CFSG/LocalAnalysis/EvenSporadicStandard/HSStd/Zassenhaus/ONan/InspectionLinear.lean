@@ -27,7 +27,7 @@ private theorem orderOf_ne_ten_of_lieModel_psl_five_two {N : Type} [Group N]
 
 theorem inspectionArm_psl_three_seven : InspectionArm fun N _ => LieModel N .PSL 3 7 1 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_lieModel_psl_three_seven hQ
   have hidx : N.index ≤ 6 :=
@@ -44,7 +44,7 @@ theorem inspectionArm_psl_three_seven : InspectionArm fun N _ => LieModel N .PSL
 
 theorem inspectionArm_psl_five_two : InspectionArm fun N _ => LieModel N .PSL 5 2 1 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_lieModel_psl_five_two hQ
   have hidx : N.index ≤ 2 :=

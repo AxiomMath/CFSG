@@ -67,7 +67,7 @@ instance finite_conjs [Finite P] (X0 : Subgroup P) : Finite (Conjs X0) :=
 
 theorem natCard_conjs_dvd_index (X0 : Subgroup P) : Nat.card (Conjs X0) ∣ X0.index := by
   let x0 : Conjs X0 := ⟨X0, 1, (cj_one X0).symm⟩
-  haveI : MulAction.IsPretransitive P (Conjs X0) := ⟨fun X Y => by
+  have : MulAction.IsPretransitive P (Conjs X0) := ⟨fun X Y => by
     obtain ⟨a, ha⟩ := X.2
     obtain ⟨b, hb⟩ := Y.2
     refine ⟨b * a⁻¹, Subtype.ext ?_⟩
@@ -97,7 +97,7 @@ theorem exists_fixed_conj [Finite P] {T : Type*} [Group T] (hT : IsPGroup 2 T)
     obtain ⟨h, hX⟩ := X.2
     obtain ⟨h', hh'⟩ := hψ t
     exact ⟨ψ t h * h', by rw [hX, map_cj, hh', cj_cj]⟩
-  letI : MulAction T (Conjs X0) :=
+  let : MulAction T (Conjs X0) :=
     { smul := fun t X => ⟨X.1.map (ψ t).toMonoidHom, hstab t X⟩
       one_smul := fun X => Subtype.ext (by
         show X.1.map (ψ 1).toMonoidHom = X.1
@@ -109,7 +109,7 @@ theorem exists_fixed_conj [Finite P] {T : Type*} [Group T] (hT : IsPGroup 2 T)
         ext x
         simp only [Subgroup.mem_map_equiv, map_mul]
         rfl) }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hT.card_modEq_card_fixedPoints (Conjs X0)
   have hodd' : Odd (Nat.card (Conjs X0)) := hodd.of_dvd_nat (natCard_conjs_dvd_index X0)
   have hne : Nat.card (MulAction.fixedPoints T (Conjs X0)) ≠ 0 := by
@@ -141,7 +141,7 @@ theorem le_of_invariant {Ks Ts Ms : Subgroup Y} [Finite Y] [Ks.Normal]
     {P : Type*} [Group P] (φ : ↥Ks ≃* P) (X : Subgroup P)
     (hinv : ∀ t ∈ Ts, ∀ p : P, conjAut φ t p ∈ X ↔ p ∈ X) (hbot : X ≠ ⊥) (htop : X ≠ ⊤)
     (w : P) (hw : w ∈ X) : ((φ.symm w : ↥Ks) : Y) ∈ Ms := by
-  haveI := hKs
+  have := hKs
   let XY : Subgroup Y := (X.comap φ.toMonoidHom).map Ks.subtype
   have hmem : ∀ y : Y, y ∈ XY ↔ ∃ k : Ks, φ k ∈ X ∧ (k : Y) = y := fun y => Iff.rfl
   have hnorm : ∀ t ∈ Ts, t ∈ Subgroup.normalizer (XY : Set Y) := by
@@ -202,7 +202,7 @@ theorem false_of_conjugate_orbits {Ks Ts Ms : Subgroup Y} [Finite Y] [Ks.Normal]
     (x0 : P) (hx0 : x0 ∈ X0) (hx01 : x0 ≠ 1)
     (hx0inv : ∀ z : P, z * x0 = x0 * z → z * z = 1 → z = 1)
     (hz : ∃ z ∈ Ks, z ≠ 1 ∧ z * z = 1 ∧ ∀ m ∈ Ms ⊓ Ks, m * z = z * m) : False := by
-  haveI : Finite P := Finite.of_equiv ↥Ks φ.toEquiv
+  have : Finite P := Finite.of_equiv ↥Ks φ.toEquiv
   have hTs : IsPGroup 2 ↥Ts := hmin.isSylow.2.1
   obtain ⟨h, hfix⟩ := exists_fixed_conj hTs ((conjAut φ).comp Ts.subtype) X0 hodd
     (fun t => hstab t t.2)
@@ -277,7 +277,7 @@ theorem innerField_stab {Y : Type} [Group Y] [Finite Y] {F : Type} [Field F] {Ks
     (t : Y) (ht : InnerFieldAt Ks φ t) :
     ∃ h : CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 F),
       X0.map (conjAut φ t).toMonoidHom = cj h X0 := by
-  haveI : Finite (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 F)) :=
+  have : Finite (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 F)) :=
     Finite.of_equiv ↥Ks φ.toEquiv
   obtain ⟨g, σ, hdet, hg⟩ := ht
   obtain ⟨h, hh⟩ := hinv g σ hdet
@@ -314,7 +314,7 @@ theorem false_of_innerField {Y : Type} [Group Y] [Finite Y] {F : Type} [Field F]
       z = 1)
     (hz : ∃ z ∈ Ks, z ≠ 1 ∧ z * z = 1 ∧ ∀ m ∈ Ms ⊓ Ks, m * z = z * m)
     (hall : ∀ t ∈ Ts, InnerFieldAt Ks φ t) : False := by
-  haveI := hKn
+  have := hKn
   exact false_of_conjugate_orbits hmin hKs φ X0 hodd hX0top
     (fun t ht => innerField_stab φ X0 hinv t (hall t ht)) x0 hx0 hx01 hx0inv hz
 

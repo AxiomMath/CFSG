@@ -90,7 +90,7 @@ theorem m11_point_facts (hS : Setting G) (hU0 : FullCoreLocal G)
   have hOcop : Nat.Coprime 3 (Nat.card O) := primeComplementCore_coprime 3
   set π : C →* C ⧸ O := QuotientGroup.mk' O with hπ
   set Q' : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQ'
-  have hQ'p : IsPGroup 3 Q' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hQ'p : IsPGroup 3 Q' := (P.isPGroup.to_le inf_le_left).comap_subtype
   set L : Subgroup (C ⧸ O) := r1sBar x J with hL
   set SL : Subgroup (C ⧸ O) := (Sbar : Subgroup (C ⧸ O)) ⊓ L with hSL
   have hJn : (J.subgroupOf C).Normal :=
@@ -201,7 +201,7 @@ theorem m11_point_facts (hS : Setting G) (hU0 : FullCoreLocal G)
       have hgsΓ : g * s * g⁻¹ ∈ Γ := Γ.mul_mem (Γ.mul_mem hg hsΓ) (Γ.inv_mem hg)
       have hgsL : g * s * g⁻¹ ∈ L := hLn.conj_mem s hs.2 g
       have hnorm := hnormEq _ hgsΓ hgsL
-      obtain ⟨k, hk⟩ := Sbar.isPGroup' ⟨s, hsS⟩
+      obtain ⟨k, hk⟩ := Sbar.isPGroup ⟨s, hsS⟩
       have hk' : s ^ 3 ^ k = 1 := congrArg Subtype.val hk
       have hk3 : (g * s * g⁻¹) ^ 3 ^ k = 1 := by
         rw [conj_pow, hk', mul_one, mul_inv_cancel]

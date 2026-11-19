@@ -37,7 +37,7 @@ theorem slSubfieldIncl_injective (K : Subfield L) (ν : ℕ) :
 
 theorem largeEvenSL_isPerfect {K : Type} [Field K] {ν : ℕ} (hν : 3 ≤ ν) :
     Group.IsPerfect ↥(CFSG.Assembly.LargeEvenSLGroup (Fin ν) K) := by
-  haveI : Group.IsPerfect SL(ν, K) :=
+  have : Group.IsPerfect SL(ν, K) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hν
   exact Group.IsPerfect.ofSurjective
     (f := (Matrix.SpecialLinearGroup.toGLKerEquiv (n := Fin ν) (R := K)).toMonoidHom)
@@ -226,8 +226,8 @@ theorem split_exists_hom_W (hT : rootDiagUnit τ ta ∈ S.D.torus)
           Subgroup.center ↥(CFSG.Assembly.LargeEvenSLGroup (Fin ν) ↥(fixSubfield σQ)) := by
   classical
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r (e * s)
   have hσc : ∀ c, σQ c = c ^ (r ^ (e * s)) := fun c => by
     have h1 : σQ c = iterateFrobenius L r (e * s) c := by

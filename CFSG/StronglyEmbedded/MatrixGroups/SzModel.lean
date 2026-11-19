@@ -21,7 +21,7 @@ private theorem szModel_eq_suzukiMatrixGroup_of_eq
   rw [hT]
   apply congrArg Subgroup.closure
   ext A
-  simp only [SzGenerators, SuzukiMatrixGeneratorSet, Set.mem_ofPred_eq]
+  simp only [SuzukiMatrixGeneratorSet, Set.mem_ofPred_eq]
   constructor
   · rintro (⟨a, b, hab⟩ | ⟨x, hx⟩ | hw)
     · left

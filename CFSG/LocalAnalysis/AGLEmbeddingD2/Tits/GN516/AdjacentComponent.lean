@@ -147,7 +147,7 @@ theorem false_of_solvable_component {H : Subgroup X} (hTH : T ≤ H)
     (hsolv : Group.IsSolvable ↥C) : False := by
   obtain ⟨ρ, L, hLp, hLne, hLr, -⟩ := exists_hom_of_component hTH hV hFam hn2 hresJ hCH hCN hgen
   have hr : Group.IsSolvable ↥ρ.range :=
-    solvable_of_surjective (MonoidHom.rangeRestrict_surjective ρ)
+    Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective ρ)
   have hL : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hLr)
       (Subgroup.inclusion_injective hLr)

@@ -57,7 +57,7 @@ theorem hns25 : ¬ IsSquare (3 : ZMod 5) := by
   exact h b (by simpa [pow_two] using hb.symm)
 
 theorem norm_ne_zero {x : F25t} (hx : x ≠ 0) : x.a ^ 2 - 3 * x.b ^ 2 ≠ 0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro hn
   have hxab : x.a ^ 2 = 3 * x.b ^ 2 := sub_eq_zero.mp hn
   by_cases hb : x.b = 0

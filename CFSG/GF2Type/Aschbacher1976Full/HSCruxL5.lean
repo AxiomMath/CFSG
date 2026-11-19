@@ -23,7 +23,7 @@ theorem Fz_le_sylow_H {G : Type} [Group G] [Finite G] {z : G} {T : Sylow 2 G}
       have e : t⁻¹ * (t * f * t⁻¹) * t⁻¹⁻¹ = f := by group
       rwa [e] at h
   have hsup : IsPGroup 2 ↥((T : Subgroup G) ⊔ Fz z) :=
-    T.isPGroup'.to_sup_of_normal_right' hF2 hnorm
+    T.isPGroup.to_sup_of_normal_right' hF2 hnorm
   exact le_sup_right.trans (T.maximal_isPGroup.eq_of_ge hsup le_sup_left).le
 
 theorem cruxL5_holds : CruxL5Stmt := by
@@ -49,7 +49,7 @@ theorem cruxL5_holds : CruxL5Stmt := by
   have hyT : y ∈ (T : Subgroup G) := huT (hy ▸ mem_zpowers y)
   have hyH : y ∈ Hz z := hTH hyT
   have hyF : y ∉ Fz z := (hti.2 u hu).2 y hy
-  haveI hEN : (E.subgroupOf (T : Subgroup G)).Normal :=
+  have hEN : (E.subgroupOf (T : Subgroup G)).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hEn _ (hTH g.2) _ hn⟩
@@ -76,7 +76,7 @@ theorem cruxL5_holds : CruxL5Stmt := by
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr a.2)
   have hSp : IsPGroup 2 ↥S := by
     have hT₀ : IsPGroup 2 ↥((T : Subgroup G).subgroupOf (Hz z)) :=
-      T.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
+      T.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
     rw [hS]
     exact hT₀.map (qmk z)
   have hyq : yBar z u = q ⟨y, hyT⟩ := by
@@ -112,7 +112,7 @@ theorem cruxL5_holds : CruxL5Stmt := by
     rw [hκ, ← map_mul, ← map_mul, hπeq]
     have := inv_conj_mem hE0 hkF hkk ((Hz z).inv_mem (hTH g.2)) hkF
     convert this using 1
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
   have hηc : ∀ x : ↥(T : Subgroup G) ⧸ E.subgroupOf (T : Subgroup G), x * η = η * x := by
     intro x

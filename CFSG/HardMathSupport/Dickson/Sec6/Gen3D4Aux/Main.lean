@@ -48,7 +48,7 @@ theorem eq_one_of_conj_eq_one' {C : Type*} [Group C] (hZ : Subgroup.center C = �
   exact hc
 
 theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] (f : G →* H)
-    (hf : Function.Injective f) {p : ℕ} {B : Subgroup G} (hB : IsElemAbelian p B) :
+    (_hf : Function.Injective f) {p : ℕ} {B : Subgroup G} (hB : IsElemAbelian p B) :
     IsElemAbelian p (B.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
   · obtain ⟨x, hx, hxa⟩ := Subgroup.mem_map.1 a.2
@@ -62,7 +62,7 @@ theorem isElemAbelian_map {G H : Type*} [Group G] [Group H] (f : G →* H)
 
 theorem exists_conj_le_sylow {X : Type*} [Group X] [Finite X] (P0 : Sylow 3 X) (A : Subgroup X)
     (hA : IsElemAbelian 3 A) : ∃ g : X, A.map (MulAut.conj g).toMonoidHom ≤ (P0 : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAp : IsPGroup 3 A := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hA.2 x.1 x.2)⟩
   obtain ⟨Q, hAQ⟩ := hAp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Q P0
@@ -258,7 +258,7 @@ theorem genBelow_C0 {kf : Type} [Field kf] [Finite kf] [CharP kf 2] (σ : kf ≃
       rw [show (6 : ℕ) = 2 * 3 by norm_num, Nat.factorization_mul (by norm_num) (by norm_num)]
       simp [Nat.Prime.factorization Nat.prime_two, Nat.Prime.factorization Nat.prime_three]
     rw [h6]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P0 : Sylow 3 (MulAut ↥(graphFixedRootGroup TwistTag.D4 kf σ.toRingHom)) :=
     Sylow.ofCard P (by rw [hPcard, hv])
   refine genBelow_of_covering (Set.range fun c : Fin 4 => R.Eg c) ?_ ?_

@@ -37,6 +37,7 @@ theorem lamGHom_injective : Function.Injective (lamGHom K) := by
   have h3 := congrArg (fun l : ↥(Lam K) => (l : (Module.End K (V K))ˣ)) h2
   exact Subtype.ext (Subtype.ext h3)
 
+omit [Finite K] in
 theorem range_lamGHom : (lamGHom K).range = EAut0 K := by
   ext y
   rw [MonoidHom.mem_range, mem_EAut0_iff]
@@ -53,6 +54,7 @@ section Roots
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem xE_mem_LamG {β : Rt} (hβ : β ∈ Perp) (c : K) : xE β c ∈ LamG K := xu_mem_Lam hβ c
 
 theorem Rd6_subset_Perp {β : Rt} (hβ : β ∈ Rd6) : β ∈ Perp := (mem_Rd6.1 hβ).1
@@ -67,12 +69,14 @@ theorem lamGHom_xE {β : Rt} (hβ : β ∈ Perp) (c : K) :
   rw [h1, vAut0_apply, h2]
   rfl
 
+omit [CharP K 2] in
 theorem URge_le_LamG {S : Finset Rt} (hS : S ⊆ Rd6) : URge K S 1 ≤ LamG K := by
   intro g hg
   refine URge_induction (C := fun g => g ∈ LamG K) hg ?_ (one_mem _) (fun x y hx hy => mul_mem hx hy)
   intro α hα _ c
   exact xE_mem_LamG (Rd6_subset_Perp (hS hα)) c
 
+omit [CharP K 2] in
 theorem ULG_eq_URge : ULG K = URge K Rd6 1 := by
   apply le_antisymm
   · intro x hx
@@ -103,6 +107,7 @@ theorem ULG_eq_URge : ULG K = URge K Rd6 1 := by
     have hαP := mem_Rd6.1 hα
     exact Subgroup.subset_closure ⟨α, (perp_iff.1 hαP.1).1, hαP.1.2, hαP.2, c, rfl⟩
 
+omit [CharP K 2] in
 theorem URge_Rd6_le_LamG : URge K Rd6 1 ≤ LamG K := URge_le_LamG le_rfl
 
 end Roots
@@ -126,6 +131,7 @@ theorem posU0_le_EAut0 : posU0 K ≤ EAut0 K := (Subgroup.closure_le _).2 rootOp
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem exists_lamGHom_mem_closure {S : Finset Rt} (hS : S ⊆ Rd6) {g : Gp K} (hg : g ∈ URge K S 1) :
     ∃ x : ↥(LamG K), (x : Gp K) = g ∧ lamGHom K x ∈ Subgroup.closure (rootOps K S) := by
   refine URge_induction (C := fun g => ∃ x : ↥(LamG K), (x : Gp K) = g ∧
@@ -143,6 +149,7 @@ theorem exists_lamGHom_mem_closure {S : Finset Rt} (hS : S ⊆ Rd6) {g : Gp K} (
     rw [map_mul]
     exact mul_mem hx2 hy2
 
+omit [Finite K] in
 theorem map_lamGHom_URge {S : Finset Rt} (hS : S ⊆ Rd6) :
     ((URge K S 1).subgroupOf (LamG K)).map (lamGHom K) = Subgroup.closure (rootOps K S) := by
   apply le_antisymm
@@ -157,6 +164,7 @@ theorem map_lamGHom_URge {S : Finset Rt} (hS : S ⊆ Rd6) :
     exact Subgroup.mem_subgroupOf.2
       (xE_mem_URge hβS (by have := (mem_Rd6.1 (hS hβS)).2; exact_mod_cast this) c)
 
+omit [Finite K] in
 theorem posU0_eq_map : posU0 K = ((URge K Rd6 1).subgroupOf (LamG K)).map (lamGHom K) :=
   (map_lamGHom_URge le_rfl).symm
 
@@ -210,11 +218,13 @@ theorem rootOps_Rn_Nu : rootOps K (Rn fNu Rd6) = rootSetν K := by
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem map_lamGHom_URge_A2 :
     ((URge K (Rn fA2 Rd6) 1).subgroupOf (LamG K)).map (lamGHom K) = rootRad0 K := by
   rw [map_lamGHom_URge (Rn_subset _), rootOps_Rn_A2]
   rfl
 
+omit [Finite K] in
 theorem map_lamGHom_URge_Nu :
     ((URge K (Rn fNu Rd6) 1).subgroupOf (LamG K)).map (lamGHom K) = rootRadν K := by
   rw [map_lamGHom_URge (Rn_subset _), rootOps_Rn_Nu]

@@ -53,13 +53,13 @@ private theorem l34g_card_center_dvd_table (hGA : CFSG.Open.GriessAllModelsState
 
 private theorem l34g_odd_card_oddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
 private theorem l34g_oddCore_le_center {L : Type} [Group L] (hq : CFSG.IsQuasisimple L)
     (hne : oddCore L ≠ ⊤) : oddCore L ≤ center L := by
-  haveI : (oddCore L).Normal := oddCore_normal L
+  have : (oddCore L).Normal := oddCore_normal L
   let : IsSimpleGroup (L ⧸ center L) := hq.2.1
   have hnormal : ((oddCore L).map (QuotientGroup.mk' (center L))).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' (center L))
@@ -81,8 +81,8 @@ private theorem l34g_oddCore_le_center {L : Type} [Group L] (hq : CFSG.IsQuasisi
 private theorem l34g_center_eq_oddCore_of_simple {L : Type} [Group L] [Finite L]
     (hq : CFSG.IsQuasisimple L) (hs : IsSimpleGroup (L ⧸ oddCore L)) :
     center L = oddCore L := by
-  haveI : Group.IsPerfect L := hq.1
-  haveI := hs
+  have : Group.IsPerfect L := hq.1
+  have := hs
   have hne : oddCore L ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (L ⧸ oddCore L) := by
@@ -92,13 +92,13 @@ private theorem l34g_center_eq_oddCore_of_simple {L : Type} [Group L] [Finite L]
   have hle : oddCore L ≤ center L := l34g_oddCore_le_center hq hne
   refine le_antisymm (fun x hx => ?_) hle
   have hQ : center (L ⧸ oddCore L) = ⊥ := by
-    haveI : Group.IsPerfect (L ⧸ oddCore L) :=
+    have : Group.IsPerfect (L ⧸ oddCore L) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (oddCore L))
         (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (L ⧸ oddCore L)) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (L ⧸ oddCore L) := center_eq_top_iff.mp h
+      have : IsMulCommutative (L ⧸ oddCore L) := center_eq_top_iff.mp h
       exact Group.IsPerfect.not_isMulCommutative (L ⧸ oddCore L) inferInstance
   have hxQ : (QuotientGroup.mk x : L ⧸ oddCore L) ∈ center (L ⧸ oddCore L) := by
     refine mem_center_iff.mpr fun q => ?_
@@ -156,7 +156,7 @@ theorem l34g_schurOdd3_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : As
   · obtain ⟨hZcard, hm⟩ := hU43
     have hne : oddCore ↥X ≠ ⊤ := by
       intro htop
-      haveI : Subsingleton (↥X ⧸ oddCore ↥X) := by
+      have : Subsingleton (↥X ⧸ oddCore ↥X) := by
         rw [htop]
         exact QuotientGroup.subsingleton_quotient_top
       have h1 : Nat.card (center (↥X ⧸ oddCore ↥X)) = 1 :=

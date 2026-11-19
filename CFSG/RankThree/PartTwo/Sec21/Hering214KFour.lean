@@ -33,7 +33,7 @@ section J2
 theorem eInvNine_j2_of_data
     (h : FourData27 NativeSporadic.J2) : EInvNine NativeSporadic.J2 := by
   obtain ⟨hfin, -, hsimple⟩ := CFSG.Sporadic.J2.fam_j2_simplicity
-  haveI := hfin
+  have := hfin
   have hZ : Subgroup.center NativeSporadic.J2 = ⊥ :=
     center_eq_bot_of_simple_of_not_prime hsimple (by rw [CFSG.Sporadic.J2.card_J2]; norm_num)
   have hcard : Nat.card (MulAut NativeSporadic.J2) ≤ 2 * Nat.card NativeSporadic.J2 := by
@@ -54,7 +54,7 @@ section He
 theorem eInvNine_he_of_data
     (h : FourData27 NativeSporadic.He) : EInvNine NativeSporadic.He := by
   obtain ⟨hfin, -, hsimple⟩ := CFSG.Sporadic.He.fam_he_simplicity
-  haveI := hfin
+  have := hfin
   have hcard4 : Nat.card NativeSporadic.He = 4030387200 := CFSG.Sporadic.He.card_He
   have hZ : Subgroup.center NativeSporadic.He = ⊥ :=
     center_eq_bot_of_simple_of_not_prime hsimple (by rw [hcard4]; norm_num)
@@ -76,7 +76,7 @@ section Ru
 theorem eInvNine_ru_of_data
     (h : FourData27 NativeSporadic.Ru) : EInvNine NativeSporadic.Ru := by
   obtain ⟨hfin, -, hsimple⟩ := CFSG.Sporadic.Ru.fam_ru_simplicity
-  haveI := hfin
+  have := hfin
   have hcard4 : Nat.card NativeSporadic.Ru = 145926144000 := CFSG.Sporadic.Ru.card_Ru
   have hZ : Subgroup.center NativeSporadic.Ru = ⊥ :=
     center_eq_bot_of_simple_of_not_prime hsimple (by rw [hcard4]; norm_num)

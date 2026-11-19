@@ -65,7 +65,7 @@ theorem exists_factor_e6Isogeny {f : ℕ} {G : Type} [Group G]
     ∃ ψbar : adjointGroup .E6 (GaloisField 2 f) →* G,
       Function.Injective ψbar ∧ ψbar.range = ψ.range ∧
         ∀ x, ψbar (e6Isogeny (GaloisField 2 f) x) = ψ x := by
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   have hψker : ψ.ker = Subgroup.center (e6Data_valid.minGroup (GaloisField 2 f)) :=
     AutSt.ker_eq_center hker hC
   have hπker : (e6Isogeny (GaloisField 2 f)).ker = ψ.ker :=
@@ -106,7 +106,7 @@ section Tag
 
 theorem ggRootCentOTwoTag_E6 : GGRootCentOTwoTag .E6 := by
   intro G _ _ n f ψ hadm _ hker _ _ hC _ r hr _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψker : ψ.ker = Subgroup.center (ggU .E6 n f).K := AutSt.ker_eq_center hker hC

@@ -238,8 +238,8 @@ theorem LinSteps.false_of_linCtx (hl : d.LinCtx) : False := by
   obtain ⟨R, hR, hSR, htR⟩ := Data.sylow_R hl k12 c
   have hout := st.a6 G f K h d hl k12 c R hR hSR
   have hkc := Data.sec43_three hl k12 c h42 h44 R hout
-  haveI : IsSimpleGroup G := hd.setting.std.simple
-  haveI : Group.IsPerfect G := lin_isPerfect_of_simple hd.setting.std.nonab
+  have : IsSimpleGroup G := hd.setting.std.simple
+  have : Group.IsPerfect G := lin_isPerfect_of_simple hd.setting.std.nonab
   have hDS : d.D ≤ c.S := (k12.s9_1 c.S c.S_syl c.P_le_S).1 ▸ le_sup_right
   have hne : c.Bc ≠ c.Bt := by
     intro heq

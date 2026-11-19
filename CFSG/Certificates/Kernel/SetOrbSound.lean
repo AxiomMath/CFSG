@@ -218,7 +218,7 @@ theorem foldl_code (b w C : Nat) : ∀ len : Nat,
     rw [← Array.foldl_toList] at ih
     unfold codeArr at ih
     rw [Array.toList_ofFn] at ih
-    simp only [Fin.coe_castSucc, Fin.val_last] at ih ⊢
+    simp only [Fin.val_castSucc, Fin.val_last] at ih ⊢
     rw [ih]
     rfl
 

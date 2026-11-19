@@ -115,7 +115,7 @@ theorem r12 (s : ℤ) (hs : Even s) (t u : F.K) :
       F.X' (4 + s) (F.sigma t * u) * F.X (5 + s) (t * u) * F.X' (6 + s) (t * F.sigma u) := by
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ k)) (F.comm_X'2_X'8 t u)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv, F.conj_rho_X,
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_rho_X,
     F.conj_rho_X'] at h
   rwa [show (2 : ℤ) + 2 * k = 2 + s by omega, show (8 : ℤ) + 2 * k = 8 + s by omega,
     show (4 : ℤ) + 2 * k = 4 + s by omega, show (5 : ℤ) + 2 * k = 5 + s by omega,
@@ -190,7 +190,7 @@ theorem comm_X0_X'6 (t u : F.K) :
     norm_num at this
     rw [show F.sigma (F.sigma t) = t ^ 2 from F.sigma_sigma t] at this
     rw [this, hAdef, hBdef, hDdef]
-    congr 3 <;> ring
+    congr 3; ring
   have hAinv : A⁻¹ = A := by
     rw [hAdef]
     exact F.X'_inv (j := 2) (by decide) _
@@ -278,7 +278,7 @@ theorem r14 (s : ℤ) (hs : Even s) (t u : F.K) :
         F.X (7 + s) (t * u) := by
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ (k + 1))) (F.comm_X0_X'6 t u)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv, F.conj_rho_X,
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_rho_X,
     F.conj_rho_X'] at h
   rwa [show (0 : ℤ) + 2 * (k + 1) = 2 + s by omega,
     show (6 : ℤ) + 2 * (k + 1) = 8 + s by omega,
@@ -291,7 +291,7 @@ theorem r13 (s : ℤ) (hs : Even s) (t u : F.K) :
       F.X (3 + s) (t * u) * F.X' (4 + s) (F.sigma t * F.sigma u * u) *
         F.X' (6 + s) (t * F.sigma u * u ^ 2) := by
   have h0 := congrArg (MulAut.conj F.a) (F.comm_X0_X'6 u t)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv, F.conj_a_X] at h0
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_a_X] at h0
   rw [F.conj_a_X' (j := 6) (by decide), F.conj_a_X' (j := 2) (by decide),
     F.conj_a_X' (j := 4) (by decide)] at h0
   norm_num at h0
@@ -305,7 +305,7 @@ theorem r13 (s : ℤ) (hs : Even s) (t u : F.K) :
       show F.sigma u * u ^ 2 * t = t * F.sigma u * u ^ 2 by ring, ← mul_assoc]
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ (k - 1))) h1
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv, F.conj_rho_X,
+  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, F.conj_rho_X,
     F.conj_rho_X'] at h
   rwa [show (4 : ℤ) + 2 * (k - 1) = 2 + s by omega,
     show (10 : ℤ) + 2 * (k - 1) = 8 + s by omega,
@@ -316,10 +316,10 @@ theorem r13 (s : ℤ) (hs : Even s) (t u : F.K) :
 theorem comm_X2_X4 (t u : F.K) : ⁅F.X 2 t, F.X 4 u⁆ = F.X 3 (t * u) := by
   by_cases ht : t = 0
   · subst ht
-    simp [F.X_zero, F.X'_zero]
+    simp [F.X_zero]
   by_cases hu : u = 0
   · subst hu
-    simp [F.X_zero, F.X'_zero]
+    simp [F.X_zero]
   have hmem : ⁅F.X 2 t, F.X 4 u⁆ ∈ T.U 3 := by
     have h := T.commutator_mem_win (j := 2) (a := 4) (b := 4) (by norm_num) (by norm_num)
       (by norm_num) (F.X_mem 2 t) (by rw [T.win_self]; exact F.X_mem 4 u)
@@ -465,7 +465,7 @@ theorem comm_X2_X4 (t u : F.K) : ⁅F.X 2 t, F.X 4 u⁆ = F.X 3 (t * u) := by
   have hRxR : ⁅R * F.X 2 t, F.X 4 u⁆ = F.X 3 z * F.X' 6 (t * u) := by
     simpa [hRdef, mul_assoc] using hRx
   have hconjeq := congrArg (MulAut.conj e) hzX
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, hconjX2, hconjX3,
+  simp only [map_commutatorElement, MulAut.conj_apply, hconjX2, hconjX3,
     hec] at hconjeq
   have hz6eq : F.X' 6 z * F.X 3 z = F.X 3 z * F.X' 6 (t * u) := by
     rw [← hconjeq, hRxR]
@@ -481,8 +481,7 @@ theorem r8 (s : ℤ) (hs : Even s) (t u : F.K) :
     ⁅F.X (2 + s) t, F.X (4 + s) u⁆ = F.X (3 + s) (t * u) := by
   obtain ⟨k, hk⟩ := hs
   have h := congrArg (MulAut.conj (F.rho ^ k)) (F.comm_X2_X4 t u)
-  simp only [map_commutatorElement, MulAut.conj_apply, map_mul, map_inv, F.conj_rho_X,
-    F.conj_rho_X'] at h
+  simp only [map_commutatorElement, MulAut.conj_apply, F.conj_rho_X] at h
   rwa [show (2 : ℤ) + 2 * k = 2 + s by omega, show (4 : ℤ) + 2 * k = 4 + s by omega,
     show (3 : ℤ) + 2 * k = 3 + s by omega] at h
 

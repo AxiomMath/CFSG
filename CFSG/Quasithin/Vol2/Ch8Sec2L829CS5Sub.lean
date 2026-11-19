@@ -23,7 +23,7 @@ theorem isSylowTwoOf_top_iff_cs5 {Y : Type} [Group Y] {X S : Subgroup Y} (hSX : 
 
 theorem exists_sylow_of_isSylowTwoOf_top_cs5 {G : Type} [Group G] {S : Subgroup G}
     (hS : IsSylowTwoOf S ⊤) : ∃ P : Sylow 2 G, (P : Subgroup G) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hi : ¬ 2 ∣ S.index := by
     have := hS.2.2
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at this
@@ -32,7 +32,7 @@ theorem exists_sylow_of_isSylowTwoOf_top_cs5 {G : Type} [Group G] {S : Subgroup 
 theorem exists_conj_of_isSylowTwoOf_top_cs5 {G : Type} [Group G] [Finite G] {S₀ S : Subgroup G}
     (h₀ : IsSylowTwoOf S₀ ⊤) (h : IsSylowTwoOf S ⊤) :
     ∃ g : G, S = S₀.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_of_isSylowTwoOf_top_cs5 h
   obtain ⟨P₀, hP₀⟩ := exists_sylow_of_isSylowTwoOf_top_cs5 h₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P₀ P
@@ -59,13 +59,13 @@ theorem mem_normalizer_subgroupOf_cs5 {Y : Type} [Group Y] {X S : Subgroup Y} (h
       have hS' : (g : Y) * h * (g : Y)⁻¹ ∉ S := fun hh => hc (hSX hh)
       exact ⟨fun hh => absurd hh hS, fun hh => absurd hh hS'⟩
   · intro hg h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hg (h : Y)
 
 theorem conjSub_subgroupOf_cs5 {Y : Type} [Group Y] {X S : Subgroup Y} (g : ↥X) :
     B6.conjSub g (S.subgroupOf X) = (B6.conjSub (g : Y) S).subgroupOf X := by
   ext x
-  simp only [B6.mem_conjSub, Subgroup.mem_subgroupOf, SetLike.mem_coe, Subgroup.coe_mul,
+  simp only [B6.mem_conjSub, Subgroup.mem_subgroupOf, Subgroup.coe_mul,
     Subgroup.coe_inv, iff_self]
 
 theorem card_subgroupOf_cs5 {Y : Type} [Group Y] {X S : Subgroup Y} (hSX : S ≤ X) :

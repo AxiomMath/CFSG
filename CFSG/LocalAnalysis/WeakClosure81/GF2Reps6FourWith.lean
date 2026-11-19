@@ -137,7 +137,7 @@ theorem autFixed_le_commY {B : Subgroup (MulAut X)} {β : MulAut X} (hB4 : Nat.c
       Subgroup.mem_map_of_mem (MulAut.conj k).toMonoidHom hh
     have hle := hconj_le k hk hm
     rwa [MulAut.conj_apply] at hle
-  haveI := hN
+  have := hN
   rcases hs.eq_bot_or_eq_top_of_normal ((commY B β).subgroupOf (autFixed β)) with hbot | htop
   · exfalso
     have htriv : ∀ b ∈ B, ∀ y ∈ autFixed β, b y = y := by

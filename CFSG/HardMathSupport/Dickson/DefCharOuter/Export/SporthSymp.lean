@@ -43,9 +43,9 @@ theorem outerCentData_fieldAut_sp {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf
     (hr : 2 ≤ r) (hK : Nat.card K = p ^ f) {σ : K ≃+* K} (hσ : orderOf σ = p)
     (hout : fieldAut r K σ ∉ innerAut (StatedProj (StatedSp r K))) :
     OuterCentData p (fieldAut r K σ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr1 : 1 ≤ r := by omega
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
   set a : MulAut (StatedProj (StatedSp r K)) := fieldAut r K σ with ha_def
   set k : Subfield K := descentField σ with hkdef
@@ -61,7 +61,7 @@ theorem outerCentData_fieldAut_sp {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf
       have := (Prod.mk.inj h).2
       omega⟩, K, inferInstance, inferInstance, hK, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨-, hTsimp, hTnab⟩ := finite_simple_nonab_of_model hmodelT (Or.inl ⟨rfl, hr⟩)
-  haveI := hTsimp
+  have := hTsimp
   have hZ : Subgroup.center (StatedProj (StatedSp r K)) = ⊥ := b3Lie_center_eq_bot hTnab
   have hodd : Odd (orderOf σ) := hσ ▸ hp.odd_of_ne_two hp2
   have hfixSub : fixSubgroup a = subfieldFixedGroup K r σ :=
@@ -77,7 +77,7 @@ theorem outerCentData_fieldAut_sp {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf
   obtain ⟨-, hsimpC, hnabC⟩ := finite_simple_nonab_of_model hmodel (Or.inl ⟨rfl, hr⟩)
   have ha : a ^ p = 1 := by
     rw [ha_def, ← map_pow, ← hσ, pow_orderOf_eq_one, map_one]
-  haveI hnormC := normal_subgroupOf_self (fixSubgroup a)
+  have hnormC := normal_subgroupOf_self (fixSubgroup a)
   refine OuterCentData.of_fieldType hp ha hout hZ (J := fixSubgroup a) le_rfl
     hnormC (isSolvable_quotient_self _) hsimpC hnabC
     (isChevSimple_of_psp hp2 hmodel) (dvd_card hmodel (Or.inl ⟨rfl, hr⟩))

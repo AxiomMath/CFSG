@@ -26,12 +26,13 @@ theorem exists_isSylowIn_above {p : ℕ} [Fact p.Prime] {X P : Subgroup G} (hPX 
   exact ⟨Q, ⟨hQmax.1.1, hQmax.1.2, fun R' hR'X hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'X, hR'p⟩ hQR') hQR'⟩, hPQ⟩
 
+omit [Finite G] in
 theorem join_zpowers_isElemAbelian {C : Subgroup G} {x : G} (hC : CFSG.Open.IsElemAbelian 3 C)
     (hx3 : x ^ 3 = 1) (hCx : ∀ c ∈ C, c * x = x * c) :
     CFSG.Open.IsElemAbelian 3 (C ⊔ Subgroup.zpowers x : Subgroup G) := by
-  haveI : IsElementaryAbelian 3 C :=
+  have : IsElementaryAbelian 3 C :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 C).2 hC
-  haveI : IsElementaryAbelian 3 (Subgroup.zpowers x) :=
+  have : IsElementaryAbelian 3 (Subgroup.zpowers x) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one hx3
   have hle : Subgroup.zpowers x ≤ Subgroup.centralizer (C : Set G) := by
     rw [Subgroup.zpowers_le]
@@ -82,13 +83,15 @@ theorem nine_le_card_inf_centralizer {F : Subgroup G} {x : G} (hFel : CFSG.Open.
         calc (f : G) * x = (x * (f : G) * x⁻¹) * x := by rw [this]
           _ = x * (f : G) := by group
 
+omit [Finite G] in
 theorem pCoreOf_conj_mem {M : Subgroup G} {g n : G} (hg : g ∈ M) (hn : n ∈ pCoreOf 2 M) :
     g * n * g⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.1 hn
   have hc := (CFSG.pCore_normal (p := 2) (G := ↥M)).conj_mem q hq ⟨g, hg⟩
   exact Subgroup.mem_map.2 ⟨_, hc, by simp⟩
 
+omit [Finite G] in
 theorem centralizer_conj_mem' {x g c : G} (hg : g ∈ Subgroup.centralizer ({x} : Set G))
     (hc : c ∈ Subgroup.centralizer ({x} : Set G)) :
     g * c * g⁻¹ ∈ Subgroup.centralizer ({x} : Set G) := by
@@ -107,7 +110,7 @@ theorem centralizer_conj_mem' {x g c : G} (hg : g ∈ Subgroup.centralizer ({x} 
 theorem pCore_inter_le_alpha (M : Subgroup G) (x : G) :
     pCoreOf 2 M ⊓ Subgroup.centralizer ({x} : Set G) ≤
       pCoreOf 2 (alphaOf 3 M ⊓ Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2 : IsPGroup 2 ↥(pCoreOf 2 M) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   have hsub : pCoreOf 2 M ≤ alphaOf 3 M := by
     unfold alphaOf
@@ -135,7 +138,7 @@ theorem card_le_of_rank_le_three {M X : Subgroup G} {x : G} (hX : X ≤ M ⊓ Su
     (hXel : CFSG.Open.IsElemAbelian 3 X)
     (hr : CFSG.Open.pRank 3 (M ⊓ Subgroup.centralizer ({x} : Set G)) ≤ 3) :
     Nat.card X ≤ 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := exists_card_eq_pow (CFSG.Open.IsElemAbelian.isPGroup hXel)
   have hjle : j ≤ CFSG.Open.pRank 3 (M ⊓ Subgroup.centralizer ({x} : Set G)) :=
     CFSG.SectionRank.le_pRank (by norm_num) hX hXel hj
@@ -150,7 +153,7 @@ theorem inD_of_rank4 {m : ℕ} {B M E A : Subgroup G} (h : Sec11 G m 3 B M E A)
     (hA : CFSG.Open.pRank 3 A = 3) {W : Subgroup G} (hWM : W ≤ M)
     (hWel : CFSG.Open.IsElemAbelian 3 W) (hWc : Nat.card W = 3 ^ 4) :
     ∃ A₁ : Subgroup G, inD 3 M A₁ ∧ W ≤ A₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR, hWR⟩ := exists_isSylowIn_above hWM (CFSG.Open.IsElemAbelian.isPGroup hWel)
   have hW4 : IsEkIn 3 4 R W := ⟨hWR, hWel, hWc⟩
   obtain ⟨hW0, -⟩ := lemma104_v_holds h.toSec10Fails h.pair (Or.inr hA) hR
@@ -166,7 +169,7 @@ variable {m : ℕ} {B M E A : Subgroup G}
 
 theorem prop126_exists_sylow (h : Sec11 G m 3 B M E A) :
     ∃ R : Subgroup G, IsSylowIn 3 M R ∧ E ⊔ A ≤ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEA : IsDDpStar 3 M E A := h.pair
   have hp : IsPGroup 3 ↥(E ⊔ A) := lemma104_i_holds h.toSec10Fails hEA
   have hEAM : E ⊔ A ≤ M := sup_le hEA.1.1.1.1.1 hEA.1.2.1.1.1.1
@@ -174,7 +177,7 @@ theorem prop126_exists_sylow (h : Sec11 G m 3 B M E A) :
 
 theorem prop126_central_mem (h : Sec11 G m 3 B M E A) {R : Subgroup G} (hER : E ⊔ A ≤ R)
     {z : G} (hz : z ∈ centerOf R) (hz3 : orderOf z = 3) : z ∈ E ⊓ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hscE, hscA⟩ := lemma104_ii_holds h.toSec10Fails h.pair
   have hz3' : z ^ 3 = 1 := by
     rw [← hz3]
@@ -207,8 +210,8 @@ open Sec12c
 
 theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := by
   intro G _ _ m B M E A h _hE hA x hx hx3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx1 : x ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hx3
@@ -312,7 +315,7 @@ theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := 
         apply csSup_le'
         rintro k ⟨E', hE'As, hE'el, hE'c⟩
         by_contra hk
-        push_neg at hk
+        push Not at hk
         have h1 : 3 ^ 4 ≤ 3 ^ k := Nat.pow_le_pow_right (by norm_num) hk
         have h2 : Nat.card E' ≤ Nat.card As := Subgroup.card_le_of_le hE'As
         rw [hE'c, hAs27] at h2
@@ -344,7 +347,7 @@ theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := 
         obtain ⟨jC, hjC⟩ := exists_card_eq_pow (CFSG.Open.IsElemAbelian.isPGroup hCel)
         have hjC2 : 2 ≤ jC := by
           by_contra hlt
-          push_neg at hlt
+          push Not at hlt
           have h3le : 3 ^ jC ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) (by omega)
           rw [← hjC] at h3le
           norm_num at h3le
@@ -402,7 +405,7 @@ theorem lemma128_of_inputs (h121 : Prop121_corStatement) : Lemma128Statement := 
           apply Prod.Lex.toLex_le_toLex.2
           right
           refine ⟨hdA, ?_⟩
-          rw [if_pos hAsP]
+          rw [ite_eq_left hAsP]
           split_ifs <;> omega
       have hpair : IsDDpStar 3 M A₁ As :=
         ⟨hdd, fun E' A' hE' => (hEA.2 E' A' hE').trans hkey⟩

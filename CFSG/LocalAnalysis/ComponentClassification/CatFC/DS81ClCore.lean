@@ -90,7 +90,7 @@ theorem adj_mem_adjoin (hM : IsUnit M.det) {g : Matrix ι ι K}
   | mul x y _ _ hx hy =>
     rw [adj_mul θ M hM]; exact mul_mem hy hx
 
-theorem adj_eq_pow (hM : IsUnit M.det) {g : Matrix ι ι K} (hg : adj θ M g * g = 1) {N : ℕ}
+theorem adj_eq_pow (_hM : IsUnit M.det) {g : Matrix ι ι K} (hg : adj θ M g * g = 1) {N : ℕ}
     (hN : 0 < N) (hgN : g ^ N = 1) : adj θ M g = g ^ (N - 1) := by
   calc adj θ M g = adj θ M g * g ^ N := by rw [hgN, Matrix.mul_one]
     _ = adj θ M g * (g * g ^ (N - 1)) := by
@@ -133,6 +133,7 @@ section Structure
 
 variable [Finite K] {g : Matrix ι ι K}
 
+omit [Finite K] in
 theorem isReduced_adjoin {N : ℕ} (hN : (N : K) ≠ 0) (hgN : g ^ N = 1) :
     IsReduced ↥(Algebra.adjoin K {g}) := by
   refine ⟨fun x hx => ?_⟩
@@ -188,7 +189,7 @@ theorem exists_eightynine_of_involution {R : Type} [CommRing R] [Finite R] [IsRe
   let e := IsArtinianRing.equivPi R
   obtain ⟨I, hI⟩ : ∃ I : MaximalSpectrum R, Ideal.Quotient.mk I.asIdeal G ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hG1
     apply e.injective
     funext I
@@ -197,11 +198,11 @@ theorem exists_eightynine_of_involution {R : Type} [CommRing R] [Finite R] [IsRe
   have hφe : ∀ x, φe x = φ x := fun _ => rfl
   let I' : MaximalSpectrum R :=
     ⟨I.asIdeal.map φe, Ideal.map_isMaximal_of_equiv φe (p := I.asIdeal)⟩
-  haveI hImax : I.asIdeal.IsMaximal := I.isMaximal
-  letI : Field (R ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
-  haveI : Finite (R ⧸ I.asIdeal) :=
+  have hImax : I.asIdeal.IsMaximal := I.isMaximal
+  let : Field (R ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
+  have : Finite (R ⧸ I.asIdeal) :=
     Finite.of_surjective (Ideal.Quotient.mk I.asIdeal) Ideal.Quotient.mk_surjective
-  haveI : CharP (R ⧸ I.asIdeal) 2 := CharP.quotient' 2 I.asIdeal (fun x hx => by
+  have : CharP (R ⧸ I.asIdeal) 2 := CharP.quotient' 2 I.asIdeal (fun x hx => by
     rcases Nat.even_or_odd x with ⟨k, rfl⟩ | ⟨k, rfl⟩
     · push_cast
       rw [← two_mul, CharTwo.two_eq_zero, zero_mul]
@@ -224,7 +225,7 @@ theorem exists_eightynine_of_involution {R : Type} [CommRing R] [Finite R] [IsRe
     have hψ : ψ ζ = ζ ^ (N - 1) := by
       rw [hζ, ← map_pow, ← hφG]
       rfl
-    letI : Algebra (ZMod 2) (R ⧸ I.asIdeal) := ZMod.algebra _ 2
+    let : Algebra (ZMod 2) (R ⧸ I.asIdeal) := ZMod.algebra _ 2
     let ψa : (R ⧸ I.asIdeal) ≃ₐ[ZMod 2] (R ⧸ I.asIdeal) :=
       AlgEquiv.ofRingEquiv (f := ψ) (fun x => by
         have := RingHom.ext_zmod ((ψ : (R ⧸ I.asIdeal) →+* (R ⧸ I.asIdeal)).comp
@@ -253,7 +254,7 @@ theorem exists_eightynine_of_involution {R : Type} [CommRing R] [Finite R] [IsRe
     rw [hk]; exact dvd_pow_self 23 hk0
   have hcard : 89 ∣ Nat.card (R ⧸ I.asIdeal)ˣ :=
     CFSG.ComponentClassification.CatFC.DS81.ClArith.eightynine_dvd_card_units h23
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := (R ⧸ I.asIdeal)ˣ) 89 hcard
   have hw89 : w ^ 89 = 1 := by rw [← hw]; exact pow_orderOf_eq_one w
   have hw1 : (w : R ⧸ I.asIdeal) ≠ 1 := by
@@ -349,16 +350,16 @@ theorem exists_eightynine_of_pow {R : Type} [CommRing R] [Finite R] [IsReduced R
   let e := IsArtinianRing.equivPi R
   obtain ⟨I, hI⟩ : ∃ I : MaximalSpectrum R, Ideal.Quotient.mk I.asIdeal G ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hG1
     apply e.injective
     funext I
     rw [equivPi_apply_eq_mk, equivPi_apply_eq_mk, h I, map_one]
-  haveI hImax : I.asIdeal.IsMaximal := I.isMaximal
-  letI : Field (R ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
-  haveI : Finite (R ⧸ I.asIdeal) :=
+  have hImax : I.asIdeal.IsMaximal := I.isMaximal
+  let : Field (R ⧸ I.asIdeal) := Ideal.Quotient.field I.asIdeal
+  have : Finite (R ⧸ I.asIdeal) :=
     Finite.of_surjective (Ideal.Quotient.mk I.asIdeal) Ideal.Quotient.mk_surjective
-  haveI : CharP (R ⧸ I.asIdeal) 2 := CharP.quotient' 2 I.asIdeal (fun x hx => by
+  have : CharP (R ⧸ I.asIdeal) 2 := CharP.quotient' 2 I.asIdeal (fun x hx => by
     rcases Nat.even_or_odd x with ⟨k, rfl⟩ | ⟨k, rfl⟩
     · push_cast
       rw [← two_mul, CharTwo.two_eq_zero, zero_mul]
@@ -383,7 +384,7 @@ theorem exists_eightynine_of_pow {R : Type} [CommRing R] [Finite R] [IsReduced R
     rw [hk]; exact dvd_pow_self 23 hk0
   have hcard : 89 ∣ Nat.card (R ⧸ I.asIdeal)ˣ :=
     CFSG.ComponentClassification.CatFC.DS81.ClArith.eightynine_dvd_card_units h23
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := (R ⧸ I.asIdeal)ˣ) 89 hcard
   have hw89 : w ^ 89 = 1 := by rw [← hw]; exact pow_orderOf_eq_one w
   have hw1 : (w : R ⧸ I.asIdeal) ≠ 1 := by
@@ -423,8 +424,8 @@ theorem exists_split_sub_one {R : Type} [CommRing R] [Finite R] [IsReduced R] (G
     simp only [ss, tt]
     split_ifs with h
     · rw [h, sub_self, mul_zero, zero_add]
-    · haveI := J.isMaximal
-      letI : Field (R ⧸ J.asIdeal) := Ideal.Quotient.field J.asIdeal
+    · have := J.isMaximal
+      let : Field (R ⧸ J.asIdeal) := Ideal.Quotient.field J.asIdeal
       have hu : IsUnit (Ideal.Quotient.mk J.asIdeal G - 1) :=
         isUnit_iff_ne_zero.mpr (sub_ne_zero.mpr h)
       rw [Ring.inverse_mul_cancel _ hu, add_zero]
@@ -460,11 +461,11 @@ theorem exists_form_order_eightynine [CharP K 2] (θ : K →+* K)
   have hgR : adj θ M g ∈ Algebra.adjoin K {g} := by
     rw [adj_eq_pow θ M hM hga hN0 hgb]
     exact pow_mem (Algebra.self_mem_adjoin_singleton K g) _
-  haveI : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
+  have : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
   let G : ↥(Algebra.adjoin K {g}) := ⟨g, Algebra.self_mem_adjoin_singleton K g⟩
   have hG1 : G ≠ 1 := fun h => hg1 (congrArg Subtype.val h)
-  haveI : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
-  haveI : CharP ↥(Algebra.adjoin K {g}) 2 :=
+  have : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
+  have : CharP ↥(Algebra.adjoin K {g}) 2 :=
     charP_of_injective_algebraMap (algebraMap K ↥(Algebra.adjoin K {g})).injective 2
   have hGN : G ^ (23 ^ b) = 1 := by
     apply Subtype.ext
@@ -511,11 +512,11 @@ theorem exists_det_one_order_eightynine [CharP K 2] (hK : ¬ 89 ∣ Nat.card K -
     exact fun h => by
       have := (Nat.Prime.dvd_of_dvd_pow Nat.prime_two h)
       norm_num at this
-  haveI : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
+  have : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
   let G : ↥(Algebra.adjoin K {g}) := ⟨g, Algebra.self_mem_adjoin_singleton K g⟩
   have hG1 : G ≠ 1 := fun h => hg1 (congrArg Subtype.val h)
-  haveI : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
-  haveI : CharP ↥(Algebra.adjoin K {g}) 2 :=
+  have : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
+  have : CharP ↥(Algebra.adjoin K {g}) 2 :=
     charP_of_injective_algebraMap (algebraMap K ↥(Algebra.adjoin K {g})).injective 2
   have hGN : G ^ (23 ^ b) = 1 := by
     apply Subtype.ext
@@ -546,6 +547,7 @@ end Main
 
 section Quadratic
 
+omit [DecidableEq ι] in
 theorem dotProduct_mulVec_conj (A M : Matrix ι ι K) (x y : ι → K) :
     (A *ᵥ x) ⬝ᵥ (M *ᵥ (A *ᵥ y)) = x ⬝ᵥ ((Aᵀ * M * A) *ᵥ y) := by
   rw [Matrix.mulVec_mulVec, ← Matrix.vecMul_transpose, ← Matrix.dotProduct_mulVec,
@@ -594,11 +596,11 @@ theorem exists_quadForm_order_eightynine [CharP K 2] (Q : (ι → K) → K) (M :
   have hgR : adj θ M g ∈ Algebra.adjoin K {g} := by
     rw [adj_eq_pow θ M hM hga hN0 hgb]
     exact pow_mem (Algebra.self_mem_adjoin_singleton K g) _
-  haveI : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
+  have : IsReduced ↥(Algebra.adjoin K {g}) := isReduced_adjoin hNK hgb
   let G : ↥(Algebra.adjoin K {g}) := ⟨g, Algebra.self_mem_adjoin_singleton K g⟩
   have hG1 : G ≠ 1 := fun h => hg1 (congrArg Subtype.val h)
-  haveI : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
-  haveI : CharP ↥(Algebra.adjoin K {g}) 2 :=
+  have : Nontrivial ↥(Algebra.adjoin K {g}) := ⟨⟨G, 1, hG1⟩⟩
+  have : CharP ↥(Algebra.adjoin K {g}) 2 :=
     charP_of_injective_algebraMap (algebraMap K ↥(Algebra.adjoin K {g})).injective 2
   have hGN : G ^ (23 ^ b) = 1 := by
     apply Subtype.ext

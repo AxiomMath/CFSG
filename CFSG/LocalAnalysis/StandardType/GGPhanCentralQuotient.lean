@@ -25,12 +25,12 @@ theorem WeakPhanSL.weakPhanA {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p
   join i j hij := h.join i j hij.ne
   comm i j hij := h.comm i j (by
     have hne : i ≠ j := fun e => by subst e; omega
-    simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hne]
-    rw [if_neg]; omega)
+    simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hne]
+    rw [ite_eq_right]; omega)
   pair i j hij := h.pair i j (by
     have hne : i ≠ j := fun e => by subst e; omega
-    simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hne]
-    rw [if_pos]; omega)
+    simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hne]
+    rw [ite_eq_left]; omega)
   gen := h.gen
 
 @[expose] def IsCentralQuotientOf (Y : LieUniversal) (X : Type) [Group X] : Prop :=

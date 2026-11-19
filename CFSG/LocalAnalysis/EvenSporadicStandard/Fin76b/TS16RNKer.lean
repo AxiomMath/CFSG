@@ -169,7 +169,7 @@ theorem cent_W_split {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} 
     rw [hord] at h8
     omega
   have ht_ord : orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact ht2) ht_ne
   have ht_pow_odd : ∀ k : ℕ, Odd k → t ^ k = t := by
     rintro k ⟨m, rfl⟩

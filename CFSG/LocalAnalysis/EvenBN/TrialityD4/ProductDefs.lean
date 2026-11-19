@@ -50,7 +50,7 @@ theorem commutator_mem_iff_proj {N : Subgroup G} {g b : G} (hg : g ∈ normalize
         NormalizerQuotient.proj N ⟨g, hg⟩ * NormalizerQuotient.proj N ⟨b, hb⟩ ↔
       g * b * g⁻¹ * b⁻¹ ∈ N := by
   rw [← map_mul, ← map_mul, NormalizerQuotient.proj_eq_proj_iff]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_rev]
+  simp only [Subgroup.coe_mul, mul_inv_rev]
   constructor
   · intro h
     have h1 : g * (g⁻¹ * b⁻¹ * g * b) * g⁻¹ ∈ N := by
@@ -78,23 +78,23 @@ theorem commutator_mem_iff_proj {N : Subgroup G} {g b : G} (hg : g ∈ normalize
 
 theorem mem_centralizerMod_iff {N B : Subgroup G} {g : G} :
     g ∈ centralizerMod N B ↔ g ∈ normalizer (N : Set G) ∧
-      ∀ b ∈ B, ∀ hb : b ∈ normalizer (N : Set G), g * b * g⁻¹ * b⁻¹ ∈ N := by
+      ∀ b ∈ B, ∀ _hb : b ∈ normalizer (N : Set G), g * b * g⁻¹ * b⁻¹ ∈ N := by
   unfold centralizerMod
   rw [NormalizerQuotient.mem_lift_iff]
   constructor
   · rintro ⟨hg, hc⟩
-    refine ⟨hg, fun b hbB hb => ?_⟩
-    have := mem_centralizer_iff.1 hc (NormalizerQuotient.proj N ⟨b, hb⟩)
+    refine ⟨hg, fun b hbB _hb => ?_⟩
+    have := mem_centralizer_iff.1 hc (NormalizerQuotient.proj N ⟨b, _hb⟩)
       (NormalizerQuotient.proj_mem_bar hbB)
-    exact (commutator_mem_iff_proj hg hb).1 this
+    exact (commutator_mem_iff_proj hg _hb).1 this
   · rintro ⟨hg, hc⟩
     refine ⟨hg, mem_centralizer_iff.2 fun y hy => ?_⟩
-    obtain ⟨⟨b, hb⟩, hbB, rfl⟩ := hy
-    exact (commutator_mem_iff_proj hg hb).2 (hc b (mem_subgroupOf.1 hbB) hb)
+    obtain ⟨⟨b, _hb⟩, hbB, rfl⟩ := hy
+    exact (commutator_mem_iff_proj hg _hb).2 (hc b (mem_subgroupOf.1 hbB) _hb)
 
 theorem mem_centerMod_iff {N A : Subgroup G} (hNA : N ≤ A) {g : G} :
     g ∈ centerMod N A ↔ g ∈ A ∧ g ∈ normalizer (N : Set G) ∧
-      ∀ a ∈ A, ∀ ha : a ∈ normalizer (N : Set G), g * a * g⁻¹ * a⁻¹ ∈ N := by
+      ∀ a ∈ A, ∀ _ha : a ∈ normalizer (N : Set G), g * a * g⁻¹ * a⁻¹ ∈ N := by
   unfold centerMod upperCenterMod
   rw [NormalizerQuotient.mem_lift_iff]
   constructor
@@ -103,10 +103,10 @@ theorem mem_centerMod_iff {N A : Subgroup G} (hNA : N ≤ A) {g : G} :
     have hzg : (z : NormalizerQuotient.Bar N) = NormalizerQuotient.proj N ⟨g, hg⟩ := hz2
     have hmem : NormalizerQuotient.proj N ⟨g, hg⟩ ∈ NormalizerQuotient.bar N A := by
       rw [← hzg]; exact z.2
-    refine ⟨(NormalizerQuotient.mem_bar_iff hNA ⟨g, hg⟩).1 hmem, hg, fun a ha han => ?_⟩
+    refine ⟨(NormalizerQuotient.mem_bar_iff hNA ⟨g, hg⟩).1 hmem, hg, fun a _ha han => ?_⟩
     rw [Subgroup.upperCentralSeries_one] at hz1
     have := Subgroup.mem_center_iff.1 hz1 ⟨NormalizerQuotient.proj N ⟨a, han⟩,
-      NormalizerQuotient.proj_mem_bar ha⟩
+      NormalizerQuotient.proj_mem_bar _ha⟩
     have h2 := congrArg Subtype.val this
     simp only [Subgroup.coe_mul] at h2
     rw [hzg] at h2
@@ -130,8 +130,7 @@ theorem map_conj_inv_map_conj_inv {g : G} (hg : g * g = 1) (A : Subgroup G) :
     ext x
     have hgi : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
     have h1 : g * (g * x * g) * g = (g * g) * x * (g * g) := by group
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi, inv_inv,
-      MonoidHom.id_apply]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hgi, MonoidHom.id_apply]
     rw [h1, hg]
     simp
   rw [Subgroup.map_map, hcomp, Subgroup.map_id]
@@ -142,10 +141,10 @@ section Setting
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
-@[expose] abbrev uG {q : ℕ} (d : TrialityD4Data L q) : G :=
+abbrev uG {q : ℕ} (d : TrialityD4Data L q) : G :=
   ((d.u : L) : G)
 
-@[expose] abbrev vG {q : ℕ} (d : TrialityD4Data L q) : G :=
+abbrev vG {q : ℕ} (d : TrialityD4Data L q) : G :=
   ((d.v : L) : G)
 
 @[expose] def jZeroCentralizer {q : ℕ} (d : TrialityD4Data L q) : Subgroup G :=

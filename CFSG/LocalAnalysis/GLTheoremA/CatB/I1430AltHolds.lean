@@ -20,7 +20,7 @@ theorem i1430M23Alt_holds : I1430M23Alt := by
     have hAn : CFSG.LocalAnalysis.GLTheoremB.MovingAround.IsAltType m (H ⧸ Subgroup.center H) :=
       Nonempty.intro e
     have hdvd := CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.card_center_dvd_of_isAltType hq hAn
-    rw [if_neg (show ¬(m = 6 ∨ m = 7) by omega)] at hdvd
+    rw [ite_eq_right (show ¬(m = 6 ∨ m = 7) by omega)] at hdvd
     have hcen : Subgroup.center H = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       intro z hzc

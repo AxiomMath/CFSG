@@ -49,7 +49,7 @@ theorem not_two_dvd_index_of_invariant {S : Subgroup G} (hS : IsPGroup 2 S) {z :
   obtain ⟨τ, hτT, hτN, hτS⟩ : ∃ τ ∈ (T : Subgroup G), τ ∈ normalizer (S : Set G) ∧ τ ∉ S := by
     by_contra hcon
     push Not at hcon
-    exact hne (eq_of_inf_normalizer_le T.isPGroup' hST hcon)
+    exact hne (eq_of_inf_normalizer_le T.isPGroup hST hcon)
   obtain ⟨s, hs, hsτ⟩ := hinv τ hτN
   have huC : s⁻¹ * τ ∈ centralizer ({z} : Set G) := by
     rw [mem_centralizer_singleton_iff]
@@ -58,7 +58,7 @@ theorem not_two_dvd_index_of_invariant {S : Subgroup G} (hS : IsPGroup 2 S) {z :
       _ = z * (s⁻¹ * τ) := by group
   have huT : s⁻¹ * τ ∈ (T : Subgroup G) := mul_mem (inv_mem (hST hs)) hτT
   have hP : IsPGroup 2 (centralizer ({z} : Set G) ⊓ (T : Subgroup G) : Subgroup G) :=
-    T.isPGroup'.to_inf_right
+    T.isPGroup.to_inf_right
   have huS := hmax _ hP inf_le_left (inf_le_inf_left _ hST) ⟨huC, huT⟩
   apply hτS
   have h3 : τ = s * (s⁻¹ * τ) := by group

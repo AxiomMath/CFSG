@@ -55,7 +55,7 @@ lemma w1369_ta_noniso {Q : Type} [CommGroup Q] {Λ N : Subgroup (MulAut Q)}
   obtain ⟨i, rfl⟩ := w1369_ta_simple_eq_I P hstab hsimple hnoniso hS₁
   obtain ⟨j, rfl⟩ := w1369_ta_simple_eq_I P hstab hsimple hnoniso hS₂
   have hspan_orbit : (⨆ n : N, (I i).map ((n : MulAut Q)).toMonoidHom) = ⊤ :=
-    w1369_orbit_span (Λ := Λ) hirr (hsimple i).1
+    w1369_orbit_span (_Λ := Λ) hirr (hsimple i).1
   by_contra hcon
   have hmiss : ∀ n : N, (I i).map ((n : MulAut Q)).toMonoidHom ≠ I j := by
     intro n hn

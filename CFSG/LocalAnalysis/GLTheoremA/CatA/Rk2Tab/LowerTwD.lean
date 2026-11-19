@@ -84,8 +84,8 @@ private noncomputable def elementaryGroupEquivStatedOmega
 
 private noncomputable def tailToMinusEquiv
     (F : Type) [Field F] [Finite F] [CharP F 2]
-    (ℓ : ℕ) (hℓ : 4 ≤ ℓ) (b c : F)
-    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
+    (ℓ : ℕ) (_hℓ : 4 ≤ ℓ) (b c : F)
+    (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     orthElementaryGroup (quadTail (ℓ - 1) (minusTailForm (K := F) b c)) ≃*
       orthElementaryGroup (quadMinus ℓ F b c) :=
   elementaryIsometryEquiv (minusTailIsometry ℓ F b c)
@@ -101,8 +101,8 @@ private noncomputable def minusToStatedOmegaEquiv
 
 private noncomputable def statedOmegaToProjEquiv
     (F : Type) [Field F] [Finite F] [CharP F 2]
-    (ℓ : ℕ) (hℓ : 4 ≤ ℓ) (b c : F)
-    (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
+    (ℓ : ℕ) (_hℓ : 4 ≤ ℓ) (b c : F)
+    (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     StatedOmega (StatedQuadMinus ℓ F b c) ≃*
       StatedProj (StatedOmega (StatedQuadMinus ℓ F b c)) := by
   classical
@@ -229,12 +229,12 @@ theorem rk2_low_twd_ge (K : Type) [Group K] [Finite K] (lab : GLALabel)
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, b, c, hirr, ⟨θ⟩⟩ :=
     hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hn1 : 1 ≤ n := by omega
   have h3 : 3 ≤ Nat.card F - 1 := by
     rw [hcard]
@@ -296,7 +296,7 @@ private theorem spSiegel_one_ne_bot {F : Type} [Field F] [Finite F] [CharP F 2] 
 
 private theorem isPGroup_spSiegel_one {F : Type} [Field F] [Finite F] [CharP F 2] :
     IsPGroup 2 (spSiegel 1 F) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨k, -, hk⟩ := FiniteField.card F 2
   refine IsPGroup.of_card (n := k) ?_
   rw [card_spSiegel, show 1 * (1 + 1) / 2 = 1 by norm_num, pow_one,
@@ -330,12 +330,12 @@ theorem rk2_low_twd_two (K : Type) [Group K] [Finite K] (lab : GLALabel)
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ (2 * n) := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hF : Nat.card F = 4 ^ n := by
     rw [hcard, show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_mul]
   have h3dvd : 3 ∣ Nat.card F - 1 := by

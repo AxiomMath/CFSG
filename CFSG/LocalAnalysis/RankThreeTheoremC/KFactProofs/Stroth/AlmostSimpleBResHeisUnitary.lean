@@ -76,7 +76,7 @@ private theorem hpairC_mul_hpairD {K : Type} [Field K] {ω : K} (hω3 : ω ^ 3 =
     hpairC K * hpairD ω = hpairD ω * hpairC K * Matrix.scalar (Fin 3) (ω ^ 2) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hpairC, hpairD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [hpairC, hpairD, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply]
   all_goals first
     | linear_combination hω3
@@ -102,31 +102,30 @@ private theorem hpair_word_not_scalar {K : Type} [Field K] {ω : K} (hω0 : ω �
   interval_cases r <;> interval_cases s
   · exact ⟨rfl, rfl⟩
   · have e := congrFun (congrFun h 1) 0
-    simp [hpairC, Matrix.scalar_apply, Matrix.diagonal_apply] at e
+    simp [hpairC, Matrix.scalar_apply] at e
   · have e := congrFun (congrFun h 0) 1
-    simp [pow_two, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
-      Matrix.diagonal_apply] at e
+    simp [pow_two, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply] at e
   · have e0 := congrFun (congrFun h 0) 0
     have e1 := congrFun (congrFun h 1) 1
-    simp [hpairD, Matrix.scalar_apply, Matrix.diagonal_apply] at e0 e1
+    simp [hpairD, Matrix.scalar_apply] at e0 e1
     exact absurd (by linear_combination e1 - e0 : ω = 1) hω1
   · have e := congrFun (congrFun h 1) 0
-    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply] at e
     exact absurd e hω0
   · have e := congrFun (congrFun h 0) 1
-    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply] at e
   · have e0 := congrFun (congrFun h 0) 0
     have e1 := congrFun (congrFun h 1) 1
-    simp [pow_two, hpairD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [pow_two, hpairD, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply] at e0 e1
     exact absurd (by linear_combination e1 - e0 : ω ^ 2 = 1) hω2
   · have e := congrFun (congrFun h 0) 2
-    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply] at e
   · have e := congrFun (congrFun h 0) 1
-    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+    simp [pow_two, hpairD, hpairC, Matrix.mul_apply, Matrix.scalar_apply,
       Matrix.diagonal_apply] at e
 
 private theorem hpair_word_GL {K : Type} [Field K] {ω : K} (hω0 : ω ≠ 0) (hω1 : ω ≠ 1)
@@ -152,7 +151,7 @@ theorem exists_heisenberg_pair_unitary {f : ℕ} {K : Type} [Field K] (hU : Unit
       (∀ i j : ℤ, x₁ ^ i * x₂ ^ j = 1 → (3 : ℤ) ∣ i ∧ (3 : ℤ) ∣ j) ∧
       primeFormFieldHom hU (isPrimeFormGram_one_three (K := K)) τ x₁ = x₁ ∧
       primeFormFieldHom hU (isPrimeFormGram_one_three (K := K)) τ x₂ = x₂ := by
-  haveI := hU.charP
+  have := hU.charP
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have hω3 : ω ^ 3 = 1 := by linear_combination (ω + 1) * hω - (1 + ω + ω ^ 2) * h2
   have hω0 : ω ≠ 0 := by

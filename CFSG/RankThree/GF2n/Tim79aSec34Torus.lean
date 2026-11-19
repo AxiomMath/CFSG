@@ -155,6 +155,7 @@ theorem conjSubgroup_eq_of_xToZ_mem_normalizer (hs : Sec3Setup M V Q P H) {x : â
   by_contra hne
   exact hc.conj_VZ_ne hs.setup.data hne (mem_normalizer_iff_conjSubgroup_eq.mp hx)
 
+omit [Finite G] in
 theorem mul_self_of_mem_conj (hs : Sec3Setup M V Q P H) {y x : G} (hx : x âˆˆ conjSubgroup y V) :
     x * x = 1 := by
   have h1 := hs.setup.mc.toMinCex.elemAb.mul_self_eq_one (mem_conjSubgroup.mp hx)

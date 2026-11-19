@@ -82,7 +82,7 @@ theorem cfInner_sub_sum_sub_star {B₁ B₂ : Finset (L → ℂ)} (hB₁ : ↑B�
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right,
     cfInner_sum_eq_ite hB₁ hχ, cfInner_sum_eq_ite hB₂ hχ,
     cfInner_sum_eq_ite hB₁ (star_mem_Irr hχ), cfInner_sum_eq_ite hB₂ (star_mem_Irr hχ),
-    if_neg h₁, if_neg h₂]
+    ite_eq_right h₁, ite_eq_right h₂]
   ring
 
 theorem cfInner_self_sub_sum {B₁ B₂ : Finset (L → ℂ)} (hB₁ : ↑B₁ ⊆ Irr L) (hB₂ : ↑B₂ ⊆ Irr L)
@@ -95,7 +95,7 @@ theorem cfInner_self_sub_sum {B₁ B₂ : Finset (L → ℂ)} (hB₁ : ↑B₁ �
     intro C hC
     rw [cfInner_sum_right]
     have h : ∀ ρ ∈ C, cfInner (∑ ψ ∈ C, ψ) ρ = 1 := fun ρ hρ => by
-      rw [cfInner_sum_eq_ite hC (hC (Finset.mem_coe.2 hρ)), if_pos hρ]
+      rw [cfInner_sum_eq_ite hC (hC (Finset.mem_coe.2 hρ)), ite_eq_left hρ]
     rw [Finset.sum_congr rfl h, Finset.sum_const, nsmul_eq_mul, mul_one]
   have hcross : ∀ C D : Finset (L → ℂ), ↑C ⊆ Irr L → ↑D ⊆ Irr L → Disjoint C D →
       cfInner (∑ ψ ∈ C, ψ) (∑ ψ ∈ D, ψ) = 0 := by
@@ -103,7 +103,7 @@ theorem cfInner_self_sub_sum {B₁ B₂ : Finset (L → ℂ)} (hB₁ : ↑B₁ �
     rw [cfInner_sum_right]
     refine Finset.sum_eq_zero fun ρ hρ => ?_
     rw [cfInner_sum_eq_ite hC (hD (Finset.mem_coe.2 hρ)),
-      if_neg (Finset.disjoint_right.1 hCD hρ)]
+      ite_eq_right (Finset.disjoint_right.1 hCD hρ)]
   rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right, hself B₁ hB₁, hself B₂ hB₂,
     hcross B₁ B₂ hB₁ hB₂ hdisj, hcross B₂ B₁ hB₂ hB₁ hdisj.symm]
   ring
@@ -192,9 +192,9 @@ theorem map_sub_sum_mem_span {η : (L → ℂ) → G → ℂ}
     intro hcon
     rw [hcon, sub_self] at hiso
     rcases Finset.mem_union.1 hχ with h | h
-    · rw [if_pos h, if_neg (Finset.disjoint_left.1 hdisj h)] at hiso
+    · rw [ite_eq_left h, ite_eq_right (Finset.disjoint_left.1 hdisj h)] at hiso
       norm_num at hiso
-    · rw [if_neg (Finset.disjoint_right.1 hdisj h), if_pos h] at hiso
+    · rw [ite_eq_right (Finset.disjoint_right.1 hdisj h), ite_eq_left h] at hiso
       norm_num at hiso
   have hbessel : (U.card : ℤ) ≤ ∑ r ∈ R, a r ^ 2 := by
     rw [hR, Finset.sum_biUnion hpairdisj]

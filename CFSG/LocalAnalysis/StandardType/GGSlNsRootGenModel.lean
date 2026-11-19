@@ -88,9 +88,9 @@ theorem exists_isBlockTorusModel {K : Type} [Field K] [Finite K] [CharP K 2] {d 
         (∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin d) K)) ∧
         3 ≤ s ∧ IsBlockTorusModel φ ε hC A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
   have hpK' : ¬ p ∣ Nat.card K - 1 := by
     intro hK1
     have hdvd : p ∣ 2 := by
@@ -122,7 +122,7 @@ theorem exists_isBlockTorusModel {K : Type} [Field K] [Finite K] [CharP K 2] {d 
       have hy : y = 1 := Subgroup.mem_bot.mp (hbot ▸ Subgroup.mem_top y)
       rw [hx, hy]
     have hAle : Nat.card A ≤ 1 := by
-      haveI : Subsingleton (MulAut L') :=
+      have : Subsingleton (MulAut L') :=
         ⟨fun f g => MulEquiv.ext fun x => Subsingleton.elim _ _⟩
       have h1 : Nat.card A = 1 := Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨⟨1, A.one_mem⟩⟩⟩
       omega

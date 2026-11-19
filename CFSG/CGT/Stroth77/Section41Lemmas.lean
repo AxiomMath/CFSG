@@ -14,6 +14,7 @@ section Omega
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_self_eq_one_of_mem_omegaIn_one {D : Subgroup G}
     (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x) {x : G} (hx : x ∈ omegaIn 1 D) : x * x = 1 := by
   obtain ⟨y, hy, rfl⟩ := hx
@@ -34,6 +35,7 @@ theorem mul_self_eq_one_of_mem_omegaIn_one {D : Subgroup G}
     simp only [Subgroup.coe_subtype, Subgroup.coe_inv] at ha ⊢
     rw [← mul_inv_rev, ha, inv_one]
 
+omit [Finite G] in
 theorem isElemAbelian_omegaIn_one {D : Subgroup G} (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x) :
     CFSG.Open.IsElemAbelian 2 (omegaIn 1 D) := by
   refine ⟨IsMulCommutative.of_comm fun a b => Subtype.ext ?_, fun x hx => ?_⟩
@@ -41,8 +43,9 @@ theorem isElemAbelian_omegaIn_one {D : Subgroup G} (hD : ∀ x ∈ D, ∀ y ∈ 
   · rw [pow_two]
     exact mul_self_eq_one_of_mem_omegaIn_one hD hx
 
-theorem omegaIn_one_mono {A D : Subgroup G} (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hAD : A ≤ D) :
-    omegaIn 1 A ≤ omegaIn 1 D := fun x hx =>
+omit [Finite G] in
+theorem omegaIn_one_mono {A D : Subgroup G} (hA : ∀ _x ∈ A, ∀ y ∈ A, _x * y = y * _x) (hAD : A ≤ D) :
+    omegaIn 1 A ≤ omegaIn 1 D := fun _x hx =>
   mem_omegaIn_one_of_mul_self (hAD (omegaIn_le 1 A hx)) (mul_self_eq_one_of_mem_omegaIn_one hA hx)
 
 end Omega
@@ -56,7 +59,7 @@ theorem zmod_two_pow_eq_zero_or_of_add_self {m : ℕ} (x : ZMod (2 ^ m)) (h : x 
     exact Subsingleton.elim (α := ZMod 1) x 0
   obtain ⟨t, rfl⟩ : ∃ t, m = t + 1 := ⟨m - 1, by omega⟩
   rw [Nat.add_sub_cancel]
-  haveI : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
   obtain ⟨n, hn, rfl⟩ : ∃ n : ℕ, n < 2 ^ (t + 1) ∧ (n : ZMod (2 ^ (t + 1))) = x :=
     ⟨x.val, ZMod.val_lt x, ZMod.natCast_zmod_val x⟩
   have h2 : ((2 * n : ℕ) : ZMod (2 ^ (t + 1))) = 0 := by
@@ -108,7 +111,7 @@ theorem card_add_self_eq_zero_eq_eight {k : Fin 3 → ℕ} (hk : ∀ i, 1 ≤ k 
     ⟨fun i => if ε i then 2 ^ (k i - 1) else 0, by
       funext i
       by_cases h : ε i
-      · simp only [Pi.add_apply, h, if_true, Pi.zero_apply]
+      · simp only [Pi.add_apply, h, ite_true, Pi.zero_apply]
         rw [← two_mul]
         exact two_mul_two_pow_pred (k i)
       · simp [h]⟩
@@ -118,8 +121,8 @@ theorem card_add_self_eq_zero_eq_eight {k : Fin 3 → ℕ} (hk : ∀ i, 1 ≤ k 
     have hi := congrFun (congrArg Subtype.val h) i
     simp only [f] at hi
     have hne := two_pow_pred_ne_zero (hk i)
-    cases hε : ε i <;> cases hε' : ε' i <;> simp only [hε, hε', Bool.false_eq_true, if_false,
-      if_true] at hi <;> first | rfl | exact absurd hi.symm hne | exact absurd hi hne
+    cases hε : ε i <;> cases hε' : ε' i <;> simp only [hε, hε', Bool.false_eq_true, ite_false,
+      ite_true] at hi <;> first | rfl | exact absurd hi.symm hne | exact absurd hi hne
   calc 8 = Nat.card (Fin 3 → Bool) := by simp [Nat.card_eq_fintype_card]
     _ ≤ Nat.card {v : Torus k // v + v = 0} := Nat.card_le_card_of_injective f hf
 
@@ -129,6 +132,7 @@ section TypedOmega
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k) :
     ∀ x ∈ D, ∀ y ∈ D, x * y = y * x := fun x hx y hy => by
   have h := e.injective (show e (Additive.ofMul (⟨x, hx⟩ * ⟨y, hy⟩ : D)) =
@@ -136,6 +140,7 @@ theorem comm_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D ≃+ 
       rw [ofMul_mul, ofMul_mul, map_add, map_add, add_comm])
   exact congrArg Subtype.val (Additive.ofMul.injective h)
 
+omit [Finite G] in
 theorem card_omegaIn_one_eq {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k) :
     Nat.card (omegaIn 1 D) = Nat.card {v : Torus k // v + v = 0} := by
   have hD := comm_of_torus e
@@ -154,10 +159,12 @@ theorem card_omegaIn_one_eq {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D
       rw [ofMul_mul, ofMul_toMul, ← map_add, v.2, map_zero, ofMul_one]
     exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem card_omegaIn_one_eq_eight {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k)
     (hk : ∀ i, 1 ≤ k i) : Nat.card (omegaIn 1 D) = 8 :=
   (card_omegaIn_one_eq e).trans (card_add_self_eq_zero_eq_eight hk)
 
+omit [Finite G] in
 theorem card_omegaIn_one_le {D : Subgroup G} {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k) :
     Nat.card (omegaIn 1 D) ≤ 8 :=
   (card_omegaIn_one_eq e).trans_le (card_add_self_eq_zero_le k)
@@ -168,6 +175,7 @@ section Homocyclic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_two_pow_eq_one_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} {n : ℕ}
     (e : Additive D ≃+ Torus k) (hk : ∀ i, k i = n) {y : G} (hy : y ∈ D) : y ^ 2 ^ n = 1 := by
   have h : (2 ^ n) • e (Additive.ofMul (⟨y, hy⟩ : D)) = 0 := by
@@ -181,6 +189,7 @@ theorem pow_two_pow_eq_one_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} {n : �
     rw [ofMul_pow, map_nsmul, h, ofMul_one, map_zero]
   simpa using congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem exists_pow_eq_of_mul_self_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} {n : ℕ}
     (e : Additive D ≃+ Torus k) (hk : ∀ i, k i = n) {x : G} (hx : x ∈ D) (hx2 : x * x = 1) :
     ∃ y ∈ D, y ^ 2 ^ (n - 1) = x := by
@@ -195,7 +204,7 @@ theorem exists_pow_eq_of_mul_self_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} 
     by_cases h0 : v i = 0
     · simp [w, h0]
     · have h1 := (zmod_two_pow_eq_zero_or_of_add_self (v i) (congrFun hv2 i)).resolve_left h0
-      simp only [Pi.smul_apply, w, if_neg h0, nsmul_eq_mul, mul_one]
+      simp only [Pi.smul_apply, w, ite_eq_right h0, nsmul_eq_mul, mul_one]
       rw [h1, hk i]
       push_cast
       rfl
@@ -206,6 +215,7 @@ theorem exists_pow_eq_of_mul_self_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} 
     rw [ofMul_pow, map_nsmul, ofMul_toMul, AddEquiv.apply_symm_apply, hw]
   simpa using congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem exists_mul_self_eq_of_torus {D : Subgroup G} {k : Fin 3 → ℕ} {n : ℕ}
     (e : Additive D ≃+ Torus k) (hk : ∀ i, k i = n) (hn : 2 ≤ n) {x : G} (hx : x ∈ D)
     (hx2 : x * x = 1) : ∃ y ∈ D, y * y = x := by
@@ -241,8 +251,10 @@ variable {G : Type} [Group G] [Finite G] {D : Subgroup G}
 variable (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x) {b : G}
   (hb : b ∈ Subgroup.normalizer (D : Set G))
 
+omit [Finite G] in
 theorem coe_commHom (x : D) : (commHom hD hb x : G) = b⁻¹ * x * b * (x : G)⁻¹ := rfl
 
+omit [Finite G] in
 theorem commHom_eq_one_iff (x : D) : commHom hD hb x = 1 ↔ (x : G) * b = b * x := by
   rw [← Subtype.val_inj, coe_commHom, Subgroup.coe_one, mul_inv_eq_one]
   constructor
@@ -252,6 +264,7 @@ theorem commHom_eq_one_iff (x : D) : commHom hD hb x = 1 ↔ (x : G) * b = b * x
   · intro h
     rw [mul_assoc, h, inv_mul_cancel_left]
 
+omit [Finite G] in
 theorem card_inf_centralizer_mul_card_range :
     Nat.card (D ⊓ Subgroup.centralizer {b} : Subgroup G) * Nat.card (commHom hD hb).range =
       Nat.card D := by
@@ -303,7 +316,7 @@ theorem eight_mul_card_le_of_not_mem_centralizer {n : ℕ} (hn : 3 ≤ n)
     (hexp : ∀ y ∈ D, y ^ 2 ^ n = 1) (hroot : ∀ x ∈ D, x * x = 1 → ∃ y ∈ D, y ^ 2 ^ (n - 1) = x)
     (hbV : b ∉ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G)) :
     8 * Nat.card (D ⊓ Subgroup.centralizer {b} : Subgroup G) ≤ Nat.card D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v, hv, hvb⟩ : ∃ v ∈ omegaIn 1 D, ¬ v * b = b * v := by
     by_contra hcon
     push Not at hcon
@@ -337,6 +350,7 @@ section Fixed
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_inf_centralizer_eq_card_fixed {D : Subgroup G} {k : Fin 3 → ℕ}
     (e : Additive D ≃+ Torus k) {b : G} (hb : b ∈ Subgroup.normalizer (D : Set G))
     {φ : Torus k →+ Torus k}
@@ -388,11 +402,13 @@ theorem card_mulAut_of_isElemAbelian {V : Subgroup G} (hV : CFSG.Open.IsElemAbel
   rw [Nat.card_congr e.toEquiv]
   exact CFSG.ComponentClassification.GHarris.card_GL32_gh
 
+omit [Finite G] in
 theorem normalizerMonoidHom_eq_one_iff {V : Subgroup G}
     (x : Subgroup.normalizer (V : Set G)) :
     V.normalizerMonoidHom x = 1 ↔ (x : G) ∈ Subgroup.centralizer (V : Set G) := by
   rw [← MonoidHom.mem_ker, Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem mul_mul_inv_mul_inv_eq_of_rels {uv t u : G} (huvu : uv * u = u * uv)
     (htu : t * u = u * uv * t) : t * u * t⁻¹ * u⁻¹ = uv := by
   rw [htu]
@@ -400,6 +416,7 @@ theorem mul_mul_inv_mul_inv_eq_of_rels {uv t u : G} (huvu : uv * u = u * uv)
     _ = uv * u * u⁻¹ := by rw [huvu]
     _ = uv := by group
 
+omit [Finite G] in
 theorem normalizerMonoidHom_mul_ne {V : Subgroup G} {uv t u : G}
     (ht : t ∈ Subgroup.normalizer (V : Set G)) (hu : u ∈ Subgroup.normalizer (V : Set G))
     (huvu : uv * u = u * uv) (htu : t * u = u * uv * t)
@@ -421,7 +438,7 @@ theorem card_map_eq_eight_and_eq_sup {S V : Subgroup G} (hS : IsPGroup 2 S)
     (huvV : uv ∉ Subgroup.centralizer (V : Set G)) :
     Nat.card ((S.subgroupOf (Subgroup.normalizer (V : Set G))).map V.normalizerMonoidHom) = 8 ∧
       S = S ⊓ Subgroup.centralizer (V : Set G) ⊔ Subgroup.closure {uv, t, u} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalizer (V : Set G) with hN
   set W := Subgroup.closure ({uv, t, u} : Set G) with hW
   have hWS : W ≤ S := by
@@ -471,6 +488,7 @@ theorem card_map_eq_eight_and_eq_sup {S V : Subgroup G} (hS : IsPGroup 2 S)
   rw [this]
   exact mul_mem (Subgroup.mem_sup_right hwW) (Subgroup.mem_sup_left hk')
 
+omit [Finite G] in
 theorem card_eq_card_inf_mul_card_map {S K B : Subgroup G} {Q : Type*} [Group Q]
     (π : S →* Q) (hπ : ∀ s : S, π s = 1 ↔ (s : G) ∈ K) (hBS : B ≤ S) :
     Nat.card B = Nat.card (B ⊓ K : Subgroup G) * Nat.card ((B.subgroupOf S).map π) := by
@@ -600,11 +618,13 @@ section Kernel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_conjugate_iff_conj_mem {H : Subgroup G} {g z : G} :
     z ∈ CFSG.conjugate H g ↔ g * z * g⁻¹ ∈ H := by
   rw [CFSG.conjugate, Subgroup.mem_map_equiv]
-  simp [MulAut.conj_symm_apply]
+  simp
 
+omit [Finite G] in
 theorem mem_centralizer_of_odd {D : Subgroup G} (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x)
     (hD2 : IsPGroup 2 D) {y : G} (hyN : y ∈ Subgroup.normalizer (D : Set G))
     (hyV : y ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G))
@@ -673,9 +693,9 @@ theorem mem_centralizer_of_mem_centralizer_omegaIn (S : Sylow 2 G) {D : Subgroup
     {x : G} (hxN : x ∈ Subgroup.normalizer (D : Set G))
     (hxV : x ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G)) :
     x ∈ Subgroup.centralizer (D : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDS : D ≤ S := hR ▸ inf_le_left
-  have hD2 : IsPGroup 2 D := S.isPGroup'.to_le hDS
+  have hD2 : IsPGroup 2 D := S.isPGroup.to_le hDS
   have h2part : ∀ y ∈ Subgroup.normalizer (D : Set G),
       y ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) →
       ∀ a : ℕ, y ^ 2 ^ a = 1 → y ∈ D := by
@@ -746,6 +766,7 @@ theorem mem_centralizer_of_mem_centralizer_omegaIn (S : Sylow 2 G) {D : Subgroup
     fun d' hd' => hD _ hd' _ hd
   exact mul_mem (zpow_mem (hDC hx2) _) (zpow_mem hxodd _)
 
+omit [Finite G] in
 theorem seven_dvd_index_of_transitive {N V : Subgroup G} (hVN : V ≤ N)
     (hNV : ∀ n ∈ N, ∀ v ∈ V, n * v * n⁻¹ ∈ V) (h8 : Nat.card V = 8)
     (htr : ∀ x ∈ V, ∀ y ∈ V, x ≠ 1 → y ≠ 1 → ∃ n ∈ N, n * x * n⁻¹ = y) :
@@ -765,7 +786,7 @@ theorem seven_dvd_index_of_transitive {N V : Subgroup G} (hVN : V ≤ N)
     simpa [hx] using this.symm
   have hconj : conjugatesOf x = Subtype.val ⁻¹' ((V : Set G) \ {1}) := by
     ext y
-    simp only [conjugatesOf, Set.mem_setOf_eq, isConj_iff, Set.mem_preimage, Set.mem_diff,
+    simp only [conjugatesOf, Set.mem_ofPred_eq, isConj_iff, Set.mem_preimage, Set.mem_sdiff,
       SetLike.mem_coe, Set.mem_singleton_iff]
     constructor
     · rintro ⟨c, rfl⟩
@@ -796,6 +817,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_omegaIn (D : Subgroup G) :
     Subgroup.normalizer (D : Set G) ≤
       Subgroup.normalizer ((omegaIn 1 D : Subgroup G) : Set G) := by
@@ -846,7 +868,7 @@ theorem exists_gl32_of_stroth41 {D : Subgroup G} {uv t u : G} {τ : StrothTypeIn
         φ.ker = (Subgroup.centralizer (D : Set G)).subgroupOf
           (Subgroup.normalizer (D : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set n := τ.k 1 with hndef
   have hk : ∀ i, τ.k i = n := by
     have h21 : τ.k 2 = τ.k 1 := by cases τ <;> rfl
@@ -863,7 +885,7 @@ theorem exists_gl32_of_stroth41 {D : Subgroup G} {uv t u : G} {τ : StrothTypeIn
     rwa [inf_eq_left.mpr hSN] at hR
   have hDS : D ≤ S := hRS ▸ inf_le_left
   obtain ⟨h8, hSsup⟩ :=
-    card_map_eq_eight_and_eq_sup S.isPGroup' hVab hV8 hSV huvS htS huS huvu htu huvV
+    card_map_eq_eight_and_eq_sup S.isPGroup hVab hV8 hSV huvS htS huS huvu htu huvV
   have hS : (S : Subgroup G) = D ⊔ Subgroup.closure {uv, t, u} := by
     rw [hRS] at hSsup
     exact hSsup

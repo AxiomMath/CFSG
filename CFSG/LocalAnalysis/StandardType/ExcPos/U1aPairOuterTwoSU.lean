@@ -110,8 +110,8 @@ private theorem u1aO3_mem_of_frame {τ : Tag} {Δ : LangDatum τ GGL}
       intro hν3
       have hν_eq : ν = 3 := (Prod.mk.injEq ν 2 3 2).mp hν3 |>.1
       obtain ⟨r, e, hr, hchar, he, hqrp⟩ := exists_char_pow S
-      haveI : Fact r.Prime := ⟨hr⟩
-      haveI : CharP GGL r := hchar
+      have : Fact r.Prime := ⟨hr⟩
+      have : CharP GGL r := hchar
       have hQ32 : (ν, r ^ (e * componentOrbitLength S.ρ
           (componentRoots (famCharHom a) i))) = (3, 2) := by
         rw [hν_eq, hfamOrbit, Nat.mul_one, ← hqrp, hSD, hq]
@@ -133,11 +133,11 @@ private theorem u1aO3_mem_of_frame {τ : Tag} {Δ : LangDatum τ GGL}
       have hsol : Group.IsSolvable ↥(LieCore.ratComp ρ Δ.Γ Ψ) := by
         rw [← hEq]
         exact hsol_fam
-      haveI : Group.IsSolvable ↥(LieCore.ratComp ρ Δ.Γ Ψ) := hsol
-      haveI : Nontrivial
+      have : Group.IsSolvable ↥(LieCore.ratComp ρ Δ.Γ Ψ) := hsol
+      have : Nontrivial
           (↥(LieCore.ratComp ρ Δ.Γ Ψ) ⧸
             Subgroup.center ↥(LieCore.ratComp ρ Δ.Γ Ψ)) := hqs.2.toNontrivial
-      haveI : Nontrivial ↥(LieCore.ratComp ρ Δ.Γ Ψ) :=
+      have : Nontrivial ↥(LieCore.ratComp ρ Δ.Γ Ψ) :=
         Function.Surjective.nontrivial
           (QuotientGroup.mk'_surjective
             (Subgroup.center ↥(LieCore.ratComp ρ Δ.Γ Ψ)))

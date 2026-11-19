@@ -103,14 +103,14 @@ theorem s_hs : ∀ i < B24601R.cnt,
 theorem s_cl : ∀ c < B24601R.cnt * 4, findPtK B24601R.cnt B24601R.T
     (prodQK 315 9 (mask 9) 4 B24601R.T (bothK 2 B24601R.GI B24601I)) B24601Cl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul B24601R.cnt 4; omega)
-    (by change c < Nat.mul B24601R.cnt 4; omega)
+    (by omega)
 
 theorem mul_eq : mulClosureH 315 gensK 1100 = hRec 315 9 B24601R.cnt B24601R.T B24601R.PL ∧
     mulTreeOK 315 gensK (hRec 315 9 B24601R.cnt B24601R.T B24601R.PL).1
       (hRec 315 9 B24601R.cnt B24601R.T B24601R.PL).2.1
       (hRec 315 9 B24601R.cnt B24601R.T B24601R.PL).2.2 = true ∧
     hkeysDistinct 315 (hRec 315 9 B24601R.cnt B24601R.T B24601R.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2.2.2.2.2
+  mulH_sound base.1 (fun _j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2.2.2.2.2
     s_pe s_hs
 
 theorem hT {i : ℕ} (hi : i < 1080) : canonK 315 9 (mask 9) (315 * 9) (B24601R.T i) = true :=

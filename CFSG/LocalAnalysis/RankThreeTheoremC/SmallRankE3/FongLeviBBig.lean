@@ -15,8 +15,8 @@ open TauCeti Subgroup CFSG.Open
 theorem le_pRank_three_statedProj_of_card {F : Type} [Field F] [Finite F] {f n : ℕ}
     (hcard : Nat.card F = 2 ^ f) :
     n ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSp n F))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hcard
   refine CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedProj_sp
     Nat.prime_three ?_
   rw [hcard, ← pow_mul]
@@ -34,7 +34,7 @@ theorem bBig_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
       (LieTypeIndex.fieldExponent_B n q)
   have hF2 : Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.B n q, hv⟩) = 2 ^ q.exponent := by
     rw [hK, hq2]
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B n q, hv⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B n q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B n q, hv⟩
   have h1 := le_pRank_three_statedProj_of_card (n := n) hF2
   have e' := e.trans (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj n q hv

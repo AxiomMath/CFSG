@@ -42,7 +42,7 @@ theorem exists_quadratic_linearSpecialBlock (hsq : Squarefree (minpoly k (x : Mo
       ((g : Module.End k V) - 1) ^ 2 = 0 ∧
         ∀ c : k, (g : Module.End k V) * g' ≠ c • ((g' : Module.End k V) * g) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   set W := primaryComponent (x : Module.End k V) h with hW
   let b : Module.Basis (Fin (primaryMultiplicity (x : Module.End k V) h)) (AdjoinRoot h) W :=
     Module.finBasisOfFinrankEq _ _ rfl
@@ -85,19 +85,19 @@ theorem exists_quadratic_linearSpecialBlock (hsq : Squarefree (minpoly k (x : Mo
   have hN0 : N (b i0) = 0 := by
     rw [hNdef, Matrix.toLin_self]
     refine Finset.sum_eq_zero fun l _ => ?_
-    rw [Matrix.single_apply, if_neg (fun hc => h01 hc.2.symm), zero_smul]
+    rw [Matrix.single_apply, ite_eq_right (fun hc => h01 hc.2.symm), zero_smul]
   have hN'0 : N' (b i0) = b i1 := by
     rw [hN'def, Matrix.toLin_self, Finset.sum_eq_single i1]
-    · rw [Matrix.single_apply, if_pos ⟨rfl, rfl⟩, one_smul]
+    · rw [Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, one_smul]
     · intro l _ hl
-      rw [Matrix.single_apply, if_neg (fun hc => hl hc.1.symm), zero_smul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hl hc.1.symm), zero_smul]
     · intro hc
       exact absurd (Finset.mem_univ _) hc
   have hN1 : N (b i1) = b i0 := by
     rw [hNdef, Matrix.toLin_self, Finset.sum_eq_single i0]
-    · rw [Matrix.single_apply, if_pos ⟨rfl, rfl⟩, one_smul]
+    · rw [Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, one_smul]
     · intro l _ hl
-      rw [Matrix.single_apply, if_neg (fun hc => hl hc.1.symm), zero_smul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hl hc.1.symm), zero_smul]
     · intro hc
       exact absurd (Finset.mem_univ _) hc
   obtain ⟨g, hg⟩ := linearSpecialBlockRestrict_surjective hsq hh τ
@@ -153,10 +153,8 @@ theorem exists_quadratic_linearSpecialBlock (hsq : Squarefree (minpoly k (x : Mo
       exact e1
     have e3 := congrArg (fun w => b.repr w i0) e2
     have e4 := congrArg (fun w => b.repr w i1) e2
-    simp only [map_add, map_zero, map_smul, Module.Basis.repr_self, Finsupp.add_apply,
-      Finsupp.smul_apply, Finsupp.single_apply, Finsupp.coe_zero, Pi.zero_apply, if_pos rfl,
-      if_neg h01, if_neg h01.symm, zero_add, add_zero, smul_eq_mul, mul_one, mul_zero,
-      ↓reduceIte] at e3 e4
+    simp only [map_add, map_smul, Module.Basis.repr_self, Finsupp.add_apply,
+      Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right h01, ite_eq_right h01.symm, zero_add, add_zero, smul_eq_mul, mul_one, ↓reduceIte] at e3 e4
     have : (1 : AdjoinRoot h) = 0 := by linear_combination e3 - e4
     exact one_ne_zero this
 
@@ -165,7 +163,7 @@ end Block
 theorem s2019LinInner_five : S2019LinInner (5 ≤ ·) := by
   intro p q hp hp2 hq hq2 hqp hq5 F _ _ _ n A c hA L hL T hT2 hLT
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpk : (p : F) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff F q]
     intro hdvd
@@ -213,7 +211,7 @@ theorem s2019LinInner_five : S2019LinInner (5 ≤ ·) := by
         ← Units.val_pow_eq_pow_val, pow_card_eq_one', Units.val_one, map_one]
     have h1 : q ∣ Nat.card Fˣ := hdvd.trans (orderOf_dvd_of_pow_eq_one hs1)
     rw [Nat.card_units] at h1
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨e, -, he⟩ := FiniteField.card F q
     have h2 : q ∣ Nat.card F := by
       rw [Nat.card_eq_fintype_card, he]

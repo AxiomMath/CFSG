@@ -19,6 +19,7 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem exists_suSub_eq (E : Subgroup ↥(SUid F.σ 4)) :
     ∃ X : Subgroup (MulAut (Vtil V₀ V hV)), X ≤ lBar V₀ V hV L ∧ F.suSub X = E := by
   refine ⟨(E.map F.π.toMonoidHom).map (lBar V₀ V hV L).subtype,
@@ -31,8 +32,9 @@ theorem exists_suSub_eq (E : Subgroup ↥(SUid F.σ 4)) :
   rw [hXeq]
   exact Subgroup.comap_map_eq_self_of_injective F.π.injective E
 
+omit [Finite G] in
 theorem le_of_suSub_le {X Y : Subgroup (MulAut (Vtil V₀ V hV))} (hX : X ≤ lBar V₀ V hV L)
-    (hY : Y ≤ lBar V₀ V hV L) (h : F.suSub X ≤ F.suSub Y) : X ≤ Y := by
+    (_hY : Y ≤ lBar V₀ V hV L) (h : F.suSub X ≤ F.suSub Y) : X ≤ Y := by
   intro φ hφ
   obtain ⟨γ, hγ⟩ := F.π.surjective ⟨φ, hX hφ⟩
   have hφeq : (F.π γ : MulAut (Vtil V₀ V hV)) = φ := by
@@ -44,6 +46,7 @@ theorem le_of_suSub_le {X Y : Subgroup (MulAut (Vtil V₀ V hV))} (hX : X ≤ lB
 
 end UFrame
 
+omit [Finite G] in
 theorem s16c4_card_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hle : V₀ ≤ V)
     (S : Subgroup (Vtil V₀ V hV)) :
     Nat.card (preTil V₀ V hV S) = Nat.card V₀ * Nat.card S := by
@@ -61,11 +64,12 @@ theorem s16c4_card_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hle : 
 
 theorem s16c4_mSub_preTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hle : V₀ ≤ V)
     (S : Subgroup (Vtil V₀ V hV)) : mSub (preTil V₀ V hV S) = mSub V₀ + rk ↥S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold mSub rk
   rw [s16c4_card_preTil hV hle S]
   exact padicValNat.mul (card_subgroup_pos V₀).ne' (card_subgroup_pos S).ne'
 
+omit [Finite G] in
 theorem s16c4_r52_root_bar {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (F : UFrame V₀ V hV L) {X : Subgroup (MulAut (Vtil V₀ V hV))}
     (hXL : X ≤ lBar V₀ V hV L) (hX2 : IsElemAbelian2 X) (hXc : Nat.card X = 2 ^ 4) :

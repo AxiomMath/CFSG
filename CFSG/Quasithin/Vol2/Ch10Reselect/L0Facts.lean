@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 private lemma eq_bot_of_two_power_normal {Q : Type*} [Group Q] [Finite Q] (hs : IsSimpleGroup Q)
     (hz : Subgroup.center Q = ⊥) (N : Subgroup Q) [N.Normal]
     (hN : ∀ x ∈ N, ∃ k : ℕ, x ^ (2 ^ k) = 1) : N = ⊥ := by
-  haveI := hs
+  have := hs
   rcases hs.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
@@ -29,7 +29,7 @@ theorem isSimpleGroup_quot_of_fsu (h37 : Vol2Native.A37ForSQTKCat)
     IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := by
   have hz := center_quot_eq_bot_of_fsu h37 h38 hfsu (not_le_normalizer_of_lt hlt)
   have hs := hfsu.quasisimple.2.1
-  haveI := hs
+  have := hs
   exact MulEquiv.isSimpleGroup
     (((QuotientGroup.quotientMulEquivOfEq hz).trans QuotientGroup.quotientBot).symm)
 
@@ -115,8 +115,8 @@ theorem le_pCoreOf_fsuL0_of_two_power
     (Subgroup.normal_subgroupOf_iff_le_normalizer hW).mpr hWn
   have hD : ((W.subgroupOf (fsuL0 T L)).map φ).Normal := hNW.map φ hsurj
   have hbot₁ : ((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.fst _ _) = ⊥ := by
-    haveI : ((W.subgroupOf (fsuL0 T L)).map φ).Normal := hD
-    haveI : (((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.fst _ _)).Normal :=
+    have : ((W.subgroupOf (fsuL0 T L)).map φ).Normal := hD
+    have : (((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.fst _ _)).Normal :=
       hD.map (MonoidHom.fst _ _) (fun a => ⟨(a, 1), rfl⟩)
     apply eq_bot_of_two_power_normal hs₁ hz₁
     intro x hx
@@ -127,8 +127,8 @@ theorem le_pCoreOf_fsuL0_of_two_power
     have h4 := congrArg (MonoidHom.fst _ _) hk
     simpa [map_pow] using h4
   have hbot₂ : ((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.snd _ _) = ⊥ := by
-    haveI : ((W.subgroupOf (fsuL0 T L)).map φ).Normal := hD
-    haveI : (((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.snd _ _)).Normal :=
+    have : ((W.subgroupOf (fsuL0 T L)).map φ).Normal := hD
+    have : (((W.subgroupOf (fsuL0 T L)).map φ).map (MonoidHom.snd _ _)).Normal :=
       hD.map (MonoidHom.snd _ _) (fun a => ⟨(1, a), rfl⟩)
     apply eq_bot_of_two_power_normal hs₂ hz₂
     intro x hx
@@ -207,7 +207,7 @@ theorem fsuVM_le_T_of_h322 (h322 : Ch10.TmpL6_3_2_2_two) (hfsu : FSU G T L I) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hAM, hA⟩ := h322 G T L I hfsu
   obtain ⟨hn, -, -⟩ := hA
-  haveI := hn
+  have := hn
   have hPV : IsPGroup 2 (fsuVM T L I) := fun x => ⟨1, by
     simpa using Subtype.ext ((isElemAbelian_fsuVM_of_h322 h322 hfsu).2 x x.2)⟩
   have hp : IsPGroup 2 ((fsuVM T L I).subgroupOf (fsuM T L)) :=

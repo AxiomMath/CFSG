@@ -21,7 +21,7 @@ theorem pRank_le_of_card_le {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 2 �
   exact (Nat.pow_le_pow_iff_right (by omega : 1 < p)).1 hle
 
 theorem isElemAbelian_map_of_injective {G H : Type} [Group G] [Group H] (f : G →* H)
-    (hf : Function.Injective f) {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) :
+    (_hf : Function.Injective f) {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, ?_⟩
   · obtain ⟨a, ha, ha'⟩ := Subgroup.mem_map.1 x.2

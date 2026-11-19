@@ -105,14 +105,14 @@ theorem s16h_e3_frame_Z_of_unique {W : Type} [CommGroup W]
         Set (MulAut W))).subtype) = p ∧
       ZK.map (X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) :
         Set (MulAut W))).subtype ≤ X ∧
-      (∀ x ∈ X, (ZK.map (X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) :
-          Set (MulAut W))).subtype).map (MulAut.conj x).toMonoidHom =
+      (∀ _x ∈ X, (ZK.map (X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) :
+          Set (MulAut W))).subtype).map (MulAut.conj _x).toMonoidHom =
         ZK.map (X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) :
           Set (MulAut W))).subtype) ∧
       ∀ z ∈ ZK.map (X ⊓ Subgroup.centralizer ((L ⊔ L' : Subgroup (MulAut W)) :
           Set (MulAut W))).subtype, ∀ a ∈ L ⊔ L', z * a = a * z :=
   s16h_e3_Z_of_unique_aux inf_le_left
-    (fun k hk a ha => Subgroup.mem_centralizer_iff.mp hk.2 a ha)
-    (fun x hx => s16h_e3_frame_K_map F hx) hZ huniq
+    (fun _k hk a ha => Subgroup.mem_centralizer_iff.mp hk.2 a ha)
+    (fun _x hx => s16h_e3_frame_K_map F hx) hZ huniq
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

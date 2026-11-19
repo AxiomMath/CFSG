@@ -106,7 +106,7 @@ theorem concA_caseL_lin_of_lu
     (hdiag : p ∣ Nat.gcd n (Nat.card K - 1)) (e : PSimple p S ≃* StatedProj (StatedSL n K)) :
     S267ConcA p S B := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpn : p ∣ n := hdiag.trans (Nat.gcd_dvd_left _ _)
   have hpK1 : p ∣ Nat.card K - 1 := hdiag.trans (Nat.gcd_dvd_right _ _)
   rcases (show n = 3 ∨ 4 ≤ n by omega) with rfl | hn4
@@ -123,7 +123,7 @@ theorem concA_caseL_lin_of_lu
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h1))
   obtain ⟨φ, hφS, hφk, B₁, θ, hB₁B, hB₀B₁, hθβ, hθel, hθZ, hθ1, hθact, hθc, hsplit⟩ :=
     ModelGen.exists_caseLData_lin hp hp2 hperf hcore hn4 hℓ hℓ2 hf hK hpℓ hdiag e hB hBC hrank
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have h2 : (2 : K) ≠ 0 := by
     intro h

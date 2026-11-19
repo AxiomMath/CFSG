@@ -16,7 +16,7 @@ theorem charVal_pi_single {R : Type*} [CommRing R] {τ : Tag} (j : Fin τ.rank) 
   rw [Finset.sum_eq_single j]
   · simp
   · intro i _ hi
-    simp [Pi.single_apply, hi]
+    simp [hi]
   · simp
 
 theorem e7_coeff_check : ∀ l ∈ Tag.E7.artifactRoots, |l.getD 1 0| ≤ 2 := by
@@ -40,7 +40,7 @@ theorem e7_stab_e1_le
     {c : ZMod 7} (hc : c ≠ 0) {w : WeylGroup Tag.E7}
     (hw : w ∈ dualWeylStabilizer (Pi.single (1 : Fin Tag.E7.rank) c)) :
     w ∈ Subgroup.closure {s | ∃ α, IsRoot Tag.E7 α ∧ α 1 = 0 ∧ s = rootReflection α} := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set r : Fin Tag.E7.rank → ℤ := Pi.single 1 1 with hr
   have hcharr : ∀ x : Fin Tag.E7.rank → ℤ, charVal r x = x 1 := fun x => by
     rw [hr, charVal_pi_single]
@@ -57,7 +57,7 @@ theorem e7_stab_e1_le
       by_cases hj : j = 1
       · subst hj
         simp
-      · rw [Pi.single_apply, if_neg (Ne.symm hj)]
+      · rw [Pi.single_apply, ite_eq_right (Ne.symm hj)]
         simp
     have hdvd : (7 : ℤ) ∣ (w • (Pi.single j 1 : Fin Tag.E7.rank → ℤ)) 1 -
         (Pi.single j 1 : Fin Tag.E7.rank → ℤ) 1 := by
@@ -205,7 +205,7 @@ theorem e7_inf_dualWeylStabilizer_le_closure
       Subgroup.closure {s | ∃ α ∈ rootKernel z₀ ∩ rootKernel z₁, s = rootReflection α} := by
   by_cases h7 : 7 ∣ Nat.card ↥(dualWeylStabilizer z₀ ⊓ dualWeylStabilizer z₁)
   · exact e7_inf_le_closure_of_seven_dvd h7
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact inf_dualWeylStabilizer_le_closure_of_card z₀ z₁ h7
 
 end CFSG.LieType.SeitzGeneration.ExcHigh

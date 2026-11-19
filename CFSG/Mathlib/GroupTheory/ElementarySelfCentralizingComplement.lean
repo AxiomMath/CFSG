@@ -119,7 +119,7 @@ theorem hasNormalPComplement_of_elementary_selfcentralizing
       (Subgroup.mem_subgroupOf.mp he)
     exact Subtype.ext hcent
   have hCtop : C = ⊤ := by
-    haveI : Group.IsNilpotent P0 := IsPGroup.isNilpotent (P.isPGroup')
+    have : Group.IsNilpotent P0 := IsPGroup.isNilpotent (P.isPGroup)
     have hnc : NormalizerCondition P0 := Group.normalizerCondition_of_isNilpotent
     by_contra hne
     have hlt : C < ⊤ := lt_top_iff_ne_top.mpr hne
@@ -144,17 +144,16 @@ theorem hasNormalPComplement_of_elementary_selfcentralizing
     refine le_antisymm ?_ ?_
     · rw [elemThompson]
       refine sSup_le ?_
-      intro A hA
-      intro a ha
+      intro A hA a ha
       have hAel : CFSG.IsElementaryAbelian p A := (mem_elemThompsonFamily_iff.mp hA).1
-      letI : CFSG.IsElementaryAbelian p A := hAel
+      let : CFSG.IsElementaryAbelian p A := hAel
       exact hpow_mem_EP a (elemPow_eq_one_of_isElementaryAbelian a ha)
     · exact le_elemThompson (A := EP) (by
         rw [mem_elemThompsonFamily_iff]
         refine ⟨hEPclass, ?_⟩
         intro B hB
         have hBle : B ≤ EP := by
-          letI : CFSG.IsElementaryAbelian p B := hB
+          let : CFSG.IsElementaryAbelian p B := hB
           intro b hb
           exact hpow_mem_EP b (elemPow_eq_one_of_isElementaryAbelian b hb)
         exact Subgroup.card_le_of_le hBle)

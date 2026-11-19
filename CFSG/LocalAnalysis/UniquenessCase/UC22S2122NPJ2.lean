@@ -92,7 +92,7 @@ theorem uc22s2122np_Tbar_le_normalizer_Nbar (D : Data G) {L : Subgroup G}
       Subgroup.normalizer (uc22s2122npNbar D L : Set (Bar2 D.M)) := by
   have hNK_top : (⊤ : Subgroup (Bar2 D.M)) ≤
       Subgroup.normalizer (uc22s2122npKbar D L : Set (Bar2 D.M)) := by
-    haveI : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
+    have : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
     exact Subgroup.le_normalizer_of_normal (H := uc22s2122npKbar D L) (K := ⊤)
   have hT_le_NQ : uc22s2122npTbar D ≤
       Subgroup.normalizer (uc22s2122npQbar D L : Set (Bar2 D.M)) := by
@@ -107,8 +107,8 @@ theorem uc22s2122np_Tbar_le_normalizer_Nbar (D : Data G) {L : Subgroup G}
     (K := uc22s2122npKbar D L) (Subgroup.mem_inf.2 ⟨h1, h2⟩)
 
 theorem uc22s2122np_mem_Nbar (D : Data G) {L L' : Subgroup G} (hL : L ∈ calC D.M)
-    (hL' : L' ∈ calC D.M) (hne : L ≠ L') (hJ : IsJ1 (Bar2 L)) (hJ' : IsJ1 (Bar2 L'))
-    (hK : conjClosure D.M L = L ⊔ L') {b : G} (hbM : b ∈ D.M)
+    (_hL' : L' ∈ calC D.M) (_hne : L ≠ L') (_hJ : IsJ1 (Bar2 L)) (_hJ' : IsJ1 (Bar2 L'))
+    (_hK : conjClosure D.M L = L ⊔ L') {b : G} (hbM : b ∈ D.M)
     (hbT : b ∈ normalizer (D.T : Set G)) (hbK : b ∈ conjClosure D.M L) :
     uc22p21cPi D.M ⟨b, hbM⟩ ∈ uc22s2122npNbar D L := by
   have hbKb : uc22p21cPi D.M ⟨b, hbM⟩ ∈ uc22s2122npKbar D L := by
@@ -125,7 +125,7 @@ theorem uc22s2122np_mem_Nbar (D : Data G) {L L' : Subgroup G} (hL : L ∈ calC D
     simpa only [uc22s2122npTbar, barImage] using h
   have hNK_top : (⊤ : Subgroup (Bar2 D.M)) ≤
       Subgroup.normalizer (uc22s2122npKbar D L : Set (Bar2 D.M)) := by
-    haveI : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
+    have : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
     exact Subgroup.le_normalizer_of_normal (H := uc22s2122npKbar D L) (K := ⊤)
   have hb_norm_Qb : uc22p21cPi D.M ⟨b, hbM⟩ ∈
       Subgroup.normalizer (uc22s2122npQbar D L : Set (Bar2 D.M)) :=
@@ -145,7 +145,7 @@ theorem uc22s2122np_Tbar_le_normalizer_Rm (D : Data G) {L : Subgroup G}
     uc22s2122np_Tbar_le_normalizer_Nbar D hL
   have hNK_top : (⊤ : Subgroup (Bar2 D.M)) ≤
       Subgroup.normalizer (uc22s2122npKbar D L : Set (Bar2 D.M)) := by
-    haveI : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
+    have : (uc22s2122npKbar D L).Normal := uc22s2122np_Kbar_normal D hL
     exact Subgroup.le_normalizer_of_normal (H := uc22s2122npKbar D L) (K := ⊤)
   have hT_le_NQb : uc22s2122npTbar D ≤
       Subgroup.normalizer (uc22s2122npQbar D L : Set (Bar2 D.M)) := by
@@ -286,7 +286,7 @@ theorem uc22s2122np_card_inf_of_sylow_seven {B : Type} [Group B] [Finite B]
     (hLbK : Lb ≤ Kb) (hKbN : Kb ≤ Subgroup.normalizer (Lb : Set B))
     (hLbcard : Nat.card Lb = 175560) :
     Nat.card ↥(Ē ⊓ Lb) = 7 ∧ Ē ⊓ Lb ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hS : CFSG.ABGLocalTools.IsSylowOf 7 (Ē ⊓ Lb) Lb :=
     hE.inf_of_le_normalizer hLbK hKbN
   have hcard : Nat.card ↥(Ē ⊓ Lb) = 7 := by
@@ -303,8 +303,8 @@ theorem uc22s2122np_isComplement_of_card {B : Type} [Group B] [Finite B]
     (hEcard : Nat.card Ē = 49) (hQcard : Nat.card Qb = 64)
     (hRmcard : Nat.card Rm = 3136) :
     (Ē.subgroupOf Rm).IsComplement' (Qb.subgroupOf Rm) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hdisj : Disjoint (Ē.subgroupOf Rm) (Qb.subgroupOf Rm) :=
     IsPGroup.disjoint_of_ne 7 2 (by norm_num) _ _
       (hEp.comap_subtype) (hQp.comap_subtype)
@@ -317,7 +317,7 @@ theorem uc22s2122np_isComplement_of_card {B : Type} [Group B] [Finite B]
 
 theorem uc22s2122np_set_product_eq {B : Type} [Group B] [Finite B]
     {Tb Rm Ē Qb : Subgroup B} (hTRm : Tb ≤ Subgroup.normalizer (Rm : Set B))
-    (hERm : Ē ≤ Rm) (hQRm : Qb ≤ Rm) (hQT : Qb ≤ Tb)
+    (hERm : Ē ≤ Rm) (_hQRm : Qb ≤ Rm) (hQT : Qb ≤ Tb)
     (hcompl : (Ē.subgroupOf Rm).IsComplement' (Qb.subgroupOf Rm)) :
     ((Ē ⊔ Tb : Subgroup B) : Set B) = (Ē : Set B) * (Tb : Set B) := by
   have hRm_le_sup : Rm ≤ Ē ⊔ Tb := by

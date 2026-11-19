@@ -40,7 +40,7 @@ private theorem rckRLtwe6_high_line
         twistedRootGroup (GaloisField 2 (2 * f)) (frobQ 2 f) CFSG.StandardType.RCKC1.rckHTwE6_high,
       RCKRootLineScalars (twistedRootGroup (GaloisField 2 (2 * f)) (frobQ 2 f) CFSG.StandardType.RCKC1.rckHTwE6_high)
         (GaloisField 2 f) ε := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hα₀ : IsRoot .E6 rckRLtwe6_alpha0 := mem_rootFinset.1 rckRLtwe6_alpha0_mem
   have hp : proj rckRLtwe6_alpha0 = CFSG.StandardType.RCKC1.rckHTwE6_high := rckRLtwe6_proj_alpha0
   have hfix : rho rckRLtwe6_alpha0 = rckRLtwe6_alpha0 := rckRLtwe6_alpha0_rho
@@ -157,7 +157,7 @@ private theorem rckRLtwe6_scalars_map_conj {U : Type*} [Group U] {R R' : Subgrou
 theorem rckK1I_rootLine_twistedE6
     {n f : ℕ} (hadm : StatedLieAdmissible .twistedE6 n 2 f) :
     0 < (ggU .twistedE6 n f).D.rank ∧ RCKRootLineAll (ggU .twistedE6 n f) f := by
-  haveI : Fact (Nat.Prime 2) := ⟨hadm.1⟩
+  have : Fact (Nat.Prime 2) := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hrank : 0 < (ggU .twistedE6 n f).D.rank := by
     change 0 < 4

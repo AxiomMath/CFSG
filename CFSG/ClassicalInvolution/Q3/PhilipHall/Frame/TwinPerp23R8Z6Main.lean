@@ -67,7 +67,7 @@ theorem I1Action.exists_sylow_of_leaves (D : I1Action z e E B f Θ φ)
     rw [hTdef] at hx
     obtain ⟨y, hy, rfl⟩ := hx
     exact congrArg Subtype.val (hzc y hy)
-  have hTp : IsPGroup 2 T := hTdef ▸ TB.isPGroup'.map B.subtype
+  have hTp : IsPGroup 2 T := hTdef ▸ TB.isPGroup.map B.subtype
   obtain ⟨S, hTS⟩ := hTp.exists_le_sylow
   suffices hTeq : T = (S : Subgroup G) from
     ⟨S, hTeq ▸ hTB, hTeq ▸ hzTT, fun x hx => hzcT x (hTeq ▸ hx)⟩
@@ -75,7 +75,7 @@ theorem I1Action.exists_sylow_of_leaves (D : I1Action z e E B f Θ φ)
   ·
     obtain ⟨S₀, hS₀⟩ := hS
     have hS₀B : (S₀ : Subgroup G) ≤ B := hS₀.trans hgood
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup
     have hS₀p : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf B) :=
       IsPGroup.of_card (n := k) (by
         rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS₀B).toEquiv, hk])

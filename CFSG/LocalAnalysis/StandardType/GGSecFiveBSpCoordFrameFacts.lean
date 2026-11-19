@@ -37,7 +37,7 @@ theorem GGSecFiveBPermSpKFrame.prime_dvd_card {n r f : ℕ} (hp : p.Prime) {X : 
     {κ : StatedSp (r + 1) (GaloisField 2 f) →* G}
     {χ : Multiplicative (ZMod p) →* (GaloisField 2 f)ˣ}
     (hF : GGSecFiveBPermSpKFrame Bs X eta π κ χ) : p ∣ Nat.card X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardχ : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr (Multiplicative.toAdd (α := ZMod p)), Nat.card_zmod]
   have hrange : Nat.card ↥χ.range = p :=

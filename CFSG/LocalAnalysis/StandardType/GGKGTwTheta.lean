@@ -19,7 +19,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 attribute [local instance 100] commutatorElement
 
 private theorem commutator_mul_commute {G : Type*} [Group G] {a a' c c' : G}
-    (hca : Commute c a) (hca' : Commute c a') (hcc' : Commute c c') (hc'a : Commute c' a) :
+    (_hca : Commute c a) (hca' : Commute c a') (hcc' : Commute c c') (hc'a : Commute c' a) :
     ⁅a * c, a' * c'⁆ = ⁅a, a'⁆ := by
   rw [commutatorElement_mul_left_eq_conj_mul a c (a' * c')]
   rw [commutatorElement_mul_right_eq_mul_conj c a' c']
@@ -32,7 +32,7 @@ theorem ggLayerOf_sup_of_cyclic {G : Type} [Group G] {X D : Subgroup G} (hX : Is
     GGLayerOf (X ⊔ D) D := by
   have hXcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x := by
     intro x hx y hy
-    letI : CommGroup ↥X := IsCyclic.commGroup
+    let : CommGroup ↥X := IsCyclic.commGroup
     exact congrArg Subtype.val (mul_comm (⟨x, hx⟩ : X) ⟨y, hy⟩)
   have hcentral : ∀ x ∈ X, ∀ d ∈ D, d * x = x * d := by
     intro x hx d hd
@@ -72,7 +72,7 @@ theorem ggLayerOf_sup_of_cyclic {G : Type} [Group G] {X D : Subgroup G} (hX : Is
       obtain ⟨x1, hx1, d1, hd1, rfl⟩ := hfac g1 hg1
       obtain ⟨x2, hx2, d2, hd2, rfl⟩ := hfac g2 hg2
       rw [← hcentral x1 hx1 d1 hd1, ← hcentral x2 hx2 d2 hd2]
-      rw [commutator_mul_commute (hca := (hcentral x1 hx1 d1 hd1).symm)
+      rw [commutator_mul_commute (_hca := (hcentral x1 hx1 d1 hd1).symm)
         (hca' := (hcentral x1 hx1 d2 hd2).symm)
         (hcc' := hXcomm x1 hx1 x2 hx2)
         (hc'a := (hcentral x2 hx2 d1 hd1).symm)]

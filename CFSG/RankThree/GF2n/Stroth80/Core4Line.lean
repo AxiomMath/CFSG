@@ -20,6 +20,7 @@ theorem le_QB_of_conj_le_QB (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M)
   obtain ⟨gF, hgF⟩ := (hc.conj_of_mem hh).conj
   exact (hc.hyp.le_QB_iff_le_QB ⟨gB, hgB⟩ ⟨gF, hgF⟩ (Ne.symm hne)).mpr hFB
 
+omit [Finite G] in
 theorem conjSubgroup_inv_conj_self (h : G) (B : Subgroup G) :
     conjSubgroup h⁻¹ (conjSubgroup h B) = B := by
   rw [← conjSubgroup_mul, inv_mul_cancel, conjSubgroup_one]
@@ -118,6 +119,7 @@ theorem conj_LB_eq_of_mem_kappaBar (hc : Ctx M Q Z B) {X : Subgroup G} {h : G} (
     rw [hLF] at hxF
     exact hhard x hxE hxQ hxF
 
+omit [Finite G] in
 theorem conj_Y_eq_of_normalizes_E (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h1 : OneConcl hc X Y)
     (hex : ∃ x ∈ LB M Q B ⊓ X, x ∉ Q) {k : G} (hkM : k ∈ M)
@@ -128,6 +130,7 @@ theorem conj_Y_eq_of_normalizes_E (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     ⟨x, hxE, by simp [MulAut.conj_apply]⟩
   rwa [hk] at this
 
+omit [Finite G] in
 theorem conjSubgroup_inf_of_eq {k : G} {A C : Subgroup G} (hA : conjSubgroup k A = A)
     (hC : conjSubgroup k C = C) : conjSubgroup k (A ⊓ C) = A ⊓ C := by
   have h : conjSubgroup k (A ⊓ C) = conjSubgroup k A ⊓ conjSubgroup k C :=
@@ -421,7 +424,7 @@ theorem relIndex_normalizer_LB_le (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M)
           group
         rw [e]
         exact Z.mul_mem ((Subgroup.mem_normalizer_iff.mp (hZn (hLM hx)) _).mp hyf) hxf
-      one_mem' := ⟨(LB M Q B).one_mem, by simpa [commutatorElement_def] using Z.one_mem⟩
+      one_mem' := ⟨(LB M Q B).one_mem, by simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro x ⟨hx, hxf⟩
         refine ⟨(LB M Q B).inv_mem hx, ?_⟩

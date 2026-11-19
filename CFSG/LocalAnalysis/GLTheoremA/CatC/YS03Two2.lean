@@ -119,7 +119,7 @@ theorem ys03_two_M11
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian 3 A) :
     IsTwoPrimaryWeaklyLocallyBalanced 3 1 A := by
   refine ys03_weak_of_coreFree Nat.prime_three (fun x hx hx1 H hH hxH => ?_) hA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ys03_oneBalanced_M11 hS hnc ⟨e⟩ x
     (orderOf_eq_prime hx hx1) H hH hxH
 
@@ -128,7 +128,7 @@ theorem ys03_two_M12
     (hnc : ∃ a b : S, a * b ≠ b * a) (e : S ≃* (TauCeti.CFSGIndex.sporadic .M12).Group)
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian 11 A) :
     IsTwoPrimaryWeaklyLocallyBalanced 11 1 A := by
-  haveI := hS
+  have := hS
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .M12
   let e' : S ≃* CFSG.Blueprint.NativeSporadic.M12 := e.trans b.symm
   have hcardS : Nat.card S = 95040 := by
@@ -150,7 +150,7 @@ theorem ys03_two_M12
     rw [← hcardS, ← h1]
     exact Subgroup.card_subgroup_dvd_card _
   have hp11 : IsPGroup 11 A := by
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     exact isPGroup_of_isElemAbelian hA
   refine ys03_weak_of_card_le (by norm_num) ?_
   obtain ⟨k, hk⟩ := hp11.exists_card_eq
@@ -203,7 +203,7 @@ theorem ys03_two_spor_pair
     (e : S ≃* (TauCeti.CFSGIndex.sporadic name).Group) (hpair : SporadicOnePair name p)
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ys03_weak_of_coreFree hp (fun x hx hx1 H hH hxH => ?_) hA
   exact ys03_sporadicLocalOnePairs S hS hnc name ⟨e⟩ p hp hpair x (orderOf_eq_prime hx hx1) H hH hxH
 

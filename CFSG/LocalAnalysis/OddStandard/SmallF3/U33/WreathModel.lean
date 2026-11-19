@@ -76,8 +76,8 @@ theorem card_eq : Nat.card WMod = 32 := by
   rw [Nat.card_congr equivProd]
   simp [Nat.card_eq_fintype_card]
 
-theorem forall_iff (P : WMod → Prop) : (∀ g, P g) ↔ ∀ a b i, P ⟨a, b, i⟩ :=
-  ⟨fun h a b i => h _, fun h ⟨a, b, i⟩ => h a b i⟩
+theorem forall_iff (P : WMod → Prop) : (∀ g, P g) ↔ ∀ _a _b _i, P ⟨_a, _b, _i⟩ :=
+  ⟨fun h _a _b _i => h _, fun h ⟨_a, _b, _i⟩ => h _a _b _i⟩
 
 @[expose] def wx₁ : WMod := ⟨1, 0, 0⟩
 
@@ -97,7 +97,7 @@ private theorem wx₁_pow (n : ℕ) : wx₁ ^ n = (⟨(n : Fin 4), 0, 0⟩ : WMo
     rw [pow_succ, ih]
     change mul (⟨(n : Fin 4), 0, 0⟩ : WMod) wx₁ = (⟨((n + 1 : ℕ) : Fin 4), 0, 0⟩ : WMod)
     rw [show mul (⟨(n : Fin 4), 0, 0⟩ : WMod) wx₁ = (⟨(n : Fin 4) + 1, 0, 0⟩ : WMod) from by
-          simp only [mul, wx₁, M12Mod.act_zero, zero_add, add_zero]]
+          simp only [mul, wx₁, M12Mod.act_zero, add_zero]]
     rw [fin_natCast_add_one]
 
 private theorem wx₂_pow (n : ℕ) : wx₂ ^ n = (⟨0, (n : Fin 4), 0⟩ : WMod) := by
@@ -107,7 +107,7 @@ private theorem wx₂_pow (n : ℕ) : wx₂ ^ n = (⟨0, (n : Fin 4), 0⟩ : WMo
     rw [pow_succ, ih]
     change mul (⟨0, (n : Fin 4), 0⟩ : WMod) wx₂ = (⟨0, ((n + 1 : ℕ) : Fin 4), 0⟩ : WMod)
     rw [show mul (⟨0, (n : Fin 4), 0⟩ : WMod) wx₂ = (⟨0, (n : Fin 4) + 1, 0⟩ : WMod) from by
-          simp only [mul, wx₂, M12Mod.act_zero, zero_add, add_zero]]
+          simp only [mul, wx₂, M12Mod.act_zero, add_zero]]
     rw [fin_natCast_add_one]
 
 private theorem wlam_pow (n : ℕ) : wlam ^ n = (⟨0, 0, (n : Fin 2)⟩ : WMod) := by
@@ -117,7 +117,7 @@ private theorem wlam_pow (n : ℕ) : wlam ^ n = (⟨0, 0, (n : Fin 2)⟩ : WMod)
     rw [pow_succ, ih]
     change mul (⟨0, 0, (n : Fin 2)⟩ : WMod) wlam = (⟨0, 0, ((n + 1 : ℕ) : Fin 2)⟩ : WMod)
     rw [show mul (⟨0, 0, (n : Fin 2)⟩ : WMod) wlam = (⟨0, 0, (n : Fin 2) + 1⟩ : WMod) from by
-          simp only [mul, wlam, M12Mod.act_zero_args, zero_add, add_zero]]
+          simp only [mul, wlam, M12Mod.act_zero_args, add_zero]]
     rw [fin_natCast_add_one]
 
 theorem eq_pow_mul (g : WMod) : g = wx₁ ^ g.a.val * wx₂ ^ g.b.val * wlam ^ g.i.val := by
@@ -231,7 +231,7 @@ private theorem embHom_mul (h : WreathRel x₁ x₂ lam) (g g' : WMod) :
           (x₁ ^ c.val * x₂ ^ d.val * lam ^ k.val)
     rw [Fin.val_zero, pow_zero, mul_one]
     rw [← mul_assoc, base_normal h a b c d]
-    simp only [Fin.val_add, Fin.val_zero, zero_add, Nat.mod_eq_of_lt k.isLt]
+    simp only [Fin.val_add, zero_add]
   · change x₁ ^ (a + d).val * x₂ ^ (b + c).val * lam ^ (1 + k).val =
         (x₁ ^ a.val * x₂ ^ b.val * lam ^ (1 : Fin 2).val) *
           (x₁ ^ c.val * x₂ ^ d.val * lam ^ k.val)
@@ -324,10 +324,10 @@ theorem WreathRel.exists_embedding (h : WreathRel x₁ x₂ lam) :
     change x₁ ^ a.val * x₂ ^ b.val * lam ^ i.val =
       x₁ ^ a'.val * x₂ ^ b'.val * lam ^ i'.val at heq
     fin_cases i <;> fin_cases i'
-    · simp only [Fin.val_zero, pow_zero, mul_one] at heq
+    · simp only [pow_zero, mul_one] at heq
       obtain ⟨haa, hbb⟩ := base_inj h heq
       simp [haa, hbb]
-    · simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one] at heq
+    · simp only [pow_zero, pow_one, mul_one] at heq
       exfalso
       have hmem : lam ∈ baseGrp x₁ x₂ := by
         have h2 : (x₁ ^ a'.val * x₂ ^ b'.val)⁻¹ * (x₁ ^ a.val * x₂ ^ b.val) = lam := by
@@ -339,7 +339,7 @@ theorem WreathRel.exists_embedding (h : WreathRel x₁ x₂ lam) :
           (mul_mem (pow_mem (subset_closure (by simp)) a.val)
             (pow_mem (subset_closure (by simp)) b.val))
       exact lam_notMem_base h hmem
-    · simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, mul_one] at heq
+    · simp only [pow_zero, pow_one, mul_one] at heq
       exfalso
       have hmem : lam ∈ baseGrp x₁ x₂ := by
         have h2 : (x₁ ^ a.val * x₂ ^ b.val)⁻¹ * (x₁ ^ a'.val * x₂ ^ b'.val) = lam := by
@@ -351,7 +351,7 @@ theorem WreathRel.exists_embedding (h : WreathRel x₁ x₂ lam) :
           (mul_mem (pow_mem (subset_closure (by simp)) a'.val)
             (pow_mem (subset_closure (by simp)) b'.val))
       exact lam_notMem_base h hmem
-    · simp only [Fin.val_one, pow_one] at heq
+    · simp only [pow_one] at heq
       obtain ⟨haa, hbb⟩ := base_inj h (mul_right_cancel heq)
       simp [haa, hbb]
   · apply le_antisymm

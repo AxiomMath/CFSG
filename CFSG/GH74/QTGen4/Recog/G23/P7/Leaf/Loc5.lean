@@ -313,7 +313,7 @@ theorem leafLoc5 : LeafLoc5 := by
     have := Nat.le_of_dvd (by norm_num) hd
     omega
   have hord2 : orderOf (e 2) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime rel2 hσ2ne
   have hA1 : Nat.card ↥(M₁ ⊓ Subgroup.centralizer (M₁ : Set G)) = 27 := hM.card_Z₁
   have hA2 : Nat.card ↥(M₂ ⊓ Subgroup.centralizer (M₂ : Set G)) = 27 := hM.card_Z₂
@@ -327,7 +327,7 @@ theorem leafLoc5 : LeafLoc5 := by
     loc5_inv_part z (e 0) M₁ hM.exp₁ hA1 hzN1 hσA1 rel1 hσ0ne hz_e0 hz2 hM.zinv₁
   have hτnot1 : ¬ ∀ a ∈ M₁ ⊓ Subgroup.centralizer (M₁ : Set G), e 2 * a = a * e 2 := by
     intro hc
-    haveI : Nontrivial ↥Am1 :=
+    have : Nontrivial ↥Am1 :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hAm1card]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥Am1)
     have hxA := (hAm1 x.1).mp x.2
@@ -341,7 +341,7 @@ theorem leafLoc5 : LeafLoc5 := by
     loc5_inv_part z (e 2) M₂ hM.exp₂ hA2 hzN2 hσA2 rel2 hσ2ne hz_e2 hz2 hM.zinv₂
   have hτnot2 : ¬ ∀ a ∈ M₂ ⊓ Subgroup.centralizer (M₂ : Set G), e 0 * a = a * e 0 := by
     intro hc
-    haveI : Nontrivial ↥Am2 :=
+    have : Nontrivial ↥Am2 :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hAm2card]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥Am2)
     have hxA := (hAm2 x.1).mp x.2
@@ -374,7 +374,7 @@ theorem leafLoc5 : LeafLoc5 := by
     obtain ⟨v, hvY, hvK⟩ : ∃ v ∈ M₁ ⊓ Subgroup.centralizer ({e 2} : Set G),
         v ∉ M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : M₁ ⊓ Subgroup.centralizer ({e 2} : Set G) ≤
           M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G) := hcon
       have := Subgroup.card_le_of_le hle
@@ -405,7 +405,7 @@ theorem leafLoc5 : LeafLoc5 := by
       rw [hK1card] at h9
       generalize Nat.card ↥((M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G)) ⊔
           Subgroup.zpowers v) = n at *
-      interval_cases n <;> first | rfl | omega | (norm_num at hdvd)
+      interval_cases n <;> first | rfl | omega
     have hLY : (M₁ ⊓ Subgroup.centralizer (M₁ : Set G) ⊓ Subgroup.centralizer ({e 2} : Set G)) ⊔
         Subgroup.zpowers v = M₁ ⊓ Subgroup.centralizer ({e 2} : Set G) :=
       Subgroup.eq_of_le_of_card_ge hLle (by rw [hL27, hY1card])
@@ -730,7 +730,7 @@ theorem leafLoc5 : LeafLoc5 := by
     have hle := Subgroup.relIndex_le_of_le_right (H := M₁) (le_sup_right : M₂ ≤ M₁ ⊔ M₂) hR0
     have hr27 : 27 ≤ M₁.relIndex M₂ := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have := Nat.mul_le_mul (show M₁.relIndex M₂ ≤ 26 by omega) hM12card
       omega
     omega
@@ -760,7 +760,7 @@ theorem leafLoc5 : LeafLoc5 := by
     omega
   have hz2' : z ^ 2 = 1 := by rw [pow_two]; exact hz2
   have hzord : Nat.card ↥(Subgroup.zpowers z) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime hz2' hzne
   have hz_e2inv : z * (e 2)⁻¹ = (e 2)⁻¹ * z := by
@@ -824,7 +824,7 @@ theorem leafLoc5 : LeafLoc5 := by
   have hℓne : W ⊓ (M₁ ⊓ Subgroup.centralizer (M₁ : Set G)) ≠
       W ⊓ (M₂ ⊓ Subgroup.centralizer (M₂ : Set G)) := by
     intro hEq
-    haveI : Nontrivial ↥(W ⊓ (M₁ ⊓ Subgroup.centralizer (M₁ : Set G))) :=
+    have : Nontrivial ↥(W ⊓ (M₁ ⊓ Subgroup.centralizer (M₁ : Set G))) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardℓ1]; norm_num)
     obtain ⟨y, hy⟩ := exists_ne (1 : ↥(W ⊓ (M₁ ⊓ Subgroup.centralizer (M₁ : Set G))))
     have hyI := Subgroup.mem_inf.mp y.2
@@ -838,7 +838,7 @@ theorem leafLoc5 : LeafLoc5 := by
     have hzx : z * x * z⁻¹ = x⁻¹ := ((hW x).mp hxW).2
     have hxPb : x ∈ Pb := ((hW x).mp hxW).1
     have hx3 : x ^ 3 = 1 := hM.exp₁ x hxA1.1
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
     have htxL : e 4 * x * (e 4)⁻¹ ∈ W ⊓ (M₁ ⊓ Subgroup.centralizer (M₁ : Set G)) := by
       refine Subgroup.mem_inf.mpr ⟨(hW _).mpr ⟨hPbt x hxPb, ?_⟩, loc5_conj_center ht_N1 hxA1⟩
@@ -860,7 +860,7 @@ theorem leafLoc5 : LeafLoc5 := by
     have hfinal : ∀ u : G, u * u = 1 → u ≠ 1 → u * x * u⁻¹ = x → False := by
       intro u hu2 hu1 hux
       have hu_ord : orderOf u = 2 := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact orderOf_eq_prime (by rw [pow_two]; exact hu2) hu1
       obtain ⟨g, hg⟩ := isConj_iff.mp (hO u hu_ord)
       have hxu : x * u = u * x := by

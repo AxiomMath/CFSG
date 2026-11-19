@@ -68,7 +68,7 @@ theorem bar_sylow49 (h : Ctx49 G z S K F U x y) : CFSG.ABGLocalTools.IsSylowOf 2
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hcoe]
-    exact (Q.mapSurjective hsurj).isPGroup'
+    exact (Q.mapSurjective hsurj).isPGroup
   · rw [Subgroup.relIndex_top_right, ← hcoe]
     exact (Q.mapSurjective hsurj).not_dvd_index
 

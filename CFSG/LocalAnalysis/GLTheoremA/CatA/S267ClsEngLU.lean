@@ -59,7 +59,7 @@ theorem finrank_eq_fixedSpace_add_sum_support [FiniteDimensional K V]
     Module.finrank K V = Module.finrank K (fixedSpace ρ ⊤) +
       ∑ H ∈ T, Module.finrank K (weightSpace ρ H.1) := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   rw [finrank_eq_fixedSpace_add_sum ρ hp hA hpK]
   congr 1
   refine (Finset.sum_subset (Finset.subset_univ T) fun H _ hH => ?_).symm
@@ -157,7 +157,7 @@ theorem exists_engine_lu (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B
         Matrix.GeneralLinearGroup.scalar ι c * g ∈ liftGroup Dat := by
   classical
   obtain ⟨Aε, hle, hAε, hAεβ, hAε𝒮, hmax⟩ := exists_maximal_engine Dat hHβ
-  haveI : IsMulCommutative ↥Aε := hAε.1
+  have : IsMulCommutative ↥Aε := hAε.1
   have hA : ∀ a : ↥Aε, a ^ p = 1 := fun a => Subtype.ext (by simpa using hAε.2 a a.2)
   have hρ : IsIsomRep β (glRep Aε) := isIsomRep_glRep hAεβ
   have hmaxE : IsMaxElem β (glRep Aε) p (fieldSet Dat) :=
@@ -218,7 +218,7 @@ theorem exists_engine_lu (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B
       (fun a v => by rw [glEquiv_scalar_apply, glEquiv_scalar_apply, map_smul])
       (by
         rintro s ⟨hF, rfl⟩ v
-        simp only [LinearMap.toAddMonoidHom_coe, glEquiv_scalar_apply]
+        simp only [glEquiv_scalar_apply]
         exact (semiMap_smul_of_pow_eq_one hp hF.2.2.2.2.1.1 hcp' v).symm)
       (fun v => by
         rw [← map_pow, ← map_pow, hcp, map_one, map_one]
@@ -291,12 +291,12 @@ theorem card_engine_eq [Nonempty ι] [Finite K] (hp : p.Prime) {Aε L : Subgroup
           _ = Nat.card (rootsOfUnity p K) :=
             Subgroup.card_map_of_injective scalarGL_injective
           _ ≤ p := by
-            haveI : NeZero p := ⟨hp.ne_zero⟩
+            have : NeZero p := ⟨hp.ne_zero⟩
             exact card_rootsOfUnity K p
       · have hz : Subgroup.zpowers (Matrix.GeneralLinearGroup.scalar ι c₀) ≤ A₀ :=
           Subgroup.zpowers_le.mpr ⟨hscalMax c₀ hc₀p hc₀β, c₀, rfl⟩
         have hord : orderOf (Matrix.GeneralLinearGroup.scalar ι c₀) = p := by
-          haveI : Fact p.Prime := ⟨hp⟩
+          have : Fact p.Prime := ⟨hp⟩
           refine orderOf_eq_prime (by rw [← map_pow, hc₀p, map_one]) fun h => hc₀1 ?_
           apply scalarGL_injective (ι := ι)
           rw [h, map_one]
@@ -383,6 +383,7 @@ theorem two_le_finrank_weightSpace_of_not_scalar [Finite K] (hp : p.Prime)
   · exact scalar_mem_isomGL_of_mul _ (mul_map_eq_one_of_finrank_eq_one β (glRep Aε) hp hA hpK
       (isIsomRep_glRep hAεβ) hβ hH' hcx)
 
+omit [Finite Ω] in
 theorem card_eq_lu [Finite K] (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B)
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (Dat : ClsInner p S B H β) :
@@ -410,7 +411,7 @@ theorem card_eq_lu [Finite K] (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelia
     obtain ⟨hbB, hbN, hBb, hbout, -, -, -⟩ := hF
     have h := card_eq_of_inner_split hB hBC' hbB hBb hbout hθcard
     have hb1 : Dat.b ≠ 1 := fun h1 => hbN (h1 ▸ Subgroup.one_mem _)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hord : orderOf Dat.b = p := orderOf_eq_prime (hB.2 _ hbB) hb1
     rw [h, Nat.card_zpowers, hord, hcardL]
 

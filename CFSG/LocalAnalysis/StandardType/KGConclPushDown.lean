@@ -94,7 +94,7 @@ theorem kgLangTorusConcl_of_cover {p : ℕ} (hp : p.Prime) {K R C : Type} [Group
     (hind : ∀ α, kgInducedAut θC (lift α) = kgInducedAut θ α)
     (hconcl : KGLangTorusConcl p θC I (A.map lift) (lift α₀)) :
     KGLangTorusConcl p θ I A α₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨TC, hab, hstab, hfix, hnorm, e0, he, he1, hep, heA⟩ := hconcl
   have hYβ : ∀ t : C, lift α₀ t ∈ (TC ⊓ κ.ker : Subgroup C) ↔ t ∈ (TC ⊓ κ.ker : Subgroup C) := by
     intro t

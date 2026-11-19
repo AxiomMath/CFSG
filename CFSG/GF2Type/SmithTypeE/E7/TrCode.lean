@@ -18,6 +18,7 @@ variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] {dec : ℕ → W}
   (hxor : ∀ a b, dec (a ^^^ b) = dec a + dec b)
 
 include hxor in
+omit [Module (ZMod 2) W] in
 theorem dec_zero : dec 0 = 0 := by
   have h := hxor 0 0
   rw [Nat.xor_self] at h
@@ -99,7 +100,7 @@ theorem le_finrank_of_indep [Finite W] {w : ℕ}
     (hbs : ∀ b ∈ bs, dec b ∈ U) (h : tr7IndepOK bs = true) :
     bs.length ≤ finrank (ZMod 2) U := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hsel : ∀ (bs : List ℕ), (∀ b ∈ bs, b < 2 ^ w) → ∀ m, tr7XorSel bs m < 2 ^ w := by
     intro bs
     induction bs with
@@ -138,12 +139,12 @@ theorem dec_red_mem {U : Submodule (ZMod 2) W} :
       simpa [tr7Red] using h
     have h2 := dec_red_mem E _ hE' h'
     by_cases hb : x.testBit e.1
-    · rw [if_pos hb] at h2
+    · rw [ite_eq_left hb] at h2
       have : dec x = dec (x ^^^ e.2) + dec e.2 := by
         rw [hxor x e.2, add_assoc, ← hxor e.2 e.2, Nat.xor_self, dec_zero hxor, add_zero]
       rw [this]
       exact U.add_mem h2 (hE e (List.mem_cons_self ..))
-    · rw [if_neg hb] at h2
+    · rw [ite_eq_right hb] at h2
       exact h2
 
 include hxor in

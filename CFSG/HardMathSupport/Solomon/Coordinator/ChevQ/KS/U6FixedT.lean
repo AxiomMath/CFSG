@@ -90,7 +90,7 @@ theorem fixed_quotient_facts (h : UnitaryFieldData ℓ f K) {σ : K ≃+* K}
   obtain ⟨hZAn, δ, hA, hB, hC', hD, hEx⟩ := key
   obtain ⟨hZAΔ, hF, hG, hH, hnormEx⟩ := hEx
   obtain ⟨hnorm, ε, hεspec, hker, hsurj, ⟨e', he'⟩, hcomm, hpow⟩ := hnormEx
-  haveI := hnorm
+  have := hnorm
   refine ⟨range_subfieldPSU_le h n h₀ hbar, ?_, ?_⟩
   · rw [← hCT]
     exact hnorm
@@ -129,8 +129,8 @@ theorem psu62_facts {G : Type} [Group G] {k : Type} [Field k] [Finite k]
     (e : G ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :
     IsSimpleGroup G ∧ (∃ x y : G, x * y ≠ y * x) ∧ 3 ∣ Nat.card G ∧
       CFSG.Open.IsQuasisimple G ∧ IsLieQuot G IsU6TwoIndex := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect (CFSG.Open.StatedSU 6 (2 ^ 1) k) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect (CFSG.Open.StatedSU 6 (2 ^ 1) k) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hk (by norm_num) (by decide)
   have hs : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU k 2 1 hk 6 (by norm_num)
@@ -139,11 +139,11 @@ theorem psu62_facts {G : Type} [Group G] {k : Type} [Field k] [Finite k]
   have hnc0 : ∃ x y : CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k),
       x * y ≠ y * x := by
     by_contra hcon
-    push_neg at hcon
-    haveI := hs
-    haveI : IsMulCommutative (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
+    push Not at hcon
+    have := hs
+    have : IsMulCommutative (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
       ⟨⟨hcon⟩⟩
-    haveI : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
+    have : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
     exact Group.IsPerfect.not_isMulCommutative
       (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) k)) inferInstance
@@ -160,7 +160,7 @@ theorem psu62_facts {G : Type} [Group G] {k : Type} [Field k] [Finite k]
   have hq : CFSG.Open.IsQuasisimple G :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims126.isQuasisimple_of_simple hsG hnc
   have hlie : IsLieQuot G IsU6TwoIndex := by
-    haveI := hsG
+    have := hsG
     have hZ : Subgroup.center G = ⊥ := by
       rcases (inferInstance : (Subgroup.center G).Normal).eq_bot_or_eq_top with h | h
       · exact h
@@ -210,8 +210,8 @@ theorem u6_fix_unique_component (h : UnitaryFieldData 2 3 K0) {σ : K0 ≃+* K0}
       (∀ L : Subgroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 3) K0)),
         CFSG.Open.GLAPComponent 3 (fixSubgroup (uFieldAut h (by norm_num) σ)) L → L = T) ∧
       CFSG.Open.IsQuasisimple ↥T ∧ IsLieQuot ↥T IsU6TwoIndex := by
-  haveI : Finite K0 := h.finite
-  haveI : Finite (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 3) K0)) :=
+  have : Finite K0 := h.finite
+  have : Finite (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 3) K0)) :=
     CFSG.ClassicalGroups.Unitary.finite_statedProj_statedSU 6 (2 ^ 3) K0
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
@@ -248,7 +248,7 @@ theorem u6_fix_unique_component (h : UnitaryFieldData 2 3 K0) {σ : K0 ≃+* K0}
       (((subfieldPSU h h₀ hbar 6).range).comap (uTransport h h6).toMonoidHom)).trans
     ((MulEquiv.subgroupCongr hmap).trans eT₀)
   obtain ⟨hs, hnc, h3, hq, hlie⟩ := psu62_facts hk eT
-  haveI := hnorm'
+  have := hnorm'
   refine ⟨((subfieldPSU h h₀ hbar 6).range).comap (uTransport h h6).toMonoidHom, ?_, ?_, hq,
     hlie⟩
   · rw [hMfix]

@@ -23,26 +23,26 @@ theorem cfgOK_spec {T : ℕ → ℕ} {cls : ℕ → ℕ → ℕ} {sz : ℕ → �
   have h1 := h _ hm
   dsimp only at h1
   cases e0 : Nat.beq W[i] 0
-  · rw [e0, cond_false] at h1
+  · rw [e0, Bool.cond_false] at h1
     cases e1 : Nat.beq W[i] 1
-    · rw [e1, cond_false] at h1
+    · rw [e1, Bool.cond_false] at h1
       cases e2 : Nat.beq W[i] 2
-      · rw [e2, cond_false] at h1
+      · rw [e2, Bool.cond_false] at h1
         cases e3 : Nat.blt ((W[i] - 3) / 65536) 2
-        · rw [e3, cond_false] at h1
+        · rw [e3, Bool.cond_false] at h1
           obtain ⟨hc, hj, hx⟩ := inCls_spec h1
           refine Or.inr (Or.inr (Or.inr ⟨_, ?_, _, hj, hx⟩))
           simp only [List.mem_cons, List.not_mem_nil, or_false] at hc
           omega
-        · rw [e3, cond_true] at h1
+        · rw [e3, _root_.Bool.cond_true] at h1
           obtain ⟨-, hj, hx⟩ := inCls_spec h1
           rw [Nat.blt_eq] at e3
           exact Or.inr (Or.inr (Or.inl ⟨_, e3, _, hj, hx⟩))
-      · rw [e2, cond_true, List.all_eq_true] at h1
+      · rw [e2, _root_.Bool.cond_true, List.all_eq_true] at h1
         exact Or.inr (Or.inl h1)
-    · rw [e1, cond_true, Bool.and_eq_true] at h1
+    · rw [e1, _root_.Bool.cond_true, Bool.and_eq_true] at h1
       exact Or.inl h1
-  · rw [e0, cond_true, hv] at h1
+  · rw [e0, _root_.Bool.cond_true, hv] at h1
     exact Bool.noConfusion h1
 
 theorem notOrd8_spec {p : ℕ} {σ : Equiv.Perm (Fin 820)} (hp : PRep 820 10 p σ)

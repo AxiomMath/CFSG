@@ -586,7 +586,7 @@ theorem exists_u5_sylow_three_fix (h : UnitaryFieldData 2 2 K) :
     rw [u5Syl3_factorization_statedProj h]
     exact u5Syl3_card_range h h2 hlam h5
   let P : Sylow 3 (StatedProj (StatedSU 5 (2 ^ 2) K)) := Sylow.ofCard S hcard
-  refine ⟨S, P.isPGroup', P.not_dvd_index, ?_⟩
+  refine ⟨S, P.isPGroup, P.not_dvd_index, ?_⟩
   intro A d hd h01 h23 s hs
   obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hs
   have hcomm : Commute (A : GL (Fin 5) K) (u5Syl3_Bhom lam h2 hlam x) :=

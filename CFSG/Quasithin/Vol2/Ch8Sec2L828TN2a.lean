@@ -40,7 +40,7 @@ theorem s828N_not_le_kerIn {H M V : Subgroup G} (hMV : M ≤ Subgroup.normalizer
     rw [Subgroup.mem_normalizer_iff]
     intro x
     have hJn := Subgroup.mem_normalizer_iff.mp (le_normalizer_kerIn M H hh) x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     constructor
     · rintro ⟨hxJ, hxH⟩
       exact ⟨hJn.mp hxJ, H.mul_mem (H.mul_mem hh hxH) (H.inv_mem hh)⟩
@@ -76,7 +76,8 @@ theorem s828N_center_bot_sub {X : Type} [Group X] {S : Subgroup X} (hs : IsSimpl
   have h := s828N_center_bot hs hn ⟨x, hx⟩ (fun y => Subtype.ext (hcomm y.1 y.2))
   exact congrArg Subtype.val h
 
-theorem s828N_subgroupOf_quot_equiv {H I P : Subgroup G} (hIH : I ≤ H) (hPI : P ≤ I)
+omit [Finite G] in
+theorem s828N_subgroupOf_quot_equiv {H I P : Subgroup G} (hIH : I ≤ H) (_hPI : P ≤ I)
     [(P.subgroupOf I).Normal] [((P.subgroupOf H).subgroupOf (I.subgroupOf H)).Normal]
     {D : Type} [Group D] (e : ↥I ⧸ P.subgroupOf I ≃* D) :
     Nonempty (↥(I.subgroupOf H) ⧸ (P.subgroupOf H).subgroupOf (I.subgroupOf H) ≃* D) := by

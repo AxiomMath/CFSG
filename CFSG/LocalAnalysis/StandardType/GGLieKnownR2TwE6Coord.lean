@@ -179,16 +179,16 @@ private theorem list_ofFn_prod_single {G : Type*} [Group G] :
   | n + 1, i, x => by
       rw [List.ofFn_succ]
       rcases Fin.eq_zero_or_eq_succ i with rfl | ⟨i', rfl⟩
-      · rw [if_pos rfl]
+      · rw [ite_eq_left rfl]
         have h : (List.ofFn fun j : Fin n =>
               (if (j.succ : Fin (n + 1)) = 0 then x else 1)) =
             List.ofFn (fun _ : Fin n => (1 : G)) := by
           apply congrArg List.ofFn
           funext j
-          rw [if_neg (Fin.succ_ne_zero j)]
+          rw [ite_eq_right (Fin.succ_ne_zero j)]
         rw [h]
         simp
-      · rw [if_neg (fun h => Fin.succ_ne_zero i' h.symm)]
+      · rw [ite_eq_right (fun h => Fin.succ_ne_zero i' h.symm)]
         have h : (List.ofFn fun j : Fin n =>
               (if (j.succ : Fin (n + 1)) = i'.succ then x else 1)) =
             List.ofFn (fun j : Fin n => if j = i' then x else 1) := by
@@ -355,7 +355,7 @@ private theorem twE6Cen_decomp
         rw [Subgroup.mem_bot.mp hz0, mul_one] at hz0eq
         exact ⟨fun i => f i * g i, fun i => (H i).mul_mem (hf i) (hg i), hz0eq⟩
       one_mem' := ⟨fun _ => 1, fun i => (H i).one_mem, by
-        simp [List.ofFn_const, List.prod_replicate]⟩
+        simp⟩
       inv_mem' := by
         rintro x ⟨f, hf, rfl⟩
         have hpair : (List.ofFn f).Pairwise Commute := by
@@ -374,7 +374,7 @@ private theorem twE6Cen_decomp
     · show (if j = i then x else 1) ∈ H j
       by_cases hj : j = i
       · subst hj; simpa using hx
-      · rw [if_neg hj]; exact (H j).one_mem
+      · rw [ite_eq_right hj]; exact (H j).one_mem
     · exact (list_ofFn_prod_single 7 i x).symm
   exact hZle hz
 
@@ -404,7 +404,7 @@ private theorem twE6Xprod_zero
     funext j
     rw [Pi.zero_apply, twE6X_zero]
   rw [hfun]
-  simp [List.ofFn_const]
+  simp
 
 private theorem twE6Xprod_single
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) (i : Fin 8) (c : k) :
@@ -416,7 +416,7 @@ private theorem twE6Xprod_single
     funext j
     by_cases hj : j = i
     · subst hj; simp [Pi.single_eq_same]
-    · simp [Pi.single_eq_of_ne, hj, Ne.symm hj, twE6X_zero]
+    · simp [Pi.single_eq_of_ne, hj, twE6X_zero]
   rw [hfun, list_ofFn_prod_single]
 
 private theorem twE6Xprod_add
@@ -693,7 +693,7 @@ theorem twE6_exists_coord
     {k : Type} [Field k] (θ : k →+* k) (hθ : ∀ c, θ (θ c) = c) :
     ∃ Φ : fixedGroup k θ → (Fin 8 → k), IsTwE6Coord θ hθ Φ := by
   classical
-  haveI : ((twE6Cen θ).subgroupOf (twE6Rad θ)).Normal := twE6Cen_subgroupOf_normal θ hθ
+  have : ((twE6Cen θ).subgroupOf (twE6Rad θ)).Normal := twE6Cen_subgroupOf_normal θ hθ
   let e : Multiplicative (Fin 8 → k) ≃*
       (twE6Rad θ ⧸ (twE6Cen θ).subgroupOf (twE6Rad θ)) :=
     MulEquiv.ofBijective _ ⟨twE6Xbar_injective θ hθ, twE6Xbar_surjective θ hθ⟩
@@ -704,12 +704,12 @@ theorem twE6_exists_coord
   refine ⟨Φ, ?_, ?_, ?_⟩
   · intro g hg h hh
     have hgh : g * h ∈ twE6Rad θ := (twE6Rad θ).mul_mem hg hh
-    simp only [Φ, dif_pos hg, dif_pos hh, dif_pos hgh]
+    simp only [Φ, dite_eq_left hg, dite_eq_left hh, dite_eq_left hgh]
     refine (congrArg Multiplicative.toAdd ?_).trans (toAdd_mul _ _)
     exact map_mul e.symm (QuotientGroup.mk' ((twE6Cen θ).subgroupOf (twE6Rad θ)) ⟨g, hg⟩)
       (QuotientGroup.mk' ((twE6Cen θ).subgroupOf (twE6Rad θ)) ⟨h, hh⟩)
   · intro g hg
-    simp only [Φ, dif_pos hg]
+    simp only [Φ, dite_eq_left hg]
     constructor
     · intro h0
       have h1 : e.symm (QuotientGroup.mk' ((twE6Cen θ).subgroupOf (twE6Rad θ)) ⟨g, hg⟩) =
@@ -727,7 +727,7 @@ theorem twE6_exists_coord
       exact toAdd_eq_zero.mpr ((congrArg e.symm h2).trans (map_one e.symm))
   · intro i c
     have hg : twE6X θ hθ i c ∈ twE6Rad θ := twE6X_mem_rad θ hθ i c
-    simp only [Φ, dif_pos hg]
+    simp only [Φ, dite_eq_left hg]
     have hX : twE6Xprod θ hθ (Pi.single i c) = ⟨twE6X θ hθ i c, hg⟩ := by
       rw [twE6Xprod_single]
     have hmk : QuotientGroup.mk' ((twE6Cen θ).subgroupOf (twE6Rad θ))

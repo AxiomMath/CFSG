@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_commutator_le {K R : Subgroup G} (hRK : R ≤ K)
     (hc : ⁅R, K⁆ ≤ CFSG.Open.pCoreOf 2 K)
     (hZ : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥) :
@@ -62,7 +63,7 @@ theorem hj_pCoreOf_le_of_item154 (h154 : Item154R) (h415 : Sec4.Item4_15)
     (hKJ : Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃* CFSG.Blueprint.NativeSporadic.J2))
     (hA5 : IsEmpty (↥X ⧸ CFSG.pCore 2 ↥X ≃* alternatingGroup (Fin 5))) :
     CFSG.Open.pCoreOf 2 X ≤ CFSG.Open.pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := CFSG.Open.pCoreOf 2 X with hRdef
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
   have hRX : R ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X

@@ -25,7 +25,7 @@ private theorem two_mul_half (e : ℕ) (he : Odd e) : ((e + 1) / 2) * 2 = e + 1 
   rw [hm]
   omega
 
-private theorem two_pow_e_eq_one (e : ℕ) (he : Odd e) : (2 : ZMod (2 ^ e - 1)) ^ e = 1 := by
+private theorem two_pow_e_eq_one (e : ℕ) (_he : Odd e) : (2 : ZMod (2 ^ e - 1)) ^ e = 1 := by
   have hle : 1 ≤ 2 ^ e := Nat.one_le_two_pow
   calc (2 : ZMod (2 ^ e - 1)) ^ e = ((2 ^ e : ℕ) : ZMod (2 ^ e - 1)) := by
         push_cast
@@ -85,7 +85,7 @@ private theorem r_pow_add_two (e : ℕ) (he : Odd e) [NeZero e] (j : Fin e) :
   rw [hpow, pow_add, r_sq e he]
   ring
 
-theorem sig_add_one (e : ℕ) (he : Odd e) [NeZero e] (k : Fin e) :
+theorem sig_add_one (e : ℕ) (_he : Odd e) [NeZero e] (k : Fin e) :
     sig e (k + 1) = succσ e (sig e k) := by
   apply Fin.ext
   simp only [sig, succσ, Fin.val_add, Fin.coe_ofNat_eq_mod, Nat.add_mod_mod,
@@ -204,7 +204,7 @@ theorem digits_eq_of_sum (e : ℕ) (he : Odd e) [NeZero e] (D : Finset (Fin e)) 
     have hmap : ∑ k ∈ D, (2 : ZMod (2 ^ e - 1)) ^ (sig e k : ℕ) = ∑ j ∈ D', 2 ^ (j : ℕ) := by
       have := Finset.sum_map D ⟨sig e, (sig_bijective e he).1⟩
         (fun j : Fin e => (2 : ZMod (2 ^ e - 1)) ^ (j : ℕ))
-      simpa [D'] using this.symm
+      simp [D']
     calc x = ∑ k ∈ D, r e ^ (k : ℕ) := hD
       _ = ∑ k ∈ D, 2 ^ (sig e k : ℕ) := hrw
       _ = ∑ j ∈ D', 2 ^ (j : ℕ) := hmap

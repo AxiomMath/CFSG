@@ -72,7 +72,7 @@ private noncomputable def diffHom {G : Type*} [Group G] {V : Subgroup G} {s : G}
 
 private lemma diffHom_eq_one_iff {G : Type*} [Group G] {V : Subgroup G} {s : G}
     (hs : s ∈ Subgroup.normalizer (V : Set G))
-    (hVab : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hs2 : s ^ 2 = 1) {v : V} :
+    (hVab : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (_hs2 : s ^ 2 = 1) {v : V} :
     diffHom hs hVab v = 1 ↔ (v : G) = s * (v : G) * s⁻¹ := by
   constructor
   · intro h
@@ -83,8 +83,7 @@ private lemma diffHom_eq_one_iff {G : Type*} [Group G] {V : Subgroup G} {s : G}
     exact hv
   · intro h
     apply Subtype.ext
-    simp only [diffHom, MonoidHom.coe_mk, OneHom.coe_mk, OneMemClass.coe_one,
-      Subgroup.coe_one]
+    simp only [diffHom, MonoidHom.coe_mk, OneHom.coe_mk, OneMemClass.coe_one]
     rw [← h, mul_inv_cancel]
 
 private lemma conj_diffHom_eq_inv {G : Type*} [Group G] {V : Subgroup G} {s : G}
@@ -170,7 +169,7 @@ private lemma inf_ne_bot_of_large {V : Type*} [Group V] [Finite V] [IsMulCommuta
     (hA : p ^ 2 ≤ Nat.card A) (hB : p ^ 2 ≤ Nat.card B) : A ⊓ B ≠ ⊥ := by
   intro hbot
   have hdisj : Disjoint A B := disjoint_iff.mpr hbot
-  haveI : A.Normal := Subgroup.normal_of_isMulCommutative A
+  have : A.Normal := Subgroup.normal_of_isMulCommutative A
   have hnormal : B ≤ Subgroup.normalizer (A : Set V) := by
     rw [Subgroup.normalizer_eq_top]; exact le_top
   have hcard :=
@@ -227,7 +226,7 @@ theorem false_of_inverted_of_card_eq_cube {G : Type*} [Group G] [Finite G] {p : 
     (ht : t ∈ Subgroup.normalizer (V : Set G)) (hfix : ∀ v ∈ V, a * v * a⁻¹ = v → v = 1)
     (hodd : Odd (orderOf a)) (ht2 : t ^ 2 = 1) (hinv : t * a * t⁻¹ = a⁻¹) : False := by
   classical
-  haveI : IsMulCommutative V := ⟨⟨fun x y => Subtype.ext (hVab x x.2 y y.2)⟩⟩
+  have : IsMulCommutative V := ⟨⟨fun x y => Subtype.ext (hVab x x.2 y y.2)⟩⟩
   have hat : a * t ∈ Subgroup.normalizer (V : Set G) := by
     rw [Subgroup.mem_normalizer_iff] at ha ht ⊢
     intro v
@@ -267,7 +266,7 @@ private lemma min_normal_of_normal_pGroup (h : SporOvergroupData L p d Y)
     ∃ M : Subgroup ↥Y, M.Normal ∧ M ≠ ⊥ ∧ M ≤ R.subgroupOf Y ∧
       IsElementaryAbelian p M ∧ ∀ K : Subgroup ↥Y, K.Normal → K ≤ M → K = ⊥ ∨ K = M := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hRsub_ne_bot : R.subgroupOf Y ≠ ⊥ := by
     intro hbot
     have hmap := congrArg (Subgroup.map Y.subtype) hbot
@@ -289,10 +288,10 @@ private lemma min_normal_of_normal_pGroup (h : SporOvergroupData L p d Y)
 private lemma sylow_subgroupOf_le_of_data (h : SporOvergroupData L p d Y)
     (Q : Sylow p L) (hQle : (Q : Subgroup L) ≤ Y) :
     ∃ QY : Sylow p Y, (QY : Subgroup Y) = (Q : Subgroup L).subgroupOf Y := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf p (Q : Subgroup L) Y := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨hQle, Q.isPGroup', ?_⟩
+    refine ⟨hQle, Q.isPGroup, ?_⟩
     exact fun hdvd => Q.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hQle))
   exact hQsyl.exists_sylow_eq_subgroupOf
 
@@ -300,7 +299,7 @@ private lemma map_normal_pSubgroup_le_sylow (h : SporOvergroupData L p d Y)
     {M : Subgroup ↥Y} (hMnorm : M.Normal) (hMp : IsPGroup p M)
     {Q : Sylow p L} (hQle : (Q : Subgroup L) ≤ Y) :
     M.map Y.subtype ≤ (Q : Subgroup L) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨QY, hQY⟩ := sylow_subgroupOf_le_of_data h Q hQle
   have hMleQY : M ≤ (QY : Subgroup Y) := IsPGroup.le_sylow_of_normal hMp QY
   have hMleQsub : M ≤ (Q : Subgroup L).subgroupOf Y := by
@@ -310,6 +309,7 @@ private lemma map_normal_pSubgroup_le_sylow (h : SporOvergroupData L p d Y)
     _ = (Q : Subgroup L) ⊓ Y := Subgroup.subgroupOf_map_subtype _ _
     _ = (Q : Subgroup L) := inf_eq_left.mpr hQle
 
+omit [Finite L] in
 private lemma centralizer_card_dvd_of_mem_map {M : Subgroup ↥Y} {z : L}
     (hz : z ∈ M.map Y.subtype) :
     Nat.card (Subgroup.centralizer (M : Set ↥Y)) ∣
@@ -341,10 +341,10 @@ private lemma exists_elem_abelian_map_of_normal_pGroup (h : SporOvergroupData L 
       (∀ x ∈ V, ∀ y ∈ V, x * y = y * x) ∧ (∀ v ∈ V, v ^ p = 1) ∧
       Nat.card V = p ^ k ∧ 1 ≤ k ∧ k ≤ 3 := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨M, hMnorm, hMne, hMle, hMelem, hMmin⟩ :=
     min_normal_of_normal_pGroup h hRp hRY hRn hR
-  haveI hMinst : IsElementaryAbelian p M := hMelem
+  have hMinst : IsElementaryAbelian p M := hMelem
   let V : Subgroup L := M.map Y.subtype
   have hVle : V ≤ Y := by
     intro x hx
@@ -359,7 +359,7 @@ private lemma exists_elem_abelian_map_of_normal_pGroup (h : SporOvergroupData L 
     rw [hVsub_eq]
     exact hMnorm
   have hVele : IsElementaryAbelian p V := IsElementaryAbelian.map_subtype
-  haveI hVinst : IsElementaryAbelian p V := hVele
+  have hVinst : IsElementaryAbelian p V := hVele
   have hVab : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x := by
     intro x hx y hy
     have h := hVele.toIsMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
@@ -377,7 +377,7 @@ private lemma exists_elem_abelian_map_of_normal_pGroup (h : SporOvergroupData L 
     by_contra hk0
     have hk0' : k = 0 := by omega
     have hVcard : Nat.card V = 1 := by rw [hk, hk0', pow_zero]
-    haveI hnt : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hVne
+    have hnt : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hVne
     exact not_subsingleton V (Nat.card_eq_one_iff_unique.mp hVcard).1
   have hk3 : k ≤ 3 := by
     have hVopen : CFSG.Open.IsElemAbelian p V := ⟨hVele.toIsMulCommutative, hVp⟩
@@ -394,7 +394,7 @@ private lemma exists_central_elem_of_normal_pGroup (h : SporOvergroupData L p d 
     ∃ z : L, z ∈ V ∧ orderOf z = p ∧
       p ^ (Nat.card L).factorization p ∣ Nat.card (Subgroup.centralizer ({z} : Set L)) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hVQsub_ne : V.subgroupOf (Q : Subgroup L) ≠ ⊥ := by
     intro hbot
     apply hVne
@@ -405,10 +405,10 @@ private lemma exists_central_elem_of_normal_pGroup (h : SporOvergroupData L p d 
     have hYnorm : Y ≤ Subgroup.normalizer (V : Set L) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hVle).mp hVsub
     exact hQle.trans hYnorm
-  haveI hVQsub_inst : (V.subgroupOf (Q : Subgroup L)).Normal := hVQsub_norm
+  have hVQsub_inst : (V.subgroupOf (Q : Subgroup L)).Normal := hVQsub_norm
   have hinter : V.subgroupOf (Q : Subgroup L) ⊓ Subgroup.center ↥(Q : Subgroup L) ≠ ⊥ :=
     CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
-      Q.isPGroup' (V.subgroupOf (Q : Subgroup L)) hVQsub_ne
+      Q.isPGroup (V.subgroupOf (Q : Subgroup L)) hVQsub_ne
   obtain ⟨zQ, hzQne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hinter
   let z : L := (Q : Subgroup L).subtype zQ.1
   have hzV : z ∈ V := by
@@ -457,10 +457,10 @@ theorem exists_elem_central_of_normal_pGroup (h : SporOvergroupData L p d Y) {R 
       Nat.card Y ∣ (∏ i : Fin k, (p ^ k - p ^ (i : ℕ))) *
         Nat.card (Subgroup.centralizer ({z} : Set L)) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨M, V, k, hMnorm, hMne, hMle, hMelem, hVeq, hVle, hVsub, hVab, hVp, hk, hk1, hk3⟩ :=
     exists_elem_abelian_map_of_normal_pGroup h hRp hRY hRn hR
-  haveI hMinst : IsElementaryAbelian p M := hMelem
+  have hMinst : IsElementaryAbelian p M := hMelem
   obtain ⟨Q, hQle⟩ := exists_sylow_le_of_data h
   have hMp : IsPGroup p M := IsElementaryAbelian.isPGroup p M
   have hVQ : V ≤ (Q : Subgroup L) := by
@@ -481,7 +481,7 @@ theorem exists_elem_central_of_normal_pGroup (h : SporOvergroupData L p d Y) {R 
   have hMcard : Nat.card M = p ^ k := by
     rw [← Subgroup.card_map_of_injective (K := M) Y.subtype_injective, ← hVeq]
     exact hk
-  haveI hMnorm_inst : M.Normal := hMnorm
+  have hMnorm_inst : M.Normal := hMnorm
   have hYdvd : Nat.card ↥Y ∣
       Nat.card (Subgroup.centralizer (M : Set ↥Y)) * Nat.card (MulAut M) :=
     card_dvd_card_centralizer_mul_card_mulAut M
@@ -516,12 +516,12 @@ theorem op_eq_bot_of_data (h : SporOvergroupData L p d Y)
   have hprod_dvd : (∏ i : Fin k, (p ^ k - p ^ (i : ℕ))) ∣
       (p ^ 3 - 1) * (p ^ 3 - p) * (p ^ 3 - p ^ 2) := by
     interval_cases k
-    · simp only [Fin.prod_univ_one, pow_one, pow_zero]
+    · simp only [Fin.prod_univ_one, pow_one]
       have h1 : p - 1 ∣ p ^ 3 - 1 := by
         simpa using Nat.sub_dvd_pow_sub_pow p 1 3
       have h2 : p - 1 ∣ (p ^ 3 - 1) * (p ^ 3 - p) := h1.trans (dvd_mul_right _ _)
       exact h2.trans (dvd_mul_right _ _)
-    · simp only [Fin.prod_univ_two, pow_one, pow_zero]
+    · simp only [Fin.prod_univ_two]
       have h1 : p ^ 2 - 1 ∣ p ^ 3 - p := by
         refine ⟨p, ?_⟩
         rw [Nat.sub_mul]
@@ -549,7 +549,7 @@ private lemma inverting_conj_core (h : SporOvergroupData L p d Y)
     ∃ a' t' : L, orderOf a' = d ∧ t' ^ 2 = 1 ∧ t' * a' * t'⁻¹ = a'⁻¹ ∧
       a' ∈ Y ∧ t' ∈ Y := by
   obtain ⟨D, hDsyl, hDne, hnorm⟩ := h.sylowD
-  haveI : Fact d.Prime := ⟨h.d_prime⟩
+  have : Fact d.Prime := ⟨h.d_prime⟩
   have hDcard : Nat.card D = d ^ (Nat.card (⊤ : Subgroup L)).factorization d := hDsyl.card_eq
   have hza : IsPGroup d (Subgroup.zpowers a) :=
     IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, ha, pow_one]⟩
@@ -627,7 +627,7 @@ private lemma false_of_inverting_rank_three (h : SporOvergroupData L p d Y)
       have hdvd_order : d ∣ orderOf a' := by rw [ha'_order]
       exact hdvd_order.trans (Subgroup.orderOf_dvd_natCard _ hcent)
     exact hCd v hv_order hdvd_cent
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact false_of_inverted_of_card_eq_cube hVab hVcard ha'_N ht'_N hfix hodd ht'2 hinv'_eq
 
 theorem op_eq_bot_of_data_of_inverting (h : SporOvergroupData L p d Y)

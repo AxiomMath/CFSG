@@ -73,7 +73,7 @@ theorem pCoreOf_xt_le {T H : Subgroup G} (hTH : T ≤ H)
     pCoreOf 2 (xt T H) ≤ pCoreOf 2 H := by
   classical
   have hXH : xt T H ≤ H := xt_le hTH
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal (p := 2)
   set ι : ↥(xt T H) →* ↥H := Subgroup.inclusion hXH
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥H)
   set φ : ↥(xt T H) →* ↥H ⧸ CFSG.pCore 2 ↥H := π.comp ι with hφ
@@ -99,6 +99,7 @@ theorem pCoreOf_xt_le {T H : Subgroup G} (hTH : T ≤ H)
   have hmem : ι y ∈ CFSG.pCore 2 ↥H := (QuotientGroup.eq_one_iff _).1 hk
   exact Subgroup.mem_map.mpr ⟨ι y, hmem, rfl⟩
 
+omit [Finite G] in
 theorem pCoreOf_le_fStarPre (H : Subgroup G) : pCoreOf 2 H ≤ fStarPre H := by
   rintro _ ⟨y, hy, rfl⟩
   refine Subgroup.mem_map.mpr ⟨y, Subgroup.mem_comap.mpr ?_, rfl⟩

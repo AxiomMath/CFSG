@@ -25,8 +25,8 @@ theorem l3EvenParabolic_holds : L3EvenParabolic := by
   · obtain ⟨F, _, _, hF, ⟨e⟩⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hX
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+    have := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card]; exact hF)
     have hJ' : J.map e.toMonoidHom ≠ ⊤ := fun h =>
       hJ (Subgroup.map_injective e.injective (h.trans

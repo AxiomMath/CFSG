@@ -280,6 +280,7 @@ private theorem g9PermHom_injective : Function.Injective (g9PermHom (V := V)) :=
       (fun σ : Equiv.Perm {v : V // v ≠ 0} => ((σ ⟨v, hv⟩ : {v : V // v ≠ 0}) : V)) hg
     simpa [g9PermHom, g9Perm] using this
 
+omit [Module (ZMod 2) V] in
 private theorem g9_card_nonzero [Finite V] (h : Nat.card V = 4) :
     Nat.card {v : V // v ≠ 0} = 3 := by
   have h1 : Nat.card {v : V // v ≠ 0} = (({0} : Set V)ᶜ).ncard := by
@@ -305,14 +306,14 @@ private theorem g9_false_of_fixed {Γ : Subgroup (GLV V)}
 private theorem g9_false_of_two_group [Finite V] {Γ : Subgroup (GLV V)}
     (hirr : CFSG.Quasithin.G11.IsIrr Γ ⊤) (hd : Module.finrank (ZMod 2) V = 2)
     (hP : IsPGroup 2 ↥Γ) : False := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   obtain ⟨v, hv0, hfix⟩ := CFSG.Quasithin.G11.exists_ne_zero_fixed_of_isPGroup Γ hP
   exact g9_false_of_fixed hirr hd hv0 hfix
 
 private theorem g9_small_two [Finite V] {Γ : Subgroup (GLV V)}
     (hirr : CFSG.Quasithin.G11.IsIrr Γ ⊤) (hd : Module.finrank (ZMod 2) V = 2) :
     Nonempty (↥Γ ≃* Multiplicative (ZMod 3)) ∨ Nonempty (↥Γ ≃* Equiv.Perm (Fin 3)) := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hV : Nat.card V = 4 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod, hd]
     norm_num
@@ -334,11 +335,11 @@ private theorem g9_small_two [Finite V] {Γ : Subgroup (GLV V)}
   interval_cases n
   · exact (g9_false_of_two_group hirr hd (IsPGroup.of_card (n := 0) (by simp [hn]))).elim
   · exact (g9_false_of_two_group hirr hd (IsPGroup.of_card (n := 1) (by simp [hn]))).elim
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hm : Nat.card (Multiplicative (ZMod 3)) = 3 := by
       simp only [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
-    haveI : IsCyclic (Multiplicative (ZMod 3)) := isCyclic_of_prime_card hm
-    haveI : IsCyclic ↥Γ := isCyclic_of_prime_card hn
+    have : IsCyclic (Multiplicative (ZMod 3)) := isCyclic_of_prime_card hm
+    have : IsCyclic ↥Γ := isCyclic_of_prime_card hn
     exact Or.inl ⟨mulEquivOfCyclicCardEq (hn.trans hm.symm)⟩
   · omega
   · omega
@@ -348,7 +349,7 @@ private theorem g9_small_two [Finite V] {Γ : Subgroup (GLV V)}
 private theorem g9_small_zero [Finite V] {Γ A : Subgroup (GLV V)}
     (hyp : G94PublishedHyp Γ A 0) : G94SmallConcl Γ 0 := by
   have hirr : CFSG.Quasithin.G11.IsIrr Γ ⊤ := hyp.irreducible
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hnt : Nontrivial V := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h

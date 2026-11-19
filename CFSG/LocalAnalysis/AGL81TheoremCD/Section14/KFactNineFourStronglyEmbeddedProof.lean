@@ -35,13 +35,13 @@ private theorem false_of_abelian_generalizedFitting {X : Type} [Group X] [Finite
     (hcomm : ∀ a b : ↥(CFSG.generalizedFitting X), a * b = b * a)
     (hdisj : ¬ Group.IsSolvable ↥N ∨ 2 ≤ CFSG.Open.pRank 3 ⁅N, N⁆) : False := by
   classical
-  haveI hKn : (CFSG.generalizedFitting X).Normal :=
+  have hKn : (CFSG.generalizedFitting X).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
-  letI : CommGroup ↥(CFSG.generalizedFitting X) :=
+  let : CommGroup ↥(CFSG.generalizedFitting X) :=
     { (inferInstance : Group ↥(CFSG.generalizedFitting X)) with mul_comm := hcomm }
   have hpK : Nat.Prime (Nat.card ↥(CFSG.generalizedFitting X)) := IsSimpleGroup.prime_card
-  letI : Fact (Nat.Prime (Nat.card ↥(CFSG.generalizedFitting X))) := ⟨hpK⟩
-  haveI hKcyc : IsCyclic ↥(CFSG.generalizedFitting X) := isCyclic_of_prime_card rfl
+  let : Fact (Nat.Prime (Nat.card ↥(CFSG.generalizedFitting X))) := ⟨hpK⟩
+  have hKcyc : IsCyclic ↥(CFSG.generalizedFitting X) := isCyclic_of_prime_card rfl
   have hC : Subgroup.centralizer ((CFSG.generalizedFitting X : Subgroup X) : Set X) =
       CFSG.generalizedFitting X := by
     refine le_antisymm (CFSG.centralizer_generalizedFitting_le X) ?_
@@ -66,11 +66,11 @@ private theorem false_of_abelian_generalizedFitting {X : Type} [Group X] [Finite
     simp only [MulAut.conjNormal_apply, MulAut.one_apply] at h
     calc x * g = g * x * g⁻¹ * g := by rw [h]
       _ = g * x := by group
-  haveI : IsMulCommutative (X ⧸ CFSG.generalizedFitting X) :=
+  have : IsMulCommutative (X ⧸ CFSG.generalizedFitting X) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mpr hXX
   have hXsolv : Group.IsSolvable X :=
     Group.isSolvable_of_subgroup_quotient (CFSG.generalizedFitting X)
-  haveI : Group.IsSolvable X := hXsolv
+  have : Group.IsSolvable X := hXsolv
   have hNsolv : Group.IsSolvable ↥N := inferInstance
   have hNN : ⁅N, N⁆ ≤ CFSG.generalizedFitting X :=
     (Subgroup.commutator_mono le_top le_top).trans hXX
@@ -154,7 +154,7 @@ private theorem pPrimeCore_eq_bot_of_d2HeisLocalAt
     (e : ↥(CFSG.generalizedFitting X) ≃* i.Group) :
     CFSG.pPrimeCore 3 ↥N = ⊥ := by
   classical
-  haveI hKn : (CFSG.generalizedFitting X).Normal :=
+  have hKn : (CFSG.generalizedFitting X).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
   by_cases hnab : ∃ a b : ↥(CFSG.generalizedFitting X), a * b ≠ b * a
   · have hKC : Subgroup.centralizer ((CFSG.generalizedFitting X : Subgroup X) : Set X) = ⊥ :=
@@ -198,7 +198,7 @@ private theorem pPrimeCore_eq_bot_of_d2TorusLocalAt {i : TauCeti.CFSGIndex}
     (e : ↥(CFSG.generalizedFitting X) ≃* i.Group) :
     CFSG.pPrimeCore 3 ↥N = ⊥ := by
   classical
-  haveI hKn : (CFSG.generalizedFitting X).Normal :=
+  have hKn : (CFSG.generalizedFitting X).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := X)).2
   by_cases hnab : ∃ a b : ↥(CFSG.generalizedFitting X), a * b ≠ b * a
   · have hKC : Subgroup.centralizer ((CFSG.generalizedFitting X : Subgroup X) : Set X) = ⊥ :=
@@ -237,21 +237,21 @@ theorem kFactNineFourStronglyEmbedded_holds :
     KFactNineFourStronglyEmbedded := by
   intro p hp h5 X _ _ hlist N hN hdisj
   obtain ⟨hF, i, hi, ⟨e⟩⟩ := hlist
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   cases i with
   | cyclic _ _ => exact hi.elim
   | alternating n _ =>
     rcases hi with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
     · omega
-    · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact pPrimeCore_eq_bot_of_altTen hF hN e
   | sporadic s =>
     rcases hi with ⟨rfl, -⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
     · omega
-    · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact pPrimeCore_eq_bot_of_d2HeisLocalAt (i := .sporadic .McL) (p := 5) (Or.inl rfl)
         CFSG.AGLEmbeddingD2.d2HeisLocalAt_mcl hF hN hdisj e
-    · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
       exact pPrimeCore_eq_bot_of_d2HeisLocalAt (i := .sporadic .J4) (p := 11) (Or.inr rfl)
         CFSG.AGLEmbeddingD2.Wilson.Coordinator.d2HeisLocalAt_J4 hF hN hdisj e
   | lie d =>
@@ -267,12 +267,12 @@ theorem kFactNineFourStronglyEmbedded_holds :
     · obtain ⟨d1, hv⟩ := d
       change d1 = .suzuki 2 at hd
       subst d1
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact pPrimeCore_eq_bot_of_sz32 rfl hF hN hdisj e
     · obtain ⟨d1, hv⟩ := d
       change d1 = .tits at hd
       subst d1
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact pPrimeCore_eq_bot_of_d2TorusLocalAt
         (CFSG.AGLEmbeddingD2.d2TorusLocalAt_tits ⟨.tits, hv⟩ rfl) hF hN hdisj e
 

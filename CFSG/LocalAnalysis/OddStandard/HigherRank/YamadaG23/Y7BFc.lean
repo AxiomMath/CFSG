@@ -74,7 +74,7 @@ theorem y7b_NL_S (hH : F33Hyp s e) : normIn L s.fr.S = s.fr.S := by
     have h := hH.hLF.fact18.2.1.2.2.1
     simpa only [hzL, bot_sup_eq] using h
   obtain ⟨hBn, ⟨iso⟩⟩ := hSec
-  haveI := hBn
+  have := hBn
   let π : ↥(normIn L s.fr.B) →* Equiv.Perm (Fin 3) :=
     iso.toMonoidHom.comp (QuotientGroup.mk' (s.fr.B.subgroupOf (normIn L s.fr.B)))
   have hπsurj : Function.Surjective π := by
@@ -84,7 +84,7 @@ theorem y7b_NL_S (hH : F33Hyp s e) : normIn L s.fr.S = s.fr.S := by
     exact ⟨y, by simpa [π] using hq⟩
   have hker : π.ker = s.fr.B.subgroupOf (normIn L s.fr.B) := by
     ext y
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [π]
   have hcard_B : Nat.card ↥(s.fr.B.subgroupOf (normIn L s.fr.B)) = 32 := by
     rw [← Subgroup.card_subtype (normIn L s.fr.B)
         (s.fr.B.subgroupOf (normIn L s.fr.B)),

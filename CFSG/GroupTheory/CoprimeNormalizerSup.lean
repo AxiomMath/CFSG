@@ -13,7 +13,7 @@ theorem le_of_le_sup_of_isPGroup_of_not_dvd_card {X : Type*} [Group X] [Finite X
     (hC : C ≤ Subgroup.normalizer (K : Set X)) (hQ : IsPGroup p Q)
     (hQKC : Q ≤ K ⊔ C) (hcop : ¬ p ∣ Nat.card C) : Q ≤ K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A : Subgroup X := K ⊔ C with hA
   have hKA : K ≤ A := le_sup_left
   have hCA : C ≤ A := le_sup_right

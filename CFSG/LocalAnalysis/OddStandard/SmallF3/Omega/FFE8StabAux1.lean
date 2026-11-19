@@ -31,6 +31,7 @@ theorem ffE8Stab_eq_of_ffSim_eq (hQ : Q.Nondegenerate) (hπ : piOrth Q ∉ omega
     rw [← h3]
     exact Subgroup.mul_mem _ (Subgroup.inv_mem _ ha) hb
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8Stab_ffSim_simAct (γ : simGroup Q) (g : OGroup Q) :
     ffSim Q (simAct Q γ g) =
       QuotientGroup.mk γ * ffSim Q g * (QuotientGroup.mk γ : ProjSim Q)⁻¹ := by
@@ -45,7 +46,7 @@ theorem ffE8Stab_ffSim_simAct (γ : simGroup Q) (g : OGroup Q) :
 theorem ffE8Stab_isElemAb2_map {H K : Type} [Group H] [Group K] (f : H →* K)
     (hf : Function.Injective f) {U : Subgroup H} {k : ℕ} (h : IsElemAb2 U k) :
     IsElemAb2 (U.map f) k := by
-  haveI : IsMulCommutative U := h.1.1
+  have : IsMulCommutative U := h.1.1
   refine ⟨⟨inferInstance, ?_⟩, ?_⟩
   · intro x hx
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx

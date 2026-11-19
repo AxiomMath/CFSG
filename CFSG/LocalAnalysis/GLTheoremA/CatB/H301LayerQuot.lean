@@ -17,7 +17,7 @@ theorem nonempty_pQuot_glaPLayer_of_quotient {X : Type} [Group X] [Finite X] {p 
     (hSn : ∀ g : X ⧸ N, ∀ s ∈ S, g * s * g⁻¹ ∈ S)
     (hc : ⁅(⊤ : Subgroup (X ⧸ N)), (⊤ : Subgroup (X ⧸ N))⁆ ≤ S) :
     Nonempty (PQuot p (GLAPLayer p (⊤ : Subgroup X)) ≃* ↥S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : X →* X ⧸ N := QuotientGroup.mk' N
   have hker : π.ker = N := QuotientGroup.ker_mk' N
   have hNπ : ¬ p ∣ Nat.card π.ker := by

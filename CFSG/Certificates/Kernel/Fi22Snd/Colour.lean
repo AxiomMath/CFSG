@@ -39,13 +39,13 @@ theorem packSum_get {w : Nat} {g : Nat → Nat} :
         rw [show w * (u + 1 + j) = w * u + (w + w * j) by ring, pow_add, pow_add]
         ring
       rw [e, Nat.add_mul_div_left _ _ (Nat.two_pow_pos _), Nat.add_mul_mod_self_left, ih,
-        if_pos (by omega), if_pos (by omega)]
+        ite_eq_left (by omega), ite_eq_left (by omega)]
     · rw [Nat.add_mul_div_right _ _ (Nat.two_pow_pos _), Nat.div_eq_of_lt hlt, Nat.zero_add,
-        Nat.mod_eq_of_lt (hg u (by omega)), if_pos (by omega)]
+        Nat.mod_eq_of_lt (hg u (by omega)), ite_eq_left (by omega)]
     · have hlt' := packSum_lt (m + 1) hg
       rw [Finset.sum_range_succ] at hlt'
       rw [Nat.div_eq_of_lt (lt_of_lt_of_le hlt' (Nat.pow_le_pow_right (by norm_num)
-        (Nat.mul_le_mul_left _ (by omega)))), Nat.zero_mod, if_neg (by omega)]
+        (Nat.mul_le_mul_left _ (by omega)))), Nat.zero_mod, ite_eq_right (by omega)]
 
 theorem cget_eq (C v : Nat) : cget C v = C / 2 ^ (64 + 32 * v) % 2 ^ 32 :=
   CFSG.KS.Raw.Orb.fld_eq C (64 + 32 * v) 32
@@ -119,7 +119,7 @@ theorem idxK_eq (pre : List Nat) (v : Nat) :
     · have h1 : Nat.beq a v = false := Bool.eq_false_iff.2 fun h => hav (Nat.eq_of_beq_eq_true h)
       rw [h1]
       have h2 : (a == v) = false := by simpa using hav
-      rw [if_neg (by simp [h2]), ih]
+      rw [ite_eq_right (by simp [h2]), ih]
       cases h : l.idxOf? v with
       | none => rfl
       | some j =>
@@ -250,12 +250,12 @@ theorem accK_field (hn : n < 4096) (hrow : ∀ x < n, rowOK n d R M S x = true)
       _ < 2 ^ 128 := by omega
   rw [accK_split hrow C, pow_add, ← Nat.div_div_eq_div_mul,
     Nat.add_mul_div_left _ _ (Nat.two_pow_pos _), Nat.div_eq_of_lt hL, Nat.zero_add,
-    packSum_get n hF v, if_pos hv, nsum, ← sum_ite_row (hrow v hv)]
+    packSum_get n hF v, ite_eq_left hv, nsum, ← sum_ite_row (hrow v hv)]
   refine Finset.sum_congr rfl fun w hw => ?_
   have hw' := Finset.mem_range.1 hw
   by_cases h1 : v ∈ decodeRow d (R w)
-  · rw [if_pos h1, if_pos (hsym w hw' v hv h1)]
-  · rw [if_neg h1, if_neg fun h2 => h1 (hsym v hv w hw' h2)]
+  · rw [ite_eq_left h1, ite_eq_left (hsym w hw' v hv h1)]
+  · rw [ite_eq_right h1, ite_eq_right fun h2 => h1 (hsym v hv w hw' h2)]
 
 end Acc
 
@@ -266,7 +266,7 @@ variable {n d : Nat} {R M S : Nat → Nat}
 theorem initT_get {t : Array Nat} {pre : List Nat} {u : Nat} (hu : u < n) :
     (initT n t pre)[u]! = 2 * idxK pre u + if t[u]! = u then 1 else 0 := by
   rw [idxK_eq, initT, getElem!_pos _ _ (by simpa using hu), Array.getElem_ofFn]
-  cases h : pre.idxOf? u <;> simp [h]
+  cases h : pre.idxOf? u <;> simp
 
 theorem cget_colourK {k T : Nat} {nbr : Array (List Nat)} {t : Array Nat} {pre : List Nat}
     (hn : n < 4096) (hnbr : nbr = rowsArr n d R) (hrow : ∀ x < n, rowOK n d R M S x = true)
@@ -286,8 +286,8 @@ theorem cget_colourK {k T : Nat} {nbr : Array (List Nat)} {t : Array Nat} {pre :
     change cget (initK n T pre) u = (initT n t pre)[u]!
     rw [initK_eq, cget_packed (by omega) (fun v _ => initVal_lt hpre v)]
     by_cases hu : u < n
-    · rw [if_pos hu, initT_get hu, initVal_eq, htv u hu]
-    · rw [if_neg hu, getElem!_neg _ _ (by simpa [initT] using hu)]
+    · rw [ite_eq_left hu, initT_get hu, initVal_eq, htv u hu]
+    · rw [ite_eq_right hu, getElem!_neg _ _ (by simpa [initT] using hu)]
       rfl
   | succ k ih =>
     intro u
@@ -297,7 +297,7 @@ theorem cget_colourK {k T : Nat} {nbr : Array (List Nat)} {t : Array Nat} {pre :
     have e2 : colourT n nbr t pre (k + 1) = stepT n nbr t (colourT n nbr t pre k) := rfl
     rw [e1, e2, stepK_eq, cget_packed (by omega) (fun v _ => newCol_lt _ _ _ v)]
     by_cases hu : u < n
-    · rw [if_pos hu, stepT, getElem!_pos _ _ (by simpa using hu), Array.getElem_ofFn]
+    · rw [ite_eq_left hu, stepT, getElem!_pos _ _ (by simpa using hu), Array.getElem_ofFn]
       have hmap : ((decodeRow d (R u)).map fun w => hcK (cget (colourK n S T pre k) w)) =
           (nbr[u]!).map fun w => hcol (colourT n nbr t pre k)[w]! := by
         rw [show nbr[u]! = decodeRow d (R u) by rw [hnbr, rowsArr_get hu]]
@@ -305,7 +305,7 @@ theorem cget_colourK {k T : Nat} {nbr : Array (List Nat)} {t : Array Nat} {pre :
       rw [newCol_eq, accK_field hn hrow hsym' _ hu, hmap, ih u,
         ih (pg (nat_lit 12) (nat_lit 4095) T u), ← htv u hu]
       rfl
-    · rw [if_neg hu, getElem!_neg _ _ (by simpa [stepT] using hu)]
+    · rw [ite_eq_right hu, getElem!_neg _ _ (by simpa [stepT] using hu)]
       rfl
 
 end Colour

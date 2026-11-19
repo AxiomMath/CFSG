@@ -231,7 +231,7 @@ theorem exists_involution_centralizing_pair
       exact hDHnorm.subgroupOf (Q : Subgroup H)
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mp hAn
   obtain ⟨z, hzN, hzord, hzcomm⟩ := exists_involution_mem_of_normal_two
-    (P := (Q : Subgroup H)) (N := D.subgroupOf H ⊓ (Q : Subgroup H)) Q.isPGroup'
+    (P := (Q : Subgroup H)) (N := D.subgroupOf H ⊓ (Q : Subgroup H)) Q.isPGroup
     inf_le_right hNn hNne
   have hzD : (z : ↥M ⧸ pPrimeCore 2 ↥M) ∈ D :=
     Subgroup.mem_subgroupOf.mp (Subgroup.mem_inf.mp hzN).1

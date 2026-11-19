@@ -17,7 +17,7 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 theorem false_of_centralizer_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
     (hA : ∀ x ∈ t.d.AA, x ≠ 1 → Subgroup.centralizer ({x} : Set G) ≤ c.S.M)
     (hy : Subgroup.centralizer ({t.y} : Set G) ≤ c.S.M) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSP : t.d.S ≤ t.P := by
     rw [t.hdS]
     exact inf_le_left

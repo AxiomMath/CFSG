@@ -183,7 +183,7 @@ theorem D1OneSmallData.normalizer_le_d1X0 (hd : D1OneSmallData p P M H R Rbar K)
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨zb, hzbR, hzbK, hzbp, hzbc⟩ := hd.z
   have hRKp : IsPGroup p ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
-      Subgroup _) := Rbar.isPGroup'.to_le inf_le_left
+      Subgroup _) := Rbar.isPGroup.to_le inf_le_left
   have h2 : 2 ≤ Open.pRank p ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
       Subgroup _) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.two_le_pRank_of_not_isCyclic hp hd.cfg.red.ne_two hRKp

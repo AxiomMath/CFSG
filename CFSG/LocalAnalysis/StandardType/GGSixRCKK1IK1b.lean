@@ -59,9 +59,9 @@ private lemma rckK1Ib_card_closure_pair {a b : G}
       (Subgroup.closure ({a, b} : Set G) : Set G).ncard from Nat.card_coe_set_eq _]
   rw [rckK1Ib_closure_pair_eq ha hb ha1 hb1 hab]
   rw [Set.ncard_insert_of_notMem (by
-        simp [ha1, hb1, hab1, Ne.symm ha1, Ne.symm hb1, Ne.symm hab1]),
-      Set.ncard_insert_of_notMem (by simp [hab, hba1, Ne.symm hab, Ne.symm hba1]),
-      Set.ncard_insert_of_notMem (by simp [hbb1, Ne.symm hbb1]),
+        simp [Ne.symm ha1, Ne.symm hb1, Ne.symm hab1]),
+      Set.ncard_insert_of_notMem (by simp [hab, Ne.symm hba1]),
+      Set.ncard_insert_of_notMem (by simp [Ne.symm hbb1]),
       Set.ncard_singleton]
 
 
@@ -302,13 +302,13 @@ private lemma rckK1Ib_eq_one_of_no_cube {Fq : Type} [Field Fq] [Finite Fq] [Char
     (hno : ¬ ∃ ω : Fq, ω ^ 2 + ω + 1 = 0)
     (ψ : Fq ≃+* Fq) (h2 : ∃ k : ℕ, (ψ : Fq → Fq) ^[2 ^ k] = id) : ψ = 1 := by
   classical
-  haveI : Algebra (ZMod 2) Fq := ZMod.algebra Fq 2
+  have : Algebra (ZMod 2) Fq := ZMod.algebra Fq 2
   let ψa : Fq ≃ₐ[ZMod 2] Fq :=
     AlgEquiv.ofRingEquiv (f := ψ) (fun x => by
       have h : (ψ : Fq →+* Fq).comp (algebraMap (ZMod 2) Fq) =
           (algebraMap (ZMod 2) Fq) := Subsingleton.elim _ _
       simpa using DFunLike.congr_fun h x)
-  haveI : Module.Finite (ZMod 2) Fq := (Module.finite_iff_finite (R := ZMod 2)).mpr ‹Finite Fq›
+  have : Module.Finite (ZMod 2) Fq := (Module.finite_iff_finite (R := ZMod 2)).mpr ‹Finite Fq›
   have hcard : Nat.card (Fq ≃ₐ[ZMod 2] Fq) = Module.finrank (ZMod 2) Fq :=
     IsGalois.card_aut_eq_finrank (ZMod 2) Fq
   have hdvd : orderOf ψa ∣ Module.finrank (ZMod 2) Fq := by
@@ -358,7 +358,7 @@ private lemma rckK1Ib_conj_eq {X : Type*} [Group X] {R : Subgroup X} {Fq : Type}
   rw [hphi, ← map_inv, ← map_mul]
   congr 1
   rw [← ofAdd_toAdd z]
-  simp [ofAdd_add, ofAdd_neg, toAdd_ofAdd, sub_eq_add_neg]
+  simp [ofAdd_add, ofAdd_neg, sub_eq_add_neg]
 
 private lemma rckK1Ib_map_isElemAbelian {G H : Type*} [Group G] [Group H] {p : ℕ}
     {K : Subgroup G} (f : G →* H) (h : CFSG.Open.IsElemAbelian p K) :
@@ -370,7 +370,7 @@ private lemma rckK1Ib_map_isElemAbelian {G H : Type*} [Group G] [Group H] {p : �
     obtain ⟨b, hb, hy⟩ := Subgroup.mem_map.mp y.2
     apply Subtype.ext
     have hab : a * b = b * a := by
-      haveI : IsMulCommutative K := h.1
+      have : IsMulCommutative K := h.1
       exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : K) (⟨b, hb⟩ : K))
     simp only [Subgroup.coe_mul]
     rw [show x.val = f a from hx.symm, show y.val = f b from hy.symm]
@@ -382,7 +382,7 @@ private lemma rckK1Ib_map_isElemAbelian {G H : Type*} [Group G] [Group H] {p : �
 
 private lemma rckK1Ib_data_of_scalar {X : Type*} [Group X] [Finite X] {R : Subgroup X}
     {Fq : Type} [Field Fq] [Finite Fq] [CharP Fq 2]
-    (hq : 4 ≤ Nat.card Fq) (ε : Multiplicative Fq ≃* R) (hRF : RCKRootFieldExact R Fq ε)
+    (_hq : 4 ≤ Nat.card Fq) (ε : Multiplicative Fq ≃* R) (hRF : RCKRootFieldExact R Fq ε)
     (hA : ∀ α : MulAut X, α (ε (Multiplicative.ofAdd 1) : X) = ε (Multiplicative.ofAdd 1) →
       R.map α.toMonoidHom = R)
     {b0 : Fq} (hb0 : b0 ≠ 0) (hb0' : b0 ≠ 1)
@@ -403,7 +403,7 @@ private lemma rckK1Ib_data_of_scalar {X : Type*} [Group X] [Finite X] {R : Subgr
     intro h
     have : (1 : Fq) = 0 := by
       have := congrArg Multiplicative.toAdd h
-      simpa [a] using this
+      simp [a] at this
     exact one_ne_zero this
   have hb1 : bF ≠ 1 := by
     intro h
@@ -434,7 +434,7 @@ private lemma rckK1Ib_data_of_scalar {X : Type*} [Group X] [Finite X] {R : Subgr
       have h'' : Multiplicative.ofAdd (1 : Fq) = 1 := ε.injective h'
       have : (1 : Fq) = 0 := by
         have := congrArg Multiplicative.toAdd h''
-        simpa using this
+        simp at this
       exact one_ne_zero this
     · have hEAWb : CFSG.Open.IsElemAbelian 2 Wb := by
         constructor
@@ -561,7 +561,7 @@ theorem rckK1I_K1b {X : Type} [Group X] [Finite X] {R : Subgroup X} {Fq : Type} 
     · right; exact CharTwo.add_eq_zero.mp h
   ·
     obtain ⟨c, hc⟩ : ∃ c : Fq, c ≠ 0 ∧ c ≠ 1 := by
-      haveI : Fintype Fq := Fintype.ofFinite Fq
+      have : Fintype Fq := Fintype.ofFinite Fq
       have h2 : ({0, 1} : Finset Fq).card < (Finset.univ : Finset Fq).card := by
         rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
         have h01 : ({0, 1} : Finset Fq).card = 2 := by

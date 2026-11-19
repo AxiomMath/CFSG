@@ -14,7 +14,7 @@ theorem uc22pwI2_prime_dvd_prod_iff (S : Finset ℕ) (hS : ∀ q ∈ S, q.Prime)
     p ∣ ∏ q ∈ S, q ↔ p ∈ S := by
   constructor
   · intro h
-    obtain ⟨q, hq, hpq⟩ := (Prime.dvd_finset_prod_iff hp.prime _).mp h
+    obtain ⟨q, hq, hpq⟩ := (Prime.dvd_finsetProd_iff hp.prime _).mp h
     rwa [(Nat.prime_dvd_prime_iff_eq hp (hS q hq)).mp hpq]
   · intro h
     exact Finset.dvd_prod_of_mem _ h
@@ -22,7 +22,7 @@ theorem uc22pwI2_prime_dvd_prod_iff (S : Finset ℕ) (hS : ∀ q ∈ S, q.Prime)
 theorem uc22pwI2_card_rootsOfUnity_le [Finite K] {p : ℕ} (hp : 0 < p) :
     Nat.card {u : Kˣ // u ^ p = 1} ≤ p := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact IsCyclic.card_pow_eq_one_le hp
 
@@ -94,7 +94,7 @@ theorem uc22pwI2Ep.map {Y Z : Type} [Group Y] [Group Z] (φ : Y →* Z) (hφ : F
 theorem uc22pwI2Ep_torus [Finite K] {d : ℕ} (hd : Squarefree d) (ET : Subgroup (Fin 2 → Kˣ))
     (hE : ∀ t ∈ ET, t ^ d = 1) (hodd : Odd (Nat.card ET)) : uc22pwI2Ep (Fin 2 → Kˣ) ET := by
   refine ⟨inferInstance, hodd, fun p hp => ?_⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Q : Sylow p ET := default
   have hexp : ∀ x ∈ (Q : Subgroup ET), x ^ p = 1 := by
     intro x hx
@@ -208,14 +208,14 @@ theorem uc22pwI2_exists_torus_subgroup [Finite K] {ι : Type} {n e m' : ℕ} (hm
   have hodd : Odd (Nat.card ↥(A ⊔ (Tα ⊓ Fix))) := (hQodd.pow (n := 2)).of_dvd_nat hdvdQ
   refine ⟨A ⊔ (Tα ⊓ Fix), uc22pwI2Ep_torus hsqf _ hexp hodd, ?_, e1, fun i t ht hα => e2 i t ht fun p hp h => ?_⟩
   · ext p
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hp, hdvd⟩
       exact ⟨hp, hQ' ▸ hp.dvd_of_dvd_pow (hdvd.trans hdvdQ)⟩
     · rintro ⟨hp, hdvd⟩
       refine ⟨hp, ?_⟩
       rw [← hQ'] at hdvd
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p hdvd
       have hbp : b ^ p = 1 := by rw [← hb]; exact pow_orderOf_eq_one b
       have hb1 : b ≠ 1 := by

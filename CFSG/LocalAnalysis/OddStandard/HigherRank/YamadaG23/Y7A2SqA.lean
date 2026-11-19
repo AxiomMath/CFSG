@@ -21,7 +21,7 @@ theorem y7a_exists_D (c : Ctx7 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
       (∀ k ∈ normIn L c.s.fr.A, ∀ x ∈ D, k * x * k⁻¹ ∈ D) ∧ c.s.fr.F ≤ D ∧
       (c.s.fr.A ≤ D → M6 c.e ≤ K) := by
   have hcfg := c.y7acfg hH
-  haveI hZ : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
+  have hZ : (c.s.fr.Z.subgroupOf c.s.fr.A).Normal := y7a_Z_normal_A c hH
   obtain ⟨ψ, lab, P, hP⟩ := y7a_reg_data c hH hF
   obtain ⟨f, hf1, hex, _, hker⟩ := y7a_mod_hom c hH hF hP
   let J : Subgroup (↥(c.s.fr.A) ⧸ c.s.fr.Z.subgroupOf c.s.fr.A) :=

@@ -33,7 +33,7 @@ theorem exists_sylow_frame (hC : HypothesisC D) (T : Sylow 2 (Halpha D hC.alpha)
     exact ⟨1, by rw [Nat.card_zpowers, hC.setup.oddT.1 hC.d hC.hd]; norm_num⟩
   have hVp : IsPGroup 2
       ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) :=
-    T.isPGroup'.map _
+    T.isPGroup.map _
   have hcent : ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) ≤
       Subgroup.centralizer (Subgroup.zpowers hC.d : Set G) := by
     rw [Subgroup.le_centralizer_iff, Subgroup.zpowers_le, Subgroup.mem_centralizer_iff]
@@ -50,6 +50,7 @@ theorem exists_sylow_frame (hC : HypothesisC D) (T : Sylow 2 (Halpha D hC.alpha)
   exact ⟨S, le_trans le_sup_right hS,
     hS (Subgroup.mem_sup_left (Subgroup.mem_zpowers hC.d))⟩
 
+omit [Finite G] in
 theorem prod_frameLift_mem {hC : HypothesisC D}
     {T : Subgroup (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {r : Fin 4 → Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
@@ -59,6 +60,7 @@ theorem prod_frameLift_mem {hC : HypothesisC D}
   rw [← QuotientGroup.eq_one_iff, ← QuotientGroup.mk'_apply]
   rw [map_mul, map_mul, map_mul, hwr 0, hwr 1, hwr 2, hwr 3, O4PlusFrame.prod_eq hr]
 
+omit [Finite G] in
 private theorem card_closure_range_le {n : ℕ} (x : Fin n → G)
     (hsq : ∀ i, x i * x i = 1) (hcomm : ∀ i j, Commute (x i) (x j)) :
     Nat.card (Subgroup.closure (Set.range x)) ≤ 2 ^ n := by
@@ -69,7 +71,7 @@ private theorem card_closure_range_le {n : ℕ} (x : Fin n → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : IsMulCommutative X := Subgroup.isMulCommutative_closure hpair
+  let : IsMulCommutative X := Subgroup.isMulCommutative_closure hpair
   let z : Fin n → X := fun i => ⟨x i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   have hsqz : ∀ i ∈ (Finset.univ : Finset (Fin n)), z i ^ 2 = 1 := by
     intro i _
@@ -280,7 +282,7 @@ theorem prod_frameLift_ne_one (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
     hTS (Subgroup.mem_map.mpr ⟨w i, (hw ▸ Set.mem_range_self i).1, rfl⟩)
   have hxSD : ∀ i, x i ∈ (S : Set G) ∩ D := fun i => ⟨hxS i, hx_in_D i⟩
   have hxcomm : ∀ i j, Commute (x i) (x j) := fun i j =>
-    commute_of_mul_mem_of_isPGroup hD S.isPGroup' (hx_in_D i) (hx_in_D j)
+    commute_of_mul_mem_of_isPGroup hD S.isPGroup (hx_in_D i) (hx_in_D j)
       (S.mul_mem (hxS i) (hxS j))
   have hpG : x 0 * x 1 * x 2 * x 3 = 1 := by
     have h := congrArg Subtype.val hp
@@ -315,7 +317,7 @@ theorem prod_frameLift_ne_one (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
     rintro g ⟨i, rfl⟩
     exact hxH i
   have hSint : (S : Set G) ∩ D = insert hC.d (Set.range fun i => (w i : G)) := by
-    simpa only [Sylow.coe_coe] using inter_D_eq_of_frameLift h hw S.isPGroup' hTS hd
+    simpa only [Sylow.coe_coe] using inter_D_eq_of_frameLift h hw S.isPGroup hTS hd
   obtain ⟨n, hn, hnu⟩ := sylow_inter_D_transitive hC.setup.isClass hD S
     (hxSD 0) ⟨hd, hC.hd⟩
   have hxi_ne : ∀ i, i ≠ 0 → x i ≠ x 0 := by
@@ -453,7 +455,7 @@ theorem prod_frameLift_ne_one (h : ElevenOneHyp hC) {T : Sylow 2 (Halpha D hC.al
   have hfker : f.ker = ⊥ := by
     apply (Subgroup.eq_bot_iff_forall f.ker).mpr
     intro a ha
-    haveI : Subsingleton f.ker := (Nat.card_eq_one_iff_unique.mp hker1).1
+    have : Subsingleton f.ker := (Nat.card_eq_one_iff_unique.mp hker1).1
     exact congrArg Subtype.val (Subsingleton.elim (⟨a, ha⟩ : f.ker) ⟨1, f.ker.one_mem⟩)
   let uH : XH := ⟨⟨hC.d, huH⟩, Subgroup.mem_subgroupOf.mpr huX⟩
   have huKer : uH ∈ f.ker := by

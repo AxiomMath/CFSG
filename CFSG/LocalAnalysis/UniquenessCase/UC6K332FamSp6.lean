@@ -22,7 +22,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure
 
 theorem orderOf_natCast_mod_three {q : ℕ} (hq : ¬ 3 ∣ q) :
     orderOf ((q : ℕ) : ZMod 3) = 1 ∨ orderOf ((q : ℕ) : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : ((q : ℕ) : ZMod 3) ≠ 0 := by
     rw [Ne, ZMod.natCast_eq_zero_iff]
     exact hq
@@ -32,8 +32,8 @@ theorem orderOf_natCast_mod_three {q : ℕ} (hq : ¬ 3 ∣ q) :
 
 theorem listRow_statedProj_sp_three {K : Type} [Field K] [Finite K] (hK3 : ¬ 3 ∣ Nat.card K) :
     ListRow (StatedProj (StatedSp 3 K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
   have hp1 : Odd 3 := by decide
   have hpK : ¬ 3 ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hq1 : 1 < Fintype.card K := Fintype.one_lt_card
@@ -121,13 +121,13 @@ theorem card_statedProj_sp_mul {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (h�
       Nat.card K ^ n ^ 2 * ∏ j ∈ Finset.Icc 1 n, (Nat.card K ^ (2 * j) - 1) := by
   by_cases h2 : ℓ = 2
   · subst h2
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 :=
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
-    rw [if_pos rfl, mul_one]
+    rw [ite_eq_left rfl, mul_one]
     exact CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSp_of_charTwo n
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     exact CFSG.ClassicalInvolution.card_statedProj_statedSp_of_two_ne_zero
       (CFSG.ClassicalInvolution.two_ne_zero_of_card_eq_prime_pow hℓ h2 hK) hn
 

@@ -23,14 +23,14 @@ theorem bar_eq_self_of_pow_eq_one (h : UnitaryFieldData 2 n K) (hpq : p ∣ 2 ^ 
 
 theorem exists_primitiveRoot_of_dvd_two_pow_sub_one (h : UnitaryFieldData 2 n K) (hp : p.Prime)
     (hpq : p ∣ 2 ^ n - 1) : ∃ ζ : K, IsPrimitiveRoot ζ p := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hpK : p ∣ Nat.card K - 1 := by
     have h2 : 2 ^ (2 * n) = (2 ^ n) ^ 2 := by rw [show 2 * n = n * 2 by ring, pow_mul]
     have hfac : (2 ^ n) ^ 2 - 1 = (2 ^ n - 1) * (2 ^ n + 1) := by
       simpa [mul_comm] using Nat.sq_sub_sq (2 ^ n) 1
     rw [h.card, h2, hfac]
     exact dvd_mul_of_dvd_left hpq _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rw [Nat.card_units]; exact hpK)
   exact ⟨u, IsPrimitiveRoot.coe_units_iff.mpr (IsPrimitiveRoot.iff_orderOf.mpr hu)⟩
 
@@ -53,9 +53,9 @@ structure HypEigenframe (h : UnitaryFieldData 2 n K) (p : ℕ) (E : Subgroup (hy
 theorem nonempty_hypEigenframe (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hpq : p ∣ 2 ^ n - 1)
     (E : Subgroup (hypSU h r 0)) (hE : IsElemAbelian p E) : Nonempty (HypEigenframe h p E) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd_two_pow_sub_one h hp hpq
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let φ : E →* GL (HypIndex r 0) K := (hypSU h r 0).subtype.comp E.subtype
   let S : Set (GL (HypIndex r 0) K) := Set.range φ
   have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by

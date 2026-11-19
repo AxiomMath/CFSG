@@ -41,12 +41,12 @@ theorem s16c1614_false_of_case168_3_cartan (D : Data G) {V L : Subgroup G}
   let F : Subgroup.normalizer (lBar ⊥ V hV L : Set (MulAut (Vtil ⊥ V hV))) →*
       MulAut ↥(lBar ⊥ V hV L) := (lBar ⊥ V hV L).normalizerMonoidHom
   let α : MulAut ↥(lBar ⊥ V hV L) := F gx
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcard27 : Nat.card ↥(lBar ⊥ V hV L) = 27 := by
     have h := h3.1.2.1
     rwa [show (3 : ℕ) ^ 3 = 27 by norm_num] at h
   have hcenter3 : Nat.card (Subgroup.center ↥(lBar ⊥ V hV L)) = 3 := by
-    haveI : CFSG.IsExtraspecial 3 ↥(lBar ⊥ V hV L) := h3.1.1
+    have : CFSG.IsExtraspecial 3 ↥(lBar ⊥ V hV L) := h3.1.1
     exact CFSG.IsExtraspecial.center_order_p 3 ↥(lBar ⊥ V hV L)
   have hα7 : α ^ 7 = 1 := by
     have hgx7 : gx ^ 7 = 1 := Subtype.ext (by

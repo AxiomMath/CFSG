@@ -237,7 +237,7 @@ theorem orderOf_eq_four_of_mrep {m : Rows} {c : ↥GA} (hm : MRep m (c : GL24))
       rwa [Subgroup.coe_pow, Subgroup.coe_one] at this
     rw [hc2'] at h
     exact rows_eq_of_mrep (validRows_pow hv 2) validRows_one h MRep.one
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   simpa using orderOf_eq_prime_pow (p := 2) (n := 1) (by simpa using e2) (by simpa using e4)
 
 section Cen
@@ -318,7 +318,7 @@ theorem co1_rankOK_all
 theorem co1_nonabelian :
     ∃ a b : ↥GA, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hall : Cen sE = ⊤ := eq_top_iff.2 fun c _ => mem_Cen.2 (hcon c sE)
   have h1 := co1_cenA.1
   rw [hall, Subgroup.card_top, card_GA_eq] at h1

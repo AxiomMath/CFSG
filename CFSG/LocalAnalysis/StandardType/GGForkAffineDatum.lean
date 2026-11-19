@@ -45,6 +45,7 @@ def GGReflDatum.comap {ι : Additive ↥Bs ≃+ V} {N N' : Type} {X : Matrix N N
 
 variable {ι : Additive ↥Bs ≃+ V} {N : Type} [Fintype N] [DecidableEq N] {X : Matrix N N ℤ}
 
+omit [DecidableEq N] in
 theorem GGReflDatum.sum_root_eq_zero (D : GGReflDatum p ι X) {n : N → ℕ}
     (hn : ∀ i, ∑ j, (n j : ℤ) * X j i = 0) : ∑ j, (n j : ZMod p) • D.root j = 0 := by
   apply LinearMap.ext_on D.span

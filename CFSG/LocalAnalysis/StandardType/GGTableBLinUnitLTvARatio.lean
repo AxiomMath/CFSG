@@ -145,10 +145,12 @@ variable [CharP K 2]
     (hζ0 : ζ ≠ 0) {i j : Fin d} (hij : i ≠ j) : MulAut L' :=
   MulAut.conj (φ' (LinUnitL.diagSLOf (rootT ζ i j) (prod_rootT hζ0 hij)))
 
+omit [CharP K 2] in
 theorem heartElt_actsDiag {ζ : K} (hζ0 : ζ ≠ 0) {i j : Fin d} (hij : i ≠ j) :
     ActsDiag φ' (heartElt φ' hζ0 hij) (rootT ζ i j) :=
   actsDiag_conj (LinUnitL.coe_diagSLOf _ _)
 
+omit [CharP K 2] in
 theorem heartElt_mem {p : ℕ} {A : Subgroup (MulAut L')} (hsc : GGTorusSelfCent p A)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiag φ' a t) {ζ : K} (hζ0 : ζ ≠ 0) (hζ : ζ ^ p = 1)
     {i j : Fin d} (hij : i ≠ j) : heartElt φ' hζ0 hij ∈ A :=

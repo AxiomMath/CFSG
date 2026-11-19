@@ -20,6 +20,7 @@ noncomputable def zAdj200 (r θ η : ℕ) : B :=
   D.c ^ ((r : ℤ) * 2 ^ (m - 1)) * D.a ^ ((θ : ℤ) * 2 ^ (m + 1)) *
     D.b ^ (((η : ℤ) + (θ : ℤ)) * 2 ^ (m + 1))
 
+omit [Finite S] in
 theorem ec_zAdj200 (r θ η : ℕ) :
     D.ec (zAdj200 D r θ η) =
       ((r : ℤ) * 2 ^ (m - 1)) • gen (StrothTypeIndex.t200 m).k 0 +
@@ -27,6 +28,7 @@ theorem ec_zAdj200 (r θ η : ℕ) :
           (((η : ℤ) + (θ : ℤ)) * 2 ^ (m + 1)) • gen (StrothTypeIndex.t200 m).k 2 := by
   rw [zAdj200, D.ec_mul, D.ec_mul, D.ec_zpow, D.ec_zpow, D.ec_zpow, D.ec_c, D.ec_a, D.ec_b]
 
+omit [Finite S] in
 theorem zAdj200_sq (hm : 1 ≤ m) (r θ η : ℕ) :
     zAdj200 D r θ η * zAdj200 D r θ η = 1 := by
   apply D.ec_injective
@@ -82,18 +84,22 @@ noncomputable def zS200 (r θ η : ℕ) : S :=
 noncomputable def dAdj200 (d : S) (r θ η : ℕ) : S :=
   d * zS200 D r θ η
 
+omit [Finite S] in
 theorem zS200_mem (r θ η : ℕ) : zS200 D r θ η ∈ B :=
   (zAdj200 D r θ η).2
 
+omit [Finite S] in
 theorem zS200_sq (hm : 1 ≤ m) (r θ η : ℕ) :
     zS200 D r θ η * zS200 D r θ η = 1 := by
   have h := zAdj200_sq D hm r θ η
   simpa [zS200] using congrArg (Subtype.val) h
 
+omit [Finite S] in
 theorem dAdj200_mem (hBC : B ≤ C) {d : S} (hdC : d ∈ C) (r θ η : ℕ) :
     dAdj200 D d r θ η ∈ C :=
   C.mul_mem hdC (hBC (zAdj200 D r θ η).2)
 
+omit [Finite S] in
 theorem dAdj200_notMem (hm : 1 ≤ m) {d : S} (hdB : d ∉ B) (r θ η : ℕ) :
     dAdj200 D d r θ η ∉ B := by
   intro h
@@ -107,7 +113,7 @@ theorem dAdj200_sq (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) (hm : 1 ≤ m) (r θ η : ℕ) :
     dAdj200 D d r θ η * dAdj200 D d r θ η = (D.c : S) := by
-  letI : CommGroup C := { mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
+  let : CommGroup C := { mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
   have hcomm : (⟨dAdj200 D d r θ η, dAdj200_mem D hBC hdC r θ η⟩ : C) =
       (⟨d, hdC⟩ : C) * ⟨zS200 D r θ η, hBC (zS200_mem D r θ η)⟩ := rfl
   have hz : (⟨zS200 D r θ η, hBC (zS200_mem D r θ η)⟩ : C) *
@@ -138,6 +144,7 @@ variable {D}
 variable (hBC : B ≤ C) {d : S} (hdC : d ∈ C) (r θ η : ℕ)
   {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
 
+omit [Finite S] in
 theorem conj_dAdj200 (hm : 1 ≤ m) {b : B}
     (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b) :
     conjBy hgC (⟨dAdj200 D d r θ η, dAdj200_mem D hBC hdC r θ η⟩ : C) =
@@ -330,11 +337,9 @@ theorem ec_bU'200 (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B)
     rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     ring_nf
   · rw [show (StrothTypeIndex.t200 m).k 1 = m + 2 from k200_one m, hδε]
-    try rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     rw [show (2 : ℤ) ^ (m + 2) = 2 * 2 ^ (m + 1) from by rw [show m + 2 = (m + 1) + 1 by omega, pow_succ]; ring]
     ring_nf
   · rw [show (StrothTypeIndex.t200 m).k 2 = m + 2 from k200_two m, hδε]
-    try rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     rw [show (2 : ℤ) ^ (m + 2) = 2 * 2 ^ (m + 1) from by rw [show m + 2 = (m + 1) + 1 by omega, pow_succ]; ring]
     ring_nf
 
@@ -363,7 +368,6 @@ theorem ec_bT'200 (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B)
     rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     ring
   · rw [show (StrothTypeIndex.t200 m).k 1 = m + 2 from k200_one m]
-    try rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     rw [show (2 : ℤ) ^ (m + 2) = 2 * 2 ^ (m + 1) from by rw [show m + 2 = (m + 1) + 1 by omega, pow_succ]; ring]
     rw [hαr]
     ring_nf
@@ -398,7 +402,6 @@ theorem ec_bR'200 (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B)
   · rw [show (StrothTypeIndex.t200 m).k 1 = m + 2 from k200_one m]
     ring
   · rw [show (StrothTypeIndex.t200 m).k 2 = m + 2 from k200_two m]
-    try rw [show (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) from (two_pow_succ_int hm).symm]
     rw [show (2 : ℤ) ^ (m + 2) = 2 * 2 ^ (m + 1) from by rw [show m + 2 = (m + 1) + 1 by omega, pow_succ]; ring]
     ring
 
@@ -446,15 +449,13 @@ variable (D : StrothTypeData B (StrothTypeIndex.t200 m))
 
 theorem m_t200 (m : ℕ) : (StrothTypeIndex.t200 m).m = m := by
   have h := congrFun (StrothTypeIndex.k_eq (StrothTypeIndex.t200 m)) 0
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero,
-    Matrix.cons_val_two, Matrix.tail_cons] at h
+  simp only [Matrix.cons_val_zero] at h
   rw [show (StrothTypeIndex.t200 m).k 0 = m from k200_zero m] at h
   exact h.symm
 
 theorem n_t200 (m : ℕ) : (StrothTypeIndex.t200 m).n = m + 2 := by
   have h := congrFun (StrothTypeIndex.k_eq (StrothTypeIndex.t200 m)) 1
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero,
-    Matrix.cons_val_two, Matrix.tail_cons] at h
+  simp only [Matrix.cons_val_one, Matrix.cons_val_zero] at h
   rw [show (StrothTypeIndex.t200 m).k 1 = m + 2 from k200_one m] at h
   exact h.symm
 
@@ -587,6 +588,7 @@ def basisElems200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (hBC : B ≤ C
     (hdC : d ∈ C) : Fin 3 → C :=
   ![⟨d, hdC⟩, ⟨D.a, hBC D.a.2⟩, ⟨D.b, hBC D.b.2⟩]
 
+omit [Finite S] in
 theorem eq_c_zpow_mul_a_b200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) {β : B} {i j l : ℤ}
     (h : D.ec β = i • gen (StrothTypeIndex.t200 m).k 0 +
       j • gen (StrothTypeIndex.t200 m).k 1 + l • gen (StrothTypeIndex.t200 m).k 2) :
@@ -594,6 +596,7 @@ theorem eq_c_zpow_mul_a_b200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) {β
   apply D.ec_injective
   rw [h, D.ec_mul, D.ec_mul, D.ec_zpow, D.ec_zpow, D.ec_zpow, D.ec_c, D.ec_a, D.ec_b]
 
+omit [Finite S] in
 theorem E_e_inclusion200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) (hd2 : d * d = (D.c : S))
     {k : Fin 3 → ℕ} (E : CubicBasisEquiv D hBC d hdC k) (β : B) {i j l : ℤ}
@@ -641,10 +644,11 @@ section Images
 
 variable (D : StrothTypeData B (StrothTypeIndex.t200 m))
 
+omit [Finite S] in
 theorem E_image_d200 (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) {k : Fin 3 → ℕ}
     (E : CubicBasisEquiv D hBC d hdC k) {g : S}
-    (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
+    (hgC : g ∈ Subgroup.normalizer C) (_hgB : g ∈ Subgroup.normalizer B)
     {b : B} (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b)
     {i j l : ℤ} (h : D.ec b = i • gen (StrothTypeIndex.t200 m).k 0 +
       j • gen (StrothTypeIndex.t200 m).k 1 + l • gen (StrothTypeIndex.t200 m).k 2) :
@@ -656,6 +660,7 @@ theorem E_image_d200 (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
   rw [hsub, E_e_inclusion200 D hBC hdC hd2 E b h]
   module
 
+omit [Finite S] in
 theorem E_image_a200 (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) {k : Fin 3 → ℕ}
     (E : CubicBasisEquiv D hBC d hdC k) {g : S}
@@ -669,6 +674,7 @@ theorem E_image_a200 (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
   rw [hsub]
   exact E_e_inclusion200 D hBC hdC hd2 E _ h
 
+omit [Finite S] in
 theorem E_image_b200 (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) {k : Fin 3 → ℕ}
     (E : CubicBasisEquiv D hBC d hdC k) {g : S}
@@ -689,6 +695,7 @@ section Assembly
 
 variable (D : StrothTypeData B (StrothTypeIndex.t200 m))
 
+omit [Finite S] in
 theorem hasStrothTypeOver_t100_of_generator_images
     (hBC : B ≤ C) (_hrel : Nat.card C = 2 * Nat.card B)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (_hdB : d ∉ B)
@@ -721,6 +728,7 @@ theorem hasStrothTypeOver_t100_of_generator_images
     conj_eq_of_generator_images (hL D.ρ_mem_L) E.e
       (Type100.action (m + 1)).φρ hxd hxa hxb (hρ 0) (hρ 1) (hρ 2)⟩, rfl, rfl, rfl, rfl⟩
 
+omit [Finite S] in
 theorem hasStrothType_t100_of_generator_images
     (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
@@ -738,6 +746,7 @@ theorem hasStrothType_t100_of_generator_images
   (hasStrothTypeOver_t100_of_generator_images D hBC hrel hL hdC hdB hd2 E huv ht hu hρ)
     |>.hasStrothType
 
+omit [Finite S] in
 theorem hasStrothTypeOver_t110_of_generator_images
     (hBC : B ≤ C) (_hrel : Nat.card C = 2 * Nat.card B)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (_hdB : d ∉ B)
@@ -770,6 +779,7 @@ theorem hasStrothTypeOver_t110_of_generator_images
     conj_eq_of_generator_images (hL D.ρ_mem_L) E.e
       (Type110.action (m - 1)).φρ hxd hxa hxb (hρ 0) (hρ 1) (hρ 2)⟩, rfl, rfl, rfl, rfl⟩
 
+omit [Finite S] in
 theorem hasStrothType_t110_of_generator_images
     (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
@@ -842,11 +852,11 @@ theorem hasStrothTypeOver_t100_or_t110_of_noInvolutionsCentralizing
       (hL := hL) (hm := hm) (ε := ε) (δ := δ) (p := p) (r := r) hε1 hδ1 hp1 hr1 hX hW
   have hαq : α = r ∧ q = (p + r) % 2 :=
     bit_alpha_q_200 (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB)
-      (hL := hL) (hm := hm) (ε := ε) (δ := δ) (α := α) (q := q) (p := p) (r := r)
+      (hL := hL) (hm := hm) (_ε := ε) (_δ := δ) (α := α) (q := q) (p := p) (r := r)
       hα1 hq1 hp1 hr1 hY hZ hW
   have hδη : δ = η :=
     bit_delta_200 (D := D) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB)
-      (hL := hL) (hm := hm) (ε := ε) (δ := δ) (p := p) (r := r) (η := η) (θ := θ)
+      (hL := hL) (hm := hm) (ε := ε) (δ := δ) (_p := p) (_r := r) (η := η) (θ := θ)
       hε1 hδ1 hη1 hθ1 hX hZ
   have hqε : q = ε := by rw [hαq.2, hεp]
   have hpe : Even ((p : ℤ) - (r : ℤ) - (q : ℤ)) := by
@@ -1174,7 +1184,7 @@ theorem hasStrothTypeOver_t100_or_t110_of_noInvolutionsCentralizing
         module
 
 theorem hasStrothType_t100_or_t110_of_noInvolutionsCentralizing
-    [Finite S] {B C S' : Subgroup S} {m : ℕ}
+    {B C S' : Subgroup S} {m : ℕ}
     (hB : HasStrothType B (StrothTypeIndex.t200 m))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B)

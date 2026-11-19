@@ -19,6 +19,7 @@ open scoped MatrixGroups commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem indecFix_commutator_mem_centerOf {X : Subgroup G} (hX : IsSpecialPGroup 2 ↥X)
     {x y : G} (hx : x ∈ X) (hy : y ∈ X) : ⁅x, y⁆ ∈ centerOf X := by
   rcases hX.2 with ⟨hcomm, -⟩ | ⟨hcomm, -, -⟩
@@ -50,6 +51,7 @@ private theorem indecFix_exists_borel_mulVec {F : Type} [Field F] {u v : Fin 2 �
     · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
       field_simp
 
+omit [Finite G] in
 private theorem indecFix_conj_mem_commutator {L : Subgroup G} {l k : G} (hl : l ∈ L)
     (hk : k ∈ ⁅pCoreOf 2 L, L⁆) : l * k * l⁻¹ ∈ ⁅pCoreOf 2 L, L⁆ := by
   have hkQ : k ∈ pCoreOf 2 L := commutator_pCoreOf_le_pCoreOf L hk
@@ -69,6 +71,7 @@ private theorem indecFix_le_right (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2
   obtain ⟨c⟩ := hD.exists_coordRight hH h2
   exact hD.le_right hH c.one_le_f h2
 
+omit [Finite G] in
 private theorem indecFix_comm_left (hD : G2qLocalData L1 L2 S f) {z y : G}
     (hz : z ∈ centerOf (pCoreOf 2 L1)) (hy : y ∈ L1) : y * z = z * y := by
   rw [hD.center_left] at hz
@@ -91,6 +94,7 @@ private theorem indecFix_exists_mul_right (hH : Hyp111 L1 L2 S) (hD : G2qLocalDa
   rw [← hD.pCoreOf_left_sup_right hH h1 h2, sup_comm] at hs
   exact (mem_sup_iff_exists_mul_of_normalizes hnorm).mp hs
 
+omit [Finite G] in
 private theorem indecFix_exists_commutator_mul (c : G2qCoordRight L2 S f) {a : G}
     (ha : a ∈ pCoreOf 2 L2) : ∃ r ∈ ⁅pCoreOf 2 L2, L2⁆, ∃ w ∈ c.W, a = r * w := by
   have hnorm : c.W ≤ Subgroup.normalizer ((⁅pCoreOf 2 L2, L2⁆ : Subgroup G) : Set G) :=
@@ -165,8 +169,8 @@ private theorem indecFix_mem_left_of_fix (hH : Hyp111 L1 L2 S) (hD : G2qLocalDat
     (hz : z ∈ centerOf (pCoreOf 2 L2)) (hfix : ∀ s ∈ S, s * z * s⁻¹ = z) :
     z ∈ centerOf (pCoreOf 2 L1) := by
   obtain ⟨c⟩ := hD.exists_coordRight hH h2
-  letI := c.field
-  letI := c.fintype
+  let := c.field
+  let := c.fintype
   obtain ⟨β, -, hβk, hβe⟩ := c.nat
   refine indecFix_mem_left_of_snd hH hD h1 h2 c.card c.surj c.memS hβk hβe hz ?_
   apply mulVec_apply_one_eq_zero c.surj c.memS
@@ -263,7 +267,7 @@ private theorem indecFix_fixed_mem_right (hH : Hyp111 L1 L2 S) (hD : G2qLocalDat
     (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2))
     (c : G2qCoordRight L2 S f) {y : G} (hy : y ∈ pCoreOf 2 L1)
     (hyl : ∀ l ∈ L1, ⁅l, y⁆ ∈ centerOf (pCoreOf 2 L1)) : y ∈ pCoreOf 2 L2 := by
-  letI := c.field
+  let := c.field
   by_contra hyQ
   have hyS : y ∈ S := hH.pCoreOf_le_left hy
   have hyL2 : y ∈ L2 := indecFix_le_right hH hD h2 hyS
@@ -315,11 +319,11 @@ private theorem indecFix_fixed_mem_center_left (hH : Hyp111 L1 L2 S)
     (h2 : IsL2Quot f (oTwoQuot ↥L2)) {y : G} (hy : y ∈ pCoreOf 2 L1)
     (hyl : ∀ l ∈ L1, ⁅l, y⁆ ∈ centerOf (pCoreOf 2 L1)) (hyZ : y ∈ centerOf (pCoreOf 2 L2)) :
     y ∈ centerOf (pCoreOf 2 L1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hyZ1
   obtain ⟨c⟩ := hD.exists_coordRight hH h2
-  letI := c.field
-  letI := c.fintype
+  let := c.field
+  let := c.fintype
   obtain ⟨β, -, hβk, hβe⟩ := c.nat
   have hS2 := indecFix_le_right hH hD h2
   have hZ12 := hD.centerOf_pCoreOf_left_le_right hH h1 h2
@@ -362,10 +366,11 @@ private theorem indecFix_fixed_mem_center_left (hH : Hyp111 L1 L2 S)
   rw [Subgroup.mem_bot.mp (hle hyZ)]
   exact one_mem _
 
+omit [Finite G] in
 private theorem indecFix_exists_conj_mul (c : G2qCoordRight L2 S f) {y a : G}
     (hy : y ∈ pCoreOf 2 L2) (hyW : y ∉ c.W) (ha : a ∈ pCoreOf 2 L2) (haW : a ∉ c.W) :
     ∃ l ∈ L2, ∃ w ∈ c.W, a = l * y * l⁻¹ * w := by
-  letI := c.field
+  let := c.field
   obtain ⟨β, -, hβk, hβe⟩ := c.natW
   have hu : natSecVec β y ≠ 0 := fun h => hyW ((natSecVec_eq_zero_iff hβk hy).mp h)
   have hv : natSecVec β a ≠ 0 := fun h => haW ((natSecVec_eq_zero_iff hβk ha).mp h)
@@ -377,6 +382,7 @@ private theorem indecFix_exists_conj_mul (c : G2qCoordRight L2 S f) {y a : G}
   rw [natSecVec_conj hβe l hy hc]
   exact hg
 
+omit [Finite G] in
 private theorem indecFix_commute_conj_mul (c : G2qCoordRight L2 S f) {y u l w' : G}
     (hy : y ∈ pCoreOf 2 L2) (hu : u ∈ c.W) (huy : u * y = y * u) (hl : l ∈ L2)
     (hw' : w' ∈ c.W) : l * y * l⁻¹ * w' * u = u * (l * y * l⁻¹ * w') := by

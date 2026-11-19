@@ -138,7 +138,7 @@ theorem rest15_triality_parameters
   have hf : 1 ≤ f := hmodel.admissible.2.1
   have hp2 : p = 2 := by
     by_contra hne
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     have hTw : CFSG.Blueprint.TwistedChevalleyModel (Bar2 L) .D4 (p ^ f) :=
       (hmodel.chevalleyExceptionalModel (by decide)).2
     have hRank := CFSG.SectionRank.four_le_pRank_of_trialityD4Model hf hTw
@@ -149,7 +149,7 @@ theorem rest15_triality_parameters
     by_contra hgt
     obtain ⟨r, hr, hr5, hrd, hrf⟩ :=
       exists_prime_five_le_dvd_pow_sub_one_not_dvd_exponent Nat.prime_two (by omega : 3 ≤ f)
-    letI : IsSimpleGroup (Bar2 L) := (CFSG.LieType.Simplicity.fam_3d4_simplicity
+    let : IsSimpleGroup (Bar2 L) := (CFSG.LieType.Simplicity.fam_3d4_simplicity
       (Bar2 L) 2 f (hmodel.chevalleyExceptionalModel (by decide))).2
     have hZ : center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
     obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 hZ

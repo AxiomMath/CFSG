@@ -11,6 +11,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qTwoNbrLabel_card_outer_centerQuot {L : Subgroup G} {m : ℕ}
     (h3 : ¬ 3 ∣ m) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1) :
     Nat.card (Outer (L ⧸ Subgroup.center L)) = 2 := by
@@ -23,6 +24,7 @@ private theorem qTwoNbrLabel_card_outer_centerQuot {L : Subgroup G} {m : ℕ}
     exact hcop.gcd_eq_one
   rw [show (2 : ℕ) ^ 1 + 1 = 3 by norm_num, hg]
 
+omit [Finite G] in
 theorem qTwoNbrLabel_inner {Bs K : Subgroup G} (hperf : commutator ↥K = ⊤)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
     (hK : LieModel (↥K ⧸ Subgroup.center ↥K) .PSU 4 2 1) {b : G} (hb : b ∈ Bs)
@@ -36,7 +38,7 @@ theorem qTwoNbrLabel_inner {Bs K : Subgroup G} (hperf : commutator ↥K = ⊤)
   have ha3 : a₀ ^ 3 = 1 := by
     change (ggGamma K hN β) ^ 3 = 1
     rw [← map_pow, hβ3, map_one]
-  haveI : Group.IsPerfect ↥K := ⟨hperf⟩
+  have : Group.IsPerfect ↥K := ⟨hperf⟩
   have hcard_dvd : Nat.card (Outer ↥K) ∣ 2 := by
     have h1 := Subgroup.card_dvd_of_injective (centerQuotientOuterHom ↥K)
       (centerQuotient_outer_injective ↥K)

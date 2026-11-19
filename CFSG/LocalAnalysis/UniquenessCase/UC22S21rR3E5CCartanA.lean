@@ -111,7 +111,7 @@ theorem uc22r3e5c_normalizer_prod {A B : Type} [Group A] [Group B]
 
 theorem uc22r3e5c_eq_of_isSylowTwoOf_le {H S K : Subgroup G} (hS : IsSylowTwoOf S H)
     (hSK : S ≤ K) (hKH : K ≤ H) (hK : IsPGroup 2 K) : K = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ABGLocalTools.IsSylowOf.eq_of_le
     (CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mp hS) hSK hKH hK
 
@@ -172,15 +172,15 @@ theorem uc22r3e5c_card_of_isHall_two {K : Type} [Group K] [Finite K]
 
 private theorem uc22r3e5c_exists_ne_sylow {H : Type} [Group H] [Finite H] {n : ℕ}
     (hSz : CFSG.Quasithin.IsSz n H) (Q : Sylow 2 H) : ∃ Q₂ : Sylow 2 H, Q₂ ≠ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T := szPointActionFacts_holds H n (CFSG.Blueprint.LieModel.twistedB2_iff.mpr ⟨rfl, hSz⟩)
-  haveI hfin : Finite (Sylow 2 H) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
+  have hfin : Finite (Sylow 2 H) := CFSG.GroupTheory.SuzukiTorusData.sylow_finite
   have hcard : Nat.card (Sylow 2 H) = (2 ^ n) ^ 2 + 1 := T.card_points
   have h1 : 1 < Nat.card (Sylow 2 H) := by
     rw [hcard]
     have h0 : 1 ≤ (2 ^ n) ^ 2 := Nat.one_le_pow _ _ (by norm_num)
     omega
-  haveI : Nontrivial (Sylow 2 H) := Finite.one_lt_card_iff_nontrivial.mp h1
+  have : Nontrivial (Sylow 2 H) := Finite.one_lt_card_iff_nontrivial.mp h1
   exact exists_ne Q
 
 private theorem uc22r3e5c_index_normalizer_subgroupOf
@@ -188,7 +188,7 @@ private theorem uc22r3e5c_index_normalizer_subgroupOf
     ((Q : Subgroup H).subgroupOf (Subgroup.normalizer ((Q : Subgroup H) : Set H))).index =
       2 ^ n - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T := szPointActionFacts_holds H n (CFSG.Blueprint.LieModel.twistedB2_iff.mpr ⟨rfl, hSz⟩)
   let N : Subgroup H := Subgroup.normalizer ((Q : Subgroup H) : Set H)
   let Q' : Subgroup ↥N := (Q : Subgroup H).subgroupOf N
@@ -207,7 +207,7 @@ private theorem uc22r3e5c_exists_torus_coprime
     ∃ K : Subgroup H, K ≤ Subgroup.normalizer ((Q : Subgroup H) : Set H) ∧
       IsCyclic ↥K ∧ Nat.card ↥K = 2 ^ n - 1 ∧ K ⊓ (Q : Subgroup H) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T := szPointActionFacts_holds H n (CFSG.Blueprint.LieModel.twistedB2_iff.mpr ⟨rfl, hSz⟩)
   obtain ⟨Q₂, hQ₂⟩ := uc22r3e5c_exists_ne_sylow hSz Q
   let K : Subgroup H := CFSG.GroupTheory.SuzukiTorusData.torus Q Q₂
@@ -227,7 +227,7 @@ private theorem uc22r3e5c_exists_torus_coprime
   have hcop : Nat.Coprime (Nat.card ↥K) (Nat.card ↥(Q : Subgroup H)) := by
     rw [hKcard, hQcard]
     exact Nat.Coprime.pow_right 2 (Nat.Coprime.pow_right n hKodd'.coprime_two_right)
-  exact ⟨K, hKle, hKcyc, hKcard, Subgroup.inf_eq_bot_of_coprime hcop⟩
+  exact ⟨K, hKle, hKcyc, hKcard, (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))⟩
 
 private theorem uc22r3e5c_exists_surjective_torus_quotient
     {H : Type} [Group H] [Finite H] {n : ℕ} (hSz : CFSG.Quasithin.IsSz n H) (Q : Sylow 2 H) :
@@ -236,11 +236,11 @@ private theorem uc22r3e5c_exists_surjective_torus_quotient
         ((Q : Subgroup H).subgroupOf (Subgroup.normalizer ((Q : Subgroup H) : Set H)))),
         IsCyclic ↥K ∧ Function.Surjective f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T := szPointActionFacts_holds H n (CFSG.Blueprint.LieModel.twistedB2_iff.mpr ⟨rfl, hSz⟩)
   let N : Subgroup H := Subgroup.normalizer ((Q : Subgroup H) : Set H)
   let Q' : Subgroup ↥N := (Q : Subgroup H).subgroupOf N
-  haveI hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
+  have hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
   obtain ⟨K, hKle, hKcyc, hKcard, hKinf⟩ := uc22r3e5c_exists_torus_coprime hSz Q
   let fK : ↥K →* ↥N ⧸ Q' := (QuotientGroup.mk' Q').comp (Subgroup.inclusion hKle)
   have hfKbot : fK.ker = ⊥ := by
@@ -269,7 +269,7 @@ theorem uc22r3e5c_isCyclic_normalizer_quotient
     IsCyclic (↥(Subgroup.normalizer ((Q : Subgroup H) : Set H)) ⧸
       ((Q : Subgroup H).subgroupOf (Subgroup.normalizer ((Q : Subgroup H) : Set H)))) := by
   obtain ⟨K, f, hKcyc, hsurj⟩ := uc22r3e5c_exists_surjective_torus_quotient hSz Q
-  haveI : IsCyclic ↥K := hKcyc
+  have : IsCyclic ↥K := hKcyc
   exact isCyclic_of_surjective f hsurj
 
 theorem uc22r3e5c_isMulCommutative_of_odd_le_normalizer
@@ -278,18 +278,18 @@ theorem uc22r3e5c_isMulCommutative_of_odd_le_normalizer
     (hD : D ≤ Subgroup.normalizer ((Q : Subgroup H) : Set H))
     (hodd : Odd (Nat.card D)) : IsMulCommutative ↥D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup H := Subgroup.normalizer ((Q : Subgroup H) : Set H)
   let Q' : Subgroup ↥N := (Q : Subgroup H).subgroupOf N
-  haveI hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
-  haveI hcyc : IsCyclic (↥N ⧸ Q') := uc22r3e5c_isCyclic_normalizer_quotient hSz Q
-  haveI : IsMulCommutative (↥N ⧸ Q') := IsCyclic.isMulCommutative
+  have hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
+  have hcyc : IsCyclic (↥N ⧸ Q') := uc22r3e5c_isCyclic_normalizer_quotient hSz Q
+  have : IsMulCommutative (↥N ⧸ Q') := IsCyclic.isMulCommutative
   have hDinf : D ⊓ (Q : Subgroup H) = ⊥ := by
     have hcop : Nat.Coprime (Nat.card D) (Nat.card (Q : Subgroup H)) := by
-      obtain ⟨a, ha⟩ := (Q : Sylow 2 H).isPGroup'.exists_card_eq
+      obtain ⟨a, ha⟩ := (Q : Sylow 2 H).isPGroup.exists_card_eq
       rw [ha]
       exact Nat.Coprime.pow_right a hodd.coprime_two_right
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   refine ⟨⟨fun x y => Subtype.ext ?_⟩⟩
   have hxN : (x : H) ∈ N := hD x.2
   have hyN : (y : H) ∈ N := hD y.2
@@ -319,18 +319,18 @@ theorem uc22r3e5c_isSolvable_normalizer_sylow
     (Q : Sylow 2 H) :
     Group.IsSolvable ↥(Subgroup.normalizer ((Q : Subgroup H) : Set H)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup H := Subgroup.normalizer ((Q : Subgroup H) : Set H)
   let Q' : Subgroup ↥N := (Q : Subgroup H).subgroupOf N
-  haveI hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
-  haveI hcyc : IsCyclic (↥N ⧸ Q') := uc22r3e5c_isCyclic_normalizer_quotient hSz Q
-  haveI : IsMulCommutative (↥N ⧸ Q') := IsCyclic.isMulCommutative
-  haveI : Group.IsSolvable (↥N ⧸ Q') := inferInstance
+  have hQ'norm : Q'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer le_rfl
+  have hcyc : IsCyclic (↥N ⧸ Q') := uc22r3e5c_isCyclic_normalizer_quotient hSz Q
+  have : IsMulCommutative (↥N ⧸ Q') := IsCyclic.isMulCommutative
+  have : Group.IsSolvable (↥N ⧸ Q') := inferInstance
   have hQ2' : IsPGroup 2 ↥Q' :=
-    (Q : Sylow 2 H).isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe
+    (Q : Sylow 2 H).isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe
       (Subgroup.le_normalizer (H := (Q : Subgroup H)))).symm
-  haveI : Group.IsNilpotent ↥Q' := IsPGroup.isNilpotent (p := 2) hQ2'
-  haveI : Group.IsSolvable ↥Q' := IsNilpotent.to_isSolvable
+  have : Group.IsNilpotent ↥Q' := IsPGroup.isNilpotent (p := 2) hQ2'
+  have : Group.IsSolvable ↥Q' := IsNilpotent.to_isSolvable
   exact Group.isSolvable_of_subgroup_quotient Q'
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

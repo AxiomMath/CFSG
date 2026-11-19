@@ -129,6 +129,7 @@ private theorem le_normalizer_of_le_sup (hK : IsTwoComponentIn K N) {Q : Subgrou
   have h := mul_mem (Subgroup.le_normalizer hk) (mem_coreActionKernel.mp hc).1
   rwa [mul_inv_cancel_left] at h
 
+omit [Finite G] in
 private theorem normal_subgroupOf_oddCoreIn {Q : Subgroup G} (hQ : Q ≤ normalizer (K : Set G)) :
     ((oddCoreIn K).subgroupOf Q).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -145,7 +146,7 @@ theorem not_isTwoDisconnected_of_leaves_Qprime (hJ : CentralInvolutionJoin)
   set Q := (oddTwoCoreIn N ⊔ twoLayerIn N) ⊓ coreActionKernel K' with hQdef
   have hKQ : K ≤ Q := le_Qprime hK hK' hne
   have hQM : Q ≤ oddTwoCoreIn N ⊔ twoLayerIn N := inf_le_left
-  haveI : ((oddCoreIn K).subgroupOf Q).Normal :=
+  have : ((oddCoreIn K).subgroupOf Q).Normal :=
     normal_subgroupOf_oddCoreIn (le_normalizer_of_le_sup hK.1 hQM)
   obtain ⟨τ, hτ, hτ2⟩ := exists_orderOf_eq_two_mem_center
     (CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥K) 2) hZ

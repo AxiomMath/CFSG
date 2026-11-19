@@ -101,8 +101,8 @@ section Local
 private theorem le_Q_of_le_ker (h13 : (Nat.card NativeSporadic.B).factorization 3 = 13)
     {C : Subgroup LThree} (hC : C ≤ rhoThree.ker) (h3 : IsPGroup 3 C) :
     C ≤ QThree.subgroupOf LThree := by
-  haveI := finite_B
-  haveI := normal_QThree_LThree
+  have := finite_B
+  have := normal_QThree_LThree
   have hQ : Nat.card (QThree.subgroupOf LThree) = 3 ^ 9 := by
     rw [Nat.card_congr (subgroupOfEquivOfLe QThree_le_LThree).toEquiv, card_QThree]
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (h3.to_sup_of_normal_right (IsPGroup.of_card hQ))
@@ -157,7 +157,7 @@ private theorem coord_vecMul_rho {f : LThree} {c : NativeSporadic.B} (hc : c ∈
 theorem card_le_of_le_comap_sylS (h13 : (Nat.card NativeSporadic.B).factorization 3 = 13)
     {F : Subgroup LThree} (hFP : F ≤ sylS.comap rhoThree) (hF : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
     (hF3 : IsPGroup 3 F) : Nat.card F ≤ 3 ^ 6 := by
-  haveI := finite_B
+  have := finite_B
   have hD := commData_three
   set ψ := rhoThree.comp F.subtype
   have hKQ := le_Q_of_le_ker h13 (C := ψ.ker.map F.subtype) (by rintro _ ⟨f, hf, rfl⟩; exact hf)

@@ -23,10 +23,10 @@ theorem exists_nb_lift (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang
     ∃ c : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom), c * c = 1 ∧
       baseChangeGL (algebraMap K Ω) (c : ModGL TwistTag.E6.tag K) = g * weylElt Tag.E6 Ω i 1 * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   set m : ModGL Tag.E6 Ω := weylElt Tag.E6 Ω i 1 with hm
   have hmG : m ∈ adjointGroup Tag.E6 Ω := weylElt_mem_adjointGroup (τ := Tag.E6) i 1
   have hmθ : m ∈ TwistedDiag.thetaFixed Fr := by
@@ -56,7 +56,7 @@ theorem exists_nb_lift (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang
   obtain ⟨-, -, hCn, hCi, -⟩ :=
     TwistedDiag.cgrp_facts (ℓ := 2) (f := n) hn K hK σ.toRingHom hσ h3 Ω Fr hFr
   have hx3C : (g * m * g⁻¹) ^ 3 ∈ TwistedDiag.Cgrp K σ.toRingHom Ω := by
-    haveI := hCn
+    have := hCn
     have h1 := Subgroup.pow_index_mem
       ((TwistedDiag.Cgrp K σ.toRingHom Ω).subgroupOf (TwistedDiag.Rgrp Ω Fr))
       ⟨g * m * g⁻¹, hxR⟩
@@ -76,20 +76,19 @@ theorem exists_nb_lift (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang
   · apply Subtype.ext
     change c * c = 1
     apply (baseChangeGL_injective (τ := Tag.E6) (algebraMap K Ω))
-    change baseChangeGL (algebraMap K Ω) (c * c) = baseChangeGL (algebraMap K Ω) 1
     rw [map_mul, map_one, hceq]
     exact hx2
   · show baseChangeGL (τ := Tag.E6) (algebraMap K Ω) c = g * m * g⁻¹
     exact hceq
 
 theorem exists_tFrame (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ}
-    (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3) :
+    (hζ : ζ ^ 3 = 1) (_hζo : orderOf ζ = 3) :
     ∃ D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom), TSpec hn hK σ hσ Fr hFr g hζ D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hb : ∀ x : Fin Tag.E6.rank → ZMod 3, ∀ i, zetaVec ζ hζ x i ^ 3 = 1 := fun x i => by
     rw [zetaVec_apply, ← pow_mul, mul_comm, pow_mul, hζ, one_pow]
   have hdR : ∀ x : Fin Tag.E6.rank → ZMod 3,
@@ -179,13 +178,13 @@ private theorem baseChange_rgrpConjAut (x : ↥(TwistedDiag.Rgrp Ω Fr))
   rw [hvalT]
 
 theorem tFrame_weyl (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
-    (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
+    (_hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.WeylOK := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hunit : (-1 : Ωˣ) = 1 := by
     refine Units.ext ?_
     have h2 : (2 : Ω) = 0 := CharP.cast_eq_zero Ω 2
@@ -323,7 +322,6 @@ theorem tFrame_weyl (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr
       rw [hbase_r]
       rfl
     · refine ⟨v, hvhyp, ?_⟩
-      change MulAut.conj (D.nb i * (D.ad x (D.nb i))⁻¹) = D.ad v
       rw [map_mul, map_inv]
       rw [show MulAut.conj (D.ad x (D.nb i)) =
           D.ad x * MulAut.conj (D.nb i) * (D.ad x)⁻¹ from

@@ -32,7 +32,7 @@ private theorem s888_psiAut_pow {X : Type} [Group X] {M : Subgroup X} [M.Normal]
 
 theorem mbarMk_injOn_V {X : Type} [Group X] [Finite X] {S : Sylow 2 X} {V : Subgroup X}
     {W : Fin 4 → Subgroup X} {ρ : Fin 4 → X} (hX : XData S V W ρ) {M : Subgroup X}
-    (hVM : V ≤ M) (hB : IsCaseB S V M) :
+    (_hVM : V ≤ M) (hB : IsCaseB S V M) :
     ∀ x ∈ V.subgroupOf M, ∀ y ∈ V.subgroupOf M, mbarMk M x = mbarMk M y → x = y := by
   intro x hx y hy hxy
   exact hB.inj x (Subgroup.mem_subgroupOf.mpr (hX.le_S (Subgroup.mem_subgroupOf.mp hx)))
@@ -82,7 +82,7 @@ theorem isPlanes_image {X : Type} [Group X] [Finite X] {S : Sylow 2 X} {V : Subg
       exact Subgroup.mem_map.mpr ⟨w' i, Subgroup.mem_subgroupOf.mpr (hw i), rfl⟩
     · have hprod : w' 0 * w' 1 * w' 2 * w' 3 = x := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk, w']
+        simp only [Subgroup.coe_mul, w']
         exact hwx.symm
       calc
         mbarMk M x = mbarMk M (w' 0 * w' 1 * w' 2 * w' 3) := by rw [hprod]

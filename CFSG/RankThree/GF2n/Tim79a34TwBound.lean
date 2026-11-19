@@ -190,7 +190,7 @@ theorem twb_card_sup_zpowers {Y : Type} [Group Y] [Finite Y] (A : Subgroup Y)
   have hcardeq := Nat.card_congr (MonoidHom.ofInjective hψ).toEquiv
   rw [← hrange, ← hcardeq, Nat.card_prod, hA, hZ]
 
-theorem twb_inf_bot_of_center {M V Q P H : Subgroup G} [Finite G] (hc : MinCex M V Q P H)
+theorem twb_inf_bot_of_center {M V Q P H : Subgroup G} [Finite G] (_hc : MinCex M V Q P H)
     (hd : Sec23Data V H) {z : Xbar V H} (hz : z ∈ Subgroup.center (Xbar V H))
     {a : Hbar V H} (ha : a ∈ barOf V H V) (haz : a ∈ Subgroup.zpowers (z : Hbar V H)) :
     a = 1 := by
@@ -202,11 +202,11 @@ theorem twb_inf_bot_of_center {M V Q P H : Subgroup G} [Finite G] (hc : MinCex M
       Subtype.ext (by rw [Subgroup.coe_zpow]; exact hk.symm)
     rw [heq]
     exact zpow_mem hz k
-  exact hd.noncentral ⟨a, hXa⟩ (hc.barOf_V_subset_dbarOf ha ha1) hyc
+  exact hd.noncentral ⟨a, hXa⟩ (CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf ha ha1) hyc
 
 theorem twb_mul_self_mem_V {M V Q P H : Subgroup G} [Finite G] (hc : MinCex M V Q P H)
     {r : G} (hr : r ∈ P) : r * r ∈ V := by
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hmem : ((⟨r, hr⟩ : ↥P) ^ 2) ∈ frattini ↥P :=
     CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (⟨r, hr⟩ : ↥P)
   exact hc.frattini_P_le ⟨_, hmem, by simp [pow_two]⟩

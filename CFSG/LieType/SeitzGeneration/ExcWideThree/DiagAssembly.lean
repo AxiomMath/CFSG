@@ -30,7 +30,7 @@ section Assembly
   ∀ (K : Type) [Field K] [Finite K], ringChar K ≠ 3 →
     ∀ E : Subgroup (MulAut (adjointGroup Tag.E6 K)), E ≤ e6Inndiag K →
       CFSG.IsElementaryAbelian 3 E → Nat.card E = 3 ^ 2 → ¬ E ≤ innerAut (adjointGroup Tag.E6 K) →
-      (∃ D : LangGLData Tag.E6 K (e6PlanePre K E), ∃ x ∈ e6PlanePre K E,
+      (∃ _D : LangGLData Tag.E6 K (e6PlanePre K E), ∃ x ∈ e6PlanePre K E,
           x ∉ adjointGroup Tag.E6 K) ∨ E6NormalizesR K E
 
 @[expose] def E6DiagRegularOuter : Prop :=
@@ -83,11 +83,11 @@ theorem four_le_card_of_not_innerAut (K : Type) [Field K] [Finite K] (hK3 : ring
 
 theorem exists_primCubeRoot (K : Type) [Field K] [Finite K] (hK3 : ringChar K ≠ 3) :
     ∃ ω : (AlgebraicClosure K)ˣ, IsPrimitiveRoot (ω : AlgebraicClosure K) 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne3 : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_three_ne_zero_of_not_dvd (K := K) (not_three_dvd_card_of_ringChar K hK3)
-  haveI : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  have : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   exact ⟨hζu.unit, by rw [IsUnit.unit_spec]; exact hζ⟩
 

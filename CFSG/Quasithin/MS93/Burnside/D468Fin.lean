@@ -506,7 +506,7 @@ theorem burnsideD468_false_of_not_s468At (h464 : I464) (h465 : I465) (h466a : I4
   have hx : IsMVtx (puAmalgam c.pu.le) (geo _ α α' 2) := isMVtx_geo_two' hb4 hc
   have hα' : IsMVtx (puAmalgam c.pu.le) α' := hc.isMVtx_right _ c.pu.hyp20
   have hcrev := ms22_iii _ c.pu.hyp20 c.pu.critDist_pos c.pu.centHyp hc
-  obtain ⟨z, hzZ, hzα⟩ := SetLike.not_le_iff_exists.mp hcrev.2.2
+  obtain ⟨z, hzZ, hzα⟩ := IsConcreteLE.not_le_iff_exists.mp hcrev.2.2
   have hzV : z ∈ Vv (puAmalgam c.pu.le) (geo _ α α' 2) :=
     zm_le_vv_of_dist_le_two hα' (by rw [dist_geo_crit_right hb4 hc (by omega)]) hzZ
   have hzT : z ∈ Qv (puAmalgam c.pu.le) (geo _ α α' 1) :=

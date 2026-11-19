@@ -139,7 +139,7 @@ theorem exists_surjective_regularWreathProduct_of_transfer_eq_one
         apply Subtype.ext
         simp only [Subgroup.coe_mul]
         group)
-  obtain ⟨φ, hφs, hRφ⟩ := exists_surjective_zmod_of_ne_top P.isPGroup' hRne
+  obtain ⟨φ, hφs, hRφ⟩ := exists_surjective_zmod_of_ne_top P.isPGroup hRne
   set t := Function.surjInv hφs with ht_def
   have ht : ∀ x, φ (t x) = x := Function.surjInv_eq hφs
   set R' : Subgroup φ.ker := R.subgroupOf φ.ker with hR'

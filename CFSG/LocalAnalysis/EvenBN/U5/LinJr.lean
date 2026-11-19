@@ -30,13 +30,13 @@ theorem sec43_three (hl : d.LinCtx) (k : d.Know12) (c : d.CaseBData) (h42 : c.Se
   have hES : d.E ≤ c.S := hSeq ▸ le_sup_left
   have hDS : d.D ≤ c.S := hSeq ▸ le_sup_right
   have hSN : c.S ≤ normalizer (d.E : Set G) :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer hES).1 (by haveI := hEchar; infer_instance)
+    (Subgroup.normal_subgroupOf_iff_le_normalizer hES).1 (by have := hEchar; infer_instance)
   have hEt : d.E.map (MulAut.conj d.t).toMonoidHom = d.E :=
     LinCase.swap_map_eq_of_mem_normalizer (hd.t_mem_normalizer_E_caseB hl.gms)
   have hDt : d.D.map (MulAut.conj d.t).toMonoidHom = d.D :=
     LinCase.swap_map_eq_of_mem_normalizer hd.t_mem_normalizer_D
-  haveI hBel : CFSG.IsElementaryAbelian 2 c.Bc := h42.elem
-  haveI hBtel : CFSG.IsElementaryAbelian 2 c.Bt := CFSG.IsElementaryAbelian.map _
+  have hBel : CFSG.IsElementaryAbelian 2 c.Bc := h42.elem
+  have hBtel : CFSG.IsElementaryAbelian 2 c.Bt := CFSG.IsElementaryAbelian.map _
   have hBD : c.Bc ≤ d.D := inf_le_right
   have hBtD : c.Bt ≤ d.D := by
     have := Subgroup.map_mono (f := (MulAut.conj d.t).toMonoidHom) hBD
@@ -69,7 +69,7 @@ theorem sec43_three (hl : d.LinCtx) (k : d.Know12) (c : d.CaseBData) (h42 : c.Se
       set Z : Subgroup G := B₁ ⊓ centralizer ({y} : Set G) with hZ
       have hZB : Z ≤ B₁ := inf_le_left
       have hZS : Z ≤ c.S := hZB.trans (hB₁D.trans hDS)
-      haveI : CFSG.IsElementaryAbelian 2 B₁ := hB₁el
+      have : CFSG.IsElementaryAbelian 2 B₁ := hB₁el
       have hZel : CFSG.IsElementaryAbelian 2 Z := CFSG.IsElementaryAbelian.of_le hB₁el hZB
       have hcomm : ∀ z ∈ Z, y * z = z * y := fun z hz =>
         (mem_centralizer_singleton_iff.1 hz.2).symm

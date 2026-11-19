@@ -40,8 +40,8 @@ theorem exists_coordBlockSU_eq_conj {f : ℕ} (h : UnitaryFieldData 2 f K) {σ :
           (Y : GL (Fin n) K)⁻¹ := by
   classical
   set K₀ := fixSubfield σ with hK₀def
-  haveI : Finite K₀ := h₀.finite
-  haveI : CharP K₀ 2 := h₀.charP
+  have : Finite K₀ := h₀.finite
+  have : CharP K₀ 2 := h₀.charP
   set hC := isPrimeFormGram_idGram (K := K) (n := n) with hCdef
   have heq₀ : SUid (unitaryInvolution K₀ 2 1) n = gramSU h₀ (idGram K₀ n) :=
     (SUid_eq_statedSU (h₀.card.trans (by norm_num)) n).trans (statedSU_eq_gramSU h₀ n)

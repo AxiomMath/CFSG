@@ -13,6 +13,7 @@ open CFSG.AGLEmbedding.SUPair (Heis27)
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem eq_one_of_conj_eq_mul {c x a : Y} (hcx : c * x * c⁻¹ = a * x) (hca : c * a = a * c)
     {m : ℕ} (hc : c ^ (2 ^ m) = 1) (ha : a ^ 3 = 1) : a = 1 := by
   have hk : ∀ k : ℕ, c ^ k * x * (c ^ k)⁻¹ = a ^ k * x := by
@@ -47,6 +48,7 @@ structure Good (D A Z S : Subgroup Y) (y : Y) : Prop where
 
 variable {D A Z S : Subgroup Y}
 
+omit [Finite Y] in
 theorem mem_of_zpow_mem {s : Y} (hs3 : s ^ 3 = 1) {n : ℤ} (hn : (n : ZMod 3) ≠ 0)
     (h : s ^ n ∈ Z) : s ∈ Z := by
   have h2 : s ^ (n * n) ∈ Z := by rw [zpow_mul]; exact zpow_mem h n
@@ -63,6 +65,7 @@ theorem mem_of_zpow_mem {s : Y} (hs3 : s ^ 3 = 1) {n : ℤ} (hn : (n : ZMod 3) �
       zpow_natCast, hs3, one_zpow, one_mul, zpow_one]
   rwa [hs] at h2
 
+omit [Finite Y] in
 theorem not_mem_of_good (hH : Heis27 A Z) {y : Y} (hy : Good D A Z S y) {s : Y} (hs : s ∈ A)
     (hsZ : s ∉ Z) (k : ℤ) : (s ^ k)⁻¹ * (y * s * y⁻¹) ∉ Z := by
   intro hz
@@ -188,7 +191,7 @@ theorem eq_of_good (hH : Heis27 A Z) [D.Normal] (hS : IsPGroup 2 S)
     have hne9 : Nat.card F ≠ 9 := by
       intro h9
       set ZF := Z.subgroupOf F
-      haveI : ZF.Normal := ⟨fun n hn g => by
+      have : ZF.Normal := ⟨fun n hn g => by
         rw [mem_subgroupOf] at hn ⊢
         have : (g : Y) * n * (g : Y)⁻¹ = n := by
           rw [← hcen _ hn _ (hFA g.2)]; group
@@ -196,7 +199,7 @@ theorem eq_of_good (hH : Heis27 A Z) [D.Normal] (hS : IsPGroup 2 S)
       have hq := card_eq_card_quotient_mul_card_subgroup ZF
       rw [h9, Nat.card_congr (subgroupOfEquivOfLe hZF).toEquiv, hZcard] at hq
       have hq3 : Nat.card (↥F ⧸ ZF) = 3 := by omega
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hsq : (QuotientGroup.mk (⟨s, hsF⟩ : ↥F) : ↥F ⧸ ZF) ≠ 1 := by
         rw [Ne, QuotientGroup.eq_one_iff, mem_subgroupOf]
         exact hsZ
@@ -266,18 +269,18 @@ theorem mem_of_good (hH : Heis27 A Z) [D.Normal] (hS : IsPGroup 2 S)
     (X : Finset Y) (hX6 : X.card = 6) (hXg : ∀ x ∈ X, Good D A Z S x) {y : Y}
     (hy : Good D A Z S y) : y ∈ X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ZA : Subgroup ↥A := Z.subgroupOf A with hZA
-  haveI : ZA.Normal := ⟨fun n hn g => by
+  have : ZA.Normal := ⟨fun n hn g => by
     rw [mem_subgroupOf] at hn ⊢
     have : (g : Y) * n * (g : Y)⁻¹ = n := by rw [← hH.central _ hn _ g.2]; group
     simpa [this] using hn⟩
-  haveI : Fintype (↥A ⧸ ZA) := Fintype.ofFinite _
+  have : Fintype (↥A ⧸ ZA) := Fintype.ofFinite _
   set sb : ↥A ⧸ ZA := QuotientGroup.mk ⟨s, hs⟩ with hsb
   let ψ : Y → ↥A ⧸ ZA := fun g =>
     if hg : g * s * g⁻¹ ∈ A then QuotientGroup.mk ⟨_, hg⟩ else 1
   have hψ : ∀ g (hg : Good D A Z S g), ψ g = QuotientGroup.mk ⟨g * s * g⁻¹, hg.normA s hs⟩ :=
-    fun g hg => dif_pos _
+    fun g hg => dite_eq_left _
   have hψeq : ∀ g g', Good D A Z S g → Good D A Z S g' → ψ g = ψ g' → g = g' := by
     intro g g' hg hg' he
     rw [hψ g hg, hψ g' hg', QuotientGroup.eq, hZA, mem_subgroupOf] at he

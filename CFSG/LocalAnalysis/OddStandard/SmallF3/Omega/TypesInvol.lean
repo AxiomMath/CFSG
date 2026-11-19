@@ -31,6 +31,7 @@ private lemma aux_units_identity (b a c : ℤˣ) (ha : a * a = 1) (hc : c * c = 
     rw [mul_comm a (b * a * c), mul_assoc]
   rw [hrearr, key]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma aux_map_eq_of_agrees {N N' : Submodule (ZMod 3) V}
     (f : N ≃ₗ[ZMod 3] N') (g : V ≃ₗ[ZMod 3] V)
     (hg : ∀ x : N, g (x : V) = (f x : V)) :
@@ -69,20 +70,24 @@ private noncomputable def aux_restrictTopEquiv :
 
 @[expose] noncomputable def invType (t : OGroup Q) : ℕ × ℤˣ := (invDim t, invSign t)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem piOrth_mul_self : piOrth Q * piOrth Q = 1 := by
   exact QuadraticMap.negOrthogonal_mul_self Q
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem coe_piOrth_apply (v : V) : (piOrth Q : V ≃ₗ[ZMod 3] V) v = -v := by
   change (QuadraticMap.negOrthogonal Q : V ≃ₗ[ZMod 3] V) v = -v
   rw [QuadraticMap.coe_negOrthogonal]
   exact LinearEquiv.neg_apply v
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_one : commSp (1 : OGroup Q) = ⊥ := by
   rw [Submodule.eq_bot_iff]
   intro v hv
   obtain ⟨u, hu⟩ := CFSG.RankThree.OrthogonalInvolutions.mem_commSpace.mp hv
   simpa using hu.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_piOrth : commSp (piOrth Q) = ⊤ := by
   rw [Submodule.eq_top_iff']
   intro v
@@ -98,7 +103,7 @@ theorem invType_one : invType (1 : OGroup Q) = (0, 1) := by
         quadSign (Q.restrict (⊥ : Submodule (ZMod 3) V)) :=
       congrArg (fun M => quadSign (Q.restrict M)) commSp_one
     rw [hbot]
-    haveI : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
+    have : Subsingleton (⊥ : Submodule (ZMod 3) V) := by
       rw [Submodule.subsingleton_iff_eq_bot]
     exact quadSign_of_subsingleton _
 

@@ -85,7 +85,7 @@ theorem y7c_cent_three_of_iso {Γ : Type} [Group Γ] {J : Subgroup Γ}
   by_contra hy1
   have hcard : Nat.card (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) = 168 :=
     CFSG.ComponentClassification.GHarris.card_GL32_gh
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hord : ∀ (z : Γ) (hz : z ∈ J), orderOf (e ⟨z, hz⟩) = orderOf z := fun z hz => by
     rw [MulEquiv.orderOf_eq e ⟨z, hz⟩, Subgroup.orderOf_mk]
@@ -94,8 +94,8 @@ theorem y7c_cent_three_of_iso {Γ : Type} [Group Γ] {J : Subgroup Γ}
     intro p _ z h
     obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp h ⟨z, Subgroup.mem_zpowers z⟩
     exact ⟨n, by rw [← hn, Subgroup.orderOf_mk]⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := hpg 3 x hx3
   obtain ⟨b, hb⟩ := hpg 2 y hy
   refine y7c_no_six (X := e ⟨x, hxJ⟩) (Y := e ⟨y, hyJ⟩) hcard y7c_gl3_pow6 ?_

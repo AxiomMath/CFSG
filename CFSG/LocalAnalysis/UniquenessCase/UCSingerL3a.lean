@@ -32,7 +32,7 @@ theorem l3_exists_model_L (hq : Nat.card F % 3 = 2) :
     ∃ b z : SL(3, F), b ^ 3 = 1 ∧ (∀ c : F, (b : Matrix (Fin 3) (Fin 3) F) ≠ c • 1) ∧
       orderOf z = Nat.card F ^ 2 + Nat.card F + 1 ∧ b * z * b⁻¹ = z ^ Nat.card F := by
   have hcube := cube_roots_trivial hq
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hq2 : 2 ≤ Nat.card F := Finite.one_lt_card
   have hcardL : Nat.card (L3 F p) = Nat.card F ^ 3 := FiniteField.natCard_extension F p 3
   have hdvd : Nat.card F ^ 2 + Nat.card F + 1 ∣ Nat.card (L3 F p)ˣ := by

@@ -19,8 +19,8 @@ theorem innDiagOn_of_triModel
     (hS : Setup p L J A d b) (hM : TriModelData p L J d b) :
     InnDiagOn p (Subgroup.zpowers b) J := by
   obtain ⟨f, K, hKf, hKfin, σ, θ, x, w, hdata, hxind, hwind, hxp, hx1, hxw, hcomp⟩ := hM
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
     S171.normalizer_of_innerDiagMarking hS.idiag hS.b_mem
   let J' : Subgroup (TriGrp K σ) := (J.subgroupOf L).map (piCenterQuot θ)

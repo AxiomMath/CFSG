@@ -42,7 +42,7 @@ theorem r2_A5Q8D8 (c : Ctx45 p G D)
   obtain ⟨e₀⟩ := c.alt5
   have hA : CFSG.Quasithin.IsAlt 5 (G ⧸ Xof G) :=
     ⟨(QuotientGroup.quotientMulEquivOfEq hHX.symm).trans e₀⟩
-  haveI : (Xof G).Normal := xof_normal
+  have : (Xof G).Normal := xof_normal
   obtain ⟨Q, E, hQ, hE, hQE, hsup, hcardQE⟩ :=
     CFSG.Quasithin.Q8D8Rec.q8d8_isQ8D8 (Xof G) hV hA c.perfect
   exact ⟨Xof G, xof_normal, ⟨Q, E, hQ, hE, hQE, hsup, hcardQE⟩, hA⟩

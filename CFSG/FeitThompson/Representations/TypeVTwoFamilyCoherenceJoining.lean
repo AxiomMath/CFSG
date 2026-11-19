@@ -162,7 +162,7 @@ omit [Fintype G] [K.Normal] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
 theorem cfInner_self_primeTIrow (hB : h.IsUniformBridgeData σ ζ d n δ) (j : Irr ↥W₂) :
     cfInner (h.primeTIrow σ j) (h.primeTIrow σ j) = (Nat.card ↥W₁ : ℂ) := by
   classical
-  rw [cfInner_primeTIrow_primeTIrow h hB.isometry j j, if_pos rfl]
+  rw [cfInner_primeTIrow_primeTIrow h hB.isometry j j, ite_eq_left rfl]
 
 omit [Fintype G] [K.Normal] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
 theorem disjoint_of_subset_Irr (hB : h.IsUniformBridgeData σ ζ d n δ) (hT₁ : T₁ ⊆ Irr ↥L) :
@@ -249,6 +249,7 @@ theorem eq_of_cfInner_eq_one {ρ χ : G → ℂ} (hρ : cfInner ρ ρ = 1) (hχ 
   exact sub_eq_zero.1 (cfInner_self_eq_zero.1 hz)
 
 omit [K.Normal] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
+omit [Fintype G] [Fintype ↥(Subgroup.map L.subtype (W₁ ⊔ W₂))] in
 theorem cfInner_primeTIbridge_primeTIrow_principal_sub
     [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] (hB : h.IsUniformBridgeData σ ζ d n δ)
     (i : Irr ↥W₁) {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
@@ -256,7 +257,7 @@ theorem cfInner_primeTIbridge_primeTIrow_principal_sub
         (h.primeTIrow σ (principalIrr ↥W₂) - ζ) = (n : ℂ) - (δ : ℂ) := by
   classical
   rw [cfInner_sub_right, h.cfInner_primeTIbridge_zeta hB i j,
-    h.cfInner_primeTIbridge_primeTIrow hB i j (principalIrr ↥W₂), if_neg hj, if_pos rfl]
+    h.cfInner_primeTIbridge_primeTIrow hB i j (principalIrr ↥W₂), ite_eq_right hj, ite_eq_left rfl]
   ring
 
 section Array
@@ -272,8 +273,8 @@ theorem cfInner_prodCharEta_principal_prodCharEtaColSum
   classical
   rw [hW.prodCharEtaColSum_eq_sum, cfInner_sum_right,
     Finset.sum_eq_single_of_mem i (Finset.mem_univ i) (fun l _ hli => by
-      rw [hW.cfInner_prodCharEta hω, if_neg (by rintro ⟨h1, -⟩; exact hli h1.symm)]),
-    hW.cfInner_prodCharEta hω, if_pos ⟨rfl, rfl⟩]
+      rw [hW.cfInner_prodCharEta hω, ite_eq_right (by rintro ⟨h1, -⟩; exact hli h1.symm)]),
+    hW.cfInner_prodCharEta hω, ite_eq_left ⟨rfl, rfl⟩]
 
 omit [Fintype ↥L] [K.Normal] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)] in
 theorem cfInner_prodCharEta_prodCharEtaColSum_eq_zero
@@ -286,7 +287,7 @@ theorem cfInner_prodCharEta_prodCharEtaColSum_eq_zero
   classical
   rw [hW.prodCharEtaColSum_eq_sum, cfInner_sum_right, Finset.sum_eq_zero]
   intro l _
-  rw [hW.cfInner_prodCharEta hω, if_neg (by rintro ⟨-, h2⟩; exact hj h2)]
+  rw [hW.cfInner_prodCharEta hω, ite_eq_right (by rintro ⟨-, h2⟩; exact hj h2)]
 
 end Array
 
@@ -302,6 +303,7 @@ theorem sum_prodCharEta_eq_prodCharEtaColSum
   exact Fintype.sum_bijective (irrMapSubtype L W₁) (irrMapSubtype_bijective L W₁) _ _ fun _ => rfl
 
 omit [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [Fintype G] [K.Normal] in
 theorem primeTIrow_principal_sub_mem_dadeDomain (hB : h.IsUniformBridgeData σ ζ d n δ)
     (hA₀ : (fun x : ↥L => (x : G)) '' bridgeSupport ((K : Set ↥L) \ {1}) W₁ W₂ ⊆ A₀) :
     h.primeTIrow σ (principalIrr ↥W₂) - ζ ∈ dadeDomain L A₀ :=
@@ -311,6 +313,7 @@ theorem primeTIrow_principal_sub_mem_dadeDomain (hB : h.IsUniformBridgeData σ �
     h.primeTIrow_sub_apply_eq_zero hB.isometry hB.mem_indFam hB.apply_one fun hmem =>
       hx (hA₀ ⟨x, subset_bridgeSupport_left hmem, rfl⟩)⟩)
 
+omit [K.Normal] in
 theorem exists_virtualChar_norm_one_dadeMap_primeTIrow_sub
     (hB : h.IsUniformBridgeData σ ζ d n δ)
     (hA₀ : (fun x : ↥L => (x : G)) '' bridgeSupport ((K : Set ↥L) \ {1}) W₁ W₂ ⊆ A₀)
@@ -382,6 +385,7 @@ theorem primeTIrowFam_subset : primeTIrowFam h σ ⊆ indFam K (Irr ↥K \ {1}) 
   primeTIrowFam_subset_indFam hC.local_data
 
 include hC in
+omit [K.Normal] in
 theorem disjoint : Disjoint T₁ (primeTIrowFam h σ) :=
   disjoint_of_subset_Irr hC.local_data hC.subset_Irr
 
@@ -399,9 +403,11 @@ theorem isCoherent_rowFamily :
     hC.stabilizer_eq hC.inter_eq_empty hC.omega_isometry
 
 include hC in
+omit [K.Normal] in
 theorem finite_linearLayer : T₁.Finite := Set.Finite.subset finite_Irr hC.subset_Irr
 
 omit [Fintype G] [K.Normal] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [Fintype ↥(W₁ ⊔ W₂)] in
 theorem finite_rowFamily (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (σ : classFun ↥(W₁ ⊔ W₂) →ₗ[ℂ] classFun ↥L) : (primeTIrowFam h σ).Finite := by
   rw [primeTIrowFam_eq_range h]
@@ -415,48 +421,56 @@ noncomputable def rowFinset (h : IsPrimeCyclicTIHyp K W₁ W₂)
   (finite_rowFamily h σ).toFinset
 
 include hC in
+omit [K.Normal] in
 theorem coe_linFinset : (hC.linFinset : Set (↥L → ℂ)) = T₁ := Set.Finite.coe_toFinset _
 
-omit [Fintype G] [K.Normal] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [Fintype G] [K.Normal] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↥(W₁ ⊔ W₂)] in
 theorem coe_rowFinset (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (σ : classFun ↥(W₁ ⊔ W₂) →ₗ[ℂ] classFun ↥L) :
     ((rowFinset h σ : Finset (↥L → ℂ)) : Set (↥L → ℂ)) = primeTIrowFam h σ :=
   Set.Finite.coe_toFinset _
 
 include hC in
+omit [K.Normal] in
 theorem coe_rowFinset_union_linFinset :
     ((rowFinset h σ ∪ hC.linFinset : Finset (↥L → ℂ)) : Set (↥L → ℂ))
       = indFam K (Irr ↥K \ {1}) := by
   rw [Finset.coe_union, coe_rowFinset, hC.coe_linFinset, Set.union_comm, ← hC.union_eq]
 
 include hC in
+omit [K.Normal] in
 theorem rowFinset_union_linFinset_subset_fullFamily :
     (rowFinset h σ ∪ hC.linFinset) ⊆ CentralSectionFullExtension.fullFamily K := by
   rw [← Finset.coe_subset, hC.coe_rowFinset_union_linFinset,
     PrimeFixedTIPGroupCoherence.coe_fullFamily_eq_indFam_sdiff K]
 
 include hC in
+omit [K.Normal] in
 theorem rowFinset_subset_fullFamily :
     rowFinset h σ ⊆ CentralSectionFullExtension.fullFamily K :=
   Finset.subset_union_left.trans hC.rowFinset_union_linFinset_subset_fullFamily
 
 include hC in
+omit [K.Normal] in
 theorem linFinset_subset_fullFamily :
     hC.linFinset ⊆ CentralSectionFullExtension.fullFamily K :=
   Finset.subset_union_right.trans hC.rowFinset_union_linFinset_subset_fullFamily
 
 include hC in
+omit [K.Normal] in
 theorem disjoint_rowFinset_linFinset : Disjoint (rowFinset h σ) hC.linFinset := by
   rw [← Finset.disjoint_coe, coe_rowFinset, hC.coe_linFinset]
   exact hC.disjoint.symm
 
 include hC in
+omit [K.Normal] in
 theorem linFinset_nonempty : hC.linFinset.Nonempty := by
   refine ⟨ζ, ?_⟩
   rw [← Finset.mem_coe, hC.coe_linFinset]
   exact hC.zeta_mem
 
 omit [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [K.Normal] [Fintype ↥(W₁ ⊔ W₂)] in
 theorem rowFinset_nonempty (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (σ : classFun ↥(W₁ ⊔ W₂) →ₗ[ℂ] classFun ↥L) : (rowFinset h σ).Nonempty := by
   classical
@@ -480,11 +494,13 @@ theorem exists_isSubcoherent_fullFamily :
   exact ⟨R, hR⟩
 
 include hC in
+omit [K.Normal] in
 theorem image_primeTIbridgeSupport_subset :
     (fun x : ↥L => (x : G)) '' primeTIbridgeSupport K W₁ W₂ ⊆ A₀ := by
   rw [primeTIbridgeSupport_eq_bridgeSupport]; exact hC.image_subset
 
 include hC in
+omit [K.Normal] in
 theorem isCyclicTIPair_map :
     IsCyclicTIPair ((W₁ ⊔ W₂).map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) :=
   h.isCyclicTIPair_map_subtype hC.stabilizer_eq hC.inter_eq_empty
@@ -511,6 +527,7 @@ theorem isLargeLinearLayerData
     coe_subDadeHom hC.isDadeData hC.subset_indFam hC.image_subset f F hfF.symm
 
 include hC in
+omit [K.Normal] in
 theorem primeTIrow_principal_sub_mem_dadeZDomain :
     h.primeTIrow σ (principalIrr ↥W₂) - ζ ∈ dadeZDomain L A₀ :=
   mem_dadeZDomain.2 ⟨mem_virtualChars_of_mem_span_Irr

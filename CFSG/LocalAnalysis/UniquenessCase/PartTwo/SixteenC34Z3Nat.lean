@@ -19,7 +19,7 @@ theorem s16c34_alternatingNatural_of_cyclic_three {W : Type} [CommGroup W] [Fini
   have hU4 : Nat.card ↥U = 4 := by
     rw [card_eq_two_pow hW U, hrkU]
     norm_num
-  haveI hUnt : Nontrivial ↥U := by
+  have hUnt : Nontrivial ↥U := by
     rw [← Finite.one_lt_card_iff_nontrivial, hU4]
     norm_num
   have hfix : fixV K ⊓ U = ⊥ := Asc81c.fixV_inf_commSub_eq_bot' hW hodd
@@ -59,7 +59,7 @@ theorem s16c34_alternatingNatural_of_cyclic_three {W : Type} [CommGroup W] [Fini
     exact h
   let ρ0 : ↥K →* ↥(autSub K U) :=
     (((resHom U).comp (Subgroup.inclusion hKle))).codRestrict (autSub K U) (fun k =>
-      mem_autSub.mpr ⟨Subgroup.inclusion hKle k, by simpa using k.2, rfl⟩)
+      mem_autSub.mpr ⟨Subgroup.inclusion hKle k, by simp, rfl⟩)
   have hρ0apply : ∀ k : ↥K, ((ρ0 k : ↥(autSub K U)) : MulAut ↥U) =
       resHom U ⟨(k : MulAut W), hKle k.2⟩ := fun _ => rfl
   have hsurj : Function.Surjective ρ0 := by
@@ -114,7 +114,7 @@ theorem s16c34_alternatingNatural_of_cyclic_three {W : Type} [CommGroup W] [Fini
       exact Subgroup.card_eq_one.mp (by simpa using hkJ)
     · exfalso
       have hJ2 : Nat.card ↥J = 2 := by simpa using hkJ
-      haveI : Nontrivial ↥J := by
+      have : Nontrivial ↥J := by
         rw [← Finite.one_lt_card_iff_nontrivial, hJ2]
         norm_num
       obtain ⟨j, hj1⟩ := exists_ne (1 : ↥J)

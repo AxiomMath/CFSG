@@ -82,7 +82,7 @@ theorem Std20G.late_cmo_comm_W (d : Std20G K K' J S R R' W V z t) {x : G}
     rw [commutatorElement_def]
     exact W.mul_mem hxw (W.inv_mem hw.1)
   have h3 : IsPGroup 2 ↥(Subgroup.zpowers ⁅x, w⁆) :=
-    S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr h2).trans d.hWS)
+    S.isPGroup.to_le ((Subgroup.zpowers_le.mpr h2).trans d.hWS)
   exact commutatorElement_eq_one_iff_mul_comm.mp
     (eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard K) h1 h3)
 
@@ -99,7 +99,7 @@ theorem Std20G.late_isSylow2In_oddK' (d : Std20G K K' J S R R' W V z t) :
     (fun g _ => mem_normalizer_iff_conjSub_eq.mpr (by unfold conjSub; exact Subgroup.map_bot _))
     (fun g hg => by
       have : g = 1 := eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard K) hg.2
-        (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hR'S hg.1)))
+        (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hR'S hg.1)))
       rw [this]
       exact Subgroup.one_mem _)
   rwa [bot_sup_eq] at h
@@ -131,7 +131,7 @@ theorem Std20G.late_kappa (d : Std20G K K' J S R R' W V z t) {x : G}
   have hκS : (x * t * x⁻¹) * t⁻¹ ∈ (S : Subgroup G) :=
     S.mul_mem (S.mul_mem (S.mul_mem hxS htS) (S.inv_mem hxS)) (S.inv_mem htS)
   have hSR' : (S : Subgroup G) ⊓ (oddCoreOf K ⊔ K') = R' :=
-    d.late_isSylow2In_oddK'.eq_of_le (S.isPGroup'.to_le inf_le_left) inf_le_right
+    d.late_isSylow2In_oddK'.eq_of_le (S.isPGroup.to_le inf_le_left) inf_le_right
       (le_inf d.hR'S (d.hR'.1.trans le_sup_right))
   have hκR' : (x * t * x⁻¹) * t⁻¹ ∈ R' := by rw [← hSR']; exact ⟨hκS, hκmem⟩
   have hxtW : x * t * x⁻¹ ∈ W := by
@@ -192,7 +192,7 @@ theorem Std20G.late_inv_W (d : Std20G K K' J S R R' W V z t) :
     intro x hxK hxJ
     by_contra hx1
     have hA : IsPGroup 2 ↥(Subgroup.zpowers x) :=
-      S.isPGroup'.to_le ((Subgroup.zpowers_le.mpr hxK.1).trans d.hWS)
+      S.isPGroup.to_le ((Subgroup.zpowers_le.mpr hxK.1).trans d.hWS)
     have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_J
       d.late_J_ne_K.symm hA (Subgroup.zpowers_le.mpr hxK.2) (Subgroup.zpowers_le.mpr hxJ.2)
     rw [Nat.card_zpowers] at hcard

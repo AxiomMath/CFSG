@@ -30,7 +30,7 @@ theorem uc22s2112u_lift_inv {Γ H : Type*} [Group Γ] [Finite Γ] [Group H] (φ 
     (hBS : (B : Set Γ) * S = S * B) (hfaith : ∀ b ∈ B, φ b = 1 → b = 1) {s : Γ} (hs : s ∈ S)
     (hinv : ∀ b ∈ B, φ s * φ b * (φ s)⁻¹ = (φ b)⁻¹) :
     ∃ t ∈ S, ∀ b ∈ B, t * b * t⁻¹ = b⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ x ∈ S, ∀ b ∈ B, φ (x * b) = 1 → b = 1 := by
     intro x hx b hb h
     apply hfaith b hb
@@ -111,7 +111,7 @@ theorem uc22s2112u_lift_inv {Γ H : Type*} [Group Γ] [Finite Γ] [Group H] (φ 
       rw [hb']
       exact mul_mem (mem_sup_right h1) (mem_sup_left (B.inv_mem hb))
   set X : Subgroup Γ := B ⊔ K with hXdef
-  haveI : (K.subgroupOf X).Normal := normal_subgroupOf_sup_of_le_normalizer hBnorm
+  have : (K.subgroupOf X).Normal := normal_subgroupOf_sup_of_le_normalizer hBnorm
   have hBX : B ≤ X := le_sup_left
   have hKX : K ≤ X := le_sup_right
   have hBsX : Bs ≤ X := by

@@ -18,14 +18,17 @@ variable [Finite G]
 @[expose] noncomputable def off (X Y : Subgroup G) : ℕ :=
   mIdx X (X ⊓ Subgroup.centralizer (Y : Set G))
 
+omit [Finite G] in
 theorem mIdx_conjSub (g : G) (X Y : Subgroup G) : mIdx (conjSub g X) (conjSub g Y) = mIdx X Y := by
   unfold mIdx conjSub
   rw [Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem off_conjSub (g : G) (X Y : Subgroup G) : off (conjSub g X) (conjSub g Y) = off X Y := by
   unfold off
   rw [conjSub_centralizer, ← conjSub_inf, mIdx_conjSub]
 
+omit [Finite G] in
 theorem noOffender_conj {G₁ G₂ V : Subgroup G} (hN : G₁ ≤ Subgroup.normalizer (V : Set G))
     (hD1 : ∀ A : Subgroup G, A ≤ pCoreOf 2 (G₁ ⊓ G₂) → ¬ A ≤ Subgroup.centralizer (V : Set G) →
       off A V < off V A)

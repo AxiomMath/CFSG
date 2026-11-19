@@ -24,7 +24,7 @@ private lemma flag_succ_one_eq_span_singleton_C01 (m : ℕ) {K : Type} [Field K]
         {j | (j : ℕ) < 1}
       = {Pi.single (Sum.inl (0 : Fin (m + 1))) (1 : K)} := by
     ext v
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hjval : (j : ℕ) = 0 := Nat.lt_one_iff.mp hj

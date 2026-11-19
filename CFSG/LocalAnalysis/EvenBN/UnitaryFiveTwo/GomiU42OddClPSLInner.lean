@@ -20,7 +20,7 @@ open CFSG.ComponentClassification.CatalogueBProjectiveInvolution (positiveMatrix
 
 theorem u42_card_GL {K : Type} [Field K] [Finite K] (k : ℕ) :
     Nat.card (GL (Fin k) K) = u42GL (Nat.card K) k := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, u42GL, Fin.prod_univ_eq_prod_range
     (fun i => Nat.card K ^ k - Nat.card K ^ i) k]
 
@@ -77,9 +77,9 @@ theorem u42_psl_inner {n f : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card
       exact u42_arith_psl_split hf hr hs hε (Or.inl rfl) he heq
     · rw [h0] at heq
       exact u42_arith_psl_split hf hr hs hε (Or.inr rfl) he heq
-  · letI : Fact (¬ IsSquare c.val) := ⟨hsquare⟩
-    haveI : Finite (extension c.val) := Module.finite_of_finite K
-    haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  · let : Fact (¬ IsSquare c.val) := ⟨hsquare⟩
+    have : Finite (extension c.val) := Module.finite_of_finite K
+    have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
     have hEcard : Nat.card (extension c.val) = Nat.card K ^ 2 := by
       let _ : Fintype K := Fintype.ofFinite K
       let _ : Fintype (extension c.val) := Fintype.ofFinite _

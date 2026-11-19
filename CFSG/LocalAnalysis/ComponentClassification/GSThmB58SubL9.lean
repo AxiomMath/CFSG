@@ -56,7 +56,7 @@ theorem exists_sylow_subgroupOf {R M H : Subgroup G} (hRM : R ≤ M) (hMH : M �
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : IsPGroup 2 (R.subgroupOf M) := by
     rw [← hR₁]
-    exact R₁.isPGroup'
+    exact R₁.isPGroup
   have hp : IsPGroup 2 R := h1.of_equiv (subgroupOfEquivOfLe hRM)
   have hp2 : IsPGroup 2 ((R.subgroupOf H).subgroupOf (M.subgroupOf H)) :=
     (hp.comap_subtype (K := H)).comap_subtype (K := M.subgroupOf H)

@@ -37,7 +37,7 @@ namespace LieClAut
 
 theorem center_quotient_eq_bot {Q : Type*} [Group Q] (hq : Open.IsQuasisimple Q) :
     center (Q ⧸ center Q) = ⊥ := by
-  haveI := hq.2
+  have := hq.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (Q ⧸ center Q)) with h | h
   · exact h
   · exfalso
@@ -57,7 +57,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem pRank_mulAut_le (hc : center X = ⊥) (hX : AutThreePowInner X) :
     Open.pRank 3 (⊤ : Subgroup (MulAut X)) ≤ Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun f : MulAut X => (f : X → X)) DFunLike.coe_injective
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) := by
     rw [injective_iff_map_eq_one]
@@ -89,7 +89,7 @@ theorem pRank_top_le_of_autThreePowInner (hq : Open.IsQuasisimple ↥L)
     (hC3 : ¬ 3 ∣ Nat.card (centralizer (L : Set Y)))
     (hX : AutThreePowInner (↥L ⧸ center ↥L)) :
     Open.pRank 3 (⊤ : Subgroup Y) ≤ Open.pRank 3 (⊤ : Subgroup (↥L ⧸ center ↥L)) := by
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
   obtain ⟨E, -, hE, hEc⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (⊤ : Subgroup Y)
   set φ : ↥E →* MulAut (↥L ⧸ center ↥L) :=
@@ -203,6 +203,7 @@ theorem exists_eq_of_rankOneList {d : TauCeti.LieTypeIndex} (h : RankOneList d) 
   · exact ⟨_, rfl⟩
   · exact h.elim
 
+omit [Finite X] in
 theorem false_of_borelMaximal (hmax : LieOut.BorelMaximal X)
     (hJ : ∃ T J : Subgroup X, IsSylowTwoOf T ⊤ ∧
       Subgroup.normalizer (T : Set _) ≤ J ∧ J ≠ Subgroup.normalizer (T : Set _) ∧ J ≠ ⊤) :
@@ -210,7 +211,7 @@ theorem false_of_borelMaximal (hmax : LieOut.BorelMaximal X)
   obtain ⟨T, J, ⟨-, hT2, hTi⟩, hTJ, hJT, hJt⟩ := hJ
   change ¬ 2 ∣ T.relIndex ⊤ at hTi
   rw [Subgroup.relIndex_top_right] at hTi
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := hmax (hT2.toSylow hTi) J (by rw [IsPGroup.toSylow_coe]; exact hTJ) hJt
   rw [IsPGroup.toSylow_coe] at h
   exact hJT h
@@ -221,7 +222,7 @@ open LieClAut in
 theorem kFactTenElevenOneLieAut_of_res (hChev : LieOddRankChev)
     (hR : KFactTenElevenOneLieAutRes) : KFactTenElevenOneLieAut := by
   intro Y _ _ L hLn hq hO hcl hJ hC3 hrk hE hN
-  haveI := hLn
+  have := hLn
   rcases hcl with ⟨d, hdi, ⟨e⟩⟩ | hsmall | hsmall
   · rcases index_cases d hdi with hd2 | ⟨q, hq2, hd⟩ | ⟨q, hq2, hd⟩
     · by_cases hA2 : ∃ q : TauCeti.PrimePower, d.1 = .A 2 q

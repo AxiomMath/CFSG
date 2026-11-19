@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33.Outside
 
 lemma orderOf_eq_four {G : Type*} [Group G] {a : G} (ha4 : a ^ 4 = 1)
     (ha2 : a ^ 2 ≠ 1) : orderOf a = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := orderOf_eq_prime_pow (x := a) (p := 2) (n := 1) (by simpa using ha2) (by
     rw [show (2 : ℕ) ^ (1 + 1) = 4 by norm_num]
     exact ha4)

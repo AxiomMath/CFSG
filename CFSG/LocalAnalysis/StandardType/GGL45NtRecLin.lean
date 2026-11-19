@@ -139,7 +139,7 @@ theorem ggL45NtRecOn_lin :
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
+    have : Finite K := hfin
     have hn1 : 1 ≤ n := hlab.1
     have hrank1 : 1 ≤ rank := hlab.2.1
     have hrne : rank ≠ 1 := by
@@ -168,11 +168,11 @@ theorem ggL45NtRecOn_lin :
   · subst hD
     subst hr3
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl] at hQ ⊢
+    rw [ite_eq_left rfl] at hQ ⊢
     dsimp only [LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
+    have : Finite K := hfin
     have hn1 : 1 ≤ n := hlab.1
     have hpd : ¬ p ∣ 4 := by
       intro h

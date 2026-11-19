@@ -29,7 +29,7 @@ theorem t158m_spor_false (hTab : CFSG.HardMathSupport.Dickson.BMRows.I1416Chev2S
   obtain ⟨hxN, -⟩ := t158m_normalizer h
   obtain ⟨hx1p, hx2p⟩ := t158m_pow h
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs
+  have := hs
   obtain ⟨i, hi, ⟨e⟩⟩ := hQ
   cases i with
   | sporadic s =>

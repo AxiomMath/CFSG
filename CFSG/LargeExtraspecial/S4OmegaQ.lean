@@ -372,8 +372,7 @@ theorem qOrbit_add (hntr : ∃ v : V, v ≠ 0 ∧ v ∉ orbitOf X a) (x y : V) :
       · rw [one_smul, mul_one, one_smul])
     (fun x x' y => by
       simp only [QuadraticMap.polar, C.qOrbit_add hntr, map_add, LinearMap.add_apply]
-      ring_nf
-      try reduce_mod_char)
+      ring_nf)
     (fun c x y => by
       simp only [QuadraticMap.polar, C.qOrbit_add hntr, map_smul, LinearMap.smul_apply,
         smul_eq_mul]

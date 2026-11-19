@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem exists_conj_mem_mul_of_free (h : Tim79a.ParrottHyp z) {B R : Subgroup G} {g : G}
     (hRJ : R ≤ J z) (hZB : centerIn (J z) ≤ B)
     (hJBR : ∀ j ∈ J z, ∃ b ∈ B, ∃ r ∈ R, j = b * r)

@@ -113,7 +113,7 @@ theorem card_le_four_of_psl2_odd {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf 
   have h2m : 2 ≤ 2 ^ m := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  exact CFSG.QuasithinUnique.card_le_four_of_dihedral T.isPGroup' h2m eT' hET
+  exact CFSG.QuasithinUnique.card_le_four_of_dihedral T.isPGroup h2m eT' hET
     (fun x hx => hE.2 x hx)
 
 theorem twoRank_proj_le_two_of_det {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K))

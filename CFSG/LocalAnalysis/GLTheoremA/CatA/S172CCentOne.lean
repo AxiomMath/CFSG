@@ -18,6 +18,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 theorem exists_threeSingular_polarPerp (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (htype : IsPlusType Q ↔ Odd n)
     {W : Submodule F V} (hW : (QuadraticMap.polarBilin (Q.comp W.subtype)).Nondegenerate)
@@ -39,6 +40,7 @@ theorem exists_threeSingular_polarPerp (hQ : (QuadraticMap.polarBilin Q).Nondege
     refine ⟨hiff.2 hQp, ?_⟩
     omega
 
+omit [CharP F 2] in
 private theorem layerIs_centralizer_rot_aux1 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (htype : IsPlusType Q ↔ Odd n)
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
@@ -64,6 +66,7 @@ private theorem layerIs_centralizer_rot_aux2 (hQ : (QuadraticMap.polarBilin Q).N
     (Subgroup.subgroupOfEquivOfLe hx.supportedFixedDerived_le_orthDerived).symm
     (hx.isQuasisimple_supportedFixedDerived hT)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem layerIs_centralizer_rot_aux3 (x : ↥(orthDerived Q)) :
     ∀ g ∈ (supportedFixedDerived Q (x : V ≃ₗ[F] V)).subgroupOf (orthDerived Q),
       g ∈ Subgroup.centralizer ({x} : Set ↥(orthDerived Q)) := by
@@ -119,6 +122,7 @@ private theorem layerIs_centralizer_rot_aux5 {n : ℕ} {U : Fin (n - 1) → Subm
   have := Subgroup.mem_centralizer_iff.1 hbC _ hmem'
   exact congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V)) this.symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem layerIs_centralizer_rot_aux6 {n : ℕ} {U : Fin (n - 1) → Submodule F V}
     {e : Fin (n - 1) → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) (j : Fin (n - 1))

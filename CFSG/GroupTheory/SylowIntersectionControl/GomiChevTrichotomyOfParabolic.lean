@@ -197,7 +197,7 @@ private theorem step_five_atom_ctp {G : Type} [Group G] [Finite G] {L X H U : Su
     (hAtom : IsGomiAtom L U (L ⊓ normalizer ((H ⊓ L : Subgroup G) : Set G))) :
     GomiChevSecond_ctp L X H ∨ GomiChevThird_ctp L H := by
   let A : Subgroup G := L ⊓ normalizer ((H ⊓ L : Subgroup G) : Set G)
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hNA_le : normalizer (A : Set G) ≤ normalizer ((H ⊓ L : Subgroup G) : Set G) := by
     change normalizer (L ⊓ normalizer ((H ⊓ L : Subgroup G) : Set G) : Set G) ≤
       normalizer ((H ⊓ L : Subgroup G) : Set G)
@@ -244,7 +244,7 @@ private theorem step_five_move_ctp {G : Type} [Group G] [Finite G] {L X H U : Su
         ∃ h ∈ H, A.map (MulAut.conj h).toMonoidHom ≠ A) :
     GomiChevSecond_ctp L X H ∨ GomiChevThird_ctp L H := by
   let A : Subgroup G := L ⊓ normalizer ((H ⊓ L : Subgroup G) : Set G)
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hHP : H ≤ normalizer (A : Set G) := by
     change H ≤ normalizer (L ⊓ normalizer ((H ⊓ L : Subgroup G) : Set G) : Set G)
     exact (le_inf hHL ((le_normalizer_inf_of_normal_ctp hLn).trans Subgroup.le_normalizer)).trans

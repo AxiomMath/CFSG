@@ -82,7 +82,7 @@ theorem yM_pow_seven : yM ^ 7 = 1 := by decide +kernel
 theorem yM_ne_one : yM ≠ 1 := by decide +kernel
 
 theorem orderOf_y0 : orderOf y0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime (matO_injective ?_) fun h => yM_ne_one ?_
   · rw [map_pow, matO_y0, yM_pow_seven, map_one]
   · rw [← matO_y0, h, map_one]
@@ -221,7 +221,7 @@ theorem scalars_eq_bot : (StatedScalars ι8 (ZMod 2)).subgroupOf (StatedOmega Q8
 theorem quad_map (v : ι8 → GaloisField 2 1) :
     Q8 (Item434SmallTwoIII.gf21Equiv ∘ v) =
       Item434SmallTwoIII.gf21Equiv (StatedQuadPlus 4 (GaloisField 2 1) v) := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, map_sum, map_mul, Function.comp_apply]
+  simp only [StatedQuadPlus, map_sum, map_mul, Function.comp_apply]
 
 noncomputable def projEquiv : projOmegaPlus 4 (GaloisField 2 1) ≃* OM :=
   Item434SmallTwoIV.statedOmegaPlusEquiv.symm.trans

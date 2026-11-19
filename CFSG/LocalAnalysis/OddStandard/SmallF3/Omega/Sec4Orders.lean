@@ -23,11 +23,11 @@ theorem ctrQ_eq_card_quotient_center_oddCore [Finite G] {Y : Subgroup G} (hY : I
     (hne : oddCore Y ≠ ⊤) :
     ctrQ Y = Nat.card ((Y ⧸ oddCore Y) ⧸ center (Y ⧸ oddCore Y)) := by
   let N : Subgroup ↥Y := oddCore ↥Y
-  haveI : N.Normal := oddCore_normal ↥Y
+  have : N.Normal := oddCore_normal ↥Y
   let Q := ↥Y ⧸ N
   let q : ↥Y →* Q := QuotientGroup.mk' N
   have hle : N ≤ Subgroup.center ↥Y := oddCore_le_center_of_isQuasisimple hY hne
-  haveI : Group.IsPerfect ↥Y := hY.1
+  have : Group.IsPerfect ↥Y := hY.1
   have hcenter : (Subgroup.center ↥Y).map q = Subgroup.center Q :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel q
       (QuotientGroup.mk'_surjective N)
@@ -43,7 +43,7 @@ theorem ctrQ_eq_card_quotient_center_oddCore [Finite G] {Y : Subgroup G} (hY : I
 
 theorem center_eq_oddCore_of_simple [Finite G] {Y : Subgroup G} (hY : IsQuasisimple Y)
     (hs : IsSimpleGroup (Y ⧸ oddCore Y)) : center Y = oddCore Y := by
-  haveI : IsSimpleGroup (↥Y ⧸ oddCore ↥Y) := hs
+  have : IsSimpleGroup (↥Y ⧸ oddCore ↥Y) := hs
   have hle : oddCore ↥Y ≤ Subgroup.center ↥Y := by
     refine oddCore_le_center_of_isQuasisimple hY ?_
     intro htop
@@ -56,9 +56,9 @@ theorem center_eq_oddCore_of_simple [Finite G] {Y : Subgroup G} (hY : IsQuasisim
       (Subgroup.center (↥Y ⧸ oddCore ↥Y)) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (↥Y ⧸ oddCore ↥Y) := Subgroup.center_eq_top_iff.mp h
-      haveI : Group.IsPerfect ↥Y := hY.1
-      haveI : Group.IsPerfect (↥Y ⧸ oddCore ↥Y) := inferInstance
+      have : IsMulCommutative (↥Y ⧸ oddCore ↥Y) := Subgroup.center_eq_top_iff.mp h
+      have : Group.IsPerfect ↥Y := hY.1
+      have : Group.IsPerfect (↥Y ⧸ oddCore ↥Y) := inferInstance
       exact Group.IsPerfect.not_isMulCommutative (↥Y ⧸ oddCore ↥Y) inferInstance
   intro x hx
   have hxq : q x ∈ Subgroup.center (↥Y ⧸ oddCore ↥Y) := by
@@ -114,8 +114,8 @@ theorem ctrQ_of_twoU43 [Finite G] {Y : Subgroup G} (hY : IsQuasisimple Y)
     (h : IsTwoU43 (Y ⧸ oddCore Y)) : ctrQ Y = 3265920 := by
   have hne : oddCore ↥Y ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥Y ⧸ oddCore ↥Y) := (QuotientGroup.subsingleton_iff).mpr htop
-    haveI : Finite (↥Y ⧸ oddCore ↥Y) := inferInstance
+    have : Subsingleton (↥Y ⧸ oddCore ↥Y) := (QuotientGroup.subsingleton_iff).mpr htop
+    have : Finite (↥Y ⧸ oddCore ↥Y) := inferInstance
     have h1 : Nat.card (Subgroup.center (↥Y ⧸ oddCore ↥Y)) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     have h2 : Nat.card (Subgroup.center (↥Y ⧸ oddCore ↥Y)) = 2 := h.1

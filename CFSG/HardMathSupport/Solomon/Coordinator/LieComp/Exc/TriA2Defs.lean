@@ -62,7 +62,7 @@ theorem psiMat_mul (F : Subfield K) (g h : Matrix.SpecialLinearGroup (Fin 2) F) 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [psiMat, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | ring1 | (field_simp; done) | (field_simp; ring1)
+    first | ring1 | (field_simp)
 
 noncomputable def mu1 : Kˣ := Units.map σ.toMonoidHom μ
 
@@ -81,7 +81,7 @@ noncomputable def psiMu (F : Subfield K) :
     have h' : ((g 0 0 * g 1 1 - g 0 1 * g 1 0 : F) : K) = 1 := by rw [h]; rfl
     push_cast at h'
     simp only [psiMat, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     linear_combination h' - (g 0 1 : K) * (g 1 0 : K) * hμ⟩
   map_one' := by
     apply Subtype.ext

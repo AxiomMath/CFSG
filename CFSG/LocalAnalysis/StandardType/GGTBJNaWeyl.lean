@@ -27,7 +27,7 @@ theorem exists_noncomm_reflections_of_weylReflSetIn {G : Type} [Group G] [Finite
       GGIsReflection p a ∧ GGIsReflection p b ∧ a * b ≠ b * a := by
   classical
   obtain ⟨a, ha, b, hb, hab⟩ := hnc
-  simp only [ggTorusReflSetIn, Set.mem_setOf_eq] at ha hb
+  simp only [ggTorusReflSetIn, Set.mem_ofPred_eq] at ha hb
   obtain ⟨na, hna, hnaJ, hnaW, rfl, hrefla⟩ := ha
   obtain ⟨nb, hnb, hnbJ, hnbW, rfl, hreflb⟩ := hb
   obtain ⟨ga, hgaJ, hga, hrefla', haover⟩ :=

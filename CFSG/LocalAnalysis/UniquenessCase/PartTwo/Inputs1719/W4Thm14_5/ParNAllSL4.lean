@@ -38,7 +38,7 @@ theorem nParam_eq_of_natSL4 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, -, -, -, -, hSL4, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   obtain ⟨K, _, _, hK, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hK4 : 4 ≤ Nat.card K := by
@@ -59,7 +59,7 @@ theorem nParam_eq_of_natSL4 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨I, hI, rfl⟩ := sl_eq_map_flagStabilizer_of_parabolic (by norm_num) hparQ hUQ hQnot
   have hcuts : KAdjE.slAlphaCuts 4 = {2, 3} := by
     ext i
-    simp only [KAdjE.slAlphaCuts, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [KAdjE.slAlphaCuts, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     omega
   have hres : Nonempty (Bar2 (Hinf P) ≃* Bar2 (Hinf (LinearFlag.flagStabilizer 4 K I))) := by
     obtain ⟨χ₁⟩ := nonempty_bar2_hinf_equiv_of_subgroupOf_eq_map hPH φ hPQ

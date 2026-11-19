@@ -36,7 +36,7 @@ theorem r6_40_1_of_inputs (u1 : AschbacherTheoremOneK) (u2 : AschbacherTheoremTw
   omega
 
 theorem r6_40_2_of_pushingUp (hPU : PushingUpCorollaryΩ) (D : Data G) : R6_40_2 D := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hK := CFSG.ComponentClassification.CatalogueKProper.open_isKProper_iff.mp
     D.standing.kProper
   have hchar := CFSG.AGLEmbedding.NoXBlock.assembly_isCharTwoType_of_open D.standing.charTwo

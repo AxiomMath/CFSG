@@ -28,23 +28,25 @@ theorem s15_Kbar_commSub_map_conj {W : Type*} [CommGroup W]
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj α x₀, ⟨x₀, hx₀, rfl⟩, α w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
 theorem s15_Kbar_conj_mem_of_normal {W : Type*} [CommGroup W] {A Y : Subgroup (MulAut W)}
     (hYA : Y ≤ A) (hN : (Y.subgroupOf A).Normal) {φ y : MulAut W} (hφ : φ ∈ A) (hy : y ∈ Y) :
     φ * y * φ⁻¹ ∈ Y :=
   (Subgroup.normal_subgroupOf_iff hYA).1 hN y φ hy hφ
 
+omit [Finite G] in
 private lemma s15_Kbar_eq_one_of_mem_v0 {V₀ : Subgroup G} (h0 : V₀ = ⊥) {x : G}
     (hx : x ∈ V₀) : x = 1 := by
   rw [h0] at hx
   exact Subgroup.mem_bot.mp hx
 
+omit [Finite G] in
 private lemma s15_Kbar_mem_v0_of_eq_one {V₀ : Subgroup G} (h0 : V₀ = ⊥) {x : G}
     (hx : x = 1) : x ∈ V₀ := by
   rw [h0]
@@ -154,7 +156,7 @@ theorem s15_Kbar_no_two_quotient {D : Data G} {V₀ V L : Subgroup G} (h : Hyp15
   have hpow : ∀ y ∈ L, ∃ k : ℕ, y ^ 2 ^ k ∈ (N.comap φ₀).map (Subgroup.subtype L) := by
     intro y hy
     refine ⟨n, ?_⟩
-    haveI : (N.comap φ₀).Normal := hN₁
+    have : (N.comap φ₀).Normal := hN₁
     have hmem : (⟨y, hy⟩ : ↥L) ^ (2 ^ n) ∈ N.comap φ₀ := by
       rw [← hidx]
       exact Subgroup.pow_index_mem (N.comap φ₀) ⟨y, hy⟩
@@ -307,7 +309,7 @@ theorem s15_Kbar_eq_bot_of_normal_isPGroup (D : Data G) {V₀ V : Subgroup G}
           rw [show (k : G) * v * (k : G)⁻¹ = v by rw [h2]; group, mul_inv_cancel]
         exact s15_Kbar_mem_v0_of_eq_one h0 h1
     have hidx2 : ∃ n : ℕ, ((centralizer (V : Set G)).subgroupOf K).index = 2 ^ n := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 h2
       exact ⟨n, by rw [← hψker, Subgroup.index_ker, hψrange, hn]⟩
     have hKc : K ≤ centralizer (V : Set G) := hTR K hKM hMnormK hCMK hidx2
@@ -333,7 +335,7 @@ theorem s15_Kbar_eq_bot_of_normal_isPGroup (D : Data G) {V₀ V : Subgroup G}
       intro heq
       exact hnTI (heq ▸ hTI₀)
     have hnotle : ¬ V ≤ V₀ := fun hle' => hVne (le_antisymm hle' hle)
-    obtain ⟨v, hvV, hv0⟩ := SetLike.not_le_iff_exists.1 hnotle
+    obtain ⟨v, hvV, hv0⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle
     have hvne : mkTil V₀ V hV (IntMod.mk hV ⟨v, hvV⟩) ≠ 1 := by
       intro hh
       apply hv0
@@ -471,8 +473,8 @@ theorem s15_Kbar_exists_shape (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D
   ·
     have hCne : C ≠ ⊥ := by
       intro hCbot
-      haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
-      haveI : Subsingleton (↥C ⧸ Subgroup.center ↥C) := by rw [hCbot]; infer_instance
+      have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2
+      have : Subsingleton (↥C ⧸ Subgroup.center ↥C) := by rw [hCbot]; infer_instance
       obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (↥C ⧸ Subgroup.center ↥C))
       exact hab (Subsingleton.elim a b)
     have hCM : CFSG.Open.IsComponentOf C (Mbar D.M V₀ V hV) := by

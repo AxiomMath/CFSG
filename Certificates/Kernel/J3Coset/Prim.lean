@@ -47,18 +47,18 @@ theorem fgw1 (j : ℕ) : fgw 1 j = if j = 0 then [4] else [5] := by simp [fgw]
 theorem fgwP (i j : ℕ) (hi : i < 19) :
     fgw (2 + i) j = if j = 0 then [4] else if j = 1 then [5] else gws.getD i [] := by
   unfold fgw
-  rw [if_neg (by omega), if_neg (by omega), if_pos (by omega), show 2 + i - 2 = i by omega]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega), show 2 + i - 2 = i by omega]
 
 theorem fgwO (i j : ℕ) (hi : i < 19) :
     fgw (21 + i) j = if j = 0 then [6] else if j = 1 then [7]
       else if j = 2 then gws.getD i [] ++ [6] ++ invW (gws.getD i [])
       else gws.getD i [] ++ [7] ++ invW (gws.getD i []) := by
   unfold fgw
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), show 21 + i - 21 = i by omega]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), show 21 + i - 21 = i by omega]
 
 theorem rf_ne {f r : ℕ} (hf : f ≠ 1) : rf f r = 0 := by
   unfold rf
-  rw [if_neg hf]
+  rw [ite_eq_right hf]
 
 theorem invW_codes {w : List ℕ} (hw : codesAB w = true) : codesAB (invW w) = true := by
   unfold codesAB at hw ⊢
@@ -79,6 +79,7 @@ variable {J : Type} [Group J] [Finite J] [MulAction J (Fin nn)] {g : ℕ → J}
 variable (hg : Acts g)
 include hg
 
+omit [Finite J] in
 theorem forest_k {f : ℕ} (hf : f < 40) (S : Subgroup J) (hgS : ∀ j < 4, ev g (fgw f j) ∈ S)
     (hcodes : ∀ j < 4, ∀ c ∈ fgw f j, c < 8) (p : Fin nn) :
     ∃ r, ∃ hr : r < nn, rf f (frt (e64 FT (Nat.add (Nat.mul f 25856) p.val))) = r ∧
@@ -91,11 +92,13 @@ theorem forest_k {f : ℕ} (hf : f < 40) (S : Subgroup J) (hgS : ∀ j < 4, ev g
   rw [MulAction.toPermHom_apply, MulAction.toPerm_apply] at hkr
   exact hkr
 
+omit [Finite J] in
 theorem gw_smul {i : ℕ} (hi : i < 19) :
     (ev g (gws.getD i []) • pt0).val = roots.getD (i + 1) 0 := by
   rw [ev_smul hg (codesAB_lt (gws_facts i hi).1)]
   exact (gws_facts i hi).2
 
+omit [Finite J] in
 theorem cover_roots (ω : Fin nn) : ∃ r ∈ {p : Fin nn | p.val ∈ roots},
     ∃ k ∈ Subgroup.closure ({g 4, g 5} : Set J), k • r = ω := by
   obtain ⟨r, hr, hRr, k, hk, hkr⟩ := forest_k hg (f := 1) (by decide)
@@ -110,10 +113,11 @@ theorem cover_roots (ω : Fin nn) : ∃ r ∈ {p : Fin nn | p.val ∈ roots},
   change r ∈ roots
   rw [← hRr]
   unfold rf
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   exact getD_roots _
 
-theorem coatom [IsSimpleGroup J] (hJ : Nat.card J = 50232960) : IsCoatom (stabilizer J pt0) := by
+omit [Finite J] in
+theorem coatom [IsSimpleGroup J] (_hJ : Nat.card J = 50232960) : IsCoatom (stabilizer J pt0) := by
   refine isCoatom_stabilizer pt0 (trans hg) ⟨ptB, fun h => beta0_ne (congrArg Fin.val h)⟩
     ({g 4, g 5} : Set J) ?_ {p : Fin nn | p.val ∈ roots} (cover_roots hg) ?_
   · rintro x (rfl | rfl)

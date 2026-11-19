@@ -18,8 +18,8 @@ theorem sp_mem_inner_of_statedModel {S : Type} [Group S] {r ℓ f : ℕ}
     (hG : StatedClassicalModel S .PSp r ℓ f) {α : MulAut S} (hα : α ∈ innAutDerived S)
     (hα3 : α ^ 3 = 1) : α ∈ inner S := by
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨φ⟩⟩ := hG
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hne : ¬ (r = 2 ∧ ℓ ^ f = 2) := fun h => hadm.2.2.2 (by rw [h.1, h.2])
   have hβ : MulAut.congr φ α ∈ innAutDerived (StatedProj (StatedSp r K)) :=
     (CFSG.ComponentClassification.OuterAutomorphisms.mem_innAutDerived_congr φ).2 hα

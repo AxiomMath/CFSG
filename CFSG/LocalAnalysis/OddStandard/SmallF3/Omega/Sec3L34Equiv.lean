@@ -43,8 +43,7 @@ theorem Sl23PocketIn.map_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H
     rw [heq] at hsn
     rw [← hA']
     exact hsn
-  · change IsSL23Mod ↥(K.map e.toMonoidHom)
-    exact isSL23Mod_of_mulEquiv
+  · exact isSL23Mod_of_mulEquiv
       (K.equivMapOfInjective e.toMonoidHom e.injective) h.2.2.2
 
 theorem isI4PlusIn_top_map_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H) {y : G}

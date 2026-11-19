@@ -135,7 +135,7 @@ theorem D1CzReduced.exists_inv_line (hc : D1CzReduced p M z T Pbar K) (hL2 : KFa
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [← hk]
     exact ((h1.zpow_left k).eq).symm
-  have hQp : IsPGroup p Q₁ := Pbar.isPGroup'.map _
+  have hQp : IsPGroup p Q₁ := Pbar.isPGroup.map _
   obtain ⟨c, hcQ⟩ := exists_conjugate_le_sylow_of_le p Pbar hPC hQC hQp
   have hct : (c : D1CzQuot p z) * (s₁ * t * s₁⁻¹) * (c : D1CzQuot p z)⁻¹ = s₁ * t * s₁⁻¹ := by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hstt
@@ -182,7 +182,7 @@ theorem D1CzReduced.exists_kline_inv (hc : D1CzReduced p M z T Pbar K)
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hinj : ∀ x ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))),
       ∀ y ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))), π x = π y → x = y :=
-    fun x hx y hy hxy => eq_of_mk_eq_of_isPGroup hp _ hO T.isPGroup' hx hy hxy
+    fun x hx y hy hxy => eq_of_mk_eq_of_isPGroup hp _ hO T.isPGroup hx hy hxy
   have hmemP : ∀ x ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))),
       π x ∈ (Pbar : Subgroup (D1CzQuot p z)) := fun x hx => by
     rw [hc.sylow_eq]
@@ -254,7 +254,7 @@ theorem D1CzReduced.exists_kline_inv (hc : D1CzReduced p M z T Pbar K)
     rw [← hc.sylow_eq]
     exact hs'N
   obtain ⟨s, hsN, hss'⟩ := exists_mk_eq_of_mem_normalizer_map
-    (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) p) hO T.isPGroup' hs'N'
+    (primeComplementCore (G := Subgroup.centralizer ({z} : Set G)) p) hO T.isPGroup hs'N'
   have hsτT : s * τ * s⁻¹ ∈ (T : Subgroup (Subgroup.centralizer ({z} : Set G))) :=
     (Subgroup.mem_normalizer_iff.mp hsN τ).mp hτT
   have hπs : π (s * τ * s⁻¹) = s' * π τ * s'⁻¹ := by

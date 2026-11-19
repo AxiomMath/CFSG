@@ -55,7 +55,7 @@ theorem odd_card_primeCore_centralizer_of_twoLocalK (hK : T5TwoLocalK) {G : Type
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       (GroupType := G) 3 2 Nat.prime_three Nat.prime_two E N hE3 hEnormN hNcop h2N
   let TG : Subgroup G := T.map N.subtype
-  have hTG2 : IsPGroup 2 TG := T.isPGroup'.map N.subtype
+  have hTG2 : IsPGroup 2 TG := T.isPGroup.map N.subtype
   have hTGne : TG ≠ ⊥ := hTne
   have hETG : E ≤ Subgroup.normalizer (TG : Set G) := hTnorm
   have hTwoLocal : IsTwoLocal (Subgroup.normalizer (TG : Set G)) :=

@@ -42,18 +42,22 @@ namespace StrothTypeData
 
 variable {D : StrothTypeData B (StrothTypeIndex.t201 m)}
 
+omit [Finite S] in
 theorem ec_conj_u_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) (x : B) :
     D.ec (conjBy D.u_mem x) = Type201.PhiU m (D.ec x) :=
   D.u_conj x
 
+omit [Finite S] in
 theorem ec_conj_t_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) (x : B) :
     D.ec (conjBy D.t_mem x) = Type201.PhiT m (D.ec x) :=
   D.t_conj x
 
+omit [Finite S] in
 theorem ec_conj_ρ_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) (x : B) :
     D.ec (conjBy D.ρ_mem x) = Type201.PhiR m (D.ec x) :=
   D.ρ_conj x
 
+omit [Finite S] in
 theorem ec_conj_uv_t201 (D : StrothTypeData B (StrothTypeIndex.t201 m)) (x : B) :
     D.ec (conjBy D.uv_mem x) = Type201.PhiUV m (D.ec x) :=
   D.uv_conj x
@@ -101,6 +105,7 @@ theorem PhiR_apply_gens (m : ℕ) (a b c : ℤ) :
 
 end Type201
 
+omit [Finite S] in
 theorem t201_square_section
     {m : ℕ} {B : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t201 m)) (x : B)
     (hu : SquareIn B ((conjBy D.u_mem x * x⁻¹ : B) : S))
@@ -149,10 +154,10 @@ theorem t201_square_section
     abel
   have hy1 : y 1 = (j : ZMod (2 ^ (StrothTypeIndex.t201 m).k 1)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have hy2 : y 2 = (k : ZMod (2 ^ (StrothTypeIndex.t201 m).k 2)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have h1u : ((k - j : ℤ) : ZMod (2 ^ (StrothTypeIndex.t201 m).k 1)) = 2 * zu 1 := by
     have h := congrFun hzu' 1
     rw [hφu, hy] at h
@@ -181,19 +186,19 @@ theorem t201_square_section
       -(k : ZMod (2 ^ (StrothTypeIndex.t201 m).k 1)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
   have hφρ2 : ((StrothTypeIndex.t201 m).action.φρ y) 2 =
       (j : ZMod (2 ^ (StrothTypeIndex.t201 m).k 2)) -
         (k : ZMod (2 ^ (StrothTypeIndex.t201 m).k 2)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
     ring
   have h2r : ((j - 2 * k : ℤ) : ZMod (2 ^ (StrothTypeIndex.t201 m).k 2)) = 2 * zr 2 := by
     have h := congrFun hzr' 2
     simp only [Pi.sub_apply] at h
     rw [hφρ2, hy2] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     convert h using 2 <;> push_cast <;> ring
   have hj2k : Even (j - 2 * k) :=
     even_of_intCast_eq_two_mul (N := (StrothTypeIndex.t201 m).k 2)
@@ -202,7 +207,7 @@ theorem t201_square_section
     have h := congrFun hzr' 1
     simp only [Pi.sub_apply] at h
     rw [hφρ1, hy1] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     push_cast
     ring_nf at h ⊢
     exact h
@@ -213,7 +218,7 @@ theorem t201_square_section
     rcases hneg with ⟨t, ht⟩
     refine ⟨-t, ?_⟩
     have hneg' := congrArg Neg.neg ht
-    simp only [neg_neg, neg_mul] at hneg'
+    simp only [neg_neg] at hneg'
     rw [hneg']
     ring
   have hj : Even j := by
@@ -255,10 +260,10 @@ theorem exists_square_root_c_t201
     (hH : NoInvolutionsCentralizing S' B) (hCS : C ≤ S') (hne : C ≠ B) :
     ∃ d : S, d ∈ C ∧ d ∉ B ∧ d * d = (D.c : S) := by
   classical
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
   have hlt : B < C := lt_of_le_of_ne hBC hne.symm
-  obtain ⟨d, hdC, hdB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨d, hdC, hdB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
   let dC : C := ⟨d, hdC⟩
   have hd2B : d * d ∈ B := by
@@ -288,7 +293,7 @@ theorem exists_square_root_c_t201
       have hmem : dC ∈ B.subgroupOf C := by
         rw [hd_eq]
         exact (B.subgroupOf C).mul_mem (by simpa [Subgroup.mem_subgroupOf] using hz)
-          (by simpa [Subgroup.mem_subgroupOf, bC] using b.2)
+          (by simp [Subgroup.mem_subgroupOf, bC])
       exact hdB (by simpa [Subgroup.mem_subgroupOf] using hmem)
     exact hzB (hH (zC : S) (hCS hzC) hz2 (hC hzC))
   have square_conj (g : S) (hgB : g ∈ Subgroup.normalizer B)
@@ -467,7 +472,7 @@ theorem PhiUV_apply_gens (m : ℕ) (a b c : ℤ) :
       -mul_eq_mul_right_iff]
     ring
   rw [hv00, hv01, hv02, hv10, hv11, hv12, hv20, hv21, hv22]
-  simp only [zero_mul, one_mul, zero_add, add_zero]
+  simp only [one_mul]
 
 theorem PhiT_apply_gens (m : ℕ) (a b c : ℤ) :
     PhiT m (a • gen (Type201.k m) 0 + b • gen (Type201.k m) 1 +
@@ -479,19 +484,19 @@ theorem PhiT_apply_gens (m : ℕ) (a b c : ℤ) :
   have ht00 : (Type201.tM m) 0 0 = 1 := rfl
   have ht01 : (Type201.tM m) 0 1 = 0 := rfl
   have ht02 : (Type201.tM m) 0 2 = -(2 * 2 ^ m + 1) := by
-    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mul_apply, Matrix.mulVec,
+    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mulVec,
       dotProduct, Fin.sum_univ_three, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
     ring
   have ht10 : (Type201.tM m) 1 0 = 4 := rfl
   have ht11 : (Type201.tM m) 1 1 = -1 + 2 ^ (m + 1) := rfl
   have ht12 : (Type201.tM m) 1 2 = -(2 * 2 ^ m + 2) := by
-    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mul_apply, Matrix.mulVec,
+    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mulVec,
       dotProduct, Fin.sum_univ_three, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
     ring
   have ht20 : (Type201.tM m) 2 0 = 0 := rfl
   have ht21 : (Type201.tM m) 2 1 = 0 := rfl
   have ht22 : (Type201.tM m) 2 2 = -(2 * 2 ^ m + 1) := by
-    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mul_apply, Matrix.mulVec,
+    simp [Type201.uvA, Type201.tM, Type201.ρM, ofCols_apply, Matrix.mulVec,
       dotProduct, Fin.sum_univ_three, -mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]
     ring
   rw [ht00, ht01, ht02, ht10, ht11, ht12, ht20, ht21, ht22]
@@ -503,7 +508,7 @@ theorem k201_zero (m : ℕ) : Type201.k m 0 = m := by
   simp only [Type201.k, Matrix.cons_val_zero]
 
 theorem k201_one (m : ℕ) : Type201.k m 1 = m + 2 := by
-  simp only [Type201.k, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons]
+  simp only [Type201.k, Matrix.cons_val_one, Matrix.cons_val_zero]
 
 theorem k201_two (m : ℕ) : Type201.k m 2 = m + 2 := by
   simp only [Type201.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
@@ -547,7 +552,7 @@ theorem form_bu_t201 {m : ℕ} (hm : 1 ≤ m) {x : Torus (Type201.k m)}
     have h11 : (Type201.uM m) 1 1 = 0 := rfl
     have h12 : (Type201.uM m) 1 2 = 1 := rfl
     rw [h10, h11, h12] at h
-    simp only [zero_mul, mul_one, one_mul, add_zero, zero_add] at h
+    simp only [zero_mul, one_mul, add_zero, zero_add] at h
     have h' := gens_coord_one_of_eq_zero h
     rw [k201_one] at h'
     rw [Int.cast_add] at h'
@@ -742,7 +747,7 @@ theorem form_br_t201 {m : ℕ} (hm : 1 ≤ m) {z : Torus (Type201.k m)}
     have h := hφ
     rw [hz, Type201.PhiR_apply_gens, Type201.PhiR_apply_gens] at h
     have h0 := congrFun h 0
-    simp [gen, Pi.single_apply, zsmul_eq_mul] at h0
+    simp [gen, zsmul_eq_mul] at h0
     have hk : Type201.k m 0 = m := k201_zero m
     have h0' : (↑i + (↑i - ↑l) + (↑i - ↑j) : ZMod (2 ^ m)) = 0 := hk ▸ h0
     have hcast : (((i + (i - l) + (i - j) : ℤ)) : ZMod (2 ^ m)) = 0 := by
@@ -1212,7 +1217,7 @@ variable (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
   (hrel : Nat.card C = 2 * Nat.card B) {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
   (hd2 : d * d = (D.c : S)) (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m)
 
-theorem bit_eps_201 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ ≤ 1)
+theorem bit_eps_201 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (_hδ : δ ≤ 1)
     (hp : p ≤ 1) (hr : r ≤ 1)
     (hX : xU201 D hBC hrel hdC hdB hL =
       ((ε : ℤ) * 2 ^ (m - 1)) • gen (Type201.k m) 0 +
@@ -1233,7 +1238,7 @@ theorem bit_eps_201 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ 
       Type201.PhiUV m (xU201 D hBC hrel hdC hdB hL) at h
   rw [hX, hW, Type201.PhiU_apply_gens, Type201.PhiUV_apply_gens] at h
   have h1 := congrFun h 1
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at h1
+  simp [gen, zsmul_eq_mul] at h1
   have hNpos : 1 ≤ Type201.k m 1 := by rw [k201_one m]; omega
   have hN1 : Type201.k m 1 - 1 = m + 1 := by rw [k201_one m]; omega
   have hcast : ((((r : ℤ) - (p : ℤ) + (ε : ℤ)) * 2 ^ (Type201.k m 1 - 1) : ℤ) :
@@ -1269,7 +1274,7 @@ theorem bit_eps_201 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ 
     even_of_two_pow_mul_eq_zero_zmod hNpos hcast
   exact bit_eps_of_even hε hp hr he
 
-theorem bit_alpha_q_201 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
+theorem bit_alpha_q_201 (hm : 1 ≤ m) {_ε _δ p r α q η θ : ℕ}
     (hα : α ≤ 1) (hq : q ≤ 1) (hp : p ≤ 1) (hr : r ≤ 1)
     (hY : yT201 D hBC hrel hdC hdB hL = (0 : ℤ) • gen (Type201.k m) 0 +
       ((2 : ℤ) + (α : ℤ) * 2 ^ (m + 1)) • gen (Type201.k m) 1 +
@@ -1310,7 +1315,7 @@ theorem bit_alpha_q_201 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
     rw [show (2 : ZMod (2 ^ Type201.k m 2)) = ((2 : ℕ) : ZMod (2 ^ Type201.k m 2))
       by norm_num, ← Nat.cast_pow, ZMod.natCast_self]
   have ha := congrFun h 1
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at ha
+  simp [gen, zsmul_eq_mul] at ha
   have hcasta : ((((p : ℤ) + (q : ℤ) + (α : ℤ)) * 2 ^ (Type201.k m 1 - 1) : ℤ) :
       ZMod (2 ^ Type201.k m 1)) = 0 := by
     rw [hN1]
@@ -1326,7 +1331,7 @@ theorem bit_alpha_q_201 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
         (q : ZMod (2 ^ Type201.k m 1)) - (r : ZMod (2 ^ Type201.k m 1)) +
         (α : ZMod (2 ^ Type201.k m 1)) - (η : ZMod (2 ^ Type201.k m 1))) * hpow0a
   have hb := congrFun h 2
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at hb
+  simp [gen, zsmul_eq_mul] at hb
   have hcastb : ((((r : ℤ) + (α : ℤ)) * 2 ^ (Type201.k m 2 - 1) : ℤ) :
       ZMod (2 ^ Type201.k m 2)) = 0 := by
     rw [hN2]
@@ -1348,8 +1353,8 @@ theorem bit_alpha_q_201 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
   rw [hαr] at hqpa
   exact hqpa
 
-theorem bit_delta_201 (hm : 1 ≤ m) {ε δ p r η θ : ℕ}
-    (hε : ε ≤ 1) (hδ : δ ≤ 1) (hη : η ≤ 1) (hθ : θ ≤ 1)
+theorem bit_delta_201 (hm : 1 ≤ m) {ε δ _p _r η θ : ℕ}
+    (_hε : ε ≤ 1) (hδ : δ ≤ 1) (hη : η ≤ 1) (_hθ : θ ≤ 1)
     (hX : xU201 D hBC hrel hdC hdB hL =
       ((ε : ℤ) * 2 ^ (m - 1)) • gen (Type201.k m) 0 +
         ((δ : ℤ) * 2 ^ (m + 1)) • gen (Type201.k m) 1 +
@@ -1371,7 +1376,7 @@ theorem bit_delta_201 (hm : 1 ≤ m) {ε δ p r η θ : ℕ}
   rw [hX, hZ, Type201.PhiR_apply_gens, Type201.PhiU_apply_gens,
     Type201.PhiR_apply_gens, Type201.PhiU_apply_gens, Type201.PhiR_apply_gens] at h
   have h1 := congrFun h 2
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at h1
+  simp [gen, zsmul_eq_mul] at h1
   have hN2 : Type201.k m 2 - 1 = m + 1 := by rw [k201_two m]; omega
   have hNpos2 : 1 ≤ Type201.k m 2 := by rw [k201_two m]; omega
   have hpow0 : (2 : ZMod (2 ^ Type201.k m 2)) ^ m * 4 = 0 := by

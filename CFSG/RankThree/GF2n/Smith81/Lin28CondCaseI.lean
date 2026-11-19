@@ -196,7 +196,7 @@ theorem exists_natDualCoord_of_restModel (hc : Ctx M Q Z B) (hS : LinSetup M Q Z
     (fun s x hx => R.φπ ⟨s, hSH s.2⟩ x hx) hZV₁ hV₁Q hZV₂ hV₂Q hinf hsup φ' hact₁ hact₂
   obtain ⟨C, -⟩ := exists_natDualCoord_of_equivariant (R.φ.comp (Subgroup.inclusion hSH)) φ' hn
     hrange (by rw [R.gm.card, hF₀card]) Φc hΦc
-  haveI : CharP F₀ 2 := charP_two_of_ringHom C.θ₁
+  have : CharP F₀ 2 := charP_two_of_ringHom C.θ₁
   exact ⟨F₀, hF₀field, inferInstance, φ', C, hrange, hker⟩
 
 

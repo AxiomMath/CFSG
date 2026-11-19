@@ -82,14 +82,14 @@ private theorem concl_alt13b {W : Type} [CommGroup W] {Y L X : Subgroup (MulAut 
     (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr h))))))))))))
 
 private theorem centralizer_dichotomy {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)} (hO2 : O2Trivial Y) (hLY : L ≤ Y)
+    (_hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)} (hO2 : O2Trivial Y) (hLY : L ≤ Y)
     (hLn : (L.subgroupOf Y).Normal) {M : ℕ}
     (hM : Nat.card ↥(Subgroup.centralizer
       (autSub L (⊤ : Subgroup W) : Set (MulAut ↥(⊤ : Subgroup W)))) ≤ M) (hM3 : M ≤ 3) :
     (Y ⊓ Subgroup.centralizer (L : Set (MulAut W)) = ⊥) ∨
       (Nat.card ↥(Y ⊓ Subgroup.centralizer (L : Set (MulAut W))) = 3 ∧
         Nat.card ↥(Y ⊓ Subgroup.centralizer (L : Set (MulAut W))) ≤ M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup (MulAut W) := Y ⊓ Subgroup.centralizer (L : Set (MulAut W)) with hPdef
   have hPY : P ≤ Y := inf_le_left
   have hstep : ∀ a : MulAut W, a ∈ Y → ∀ b : MulAut W, b ∈ P → a * b * a⁻¹ ∈ P := by
@@ -163,7 +163,7 @@ private theorem natOmegaMinus_of_mem_irrSet {W : Type} [CommGroup W] [Finite W]
     (hfixH : fixV (⨆ X' ∈ CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y, X') = ⊥)
     (hsum : IsDirSumOver (CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y) commV)
     (hs : IsSimpleGroup ↥L) {I J : Subgroup W} (hI : I ∈ irrSet L) (hJ : J ∈ irrSet L)
-    (hIfix : I ⊓ fixV L = ⊥) (hJfix : J ⊓ fixV L = ⊥) {k : ℕ}
+    (_hIfix : I ⊓ fixV L = ⊥) (hJfix : J ⊓ fixV L = ⊥) {k : ℕ}
     (h : NatOmegaMinus (autSub L I) ⊤ ⊥ 4 k) : NatOmegaMinus L J ⊥ 4 k := by
   obtain ⟨g, hgY, hsec⟩ :=
     exists_secIsoOn_of_mem_irrSet_of_basic hW hO2 hB hL hfixH hsum hI hJ
@@ -223,18 +223,18 @@ private theorem sumOfNat_three {W : Type} [CommGroup W] {L : Subgroup (MulAut W)
   have e0 : (⨆ (j : Fin 3) (_ : j ≠ 0), ![x, y, z] j) = y ⊔ z := by
     refine le_antisymm (iSup₂_le fun j hj => ?_) (sup_le ?_ ?_)
     · fin_cases j <;> simp_all
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 0) => ![x, y, z] j) 1 (by decide)
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 0) => ![x, y, z] j) 2 (by decide)
+    · simp
+    · simp
   have e1 : (⨆ (j : Fin 3) (_ : j ≠ 1), ![x, y, z] j) = x ⊔ z := by
     refine le_antisymm (iSup₂_le fun j hj => ?_) (sup_le ?_ ?_)
     · fin_cases j <;> simp_all
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 1) => ![x, y, z] j) 0 (by decide)
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 1) => ![x, y, z] j) 2 (by decide)
+    · simp
+    · simp
   have e2 : (⨆ (j : Fin 3) (_ : j ≠ 2), ![x, y, z] j) = x ⊔ y := by
     refine le_antisymm (iSup₂_le fun j hj => ?_) (sup_le ?_ ?_)
     · fin_cases j <;> simp_all
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 2) => ![x, y, z] j) 0 (by decide)
-    · simpa using le_iSup₂ (f := fun j (_ : j ≠ 2) => ![x, y, z] j) 1 (by decide)
+    · simp
+    · simp
   have esup : (⨆ i, ![x, y, z] i) = x ⊔ y ⊔ z := by
     refine le_antisymm (iSup_le fun i => ?_) (sup_le (sup_le ?_ ?_) ?_)
     · fin_cases i
@@ -243,7 +243,7 @@ private theorem sumOfNat_three {W : Type} [CommGroup W] {L : Subgroup (MulAut W)
       · exact le_sup_right
     · simpa using le_iSup (fun i => ![x, y, z] i) 0
     · simpa using le_iSup (fun i => ![x, y, z] i) 1
-    · simpa using le_iSup (fun i => ![x, y, z] i) 2
+    · simp
   refine ⟨![x, y, z], fun i => bot_le, ?_, ?_, ?_⟩
   · intro i
     fin_cases i
@@ -261,8 +261,8 @@ private theorem conjSet_eq_conjSet_of_ncard_le_two {W : Type} [CommGroup W] [Fin
     {Y L T : Subgroup (MulAut W)} (hT : IsSylowIn 2 T Y)
     (hc : (conjSet L Y).ncard ≤ 2) : conjSet L Y = conjSet L T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   refine Set.Subset.antisymm ?_ ?_
   · intro X hX
@@ -341,17 +341,17 @@ private theorem conjSet_eq_conjSet_of_ncard_le_two {W : Type} [CommGroup W] [Fin
     exact ⟨t, hT.le ht, rfl⟩
 
 private theorem omegaPlus_of_case3 {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {Y L X R : Subgroup (MulAut W)} {n e : ℕ}
-    (hO2 : O2Trivial Y) (hL : IsComponentOf L Y)
+    (_hW : ∀ w : W, w ^ 2 = 1) {Y L X R : Subgroup (MulAut W)} {n e : ℕ}
+    (_hO2 : O2Trivial Y) (hL : IsComponentOf L Y)
     (hX : X = ⨆ g ∈ Y, L.map (MulAut.conj g).toMonoidHom) (hfix : fixV X = ⊥)
     (hc : (CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y).ncard ≤ 2)
     (hRY : R ≤ Y)
     (hsum : IsDirSumOver (CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet R Y) commV)
-    (hLR : CFSG.Open.IsSubnormal L R) (hnat : IsNaturalO4Plus R e) (hd : dMinDeg ↥L = 2 * n)
-    (hL2 : IsL2 ↥L n) (hn : 2 < n) :
+    (hLR : CFSG.Open.IsSubnormal L R) (hnat : IsNaturalO4Plus R e) (_hd : dMinDeg ↥L = 2 * n)
+    (hL2 : IsL2 ↥L n) (_hn : 2 < n) :
     IsOmegaPlus ↥X 4 n ∧ NatOmegaPlus X ⊤ (fixV X) 4 n := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   obtain ⟨T, hT⟩ := CFSG.Quasithin.E1.exists_isSylowIn_two Y
   have hS : conjSet L Y = conjSet L T := conjSet_eq_conjSet_of_ncard_le_two hT hc
@@ -384,11 +384,11 @@ private theorem omegaPlus_of_case3 {W : Type} [CommGroup W] [Finite W]
 theorem concl146_of_caseI_L2
     (hMod : K146ModL2) (hIso : K146NatIsoOm4m)
     {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {Y L X : Subgroup (MulAut W)} {n : ℕ} (hK : CFSG.IsKGroup ↥Y) (hO2 : O2Trivial Y)
+    {Y L X : Subgroup (MulAut W)} {n : ℕ} (_hK : CFSG.IsKGroup ↥Y) (hO2 : O2Trivial Y)
     (hB : IsBasicModule Y) (hL : IsComponentOf L Y)
     (hX : X = ⨆ g ∈ Y, L.map (MulAut.conj g).toMonoidHom) (hL2 : IsL2 ↥L n) (hn : 2 < n)
     (hc : (CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y).ncard ≤ 2)
-    (hfix : fixV X = ⊥) (hm : 3 < E3.mParam Y)
+    (hfix : fixV X = ⊥) (_hm : 3 < E3.mParam Y)
     (hle : E3.mParam Y ≤ max (bParam X Y) n + 2) : Sec18Concl Y L X n := by
   classical
   obtain ⟨i, e, hBe, hi⟩ := exists_benderType_of_shape hn (Or.inl hL2)

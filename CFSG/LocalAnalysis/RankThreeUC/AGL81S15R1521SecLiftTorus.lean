@@ -14,6 +14,7 @@ section KSecLiftTorus
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem kSecLiftTorus_mem_map_inf_sup {T T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X}
     (hL : LiftOf T L Ls) {a : X ⧸ gnC T} (ha : a ∈ gnA T T₂ Ls) :
     a ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ (L ⊔ gnC T)).map (toStar T) := by
@@ -22,6 +23,7 @@ theorem kSecLiftTorus_mem_map_inf_sup {T T₂ : Subgroup X} {Ls : Subgroup (X �
   have h1 : n ∈ Ls.comap (toStar T) := haL
   rwa [← hL.2, Subgroup.comap_map_eq, QuotientGroup.ker_mk'] at h1
 
+omit [Finite X] in
 theorem kSecLiftTorus_map_inf_sup_le {T T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X}
     (hL : LiftOf T L Ls) :
     (Subgroup.normalizer (T₂ : Set X) ⊓ (L ⊔ gnC T)).map (toStar T) ≤ gnA T T₂ Ls := by
@@ -38,8 +40,8 @@ theorem gnA_frattini_two {T T₁ T₂ : Subgroup X} (hX : GNSetting X T) (hg : G
     ∃ n ∈ gnA T T₂ Ls,
       n ∈ Subgroup.normalizer ((T ⊓ L).map (toStar T) : Set (X ⧸ gnC T)) ∧
         ∃ b ∈ (Subgroup.normalizer (T₂ : Set X) ⊓ L).map (toStar T), a = n * b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hLn
   obtain ⟨d, hdD, rfl⟩ := kSecLiftTorus_mem_map_inf_sup hL ha
   have hTN : T ≤ Subgroup.normalizer (T₂ : Set X) := IsGNPair.le_normalizer₂ hg.pair
   set D : Subgroup X := Subgroup.normalizer (T₂ : Set X) ⊓ (L ⊔ gnC T) with hD
@@ -54,7 +56,7 @@ theorem gnA_frattini_two {T T₁ T₂ : Subgroup X} (hX : GNSetting X T) (hg : G
     refine Subgroup.le_normalizer_iff.2 fun x hx k hk => ⟨?_, ?_⟩
     · exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hx.1 hk.1) (Subgroup.inv_mem _ hx.1)
     · exact hLn.conj_mem k hk.2 x
-  haveI hKn : (K.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKD).2 hDK
+  have hKn : (K.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKD).2 hDK
   have hSylD : IsSylowOf 2 ((T ⊓ L).subgroupOf D) (K.subgroupOf D) := by
     refine (isSylowOf_map_subtype_iff D).1 ?_
     rwa [Subgroup.subgroupOf_map_subtype, Subgroup.subgroupOf_map_subtype,

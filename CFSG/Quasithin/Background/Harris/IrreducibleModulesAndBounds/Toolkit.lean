@@ -14,7 +14,7 @@ open CFSG.Quasithin CFSG.Quasithin.G11
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 
 instance finite_GLV [Finite V] : Finite (GLV V) :=
-  Finite.of_injective (fun g : GLV V => (g : V → V)) (fun a b h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun g : GLV V => (g : V → V)) (fun _a _b h => LinearEquiv.ext (congrFun h))
 
 theorem mul_self_eq_one_multiplicative (w : Multiplicative V) : w * w = 1 := by
   have h : Multiplicative.toAdd w + Multiplicative.toAdd w = 0 := by

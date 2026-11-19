@@ -121,7 +121,7 @@ theorem exists_mem_centerOf_conj_eq {X T : Subgroup G} [Finite ↥X]
     intro z z'
     apply Subtype.ext
     change f (z * z') = f z * ((z : G) * f z' * (z : G)⁻¹)
-    simp only [f, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [f, Subgroup.coe_mul]
     rw [hu_inv]
     have hred : u * (z : G) * u * (z : G)⁻¹ *
         ((z : G) * (u * (z' : G) * u * (z' : G)⁻¹) * (z : G)⁻¹) =
@@ -143,7 +143,7 @@ theorem exists_mem_centerOf_conj_eq {X T : Subgroup G} [Finite ↥X]
     simp only [f]
     rw [hcomm]
     group
-  haveI hNnorm : (N.subgroupOf X).Normal :=
+  have hNnorm : (N.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).mpr hXn
   have hNc' : ∀ m ∈ N.subgroupOf X, ∀ n ∈ N.subgroupOf X, m * n = n * m := by
     intro m hm n hn

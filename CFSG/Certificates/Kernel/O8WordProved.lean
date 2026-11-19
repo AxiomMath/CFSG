@@ -59,10 +59,8 @@ theorem bmulK_testBit (A B : ℕ) {i j : ℕ} (hi : i < 6) (hj : j < 6) :
         (xorN (nat_lit 6) fun l => nIf(Nat.beq (bitN (frow A i) l) (nat_lit 1), frow B l, nat_lit 0))
         (Nat.mul (nat_lit 6) i)))) = _
     rw [strictN_eq]
-    beta_reduce
-    rw [nIf_eq, if_neg (fun h' => hA (Nat.eq_of_beq_eq_true h')), strictN_eq]
-    beta_reduce
-    rw [nIf_eq, if_neg (fun h' => hB (Nat.eq_of_beq_eq_true h'))]
+    rw [nIf_eq, ite_eq_right (fun h' => hA (Nat.eq_of_beq_eq_true h')), strictN_eq]
+    rw [nIf_eq, ite_eq_right (fun h' => hB (Nat.eq_of_beq_eq_true h'))]
     rfl
   rw [hb, testBit_orN_rows (fun i _ => xorN_lt 6 _ (fun l _ => by
       rw [nIf_eq]

@@ -23,7 +23,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 
 theorem ncard_singular_le (hQ : Q.polarBilin.Nondegenerate) (hV : finrank (ZMod 2) V = 8) :
     {v : V | Q v = 0}.ncard ≤ 136 := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hc : Nat.card V = 4 ^ 4 := CFSG.LargeExtraspecial.S12DW.natCard_eq_four_pow (by rw [hV])
   have h3 := CFSG.Fischer.Classification.LocalSymp.two_mul_ncard_quadratic Q
     (CFSG.LargeExtraspecial.S12DW.polar_eq_zero_imp hQ) hc
@@ -52,13 +52,14 @@ variable {M : Type} [Group M] (ρ : M →* (V ≃ₗ[ZMod 2] V))
     calc ρ a⁻¹ x = ρ a⁻¹ (ρ a x) := by rw [h]
       _ = x := by rw [← LinearEquiv.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_stabSub {x : V} {m : M} : m ∈ stabSub ρ x ↔ ρ m x = x := Iff.rfl
 
 theorem card_le_mul_stabSub [Finite M] (hQ : Q.polarBilin.Nondegenerate)
     (hV : finrank (ZMod 2) V = 8) (hO : ∀ m, ρ m ∈ TauCeti.QuadraticMap.orthogonalGroup Q) {x : V}
     (hx0 : x ≠ 0) (hxq : Q x = 0) : Nat.card M ≤ 135 * Nat.card (stabSub ρ x) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  letI : MulAction M V := MulAction.compHom V ρ
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  let : MulAction M V := MulAction.compHom V ρ
   have hst : MulAction.stabilizer M x = stabSub ρ x := rfl
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer M x)
   rw [MulAction.index_stabilizer, hst] at h1
@@ -78,7 +79,7 @@ theorem card_le_mul_stabSub [Finite M] (hQ : Q.polarBilin.Nondegenerate)
       have h0 : (0 : V) ∈ {v : V | Q v = 0} := by
         change Q 0 = 0
         exact QuadraticMap.map_zero Q
-      exact Set.ncard_diff_singleton_add_one h0 (Set.toFinite _)
+      exact Set.ncard_sdiff_singleton_add_one h0 (Set.toFinite _)
     have h5 := ncard_singular_le hQ hV
     omega
   calc Nat.card M = Nat.card (stabSub ρ x) * (MulAction.orbit M x).ncard := h1.symm
@@ -90,7 +91,7 @@ end Orbit
 theorem normal_two_le {Γ : Type*} [Group Γ] [Finite Γ] {T N : Subgroup Γ}
     (hT : Nat.card T = 2 ^ 9) (hΓ : ¬ 2 ^ 10 ∣ Nat.card Γ) [N.Normal] (hN : IsPGroup 2 N) :
     N ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 T := IsPGroup.of_card hT
   have hsup : IsPGroup 2 (N ⊔ T : Subgroup Γ) := hN.to_sup_of_normal_left hTp
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hsup
@@ -130,10 +131,11 @@ theorem stabSub_card_bounds :
   decide
 
 include hQ hV hρ hO hMord hx0 hxq in
+omit [Finite M] in
 theorem false_of_dim_one (horb : ∃ m : M, polar Q x (ρ m x) ≠ 0) (L : Subgroup M)
     (hL : Nat.card L = 2 ^ 6) (hLx : ∀ ℓ ∈ L, ρ ℓ x = x)
     (hLD : ∀ ℓ ∈ L, ∀ v, polar Q x v = 0 → ρ ℓ v - v ∈ (ZMod 2) ∙ x) : False := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hLR : L.map ρ ≤ pointRadical Q x := by
     rintro _ ⟨ℓ, hℓ, rfl⟩
     refine ⟨hO ℓ, hLx ℓ hℓ, hLD ℓ hℓ, fun v => ?_⟩
@@ -189,7 +191,7 @@ theorem false_of_dim_four (εM : M ≃* H6) (L : Subgroup M)
     (hxD : x ∈ D) (hDq : ∀ v ∈ D, Q v = 0)
     (hDinv : ∀ m : M, ρ m x = x → ∀ v ∈ D, ρ m v ∈ D) (hk : finrank (ZMod 2) D = 4)
     (hfaith : ∀ ℓ ∈ L, (∀ v ∈ D, ρ ℓ v = v) → ℓ = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hPge, hP2⟩ := stabSub_card_bounds ρ hQ hV hO hMord hx0 hxq
   set P := stabSub ρ x with hP
   set ρ' : P →* (V ≃ₗ[ZMod 2] V) := ρ.comp P.subtype with hρ'def
@@ -201,7 +203,7 @@ theorem false_of_dim_four (εM : M ≃* H6) (L : Subgroup M)
   have hPle := Par.card_le_of_dvd hm hm21 hdvd hP2
   have hP10752 : Nat.card P = 10752 := by omega
   set K : Subgroup P := (Par.resD ρ' hD').ker with hK
-  haveI hKn : K.Normal := MonoidHom.normal_ker _
+  have hKn : K.Normal := MonoidHom.normal_ker _
   have hKcard : 8 ≤ Nat.card K := by
     have h1 : Nat.card P ≤ Nat.card K * 1344 := Par.card_le_ker_mul_four ρ' hD' hxD hx0 hxfix' hk
     omega
@@ -225,7 +227,7 @@ theorem false_of_dim_four (εM : M ≃* H6) (L : Subgroup M)
     exact ⟨1, Subtype.ext (by simpa [pow_two] using hKs g g.2)⟩
   have hLP : L ≤ P := fun ℓ hℓ => hLx ℓ hℓ
   set LP : Subgroup P := L.subgroupOf P with hLPdef
-  haveI hLPn : LP.Normal :=
+  have hLPn : LP.Normal :=
     ⟨fun n hn g => by
       rw [hLPdef, Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hLn g.1 g.2 n hn⟩
@@ -286,7 +288,7 @@ theorem false_of_spSix_action
     (hLD : ∀ ℓ ∈ L, ∀ v, polar Q x v = 0 → ρ ℓ v - v ∈ D)
     (hcard : Nat.card L * 2 ^ (finrank (ZMod 2) D + 1) = 2 ^ 8)
     (hfaith : finrank (ZMod 2) D = 4 → ∀ ℓ ∈ L, (∀ v ∈ D, ρ ℓ v = v) → ℓ = 1) : False := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have he : s12SpIsometries b = TauCeti.BilinForm.isometryGroup b := by
     ext g
     exact TauCeti.BilinForm.mem_isometryGroup_iff.symm
@@ -295,7 +297,7 @@ theorem false_of_spSix_action
   obtain ⟨φ⟩ := CFSG.LargeExtraspecial.S14.nonempty_isometryGroup_equiv_statedSp
     (V := Fin 6 → ZMod 2) hb₁ hnd (by simp)
   let εM : M ≃* H6 := e.trans ((MulEquiv.subgroupCongr he).trans φ)
-  haveI : Finite M := Finite.of_equiv H6 εM.symm.toEquiv
+  have : Finite M := Finite.of_equiv H6 εM.symm.toEquiv
   have hMord : Nat.card M = 1451520 :=
     (Nat.card_congr εM.toEquiv).trans CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.card_H6
   have hk1 : 1 ≤ finrank (ZMod 2) D := by

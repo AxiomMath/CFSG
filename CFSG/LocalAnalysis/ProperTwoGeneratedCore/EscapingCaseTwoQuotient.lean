@@ -20,7 +20,7 @@ theorem exists_sylow_eq_escapingSylowImage {S : Sylow 2 G} {u : G}
     ∃ T : Sylow 2 (EscapingQuotient u),
       (T : Subgroup (EscapingQuotient u)) = escapingSylowImage S u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨Q, hQ⟩ := exists_sylow_eq_subgroupOf inf_le_right (S.isPGroup'.to_le inf_le_left) hsyl
+  obtain ⟨Q, hQ⟩ := exists_sylow_eq_subgroupOf inf_le_right (S.isPGroup.to_le inf_le_left) hsyl
   refine ⟨Q.mapSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   rw [Sylow.coe_mapSurjective, hQ, Subgroup.inf_subgroupOf_right]
 

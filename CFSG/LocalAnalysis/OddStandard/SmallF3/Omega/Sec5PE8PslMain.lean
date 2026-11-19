@@ -19,7 +19,7 @@ theorem sec5pe8_psl2_trivial
     (κ : MulAut Y) (hodd : Odd (orderOf κ)) (hκP : ∀ x ∈ (P : Subgroup Y), κ x = x)
     (hfix : ∀ w ∈ J, w * tb = tb * w → Nat.Coprime (orderOf w) 6 → κ w = w) : κ = 1 := by
   classical
-  haveI hJn : J.Normal := hJ.normal
+  have hJn : J.Normal := hJ.normal
   have hF : L2Field F := by
     refine ⟨?_, by have := hJ.five_le_card; omega⟩
     obtain ⟨p, n, hp, hpo, hn, hq⟩ := hJ.isOddPrimePower_card
@@ -27,10 +27,10 @@ theorem sec5pe8_psl2_trivial
   have hJL : Nonempty (↥J ≃* L2 F) := by
     obtain ⟨ePSL⟩ := hJ.nonempty_equiv
     exact ⟨ePSL.trans (L2.equivPSL F).symm⟩
-  haveI : IsSimpleGroup (PSL2 F) :=
+  have : IsSimpleGroup (PSL2 F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by have := hJ.five_le_card; omega)
-  haveI : IsSimpleGroup (L2 F) := (L2.equivPSL F).isSimpleGroup
-  haveI : IsSimpleGroup ↥J := hJL.some.isSimpleGroup
+  have : IsSimpleGroup (L2 F) := (L2.equivPSL F).isSimpleGroup
+  have : IsSimpleGroup ↥J := hJL.some.isSimpleGroup
   by_contra hκne
   obtain ⟨κJ, hκJ, hord, hκ1⟩ := sec5pe8_restrict J hJ.centralizer_eq_bot κ
   have hκJne : κJ ≠ 1 := fun h => hκne (hκ1 h)

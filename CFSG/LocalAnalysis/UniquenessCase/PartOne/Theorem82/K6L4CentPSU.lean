@@ -19,11 +19,13 @@ open CFSG.ClassicalGroups.UnitaryFlag
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private lemma stdDiagHom_coe (ζ : CubeRoot K) (v : Multiplicative (Fin 4 → ZMod 3)) :
     (((stdDiagHom ζ v : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal (fun i => ((ζ.pow (Multiplicative.toAdd v i -
         ∑ j, Multiplicative.toAdd v j)) : K)) := rfl
 
+omit [Finite K] in
 private lemma cent1_w_ne (ζ : CubeRoot K) : (ζ.ω : K) ≠ ((ζ.ω)⁻¹ : K) := by
   intro h
   have h3 : (ζ.ω : K) ^ 3 = 1 := by
@@ -44,6 +46,7 @@ private lemma cent1_w_ne (ζ : CubeRoot K) : (ζ.ω : K) ≠ ((ζ.ω)⁻¹ : K) 
     exact h1.trans h2
   exact ζ.ne_one (Units.ext hone)
 
+omit [Finite K] in
 private lemma cent1_diag_d1 (ζ : CubeRoot K) :
     (((d₁ ζ : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal (fun i : Fin 4 => if i = 0 ∨ i = 1 then (ζ.ω : K) else ((ζ.ω)⁻¹ : K)) := by
@@ -62,8 +65,9 @@ private lemma cent1_diag_d1 (ζ : CubeRoot K) :
   simp only [toAdd_ofAdd]
   rw [hs]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [CubeRoot.pow, hω2, h1, hm1, h1v]
+  fin_cases i <;> fin_cases j <;> simp [CubeRoot.pow, hω2, h1v]
 
+omit [Finite K] in
 private lemma cent1_diag_y :
     (((yGL K : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal (fun i : Fin 4 => if i = 0 ∨ i = 1 then (-1 : K) else 1) := by
@@ -77,13 +81,13 @@ private lemma cent1_diag_y :
     have e3 : (finSumFinEquiv.symm (3 : Fin 4) : Fin 2 ⊕ Fin 2) = Sum.inr 1 := by decide
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [blk4, CFSG.LocalAnalysis.ComponentInitial.LinearFlag.diagBlock,
-        Matrix.reindex_apply, Matrix.submatrix_apply, Matrix.fromBlocks, e0, e1, e2, e3]
+      simp [Matrix.reindex_apply, Matrix.submatrix_apply, Matrix.fromBlocks, e0, e1, e2, e3]
   rw [hbase]
   congr 1
   funext i
   fin_cases i <;> simp
 
+omit [Finite K] in
 private lemma commute_diagonal_congr {d e : Fin 4 → K}
     (h : ∀ i j, d i = d j ↔ e i = e j) (g : Matrix (Fin 4) (Fin 4) K) :
     Commute (Matrix.diagonal d) g ↔ Commute (Matrix.diagonal e) g := by
@@ -105,6 +109,7 @@ private lemma commute_diagonal_congr {d e : Fin 4 → K}
     · have he : e i ≠ e j := fun he => hij ((h i j).2 he)
       rw [TauCeti.apply_eq_zero_of_commute_diagonal hg he, mul_zero, zero_mul]
 
+omit [Finite K] in
 private lemma commute_units_iff_matrix (g a : GL (Fin 4) K) :
     g * a = a * g ↔ Commute ((a : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)
       (g : Matrix (Fin 4) (Fin 4) K) := by
@@ -125,6 +130,7 @@ private lemma commute_units_iff_matrix (g a : GL (Fin 4) K) :
           ((a : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) := h
     simpa only [Units.val_mul] using h'.symm
 
+omit [Finite K] in
 private lemma cent1_commuteGL (ζ : CubeRoot K) (h2k : (2 : K) ≠ 0) (g : GL (Fin 4) K) :
     g * d₁ ζ = d₁ ζ * g ↔ g * yGL K = yGL K * g := by
   have h1 := cent1_diag_d1 ζ
@@ -154,6 +160,7 @@ private lemma cent1_commuteGL (ζ : CubeRoot K) (h2k : (2 : K) ≠ 0) (g : GL (F
   rw [commute_units_iff_matrix g (d₁ ζ), commute_units_iff_matrix g (yGL K)]
   exact key
 
+omit [Finite K] in
 private lemma cent1_centralizer_eq {r : ℕ} (ζ : CubeRoot K) (h2k : (2 : K) ≠ 0)
     {d y : StatedSU 4 r K} (hd : (d : GL (Fin 4) K) = d₁ ζ)
     (hy : (y : GL (Fin 4) K) = yGL K) :
@@ -235,9 +242,9 @@ theorem cent1_card_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
     ∀ d : StatedSU 4 r K, (d : GL (Fin 4) K) = d₁ ζ →
       (Nat.card (Subgroup.centralizer ({d} : Set (StatedSU 4 r K)))).factorization r = 2 := by
   intro d hd
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hUF : UnitaryFieldData r 1 K := ⟨hr, le_refl 1, by simpa using hK⟩
-  letI : CharP K r := hUF.charP
+  let : CharP K r := hUF.charP
   have h2k : (2 : K) ≠ 0 := by
     intro h
     have hdvd : r ∣ 2 := (CharP.cast_eq_zero_iff K r 2).mp h
@@ -274,6 +281,7 @@ theorem cent1_card_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
 private def cent2_t (ζ : CubeRoot K) : Fin 4 → K :=
   ![(ζ.ω : K), ((ζ.ω)⁻¹ : K), 1, 1]
 
+omit [Finite K] in
 private lemma cent2_diag_d2 (ζ : CubeRoot K) :
     (((d₂ ζ : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal (cent2_t ζ) := by
@@ -295,8 +303,9 @@ private lemma cent2_diag_d2 (ζ : CubeRoot K) :
   rw [hs]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cent2_t, CubeRoot.pow, hω2, h1, hm1, h0, hself, h1v]
+    simp [cent2_t, CubeRoot.pow, hω2, h1v]
 
+omit [Finite K] in
 private lemma cent2_w_ne (ζ : CubeRoot K) : (ζ.ω : K) ≠ ((ζ.ω)⁻¹ : K) := by
   intro h
   have h3 : (ζ.ω : K) ^ 3 = 1 := by
@@ -317,6 +326,7 @@ private lemma cent2_w_ne (ζ : CubeRoot K) : (ζ.ω : K) ≠ ((ζ.ω)⁻¹ : K) 
     exact h1.trans h2
   exact ζ.ne_one (Units.ext hone)
 
+omit [Finite K] in
 private lemma cent2_block_extract (ζ : CubeRoot K) {g : Matrix (Fin 4) (Fin 4) K}
     (hg : Commute (Matrix.diagonal (cent2_t ζ)) g) :
     g = blk4 (Matrix.diagonal ![g 0 0, g 1 1]) !![g 2 2, g 2 3; g 3 2, g 3 3] := by
@@ -326,25 +336,25 @@ private lemma cent2_block_extract (ζ : CubeRoot K) {g : Matrix (Fin 4) (Fin 4) 
     intro h
     exact hω1 (inv_eq_one.mp h)
   have h01 : g 0 1 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω, (hω).symm])
+    (by simp [cent2_t, hω])
   have h10 : g 1 0 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω, (hω).symm])
+    (by simp [cent2_t, (hω).symm])
   have h02 : g 0 2 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1, hω1.symm])
+    (by simp [cent2_t, hω1])
   have h20 : g 2 0 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1, hω1.symm])
+    (by simp [cent2_t, hω1.symm])
   have h03 : g 0 3 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1, hω1.symm])
+    (by simp [cent2_t, hω1])
   have h30 : g 3 0 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1, hω1.symm])
+    (by simp [cent2_t, hω1.symm])
   have h12 : g 1 2 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1', hω1'.symm, (hω).symm, hω1.symm])
+    (by simp [cent2_t, hω1'])
   have h21 : g 2 1 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1', hω1'.symm, (hω).symm, hω1.symm])
+    (by simp [cent2_t, hω1'.symm])
   have h13 : g 1 3 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1', hω1'.symm, (hω).symm, hω1.symm])
+    (by simp [cent2_t, hω1'])
   have h31 : g 3 1 = 0 := TauCeti.apply_eq_zero_of_commute_diagonal hg
-    (by simp [cent2_t, hω1', hω1'.symm, (hω).symm, hω1.symm])
+    (by simp [cent2_t, hω1'.symm])
   have e0 : (finSumFinEquiv.symm (0 : Fin 4) : Fin 2 ⊕ Fin 2) = Sum.inl 0 := by decide
   have e1 : (finSumFinEquiv.symm (1 : Fin 4) : Fin 2 ⊕ Fin 2) = Sum.inl 1 := by decide
   have e2 : (finSumFinEquiv.symm (2 : Fin 4) : Fin 2 ⊕ Fin 2) = Sum.inr 0 := by decide
@@ -367,6 +377,7 @@ private def cent2_diag2 (a b : Kˣ) : GL (Fin 2) K where
     ext i j
     fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private lemma cent2_diag2_coe (a b : Kˣ) :
     ((cent2_diag2 a b : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
       Matrix.diagonal ![(a : K), (b : K)] := rfl
@@ -380,8 +391,7 @@ private lemma cent2_diag2_mem_uniGL {r : ℕ} [Fact r.Prime] [CharP K r]
   · intro h
     have h00 := congrFun (congrFun h 0) 0
     have h11 := congrFun (congrFun h 1) 1
-    simp [cent2_diag2, conjTr, unitaryInvolution_apply, frobenius_def,
-      Matrix.diagonal_mul_diagonal] at h00 h11
+    simp [cent2_diag2, conjTr, frobenius_def] at h00 h11
     exact ⟨by simpa [UnitaryFieldData.norm, hUF.bar_apply, pow_one, mul_comm] using h00,
       by simpa [UnitaryFieldData.norm, hUF.bar_apply, pow_one, mul_comm] using h11⟩
   · rintro ⟨h1, h2⟩
@@ -391,8 +401,8 @@ private lemma cent2_diag2_mem_uniGL {r : ℕ} [Fact r.Prime] [CharP K r]
       simpa [UnitaryFieldData.norm, hUF.bar_apply, pow_one, mul_comm] using h2
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [cent2_diag2, conjTr, unitaryInvolution_apply, frobenius_def,
-        Matrix.diagonal_mul_diagonal, hUF.prime.ne_zero, h1', h2']
+      simp [cent2_diag2, conjTr, frobenius_def,
+        hUF.prime.ne_zero, h1', h2']
 
 private lemma cent2_norm_det {r : ℕ} [Fact r.Prime] [CharP K r] (hUF : UnitaryFieldData r 1 K)
     {n : ℕ} {M : GL (Fin n) K} (hM : M ∈ uniGL (unitaryInvolution K r 1) n) :
@@ -414,11 +424,13 @@ private lemma cent2_norm_det {r : ℕ} [Fact r.Prime] [CharP K r] (hUF : Unitary
 private def cent2C {r : ℕ} (ζ : CubeRoot K) : Subgroup (StatedSU 4 r K) :=
   (Subgroup.centralizer ({d₂ ζ} : Set (GL (Fin 4) K))).comap (StatedSU 4 r K).subtype
 
+omit [Finite K] in
 private lemma mem_cent2C {r : ℕ} {ζ : CubeRoot K} {g : StatedSU 4 r K} :
     g ∈ cent2C (r := r) ζ ↔ (g : GL (Fin 4) K) * d₂ ζ = d₂ ζ * (g : GL (Fin 4) K) := by
   rw [cent2C, Subgroup.mem_comap, Subgroup.mem_centralizer_singleton_iff]
   rfl
 
+omit [Finite K] in
 private lemma cent2_d2_blk4 (ζ : CubeRoot K) :
     (((d₂ ζ : GL (Fin 4) K)) : Matrix (Fin 4) (Fin 4) K) =
       blk4 (Matrix.diagonal ![(ζ.ω : K), ((ζ.ω)⁻¹ : K)]) 1 := by
@@ -439,8 +451,8 @@ private lemma cent2_std_mem_K4 {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2
     (hUF : UnitaryFieldData r 1 K) (a : Kˣ) (M : GL (Fin 2) K)
     (ha : hUF.norm (a : K) = 1) (hM : M ∈ (cent1_model (K := K) hr hK).U2) :
     cent2_std a M ∈ (cent1_model (K := K) hr hK).K4 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K r := hUF.charP
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K r := hUF.charP
   have hMuni : M ∈ uniGL (unitaryInvolution K r 1) 2 := hM
   have hb : hUF.norm (((a * Matrix.GeneralLinearGroup.det M)⁻¹ : Kˣ) : K) = 1 := by
     rw [Units.val_inv_eq_inv_val, norm_inv_eq hUF, Units.val_mul, norm_mul_eq hUF,
@@ -462,6 +474,7 @@ private lemma cent2_std_mem_K4 {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2
   rw [cent2_std, (cent1_model (K := K) hr hK).diagGL_mem_K4_iff]
   exact ⟨hA, hM, hdet⟩
 
+omit [Finite K] in
 private lemma cent2_std_comm (ζ : CubeRoot K) (a : Kˣ) (M : GL (Fin 2) K) :
     cent2_std a M * d₂ ζ = d₂ ζ * cent2_std a M := by
   apply Units.ext
@@ -507,10 +520,12 @@ private lemma cent2_map_injective {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r 
     simpa [cent2_diag2_coe, Matrix.diagonal] using h00
   exact Prod.ext (Subtype.ext haeq) (Subtype.ext (Units.ext hM))
 
+omit [Finite K] in
 private lemma cent2_mem_block {r : ℕ} {ζ : CubeRoot K} (g : cent2C (r := r) ζ) :
     ((g : StatedSU 4 r K) : GL (Fin 4) K) * d₂ ζ =
       d₂ ζ * ((g : StatedSU 4 r K) : GL (Fin 4) K) := (mem_cent2C).mp g.2
 
+omit [Finite K] in
 private lemma cent2_comm_block (ζ : CubeRoot K) {gmat : Matrix (Fin 4) (Fin 4) K}
     (hcommD : gmat * Matrix.diagonal (cent2_t ζ) = Matrix.diagonal (cent2_t ζ) * gmat)
     (hunit : IsUnit gmat) :
@@ -536,15 +551,15 @@ private lemma cent2_comm_block (ζ : CubeRoot K) {gmat : Matrix (Fin 4) (Fin 4) 
     !![gmat 2 2, gmat 2 3; gmat 3 2, gmat 3 3], hblock, hB0⟩
 
 private lemma cent2_map_surjective_diag {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2)
-    (ζ : CubeRoot K) (hUF : UnitaryFieldData r 1 K) (g : cent2C (r := r) ζ) :
+    (ζ : CubeRoot K) (_hUF : UnitaryFieldData r 1 K) (g : cent2C (r := r) ζ) :
     ∃ (u v : Kˣ) (b : GL (Fin 2) K),
       ((((g : cent2C (r := r) ζ) : StatedSU 4 r K) : GL (Fin 4) K) =
         diagGL (cent2_diag2 u v) b) ∧
       cent2_diag2 u v ∈ (cent1_model (K := K) hr hK).U2 ∧
       b ∈ (cent1_model (K := K) hr hK).U2 ∧
       u * v * Matrix.GeneralLinearGroup.det b = 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K r := hUF.charP
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K r := _hUF.charP
   let mdl := cent1_model (K := K) hr hK
   set gmat : Matrix (Fin 4) (Fin 4) K :=
     ((((g : cent2C (r := r) ζ) : StatedSU 4 r K) : GL (Fin 4) K) :
@@ -578,8 +593,8 @@ private lemma cent2_map_surjective {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r
     (ζ : CubeRoot K) (hUF : UnitaryFieldData r 1 K) :
     Function.Surjective (cent2_map hr hK ζ hUF) := by
   intro g
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K r := hUF.charP
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K r := hUF.charP
   obtain ⟨u, v, b, hg, huU2, hbU2, huv⟩ := cent2_map_surjective_diag hr hK ζ hUF g
   have hnorm : hUF.norm (u : K) = 1 :=
     ((cent2_diag2_mem_uniGL hUF u v).mp huU2).1
@@ -593,6 +608,7 @@ private lemma cent2_map_surjective {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r
   rw [← hv]
   exact hg.symm
 
+omit [Finite K] in
 private lemma cent2_normOne_card {r : ℕ} [Fact r.Prime] [CharP K r]
     (hUF : UnitaryFieldData r 1 K) :
     Nat.card {a : Kˣ // hUF.norm (a : K) = 1} = r + 1 := by
@@ -610,17 +626,17 @@ private lemma cent2_card_C {r : ℕ} (hr : r.Prime) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) (hUF : UnitaryFieldData r 1 K) :
     Nat.card (cent2C (r := r) ζ) =
       (r + 1) * Nat.card ↥(cent1_model (K := K) hr hK).U2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K r := hUF.charP
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K r := hUF.charP
   rw [← Nat.card_congr (Equiv.ofBijective (cent2_map hr hK ζ hUF)
     ⟨cent2_map_injective hr hK ζ hUF, cent2_map_surjective hr hK ζ hUF⟩)]
   rw [Nat.card_prod, cent2_normOne_card hUF]
 
 private lemma cent2_U2_card {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2) :
     Nat.card ↥(cent1_model (K := K) hr hK).U2 = r * ((r + 1) * (r ^ 2 - 1)) := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hUF : UnitaryFieldData r 1 K := ⟨hr, le_refl 1, by simpa using hK⟩
-  letI : CharP K r := hUF.charP
+  let : CharP K r := hUF.charP
   have hU2z := card_uniGL_int hUF (n := 2) (by norm_num)
   rw [prod_Icc_one_two, show 2 * (2 - 1) / 2 = 1 by norm_num] at hU2z
   rw [pow_one] at hU2z
@@ -668,9 +684,9 @@ theorem cent2_card_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
     ∀ d : StatedSU 4 r K, (d : GL (Fin 4) K) = d₂ ζ →
       (Nat.card (Subgroup.centralizer ({d} : Set (StatedSU 4 r K)))).factorization r = 1 := by
   intro d hd
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   have hUF : UnitaryFieldData r 1 K := ⟨hr, le_refl 1, by simpa using hK⟩
-  letI : CharP K r := hUF.charP
+  let : CharP K r := hUF.charP
   have hcen : Subgroup.centralizer ({d} : Set (StatedSU 4 r K)) = cent2C (r := r) ζ := by
     ext g
     rw [Subgroup.mem_centralizer_singleton_iff, mem_cent2C]
@@ -681,6 +697,7 @@ theorem cent2_card_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
   exact cent2_factorization hr h5
 
 
+omit [Finite K] in
 private lemma cent1_uN_comm (ζ : CubeRoot K) (σ : K →+* K) (u η y : K) :
     (1 + CFSG.SectionRank.ClassicalOdd.uN (n := 4) (by norm_num) σ u η (0, y) :
         Matrix (Fin 4) (Fin 4) K) *
@@ -693,14 +710,13 @@ private lemma cent1_uN_comm (ζ : CubeRoot K) (σ : K →+* K) (u η y : K) :
   fin_cases i <;> fin_cases j <;>
     simp [CFSG.SectionRank.ClassicalOdd.uN, CFSG.SectionRank.ClassicalOdd.uP,
       CFSG.SectionRank.ClassicalOdd.uε, CFSG.SectionRank.ClassicalOdd.uεbar, vecMulVec_apply,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.diagonal, unitaryInvolution_apply, pow_one,
-      mul_comm, mul_left_comm, mul_assoc]
+      Matrix.mul_apply, Matrix.diagonal, mul_comm, mul_left_comm, mul_assoc]
 
 
 private lemma cent1_rank_le_two {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) (d : StatedSU 4 r K) (hd : (d : GL (Fin 4) K) = d₁ ζ) :
     CFSG.Open.pRank r (Subgroup.centralizer ({d} : Set (StatedSU 4 r K))) ≤ 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set C := Subgroup.centralizer ({d} : Set (StatedSU 4 r K)) with hC
   have hfac : (Nat.card C).factorization r = 2 := by
     rw [hC]; exact cent1_card_su hr h5 hK ζ d hd
@@ -726,6 +742,7 @@ private noncomputable def cent1_unipotent_hom {σ : K →+* K} (u η : K) (hu : 
   (CFSG.SectionRank.ClassicalOdd.uHom₄ (n := 4) (by norm_num : 4 ≤ 4)
     (σ := σ) (u := u) (η := η) hu).comp cent1_inc
 
+omit [Finite K] in
 private lemma cent1_unipotent_hom_mem {r : ℕ} [Fact r.Prime] [CharP K r] {σ : K →+* K}
     {u η : K} {hu : σ u * u = -1}
     (hσeq : ∀ x, σ x = x ^ r) (hσ : ∀ x, σ (σ x) = x) (hη : σ η = -η) :
@@ -743,6 +760,7 @@ private lemma cent1_unipotent_hom_mem {r : ℕ} [Fact r.Prime] [CharP K r] {σ :
   exact CFSG.SectionRank.ClassicalOdd.hstar_uHom₄ (n := 4) (by norm_num : 4 ≤ 4)
     (σ := σ) (u := u) (η := η) hu hσ hη (cent1_inc a)
 
+omit [Finite K] in
 private lemma cent1_unipotent_hom_inj {σ : K →+* K} {u η : K} {hu : σ u * u = -1}
     (h2 : (2 : K) ≠ 0) (hηne : η ≠ 0) :
     Function.Injective (cent1_unipotent_hom (σ := σ) u η hu) := by
@@ -764,6 +782,7 @@ private lemma cent1_unipotent_hom_inj {σ : K →+* K} {u η : K} {hu : σ u * u
     simpa [cent1_inc] using congrArg Prod.snd (congrArg Multiplicative.toAdd h2')
   exact congrArg Multiplicative.ofAdd h4
 
+omit [Finite K] in
 private lemma cent1_unipotent_hom_comm (ζ : CubeRoot K) {σ : K →+* K} {u η : K}
     {hu : σ u * u = -1} (a : Multiplicative K) :
     (((cent1_unipotent_hom (σ := σ) u η hu a : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *
@@ -782,13 +801,13 @@ private lemma cent1_unipotent_hom_comm (ζ : CubeRoot K) {σ : K →+* K} {u η 
 private lemma cent1_rank_ge_two {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) (d : StatedSU 4 r K) (hd : (d : GL (Fin 4) K) = d₁ ζ) :
     2 ≤ CFSG.Open.pRank r (Subgroup.centralizer ({d} : Set (StatedSU 4 r K))) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hUF : UnitaryFieldData r 1 K := ⟨hr, le_refl 1, by simpa using hK⟩
-  haveI : CharP K r := hUF.charP
+  have : CharP K r := hUF.charP
   have hKf : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
   obtain ⟨u, η, hu0, hηne, hη0⟩ :=
     CFSG.SectionRank.ClassicalOdd.exists_unitary_elems (K := K) (p := r) (f := 1) (by omega) hKf
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set σ : K →+* K := frobenius K r with hσdef
   have hu : σ u * u = -1 := by simpa [hσdef, frobenius_def, pow_one] using hu0
   have hη : σ η = -η := by simpa [hσdef, frobenius_def, pow_one] using hη0
@@ -923,6 +942,7 @@ private theorem tstblk3_inj' {F : Type} [Zero F] {A A' : Matrix (Fin 3) (Fin 3) 
   exact Prod.ext_iff.mp (tstblk3_inj h')
 
 
+omit [Finite K] in
 private theorem tstd3_eq (ζ : CubeRoot K) :
     ((d₃ ζ : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal ![(ζ.ω : K), (ζ.ω : K), (ζ.ω : K), (1 : K)] := by
@@ -934,7 +954,7 @@ private theorem tstd3_eq (ζ : CubeRoot K) :
   ext i j
   simp only [d₃, stdDiagHom, diagUnit, Matrix.diagonal_apply]
   fin_cases i <;> fin_cases j <;>
-    simp [CubeRoot.pow, hsum, h10, h00, h1, h0]
+    simp [CubeRoot.pow, hsum, h1, h0]
 
 private theorem tstpattern {F : Type} [Field F] {g : Matrix (Fin 4) (Fin 4) F} {ω : F} (hω : ω ≠ 1)
     (h : g * Matrix.diagonal ![ω, ω, ω, 1] = Matrix.diagonal ![ω, ω, ω, 1] * g) :
@@ -958,6 +978,7 @@ private def tstopLeft (g : GL (Fin 4) K) : Matrix (Fin 3) (Fin 3) K :=
 
 private def tsbotRight (g : GL (Fin 4) K) : K := (g : Matrix (Fin 4) (Fin 4) K) 3 3
 
+omit [Finite K] in
 private theorem tsblock_of_comm {ω : K} (hω : ω ≠ 1) {g : GL (Fin 4) K}
     (h : (g : Matrix (Fin 4) (Fin 4) K) * Matrix.diagonal ![ω, ω, ω, 1] =
       Matrix.diagonal ![ω, ω, ω, 1] * (g : Matrix (Fin 4) (Fin 4) K)) :
@@ -967,6 +988,7 @@ private theorem tsblock_of_comm {ω : K} (hω : ω ≠ 1) {g : GL (Fin 4) K}
   fin_cases i <;> fin_cases j <;>
     simp [tstblk3, tstopLeft, tsbotRight, h03, h13, h23, h30, h31, h32]
 
+omit [Field K] [Finite K] in
 private theorem tshF {r : ℕ} (hK : Nat.card K = r ^ 2) : Nat.card K = (r ^ 1) ^ 2 := by
   simpa using hK
 
@@ -975,9 +997,11 @@ private theorem tsH_eq {r : ℕ} [Fact r.Prime] [CharP K r] (hK : Nat.card K = r
   rw [SUid_eq_statedSU (p := r) (f := 1) (by simpa using hK) 4]
   simp
 
+omit [Finite K] in
 private theorem tsd3_mat (ζ : CubeRoot K) : ((d₃ ζ : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) =
     Matrix.diagonal ![(ζ.ω : K), (ζ.ω : K), (ζ.ω : K), (1 : K)] := tstd3_eq ζ
 
+omit [Finite K] in
 private theorem tsω_ne_one (ζ : CubeRoot K) : (ζ.ω : K) ≠ 1 := by
   intro h
   apply ζ.ne_one
@@ -1223,6 +1247,7 @@ section Cent3Card
 
 variable {r : ℕ} [Fact r.Prime] [CharP K r] (hK : Nat.card K = r ^ 2)
 
+omit [Finite K] [CharP K r] in
 private theorem tsudata (hK : Nat.card K = r ^ 2) : UnitaryFieldData r 1 K :=
   ⟨Fact.out, le_refl 1, by simpa using hK⟩
 
@@ -1324,7 +1349,8 @@ section Cent3Rank
 
 variable {r : ℕ} [Fact r.Prime] [CharP K r]
 
-private theorem tscomm_of_mem (hK : Nat.card K = r ^ 2) (ζ : CubeRoot K)
+omit [Fact (Nat.Prime r)] [CharP K r] [Finite K] in
+private theorem tscomm_of_mem (_hK : Nat.card K = r ^ 2) (ζ : CubeRoot K)
     {d : StatedSU 4 r K} (hd : (d : GL (Fin 4) K) = d₃ ζ)
     (g : Subgroup.centralizer ({d} : Set (StatedSU 4 r K))) :
     (((g : StatedSU 4 r K) : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *
@@ -1338,6 +1364,7 @@ private theorem tscomm_of_mem (hK : Nat.card K = r ^ 2) (ζ : CubeRoot K)
     ((x : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)) hc
   simpa only [Subgroup.coe_mul, Units.val_mul, hd, tsd3_mat] using this
 
+omit [Finite K] in
 private theorem tstopLeft_mul_blk {g h : GL (Fin 4) K}
     {A A' : Matrix (Fin 3) (Fin 3) K} {c c' : K}
     (hg : (g : Matrix (Fin 4) (Fin 4) K) = tstblk3 A c)
@@ -1376,6 +1403,7 @@ private theorem tsSU3_eq (hK : Nat.card K = r ^ 2) :
   rw [SUid_eq_statedSU (p := r) (f := 1) (by simpa using hK) 3]
   simp
 
+omit [Finite K] [CharP K r] in
 private theorem tscard_scalars_SU3 (hK : Nat.card K = r ^ 2) :
     Nat.card ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 r K)) =
       Nat.gcd 3 (r + 1) := by
@@ -1386,6 +1414,7 @@ private theorem tscard_scalars_SU3 (hK : Nat.card K = r ^ 2) :
     CFSG.ClassicalGroups.UnitaryFlag.card_unitaryScalars (tsudata hK) (n := 3) (by norm_num),
     pow_one]
 
+omit [Finite K] [CharP K r] in
 private theorem tsnot_dvd_scalars (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r) :
     ¬ r ∣ Nat.card ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 r K)) := by
   rw [tscard_scalars_SU3 hK]
@@ -1396,6 +1425,7 @@ private theorem tsnot_dvd_scalars (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r) :
     Nat.le_of_dvd (by norm_num) (Nat.gcd_dvd_left 3 (r + 1))
   omega
 
+omit [CharP K r] in
 private theorem tspRank_statedSU3_le (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r) :
     CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSU 3 r K)) ≤ 2 := by
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
@@ -1412,6 +1442,7 @@ private theorem tspRank_statedSU3_le (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r) :
   rw [← CFSG.SectionRank.pRank_quotient_eq (p := r) N hN]
   exact hproj
 
+omit [CharP K r] in
 private theorem tspRank_statedSU3_lower (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSU 3 r K)) := by
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
@@ -1428,6 +1459,7 @@ private theorem tspRank_statedSU3_lower (hK : Nat.card K = r ^ 2) (h5 : 5 ≤ r)
   rw [← CFSG.SectionRank.pRank_quotient_eq (p := r) N hN]
   exact hproj
 
+omit [Fact (Nat.Prime r)] in
 private theorem tsOpenPRank_eq_top {G : Type*} [Group G] [Finite G] (H : Subgroup G) :
     CFSG.Open.pRank r H = CFSG.Open.pRank r (⊤ : Subgroup H) :=
   CFSG.SectionRank.pRank_eq_pRank_top_subgroup H
@@ -1505,15 +1537,15 @@ end Cent3Rank
 
 end Aux
 
-theorem cent3_card_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
+theorem cent3_card_su {r : ℕ} (hr : r.Prime) (_h5 : 5 ≤ r) (hK : Nat.card K = r ^ 2)
     (ζ : CubeRoot K) :
     ∀ d : StatedSU 4 r K, (d : GL (Fin 4) K) = d₃ ζ →
       (Nat.card (Subgroup.centralizer ({d} : Set (StatedSU 4 r K)))).factorization r = 3 := by
   intro d hd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have udata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r 1 K :=
     ⟨hr, le_refl 1, by simpa using hK⟩
-  haveI : CharP K r := udata.charP
+  have : CharP K r := udata.charP
   rw [Aux.tscent3_card hK ζ d hd]
   exact Aux.tsfact hK
 
@@ -1522,10 +1554,10 @@ theorem cent3_rank_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
     ∀ d : StatedSU 4 r K, (d : GL (Fin 4) K) = d₃ ζ →
       CFSG.Open.pRank r (Subgroup.centralizer ({d} : Set (StatedSU 4 r K))) = 2 := by
   intro d hd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have udata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData r 1 K :=
     ⟨hr, le_refl 1, by simpa using hK⟩
-  haveI : CharP K r := udata.charP
+  have : CharP K r := udata.charP
   let C := Subgroup.centralizer ({d} : Set (StatedSU 4 r K))
   have hbij : Function.Bijective (Aux.tsprojHom hK ζ hd) :=
     ⟨Aux.tsproj_injective hK ζ hd, Aux.tsproj_surjective hK ζ hd⟩
@@ -1542,6 +1574,7 @@ theorem cent3_rank_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K =
     (CFSG.LieType.BorelTits.unitaryInvolution K r 1) 3)]
   exact le_antisymm (Aux.tspRank_uniGL_le hK h5) (Aux.tspRank_uniGL_lower hK h5)
 
+omit [Finite K] in
 private lemma cent4_diag_comm {A B : GL (Fin 4) K}
     (hA : ((A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).IsDiag)
     (hB : ((B : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).IsDiag) : A * B = B * A := by
@@ -1552,6 +1585,7 @@ private lemma cent4_diag_comm {A B : GL (Fin 4) K}
   funext i
   ring
 
+omit [Finite K] in
 private lemma cent4_omega {r : ℕ} (h3 : r % 3 = 2) (ζ : CubeRoot K) :
     (ζ.ω : K) ^ (r + 1) = 1 := by
   obtain ⟨m, hm⟩ : ∃ m, r + 1 = 3 * m := by
@@ -1636,9 +1670,9 @@ theorem cent4_su {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hK : Nat.card K = r ^ 
           Set (StatedSU 4 r K)))).factorization 3 =
         (Nat.card (Subgroup.centralizer ({d} : Set (StatedSU 4 r K)))).factorization 3 := by
   intro d hd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hUF : UnitaryFieldData r 1 K := ⟨hr, le_refl 1, by simpa using hK⟩
-  letI : CharP K r := hUF.charP
+  let : CharP K r := hUF.charP
   have hF : Nat.card K = (r ^ 1) ^ 2 := by simpa using hK
   have hD : D₀ ζ ≤ StatedSU 4 r K := d₀_le_su hr hK h3 ζ
   have hSU : StatedSU 4 r K = SUid (unitaryInvolution K r 1) 4 :=

@@ -131,8 +131,8 @@ private theorem isStronglyPEmbedded_range_autMap
   have hconjrange : (MulAut.conj :
       (↥F ⧸ Subgroup.center ↥F) →* MulAut (↥F ⧸ Subgroup.center ↥F)).range ≤ f.range :=
     range_conj_le_range_autMap hRF
-  haveI : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := hF.2.1
-  haveI : Finite (MulAut (↥F ⧸ Subgroup.center ↥F)) :=
+  have : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := hF.2.1
+  have : Finite (MulAut (↥F ⧸ Subgroup.center ↥F)) :=
     Finite.of_injective (fun φ : MulAut _ => (φ : _ → _)) DFunLike.coe_injective
   have he : Nonempty (↥(CFSG.generalizedFitting ↥f.range) ≃*
       (↥F ⧸ Subgroup.center ↥F)) :=
@@ -246,7 +246,7 @@ private theorem exists_centralizing_pElement_of_fitting
   have hcenterS : Subgroup.center (↥F ⧸ Subgroup.center ↥F) = ⊥ :=
     CFSG.QuasithinUnique.Ch1.center_quotient_eq_bot hF
   let f := autMap F R hRF
-  haveI : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := hF.2.1
+  have : IsSimpleGroup (↥F ⧸ Subgroup.center ↥F) := hF.2.1
   have hcInn : c ∈ (MulAut.conj :
       (↥F ⧸ Subgroup.center ↥F) →* MulAut (↥F ⧸ Subgroup.center ↥F)).range.subgroupOf
         f.range := by
@@ -341,7 +341,7 @@ theorem kFactNineFourAutM_of_families
       (∃ a b : S, a * b ≠ b * a) → p ∣ Nat.card S ∧ AutMFor p S) :
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.KFactNineFourAutM := by
   intro p hp h5 X _ _ F Y R hF hlist hYF hYne hP hRF hRY hRC hRexp hR9
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hpS, hS⟩ := h p h5 (↥F ⧸ Subgroup.center ↥F) hlist hF.2.2
   exact kFactNineFourAutM_of_autMFor h5 hF hYF hYne hP hRF hRY hRC hRexp hR9 hpS hS
 

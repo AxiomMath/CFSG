@@ -27,7 +27,7 @@ theorem tw_mem_normalizer_sylow_of_comm [Finite G] {p : ℕ} [Fact p.Prime] (P :
       ∀ s ∈ (P : Subgroup G), c * s * c⁻¹ ∈ (P : Subgroup G) := by
     intro c hc s hs
     have hzT : c * s * c⁻¹ ∈ T := (Subgroup.mem_normalizer_iff.1 hc s).1 (hPT hs)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨s, hs⟩
     have hsk : s ^ p ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this
@@ -102,9 +102,9 @@ theorem exists_sylow_moves_lines_ree (D : ReeFrameData K L a) (w : WeylGroup Ree
     ∃ P : Sylow p (ReeTag.F4.reeGamma K a),
       NormalizerMovesLines p (P : Subgroup (ReeTag.F4.reeGamma K a)) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   set n := canonicalRep (coxeterSystem ReeTag.F4.tag) L w with hn
   set R := twistedFixed D.F n with hR
   obtain ⟨Ψ, hΨ⟩ := exists_hom_reeGamma D w R.subtype Subtype.val_injective

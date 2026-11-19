@@ -145,7 +145,7 @@ theorem IsPSUGp.psuRootLine_eq_of_mem (hP : IsPSUGp P 3 n) {Q Q' z w : Sylow 2 P
     rw [(hP.isL2Pair_sylowCenter_sup hne).card_eq_mul,
       (hP.isL2Pair_sylowCenter_sup hzw).card_eq_mul]
   ext s
-  simp only [psuRootLine, Set.mem_setOf_eq]
+  simp only [psuRootLine, Set.mem_ofPred_eq]
   rw [heq]
 
 end Certified

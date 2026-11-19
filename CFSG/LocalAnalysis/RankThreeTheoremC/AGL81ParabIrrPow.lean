@@ -11,7 +11,7 @@ variable {A : Type} [Group A] {M : Subgroup A} {Q : Type*} [Group Q] (ρ : ↥M 
 @[expose] def ActsAsPow (B : Subgroup A) (hBM : B ≤ M) (n : ↥M) (e : ℤ) : Prop :=
   ∀ b (hb : b ∈ B), ρ n * ρ ⟨b, hBM hb⟩ * (ρ n)⁻¹ = ρ ⟨b, hBM hb⟩ ^ e
 
-@[expose] def preB (B : Subgroup A) (hBM : B ≤ M) (X' : Subgroup Q) : Subgroup A :=
+@[expose] def preB (B : Subgroup A) (_hBM : B ≤ M) (X' : Subgroup Q) : Subgroup A :=
   ((X'.comap ρ).map M.subtype) ⊓ B
 
 variable {ρ}

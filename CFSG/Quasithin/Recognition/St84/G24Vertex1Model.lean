@@ -48,7 +48,7 @@ private theorem a5pre_of_orth [Finite G]
 theorem G24Vertex1.exists_a5model [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)
     (h1 : VA5 L1) (hD : G24LocalData L1 L2 S) :
-    ∃ (E : Subgroup G) (M : A5Model L1 L1 E (centerOf (dsQ L1 L2 S))
+    ∃ (E : Subgroup G) (_M : A5Model L1 L1 E (centerOf (dsQ L1 L2 S))
         Certificates.A5GL42.HO),
       centerOf (dsQ L1 L2 S) ≤ E ∧ E ≤ dsQ L1 L2 S ∧
       (centerOf (dsQ L1 L2 S)).relIndex E = 16 ∧
@@ -59,9 +59,9 @@ theorem G24Vertex1.exists_a5model [Finite G]
   have hpre : A5Pre L1 L1 E (centerOf (dsQ L1 L2 S)) :=
     a5pre_of_orth hF h1 hD hZE hEQ hrel hL1E hntriv
   rcases A5Pre.exists_model' (P := L1) (L := L1) (E := E)
-    (K := centerOf (dsQ L1 L2 S)) hpre with ⟨hnatsec, -⟩ | ⟨-, ⟨M⟩⟩
+    (K := centerOf (dsQ L1 L2 S)) hpre with ⟨hnatsec, -⟩ | ⟨-, ⟨_M⟩⟩
   · exact absurd hnatsec hnat
-  · exact ⟨E, M, hZE, hEQ, hrel, hL1E, hntriv, hnat⟩
+  · exact ⟨E, _M, hZE, hEQ, hrel, hL1E, hntriv, hnat⟩
 
 private theorem exists_preimage_model [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S)

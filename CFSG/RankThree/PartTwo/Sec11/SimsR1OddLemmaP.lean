@@ -18,7 +18,7 @@ variable {H : Type} [Group H] [Finite H]
 
 private def conjAut (P : Subgroup H) (n : H) (hn : ∀ y, y ∈ P ↔ n * y * n⁻¹ ∈ P) : P ≃* P where
   toFun x := ⟨n * x * n⁻¹, (hn x).mp x.2⟩
-  invFun x := ⟨n⁻¹ * x * n, (hn _).mpr (by simpa [mul_assoc] using x.2)⟩
+  invFun x := ⟨n⁻¹ * x * n, (hn _).mpr (by simp [mul_assoc])⟩
   left_inv x := by ext; simp [mul_assoc]
   right_inv x := by ext; simp [mul_assoc]
   map_mul' x y := by ext; simp [mul_assoc]
@@ -217,7 +217,7 @@ private def uSL (s : F) : SL(2, F) := ⟨!![1, s; 0, 1], by simp [Matrix.det_fin
 private theorem uSL_mul (s s' : F) : uSL s * uSL s' = uSL (s + s') := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [uSL, Matrix.mul_fin_two, add_comm]
+  simp [uSL, add_comm]
 
 private theorem uSL_zero : uSL (0 : F) = 1 := by
   apply Subtype.ext
@@ -231,7 +231,7 @@ private theorem tSL_mul_uSL (l : Fˣ) (s : F) :
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   have hl : (l : F) ≠ 0 := l.ne_zero
-  simp [tSL, uSL, Matrix.mul_fin_two]
+  simp [tSL, uSL]
   field_simp
 
 private noncomputable def uHom : Multiplicative F →* projSL 2 F where
@@ -262,7 +262,7 @@ private theorem exists_borel_data {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) [Finit
       CFSG.Assembly.IsElemAbelian p U ∧ Nat.card U = p ^ 3 ∧ (∀ x, x ∈ U ↔ t * x * t⁻¹ ∈ U) ∧
       ∀ W : Subgroup (projSL 2 F), W ≤ U → (∀ x ∈ W, t * x * t⁻¹ ∈ W) → W = ⊥ ∨ W = U := by
   classical
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   have hpp : p.Prime := Fact.out
   obtain ⟨l, hl⟩ := isCyclic_iff_exists_orderOf_eq_natCard.mp (inferInstance : IsCyclic Fˣ)
   rw [Nat.card_units, hF] at hl
@@ -355,7 +355,7 @@ private theorem exists_borel_data {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) [Finit
           one_mem' := fun s hs => by simpa using hs
           add_mem' := fun {a b} ha hb s hs => by
             simpa [add_mul] using S.add_mem (ha s hs) (hb s hs)
-          zero_mem' := fun s _ => by simpa using S.zero_mem
+          zero_mem' := fun s _ => by simp
           algebraMap_mem' := fun r s hs => by
             have h1 : algebraMap (ZMod p) F r = ((r.val : ℕ) : F) := by
               rw [← map_natCast (algebraMap (ZMod p) F), ZMod.natCast_zmod_val]

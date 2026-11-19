@@ -21,7 +21,7 @@ theorem aCandidate_le_tableA {s : TauCeti.SporadicName} (hrow : W4Thm11_1Row s)
     (hs : IsSpor (H ⧸ Subgroup.center H) s)
     {n : ℕ} (c : Inputs1719.ACandidate H n) : n ≤ tableA s := by
   classical
-  letI := c.commGroup
+  let := c.commGroup
   have := c.finiteW
   have hHtop : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup H) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv Subgroup.topEquiv hH

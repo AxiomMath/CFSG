@@ -31,7 +31,7 @@ theorem evenSp4_card_range_spIncl (F : Type) [Field F] [CharP F 2] (τ : F ≃+*
 
 theorem evenSp4_three_not_dvd_card (F : Type) [Field F] [Finite F] [CharP F 2] :
     ¬ 3 ∣ Nat.card F := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨m, -, hm⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hm]
   intro h
@@ -115,8 +115,8 @@ theorem evenSp4_outerRow_projSp (F : Type) [Field F] [Finite F] [CharP F 2] :
 
 theorem rowOf_seven_Sp4 : ∀ n : ℕ, 1 ≤ n → RowOf (projSp 2 (GaloisField 2 n)) := by
   intro n hn S _ _ _ _ ⟨e⟩
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Finite (projSp 2 (GaloisField 2 n)) := Finite.of_equiv S e.toEquiv
+  have : NeZero n := ⟨by omega⟩
+  have : Finite (projSp 2 (GaloisField 2 n)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv e.symm
     ⟨listRow_projSp_two (three_ne_zero_galoisField_two n),
       evenSp4_outerRow_projSp (GaloisField 2 n)⟩

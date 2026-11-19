@@ -21,6 +21,7 @@ private lemma nine3_sum_ite_smul {α M : Type*} [Fintype α] [DecidableEq α]
   rw [h1, ← Finset.sum_filter (s := (Finset.univ : Finset α)) (p := fun a => a ∈ T)
     (f := f), Finset.filter_univ_mem]
 
+omit [Finite G] in
 private theorem nine3_list_prod_mem {W : Subgroup G} :
     ∀ {Ls : List (Subgroup G)} {bs : List G}, (∀ B ∈ Ls, B ≤ W) →
       List.Forall₂ (fun B b => b ∈ B) Ls bs → bs.prod ∈ W := by
@@ -50,8 +51,8 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
   have hLW₀ : nineL K A x g ≤ normalizer (nineW0 V K S g : Set G) :=
     hc.nineL_le_normalizer_nineW0 hI
   obtain ⟨M, _, _, ρ, π, hsurj, hker, hequiv⟩ := nineThree_exists_rep hW hW₀ hLW hLW₀
-  haveI : Finite M := Finite.of_surjective π hsurj
-  letI : Fintype ↥(nineDelta V S) := Fintype.ofFinite _
+  have : Finite M := Finite.of_surjective π hsurj
+  let : Fintype ↥(nineDelta V S) := Fintype.ofFinite _
   let ι : ↥(nineL K A x g) →* ↥(nineDeltaStab V S) :=
     { toFun := fun l => ⟨l.1, hc.nineL_le_nineDeltaStab l.2⟩
       map_one' := rfl
@@ -108,11 +109,11 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
     let T : Subgroup ↥(nineW V S) :=
       { carrier := {w | π (Additive.ofMul w) ∈ Submodule.span (ZMod 2) (Set.range m)}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq, ofMul_mul, map_add]
+          simp only [Set.mem_ofPred_eq, ofMul_mul, map_add]
           exact Submodule.add_mem _ ha hb
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq, ofMul_inv, map_neg]
+          simp only [Set.mem_ofPred_eq, ofMul_inv, map_neg]
           exact Submodule.neg_mem _ ha }
     have hBT : ∀ B ∈ nineDelta V S, B ≤ T.map (nineW V S).subtype := by
       intro B hB x hx
@@ -171,7 +172,7 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
     intro γ f hf
     rw [LinearMap.mem_ker] at hf ⊢
     rw [hφ, hf, map_zero]
-  haveI : Nonempty ↥(nineDelta V S) :=
+  have : Nonempty ↥(nineDelta V S) :=
     (Nat.card_pos_iff.mp (show 0 < Nat.card ↥(nineDelta V S) by omega)).1
   have hodd : Odd (Fintype.card ↥(nineDelta V S)) := by
     rw [← Nat.card_eq_fintype_card]
@@ -221,7 +222,7 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
   let m' : Subgroup G → M := fun B => if hB : B ∈ nineDelta V S then m ⟨B, hB⟩ else 0
   have hm'_mem : ∀ (B : Subgroup G) (hB : B ∈ nineDelta V S), m' B = m ⟨B, hB⟩ := by
     intro B hB
-    simp only [m', dif_pos hB]
+    simp only [m', dite_eq_left hB]
   have huniq' : ∀ (B : Subgroup G) (hB : B ∈ nineDelta V S) (c : G) (hcB : c ∈ B),
       c ∉ nineW0 V K S g →
       π (Additive.ofMul ⟨c, (hΔW B hB) hcB⟩) = m' B := by
@@ -344,10 +345,10 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
     have hTV : V ∉ Ls.toFinset := fun hV =>
       hc.core.V_not_mem_nineOmegaIn (hmem V (List.mem_toFinset.mp hV))
     exact (hsum' Ls.toFinset hT hTne hTV) hzero
-  · haveI : Fintype ↥(nineOmegaIn V K S) := Fintype.ofFinite _
-    letI : CommGroup ↥(nineW V S) :=
+  · have : Fintype ↥(nineOmegaIn V K S) := Fintype.ofFinite _
+    let : CommGroup ↥(nineW V S) :=
       @IsMulCommutative.instCommGroup _ _ hc.core.nineW_isElemAbelian.1
-    haveI : Module (ZMod 2) (Additive ↥(nineW V S)) :=
+    have : Module (ZMod 2) (Additive ↥(nineW V S)) :=
       AddCommGroup.zmodModule (fun x => by
         rw [two_nsmul, ← ofMul_toMul x, ← ofMul_mul,
           show Additive.toMul x * Additive.toMul x = 1 by
@@ -402,11 +403,11 @@ private theorem nine3_priv_main (hc : Nine3Choice V T A K S X p g x) (hI : Nine3
       have hc_ind : ∀ B, c B = if B ∈ T then (1 : ZMod 2) else 0 := by
         intro B
         by_cases hB : B ∈ T
-        · simp only [hB, if_true]
+        · simp only [hB, ite_true]
           have hcB : c B ≠ 0 := (Finset.mem_filter.mp hB).2
           have h2 : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
           exact (h2 (c B)).resolve_left hcB
-        · simp only [hB, if_false]
+        · simp only [hB, ite_false]
           by_contra h
           exact hB (Finset.mem_filter.mpr ⟨Finset.mem_univ B, h⟩)
       have hsum_eq0 : Fintype.linearCombination (ZMod 2)

@@ -12,7 +12,7 @@ open CFSG.CharacterTheory.SteinbergBY (FieldFour)
 theorem le_center_or_eq_top_of_isQuasisimple {K : Type*} [Group K] (h : CFSG.IsQuasisimple K)
     (N : Subgroup K) [N.Normal] : N ≤ center K ∨ N = ⊤ := by
   obtain ⟨hperf, hsimple, -⟩ := h
-  haveI hNm : (N.map (QuotientGroup.mk' (center K))).Normal :=
+  have hNm : (N.map (QuotientGroup.mk' (center K))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (center K))) with h0 | h1
   · left
@@ -116,6 +116,7 @@ theorem realizes_of_irr (hHat : HatM22SmallModules) [Finite U] (L : Subgroup (U 
       have : Multiplicative.toAdd x ∈ W := by rw [h]; trivial
       exact (hmem _).mp this
 
+omit [Module (ZMod 2) U] in
 theorem card_eq_of_realizes {L : Subgroup (MulAut (Multiplicative U))}
     (h : (FFModel.nat hatM22Γ₀).Realizes L ⊤ ⊥) : Nat.card U = 2 ^ 12 := by
   obtain ⟨π, -, -, -, -, -, -, -, β, hβs, hβk, -⟩ := h
@@ -242,8 +243,8 @@ theorem eq_top_of_fixedPointFree (hHat : HatM22SmallModules) (hU : finrank (ZMod
       rw [heq, Submodule.map_subtype_top]
   have hHatW : IsHat ↥f.range (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
     isHat_of_mulEquiv (MonoidHom.ofInjective hinj) hL
-  haveI : Nontrivial ↥W' := Submodule.nontrivial_iff_ne_bot.mpr hW'0
-  haveI : Module.Finite (ZMod 2) U := Module.Finite.of_finite
+  have : Nontrivial ↥W' := Submodule.nontrivial_iff_ne_bot.mpr hW'0
+  have : Module.Finite (ZMod 2) U := Module.Finite.of_finite
   have hcardU : Nat.card U = 2 ^ 12 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod, hU]
   have hcardW : Nat.card ↥W' < 2 ^ 30 := by
@@ -264,7 +265,7 @@ theorem center_fixedPointFree (hHat : HatM22SmallModules) (hU : finrank (ZMod 2)
     {θ : ↥L} (hθZ : θ ∈ center ↥L) (hθ1 : θ ≠ 1) (v : U)
     (hv : ((θ : ↥L) : U ≃ₗ[ZMod 2] U) v = v) : v = 0 := by
   have hcard : Nat.card (center ↥L) = 3 := hL.2.1
-  haveI : Finite (U ≃ₗ[ZMod 2] U) :=
+  have : Finite (U ≃ₗ[ZMod 2] U) :=
     Finite.of_injective (fun e : U ≃ₗ[ZMod 2] U => (e : U → U)) DFunLike.coe_injective
   have hθ3 : θ ^ 3 = 1 := by
     have h := pow_card_eq_one' (G := ↥(center ↥L)) (x := ⟨θ, hθZ⟩)
@@ -279,7 +280,7 @@ theorem center_fixedPointFree (hHat : HatM22SmallModules) (hU : finrank (ZMod 2)
       intro η hη
       have hle : zpowers θ ≤ center ↥L := (zpowers_le).mpr hθZ
       have hord : orderOf θ = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact orderOf_eq_prime hθ3 hθ1
       have hceq : (zpowers θ).subgroupOf (center ↥L) = ⊤ := by
         apply Subgroup.eq_top_of_card_eq
@@ -289,7 +290,7 @@ theorem center_fixedPointFree (hHat : HatM22SmallModules) (hU : finrank (ZMod 2)
       exact this
     obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp (hcyc η hη)
     have hord : orderOf θ = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime hθ3 hθ1
     have : θ ^ k = θ ^ (k % 3) := by
       rw [← zpow_mod_orderOf, hord]
@@ -344,10 +345,10 @@ theorem exists_hatM22_realization (hHat : HatM22SmallModules) (hU : finrank (ZMo
       (∀ γ ∈ hatM22Γ₀, ∃ g ∈ L, ∀ v : U, ψ (g v) =
         ((γ : Matrix.GeneralLinearGroup (Fin 6) FieldFour) : Matrix (Fin 6) (Fin 6) FieldFour).mulVec
           (ψ v)) := by
-  haveI : Module.Finite (ZMod 2) U := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) U := Module.Finite.of_finite
   have hcardU : Nat.card U = 2 ^ 12 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod, hU]
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [hU]; norm_num)
   have hirr : ∀ W : Submodule (ZMod 2) U, (∀ g ∈ L, ∀ w ∈ W, g w ∈ W) → W = ⊥ ∨ W = ⊤ := by
     intro W hW
     by_cases h0 : W = ⊥

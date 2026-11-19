@@ -73,8 +73,8 @@ theorem res1U3_isSolvable_stabilizer [Finite Y] {n : ℕ} (hn : 0 < n) (heven : 
     omega
   obtain ⟨f, k, -, hB⟩ := res1U3_exists_fusionBenderBorel hn2 e
   obtain ⟨D, hD, -, -, hsup⟩ := (hB U).2.1
-  haveI : Group.IsSolvable (Subgroup.normalizer ((U : Subgroup Y) : Set Y)) :=
-    CFSG.ComponentClassification.GMS78.isSolvable_normalizer_of_sup_cyclic U.isPGroup' hD hsup
+  have : Group.IsSolvable (Subgroup.normalizer ((U : Subgroup Y) : Set Y)) :=
+    CFSG.ComponentClassification.GMS78.isSolvable_normalizer_of_sup_cyclic U.isPGroup hD hsup
   set B := MulAction.stabilizer (MulAut Y) U with hBdef
   have hconj : ∀ g : Y, MulAut.conj g ∈ B ↔
       g ∈ Subgroup.normalizer ((U : Subgroup Y) : Set Y) := by
@@ -120,6 +120,7 @@ end Abstract
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1U3_conj_mem_pCoreOf {M : Subgroup G} {m v : G} (hm : m ∈ M)
     (hv : v ∈ CFSG.Open.pCoreOf 2 M) : m * v * m⁻¹ ∈ CFSG.Open.pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hm) v).mp hv

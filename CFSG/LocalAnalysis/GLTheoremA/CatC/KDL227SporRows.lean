@@ -50,7 +50,7 @@ theorem kdl227Row_of_model {s : TauCeti.SporadicName} {Q : Type} [Group Q] [Fini
     (h : NoL227At Q) : KDL227SporRow s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ hL
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -62,7 +62,7 @@ theorem kdl227Row_of_model {s : TauCeti.SporadicName} {Q : Type} [Group Q] [Fini
     · obtain ⟨a, c, hac⟩ := hncS
       exact absurd ((Subgroup.mem_center_iff.1 (h' ▸ Subgroup.mem_top c)) a) hac
   have hout := hOut S inferInstance hncS s ⟨e⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, rfl, hxp⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow Nat.prime_three (by norm_num)
       hcen hout β hβ
@@ -117,7 +117,7 @@ theorem isL227_of_catalogIs' {X : Type} [Group X] (h : catalogIs X (onLie (isL2 
     obtain ⟨p, f, hpp, hff⟩ := q
     have hpf : p ^ f = 27 := (TauCeti.PrimePower.card_def _).symm.trans hq
     obtain ⟨rfl, rfl⟩ := prime_pow_27 hpp hff hpf
-    haveI : Fact (Nat.Prime 3) := ⟨hpp⟩
+    have : Fact (Nat.Prime 3) := ⟨hpp⟩
     refine ⟨GaloisField 3 3, inferInstance, inferInstance, ?_, ⟨(e.trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 3, hpp, hff⟩ hv)).trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 (GaloisField 3 3))⟩⟩
@@ -163,10 +163,10 @@ section RowFi22
 theorem kdl227Row_Fi22 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDL227SporRow .Fi22 := by
-  haveI := CFSG.HardMathSupport.Dickson.I271.TabFi22Small.finite_J_tab
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
+  have := CFSG.HardMathSupport.Dickson.I271.TabFi22Small.finite_J_tab
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
     Finite.of_equiv _ CFSG.Sporadic.Fi22.fi22EquivJ.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
     CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) = 64561751654400 :=
     CFSG.Sporadic.Fi22.card_Fi22
@@ -182,10 +182,10 @@ section RowTh
 theorem kdl227Row_Th (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDL227SporRow .Th := by
-  haveI : Finite ↥CFSG.Sporadic.Th.J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+  have : Finite ↥CFSG.Sporadic.Th.J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
     Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th CFSG.Sporadic.Th.th_kernel_facts
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=
     CFSG.RankThree.OddKernel.card_Th_eq
@@ -201,9 +201,9 @@ section RowSuz
 theorem kdl227Row_Suz (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDL227SporRow .Suz := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Suz) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Suz) :=
     Finite.of_equiv _ CFSG.Sporadic.SuzOddCore.suzEquivM.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Suz) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Suz) :=
     CFSG.Sporadic.Suz.isSimpleGroup_Suz
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Suz) = 448345497600 :=
     CFSG.Sporadic.Suz.card_Suz
@@ -218,10 +218,10 @@ section RowFi23
 theorem kdl227Row_Fi23 (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     KDL227SporRow .Fi23 := by
-  haveI := CFSG.HardMathSupport.Dickson.I271.TabFi23.finite_J23
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
+  have := CFSG.HardMathSupport.Dickson.I271.TabFi23.finite_J23
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
     Finite.of_equiv _ CFSG.Sporadic.Fi23.fi23EquivJ.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) :=
     CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) = 4089470473293004800 :=
     CFSG.Sporadic.Fi23.card_Fi23
@@ -240,7 +240,7 @@ theorem card_pSimple_dvd {S : Type} [Group S] [Finite S] (p : ℕ) (J : Subgroup
 theorem three_mul_card_pSimple_dvd {S : Type} [Group S] [Finite S] {k : S} (hk : orderOf k = 3)
     {J : Subgroup S} (hJ : J ≤ Subgroup.centralizer ({k} : Set S)) :
     3 * Nat.card (PSimple 3 J) ∣ Nat.card S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hkc : ∀ g ∈ J, g * k = k * g := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1 (hJ hg)
   by_cases hkJ : k ∈ J
@@ -329,9 +329,9 @@ theorem kdl227Row_Ru
     KDL227SporRow .Ru := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Ru) = 145926144000 :=
     CFSG.Sporadic.Ru.card_Ru
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
     CFSG.Sporadic.Ru.isSimpleGroup_Ru
   exact kdl227Row_of_model hOut (hbr .Ru).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))

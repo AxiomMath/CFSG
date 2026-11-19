@@ -19,6 +19,7 @@ theorem sign_bsw : sign bsw = -1 := sign_swap (by decide)
 
 @[expose] def tI (i : ι) : ι → Perm Bool := Pi.mulSingle i bsw
 
+omit [Fintype ι] in
 theorem tI_apply (i k : ι) : tI i k = if k = i then bsw else 1 := Pi.mulSingle_apply i bsw k
 
 @[expose] def fsign (T : Finset ι) : (ι → Perm Bool) →* ℤˣ where
@@ -26,20 +27,22 @@ theorem tI_apply (i k : ι) : tI i k = if k = i then bsw else 1 := Pi.mulSingle_
   map_one' := by simp
   map_mul' g h := by simp [Finset.prod_mul_distrib]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem fsign_apply (T : Finset ι) (g : ι → Perm Bool) : fsign T g = ∏ i ∈ T, sign (g i) := rfl
 
+omit [Fintype ι] in
 theorem fsign_tI (T : Finset ι) (i : ι) : fsign T (tI i) = if i ∈ T then -1 else 1 := by
   rw [fsign_apply]
   by_cases hi : i ∈ T
-  · rw [if_pos hi, Finset.prod_eq_single i]
-    · rw [tI_apply, if_pos rfl, sign_bsw]
-    · intro k _ hki; rw [tI_apply, if_neg hki]; simp
+  · rw [ite_eq_left hi, Finset.prod_eq_single i]
+    · rw [tI_apply, ite_eq_left rfl, sign_bsw]
+    · intro k _ hki; rw [tI_apply, ite_eq_right hki]; simp
     · intro h; exact absurd hi h
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     apply Finset.prod_eq_one
     intro k hk
     have : k ≠ i := fun h => hi (h ▸ hk)
-    rw [tI_apply, if_neg this]; simp
+    rw [tI_apply, ite_eq_right this]; simp
 
 theorem ker_fsign_le (E' : Subgroup (ι → Perm Bool)) (T : Finset ι)
     (hT : ∀ i, i ∈ T ↔ tI i ∉ E') (hD : ∀ i ∈ T, ∀ j ∈ T, tI i * tI j ∈ E') :
@@ -73,21 +76,21 @@ theorem ker_fsign_le (E' : Subgroup (ι → Perm Bool)) (T : Finset ι)
           simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.mul_apply, tI_apply] at hk ⊢
           by_cases hki : k = i
           · subst hki
-            rw [if_pos rfl, if_neg (Ne.symm hji), hgi] at hk
+            rw [ite_eq_left rfl, ite_eq_right (Ne.symm hji), hgi] at hk
             simp [bsw] at hk
           · by_cases hkj : k = j
             · subst hkj
-              rw [if_neg hki, if_pos rfl, hgj] at hk
+              rw [ite_eq_right hki, ite_eq_left rfl, hgj] at hk
               simp [bsw] at hk
-            · rw [if_neg hki, if_neg hkj] at hk
+            · rw [ite_eq_right hki, ite_eq_right hkj] at hk
               simpa using hk
         have hnot : i ∉ Finset.univ.filter fun k => (g * (tI i * tI j)) k ≠ 1 := by
           simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.mul_apply, tI_apply, not_not]
-          rw [if_pos trivial, if_neg (Ne.symm hji), hgi]
+          rw [ite_eq_left trivial, ite_eq_right (Ne.symm hji), hgi]
           simp [bsw]
         have hlt := Finset.card_lt_card (Finset.ssubset_iff_of_subset hsub |>.2 ⟨i, hmem, hnot⟩)
         have hf : fsign T (g * (tI i * tI j)) = 1 := by
-          rw [map_mul, map_mul, hg, fsign_tI, fsign_tI, if_pos hiT, if_pos hjT]; decide
+          rw [map_mul, map_mul, hg, fsign_tI, fsign_tI, ite_eq_left hiT, ite_eq_left hjT]; decide
         have := ih _ (hn ▸ hlt) (g * (tI i * tI j)) rfl hf
         have hg' : g = g * (tI i * tI j) * (tI i * tI j)⁻¹ := by group
         rw [hg']
@@ -100,17 +103,17 @@ theorem ker_fsign_le (E' : Subgroup (ι → Perm Bool)) (T : Finset ι)
           simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.mul_apply, tI_apply] at hk ⊢
           by_cases hki : k = i
           · subst hki
-            rw [if_pos rfl, hgi] at hk
+            rw [ite_eq_left rfl, hgi] at hk
             simp [bsw] at hk
-          · rw [if_neg hki] at hk
+          · rw [ite_eq_right hki] at hk
             simpa using hk
         have hnot : i ∉ Finset.univ.filter fun k => (g * tI i) k ≠ 1 := by
           simp only [Finset.mem_filter, Finset.mem_univ, true_and, Pi.mul_apply, tI_apply, not_not]
-          rw [if_pos trivial, hgi]
+          rw [ite_eq_left trivial, hgi]
           simp [bsw]
         have hlt := Finset.card_lt_card (Finset.ssubset_iff_of_subset hsub |>.2 ⟨i, hmem, hnot⟩)
         have hf : fsign T (g * tI i) = 1 := by
-          rw [map_mul, hg, fsign_tI, if_neg hiT]; simp
+          rw [map_mul, hg, fsign_tI, ite_eq_right hiT]; simp
         have := ih _ (hn ▸ hlt) (g * tI i) rfl hf
         have hg' : g = g * tI i * (tI i)⁻¹ := by group
         rw [hg']
@@ -136,7 +139,7 @@ theorem eq_ker_fsign (E' : Subgroup (ι → Perm Bool)) (T : Finset ι)
     · exact absurd h hne'
     · exact h
   have hker : g * tI i ∈ (fsign T).ker := by
-    rw [MonoidHom.mem_ker, map_mul, hm1, fsign_tI, if_pos hi]; decide
+    rw [MonoidHom.mem_ker, map_mul, hm1, fsign_tI, ite_eq_left hi]; decide
   have h1 := ker_fsign_le E' T hT hD hker
   have : tI i ∈ E' := by
     have := E'.mul_mem (E'.inv_mem hg) h1
@@ -145,15 +148,19 @@ theorem eq_ker_fsign (E' : Subgroup (ι → Perm Bool)) (T : Finset ι)
 
 @[expose] def liftBlocks (π : Perm ι) : Perm (ι × Bool) := prodCongrLeft (fun _ : Bool => π)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem liftBlocks_apply (π : Perm ι) (x : ι × Bool) : liftBlocks π x = (π x.1, x.2) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem liftBlocks_inv (π : Perm ι) : (liftBlocks π)⁻¹ = liftBlocks π⁻¹ := by
-  ext ⟨i, b⟩ <;> simp [liftBlocks_apply, Perm.inv_def, liftBlocks]
+  ext ⟨i, b⟩ <;> simp [Perm.inv_def, liftBlocks]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem liftBlocks_conj_blockPerm (π : Perm ι) (g : ι → Perm Bool) :
     liftBlocks π * blockPerm g * (liftBlocks π)⁻¹ = blockPerm (fun i => g (π⁻¹ i)) := by
   ext ⟨i, b⟩ <;> simp [liftBlocks_apply, liftBlocks_inv, blockPerm_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem fsign_comp (T : Finset ι) (π : Perm ι) (hπ : ∀ i, i ∈ T ↔ π i ∈ T) (g : ι → Perm Bool) :
     fsign T (fun i => g (π⁻¹ i)) = fsign T g := by
   rw [fsign_apply, fsign_apply]
@@ -164,6 +171,7 @@ theorem fsign_comp (T : Finset ι) (π : Perm ι) (hπ : ∀ i, i ∈ T ↔ π i
   · intro i _
     rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem liftBlocks_mem_normalizer (T : Finset ι) (E : Subgroup (Perm (ι × Bool)))
     (hE : E = ((fsign T).ker).map (blockPermHom ι)) (π : Perm ι) (hπ : ∀ i, i ∈ T ↔ π i ∈ T) :
     liftBlocks π ∈ Subgroup.normalizer (E : Set (Perm (ι × Bool))) := by

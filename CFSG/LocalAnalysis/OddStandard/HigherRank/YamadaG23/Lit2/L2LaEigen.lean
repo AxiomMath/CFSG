@@ -136,7 +136,7 @@ theorem l2_la_eigen {K : Type} [Field K] (hK : (2 : K) ≠ 0) {n : ℕ} (hn : 0 
     intro h
     apply one_ne_zero (α := K)
     have h00 := congrFun (congrFun h ⟨0, hn⟩) ⟨0, hn⟩
-    simpa using h00
+    simp at h00
   have hex : F 1 1 ≠ 0 ∨ F 1 (-1) ≠ 0 ∨ F (-1) 1 ≠ 0 ∨ F (-1) (-1) ≠ 0 := by
     by_contra h
     simp only [not_or, not_not] at h

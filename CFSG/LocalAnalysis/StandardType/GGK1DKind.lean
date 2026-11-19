@@ -55,9 +55,9 @@ private lemma ggK1Dk_hasOrbit_and (d j t : ℕ) :
         (if d = 1 then ggK1DCo_Kind.sl t else ggK1DCo_Kind.su t) &&
       decide (1 ≤ j ∧ 1 ≤ t)) = decide (1 ≤ j ∧ 2 ≤ t) := by
   by_cases hd : d = 1
-  · rw [if_pos hd, ggK1Dk_hasOrbit_sl]
+  · rw [ite_eq_left hd, ggK1Dk_hasOrbit_sl]
     exact ggK1Dk_bool_aux j t
-  · rw [if_neg hd, ggK1Dk_hasOrbit_su]
+  · rw [ite_eq_right hd, ggK1Dk_hasOrbit_su]
     exact ggK1Dk_bool_aux j t
 
 private lemma ggK1Dk_blockA_eq (r nf d : ℕ) (hd : d ≠ 1) :
@@ -70,18 +70,18 @@ private lemma ggK1Dk_kindOrbits_blockA (nf d t : ℕ) (ht : 2 ≤ t) :
       [ggMultBlockA (t - 1) nf d] := by
   by_cases hd : d = 1
   · subst hd
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rcases t with _ | _ | t
     · omega
     · omega
-    · simp [ggK1DCo_kindOrbits, if_neg (by omega : ¬ (t + 1 + 1) ≤ 1)]
-  · rw [if_neg hd]
+    · simp [ggK1DCo_kindOrbits]
+  · rw [ite_eq_right hd]
     rcases t with _ | _ | t
     · omega
     · omega
     · rw [show ggK1DCo_kindOrbits nf (ggK1DCo_Kind.su (t + 1 + 1)) =
             [ggMultBlockA (t + 1 + 1 - 1) nf 2] from by
-          simp [ggK1DCo_kindOrbits, if_neg (by omega : ¬ (t + 1 + 1) ≤ 1)]]
+          simp [ggK1DCo_kindOrbits]]
       rw [ggK1Dk_blockA_eq _ _ _ hd]
 
 private lemma ggK1Dk_flatten_map_singleton {α : Type*} (l : List α) (g : α → GGKacOrbit) :
@@ -165,15 +165,15 @@ private lemma ggK1Dk_blockA_arith {r nf d : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ r)
     (hqs : (ggMultBlockA r nf d).qs = true) :
     nf ∣ (ggMultBlockA r nf d).lab.n ∧ LargeEvenInLambda2 (ggMultBlockA r nf d).lab := by
   by_cases hd : d = 1
-  · rw [ggMultBlockA, if_pos hd] at hqs ⊢
+  · rw [ggMultBlockA, ite_eq_left hd] at hqs ⊢
     rw [decide_eq_true_eq] at hqs
     exact ⟨dvd_refl nf, ggK1Dk_lambda2_A nf r hnf hr (by rintro rfl; omega)⟩
-  · rw [ggMultBlockA, if_neg hd] at hqs ⊢
+  · rw [ggMultBlockA, ite_eq_right hd] at hqs ⊢
     by_cases h2 : 2 ≤ r
-    · rw [if_pos h2] at hqs ⊢
+    · rw [ite_eq_left h2] at hqs ⊢
       rw [decide_eq_true_eq] at hqs
       exact ⟨dvd_refl nf, ggK1Dk_lambda2_twA nf r hnf h2 (by rintro rfl; omega)⟩
-    · rw [if_neg h2] at hqs ⊢
+    · rw [ite_eq_right h2] at hqs ⊢
       have hr1 : r = 1 := by omega
       subst hr1
       rw [decide_eq_true_eq] at hqs
@@ -207,16 +207,16 @@ private lemma ggK1Dk_v0_arith {m0 nf : ℕ} (hnf : 1 ≤ nf) (eps : Bool) {o : G
   · cases eps
     · rw [show ggMultV0 3 false nf = [⟨⟨.twA, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho] at hqs ⊢
       exact ⟨dvd_refl nf, ggK1Dk_lambda2_twA nf 3 hnf (by omega) (by intro _; omega)⟩
     · rw [show ggMultV0 3 true nf = [⟨⟨.A, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho] at hqs ⊢
@@ -224,16 +224,16 @@ private lemma ggK1Dk_v0_arith {m0 nf : ℕ} (hnf : 1 ≤ nf) (eps : Bool) {o : G
   · cases eps
     · rw [show ggMultV0 (k + 4) false nf = [⟨⟨.twD, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho] at hqs ⊢
       exact ⟨dvd_refl nf, ggK1Dk_lambda2_twD nf (k + 4) hnf (by omega)⟩
     · rw [show ggMultV0 (k + 4) true nf = [⟨⟨.D, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho] at hqs ⊢
@@ -303,7 +303,7 @@ private theorem ggK1Dk_not_su3_2 {E : Type} [Field E] [Finite E] {X : Type} [Gro
     (a := 3) (Q := 2) hτ2] at hsol
   obtain ⟨eC⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv e
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
   have hsol' : Group.IsSolvable (X ⧸ Subgroup.center X) :=
     Group.isSolvable_of_surjective (f := eC.symm.toMonoidHom) eC.symm.surjective
   exact CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center (J := X) hsol'
@@ -326,7 +326,7 @@ private theorem ggK1Dk_hasLabel_D {nf r : ℕ} (hr : 4 ≤ r) {K : Type} [Field 
   have hr3 : r ≠ 3 := by omega
   obtain ⟨eP⟩ := ggK1Dk_projOmegaPlus (r := r) (by omega) e
   simp only [GGHasLabel, LargeEvenRawDatum]
-  rw [if_neg hr3]
+  rw [ite_eq_right hr3]
   simp only [LargeEvenRecipeOmegaPlus]
   exact ⟨K, inferInstance, inferInstance, hK, ⟨eP⟩⟩
 
@@ -353,7 +353,7 @@ private theorem ggK1Dk_hasLabel_twD {nf r : ℕ} (hr : 4 ≤ r) {K : Type} [Fiel
   have hr3 : r ≠ 3 := by omega
   obtain ⟨eP⟩ := ggK1Dk_projOmegaMinus hr hirr e
   simp only [GGHasLabel, LargeEvenRawDatum]
-  rw [if_neg hr2, if_neg hr3]
+  rw [ite_eq_right hr2, ite_eq_right hr3]
   simp only [LargeEvenRecipeOmegaMinus]
   exact ⟨K, inferInstance, inferInstance, hK, b, c, hirr, ⟨eP⟩⟩
 
@@ -386,10 +386,10 @@ theorem ggK1DCo_orbit_label {nf : ℕ} {K : Type} [Field K] [Finite K] (hnf : 1 
   ·
     simp only [ggK1DCo_OrbitModel] at hm
     by_cases hsp : r = 1 ∧ n = 2 * nf
-    · rw [if_pos hsp] at hm
+    · rw [ite_eq_left hsp] at hm
       obtain ⟨E, hEfield, hEfin, hEcard, ⟨eH⟩⟩ := hm
-      letI : Field E := hEfield
-      letI : Fintype E := hEfin
+      let : Field E := hEfield
+      let : Fintype E := hEfin
       have hEcard' : Nat.card E = 2 ^ (2 * nf) := by
         rw [Nat.card_eq_fintype_card, hEcard, hK, ← pow_mul]
         congr 1
@@ -397,7 +397,7 @@ theorem ggK1DCo_orbit_label {nf : ℕ} {K : Type} [Field K] [Finite K] (hnf : 1 
       obtain ⟨rfl, hn2⟩ := hsp
       subst hn2
       exact ggK1Dk_hasLabel_A hEcard' eH
-    · rw [if_neg hsp] at hm
+    · rw [ite_eq_right hsp] at hm
       obtain ⟨eH⟩ := hm
       have hn' : n = nf := by
         rcases hn with h | h
@@ -408,8 +408,8 @@ theorem ggK1DCo_orbit_label {nf : ℕ} {K : Type} [Field K] [Finite K] (hnf : 1 
   ·
     simp only [ggK1DCo_OrbitModel] at hm
     obtain ⟨E, hEfield, hEfin, hEcard, ⟨eH0⟩⟩ := hm
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
+    let : Field E := hEfield
+    let : Fintype E := hEfin
     have hEcard' : Nat.card E = (2 ^ nf) ^ 2 := by
       rw [Nat.card_eq_fintype_card, hEcard, hK]
     have hn' : n = nf := by
@@ -449,8 +449,8 @@ theorem ggK1DCo_orbit_label {nf : ℕ} {K : Type} [Field K] [Finite K] (hnf : 1 
           have hne : (LargeEvenLieTag.D : LargeEvenLieTag) ≠ .A := by decide
           exact hne)
     rw [hn'] at *
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
     rcases r with _ | _ | _ | _ | k
     · exact absurd (by simpa using hr.2.2.1 rfl) (by omega : ¬ (4 ≤ 0))
@@ -468,8 +468,8 @@ theorem ggK1DCo_orbit_label {nf : ℕ} {K : Type} [Field K] [Finite K] (hnf : 1 
           have hne : (LargeEvenLieTag.twD : LargeEvenLieTag) ≠ .A := by decide
           exact hne)
     rw [hn'] at *
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
     rcases r with _ | _ | _ | _ | k
     · exact absurd (by simpa using hr.2.2.2 rfl) (by omega : ¬ (4 ≤ 0))
@@ -498,20 +498,20 @@ private lemma ggK1Dk_v0_n {m0 nf : ℕ} {eps : Bool} {o : GGKacOrbit}
           from by simp [ggMultV0]] at ho
       rw [List.mem_cons, List.mem_singleton] at ho
       left
-      rcases ho with ho | ho <;> rw [ho] <;> rfl
+      rcases ho with ho | ho <;> rw [ho]
   · cases eps
     · rw [show ggMultV0 3 false nf = [⟨⟨.twA, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       left
       rw [ho]
     · rw [show ggMultV0 3 true nf = [⟨⟨.A, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       left
@@ -519,16 +519,16 @@ private lemma ggK1Dk_v0_n {m0 nf : ℕ} {eps : Bool} {o : GGKacOrbit}
   · cases eps
     · rw [show ggMultV0 (k + 4) false nf = [⟨⟨.twD, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       left
       rw [ho]
     · rw [show ggMultV0 (k + 4) true nf = [⟨⟨.D, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       left
@@ -568,7 +568,7 @@ theorem ggK1DCo_kindOrbits_n (nf : ℕ) (k : ggK1DCo_Kind) {o : GGKacOrbit}
       · exact ggK1Dk_blockA_n (by simpa [ggK1DCo_kindOrbits, h] using ho)
 
 private lemma ggK1Dk_v0_rank {m0 nf : ℕ} (hm : 2 ≤ m0) {eps : Bool} {o : GGKacOrbit}
-    (ho : o ∈ ggMultV0 m0 eps nf) (hqs : o.qs = true) :
+    (ho : o ∈ ggMultV0 m0 eps nf) (_hqs : o.qs = true) :
     (o.lab.tag = .A → 1 ≤ o.lab.rank) ∧ (o.lab.tag = .twA → 2 ≤ o.lab.rank) ∧
       (o.lab.tag = .D → 4 ≤ o.lab.rank) ∧ (o.lab.tag = .twD → 4 ≤ o.lab.rank) := by
   rcases m0 with _ | _ | _ | _ | k
@@ -587,16 +587,16 @@ private lemma ggK1Dk_v0_rank {m0 nf : ℕ} (hm : 2 ≤ m0) {eps : Bool} {o : GGK
   · cases eps
     · rw [show ggMultV0 3 false nf = [⟨⟨.twA, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho]
       simp
     · rw [show ggMultV0 3 true nf = [⟨⟨.A, 3, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (3:ℕ) ≤ 1),
-            if_neg (by omega : ¬ (3:ℕ) = 2)] at *
+          simp only [ite_eq_right (by omega : ¬ (3:ℕ) ≤ 1),
+            ite_eq_right (by omega : ¬ (3:ℕ) = 2)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho]
@@ -604,23 +604,23 @@ private lemma ggK1Dk_v0_rank {m0 nf : ℕ} (hm : 2 ≤ m0) {eps : Bool} {o : GGK
   · cases eps
     · rw [show ggMultV0 (k + 4) false nf = [⟨⟨.twD, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho]
-      refine ⟨?_, ?_, ?_, ?_⟩ <;> simp <;> omega
+      refine ⟨?_, ?_, ?_, ?_⟩ <;> simp
     · rw [show ggMultV0 (k + 4) true nf = [⟨⟨.D, k + 4, nf⟩, true⟩] from by
           rw [ggMultV0]
-          simp only [if_neg (by omega : ¬ (k + 4) ≤ 1),
-            if_neg (by omega : ¬ (k + 4) = 2), if_neg (by omega : ¬ (k + 4) = 3)] at *
+          simp only [ite_eq_right (by omega : ¬ (k + 4) ≤ 1),
+            ite_eq_right (by omega : ¬ (k + 4) = 2), ite_eq_right (by omega : ¬ (k + 4) = 3)] at *
           rfl] at ho
       rw [List.mem_singleton] at ho
       rw [ho]
-      refine ⟨?_, ?_, ?_, ?_⟩ <;> simp <;> omega
+      refine ⟨?_, ?_, ?_, ?_⟩ <;> simp
 
 private lemma ggK1Dk_blockA_rank {r nf d : ℕ} (hr : 1 ≤ r) {o : GGKacOrbit}
-    (ho : o ∈ [ggMultBlockA r nf d]) (hqs : o.qs = true) :
+    (ho : o ∈ [ggMultBlockA r nf d]) (_hqs : o.qs = true) :
     (o.lab.tag = .A → 1 ≤ o.lab.rank) ∧ (o.lab.tag = .twA → 2 ≤ o.lab.rank) ∧
       (o.lab.tag = .D → 4 ≤ o.lab.rank) ∧ (o.lab.tag = .twD → 4 ≤ o.lab.rank) := by
   rw [List.mem_singleton] at ho
@@ -635,14 +635,14 @@ theorem ggK1DCo_kindOrbits_rank (nf : ℕ) (k : ggK1DCo_Kind) {o : GGKacOrbit}
   cases k with
   | om eps m =>
       by_cases h : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos h] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left h] at ho
         rw [List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs
       · exact ggK1Dk_v0_rank (m0 := m) (by omega) (by simpa [ggK1DCo_kindOrbits, h] using ho) hqs
   | sl m =>
       by_cases h : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos h] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left h] at ho
         rw [List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs
@@ -650,7 +650,7 @@ theorem ggK1DCo_kindOrbits_rank (nf : ℕ) (k : ggK1DCo_Kind) {o : GGKacOrbit}
           (by simpa [ggK1DCo_kindOrbits, h] using ho) hqs
   | su m =>
       by_cases h : m ≤ 1
-      · rw [ggK1DCo_kindOrbits, if_pos h] at ho
+      · rw [ggK1DCo_kindOrbits, ite_eq_left h] at ho
         rw [List.mem_singleton] at ho
         rw [ho] at hqs
         simp [ggK1DCo_dummyOrbit] at hqs

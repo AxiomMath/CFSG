@@ -37,6 +37,7 @@ theorem isCurtisType_comp {y : V} {χ : G → k} {μ : B → k} (ht : D.IsCurtis
     rw [map_mul, hn]
     rfl
 
+omit [Finite G] in
 theorem isSimpleRep_comp_mulEquiv (hρ : IsSimpleRep ρ) (γ : G ≃* G) :
     IsSimpleRep (ρ.comp γ.toMonoidHom) :=
   ⟨hρ.1, fun W hW => hρ.2 W fun g w hw => by simpa using hW (γ.symm g) w hw⟩

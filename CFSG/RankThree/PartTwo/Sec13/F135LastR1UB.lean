@@ -63,7 +63,7 @@ theorem u1_exists_sqrt {E : Type} [Group E] [Finite E] (hE : Group.IsPerfect E)
     (hZ : Nat.card (Subgroup.center E) = 2)
     (e : E ⧸ Subgroup.center E ≃* alternatingGroup (Fin 7))
     {z : E} (hz : z ∈ Subgroup.center E) (hz1 : z ≠ 1) : ∃ x : E, x * x = z := by
-  haveI := hE
+  have := hE
   have hd2 : CFSG.ComponentClassification.Sol78.dtA ^ 2 = 1 := by
     have h := pow_orderOf_eq_one CFSG.ComponentClassification.Sol78.dtA
     rwa [CFSG.ComponentClassification.Sol78.orderOf_dtA] at h
@@ -297,8 +297,8 @@ theorem u1b4_swap_range {M : Type} [Group M] (J : Subgroup M) [J.Normal]
     · exact absurd (Equiv.Perm.mem_alternatingGroup.mpr h1) hτA
     · exact h1
   have hA : τ⁻¹ * σ ∈ alternatingGroup (Fin 7) := by
-    rw [Equiv.Perm.mem_alternatingGroup, map_mul, map_inv, hτs, hσ] <;>
-      first | decide | rfl | simp
+    rw [Equiv.Perm.mem_alternatingGroup, map_mul, map_inv, hτs, hσ];
+      first | decide
   have hR := u1Phi_range_alt J e hA
   have hm := mul_mem hτR hR
   rwa [mul_inv_cancel_left] at hm

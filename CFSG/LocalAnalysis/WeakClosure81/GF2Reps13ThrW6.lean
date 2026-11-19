@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_centerIn_eq_zpowers {P : Subgroup (MulAut W)} {z : MulAut W}
     (hzP : z ∈ P) (hzc : ∀ y ∈ P, y * z = z * y)
     (hZP : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Subgroup.zpowers z) :
@@ -32,13 +33,14 @@ private theorem w16g_centerIn_eq_zpowers {P : Subgroup (MulAut W)} {z : MulAut W
     exact Subgroup.mem_map.mpr ⟨⟨z, hzP⟩,
       Subgroup.mem_center_iff.mpr (fun g => Subtype.ext (hzc g.1 g.2)), rfl⟩
 
+omit [Finite W] in
 private theorem w16g_exponent_eq_three {P : Subgroup (MulAut W)} (hP : IsPOnePlusTwo 3 ↥P)
     {z : MulAut W} (hzP : z ∈ P) (hz3 : orderOf z = 3) : Monoid.exponent ↥P = 3 := by
   have hdvd : Monoid.exponent ↥P ∣ 3 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr (fun g => hP.2.2 g)
   have hne1 : Monoid.exponent ↥P ≠ 1 := by
     intro h1
-    haveI : Subsingleton ↥P := Monoid.exp_eq_one_iff.mp h1
+    have : Subsingleton ↥P := Monoid.exp_eq_one_iff.mp h1
     have hzPne1 : (⟨z, hzP⟩ : ↥P) ≠ 1 := fun h => by
       have hz1 : z = 1 := congrArg Subtype.val h
       rw [hz1, orderOf_one] at hz3
@@ -143,7 +145,7 @@ theorem s13_six_le_rk_of_stable (hW : ∀ w : W, w * w = 1) {P : Subgroup (MulAu
   have hJ_eq : J = (J ⊓ fixV Zs) ⊔ ⨆ j : Fin 3, F j := by
     nth_rewrite 1 [← hdecomp.2]
     exact hsup_eq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEP : CFSG.IsExtraspecialPGroup 3 ↥P :=
     (CFSG.isExtraspecialPGroup_iff_isExtraspecial (p := 3) (P := ↥P)).mpr hP.1
   have hcenterIn := w16g_centerIn_eq_zpowers hzP hzc hZP
@@ -203,7 +205,7 @@ theorem s13_six_le_rk_of_stable (hW : ∀ w : W, w * w = 1) {P : Subgroup (MulAu
     calc ∑ j : Fin 3, rk (F j) = ∑ _j : Fin 3, rk (F 0) :=
           Finset.sum_congr rfl fun j _ => hFrank j
       _ = 3 * rk (F 0) := by
-          simp [Finset.sum_const, nsmul_eq_mul]
+          simp [Finset.sum_const]
   have hfixZs : J ⊓ fixV Zs = ⊥ := by rw [hZs]; exact hfix
   have hrkJ : rk ↥J = 3 * rk (F 0) := by
     have h1 : J = ⨆ j : Fin 3, F j := by rw [hJ_eq, hfixZs, bot_sup_eq]

@@ -139,8 +139,8 @@ theorem burnsideF429a_key_Sp4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr _ _ hcomm
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, e1, e2⟩ := burnsideF4g_marking (c := .Sp4) hyp.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4gSp_yam_of_marking_ge marking
   rw [← e1, ← e2] at hTD

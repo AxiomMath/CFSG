@@ -73,7 +73,7 @@ theorem exists_inPStar_of_pair {D : Data G} {V₀ L : Subgroup G} (hL : L ∈ ca
       (D.M.inv_mem hxM) hne' hc2
     simpa [hK, CFSG.Quasithin.conjSubgroup] using h
   let NM : Subgroup G := D.M ⊓ normalizer (L : Set G)
-  letI : MulAction ↥D.M (Subgroup G) :=
+  let : MulAction ↥D.M (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp D.M.subtype)
   have hsmulM : ∀ m : ↥D.M, m • L = L.map (MulAut.conj (m : G)).toMonoidHom := by
     intro m
@@ -113,7 +113,7 @@ theorem exists_inPStar_of_pair {D : Data G} {V₀ L : Subgroup G} (hL : L ∈ ca
     have h := (le_inf (Subgroup.le_normalizer (H := D.T)) hTN).trans
       Subgroup.inf_normalizer_le_normalizer_inf
     simpa [hT1eq] using h
-  letI : MulAction ↥D.T (Subgroup G) :=
+  let : MulAction ↥D.T (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp D.T.subtype)
   have hsmulT : ∀ t : ↥D.T, t • L = L.map (MulAut.conj (t : G)).toMonoidHom := by
     intro t
@@ -127,7 +127,7 @@ theorem exists_inPStar_of_pair {D : Data G} {V₀ L : Subgroup G} (hL : L ∈ ca
     simp
   have hTnotN : ¬ D.T ≤ normalizer (L : Set G) := by
     intro h
-    exact (uc22p22a_not_two_dvd_ncard (K := L) D.sylowM h) (by simpa [hc2] using dvd_refl 2)
+    exact (uc22p22a_not_two_dvd_ncard (K := L) D.sylowM h) (by simp [hc2])
   have horbTcard : (MulAction.orbit ↥D.T L).ncard = 2 := by
     have hsub : MulAction.orbit ↥D.T L ⊆ conjSetOf D.M L := by
       rintro K' ⟨t, ht⟩

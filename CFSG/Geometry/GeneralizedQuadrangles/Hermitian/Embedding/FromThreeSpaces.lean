@@ -42,15 +42,15 @@ theorem exists_isProjGQ {c : Γ.Coloring (Fin 2)} {q : ℕ} (hΓ : IsThasQuadran
   classical
   obtain ⟨K, hKfield, hKfintype, ψ, hKcard, hforward, hconverse⟩ :=
     exists_isModel_threespaces (Γ := Γ) (c := c) (q := q) hΓ
-  letI : Field K := hKfield
-  letI : Fintype K := hKfintype
+  let : Field K := hKfield
+  let : Fintype K := hKfintype
   let Wof : Set (Set V) → Submodule K (Fin 5 → K) := fun β =>
     if hβ : IsThreeBundle Γ c q β then Classical.choose (hforward β hβ) else ⊥
   have hWof : ∀ β (hβ : IsThreeBundle Γ c q β), finrank K (Wof β) = 2 ∧
       ψ '' (Subtype.val ⁻¹' β) = {x : ℙ K (Fin 5 → K) | x.submodule ≤ Wof β} := by
     intro β hβ
     have hdef : Wof β = Classical.choose (hforward β hβ) := by
-      simp only [Wof, dif_pos hβ]
+      simp only [Wof, dite_eq_left hβ]
     rw [hdef]
     exact Classical.choose_spec (hforward β hβ)
   let TS : {x : V // c x = 0} → {E : Set V // IsThreespace Γ c q E} := fun x =>
@@ -59,11 +59,11 @@ theorem exists_isProjGQ {c : Γ.Coloring (Fin 2)} {q : ℕ} (hΓ : IsThasQuadran
     if hv : c v = 0 then (ψ (TS ⟨v, hv⟩)).submodule else Wof (lineBundle Γ c v)
   have ι_point : ∀ x (hx : c x = 0), ι x = (ψ (TS ⟨x, hx⟩)).submodule := by
     intro x hx
-    simp only [ι, dif_pos hx]
+    simp only [ι, dite_eq_left hx]
   have ι_line : ∀ L (hL : c L = 1), ι L = Wof (lineBundle Γ c L) := by
     intro L hL
     have hne : ¬ c L = 0 := by rw [hL]; decide
-    simp only [ι, dif_neg hne]
+    simp only [ι, dite_eq_right hne]
   have hmem : ∀ {β : Set (Set V)} (hβ : IsThreeBundle Γ c q β)
       (E : {E : Set V // IsThreespace Γ c q E}),
       E.1 ∈ β ↔ (ψ E).submodule ≤ Wof β := by
@@ -94,11 +94,11 @@ theorem exists_isProjGQ {c : Γ.Coloring (Fin 2)} {q : ℕ} (hΓ : IsThasQuadran
     have hWL : Wof (lineBundle Γ c L) = Wof (lineBundle Γ c M) := by
       rw [← ι_line L hL, ← ι_line M hM, hι]
     have hdeg3 : 3 ≤ (Γ.neighborSet L).ncard := by
-      rw [SimpleGraph.ncard_neighborSet, hΓ.deg L, if_neg (by rw [hL]; decide)]
+      rw [SimpleGraph.ncard_neighborSet, hΓ.deg L, ite_eq_right (by rw [hL]; decide)]
       have hq : 4 ≤ q ^ 2 := by simpa using Nat.pow_le_pow_left hΓ.two_le 2
       omega
     have hdegL : 0 < Γ.degree L := by
-      rw [hΓ.deg L, if_neg (by rw [hL]; decide)]
+      rw [hΓ.deg L, ite_eq_right (by rw [hL]; decide)]
       positivity
     obtain ⟨x, hxL⟩ :=
       (SimpleGraph.degree_pos_iff_exists_adj (G := Γ) (v := L)).mp hdegL
@@ -230,7 +230,7 @@ theorem exists_isProjGQ {c : Γ.Coloring (Fin 2)} {q : ℕ} (hΓ : IsThasQuadran
             dsimp only [V']
             rw [Submodule.map_comap_subtype]
             exact inf_eq_right.mpr U.2.2
-          haveI : Finite (pointsOf H) := Finite.of_surjective f hf
+          have : Finite (pointsOf H) := Finite.of_surjective f hf
           have hcardP : Ppts.ncard = (q ^ 2 + 1) * (q ^ 5 + 1) := by
             have hset : Ppts = (pointFinset c : Set V) := by
               ext x

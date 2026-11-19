@@ -103,7 +103,7 @@ theorem phase1_l2 (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P) (C : Co
       T ⊓ Subgroup.centralizer ((B ⊔ conjSubgroup g B : Subgroup G) : Set G) := by
     show T ⊓ ((T ⊔ conjSubgroup g T) ⊓ _) = _
     rw [← inf_assoc, inf_of_le_left (le_sup_left : T ≤ T ⊔ conjSubgroup g T)]
-  refine ⟨f, hq, H.induces_natural N, H.partition_W h48 hP hTK N, H.trans_W h48 hP hTK N, hKe,
+  refine ⟨f, hq, CFSG.RankThree.GF2n.Tim78.Hyp4.induces_natural N, H.partition_W h48 hP hTK N, H.trans_W h48 hP hTK N, hKe,
     hKA, hWA, hA, hcomm, by rw [← hTC, hrel, hq], K₁, hK₁.le_X, ?_, ?_, hK₁.cyclic, hK₁card, hK₁A,
     H.K₁_regular h48 hP hTK N hK₁, H.eq_of_normalized h48 hP hTK hTgK N hK₁ hK₁ne⟩
   · intro k hk
@@ -127,9 +127,9 @@ theorem phase1 (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
   have C := H.core48 hCen hU h48 hP
   obtain ⟨hKe, -, -, -, hmod⟩ := C.phase
   rcases hmod with ⟨f, hf, hrel, hN, ⟨e⟩⟩ | ⟨a, ha, hrel, hN, ⟨e⟩⟩ | ⟨m, hm, hm3, hrel, hN, ⟨e⟩⟩
-  · haveI := hN
+  · have := hN
     exact H.phase1_l2 h48 hP C hf hrel e
-  · haveI := hN
+  · have := hN
     exact (H.false_of_sz h48 hP C ha hrel e).elim
   · exact (H.false_of_index_two (le_inf H.B_le_T
       ((le_sup_left : B ≤ B ⊔ conjSubgroup g B).trans (H.W_le_kernel h48))) inf_le_left

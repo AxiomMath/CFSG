@@ -22,6 +22,7 @@ section Weights
 variable (Q : QuadraticForm K (Fin m → K)) {Aε : Subgroup (GL (Fin m) K)} [IsMulCommutative Aε]
 variable [Finite K]
 
+omit [IsMulCommutative ↥Aε] [Finite K] in
 theorem quad_glRep_apply_of_le (h2 : (2 : K) ≠ 0) (hAεβ : Aε ≤ isomGL (polarBilin Q))
     (a : ↥Aε) (v : Fin m → K) : Q (glRep Aε a v) = Q v := by
   have h1 := mem_isomGL.1 (hAεβ a.2) v v
@@ -42,6 +43,7 @@ variable (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p = 1) (hpK : (p : K) ≠ 0)
 
 include hp hA hpK
 
+omit hp hA hpK in
 theorem polar_wtU_wtW (hAεβ : Aε ≤ isomGL (polarBilin Q)) (I : Finset (Hyperplane ↥Aε p))
     {u w : Fin m → K} (hu : u ∈ wtU Aε I) (hw : w ∈ wtW Aε I) : polar Q u w = 0 := by
   obtain ⟨v, rfl⟩ := hw
@@ -59,13 +61,13 @@ theorem nondeg_wtU (hQ : (polarBilin Q).Nondegenerate) (hAεβ : Aε ≤ isomGL 
   have hker : v - projI (glRep Aε) I v ∈ wtU Aε I := by
     rw [LinearMap.mem_ker, map_sub, projI_projI (glRep Aε) hp hA hpK, sub_self]
   rw [hdec, polar_add_right, h _ hker,
-    polar_wtU_wtW Q hp hA hpK hAεβ I hu ⟨v, rfl⟩, add_zero]
+    polar_wtU_wtW Q hAεβ I hu ⟨v, rfl⟩, add_zero]
 
 theorem wtU_eq_fixedSpace [DecidableEq (Hyperplane ↥Aε p)] {T : Finset (Hyperplane ↥Aε p)}
     (hT : ∀ H : Hyperplane ↥Aε p, H ∈ T ↔ weightSpace (glRep Aε) H.1 ≠ ⊥) :
     wtU Aε T = fixedSpace (glRep Aε) ⊤ := by
   classical
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   ext v
   constructor
   · intro hv
@@ -177,7 +179,7 @@ theorem not_isPlusType_of_three_planes (hQ : (polarBilin Q).Nondegenerate) (h2 :
     ¬ IsPlusType Q := by
   classical
   intro hplus
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   set ρ := glRep Aε with hρdef
   have hρ : IsIsomRep (polarBilin Q) ρ := isIsomRep_glRep hAεβ
   have hρQ : ∀ (a : ↥Aε) (v : Fin m → K), Q (ρ a v) = Q v := quad_glRep_apply_of_le Q h2 hAεβ
@@ -282,18 +284,18 @@ theorem not_isPlusType_of_three_planes (hQ : (polarBilin Q).Nondegenerate) (h2 :
     by_cases h1 : IsPlusType (Q.comp (weightSpace ρ H₁.1).subtype)
     · rw [CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type hQW hd0
         (Or.inl ⟨rfl, hW₀type.2 h1⟩)]
-      simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one,
+      simp only [pow_zero, mul_one, zero_add, pow_one,
         Finset.Icc_eq_empty_of_lt zero_lt_one, Finset.prod_empty]
       exact dvd_mul_of_dvd_right (b1 h1) 2
     · rw [CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type hQW hd0
         (Or.inr ⟨rfl, fun h => h1 (hW₀type.1 h)⟩)]
-      simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one,
+      simp only [pow_zero, mul_one, zero_add, pow_one,
         Finset.Icc_eq_empty_of_lt zero_lt_one, Finset.prod_empty, sub_neg_eq_add]
       exact dvd_mul_of_dvd_right (b2 h1) 2
   have hpO' : p ∣ Nat.card (TauCeti.QuadraticMap.orthogonalGroup QW) := by exact_mod_cast hpO
-  haveI : Finite (W₀ ≃ₗ[K] W₀) :=
+  have : Finite (W₀ ≃ₗ[K] W₀) :=
     Finite.of_injective (fun g : W₀ ≃ₗ[K] W₀ => (g : W₀ → W₀)) DFunLike.coe_injective
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpO'
   set g' : W₀ ≃ₗ[K] W₀ := (g : W₀ ≃ₗ[K] W₀) with hg'def
   have hg'Q : ∀ w, QW (g' w) = QW w := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1 g.2
@@ -333,7 +335,7 @@ theorem not_isPlusType_of_three_planes (hQ : (polarBilin Q).Nondegenerate) (h2 :
     intro w u
     rw [map_add, hGw w w.2, hGu u u.2]
   have hoWU : ∀ w ∈ W₀, ∀ u ∈ U, polar Q w u = 0 := fun w hw u hu =>
-    polar_wtU_wtW Q hp hA hpK hAεβ T (hker ▸ hw) hu
+    polar_wtU_wtW Q hAεβ T (hker ▸ hw) hu
   have hsplit : ∀ a ∈ W₀, ∀ a' ∈ W₀, ∀ b ∈ U, ∀ b' ∈ U,
       polar Q (a + b) (a' + b') = polar Q a a' + polar Q b b' := by
     intro a ha a' ha' b hb b' hb'
@@ -438,7 +440,7 @@ theorem concA_of_pair_orth [Fintype K] (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.N
   have hUW : IsCompl U W := isCompl_ker_range_projI ρ hp hA hpK I
   have horth : ∀ u ∈ U, ∀ w ∈ W, polarBilin Q u w = 0 ∧ polarBilin Q w u = 0 := by
     intro u hu w hw
-    have h := polar_wtU_wtW Q hp hA hpK hAεβ I hu hw
+    have h := polar_wtU_wtW Q hAεβ I hu hw
     refine ⟨by rw [polarBilin_apply_apply]; exact h, ?_⟩
     rw [polarBilin_apply_apply, polar_comm]
     exact h
@@ -484,7 +486,7 @@ theorem concA_of_pair_orth [Fintype K] (hp : p.Prime) (hp2 : p ≠ 2) [hSn : S.N
     have := hpresU (ρ x).toAddMonoidHom (fun i v hv => glRep_mem_wf x i hv) u hu
     simpa only [LinearMap.toAddMonoidHom_coe, hρdef, glRep_apply_eq_glEquiv] using this
   have hxord : orderOf (x : GL (Fin m) K) = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime (by rw [← Subgroup.coe_pow, hA x, Subgroup.coe_one])
       (fun h => hx1 (Subtype.ext h))
   have h3 : 3 ≤ finrank K U := by omega

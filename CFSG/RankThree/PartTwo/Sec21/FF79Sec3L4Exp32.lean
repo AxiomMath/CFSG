@@ -18,13 +18,13 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_sylowOf_three_ge {H Z : Subgroup G} (hZH : Z ≤ H) (hZ : IsPGroup 3 Z) :
     ∃ R : Subgroup G, IsSylowOf 3 R H ∧ Z ≤ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ' : IsPGroup 3 (Z.subgroupOf H) := hZ.of_equiv (Subgroup.subgroupOfEquivOfLe hZH).symm
   obtain ⟨P, hP⟩ := hZ'.exists_le_sylow
   refine ⟨(P : Subgroup H).map H.subtype, ⟨?_, ?_, ?_⟩, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (P.not_dvd_index)
@@ -38,7 +38,7 @@ theorem exp3_lift {b : G} (hb : orderOf b = 3) {C : Subgroup G} (hbC : b ∈ Nor
       (QuotientGroup.mk (conjAut C b hbC x) : ↥C ⧸ Q) ∈ S) :
     ∃ R : Subgroup G, IsPGroup 3 R ∧ b ∈ R ∧ R ≤ C ⊔ Subgroup.zpowers b ∧
       ∀ s ∈ S, ∃ x : ↥C, (x : G) ∈ R ∧ (QuotientGroup.mk x : ↥C ⧸ Q) = s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := Subgroup.zpowers b with hZ
   set S1 : Subgroup ↥C := S.comap (QuotientGroup.mk' Q) with hS1
   set St : Subgroup G := S1.map C.subtype with hSt
@@ -140,8 +140,8 @@ theorem sec34_ap_exp3 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
       ∀ s ∈ S, cqβ (U34 b a J A) b hU.b_nor (cqβ (U34 b a J A) b hU.b_nor s * s⁻¹) =
         cqβ (U34 b a J A) b hU.b_nor s * s⁻¹ → s ^ 3 = 1 := by
   intro S _ hS3 hSinv s hsS hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
   have hb3 : orderOf b = 3 := h.hyp.ord
   have hbC : b ∈ Nor (CenS (U34 b a J A)) := nor_cenS_of_nor hU.b_nor
   have hbnot : b ∉ CenS (U34 b a J A) := sec34S_b_not_mem hU
@@ -192,7 +192,7 @@ theorem sec34_ap_exp3 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
       _ = c * (b * sg * b⁻¹ * sg⁻¹) * c⁻¹ := by rw [hu']
       _ = c * b * c⁻¹ * (c * sg * c⁻¹) * (c * b * c⁻¹)⁻¹ * (c * sg * c⁻¹)⁻¹ := by group)
   have hxA : c * sg * c⁻¹ ∈ A := (hlast _ hx).mp hcomm'
-  haveI := h.elemA.1
+  have := h.elemA.1
   have hx3 : (c * sg * c⁻¹) ^ 3 = 1 := elemPow_eq_one_of_isElementaryAbelian
     (A := A) _ hxA
   have hsg3 : sg ^ 3 = 1 := by

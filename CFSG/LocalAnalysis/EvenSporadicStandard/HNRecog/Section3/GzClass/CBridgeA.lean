@@ -14,7 +14,7 @@ theorem isExtraspecialPlusByA5WrTwoWith_pCore {G : Type} [Group G] {z : G}
     (hz : IsExtraspecialPlusByA5WrTwo (Subgroup.centralizer ({z} : Set G))) :
     IsExtraspecialPlusByA5WrTwoWith ↥(Gx z) (CFSG.pCore 2 ↥(Gx z)) := by
   obtain ⟨Q, hQn, hQW, -⟩ := exists_Qz_eq hz
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hp : CFSG.pCore 2 ↥(Gx z) = Q := IsExtraspecialPlusByA5WrTwoWith.pCore_eq hQW
   refine ⟨?_, ?_, ?_⟩
   · rw [hp]; exact hQW.plus

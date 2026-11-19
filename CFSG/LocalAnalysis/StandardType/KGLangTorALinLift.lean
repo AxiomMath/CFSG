@@ -57,15 +57,15 @@ theorem kgLangTorA_lin_semifixed {d : ℕ} {F : Type} [Field F] [Finite F] (hd :
   rw [← hu]
   group
 
-theorem kgLangTorA_lin_descend_lift {d p : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
-    (hd : 0 < d) {σ : F ≃+* F} (hσ : orderOf σ = p) (B : GL (Fin d) F)
+theorem kgLangTorA_lin_descend_lift {d p : ℕ} {F : Type} [Field F] [Finite F] (_hp : p.Prime)
+    (hd : 0 < d) {σ : F ≃+* F} (_hσ : orderOf σ = p) (B : GL (Fin d) F)
     (h : LinearFlag.fieldAut d F σ * LinearFlag.conjAut d F B =
       LinearFlag.conjAut d F B * LinearFlag.fieldAut d F σ) :
     ∃ (c : Fˣ) (M : GL (Fin d) (semilinearFixedSubfield σ)),
       B = Matrix.GeneralLinearGroup.scalar (Fin d) c *
         Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype M := by
   obtain ⟨c, hc⟩ := kgLangTorA_lin_semifixed hd σ B h
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨μ, M, hM⟩ : ∃ (μ : Fˣ) (M : GL (Fin d) (semilinearFixedSubfield σ)),
       ((Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype M : GL (Fin d) F) :
         Matrix (Fin d) (Fin d) F) = (μ : F) • (B : Matrix (Fin d) (Fin d) F) :=
@@ -112,11 +112,11 @@ private theorem kgLangTorALinAux_scalar_descent {d : ℕ} {F : Type} [Field F] [
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq,
       Units.val_mk0]
     exact (semilinearFixedSubfield σ).subtype_injective (by
-      rw [hentry i i, if_pos rfl, hdiag])
+      rw [hentry i i, ite_eq_left rfl, hdiag])
   · rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_apply_ne _ hij]
     exact (semilinearFixedSubfield σ).subtype_injective (by
-      rw [hentry i j, if_neg hij, map_zero])
+      rw [hentry i j, ite_eq_right hij, map_zero])
 
 theorem kgLangTorA_lin_fixed_group {d p : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
     (hd : 0 < d) {σ : F ≃+* F} (hσ : orderOf σ = p)
@@ -128,7 +128,7 @@ theorem kgLangTorA_lin_fixed_group {d p : ℕ} {F : Type} [Field F] [Finite F] (
       Nat.card (X.comap ((LinearFlag.conjAut d F).comp
         (Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype))) =
         Nat.card X * (Nat.card (semilinearFixedSubfield σ) - 1) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   let χ : GL (Fin d) (semilinearFixedSubfield σ) →* MulAut (LinearFlag.projectiveSL d F) :=
     (LinearFlag.conjAut d F).comp
       (Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype)
@@ -211,7 +211,7 @@ theorem kgLangTorA_lin_fixed_group {d p : ℕ} {F : Type} [Field F] [Finite F] (
   refine ⟨hproj, ?_⟩
   rw [← Subgroup.card_ker_mul_card_range f, hrange, hker, mul_comm]
 
-theorem kgLangTorA_lin_transport {d p : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
+theorem kgLangTorA_lin_transport {d p : ℕ} {F : Type} [Field F] [Finite F] (_hp : p.Prime)
     (hd : 3 ≤ d)
     {X : Subgroup (MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) F)))}
     (hX : IsElemAbelian p X)

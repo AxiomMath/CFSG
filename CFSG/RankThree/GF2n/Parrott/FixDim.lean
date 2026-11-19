@@ -20,6 +20,7 @@ variable (h : Tim79a.ParrottHyp z)
     AddSubgroup (Additive (QuotientV.V z)) :=
   Subgroup.toAddSubgroup (autFixedSubgroup (conjV h x))
 
+omit [Finite G] in
 @[simp] theorem mem_fixedAddSubgroup_iff (x : H z) (v : Additive (QuotientV.V z)) :
     v ∈ fixedAddSubgroup h x ↔
       Additive.toMul v ∈ autFixedSubgroup (conjV h x) :=
@@ -34,12 +35,14 @@ variable (h : Tim79a.ParrottHyp z)
   AddSubgroup.toZModSubmodule (n := 2)
     (Subgroup.toAddSubgroup (autFixedSubgroup (conjV h x)))
 
+omit [Finite G] in
 @[simp] theorem mem_fixSubmodule_iff (x : H z) (v : Additive (QuotientV.V z)) :
     v ∈ fixSubmodule h x ↔ Additive.toMul v ∈ autFixedSubgroup (conjV h x) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rw [fixSubmodule, AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup]
 
+omit [Finite G] in
 theorem card_fixSubmodule (x : H z) :
     Nat.card ↥(fixSubmodule h x) = Nat.card ↥(autFixedSubgroup (conjV h x)) := by
   apply Nat.card_congr
@@ -64,8 +67,8 @@ theorem card_fixSubmodule (x : H z) :
 theorem card_fix (x : H z) :
     Nat.card ↥(autFixedSubgroup (conjV h x)) = 2 ^ fixDimV h x := by
   rw [← card_fixSubmodule h x]
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(fixSubmodule h x)),
     Nat.card_zmod]
   rfl

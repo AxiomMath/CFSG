@@ -44,7 +44,7 @@ theorem M_bit_hi {w N M : ℕ} (hw : 0 < w) (hM : M = pk w (List.replicate N 1))
   exact Nat.testBit_lt_two_pow (lt_of_lt_of_le h (Nat.pow_le_pow_right (by norm_num) hp))
 
 theorem linT_bit {w N M : ℕ} (hw : 0 < w) (hM : M = pk w (List.replicate N 1)) (y b b' : ℕ)
-    (hb : b < w) (hb' : b' < w) {t q : ℕ} (ht : t < N) (hq : q < w) :
+    (_hb : b < w) (hb' : b' < w) {t q : ℕ} (ht : t < N) (hq : q < w) :
     (Nat.shiftLeft (Nat.land (Nat.shiftRight y b) M) b').testBit (w * t + q) =
       (decide (b' = q) && y.testBit (w * t + b)) := by
   change ((y >>> b &&& M) <<< b').testBit (w * t + q) = _

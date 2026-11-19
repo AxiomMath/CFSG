@@ -91,7 +91,7 @@ theorem FTS_other_line_normalizer_sigma_centralization
       have h := Subgroup.map_mono (f := (sigmaCore T).subtype) hQ
       rwa [Subgroup.map_subgroupOf_eq_of_le hAST] at h
     have hPTS : PT ≤ sigmaCore T := Subgroup.map_subtype_le _
-    have hPTpg : IsPGroup p ↥PT := Q.isPGroup'.map _
+    have hPTpg : IsPGroup p ↥PT := Q.isPGroup.map _
     obtain ⟨hprod, hJnormal⟩ := FTS_sigma_sylow_alpha_product_normal G hMin9 T hT p hpT Q
     set J : Subgroup G := Prep09.alphaCoreIn T ⊔ PT with hJdef
     have hJT : J ≤ T := sup_le (Prep09.alphaCoreIn_le T) (hPTS.trans (sigmaCore_le T))

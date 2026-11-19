@@ -18,6 +18,7 @@ section SL
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {n : ℕ} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem RestModel.injective_of_qf (R : RestModel M Q Z n V₁ V₂) (U : R.M₀.E →ₗ[R.K] R.M₀.E)
     (hU : ∀ e, R.M₀.Qf (U e) = R.M₀.Qf e) : Function.Injective U := by
   have hB := R.B_of_qf U 1 (fun e => by rw [hU e, one_mul])

@@ -26,6 +26,7 @@ variable {m : ℕ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
   {F : (Fin m → K) →+ ↥(cmComm M Q Z B K γ M₀ φ)}
   {F' : (Fin m → K) →+ ↥(cmComm M Q Z B K γ M₀ φ)}
 
+omit [Finite K] [CharP K 2] in
 private theorem sigma0_injective (hc : Ctx M Q Z B)
     (hρ : ∀ (g : SL(m, K)) (s : ↥(XbarH M Q Z B)), xbarHToXbar M Q Z B s = σ₀ g →
       ρ g = cmCommAct hc φ s)
@@ -60,10 +61,12 @@ private noncomputable def xbarPreToXbar (hc : Ctx M Q Z B) :
     (Subgroup.inclusion (XbarPre_le_M hc))).codRestrict (Xbar M Q Z B)
       (fun s => (mem_XbarPre_iff hc (XbarPre_le_M hc s.2)).mp s.2)
 
+omit [Finite G] in
 private theorem coe_xbarPreToXbar (hc : Ctx M Q Z B) (s : ↥(XbarPre M Q Z B)) :
     ((xbarPreToXbar hc s : ↥(Xbar M Q Z B)) : Mbar M Q) =
       QuotientGroup.mk (⟨(s : G), XbarPre_le_M hc s.2⟩ : ↥M) := rfl
 
+omit [Finite G] in
 private theorem xbarPreToXbar_surjective (hc : Ctx M Q Z B) :
     Function.Surjective (xbarPreToXbar hc) := by
   rintro ⟨x, hx⟩
@@ -74,6 +77,7 @@ private theorem xbarPreToXbar_surjective (hc : Ctx M Q Z B) :
   have hM : (⟨(t : G), XbarPre_le_M hc htX⟩ : ↥M) = t := Subtype.ext rfl
   rw [hM, ht]
 
+omit [Finite G] in
 private theorem xbarPreToXbar_eq_one_iff (hc : Ctx M Q Z B) (s : ↥(XbarPre M Q Z B)) :
     xbarPreToXbar hc s = 1 ↔ (s : G) ∈ Q := by
   rw [Subtype.ext_iff]
@@ -86,11 +90,13 @@ private noncomputable def xbarPreToGL (hc : Ctx M Q Z B)
   (Matrix.SpecialLinearGroup.toGL (n := Fin m) (R := K)).comp
     (σ₀e.symm.toMonoidHom.comp (xbarPreToXbar hc))
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem xbarPreToGL_apply (hc : Ctx M Q Z B)
     (σ₀e : SL(m, K) ≃* ↥(Xbar M Q Z B)) (s : ↥(XbarPre M Q Z B)) :
     xbarPreToGL hc σ₀e s = Matrix.SpecialLinearGroup.toGL (σ₀e.symm (xbarPreToXbar hc s)) :=
   rfl
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem xbarPreToGL_range (hc : Ctx M Q Z B)
     (σ₀e : SL(m, K) ≃* ↥(Xbar M Q Z B)) :
     (xbarPreToGL hc σ₀e).range = StatedSL m K := by
@@ -100,6 +106,7 @@ private theorem xbarPreToGL_range (hc : Ctx M Q Z B)
     Subgroup.map_top]
   exact (CFSG.Open.StatedAPI.statedSL_eq_range_toGL m K).symm
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem xbarPreToGL_ker (hc : Ctx M Q Z B)
     (σ₀e : SL(m, K) ≃* ↥(Xbar M Q Z B)) :
     (xbarPreToGL hc σ₀e).ker = Q.subgroupOf (XbarPre M Q Z B) := by
@@ -134,6 +141,7 @@ private noncomputable def imageAddEquiv (hFinj : Function.Injective F)
       rw [hx]
       exact hw⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem imageAddEquiv_apply (hFinj : Function.Injective F)
     (hFW : ∀ x, F x ∈ W₁) (hFsurj : ∀ w ∈ W₁, ∃ x, F x = w) (x : Fin m → K) :
     ((imageAddEquiv (φ := φ) hFinj hFW hFsurj x :
@@ -141,6 +149,7 @@ private theorem imageAddEquiv_apply (hFinj : Function.Injective F)
   rw [imageAddEquiv]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem image_invariant (hc : Ctx M Q Z B)
     (hσ₀ : Function.Surjective σ₀)
     (hρ : ∀ (g : SL(m, K)) (s : ↥(XbarH M Q Z B)), xbarHToXbar M Q Z B s = σ₀ g →
@@ -156,6 +165,7 @@ private theorem image_invariant (hc : Ctx M Q Z B)
   rw [hρ g s hg.symm]
   exact coe_cmCommAct hc φ s w₀
 
+omit [Finite K] [CharP K 2] in
 private theorem piPre_normalizer (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -190,6 +200,7 @@ private noncomputable def naturalHom (hFinj : Function.Injective F)
   (AddEquiv.toMultiplicative (imageAddEquiv (φ := φ) hFinj hFW hFsurj).symm).toMonoidHom.comp
     (piToImage (M₀ := M₀) (W₁ := W₁))
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem naturalHom_apply (hFinj : Function.Injective F)
     (hFW : ∀ x, F x ∈ W₁) (hFsurj : ∀ w ∈ W₁, ∃ x, F x = w)
     (y : ↥(preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁))) :
@@ -197,6 +208,7 @@ private theorem naturalHom_apply (hFinj : Function.Injective F)
       (imageAddEquiv (φ := φ) hFinj hFW hFsurj).symm
         ⟨M₀.π (y : G), ((mem_piPre M₀).mp y.2).2⟩ := rfl
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem naturalHom_surjective (hFinj : Function.Injective F)
     (hFW : ∀ x, F x ∈ W₁) (hFsurj : ∀ w ∈ W₁, ∃ x, F x = w) :
     Function.Surjective (naturalHom (φ := φ) hFinj hFW hFsurj) := by
@@ -217,6 +229,7 @@ private theorem naturalHom_surjective (hFinj : Function.Injective F)
   rw [hwz, hw]
   exact AddEquiv.symm_apply_apply _ x
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem naturalHom_ker (hFinj : Function.Injective F)
     (hFW : ∀ x, F x ∈ W₁) (hFsurj : ∀ w ∈ W₁, ∃ x, F x = w) :
     (naturalHom (φ := φ) hFinj hFW hFsurj).ker =
@@ -242,6 +255,7 @@ private theorem naturalHom_ker (hFinj : Function.Injective F)
       exact (M₀.π_ker (y : G) ((mem_piPre M₀).mp y.2).1).mpr hz
     rw [hw0, map_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem naturalHom_equivariant (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -312,6 +326,7 @@ private theorem naturalHom_equivariant (hc : Ctx M Q Z B)
   rw [xbarPreToGL_apply]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem naturalRep_of_decomposition (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -331,7 +346,7 @@ private theorem naturalRep_of_decomposition (hc : Ctx M Q Z B)
   have hf_surj : Function.Surjective f := naturalHom_surjective (φ := φ) hFinj hFW hFsurj
   have hf_ker : f.ker = Z.subgroupOf (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)) :=
     naturalHom_ker (φ := φ) hFinj hFW hFsurj
-  haveI hZnorm : (Z.subgroupOf (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁))).Normal := by
+  have hZnorm : (Z.subgroupOf (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁))).Normal := by
     rw [← hf_ker]
     infer_instance
   let ψ : ↥(preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)) ⧸
@@ -357,6 +372,7 @@ private noncomputable def projW₂ (hW : IsCompl W₁ W₂) :
     ↥(cmComm M Q Z B K γ M₀ φ) →ₗ[K] ↥W₂ :=
   W₂.projectionOnto W₁ hW.symm
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem projW₂_comm (hW : IsCompl W₁ W₂)
     (T : ↥(cmComm M Q Z B K γ M₀ φ) ≃ₗ[K] ↥(cmComm M Q Z B K γ M₀ φ))
     (hT₁ : ∀ w ∈ W₁, T w ∈ W₁) (hT₂ : ∀ w ∈ W₂, T w ∈ W₂)
@@ -419,6 +435,7 @@ private noncomputable def dualHom (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
   (AddEquiv.toMultiplicative (dualAddEquiv (φ := φ) hF'inj hF'W hF'surj).symm).toMonoidHom.comp
     ((projW₂ (φ := φ) hW).toAddMonoidHom.toMultiplicative.comp (piQToComm (φ := φ) htop))
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem dualHom_apply (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     (hW : IsCompl W₁ W₂) (hF'inj : Function.Injective F')
     (hF'W : ∀ x, F' x ∈ W₂) (hF'surj : ∀ w ∈ W₂, ∃ x, F' x = w)
@@ -428,6 +445,7 @@ private theorem dualHom_apply (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
         (projW₂ (φ := φ) hW ⟨M₀.π (y : G), by rw [htop]; exact Submodule.mem_top⟩) :=
   rfl
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem dualHom_eq_one_iff (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     (hW : IsCompl W₁ W₂) (hF'inj : Function.Injective F')
     (hF'W : ∀ x, F' x ∈ W₂) (hF'surj : ∀ w ∈ W₂, ∃ x, F' x = w)
@@ -438,6 +456,7 @@ private theorem dualHom_eq_one_iff (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
   rw [← ofAdd_toAdd (dualHom (φ := φ) htop hW hF'inj hF'W hF'surj y), ofAdd_eq_one]
   rfl
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem dualHom_surjective (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     (hW : IsCompl W₁ W₂) (hF'inj : Function.Injective F')
     (hF'W : ∀ x, F' x ∈ W₂) (hF'surj : ∀ w ∈ W₂, ∃ x, F' x = w) :
@@ -462,6 +481,7 @@ private theorem dualHom_surjective (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     Submodule.projectionOnto_apply_left hW.symm _
   rw [hp, AddEquiv.symm_apply_apply]
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem dualHom_ker (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     (hW : IsCompl W₁ W₂) (hF'inj : Function.Injective F')
     (hF'W : ∀ x, F' x ∈ W₂) (hF'surj : ∀ w ∈ W₂, ∃ x, F' x = w) :
@@ -491,6 +511,7 @@ private theorem dualHom_ker (htop : cmComm M Q Z B K γ M₀ φ = ⊤)
     have := congrArg (dualAddEquiv (φ := φ) hF'inj hF'W hF'surj).symm hp0
     simpa using this
 
+omit [Finite K] [CharP K 2] in
 private theorem dualHom_equivariant (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -570,6 +591,7 @@ private theorem dualHom_equivariant (hc : Ctx M Q Z B)
   dsimp only [x]
   rw [dualHom_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem naturalDualRep_of_decomposition (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -590,7 +612,7 @@ private theorem naturalDualRep_of_decomposition (hc : Ctx M Q Z B)
     dualHom_surjective (φ := φ) htop hW hF'inj hF'W hF'surj
   have hf_ker : f.ker = (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)).subgroupOf Q :=
     dualHom_ker (φ := φ) htop hW hF'inj hF'W hF'surj
-  haveI hN : ((preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)).subgroupOf Q).Normal := by
+  have hN : ((preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)).subgroupOf Q).Normal := by
     rw [← hf_ker]
     infer_instance
   let ψ : ↥Q ⧸ (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)).subgroupOf Q ≃*
@@ -610,10 +632,13 @@ private theorem naturalDualRep_of_decomposition (hc : Ctx M Q Z B)
   exact dualHom_equivariant hc hφπ hσ₀e hρ hW₁ hW₂ htop hW hF'inj hF'W hF'surj hF'eq s v w hw
 
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem preimageW₁_le_Q :
     preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁) ≤ Q :=
   fun _ hx => ((mem_piPre M₀).mp hx).1
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 private theorem Z_le_preimageW₁ (hc : Ctx M Q Z B) :
     Z ≤ preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁) := by
   intro z hz
@@ -622,6 +647,7 @@ private theorem Z_le_preimageW₁ (hc : Ctx M Q Z B) :
     rw [(M₀.π_ker z hzQ).mpr hz]
     exact (W₁.map (cmComm M Q Z B K γ M₀ φ).subtype).zero_mem⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_XbarH_xbarHToXbar (hc : Ctx M Q Z B)
     {σ₀e : SL(m, K) ≃* ↥(Xbar M Q Z B)} (hσ₀e : ∀ g, σ₀e g = σ₀ g)
     (s : ↥(XbarPre M Q Z B)) :
@@ -640,6 +666,7 @@ private theorem exists_XbarH_xbarHToXbar (hc : Ctx M Q Z B)
       ⟨s, XbarPre_le_M hc s.2⟩ from Subtype.ext hs']
   exact (coe_xbarPreToXbar hc s).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem commutator_le_preimageW₁ (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -664,6 +691,7 @@ private theorem commutator_le_preimageW₁ (hc : Ctx M Q Z B) (hD : GlobalModelD
   exact (preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁)).mul_mem hx h1
 
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem mem_sup_of_commutator (hc : Ctx M Q Z B) {y : G} (hyQ : y ∈ Q)
     (s : ↥(XbarPre M Q Z B)) {y' : G}
     (hy'X : y' ∈ preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁))
@@ -694,6 +722,7 @@ private theorem mem_sup_of_commutator (hc : Ctx M Q Z B) {y : G} (hyQ : y ∈ Q)
   exact (Z ⊔ ⁅preimageW₁ (φ := φ) (M₀ := M₀) (W₁ := W₁), XbarPre M Q Z B⁆).mul_mem
     (Subgroup.mem_sup_left hyZ) (Subgroup.mem_sup_right hmemcomm)
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_commutator_of_transvection (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -756,6 +785,7 @@ private theorem exists_commutator_of_transvection (hc : Ctx M Q Z B)
     abel
   exact mem_sup_of_commutator hc hyQ s hy'X hπcomm
 
+omit [Finite K] [CharP K 2] in
 private theorem preimageW₁_le_sup_commutator_of_ne_zero (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -800,7 +830,7 @@ private theorem preimageW₁_le_sup_commutator_of_ne_zero (hc : Ctx M Q Z B)
   have hx'ind : ∀ s t : K, s • x' + t • (x' + x) = 0 → s = 0 ∧ t = 0 := by
     intro s t hst
     have hj0 : (s • x' + t • (x' + x)) j = 0 := by rw [hst]; rfl
-    have hxj : x' j = 0 := by simp [x', Pi.single_apply, hij]
+    have hxj : x' j = 0 := by simp [x', hij]
     have htj : t * x j = 0 := by simpa [hxj] using hj0
     have ht0 : t = 0 := by
       rcases mul_eq_zero.mp htj with h | h
@@ -815,6 +845,7 @@ private theorem preimageW₁_le_sup_commutator_of_ne_zero (hc : Ctx M Q Z B)
   exact exists_commutator_of_transvection hc hφπ hσ₀e hρ htop hFinj hFW hFsurj hFeq
     hyQ hmem x hx hA hAx
 
+omit [Finite K] [CharP K 2] in
 private theorem preimageW₁_le_sup_commutator (hc : Ctx M Q Z B)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -844,6 +875,7 @@ private theorem commutator_Z_XbarPre_le (hc : Ctx M Q Z B) :
   rw [commutatorElement_eq_one_iff_mul_comm.mpr hcomm]
   exact Z.one_mem
 
+omit [CharP K 2] in
 private theorem Q_eq_sup_commutator (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
       M₀.π ((g : G) * y * (g : G)⁻¹) = φ g (M₀.π y))
@@ -852,6 +884,7 @@ private theorem Q_eq_sup_commutator (hc : Ctx M Q Z B) (hD : GlobalModelData M Q
   have h := piPre_cmComm_eq_sup_comm hc hD φ hφπ
   rwa [htop, piPre_top] at h
 
+omit [Finite K] [CharP K 2] in
 private theorem preimageW₁_eq_sup_commutator (hc : Ctx M Q Z B)
     (hD : GlobalModelData M Q Z γ M₀)
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →
@@ -875,6 +908,7 @@ private theorem preimageW₁_eq_sup_commutator (hc : Ctx M Q Z B)
 
 end TransportData
 
+omit [CharP K 2] in
 theorem Ctx.cmLmChain_chain_of_rt1 (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (g : ↥(H0 M Z)) (y : G), y ∈ Q →

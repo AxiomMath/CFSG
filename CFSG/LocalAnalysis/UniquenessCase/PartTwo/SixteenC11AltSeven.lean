@@ -322,8 +322,8 @@ theorem s16c11_altSeven_pgroup :
     s16c11_altSeven_words_card s16c11_altSeven_card (by decide)
 
 theorem s16c11_altSeven_words_mem (gens : List ↥(alternatingGroup (Fin 7))) (k : ℕ) :
-    ∀ t ∈ S16C11AltWords gens k, t ∈ S16C11AltGrp gens :=
-  fun t ht => s16c11_alt_words_subset_closure gens k (Finset.mem_coe.2 ht)
+    ∀ _t ∈ S16C11AltWords gens k, _t ∈ S16C11AltGrp gens :=
+  fun _t ht => s16c11_alt_words_subset_closure gens k (Finset.mem_coe.2 ht)
 
 theorem s16c11_altSeven_isForced :
     S16C11Forced (S16C11AltAct 7) (S16C11AltGrp s16c11AltSevenGens) 7
@@ -430,7 +430,7 @@ theorem s16c11_altSeven_pairs_ncard :
       S16C11AltAct 7 t (S16C11AltCls 7 s16c11AltSevenX0) = S16C11AltCls 7 s16c11AltSevenX0 :=
     s16c11_alt_grp_fixes fun g hg =>
       (s16c11_alt_fixed_iff g s16c11_altSeven_sum_x0).2 (s16c11_altSeven_hfix g hg)
-  haveI : Finite (FFModel.altDn 7).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 7)))
+  have : Finite (FFModel.altDn 7).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 7)))
   exact s16c11_forcedPairs_ncard_three_of_cover hP hfixT hl1 hl2 hl3 hS1 hS2 hS3
     hi1 hi2 hi3 hm1 hm2 hm3 d12 d13 d23 s16c11_altSeven_cover_stab
 

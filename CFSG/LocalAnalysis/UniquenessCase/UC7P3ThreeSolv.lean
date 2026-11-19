@@ -23,13 +23,13 @@ variable {X : Type} [Group X] [Finite X]
 theorem isSolvable_of_pGroup_quotient {Q Γ : Subgroup X} [(Q.subgroupOf Γ).Normal]
     (hQp : IsPGroup 3 Q) (hQΓ : Q ≤ Γ) (hq : Group.IsSolvable (↥Γ ⧸ Q.subgroupOf Γ)) :
     Group.IsSolvable ↥Γ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥Q := hQp.isNilpotent
-  haveI : Group.IsSolvable ↥Q := inferInstance
-  haveI : Group.IsSolvable ↥(Q.subgroupOf Γ) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥Q := hQp.isNilpotent
+  have : Group.IsSolvable ↥Q := inferInstance
+  have : Group.IsSolvable ↥(Q.subgroupOf Γ) :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hQΓ).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI := hq
+  have := hq
   exact Group.isSolvable_of_subgroup_quotient (Q.subgroupOf Γ)
 
 theorem isSolvable_of_sup_pGroup {Q S Γ : Subgroup X} (hQp : IsPGroup 3 Q)
@@ -37,9 +37,9 @@ theorem isSolvable_of_sup_pGroup {Q S Γ : Subgroup X} (hQp : IsPGroup 3 Q)
     Group.IsSolvable ↥Γ := by
   have hQΓ : Q ≤ Γ := hsup ▸ le_sup_left
   have hSΓ : S ≤ Γ := hsup ▸ le_sup_right
-  haveI : (Q.subgroupOf Γ).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQΓ).2 hΓN
+  have : (Q.subgroupOf Γ).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQΓ).2 hΓN
   refine isSolvable_of_pGroup_quotient hQp hQΓ ?_
-  haveI := hS
+  have := hS
   refine Group.isSolvable_of_surjective
     (f := (QuotientGroup.mk' (Q.subgroupOf Γ)).comp (Subgroup.inclusion hSΓ)) ?_
   intro y
@@ -61,11 +61,11 @@ theorem isSolvable_of_isStronglyPEmbedded_three (hG3 : Gls3StronglyThreeEmbedded
     (hO : CFSG.pPrimeCore 3 X = ⊥) (h2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X))
     {N : Subgroup X} (hN : IsStronglyPEmbedded 3 N) : Group.IsSolvable ↥N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hX.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   have hout : Group.IsSolvable (Outer ↥K) := hSch ↥K hKs hKnab hcat
@@ -78,24 +78,24 @@ theorem isSolvable_of_isStronglyPEmbedded_three (hG3 : Gls3StronglyThreeEmbedded
   have hΓX : gammaCore 3 1 ⊤ (P : Subgroup X) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => hN.1 (top_le_iff.1 ?_)
     rw [← h]
-    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup'
+    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup
       hPN
   obtain ⟨hlt, hmax, hrows⟩ := hG3 X hX K hKn hKs hKnab hKC P hrk hΓX
   set Q : Subgroup X := (P : Subgroup X) ⊓ K with hQdef
-  have hQp : IsPGroup 3 Q := P.isPGroup'.to_inf_left
+  have hQp : IsPGroup 3 Q := P.isPGroup.to_inf_left
   have hQN : Q ≤ N := inf_le_left.trans hPN
   have hQK : Q ≤ K := inf_le_right
   have hΓN : ∀ {Γ : Subgroup X}, Γ = K ⊓ Subgroup.normalizer (Q : Set X) →
       Γ ≤ Subgroup.normalizer (Q : Set X) := fun h => h ▸ inf_le_right
   have h2grp : ∀ (S : Subgroup X) (n : ℕ), Nat.card ↥S = 2 ^ n → Group.IsSolvable ↥S :=
     fun S n hS => by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent ↥S := (IsPGroup.of_card hS).isNilpotent
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent ↥S := (IsPGroup.of_card hS).isNilpotent
       infer_instance
   have hcyc : ∀ J : Subgroup X, IsCyclic ↥J → gammaCore 3 1 K Q = Q ⊔ J →
       gammaCore 3 1 K Q = K ⊓ Subgroup.normalizer (Q : Set X) →
       Group.IsSolvable ↥(gammaCore 3 1 K Q) := fun J hJ hΓJ hΓe => by
-    haveI := hJ
+    have := hJ
     exact isSolvable_of_sup_pGroup hQp (hΓN hΓe) hΓJ.symm inferInstance
   have hΓ : gammaCore 3 1 K Q = K ⊓ Subgroup.normalizer (Q : Set X) ∧
       Group.IsSolvable ↥(gammaCore 3 1 K Q) := by
@@ -109,7 +109,7 @@ theorem isSolvable_of_isStronglyPEmbedded_three (hG3 : Gls3StronglyThreeEmbedded
     ·
       refine ⟨hΓe, ?_⟩
       have hQΓ : Q ≤ gammaCore 3 1 K Q := hΓe ▸ le_inf hQK Subgroup.le_normalizer
-      haveI : (Q.subgroupOf (gammaCore 3 1 K Q)).Normal :=
+      have : (Q.subgroupOf (gammaCore 3 1 K Q)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hQΓ).2 (hΓN hΓe)
       have hΓcard : Nat.card ↥(gammaCore 3 1 K Q) = 18 := by
         obtain ⟨e⟩ := hD
@@ -121,8 +121,8 @@ theorem isSolvable_of_isStronglyPEmbedded_three (hG3 : Gls3StronglyThreeEmbedded
         have := Subgroup.card_eq_card_quotient_mul_card_subgroup (Q.subgroupOf (gammaCore 3 1 K Q))
         rw [hΓcard, hQ'card] at this
         omega
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : IsCyclic (↥(gammaCore 3 1 K Q) ⧸ Q.subgroupOf (gammaCore 3 1 K Q)) :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : IsCyclic (↥(gammaCore 3 1 K Q) ⧸ Q.subgroupOf (gammaCore 3 1 K Q)) :=
         isCyclic_of_prime_card hqcard
       exact isSolvable_of_pGroup_quotient hQp hQΓ inferInstance
     · exact ⟨hΓe, hcyc J hJ hΓJ hΓe⟩
@@ -161,7 +161,7 @@ theorem isSolvable_of_isStronglyPEmbedded_three (hG3 : Gls3StronglyThreeEmbedded
     exact hy
   have hsolT : Group.IsSolvable ↥(Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K)) := by
     rw [hNT]
-    haveI := hΓsol
+    have := hΓsol
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe hΓK).symm.toMonoidHom) (MulEquiv.surjective _)
   exact isSolvable_of_isCoatom_normalizer hKC hout hmaxT hsolT hle hne

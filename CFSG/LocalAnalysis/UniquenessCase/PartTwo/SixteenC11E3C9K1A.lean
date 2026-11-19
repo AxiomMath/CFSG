@@ -37,7 +37,7 @@ theorem s1611e3_c9k1_sq_normalizes {W : Type} [Group W] [Finite W]
       intro Y hY
       rcases hY with rfl | rfl
       · have h1 : (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) := by
-          ext y; simp [MulAut.conj_apply]
+          ext y; simp
         exact ⟨1, Mb.one_mem, by rw [h1, Subgroup.map_id]⟩
       · exact ⟨x, hxMb, hLp⟩
     exact (Set.eq_of_subset_of_ncard_le hsub (by rw [hcls, Set.ncard_pair hLb_ne_Lp])).symm
@@ -93,7 +93,7 @@ theorem s1611e3_c9k1_engine {W : Type} [CommGroup W] [Finite W]
     ∃ X : Subgroup (MulAut W), X ≤ L ⊔ Q ∧ IsPGroup 3 ↥X ∧ ¬ IsCyclic ↥X ∧
       (∀ y ∈ X, y ^ 3 = 1) ∧ Permutes X T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨v, hvP, hvne⟩ := hTp.exists_fixed_point_of_prime_dvd_card_of_fixed_point
     (α := W) hcardW (a := (1 : W))
     (MulAction.mem_fixedPoints.mpr fun m => map_one (m : MulAut W))
@@ -249,7 +249,7 @@ theorem s1611e3_c9k1_engine {W : Type} [CommGroup W] [Finite W]
     have h := CFSG.Quasithin.H13.AS91.card_mul_set_mul_card_inf N T
     rw [hNcard, hNTinf] at h
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3P : 3 ∣ Nat.card ↥P := by rw [hPcard]; norm_num
   have h3P' : 3 ∣ Nat.card ↥P' := by rw [hP'card]; norm_num
   obtain ⟨gP, hgP⟩ := exists_prime_orderOf_dvd_card' 3 h3P

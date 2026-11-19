@@ -14,10 +14,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_pQuot_gLBConj (p : ℕ) (g : G) (K : Subgroup G) :
     Nonempty (PQuot p (GLBConj g K) ≃* PQuot p K) :=
   ⟨(CFSG.LocalAnalysis.GLTheoremB.conjQuotEquiv p g K).symm⟩
 
+omit [Finite G] in
 theorem commutator_le_normalizer_of_forall {p : ℕ} {X J D Q : Subgroup G}
     (hJ : GLAPComponent p X J) (hQX : Q ≤ X)
     (hD : ∀ K : Subgroup G, GLAPComponent p X K → Nonempty (PQuot p K ≃* PQuot p J) →

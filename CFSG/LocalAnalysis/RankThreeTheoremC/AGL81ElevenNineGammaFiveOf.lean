@@ -22,7 +22,7 @@ theorem exists_mem_eq_map_conj_of_sylow_le {p : ℕ} [Fact p.Prime] {M : Subgrou
     (P V : Sylow p G) (hP : (P : Subgroup G) ≤ M) (hV : (V : Subgroup G) ≤ M) :
     ∃ m ∈ M, (V : Subgroup G) = (P : Subgroup G).map (MulAut.conj m).toMonoidHom := by
   let P' : Sylow p M := P.subtype hP
-  obtain ⟨g, hg⟩ := exists_conj_of_sylow (T₀ := (P' : Subgroup M)) P'.isPGroup'
+  obtain ⟨g, hg⟩ := exists_conj_of_sylow (T₀ := (P' : Subgroup M)) P'.isPGroup
     P'.not_dvd_index (V.subtype hV)
   refine ⟨g, g.2, ?_⟩
   ext x
@@ -50,7 +50,7 @@ theorem exists_mem_eq_map_conj_of_sylow_le {p : ℕ} [Fact p.Prime] {M : Subgrou
 theorem agl81ElevenNineGammaFive_of (h : PGroupLemmaFiveOneFive G) :
     AGL81ElevenNineGammaFive G := by
   intro _hS P M H Q K L W a₀ hd h25 V hVM
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨H₁, R₁, hesc⟩ := hd.data.escape
   obtain ⟨m, hm, hVeq⟩ := exists_mem_eq_map_conj_of_sylow_le P V hesc.sylow_le hVM
   have hW : GLBWeakCore 5 (V : Subgroup G) ≤ M := by

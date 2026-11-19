@@ -28,7 +28,7 @@ theorem elt_idx5167 (x : Elt) : elt (idx x) = x := by
   have hc := c.isLt
   have hk := k.isLt
   simp only [elt, idx, idxN, Prod.mk.injEq, GF4.mk.injEq, Fin.ext_iff]
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> (try simp only [Fin.val_mk]) <;> omega
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> omega
 
 theorem eltN_idx5167 (x : Elt) : eltN (idx x).val = x := by
   have e : (⟨(idx x).val % 192, Nat.mod_lt _ (by decide)⟩ : Fin 192) = idx x :=

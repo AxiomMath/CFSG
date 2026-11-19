@@ -56,8 +56,8 @@ theorem exists_injective_of_two_charts {M : ℕ} (hM : 2 ≤ M) (ψ₁ ψ₂ : S
       U j = (ψ₁.comp (blockSL2 (ZMod 2) (M + 1) ⟨j.val, by omega⟩)).range := by
     intro j hj
     by_cases h2 : j.val < 2
-    · simp only [hUdef, dif_pos h2]
-    · simp only [hUdef, dif_neg h2]
+    · simp only [hUdef, dite_eq_left h2]
+    · simp only [hUdef, dite_eq_right h2]
       ext x
       simp only [MonoidHom.mem_range, MonoidHom.comp_apply]
       constructor
@@ -68,7 +68,7 @@ theorem exists_injective_of_two_charts {M : ℕ} (hM : 2 ≤ M) (ψ₁ ψ₂ : S
   have hU2 : ∀ j : Fin (M + 3), (hj : 2 ≤ j.val) →
       U j = (ψ₂.comp (blockSL2 (ZMod 2) (M + 1) ⟨j.val - 2, by omega⟩)).range := by
     intro j hj
-    simp only [hUdef, dif_neg (show ¬ j.val < 2 by omega)]
+    simp only [hUdef, dite_eq_right (show ¬ j.val < 2 by omega)]
   have hker₁ : ψ₁.ker ≤ Subgroup.center SL(M + 2, ZMod 2) := by
     rw [(MonoidHom.ker_eq_bot_iff ψ₁).mpr h₁]
     exact bot_le
@@ -109,16 +109,16 @@ theorem exists_injective_of_two_charts {M : ℕ} (hM : 2 ≤ M) (ψ₁ ψ₂ : S
       have hVc : ∀ k : Fin (M + 1), V (Fin.castSucc k) =
           (ψ₁.comp (blockSL2 (ZMod 2) (M + 1) k)).range := by
         intro k
-        simp only [hV, Fin.coe_castSucc, dif_pos k.isLt]
+        simp only [hV, Fin.val_castSucc, dite_eq_left k.isLt]
       obtain ⟨W, hW⟩ := exists_linearBlockStandardPair_of_blockSL2_frame ψ₁ hker₁ V hVc
         ⟨i.val, by omega⟩ ⟨j.val, by omega⟩ (by simp only; omega) (by simp only; omega)
       refine ⟨W, ?_⟩
       have e1 : V ⟨i.val, by omega⟩ = U i := by
         rw [hU1 i (by omega)]
-        simp only [hV, dif_pos (show i.val < M + 1 by omega)]
+        simp only [hV, dite_eq_left (show i.val < M + 1 by omega)]
       have e2 : V ⟨j.val, by omega⟩ = U j := by
         rw [hU1 j hj]
-        simp only [hV, dif_pos (show j.val < M + 1 by omega)]
+        simp only [hV, dite_eq_left (show j.val < M + 1 by omega)]
       rwa [e1, e2] at hW
     · set V : Fin (M + 2) → Subgroup G := fun k =>
         if hk : k.val < M + 1 then (ψ₂.comp (blockSL2 (ZMod 2) (M + 1) ⟨k.val, hk⟩)).range
@@ -126,16 +126,16 @@ theorem exists_injective_of_two_charts {M : ℕ} (hM : 2 ≤ M) (ψ₁ ψ₂ : S
       have hVc : ∀ k : Fin (M + 1), V (Fin.castSucc k) =
           (ψ₂.comp (blockSL2 (ZMod 2) (M + 1) k)).range := by
         intro k
-        simp only [hV, Fin.coe_castSucc, dif_pos k.isLt]
+        simp only [hV, Fin.val_castSucc, dite_eq_left k.isLt]
       obtain ⟨W, hW⟩ := exists_linearBlockStandardPair_of_blockSL2_frame ψ₂ hker₂ V hVc
         ⟨i.val - 2, by omega⟩ ⟨j.val - 2, by omega⟩ (by simp only; omega) (by simp only; omega)
       refine ⟨W, ?_⟩
       have e1 : V ⟨i.val - 2, by omega⟩ = U i := by
         rw [hU2 i (by omega)]
-        simp only [hV, dif_pos (show i.val - 2 < M + 1 by omega)]
+        simp only [hV, dite_eq_left (show i.val - 2 < M + 1 by omega)]
       have e2 : V ⟨j.val - 2, by omega⟩ = U j := by
         rw [hU2 j (by omega)]
-        simp only [hV, dif_pos (show j.val - 2 < M + 1 by omega)]
+        simp only [hV, dite_eq_left (show j.val - 2 < M + 1 by omega)]
       rwa [e1, e2] at hW
   have hsys : A2System adjA U (ψ₁.range ⊔ ψ₂.range) := by
     refine ⟨fun j => ?_, ?_, ?_, ?_⟩

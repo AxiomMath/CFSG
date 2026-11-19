@@ -73,7 +73,7 @@ theorem nonempty_mulEquiv_dihedral_four {V : Type} [Group V] [Finite V]
     Nonempty (V ≃* DihedralGroup 4) := by
   obtain ⟨x, y, hx, hy, hxy⟩ : ∃ x y : V, x ^ 2 = 1 ∧ y ^ 2 = 1 ∧ x * y ≠ y * x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨H, hH⟩ : ∃ H : Subgroup V, ∀ v : V, v ∈ H ↔ v ^ 2 = 1 :=
       ⟨{ carrier := {v : V | v ^ 2 = 1}
          mul_mem' := fun {a b} ha hb => by

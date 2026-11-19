@@ -45,8 +45,10 @@ structure Co2FiveC1LitFacts : Prop where
 
 variable [Fact Co2FiveLitChecks]
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveKeyPts_lt : ∀ p ∈ co2FiveKeyPts, p < 2300 := by decide
 
+omit [Fact Co2FiveLitChecks] in
 theorem mem_co2P_of_sift
     {g : Array ℕ} {G : Equiv.Perm (Fin 2300)} (hG : Rep 2300 g G)
     (h : siftA 2300 (rawLevels 2300 co2StrongArrs co2BaseArr) co2BaseArr 0 g = true) :
@@ -106,6 +108,7 @@ theorem co2Five_Q_facts : Co2FiveQFacts := by
   obtain ⟨⟨⟨⟨⟨⟨hE, hS⟩, hP⟩, hC⟩, hD⟩, hL⟩, hH⟩ := h
   exact ⟨hE, hS, hP, hC, hD, hL, hH⟩
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveLines_get {j : ℕ} (hj : j < 31) : co2FiveLines[j]! = co2FiveLineArr j := by
   rw [co2FiveLines, getElem!_pos _ j (by simp [hj]), Array.getElem_ofFn]
 
@@ -122,8 +125,10 @@ theorem co2FiveLine_facts (j : Fin 31) :
 theorem rep_co2FiveLine (j : Fin 31) : Rep 2300 (co2FiveLineArr j) (co2FiveLine j) :=
   rep_of_validA (co2FiveLine_facts j).1
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveLineArr_zero : co2FiveLineArr 0 = co2FiveX0Arr := by simp [co2FiveLineArr]
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveLineArr_one : co2FiveLineArr 1 = co2FiveX1Arr := by simp [co2FiveLineArr]
 
 theorem rep_co2FiveLine_zero : Rep 2300 co2FiveX0Arr (co2FiveLine 0) := by
@@ -191,6 +196,7 @@ theorem exponent_co2FiveQ : Monoid.exponent co2FiveQ = 5 := by
     exact co2FiveLine_ne_one 0 this
   · exact h
 
+omit [Fact Co2FiveLitChecks] in
 theorem factorization_card_co2P_five :
     (Nat.card co2P).factorization 5 = 3 := by
   rw [card_co2P, show (42305421312000 : ℕ) = 5 ^ 3 * 338443370496 by norm_num,
@@ -240,6 +246,7 @@ theorem co2FiveTransporter_mem_P
   rw [co2FiveSiftArrs, List.mem_append]
   exact Or.inr (List.mem_map.2 ⟨j, List.mem_range.2 j.2, rfl⟩)
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveTransporter_eq_one {j : Fin 31} (hj : (j : ℕ) ≤ 1) : co2FiveTransporter j = 1 := by
   rw [co2FiveTransporter, co2FiveHArr, ite_eq_left hj]
   exact permOfArr_eq_of_rep rep_idA
@@ -293,8 +300,10 @@ theorem co2Five_C0_facts : Co2FiveC0Facts := by
   obtain ⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩ := h
   exact ⟨h1, h2, h3, h4, h5, h6⟩
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveAGenArrs_eq : co2FiveAGenArrs = co2FiveQGenArrs := rfl
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveA_eq_Q : co2FiveA = co2FiveQ := by
   rw [co2FiveA, co2FiveQ, co2FiveAGenArrs_eq]
 
@@ -408,6 +417,7 @@ theorem rep_dgen' {l : ℕ} (hl : l < 2) :
     Rep 2300 co2FiveDGenArrs[l]! (permOfArr 2300 co2FiveDGenArrs[l]!) :=
   rep_of_validA (enumOK_gens_valid co2Five_C1_facts.dEnum hl)
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveC1GenArrs_zero : co2FiveC1GenArrs[0]! = co2FiveX1Arr := by
   simp [co2FiveC1GenArrs]
 
@@ -415,6 +425,7 @@ theorem c1gen_zero : permOfArr 2300 co2FiveC1GenArrs[0]! = co2FiveLine 1 := by
   rw [co2FiveC1GenArrs_zero]
   exact (permOfArr_eq_of_rep rep_co2FiveLine_one)
 
+omit [Fact Co2FiveLitChecks] in
 theorem c1gen_mem {k : ℕ} (hk : k < 3) : permOfArr 2300 co2FiveC1GenArrs[k]! ∈ co2FiveC1 :=
   Subgroup.subset_closure (mem_permsA hk)
 
@@ -526,6 +537,7 @@ theorem co2FiveC1_eq :
   rw [card_co2FiveC1, card_centralizer_inf_conj co2P co2FiveT_mem_P rfl]
   exact card_centralizer_co2FiveZ_le
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveDGenArrs_size : co2FiveDGenArrs.size = 2 := by simp [co2FiveDGenArrs]
 
 theorem dgen_zero' : permOfArr 2300 co2FiveDGenArrs[0]! =
@@ -536,6 +548,7 @@ theorem dgen_zero' : permOfArr 2300 co2FiveDGenArrs[0]! =
   exact permOfArr_eq_of_rep (rep_commutatorA (valid_c1gen (by norm_num))
     (valid_c1gen (by norm_num)))
 
+omit [Fact Co2FiveLitChecks] in
 theorem dgen_one' : permOfArr 2300 co2FiveDGenArrs[1]! = permOfArr 2300 co2FiveC1GenArrs[2]! := by
   have e : co2FiveDGenArrs[1]! = co2FiveC1GenArrs[2]! := by simp [co2FiveDGenArrs]
   rw [e]
@@ -609,6 +622,7 @@ theorem co2FiveD_nonabelian : ∃ g ∈ co2FiveD, ∃ h ∈ co2FiveD, g * h ≠ 
   rw [co2Five_C1_facts.nonab] at this
   exact Bool.false_ne_true this
 
+omit [Fact Co2FiveLitChecks] in
 theorem co2FiveD_le_C1 : co2FiveD ≤ co2FiveC1 := by
   rw [co2FiveD, Subgroup.commutator_le]
   intro a ha b hb

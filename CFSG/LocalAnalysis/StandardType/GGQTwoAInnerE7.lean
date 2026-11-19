@@ -184,10 +184,10 @@ private lemma ggQ2xE7_Wt_eq_two {n : ℕ} {v : GGBCV n} (h : ggBCWt v = 2) :
   funext i
   by_cases hia : i = a
   · subst hia
-    simp [Pi.single_eq_of_ne (Ne.symm hab), hab]
+    simp [hab]
   · by_cases hib : i = b
     · subst hib
-      simp [Pi.single_eq_of_ne hab, hab]
+      simp [hab]
     · have hm : i ∉ Finset.univ.filter (fun i => v i ≠ 0) := by rw [ha]; simp [hia, hib]
       have hvi : v i = 0 := by simpa using hm
       simp [Pi.single_eq_of_ne hia, Pi.single_eq_of_ne hib, hvi]
@@ -233,7 +233,7 @@ private lemma ggQ2xE7_T_subset_wordList : ggQ2xE7_T ⊆ ↑ggQ2xE7_wordList.toFi
   rw [ggQ2xE7_T, Set.mem_union] at hv
   rw [Finset.mem_coe, List.mem_toFinset]
   rcases hv with hvA | hv4
-  · rw [ggARoots, Set.mem_setOf_eq] at hvA
+  · rw [ggARoots, Set.mem_ofPred_eq] at hvA
     obtain ⟨hwt, hsum⟩ := hvA
     obtain ⟨a, b, hab, c, d, hc, hd, rfl⟩ := ggQ2xE7_Wt_eq_two hwt
     have hsum' : c + d = 0 := by
@@ -261,7 +261,7 @@ private lemma ggQ2xE7_T_subset_wordList : ggQ2xE7_T ⊆ ↑ggQ2xE7_wordList.toFi
         exact ggQ2xE7_sc2 _ _
       rw [hneg]
       exact ggQ2xE7_sub_mem b a (Ne.symm hab)
-  · simp only [ggAType4, Set.mem_setOf_eq] at hv4
+  · simp only [ggAType4, Set.mem_ofPred_eq] at hv4
     obtain ⟨hnz, hc1, _⟩ := hv4
     have hv_eq : v = fun i => if v i = 1 then (1 : ZMod 3) else -1 := by
       funext i
@@ -269,7 +269,7 @@ private lemma ggQ2xE7_T_subset_wordList : ggQ2xE7_T ⊆ ↑ggQ2xE7_wordList.toFi
       · simp [hi]
       · rcases ggQ2xE7_eq_one_or_neg_one (v i) (hnz i) with h | h
         · exact absurd h hi
-        · simp [hi, h]
+        · simp [h]
     have hvS : (fun i => if v i = 1 then (1 : ZMod 3) else -1) =
         (fun i => if i ∈ (Finset.univ.filter fun i => v i = 1) then (1 : ZMod 3) else -1) := by
       funext i
@@ -454,7 +454,7 @@ private lemma ggQ2xE7_D_isE :
   Or.inr (Or.inl ⟨Equiv.refl _, rfl⟩)
 
 private lemma ggQ2xE7_D_isConjRefl_finite : (ggQ2xQ_isConjRefl ggQ2xE7_D).Finite := by
-  haveI : Finite (ggQ2xE7_H ≃ₗ[ZMod 3] ggQ2xE7_H) :=
+  have : Finite (ggQ2xE7_H ≃ₗ[ZMod 3] ggQ2xE7_H) :=
     Finite.of_injective (fun e => (e : ggQ2xE7_H → ggQ2xE7_H))
       (fun e f h => LinearEquiv.ext (congrFun h))
   exact (Set.finite_univ (α := ggQ2xE7_H ≃ₗ[ZMod 3] ggQ2xE7_H)).subset (Set.subset_univ _)
@@ -479,15 +479,13 @@ private noncomputable def ggQ2xE7_K : Subgroup (GGBCV 8 ≃ₗ[ZMod 3] GGBCV 8) 
       LinearMap.id from rfl, Submodule.map_id]
   mul_mem' := fun {g h} hg hh => by
     refine ⟨?_, ?_⟩
-    · change ggQ2xE7_H.map (↑(g * h) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) = ggQ2xE7_H
-      rw [show (↑(g * h) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) =
+    · rw [show (↑(g * h) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) =
           (↑g : GGBCV 8 →ₗ[ZMod 3] GGBCV 8).comp (↑h : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) from rfl,
         Submodule.map_comp, hh.1, hg.1]
     · rw [LinearEquiv.mul_apply, hh.2, hg.2]
   inv_mem' := fun {g} hg => by
     refine ⟨?_, ?_⟩
-    · change ggQ2xE7_H.map (↑(g⁻¹) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) = ggQ2xE7_H
-      have h := congrArg (Submodule.map (↑(g⁻¹) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8)) hg.1
+    · have h := congrArg (Submodule.map (↑(g⁻¹) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8)) hg.1
       rw [← Submodule.map_comp] at h
       have h2 : (↑(g⁻¹) : GGBCV 8 →ₗ[ZMod 3] GGBCV 8).comp
           (↑g : GGBCV 8 →ₗ[ZMod 3] GGBCV 8) = LinearMap.id := by
@@ -603,7 +601,7 @@ private lemma ggQ2xE7_refl_apply (c : GGBCV 8) (hc : c ⬝ᵥ c ≠ 0) (v : GGBC
     ggBCRefl c hc v = v + ((c ⬝ᵥ c) * (c ⬝ᵥ v)) • c := by
   rw [ggQ2xE7_ggBCRefl_apply, ggQ2xE7_two_div_eq_neg (c ⬝ᵥ c) hc]
   ext i
-  simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, Pi.neg_apply, smul_eq_mul]
+  simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   exact ggQ2xE7_scalar_refl (v i) (c i) (c ⬝ᵥ c) (c ⬝ᵥ v)
 
 private lemma ggQ2xE7_iso_scalar : ∀ r d p q : ZMod 3, d * d = 1 →
@@ -840,8 +838,8 @@ private noncomputable def ggQ2xE7_tauD : ggQ2xE7_H ≃ₗ[ZMod 3] ggQ2xE7_D.V wh
   invFun := ggQ2xE7_vecInv
   left_inv := ggQ2xE7_vecInv_vec
   right_inv := ggQ2xE7_vec_vecInv
-  map_add' v w := rfl
-  map_smul' a v := rfl
+  map_add' _v _w := rfl
+  map_smul' _a _v := rfl
 
 private noncomputable def ggQ2xE7_resHomD :
     ggQ2xE7_K →* (ggQ2xE7_D.V ≃ₗ[ZMod 3] ggQ2xE7_D.V) :=

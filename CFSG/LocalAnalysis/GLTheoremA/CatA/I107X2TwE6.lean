@@ -131,6 +131,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
     Multiplicative.ofAdd (f 3), Multiplicative.ofAdd (f 4), Multiplicative.ofAdd (g 0),
     Multiplicative.ofAdd (σ (g 0)), Multiplicative.ofAdd (g 1), Multiplicative.ofAdd (σ (g 1))]
 
+omit [Finite K] [CharP K 2] in
 theorem e6Param_mem (σ : K →+* K) (hσ2 : ∀ c, σ (σ c) = c) (f : Fin 5 → K)
     (hf : ∀ j, σ (f j) = f j) (g : Fin 2 → K) :
     e6Param σ f g ∈ MonoidHom.eqLocus (paramTwist σ e6π) (MonoidHom.id _) := by
@@ -140,7 +141,7 @@ theorem e6Param_mem (σ : K →+* K) (hσ2 : ∀ c, σ (σ c) = c) (f : Fin 5 �
   fin_cases j <;> simp [e6Param, hf, hσ2]
 
 theorem twE6_rank {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hK : Nat.card K = 2 ^ (2 * n))
-    (σ : K →+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) (hσsurj : Function.Surjective σ)
+    (σ : K →+* K) (_hσ : ∀ c, σ c = c ^ 2 ^ n) (hσsurj : Function.Surjective σ)
     (hσ2 : ∀ c, σ (σ c) = c) (hu : ∃ u : Kˣ, (u : K) ^ 2 ≠ 1) :
     9 * n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (commutator (twistFixed TwistTag.E6 K σ))) := by
   classical

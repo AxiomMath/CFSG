@@ -30,11 +30,13 @@ section Reduction
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem mulAut_mul_conj_mul_inv (d : MulAut S) (c : S) :
     d * MulAut.conj c * d⁻¹ = MulAut.conj (d c) := by
   ext x
   simp [MulAut.conj_apply]
 
+omit [Finite S] in
 theorem conj_mem_centralizer_iff (hZ : Subgroup.center S = ⊥) (d : MulAut S) (c : S) :
     MulAut.conj c ∈ Subgroup.centralizer ({d} : Set (MulAut S)) ↔ c ∈ fixSubgroup d := by
   have hinj : Function.Injective (MulAut.conj : S →* MulAut S) := by
@@ -76,6 +78,7 @@ theorem conj_mem_glaPPrimeCoreOf {G : Type} [Group G] (p : ℕ) (T : Subgroup G)
   obtain ⟨w₀, hw₀, rfl⟩ := hw
   exact ⟨⟨t, ht⟩ * w₀ * ⟨t, ht⟩⁻¹, (GLAPPrimeCore.normal p ↥T).conj_mem w₀ hw₀ ⟨t, ht⟩, rfl⟩
 
+omit [Finite S] in
 theorem conj_injective_of_center_bot (hZ : Subgroup.center S = ⊥) :
     Function.Injective (MulAut.conj : S →* MulAut S) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -92,7 +95,7 @@ theorem conj_injective_of_center_bot (hZ : Subgroup.center S = ⊥) :
 theorem defCharOuterCoreFree_of_kdata (h1 : KDOutCoreFree) (h2 : KDOutCentInner) :
     DefCharOuterCoreFree := by
   intro S _ _ hS hnc idx he p hp hp2 hchar hexc d hd hdout H hH
-  haveI := hS
+  have := hS
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple hnc
   have hinj := conj_injective_of_center_bot hZ
   set T : Subgroup (MulAut S) := H ⊓ Subgroup.centralizer ({d} : Set (MulAut S)) with hT

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma n924x_map_conj_mem {X Y U W H : Subgroup G}
     (hYX : Y ≤ normalizer (X : Set G)) (hUY : Y ≤ normalizer (U : Set G))
     (hWY : Y ≤ normalizer (W : Set G)) (hWH : W ≤ H) (hHU : H ≤ U)
@@ -38,7 +39,8 @@ private lemma n924x_map_conj_mem {X Y U W H : Subgroup G}
     exact (Subgroup.map_mono hXH).trans
       (Subgroup.le_normalizer_map (MulAut.conj y).toMonoidHom)
 
-private lemma n924x_map_conj_mul {U₁ Y : Subgroup G} {y' : G} (hy' : y' ∈ Y) (y : ↥Y) :
+omit [Finite G] in
+private lemma n924x_map_conj_mul {U₁ Y : Subgroup G} {y' : G} (_hy' : y' ∈ Y) (y : ↥Y) :
     (U₁.map (MulAut.conj (y : G)).toMonoidHom).map (MulAut.conj y').toMonoidHom =
       U₁.map (MulAut.conj (y' * (y : G))).toMonoidHom := by
   rw [Subgroup.map_map]
@@ -138,7 +140,7 @@ theorem exists_xInvariant_piece_of_nonabelian_chief {X Y U W : Subgroup G} (hXY 
   have hUc1 : Uc 1 = U₁ := by
     have hconj1 : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
       ext t
-      simp [MulAut.conj_apply]
+      simp
     show U₁.map (MulAut.conj (1 : G)).toMonoidHom = U₁
     rw [hconj1, Subgroup.map_id]
   have hU₁V : U₁ ≤ V := by
@@ -155,7 +157,7 @@ theorem exists_xInvariant_piece_of_nonabelian_chief {X Y U W : Subgroup G} (hXY 
       have hmem : u * a * u⁻¹ ∈ Uc y :=
         (Subgroup.mem_normalizer_iff.mp ((hUcP y).2.2.1 hu) a).mp ha
       exact le_iSup (fun z : ↥Y => Uc z) y hmem
-    · simpa using V.one_mem
+    · simp
     · intro x y hx hy
       rw [show u * (x * y) * u⁻¹ = (u * x * u⁻¹) * (u * y * u⁻¹) by group]
       exact V.mul_mem hx hy
@@ -172,7 +174,7 @@ theorem exists_xInvariant_piece_of_nonabelian_chief {X Y U W : Subgroup G} (hXY 
         exact Subgroup.mem_map_of_mem (MulAut.conj y').toMonoidHom ha
       rw [MulAut.conj_apply] at hmem
       exact le_iSup (fun z : ↥Y => Uc z) ⟨y' * (y : G), Y.mul_mem hy' y.2⟩ hmem
-    · simpa using V.one_mem
+    · simp
     · intro x y hx hy
       rw [show y' * (x * y) * y'⁻¹ = (y' * x * y'⁻¹) * (y' * y * y'⁻¹) by group]
       exact V.mul_mem hx hy

@@ -24,13 +24,14 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (({ carrier := {k : Kˣ | (k : K) * J.conj (k : K) = 1}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, Units.val_mul, map_mul] at *
+        simp only [Set.mem_ofPred_eq, Units.val_mul, map_mul] at *
         calc (a : K) * b * (J.conj a * J.conj b) = (a * J.conj a) * (b * J.conj b) := by ring
           _ = 1 := by rw [ha, hb, one_mul]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, Units.val_inv_eq_inv_val, map_inv₀] at *
+        simp only [Set.mem_ofPred_eq, Units.val_inv_eq_inv_val, map_inv₀] at *
         rw [← mul_inv, ha, inv_one] } : Subgroup Kˣ)).map (torus J hJ)
 
+omit [Finite K] in
 private theorem mem_blockW_iff_of_eq_mk {x : IsoPoint J} {v : Fin 3 → K} {hv : v ≠ 0}
     (hx : (x : ℙ K (Fin 3 → K)) = Projectivization.mk K v hv) : x ∈ blockW J ↔ v 1 = 0 := by
   obtain ⟨a, ha⟩ := Projectivization.exists_smul_eq_mk_rep K v hv
@@ -41,6 +42,7 @@ private theorem mem_blockW_iff_of_eq_mk {x : IsoPoint J} {v : Fin 3 → K} {hv :
 variable {p : ℕ} [Fact p.Prime] (hK : Nat.card K = p ^ 2)
   (hfix : Nat.card {x : K // J.conj x = x} = p)
 
+omit [Finite K] in
 private theorem mem_zGroup_iff {x : ProjectiveSpecialUnitaryMatrixGroup J} :
     x ∈ zGroup J hJ ↔ x ∈ rootGroup J hJ ∧ ∀ r ∈ rootGroup J hJ, r * x = x * r := by
   constructor
@@ -51,6 +53,7 @@ private theorem mem_zGroup_iff {x : ProjectiveSpecialUnitaryMatrixGroup J} :
     exact ⟨⟨x, hx⟩, Subgroup.mem_center_iff.mpr fun g => Subtype.ext (hc g g.2), rfl⟩
 
 include hK hfix in
+omit [Fact (Nat.Prime p)] in
 private theorem card_center_rootGroup :
     Nat.card (Subgroup.center (rootGroup J hJ)) = p := by
   have h := huppert_explicit J hJ p hK hfix
@@ -58,11 +61,13 @@ private theorem card_center_rootGroup :
   exact h.2.2.2.2.2.2.2.2.2.1
 
 include hK hfix in
-theorem card_zGroup (hp2 : p ≠ 2) : Nat.card (zGroup J hJ) = p := by
+omit [Fact p.Prime] in
+theorem card_zGroup (_hp2 : p ≠ 2) : Nat.card (zGroup J hJ) = p := by
   rw [zGroup, Subgroup.card_map_of_injective (rootGroup J hJ).subtype_injective]
   exact card_center_rootGroup J hJ hK hfix
 
 include hK hfix in
+omit [Fact (Nat.Prime p)] in
 theorem conj_zGroup_eq_of_smul_pinf {g : ProjectiveSpecialUnitaryMatrixGroup J}
     (hg : g • pinf J hJ = pinf J hJ) :
     (zGroup J hJ).map (MulAut.conj g).toMonoidHom = zGroup J hJ := by
@@ -91,7 +96,7 @@ theorem zGroup_le_of_le_rootGroup {R : Subgroup (ProjectiveSpecialUnitaryMatrixG
     (hR : R ≤ rootGroup J hJ) (hcard : p ^ 2 ≤ Nat.card R) : zGroup J hJ ≤ R := by
   have hp : p.Prime := Fact.out
   have hUcard : Nat.card (rootGroup J hJ) = p ^ 3 := card_rootGroup J hJ p hK hfix
-  haveI : Group.IsNilpotent (rootGroup J hJ) := (IsPGroup.of_card hUcard).isNilpotent
+  have : Group.IsNilpotent (rootGroup J hJ) := (IsPGroup.of_card hUcard).isNilpotent
   set R' : Subgroup (rootGroup J hJ) := R.subgroupOf (rootGroup J hJ) with hR'
   have hR'card : Nat.card R' = Nat.card R :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR).toEquiv
@@ -109,7 +114,7 @@ theorem zGroup_le_of_le_rootGroup {R : Subgroup (ProjectiveSpecialUnitaryMatrixG
     · exfalso
       rw [hj] at hmul
       nlinarith [pow_pos hp.pos 2, pow_pos hp.pos 3]
-  haveI hN : R'.Normal := by
+  have hN : R'.Normal := by
     rcases hidx with h | h
     · exact Subgroup.normal_of_index_eq_one h
     · exact Subgroup.normal_of_index_eq_minFac_card
@@ -149,6 +154,7 @@ theorem exists_le_conj_rootGroup {R : Subgroup (ProjectiveSpecialUnitaryMatrixGr
   exact ⟨s, hs, hsx⟩
 
 include hK hfix in
+omit [Finite K] [Fact (Nat.Prime p)] hK hfix in
 theorem eq_pinf_of_mem_rootGroup {u : ProjectiveSpecialUnitaryMatrixGroup J}
     (hu : u ∈ rootGroup J hJ) (hu1 : u ≠ 1) {x : IsoPoint J} (hx : u • x = x) :
     x = pinf J hJ := by
@@ -175,7 +181,7 @@ theorem mem_rootGroup_of_smul_pinf {u : ProjectiveSpecialUnitaryMatrixGroup J}
     rw [smul_smul]
     have : r * g⁻¹ = g⁻¹ * u := by rw [← hru']; group
     rw [this, ← smul_smul, hup]
-  have hgp : g⁻¹ • pinf J hJ = pinf J hJ := eq_pinf_of_mem_rootGroup J hJ hK hfix hr hr1 hx
+  have hgp : g⁻¹ • pinf J hJ = pinf J hJ := eq_pinf_of_mem_rootGroup J hJ hr hr1 hx
   have hgp' : g • pinf J hJ = pinf J hJ := (inv_smul_eq_iff.mp hgp).symm
   rw [← hru']
   exact conj_mem_rootGroup_of_smul_pinf J hJ p hK hfix hgp' hr
@@ -186,12 +192,12 @@ theorem isSolvable_stabilizer_pinf :
       (MulAction.stabilizer (ProjectiveSpecialUnitaryMatrixGroup J) (pinf J hJ)) := by
   set St := MulAction.stabilizer (ProjectiveSpecialUnitaryMatrixGroup J) (pinf J hJ) with hSt
   set N : Subgroup St := (rootGroup J hJ).subgroupOf St with hNdef
-  haveI hN : N.Normal := rootGroup_subgroupOf_stabilizer_normal J hJ p hK hfix
+  have hN : N.Normal := rootGroup_subgroupOf_stabilizer_normal J hJ p hK hfix
   have hNcard : Nat.card N = p ^ 3 := by
     rw [hNdef, Nat.card_congr (Subgroup.subgroupOfEquivOfLe (rootGroup_le_stabilizer J hJ)).toEquiv]
     exact card_rootGroup J hJ p hK hfix
-  haveI : Group.IsNilpotent N := (IsPGroup.of_card hNcard).isNilpotent
-  haveI : IsCyclic (torusGroup J hJ) := isCyclic_torusGroup J hJ p hK hfix
+  have : Group.IsNilpotent N := (IsPGroup.of_card hNcard).isNilpotent
+  have : IsCyclic (torusGroup J hJ) := isCyclic_torusGroup J hJ p hK hfix
   let φ : torusGroup J hJ →* St ⧸ N :=
     (QuotientGroup.mk' N).comp (Subgroup.inclusion (torusGroup_le_stabilizer_pinf J hJ))
   have hφ : Function.Surjective φ := by
@@ -211,18 +217,22 @@ theorem isSolvable_stabilizer_pinf :
         ⟨t, torusGroup_le_stabilizer_pinf J hJ ht⟩ := Subtype.ext hrt.symm
     change ((⟨t, torusGroup_le_stabilizer_pinf J hJ ht⟩ : St) : St ⧸ N) = (s : St ⧸ N)
     rw [hs', QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff _).mpr hrN, one_mul]
-  haveI : Group.IsSolvable (St ⧸ N) := Group.isSolvable_of_surjective hφ
+  have : Group.IsSolvable (St ⧸ N) := Group.isSolvable_of_surjective hφ
   exact Group.isSolvable_of_subgroup_quotient N
 
+omit [Finite K] in
 theorem pinf_mem_blockW : pinf J hJ ∈ blockW J :=
   (mem_blockW_iff_of_eq_mk J (coe_pinf J hJ)).mpr (by simp)
 
+omit [Finite K] in
 theorem pzero_mem_blockW : pzero J hJ ∈ blockW J :=
   (mem_blockW_iff_of_eq_mk J (coe_pzero J hJ)).mpr (by simp)
 
+omit [Finite K] in
 theorem yGroup_le_torusGroup : yGroup J hJ ≤ torusGroup J hJ :=
   Subgroup.map_le_range _ _
 
+omit [Finite K] in
 private theorem root_mem_zGroup_of_fst_eq_zero (z : Coord J) (hz : z.1.1 = 0) :
     root J hJ z ∈ zGroup J hJ := by
   rw [mem_zGroup_iff J hJ]
@@ -321,6 +331,7 @@ theorem exists_yGroup_two_le_card (hp2 : p ≠ 2) (hp3 : p % 3 = 1) :
     linear_combination -h3
 
 include hK hfix in
+omit [Fact (Nat.Prime p)] hK hfix [Finite K] in
 theorem torusGroup_eq_one_of_smul_eq {d : ProjectiveSpecialUnitaryMatrixGroup J}
     (hd : d ∈ torusGroup J hJ) {x : IsoPoint J} (hx : x ∉ blockW J) (hdx : d • x = x) :
     d = 1 := by
@@ -367,6 +378,7 @@ open CFSG.RankThree.PartTwo.Sec20.F3U3Model.IotaData
 
 variable {J}
 
+omit [Finite K] in
 private theorem range_le_of_elementary (D : IotaData J p)
     (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     {C : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)}
@@ -379,6 +391,7 @@ private theorem range_le_of_elementary (D : IotaData J p)
   have h3 := mem_of_upper_lower (F := ZMod p) (C.comap (iota D hJ)) h1 h2 X
   exact Subgroup.mem_comap.mp h3
 
+omit [Finite K] in
 private theorem range_iota_le (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) :
     (iota D hJ).range ≤
       Subgroup.closure ((zGroup J hJ : Set (ProjectiveSpecialUnitaryMatrixGroup J)) ∪
@@ -395,6 +408,7 @@ private theorem range_iota_le (D : IotaData J p) (hJ : J.form = !![0, 0, 1; 0, 1
     change weyl J hJ * root J hJ (D.zLower c) * (weyl J hJ)⁻¹ = _
     rw [weyl_inv]
 
+omit [Fact (Nat.Prime p)] [Finite K] in
 private theorem iota_smul_mem_blockW_iff (D : IotaData J p)
     (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) (X : SL(2, ZMod p)) (x : IsoPoint J) :
     iota D hJ X • x ∈ blockW J ↔ x ∈ blockW J := by
@@ -403,6 +417,7 @@ private theorem iota_smul_mem_blockW_iff (D : IotaData J p)
     mem_blockW_iff_of_eq_mk J hxv]
   simp [coe_iotaGL, mat, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
+omit [Fact (Nat.Prime p)] [Finite K] in
 private theorem iota_commute_yGroup (D : IotaData J p)
     (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) (X : SL(2, ZMod p))
     {y : ProjectiveSpecialUnitaryMatrixGroup J} (hy : y ∈ yGroup J hJ) :
@@ -427,7 +442,7 @@ private theorem exists_iota_smul_pinf (D : IotaData J p)
   obtain ⟨v, hv, hxv, hiso⟩ := x.2
   have hv1 : v 1 = 0 := (mem_blockW_iff_of_eq_mk J hxv).mp hx
   rw [selfPairing_std J hJ] at hiso
-  simp only [hv1, map_zero, zero_mul, mul_zero, add_zero] at hiso
+  simp only [hv1, map_zero, mul_zero, add_zero] at hiso
   by_cases hv0 : v 0 = 0
   · have hv2 : v 2 ≠ 0 := fun h => hv (by funext i; fin_cases i <;> simp [hv0, hv1, h])
     refine ⟨wSL (ZMod p), ?_⟩
@@ -454,9 +469,10 @@ private theorem exists_iota_smul_pinf (D : IotaData J p)
     funext i
     have hz := D.ζ_ne
     fin_cases i <;>
-      simp [coe_iotaGL, mat, Matrix.mulVec, dotProduct, Fin.sum_univ_three, hv0, hv1, hc] <;>
+      simp [coe_iotaGL, mat, Matrix.mulVec, dotProduct, Fin.sum_univ_three, hv0, hv1, hc];
       field_simp
 
+omit [Finite K] in
 private theorem exists_normalForm (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {x : IsoPoint J}
     (hx : x ∉ blockW J) :
     ∃ (w₀ w₂ : K) (hw : (![w₀, 1, w₂] : Fin 3 → K) ≠ 0),
@@ -476,7 +492,7 @@ private theorem exists_normalForm (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) 
     apply (Projectivization.mk_eq_mk_iff' K _ _ _ _).mpr
     refine ⟨v 1, ?_⟩
     funext i
-    fin_cases i <;> simp [hv1] <;> field_simp
+    fin_cases i <;> simp <;> field_simp
 
 include hfix in
 private theorem exists_iota_smul_of_not_mem (D : IotaData J p)

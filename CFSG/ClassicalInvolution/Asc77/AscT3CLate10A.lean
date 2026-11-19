@@ -76,7 +76,7 @@ theorem Std20.late_W_four_mem (d : Std20 p f K K' J S R R' W V z t) {ξ : G} (h�
     calc (m * e' * m⁻¹) * (m * e' * m⁻¹) = m * (e' * e') * m⁻¹ := by group
       _ = ξ * ξ := by rw [he'2]; exact hme
   have hA₂ : ∀ {w : G}, w ∈ W → IsPGroup 2 ↥(Subgroup.zpowers w) := fun hw =>
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS hw))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS hw))
   have hA₄ : ∀ {w : G}, w * w = ξ * ξ → 4 ≤ Nat.card ↥(Subgroup.zpowers w) := fun hw => by
     rw [Nat.card_zpowers, late_orderOf_four hw hξ2 hξ4]
   have hb₁L : m * e * m⁻¹ ∈ conjSub m K := conj_mem_conjSub heKW.1
@@ -133,7 +133,7 @@ theorem Std20.late_no_fixed_four (d : Std20 p f K K' J S R R' W V z t) {σ ξ : 
     calc σ * (ξ * ξ) * σ⁻¹ = (σ * ξ * σ⁻¹) * (σ * ξ * σ⁻¹) := by group
       _ = ξ * ξ := by rw [hfix]
   have hA₂ : IsPGroup 2 ↥(Subgroup.zpowers ξ) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS hξW))
   have hA₄ : 4 ≤ Nat.card ↥(Subgroup.zpowers ξ) := by
     rw [Nat.card_zpowers, late_orderOf_four rfl hξ2 hξ4]
   have hcom : ∀ w ∈ Subgroup.zpowers ξ, σ * w * σ⁻¹ = w := by

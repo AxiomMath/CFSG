@@ -242,7 +242,7 @@ theorem commutator_K_R_le : (⁅K, R⁆ : Subgroup G) ≤ K :=
   commutator_le_left_of_le_normalizer hc.reduced.R_le_normalizer_K
 
 theorem K_le_normalizer_of_mem {W : Subgroup G} (hW : W ∈ hyperplaneFixedSubgroups q V K) :
-    K ≤ normalizer (W : Set G) := fun k hk =>
+    K ≤ normalizer (W : Set G) := fun _k hk =>
   Subgroup.conjAct_pointwise_smul_iff.1 (hc.smul_eq_self_of_mem_K hk hW)
 
 theorem inf_iSup_sdiff_conjOrbit_eq_bot {W : Subgroup G}
@@ -412,7 +412,7 @@ theorem isCyclic_of_mem_hyperplaneFixedSubgroups {W : Subgroup G}
 theorem commutator_eq_of_mem_fixedHyperplaneFixedSubgroups {W L : Subgroup G}
     (hW : W ∈ fixedHyperplaneFixedSubgroups q V K R) (hLK : L ≤ K) (hidx : L.relIndex K = q)
     (hWL : W = V ⊓ centralizer (L : Set G)) : L = ⁅K, R⁆ := by
-  haveI : IsCyclic ↥W := hc.isCyclic_of_mem_hyperplaneFixedSubgroups hW.1
+  have : IsCyclic ↥W := hc.isCyclic_of_mem_hyperplaneFixedSubgroups hW.1
   have hKW : K ≤ normalizer (W : Set G) := hc.K_le_normalizer_of_mem hW.1
   have hRW : R ≤ normalizer (W : Set G) := fun g hg =>
     Subgroup.conjAct_pointwise_smul_iff.1 (hW.2 g hg)

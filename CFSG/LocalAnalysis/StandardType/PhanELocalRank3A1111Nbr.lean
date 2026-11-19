@@ -11,12 +11,14 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private lemma plh_ne_top_of_finrank_lt_four {T : Submodule K (Fin 4 → K)}
     (h : finrank K T < 4) : T ≠ ⊤ := by
   intro hT
   rw [hT, finrank_top, Module.finrank_fin_fun] at h
   omega
 
+omit [Finite K] in
 private lemma plh_sup_span_inf_eq_bot {p T : Submodule K (Fin 4 → K)} {v : Fin 4 → K}
     (hpT : p ⊓ T = ⊥) (hvT : v ∉ p ⊔ T) : (p ⊔ K ∙ v) ⊓ T = ⊥ := by
   rw [Submodule.eq_bot_iff]

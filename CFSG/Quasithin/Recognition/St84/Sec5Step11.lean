@@ -191,9 +191,9 @@ private theorem Q_one_eq_inf_sup_commutator (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
     Y.Q 1 = (Y.Q 0 ⊓ Y.Q 2) ⊔ ⁅Y.Q 1, Y.K⁆ := by
   have hKH : Y.K ≤ Subgroup.normalizer (Y.Q 1 : Set G) :=
     (Y.K_le_Gi 1).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 1))
-  haveI hFinQ1 : Finite ↥(Y.Q 1) :=
+  have hFinQ1 : Finite ↥(Y.Q 1) :=
     finite_of_le_stabilizer Y.hyp (H := Y.Q 1) (Y.Q_le_Gi 1)
-  haveI hFinK : Finite ↥Y.K :=
+  have hFinK : Finite ↥Y.K :=
     finite_of_le_stabilizer Y.hyp (H := Y.K) (Y.K_le_Gi 0)
   have hQ1p : IsPGroup 2 ↥(Y.Q 1) := pCoreOf_isPGroup' (Y.Gi 1)
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hQ1p
@@ -201,8 +201,8 @@ private theorem Q_one_eq_inf_sup_commutator (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
     rw [hn]
     exact (Nat.coprime_two_right.mpr Y.odd_card_K).pow_right n
   have hsolv : Group.IsSolvable ↥(Y.Q 1) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hQ1p.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hQ1p.isNilpotent
     infer_instance
   obtain ⟨k, hkK, hk1⟩ := (Subgroup.bot_or_exists_ne_one Y.K).resolve_left (Y.K_ne_bot H)
   have hCK_le_A : Y.Q 1 ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.Q 0 ⊓ Y.Q 2 := by

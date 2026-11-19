@@ -31,7 +31,7 @@ private theorem triModel_of_equiv {G : Type} [Group G] [Finite G] {p : ℕ}
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
     S171.normalizer_of_innerDiagMarking hS.idiag hS.b_mem
   have hLself : GLAPComponent p L L := glaPComponent_self_of_dvd_card hS.prime hS.qs hpL
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
   have hdin : InducesInnerMod p L d := inducesInnerMod_of_mem_not_shape hS hshape hS.d_mem
   obtain ⟨eP, heP⟩ := exists_pSimpleEquivCenterQuot_mk hS.prime hS.qs hpL
   obtain ⟨r, hr⟩ : ∃ r : PSimple p L, MulAut.conj r = MI.indAut p L d hdN :=
@@ -124,8 +124,8 @@ theorem triModel_of_setup
         rw [← TauCeti.LieTypeIndex.characteristic_trialityD4]; exact hPchar
       obtain ⟨K, hKf, hKfin, σ, hK, hσ, -, ⟨eK⟩⟩ :=
         CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-      letI := hKf
-      letI := hKfin
+      let := hKf
+      let := hKfin
       have hdata : TriFieldData q.exponent K σ :=
         ⟨q.exponent_pos, by simpa [hq2] using hK, fun c => by simpa [hq2] using hσ c⟩
       exact triModel_of_equiv hS hshape hin hdata (eCat.trans eK)

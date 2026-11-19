@@ -40,10 +40,10 @@ private theorem mem_zpowers_of_orderOf_eq [Finite G] {T : Subgroup G} [IsCyclic 
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 private theorem map_conj_normalizer_le [Finite G] {T : Subgroup G} [IsCyclic T] {x : G}
-    (hx : orderOf x = 3) {d : G} (hxd : x ∈ T.map (MulAut.conj d).toMonoidHom) :
+    (_hx : orderOf x = 3) {d : G} (hxd : x ∈ T.map (MulAut.conj d).toMonoidHom) :
     (Subgroup.normalizer (T : Set G)).map (MulAut.conj d).toMonoidHom ≤
       Subgroup.normalizer (Subgroup.zpowers x : Set G) := by
-  haveI := isCyclic_map_conj T d
+  have := isCyclic_map_conj T d
   intro n hn
   rw [← CFSG.Glauberman.Dickson.MaxStructure.normalizer_map_conj] at hn
   apply Subgroup.mem_normalizer_fintype
@@ -85,7 +85,7 @@ private theorem mem_zpowers_of_cyclic_TI [Finite G] {T : Subgroup G} [IsCyclic T
     {x : G} (hx : orderOf x = 3) {d : G} (hxd : x ∈ T.map (MulAut.conj d).toMonoidHom)
     {y : G} (hy : y ∈ Subgroup.normalizer (Subgroup.zpowers x : Set G)) (hy3 : orderOf y = 3) :
     y ∈ Subgroup.zpowers x := by
-  haveI := isCyclic_map_conj T d
+  have := isCyclic_map_conj T d
   rw [normalizer_zpowers_eq hTI hx hxd,
     CFSG.Glauberman.Dickson.MaxStructure.mem_map_conj_iff] at hy
   have hyT : d⁻¹ * y * d ∈ T := by
@@ -121,6 +121,7 @@ section PSL
 
 variable {F : Type} [Field F] [Fintype F] [DecidableEq F]
 
+omit [DecidableEq F] in
 private theorem field_facts {p f : ℕ} [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2)
     (hp3 : p ≠ 3) :
     ringChar F ≠ 2 ∧ Fintype.card F = p ^ f ∧ ¬ 3 ∣ Fintype.card F := by
@@ -160,7 +161,7 @@ theorem isCoatom_normalizer_zpowers_of_orderOf_eq_three
   rcases exists_isConj_torus hF2 hq5 h3 hx with ⟨x₀, hx₀, hx₀1, hc⟩ |
     ⟨ν, hν, x₀, hx₀, hx₀1, hc⟩
   · obtain ⟨d, hd⟩ := exists_mem_map_conj hx₀ hc
-    haveI := splitTorus_isCyclic (F := F)
+    have := splitTorus_isCyclic (F := F)
     have hdvd : 3 ∣ Nat.card (splitTorus F) := by
       have := Subgroup.orderOf_dvd_natCard (splitTorus F) hx₀
       rwa [orderOf_eq_of_isConj hc, hx] at this
@@ -173,7 +174,7 @@ theorem isCoatom_normalizer_zpowers_of_orderOf_eq_three
         hF2 hq5 c hR hR1)
       (CFSG.Glauberman.Dickson.MaxUp.isCoatom_normalizer_splitTorus hF hp2 h13) hx hd
   · obtain ⟨d, hd⟩ := exists_mem_map_conj hx₀ hc
-    haveI := CFSG.Glauberman.Dickson.MaxStructure.nonsplitTorus_isCyclic (F := F) hν
+    have := CFSG.Glauberman.Dickson.MaxStructure.nonsplitTorus_isCyclic (F := F) hν
     exact isCoatom_normalizer_zpowers_of_cyclic_TI
       (fun c R hR hR1 =>
         CFSG.Glauberman.Dickson.MaxStructure.normalizer_le_of_le_conj_nonsplitTorus hF2 hq5 hν c
@@ -191,7 +192,7 @@ theorem mem_zpowers_of_mem_normalizer_of_orderOf_eq_three
   rcases exists_isConj_torus hF2 hq5 h3 hx with ⟨x₀, hx₀, hx₀1, hc⟩ |
     ⟨ν, hν, x₀, hx₀, hx₀1, hc⟩
   · obtain ⟨d, hd⟩ := exists_mem_map_conj hx₀ hc
-    haveI := splitTorus_isCyclic (F := F)
+    have := splitTorus_isCyclic (F := F)
     exact mem_zpowers_of_cyclic_TI
       (fun c R hR hR1 => CFSG.Glauberman.Dickson.MaxStructure.normalizer_le_of_le_conj_splitTorus
         hF2 hq5 c hR hR1)
@@ -199,7 +200,7 @@ theorem mem_zpowers_of_mem_normalizer_of_orderOf_eq_three
       (fun g hg => (mem_normalizer_iff_of_TI splitWeyl_mul_self (fun y hy => splitWeyl_conj hy)
         hx₀ (splitTorus_conj_mem_iff hx₀ hx₀1) g).mp hg) hx hd hy hy3
   · obtain ⟨d, hd⟩ := exists_mem_map_conj hx₀ hc
-    haveI := CFSG.Glauberman.Dickson.MaxStructure.nonsplitTorus_isCyclic (F := F) hν
+    have := CFSG.Glauberman.Dickson.MaxStructure.nonsplitTorus_isCyclic (F := F) hν
     obtain ⟨w, -, hw2, hinv, hTI⟩ := exists_nonsplitWeyl hF2 hν
     exact mem_zpowers_of_cyclic_TI
       (fun c R hR hR1 =>

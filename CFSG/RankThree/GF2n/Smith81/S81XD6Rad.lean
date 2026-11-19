@@ -30,7 +30,7 @@ theorem coef_zero_off_perp {a : Fin e7Data.d} {c : (Fin (Tag.rank .E7) → ℤ) 
   have hδr : IsRoot .E7 δ := (mem_Phi.1 hδ).1
   obtain ⟨b, hb⟩ := exists_pr_eq_neg_one hδr
   have h1 := coef_prodX a c b hδr hb
-  rw [if_pos hδ] at h1
+  rw [ite_eq_left hδ] at h1
   have hP := d6rad_presPiece_of_mem_LamG hu
   have hv : endoE (prodX (Phi a).toList c) (Finsupp.single b 1) ∈ Piece K (pr b theta) :=
     hP (pr b theta) _ (single_mem_Piece b)
@@ -45,7 +45,7 @@ theorem coef_zero_off_perp {a : Fin e7Data.d} {c : (Fin (Tag.rank .E7) → ℤ) 
 
 theorem UA_inf_UA_V0 {a a' : Fin e7Data.d}
     (hU : ∀ γ γ' : Fin (Tag.rank .E7) → ℤ, γ ∈ Phi a → γ ∈ Phi a' → γ' ∈ Phi a → γ' ∈ Phi a' → γ = γ')
-    {y y' : Gp K} (hy : y ∈ UA K a) (hy' : y' ∈ UA K a') (hyL : y ∈ LamG K) (hy'L : y' ∈ LamG K)
+    {y y' : Gp K} (hy : y ∈ UA K a) (hy' : y' ∈ UA K a') (hyL : y ∈ LamG K) (_hy'L : y' ∈ LamG K)
     (hV : ∀ b : Fin e7Data.d, pr b theta = 0 →
       endoE y (Finsupp.single b 1) = endoE y' (Finsupp.single b 1)) :
     y = 1 ∨ ∃ (δ : Fin (Tag.rank .E7) → ℤ) (c : K), δ ∈ Perp ∧ c ≠ 0 ∧ y = xE δ c := by
@@ -61,8 +61,8 @@ theorem UA_inf_UA_V0 {a a' : Fin e7Data.d}
       obtain ⟨b, hb0, hb⟩ := exists_idx0_move γ hPr.1 hPr.2
       have h1 := coef_prodX a c b hPr.1 hb
       have h2 := coef_prodX a' c' b hPr.1 hb
-      rw [← hc, if_pos hγ] at h1
-      rw [← hc', if_neg hγ'] at h2
+      rw [← hc, ite_eq_left hγ] at h1
+      rw [← hc', ite_eq_right hγ'] at h2
       rw [hV b hb0] at h1
       exact h1.symm.trans h2
     · exact coef_zero_off_perp hLc hγ hP

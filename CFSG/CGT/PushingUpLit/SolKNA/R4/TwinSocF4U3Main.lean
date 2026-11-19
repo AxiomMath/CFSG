@@ -19,14 +19,14 @@ open scoped MatrixGroups
 
 theorem socF4U3_holds (r : ℕ) : SocF4U3 r := by
   intro hr A _ _ T _ hT hab hC hE R S z hd hc hnO hed hU3
-  haveI := hT
+  have := hT
   have hU3' := hU3
   obtain ⟨p, f, hp, hp2, hf, hq3, hm⟩ := hU3
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hm
   have h : UnitaryFieldData p f K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP K p := h.charP
+  have := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP K p := h.charP
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have hq5 : 5 ≤ p ^ f := by
     have h3 : 3 ≤ p := by have := hp.two_le; omega

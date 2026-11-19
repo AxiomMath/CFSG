@@ -18,7 +18,7 @@ theorem exists_mulEquiv_statedSp_of_component_B2
     Nonempty (L ≃* StatedSp 2 (GaloisField 2 f)) := by
   classical
   let F := GaloisField 2 f
-  haveI : CharP F 2 := inferInstance
+  have : CharP F 2 := inferInstance
   have hcardF : Nat.card F = Q.card := by
     rw [show Nat.card F = 2 ^ f from GaloisField.card 2 f (by omega),
       TauCeti.PrimePower.card_def, hQ, hQexp]

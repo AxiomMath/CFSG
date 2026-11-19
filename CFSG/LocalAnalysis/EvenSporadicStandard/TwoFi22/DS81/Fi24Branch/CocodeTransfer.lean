@@ -240,7 +240,7 @@ theorem card_eq_card_subgroupOf {U : Subgroup G} (hU : U ≤ E) :
 
 theorem commutator_E_preS (hm : M24Out G E t) {T : Subgroup (MulAut ↥E)} (hT : T ≤ S44.XE E) :
     ⁅E, preS T⁆ = (@Quasithin.commV ↥E (commGroupOfM24Out hm) T).map E.subtype := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   apply le_antisymm
   · rw [Subgroup.commutator_le]
     intro e he p hp
@@ -400,7 +400,7 @@ theorem CNz_inf_centralizer_eq_preS (hm : M24Out G E t) {x z : G} (hx : x ∈ E)
 theorem preS_stabSub (hm : M24Out G E t) (W : Subgroup ↥E) :
     preS (@Quasithin.stabSub ↥E (commGroupOfM24Out hm) W) =
       Nrm E ⊓ normalizer ((W.map E.subtype : Subgroup G) : Set G) := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   ext y
   constructor
   · intro hy

@@ -18,7 +18,7 @@ theorem exists_commSubgroup {E Z : Subgroup Γ} (n : Γ) (hZE : Z ≤ E)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) :
     ∃ D : Subgroup Γ, ∀ e, e ∈ D ↔ e ∈ E ∧ n * e * n⁻¹ * e⁻¹ ∈ Z := by
   refine ⟨{ carrier := {e | e ∈ E ∧ n * e * n⁻¹ * e⁻¹ ∈ Z}
-            one_mem' := ⟨one_mem _, by simpa using one_mem Z⟩
+            one_mem' := ⟨one_mem _, by simp⟩
             mul_mem' := ?_
             inv_mem' := ?_ }, fun e => Iff.rfl⟩
   · rintro e e' ⟨heE, he⟩ ⟨he'E, he'⟩
@@ -75,7 +75,7 @@ theorem mem_of_comm_mem_zpowers [Finite Γ] {E Z : Subgroup Γ} {x y e : Γ}
     (hZsq : ∀ w ∈ Z, w * w = 1) (hyZ : ∀ w ∈ Z, y * w = w * y) (hx : orderOf x = 5)
     (hfix : ∀ e ∈ E, e * x = x * e → e ∈ Z) (hy : y ∈ zpowers x) (hy1 : y ≠ 1) (heE : e ∈ E)
     (he : y * e * y⁻¹ * e⁻¹ ∈ Z) : e ∈ Z := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hy5 : y ^ 5 = 1 := by
     have h := orderOf_dvd_of_mem_zpowers hy
     rw [hx] at h

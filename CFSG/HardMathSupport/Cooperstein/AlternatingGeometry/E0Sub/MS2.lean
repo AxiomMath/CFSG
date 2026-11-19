@@ -256,7 +256,7 @@ theorem apply_mem_omegaOne {a : Fin N} {γ : Perm (Fin N)}
   have h1 : γ x = x := γ.injective (hγ _ hγx)
   exact hγx (by rw [h1]; exact hx)
 
-theorem apply_pair (h : E0Data Δ₀ P ω) {a : Fin N} {γ : Perm (Fin N)}
+theorem apply_pair (_h : E0Data Δ₀ P ω) {a : Fin N} {γ : Perm (Fin N)}
     (hγ1 : ∀ x, x ∈ Δ₀ ↔ γ x ∈ Δ₀) (hγ2 : ∀ x, x ∉ omegaOne Δ₀ ω a → γ x = x) {y : Fin N}
     (hy : y ∉ Δ₀) (hy' : y = a ∨ y = ω a) : γ y = a ∨ γ y = ω a := by
   have hyΩ : y ∈ omegaOne Δ₀ ω a := by
@@ -498,7 +498,7 @@ theorem smul_finset_eq_self_iff (σ : Perm (Fin N)) (D : Finset (Fin N)) :
 theorem index_eq_ncard {K : Type*} [Group K] (φ : K →* Perm (Fin N)) (D₀ : Finset (Fin N))
     (Hs : Subgroup K) (hHs : ∀ k, k ∈ Hs ↔ ∀ x, x ∈ D₀ ↔ φ k x ∈ D₀) :
     Hs.index = {D : Finset (Fin N) | ∃ k, φ k • D₀ = D}.ncard := by
-  letI : MulAction K (Finset (Fin N)) := MulAction.compHom (Finset (Fin N)) φ
+  let : MulAction K (Finset (Fin N)) := MulAction.compHom (Finset (Fin N)) φ
   have h1 : Hs = MulAction.stabilizer K D₀ := by
     ext k
     rw [hHs, MulAction.mem_stabilizer_iff]
@@ -634,6 +634,7 @@ theorem not_le_normalizer : ¬ L₁ ≤ Subgroup.normalizer (S : Set G) := by
   rw [hlt, Perm.mul_apply, swap_apply_of_ne_of_ne hda hdb, swap_apply_left] at h1
   exact ha h1
 
+omit hC in
 theorem exists_mul (hN : S ≤ Subgroup.normalizer (L₁ : Set G)) {m : G} (hm : m ∈ L₁ ⊔ S) :
     ∃ l ∈ L₁, ∃ s ∈ S, m = l * s := by
   have h1 := Subgroup.coe_mul_of_right_le_normalizer_left L₁ S hN
@@ -651,7 +652,7 @@ theorem normalizer_iff_pres (hN : S ≤ Subgroup.normalizer (L₁ : Set G)) {m :
   · intro hmN
     exact hC.pres_of_normalizer (hM hm) hmN
   · intro hp
-    obtain ⟨l, hl, s, hs, rfl⟩ := hC.exists_mul hN hm
+    obtain ⟨l, hl, s, hs, rfl⟩ := MS2Ctx.exists_mul hN hm
     have hlB := hC.L₁_le hl
     have hsB := hC.S_le hs
     have hts : ∀ x, x ∈ Δ₀ ↔ t s x ∈ Δ₀ := (a0_le_orbSub hC.data (hC.t_S s hs)).1
@@ -677,10 +678,10 @@ theorem relIndex_normalizer (hN : S ≤ Subgroup.normalizer (L₁ : Set G)) :
   have horb : {D : Finset (Fin N) | ∃ k : ↥(L₁ ⊔ S), φ k • Δ₀ = D} =
       ↑(Finset.powersetCard 4 (omegaOne Δ₀ ω a)) := by
     ext D
-    rw [Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_powersetCard]
+    rw [Set.mem_ofPred_eq, Finset.mem_coe, Finset.mem_powersetCard]
     constructor
     · rintro ⟨⟨m, hm⟩, rfl⟩
-      obtain ⟨l, hl, s, hs, rfl⟩ := hC.exists_mul hN hm
+      obtain ⟨l, hl, s, hs, rfl⟩ := MS2Ctx.exists_mul hN hm
       have hlB := hC.L₁_le hl
       have hsB := hC.S_le hs
       refine ⟨fun y hy => ?_, by rw [Finset.card_smul_finset, hC.data.card_Δ₀]⟩
@@ -714,7 +715,7 @@ theorem pCoreOf_le_S (hN : S ≤ Subgroup.normalizer (L₁ : Set G)) :
   have hSO := hC.S_le_pCoreOf
   intro x hx
   have hxH : x ∈ H' := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 H' hx
-  obtain ⟨l, hl, s, hs, rfl⟩ := hC.exists_mul hN hxH.1
+  obtain ⟨l, hl, s, hs, rfl⟩ := MS2Ctx.exists_mul hN hxH.1
   have hlO : l ∈ pCoreOf 2 H' := by
     have := (pCoreOf 2 H').mul_mem hx ((pCoreOf 2 H').inv_mem (hSO hs))
     simpa using this
@@ -773,7 +774,7 @@ open scoped Classical in
     Perm (Fin N) :=
   if hg : g ∈ B then θ ⟨g, hg⟩ else 1
 
-theorem thetaFun_apply {g : G} (hg : g ∈ B) : thetaFun B θ g = θ ⟨g, hg⟩ := dif_pos hg
+theorem thetaFun_apply {g : G} (hg : g ∈ B) : thetaFun B θ g = θ ⟨g, hg⟩ := dite_eq_left hg
 
 theorem thetaFun_one : thetaFun B θ 1 = 1 := by
   rw [thetaFun_apply θ B.one_mem]

@@ -27,7 +27,7 @@ theorem exists_normalizer_conj (P : Sylow p G) {S : Subgroup G} (hSP : S ≤ P)
     calc s * y = g⁻¹ * ((g * s * g⁻¹) * x) * g := by simp only [y]; group
       _ = g⁻¹ * (x * (g * s * g⁻¹)) * g := by rw [h1]
       _ = y * s := by simp only [y]; group
-  have hpS : IsPGroup p S := P.isPGroup'.to_le hSP
+  have hpS : IsPGroup p S := P.isPGroup.to_le hSP
   obtain ⟨Q, hQ⟩ := (hpS.comap_subtype (K := C)).exists_le_sylow
   obtain ⟨Q', hQ'⟩ := ((hpS.map (MulAut.conj g⁻¹).toMonoidHom).comap_subtype (K := C)
     |>.exists_le_sylow)

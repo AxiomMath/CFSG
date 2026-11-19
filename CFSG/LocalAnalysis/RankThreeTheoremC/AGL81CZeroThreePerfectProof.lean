@@ -44,7 +44,7 @@ theorem eq_bot_or_eq_top_of_isSubnormal {Q : Type*} [Group Q] [IsSimpleGroup Q] 
 
 theorem three_dvd_card_alternatingGroup {n : ℕ} (hn : 3 ≤ n) :
     3 ∣ Nat.card (alternatingGroup (Fin n)) := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have h2 := two_mul_card_alternatingGroup (α := Fin n)
   rw [Fintype.card_perm, Fintype.card_fin] at h2
   have h3 : 3 ∣ n.factorial := Nat.dvd_factorial (by norm_num) hn
@@ -137,7 +137,7 @@ theorem quot_facts {P : Type*} [Group P] [Finite P] {C : Subgroup P} (hC : C ≠
       (C.map (QuotientGroup.mk' (CFSG.pCore 2 P))).IsSubnormal ∧
       Nat.card (C.map (QuotientGroup.mk' (CFSG.pCore 2 P))) ∣ Nat.card C := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 P).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 P).Normal := CFSG.pCore_normal
   refine ⟨fun h => hC ?_, by rw [← Subgroup.map_commutator, hp],
     hs.map (QuotientGroup.mk'_surjective _), Subgroup.card_map_dvd _ _⟩
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h
@@ -161,16 +161,16 @@ theorem isSolvable_of_map_center_perm_four {Y : Type*} [Group Y] {K : Subgroup Y
   set ψ := (QuotientGroup.mk' (Subgroup.center Y)).subgroupMap K with hψ
   have : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
   have : Group.IsSolvable ↥(K.map (QuotientGroup.mk' (Subgroup.center Y))) :=
-    solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have : Group.IsSolvable ψ.ker := by
-    refine isSolvable_of_comm fun a b => ?_
+    refine _root_.Group.isSolvable_of_comm fun a b => ?_
     have ha : ((a : K) : Y) ∈ Subgroup.center Y := by
       have h' : QuotientGroup.mk' (Subgroup.center Y) ((a : K) : Y) = 1 :=
         congrArg Subtype.val (MonoidHom.mem_ker.mp a.2)
       simpa [QuotientGroup.eq_one_iff] using h'
     apply Subtype.ext; apply Subtype.ext
     exact (Subgroup.mem_center_iff.mp ha _).symm
-  exact solvable_of_ker_le_range ψ.ker.subtype ψ (fun x hx => ⟨⟨x, hx⟩, rfl⟩)
+  exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ (fun x hx => ⟨⟨x, hx⟩, rfl⟩)
 
 theorem quotPCore_congr {M : Type*} [Group M] {X X' : Subgroup M} (h : X = X') {T : Type*} [Group T]
     (e : Nonempty (↥X ⧸ CFSG.pCore 2 ↥X ≃* T)) : Nonempty (↥X' ⧸ CFSG.pCore 2 ↥X' ≃* T) := by
@@ -247,7 +247,7 @@ theorem barM_facts {M H L I : Subgroup G} (hLM : L ≤ M) (hIle : I ≤ H ⊓ L)
 
 theorem three_dvd_card_oUpperTwo {I : Subgroup G} (h : 3 ∣ Nat.card I) :
     3 ∣ Nat.card (CFSG.ComponentClassification.AS76b.oUpperTwo I) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 h
   obtain ⟨a, ha⟩ := exists_two_pow_mem_oUpperTwo y.2
   have hy' : orderOf (y : G) = 3 := by rw [Subgroup.orderOf_coe, hy]
@@ -352,7 +352,7 @@ theorem three_dvd_card_of_perfect_member (hS : Setting G) {M H : Subgroup G}
       rw [mem_subgroupOf] at hy ⊢
       exact hy.2
     set eP := (Subgroup.subgroupOfEquivOfLe hPL').symm
-    exact (hsolv (solvable_of_solvable_injective (f := eP.toMonoidHom) eP.injective)).elim
+    exact (hsolv (Group.isSolvable_of_isSolvable_injective (f := eP.toMonoidHom) eP.injective)).elim
   ·
     have hX := (hT.nineThree_not_one hK h85 hNX hL).1
     have hSy2 := hT.not_isSylowTwoOf_inf hK h85 hNX hL

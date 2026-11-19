@@ -315,7 +315,7 @@ theorem cubic_extraspecial_sylow_central_kernel (π : E →* S) (hπ : Function.
     CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow P
       ((Cp : Subgroup π.ker).map π.ker.subtype)
       ((Subgroup.map_subtype_le (Cp : Subgroup π.ker)).trans hC)
-      (Cp.isPGroup'.map π.ker.subtype) (Subgroup.mem_map.2 ⟨w, hw, rfl⟩)
+      (Cp.isPGroup.map π.ker.subtype) (Subgroup.mem_map.2 ⟨w, hw, rfl⟩)
   have hwk : (⟨(w : E), hwP⟩ : (P : Subgroup E)) ∈ (π.subgroupMap (P : Subgroup E)).ker :=
     Subtype.ext w.2
   obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 (hle hwk)

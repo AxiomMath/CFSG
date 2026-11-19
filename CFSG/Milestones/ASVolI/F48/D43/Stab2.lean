@@ -166,7 +166,7 @@ theorem burnsideF48d_P1_6_le_B :
   have hUB : burnsideF48d_U ≤ burnsideF48d_B' := by
     rw [burnsideF48d_U, Subgroup.closure_le]
     rintro _ ⟨j, hj, rfl⟩
-    exact Subgroup.subset_closure ⟨j, by simp only [Set.mem_setOf_eq] at hj ⊢; omega, rfl⟩
+    exact Subgroup.subset_closure ⟨j, by simp only [Set.mem_ofPred_eq] at hj ⊢; omega, rfl⟩
   have horb : MulAction.orbit ↥burnsideF48d_B' (6 : Fin 26572) = ({1, 2, 6} : Finset (Fin 26572)) := by
     ext q
     rw [burnsideF48d_orbit_iff]

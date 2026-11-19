@@ -35,7 +35,7 @@ private theorem item1924Omega_inv_conj_mem_iff {H : Subgroup G} {k : G}
   obtain ⟨x, hx, hxw⟩ := Subgroup.mem_map.mp hw'
   have h2 : k⁻¹ * x * k = k⁻¹ * w * k := by
     rw [← hxw]
-    simp [MulAut.conj_apply]
+    simp
   have hxw' : x = w := mul_left_cancel (mul_right_cancel h2)
   rw [← hxw']
   exact hx
@@ -51,7 +51,7 @@ private theorem item1924Omega_conj_mem (hA : IsE27 A) {P₀ : Subgroup G}
     (hNA : Subgroup.normalizer (A : Set G) ≤ M) (hMK : M ≤ Subgroup.normalizer (K : Set G))
     {x g : G} (hxA : x ∈ A) (hxK : x ∈ K) (hx3 : x ^ 3 = 1) (hg : g * x * g⁻¹ ∈ P₀) :
     g * x * g⁻¹ ∈ A ⊓ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hA.1.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hcube : ∀ a ∈ A, a ^ 3 = 1 := fun a ha => hA.1.2 a ha
@@ -75,7 +75,7 @@ private theorem item1924Omega_conj_mem (hA : IsE27 A) {P₀ : Subgroup G}
     rintro _ ⟨a, ha, rfl⟩
     rw [hmemC]
     have hconj : (MulAut.conj g⁻¹).toMonoidHom a = g⁻¹ * a * g := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hconj]
     have e1 : x * (g⁻¹ * a * g) = g⁻¹ * (g * x * g⁻¹ * a) * g := by group
     have e2 : g⁻¹ * a * g * x = g⁻¹ * (a * (g * x * g⁻¹)) * g := by group
@@ -98,7 +98,7 @@ private theorem item1924Omega_conj_mem (hA : IsE27 A) {P₀ : Subgroup G}
   have hn : ∀ a ∈ A, (g * k)⁻¹ * a * (g * k) ∈ P₂ := by
     intro a ha
     have h1 : g⁻¹ * a * g ∈ A.map (MulAut.conj g⁻¹).toMonoidHom :=
-      Subgroup.mem_map.mpr ⟨a, ha, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.mpr ⟨a, ha, by simp⟩
     have h2 : k⁻¹ * (g⁻¹ * a * g) * k ∈ P₁ := (hk _).mp (hA'P' h1)
     have e : (g * k)⁻¹ * a * (g * k) = k⁻¹ * (g⁻¹ * a * g) * k := by group
     rw [e]
@@ -159,7 +159,7 @@ private theorem item1924Omega_zpowers_conj (hA : IsE27 A) {P₀ : Subgroup G}
 theorem item1924_of_omega (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     (hcK : c ∈ K) (hAK : A ⊓ K = Subgroup.zpowers c)
     (hKM : M ≤ Subgroup.normalizer (K : Set G))
-    {P₀ : Subgroup G} (hP₀ : IsSylowOf 3 P₀ M) (hAP : A ≤ P₀)
+    {P₀ : Subgroup G} (hP₀ : IsSylowOf 3 P₀ M) (_hAP : A ≤ P₀)
     (hΩ : Sec18.omegaOneThree P₀ = A) :
     ∀ P : Subgroup G, IsSylowOf 3 P M → c ∈ P →
       Sec18.conjugatesIn (Subgroup.zpowers c) P = {Subgroup.zpowers c} := by
@@ -188,6 +188,6 @@ theorem item1924_of_omega (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
   · rintro rfl
     refine ⟨⟨1, ?_⟩, Subgroup.zpowers_le.mpr hcP⟩
     rw [MonoidHom.map_zpowers]
-    simp [MulAut.conj_apply]
+    simp
 
 end CFSG.RankThree.PartTwo.Late

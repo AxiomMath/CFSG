@@ -32,9 +32,8 @@ theorem three_mem_sigmaA_of_four_le_localRank (hloc : 4 ≤ rankThreeLocalRank 3
       3 < rankThreeLocalRank p G}).Nonempty := ⟨3, hS1⟩
   unfold rankThreeSigmaA
   dsimp only
-  split_ifs with h1
+  split_ifs
   · exact hS1
-  all_goals exact absurd hne h1
 
 theorem ObstructionSetting.not_dvd_card_invariantTwoJoinIn_of_rank_three
     (hS : ObstructionSetting G) (hD1 : TheoremD1 G) {p : ℕ} (hp : p ∈ rankThreeSigmaA G)

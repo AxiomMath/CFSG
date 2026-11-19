@@ -14,7 +14,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 
 def ConjOK (P N D M : ℕ) : Prop :=
-  ∀ j (hj : j < 8) (w : W8), conjK P N D M j (keyI (code w)) = keyI (conjI j (code w))
+  ∀ j (_hj : j < 8) (w : W8), conjK P N D M j (keyI (code w)) = keyI (conjI j (code w))
 
 theorem strictL_eq (y : ℕ) (k : ℕ → List ℕ) : strictL y k = k y := by
   cases y <;> rfl
@@ -563,7 +563,7 @@ theorem permP_spec {T P N D M : ℕ} (h : tabOK T P N D M = true) {j a : ℕ} (h
     have hkk := all8_spec hk k k.2
     rw [getD_ofFn8, pair_digits hj]
     by_cases hkj : (k : ℕ) = j
-    · rw [if_pos hkj]
+    · rw [ite_eq_left hkj]
       rw [show Nat.beq k j = true from Nat.beq_eq_true_eq _ _ ▸ hkj] at hkk
       have h3 : dgT T b j + pT T a j = dgT T a j + 2 := Nat.eq_of_beq_eq_true hkk
       rw [rt_spec hrt hb' hj, rt_spec hrt ha hj] at h3
@@ -577,7 +577,7 @@ theorem permP_spec {T P N D M : ℕ} (h : tabOK T P N D M = true) {j a : ℕ} (h
         refine Finset.sum_congr rfl fun k _ => by ring
       rw [hcast]
       omega
-    · rw [if_neg hkj]
+    · rw [ite_eq_right hkj]
       rw [show Nat.beq k j = false from Bool.eq_false_iff.2 fun h => hkj (Nat.eq_of_beq_eq_true h)] at hkk
       have h3 : dgT T b k = dgT T a k := Nat.eq_of_beq_eq_true hkk
       rw [rt_spec hrt hb' k.2, rt_spec hrt ha k.2] at h3
@@ -780,7 +780,6 @@ theorem ip_eq {T M : ℕ} (hrt : rtOK T M = true) (hM' : M = adjC) {a b : ℕ} (
   refine Finset.sum_congr rfl fun i hi => ?_
   have hi8 := Finset.mem_range.1 hi
   rw [pair_root hrt hM' hb hi8, rootsL_getD ha, getD_ofFn8' _ hi8]
-  beta_reduce
   rw [← rt_spec hrt ha hi8]
 
 theorem ipIs_of_ip {T M : ℕ} (hrt : rtOK T M = true) (hM' : M = adjC) {a b : ℕ} (ha : a < 240)
@@ -792,7 +791,6 @@ theorem ipIs_of_ip {T M : ℕ} (hrt : rtOK T M = true) (hM' : M = adjC) {a b : �
     simp only [Nat.add_eq, Nat.mul_eq]
     rw [ip_eq hrt hM' ha hb] at hip
     simp only [Finset.sum_range_succ, Finset.sum_range_zero] at hip ⊢
-    push_cast at hip
     zify
     linarith
   unfold ipIs
@@ -853,7 +851,7 @@ theorem addP_spec {T P N D M : ℕ} (h : tabOK T P N D M = true) {a b : ℕ} (ha
   obtain ⟨he', hk⟩ := tabD_cell (tabDRow_of hD ha) hb (ipIs_of_ip hrt hM' ha hb hip)
   refine ⟨he', ?_⟩
   rw [addT_getD ha hb, hip]
-  simp only [beq_self_eq_true, if_true]
+  simp only [beq_self_eq_true, ite_true]
   generalize byteAt D (Nat.add (Nat.mul (nat_lit 240) a) b) = E at he' hk ⊢
   exact vadd_idx hrt ha hb he' hk
 
@@ -900,15 +898,15 @@ theorem conjK_keyI {T P N D M : ℕ} (h : tabOK T P N D M = true) {j : ℕ} (hj 
   rw [hcj, hci]
   cases hb : Nat.beq i j
   · have hij : i ≠ j := Nat.ne_of_beq_eq_false hb
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
     cases hm : Nat.beq (fld(M, Nat.add (Nat.shiftLeft j (nat_lit 3)) i, nat_lit 1)) (nat_lit 1)
     · have hc : ¬ cart j i = -1 := fun hc => by
         rw [hM, (adjC_spec j hj i hi8).2 hc] at hm
         exact Bool.noConfusion hm
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       exact (permP_spec h hj hli).2
     · have hc : cart j i = -1 := (adjC_spec j hj i hi8).1 (by rw [← hM]; exact hm)
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
       have hip : ip (rootsL.getD ((code w).getD i 0) []) (rootsL.getD ((code w).getD j 0) []) =
           -1 := by
         have e := cart_eq ⟨j, hj⟩ ⟨i, hi8⟩
@@ -925,14 +923,14 @@ theorem conjK_keyI {T P N D M : ℕ} (h : tabOK T P N D M = true) {j : ℕ} (hj 
       exact (permP_spec h hj hd).2
   · have hij : i = j := Nat.eq_of_beq_eq_true hb
     subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     obtain ⟨hp, hp'⟩ := permP_spec h hj hlj
     change byteAt N (byteAt P (Nat.add (Nat.mul (nat_lit 240) i) ((code w).getD i 0))) = _
     rw [negP_spec h hp, hp']
 
 theorem orbOK_le {T P N D M : ℕ} (h : tabOK T P N D M = true) (t : W8) {Ms : List ℕ} {n : ℕ}
     (ho : orbOK P N D M (keyI (code t)) Ms n = true) : n ≤ Nat.card {u : W8 // IsConj t u} :=
-  orbOK_le_of (fun j hj w => conjK_keyI h hj w) t ho
+  orbOK_le_of (fun _j hj w => conjK_keyI h hj w) t ho
 
 theorem zwOK_isConj {T P N D M : ℕ} (h : tabOK T P N D M = true) {z : W8}
     (hz : ∀ v : L8, z • v = -v) (t u : W8) {w : List ℕ}
@@ -1037,7 +1035,7 @@ theorem psum_eq8 (f : ℕ → ℕ) (j : ℕ) : ∀ m, m ≤ j + 1 →
     psum f m j = ∑ t ∈ Finset.range m, f (j - t)
   | 0, _ => rfl
   | m + 1, hm => by
-    rw [psum, psum_eq8 f j m (by omega), if_pos (by omega), Finset.sum_range_succ]
+    rw [psum, psum_eq8 f j m (by omega), ite_eq_left (by omega), Finset.sum_range_succ]
 
 theorem lanes_top8 {w : ℕ} {f : ℕ → ℕ} {n : ℕ} (hf : ∀ i < n + 1, f i < 2 ^ w) :
     lanes w f (n + 1) / 2 ^ (w * n) = f n := by
@@ -1313,7 +1311,7 @@ theorem dfs_spec (sgn : ℤ) : ∀ (L : List ℕ) (m : ℕ) (pre : List ℕ) (X 
       rw [hXb, Nat.zero_add]
       cases hc : (okC sgn pre m b && r b)
       · rfl
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       have hrowQ : RowOK sgn Q m := hrow 0 (by simp)
       refine (dfs_spec sgn L (m + 1) (pre ++ [b]) _ (fun _ => true) (by omega) (by simp [hpre])
         (fun i hi => ?_) (fun a => ?_) (fun n' h1 h2 => ?_)).trans ?_
@@ -1354,17 +1352,17 @@ theorem segK_mask {lo hi : ℕ} (hlo : lo ≤ hi) (hhi : hi ≤ 240) {n : ℕ} (
     omega
   change ((_ >>> (64 + 240 * n)) &&& ((1 <<< 240) - 1)).testBit a = _
   rw [hY, Nat.testBit_and, Nat.testBit_shiftRight, Nat.one_shiftLeft, Nat.testBit_two_pow_sub_one,
-    Nat.testBit_two_pow_mul_add _ (Nat.sub_lt (by positivity) one_pos), if_neg (by omega),
+    Nat.testBit_two_pow_mul_add _ (Nat.sub_lt (by positivity) one_pos), ite_eq_right (by omega),
     show 64 + 240 * n + a - 64 = 240 * n + a by omega, Nat.testBit_two_pow_mul_add _ hPQ]
   rcases Nat.eq_zero_or_pos n with rfl | hn0
   · have e : 2 ^ hi - 2 ^ lo = (2 ^ (hi - lo) - 1) <<< lo := by
       rw [Nat.shiftLeft_eq, Nat.sub_mul, ← pow_add, Nat.sub_add_cancel hlo, one_mul]
     by_cases ha : a < 240
-    · rw [if_pos (by omega), Nat.mul_zero, Nat.zero_add, e, Nat.testBit_shiftLeft,
+    · rw [ite_eq_left (by omega), Nat.mul_zero, Nat.zero_add, e, Nat.testBit_shiftLeft,
         Nat.testBit_two_pow_sub_one]
       by_cases h1 : lo ≤ a <;> by_cases h2 : a < hi <;> simp [h1, h2, ha] <;> omega
     · simp [ha]
-  · rw [if_neg (by omega), Nat.testBit_two_pow_sub_one]
+  · rw [ite_eq_right (by omega), Nat.testBit_two_pow_sub_one]
     by_cases ha : a < 240
     · rw [decide_eq_true (show 240 * n + a - 240 < 1680 by omega)]
       simp [ha, show n ≠ 0 by omega]
@@ -1547,12 +1545,12 @@ theorem qOK_facts {sgn : ℤ} {T P N D M : ℕ} {Qs : List ℕ} {X : ℕ} (ht : 
           ((ipT.getD b #[]).getD a 0 == cart i n') := by
         rw [adjB_val i (by omega) n' h2]
         rcases cart_off i (by omega) n' h2 (by omega) with hc | hc
-        · rw [hc, if_neg (by decide)]
+        · rw [hc, ite_eq_right (by decide)]
           change (setK fun a => ipIs T b a 0 0).testBit a = _
           rw [setK_bits, decide_eq_true ha, Bool.true_and, Bool.eq_iff_iff, ipIs_iff hrt hM' ha hb,
             beq_iff_eq]
           simp
-        · rw [hc, if_pos rfl]
+        · rw [hc, ite_eq_left rfl]
           change (setK fun a => ipIs T b a 0 1).testBit a = _
           rw [setK_bits, decide_eq_true ha, Bool.true_and, Bool.eq_iff_iff, ipIs_iff hrt hM' ha hb,
             beq_iff_eq]

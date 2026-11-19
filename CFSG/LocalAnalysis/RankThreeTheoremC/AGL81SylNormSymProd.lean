@@ -16,7 +16,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup Equiv
 theorem alternatingGroup_prod_bot_le_wSup {k l : ℕ} (hk : 5 ≤ k) :
     (alternatingGroup (Fin k)).prod (⊥ : Subgroup (Perm (Fin l))) ≤
       wSup (Perm (Fin k) × Perm (Fin l)) := by
-  haveI : (alternatingGroup (Fin k)).Normal := alternatingGroup.normal
+  have : (alternatingGroup (Fin k)).Normal := alternatingGroup.normal
   refine le_wSup_of_normal_of_isQuasisimple (Subgroup.prod_normal _ _) ?_
   have hAq : CFSG.IsQuasisimple ↥(alternatingGroup (Fin k)) :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp
@@ -29,7 +29,7 @@ theorem alternatingGroup_prod_bot_le_wSup {k l : ℕ} (hk : 5 ≤ k) :
 theorem bot_prod_alternatingGroup_le_wSup {k l : ℕ} (hl : 5 ≤ l) :
     ((⊥ : Subgroup (Perm (Fin k))).prod (alternatingGroup (Fin l))) ≤
       wSup (Perm (Fin k) × Perm (Fin l)) := by
-  haveI : (alternatingGroup (Fin l)).Normal := alternatingGroup.normal
+  have : (alternatingGroup (Fin l)).Normal := alternatingGroup.normal
   refine le_wSup_of_normal_of_isQuasisimple (Subgroup.prod_normal _ _) ?_
   have hAq : CFSG.IsQuasisimple ↥(alternatingGroup (Fin l)) :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp
@@ -162,7 +162,7 @@ theorem mulAut_fst_eq_one_or_of_wSup {r m : ℕ} (hr2 : r ≠ 2) (hr4 : r ≠ 4)
   rcases Nat.lt_or_ge r 3 with hr3 | hr3
   ·
     have hr1 : r ≤ 1 := by omega
-    haveI : Subsingleton (Fin r) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hr1)
+    have : Subsingleton (Fin r) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hr1)
     exact Or.inl (Subsingleton.elim α₁ 1)
   · rcases Nat.lt_or_ge r 5 with hr5 | hr5
     ·
@@ -190,7 +190,7 @@ theorem mulAut_fst_eq_one_or_of_wSup {r m : ℕ} (hr2 : r ≠ 2) (hr4 : r ≠ 4)
       exact Or.inl
         (CFSG.Permutation.SylowTwoNormalizer.mulAut_perm_three_eq_one α₁ hα₁ hU2 hUi' hUmap)
     ·
-      haveI : (alternatingGroup (Fin r)).Normal := alternatingGroup.normal
+      have : (alternatingGroup (Fin r)).Normal := alternatingGroup.normal
       have hDn : ((alternatingGroup (Fin r)).map
           (MonoidHom.inl (Perm (Fin r)) (Perm (Fin m)))).Normal := by
         rw [map_inl_eq_prod_bot]
@@ -228,7 +228,7 @@ theorem mulAut_snd_eq_one_or_of_wSup {r m : ℕ} (hm2 : m ≠ 2) (hm4 : m ≠ 4)
   rcases Nat.lt_or_ge m 3 with hm3 | hm3
   ·
     have hm1 : m ≤ 1 := by omega
-    haveI : Subsingleton (Fin m) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hm1)
+    have : Subsingleton (Fin m) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hm1)
     exact Or.inl (Subsingleton.elim α₂ 1)
   · rcases Nat.lt_or_ge m 5 with hm5 | hm5
     ·
@@ -256,7 +256,7 @@ theorem mulAut_snd_eq_one_or_of_wSup {r m : ℕ} (hm2 : m ≠ 2) (hm4 : m ≠ 4)
       exact Or.inl
         (CFSG.Permutation.SylowTwoNormalizer.mulAut_perm_three_eq_one α₂ hα₂ hU2 hUi' hUmap)
     ·
-      haveI : (alternatingGroup (Fin m)).Normal := alternatingGroup.normal
+      have : (alternatingGroup (Fin m)).Normal := alternatingGroup.normal
       have hDn : ((alternatingGroup (Fin m)).map
           (MonoidHom.inr (Perm (Fin r)) (Perm (Fin m)))).Normal := by
         rw [map_inr_eq_bot_prod]

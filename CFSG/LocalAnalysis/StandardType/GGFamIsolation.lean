@@ -191,7 +191,7 @@ theorem exists_isolating_element_of_closed
     exact Finset.prod_congr rfl fun k _ => (zpow_mul z (c k) (v k)).symm
   have hkerb : kernelRoots (rootCharHom b) = componentRoots (famCharHom a) i := by
     ext β
-    rw [kernelRoots_rootCharHom, Set.mem_setOf_eq, hb, hz.zpow_eq_one_iff_dvd]
+    rw [kernelRoots_rootCharHom, Set.mem_ofPred_eq, hb, hz.zpow_eq_one_iff_dvd]
     constructor
     · rintro ⟨hβ, hdvd⟩
       by_contra hβΨ

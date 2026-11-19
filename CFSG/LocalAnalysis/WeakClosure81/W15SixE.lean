@@ -67,7 +67,7 @@ theorem isElemAbelian_eSub (h : Cex156 M V₀ V U S A X T) :
   CFSG.Open.IsElemAbelian.mono (h.cex.conjClosure_isElemAbelian h.std h.CH)
     (conjClosure_mono inf_le_left h.X_le_H)
 
-theorem X_le_normalizer_eSub (h : Cex156 M V₀ V U S A X T) :
+theorem X_le_normalizer_eSub (_h : Cex156 M V₀ V U S A X T) :
     X ≤ normalizer (eSub V₀ X T : Set G) :=
   le_normalizer_conjClosure _ _
 

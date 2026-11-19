@@ -40,7 +40,7 @@ theorem ggSCWeylIrred_projectiveSL {d p : ℕ} {K : Type} [Field K] [Finite K] (
   · intro h
     exact hpK (h.trans (card_center_specialLinear_dvd hd))
 
-theorem ggCenterPrime_projectiveSL {d p : ℕ} {K : Type} [Field K] [Finite K] (hp : p.Prime)
+theorem ggCenterPrime_projectiveSL {d p : ℕ} {K : Type} [Field K] [Finite K] (_hp : p.Prime)
     (hpK : ¬ p ∣ Nat.card K - 1) (hd : 5 ≤ d) : GGCenterPrime p (projectiveSL d K) := by
   intro L' _ _ ψ hψ hker hperf hpZ
   obtain ⟨φ, hφsurj, hφ⟩ := TypeA.exists_sl_cover

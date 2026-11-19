@@ -189,14 +189,14 @@ theorem e4_2_of_whole (G : Type) [Group G] [Finite G] (V : Type) [CommGroup V] [
     by_cases hsr : spl H ∨ W H
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_pos hsr]
+        simp only [bad, piece, ite_eq_left hsr]
       rw [this]
       by_cases hspl : spl H
       · exact card_bad_le_of_split hΩc hel hfx hT hTH hF hspl
       · exact hW H hHΔ (hsr.resolve_left hspl)
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_neg hsr]
+        simp only [bad, piece, ite_eq_right hsr]
       rw [this]
       exact card_bad_xt_le hΩc hel hfx hT hTH hF
   have hcard : (Δf.biUnion bad).card < (Finset.range (κ + 1)).card := by
@@ -211,12 +211,12 @@ theorem e4_2_of_whole (G : Type) [Group G] [Finite G] (V : Type) [CommGroup V] [
     by_contra hn
     exact hcn (Finset.mem_biUnion.2 ⟨H, (hmemΔ H).2 hHΔ, Finset.mem_filter.2 ⟨hc, hn⟩⟩)
   have hsr : ∀ H ∈ Δ, spl H ∨ W H → H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := fun H hH hs => by
-    simpa only [piece, if_pos hs] using hmem H hH
+    simpa only [piece, ite_eq_left hs] using hmem H hH
   have hxt : ∀ H ∈ Δ, xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := by
     intro H hH
     by_cases hs : spl H ∨ W H
     · exact (sup_le (Subgroup.map_subtype_le _) (hΔT H hH).1).trans (hsr H hH hs)
-    · simpa only [piece, if_neg hs] using hmem H hH
+    · simpa only [piece, ite_eq_right hs] using hmem H hH
   set N := stabV ρ (Fx ρ (Wcl Ω c T)) with hN
   rcases IsCoatomic.eq_top_or_exists_le_coatom N with hNt | ⟨M, hM, hNM⟩
   ·
@@ -250,7 +250,7 @@ theorem bkSlack_of_index_two {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH : 
     (hidx : (T ⊓ fStarPre H).relIndex T = 2)
     (hns : ¬ H ≤ Subgroup.normalizer ((fStarPre H ⊔ T : Subgroup G) : Set G))
     (hrk : CFSG.Open.pRank 2 (fStarMod H) < iRank H) : BkSlack T H :=
-  ⟨1, fun D hD hD2 hDc => (mQuot_inf_pCoreOf_le hD hD2 hDc).trans (bk_rank hT hTH hidx),
+  ⟨1, fun _D hD hD2 hDc => (mQuot_inf_pCoreOf_le hD hD2 hDc).trans (bk_rank hT hTH hidx),
     fun _ hY hYn hYT => bk_good hT hTH hidx hY hYn hYT, pCoreOf_bk_le hT hTH hidx hns, hrk⟩
 
 open Classical in
@@ -478,6 +478,7 @@ theorem e4_2_of_coatom_rank_top_or_cover (G : Type) [Group G] [Finite G] (V : Ty
 abbrev bkZ (T K Z : Subgroup G) : Subgroup G :=
   K ⊓ Subgroup.normalizer ((T ⊓ Z : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem le_normalizer_of_conj {N Y : Subgroup G} (h : ∀ g ∈ N, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) :
     N ≤ Subgroup.normalizer (Y : Set G) := by
   intro g hg
@@ -487,6 +488,7 @@ theorem le_normalizer_of_conj {N Y : Subgroup G} (h : ∀ g ∈ N, ∀ y ∈ Y, 
   have := h g⁻¹ (N.inv_mem hg) _ hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conj_mem_sup {Z P : Subgroup G} {g : G} (hZ : ∀ z ∈ Z, g * z * g⁻¹ ∈ Z)
     (hP : ∀ p ∈ P, g * p * g⁻¹ ∈ P) : ∀ x ∈ Z ⊔ P, g * x * g⁻¹ ∈ Z ⊔ P := by
   have : Z ⊔ P ≤ (Z ⊔ P).comap (MulAut.conj g).toMonoidHom :=
@@ -495,17 +497,18 @@ theorem conj_mem_sup {Z P : Subgroup G} {g : G} (hZ : ∀ z ∈ Z, g * z * g⁻�
   intro x hx
   simpa using Subgroup.mem_comap.1 (this hx)
 
+omit [Finite G] in
 theorem le_bkZ {T K Z : Subgroup G} (hTK : T ≤ K) (hZn : ∀ h ∈ K, ∀ z ∈ Z, h * z * h⁻¹ ∈ Z) :
     T ≤ bkZ T K Z := by
   intro t ht
   refine ⟨hTK ht, le_normalizer_of_conj (N := T) (fun g hg y hy => ?_) ht⟩
   exact ⟨T.mul_mem (T.mul_mem hg hy.1) (T.inv_mem hg), hZn g (hTK hg) y hy.2⟩
 
-theorem le_sup_bkZ {T K Z : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTK : T ≤ K) (hZK : Z ≤ K)
+theorem le_sup_bkZ {T K Z : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTK : T ≤ K) (_hZK : Z ≤ K)
     (hZn : ∀ h ∈ K, ∀ z ∈ Z, h * z * h⁻¹ ∈ Z) : K ≤ Z ⊔ bkZ T K Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTK2 : IsSylowIn 2 T K := sylow_of_le hT hTK
-  haveI : Finite (Sylow 2 K) :=
+  have : Finite (Sylow 2 K) :=
     Finite.of_injective (fun P : Sylow 2 K => (P : Set K)) SetLike.coe_injective
   obtain ⟨PK, hPK⟩ : ∃ P : Sylow 2 K, (P : Subgroup K) = T.subgroupOf K :=
     ⟨hTK2.toSylow, IsSylowIn.coe_toSylow hTK2⟩
@@ -553,13 +556,14 @@ def zSet (T K : Subgroup G) : Set (Subgroup G) :=
 
 def IsZCan (T K Z : Subgroup G) : Prop := Z ∈ zSet T K ∧ ∀ Z' ∈ zSet T K, Z' ≤ Z
 
+omit [Finite G] in
 theorem sup_mem_zSet {T K Z₁ Z₂ : Subgroup G} (h₁ : Z₁ ∈ zSet T K) (h₂ : Z₂ ∈ zSet T K) :
     Z₁ ⊔ Z₂ ∈ zSet T K :=
   ⟨h₁.1.trans le_sup_left, sup_le h₁.2.1 h₂.2.1,
     fun h hh => conj_mem_sup (h₁.2.2 h hh) (h₂.2.2 h hh)⟩
 
 theorem exists_isZCan (T K : Subgroup G) : ∃ Z, IsZCan T K Z := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have hne : (zSet T K).Nonempty := ⟨fStarPre K, le_rfl, le_sup_left, fStarPre_conj_mem K⟩
   obtain ⟨Z, hZ⟩ := (Set.toFinite (zSet T K)).exists_maximal hne
@@ -960,14 +964,14 @@ theorem e4_2_of_whole_gen (G : Type) [Group G] [Finite G] (V : Type) [CommGroup 
     by_cases hsr : spl H ∨ W H
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_pos hsr]
+        simp only [bad, piece, ite_eq_left hsr]
       rw [this]
       by_cases hspl : spl H
       · exact card_bad_le_of_split hΩc hel hfx hT hTH hF hspl
       · exact hW H hHΔ (hsr.resolve_left hspl)
     · have : bad H = (Finset.range (κ + 1)).filter
           (fun c => ¬ xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T))) := by
-        simp only [bad, piece, if_neg hsr]
+        simp only [bad, piece, ite_eq_right hsr]
       rw [this]
       exact card_bad_xt_le hΩc hel hfx hT hTH hF
   have hcard : (Δf.biUnion bad).card < (Finset.range (κ + 1)).card := by
@@ -981,12 +985,12 @@ theorem e4_2_of_whole_gen (G : Type) [Group G] [Finite G] (V : Type) [CommGroup 
     by_contra hn
     exact hcn (Finset.mem_biUnion.2 ⟨H, (hmemΔ H).2 hHΔ, Finset.mem_filter.2 ⟨hc, hn⟩⟩)
   have hsr : ∀ H ∈ Δ, spl H ∨ W H → H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := fun H hH hs => by
-    simpa only [piece, if_pos hs] using hmem H hH
+    simpa only [piece, ite_eq_left hs] using hmem H hH
   have hxt : ∀ H ∈ Δ, xt T H ≤ stabV ρ (Fx ρ (Wcl Ω c T)) := by
     intro H hH
     by_cases hs : spl H ∨ W H
     · exact (sup_le (Subgroup.map_subtype_le _) (hΔT H hH).1).trans (hsr H hH hs)
-    · simpa only [piece, if_neg hs] using hmem H hH
+    · simpa only [piece, ite_eq_right hs] using hmem H hH
   set N := stabV ρ (Fx ρ (Wcl Ω c T)) with hN
   have hNt : N = ⊤ := by
     rw [eq_top_iff, ← hgen]

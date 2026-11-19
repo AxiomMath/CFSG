@@ -114,11 +114,13 @@ theorem commute_y0_of_odd {A : Subgroup G} {c : G} {L Y₀ : Subgroup G} (h : Se
     (hBM.trans hMQ) hodd hyB hfix
   exact commute_of_odd_of_commute_pCoreOf hF hyM hodd hyQc
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj_mem {H : Subgroup G} {g : G} (h1 : ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (h2 : ∀ x ∈ H, g⁻¹ * x * g ∈ H) : g ∈ Subgroup.normalizer (H : Set G) :=
   Subgroup.mem_normalizer_iff.mpr fun x =>
     ⟨h1 x, fun hx => by simpa [mul_assoc] using h2 _ hx⟩
 
+omit [Finite G] in
 theorem le_normalizer_commutator {X H K : Subgroup G} (hH : X ≤ Subgroup.normalizer (H : Set G))
     (hK : X ≤ Subgroup.normalizer (K : Set G)) :
     X ≤ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -141,6 +143,7 @@ theorem le_normalizer_commutator {X H K : Subgroup G} (hH : X ≤ Subgroup.norma
   refine mem_normalizer_of_conj_mem (key g (hH hg) (hK hg)) fun x hx => ?_
   simpa using key g⁻¹ (inv_mem (hH hg)) (inv_mem (hK hg)) x hx
 
+omit [Finite G] in
 theorem le_normalizer_normalClosureIn (M : Subgroup G) (c : G) :
     M ≤ Subgroup.normalizer (normalClosureIn M c : Set G) := by
   have key : ∀ m ∈ M, ∀ x ∈ normalClosureIn M c, m * x * m⁻¹ ∈ normalClosureIn M c := by
@@ -213,6 +216,7 @@ theorem centralizer_inf_le_of_isHyperplane {A B B' : Subgroup G} (hB : IsHyperpl
   have := Subgroup.mem_centralizer_iff.mp (this ha) x rfl
   exact this.symm
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_w (Y₀ : Subgroup G) :
     Subgroup.normalizer (Y₀ : Set G) ≤
       Subgroup.normalizer
@@ -220,6 +224,7 @@ theorem normalizer_le_normalizer_w (Y₀ : Subgroup G) :
   (Sec16.le_normalizer_centralizer_of_le_normalizer le_rfl).trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _)
 
+omit [Finite G] in
 theorem le_centralizer_normalClosureIn {E : Subgroup G} {c : G}
     (hc : c ∈ Subgroup.centralizer (E : Set G)) :
     normalClosureIn (Subgroup.centralizer (E : Set G)) c ≤ Subgroup.centralizer (E : Set G) := by
@@ -269,7 +274,7 @@ theorem mem_scriptQ_of_commutator_le {A : Subgroup G} {c : G} {L Y₀ : Subgroup
   have hcR : Subgroup.zpowers c ≤ Subgroup.normalizer (R : Set G) :=
     (Subgroup.zpowers_le.mpr hcA).trans hAR
   have hRsol : Group.IsSolvable ↥R := by
-    haveI := hR2.isNilpotent
+    have := hR2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers c)) (Nat.card R) := by
     obtain ⟨k, hk⟩ := hR2.exists_card_eq
@@ -387,6 +392,7 @@ theorem odd_orderOf_of_mem_pCoreOf {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y :
   have hk' : z ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
   exact Odd.of_dvd_nat ((Nat.Prime.odd_of_ne_two Fact.out hp2).pow) (orderOf_dvd_of_pow_eq_one hk')
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_isCharacteristicP {H : Subgroup G} (hH : IsCharacteristicP 2 ↥H) {g : G}
     (hg : g ∈ H) (hgW : ∀ w ∈ CFSG.Open.pCoreOf 2 H, g * w = w * g) :
     g ∈ CFSG.Open.pCoreOf 2 H := by
@@ -427,6 +433,7 @@ theorem isCharacteristicP_centralizer_y0 {A : Subgroup G} {c : G} {L Y₀ : Subg
     rw [e]
     exact inv_mem h1
 
+omit [Finite G] in
 theorem mem_trivialOn {X K : Subgroup G} {g : G} :
     g ∈ trivialOn X K ↔ g ∈ Subgroup.normalizer (X : Set G) ∧
       g ∈ Subgroup.normalizer (K : Set G) ∧ ∀ x ∈ X, g * x * g⁻¹ * x⁻¹ ∈ K :=
@@ -550,7 +557,7 @@ theorem eq_one_of_le_y0 {A : Subgroup G} {c : G} {L Y₀ : Subgroup G} (h : Sec1
     le_normalizer_inf (hAM.trans hMP) (Sec16.le_normalizer_centralizer_of_le_normalizer hAQ)
   have hZ₀2 : IsPGroup 2 Z₀ := hP2.to_le inf_le_left
   have hZ₀s : Group.IsSolvable ↥Z₀ := by
-    haveI := hZ₀2.isNilpotent
+    have := hZ₀2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card A) (Nat.card Z₀) := by
     obtain ⟨k, hk⟩ := hZ₀2.exists_card_eq

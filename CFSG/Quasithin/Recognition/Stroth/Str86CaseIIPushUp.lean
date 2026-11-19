@@ -283,8 +283,8 @@ theorem str86_cartan_transitive {L1 L2 S : Subgroup G}
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (hB2 : VBig L2) (hL2 : VL2 L2)
     {P : Subgroup G} (hPS : P ≤ S)
-    (hPB : bigB L1 L2 S ≤ Subgroup.normalizer (P : Set G))
-    (hPQ : ¬ P ≤ Q2 L1 L2 S)
+    (_hPB : bigB L1 L2 S ≤ Subgroup.normalizer (P : Set G))
+    (_hPQ : ¬ P ≤ Q2 L1 L2 S)
     {D2 : Subgroup G} (hD2cart : IsCartanOf D2 (borelOf L2 S))
     (hD2inf : D2 ⊓ (S ⊓ L2) = ⊥)
     (hD2sup : (S ⊓ L2) ⊔ D2 = borelOf L2 S) :

@@ -34,7 +34,7 @@ private theorem s16c1610_coe_restrictAut_pow {X : Type*} [Group X] (α : MulAut 
 
 private theorem s16c1610_finite_conjSubs {W : Type} [CommGroup W] [Finite W]
     (A : Subgroup (MulAut W)) (Z : Subgroup W) : Finite ↥(conjSubs A Z) := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
   exact Finite.of_surjective
@@ -52,10 +52,10 @@ theorem s16c1610_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
   classical
   intro hdiv
   obtain ⟨Z, hZrk, _hind, hsup, hXcard, _hSym⟩ := hS
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) ℓ hdiv
   let a' : MulAut W := (a : MulAut W)
   have ha'ord : orderOf a' = ℓ := by
@@ -63,7 +63,7 @@ theorem s16c1610_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
   have hcardX : Nat.card ↥(conjSubs A Z) = r + 1 := by
     rw [Nat.card_coe_set_eq]
     exact hXcard
-  haveI hfinX : Finite ↥(conjSubs A Z) := s16c1610_finite_conjSubs A Z
+  have hfinX : Finite ↥(conjSubs A Z) := s16c1610_finite_conjSubs A Z
   let P : Subgroup (MulAut W) := Subgroup.zpowers a'
   have hPA : P ≤ A := by
     show Subgroup.zpowers a' ≤ A
@@ -76,7 +76,7 @@ theorem s16c1610_not_dvd_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
     refine ⟨(p : MulAut W) * g, A.mul_mem (hPA p.2) hg, ?_⟩
     rw [hgY, Subgroup.map_map]
     rfl
-  letI : MulAction ↥P ↥(conjSubs A Z) :=
+  let : MulAction ↥P ↥(conjSubs A Z) :=
     { smul := fun p Y => ⟨(Y : Subgroup W).map (p : MulAut W).toMonoidHom, hmem p Y⟩
       one_smul := by
         intro Y
@@ -185,8 +185,8 @@ theorem s16c1610_rk_of_symSumOfConj {W : Type} [CommGroup W] [Finite W]
     rk W = (r + 1) * m := by
   classical
   obtain ⟨Z, hZrk, hind, hsup, hXcard, _hSym⟩ := hS
-  haveI hfinX : Finite ↥(conjSubs A Z) := s16c1610_finite_conjSubs A Z
-  haveI : Fintype ↥(conjSubs A Z) := Fintype.ofFinite _
+  have hfinX : Finite ↥(conjSubs A Z) := s16c1610_finite_conjSubs A Z
+  have : Fintype ↥(conjSubs A Z) := Fintype.ofFinite _
   have hiSup : iSupIndep (fun Y : ↥(conjSubs A Z) => (Y : Subgroup W)) :=
     (sSupIndep_iff _).1 hind
   have hsum := rk_iSup_biSup_eq_sum (fun Y : ↥(conjSubs A Z) => (Y : Subgroup W)) hiSup
@@ -210,7 +210,7 @@ private theorem s16c1610_card_gl_two_three' :
 
 private theorem s16c1610_card_gl_four_three :
     Nat.card (Matrix.GeneralLinearGroup (Fin 3) (GaloisField 2 2)) = 181440 := by
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 2) = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
     norm_num

@@ -27,18 +27,22 @@ private lemma sec5_fin4_two_compl {i j l m u v : Fin 4} (hij : i ≠ j) (hlm : l
   revert i j l m u v
   decide
 
+omit [Finite G] in
 private lemma sec5_sq_of_orderOf_two {d : G} (hd2 : orderOf d = 2) : d * d = 1 := by
   rw [← pow_two, ← hd2, pow_orderOf_eq_one]
 
+omit [Finite G] in
 private lemma sec5_ne_one_of_orderOf_two {d : G} (hd2 : orderOf d = 2) : d ≠ 1 := by
   intro h1
   rw [h1, orderOf_one] at hd2
   omega
 
+omit [Finite G] in
 private lemma sec5_pair_of_quad_direct {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i ≠ j) : Sec5Pair (K i) (K j) z :=
   ⟨hq.comm i j hij, hq.iso i, hq.iso j, hq.z_mem i, hq.z_mem j, hq.z_sq, hq.z_ne⟩
 
+omit [Finite G] in
 private lemma sec5_pair_decomp_sq {K : Fin 4 → Subgroup G} {z : G} (hq : Sec5B517Quad K z)
     {i j : Fin 4} (hij : i ≠ j) {d : G} (hd : d ∈ K i ⊔ K j) (hd_sq : d * d = 1)
     (hd1 : d ≠ 1) (hdz : d ≠ z) :
@@ -74,6 +78,7 @@ private lemma sec5_pair_decomp_sq {K : Fin 4 → Subgroup G} {z : G} (hq : Sec5B
       exact mul_left_cancel h2
     exact ⟨a, ha, b, hb, hd_eq, hz, hb2⟩
 
+omit [Finite G] in
 private lemma sec5_ki_not_le_centralizer {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i ≠ j) {a b d : G} (ha : a ∈ K i)
     (hb : b ∈ K j) (hd : d = a * b) (ha2 : a * a = z) :
@@ -109,7 +114,7 @@ theorem sec5_pair_of_gamma (h514 : Asc82Lemma514) (c : Sec5HCtx G t L S z r B A 
   have hij : i ≠ j := fun hij => hne (by rw [hij])
   exact sec5_pair_of_quad_direct (sec5b517_quad h514 c) hij
 
-theorem sec5_delta_support (h514 : Asc82Lemma514) (c : Sec5HCtx G t L S z r B A K₁ K₂ h) {d : G}
+theorem sec5_delta_support (_h514 : Asc82Lemma514) (_c : Sec5HCtx G t L S z r B A K₁ K₂ h) {d : G}
     (hd : d ∈ Delta5 z (Gamma5 K₁ K₂ h)) :
     ∃ i j : Fin 4, i ≠ j ∧ d ∈ Kfam5 K₁ K₂ h i ⊔ Kfam5 K₁ K₂ h j := by
   obtain ⟨hd2, hdz, P, hP, P', hP', hPP', hdP⟩ := hd
@@ -175,6 +180,7 @@ theorem sec5_exists_compl (i j : Fin 4) (hij : i ≠ j) :
   revert i j
   decide
 
+omit [Finite G] in
 theorem sec5_gamma_eq_quad {i j l m : Fin 4} (hij : i ≠ j) (hlm : l ≠ m) (hli : l ≠ i)
     (hlj : l ≠ j) (hmi : m ≠ i) (hmj : m ≠ j) : Gamma5 K₁ K₂ h =
       {Kfam5 K₁ K₂ h i, Kfam5 K₁ K₂ h j, Kfam5 K₁ K₂ h l, Kfam5 K₁ K₂ h m} := by

@@ -44,14 +44,14 @@ theorem stageL {X : Type} [Group X] [Finite X] {N : Subgroup X} [N.Normal]
       ∃ Y : Subgroup X, Y ≤ N ⊓ Subgroup.centralizer ({a} : Set X) ∧ z ∈ Y ∧
         IsSimpleGroup ↥Y ∧ (∃ x y : ↥Y, x * y ≠ y * x) ∧ 3 ∣ Nat.card ↥Y := by
   classical
-  haveI : Module.Finite (ZMod 2) U := Module.Finite.of_finite
-  haveI := hNs
+  have : Module.Finite (ZMod 2) U := Module.Finite.of_finite
+  have := hNs
   have hidx : N.index = 2 :=
     Subgroup.index_eq_two_iff_exists_notMem_and.2 ⟨a, haN, fun b => (hX b).symm⟩
   have hrel : (N.map ψ).relIndex ψ.range = 2 := by
     rw [MonoidHom.range_eq_map, Subgroup.relIndex_map_map_of_injective N ⊤ hinj,
       Subgroup.relIndex_top_right, hidx]
-  haveI : Group.IsPerfect ↥N := ⟨commutator_eq_top_of_simple_nonab hNn⟩
+  have : Group.IsPerfect ↥N := ⟨commutator_eq_top_of_simple_nonab hNn⟩
   have hperf : ⁅N.map ψ, N.map ψ⁆ = N.map ψ := by
     rw [← Subgroup.map_commutator, Subgroup.commutator_eq_self]
   have hL1 : N.map ψ ≠ ⊥ := by

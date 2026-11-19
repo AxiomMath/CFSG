@@ -28,8 +28,8 @@ theorem exists_special_sesqSUConj_eq {ℓ f : ℕ} {E : Type} [Field E] [Finite 
         CFSG.LocalAnalysis.GLTheoremA.KD264Lie.sesqSUConj
           ⟨s, sesqSpecialUnitaryGroup_le B s.2⟩ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hE.prime⟩
-  haveI : Finite M := Module.finite_of_finite E
+  have : Fact ℓ.Prime := ⟨hE.prime⟩
+  have : Finite M := Module.finite_of_finite E
   let G : LinearMap.GeneralLinearGroup E M := g
   have hG : G ∈ sesqUnitaryGroup B := g.2
   obtain ⟨e, he⟩ := hE.exists_orthonormal_basis hBs hBl
@@ -97,7 +97,7 @@ theorem exists_special_sesqSUConj_eq {ℓ f : ℕ} {E : Type} [Field E] [Finite 
       y * ((ρ : Eˣ) • (1 : LinearMap.GeneralLinearGroup E M)) := by
     intro y
     ext w
-    simp [smul_smul, mul_comm]
+    simp
   have hgroup : G * (x : LinearMap.GeneralLinearGroup E M) * G⁻¹ =
       s * (x : LinearMap.GeneralLinearGroup E M) * s⁻¹ := by
     rw [hg]
@@ -161,15 +161,15 @@ theorem indAut_mem_innAutDerived_of_sesqSUConj {Γ : Type} [Group Γ] [Finite Γ
       hE hBs hBl hperf hp hp2 g π' hsurj hker hconj hγp)
 
 theorem indAut_mem_inner_of_sesqSUConj_two {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) {J : Subgroup Γ} (hqJ : CFSG.Open.IsQuasisimple ↥J)
+    (hp : p.Prime) (_hp2 : p ≠ 2) {J : Subgroup Γ} (hqJ : CFSG.Open.IsQuasisimple ↥J)
     (hdvd : p ∣ Nat.card ↥J) {y : Γ} (hN : y ∈ Subgroup.normalizer (J : Set Γ))
-    (hyp : y ^ p = 1) {ℓ f : ℕ} {E : Type} [Field E] [Finite E] [CharP E 2] {M : Type}
+    (_hyp : y ^ p = 1) {ℓ f : ℕ} {E : Type} [Field E] [Finite E] [CharP E 2] {M : Type}
     [AddCommGroup M] [Module E M] [FiniteDimensional E M]
     {hE : UnitaryFieldData ℓ f E} {B : M →ₛₗ[hE.bar] M →ₗ[E] E}
     (hBs : B.IsSymm) (hBl : B.SeparatingLeft) (hdim : Module.finrank E M = 2)
     (g : ↥(sesqUnitaryGroup B)) (π' : ↥(sesqSpecialUnitaryGroup B) →* ↥J)
     (hsurj : Function.Surjective π')
-    (hker : π'.ker ≤ Subgroup.center ↥(sesqSpecialUnitaryGroup B))
+    (_hker : π'.ker ≤ Subgroup.center ↥(sesqSpecialUnitaryGroup B))
     (hconj : ∀ t : ↥(sesqSpecialUnitaryGroup B),
       CFSG.GroupActions.subgroupStabRestrict J
         ⟨MulAut.conj y, by
@@ -226,16 +226,16 @@ theorem indAut_mem_inner_of_sesqSUConj_two {Γ : Type} [Group Γ] [Finite Γ] {p
 @[expose] def OrthSelfDualCatalogue : Prop :=
   ∀ {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (Q : QuadraticForm K V),
-    ∀ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
-      (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
-      (hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-      (hyp : y ^ p = 1) {h : K[X]}
-      (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
-      (hself : h = reciprocalPolynomial h)
-      (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
+    ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
+      (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
+      (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
+      (_hyp : y ^ p = 1) {h : K[X]}
+      (_hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (_hne1 : h ≠ X - 1)
+      (_hself : h = reciprocalPolynomial h)
+      (_hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
       (J : Subgroup (ProjOrthDerived Q))
-      (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
-      (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
+      (_hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
+      (_hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
       3 ≤ primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h →
       catalogIs (PSimple p J) (onLie isUnitaryCharTwoIdx)
 
@@ -258,7 +258,7 @@ theorem orthSelfDualBlock_of_catalogue {K V : Type} [Field K] [Finite K] [CharP 
     (hcat : OrthSelfDualCatalogue) : OrthSelfDualBlock Q := by
   classical
   intro p hp hp2 x y hx hyc hyp h hh hne1 hself hq J hJeq hN
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_cases hdvd : p ∣ Nat.card J
   · have hspecΩ : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q :=
       specialBlock_le_orthDerived_of_perfect hq.1
@@ -304,14 +304,14 @@ theorem orthSelfDualBlock_of_catalogue {K V : Type} [Field K] [Finite K] [CharP 
       have hpos := hx.primaryMultiplicity_pos hh
       have h1 : m = 1 := by omega
       have hbot := hx.specialBlock_eq_bot_of_finrank_eq_one hh h1
-      haveI : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) := by
+      have : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) := by
         rw [hbot]
         infer_instance
       obtain ⟨u, v, huv⟩ := hq.2.2
       exact huv (Subsingleton.elim (u * v) (v * u))
     rcases Nat.lt_or_ge m 3 with hm_lt | hm_ge
     · have hm2' : m = 2 := by omega
-      haveI : CharP (AdjoinRoot h) 2 :=
+      have : CharP (AdjoinRoot h) 2 :=
         charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
       have hdim : Module.finrank (AdjoinRoot h)
           (primaryComponent (x : V ≃ₗ[K] V).toLinearMap h) = 2 := by
@@ -326,7 +326,7 @@ theorem orthSelfDualBlock_of_catalogue {K V : Type} [Field K] [Finite K] [CharP 
       exact hinner'
     · exact Or.inl ⟨hcat Q hp hp2 x y hx hyc hyp hh hne1 hself hq J hJeq hN
         (by simpa [hm] using hm_ge), hmem⟩
-  · haveI := subsingleton_pSimple_of_not_dvd hp hdvd
+  · have := subsingleton_pSimple_of_not_dvd hp hdvd
     exact Or.inr (mem_inner_of_subsingleton _)
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

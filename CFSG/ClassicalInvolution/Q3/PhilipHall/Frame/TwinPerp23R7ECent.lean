@@ -115,7 +115,6 @@ theorem P23Cfg.centMod_e (hc : P23Cfg n Y R S t K' W u e g) :
       rw [F7M.conjSub_eq_self_of_comm heA] at h3
       have hyB : y ∈ (K'.subgroupOf C).map (F7I.piC C) := by
         rw [← h1]
-        change y ∈ ((conjSub e (tightCore R)).subgroupOf C).map (F7I.piC C) at *
         rw [← h3]
         exact hy
       exact hxy (hAB x hx y hyB)

@@ -59,11 +59,11 @@ theorem not_dvd_card_normalizer_statedProj {ι : Type} [Fintype ι] [DecidableEq
     (R : Subgroup (StatedProj H)) (hR2 : IsPGroup 2 R) (hR1 : R ≠ ⊥) :
     ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set (StatedProj H))) := by
   intro hrN
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hZc, hZcard⟩ := scalars_subgroupOf_facts ι F H
   have hrZ : ¬ r ∣ Nat.card ((StatedScalars ι F).subgroupOf H) := fun h =>
     hmin 1 one_pos (by omega) (by simpa using h.trans hZcard)
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨g, R', hgord, hR'2, hR'1, hgR'⟩ :=
     exists_lift_normalizing ((StatedScalars ι F).subgroupOf H) hZc hr hrZ R hR2 hR1 hrN
   let ρ : ↥H →* ((ι → F) ≃ₗ[F] (ι → F)) := (natAction ι F).comp H.subtype
@@ -119,7 +119,7 @@ theorem not_dvd_card_normalizer_of_equiv {K : Type} [Group K] {ι : Type} [Finty
 theorem padicValNat_add_lt_of_not_dvd {r a b c : ℕ} (hr : r.Prime) (ha : ¬ r ∣ a)
     (hb : ¬ r ∣ b) (hc : c ≠ 0) (hrc : r ∣ c) :
     padicValNat r a + padicValNat r b < padicValNat r c := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [padicValNat.eq_zero_of_not_dvd ha, padicValNat.eq_zero_of_not_dvd hb, zero_add]
   exact one_le_padicValNat_of_dvd hc hrc
 

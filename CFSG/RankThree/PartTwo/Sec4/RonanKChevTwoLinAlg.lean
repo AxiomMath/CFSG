@@ -23,6 +23,7 @@ private theorem eq_one_of_mul_self_eq_one_of_charTwo {d : L} (hd : d * d = 1) : 
   have h' : d + 1 = 0 := mul_self_eq_zero.mp h
   linear_combination h' - h2
 
+omit [CharP L 2] in
 private theorem entry_eq_zero_of_commute_diag {d : Fin 3 → L}
     {M : Matrix (Fin 3) (Fin 3) L} (h : M * diagonal d = diagonal d * M) {i j : Fin 3}
     (hij : d i ≠ d j) : M i j = 0 := by
@@ -44,7 +45,7 @@ private theorem eq_one_of_commute_diag_of_mul_self {d : Fin 3 → L} (h01 : d 0 
   have e1 := congrFun (congrFun hMM 1) 1
   have e2 := congrFun (congrFun hMM 2) 2
   simp only [Matrix.mul_apply, Fin.sum_univ_three, m01, m02, m12, m10, m20, m21, mul_zero,
-    zero_mul, add_zero, zero_add, Matrix.one_apply_eq] at e0 e1 e2
+    add_zero, zero_add, Matrix.one_apply_eq] at e0 e1 e2
   have d0 := eq_one_of_mul_self_eq_one_of_charTwo e0
   have d1 := eq_one_of_mul_self_eq_one_of_charTwo e1
   have d2 := eq_one_of_mul_self_eq_one_of_charTwo e2

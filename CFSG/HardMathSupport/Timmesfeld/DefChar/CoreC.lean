@@ -58,6 +58,7 @@ theorem spIsNilpotent_conj {A Ainv X : Matrix ι ι K} (hA : A * Ainv = 1)
         _ = A * (X ^ k * X) * Ainv := by rw [hA', mul_one]; simp only [mul_assoc]
   rw [this, hm]; simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem sp_rank_one_eq {a b w ψ : ι → K} (hw : w ≠ 0) (hψ : ψ ≠ 0)
     (h : vecMulVec a ψ = vecMulVec w b) : ∃ c : K, a = c • w ∧ b = c • ψ := by
   obtain ⟨i0, hi0⟩ : ∃ i, w i ≠ 0 := by
@@ -83,6 +84,7 @@ theorem sp_rank_one_eq {a b w ψ : ι → K} (hw : w ≠ 0) (hψ : ψ ≠ 0)
     field_simp
     linear_combination -h1
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem sp_vecMulVec_ne_zero {w ψ : ι → K} (hw : w ≠ 0) (hψ : ψ ≠ 0) : vecMulVec w ψ ≠ 0 := by
   obtain ⟨i0, hi0⟩ : ∃ i, w i ≠ 0 := by
     by_contra h'; push Not at h'; exact hw (funext h')

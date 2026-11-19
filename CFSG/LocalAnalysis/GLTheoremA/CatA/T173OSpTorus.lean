@@ -64,6 +64,7 @@ open CFSG.StandardType.TableBSymp
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ n p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem subtype_diagSp_eq_diagGL_pairedUnits (t : Fin ℓ → Fˣ) :
     (StatedSp ℓ F).subtype (diagSp F ℓ t) = TauCeti.diagGL (pairedUnits t) := by
   apply Units.ext
@@ -74,6 +75,7 @@ private theorem subtype_diagSp_eq_diagGL_pairedUnits (t : Fin ℓ → Fˣ) :
   funext a
   rcases a with i | i <;> rfl
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_eq_spTorus (hp0 : p ≠ 0) :
     CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p =
       CFSG.RankThree.PartOne.KFCL.Sp.spTorus p ℓ F := by
@@ -101,11 +103,12 @@ theorem symplecticQTorus_eq_spTorus (hp0 : p ≠ 0) :
       rw [mat_diagSp, hxg]
       congr 1
 
+omit [Finite F] [CharP F 2] in
 private theorem map_subtype_symplecticQTorus_eq_range_spTorusGL (hp0 : p ≠ 0) {ζ : Fˣ}
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p) :
     (CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p).map
         (StatedSp ℓ F).subtype = (spTorusGL (m := ℓ) hζ).range := by
-  haveI : NeZero p := ⟨hp0⟩
+  have : NeZero p := ⟨hp0⟩
   ext y
   constructor
   · rintro ⟨x, hx, rfl⟩
@@ -133,7 +136,7 @@ theorem exists_conj_eq_symplecticQTorus_of_isBmax (hℓ : 1 ≤ ℓ) (hn : Nat.c
     ∃ g : ↥(StatedSp ℓ F),
       A.map (MulAut.conj g).toMonoidHom =
         CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp0 : p ≠ 0 := hp.ne_zero
   have hpK : (p : F) ≠ 0 := CFSG.RankThree.PartOne.LIT.natCast_ne_zero_of_charTwo hp hp2
   have hpdvd : p ∣ Nat.card F - 1 := by rw [hn]; exact hpq
@@ -162,17 +165,19 @@ theorem exists_conj_eq_symplecticQTorus_of_isBmax (hℓ : 1 ≤ ℓ) (hn : Nat.c
     rfl
   rw [hcomp, ← Subgroup.map_map, hPconj]
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSpEntry_piMulSingle (i : Fin ℓ) (ζ : Fˣ) (c : Fin ℓ ⊕ Fin ℓ) :
     diagSpEntry (Pi.mulSingle i ζ) c =
       if c = Sum.inl i then (ζ : F) else if c = Sum.inr i then (((ζ⁻¹ : Fˣ) : F)) else 1 := by
   rcases c with j | j
   · by_cases h : j = i
     · subst h; simp [diagSpEntry]
-    · simp [diagSpEntry, Pi.mulSingle_eq_of_ne h, h]
+    · simp [diagSpEntry, h]
   · by_cases h : j = i
     · subst h; simp [diagSpEntry]
-    · simp [diagSpEntry, Pi.mulSingle_eq_of_ne h, h]
+    · simp [diagSpEntry, h]
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_rootTorusHom_apply (i : Fin ℓ) (ζ : Fˣ) (v : Fin ℓ ⊕ Fin ℓ → F)
     (c : Fin ℓ ⊕ Fin ℓ) :
     spEnd (rootTorusHom F ℓ i ζ) v c =
@@ -181,6 +186,7 @@ private theorem spEnd_rootTorusHom_apply (i : Fin ℓ) (ζ : Fˣ) (v : Fin ℓ �
   rw [spEnd_apply, ← mat_apply, rootTorusHom_apply, mat_diagSp, Matrix.mulVec_diagonal,
     diagSpEntry_piMulSingle]
 
+omit [Finite F] [CharP F 2] in
 private theorem sub_ne_zero_of_orderOf (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Fˣ}
     (hζo : orderOf ζ = p) :
     (ζ : F) - 1 ≠ 0 ∧ (ζ : F) - ((ζ⁻¹ : Fˣ) : F) ≠ 0 := by
@@ -199,6 +205,7 @@ private theorem sub_ne_zero_of_orderOf (hp : p.Prime) (hp2 : p ≠ 2) {ζ : Fˣ}
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hdvd)
   exact ⟨h1, h2⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem smul_single_inl_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)}
     (hW : ∀ g ∈ CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p,
       ∀ w ∈ W, spEnd g w ∈ W) (hp : p.Prime) (hp2 : p ≠ 2) {i : Fin ℓ} {ζ : Fˣ}
@@ -228,10 +235,10 @@ private theorem smul_single_inl_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)
     rcases c with j | j
     · by_cases h : j = i
       · subst h; simp [hlam, Pi.single_eq_same]; ring
-      · simp [hlam, Pi.single_eq_of_ne (fun h' => h (Sum.inl_injective h')), h]
+      · simp [hlam, h]
     · by_cases h : j = i
-      · subst h; simp [hlam, Pi.single_eq_of_ne (Sum.inr_ne_inl)]
-      · simp [hlam, Pi.single_eq_of_ne (fun h' => h (Sum.inr_injective h')), h]
+      · subst h; simp [hlam]
+      · simp [hlam, h]
   obtain ⟨hne1, hne2⟩ := sub_ne_zero_of_orderOf (F := F) hp hp2 hζo
   have hprod : ((ζ : F) - ((ζ⁻¹ : Fˣ) : F)) * ((ζ : F) - 1) ≠ 0 := mul_ne_zero hne2 hne1
   rw [hval] at hmem2
@@ -239,6 +246,7 @@ private theorem smul_single_inl_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)
   rw [smul_smul, ← mul_assoc, inv_mul_cancel₀ hprod, one_mul] at hstep2
   exact hstep2
 
+omit [Finite F] [CharP F 2] in
 private theorem smul_single_inr_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)}
     (hW : ∀ g ∈ CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p,
       ∀ w ∈ W, spEnd g w ∈ W) (hp : p.Prime) (hp2 : p ≠ 2) {i : Fin ℓ} {ζ : Fˣ}
@@ -267,11 +275,11 @@ private theorem smul_single_inr_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)
     funext c
     rcases c with j | j
     · by_cases h : j = i
-      · subst h; simp [hlam, Pi.single_eq_of_ne (Sum.inl_ne_inr)]
-      · simp [hlam, Pi.single_eq_of_ne (fun h' => h (Sum.inl_injective h')), h]
+      · subst h; simp [hlam]
+      · simp [hlam, h]
     · by_cases h : j = i
       · subst h; simp [hlam, Pi.single_eq_same]; ring
-      · simp [hlam, Pi.single_eq_of_ne (fun h' => h (Sum.inr_injective h')), h]
+      · simp [hlam, h]
   obtain ⟨hne1, hne2⟩ := sub_ne_zero_of_orderOf (F := F) hp hp2 hζo
   have hne2' : ((ζ⁻¹ : Fˣ) : F) - (ζ : F) ≠ 0 := by
     intro h
@@ -288,6 +296,7 @@ private theorem smul_single_inr_mem {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)
   rw [smul_smul, ← mul_assoc, inv_mul_cancel₀ hprod, one_mul] at hstep2
   exact hstep2
 
+omit [CharP F 2] in
 theorem single_mem_of_forall_symplecticQTorus (hn : Nat.card F = 2 ^ n) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n - 1)
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)}
@@ -295,7 +304,7 @@ theorem single_mem_of_forall_symplecticQTorus (hn : Nat.card F = 2 ^ n) (hp : p.
       ∀ w ∈ W, spEnd g w ∈ W)
     {w : Fin ℓ ⊕ Fin ℓ → F} (hw : w ∈ W) (b : Fin ℓ ⊕ Fin ℓ) :
     Pi.single b (w b) ∈ W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpdvd : p ∣ Nat.card Fˣ := by
     rw [Nat.card_units]; rw [hn]; exact hpq
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' p hpdvd
@@ -310,16 +319,19 @@ theorem single_mem_of_forall_symplecticQTorus (hn : Nat.card F = 2 ^ n) (hp : p.
   · exact smul_single_inl_mem hW hp hp2 hζo hw
   · exact smul_single_inr_mem hW hp hp2 hζo hw
 
+omit [Finite F] [CharP F 2] in
 theorem permSp_spEnd_single (σ : Equiv.Perm (Fin ℓ)) (b : Fin ℓ ⊕ Fin ℓ) :
     spEnd (permSp F σ) (Pi.single b (1 : F)) = Pi.single (Sum.map σ σ b) (1 : F) := by
   rw [spEnd_apply, ← mat_apply, mat_permSp]
   funext a
   rw [mulVec_single_one_apply, spIncl_apply, Pi.single_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSpEntry_comp_sumMap (σ : Equiv.Perm (Fin ℓ)) (t : Fin ℓ → Fˣ)
     (x : Fin ℓ ⊕ Fin ℓ) : diagSpEntry (t ∘ ⇑σ) x = diagSpEntry t (Sum.map σ σ x) := by
   rcases x with i | i <;> rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem conj_inv_permSp_diagSp (σ : Equiv.Perm (Fin ℓ)) (t : Fin ℓ → Fˣ) :
     (permSp F σ)⁻¹ * diagSp F ℓ t * permSp F σ = diagSp F ℓ (t ∘ ⇑σ) := by
   refine mat_injective ?_
@@ -333,12 +345,13 @@ private theorem conj_inv_permSp_diagSp (σ : Equiv.Perm (Fin ℓ)) (t : Fin ℓ 
       fun h => hab ((sumMap_bijective σ).injective h)
     simp [hab, h']
 
-theorem permSp_mem_normalizer_symplecticQTorus (hp : p.Prime) (hp2 : p ≠ 2)
-    (hn : Nat.card F = 2 ^ n) (hpq : p ∣ 2 ^ n - 1) (σ : Equiv.Perm (Fin ℓ)) :
+omit [Finite F] [CharP F 2] in
+theorem permSp_mem_normalizer_symplecticQTorus (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hn : Nat.card F = 2 ^ n) (_hpq : p ∣ 2 ^ n - 1) (σ : Equiv.Perm (Fin ℓ)) :
     permSp F σ ∈ Subgroup.normalizer
       (CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p :
         Set ↥(StatedSp ℓ F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   rw [Subgroup.mem_normalizer_iff]
   intro x
   rw [CFSG.LocalAnalysis.GLTheoremA.Y10F.mem_symplecticQTorus,
@@ -352,6 +365,7 @@ theorem permSp_mem_normalizer_symplecticQTorus (hp : p.Prime) (hp2 : p ≠ 2)
       _ = (permSp F σ)⁻¹ * diagSp F ℓ t * permSp F σ := by rw [hx]
       _ = diagSp F ℓ (t ∘ ⇑σ) := conj_inv_permSp_diagSp σ t
 
+omit [Finite F] [CharP F 2] in
 private theorem spEnd_diagSp_single (t : Fin ℓ → Fˣ) (b : Fin ℓ ⊕ Fin ℓ) :
     spEnd (diagSp F ℓ t) (Pi.single b (1 : F)) = diagSpEntry t b • Pi.single b (1 : F) := by
   rw [spEnd_apply, ← mat_apply, mat_diagSp]
@@ -359,6 +373,7 @@ private theorem spEnd_diagSp_single (t : Fin ℓ → Fˣ) (b : Fin ℓ ⊕ Fin �
   rw [Matrix.mulVec_diagonal, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
   by_cases h : a = b <;> simp [h]
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSpEntry_update (t : Fin ℓ → Fˣ) (i : Fin ℓ) (b : Fin ℓ ⊕ Fin ℓ) :
     diagSpEntry (Function.update t i (t i)⁻¹) b = diagSpEntry t (pairSwap i b) := by
   rcases b with j | j
@@ -375,6 +390,7 @@ private theorem diagSpEntry_update (t : Fin ℓ → Fˣ) (i : Fin ℓ) (b : Fin 
       simp only [diagSpEntry, Sum.elim_inr, pairSwap, Equiv.swap_apply_of_ne_of_ne h1 h2,
         Function.update_of_ne h]
 
+omit [Finite F] in
 theorem spSwapSp_spEnd_single (i : Fin ℓ) (b : Fin ℓ ⊕ Fin ℓ) :
     spEnd (spSwapSp (K := F) i) (Pi.single b (1 : F)) = Pi.single (pairSwap i b) (1 : F) := by
   rw [spEnd_apply, spSwapSp_coe, TauCeti.permutationGL_coe, Matrix.permMatrix_mulVec]
@@ -384,12 +400,13 @@ theorem spSwapSp_spEnd_single (i : Fin ℓ) (b : Fin ℓ ⊕ Fin ℓ) :
   by_cases h : pairSwap i a = b
   · have h' : a = pairSwap i b := by
       rw [← h, show pairSwap i (pairSwap i a) = a from by simp [pairSwap]]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ a = pairSwap i b := by
       intro h2
       exact h (by rw [h2, show pairSwap i (pairSwap i b) = b from by simp [pairSwap]])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
+omit [Finite F] in
 private theorem spSwapSp_mul_self (i : Fin ℓ) :
     spSwapSp (K := F) i * spSwapSp (K := F) i = 1 := by
   refine CFSG.ComponentClassification.CatalogueBSymplecticTwo.eq_of_spAct_single
@@ -400,6 +417,7 @@ private theorem spSwapSp_mul_self (i : Fin ℓ) :
   rw [spEnd_mul, Module.End.mul_apply, spSwapSp_spEnd_single, spSwapSp_spEnd_single,
     show pairSwap i (pairSwap i c) = c from by simp [pairSwap], spEnd_one, Module.End.one_apply]
 
+omit [Finite F] in
 private theorem conj_spSwapSp_diagSp (i : Fin ℓ) (t : Fin ℓ → Fˣ) :
     spSwapSp (K := F) i * diagSp F ℓ t * (spSwapSp (K := F) i)⁻¹ =
       diagSp F ℓ (Function.update t i (t i)⁻¹) := by
@@ -416,12 +434,13 @@ private theorem conj_spSwapSp_diagSp (i : Fin ℓ) (t : Fin ℓ → Fˣ) :
     spEnd_diagSp_single, show pairSwap i (pairSwap i c) = c from by simp [pairSwap],
     diagSpEntry_update]
 
-theorem spSwapSp_mem_normalizer_symplecticQTorus (hp : p.Prime) (hp2 : p ≠ 2)
-    (hn : Nat.card F = 2 ^ n) (hpq : p ∣ 2 ^ n - 1) (i : Fin ℓ) :
+omit [Finite F] in
+theorem spSwapSp_mem_normalizer_symplecticQTorus (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hn : Nat.card F = 2 ^ n) (_hpq : p ∣ 2 ^ n - 1) (i : Fin ℓ) :
     spSwapSp (K := F) i ∈ Subgroup.normalizer
       (CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p :
         Set ↥(StatedSp ℓ F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   rw [Subgroup.mem_normalizer_iff]
   intro x
   rw [CFSG.LocalAnalysis.GLTheoremA.Y10F.mem_symplecticQTorus,

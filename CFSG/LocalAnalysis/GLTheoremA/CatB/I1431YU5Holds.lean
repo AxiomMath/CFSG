@@ -36,8 +36,8 @@ theorem i1431YU5Two_holds : I1431YU5Two := by
   intro Q _ _ σ A I T hQ hZ hU5 _ _ hA6 _ _ hT0 hT2 _ hAN
   obtain ⟨A₀, S, hSg, f, hA₀A, hSc, hf⟩ := hA6
   obtain ⟨hSsimp, hS360⟩ := isA6_isSimpleGroup hSc
-  haveI : IsSimpleGroup S := hSsimp
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hS360]; norm_num)
+  have : IsSimpleGroup S := hSsimp
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hS360]; norm_num)
   obtain ⟨e⟩ := u5_equiv_statedSU hU5
   let ι : Q →* StatedSU 5 2 K4 := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Q))
   let ρ : A₀ →* StatedSU 5 2 K4 := ι.comp A₀.subtype
@@ -49,7 +49,7 @@ theorem i1431YU5Two_holds : I1431YU5Two := by
     exact (QuotientGroup.eq_one_iff (b : Q)).mp h2
   have hker : ρ.ker ≤ f.ker := by
     have hnorm : (ρ.ker.map f).Normal := Subgroup.Normal.map inferInstance f hf
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map f) with hbot | htop
     · intro a ha
       have hmem : f a ∈ ρ.ker.map f := Subgroup.mem_map_of_mem f ha

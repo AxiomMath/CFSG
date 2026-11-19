@@ -263,7 +263,7 @@ theorem ssTw_exists_fixedPairGroup (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨
     rw [hψ x, hψ y, ← key, ← key] at h
     have h0 := congrFun (hinj h) 0
     have h1 := congrFun (hinj h) 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at h0 h1
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
     exact Prod.ext (Multiplicative.toAdd.injective (Subtype.ext h0))
       (Multiplicative.toAdd.injective (Subtype.ext h1))
   refine ⟨ψ.range, ?_, ?_, ?_, ?_⟩
@@ -302,6 +302,7 @@ theorem SsBig.map {ℓ : ℕ} {G H : Type*} [Group G] [Group H] {P : Subgroup G}
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {ℓ f : ℕ} [Fact ℓ.Prime]
   [CharP L ℓ]
 
+omit [IsAlgClosed L] in
 theorem ssTw_map_conj_le {J : Set (Fin τ.rank)} {n n₁ h : ModGL τ L}
     (hh : h ∈ subsystemGroup τ L J)
     (hlang : ∀ g : ModGL τ L,
@@ -323,6 +324,7 @@ theorem ssTw_map_conj_le {J : Set (Fin τ.rank)} {n n₁ h : ModGL τ L}
     rw [e]
     exact hVfix g hg
 
+omit [IsAlgClosed L] in
 theorem ssBig_of_std {J : Set (Fin τ.rank)} {n n₁ h : ModGL τ L}
     (hh : h ∈ subsystemGroup τ L J)
     (hlang : ∀ g : ModGL τ L,
@@ -344,12 +346,14 @@ theorem ssTw_eight_le_pow {ℓ f m : ℕ} (hℓ5 : 5 ≤ ℓ) (hf : 1 ≤ f) (hm
     _ ≤ (ℓ ^ f) ^ 2 := Nat.pow_le_pow_left h5 2
     _ ≤ (ℓ ^ f) ^ m := Nat.pow_le_pow_right (by omega) hm
 
+omit [IsAlgClosed L] in
 theorem ssTw_mem_sub_pair {J : Set (Fin τ.rank)} {a b : Fin τ.rank} (ha : a ∈ J) (hb : b ∈ J)
     {g : ModGL τ L} (hg : ∃ s t : L, g = xUnit τ L a s * xUnit τ L b t) :
     g ∈ subsystemGroup τ L J := by
   obtain ⟨s, t, rfl⟩ := hg
   exact mul_mem (xUnit_mem_subsystemGroup ha s) (xUnit_mem_subsystemGroup hb t)
 
+omit [IsAlgClosed L] in
 theorem ssTw_mem_sub_triple {J : Set (Fin τ.rank)} {a b c : Fin τ.rank} (ha : a ∈ J) (hb : b ∈ J)
     (hc : c ∈ J) {g : ModGL τ L} (hg : ∃ r s t : L, g = xUnit τ L a r * xUnit τ L b s * xUnit τ L c t) :
     g ∈ subsystemGroup τ L J := by

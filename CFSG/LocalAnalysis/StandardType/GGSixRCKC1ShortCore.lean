@@ -89,12 +89,12 @@ theorem rckXF_finite_ggU
           Spin.plusDatum m (GaloisField 2 g) hm⟩ := by
         simp only [ggU, lieUniversal, hm, ↓reduceDIte]
       rw [hK]
-      haveI : NeZero m := ⟨by omega⟩
+      have : NeZero m := ⟨by omega⟩
       exact rckXF_finite_spinGroup_two _
         (coe_ker_spinMatrix_quadPlus (n := m) (K := GaloisField 2 g))
     · rw [show ggU .POmegaPlus m g = trivialUniversal from by
         simp only [ggU, lieUniversal]
-        rw [dif_neg hm]]
+        rw [dite_eq_right hm]]
       change Finite (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))
       infer_instance
   · exact rckXF_finite_spinGroup_two _
@@ -123,7 +123,7 @@ theorem rckGL1_of_core
     (hvia : GGRootVia (ggU t' m g) K R β) {r : X} (hr : r ∈ R) (hr1 : r ≠ 1) :
     pCoreOf 2 (K ⊓ Subgroup.centralizer ({r} : Set X)) ≤ Subgroup.centralizer (R : Set X) := by
   obtain ⟨φ, hφrange, hφker, u, hR⟩ := hvia
-  haveI : Finite (ggU t' m g).K := rckXF_finite_ggU ht hg
+  have : Finite (ggU t' m g).K := rckXF_finite_ggU ht hg
   have hoddCenter : Odd (Nat.card (Subgroup.center (ggU t' m g).K)) :=
     LieKnownR2.OddCenter.odd_card_center_of_centerPPrime_two
       (rckGL1_centerPPrime_ggU ht hg hPM)
@@ -232,7 +232,6 @@ theorem rckGL1_of_core
       rw [Subgroup.mem_map]
       refine ⟨e.symm w, ?_, by simp⟩
       rw [Subgroup.mem_centralizer_singleton_iff] at hw ⊢
-      change e.symm w * y = y * e.symm w
       have hesym : e.symm w = u * w * u⁻¹ := by
         simp only [e, MulAut.conj_symm_apply, inv_inv]
       rw [hesym, ← hxeq']

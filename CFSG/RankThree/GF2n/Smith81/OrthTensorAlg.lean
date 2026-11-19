@@ -22,11 +22,11 @@ theorem orthTensor_comp (g g' : Matrix (Fin 2) (Fin 2) K) (o o' : (ι → K) →
 
 theorem orthTensor_one_id (p : (ι → K) × (ι → K)) :
     orthTensor (1 : Matrix (Fin 2) (Fin 2) K) id p = p := by
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
 theorem orthTensor_one_linear (o : (ι → K) →ₗ[K] (ι → K)) (p : (ι → K) × (ι → K)) :
     orthTensor (1 : Matrix (Fin 2) (Fin 2) K) o p = (o p.1, o p.2) := by
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
 theorem orthTensor_symm_comp (g g' : Matrix (Fin 2) (Fin 2) K) (o : (ι → K) ≃ₗ[K] (ι → K))
     (hg : g' * g = 1) (p : (ι → K) × (ι → K)) :
@@ -76,10 +76,12 @@ variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_mem_phi_pi (p : (ι → K) × (ι → K)) : ∃ x ∈ Q, φ (M₀.π x) = p := by
   obtain ⟨x, hx, hxp⟩ := M₀.π_surj (φ.symm p)
   exact ⟨x, hx, by rw [hxp, LinearEquiv.apply_symm_apply]⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem ActsAsTensor.mul {s s' : G} {g g' : Matrix (Fin 2) (Fin 2) K}
     {o o' : (ι → K) →ₗ[K] (ι → K)} (hs' : ∀ x ∈ Q, s' * x * s'⁻¹ ∈ Q)
     (h : ActsAsTensor Q Z M₀ φ s g o) (h' : ActsAsTensor Q Z M₀ φ s' g' o') :
@@ -88,6 +90,7 @@ theorem ActsAsTensor.mul {s s' : G} {g g' : Matrix (Fin 2) (Fin 2) K}
   have e : s * s' * x * (s * s')⁻¹ = s * (s' * x * s'⁻¹) * s⁻¹ := by group
   rw [e, h _ (hs' x hx), h' x hx, orthTensor_comp]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem ActsAsTensor.of_mem {p : G} (hp : p ∈ Q) : ActsAsTensor Q Z M₀ φ p 1 id := by
   intro x hx
   have hc : ⁅p, x⁆ ∈ Q := by
@@ -99,6 +102,7 @@ theorem ActsAsTensor.of_mem {p : G} (hp : p ∈ Q) : ActsAsTensor Q Z M₀ φ p 
     group
   rw [orthTensor_one_id, e, M₀.π_mul _ hc x hx, hz, zero_add]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem ActsAsTensor.orthTensor_eq {s : G} {g g' : Matrix (Fin 2) (Fin 2) K}
     {o o' : (ι → K) → (ι → K)} (h : ActsAsTensor Q Z M₀ φ s g o)
     (h' : ActsAsTensor Q Z M₀ φ s g' o') : ∀ p, orthTensor g o p = orthTensor g' o' p := by
@@ -106,6 +110,7 @@ theorem ActsAsTensor.orthTensor_eq {s : G} {g g' : Matrix (Fin 2) (Fin 2) K}
   obtain ⟨x, hx, rfl⟩ := exists_mem_phi_pi (M₀ := M₀) (φ := φ) p
   rw [← h x hx, ← h' x hx]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem ActsAsTensor.inv {s : G} {g g' : Matrix (Fin 2) (Fin 2) K}
     {o : (ι → K) ≃ₗ[K] (ι → K)} (hs' : ∀ x ∈ Q, s⁻¹ * x * s ∈ Q)
     (h : ActsAsTensor Q Z M₀ φ s g o) (hg : g * g' = 1) :

@@ -28,7 +28,7 @@ theorem coeff_single_shift {ι : Type} [AddCommGroup ι] [DecidableEq ι] (f : �
     (f (ν - δ) : K) * (Pi.single μ e : ι → K) (ν - δ) =
       (Pi.single (μ + δ) ((f μ : K) * e) : ι → K) ν := by
   by_cases h : ν - δ = μ
-  · rw [h, Pi.single_eq_same, Pi.single_apply, if_pos (sub_eq_iff_eq_add.1 h)]
+  · rw [h, Pi.single_eq_same, Pi.single_apply, ite_eq_left (sub_eq_iff_eq_add.1 h)]
   · rw [Pi.single_eq_of_ne h, Pi.single_eq_of_ne, mul_zero]
     exact fun h' => h (sub_eq_iff_eq_add.2 h')
 
@@ -67,8 +67,8 @@ theorem eq_list_sum {ι : Type} [DecidableEq ι] {c : ι → K} {l : List ι} (h
   funext ν
   rw [list_sum_single_apply c l hl]
   by_cases h : ν ∈ l
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     by_contra h'
     exact h (hs ν h')
 
@@ -135,7 +135,7 @@ theorem a1_zero_even (h2K : (2 : K) = 0) (h1 : Adm1 a1) {γ μ : Fin Tag.F4.rank
     (hγ : γ ∈ f4ShortList) (hμ : μ ∈ deg1Roots) (h : coords (γ + μ) ∈ f4Tuples)
     (h' : coords (μ - γ) ∈ f4Tuples) : (a1 γ μ : K) = 0 := by
   have := (h1.short γ hγ μ hμ).1 ((mem_rootFinset_F4 _).2 h)
-  rw [if_pos ((mem_rootFinset_F4 _).2 h')] at this
+  rw [ite_eq_left ((mem_rootFinset_F4 _).2 h')] at this
   exact cast_eq_zero_of_abs_eq_two this h2K
 
 theorem a1_ne_zero_odd (h2K : (2 : K) ≠ 0) (h1 : Adm1 a1) {γ μ : Fin Tag.F4.rank → ℤ}
@@ -143,16 +143,16 @@ theorem a1_ne_zero_odd (h2K : (2 : K) ≠ 0) (h1 : Adm1 a1) {γ μ : Fin Tag.F4.
     (a1 γ μ : K) ≠ 0 := by
   have := (h1.short γ hγ μ hμ).1 ((mem_rootFinset_F4 _).2 h)
   by_cases h' : μ - γ ∈ rootFinset .F4
-  · rw [if_pos h'] at this
+  · rw [ite_eq_left h'] at this
     exact cast_ne_zero_of_abs_eq_two this h2K
-  · rw [if_neg h'] at this
+  · rw [ite_eq_right h'] at this
     exact cast_ne_zero_of_abs_eq_one this
 
 theorem a1_ne_zero_even (h1 : Adm1 a1) {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ f4ShortList)
     (hμ : μ ∈ deg1Roots) (h : coords (γ + μ) ∈ f4Tuples) (h' : coords (μ - γ) ∉ f4Tuples) :
     (a1 γ μ : K) ≠ 0 := by
   have := (h1.short γ hγ μ hμ).1 ((mem_rootFinset_F4 _).2 h)
-  rw [if_neg fun hm => h' ((mem_rootFinset_F4 _).1 hm)] at this
+  rw [ite_eq_right fun hm => h' ((mem_rootFinset_F4 _).1 hm)] at this
   exact cast_ne_zero_of_abs_eq_one this
 
 theorem a2_zero (h2 : Adm2 a2) {γ μ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ f4ShortList)
@@ -167,7 +167,7 @@ theorem word_i (h1 : Adm1 a1) (h2 : Adm2 a2) (h2K : (2 : K) ≠ 0)
       Oact a1 a2 (wt 0 0 0 (-1)) (Oact a1 a2 (wt 0 0 0 (-1)) c) = Pi.single ν e := by
   rw [eq_tops_odd hs]
   simp (disch := decide +kernel) only [add_zero, Oact_add, Oact_single, a1_zero h1, a2_zero h2,
-    zero_mul, Pi.single_zero, zero_add]
+    zero_mul, Pi.single_zero]
   refine ⟨_, ?_, _, ?_, rfl⟩
   · decide +kernel
   · refine mul_ne_zero (a1_ne_zero_odd h2K h1 ?_ ?_ ?_)

@@ -21,7 +21,7 @@ theorem toralCentralizer_cosets_of_index_three
   have hcard : Nat.card (rootCharStabilizerSubgroup a ⧸
       (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)) = 3 := by
     rw [← Subgroup.index_eq_card]; exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set w' : rootCharStabilizerSubgroup a := ⟨w, hw⟩ with hw'
   have hw1 : (QuotientGroup.mk w' : rootCharStabilizerSubgroup a ⧸
       (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)) ≠ 1 := by

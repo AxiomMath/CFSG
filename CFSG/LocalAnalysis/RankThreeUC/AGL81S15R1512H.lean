@@ -96,7 +96,7 @@ theorem false_of_dvd_sub_one (hK4b : K517_4b) {T T₁ T₂ : Subgroup X} (hX : G
 theorem exists_other_of_isUFour_gen (hK4a : K517_4a) (hK518 : K518) (hKSMU4 : KSMU4) {G : Type}
     [Group G] [Finite G] {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M}
     (ctx : S15CtxGen G M T T₁ T₂)
-    {p : ℕ} (hp : p ∈ sigmaM G M) (hp5 : 5 ≤ p)
+    {p : ℕ} (hp : p ∈ sigmaM G M) (_hp5 : 5 ≤ p)
     {Ls : Subgroup (↥M ⧸ gnC (T.subgroupOf M))} {L : Subgroup ↥M}
     (hLs : GNYComponent (T.subgroupOf M) T₁ T₂ Ls) (hL : LiftOf (T.subgroupOf M) L Ls)
     (hU : IsUFour (fun Q => p ∣ Q + 1) ↥Ls) :
@@ -140,11 +140,12 @@ theorem exists_other_of_isUFour (hK4a : K517_4a) (hK518 : K518) (hKSMU4 : KSMU4)
     {p : ℕ} (hp : p ∈ sigmaM G M) (hp5 : 5 ≤ p)
     {Ls : Subgroup (↥M ⧸ gnC (T.subgroupOf M))} {L : Subgroup ↥M}
     (hLs : GNYComponent (T.subgroupOf M) T₁ T₂ Ls) (hL : LiftOf (T.subgroupOf M) L Ls)
-    (hU : IsUFour (fun Q => p ∣ Q + 1) ↥Ls) (h2 : 2 ≤ CFSG.Open.pRank p L) :
+    (hU : IsUFour (fun Q => p ∣ Q + 1) ↥Ls) (_h2 : 2 ≤ CFSG.Open.pRank p L) :
     ∃ Is : Subgroup (↥M ⧸ gnC (T.subgroupOf M)),
       GNYComponent (T.subgroupOf M) T₁ T₂ Is ∧ Is ≠ Ls ∧ p ∣ Nat.card ↥Is :=
   exists_other_of_isUFour_gen hK4a hK518 hKSMU4 (S15CtxGen.of_ctx2 ctx) hp hp5 hLs hL hU
 
+omit [Finite X] in
 theorem three_dvd_card_gnA_of_gnYComponent {T T₁ T₂ : Subgroup X} (hthree : GNThree T T₁ T₂)
     {I : Subgroup (X ⧸ gnC T)} (hI : GNYComponent T T₁ T₂ I) : 3 ∣ Nat.card (gnA T T₁ I) := by
   obtain ⟨y, hyA, hyZ, k, hk⟩ := exists_pElement_not_mem 3 _ _ (hthree I hI).1
@@ -205,7 +206,7 @@ theorem sl3_of_pRank_three_eq_one (hT : LieOddRankTable) (hK541 : K541) {T T₁ 
 theorem false_of_other_component_isUFour_gen (hT : LieOddRankTable) (hKSMU4 : KSMU4) (hK541 : K541)
     {G : Type} [Group G] [Finite G] {M T : Subgroup G} {T₁ T₂ : Subgroup ↥M}
     (ctx : S15CtxGen G M T T₁ T₂) (hLift : RowLifts G M T T₁ T₂) {p : ℕ} (hp : p ∈ sigmaM G M)
-    (hp5 : 5 ≤ p) {Ls : Subgroup (↥M ⧸ gnC (T.subgroupOf M))} {L : Subgroup ↥M}
+    (_hp5 : 5 ≤ p) {Ls : Subgroup (↥M ⧸ gnC (T.subgroupOf M))} {L : Subgroup ↥M}
     (hLs : GNYComponent (T.subgroupOf M) T₁ T₂ Ls) (hL : LiftOf (T.subgroupOf M) L Ls)
     (hU : IsUFour (fun Q => p ∣ Q + 1) ↥Ls) {Is : Subgroup (↥M ⧸ gnC (T.subgroupOf M))}
     (hIs : GNYComponent (T.subgroupOf M) T₁ T₂ Is) (hne : Is ≠ Ls) (hpI : p ∣ Nat.card ↥Is)

@@ -12,7 +12,7 @@ open CFSG.Assembly CFSG.Assembly.LowTwoRank CFSG.Blueprint CFSG.Blueprint.Cheval
 
 private theorem ggR1E6Det_three_ne_zero {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) :
     ((3 : ℤ) : ZMod p) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h : (3 : ZMod p) ≠ 0 := ZMod.prime_ne_zero p 3 hp3
   simpa using h
 

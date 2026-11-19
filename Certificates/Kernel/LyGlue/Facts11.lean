@@ -15,7 +15,7 @@ theorem conj_of_eq {G : Type*} [Group G] {P A C : G} (h : P * A = C * P) : P * A
   rw [h]
   group
 
-theorem txG_conj (hM : Ly0.ModelChecks) (hxeq : Ly0.xG = Xu) (hyeq : Ly0.y0G = Yu)
+theorem txG_conj (hM : Ly0.ModelChecks) (_hxeq : Ly0.xG = Xu) (hyeq : Ly0.y0G = Yu)
     (hweq : Ly0.w0G = Wu) {k : Nat} (hk : k < 4) :
     ∀ e ∈ ({Ly0.xG, Ly0.y0G, Ly0.w0G} : Set (Perm (Fin Ly0.deg))),
       Glue.txG k * e * (Glue.txG k)⁻¹ ∈ Glue.A30p := by

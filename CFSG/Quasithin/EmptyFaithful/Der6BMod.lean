@@ -111,7 +111,6 @@ theorem S_comm {T' : Subgroup (MulAut W)} {s₁ s₂ τ : MulAut W} {a₁ a₂ :
     rw [h1, h2] <;>
     first
       | rfl
-      | simp only [one_mul, mul_one]
       | exact hF.comm
       | exact hF.comm.symm
       | rw [e1, e2]

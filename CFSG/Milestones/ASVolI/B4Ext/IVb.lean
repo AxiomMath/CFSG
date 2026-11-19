@@ -125,8 +125,8 @@ theorem burnsideB49x_five_hex (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
   have hbij := burnsideB49_iota_bijective hV hK hreal hquot
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 5 := burnsideB49_finrank_W hV hK hreal hquot
   obtain ⟨s, hs3, hsind⟩ := exists_finset_linearIndependent_of_le_finrank (R := ZMod 2)
     (M := burnsideB49_W hV U) (n := 3) (by rw [hn]; norm_num)

@@ -45,8 +45,8 @@ theorem V_sq : ∀ v ∈ fourGrp x₁ x₂, v * v = 1 := fun v hv => by
   rw [← pow_two]
   exact (fourGrp_elemAbelian hc).2 v hv
 
-theorem V_comm_Q : ∀ v ∈ fourGrp x₁ x₂, ∀ q ∈ ctxQ t tau x₁ x₂ rho, v * q = q * v :=
-  fun v hv q hq => (V_comm_O hc (hc.Q_le_O hq) hv).symm
+theorem V_comm_Q : ∀ _v ∈ fourGrp x₁ x₂, ∀ _q ∈ ctxQ t tau x₁ x₂ rho, _v * _q = _q * _v :=
+  fun _v hv _q hq => (V_comm_O hc (hc.Q_le_O hq) hv).symm
 
 theorem Q_comm_V : ∀ a ∈ ctxQ t tau x₁ x₂ rho, ∀ b ∈ ctxQ t tau x₁ x₂ rho,
     a * b * a⁻¹ * b⁻¹ ∈ fourGrp x₁ x₂ := hc.Q_quot.2
@@ -99,6 +99,7 @@ theorem P_le_LO : ctxPL t tau x₁ x₂ ≤ ctxLO t tau x₁ x₂ := (normal_ctx
 theorem V_le_P : fourGrp x₁ x₂ ≤ ctxPL t tau x₁ x₂ :=
   (V_le_O ha.toCtx4L.toCtx4Q).trans (O_le_ctxPL ha.toCtx4A)
 
+omit [Finite G] ha in
 theorem P_comm_V : ∀ p ∈ ctxPL t tau x₁ x₂, ∀ v ∈ fourGrp x₁ x₂, p * v = v * p := by
   intro p hp v hv
   have hC : p ∈ centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) :=
@@ -108,8 +109,8 @@ theorem P_comm_V : ∀ p ∈ ctxPL t tau x₁ x₂, ∀ v ∈ fourGrp x₁ x₂,
 theorem LO_conj_P : ∀ g ∈ ctxLO t tau x₁ x₂, ∀ p ∈ ctxPL t tau x₁ x₂,
     g * p * g⁻¹ ∈ ctxPL t tau x₁ x₂ := (normal_ctxPL ha.toCtx4A).2
 
-theorem LO_conj_V : ∀ g ∈ ctxLO t tau x₁ x₂, ∀ v ∈ fourGrp x₁ x₂,
-    g * v * g⁻¹ ∈ fourGrp x₁ x₂ := fun g hg v hv =>
+theorem LO_conj_V : ∀ _g ∈ ctxLO t tau x₁ x₂, ∀ _v ∈ fourGrp x₁ x₂,
+    _g * _v * _g⁻¹ ∈ fourGrp x₁ x₂ := fun _g hg _v hv =>
   conj_V_of_mem_LO ha.toCtx4L.toCtx4Q (isSylSL34_of_Ctx4L ha.toCtx4L) hg hv
 
 theorem sig_conj_Q : ∀ q ∈ ctxQ t tau x₁ x₂ rho,

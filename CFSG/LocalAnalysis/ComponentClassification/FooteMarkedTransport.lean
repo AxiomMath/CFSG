@@ -273,9 +273,9 @@ theorem eq_of_perfect_le_conjClosure_sup_odd {X V R : Subgroup G}
   have hNleLayer : N ≤ layer G := by
     refine Sol78.conjClosure_le (J := X) (E := V) (M := layer G) ?_ ?_
     · exact LocalCores.component_le_layer hX
-    · haveI : (layer G).Characteristic := LocalCores.layer_characteristic
-      haveI : (layer G).Normal := inferInstance
-      simpa [Subgroup.normalizer_eq_top] using (le_top : V ≤ (⊤ : Subgroup G))
+    · have : (layer G).Characteristic := LocalCores.layer_characteristic
+      have : (layer G).Normal := inferInstance
+      simp [Subgroup.normalizer_eq_top]
   have hVNX : V ≤ normalizer (X : Set G) :=
     (hVleN.trans hNleLayer).trans (LocalCores.layer_le_normalizer hX)
   have hNleX : N ≤ X := Sol78.conjClosure_le (le_refl X) hVNX
@@ -410,15 +410,15 @@ theorem eq_sup_oddCoreIn_of_simple_oddCoreImage
           Subgroup.card_map_dvd (O.subgroupOf W) πW
       _ = Nat.card O := Nat.card_congr (subgroupOfEquivOfLe hOW).toEquiv
   have hnormal_bot : (O.subgroupOf W).map πW = ⊥ := by
-    haveI : IsSimpleGroup ((W.subgroupOf A).map π) := hImgSimple
-    haveI : ((O.subgroupOf W).map πW).Normal := hnormal
+    have : IsSimpleGroup ((W.subgroupOf A).map π) := hImgSimple
+    have : ((O.subgroupOf W).map πW).Normal := hnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((O.subgroupOf W).map πW) with hbot | htop
     · exact hbot
     · exfalso
       have htopOdd : Odd (Nat.card ((W.subgroupOf A).map π)) := by
         simpa [htop] using hOddImg
-      haveI : IsSimpleGroup ((W.subgroupOf A).map π) := hImgSimple
-      haveI : Group.IsPerfect ((W.subgroupOf A).map π) := hImgPerf
+      have : IsSimpleGroup ((W.subgroupOf A).map π) := hImgSimple
+      have : Group.IsPerfect ((W.subgroupOf A).map π) := hImgPerf
       exact (Group.IsPerfect.not_isSolvable ((W.subgroupOf A).map π))
         (CFSG.FeitThompson.isSolvable_of_odd_natCard _ htopOdd)
   have hOker : O.subgroupOf W ≤ πW.ker := by
@@ -627,7 +627,7 @@ theorem recover_component_at_centralizing_involution
     have hmap : S.map (MulAut.conj g⁻¹).toMonoidHom = S := hgS
     simpa only [MulAut.conj_apply, inv_inv, z', hmap] using h
   have haP : a ∈ Pbase := ⟨aW, hP (mem_zpowers aW), rfl⟩
-  have hP2 : IsPGroup 2 Pbase := P.isPGroup'.map W.subtype
+  have hP2 : IsPGroup 2 Pbase := P.isPGroup.map W.subtype
   have hPnt : Nontrivial Pbase := by
     apply (nontrivial_iff_ne_bot Pbase).mpr
     intro hbot
@@ -943,7 +943,7 @@ theorem Marked.witness_at_every_involution {T : Type} [Group T] [IsSimpleGroup T
     haK hAfam hAa himage (mem_coreActionKernel.mp hgW).1
   let a' := g⁻¹ * a * g
   have huP : u ∈ Pbase := ⟨uW, hP (mem_zpowers uW), rfl⟩
-  have hP2 : IsPGroup 2 Pbase := P.isPGroup'.map W.subtype
+  have hP2 : IsPGroup 2 Pbase := P.isPGroup.map W.subtype
   have hPnt : Nontrivial Pbase := by
     apply (nontrivial_iff_ne_bot Pbase).mpr
     intro hbot

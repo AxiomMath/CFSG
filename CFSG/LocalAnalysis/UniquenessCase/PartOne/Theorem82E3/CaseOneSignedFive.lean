@@ -22,7 +22,7 @@ theorem exists_sylow_quotient_pPrimeCore_zwr {H P : Subgroup G} (hPH : P ≤ H)
     (hPG : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤) (e : ↥P ≃* ZWr 1) :
     ∃ S : Sylow 3 (↥H ⧸ CFSG.pPrimeCore 3 ↥H),
       Nonempty (↥(S : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≃* ZWr 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOnotdvd : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 ↥H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥H))
@@ -163,8 +163,8 @@ private theorem le_M_of_k326Exceptional {H : Subgroup G} (h5 : 5 ∈ D.sig) {y :
     (hgood : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → v 2 = 0 → GoodPoint D.M (s.pt v))
     (hexc : K326Exceptional (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) : H ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, ⟨eS⟩⟩ := exists_sylow_quotient_pPrimeCore_zwr hPH hPG e
   have hq : ¬ 5 ∣ Nat.card (↥H ⧸ CFSG.pPrimeCore 3 ↥H) :=
     A10Five.not_five_dvd_card (X := ↥H ⧸ CFSG.pPrimeCore 3 ↥H)
@@ -225,7 +225,7 @@ theorem good_center_of_five (hK : K326P2S) (h5 : 5 ∈ D.sig) {y : G}
     (hwΩ : ∀ x ∈ h.P, (∀ g ∈ h.P, g * x = x * g) → x ^ 3 = 1 →
       x ∈ Subgroup.zpowers (s.pt w)) : GoodPoint D.M (s.pt w) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPH : h.P ≤ Subgroup.centralizer
       (((Subgroup.zpowers (s.pt w) : Subgroup G) : Set G)) := by
     intro g hg
@@ -246,7 +246,7 @@ theorem good_center_of_five (hK : K326P2S) (h5 : 5 ∈ D.sig) {y : G}
         (fun v hv hv2 => hgood v hv ⟨2, hv2⟩) hexc
     exact s.good_of_five_of_centralizer_le h5 hy hy5 hw0 hHM
 
-private theorem normalizer_le_and_dvd_of_five (h5 : 5 ∈ D.sig) {y : G}
+private theorem normalizer_le_and_dvd_of_five (_h5 : 5 ∈ D.sig) {y : G}
     (hy : y ∈ D.M ⊓ Subgroup.centralizer (h.A : Set G)) (hy5 : orderOf y = 5)
     {w : Fin 3 → ZMod 3} (hgw : GoodPoint D.M (s.pt w)) (hw3 : ∀ i, w i ≠ 0)
     (hgood : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → (∃ i, v i = 0) → GoodPoint D.M (s.pt v))
@@ -278,15 +278,15 @@ theorem false_of_five (hK : K326P2S) (h5 : 5 ∈ D.sig) {y : G}
     (hgood : ∀ v : Fin 3 → ZMod 3, v ≠ 0 → (∃ i, v i = 0) → GoodPoint D.M (s.pt v)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvdM : ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       5 ∣ Nat.card (D.M ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) :=
     fun X hXA _ => dvd_card_inf_centralizer_of_mem_centralizer (X := X) hy hy5 hXA
   have h100 : (![1, 0, 0] : Fin 3 → ZMod 3) ≠ 0 := by
     intro h
     have := congrFun h 0
-    simpa using this
+    simp at this
   have hNA : Subgroup.normalizer (h.A : Set G) ≤ D.M :=
     h.normalizer_A_le_of_dvdM h5 hdvdM (s.pt_mem_A ![1, 0, 0]) (s.orderOf_pt h100)
       (hgood _ h100 ⟨1, rfl⟩)

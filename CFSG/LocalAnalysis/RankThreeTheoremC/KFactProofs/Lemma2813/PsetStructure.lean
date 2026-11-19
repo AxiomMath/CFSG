@@ -13,6 +13,7 @@ section CT
 
 variable {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
 
+omit [Finite M] in
 theorem Pset_add_mem {w : M} {x y : V3} (hx : x ∈ Pset M w) (hy : y ∈ Pset M w) (hxy : x ≠ y) :
     x + y ∈ Pset M w := by
   rw [mem_Pset] at hx hy ⊢
@@ -29,6 +30,7 @@ theorem Pset_add_mem {w : M} {x y : V3} (hx : x ∈ Pset M w) (hy : y ∈ Pset M
       exact ⟨hxw, hyw⟩
     exact fixSub_mono (Spt_add_le hx0 hy0 hxy) hsup
 
+omit [Finite M] in
 theorem eq_zero_of_three_mem_Pset (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) {w : M}
     {x y z : V3} (hx : x ∈ Pset M w) (hy : y ∈ Pset M w) (hz : z ∈ Pset M w) (hxy : x ≠ y)
     (hxz : x ≠ z) (hyz : y ≠ z) (h : z ≠ x + y) : w = 0 := by
@@ -44,6 +46,7 @@ theorem eq_zero_of_three_mem_Pset (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) 
   rw [Spt_sup_three hx0 hy0 hz0 hxy hxz hyz h] at htop
   exact htop g (Subgroup.mem_top g)
 
+omit [Finite M] in
 theorem Pset_card_cases (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) {w : M} (hw : w ≠ 0) :
     (Pset M w).card = 0 ∨ (Pset M w).card = 1 ∨
       ∃ x y : V3, x ≠ 0 ∧ y ≠ 0 ∧ x ≠ y ∧ Pset M w = {x, y, x + y} := by
@@ -72,6 +75,7 @@ theorem Pset_card_cases (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0)
       · exact hy
       · exact hxy'
 
+omit [Finite M] in
 theorem pst_Ncnt_eq (k : ℕ) :
     Ncnt M k = Nat.card {w : M // w ≠ 0 ∧ (Pset M w).card = k} := by
   unfold Ncnt
@@ -80,7 +84,7 @@ theorem pst_Ncnt_eq (k : ℕ) :
 theorem Ncnt_total (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) :
     Ncnt M 0 + Ncnt M 1 + Ncnt M 3 + 1 = Nat.card M := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   have key : ∀ k : ℕ, Ncnt M k =
       ∑ w : M, (if w ≠ 0 ∧ (Pset M w).card = k then 1 else 0) := by
     intro k

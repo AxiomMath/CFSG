@@ -50,8 +50,8 @@ private lemma rckBlockAction {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
   have hpair : (Units.val '' S : Set (Matrix ι ι F)).Pairwise Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix ι ι F))
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix ι ι F) * e = e * (a : Matrix ι ι F) := by
     intro a
     exact congrArg Subtype.val (mul_comm a (⟨e, heA⟩ : A))
@@ -125,7 +125,7 @@ private lemma rckBlockKModule {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
         ((π : A →+* K) a)) = actA a
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.Quotient.lift_mk]
     rfl
-  letI : Module K W := Module.compHom W ψ
+  let : Module K W := Module.compHom W ψ
   have htower : IsScalarTower F K W :=
     ⟨fun c k w => by
       change (ψ (c • k)) w = c • ((ψ k) w)
@@ -148,12 +148,12 @@ theorem rckBlockCoord_exists {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
       (π : Algebra.adjoin F (Units.val '' S) →ₐ[F] K),
       RCKBlockCoord S e K π := by
   obtain ⟨K, hKfield, hKalg, hKfin, π, hsurj, hker, hdeg⟩ := exists_blockField hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalg
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Algebra F K := hKalg
+  let : Finite K := hKfin
   obtain ⟨hKmod, hKtower, hact⟩ := rckBlockKModule hS he.1 K π hsurj hker
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
-  letI : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
+  let : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
   refine ⟨K, hKfield, hKfin, hKalg, hKmod, hKtower, π, hsurj, hact, ?_⟩
   rw [Module.natCard_eq_pow_finrank (K := F) (V := K), hdeg]
 

@@ -16,7 +16,7 @@ import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -82,7 +82,7 @@ theorem sum_sq_sub_two_ite {ι : Type*} [Fintype ι] [DecidableEq ι] (z : ι) (
     · simp [hx]
   rw [Finset.sum_congr rfl fun x _ => h1 x, Finset.sum_add_distrib, Finset.sum_const,
     ← Finset.mul_sum, Finset.sum_ite_eq' Finset.univ z (fun _ => (1 : ℤ))]
-  simp only [if_pos (Finset.mem_univ z), mul_one, Finset.card_univ, nsmul_eq_mul]
+  simp only [ite_eq_left (Finset.mem_univ z), mul_one, Finset.card_univ, nsmul_eq_mul]
   ring
 
 theorem eq_zero_of_sum_sq_le_six {ι : Type*} [Fintype ι] [DecidableEq ι] (z : ι)

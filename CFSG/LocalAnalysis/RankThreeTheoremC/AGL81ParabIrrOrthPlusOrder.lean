@@ -27,6 +27,7 @@ theorem sq_mem_orthElementaryGroup [CharP K 2] (hr : 3 ≤ r) {h : GLV r K}
   rw [← orthDerived_eq_orthElementary hr]
   exact hsq h hh
 
+omit [Finite K] in
 theorem pow_card_units_eq_one_of_mem_center {ι : Type} [Fintype ι] [DecidableEq ι] {z : GL ι K}
     (hz : z ∈ Subgroup.center (GL ι K)) : z ^ Nat.card Kˣ = 1 := by
   rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hz

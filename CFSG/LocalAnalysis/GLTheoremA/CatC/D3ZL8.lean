@@ -67,7 +67,7 @@ theorem exists_normal_form_borel (α : MulAut ↥(adjointGroup Tag.D4 K)) (hα3 
       have e : (MulAut.conj g)⁻¹ (⟨(g : ModGL Tag.D4 K) * x * (g : ModGL Tag.D4 K)⁻¹, hxG'⟩ :
           ↥(adjointGroup Tag.D4 K)) = ⟨x, hxG⟩ := by
         apply Subtype.ext
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       rw [e] at h1
       exact (hmemH _).1 h1
   have hgB : (g : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K := by
@@ -258,7 +258,7 @@ theorem levi_c_level (hK2 : ringChar K ≠ 2) {g : ModGL Tag.D4 K} (hg : g ∈ b
     have hAB : A = borelGroup Tag.D4 K := by rw [hAP, h0]; exact hcells.2.2.2.2.1
     refine ⟨1, one_mem _, ?_, ?_⟩
     · simpa [hAB] using (hAB ▸ hy : y ∈ borelGroup Tag.D4 K)
-    · simpa using one_mem (borelGroup Tag.D4 K)
+    · simp
   ·
     have hA2 : A = parabolicSubgroup Tag.D4 K ({2} : Set (Fin Tag.D4.rank)) := by rw [hAP, h2]
     have hJρ' : ∀ i, i ∈ ({2} : Set (Fin Tag.D4.rank)) ↔

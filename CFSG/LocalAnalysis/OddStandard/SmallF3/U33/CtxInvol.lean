@@ -14,7 +14,7 @@ variable {G : Type*} [Group G]
 theorem exists_conj_of_involution_sup {t z : G} {P L : Subgroup G}
     (hI : ∀ g ∈ L, g * g = 1 → g ≠ 1 → ∃ c ∈ L, c * z * c⁻¹ = g)
     (hPL : P ⊓ L = ⊥) (hcomm : ∀ a ∈ P, ∀ b ∈ L, a * b = b * a)
-    (hP2 : ∀ x ∈ P, x ^ 2 = 1 → x = 1 ∨ x = t) (htP : t ∈ P)
+    (hP2 : ∀ x ∈ P, x ^ 2 = 1 → x = 1 ∨ x = t) (_htP : t ∈ P)
     (hLt : ∀ b ∈ L, t * b = b * t) {g : G} (hg : g ∈ P ⊔ L) (hg2 : g * g = 1) (hg1 : g ≠ 1) :
     ∃ h ∈ invCent t, h * g * h⁻¹ = t ∨ h * g * h⁻¹ = z ∨ h * g * h⁻¹ = t * z := by
   obtain ⟨a, ha, l, hl, rfl⟩ := (mem_sup_iff_of_commute hcomm).mp hg

@@ -62,7 +62,7 @@ theorem six_minus_component (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
     isTwoU43_of_mulEquiv φ (isTwoU43_omegaGroup hQU hr hs)⟩
 
 theorem notQuat_omegaToProj (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 8)
-    {d : omegaGroup hQ} (hdd : (d : OGroup Q) * d = 1) (htd : invType (d : OGroup Q) = (2, -1)) :
+    {d : omegaGroup hQ} (_hdd : (d : OGroup Q) * d = 1) (htd : invType (d : OGroup Q) = (2, -1)) :
     NotQuat (omegaToProj hQ d) := by
   intro f hf hfd
   obtain ⟨y', hy'y', hty', hωy'⟩ := exists_invType_of_quaternion_omegaProj hQ hdim hf

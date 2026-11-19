@@ -97,26 +97,26 @@ theorem xu_perp_comm_jOp [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : β
       have hcomm : shift theta (shift (-β) b) = shift (-β) (shift theta b) :=
         shift_comm_perp hβ isRoot_theta (theta_dot_perp_zero hβ) hb1 h
       simp only [jFun_of_neg h, jFun_of_neg hs, xu_apply_coord hβ'.1, hb1, hsθ, hcomm,
-        ↓reduceIte] <;> ring
+        ↓reduceIte]; ring
     · have hs : pr (shift (-β) b) theta = 0 := hbs.trans h
-      simp only [jFun_of_zero h, jFun_of_zero hs, xu_apply_coord hβ'.1, hb1, ↓reduceIte] <;> ring
+      simp only [jFun_of_zero h, jFun_of_zero hs, xu_apply_coord hβ'.1, hb1, ↓reduceIte]
     · have hs : pr (shift (-β) b) theta = 1 := hbs.trans h
       have hsθ : pr (shift (-theta) b) β = 1 := (pr_shift_negtheta_perp hβ h).trans hb1
       have hcomm : shift (-theta) (shift (-β) b) = shift (-β) (shift (-theta) b) :=
         shift_comm_perp hβ (isRoot_neg isRoot_theta) (negtheta_dot_perp_zero hβ) hb1
           (by rw [pr_neg, h])
       simp only [jFun_of_pos h, jFun_of_pos hs, xu_apply_coord hβ'.1, hb1, hsθ, hcomm,
-        ↓reduceIte] <;> ring
+        ↓reduceIte]; ring
   · rcases pr_mem isRoot_theta b with h | h | h
     · have hsθ : ¬ pr (shift theta b) β = 1 := by
         rw [pr_shift_theta_perp hβ h]
         exact hb1
-      simp only [jFun_of_neg h, xu_apply_coord hβ'.1, hb1, hsθ, ↓reduceIte] <;> ring
-    · simp only [jFun_of_zero h, xu_apply_coord hβ'.1, hb1, ↓reduceIte] <;> ring
+      simp only [jFun_of_neg h, xu_apply_coord hβ'.1, hb1, hsθ, ↓reduceIte]; ring
+    · simp only [jFun_of_zero h, xu_apply_coord hβ'.1, hb1, ↓reduceIte]
     · have hsβ : ¬ pr (shift (-theta) b) β = 1 := by
         rw [pr_shift_negtheta_perp hβ h]
         exact hb1
-      simp only [jFun_of_pos h, xu_apply_coord hβ'.1, hb1, hsβ, ↓reduceIte] <;> ring
+      simp only [jFun_of_pos h, xu_apply_coord hβ'.1, hb1, hsβ, ↓reduceIte]; ring
 
 theorem Lam_commute_J [CharP K 2] {l j : (Module.End K (V K))ˣ} (hl : l ∈ Lam K)
     (hj : j ∈ Jgrp K) : l * j = j * l := by
@@ -170,8 +170,8 @@ theorem Lam_stabilizes_V0 [CharP K 2] {l : (Module.End K (V K))ˣ} (hl : l ∈ L
       have hsh0 : shift (-β) b ∉ idx0 := by
         rw [mem_idx0, hsh]
         exact hb'
-      rw [if_pos hp, (mem_V0.1 hw) _ hsh0, hwb, mul_zero, add_zero]
-    · rw [if_neg hp, mul_zero, add_zero, hwb]
+      rw [ite_eq_left hp, (mem_V0.1 hw) _ hsh0, hwb, mul_zero, add_zero]
+    · rw [ite_eq_right hp, mul_zero, add_zero, hwb]
   have hinv : ∀ β : Fin (Tag.rank .E7) → ℤ, ∀ c : K,
       ((e7Data_valid.xu K β c)⁻¹ : (Module.End K (V K))ˣ) = e7Data_valid.xu K β (-c) := by
     intro β c
@@ -325,9 +325,9 @@ private theorem testBit_orRows : ∀ (rows : List ℕ) (S c : ℕ), (orRows S ro
     rw [orRows, Nat.testBit_or, Bool.or_eq_true] at h
     rcases h with h | h
     · by_cases hS : S % 2 = 1
-      · rw [if_pos hS] at h
+      · rw [ite_eq_left hS] at h
         exact ⟨0, by simp, by rw [Nat.testBit_zero, hS]; rfl, h⟩
-      · rw [if_neg hS, Nat.zero_testBit] at h
+      · rw [ite_eq_right hS, Nat.zero_testBit] at h
         exact absurd h (by decide)
     · obtain ⟨i, hi, h1, h2⟩ := testBit_orRows rows (S / 2) c h
       exact ⟨i + 1, by simpa using hi, by rw [Nat.testBit_succ]; exact h1, h2⟩
@@ -430,18 +430,18 @@ theorem Lam_swap [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Per
   have hpb : pr (shift β a) (-β) = -1 := by rw [pr_neg]; omega
   have A1 : (e7Data_valid.xu K β 1 : Module.End K (V K)) (Finsupp.single a 1) =
       Finsupp.single a 1 + Finsupp.single (shift β a) 1 := by
-    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβR a, if_pos h, one_smul]
+    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβR a, ite_eq_left h, one_smul]
   have A2 : (e7Data_valid.xu K β 1 : Module.End K (V K)) (Finsupp.single (shift β a) 1) =
       Finsupp.single (shift β a) 1 := by
-    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβR (shift β a), if_neg hne1, smul_zero,
+    rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβR (shift β a), ite_eq_right hne1, smul_zero,
       add_zero]
   have B1 : (e7Data_valid.xu K (-β) 1 : Module.End K (V K)) (Finsupp.single a 1) =
       Finsupp.single a 1 := by
-    rw [e7Data_valid.xu_apply, rootOp_single (K := K) (isRoot_neg hβR) a, if_neg hne2, smul_zero,
+    rw [e7Data_valid.xu_apply, rootOp_single (K := K) (isRoot_neg hβR) a, ite_eq_right hne2, smul_zero,
       add_zero]
   have B2 : (e7Data_valid.xu K (-β) 1 : Module.End K (V K)) (Finsupp.single (shift β a) 1) =
       Finsupp.single (shift β a) 1 + Finsupp.single a 1 := by
-    rw [e7Data_valid.xu_apply, rootOp_single (K := K) (isRoot_neg hβR) (shift β a), if_pos hpb,
+    rw [e7Data_valid.xu_apply, rootOp_single (K := K) (isRoot_neg hβR) (shift β a), ite_eq_left hpb,
       shift_neg_shift hβR h, one_smul]
   have hvv : ∀ v : V K, v + v = 0 := by
     intro v
@@ -474,6 +474,7 @@ section Irred
 
 variable [CharP K 2] (S : AddSubgroup (V K))
 
+omit [CharP K 2] in
 theorem scalar_closure (hΛ : ∀ l ∈ Lam K, ∀ s ∈ S, (l : Module.End K (V K)) s ∈ S)
     {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Perp) (c : K) {s : V K} (hs : s ∈ S) :
     c • e7Data.rootOp K β s ∈ S := by
@@ -520,7 +521,7 @@ theorem exists_single_of_ne_bot (hS : ∀ s ∈ S, s ∈ V0 K)
       have h := scalar_closure S hΛ hβ 1 hs
       rwa [one_smul] at h
     have hval : (e7Data.rootOp K β s) (shift β x) = s x := by
-      rw [rootOp_apply (K := K) hβP.1 s (shift β x), if_pos (pr_shift_self hβP.1 hx1),
+      rw [rootOp_apply (K := K) hβP.1 s (shift β x), ite_eq_left (pr_shift_self hβP.1 hx1),
         shift_neg_shift hβP.1 hx1]
     have hs'0 : e7Data.rootOp K β s ≠ 0 := by
       intro h0
@@ -530,7 +531,7 @@ theorem exists_single_of_ne_bot (hS : ∀ s ∈ S, s ∈ V0 K)
       intro b hb
       rw [Finsupp.mem_support_iff, rootOp_apply (K := K) hβP.1 s b] at hb
       by_cases hb1 : pr b β = 1
-      · rw [if_pos hb1] at hb
+      · rw [ite_eq_left hb1] at hb
         rw [Finset.mem_image]
         refine ⟨shift (-β) b, ?_, shift_shift_neg hβP.1 hb1⟩
         rw [Finset.mem_erase, Finsupp.mem_support_iff]
@@ -539,7 +540,7 @@ theorem exists_single_of_ne_bot (hS : ∀ s ∈ S, s ∈ V0 K)
         have hpa : pr (shift (-β) b) β = -1 := pr_shift_neg hβP.1 hb1
         rw [h] at hpa
         exact hy1 hpa
-      · rw [if_neg hb1] at hb
+      · rw [ite_eq_right hb1] at hb
         exact absurd rfl hb
     have hcard1 : (e7Data.rootOp K β s).support.card ≤ (s.support.erase y).card :=
       (Finset.card_le_card hsub).trans Finset.card_image_le
@@ -579,7 +580,7 @@ theorem exists_single_of_ne_bot (hS : ∀ s ∈ S, s ∈ V0 K)
         have hbm : b ∈ s.support := Finsupp.mem_support_iff.mpr hne2
         rw [hsupp, Finset.mem_singleton] at hbm
         exact hb hbm
-      rw [hb0, Finsupp.smul_apply, Finsupp.single_apply, if_neg (Ne.symm hb), smul_zero]
+      rw [hb0, Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right (Ne.symm hb), smul_zero]
   refine ⟨a, hsupp0 a ha, s a, hsa, ?_⟩
   rw [← hseq]
   exact hs
@@ -592,7 +593,7 @@ theorem line_step (hΛ : ∀ l ∈ Lam K, ∀ s ∈ S, (l : Module.End K (V K)) 
   have hβP : IsRoot .E7 β ∧ MinData.toWeight β ⬝ᵥ theta = 0 := hβ
   have h1 := scalar_closure S hΛ hβ c (h 1)
   have h2 : e7Data.rootOp K β ((1 : K) • Finsupp.single a (1 : K)) = Finsupp.single b (1 : K) := by
-    rw [one_smul, rootOp_single (K := K) hβP.1 a, if_pos hpa, hsh]
+    rw [one_smul, rootOp_single (K := K) hβP.1 a, ite_eq_left hpa, hsh]
   rw [h2] at h1
   exact h1
 
@@ -614,7 +615,7 @@ theorem Lam_irreducible_V0 (hS : ∀ s ∈ S, s ∈ V0 K)
     intro c''
     have h1 := scalar_closure S hΛ hβ (c'' / c) hca
     have h2 : e7Data.rootOp K β (c • Finsupp.single a (1 : K)) = c • Finsupp.single b (1 : K) := by
-      rw [map_smul, rootOp_single (K := K) hβP.1 a, if_pos hpa, hsh]
+      rw [map_smul, rootOp_single (K := K) hβP.1 a, ite_eq_left hpa, hsh]
     have hcc : c'' / c * c = c'' := by field_simp
     rw [h2, smul_smul, hcc] at h1
     exact h1

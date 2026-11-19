@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
     (W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) : Subgroup G :=
   (W.comap (QuotientGroup.mk' (aschbacherSolvableCore 3 K))).map K.subtype
 
+omit [Finite G] in
 theorem mem_preimageSub {K : Subgroup G} {W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)} {x : G} :
     x ∈ preimageSub K W ↔
       ∃ hx : x ∈ K, QuotientGroup.mk' (aschbacherSolvableCore 3 K) ⟨x, hx⟩ ∈ W := by
@@ -25,11 +26,13 @@ theorem mem_preimageSub {K : Subgroup G} {W : Subgroup (K ⧸ aschbacherSolvable
   · rintro ⟨hx, hW⟩
     exact Subgroup.mem_map.mpr ⟨⟨x, hx⟩, hW, rfl⟩
 
+omit [Finite G] in
 theorem preimageSub_le (K : Subgroup G) (W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) :
     preimageSub K W ≤ K := by
   unfold preimageSub
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem imageSub_preimageSub (K : Subgroup G) (W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)) :
     imageSub K (preimageSub K W) = W := by
   have hS : (preimageSub K W).subgroupOf K =
@@ -42,6 +45,7 @@ theorem imageSub_preimageSub (K : Subgroup G) (W : Subgroup (K ⧸ aschbacherSol
   exact Subgroup.map_comap_eq_self_of_surjective
     (QuotientGroup.mk'_surjective (aschbacherSolvableCore 3 K)) W
 
+omit [Finite G] in
 theorem mem_preimageSub_iff_mk_mem {K : Subgroup G}
     {W : Subgroup (K ⧸ aschbacherSolvableCore 3 K)} (x : K) :
     (x : G) ∈ preimageSub K W ↔ QuotientGroup.mk' (aschbacherSolvableCore 3 K) x ∈ W := by
@@ -67,12 +71,14 @@ theorem card_preimageSub (K : Subgroup G) (W : Subgroup (K ⧸ aschbacherSolvabl
   rw [Subgroup.card_subtype, Subgroup.card_subtype,
     card_comap_mk'_core (aschbacherSolvableCore 3 K) W]
 
+omit [Finite G] in
 theorem inf_theta_eq_bot_of_isPGroup {p : ℕ} [Fact p.Prime] {K D : Subgroup G}
     (hD : IsPGroup p D)
     (hθ : ¬ p ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) :
     D ⊓ inSubgroup (aschbacherSolvableCore 3) K = ⊥ :=
   KFacts.inf_eq_bot_of_coprime hD hθ
 
+omit [Finite G] in
 theorem mk_injOn_of_isPGroup {p : ℕ} [Fact p.Prime] {K D : Subgroup G} (hD : IsPGroup p D)
     (hθ : ¬ p ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) {x y : K}
     (hx : (x : G) ∈ D) (hy : (y : G) ∈ D)
@@ -88,6 +94,7 @@ theorem mk_injOn_of_isPGroup {p : ℕ} [Fact p.Prime] {K D : Subgroup G} (hD : I
   rw [inf_theta_eq_bot_of_isPGroup hD hθ, Subgroup.mem_bot] at h1
   exact inv_mul_eq_one.mp (Subtype.ext h1)
 
+omit [Finite G] in
 theorem card_imageSub_gen {p : ℕ} [Fact p.Prime] {K D : Subgroup G} (hDK : D ≤ K)
     (hD : IsPGroup p D) (hθ : ¬ p ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) :
     Nat.card (imageSub K D) = Nat.card D := by

@@ -289,8 +289,8 @@ variable {n : ℕ} {M L V : Subgroup G} (d : U4NatData G n L V)
 theorem statedSU_data_norm (hF : Nat.card d.F = (2 ^ n) ^ 2) :
     ∃ σ : d.F ≃+* d.F, IsUnitaryInvolution σ ∧ (2 : d.F) = 0 ∧
       SUid σ 4 = StatedSU 4 (2 ^ n) d.F ∧ ∀ c : d.F, σ c * c = c ^ (2 ^ n + 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP d.F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP d.F 2 := charP_of_card_sq (p := 2) (f := n) hF
   refine ⟨CFSG.LieType.BorelTits.unitaryInvolution d.F 2 n,
     isUnitaryInvolution_unitaryInvolution hF, CharP.cast_eq_zero d.F 2,
     CFSG.LieType.Universal.Unitary.SUid_eq_statedSU hF 4, fun c => ?_⟩

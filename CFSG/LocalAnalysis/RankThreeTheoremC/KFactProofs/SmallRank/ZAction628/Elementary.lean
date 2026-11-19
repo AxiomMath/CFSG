@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem IsExt2.exists_swap {R : Subgroup K} {t : K} (hR : IsExt2 R t) {y : K} (hy : y ∈ R)
     (hyt : y ∉ zpowers t) : ∃ r ∈ R, r * y * r⁻¹ = t * y := by
   obtain ⟨r, hr, hyr⟩ : ∃ r ∈ R, y * r ≠ r * y := by
@@ -51,7 +52,7 @@ theorem IsExt2.exists_swap {R : Subgroup K} {t : K} (hR : IsExt2 R t) {y : K} (h
 theorem card_le_pow_of_pRank_le {f : ℕ} (hf : f.Prime) {H E : Subgroup K} (hEH : E ≤ H)
     (hE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hE' : ∀ a ∈ E, a ^ f = 1) {r : ℕ}
     (h : CFSG.Open.pRank f H ≤ r) : Nat.card E ≤ f ^ r := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hP : IsPGroup f E := by
     intro g
     exact ⟨1, Subtype.ext (by
@@ -91,7 +92,7 @@ theorem p_dvd_pow_sub_one {R : Subgroup K} {t z : K} {p k : ℕ} (hp : p.Prime) 
   · exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2) hp2
   · exact h2
 
-theorem p_cases {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hk0 : 1 ≤ k) (hk3 : k ≤ 3)
+theorem p_cases {p k : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hk0 : 1 ≤ k) (hk3 : k ≤ 3)
     (hdvd : p ∣ 2 ^ (2 * k) - 1) (h3 : p = 3 → k = 1) (h7 : p = 7 → k = 3 → False) :
     (p = 3 ∧ k = 1) ∨ (p = 5 ∧ k = 2) := by
   interval_cases k

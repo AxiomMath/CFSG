@@ -182,7 +182,7 @@ theorem exists_sylow_inf_U (hW : suzukiWElt a K ∈ H) (hz : suzukiSElt a K 0 1 
       rw [← hamb] at hy
       obtain ⟨m, -, rfl⟩ := hy
       exact m.2
-    obtain ⟨n, hn⟩ := amb.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := amb.isPGroup ⟨y, hy⟩
     have hpow : (y : suzukiGroup a K) ^ 2 ^ n = 1 :=
       congrArg (fun z : ↥H => (z : suzukiGroup a K)) (congrArg Subtype.val hn)
     exact ⟨y.2, mem_suzukiU_of_pow_two hK hyM.2 hpow⟩

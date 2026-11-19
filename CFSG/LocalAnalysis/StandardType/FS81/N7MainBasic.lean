@@ -32,7 +32,7 @@ theorem perm_eq_one_of_spMat_eq_one {σ : Equiv.Perm (Fin k)} {s : Fin k → ZMo
   ext j
   by_contra hne
   have e := congrFun (congrFun h j) j
-  rw [spMat_apply, if_neg (fun h' => hne (by rw [← h']; rfl)), Matrix.one_apply_eq] at e
+  rw [spMat_apply, ite_eq_right (fun h' => hne (by rw [← h']; rfl)), Matrix.one_apply_eq] at e
   exact zero_ne_one e
 
 theorem perm_eq_of_spMat_eq {σ τ : Equiv.Perm (Fin k)} {s t : Fin k → ZMod 3} (hs : IsSign s)
@@ -40,7 +40,7 @@ theorem perm_eq_of_spMat_eq {σ τ : Equiv.Perm (Fin k)} {s t : Fin k → ZMod 3
   ext j
   by_contra hne
   have e := congrFun (congrFun h (σ j)) j
-  rw [spMat_apply, spMat_apply, if_pos rfl, if_neg (fun h' => hne (congrArg Fin.val h'))] at e
+  rw [spMat_apply, spMat_apply, ite_eq_left rfl, ite_eq_right (fun h' => hne (congrArg Fin.val h'))] at e
   rcases hs j with h1 | h1 <;> rw [h1] at e <;> exact absurd e (by decide)
 
 theorem spMat_one_mul_self {s : Fin k → ZMod 3} (hs : IsSign s) :
@@ -206,7 +206,7 @@ theorem exists_spMat_mulVec_eq_repW (v : Fin 8 → ZMod 3) (hv : wt v ≤ 7) :
       · exact Or.inl rfl
     rcases h1 with h1 | h1 <;> rcases h2 with h2 | h2 <;> rw [h1, h2] <;> decide
   · rw [Finset.prod_mul_distrib, Finset.prod_ite_mem, Finset.univ_inter, Finset.prod_ite_eq']
-    simp only [Finset.mem_univ, if_true]
+    simp only [Finset.mem_univ, ite_true]
     exact hP
   · rw [spMat_mulVec]
     funext i
@@ -214,14 +214,14 @@ theorem exists_spMat_mulVec_eq_repW (v : Fin 8 → ZMod 3) (hv : wt v ≤ 7) :
     by_cases hy : σ.symm i ∈ S
     · have hiT : i ∈ T := hi ▸ (hσS _).mp hy
       have hne : σ.symm i ≠ j₀ := fun h => hj₀ (h ▸ hy)
-      rw [if_pos hy, if_neg hne, mul_one, mul_self_of_ne_zero ((hmemS _).mp hy)]
-      exact (if_pos ((hmemT i).mp hiT)).symm
+      rw [ite_eq_left hy, ite_eq_right hne, mul_one, mul_self_of_ne_zero ((hmemS _).mp hy)]
+      exact (ite_eq_left ((hmemT i).mp hiT)).symm
     · have hiT : i ∉ T := fun h => hy ((hσS _).mpr (hi.symm ▸ h))
       have hv0 : v (σ.symm i) = 0 := by
         by_contra h
         exact hy ((hmemS _).mpr h)
       rw [hv0, mul_zero]
-      exact (if_neg (fun h => hiT ((hmemT i).mpr h))).symm
+      exact (ite_eq_right (fun h => hiT ((hmemT i).mpr h))).symm
 
 theorem exists_spMat_mulVec_eq_rep8 (v : Fin 8 → ZMod 3) (hv : wt v = 8) :
     ∃ σ s, IsSign s ∧ ∏ i, s i = 1 ∧ spMat σ s *ᵥ v = rep8 (∏ i, v i) := by
@@ -244,13 +244,13 @@ theorem exists_spMat_mulVec_eq_rep8 (v : Fin 8 → ZMod 3) (hv : wt v = 8) :
       · exact Or.inl rfl
     rcases h1 with h1 | h1 <;> rcases eq_one_or_of_ne_zero (hv0 x) with h2 | h2 <;>
       rw [h1, h2] <;> decide
-  · rw [Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ (0 : Fin 8), if_pos (Finset.mem_univ _)]
+  · rw [Finset.prod_mul_distrib, Finset.prod_ite_eq' Finset.univ (0 : Fin 8), ite_eq_left (Finset.mem_univ _)]
     exact hP
   · rw [spMat_mulVec]
     funext i
-    simp only [Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+    simp only [← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
     rw [mul_assoc, mul_self_of_ne_zero (hv0 i), mul_one]
-    first | rfl | simp [rep8]
+    first | rfl
 
 theorem card_wt_one : (Finset.univ.filter fun v : Fin 8 → ZMod 3 => wt v = 1).card = 16 := by
   decide +kernel
@@ -311,7 +311,7 @@ theorem wt_single_add_smul {u : Fin k → ZMod 3} {j : Fin k} (huj : u j ≠ 0) 
       by_cases hi : i = j
       · subst hi
         simp [h1]
-      · simp [hi, Pi.single_eq_of_ne hi, hc]
+      · simp [hi, hc]
     · ext i
       by_cases hi : i = j
       · subst hi

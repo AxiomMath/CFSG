@@ -74,7 +74,7 @@ theorem i271AutBalanceAltSix_holds : I271AutBalanceAltSix := by
     have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hApow g.1 g.2)
     exact ⟨1, by rw [pow_one]; exact orderOf_dvd_of_pow_eq_one hg3⟩
   obtain ⟨Q, hAQ⟩ := hAp.exists_le_sylow
-  have hQdvd : Nat.card Q.toSubgroup ∣ 9 := card_dvd_nine_of_isPGroup Q.isPGroup'
+  have hQdvd : Nat.card Q.toSubgroup ∣ 9 := card_dvd_nine_of_isPGroup Q.isPGroup
   have hAle : Nat.card A ≤ Nat.card Q.toSubgroup :=
     Nat.le_of_dvd Nat.card_pos (Subgroup.card_dvd_of_le hAQ)
   have hQle9 : Nat.card Q.toSubgroup ≤ 9 := Nat.le_of_dvd (by norm_num) hQdvd

@@ -92,11 +92,11 @@ theorem layer_inf_W_mem_USet {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup
   have hab := TwinThmEW.habel_of_WSet hΩ hW
   have hWC : W ≤ Subgroup.centralizer ({c} : Set G) := fun w hw =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hab w hw c hcW)
-  haveI hHn : (coreHull Ω c).Normal := Pf93.normal_coreHull hΩ hc2
+  have hHn : (coreHull Ω c).Normal := Pf93.normal_coreHull hΩ hc2
   have hΩ' : HypOmegaGen (TwinDisc.secFam Ω c) := TwinDisc.hypOmegaGen_secFam hΩ hc2
   have hVW : V ∈ WSet (TwinDisc.secFam Ω c) := by rw [hV]; exact Set.mem_singleton V
   have hV2 : IsPGroup 2 ↥V := Thompson.isPGroup_of_mem_WSet hVW
-  haveI hVn : V.Normal := ⟨fun v hv q => by
+  have hVn : V.Normal := ⟨fun v hv q => by
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨z, rfl⟩ := QuotientGroup.mk_surjective v
     exact Pf93.sec_invariant_of_unique hΩ hc2 hV (x : ↥(Subgroup.centralizer ({c} : Set G))) z

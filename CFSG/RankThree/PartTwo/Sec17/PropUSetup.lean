@@ -15,10 +15,10 @@ theorem exists_Rstar {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {A
     (hAR : A ≤ Subgroup.normalizer (R : Set G)) (hAT : A ≤ Subgroup.normalizer (T : Set G)) :
     ∃ Rs : Subgroup G, Rs ≤ R ∧ Rs ≠ ⊥ ∧ T ≤ Subgroup.centralizer (Rs : Set G) ∧
       A ≤ Subgroup.normalizer (Rs : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   refine ⟨R ⊓ Subgroup.centralizer (T : Set G), inf_le_left, ?_, ?_, ?_⟩
-  · haveI : (R.subgroupOf T).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRT).mpr hTN
+  · have : (R.subgroupOf T).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRT).mpr hTN
     have hRsub : R.subgroupOf T ≠ ⊥ := by
       intro h
       apply hR1
@@ -58,16 +58,16 @@ theorem normalizer_mem_scriptY {G : Type} [Group G] [Finite G] (hG : TheoremFour
     (hp : p.Prime) {A Rs : Subgroup G} (hR : IsPGroup p Rs) (hR1 : Rs ≠ ⊥)
     (hA : A ≤ Subgroup.normalizer (Rs : Set G)) :
     Subgroup.normalizer (Rs : Set G) ∈ scriptY A := by
-  haveI : IsSimpleGroup G := hG.isSimpleGroup
-  haveI : Fact p.Prime := ⟨hp⟩
-  simp only [scriptY, Set.mem_setOf_eq]
+  have : IsSimpleGroup G := hG.isSimpleGroup
+  have : Fact p.Prime := ⟨hp⟩
+  simp only [scriptY, Set.mem_ofPred_eq]
   refine ⟨?_, hA.trans Subgroup.le_normalizer⟩
   intro htop
-  haveI : Rs.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+  have : Rs.Normal := Subgroup.normalizer_eq_top_iff.mp htop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Rs with h | h
   · exact hR1 h
   · subst h
-    haveI : Group.IsNilpotent G := Group.isNilpotent_top.mp hR.isNilpotent
+    have : Group.IsNilpotent G := Group.isNilpotent_top.mp hR.isNilpotent
     obtain ⟨a, b, hab⟩ := hG.nonabelian
     exact hab (mul_comm a b)
 

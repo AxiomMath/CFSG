@@ -238,11 +238,11 @@ theorem original_local_sylow_prime_action_is_quotient_of_common_normalizer_restr
   have hBΓ : B ≤ Γ := by
     rintro _ ⟨n, hn, rfl⟩
     exact mem_inf.mpr ⟨hθP n (mem_inf.mp hn).2, hθU n (mem_inf.mp hn).1⟩
-  have hB2 : IsPGroup 2 B := (Q.isPGroup'.to_le inf_le_left).map θ
+  have hB2 : IsPGroup 2 B := (Q.isPGroup.to_le inf_le_left).map θ
   have hU₀ : ∃ U : Sylow 2 (K ⧸ N), (U : Subgroup (K ⧸ N)) = U₀ := by
     have hQtop : IsSylowOf 2 (Q : Subgroup H) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]
-      exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+      exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
     obtain ⟨S₁, hS₁⟩ := (hQtop.inf_of_le_normalizer (N := K) le_top
       (by rw [normalizer_eq_top])).exists_sylow_eq_subgroupOf
     refine ⟨S₁.mapSurjective (QuotientGroup.mk'_surjective N), ?_⟩

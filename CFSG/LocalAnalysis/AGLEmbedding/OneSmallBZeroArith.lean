@@ -76,10 +76,9 @@ theorem arith_alt {p c₁ c₂ : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [ZMod.natCast_self] at hX
   have hpz : ((p : ℕ) : ZMod p) = 0 := ZMod.natCast_self p
   rcases h₁ with h₁ | h₁ | h₁ | h₁ <;> rcases h₂ with h₂ | h₂ | h₂ | h₂
-  all_goals first
+  all_goals try first
     | exact absurd h₁ h₁'
     | exact absurd h₂ h₂'
-    | skip
   ·
     subst h₁ h₂
     exact (false_of_zmod_eq_zero (p := p) (k := 1) (by norm_num) (by omega)

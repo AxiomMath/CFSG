@@ -18,6 +18,7 @@ section Exclusion
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_mem_centralizer {L : Subgroup G} (hZ : Subgroup.center L = ⊥) {x : G}
     (hxL : x ∈ L) (hxC : x ∈ Subgroup.centralizer (L : Set G)) : x = 1 := by
   have hmem : (⟨x, hxL⟩ : L) ∈ Subgroup.center L := by
@@ -228,8 +229,8 @@ theorem rowH2_of_e9Move {S : Type} [Group S] [Finite S]
   have h1080 : 1080 ∣ Nat.card ↥K := by
     rw [← Sec13.card_eq_of_isTripleCover_six hA6]
     exact Subgroup.card_quotient_dvd_card _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2
     (dvd_trans (by norm_num) h1080)
   set t : C := ⟨(t₀ : Γ), hKC t₀.2⟩ with ht
@@ -304,8 +305,8 @@ theorem rowOfH2_j4
   have b' : Blueprint.NativeSporadic.Carrier .J4 ≃* Spor .J4 := b
   have hcard : Nat.card (Spor .J4) = 86775571046077562880 := by
     rw [← Nat.card_congr b.toEquiv, CFSG.Sporadic.J4.card_J4]
-  haveI : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Blueprint.NativeSporadic.Carrier .J4) := Finite.of_equiv _ b'.symm.toEquiv
   refine rowOfH2_of_e9Move ?_ rankTwo_spor_j4 (fun S _ _ ⟨e⟩ => e9Move_of_j4 ⟨e.trans b'.symm⟩) ?_
   · intro L _ _ hSL hL hZ3 ⟨e'⟩
     exact center_eq_bot_of_card hSL hL hZ3 ((Nat.card_congr e'.toEquiv).trans hcard)
@@ -322,8 +323,8 @@ theorem rowOfH2_ru
   have b' : Blueprint.NativeSporadic.Carrier .Ru ≃* Spor .Ru := b
   have hcard : Nat.card (Spor .Ru) = 145926144000 := by
     rw [← Nat.card_congr b.toEquiv, CFSG.Sporadic.Ru.card_Ru]
-  haveI : Finite (Spor .Ru) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ru) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (Spor .Ru) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ru) := Finite.of_equiv _ b'.symm.toEquiv
   refine rowOfH2_of_e9Move ?_ rankTwo_spor_ru (fun S _ _ ⟨e⟩ => e9Move_of_ru ⟨e.trans b'.symm⟩) ?_
   · intro L _ _ hSL hL hZ3 ⟨e'⟩
     exact center_eq_bot_of_card hSL hL hZ3 ((Nat.card_congr e'.toEquiv).trans hcard)

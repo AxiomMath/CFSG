@@ -145,7 +145,7 @@ private theorem aligned_H_inter_M_eq_U_inter_M_sup_SM
     QuotientGroup.mk' (c.U.subgroupOf c.H)
   let SH : Subgroup c.H := (c.S : Subgroup G).subgroupOf c.H
   let : (c.U.subgroupOf c.H).Normal := hU0normalH
-  have hSHp : IsPGroup 2 SH := c.S.isPGroup'.comap_subtype
+  have hSHp : IsPGroup 2 SH := c.S.isPGroup.comap_subtype
   have hSHsup : SH ⊔ c.U.subgroupOf c.H = ⊤ := by
     apply le_antisymm le_top
     intro x hx

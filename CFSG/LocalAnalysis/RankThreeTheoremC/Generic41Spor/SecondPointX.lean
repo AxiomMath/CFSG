@@ -191,11 +191,11 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem typeII_three_le_pRank_centralizer (hX : ExtraFacts Typ p Shape)
     (hc : PointConfig Typ G p P M x J) (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G))
-    {y : G} (hy : y ∈ (P : Subgroup G)) (hyp : y ^ p = 1) :
+    {y : G} (hy : y ∈ (P : Subgroup G)) (_hyp : y ^ p = 1) :
     3 ≤ CFSG.Open.pRank p (Subgroup.centralizer ({y} : Set G)) := by
-  clear hyp
+  clear _hyp
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := typeII_T_structure hX hc
   obtain ⟨Z, -, hxZ, -, hcomm, hTZ, hsup⟩ := typeII_S_decomp hX hc
   have hS : u3S P x = (P : Subgroup G) := inf_eq_left.mpr hP
@@ -223,7 +223,7 @@ theorem plane_three_le_pRank_centralizer
   obtain ⟨Z, hZcyc, -, -, hcomm, -, hsup⟩ := plane_S_decomp hsyl hno hc
   have hS : u3S P x = (P : Subgroup G) := inf_eq_left.mpr hP
   rw [hS] at hsup
-  haveI : IsMulCommutative (u3T P x J) := hTel.1
+  have : IsMulCommutative (u3T P x J) := hTel.1
   have hPab : IsMulCommutative (P : Subgroup G) := by
     have := plane_sup_comm (A := u3T P x J) (B := Z) (fun a ha b hb => (hcomm b hb a ha).symm)
     rwa [hsup] at this

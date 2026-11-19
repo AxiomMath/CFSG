@@ -189,7 +189,7 @@ theorem span : Nat.card (Submonoid.closure {x | x ∈ matGrp jWords ∧ (jCls x 
   have hset : {x | x ∈ matGrp jWords ∧ (jCls x = 0 ∨ jCls x = 7)} =
       {x | ∃ v < 1024, vC (clsJ K1 K3 256 v) = true ∧ jMat v = x} := by
     ext x
-    simp only [Set.mem_setOf_eq, mem_J]
+    simp only [Set.mem_ofPred_eq, mem_J]
     constructor
     · rintro ⟨⟨v, hv, rfl⟩, h⟩
       exact ⟨v, hv, by rw [vC_iff, clsJ_eq hv]; exact h, rfl⟩

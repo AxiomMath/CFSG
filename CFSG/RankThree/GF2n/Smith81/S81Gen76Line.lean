@@ -114,7 +114,7 @@ theorem span_single_ne {a b : ι} (h : a ≠ b) :
     he ▸ Submodule.mem_span_singleton_self _
   obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.1 hb
   have := congrArg (fun v : ι →₀ K => v b) hr
-  simp [Finsupp.single_apply, h] at this
+  simp [h] at this
 
 theorem span_mem_of_rootLines {Γ : Subgroup (Module.End K (ι →₀ K))ˣ}
     {R : Set (Module.End K (ι →₀ K))ˣ} (hR : Subgroup.closure R = Γ)

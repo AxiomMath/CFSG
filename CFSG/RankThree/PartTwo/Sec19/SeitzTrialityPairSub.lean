@@ -135,10 +135,11 @@ theorem pair_H_sub (H : Subgroup (GL (Fin 3) F)) {l : F} (hl : ∀ θ : F, θ ^ 
   have := homol_not_comm_heis hl hcHmat hH k
   rwa [map_mul, map_mul, map_inv] at this
 
+omit [Finite F] in
 theorem pair_R_sub (H : Subgroup (GL (Fin 3) F)) (hF2 : (2 : F) = 0) {ω : F}
     (hω : ω ^ 2 + ω + 1 = 0)
     {P : GL (Fin 3) F} (hPmat : (P : Matrix (Fin 3) (Fin 3) F) = Phi ω) (hPH : P ∈ H)
-    {g : GL (Fin 3) F} (hz3 : ProjGenLinGroup.mk g ^ 3 = 1) (hz1 : ProjGenLinGroup.mk g ≠ 1)
+    {g : GL (Fin 3) F} (_hz3 : ProjGenLinGroup.mk g ^ 3 = 1) (hz1 : ProjGenLinGroup.mk g ≠ 1)
     (A : GL (Fin 3) F) (hAH : A ∈ H) (μ : F)
     (hga : (g : Matrix (Fin 3) (Fin 3) F) * (A : Matrix (Fin 3) (Fin 3) F) =
       (A : Matrix (Fin 3) (Fin 3) F) * (μ • Dm ω)) :
@@ -205,7 +206,7 @@ theorem pair_R_sub (H : Subgroup (GL (Fin 3) F)) (hF2 : (2 : F) = 0) {ω : F}
     have hDm3 : Dm ω ^ 3 = 1 := by
       rw [Dm, Matrix.diagonal_pow]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> grind
+      fin_cases i <;> fin_cases j <;> simp <;> grind
     have hD3 : ProjGenLinGroup.mk D ^ 3 = 1 := by
       rw [← map_pow, ← map_one ProjGenLinGroup.mk]
       refine (mk_eq_iff _ _).2 ⟨(μ ^ 3)⁻¹, inv_ne_zero (pow_ne_zero 3 hμ0), ?_⟩
@@ -233,13 +234,13 @@ theorem pair_R_sub (H : Subgroup (GL (Fin 3) F)) (hF2 : (2 : F) = 0) {ω : F}
       obtain ⟨s, hs0, hs⟩ := (mk_eq_iff _ _).1 hk
       have h10 := congrFun (congrFun hs 1) 0
       rw [hQmat, hDmat] at h10
-      simp [Pm, Dm, Matrix.diagonal_apply] at h10
+      simp [Pm, Dm] at h10
       exact hμ0 h10
     · rw [hr, zpow_two, ← map_mul] at hk
       obtain ⟨s, hs0, hs⟩ := (mk_eq_iff _ _).1 hk
       have h10 := congrFun (congrFun hs 1) 0
       rw [hQmat, Units.val_mul, hDmat] at h10
-      simp [Pm, Dm, Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three] at h10
+      simp [Pm, Dm] at h10
       exact hμ0 h10
 
 theorem pairPropIn_of_data (H : Subgroup (GL (Fin 3) F)) (hF2 : (2 : F) = 0) {ω : F}

@@ -75,6 +75,7 @@ private def restrictAut (φ : P →* MulAut Q) (L : Subgroup Q)
     rw [map_mul]
     rfl)
 
+omit [Finite Q] in
 private theorem coe_restrictAut (φ : P →* MulAut Q) (L : Subgroup Q)
     (h : ∀ p, L.map (φ p).toMonoidHom = L) (p : P) (x : L) :
     ((restrictAut φ L h p x : L) : Q) = φ p x := rfl
@@ -98,7 +99,7 @@ private theorem exists_conj_of_perfect_action
   have hinner : ∀ K : Subgroup Q, IsComponent K →
       ∃ c ∈ K, ∀ x ∈ K, (φ p).toMonoidHom x = c * x * c⁻¹ := by
     intro K hK
-    haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer K) :=
+    have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer K) :=
       isSolvable_outer_of_commutator_le_inner K (hOut K hK)
     obtain ⟨c, hc⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
       (restrictAut φ K (fun p => stab p ⟨K, hK⟩)) p
@@ -190,7 +191,7 @@ private theorem card_componentIndex_le_three {X : Type} [Group X]
     Nat.card (ComponentIndex (↥D ⧸ CFSG.solvableRadical ↥D)) ≤ 3 := by
   by_contra hlt
   replace hlt := not_le.1 hlt
-  haveI : Fintype (ComponentIndex (↥D ⧸ CFSG.solvableRadical ↥D)) := Fintype.ofFinite _
+  have : Fintype (ComponentIndex (↥D ⧸ CFSG.solvableRadical ↥D)) := Fintype.ofFinite _
   obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le (α := Fin 4)
     (β := ComponentIndex (↥D ⧸ CFSG.solvableRadical ↥D))
     (by rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]; omega)
@@ -200,7 +201,7 @@ private theorem card_componentIndex_le_three {X : Type} [Group X]
   · obtain ⟨-, -, f, hf⟩ := hdata i
     exact five_dvd_card_of_suzukiModel hf
   · obtain ⟨hs, -, f, hf⟩ := hdata i
-    haveI := hs
+    have := hs
     exact KFacts.two_dvd_card_of_suzukiModel hf
 
 private theorem component_commutator_le_inner {X : Type} [Group X]
@@ -221,7 +222,7 @@ private theorem mem_thetaComponents_of_inf_le {X : Type} [Group X] [Finite X] {J
     (hJT : ∀ x ∈ J, x ∈ CFSG.pPrimeCore 3 X → x ∈ T)
     (hq : IsComponent (J.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)))) :
     J ∈ thetaComponents 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pPrimeCore 3 X
   set N : Subgroup J := O.subgroupOf J
   have hinj : ∀ a b : N, ((a : J) : X) = ((b : J) : X) → a = b := fun a b h =>
@@ -313,7 +314,7 @@ theorem exists_mem_thetaComponents_map_eq_of_four {X : Type}
       (∀ i, 5 ∣ Nat.card (Y i)) → (∀ i, 2 ∣ Nat.card (Y i)) → False)
     {K : Subgroup (X ⧸ CFSG.pPrimeCore 3 X)} (hK : IsComponent K) :
     ∃ J ∈ thetaComponents 3 X, J.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) = K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pPrimeCore 3 X
   set π := QuotientGroup.mk' O
   obtain ⟨hK₁p, hK₁s, hK₁m⟩ := exists_perfect_isSubnormal_map_eq (R := O) hK.1.1 hK.2

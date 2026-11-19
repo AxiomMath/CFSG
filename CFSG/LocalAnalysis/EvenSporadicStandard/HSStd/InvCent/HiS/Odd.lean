@@ -38,7 +38,7 @@ theorem conjAut_pow_apply {K : Type*} [Group K] {S : Subgroup K} {y : K}
 theorem odd_mem_of_fixedData {G : Type*} [Group G] [Finite G] {S : Subgroup G}
     (hS : FixedData G S) (hodd : OddInner ↥S) : ∀ x : G, Odd (orderOf x) → x ∈ S := by
   intro x hx
-  haveI := hS.normal
+  have := hS.normal
   have hσodd : Odd (orderOf (MulAut.conjNormal x : MulAut ↥S)) :=
     hx.of_dvd_nat (orderOf_map_dvd (MulAut.conjNormal : G →* MulAut ↥S) x)
   obtain ⟨s, hs_conj⟩ := hodd (MulAut.conjNormal x) hσodd

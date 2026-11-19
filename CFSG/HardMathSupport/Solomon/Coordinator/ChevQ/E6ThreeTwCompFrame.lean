@@ -42,8 +42,8 @@ theorem twFrame_diag_mem_torusGroup (i : Fin 3) {X : SL(3, Ω)}
 
 theorem twFrame_commute (i j : Fin 3) (hij : i ≠ j) (s t : SL(3, Ω)) :
     twFrame Ω i s * twFrame Ω j t = twFrame Ω j t * twFrame Ω i s :=
-  rootSpan_commute_of_orth (Or.inr (Or.inl rfl)) (fun α hα => twE6FrameS_root i hα)
-    (fun α hα => twE6FrameS_root j hα) (twE6FrameS_orth hij) _ (twFrame_mem_rootSpan i s) _
+  rootSpan_commute_of_orth (Or.inr (Or.inl rfl)) (fun _α hα => twE6FrameS_root i hα)
+    (fun _α hα => twE6FrameS_root j hα) (twE6FrameS_orth hij) _ (twFrame_mem_rootSpan i s) _
     (twFrame_mem_rootSpan j t)
 
 variable (Ω) in
@@ -112,18 +112,18 @@ theorem exists_twCompFrames [Finite K] {q : ℕ} (h3c : ringChar K ≠ 3) (hK : 
   subst hq'
   have hℓ : ℓ.Prime := hU.prime
   have hf : 1 ≤ f := hU.one_le
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hU.charP
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hU.charP
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hℓ3 : ℓ ≠ 3 := by
     intro h3'
     apply h3c
     rw [ringChar.eq K ℓ, h3']
   have hq1 : ℓ ^ f % 3 = 2 := by omega
-  haveI : Module.Finite (fixSubfield σ) K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic (fixSubfield σ) K := Algebra.IsAlgebraic.of_finite _ K
-  haveI : IsAlgClosure (fixSubfield σ) (AlgebraicClosure K) :=
+  have : Module.Finite (fixSubfield σ) K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic (fixSubfield σ) K := Algebra.IsAlgebraic.of_finite _ K
+  have : IsAlgClosure (fixSubfield σ) (AlgebraicClosure K) :=
     IsAlgClosure.ofAlgebraic (fixSubfield σ) K (AlgebraicClosure K)
   have hkc : Nat.card (fixSubfield σ) = ℓ ^ f := card_fixSubfield_twisted hℓ hf hK σ pic.σ_apply
   choose Φ Hc hΘ hFix using fun i : Fin 3 =>

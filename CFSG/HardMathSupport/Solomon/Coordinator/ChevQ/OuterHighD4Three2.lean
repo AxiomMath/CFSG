@@ -124,7 +124,7 @@ theorem exists_conj_le_of_forall_card_le [Finite G] {p : ℕ} [Fact p.Prime] {C 
       have h1 := Subgroup.card_le_of_le hS'
       rw [hcard hQC, Sylow.card_eq_multiplicity] at h1
       exact h1
-    · have hR : IsPGroup p ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
+    · have hR : IsPGroup p ((S : Subgroup C).map C.subtype) := S.isPGroup.map _
       have h2 := hmax _ hR (Subgroup.map_subtype_le _)
       rw [← hS]
       calc Nat.card (S : Subgroup C) = Nat.card ((S : Subgroup C).map C.subtype) :=
@@ -139,7 +139,7 @@ theorem exists_conj_le_of_forall_card_le [Finite G] {p : ℕ} [Fact p.Prime] {C 
   have hxS : (⟨x, hPC hx⟩ : C) ∈ (S : Subgroup C) := hS (by rw [Subgroup.mem_subgroupOf]; exact hx)
   rw [← hc, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem,
     Sylow.coe_ofCard, Subgroup.mem_subgroupOf] at hxS
-  simp only [MulAut.smul_def, map_inv, MulAut.conj_inv_apply] at hxS
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply] at hxS
   simpa [mul_assoc] using hxS
 
 theorem sylowPairGenAt_of_conj_eq {α β : MulAut G} (ψ : MulAut G) (hβ : SylowPairGenAt β)

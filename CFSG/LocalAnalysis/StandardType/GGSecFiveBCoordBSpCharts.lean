@@ -21,7 +21,7 @@ theorem ggSecFiveBCoordBSpChartInput_of_frames (hMp : GGInnerDiagMpInput)
     GGSecFiveBCoordBSpChartInput := by
   intro G _ _ p B Bs x L D J 𝒦 hR hT1 n e hpres h4 eta i0 hBfull hLeta hLab hBB hnbr hG0 f K hcell
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨r, rfl⟩ : ∃ r, n = r + 2 := ⟨n - 2, by omega⟩
   have hdvd : p ∣ 2 ^ f - 1 :=
     GGSecFiveBCoordBSpCell.dvd_two_pow_sub_one hcell hLab hRig (by omega)

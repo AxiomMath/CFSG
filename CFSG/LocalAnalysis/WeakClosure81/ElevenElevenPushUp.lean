@@ -23,7 +23,7 @@ theorem eleven11_lemmaK {M V Q U L X : Subgroup G}
   have hLb := isBlockOfInX_of_mem_elevenBlocksB hd.setting hUΓ hd.mem_blocks
   have hLM : ¬ L ≤ M := (mem_elevenBlocksB_iff.1 hd.mem_blocks).2
   have h78 : IsLTwoBlockType L 2 := (eleven11_blockType_two hd h8).1
-  obtain ⟨n, hnN, hnD⟩ := SetLike.not_le_iff_exists.1 hND
+  obtain ⟨n, hnN, hnD⟩ := IsConcreteLE.not_le_iff_exists.1 hND
   obtain ⟨t, ht, d, hdD, hnt⟩ := eleven_nine_two hd.setting hUΓ hLb hLM h78 n (hNQ hnN)
   have ht0 : t ∉ oTwoIn L := by
     intro h
@@ -82,7 +82,7 @@ theorem eleven11_exists_conj_blockU {M V Q U L X : Subgroup G}
       refine hF (⟨y, hy⟩ * x) ((hmemF _ _).2 ⟨w, hw, ?_⟩)
       simp only [Subgroup.coe_mul]
       group
-    · simpa using U₀.one_mem
+    · simp
     · intro a b ha hb
       have : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
       rw [this]

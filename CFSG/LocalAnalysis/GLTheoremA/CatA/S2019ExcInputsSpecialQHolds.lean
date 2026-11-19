@@ -18,14 +18,14 @@ section Holds
 
 private theorem exists_field_card (Q : PrimePower) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = Q.card ∧ CharP K Q.p := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   exact ⟨GaloisField Q.p Q.exponent, inferInstance, inferInstance, by
     rw [GaloisField.card _ _ Q.exponent_pos.ne', PrimePower.card_def], inferInstance⟩
 
 private theorem exists_field_pow (Q : PrimePower) (m : ℕ) (hm : m ≠ 0) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = Q.card ^ m ∧
       ∃ σ : K →+* K, ∀ c, σ c = c ^ Q.card := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   refine ⟨GaloisField Q.p (Q.exponent * m), inferInstance, inferInstance, ?_,
     iterateFrobenius _ Q.p Q.exponent, fun c => ?_⟩
   · rw [GaloisField.card _ _ (Nat.mul_ne_zero Q.exponent_pos.ne' hm), pow_mul,

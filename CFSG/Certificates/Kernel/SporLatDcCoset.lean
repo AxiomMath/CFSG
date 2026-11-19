@@ -14,12 +14,14 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {n : ℕ} [MulAction Γ (Fin n)]
 
 variable (P : DcSoundCtx Γ n)
 
+omit [Finite Γ] in
 private theorem lab_eq_labF_act {x : List ℕ} (g : Γ) :
     lab n ptLab x g = labF (fun p => act n g p) x := by
   have h1 : lab n ptLab x g = sortN (x.map fun p => act n g p) := ptAct_tab _ _
   rw [h1, labF, sortN_eq]
 
-private theorem labF_eq_of_act {x : List ℕ} (hx : ∀ p ∈ x, p < n) {f : ℕ → ℕ} {g : Γ}
+omit [Finite Γ] in
+private theorem labF_eq_of_act {x : List ℕ} (_hx : ∀ p ∈ x, p < n) {f : ℕ → ℕ} {g : Γ}
     (h : ∀ p ∈ x, f p = act n g p) : labF f x = lab n ptLab x g := by
   rw [lab_eq_labF_act, labF, labF]
   congr 1
@@ -58,8 +60,8 @@ private theorem fibre_stab (g0 : Γ) :
     Nat.card {g : Γ // lab n ptLab P.C.Δ g = lab n ptLab P.C.Δ g0} =
       Nat.card ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
-  haveI : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
+  have : Fintype Γ := Fintype.ofFinite Γ
+  have : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   refine Fintype.card_congr ?_
   exact
@@ -79,8 +81,8 @@ private theorem fibre_stab (g0 : Γ) :
 private theorem GOrb_card_mul :
     P.GOrb.card * Nat.card ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) = Nat.card Γ := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
-  haveI : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
+  have : Fintype Γ := Fintype.ofFinite Γ
+  have : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
   have hmaps : Set.MapsTo (fun g : Γ => lab n ptLab P.C.Δ g)
       ↑(Finset.univ : Finset Γ) ↑P.GOrb := by
     intro g _
@@ -112,7 +114,7 @@ private theorem N_pos : 0 < P.C.N := by
 
 private theorem GOrb_card_le : P.GOrb.card ≤ P.C.N := by
   classical
-  haveI : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
+  have : Fintype ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) := Fintype.ofFinite _
   have hincl : Function.Injective
       (fun s : ↥P.S => (⟨s.1, S_le_stab P s.2⟩ : ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ))) :=
     fun a b h => Subtype.ext (congrArg (fun x : ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) => (x : Γ)) h)
@@ -140,7 +142,7 @@ private theorem stab_card : Nat.card ↥(stab (Γ := Γ) (n := n) hlaw P.hΔ) = 
 
 private theorem stab_eq_S : stab (Γ := Γ) (n := n) hlaw P.hΔ = P.S := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
+  have : Fintype Γ := Fintype.ofFinite Γ
   have hS_card : (Finset.univ.filter (fun x : Γ => x ∈ P.S)).card = Nat.card ↥P.S := by
     rw [Nat.card_eq_fintype_card, ← Fintype.card_subtype]
   have hstab_card :

@@ -109,7 +109,7 @@ theorem tab_val : tab (fun i : Fin 8 => i.val) = List.range 8 := by
   rw [← List.map_id (List.range 8)]
   refine List.map_congr_left fun k hk => ?_
   have hk' : k < 8 := List.mem_range.mp hk
-  simp [Fin.val_ofNat, Nat.mod_eq_of_lt hk']
+  simp [Nat.mod_eq_of_lt hk']
 
 theorem PairData.Ok_of_fast {D : PairData} (h : D.FastOk) : D.Ok where
   ha := h.ha

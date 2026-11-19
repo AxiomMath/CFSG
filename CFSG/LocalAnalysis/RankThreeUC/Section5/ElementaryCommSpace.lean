@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_commutator {H₁ H₂ : Subgroup G} {g : G}
     (h1 : g ∈ Subgroup.normalizer (H₁ : Set G)) (h2 : g ∈ Subgroup.normalizer (H₂ : Set G)) :
     g ∈ Subgroup.normalizer (⁅H₁, H₂⁆ : Subgroup G) := by
@@ -33,6 +34,7 @@ theorem normalizer_commutator {H₁ H₂ : Subgroup G} {g : G}
   have := key g⁻¹ ((Subgroup.normalizer _).inv_mem h1) ((Subgroup.normalizer _).inv_mem h2) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem commutator_le_left {H₁ H₂ : Subgroup G} (h : H₂ ≤ Subgroup.normalizer (H₁ : Set G)) :
     ⁅H₁, H₂⁆ ≤ H₁ := by
   rw [Subgroup.commutator_le]

@@ -217,7 +217,7 @@ theorem card_centralizer_outer_involution {u : A5WrTwo} (hu : u ∉ commutator A
   have hs_notMem : swapW ∉ commutator A5WrTwo := by
     rw [A5WrTwo.commutator_eq_ker]
     intro h
-    exact sigmaC2_ne_one (by simpa [swapW, sigmaC2, RegularWreathProduct.rightHom] using h)
+    exact sigmaC2_ne_one (by simp [swapW, sigmaC2, RegularWreathProduct.rightHom] at h)
   obtain ⟨b, _hb, hbu⟩ := A5WrTwo.exists_conj_of_outer_involutions hu hs_notMem hu2 swapW_sq
   have hcard := card_centralizer_conj b u
   rw [hbu] at hcard

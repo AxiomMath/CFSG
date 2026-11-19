@@ -47,7 +47,7 @@ private theorem ff_twoPrimeRes_top_normal {H : Type} [Group H] :
 
 private theorem ff_odd_card_of_forall_odd_order {H : Type} [Group H] [Finite H]
     (h : ∀ x : H, Odd (orderOf x)) : Odd (Nat.card H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : ¬ Even (Nat.card H) := by
     intro he
     rw [even_iff_two_dvd] at he
@@ -61,7 +61,7 @@ theorem ff6m_cover_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) 
     (hE : IsSimpleGroup ↥E) (hnc : ∃ a b : ↥E, a * b ≠ b * a) (hev : 2 ∣ Nat.card ↥E)
     (h2 : IsPGroup 2 (B ⧸ E)) :
     Nonempty (↥(CFSG.layer A) ⧸ oddCore ↥(CFSG.layer A) ≃* ↥E) ∧ ffX A = CFSG.layer A := by
-  haveI : Finite B := Finite.of_surjective ρ hρ.surjective
+  have : Finite B := Finite.of_surjective ρ hρ.surjective
   have hEbot : oddCore ↥E = ⊥ := ff_oddCore_eq_bot_of_simple_even hE hev
   obtain ⟨hLBE, hffBE⟩ := ff_layer_ffX_eq_of_normal_simple E hE hnc hev h2
   have htwoB : twoRes (⊤ : Subgroup B) = E := by
@@ -88,13 +88,13 @@ theorem ff6m_cover_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) 
       exact hle
   let LA : Subgroup A := CFSG.layer A
   let T : Subgroup A := twoRes (⊤ : Subgroup A)
-  haveI hLAchar : LA.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLAnormal : LA.Normal := inferInstance
+  have hLAchar : LA.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLAnormal : LA.Normal := inferInstance
   have hLAperf : Group.IsPerfect ↥LA := CFSG.LocalCores.layer_isPerfect
   have hmapLA : LA.map ρ = E := by
     apply le_antisymm
-    · haveI : Group.IsPerfect ↥(LA.map ρ) := by
-        haveI : Group.IsPerfect ↥LA := hLAperf
+    · have : Group.IsPerfect ↥(LA.map ρ) := by
+        have : Group.IsPerfect ↥LA := hLAperf
         exact Group.IsPerfect.map (f := ρ)
       exact ff_perfect_le_of_quot_two E h2 (LA.map ρ) inferInstance
     · have h := hρ.layer_le_map_layer
@@ -129,7 +129,7 @@ theorem ff6m_cover_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) 
   have hmapT : T.map ρ = twoRes (⊤ : Subgroup B) := ff6m_twoRes_aux hρ
   have hmapTE : T.map ρ = E := by rw [hmapT, htwoB]
   have hLTnormal : (LA.subgroupOf T).Normal := hLAnormal.subgroupOf T
-  haveI := hLTnormal
+  have := hLTnormal
   let q : ↥T →* ↥T ⧸ (LA.subgroupOf T) := QuotientGroup.mk' _
   have hoddOrder : ∀ x : ↥T ⧸ (LA.subgroupOf T), Odd (orderOf x) := by
     intro x
@@ -179,7 +179,7 @@ theorem ff6m_cover_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) 
   have hle2 : LA ≤ twoPrimeRes T := by
     let N : Subgroup ↥T := twoPrimeRes (⊤ : Subgroup ↥T)
     have hNnormal : N.Normal := ff_twoPrimeRes_top_normal
-    haveI := hNnormal
+    have := hNnormal
     have hQodd : Odd (Nat.card (↥T ⧸ N)) := by
       apply ff_odd_card_of_forall_odd_order
       intro x
@@ -199,20 +199,20 @@ theorem ff6m_cover_layer [Finite A] (hρ : OddCentralCover ρ) (E : Subgroup B) 
         rw [← QuotientGroup.mk_pow]
         exact (QuotientGroup.eq_one_iff (t ^ m)).mpr hmem
       exact hm.of_dvd_nat (orderOf_dvd_of_pow_eq_one hq)
-    haveI : Group.IsSolvable (↥T ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hQodd
+    have : Group.IsSolvable (↥T ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hQodd
     have hLTperf : Group.IsPerfect ↥(LA.subgroupOf T) := by
-      haveI : Group.IsPerfect ↥LA := hLAperf
+      have : Group.IsPerfect ↥LA := hLAperf
       exact Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hLAT).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hLAT).symm.surjective
     have hmapq : (LA.subgroupOf T).map (QuotientGroup.mk' N) = ⊥ := by
-      haveI : Group.IsPerfect ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := by
-        haveI : Group.IsPerfect ↥(LA.subgroupOf T) := hLTperf
+      have : Group.IsPerfect ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := by
+        have : Group.IsPerfect ↥(LA.subgroupOf T) := hLTperf
         exact Group.IsPerfect.map (f := QuotientGroup.mk' N)
-      haveI : Group.IsSolvable ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := inferInstance
-      haveI : Subsingleton ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := by
+      have : Group.IsSolvable ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := inferInstance
+      have : Subsingleton ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) := by
         by_contra hns
-        haveI : Nontrivial ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) :=
+        have : Nontrivial ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) :=
           not_subsingleton_iff_nontrivial.mp hns
         exact Group.IsPerfect.not_isSolvable
           ↥((LA.subgroupOf T).map (QuotientGroup.mk' N)) inferInstance

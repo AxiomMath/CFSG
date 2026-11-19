@@ -54,7 +54,7 @@ theorem sq_dvd_card_centralizer {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
     rw [Sylow.card_eq_multiplicity]
     exact pow_dvd_pow p ((hp.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 hG)
   set CS := (S : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G) with hCS
-  have hCSp : IsPGroup p CS := S.isPGroup'.to_le inf_le_left
+  have hCSp : IsPGroup p CS := S.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := hCSp.exists_card_eq
   set Z := (Subgroup.center (S : Subgroup G)).map (S : Subgroup G).subtype with hZ
   have hZCS : Z ≤ CS := by
@@ -78,7 +78,7 @@ theorem sq_dvd_card_centralizer {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
       have h2 := Nat.le_of_dvd Nat.card_pos hScard
       have : 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp.one_lt
       omega
-    have hZnt : Nontrivial (Subgroup.center (S : Subgroup G)) := S.isPGroup'.center_nontrivial
+    have hZnt : Nontrivial (Subgroup.center (S : Subgroup G)) := S.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center (S : Subgroup G))
     have hzZ : ((z : (S : Subgroup G)) : G) ∈ Z := ⟨z, z.2, rfl⟩
     have hzx : ((z : (S : Subgroup G)) : G) ∈ Subgroup.zpowers x := by
@@ -112,7 +112,7 @@ theorem sq_dvd_card_centralizer {G : Type*} [Group G] [Finite G] {p : ℕ} (hp :
     omega
 
 theorem gLAPPrimeCoreOf_eq_bot_of_conjWitness_card {A : Type} [Group A] [Finite A]
-    {p q a b : ℕ} (hp : p.Prime) (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q < p)
+    {p q a b : ℕ} (hp : p.Prime) (hq : q.Prime) (_hq2 : q ≠ 2) (hqp : q < p)
     (hcen : Subgroup.center A = ⊥) (h : ConjWitness A p) (hA : p ^ 2 ∣ Nat.card A) {x : A}
     (hx : orderOf x = p)
     (hC : Nat.card ↥(Subgroup.centralizer ({x} : Set A)) ∣ 2 ^ a * q * p ^ b)

@@ -181,15 +181,15 @@ theorem sum_comp_sum (π : ι → Module.End K W) (π' : ι → Module.End K W')
     intro i j
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, hGF]
+      rw [ite_eq_left rfl, hGF]
     · have h2 : π' j (F i w) = 0 := by
         have h3 := congrArg (fun f : Module.End K W' => f (F i w)) (hπ0' j i (Ne.symm hij))
         simp only [Module.End.mul_apply, LinearMap.zero_apply] at h3
         rw [hFb] at h3
         exact h3
-      rw [if_neg hij, ← hGa j (F i w), h2, map_zero]
+      rw [ite_eq_right hij, ← hGa j (F i w), h2, map_zero]
   simp only [LinearMap.sum_apply, map_sum, h1]
-  simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   have h4 := congrArg (fun f : Module.End K W => f w) hs
   simpa only [LinearMap.sum_apply, Module.End.one_apply] using h4
 
@@ -305,12 +305,12 @@ theorem CubeRep.pi_mul_pi (i j : Fin 13) :
   · apply ρ.eval_congr
     intro t
     have h1 := conv_ind i j t
-    rw [if_pos h] at h1
+    rw [ite_eq_left h] at h1
     rw [h1, Nat.mod_eq_of_lt (indN_lt i t)]
   · apply ρ.eval_congr
     intro t
     have h1 := conv_ind i j t
-    rw [if_neg h] at h1
+    rw [ite_eq_right h] at h1
     rw [h1]
 
 theorem CubeRep.sum_pi : ∑ i, ρ.pi i = 1 := by
@@ -354,10 +354,10 @@ theorem CubeRep.sum_pi_filter {g : C3} (hg : g ≠ 0) :
   simp [Pi.add_apply]
 
 theorem CubeRep.pi_idem (i : Fin 13) : ρ.pi i * ρ.pi i = ρ.pi i := by
-  rw [ρ.pi_mul_pi, if_pos rfl]
+  rw [ρ.pi_mul_pi, ite_eq_left rfl]
 
 theorem CubeRep.pi_orth (hε : ρ.eps = 0) {i j : Fin 13} (h : i ≠ j) : ρ.pi i * ρ.pi j = 0 := by
-  rw [ρ.pi_mul_pi, if_neg h, hε]
+  rw [ρ.pi_mul_pi, ite_eq_right h, hε]
 
 open CFSG.StandardType.D4Rank in
 theorem CubeRep.fixDim_eq_sum [FiniteDimensional (ZMod 2) W] (hε : ρ.eps = 0) {g : C3}
@@ -545,7 +545,7 @@ theorem CubeRep.exists_equiv [FiniteDimensional (ZMod 2) W] [FiniteDimensional (
   have hπ0' : ∀ i j, i ≠ j → σ.pi i * σ.pi j = 0 := fun i j h => σ.pi_orth hσ h
   have h1 := sum_comp_sum ρ.pi σ.pi F G hπ0' ρ.sum_pi hFb hGa hGF
   have h2 := sum_comp_sum σ.pi ρ.pi G F hπ0 σ.sum_pi hGb hFa hFG
-  refine ⟨LinearEquiv.ofLinear (∑ i, F i) (∑ i, G i) (LinearMap.ext h2) (LinearMap.ext h1),
+  refine ⟨LinearEquiv.ofLinearMap (∑ i, F i) (∑ i, G i) (LinearMap.ext h2) (LinearMap.ext h1),
     fun t w => ?_⟩
   show (∑ i, F i) (ρ t w) = σ t ((∑ i, F i) w)
   simp only [LinearMap.sum_apply, map_sum, hFt]

@@ -21,8 +21,8 @@ theorem map_ker_eq_bot_or_orders {X P Q : Type*} [Group X] [Group P] [Group Q] (
     (β : X →* P) (e : β.range ≃* alternatingGroup (Fin 5)) :
     (∀ x ∈ α.ker, β x = 1) ∨
       ((∃ x ∈ α.ker, orderOf (β x) = 5) ∧ ∃ x ∈ α.ker, orderOf (β x) = 2) := by
-  haveI : IsSimpleGroup β.range := e.isSimpleGroup
-  haveI : Finite β.range := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup β.range := e.isSimpleGroup
+  have : Finite β.range := Finite.of_equiv _ e.symm.toEquiv
   have hnorm : (α.ker.map β.rangeRestrict).Normal :=
     α.normal_ker.map _ β.rangeRestrict_surjective
   have hcard : Nat.card β.range = 60 := by
@@ -37,7 +37,7 @@ theorem map_ker_eq_bot_or_orders {X P Q : Type*} [Group X] [Group P] [Group Q] (
   · right
     have key : ∀ q : ℕ, q.Prime → q ∣ 60 → ∃ x ∈ α.ker, orderOf (β x) = q := by
       intro q hq hdvd
-      haveI := Fact.mk hq
+      have := Fact.mk hq
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' q (hcard ▸ hdvd)
       have hy' : y ∈ α.ker.map β.rangeRestrict := h ▸ Subgroup.mem_top y
       obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy'
@@ -91,6 +91,7 @@ section Finite
 
 variable [Finite K']
 
+omit [Finite K'] in
 theorem framePlusBar_eq_one_iff (h2 : (2 : K') ≠ 0) (φ : K →+* K') (k : GL V₄ K')
     {X : Subgroup (GL V₄ K)} (hX : ∀ g ∈ X, frameHom φ k g ∈ stdCent K') (g : X) :
     framePlusBar h2 φ k X hX g = 1 ↔ plusBlock (frameMat φ k ⟪(g : GL V₄ K)⟫) = 1 ∨
@@ -101,6 +102,7 @@ theorem framePlusBar_eq_one_iff (h2 : (2 : K') ≠ 0) (φ : K →+* K') (k : GL 
   rw [← h, Subtype.ext_iff]
   rfl
 
+omit [Finite K'] in
 theorem framePlusBar_pow_eq_one_iff (h2 : (2 : K') ≠ 0) (φ : K →+* K') (k : GL V₄ K')
     {X : Subgroup (GL V₄ K)} (hX : ∀ g ∈ X, frameHom φ k g ∈ stdCent K') (g : X) (j : ℕ) :
     framePlusBar h2 φ k X hX g ^ j = 1 ↔ plusBlock (frameMat φ k ⟪(g : GL V₄ K)⟫) ^ j = 1 ∨

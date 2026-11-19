@@ -25,7 +25,7 @@ theorem sec79_t_mem_A [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B : Subgr
 
 theorem sec79_B_le_A [Finite G] {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hc : Sec7Choice G t L S z g B) : B ≤ ASub S B := by
-  haveI : IsMulCommutative B := hc.normalE16.2.1.1.1
+  have : IsMulCommutative B := hc.normalE16.2.1.1.1
   intro b hb
   rw [ASub, omega1]
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -37,7 +37,7 @@ theorem sec79_R_sylow [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76) {t : 
     {L S : Subgroup G} {z : G} (hctx : Sec7Ctx G t L S z) :
     IsSylow2Of (zpowers t) (centralizer ({t} : Set G) ⊓ centralizer (L : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := centralizer ({t} : Set G)
   let R : Subgroup G := H ⊓ centralizer (L : Set G)
   change IsSylow2Of (Subgroup.zpowers t) R
@@ -320,7 +320,7 @@ theorem asc82Lemma79b_of (h36 : Asc82Lemma36) (h76 : Asc82Lemma76) (hP : Asc82Ta
             (hc.ctx.sylow.1 (hc.normalE16.1 hb).1)).symm
         exact ((show Commute t b from htb).zpow_left k).eq
       exact CFSG.Open.IsElemAbelian.sup_of_commute hzt hB hcomm
-    haveI : IsMulCommutative (ASub S B) := (h78 G t L S z g B hc).symm ▸ hElem.1
+    have : IsMulCommutative (ASub S B) := (h78 G t L S z g B hc).symm ▸ hElem.1
     intro a ha
     exact Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
   have hH : ASub S B ⊔ oddCoreIn (centralizer ({t} : Set G)) =

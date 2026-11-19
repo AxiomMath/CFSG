@@ -85,9 +85,9 @@ theorem bitZ_foldl (Y : List ℕ) (x j acc : ℕ) (n : ℕ) :
       ← add_assoc, ← ih]
     by_cases h : x.testBit n = true
     · have hx : bitZ x n = 1 := by simp [bitZ, h]
-      rw [if_pos h, bitZ_xor, hx, one_mul]
+      rw [ite_eq_left h, bitZ_xor, hx, one_mul]
     · have hx : bitZ x n = 0 := by simp [bitZ, h]
-      rw [if_neg h, hx, zero_mul, add_zero]
+      rw [ite_eq_right h, hx, zero_mul, add_zero]
 
 theorem xorRow_zero (Y : List ℕ) : xorRow n Y 0 = 0 := by
   unfold xorRow

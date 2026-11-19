@@ -95,7 +95,7 @@ theorem exists_eichler_inv_skewSquare (hK2 : ringChar K ≠ 2) (hd : 3 ≤ d) {A
     have h1 := Submodule.finrank_mono hle
     rw [finrank_span_singleton hu0] at h1
     omega
-  obtain ⟨w, hwE, hwspan⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨w, hwE, hwspan⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   refine ⟨u, w, hu0, hsing ε hε2 u huE, horth ε hε2 u huE w hwE, hwspan, ?_⟩
   have hAu : A.val *ᵥ u = ε • u := by
     rw [← hf]; exact Module.End.mem_eigenspace_iff.mp huE

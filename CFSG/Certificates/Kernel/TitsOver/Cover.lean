@@ -18,16 +18,16 @@ structure HypsC (K : Pk) (pts : List Nat) (nOrder gOrder : Nat) : Prop where
   hR0 : K.REP 0 = pidn K.n K.w
   hRi : ∀ i < K.nr, permOK K.n K.w (mask K.w) (K.n * K.w) (K.REP i) (K.REPI i) = true
   hPts : PtsOK K.n K.np pts K.PT
-  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS s = true
+  hS : ∀ s < K.cnt, sortK K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt s = true
   hTest : ∀ i, 0 < i → i < K.nr →
-    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB K.H i = true
+    repK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB K.H i = true
   hCnt : ∀ i, 0 < i → i < K.nr → posCnt K.cnt K.H i = K.CN i
   hSum : (List.range K.nr).foldl
     (fun s i => s + nOrder * nOrder / (if i = 0 then K.cnt else K.CN i)) 0 = gOrder
   hM : K.n ≤ 64 * K.hi
   hMK : ∀ i < K.nr, K.MK i = mkeyK K.n K.w K.hi K.cw K.nl K.L (K.REP i)
   hMd : ∀ i < K.nr, ∀ j < K.nr, i < j → K.MK i ≠ K.MK j ∨
-    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
+    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
       true
 
 @[expose] def RepB (n w m : Nat) (P : Nat → Nat) (A : Array Tab) : Prop :=
@@ -105,7 +105,7 @@ theorem conjCount_eqC (H : HypsC K pts nOrder gOrder) {rep repi : Array Tab}
   rw [hri.2 i hi, hr.2 i hi, rec_sizeC]
   by_cases h0 : i = 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine (countBelow_eq (g := fun _ => true) fun k hk => ?_).trans (countBelow_true K.cnt)
     have hq := perm_spec (H.hRi 0 hi)
     rw [H.hR0] at hq
@@ -121,7 +121,7 @@ theorem conjCount_eqC (H : HypsC K pts nOrder gOrder) {rep repi : Array Tab}
         get_u (canon_lt (H.hNt k hk) hx), hqid _ (canon_lt (H.hNt k hk) hx)]
     rw [e, memN_iffC H (H.hNt k hk)]
     exact ⟨k, hk, rfl⟩
-  · rw [if_neg h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
+  · rw [ite_eq_right h0, ← H.hCnt i (Nat.pos_of_ne_zero h0) hi]
     unfold posCnt
     rw [PK.foldN_eq, foldr_count]
     refine countBelow_eq fun k hk => ?_
@@ -194,7 +194,7 @@ theorem invsOK_ofC (H : HypsC K pts nOrder gOrder) {rep repi : Array Tab}
   simp [size_u]
 
 theorem fp3_eqC {n : Nat} {pts : List Nat} (hpts : ∀ x ∈ pts, x < n) {a b c : Tab}
-    (hc : ∀ x < n, c[x]! < n) (hb : ∀ x < n, b[x]! < n) :
+    (hc : ∀ x < n, c[x]! < n) (_hb : ∀ x < n, b[x]! < n) :
     CFSG.StandardType.TitsOvergroup.fp3 pts a b c = fpTab pts (comp n (comp n a b) c) := by
   unfold CFSG.StandardType.TitsOvergroup.fp3 fpTab
   apply congrArg List.toArray

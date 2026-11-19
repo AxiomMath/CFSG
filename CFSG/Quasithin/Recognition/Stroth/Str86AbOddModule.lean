@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpow_eq_one_or_eq_self_of_mul_self {a : G} (ha : a * a = 1) (n : ℤ) :
     a ^ n = 1 ∨ a ^ n = a := by
   have h2 : a ^ (2 : ℤ) = 1 := by
@@ -33,6 +34,7 @@ theorem zpow_eq_one_or_eq_self_of_mul_self {a : G} (ha : a * a = 1) (n : ℤ) :
   · right
     rw [e, h, zpow_one]
 
+omit [Finite G] in
 theorem zpowers_eq_conjSub (g x : G) :
     Subgroup.zpowers x = conjSub g (Subgroup.zpowers (g⁻¹ * x * g)) := by
   rw [conjSub, MonoidHom.map_zpowers]
@@ -242,7 +244,7 @@ theorem str86_critPath_odd_O4
         refine hle.trans ?_
         rw [hD41 _ hP.linear]
         exact SmithC27.pCoreOf_le_centralizer_omegaOneCenterOf _
-      obtain ⟨x, hxV, hxQ⟩ := SetLike.not_le_iff_exists.mp hVQβ
+      obtain ⟨x, hxV, hxQ⟩ := IsConcreteLE.not_le_iff_exists.mp hVQβ
       have hxS : x ∈ pCoreOf 2 (stab (lam 1) ⊓ stab (lam 0)) :=
         str86_pCoreOf_le_pCoreOf_inf hI hn01 (hVQ hxV)
       have hx2 : x * x = 1 := by
@@ -315,7 +317,7 @@ theorem str86_critB_ne_three_of
   · rw [inf_eq_left.mpr hVQ] at hAB
     exact hO4 hAB
   ·
-    obtain ⟨a, haA, haC⟩ := SetLike.not_le_iff_exists.mp
+    obtain ⟨a, haA, haC⟩ := IsConcreteLE.not_le_iff_exists.mp
       (mt Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hO4)
     obtain ⟨μ, hμ, hμa⟩ : ∃ μ ∈ nbrs (lam (str86CritB L1 L2 S)),
         ¬ Vv (Z2 L1 L2 S) μ ≤ Subgroup.centralizer ((Subgroup.zpowers a : Subgroup G) :

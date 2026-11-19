@@ -227,7 +227,7 @@ private theorem perm_eight_of_plus (hP : Pair G {x | IsConj t x})
     rw [(map_polar_basis (F := GLAQPlus (ZMod 2) 3) b hb _ _).2]
     exact chainC_polar ⟨i, hi⟩ ⟨j, hj⟩
   let x : ℕ → G := fun i => if h : i < 7 then T _ (hQ ⟨i, h⟩) else 1
-  have hx : ∀ i (h : i < 7), x i = T _ (hQ ⟨i, h⟩) := fun i h => dif_pos h
+  have hx : ∀ i (h : i < 7), x i = T _ (hQ ⟨i, h⟩) := fun i h => dite_eq_left h
   have hxD : ∀ i, i < 7 → IsConj t (x i) := fun i h => by
     rw [hx i h]
     exact hTD _ _
@@ -236,13 +236,13 @@ private theorem perm_eight_of_plus (hP : Pair G {x | IsConj t x})
     have hne : x i * x (i + 1) ≠ x (i + 1) * x i := fun e => by
       rw [hx i (by omega), hx (i + 1) h] at e
       have h0 := (hTc _ _ _ _).mp e
-      rw [hB i (i + 1) (by omega) h, if_pos (Or.inl rfl)] at h0
+      rw [hB i (i + 1) (by omega) h, ite_eq_left (Or.inl rfl)] at h0
       exact one_ne_zero h0
     rw [← CFSG.Fischer.Pair.orderOf_mul_eq_three hP (hxD i (by omega)) (hxD (i + 1) h) hne,
       pow_orderOf_eq_one]
   have hcomm : ∀ i j, i + 2 ≤ j → j < 7 → x i * x j = x j * x i := fun i j hij hj => by
     rw [hx i (by omega), hx j hj]
-    exact (hTc _ _ _ _).mpr (by rw [hB i j (by omega) hj, if_neg (by omega)])
+    exact (hTc _ _ _ _).mpr (by rw [hB i j (by omega) hj, ite_eq_right (by omega)])
   have hne : ∀ i j, i < 7 → j < 7 → i ≠ j → x i ≠ x j := fun i j hi hj hij e => by
     rw [hx i hi, hx j hj] at e
     exact hij (congrArg Fin.val (chainC_inj _ _ (b.equivFun.symm.injective (hTe _ _ _ _ e))))

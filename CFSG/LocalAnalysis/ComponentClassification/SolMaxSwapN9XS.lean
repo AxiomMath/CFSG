@@ -70,7 +70,7 @@ private theorem odd_dvd_card_zstar_aux {Q : Type} [Group Q] [Finite Q] {d : ℕ}
     GrSLit.GrS4.isPGroup_center_quotient Q
   have hcop : Nat.Coprime d (Nat.card (center (Q ⧸ pPrimeCore 2 Q))) := by
     refine Nat.coprime_of_dvd fun p hp hpd hpZ => ?_
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hpZ
     obtain ⟨k, hk⟩ := hZ z
     have h2 : p ∣ 2 ^ k := by
@@ -131,7 +131,7 @@ theorem ExactData.dvd_card (hs : Setting t J n e E D M) (hn : n = 9)
   have hQnc := ExactRho.exists_not_comm_altFixPerm h5
   have hQcard : Nat.card (ExactRho.altFixPerm σ) = 60 := by
     have h2 : 2 ≤ n - σ.support.card := by omega
-    rw [ExactRho.card_altFixPerm h2, h4, show n - 4 = 5 by omega] <;> norm_num [Nat.factorial]
+    rw [ExactRho.card_altFixPerm h2, h4, show n - 4 = 5 by omega]; norm_num [Nat.factorial]
   have hLQ : ∀ (z : X) (hz : z ∈ L), ρ ⟨z, hLN hz⟩ ∈ ExactRho.altFixPerm σ := fun z hz =>
     ExactRho.rho_mem_altFixPerm hs hx hρ hz
   have hQL : ∀ g ∈ ExactRho.altFixPerm σ, ∃ (z : X) (hz : z ∈ L), ρ ⟨z, hLN hz⟩ = g :=

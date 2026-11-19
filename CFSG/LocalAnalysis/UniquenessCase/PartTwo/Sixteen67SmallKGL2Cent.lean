@@ -113,7 +113,7 @@ theorem s1667_kgl2_centralizer_psl2 {F : Type} [Field F] [Finite F] (hodd : Odd 
       (2 * Nat.card ↥(centralizer ({x} : Set (PSL2 F))) = Nat.card F - 1 ∨
         2 * Nat.card ↥(centralizer ({x} : Set (PSL2 F))) = Nat.card F + 1) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF2 : ringChar F ≠ 2 := by
     intro h
     have h' := (FiniteField.even_card_iff_char_two (F := F)).mp h

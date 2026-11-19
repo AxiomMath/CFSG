@@ -208,7 +208,7 @@ theorem exists_conj_SY (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t
     exact card_conjSubgroup k⁻¹ S
   have hYrel : Q.relIndex Y = Nat.card Z * (Nat.card Z ^ 2 - 1) := by
     obtain ⟨hN, hmod⟩ := hYsl
-    haveI := hN
+    have := hN
     have hcardY := (isSLModel_two_data hc.hyp.q4 ⟨m, hm⟩ hmod).1
     rw [Subgroup.relIndex, Subgroup.index]
     exact hcardY

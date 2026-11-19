@@ -108,11 +108,12 @@ private theorem mkQ_embed_w0_comm_zBar (p : Fin 5) (ι : Fin 4 ↪ Fin 5) :
   congr 1
   refine Wr.ext (funext fun i => ?_) ?_
   · rw [mul_vec, mul_vec, zOf_perm, embed_perm]
-    simp only [w0, one_perm, embedPerm_one, Equiv.Perm.coe_one, id_eq]
+    simp only [w0, embedPerm_one]
     exact add_comm _ _
   · rw [mul_perm, mul_perm, zOf_perm, embed_perm]
     simp [w0]
 
+omit [Finite Y] in
 private theorem commute_te_general {g v' e' : Y}
     (hu2 : u * u = 1) (hue : u * e' = e' * u) (hvu : v' * u = u * v')
     (hzv : t = v' ∨ t = u * v')

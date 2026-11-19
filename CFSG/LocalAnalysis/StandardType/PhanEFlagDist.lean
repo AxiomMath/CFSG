@@ -93,7 +93,7 @@ private theorem p9uFL_length_le_gallery {M : CoxeterMatrix ι} {W : Type} [Group
 
 private theorem p9uFL_exists_gallery_of_isStrictGallery {M : CoxeterMatrix ι} {W : Type} [Group W]
     {cs : CoxeterSystem M W} {E : Type} {δ : E → E → W}
-    (hB : IsWeylDistanceBuilding cs δ)
+    (_hB : IsWeylDistanceBuilding cs δ)
     {ι' : Type} {X : ChamberSystem ι' E} {e : ι' → ι}
     (hadj : ∀ i x y, X.adj i x y ↔ δ x y = 1 ∨ δ x y = cs.simple (e i))
     {x : E} {γ : List (ι × E)} (hγ : IsStrictGallery cs δ x γ)
@@ -133,7 +133,7 @@ private theorem p9uFL_length_eq_cdist {M : CoxeterMatrix ι} {W : Type} [Group W
   exact le_antisymm hge hle
 
 private theorem p9uFL_exists_gallery_restrict {M : CoxeterMatrix ι} {W : Type} [Group W]
-    {cs : CoxeterSystem M W} {E : Type} {δ : E → E → W} (hB : IsWeylDistanceBuilding cs δ)
+    {cs : CoxeterSystem M W} {E : Type} {δ : E → E → W} (_hB : IsWeylDistanceBuilding cs δ)
     (J : Set ι) (a : E) {x : E} {γ : List (ι × E)}
     (hx : x ∈ residue cs δ J a) (hγ : IsStrictGallery cs δ x γ)
     (hR : ∀ p ∈ γ, p.2 ∈ residue cs δ J a)

@@ -35,7 +35,7 @@ private theorem toGL_mem_center_iff_scalar
 private theorem pow_mem_center_of_mem_sup {G : Type*} [Group G] {H K : Subgroup G}
     (hK : K ≤ Subgroup.center G) {p : ℕ} (hH : ∀ h ∈ H, h ^ p = 1) {x : G}
     (hx : x ∈ H ⊔ K) : x ^ p ∈ K := by
-  haveI : K.Normal := Subgroup.normal_of_le_center hK
+  have : K.Normal := Subgroup.normal_of_le_center hK
   obtain ⟨r, hr, z, hz, rfl⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := H) (t := K)).mp hx
   have hcomm : Commute r z := Subgroup.mem_center_iff.mp (hK hz) r
@@ -49,7 +49,7 @@ theorem finrank_ne_two_of_elemAbelian_action {E : Type*} [Field E] [Finite E]
     (hker : ∀ b : B, (∃ a : Eˣ, ∀ w, ρ b w = a • w) → b ∈ D) (hB : p ^ 4 ≤ Nat.card B) :
     Module.finrank E W ≠ 2 := by
   intro hfr
-  haveI : Module.Finite E W := Module.finite_of_finrank_pos (by rw [hfr]; norm_num)
+  have : Module.Finite E W := Module.finite_of_finrank_pos (by rw [hfr]; norm_num)
   let b : Module.Basis (Fin 2) E W := Module.finBasisOfFinrankEq E W hfr
   let Z : Subgroup (GL (Fin 2) E) := Subgroup.center (GL (Fin 2) E)
   let ρ' : B →* GL (Fin 2) E := b.toGL.toMonoidHom.comp ρ
@@ -75,7 +75,7 @@ theorem finrank_ne_two_of_elemAbelian_action {E : Type*} [Field E] [Finite E]
         _ = x * (r * z) := by rw [mul_assoc]
     · intro x hx
       exact Subgroup.center_le_centralizer (B' : Set (GL (Fin 2) E)) hx
-  haveI hB'comm : IsMulCommutative B' :=
+  have hB'comm : IsMulCommutative B' :=
     IsMulCommutative.of_setLike_mul_comm fun a ha c hc =>
       (Subgroup.mem_centralizer_iff.mp (hB'le ha) c hc).symm
   let N : Subgroup B' := Z.subgroupOf B'
@@ -92,7 +92,7 @@ theorem finrank_ne_two_of_elemAbelian_action {E : Type*} [Field E] [Finite E]
     obtain ⟨c, rfl⟩ := MonoidHom.mem_range.mp hh
     rw [← map_pow, hBp c, map_one]
   have hQelem : IsElemAbelian p (⊤ : Subgroup (B' ⧸ N)) := by
-    haveI : IsMulCommutative (B' ⧸ N) := hQcomm
+    have : IsMulCommutative (B' ⧸ N) := hQcomm
     refine ⟨inferInstance, ?_⟩
     intro x _
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (N := N) x
@@ -102,7 +102,7 @@ theorem finrank_ne_two_of_elemAbelian_action {E : Type*} [Field E] [Finite E]
     simpa using
       pow_mem_center_of_mem_sup (le_rfl : Z ≤ Subgroup.center (GL (Fin 2) E)) hHp y.2
   have hcardQ : Nat.card (B' ⧸ N) ≤ p := by
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     exact CFSG.LinearAlgebra.not_pSq_pgl_two hp hpE B' hZB' hQelem
   have hker_le : f.ker ≤ D := by
     intro c hc
@@ -133,7 +133,7 @@ theorem finrank_ne_two_of_elemAbelian_action {E : Type*} [Field E] [Finite E]
     rw [hy, map_mul, hz1, mul_one]
     show QuotientGroup.mk' N (ρB c) = QuotientGroup.mk' N ⟨r, Subgroup.mem_sup_left hr⟩
     exact congrArg (QuotientGroup.mk' N) (Subtype.ext hc)
-  haveI : Finite B := by
+  have : Finite B := by
     apply Nat.finite_of_card_ne_zero
     intro h0
     rw [h0] at hB

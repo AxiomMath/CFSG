@@ -149,7 +149,6 @@ theorem Level55.pair_comm (d : Level55 G t z) {p q : G} (hp : p ∈ pair z t) (h
     rcases mem_pair_cases d.z_ord d.t_ord d.zt_comm hq with h | h | h | h <;> rw [h] <;>
       first
       | exact Commute.one_right z
-      | exact Commute.refl z
       | exact hc
       | exact (Commute.refl z).mul_right hc
   have htq : Commute t q := by
@@ -157,7 +156,6 @@ theorem Level55.pair_comm (d : Level55 G t z) {p q : G} (hp : p ∈ pair z t) (h
       first
       | exact Commute.one_right t
       | exact hc.symm
-      | exact Commute.refl t
       | exact hc.symm.mul_right (Commute.refl t)
   rcases mem_pair_cases d.z_ord d.t_ord d.zt_comm hp with h | h | h | h <;> rw [h]
   · exact (Commute.one_left q).eq

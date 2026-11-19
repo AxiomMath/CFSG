@@ -40,8 +40,8 @@ theorem OddNormal.finite {Γ : Type} [Group Γ] {H P : Subgroup Γ} (O : OddNorm
   Nat.finite_of_card_ne_zero O.odd.pos.ne'
 
 theorem HCtx.inf_A_P (S : HCtx E B u A H) (O : OddNormal H P) : A ⊓ P = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥A := by
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥A := by
     obtain ⟨φ⟩ := S.A_iso
     exact φ.isSimpleGroup
   have hKnormal : ((A ⊓ P).subgroupOf A).Normal := by
@@ -49,7 +49,7 @@ theorem HCtx.inf_A_P (S : HCtx E B u A H) (O : OddNormal H P) : A ⊓ P = ⊥ :=
     intro h k hh hk
     exact ⟨A.mul_mem (A.mul_mem hk hh.1) (A.inv_mem hk),
       O.norm k (S.A_H hk) h hh.2⟩
-  haveI : ((A ⊓ P).subgroupOf A).Normal := hKnormal
+  have : ((A ⊓ P).subgroupOf A).Normal := hKnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top ((A ⊓ P).subgroupOf A) with hbot | htop
   · refine (Subgroup.eq_bot_iff_forall (A ⊓ P)).mpr ?_
     intro x hx
@@ -77,7 +77,7 @@ theorem HCtx.inf_A_P (S : HCtx E B u A H) (O : OddNormal H P) : A ⊓ P = ⊥ :=
 
 theorem HCtx.cent_P (S : HCtx E B u A H) (O : OddNormal H P) :
     ∀ p ∈ P, p * u = u * p → p = 1 := by
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
   have hAcomm : ∀ a ∈ A, ∀ v ∈ zpowers u, a * v = v * a := by
     intro a ha v hv
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
@@ -131,12 +131,12 @@ theorem HCtx.cent_P (S : HCtx E B u A H) (O : OddNormal H P) :
 
 theorem HCtx.inv_P (S : HCtx E B u A H) (O : OddNormal H P) :
     ∀ p ∈ P, u * p * u⁻¹ = p⁻¹ := by
-  haveI := O.finite
+  have := O.finite
   exact inv_of_fixedPointFree P u S.u_sq (fun p hp => O.norm u S.u_H p hp) (HCtx.cent_P S O)
 
 theorem HCtx.comm_P (S : HCtx E B u A H) (O : OddNormal H P) :
     ∀ p ∈ P, ∀ q ∈ P, p * q = q * p := by
-  haveI := O.finite
+  have := O.finite
   exact comm_of_fixedPointFree P u S.u_sq (fun p hp => O.norm u S.u_H p hp) (HCtx.cent_P S O)
 
 theorem HCtx.exists_decomp (S : HCtx E B u A H) (O : OddNormal H P)

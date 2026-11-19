@@ -15,6 +15,7 @@ open CFSG.RankThreeEvenClassification.Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_layerOddPreimage_iff {H : Subgroup G} {x : G} :
     x ∈ layerOddPreimage H ↔ ∃ hx : x ∈ H,
       QuotientGroup.mk' (pPrimeCore 2 ↥H) ⟨x, hx⟩ ∈ layer (↥H ⧸ pPrimeCore 2 ↥H) := by
@@ -24,6 +25,7 @@ private theorem mem_layerOddPreimage_iff {H : Subgroup G} {x : G} :
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 private theorem characteristic_comap_layer (H : Subgroup G) :
     ((layer (↥H ⧸ pPrimeCore 2 ↥H)).comap
       (QuotientGroup.mk' (pPrimeCore 2 ↥H))).Characteristic := by
@@ -33,20 +35,24 @@ private theorem characteristic_comap_layer (H : Subgroup G) :
   exact (Subgroup.characteristic_iff_le_comap.mp hchar)
     (QuotientGroup.congr (pPrimeCore 2 ↥H) (pPrimeCore 2 ↥H) φ (pPrimeCore_map_iso 2 φ)) hx'
 
+omit [Finite G] in
 theorem layerOddPreimage_le_self (H : Subgroup G) : layerOddPreimage H ≤ H :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem pPrimeCoreOf_two_le_layerOddPreimage (H : Subgroup G) :
     pPrimeCoreOf 2 H ≤ layerOddPreimage H :=
   Subgroup.map_mono ((QuotientGroup.ker_mk' (pPrimeCore 2 ↥H)).symm.le.trans
     (MonoidHom.ker_le_comap _ _))
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_layerOddPreimage (H : Subgroup G) :
     Subgroup.normalizer (H : Set G) ≤ Subgroup.normalizer (layerOddPreimage H : Set G) := by
-  haveI := characteristic_comap_layer H
+  have := characteristic_comap_layer H
   exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
     ((layer (↥H ⧸ pPrimeCore 2 ↥H)).comap (QuotientGroup.mk' (pPrimeCore 2 ↥H)))
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_pPrimeCoreOf_two (H : Subgroup G) :
     Subgroup.normalizer (H : Set G) ≤ Subgroup.normalizer (pPrimeCoreOf 2 H : Set G) :=
   CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (pPrimeCore 2 ↥H)
@@ -54,7 +60,7 @@ theorem normalizer_le_normalizer_pPrimeCoreOf_two (H : Subgroup G) :
 theorem layerOddPreimage_le_centralizer {H Z : Subgroup G} (hZ2 : IsPGroup 2 Z) (hZH : Z ≤ H)
     (hHZ : H ≤ Subgroup.normalizer (Z : Set G)) :
     layerOddPreimage H ≤ Subgroup.centralizer (Z : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro e he
   obtain ⟨heH, hel⟩ := mem_layerOddPreimage_iff.mp he
   rw [Subgroup.mem_centralizer_iff]
@@ -91,12 +97,13 @@ theorem layerOddPreimage_le_centralizer {H Z : Subgroup G} (hZ2 : IsPGroup 2 Z) 
     exact hw2
   exact hw3.symm
 
+omit [Finite G] in
 theorem layerOddPreimage_eq_of_isSolvable {H : Subgroup G}
     (hs : Group.IsSolvable ↥(layerOddPreimage H)) : layerOddPreimage H = pPrimeCoreOf 2 H := by
   set O : Subgroup ↥H := pPrimeCore 2 ↥H
   set π : ↥H →* ↥H ⧸ O := QuotientGroup.mk' O with hπ
   set E₀ : Subgroup ↥H := (layer (↥H ⧸ O)).comap π with hEdef
-  haveI : Group.IsSolvable ↥(E₀.map H.subtype) := hs
+  have : Group.IsSolvable ↥(E₀.map H.subtype) := hs
   have hE₀ : Group.IsSolvable ↥E₀ :=
     Group.isSolvable_of_surjective
       (f := (E₀.equivMapOfInjective H.subtype H.subtype_injective).symm.toMonoidHom)
@@ -109,8 +116,8 @@ theorem layerOddPreimage_eq_of_isSolvable {H : Subgroup G}
     exact ⟨⟨x, show π x ∈ layer (↥H ⧸ O) by rw [hπ, hx]; exact y.2⟩, Subtype.ext hx⟩
   have hbot : layer (↥H ⧸ O) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(layer (↥H ⧸ O)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect ↥(layer (↥H ⧸ O)) := CFSG.LocalCores.layer_isPerfect
+    have : Nontrivial ↥(layer (↥H ⧸ O)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Group.IsPerfect ↥(layer (↥H ⧸ O)) := CFSG.LocalCores.layer_isPerfect
     exact Group.IsPerfect.not_isSolvable _ hL
   show E₀.map H.subtype = (pPrimeCore 2 ↥H).map H.subtype
   rw [hEdef, hbot, MonoidHom.comap_bot, hπ, QuotientGroup.ker_mk']
@@ -118,7 +125,7 @@ theorem layerOddPreimage_eq_of_isSolvable {H : Subgroup G}
 theorem isSolvable_of_ker_odd_eq_one {K Q : Type*} [Group K] [Group Q] [Finite K] (f : K →* Q)
     (hf : Group.IsSolvable f.range) (hk : ∀ x ∈ f.ker, Odd (orderOf x) → x = 1) :
     Group.IsSolvable K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : IsPGroup 2 f.ker := by
     intro x
     obtain ⟨k, m, hm, hord⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos (x : K)).ne'
@@ -127,8 +134,8 @@ theorem isSolvable_of_ker_odd_eq_one {K Q : Type*} [Group K] [Group Q] [Finite K
       rw [orderOf_pow_of_dvd (pow_ne_zero _ two_ne_zero) ⟨m, hord⟩, hord,
         Nat.mul_div_cancel_left _ (pow_pos two_pos _)]
     exact hk _ (f.ker.pow_mem x.2 _) (h1 ▸ hm)
-  haveI : Group.IsNilpotent f.ker := hker.isNilpotent
-  haveI := hf
+  have : Group.IsNilpotent f.ker := hker.isNilpotent
+  have := hf
   exact Group.isSolvable_of_ker_le_range f.ker.subtype f.rangeRestrict
     ((MonoidHom.ker_rangeRestrict f).le.trans (Subgroup.range_subtype f.ker).ge)
 
@@ -137,7 +144,7 @@ theorem le_centralizer_of_cent_inf_le {R A O : Subgroup G} (hR2 : IsPGroup 2 R)
     (hRO : R ≤ Subgroup.normalizer (O : Set G)) (hOA : O ≤ Subgroup.centralizer (A : Set G))
     (hCO : R ⊓ Subgroup.centralizer (A : Set G) ≤ Subgroup.centralizer (O : Set G)) :
     R ≤ Subgroup.centralizer (O : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : ↥R →* MulAut ↥O := O.normalizerMonoidHom.comp (Subgroup.inclusion hRO)
   have hφ : ∀ (r : ↥R) (o : ↥O), ((φ r o : ↥O) : G) = (r : G) * o * (r : G)⁻¹ := fun r o =>
     O.normalizerMonoidHom_apply_apply_coe ⟨r, hRO r.2⟩ o

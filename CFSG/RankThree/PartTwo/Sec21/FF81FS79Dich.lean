@@ -84,7 +84,7 @@ theorem T_orbit (h34 : R34Stmt b b₁ b₂) {x : J6.S6} (hx : J6.Cl3 x) (hxT : x
     · exact absurd hHC.symm (S.nf_tcl3_cl3 h34 J6.cl3_x2 hx)
     · exact absurd hHC.symm (S.nf_tcl3_cl3 h34 J6.cl3_x3 hx)
 
-theorem V_orbit (h34 : R34Stmt b b₁ b₂) {f : J6.S6} (hf : J6.Cl1 f) (hfV : f ∈ J6.V1) {n : H}
+theorem V_orbit (_h34 : R34Stmt b b₁ b₂) {f : J6.S6} (hf : J6.Cl1 f) (hfV : f ∈ J6.V1) {n : H}
     (hn : n ∈ Nor (S.frame J6.V1)) :
     n * S.ι f * n⁻¹ ∈ J6.V1.map S.ι ∨ ∃ s ∈ ({J6.e1 * J6.pp, J6.e1 * J6.qq, J6.pp * J6.qq} :
       Finset J6.S6), HC (S.ι f) (t * S.ι s) := by
@@ -141,7 +141,7 @@ theorem dichotomy (h34 : R34Stmt b b₁ b₂) : S.Xi J6.T1 ∨ S.Xi J6.V1 := by
       simp only [Finset.mem_insert, Finset.mem_singleton] at ha
       rcases ha with rfl | ha
       · rw [map_one]
-        simpa using (J6.T1.map S.ι).one_mem
+        simp
       · exact hno n hn a (by simpa using ha)
   have hV' : ∃ n ∈ Nor (S.frame J6.V1), ∃ f ∈ ({J6.e1, J6.pp, J6.qq} : Finset J6.S6),
       n * S.ι f * n⁻¹ ∉ J6.V1.map S.ι := by
@@ -157,7 +157,7 @@ theorem dichotomy (h34 : R34Stmt b b₁ b₂) : S.Xi J6.T1 ∨ S.Xi J6.V1 := by
       simp only [Finset.mem_insert, Finset.mem_singleton] at ha
       rcases ha with rfl | ha
       · rw [map_one]
-        simpa using (J6.V1.map S.ι).one_mem
+        simp
       · exact hno n hn a (by simpa using ha)
   obtain ⟨n, hn, x, hx, hnx⟩ := hT'
   obtain ⟨m, hm, f, hf, hmf⟩ := hV'

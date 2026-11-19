@@ -39,7 +39,7 @@ private theorem g5_permLattice_sub_smul {τ : Tag} (σ : Equiv.Perm (Fin τ.rank
     (v : Fin τ.rank → ℤ) (c : ℤ) (β : Fin τ.rank → ℤ) :
     permLattice σ (v - c • β) = permLattice σ v - c • permLattice σ β := by
   funext j
-  simp [permLattice, Pi.sub_apply, Pi.smul_apply]
+  simp [permLattice, Pi.sub_apply]
 
 private theorem g5_weyl_conj_untw
     {t : StatedLieTag} {p f : ℕ} {ht : GGExcFive t}

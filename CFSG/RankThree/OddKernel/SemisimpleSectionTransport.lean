@@ -25,7 +25,7 @@ theorem isPGroup_quotient_pPrimeCore_of_isNilpotent [Fact p.Prime] {C : Type*} [
   have : Fact q.Prime := ⟨hq⟩
   obtain ⟨T⟩ : Nonempty (Sylow q C) := inferInstance
   have hTcop : Nat.Coprime p (Nat.card (T : Subgroup C)) := by
-    obtain ⟨m, hm⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
     rw [hm]
     exact Nat.Coprime.pow_right m ((Nat.coprime_primes Fact.out hq).2 (Ne.symm hqp))
   have hTle : (T : Subgroup C) ≤ CFSG.pPrimeCore p C := le_sSup ⟨inferInstance, hTcop⟩

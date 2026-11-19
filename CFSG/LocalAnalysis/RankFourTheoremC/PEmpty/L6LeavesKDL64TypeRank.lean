@@ -20,7 +20,7 @@ open CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.UniversalCoverMonster
 
 theorem finite_field_card_eq_pow (K : Type) [Field K] [Finite K] :
     ∃ ℓ m : ℕ, ℓ.Prime ∧ 1 ≤ m ∧ Nat.card K = ℓ ^ m := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨ℓ, -, m, hℓ, hc⟩ := FiniteField.card' K
   exact ⟨ℓ, (m : ℕ), hℓ, m.pos, by rw [Nat.card_eq_fintype_card, hc]⟩
 
@@ -50,7 +50,7 @@ theorem exceptionalOrders_PSL_of_five_le (n p f : ℕ) (hn : 5 ≤ n) :
 theorem exceptionalOrders_PSU_of_five_le (n p f : ℕ) (hn : 5 ≤ n) (hn6 : n ≠ 6) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSU n p f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | omega | simp_all
+  split <;> first | rfl | omega
 
 theorem exceptionalOrders_PSp_two (p f : ℕ) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSp 2 p f = (1, 1) := by
@@ -75,9 +75,9 @@ theorem kdL64TypeRank_of_inputs
     : KDL64TypeRank := by
   unfold KDL64TypeRank
   intro p hp hp5 L _ _ hq hI P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect L := Group.isPerfect_def.mpr hq.1
-  haveI : Group.IsPerfect L := hperf
+  have : Group.IsPerfect L := hperf
   have hp2 : p ≠ 2 := by omega
   have hp6 : p ≠ 6 := by
     rintro rfl

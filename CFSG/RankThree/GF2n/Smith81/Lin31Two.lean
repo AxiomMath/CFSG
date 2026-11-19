@@ -98,6 +98,7 @@ theorem lin31Back_two {n : ℕ} {V₁ V₂ : Subgroup G} (hc : Ctx M Q Z B)
     have h2 := (inZClass_conj_iff (Z := Z) (v := v) x₀⁻¹).mp (by simpa using this)
     exact h2
 
+omit [Finite G] in
 theorem LinSetup.centDvdN {M Q Z B : Subgroup G} {n : ℕ} {V₁ V₂ : Subgroup G}
     (hS : LinSetup M Q Z B n V₁ V₂) : CentDvdN 2 M Q Z (Lgen M (LB M Q B)) := by
   obtain ⟨_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, hcent⟩ := hS

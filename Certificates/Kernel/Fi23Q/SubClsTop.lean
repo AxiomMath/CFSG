@@ -505,7 +505,7 @@ theorem card_D {D : Subgroup CFSG.Sporadic.Fi23.J} (hDS : D ≤ SubS) {m : ℕ}
       (vec3 4)) := by
     ext a
     simp only [Set.mem_range, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
-      Set.mem_image, Set.mem_setOf_eq]
+      Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨q, rfl⟩
       induction q using QuotientGroup.induction_on with | H x => ?_
@@ -519,7 +519,7 @@ theorem card_D {D : Subgroup CFSG.Sporadic.Fi23.J} (hDS : D ≤ SubS) {m : ℕ}
   rw [← Nat.card_range_of_injective hf, hR, Nat.card_coe_set_eq, Set.ncard_coe_finset,
     Finset.card_image_of_injOn, card_filter_range, popc_eq]
   intro i hi j hj e
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hi hj
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hi hj
   rw [← inv4_vec3 i hi.1, ← inv4_vec3 j hj.1, e]
 
 theorem inter_fix {D : Subgroup CFSG.Sporadic.Fi23.J} (hDS : D ≤ SubS) (hc : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x)

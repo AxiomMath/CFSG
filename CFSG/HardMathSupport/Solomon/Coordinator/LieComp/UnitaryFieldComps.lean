@@ -13,7 +13,7 @@ theorem lieCompsExport_primeFormFieldHom (hSU : SUFactorFacts) {p : ℕ} (hp : p
     (hp2 : p ≠ 2) {ℓ f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
     (hC : IsPrimeFormGram (1 : GL (Fin n) K)) (σ : K ≃+* K) (hσ : orderOf σ = p) :
     LieCompsExport ℓ (primeFormFieldHom h hC σ) := by
-  haveI := h.finite
+  have := h.finite
   refine ⟨LieSemisimple.perfectInLayer_primeFormFieldHom h hn hp hp2 σ hσ, fun K' hK' => ?_⟩
   obtain ⟨hne, g, hg, hgk⟩ := unitary_fieldAut_components h hn hC hp hp2 hσ K' hK'
   exact ⟨_, inferInstance, inferInstance,

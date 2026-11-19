@@ -163,13 +163,13 @@ theorem hasB_eq (M i : ℕ) : hasB M i = M.testBit i := by
     intro j
     rw [Nat.testBit_and, Nat.shiftLeft_eq, one_mul]
     by_cases hij : i = j
-    · subst hij; cases hM : M.testBit i <;> simp [hM]
-    · cases hM : M.testBit i <;> simp [hM, hij, Nat.testBit_two_pow]
+    · subst hij; cases hM : M.testBit i <;> simp
+    · cases hM : M.testBit i <;> simp [hij]
   show Nat.blt 0 (M &&& (1 <<< i)) = M.testBit i
   rw [key]
   cases h : M.testBit i
   · rfl
-  · simp only [h, ↓reduceIte, Nat.blt_eq]
+  · simp only [↓reduceIte, Nat.blt_eq]
     exact Nat.two_pow_pos i
 
 theorem bitK_eq (x k : ℕ) : bitK x k = if x.testBit k then 1 else 0 := by

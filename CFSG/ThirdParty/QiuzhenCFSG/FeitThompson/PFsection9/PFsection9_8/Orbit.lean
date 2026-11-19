@@ -93,8 +93,8 @@ public theorem H0COrderedXmuCoordinateData_of_ordered_sec9
   rcases hordered with
     ⟨aρ, hnormalH0, hW1normU, hnormalC, w0, hw0gen, H, hHcard, hHnorm,
       hHindep, hHsup, hfac, hqpos, hsucc, χbar, hχdata, hχtransition⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (C.subgroupOf U).Normal := hnormalC
   choose ρ hρ using hχdata
   have hρcyc : ∀ i, IsCyclic (ρ i).range := fun i => (hρ i).1
   have hρcard : ∀ i, Nat.card (ρ i).range = aρ := fun i => (hρ i).2.1
@@ -170,7 +170,7 @@ public theorem conj_inv_mem_of_conj_mem_finite_sec9
     (hconjMF : ∀ h : MF, g⁻¹ * (h : G) * g ∈ MF) :
     ∀ h : MF, g * (h : G) * g⁻¹ ∈ MF := by
   classical
-  letI : Fintype MF := Fintype.ofFinite MF
+  let : Fintype MF := Fintype.ofFinite MF
   let f : MF → MF := fun h => ⟨g⁻¹ * (h : G) * g, hconjMF h⟩
   have hf_inj : Function.Injective f := by
     intro x y hxy
@@ -504,7 +504,7 @@ public theorem theorem_9_8_weak_orbit_nonidentity_moves_base_sec9
     apply hHinj
     exact quotientSubgroupConjugateByElement_target_eq_of_same_element_sec9
       (hv i) (by simpa [v, hij] using hv j)
-  letI : Fintype W1 := Fintype.ofFinite W1
+  let : Fintype W1 := Fintype.ofFinite W1
   have h92 : hypothesis_9_2_statement M MF U W1 W2 q :=
     case_9_7_a_hypothesis_9_2_sec9 hcase
   have hcard_v : Fintype.card (Fin q) = Fintype.card W1 := by
@@ -513,7 +513,7 @@ public theorem theorem_9_8_weak_orbit_nonidentity_moves_base_sec9
       _ = Nat.card W1 := h92.q_eq.symm
       _ = Fintype.card W1 := Nat.card_eq_fintype_card
   have hvsurj : Function.Surjective v := by
-    letI : DecidableEq W1 := Classical.decEq W1
+    let : DecidableEq W1 := Classical.decEq W1
     by_contra hnot
     rw [Function.Surjective] at hnot
     push Not at hnot
@@ -1045,7 +1045,7 @@ public theorem H0CLinearCandidateXmuConstantFinalInertiaDataWithRaw_of_W1Inertia
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   dsimp [H0CLinearCandidateXmuConstantW1InertiaDataWithRaw_sec9] at hdata
   have hcomp : Dm.IsComplement' (W1.subgroupOf M) := by
     dsimp [Dm]
@@ -1106,7 +1106,7 @@ public theorem H0CLinearCandidateXmu_final_inertia_not_irreducible_withRaw_sec9
   intro Dm i hIndIrr
   let hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   rcases hθirr (μorbit i) with ⟨n, ρ, hρirr, hθeq⟩
   have hnormInd :
       Section1.scalarProduct M
@@ -1158,7 +1158,7 @@ public theorem H0CLinearCandidateXmuSmuCoreDataWithRaw_of_finalInertiaData_sec9
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   let μfinal : H0CLinearCandidateXmuRawIndex_sec9 p → Section1.ClassFunction M :=
     fun i => Section1.inducedCF Dm (θ (μorbit i))
   dsimp [H0CLinearCandidateXmuFinalInertiaDataWithRaw_sec9] at hdata
@@ -1222,7 +1222,7 @@ public theorem H0CLinearCandidateXmuFinalInjectiveDataWithRaw_of_finalInertiaDat
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   let μfinal : H0CLinearCandidateXmuRawIndex_sec9 p → Section1.ClassFunction M :=
     fun i => Section1.inducedCF Dm (θ (μorbit i))
   dsimp [H0CLinearCandidateXmuFinalInertiaDataWithRaw_sec9] at hdata
@@ -1468,7 +1468,7 @@ public theorem
   rcases hBarU with ⟨_hCU, hnormalBarC, hbarCard⟩
   rcases hcore with ⟨hnormalC, instAction, hstab, hcoord⟩
   refine ⟨hnormalC, instAction, hstab, ?_, hcoord⟩
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   simpa using hbarCard
 
 public theorem isIrreducible_subgroupOfClassFunction_sec9

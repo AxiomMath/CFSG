@@ -19,7 +19,7 @@ theorem aor_oddInner_of_conj_range {L : Subgroup G}
   let α : MulAut ↥L := L.normalizerMonoidHom n
   have hαk : α ^ orderOf y = 1 := by
     have hn : n ^ orderOf y = 1 := by
-      simpa [n] using pow_orderOf_eq_one n
+      simp [n]
     simp only [α]
     rw [← map_pow, hn, map_one]
   have hmem : α ∈ (MulAut.conj : ↥L →* MulAut ↥L).range :=

@@ -56,7 +56,7 @@ private theorem exists_isGomiThreeCycle {L : Subgroup G} (hn : 3 ≤ n)
     ⟨_, isGomiThreeCycle_map_conj e a.2 (by simpa [a] using h3) g⟩
   exact ⟨fun B => if h : ∃ y, IsGomiThreeCycle n B y then h.choose else 1, fun g => by
     dsimp only
-    rw [dif_pos (hex g)]
+    rw [dite_eq_left (hex g)]
     exact (hex g).choose_spec⟩
 
 private def IsGomiFact23Subgroup (L H M : Subgroup G) (n : ℕ) : Prop :=
@@ -146,7 +146,7 @@ private theorem exists_threeCycles_of_components {L N M A Q : Subgroup G} [N.Nor
   choose c hcA hcM using hMB
   obtain ⟨x, hx⟩ : ∃ x : Subgroup G → G, ∀ B (hB : B ∈ Set.range fun g : G =>
       L.map (MulAut.conj g).toMonoidHom), x B = c B hB * z * (c B hB)⁻¹ :=
-    ⟨fun B => if hB : _ then c B hB * z * (c B hB)⁻¹ else 1, fun B hB => dif_pos hB⟩
+    ⟨fun B => if hB : _ then c B hB * z * (c B hB)⁻¹ else 1, fun B hB => dite_eq_left hB⟩
   refine ⟨x, fun g => ?_, (twoResidual_inf_centralizer_le_inf hGN M).trans
     ((twoResidual_inf_centralizer_le_sSup hN hMN (T := fun B => zpowers (x B))
       fun B hB => ?_).trans (sSup_le ?_))⟩

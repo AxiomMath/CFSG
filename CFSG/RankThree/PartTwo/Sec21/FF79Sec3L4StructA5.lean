@@ -39,7 +39,7 @@ def cA : alternatingGroup (Fin 5) := ⟨cc, by rw [mem_alternatingGroup]; exact 
 theorem cA_ord : orderOf cA = 3 := by
   rw [← Subgroup.orderOf_coe]; exact cc_ord
 
-theorem cA_norm : ∀ x ∈ kV, cA * x * cA⁻¹ ∈ kV := fun x hx => cc_norm _ hx
+theorem cA_norm : ∀ _x ∈ kV, cA * _x * cA⁻¹ ∈ kV := fun _x hx => cc_norm _ hx
 
 theorem card_A5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
   rw [Nat.card_eq_fintype_card]
@@ -77,8 +77,8 @@ theorem index_eq_relIndex_of_sup_eq_top {N L : Subgroup H} [L.Normal] (h : N ⊔
 theorem exists_normalized_two_subgroup {L : Subgroup H} [hL : L.Normal]
     (e : L ≃* alternatingGroup (Fin 5)) {A : Subgroup H} (hA : IsPGroup 3 A) :
     ∃ P : Subgroup H, P ≤ L ∧ IsPGroup 2 P ∧ P ≠ ⊥ ∧ ∀ a ∈ A, ∀ x ∈ P, a * x * a⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P0, c0, hP0, hc0, hnorm⟩ := a5_klein_data e
   have hL60 : Nat.card L = 60 := by rw [Nat.card_congr e.toEquiv]; exact card_A5
   have h2grp : IsPGroup 2 P0 := IsPGroup.of_card (n := 2) (by rw [hP0]; norm_num)

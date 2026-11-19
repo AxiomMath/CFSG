@@ -31,7 +31,7 @@ private theorem langRatBQ_isAlgClosure_subfield {L : Type} [Field L] [IsAlgClose
 private theorem langRatBQ_card_fixedField {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {f : ℕ} (hf : 1 ≤ f) (K : Subfield L) (hmem : ∀ c : L, c ∈ K ↔ c ^ 2 ^ f = c) :
     Nat.card ↥K = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← natCard_setOf_pow_eq_self (Ω := L) (ℓ := 2) (e := f) (by omega)]
   exact Nat.card_congr (Equiv.subtypeEquivRight hmem)
 
@@ -44,18 +44,18 @@ theorem langRatB_fixed_perfect_split
         Matrix (Fin ν) (Fin ν) L) = 1 + Matrix.single (π x) (π y) ((β x y : L) * t ^ 2 ^ f)) :
     Group.IsPerfect ↥(fixSubgroup Φ') := by
   classical
-  haveI : CharP L 2 := by
+  have : CharP L 2 := by
     obtain ⟨n, hn, h⟩ := hAlg (-1)
     have hev : Even (2 ^ n) := Nat.even_pow.2 ⟨even_two, hn.ne'⟩
     have h1 : (1 : L) = -1 := (Even.neg_one_pow hev).symm.trans h
     exact CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (by linear_combination h1)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subfield L := RingHom.eqLocusField (iterateFrobenius L 2 f) (RingHom.id L)
   have hmem : ∀ c : L, c ∈ K ↔ c ^ 2 ^ f = c := fun c => by
     change iterateFrobenius L 2 f c = c ↔ c ^ 2 ^ f = c
     simp only [iterateFrobenius_def]
   have hk : Nat.card ↥K = 2 ^ f := langRatBQ_card_fixedField hf K hmem
-  haveI : IsAlgClosure ↥K L := langRatBQ_isAlgClosure_subfield hAlg K
+  have : IsAlgClosure ↥K L := langRatBQ_isAlgClosure_subfield hAlg K
   obtain ⟨-, -, -, hqs, -, -⟩ :=
     sln_root_permuting_frobenius_fixed_split (k := ↥K) (Ω := L) (n := ν) (ℓ := 2) (f := f)
       Nat.prime_two hf hk hν π Φ' β (fun x y hxy t => hΦ' x y hxy t)
@@ -71,18 +71,18 @@ theorem langRatB_fixed_perfect_unitary
         Matrix (Fin ν) (Fin ν) L) = 1 + Matrix.single (π y) (π x) ((β x y : L) * t ^ 2 ^ f)) :
     Group.IsPerfect ↥(fixSubgroup Φ') := by
   classical
-  haveI : CharP L 2 := by
+  have : CharP L 2 := by
     obtain ⟨n, hn, h⟩ := hAlg (-1)
     have hev : Even (2 ^ n) := Nat.even_pow.2 ⟨even_two, hn.ne'⟩
     have h1 : (1 : L) = -1 := (Even.neg_one_pow hev).symm.trans h
     exact CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (by linear_combination h1)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subfield L := RingHom.eqLocusField (iterateFrobenius L 2 f) (RingHom.id L)
   have hmem : ∀ c : L, c ∈ K ↔ c ^ 2 ^ f = c := fun c => by
     change iterateFrobenius L 2 f c = c ↔ c ^ 2 ^ f = c
     simp only [iterateFrobenius_def]
   have hk : Nat.card ↥K = 2 ^ f := langRatBQ_card_fixedField hf K hmem
-  haveI : IsAlgClosure ↥K L := langRatBQ_isAlgClosure_subfield hAlg K
+  have : IsAlgClosure ↥K L := langRatBQ_isAlgClosure_subfield hAlg K
   obtain ⟨-, -, -, hbig, -⟩ :=
     sln_root_permuting_frobenius_fixed_unitary (k := ↥K) (Ω := L) (n := ν) (ℓ := 2) (f := f)
       Nat.prime_two hf hk hν π Φ' β (fun x y hxy t => hΦ' x y hxy t)

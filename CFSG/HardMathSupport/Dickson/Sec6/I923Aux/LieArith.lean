@@ -448,7 +448,7 @@ theorem exists_noncomm_of_simple_of_order {X : Type} [Group X] [Finite X] [IsSim
     (hN : 2 ≤ f * lieSylowExponent t n) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  letI : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcon a b }
+  let : CommGroup X := { ‹Group X› with mul_comm := fun a b => hcon a b }
   have hprime : (Nat.card X).Prime := IsSimpleGroup.prime_card
   have hx := sylow_dvd_of_order hadm hM
   rw [← pow_mul] at hx

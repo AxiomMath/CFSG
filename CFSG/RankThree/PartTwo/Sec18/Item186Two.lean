@@ -124,7 +124,7 @@ theorem le_of_le_normalizer (h1812 : Item181_2) (h184 : Item184_1) (hH : Sec18H 
     hH₀.1.le.trans (sup_le (sup_le hLU₀ hAU₀) hSU₀)
   have hU₀O : U₀ ≤ CFSG.Open.pCoreOf 2 H :=
     le_pCoreOf_of_mem_scriptHStar h hHs (hU2.to_le inf_le_left) hHU₀
-  obtain ⟨s, hsS, hsO⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hO2le hH₀.2.2)
+  obtain ⟨s, hsS, hsO⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hO2le hH₀.2.2)
   have hsD : s ∉ D := fun hsD => hsO (hU₀O ⟨hSU hsS, hsD⟩)
   have hA := isE27_of_mem_partTwoE h.mem_partTwoE
   have hB9 : Nat.card (A ⊓ L : Subgroup G) = 9 := card_inf_of_sec18H h1812 h184 hH

@@ -53,7 +53,7 @@ theorem PlaneData.e_mem_fixU (i : Fin n) (hi : 2 ≤ i.val) : D.e i ∈ D.fixU :
       intro h
       rw [h] at hi
       omega
-    rw [D.eact i j x hx, if_neg (Ne.symm hne)]
+    rw [D.eact i j x hx, ite_eq_right (Ne.symm hne)]
 
 theorem PlaneData.hi_mem_stable (g : W ≃ₗ[ZMod 2] W) (hg : g ∈ E) :
     ∀ w ∈ D.piecesOf (idxHi n), g w ∈ D.piecesOf (idxHi n) :=

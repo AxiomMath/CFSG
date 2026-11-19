@@ -26,6 +26,7 @@ structure GroupPair (H T L : Subgroup G) (t : G) : Prop where
     φ.ker = (Subgroup.centralizer (V : Set G)).subgroupOf L ∧ CFSG.IsQuasisimple Q
 
 
+omit [Finite G] in
 theorem not_thompsonJ_le_centralizer' {H T L V : Subgroup G}
     (hHN : H ≤ Subgroup.normalizer (V : Set G)) (hLH : L ≤ H)
     (hnJ : ¬ ⁅L, thompsonJ T⁆ ≤ Subgroup.centralizer (V : Set G)) :

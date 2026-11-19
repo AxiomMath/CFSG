@@ -13,7 +13,7 @@ variable {K : Type} [Field K]
 
 theorem three_eq_zero_of_natCard_eq_27 [Finite K] (hK : Nat.card K = 27) : (3 : K) = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := FiniteField.cast_card_eq_zero K
   rw [← Nat.card_eq_fintype_card, hK] at h
   have h3 : (3 : K) ^ 3 = 0 := by
@@ -32,7 +32,7 @@ abbrev jMat : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K := Matrix.fromBlocks 
 theorem diag_neg_one_one_mul_self :
     Matrix.diagonal (![-1, 1] : Fin 2 → K) * Matrix.diagonal ![-1, 1] = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_mul_diagonal]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem uMat_mul_uMat (a b a' b' : K) : uMat a b * uMat a' b' = uMat (a + a') (b + b') := by
   have hS : Matrix.diagonal ![a', b'] + Matrix.diagonal ![a, b] =
@@ -85,7 +85,7 @@ theorem tMat_mem_sp : (tMat (K := K))ᵀ * jMat * tMat = jMat := by
   rw [hT]
   unfold tMat jMat
   rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.one_mul, Matrix.mul_neg,
+  simp only [Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.mul_neg,
     Matrix.neg_mul, zero_add, add_zero, neg_zero]
   rw [diag_neg_one_one_mul_self]
 
@@ -142,7 +142,7 @@ theorem eU_eq_one {a b : K} (h : eU a b = 1) : a = 0 ∧ b = 0 := by
     (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) (Sum.inl 0) (Sum.inr 0)) hc
   have e2 := congrArg (fun g : GL (Fin 2 ⊕ Fin 2) K =>
     (g : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) (Sum.inl 1) (Sum.inr 1)) hc
-  simp [uGL, uMat, Matrix.GeneralLinearGroup.coe_scalar] at e1 e2
+  simp [Matrix.GeneralLinearGroup.coe_scalar] at e1 e2
   exact ⟨e1.symm, e2.symm⟩
 
 theorem ev_injective : Function.Injective (ev (K := K)) := by

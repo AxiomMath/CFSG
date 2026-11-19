@@ -27,7 +27,7 @@ theorem kFactNineThreeNoTwoAt_of_sevenModel {p : ℕ} [Fact p.Prime] (hp2 : p �
 
 theorem kFactNineThreeNoTwoAt_fi24 :
     KFactNineThreeNoTwoAt 7 (.sporadic .Fi24Prime) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcx : Commute Fi7.C7 Fi7.X7 := Fi7.fi7_cube.2.2.2.1
   have hc7 : Fi7.C7 ^ 7 = 1 := Fi7.C7_pow_seven
   have hx7 : Fi7.X7 ^ 7 = 1 := Fi7.fi7_cube.1

@@ -18,8 +18,8 @@ private lemma fk_fr_eq_one_of_isSquare_units {a : (ZMod 3)ˣ} (ha : IsSquare a) 
 
 theorem fk_fr_norm_eq (hQ : Q.Nondegenerate) {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0)
     (h : reflOf Q u hu * reflOf Q v hv ∈ omegaGroup hQ) : Q u = Q v := by
-  letI : Invertible (Q u) := invertibleOfNonzero hu
-  letI : Invertible (Q v) := invertibleOfNonzero hv
+  let : Invertible (Q u) := invertibleOfNonzero hu
+  let : Invertible (Q v) := invertibleOfNonzero hv
   rw [mem_omegaGroup_iff hQ, reflOf_eq u hu, reflOf_eq v hv, map_mul,
     CFSG.ClassicalInvolution.detSpinorNorm_reflectionOrthogonal hQ u,
     CFSG.ClassicalInvolution.detSpinorNorm_reflectionOrthogonal hQ v] at h

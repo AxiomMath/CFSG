@@ -134,7 +134,7 @@ theorem false_of_threeNineHyp_L227 {X : Type} [Group X] [Finite X] {K E D X₁ :
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 ((Q : Subgroup X) ⊓ K) K := by
     have hQ : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup X) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
-      refine ⟨le_top, Q.isPGroup', ?_⟩
+      refine ⟨le_top, Q.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact Q.not_dvd_index
     exact hQ.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top_iff.mpr h.normal])
@@ -147,7 +147,7 @@ theorem false_of_threeNineHyp_L227 {X : Type} [Group X] [Finite X] {K E D X₁ :
         (k := 364) (by norm_num) (by norm_num)).symm
     rw [Sylow.card_eq_multiplicity, hcardK, h3]
     norm_num
-  have hTY : (T : Subgroup ↥K) ≤ Y := fun x hx => h.inf_K_le Q.isPGroup' hEQ hx
+  have hTY : (T : Subgroup ↥K) ≤ Y := fun x hx => h.inf_K_le Q.isPGroup hEQ hx
   have hDY : D.subgroupOf K ≤ Y := fun x hx => h.D_le hx
   have hDKc : Nat.card (D.subgroupOf K) = d := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDK).toEquiv, hDd]

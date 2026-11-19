@@ -13,8 +13,8 @@ theorem uc22pwex_borelWit_of_equiv {G C : Type} [Group G] [Finite G] [Group C] (
     {p k : ℕ} (U : Subgroup C) (hU : IsPGroup 2 U) (hidx : ¬ 2 ∣ U.index) (F : Subgroup C)
     (hF : F ≤ normalizer (U : Set C)) (hFe : IsElemAbelian p F) (hc : Nat.card F = p ^ k) :
     uc22p20oBorelWit G p k := by
-  haveI : Finite C := Finite.of_equiv G e.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite C := Finite.of_equiv G e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU' : IsPGroup 2 (U.map e.symm.toMonoidHom) := hU.map _
   have hidx' : ¬ 2 ∣ (U.map e.symm.toMonoidHom).index := by
     rw [Subgroup.index_map_of_bijective e.symm.bijective]
@@ -47,7 +47,7 @@ theorem uc22pwex_elemAbelian_range {A C : Type} [Group A] [Finite A] [Group C] {
 theorem uc22pwex_exists_mu {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hpK : p ∣ Nat.card K - 1) :
     ∃ μ : Subgroup Kˣ, Nat.card μ = p ∧ ∀ x : μ, (x : Kˣ) ^ p = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : p ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p h1
   refine ⟨Subgroup.zpowers g, by rw [Nat.card_zpowers, hg], ?_⟩
@@ -66,8 +66,8 @@ theorem uc22pwex_mem_normalizer_subgroupOf {M : Type} [Group M] {C U : Subgroup 
 
 theorem uc22pwex_charP_two {K : Type} [Field K] [Finite K] {m : ℕ} (h : Nat.card K = 2 ^ m) :
     CharP K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, h])
 
 theorem uc22pwex_equiv_quot_of_center_eq_bot {K : Type} [Group K] (h : center K = ⊥) :

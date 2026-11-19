@@ -124,7 +124,7 @@ theorem ggSchurDvdInput_holds :
       have hle : Nat.card (Subgroup.center X) ≤ 1 :=
         Finite.card_le_one_iff_subsingleton.mpr inferInstance
       have hpos : 1 ≤ Nat.card (Subgroup.center X) := by
-        haveI : Nonempty (Subgroup.center X) := ⟨⟨1, Subgroup.one_mem _⟩⟩
+        have : Nonempty (Subgroup.center X) := ⟨⟨1, Subgroup.one_mem _⟩⟩
         exact Nat.card_pos
       omega
     rw [h1]

@@ -105,7 +105,7 @@ theorem largeEvenLabelAll_endNodeIOne_unitaryThree (hE : GGIOneUnitaryThreeRootI
 
 theorem ggStdSubIOneProperInputOn_unitaryThree (ha₀ : GGLNoncyclicInput)
     (hE : GGIOneUnitaryThreeRootInput) : GGStdSubIOneProperInputOn GGIOneMoreUnitaryThreeLabel :=
-  ggStdSubIOneProperInputOn_of_labels ha₀ fun _ _ hp hlab h _ =>
+  ggStdSubIOneProperInputOn_of_labels ha₀ fun _ _ _hp hlab h _ =>
     largeEvenLabelAll_endNodeIOne_unitaryThree hE hlab h
 
 theorem ggStdSubIOneProperInputOn_twDThreeField (ha₀ : GGLNoncyclicInput)

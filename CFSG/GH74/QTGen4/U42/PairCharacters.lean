@@ -58,7 +58,7 @@ theorem hom_trivial_on_commutator {K A : Type*} [Group K] [CommGroup A] (δ : K 
     apply Subgroup.commutator_le.mpr
     intro a _ b _
     change δ ⁅a, b⁆ = 1
-    simp [commutatorElement_def, mul_comm, mul_left_comm, mul_assoc]
+    simp [commutatorElement_def, mul_assoc]
   exact fun x hx => hker hx
 
 theorem hom_trivial_of_mem_commutator_subgroup {K A : Type*} [Group K] [CommGroup A]

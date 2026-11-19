@@ -94,7 +94,7 @@ theorem land_pow_beq (x j : Nat) :
   · simp only [Bool.not_true, beq_eq_false_iff_ne, ne_eq]
     intro h0
     have := congrArg (fun z => z.testBit j) h0
-    simp [Nat.testBit_and, Nat.testBit_two_pow, hb] at this
+    simp [Nat.testBit_and, hb] at this
 
 theorem land_mask64_lt (a : Nat) : Nat.land a (nat_lit 18446744073709551615) < 2 ^ 64 := by
   rw [show ∀ b c : Nat, Nat.land b c = b &&& c from fun _ _ => rfl]
@@ -178,7 +178,7 @@ theorem rel_inner (hlt : ∀ l, lt l = tabC (lc l)) (hkey : ∀ c < 2 ^ 20, key 
     rw [hr.mb, List.any_reverse]
   rcases hb : t.mask.testBit (Nat.add (keyN (mulC x (lc l))) 64) with _ | _
   · rw [hb] at hc
-    simp only [hc, hb, ↓reduceIte, Bool.not_false]
+    simp only [hc, ↓reduceIte, Bool.not_false]
     change t.mask.testBit (keyN (mulC x (lc l)) + 64) = false at hb
     generalize hyv : mulC x (lc l) = y at hy hm hb
     have hany : (t.all.reverse.any fun e => keyN e.1 == keyN y) = false := by
@@ -236,7 +236,7 @@ theorem rel_inner (hlt : ∀ l, lt l = tabC (lc l)) (hkey : ∀ c < 2 ^ 20, key 
       · exact List.mem_cons_self
       · exact List.mem_cons_of_mem _ (hr.bk e he)
   · rw [hb] at hc
-    simp only [hc, hb, Bool.not_true, Bool.false_eq_true, ↓reduceIte]
+    simp only [hc, Bool.not_true, Bool.false_eq_true, ↓reduceIte]
     exact hr
 
 theorem rel_fold (hlt : ∀ l, lt l = tabC (lc l)) (hkey : ∀ c < 2 ^ 20, key (tabC c) = keyN c)
@@ -263,7 +263,7 @@ theorem rel_outer (hlt : ∀ l, lt l = tabC (lc l)) (hkey : ∀ c < 2 ^ 20, key 
   unfold outerS outerK
   simp only
   by_cases hi : i < queue.size
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have hlen : i < queue.toList.length := by simpa using hi
     rw [List.drop_eq_getElem_cons hlen] at hd
     have hqi : queue[i]! = queue.toList[i] := by
@@ -296,7 +296,7 @@ theorem rel_outer (hlt : ∀ l, lt l = tabC (lc l)) (hkey : ∀ c < 2 ^ 20, key 
       · simpa using hi
       · intro e' he'
         exact hr.fr e' (List.mem_cons_of_mem _ he')
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hnil : queue.toList.drop i = [] :=
       List.drop_eq_nil_of_le (by simpa using Nat.le_of_not_lt hi)
     rw [hnil] at hd

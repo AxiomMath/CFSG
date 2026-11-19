@@ -20,7 +20,7 @@ theorem stronglyEmbedded (hL613 : P622L613) (hp3 : p ≠ 3) (c : P622KxCfg p P M
     {H N : Subgroup G} (hHL : H ≤ L) (hHM : H ≤ M) (hs : S622IsSimpleSection H N) (hzH : z ∈ H)
     (hzN : z ∉ N) {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) (hfd : f ∣ N.relIndex H) :
     GLBStronglyEmbedded f M := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hS := c.conf.failure.situation
   have hx := c.conf.failure.point
   have hz := c.conf.failure.central

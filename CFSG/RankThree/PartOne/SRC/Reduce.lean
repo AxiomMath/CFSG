@@ -98,7 +98,7 @@ theorem noLowTwoRankSectionFor_of_rankFourCover_finite {P : CFSGIndex → Prop}
     have hQn := hCsyl q Q
     set Q' : Subgroup K := (Q : Subgroup C).map C.subtype with hQ'
     have hQ'card : Nat.Coprime p (Nat.card Q') := by
-      obtain ⟨k, hk⟩ := (Q.isPGroup'.map C.subtype).exists_card_eq
+      obtain ⟨k, hk⟩ := (Q.isPGroup.map C.subtype).exists_card_eq
       rw [hk]
       exact Nat.Coprime.pow_right k ((Nat.coprime_primes hp hq).mpr (Ne.symm hqp))
     have hQ'le : Q' ≤ CFSG.pPrimeCore p K := by

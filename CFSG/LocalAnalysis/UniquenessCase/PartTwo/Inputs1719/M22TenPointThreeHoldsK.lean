@@ -573,7 +573,7 @@ theorem fix_of {A : Array (Array ℕ)} {I : Array ℕ} {L cols lift : List ℕ} 
   · exact absurd h hm0
   have hI' : I[m]! = L.getD m 0 := by
     rw [hI, List.getElem!_toArray, List.getElem!_eq_getElem?_getD,
-      List.getD_eq_getElem?_getD] <;> rfl
+      List.getD_eq_getElem?_getD]; rfl
   refine ⟨by rw [hI']; exact h1, ?_⟩
   rw [hI', permM, hpc _ h1]
   exact h2

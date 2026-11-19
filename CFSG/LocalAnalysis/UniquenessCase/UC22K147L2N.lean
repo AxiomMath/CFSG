@@ -51,7 +51,7 @@ theorem NoTrivSec.exists_ne_one [Nontrivial X] {σ : Representation (ZMod 2) K X
 theorem NoTrivSec.injective [Nontrivial X] [Finite F] [CharP F 2]
     {σ : Representation (ZMod 2) K X} (h : NoTrivSec σ) (h4 : 4 ≤ Nat.card F)
     (e : K ≃* SL(2, F)) : Function.Injective (σ.comp e.symm.toMonoidHom) := by
-  haveI := CFSG.LocalAnalysis.UniquenessCase.UC22.P22y.isSimpleGroup_sl2 h4
+  have := CFSG.LocalAnalysis.UniquenessCase.UC22.P22y.isSimpleGroup_sl2 h4
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (σ.comp e.symm.toMonoidHom).ker with h0 | h0
   · exact (MonoidHom.ker_eq_bot_iff _).mp h0
   · obtain ⟨g, hg⟩ := h.exists_ne_one e
@@ -68,7 +68,7 @@ theorem two_mul_le_finrank_of_invariant [Finite X] [Fintype F] [CharP F 2] (e : 
   have hNT : NoTrivSec (U.toRepresentation.comp (MonoidHom.id K)) :=
     NoTrivSec.sub (ι := MonoidHom.id K) (by rwa [MonoidHom.comp_id]) U
   rw [MonoidHom.comp_id] at hNT
-  haveI : Nontrivial U.toSubmodule :=
+  have : Nontrivial U.toSubmodule :=
     ((CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff _).mp hU).1
   exact (two_mul_le_finrank hn hF _ (isIrreducible_comp_equiv _ e.symm hU)
     (hNT.exists_ne_one e)).trans (Submodule.finrank_mono hUY)
@@ -95,7 +95,7 @@ theorem trichotomy_incL (ht : t * t = 1) (e : ↥L ≃* SL(2, F)) {n : ℕ} (hn 
             ((σ.comp (incL L t)).comp e.symm.toMonoidHom)) ∨
         (∃ s, n = 2 * s ∧ 3 * s ≤
           Module.finrank (ZMod 2) Y - Module.finrank (ZMod 2) (repFixedSpace σ {tElt L t}))) := by
-  haveI : Nontrivial Y := ((CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff _).mp hirr).1
+  have : Nontrivial Y := ((CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff _).mp hirr).1
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, hF]
     calc 4 = 2 ^ 2 := by norm_num
@@ -169,9 +169,9 @@ theorem k147L2N_holds : K147L2N := by
   intro G _ _ V _ _ _ ρ _ _ hρ hirr L _ n hcase h1 hm
   obtain ⟨hn2, hL2, -⟩ := hcase
   have hn : 3 ≤ n := hn2
-  haveI hLn : L.Normal := normal_of_numConj_eq_one h1
+  have hLn : L.Normal := normal_of_numConj_eq_one h1
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := P22y.exists_equiv_sl2 (P22fin.isL2Ev_of_isL2 hL2).1
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact hF
@@ -179,7 +179,7 @@ theorem k147L2N_holds : K147L2N := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI := P22y.isSimpleGroup_sl2 h4
+  have := P22y.isSimpleGroup_sl2 h4
   have hnt : ∃ l ∈ L, ρ l ≠ 1 := by
     obtain ⟨g, hg⟩ := exists_ne (1 : SL(2, F))
     refine ⟨(e.symm g : G), (e.symm g).2, fun h => hg ?_⟩
@@ -255,10 +255,10 @@ theorem k147L2N_holds : K147L2N := by
         ⟨hVnt, fun U hU => or_iff_not_imp_left.mpr (hc U hU)⟩)
     obtain ⟨U', hU'U, hU'⟩ := exists_irreducible_sub π hU hU0
     have hU'top : U'.toSubmodule ≠ ⊤ := fun h => hUt (top_le_iff.mp (by rw [← h]; exact hU'U))
-    haveI : Nontrivial U'.toSubmodule :=
+    have : Nontrivial U'.toSubmodule :=
       ((CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff _).mp hU').1
-    haveI : Finite (V ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
-    haveI : Nontrivial (V ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hU'top
+    have : Finite (V ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
+    have : Nontrivial (V ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hU'top
     have hNTU := NoTrivSec.sub hNT U'
     have hNTQ := NoTrivSec.quot hNT U'
     have hcod := codim_sub_quot π U' {tElt L t}

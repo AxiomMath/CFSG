@@ -15,6 +15,7 @@ open CFSG.GH74.Uniqueness.Bender
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 private theorem ad_of_mem {L : Subgroup G} (x : ↥L) :
     oTwoQuotConj L ⟨(x : G), Subgroup.le_normalizer x.2⟩ =
       MulAut.conj (QuotientGroup.mk' (CFSG.pCore 2 ↥L) x) := by
@@ -285,7 +286,7 @@ theorem mem_pCoreOf_of_two_arc_left {L1 L2 S : Subgroup G}
   have hNnormal : N.Normal := by
     dsimp only [N]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hRleP).mpr hRnormal
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hleN : Subgroup.zpowers tP ≤ N :=
     CFSG.GH74.Uniqueness.SU.K.KI8.le_of_isPGroup_of_odd_index hNindex hP2
   have htR : t ∈ R := by

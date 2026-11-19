@@ -59,8 +59,8 @@ theorem burnsideF437_F437KindDeg_of_odd {κ : GLKind} {degree : ℕ}
       HypF_4_31 κ degree Gp M₁ M₂ β ε z → Odd Gp.index) :
     burnsideF437_F437KindDeg κ degree := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp chart Tb hTb fb hfbT hfbS hsq hiii hsyl
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hfG : (fb : E) ∉ Gp := burnsideF437_not_mem_Gp hsyl (fun h => hfbS h.1) hsq
   exact absurd (burnsideF4d_two_elt_mem (hodd E Gp M₁ M₂ Y β M ε z hyp) (k := 1)
     (by rw [pow_one, sq]; exact hsq)) hfG

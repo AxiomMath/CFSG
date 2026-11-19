@@ -192,7 +192,7 @@ private lemma e8T3_lang_transport {K : Type} [Field K] {L : Type} [Field L] [Alg
           m₁ * Units.map (entrywiseHom (iterateFrobenius L ℓ f)) (hL * g * hL⁻¹) * m₁⁻¹ =
             hL * g * hL⁻¹) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   set Φ : ModGL Tag.E8 L →* ModGL Tag.E8 L := Units.map (entrywiseHom Fr) with hΦdef
   set v : WeylGroup Tag.E8 := u⁻¹ with hv
@@ -203,7 +203,7 @@ private lemma e8T3_lang_transport {K : Type} [Field K] {L : Type} [Field L] [Alg
   have hvS_node :
       (fun γ => v • γ) '' parabolicRoots Tag.E8 (e6Nodes Tag.E8) = rootCharKernel b := by
     rw [hv, ← hSu, ← Set.image_comp]
-    simp [Function.comp_def]
+    simp
   have hFrbij : Function.Bijective Fr := ⟨Fr.injective, fun y => by
     obtain ⟨x, hx⟩ := IsAlgClosed.exists_pow_nat_eq y
       (show 0 < ℓ ^ f from pow_pos (Fact.out : ℓ.Prime).pos f)
@@ -249,7 +249,7 @@ private lemma e8T3_lang_transport {K : Type} [Field K] {L : Type} [Field L] [Alg
 private lemma e8T3_transport_qTorus {L : Type} [Field L] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP L ℓ]
     {n n' : ModGL Tag.E8 L} {b : Fin Tag.E8.rank → Lˣ} {q : ℕ}
     {V m₁ hL : ModGL Tag.E8 L} {π : Equiv.Perm (Fin Tag.E8.rank)}
-    {T : Subgroup (ModGL Tag.E8 L)} (hstd : StdTwist6 m₁ π)
+    {T : Subgroup (ModGL Tag.E8 L)} (_hstd : StdTwist6 m₁ π)
     (hTle : T ≤ stdLayer Tag.E8 ℓ f m₁) (hTel : IsElemAbelian q T)
     (hTcard : Nat.card T = q ^ 3)
     (hhL : hL ∈ subsystemGroup Tag.E8 L (e6Set Tag.E8))
@@ -326,7 +326,7 @@ theorem exists_rank_three_qTorus_centralizer_of_stdLayer (hE6 : E6Layer Tag.E8) 
     (hb : rootDiagUnit Tag.E8 b = g0⁻¹ * adjEmb Tag.E8 K L (c * x * c⁻¹) * g0)
     (hS : ∃ u : WeylGroup Tag.E8, (fun γ => u • γ) '' rootCharKernel b =
       parabolicRoots Tag.E8 (e6Nodes Tag.E8))
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hprov : ∀ (m₁ : ModGL Tag.E8 L) (π : Equiv.Perm (Fin Tag.E8.rank)),
       m₁ ∈ monomialSubgroup Tag.E8 L → StdTwist6 m₁ π →
       ∃ T : Subgroup (ModGL Tag.E8 L), T ≤ stdLayer Tag.E8 ℓ f m₁ ∧
@@ -337,7 +337,7 @@ theorem exists_rank_three_qTorus_centralizer_of_stdLayer (hE6 : E6Layer Tag.E8) 
   classical
   have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   set Φ : ModGL Tag.E8 L →* ModGL Tag.E8 L := Units.map (entrywiseHom Fr) with hΦdef
   obtain ⟨ψ, u, -, hψinj, -, -, -, -, hrange, hSu, -, hmaps, -, -, -⟩ :=
@@ -400,10 +400,10 @@ theorem exists_rank_three_qTorus_centralizer_of_root (hE6 : E6Layer Tag.E8) {ε 
     (hf := hf) (hK := hK) (hp := hp) (hp3 := hp3) (hpf := hpf) (L := L) (n := n)
     (hnm := hnm) (hnW := hnW) (g0 := g0) (hg0C := hg0C) (hg0 := hg0) (hperf := hperf)
     (hT := hT) (hx := hx) (c := c) (hh := hh) (b := b) (hb := hb) (hS := hS)
-    (hq := hq) (hq2 := hq2) (hqp := hqp) (hprov := by
+    (hq := hq) (_hq2 := hq2) (_hqp := hqp) (hprov := by
       intro m₁ π hm₁ hstd
       obtain ⟨ζ, hζ⟩ := hroot
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have hFrK : ∀ y : K, (algebraMap K L y) ^ (ℓ ^ f) = algebraMap K L y := by
         intro y
         rw [← hK, Nat.card_eq_fintype_card, ← map_pow, FiniteField.pow_card]
@@ -446,8 +446,8 @@ theorem exists_rank_three_qTorus_centralizer (hE6 : E6Layer Tag.E8) {ε : ℤ}
     (hT := hT) (hx := hx) (c := c) (hh := hh) (b := b) (hb := hb) (hS := hS)
     (hq := hq) (hq2 := hq2) (hqp := hqp) (hroot := by
       classical
-      haveI : Fact q.Prime := ⟨hq⟩
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fact q.Prime := ⟨hq⟩
+      have : Fintype K := Fintype.ofFinite K
       have hq_units : q ∣ Nat.card Kˣ := by rw [Nat.card_units]; exact hqK
       have hq_fintype : q ∣ Fintype.card Kˣ := by rwa [Nat.card_eq_fintype_card] at hq_units
       obtain ⟨gu, hgu⟩ := exists_prime_orderOf_dvd_card q hq_fintype

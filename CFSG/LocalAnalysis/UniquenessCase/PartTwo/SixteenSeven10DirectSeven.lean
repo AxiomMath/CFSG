@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private theorem s16c1610_eq_one_of_fix_summands_seven {ι : Type} {Y : ι → Subgroup T}
     (hsup : ⨆ i, Y i = ⊤) {x : MulAut T} (h : ∀ i, ∀ v ∈ Y i, x v = v) : x = 1 := by
   have hle : (⨆ i, Y i) ≤ fixV (Subgroup.zpowers x) :=
@@ -26,7 +27,7 @@ theorem s16c1610_stab_trivial_seven (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup 
       ∀ φ ∈ X, φ ^ 2 = 1 → ∀ i, (Y i).map φ.toMonoidHom = Y i → ∀ y ∈ Y i, φ y = y := by
   classical
   obtain ⟨ι, hι, Y, hY⟩ := s16c1610_symSumFamily_of_symSumOfConj hS
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨F, hFX, hF, hFn, hFY, hQ⟩ :=
     s16n9b_case4_kernel hT (Or.inr rfl) hr hA hAP hge hY.indep hY.inj hY.sup hY.card
       hY.rank hY.perm hY.surj
@@ -36,7 +37,7 @@ theorem s16c1610_stab_trivial_seven (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup 
   by_contra hne
   have hφne : φ ≠ 1 := fun h => hne (by simp [h])
   have horder2 : orderOf φ = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hφ2 hφne
   have hrki : rk ↥(Y i) = 3 := by rw [hY.rank i, s16c1610_dParam_seven]
   have hQi := s16n9b_case4_aut_norm7 hT hrki hQp (fun q hq => hQY q hq i)
@@ -69,7 +70,7 @@ theorem s16c1610_false_of_direct_seven (hT : ∀ t : T, t ^ 2 = 1) {X A B : Subg
     (hA4 : ∀ b ∈ B, b ≠ 1 → ∀ w, w ∈ Ut ↔ w * (b w)⁻¹ ∈ fixV B) : False := by
   classical
   obtain ⟨ι, hι, Y, hY, hstab⟩ := s16c1610_stab_trivial_seven hT hr hA hAP hS hge
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   obtain ⟨i, hi⟩ : ∃ i, ¬ Y i ≤ Ut := by
     by_contra hcon
     exact hUt (eq_top_iff.mpr (by

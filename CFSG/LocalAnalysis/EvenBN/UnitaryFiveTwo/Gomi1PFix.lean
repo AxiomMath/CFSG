@@ -51,10 +51,11 @@ open CFSG.Assembly.LowTwoRank CFSG.RankThree.PartTwo.Sec6.BThreeCensus
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [CharP K 2] in
 theorem frobenius_facts_four (hK : Nat.card K = 4) {Fr : K ≃+* K} (hFr : ∀ x, Fr x = x ^ 2) :
     Fr * Fr = 1 ∧ Fr ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
   have h4 : ∀ x : K, x ^ 4 = x := fun x => by
     have := FiniteField.pow_card x
@@ -73,7 +74,7 @@ theorem frobenius_facts_four (hK : Nat.card K = 4) {Fr : K ≃+* K} (hFr : ∀ x
         have := congrArg (Polynomial.coeff · 2) hz
         simp [Polynomial.coeff_X_pow, Polynomial.coeff_X_of_ne_one (by norm_num : (2 : ℕ) ≠ 1)]
           at this)]
-      simp [sub_eq_zero, hsq x]
+      simp [hsq x]
     have hle := Finset.card_le_card hroots
     have hdeg : (Polynomial.roots (Polynomial.X ^ 2 - Polynomial.X : Polynomial K)).toFinset.card
         ≤ 2 := by
@@ -84,6 +85,7 @@ theorem frobenius_facts_four (hK : Nat.card K = 4) {Fr : K ≃+* K} (hFr : ∀ x
     rw [Finset.card_univ, hcard] at hle
     omega
 
+omit [CharP K 2] [Finite K] in
 theorem eqLocus_fieldSp_eq_range {Fr : K ≃+* K} :
     (frobSp K Fr).eqLocus (MonoidHom.id (StatedSp 2 K)) =
       (subfieldSpHom 2 (descentField Fr)).range := by
@@ -94,6 +96,7 @@ theorem eqLocus_fieldSp_eq_range {Fr : K ≃+* K} :
   · rintro ⟨g₀, rfl⟩
     exact fieldSp_subfieldSpHom (σ := Fr) g₀
 
+omit [CharP K 2] in
 theorem card_fixedField_four (hK : Nat.card K = 4) {Fr : K ≃+* K} (hFr : ∀ x, Fr x = x ^ 2) :
     Nat.card (descentField Fr) = 2 := by
   obtain ⟨h1, h2⟩ := frobenius_facts_four hK hFr
@@ -110,6 +113,7 @@ theorem card_eqLocus_fieldSp (hK : Nat.card K = 4) {Fr : K ≃+* K} (hFr : ∀ x
   rw [← h]
   exact card_statedSp_two_of_card_two hk2
 
+omit [Finite K] in
 theorem center_eqLocus_fieldSp {Fr : K ≃+* K} :
     ∀ a ∈ (frobSp K Fr).eqLocus (MonoidHom.id (StatedSp 2 K)),
       (∀ b ∈ (frobSp K Fr).eqLocus (MonoidHom.id (StatedSp 2 K)), a * b = b * a) → a = 1 := by

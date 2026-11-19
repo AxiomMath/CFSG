@@ -213,7 +213,7 @@ theorem eq_one_of_commute_of_pow_seven' {F : Type*} [Field F] [Finite F] [CharP 
     (hAB : A * B = B * A) (hA3 : A ^ 3 = 1) : A = 1 := by
   have hpow9 : ∀ x : F, x ^ 9 = x := by
     intro x
-    letI := Fintype.ofFinite F
+    let := Fintype.ofFinite F
     have h := FiniteField.pow_card x
     rw [← Nat.card_eq_fintype_card, hF] at h
     exact h
@@ -234,7 +234,7 @@ theorem eq_one_of_commute_of_pow_seven' {F : Type*} [Field F] [Finite F] [CharP 
   · rw [← map_pow, hA3, map_one]
 
 private theorem card_galoisField_three_two : Nat.card (GaloisField 3 2) = 9 := by
-  rw [GaloisField.card 3 2 (by norm_num)] <;> norm_num
+  rw [GaloisField.card 3 2 (by norm_num)]; norm_num
 
 private theorem not_seven_dvd_card_centralizer_of_card_nine {K : Type} [Field K] [Finite K]
     [CharP K 3] (hK : Nat.card K = 9) (x : CFSG.Assembly.RankThreeEven.projSL 3 K)
@@ -302,7 +302,7 @@ private theorem not_seven_dvd_card_centralizer_of_card_nine {K : Type} [Field K]
     have hZdetU : Matrix.GeneralLinearGroup.det Z = 1 := Units.ext (by simpa using hZdet)
     have hu3 : u ^ 3 = 1 := by
       have h1 := congrArg Matrix.GeneralLinearGroup.det hu
-      simp only [map_mul, map_inv, hXdetU, hZdetU, mul_one, one_mul, inv_one] at h1
+      simp only [map_mul, map_inv, hXdetU, hZdetU, mul_one, inv_one] at h1
       rw [Matrix.GeneralLinearGroup.det_scalar, Fintype.card_fin] at h1
       exact h1
     rw [unit_eq_one_of_pow_three_eq_one hK hu3, map_one] at hu

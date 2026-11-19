@@ -15,6 +15,7 @@ namespace S12
 
 variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B : Subgroup G} {x : G} {L D K : Subgroup G} {y : G} {J : Subgroup G}
 
+omit [Finite G] in
 theorem layer_le_self (p : ℕ) (H : Subgroup G) : GLAPLayer p H ≤ H :=
   sSup_le fun _ hJ => hJ.1
 
@@ -44,7 +45,7 @@ theorem inf_primeCore_le (hp : p.Prime) {K Y : Subgroup G} (hKY : K ≤ Y) :
 
 theorem twoRank_pQuot_le (hp : p.Prime) (hp2 : p ≠ 2) (J : Subgroup G) :
     GLATwoLocalRank p (PQuot p J) ≤ GLATwoLocalRank p ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥J) :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
   exact glaTwoLocalRank_quotient_le hp hp2 (GLAPPrimeCore p ↥J) hN
@@ -53,7 +54,7 @@ theorem isS0_of_gstar {B J : Subgroup G} {y : G} (hS : IsSTriple p B y J) (hG : 
   refine ⟨hS, ?_⟩
   have h5 : tripleLevel p B J = 5 := by
     unfold tripleLevel
-    rw [if_pos hG]
+    rw [ite_eq_left hG]
   have h1 : tripleLevel p B J ≤ dLevel G p := tripleLevel_le_dLevel hS
   have h2 : dLevel G p ≤ 5 := by
     refine csSup_le' ?_
@@ -61,6 +62,7 @@ theorem isS0_of_gstar {B J : Subgroup G} {y : G} (hS : IsSTriple p B y J) (hG : 
     exact tripleLevel_le_five' p B' L'
   omega
 
+omit [Finite G] in
 theorem isEmpty_quaternion_of_card_gt {T : Subgroup G} (h : 8 < Nat.card T) : IsEmpty (T ≃* QuaternionGroup 2) :=
   ⟨fun e => by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card] at h

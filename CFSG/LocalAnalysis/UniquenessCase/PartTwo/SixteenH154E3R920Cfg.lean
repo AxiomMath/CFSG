@@ -38,7 +38,7 @@ private theorem r920cfg_mem_uniqueSet_of_card_eq_prime (c : R920Cfg D L D₃ A) 
     (hp : p.Prime) {X E : Subgroup G} (hXL : X ≤ L) (hXc : Nat.card X = p)
     (hXmem : X ∈ uniqueSet D.M) (hcyc : ∀ T : Sylow p ↥L, IsCyclic T) (hEL : E ≤ L)
     (hE : Nat.card E = p) : E ∈ uniqueSet D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := CFSG.AGLEmbeddingD2.exists_eq_map_conj_of_isCyclic (J := ↥L) (p := p)
     hcyc (Y₀ := X.subgroupOf L) (Y₁ := E.subgroupOf L)
     (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXL).toEquiv, hXc])
@@ -62,17 +62,17 @@ private theorem r920cfg_mem_uniqueSet_of_card_eq_prime (c : R920Cfg D L D₃ A) 
   exact conj_mem_uniqueSet hXmem (c.le_M j.2)
 
 theorem opp_eq (c : R920Cfg D L D₃ A) : Opp 3 L = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup ↥L := CFSG.pCore 2 ↥L
-  haveI hKnorm : K.Normal := CFSG.pCore_normal
-  haveI hsimple : IsSimpleGroup (Bar2 L) :=
+  have hKnorm : K.Normal := CFSG.pCore_normal
+  have hsimple : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) c.isL2
   set N' : Subgroup ↥L := (Opp 3 L).subgroupOf L with hN'def
-  haveI hN'norm : N'.Normal := by rw [hN'def]; exact F09.normal_opp_subgroupOf 3 L
+  have hN'norm : N'.Normal := by rw [hN'def]; exact F09.normal_opp_subgroupOf 3 L
   have hπsurj : Function.Surjective (QuotientGroup.mk' K) := QuotientGroup.mk'_surjective K
   have hmapnorm : (N'.map (QuotientGroup.mk' K)).Normal := hN'norm.map _ hπsurj
-  haveI := hmapnorm
+  have := hmapnorm
   rcases hsimple.eq_bot_or_eq_top_of_normal (N'.map (QuotientGroup.mk' K)) with hbot | htop
   ·
     exfalso
@@ -125,11 +125,11 @@ theorem opp_eq (c : R920Cfg D L D₃ A) : Opp 3 L = L := by
       rw [← hk]
       exact Subgroup.card_dvd_of_surjective hsurj
     have hP : IsPGroup 2 (↥L ⧸ N') := isPGroup_iff_card_dvd_pow.mpr ⟨k, hdiv⟩
-    haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr c.mem.2.1
+    have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr c.mem.2.1
     have hNil : Group.IsNilpotent (↥L ⧸ N') := IsPGroup.isNilpotent hP
     have hsub : Subsingleton (↥L ⧸ N') := by
       by_contra h
-      haveI : Nontrivial (↥L ⧸ N') := not_subsingleton_iff_nontrivial.mp h
+      have : Nontrivial (↥L ⧸ N') := not_subsingleton_iff_nontrivial.mp h
       exact Group.IsPerfect.not_isNilpotent (↥L ⧸ N') hNil
     have hNtop : N' = ⊤ := QuotientGroup.subsingleton_iff.mp hsub
     have hNtop2 : (Opp 3 L).subgroupOf L = ⊤ := by rw [← hN'def]; exact hNtop
@@ -137,7 +137,7 @@ theorem opp_eq (c : R920Cfg D L D₃ A) : Opp 3 L = L := by
 
 theorem isCyclic_sylow_three (c : R920Cfg D L D₃ A) (T : Sylow 3 ↥L) :
     IsCyclic ↥(T : Subgroup ↥L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : CFSG.Open.pRank 3 L ≤ 1 := by
     rw [← pRank_bar2_eq_of_odd (Y := L) Nat.prime_three (by norm_num)]
     exact pRank_le_one_of_isL2_or_isSz (Or.inl c.isL2) Nat.prime_three (by norm_num)
@@ -145,7 +145,7 @@ theorem isCyclic_sylow_three (c : R920Cfg D L D₃ A) (T : Sylow 3 ↥L) :
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 3) L]
     exact h3
   exact CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three
-    (by norm_num) T.isPGroup' ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num)
+    (by norm_num) T.isPGroup ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num)
       le_top).trans htop)
 
 theorem mem_uniqueSet_of_card_three (c : R920Cfg D L D₃ A) {E : Subgroup G} (hEL : E ≤ L)
@@ -155,7 +155,7 @@ theorem mem_uniqueSet_of_card_three (c : R920Cfg D L D₃ A) {E : Subgroup G} (h
 
 theorem mem_uniqueSet_of_card_seven (c : R920Cfg D L D₃ A) {E : Subgroup G} (hEL : E ≤ L)
     (hE : Nat.card E = 7) : E ∈ uniqueSet D.M := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   refine r920cfg_mem_uniqueSet_of_card_eq_prime c Nat.prime_seven c.A_le c.A_card c.A_mem
     ?_ hEL hE
   intro T
@@ -166,13 +166,13 @@ theorem mem_uniqueSet_of_card_seven (c : R920Cfg D L D₃ A) {E : Subgroup G} (h
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 7) L]
     exact h7
   exact CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one Nat.prime_seven
-    (by norm_num) T.isPGroup' ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 7 (by norm_num)
+    (by norm_num) T.isPGroup ((CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 7 (by norm_num)
       le_top).trans htop)
 
 theorem pRank_le_one_of_maxTwoLocal (c : R920Cfg D L D₃ A) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.sig)
     {N : Subgroup G} (hN : rankThreeIsMaxTwoLocal N) (hLN : L ≤ N) (hNM : N ≠ D.M) :
     CFSG.Open.pRank 3 N ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3N : D₃ ≤ N := c.D₃_le.trans hLN
   have hD3card : Nat.card (D₃.subgroupOf N) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD3N).toEquiv, c.D₃_card]
@@ -181,7 +181,7 @@ theorem pRank_le_one_of_maxTwoLocal (c : R920Cfg D L D₃ A) (h61 : UC6.R6_1 D) 
   obtain ⟨Q, hDQ⟩ := hD3p.exists_le_sylow
   have hQcyc : IsCyclic ↥(Q : Subgroup ↥N) := by
     let Q' : Subgroup G := (Q : Subgroup ↥N).map N.subtype
-    have hQ'pg : IsPGroup 3 Q' := Q.isPGroup'.map N.subtype
+    have hQ'pg : IsPGroup 3 Q' := Q.isPGroup.map N.subtype
     have hD3Q' : D₃ ≤ Q' := by
       intro d hd
       exact Subgroup.mem_map.2 ⟨⟨d, hD3N hd⟩, hDQ (Subgroup.mem_subgroupOf.2 hd), rfl⟩
@@ -215,11 +215,11 @@ theorem pRank_le_one_of_maxTwoLocal (c : R920Cfg D L D₃ A) (h61 : UC6.R6_1 D) 
     rw [hPmap]
     exact (MulEquiv.isCyclic ((Q : Subgroup ↥N).equivMapOfInjective _
       (MulAut.conj n).injective)).mp hQcyc
-  haveI : IsCyclic ↥(P : Subgroup ↥N) := hPcyc
-  haveI hEsub : IsCyclic ↥(E.subgroupOf N) := Subgroup.isCyclic_of_le hEP
+  have : IsCyclic ↥(P : Subgroup ↥N) := hPcyc
+  have hEsub : IsCyclic ↥(E.subgroupOf N) := Subgroup.isCyclic_of_le hEP
   have hEcyc : IsCyclic ↥E :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hEN)).mp hEsub
-  haveI : IsCyclic ↥E := hEcyc
+  have : IsCyclic ↥E := hEcyc
   have hexp : Monoid.exponent ↥E ∣ 3 :=
     Monoid.exponent_dvd_of_forall_pow_eq_one (fun x => Subtype.ext (hEab.2 (x : G) x.2))
   have hcard : Nat.card ↥E ∣ 3 := by

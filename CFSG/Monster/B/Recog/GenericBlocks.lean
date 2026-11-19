@@ -95,7 +95,7 @@ theorem exists_sylow_eq_subgroupOf_of_block [Finite G] {Y M P₀ : Subgroup G} (
   have hPY : P₀ ≤ Y := hP₀.trans inf_le_left
   have hTP : (T : Subgroup Y).map Y.subtype = P₀ := by
     refine eq_of_le_isPGroup_of_block hP₀ hmax hwP hblock (Subgroup.map_subtype_le _)
-      (T.isPGroup'.map _) (fun x hx => ⟨⟨x, hPY hx⟩, hT ?_, rfl⟩)
+      (T.isPGroup.map _) (fun x hx => ⟨⟨x, hPY hx⟩, hT ?_, rfl⟩)
     rw [Subgroup.mem_comap]
     exact hx
   rw [← hTP, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]

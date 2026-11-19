@@ -91,6 +91,7 @@ theorem exists_mem_eichler_of_uTransLe (hσ : ∀ c, σ (σ c) = c) {L : Subgrou
   rw [map_mul, map_mul, ← mulVec_mulVec, ← mulVec_mulVec, hx₁, hx₂, hx₃]
   exact mulVec_eichler_prod hσ haa hww haw c ν u
 
+omit [CharP F 2] in
 theorem eichler_mem_uRad_radVec (hσ : ∀ c, σ (σ c) = c) {a d w : Fin m → F}
     (haa : uForm σ a a = 0) (hdd : uForm σ d d = 0) (had : uForm σ a d = 1)
     (hw : w ∈ perpPair σ a d) {c ν : F} {z : SU σ m}

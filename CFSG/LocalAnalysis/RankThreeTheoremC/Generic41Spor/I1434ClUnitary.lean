@@ -56,7 +56,7 @@ private theorem su_a5_false {E : Type} [Field E] [Finite E] {p f m : ℕ} (hU : 
     omega
   have hform := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int hU (n := m) (by omega)
   have hNat : Nat.card E = (p ^ f) ^ 2 := hU.card_eq_sq
-  haveI : Fact p.Prime := ⟨hU.prime⟩
+  have : Fact p.Prime := ⟨hU.prime⟩
   by_cases hmq : (m, p ^ f) = (3, 2)
   · obtain ⟨rfl, h2⟩ := Prod.mk.inj hmq
     have h216 : (Nat.card ↥(StatedSU 3 (p ^ f) E) : ℤ) = 216 := by
@@ -113,15 +113,15 @@ private theorem good_block_a5 (hℓ5 : ℓ ≠ 5) (hq : 2 ≤ ℓ ^ f) (H : Unit
     dualPoly hK.bar (a : K[X]) = a ∧ (a : K[X]).natDegree = 1 ∧ ℓ ^ f = 4 ∧
       primaryMultiplicity (x : Module.End K V) (a : K[X]) = 2 := by
   classical
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
-  haveI : Fact ℓ.Prime := ⟨hK.prime⟩
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
+  have : Fact ℓ.Prime := ⟨hK.prime⟩
   have hirr : Irreducible (a : K[X]) := irreducible_of_mem_primaryFactors a.2
-  haveI : Fact (Irreducible (a : K[X])) := ⟨hirr⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨hirr⟩
   have hd : 1 ≤ (a : K[X]).natDegree := Irreducible.natDegree_pos hirr
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have h0 := coeff_zero_ne_zero_of_mem_primaryFactors H.squarefree a.2
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · obtain ⟨hE, Hf, hHf, hHfl, ⟨e'⟩⟩ :=
@@ -134,7 +134,7 @@ private theorem good_block_a5 (hℓ5 : ℓ ≠ 5) (hq : 2 ≤ ℓ ^ f) (H : Unit
           (primaryComponent (x : Module.End K V) (a : K[X])) = 2 := hm2'
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       have hcardF : Nat.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) :=
         hE.card_fixedField
       have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) hE.fixedField ⧸
@@ -206,7 +206,7 @@ private theorem good_block_a5 (hℓ5 : ℓ ≠ 5) (hq : 2 ≤ ℓ ^ f) (H : Unit
     have hKcard : Nat.card K = 4 := by
       rw [hK.card, hℓ2, hf1]
       norm_num
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hμ3 : (-(a : K[X]).coeff 0) ^ 3 = 1 := by
       have := FiniteField.pow_card_sub_one_eq_one (-(a : K[X]).coeff 0) hμ0
       rwa [← Nat.card_eq_fintype_card, hKcard] at this
@@ -244,7 +244,7 @@ private theorem unitary_component_a5 {n ℓ f : ℕ} {F : Type} [Field F] (h : U
       dualPoly h.bar (a.1 : F[X]) = a.1 ∧ (a.1 : F[X]).natDegree = 1 ∧ ℓ ^ f = 4 ∧
       primaryMultiplicity (glA (A : GL (Fin n) F) : Module.End F (Fin n → F)) (a.1 : F[X]) = 2 := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨⟨⟨j, hj⟩, hgood⟩, hJeq⟩ :=
     UnitaryBlocks.exists_good_block_of_component (two_le_pow_of h) A rfl H J' hJ'
   refine ⟨⟨⟨j, hj⟩, hgood⟩, hJeq, ?_⟩
@@ -290,7 +290,7 @@ private theorem unitary_data {K : Type} [Group K] [Finite K] {n ℓ f : ℕ} {F 
     (D : Data K Q x J₁ J₂) :
     ℓ ^ f = 4 ∧ 4 ≤ n := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨t, ht⟩ := QuotientGroup.mk_surjective (φ x)
   let A : primeFormUnitary h (idGram F n) :=
     ⟨(t : GL (Fin n) F), ((mem_gramSU_iff_unitary h).1 t.2).1⟩
@@ -349,7 +349,7 @@ theorem i1434Cl_PSU {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
     {J₁ J₂ : Subgroup K} (D : I1434.Data K Q x J₁ J₂) : ℓ = 2 ∧ f = 2 ∧ n = 4 := by
   obtain ⟨⟨hℓp, hf, hn3, -⟩, F, _, _, hF, ⟨eT⟩⟩ := hm
   have h : UnitaryFieldData ℓ f F := ⟨hℓp, hf, by rw [hF, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
+  have := h.finite
   obtain ⟨eP⟩ := nonempty_primeFormP_mulEquiv h
     (CFSG.RankThree.PartOne.KCUnitaryModel.isPrimeFormGram_idGram (n := n) (K := F))
   let φ : K ≃* primeFormP h (CFSG.RankThree.PartOne.KCUnitaryModel.idGram F n) :=

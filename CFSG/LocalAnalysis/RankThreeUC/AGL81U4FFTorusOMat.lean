@@ -15,9 +15,9 @@ noncomputable abbrev NormOne (M : NormModel F b c) : Subgroup M.Eˣ := rootsOfUn
 @[expose] noncomputable def torusO (M : NormModel F b c) :
     (Fin 3 → ↥(NormOne M)) →* ↥(StatedOmega (StatedQuadMinus 3 F b c)) :=
   ((M.τ).comp
-    (⟨⟨fun a => (a 0, a 1, a 2), rfl⟩, fun _ _ => rfl⟩ :
+    (⟨⟨fun _a => (_a 0, _a 1, _a 2), rfl⟩, fun _ _ => rfl⟩ :
       (Fin 3 → ↥(NormOne M)) →* ↥(NormOne M) × ↥(NormOne M) × ↥(NormOne M))).codRestrict _
-    fun a => M.τ_mem _
+    fun _a => M.τ_mem _
 
 private theorem torusO_coe (M : NormModel F b c) (a : Fin 3 → ↥(NormOne M)) :
     ((torusO M a : ↥(StatedOmega (StatedQuadMinus 3 F b c))) :

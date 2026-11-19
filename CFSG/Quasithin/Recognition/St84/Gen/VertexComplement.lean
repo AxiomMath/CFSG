@@ -21,6 +21,7 @@ theorem sup_inf_centralizer_sup_eq_of_coprime
     Q ⊔ ((L ⊓ Subgroup.centralizer (H : Set G)) ⊔ H) = L ⊔ H := by
   rw [← sup_assoc, sup_inf_centralizer_eq_of_coprime hQL hLQ hHQ hcop hcomm]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer :
     H ≤ Subgroup.normalizer
       ((L ⊓ Subgroup.centralizer (H : Set G) : Subgroup G) : Set G) := by
@@ -30,6 +31,7 @@ private theorem le_normalizer_inf_centralizer :
     Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hk).2 h hh
   rwa [show h * k * h⁻¹ = k by rw [hc]; group]
 
+omit [Finite G] in
 theorem inf_inf_centralizer_sup_eq_bot (hQL : Q ≤ L)
     (hfix : ∀ x ∈ Q, (∀ h ∈ H, h * x * h⁻¹ = x) → x = 1)
     (hHL : H ⊓ L = ⊥) :
@@ -60,12 +62,14 @@ theorem inf_inf_centralizer_sup_eq_bot (hQL : Q ≤ L)
   rw [hk1, hh1, one_mul]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem inf_centralizer_sup_le_normalizer
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G))
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) :
     (L ⊓ Subgroup.centralizer (H : Set G)) ⊔ H ≤ Subgroup.normalizer (Q : Set G) :=
   sup_le (inf_le_left.trans hLQ) hHQ
 
+omit [Finite G] in
 theorem card_inf_centralizer_sup (hHL : H ⊓ L = ⊥) :
     Nat.card ↥((L ⊓ Subgroup.centralizer (H : Set G)) ⊔ H) =
       Nat.card ↥(L ⊓ Subgroup.centralizer (H : Set G)) * Nat.card H := by

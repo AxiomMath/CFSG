@@ -32,18 +32,20 @@ theorem ebarIn_eq_setOf_isConj {e₀ : Mbar M Q} (he₀ : e₀ ∈ Ebar M Q Z B)
       {g | IsConj (⟨e₀, Subgroup.subset_closure he₀⟩ : ↥(Xbar M Q Z B)) g} := by
   ext g
   refine (Set.ext_iff.mp hcls (g : Mbar M Q)).trans ?_
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq, isConj_iff]
+  rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, isConj_iff]
   constructor
   · rintro ⟨x, hx, hgx⟩
     exact ⟨⟨x, hx⟩, Subtype.ext hgx.symm⟩
   · rintro ⟨c, hcg⟩
     exact ⟨c, c.2, (congrArg Subtype.val hcg).symm⟩
 
+omit [Finite G] in
 theorem orderOf_eq_two_of_mem_ebarIn {d : ↥(Xbar M Q Z B)} (hd : d ∈ EbarIn M Q Z B) :
     orderOf d = 2 := by
   rw [← Subgroup.orderOf_coe]
   exact Ctx.orderOf_eq_two_of_mem_Ebar hd
 
+omit [Finite G] in
 theorem isRootInvolutionSet_ebarIn
     (horder : ∀ e₁ ∈ Ebar M Q Z B, ∀ e₂ ∈ Ebar M Q Z B,
       (orderOf (e₁ * e₂) = 2 ∨ orderOf (e₁ * e₂) = 4 ∨ Odd (orderOf (e₁ * e₂))) ∧
@@ -82,10 +84,12 @@ theorem Ctx.ebarIn_rootData (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn 
       Subgroup.le_normalizer hc.Xbar_normal hc.pCore_two_Mbar N hN hN2,
     fun d hd => hc.not_mem_center_Xbar_of_mem_Ebar hd⟩
 
+omit [Finite G] in
 theorem mul_self_eq_one_of_mem_Ebar {e : Mbar M Q} (he : e ∈ Ebar M Q Z B) : e * e = 1 := by
   rw [← pow_two, ← Ctx.orderOf_eq_two_of_mem_Ebar he]
   exact pow_orderOf_eq_one e
 
+omit [Finite G] in
 theorem mul_comm_of_mem_Ebar {u v : Mbar M Q} (hu : u ∈ Ebar M Q Z B) (hv : v ∈ Ebar M Q Z B)
     (huv : u * v ∈ Ebar M Q Z B) : u * v = v * u := by
   have e1 : (u * v)⁻¹ = u * v := inv_eq_of_mul_eq_one_right (mul_self_eq_one_of_mem_Ebar huv)
@@ -93,6 +97,7 @@ theorem mul_comm_of_mem_Ebar {u v : Mbar M Q} (hu : u ∈ Ebar M Q Z B) (hv : v 
     inv_eq_of_mul_eq_one_right (mul_self_eq_one_of_mem_Ebar hv)] at e1
   exact e1.symm
 
+omit [Finite G] in
 theorem IsLBTorus.mk'_conj_ne {a y : G} (hc : Ctx M Q Z B) (hy : IsLBTorus M Q Z B y)
     (ha : a ∈ LB M Q B) (haQ : a ∉ Q) :
     QuotientGroup.mk' (Q.subgroupOf M) ⟨y, hy.mem_M⟩ *

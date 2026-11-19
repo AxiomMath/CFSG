@@ -21,7 +21,7 @@ section Quat
 theorem exists_inverting_order_four {k : ℕ} (hk : 1 ≤ k) {u : QuaternionGroup (2 ^ k)}
     (hu : orderOf u = 4) :
     ∃ b : QuaternionGroup (2 ^ k), orderOf b = 4 ∧ b * u * b⁻¹ = u⁻¹ := by
-  haveI : NeZero (2 ^ k) := ⟨pow_ne_zero k two_ne_zero⟩
+  have : NeZero (2 ^ k) := ⟨pow_ne_zero k two_ne_zero⟩
   obtain ⟨m, hm⟩ : ∃ m : ℕ, 2 ^ k = 2 * m := ⟨2 ^ (k - 1), by
     rw [← pow_succ' 2 (k - 1), Nat.sub_add_cancel hk]⟩
   have hn0 : (2 ^ k : ℕ) ≠ 0 := pow_ne_zero k two_ne_zero

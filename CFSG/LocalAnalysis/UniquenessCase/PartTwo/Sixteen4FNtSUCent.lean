@@ -91,12 +91,12 @@ theorem s16nt_su_cent {K : Type} [Field K] [Finite K] [CharP K 2] [Algebra (ZMod
         · refine Finset.prod_congr rfl fun k hk => ?_
           have hk' : k.val < 4 := (Finset.mem_filter.mp hk).2
           change (if k.val < 4 then ω else if k = i' i then ω ^ 2 else 1 : Kˣ) = ω
-          rw [if_pos hk']
+          rw [ite_eq_left hk']
         · refine Finset.prod_congr rfl fun k hk => ?_
           have hk' : ¬ k.val < 4 := (Finset.mem_filter.mp hk).2
           change (if k.val < 4 then ω else if k = i' i then ω ^ 2 else 1 : Kˣ) =
             (if k = i' i then ω ^ 2 else 1)
-          rw [if_neg hk']
+          rw [ite_eq_right hk']
       rw [hprod]
       have hcard : (Finset.univ.filter (fun k : Fin n => k.val < 4)).card = 4 := by
         rw [Fin.card_filter_val_lt]
@@ -121,9 +121,9 @@ theorem s16nt_su_cent {K : Type} [Field K] [Finite K] [CharP K 2] [Algebra (ZMod
       by_cases hk : k.val < 4
       · have huk : u i k = ω := by
           change (if k.val < 4 then ω else if k = i' i then ω ^ 2 else 1 : Kˣ) = ω
-          rw [if_pos hk]
+          rw [ite_eq_left hk]
         rw [huk]
-      · simp only [if_neg hk, mul_zero]
+      · simp only [ite_eq_right hk, mul_zero]
     refine ⟨Set.range d, ⊥, ?_, ?_, ?_⟩
     · rintro x ⟨i, rfl⟩
       exact ⟨Subgroup.le_normalizer (hdT i), hcommd i⟩
@@ -141,16 +141,16 @@ theorem s16nt_su_cent {K : Type} [Field K] [Finite K] [CharP K 2] [Algebra (ZMod
         by_cases hi : i.val < 4
         · have hii : u i i = ω := by
             change (if i.val < 4 then ω else if i = i' i then ω ^ 2 else 1 : Kˣ) = ω
-            rw [if_pos hi]
+            rw [ite_eq_left hi]
           rw [hii]
           intro hc
           exact hω_ne_one (Units.ext (by simpa using hc))
         · have hi' : i' i = i := by
             change (if i.val < 4 then (⟨4, h5⟩ : Fin n) else i) = i
-            rw [if_neg hi]
+            rw [ite_eq_right hi]
           have hii : u i i = ω ^ 2 := by
             change (if i.val < 4 then ω else if i = i' i then ω ^ 2 else 1 : Kˣ) = ω ^ 2
-            rw [if_neg hi, if_pos hi'.symm]
+            rw [ite_eq_right hi, ite_eq_left hi'.symm]
           rw [hii]
           intro hc
           exact hω2_ne_one (Units.ext (by simpa using hc))

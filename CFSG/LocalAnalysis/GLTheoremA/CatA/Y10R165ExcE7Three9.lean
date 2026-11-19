@@ -51,7 +51,7 @@ theorem e7T3XTuple_ne_one {p : ℕ} [NeZero p] {L : Type} [Field L] {ζ : Lˣ}
     (hp : p.Prime) (hζ : IsPrimitiveRoot ζ p) {ε : ℤ} {q : ZMod p} :
     (fun i => ζ ^ (e7T3XColumn ε q i).val) ≠ 1 := by
   intro h
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have h3 := congrFun h (⟨3, by decide⟩ : Fin Tag.E7.rank)
   simp only [Pi.one_apply] at h3
   have hA3 : e7T3AVec (⟨3, by decide⟩ : Fin Tag.E7.rank) = 1 := by
@@ -69,7 +69,7 @@ theorem e7T3XTuple_ne_one {p : ℕ} [NeZero p] {L : Type} [Field L] {ζ : Lˣ}
 theorem e7T3XTuple_orderOf {p : ℕ} [NeZero p] {L : Type} [Field L] {ζ : Lˣ}
     (hp : p.Prime) (hζ : IsPrimitiveRoot ζ p) {ε : ℤ} {q : ZMod p} :
     orderOf (fun i => ζ ^ (e7T3XColumn ε q i).val) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (funext fun i => e7T3XTuple_pow_eq_one hζ i)
     (e7T3XTuple_ne_one hp hζ)
 

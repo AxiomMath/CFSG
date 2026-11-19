@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_q1_inf_q2_le_centralizerMod {L1 L2 S : Subgroup G}
     (hX1Q2 : u3X1 L1 L2 S ⊔ Q2 L1 L2 S = S)
     (hX1Q1 : ⁅u3X1 L1 L2 S, Q1 L1 L2 S⁆ ≤ Z1 L1 L2 S) (hZ1Z2 : Z1 L1 L2 S ≤ Z2 L1 L2 S)

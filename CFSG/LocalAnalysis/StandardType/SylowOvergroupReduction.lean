@@ -11,7 +11,7 @@ theorem exists_conj_ge_sylow {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
     ∃ g : G, (P : Subgroup G) ≤ X.map (MulAut.conj g).toMonoidHom := by
   classical
   obtain ⟨Q⟩ : Nonempty (Sylow p X) := inferInstance
-  have hp : IsPGroup p ((Q : Subgroup X).map X.subtype) := Q.isPGroup'.map X.subtype
+  have hp : IsPGroup p ((Q : Subgroup X).map X.subtype) := Q.isPGroup.map X.subtype
   have hidx : ¬ p ∣ ((Q : Subgroup X).map X.subtype).index := by
     have h1 : ((Q : Subgroup X).map X.subtype).relIndex X * X.index =
         ((Q : Subgroup X).map X.subtype).index :=
@@ -70,7 +70,7 @@ theorem isSolvable_of_coprime {Y : Type*} [Group Y] [Finite Y] {a b m : ℕ}
 
 theorem isSolvable_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* B)
     (h : Group.IsSolvable B) : Group.IsSolvable A := by
-  haveI := h
+  have := h
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 theorem forall_isSolvable_of_mulEquiv {K G : Type*} [Group K] [Group G] [Finite K] {p : ℕ}

@@ -121,7 +121,7 @@ theorem adAct_rootReflection_eq_rootRefl {γ : Fin Tag.E6.rank → ℤ} (hγ : I
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hji
-      simp [Pi.single_apply, hji]
+      simp [hji]
     · intro hi; exact absurd (Finset.mem_univ i) hi
   have hsecond : (∑ j, (((corootPair γ (Pi.single i 1) • γ) j : ℤ) : ZMod 3) * y j) =
       ((corootPair γ (Pi.single i 1) : ℤ) : ZMod 3) *

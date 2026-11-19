@@ -27,7 +27,7 @@ theorem eleven_nine_sl2_submodule_eq_of_ne_bot_of_smul
   rw [Projectivization.submodule_mk, Submodule.mem_span_singleton] at hw'
   obtain ⟨c, rfl⟩ := hw'
   rcases eq_or_ne c 0 with rfl | hc
-  · simpa using S.zero_mem
+  · simp
   · exact hsmul c hc w₀ hw₀S
 
 theorem eleven_nine_sl2_addSubgroup_eq_of_ne_bot_of_smul
@@ -51,7 +51,7 @@ theorem eleven_nine_sl2_addSubgroup_eq_of_ne_bot_of_smul
   rw [Projectivization.submodule_mk, Submodule.mem_span_singleton] at hw'
   obtain ⟨c, rfl⟩ := hw'
   rcases eq_or_ne c 0 with rfl | hc
-  · simpa using S.zero_mem
+  · simp
   · exact hsmul c hc w₀ hw₀S
 
 variable [Finite F]
@@ -202,7 +202,7 @@ theorem eleven_nine_sl2_scalarHom_injective {p : Projectivization F (Fin 2 → F
     (hD : D' ≤ Subgroup.normalizer (rootGrp p : Set (SpecialLinearGroup (Fin 2) F)))
     {n : ℕ} (hcard : Nat.card F = 2 ^ n) (hodd : Odd (Nat.card D')) :
     Function.Injective (eleven_nine_sl2_scalarHom hD) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup 2 (rootGrp p) := by
     refine IsPGroup.of_card (n := n) ?_
     rw [card_rootGrp, hcard]
@@ -254,8 +254,8 @@ theorem eleven_nine_sl2_isCyclic_of_le_normalizer {p : Projectivization F (Fin 2
     {D' : Subgroup (SpecialLinearGroup (Fin 2) F)}
     (hD : D' ≤ Subgroup.normalizer (rootGrp p : Set (SpecialLinearGroup (Fin 2) F)))
     {n : ℕ} (hcard : Nat.card F = 2 ^ n) (hodd : Odd (Nat.card D')) : IsCyclic D' := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite D' := Subtype.finite
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite D' := Subtype.finite
   refine isCyclic_of_injective_ringHom
     ((Units.coeHom F).comp (eleven_nine_sl2_scalarHom hD)) ?_
   intro g h hgh

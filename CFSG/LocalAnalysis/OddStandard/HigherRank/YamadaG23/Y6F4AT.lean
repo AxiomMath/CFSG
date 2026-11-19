@@ -58,7 +58,7 @@ theorem y6f4a_false_of_gData
     rw [QuotientGroup.ker_mk' (zpowers (y6f4aG g))]
     exact Subgroup.zpowers_le.mpr hcd.g_central
   let K : Subgroup ↥C := ⁅E.comap π, E.comap π⁆
-  haveI hKn : K.Normal := y6f4a_lift_normal hπ (inferInstance : E.Normal)
+  have hKn : K.Normal := y6f4a_lift_normal hπ (inferInstance : E.Normal)
   have hKq : CFSG.Open.IsQuasisimple ↥K := y6f4a_lift_quasisimple hπ hker hE hna
   obtain ⟨eK⟩ := y6f4a_lift_equiv hπ hker hE hna
   have hKc : centralizer (K : Set ↥C) = zpowers (y6f4aG g) := by
@@ -78,7 +78,7 @@ theorem y6f4a_false_of_gData
     y6f4a_standard_lift hd.g_order hKq hKc hperfC h4K
   let S : Sylow 2 ↥(centralizer (A : Set G)) := default
   have hcyc : IsCyclic (S : Subgroup ↥(centralizer (A : Set G))) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card (p := 2) (hsyl S)
   have hlieA : Y6TargetLie (↥A ⧸ Subgroup.center ↥A) :=
     Y6TargetLie.of_mulEquiv (eQ.trans eK).symm hElie

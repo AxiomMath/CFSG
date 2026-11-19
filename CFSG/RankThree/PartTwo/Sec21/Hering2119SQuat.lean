@@ -82,7 +82,7 @@ theorem ker_form [Finite V] (hV : Nat.card V = 81) (ε : V →ₗ[F3] V) (hε : 
       simp [LinearMap.rangeRestrict]
     rw [← h2]
     abel
-  · push_neg at hsc
+  · push Not at hsc
     exfalso
     obtain ⟨X, hXK, hX3, hX243, hu₁X, hXcomm⟩ :=
       na_core' ε hε hW hk K hcomm u₁ hu₁ hu₁K htrans hord3 ν (by rw [hkν]; exact hkK) hsc
@@ -110,7 +110,7 @@ theorem norm_lem {W : Type*} [AddCommGroup W] [Module F3 W] (hW : Module.finrank
     (I J g : W ≃ₗ[F3] W) (hI : ∀ w, I (I w) = -w) (hJ : ∀ w, J (J w) = -w)
     (hIJ : ∀ w, I (J w) = -J (I w)) :
     (∃ y ∈ q8 I J, g * I = y * g) ∧ (∃ y ∈ q8 I J, g * J = y * g) := by
-  haveI : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F3 W := Module.finite_of_finrank_pos (by omega)
   let b : Basis (Fin 2) F3 W := Module.finBasisOfFinrankEq F3 W hW
   let Θ := eqvGL b
   let f : (W ≃ₗ[F3] W) →* Mat2 := (Units.coeHom Mat2).comp Θ.toMonoidHom
@@ -150,8 +150,8 @@ theorem norm_lem {W : Type*} [AddCommGroup W] [Module F3 W] (hW : Module.finrank
     (hcomm : ∀ h ∈ K, ∀ v, h (ε v) = ε (h v)) :
     K →* (LinearMap.range ε ≃ₗ[F3] LinearMap.range ε) where
   toFun h := hresEquiv ε h (hcomm h h.2)
-  map_one' := LinearEquiv.ext fun w => Subtype.ext rfl
-  map_mul' h h' := LinearEquiv.ext fun w => Subtype.ext rfl
+  map_one' := LinearEquiv.ext fun _w => Subtype.ext rfl
+  map_mul' _h _h' := LinearEquiv.ext fun _w => Subtype.ext rfl
 
 theorem q8_pre_gen {G H : Type*} [Group G] [Group H] (f : G →* H) (I J : G) :
     ∀ w ∈ q8g (· * ·) (1 : H) (f I) (f J), ∃ y ∈ q8g (· * ·) (1 : G) I J, f y = w := by

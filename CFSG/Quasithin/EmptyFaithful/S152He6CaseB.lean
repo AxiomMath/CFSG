@@ -182,7 +182,7 @@ theorem caseB_mem (hAut : AutL2SylowInner) {Tb : Subgroup (MulAut W)} {τ : MulA
   have hSmX : Sm ≤ P.Xb := by
     rintro _ ⟨x, -, rfl⟩
     exact hAX x.2
-  have hSm2 : IsPGroup 2 Sm := (SA.isPGroup' (p := 2)).map P.A.subtype
+  have hSm2 : IsPGroup 2 Sm := (SA.isPGroup (p := 2)).map P.A.subtype
   obtain ⟨g, hgX, hgT⟩ := hconj2 Sm hSmX hSm2
   have hmemSm : ∀ s ∈ (SA : Subgroup ↥P.A), ((s : ↥P.A) : MulAut W) ∈ Sm :=
     fun s hs => ⟨s, hs, rfl⟩

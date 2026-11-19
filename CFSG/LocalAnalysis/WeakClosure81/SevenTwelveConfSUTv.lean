@@ -21,7 +21,7 @@ open scoped Classical in
 theorem suTv_smul (hσ : IsUnitaryInvolution σ) {a : Fin m → F} (ha : herm σ a a = 0) {s : F}
     (hs : s + σ s = 0) (v : Fin m → F) :
     suTv hσ a s • v = v + (s * herm σ a v) • a := by
-  rw [suTv, dif_pos ⟨ha, hs⟩, tv_smul]
+  rw [suTv, dite_eq_left ⟨ha, hs⟩, tv_smul]
 
 theorem suTv_conj (hσ : IsUnitaryInvolution σ) (g : ↥(SUid σ m)) {a : Fin m → F}
     (ha : herm σ a a = 0) {s : F} (hs : s + σ s = 0) :

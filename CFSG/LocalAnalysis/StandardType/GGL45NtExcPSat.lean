@@ -83,7 +83,7 @@ theorem card_smul_mem {τ : Tag} {Y : Set (Fin τ.rank → ℤ)} (hY : ∀ y ∈
     Nat.card (reflGroup Y) • v ∈ AddSubgroup.closure Y := by
   classical
   set H := reflGroup Y
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   set S : Fin τ.rank → ℤ := ∑ h : H, (h : WeylGroup τ) • v with hS
   have h1 : Nat.card H • v - S ∈ AddSubgroup.closure Y := by
     have e : Nat.card H • v - S = ∑ h : H, (v - (h : WeylGroup τ) • v) := by
@@ -164,7 +164,7 @@ theorem conj_mem_reflGroup {τ : Tag} {Y : Set (Fin τ.rank → ℤ)} (g : WeylG
     obtain ⟨u, i, hu, rfl⟩ := hy
     refine Subgroup.subset_closure ⟨g * u, i, ?_, by group⟩
     rw [mul_smul]; exact Set.smul_mem_smul_set hu
-  | one => simpa using one_mem _
+  | one => simp
   | mul y z _ _ hy hz =>
     have e : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
     rw [e]; exact mul_mem hy hz
@@ -183,7 +183,7 @@ theorem pSat_of_sylow {τ : Tag} {p : ℕ} (hp : p.Prime) (hW2 : ¬ p ^ 2 ∣ Na
       PSat p (AddSubgroup.closure Y))
     {Y : Set (Fin τ.rank → ℤ)} (hY : ∀ y ∈ Y, IsRoot τ y) :
     PSat p (AddSubgroup.closure Y) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   by_cases hH : p ∣ Nat.card (reflGroup Y)
   swap
   · exact pSat_of_not_dvd hY hp hH
@@ -256,7 +256,7 @@ theorem pSat_of_proj {n d : ℕ} {Y : Set (Fin n → ℤ)} {p : ℕ} (σ : Fin d
       rw [show Pi.single j ((v - l) j) = ((v - l) j) • (Pi.single j 1 : Fin n → ℤ) by
         ext k; by_cases hk : k = j
         · subst hk; simp
-        · simp [Pi.single_apply, hk]]
+        · simp [hk]]
       exact zsmul_mem (he j hj) _
   simpa using add_mem h3 hl
 
@@ -269,7 +269,7 @@ theorem phiL_add {d : ℕ} (B A : List (Fin d → ℤ)) (x y : Fin d → ℤ) :
   induction B.zip A with
   | nil => simp
   | cons ba l ih =>
-    simp only [List.map_cons, List.sum_cons, ih, Pi.add_apply, mul_add, Finset.sum_add_distrib,
+    simp only [List.map_cons, List.sum_cons, Pi.add_apply, mul_add, Finset.sum_add_distrib,
       add_smul, List.sum_map_add]
     abel
 
@@ -280,7 +280,7 @@ theorem phiL_neg {d : ℕ} (B A : List (Fin d → ℤ)) (x : Fin d → ℤ) :
   have h0 : phiL B A 0 = 0 := by
     unfold phiL; induction B.zip A with
     | nil => simp
-    | cons ba l ih => simp [ih]
+    | cons ba l ih => simp
   rw [h0] at h
   exact (neg_eq_of_add_eq_zero_right h.symm).symm
 
@@ -291,7 +291,7 @@ theorem phiL_nsmul {d : ℕ} (B A : List (Fin d → ℤ)) (n : ℕ) (x : Fin d �
     simp only [zero_smul]
     unfold phiL; induction B.zip A with
     | nil => simp
-    | cons ba l ih => simp [ih]
+    | cons ba l ih => simp
   | succ n ih => rw [succ_nsmul, phiL_add, ih, succ_nsmul]
 
 theorem phiL_mem {d : ℕ} {T : Set (Fin d → ℤ)} (B A : List (Fin d → ℤ)) (hB : ∀ b ∈ B, b ∈ T)
@@ -312,7 +312,7 @@ theorem pSat_of_phiL {d p : ℕ} (hp : p.Prime) {T : Set (Fin d → ℤ)} (B A :
       simp only [smul_zero]
       unfold phiL; induction B.zip A with
       | nil => simp
-      | cons ba l ih => simp [ih]
+      | cons ba l ih => simp
     | add x y _ _ hx hy => rw [phiL_add, hx, hy, smul_add]
     | neg x _ hx => rw [phiL_neg, hx, smul_neg]
   intro v hv
@@ -384,7 +384,7 @@ theorem pSat_of_subset_pm {d p : ℕ} {S : List (Fin d → ℤ)}
   rw [heq]
   exact hS T' hT'
 
-theorem pSat_case {τ : Tag} {d p : ℕ} (hp : p.Prime) (l : List (Fin τ.rank)) (σ : Fin d → Fin τ.rank)
+theorem pSat_case {τ : Tag} {d p : ℕ} (_hp : p.Prime) (l : List (Fin τ.rank)) (σ : Fin d → Fin τ.rank)
     (U : Fin τ.rank → Fin τ.rank → ℤ)
     (hU : ∀ j, (∃ k, σ k = j) ∨ U j - l.foldr (reflect τ) (U j) = Pi.single j 1)
     (S : List (Fin d → ℤ)) (hroots : ∀ v, IsRoot τ v → v ∘ σ = 0 ∨ v ∘ σ ∈ S ∨ -(v ∘ σ) ∈ S)

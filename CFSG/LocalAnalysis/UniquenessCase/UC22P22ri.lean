@@ -11,8 +11,9 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem uc22p22r_pow_mul_mem {K : Subgroup G} {k u : G} (hk : k ∈ K)
-    (hu : ∀ j : ℕ, u ^ j * k * (u ^ j)⁻¹ ∈ K) (hu' : ∀ j : ℕ, ∀ y ∈ K, u ^ j * y * (u ^ j)⁻¹ ∈ K) (n : ℕ) :
+omit [Finite G] in
+theorem uc22p22r_pow_mul_mem {K : Subgroup G} {k u : G} (_hk : k ∈ K)
+    (hu : ∀ j : ℕ, u ^ j * k * (u ^ j)⁻¹ ∈ K) (_hu' : ∀ j : ℕ, ∀ y ∈ K, u ^ j * y * (u ^ j)⁻¹ ∈ K) (n : ℕ) :
     ∃ κ ∈ K, (k * u) ^ n = κ * u ^ n := by
   induction n with
   | zero => exact ⟨1, K.one_mem, by simp⟩
@@ -22,6 +23,7 @@ theorem uc22p22r_pow_mul_mem {K : Subgroup G} {k u : G} (hk : k ∈ K)
     rw [pow_succ, hn, pow_succ]
     group
 
+omit [Finite G] in
 theorem uc22p22r_mem_of_two_power {K X : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hXK : X ≤ normalizer (K : Set G)) (hXq : ∀ u ∈ X, u ^ q = 1) {k u t : G} (hk : k ∈ K) (hu : u ∈ X)
     (htku : t = k * u) (ht : ∃ a : ℕ, t ^ 2 ^ a = 1) : t ∈ K := by
@@ -55,6 +57,7 @@ theorem uc22p22r_mem_of_two_power {K X : Subgroup G} {q : ℕ} (hq : q.Prime) (h
   rw [htku]
   exact K.mul_mem hk huK
 
+omit [Finite G] in
 theorem uc22p22r_permutes_inf {K X T : Subgroup G} {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hXq : ∀ u ∈ X, u ^ q = 1) (hXK : X ≤ normalizer (K : Set G)) (hT : IsPGroup 2 T)
     (hXT : Permutes X T) : Permutes X (T ⊓ K) := by
@@ -98,7 +101,7 @@ theorem uc22p22r_exists_fixed_rcoset {x g : G} {O : Subgroup G} {q : ℕ} (hq : 
     (hx : x ^ q = 1) (hO : IsPGroup 2 O) (hxO : ∀ o ∈ O, x * o * x⁻¹ ∈ O)
     (hg : x * g * x⁻¹ * g⁻¹ ∈ O) : ∃ o ∈ O, x * (o * g) * x⁻¹ = o * g := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let S : Set G := {s | s * g⁻¹ ∈ O}
   have hSx : ∀ s ∈ S, x * s * x⁻¹ ∈ S := by
     intro s hs
@@ -151,7 +154,7 @@ theorem uc22p22r_exists_fixed_rcoset {x g : G} {O : Subgroup G} {q : ℕ} (hq : 
     ext s
     rw [hσpow, hx]
     simp
-  haveI : Fintype ↥S := Fintype.ofFinite _
+  have : Fintype ↥S := Fintype.ofFinite _
   have hcard : Fintype.card ↥S = Nat.card ↥O := by
     rw [← Nat.card_eq_fintype_card]
     refine Nat.card_congr

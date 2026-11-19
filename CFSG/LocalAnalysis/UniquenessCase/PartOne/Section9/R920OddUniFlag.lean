@@ -21,9 +21,9 @@ theorem isSolvable_centralizer_sl_three_of_pow_eq_one {K : Type} [Field K] [Fini
     (hq : q.Prime) (hK : Nat.card K = q ^ k) {A : Matrix.SpecialLinearGroup (Fin 3) K}
     (hAq : A ^ q = 1) (hA1 : A ≠ 1) :
     Group.IsSolvable ↥(centralizer ({A} : Set (Matrix.SpecialLinearGroup (Fin 3) K))) := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have := Fintype.ofFinite K
+  have : Fact q.Prime := ⟨hq⟩
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hMq : (A : Matrix (Fin 3) (Fin 3) K) ^ q = 1 := by
     have h := congrArg (fun y : Matrix.SpecialLinearGroup (Fin 3) K =>
       (y : Matrix (Fin 3) (Fin 3) K)) hAq
@@ -76,17 +76,17 @@ theorem isSolvable_centralizer_statedProj_three {K : Type} [Field K] [Finite K] 
       (Subgroup.inclusion_injective hH₀)
   have hιq : ι u ^ q = 1 := by rw [← map_pow, huq, map_one]
   have hι1 : ι u ≠ 1 := fun h => hu1 (hι (h.trans (map_one ι).symm))
-  haveI := isSolvable_centralizer_sl_three_of_pow_eq_one hq hK hιq hι1
+  have := isSolvable_centralizer_sl_three_of_pow_eq_one hq hK hιq hι1
   let φ : ↥(centralizer ({u} : Set ↥H₀)) →*
       ↥(centralizer ({ι u} : Set (Matrix.SpecialLinearGroup (Fin 3) K))) :=
     (ι.comp (centralizer ({u} : Set ↥H₀)).subtype).codRestrict _ fun c => by
       rw [Subgroup.mem_centralizer_singleton_iff]
       have h := Subgroup.mem_centralizer_singleton_iff.1 c.2
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype, ← map_mul, h]
-  haveI : Group.IsSolvable ↥(centralizer ({u} : Set ↥H₀)) :=
+  have : Group.IsSolvable ↥(centralizer ({u} : Set ↥H₀)) :=
     Group.isSolvable_of_isSolvable_injective (f := φ) fun a b hab =>
       Subtype.ext (hι (congrArg Subtype.val hab))
-  haveI : Group.IsSolvable ↥((centralizer ({u} : Set ↥H₀)).map (QuotientGroup.mk' N)) :=
+  have : Group.IsSolvable ↥((centralizer ({u} : Set ↥H₀)).map (QuotientGroup.mk' N)) :=
     Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective _ _)
   have hle : centralizer ({(u : StatedProj H₀)} : Set (StatedProj H₀)) ≤
       (centralizer ({u} : Set ↥H₀)).map (QuotientGroup.mk' N) := by

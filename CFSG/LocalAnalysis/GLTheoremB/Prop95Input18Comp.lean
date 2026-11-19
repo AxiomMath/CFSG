@@ -77,6 +77,7 @@ section Top
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem glaPPrimeCoreOf_top_eq_bot {p : ℕ} (hO : GLAPPrimeCore p X = ⊥) :
     GLAPPrimeCoreOf p (⊤ : Subgroup X) = ⊥ := by
   have hcore : GLAPPrimeCore p ↥(⊤ : Subgroup X) = ⊥ := by
@@ -115,7 +116,7 @@ theorem not_central_sylow {p : ℕ} [hpF : Fact p.Prime] (hO : GLAPPrimeCore p X
       rw [← hP n hn g, mul_inv_cancel_right]
     rw [e]
     exact hn
-  haveI := hPn
+  have := hPn
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime
     (N := (P : Subgroup ↥K)) (Sylow.card_coprime_index P)
   have hPidx : Nat.card H = (P : Subgroup ↥K).index := hH.symm.index_eq_card.symm

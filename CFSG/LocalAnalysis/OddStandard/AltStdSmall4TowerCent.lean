@@ -59,7 +59,7 @@ theorem card_sq_eq_one_of_sup {R S : Subgroup X} {z : X} (hRS : R ≤ S) (hzS : 
     constructor
     · rintro ⟨a, ε⟩ ⟨b, δ⟩ h
       have h' := congrArg (fun x : {x : S // x ^ 2 = 1} => ((x : S) : X)) h
-      cases ε <;> cases δ <;> simp only [f, cond_true, cond_false] at h'
+      cases ε <;> cases δ <;> simp only [f, _root_.Bool.cond_true, Bool.cond_false] at h'
       · exact Prod.ext (Subtype.ext (Subtype.ext h')) rfl
       · exfalso
         apply hzR

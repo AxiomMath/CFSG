@@ -54,7 +54,7 @@ theorem exists_pSimple_equiv_entrywise (τ : Tag) {K : Type} [Field K] [Finite K
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup a)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup a)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup τ K)) : ModGL τ K), hΓ n⟩
@@ -62,7 +62,7 @@ theorem exists_pSimple_equiv_entrywise (τ : Tag) {K : Type} [Field K] [Finite K
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup τ (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
+  have := hs
   have hsJ : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
@@ -95,8 +95,8 @@ theorem exists_descent_adjoint (τ : Tag)
     ∃ (r j : ℕ) (δ : MulAut (adjointGroup τ K)) (σ : K ≃+* K),
       orderOf σ = ℓ ∧ (α ^ r) ^ j = α ∧ δ * α ^ r * δ⁻¹ = entrywiseAdjointAut τ σ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have : Finite (ModGL τ K) := finite_modGL
   have hαp : α ^ ℓ = 1 := by rw [← hα]; exact pow_orderOf_eq_one α
@@ -140,8 +140,8 @@ theorem false_of_adjoint (τ : Tag) (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 �
     (hI : GLAPComponent 3 (fixSubgroup β) I) (hU : catalogIs (PSimple 3 I) S9.isU4two) : False := by
   classical
   have hℓ : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hℓ⟩
-  haveI : CharP K 3 :=
+  have : Fact (Nat.Prime 3) := ⟨hℓ⟩
+  have : CharP K 3 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   set α : MulAut (adjointGroup τ K) := MulAut.congr θ β with hαdef

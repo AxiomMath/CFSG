@@ -46,7 +46,7 @@ theorem two_core_free_sylow_normalizer_stronglyEmbedded {f : ℕ} (hcard : Nat.c
       exact h
     let T := (P : Subgroup (PSL2MatrixGroup K)).comap A.subtype
     have hTnormal : T.Normal := comap_sylow_normal_of_le_normalizer A P hAN
-    have hT2 : IsPGroup 2 T := P.isPGroup'.comap_of_injective A.subtype A.subtype_injective
+    have hT2 : IsPGroup 2 T := P.isPGroup.comap_of_injective A.subtype A.subtype_injective
     have hTcore : T ≤ CFSG.pCore 2 A := le_sSup ⟨hTnormal, hT2⟩
     have hST : (S : Subgroup A) ≤ T := fun s hs => hSP (Subgroup.mem_map_of_mem A.subtype hs)
     rw [hcore] at hTcore
@@ -92,7 +92,7 @@ theorem two_core_free_involutions_conjugate {f : ℕ} (hcard : Nat.card K = 2 ^ 
     IsConj u v := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 A := default
-  obtain ⟨P, hSP⟩ := (S.isPGroup'.map A.subtype).exists_le_sylow
+  obtain ⟨P, hSP⟩ := (S.isPGroup.map A.subtype).exists_le_sylow
   have hM := two_core_free_sylow_normalizer_stronglyEmbedded hcard A hAeven hcore S P hSP
   have huI : CFSG.BenderSuzuki.PFAppendixIII.IsInvolution u :=
     ⟨(orderOf_eq_prime_iff.mp hu).2, (orderOf_eq_prime_iff.mp hu).1⟩
@@ -107,7 +107,7 @@ theorem eq_bot_of_normal_odd_of_four_le {f : ℕ} (hcard : Nat.card K = 2 ^ f)
     (A : Subgroup (PSL2MatrixGroup K)) (S : Sylow 2 A) (hS : 4 ≤ Nat.card S)
     (N : Subgroup A) [hN : N.Normal] (hNodd : Odd (Nat.card N)) : N = ⊥ := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hk2 : 2 ≤ k := by
     by_contra h
     have : k ≤ 1 := by omega
@@ -198,12 +198,12 @@ theorem exists_noncommuting_involutions {f : ℕ} (hcard : Nat.card K = 2 ^ f)
   have hnormal : (S : Subgroup A).Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff]
     intro g _
-    have hle := le_sylow_of_le_normalizer (g • S) S.isPGroup' (hcommS g)
+    have hle := le_sylow_of_le_normalizer (g • S) S.isPGroup (hcommS g)
     have hcard' : Nat.card ((g • S : Sylow 2 A) : Subgroup A) ≤ Nat.card (S : Subgroup A) := by
       rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr
       (Subgroup.eq_of_le_of_card_ge hle hcard').symm
-  have hSle : (S : Subgroup A) ≤ CFSG.pCore 2 A := le_sSup ⟨hnormal, S.isPGroup'⟩
+  have hSle : (S : Subgroup A) ≤ CFSG.pCore 2 A := le_sSup ⟨hnormal, S.isPGroup⟩
   rw [hcore] at hSle
   exact S.ne_bot_of_dvd_card (even_iff_two_dvd.mp hAeven) (le_bot_iff.mp hSle)
 

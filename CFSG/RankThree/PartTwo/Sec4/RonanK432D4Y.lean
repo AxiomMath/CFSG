@@ -77,8 +77,8 @@ theorem not_weaklyClosed_of_conj_mem_Bsub {n : ℕ} {X : Type} [Field X] [Finite
     {z g : CFSG.RankThree.PartTwo.Sec19.C0 σ} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1)
     (hg : g * z * g⁻¹ ∈ CFSG.RankThree.PartTwo.Sec19.Bsub σ) :
     ¬ WeaklyClosed (Subgroup.zpowers z) := by
-  haveI : Finite (C0 σ) := finite_C0
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (C0 σ) := finite_C0
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hbdef⟩ : ∃ b, b = g * z * g⁻¹ := ⟨_, rfl⟩
   rw [← hbdef] at hg
   have hb3 : b ^ 3 = 1 := by

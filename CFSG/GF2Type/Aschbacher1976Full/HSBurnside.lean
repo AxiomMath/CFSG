@@ -43,7 +43,7 @@ private theorem exists_conj_le_sylow_aux [Finite G] {p : ℕ} [Fact p.Prime] (T 
   obtain ⟨P₁, hP₁⟩ := hp1.exists_le_sylow
   obtain ⟨P₂, hP₂⟩ := hp2.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq N P₁ P₂
-  have hP₁G : IsPGroup p ((P₁ : Subgroup N).map N.subtype) := P₁.isPGroup'.map _
+  have hP₁G : IsPGroup p ((P₁ : Subgroup N).map N.subtype) := P₁.isPGroup.map _
   obtain ⟨T', hT'⟩ := hP₁G.exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq G T T'
   have key : ∀ z : G, z ∈ (T' : Subgroup G) → y⁻¹ * z * y ∈ (T : Subgroup G) := by
@@ -97,7 +97,7 @@ theorem burnside_fusion {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
     calc x * (g * a * g⁻¹) = g * ((g⁻¹ * x * g⁻¹⁻¹) * a) * g⁻¹ := by group
       _ = g * (a * (g⁻¹ * x * g⁻¹⁻¹)) * g⁻¹ := by rw [h]
       _ = g * a * g⁻¹ * x := by group
-  have hAp : IsPGroup p A := P.isPGroup'.to_le hAP
+  have hAp : IsPGroup p A := P.isPGroup.to_le hAP
   have hBp : IsPGroup p (CFSG.conjugate A g⁻¹) := hAp.map _
   obtain ⟨c, hcC, y, hy1, hy2⟩ := exists_conj_le_sylow_aux P hAC hBC hAp hBp
   have hyN : y ∈ Subgroup.normalizer (A : Set G) :=

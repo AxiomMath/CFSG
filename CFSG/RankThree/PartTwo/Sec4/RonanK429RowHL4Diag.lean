@@ -86,7 +86,7 @@ theorem l4_good429_diag [Finite K] (h3 : (3 : K) ≠ 0) {ω : K} (hω : IsPrimit
     intro σ i₀ i₁ i₂ i₃ e0 e1 e2 e3 h02 h03 h12 h13
     apply hT σ
     intro L hLC hLp _
-    haveI := hLp
+    have := hLp
     refine l4_not_isType429_two_blocks h3 (hσD σ) ?_ ?_ ?_ ?_ (hLC.trans inf_le_left)
     · simp only [Function.comp_apply, e0, e2]; exact hne _ _ h02
     · simp only [Function.comp_apply, e0, e3]; exact hne _ _ h03
@@ -149,7 +149,7 @@ theorem l4_good429_of_conj [Finite K] (h3 : (3 : K) ≠ 0) {ω : K} (hω : IsPri
       by_cases hij : i = j
       · subst hij
         simp [hc, hcon i 0]
-      · simp [diagonal_apply_ne _ hij, hij]
+      · simp [hij]
     have hcen : ∀ x : GL (Fin 4) K, x * GeneralLinearGroup.scalar (Fin 4) c =
         GeneralLinearGroup.scalar (Fin 4) c * x := fun x =>
       Subgroup.mem_center_iff.mp (by

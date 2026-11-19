@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_two_zpowers {u : G} (hu : u ^ 2 = 1) : IsPGroup 2 (Subgroup.zpowers u) := by
   intro g
   obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -38,7 +39,7 @@ theorem exists_minimal_Q2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T Q : Subgro
         rw [Set.mem_singleton_iff] at hh; subst hh
         exact (Subgroup.mem_centralizer_iff.1 hzT.2 t ht).symm)
     exact Subgroup.centralizer_le_normalizer _ this
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hP : IsPGroup q Q := fun g => ⟨1, Subtype.ext (by simpa using hexp g g.2)⟩
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers z)) (Nat.card Q) := by
     obtain ⟨k, hk⟩ := hP.exists_card_eq
@@ -46,7 +47,7 @@ theorem exists_minimal_Q2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T Q : Subgro
     exact Nat.Coprime.coprime_dvd_left (orderOf_dvd_of_pow_eq_one hz2)
       (Nat.Coprime.pow_right k ((Nat.coprime_primes Nat.prime_two hq).2 (Ne.symm hq2)))
   have hsolv : Group.IsSolvable ↥Q := by
-    haveI := hP.isNilpotent
+    have := hP.isNilpotent
     infer_instance
   have hQ0 : (⁅⁅Q, Subgroup.zpowers z⁆, Subgroup.zpowers z⁆ : Subgroup G) =
       ⁅Q, Subgroup.zpowers z⁆ :=
@@ -78,6 +79,7 @@ theorem pRank_le_twoLocalRank_of_involution {q : ℕ} (hq : q.Prime) {t : G} (ht
   rw [hcard] at h1
   exact (Nat.pow_le_pow_iff_right hq.one_lt).1 h1
 
+omit [Finite G] in
 theorem exists_central_involution {T : Subgroup G} {n : ℕ} (hT : IsExtraspecialTwo T n) :
     ∃ z ∈ T ⊓ Subgroup.centralizer (T : Set G), z ≠ 1 ∧ z ^ 2 = 1 := by
   have hc : Nat.card (Subgroup.center ↥T) = 2 := hT.1.2.2.2

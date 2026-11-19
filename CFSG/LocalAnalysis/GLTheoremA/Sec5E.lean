@@ -28,8 +28,8 @@ theorem tripleLevel_le_five (p : ℕ) (B L : Subgroup G) : tripleLevel p B L ≤
   classical
   unfold tripleLevel
   by_cases h : IsGStar p B L
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     exact (Nat.min_le_left 4 _).trans (by norm_num)
 
 theorem exists_isS0 {p : ℕ} (hS3 : Stage3 G p) (hBex : ∃ B : Subgroup G, GLAIsBmax p B) :
@@ -56,7 +56,7 @@ theorem exists_isS0Max {p : ℕ} (hS3 : Stage3 G p) (hS4 : Stage4Order G p)
 theorem odd_card_glaPPrimeCoreOf_of_not_prop55 {p : ℕ} (hp : p.Prime)
     (hno : ¬ Prop55At G p) {B L : Subgroup G} {x : G} (hBxL : IsS0Max p B x L) :
     Odd (Nat.card (GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G)))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G))
   have hB : GLAIsBmax p B := hBxL.1.1.1
   have hBO : B ≤ Subgroup.normalizer (O : Set G) :=
@@ -90,7 +90,7 @@ theorem lemma57i {p : ℕ} (hc : Sec5Ctx G p) (hno : ¬ Prop55At G p) {B L J : S
     exact ⟨E, hEB, hE, hEc, by rwa [hcl]⟩
   have hlev : tripleLevel p B J = 5 := by
     unfold tripleLevel
-    rw [if_pos hGS]
+    rw [ite_eq_left hGS]
   have hbdd : BddAbove {j | ∃ (B : Subgroup G) (x : G) (L : Subgroup G), IsSTriple p B x L ∧
       tripleLevel p B L = j} := ⟨5, by
     rintro j ⟨B', x', L', -, rfl⟩

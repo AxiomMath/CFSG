@@ -165,7 +165,7 @@ theorem qa_sound {W Ms P U : List Nat} {C : List (List Nat)}
     refine Fintype.linearIndependent_iffₛ.2 fun f g hfg t => ?_
     have h := congrArg (fun w => fModel w (D t)) hfg
     simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul,
-      map_zero, LinearMap.zero_apply, hdual, mul_ite, mul_one, mul_zero] at h
+      hdual, mul_ite, mul_one, mul_zero] at h
     simpa using h
   refine ⟨A, hli, fun s => ?_, fun j => ?_⟩
   · obtain ⟨p, k, hp, hpi, hk, hok, he⟩ := hgen s s.2

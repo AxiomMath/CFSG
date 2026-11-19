@@ -18,11 +18,13 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 variable {B : LinearMap.BilinForm (ZMod 2) W}
 variable {π : ↥X →* Multiplicative W}
 
+omit [Finite G] in
 theorem conjNormal_mem_center (g : G) {x : ↥X} (hx : x ∈ Subgroup.center ↥X) :
     MulAut.conjNormal g x ∈ Subgroup.center ↥X :=
   (Subgroup.characteristic_iff_map_le.1 Subgroup.centerCharacteristic (MulAut.conjNormal g))
     ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 theorem center_mem_of_conjNormal_mem_center (g : G) {x : ↥X}
     (hx : MulAut.conjNormal g x ∈ Subgroup.center ↥X) : x ∈ Subgroup.center ↥X := by
   have h : MulAut.conjNormal g⁻¹ (MulAut.conjNormal g x) = x := by
@@ -30,6 +32,7 @@ theorem center_mem_of_conjNormal_mem_center (g : G) {x : ↥X}
   rw [← h]
   exact conjNormal_mem_center g⁻¹ hx
 
+omit [Finite G] [X.Normal] in
 theorem subgroupOf_map_center :
     ((Subgroup.center ↥X).map X.subtype).subgroupOf X = Subgroup.center ↥X := by
   have h := Subgroup.comap_map_eq (f := X.subtype) (H := Subgroup.center ↥X)
@@ -37,6 +40,7 @@ theorem subgroupOf_map_center :
   rw [Subgroup.ker_subtype, sup_bot_eq] at h
   exact h
 
+omit [Module (ZMod 2) W] [Finite W] [Finite G] in
 theorem ker_le_conjNormal_ker (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     π.ker ≤ (π.comp (MulAut.conjNormal g).toMonoidHom).ker := by
   intro x hx
@@ -58,6 +62,7 @@ theorem ker_le_conjNormal_ker (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     ((conjLift hπker g).comp
       (QuotientGroup.quotientKerEquivOfSurjective π hπsurj).symm.toMonoidHom)).toZModLinearMap 2
 
+omit [Finite W] [Finite G] in
 theorem conjLin_apply (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) (x : ↥X) :
     conjLin hπsurj hπker g (Multiplicative.toAdd (π x)) =
@@ -74,6 +79,7 @@ theorem conjLin_apply (hπsurj : Function.Surjective π)
       QuotientGroup.mk x from (MulEquiv.symm_apply_eq _).mpr he]
   simp only [conjLift, QuotientGroup.lift_mk, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
 
+omit [Finite W] [Finite G] in
 theorem conjLin_injective (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     Function.Injective (conjLin hπsurj hπker g) := by
@@ -97,6 +103,7 @@ theorem conjLin_injective (hπsurj : Function.Surjective π)
   rw [← hxw, h4]
   simp
 
+omit [Finite G] in
 theorem conjLin_bijective (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     Function.Bijective (conjLin hπsurj hπker g) :=
@@ -107,12 +114,14 @@ theorem conjLin_bijective (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) : W ≃ₗ[ZMod 2] W :=
   LinearEquiv.ofBijective (conjLin hπsurj hπker g) (conjLin_bijective hπsurj hπker g)
 
+omit [Finite G] in
 theorem conjEquiv_apply (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) (x : ↥X) :
     conjEquiv hπsurj hπker g (Multiplicative.toAdd (π x)) =
       Multiplicative.toAdd (π (MulAut.conjNormal g x)) := by
   rw [conjEquiv, LinearEquiv.ofBijective_apply, conjLin_apply]
 
+omit [Finite G] in
 theorem conjEquiv_mul (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g h : G) :
     conjEquiv hπsurj hπker (g * h) =
@@ -126,6 +135,7 @@ theorem conjEquiv_mul (hπsurj : Function.Surjective π)
   congr 1
   rw [map_mul, MulAut.mul_apply]
 
+omit [Finite G] in
 theorem conjEquiv_one (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) :
     conjEquiv hπsurj hπker 1 = 1 := by
@@ -148,15 +158,18 @@ theorem conjEquiv_one (hπsurj : Function.Surjective π)
 @[expose] noncomputable def commSelf (g : G) (x : ↥X) : ↥X :=
   x * (MulAut.conjNormal g x)⁻¹
 
+omit [Finite G] in
 theorem coe_commConj (g : G) (x : ↥X) : (commConj g x : G) = ⁅g, (x : G)⁆ := by
   change (MulAut.conjNormal g x : G) * (x : G)⁻¹ = ⁅g, (x : G)⁆
   rw [MulAut.conjNormal_apply, commutatorElement_def]
 
+omit [Finite G] in
 theorem coe_commSelf (g : G) (x : ↥X) : (commSelf g x : G) = ⁅(x : G), g⁆ := by
   change (x : G) * (MulAut.conjNormal g x : G)⁻¹ = ⁅(x : G), g⁆
   rw [MulAut.conjNormal_apply, commutatorElement_def]
   group
 
+omit [Finite W] [Finite G] in
 theorem toAdd_pi_commConj (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) (x : ↥X) :
     Multiplicative.toAdd (π (commConj g x)) =
@@ -165,11 +178,13 @@ theorem toAdd_pi_commConj (hπsurj : Function.Surjective π)
     conjLin_apply]
   abel
 
+omit [Finite G] in
 theorem conjEquiv_zpow (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) (k : ℤ) :
     conjEquiv hπsurj hπker (g ^ k) = conjEquiv hπsurj hπker g ^ k :=
   map_zpow (conjHom hπsurj hπker) g k
 
+omit [Finite G] in
 theorem toAdd_pi_commSelf_zpow (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) (k : ℤ) (x : ↥X) :
     Multiplicative.toAdd (π (commSelf (g ^ k) x)) =
@@ -180,6 +195,7 @@ theorem toAdd_pi_commSelf_zpow (hπsurj : Function.Surjective π)
   rw [commSelf, map_mul, map_inv, toAdd_mul, toAdd_inv, ← h]
   abel
 
+omit [Finite W] in
 theorem coe_pow_toLinearMap (u : W ≃ₗ[ZMod 2] W) (n : ℕ) :
     ((u ^ n : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W) =
       (u : W →ₗ[ZMod 2] W) ^ n := by
@@ -187,6 +203,7 @@ theorem coe_pow_toLinearMap (u : W ≃ₗ[ZMod 2] W) (n : ℕ) :
   | zero => rw [pow_zero, LinearEquiv.coe_toLinearMap_one, pow_zero]; rfl
   | succ n ih => rw [pow_succ, LinearEquiv.coe_toLinearMap_mul, ih, pow_succ]
 
+omit [Finite W] in
 theorem range_pow_sub_le (x : W →ₗ[ZMod 2] W) (n : ℕ) :
     LinearMap.range (x ^ n - 1) ≤ LinearMap.range (x - 1) := by
   cases n with
@@ -197,6 +214,7 @@ theorem range_pow_sub_le (x : W →ₗ[ZMod 2] W) (n : ℕ) :
     rw [← hgeom]
     exact LinearMap.range_comp_le_range (∑ i ∈ Finset.range (n + 1), x ^ i) (x - 1)
 
+omit [Finite W] in
 theorem range_inv_sub_eq {f g : W →ₗ[ZMod 2] W} (hfg : f * g = 1) (hgf : g * f = 1) :
     LinearMap.range (g - 1) = LinearMap.range (f - 1) := by
   apply le_antisymm
@@ -213,6 +231,7 @@ theorem range_inv_sub_eq {f g : W →ₗ[ZMod 2] W} (hfg : f * g = 1) (hgf : g *
           rw [show (1 : W →ₗ[ZMod 2] W) - g = -(g - 1) by abel,
             LinearMap.range_neg]
 
+omit [Finite W] in
 theorem range_zpow_sub_le (u : W ≃ₗ[ZMod 2] W) (k : ℤ) :
     LinearMap.range (((u ^ k : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W) - 1) ≤
       LinearMap.range ((u : W →ₗ[ZMod 2] W) - 1) := by
@@ -236,22 +255,24 @@ theorem range_zpow_sub_le (u : W ≃ₗ[ZMod 2] W) (k : ℤ) :
   carrier := {w | Multiplicative.toAdd w ∈
     LinearMap.range ((a : W →ₗ[ZMod 2] W) - LinearMap.id)}
   one_mem' := by
-    rw [Set.mem_setOf_eq, toAdd_one]
+    rw [Set.mem_ofPred_eq, toAdd_one]
     exact ⟨0, by simp⟩
   mul_mem' := by
     intro u v hu hv
-    simp only [Set.mem_setOf_eq, toAdd_mul] at hu hv ⊢
+    simp only [Set.mem_ofPred_eq, toAdd_mul] at hu hv ⊢
     exact add_mem hu hv
   inv_mem' := by
     intro u hu
-    simp only [Set.mem_setOf_eq, toAdd_inv] at hu ⊢
+    simp only [Set.mem_ofPred_eq, toAdd_inv] at hu ⊢
     exact neg_mem hu
 
+omit [Finite W] in
 theorem mem_rangeSubgroup (a : W ≃ₗ[ZMod 2] W) (w : Multiplicative W) :
     w ∈ rangeSubgroup a ↔
       Multiplicative.toAdd w ∈ LinearMap.range ((a : W →ₗ[ZMod 2] W) - LinearMap.id) :=
   Iff.rfl
 
+omit [Finite W] in
 theorem card_rangeSubgroup (a : W ≃ₗ[ZMod 2] W) :
     Nat.card ↥(rangeSubgroup a) =
       Nat.card ↥(LinearMap.range ((a : W →ₗ[ZMod 2] W) - LinearMap.id)) :=
@@ -261,13 +282,15 @@ theorem card_rangeSubgroup (a : W ≃ₗ[ZMod 2] W) :
       left_inv := fun w => Subtype.ext (by simp)
       right_inv := fun v => Subtype.ext (by simp) }
 
-theorem ker_le_comap_rangeSubgroup (hπker : π.ker = Subgroup.center ↥X)
+omit [Finite G] [X.Normal] [Finite W] in
+theorem ker_le_comap_rangeSubgroup (_hπker : π.ker = Subgroup.center ↥X)
     (a : W ≃ₗ[ZMod 2] W) : π.ker ≤ (rangeSubgroup a).comap π := by
   intro x hx
   rw [Subgroup.mem_comap, mem_rangeSubgroup]
   rw [MonoidHom.mem_ker] at hx
   simp [hx]
 
+omit [N.Normal] [Finite G] in
 theorem conjEquiv_apply_eq_self_of_mem_N (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X)
     (hN : ∀ g : G, g ∈ N ↔ ∀ x ∈ X, ⁅g, x⁆ ∈ (Subgroup.center ↥X).map X.subtype)
@@ -287,6 +310,7 @@ theorem conjEquiv_apply_eq_self_of_mem_N (hπsurj : Function.Surjective π)
     exact mul_inv_eq_one.mp h
   rw [h2]
 
+omit [N.Normal] [Finite G] in
 theorem N_le_conjHom_ker (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X)
     (hN : ∀ g : G, g ∈ N ↔ ∀ x ∈ X, ⁅g, x⁆ ∈ (Subgroup.center ↥X).map X.subtype) :
@@ -300,6 +324,7 @@ theorem N_le_conjHom_ker (hπsurj : Function.Surjective π)
   rw [← hxw]
   exact conjEquiv_apply_eq_self_of_mem_N hπsurj hπker hN hg x
 
+omit [N.Normal] [Finite G] in
 theorem conjHom_ker_eq (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X)
     (hN : ∀ g : G, g ∈ N ↔ ∀ x ∈ X, ⁅g, x⁆ ∈ (Subgroup.center ↥X).map X.subtype) :
@@ -326,6 +351,7 @@ theorem conjHom_ker_eq (hπsurj : Function.Surjective π)
     Subgroup.mem_map.mpr ⟨commConj g x', h4, rfl⟩
   rwa [coe_commConj] at h5
 
+omit [Finite G] in
 theorem commutator_le_comap_rangeSubgroup (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     ⁅X, Subgroup.zpowers g⁆ ≤
@@ -350,6 +376,7 @@ theorem commutator_le_comap_rangeSubgroup (hπsurj : Function.Surjective π)
     exact neg_mem hmem
   · simpa using coe_commSelf (g ^ k) ⟨y, hy⟩
 
+omit [Finite G] in
 theorem comap_rangeSubgroup_eq (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     (rangeSubgroup (conjEquiv hπsurj hπker g)).comap π =
@@ -388,6 +415,7 @@ theorem comap_rangeSubgroup_eq (hπsurj : Function.Surjective π)
       exact hz
     · exact ker_le_comap_rangeSubgroup hπker (conjEquiv hπsurj hπker g)
 
+omit [Finite G] in
 theorem subgroupOf_sup_eq_comap (hπsurj : Function.Surjective π)
     (hπker : π.ker = Subgroup.center ↥X) (g : G) :
     (⁅X, Subgroup.zpowers g⁆ ⊔ (Subgroup.center ↥X).map X.subtype).subgroupOf X =

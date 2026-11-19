@@ -20,13 +20,11 @@ theorem simple_of_facts {D : F5Data} {g : J D} (hA : mA D ^ 2 = 1) (hB : mB D ^ 
   have : Finite (J D) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have ha : a D ^ 2 = 1 := by
     apply mat_injective D
-    change mat D (a D ^ 2) = mat D 1
     rw [show mat D (a D ^ 2) = mat D (a D) ^ 2 from rfl, mat_a' (det_ne_zero_of_pow_eq_one'
       (by norm_num) hA), hA]
     rfl
   have hb : b D ^ 3 = 1 := by
     apply mat_injective D
-    change mat D (b D ^ 3) = mat D 1
     rw [show mat D (b D ^ 3) = mat D (b D) ^ 3 from rfl, mat_b' (det_ne_zero_of_pow_eq_one'
       (by norm_num) hB), hB]
     rfl

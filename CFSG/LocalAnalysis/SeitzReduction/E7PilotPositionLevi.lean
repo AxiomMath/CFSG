@@ -297,7 +297,7 @@ theorem exists_sylow_perpLevi_eq [Finite K] [CharP K 2] :
   rw [rootPerpLevi_highRoot_eq] at hQMb hMN
   set Q := EPilot.rootRadical .E7 K (highRoot .E7) with hQdef
   have hS'N : S' ≤ normalizer (Q : Set (adjointGroup .E7 K)) := hS'D.trans hMN
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hsup2 : IsPGroup 2 (S' ⊔ Q : Subgroup (adjointGroup .E7 K)) :=
     hS'2.to_sup_of_normal_right' hQ2 hS'N
   have hsupcard := natCard_le_of_isPGroup_E7 hsup2

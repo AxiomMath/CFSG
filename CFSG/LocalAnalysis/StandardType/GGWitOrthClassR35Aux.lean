@@ -19,7 +19,7 @@ open QuadraticMap
 def owR35_kOf (w : Fin 5 → ZMod 3) : Fin 6 :=
   ⟨(Finset.univ.filter (fun i => w i = 2)).card, by
     have h := Finset.card_le_univ (Finset.univ.filter (fun i : Fin 5 => w i = 2))
-    simp only [Finset.card_univ, Fintype.card_fin] at h
+    simp only [Fintype.card_fin] at h
     omega⟩
 
 theorem owR35_perm_exists :
@@ -52,25 +52,25 @@ theorem owR35_classRefl_smul_form {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     (Q : QuadraticForm (ZMod 3) V) (c u : ZMod 3) (hu : u ≠ 0) :
     ClassRefl 3 Q c = ClassRefl 3 (u • Q) (u * c) := by
   ext t
-  simp only [ClassRefl, Set.mem_setOf_eq]
+  simp only [ClassRefl, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hr, hiso, a, ha, hta⟩
     refine ⟨hr, ?_, a, ?_, hta⟩
     · intro v
       show (u • Q) (t v) = (u • Q) v
-      simp only [QuadraticMap.smul_apply, smul_eq_mul]
+      simp only [_root_.smul_apply, smul_eq_mul]
       rw [hiso v]
     · show (u • Q) a = u * c
-      rw [QuadraticMap.smul_apply, ha]
+      rw [_root_.smul_apply, ha]
       rfl
   · rintro ⟨hr, hiso, a, ha, hta⟩
     refine ⟨hr, ?_, a, ?_, hta⟩
     · intro v
       have h := hiso v
-      simp only [QuadraticMap.smul_apply, smul_eq_mul] at h
+      simp only [_root_.smul_apply, smul_eq_mul] at h
       exact mul_left_cancel₀ hu h
     · have h := ha
-      simp only [QuadraticMap.smul_apply, smul_eq_mul] at h
+      simp only [_root_.smul_apply, smul_eq_mul] at h
       exact mul_left_cancel₀ hu h
 
 end CFSG.StandardType.ZS

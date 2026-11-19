@@ -27,13 +27,13 @@ theorem false_of_perfect_centralizer_A (Ppar : D4Par 1 X σ) {y : C0 σ} (hyA : 
     rintro rfl
     rw [orderOf_one] at hy3
     omega
-  haveI := Hering129D4H.d4ThreeACent_two_solvable X σ (by simpa using Ppar.card)
+  have := Hering129D4H.d4ThreeACent_two_solvable X σ (by simpa using Ppar.card)
     (fun c => by simpa using Ppar.frob c) hyA hy31 hy1
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hPC)
       (Subgroup.inclusion_injective hPC)
-  haveI := hPp
-  haveI : Nontrivial ↥P := ⟨⟨⟨y, hyP⟩, 1, fun h => hy1 (congrArg Subtype.val h)⟩⟩
+  have := hPp
+  have : Nontrivial ↥P := ⟨⟨⟨y, hyP⟩, 1, fun h => hy1 (congrArg Subtype.val h)⟩⟩
   exact Group.IsPerfect.not_isSolvable ↥P ‹_›
 
 theorem false_of_perfect_centralizer_B (Ppar : D4Par 1 X σ) {y : C0 σ} (hyB : y ∈ Bsub σ)
@@ -56,8 +56,8 @@ theorem false_of_perfect_centralizer_B (Ppar : D4Par 1 X σ) {y : C0 σ} (hyB : 
 theorem false_of_perfect_centralizer_model (Ppar : D4Par 1 X σ) {y : C0 σ} (hy3 : orderOf y = 3)
     {P : Subgroup (C0 σ)} (hPC : P ≤ Subgroup.centralizer ({y} : Set (C0 σ)))
     (hPp : Group.IsPerfect ↥P) (hyP : y ∈ P) : False := by
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
-  haveI := Ppar.charP
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
+  have := Ppar.charP
   have hy31 : y ^ 3 = 1 := by rw [← hy3]; exact pow_orderOf_eq_one y
   have hy1 : y ≠ 1 := by
     rintro rfl
@@ -72,7 +72,7 @@ theorem false_of_perfect_centralizer_model (Ppar : D4Par 1 X σ) {y : C0 σ} (hy
     rw [Hering129L.centralizer_conj_eq_map]
     exact Subgroup.map_mono hPC
   have hperf : Group.IsPerfect (P.map cg.toMonoidHom) := by
-    haveI := hPp
+    have := hPp
     exact Group.IsPerfect.ofSurjective
       (f := (P.equivMapOfInjective cg.toMonoidHom cg.injective).toMonoidHom)
       (P.equivMapOfInjective cg.toMonoidHom cg.injective).surjective
@@ -93,13 +93,13 @@ theorem kFCensus46SixD42_holds : KFCensus46SixD42 := by
   have hr2 : r.card = 2 := by rw [hrc]; norm_num
   have Ppar : D4Par 1 K σ :=
     ⟨le_rfl, by rw [hK, hr2]; norm_num, fun c => by rw [hσ c, hr2]; norm_num⟩
-  haveI : Finite (C0 σ) := finite_C0 (σ := σ)
+  have : Finite (C0 σ) := finite_C0 (σ := σ)
   have hy3 : orderOf (eK c) = 3 := by rw [MulEquiv.orderOf_eq]; exact hD.orderOf_c
   have hPC : I.map eK.toMonoidHom ≤ Subgroup.centralizer ({eK c} : Set (C0 σ)) := by
     rw [Hering129L.centralizer_map_equiv_eq eK c]
     exact Subgroup.map_mono hD.le_centralizer
   have hPp : Group.IsPerfect (I.map eK.toMonoidHom) := by
-    haveI := hD.isPerfect
+    have := hD.isPerfect
     exact Group.IsPerfect.ofSurjective
       (f := (I.equivMapOfInjective eK.toMonoidHom eK.injective).toMonoidHom)
       (I.equivMapOfInjective eK.toMonoidHom eK.injective).surjective

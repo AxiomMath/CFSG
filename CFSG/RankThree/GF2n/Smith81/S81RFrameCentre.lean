@@ -45,13 +45,13 @@ private theorem frame_dual_pair {f g : Fin 6 → K} (hfg : LinearIndependent K !
 private theorem frame_unip_det (u w : Fin 6 → K) (hu0 : u 0 = 0) (hu1 : u 1 = 0) (hw0 : w 0 = 0)
     (hw1 : w 1 = 0) (hw2 : w 2 = 0) :
     (1 + vecMulVec (e K 1) u + vecMulVec (e K 2) w : Matrix (Fin 6) (Fin 6) K).det = 1 := by
-  rw [Matrix.det_of_upperTriangular]
-  · simp [Fin.prod_univ_six, Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1,
-      hw0, hw1, hw2]
+  rw [det_of_isUpperTriangular]
+  · simp [Fin.prod_univ_six, Matrix.vecMulVec, e, Pi.single_apply, hu1,
+      hw2]
   · intro i j hji
     revert hji
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1, hw0, hw1, hw2]
+      simp [Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1, hw0, hw1, hw2]
 
 private theorem frame_Q {φ ψ : Fin 6 → K} (hφ0 : φ 0 = 0) (hφ1 : φ 1 = 1) (hφ2 : φ 2 = 0)
     (hψ0 : ψ 0 = 0) (hψ1 : ψ 1 = 0) (hψ2 : ψ 2 = 1) :
@@ -106,7 +106,7 @@ theorem exists_frame_centre {a f g : Fin 6 → K} (ha : a ≠ 0) (hfa : f ⬝ᵥ
     have h0 := congrFun hc' 0
     have h1 := congrFun hc' 1
     have h2 := congrFun hc' 2
-    simp [e, Pi.single_apply] at h0 h1 h2
+    simp [e] at h0 h1 h2
     intro i
     fin_cases i <;> simp [h0, h1, h2]
   obtain ⟨P₃, hP₃det, hP₃⟩ :=

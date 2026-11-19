@@ -95,8 +95,8 @@ private theorem ggStdPosRefl_card_fix_mul_eq {G : Type} [Group G] [Finite G] {p 
     {Bs : Subgroup G} (hpow : ∀ b ∈ Bs, b ^ p = 1) {F : Type*} [Field F] (χ : ↥Bs →* F)
     {φ : MulAut ↥Bs} (hfix : ∀ b : ↥Bs, χ b = 1 → φ b = b) (hne : φ ≠ 1) :
     Nat.card {b : ↥Bs // φ b = b} * p = Nat.card ↥Bs := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpow' : ∀ b : ↥Bs, b ^ p = 1 := fun b => Subtype.ext (by simpa using hpow b b.2)
   let f : ↥Bs →* Fˣ := χ.toHomUnits
   let Fx : Subgroup ↥Bs := MonoidHom.eqLocus φ.toMonoidHom (MonoidHom.id ↥Bs)

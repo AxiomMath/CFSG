@@ -33,6 +33,7 @@ theorem eq_of_pComponents_of_perfect_common {p : ℕ} [Fact p.Prime] {X A A' P :
   exact (Fact.out : Nat.Prime p).not_dvd_one
     (hcop.gcd_eq_one ▸ Nat.dvd_gcd (dvd_refl p) hdvd)
 
+omit [Finite G] in
 theorem largeEvenPComponent_conj_centralizer_singleton {p : ℕ} {y : G} {K : Subgroup G}
     (h : LargeEvenPComponent p (Subgroup.centralizer ({y} : Set G)) K) (a : G) :
     LargeEvenPComponent p (Subgroup.centralizer ({a * y * a⁻¹} : Set G))

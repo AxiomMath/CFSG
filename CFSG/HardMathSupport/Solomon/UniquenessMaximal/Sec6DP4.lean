@@ -21,7 +21,7 @@ theorem isPGroup_of_isElemAbelian {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian
 
 theorem card_centralizerQuot_le {B K₀ S₀ : Subgroup G}
     (hBel : IsElemAbelian 3 B) (hBc : Nat.card B = 81) (hSC : IsSCp 3 ⊤ B)
-    (hBK : B ≤ Subgroup.normalizer (K₀ : Set G)) (hBS : B ≤ Subgroup.normalizer (S₀ : Set G))
+    (_hBK : B ≤ Subgroup.normalizer (K₀ : Set G)) (hBS : B ≤ Subgroup.normalizer (S₀ : Set G))
     (hSK : S₀ ≤ K₀) (hSel : IsElemAbelian 3 S₀)
     (hSc : Nat.card S₀ = 3 ^ (Nat.card K₀).factorization 3) (hS3 : 3 < Nat.card S₀)
     (hcen : ∀ g ∈ K₀, (∀ k ∈ K₀, k * g * k⁻¹ * g⁻¹ ∈ GLAPPrimeCoreOf 3 K₀) →

@@ -27,7 +27,7 @@ theorem k331At_of_solvBorel {L : Type} [Group L] [Finite L]
   have hPmem : ∀ k : K, π k ∈ P ↔ k ∈ (S : Subgroup K) := fun k => by
     rw [hPdef, ← Subgroup.mem_comap, Subgroup.comap_map_eq, QuotientGroup.ker_mk',
       sup_eq_left.2 hRS]
-  have hPp : IsPGroup 2 P := hPdef ▸ S.isPGroup'.map π
+  have hPp : IsPGroup 2 P := hPdef ▸ S.isPGroup.map π
   have hPi : ¬ 2 ∣ P.index := fun h =>
     S.not_dvd_index (h.trans (hPdef ▸ Subgroup.index_map_dvd _ hπ))
   obtain ⟨hsolv, hnle⟩ :=

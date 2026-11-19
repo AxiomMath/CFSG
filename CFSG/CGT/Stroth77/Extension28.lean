@@ -16,6 +16,7 @@ section Normalize
 variable {t : ℕ} {hm : 2 ≤ t + 2} (D : StrothTypeData B (StrothTypeIndex.t310 (t + 2) hm)) (hBC : B ≤ C)
   (hL : D.L ≤ Subgroup.normalizer C)
 
+omit [Finite S] in
 theorem conjTorus_ρ_two310 {e : C} (E : Torus (Type100.k (t + 1 + 1)) ≃+ Additive C)
     (hE0 : E (𝔤 (t + 1) 0) = Additive.ofMul ⟨D.c, hBC D.c.2⟩) (hE1 : E (𝔤 (t + 1) 1) = Additive.ofMul e)
     (hE2 : E (𝔤 (t + 1) 2) = Additive.ofMul (conjBy (hL D.ρ_mem_L) e))

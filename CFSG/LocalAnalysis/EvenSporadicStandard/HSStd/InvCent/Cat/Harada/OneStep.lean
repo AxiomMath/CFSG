@@ -17,8 +17,8 @@ theorem fusionOddCore_eq_bot_of_cent {G : Type*} [Group G] [Finite G] {S : Subgr
     (hcent : centralizer (S : Set G) = ⊥) : Open.fusionOddCore G = ⊥ := by
   refine le_bot_iff.1 (sSup_le ?_)
   rintro N ⟨hN, hodd⟩
-  haveI := hN
-  haveI := hSn
+  have := hN
+  have := hSn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf S) with hb | ht
   · intro n hn
     rw [Subgroup.mem_bot]
@@ -92,7 +92,7 @@ theorem fivePumpOutcome_one {G : Type} [Group G] [Finite G] (hleaf : FivePumpLea
     (hcent : centralizer (S : Set G) = ⊥) {t : G} (ht : orderOf t = 2)
     (ζ : ↥(centralizer ({t} : Set G)) ≃* Multiplicative (ZMod 2) × Equiv.Perm (Fin 5)) :
     FivePumpOutcome ↥S := by
-  haveI := hSn
+  have := hSn
   exact fivePumpOutcome_of_derived hleaf hS hnab hcat hcent ht
     (derived_le_of_cent hSn hS hnab hcent ht ζ) (derived_equiv_alt_five ζ)
 

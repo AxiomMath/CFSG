@@ -13,7 +13,7 @@ section Aut
 
 variable {Γ : Type*} [Group Γ]
 
-theorem fixed_of_normalizes {L Q : Subgroup Γ} {y z : Γ} (σ : Γ →* Γ) (hQL : Q ≤ L)
+theorem fixed_of_normalizes {L Q : Subgroup Γ} {y z : Γ} (σ : Γ →* Γ) (_hQL : Q ≤ L)
     (hQn : ∀ l ∈ L, ∀ q ∈ Q, l * q * l⁻¹ ∈ Q) (hQ2 : IsPGroup 2 Q)
     (hLgen : L = Q ⊔ Subgroup.zpowers y) (hy3 : y ^ 3 = 1) (hyact : ∃ q ∈ Q, y * q ≠ q * y)
     (hz : z ∈ Q) (hzc : ∀ p ∈ Q, p * z = z * p) (hz1 : z ≠ 1) (hz2 : z * z = 1)

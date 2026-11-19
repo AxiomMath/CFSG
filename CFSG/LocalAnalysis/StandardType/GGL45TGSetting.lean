@@ -215,7 +215,7 @@ theorem exists_lift (S : GSetting p q₀ d k D K ψ E) {e : MulAut K} (he : e �
   obtain ⟨x, hxA, hx⟩ := S.E_impl e he
   obtain ⟨c, hc⟩ := S.exists_map_tau_eq he hxA hx
   have hd1 : 1 ≤ d := le_trans (by norm_num) S.three_le
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd1⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd1⟩⟩
   obtain ⟨μ, B, hB⟩ := exists_descend_of_map_eq_smul S.τ x c (by rw [hc, coe_scalar_mul])
   set x' : GL (Fin d) k := Matrix.GeneralLinearGroup.map (FQ.fixF S.τ).subtype B with hx'def
   have hx'eq : x' = Matrix.GeneralLinearGroup.scalar (Fin d) μ * x :=
@@ -233,7 +233,7 @@ theorem exists_lift (S : GSetting p q₀ d k D K ψ E) {e : MulAut K} (he : e �
   have hνq : ν ^ ((1 : ℤ) * q₀) = ν := by
     apply Units.ext
     have h := congrArg Units.val hντ
-    simp only [Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [Units.coe_map, RingHom.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, S.τ_apply] at h
     rw [one_mul, zpow_natCast, Units.val_pow_eq_pow_val]
     exact h

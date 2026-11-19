@@ -80,13 +80,13 @@ theorem ofF_shift_mask {N s m : ℕ} {f : ℕ → ℕ} (hs : s ≤ 64) (hm : m <
     rw [Nat.testBit_and, Nat.testBit_shiftRight, testBit_lane _ h0, testBit_lane _ hm64,
       testBit_lane _ (Nat.and_lt_two_pow _ hm64), Nat.testBit_and, Nat.testBit_shiftRight]
     by_cases hi : i < 64
-    · simp only [hi, if_true]
+    · simp only [hi, ite_true]
       by_cases his : s + i < 64
       · simp [his]
       · have : m.testBit i = false :=
           Nat.testBit_lt_two_pow (lt_of_lt_of_le hm (Nat.pow_le_pow_right (by norm_num) (by omega)))
         simp [this]
-    · simp only [hi, if_false, show ¬ s + i < 64 by omega]
+    · simp only [hi, ite_false, show ¬ s + i < 64 by omega]
       rw [show s + i - 64 = s + (i - 64) by omega, Nat.testBit_and, Nat.testBit_shiftRight]
 
 theorem repu_succ' (s N : ℕ) : repu s (N + 1) = 1 + 2 ^ s * repu s N := by
@@ -146,7 +146,7 @@ theorem laneK_ofF {N : ℕ} {f : ℕ → ℕ} (hf : ∀ t < N, f t < 2 ^ 64) (k 
     cases k with
     | zero =>
       rw [Nat.mul_zero, Nat.pow_zero, Nat.div_one, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt h0,
-        if_pos (Nat.succ_pos N)]
+        ite_eq_left (Nat.succ_pos N)]
     | succ k =>
       have e : 64 * (k + 1) = 64 + 64 * k := by ring
       rw [e, Nat.pow_add, ← Nat.div_div_eq_div_mul, Nat.add_mul_div_left _ _ (by positivity),

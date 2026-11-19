@@ -201,7 +201,7 @@ theorem isElemAb_Tsub : IsElemAb 2 3 Tsub := by
       have hu : ∀ u : V3, u + u = 0 := by decide
       rw [toAdd_pow, two_nsmul, toAdd_one]
       exact hu _
-    haveI : CFSG.IsElementaryAbelian 2 ↥(⊤ : Subgroup (Multiplicative V3)) :=
+    have : CFSG.IsElementaryAbelian 2 ↥(⊤ : Subgroup (Multiplicative V3)) :=
       { toIsMulCommutative := inferInstance
         exponent_dvd_p := by
           refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 ?_
@@ -222,15 +222,15 @@ theorem card_Jsub : Nat.card Jsub = 168 :=
   (Nat.card_congr (MonoidHom.ofInjective rho_injective).symm.toEquiv).trans card_GL32_gh
 
 theorem Jsub_simple : IsSimpleGroup Jsub := by
-  haveI := isSimpleGroup_GL32_gh
+  have := isSimpleGroup_GL32_gh
   exact (MonoidHom.ofInjective rho_injective).symm.isSimpleGroup
 
 theorem m1_mem : m₁ ∈ Jsub := ⟨Aunit, rho_Aunit⟩
 
 theorem gl3_conj_order3 (g : GL (Fin 3) (ZMod 2)) (hg : orderOf g = 3) :
     ∃ h : GL (Fin 3) (ZMod 2), h * Aunit * h⁻¹ = g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (GL (Fin 3) (ZMod 2)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (GL (Fin 3) (ZMod 2)) :=
     Nat.finite_of_card_ne_zero (by rw [card_GL32_gh]; norm_num)
   have hfac : (Nat.card (GL (Fin 3) (ZMod 2))).factorization 3 = 1 := by
     rw [card_GL32_gh]; exact factorization_168

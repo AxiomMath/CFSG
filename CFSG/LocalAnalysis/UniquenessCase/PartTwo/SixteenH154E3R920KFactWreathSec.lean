@@ -17,10 +17,10 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
         Nat.card E = 8 ∧ (∀ t, π (σ t) = f (π t)) ∧
         ∀ F : Subgroup E, (∀ e ∈ F, f e ∈ F) → F = ⊥ ∨ F = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, F, hFfield, hFfin, hFcard, -, ⟨eBar⟩⟩ := uc22p22g_isL2_psl hX
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
+  let : Field F := hFfield
+  let : Finite F := hFfin
   let Gp : Type := CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup F
   let P : Sylow 2 Gp := Classical.choice Sylow.nonempty
   let S : Sylow 2 (Bar2 X) :=
@@ -43,7 +43,7 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
     rw [h, hFcard]
     norm_num
   have hSel : IsElementaryAbelian 2 ↥(S : Subgroup (Bar2 X)) := by
-    haveI := hPel
+    have := hPel
     rw [hScoe]
     exact IsElementaryAbelian.map eBar.symm.toMonoidHom
   have hScard : Nat.card ↥(S : Subgroup (Bar2 X)) = 8 := by
@@ -61,14 +61,14 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
         rw [hbot] at hPcard
         simp at hPcard
       · exact h
-    haveI := hPel
+    have := hPel
     refine le_antisymm ?_ (Subgroup.le_centralizer (P : Subgroup Gp))
     intro g hg
     rw [← CFSG.ShultStronglyClosedTI.LinearModel.sylow_centralizer_eq hFcard P huP hu1]
     exact Subgroup.centralizer_le (by rintro y rfl; exact huP) hg
   have hScent : Subgroup.centralizer ((S : Subgroup (Bar2 X)) : Set (Bar2 X)) =
       (S : Subgroup (Bar2 X)) := by
-    haveI := hSel
+    have := hSel
     refine le_antisymm ?_ (Subgroup.le_centralizer (S : Subgroup (Bar2 X)))
     intro g hg
     have hgP : eBar g ∈ (P : Subgroup Gp) := by
@@ -92,7 +92,7 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
       ((S : Subgroup (Bar2 X)) : Set (Bar2 X))) := by
     rw [hNcard]
     norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨y, hy7⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.normalizer ((S : Subgroup (Bar2 X)) : Set (Bar2 X)))) 7 h7dvd
   let f : ↥(S : Subgroup (Bar2 X)) ≃* ↥(S : Subgroup (Bar2 X)) :=
@@ -140,7 +140,7 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
   let π : ↥T →* ↥(S : Subgroup (Bar2 X)) := φ.comp eT.symm.toMonoidHom
   have hT0 : IsPGroup 2 ↥T₀ := by
     refine IsPGroup.comap_of_ker_isPGroup (p := 2)
-      (H := (S : Subgroup (Bar2 X))) S.isPGroup' π₀ ?_
+      (H := (S : Subgroup (Bar2 X))) S.isPGroup π₀ ?_
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup (p := 2) (G := ↥X)
   have hT : IsPGroup 2 ↥T := IsPGroup.map hT0 X.subtype
@@ -153,7 +153,7 @@ theorem exists_section_of_isL2_three {Q : Type} [Group Q] [Finite Q] {X : Subgro
   have hpow : ∀ e : ↥(S : Subgroup (Bar2 X)), e * e = 1 := by
     intro e
     have h : e ^ 2 = 1 := by
-      haveI := hSel
+      have := hSel
       exact Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
         (IsElementaryAbelian.exponent_dvd_p 2 ↥(S : Subgroup (Bar2 X))) e
     simpa [pow_two] using h

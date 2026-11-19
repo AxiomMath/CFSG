@@ -158,8 +158,8 @@ theorem ordLAux_innerL (M : SL2) : ∀ (k : Nat) (P : SL2) (n : Nat),
     · have hne : ¬ innerL P = 1 := fun h => by
         rw [hP.mp h, Nat.beq_refl] at hb
         exact Bool.noConfusion hb
-      rw [if_neg hne, ← map_mul, normL_eq, ih, enc_mul]
-    · rw [if_pos (hP.mpr (Nat.eq_of_beq_eq_true hb))]
+      rw [ite_eq_right hne, ← map_mul, normL_eq, ih, enc_mul]
+    · rw [ite_eq_left (hP.mpr (Nat.eq_of_beq_eq_true hb))]
 
 theorem ordL_innerL (M : SL2) : ordL (innerL M) = ordS (enc M) := by
   rw [ordL, normL_eq, ordLAux_innerL]

@@ -15,6 +15,7 @@ open scoped MatrixGroups commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {M V : Subgroup G}
 
+omit [Finite G] in
 theorem Sec5.Stmt57.le_of_commute (h57 : Sec5.Stmt57 M V) {U U' : Subgroup G}
     (hU : U ∈ sigmaSet M V) (hU' : U' ∈ sigmaSet M V) (hc : ⁅U, U'⁆ = ⊥) :
     ⁅Pc M V, U⁆ ≤ Pc M V ⊓ Subgroup.centralizer (U' : Set G) := by
@@ -89,12 +90,14 @@ theorem Sec5Hyp.commutator_Pc_eq_V (hS : Sec5Hyp M V)
   obtain ⟨g, y, hSg, -, -, -, -, -, -, -⟩ := hS.exists_sigma_data hU
   exact hSg.commutator_Pc hS.toRootHyp
 
+omit [Finite G] in
 theorem Hyp.mul_self_eq_one_of_mem_conj (h : Hyp M V) {g x : G}
     (hx : x ∈ conjSubgroup g V) : x * x = 1 := by
   have hV : Assembly.IsElemAbelian 2 (conjSubgroup g V) :=
     h.elem.map (MulAut.conj g).toMonoidHom
   simpa [pow_two] using hV.2 x hx
 
+omit [Finite G] in
 theorem Hyp.commute_of_mem_conj (h : Hyp M V) {g x y : G}
     (hx : x ∈ conjSubgroup g V) (hy : y ∈ conjSubgroup g V) : x * y = y * x := by
   have hV : Assembly.IsElemAbelian 2 (conjSubgroup g V) :=
@@ -129,7 +132,7 @@ theorem Sec5Hyp.eq_V_or_mem_fSet_or_eq_commutator (hS : Sec5Hyp M V)
   · exact Or.inl hXV
   right
   obtain ⟨x₁, hx₁X, hx₁V⟩ :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hVX (fun h => hXV h.symm))
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hVX (fun h => hXV h.symm))
   obtain ⟨A₁, hA₁, hx₁A₁, hA₁X⟩ := hX x₁ hx₁X hx₁V
   by_cases hA₁eq : A₁ = X
   · exact Or.inl (hA₁eq ▸ hA₁)
@@ -137,7 +140,7 @@ theorem Sec5Hyp.eq_V_or_mem_fSet_or_eq_commutator (hS : Sec5Hyp M V)
     obtain ⟨-, -, U₀, -, x₀, -, hEq⟩ := hA₁
     rw [hEq]
     exact le_sup_left
-  obtain ⟨x₂, hx₂X, hx₂A₁⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hA₁X hA₁eq)
+  obtain ⟨x₂, hx₂X, hx₂A₁⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hA₁X hA₁eq)
   have hx₂V : x₂ ∉ V := fun h => hx₂A₁ (hVA₁ h)
   obtain ⟨A₂, hA₂, hx₂A₂, hA₂X⟩ := hX x₂ hx₂X hx₂V
   have hcap : A₁ ⊓ A₂ = V := by

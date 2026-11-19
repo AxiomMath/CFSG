@@ -41,7 +41,7 @@ private theorem card_filter_mul_orbit_ncard {Γ Ω : Type*} [Group Γ] [Fintype 
   have hfib : ∀ x : Ω, k x = if x ∈ MulAction.orbit Γ ω then k ω else 0 := by
     intro x
     by_cases hx : x ∈ MulAction.orbit Γ ω
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       obtain ⟨g, rfl⟩ := MulAction.mem_orbit_iff.mp hx
       rw [hk, hk]
       apply Finset.card_nbij' (fun γ : Γ => g⁻¹ * γ) (fun δ : Γ => g * δ)
@@ -55,7 +55,7 @@ private theorem card_filter_mul_orbit_ncard {Γ Ω : Type*} [Group Γ] [Fintype 
         simp
       · intro δ _
         simp
-    · rw [if_neg hx, hk, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+    · rw [ite_eq_right hx, hk, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
       intro γ _ hγ
       apply hx
       rw [← hγ]
@@ -75,12 +75,12 @@ private theorem card_filter_mul_orbit_ncard {Γ Ω : Type*} [Group Γ] [Fintype 
       refine Finset.sum_congr rfl fun γ hγ => ?_
       rw [Finset.mem_filter] at hγ
       have hmem : γ • ω ∈ ℓ := by rw [hγ.2]; exact hx
-      rw [if_pos hmem]
+      rw [ite_eq_left hmem]
     · apply Finset.sum_eq_zero
       intro γ hγ
       rw [Finset.mem_filter] at hγ
       have hmem : γ • ω ∉ ℓ := by rw [hγ.2]; exact hx
-      rw [if_neg hmem]
+      rw [ite_eq_right hmem]
   have hOcard : (MulAction.orbit Γ ω).ncard
       = ∑ x : Ω, if x ∈ MulAction.orbit Γ ω then 1 else 0 :=
     ncard_eq_sum_ite_mem_orbit _
@@ -110,7 +110,7 @@ theorem orbit_weight_third {Γ Ω : Type*} [Group Γ] [Finite Γ] [MulAction Γ 
     (hO3 : ∀ ω ∈ S, 3 * (MulAction.orbit Γ ω ∩ ℓ).ncard ≤ (MulAction.orbit Γ ω).ncard) :
     3 * ∑ ω ∈ S.filter (· ∈ ℓ), c ω ≤ ∑ ω ∈ S, c ω := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
+  have : Fintype Γ := Fintype.ofFinite Γ
   have hGpos : 0 < Fintype.card Γ := Fintype.card_pos
   have hreindex : ∀ γ : Γ, ∑ ω ∈ S, (if γ • ω ∈ ℓ then c ω else 0)
       = ∑ ω ∈ S, (if ω ∈ ℓ then c ω else 0) := by

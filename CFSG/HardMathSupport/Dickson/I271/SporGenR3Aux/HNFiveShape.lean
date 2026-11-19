@@ -26,11 +26,11 @@ section Chev
 theorem isChevSimple_of_statedPSU {G : Type} [Group G] {n p f : ℕ}
     (h : StatedClassicalModel G .PSU n p f) : CFSG.Yardstones.Md0ec50421ce4.IsChevSimple p G := by
   obtain ⟨hadm, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   obtain ⟨hp, hf, hn, h32⟩ := hadm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   have hKcard : Fintype.card K = (p ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hcharP : CharP K p :=
     charP_of_card_eq_prime_pow (f := 2 * f) (by rw [hKcard, ← pow_mul, mul_comm])
@@ -67,7 +67,7 @@ theorem leafType_five_IJ : LeafType 5 ↥IJ := by
 
 theorem shape_f : ShapeRkAt 5 (LeafType 5) (fun _ _ => True) fJ := by
   obtain ⟨hcomm, -, -, -, hC, hcardI, -, hder, -⟩ := ctuc_hn_five_centralizer_perfect_factor
-  haveI hsimple : IsSimpleGroup ↥IJ :=
+  have hsimple : IsSimpleGroup ↥IJ :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity IJ 3 5 1 model_IJ).2
   have hLC : IJ ≤ Subgroup.centralizer ({fJ} : Set ↥JH) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcomm fJ (Subgroup.mem_zpowers _) x hx).symm
@@ -155,7 +155,7 @@ theorem weak_rest_three (hR : HNFiveMoved) {x : JH} (hx : orderOf x = 5)
     have := h.trans hord
     norm_num at this
   obtain ⟨Q, hQC, hQn, hQs, s, hsC, hso, hq⟩ := hR x hx hnot h3
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   exact Or.inl (hnNoComp_of_normal_solvable hQC hQn hQs hO hord
@@ -171,7 +171,7 @@ theorem hn5_centShapeRk' (hR : HNFiveMoved) :
   have hGood : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → LeafType 5 T → LeafType 5 T' :=
     fun _ _ _ _ e h => LeafType.of_equiv e h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   intro k hk1 hkp
@@ -197,7 +197,7 @@ theorem hn5_centShapeRk' (hR : HNFiveMoved) :
 set_option maxRecDepth 20000 in
 theorem hn5_centShapeRk'_HN (hR : HNFiveMoved) :
     CentShapeRk' 5 (GoodSpor 5 []) (RkSpor 5 []) (NativeSporadic.Carrier .HN) := by
-  haveI hf : Finite CFSG.Blueprint.NativeSporadic.HN :=
+  have hf : Finite CFSG.Blueprint.NativeSporadic.HN :=
     Finite.of_equiv ↥JH (hnEquivJ : CFSG.Blueprint.NativeSporadic.HN ≃* JH).symm.toEquiv
   have h1 : CentShapeRk' 5 (GoodSpor 5 []) (RkSpor 5 []) ↥JH := by
     intro k hk1 hkp

@@ -15,11 +15,13 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem l41_e8_comm {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) (⟨b, hb⟩ : E))
 
+omit [Finite G] in
 theorem l41_e8_inv {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) {a : G}
     (ha : a ∈ E) : a⁻¹ = a :=
   inv_eq_of_mul_eq_one_right (by rw [← sq]; exact hE.2 a ha)
@@ -27,6 +29,7 @@ theorem l41_e8_inv {E : Subgroup G} (hE : CFSG.Open.IsElemAbelian 2 E) {a : G}
 theorem l41_e8_t_mem_S (h : L41GPh1 t L S x₁ x₂ lam rho) : t ∈ S :=
   h.basic.normal_W.1 (Subgroup.mem_sup_left h.hyp.mem_twoCore)
 
+omit [Finite G] in
 theorem l41_e8_fourGrp_le_ctxE (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x₁ x₂ := by
   rw [fourGrp]
   refine (Subgroup.closure_le (K := ctxE t x₁ x₂)).mpr ?_
@@ -38,6 +41,7 @@ theorem l41_e8_fourGrp_le_ctxE (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t 
   · rw [ha]
     exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem l41_e8_fourGrp_le_ctxW (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxW t x₁ x₂ := by
   have hy : x₁ ^ 2 ∈ baseGrp x₁ x₂ := by
     rw [baseGrp]
@@ -57,7 +61,7 @@ theorem l41_e8_fourGrp_le_ctxW (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxW t 
     exact Subgroup.mem_sup_right hz
 
 theorem l41_e8_card_S (h : L41GPh5 t L S x₁ x₂ lam rho) : Nat.card S = 2 ^ 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : twoCore t = zpowers t := h.p2
   have hord : orderOf t = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact t_mul_self h.hyp) (t_ne_one h.hyp)
@@ -103,10 +107,12 @@ structure L41E8Data (t : G) (S 𝒮 E : Subgroup G) : Prop where
   card : Nat.card E = 8
   no_conj : ∀ g : G, ∀ e ∈ E, g * t * g⁻¹ ≠ e
 
+omit [Finite G] in
 theorem L41E8Data.mem_conj {𝒮 E : Subgroup G} (d : L41E8Data t S 𝒮 E) {e k : G} (he : e ∈ E)
     (hk : k ∈ 𝒮) : k * e * k⁻¹ ∈ E :=
   (Subgroup.normal_subgroupOf_iff d.le_𝒮).mp d.normal_𝒮 e k he hk
 
+omit [Finite G] in
 theorem L41E8Data.cent_eq {𝒮 E : Subgroup G} (d : L41E8Data t S 𝒮 E) (hSt : S ≤ invCent t) :
     E ⊓ centralizer ({t} : Set G) = E ⊓ S := by
   apply le_antisymm

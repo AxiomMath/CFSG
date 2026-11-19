@@ -88,13 +88,14 @@ theorem image_evAt (G : List (CV n)) : evAt G '' {k | k < G.length} = {σ | σ �
   constructor
   · rintro ⟨k, hk, rfl⟩
     have hk' : k < G.length := hk
-    rw [Set.mem_setOf_eq, evAt, dif_pos hk']
+    rw [Set.mem_ofPred_eq, evAt, dite_eq_left hk']
     exact List.mem_map_of_mem (List.getElem_mem hk')
   · intro hσ
     obtain ⟨g, hg, rfl⟩ := List.mem_map.1 hσ
     obtain ⟨k, hk, rfl⟩ := List.mem_iff_getElem.1 hg
-    exact ⟨k, hk, by rw [evAt, dif_pos hk]⟩
+    exact ⟨k, hk, by rw [evAt, dite_eq_left hk]⟩
 
+omit [Small n] in
 theorem nodup_of_distinctC : ∀ {L : List (CV n)}, distinctC L = true → L.Nodup
   | [], _ => List.nodup_nil
   | x :: L, h => by
@@ -132,11 +133,11 @@ theorem closedC_sound (G L : List (CV n)) (hmem : ∀ x ∈ L, ev x ∈ closure 
       {σ | σ ∈ G.map ev} := image_evAt G
   have h0 : ∃ i < L.length, evAt L i = 1 := by
     obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hx1
-    exact ⟨i, hi, by rw [evAt, dif_pos hi, e1, ev_one]⟩
+    exact ⟨i, hi, by rw [evAt, dite_eq_left hi, e1, ev_one]⟩
   have hm : ∀ i < L.length, evAt L i ∈
       closure ((fun k => (MonoidHom.id (Equiv.Perm (Fin n))) (evAt G k)) '' {k | k < G.length}) := by
     intro i hi
-    rw [himg, evAt, dif_pos hi]
+    rw [himg, evAt, dite_eq_left hi]
     exact hmem _ (List.getElem_mem hi)
   have hcl : ∀ i < L.length, ∀ k < G.length, ∃ j < L.length,
       (MonoidHom.id (Equiv.Perm (Fin n))) (evAt G k) * evAt L i = evAt L j := by
@@ -144,10 +145,10 @@ theorem closedC_sound (G L : List (CV n)) (hmem : ∀ x ∈ L, ev x ∈ closure 
     obtain ⟨y, hy, e⟩ := hc G[k] (List.getElem_mem hk) L[i] (List.getElem_mem hi)
     obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 hy
     refine ⟨j, hj, ?_⟩
-    rw [MonoidHom.id_apply, evAt, dif_pos hk, evAt, dif_pos hi, evAt, dif_pos hj, ← ev_mul, e]
+    rw [MonoidHom.id_apply, evAt, dite_eq_left hk, evAt, dite_eq_left hi, evAt, dite_eq_left hj, ← ev_mul, e]
   have hinj : ∀ i < L.length, ∀ j < L.length, evAt L i = evAt L j → i = j := by
     intro i hi j hj e
-    rw [evAt, dif_pos hi, evAt, dif_pos hj] at e
+    rw [evAt, dite_eq_left hi, evAt, dite_eq_left hj] at e
     exact idx_inj hnd hi hj (ev_injective e)
   obtain ⟨hcard, hall⟩ := CFSG.KC.OrbGroup.group_of_reps (MonoidHom.id (Equiv.Perm (Fin n)))
     Function.injective_id (evAt G) (evAt L) h0 hm hcl hinj
@@ -155,7 +156,7 @@ theorem closedC_sound (G L : List (CV n)) (hmem : ∀ x ∈ L, ev x ∈ closure 
   refine ⟨hcard, fun y hy => ?_⟩
   obtain ⟨i, hi, e⟩ := hall y hy
   refine ⟨L[i], List.getElem_mem hi, ?_⟩
-  rw [evAt, dif_pos hi] at e
+  rw [evAt, dite_eq_left hi] at e
   exact e
 
 theorem coverAtC_sound {gA R : List (CV n)} {x : CV n} {c : Option (Nat × List Nat)}

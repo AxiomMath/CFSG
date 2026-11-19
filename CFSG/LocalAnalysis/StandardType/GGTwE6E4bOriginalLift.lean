@@ -43,6 +43,7 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K]
     ((baseChangeGL (τ := Tag.E6) ι).comp
       ((twistedE6RootGroup K σ).subtype.comp ε.symm.toMonoidHom))
 
+omit [Finite K] [Finite J] in
 theorem originalM_eq_comp_originalMR :
     originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ι t =
       (originalMR (K := K) (F := F) (σ := σ) (ε := ε) ι t).comp ψ :=
@@ -53,6 +54,7 @@ theorem originalM_eq_comp_originalMR :
   (MulAut.conj t).toMonoidHom.comp
     ((minBC e6Data_valid ι).comp (fixedGroup K σ.toRingHom).subtype)
 
+omit [Finite K] in
 theorem hσ_toRingHom (hσ : ∀ c, σ c = c ^ 2 ^ n) :
     ∀ c, σ.toRingHom c = c ^ 2 ^ n := by
   intro c
@@ -62,6 +64,7 @@ theorem hσ_toRingHom (hσ : ∀ c, σ c = c ^ 2 ^ n) :
     ↥(fixedGroup K σ.toRingHom) →* TwE6Delta.RecipeR K n :=
   ε.toMonoidHom.comp (twistedIsogenyC hn hK σ.toRingHom (hσ_toRingHom hσ))
 
+omit [Finite K] [Finite F] in
 theorem originalI_injective :
     Function.Injective (originalI (K := K) (F := F) (σ := σ) ι t) := by
   intro x y h
@@ -90,6 +93,7 @@ theorem originalQ0_apply (hn : 1 ≤ n) (u : ↥(fixedGroup K σ.toRingHom)) :
       ε (twistedIsogenyC hn hK σ.toRingHom (hσ_toRingHom hσ) u) :=
   rfl
 
+omit [Finite K] [Finite J] in
 theorem originalM_apply (j : J) :
     originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ι t j =
       ((MulAut.conj ((e6Isogeny F t : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F))
@@ -97,6 +101,7 @@ theorem originalM_apply (j : J) :
           (((ε.symm (ψ j) : ↥(twistedE6RootGroup K σ)) : ModGL TwistTag.E6.tag K)))) :=
   rfl
 
+omit [Finite J] in
 theorem originalM_eq_pi_originalI (hn : 1 ≤ n)
     (u : ↥(fixedGroup K σ.toRingHom)) {j : J}
     (hj : ψ j = originalQ0 (K := K) (σ := σ) (ε := ε) hK hσ hn u) :
@@ -113,8 +118,9 @@ theorem originalM_eq_pi_originalI (hn : 1 ≤ n)
   rfl
 
 
+omit [Finite J] in
 theorem exists_u_originalI_eq_ahat (hn : 1 ≤ n) (hF : 4 < Nat.card F)
-    (h3 : 3 ∣ 2 ^ n + 1) {ω : Fˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
+    (h3 : 3 ∣ 2 ^ n + 1) {ω : Fˣ} (hω3 : ω ^ 3 = 1) (_hω1 : ω ≠ 1)
     {d : J} (hd : originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ι t d =
       ((fixedA2AdjRho (F := F) (fixedA2Scalar (F := F) ω) :
         ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F))
@@ -200,7 +206,6 @@ theorem exists_u_originalI_eq_ahat (hn : 1 ≤ n) (hF : 4 < Nat.card F)
       (fixedGroup K σ.toRingHom).subtype) z0) :
         ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) = 1
     rw [hz0eq]
-    change ((e6Isogeny F z : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) = 1
     rw [MonoidHom.mem_ker.mp hzker]
     simp
   have hz0ker : z0 ∈ (twistedIsogenyC hn hK σ.toRingHom (hσ_toRingHom hσ)).ker := by
@@ -221,20 +226,23 @@ theorem exists_u_originalI_eq_ahat (hn : 1 ≤ n) (hF : 4 < Nat.card F)
   · rw [map_mul, hu0, hq0z0, mul_one]
 
 
-@[expose] abbrev originalN (hker : ψ.ker ≤ Subgroup.center J) : Subgroup J :=
+abbrev originalN (hker : ψ.ker ≤ Subgroup.center J) : Subgroup J :=
   TableBU.twoPartOf ψ.ker hker (Nat.card J)
 
+omit [Finite K] [Finite J] in
 theorem originalN_le_ker (hker : ψ.ker ≤ Subgroup.center J) :
     originalN (ψ := ψ) hker ≤ ψ.ker :=
   TableBU.twoPartOf_le ψ.ker hker (Nat.card J)
 
+omit [Finite K] [Finite J] in
 theorem originalN_le_center (hker : ψ.ker ≤ Subgroup.center J) :
     originalN (ψ := ψ) hker ≤ Subgroup.center J :=
   (originalN_le_ker (ψ := ψ) hker).trans hker
 
+omit [Finite K] in
 theorem originalN_coprime_three (hker : ψ.ker ≤ Subgroup.center J) :
     Nat.Coprime 3 (Nat.card (originalN (ψ := ψ) hker)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp
     (TableBU.isPGroup_twoPartOf ψ.ker hker (Nat.card J))
   rw [ha]
@@ -249,11 +257,13 @@ theorem originalN_coprime_three (hker : ψ.ker ≤ Subgroup.center J) :
   QuotientGroup.lift (originalN (ψ := ψ) hker) ψ
     (originalN_le_ker (ψ := ψ) hker)
 
+omit [Finite K] [Finite J] in
 theorem originalPsiBar_mk (hker : ψ.ker ≤ Subgroup.center J) (j : J) :
     originalPsiBar (ψ := ψ) hker (originalPi (ψ := ψ) hker j) = ψ j :=
   QuotientGroup.lift_mk (originalN (ψ := ψ) hker)
     (originalN_le_ker (ψ := ψ) hker) j
 
+omit [Finite K] [Finite J] in
 theorem originalPsiBar_ker_le_center (hker : ψ.ker ≤ Subgroup.center J) :
     (originalPsiBar (ψ := ψ) hker).ker ≤
       Subgroup.center (J ⧸ originalN (ψ := ψ) hker) := by
@@ -277,6 +287,7 @@ theorem originalH_perfect (hn : 1 ≤ n)
   exact (CFSG.LieType.Steinberg.TwistedE6.fixedGroup_isPerfect_of_four_le_card
     σ.toRingHom hθ h4).commutator_eq_top
 
+omit [Finite K] [Finite J] in
 theorem originalN_map_v (hker : ψ.ker ≤ Subgroup.center J) (v : MulAut J)
     (w : MulAut (TwE6Delta.RecipeR K n))
     (hψv : ∀ j, ψ (v j) = w (ψ j)) :
@@ -313,6 +324,7 @@ theorem originalN_map_v (hker : ψ.ker ≤ Subgroup.center J) (v : MulAut J)
   (QuotientGroup.congr (originalN (ψ := ψ) hker) (originalN (ψ := ψ) hker) v
     (originalN_map_v (ψ := ψ) hker v w hψv)).toMonoidHom
 
+omit [Finite K] [Finite J] in
 theorem originalVbar_mk (hker : ψ.ker ≤ Subgroup.center J) (v : MulAut J)
     (w : MulAut (TwE6Delta.RecipeR K n))
     (hψv : ∀ j, ψ (v j) = w (ψ j)) (j : J) :
@@ -321,6 +333,7 @@ theorem originalVbar_mk (hker : ψ.ker ≤ Subgroup.center J) (v : MulAut J)
   QuotientGroup.congr_mk (originalN (ψ := ψ) hker)
     (originalN (ψ := ψ) hker) v (originalN_map_v (ψ := ψ) hker v w hψv) j
 
+omit [Finite K] [Finite J] in
 theorem originalPsiBar_originalVbar (hker : ψ.ker ≤ Subgroup.center J)
     (v : MulAut J) (w : MulAut (TwE6Delta.RecipeR K n))
     (hψv : ∀ j, ψ (v j) = w (ψ j)) (y : J ⧸ originalN (ψ := ψ) hker) :
@@ -334,6 +347,7 @@ theorem originalPsiBar_originalVbar (hker : ψ.ker ≤ Subgroup.center J)
   rw [originalVbar_mk, originalPsiBar_mk, originalPsiBar_mk, hψv]
 
 
+omit [Finite J] in
 theorem originalI_comp_Phi_eq_conj (hn : 1 ≤ n) (hψ : Function.Surjective ψ)
     {v : MulAut J} {w : MulAut (TwE6Delta.RecipeR K n)}
     (hψv : ∀ j, ψ (v j) = w (ψ j))
@@ -349,7 +363,7 @@ theorem originalI_comp_Phi_eq_conj (hn : 1 ≤ n) (hψ : Function.Surjective ψ)
     (originalI (K := K) (F := F) (σ := σ) ι t).comp Φ.toMonoidHom =
       (MulAut.conj Xhat).toMonoidHom.comp
         (originalI (K := K) (F := F) (σ := σ) ι t) := by
-  haveI : Group.IsPerfect ↥(fixedGroup K σ.toRingHom) :=
+  have : Group.IsPerfect ↥(fixedGroup K σ.toRingHom) :=
     ⟨originalH_perfect (K := K) (σ := σ) hn hK hσ⟩
   apply CFSG.ClassicalInvolution.ModelFacts.OrthAut.eq_of_inv_mul_mem_center
   intro u
@@ -394,6 +408,7 @@ theorem originalI_comp_Phi_eq_conj (hn : 1 ≤ n) (hψ : Function.Surjective ψ)
   rw [hconj', htarget']
   group
 
+omit [Finite J] in
 theorem originalVbar_comp_alpha_eq (hn : 1 ≤ n)
     {hker : ψ.ker ≤ Subgroup.center J}
     {α : ↥(fixedGroup K σ.toRingHom) →*
@@ -407,7 +422,7 @@ theorem originalVbar_comp_alpha_eq (hn : 1 ≤ n)
       w (originalQ0 (K := K) (σ := σ) (ε := ε) hK hσ hn u)) :
     (originalVbar (ψ := ψ) hker v w hψv).comp α =
       α.comp Φ.toMonoidHom := by
-  haveI : Group.IsPerfect ↥(fixedGroup K σ.toRingHom) :=
+  have : Group.IsPerfect ↥(fixedGroup K σ.toRingHom) :=
     ⟨originalH_perfect (K := K) (σ := σ) hn hK hσ⟩
   apply CFSG.ClassicalInvolution.ModelFacts.OrthAut.eq_of_inv_mul_mem_center
   intro u
@@ -435,6 +450,7 @@ theorem originalQ0_ker_le_center (hn : 1 ≤ n) :
   exact (map_eq_one_iff ε ε.injective).1 (by
     simpa only [originalQ0_apply] using MonoidHom.mem_ker.mp hx)
 
+omit [Finite K] [Finite J] in
 theorem originalPsiBar_eq_quotientLift (hker : ψ.ker ≤ Subgroup.center J) :
     originalPsiBar (ψ := ψ) hker =
       QuotientGroup.lift (originalN (ψ := ψ) hker) ψ
@@ -476,7 +492,7 @@ theorem exists_originalCube_covariance (hn : 1 ≤ n)
                 (fixedA2AdjRho (F := F) (fixedA2Scalar (F := F) ω)) ^ m →
               v c = c ^ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let q0 : ↥(fixedGroup K σ.toRingHom) →* TwE6Delta.RecipeR K n :=
     originalQ0 (K := K) (σ := σ) (ε := ε) hK hσ hn
   have hq0s : Function.Surjective q0 :=

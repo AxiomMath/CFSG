@@ -381,7 +381,7 @@ theorem s48_2 (C : X.Comm48 s r d) :
 
 namespace Comm48
 
-private theorem commutator_ZQ_Z_sup (C : X.Comm48 s r d)
+private theorem commutator_ZQ_Z_sup (_C : X.Comm48 s r d)
     (hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) :
     X.ZQ d ⊔ X.Q ((d : ℤ) + 2) = X.edgeSylow ((d : ℤ) + 1) := by
   set b : ℤ := (d : ℤ) + 1 with hb
@@ -419,7 +419,7 @@ private theorem commutator_ZQ_Z_odd (C : X.Comm48 s r d) : Odd ((d : ℤ) + 2) :
     ring
   omega
 
-private theorem commutator_ZQ_Z_le (C : X.Comm48 s r d) :
+private theorem commutator_ZQ_Z_le (_C : X.Comm48 s r d) :
     ⁅X.ZQ d, X.Z ((d : ℤ) + 2)⁆ ≤ X.Z ((d : ℤ) + 2) := by
   set b : ℤ := (d : ℤ) + 1 with hb
   have hb1 : b + 1 = (d : ℤ) + 2 := by rw [hb]; ring
@@ -509,7 +509,6 @@ private theorem s48_3d_HasB_succ (C : X.Comm48 s r d) : X.HasB ((d : ℤ) + 2) d
   have hev : Even (((d : ℤ) + 2) - 1) := by
     obtain ⟨m, hm⟩ := C.even
     refine ⟨(m : ℤ), ?_⟩
-    push_cast at hm ⊢
     omega
   exact (X.hasB_iff_of_even (i := (d : ℤ) + 2) (j := 1) hev d).mpr C.hasB
 
@@ -646,7 +645,7 @@ theorem s48_3d (C : X.Comm48 s r d) (hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) :
 
 namespace Comm48
 
-private theorem s48_3e_hS (C : X.Comm48 s r d)
+private theorem s48_3e_hS (_C : X.Comm48 s r d)
     (hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h3 : d = 3) :
     X.ZQ d ⊔ X.Q 5 = X.edgeSylow 4 := by
   have hHQb : X.ZQ d ≤ X.Q ((d : ℤ) + 1) := by unfold Setup.ZQ; exact inf_le_right
@@ -689,7 +688,7 @@ private theorem s48_3e_exists_conj (C : X.Comm48 s r d)
     hHGi5.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 5))
   have hS45_5 : IsSylowTwoOf (X.edgeSylow 4) (X.Gi 5) :=
     X.isSylowTwoOf_edgeSylow_Gi_succ 4
-  haveI : Finite ↥(X.Gi 5) := X.hyp.finite_stab (X.vert 5)
+  have : Finite ↥(X.Gi 5) := X.hyp.finite_stab (X.vert 5)
   obtain ⟨g, hg5, hPconj⟩ := CFSG.GroupTheory.exists_eq_conjSub_of_isSylowTwoOf hS45_5 hP
   set x : V := g • X.vert 4 with hxdef
   have hxadj : Γ.Adj (X.vert 5) x := by
@@ -824,7 +823,7 @@ private theorem commutator_ZQ_Z_five_le_arcStab (C : X.Comm48 s r d) (hB1 : X.Ha
     _ = X.vert j := hvfix
 
 private theorem s48_3e_R_le_Z4 (C : X.Comm48 s r d)
-    (hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h3 : d = 3) :
+    (_hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h3 : d = 3) :
     ⁅X.ZQ d, X.Z 5⁆ ≤ X.Z ((d : ℤ) + 1) := by
   classical
   have h2r : 2 * (d + 1) = r := (X.s48_2 C).2.1
@@ -879,7 +878,7 @@ private theorem s48_3e_Z1_sup (hZ5 : X.Z 5 ≤ X.Z 4 ⊔ X.Z 6) :
   simpa using h
 
 private theorem s48_3e_H_le_Q5 (C : X.Comm48 s r d)
-    (hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h3 : d = 3)
+    (_hH : ¬ X.ZQ d ≤ X.Q ((d : ℤ) + 2)) (h3 : d = 3)
     (hZ1 : X.Z 1 ≤ X.Z 0 ⊔ X.Z 2) : X.ZQ d ≤ X.Q 5 := by
   have hB0 : X.HasB 0 4 := by
     have h := (X.s48_2 C).1

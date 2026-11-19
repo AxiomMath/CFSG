@@ -46,15 +46,15 @@ theorem hunt_ok : huntChecks orbLit 53 = true := by
   simp only [Bool.and_eq_true, Nat.beq_eq] at hp
   obtain ⟨⟨p43, p1⟩, p39⟩ := hp
   have a43 : CFSG.Sporadic.Th.Native.ap (dTab orbLit) 53 = 53 := by
-    rw [hD.ap (by norm_num), wa_one, lf_eq, if_pos (by norm_num)]
+    rw [hD.ap (by norm_num), wa_one, lf_eq, ite_eq_left (by norm_num)]
     exact p43
   have a1 : CFSG.Sporadic.Th.Native.ap
       (treeActTab orbLit (dTab orbLit) (genTables orbLit (-2)) 1) 53 = 53 := by
-    rw [h1.ap (by norm_num), wa_one, lf_eq, if_neg (by norm_num)]
+    rw [h1.ap (by norm_num), wa_one, lf_eq, ite_eq_right (by norm_num)]
     exact p1
   have a39 : CFSG.Sporadic.Th.Native.ap
       (treeActTab orbLit (dTab orbLit) (genTables orbLit (-2)) 39) 53 = 53 := by
-    rw [h39.ap (by norm_num), wa_one, lf_eq, if_neg (by norm_num)]
+    rw [h39.ap (by norm_num), wa_one, lf_eq, ite_eq_right (by norm_num)]
     exact p39
   have hf : fixCount (compT 31671 (compT 31671 (compT 31671 (dTab orbLit)
       (treeActTab orbLit (dTab orbLit) (genTables orbLit (-2)) 1))
@@ -64,7 +64,7 @@ theorem hunt_ok : huntChecks orbLit 53 = true := by
     rw [hT.countP, hunt_count]
   unfold huntChecks
   dsimp only
-  rw [a43, a1, a39, hf] <;> decide
+  rw [a43, a1, a39, hf]; decide
 
 end CertificateChecks.KernelFi23R
 

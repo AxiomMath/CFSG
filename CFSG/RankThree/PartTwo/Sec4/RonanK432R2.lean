@@ -12,10 +12,10 @@ theorem r2_exists_conj_le_of_index {S : Type} [Group S] [Finite S] (C : Subgroup
     (hC : ¬ 3 ∣ C.index) {R : Subgroup S} (hR : IsPGroup 3 R) :
     ∃ s : S, ∀ r ∈ R, s⁻¹ * r * s ∈ C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 C) := inferInstance
   set Q' : Subgroup S := (Q : Subgroup C).map C.subtype with hQ'
-  have hQ'p : IsPGroup 3 Q' := Q.isPGroup'.map C.subtype
+  have hQ'p : IsPGroup 3 Q' := Q.isPGroup.map C.subtype
   obtain ⟨P, hQP⟩ := hQ'p.exists_le_sylow
   have hCS : Nat.card C * C.index = Nat.card S := Subgroup.card_mul_index C
   have hindex0 : C.index.factorization 3 = 0 := Nat.factorization_eq_zero_of_not_dvd hC

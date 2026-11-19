@@ -47,9 +47,9 @@ theorem polar_sum_star {c : Fin 6 → W}
     (x : Fin 6 → k) (a : Fin 6) :
     polar Q (∑ i, x i • c i) (c ⟨starNat a.val, starNat_lt a.isLt⟩) = x a := by
   rw [CFSG.LocalAnalysis.ComponentInitial.polar_sum_smul_left, Finset.sum_eq_single a]
-  · rw [hc, if_pos rfl, mul_one]
+  · rw [hc, ite_eq_left rfl, mul_one]
   · intro i _ hia
-    rw [hc, if_neg fun h => hia (Fin.ext (starNat_inj h).symm), mul_zero]
+    rw [hc, ite_eq_right fun h => hia (Fin.ext (starNat_inj h).symm), mul_zero]
   · exact fun ha => absurd (Finset.mem_univ a) ha
 
 theorem linearIndependent_of_polar {c : Fin 6 → W}
@@ -116,7 +116,7 @@ theorem exists_basis_extend [FiniteDimensional k W] (hQ : (polarBilin Q).Nondege
       · rw [hEl]
         exact hc i i'
       · have := starNat_lt i.isLt
-        rw [hEr, if_neg (by omega)]
+        rw [hEr, ite_eq_right (by omega)]
         exact LinearMap.BilinForm.mem_orthogonal_iff.mp (b' i').2 (c i)
           (Submodule.subset_span ⟨i, rfl⟩)
     · rw [hEr] at ha

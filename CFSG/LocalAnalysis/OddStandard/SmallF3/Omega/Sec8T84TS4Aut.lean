@@ -89,10 +89,10 @@ theorem sec8t84ts4_clause3 {M : Subgroup Y} (hM : ∀ y, y ∈ M ↔ rr y ∈ Ml
   intro a ha hcard hexp
   set b := sec8t84ts4_b S C hM with hb
   obtain ⟨B, hB⟩ : ∃ B : ℕ → ↥M, ∀ (n : ℕ) (h : n < 192), B n = b ⟨n, h⟩ :=
-    ⟨fun n => if h : n < 192 then b ⟨n, h⟩ else 1, fun n h => dif_pos h⟩
+    ⟨fun n => if h : n < 192 then b ⟨n, h⟩ else 1, fun n h => dite_eq_left h⟩
   obtain ⟨f, hf⟩ : ∃ f : ℕ → ℕ, ∀ (n : ℕ) (h : n < 192),
       f n = (b.symm (a (b ⟨n, h⟩))).val :=
-    ⟨fun n => if h : n < 192 then (b.symm (a (b ⟨n, h⟩))).val else 0, fun n h => dif_pos h⟩
+    ⟨fun n => if h : n < 192 then (b.symm (a (b ⟨n, h⟩))).val else 0, fun n h => dite_eq_left h⟩
   have hBinj : ∀ i, i < 192 → ∀ j, j < 192 → B i = B j → i = j := by
     intro i hi j hj h
     rw [hB i hi, hB j hj] at h

@@ -94,7 +94,7 @@ private theorem c2slomqsc_finrank_range_sub_one_eq_mul {G W : Type} [Group G] [F
     Nat.pow_right_injective le_rfl (hC.symm.trans h2)
   rw [hfixW] at hd2
   rw [hfixR] at hd2
-  haveI : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) ρ.asModule :=
+  have : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) ρ.asModule :=
     CFSG.HardMathSupport.GuralnickMalle.finiteDimensional_endField ρ
   have hrn1 := LinearMap.finrank_range_add_finrank_ker (ρ g - 1)
   have hrn2 := LinearMap.finrank_range_add_finrank_ker (R g - 1)
@@ -127,14 +127,14 @@ theorem omq_endfield_scaffold {G : Type} [Group G] [Finite G] {B : Type} {M : Co
         CFSG.Theory.Representation.extendScalars k (CFSG.endFieldRep ρ) g = 1 ↔ ρ g = 1) := by
   classical
   let E := Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule
-  haveI : CharP E 2 := CFSG.HardMathSupport.GuralnickMalle.endField_charP ρ 2
+  have : CharP E 2 := CFSG.HardMathSupport.GuralnickMalle.endField_charP ρ 2
   let k := AlgebraicClosure E
-  haveI : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
-  haveI : Finite ρ.asModule := CFSG.HardMathSupport.GuralnickMalle.finite_asModule ρ
+  have : CharP k 2 := charP_of_injective_algebraMap (algebraMap E k).injective 2
+  have : Finite ρ.asModule := CFSG.HardMathSupport.GuralnickMalle.finite_asModule ρ
   obtain ⟨n, ⟨e⟩⟩ := Finite.exists_equiv_fin ρ.asModule
-  haveI : Finite (ρ.asModule → ρ.asModule) :=
+  have : Finite (ρ.asModule → ρ.asModule) :=
     Finite.of_equiv (Fin n → Fin n) (Equiv.arrowCongr e e).symm
-  haveI : Finite E :=
+  have : Finite E :=
     Finite.of_injective (fun f : E => (f : ρ.asModule → ρ.asModule)) LinearMap.coe_injective
   let ι : F →+* k :=
     (CFSG.HardMathSupport.GuralnickMalle.nonempty_ringHom_algebraicClosure

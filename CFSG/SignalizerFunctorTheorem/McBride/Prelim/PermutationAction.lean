@@ -81,7 +81,7 @@ theorem sylow_eq_top_of_transitive {H Ω : Type*} [Group H] [Finite H] [MulActio
   have hR : ∀ x ∈ CFSG.pPrimeCore p H, x = 1 := fun x hx =>
     eq_of_smul_eq_smul fun ω => by
       rw [one_smul]
-      exact smul_eq_of_isPGroup_transitive hp S.isPGroup' CFSG.pPrimeCore_coprime_card htrans
+      exact smul_eq_of_isPGroup_transitive hp S.isPGroup CFSG.pPrimeCore_coprime_card htrans
         x hx ω
   have hH : IsPGroup p H := fun g => by
     obtain ⟨k, hk⟩ := hq (g : H ⧸ CFSG.pPrimeCore p H)

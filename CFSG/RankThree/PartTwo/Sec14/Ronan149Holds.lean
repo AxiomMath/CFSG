@@ -16,12 +16,14 @@ section Inv
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_sup {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.normalizer (H : Set G))
     (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
   rw [← Sec13.map_conj_eq_iff_mem_normalizer, Subgroup.map_sup,
     Sec13.map_conj_eq_iff_mem_normalizer.mpr hH, Sec13.map_conj_eq_iff_mem_normalizer.mpr hK]
 
+omit [Finite G] in
 theorem conj_mem_normalizer {X : Subgroup G} {s x : G}
     (hx : x ∈ Subgroup.normalizer
       ((X.map (MulAut.conj s⁻¹).toMonoidHom : Subgroup G) : Set G)) :

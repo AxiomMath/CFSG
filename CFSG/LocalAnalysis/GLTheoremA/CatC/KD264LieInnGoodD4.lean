@@ -32,8 +32,8 @@ theorem innGoodAt_D4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q)
     InnGoodAt p (.D 4 q) (TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩).Group := by
   classical
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hFcard : Nat.card F = q.p ^ q.exponent := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) =
       q.p ^ q.exponent
@@ -65,7 +65,7 @@ theorem innGoodAt_D4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q)
     by_cases hDi : D ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner
         (adjointGroup Tag.D4 F)
     · exact Or.inl (exists_good_of_le_inner center_adjointGroup_eq_bot hplanesC hD hcard hDi)
-    · obtain ⟨β, hβD, hβni⟩ := SetLike.not_le_iff_exists.mp hDi
+    · obtain ⟨β, hβD, hβni⟩ := IsConcreteLE.not_le_iff_exists.mp hDi
       have hβp : β ^ p = 1 := hD.2 β hβD
       have hp3 : p = 3 := by
         by_contra hp3

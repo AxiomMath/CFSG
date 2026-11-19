@@ -107,7 +107,7 @@ theorem ggE6DepNonIsoProp_E6
   have hK3 : 3 ∣ Nat.card K - 1 := by rw [hK]; exact h3
   obtain ⟨ζ, hζ, hζ1⟩ := e6Line_exists_cube_root_unit hK3
   have hζo : orderOf ζ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hζ hζ1
   obtain ⟨g, κ, hg, hκinj, hκrange, hconj, hweyl, hsimple⟩ :=
     kgFrameE6_holds K n hn hK h3 ζ hζ hζo L' ψ A hTB hA
@@ -147,8 +147,8 @@ theorem ggE6DepNonIsoProp_twE6
     (hK : Nat.card K = (2 ^ n) ^ 2) :
     GGE6DepNonIsoProp (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   intro L' _ _ ψ A hTB hA Φ T w hM a ha
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   let σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)

@@ -1591,7 +1591,7 @@ theorem CFSG.pConstrained_quotient_pPrimeCore
     simpa [M] using (pPrimeCore_coprime_card (G := G) (p := p))
   have hTG_p : IsPGroup p TG := by
     simpa [TG] using
-      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup'
+      (IsPGroup.map (p := p) (H := (T : Subgroup (Op_p'p p G))) T.isPGroup
         (Op_p'p p G).subtype)
   have hTG_le_op : TG ≤ Op_p'p p G := by
     simpa [TG] using
@@ -1804,10 +1804,10 @@ theorem CFSG.pStable_quotient_pPrimeCore
   let A0 : Subgroup G := (SA : Subgroup Abar).map Abar.subtype
   have hQ0p : IsPGroup p Q0 := by
     simpa [Q0] using
-      IsPGroup.map (p := p) (H := (SQ : Subgroup Qbar)) SQ.isPGroup' Qbar.subtype
+      IsPGroup.map (p := p) (H := (SQ : Subgroup Qbar)) SQ.isPGroup Qbar.subtype
   have hA0p : IsPGroup p A0 := by
     simpa [A0] using
-      IsPGroup.map (p := p) (H := (SA : Subgroup Abar)) SA.isPGroup' Abar.subtype
+      IsPGroup.map (p := p) (H := (SA : Subgroup Abar)) SA.isPGroup Abar.subtype
   have hQ0_le_Qbar : Q0 ≤ Qbar := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -1886,7 +1886,7 @@ theorem CFSG.pStable_quotient_pPrimeCore
   have hQ1p : IsPGroup p Q1 := by
     simpa [Q1] using
       IsPGroup.map (p := p) (H := (((Sfix : Sylow p Qbar) : Subgroup Qbar)))
-        ((Sfix : Sylow p Qbar).isPGroup') Qbar.subtype
+        ((Sfix : Sylow p Qbar).isPGroup) Qbar.subtype
   have hQ1_le_Qbar : Q1 ≤ Qbar := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -2134,9 +2134,9 @@ theorem CFSG.theorem_8_1_3
   let A0 : Subgroup G := A.map P.toSubgroup.subtype
   let Q : Subgroup G := (P : Subgroup G) ⊓ L
   have hQp : IsPGroup p Q := by
-    exact P.isPGroup'.to_inf_left
+    exact P.isPGroup.to_inf_left
   have hAp : IsPGroup p A := by
-    exact P.isPGroup'.to_subgroup A
+    exact P.isPGroup.to_subgroup A
   have hA0p : IsPGroup p A0 := by
     exact IsPGroup.map (p := p) (H := A) hAp P.toSubgroup.subtype
   let q : G →* G ⧸ M := QuotientGroup.mk' M
@@ -2407,7 +2407,7 @@ theorem CFSG.exists_sylow_subgroup_map_eq_inf
     rw [Subgroup.normalizer_eq_top (H := L)]
     exact le_top
   have hPNp : IsPGroup p PN := by
-    exact P.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hP_le_normalizer_L).symm
+    exact P.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hP_le_normalizer_L).symm
   have hfix_nonempty : (MulAction.fixedPoints PN (Sylow p L)).Nonempty := by
     exact hPNp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p L)
       (not_dvd_card_sylow (p := p) (G := L))
@@ -2441,13 +2441,13 @@ theorem CFSG.exists_sylow_subgroup_map_eq_inf
       hconj_map.trans ha_fix_map
   have hS0p : IsPGroup p S0 := by
     simpa [S0] using
-      IsPGroup.map (p := p) (H := (Sfix : Subgroup L)) Sfix.isPGroup' L.subtype
+      IsPGroup.map (p := p) (H := (Sfix : Subgroup L)) Sfix.isPGroup L.subtype
   have hS0_le_L : S0 ≤ L := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
     exact y.2
   have hSup_p : IsPGroup p (((P : Subgroup G) ⊔ S0 : Subgroup G)) := by
-    exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup' hS0p hP_le_normalizer_S0
+    exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup hS0p hP_le_normalizer_S0
   have hS0_le_P : S0 ≤ (P : Subgroup G) := by
     have hsup_le_P : (((P : Subgroup G) ⊔ S0 : Subgroup G)) ≤ (P : Subgroup G) :=
       (P.maximal_isPGroup.eq_of_ge hSup_p le_sup_left).le
@@ -2457,7 +2457,7 @@ theorem CFSG.exists_sylow_subgroup_map_eq_inf
   let Q : Subgroup L := ((P : Subgroup G) ⊓ L).subgroupOf L
   have hQp : IsPGroup p Q := by
     exact
-      (P.isPGroup'.to_inf_left (K := L)).of_equiv
+      (P.isPGroup.to_inf_left (K := L)).of_equiv
         (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   have hSfix_le_Q : (Sfix : Subgroup L) ≤ Q := by
     intro x hx
@@ -2547,7 +2547,7 @@ theorem CFSG.theorem_8_2_10
             have hP_le_normalizer_B : (P : Subgroup G) ≤ Subgroup.normalizer (B : Set G) := by
               rw [Subgroup.normalizer_eq_top (H := B)]
               exact le_top
-            exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup' hBp hP_le_normalizer_B
+            exact IsPGroup.to_sup_of_normal_right' (p := p) P.isPGroup hBp hP_le_normalizer_B
           have hsup_le_P : (((P : Subgroup G) ⊔ B : Subgroup G)) ≤ (P : Subgroup G) :=
             (P.maximal_isPGroup.eq_of_ge hPB_p le_sup_left).le
           exact le_sup_right.trans hsup_le_P
@@ -2792,7 +2792,7 @@ theorem CFSG.theorem_8_2_10
                 dsimp [H]
                 exact sup_le hB_le_P hA.1
               let Hsub : Subgroup (P : Subgroup G) := H.subgroupOf (P : Subgroup G)
-              have hHsub_p : IsPGroup p Hsub := P.isPGroup'.to_subgroup Hsub
+              have hHsub_p : IsPGroup p Hsub := P.isPGroup.to_subgroup Hsub
               have hH_p : IsPGroup p ↥H := by
                 exact hHsub_p.of_equiv (Subgroup.subgroupOfEquivOfLe hH_le_P)
               have habelian_step :
@@ -4094,7 +4094,7 @@ theorem CFSG.theorem_8_2_10
             have hN_eq_top : N = ⊤ := by
               dsimp [N]
               exact Subgroup.normalizer_eq_top (H := B)
-            have hA_p : IsPGroup p A := IsPGroup.to_le P.isPGroup' hA.1
+            have hA_p : IsPGroup p A := IsPGroup.to_le P.isPGroup hA.1
             have hA_le_N : A ≤ N := by
               rw [hN_eq_top]
               exact le_top
@@ -4440,7 +4440,7 @@ theorem CFSG.theorem_8_2_10
           have hN_eq_top : N = ⊤ := by
             dsimp [N]
             exact Subgroup.normalizer_eq_top (H := B)
-          have hA1_p : IsPGroup p A1 := IsPGroup.to_le P.isPGroup' hA1.1
+          have hA1_p : IsPGroup p A1 := IsPGroup.to_le P.isPGroup hA1.1
           have hA1_le_N : A1 ≤ N := by
             rw [hN_eq_top]
             exact le_top
@@ -4611,7 +4611,7 @@ theorem CFSG.theorem_8_2_10
               simpa [Nsub, Subgroup.mem_subgroupOf] using hbNsub
             exact hbN.2
           let Hsub : Subgroup (P : Subgroup G) := H.subgroupOf (P : Subgroup G)
-          have hHsub_p : IsPGroup p Hsub := P.isPGroup'.to_subgroup Hsub
+          have hHsub_p : IsPGroup p Hsub := P.isPGroup.to_subgroup Hsub
           have hHp : IsPGroup p H := by
             exact hHsub_p.of_equiv (Subgroup.subgroupOfEquivOfLe hH_le_P)
           let : Fact (IsPGroup p (H ⧸ Nsub)) := ⟨hHp.to_quotient Nsub⟩
@@ -4998,7 +4998,7 @@ public theorem CFSG.G_theorem_8_2_11
       have hqinj : Function.Injective (q.comp (P : Subgroup G).subtype) := by
         exact
           quotient_pPrimeCore_subgroupMap_injective (G := G) (p := p) (H := (P : Subgroup G))
-            P.isPGroup'
+            P.isPGroup
       let f : P →* ((P : Subgroup G).map q) :=
         (q.comp (P : Subgroup G).subtype).codRestrict ((P : Subgroup G).map q) (by
           intro x

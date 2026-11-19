@@ -24,7 +24,7 @@ theorem kd291_comp_data {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       centralizer (L : Set (X ⧸ primeComplementCore (G := X) p)) = ⊥ ∧
       (∀ z : X, z ∈ centralizer ((P : Subgroup X) : Set X) → z ∈ (P : Subgroup X) → z ^ p = 1 →
         (QuotientGroup.mk z : X ⧸ primeComplementCore (G := X) p) ∈ L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf x = p := orderOf_eq_prime hx5 hx1
   have hcatY : CFSG.AGLEmbedding.CatalogSimpleSections
       (X ⧸ primeComplementCore (G := X) p) := hcat.quotient _
@@ -44,10 +44,10 @@ theorem kd291_comp_data {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
   obtain ⟨w, hwQ, hwo, hwc, hwu⟩ := kd291_step0a hp Q hxQ hxo' hQrank hC'
   have hwN : ∀ N : Subgroup (X ⧸ primeComplementCore (G := X) p), N.Normal → N ≠ ⊥ → w ∈ N :=
     fun N hN hne => by
-      haveI := hN
+      have := hN
       exact kd291_step0b hp hY1 Q hwQ hwo hwc hwu N hne
   obtain ⟨L, hL, hLu⟩ := hcomp
-  haveI hLn : L.Normal := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I291.normal_of_unique hL hLu
+  have hLn : L.Normal := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I291.normal_of_unique hL hLu
   have hZp : IsPGroup p (center ↥L) :=
     CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.I291.isPGroup_center hY1 hL
   have hZ : center ↥L = ⊥ := kd291_center_bot hp hp5 hGA hSp hcatY L hL hZp hY3.le

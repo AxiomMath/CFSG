@@ -92,7 +92,7 @@ theorem exists_member_of_conj [Finite X] (hS : PlaneSys V W) {T : Subgroup X}
       2 ^ (8 - k) ≤ Nat.card {v : V // u * (v : X) * u⁻¹ = v} ∧
       2 ^ (8 - 2 * k) ≤ Nat.card ↥(Xm ⊓ V) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hTp, hTnd⟩ := hT
   have hTindex : ¬ 2 ∣ T.index := by rwa [Subgroup.relIndex_top_right] at hTnd
   let P : Sylow 2 X := hTp.toSylow hTindex

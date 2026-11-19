@@ -168,7 +168,7 @@ theorem ggR1E6_splitLie_tagged
   obtain ⟨⟨tag, _, n⟩, -, _, _, _, _, θ, -, -, hrow, hm⟩ :=
     largeEvenMarking_exists_markedModel h'
   obtain ⟨rfl, hpn⟩ : tag = .E6 ∧ p ∣ 2 ^ n - 1 := hrow
-  haveI : Finite (ggU .E6 0 n).K :=
+  have : Finite (ggU .E6 0 n).K :=
     FieldFour.finite_minGroup' (K := GaloisField 2 n) e6Data_valid
   have hX : LieModel (↥L ⧸ Subgroup.center ↥L) .E6 0 2 n :=
     MarkedModel.of_mulEquiv θ.symm hm

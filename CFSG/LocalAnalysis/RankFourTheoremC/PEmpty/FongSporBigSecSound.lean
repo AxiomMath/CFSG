@@ -85,7 +85,7 @@ theorem SClaim.secW_of_check (Sp : OpsSpec O pf d) [Inhabited M] (sA sB : String
   rw [Bool.and_eq_true] at hwf
   obtain ⟨hp, hwfB⟩ := hwf
   have hp' : c.p.Prime := of_decide_eq_true hp
-  haveI : Fact c.p.Prime := ⟨hp'⟩
+  have : Fact c.p.Prime := ⟨hp'⟩
   obtain ⟨hn0, hK, hreps, hnc, hk3, hkz⟩ := PSimple.wfB_spec hwfB
   generalize hCg : (⟨c.nregs, c.prog, c.facts⟩ : MCert) = C at hC
   have hCf : C.facts = c.facts := by rw [← hCg]

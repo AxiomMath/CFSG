@@ -98,7 +98,7 @@ theorem sk_select_of_blocks [Finite G] {ι : Type*} [Finite ι] {p : ℕ} (hp : 
     ∃ J : Subgroup G, CFSG.Open.IsComponentOf J C ∧ p ∣ Nat.card (↥J ⧸ Subgroup.center ↥J) ∧
       ⁅⁅B, Y⁆, J⁆ ≠ ⊥ ∧ ⁅B, Y⁆ ≤ J ⊔ (C ⊓ Subgroup.centralizer (J : Set G)) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have hpw : Pairwise fun i j : ι => ∀ x y : G, x ∈ A i → y ∈ A j → Commute x y :=
     fun i j hij x y hx hy => hpair i j hij x hx y hy
   set Φ : ((i : ι) → ↥(A i)) →* G := Subgroup.noncommPiCoprod hpw with hΦ
@@ -142,8 +142,8 @@ theorem sk_select_of_blocks [Finite G] {ι : Type*} [Finite ι] {p : ℕ} (hp : 
     exact (Subgroup.mem_normalizer_iff.1 (hN hc) a).1 ha
   set D : ι → Subgroup G := fun i => ⁅A i, A i⁆ with hD
   set J : ι → Subgroup G := fun i => if SkGood p ↥(A i) then D i else ⊥ with hJdef
-  have hJg : ∀ i, SkGood p ↥(A i) → J i = D i := fun i h => if_pos h
-  have hJb : ∀ i, ¬ SkGood p ↥(A i) → J i = ⊥ := fun i h => if_neg h
+  have hJg : ∀ i, SkGood p ↥(A i) → J i = D i := fun i h => ite_eq_left h
+  have hJb : ∀ i, ¬ SkGood p ↥(A i) → J i = ⊥ := fun i h => ite_eq_right h
   have hDA : ∀ i, D i ≤ A i := fun i => sk_commutator_le_self (A i)
   have hJA : ∀ i, J i ≤ A i := by
     intro i

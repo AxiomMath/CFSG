@@ -46,7 +46,7 @@ theorem exists_sylow_two_five_Gxy {G : Type} [Group G] {a z : G} {z₀ b u : ↥
   have h5' : orderOf (⟨ρ, hρ⟩ : ↥(Gx a)) = 5 := by
     rw [Subgroup.orderOf_mk, h5]
   obtain ⟨e, he⟩ := exists_mulEquiv_Gxy_coe (G := G) (a := a) (x := ρ) hρ
-  haveI : Finite ↥(Gxy a ρ) := by
+  have : Finite ↥(Gxy a ρ) := by
     obtain ⟨φ⟩ := hshape
     exact Finite.of_injective φ φ.injective
   have hshape' : IsShapeCentralizerFiveB

@@ -99,7 +99,7 @@ inductive ModelCert where
 @[expose] def reflWordP (p : List (Fin Tag.E6.rank) × Fin Tag.E6.rank) : List (Fin Tag.E6.rank) :=
   p.1 ++ [p.2] ++ p.1.reverse
 
-@[expose] def PlaneCert.check (ω : List (Fin Tag.E6.rank))
+@[expose] def PlaneCert.check (_ω : List (Fin Tag.E6.rank))
     (cols : Fin Tag.E6.rank → Fin Tag.E6.rank → ℤ) (x₁ x₂ : Fin Tag.E6.rank → ZMod 3) :
     PlaneCert → Bool
   | .refl R =>
@@ -685,7 +685,7 @@ theorem eq_comb3_of_completeCheck {cols : Fin Tag.E6.rank → Fin Tag.E6.rank �
         ∑ i', (if jk k = i' then z i' else 0) := by
       rw [Finset.sum_congr rfl fun i' _ => e i']
       exact Finset.sum_sub_distrib _ _
-    rw [e2, Finset.sum_ite_eq, if_pos (Finset.mem_univ _), sub_eq_zero, ← hfix]
+    rw [e2, Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _), sub_eq_zero, ← hfix]
     exact Finset.sum_congr rfl fun i' _ => mul_comm _ _
   have hcoeff : ∀ k, coeff3 P z k = ∑ i', P k i' * z i' := by
     intro k
@@ -694,7 +694,7 @@ theorem eq_comb3_of_completeCheck {cols : Fin Tag.E6.rank → Fin Tag.E6.rank �
     rfl
   funext i
   calc z i = ∑ i', (if i = i' then 1 else 0) * z i' := by
-        simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     _ = ∑ i', ((∑ k, f k i * P k i') + (∑ k, s k i * r k i')) * z i' :=
         Finset.sum_congr rfl fun i' _ => by rw [hid]
     _ = (∑ k, f k i * ∑ i', P k i' * z i') + ∑ k, s k i * ∑ i', r k i' * z i' := by
@@ -776,7 +776,7 @@ theorem planes_sound {ω : List (Fin Tag.E6.rank)} {cols : Fin Tag.E6.rank → F
     · rw [← wordProd_flatMap_reflWordP]
       exact wordProd_eq_of_cols hcols' fun i => (veqZ_iff.1 (hR i (List.mem_finRange i))).symm
     · have hp' := hroots p hp
-      simp only [Bool.and_eq_true, decide_eq_true_eq] at hp'
+      simp only [decide_eq_true_eq] at hp'
       rw [CFSG.StandardType.TableBExc.wordProd_smul, hxe, hye, triPairing_add_left,
         triPairing_add_left, triPairing_smul_left, triPairing_smul_left, triPairing_smul_left,
         triPairing_smul_left, ← dot6_eq, ← dot6_eq, hp'.1, hp'.2]

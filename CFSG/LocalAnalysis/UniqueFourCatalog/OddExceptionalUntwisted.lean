@@ -89,11 +89,11 @@ theorem two_lt_ncard_signClass {τ : Tag} {K : Type} [Field K] (i : Fin τ.rank)
   have hne2 : (Pi.single k 1 : Fin τ.rank → ℤ) ≠ Pi.single j 1 := by
     intro h
     have := congrFun h k
-    simp [Pi.single_apply, hjk.symm] at this
+    simp [hjk.symm] at this
   have hne3 : (Pi.single k 1 : Fin τ.rank → ℤ) ≠ -Pi.single j 1 := by
     intro h
     have := congrFun h k
-    simp [Pi.single_apply, hjk.symm] at this
+    simp [hjk.symm] at this
   exact (Set.two_lt_ncard_iff hfin).2 ⟨Pi.single j 1, -Pi.single j 1, Pi.single k 1,
     ⟨hα, rfl⟩, ⟨hnα, mk_eq_of_iform_ne_zero (iform_neg_self_ne_zero hroot)⟩,
     ⟨hε, mk_eq_of_iform_ne_zero hiform⟩, ne_neg_of_isRoot hroot, Ne.symm hne2, Ne.symm hne3⟩
@@ -191,8 +191,8 @@ theorem not_isCharTwoType_of_untwistedChevalleyModel_odd
     (QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans QuotientGroup.quotientBot
   have hA : CFSG.Open.IsCharTwoType ↥(adjointGroup τ K) :=
     CFSG.RankThree.PartTwo.Census.isCharTwoType_of_mulEquiv qiso hQ
-  haveI : Finite (ModGL τ K) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ K) := inferInstance
+  have : Finite (ModGL τ K) := finite_modGL
+  have : Finite ↥(adjointGroup τ K) := inferInstance
   exact CFSG.RankThreeEvenClassification.Helpers.charTwoType_no_involution_component hA
     (hasInvolutionComponent_adjointGroup_exceptional hτ hK)
 

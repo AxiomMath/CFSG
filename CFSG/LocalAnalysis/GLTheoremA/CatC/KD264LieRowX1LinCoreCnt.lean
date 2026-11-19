@@ -14,6 +14,7 @@ theorem pow_mod_three {G : Type*} [Group G] {ρ : G} (h : ρ ^ 3 = 1) (n : ℕ) 
     ρ ^ (n % 3) = ρ ^ n := by
   conv_rhs => rw [← Nat.mod_add_div n 3, pow_add, pow_mul, h, one_pow, mul_one]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_gen_data {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {X : Fin n → Submodule (ZMod 2) V} (hinv : ∀ i, Inv2 E (X i))
     (hirr : ∀ i, IsIrrE E (X i)) :
@@ -39,15 +40,17 @@ noncomputable def expo {n : ℕ} (ρf : Fin n → (V ≃ₗ[ZMod 2] V)) (X : Fin
     (i : Fin n) (g : V ≃ₗ[ZMod 2] V) : Fin 3 :=
   if h : ∃ k : Fin 3, ∀ x ∈ X i, g x = (ρf i ^ (k : ℕ)) x then h.choose else 0
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_spec {n : ℕ} {ρf : Fin n → (V ≃ₗ[ZMod 2] V)} {X : Fin n → Submodule (ZMod 2) V}
     {i : Fin n} {g : V ≃ₗ[ZMod 2] V} (h : ∃ k : Fin 3, ∀ x ∈ X i, g x = (ρf i ^ (k : ℕ)) x) :
     ∀ x ∈ X i, g x = (ρf i ^ ((expo ρf X i g : Fin 3) : ℕ)) x := by
   have hd : expo ρf X i g = h.choose := by
     unfold expo
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   rw [hd]
   exact h.choose_spec
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_unique {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {ρf : Fin n → (V ≃ₗ[ZMod 2] V)} {X : Fin n → Submodule (ZMod 2) V}
     {i : Fin n} (hirr : IsIrrE E (X i)) (hρ : ρf i ∈ E)
@@ -55,6 +58,7 @@ theorem expo_unique {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAb
     (h : ∀ x ∈ X i, (ρf i ^ (k : ℕ)) x = (ρf i ^ (k' : ℕ)) x) : k = k' :=
   pow_fin3_unique hE hirr hρ hfix h
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_mul {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
     {ρf : Fin n → (V ≃ₗ[ZMod 2] V)} {X : Fin n → Submodule (ZMod 2) V}
     (hinv : ∀ i, Inv2 E (X i)) {i : Fin n} (hirr : IsIrrE E (X i)) (hρ : ρf i ∈ E)
@@ -79,7 +83,8 @@ theorem expo_mul {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbeli
     _ = (ρf i ^ ((expo ρf X i g + expo ρf X i h : Fin 3) : ℕ)) x := by
         rw [Fin.val_add, pow_mod_three hρ3]
 
-theorem eq_of_expo_eq {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 3 E)
+omit [FiniteDimensional (ZMod 2) V] in
+theorem eq_of_expo_eq {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (_hE : IsElemAbelian 3 E)
     {ρf : Fin n → (V ≃ₗ[ZMod 2] V)} {X : Fin n → Submodule (ZMod 2) V}
     (hρf : ∀ i, ρf i ∈ E ∧
       ((Module.finrank (ZMod 2) (X i) = 1 ∧ ∀ g ∈ E, ∀ x ∈ X i, g x = x) ∨
@@ -102,6 +107,7 @@ theorem eq_of_expo_eq {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElem
   · intro x y hx hy
     rw [map_add, map_add, hx, hy]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem card_le_planes {n : ℕ} {E : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype E]
     (hE : IsElemAbelian 3 E)
     {ρf : Fin n → (V ≃ₗ[ZMod 2] V)} {X : Fin n → Submodule (ZMod 2) V}

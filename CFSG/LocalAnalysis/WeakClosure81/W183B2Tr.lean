@@ -11,7 +11,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (IsL3 IsAlt IsSp4)
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
-private theorem w183b2_card_ge_of_mOf {D B : Subgroup (LGL 2 V)} (hB : B ≤ D)
+private theorem w183b2_card_ge_of_mOf {D B : Subgroup (LGL 2 V)} (_hB : B ≤ D)
     (h : 3 ≤ mOf D B) : 8 ≤ Nat.card D := by
   have hcard : 0 < Nat.card ↥D := Finite.card_pos_iff.2 ⟨⟨1, D.one_mem⟩⟩
   have h1 : (B.subgroupOf D).index ≤ Nat.card ↥D :=
@@ -123,7 +123,7 @@ theorem w183b2_no_mixed_section_of_quasi
         show (ρ_R g x : V) ∈ R'
         exact hR'inv g g.2 x.1 hx }
   let ρ : Representation (ZMod 2) ↥Gs (↥R ⧸ p) := R'sub_R.quotient
-  haveI : Finite (↥R ⧸ p) := Quotient.finite (Submodule.quotientRel p)
+  have : Finite (↥R ⧸ p) := Quotient.finite (Submodule.quotientRel p)
   have hqd : ∀ (g : ↥Gs) (x : ↥R), ρ g (Submodule.mkQ p x) = Submodule.mkQ p (ρ_R g x) :=
     fun g x => Subrepresentation.quotient_apply_mk R'sub_R g x
   have hρirr : ρ.IsIrreducible := by

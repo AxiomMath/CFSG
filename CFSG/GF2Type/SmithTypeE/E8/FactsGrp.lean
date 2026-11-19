@@ -224,11 +224,11 @@ theorem finsupp_eq_sum_single (u : Fin e7Data.d →₀ ZMod 2) :
     u = ∑ b ∈ u.support, (Finsupp.single b 1 : Fin e7Data.d →₀ ZMod 2) := by
   have h1 : ∀ x : ZMod 2, x ≠ 0 → x = 1 := by decide
   ext c
-  rw [Finsupp.finset_sum_apply]
-  simp only [Finsupp.single_apply, Finset.sum_ite_eq', Finset.sum_ite_eq, Finsupp.mem_support_iff]
+  rw [_root_.Finsupp.finsetSum_apply]
+  simp only [Finsupp.single_apply, Finset.sum_ite_eq', Finsupp.mem_support_iff]
   by_cases h : u c = 0
   · simp [h]
-  · simp [h, h1 _ h]
+  · simp [h1 _ h]
 
 theorem rep_mul_apply (g h : ↥(adjointGroup .E7 (ZMod 2))) (v : Fin e7Data.d →₀ ZMod 2) :
     e7Rep56 (ZMod 2) (g * h) v = e7Rep56 (ZMod 2) g (e7Rep56 (ZMod 2) h v) := by

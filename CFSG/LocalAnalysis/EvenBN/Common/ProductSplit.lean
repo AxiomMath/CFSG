@@ -115,7 +115,7 @@ theorem exists_split {σ : MulAut Q} {X Λ V F : Subgroup Q} {r : Q} {q : ℕ} (
     [X.Normal] [Λ.Normal] (hσX : X.map σ.toMonoidHom = X) (hcen : X ⊓ center Q = ⊥)
     (hΛσ : Λ ⊔ Λ.map σ.toMonoidHom = ⊤)
     (hV : IsPGroup 2 V) (hVΛ : V ≤ Λ) (hXV : X ≤ V)
-    (hrΛ : r ∈ normalizer (Λ : Set Q))
+    (_hrΛ : r ∈ normalizer (Λ : Set Q))
     (hgen : Λ ≤ V ⊔ V.map (MulAut.conj r).toMonoidHom)
     (hVn : V ≤ normalizer
       (((V.map σ.toMonoidHom).map (MulAut.conj r).toMonoidHom : Subgroup Q) : Set Q))
@@ -311,6 +311,7 @@ theorem exists_split {σ : MulAut Q} {X Λ V F : Subgroup Q} {r : Q} {q : ℕ} (
   calc q ^ 4 = Nat.card B * Nat.card B := by rw [hBc]; ring
     _ ≤ _ := hprod
 
+omit [Finite Q] in
 theorem commutatorElement_mem_centralizer_of_stability {H A : Subgroup Q}
     (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {j₁ j₂ : Q}
     (h₁ : j₁ ∈ normalizer (H : Set Q)) (h₂ : j₂ ∈ normalizer (H : Set Q))
@@ -343,6 +344,7 @@ theorem commutatorElement_mem_centralizer_of_stability {H A : Subgroup Q}
         (j₁ * j₂ * j₁⁻¹ * j₂⁻¹) := by rw [e]
     _ = j₁ * j₂ * j₁⁻¹ * j₂⁻¹ * g := by group
 
+omit [Finite Q] in
 theorem le_centralizer_of_stability {H A J : Subgroup Q}
     (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hJ : ⁅J, J⁆ = J)
     (hJN : J ≤ normalizer (H : Set Q)) (hJA : ∀ j ∈ J, ∀ a ∈ A, j * a = a * j)
@@ -354,6 +356,7 @@ theorem le_centralizer_of_stability {H A J : Subgroup Q}
   exact commutatorElement_mem_centralizer_of_stability hAab (hJN hj₁) (hJN hj₂)
     (hJA j₁ hj₁) (hJA j₂ hj₂) (hJH j₁ hj₁) (hJH j₂ hj₂)
 
+omit [Finite Q] in
 theorem commutator_sup_le_of_le_centralizer {K B : Subgroup Q}
     (hB : B ≤ centralizer ((K ⊔ B : Subgroup Q) : Set Q)) :
     ⁅K ⊔ B, K ⊔ B⁆ ≤ ⁅K, K⁆ := by
@@ -389,6 +392,7 @@ theorem commutator_sup_le_of_le_centralizer {K B : Subgroup Q}
   rw [e]
   exact commutator_mem_commutator hk₁ hk₂
 
+omit [Finite Q] in
 theorem normal_inf_centralizer (X H : Subgroup Q) [X.Normal] [H.Normal] :
     (X ⊓ centralizer (H : Set Q)).Normal := by
   refine ⟨fun x hx g => mem_inf.2 ⟨‹X.Normal›.conj_mem x (mem_inf.1 hx).1 g, ?_⟩⟩
@@ -400,6 +404,7 @@ theorem normal_inf_centralizer (X H : Subgroup Q) [X.Normal] [H.Normal] :
     _ = g * (x * (g⁻¹ * h * g⁻¹⁻¹)) * g⁻¹ := by rw [this]
     _ = g * x * g⁻¹ * h := by group
 
+omit [Finite Q] in
 theorem commutator_eq_bot_of_split {σ : MulAut Q} {X Λ Y P : Subgroup Q} [X.Normal] [Λ.Normal]
     (hXab : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x) (hσX : X.map σ.toMonoidHom = X)
     (hcomm : ⁅Λ, Λ.map σ.toMonoidHom⁆ ≤ X)
@@ -509,6 +514,7 @@ theorem exists_complement_of_sylow {X Λ V C : Subgroup Q} (hXΛ : X ≤ Λ)
       rw [hX', Subgroup.subgroupOf_map_subtype, inf_of_le_left hXΛ]]
     rw [← Subgroup.map_sup, sup_comm, hK2, Subgroup.map_top, range_subtype]
 
+omit [Finite Q] in
 theorem exists_complement_of_elementary {X V E : Subgroup Q} (hEV : E ≤ V)
     (hE : IsElementaryAbelian 2 E) (hsup : X ⊔ E = V) :
     ∃ C : Subgroup Q, C ≤ V ∧ C ⊓ X = ⊥ ∧ C ⊔ X = V := by
@@ -539,6 +545,7 @@ theorem exists_complement_of_elementary {X V E : Subgroup Q} (hEV : E ≤ V)
           rw [Subgroup.subgroupOf_map_subtype]
           exact inf_le_left.trans inf_le_right
 
+omit [Finite Q] in
 theorem commutator_sup_le_sup_of_normal (A X : Subgroup Q) [X.Normal] :
     ⁅A ⊔ X, A ⊔ X⁆ ≤ ⁅A, A⁆ ⊔ X := by
   have hker : (QuotientGroup.mk' X).ker = X := QuotientGroup.ker_mk' X
@@ -556,19 +563,23 @@ theorem commutator_sup_le_sup_of_normal (A X : Subgroup Q) [X.Normal] :
   | 0 => H
   | k + 1 => ⁅derivedChain H k, derivedChain H k⁆
 
+omit [Finite Q] in
 theorem derivedChain_zero (H : Subgroup Q) : derivedChain H 0 = H := rfl
 
+omit [Finite Q] in
 theorem derivedChain_succ (H : Subgroup Q) (k : ℕ) :
     derivedChain H (k + 1) = ⁅derivedChain H k, derivedChain H k⁆ := rfl
 
+omit [Finite Q] in
 theorem derivedChain_normal (H : Subgroup Q) [H.Normal] (k : ℕ) : (derivedChain H k).Normal := by
   induction k with
   | zero => exact ‹H.Normal›
   | succ k ih =>
     rw [derivedChain_succ]
-    haveI := ih
+    have := ih
     exact Subgroup.commutator_normal _ _
 
+omit [Finite Q] in
 theorem derivedChain_succ_le (H : Subgroup Q) (k : ℕ) :
     derivedChain H (k + 1) ≤ derivedChain H k := by
   rw [derivedChain_succ, commutator_le]
@@ -653,7 +664,7 @@ theorem exists_perfect_commuting_factor
   have hVΛ : V ≤ Λ := by rw [← hS₀]; exact map_subtype_le _
   have hV2 : IsPGroup 2 V := by
     rw [← hS₀]
-    exact S₀.isPGroup'.map Λ.subtype
+    exact S₀.isPGroup.map Λ.subtype
   have hX2 : IsPGroup 2 X := hV2.to_le hXV
   obtain ⟨C, hCV, hCX, hCsup⟩ := exists_complement_of_elementary hEV hE hEX
   obtain ⟨Y, hYΛ, hYX, hYsup⟩ := exists_complement_of_sylow hXΛ
@@ -704,7 +715,7 @@ theorem exists_perfect_commuting_factor
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
   have hYperf : ⁅Y, Y⁆ = Y := by
     have htop : ⁅(⊤ : Subgroup Y), (⊤ : Subgroup Y)⁆ = (⊤ : Subgroup Y) := by
       have h1 : (⁅(⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)),
@@ -721,7 +732,7 @@ theorem exists_perfect_commuting_factor
       _ ≤ ⁅Λ, Λ⁆ ⊔ X :=
           sup_le_sup_right ((le_of_eq hYperf.symm).trans (commutator_mono hYΛ hYΛ)) _
   obtain ⟨P, hPn, hP, hPΛΛ, hPX, hPmax⟩ := exists_perfect_normal_sup_eq hXΛ hΛperf
-  haveI := hPn
+  have := hPn
   have hPΛ : P ≤ Λ := hPΛΛ.trans (commutator_le_left _ _)
   exact ⟨P, hPn, hP, hPΛ, hPX,
     commutator_eq_bot_of_split hXab hσX hcomm hsplit hYX hYsup hPΛΛ hP, hPmax⟩

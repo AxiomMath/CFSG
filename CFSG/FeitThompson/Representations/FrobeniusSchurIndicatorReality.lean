@@ -41,7 +41,7 @@ theorem frobeniusSchurIndicator_smul (c : ℂ) (χ : G → ℂ) :
 theorem frobeniusSchurIndicator_one : frobeniusSchurIndicator (1 : G → ℂ) = 1 := by
   have hcard : (Nat.card G : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
   rw [frobeniusSchurIndicator_def]
-  simp [Nat.card_eq_fintype_card, Finset.card_univ, hcard]
+  simp [Nat.card_eq_fintype_card, Finset.card_univ]
 
 omit [Group G] in
 theorem cfInner_one_right (f : G → ℂ) :
@@ -131,12 +131,12 @@ theorem frobeniusSchurIndicator_eq_zero_iff {χ : G → ℂ} (hχ : χ ∈ Irr G
   obtain ⟨a, b, hν, hab⟩ := exists_frobeniusSchurIndicator_eq_sub hχ
   constructor
   · intro h0 hreal
-    rw [if_pos hreal] at hab
+    rw [ite_eq_left hreal] at hab
     rw [h0] at hν
     have : a = b := Nat.cast_inj.1 (sub_eq_zero.1 hν.symm)
     omega
   · intro hne
-    rw [if_neg hne] at hab
+    rw [ite_eq_right hne] at hab
     simp [hν, show a = 0 by omega, show b = 0 by omega]
 
 theorem frobeniusSchurIndicator_eq_zero_iff_not_forall_im_eq_zero {χ : G → ℂ} (hχ : χ ∈ Irr G) :

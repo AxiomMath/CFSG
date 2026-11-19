@@ -84,8 +84,8 @@ private theorem nontrivial_of_isQuasisimple {Q : Type*} [Group Q] (hQ : Open.IsQ
 
 private theorem perfect_ne_bot {L : Subgroup Γ} (hq : Open.IsQuasisimple ↥L) :
     ⁅L, L⁆ = L ∧ L ≠ ⊥ := by
-  haveI : Nontrivial ↥L := nontrivial_of_isQuasisimple hq
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
+  have : Nontrivial ↥L := nontrivial_of_isQuasisimple hq
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.2 hq.1
   exact ⟨Subgroup.isPerfect_iff.1 inferInstance, (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance⟩
 
 private theorem eq_of_perfect_le {L L₀ N : Subgroup Γ} (hL₀ : Open.IsQuasisimple ↥L₀)
@@ -127,7 +127,7 @@ private theorem isQuasisimple_alt {n : ℕ} (hn : 5 ≤ n) :
 
 private theorem card_alt {n : ℕ} (hn : 2 ≤ n) :
     Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 private theorem isQuasisimple_omegaMinusTwo :
@@ -307,6 +307,7 @@ section Modules
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem trivial_of_trivial {L L₀ : Subgroup (GLV V)} (hLL₀ : L ≤ L₀)
     (hL₀ : Open.IsQuasisimple ↥L₀) (hperf : ⁅L, L⁆ = L) (hLne : L ≠ ⊥)
     {J : Submodule (ZMod 2) V} (hJ : Invariant L₀ J) (htriv : ∀ l ∈ L, ∀ j ∈ J, l j = j) :
@@ -323,6 +324,7 @@ private theorem trivial_of_trivial {L L₀ : Subgroup (GLV V)} (hLL₀ : L ≤ L
   have hx' : x ∈ centralizerOn L₀ J := by rw [hN]; exact hx
   exact hx'.2 j hj
 
+omit [Finite V] in
 private theorem commSpace_le_of_le {L L₀ : Subgroup (GLV V)} (hLL₀ : L ≤ L₀)
     (hL₀ : Open.IsQuasisimple ↥L₀) (hperf : ⁅L, L⁆ = L) (hLne : L ≠ ⊥)
     {J : Submodule (ZMod 2) V} (hJ : Invariant L₀ J) (hle : commSpace L ⊤ ≤ J) :
@@ -354,6 +356,7 @@ private theorem commSpace_le_of_le {L L₀ : Subgroup (GLV V)} (hLL₀ : L ≤ L
   have hx' : x ∈ N := by rw [hN]; exact hx
   exact hx'.2 v
 
+omit [Finite V] in
 private theorem eq_one_of_odd {L L₀ : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (hLL₀ : L ≤ L₀) (hL₀ : Open.IsQuasisimple ↥L₀) (hperf : ⁅L, L⁆ = L) (hLne : L ≠ ⊥)
     (hirr : HasIrrTildeV L) (hW₁ : Invariant L W₁) (hLW : ∃ l ∈ L, ∃ w ∈ W₁, l w - w ∉ W₀)
@@ -393,6 +396,7 @@ private theorem eq_one_of_odd {L L₀ : Subgroup (GLV V)} {W₀ W₁ : Submodule
     have h2 : y u - u ∈ W₁ := by rw [hu']; exact W₁.sub_mem (hW₁ l hl w hw) hw
     exact hlw (hu' ▸ mem_of_sub_mem hy₁ hyW hodd u h2)
 
+omit [Finite V] in
 private theorem tilde_sect {L L₀ H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (hLL₀ : L ≤ L₀) (hL₀H : L₀ ≤ H) (hnorm : ∀ h ∈ H, ∀ x ∈ L₀, h * x * h⁻¹ ∈ L₀)
     (hL₀ : Open.IsQuasisimple ↥L₀) (hperf : ⁅L, L⁆ = L) (hLne : L ≠ ⊥) (hirr : HasIrrTildeV L)
@@ -485,6 +489,7 @@ private theorem tilde_sect {L L₀ H : Subgroup (GLV V)} {W₀ W₁ : Submodule 
     obtain ⟨c, hc, d, hd, rfl⟩ := Submodule.mem_sup.1 hw'
     exact ⟨c, commSpace_mono le_rfl le_top hc, by simpa using hd⟩
 
+omit [Finite V] in
 private theorem tildeVWitness_of_sect {L₀ H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (hL₀H : L₀ ≤ H) (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     (hUW₁ : commSpace L₀ ⊤ ≤ W₁) (hUW₀ : ∀ u ∈ commSpace L₀ ⊤, u ∈ W₀ ↔ u ∈ fixedSpace L₀)
@@ -522,6 +527,7 @@ private theorem tildeVWitness_of_sect {L₀ H : Subgroup (GLV V)} {W₀ W₁ : S
     rw [e]
     exact hRel ℓ (β₀ w)
 
+omit [Finite V] in
 private theorem faithfulTildeV_of_sect {L₀ H : Subgroup (GLV V)} {W₀ W₁ : Submodule (ZMod 2) V}
     (hL₀H : L₀ ≤ H) (h₀ : Invariant H W₀) (h₁ : Invariant H W₁)
     (hUW₀ : ∀ u ∈ commSpace L₀ ⊤, u ∈ W₀ ↔ u ∈ fixedSpace L₀)
@@ -546,18 +552,21 @@ section Config
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem normalClosure_le_of_le' {Γ L K : Subgroup (GLV V)} (hΓ : Γ ≤ K) (hL : L ≤ K) :
     normalClosure Γ L ≤ K := by
   rw [normalClosure, Subgroup.closure_le]
   rintro _ ⟨γ, hγ, l, hl, rfl⟩
   exact K.mul_mem (K.mul_mem (hΓ hγ) (hL hl)) (K.inv_mem (hΓ hγ))
 
+omit [Finite V] in
 private theorem normalClosure_mono' {Γ Γ' L L' : Subgroup (GLV V)} (hΓ : Γ ≤ Γ') (hL : L ≤ L') :
     normalClosure Γ L ≤ normalClosure Γ' L' := by
   refine Subgroup.closure_mono ?_
   rintro _ ⟨γ, hγ, l, hl, rfl⟩
   exact ⟨γ, hΓ hγ, l, hL hl, rfl⟩
 
+omit [Finite V] in
 private theorem centralizer_zpowers' (r : GLV V) :
     Subgroup.centralizer ((Subgroup.zpowers r : Subgroup (GLV V)) : Set (GLV V)) =
       Subgroup.centralizer ({r} : Set (GLV V)) := by
@@ -847,12 +856,15 @@ theorem eq_of_perfect_le_of_normalized {Γ : Type*} [Group Γ] {L L₀ N : Subgr
 theorem not_mem_of_orderOf_two {Γ : Type*} [Group Γ] {K : Subgroup Γ} {r : Γ}
     (hr : orderOf r = 2) (hK : Odd (Nat.card K)) : r ∉ K := not_mem_of_orderOf_eq_two hr hK
 
+omit [Finite V] in
 theorem normalClosure_le_of_le_of_le {Γ L K : Subgroup (GLV V)} (hΓ : Γ ≤ K) (hL : L ≤ K) :
     normalClosure Γ L ≤ K := normalClosure_le_of_le' hΓ hL
 
+omit [Finite V] in
 theorem normalClosure_mono_both {Γ Γ' L L' : Subgroup (GLV V)} (hΓ : Γ ≤ Γ') (hL : L ≤ L') :
     normalClosure Γ L ≤ normalClosure Γ' L' := normalClosure_mono' hΓ hL
 
+omit [Finite V] in
 theorem conj_mem_normalClosure {Γ L : Subgroup (GLV V)} {γ x : GLV V} (hγ : γ ∈ Γ)
     (hx : x ∈ normalClosure Γ L) : γ * x * γ⁻¹ ∈ normalClosure Γ L := by
   have hle : normalClosure Γ L ≤ (normalClosure Γ L).comap (MulAut.conj γ).toMonoidHom := by
@@ -863,6 +875,7 @@ theorem conj_mem_normalClosure {Γ L : Subgroup (GLV V)} {γ x : GLV V} (hγ : �
     group
   exact hle hx
 
+omit [Finite V] in
 theorem normalClosure_le_normalClosure {Γ L L' : Subgroup (GLV V)}
     (hL : L ≤ normalClosure Γ L') : normalClosure Γ L ≤ normalClosure Γ L' := by
   rw [normalClosure, Subgroup.closure_le]
@@ -963,7 +976,7 @@ theorem exists_altOn_fix {Γ : Type} [Group Γ] {Hb E Lb : Subgroup Γ} {M : ℕ
   obtain ⟨h5, hKeq⟩ := eq_altOn_of_isComponentOf hR'2 le_rfl inf_le_right hKX
   have hFix : ({i | ∀ r ∈ R', r i = i} : Set (Fin M)) = {i | ρ ⟨r, hrH⟩ i = i} := by
     ext i
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hi
       exact hi _ ⟨⟨r, hrH⟩, Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers r), rfl⟩
@@ -978,6 +991,7 @@ theorem exists_altOn_fix {Γ : Type} [Group Γ] {Hb E Lb : Subgroup Γ} {M : ℕ
     rw [← map_mul, show (⟨r, hrH⟩ : ↥Hb) * ⟨r, hrH⟩ = 1 from Subtype.ext hr, map_one],
     by rw [← hFix]; exact h5, hKeq.trans (congrArg altOn hFix)⟩
 
+omit [Finite V] in
 theorem centralizer_zpowers_eq (r : GLV V) :
     Subgroup.centralizer ((Subgroup.zpowers r : Subgroup (GLV V)) : Set (GLV V)) =
       Subgroup.centralizer ({r} : Set (GLV V)) := centralizer_zpowers' r

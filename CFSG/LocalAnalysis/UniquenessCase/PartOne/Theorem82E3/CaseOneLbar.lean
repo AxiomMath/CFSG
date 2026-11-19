@@ -61,7 +61,7 @@ theorem odd_card_center_lbar : Odd (Nat.card (Subgroup.center c.Lbar)) := by
   omega
 
 theorem pRank_three_lbar : CFSG.Open.pRank 3 (⊤ : Subgroup c.Lbar) = 3 := by
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3 : ¬ 3 ∣ Nat.card (CFSG.Open.pCore 2 ↥c.L) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L))
       Nat.prime_three (by norm_num)
@@ -76,7 +76,7 @@ theorem isQuasisimple_lbar (h811 : CFSG.Yardstones.Mf4cdcdf2e013.QuasisimpleModO
 theorem isCatalogGroup_lbar (h811 : CFSG.Yardstones.Mf4cdcdf2e013.QuasisimpleModOTwo c.L) :
     CFSG.Open.IsCatalogGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := by
   have hq := isQuasisimple_lbar c h811
-  haveI : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hq.2
+  have : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hq.2
   have hnab : ∃ a b : c.Lbar ⧸ Subgroup.center c.Lbar, a * b ≠ b * a := by
     have hp : Group.IsPerfect c.Lbar := (Group.isPerfect_def).2 hq.1
     have hc : ¬ IsMulCommutative (c.Lbar ⧸ Subgroup.center c.Lbar) :=
@@ -124,7 +124,7 @@ theorem false_of_small (h811 : CFSG.Yardstones.Mf4cdcdf2e013.QuasisimpleModOTwo 
     (hY : IsAlt (c.Lbar ⧸ Subgroup.center c.Lbar) 9 ∨
       IsSpor (c.Lbar ⧸ Subgroup.center c.Lbar) .J3 ∨
       LieModel (c.Lbar ⧸ Subgroup.center c.Lbar) .PSp 2 3 1) : False := by
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M
   have hPL : P ≤ c.L := le_L_of_K2 c h811 hK2 hZ hON h227 hP
   have hΩ : ∀ x ∈ P, x ^ 3 = 1 → x ∈ c.L := fun x hx _ => hPL hx

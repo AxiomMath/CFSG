@@ -35,8 +35,8 @@ theorem ggNineDepFixLineLin_of_omega (hK : GGReflClassOmegaInput) (hK2 : GGNineD
   have htwo : 2 ≤ Module.finrank (ZMod 3) ↥(ggLinFix (Set.range r)) := by omega
   have C : GGNineDepCase 3 9 h α r s x := ⟨hlin, hdep, hstab.trans_eq (by norm_num), htwo, hweyl⟩
   have X : GGNineDepCtx h α r s x := ggNineDepCtx_of_case C
-  haveI : Finite T := hlin.finT
-  haveI : Module.Finite (ZMod 3) V := ggFixLine_finite s hlin.s_refl hlin.fix_s
+  have : Finite T := hlin.finT
+  have : Module.Finite (ZMod 3) V := ggFixLine_finite s hlin.s_refl hlin.fix_s
   have hirr : ZS.AbsIrred 3 (ggNineQ X) := X.restr.2.1
   have hgen : ggNineQ X = Subgroup.closure {q | q ∈ ggNineQ X ∧ GGLinRefl q} := X.restr.2.2
   have hd7 := X.d_ge

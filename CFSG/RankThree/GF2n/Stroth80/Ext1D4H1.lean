@@ -16,7 +16,7 @@ theorem exists_add_fixed_of_index (ρ : G →* Module.End K E) (S : Submodule K 
     [H.FiniteIndex] (hH : (H.index : K) ≠ 0) (v : E) (hv : ∀ g, ρ g v - v ∈ S)
     (hvH : ∀ g ∈ H, ρ g v = v) : ∃ s ∈ S, ∀ g, ρ g (v + s) = v + s := by
   classical
-  haveI : Fintype (G ⧸ H) := Fintype.ofFinite _
+  have : Fintype (G ⧸ H) := Fintype.ofFinite _
   set δ : G → E := fun g => ρ g v - v with hδ
   have hδmul : ∀ g h, δ (g * h) = δ g + ρ g (δ h) := fun g h => by
     simp only [hδ, map_mul, Module.End.mul_apply, map_sub]
@@ -128,11 +128,11 @@ theorem exists_add_fixed_of_minWt {m : ℕ} (hm : 2 * m = Fintype.card K)
   let stab : Subgroup G :=
     { carrier := {g | ρ g v₁ = v₁}
       mul_mem' := fun {g h} hg hh => by
-        simp only [Set.mem_setOf_eq] at hg hh ⊢
+        simp only [Set.mem_ofPred_eq] at hg hh ⊢
         rw [map_mul, Module.End.mul_apply, hh, hg]
       one_mem' := by simp
       inv_mem' := fun {g} hg => by
-        simp only [Set.mem_setOf_eq] at hg ⊢
+        simp only [Set.mem_ofPred_eq] at hg ⊢
         conv_lhs => rw [← hg]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
   have hBstab : borel D ≤ stab := by

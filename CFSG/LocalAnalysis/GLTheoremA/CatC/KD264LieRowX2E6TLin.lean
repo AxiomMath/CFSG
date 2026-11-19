@@ -39,9 +39,9 @@ theorem incl_mul_transpose {X : Finset (Fin ν)} (e : Fin m → Fin ν) (he : Fu
     Matrix.diagonal_apply]
   by_cases hkl : k = l
   · subst hkl
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     by_cases hk : k ∈ X
-    · rw [if_pos hk]
+    · rw [ite_eq_left hk]
       obtain ⟨a, rfl⟩ := (hX _).1 hk
       rw [Finset.sum_eq_single a]
       · simp
@@ -49,11 +49,11 @@ theorem incl_mul_transpose {X : Finset (Fin ν)} (e : Fin m → Fin ν) (he : Fu
         have : e a ≠ e b := fun h => hb (he h).symm
         simp [this]
       · simp
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       refine Finset.sum_eq_zero fun a _ => ?_
       have : k ≠ e a := fun h => hk ((hX _).2 ⟨a, h.symm⟩)
       simp [this]
-  · rw [if_neg hkl]
+  · rw [ite_eq_right hkl]
     refine Finset.sum_eq_zero fun a _ => ?_
     by_cases h1 : k = e a
     · have : l ≠ e a := fun h2 => hkl (h1.trans h2.symm)

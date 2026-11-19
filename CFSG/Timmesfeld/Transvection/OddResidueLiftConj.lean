@@ -71,7 +71,7 @@ private theorem exists_conjSub_map_eq_sylow_image
           (Subgroup.center (TP : Subgroup (residueQuotient Δ P Q k))).map
             (TP : Subgroup (residueQuotient Δ P Q k)).subtype := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let L : Subgroup H := residueGroup Δ P Q k
   let π : ↥L →* residueQuotient Δ P Q k := QuotientGroup.mk' (Subgroup.center ↥L)
   let ρ : SU (unitaryInvolution F 2 n) 3 →* residueQuotient Δ P Q k := π.comp α
@@ -168,7 +168,7 @@ private theorem sq_eq_one_of_mem_conjSub_of_mem_ker
   have hcop : Nat.Coprime (Nat.card (conjSub X g)) (Nat.card ρ.ker) := by
     rw [hm]
     exact Nat.Coprime.pow_left m hαπodd.coprime_two_right.symm
-  have hinf : conjSub X g ⊓ ρ.ker = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : conjSub X g ⊓ ρ.ker = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hmem : x * x ∈ conjSub X g ⊓ ρ.ker :=
     ⟨Subgroup.mul_mem _ hxXg hxXg, hx2ker⟩
   rwa [hinf] at hmem
@@ -191,7 +191,7 @@ private theorem center_le_map_conjSub_su3Top
         (QuotientGroup.mk' (Subgroup.center ↥(residueGroup Δ P Q k))) ≤
       (conjSub (su3Top (unitaryInvolution F 2 n)) g).map
         ((QuotientGroup.mk' (Subgroup.center ↥(residueGroup Δ P Q k))).comp α) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let X : Subgroup (SU (unitaryInvolution F 2 n) 3) :=
     UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)
   let ρ : SU (unitaryInvolution F 2 n) 3 →* residueQuotient Δ P Q k :=
@@ -217,7 +217,7 @@ private theorem center_le_map_conjSub_su3Top
       (Subgroup.center ↥(residueGroup Δ P Q k))) hp2
   obtain ⟨x, hxXg, hxy⟩ := Subgroup.mem_map.1 hyT'
   have hx2ker : x * x ∈ ρ.ker := by
-    simpa [MonoidHom.mem_ker, map_mul, hxy, hy2]
+    simp [MonoidHom.mem_ker, map_mul, hxy, hy2]
   have hx2 : x * x = 1 :=
     sq_eq_one_of_mem_conjSub_of_mem_ker hFn hαπodd hxXg hx2ker
   obtain ⟨x', hx', hxeq⟩ := Subgroup.mem_map.1 hxXg
@@ -269,7 +269,7 @@ private theorem map_eq_P_of_map_eq_residueQuotient
     (conjSub (su3Top (unitaryInvolution F 2 n)) g).map
         ((residueGroup Δ P Q k).subtype.comp α) = P k := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let L : Subgroup H := residueGroup Δ P Q k
   let π : ↥L →* residueQuotient Δ P Q k := QuotientGroup.mk' (Subgroup.center ↥L)
   let A : Subgroup ↥L := (P k).subgroupOf L
@@ -375,7 +375,7 @@ private theorem precomp_properties
   · have hker : (θ.comp (MulAut.conj a).toMonoidHom).ker =
         (θ.ker).map ((MulAut.conj a).symm : SU (unitaryInvolution F 2 n) 3 →*
           SU (unitaryInvolution F 2 n) 3) := by
-      simpa using MonoidHom.ker_comp_mulEquiv θ (MulAut.conj a)
+      simp
     rw [hker]
     calc (θ.ker).map ((MulAut.conj a).symm : SU (unitaryInvolution F 2 n) 3 →*
           SU (unitaryInvolution F 2 n) 3) ≤
@@ -387,7 +387,7 @@ private theorem precomp_properties
   · have hker : (θ.comp (MulAut.conj a).toMonoidHom).ker =
         (θ.ker).map ((MulAut.conj a).symm : SU (unitaryInvolution F 2 n) 3 →*
           SU (unitaryInvolution F 2 n) 3) := by
-      simpa using MonoidHom.ker_comp_mulEquiv θ (MulAut.conj a)
+      simp
     rw [hker, Subgroup.card_map_of_injective (MulAut.conj a).symm.injective]
     exact hθodd
   · calc (su3Top (unitaryInvolution F 2 n)).map (θ.comp (MulAut.conj a).toMonoidHom)
@@ -405,7 +405,7 @@ private theorem precomp_properties
       exact ⟨a * e, by rw [← hform, he]⟩
 
 private theorem exists_su3_residue_normalize
-    (h : TransvectionHyp H Δ) (hF : IsMaxFrame Δ P Q)
+    (_h : TransvectionHyp H Δ) (hF : IsMaxFrame Δ P Q)
     (hFn : Nat.card F = (2 ^ n) ^ 2)
     {θ : SU (unitaryInvolution F 2 n) 3 →* H}
     (hθr : θ.range = residueGroup Δ P Q k)
@@ -425,7 +425,7 @@ private theorem exists_su3_residue_normalize
           ∃ g : SU (unitaryInvolution F 2 n) 3,
             X = (conjSub (su3Top (unitaryInvolution F 2 n)) g).map θ' := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := _h.finite
   have hσ := unitaryInvolution_involutive hFn
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hFn
   obtain ⟨g', hg'⟩ := (hθmem (Q k)).1 (hF.toIsFrame.memQ_frameResidue k)

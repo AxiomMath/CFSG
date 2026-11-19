@@ -132,7 +132,7 @@ theorem alternating_three_false {K : Type} [Group K] [Finite K] (hperf : commuta
     [IsSimpleGroup (K ⧸ Subgroup.center K)] (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin n))
     (h3 : 3 ∣ Nat.card (Subgroup.center K))
     (h12 : 3 ^ 12 ∣ Nat.card (K ⧸ Subgroup.center K)) : False := by
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   have hn := CFSG.HardMathSupport.Timmesfeld.Tables.Alt.five_le_of_centerQuotient hperf e
   have h3' := (CFSG.HardMathSupport.Timmesfeld.Tables.Alt.center_facts hn e Nat.prime_three
     (by norm_num)).2 h3
@@ -149,8 +149,8 @@ theorem three_central_leaf (hGA : GriessAllModelsStatement) (hb : LieOrderBridge
     (h19 : 3 ^ 19 ∣ Nat.card (MulAut (K ⧸ Subgroup.center K))) : False := by
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hq' : CFSG.IsQuasisimple K := ⟨⟨hq.1⟩, hq.2, hnab⟩
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hcardK : Nat.card K = Nat.card (K ⧸ Subgroup.center K) * Nat.card (Subgroup.center K) :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center K)
   have hdvd : Nat.card (K ⧸ Subgroup.center K) ∣ monsterOrder :=

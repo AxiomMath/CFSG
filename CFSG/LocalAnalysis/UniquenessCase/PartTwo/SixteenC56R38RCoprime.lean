@@ -32,9 +32,9 @@ private theorem le_centralizer_of_isCyclic {G : Type*} [Group G] {p r : ℕ} (hp
     (hQS : Q ≤ Subgroup.normalizer (S : Set G)) :
     Q ≤ Subgroup.centralizer (S : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsCyclic S := hSc
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsCyclic S := hSc
   intro q hq
   rw [Subgroup.mem_centralizer_iff]
   intro s hs
@@ -78,8 +78,8 @@ theorem exists_isElemAbelian_le_centralizer_of_coprime_action {M : Type} {H : Ty
     ∃ A' : Subgroup M, A' ≤ L.comap π ∧ A' ≤ centralizer (Q : Set M) ∧ IsElemAbelian r A' ∧
       Nat.card A' = Nat.card A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   let C : Subgroup M := π.ker
   let X : Subgroup M := L.comap π
   let Y : Subgroup M := X ⊓ Subgroup.centralizer (Q : Set M)
@@ -138,7 +138,7 @@ theorem exists_isElemAbelian_le_centralizer_of_coprime_action {M : Type} {H : Ty
     CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup hp hr hQp hQ_C hker
   let S : Subgroup M := (S₀ : Subgroup C).map C.subtype
   have hS_le_C : S ≤ C := Subgroup.map_subtype_le _
-  have hS_pg : IsPGroup r S := S₀.isPGroup'.map C.subtype
+  have hS_pg : IsPGroup r S := S₀.isPGroup.map C.subtype
   have hQ_S : Q ≤ Subgroup.normalizer (S : Set M) := hS₀
   have hS_card : Nat.card S = Nat.card (S₀ : Subgroup C) :=
     Subgroup.card_map_of_injective C.subtype_injective
@@ -155,10 +155,10 @@ theorem exists_isElemAbelian_le_centralizer_of_coprime_action {M : Type} {H : Ty
   have hS_YC : S ≤ Y ⊓ C := le_inf hS_Y hS_le_C
   have hYC_dvd : Nat.card ↥(Y ⊓ C) ∣ Nat.card C := Subgroup.card_dvd_of_le inf_le_right
   have hS_dvd_YC : Nat.card S ∣ Nat.card ↥(Y ⊓ C) := Subgroup.card_dvd_of_le hS_YC
-  haveI : Nonempty ↥(Y ⊓ C) := ⟨1⟩
-  haveI : Nonempty ↥C := ⟨1⟩
-  haveI : Nonempty ↥X := ⟨1⟩
-  haveI : Nonempty ↥Y := ⟨1⟩
+  have : Nonempty ↥(Y ⊓ C) := ⟨1⟩
+  have : Nonempty ↥C := ⟨1⟩
+  have : Nonempty ↥X := ⟨1⟩
+  have : Nonempty ↥Y := ⟨1⟩
   have hYC_ne : Nat.card ↥(Y ⊓ C) ≠ 0 := (Nat.card_pos (α := ↥(Y ⊓ C))).ne'
   have hC_ne : Nat.card C ≠ 0 := (Nat.card_pos (α := ↥C)).ne'
   have hX_ne : Nat.card X ≠ 0 := (Nat.card_pos (α := ↥X)).ne'
@@ -201,7 +201,7 @@ theorem exists_isElemAbelian_le_centralizer_of_coprime_action {M : Type} {H : Ty
     rw [hT_cardY, hfac_X]
   let TX : Sylow r ↥X := Sylow.ofCard (T.subgroupOf X) (by rw [hT_sub]; exact hT_card)
   have hTX_coe : (TX : Subgroup ↥X) = T.subgroupOf X := Sylow.coe_ofCard _ _
-  haveI : Finite (Sylow r ↥X) :=
+  have : Finite (Sylow r ↥X) :=
     Finite.of_injective (fun P : Sylow r ↥X => (P : Set ↥X))
       (fun P Q h => SetLike.coe_injective h)
   obtain ⟨TA, hA_TA⟩ := (hA.isPGroup.comap_subtype (K := X)).exists_le_sylow

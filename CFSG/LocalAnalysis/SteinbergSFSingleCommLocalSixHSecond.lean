@@ -45,6 +45,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
   [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] in
 theorem sixH_h5_le_normalizer_of_conj {Q T : Subgroup G}
     (hN : ∀ g ∈ T, ∀ c ∈ Q, g * c * g⁻¹ ∈ Q) : T ≤ normalizer (Q : Set G) := by
   intro g hg
@@ -170,6 +171,7 @@ theorem sixH_h5 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x 
 theorem sixH_h6_swap_swap (k : Axis) : k.swap.swap = k := by
   cases k <;> rfl
 
+omit [Finite G] in
 theorem sixH_h6_sup_comm {X Y : Subgroup G} {z : G}
     (hX : ∀ x ∈ X, x * z = z * x) (hY : ∀ y ∈ Y, y * z = z * y) :
     ∀ m ∈ X ⊔ Y, m * z = z * m := by
@@ -188,6 +190,7 @@ theorem sixH_h6_sup_comm {X Y : Subgroup G} {z : G}
   intro m hm
   exact (Subgroup.mem_centralizer_iff.mp (hle hm) z (Set.mem_singleton z)).symm
 
+omit [Finite G] in
 theorem sixH_h6_conj_mem_cen {M : Subgroup G} {g x : G} (hg : g ∈ normalizer (M : Set G))
     (hx : x ∈ Subgroup.centralizer (M : Set G)) :
     g * x * g⁻¹ ∈ Subgroup.centralizer (M : Set G) := by
@@ -204,6 +207,7 @@ theorem sixH_h6_conj_mem_cen {M : Subgroup G} {g x : G} (hg : g ∈ normalizer (
     _ = g * (x * (g⁻¹ * h * g)) * g⁻¹ := by rw [hc]
     _ = g * x * g⁻¹ * h := by group
 
+omit [Finite G] [Finite K] in
 theorem sixH_h6_U_central (h1 : H1Concl φ t i) {u g : G} (hu : u ∈ U φ i)
     (hg : g ∈ Tplus φ t i) : g * u = u * g := by
   unfold H1Concl at h1
@@ -249,7 +253,7 @@ theorem sixH_h6_Wk_Mw (hS : SCSetting L K n φ t i)
         rw [e1, e2, hc]
     _ = m * z := by group
 
-theorem sixH_h6 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
+theorem sixH_h6 (hS : SCSetting L K n φ t i) (_hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
     (h1 : H1Concl φ t i) (h2b : H2bConcl φ t i) (h5 : H5Concl φ t i) : H6Concl φ t i := by
   unfold H5Concl at h5
   unfold H2bConcl at h2b
@@ -307,6 +311,7 @@ theorem sixH_h6 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x 
   intro k hk m hm
   exact (Subgroup.mem_centralizer_iff.mp (hKC hk) m hm).symm
 
+omit [Finite G] in
 theorem sixH_h7_alg {a w t u c : G} (hc : a * w * a⁻¹ * w⁻¹ = c) (hwt : w⁻¹ * t * w = t * u)
     (hwu : w * u = u * w) (hau : a * u = u * a) (hb : a * t⁻¹ * w = w * (a * t⁻¹)) : c = u := by
   have h1 : a * w = c * w * a := by rw [← hc]; group
@@ -356,6 +361,7 @@ theorem sixH_h7_no_t (hS : SCSetting L K n φ t i) {a : G} (ha : a ∈ A φ i)
   rw [FullCenterTorus.U_inf_U_swap (φ := φ) i, Subgroup.mem_bot] at hbot
   exact hu1 hbot
 
+omit [Finite G] [Finite K] in
 theorem sixH_h7_t_normalizes_A (hS : SCSetting L K n φ t i) :
     t ∈ normalizer (A φ i : Set G) :=
   Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun _ ha =>

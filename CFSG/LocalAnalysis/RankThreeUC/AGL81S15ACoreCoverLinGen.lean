@@ -38,7 +38,7 @@ theorem exists_odd_central_quotient {K J : Type} [Group K] [Finite K] [Group J] 
     exact Subgroup.card_ker_mul_card_range f
   have hPN : Nat.card N = Nat.card (P : Subgroup (Subgroup.center K)) :=
     Subgroup.card_subtype _ _
-  obtain ⟨j, hj⟩ := (P.isPGroup'.map (Subgroup.center K).subtype).exists_card_eq
+  obtain ⟨j, hj⟩ := (P.isPGroup.map (Subgroup.center K).subtype).exists_card_eq
   refine ⟨N, inferInstance, q, j, hj, QuotientGroup.lift_surjective_of_surjective N ρ hρ hNker,
     ?_, fun h2 => ?_, ?_⟩
   · rw [hqker]
@@ -75,7 +75,7 @@ theorem coverId_of_two_index {S₀ K : Type} [Group S₀] [Finite S₀] [Group K
     have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (α.ker.subgroupOf D)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZD).toEquiv] at h2
     rw [hZ, h1, h2, Nat.mul_div_cancel _ Nat.card_pos]
-  · haveI : Fact r.Prime := ⟨hr⟩
+  · have : Fact r.Prime := ⟨hr⟩
     have hrN : ¬ r ∣ Nat.card N := by
       rw [hj]
       exact fun h => hr2 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_two).1 (hr.dvd_of_dvd_pow h))

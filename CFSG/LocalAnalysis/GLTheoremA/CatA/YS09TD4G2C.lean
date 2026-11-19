@@ -203,7 +203,7 @@ theorem td4g2_fix_lift {G : Type} [Group G] [Finite G] (T : Subgroup G) (hT : ¬
   classical
   set W : Subgroup G := Subgroup.normalizer (T : Set G) with hW
   have hTW : T ≤ W := Subgroup.le_normalizer
-  haveI hNorm : (T.subgroupOf W).Normal := ⟨fun n hn h => by
+  have hNorm : (T.subgroupOf W).Normal := ⟨fun n hn h => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact (Subgroup.mem_normalizer_iff.1 h.2 _).1 hn⟩
@@ -259,7 +259,7 @@ theorem td4g2_normalizer_centralizer {G : Type} [Group G] {g b : G} (hgb : g * b
       _ = b * g⁻¹ := by group
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
+  simp only [Subgroup.mem_centralizer_singleton_iff]
   constructor
   · intro hh
     calc g * h * g⁻¹ * b = g * h * (g⁻¹ * b) := by group

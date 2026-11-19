@@ -150,7 +150,7 @@ theorem node19_card (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h
   have hcardC : Nat.card ↥(img d (CMt d)) = 640 := by
     rw [hCe]
     exact card_zpowers_sup_Pgrp hF (star_t_mul_self h49 hd) htnU hCt hCbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT := CFSG.Holt.card_eq_of_fusionIsSylowIn hT'
   have h640 : (Nat.factorization 640) 2 = 7 := by
     have h : (640 : ℕ) = 2 ^ 7 * 5 := by norm_num

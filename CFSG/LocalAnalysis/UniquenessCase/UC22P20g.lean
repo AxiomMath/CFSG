@@ -119,7 +119,7 @@ theorem uc22p20g_nonab_of_quasisimple (hq : CFSG.Open.IsQuasisimple X) : ∃ a b
 
 theorem uc22p20g_center_bot_of_simple (hq : CFSG.Open.IsQuasisimple X) (hs : IsSimpleGroup X) :
     Subgroup.center X = ⊥ := by
-  haveI := hs
+  have := hs
   exact uc22p22a_center_eq_bot (uc22p20g_nonab_of_quasisimple hq)
 
 theorem uc22p20g_card_quot_center_of_eq_bot (h : Subgroup.center X = ⊥) :
@@ -139,7 +139,7 @@ theorem uc22p20g_normal_of_commuting {N₁ N₂ : Subgroup X} (hsup : N₁ ⊔ N
 theorem uc22p20g_qs_simple (hnab : ∃ a b : X, a * b ≠ b * a) (hs : IsSimpleGroup X) {c N : ℕ}
     {Z : ℕ → Prop} (hc : Nat.card X = c) (hP : CFSG.Timmesfeld.Orders.Profile c N Z) (hN : 9 ≤ N) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) := by
-  haveI := hs
+  have := hs
   refine ⟨uc22p22a_isQuasisimple_of_simple hnab, fun hm => ?_⟩
   rw [uc22p20g_card_quot_center_of_eq_bot (uc22p22a_center_eq_bot hnab), hc] at hm
   exact uc22p20g_big_not_small hP hN hm
@@ -193,7 +193,7 @@ variable {X : Type} [Group X]
 theorem uc22p20g_qs_Sz (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (h : IsSz X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) := by
   have hs := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 h
-  haveI := hs
+  have := hs
   refine ⟨uc22p22a_isQuasisimple_of_simple hnab, fun hm => ?_⟩
   exact CFSG.LocalAnalysis.EvenBN.GMSK.not_three_dvd_card_of_lieModel_twistedB2 h
     ((uc22p20g_three_dvd_of_smallOrder hm).trans (Subgroup.card_quotient_dvd_card _))
@@ -201,7 +201,7 @@ theorem uc22p20g_qs_Sz (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (h : IsSz
 theorem uc22p20g_qs_L2 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 < n) (h : IsL2 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) := by
   have hs := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) h
-  haveI := hs
+  have := hs
   refine ⟨uc22p22a_isQuasisimple_of_simple hnab, fun hm => ?_⟩
   rw [uc22p20g_card_quot_center_of_eq_bot (uc22p22a_center_eq_bot hnab),
     h.card_eq_lieOrd (by norm_num)] at hm
@@ -211,48 +211,48 @@ theorem uc22p20g_qs_L3 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 <
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSL) (by decide) (by norm_num) h (c := ordA 2 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordA (n := 2) (f := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_U3 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 < n) (h : IsU3 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSU) (by decide) (by norm_num) h
     (c := ordTwistedA 2 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordTwistedA (n := 2) (g := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_L4 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 < n)
     (h : LieModel X .PSL 4 2 n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSL) (by decide) (by norm_num) h (c := ordA 3 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordA (n := 3) (f := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_U4 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 ≤ n) (h : IsU4 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSU) (by decide) (by norm_num) h
     (c := ordTwistedA 3 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordTwistedA (n := 3) (g := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_U5 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 ≤ n) (h : IsU5 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSU) (by decide) (by norm_num) h
     (c := ordTwistedA 4 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordTwistedA (n := 4) (g := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_Sp4 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 < n) (h : IsSp4 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSp) (by decide) (by norm_num) h (c := ordBC 2 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordBC (n := 2) (f := n) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_Sp6 (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 2 < n)
     (h : LieModel X .PSp 3 2 n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_classical hnab (t := .PSp) (by decide) (by norm_num) h (c := ordBC 3 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordBC (n := 3) (f := n) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_Om8m (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 1 ≤ n)
     (h : IsOmega8m X n) :
@@ -260,19 +260,19 @@ theorem uc22p20g_qs_Om8m (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ} (hn : 1
   uc22p20g_qs_classical hnab (t := .POmegaMinus) (by decide) (by norm_num) h
     (c := ordTwistedD 4 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordTwistedD (n := 4) (f := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_SL3 {n : ℕ} (hn : 2 < n) (h : IsSL3 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_cover h.1 (t := .PSL) (m := 3) (by norm_num) h.2 (c := ordA 2 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordA (n := 2) (f := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_SU3 {n : ℕ} (hn : 2 < n) (h : IsSU3 X n) :
     CFSG.Open.IsQuasisimple X ∧ ¬ UC22P20gSmallOrder (Nat.card (X ⧸ Subgroup.center X)) :=
   uc22p20g_qs_cover h.1 (t := .PSU) (m := 3) (by norm_num) h.2 (c := ordTwistedA 2 (2 ^ n)) rfl
     (CFSG.Timmesfeld.Orders.profile_ordTwistedA (n := 2) (g := n) (by norm_num) (by omega))
-    (by norm_num <;> omega)
+    (by norm_num; omega)
 
 theorem uc22p20g_qs_G2 (hE : UC22P20gExcFacts) (hnab : ∃ a b : X, a * b ≠ b * a) {n : ℕ}
     (hn : 2 ≤ n) (h : IsG2 X n) :
@@ -302,7 +302,7 @@ theorem uc22p20g_simple_nonab_SzL2 {A : Type} [Group A] {n : ℕ} (hn : 2 < n)
     refine ⟨hs, ?_⟩
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative A := ⟨⟨fun a b => hcon a b⟩⟩
+    have : IsMulCommutative A := ⟨⟨fun a b => hcon a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card (α := A)).1 hs
     have hP := CFSG.Timmesfeld.Orders.profile_ordA (n := 1) (f := n) le_rfl (by omega)
     have hN : n * (1 * (1 + 1) / 2) = n := by norm_num
@@ -342,8 +342,8 @@ theorem uc22p20g_prod_of_szL2Product {n : ℕ} (hn : 2 < n) (h : IsSzL2Product X
   obtain ⟨A, B, _, _, ⟨e⟩, hA, hB⟩ := h
   have hAs := uc22p20g_simple_nonab_SzL2 hn hA
   have hBs := uc22p20g_simple_nonab_SzL2 hn hB
-  haveI := hAs.1
-  haveI := hBs.1
+  have := hAs.1
+  have := hBs.1
   have hAq : CFSG.Open.IsQuasisimple A := uc22p22a_isQuasisimple_of_simple hAs.2
   have hBq : CFSG.Open.IsQuasisimple B := uc22p22a_isQuasisimple_of_simple hBs.2
   let f₁ : A →* X := e.symm.toMonoidHom.comp (MonoidHom.inl A B)
@@ -419,14 +419,14 @@ theorem uc22p20g_nonab_of_simple_card [IsSimpleGroup X] (h : ¬ (Nat.card X).Pri
     ∃ a b : X, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative X := ⟨⟨fun a b => hcon a b⟩⟩
   exact h ((Group.is_simple_iff_prime_card (α := X)).1 inferInstance)
 
 theorem uc22p20g_not_quasisimple_of_commuting (hq : CFSG.Open.IsQuasisimple X)
     {N₁ N₂ : Subgroup X} (hsup : N₁ ⊔ N₂ = ⊤) (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₂, a * b = b * a)
     (h₁ : ∃ a ∈ N₁, ∃ b ∈ N₁, a * b ≠ b * a) (h₂ : ∃ a ∈ N₂, ∃ b ∈ N₂, a * b ≠ b * a) :
     False := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   have hN₁ : N₁.Normal := uc22p20g_normal_of_commuting hsup hcomm
   rcases (hN₁.map (QuotientGroup.mk' (Subgroup.center X))
       (QuotientGroup.mk'_surjective _)).eq_bot_or_eq_top with hbot | htop
@@ -466,7 +466,7 @@ theorem uc22p20g_small_facts (h : UC22P20gSmall X) :
   rcases h with h | h | h | h | h
   · have hs := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL)
       (by decide) h
-    haveI := hs
+    have := hs
     have hcard : Nat.card X = 60 := (h.card_eq_lieOrd (by norm_num)).trans (by decide)
     have hnab := uc22p20g_nonab_of_simple_card (X := X) (by rw [hcard]; norm_num)
     refine ⟨uc22p22a_isQuasisimple_of_simple hnab, ?_⟩
@@ -485,7 +485,7 @@ theorem uc22p20g_small_facts (h : UC22P20gSmall X) :
     unfold UC22P20gSmallOrder
     decide
   · obtain ⟨hs, hnab⟩ := uc22p22a_sp4_simple X 2 h
-    haveI := hs
+    have := hs
     refine ⟨uc22p22a_isQuasisimple_of_simple hnab, ?_⟩
     rw [uc22p20g_card_quot_center_of_eq_bot (uc22p22a_center_eq_bot hnab),
       h.card_eq_lieOrd (by norm_num)]
@@ -555,7 +555,7 @@ theorem uc22p20g_eq_of_components [Finite X] {P N₁ N₂ : Subgroup X} (hsup : 
 theorem uc22p20g_a5_not_shape (hE : UC22P20gExcFacts) [Finite X] (hs : UC22P20gShape X)
     {P : Subgroup X} (hsn : CFSG.Open.IsSubnormal P ⊤) (hPs : IsSimpleGroup ↥P)
     (hPc : Nat.card ↥P = 60) : False := by
-  haveI := hPs
+  have := hPs
   have hPnab : ∃ a b : ↥P, a * b ≠ b * a :=
     uc22p20g_nonab_of_simple_card (by rw [hPc]; norm_num)
   have hPq : CFSG.Open.IsQuasisimple ↥P := uc22p22a_isQuasisimple_of_simple hPnab

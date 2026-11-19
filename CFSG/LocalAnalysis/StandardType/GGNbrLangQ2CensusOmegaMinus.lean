@@ -92,12 +92,12 @@ private theorem q2cOM_torusLift {p : ℕ} {lab : LargeEvenLabel}
   obtain ⟨t, l, n⟩ := lab
   dsimp only [LargeEvenLabel.tag, LargeEvenLabel.rank] at htag h4
   subst htag
-  simp only [LargeEvenRawDatum, if_neg (show ¬ l = 2 by omega),
-    if_neg (show ¬ l = 3 by omega)] at hQ ⊢
+  simp only [LargeEvenRawDatum, ite_eq_right (show ¬ l = 2 by omega),
+    ite_eq_right (show ¬ l = 3 by omega)] at hQ ⊢
   obtain ⟨K, i1, i2, hK, b, c, hbc, hQ'⟩ := hQ
   refine ⟨K, i1, i2, hK, b, c, hbc, hQ', ?_⟩
   intro hpq
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hpqK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpq
   exact TableBSymp.ggTorusLift_omegaMinus (K := K) (m := l - 1) hp hp2 hpqK (by omega) b c
 
@@ -125,8 +125,8 @@ theorem q2cOM_block_structure {p d m : ℕ} {lab : LargeEvenLabel}
   obtain ⟨t, l, n⟩ := lab
   dsimp only [LargeEvenLabel.tag, LargeEvenLabel.rank] at htag h4
   subst htag
-  simp only [LargeEvenRawDatum, if_neg (show ¬ l = 2 by omega),
-    if_neg (show ¬ l = 3 by omega)] at hQ ⊢
+  simp only [LargeEvenRawDatum, ite_eq_right (show ¬ l = 2 by omega),
+    ite_eq_right (show ¬ l = 3 by omega)] at hQ ⊢
   obtain ⟨F, iF, iFin, hFcard, b, c, hbc, hQcont⟩ := hQ
   refine ⟨F, iF, iFin, hFcard, b, c, hbc, hQcont, ?_⟩
   intro A _ hAI _ h3 _ hup u hu huo J hJ _ _ K iK iFinK hKcard hne
@@ -137,7 +137,7 @@ theorem q2cOM_block_structure {p d m : ℕ} {lab : LargeEvenLabel}
   have hΦeq : Φ = TableBOrth.qMinusForm F (l - 1) b c := by
     dsimp only [Φ]
     exact QuadraticMap.copy_eq _ _ _
-  haveI hcharF : CharP F 2 :=
+  have hcharF : CharP F 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
   have hscal : (LargeEvenScalars (LargeEvenMinusIdx (l - 1)) F).subgroupOf
       (LargeEvenOmega (LargeEvenQMinus (l - 1) b c)) = ⊥ :=

@@ -69,7 +69,7 @@ theorem y54_conjClass_M3 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     conjClass (M3 c.s) c.s.t = c.s.tCoset c.s.fr.F := by
   have hM := y54_M3_cand c hH
   ext w
-  simp only [conjClass, Setting3.tCoset, Set.mem_setOf_eq]
+  simp only [conjClass, Setting3.tCoset, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨m, hmM, rfl⟩
     exact ⟨f3phi c.s m, y54_phi_mem hH m (hM.2.1 hmM), y54_conj_t c.s m⟩

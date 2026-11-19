@@ -11,13 +11,16 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_conj_a {g : G} (hg : g ∈ Gx a) : g * a * g⁻¹ = a := by
   rw [← mem_Gx.1 hg]
   group
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_mem_Gx {g x : G} (hg : g * x * g⁻¹ = x) : g ∈ Gx x :=
   mem_Gx.2 (mul_inv_eq_iff_eq_mul.1 hg).symm
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_conj_mem_Gxy {g c t : G} (hg : g ∈ Gx a) (ht : t ∈ Gxy a c) :
     g * t * g⁻¹ ∈ Gxy a (g * c * g⁻¹) := by
   obtain ⟨hta, htc⟩ := mem_Gxy.1 ht
@@ -25,16 +28,19 @@ private theorem tableVII_fiveOrbit_conj_mem_Gxy {g c t : G} (hg : g ∈ Gx a) (h
   rw [show g * c * g⁻¹ * (g * t * g⁻¹) = g * (c * t) * g⁻¹ by group, mem_Gx.1 htc]
   group
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_conj_5A {g c : G} (hg : g ∈ Gx a) (hc : c ∈ orb5A a a) :
     g * c * g⁻¹ ∈ orb5A a a := by
   have h := (AutGamma.conj_mem_orb5A (a := a) g (x := a) (c := c)).2 hc
   rwa [tableVII_fiveOrbit_conj_a hg] at h
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_conj_5E {g c : G} (hg : g ∈ Gx a) (hc : c ∈ orb5E a a) :
     g * c * g⁻¹ ∈ orb5E a a := by
   have h := (AutGamma.conj_mem_orb5E (a := a) g (x := a) (c := c)).2 hc
   rwa [tableVII_fiveOrbit_conj_a hg] at h
 
+omit [Finite G] in
 private theorem tableVII_fiveOrbit_odd (h : IsF5Type a z) {b c : G} (hb : b ∈ orb2B a z a)
     (hc : c ∈ tBase a z b) (h5 : orderOf (a * c) = 5) : c ∈ oddSet a a ∧ b ∈ Gxy a c := by
   obtain ⟨hca, hbc, hcne⟩ := hc
@@ -101,6 +107,7 @@ theorem tableVII_orbit_5E (h : IsF5Type a z) (hPar : ParityFacts a z) (hT4 : Tab
     exact ⟨k * g, mul_mem (mem_Gxy.1 hk).1 hg,
       (by group : k * g * c * (k * g)⁻¹ = k * (g * c * g⁻¹) * k⁻¹).trans hkc⟩
 
+omit [Finite G] in
 theorem tableVII_conj_in_Gxy (h : IsF5Type a z) (hPar : ParityFacts a z)
     (hT4 : TableIVFacts a z) (hT5 : TableVFacts a z) (hT6 : TableVIFacts a z) {c t t₁ : G}
     (hc : c ∈ orb5A a a) (ht : IsConj a t) (htc : t ∈ Gxy a c) (ht₁ : IsConj a t₁)

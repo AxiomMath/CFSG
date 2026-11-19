@@ -68,7 +68,7 @@ theorem kFactG28SylowCenter_holds :
     KFactG28SylowCenter := by
   intro Y _ _ hY T a b haT hbT ha3 hb3 hca hcb
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd, ⟨e⟩⟩ := hY
   have hY8 : Nat.card Y = ordG2 8 := G28Rank.card_of_isGTwoEightIndex d hd e
   obtain ⟨d1, hv⟩ := d
@@ -88,7 +88,7 @@ theorem kFactG28SylowCenter_holds :
     rw [card_TX, hX, factorization_ordG2_eight]
     norm_num
   set T' : Subgroup (adjointGroup .G2 F) := (T : Subgroup Y).map e'.toMonoidHom
-  have hT'p : IsPGroup 3 T' := T.isPGroup'.map e'.toMonoidHom
+  have hT'p : IsPGroup 3 T' := T.isPGroup.map e'.toMonoidHom
   obtain ⟨g, hg⟩ := exists_conj_le_of_card hTX hT'p
   have hcardT' : Nat.card T' = 243 := by
     rw [Subgroup.card_map_of_injective e'.injective, T.card_eq_multiplicity, hY8,

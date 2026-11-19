@@ -80,7 +80,7 @@ theorem uc22s213_not_centralizesBar_of_isSpor_J2_He (hS : Standing4 G) (hU : uni
   obtain ⟨hsimp, hnc⟩ := uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)
   obtain ⟨h2, h125, h3600⟩ := hJHe (BarInf L) s hs hX
   have h2O := hout (BarInf L) hsimp hnc s hX
-  haveI : Finite (MulAut (BarInf L)) :=
+  have : Finite (MulAut (BarInf L)) :=
     Finite.of_injective (fun (g : MulAut (BarInf L)) (w : BarInf L) => g w)
       (fun g h hgh => MulEquiv.ext (congrFun hgh))
   have hpos : 0 < Nat.card (Outer (BarInf L)) := Nat.card_pos
@@ -89,7 +89,7 @@ theorem uc22s213_not_centralizesBar_of_isSpor_J2_He (hS : Standing4 G) (hU : uni
     exact h125
   refine uc22s213_not_centralizesBar_of_prime hS hU S hσ hPart hSE hSS hK3 hB hOut Ch hH c hL
     Nat.prime_five le_rfl hZ h2 (fun P => ⟨⟨fun x y => Subtype.ext
-      (CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.BT.FinCyc.comm_of_not_dvd Nat.prime_five P.isPGroup'
+      (CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.BT.FinCyc.comm_of_not_dvd Nat.prime_five P.isPGroup
         h53 x x.2 y y.2)⟩⟩)
     (fun h5 => ?_) h3600 ha hpr hN
   have := Nat.le_of_dvd hpos h5
@@ -124,7 +124,7 @@ theorem uc22s213_not_centralizesBar_of_psl2 (hS : Standing4 G) (hU : uniqueFourU
     ¬ CentralizesBar a L := by
   have hp : p.Prime := hX.admissible.1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsyl : ∀ P : Sylow p (BarInf L), IsElemAbelian p (P : Subgroup (BarInf L)) ∧
       Nat.card (P : Subgroup (BarInf L)) = p ^ e := fun P =>
     uc22p22q_psl2_sylow_elem hp hp2 hX

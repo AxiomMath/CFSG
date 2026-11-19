@@ -12,7 +12,7 @@ open CFSG.Fischer
 variable {H : Type} [Group H] {D : Set H}
 
 theorem opposite_zpowers_of_orderOf_eq_three
-    (hcls : ∀ d ∈ D, ∀ e : H, IsConj d e ↔ e ∈ D)
+    (_hcls : ∀ d ∈ D, ∀ e : H, IsConj d e ↔ e ∈ D)
     (hmul : ∀ d ∈ D, d * d = 1) (hne : ∀ d ∈ D, d ≠ 1)
     {d e : H} (hd : d ∈ D) (he : e ∈ D)
     (hz : Subgroup.zpowers d ≠ Subgroup.zpowers e) (h3 : orderOf (d * e) = 3) :
@@ -41,7 +41,7 @@ theorem transvectionHyp_of_qHyp (h : QHyp H D) :
     TransvectionHyp H {A | ∃ d ∈ D, A = Subgroup.zpowers d} := by
   set Δ : Set (Subgroup H) := {A | ∃ d ∈ D, A = Subgroup.zpowers d} with hΔ
   have hP := h.hyp.pair
-  haveI : Finite H := hP.1
+  have : Finite H := hP.1
   have hmul : ∀ d ∈ D, d * d = 1 := fun d hd => Pair.mul_self hP hd
   have hne : ∀ d ∈ D, d ≠ 1 := fun d hd => Pair.ne_one hP hd
   have hcls : ∀ d ∈ D, ∀ e : H, IsConj d e ↔ e ∈ D := by
@@ -117,7 +117,7 @@ theorem transvectionHyp_of_qHyp (h : QHyp H D) :
       have h3 : orderOf (d * e) = 3 := Pair.orderOf_mul_eq_three hP hd he hde
       have hdi : d⁻¹ = d := inv_eq_of_mul_eq_one_right hdd
       have hei : e⁻¹ = e := inv_eq_of_mul_eq_one_right hee
-      letI : Bracket H H := commutatorElement
+      let : Bracket H H := commutatorElement
       have hcomm : ⁅d, e⁆ = (d * e) ^ 2 := by
         rw [commutatorElement_def, hdi, hei, pow_two]
         group

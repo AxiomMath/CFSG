@@ -91,15 +91,15 @@ private theorem commutator_facts (h : ElevenTwoHyp hC) :
     (QuotientGroup.quotientMulEquivOfEq hψker).symm.trans e₁
   let e₃ : ↥J ⧸ K.subgroupOf J ≃* PSL225 :=
     e₂.trans h.facts.derived.some
-  haveI : Fintype K25 := Fintype.ofFinite K25
+  have : Fintype K25 := Fintype.ofFinite K25
   have hcardK25 : Fintype.card K25 = 25 := by
     rw [Fintype.card_eq_nat_card]
     exact CFSG.OddTranspositions.QZ.card_K25
   have hPSLcomm : commutator PSL225 = ⊤ :=
     (CFSG.LieType.Steinberg.CentralExt.SL2Closed.psl_two_hopfMultiplier
       (k := K25) (by rw [hcardK25]; norm_num) (by rw [hcardK25]; norm_num)).1
-  haveI hPSLperf : Group.IsPerfect PSL225 := Group.isPerfect_def.mpr hPSLcomm
-  haveI hPSLsimple : IsSimpleGroup PSL225 := CFSG.OddTranspositions.QZ.PSL225_isSimple
+  have hPSLperf : Group.IsPerfect PSL225 := Group.isPerfect_def.mpr hPSLcomm
+  have hPSLsimple : IsSimpleGroup PSL225 := CFSG.OddTranspositions.QZ.PSL225_isSimple
   have hPSLnab : ∃ a b : PSL225, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -165,7 +165,7 @@ theorem card_radical_dvd_two (h : ElevenTwoHyp hC) :
     Nat.card (CFSG.solvableRadical (Halpha D hC.alpha)) ∣ 2 := by
   classical
   obtain ⟨hq, hcenter, ⟨e⟩⟩ := commutator_facts h
-  haveI : Fintype K25 := Fintype.ofFinite K25
+  have : Fintype K25 := Fintype.ofFinite K25
   have hcardK25 : Fintype.card K25 = 25 := by
     rw [Fintype.card_eq_nat_card]
     exact CFSG.OddTranspositions.QZ.card_K25

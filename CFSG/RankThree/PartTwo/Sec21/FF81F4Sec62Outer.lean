@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {Y : Subgroup G} {t₀ τ : G}
 
+omit [Finite G] in
 theorem zpowers_inf_eq_bot_of_not_mem (hτ : orderOf τ = 2) (hτY : τ ∉ Y) :
     Subgroup.zpowers τ ⊓ Y = ⊥ := by
   refine eq_bot_iff.mpr fun x hx => ?_
@@ -233,7 +234,7 @@ theorem no_outer_involution (hchar : CFSG.Open.IsCharTwoType G)
   have hPp : IsPGroup 2 P := op_two_isPGroup τ
   have hτP : τ ∈ P := mem_op_two_self hτ
   have hPn : ∀ g ∈ Cen τ, ∀ s ∈ P, g * s * g⁻¹ ∈ P := fun g hg s hs => op_two_conj hg hs
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
   obtain ⟨r', hr'⟩ := exists_prime_orderOf_dvd_card' 13 G13
   set r : G := (r' : G) with hrdef
   have hr13 : orderOf r = 13 := by rw [hrdef, Subgroup.orderOf_coe]; exact hr'

@@ -27,6 +27,7 @@ theorem isSec8JType_of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (e : Y ≃* Y
   · exact Or.inl (LieType.CurtisTits.lieModel_of_mulEquiv e h)
   · exact Or.inr ⟨hp, hf, ⟨e.symm.trans e6⟩⟩
 
+omit [Finite X] in
 theorem comm_mem_oddCoreIn_of_central {M K : Subgroup X} (hMperf : Group.IsPerfect ↥M)
     (hKN : K ≤ normalizer (M : Set X)) (hMK : ∀ c ∈ K, ∀ w ∈ M, w * c * w⁻¹ ∈ K)
     (hcen : ∀ z ∈ K ⊓ M, ∀ v ∈ M, z * v * z⁻¹ * v⁻¹ ∈ oddCoreIn M) {c w : X} (hc : c ∈ K)

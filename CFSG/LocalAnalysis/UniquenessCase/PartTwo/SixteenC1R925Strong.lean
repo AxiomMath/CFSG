@@ -35,10 +35,11 @@ theorem r925_strong_embed {D : Data G} (h82 : F08.R82 D) {L : Subgroup G} (hL : 
     (hU : IsU4 (Bar2 L) 1) : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
   h82 L (r925_hyp81 hL hU)
 
+omit [Finite G] in
 theorem r925_normalizer_le {M : Subgroup G}
     (h : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 M) {D : Subgroup G} (hD : D ≤ M)
     (hD3 : Nat.card D = 3) : normalizer (D : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDne : D ≠ ⊥ := fun h0 => by simp [h0] at hD3
   exact h.normalizer_le hDne (IsPGroup.of_card (n := 1) (by simpa using hD3)) hD
 

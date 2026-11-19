@@ -119,14 +119,14 @@ theorem exists_sylow_eq_map_of_sylow_centralizer
   have hS := center_sylow_map_eq_zpowers hz hQ hcon S
   have hz1 : z ≠ 1 := fun h => by simp [h] at hz
   obtain ⟨P, hSP⟩ :=
-    (S.isPGroup'.map (Subgroup.centralizer ({z} : Set G)).subtype).exists_le_sylow
+    (S.isPGroup.map (Subgroup.centralizer ({z} : Set G)).subtype).exists_le_sylow
   refine ⟨P, le_antisymm ?_ hSP⟩
   have hPC : ∀ x ∈ (P : Subgroup G), x ∈ Subgroup.centralizer ({z} : Set G) →
       x ∈ (S : Subgroup (Subgroup.centralizer ({z} : Set G))).map
         (Subgroup.centralizer ({z} : Set G)).subtype := by
     intro x hxP hxC
     have hR : IsPGroup 2 ((P : Subgroup G).comap (Subgroup.centralizer ({z} : Set G)).subtype) :=
-      P.isPGroup'.comap_subtype
+      P.isPGroup.comap_subtype
     have hSR := S.maximal_isPGroup.eq_of_ge hR (map_le_iff_le_comap.mp hSP)
     exact ⟨⟨x, hxC⟩, hSR ▸ (show x ∈ (P : Subgroup G) from hxP), rfl⟩
   have hzS : z ∈ (S : Subgroup (Subgroup.centralizer ({z} : Set G))).map
@@ -135,7 +135,7 @@ theorem exists_sylow_eq_map_of_sylow_centralizer
   have hzP : z ∈ (P : Subgroup G) := hSP hzS
   have hcentral : ∀ x ∈ (P : Subgroup G), x * z = z * x := by
     have : Nontrivial (P : Subgroup G) := ⟨⟨⟨z, hzP⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-    have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
+    have : Nontrivial (Subgroup.center (P : Subgroup G)) := P.isPGroup.center_nontrivial
     obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center (P : Subgroup G))
     have hwP : ∀ x ∈ (P : Subgroup G), x * w.1.1 = w.1.1 * x := fun x hx =>
       congrArg Subtype.val (mem_center_iff.mp w.2 ⟨x, hx⟩)

@@ -46,9 +46,9 @@ theorem ggMemberUnitary_position_nbr
         ∃ b : ℕ, n = b + 1 ∧ GGHasLabel ⟨.twA, b, f⟩ (↥X ⧸ Subgroup.center ↥X) := by
   obtain ⟨K, hKf, hKfin, hKchar, f, n, ψ, hcard, hn, hker, hrange, hdvd, hacts, hlabel⟩ :=
     ggNSLie_cover_of_esu hU
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨ψ', hker', hrange', hpos'⟩ :=
     ggUnitaryCover_position_nbr hcfg hX hcard hn hker hrange hdvd hacts
   exact ⟨K, hKf, hKfin, hKchar, f, n, ψ', hcard, hn, hker', hrange', hdvd, hpos', hlabel⟩

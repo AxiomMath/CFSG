@@ -105,7 +105,7 @@ theorem perm_eq {X : Nat} {g : Gp} (h : Tb X g) : permOfArr 6156 (unpack 6156 13
       have := g.injective (Fin.ext hij)
       simpa using this
   ext x
-  rw [permOfArr, dif_pos hc]
+  rw [permOfArr, dite_eq_left hc]
   simp only [Equiv.ofBijective_apply]
   rw [unpack_get X x.2, h x]
 
@@ -177,7 +177,6 @@ theorem keyF_eq {f : Nat → Nat} {g : Gp} (h : ∀ p : Fin 6156, f p = (g p : N
 theorem keyL_eq {X : Nat} {g x : Gp} (hX : Tb X g) : keyL X (keyG x) = keyG (g * x) := by
   have h1 := kf_k4 (fin_lt (x 0)) (fin_lt (x 1)) (fin_lt (x 3)) (fin_lt (x 2))
   unfold keyL keyG
-  unfold keyG at h1
   rw [h1.1, h1.2.1, h1.2.2.1, h1.2.2.2, hX, hX, hX, hX]
   rfl
 
@@ -401,9 +400,9 @@ theorem slp_good {RT MT : Nat → Nat} {PR PM NM : Nat}
   · exact (key _).1 x h19 hx rfl
 
 noncomputable def ent (g : Nat → Gp) (PA LA i : Nat) : Gp :=
-  if h : i ≠ 0 ∧ kf PA i < i then g (kf LA i) * ent g PA LA (kf PA i) else 1
+  if _h : i ≠ 0 ∧ kf PA i < i then g (kf LA i) * ent g PA LA (kf PA i) else 1
 termination_by i
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 theorem ent_zero (g : Nat → Gp) (PA LA : Nat) : ent g PA LA 0 = 1 := by
   rw [ent]
@@ -411,7 +410,7 @@ theorem ent_zero (g : Nat → Gp) (PA LA : Nat) : ent g PA LA 0 = 1 := by
 
 theorem ent_pos (g : Nat → Gp) (PA LA : Nat) {i : Nat} (h1 : i ≠ 0) (h2 : kf PA i < i) :
     ent g PA LA i = g (kf LA i) * ent g PA LA (kf PA i) := by
-  rw [ent, dif_pos ⟨h1, h2⟩]
+  rw [ent, dite_eq_left ⟨h1, h2⟩]
 
 noncomputable def bsr (K SR t : Nat) : Nat → Nat → Nat → Bool :=
   Nat.rec (motive := fun _ => Nat → Nat → Bool) (fun _ _ => false) (fun _ ih lo hi =>

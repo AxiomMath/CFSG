@@ -118,8 +118,8 @@ theorem Shape166.exists_eq_conj_of_index_two
       (le_of_eq (Subgroup.card_map_of_injective (K := fusionOddCore X) α.injective).symm)
   have hτOmap : (fusionOddCore X).map (MulAut.conj t : X →* X) = fusionOddCore X :=
     Subgroup.Normal.map_conj_eq (H := fusionOddCore X) t
-  haveI : Fact (Nat.card (fusionOddCore X)).Prime := ⟨hPrime⟩
-  haveI : IsCyclic (fusionOddCore X) := isCyclic_of_prime_card (α := fusionOddCore X) rfl
+  have : Fact (Nat.card (fusionOddCore X)).Prime := ⟨hPrime⟩
+  have : IsCyclic (fusionOddCore X) := isCyclic_of_prime_card (α := fusionOddCore X) rfl
   have hαOsq : autRestrict α hαOmap * autRestrict α hαOmap = 1 := by
     ext z
     show (α : X →* X) ((α : X →* X) (z : X)) = (z : X)

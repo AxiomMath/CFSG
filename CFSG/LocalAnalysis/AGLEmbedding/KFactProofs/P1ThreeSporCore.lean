@@ -34,7 +34,7 @@ theorem false_of_caseThreeMid {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.
   have hZp := isPGroup_center_of_isComponentOf hp h.core_eq_bot hK
   have hRK : (Rb : Subgroup Y) ≤ K ⊔ Subgroup.centralizer (K : Set Y) := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup) ⟨x, hx⟩
     refine mem_sup_centralizer_of_pow hp hOut (n := n) ?_
     have h1 := pow_orderOf_eq_one (⟨x, hx⟩ : (Rb : Subgroup Y))
     rw [hn] at h1

@@ -183,7 +183,7 @@ theorem exists_sevenElement_centralizing_gen {X : Type} [Group X] [Finite X]
     ∃ x : X, orderOf x = 7 ∧ x ∈ cMLStar T Is ∧ x ∈ cMLStar T Is' := by
   have _ := hIs
   have _ := hI
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEle, hE, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7) hrank
   have hL3' := hL3 Is' I' hIs' hI'

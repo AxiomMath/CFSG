@@ -14,13 +14,14 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private lemma ht2_of (h : Ctx t L S x₁ x₂ lam rho tau) : t * t = 1 := t_mul_self h.hyp
 
+omit [Finite G] in
 private lemma htau2_of (h44 : tau ^ 2 = 1) : tau * tau = 1 := by
   simpa [pow_two] using h44
 
 private lemma tau_mem_invCent (h : Ctx t L S x₁ x₂ lam rho tau) : tau ∈ invCent t :=
   h.le_invCent h.tau_mem
 
-private lemma ht_comm_tau_of (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 = 1) :
+private lemma ht_comm_tau_of (h : Ctx t L S x₁ x₂ lam rho tau) (_h44 : tau ^ 2 = 1) :
     t * tau = tau * t := by
   exact (mem_invCent_iff.mp (tau_mem_invCent h)).symm
 
@@ -142,14 +143,15 @@ private lemma conj_eq_of_mem_twoCore (h : Ctx t L S x₁ x₂ lam rho tau)
   · subst a
     rw [(mem_invCent_iff.mp hx).symm, mul_assoc, mul_inv_cancel, mul_one]
 
-private lemma conj_t_self (h : Ctx t L S x₁ x₂ lam rho tau) {g : G}
+private lemma conj_t_self (_h : Ctx t L S x₁ x₂ lam rho tau) {g : G}
     (hg : g ∈ invCent t) : g * t * g⁻¹ = t := by
   rw [mem_invCent_iff.mp hg, mul_assoc, mul_inv_cancel, mul_one]
 
-private lemma commute_closure_pair {a b : G} (hab : a * b = b * a) (ha : a * a = 1)
-    (hb : b * b = 1) {x y : G} (hx : x ∈ closure {a, b}) (hy : y ∈ closure {a, b}) :
+omit [Finite G] in
+private lemma commute_closure_pair {a b : G} (hab : a * b = b * a) (_ha : a * a = 1)
+    (_hb : b * b = 1) {x y : G} (hx : x ∈ closure {a, b}) (hy : y ∈ closure {a, b}) :
     x * y = y * x := by
-  haveI : IsMulCommutative (closure {a, b}) :=
+  have : IsMulCommutative (closure {a, b}) :=
     Subgroup.isMulCommutative_closure (by
       apply Set.Pairwise.of_forall₂
       intro p hp q hq
@@ -208,7 +210,7 @@ private lemma E4_card (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 = 1) 
     constructor
     · intro hx
       rcases mem_closure_pair_cases hcomm ht2 htau2 hx with hx1 | hx1 | hx1 | hx1 <;>
-        (subst x <;> simp)
+        (subst x; simp)
     · intro hx
       rw [Set.mem_insert_iff, Set.mem_insert_iff, Set.mem_insert_iff,
         Set.mem_singleton_iff] at hx
@@ -225,7 +227,7 @@ private lemma E4_card (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 = 1) 
     (t_mul_tau_ne_tau h).symm, rfl⟩
 
 private lemma E4_inf_Q_eq_bot (h : Ctx t L S x₁ x₂ lam rho tau)
-    (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) :
+    (_h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) :
     closure {t, tau} ⊓ closure {x₁ ^ 2, (x₁ * x₂) ^ 2, rho, lam} = (⊥ : Subgroup G) := by
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -241,7 +243,7 @@ private lemma E4_inf_Q_eq_bot (h : Ctx t L S x₁ x₂ lam rho tau)
   · subst g; exact absurd hgL (t_mul_tau_not_mem_L h)
 
 private lemma commute_E4_Q (h : Ctx t L S x₁ x₂ lam rho tau)
-    (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) {a b : G}
+    (_h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) {a b : G}
     (ha : a ∈ closure {t, tau}) (hb : b ∈ closure {x₁ ^ 2, (x₁ * x₂) ^ 2, rho, lam}) :
     a * b = b * a := by
   obtain ⟨hbL, hbtau⟩ := (mem_Q_iff h).mp hb
@@ -276,7 +278,7 @@ private lemma sup_le_centralizer (h : Ctx t L S x₁ x₂ lam rho tau)
     exact commute_E4_Q h h43 h44 ha hb
 
 private lemma mem_sup_of_mem_PL (h : Ctx t L S x₁ x₂ lam rho tau)
-    (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) {g : G} (hgH : g ∈ invCent t)
+    (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) {g : G} (_hgH : g ∈ invCent t)
     (hgPL : g ∈ twoCore t ⊔ L) (hgtau : g * tau = tau * g) :
     g ∈ closure {t, tau} ⊔ closure {x₁ ^ 2, (x₁ * x₂) ^ 2, rho, lam} := by
   rcases (mem_sup_iff_mem_L_or h h43).mp hgPL with hgL | htgL
@@ -343,7 +345,7 @@ private lemma eps_tau_comm (h : Ctx t L S x₁ x₂ lam rho tau) (h44 : tau ^ 2 
 private lemma tau_coset_caseA (h : Ctx t L S x₁ x₂ lam rho tau)
     (h43 : twoCore t = zpowers t) (h44 : tau ^ 2 = 1) {eps : G}
     (heps : eps = 1 ∨ eps = t) {u : G} (hu : u ∈ L)
-    {g₀ : G} (hg₀H : g₀ ∈ invCent t) (hg₀PL : g₀ ∈ twoCore t ⊔ L)
+    {g₀ : G} (_hg₀H : g₀ ∈ invCent t) (hg₀PL : g₀ ∈ twoCore t ⊔ L)
     {p : G} (hp : p ∈ twoCore t)
     (hconj : g₀ * (eps * tau * u) * g₀⁻¹ = p * tau) :
     ∃ c ∈ L, c * (eps * tau) * c⁻¹ = eps * tau * u := by

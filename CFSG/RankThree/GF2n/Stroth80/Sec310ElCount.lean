@@ -77,8 +77,8 @@ theorem elation_dual_data {K : Type} [Field K] [Finite K] {U : Type} [AddCommGro
     rw [hW, Module.natCard_eq_pow_finrank (K := K)]
     congr 1
     omega
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (Multiplicative W) := inferInstanceAs (Finite W)
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (Multiplicative W) := inferInstanceAs (Finite W)
   have hzΦ : (⟨Fd 1, hFW 1⟩ : W) = 0 := Subtype.ext hFd1
   have honeΦ : Multiplicative.ofAdd (⟨Fd 1, hFW 1⟩ : W) = 1 := congrArg Multiplicative.ofAdd hzΦ
   have hmulΦ : ∀ g h, Multiplicative.ofAdd (⟨Fd (g * h), hFW (g * h)⟩ : W) =

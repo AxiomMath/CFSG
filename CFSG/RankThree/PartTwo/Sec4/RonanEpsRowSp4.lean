@@ -29,8 +29,8 @@ theorem card_statedProj_statedSp_two (F : Type) [Field F] [Finite F] [CharP F 2]
 theorem noCfgSEps_statedSp_two {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ} (hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) : NoCfgSEps (StatedProj (StatedSp 2 F)) := by
   intro A α K hc
-  haveI := hc.isPerfect
-  haveI := hc.nontrivial
+  have := hc.isPerfect
+  have := hc.nontrivial
   have hcardT := card_statedProj_statedSp_two F
   rw [hF] at hcardT
   rcases (show n = 1 ∨ 2 ≤ n by omega) with rfl | hn2
@@ -82,7 +82,7 @@ theorem noCfgSEps_statedSp_two {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
     have hm : 1 ≤ m := by omega
     have hcard : Nat.card (fixedField φ) = 2 ^ m :=
       card_fixedField_of_orderOf_eq_three hφ (by rw [hF, ← pow_mul, mul_comm])
-    haveI : CharP (fixedField φ) 2 := by
+    have : CharP (fixedField φ) 2 := by
       have := Fintype.ofFinite (fixedField φ)
       exact charP_of_card_eq_prime_pow (p := 2) (f := m) (by rw [← Nat.card_eq_fintype_card, hcard])
     have hfixeq : Sec4.autFix (fieldAut 2 F φ) = ((proj 2 F).comp (spIncl φ)).range := by
@@ -110,13 +110,13 @@ theorem noCfgSEps_statedSp_two {F : Type} [Field F] [Finite F] [CharP F 2] {n : 
         rw [hcard]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
-      haveI hCs : IsSimpleGroup (StatedProj (StatedSp 2 (fixedField φ))) :=
+      have hCs : IsSimpleGroup (StatedProj (StatedSp 2 (fixedField φ))) :=
         CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (fixedField φ) 2
           (by norm_num) (Or.inl (Or.inr h4'))
       have hna : ∃ a b : StatedProj (StatedSp 2 (fixedField φ)), a * b ≠ b * a := by
         by_contra h
         push Not at h
-        haveI : IsMulCommutative (StatedProj (StatedSp 2 (fixedField φ))) := ⟨⟨h⟩⟩
+        have : IsMulCommutative (StatedProj (StatedSp 2 (fixedField φ))) := ⟨⟨h⟩⟩
         have hab : ∀ a b : autFix α, a * b = b * a := fun a b =>
           eα.injective (by rw [map_mul, map_mul]; exact mul_comm _ _)
         have hKab : ∀ a b : K, a * b = b * a := fun a b => Subtype.ext
@@ -133,7 +133,7 @@ theorem rowSEpsOf_seven_Sp4 (n : ℕ) (hn : 1 ≤ n) : RowSEpsOf (projSp 2 (Galo
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   set τ := eS.trans (CFSG.PGLModel.projSpEquivStatedProj 2 (GaloisField 2 n))
-  haveI : Finite (StatedProj (StatedSp 2 (GaloisField 2 n))) := Finite.of_equiv _ τ.toEquiv
+  have : Finite (StatedProj (StatedSp 2 (GaloisField 2 n))) := Finite.of_equiv _ τ.toEquiv
   exact (noCfgSEps_statedSp_two hn hF).of_mulEquiv τ
 
 end CFSG.RankThree.PartTwo.Sec4.RonanEps

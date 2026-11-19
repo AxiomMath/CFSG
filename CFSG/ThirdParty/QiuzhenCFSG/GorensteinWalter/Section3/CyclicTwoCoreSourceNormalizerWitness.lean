@@ -335,7 +335,7 @@ private theorem C_normalizes_conjugate_primeCore_local
     (c : CentralizerSetup G)
     (od : FirstCaseOrientedPrimeData c)
     (fd : FirstCaseFourData c od.d)
-    {g y : G} (hgN : g ∈ Subgroup.normalizer (fd.V1 : Set G))
+    {g y : G} (_hgN : g ∈ Subgroup.normalizer (fd.V1 : Set G))
     (hg : g * od.d.bg.t * g⁻¹ = y) (hyV : y ∈ fd.V1) :
     centralizerIn od.d.bg.U od.d.bg.t1 ≤
       Subgroup.normalizer
@@ -418,15 +418,15 @@ public theorem firstCase_cyclic_exists_B_normalized_nontrivial_le_B_inter_M
     (hfirst : FirstCase c) (hHhat : c.Hhat = c.H)
     (hU : od.d.bg.U = fittingSubgroupOf od.d.bg.U ⊔ od.d.bg.B)
     (Q : Sylow od.p ↥od.d.bg.B)
-    (M : Subgroup G) (hMmax : IsCoatom M)
+    (M : Subgroup G) (_hMmax : IsCoatom M)
     (hMN : Subgroup.normalizer
       (sylowCarrier (firstCase_P2_sylow c od hU Q) : Set G) ≤ M)
-    (hSM : (c.S : Subgroup G) ≤ M)
+    (_hSM : (c.S : Subgroup G) ≤ M)
     (fd : FirstCaseFourData c od.d)
-    (hV2 : fd.V2 ≤ componentLayerOf M)
-    (hA7 : Nonempty ((componentLayerOf M) ⧸
+    (_hV2 : fd.V2 ≤ componentLayerOf M)
+    (_hA7 : Nonempty ((componentLayerOf M) ⧸
       pPrimeCore 2 (componentLayerOf M) ≃* alternatingGroup (Fin 7)))
-    (hp3 : od.p = 3) :
+    (_hp3 : od.p = 3) :
     ∃ X : Subgroup G, X ≠ ⊥ ∧ X ≤ od.d.bg.B ⊓ M ∧
       od.d.bg.B ≤ Subgroup.normalizer (X : Set G) ∧
         X ≤ Subgroup.centralizer (qCoreOf od.d.bg.U od.p : Set G) := by
@@ -721,15 +721,15 @@ private theorem firstCase_cyclic_exists_B_normalized_nontrivial_le_B_inter_M_of_
     (hfirst : FirstCase c) (hHhat : c.Hhat = c.H)
     (hU : od.d.bg.U = fittingSubgroupOf od.d.bg.U ⊔ od.d.bg.B)
     (Q : Sylow od.p ↥od.d.bg.B)
-    (M : Subgroup G) (hMmax : IsCoatom M)
+    (M : Subgroup G) (_hMmax : IsCoatom M)
     (hMN : Subgroup.normalizer
       (sylowCarrier (firstCase_P2_sylow c od hU Q) : Set G) ≤ M)
-    (hSM : (c.S : Subgroup G) ≤ M)
+    (_hSM : (c.S : Subgroup G) ≤ M)
     (fd : FirstCaseFourData c od.d)
-    (hV2 : fd.V2 ≤ componentLayerOf M)
-    (hA7 : Nonempty ((componentLayerOf M) ⧸
+    (_hV2 : fd.V2 ≤ componentLayerOf M)
+    (_hA7 : Nonempty ((componentLayerOf M) ⧸
       pPrimeCore 2 (componentLayerOf M) ≃* alternatingGroup (Fin 7)))
-    (hp3 : od.p = 3)
+    (_hp3 : od.p = 3)
     (hBM : od.d.bg.B ≤ M) :
     ∃ X : Subgroup G, X ≠ ⊥ ∧ X ≤ od.d.bg.B ⊓ M ∧
       od.d.bg.B ≤ Subgroup.normalizer (X : Set G) := by

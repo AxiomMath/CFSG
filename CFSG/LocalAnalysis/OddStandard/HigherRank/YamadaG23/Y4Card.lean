@@ -75,7 +75,7 @@ theorem y4_conj_t_not_mem_L (hH : F33Hyp s e) {x : G} (hx : IsConj s.t x) : x �
 
 theorem y4_cp (hH : F33Hyp s e) {x : G} (hx : IsExtremalConj s.T₂ s.t x) {N : Subgroup G}
     (hN : N ≤ s.T₂) : Nat.card ↥N ≤ 4 * Nat.card ↥(centEl N x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHT : s.H ⊓ s.T₂ = s.T := by
     symm
     exact sylowIn_eq_of_le s.sylow_T ((f3_c9 hH).2.1.to_le inf_le_right) inf_le_left
@@ -97,7 +97,7 @@ theorem y4_cp (hH : F33Hyp s e) {x : G} (hx : IsExtremalConj s.T₂ s.t x) {N : 
       rw [hmul]
       exact hcard
     have hpos : 0 < Nat.card ↥(centEl s.T₂ x) := by
-      haveI : Nonempty ↥(centEl s.T₂ x) := ⟨1⟩
+      have : Nonempty ↥(centEl s.T₂ x) := ⟨1⟩
       exact Nat.card_pos
     exact Nat.le_of_mul_le_mul_right hineq hpos
   have hinf : N ⊓ centEl s.T₂ x = centEl N x := by

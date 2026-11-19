@@ -142,6 +142,7 @@ theorem false_of_le_P2_odd (hq : Nat.card F % 3 = 2) (hodd : ¬ 2 ∣ Nat.card F
   have := congrArg Subtype.val hxy
   exact Subtype.ext (dualAut.injective this)
 
+omit [Finite F] in
 theorem exists_orderOf_three {Y : Subgroup (SL3 F)} (hAY : (A0 : Subgroup (SL3 F)) ≤ Y) :
     ∃ y : ↥Y, orderOf y = 3 := by
   refine ⟨⟨lev (cGL (F := F)), hAY (Subgroup.mem_zpowers _)⟩, ?_⟩

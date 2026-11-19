@@ -34,7 +34,7 @@ theorem ggTwoLocalRank_D5_two_three
   have hraw : LargeEvenRawDatum (⟨.D, 5, 1⟩ : LargeEvenLabel)
       (fun R' _ _ _ => Nonempty ((X ⧸ Subgroup.center X) ≃* R')) := hX
   dsimp only [LargeEvenRawDatum] at hraw
-  rw [if_neg (by norm_num : ¬ (5 : ℕ) = 3)] at hraw
+  rw [ite_eq_right (by norm_num : ¬ (5 : ℕ) = 3)] at hraw
   obtain ⟨K, hKfield, hKfin, hKcard, hNon⟩ := hraw
   have hK2 : Nat.card K = 2 := by rw [hKcard, pow_one]
   obtain ⟨e⟩ := hNon
@@ -49,7 +49,7 @@ theorem ggTwoLocalRank_twD6_two_three
   have hAll := om6_labelAll_torusLiftFour_twD6
   have hRaw := hAll (fun R _ _ _ => Nonempty (X ⧸ Subgroup.center X ≃* R)) hX
   obtain ⟨R, hR, I, F, ⟨⟨e⟩, hT⟩⟩ := largeEvenRawDatum_exists hRaw
-  letI := hR
+  let := hR
   exact tara_le_twoLocalRank_of_torusLift Nat.prime_three hT e hperf
 
 end CFSG.StandardType

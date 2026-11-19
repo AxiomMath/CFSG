@@ -17,9 +17,9 @@ theorem quotient_center_of_isOmegaPlus_four {X : Type} [Group X] {k : ℕ}
     ∃ (S₀ : Type) (_ : Group S₀), IsSimpleGroup S₀ ∧ Nat.card S₀ = ordA 1 (2 ^ k) ∧
       Nonempty ((X ⧸ center X) ≃* S₀ × S₀) := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hX
-  letI := hKf
-  letI := hKfin
-  haveI hKchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let := hKf
+  let := hKfin
+  have hKchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num

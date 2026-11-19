@@ -116,12 +116,12 @@ theorem eq_one_of_fix_chain
         (MulAction.exists_smul_eq JH (chainPt 0) p).choose_spec⟩
     | l + 1, hi, hp =>
       have hl : l < 3 := by omega
-      simp only [P, dif_pos hl, Finset.mem_image] at hp
+      simp only [P, dite_eq_left hl, Finset.mem_image] at hp
       obtain ⟨k, -, rfl⟩ := hp
       exact ⟨f l hl k, fun j hj => (hf l hl).1 k j (by omega), rfl⟩
   · have hc : ∀ l (hl : l < 3), (P (l + 1)).card = chainSizes.getD l 0 := by
       intro l hl
-      simp only [P, dif_pos hl]
+      simp only [P, dite_eq_left hl]
       rw [Finset.card_image_of_injective _ (hf l hl).2, Finset.card_univ, Fintype.card_fin]
     have h0 : (P 0).card = 1140000 := by
       simp only [P, Finset.card_univ, Fintype.card_fin]

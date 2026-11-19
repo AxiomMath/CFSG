@@ -90,7 +90,7 @@ theorem noStronglyClosedElemAbelian_triality
   have hQ : IsSylowTwoOf ((graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) ⊤ := by
     rw [← hP]
-    exact isSylowTwoOf_top_iff.mpr ⟨P.isPGroup', P.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨P.isPGroup, P.not_dvd_index⟩
   obtain ⟨⟨f₁, hf₁i, hf₁⟩, ⟨f₂, hf₂i, hf₂⟩, ⟨f₃, hf₃i, hf₃⟩, ⟨f₄, hf₄i, hf₄⟩,
     ⟨f₅, hf₅i, hf₅⟩, ⟨f₆, hf₆i, hf₆⟩, hbij, -, -⟩ :=
     even_triality_positive_orbit_parametrization K σ hσ3
@@ -270,11 +270,11 @@ theorem sylowCentralizingAutInner_triality
   have hU : IsSylowTwoOf ((graphFixedPosUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((graphFixedNegUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (graphFixedPosUnipotent TwistTag.D4 K τ₀).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K τ₀) ⊓
       (graphFixedNegUnipotent TwistTag.D4 K τ₀).subgroupOf

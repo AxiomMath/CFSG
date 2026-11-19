@@ -180,10 +180,10 @@ private lemma pslB3b_sum_transversal {α : Type} [DecidableEq α] (P R : Finset 
         rintro (h | h)
         · exact hbr0 (huniq b ⟨hb, Or.inl h⟩)
         · exact hbr0 (huniq b ⟨hb, Or.inr h⟩)
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
     have h2 : r0 ∉ R → (if r0 = e ∨ r0 = f e then w e else 0) = 0 :=
       fun hnot => absurd hr0.1 hnot
-    rw [Finset.sum_eq_single r0 h1 h2, if_pos hr0.2]
+    rw [Finset.sum_eq_single r0 h1 h2, ite_eq_left hr0.2]
   calc ∑ e ∈ P, w e
       = ∑ e ∈ P, (∑ r ∈ R, (if r = e ∨ r = f e then w e else 0)) := by
         refine Finset.sum_congr rfl (fun e he => ?_)
@@ -214,7 +214,7 @@ private lemma pslB3b_sum_transversal {α : Type} [DecidableEq α] (P R : Finset 
           rintro (h | h)
           · exact h1 h
           · exact h2 h
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
       have hswap : (∑ x ∈ ({r, f r} : Finset α),
           (if r = x ∨ r = f x then w x else 0)) =
           ∑ x ∈ P, (if r = x ∨ r = f x then w x else 0) :=
@@ -223,8 +223,8 @@ private lemma pslB3b_sum_transversal {α : Type} [DecidableEq α] (P R : Finset 
       by_cases hfr : f r = r
       · rw [hfr]
         simp
-      · rw [Finset.sum_pair (a := r) (b := f r) (Ne.symm hfr), if_pos (Or.inl rfl),
-          if_pos (Or.inr (hff r hrP).symm), hw r hrP, if_neg hfr]
+      · rw [Finset.sum_pair (a := r) (b := f r) (Ne.symm hfr), ite_eq_left (Or.inl rfl),
+          ite_eq_left (Or.inr (hff r hrP).symm), hw r hrP, ite_eq_right hfr]
         ring
 
 private lemma pslB3b_rank_eq_finrank_range_toLin' {n : ℕ} {K : Type} [Field K]
@@ -377,7 +377,7 @@ private lemma pslB3b_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommSemiring (pslAlg B) :=
+  let : CommSemiring (pslAlg B) :=
     haveI := Algebra.isMulCommutative_adjoin K hcommP
     inferInstance
   intro a ha b hb
@@ -433,8 +433,8 @@ private lemma pslB3b_blockDegree_dvd_rank {n : ℕ} {K : Type} [Field K] [Finite
     blockDegree (pslAlg B) e ∣ Matrix.rank e := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     -⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
+  let : Field F := hFld
+  let : Algebra K F := hAlg
   exact ⟨Module.finrank F (LinearMap.range e.mulVecLin), by rw [← hdim, hrank]⟩
 
 private lemma pslB3b_blockDegree_pos {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -444,10 +444,10 @@ private lemma pslB3b_blockDegree_pos {n : ℕ} {K : Type} [Field K] [Finite K] [
     1 ≤ blockDegree (pslAlg B) e := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     -⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  haveI : Module.Finite K F := Module.Finite.of_finite
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  have : Module.Finite K F := Module.Finite.of_finite
   rw [← hdim]
   exact Module.finrank_pos
 
@@ -458,10 +458,10 @@ private lemma pslB3b_rank_pos {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K
     0 < Matrix.rank e := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     -⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  haveI : Module.Finite K F := Module.Finite.of_finite
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  have : Module.Finite K F := Module.Finite.of_finite
   have hK : 0 < Module.finrank K F := Module.finrank_pos
   rw [hrank]
   exact Nat.mul_pos hK hpos
@@ -523,17 +523,17 @@ private lemma pslB3b_typeII_even {n : ℕ} {K : Type} [Field K] [Finite K] [Char
     Even (blockDegree (pslAlg B) e) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     -⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  have : Fintype F := Fintype.ofFinite F
   have hcommP : (Units.val '' ({B} : Set (GL (Fin n) K)) :
       Set (Matrix (Fin n) (Fin n) K)).Pairwise Commute := by
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) :=
+  let : CommRing (pslAlg B) :=
     haveI := Algebra.isMulCommutative_adjoin K hcommP
     inferInstance
   let θ := pslB3b_thetaAlgHom S
@@ -595,7 +595,7 @@ private lemma pslB3b_typeII_even {n : ℕ} {K : Type} [Field K] [Finite K] [Char
       rw [h3] at h4
       exact h4)
   let τ : F ≃ₐ[K] F := AlgEquiv.ofAlgHom φ φ hφ2 hφ2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ2 : τ * τ = 1 := by
     ext x
     change φ (φ x) = x
@@ -639,7 +639,7 @@ private lemma pslB3b_norm_mul_kernel_card {n : ℕ} {K : Type} [Field K] [Finite
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) :=
+  let : CommRing (pslAlg B) :=
     haveI := Algebra.isMulCommutative_adjoin K hcommP
     inferInstance
   let f : pslAlg B →* pslAlg B := (pslB3b_thetaRingHom S).toMonoidHom
@@ -716,11 +716,11 @@ private lemma pslB3b_units_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     rintro x ⟨s, hs, rfl⟩ y ⟨t, ht, rfl⟩ _
     rw [Set.mem_singleton_iff] at hs ht
     rw [hs, ht]
-  letI : CommRing (pslAlg B) :=
+  let : CommRing (pslAlg B) :=
     haveI := Algebra.isMulCommutative_adjoin K hcommP
     inferInstance
   let I := {e : Matrix (Fin n) (Fin n) K // e ∈ P}
-  haveI : Fintype I := by dsimp only [I]; infer_instance
+  have : Fintype I := by dsimp only [I]; infer_instance
   let ee : I → pslAlg B := fun i => ⟨i.1, ((hP.1 i.1).mp i.2).1⟩
   have hIuniv : P.attach = (Finset.univ : Finset I) := by
     apply Finset.eq_univ_of_forall
@@ -756,8 +756,8 @@ private lemma pslB3b_units_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
   refine Finset.prod_congr rfl (fun i _ => ?_)
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank, hpos,
     -⟩ := exists_blockEmbed S.odd rfl ((hP.1 i.1).mp i.2)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
+  let : Field F := hFld
+  let : Algebra K F := hAlg
   have hidem : ee i * ee i = ee i := by
     apply Subtype.ext
     exact ((hP.1 i.1).mp i.2).2.1.eq
@@ -909,7 +909,7 @@ private lemma pslB3b_block_prod {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
       (∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (pslAlg B) e.1) ∧
       Function.Bijective (fun (a : pslAlg B) (e : {e // e ∈ P}) => π e a) := by
   classical
-  letI : CommRing (pslAlg B) := pslB3bg2_commRing B
+  let : CommRing (pslAlg B) := pslB3bg2_commRing B
   have horth : OrthogonalIdempotents (pslB3bg2_idemFam B P hP) := pslB3bg2_orthIdem B P hP
   have hsum : (∑ i : {e // e ∈ P}, pslB3bg2_idemFam B P hP i) = 1 := by
     apply Subtype.ext
@@ -949,10 +949,10 @@ private lemma pslB3b_block_prod {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     fun e => (hdata e).2.2.1
   have hcard : ∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (pslAlg B) e.1 :=
     fun e => (hdata e).2.2.2
-  letI := fieldF
-  letI := algF
-  letI := finF
-  letI := charF
+  let := fieldF
+  let := algF
+  let := finF
+  let := charF
   refine ⟨F, fieldF, algF, finF, charF, π, hπ, hker, hdim, hcard, ?_⟩
   have hker' : ∀ (e : {e // e ∈ P}) (a : pslAlg B),
       π e a = 0 ↔ a * pslB3bg2_idemFam B P hP e = 0 := by
@@ -994,7 +994,7 @@ private lemma pslB3b_star_transport {n : ℕ} {K : Type} [Field K] [Finite K] [C
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
     (P : Finset (Matrix (Fin n) (Fin n) K)) (hP : PrimFamily (pslAlg B) P)
     (F : {e // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, pslAlg B →ₐ[K] F e) (hπ : ∀ e, Function.Surjective (π e))
     (hker : ∀ e (a : pslAlg B), π e a = 0 ↔ (a : Matrix (Fin n) (Fin n) K) * e.1 = 0) :
     ∃ ι : ∀ e e' : {e // e ∈ P}, e'.1 = formAdj (RingHom.id K) G e.1 → (F e' ≃+* F e),
@@ -1002,7 +1002,7 @@ private lemma pslB3b_star_transport {n : ℕ} {K : Type} [Field K] [Finite K] [C
         π e ⟨formAdj (RingHom.id K) G (a : Matrix (Fin n) (Fin n) K),
             pslGraph_star_mem S a.1 a.2⟩ = ι e e' he (π e' a) := by
   classical
-  letI : CommRing (pslAlg B) := pslB3bg2_commRing B
+  let : CommRing (pslAlg B) := pslB3bg2_commRing B
   have horth : OrthogonalIdempotents (pslB3bg2_idemFam B P hP) := pslB3bg2_orthIdem B P hP
   have hidem : ∀ e : {e // e ∈ P}, IsIdempotentElem (pslB3bg2_idemFam B P hP e) :=
     fun e => horth.1 e
@@ -1104,7 +1104,7 @@ private lemma pslB3b_kernel_II {F : Type} [Field F] [Finite F] (θ : F ≃+* F)
   have hQ2 : 2 ≤ Q := by
     have h2 : 2 ≤ Q * Q := by
       rw [← hQ]
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     nlinarith
@@ -1155,7 +1155,7 @@ private lemma pslB3bkga_cond_forward {n : ℕ} {K : Type} [Field K] [Finite K] [
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
     (P : Finset (Matrix (Fin n) (Fin n) K))
     (F : {e // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, pslAlg B →ₐ[K] F e)
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = formAdj (RingHom.id K) G e.1 → (F e' ≃+* F e))
     (hι : ∀ (a : pslAlg B) (e e' : {e // e ∈ P}) (he : e'.1 = formAdj (RingHom.id K) G e.1),
@@ -1173,7 +1173,7 @@ private lemma pslB3bkga_cond_backward {n : ℕ} {K : Type} [Field K] [Finite K] 
     (P : Finset (Matrix (Fin n) (Fin n) K))
     (hstar : ∀ e ∈ P, formAdj (RingHom.id K) G e ∈ P)
     (F : {e // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, pslAlg B →ₐ[K] F e)
     (hbij : Function.Bijective (fun (a : pslAlg B) (e : {e // e ∈ P}) => π e a))
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = formAdj (RingHom.id K) G e.1 → (F e' ≃+* F e))
@@ -1444,7 +1444,7 @@ private lemma pslB3bg1b_sq_eq_one_card {F : Type} [Field F] [CharP F 2] :
       have ha : a.1 ^ 2 = b.1 ^ 2 := by
         rw [pow_two, pow_two, a.2, b.2]
       exact CharTwo.sq_injective ha⟩
-  haveI : Nonempty {u : F // u * u = 1} := ⟨⟨1, by norm_num⟩⟩
+  have : Nonempty {u : F // u * u = 1} := ⟨⟨1, by norm_num⟩⟩
   exact Nat.card_eq_one_iff_unique.mpr ⟨hsub, inferInstance⟩
 
 private lemma pslB3bg1b_iota_inv {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -1522,7 +1522,7 @@ private lemma pslB3b_local_fixed {n : ℕ} {K : Type} [Field K] [Finite K] [Char
     apply Subtype.ext
     apply Subtype.ext
     exact hsingle x
-  letI : Unique A := { default := a, uniq := huniq }
+  let : Unique A := { default := a, uniq := huniq }
   have hRaa : pslB3b_R G P a.1 a.1 := hr.symm
   have hcount := card_localFamilies_unique (pslB3b_R G P) ι A (fun e => e.1) hRaa
   rw [hcount]
@@ -1530,7 +1530,7 @@ private lemma pslB3b_local_fixed {n : ℕ} {K : Type} [Field K] [Finite K] [Char
     (if pslTypeII G B r.1 then Nat.card K ^ (blockDegree (pslAlg B) r.1 / 2) + 1
       else 1)
   by_cases hII : pslTypeII G B r.1
-  · rw [if_pos hII]
+  · rw [ite_eq_left hII]
     have hτ2 : ι (a.1) (a.1) hRaa * ι (a.1) (a.1) hRaa = 1 :=
       pslB3bg1b_tau_involution S P π hπ ι hι (a.1) hRaa
     have hτ1 : ι (a.1) (a.1) hRaa ≠ 1 :=
@@ -1552,7 +1552,7 @@ private lemma pslB3b_local_fixed {n : ℕ} {K : Type} [Field K] [Finite K] [Char
       _ = Nat.card K ^ blockDegree (pslAlg B) r.1 := rfl
       _ = Nat.card K ^ (blockDegree (pslAlg B) r.1 / 2) *
             Nat.card K ^ (blockDegree (pslAlg B) r.1 / 2) := hpow.symm
-  · rw [if_neg hII]
+  · rw [ite_eq_right hII]
     have hI : pslTypeI G B r.1 := by
       refine ⟨hr, ?_⟩
       intro a' ha'
@@ -1599,7 +1599,7 @@ private lemma pslB3b_local_pair {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
     (R : Finset (Matrix (Fin n) (Fin n) K)) (hRsub : R ⊆ P)
     (hRtrans : ∀ e ∈ P, ∃! r, r ∈ R ∧ (r = e ∨ r = formAdj (RingHom.id K) G e))
     (F : {e // e ∈ P} → Type) [fieldF : ∀ e, Field (F e)]
-    [algF : ∀ e, Algebra K (F e)] [finF : ∀ e, Finite (F e)] [charF : ∀ e, CharP (F e) 2]
+    [algF : ∀ e, Algebra K (F e)] [_finF : ∀ e, Finite (F e)] [_charF : ∀ e, CharP (F e) 2]
     (π : ∀ e, pslAlg B →ₐ[K] F e) (hπ : ∀ e, Function.Surjective (π e))
     (hcard : ∀ e, Nat.card (F e) = Nat.card K ^ blockDegree (pslAlg B) e.1)
     (ι : ∀ e e' : {e // e ∈ P}, e'.1 = formAdj (RingHom.id K) G e.1 → (F e' ≃+* F e))
@@ -1707,9 +1707,9 @@ private lemma pslB3b_kernel_prod {n : ℕ} {K : Type} [Field K] [Finite K] [Char
   apply Finset.prod_congr rfl
   intro r _
   by_cases hfix : formAdj (RingHom.id K) G r.1 = r.1
-  · rw [if_pos hfix]
+  · rw [ite_eq_left hfix]
     exact pslB3b_local_fixed S P hP R hRsub hRtrans F π hπ hker hcard ι hι r hfix
-  · rw [if_neg hfix]
+  · rw [ite_eq_right hfix]
     exact pslB3b_local_pair S P hstar R hRsub hRtrans F π hπ hcard ι hι r hfix
 
 open Classical in
@@ -1722,18 +1722,18 @@ private lemma pslB3b_kernelSize_pos {n : ℕ} {K : Type} [Field K] [Finite K] [C
       else Nat.card K ^ blockDegree (pslAlg B) r - 1) := by
   classical
   have hd : 1 ≤ blockDegree (pslAlg B) r := (pslB3b_block_data S P hP r hr).2.1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   by_cases hfix : formAdj (RingHom.id K) G r = r
-  · rw [if_pos hfix]
+  · rw [ite_eq_left hfix]
     by_cases hII : pslTypeII G B r
-    · rw [if_pos hII]
+    · rw [ite_eq_left hII]
       exact Nat.succ_pos _
-    · rw [if_neg hII]
+    · rw [ite_eq_right hII]
       norm_num
-  · rw [if_neg hfix]
+  · rw [ite_eq_right hfix]
     have hmono : Nat.card K ^ 1 ≤ Nat.card K ^ blockDegree (pslAlg B) r :=
       Nat.pow_le_pow_right (by omega) hd
     have h2 : 2 ≤ Nat.card K ^ blockDegree (pslAlg B) r := by
@@ -1758,10 +1758,10 @@ private lemma pslB3b_kernel_card {n : ℕ} {K : Type} [Field K] [Finite K] [Char
   classical
   obtain ⟨F, fieldF, algF, finF, charF, π, hsurj, hker, hdim, hcard, hbij⟩ :=
     pslB3b_block_prod S P hP
-  letI := fieldF
-  letI := algF
-  letI := finF
-  letI := charF
+  let := fieldF
+  let := algF
+  let := finF
+  let := charF
   obtain ⟨ι, hι⟩ := pslB3b_star_transport S P hP F π hsurj hker
   exact pslB3b_kernel_prod S P hP hstar R hRsub hRtrans F π hsurj hker hcard hbij ι hι
 
@@ -1779,10 +1779,10 @@ private lemma pslB3b_prod_transversal {α : Type} [DecidableEq α] (P R : Finset
         rintro (h | h)
         · exact hbr0 (huniq b ⟨hb, Or.inl h⟩)
         · exact hbr0 (huniq b ⟨hb, Or.inr h⟩)
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
     have h2 : r0 ∉ R → (if r0 = e ∨ r0 = f e then w e else 1) = 1 :=
       fun hnot => absurd hr0.1 hnot
-    rw [Finset.prod_eq_single r0 h1 h2, if_pos hr0.2]
+    rw [Finset.prod_eq_single r0 h1 h2, ite_eq_left hr0.2]
   calc ∏ e ∈ P, w e
       = ∏ e ∈ P, (∏ r ∈ R, (if r = e ∨ r = f e then w e else 1)) := by
         refine Finset.prod_congr rfl (fun e he => ?_)
@@ -1813,7 +1813,7 @@ private lemma pslB3b_prod_transversal {α : Type} [DecidableEq α] (P R : Finset
           rintro (h | h)
           · exact h1 h
           · exact h2 h
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
       have hswap : (∏ x ∈ ({r, f r} : Finset α),
           (if r = x ∨ r = f x then w x else 1)) =
           ∏ x ∈ P, (if r = x ∨ r = f x then w x else 1) :=
@@ -1822,8 +1822,8 @@ private lemma pslB3b_prod_transversal {α : Type} [DecidableEq α] (P R : Finset
       by_cases hfr : f r = r
       · rw [hfr]
         simp
-      · rw [Finset.prod_pair (a := r) (b := f r) (Ne.symm hfr), if_pos (Or.inl rfl),
-          if_pos (Or.inr (hff r hrP).symm), if_neg hfr]
+      · rw [Finset.prod_pair (a := r) (b := f r) (Ne.symm hfr), ite_eq_left (Or.inl rfl),
+          ite_eq_left (Or.inr (hff r hrP).symm), ite_eq_right hfr]
 
 private lemma pslB3b_pow_two_div {q d : ℕ} (hd : Even d) :
     q ^ (d / 2) * q ^ (d / 2) = q ^ d := by
@@ -1856,19 +1856,19 @@ private lemma pslB3b_prod_arith {n : ℕ} {K : Type} [Field K] [Finite K] [CharP
   rw [← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl (fun r hr => ?_)
   by_cases hfr : formAdj (RingHom.id K) G r = r
-  · rw [if_pos hfr, if_pos hfr, pslRho]
+  · rw [ite_eq_left hfr, ite_eq_left hfr, pslRho]
     by_cases hII : pslTypeII G B r
-    · rw [if_pos hII, if_pos hII]
+    · rw [ite_eq_left hII, ite_eq_left hII]
       have hp : Nat.card K ^ (blockDegree (pslAlg B) r / 2) *
           Nat.card K ^ (blockDegree (pslAlg B) r / 2) =
           Nat.card K ^ blockDegree (pslAlg B) r :=
         pslB3b_pow_two_div (heven r hr hII)
       rw [← Nat.sq_sub_sq (Nat.card K ^ (blockDegree (pslAlg B) r / 2)) 1, one_pow,
         pow_two, hp]
-    · rw [if_neg hII, if_neg hII, one_mul]
-  · rw [if_neg hfr, if_neg hfr, hdeg r (hRsub hr), pslRho]
+    · rw [ite_eq_right hII, ite_eq_right hII, one_mul]
+  · rw [ite_eq_right hfr, ite_eq_right hfr, hdeg r (hRsub hr), pslRho]
     have hnII : ¬ pslTypeII G B r := fun h => hfr h.1
-    rw [if_neg hnII]
+    rw [ite_eq_right hnII]
 
 private lemma pslB3b_norm_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)

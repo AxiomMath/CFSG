@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
 namespace RootHyp
 
+omit [Finite G] in
 private theorem V_le_centralizer_sup_Pc_kOf (M V H : Subgroup G) :
     V ≤ Subgroup.centralizer ((Pc M V ⊔ kOf V H : Subgroup G) : Set G) := by
   have hPC : Pc M V ≤ Subgroup.centralizer (V : Set G) := inf_le_right
@@ -34,17 +35,19 @@ private noncomputable def conjHK (V H : Subgroup G) : ↥H →* MulAut ↥(kOf V
   (Subgroup.normalizerMonoidHom (H := kOf V H)).comp
     (Subgroup.inclusion (le_normalizer_kOf V H))
 
+omit [Finite G] in
 private theorem conjHK_apply_coe (h : ↥H) (k : ↥(kOf V H)) :
     ((conjHK V H h k : ↥(kOf V H)) : G) = (h : G) * k * (h : G)⁻¹ :=
   Subgroup.normalizerMonoidHom_apply_apply_coe (kOf V H)
     (Subgroup.inclusion (le_normalizer_kOf V H) h) k
 
+omit [Finite G] in
 private theorem conjHK_eq_one_of_mem {hcomm : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H,
     x * y = y * x} {z : ↥H} (hz : z ∈ (kOf V H).subgroupOf H) :
     conjHK V H z = 1 := by
   ext k
   rw [conjHK_apply_coe]
-  simp only [MulAut.one_apply, Subgroup.coe_subtype]
+  simp only [MulAut.one_apply]
   have hzK : (z : G) ∈ kOf V H := Subgroup.mem_subgroupOf.mp hz
   have hzk : (z : G) * (k : G) = (k : G) * (z : G) :=
     hcomm (z : G) hzK (k : G) k.2
@@ -56,6 +59,7 @@ private noncomputable def conjK (hcomm : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x
   QuotientGroup.lift ((kOf V H).subgroupOf H) (conjHK V H)
     fun _ hz => MonoidHom.mem_ker.mpr (conjHK_eq_one_of_mem (hcomm := hcomm) hz)
 
+omit [Finite G] in
 private theorem conjK_apply (hcomm : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y = y * x)
     (z : ↥H) (k : ↥(kOf V H)) :
     conjK hcomm (piK V H z) k = conjHK V H z k :=
@@ -63,6 +67,7 @@ private theorem conjK_apply (hcomm : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y
     (QuotientGroup.lift_mk' ((kOf V H).subgroupOf H) (φ := conjHK V H)
       (fun _ hz => MonoidHom.mem_ker.mpr (conjHK_eq_one_of_mem (hcomm := hcomm) hz)) z)
 
+omit [Finite G] in
 private theorem conjK_apply_coe (hcomm : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y = y * x)
     (z : ↥H) (k : ↥(kOf V H)) :
     ((conjK hcomm (piK V H z) k : ↥(kOf V H)) : G) = (z : G) * k * (z : G)⁻¹ := by
@@ -98,7 +103,7 @@ private theorem comap_normalizer_imgK_le_normalizer_inf (h : RootHyp M V)
       (Subgroup.map_le_range (piK V H) ((Pc M V).subgroupOf H))]
     rw [Subgroup.comap_map_eq (piK V H) ((Pc M V).subgroupOf H)]
     have hker : (piK V H).ker = (kOf V H).subgroupOf H := by
-      simpa [piK] using (QuotientGroup.ker_mk' ((kOf V H).subgroupOf H))
+      simp [piK]
     rw [hker]
   have hnN : n ∈ Subgroup.normalizer
       (((Pc M V).subgroupOf H ⊔ (kOf V H).subgroupOf H : Subgroup ↥H) : Set ↥H) := by
@@ -153,7 +158,7 @@ private theorem exists_conj_kInf (h : RootHyp M V) (hPH : Pc M V ≤ H)
       conjSubgroup g (kInf M V H) ≤ Pc M V ∧ ¬ conjSubgroup g (kInf M V H) ≤ kOf V H := by
   classical
   have hnot := not_le_normalizer_inf h hPH hVH hnM hK hab
-  obtain ⟨g, hgM, hgN⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨g, hgM, hgN⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hne : conjSubgroup g (kInf M V H) ≠ kInf M V H :=
     fun heq => hgN (conjSubgroup_eq_self_iff.mp heq)
   have hgP : conjSubgroup g (Pc M V) = Pc M V :=
@@ -202,9 +207,9 @@ private theorem map_conjK_kInfK_eq (h : RootHyp M V) (hPH : Pc M V ≤ H)
   rw [Subgroup.card_map_of_injective (conjK hab n).injective]
 
 private noncomputable def conjY (h : RootHyp M V) (hPH : Pc M V ≤ H)
-    (hVH : V ≤ inSubgroup (pCore 2) H) {h₀ : G}
-    (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M)
-    (hK : KFactorization M V H h₀)
+    (_hVH : V ≤ inSubgroup (pCore 2) H) {h₀ : G}
+    (_hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (_hnM : ¬ H ≤ M)
+    (_hK : KFactorization M V H h₀)
     (hab : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y = y * x) :
     ↥(kNbar M V H) →* MulAut ↥(kInfK M V H) where
   toFun n := CFSG.AGLEmbedding.TrialityTwo.restrictAut (conjK hab (n : HBar V H))
@@ -229,10 +234,10 @@ theorem card_imgK_mul_card_inf {X : Subgroup G} (hXH : X ≤ H) :
   have hS : (X.subgroupOf H).map (piK V H) = imgK V H X := rfl
   have hker : X.subgroupOf H ⊓ (piK V H).ker = (X ⊓ kOf V H).subgroupOf H := by
     have hKker : (piK V H).ker = (kOf V H).subgroupOf H := by
-      simpa [piK] using (QuotientGroup.ker_mk' ((kOf V H).subgroupOf H))
+      simp [piK]
     rw [hKker]
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf, and_assoc]
+    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
   have h1 := CFSG.GroupTheory.FT63ChII.card_eq_card_map_mul_card_inf (piK V H)
     (X.subgroupOf H)
   rw [hS, inf_comm (piK V H).ker (X.subgroupOf H), hker] at h1
@@ -317,8 +322,7 @@ private theorem fixedSub_conjY_eq (h : RootHyp M V) (hPH : Pc M V ≤ H)
       le_of_eq h.toHyp.centralizer_Pc
     have hyV : (y : G) ∈ V := hCV hcent
     exact Subgroup.mem_subgroupOf.mpr (Subgroup.mem_subgroupOf.mpr hyV)
-  · intro hy
-    intro a ha
+  · intro hy a ha
     have ha' : a.1 ∈ imgK V H (Pc M V) := Subgroup.mem_subgroupOf.mp ha
     obtain ⟨p, hpP, hpa⟩ := Subgroup.mem_map.mp ha'
     have hyV : (y : G) ∈ V :=
@@ -392,7 +396,7 @@ private theorem exists_X_bound (h : RootHyp M V) (hPH : Pc M V ≤ H)
     exists_conj_kInf h hPH hVH hnM hK hab
   let X : Subgroup G := conjSubgroup g (kInf M V H)
   have hXcomm : IsMulCommutative ↥X := by
-    letI : IsMulCommutative ↥(kInf M V H) :=
+    let : IsMulCommutative ↥(kInf M V H) :=
       ⟨⟨fun a b => Subtype.ext
         (hab a ((inf_le_right : kInf M V H ≤ kOf V H) a.2)
           b ((inf_le_right : kInf M V H ≤ kOf V H) b.2))⟩⟩
@@ -407,7 +411,7 @@ private theorem exists_X_bound (h : RootHyp M V) (hPH : Pc M V ≤ H)
     have hxX : x ∈ X := by simpa [X] using hx
     have hxH : x ∈ H := (hX_le_P.trans hPH) hxX
     have hker : (piK V H).ker = (kOf V H).subgroupOf H := by
-      simpa [piK] using (QuotientGroup.ker_mk' ((kOf V H).subgroupOf H))
+      simp [piK]
     have hbot' : (X.subgroupOf H).map (piK V H) = ⊥ := hbot
     have hle : X.subgroupOf H ≤ (piK V H).ker := (Subgroup.map_eq_bot_iff _).mp hbot'
     rw [hker] at hle
@@ -561,7 +565,7 @@ private theorem frobenius_key (h : RootHyp M V) (hPH : Pc M V ≤ H)
       Nat.card ↥(fixedSub (conjY h hPH hVH hH hnM hK hab)
         ((imgK V H (Pc M V)).subgroupOf (kNbar M V H))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨X, hX_le_P, hA_ne, hA_bound⟩ := exists_X_bound h hPH hVH hH hnM hK hab
   have hK_elem : Assembly.IsElemAbelian 2 (kOf V H) :=
     isElemAbelian_kOf h hPH hH hnM hK hab

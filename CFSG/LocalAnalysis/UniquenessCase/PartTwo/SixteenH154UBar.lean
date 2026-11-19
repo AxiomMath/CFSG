@@ -58,7 +58,7 @@ theorem s16h_uniqueMax_cent_of_bar_pRank (D : Data G) (hSig : UC6S846.SigmaStd D
   let hV := h.hyp125.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
-  haveI hCTilde : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hCTilde : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   obtain ⟨e, he⟩ := s15_Three_barImage_equiv hV hMs
   set Xbar : Subgroup (F11.MBar11 D.M V₀ V) :=
@@ -71,7 +71,7 @@ theorem s16h_uniqueMax_cent_of_bar_pRank (D : Data G) (hSig : UC6S846.SigmaStd D
   have hXnorm : Xbar.Normal := by
     rw [hXbar]
     exact hNnorm.map e.symm.toMonoidHom e.symm.surjective
-  haveI : Xbar.Normal := hXnorm
+  have : Xbar.Normal := hXnorm
   have hXab : IsElemAbelian p Xbar := by
     rw [hXbar]
     exact (hXe.subgroupOf (Mbar D.M V₀ V hV)).map e.symm.toMonoidHom
@@ -122,7 +122,7 @@ theorem s16h_uniqueMax_cent_of_bar_pRank (D : Data G) (hSig : UC6S846.SigmaStd D
           s16h_ubar_openPRank_subgroupOf_eq (p := p) (fun x hx => hXM hx.1)
   have hrank' : 1 < CFSG.Open.pRank p (Xbar ⊓
       F11.barImage11 D.M V₀ V (F11.CElt D.M V₀ v)) := hpA.symm ▸ hrank
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥(F11.O2p p D.M)) := inferInstance
   have hP : CFSG.ABGLocalTools.IsSylowOf p
       ((Q : Subgroup ↥(F11.O2p p D.M)).map (F11.O2p p D.M).subtype) (F11.O2p p D.M) :=

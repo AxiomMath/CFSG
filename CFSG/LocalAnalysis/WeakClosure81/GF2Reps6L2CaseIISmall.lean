@@ -86,7 +86,7 @@ private lemma mk_eq_mk_of_mul_scalar {K : Type*} [Field K]
 private lemma mk_pow_eq_one_of_val_pow_eq_smul {K : Type*} [Field K]
     {X : GL (Fin 2) K} (n : ℕ) {c : K}
     (h : (↑(X ^ n) : Matrix (Fin 2) (Fin 2) K) = c • (1 : Matrix (Fin 2) (Fin 2) K))
-    (hc : c ≠ 0) :
+    (_hc : c ≠ 0) :
     (Matrix.ProjGenLinGroup.mk X : PGL2 K) ^ n = 1 := by
   rw [← map_pow, Matrix.ProjGenLinGroup.mk_eq_one,
     Matrix.GeneralLinearGroup.mem_center_iff_val_mem_range_scalar]
@@ -190,7 +190,7 @@ private lemma odd_orderOf_of_mem_torus {K : Type*} [Field K] [Finite K]
     {U : Subgroup (PGL2 K)} {s x : PGL2 K} (hUc : IsCyclic U) (hsU : s ∈ U)
     (hsJ : s ∉ pslRange K) (hs2 : s * s = 1) (hs1 : s ≠ 1) (hxU : x ∈ U)
     (hxJ : x ∈ pslRange K) : Odd (orderOf x) := by
-  letI : Finite (PGL2 K) :=
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
@@ -259,9 +259,9 @@ private theorem parrottGen_reduce {K : Type*} [Field K] [Finite K]
     ∀ {t β : PGL2 K}, t ∈ pslRange K → β ∉ pslRange K → t * t = 1 → t ≠ 1 →
       β * β = 1 → t * β = β * t → ParrottGen (pslRange K) t β := by
   intro t β htJ hβJ ht ht1 hβ hcomm
-  letI : Finite (PGL2 K) :=
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
-  haveI hJnorm : (pslRange K).Normal := pslRange_normal hK hcard
+  have hJnorm : (pslRange K).Normal := pslRange_normal hK hcard
   have hcommJ : commutator (PGL2 K) = pslRange K :=
     pgl2_commutator_eq_psl2_range_of_card_gt_three K hK hcard
   have hb01 : b0 ≠ 1 := fun h => hb0J (h ▸ (pslRange K).one_mem)
@@ -448,22 +448,22 @@ private lemma seven_T0_sq : (↑(T0_7 ^ 2) : Matrix (Fin 2) (Fin 2) (ZMod 7)) =
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, T0_7, Matrix.one_apply] <;> decide
+  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, T0_7]
 
 private lemma seven_B0_sq : (↑(B0_7 ^ 2) : Matrix (Fin 2) (Fin 2) (ZMod 7)) =
     (1 : ZMod 7) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 7)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, B0_7, Matrix.one_apply] <;> decide
+  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, B0_7]
 
 private lemma seven_Tau_cube : (↑(Tau_7 ^ 3) : Matrix (Fin 2) (Fin 2) (ZMod 7)) =
     (1 : ZMod 7) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 7)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, Tau_7, Matrix.one_apply] <;> decide
+  simp [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, Tau_7] <;> decide
 
 private lemma seven_M_sq : (↑(M_7 ^ 2) : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![4, 5; 2, 3] := by
   rw [Units.val_pow_eq_pow_val]
@@ -476,16 +476,16 @@ private lemma seven_M_four : (↑(M_7 ^ 4) : Matrix (Fin 2) (Fin 2) (ZMod 7)) =
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (4 : ℕ) = 3 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, M_7, C_7, B0_7, Tau_7, Matrix.one_apply] <;> decide
+  simp [show (4 : ℕ) = 3 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, M_7, C_7, B0_7, Tau_7] <;> decide
 
 private lemma seven_N_seven : (↑(N_7 ^ 7) : Matrix (Fin 2) (Fin 2) (ZMod 7)) =
     (5 : ZMod 7) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 7)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (7 : ℕ) = 6 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, N_7, C_7, B0_7, T0_7, Tau_7, Matrix.one_apply] <;> decide
+  simp [show (7 : ℕ) = 6 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, N_7, C_7, B0_7, T0_7, Tau_7] <;> decide
 
 private lemma seven_N_mat : (↑N_7 : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![5, 0; 1, 5] := by
   ext i j
@@ -530,7 +530,7 @@ private noncomputable def standard_seven : StandardData (ZMod 7) := by
     apply mk_eq_mk_of_mul_scalar (c := -1) (by decide)
     ext i j
     fin_cases i <;> fin_cases j <;>
-    simp [T0_7, B0_7, Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply] <;> decide
+    simp [T0_7, B0_7, Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply]
   have hgen : ParrottGen (pslRange (ZMod 7))
       (Matrix.ProjGenLinGroup.mk T0_7) (Matrix.ProjGenLinGroup.mk B0_7) := by
     let t0 : PGL2 (ZMod 7) := Matrix.ProjGenLinGroup.mk T0_7
@@ -635,12 +635,12 @@ private noncomputable def standard_seven : StandardData (ZMod 7) := by
       rw [hcard]
       simpa using h
     have hsimple : IsSimpleGroup ↥(pslRange (ZMod 7)) := by
-      haveI : IsSimpleGroup (PSL2 (ZMod 7)) :=
+      have : IsSimpleGroup (PSL2 (ZMod 7)) :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [Nat.card_zmod]; norm_num)
       exact (MonoidHom.ofInjective
         (Matrix.ProjectiveSpecialLinearGroup.toPGL_injective
           (n := Fin 2) (R := ZMod 7))).symm.isSimpleGroup
-    haveI : Finite (PGL2 (ZMod 7)) :=
+    have : Finite (PGL2 (ZMod 7)) :=
       Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
     have hEq : Mcl = pslRange (ZMod 7) :=
       eq_of_dvd_card_of_simple hMJ hsimple (D := 84) (N := 168) rfl (by norm_num) h84 hJcard
@@ -709,43 +709,43 @@ private lemma eleven_T0_sq : (↑(T0_11 ^ 2) : Matrix (Fin 2) (Fin 2) (ZMod 11))
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, T0_11, Matrix.one_apply] <;> decide
+  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, T0_11]
 
 private lemma eleven_B0_sq : (↑(B0_11 ^ 2) : Matrix (Fin 2) (Fin 2) (ZMod 11)) =
     (1 : ZMod 11) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 11)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, B0_11, Matrix.one_apply] <;> decide
+  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, B0_11]
 
 private lemma eleven_Tau_five : (↑(Tau_11 ^ 5) : Matrix (Fin 2) (Fin 2) (ZMod 11)) =
     (1 : ZMod 11) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 11)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (5 : ℕ) = 4 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, Tau_11, Matrix.one_apply] <;> decide
+  simp [show (5 : ℕ) = 4 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, Tau_11] <;> decide
 
 private lemma eleven_X_cube : (↑(X_11 ^ 3) : Matrix (Fin 2) (Fin 2) (ZMod 11)) =
     (10 : ZMod 11) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 11)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, X_11, Ci_11, B0_11, Tau_11, Matrix.one_apply] <;> decide
+  simp [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, X_11, Ci_11, Tau_11] <;> decide
 
 private lemma eleven_N_eleven : (↑(N_11 ^ 11) : Matrix (Fin 2) (Fin 2) (ZMod 11)) =
     (7 : ZMod 11) • (1 : Matrix (Fin 2) (Fin 2) (ZMod 11)) := by
   rw [Units.val_pow_eq_pow_val]
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [show (11 : ℕ) = 10 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_apply,
-    Fin.sum_univ_two, N_11, C_11, B0_11, T0_11, Tau_11, Matrix.one_apply] <;> decide
+  simp [show (11 : ℕ) = 10 + 1 by norm_num, pow_succ, Matrix.mul_apply,
+    Fin.sum_univ_two, N_11, C_11, B0_11, T0_11, Tau_11] <;> decide
 
 private lemma eleven_X_mat : (↑X_11 : Matrix (Fin 2) (Fin 2) (ZMod 11)) = !![6, 10; 9, 6] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-  simp [X_11, Ci_11, B0_11, Tau_11] <;> decide
+  simp [X_11, Ci_11, Tau_11] <;> decide
 
 private lemma eleven_N_mat : (↑N_11 : Matrix (Fin 2) (Fin 2) (ZMod 11)) = !![7, 10; 0, 7] := by
   ext i j
@@ -796,7 +796,7 @@ private noncomputable def standard_eleven : StandardData (ZMod 11) := by
     apply mk_eq_mk_of_mul_scalar (c := -1) (by decide)
     ext i j
     fin_cases i <;> fin_cases j <;>
-    simp [T0_11, B0_11, Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply] <;> decide
+    simp [T0_11, B0_11, Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply]
   have hgen : ParrottGen (pslRange (ZMod 11))
       (Matrix.ProjGenLinGroup.mk T0_11) (Matrix.ProjGenLinGroup.mk B0_11) := by
     let t0 : PGL2 (ZMod 11) := Matrix.ProjGenLinGroup.mk T0_11
@@ -854,7 +854,7 @@ private noncomputable def standard_eleven : StandardData (ZMod 11) := by
     have htau1 : tau ≠ 1 := by
       simpa [tau] using (mk_pow_ne_one_of_val_pow_eq_matrix (X := Tau_11) 1
         (by simpa using eleven_Tau_mat) (Or.inl (by decide)))
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have htauOrd : orderOf tau = 5 := orderOf_eq_prime htau5 htau1
     have ht0sq : t0 * t0 = 1 := by
       have h := mk_pow_eq_one_of_val_pow_eq_smul 2 eleven_T0_sq (by decide)
@@ -923,12 +923,12 @@ private noncomputable def standard_eleven : StandardData (ZMod 11) := by
       rw [hcard]
       simpa using h
     have hsimple : IsSimpleGroup ↥(pslRange (ZMod 11)) := by
-      haveI : IsSimpleGroup (PSL2 (ZMod 11)) :=
+      have : IsSimpleGroup (PSL2 (ZMod 11)) :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [Nat.card_zmod]; norm_num)
       exact (MonoidHom.ofInjective
         (Matrix.ProjectiveSpecialLinearGroup.toPGL_injective
           (n := Fin 2) (R := ZMod 11))).symm.isSimpleGroup
-    haveI : Finite (PGL2 (ZMod 11)) :=
+    have : Finite (PGL2 (ZMod 11)) :=
       Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
     have hEq : Mcl = pslRange (ZMod 11) :=
       eq_of_dvd_card_of_simple hMJ hsimple (D := 330) (N := 660) rfl (by norm_num) h330 hJcard
@@ -972,7 +972,7 @@ theorem parrottGen_pgl2_small {K : Type} [Field K] [Finite K]
       exact ⟨11, 1, by norm_num, by norm_num, le_rfl, by rw [pow_one]⟩
   have hcard : 3 < Nat.card K := by
     rcases hK with h | h <;> rw [h] <;> norm_num
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rcases hK with hK7 | hK11
   · have hF : Fintype.card K = 7 := by
       rw [← Nat.card_eq_fintype_card]

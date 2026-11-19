@@ -22,14 +22,15 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem exists_symp_basis (S : AddSubgroup (Fin 4 → F.K)) (hcard : Nat.card S = 16)
     (hts : ∀ x ∈ S, herm F.σ x x = 0) (hcore : ∀ x ∈ S, x ≠ 0 → ∃ c : F.K, c • x ∉ S) :
     ∃ u : Fin 4 → (Fin 4 → F.K), (∀ i, u i ∈ S) ∧ AddSubgroup.closure (Set.range u) = S ∧
       ∀ i j, herm F.σ (u i) (u j) = symJ F.K i j := by
   classical
-  haveI : CharP F.K 2 := charP_of_card_sq (p := 2) (f := 1) (by rw [F.card_K]; norm_num)
-  letI : Algebra (ZMod 2) F.K := ZMod.algebra F.K 2
-  haveI : Fintype F.K := Fintype.ofFinite F.K
+  have : CharP F.K 2 := charP_of_card_sq (p := 2) (f := 1) (by rw [F.card_K]; norm_num)
+  let : Algebra (ZMod 2) F.K := ZMod.algebra F.K 2
+  have : Fintype F.K := Fintype.ofFinite F.K
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : F.K, ω ≠ 0 ∧ ω ≠ 1 := by
     have hcard2 : ({0, 1} : Finset F.K).card = 2 := by
       rw [Finset.card_insert_of_notMem (by simp), Finset.card_singleton]
@@ -118,8 +119,8 @@ theorem exists_symp_basis (S : AddSubgroup (Fin 4 → F.K)) (hcard : Nat.card S 
     intro a b ha hb hab
     rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
     · rfl
-    · simpa [chi, chi_one] using hab
-    · simpa [chi, chi_one] using hab
+    · simp [chi, chi_one] at hab
+    · simp [chi, chi_one] at hab
     · rfl
   have hc2 : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
   let B : LinearMap.BilinForm (ZMod 2) S :=
@@ -158,7 +159,7 @@ theorem exists_symp_basis (S : AddSubgroup (Fin 4 → F.K)) (hcard : Nat.card S 
       · rw [h0, chi_one] at h; exact absurd h one_ne_zero
   obtain ⟨m, b, hb⟩ := hB_alt.exists_basis_toMatrix_eq_J hB_nd
   have hfin : Module.finrank (ZMod 2) S = 4 := by
-    haveI : Module.Finite (ZMod 2) S := by infer_instance
+    have : Module.Finite (ZMod 2) S := by infer_instance
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := S)
     rw [hcard, Nat.card_zmod] at h
     have h2 : (2 : ℕ) ^ Module.finrank (ZMod 2) S = 2 ^ 4 := h.symm
@@ -190,7 +191,7 @@ theorem exists_symp_basis (S : AddSubgroup (Fin 4 → F.K)) (hcard : Nat.card S 
     have hsym : chi (symJ F.K i j) =
         Matrix.J (Fin 2) (ZMod 2) (e4 i) (e4 j) := by
       fin_cases i <;> fin_cases j <;>
-        simp [symJ, e4, τ, Matrix.J, Matrix.fromBlocks, chi_one] <;> decide
+        simp [symJ, e4, τ, Matrix.J, Matrix.fromBlocks, chi_one]
     refine chi_inj _ _ ?_ ?_ ?_
     · exact hval01 (u i) (hu_mem i) (u j) (hu_mem j)
     · fin_cases i <;> fin_cases j <;> simp [symJ]

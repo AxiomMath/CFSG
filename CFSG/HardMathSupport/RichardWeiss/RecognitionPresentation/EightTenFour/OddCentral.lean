@@ -46,7 +46,7 @@ theorem le_lift2 (φ : Λ →* Ã) (hker : φ.ker ≤ Subgroup.center Λ) {K : S
   obtain ⟨P, hTP⟩ := hT'.exists_le_sylow
   have hPn : (P : Subgroup ↥E).Normal := inferInstance
   have hPcore : (P : Subgroup ↥E) ≤ pCore 2 ↥E := by
-    rw [pCore_eq_sSup]; exact le_sSup ⟨hPn, P.isPGroup'⟩
+    rw [pCore_eq_sSup]; exact le_sSup ⟨hPn, P.isPGroup⟩
   intro t ht
   have h1 : (⟨t, hT ht⟩ : ↥E) ∈ (P : Subgroup ↥E) :=
     hTP (show (⟨t, hT ht⟩ : ↥E) ∈ T.subgroupOf E from ht)
@@ -120,7 +120,7 @@ theorem map_lift2 (φ : Λ →* Ã) (hker : φ.ker ≤ Subgroup.center Λ)
     simp
   have hPn : (P : Subgroup ↥E).Normal := inferInstance
   have hPcore : (P : Subgroup ↥E) ≤ pCore 2 ↥E := by
-    rw [pCore_eq_sSup]; exact le_sSup ⟨hPn, P.isPGroup'⟩
+    rw [pCore_eq_sSup]; exact le_sSup ⟨hPn, P.isPGroup⟩
   have hlift : 2 ^ m ≤ Nat.card ↥(lift2 φ K) := by
     have h1 : Nat.card (pCoreOf 2 E) = Nat.card (pCore 2 ↥E) :=
       Subgroup.card_map_of_injective E.subtype_injective

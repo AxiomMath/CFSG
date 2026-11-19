@@ -230,7 +230,7 @@ theorem commute_of_isolated_of_isPGroup {z : Γ} (hO : CFSG.oddCore Γ = ⊥)
   have hzC : z ∈ centralizer ({z} : Set Γ) := mem_centralizer_singleton_iff.mpr rfl
   have hPC : (P : Subgroup Γ) ≤ centralizer ({z} : Set Γ) := by
     set H := (centralizer ({z} : Set Γ)).subgroupOf (P : Subgroup Γ) with hH
-    have : Group.IsNilpotent (P : Subgroup Γ) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (P : Subgroup Γ) := P.isPGroup.isNilpotent
     by_contra hle
     have hlt : H < ⊤ := by
       refine lt_top_iff_ne_top.mpr fun htop => hle fun x hx => ?_

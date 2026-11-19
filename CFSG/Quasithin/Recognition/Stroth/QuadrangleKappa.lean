@@ -39,15 +39,15 @@ theorem exists_rootGroup_map [Fintype V] [DecidableRel Γ.Adj] [Fintype W] [Deci
     (hTΔ : ∀ v : W, 3 ≤ (Δ.neighborSet v).encard) (hMΔ : MoufangCondition H Δ 4)
     (φ : Γ ≃g Δ) {p : GPath Γ 4} (hp : p.NoBack) {g : D}
     (hg : g ∈ pathRootGroup D Γ p) :
-    ∃ h ∈ pathRootGroup H Δ (p.map φ (fun a b h => φ.map_adj_iff.mpr h)),
+    ∃ h ∈ pathRootGroup H Δ (p.map φ (fun _a _b h => φ.map_adj_iff.mpr h)),
       ∀ x : V, φ (g • x) = h • φ x := by
   have hthick : 3 ≤ (Γ.neighborSet (p 0)).encard := three_le_encard_of_isThick hTΓ (p 0)
   obtain ⟨y, hy, hy1, -⟩ := exists_ne_ne_of_three_le_encard hthick (p 1) (p 1)
   rw [SimpleGraph.mem_neighborSet] at hy
-  set q : GPath Δ 4 := p.map φ (fun a b h => φ.map_adj_iff.mpr h) with hqdef
+  set q : GPath Δ 4 := p.map φ (fun _a _b h => φ.map_adj_iff.mpr h) with hqdef
   have hq : q.NoBack := by
     rw [hqdef]
-    exact GPath.NoBack.map_of_injective (f := φ) (fun a b h => φ.map_adj_iff.mpr h)
+    exact GPath.NoBack.map_of_injective (f := φ) (fun _a _b h => φ.map_adj_iff.mpr h)
       φ.toEquiv.injective hp
   have hqr : q.rev.NoBack := hq.rev
   have hqr4 : q.rev 4 = φ (p 0) := by
@@ -93,19 +93,19 @@ theorem exists_rootGroup_map [Fintype V] [DecidableRel Γ.Adj] [Fintype W] [Deci
     intro w
     show (gperm.trans φ.toEquiv) (φ.toEquiv.symm w) = φ (g • (φ.symm w))
     rfl
-  have hσ_adj : ∀ a b, Δ.Adj (σ a) (σ b) ↔ Δ.Adj a b := by
-    intro a b
+  have hσ_adj : ∀ _a _b, Δ.Adj (σ _a) (σ _b) ↔ Δ.Adj _a _b := by
+    intro _a _b
     rw [hσ_apply, hσ_apply]
     constructor
     · intro hab
-      have h1 : Γ.Adj (g • (φ.symm a)) (g • (φ.symm b)) := φ.map_adj_iff.mp hab
-      have h2 : Γ.Adj (φ.symm a) (φ.symm b) :=
-        (GraphAction.adj_smul g (φ.symm a) (φ.symm b)).mp h1
+      have h1 : Γ.Adj (g • (φ.symm _a)) (g • (φ.symm _b)) := φ.map_adj_iff.mp hab
+      have h2 : Γ.Adj (φ.symm _a) (φ.symm _b) :=
+        (GraphAction.adj_smul g (φ.symm _a) (φ.symm _b)).mp h1
       exact φ.symm.map_adj_iff.mp h2
     · intro hab
-      have h2 : Γ.Adj (φ.symm a) (φ.symm b) := φ.symm.map_adj_iff.mpr hab
-      have h1 : Γ.Adj (g • (φ.symm a)) (g • (φ.symm b)) :=
-        (GraphAction.adj_smul g (φ.symm a) (φ.symm b)).mpr h2
+      have h2 : Γ.Adj (φ.symm _a) (φ.symm _b) := φ.symm.map_adj_iff.mpr hab
+      have h1 : Γ.Adj (g • (φ.symm _a)) (g • (φ.symm _b)) :=
+        (GraphAction.adj_smul g (φ.symm _a) (φ.symm _b)).mpr h2
       exact φ.map_adj_iff.mpr h1
   let ρ : Equiv.Perm W := hperm⁻¹ * σ
   have hρ_apply : ∀ w, ρ w = h⁻¹ • (σ w) := by
@@ -113,16 +113,16 @@ theorem exists_rootGroup_map [Fintype V] [DecidableRel Γ.Adj] [Fintype W] [Deci
     show (hperm⁻¹ * σ) w = h⁻¹ • σ w
     rw [Equiv.Perm.mul_apply]
     rfl
-  have hρ_adj : ∀ a b, Δ.Adj (ρ a) (ρ b) ↔ Δ.Adj a b := by
-    intro a b
-    have h1 : Δ.Adj (hperm⁻¹ (σ a)) (hperm⁻¹ (σ b)) ↔ Δ.Adj (σ a) (σ b) := by
-      have hGA : Δ.Adj (h⁻¹ • (σ a)) (h⁻¹ • (σ b)) ↔ Δ.Adj (σ a) (σ b) :=
-        GraphAction.adj_smul (h⁻¹) (σ a) (σ b)
+  have hρ_adj : ∀ _a _b, Δ.Adj (ρ _a) (ρ _b) ↔ Δ.Adj _a _b := by
+    intro _a _b
+    have h1 : Δ.Adj (hperm⁻¹ (σ _a)) (hperm⁻¹ (σ _b)) ↔ Δ.Adj (σ _a) (σ _b) := by
+      have hGA : Δ.Adj (h⁻¹ • (σ _a)) (h⁻¹ • (σ _b)) ↔ Δ.Adj (σ _a) (σ _b) :=
+        GraphAction.adj_smul (h⁻¹) (σ _a) (σ _b)
       simpa [hperm] using hGA
-    have h2 : ρ a = hperm⁻¹ (σ a) := rfl
-    have h3 : ρ b = hperm⁻¹ (σ b) := rfl
+    have h2 : ρ _a = hperm⁻¹ (σ _a) := rfl
+    have h3 : ρ _b = hperm⁻¹ (σ _b) := rfl
     rw [h2, h3]
-    exact h1.trans (hσ_adj a b)
+    exact h1.trans (hσ_adj _a _b)
   have hfix : ∀ i, 1 ≤ i → i ≤ 3 → ∀ w, Δ.Adj (q i) w → ρ w = w := by
     intro i hi1 hi3 w hw
     obtain ⟨v, rfl⟩ : ∃ v, φ v = w := ⟨φ.symm w, by simp⟩
@@ -198,6 +198,7 @@ def un5KappaSubgroup (φ : Γ ≃g (un5System hF ζ).graph) : Subgroup D where
           ((un5System hF ζ).action h (φ.toEquiv (g⁻¹ • x))) := by rw [map_inv]; simp
       _ = (un5System hF ζ).action h⁻¹ (φ.toEquiv x) := by rw [h1]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem un5KappaSubgroup_unique (φ : Γ ≃g (un5System hF ζ).graph) {g : D}
     {h h' : Un5Group k F}
     (hh : ∀ x : V, φ.toEquiv (g • x) = (un5System hF ζ).action h (φ.toEquiv x))
@@ -207,13 +208,13 @@ theorem un5KappaSubgroup_unique (φ : Γ ≃g (un5System hF ζ).graph) {g : D}
   obtain ⟨x, rfl⟩ := φ.toEquiv.surjective y
   rw [← hh x, ← hh' x]
 
-theorem pathRootGroup_le_un5KappaSubgroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
-    (hM : MoufangCondition D Γ 4) (φ : Γ ≃g (un5System hF ζ).graph) {p : GPath Γ 4}
+theorem pathRootGroup_le_un5KappaSubgroup (_hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+    (_hM : MoufangCondition D Γ 4) (φ : Γ ≃g (un5System hF ζ).graph) {p : GPath Γ 4}
     (hp : p.NoBack) : pathRootGroup D Γ p ≤ un5KappaSubgroup hF ζ φ := by
   intro g hg
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   have hgen : IsGenPolygon (un5System hF ζ).graph 4 :=
     CFSG.Quasithin.H13.F431.BN.isGenPolygon (un5System hF ζ)
   have hthick : ∀ v : (un5System hF ζ).Vertex,
@@ -328,9 +329,9 @@ private theorem pathRootGroup_baseGPath (m₁ m₂ : (un5System hF ζ).N)
     letI := rtsMulAction (un5System hF ζ)
     pathRootGroup (Un5Group k F) (un5System hF ζ).graph (baseGPath hF ζ m₁ m₂ hm₁ hm₂ first) =
       (un5System hF ζ).root (jIdx 4 first 0) := by
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   ext x
   rw [mem_pathRootGroup]
   constructor
@@ -368,9 +369,9 @@ theorem pathRootGroup_un5System_le_range_un5KappaHom
     letI := rtsMulAction (un5System hF ζ)
     pathRootGroup (Un5Group k F) (un5System hF ζ).graph q ≤
       (un5KappaHom hF ζ hP hT hM φ).range := by
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   intro u hu
   have hgenΓ : IsGenPolygon Γ 4 :=
     isGenPolygon_of_isGeneralizedPolygon (by norm_num) hP hT
@@ -422,9 +423,9 @@ private theorem baseGPath_noBack (m₁ m₂ : (un5System hF ζ).N)
 private theorem root_le_range (i : ℤ) (hi : IsRoot 4 i) :
     letI := rtsMulAction (un5System hF ζ)
     (un5System hF ζ).root i ≤ (un5KappaHom hF ζ hP hT hM φ).range := by
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   obtain ⟨m₁, hm₁⟩ := QuotientGroup.mk_surjective (un5System hF ζ).w₁
   obtain ⟨m₂, hm₂⟩ := QuotientGroup.mk_surjective (un5System hF ζ).w₂
   have hq1 : (un5System hF ζ).root 1 =
@@ -463,9 +464,9 @@ private theorem root_le_range (i : ℤ) (hi : IsRoot 4 i) :
 theorem un5System_xplus_le_range_un5KappaHom :
     letI := rtsMulAction (un5System hF ζ)
     (un5System hF ζ).Xplus ≤ (un5KappaHom hF ζ hP hT hM φ).range := by
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   rw [RankTwoSystem.Xplus]
   refine (Subgroup.closure_le (un5KappaHom hF ζ hP hT hM φ).range).mpr ?_
   rintro x hx
@@ -477,9 +478,9 @@ theorem un5System_xplus_le_range_un5KappaHom :
 
 theorem un5KappaHom_surjective : Function.Surjective (un5KappaHom hF ζ hP hT hM φ) := by
   intro u
-  letI := rtsMulAction (un5System hF ζ)
-  haveI := rtsGraphAction (un5System hF ζ)
-  haveI := un5System_faithfulSMul hF ζ
+  let := rtsMulAction (un5System hF ζ)
+  have := rtsGraphAction (un5System hF ζ)
+  have := un5System_faithfulSMul hF ζ
   have htop : (un5System hF ζ).Xplus = ⊤ := un5System_xplus_eq_top hF ζ
   have hle : (un5System hF ζ).Xplus ≤ (un5KappaHom hF ζ hP hT hM φ).range :=
     un5System_xplus_le_range_un5KappaHom hF ζ hP hT hM φ

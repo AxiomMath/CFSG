@@ -45,6 +45,7 @@ theorem exists_critical {P : Subgroup G} (hPn : P.Normal) (hPp : IsPGroup p P) :
     rw [hcen] at h1
     exact ⟨_, (Subgroup.mem_inf.mp h1).1, rfl⟩
 
+omit [Finite G] in
 theorem comm_comm_eq_bot_of_critical {P A : Subgroup G} (hAP : A ≤ P)
     (hPA : ⁅P, A⁆ ≤ A ⊓ centralizer (A : Set G)) : ⁅⁅A, A⁆, A⁆ = ⊥ := by
   have h1 : ⁅A, A⁆ ≤ centralizer (A : Set G) :=
@@ -62,7 +63,7 @@ theorem transfer_eq_pow_of_conj [H.FiniteIndex] (ϕ : H →* A) (g : G) (hg : g 
       ϕ ⟨g₀⁻¹ * g ^ k * g₀, h⟩ = ϕ ⟨g ^ k, H.pow_mem hg k⟩) :
     ϕ.transfer g = ϕ ⟨g, hg⟩ ^ H.index := by
   classical
-  letI : Fintype (Quotient (orbitRel (zpowers g) (G ⧸ H))) := Fintype.ofFinite _
+  let : Fintype (Quotient (orbitRel (zpowers g) (G ⧸ H))) := Fintype.ofFinite _
   rw [index_eq_sum_minimalPeriod H g, ← Finset.prod_pow_eq_pow_sum,
     MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot]
   refine Finset.prod_congr rfl fun q _ => ?_
@@ -76,19 +77,19 @@ section StepIV
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
 
 open scoped IsMulCommutative in
-theorem commutator_inf_le_of_conj (S : Sylow p G) {T₀ P : Subgroup G} (hT₀S : T₀ ≤ S)
+theorem commutator_inf_le_of_conj (S : Sylow p G) {T₀ P : Subgroup G} (_hT₀S : T₀ ≤ S)
     (hST : ⁅(S : Subgroup G), (S : Subgroup G)⁆ ≤ T₀) (hPS : P ≤ S)
     (hconj : ∀ x ∈ P, ∀ m : G, m⁻¹ * x * m ∈ P ∧ x⁻¹ * (m⁻¹ * x * m) ∈ T₀) :
     commutator G ⊓ P ≤ T₀ := by
   set K : Subgroup ↥(S : Subgroup G) := T₀.subgroupOf S with hK
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     refine ⟨fun k hk s => ?_⟩
     have e : ((s * k * s⁻¹ : ↥(S : Subgroup G)) : G) = ⁅(s : G), (k : G)⁆ * k := by
       simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]; group
     show ((s * k * s⁻¹ : ↥(S : Subgroup G)) : G) ∈ T₀
     rw [e]
     exact T₀.mul_mem (hST (Subgroup.commutator_mem_commutator s.2 k.2)) hk
-  haveI : IsMulCommutative (↥(S : Subgroup G) ⧸ K) := by
+  have : IsMulCommutative (↥(S : Subgroup G) ⧸ K) := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     intro x hx
     have : (x : G) ∈ ⁅(S : Subgroup G), (S : Subgroup G)⁆ := by
@@ -105,7 +106,7 @@ theorem commutator_inf_le_of_conj (S : Sylow p G) {T₀ P : Subgroup G} (hT₀S 
     show (x ^ k)⁻¹ * (g₀⁻¹ * x ^ k * g₀) ∈ T₀
     exact (hconj _ (P.pow_mem hxP k) g₀).2
   rw [h1] at h2
-  have hQp : IsPGroup p (↥(S : Subgroup G) ⧸ K) := S.isPGroup'.to_quotient K
+  have hQp : IsPGroup p (↥(S : Subgroup G) ⧸ K) := S.isPGroup.to_quotient K
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hQp) (ϕ ⟨x, hxS⟩)
   have hdvd : orderOf (ϕ ⟨x, hxS⟩) ∣ (S : Subgroup G).index := orderOf_dvd_of_pow_eq_one h2.symm
   rw [hk] at hdvd
@@ -161,7 +162,7 @@ theorem chief_pow_mem {P X Y : Subgroup G} (hPn : P.Normal) (hPp : IsPGroup p P)
   have hW₀Y : W₀ ≤ Y := fun y hy => hy.1
   have hW₀X : W₀ ≠ X := by
     intro heq
-    obtain ⟨y, hyY, hyX⟩ := SetLike.exists_of_lt hXY
+    obtain ⟨y, hyY, hyX⟩ := _root_.IsConcreteLE.exists_of_lt hXY
     have hex : ∃ k, y ^ p ^ k ∈ X := by
       obtain ⟨k, hk⟩ := hPp ⟨y, hYP hyY⟩
       refine ⟨k, ?_⟩

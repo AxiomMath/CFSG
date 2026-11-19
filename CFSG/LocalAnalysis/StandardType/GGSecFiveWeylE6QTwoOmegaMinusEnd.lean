@@ -24,7 +24,7 @@ private lemma mulAut_apply_eq_self_of_mem_three_subgroup
       g * x * g⁻¹ ∈ Subgroup.zpowers x) :
     ∀ φ ∈ S, φ ⟨x, hxB⟩ = ⟨x, hxB⟩ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBsCent : Bs ≤ Subgroup.centralizer ({x} : Set G) := by
     intro b hb
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -70,7 +70,7 @@ private lemma exists_three_pow_order_of_inducing
     ∃ (r s b : ℕ), ¬ 3 ∣ r ∧ orderOf ((g ^ r) ^ s) = 3 ^ b ∧
       ∀ c : ↥H, ((φ c : ↥H) : G) = ((g ^ r) ^ s) * c * ((g ^ r) ^ s)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ψ : MulAut ↥H := Subgroup.normalizerMonoidHom (H := H) ⟨g, hg⟩
   have hψ : ψ = φ := by
     apply MulEquiv.ext
@@ -120,7 +120,7 @@ private lemma le_ggAutomizer_of_three_subgroup
       g * x * g⁻¹ ∈ Subgroup.zpowers x) :
     S ≤ ggAutomizer L Bs := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfix := mulAut_apply_eq_self_of_mem_three_subgroup hBs hxB horderx hS3 hStop h
   have hCN : Subgroup.centralizer ({x} : Set G) ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLx).mp hLN
@@ -221,6 +221,7 @@ private lemma le_ggAutomizer_of_three_subgroup
     · rw [Subgroup.card_map_of_injective (MulAut.conj (a : G)).injective]
   exact mem_ggAutomizer_iff.mpr ⟨(a : G), a.2, haN, fun c => (hg'ind' c).trans (hkey c)⟩
 
+omit [Finite G] in
 private lemma three_pow_seven_dvd_card_of_three_subgroup
     {Bs L : Subgroup G} (hBs : IsElemAbelian 3 Bs)
     (hcardBL : Nat.card ↥(Bs ⊓ L) = 3 ^ 5)
@@ -315,7 +316,7 @@ theorem GGSecFiveRestHyp.exists_conj_not_mem_zpowers_of_twD5
   have hInner : CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.AutThreePowInner ↥L :=
     CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.autThreePowInner_pomegaMinus_two
       (n := 5) (by norm_num) hmodel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S₀, hS₀card⟩ :=
     Sylow.exists_subgroup_card_pow_prime (p := 3) (n := 4) (by rw [hA₀card]; norm_num)
   let S : Subgroup (MulAut ↥Bs) := S₀.map A₀.subtype

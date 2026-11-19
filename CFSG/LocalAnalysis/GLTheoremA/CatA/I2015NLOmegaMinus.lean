@@ -38,7 +38,7 @@ theorem omega_nlWitness_of_fieldAutT {G : Type} [Group G] (k : Subfield K)
   have hd0 : 0 < d := by omega
   obtain ⟨hs, hna⟩ := matrix_simple_nonabelian hd0 hnd₀ hT₀
   have hsJ : IsSimpleGroup ↥(subfieldDerivedImage k hext) := by
-    haveI := hs
+    have := hs
     exact (inclEquiv k hext hd0).symm.isSimpleGroup
   have hnaJ : ∃ x y : ↥(subfieldDerivedImage k hext), x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := hna
@@ -119,7 +119,7 @@ theorem omegaMinus_nlWitness_phi {l n : ℕ} (hl : 4 ≤ l) (hn : 1 ≤ n) {K : 
     (hf : f ∈ LargeEvenPhiQ (l - 1) b c
       (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus (l - 1) b c))))
     (hord : orderOf f = p) : NLWitness f := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hcl := statedClassicalModel_omegaMinus l n hK b c hirr ⟨Nat.prime_two, hn, hl⟩
   have hαp : f ^ p = 1 := hord ▸ pow_orderOf_eq_one f
   have hαin : f ∉ OuterAutomorphisms.inner
@@ -148,7 +148,7 @@ theorem i2015NLOnOmegaMinus_holds : I2015NLOnOmegaMinus := by
   intro Q hQ
   have hr2 : r ≠ 2 := by omega
   have hr3 : r ≠ 3 := by omega
-  simp only [CFSG.Assembly.LargeEvenRawDatum, hr2, hr3, if_false] at hQ ⊢
+  simp only [CFSG.Assembly.LargeEvenRawDatum, hr2, hr3, ite_false] at hQ ⊢
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ'⟩ := hQ
   refine ⟨K, hF, hfin, hK, b, c, hirr, hQ', fun hs hna _ f hf hord _ _ => ?_⟩
   exact omegaMinus_nlWitness_phi hC hn hK hirr hp hp2 hs hna hf hord

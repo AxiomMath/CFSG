@@ -67,7 +67,7 @@ theorem bcv_single (i : Idx) : bcv (K := K) k (Pi.single i 1) = Pi.single i 1 :=
   funext j
   by_cases h : j = i
   · subst h; simp [bcv]
-  · simp [bcv, Pi.single_apply, h]
+  · simp [bcv, h]
 
 theorem exists_smul_of_finrank_eq_one {V : Type*} [AddCommGroup V] [Module k V]
     (S : Submodule k V) (hS : Module.finrank k S = 1) {v : V} (hv : v ∈ S) (hv0 : v ≠ 0) {x : V}
@@ -95,7 +95,7 @@ theorem isChevType_bcRep {ρ : Representation K (adjointGroup τ K) (Idx → K)}
     {χ : adjointGroup τ K → K} {J : Finset (Fin τ.rank)} (ht : IsChevType τ K 2 hw ρ y χ J) :
     IsChevType τ K 2 hw (bcRep k ρ) (bcv k y) (fun g => algebraMap K k (χ g)) J := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨hfix, hy0, hH, hJ⟩ := ht
   refine ⟨fun u hu => ?_, fun h => hy0 (bcv_injective (k := k) (by rw [h, bcv_zero])),
     fun h hh => ?_, fun i => ?_⟩
@@ -128,11 +128,11 @@ theorem isSimpleRep_bcRep {ρ : Representation K (adjointGroup τ K) (Idx → K)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy0 := ht.2.1
   obtain ⟨μ, hμ⟩ := ht.exists_mu hρ
-  haveI : Nonempty Idx := by
+  have : Nonempty Idx := by
     by_contra hne
     rw [not_nonempty_iff] at hne
     exact hy0 (Subsingleton.elim _ _)
-  haveI : Nontrivial (Idx → k) := inferInstance
+  have : Nontrivial (Idx → k) := inferInstance
   let D := chevDatum τ K 2 hw
   have hfixK : ∀ x ∈ D.fixU ρ, ∃ c : K, x = c • y := fun x hx => D.fixU_eq_smul hρ hμ hx
   let T : D.U → Matrix Idx Idx K := fun u => LinearMap.toMatrix' (ρ u)

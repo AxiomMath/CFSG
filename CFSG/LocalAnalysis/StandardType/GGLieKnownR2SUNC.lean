@@ -52,7 +52,7 @@ private theorem l10su4_exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -148,7 +148,7 @@ private theorem l10su4_exists_lam_mu_large {F : Type} [Field F] [Finite F]
     {σ : F ≃+* F} (hσapply : ∀ c, σ c = c ^ 2 ^ f) :
     ∃ lam mu : F, lam ≠ 0 ∧ mu ≠ 0 ∧ lam * (σ lam)⁻¹ * mu ^ 2 = 1 ∧
       σ mu * mu = 1 ∧ mu ≠ (σ lam)⁻¹ ∧ (σ lam)⁻¹ ≠ 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hgoal : orderOf g = Nat.card F - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, Nat.card_units]
@@ -205,7 +205,7 @@ private theorem l10su4_exists_lam_mu_two {F : Type} [Field F] [Finite F]
     {σ : F ≃+* F} (hσapply : ∀ c, σ c = c ^ 2 ^ f) :
     ∃ lam mu : F, lam ≠ 0 ∧ mu ≠ 0 ∧ lam * (σ lam)⁻¹ * mu ^ 2 = 1 ∧
       σ mu * mu = 1 ∧ mu ≠ (σ lam)⁻¹ ∧ (σ lam)⁻¹ ≠ 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hcard : Nat.card F = 4 := by
     rw [hF, hf]
@@ -258,7 +258,7 @@ private theorem l10su4_exists_lam_mu_three {F : Type} [Field F] [Finite F]
     {σ : F ≃+* F} (hσapply : ∀ c, σ c = c ^ 2 ^ f) :
     ∃ lam mu : F, lam ≠ 0 ∧ mu ≠ 0 ∧ lam * (σ lam)⁻¹ * mu = 1 ∧
       σ mu * mu = 1 ∧ mu ≠ (σ lam)⁻¹ ∧ (σ lam)⁻¹ ≠ 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hgoal : orderOf g = Nat.card F - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, Nat.card_units]
@@ -348,21 +348,21 @@ private theorem l10su4_exists_j₀ {n : ℕ} (hn : 4 ≤ n) {i : Fin n} :
   refine ⟨j₀, ?_, ?_, ?_⟩
   · intro h
     by_cases hc : i = z ∨ i = l
-    · simp only [j₀, if_pos hc] at h
+    · simp only [j₀, ite_eq_left hc] at h
       rcases hc with hc | hc
       · exact hoz (hc ▸ h)
       · exact hol (hc ▸ h)
-    · simp only [j₀, if_neg hc] at h
+    · simp only [j₀, ite_eq_right hc] at h
       exact hc (Or.inl h.symm)
   · intro h
     by_cases hc : i = z ∨ i = l
-    · simp only [j₀, if_pos hc] at h
+    · simp only [j₀, ite_eq_left hc] at h
       rcases hc with hc | hc
       · rw [hc, hz] at h
         exact hol h
       · rw [hc, hl] at h
         exact hoz h
-    · simp only [j₀, if_neg hc] at h
+    · simp only [j₀, ite_eq_right hc] at h
       have hli : i ≠ l := fun hh => hc (Or.inr hh)
       have hzi : Fin.rev i ≠ z := by
         intro hh
@@ -370,9 +370,9 @@ private theorem l10su4_exists_j₀ {n : ℕ} (hn : 4 ≤ n) {i : Fin n} :
       exact hzi h.symm
   · intro h
     by_cases hc : i = z ∨ i = l
-    · simp only [j₀, if_pos hc] at h
+    · simp only [j₀, ite_eq_left hc] at h
       exact hozrev h
-    · simp only [j₀, if_neg hc] at h
+    · simp only [j₀, ite_eq_right hc] at h
       exact hzrev h
 
 private theorem l10su4_diag_data {n : ℕ} {F : Type} [Field F] {σ : F ≃+* F}
@@ -398,11 +398,11 @@ private theorem l10su4_diag_data {n : ℕ} {F : Type} [Field F] {σ : F ≃+* F}
     have h3 : Fin.rev i ≠ Fin.rev j₀ := fun h => hj₀i (Fin.rev_injective h.symm)
     simp [d, h1, h2, h3]
   have hdj₀ : d j₀ = mu := by
-    simp [d, hj₀i, hj₀ri, hj₀]
+    simp [d, hj₀i, hj₀ri]
   have hdrj₀ : d (Fin.rev j₀) = mu := by
     have h1 : Fin.rev j₀ ≠ i := fun h => hj₀ri (by rw [← h, Fin.rev_rev])
     have h2 : Fin.rev j₀ ≠ Fin.rev i := by simpa [Fin.rev_inj] using hj₀i
-    simp [d, h1, h2, hj₀]
+    simp [d, h1, h2]
   have hd0 : ∀ j, d j ≠ 0 := by
     intro j
     by_cases h1 : j = i
@@ -486,9 +486,9 @@ private theorem l10su4_diag_data_three {F : Type} [Field F] {σ : F ≃+* F}
     · simp [d, Fin.prod_univ_three]; linear_combination hlammu
     · intro j h0 h2
       fin_cases j
-      · simp_all [d]
+      · simp_all
       · exact hmune
-      · simp_all [d]
+      · simp_all
   · exact absurd rfl hi
   · let d : Fin 3 → F := ![(σ lam)⁻¹, mu, lam]
     refine ⟨d, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -502,9 +502,9 @@ private theorem l10su4_diag_data_three {F : Type} [Field F] {σ : F ≃+* F}
     · simp [d, Fin.prod_univ_three]; linear_combination hlammu
     · intro j h0 h2
       fin_cases j
-      · simp_all [d]
+      · simp_all
       · exact hmune
-      · simp_all [d]
+      · simp_all
 
 private theorem l10su4_perpPair_iff {n : ℕ} {F : Type} [Field F] {σ : F ≃+* F}
     {i : Fin n} {r : Fin n → F} :
@@ -641,7 +641,7 @@ private theorem l10su4_fpf_three {F : Type} [Field F] [Finite F] [CharP F 2] {f 
           Subgroup ↥(Unitary.SU (unitaryInvolution F 2 f) 3)) :
           Set ↥(Unitary.SU (unitaryInvolution F 2 f) 3))),
         h * y = y * h → y ∈ (Unitary.rootDatum hF 3).rootGroup β := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hσ := CFSG.LieType.BorelTits.unitaryInvolution_involutive hF
   have hσapply : ∀ c, unitaryInvolution F 2 f c = c ^ 2 ^ f :=
     fun c => CFSG.LieType.BorelTits.unitaryInvolution_apply F 2 f c
@@ -747,7 +747,7 @@ private theorem l10su4_fpf {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
   · subst hn3
     exact l10su4_fpf_three hF (fun hf1 => hnf ⟨rfl, hf1⟩)
       (l10su4_mem_roots hF hl) hl
-  · haveI : Fintype F := Fintype.ofFinite F
+  · have : Fintype F := Fintype.ofFinite F
     have hβ := l10su4_mem_roots hF hl
     have hn4 : 4 ≤ n := by omega
     have hσ := CFSG.LieType.BorelTits.unitaryInvolution_involutive hF

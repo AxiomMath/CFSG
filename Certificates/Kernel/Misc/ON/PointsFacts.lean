@@ -99,11 +99,11 @@ theorem letRev_eq {s : ℕ} (hs : s < 16) :
   have e2 : Nat.land s 1 = s % 2 := Nat.and_one_is_mod s
   have h8 : s / 2 < 8 := by omega
   have hg := chkGensM_spec gensB ⟨s / 2, h8⟩
-  rw [e1, e2, letU, dif_pos h8]
+  rw [e1, e2, letU, dite_eq_left h8]
   by_cases hs2 : s % 2 = 0
-  · rw [if_pos (by rw [hs2]; rfl), if_pos hs2, inv_inv]
+  · rw [ite_eq_left (by rw [hs2]; rfl), ite_eq_left hs2, inv_inv]
     exact congrArg revM hg.1.1
-  · rw [if_neg (by rw [Nat.beq_eq]; exact hs2), if_neg hs2]
+  · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hs2), ite_eq_right hs2]
     exact congrArg revM hg.1.2
 
 theorem tree_stepK (k : ℕ) (hk : k < nPt) (h0 : k ≠ 0) :
@@ -148,7 +148,7 @@ theorem fixes_iff {k l : ℕ} (hk : k < nPt) (hl : l < 8)
   have hU : letU (2 * l + 1) = gM ⟨l, hl⟩ := by
     have h1 : (2 * l + 1) / 2 = l := by omega
     have h8 : (2 * l + 1) / 2 < 8 := by omega
-    rw [letU, dif_pos h8, if_neg (by omega)]
+    rw [letU, dite_eq_left h8, ite_eq_right (by omega)]
     congr 1
     exact Fin.ext h1
   rw [hU] at heq
@@ -185,7 +185,7 @@ theorem pivots_ptMat_zeroK : Pivots (ptMat 0) (Fin.castLE (by norm_num)) := by
   have hpe : p = Fin.castLE (by norm_num) := by
     funext c
     apply Fin.ext
-    rw [hpv, Fin.coe_castLE]
+    rw [hpv, Fin.val_castLE]
     exact Nat.eq_of_beq_eq_true (hdet.1 c c.isLt)
   rw [← hpe]
   exact hp.1
@@ -202,7 +202,7 @@ theorem prodN_eq (n : ℕ) (f : ℕ → ℕ) : prodN n f = ∏ i ∈ Finset.rang
 
 theorem lane_row_enc {A : Matrix (Fin 8) (Fin 45) (ZMod 7)} (i : Fin 8) (j : Fin 45) :
     lane (row (enc A) i) j = (A i j).val := by
-  rw [row_enc A i, lane_encV, ev, dif_pos j.isLt]
+  rw [row_enc A i, lane_encV, ev, dite_eq_left j.isLt]
   rfl
 
 theorem swapN_eq {a b : ℕ} (ha : a < 8) (hb : b < 8) (i : Fin 8) :
@@ -262,14 +262,14 @@ theorem det_resW_gMK (l' : Fin 6) :
     rw [Matrix.det_of_isLowerTriangular Lm ?_]
     · refine Finset.prod_eq_one fun i _ => ?_
       have h1 := htri i i.isLt i i.isLt
-      rw [if_neg (lt_irrefl _), if_pos rfl] at h1
+      rw [ite_eq_right (lt_irrefl _), ite_eq_left rfl] at h1
       have h2 : nthN L (8 * i + i) % 7 = 1 := Nat.eq_of_beq_eq_true h1
       change ((nthN L (8 * i + i) : ℕ) : ZMod 7) = 1
       rw [← ZMod.natCast_mod, h2, Nat.cast_one]
     · intro i j hij
       have h1 := htri i i.isLt j j.isLt
       have hij' : (i : ℕ) < j := hij
-      rw [if_pos hij'] at h1
+      rw [ite_eq_left hij'] at h1
       have h2 : nthN L (8 * i + j) = 0 := Nat.eq_of_beq_eq_true h1
       change ((nthN L (8 * i + j) : ℕ) : ZMod 7) = 0
       rw [h2, Nat.cast_zero]
@@ -286,7 +286,7 @@ theorem det_resW_gMK (l' : Fin 6) :
     · intro i j hij
       have h1 := htri i i.isLt j j.isLt
       have hji : (j : ℕ) < i := hij
-      rw [if_neg (by omega), if_neg (by omega)] at h1
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)] at h1
       have h2 : nthN U' (8 * i + j) % 7 = 0 := Nat.eq_of_beq_eq_true h1
       change ((nthN U' (8 * i + j) : ℕ) : ZMod 7) = 0
       rw [← ZMod.natCast_mod, h2, Nat.cast_zero]

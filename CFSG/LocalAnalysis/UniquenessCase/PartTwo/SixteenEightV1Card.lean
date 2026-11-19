@@ -17,7 +17,7 @@ theorem s16e_card_eq_two_mul_of_isSym_isAlt {X Y : Type} [Group X] [Group Y] {n 
     (hn : 2 ≤ n) (hX : IsSym X n) (hY : UC22.IsAlt Y n) : Nat.card X = 2 * Nat.card Y := by
   obtain ⟨eX⟩ := hX
   obtain ⟨eY⟩ := hY
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_congr eX.toEquiv, Nat.card_congr eY.toEquiv,
     two_mul_nat_card_alternatingGroup]
 

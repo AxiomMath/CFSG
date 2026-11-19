@@ -117,7 +117,7 @@ private theorem zjc_zj_odd (hp : p ≠ 2) {X P : Subgroup G} (hX : Odd (Nat.card
     (CFSG.BenderSuzuki.pStableGroup'_of_solvable_abelianSylowTwo hsolv
       (zjc_hasAbelianSylowTwo_of_odd hX) ((Fact.out : p.Prime).eq_two_or_odd'.resolve_left hp)) S
   set Z : Subgroup X := thompsonCenter (G := X) (S : Subgroup X) with hZ
-  have hZp : IsPGroup p Z := S.isPGroup'.to_le (thompsonCenter_le_self _)
+  have hZp : IsPGroup p Z := S.isPGroup.to_le (thompsonCenter_le_self _)
   have hM : (CFSG.pPrimeCore p X ⊔ Z).Normal := by rwa [sup_comm]
   have hsyl : IsSylowOf p Z (CFSG.pPrimeCore p X ⊔ Z) :=
     isSylowOf_sup_of_coprime CFSG.pPrimeCore_coprime_card hZp

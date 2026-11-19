@@ -56,7 +56,7 @@ private theorem false_of_centralizesBar_of_charY (hGA : GriessAllModelsStatement
       CFSG.Open.pRank q (normalizer ((zpowers a : Subgroup G) : Set G) ⊓ S.M) ≤ 1) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLM : L ≤ S.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hpL : 2 ≤ CFSG.Open.pRank p L := by
     rw [← uc22s213_pRank_barInf_of_prime hL.2.2 hp hp2 hZ]
@@ -76,7 +76,7 @@ private theorem false_of_centralizesBar_of_charY (hGA : GriessAllModelsStatement
   have hQ2 : 2 ≤ CFSG.Open.pRank p (P ⊓ L) := hQr ▸ hpL
   have hpp : S.p.Prime := S.hp.1.1
   have hp2S : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := by
     by_cases h3 : 3 ∈ uniqueFourBeta G

@@ -30,11 +30,11 @@ theorem eq_bot_of_perfect_central_odd {P : Type} [Group P] [Finite P]
   by_contra hne
   have hZ1 : Nat.card Z ≠ 1 := fun h => hne (Subgroup.eq_bot_of_card_eq Z h)
   obtain ⟨p, hp, hpZ⟩ := Nat.exists_prime_and_dvd hZ1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 hpZ)
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Z) p hpZ
   have hz'ord : orderOf (z : P) = p := by rw [Subgroup.orderOf_coe]; exact hz
   have hzp : IsPGroup p (Subgroup.zpowers (z : P)) := by
@@ -50,7 +50,7 @@ theorem eq_bot_of_perfect_central_odd {P : Type} [Group P] [Finite P]
     intro g
     have hy' : (y : P) ∈ Z := (QuotientGroup.eq_one_iff _).1 (MonoidHom.mem_ker.1 hy)
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hZ hy') g)
-  have hHp : IsPGroup p H := Q.isPGroup'
+  have hHp : IsPGroup p H := Q.isPGroup
   have hrange_p : IsPGroup p f.range := hHp.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   have hP168 : Nat.card (P ⧸ Z) = 168 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup Z
@@ -72,7 +72,7 @@ theorem eq_bot_of_perfect_central_odd {P : Type} [Group P] [Finite P]
     rcases Nat.lt_or_ge a 2 with ha2 | ha2
     · interval_cases a
       · have h1 : Nat.card f.range = 1 := by rw [ha]; simp
-        haveI : Subsingleton f.range := (Nat.card_eq_one_iff_unique.1 h1).1
+        have : Subsingleton f.range := (Nat.card_eq_one_iff_unique.1 h1).1
         infer_instance
       · exact isCyclic_of_prime_card (p := p) (by rw [ha]; simp)
     · exfalso
@@ -86,7 +86,7 @@ theorem eq_bot_of_perfect_central_odd {P : Type} [Group P] [Finite P]
         · exact absurd (h ▸ hp : Nat.Prime 4) (by norm_num)
       rw [h4] at h1
       norm_num at h1
-  haveI : IsMulCommutative ↥H :=
+  have : IsMulCommutative ↥H :=
     f.rangeRestrict.isMulCommutative_of_isCyclic_of_ker_le_center (by rwa [MonoidHom.ker_rangeRestrict])
   have hidx : ¬ p ∣ H.index := Sylow.not_dvd_index Q
   let ϕ : ↥H →* Abelianization ↥H := Abelianization.of
@@ -122,13 +122,13 @@ theorem pCore_two_quotient_eq_bot {G : Type} [Group G] [Finite G] :
 theorem quotient_pCore_equiv {D S : Type} [Group D] [Finite D] [Group S] [Finite S]
     (hS : IsSimpleGroup S) (hS168 : Nat.card S = 168)
     (θ : D →* S) (hθ : Function.Surjective θ) (hperf : _root_.commutator D = ⊤)
-    (Kc : Subgroup D) (h0 : ∀ x ∈ Kc, θ x = 1)
+    (Kc : Subgroup D) (_h0 : ∀ x ∈ Kc, θ x = 1)
     (h1 : ∀ x ∈ Kc, ∀ l : D, ⁅x, l⁆ ∈ CFSG.pCore 2 D)
     (h2 : ∀ w, θ w = 1 → ∃ k : ℕ, w ^ (2 ^ k) ∈ Kc) :
     Nonempty ((D ⧸ CFSG.pCore 2 D) ≃* S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := CFSG.pCore 2 D with hQ
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hQker : Q ≤ θ.ker := by
     have hn : (Q.map θ).Normal := Subgroup.Normal.map inferInstance θ hθ
     rcases hS.eq_bot_or_eq_top_of_normal (Q.map θ) with h | h
@@ -174,7 +174,7 @@ theorem quotient_pCore_equiv {D S : Type} [Group D] [Finite D] [Group S] [Finite
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hKbc hy) g)
-  haveI : Kw.Normal := Subgroup.normal_of_le_center hKwc
+  have : Kw.Normal := Subgroup.normal_of_le_center hKwc
   have hKbW : ∀ w : ↥Wb, ∃ k : ℕ, w ^ (2 ^ k) ∈ Kw := by
     intro w
     obtain ⟨d, hd⟩ := QuotientGroup.mk_surjective (w : D ⧸ Q)
@@ -192,8 +192,8 @@ theorem quotient_pCore_equiv {D S : Type} [Group D] [Finite D] [Group S] [Finite
     obtain ⟨w, rfl⟩ := QuotientGroup.mk_surjective q
     obtain ⟨k, hk⟩ := hKbW w
     exact ⟨k, by rw [← QuotientGroup.mk_pow]; exact (QuotientGroup.eq_one_iff _).2 hk⟩
-  haveI : Group.IsNilpotent (↥Wb ⧸ Kw) := h2grp.isNilpotent
-  haveI hnil : Group.IsNilpotent ↥Wb :=
+  have : Group.IsNilpotent (↥Wb ⧸ Kw) := h2grp.isNilpotent
+  have hnil : Group.IsNilpotent ↥Wb :=
     Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' Kw) (by rw [QuotientGroup.ker_mk']; exact hKwc)
   have hWodd : ¬ 2 ∣ Nat.card Wb := by
     intro h2d
@@ -236,9 +236,9 @@ theorem hasLThreeCore_of_quotient_equiv {Y : Type} [Group Y] {D : Subgroup Y} [F
     {S : Type} [Group S] (e : (↥D ⧸ CFSG.pCore 2 ↥D) ≃* S) (hS : IsLThreeTwo S) :
     HasLThreeCore D := by
   obtain ⟨hsimp, hcard⟩ := small1522_simple_center_aux3 hS
-  haveI : IsSimpleGroup S := hsimp
-  haveI : IsSimpleGroup (↥D ⧸ CFSG.pCore 2 ↥D) := e.isSimpleGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup S := hsimp
+  have : IsSimpleGroup (↥D ⧸ CFSG.pCore 2 ↥D) := e.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card (↥D ⧸ CFSG.pCore 2 ↥D) := by
     rw [Nat.card_congr e.toEquiv, hcard]; norm_num
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥D ⧸ CFSG.pCore 2 ↥D) 2 h2
@@ -247,7 +247,7 @@ theorem hasLThreeCore_of_quotient_equiv {Y : Type} [Group Y] {D : Subgroup Y} [F
     rw [orderOf_one] at hy
     omega
   have htop : pElementSubgroup 2 (⊤ : Subgroup (↥D ⧸ CFSG.pCore 2 ↥D)) = ⊤ := by
-    haveI := R1511C.pElementSubgroup_top_normal (Y := ↥D ⧸ CFSG.pCore 2 ↥D) 2
+    have := R1511C.pElementSubgroup_top_normal (Y := ↥D ⧸ CFSG.pCore 2 ↥D) 2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (pElementSubgroup 2 (⊤ : Subgroup (↥D ⧸ CFSG.pCore 2 ↥D))) with h | h
     · exfalso
@@ -268,7 +268,7 @@ theorem exists_component_image_le {P : Type} [Group P] [Finite P] (A : Subgroup 
       K₁ ≤ A.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 P)) ∧
       Nonempty (↥(pElementSubgroup 2 (⊤ : Subgroup (↥A ⧸ CFSG.pCore 2 ↥A))) ≃* ↥K₁) := by
   classical
-  haveI := hS
+  have := hS
   have hAsub : A.IsSubnormal := Subgroup.Normal.isSubnormal inferInstance
   have hπs : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore 3 P)) :=
     QuotientGroup.mk'_surjective _
@@ -306,7 +306,7 @@ theorem exists_component_image_le {P : Type} [Group P] [Finite P] (A : Subgroup 
       exact hnd (h3.trans (Subgroup.card_dvd_of_le hKle))
   have hnc := R1511C.exists_noncomm_of_simple_of_dvd h3 R1511C.closure_two_elements_eq_top
   let e : ↥Kt ≃* ↥f.range := MonoidHom.ofInjective hfinj
-  haveI : Kt.Normal := R1511C.pElementSubgroup_top_normal 2
+  have : Kt.Normal := R1511C.pElementSubgroup_top_normal 2
   have hcomp : (QuotientGroup.mk' (CFSG.pPrimeCore 3 P)).comp A.subtype =
       gh.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥A)) := MonoidHom.ext fun a => rfl
   have hrange : f.range = ((Kt.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥A))).map A.subtype).map
@@ -374,16 +374,16 @@ theorem exists_threeComponent_of_section' (hK3 : K3DvdL3) {P : Type} [Group P] [
       IsLThreeTwoPow (↥L ⧸ CFSG.pPrimeCore 3 ↥L) ∧
       IsLThreeTwoPow (↥L ⧸ CFSG.pCore 2 ↥L) := by
   classical
-  haveI : (CFSG.pCore 2 B).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 B).Normal := CFSG.pCore_normal
   obtain ⟨hSsimp, hS168⟩ := small1522_simple_center_aux3 hB
-  haveI := hSsimp
+  have := hSsimp
   let θ : ↥I →* (B ⧸ CFSG.pCore 2 B) := (QuotientGroup.mk' (CFSG.pCore 2 B)).comp ψ
   have hθ : Function.Surjective θ := (QuotientGroup.mk'_surjective _).comp hψ
   have hSperf : _root_.commutator (B ⧸ CFSG.pCore 2 B) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (_root_.commutator (B ⧸ CFSG.pCore 2 B)) with h | h
     · exfalso
-      haveI : IsMulCommutative (B ⧸ CFSG.pCore 2 B) := (_root_.commutator_eq_bot_iff _).1 h
+      have : IsMulCommutative (B ⧸ CFSG.pCore 2 B) := (_root_.commutator_eq_bot_iff _).1 h
       have := Group.is_simple_iff_prime_card.mp hSsimp
       rw [hS168] at this
       exact absurd this (by norm_num)
@@ -398,7 +398,7 @@ theorem exists_threeComponent_of_section' (hK3 : K3DvdL3) {P : Type} [Group P] [
   obtain ⟨D, hD𝒟, hDmin⟩ := Set.exists_min_image 𝒟 (fun D : Subgroup ↥I => Nat.card D)
     (Set.toFinite 𝒟) ⟨⊤, h𝒟top⟩
   obtain ⟨hDn, hDθ⟩ := hD𝒟
-  haveI hDn' : (D.map I.subtype).Normal := hDn
+  have hDn' : (D.map I.subtype).Normal := hDn
   have hDperf : ⁅D, D⁆ = D := by
     have hmem : ⁅D, D⁆ ∈ 𝒟 := by
       refine ⟨?_, ?_⟩
@@ -436,7 +436,7 @@ theorem exists_threeComponent_of_section' (hK3 : K3DvdL3) {P : Type} [Group P] [
   have h1 : ∀ x ∈ Kc, ∀ l : ↥D, ⁅x, l⁆ ∈ CFSG.pCore 2 ↥D := by
     intro x hx l
     let R : Subgroup ↥D := (CFSG.pCore 2 P).comap (I.subtype.comp D.subtype)
-    haveI : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
+    have : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
     have hR : IsPGroup 2 R :=
       (CFSG.pCore_isPGroup (p := 2) (G := P)).comap_of_injective _
         (I.subtype_injective.comp D.subtype_injective)
@@ -516,7 +516,7 @@ theorem exists_threeComponent_of_gnA' (hK3 : K3DvdL3) {T Ti : Subgroup X}
       IsLThreeTwoPow (↥L' ⧸ CFSG.pCore 2 ↥L') := by
   set N : Subgroup X := Subgroup.normalizer (Ti : Set X) with hN
   set I : Subgroup ↥N := (N ⊓ L).subgroupOf N with hI
-  haveI hIn : I.Normal := R1511C.normal_inf_subgroupOf N L hLn
+  have hIn : I.Normal := R1511C.normal_inf_subgroupOf N L hLn
   have hmem : ∀ x : ↥I, toStar T (x : ↥N).1 ∈ gnA T Ti Ls := by
     intro x
     have hx : ((x : ↥N) : X) ∈ N ⊓ L := x.2
@@ -540,7 +540,7 @@ theorem exists_threeComponent_of_gnA' (hK3 : K3DvdL3) {T Ti : Subgroup X}
     have hlL : ((l : ↥N) : X) ∈ L := (show ((l : ↥N) : X) ∈ N ⊓ L from l.2).2
     have hcomm := comm_mem_pCore_of_lift hX hLs hL hxL hxC hlL
     let R : Subgroup ↥N := (CFSG.pCore 2 X).comap N.subtype
-    haveI : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
+    have : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
     have hR : IsPGroup 2 R :=
       (CFSG.pCore_isPGroup (p := 2) (G := X)).comap_of_injective _ N.subtype_injective
     have hRle : R ≤ CFSG.pCore 2 ↥N := le_sSup ⟨inferInstance, hR⟩
@@ -566,6 +566,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_map_conj_eq {M : Subgroup G} {g : G}
     (h : M.map (MulAut.conj g).toMonoidHom = M) : g ∈ Subgroup.normalizer (M : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -582,17 +583,19 @@ theorem mem_normalizer_of_map_conj_eq {M : Subgroup G} {g : G}
     rw [← this]
     exact hm
 
+omit [Finite G] in
 theorem mem_of_map_conj_le {M A : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hA : A ∈ uniqueSet M) {h : G} (hAh : A.map (MulAut.conj h).toMonoidHom ≤ M) : h ∈ M := by
   have h1 : A ≤ M.map (MulAut.conj h⁻¹).toMonoidHom := by
     intro y hy
     refine ⟨h * y * h⁻¹, hAh ⟨y, hy, rfl⟩, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have h2 := hA.2 h⁻¹ h1
   have h3 := mem_normalizer_of_map_conj_eq h2
   rw [CFSG.RankThreeCoreUniqueness.Helpers.maxTwoLocal_self_normalizing M hM] at h3
   simpa using M.inv_mem h3
 
+omit [Finite G] in
 private theorem isTwoLocal_normalizer_map_subtype {M T : Subgroup G} {Ti : Subgroup ↥M}
     (hne : Ti ≠ ⊥) (hTiT : Ti.map M.subtype ≤ T) (hT2 : IsPGroup 2 T) :
     IsTwoLocal (Subgroup.normalizer ((Ti.map M.subtype : Subgroup G) : Set G)) := by
@@ -618,7 +621,7 @@ theorem false_of_threeComponent_O89_gen {M T : Subgroup G} (hO89 : O89At G M)
     (hLq : IsLThreeTwoPow (↥L' ⧸ CFSG.pCore 2 ↥L'))
     (hH3 : CFSG.Open.pRank 3
       (Subgroup.normalizer ((Ti.map M.subtype : Subgroup G) : Set G)) ≤ 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTM : T ≤ M := ctx.sylow.le
   have hTp : IsPGroup 2 T := ctx.sylow.isPGroup
   obtain ⟨hTi'T, hTi'char⟩ := map_subtype_characteristic hTM hle hchar

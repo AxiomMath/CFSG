@@ -34,7 +34,7 @@ theorem psl2_seven_not_commute (hF : Nat.card F = 7) {t c : PSL2 F} (ht : orderO
     rwa [ho, hz] at h0
   rcases hfam with ⟨g, rfl⟩ | ⟨g, rfl⟩ | ⟨g, rfl⟩
   · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective] at hdvd
-    obtain ⟨n, hn⟩ := (Sylow.isPGroup' (default : Sylow 7
+    obtain ⟨n, hn⟩ := (Sylow.isPGroup (default : Sylow 7
       (BenderSuzuki.MatrixGroups.PSL2MatrixGroup F))).exists_card_eq
     rw [hn] at hdvd
     have h2 : 2 ∣ 7 ^ n := (show 2 ∣ 6 by norm_num).trans hdvd

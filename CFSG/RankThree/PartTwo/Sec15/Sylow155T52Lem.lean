@@ -17,7 +17,7 @@ private theorem mem_of_pow_three_eq_one {E P : Subgroup M}
     (hPE : P ≤ Subgroup.centralizer (E : Set M)) {x : M} (hx : x ∈ P) (hx3 : x ^ 3 = 1) :
     x ∈ E := by
   by_contra hxE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE', -⟩ := CFSG.RankThree.PartTwo.Sec5.isElemAbelian_sup_zpowers hE hxE hx3
     (fun e he => Subgroup.mem_centralizer_iff.mp (hPE hx) e he)
   apply hxE
@@ -42,7 +42,7 @@ theorem exists_mem_normalizer_not_commute (N : Subgroup M) [N.Normal] (hN : ¬ 3
     ∃ d ∈ Subgroup.normalizer (E : Set M), (∃ k : ℕ, d ^ 3 ^ k = 1) ∧
       ∃ e ∈ E, d * e * d⁻¹ ≠ e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hH
   push Not at hH
   have hEc : E ≤ Subgroup.centralizer (E : Set M) := fun x hx => by
@@ -66,8 +66,8 @@ theorem exists_mem_normalizer_not_commute (N : Subgroup M) [N.Normal] (hN : ¬ 3
       refine le_antisymm hPS fun x hx => ?_
       have hx' : (⟨x, hx⟩ : (S : Subgroup M)) ∈ P.subgroupOf S := htop ▸ Subgroup.mem_top _
       exact hx'
-    haveI : Group.IsNilpotent (S : Subgroup M) := S.isPGroup'.isNilpotent
-    obtain ⟨g, hgN, hgP⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+    have : Group.IsNilpotent (S : Subgroup M) := S.isPGroup.isNilpotent
+    obtain ⟨g, hgN, hgP⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hgPn : ∀ x ∈ P, (g : M) * x * (g : M)⁻¹ ∈ P := by
       intro x hx
       have h := (Subgroup.mem_normalizer_iff.mp hgN ⟨x, hPS hx⟩).mp hx
@@ -76,7 +76,7 @@ theorem exists_mem_normalizer_not_commute (N : Subgroup M) [N.Normal] (hN : ¬ 3
       refine mem_normalizer_of_conj_mem fun e he => hΩ _ (hgPn e (hEP he)) ?_
       rw [show (g : M) * e * (g : M)⁻¹ = MulAut.conj (g : M) e from rfl, ← map_pow,
         hE.2 e he, map_one]
-    obtain ⟨k, hk⟩ := S.isPGroup' g
+    obtain ⟨k, hk⟩ := S.isPGroup g
     have hk' : (g : M) ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hgc := hH _ hgE ⟨k, hk'⟩
     have hP'S : P ⊔ Subgroup.zpowers (g : M) ≤ S :=
@@ -88,7 +88,7 @@ theorem exists_mem_normalizer_not_commute (N : Subgroup M) [N.Normal] (hN : ¬ 3
       have h1 := hgc e he
       calc e * (g : M) = ((g : M) * e * (g : M)⁻¹) * (g : M) := by rw [h1]
         _ = (g : M) * e := by group
-    have hle := hPmax ⟨S.isPGroup'.to_le hP'S, hEP.trans le_sup_left, hP'c⟩ le_sup_left
+    have hle := hPmax ⟨S.isPGroup.to_le hP'S, hEP.trans le_sup_left, hP'c⟩ le_sup_left
     exact hgP (hle (Subgroup.mem_sup_right (Subgroup.mem_zpowers _)))
   have hπs : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
   set T : Sylow 3 (M ⧸ N) := S.mapSurjective hπs with hTdef

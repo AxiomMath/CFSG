@@ -351,6 +351,7 @@ theorem indecomposable (hL : IsLeviFamily P d L) (i : Fin d) (A B : Subgroup Q)
     · exact absurd (le_antisymm (le_pCoreOf_of_tits hL i hA hB hAB hc hAc hBc)
         (hL.pCoreOf_le i)) (hL.ne i)
 
+omit [Finite Q] in
 private theorem exists_not_commutator_le_of_not_commutator_le (hL : IsLeviFamily P d L)
     {K0 X C O N : Subgroup Q} (hK0 : K0 = Opp 2 P) (hC : C = ⁅K0, X⁆)
     (hN : N = C ⊔ O) (hO : O = pCoreOf 2 P)

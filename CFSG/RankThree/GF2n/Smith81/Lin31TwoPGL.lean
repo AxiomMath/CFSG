@@ -130,6 +130,7 @@ section PGL
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem exists_second_eigen {a : GL (Fin 2) F} (hao : Odd (orderOf a))
     (hna : ∀ c : F, (a : Matrix (Fin 2) (Fin 2) F) ≠ Matrix.scalar (Fin 2) c)
     {u₁ : Fin 2 → F} (hu₁ : u₁ ≠ 0) {μ₁ : F}
@@ -196,6 +197,7 @@ private noncomputable def toSL : GL (Fin 2) F →* GL (Fin 2) F where
     simp only [map_mul, mul_pow, mul_inv, mul_assoc]
     rw [← mul_assoc _ g h, hc _ g, mul_assoc]
 
+omit [Finite F] [CharP F 2] in
 private lemma toSL_coe (g : GL (Fin 2) F) :
     ((toSL g : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
       (((Matrix.GeneralLinearGroup.det g ^ (Nat.card F / 2))⁻¹ : Fˣ) : F) •
@@ -220,6 +222,7 @@ private lemma toSL_mem (g : GL (Fin 2) F) : toSL g ∈ StatedSL 2 F := by
   rw [Units.val_inv_eq_inv_val, Units.val_pow_eq_pow_val,
     Matrix.GeneralLinearGroup.val_det_apply, inv_pow, ← pow_mul, hq, hpow, inv_mul_cancel₀ hδ]
 
+omit [Finite F] [CharP F 2] in
 private lemma card_map_toSL_dvd (Γ : Subgroup (GL (Fin 2) F))
     (hΓ : Nat.card ↥(Γ ⊓ StatedSL 2 F) ∣ 2 * (Nat.card F - 1)) :
     Nat.card (Γ.map toSL) ∣ 2 * ((Nat.card F - 1) * (Nat.card F - 1)) := by
@@ -290,7 +293,7 @@ theorem odd_eigen_common (Γ : Subgroup (GL (Fin 2) F))
     (hΓ : Nat.card ↥(Γ ⊓ StatedSL 2 F) ∣ 2 * (Nat.card F - 1))
     {a b : GL (Fin 2) F} (ha : a ∈ Γ) (hb : b ∈ Γ) (hao : Odd (orderOf a))
     (hbo : Odd (orderOf b))
-    (hna : ∀ c : F, (a : Matrix (Fin 2) (Fin 2) F) ≠ Matrix.scalar (Fin 2) c)
+    (_hna : ∀ c : F, (a : Matrix (Fin 2) (Fin 2) F) ≠ Matrix.scalar (Fin 2) c)
     (hnb : ∀ c : F, (b : Matrix (Fin 2) (Fin 2) F) ≠ Matrix.scalar (Fin 2) c)
     {u : Fin 2 → F} (hu : u ≠ 0) {μ : F}
     (hub : Matrix.vecMul u (b : Matrix (Fin 2) (Fin 2) F) = μ • u) :

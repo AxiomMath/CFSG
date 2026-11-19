@@ -20,6 +20,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem imAlpha189_omegaOneTwo189_le (M H : Subgroup G) (c : G) :
     imAlpha189 M H c (omegaOneTwo189 (s189 M H)) ≤
       Subgroup.closure {z | z ∈ sAlpha189 M H c ∧ z * z = 1} := by

@@ -170,7 +170,7 @@ variable {K : Type} [Field K]
     rcases j with j | j <;> simp
   map_mul' s t := by
     funext j
-    rcases j with j | j <;> simp [mul_inv, mul_comm]
+    rcases j with j | j <;> simp [mul_comm]
 
 theorem le_pRank_omegaPlus_torus [Finite K] {r n : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hK : r ∣ Nat.card Kˣ) :
@@ -209,7 +209,7 @@ variable {K : Type} [Field K]
     rcases j with j | j | j <;> simp
   map_mul' s t := by
     funext j
-    rcases j with j | j | j <;> simp [mul_inv, mul_comm]
+    rcases j with j | j | j <;> simp [mul_comm]
 
 @[expose] def swapMinus (m : ℕ) : Fin m ⊕ Fin m ⊕ Fin 2 → Fin m ⊕ Fin m ⊕ Fin 2
   | .inl i => .inr (.inl i)

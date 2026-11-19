@@ -113,12 +113,12 @@ theorem find?_range_eq (q : ℕ) : ∀ (l : List ℕ) (P : ℕ → Bool),
         exact h1)
       rw [ih]
       by_cases hq : q ∈ l
-      · rw [if_pos hq, if_pos (List.mem_cons_of_mem a hq), List.idxOf_cons_ne _ ha]
+      · rw [ite_eq_left hq, ite_eq_left (List.mem_cons_of_mem a hq), List.idxOf_cons_ne _ ha]
         rfl
-      · rw [if_neg hq, if_neg (by simp [Ne.symm ha, hq])]
+      · rw [ite_eq_right hq, ite_eq_right (by simp [Ne.symm ha, hq])]
         rfl
 
-theorem firstConj_of_passGo {E inv : List ℕ} {T W : IT} {M r : ℕ} (hnd : E.Nodup)
+theorem firstConj_of_passGo {E inv : List ℕ} {T W : IT} {M r : ℕ} (_hnd : E.Nodup)
     (hT : ∀ c, T.find c E.length = E.idxOf c) (h : passGo T W E.length M r E inv = true)
     (i y : ℕ) : firstConj E.toArray inv.toArray i r y =
       if M.testBit (T.find y E.length) then some (i, E[W.find (T.find y E.length) E.length]!)
@@ -174,11 +174,11 @@ theorem firstConj_of_passGo {E inv : List ℕ} {T W : IT} {M r : ℕ} (hnd : E.N
   simp only [Nat.zero_testBit, Bool.false_or]
   by_cases hq : E.idxOf y ∈ ks
   · have hql := List.idxOf_lt_length_iff.2 hq
-    rw [if_pos hq, if_pos (by simpa using hq), Option.map_some, hW _ hq (Nat.zero_testBit _),
+    rw [ite_eq_left hq, ite_eq_left (by simpa using hq), Option.map_some, hW _ hq (Nat.zero_testBit _),
       Nat.zero_add, getElem!_pos E.toArray (ks.idxOf (E.idxOf y)) (by simp; omega),
       getElem!_pos E (ks.idxOf (E.idxOf y)) (by omega)]
     simp
-  · rw [if_neg hq, if_neg (by simpa using hq)]
+  · rw [ite_eq_right hq, ite_eq_right (by simpa using hq)]
     rfl
 
 end CFSG.KC.C690

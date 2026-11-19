@@ -90,7 +90,7 @@ theorem exists_pGroup_counterexample {P : Sylow 3 G} {M : Subgroup G} {x z : G}
     have hk : 0 < (Nat.card ↥K).factorization f :=
       hf.factorization_pos_of_dvd Nat.card_pos.ne' hfK
     exact (Nat.one_lt_pow hk.ne' hf.one_lt).ne' h1
-  refine ⟨f, hf, hf5, (S : Subgroup ↥K).map K.subtype, S.isPGroup'.map K.subtype,
+  refine ⟨f, hf, hf5, (S : Subgroup ↥K).map K.subtype, S.isPGroup.map K.subtype,
     (Subgroup.map_subtype_le _).trans hKF, ?_, hBK.trans hN, fun hle => hKnot (hN.trans hle)⟩
   rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective]
 

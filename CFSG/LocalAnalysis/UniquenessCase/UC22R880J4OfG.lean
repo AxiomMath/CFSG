@@ -291,7 +291,7 @@ theorem r880J4_of_r880J4G {G : Type} [Group G] [Finite G]
     exact Subgroup.map_subtype_le _
   have hQp : IsPGroup 3 Q := by
     rw [hQdef]
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hE₀Q : E₀ ≤ Q := by
     rw [hQdef]
     exact fun x hx => ⟨⟨x, hE₀L hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩

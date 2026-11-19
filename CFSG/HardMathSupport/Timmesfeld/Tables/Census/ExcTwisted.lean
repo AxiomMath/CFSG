@@ -63,7 +63,7 @@ theorem exists_injective_sl2_trialityD4
     exact (Set.ext_iff.1 hk c).symm)
 
 theorem ringChar_ne_two_of_card {F : Type} [Field F] [Finite F] {p e : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (he : e ≠ 0) (hF : Nat.card F = p ^ e) : ringChar F ≠ 2 := by
+    (hp2 : p ≠ 2) (_he : e ≠ 0) (hF : Nat.card F = p ^ e) : ringChar F ≠ 2 := by
   intro h
   have : Fintype F := Fintype.ofFinite F
   have h1 := (FiniteField.even_card_iff_char_two (F := F)).1 h

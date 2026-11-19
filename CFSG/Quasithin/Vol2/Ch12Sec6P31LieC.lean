@@ -87,8 +87,8 @@ private theorem psl34c_sq_mem_linear {F : Type} [Field F] [Finite F] (hF : Nat.c
 private theorem psl34c_card_linearAutGroup {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) :
     Nat.card ↥(CFSG.LocalAnalysis.ComponentInitial.LinearFlag.linearAutGroup 3 F) = 60480 := by
   have hGL : Nat.card (Matrix.GeneralLinearGroup (Fin 3) F) = 181440 := by
-    rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_GL_eq 3, hF] <;>
-      first | rfl | decide | norm_num [Finset.prod_Icc_succ_top]
+    rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_GL_eq 3, hF];
+      first | rfl
   have hinj : Function.Injective
       (Matrix.GeneralLinearGroup.scalar (Fin 3) : Fˣ →* Matrix.GeneralLinearGroup (Fin 3) F) := by
     intro u v huv

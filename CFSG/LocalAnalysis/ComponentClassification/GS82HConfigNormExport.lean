@@ -133,7 +133,7 @@ theorem core_config_norm
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK, -, hNJ⟩ := exists_component_orbit hNC hN hNE
-  haveI : Fintype (Orb B K) := Fintype.ofFinite _
+  have : Fintype (Orb B K) := Fintype.ofFinite _
   set C := K ⊓ centralizer (stab B K : Set G) with hCdef
   set D' := orbRest B K with hD'def
   set ψ := normMap B K hK with hψdef
@@ -359,7 +359,7 @@ theorem lift_config_norm {B : Subgroup H} (hB : IsPGroup 2 B) {Kb Tb : Subgroup 
   have hT'sub : T'.IsSubnormal :=
     SignalizerFunctorTheorem.Nonsolvable.isSubnormal_perfectResidual_map (hTbsub.comap f)
   have hTbperf : Group.IsPerfect ↥(Tb.subgroupOf C₂) := by
-    haveI := hTbqs.1
+    have := hTbqs.1
     exact Group.IsPerfect.ofSurjective (f := (subgroupOfEquivOfLe hTb).symm.toMonoidHom)
       (subgroupOfEquivOfLe hTb).symm.surjective
   have hT'map : T'.map f = Tb.subgroupOf C₂ := by
@@ -370,7 +370,7 @@ theorem lift_config_norm {B : Subgroup H} (hB : IsPGroup 2 B) {Kb Tb : Subgroup 
     rw [hTdef, Subgroup.map_map, hfφ, ← Subgroup.map_map, hT'map, subgroupOf_map_subtype,
       inf_eq_left.mpr hTb]
   have hTperf : Group.IsPerfect ↥T := by
-    haveI := hT'perf
+    have := hT'perf
     exact Group.IsPerfect.map C₁.subtype
   have hTC₁ : T ≤ C₁ := map_subtype_le _
   have hTK : T ≤ K := le_canonicalPrimeLift_of_isPerfect Kb hTperf (hTC₁.trans inf_le_left)
@@ -637,7 +637,7 @@ theorem CtxA0.exists_gs82HConfig_norm
       (centralizer ({c.s.h.a * c.b * c.Z.z} : Set X))) ⧸ pPrimeCore 2 ↥(N₁.subgroupOf
       (centralizer ({c.s.h.a * c.b * c.Z.z} : Set X)))) := by
     obtain ⟨e1⟩ := HConfig.nonempty_quot_equiv_of_mulEquiv (subgroupOfEquivOfLe hN₁Y)
-    letI : Fintype (GaloisField p' n) := Fintype.ofFinite _
+    let : Fintype (GaloisField p' n) := Fintype.ofFinite _
     refine ⟨GaloisField p' n, inferInstance, inferInstance, ?_, ⟨e1.trans eN⟩⟩
     rw [← Nat.card_eq_fintype_card, GaloisField.card p' n hn.ne']
   have h5 : 5 ≤ p' ^ n := by
@@ -657,7 +657,7 @@ theorem CtxA0.exists_gs82HConfig_norm
       have hS : Group.IsSolvable SL(2, GaloisField p' n) :=
         GH74.Generic.BProg.B1.PilotS1.isSolvable_sl2_three
           (by rw [GaloisField.card p' n hn.ne', h])
-      exact not_isSolvable_of_isQuasisimple hQ (solvable_of_surjective
+      exact not_isSolvable_of_isQuasisimple hQ (Group.isSolvable_of_surjective
         (f := eN.symm.toMonoidHom) eN.symm.surjective)
     · exact h
   obtain ⟨K, R, T, w, hK, hR, hRK, hTKR, hT, hSLT, hw, hwT, hwK, hΩ⟩ :=

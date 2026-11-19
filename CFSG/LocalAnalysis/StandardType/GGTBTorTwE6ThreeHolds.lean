@@ -36,11 +36,11 @@ theorem torData_odd {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     (h5 : 3 ^ 5 ≤ Nat.card A) (hsc : GGTorusSelfCent 3 A) (hodd : Odd (Nat.card ψ₀.ker))
     (hcard : Nat.card (ggAutomizer (MulAut.conj : L' →* MulAut L').range A) ≤
       Nat.card (WeylGroup .E6)) :
-    GGTorusTorData (2 ^ n + 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ L' A := by
+    GGTorusTorData (2 ^ n + 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ L' A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
   have hσq : ∀ c, σ.toRingHom c = c ^ (2 ^ n) := fun c => hσ c
   have hσ2 : ∀ c, σ.toRingHom (σ.toRingHom c) = c := by
@@ -85,7 +85,7 @@ theorem torData_odd {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
   have hδi := scalar_descent_injective σ hσ2 l hl φ δ hK hσq hn ψa hφ hδ
   have hκ : ∀ a : A, (a : MulAut L') = δ (frameB σ ζ hζ (κ a)) := by
     intro a
-    haveI : Group.IsPerfect L' := ⟨hperf⟩
+    have : Group.IsPerfect L' := ⟨hperf⟩
     have hcomp : ψa.comp (a : MulAut L').toMonoidHom =
         ψa.comp (δ (frameB σ ζ hζ (κ a))).toMonoidHom := by
       apply MonoidHom.ext
@@ -133,7 +133,7 @@ theorem torData_recipe_odd {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤
     {ψ : L' →* TwE6Delta.RecipeR K n} {A : Subgroup (MulAut L')}
     (hTB : GGTorusTBGroup 3 5 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) L' ψ A)
     (hodd : Odd (Nat.card ψ.ker)) :
-    GGTorusTorData (2 ^ n + 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ L' A := by
+    GGTorusTorData (2 ^ n + 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ L' A := by
   obtain ⟨hψ, hker, hperf, hA, hAI, h5, -, hsc⟩ := hTB
   have hcard : Nat.card (ggAutomizer (MulAut.conj : L' →* MulAut L').range A) ≤
       Nat.card (WeylGroup .E6) := by
@@ -158,7 +158,7 @@ theorem torData_recipe_odd {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤
 
 theorem ggTorusTorW_recipe_twE6_three {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = (2 ^ n) ^ 2) (h3 : 3 ∣ 2 ^ n + 1) :
-    GGTorusTorW 3 5 (2 ^ n + 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+    GGTorusTorW 3 5 (2 ^ n + 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
       (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   intro L' _ _ ψ A hTB
   by_cases hodd : Odd (Nat.card ψ.ker)
@@ -167,9 +167,9 @@ theorem ggTorusTorW_recipe_twE6_three {K : Type} [Field K] [Finite K] {n : ℕ} 
   have hn1 : n = 1 := by
     by_contra hne
     apply hodd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
     obtain ⟨σ, hσ, ε, -⟩ := TwE6Transport.exists_recipeConj (K := K) (n := n) hn hK
     let ψ₀ : L' →* ↥(twistedE6RootGroup K σ) := ε.symm.toMonoidHom.comp ψ
@@ -200,7 +200,7 @@ theorem ggTBTorTwE6Three_holds : GGTBTorTwE6Three := by
   have hm : ggTorM lab = 2 ^ lab.n + 1 := by simp [ggTorM, htag]
   rw [hm] at h3 ⊢
   exact TwE6Delta.labelAll htag
-    (Q := fun R _ I => GGTorusTorW 3 5 (2 ^ lab.n + 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ R I)
+    (Q := fun R _ I => GGTorusTorW 3 5 (2 ^ lab.n + 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ R I)
     fun K _ _ hK => ggTorusTorW_recipe_twE6_three hlab.1 hK h3
 
 end CFSG.StandardType.TwE6ThreeLang

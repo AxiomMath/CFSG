@@ -57,7 +57,7 @@ theorem exists_three_group_centralizing {G : Type*} [Group G] [Finite G] {x : G}
       have := Subgroup.card_le_of_le hle
       omega
     omega
-  have hTnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup'.isNilpotent
+  have hTnil : Group.IsNilpotent ↥(T : Subgroup G) := T.isPGroup.isNilpotent
   obtain ⟨⟨n, hnT⟩, hnN, hnX⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hnXn : n ∉ zpowers x := fun h => hnX (Subgroup.mem_subgroupOf.2 h)
@@ -66,7 +66,7 @@ theorem exists_three_group_centralizing {G : Type*} [Group G] [Finite G] {x : G}
         (zpowers x).subgroupOf (T : Subgroup G) := Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers x)
     have h2 := (Subgroup.mem_normalizer_iff.1 hnN _).1 h1
     exact Subgroup.mem_subgroupOf.1 h2
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨n, hnT⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨n, hnT⟩
   have hnk : n ^ (3 ^ k) = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
@@ -138,7 +138,7 @@ theorem exists_three_group_centralizing {G : Type*} [Group G] [Finite G] {x : G}
     refine sup_le ((Subgroup.zpowers_le).2 ?_) ((Subgroup.zpowers_le).2 ?_)
     · exact Subgroup.mem_centralizer_singleton_iff.2 rfl
     · exact Subgroup.mem_centralizer_singleton_iff.2 hcomm
-  have hBp : IsPGroup 3 ↥(zpowers x ⊔ zpowers n) := T.isPGroup'.to_le hBT
+  have hBp : IsPGroup 3 ↥(zpowers x ⊔ zpowers n) := T.isPGroup.to_le hBT
   refine ⟨zpowers x ⊔ zpowers n, hBC, hBp, ?_⟩
   obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 hBp
   have hXB : zpowers x ≤ zpowers x ⊔ zpowers n := le_sup_left

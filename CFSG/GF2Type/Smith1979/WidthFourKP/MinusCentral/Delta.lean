@@ -23,6 +23,7 @@ variable {X : Type*} [Group X] {A : Subgroup X} {θ : X}
   (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hθ : θ ∈ normalizer (A : Set X)) (hθ3 : θ ^ 3 = 1)
 include hAc hθ
 
+omit hAc in
 theorem conj_mem_of_mem_normalizer {a : X} (ha : a ∈ A) :
     θ * a * θ⁻¹ ∈ A ∧ θ⁻¹ * a * θ ∈ A := by
   refine ⟨(mem_normalizer_iff.mp hθ a).mp ha, ?_⟩
@@ -32,8 +33,8 @@ theorem conj_mem_of_mem_normalizer {a : X} (ha : a ∈ A) :
 theorem norm_mul {a b : X} (ha : a ∈ A) (hb : b ∈ A) :
     a * b * (θ * (a * b) * θ⁻¹) * (θ⁻¹ * (a * b) * θ) =
       (a * (θ * a * θ⁻¹) * (θ⁻¹ * a * θ)) * (b * (θ * b * θ⁻¹) * (θ⁻¹ * b * θ)) := by
-  obtain ⟨ha1, ha2⟩ := conj_mem_of_mem_normalizer hAc hθ ha
-  obtain ⟨hb1, hb2⟩ := conj_mem_of_mem_normalizer hAc hθ hb
+  obtain ⟨ha1, ha2⟩ := conj_mem_of_mem_normalizer hθ ha
+  obtain ⟨hb1, hb2⟩ := conj_mem_of_mem_normalizer hθ hb
   have e1 : θ * (a * b) * θ⁻¹ = (θ * a * θ⁻¹) * (θ * b * θ⁻¹) := by group
   have e2 : θ⁻¹ * (a * b) * θ = (θ⁻¹ * a * θ) * (θ⁻¹ * b * θ) := by group
   rw [e1, e2]
@@ -50,7 +51,7 @@ theorem norm_mul {a b : X} (ha : a ∈ A) (hb : b ∈ A) :
 include hθ3 in
 theorem commute_norm {a : X} (ha : a ∈ A) :
     θ * (a * (θ * a * θ⁻¹) * (θ⁻¹ * a * θ)) = (a * (θ * a * θ⁻¹) * (θ⁻¹ * a * θ)) * θ := by
-  obtain ⟨ha1, ha2⟩ := conj_mem_of_mem_normalizer hAc hθ ha
+  obtain ⟨ha1, ha2⟩ := conj_mem_of_mem_normalizer hθ ha
   have hθ2 : θ * θ = θ⁻¹ := by
     rw [eq_inv_iff_mul_eq_one, ← pow_two, ← pow_succ, hθ3]
   have e1 : θ * (θ * a * θ⁻¹) * θ⁻¹ = θ⁻¹ * a * θ := by
@@ -147,12 +148,12 @@ theorem delta_dichotomy :
     have hν : ∀ l ∈ S.Lbar g, l * (θ * l * θ⁻¹) * (θ⁻¹ * l * θ) = 1 ∨
         l * (θ * l * θ⁻¹) * (θ⁻¹ * l * θ) = t := by
       intro l hl
-      obtain ⟨hl1, hl2⟩ := conj_mem_of_mem_normalizer hAc hθN.2 hl
+      obtain ⟨hl1, hl2⟩ := conj_mem_of_mem_normalizer hθN.2 hl
       exact (hθC _ (mul_mem (mul_mem hl hl1) hl2)).mp (commute_norm hAc hθN.2 hθ3 hl)
     refine ⟨hΔ4, θ, hθR, hθ3, hθN, hθC, fun l₁ hl₁ l₂ hl₂ => ?_, fun l hl hlΔ => ?_⟩
     · rw [hΔν _ (mul_mem hl₁ hl₂), hΔν _ hl₁, hΔν _ hl₂, norm_mul hAc hθN.2 hl₁ hl₂]
       rcases hν l₁ hl₁ with h1 | h1 <;> rcases hν l₂ hl₂ with h2 | h2 <;>
-        simp [h1, h2, htt, ht1, Ne.symm ht1]
+        simp [h1, h2, htt, Ne.symm ht1]
     · have hn1 : l * (θ * l * θ⁻¹) * (θ⁻¹ * l * θ) = 1 :=
         (hν l hl).resolve_right fun h => hlΔ ((hΔν l hl).mpr h)
       exact exists_eq_comm_of_norm_eq_one (S.Lbar g) hL8 hA2 hAc hθN.2 hθ3 hθC hl hn1

@@ -43,7 +43,7 @@ private theorem main65_exists_commutative {M B F : Subgroup G} [Group.IsSolvable
         Subgroup.card_lt_of_lt hlt
     _ = Nat.card K := Subgroup.card_top
 
-theorem exists_pGroup_counterexample {M : Subgroup G} {x z : G} {F : Subgroup G} (hFM : F ≤ M)
+theorem exists_pGroup_counterexample {M : Subgroup G} {x z : G} {F : Subgroup G} (_hFM : F ≤ M)
     (hF1 : F ≠ ⊥) (hF6 : Nat.Coprime (Nat.card F) 6)
     (hBF : zpowers x ⊔ zpowers z ≤ normalizer (F : Set G))
     (hFnot : ¬ normalizer (F : Set G) ≤ M) :
@@ -83,7 +83,7 @@ theorem exists_pGroup_counterexample {M : Subgroup G} {x z : G} {F : Subgroup G}
     have hk : 0 < (Nat.card ↥K).factorization f :=
       hf.factorization_pos_of_dvd Nat.card_pos.ne' hfK
     exact (Nat.one_lt_pow hk.ne' hf.one_lt).ne' h1
-  refine ⟨f, hf, hf5, (S : Subgroup ↥K).map K.subtype, S.isPGroup'.map K.subtype,
+  refine ⟨f, hf, hf5, (S : Subgroup ↥K).map K.subtype, S.isPGroup.map K.subtype,
     (Subgroup.map_subtype_le _).trans hKF, ?_, hBK.trans hN, fun hle => hKnot (hN.trans hle)⟩
   rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ K.subtype_injective]
 

@@ -52,7 +52,7 @@ theorem LitLayer.card_eq {G : Type} [Group G] [Finite G] {L : Subgroup G} (h : L
       rcases Nat.even_or_odd (Nat.card (center L)) with he | ho
       · exact even_iff_two_dvd.mp he
       · exact absurd ho hodd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := center L) 2 heven
     have hx2 : x * x = 1 := by rw [← sq]; exact hx ▸ pow_orderOf_eq_one x
     have hxc : (x : L) ∈ center L := x.2

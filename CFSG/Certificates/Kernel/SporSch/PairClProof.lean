@@ -212,9 +212,6 @@ theorem stepNF_spec (hne : stepNF n w LR TR TRI nb bs G GI X W c h l cur ≠ fai
     | exact absurd rfl hne
     | exact Or.inl ⟨h1, h2.1, h2.2, rfl⟩
     | exact Or.inr (Or.inl ⟨h1, h3.1, h3.1 ▸ h3.2.1, h3.1 ▸ h3.2.2.2.1, h3.1 ▸ h3.2.2.2.2, rfl⟩)
-    | exact Or.inr (Or.inl ⟨h1, h3.1, h3.2.1, h3.2.2.2.1, h3.2.2.2.2, rfl⟩)
-    | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h2, rfl⟩)
-    | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h3, rfl⟩)
     | exact Or.inr (Or.inr ⟨Nat.le_of_not_lt h1, h4, rfl⟩)
 
 theorem stepNF_fail : stepNF n w LR TR TRI nb bs G GI X W c h l failC = failC := by

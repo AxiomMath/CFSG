@@ -35,7 +35,6 @@ theorem det_conjP1_mat (hω2 : ω ^ 2 + ω + 1 = 0) :
   rw [Matrix.det_fin_three]
   simp
   first
-    | ring1
     | linear_combination (ω^2 - ω - 3) * hω2 + (3*ω + 1) * h2
 
 @[expose] def conjP1 (hω2 : ω ^ 2 + ω + 1 = 0) : SpecialLinearGroup (Fin 3) k :=
@@ -47,7 +46,6 @@ theorem det_conjP2_mat (hω2 : ω ^ 2 + ω + 1 = 0) :
   rw [Matrix.det_fin_three]
   simp
   first
-    | ring1
     | linear_combination (-ω^3 + 3*ω^2 - 2*ω - 3) * hω2 + (3*ω + 1) * h2
 
 @[expose] def conjP2 (hω2 : ω ^ 2 + ω + 1 = 0) : SpecialLinearGroup (Fin 3) k :=
@@ -59,7 +57,6 @@ theorem det_conjP3_mat (hω2 : ω ^ 2 + ω + 1 = 0) :
   rw [Matrix.det_fin_three]
   simp
   first
-    | ring1
     | linear_combination (ω^2 - ω - 3) * hω2 + (3*ω + 1) * h2
 
 @[expose] def conjP3 (hω2 : ω ^ 2 + ω + 1 = 0) : SpecialLinearGroup (Fin 3) k :=
@@ -142,7 +139,6 @@ theorem cycSL_mul_torusDiag (hω3 : ω ^ 3 = 1) (hω2 : ω ^ 2 + ω + 1 = 0) :
   simp only [mul_fin_three]
   ext i j
   fin_cases i <;> fin_cases j <;> (try simp [-mul_eq_mul_left_iff, -mul_eq_mul_right_iff]) <;> first
-    | ring1
     | linear_combination (1 - ω) * hω2
     | linear_combination (-(1 - ω)) * hω2
     | linear_combination (-ω^2 + ω) * hω2
@@ -160,7 +156,6 @@ theorem torusDiag_rad_conj (hω3 : ω ^ 3 = 1) (hω2 : ω ^ 2 + ω + 1 = 0) (b c
   simp only [mul_fin_three]
   ext i j
   fin_cases i <;> fin_cases j <;> (try simp [-mul_eq_mul_left_iff, -mul_eq_mul_right_iff]) <;> first
-    | ring1
     | linear_combination (c*ω^2 - c*ω) * hω2
     | linear_combination (-(c*ω^2 - c*ω)) * hω2
     | linear_combination (ω - 1) * hω2

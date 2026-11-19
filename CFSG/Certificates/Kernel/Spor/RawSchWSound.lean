@@ -69,7 +69,7 @@ theorem steps_mem_stw {n w kS T TJ TS : Nat} {S SI : Nat → Nat} {WS : List (Li
     have hn : ¬ (kS + stAt T j' < kS) := by omega
     have e : lp n w S kS (stAt T (q + j')) = (lp n w S kS (stAt T j'))⁻¹ := by
       unfold lp
-      rw [he, if_neg hn, if_pos hlt, Nat.add_sub_cancel_left]
+      rw [he, ite_eq_right hn, ite_eq_left hlt, Nat.add_sub_cancel_left]
     rw [e]
     exact inv_mem_closure (hF j' hj')
 

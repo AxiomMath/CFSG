@@ -27,7 +27,7 @@ theorem outer_pair_of_outPCyc {L : Subgroup G} [L.Normal]
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
   classical
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite ↥L := Subtype.finite
   have hcyc : ∀ B : Subgroup (MulAut ↥L), IsPGroup 2 B →
       IsCyclic (B.map (QuotientGroup.mk' (inner ↥L))) := by
     intro B hB
@@ -53,8 +53,8 @@ theorem outer_pair_psu3_of_statedModel {L : Subgroup G}
     {p f : ℕ} (hL : StatedClassicalModel ↥L .PSU 3 p f) :
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
-  letI : L.Normal := hAS.normal
-  haveI : Finite ↥L := Subtype.finite
+  let : L.Normal := hAS.normal
+  have : Finite ↥L := Subtype.finite
   have hdiag : ¬ 2 ∣ Nat.gcd 3 (p ^ f + 1) := by
     intro hd
     have h23 : 2 ∣ 3 := hd.trans (Nat.gcd_dvd_left 3 (p ^ f + 1))

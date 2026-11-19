@@ -41,7 +41,7 @@ theorem ObstructionSetting.le_of_isPConstrained (hS : ObstructionSetting G) {p :
   obtain ⟨A, hAP, hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P
   refine hS.le_of_two_le_pRank_inf_Op_p'p hp hext hPD hPH
     (two_le_pRank_inf_Op_p'p_of_not_isCyclic hodd hPH fun hRc => ?_)
-  have hle := card_le_of_isCyclic_of_centralizer_le hodd P.isPGroup' (map_inf_Op_p'p_le hPH)
+  have hle := card_le_of_isCyclic_of_centralizer_le hodd P.isPGroup (map_inf_Op_p'p_le hPH)
     (le_normalizer_inf_Op_p'p hPH) (inf_centralizer_le_of_isPConstrained hPH hH) hRc hAP hA
   rw [hAc] at hle
   have := (Nat.pow_le_pow_iff_right hprime.one_lt).1 hle

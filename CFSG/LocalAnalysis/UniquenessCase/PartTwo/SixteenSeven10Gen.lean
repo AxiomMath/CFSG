@@ -90,7 +90,7 @@ theorem s16c1610_derived_fstar {W : Type} [CommGroup W] [Finite W] {Mb : Subgrou
       intro a ha b hb
       rw [Subgroup.mem_comap]
       have h : (MulAut.conj m).toMonoidHom ⁅a, b⁆ = ⁅m * a * m⁻¹, m * b * m⁻¹⁆ := by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
           commutatorElement_def]
         group
       rw [h]

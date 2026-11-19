@@ -13,6 +13,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_eq_self_of_lattice [IsSimpleGroup G] {S A B H : Subgroup G} {n : ℕ}
     (hlat : ∀ K : Subgroup G, S ≤ K → K = S ∨ K = A ∨ K = B ∨ K = ⊤) (hA : A.index = n)
     (hB : B.index = n) (hSidx : n < S.index) (hn : 1 < n) (hSH : S ≤ H) (hH : H.index = n) :

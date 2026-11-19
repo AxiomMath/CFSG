@@ -33,7 +33,7 @@ private theorem pFreeCover_of_isOmPA_aux2 {X : Type} [Group X] {ℓ n : ℕ}
       CFSG.LieType.Steinberg.CentralExt.GriessClassical.pomegaPlus_four_two_row hLM
     have hg : CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 4 2 1 = (1, 1) := by
       simp only [CFSG.Blueprint.Multiplier.genericOrders]
-      rw [if_pos (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
+      rw [ite_eq_left (even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega)))]
     have he : CFSG.Blueprint.Multiplier.exceptionalOrders .POmegaPlus 4 2 1 = (2, 2) := by
       decide
     rw [Nat.card_congr eM.toEquiv,
@@ -78,7 +78,7 @@ theorem pFreeCover_of_isOmPA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (
       | _ => simp [onLie] at hi
   · omega
 
-theorem pFreeCover_of_isOmMA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 4 ≤ n)
+theorem pFreeCover_of_isOmMA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hn : 4 ≤ n)
     (hk : 1 ≤ k) (h : catalogIs S (isOmMA n (2 ^ k))) : PFreeCover p S := by
   apply pFreeCover_of_isOmPA_aux1
   obtain ⟨i, hi, ⟨e⟩⟩ := h
@@ -108,7 +108,7 @@ theorem pFreeCover_of_isOmMA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (
 
 end
 
-theorem pFreeCover_of_isLnA_two {S : Type} [Group S] {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 5 ≤ n)
+theorem pFreeCover_of_isLnA_two {S : Type} [Group S] {p n : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hn : 5 ≤ n)
     (h : catalogIs S (isLnA n 2)) : PFreeCover p S := by
   apply pFreeCover_of_isOmPA_aux1
   obtain ⟨i, hi, ⟨e⟩⟩ := h
@@ -131,9 +131,9 @@ theorem pFreeCover_of_isLnA_two {S : Type} [Group S] {p n : ℕ} (hp : p.Prime) 
         have hSC : CFSG.Open.StatedClassicalModel S .PSL n 2 1 :=
           CFSG.Models.LieModel.statedClassicalModel hm (by decide)
         obtain ⟨-, K, hfield, hfinite, hKcard, ⟨eK⟩⟩ := hSC
-        letI : Field K := hfield
-        letI : Finite K := hfinite
-        haveI : Fintype K := Fintype.ofFinite K
+        let : Field K := hfield
+        let : Finite K := hfinite
+        have : Fintype K := Fintype.ofFinite K
         have hcard : Fintype.card K = 2 := by
           rw [Fintype.card_eq_nat_card, hKcard]; norm_num
         rw [Nat.card_congr
@@ -170,9 +170,9 @@ theorem pFreeCover_five_of_isLnA_six_four {S : Type} [Group S] (h : catalogIs S 
         have hSC : CFSG.Open.StatedClassicalModel S .PSL 6 2 2 :=
           CFSG.Models.LieModel.statedClassicalModel hm (by decide)
         obtain ⟨-, K, hfield, hfinite, hKcard, ⟨eK⟩⟩ := hSC
-        letI : Field K := hfield
-        letI : Finite K := hfinite
-        haveI : Fintype K := Fintype.ofFinite K
+        let : Field K := hfield
+        let : Finite K := hfinite
+        have : Fintype K := Fintype.ofFinite K
         have hcard : Fintype.card K = 4 := by
           rw [Fintype.card_eq_nat_card, hKcard]; norm_num
         rw [Nat.card_congr

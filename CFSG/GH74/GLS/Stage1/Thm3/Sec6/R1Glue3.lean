@@ -22,7 +22,7 @@ theorem Z_inv (h : Std4r1 G z S K F) {x : G} (hxS : x ∈ S) (hxc : ∀ s ∈ S,
   obtain ⟨S', hS'⟩ := hcl.2.2.2.1
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS'top : M.Syl2In (S' : Subgroup G) ⊤ :=
-    ⟨le_top, S'.isPGroup', by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
+    ⟨le_top, S'.isPGroup, by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
   obtain ⟨c, -, hc⟩ := h.S_top.exists_conj hS'top
   have key : ∀ y ∈ S, (∀ s ∈ S, y * s = s * y) → y * y = 1 → c⁻¹ * y * c ∈ zpowers z := by
     intro y hy hyc hy2

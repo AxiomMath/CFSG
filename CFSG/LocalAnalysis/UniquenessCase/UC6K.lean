@@ -16,7 +16,7 @@ theorem no_pgroup_quotient_of_generated_by_r_elements {Kg : Type} [Group Kg] [Fi
   classical
   by_cases hqr : q = r
   · subst hqr
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hU : CFSG.pPrimeCore q Kg ≤ N := by
       intro u hu
       obtain ⟨n, hn⟩ := hN (u : Kg ⧸ N)
@@ -33,10 +33,10 @@ theorem no_pgroup_quotient_of_generated_by_r_elements {Kg : Type} [Group Kg] [Fi
         Nat.eq_one_of_dvd_coprimes h3 h2 h1
       have h5 : (u : Kg ⧸ N) = 1 := orderOf_eq_one_iff.1 h4
       exact (QuotientGroup.eq_one_iff u).1 h5
-    haveI hUn : (CFSG.pPrimeCore q Kg).Normal := CFSG.pPrimeCore_normal
+    have hUn : (CFSG.pPrimeCore q Kg).Normal := CFSG.pPrimeCore_normal
     set N' : Subgroup (Kg ⧸ CFSG.pPrimeCore q Kg) := N.map (QuotientGroup.mk' (CFSG.pPrimeCore q Kg))
       with hN'
-    haveI : N'.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+    have : N'.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     rcases hsimple.eq_bot_or_eq_top_of_normal N' with h | h
     ·
       exfalso
@@ -47,7 +47,7 @@ theorem no_pgroup_quotient_of_generated_by_r_elements {Kg : Type} [Group Kg] [Fi
         exact (QuotientGroup.eq_one_iff x).1 this
       have hNeq : N = CFSG.pPrimeCore q Kg := le_antisymm hNU hU
       subst hNeq
-      haveI : Nontrivial (Kg ⧸ CFSG.pPrimeCore q Kg) := hsimple.toNontrivial
+      have : Nontrivial (Kg ⧸ CFSG.pPrimeCore q Kg) := hsimple.toNontrivial
       have hc := hN.center_nontrivial
       rcases hsimple.eq_bot_or_eq_top_of_normal
           (Subgroup.center (Kg ⧸ CFSG.pPrimeCore q Kg)) with hb | ht
@@ -87,7 +87,7 @@ theorem hr : m.r.Prime := m.d.prime
 theorem Z_le_K : m.Z ≤ m.K := fun z hz =>
   subset_closure ⟨1, m.M.one_mem, z, hz, by simp⟩
 
-theorem Z_le_M : m.Z ≤ m.M := fun z hz => m.R_le_M (m.hZ.le hz)
+theorem Z_le_M : m.Z ≤ m.M := fun _z hz => m.R_le_M (m.hZ.le hz)
 
 theorem K_le_M : m.K ≤ m.M := by
   refine (closure_le _).2 ?_

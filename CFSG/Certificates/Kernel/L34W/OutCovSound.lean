@@ -249,7 +249,7 @@ theorem fixK_eq (hT : T1Of T) (hA : AlOf A) (hb : boundsOK T A = true)
     rw [bAnd_iff, bIf_eq'] at h3
     refine ⟨Nat.blt_eq.mp h3.1, fun hj1 => ?_⟩
     have hb1 : Nat.blt (Nat.succ j) nF = true := Nat.blt_eq.mpr hj1
-    rw [if_pos hb1] at h3
+    rw [ite_eq_left hb1] at h3
     exact Nat.blt_eq.mp h3.2
   have hmono : ∀ a b, a < b → b < nF → fk FK a < fk FK b := by
     intro a b hab hb'
@@ -341,7 +341,7 @@ theorem c3_sound (hG : GensG G) (hy : yOK G Y = true) {ST : ℕ → ℕ} {i FK F
   rw [strictB_eq', bIf_eq'] at h3
   cases hcc : c3C (Y (64 * j + t)) (Y (64 * i)) FT nF
   · rfl
-  · rw [if_pos hcc, notB_eq', Bool.not_eq_true'] at h3
+  · rw [ite_eq_left hcc, notB_eq', Bool.not_eq_true'] at h3
     have h4 : ¬ ∀ e < nS, CFSG.KLie.CT.notB (wit3 ST (Y (64 * i)) (64 * j + t) (Y (64 * j + t))
         (pg 32 (mask 32) S3 e)) = true := fun hh => by
       rw [allN_iff'.2 hh] at h3
@@ -577,7 +577,7 @@ theorem c5_sound (hT : T1Of T) (hA : AlOf A) (hb : boundsOK T A = true)
     rw [mulE_dec hT hc hc, oneE_eq, eqE_dec hm, betaE_dec hT hA hb (by norm_num) hi hc, eqE_dec hm]
     by_cases hcc : (eqC m (mulC T c c) 0 && eqC m (betaC T A 0 i c) c) = true
     · rw [hcc, Bool.not_true, Bool.false_or, els_any]
-      rw [if_pos hcc, strictB_eq'] at h1
+      rw [ite_eq_left hcc, strictB_eq'] at h1
       refine ⟨_, hv, ?_⟩
       rw [betaE_dec hT hA hb (by norm_num) hi hv,
         mulE_dec hT (betaC_lt hb (by norm_num) hi hv) hc, eqE_dec hm]

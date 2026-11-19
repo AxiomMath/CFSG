@@ -55,15 +55,15 @@ theorem exists_isSylowProduct (X : Subgroup G) (π : Set ℕ) :
   by_cases hp : p.Prime
   · have := Fact.mk hp
     refine ⟨?_, ?_⟩
-    · simp only [dif_pos hp]
+    · simp only [dite_eq_left hp]
       exact Subgroup.map_subtype_le _
-    · simp only [dif_pos hp]
+    · simp only [dite_eq_left hp]
       rw [Subgroup.card_map_of_injective X.subtype_injective]
       exact (Classical.arbitrary (Sylow p ↥X)).card_eq_multiplicity
   · refine ⟨?_, ?_⟩
-    · simp only [dif_neg hp]
+    · simp only [dite_eq_right hp]
       exact bot_le
-    · simp only [dif_neg hp, Nat.factorization_eq_zero_of_not_prime _ hp, pow_zero,
+    · simp only [dite_eq_right hp, Nat.factorization_eq_zero_of_not_prime _ hp, pow_zero,
         Subgroup.card_bot]
 
 end LocalTypeIAlternative

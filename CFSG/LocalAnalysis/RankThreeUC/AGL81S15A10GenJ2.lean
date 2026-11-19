@@ -15,7 +15,7 @@ theorem card_modEq_five {Y : Type*} [Group Y] (K : Subgroup Y) [Finite K] (x : Y
     (hK : ∀ k ∈ K, x * k * x⁻¹ ∈ K) :
     Nat.card K ≡ Nat.card ↥((Subgroup.centralizer {x}).subgroupOf K) [MOD 5] := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let f : Function.End K := fun k => ⟨x * k * x⁻¹, hK k k.2⟩
   have hfn : ∀ n : ℕ, ∀ k : K, ((f ^ n) k : Y) = x ^ n * k * (x ^ n)⁻¹ := by
     intro n
@@ -33,7 +33,7 @@ theorem card_modEq_five {Y : Type*} [Group Y] (K : Subgroup Y) [Finite K] (x : Y
     rw [pow_one, hfn, hx]
     simp
     rfl
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h := Equiv.Perm.card_fixedPoints_modEq hf
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at h
   have hcard : Nat.card ↥(Function.fixedPoints f) =
@@ -47,7 +47,7 @@ theorem card_modEq_five {Y : Type*} [Group Y] (K : Subgroup Y) [Finite K] (x : Y
 
 theorem not_sixteen_dvd_card_centralizer (σ : Perm (Fin 10)) (h5 : σ ^ 5 = 1) (h1 : σ ≠ 1) :
     ¬ 16 ∣ Nat.card (Subgroup.centralizer {σ}) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hord : orderOf σ = 5 := orderOf_eq_prime h5 h1
   obtain ⟨m, hm⟩ := Equiv.Perm.cycleType_prime_order (σ := σ) (by rw [hord]; exact Nat.prime_five)
   rw [hord] at hm
@@ -77,7 +77,7 @@ theorem free_of_perm {G : Type*} [Group G] [Finite G] (ρ : G →* Perm (Fin 10)
     generalize Nat.card ↥((Subgroup.centralizer {x}).subgroupOf E) = c at hmod hdvd
     have hle : c ≤ 16 := Nat.le_of_dvd (by norm_num) hdvd
     interval_cases c <;>
-      first | omega | (exfalso; revert hdvd; decide) | (exfalso; revert hmod; decide)
+      first | omega | (exfalso; revert hmod; decide)
   rcases hc with h1 | h16
   · intro e he hcomm
     have hmem : (⟨e, he⟩ : E) ∈ (Subgroup.centralizer {x}).subgroupOf E := by
@@ -144,7 +144,7 @@ theorem not_smul_mem_orbit {G : Type*} [Group G] [Finite G] {Ω : Type*} [MulAct
     generalize Nat.card K = c at hmod hdvdK
     have hle : c ≤ 16 := Nat.le_of_dvd (by norm_num) hdvdK
     interval_cases c <;>
-      first | omega | (exfalso; revert hdvdK; decide) | (exfalso; revert hmod; decide)
+      first | omega | (exfalso; revert hmod; decide)
   rcases hc with h1 | h16
   · have hKbot : K = ⊥ := Subgroup.eq_bot_of_card_eq _ h1
     have hinj : Function.Injective (fun e : E => (e : G) • ω) := by
@@ -317,7 +317,7 @@ theorem hasShape_of_isTwoFourSFive {Y : Type} [Group Y] (P : Subgroup Y)
   · rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥P),
       Nat.card_congr e.toEquiv]
     refine Dvd.dvd.mul_right ?_ _
-    simp [Nat.card_perm]
+    simp
     decide
 
 theorem core {G : Type} [Group G] [Finite G] (ρ : G →* Perm (Fin 10)) (hρ : Function.Injective ρ)
@@ -335,7 +335,7 @@ theorem core {G : Type} [Group G] [Finite G] (ρ : G →* Perm (Fin 10)) (hρ : 
   have hEnorm : ∀ g ∈ P, ∀ e ∈ E, g * e * g⁻¹ ∈ E := by
     rintro g hg _ ⟨a, ha, rfl⟩
     exact ⟨⟨g, hg⟩ * a * ⟨g, hg⟩⁻¹, hnorm.conj_mem a ha ⟨g, hg⟩, by simp⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x₀, hx₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥P) 5 h5
   obtain ⟨x, hxdef⟩ : ∃ x : G, x = (x₀ : G) := ⟨_, rfl⟩
   have hxP : x ∈ P := hxdef ▸ x₀.2
@@ -352,7 +352,7 @@ theorem core {G : Type} [Group G] [Finite G] (ρ : G →* Perm (Fin 10)) (hρ : 
   have hxodd : Odd (orderOf x) := by rw [hxord]; exact ⟨2, by norm_num⟩
   have hEle : E ≤ oddHull P := E_le_oddHull P E hEP hEc x hxP hxodd hxE hfree
   have hxO : x ∈ oddHull P := Subgroup.subset_closure ⟨hxP, hxodd⟩
-  letI : MulAction G (Fin 10) := MulAction.compHom (Fin 10) ρ
+  let : MulAction G (Fin 10) := MulAction.compHom (Fin 10) ρ
   obtain ⟨e, he, hne⟩ : ∃ e ∈ E, e ≠ 1 := by
     by_contra h
     push Not at h

@@ -120,8 +120,8 @@ theorem ggUdRow_frame
   obtain ⟨hp, -, -, -, -⟩ := hHyp.1.tableB_facts
   obtain ⟨d, n, K, hKf, hKn, ψ, I, hd, hn, hpd, hpq, hK, hI, hTB, hcard⟩ :=
     ggSudRow_tbGroup hHyp hL hN
-  letI : Field K := hKf
-  letI : Finite K := hKn
+  let : Field K := hKf
+  let : Finite K := hKn
   obtain ⟨hψ, hker, hperf, hA, hAI, -, -, hsc⟩ := hTB
   have hAI' : ∀ a ∈ (ggGamma L hN).range,
       ∃ x ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
@@ -189,8 +189,8 @@ theorem ggUdRow_tbHyp
       rintro n ⟨-, c, hc, hov⟩
       rw [← hov b, hb c hc]
     exact congrArg Subtype.val (hfixN N' hle hnorm hne _ hfixed)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hmem : ∀ v : ↥(ggFixedSubmodule (p := p) ιV (ggAutNormalClosure L J Bs)),
       Additive.toMul (ιV.symm (v : V)) ∈ (ggGamma L hN).ker := by
     intro v
@@ -233,7 +233,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR5Ud
     ggWeylOfType_of_frame hp hp2 hBs hSC hNT hNL hZ hF
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
   obtain ⟨hno6, hpar, hdepth⟩ := ggCartanA_pathTree (k := k) ⟨0, by omega⟩ rfl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha, b, -, -, -, hab⟩ := hnc G p B Bs x L D J hHyp hq hNb hL
   have hJ : ∃ a ∈ ggAutomizer J Bs, a ≠ 1 :=
     ⟨a, ha, fun h => hab (by rw [h, one_mul, mul_one])⟩

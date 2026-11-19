@@ -178,7 +178,7 @@ theorem omega_zpow_eq {L : Type} [Field L] [CharP L 2] {ω : Lˣ} (hω3 : ω ^ 3
   · simp
   · have e1 : ¬ ((2 : ℤ) = 1) := by decide
     have e0 : ¬ ((2 : ℤ) = 0) := by decide
-    rw [if_pos e1, if_pos e0, zpow_two, Units.val_mul, one_mul]
+    rw [ite_eq_left e1, ite_eq_left e0, zpow_two, Units.val_mul, one_mul]
     linear_combination hq - (1 + (ω : L)) * h2
 
 theorem card_filter_roots {τ : Tag} (P : (Fin τ.rank → ℤ) → Prop)

@@ -86,13 +86,13 @@ private lemma a11r9_trAt_eq (l : Fin 4) (a b : Fin 12)
     (ha : (swapBlocks l a).val < 9) (hb : (swapBlocks l b).val < 9) (hab : a ≠ b) :
     trAt l a b = permSL 8 (Equiv.swap (⟨(swapBlocks l a).val, ha⟩ : Fin 9)
       (⟨(swapBlocks l b).val, hb⟩ : Fin 9)) := by
-  rw [trAt, dif_pos ⟨ha, hb, hab⟩]
+  rw [trAt, dite_eq_left ⟨ha, hb, hab⟩]
 
 private lemma a11r9_tv9_eq (a b : Fin 12) (ha : a.val < 9) (hb : b.val < 9) (hab : a ≠ b) :
     tv9 a b = SpecialLinearGroup.transvection (i := (⟨a.val, ha⟩ : Fin 9))
       (j := (⟨b.val, hb⟩ : Fin 9))
       (fun e => hab (Fin.ext (by simpa using congrArg Fin.val e))) (1 : F2) := by
-  rw [tv9, dif_pos ⟨ha, hb, hab⟩]
+  rw [tv9, dite_eq_left ⟨ha, hb, hab⟩]
 
 private noncomputable def a11r9_extCoeHom :
     Equiv.Perm (Fin 9) →* Matrix (Fin 9) (Fin 9) F2 :=
@@ -150,7 +150,7 @@ private lemma a11r9_permSL_coe (π : Equiv.Perm (Fin 9)) :
     exact Submonoid.mem_top π
   simpa [a11r9_extCoeHom, a11r9_signedPermHom, MonoidHom.comp_apply] using hmem π hπ
 
-private lemma a11r9_permSL_swap_comm {u v p q : Fin 9} (huv : u ≠ v) (hpq : p ≠ q)
+private lemma a11r9_permSL_swap_comm {u v p q : Fin 9} (_huv : u ≠ v) (hpq : p ≠ q)
     (hpu : p ≠ u) (hpv : p ≠ v) (hqu : q ≠ u) (hqv : q ≠ v) (c : F2) :
     permSL 8 (Equiv.swap u v) * SpecialLinearGroup.transvection hpq c =
       SpecialLinearGroup.transvection hpq c * permSL 8 (Equiv.swap u v) := by
@@ -215,8 +215,8 @@ private lemma a11r9_rho_swap {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G)
       simp [a11r9_swapBlocks_apply_three]
     · apply Fin.ext
       simp [a11r9_swapBlocks_apply_three]
-  rw [hρ 3 _ _ hnd (a11r9_blk_ne_three _ (by simpa using i.isLt))
-      (a11r9_blk_ne_three _ (by simpa using j.isLt)), htr]
+  rw [hρ 3 _ _ hnd (a11r9_blk_ne_three _ (by simp))
+      (a11r9_blk_ne_three _ (by simp)), htr]
 
 private def a11r9_goodB (a b c d : Fin 12) : Prop :=
   ∃ l : Fin 4, blk a ≠ l ∧ blk b ≠ l ∧ blk c ≠ l ∧ blk d ≠ l

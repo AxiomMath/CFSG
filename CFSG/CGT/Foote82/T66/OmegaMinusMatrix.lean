@@ -325,7 +325,7 @@ theorem exists_matrix_data [Finite V] {L : Subgroup (GLV V)} (hL : IsOmegaMinusM
       group
     have hX : D * (G * (D * G⁻¹)) = D * (G * D * G⁻¹) := by group
     rw [hx, hX] at hdvd
-    haveI : Finite (GLV V) :=
+    have : Finite (GLV V) :=
       Finite.of_injective (fun g : GLV V => (g : V → V)) DFunLike.coe_injective
     have hpos : 0 < orderOf (d * ((ℓ : GLV V) * d * (ℓ : GLV V)⁻¹)) := orderOf_pos _
     rcases hodd (ℓ : GLV V) ℓ.2 with h | h

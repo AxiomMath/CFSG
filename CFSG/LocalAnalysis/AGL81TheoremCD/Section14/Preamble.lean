@@ -80,12 +80,12 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {q : ℕ} {E H : Subgr
 theorem eq_three_of_mem_H2StarFam (h1211 : TwelveElevenGen) (hC : CStarGen G)
     (hM : rankThreeIsMaxTwoLocal M) (hσ : (sigmaSet G M).Nonempty) {p : ℕ} {Q H : Subgroup G}
     (hQ : Q ∈ QSet M p) (hH : H ∈ H2StarFam M Q) : p = 3 := by
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hp : p.Prime := QSet.prime_of_mem hQ
   have hQH : Q ≤ H := hH.1.2.1
   have hHM : ¬ H ≤ M := hH.1.2.2.1
   have hQ2 : 2 ≤ CFSG.Open.pRank p Q := QSet.two_le_pRank_of_mem hQ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQne : Q ≠ ⊥ := by
     obtain ⟨E, hEQ, hE, hEc⟩ :=
       CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) hQ2
@@ -187,7 +187,7 @@ theorem HypCGen.exists_condA (h : HypCGen G M 3 E H) (hU : NineNineOne M 3) :
     ∃ Q : Subgroup G, E ≤ Q ∧ Q ∈ QSet M 3 ∧ H ∈ H2StarFam M Q ∧
       CFSG.ABGLocalTools.IsSylowOf 3 Q H ∧ CondA 3 M Q H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEHM : E ≤ H ⊓ M := le_inf h.E_le_H h.E_le_M
   obtain ⟨Q, hQ, hEQ⟩ := CFSG.RankThree.PartOne.exists_isSylowOf_ge hEHM h.isPGroup
   have hQH : Q ≤ H := hQ.le.trans inf_le_left

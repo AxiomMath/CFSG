@@ -42,7 +42,7 @@ theorem fstar_eq_pCoreOf_of_mem_hSet {T M H : Subgroup G}
     have : y = x := Subtype.ext hxy
     rw [← this]
     exact hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (CFSG.isCharacteristicP_iff_generalizedFitting_eq_pCore ↥H 2).1 hc
   unfold Fstar pCoreOf
   rw [CFSG.Adapters.genFittingFStar_eq_foundations, h]
@@ -70,10 +70,10 @@ theorem f12Hyp124_of_mem_hSet (D : Data G) {H₀ : Subgroup G}
 
 theorem pRankMod_centralizer_eq {M V : Subgroup G} (hMV : M ≤ normalizer (V : Set G)) (p : ℕ) :
     F12.pRankMod p M (centralizer (V : Set G)) = CFSG.pRank p (MBar M V) := by
-  haveI hn : (kerAct M V).Normal := kerAct_normal M V hMV
+  have hn : (kerAct M V).Normal := kerAct_normal M V hMV
   have hn' : ((centralizer (V : Set G)).subgroupOf M).Normal := hn
   unfold F12.pRankMod
-  rw [dif_pos hn', ← CFSG.SectionRank.pRank_eq_open_pRank_top]
+  rw [dite_eq_left hn', ← CFSG.SectionRank.pRank_eq_open_pRank_top]
   exact CFSG.pRank_congr_of_mulEquiv
     (QuotientGroup.quotientMulEquivOfEq (Subgroup.normalCore_eq_self (kerAct M V)).symm) p
 
@@ -90,7 +90,7 @@ theorem isTI_U (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
 
 theorem centralizersUnique (D : Data G) (hU : IsTI D.U) : CentralizersUnique D.M D.T := by
   intro z hzT hzc hz1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUV := uc22p22e_inCalV_U D
   have hzle : Subgroup.zpowers z ≤ D.T := (Subgroup.zpowers_le).2 hzT
   have hzp : IsPGroup 2 (Subgroup.zpowers z) := D.sylowM.isPGroup.to_le hzle

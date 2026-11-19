@@ -64,7 +64,7 @@ theorem D1CentralizerInput.exists_reduced_centralizer_data {G : Type} [Group G] 
     ⟨z, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   obtain ⟨hzZ, hzbarp⟩ := hzbar zC rfl
   have hEC := hEP.trans hPC
-  obtain ⟨φ, hφ⟩ := exists_mulEquiv_map_mk _ hp hO (P.isPGroup'.to_le hEP) hEC
+  obtain ⟨φ, hφ⟩ := exists_mulEquiv_map_mk _ hp hO (P.isPGroup.to_le hEP) hEC
   obtain ⟨v, hvD, hvp, hvle⟩ :=
     exists_inf_centralizer_le hD hDcard hzD h.orderOf_eq h.mem_centralizer
   have hvP : v ∈ (P : Subgroup G) := hDP hvD
@@ -86,7 +86,7 @@ theorem D1CentralizerInput.exists_reduced_centralizer_data {G : Type} [Group G] 
   · have hz1 : z ≠ 1 := fun hz1 => hp.one_lt.ne (by rw [← h.orderOf_eq, hz1, orderOf_one])
     exact (catalogSimpleSections_of_isKProper hK _
       (centralizer_singleton_ne_top hs hnab hz1)).quotient _
-  · refine mem_zpowers_mk_of_mem_centralizer _ hp hO P.isPGroup' hPC h.uniq (hPbar ▸ hy) ?_ hyp
+  · refine mem_zpowers_mk_of_mem_centralizer _ hp hO P.isPGroup hPC h.uniq (hPbar ▸ hy) ?_ hyp
     rw [← hPbar]
     exact hyc
   · obtain ⟨K, hK⟩ := exists_isComponentOf_of_layer_ne_bot hlayer
@@ -95,7 +95,7 @@ theorem D1CentralizerInput.exists_reduced_centralizer_data {G : Type} [Group G] 
     exact ⟨⟨v, hPC hvP⟩, hvP, rfl⟩
   · exact orderOf_mk_of_coprime hp _ hO ((Subgroup.orderOf_coe _).symm.trans hvp)
   · rw [hPbar]
-    exact (pRank_map_inf_centralizer_le _ hp hO P.isPGroup' hPC hvP).trans
+    exact (pRank_map_inf_centralizer_le _ hp hO P.isPGroup hPC hvP).trans
       ((PreuniquenessRankFour.Helpers.pRank_mono p hp hvle).trans hDrank)
   · rw [hPbar]
     exact Subgroup.map_mono (Subgroup.comap_mono hEP)

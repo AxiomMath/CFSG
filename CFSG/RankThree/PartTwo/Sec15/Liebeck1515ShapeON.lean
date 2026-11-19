@@ -33,7 +33,7 @@ private theorem isQuasisimple_of_isTripleCover_ON {W : Type*}
   refine ⟨hp, e.isSimpleGroup, ?_⟩
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative (W ⧸ Subgroup.center W) := ⟨⟨hcon⟩⟩
+  have : IsMulCommutative (W ⧸ Subgroup.center W) := ⟨⟨hcon⟩⟩
   have hprime : (Nat.card (W ⧸ Subgroup.center W)).Prime :=
     Group.is_simple_iff_prime_card.mp e.isSimpleGroup
   rw [Nat.card_congr e.toEquiv, CFSG.Sporadic.ON.card_ON] at hprime
@@ -84,7 +84,7 @@ private theorem eq_bot_of_surj_seven {Q : Type*} [Group Q] [Finite Q]
         Function.Surjective f) ∨
       ∃ f : ↥F →* alternatingGroup (Fin 7), Function.Surjective f) : V = ⊥ := by
   let σ : Q ≃* Shrink.{0} Q := Shrink.mulEquiv.symm
-  haveI : Group.IsPerfect Q := hQp
+  have : Group.IsPerfect Q := hQp
   have hperf : Group.IsPerfect (Shrink.{0} Q) :=
     Group.IsPerfect.ofSurjective (f := σ.toMonoidHom) σ.surjective
   have hbot : V.map σ.toMonoidHom = ⊥ := by
@@ -103,7 +103,7 @@ theorem false_of_isTripleCover_ON {Q X : Type*} [Group Q] [Group X] [Finite Q]
     (hQp : Group.IsPerfect Q) {F V : Subgroup Q} (hV : IsPGroup 2 V) (hV1 : V ≠ ⊥)
     (hFV : F ≤ Subgroup.normalizer (V : Set Q)) (φ : ↥F →* X) (hφ : Function.Surjective φ)
     (hX : IsType1483 X) : False := by
-  haveI : Finite X := Finite.of_surjective φ hφ
+  have : Finite X := Finite.of_surjective φ hφ
   have hQc : Nat.card Q = 3 * 460815505920 := card_eq_of_isTripleCover_ON hQ
   have hXQ : Nat.card X ∣ Nat.card Q :=
     (Subgroup.card_dvd_of_surjective hφ).trans (Subgroup.card_subgroup_dvd_card F)
@@ -116,7 +116,7 @@ theorem false_of_isTripleCover_ON {Q X : Type*} [Group Q] [Group X] [Finite Q]
     have hF : F = ⊤ := Subgroup.eq_top_of_card_eq F
       (le_antisymm (Subgroup.card_le_card_group F) (h2 ▸ h1))
     rw [hF] at hFV
-    haveI : V.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hFV)
+    have : V.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hFV)
     exact hV1 (eq_bot_of_normal_isPGroup_two hQ V hV)
   · exact h25 ((twentyFive_dvd_card (Or.inl hcp)).trans hXQ)
   · exact h25 ((twentyFive_dvd_card (Or.inr (Or.inl ha5))).trans hXQ)

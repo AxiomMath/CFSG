@@ -67,7 +67,7 @@ theorem sq_dvd_card_sup_of_commute {X : Type*} [Group X] [Finite X] {p : ℕ} [h
     · rw [hx1]; exact Subgroup.one_mem _
     have hxp : orderOf (x : X) = p := by
       rw [Subgroup.orderOf_coe]
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨x, hx⟩
       rw [Subgroup.orderOf_mk] at hk
       have hdvd : p ^ k ∣ Nat.card V₁ := hk ▸ orderOf_dvd_natCard x
       have hk1 : k ≤ 1 := by

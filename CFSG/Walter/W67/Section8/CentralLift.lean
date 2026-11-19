@@ -102,7 +102,7 @@ theorem card_map_sylow [Finite G] (hπ : Function.Surjective π) (hker : π.ker 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Nat.card ((P : Subgroup G).map π) = Nat.card (P : Subgroup G) := by
     have := Subgroup.card_map_of_injective (K := ⊤)
-      (injective_restrict π hker (inf_eq_bot_of_isPGroup hZo P.isPGroup'))
+      (injective_restrict π hker (inf_eq_bot_of_isPGroup hZo P.isPGroup))
     rw [Subgroup.card_top] at this
     rw [← this, ← MonoidHom.range_eq_map, MonoidHom.range_comp, Subgroup.range_subtype]
   refine ⟨h1, ?_⟩

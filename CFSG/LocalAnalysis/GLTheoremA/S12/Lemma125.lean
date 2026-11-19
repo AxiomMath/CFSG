@@ -68,6 +68,7 @@ theorem J_cent_comm (h : Cfg12 G m p B x L D K) (hin : Inputs124 G p) (hnn : NoN
   have h4 : g * u = u * g := by simpa using h3
   exact h4.symm
 
+omit [Finite G] in
 theorem pCoreOf_two_facts (N : Subgroup G) :
     IsPGroup 2 (pCoreOf 2 N) ∧ N ≤ Subgroup.normalizer ((pCoreOf 2 N : Subgroup G) : Set G) := by
   refine ⟨?_, ?_⟩
@@ -91,7 +92,7 @@ theorem x_nontrivial (h : Cfg12 G m p B x L D K) {U : Subgroup G} (hU1 : U ≠ �
     (⁅pCoreOf 2 (Subgroup.normalizer (U : Set G)), Subgroup.zpowers x⁆ : Subgroup G) ≠ ⊥ := by
   intro hbot
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hloc : IsTwoLocal (Subgroup.normalizer (U : Set G)) := ⟨U, hU1, hU2, rfl⟩
   have hct := h.ctx.toS6.charTwo _ hloc
   have hxc : x ∈ Subgroup.centralizer ((pCoreOf 2 (Subgroup.normalizer (U : Set G)) : Subgroup G) : Set G) := by
@@ -123,16 +124,17 @@ theorem Jc_le_L (h : Cfg12 G m p B x L D K) : Jc B x K ≤ L :=
 abbrev Sof (B : Subgroup G) (x : G) (K V : Subgroup G) : Subgroup G :=
   ⁅Jc B x K, pCoreOf 2 (Subgroup.normalizer (V : Set G)) ⊓ Subgroup.centralizer ({x} : Set G)⁆
 
-theorem B_le_cx (h : Cfg12 G m p B x L D K) : B ≤ Subgroup.centralizer ({x} : Set G) := fun b hb =>
+theorem B_le_cx (h : Cfg12 G m p B x L D K) : B ≤ Subgroup.centralizer ({x} : Set G) := fun _b hb =>
   Subgroup.mem_centralizer_singleton_iff.2 (isElemAbelian_commute h.tri.bmax.1 hb h.tri.mem)
 
 theorem Jc_le_cx (h : Cfg12 G m p B x L D K) : Jc B x K ≤ Subgroup.centralizer ({x} : Set G) :=
   (Jc_le_L h).trans h.tri.comp.1
 
-theorem B_norm_Jc (h : Cfg12 G m p B x L D K) : B ≤ Subgroup.normalizer (Jc B x K : Set G) := fun b hb =>
+theorem B_norm_Jc (h : Cfg12 G m p B x L D K) : B ≤ Subgroup.normalizer (Jc B x K : Set G) := fun _b hb =>
   mem_normalizer_closureIn (B_norm_K h hb)
     (Subgroup.le_normalizer (Subgroup.mem_inf.2 ⟨Subgroup.le_normalizer hb, B_le_cx h hb⟩))
 
+omit [Finite G] in
 theorem mem_normalizer_inf_cx {O : Subgroup G} {g : G} (hgO : g ∈ Subgroup.normalizer (O : Set G))
     (hgc : g ∈ Subgroup.centralizer ({x} : Set G)) :
     g ∈ Subgroup.normalizer ((O ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) : Set G) := by
@@ -145,7 +147,7 @@ theorem jc_residual (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) :
     ∀ N : Subgroup G, N ≤ Jc B x K → (N.subgroupOf (Jc B x K)).Normal →
       Nat.Coprime p (N.subgroupOf (Jc B x K)).index → N = Jc B x K := by
   intro N hNJ hNn hcop
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hJN : Jc B x K ≤ Subgroup.normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).1 hNn
   refine le_antisymm hNJ ?_
@@ -169,7 +171,7 @@ theorem S_ne_bot (h : Cfg12 G m p B x L D K) (hin : Inputs124 G p) (hnn : NoNbr1
     (hJV : Jc B x K ≤ Subgroup.normalizer (V : Set G)) : Sof B x K V ≠ ⊥ := by
   intro hS
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hO2, hNO⟩ := pCoreOf_two_facts (Subgroup.normalizer (V : Set G))
   have hloc : IsTwoLocal (Subgroup.normalizer (V : Set G)) := ⟨V, hV, hV2, rfl⟩
   have hct := h.ctx.toS6.charTwo _ hloc
@@ -186,7 +188,7 @@ theorem S_ne_bot (h : Cfg12 G m p B x L D K) (hin : Inputs124 G p) (hnn : NoNbr1
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 h.odd)
   have hsolv : Group.IsSolvable (pCoreOf 2 (Subgroup.normalizer (V : Set G))) := by
-    haveI := IsPGroup.isNilpotent hO2
+    have := IsPGroup.isNilpotent hO2
     infer_instance
   have hdec := CFSG.LocalAnalysis.EvenBN.TwoF4.inf_centralizer_sup_commutator_eq hzO hsolv hcop
   have hJc := J_cent_comm h hin hnn hO2 hBO
@@ -241,7 +243,7 @@ theorem S_basic (h : Cfg12 G m p B x L D K) {V : Subgroup G} (hBV : B ≤ Subgro
         (fun g hg => mem_normalizer_inf_cx (hBO hg) (B_le_cx h hg))
 
 theorem S_perfect (h : Cfg12 G m p B x L D K) (hin : Inputs124 G p) {V : Subgroup G}
-    (hBV : B ≤ Subgroup.normalizer (V : Set G)) (hJV : Jc B x K ≤ Subgroup.normalizer (V : Set G)) :
+    (_hBV : B ≤ Subgroup.normalizer (V : Set G)) (hJV : Jc B x K ≤ Subgroup.normalizer (V : Set G)) :
     (⁅Sof B x K V, Jc B x K⁆ : Subgroup G) = Sof B x K V := by
   obtain ⟨hO2, hNO⟩ := pCoreOf_two_facts (Subgroup.normalizer (V : Set G))
   have hp := h.prime
@@ -323,7 +325,7 @@ theorem exists_invariant_sylow_core (h : Cfg12 G m p B x L D K)
   have h2 : 2 ∣ Nat.card ↥(GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G))) := by
     by_contra hnd
     exact hev (Nat.odd_iff.2 (by omega))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G)))) 2 h2
   have hgO : (g : G) ∈ GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set G)) := g.2
   have hord : orderOf (g : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hg
@@ -336,12 +338,14 @@ theorem exists_invariant_sylow_core (h : Cfg12 G m p B x L D K)
   rw [hg1, orderOf_one] at hord
   omega
 
+omit [Finite G] in
 theorem normalizer_commutator {A C : Subgroup G} {g : G} (hA : g ∈ Subgroup.normalizer (A : Set G))
     (hC : g ∈ Subgroup.normalizer (C : Set G)) : g ∈ Subgroup.normalizer ((⁅A, C⁆ : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hA hC ⊢
   unfold GLBConj at hA hC ⊢
   rw [Subgroup.map_commutator, hA, hC]
 
+omit [Finite G] in
 theorem comm_le_left {A C : Subgroup G} (hC : C ≤ Subgroup.normalizer (A : Set G)) : (⁅A, C⁆ : Subgroup G) ≤ A := by
   rw [Subgroup.commutator_le]
   intro a ha c hc

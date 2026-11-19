@@ -33,7 +33,7 @@ theorem z2s6_even_PSL (hO : LieOrderFormulasInput) {S : Type} [Group S] {n e : �
       · exact Or.inr (Or.inr (Or.inl hm))
     · exact (hnone J hdata.isPComponent).elim
 
-theorem z2s6_even_PSU (hO : LieOrderFormulasInput) {S : Type} [Group S] {n e : ℕ}
+theorem z2s6_even_PSU (_hO : LieOrderFormulasInput) {S : Type} [Group S] {n e : ℕ}
     (hadm : StatedLieAdmissible .PSU n 2 e) (hm : LieModel S .PSU n 2 e) {σ : MulAut S}
     {J : Subgroup ↥(fixedSubgroup σ)} (hdata : Z2S6ModData S σ J)
     (hout : σ ∉ (MulAut.conj : S →* MulAut S).range) : Z2S6Socle S := by

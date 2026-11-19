@@ -149,7 +149,7 @@ theorem commutator_le_sylowCenter_of_bender
     refine orderOf_eq_prime (Subtype.ext (by simpa using hZ2 z hz)) fun h => hz1 ?_
     exact congrArg Subtype.val h
   have hS : CFSG.GroupTheory.IsSuzukiTwoGroup (T : Subgroup X) := by
-    refine ⟨inferInstance, T.isPGroup', hab, ?_, (conjAct hDle).range, ?_, ?_⟩
+    refine ⟨inferInstance, T.isPGroup, hab, ?_, (conjAct hDle).range, ?_, ?_⟩
     · obtain ⟨a, ha, b, hb, ha1, hb1, hab'⟩ :=
         exists_ne_one_of_two_lt (S := sylowCenter (T : Subgroup X)) (by omega)
       exact ⟨_, _, hord a ha ha1, hord b hb hb1, fun h => hab' (congrArg Subtype.val h)⟩
@@ -208,7 +208,7 @@ theorem centralizer_le_of_card_sylow {G : Type*} [Group G] [Finite G] [IsSimpleG
     | succ n ih =>
       rw [pow_succ, mul_smul, ← hrS, ← mul_smul, ← ((hcomm r hr).pow_right n).eq, mul_smul, ih,
         ← mul_smul, ← pow_succ']
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp R.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp R.isPGroup
   have hrN : r ^ (2 ^ k) = 1 := by
     have h := pow_card_eq_one' (G := (R : Subgroup G)) (x := ⟨r, hr⟩)
     rw [hk] at h

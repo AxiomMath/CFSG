@@ -20,12 +20,12 @@ theorem I294Cross.false_of_nonabelian_sylow_rank_three {L : Type} [Group L] [Fin
     (hS : ∃ S : Sylow 3 L, ¬ IsMulCommutative (S : Subgroup L))
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup L) = 3) (h81 : ¬ 3 ^ 4 ∣ Nat.card L) : False := by
   obtain ⟨S, hS⟩ := hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (⊤ : Subgroup L)
   rw [hr] at hEc
   have hEp : IsPGroup 3 E := IsPGroup.of_card hEc
   obtain ⟨T, hET⟩ := hEp.exists_le_sylow
-  obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
   have hdvd : Nat.card (T : Subgroup L) ∣ Nat.card L := Subgroup.card_subgroup_dvd_card _
   have hk3 : k ≤ 3 := by
     by_contra h
@@ -119,7 +119,7 @@ theorem i294CrossThreeRankThreeOn_sz : I294CrossThreeRankThreeOn I294CrossIsSz :
       exact CFSG.RankThree.PartTwo.Census.not_three_dvd_card_suzukiMatrixGroup hm
     obtain ⟨S, hS'⟩ := hS
     have hcard : Nat.card (S : Subgroup L) = 1 := by
-      rcases IsPGroup.card_eq_or_dvd S.isPGroup' with h | h
+      rcases IsPGroup.card_eq_or_dvd S.isPGroup with h | h
       · exact h
       · exact (h3 (dvd_trans h (Subgroup.card_subgroup_dvd_card _))).elim
     have hsub : Subsingleton (S : Subgroup L) := (Nat.card_eq_one_iff_unique.mp hcard).1
@@ -157,7 +157,6 @@ theorem i294CrossThreeRankThreeOn_reeF4 :
     cases d <;> first
       | exact ⟨_, rfl⟩
       | exact False.elim hd
-      | simp [I294CrossIsReeF4] at hd
   obtain ⟨e⟩ := he
   have hR := CFSG.HardMathSupport.Timmesfeld.DefChar.lot_reeTitsModel_twistedF4_of_index m hv e
   have hord : Nat.card L = CFSG.Open.ordTwistedF4 (2 ^ (2 * m + 1)) :=

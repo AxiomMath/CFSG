@@ -98,13 +98,13 @@ theorem exists_two_ne_ne (hn : 4 ≤ n) (a b : Fin n) :
 @[expose] def dij (ζ : Fˣ) (i j : Fin n) : Fin n → Fˣ := Pi.mulSingle i ζ * Pi.mulSingle j ζ⁻¹
 
 theorem dij_left (ζ : Fˣ) {i j : Fin n} (hij : i ≠ j) : dij ζ i j i = ζ := by
-  simp [dij, Pi.mulSingle_apply, hij]
+  simp [dij, hij]
 
 theorem dij_right (ζ : Fˣ) {i j : Fin n} (hij : i ≠ j) : dij ζ i j j = ζ⁻¹ := by
-  simp [dij, Pi.mulSingle_apply, Ne.symm hij]
+  simp [dij, Ne.symm hij]
 
 theorem dij_other (ζ : Fˣ) {i j k : Fin n} (hki : k ≠ i) (hkj : k ≠ j) : dij ζ i j k = 1 := by
-  simp [dij, Pi.mulSingle_apply, hki, hkj]
+  simp [dij, hki, hkj]
 
 theorem prod_dij (ζ : Fˣ) (i j : Fin n) : ∏ k, dij ζ i j k = 1 := by
   simp [dij, Finset.prod_mul_distrib]
@@ -197,7 +197,7 @@ theorem eq_of_rows_eq (hA : A.det ≠ 0)
   rw [← Matrix.exists_mulVec_eq_zero_iff]
   refine ⟨Pi.single l₁ (A k l₂) - Pi.single l₂ (A k l₁), fun h0 => ?_, ?_⟩
   · have := congrFun h0 l₁
-    simp [Pi.single_apply, hl] at this
+    simp [hl] at this
     exact h2 this
   · ext k'
     simp only [Matrix.mulVec_sub, Matrix.mulVec_single, Pi.sub_apply, Pi.zero_apply,
@@ -426,10 +426,10 @@ theorem det_eq_pow_of_matrix {p m L' : ℕ} [hp : Fact p.Prime] (hL : Even L') (
     ext k l
     rw [PEquiv.mul_toMatrix_toPEquiv, Matrix.submatrix_apply, id, Equiv.symm_symm, diagonal_apply]
     by_cases hk : k = π l
-    · rw [if_pos hk, htdef]
+    · rw [ite_eq_left hk, htdef]
       simp only
       rw [hk, Equiv.symm_apply_apply]
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       exact hπ0 k l hk
   have hrel : ∀ i j : Fin (m * (L' + 1)), i ≠ j → ∃ c : F, ∀ l, ((dij ζ i j l : Fˣ) : F) =
       c * ((dij ζ i j (π l) : Fˣ) : F) := fun i j hij => by
@@ -879,11 +879,11 @@ theorem norm_eq_one_of_monomial {A : GL (Fin n) F}
   have hU := congrFun (congrFun hU0 (π.symm k)) (π.symm k)
   rw [Matrix.one_apply_eq, Matrix.mul_apply] at hU
   rw [Finset.sum_eq_single k] at hU
-  · rw [Matrix.transpose_apply, Matrix.map_apply, hent, Equiv.apply_symm_apply, if_pos rfl] at hU
+  · rw [Matrix.transpose_apply, Matrix.map_apply, hent, Equiv.apply_symm_apply, ite_eq_left rfl] at hU
     rw [UnitaryFieldData.norm, mul_comm]
     exact hU
   · intro j _ hjk
-    rw [hent j (π.symm k), Equiv.apply_symm_apply, if_neg hjk, mul_zero]
+    rw [hent j (π.symm k), Equiv.apply_symm_apply, ite_eq_right hjk, mul_zero]
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 
@@ -917,7 +917,7 @@ theorem hasNormalPComplement_fixerAut_primeFormP {p : ℕ} [hp : Fact p.Prime] (
     (P : Sylow p (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F))) :
     CFSG.HasNormalPComplement p ↥(Input185.fixerAut
       (P : Subgroup (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)))) := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨ζ', hζ'⟩ := exists_prime_orderOf_dvd_card' (G := (Units.map h.normHom).ker) p
     (by rw [(unitary_field_norm h).2.2.1]; exact hpq)
   set ζ : Fˣ := (ζ' : Fˣ) with hζdef
@@ -996,10 +996,10 @@ end UnitaryPSU
 open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.LinearFlag in
 theorem resOddPSL_holds : ResOddPSL := by
   intro K _ _ hs hnab n ℓ f hcl p hp hp2 hpn hpq P hP _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
     (Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], hcl⟩ : CFSG.Blueprint.LieModel K .PSL n ℓ f)
-  haveI : Finite (projectiveSL n F) := Finite.of_equiv K e.toEquiv
+  have : Finite (projectiveSL n F) := Finite.of_equiv K e.toEquiv
   have hn2 : 2 ≤ n := hcl.1.2.2.1
   have hn : 3 ≤ n := by
     have hle := Nat.le_of_dvd (by omega) hpn
@@ -1019,13 +1019,13 @@ theorem resOddPSL_holds : ResOddPSL := by
 open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher in
 theorem resOddPSU_holds : ResOddPSU := by
   intro K _ _ hs hnab n ℓ f hcl p hp hp2 hpn hpq P hP _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓ, hf, hn3, hq⟩, F, _, _, hF, ⟨e₀⟩⟩ := hcl
   have h : UnitaryFieldData ℓ f F := ⟨hℓ, hf, by rw [hF, ← pow_mul, mul_comm]⟩
   obtain ⟨e₁⟩ := nonempty_primeFormP_mulEquiv h (isPrimeFormGram_one (n := n) (K := F))
   let e : K ≃* primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) :=
     e₀.trans ((CFSG.ClassicalGroups.UnitaryFlag.unitaryPSUEquiv h (by omega)).symm.trans e₁.symm)
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) :=
     Finite.of_equiv K e.toEquiv
   have hZ : Subgroup.center (primeFormP h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) = ⊥ := by
     rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e,

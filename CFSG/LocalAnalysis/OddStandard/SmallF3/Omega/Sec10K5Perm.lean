@@ -29,7 +29,7 @@ theorem lemma_T (Φ Ψ : Subgroup (Perm (Fin 4 ⊕ Fin 4))) (hΨΦ : Ψ ≤ Φ) 
     | false => rfl
     | true =>
         have h := hblock σ hσΦ (σ⁻¹ (Sum.inl i)) (Sum.inl 0) (by rw [hv]; rfl)
-        simpa [hσ0] using h
+        simp [hσ0] at h
   have hσinv_inr_left : ∀ j, (σ⁻¹ (Sum.inr j)).isLeft = true :=
     isLeft_of_isLeft_inl_false hσinv_inl_right
   have hcover : ∀ w ∈ Φ, w ∈ blockPart Φ ∨ σ⁻¹ * w ∈ blockPart Φ := by
@@ -218,7 +218,7 @@ theorem lemma_T (Φ Ψ : Subgroup (Perm (Fin 4 ⊕ Fin 4))) (hΨΦ : Ψ ≤ Φ) 
         have hk' : p' ^ 2 ^ k = 1 := by
           have := congrArg Subtype.val hk
           simpa using this
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         have hord : orderOf p' = 3 := orderOf_eq_prime hp3 hp3ne
         have hdvd : orderOf p' ∣ 2 ^ k := orderOf_dvd_iff_pow_eq_one.mpr hk'
         rw [hord] at hdvd
@@ -229,7 +229,7 @@ theorem lemma_T (Φ Ψ : Subgroup (Perm (Fin 4 ⊕ Fin 4))) (hΨΦ : Ψ ≤ Φ) 
   have hprod_tau : Perm.sumCongr (p' * v) (1 : Perm (Fin 4)) =
       Perm.sumCongr p' (1 : Perm (Fin 4)) * Perm.sumCongr v (1 : Perm (Fin 4)) := by
     have h := (Perm.sumCongr_mul p' (1 : Perm (Fin 4)) v (1 : Perm (Fin 4))).symm
-    simpa using h
+    simp
   have hvΨ : Perm.sumCongr v (1 : Perm (Fin 4)) ∈ Ψ := hV1 v hvklein
   refine ⟨p' * v, ?_, hvv, ?_, ?_⟩
   · rw [Perm.sign_mul, hsignp, sign_of_mem_klein hvklein]

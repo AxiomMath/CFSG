@@ -162,7 +162,7 @@ theorem card_closure_le_pow_of_commuting {p k : ℕ} (hp : p.Prime) {y : Fin k �
     (hpow : ∀ i, y i ^ p = 1) (hcomm : ∀ i j, Commute (y i) (y j)) :
     Nat.card (Subgroup.closure (Set.range y)) ≤ p ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E : Subgroup K := Subgroup.closure (Set.range y) with hE
   have hS : ∀ s ∈ Set.range y, ∀ t ∈ Set.range y, Commute s t := by
     rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩
@@ -182,7 +182,7 @@ theorem card_closure_le_pow_of_commuting {p k : ℕ} (hp : p.Prime) {y : Fin k �
         _ = k := Nat.card_fin k
     have h3 : Group.rank (Subgroup.closure (Set.range y)) ≤ k := h.trans h2
     simpa [hE] using h3
-  haveI hEc : IsMulCommutative E := by
+  have hEc : IsMulCommutative E := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     exact (CFSG.RankThree.CentralCover.commute_of_mem_closure hS
       (show (a : K) ∈ Subgroup.closure (Set.range y) from a.2)
@@ -206,7 +206,7 @@ theorem central_lift_le_twoLocalPrimeRank {K R : Type} [Group K] [Finite K] [Gro
     (hNX : ∀ i, h i ∈ Subgroup.normalizer (X : Set R)) :
     k + CFSG.Open.pRank p (Subgroup.center K) ≤ CFSG.Open.twoLocalPrimeRank p K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : K →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hφ : Function.Surjective φ :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center K))

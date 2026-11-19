@@ -36,13 +36,13 @@ theorem twelveSix_of_twelveCtx {M : Subgroup G} {p : ℕ} {Q H : Subgroup G}
     (hd : TwelveFiveData M H d L₁ L₂ L₃ n₁ n₂ n₃) :
     TwelveSix M H p d L₁ L₂ L₃ n₁ n₂ n₃ :=
   twelveSix_of_parts
-    (fun W hW hWL =>
+    (fun _W hW hWL =>
       centralizer_le_of_mem_weakBlockSet h h812 hd.mem_sigma hL3
         (hdvdL d hd.mem_sigma) (le_of_eq hcard.symm) hd.mem₁ hW hWL)
-    (fun W hW hWL =>
+    (fun _W hW hWL =>
       centralizer_le_of_mem_weakBlockSet h h812 hd.mem_sigma hL3
         (hdvdL d hd.mem_sigma) (le_of_eq hcard.symm) hd.mem₂ hW hWL)
-    (fun W hW hWL =>
+    (fun _W hW hWL =>
       centralizer_le_of_mem_weakBlockSet h h812 hd.mem_sigma hL3
         (hdvdL d hd.mem_sigma) (le_of_eq hcard.symm) hd.mem₃ hW hWL)
     hK.n₁_eq_one hK.n₂_eq_one hK.n₃_eq_one

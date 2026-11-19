@@ -99,7 +99,7 @@ theorem ccOK_of_ccK {G : List Nat} {orbs : List Orb} {cov : List (ℕ × List �
     unfold orbK at h1
     simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, List.mem_map] at h1
     obtain ⟨⟨⟨⟨hb, hy0⟩, hSG⟩, hNS⟩, hall⟩ := h1
-    simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, List.mem_map]
+    simp only [decide_eq_true_eq, List.mem_map]
     refine ⟨⟨⟨⟨hb, hy0⟩, ?_⟩, ?_⟩, ?_⟩
     · rintro T ⟨wd, hwd, rfl⟩
       rw [hap wd _ hb]

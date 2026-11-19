@@ -124,13 +124,13 @@ variable [Finite J]
 
 theorem not_three_dvd_card_of_quasisimple (hq : CFSG.IsQuasisimple J)
     (h : ¬ 3 ∣ Nat.card (J ⧸ Subgroup.center J)) : ¬ 3 ∣ Nat.card J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   obtain ⟨hperf, -, -⟩ := hq
   obtain ⟨P⟩ : Nonempty (Sylow 3 J) := inferInstance
   have hPcen : ∀ g ∈ P.toSubgroup, g ∈ Subgroup.center J := by
     intro g hg
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     have hk' : g ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have h2 : orderOf (QuotientGroup.mk' (Subgroup.center J) g) ∣ 3 ^ k :=
       (orderOf_map_dvd _ g).trans (orderOf_dvd_of_pow_eq_one hk')
@@ -144,7 +144,7 @@ theorem not_three_dvd_card_of_quasisimple (hq : CFSG.IsQuasisimple J)
           Nat.card (J ⧸ Subgroup.center J) := orderOf_dvd_natCard _
       rw [hj] at h4
       exact (dvd_pow_self 3 (Nat.succ_ne_zero j)).trans h4
-  haveI hPn : P.toSubgroup.Normal := ⟨fun n hn g => by
+  have hPn : P.toSubgroup.Normal := ⟨fun n hn g => by
     rw [(Subgroup.mem_center_iff.mp (hPcen n hn) g), mul_inv_cancel_right]
     exact hn⟩
   obtain ⟨H, hC⟩ := Subgroup.exists_right_complement'_of_coprime (Sylow.card_coprime_index P)
@@ -181,7 +181,7 @@ theorem not_three_dvd_card_of_isPSolvable (hq : CFSG.IsQuasisimple J)
       exact ⟨⟨x, Subgroup.mem_top x⟩, Subgroup.mem_subgroupOf.mpr hx, rfl⟩
   let e := QuotientGroup.congr ((Subgroup.center J).subgroupOf (⊤ : Subgroup J))
     (Subgroup.center J) (Subgroup.topEquiv : ↥(⊤ : Subgroup J) ≃* J) hTeq
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hsimp
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hsimp
   have hsimpT : IsSimpleGroup
       (↥(⊤ : Subgroup J) ⧸ (Subgroup.center J).subgroupOf (⊤ : Subgroup J)) :=
     e.isSimpleGroup
@@ -194,14 +194,14 @@ theorem not_three_dvd_card_of_isPSolvable (hq : CFSG.IsQuasisimple J)
   rw [hidx] at hT
   rcases hT with h3 | h3
   · exfalso
-    haveI : IsCyclic (J ⧸ Subgroup.center J) := isCyclic_of_prime_card (p := 3) h3
+    have : IsCyclic (J ⧸ Subgroup.center J) := isCyclic_of_prime_card (p := 3) h3
     exact hab (mul_comm a0 b0)
   · exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp h3
 
 theorem not_isPSolvable_range_of_quasisimple {G : Type} [Group G] (hq : CFSG.IsQuasisimple J)
     (h3 : 3 ∣ Nat.card J) (π : J →* G) (hπ : ∃ b : J, π b ≠ 1) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥π.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hs
   obtain ⟨b, hb⟩ := hπ
   have hkerZ : π.ker ≤ Subgroup.center J :=
@@ -210,7 +210,7 @@ theorem not_isPSolvable_range_of_quasisimple {G : Type} [Group G] (hq : CFSG.IsQ
   have hkersolv : CFSG.HallHigman.IsPSolvable 3 ↥π.ker := by
     refine CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.OvergroupA5.isPSolvable_of_isSolvable
       Nat.prime_three ?_
-    haveI : IsMulCommutative ↥π.ker := ⟨⟨fun a b => Subtype.ext
+    have : IsMulCommutative ↥π.ker := ⟨⟨fun a b => Subtype.ext
       (Subgroup.mem_center_iff.1 (hkerZ b.2) a)⟩⟩
     infer_instance
   have hquot : CFSG.HallHigman.IsPSolvable 3 (J ⧸ π.ker) :=
@@ -241,7 +241,7 @@ theorem exists_sl_cube (m : ℕ) (hm : 2 ≤ m) :
   set e : Fin 2 ⊕ Fin k ≃ Fin (2 + k) := finSumFinEquiv with he
   set M : Matrix (Fin (2 + k)) (Fin (2 + k)) F := Matrix.reindexAlgEquiv F F e B with hM
   have hdet : M.det = 1 := by
-    rw [hM, Matrix.reindexAlgEquiv_apply, Matrix.det_reindex_self, hB,
+    rw [hM, Matrix.coe_reindexAlgEquiv, Matrix.det_reindex_self, hB,
       Matrix.det_fromBlocks_zero₂₁, det_rotTwo, Matrix.det_one, mul_one]
   have hB3 : B * (B * B) = 1 := by
     rw [hB, Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
@@ -257,7 +257,7 @@ theorem exists_sl_cube (m : ℕ) (hm : 2 ≤ m) :
     have h0 : (⟨0, by omega⟩ : Fin (2 + k)) = e (Sum.inl 0) := by
       rw [he, finSumFinEquiv_apply_left]
       rfl
-    rw [hM, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply, h0,
+    rw [hM, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply, h0,
       Equiv.symm_apply_apply, hB, Matrix.fromBlocks_apply₁₁]
     simp [rotTwo]
 
@@ -268,7 +268,7 @@ theorem ne_one_of_entry_zero {m : ℕ} (hm : 1 ≤ m) {g : Matrix.SpecialLinearG
 
 theorem three_dvd_card_sl [Finite F] {m : ℕ} (hm : 2 ≤ m) :
     3 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin m) F) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg3, hg0⟩ := exists_sl_cube (F := F) m hm
   have hord : orderOf g = 3 := orderOf_eq_prime hg3 (ne_one_of_entry_zero (by omega) hg0)
   rw [← hord]
@@ -340,7 +340,7 @@ theorem exists_goodBlock {n : ℕ} {K : Type} [Field K] [Finite K] {x : Module.E
           Nat.pow_le_pow_right (by omega) (by omega)
         nlinarith
       simp [hm, hd]
-    · simp only [hm, if_false, add_zero]
+    · simp only [hm, ite_false, add_zero]
       have : primaryMultiplicity x (b : K[X]) ≤ 1 := by
         have := hb2
         unfold mult at this hm
@@ -465,7 +465,7 @@ theorem not_isPSolvable_fixSubgroup_conjAut {n : ℕ} {K : Type} [Field K] [Fini
     (hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(fixSubgroup (conjAut n K A)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := Matrix.toLin' (A : Matrix (Fin n) (Fin n) K) with hX
   have hMp : (A : Matrix (Fin n) (Fin n) K) ^ 3 = algebraMap K (Matrix (Fin n) (Fin n) K) c := by
     have h1 : ((A ^ 3 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
@@ -546,9 +546,9 @@ theorem not_isPSolvable_fixSubgroup_conjAut {n : ℕ} {K : Type} [Field K] [Fini
 theorem not_isPSolvable_fixSubgroup_fieldAut {n : ℕ} {K : Type} [Field K] [Finite K] (hn : 3 ≤ n)
     (σ : K ≃+* K) : ¬ CFSG.HallHigman.IsPSolvable 3 ↥(fixSubgroup (fieldAut n K σ)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := Fintype.ofFinite K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set c : ZMod (ringChar K) →+* K := ZMod.castHom (dvd_refl (ringChar K)) K with hc
   have hcinj : Function.Injective c := c.injective
   set ι : Matrix.SpecialLinearGroup (Fin n) (ZMod (ringChar K)) →*
@@ -634,7 +634,7 @@ theorem not_isPSolvable_fixSubgroup_psl {n : ℕ} {K : Type} [Field K] [Finite K
       mul_mem (linearAutGroup_le_semilinearAutGroup (conjAut_mem_linearAutGroup A))
         (fieldAut_mem_semilinearAutGroup σ)
     have hne : conjAut n K A * fieldAut n K σ ≠ 1 := fun h => hlin (h ▸ one_mem _)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (conjAut n K A * fieldAut n K σ) = 3 := orderOf_eq_prime hβ hne
     have hpℓ : 3 ≠ ringChar K := fun h => h3 (by
       have h' : ((ringChar K : ℕ) : K) = 0 := ringChar.Nat.cast_ringChar

@@ -74,7 +74,7 @@ theorem scalar_of_commute_unitarySet {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hℓ
   have hD : Matrix.GeneralLinearGroup.mkOfDetNeZero (Matrix.diagonal ν) hDdet0 ∈
       unitarySet (ℓ ^ f) 3 := by
     unfold unitarySet
-    rw [Set.mem_setOf_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
+    rw [Set.mem_ofPred_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
     exact ⟨hDent, hDdet, hDunit⟩
   have hMD := hM _ hD
   rw [Matrix.GeneralLinearGroup.val_mkOfDetNeZero] at hMD
@@ -101,7 +101,7 @@ theorem scalar_of_commute_unitarySet {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hℓ
       intro h0
       have h0' : ν j = ν i := sub_eq_zero.1 h0
       fin_cases i <;> fin_cases j <;>
-        first | exact absurd rfl hij | skip
+        try exact absurd rfl hij
       · exact hν01 h0'.symm
       · exact hν02 h0'.symm
       · exact hν01 h0'
@@ -119,7 +119,7 @@ theorem scalar_of_commute_unitarySet {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hℓ
   have hC : Matrix.GeneralLinearGroup.mkOfDetNeZero
       (CFSG.RankThree.PartTwo.Sec4.Res424Seven.cyc3 Ω) hCdet0 ∈ unitarySet (ℓ ^ f) 3 := by
     unfold unitarySet
-    rw [Set.mem_setOf_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
+    rw [Set.mem_ofPred_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
     refine ⟨fun i j => ?_, CFSG.RankThree.PartTwo.Sec4.Res424Seven.det_cyc3, ?_⟩
     · fin_cases i <;> fin_cases j <;>
         simp [CFSG.RankThree.PartTwo.Sec4.Res424Seven.cyc3, zero_pow hq20]

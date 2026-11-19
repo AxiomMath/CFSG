@@ -116,7 +116,7 @@ theorem matsuyama_weak_closure [Finite GroupType]
     by_contra not_equal
     have proper : subfamily ⊂ family := Set.ssubset_iff_subset_ne.mpr ⟨fun _ member => member.1, not_equal⟩
     obtain ⟨subgroup, family_member, outside, normalizes⟩ := pgroup_invariant_family_normalizer_extension
-      prime prime_prime parent sylow.isPGroup' family subfamily family_contained family_invariant proper
+      prime prime_prime parent sylow.isPGroup family subfamily family_contained family_invariant proper
     rw [subfamily_join] at normalizes
     obtain ⟨element, conjugate_equal⟩ := family_member.1
     let orbit := normalizedConjugateHull actor subgroup

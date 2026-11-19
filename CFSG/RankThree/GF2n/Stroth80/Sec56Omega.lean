@@ -50,13 +50,13 @@ theorem Ctx.conj_orbit_omegaPlus (h34 : Stroth34Statement) (hRoot : Stroth310Roo
   have hDV : conjSubgroup m B ≤ Vt M (LB M Q B) B Z t := le_trans le_sup_left hmV
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, inferInstance, inferInstance, hK, Or.inl ⟨mm, hm3, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin mm ⊕ Fin mm) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin mm ⊕ Fin mm) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have h3 : 3 ≤ Module.finrank K (Fin mm ⊕ Fin mm → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
   have hsB := hc.omega_singular h34 hRoot hs hnatSO hK (ElemMatrixIso.plus hm3)
@@ -96,13 +96,13 @@ theorem Ctx.conj_orbit_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310Ro
   have hDV : conjSubgroup m B ≤ Vt M (LB M Q B) B Z t := le_trans le_sup_left hmV
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, inferInstance, inferInstance, hK, Or.inr ⟨mm, b, c, hmm, hirr, hnat⟩⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (mm - 1) ⊕ Fin (mm - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (mm - 1) ⊕ Fin (mm - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have h3 : 3 ≤ Module.finrank K (Fin (mm - 1) ⊕ Fin (mm - 1) ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
       Fintype.card_fin, Fintype.card_fin]; omega

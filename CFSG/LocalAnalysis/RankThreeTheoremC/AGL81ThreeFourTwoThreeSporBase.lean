@@ -30,7 +30,7 @@ theorem normalizer_le_of_le_centralizer_of_three_le_pRank (hp : p.Prime)
   have hR : 3 ≤ pRank p (R : Subgroup Y) := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact hS.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp hSR)
-  rw [if_pos hR] at hcore
+  rw [ite_eq_left hR] at hcore
   exact (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p hXR hX
     (hS.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp
       (le_sup_of_le_right (le_inf hSR hSX))))).trans hcore
@@ -47,17 +47,17 @@ theorem normalizer_inf_le_of_isElemAbelian [Fact p.Prime] {K Y₀ E : Subgroup Y
   set T₀ : Subgroup Y := (R : Subgroup Y) ⊓ K with hT₀
   have hRT := sylow_le_sup_inf_centralizer_of_not_dvd R hZ hout
   by_cases h3 : 3 ≤ pRank p (R : Subgroup Y)
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p inf_le_left h2
       ?_).trans hcore
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     exact h3.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp hRT)
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     have hR2 : CFSG.Open.pRank p (R : Subgroup Y) ≤ 2 := by
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
       omega
     have hTC : T₀ ≤ centralizer (T₀ : Set Y) := fun t ht => by
-      haveI := hT.1
+      have := hT.1
       exact mem_centralizer_iff.mpr fun s hs =>
         congrArg Subtype.val (mul_comm' (⟨s, hs⟩ : T₀) ⟨t, ht⟩)
     have hRC : (R : Subgroup Y) ≤ centralizer (T₀ : Set Y) := hRT.trans (sup_le hTC inf_le_right)
@@ -68,6 +68,7 @@ theorem normalizer_inf_le_of_isElemAbelian [Fact p.Prime] {K Y₀ E : Subgroup Y
     exact (le_sSup ⟨T₀, hT₀E, by omega, rfl⟩ : normalizer (T₀ : Set Y) ≤ GLBCore p 1 E).trans
       hcore
 
+omit [Finite Y] in
 theorem isSolvable_inf_of_normalizer_le {K Y₀ : Subgroup Y} (T : Subgroup K)
     (hmax : ∀ H : Subgroup K, normalizer (T : Set K) ≤ H →
       H = normalizer (T : Set K) ∨ H = ⊤)
@@ -77,7 +78,7 @@ theorem isSolvable_inf_of_normalizer_le {K Y₀ : Subgroup Y} (T : Subgroup K)
   have hle : normalizer (T : Set K) ≤ Y₀.subgroupOf K := fun k hk =>
     mem_subgroupOf.mpr (hN (mem_map_of_mem K.subtype hk))
   rcases hmax _ hle with h | h
-  · haveI : Group.IsSolvable (Y₀.subgroupOf K) := by
+  · have : Group.IsSolvable (Y₀.subgroupOf K) := by
       rw [h]
       exact hsol
     let f : (K ⊓ Y₀ : Subgroup Y) →* Y₀.subgroupOf K :=

@@ -15,16 +15,16 @@ theorem s16c167_card_ge_of_seven_inverted {U : Type} [CommGroup U] [Finite U]
     2 ^ 6 ≤ Nat.card U := by
   classical
   have hord : orderOf (2 : ZMod 7) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime (p := 3) (by decide) (by decide)
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   have hτne : τ ≠ 1 := by
     intro h
     have hall : ∀ u : U, u = 1 := fun u => hfix u (by rw [h]; rfl)
-    haveI : Subsingleton U := ⟨fun a b => by rw [hall a, hall b]⟩
+    have : Subsingleton U := ⟨fun a b => by rw [hall a, hall b]⟩
     exact hne (Nat.card_of_subsingleton (1 : U))
   have hdvd : 7 ∣ Nat.card U - 1 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hσ : (MulAut.toPerm U τ) ^ 7 ^ 1 = 1 := by
       rw [pow_one, ← map_pow, hτ, map_one]
     have h := Equiv.Perm.card_compl_support_modEq hσ

@@ -83,7 +83,7 @@ private theorem frameA_fix_iff {Q : QuadraticForm (ZMod 2) V}
   · intro h j hj u hu
     by_cases hji : j = i
     · subst hji; exact h u hu
-    · rw [toAdd_frameS, if_neg hji] at hj
+    · rw [toAdd_frameS, ite_eq_right hji] at hj
       exact absurd rfl hj
 
 private theorem frameA_sq_apply {Q : QuadraticForm (ZMod 2) V}

@@ -98,7 +98,7 @@ theorem coe_restrictSubcomodule (V : TauCeti.Subcomodule k H H) (φ : H →ₐc[
     (hψφ : (ψ : H →ₐ[k] H).comp (φ : H →ₐ[k] H) = AlgHom.id k H)
     (hφψ : (φ : H →ₐ[k] H).comp (ψ : H →ₐ[k] H) = AlgHom.id k H)
     (hφV : ∀ v ∈ V, φ v ∈ V) (hψV : ∀ v ∈ V, ψ v ∈ V) : V ≃ₗ[k] V :=
-  LinearEquiv.ofLinear (restrictSubcomodule V φ hφV) (restrictSubcomodule V ψ hψV)
+  LinearEquiv.ofLinearMap (restrictSubcomodule V φ hφV) (restrictSubcomodule V ψ hψV)
     (LinearMap.ext fun v => Subtype.ext (AlgHom.congr_fun hφψ v))
     (LinearMap.ext fun v => Subtype.ext (AlgHom.congr_fun hψφ v))
 

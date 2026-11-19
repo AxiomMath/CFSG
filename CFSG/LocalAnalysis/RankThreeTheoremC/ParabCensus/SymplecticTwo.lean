@@ -28,7 +28,7 @@ theorem forall_sylow_normalizer_eq_of_mulEquiv {X X' : Type} [Group X] [Group X'
     (e : X ≃* X')
     (h : ∀ T : Sylow 2 X, normalizer ((T : Subgroup X) : Set X) = (T : Subgroup X)) :
     ∀ T : Sylow 2 X', normalizer ((T : Subgroup X') : Set X') = (T : Subgroup X') := by
-  haveI : Finite X' := Finite.of_equiv X e.toEquiv
+  have : Finite X' := Finite.of_equiv X e.toEquiv
   intro T
   let T₀ : Sylow 2 X := Sylow.mapSurjective (p := 2) (f := e.symm.toMonoidHom)
     e.symm.surjective T
@@ -98,7 +98,7 @@ theorem borelSubgroup_eq_unipotent_of_card_two {r : ℕ} {K : Type} [Field K] [F
   simp
 
 theorem normalizer_sylow_statedSp_eq_self {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hK : Nat.card K = 2) (hm : 1 ≤ m) (T : Sylow 2 (StatedSp m K)) :
+    (hK : Nat.card K = 2) (_hm : 1 ≤ m) (T : Sylow 2 (StatedSp m K)) :
     normalizer ((T : Subgroup (StatedSp m K)) : Set (StatedSp m K)) =
       (T : Subgroup (StatedSp m K)) := by
   obtain ⟨U, hU⟩ := CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.exists_sylow_unipotent
@@ -430,9 +430,9 @@ theorem isSpTwoLeviProduct_idxBTwo (hZ : OddCenterRest) {X : Type} [Group X] [Fi
     IsSpTwoLeviProduct ↥J := by
   obtain ⟨r, K, hKf, hKfin, hKchar, -, hK2, ⟨φ⟩⟩ :=
     exists_mulEquiv_statedSp_of_idxBTwo hZ hCP.comp hCP.odd h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨ρ, I, t, hI, htI, hmax, hρ⟩ := exists_flagStabilizer_of_compParab hCP φ
   have hQI := isSpTwoLeviProduct_flagStabilizer (K := K) hI htI hmax hK2
   have hmapQ :

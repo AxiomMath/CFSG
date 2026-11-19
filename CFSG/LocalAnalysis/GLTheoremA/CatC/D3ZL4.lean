@@ -51,20 +51,20 @@ theorem posRoot_simple {J : Set (Fin Tag.D4.rank)}
     rw [hlist] at this
     obtain ⟨c0, c1, c2, c3⟩ := key _ _ _ _ this
     refine ⟨2, Set.mem_singleton _, funext fun i => ?_⟩
-    rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [Pi.single_apply, c0, c1, c2, c3]
+    rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [c0, c1, c2, c3]
   · have hb2 : β 2 = 0 := hsupp 2 (by simp)
     have := h1 (by rw [e2]; exact hb2)
     rw [hlist] at this
     rcases this with h | h | h
     · obtain ⟨c0, c1, c2, c3⟩ := key _ _ _ _ h
       refine ⟨0, mem_outer0, funext fun i => ?_⟩
-      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [Pi.single_apply, c0, c1, c2, c3]
+      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [c0, c1, c2, c3]
     · obtain ⟨c0, c1, c2, c3⟩ := key _ _ _ _ h
       refine ⟨1, mem_outer1, funext fun i => ?_⟩
-      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [Pi.single_apply, c0, c1, c2, c3]
+      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [c0, c1, c2, c3]
     · obtain ⟨c0, c1, c2, c3⟩ := key _ _ _ _ h
       refine ⟨3, mem_outer3, funext fun i => ?_⟩
-      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [Pi.single_apply, c0, c1, c2, c3]
+      rcases hi4 i with rfl | rfl | rfl | rfl <;> simp [c0, c1, c2, c3]
 
 theorem leviUnip_le {J : Set (Fin Tag.D4.rank)}
     (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank))) :

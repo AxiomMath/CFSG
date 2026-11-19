@@ -121,7 +121,7 @@ private lemma l05nD4Q_MJ {ι : Type*} {M : CoxeterMatrix ι} {C : Matrix ι ι �
     have hcase := hC.2 (emb i) (emb j) hne
     rw [l05nD4Q_coxeterE6_off i.1 j.1 hkl]
     rcases l05nD4Q_cartanE6_off i.1 j.1 hkl with he | he
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       rcases hcase with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exact hm
       · exfalso
@@ -131,7 +131,7 @@ private lemma l05nD4Q_MJ {ι : Type*} {M : CoxeterMatrix ι} {C : Matrix ι ι �
         exact l05nD4Q_mod3_zero_two hJij hJji h1 he
       · exfalso
         exact l05nD4Q_mod3_zero_three hJij hJji h1 h2 h3 (Or.inl he)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       rcases hcase with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exfalso
         rw [h1, he] at hJij
@@ -163,7 +163,7 @@ private lemma l05nD4Q_cartan_of_three {Γ : Type*} {M : CoxeterMatrix Γ} {C : M
 theorem ggDepED4_pattern2 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa : Nat.card Λa = 2)
     {MK : CoxeterMatrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa)}
     {CK : Matrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ℤ}
-    (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hE : ∃ eK : Fin 6 ≃ ({c : Fin 6 // GGDepED4In c} ⊕ Λa), MK = CoxeterMatrix.E₆.reindex eK)
     (hJ : ∀ i j : {c : Fin 6 // GGDepED4In c},
       (CK (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3)) :
@@ -227,16 +227,16 @@ theorem ggDepED4_pattern2 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa : N
       rw [hM]
       by_cases hik : i = k
       · have hjk : j.1 = l05nD4Q_emb k := hiffc.mp (hiff.mpr hik)
-        rw [if_pos hik, if_pos hjk]
+        rw [ite_eq_left hik, ite_eq_left hjk]
       · have hjk : ¬ j.1 = l05nD4Q_emb k := fun h => hik (hiff.mp (hiffc.mpr h))
-        rw [if_neg hik, if_neg hjk]
+        rw [ite_eq_right hik, ite_eq_right hjk]
     by_cases hjk : j.1 = l05nD4Q_emb k
-    · have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hM', if_pos hjk]
+    · have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hM', ite_eq_left hjk]
       have hres := l05nD4Q_cartan_of_three hCK (Sum.inr_ne_inl) h3
-      rw [if_pos hjk]; exact hres
-    · have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hM', if_neg hjk]
+      rw [ite_eq_left hjk]; exact hres
+    · have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hM', ite_eq_right hjk]
       have hres := l05nD4Q_cartan_of_two hCK (Sum.inr_ne_inl) h2
-      rw [if_neg hjk]; exact hres
+      rw [ite_eq_right hjk]; exact hres
   have h1 := hrow a₁ k hrow1
   have h2 := hrow a₂ k' hrow2
   have hM12 : MK (Sum.inr a₁) (Sum.inr a₂) = 2 := by

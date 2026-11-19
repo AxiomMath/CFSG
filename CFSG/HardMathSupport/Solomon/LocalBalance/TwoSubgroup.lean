@@ -78,7 +78,7 @@ theorem exists_twoGroup_normalized_of_centralizes [Finite G] (hFT : InputFeitTho
   set O : Subgroup G := GLAPPrimeCoreOf p X with hO
   have hPgL : Pg ≤ L := Subgroup.map_subtype_le _
   have hPgX : Pg ≤ X := hPgL.trans hLX
-  have hPg2 : IsPGroup 2 Pg := P.isPGroup'.map L.subtype
+  have hPg2 : IsPGroup 2 Pg := P.isPGroup.map L.subtype
   have hPgcard : 2 ∣ Nat.card Pg := by
     rw [hPg, Subgroup.card_map_of_injective L.subtype_injective]
     exact P.dvd_card_of_dvd_card h2L

@@ -47,8 +47,8 @@ theorem isSimpleGroup_commutator_of_derivedSeries (hP : Pair X E)
   have hZ : Subgroup.center X = ⊥ := hsolv _ inferInstance inferInstance
   have hp : ∀ p : ℕ, p.Prime → ∀ N : Subgroup X, N.Normal → IsPGroup p N → N = ⊥ :=
     fun p hp N hN hNp => by
-      haveI : Fact p.Prime := ⟨hp⟩
-      haveI := hNp.isNilpotent
+      have : Fact p.Prime := ⟨hp⟩
+      have := hNp.isNilpotent
       exact hsolv N hN inferInstance
   have h2 := hp 2 Nat.prime_two
   have h3 := hp 3 Nat.prime_three
@@ -136,7 +136,7 @@ theorem isSimpleGroup_commutator_of_derivedSeries (hP : Pair X E)
       rw [eq_bot_iff]
       intro y _
       exact Subgroup.mem_bot.mpr (hall y)
-    haveI : Fintype (X ⧸ N) := Fintype.ofFinite _
+    have : Fintype (X ⧸ N) := Fintype.ofFinite _
     have ht2 : t * t = 1 := by
       rw [ht, ← QuotientGroup.mk_mul, Pair.mul_self hP he₀, QuotientGroup.mk_one]
     have hisol : ∀ g : X ⧸ N, (g * t * g⁻¹) * t = t * (g * t * g⁻¹) → g * t * g⁻¹ = t := by
@@ -174,18 +174,18 @@ theorem isSimpleGroup_commutator_of_derivedSeries (hP : Pair X E)
       obtain ⟨k₁, hk₁⟩ := Subgroup.mem_zpowers_iff.1 (hpow g₁)
       obtain ⟨k₂, hk₂⟩ := Subgroup.mem_zpowers_iff.1 (hpow g₂)
       rw [← hk₁, ← hk₂, ← zpow_add, ← zpow_add, add_comm]
-    haveI : Group.IsSolvable M := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hModd
-    haveI : Group.IsSolvable (commutator (X ⧸ N)) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    have : Group.IsSolvable M := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hModd
+    have : Group.IsSolvable (commutator (X ⧸ N)) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
     have hperf : ⁅commutator (X ⧸ N), commutator (X ⧸ N)⁆ = commutator (X ⧸ N) := by
       have h := congrArg (Subgroup.map (QuotientGroup.mk' N)) hder
       rw [map_derivedSeries_eq (QuotientGroup.mk'_surjective N),
         map_derivedSeries_eq (QuotientGroup.mk'_surjective N)] at h
       rw [← derivedSeries_one, ← derivedSeries_succ]
       exact h.symm
-    haveI : Group.IsPerfect (commutator (X ⧸ N)) := Subgroup.isPerfect_iff.mpr hperf
+    have : Group.IsPerfect (commutator (X ⧸ N)) := Subgroup.isPerfect_iff.mpr hperf
     by_contra hne
-    haveI : Nontrivial (commutator (X ⧸ N)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Nontrivial (commutator (X ⧸ N)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     exact Group.IsPerfect.not_isSolvable (G := commutator (X ⧸ N)) inferInstance
   have hle : commutator X ≤ N := by
     have h := map_derivedSeries_eq (QuotientGroup.mk'_surjective N) 1

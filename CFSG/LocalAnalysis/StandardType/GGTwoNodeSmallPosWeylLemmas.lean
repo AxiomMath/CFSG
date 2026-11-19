@@ -11,9 +11,9 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 lemma pww2_getD_range_map (D : ℕ) (F : ℕ → ℕ) (j : Fin D) :
     (((List.range D).map F).getD j.val 0) = F j.val := by
-  have hlen : j.val < ((List.range D).map F).length := by simpa using j.isLt
+  have hlen : j.val < ((List.range D).map F).length := by simp
   rw [List.getD_eq_getElem _ 0 hlen, List.getElem_map]
-  have hr : (List.range D)[j.val] = j.val := List.getElem_range (by simpa using j.isLt)
+  have hr : (List.range D)[j.val] = j.val := List.getElem_range (by simp)
   rw [hr]
 
 lemma pww2_dot_add (P : Pt) (f x y : P.V) :
@@ -45,7 +45,7 @@ lemma pww2_dot_single (P : Pt) (f : P.V) (j : Fin P.D) :
   rw [Finset.sum_eq_single j]
   · rw [Pi.single_eq_same]; ring
   · intro k _ hk
-    rw [Pi.single_apply, if_neg hk, mul_zero]
+    rw [Pi.single_apply, ite_eq_right hk, mul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -95,7 +95,7 @@ lemma pww2_lin_ext_unit (P : Pt) [Fact P.p.Prime] {W : Type*} [AddCommMonoid W]
     rw [Finset.sum_eq_single i]
     · rw [Pi.single_eq_same]; ring
     · intro k _ hk
-      rw [Pi.single_apply, if_neg (Ne.symm hk), mul_zero]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm hk), mul_zero]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   rw [hz]
@@ -241,7 +241,7 @@ lemma pww2_A_M (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
   show (if i = j then 1 else
       (if (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) then 3 else 2)) =
     (if (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) then 3 else 2)
-  rw [if_neg hij]
+  rw [ite_eq_right hij]
 
 lemma pww2_B_M (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
     (CoxeterMatrix.B n).M i j =
@@ -252,7 +252,7 @@ lemma pww2_B_M (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
        else if (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) then 3 else 2)) =
     (if ((i : ℕ) = n - 1 ∧ (j : ℕ) = n - 2) ∨ ((j : ℕ) = n - 1 ∧ (i : ℕ) = n - 2) then 4
        else if (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ) then 3 else 2)
-  rw [if_neg hij]
+  rw [ite_eq_right hij]
 
 lemma pww2_cartanD_ne_of (n : ℕ) (hn : 4 ≤ n) (i j : Fin n) (hij : i ≠ j)
     (h : ((i : ℕ) + 1 = (j : ℕ) ∧ (j : ℕ) + 2 < n) ∨
@@ -266,7 +266,7 @@ lemma pww2_cartanD_ne_of (n : ℕ) (hn : 4 ≤ n) (i j : Fin n) (hij : i ≠ j)
       else if (i : ℕ) + 3 = n ∧ ((j : ℕ) + 2 = n ∨ (j : ℕ) + 1 = n) then -1
       else if (j : ℕ) + 3 = n ∧ ((i : ℕ) + 2 = n ∨ (i : ℕ) + 1 = n) then -1
       else 0) ≠ 0
-  rw [if_neg hij, if_neg (by omega : ¬ n ≤ 2)]
+  rw [ite_eq_right hij, ite_eq_right (by omega : ¬ n ≤ 2)]
   split_ifs <;> omega
 
 lemma pww2_cartanD_eq_of_not (n : ℕ) (hn : 4 ≤ n) (i j : Fin n) (hij : i ≠ j)
@@ -281,9 +281,9 @@ lemma pww2_cartanD_eq_of_not (n : ℕ) (hn : 4 ≤ n) (i j : Fin n) (hij : i ≠
       else if (i : ℕ) + 3 = n ∧ ((j : ℕ) + 2 = n ∨ (j : ℕ) + 1 = n) then -1
       else if (j : ℕ) + 3 = n ∧ ((i : ℕ) + 2 = n ∨ (i : ℕ) + 1 = n) then -1
       else 0) = 0
-  rw [if_neg hij, if_neg (by omega : ¬ n ≤ 2)]
+  rw [ite_eq_right hij, ite_eq_right (by omega : ¬ n ≤ 2)]
   simp only [not_or] at h
-  rw [if_neg h.1, if_neg h.2.1, if_neg h.2.2.1, if_neg h.2.2.2]
+  rw [ite_eq_right h.1, ite_eq_right h.2.1, ite_eq_right h.2.2.1, ite_eq_right h.2.2.2]
 
 lemma pww2_e7M_eq (i j : Fin 7) (hij : i ≠ j) :
     (CoxeterMatrix.E₇).M i j =

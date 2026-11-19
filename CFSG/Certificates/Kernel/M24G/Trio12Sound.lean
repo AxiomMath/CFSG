@@ -169,7 +169,7 @@ theorem piSteps_closed {bs : List (Nat × Nat × Nat)} {PI : List Nat}
   have h' := h k (by omega)
   rw [Nat.zero_add, Bool.and_eq_true, decide_eq_true_eq, trio12_getD_eq_getElem _ _ hk] at h'
   unfold stepP
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
   exact h'.1
 
 theorem orbOK_sound {st : List (Nat → Nat)} (hcl : ∀ s ∈ st, ∀ i < 3795, s i < 3795) {p : Nat}
@@ -242,7 +242,7 @@ theorem stepTup_eq {g : Array Nat} (hg : ∀ x ∈ g.toList, x < 24) (c : Nat) :
   have hf : Native.img g = imgF (imgTab g.toList) := funext (img_eq_imgF g hg)
   have hm : ∀ i, S.getD (i % 1771) default ∈ S := fun i =>
     trio12_getD_mem (by rw [hSl]; exact Nat.mod_lt _ (by decide))
-  simp only [arr_getElem! O.toArray, List.toList_toArray, toArray_getElem!_eq_getD S,
+  simp only [arr_getElem! O.toArray, toArray_getElem!_eq_getD S,
     octIdx_of hO hOl, sext_img_idx hS hSl hSi hg (hm _), hf]
   rfl
 

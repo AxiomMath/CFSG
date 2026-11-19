@@ -45,6 +45,7 @@ theorem lt_weakClosure_inf_normalizer {H T U : Subgroup G} {Ω : Set (Subgroup G
   rw [heq]
   exact E1.le_weakClosure hB (le_inf (hBW.trans hWT) hBN)
 
+omit [Finite G] in
 theorem inf_normalizer_weakClosure_le {H M T U Q : Subgroup G} {Ω : Set (Subgroup G)}
     (hQT : Q ≤ T) (hUQ : U < E1.weakClosure Q Ω)
     (hmax : ∀ X : Subgroup G, X ≤ E1.weakClosure T Ω → E1.weakClosure X Ω = X → U < X →
@@ -52,6 +53,7 @@ theorem inf_normalizer_weakClosure_le {H M T U Q : Subgroup G} {Ω : Set (Subgro
     H ⊓ normalizer (E1.weakClosure Q Ω : Set G) ≤ M :=
   hmax _ (weakClosure_mono Ω hQT) (weakClosure_weakClosure Q Ω) hUQ
 
+omit [Finite G] in
 theorem inf_normalizer_le_of_weakClosure {H M Q : Subgroup G} {Ω : Set (Subgroup G)}
     (hΩ : E1.IsInvColl H Ω) (h : H ⊓ normalizer (E1.weakClosure Q Ω : Set G) ≤ M) :
     H ⊓ normalizer (Q : Set G) ≤ M := by
@@ -63,6 +65,7 @@ theorem inf_normalizer_le_of_weakClosure {H M Q : Subgroup G} {Ω : Set (Subgrou
   rw [h1] at h2
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h2
 
+omit [Finite G] in
 theorem eq_bot_of_le_normalizer {H M U : Subgroup G} (hUH : U ≤ H) (hUM : U ≤ M)
     (hHU : H ≤ normalizer (U : Set G)) (hJ : kerMOf M H = ⊥) : U = ⊥ := by
   have hN : (U.subgroupOf H).Normal := by

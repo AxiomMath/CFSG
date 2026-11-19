@@ -180,7 +180,7 @@ theorem gensK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {G : ℕ → ℕ}
         (if (cg tab i j).testBit 2 = true then σ 2 else 1) := by
     intro i hi j hj hj0
     have e := hcm0 i hi j hj
-    rw [bIf_eq, if_neg (by simpa using hj0)] at e
+    rw [bIf_eq, ite_eq_right (by simpa using hj0)] at e
     have hp := prep_pcomp hn' (hGi i (by omega) hi) (hGi j (by omega) (by omega))
     simpa using eq22_sound e (prep_pcomp hn' hp hp) (prep_pidn hn hw) (prep_cenS hn hw hG _)
       (prep_pidn hn hw)
@@ -195,7 +195,7 @@ theorem gensK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {G : ℕ → ℕ}
     · simp [cyGen, hi0]
     by_cases hk0 : k = 0
     · simp [cyGen, hk0]
-    simp only [cyGen, hi0, hk0, if_false]
+    simp only [cyGen, hi0, hk0, ite_false]
     rcases lt_trichotomy i k with hik | rfl | hik
     · exact (hcz k hk i hik hi0 hi).symm
     · rfl
@@ -203,8 +203,8 @@ theorem gensK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {G : ℕ → ℕ}
   refine ⟨⟨?_, ?_, ?_⟩, ?_⟩
   · intro i hi
     by_cases hi0 : i = 0
-    · simp [cyGen, hi0, Int.units_mul_self]
-    · simp only [cyGen, hi0, if_false]
+    · simp [cyGen, hi0]
+    · simp only [cyGen, hi0, ite_false]
       rw [Prod.mk_mul_mk, hsq i (by omega) hi, mul_one]
       rfl
   · intro i hi k hk
@@ -216,7 +216,7 @@ theorem gensK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {G : ℕ → ℕ}
       rw [cg_zero ht hi hj (by norm_num)]
       simp [cyGen, show i ≠ 0 by omega]
     · have hi0 : i ≠ 0 := by omega
-      simp only [cyGen, hi0, hj0, if_false, Prod.mk_mul_mk, mul_one]
+      simp only [cyGen, hi0, hj0, ite_false, Prod.mk_mul_mk, mul_one]
       rw [← hcm i hi j hj hj0]
       exact congrArg (·, (1 : ℤˣ)) (swap_eq (hsq i (by omega) hi) (hsq j (by omega) (by omega)))
   · intro k hk0 hk h1
@@ -233,7 +233,7 @@ theorem gensK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {G : ℕ → ℕ}
       cases hb : k.testBit 0
       · rfl
       · rw [hb] at hs
-        simp [cyGen] at hs <;> exact absurd hs (by decide)
+        simp [cyGen] at hs
     rw [hb0] at hf
     simp only [Bool.false_eq_true, ↓reduceIte, one_mul, Prod.fst_one] at hf
     have hk2 : k / 2 = 0 := by

@@ -36,7 +36,7 @@ theorem c26_2_u_of_actE {K J T W : Subgroup G} {S : Sylow 2 G} {t u : G} (hJ : J
       ((S : Subgroup G).mul_mem hvS (hTS hx)) ((S : Subgroup G).inv_mem hvS))
       ((S : Subgroup G).inv_mem (hTS hx))
   have hc2 : IsPGroup 2 (Subgroup.zpowers ⁅u * t ^ ε, x⁆) :=
-    (S.isPGroup').to_le ((Subgroup.zpowers_le).mpr hcS)
+    (S.isPGroup).to_le ((Subgroup.zpowers_le).mpr hcS)
   have hc1 : ⁅u * t ^ ε, x⁆ = 1 :=
     eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard _) hc hc2
   have hcomm : (u * t ^ ε) * x = x * (u * t ^ ε) := by

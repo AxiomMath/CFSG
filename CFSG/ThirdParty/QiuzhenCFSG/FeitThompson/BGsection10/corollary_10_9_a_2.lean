@@ -30,14 +30,14 @@ private theorem CFSG.section10_msigma_sylow_groupRank_ge_three_of_mem_alpha
     (P : Sylow p.val (section10Msigma M)) :
     3 ≤ groupRank (P : Subgroup (section10Msigma M)) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hpσ : p ∈ section10SigmaPrimes M := section10_alpha_subset_sigma hM hpα
   have hprankM : 3 ≤ primeRank p.val M := Nat.succ_le_of_lt hpα.2
   obtain ⟨A, hAp, hAcomm, hAgen⟩ :=
     section10_exists_pSubgroup_three_le_generatorRank_of_three_le_primeRank_pre
       (p := p.val) (R := M) hprankM
   have hA_le_K : A ≤ section10MsigmaSubgroup M := by
-    letI : (section10MsigmaSubgroup M).Normal := inferInstance
+    let : (section10MsigmaSubgroup M).Normal := inferInstance
     exact section10_pSubgroup_le_normal_hall_of_mem_early
       (R := M) (π := section10SigmaPrimes M) (H := section10MsigmaSubgroup M)
       (P := A) hAp (section10_msigmaSubgroup_isHall hM) hpσ
@@ -53,10 +53,10 @@ private theorem CFSG.section10_msigma_sylow_groupRank_ge_three_of_mem_alpha
     exact hAGp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := AG) (K := section10Msigma M) hAG_le_msigma).symm
   have hAGcomm : IsMulCommutative AG := by
-    letI : IsMulCommutative A := hAcomm
+    let : IsMulCommutative A := hAcomm
     simpa [AG] using Subgroup.map_isMulCommutative (f := M.subtype) (H := A)
   have hAσcomm : IsMulCommutative Aσ := by
-    letI : IsMulCommutative AG := hAGcomm
+    let : IsMulCommutative AG := hAGcomm
     exact Subgroup.subgroupOf_isMulCommutative (H := AG) (K := section10Msigma M)
   have hAG_gen_eq : generatorRank AG = generatorRank A := by
     rw [generatorRank_eq_group_rank, generatorRank_eq_group_rank]

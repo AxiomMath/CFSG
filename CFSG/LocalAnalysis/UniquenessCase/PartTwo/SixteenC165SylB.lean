@@ -80,7 +80,7 @@ theorem tAut_not_mem_u0Sub : tAut S ∉ u0Sub S := by
     simpa [M, w0, S.vec_jHom, S.vec_tAut, toMat_ofMat, vec_ofVec] using hw
   have h01 := congrFun (congrFun hmat 0) 1
   have h10 : (1 : S.K) = 0 := by
-    simpa [uHom_coe, M, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply] using h01
+    simp [uHom_coe, M, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply] at h01
   exact one_ne_zero h10
 
 @[expose] def t0Sub : Subgroup (MulAut W) := u0Sub S ⊔ Subgroup.zpowers (tAut S)

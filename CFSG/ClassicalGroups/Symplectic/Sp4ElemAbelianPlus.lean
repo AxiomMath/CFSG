@@ -50,7 +50,7 @@ theorem eq_one_of_lam_zero_eq_lam_one {K : Type} [Field K]
 theorem exists_isElemAbelian_card_sq_of_dvd_card_add_one {K : Type} [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) (hpd : p ∣ Nat.card K + 1) :
     ∃ E : Subgroup (StatedSp 2 K), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq : p ∣ Nat.card K ^ 2 - 1 := by
     have hfac : Nat.card K ^ 2 - 1 = (Nat.card K + 1) * (Nat.card K - 1) := by
       obtain ⟨t, ht⟩ : ∃ t, Nat.card K = t + 1 :=

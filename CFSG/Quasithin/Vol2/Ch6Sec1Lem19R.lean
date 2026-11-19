@@ -19,7 +19,7 @@ theorem transfer_eq_one_of_closure {E : Type*} [Group E] [Finite E] {p : ℕ} [h
   have h1 : t ^ 2 ^ k = 1 := by rw [← map_pow, hk, map_one]
   have h2 : t ^ Nat.card (Abelianization (P : Subgroup E)) = 1 := pow_card_eq_one'
   have hab : IsPGroup p (Abelianization (P : Subgroup E)) :=
-    IsPGroup.to_quotient P.isPGroup' _
+    IsPGroup.to_quotient P.isPGroup _
   have hcop : Nat.Coprime (2 ^ k) (Nat.card (Abelianization (P : Subgroup E))) := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hab
     rw [hm]

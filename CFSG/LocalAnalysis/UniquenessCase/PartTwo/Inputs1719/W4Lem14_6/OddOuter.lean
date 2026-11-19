@@ -50,7 +50,7 @@ theorem mem_of_orderOf_eq_two_of_odd_outer {U : Type} [CommGroup U] [Finite U]
     (hout : Odd (Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥S)))
     {t : MulAut U} (htN : t ∈ N) (ht : orderOf t = 2) : t ∈ S := by
   classical
-  haveI : Finite (MulAut U) :=
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
   have ht2 : t * t = 1 := by rw [← sq, ← ht, pow_orderOf_eq_one]
   have hconj : ∀ s ∈ S, t * s * t⁻¹ ∈ S := fun s hs => by

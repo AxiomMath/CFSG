@@ -99,7 +99,7 @@ theorem isPGroup_two_of_sylow_le_alt (α : Type) [Fintype α] [DecidableEq α]
     omega
   have hγ : m % 2 ≤ 1 := by
     rcases Nat.mod_two_eq_zero_or_one m with h | h <;> omega
-  haveI : Subsingleton (Fin (m % 2)) := Fin.subsingleton_iff_le_one.2 hγ
+  have : Subsingleton (Fin (m % 2)) := Fin.subsingleton_iff_le_one.2 hγ
   have hcard : Fintype.card α = Fintype.card ((Fin (m / 2) × Bool) ⊕ Fin (m % 2)) := by
     have hdm := Nat.div_add_mod m 2
     rw [← hm]

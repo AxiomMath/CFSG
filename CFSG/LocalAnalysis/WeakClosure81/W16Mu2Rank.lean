@@ -18,7 +18,7 @@ theorem mem_sup_centralizer_of_comm_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {V₀ V B : Subgroup G} (hV : IsPGroup 2 V) (hV₀ : V₀ ≤ V) (hB : IsPGroup p B)
     (hBV₀ : B ≤ normalizer (V₀ : Set G)) {v : G} (hv : v ∈ V)
     (hvB : ∀ b ∈ B, b * v * b⁻¹ * v⁻¹ ∈ V₀) : v ∈ V ⊓ centralizer (B : Set G) ⊔ V₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hV₀2 : IsPGroup 2 V₀ := hV.to_le hV₀
   have hcop : ¬ p ∣ Nat.card V₀ := by
     obtain ⟨n, hn⟩ := hV₀2.exists_card_eq
@@ -34,11 +34,11 @@ theorem mem_sup_centralizer_of_comm_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hx' : v * x ∈ V₀ := by simpa only [inv_inv] using hx
     have h1 : v * ((a : G) * v⁻¹ * (a : G)⁻¹) ∈ V₀ := by
       have h := V₀.inv_mem (hvB a.1 a.2)
-      convert h using 1 <;> group
+      convert h using 1; group
     have h2 : (a : G) * (v * x) * (a : G)⁻¹ ∈ V₀ :=
       (Subgroup.mem_normalizer_iff.1 (hBV₀ a.2) (v * x)).mp hx'
     have h3 := V₀.mul_mem h1 h2
-    convert h3 using 1 <;> simp only [Subgroup.coe_subtype] <;> group
+    convert h3 using 1; simp only [Subgroup.coe_subtype]; group
   obtain ⟨y, hy, hyfix⟩ :=
     (CFSG.Semidihedral.Principal.coprime_invariant_coset_fixed p hB
       (MulAut.conj.comp B.subtype) V₀ hcop v⁻¹).2 hk
@@ -152,7 +152,7 @@ theorem exists_hyperplane_two_le_mQuot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hEV₀ : E ≤ normalizer (V₀ : Set G)) (h2 : 2 ≤ E3.mQuot V V₀) :
     ∃ F ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p E,
       2 ≤ E3.mQuot (V ⊓ centralizer (F : Set G) ⊔ V₀) V₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp' : IsPGroup p E := CFSG.Open.IsElemAbelian.isPGroup hE
   have hcopV : Nat.Coprime p (Nat.card V) := by
     obtain ⟨n, hn⟩ := hV.exists_card_eq
@@ -218,7 +218,7 @@ theorem exists_two_le_mQuot_sup_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hEV₀ : E ≤ normalizer (V₀ : Set G)) (h2 : 2 ≤ E3.mQuot V V₀) :
     ∃ B : Subgroup G, B ≤ E ∧ Nat.card B = p ^ 2 ∧
       2 ≤ E3.mQuot (V ⊓ centralizer (B : Set G) ⊔ V₀) V₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : p ≤ Nat.card E := by
     calc p = p ^ 1 := by rw [pow_one]
       _ ≤ p ^ 3 := Nat.pow_le_pow_right hp.pos (by norm_num)
@@ -256,7 +256,7 @@ theorem exists_two_le_mQuot_sup_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p �
   omega
 
 theorem mQuot_le_mQuot_of_inf_eq {V₀ V X Y : Subgroup G} (hV : IsPGroup 2 V) (hX : X ≤ V)
-    (hY : Y ≤ V) (hXY : X ⊓ Y = V₀) : E3.mQuot X V₀ ≤ E3.mQuot V Y := by
+    (_hY : Y ≤ V) (hXY : X ⊓ Y = V₀) : E3.mQuot X V₀ ≤ E3.mQuot V Y := by
   have hX2 : IsPGroup 2 X := hV.to_le hX
   have hpow : 2 ^ E3.mQuot X V₀ ≤ 2 ^ E3.mQuot V Y := by
     rw [← E3.relIndex_eq_two_pow hX2, ← E3.relIndex_eq_two_pow hV]

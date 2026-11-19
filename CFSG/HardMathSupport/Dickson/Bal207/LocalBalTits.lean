@@ -18,9 +18,9 @@ section Nine
 variable {G : Type*} [Group G] [Finite G]
 
 theorem nine_dvd_card_inf_centralizer_of_card_eq {R : Subgroup G} (hR : Nat.card R = 27)
-    {s : G} (hsR : s ∈ R) (hs1 : s ≠ 1) :
+    {s : G} (hsR : s ∈ R) (_hs1 : s ≠ 1) :
     9 ∣ Nat.card ↥(R ⊓ Subgroup.centralizer ({s} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZC : (Subgroup.center ↥R).map R.subtype ≤ R ⊓ Subgroup.centralizer ({s} : Set G) := by
     rintro _ ⟨z, hz, rfl⟩
     refine ⟨z.2, Subgroup.mem_centralizer_singleton_iff.2 ?_⟩
@@ -65,7 +65,7 @@ theorem nine_dvd_card_inf_centralizer_of_card_eq {R : Subgroup G} (hR : Nat.card
 
 theorem exists_elemAbelian_nine_le_of_dvd {C : Subgroup G} (hC : 9 ∣ Nat.card C)
     (hCe : ∀ c ∈ C, c ^ 3 = 1) : ∃ Q ≤ C, IsElemAbelian 3 Q ∧ Nat.card Q = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥C) 3 (n := 2)
     (by simpa using hC)
   have hQcard : Nat.card ↥(K.map C.subtype) = 9 := by

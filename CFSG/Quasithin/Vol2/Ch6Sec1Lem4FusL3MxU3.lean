@@ -68,8 +68,8 @@ private theorem u3inv_pow_succ (x : F) (C : Matrix (Fin 2) (Fin 2) F) (hC : C * 
   | zero => simp
   | succ k ih =>
     rw [pow_succ, ih]
-    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, smul_smul, hC,
-      smul_zero, add_zero, zero_add]
+    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, hC,
+      smul_zero, add_zero]
     push_cast
     module
 
@@ -85,7 +85,7 @@ private theorem u3inv_star_eq_sub (σ : F →+* F) (M : Matrix (Fin 2) (Fin 2) F
     (M.map σ)ᵀ = (M 0 0 + M 1 1) • (1 : Matrix (Fin 2) (Fin 2) F) - M := by
   rw [hadj, Matrix.adjugate_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp
 
 private theorem u3inv_star_entries (σ : F →+* F) (M : Matrix (Fin 2) (Fin 2) F)
     (hadj : (M.map σ)ᵀ = M.adjugate) :
@@ -99,12 +99,12 @@ private theorem u3inv_star_entries (σ : F →+* F) (M : Matrix (Fin 2) (Fin 2) 
 
 private theorem u3inv_quadratic [Finite F] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F) {s d : F}
-    (hs : h.bar s = s) (hd : h.bar d = d) (hs0 : s ≠ 0) (hd0 : d ≠ 0) :
+    (hs : h.bar s = s) (hd : h.bar d = d) (_hs0 : s ≠ 0) (hd0 : d ≠ 0) :
     ∃ a b : F, h.bar a = a ∧ h.bar b = b ∧ a ^ 2 - d * b ^ 2 = s⁻¹ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := h.charP
-  haveI : Fintype h.fixedField := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := h.charP
+  have : Fintype h.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card h.fixedField % 2 = 1 := by
     obtain ⟨n, -, hn⟩ := FiniteField.card h.fixedField p
     rw [hn]
@@ -254,7 +254,7 @@ private theorem u3inv_core (σ : F →+* F) (hσ : ∀ x, σ (σ x) = x) (h2 : (
     have e : C * (M₀ * C - C * M₀) + (M₀ * C - C * M₀) * C = M₀ * (C * C) - (C * C) * M₀ := by
       noncomm_ring
     rw [e, hCC]
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
   have hCX₁ : C * X₁ = -(X₁ * C) := eq_neg_of_add_eq_zero_left hanti
   obtain ⟨X₂, hX₂⟩ : ∃ X : Matrix (Fin 2) (Fin 2) F, X = X₁ * C := ⟨_, rfl⟩
   have hX₂s : (X₂.map σ)ᵀ = X₂ := by
@@ -343,7 +343,7 @@ theorem exists_inverter_statedSU {F : Type} [Field F] [Finite F] {p : ℕ} (hp :
   intro B hB hB5 hB1
   let h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F :=
     ⟨hp, le_rfl, by rw [hF]; ring⟩
-  haveI : CharP F p := h.charP
+  have : CharP F p := h.charP
   have hp2 : p ≠ 2 := by omega
   have h2 : (2 : F) ≠ 0 := by
     intro h0

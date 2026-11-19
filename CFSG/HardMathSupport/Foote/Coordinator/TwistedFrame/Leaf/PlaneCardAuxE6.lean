@@ -38,7 +38,7 @@ theorem e6v1_smul (u : Fin Tag.E6.rank → ℤ) : e6v1 • u = wordMat Tag.E6 e6
   inj := E.inj L
   isRoot := E.isRoot
   gen := fun i j hij t => by
-    simp only [dif_pos hij]
+    simp only [dite_eq_left hij]
     exact (E.gen L i j hij).choose_spec t
   range := E.range L
 
@@ -137,9 +137,9 @@ theorem e6Six_X₁ (K : Type) [Field K] [Finite K] (hK : 3 ≤ Nat.card K)
       Nat.card ↥(Subgroup.center ↥(TwClass.e6Six.X₁ D)) = Nat.gcd 3 (Nat.card K + 1) := by
   classical
   obtain ⟨ℓ, f, hℓ, hf, hk⟩ := exists_prime_pow_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D.L ℓ := charP_langLevi D hℓ hk
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : CharP D.L ℓ := charP_langLevi D hℓ hk
   have hne : ((3 : ℕ), ℓ ^ f) ≠ (3, 2) := fun h => by
     have := (Prod.mk.inj h).2
     omega

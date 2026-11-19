@@ -111,13 +111,13 @@ theorem quad_mem_normalizer_component (hp2 : p ≠ 2) (ρ : Γ →* (V →ₗ[ZM
     let S₀ : Sylow 2 ↥K := default
     have hS : IsSylowOf 2 (S₀ : Subgroup ↥K) ⊤ := by
       rw [isSylowOf_iff]
-      exact ⟨le_top, S₀.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S₀.not_dvd_index⟩
+      exact ⟨le_top, S₀.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S₀.not_dvd_index⟩
     by_contra hall
     push Not at hall
     refine not_sylow_two_le_center hK.1 hS fun y hy => ?_
     rw [Subgroup.mem_center_iff]
     intro w
-    obtain ⟨n, hn⟩ := S₀.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := S₀.isPGroup ⟨y, hy⟩
     have hyn : (y : Γ) ^ 2 ^ n = 1 := by
       have := congrArg (fun v : ↥(S₀ : Subgroup ↥K) => ((v : ↥K) : Γ)) hn
       simpa using this

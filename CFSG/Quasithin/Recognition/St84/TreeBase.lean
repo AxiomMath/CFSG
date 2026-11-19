@@ -28,22 +28,26 @@ abbrev f112OfB (L1 L2 S : Subgroup H) (Y : Subgroup H) :
     Subgroup (f112Gold L1 L2 S).Universal :=
   (Y.subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB
 
+omit [Finite H] in
 @[simp] theorem f112OfA_top (L1 L2 S : Subgroup H) :
     f112OfA L1 L2 S ⊤ = (f112Gold L1 L2 S).ofA.range := by
   show ((⊤ : Subgroup H).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA = _
   rw [Subgroup.top_subgroupOf, Subgroup.map_top]
 
+omit [Finite H] in
 @[simp] theorem f112OfB_top (L1 L2 S : Subgroup H) :
     f112OfB L1 L2 S ⊤ = (f112Gold L1 L2 S).ofB.range := by
   show ((⊤ : Subgroup H).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB = _
   rw [Subgroup.top_subgroupOf, Subgroup.map_top]
 
+omit [Finite H] in
 theorem f112OfA_sup {L1 L2 S : Subgroup H} {A B : Subgroup H}
     (hA : A ≤ f112P1 L1 L2 S) (hB : B ≤ f112P1 L1 L2 S) :
     f112OfA L1 L2 S (A ⊔ B) = f112OfA L1 L2 S A ⊔ f112OfA L1 L2 S B := by
   show ((A ⊔ B).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA = _
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite H] in
 theorem f112_ofA_pCoreOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) :
     pCoreOf 2 (f112OfA L1 L2 S Y) = f112OfA L1 L2 S (pCoreOf 2 Y) := by
@@ -51,6 +55,7 @@ theorem f112_ofA_pCoreOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
   rw [pCoreOf_map_injective (f112Gold L1 L2 S).ofA (f112Gold L1 L2 S).ofA_injective,
     CFSG.Quasithin.H13.U3.GC137.pCoreOf_subgroupOf_eq hY]
 
+omit [Finite H] in
 theorem f112_ofB_pCoreOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) :
     pCoreOf 2 (f112OfB L1 L2 S Y) = f112OfB L1 L2 S (pCoreOf 2 Y) := by
@@ -58,6 +63,7 @@ theorem f112_ofB_pCoreOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
   rw [pCoreOf_map_injective (f112Gold L1 L2 S).ofB (f112Gold L1 L2 S).ofB_injective,
     CFSG.Quasithin.H13.U3.GC137.pCoreOf_subgroupOf_eq hY]
 
+omit [Finite H] in
 theorem f112_ofA_oTwoPrime (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) :
     oTwoPrime (f112OfA L1 L2 S Y) = f112OfA L1 L2 S (oTwoPrime Y) := by
@@ -72,6 +78,7 @@ theorem f112_ofA_oTwoPrime (L1 L2 S : Subgroup H) {Y : Subgroup H}
   show oTwoPrime ((Y.subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA) = _
   rw [oTwoPrime_map (f := (f112Gold L1 L2 S).ofA) (f112Gold L1 L2 S).ofA_injective, hside]
 
+omit [Finite H] in
 theorem f112_ofB_oTwoPrime (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) :
     oTwoPrime (f112OfB L1 L2 S Y) = f112OfB L1 L2 S (oTwoPrime Y) := by
@@ -86,6 +93,7 @@ theorem f112_ofB_oTwoPrime (L1 L2 S : Subgroup H) {Y : Subgroup H}
   show oTwoPrime ((Y.subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB) = _
   rw [oTwoPrime_map (f := (f112Gold L1 L2 S).ofB) (f112Gold L1 L2 S).ofB_injective, hside]
 
+omit [Finite H] in
 theorem centerOf_subgroupOf {Y P : Subgroup H} (hY : Y ≤ P) :
     centerOf (Y.subgroupOf P) = (centerOf Y).subgroupOf P := by
   ext x
@@ -99,36 +107,43 @@ theorem centerOf_subgroupOf {Y P : Subgroup H} (hY : Y ≤ P) :
   · rintro ⟨hx, hc⟩
     refine ⟨hx, fun a ha => Subtype.ext (hc a ha)⟩
 
+omit [Finite H] in
 theorem centerOf_map_eq_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {Y : Subgroup H} (hY : Y ≤ P) :
     centerOf ((Y.subgroupOf P).map φ) = ((centerOf Y).subgroupOf P).map φ := by
   rw [CFSG.Quasithin.SimsD1.TransGrp.centerOf_map_eq φ hφ, centerOf_subgroupOf hY]
 
+omit [Finite H] in
 theorem f112_ofA_centerOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) :
     centerOf (f112OfA L1 L2 S Y) = f112OfA L1 L2 S (centerOf Y) :=
   centerOf_map_eq_of_le (f112Gold L1 L2 S).ofA_injective hY
 
+omit [Finite H] in
 theorem f112_ofB_centerOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) :
     centerOf (f112OfB L1 L2 S Y) = f112OfB L1 L2 S (centerOf Y) :=
   centerOf_map_eq_of_le (f112Gold L1 L2 S).ofB_injective hY
 
+omit [Finite H] in
 theorem commutator_map_eq_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     {A B : Subgroup H} (hA : A ≤ P) (hB : B ≤ P) :
     ⁅(A.subgroupOf P).map φ, (B.subgroupOf P).map φ⁆ = (⁅A, B⁆.subgroupOf P).map φ := by
   rw [← Subgroup.map_commutator, CFSG.GroupTheory.commutator_subgroupOf_eq hA hB]
 
+omit [Finite H] in
 theorem f112_ofA_commutator (L1 L2 S : Subgroup H) {A B : Subgroup H}
     (hA : A ≤ f112P1 L1 L2 S) (hB : B ≤ f112P1 L1 L2 S) :
     ⁅f112OfA L1 L2 S A, f112OfA L1 L2 S B⁆ = f112OfA L1 L2 S ⁅A, B⁆ :=
   commutator_map_eq_of_le hA hB
 
+omit [Finite H] in
 theorem f112_ofB_commutator (L1 L2 S : Subgroup H) {A B : Subgroup H}
     (hA : A ≤ f112P2 L1 L2 S) (hB : B ≤ f112P2 L1 L2 S) :
     ⁅f112OfB L1 L2 S A, f112OfB L1 L2 S B⁆ = f112OfB L1 L2 S ⁅A, B⁆ :=
   commutator_map_eq_of_le hA hB
 
+omit [Finite H] in
 theorem f112_stabilizer_baseA_map (L1 L2 S : Subgroup H)
     (E : Subgroup (f112Gold L1 L2 S).Universal) :
     (MulAction.stabilizer ↥E (baseA (f112Gold L1 L2 S))).map E.subtype =
@@ -137,6 +152,7 @@ theorem f112_stabilizer_baseA_map (L1 L2 S : Subgroup H)
     stabilizer_baseA (f112Gold L1 L2 S), ← Subgroup.inf_subgroupOf_left,
     Subgroup.map_subgroupOf_eq_of_le inf_le_left]
 
+omit [Finite H] in
 theorem f112_stabilizer_baseB_map (L1 L2 S : Subgroup H)
     (E : Subgroup (f112Gold L1 L2 S).Universal) :
     (MulAction.stabilizer ↥E (baseB (f112Gold L1 L2 S))).map E.subtype =
@@ -164,59 +180,70 @@ structure BaseEdgeData (H : Type) [Group H] where
   X_zero : X.vert 0 = baseA (f112Gold L1 L2 S)
   X_one : X.vert 1 = baseB (f112Gold L1 L2 S)
 
+omit [Finite H] in
 theorem BaseEdgeData.gi_zero_map (D : BaseEdgeData H) :
     (D.X.Gi 0).map D.E.subtype = f112OfA D.L1 D.L2 D.S D.Pα := by
   show (MulAction.stabilizer ↥D.E (D.X.vert 0)).map D.E.subtype = _
   rw [D.X_zero, f112_stabilizer_baseA_map D.L1 D.L2 D.S D.E, D.ofA_eq]
 
+omit [Finite H] in
 theorem BaseEdgeData.gi_one_map (D : BaseEdgeData H) :
     (D.X.Gi 1).map D.E.subtype = f112OfB D.L1 D.L2 D.S D.Pβ := by
   show (MulAction.stabilizer ↥D.E (D.X.vert 1)).map D.E.subtype = _
   rw [D.X_one, f112_stabilizer_baseB_map D.L1 D.L2 D.S D.E, D.ofB_eq]
 
+omit [Finite H] in
 theorem BaseEdgeData.gi_inf_map (D : BaseEdgeData H) :
     (D.X.Gi 0 ⊓ D.X.Gi 1).map D.E.subtype = f112OfA D.L1 D.L2 D.S D.Ke := by
   rw [Subgroup.map_inf (D.X.Gi 0) (D.X.Gi 1) D.E.subtype D.E.subtype_injective,
     D.gi_zero_map, D.gi_one_map, ← D.ofA_eq, ← D.ofB_eq, ← D.ofA_inf_ofB_eq]
-  simp only [inf_assoc, inf_left_comm, inf_idem, inf_left_idem, inf_right_idem]
+  simp only [inf_assoc, inf_left_comm, inf_left_idem]
 
+omit [Finite H] in
 theorem BaseEdgeData.Q_zero_map (D : BaseEdgeData H) :
     (D.X.Q 0).map D.E.subtype = f112OfA D.L1 D.L2 D.S (pCoreOf 2 D.Pα) := by
   rw [← pCoreOf_map_injective (f := D.E.subtype) D.E.subtype_injective, D.gi_zero_map]
   exact f112_ofA_pCoreOf D.L1 D.L2 D.S D.le_Pα
 
+omit [Finite H] in
 theorem BaseEdgeData.Q_one_map (D : BaseEdgeData H) :
     (D.X.Q 1).map D.E.subtype = f112OfB D.L1 D.L2 D.S (pCoreOf 2 D.Pβ) := by
   rw [← pCoreOf_map_injective (f := D.E.subtype) D.E.subtype_injective, D.gi_one_map]
   exact f112_ofB_pCoreOf D.L1 D.L2 D.S D.le_Pβ
 
+omit [Finite H] in
 theorem BaseEdgeData.L_zero_map (D : BaseEdgeData H) :
     (D.X.L 0).map D.E.subtype = f112OfA D.L1 D.L2 D.S (oTwoPrime D.Pα) := by
   rw [← oTwoPrime_map (f := D.E.subtype) D.E.subtype_injective, D.gi_zero_map]
   exact f112_ofA_oTwoPrime D.L1 D.L2 D.S D.le_Pα
 
+omit [Finite H] in
 theorem BaseEdgeData.L_one_map (D : BaseEdgeData H) :
     (D.X.L 1).map D.E.subtype = f112OfB D.L1 D.L2 D.S (oTwoPrime D.Pβ) := by
   rw [← oTwoPrime_map (f := D.E.subtype) D.E.subtype_injective, D.gi_one_map]
   exact f112_ofB_oTwoPrime D.L1 D.L2 D.S D.le_Pβ
 
+omit [Finite H] in
 theorem BaseEdgeData.S_map (D : BaseEdgeData H) :
     (D.X.S).map D.E.subtype = f112OfA D.L1 D.L2 D.S (pCoreOf 2 D.Ke) := by
   rw [← pCoreOf_map_injective (f := D.E.subtype) D.E.subtype_injective, D.gi_inf_map]
   exact f112_ofA_pCoreOf D.L1 D.L2 D.S (D.le_Ke.trans inf_le_left)
 
+omit [Finite H] in
 theorem BaseEdgeData.pCoreOf_L_zero_map (D : BaseEdgeData H) :
     (pCoreOf 2 (D.X.L 0)).map D.E.subtype =
       f112OfA D.L1 D.L2 D.S (pCoreOf 2 (oTwoPrime D.Pα)) := by
   rw [← pCoreOf_map_injective (f := D.E.subtype) D.E.subtype_injective, D.L_zero_map]
   exact f112_ofA_pCoreOf D.L1 D.L2 D.S ((oTwoPrime_le D.Pα).trans D.le_Pα)
 
+omit [Finite H] in
 theorem BaseEdgeData.pCoreOf_L_one_map (D : BaseEdgeData H) :
     (pCoreOf 2 (D.X.L 1)).map D.E.subtype =
       f112OfB D.L1 D.L2 D.S (pCoreOf 2 (oTwoPrime D.Pβ)) := by
   rw [← pCoreOf_map_injective (f := D.E.subtype) D.E.subtype_injective, D.L_one_map]
   exact f112_ofB_pCoreOf D.L1 D.L2 D.S ((oTwoPrime_le D.Pβ).trans D.le_Pβ)
 
+omit [Finite H] in
 theorem card_of_map_eq_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {E : Subgroup U} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ P) (h : Y'.map E.subtype = (Y.subgroupOf P).map φ) :
@@ -225,18 +252,21 @@ theorem card_of_map_eq_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P �
   rw [Subgroup.card_map_of_injective (f := φ) (K := Y.subgroupOf P) hφ]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hY).toEquiv
 
+omit [Finite H] in
 theorem card_of_map_eq {L1 L2 S : Subgroup H} {E : Subgroup (f112Gold L1 L2 S).Universal}
     {Y' : Subgroup ↥E} {Y : Subgroup H} (hY : Y ≤ f112P1 L1 L2 S)
     (h : Y'.map E.subtype = f112OfA L1 L2 S Y) :
     Nat.card ↥Y' = Nat.card ↥Y :=
   card_of_map_eq_of_le (f112Gold L1 L2 S).ofA_injective hY h
 
+omit [Finite H] in
 theorem card_of_map_eq_ofB {L1 L2 S : Subgroup H}
     {E : Subgroup (f112Gold L1 L2 S).Universal} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) (h : Y'.map E.subtype = f112OfB L1 L2 S Y) :
     Nat.card ↥Y' = Nat.card ↥Y :=
   card_of_map_eq_of_le (f112Gold L1 L2 S).ofB_injective hY h
 
+omit [Finite H] in
 theorem isElemAbelian_map_iff_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {E : Subgroup U} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ P) (h : Y'.map E.subtype = (Y.subgroupOf P).map φ) :
@@ -253,19 +283,22 @@ theorem isElemAbelian_map_iff_of_le {U : Type} [Group U] {P : Subgroup H} {φ : 
   rw [CFSG.Quasithin.SimsD1.TransGrp.isElemAbelian_map_iff (f := φ) hφ 2 (Y.subgroupOf P)]
   exact hiff
 
+omit [Finite H] in
 theorem isElemAbelian_of_map_iff {L1 L2 S : Subgroup H}
     {E : Subgroup (f112Gold L1 L2 S).Universal} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) (h : Y'.map E.subtype = f112OfA L1 L2 S Y) :
     IsElemAbelian 2 Y' ↔ IsElemAbelian 2 Y :=
   isElemAbelian_map_iff_of_le (f112Gold L1 L2 S).ofA_injective hY h
 
+omit [Finite H] in
 theorem isElemAbelian_of_map_iff_ofB {L1 L2 S : Subgroup H}
     {E : Subgroup (f112Gold L1 L2 S).Universal} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) (h : Y'.map E.subtype = f112OfB L1 L2 S Y) :
     IsElemAbelian 2 Y' ↔ IsElemAbelian 2 Y :=
   isElemAbelian_map_iff_of_le (f112Gold L1 L2 S).ofB_injective hY h
 
-theorem natSec_subgroupOf_iff {P L K Q : Subgroup H} (hL : L ≤ P) (hK : K ≤ P) (hQ : Q ≤ P) :
+omit [Finite H] in
+theorem natSec_subgroupOf_iff {P L K Q : Subgroup H} (hL : L ≤ P) (_hK : K ≤ P) (hQ : Q ≤ P) :
     NatSec (L.subgroupOf P) (K.subgroupOf P) (Q.subgroupOf P) ↔ NatSec L K Q := by
   unfold NatSec FixFree
   constructor
@@ -291,6 +324,7 @@ theorem natSec_subgroupOf_iff {P L K Q : Subgroup H} (hL : L ≤ P) (hK : K ≤ 
       exact Subgroup.mem_subgroupOf.mp hc
     exact Subgroup.mem_subgroupOf.mpr (h ((x : ↥P) : H) hxL hx3H ((e : ↥P) : H) heQ hcH)
 
+omit [Finite H] in
 theorem natSec_map_iff_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {E : Subgroup U} {L' K' Q' : Subgroup ↥E}
     {L K Q : Subgroup H} (hL : L ≤ P) (hK : K ≤ P) (hQ : Q ≤ P)
@@ -302,6 +336,7 @@ theorem natSec_map_iff_of_le {U : Type} [Group U] {P : Subgroup H} {φ : ↥P �
     NatSec.map_iff (f := φ) hφ]
   exact natSec_subgroupOf_iff hL hK hQ
 
+omit [Finite H] in
 theorem natSec_of_map_iff {L1 L2 S : Subgroup H}
     {E : Subgroup (f112Gold L1 L2 S).Universal} {L' K' Q' : Subgroup ↥E}
     {L K Q : Subgroup H} (hL : L ≤ f112P1 L1 L2 S) (hK : K ≤ f112P1 L1 L2 S)
@@ -311,6 +346,7 @@ theorem natSec_of_map_iff {L1 L2 S : Subgroup H}
     NatSec L' K' Q' ↔ NatSec L K Q :=
   natSec_map_iff_of_le (f112Gold L1 L2 S).ofA_injective hL hK hQ hL' hK' hQ'
 
+omit [Finite H] in
 theorem natSec_of_map_iff_ofB {L1 L2 S : Subgroup H}
     {E : Subgroup (f112Gold L1 L2 S).Universal} {L' K' Q' : Subgroup ↥E}
     {L K Q : Subgroup H} (hL : L ≤ f112P2 L1 L2 S) (hK : K ≤ f112P2 L1 L2 S)
@@ -320,6 +356,7 @@ theorem natSec_of_map_iff_ofB {L1 L2 S : Subgroup H}
     NatSec L' K' Q' ↔ NatSec L K Q :=
   natSec_map_iff_of_le (f112Gold L1 L2 S).ofB_injective hL hK hQ hL' hK' hQ'
 
+omit [Finite H] in
 theorem isL2Quot_of_map_iff (L1 L2 S : Subgroup H)
     {E : Subgroup (f112Gold L1 L2 S).Universal} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) (h : Y'.map E.subtype = f112OfA L1 L2 S Y) (n : ℕ) :
@@ -339,6 +376,7 @@ theorem isL2Quot_of_map_iff (L1 L2 S : Subgroup H)
   · rintro ⟨e2⟩
     exact ⟨he.trans e2⟩
 
+omit [Finite H] in
 theorem isL2Quot_of_map_iff_ofB (L1 L2 S : Subgroup H)
     {E : Subgroup (f112Gold L1 L2 S).Universal} {Y' : Subgroup ↥E} {Y : Subgroup H}
     (hY : Y ≤ f112P2 L1 L2 S) (h : Y'.map E.subtype = f112OfB L1 L2 S Y) (n : ℕ) :
@@ -358,6 +396,7 @@ theorem isL2Quot_of_map_iff_ofB (L1 L2 S : Subgroup H)
   · rintro ⟨e2⟩
     exact ⟨he.trans e2⟩
 
+omit [Finite H] in
 theorem ofA_subgroupOf_eq_ofB_subgroupOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S ⊓ f112P2 L1 L2 S) :
     f112OfA L1 L2 S Y = f112OfB L1 L2 S Y := by
@@ -371,14 +410,17 @@ theorem ofA_subgroupOf_eq_ofB_subgroupOf (L1 L2 S : Subgroup H) {Y : Subgroup H}
     exact ⟨⟨(z : H), (hY hzY).1⟩, hzY,
       (f112sa_ofA_eq_ofB_of_mem_inf L1 L2 S ⟨(hY hzY).1, z.2⟩)⟩
 
+omit [Finite H] in
 @[simp] theorem f112Gold_toA_val (L1 L2 S : Subgroup H)
     (c : ↥(f112P1 L1 L2 S ⊓ f112P2 L1 L2 S)) :
     ((f112Gold L1 L2 S).toA c : H) = (c : H) := rfl
 
+omit [Finite H] in
 @[simp] theorem f112Gold_toB_val (L1 L2 S : Subgroup H)
     (c : ↥(f112P1 L1 L2 S ⊓ f112P2 L1 L2 S)) :
     ((f112Gold L1 L2 S).toB c : H) = (c : H) := rfl
 
+omit [Finite H] in
 theorem ofA_map_inf_ofB_map (L1 L2 S : Subgroup H) {Y Z : Subgroup H}
     (hY : Y ≤ f112P1 L1 L2 S) (hZ : Z ≤ f112P2 L1 L2 S) :
     f112OfA L1 L2 S Y ⊓ f112OfB L1 L2 S Z = f112OfA L1 L2 S (Y ⊓ Z) := by
@@ -418,6 +460,7 @@ theorem eq_pCoreOf_of_isSylowTwoOf {K T : Subgroup H} (hT : IsSylowTwoOf T K)
     (hO : IsSylowTwoOf (pCoreOf 2 K) K) : pCoreOf 2 K = T :=
   F1.eq_of_isSylowTwoOf_le hO hT.1 hT.2.1 (F7.isSylowTwoOf_pCoreOf_le hT)
 
+omit [Finite H] in
 theorem BaseEdgeData.isSylowTwoOf_pCoreOf (D : BaseEdgeData H) :
     IsSylowTwoOf (pCoreOf 2 D.Ke) D.Ke := by
   have htree : IsSylowTwoOf (D.X.edgeSylow 0) (D.X.Gi 0 ⊓ D.X.Gi 1) :=
@@ -438,6 +481,7 @@ theorem BaseEdgeData.isSylowTwoOf_pCoreOf (D : BaseEdgeData H) :
     (X := f112P1 D.L1 D.L2 D.S)
     (CFSG.LieType.BorelTits.pCoreOf_le 2 D.Ke) (D.le_Ke.trans inf_le_left)).mp hsylP
 
+omit [Finite H] in
 theorem BaseEdgeData.pCoreOf_Pβ_le_inf (D : BaseEdgeData H)
     (hc : CharTwoStab (V := Vtx (f112Gold D.L1 D.L2 D.S)) (G := ↥D.E)) :
     pCoreOf 2 D.Pβ ≤ f112P1 D.L1 D.L2 D.S ⊓ f112P2 D.L1 D.L2 D.S := by
@@ -473,6 +517,7 @@ theorem BaseEdgeData.pCoreOf_Pβ_le_inf (D : BaseEdgeData H)
   rw [← hcy]
   exact c.2
 
+omit [Finite H] in
 theorem BaseEdgeData.sup_pCoreOf_eq_pCoreOf (D : BaseEdgeData H)
     (hc : CharTwoStab (V := Vtx (f112Gold D.L1 D.L2 D.S)) (G := ↥D.E)) :
     pCoreOf 2 D.Pα ⊔ pCoreOf 2 D.Pβ = pCoreOf 2 D.Ke := by
@@ -509,6 +554,7 @@ theorem BaseEdgeData.sup_pCoreOf_eq_pCoreOf (D : BaseEdgeData H)
     _ = pCoreOf 2 D.Ke ⊓ f112P1 D.L1 D.L2 D.S := h2
     _ = pCoreOf 2 D.Ke := inf_of_le_left hC
 
+omit [Finite H] in
 theorem BaseEdgeData.isL2Quot_oTwoPrime_ofA (D : BaseEdgeData H) :
     IsL2Quot (nOf (f112Gold D.L1 D.L2 D.S).treeGraph (baseA (f112Gold D.L1 D.L2 D.S)))
       (oTwoQuot ↥(oTwoPrime D.Pα)) := by
@@ -518,6 +564,7 @@ theorem BaseEdgeData.isL2Quot_oTwoPrime_ofA (D : BaseEdgeData H) :
   exact (isL2Quot_of_map_iff D.L1 D.L2 D.S ((oTwoPrime_le D.Pα).trans D.le_Pα) (D.L_zero_map)
     (nOf (f112Gold D.L1 D.L2 D.S).treeGraph (baseA (f112Gold D.L1 D.L2 D.S)))).mp hquot
 
+omit [Finite H] in
 theorem BaseEdgeData.isL2Quot_oTwoPrime_ofB (D : BaseEdgeData H) :
     IsL2Quot (nOf (f112Gold D.L1 D.L2 D.S).treeGraph (baseB (f112Gold D.L1 D.L2 D.S)))
       (oTwoQuot ↥(oTwoPrime D.Pβ)) := by

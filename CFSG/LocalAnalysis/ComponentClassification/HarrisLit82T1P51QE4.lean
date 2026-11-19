@@ -41,7 +41,7 @@ theorem exists_sylow_klein {R : Type} [Group R] [Finite R]
   obtain ⟨S⟩ : Nonempty (Sylow 2 R) := inferInstance
   set O := pPrimeCore 2 R with hOdef
   have hO : Odd (Nat.card O) := Nat.coprime_two_left.mp pPrimeCore_coprime_card
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hSO : (S : Subgroup R) ⊓ O = ⊥ := by
     refine disjoint_iff.mp (disjoint_of_coprime_natCard ?_)
     rw [hk]

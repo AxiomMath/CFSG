@@ -18,6 +18,7 @@ section Card
 variable {K : Type} [Field K] [Finite K] {n d : ℕ} (h : UnitaryFieldData 2 n K)
 
 include h in
+omit [Finite K] in
 theorem le_card_map_blockSU {S : Finset (Fin d)} (hS : S.card < d) :
     Nat.card ↥(unitarySU 2 n K S.card) ≤
       Nat.card ↥((blockSU S).map (LargeEvenProjMk (unitarySU 2 n K d))) := by

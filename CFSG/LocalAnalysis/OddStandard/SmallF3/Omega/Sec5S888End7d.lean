@@ -25,7 +25,7 @@ theorem caseB_component (hN11b : S_N11b) {Y : Type} [Group Y] [Finite Y]
     by_contra h
     have hset : {K : Subgroup Y | IsComponentOf K ⊤} = ∅ := by
       ext K
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun hK => h ⟨K, hK⟩
     have hbot : goldschmidtLayer Y = ⊥ := by
       rw [goldschmidtLayer.eq_sSup, hset, sSup_empty]

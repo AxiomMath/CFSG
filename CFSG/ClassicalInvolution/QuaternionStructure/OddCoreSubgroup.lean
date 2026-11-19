@@ -64,7 +64,7 @@ theorem nonempty_sylow_equiv_of_surjective {A B : Type*} [Group A] [Group B] [Fi
     (f : A →* B) (hf : Function.Surjective f) (hker : Odd (Nat.card f.ker)) (T : Sylow 2 A)
     (U : Sylow 2 B) : Nonempty ((T : Subgroup A) ≃* (U : Subgroup B)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  exact ⟨(mulEquivMapOfInjective f T (injective_domRestrict_of_odd_ker f hker T T.isPGroup')).trans
+  exact ⟨(mulEquivMapOfInjective f T (injective_domRestrict_of_odd_ker f hker T T.isPGroup)).trans
     (Sylow.equiv (T.mapSurjective hf) U)⟩
 
 theorem nonempty_mulEquiv_sylow_of_isPGroup_oddCore_quotient {X : Type*} [Group X] [Finite X]

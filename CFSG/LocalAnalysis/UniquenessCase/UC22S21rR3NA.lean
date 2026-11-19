@@ -97,7 +97,7 @@ theorem uc22r3n_normalizer_sylow {H K : Type} [Group H] [Finite H] [Group K] {π
     exact (hr.odd_of_ne_two hr2).pow
   obtain ⟨-, ⟨D, hD, -, -, hQD⟩, -⟩ :=
     CFSG.LocalAnalysis.EvenBN.GMSK.fusionBenderBorel_of_lieModel_PSU3 hK.2 (Q.mapSurjective hφ)
-  have := CFSG.Quasithin.H13.NQCat.isCyclic_of_le_of_odd (Q.isPGroup'.map φ) le_normalizer
+  have := CFSG.Quasithin.H13.NQCat.isCyclic_of_le_of_odd (Q.isPGroup.map φ) le_normalizer
     ((normal_subgroupOf_iff_le_normalizer le_normalizer).2 le_rfl) hD hQD
     ((map_mono hPN).trans hB.ge) hodd
   exact isCyclic_of_injective _ hinj

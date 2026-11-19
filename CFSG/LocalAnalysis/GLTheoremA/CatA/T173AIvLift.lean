@@ -36,7 +36,7 @@ private theorem mem_sup_of_commute {G : Type*} [Group G] {H L : Subgroup G}
       calc (h * l)⁻¹ = l⁻¹ * h⁻¹ := by group
         _ = h⁻¹ * l⁻¹ := by simpa using congrArg Inv.inv (hc h hh l hl)
 
-theorem iv_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω]
+theorem iv_lift {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {Ω : Type} [Group Ω] [Finite Ω]
     {S B K : Subgroup Ω} {x : Ω} (hZ : ¬ p ∣ Nat.card (Subgroup.center ↥S))
     (hB : IsElemAbelian p B) (hxB : x ∈ B) (hxC : x ∈ Subgroup.centralizer (S : Set Ω))
     (hBx : B = Subgroup.zpowers x ⊔ B ⊓ S) (hKS : K ≤ S) (hK : CFSG.Open.IsQuasisimple ↥K)
@@ -50,8 +50,8 @@ theorem iv_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] 
       IsPGroup 2 U₁ ∧ U₁ ≤ K ∧
       B₁ = (B₁ ⊓ K) ⊔ (B₁ ⊓ Subgroup.normalizer (U₁ : Set Ω)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup ↥S := Subgroup.center ↥S
   let π : ↥S →* ↥S ⧸ Z := QuotientGroup.mk' Z
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective Z
@@ -139,8 +139,8 @@ theorem iv_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : Type} [Group Ω] 
     show (KS.map π).comap π = KS ⊔ Z
     rw [Subgroup.comap_map_eq, hker]
   have hKSH : KS ≤ H := Subgroup.le_comap_map π KS
-  haveI hKperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hK.1
-  haveI hKSperf : Group.IsPerfect ↥KS :=
+  have hKperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr hK.1
+  have hKSperf : Group.IsPerfect ↥KS :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKS).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKS).symm.surjective
   have hKS_perfect : ⁅KS, KS⁆ = KS := Subgroup.commutator_eq_self

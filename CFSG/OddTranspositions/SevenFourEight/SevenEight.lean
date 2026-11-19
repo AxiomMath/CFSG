@@ -85,7 +85,7 @@ theorem sevenEight_of_sevenSix (hC : HypothesisC D)
   have hAeq : AalphaStar D hC.alpha = {y | y ∈ D ∧ ¬ Commute y hC.d} := by
     rw [hC.AalphaStar_eq_diff_alpha, hα]
     ext y
-    simp only [Set.mem_diff, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_sdiff, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · exact fun h => h.1
     · rintro ⟨hyD, hyu⟩

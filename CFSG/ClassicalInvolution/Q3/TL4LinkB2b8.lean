@@ -11,8 +11,9 @@ open CFSG.ClassicalInvolution.Asc77 CFSG.ClassicalInvolution.Disconnected.AschTi
 
 variable {r : ℕ} {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
-private theorem closure_pair_mul {a b : G} (haa : a * a = 1) (hbb : b * b = 1)
-    (hab : a * b = b * a) :
+omit [Finite G] in
+private theorem closure_pair_mul {a b : G} (haa : a * a = 1) (_hbb : b * b = 1)
+    (_hab : a * b = b * a) :
     Subgroup.closure ({a, a * b} : Set G) = Subgroup.closure ({a, b} : Set G) := by
   apply le_antisymm
   · rw [Subgroup.closure_le]
@@ -31,7 +32,8 @@ private theorem closure_pair_mul {a b : G} (haa : a * a = 1) (hbb : b * b = 1)
         Subgroup.mul_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
       rwa [← mul_assoc, haa, one_mul] at key
 
-private theorem exists_fixed_of_involution {t u y : G} (htt : t * t = 1) (huu : u * u = 1)
+omit [Finite G] in
+private theorem exists_fixed_of_involution {t u y : G} (_htt : t * t = 1) (huu : u * u = 1)
     (hcomm : t * u = u * t) (hyy : y * y = 1)
     (hyt : y * t * y⁻¹ ∈ ({t, u, t * u} : Set G)) :
     ∃ a, (a = t ∨ a = u ∨ a = t * u) ∧ y * a = a * y := by
@@ -83,7 +85,7 @@ theorem counterfree (hQ : QuatAutFacts r) (h : Tri r Ω K J M t u) (hr : RigidEd
   have htS : t ∈ (S : Subgroup G) := hs.le_P htP
   have huS : u ∈ (S : Subgroup G) := hs.le_T huT
   have hX2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G)) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have hnadj : L ∉ omegaNbr Ω K := fun hLK =>
     hyE (h.mem_E_of_adj (Or.inl rfl) h.inv_K hLK hy hX2 inf_le_right
       (Subgroup.mem_inf.mpr ⟨htS, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩)

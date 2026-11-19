@@ -34,7 +34,7 @@ theorem permuting_sylow_order_eight (P : Sylow 2 R)
     rw [← CFSG.ABGTheoremB.TotallyInverted.Omnibus.relIndex_sup_of_mul_comm hperm]
     exact hPrelOdd
   have hPsub2 : IsPGroup 2 ((P : Subgroup R).subgroupOf A) :=
-    P.isPGroup'.comap_of_injective A.subtype A.subtype_injective
+    P.isPGroup.comap_of_injective A.subtype A.subtype_injective
   let S : Sylow 2 ↥A := hPsub2.toSylow hPsubOdd
   have hScoe : (S : Subgroup ↥A) = (P : Subgroup R).subgroupOf A :=
     IsPGroup.toSylow_coe hPsub2 hPsubOdd
@@ -146,7 +146,7 @@ theorem permuting_sylow_order_eight (P : Sylow 2 R)
         (le_sup_left : A ≤ A ⊔ (P : Subgroup R))).mp hAnormal
     by_cases hBA : B ≤ A
     · exact Subgroup.eq_of_le_of_card_ge hBA (by rw [hBcard])
-    · rw [SetLike.le_def] at hBA
+    · rw [_root_.IsConcreteLE.le_iff] at hBA
       obtain ⟨b, hbB, hbA⟩ : ∃ b, b ∈ B ∧ b ∉ A := by
         by_contra h
         apply hBA

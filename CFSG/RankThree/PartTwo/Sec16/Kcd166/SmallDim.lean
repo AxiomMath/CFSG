@@ -76,7 +76,7 @@ private lemma sub_one_sq_eq_zero_of_det_eq_one_of_hasEigenvalue_one
     rw [← hcharF]
     exact LinearMap.aeval_self_charpoly F
   have hX : aeval F (Polynomial.X - Polynomial.C 1 : 𝕜[X]) = F - 1 := by
-    simp [map_sub, aeval_X, Algebra.algebraMap_eq_smul_one]
+    simp [map_sub, aeval_X]
   calc
     (F - 1) * (F - 1) = (F - 1) ^ 2 := by rw [pow_two]
     _ = (aeval F (Polynomial.X - Polynomial.C 1 : 𝕜[X])) ^ 2 := by rw [hX]
@@ -143,9 +143,9 @@ private lemma det_eq_one_of_perfect {𝕜 G W : Type*} [Field 𝕜] [Group G]
 private lemma exists_central_order_three {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup 3 P) (hnt : Nontrivial P) :
     ∃ z : P, z ∈ Subgroup.center P ∧ orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcP : IsPGroup 3 (Subgroup.center P) := hP.to_subgroup (Subgroup.center P)
-  haveI : Nontrivial (Subgroup.center P) := hP.center_nontrivial
+  have : Nontrivial (Subgroup.center P) := hP.center_nontrivial
   have hcard_gt : 1 < Nat.card (Subgroup.center P) :=
     Finite.one_lt_card_iff_nontrivial.mpr inferInstance
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hcP
@@ -172,7 +172,7 @@ private lemma quadratic_of_cube_one_of_no_fixed {𝕜 W : Type*} [Field 𝕜] [A
     exact hbot
   have hprod : (Polynomial.X - Polynomial.C 1) *
       (Polynomial.X ^ 2 + Polynomial.X + 1 : 𝕜[X]) = Polynomial.X ^ 3 - 1 := by
-    simp only [map_one, map_ofNat]
+    simp only [map_one]
     ring
   rw [hker1, hprod] at hsup
   have hzero : aeval F (Polynomial.X ^ 3 - 1 : 𝕜[X]) = 0 := by
@@ -189,7 +189,7 @@ private lemma exists_eigenvalue_quadratic {𝕜 W : Type*} [Field 𝕜] [IsAlgCl
     [AddCommGroup W] [Module 𝕜 W] [FiniteDimensional 𝕜 W] (h3 : (3 : 𝕜) ≠ 0)
     {F : Module.End 𝕜 W} (hW : Module.finrank 𝕜 W = 2) (hquad : F ^ 2 + F + 1 = 0) :
     ∃ a : 𝕜, a ≠ 1 ∧ a ^ 2 + a + 1 = 0 ∧ a ^ 3 = 1 ∧ F.eigenspace a ≠ ⊥ := by
-  haveI : Nontrivial W := Module.finrank_pos_iff.mp (by rw [hW]; norm_num)
+  have : Nontrivial W := Module.finrank_pos_iff.mp (by rw [hW]; norm_num)
   obtain ⟨a, haeig⟩ := Module.End.exists_eigenvalue F
   obtain ⟨v, hv⟩ := haeig.exists_hasEigenvector
   have haquad : a ^ 2 + a + 1 = 0 := by
@@ -261,7 +261,7 @@ private lemma exists_other_root_and_compl {𝕜 W : Type*} [Field 𝕜] [AddComm
 
 private lemma eigenspace_other_ne_bot {𝕜 W : Type*} [Field 𝕜] [AddCommGroup W]
     [Module 𝕜 W] (h3 : (3 : 𝕜) ≠ 0) {F : Module.End 𝕜 W}
-    (hW : Module.finrank 𝕜 W = 2) (hquad : F ^ 2 + F + 1 = 0)
+    (hW : Module.finrank 𝕜 W = 2) (_hquad : F ^ 2 + F + 1 = 0)
     (hdet : LinearMap.det F = 1) {a μ : 𝕜} (hμeq : μ = a ^ 2)
     (hμquad : μ ^ 2 + μ + 1 = 0)
     (hcompl : IsCompl (F.eigenspace a) (F.eigenspace μ)) : F.eigenspace μ ≠ ⊥ := by
@@ -426,8 +426,7 @@ private lemma eigenbasis_det_product_eq_one {𝕜 W P : Type*} [Field 𝕜] [Add
       Matrix.diagonal ![(a₁ p : 𝕜), (a₂ p : 𝕜)] := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [LinearMap.toMatrix_apply, e1, e2, Module.Basis.repr_self, Finsupp.single_apply,
-        Matrix.diagonal_apply]
+      simp [LinearMap.toMatrix_apply, e1, e2, Module.Basis.repr_self]
   rw [hmat, Matrix.det_diagonal, Fin.prod_univ_two] at h2
   simpa using h2
 
@@ -516,7 +515,7 @@ private lemma exists_quadratic_endomorphism_of_isPGroup {𝕜 P W : Type*} [Fiel
     rw [hz1, orderOf_one] at hzord
     omega
   have hdetF : LinearMap.det F = 1 := hdet z
-  haveI : FiniteDimensional 𝕜 W :=
+  have : FiniteDimensional 𝕜 W :=
     Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   have hE1bot : F.eigenspace 1 = ⊥ := by
     by_contra hbot
@@ -534,10 +533,10 @@ theorem isCyclic_of_finrank_eq_two {𝕜 : Type*} [Field 𝕜] [IsAlgClosed 𝕜
   classical
   by_cases htriv : Subsingleton P
   · exact isCyclic_of_subsingleton
-  haveI : Nontrivial P := not_subsingleton_iff_nontrivial.mp htriv
+  have : Nontrivial P := not_subsingleton_iff_nontrivial.mp htriv
   obtain ⟨z, F, hzmem, hF, hF3, hFne, hdetF, hFquad⟩ :=
     exists_quadratic_endomorphism_of_isPGroup h3 hP hW σ hfaith hdet
-  haveI : FiniteDimensional 𝕜 W :=
+  have : FiniteDimensional 𝕜 W :=
     Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   obtain ⟨a, μ, -, hne, -, -, -, hEa, hEμ, hcompl⟩ :=
     exists_eigenvalue_pair_of_quadratic h3 hW hFquad hdetF
@@ -607,7 +606,7 @@ private lemma isCyclic_of_finrank_le_two {𝕜 : Type*} [Field 𝕜] [IsAlgClose
   · have htriv : ∀ g : G, σ g = 1 :=
       representation_eq_one_of_finrank_le_one hle1 hperf σ
     have hsubG : Subsingleton G := ⟨fun a b => hfaith (by rw [htriv a, htriv b])⟩
-    haveI : Subsingleton P := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
+    have : Subsingleton P := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     exact isCyclic_of_subsingleton
   · have h2 : Module.finrank 𝕜 W = 2 := by omega
     have hdet : ∀ g : G, LinearMap.det (σ g) = 1 := det_eq_one_of_perfect hperf σ
@@ -753,14 +752,14 @@ theorem isIrreducible_and_finrank_eq_three {𝕜 : Type*} [Field 𝕜] [IsAlgClo
     {P : Subgroup G} (hP : IsPGroup 3 P) (hPc : ¬ IsCyclic P) :
     σ.IsIrreducible ∧ Module.finrank 𝕜 W = 3 := by
   classical
-  haveI : Group.IsPerfect G := hperf
+  have : Group.IsPerfect G := hperf
   have hdim3 : Module.finrank 𝕜 W = 3 := by
     by_contra hne
     have hlt : Module.finrank 𝕜 W < 3 := lt_of_le_of_ne hW hne
     have hle2 : Module.finrank 𝕜 W ≤ 2 := by omega
     exact hPc (isCyclic_of_finrank_le_two h3 hperf hle2 σ hfaith hP)
   refine ⟨?_, hdim3⟩
-  haveI : Nontrivial W := Module.finrank_pos_iff.mp (by rw [hdim3]; norm_num)
+  have : Nontrivial W := Module.finrank_pos_iff.mp (by rw [hdim3]; norm_num)
   refine IsSimpleOrder.of_forall_eq_top ?_
   intro U hUbot
   by_cases hUtop : U = ⊤

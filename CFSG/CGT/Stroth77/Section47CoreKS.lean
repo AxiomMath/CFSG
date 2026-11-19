@@ -25,7 +25,7 @@ theorem t200k_sqE_ne_zero (hrel_e : Rel34i dD e (2 ^ (m + 1))) (hrel_f : Rel34in
   cases i <;> cases j <;> cases l <;> simp only [Bool.and_true, Bool.and_false] at hlj <;>
   (try exact absurd hlj (by decide)) <;>
   simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-    AddMonoidHom.id_apply, Bool.and_false, Bool.and_true, map_add, map_sub, map_zero,
+    AddMonoidHom.id_apply, Bool.and_false, Bool.and_true, map_zero,
     t200gEAction_φe_apply, t200_φuv, t200_φt, t200_φu, ← Torus.ofInt_add, ← Torus.ofInt_sub,
     add_zero, zero_add, t200_ofInt_eq_zero_iff, Pi.add_apply, Pi.sub_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] at h <;>
@@ -111,8 +111,8 @@ theorem t200k_sqE_c (hrel_e : Rel34i dD e (2 ^ (m + 1))) (hrel_f : Rel34inv dD f
   simp only [EAction.sqE, EAction.twist, t200gEAction_ve, t200gEAction_wuv, t200gEAction_wt]
   cases l <;>
   simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-    AddMonoidHom.id_apply, Bool.and_false, map_add, map_sub, map_zero, t200gEAction_φe_apply,
-    t200_φu, ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero, zero_add]
+    AddMonoidHom.id_apply, Bool.and_false, map_zero, t200gEAction_φe_apply,
+    t200_φu, ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero]
   · refine ⟨-(2 ^ (m + 1) * x1), -(2 ^ (m + 1) * x2), ?_⟩
     congr 1
     funext i

@@ -39,8 +39,8 @@ theorem compIdxAt_primeFormP_unitary {q : TauCeti.PrimePower} {r : ℕ} {K : Typ
       ⟨F, hF, hFt, hcharF, hcardF, h4, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm, hne, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm2, h4, g, hg, hk⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     have hperf : commutator (Matrix.SpecialLinearGroup (Fin 2) F) = ⊤ :=
       (slFactorFacts_holds F 2 le_rfl (fun _ => h4)).perfect
     obtain ⟨i, ⟨φ⟩, hidx⟩ :=
@@ -48,8 +48,8 @@ theorem compIdxAt_primeFormP_unitary {q : TauCeti.PrimePower} {r : ℕ} {K : Typ
     rw [hcharF, hcardF] at hidx
     exact ⟨i, ⟨φ⟩, compRelC_of_idxOver (d := .twistedA r q) (j := dd) hdd (by
       rwa [TauCeti.LieTypeIndex.characteristic_twistedA, hpow])⟩
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hperf : commutator ↥(StatedSU m (q.p ^ (q.exponent * dd)) E) = ⊤ :=
       (suFactorFacts_holds E m (q.p ^ (q.exponent * dd)) hcardE hm hne).perfect
     obtain ⟨i, ⟨φ⟩, hidx⟩ := (catalogueOver_su E m (q.p ^ (q.exponent * dd)) hcardE hm
@@ -57,8 +57,8 @@ theorem compIdxAt_primeFormP_unitary {q : TauCeti.PrimePower} {r : ℕ} {K : Typ
     rw [hcharE] at hidx
     exact ⟨i, ⟨φ⟩, compRelC_of_idxOver (d := .twistedA r q) (j := dd) hdd (by
       rwa [TauCeti.LieTypeIndex.characteristic_twistedA, hpow])⟩
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hpow2 : (fieldSize (TauCeti.LieTypeIndex.twistedA r q)) ^ (2 * dd) =
         q.p ^ (2 * (q.exponent * dd)) := by
       rw [show fieldSize (TauCeti.LieTypeIndex.twistedA r q) = q.card from rfl,
@@ -95,22 +95,22 @@ theorem exists_primeFormP_mulEquiv_of_isUnitaryIdx {d : TauCeti.ValidLieTypeInde
         omega
       · rfl
       · exact ⟨eP.symm⟩
-  | A n q => exact absurd hd (by simp [isUnitaryIdx])
-  | B n q => exact absurd hd (by simp [isUnitaryIdx])
-  | C n q => exact absurd hd (by simp [isUnitaryIdx])
-  | D n q => exact absurd hd (by simp [isUnitaryIdx])
-  | twistedD n q => exact absurd hd (by simp [isUnitaryIdx])
-  | E6 q => exact absurd hd (by simp [isUnitaryIdx])
-  | E7 q => exact absurd hd (by simp [isUnitaryIdx])
-  | E8 q => exact absurd hd (by simp [isUnitaryIdx])
-  | F4 q => exact absurd hd (by simp [isUnitaryIdx])
-  | G2 q => exact absurd hd (by simp [isUnitaryIdx])
-  | twistedE6 q => exact absurd hd (by simp [isUnitaryIdx])
-  | trialityD4 q => exact absurd hd (by simp [isUnitaryIdx])
-  | suzuki k => exact absurd hd (by simp [isUnitaryIdx])
-  | reeG2 k => exact absurd hd (by simp [isUnitaryIdx])
-  | reeF4 k => exact absurd hd (by simp [isUnitaryIdx])
-  | tits => exact absurd hd (by simp [isUnitaryIdx])
+  | A n q => exact absurd hd (by simp)
+  | B n q => exact absurd hd (by simp)
+  | C n q => exact absurd hd (by simp)
+  | D n q => exact absurd hd (by simp)
+  | twistedD n q => exact absurd hd (by simp)
+  | E6 q => exact absurd hd (by simp)
+  | E7 q => exact absurd hd (by simp)
+  | E8 q => exact absurd hd (by simp)
+  | F4 q => exact absurd hd (by simp)
+  | G2 q => exact absurd hd (by simp)
+  | twistedE6 q => exact absurd hd (by simp)
+  | trialityD4 q => exact absurd hd (by simp)
+  | suzuki k => exact absurd hd (by simp)
+  | reeG2 k => exact absurd hd (by simp)
+  | reeF4 k => exact absurd hd (by simp)
+  | tits => exact absurd hd (by simp)
 
 theorem lieCompIdx_unitary : LieCompIdx isUnitaryIdx := by
   intro d p hp hp2 hpc hP

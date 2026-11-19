@@ -26,6 +26,7 @@ theorem ncard_conjSetOf_le_two_of_three_conj_rank
     h12 h13 h23
   omega
 
+omit [Finite G] in
 theorem exists_pair_eq_conjSetOf_of_ncard_eq_two (hL : L ∈ conjSetOf M L)
     (h : (conjSetOf M L).ncard = 2) :
     ∃ L' : Subgroup G, L' ≠ L ∧ conjSetOf M L = {L, L'} := by
@@ -41,9 +42,11 @@ theorem exists_pair_eq_conjSetOf_of_ncard_eq_two (hL : L ∈ conjSetOf M L)
     · rw [hLB]; exact hAB
     · rw [hset, hLB, Set.pair_comm]
 
+omit [Finite G] in
 theorem mem_conjSetOf_self (M L : Subgroup G) : L ∈ conjSetOf M L :=
   ⟨1, M.one_mem, by ext x; simp⟩
 
+omit [Finite G] in
 theorem le_normalizer_of_ncard_conjSetOf_eq_one (h : (conjSetOf M L).ncard = 1) :
     M ≤ normalizer (L : Set G) := by
   intro m hm

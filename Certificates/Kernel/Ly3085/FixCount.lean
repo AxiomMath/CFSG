@@ -140,12 +140,12 @@ theorem fix_counts
   · have h1 := o1_fix_le o1 lyt_mem_lyH pT eT CFSG.KD.LyOm.o1xt
     rw [o1_sum CFSG.KD.LyO1.FixTT.all CFSG.KD.LyO1.sumTT] at h1
     have := fix_le lyt_mem_lyH 0 k0 card_centralizer_t h1 (b2 := 150) (b3 := 1055) (b4 := 1500)
-      (by rw [a0]; try norm_num) (by rw [b0]; try norm_num) (by rw [c0]; try norm_num)
+      (by rw [a0]) (by rw [b0]) (by rw [c0])
     omega
   · have h1 := o1_fix_le o1 hY pY eY CFSG.KD.LyOm.o1xy
     rw [o1_sum CFSG.KD.LyO1.FixYB.all CFSG.KD.LyO1.sumYB] at h1
     have := fix_le hY 1 k1 card_centralizer_yB h1 (b2 := 80) (b3 := 42) (b4 := 120)
-      (by rw [a1]; try norm_num) (by rw [b1]; try norm_num) (by rw [c1]; try norm_num)
+      (by rw [a1]) (by rw [b1]) (by rw [c1])
     omega
   · have h1 := o1_fix_le o1 hA pA eA CFSG.KD.LyOm.o1xa
     rw [o1_sum CFSG.KD.LyO1.FixTA.all CFSG.KD.LyO1.sumTA] at h1

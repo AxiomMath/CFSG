@@ -30,7 +30,7 @@ theorem quot_pCore_facts {J : Type*} [Group J] [Group.IsPerfect J] {k : J} (hk1 
     (hk3 : k ^ 3 = 1) :
     Group.IsPerfect (J ⧸ CFSG.pCore 2 J) ∧ Nontrivial (J ⧸ CFSG.pCore 2 J) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
   refine ⟨Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   by_contra hnt
   rw [not_nontrivial_iff_subsingleton] at hnt
@@ -67,7 +67,7 @@ theorem isSimpleGroup_adjointGroup_of_perfect' (τ : Tag) (k : Type) [Field k] [
 
 theorem g2Excl429 : G2Excl429 := by
   intro k _ _ m hk hm G _ _ C J ⟨eC⟩ hJC hJperf hsub htype
-  haveI := hJperf
+  have := hJperf
   obtain ⟨E, hEJ, -, hE3, hE9, -⟩ := exists_e9_of_type429 htype
   obtain ⟨k₀, hk₀E, hk₀1, hk₀3⟩ := exists_ne_one_pow_three hE3 hE9
   have hk₀J : k₀ ∈ J := hEJ hk₀E
@@ -75,11 +75,11 @@ theorem g2Excl429 : G2Excl429 := by
   have hk₀1' : (⟨k₀, hk₀J⟩ : J) ≠ 1 := fun h => hk₀1 (congrArg Subtype.val h)
   have hk₀3' : (⟨k₀, hk₀J⟩ : J) ^ 3 = 1 := Subtype.ext (by simpa using hk₀3)
   obtain ⟨hQperf, hQnt⟩ := quot_pCore_facts hk₀1' hk₀3'
-  haveI := hQnt
+  have := hQnt
   have hcardC : Nat.card C = CFSG.Open.ordG2 (2 ^ m) := by
     rw [Nat.card_congr eC.toEquiv, CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hk]
   have hQJ : Nat.card (J ⧸ CFSG.pCore 2 J) ∣ Nat.card J := by
-    haveI : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
     exact Subgroup.card_quotient_dvd_card _
   have hJCd : Nat.card J ∣ Nat.card C := Subgroup.card_dvd_of_le hJC
   rcases (show m = 1 ∨ 2 ≤ m by omega) with rfl | hm2
@@ -107,16 +107,16 @@ theorem g2Excl429 : G2Excl429 := by
       rw [hk]
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
-    haveI hCs : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_perfect' .G2 k
+    have hCs : IsSimpleGroup (adjointGroup .G2 k) := isSimpleGroup_adjointGroup_of_perfect' .G2 k
       (CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card k hk3)
     have hCs' : IsSimpleGroup C := eC.isSimpleGroup
     have hJC' : J = C := eq_of_subnormal_of_le_simple hJC le_rfl hsub hCs' hJnt
-    haveI hJs : IsSimpleGroup J := by
+    have hJs : IsSimpleGroup J := by
       rw [hJC']
       exact hCs'
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hN : CFSG.pCore 2 J = ⊥ := by
-      haveI : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 J) with h | h
       · exact h
       · exfalso

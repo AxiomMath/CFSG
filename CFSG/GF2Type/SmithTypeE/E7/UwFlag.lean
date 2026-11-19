@@ -14,11 +14,11 @@ open scoped Matrix
 theorem isUT_mul {A B : M6} (hA : IsUT A) (hB : IsUT B) : IsUT (A * B) := by
   intro i j hji
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
-  · rw [hA i i le_rfl, if_pos rfl, one_mul, hB i j hji]
+  · rw [hA i i le_rfl, ite_eq_left rfl, one_mul, hB i j hji]
   · intro k _ hk
     rcases lt_or_gt_of_ne hk with hlt | hgt
-    · rw [hA i k hlt.le, if_neg hlt.ne', zero_mul]
-    · rw [hB k j (hji.trans hgt.le), if_neg (lt_of_le_of_lt hji hgt).ne', mul_zero]
+    · rw [hA i k hlt.le, ite_eq_right hlt.ne', zero_mul]
+    · rw [hB k j (hji.trans hgt.le), ite_eq_right (lt_of_le_of_lt hji hgt).ne', mul_zero]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -82,14 +82,14 @@ theorem UTofEntries_lower (c : UTpos → ZMod 2) {i j : Fin 6} (h : j < i) :
 theorem UTofEntries_up (c : UTpos → ZMod 2) (p : UTpos) :
     UTofEntries c p.1.1 p.1.2 = c p := by
   have hne : p.1.1 ≠ p.1.2 := p.2.ne
-  rw [UTofEntries, Matrix.of_apply, if_neg hne, dif_pos p.2]
+  rw [UTofEntries, Matrix.of_apply, ite_eq_right hne, dite_eq_left p.2]
 
 theorem isUT_UTofEntries (c : UTpos → ZMod 2) : IsUT (UTofEntries c) := by
   intro i j hji
   by_cases hij : i = j
   · subst hij
-    rw [UTofEntries_diag, if_pos rfl]
-  · rw [UTofEntries_lower c (lt_of_le_of_ne hji (Ne.symm hij)), if_neg hij]
+    rw [UTofEntries_diag, ite_eq_left rfl]
+  · rw [UTofEntries_lower c (lt_of_le_of_ne hji (Ne.symm hij)), ite_eq_right hij]
 
 theorem det_UTofEntries (c : UTpos → ZMod 2) : (UTofEntries c).det = 1 := by
   rw [Matrix.det_of_isUpperTriangular]
@@ -132,7 +132,7 @@ theorem card_UTsub : Nat.card UTsub = 2 ^ 15 := by
     exact h1
 
 theorem card_GL6 : Nat.card GL6 = 2 ^ 15 * 615195 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Matrix.card_GL_field (𝔽 := ZMod 2) 6, ZMod.card]
   norm_num [Fin.prod_univ_six]
 
@@ -143,8 +143,8 @@ theorem index_UTsub : UTsub.index = 615195 := by
 
 theorem exists_conj_isUT (H : Subgroup GL6) (hH : IsPGroup 2 H) :
     ∃ g : GL6, ∀ h ∈ H, IsUT ((g * h * g⁻¹ : GL6) : M6) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 GL6) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 GL6) :=
     Finite.of_injective (fun P : Sylow 2 GL6 => (P : Set GL6)) SetLike.coe_injective
   have hUT2 : IsPGroup 2 UTsub := IsPGroup.of_card card_UTsub
   have hidx : ¬ 2 ∣ UTsub.index := by

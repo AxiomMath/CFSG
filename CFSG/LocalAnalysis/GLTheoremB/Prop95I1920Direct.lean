@@ -19,6 +19,7 @@ section Direct
 
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
 
+omit [Finite X] in
 theorem conclusions_of_bound (hK : IsComponentOf K ⊤) {S : Subgroup X}
     (Sig : Subgroup (MulAut (Kbar K))) (h2 : IsPGroup 2 Sig) (hinn : Sig ⊓ Kinn K = ⊥)
     (hS : ∀ s ∈ S, ∃ hsN : s ∈ Subgroup.normalizer (K : Set X), rhoK K ⟨s, hsN⟩ ∈ Sig) :
@@ -58,8 +59,8 @@ theorem commutator_mem_ker (hKD : Chev2KDOut) (hCore : Chev2CoreCent) (hK : IsCo
     (d : ↥(Subgroup.normalizer (K : Set X))) (hdp : d ^ p = 1)
     (hST : S ≤ pCoreOf 2 (Subgroup.centralizer ({d} : Set ↥(Subgroup.normalizer (K : Set X))))) :
     ∀ s ∈ S, ∀ e ∈ D1, rhoK K ⁅s, e⁆ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   intro s hs e he
   have hPT : D1.map (rhoK K) ≤ Subgroup.normalizer ((S.map (rhoK K) : Subgroup (MulAut (Kbar K))) :
       Set (MulAut (Kbar K))) :=
@@ -88,6 +89,7 @@ theorem commutator_mem_ker (hKD : Chev2KDOut) (hCore : Chev2CoreCent) (hK : IsCo
   rw [hCB]
   exact hST hyS
 
+omit [Finite X] in
 theorem isPGroup_subgroupOf_of_exponent {p : ℕ} {D : Subgroup X} (hDp : ∀ x ∈ D, x ^ p = 1) :
     IsPGroup p (D.subgroupOf (Subgroup.normalizer (K : Set X))) := fun x =>
   ⟨1, Subtype.ext (Subtype.ext (by
@@ -131,8 +133,8 @@ theorem rho_Sd_le_Q (hKD : Chev2KDOut) (hCore : Chev2CoreCent) (hK : IsComponent
       ∃ q ∈ pCoreOf 2 (Subgroup.centralizer
         ((D.subgroupOf (Subgroup.normalizer (K : Set X)) : Subgroup ↥(Subgroup.normalizer (K : Set X)))
           : Set ↥(Subgroup.normalizer (K : Set X)))), rhoK K ⟨s, hsN⟩ = rhoK K q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDp : ∀ x ∈ D, x ^ p = 1 := hfam.elemAbelian.2
   intro d hd hd1 s hs
   have hsT : s ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) := hfam.le_pCore d hd hd1 hs
@@ -199,7 +201,7 @@ theorem rho_Sd_le_Q (hKD : Chev2KDOut) (hCore : Chev2CoreCent) (hK : IsComponent
       : Set ↥(Subgroup.normalizer (K : Set X))))).map (rhoK K)
 
 theorem isPGroup_SigQ (K : Subgroup X) (D : Subgroup X) : IsPGroup 2 (SigQ K D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _).map _
 
 theorem SigQ_inf_Kinn (hCore : Chev2CoreCent) (hK : IsComponentOf K ⊤)

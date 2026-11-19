@@ -205,7 +205,7 @@ theorem S410_omega_pair (h48 : FF84_4_8) (h47 : FF84_4_7) (hCSb : HypS48CSb) (hb
   obtain ⟨s₁, hs₁⟩ := hne
   obtain ⟨hs₁S, hs₁1⟩ := hΔ1S s₁ hs₁
   have hs₁2 : orderOf s₁ = 2 := by
-    haveI := hSE.1
+    have := hSE.1
     have hsq : s₁ ^ 2 = 1 := elemPow_eq_one_of_isElementaryAbelian (p := 2)
       (A := Op 2 (Nor U)) s₁ hs₁S
     exact orderOf_eq_prime hsq hs₁1

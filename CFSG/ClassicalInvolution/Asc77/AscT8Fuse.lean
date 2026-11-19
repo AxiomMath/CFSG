@@ -223,7 +223,7 @@ theorem sylow_le_H274_of_good_four {K J : Subgroup G} {S : Sylow 2 G} {R T W : S
     have := conjSub_mono (n := g) hRS
     rwa [hg] at this
   obtain ⟨x₀, hx₀, hx₀1⟩ := exists_mul_self_ne_one_of_mem_RSet hp hq hΩ hXR
-  have h310 := lemma_3_10 (S := (S₂ : Subgroup G)) S₂.isPGroup'
+  have h310 := lemma_3_10 (S := (S₂ : Subgroup G)) S₂.isPGroup
     (Δ := {Y | Y ∈ RSet Ω ∧ Y ≤ (S₂ : Subgroup G)}) (fun Y hY => hY.2)
     (fun Y hY s hs' => ⟨RSet.conj hΩ.conjInvariant hY.1 s, by
       have := conjSub_mono (n := s) hY.2

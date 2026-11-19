@@ -17,7 +17,7 @@ theorem exists_fixed_three_subgroup_of_dvd {K : Type} [Group K] [Finite K] (u : 
   refine ⟨(P : Subgroup ↥(fixedSubgroup u)).map (fixedSubgroup u).subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
-  · exact P.isPGroup'.map _
+  · exact P.isPGroup.map _
   · rw [Subgroup.card_map_of_injective (fixedSubgroup u).subtype_injective,
       Sylow.card_eq_multiplicity P]
     have h3 : 3 ^ 3 ∣ Nat.card (fixedSubgroup u) := by simpa using h

@@ -39,7 +39,7 @@ theorem mem_sup_decomp {L S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L : S
 
 theorem sq_mem_of_relIndex_two {S L : Subgroup G} (h2 : (S ⊓ L).relIndex S = 2) {s : G}
     (hs : s ∈ S) : s ^ 2 ∈ L := by
-  haveI : ((S ⊓ L).subgroupOf S).Normal := Subgroup.normal_of_index_eq_two h2
+  have : ((S ⊓ L).subgroupOf S).Normal := Subgroup.normal_of_index_eq_two h2
   have h := Subgroup.pow_index_mem ((S ⊓ L).subgroupOf S) ⟨s, hs⟩
   rw [show ((S ⊓ L).subgroupOf S).index = 2 from h2] at h
   have h3 := Subgroup.mem_subgroupOf.mp h
@@ -195,7 +195,7 @@ theorem leafUAmalExtA5 [DSLeaf LeafDSBReduce] [DSLeaf LeafDSBA5Vertex] [DSLeaf L
     · exact absurd h1 hne
     · exact h1
   have hL1P : L1.relIndex P = 2 := by
-    haveI hN : (L1.subgroupOf P).Normal := by
+    have hN : (L1.subgroupOf P).Normal := by
       rw [Subgroup.normal_subgroupOf_iff hLP]
       intro k x hk hx
       exact (Subgroup.mem_normalizer_iff.mp (hLN hx) k).mp hk
@@ -259,7 +259,7 @@ theorem leafUAmalExtA5 [DSLeaf LeafDSBReduce] [DSLeaf LeafDSBA5Vertex] [DSLeaf L
   have hπk : (e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥L1)) :
         ↥L1 →* ↥(alternatingGroup (Fin 5))).ker = CFSG.Open.pCore 2 ↥L1 := by
     ext x
-    simp [MulEquiv.map_eq_one_iff]
+    simp
   have hcl : ∀ y ∈ K, y ∈ L1 → y ∈ pCoreOf 2 P := by
     intro y hyK hyL
     have hy : ∀ l : ↥L1, ⁅(⟨y, hyL⟩ : ↥L1), l⁆ ∈ CFSG.Open.pCore 2 ↥L1 := by
@@ -289,7 +289,7 @@ theorem leafUAmalExtA5 [DSLeaf LeafDSBReduce] [DSLeaf LeafDSBA5Vertex] [DSLeaf L
     intro x hx
     have hxP : x ∈ P := ((hKmem x).mp hx).1
     have hx2 : x ^ 2 ∈ pCoreOf 2 P := hcl (x ^ 2) (K.pow_mem hx 2) (hsq x hxP)
-    haveI hQn : ((pCoreOf 2 P).subgroupOf K).Normal := by
+    have hQn : ((pCoreOf 2 P).subgroupOf K).Normal := by
       rw [Subgroup.normal_subgroupOf_iff hQK]
       intro a k ha hk
       exact (Subgroup.mem_normalizer_iff.mp (((hKmem k).mp hk).2.1) a).mp ha
@@ -319,7 +319,7 @@ theorem leafUAmalExtA5 [DSLeaf LeafDSBReduce] [DSLeaf LeafDSBA5Vertex] [DSLeaf L
     intro p z
     have h1 : ρ p * ρ p⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
     have := congrArg (fun f : MulAut ↥L1 => f z) h1
-    simpa using this
+    simp
   have hfwd : ∀ (p : ↥P) (w : ↥L1), w ∈ CFSG.Open.pCore 2 ↥L1 →
       ρ p w ∈ CFSG.Open.pCore 2 ↥L1 := by
     intro p w hw
@@ -334,8 +334,8 @@ theorem leafUAmalExtA5 [DSLeaf LeafDSBReduce] [DSLeaf LeafDSBA5Vertex] [DSLeaf L
       exact hfwd p w hw
     · intro z hz
       exact ⟨ρ p⁻¹ z, hfwd p⁻¹ z hz, hρinv p z⟩
-  haveI hpn : (CFSG.Open.pCore 2 ↥L1).Normal := CFSG.LieType.BorelTits.pCore_normal 2
-  haveI hpnP : (CFSG.Open.pCore 2 ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hpn : (CFSG.Open.pCore 2 ↥L1).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hpnP : (CFSG.Open.pCore 2 ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   let Ψ0 : ↥P → (oTwoQuot ↥L1 ≃* oTwoQuot ↥L1) := fun p =>
     QuotientGroup.congr (CFSG.Open.pCore 2 ↥L1) (CFSG.Open.pCore 2 ↥L1) (ρ p) (hmapN p)
   have hcm : ∀ (p : ↥P) (x : ↥L1), Ψ0 p (QuotientGroup.mk x) = QuotientGroup.mk (ρ p x) :=

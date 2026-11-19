@@ -152,11 +152,11 @@ private theorem w183fin_hcen_of_isTISub {Y : Type} [Group Y] {L : Subgroup Y} [h
 
 theorem finU34_holds : FinU34 := by
   intro Y _ _ L hLn hU hC A hcard hel hTI
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hLn
   have hAL : A ≤ L := by
     by_contra hAL
-    rw [SetLike.not_le_iff_exists] at hAL
+    rw [IsConcreteLE.not_le_iff_exists] at hAL
     obtain ⟨a, haA, haL⟩ := hAL
     exact w183fin_u34_false_of_outer hU hC hcard hel haA haL
       (w183fin_hcen_of_isTISub hcard hel hTI haA haL)
@@ -174,11 +174,11 @@ theorem finG3U34_holds
     (hel : IsElemAbelian 2 A)
     (hTI1 : ∀ t ∈ A, t ≠ 1 → ∀ g ∈ L, g * t = t * g → ∀ a ∈ A, g * a = a * g) :
     A ≤ L ∧ ∃ n ∈ L, (∀ x ∈ A, n * x * n⁻¹ ∈ A) ∧ ∀ x ∈ A, x ≠ 1 → n * x * n⁻¹ ≠ x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hLn
   have hAL : A ≤ L := by
     by_contra hAL
-    rw [SetLike.not_le_iff_exists] at hAL
+    rw [IsConcreteLE.not_le_iff_exists] at hAL
     obtain ⟨a, haA, haL⟩ := hAL
     have ha1 : a ≠ 1 := fun h => haL (h ▸ L.one_mem)
     exact w183fin_u34_false_of_outer hU hC hcard hel haA haL

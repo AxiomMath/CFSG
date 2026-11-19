@@ -28,9 +28,9 @@ theorem foldl_ite_pull (c : Nat → Bool) (g : Nat → Nat) : ∀ (l : List Nat)
   | a :: l, acc => by
     simp only [List.foldl_cons]
     by_cases h : c a = true
-    · simp only [h, if_true, Nat.zero_or]
+    · simp only [h, ite_true, Nat.zero_or]
       rw [foldl_ite_pull c g l (acc ||| g a), foldl_ite_pull c g l (g a), Nat.or_assoc]
-    · simp only [h, if_false]
+    · simp only [h]
       exact foldl_ite_pull c g l acc
 
 theorem foldl_ite_split (c c₁ c₂ : Nat → Bool) (hc : ∀ i, c i = (c₁ i || c₂ i)) (g : Nat → Nat) :
@@ -44,7 +44,7 @@ theorem foldl_ite_split (c c₁ c₂ : Nat → Bool) (hc : ∀ i, c i = (c₁ i 
     apply Nat.eq_of_testBit_eq
     intro k
     cases h₁ : c₁ a <;> cases h₂ : c₂ a <;>
-      simp only [Bool.or_true, Bool.true_or, Bool.or_false, Bool.false_or, if_true, if_false,
+      simp only [Bool.or_true, Bool.or_false, Bool.false_or, ite_true, ite_false,
         Nat.testBit_or, Nat.zero_testBit, Bool.false_eq_true] <;>
       cases (g a).testBit k <;> simp
 

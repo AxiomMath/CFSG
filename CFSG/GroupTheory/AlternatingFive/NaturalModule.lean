@@ -28,7 +28,7 @@ private def modVSetup {L Q W : Subgroup G} [Finite ↥L] (hQL : Q ≤ L)
   qfin := Finite.of_injective (Subgroup.inclusion hQL) (Subgroup.inclusion_injective hQL)
   wnormal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWQ).mpr (hQL.trans hWn)
   comm := by
-    letI : (W.subgroupOf Q).Normal :=
+    let : (W.subgroupOf Q).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hWQ).mpr (hQL.trans hWn)
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     rw [commutator_def, Subgroup.commutator_le]
@@ -112,7 +112,6 @@ private theorem modV_fbar_exists
   { toFun := fun v => σ v * v⁻¹
     map_one' := by simp
     map_mul' := fun a b => by
-      change σ (a * b) * (a * b)⁻¹ = (σ a * a⁻¹) * (σ b * b⁻¹)
       rw [map_mul]
       simp only [mul_inv_rev]
       ac_rfl }
@@ -150,7 +149,7 @@ private theorem modV_ker_ne_bot
     (hfbar_mk : ∀ q : ↥Q, fbar (QuotientGroup.mk q) =
       QuotientGroup.mk (φ q * q⁻¹)) :
     fbar.ker ≠ ⊥ := by
-  haveI : Fintype (ModV Q W) := Fintype.ofFinite (ModV Q W)
+  have : Fintype (ModV Q W) := Fintype.ofFinite (ModV Q W)
   have hVcard : Fintype.card (ModV Q W) = 16 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -237,7 +236,7 @@ private theorem modV_card_range_modEq_one
     (hfree : ∀ r : ↥R, x • r = r → r = 1) :
     Nat.card R ≡ 1 [MOD 3] := by
   classical
-  haveI : Fintype ↥R := Fintype.ofFinite ↥R
+  have : Fintype ↥R := Fintype.ofFinite ↥R
   let σR : Equiv.Perm ↥R := MulAction.toPermHom L ↥R x
   have hσR3 : σR ^ 3 = 1 := by
     rw [show σR = MulAction.toPermHom L ↥R x from rfl, ← map_pow, hx3pow, map_one]
@@ -304,7 +303,7 @@ private theorem modV_range_eq_bot
   have hxkill : MulAction.toPermHom L ↥R x = 1 :=
     CFSG.GroupTheory.AlternatingFive.map_eq_one_of_orderOf_eq_three_of_card_lt_sixty
       (L := L) (H := Equiv.Perm ↥R) e (MulAction.toPermHom L ↥R) hPermcard hx3
-  haveI : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne_bot
+  have : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hRne_bot
   obtain ⟨r, hrne⟩ := exists_ne (1 : ↥R)
   have hfix : x • r = r := by
     have := congrArg (fun f : Equiv.Perm ↥R => f r) hxkill
@@ -316,7 +315,7 @@ private theorem modV_sigma_exists
     {c : G} (m : ℕ) (hm : c ^ (2 ^ m) = 1)
     (hcQ : c ∈ Subgroup.normalizer (Q : Set G))
     (hcW : c ∈ Subgroup.normalizer (W : Set G))
-    (hWQ : W ≤ Q) (hWn : L ≤ Subgroup.normalizer (W : Set G)) :
+    (_hWQ : W ≤ Q) (_hWn : L ≤ Subgroup.normalizer (W : Set G)) :
     ∃ (φ : MulAut ↥Q) (σe : ModV Q W ≃* ModV Q W),
       (∀ q : ↥Q, ((φ q : ↥Q) : G) = c * (q : G) * c⁻¹) ∧
       (∀ q : ↥Q, σe (QuotientGroup.mk q) = QuotientGroup.mk (φ q)) ∧
@@ -334,7 +333,7 @@ private theorem modV_sigma_exists
   have hφsymm_coe : ∀ q : ↥Q, ((φ.symm q : ↥Q) : G) = c⁻¹ * (q : G) * c := by
     intro q
     rw [show φ.symm = (Subgroup.normalizerMonoidHom Q) cInv from hφinv]
-    simpa [cInv] using Subgroup.normalizerMonoidHom_apply_apply_coe Q cInv q
+    simp [cInv]
   have hmapW : (W.subgroupOf Q).map φ.toMonoidHom = W.subgroupOf Q := by
     ext x
     constructor
@@ -401,10 +400,10 @@ private theorem modV_bot
     (hindex : W.relIndex Q = 16) :
     fbar.range = ⊥ := by
   let V : Type := ModV Q W
-  haveI hQfin : Finite ↥Q :=
+  have hQfin : Finite ↥Q :=
     Finite.of_injective (Subgroup.inclusion hQL) (Subgroup.inclusion_injective hQL)
   have hVcardNat : Nat.card V = 16 := hindex
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hVcard : Fintype.card V = 16 := by
     rw [← Nat.card_eq_fintype_card]
     exact hVcardNat
@@ -437,7 +436,7 @@ private theorem modV_bot
     exact MonoidHom.mem_range.mpr ⟨l • w, rfl⟩
   let p : SubMulAction ↥L V :=
     { carrier := R, smul_mem' := fun l {v} hv => hRsmul l v hv }
-  letI : MulAction ↥L ↥R := p.mulAction
+  let : MulAction ↥L ↥R := p.mulAction
   have hsmulR : ∀ (l : ↥L) (r : ↥R), ((l • r : ↥R) : V) = l • (r : V) := fun _ _ => rfl
   have hfreeR : ∀ r : ↥R, (x : ↥L) • r = r → r = 1 :=
     modV_free_of_fixed hQL hWn hfpf hsmul hsmul_mk hx3 R hsmulR
@@ -487,17 +486,17 @@ theorem commutatorElement_mem_of_fixFree_of_twoPow {L Q W : Subgroup G}
   classical
   obtain ⟨m, hm⟩ := hc2
   let S : ModVSetup L Q W := modVSetup hQL hQn hWQ hWn hQW
-  letI : MulDistribMulAction ↥L ↥Q := S.smul
+  let : MulDistribMulAction ↥L ↥Q := S.smul
   have hsmul : ∀ (l : ↥L) (q : ↥Q),
       ((l • q : ↥Q) : G) = (l : G) * (q : G) * (l : G)⁻¹ := by
     intro l q
     exact Subgroup.normalizerMonoidHom_apply_apply_coe Q ⟨(l : G), hQn l.2⟩ q
-  haveI : Finite ↥Q := S.qfin
-  haveI : (W.subgroupOf Q).Normal := S.wnormal
+  have : Finite ↥Q := S.qfin
+  have : (W.subgroupOf Q).Normal := S.wnormal
   let V : Type := ModV Q W
-  haveI : IsMulCommutative V := S.comm
-  letI : CommGroup V := IsMulCommutative.instCommGroup
-  haveI : MulAction.QuotientAction (X := ↥L) (G := ↥Q) (H := W.subgroupOf Q) :=
+  have : IsMulCommutative V := S.comm
+  let : CommGroup V := IsMulCommutative.instCommGroup
+  have : MulAction.QuotientAction (X := ↥L) (G := ↥Q) (H := W.subgroupOf Q) :=
   { inv_mul_mem := by
       intro l a a' h
       rw [Subgroup.mem_subgroupOf] at h ⊢
@@ -507,7 +506,7 @@ theorem commutatorElement_mem_of_fixFree_of_twoPow {L Q W : Subgroup G}
         group
       rw [hcoe]
       exact (Subgroup.mem_normalizer_iff.mp (hWn l.2) _).mp h }
-  letI : MulAction ↥L V :=
+  let : MulAction ↥L V :=
     MulAction.quotient (X := ↥L) (G := ↥Q) (H := W.subgroupOf Q)
   obtain ⟨φ, σe, hφ_coe, hσ_mk, hσpow⟩ :=
     modV_sigma_exists m hm hcQ hcW hWQ hWn

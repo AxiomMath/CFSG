@@ -22,8 +22,8 @@ theorem noPermL_w31_holds : NoPermL_w31 := by
     have h4 : p = 4 := by omega
     subst h4
     norm_num at hp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   let ψ := psi F hH
   have hψ : Function.Surjective ψ := psi_surjective F hH
   have hA : Nat.card ↥(alternatingGroup (Fin 8)) = 20160 := S126L1a.card_A8

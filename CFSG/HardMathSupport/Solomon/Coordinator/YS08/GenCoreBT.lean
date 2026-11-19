@@ -66,9 +66,9 @@ theorem lieQConstrained_aut {q : ℕ} [Fact q.Prime] (hL : LieQConstrained q) {S
     (hfix : ∀ s ∈ pCoreOf q (Subgroup.normalizer (Q : Set S)), β s = s) : β = 1 := by
   classical
   have hinj := conj_injective_of_simple hS hnab
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   set C : Subgroup (MulAut S) := (MulAut.conj : S →* MulAut S).range with hC
-  haveI hCn : C.Normal := ⟨fun n hn g => by
+  have hCn : C.Normal := ⟨fun n hn g => by
     obtain ⟨s, rfl⟩ := hn
     refine ⟨g s, ?_⟩
     ext x
@@ -144,7 +144,7 @@ theorem lieQConstrained_aut {q : ℕ} [Fact q.Prime] (hL : LieQConstrained q) {S
   have hpowC : ∀ g : ↥X, g ^ m ∈ ι.range := by
     intro g
     obtain ⟨n, hn, j, rfl⟩ := hrange_sup g
-    haveI := hnormal
+    have := hnormal
     have hmk : (QuotientGroup.mk (n * h ^ j) : ↥X ⧸ ι.range) = (QuotientGroup.mk h) ^ j := by
       rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff n).2 hn, one_mul, QuotientGroup.mk_zpow]
     have h1 : (QuotientGroup.mk ((n * h ^ j) ^ m) : ↥X ⧸ ι.range) = 1 := by
@@ -155,7 +155,7 @@ theorem lieQConstrained_aut {q : ℕ} [Fact q.Prime] (hL : LieQConstrained q) {S
   have hq_range : ∀ r ∈ pCoreOf q (Subgroup.normalizer ((Q.map ι : Subgroup ↥X) : Set ↥X)),
       r ∈ ι.range := by
     intro r hr
-    haveI := hnormal
+    have := hnormal
     obtain ⟨k, hk⟩ := (pCoreOf_isPGroup q
       (Subgroup.normalizer ((Q.map ι : Subgroup ↥X) : Set ↥X))) ⟨r, hr⟩
     have hrk : r ^ q ^ k = 1 := by
@@ -247,6 +247,7 @@ theorem pCoreOf_normalizer_map_eq (hZ : Nat.Coprime (Nat.card (Subgroup.center G
     rw [h3] at h2
     exact h2
 
+omit [Finite G] in
 theorem map_center_ne_bot {Q : Subgroup G} (hQc : ¬ Q ≤ Subgroup.center G) :
     Q.map (QuotientGroup.mk' (Subgroup.center G)) ≠ ⊥ := by
   intro hb
@@ -337,7 +338,7 @@ theorem commute_of_forall_commutator_mem_center {Y : Type*} [Group Y] {J : Subgr
     have hby : ((c b : ↥J) : Y) * y = (b : Y) * y * (b : Y)⁻¹ := by rw [hcb]; group
     calc ((c (a * b) : ↥J) : Y)
         = (a : Y) * ((b : Y) * y * (b : Y)⁻¹) * (a : Y)⁻¹ * y⁻¹ := by
-          rw [hab]; simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group
+          rw [hab]; simp only [Subgroup.coe_mul]; group
       _ = (a : Y) * (((c b : ↥J) : Y) * y) * (a : Y)⁻¹ * y⁻¹ := by rw [hby]
       _ = ((a : Y) * ((c b : ↥J) : Y) * (a : Y)⁻¹) * ((a : Y) * y * (a : Y)⁻¹ * y⁻¹) := by group
       _ = ((c b : ↥J) : Y) * ((c a : ↥J) : Y) := by rw [hcen, hca]; group
@@ -393,12 +394,12 @@ theorem le_of_inf_centralizer_le_three {Y : Type*} [Group Y] [Finite Y] {E T P :
     (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (hT : IsPGroup 2 ↥T)
     (hET : E ≤ Subgroup.normalizer (T : Set Y))
     (hle : ∀ b ∈ E, b ≠ 1 → ∀ t ∈ T, b * t = t * b → t ∈ P) : T ≤ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsMulCommutative ↥E := hE.1
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup 3 ↥E) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsMulCommutative ↥E := hE.1
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup 3 ↥E) :=
     ⟨fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩⟩
-  letI : MulDistribMulAction ↥E ↥T := MulDistribMulAction.compHom T (Subgroup.inclusion hET)
+  let : MulDistribMulAction ↥E ↥T := MulDistribMulAction.compHom T (Subgroup.inclusion hET)
   have hcop : Nat.Coprime 3 (Nat.card ↥T) := by
     obtain ⟨n, hn⟩ := hT.exists_card_eq
     rw [hn]
@@ -431,7 +432,7 @@ theorem coprime_card_center_two {K : Type*} [Group K] [Finite K] (h : GLAPPrimeC
   have h2 : 2 ∣ Nat.card (Subgroup.center K) := by
     rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_two] at hcop
     exact not_not.1 hcop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center K)) 2 h2
   have hz'o : orderOf (z : K) = 2 := by rw [Subgroup.orderOf_coe, hz]
   have hzc : (z : K) ∈ Subgroup.center K := z.2
@@ -459,12 +460,14 @@ variable {Y : Type} [Group Y] [Finite Y]
 @[expose] def radK (q : ℕ) (K Q : Subgroup Y) : Subgroup Y :=
   (pCoreOf q (Subgroup.normalizer ((Q.subgroupOf K : Subgroup ↥K) : Set ↥K))).map K.subtype
 
+omit [Finite Y] in
 theorem radK_le (q : ℕ) (K Q : Subgroup Y) : radK q K Q ≤ K := Subgroup.map_subtype_le _
 
 theorem radK_isPGroup (q : ℕ) [Fact q.Prime] (K Q : Subgroup Y) : IsPGroup q ↥(radK q K Q) :=
   (pCoreOf_isPGroup q _).map K.subtype
 
-theorem conj_mem_radK (q : ℕ) [Fact q.Prime] {K Q : Subgroup Y} (hQK : Q ≤ K) {e : Y}
+omit [Finite Y] in
+theorem conj_mem_radK (q : ℕ) [Fact q.Prime] {K Q : Subgroup Y} (_hQK : Q ≤ K) {e : Y}
     (heK : e ∈ Subgroup.normalizer (K : Set Y)) (heQ : e ∈ Subgroup.normalizer (Q : Set Y))
     {t : Y} (ht : t ∈ radK q K Q) : e * t * e⁻¹ ∈ radK q K Q := by
   set α : MulAut ↥K := K.normalizerMonoidHom ⟨e, heK⟩ with hα

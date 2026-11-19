@@ -42,7 +42,7 @@ theorem exists_mulEquiv_a2 :
     ∃ e : PG 6 a2Words ≃* SL(3, ZMod 3), ∀ i, e (PresentedGroup.of i) = a2Mat i := by
   obtain ⟨φ, hφ⟩ := exists_hom_of_relsHold a2Words a2Mat a2_relsHold
   obtain ⟨hfin, hcard⟩ := pg_a2_card_le
-  haveI := hfin
+  have := hfin
   have hsurj : Function.Surjective φ := by
     rw [← MonoidHom.range_eq_top, eq_top_iff, ← a2_closure_eq_top, Subgroup.closure_le]
     rintro _ ⟨i, rfl⟩
@@ -84,7 +84,7 @@ theorem linearBlockStandardPair_of_relsHold {X : Type}
       apply hne
       rw [← hψ 0]
       exact MonoidHom.mem_ker.mp (h ▸ Subgroup.mem_top (a2Mat 0))
-    haveI := CFSG.GH74.Generic.S1.kl3_isSimple_sl3 (F := ZMod 3) (by simp)
+    have := CFSG.GH74.Generic.S1.kl3_isSimple_sl3 (F := ZMod 3) (by simp)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker with h | h
     · rw [h]; exact bot_le
     · exact absurd h hnt

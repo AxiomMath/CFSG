@@ -72,9 +72,11 @@ section Basic
 
 variable {K : Type} [Field K] [Finite K] {σ η : K ≃+* K} {p : ℕ}
 
+omit [Finite K] in
 theorem twIncl_injective (σ : K ≃+* K) : Function.Injective (twIncl σ) :=
   Subgroup.inclusion_injective _
 
+omit [Finite K] in
 theorem coe_twIncl (σ : K ≃+* K) (g : ↥(twistedE6RootGroup K σ)) :
     ((twIncl σ g : ↥(adjointGroup Tag.E6 K)) : ModGL Tag.E6 K) = (g : ModGL TwistTag.E6.tag K) :=
   rfl
@@ -90,17 +92,20 @@ theorem mem_twR_iff (σ η : K ≃+* K) (g : ↥(twistedE6RootGroup K σ)) :
   rw [mem_fixedSubgroup, ← twIncl_fieldActor]
   exact (twIncl_injective σ).eq_iff.symm
 
+omit [Finite K] in
 theorem TwGens.mono {σ η : K ≃+* K} {R' R'' : Subgroup ↥(adjointGroup Tag.E6 K)} (h : TwGens σ η R')
     (hle : R' ≤ R'') : TwGens σ η R'' :=
   ⟨fun i hi c h1 h2 => hle (h.fixedX i hi c h1 h2), fun i hi c h1 h2 => hle (h.fixedY i hi c h1 h2),
     fun ij hij c h1 => hle (h.orbX ij hij c h1), fun ij hij c h1 => hle (h.orbY ij hij c h1)⟩
 
+omit [Finite K] in
 private theorem twGens_pow_comm (hc : ∀ x : K, η (σ x) = σ (η x)) (k : ℕ) (x : K) :
     η ((σ ^ k) x) = (σ ^ k) (η x) := by
   induction k generalizing x with
   | zero => rfl
   | succ k ih => rw [pow_succ', RingAut.mul_apply, RingAut.mul_apply, hc, ih]
 
+omit [Finite K] in
 private theorem twGens_hom_pow (τ : K ≃+* K) (k : ℕ) (x : K) :
     (τ.toRingHom ^ k) x = (τ ^ k) x := by
   induction k generalizing x with
@@ -112,28 +117,33 @@ private theorem twGens_hom_pow (τ : K ≃+* K) (k : ℕ) (x : K) :
 private theorem twGens_sigma_sq (hS : TwE6Setup K σ η p) : σ ^ 2 = 1 := by
   obtain ⟨_, _, -, -, hK, hσ⟩ := hS.frob
   ext c
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [pow_two, RingAut.mul_apply, hσ, hσ, ← pow_mul, ← sq, ← hK, Nat.card_eq_fintype_card,
-    FiniteField.pow_card] <;> rfl
+    FiniteField.pow_card]; rfl
 
+omit [Finite K] in
 private theorem twGens_xE6_single (i : Fin Tag.E6.rank) (c : K) :
     xPar (rootOperatorFamily Tag.E6) (Pi.single i 1) c = xElement i c :=
   endHom_injective (by rw [xPar_simple, endHom_xElt]; rfl)
 
+omit [Finite K] in
 private theorem twGens_xE6_neg_single (i : Fin Tag.E6.rank) (c : K) :
     xPar (rootOperatorFamily Tag.E6) (-Pi.single i 1) c = yElement i c :=
   endHom_injective (by rw [xPar_neg_simple, endHom_yElt]; rfl)
 
+omit [Finite K] in
 private theorem twGens_xE6_congr {i j : Fin 6} {x y : K} (hi : i.val = j.val) (hx : x = y) :
     xE6 (Pi.single i 1) x = xE6 (Pi.single j 1) y := by
   obtain rfl : i = j := Fin.ext hi
   subst hx; rfl
 
+omit [Finite K] in
 private theorem twGens_xE6_congr_neg {i j : Fin 6} {x y : K} (hi : i.val = j.val) (hx : x = y) :
     xE6 (-Pi.single i 1) x = xE6 (-Pi.single j 1) y := by
   obtain rfl : i = j := Fin.ext hi
   subst hx; rfl
 
+omit [Finite K] in
 private theorem twGens_entry_xE6 (γ : Fin Tag.E6.rank → ℤ) (x : K) (hx : η x = x) :
     entrywiseAdjointAut Tag.E6 η (xE6 γ x) = xE6 γ x := by
   have h := CFSG.StandardType.AutSt.entrywiseAdjointAut_xPar (τ := Tag.E6)
@@ -141,6 +151,7 @@ private theorem twGens_entry_xE6 (γ : Fin Tag.E6.rank → ℤ) (x : K) (hx : η
   rw [hx] at h
   exact h
 
+omit [Finite K] in
 private theorem twGens_orbitX (τ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K τ.toRingHom a) :
     twIncl τ (fixedOrbitX TwistTag.E6 K τ.toRingHom a c) =
@@ -155,6 +166,7 @@ private theorem twGens_orbitX (τ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.ra
   simp only [twGens_hom_pow]
   exact (twGens_xE6_single _ _).symm
 
+omit [Finite K] in
 private theorem twGens_orbitY (τ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K τ.toRingHom a) :
     twIncl τ (fixedOrbitY TwistTag.E6 K τ.toRingHom a c) =
@@ -236,7 +248,7 @@ theorem twR_gens (hS : TwE6Setup K σ η p) : TwGens σ η (twRP σ η) := by
     rcases hij with rfl | rfl
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨0, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard0, twGens_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard0, twGens_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitX TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩ ⟨c, hc2⟩,
         twGens_orbitX_mem hc _ _ h2, ?_⟩
       rw [twGens_orbitX, hcard0, show List.range 2 = [0, 1] from rfl]
@@ -244,7 +256,7 @@ theorem twR_gens (hS : TwE6Setup K σ η p) : TwGens σ η (twRP σ η) := by
       exact congrArg₂ (· * ·) (twGens_xE6_congr (by decide) rfl) (twGens_xE6_congr (by decide) rfl)
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨1, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard1, twGens_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard1, twGens_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitX TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩ ⟨c, hc2⟩,
         twGens_orbitX_mem hc _ _ h2, ?_⟩
       rw [twGens_orbitX, hcard1, show List.range 2 = [0, 1] from rfl]
@@ -255,7 +267,7 @@ theorem twR_gens (hS : TwE6Setup K σ η p) : TwGens σ η (twRP σ η) := by
     rcases hij with rfl | rfl
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨0, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard0, twGens_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard0, twGens_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitY TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩ ⟨c, hc2⟩,
         twGens_orbitY_mem hc _ _ h2, ?_⟩
       rw [twGens_orbitY, hcard0, show List.range 2 = [0, 1] from rfl]
@@ -264,7 +276,7 @@ theorem twR_gens (hS : TwE6Setup K σ η p) : TwGens σ η (twRP σ η) := by
         (twGens_xE6_congr_neg (by decide) rfl)
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨1, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard1, twGens_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard1, twGens_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitY TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩ ⟨c, hc2⟩,
         twGens_orbitY_mem hc _ _ h2, ?_⟩
       rw [twGens_orbitY, hcard1, show List.range 2 = [0, 1] from rfl]
@@ -275,7 +287,7 @@ theorem twR_gens (hS : TwE6Setup K σ η p) : TwGens σ η (twRP σ η) := by
 private theorem twE6_sigma_ne_one (hS : TwE6Setup K σ η p) : σ ≠ 1 := by
   obtain ⟨ℓ, f, hℓ, hf, hK, hσ⟩ := hS.frob
   intro h1
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hall : ∀ c : K, c ^ (ℓ ^ f) = c := fun c => by
     have h2 := hσ c
     rw [h1, RingAut.one_apply] at h2
@@ -300,12 +312,13 @@ private theorem twE6_orderOf_sigma (hS : TwE6Setup K σ η p) : orderOf σ = 2 :
   have hsq : σ ^ 2 = 1 := by
     obtain ⟨ℓ, f, hℓ, hf, hK, hσ⟩ := hS.frob
     ext c
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [pow_two, RingAut.mul_apply, hσ, hσ, ← pow_mul, ← sq, ← hK, Nat.card_eq_fintype_card,
       FiniteField.pow_card]
     rfl
   exact orderOf_eq_prime hsq (twE6_sigma_ne_one hS)
 
+omit [Finite K] in
 private theorem twE6_fix_closure_iff (S : Set (K ≃+* K)) (a : K) :
     (∀ τ ∈ Subgroup.closure S, τ a = a) ↔ ∀ τ ∈ S, τ a = a := by
   refine ⟨fun h τ hτ => h τ (Subgroup.subset_closure hτ), fun h τ hτ => ?_⟩
@@ -318,16 +331,19 @@ private theorem twE6_fix_closure_iff (S : Set (K ≃+* K)) (a : K) :
     conv_lhs => rw [← hx]
     exact RingEquiv.symm_apply_apply x a
 
+omit [Finite K] in
 private theorem twE6_fix_zpowers_iff (g : K ≃+* K) (a : K) :
     (∀ τ ∈ Subgroup.zpowers g, τ a = a) ↔ g a = a := by
   rw [Subgroup.zpowers_eq_closure, twE6_fix_closure_iff]
   simp
 
+omit [Finite K] in
 private theorem twE6_fix_pair_iff (g h : K ≃+* K) (a : K) :
     (∀ τ ∈ Subgroup.closure ({g, h} : Set (K ≃+* K)), τ a = a) ↔ g a = a ∧ h a = a := by
   rw [twE6_fix_closure_iff]
   simp
 
+omit [Finite K] in
 private theorem twE6_card_fixSet {ℓ n : ℕ} (hℓ : ℓ.Prime) (hn : 1 ≤ n) (hK : Nat.card K = ℓ ^ n)
     (A : Subgroup (K ≃+* K)) :
     Nat.card {a : K | ∀ τ ∈ A, τ a = a} = ℓ ^ (n / Nat.card A) ∧ Nat.card A ∣ n := by
@@ -353,7 +369,7 @@ private theorem twE6_eq_of_div {n x y : ℕ} (hn : 0 < n) (hx : x ∣ n) (hy : y
 theorem TwE6Setup.orderOf_restrict (hS : TwE6Setup K σ η p) : orderOf (fixSubfieldRestrict η σ) = p := by
   obtain ⟨ℓ, f, hℓ, hf, hK, -⟩ := hS.frob
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 1 ≤ 2 * f := by omega
   have hKn : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hσ2 : Nat.card (Subgroup.zpowers σ) = 2 :=
@@ -373,7 +389,7 @@ theorem TwE6Setup.orderOf_restrict (hS : TwE6Setup K σ η p) : orderOf (fixSubf
   have hset : {a : K | ∀ τ ∈ Subgroup.closure ({η, σ} : Set (K ≃+* K)), τ a = a} =
       {a : K | ∀ τ ∈ Subgroup.zpowers σ, τ a = a} := by
     ext a
-    simp only [Set.mem_setOf_eq, twE6_fix_pair_iff, twE6_fix_zpowers_iff]
+    simp only [Set.mem_ofPred_eq, twE6_fix_pair_iff, twE6_fix_zpowers_iff]
     exact ⟨fun h => h.2, fun h => ⟨hsub a h, h⟩⟩
   obtain ⟨hB, hBd⟩ := twE6_card_fixSet hℓ hn hKn (Subgroup.closure ({η, σ} : Set (K ≃+* K)))
   obtain ⟨hZ, -⟩ := twE6_card_fixSet hℓ hn hKn (Subgroup.zpowers σ)
@@ -395,17 +411,17 @@ theorem TwE6Setup.orderOf_restrict (hS : TwE6Setup K σ η p) : orderOf (fixSubf
 theorem TwE6Setup.exists_fixEta_not_fixSigma (hS : TwE6Setup K σ η p) : ∃ u : K, η u = u ∧ σ u ≠ u := by
   obtain ⟨ℓ, f, hℓ, hf, hK, -⟩ := hS.frob
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 1 ≤ 2 * f := by omega
   have hKn : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hσ2 : Nat.card (Subgroup.zpowers σ) = 2 :=
     (Nat.card_zpowers σ).trans (twE6_orderOf_sigma hS)
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hset : {a : K | ∀ τ ∈ Subgroup.closure ({η, σ} : Set (K ≃+* K)), τ a = a} =
       {a : K | ∀ τ ∈ Subgroup.zpowers η, τ a = a} := by
     ext a
-    simp only [Set.mem_setOf_eq, twE6_fix_pair_iff, twE6_fix_zpowers_iff]
+    simp only [Set.mem_ofPred_eq, twE6_fix_pair_iff, twE6_fix_zpowers_iff]
     exact ⟨fun h => h.1, fun h => ⟨h, hcon a h⟩⟩
   obtain ⟨hB, hBd⟩ := twE6_card_fixSet hℓ hn hKn (Subgroup.closure ({η, σ} : Set (K ≃+* K)))
   obtain ⟨hZ, hZd⟩ := twE6_card_fixSet hℓ hn hKn (Subgroup.zpowers η)
@@ -434,7 +450,7 @@ theorem TwE6Setup.four_le_card (hS : TwE6Setup K σ η p) : 4 ≤ Nat.card K := 
 theorem TwE6Setup.sigma_sq (hS : TwE6Setup K σ η p) : σ ^ 2 = 1 := by
   obtain ⟨ℓ, f, hℓ, hf, hK, hσ⟩ := hS.frob
   ext c
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [pow_two, RingAut.mul_apply, hσ, hσ, ← pow_mul, ← sq, ← hK, Nat.card_eq_fintype_card,
     FiniteField.pow_card]
   rfl
@@ -453,7 +469,7 @@ private theorem twE6_xPar_fixed_root_smul_single {γ : Fin Tag.E6.rank → ℤ} 
     (hρ : permLattice TwistTag.E6.perm γ = γ) :
     ∃ w ∈ relWeylTwist TwistTag.E6, ∃ j : Fin TwistTag.E6.tag.rank,
       TwistTag.E6.perm j = j ∧ w • (Pi.single j 1 : Fin TwistTag.E6.tag.rank → ℤ) = γ := by
-  haveI : NeZero TwistTag.E6.tag.rank := ⟨by decide⟩
+  have : NeZero TwistTag.E6.tag.rank := ⟨by decide⟩
   obtain ⟨w, hw, a, ha⟩ := TwistTag.exists_diagramOrbit_eq TwistTag.E6 hγ
   have hO : TwistTag.E6.diagramOrbit γ = ({γ} : Finset (Fin TwistTag.E6.tag.rank → ℤ)) :=
     diagramOrbit_eq_singleton_of_fixed hρ
@@ -472,16 +488,17 @@ private theorem twE6_xPar_fixed_root_smul_single {γ : Fin Tag.E6.rank → ℤ} 
         Pi.single (5 : Fin TwistTag.E6.tag.rank) 1 :=
       MulAction.injective w ((hmem 0 (Finset.mem_insert_self (0 : Fin TwistTag.E6.tag.rank) {5})).trans
         (hmem 5 (Finset.mem_insert_of_mem (Finset.mem_singleton_self (5 : Fin TwistTag.E6.tag.rank)))).symm)
-    exact absurd (congrFun hp 0) (by simp [Pi.single_apply])
+    exact absurd (congrFun hp 0) (by simp)
   · exfalso
     have hp : (Pi.single (2 : Fin TwistTag.E6.tag.rank) 1 : Fin TwistTag.E6.tag.rank → ℤ) =
         Pi.single (4 : Fin TwistTag.E6.tag.rank) 1 :=
       MulAction.injective w ((hmem 2 (Finset.mem_insert_self (2 : Fin TwistTag.E6.tag.rank) {4})).trans
         (hmem 4 (Finset.mem_insert_of_mem (Finset.mem_singleton_self (4 : Fin TwistTag.E6.tag.rank)))).symm)
-    exact absurd (congrFun hp 2) (by simp [Pi.single_apply])
+    exact absurd (congrFun hp 2) (by simp)
   · exact ⟨w, hw, 3, rfl, hmem 3 (Finset.mem_singleton_self (3 : Fin TwistTag.E6.tag.rank))⟩
   · exact ⟨w, hw, 1, rfl, hmem 1 (Finset.mem_singleton_self (1 : Fin TwistTag.E6.tag.rank))⟩
 
+omit [Finite K] in
 private theorem twE6_xPar_fixed_eq_pinnedX {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) (c : K) :
     ((xE6 γ c : ↥(adjointGroup Tag.E6 K)) : ModGL Tag.E6 K) =
       pinnedX Tag.E6 K γ (((rootOperatorFamily Tag.E6).pinnedFamilySign γ : K) * c) := by
@@ -489,6 +506,7 @@ private theorem twE6_xPar_fixed_eq_pinnedX {γ : Fin Tag.E6.rank → ℤ} (hγ :
   rw [(rootOperatorFamily Tag.E6).pinnedX_eq_eltUnit K hγ, ← mul_assoc, hss, one_mul, xE6,
     xPar_of_isRoot hγ, (rootOperatorFamily Tag.E6).coe_eltElement]
 
+omit [Finite K] in
 private theorem twE6_xPar_fixed_pinnedX_mem {γ : Fin Tag.E6.rank → ℤ} {w : WeylGroup TwistTag.E6.tag}
     (hw : w ∈ relWeylTwist TwistTag.E6) {j : Fin TwistTag.E6.tag.rank}
     (hj : TwistTag.E6.perm j = j)
@@ -502,7 +520,7 @@ private theorem twE6_xPar_fixed_pinnedX_mem {γ : Fin Tag.E6.rank → ℤ} {w : 
     canonicalRep_mem_graphFixedRootGroup hw
   have hv : (ε * u) * (ε * u) = 1 := by linear_combination (u * u) * hε + hu
   have hd : σ'.toRingHom ((ε * u) * c) = (ε * u) * c := by
-    rcases mul_self_eq_one_iff.1 hv with h | h <;> simp [h, hc, RingEquiv.coe_toRingHom]
+    rcases mul_self_eq_one_iff.1 hv with h | h <;> simp [h, hc]
   have hx : pinnedX TwistTag.E6.tag K (Pi.single j 1) ((ε * u) * c) ∈
       graphFixedRootGroup TwistTag.E6 K σ'.toRingHom := by
     rw [pinnedX_single]
@@ -519,6 +537,7 @@ private theorem twE6_xPar_fixed_pinnedX_mem {γ : Fin Tag.E6.rank → ℤ} {w : 
   rw [hkey]
   exact mul_mem (mul_mem hn hx) (inv_mem hn)
 
+omit [Finite K] in
 private theorem twE6_xPar_fixed_range (σ : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hρ : permLattice TwistTag.E6.perm γ = γ) {c : K} (hc : σ c = c) :
     ∃ x : ↥(twistedE6RootGroup K σ), twIncl σ x = xE6 γ c := by
@@ -539,6 +558,7 @@ private theorem twE6_xPar_fixed_twR (σ η : K ≃+* K) {γ : Fin Tag.E6.rank �
   refine ⟨x, ?_, hx⟩
   rw [mem_twR_iff, hx, CFSG.StandardType.AutSt.entrywiseAdjointAut_xPar, hηc]
 
+omit [Finite K] in
 theorem xPar_fixed_mem_twIncl_range (σ : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hρ : permLattice TwistTag.E6.perm γ = γ) {c : K} (hc : σ c = c) :
     ∃ x : ↥(twistedE6RootGroup K σ),
@@ -550,6 +570,7 @@ theorem xPar_fixed_mem_twR (σ η : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (h
     ∃ x ∈ twR σ η, twIncl σ x = xE6 γ c := by
   exact twE6_xPar_fixed_twR σ η hγ hρ hc hηc
 
+omit [Finite K] in
 theorem twIncl_fixedOrbitX (σ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     twIncl σ (fixedOrbitX TwistTag.E6 K σ.toRingHom a c) =
@@ -557,6 +578,7 @@ theorem twIncl_fixedOrbitX (σ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
         xE6 (Pi.single ((TwistTag.E6.perm ^ k) (TwistTag.E6.orbitMin a)) 1) ((σ ^ k) (c : K))).prod := by
   exact twGens_orbitX σ a c
 
+omit [Finite K] in
 theorem twIncl_fixedOrbitY (σ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     twIncl σ (fixedOrbitY TwistTag.E6 K σ.toRingHom a c) =
@@ -564,9 +586,10 @@ theorem twIncl_fixedOrbitY (σ : K ≃+* K) (a : Fin TwistTag.E6.foldedTag.rank)
         xE6 (-Pi.single ((TwistTag.E6.perm ^ k) (TwistTag.E6.orbitMin a)) 1) ((σ ^ k) (c : K))).prod := by
   exact twGens_orbitY σ a c
 
-theorem twE6_eq_top_of_twFull (σ : K ≃+* K) (hσ2 : σ ^ 2 = 1) (H : Subgroup ↥(twistedE6RootGroup K σ))
+omit [Finite K] in
+theorem twE6_eq_top_of_twFull (σ : K ≃+* K) (_hσ2 : σ ^ 2 = 1) (H : Subgroup ↥(twistedE6RootGroup K σ))
     (h : TwFull σ (H.map (twIncl σ))) : H = ⊤ := by
-  clear hσ2
+  clear _hσ2
   have hfin : ∀ a : Fin TwistTag.E6.foldedTag.rank, a = 0 ∨ a = 1 ∨ a = 2 ∨ a = 3 := by decide
   have hX : ∀ (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistTag.E6 K σ.toRingHom a),
       fixedOrbitX TwistTag.E6 K σ.toRingHom a c ∈ H := by
@@ -660,11 +683,11 @@ theorem isRoot_sub_single_one {θ : Fin Tag.E6.rank → ℤ} (hθ : IsMaxHeightR
 theorem TwE6Setup.of_data {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = (ℓ ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ)
     (hη : orderOf η = p) : TwE6Setup K σ η p := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK' : Fintype.card K = ℓ ^ (f * 2) := by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul]
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow hK'
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow hK'
   have hc : ringChar K = ℓ := ringChar.eq K ℓ
   exact ⟨hp, hp2, by rw [hc]; exact hpℓ, hη, ⟨ℓ, f, hℓ, hf, hK, hσ⟩⟩
 

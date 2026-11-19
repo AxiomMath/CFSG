@@ -19,7 +19,7 @@ theorem r72Shape_of_isLinTwoIndex (k : Sec7Core4 G) {H : Subgroup G} (hH : k.Con
     {d : TauCeti.ValidLieTypeIndex} (hd : CFSG.AGLEmbedding.IsLinTwoIndex k.p n d)
     (e : ↥(CFSG.generalizedFitting (QuotK7 k.p H)) ≃* CFSG.AGLEmbedding.CatGroup d) :
     R72Shape k.p (LKQuot7 k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hn : 1 ≤ n := by
     obtain ⟨q, -, -, rfl⟩ := hd
     exact q.exponent_pos
@@ -41,7 +41,7 @@ theorem r72Shape_of_isUnitaryIndex (k : Sec7Core4 G) {H : Subgroup G} (hH : k.Co
     {d : TauCeti.ValidLieTypeIndex} (hd : CFSG.AGLEmbedding.IsUnitaryIndex k.p d)
     (e : ↥(CFSG.generalizedFitting (QuotK7 k.p H)) ≃* CFSG.AGLEmbedding.CatGroup d) :
     R72Shape k.p (LKQuot7 k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hF := (SEFive.pElements_unitary (X := QuotK7 k.p H) hd
     (CFSG.pPrimeCore_quotient_eq_bot k.prime) (k.isStronglyPEmbedded_map_quotient_pPrimeCore hH)
     e).2

@@ -33,12 +33,12 @@ theorem w172_exists_involution (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H)
 
 theorem w172_img_isSolvable (c : MinCex172 D V₀ V H) (M : ModDataE H (eOmegaZ H D.T)) :
     Group.IsSolvable ↥(M.img H) := by
-  haveI : Group.IsSolvable ↥H := c.solv
+  have : Group.IsSolvable ↥H := c.solv
   have h : M.img H = M.ρ.range := by
     unfold ModDataE.img
     rw [Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map]
   rw [h]
-  exact solvable_of_surjective (MonoidHom.rangeRestrict_surjective M.ρ)
+  exact Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective M.ρ)
 
 theorem w172_pCoreOf_img_eq_bot (c : MinCex172 D V₀ V H) (M : ModDataE H (eOmegaZ H D.T)) :
     pCoreOf 2 (M.img H) = ⊥ := by
@@ -80,7 +80,7 @@ theorem w172_false (h162 : W3Thm162Gt2 G) (hL : W172Lem26 D V₀ V) (c : MinCex1
     M.img_mono c.w172_V_le_H (hge ▸ Subgroup.mem_zpowers e)
   obtain ⟨p, hp, hp2, x₀, hx₀, hx₀c⟩ :=
     w172_exists_acting_prime (c.w172_img_isSolvable M) (c.w172_pCoreOf_img_eq_bot M) heL he he1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXL : pCoreOf p (M.img H) ≤ M.img H := CFSG.LieType.BorelTits.pCoreOf_le p _
   have hXp : IsPGroup p (pCoreOf p (M.img H)) := CFSG.LieType.BorelTits.pCoreOf_isPGroup p _
   have hnorm : ∀ s ∈ M.img H, ∀ x ∈ pCoreOf p (M.img H),

@@ -185,7 +185,7 @@ theorem pointCenterEquiv_centerEquiv {Q Z L : Subgroup G} (D : PointFormData Q Z
 
 theorem U4qCoordLeft.pointCenterEquiv_sq (c₁ : U4qCoordLeft L1 L2 S f F)
     (D : PointFormData (pCoreOf 2 L1) (centerOf (pCoreOf 2 L1)) L1 F) (hDβ : D.β = c₁.β)
-    (ρ : F ≃+* h.fixedField) {φ : (Fin 2 → F) →+ K} (hφ : Function.Bijective φ)
+    (ρ : F ≃+* h.fixedField) {φ : (Fin 2 → F) →+ K} (_hφ : Function.Bijective φ)
     (hρ : ∀ (τ : F) (v : Fin 2 → F), φ (τ • v) = (ρ τ : K) * φ v) (δ : h.fixedField)
     (hδv : (δ : K) = h.bar (φ (Pi.single 0 1)) * φ (Pi.single 1 1) +
       φ (Pi.single 0 1) * h.bar (φ (Pi.single 1 1))) (hδ : δ ≠ 0)
@@ -194,9 +194,9 @@ theorem U4qCoordLeft.pointCenterEquiv_sq (c₁ : U4qCoordLeft L1 L2 S f F)
     ((pointCenterEquiv h D ρ δ hδ ⟨(u : G) ^ 2, hz⟩ : ↥(zRad h)) : hypSU h 2 0) =
       (v' : hypSU h 2 0) ^ 2 := by
   have := h.charP
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   set X : Matrix (Fin 2) (Fin 2) F := Multiplicative.toAdd (c₁.β u)
   have hsq : (⟨(u : G) ^ 2, hz⟩ : ↥(centerOf (pCoreOf 2 L1))) =
       D.centerEquiv (Multiplicative.ofAdd X.det) := by

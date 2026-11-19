@@ -57,11 +57,11 @@ theorem exists_noninner_of_l28 {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω
   by_contra hcon
   push Not at hcon
   obtain ⟨F, _, _, hF, ⟨ePSL⟩⟩ := s265d_l28_psl_model hL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card]; exact hF)
-  haveI : NeZero ((3 : ℕ) : F) :=
+  have : NeZero ((3 : ℕ) : F) :=
     ⟨fun h3 => by have := (CharP.cast_eq_zero_iff F 2 3).1 h3; omega⟩
   let φ : ↥B →* MulAut (PSimple 3 K) := (chevAut 3 K).comp (Subgroup.inclusion hBN)
   have hφ1 : ∀ b : ↥B, φ b = 1 ↔ (b : Ω) ∈ D := fun b => hNA.ker b b.2 (hBN b.2)
@@ -165,8 +165,8 @@ private theorem tag_A1_aux {lab : LargeEvenLabel} {R : Type} [Group R]
     | exact absurd rfl hder.1
     | exact absurd rfl hder.2.1
     | exact absurd rfl hder.2.2
-    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; first | (cases e1) | omega)
-    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; split_ifs at e1 e2 e3 <;> first | omega | (cases e1))
+    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; first | (cases e1))
+    | (exfalso; simp only [markTag, markRank, markDeg] at e1 e2 e3; split_ifs at e1 e2 e3; first | omega)
 
 private theorem not_dvd_rk2DiagIndex_of_l28 {lab : LargeEvenLabel} {R : Type} [Group R]
     (hL : CFSG.Blueprint.LieModel R .PSL 2 2 3) (hM : MarkedModel lab R) :
@@ -196,7 +196,7 @@ theorem l28_not_innDiagOn {Ω : Type} [Group Ω] [Finite Ω] {X K : Subgroup Ω}
   have hmark : InnerDiagMarking (Subgroup.zpowers β) K := (innDiagOn_iff hK hKq).2 hid
   obtain ⟨-, lab, hlab, hraw⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_markedModel hmark
-  haveI : Nontrivial (PSimple 3 K) := by
+  have : Nontrivial (PSimple 3 K) := by
     refine Finite.one_lt_card_iff_nontrivial.1 ?_
     rw [s265d_card_l28 hL]
     norm_num

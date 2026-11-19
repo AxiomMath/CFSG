@@ -50,7 +50,7 @@ variable {K : Type} [Field K] {ℓ f : ℕ}
 theorem pow_succ_eq_one_of_scalar_mem {n : ℕ} [NeZero n] (h : UnitaryFieldData ℓ f K) {c : Kˣ}
     (hc : Matrix.GeneralLinearGroup.scalar (Fin n) c ∈ isomGL (unitForm (ι := Fin n) h.bar)) :
     c ^ (ℓ ^ f + 1) = 1 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_ne_zero (NeZero.ne n)⟩⟩
   have h1 := mul_map_eq_one_of_scalar_mem h.bar hc
   rw [UnitaryFieldData.bar_apply] at h1
   apply Units.ext
@@ -85,7 +85,7 @@ theorem dvd_card_U_two_of_plane {n : ℕ} (h : UnitaryFieldData ℓ f K) {p : �
     (hx1 : ∃ m ∈ M, glEquiv x m ≠ m) :
     p ∣ ℓ ^ f * ((ℓ ^ f + 1) * ((ℓ ^ f) ^ 2 - 1)) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   set B := unitFormU (σ := h.bar) h.bar (fun _ => rfl) M with hB
   have hBs : B.IsSymm := unitFormU_isSymm h.bar (fun _ => rfl) h.bar_bar M
   have hBl : B.SeparatingLeft := (unitFormU_nondegenerate h.bar (fun _ => rfl) h.bar_bar hnd).1
@@ -110,7 +110,7 @@ theorem dvd_card_U_two_of_plane {n : ℕ} (h : UnitaryFieldData ℓ f K) {p : �
     rw [hg'm, hg'm, unitFormU_apply, unitFormU_apply, hg, coe_resU_apply, coe_resU_apply]
     have := (mem_isomGL.mp hx.1) (m' : Fin n → K) (m : Fin n → K)
     rwa [← glEquiv_apply, ← glEquiv_apply] at this
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (⟨g', hmem⟩ : sesqUnitaryGroup B) = p := by
     refine orderOf_eq_prime ?_ fun h1 => hg1 ?_
     · apply Subtype.ext
@@ -158,10 +158,10 @@ theorem concl_uni
       Nonempty (PQuot p (⊤ : Subgroup K') ≃* ↥S) ∧ GLATwoLocalRank ℓ K' ≤ CFSG.Open.pRank p B) :
     S267ConcA p S B ∨ S267ConcBCDE p ℓ S B := by
   classical
-  haveI : Finite K := h.finite
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP K ℓ := h.charP
+  have : Finite K := h.finite
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : CharP K ℓ := h.charP
   have hℓ := h.prime
   have hcharne : ∀ m : ℕ, m.Prime → m ≠ ℓ → (m : K) ≠ 0 := by
     intro m hm hmℓ h0
@@ -223,7 +223,7 @@ theorem concl_uni
       ((ℓ ^ f : ℕ) : ZMod p) = ((ℓ ^ (f / p) : ℕ) : ZMod p) := by
     intro σ hσ
     have hpf := hpf_of σ hσ
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     conv_lhs => rw [show f = f / p * p from (Nat.div_mul_cancel hpf).symm, pow_mul]
     rw [Nat.cast_pow, ZMod.pow_card]
   have hq3 : ℓ ^ f = 3 → ℓ = 3 := fun h3 =>
@@ -234,7 +234,7 @@ theorem concl_uni
       ℓ ^ f ≠ 3 ∧ (FieldElt p S B Dat.φ (unitForm (ι := Fin n) h.bar) Dat.θ Dat.b Dat.A Dat.σ →
         ℓ ^ (f / p) ≠ 3) := by
     rintro ⟨c, hc1, hcp, hcβ⟩
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hd : p ∣ ℓ ^ f + 1 := by
       rw [← orderOf_eq_prime hcp hc1]
       exact orderOf_dvd_of_pow_eq_one (pow_succ_eq_one_of_scalar_mem h hcβ)
@@ -275,8 +275,8 @@ theorem concl_uni
       ∀ H' : Hyperplane ↥Aε p, weightSpace (glRep Aε) H'.1 ≠ ⊥ →
         Module.finrank K (weightSpace (glRep Aε) H'.1) = 1 := by
     intro Aε _ hA hAεβ hmax ⟨c, hc1, hcp, hcβ⟩ H' hH'
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI := Fact.mk hp
+    have : Fintype K := Fintype.ofFinite K
+    have := Fact.mk hp
     have hd : p ∣ ℓ ^ f + 1 := by
       rw [← orderOf_eq_prime hcp hc1]
       exact orderOf_dvd_of_pow_eq_one (pow_succ_eq_one_of_scalar_mem h hcβ)
@@ -342,7 +342,7 @@ theorem concl_uni
       exact ⟨TauCeti.CFSGIndex.lie ⟨.twistedA 3 Q, hv⟩, rfl, ⟨eL⟩⟩
     refine Or.inr (Or.inl ⟨hB4, hBdec, hBdisj, center_pQuot_eq_bot_of_core hcore hZ, Q, hQℓ,
       Or.inr ⟨hcat, ?_⟩⟩)
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     rw [hQK, ← orderOf_eq_prime hcp hc1]
     exact orderOf_dvd_of_pow_eq_one (pow_succ_eq_one_of_scalar_mem h hcβ)
 

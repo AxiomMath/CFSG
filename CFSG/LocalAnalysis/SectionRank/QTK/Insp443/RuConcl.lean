@@ -48,6 +48,7 @@ variable {A : Type} [Group A] [Finite A]
 section Base
 
 
+omit [Finite A] in
 theorem commutator_top (e : G₀ ≃* A) : ⁅(⊤ : Subgroup A), (⊤ : Subgroup A)⁆ = ⊤ := by
   have := isSimpleGroup_ruP
   have : IsSimpleGroup A := MulEquiv.isSimpleGroup e.symm
@@ -69,6 +70,7 @@ theorem commutator_top (e : G₀ ≃* A) : ⁅(⊤ : Subgroup A), (⊤ : Subgrou
     norm_num at h1
   · exact ht
 
+omit [Finite A] in
 theorem isSporadic_top (e : G₀ ≃* A) :
     IsSporadic .Ru (↥(⊤ : Subgroup A) ⧸ Subgroup.center ↥(⊤ : Subgroup A)) := by
   let eT : ↥(⊤ : Subgroup A) ≃* G₀ := Subgroup.topEquiv.trans e.symm

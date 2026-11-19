@@ -26,7 +26,7 @@ variable {G : Type} [Group G] {L E : Subgroup G} {t : G}
 theorem nonempty_normCocode
     (hm : M24Out G E t) {i j : Fin 24} (hij : i ≠ j) :
     Nonempty (NormCocode G E t i j) := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   obtain ⟨z, hz⟩ := exists_isZ_of_m24Out hm
   obtain ⟨e₁, he₁, -, het₁⟩ := exists_equiv_std hm hz
   obtain ⟨p, hp, hp0, hp1⟩ := CFSG.Monster.B.TwoA.autPerm_maps_two (1 : Fin 24) 3 (by decide)

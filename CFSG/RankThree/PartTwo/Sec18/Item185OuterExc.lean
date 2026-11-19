@@ -99,7 +99,7 @@ private theorem exc_hnsc_quasithin_two {F : Type} [Field F] [Finite F] (hF : Nat
       (CFSG.LieType.Chevalley.center_adjointGroup_eq_bot_field CFSG.Blueprint.Chevalley.Tag.G2 F)
   have hnab : ¬ ∀ x y : ↥D0, x * y = y * x := by
     intro hc
-    letI : CommGroup ↥D0 := { (inferInstance : Group ↥D0) with mul_comm := fun a b => hc a b }
+    let : CommGroup ↥D0 := { (inferInstance : Group ↥D0) with mul_comm := fun a b => hc a b }
     have hp := Group.is_simple_iff_prime_card.mp hDs
     rw [hDc] at hp
     norm_num at hp
@@ -155,13 +155,13 @@ private theorem exc_hnsc_adjointG2 {F : Type} [Field F] [Finite F] (hF : 2 ≤ N
       (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.G2 F) := by
   unfold HasNormalSimpleCentralizer
   by_cases h3 : 3 ≤ Nat.card F
-  · haveI hs : IsSimpleGroup
+  · have hs : IsSimpleGroup
         (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.G2 F) :=
       CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         (CFSG.Blueprint.Chevalley.adjointGroup CFSG.Blueprint.Chevalley.Tag.G2 F) :=
       CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card (K := F) h3
-    haveI := hs.toNontrivial
+    have := hs.toNontrivial
     refine ⟨⊤, inferInstance, Subgroup.topEquiv.isSimpleGroup, ?_, ?_⟩
     · intro hc
       apply Group.IsPerfect.not_isMulCommutative
@@ -316,7 +316,7 @@ theorem noOmega_isoGTwo_two {X : Type} [Group X] [Finite X] (hS : IsSimpleGroup 
       CFSG.RankThree.PartTwo.Sec11.KS11Lie3Proof.nonempty_adjointGroup_g2_mulEquiv_quasithinG2 hF
     exact (exc_not_isSimpleGroup_g2_two hF (φ.trans ψ).symm.isSimpleGroup).elim
   ·
-    haveI := Finite.of_surjective φ φ.surjective
+    have := Finite.of_surjective φ φ.surjective
     exact NoOmega.of_mulEquiv φ (noOmega_of_fixed_facts fun σ hσ hσ3 =>
       exc_fixedFacts_g2_big hchar hbig hσ hσ3)
 
@@ -326,7 +326,7 @@ theorem noOmega_trialityD4_two {X : Type} [Group X] [Finite X] {q : TauCeti.Prim
   obtain ⟨-, K, hKf, hKfin, σ, hK, hσ, ⟨eY⟩⟩ :=
     Sec8.Item812Res7.exists_trialityD4_model
       (⟨q, hv, hq2, rfl, ⟨e⟩⟩ : Sec8.IsoTrialityD4 X q.exponent)
-  haveI := Finite.of_surjective eY eY.surjective
+  have := Finite.of_surjective eY eY.surjective
   exact NoOmega.of_mulEquiv eY (noOmega_of_fixed_facts fun β hβ hβ3 =>
     exc_triality_fixedFacts hn hK hσ hβ hβ3)
 

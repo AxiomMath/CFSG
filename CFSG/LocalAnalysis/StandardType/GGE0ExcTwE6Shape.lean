@@ -22,9 +22,9 @@ theorem ggE0AtOn_twistedE6_shape :
   have s1' := ggSixStepOne_conj s1 m⁻¹
   obtain ⟨Ω, hF, hA, h2, I, R, halg, hG1, hrig⟩ :=
     context_to_model hctx' s1' (Or.inr ⟨rfl, h3⟩)
-  letI := hF
-  letI := hA
-  letI := h2
+  let := hF
+  let := hA
+  let := h2
   have hG0 : ggG0 3 (B.map (MulAut.conj m⁻¹).toMonoidHom) (m⁻¹ * x * m⁻¹⁻¹)
       (L.map (MulAut.conj m⁻¹).toMonoidHom) (D.map (MulAut.conj m⁻¹).toMonoidHom)
       (J.map (MulAut.conj m⁻¹).toMonoidHom) = ggG0 3 B x L D J := by

@@ -69,7 +69,7 @@ theorem Sec5B517Quad.mem_of_commute_pair (hq : Sec5B517Quad K z) {a b : Fin 4} (
     exact (K b).mul_mem (hq.z_mem b) hb'
 
 theorem Sec5B517Quad.pair_ne (hq : Sec5B517Quad K z) {a b c : Fin 4} (hab : a ≠ b)
-    (hac : a ≠ c) (hbc : b ≠ c) : K a ⊔ K b ≠ K a ⊔ K c := by
+    (_hac : a ≠ c) (hbc : b ≠ c) : K a ⊔ K b ≠ K a ⊔ K c := by
   intro heq
   obtain ⟨u, hu, hu2⟩ := hq.exists_sq b
   have hua : u ∈ K a ⊔ K c := by
@@ -86,7 +86,7 @@ theorem Sec5B517Quad.pair_ne (hq : Sec5B517Quad K z) {a b c : Fin 4} (hab : a �
     exact hq.z_ne hu2.symm
 
 theorem Sec5B517Quad.sup_inf_eq (hq : Sec5B517Quad K z) {a b c : Fin 4} (hab : a ≠ b)
-    (hac : a ≠ c) (hbc : b ≠ c) : (K a ⊔ K b) ⊓ (K a ⊔ K c) = K a := by
+    (_hac : a ≠ c) (hbc : b ≠ c) : (K a ⊔ K b) ⊓ (K a ⊔ K c) = K a := by
   apply le_antisymm
   · intro x hx
     have hxb : ∀ v ∈ K b, x * v = v * x := by
@@ -100,7 +100,7 @@ theorem Sec5B517Quad.sup_inf_eq (hq : Sec5B517Quad K z) {a b c : Fin 4} (hab : a
   · intro x hx
     exact ⟨Subgroup.mem_sup_left hx, Subgroup.mem_sup_left hx⟩
 
-theorem Sec5B517Quad.pair_inf_le (hq : Sec5B517Quad K z) {i j k l : Fin 4} (hij : i ≠ j)
+theorem Sec5B517Quad.pair_inf_le (hq : Sec5B517Quad K z) {i j k l : Fin 4} (_hij : i ≠ j)
     (hkl : k ≠ l) (hne : K i ⊔ K j ≠ K k ⊔ K l) :
     ∃ m : Fin 4, (K i ⊔ K j) ⊓ (K k ⊔ K l) ≤ K m := by
   have hnotboth : ¬ ((k = i ∨ k = j) ∧ (l = i ∨ l = j)) := by

@@ -206,7 +206,7 @@ theorem rckPairSU_holds :
     have hsetB : ({c : GGL | σQ (σQ c) = c} : Set GGL) =
         {c : GGL | c ^ 2 ^ (2 * g) = c} := by
       ext c
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       have hexp : 2 ^ g * 2 ^ g = 2 ^ (2 * g) := by
         rw [← pow_add]
         congr 1

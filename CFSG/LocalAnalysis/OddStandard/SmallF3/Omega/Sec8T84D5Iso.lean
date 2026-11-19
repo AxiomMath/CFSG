@@ -146,7 +146,7 @@ theorem sec8t84d5_iso (ht : t * t = 1) (hE : IsElemAb2 E 8) (hc : Sec8T84XCore G
     Subgroup.isComplement'_of_card_mul_and_disjoint hDcard hDdisj
   have hPtcomp : (Pt.subgroupOf M).IsComplement' (Z.subgroupOf M) :=
     Subgroup.isComplement'_of_card_mul_and_disjoint hPtcard hPtdisj
-  haveI : (Z.subgroupOf M).Normal := hZMnorm
+  have : (Z.subgroupOf M).Normal := hZMnorm
   let eD : ↥M ⧸ (Z.subgroupOf M) ≃* ↥(D.subgroupOf M) := hDcomp.QuotientMulEquiv
   let eP : ↥M ⧸ (Z.subgroupOf M) ≃* ↥(Pt.subgroupOf M) := hPtcomp.QuotientMulEquiv
   let eDP : ↥(D.subgroupOf M) ≃* ↥(Pt.subgroupOf M) := eD.symm.trans eP

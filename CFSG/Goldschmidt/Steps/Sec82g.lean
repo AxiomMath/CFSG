@@ -45,7 +45,7 @@ theorem false_of_ctx (h31 : S_G31) (h35 : S_G35) (hE : componentLayerOf H = ⊥)
   have hSF : ∀ s ∈ (S : Subgroup G),
       CFSG.fittingSubgroupOf M ≤ Subgroup.centralizer ({s} : Set G) := by
     intro s hs
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hsN : s ∈ Subgroup.normalizer (A : Set G) := Sec8.le_normalizer c.hset hs
     rw [(show CFSG.fittingSubgroupOf M = _ from CFSG.GorensteinWalter.fittingSubgroupOf_eq_iSup_qCoreOf M)]
@@ -61,7 +61,7 @@ theorem false_of_ctx (h31 : S_G31) (h35 : S_G35) (hE : componentLayerOf H = ⊥)
       exact Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp hsC x hx)
   have hSL : (S : Subgroup G) ≤ L := by
     intro s hs
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have hk' : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨l, hl, y, hy, hly⟩ := exists_mul_eq_of_mem_centralizer h31 h35 c
       (Sec8.le_centralizer c.hset c.h4 hs) hk'
@@ -92,7 +92,7 @@ theorem false_of_ctx (h31 : S_G31) (h35 : S_G35) (hE : componentLayerOf H = ⊥)
       exact Subgroup.mul_mem _ (hFs ▸ Subgroup.mem_sup_right hl) hyFs
     exact mem_of_mem_sup_of_odd hFodd (fun l' hl' o ho =>
       Subgroup.mem_centralizer_iff.mp (hFL ho) l' hl') hly hk'
-  have h4 := card_le_four h31 c hSL S.isPGroup'
+  have h4 := card_le_four h31 c hSL S.isPGroup
   obtain ⟨B, -, hB, hB8⟩ := c.hset.rank
   have hBp : IsPGroup 2 B := fun x => ⟨1, Subtype.ext (by simpa using hB.2 x x.2)⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

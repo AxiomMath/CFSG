@@ -15,7 +15,7 @@ open scoped commutatorElement
 private theorem orderOf_pinnedElt_e7
     (α : Fin (Tag.rank .E7) → ℤ) :
     orderOf (pinnedElt .E7 α (1 : ZMod 2)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq : pinnedElt .E7 α (1 : ZMod 2) * pinnedElt .E7 α 1 = 1 := by
     apply Subtype.ext
     show pinnedX .E7 (ZMod 2) α 1 * pinnedX .E7 (ZMod 2) α 1 = 1
@@ -79,10 +79,10 @@ private theorem fact_not_dvd_card
 
 private theorem exists_noncommuting_perpLevi :
     ∃ a c : ↥(perpLevi .E7 (ZMod 2)), a * c ≠ c * a := by
-  haveI : CharP (ZMod 2) 2 := ZMod.charP 2
+  have : CharP (ZMod 2) 2 := ZMod.charP 2
   by_contra h
   simp only [not_exists, not_not] at h
-  haveI hsimple : IsSimpleGroup ↥(perpLevi .E7 (ZMod 2)) :=
+  have hsimple : IsSimpleGroup ↥(perpLevi .E7 (ZMod 2)) :=
     isSimpleGroup_perpLevi_E7 (K := ZMod 2)
   let σ : ↥(perpLevi .E7 (ZMod 2)) := ⟨e7CentSigma, mem_perpLevi_e7CentSigma⟩
   have hσ2 : orderOf σ = 2 := by
@@ -130,8 +130,8 @@ private theorem posPerpU_le_centralizer_e7CentSigma :
 
 private theorem posPerpU_isSylow2In :
     IsSylow2In (posPerpU (ZMod 2)) (perpLevi .E7 (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (ZMod 2) 2 := ZMod.charP 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (ZMod 2) 2 := ZMod.charP 2
   obtain ⟨S, hS⟩ := exists_sylow_perpLevi_eq (K := ZMod 2)
   have hU2 : IsPGroup 2 (posPerpU (ZMod 2)) := by
     refine IsPGroup.of_card (n := 30) ?_
@@ -161,7 +161,7 @@ private theorem posPerpU_isSylow2In :
 
 theorem e7CentModelSylow_holds :
     E7CentModelSylow := by
-  haveI : CharP (ZMod 2) 2 := ZMod.charP 2
+  have : CharP (ZMod 2) 2 := ZMod.charP 2
   refine ⟨isSimpleGroup_perpLevi_E7 (K := ZMod 2), exists_noncommuting_perpLevi,
     fact_not_dvd_card dvd_card_perpLevi not_dvd_card_perpLevi_29,
     mem_perpLevi_e7CentSigma, orderOf_e7CentSigma, ?_⟩

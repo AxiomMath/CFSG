@@ -62,7 +62,7 @@ theorem spw_normalizerPowers_five {K : Type} [Group K] [Finite K] (hpl : SylowIs
 
 theorem spw_natCast_isSquare_gf {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {k : ℕ} (hk : ¬ p ∣ k) :
     IsSquare ((k : ℕ) : GaloisField p 2) := by
-  letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField p 2) := Fintype.ofFinite _
   have hF2 : ringChar (GaloisField p 2) ≠ 2 := by
     rw [ringChar.eq (GaloisField p 2) p]
     exact hp2

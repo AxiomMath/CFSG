@@ -41,7 +41,7 @@ theorem exists_le_sylow_not_smul [Finite L] (G : SpUFixGeom L R F V) {Sy : Subgr
     rw [hP]
     exact hSyR
   let P' : Sylow 2 N := P.subtype hPR
-  haveI : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex P'
+  have : Finite (Sylow 2 N) := Sylow.finite_of_finiteIndex P'
   have hsub : IsPGroup 2 ((G.X v).subgroupOf N) := hXv_pgroup.comap_subtype
   obtain ⟨Q, hQ⟩ := hsub.exists_le_sylow
   obtain ⟨x', hx'⟩ := MulAction.exists_smul_eq N P' Q

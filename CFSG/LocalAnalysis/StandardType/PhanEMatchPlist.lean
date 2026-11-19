@@ -24,7 +24,6 @@ theorem plist_spec {c : PhanCode} (hc : c.IsFlagCode) :
   cases c <;> simp only [PhanCode.IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | (simp only [PhanCode.cut, List.length_cons, List.length_nil] at hb
        have hb5 : b < 5 := by omega
        interval_cases b <;>
@@ -45,7 +44,6 @@ theorem coe_permSL_blockPerm_coll {c : PhanCode} (hc : c.IsFlagCode) (hc22 : c �
   cases c <;> simp only [PhanCode.IsFlagCode] at hc
   all_goals
     first
-    | exact hc.elim
     | exact absurd rfl hc22
     | (simp only [PhanCode.polB] at hpol
        exact absurd hpol (by decide))
@@ -84,10 +82,9 @@ theorem coe_permSL_blockPerm_pol {c : PhanCode} (hc : c.IsFlagCode) (hpol : c.po
         decide
     all_goals
       first
-      | exact hc.elim
       | (simp only [PhanCode.polB] at hpol; exact absurd hpol (by decide))
   rw [coe_permSL, hσ]
-  simp only [Flag.revBlocks, dif_pos hd]
+  simp only [Flag.revBlocks, dite_eq_left hd]
 
 theorem coe_permSL_blockPerm {c : PhanCode} (hc : c.IsFlagCode) (hc22 : c ≠ PhanCode.a3_22x) :
     ((permSL c.blockPerm : SpecialLinearGroup (Fin (c.rank + 1)) Fld) :
@@ -96,9 +93,9 @@ theorem coe_permSL_blockPerm {c : PhanCode} (hc : c.IsFlagCode) (hc22 : c ≠ Ph
         (revBlocks Fld (c.rank + 1) c.cut : Matrix (Fin (c.rank + 1)) (Fin (c.rank + 1)) Fld)
       else 1 := by
   by_cases hpol : c.polB = true
-  · rw [if_pos hpol]
+  · rw [ite_eq_left hpol]
     exact coe_permSL_blockPerm_pol hc hpol
-  · rw [if_neg hpol]
+  · rw [ite_eq_right hpol]
     exact coe_permSL_blockPerm_coll hc hc22 (by simpa using hpol)
 
 theorem coe_permSL_blockPerm_22x :

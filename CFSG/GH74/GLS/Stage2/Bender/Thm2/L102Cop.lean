@@ -20,7 +20,7 @@ private theorem isHallSubgroup_sylow {H : Type*} [Group H] [Finite H] {p : ℕ} 
     (P : Sylow p H) : CFSG.IsHallSubgroup ({⟨p, hp⟩} : Set Nat.Primes) (P : Subgroup H) := by
   have : Fact p.Prime := ⟨hp⟩
   refine CFSG.isHallSubgroup_of _ _ (fun r hr => ?_) (fun r hr hdvd => ?_)
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hk] at hr
     exact Set.mem_singleton_iff.mpr (Subtype.ext
       ((Nat.prime_dvd_prime_iff_eq r.2 hp).mp (r.2.dvd_of_dvd_pow hr)))
@@ -35,7 +35,7 @@ private theorem isHallSubgroup_of_maximal {O V : Subgroup G} {p : ℕ} (hp : p.P
   have hVo : IsPGroup p (V.subgroupOf O) := hVp.of_equiv (Subgroup.subgroupOfEquivOfLe hVO).symm
   obtain ⟨Q, hVQ⟩ := hVo.exists_le_sylow
   have hQV : (Q : Subgroup O).map O.subtype = V := by
-    refine hVmax _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map O.subtype) ?_
+    refine hVmax _ (Subgroup.map_subtype_le _) (Q.isPGroup.map O.subtype) ?_
     rw [← Subgroup.map_subgroupOf_eq_of_le hVO]
     exact Subgroup.map_mono hVQ
   have hQ : (Q : Subgroup O) = V.subgroupOf O := by

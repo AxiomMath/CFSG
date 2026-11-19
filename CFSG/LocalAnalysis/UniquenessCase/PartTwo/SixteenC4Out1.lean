@@ -31,10 +31,11 @@ variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
 @[expose] def IsSemi (φ : MulAut (Vtil V₀ V hV)) : Prop :=
   ∀ (c : F.K) (x : Fin 4 → F.K), F.rho φ (c • x) = c ^ 2 • F.rho φ x
 
+omit [Finite G] in
 theorem exists_omega :
     ∃ ω : F.K, ω ^ 2 + ω + 1 = 0 ∧ ∀ c : F.K, c = 0 ∨ c = 1 ∨ c = ω ∨ c = ω ^ 2 := by
   classical
-  haveI : Fintype F.K := Fintype.ofFinite F.K
+  have : Fintype F.K := Fintype.ofFinite F.K
   obtain ⟨ω, hω⟩ := TauCeti.exists_sq_add_self_add_one_eq_zero_of_card_eq_four F.card_K
   refine ⟨ω, hω, ?_⟩
   intro c
@@ -43,12 +44,13 @@ theorem exists_omega :
     exact Finset.mem_univ c
   simpa only [Finset.mem_insert, Finset.mem_singleton] using hc
 
+omit [Finite G] in
 theorem isLin_or_isSemi {φ : MulAut (Vtil V₀ V hV)}
     (hφ : φ ∈ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV)))) :
     F.IsLin φ ∨ F.IsSemi φ := by
   obtain ⟨θ, hθ⟩ := F.rho_semilinear_of_mem_normalizer hφ
   obtain ⟨ω, hω, hspan⟩ := F.exists_omega
-  haveI : CharP F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero F.two_eq_zero
+  have : CharP F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero F.two_eq_zero
   have hθpoly : θ ω ^ 2 + θ ω + 1 = 0 := by
     have h := congrArg θ hω
     simpa using h
@@ -56,7 +58,7 @@ theorem isLin_or_isSemi {φ : MulAut (Vtil V₀ V hV)}
     rcases hspan (θ ω) with h | h | h | h
     · exfalso
       rw [h] at hθpoly
-      simpa using hθpoly
+      simp at hθpoly
     · exfalso
       rw [h] at hθpoly
       rw [one_pow, CharTwo.add_self_eq_zero, zero_add] at hθpoly
@@ -85,10 +87,11 @@ theorem isLin_or_isSemi {φ : MulAut (Vtil V₀ V hV)}
     intro c x
     rw [hθ c x, hsq c]
 
+omit [Finite G] in
 theorem not_isSemi_of_isLin {φ : MulAut (Vtil V₀ V hV)} (hl : F.IsLin φ) (hs : F.IsSemi φ) :
     False := by
   obtain ⟨ω, hω, -⟩ := F.exists_omega
-  haveI : CharP F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero F.two_eq_zero
+  have : CharP F.K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero F.two_eq_zero
   let x : Fin 4 → F.K := Pi.single 0 1
   have hx0 : x ≠ 0 := by
     intro h
@@ -105,7 +108,8 @@ theorem not_isSemi_of_isLin {φ : MulAut (Vtil V₀ V hV)} (hl : F.IsLin φ) (hs
   have hsum : ω ^ 2 + ω = 1 := CharTwo.add_eq_zero.mp hω
   exact hy0 (by rw [← one_smul F.K (F.rho φ x), ← hsum]; exact h2)
 
-theorem isLin_of_mem_lBar {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ lBar V₀ V hV L) :
+omit [Finite G] in
+theorem isLin_of_mem_lBar [Finite G] {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ lBar V₀ V hV L) :
     F.IsLin φ := by
   obtain ⟨γ, hγ⟩ := F.π.surjective ⟨φ, hφ⟩
   have hφeq : (F.π γ : MulAut (Vtil V₀ V hV)) = φ := congrArg Subtype.val hγ
@@ -120,6 +124,7 @@ theorem isLin_of_mem_lBar {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ lBar V₀
   intro c x
   rw [hrho (c • x), hrho x, Matrix.mulVec_smul]
 
+omit [Finite G] in
 theorem mem_lBar_of_isLin {φ : MulAut (Vtil V₀ V hV)}
     (hφ : φ ∈ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV)))) (hφ2 : φ * φ = 1)
     (hl : F.IsLin φ) : φ ∈ lBar V₀ V hV L := by
@@ -192,9 +197,10 @@ theorem mem_lBar_of_isLin {φ : MulAut (Vtil V₀ V hV)}
   rw [← heq]
   exact (F.π γ₀).2
 
+omit [Finite G] in
 theorem isLin_mul_of_isSemi {φ ψ : MulAut (Vtil V₀ V hV)} (hφ : F.IsSemi φ) (hψ : F.IsSemi ψ) :
     F.IsLin (φ * ψ) := by
-  haveI : Fintype F.K := Fintype.ofFinite F.K
+  have : Fintype F.K := Fintype.ofFinite F.K
   have h4 : ∀ c : F.K, (c ^ 2) ^ 2 = c := by
     intro c
     rw [← pow_mul, show (2 * 2 : ℕ) = Fintype.card F.K by
@@ -203,6 +209,7 @@ theorem isLin_mul_of_isSemi {φ ψ : MulAut (Vtil V₀ V hV)} (hφ : F.IsSemi φ
   intro c x
   rw [F.rho_mul φ ψ (c • x), hψ c x, hφ (c ^ 2) (F.rho ψ x), ← F.rho_mul φ ψ x, h4 c]
 
+omit [Finite G] in
 theorem exists_isSemi_of_not_le {E : Subgroup (MulAut (Vtil V₀ V hV))}
     (hEN : E ≤ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
     (hE2 : IsElemAbelian2 E) (hout : ¬ E ≤ lBar V₀ V hV L) : ∃ τ ∈ E, F.IsSemi τ := by

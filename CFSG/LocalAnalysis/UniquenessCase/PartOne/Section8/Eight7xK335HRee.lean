@@ -56,9 +56,9 @@ theorem k335ReeLocal_holds
       have := Nat.card_pos (α := (S : Subgroup X))
       omega)
   have hZnt : Nontrivial (Subgroup.center (S : Subgroup X)) :=
-    (S.isPGroup').center_nontrivial
+    (S.isPGroup).center_nontrivial
   have hZp : IsPGroup 3 (Subgroup.center (S : Subgroup X)) :=
-    (S.isPGroup').to_subgroup _
+    (S.isPGroup).to_subgroup _
   have h3Z : 3 ∣ Nat.card (Subgroup.center (S : Subgroup X)) := by
     rcases hZp.card_eq_or_dvd with h | h
     · exact absurd h ((Finite.one_lt_card_iff_nontrivial.mpr hZnt).ne')

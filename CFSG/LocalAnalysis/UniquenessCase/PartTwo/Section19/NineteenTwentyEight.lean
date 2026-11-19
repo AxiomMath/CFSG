@@ -105,16 +105,17 @@ theorem permutes_of_ctx19_23 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A :
 @[expose] def Gap19_28 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L A : Subgroup G)
     (t : G) (B : Subgroup G) (r : ℕ) (A₀ H : Subgroup G)
     (h : Ctx19_23 D V₀ V p L A t B r A₀ H)
-    (h25 : R19_25At D V₀ V p L A t B r A₀ H h)
-    (h26 : R19_26At D V₀ V p L A t B r A₀ H h) : Prop :=
+    (_h25 : R19_25At D V₀ V p L A t B r A₀ H h)
+    (_h26 : R19_26At D V₀ V p L A t B r A₀ H h) : Prop :=
   ∀ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S (H ⊓ D.M) →
     (S ⊓ (⨅ a ∈ A, centModEl (pCoreOf 2 (H ⊓ IOf D p L)) a)).relIndex S ≤ 2
 
+omit [Finite G] in
 theorem kernel_le_pCoreOf_sup {A S O : Subgroup G} (hcomm : IsMulCommutative ↥A)
     (hOS : O ≤ S) (hAO : A ≤ normalizer (O : Set G)) (hSO : S ≤ normalizer (O : Set G))
     (hSE : S ≤ normalizer ((A ⊔ O : Subgroup G) : Set G)) (hS2 : IsPGroup 2 S) :
     S ⊓ (⨅ a ∈ A, centModEl O a) ≤ pCoreOf 2 (A ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S₀ := S ⊓ (⨅ a ∈ A, centModEl O a) with hS₀
   have hmem : ∀ s, s ∈ S₀ ↔ s ∈ S ∧ s ∈ normalizer (O : Set G) ∧
       ∀ a ∈ A, s * a * s⁻¹ * a⁻¹ ∈ O := by
@@ -204,7 +205,7 @@ theorem exists_tInvariant_sylow_of_isSylow {K : Subgroup G} {t : G}
     {S : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S K) :
     ∃ S' : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S' K ∧
       t ∈ normalizer (S' : Set G) ∧ Nat.card S' = Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := ht2
   have hS₀ : IsPGroup 2 (Subgroup.zpowers t) :=
     IsPGroup.of_card (by rw [Nat.card_zpowers]; exact hk)
@@ -222,7 +223,7 @@ theorem sylow_ne_bot_of_ctx (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : 
     {t : G} {B : Subgroup G} {r : ℕ} {A₀ H : Subgroup G}
     (h : Ctx19_23 D V₀ V p L A t B r A₀ H) {S : Subgroup G}
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S (H ⊓ D.M)) : S ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV0ne : V₀ ≠ ⊥ := ne_bot_of_one_lt_mSub h.ctx22.ctx.hyp.big
   have hV0data := inCalV0_of_hyp125 h.ctx22.ctx.hyp.hyp125 hV0ne
   have hV0p : IsPGroup 2 V₀ := hV0data.1.2.2.2.isPGroup
@@ -251,19 +252,19 @@ theorem exists_normalU_of_trichotomy (D : Data G) {V₀ V : Subgroup G} {p : ℕ
         (S ⊓ centralizer (A : Set G)).relIndex S = 2) :
     ∃ U : Subgroup G, U ≠ ⊥ ∧ U ≤ S ∧
       normalizer (S : Set G) ≤ normalizer (U : Set G) ∧ A ≤ normalizer (U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSne : S ≠ ⊥ := sylow_ne_bot_of_ctx D h hS
   have hAM : A ≤ D.M := A_le_M_of_ctx19_10 D h.ctx22.ctx
   rcases htri with hZ | hJ | hC
   ·
     refine ⟨(Subgroup.center ↥S).map S.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
     · intro hbot
-      haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hSne
-      haveI : Nontrivial (Subgroup.center ↥S) := hS.isPGroup.center_nontrivial
+      have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hSne
+      have : Nontrivial (Subgroup.center ↥S) := hS.isPGroup.center_nontrivial
       have hcenterbot : Subgroup.center ↥S = ⊥ :=
         (Subgroup.map_eq_bot_iff_of_injective _ S.subtype_injective).mp hbot
       exact (Subgroup.nontrivial_iff_ne_bot _).mp inferInstance hcenterbot
-    · haveI : (Subgroup.center ↥S).Characteristic := Subgroup.centerCharacteristic
+    · have : (Subgroup.center ↥S).Characteristic := Subgroup.centerCharacteristic
       exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
         (Subgroup.center ↥S)
     · have hZle : (Subgroup.center ↥S).map S.subtype ≤ A ⊔ S :=
@@ -272,7 +273,7 @@ theorem exists_normalU_of_trichotomy (D : Data G) {V₀ V : Subgroup G} {p : ℕ
   ·
     refine ⟨CFSG.Open.thompsonSubgroup S, ?_, CFSG.ambientMaxCardThompson_le S, ?_, ?_⟩
     · exact CFSG.LocalAnalysis.RankThreeTheoremC.thompsonSubgroup_ne_bot hSne
-    · haveI : ((CFSG.Open.thompsonSubgroup S).subgroupOf S).Characteristic :=
+    · have : ((CFSG.Open.thompsonSubgroup S).subgroupOf S).Characteristic :=
         CFSG.LocalAnalysis.RankThreeTheoremC.thompsonSubgroup_characteristic S
       have hchar := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
         ((CFSG.Open.thompsonSubgroup S).subgroupOf S)
@@ -326,7 +327,7 @@ theorem exists_normalU_of_trichotomy (D : Data G) {V₀ V : Subgroup G} {p : ℕ
         have : 2 ≤ Nat.card X := by
           interval_cases k <;> omega
         omega
-      haveI : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp hXcard
+      have : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp hXcard
       obtain ⟨a, ha1⟩ := exists_ne (1 : ↥X)
       have haX : (a : G) ∈ X := a.2
       have ha1' : (a : G) ≠ 1 := fun h' => ha1 (Subtype.ext h')
@@ -410,7 +411,7 @@ theorem isSylow_of_normalU (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : S
     (hAU : A ≤ normalizer (U : Set G)) :
     CFSG.ABGLocalTools.IsSylowOf 2 S H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   change muSet D B = ∅ at h14
   by_contra hnot
   obtain ⟨T, hST, hT⟩ : ∃ T : Subgroup G, S ≤ T ∧ CFSG.ABGLocalTools.IsSylowOf 2 T H :=

@@ -17,6 +17,7 @@ open CFSG.ABGLocalTools (IsChiefFactorUnder IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r920ims_exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {K E : Subgroup G}
     (hEK : E ≤ K) (hE : IsPGroup p ↥E) :
     ∃ P : Subgroup G, IsSylowOf p P K ∧ E ≤ P := by
@@ -27,7 +28,7 @@ private theorem r920ims_exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {K E : Subg
 theorem false_of_chief_factor_two {H S Y U W M : Subgroup G} (hSH : IsSylowOf 2 S H) (hUH : U ≤ H)
     (hSY : S ≤ Y) (hSM : S ≤ M) (hUW : IsChiefFactorUnder 2 Y U W) (hUM : U ⊓ M ≤ W) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSU : IsSylowOf 2 (S ⊓ U) U := by
     have hSyl : IsSylowOf 2 S (S ⊔ U) := hSH.of_le le_sup_left (sup_le hSH.le hUH)
     exact hSyl.inf_of_le_normalizer le_sup_right
@@ -38,7 +39,7 @@ theorem false_of_chief_factor_two {H S Y U W M : Subgroup G} (hSH : IsSylowOf 2 
     rw [Subgroup.le_normalizer_iff]
     intro u hu w hw
     exact hUW.2.2.2.1 u hu w hw
-  haveI hWn : (W.subgroupOf U).Normal :=
+  have hWn : (W.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUW.1.le).mpr hUnor
   have hP : IsPGroup 2 (↥U ⧸ W.subgroupOf U) := by
     intro g
@@ -66,7 +67,7 @@ theorem false_of_chief_factor_two {H S Y U W M : Subgroup G} (hSH : IsSylowOf 2 
 theorem false_of_chief_factor_seven {M Y U W A : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hAY : A ≤ Y) (hA7 : Nat.card A = 7) (hAu : A ∈ uniqueSet M)
     (hUW : IsChiefFactorUnder 7 Y U W) (hUM : U ⊓ M ≤ W) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hApg : IsPGroup 7 ↥A := IsPGroup.of_card (n := 1) (by rw [hA7]; norm_num)
   obtain ⟨P, hPsyl, hAP⟩ := r920ims_exists_isSylowOf_ge le_sup_right hApg
   have hPM : P ≤ M :=
@@ -81,7 +82,7 @@ theorem false_of_chief_factor_seven {M Y U W A : Subgroup G} (hM : rankThreeIsMa
     rw [Subgroup.le_normalizer_iff]
     intro u hu w hw
     exact hUW.2.2.2.1 u hu w hw
-  haveI hWn : (W.subgroupOf U).Normal :=
+  have hWn : (W.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUW.1.le).mpr hUnor
   have hPquot : IsPGroup 7 (↥U ⧸ W.subgroupOf U) := by
     intro g

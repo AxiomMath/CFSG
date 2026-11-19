@@ -135,10 +135,10 @@ variable {V : Type u}
 
 private lemma pCore_two_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {B : Subgroup G}
     (hB : ¬ 2 ∣ B.index) : CFSG.pCore 2 G ≤ B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 G).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 G).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   obtain ⟨Q⟩ := Sylow.nonempty (p := 2) (G := B)
-  have hQp : IsPGroup 2 ↥((Q : Subgroup B).map B.subtype) := (Q.isPGroup').map B.subtype
+  have hQp : IsPGroup 2 ↥((Q : Subgroup B).map B.subtype) := (Q.isPGroup).map B.subtype
   have hQidx : ¬ 2 ∣ ((Q : Subgroup B).map B.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul (Fact.out : Nat.Prime 2) Q.not_dvd_index hB
@@ -262,9 +262,9 @@ theorem forall_smul_eq_of_card {H : Type v} [Group H] [MulAction H V] {Γ : Simp
     · exact hgw
     · exact hgw'
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let X : Subgroup H := MulAction.stabilizer H v
-    haveI hXfin : Finite X := inferInstance
+    have hXfin : Finite X := inferInstance
     let Xw : Subgroup X := MulAction.stabilizer X w
     let XW : Subgroup X := Xw ⊓ MulAction.stabilizer X w'
     have hoddK : Odd (2 ^ e + 1) := (Nat.even_pow.mpr ⟨even_two, by omega⟩).add_one
@@ -315,7 +315,7 @@ theorem forall_smul_eq_of_card {H : Type v} [Group H] [MulAction H V] {Γ : Simp
           _ = (2 ^ e * N) * (P : Subgroup X).index := hcardX2
           _ = 2 ^ e * (N * (P : Subgroup X).index) := by ring
       exact Nat.mul_left_cancel (pow_pos (by norm_num) e) h1
-    obtain ⟨f, hf⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨f, hf⟩ := P.isPGroup.exists_card_eq
     have hef : e ≤ f := by
       have hdvd : 2 ^ e ∣ 2 ^ f := by
         rw [← hf, hPcard]
@@ -367,7 +367,7 @@ theorem forall_smul_eq_of_card {H : Type v} [Group H] [MulAction H V] {Γ : Simp
     have hYp : IsPGroup 2 ↥Y := by
       refine IsPGroup.of_card (n := k) ?_
       rw [Nat.card_zpowers, horderX]
-    haveI : (CFSG.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+    have : (CFSG.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
     have hjoinp : IsPGroup 2 ↥(CFSG.pCore 2 X ⊔ Y) :=
       (CFSG.LieType.BorelTits.pCore_isPGroup (G := X) 2).to_sup_of_normal_left hYp
     have hjoinle : CFSG.pCore 2 X ⊔ Y ≤ XW := sup_le hpcXW hYXW
@@ -389,7 +389,7 @@ theorem forall_smul_eq_of_card {H : Type v} [Group H] [MulAction H V] {Γ : Simp
       rw [← hpcN]
       exact Subgroup.card_le_of_le le_sup_left
     have heqN : Nat.card ↥(CFSG.pCore 2 X ⊔ Y) = N := le_antisymm hleN hgeN
-    haveI : Finite ↥(CFSG.pCore 2 X ⊔ Y) := inferInstance
+    have : Finite ↥(CFSG.pCore 2 X ⊔ Y) := inferInstance
     have hEq : CFSG.pCore 2 X ⊔ Y = CFSG.pCore 2 X := by
       exact (Subgroup.eq_of_le_of_card_ge (H := CFSG.pCore 2 X)
         (K := CFSG.pCore 2 X ⊔ Y) le_sup_left (by rw [heqN, hpcN])).symm
@@ -421,7 +421,7 @@ theorem eq_one_of_fix_nbPath_of_card (α : RankTwoAmalgam.{u}) {Y : Type w} [Gro
       Nat.card P = (α.qOne * α.qTwo) ^ j)
     {g : ↥(α.Ghat1 ⊔ α.Ghat2)} {p : GPath α.graphHat (2 * j + 1)} (hp : p.NoBack)
     (hfix : ∀ i, i ≤ 2 * j + 1 → g • p i = p i) (hg : ∃ k, orderOf g = 2 ^ k) : g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let a : c.Γ := c.Θ hc (p 0)
   let q : GPath c.graph (2 * j + 1) := (c.graphCovering hc).pathMap p
   have hq : q ∈ GPath.nbPaths c.graph a (2 * j + 1) := by
@@ -441,7 +441,7 @@ theorem eq_one_of_fix_nbPath_of_card (α : RankTwoAmalgam.{u}) {Y : Type w} [Gro
     rwa [hq₁.1, hq₂.1] at h0
   have hT : c.PathTrans a (2 * j + 1) :=
     c.lemma_F33_4 hc (p 0) (2 * j + 1) htrans
-  haveI hfin0 : Finite (MulAction.stabilizer ↥(α.Ghat1 ⊔ α.Ghat2) (p 0)) := by
+  have hfin0 : Finite (MulAction.stabilizer ↥(α.Ghat1 ⊔ α.Ghat2) (p 0)) := by
     let e := (c.stabIso hc (p 0)).equiv
     refine Finite.of_injective (fun x => (e x : ↥(c.φ1.range ⊔ c.φ2.range))) ?_
     intro x y hxy
@@ -453,7 +453,7 @@ theorem eq_one_of_fix_nbPath_of_card (α : RankTwoAmalgam.{u}) {Y : Type w} [Gro
     · simpa [RankTwoAmalgam.qv, hb] using hodd2
   have hqvprod : α.qv (CosetGeom.vtype a) * α.qv (!CosetGeom.vtype a) =
       α.qOne * α.qTwo := by
-    cases hb : CosetGeom.vtype a <;> simp [RankTwoAmalgam.qv, hb, mul_comm]
+    cases hb : CosetGeom.vtype a <;> simp [RankTwoAmalgam.qv, mul_comm]
   have hpathNum : α.pathNum (CosetGeom.vtype a) (2 * j + 1) =
       (α.qv (CosetGeom.vtype a) + 1) * (α.qOne * α.qTwo) ^ j := by
     rw [RankTwoAmalgam.pathNum_odd, hqvprod]
@@ -475,7 +475,7 @@ theorem eq_one_of_fix_nbPath_of_card (α : RankTwoAmalgam.{u}) {Y : Type w} [Gro
     rw [← h2]
     exact h1
   have hMpos : 0 < (α.qOne * α.qTwo) ^ j := by
-    haveI : Nonempty ↥(P : Subgroup (c.stv a)) :=
+    have : Nonempty ↥(P : Subgroup (c.stv a)) :=
       ⟨⟨1, Subgroup.one_mem (P : Subgroup (c.stv a))⟩⟩
     have hPpos : 0 < Nat.card P := Nat.card_pos
     rwa [hPcard] at hPpos

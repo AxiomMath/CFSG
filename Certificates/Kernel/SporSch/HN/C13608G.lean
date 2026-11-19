@@ -32,11 +32,11 @@ theorem canon_of_lt {cs : List ℕ} (h : ∀ c ∈ cs, c < 36) : ∀ c ∈ cs, C
   fun _ hc => R_canon (h _ hc)
 
 theorem mA_eq : OM (R 34) = matJ aJ := by
-  rw [R_mat (c := 34) (by norm_num), genJ, if_neg (by norm_num), if_neg (by norm_num), if_pos rfl]
+  rw [R_mat (c := 34) (by norm_num), genJ, ite_eq_right (by norm_num), ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem mB_eq : OM (R 35) = matJ bJ := by
-  rw [R_mat (c := 35) (by norm_num), genJ, if_neg (by norm_num), if_neg (by norm_num),
-    if_neg (by norm_num)]
+  rw [R_mat (c := 35) (by norm_num), genJ, ite_eq_right (by norm_num), ite_eq_right (by norm_num),
+    ite_eq_right (by norm_num)]
 
 theorem stepA {X : ℕ} {x : JH} (h : Canon 5 133 13 X ∧ OM X = matJ x) :
     Canon 5 133 13 (mm X (R 34)) ∧ OM (mm X (R 34)) = matJ (x * aJ) := by

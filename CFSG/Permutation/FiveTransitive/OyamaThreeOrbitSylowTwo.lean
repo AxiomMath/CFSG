@@ -16,7 +16,7 @@ theorem card_eq_two
     (b:Fin 4 ↪ X) (P:Sylow 2 (stabilizer G b)) : Nat.card P=2 := by
   classical
   let A := (P:Subgroup (stabilizer G b)).map (stabilizer G b).subtype
-  have hA:IsPGroup 2 A := P.isPGroup'.map (stabilizer G b).subtype
+  have hA:IsPGroup 2 A := P.isPGroup.map (stabilizer G b).subtype
   obtain ⟨hAn,hsq,_hcomm,hsemi⟩ := hcond.2.2 b P
   have : Nontrivial A := A.nontrivial_iff_ne_bot.mpr hAn
   have hAge:1<Nat.card A := Finite.one_lt_card_iff_nontrivial.mpr inferInstance

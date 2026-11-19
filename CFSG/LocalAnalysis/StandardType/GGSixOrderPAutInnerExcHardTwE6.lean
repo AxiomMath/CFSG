@@ -120,7 +120,7 @@ theorem ggOrdPToralMax_graphFixedRootGroup_of_sylowTorus {K : Type} [Field K] [F
     (h : SylowTorus (twistedE6RootGroup K σ) p m) :
     GGOrdPToralMax ↥(graphFixedRootGroup TwistTag.E6 K θ) p := by
   subst hθ
-  haveI : Finite (Module.End K (RootModule TwistTag.E6.tag K)) := Module.finite_of_finite K
+  have : Finite (Module.End K (RootModule TwistTag.E6.tag K)) := Module.finite_of_finite K
   exact OrdPInnerExc.ggOrdPToralMax_of_sylowTorus h
 
 theorem card_lt_graphFixedRootGroup_of_card_lt {K : Type} [Field K] {σ : K ≃+* K}

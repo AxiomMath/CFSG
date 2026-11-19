@@ -237,13 +237,13 @@ theorem aut_syl : IsPGroup 2 autData.T ∧ ¬ 2 ∣ autData.T.index := by
     rwa [h] at this
   · exfalso
     have hxS : genG 3 ∈ (S : Subgroup AutG) := by rw [h]; exact autData.x_mem_A
-    exact false_of_isPGroup_two_of_pow_three S.isPGroup' hxS genG_orders.2.2.2.1 hx1
+    exact false_of_isPGroup_two_of_pow_three S.isPGroup hxS genG_orders.2.2.2.1 hx1
   · exfalso
     have hyS : genG 4 ∈ (S : Subgroup AutG) := by rw [h]; exact autData.y_mem_B
-    exact false_of_isPGroup_two_of_pow_three S.isPGroup' hyS genG_orders.2.2.2.2 hy1
+    exact false_of_isPGroup_two_of_pow_three S.isPGroup hyS genG_orders.2.2.2.2 hy1
   · exfalso
     have hxS : genG 3 ∈ (S : Subgroup AutG) := by rw [h]; trivial
-    exact false_of_isPGroup_two_of_pow_three S.isPGroup' hxS genG_orders.2.2.2.1 hx1
+    exact false_of_isPGroup_two_of_pow_three S.isPGroup hxS genG_orders.2.2.2.1 hx1
 
 theorem mem_normalizer_closure_of_conj {G : Type*} [Group G] (U : Set G) (g : G)
     (h1 : ∀ u ∈ U, g * u * g⁻¹ ∈ U) (h2 : ∀ u ∈ U, g⁻¹ * u * g ∈ U) :

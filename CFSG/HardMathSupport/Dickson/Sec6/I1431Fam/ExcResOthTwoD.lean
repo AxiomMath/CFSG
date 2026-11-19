@@ -618,8 +618,8 @@ theorem excTLKind_twoD {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ 
     rw [this, rootDiagUnit_one]
   have hTp : rootDiagUnit τ a ^ 3 = 1 := excOth_rootDiagUnit_pow_eq_one ha3
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨hnin, h4, hcard⟩ := twoD_kind_unpack hk
   by_cases h5 : 5 ≤ compRank (componentRoots (rootCharHom a) i)
   · have hτ5 : 5 ≤ τ.rank := h5.trans (compRank_le_rank _)

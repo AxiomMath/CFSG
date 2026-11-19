@@ -28,13 +28,13 @@ theorem σ9_smul (c : ZMod 3) (z : F9) : σ9 (c • z) = c • σ9 z := by
   map_add' x y := by
     funext i
     by_cases h : i.val < 2
-    · simp only [Pi.add_apply, if_pos h, map_add]
-    · simp only [Pi.add_apply, if_neg h]
+    · simp only [Pi.add_apply, ite_eq_left h, map_add]
+    · simp only [Pi.add_apply, ite_eq_right h]
   map_smul' c x := by
     funext i
     by_cases h : i.val < 2
-    · simp only [Pi.smul_apply, if_pos h, σ9_smul, RingHom.id_apply]
-    · simp only [Pi.smul_apply, if_neg h, RingHom.id_apply]
+    · simp only [Pi.smul_apply, ite_eq_left h, σ9_smul, RingHom.id_apply]
+    · simp only [Pi.smul_apply, ite_eq_right h, RingHom.id_apply]
 
 theorem conjTwoLin_apply (x : Fin 4 → F9) (i : Fin 4) :
     conjTwoLin x i = if i.val < 2 then σ9 (x i) else x i := rfl
@@ -42,20 +42,20 @@ theorem conjTwoLin_apply (x : Fin 4 → F9) (i : Fin 4) :
 theorem conjTwoLin_conjTwoLin (x : Fin 4 → F9) : conjTwoLin (conjTwoLin x) = x := by
   funext i
   by_cases h : i.val < 2
-  · simp only [conjTwoLin_apply, if_pos h, σ9_σ9]
-  · simp only [conjTwoLin_apply, if_neg h]
+  · simp only [conjTwoLin_apply, ite_eq_left h, σ9_σ9]
+  · simp only [conjTwoLin_apply, ite_eq_right h]
 
 @[expose] noncomputable def conjTwoEquiv : (Fin 4 → F9) ≃ₗ[ZMod 3] (Fin 4 → F9) :=
-  LinearEquiv.ofLinear conjTwoLin conjTwoLin (LinearMap.ext conjTwoLin_conjTwoLin)
+  LinearEquiv.ofLinearMap conjTwoLin conjTwoLin (LinearMap.ext conjTwoLin_conjTwoLin)
     (LinearMap.ext conjTwoLin_conjTwoLin)
 
 theorem conjTwoLin_isometry (x : Fin 4 → F9) : hermForm 4 (conjTwoLin x) = hermForm 4 x := by
   rw [hermForm_apply, hermForm_apply]
   refine Finset.sum_congr rfl fun i _ => ?_
   by_cases h : i.val < 2
-  · simp only [conjTwoLin_apply, if_pos h, σ9_re, σ9_im]
+  · simp only [conjTwoLin_apply, ite_eq_left h, σ9_re, σ9_im]
     ring
-  · simp only [conjTwoLin_apply, if_neg h]
+  · simp only [conjTwoLin_apply, ite_eq_right h]
 
 @[expose] noncomputable def conjTwo : OGroup (hermForm 4) :=
   ⟨conjTwoEquiv, TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr conjTwoLin_isometry⟩
@@ -87,11 +87,11 @@ theorem conjTwo_mul_omega : conjTwo * omegaOrth 4 * conjTwo⁻¹ =
   rw [hu, Matrix.mulVec_diagonal]
   by_cases h : i.val < 2
   · have hc : 0 ≤ i.val ∧ i.val < 0 + 2 := ⟨Nat.zero_le _, h⟩
-    simp only [conjTwoLin_apply, if_pos h, if_pos hc, Pi.smul_apply, smul_eq_mul, map_mul, σ9_σ9,
+    simp only [conjTwoLin_apply, ite_eq_left h, ite_eq_left hc, Pi.smul_apply, smul_eq_mul, map_mul, σ9_σ9,
       σ9_omega]
     ring
   · have hc : ¬ (0 ≤ i.val ∧ i.val < 0 + 2) := fun hh => h hh.2
-    simp only [conjTwoLin_apply, if_neg h, if_neg hc, Pi.smul_apply, smul_eq_mul, one_mul]
+    simp only [conjTwoLin_apply, ite_eq_right h, ite_eq_right hc, Pi.smul_apply, smul_eq_mul, one_mul]
 
 theorem hermForm_single_omega (j : Fin 4) : hermForm 4 (Pi.single j omega9) = 1 := by
   rw [hermForm_apply, Finset.sum_eq_single j]
@@ -119,15 +119,15 @@ theorem reflection_single_omega (j : Fin 4) [Invertible (hermForm 4 (Pi.single j
   · subst hi
     have h3 : (3 : ZMod 3) = 0 := by decide
     apply QuadraticAlgebra.ext
-    · simp only [if_true, σ9_re, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same,
+    · simp only [ite_true, σ9_re, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same,
         QuadraticAlgebra.re_sub, QuadraticAlgebra.re_smul, smul_eq_mul, omega9,
         QuadraticAlgebra.re_omega]
       ring
-    · simp only [if_true, σ9_im, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same,
+    · simp only [ite_true, σ9_im, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_same,
         QuadraticAlgebra.im_sub, QuadraticAlgebra.im_smul, smul_eq_mul, omega9,
         QuadraticAlgebra.im_omega]
       linear_combination (x i).im * h3
-  · simp only [if_neg hi, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero,
+  · simp only [ite_eq_right hi, Pi.sub_apply, Pi.smul_apply, Pi.single_eq_of_ne hi, smul_zero,
       sub_zero]
 
 theorem conjTwo_eq_mul_reflections (h0 : Invertible (hermForm 4 (Pi.single (0 : Fin 4) omega9)))
@@ -148,9 +148,9 @@ theorem conjTwo_eq_mul_reflections (h0 : Invertible (hermForm 4 (Pi.single (0 : 
   · simp
 
 theorem conjTwo_mem_omega : conjTwo ∈ omegaGroup (hermForm_nondegenerate 4) := by
-  letI i0 : Invertible (hermForm 4 (Pi.single (0 : Fin 4) omega9)) :=
+  let i0 : Invertible (hermForm 4 (Pi.single (0 : Fin 4) omega9)) :=
     invertibleOfNonzero (by rw [hermForm_single_omega]; exact one_ne_zero)
-  letI i1 : Invertible (hermForm 4 (Pi.single (1 : Fin 4) omega9)) :=
+  let i1 : Invertible (hermForm 4 (Pi.single (1 : Fin 4) omega9)) :=
     invertibleOfNonzero (by rw [hermForm_single_omega]; exact one_ne_zero)
   have hu : ∀ (j : Fin 4) (_ : Invertible (hermForm 4 (Pi.single j omega9))),
       unitOfInvertible (hermForm 4 (Pi.single j omega9)) = (1 : (ZMod 3)ˣ) := fun j _ =>

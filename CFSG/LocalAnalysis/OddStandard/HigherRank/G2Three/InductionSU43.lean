@@ -45,7 +45,7 @@ open Subgroup CFSG.ComponentClassification.HarrisLit
 theorem lieModel_quotient_center_of_isSU43 {K : Type} [Group K] [Finite K]
     (hq : CFSG.IsQuasisimple K) (hB : IsSU43 (K ⧸ CFSG.oddCore K)) :
     CFSG.Blueprint.LieModel (K ⧸ center K) .PSU 4 3 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcore : CFSG.oddCore K = CFSG.pPrimeCore 2 K := by
     rw [CFSG.oddCore_eq_piCore, CFSG.pPrimeCore_eq_piCore]
   let e : K ⧸ CFSG.oddCore K ≃* K ⧸ CFSG.pPrimeCore 2 K :=
@@ -62,7 +62,7 @@ theorem lieModel_quotient_center_of_isSU43 {K : Type} [Group K] [Finite K]
 
 theorem inductionTypeField_of_isSU43 {K : Type} [Group K] [Finite K]
     (hB : IsSU43 (K ⧸ CFSG.oddCore K)) : T1.InductionTypeField 3 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcore : CFSG.oddCore K = CFSG.pPrimeCore 2 K := by
     rw [CFSG.oddCore_eq_piCore, CFSG.pPrimeCore_eq_piCore]
   let e : K ⧸ CFSG.oddCore K ≃* K ⧸ CFSG.pPrimeCore 2 K :=

@@ -184,7 +184,7 @@ variable {E F : Subgroup G} {x y : G}
 
 theorem conj_y_eq_of_not_mem (hframe : HeisFrame (E ⊓ F) x y) (hxE : x ∈ E) (hyF : y ∈ F)
     (hE27 : Nat.card E = 27) (hF27 : Nat.card F = 27) (h9 : Nat.card (E ⊓ F : Subgroup G) = 9)
-    (hFN : F ≤ Subgroup.normalizer (E : Set G)) (hEab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
+    (_hFN : F ≤ Subgroup.normalizer (E : Set G)) (_hEab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a)
     {a : G} (haE : a ∈ E) (haZ : a ∉ F) :
     ∃ k : ℕ, ¬ 3 ∣ k ∧ y * a * y⁻¹ = a * ⁅x, y⁆ ^ k := by
   obtain ⟨i, z, hz, rfl⟩ := isNF_of_mem_left hframe hxE hE27 h9 haE
@@ -214,6 +214,7 @@ theorem conj_y_eq_of_not_mem (hframe : HeisFrame (E ⊓ F) x y) (hxE : x ∈ E) 
       rw [conj_pow]; group, hyx, hyz, (hdx.pow_left 2).symm.mul_pow i, ← pow_mul, mul_assoc,
       (hdz.pow_left _).eq, ← mul_assoc]
 
+omit [Finite G] in
 theorem three_dvd_or_of_conj_mem {c d t : G} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) (hd3 : d ^ 3 = 1)
     (hd1 : d ≠ 1) (hcd : c * d = d * c) (htc : t * c * t⁻¹ = c) (htd : t * d * t⁻¹ = d⁻¹)
     {α β : ℕ} (h1 : c ^ α * d ^ β ≠ 1)

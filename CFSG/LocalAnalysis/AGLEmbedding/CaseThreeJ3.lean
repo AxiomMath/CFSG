@@ -50,7 +50,7 @@ theorem false_of_j3_of_competitors (hD : StmtJ3Data) (hM : StmtJ3MSide)
       omega
     intro x hx
     rw [← hrbar] at hx
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨x, hx⟩
     have hxk : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hmem := mem_sup_centralizer_of_pow Nat.prime_three hOut hxk
     rwa [hC, sup_bot_eq] at hmem

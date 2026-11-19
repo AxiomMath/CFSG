@@ -17,9 +17,9 @@ namespace Hering418L2
 variable {K : Type} [Field K]
 
 theorem card_le_three_of_pgl2 [Finite K] (h3 : ringChar K ≠ 3) (h4 : 4 ≤ Nat.card K)
-    (E : Subgroup (PGL2 K)) (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
+    (E : Subgroup (PGL2 K)) (_hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hexp : ∀ x ∈ E, x ^ 3 = 1) : Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (PGL2 K) :=
     Finite.of_surjective _ (Matrix.ProjGenLinGroup.mk_surjective (n := Fin 2) (R := K))
   set φ : PSL2 K →* PGL2 K := Matrix.ProjectiveSpecialLinearGroup.toPGL with hφdef

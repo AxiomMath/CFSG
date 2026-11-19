@@ -12,6 +12,7 @@ open CFSG.Holt.General.AltRecPrim
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {Q L : Subgroup Γ} {b : Γ}
 
+omit [Finite Γ] in
 theorem exists_ne_one_mem (F : SimpleFactors Q) (j : Fin F.r) : ∃ x ∈ F.S j, x ≠ 1 := by
   obtain ⟨a, ha, c, hc, hac⟩ := F.not_commute j
   refine ⟨a, ha, ?_⟩
@@ -55,8 +56,8 @@ theorem exists_fixed_of_cj_self (h : NHyp Q L b) (F : SimpleFactors Q) (j : Fin 
   have hnil : Group.IsNilpotent (F.S j) :=
     CFSG.RankThree.PartOne.MB3.isNilpotent_of_fixedPointFree_prime α
       (by rw [hord]; exact Nat.prime_three) hα
-  haveI := F.isSimpleGroup j
-  haveI := hnil
+  have := F.isSimpleGroup j
+  have := hnil
   obtain ⟨a, ha, c, hc, hac⟩ := F.not_commute j
   exact hac (congrArg Subtype.val (mul_comm (⟨a, ha⟩ : F.S j) ⟨c, hc⟩))
 

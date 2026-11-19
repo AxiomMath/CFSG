@@ -91,7 +91,7 @@ theorem acts_vec (B : Basis3 G k) {g : G} {M : Matrix (Fin k) (Fin k) (ZMod 3)} 
         apply congrArg List.prod
         rw [List.ofFn_inj]
         funext j
-        simp only [Function.comp_apply, map_pow]
+        simp only [map_pow]
       _ = (List.ofFn fun j => (g * B.b j * g⁻¹) ^ (e j).val).prod := by
         apply congrArg List.prod
         rw [List.ofFn_inj]
@@ -119,8 +119,8 @@ theorem acts_one (B : Basis3 G k) : B.Acts 1 1 := by
   funext i
   rw [Matrix.one_eq_pi_single, Pi.single_apply, Pi.single_apply]
   by_cases h : i = j
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (Ne.symm h)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
 
 theorem acts_mul (B : Basis3 G k) {g h : G} {M M' : Matrix (Fin k) (Fin k) (ZMod 3)}
     (hg : B.Acts g M) (hh : B.Acts h M') : B.Acts (g * h) (M * M') := by
@@ -231,13 +231,13 @@ private theorem single_eq_single_of_ne_zero {k : ℕ} {i j : Fin k} {a b : ZMod 
   rw [Pi.single_eq_same, Pi.single_apply] at hi
   by_cases hij : i = j
   · subst j
-    rw [if_pos rfl] at hi
+    rw [ite_eq_left rfl] at hi
     exact ⟨rfl, hi⟩
-  · rw [if_neg hij] at hi
+  · rw [ite_eq_right hij] at hi
     exact absurd hi ha
 
 private theorem spMat_inj_of_isSign {k : ℕ} {σ τ : Equiv.Perm (Fin k)}
-    {s t : Fin k → ZMod 3} (hs : IsSign s) (ht : IsSign t) (h : spMat σ s = spMat τ t) :
+    {s t : Fin k → ZMod 3} (hs : IsSign s) (_ht : IsSign t) (h : spMat σ s = spMat τ t) :
     σ = τ ∧ s = t := by
   have hcol : ∀ j, Pi.single (M := fun _ => ZMod 3) (σ j) (s j) =
       Pi.single (M := fun _ => ZMod 3) (τ j) (t j) := by
@@ -263,7 +263,7 @@ private theorem spMat_inv {k : ℕ} (σ : Equiv.Perm (Fin k)) (s : Fin k → ZMo
     rw [spMat_mul]
     congr 1
     · ext j
-      simp [Equiv.Perm.mul_apply]
+      simp
     · funext j
       rw [mul_inv_cancel₀ (isSign_ne_zero hs (σ⁻¹ j))]
   have h : spMat σ s * spMat σ⁻¹ (fun i => (s (σ⁻¹ i))⁻¹) = 1 := by
@@ -440,7 +440,7 @@ private theorem spMat_mul_inv {n : ℕ} (σ : Equiv.Perm (Fin (n + 1)))
     rw [spMat_mul]
     congr 1
     · ext j
-      simp [Equiv.Perm.mul_apply]
+      simp
     · funext j
       rw [mul_inv_cancel₀ (isSign_ne_zero hs (σ⁻¹ j))]
   rw [hmain, spMat_one_one]
@@ -672,7 +672,7 @@ private theorem realized_normalizer_eq_evenFix0_of_no_neg {n : ℕ} (B : Basis3 
     exact realized_mono B (centralizer_le_normalizer_zpowers b₀) hAC
 
 private theorem realized_normalizer_eq_monoN0_of_neg {n : ℕ} (B : Basis3 G (n + 1))
-    {b₀ : G} (h0 : B.b 0 = b₀)
+    {b₀ : G} (_h0 : B.b 0 = b₀)
     (hmono : B.realized (Subgroup.normalizer (Subgroup.zpowers b₀ : Set G)) ⊆ monoN0 n)
     (hR : B.realized (Subgroup.centralizer ({b₀} : Set G)) = monoFix0 n)
     (hneg : ∃ A ∈ B.realized (Subgroup.normalizer (Subgroup.zpowers b₀ : Set G)),
@@ -817,7 +817,7 @@ private theorem realized_normalizer_subset_evenAll0_of_neg_odd {n : ℕ} [Finite
     exact ⟨σ, s, hs, ⟨hσ, hF⟩, hEq⟩
 
 private theorem realized_evenN0_subset_normalizer_of_neg {n : ℕ} [Finite G]
-    (B : Basis3 G (n + 1)) {b₀ : G} (h0 : B.b 0 = b₀)
+    (B : Basis3 G (n + 1)) {b₀ : G} (_h0 : B.b 0 = b₀)
     (hR : B.realized (Subgroup.centralizer ({b₀} : Set G)) = evenFix0 n)
     {A₀ : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)}
     (hA₀N : A₀ ∈ B.realized (Subgroup.normalizer (Subgroup.zpowers b₀ : Set G)))
@@ -862,7 +862,7 @@ private theorem realized_evenN0_subset_normalizer_of_neg {n : ℕ} [Finite G]
     rwa [hEqM] at hmul
 
 private theorem realized_evenAll0_subset_normalizer_of_neg {n : ℕ} [Finite G]
-    (B : Basis3 G (n + 1)) {b₀ : G} (h0 : B.b 0 = b₀)
+    (B : Basis3 G (n + 1)) {b₀ : G} (_h0 : B.b 0 = b₀)
     (hR : B.realized (Subgroup.centralizer ({b₀} : Set G)) = evenFix0 n)
     {A₀ : Matrix (Fin (n + 1)) (Fin (n + 1)) (ZMod 3)}
     (hA₀N : A₀ ∈ B.realized (Subgroup.normalizer (Subgroup.zpowers b₀ : Set G)))

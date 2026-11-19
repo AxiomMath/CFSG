@@ -207,7 +207,7 @@ theorem l154s_gspSet_decomp {s : ℕ} {K : Type} [Field K] [Finite K] (h2 : (2 :
     ∃ (z : Kˣ) (P₀ : GL (Fin s ⊕ Fin s) K), P₀ ∈ StatedSp s K ∧
       P = Matrix.GeneralLinearGroup.scalar (Fin s ⊕ Fin s) z * P₀ := by
   classical
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   obtain ⟨μ, hμ, hPμ⟩ := hP
   obtain ⟨b, hb⟩ : ∃ b : K, μ = b * b :=
     FiniteField.isSquare_of_char_two (ringChar.eq (R := K) 2) μ
@@ -235,7 +235,7 @@ theorem l154s_gl2_decomp {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) (P :
     ∃ (z : Fˣ) (P₀ : GL (Fin 2) F), P₀ ∈ LargeEvenSLGroup (Fin 2) F ∧
       P = Matrix.GeneralLinearGroup.scalar (Fin 2) z * P₀ := by
   classical
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   obtain ⟨b, hb⟩ : ∃ b : F, (P : Matrix (Fin 2) (Fin 2) F).det = b * b :=
     FiniteField.isSquare_of_char_two (ringChar.eq (R := F) 2) _
   have hb0 : b ≠ 0 := by
@@ -278,7 +278,7 @@ theorem l154s_markD_sp {r : ℕ} {K : Type} [Field K] {D : Subgroup (StatedSp r 
   have h2 : (2 : F) = 0 := by
     have := Fintype.ofFinite F
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 :=
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := k) (by rw [← Nat.card_eq_fintype_card, hF])
     exact_mod_cast CharP.cast_eq_zero F 2
   have hF4 : 4 ≤ Nat.card F := by
@@ -298,7 +298,7 @@ theorem l154s_markD_sl2 {r : ℕ} {K : Type} [Field K] {D : Subgroup (StatedSp r
   have h2 : (2 : F) = 0 := by
     have := Fintype.ofFinite F
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 :=
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := k) (by rw [← Nat.card_eq_fintype_card, hF])
     exact_mod_cast CharP.cast_eq_zero F 2
   have hF2 : Nat.card F ≠ 2 := by
@@ -430,7 +430,7 @@ theorem l154s_not_isQuasisimple_commutator {G : Type*} [Group G] {A : Subgroup G
   congr 1
   exact Subtype.ext (hab _ (hle a.2) _ (hle b.2))
 
-theorem l154s_paired_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ n)
+theorem l154s_paired_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2 ^ n)
     (hn : 2 ≤ n) {x : StatedSp r K} (hsq : Squarefree (minpoly K (spEnd x)))
     {h : primaryFactors (spEnd x)} (hP : SpPairedBlock 2 n p x h)
     (hq : CFSG.IsQuasisimple ↥⁅spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])},
@@ -452,7 +452,7 @@ theorem l154s_paired_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK : N
     rw [hEcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (n * (h : K[X]).natDegree) := Nat.pow_le_pow_right (by norm_num) (by nlinarith)
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
   have hm : 2 ≤ Module.finrank E W := by
     by_contra hlt
     have hlt' : Module.finrank E W ≤ 1 := by omega
@@ -619,12 +619,12 @@ theorem l154s_unitary_transvection {E : Type*} [Field E] {W : Type*} [AddCommGro
   have hinv : (1 + a • N) * (1 + a • N) = 1 := by
     refine LinearMap.ext fun v => ?_
     simp only [Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply,
-      LinearMap.smul_apply, hNv, map_add, map_smul, huu, smul_eq_mul, mul_zero, zero_smul,
-      smul_zero, add_zero, smul_add]
+      LinearMap.smul_apply, hNv, map_add, map_smul, huu, zero_smul,
+      smul_zero, add_zero]
     rw [add_assoc, ← add_smul, ← two_mul, h2, zero_mul, zero_smul, add_zero]
   refine ⟨hinv, fun v w => ?_, ?_⟩
   · simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply, hNv, map_add,
-      map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, huu, smul_eq_mul, map_mul, ha]
+      map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, huu, smul_eq_mul, ha]
     have hs : σ (Hf u v) = Hf v u := hHf.eq u v
     rw [hs]
     linear_combination (a * (Hf u w * Hf v u)) * h2
@@ -751,7 +751,7 @@ theorem l154s_su_marking {r : ℕ} {K : Type} [Field K] {E : Type} [Field E] {W 
     rw [e1]
   exact l154s_marking_of_hom A D hDA hDn _ ε hεinj hεD hεH _ hG
 
-theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ n)
+theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2 ^ n)
     (hn : 2 ≤ n) {x : StatedSp r K} (hsq : Squarefree (minpoly K (spEnd x)))
     {h : primaryFactors (spEnd x)} (hS : SpSelfDualBlock 2 n p x h)
     (hq : CFSG.IsQuasisimple ↥⁅spSupported x {(h : K[X])}, spSupported x {(h : K[X])}⁆) :
@@ -766,9 +766,9 @@ theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK :
   have hdeg1 : 1 ≤ (h : K[X]).natDegree := Irreducible.natDegree_pos
     (CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors h.2)
   have hd : 1 ≤ d := by omega
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have h2E : (2 : E) = 0 := by
-    haveI : CharP E 2 := hE.charP
+    have : CharP E 2 := hE.charP
     exact_mod_cast CharP.cast_eq_zero E 2
   have hnd : 2 ≤ n * d := le_trans hn (Nat.le_mul_of_pos_right n hd)
   have hq4 : 4 ≤ 2 ^ (n * d) := by
@@ -832,8 +832,8 @@ theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK :
   set u : W := e i0 + e i1 with hu
   have huu : Hf u u = 0 := by
     rw [hu]
-    simp only [map_add, LinearMap.add_apply, he, if_neg h01, if_neg h01.symm,
-      add_zero, zero_add, if_true]
+    simp only [map_add, LinearMap.add_apply, he, ite_eq_right h01, ite_eq_right h01.symm,
+      add_zero, zero_add, ite_true]
     rw [one_add_one_eq_two]
     exact h2E
   have hfix : ∀ c : K, hE.bar (algebraMap K E c) = algebraMap K E c := by
@@ -880,7 +880,7 @@ theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK :
     simp only [hMdef, LinearMap.sub_apply, Module.End.one_apply, LinearMap.zero_apply] at h1
     rw [hact 1 (e i1), one_smul, add_sub_cancel_left] at h1
     have hHu : Hf u (e i1) = 1 := by
-      rw [hu, map_add, LinearMap.add_apply, he, he, if_neg h01, if_pos rfl, zero_add]
+      rw [hu, map_add, LinearMap.add_apply, he, he, ite_eq_right h01, ite_eq_left rfl, zero_add]
     have hu0 : u ≠ 0 := by
       intro hu0
       have := congrArg (fun w => Hf w (e i1)) hu0
@@ -915,7 +915,7 @@ theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK :
       omega
     have hsimpSU : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin (m' + 1))
         (AdjoinRoot (h : K[X])) (2 ^ (n * d)))) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU (AdjoinRoot (h : K[X])) 2
         (n * d) hE.card_eq_sq (m' + 1) (by omega) hne
     refine ⟨⟨.twA, m', n * d⟩, ⟨show 1 ≤ n * d by omega, show 2 ≤ m' by omega,
@@ -927,7 +927,7 @@ theorem l154s_selfDual_block {r n p : ℕ} {K : Type} [Field K] [Finite K] (hK :
 
 theorem l154s_proj_injective {r : ℕ} {K : Type} [Field K] (h2 : (2 : K) = 0) :
     Function.Injective (proj r K) := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   rw [← MonoidHom.ker_eq_bot_iff, SymplecticHigher.ker_proj]
   exact CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (n := r) (K := K)
 
@@ -946,7 +946,7 @@ theorem l154s_block_data {r : ℕ} {K : Type} [Field K] [Finite K] {n : ℕ}
   have h2K : (2 : K) = 0 := by
     have := Fintype.ofFinite K
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
     exact_mod_cast CharP.cast_eq_zero K 2
   have hπinj := l154s_proj_injective (r := r) h2K
@@ -977,7 +977,7 @@ theorem l154s_block_data {r : ℕ} {K : Type} [Field K] [Finite K] {n : ℕ}
         (fun _ => Or.inl (by rw [htop]; exact hqtop)) JP hJcomp
     rw [htop] at hJeq
     exact ⟨⊤, hqtop, hJeq, l154s_kline_top (by omega), l154s_markD_top hK hn hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : orderOf x₀ = p := orderOf_eq_prime hx₀ hx1
   have hpx : orderOf (proj r K x₀) = p := by
     rw [orderOf_injective (proj r K) hπinj x₀, hxp]
@@ -986,11 +986,11 @@ theorem l154s_block_data {r : ℕ} {K : Type} [Field K] [Finite K] {n : ℕ}
       _ hpx).2 x₀ rfl hxp
   have hpK : (p : K) ≠ 0 := by
     intro h0
-    haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2K
+    have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2K
     rw [CharP.cast_eq_zero_iff K 2] at h0
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h0).symm
   have hsq := (altPrimaryData_spLin hpK hx₀).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x₀)) :=
+  have : Finite (reciprocalOrbits (spEnd x₀)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   obtain ⟨O, hq, hJeq⟩ :=

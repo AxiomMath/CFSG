@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem centDvd_of_core (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 < n)
+theorem centDvd_of_core (hc : Ctx M Q Z B) {n : ℕ} (_hw : Width Q Z n) (hn : 2 < n)
     (hcore : CaseVICore M Q Z (Lgen M (LB M Q B)) n) :
     CentDvd M Q Z (Lgen M (LB M Q B)) := by
   classical
@@ -28,7 +28,7 @@ theorem centDvd_of_core (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 
     (fun s x hx => hφπ ⟨s, hSH s.2⟩ x hx) hZV₁ hV₁Q hZV₂ hV₂Q hinf hsup φ' hact₁ hact₂
   obtain ⟨C, -⟩ := exists_natDualCoord_of_equivariant (φ.comp (Subgroup.inclusion hSH)) φ'
     hn3 hrange (by rw [h.card, hFcard]) Φ hΦ
-  haveI : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
+  have : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
   have hK : ∃ c : K, c ≠ 0 ∧ c ^ 2 ≠ 1 :=
     exists_ne_zero_sq_ne_one_of_two_lt_card K (by rw [h.card]; omega)
   let Qd : QuadDatum K M₀.E := quadDatumOfModel M₀
@@ -122,7 +122,7 @@ theorem centDvd_of_core (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 
     have h1 := hab (y * y') (v, 0)
     rw [hPmul, hab y' (v, 0), hab y] at h1
     have h2 := congrArg (fun q => q.1 i0) h1
-    simp [hv, smul_smul] at h2
+    simp [hv] at h2
     exact h2.symm
   let ahom : ↥Cc →* F := { toFun := a, map_one' := ha1, map_mul' := hamul }
   let ahomU : ↥Cc →* Fˣ := ahom.toHomUnits

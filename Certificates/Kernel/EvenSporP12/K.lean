@@ -213,14 +213,14 @@ theorem stepKB_inv {n : Nat} {G : List Nat} {x : Nat} {w : List Nat}
       memB st.2 (pmulKK n x (G.getD k 0)) := (hI.2 _).symm
   rw [e]
   cases memB st.2 (pmulKK n x (G.getD k 0))
-  · rw [cond_false, cond_false]
+  · rw [Bool.cond_false, Bool.cond_false]
     refine ⟨rfl, ?_, fun z => ?_⟩
     · show (insB st.2 _).length = 37
       rw [insB_length, hI.1]
     · show memB (insB st.2 _) z = (st.1 ++ [_]).any _
       rw [memB_insB hI.1, hI.2, List.any_append, List.any_cons, List.any_nil, Bool.or_false,
         beq_comm' z, Bool.or_comm]
-  · rw [cond_true, cond_true]
+  · rw [_root_.Bool.cond_true, _root_.Bool.cond_true]
     exact ⟨rfl, hI⟩
 
 theorem foldl_inv {n : Nat} {G : List Nat} {x : Nat} {w : List Nat} : ∀ (gs : List Nat)

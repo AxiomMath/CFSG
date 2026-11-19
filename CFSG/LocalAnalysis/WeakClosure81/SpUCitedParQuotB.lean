@@ -12,12 +12,12 @@ open Subgroup
 variable {G Q : Type} [Group G] [Group Q]
 
 theorem spUCited_le_map_of_normal_two [Finite G] (π : G →* Q) (hπ : Function.Surjective π)
-    (hker : π.ker ≤ Subgroup.center G) (hodd : ¬ 2 ∣ Nat.card π.ker) {Pα Q₀ : Subgroup G}
-    (hPα : π.ker ≤ Pα)
+    (hker : π.ker ≤ Subgroup.center G) (_hodd : ¬ 2 ∣ Nat.card π.ker) {Pα Q₀ : Subgroup G}
+    (_hPα : π.ker ≤ Pα)
     (hlargest : ∀ N : Subgroup G, N ≤ Pα → (N.subgroupOf Pα).Normal → IsPGroup 2 N → N ≤ Q₀)
     {N : Subgroup Q} (hNP : N ≤ Pα.map π) (hN : (N.subgroupOf (Pα.map π)).Normal)
     (hN2 : IsPGroup 2 N) : N ≤ Q₀.map π := by
-  haveI : Finite Q := Finite.of_surjective π hπ
+  have : Finite Q := Finite.of_surjective π hπ
   let M : Subgroup G := N.comap π ⊓ Pα
   have hMle : M ≤ Pα := inf_le_right
   have hmap : M.map π = N := by
@@ -57,16 +57,16 @@ theorem spUCited_le_map_of_normal_two [Finite G] (π : G →* Q) (hπ : Function
     intro y
     ext
     exact Subgroup.mem_center_iff.mp (hker hxZ) (y : G)
-  haveI hNnil : Group.IsNilpotent ↥N := hN2.isNilpotent
-  haveI hMnil : Group.IsNilpotent ↥M := Subgroup.isNilpotent_of_ker_le_center φ hφker
+  have hNnil : Group.IsNilpotent ↥N := hN2.isNilpotent
+  have hMnil : Group.IsNilpotent ↥M := Subgroup.isNilpotent_of_ker_le_center φ hφker
   let T : Sylow 2 ↥M := default
-  haveI hTfin : Finite (Sylow 2 ↥M) := Sylow.finite_of_finiteIndex T
+  have hTfin : Finite (Sylow 2 ↥M) := Sylow.finite_of_finiteIndex T
   have hTnorm : T.Normal := inferInstance
   have hTchar : (T : Subgroup ↥M).Characteristic := Sylow.characteristic_of_normal T hTnorm
   let M₂ : Subgroup G := (T : Subgroup ↥M).map M.subtype
   have hM₂leM : M₂ ≤ M := Subgroup.map_subtype_le (T : Subgroup ↥M)
   have hM₂lePα : M₂ ≤ Pα := hM₂leM.trans hMle
-  have hM₂isP : IsPGroup 2 M₂ := T.isPGroup'.map M.subtype
+  have hM₂isP : IsPGroup 2 M₂ := T.isPGroup.map M.subtype
   have hM₂norm : (M₂.subgroupOf Pα).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hM₂lePα]
     intro h k hh hk

@@ -61,7 +61,7 @@ theorem exists_isElemAbelian_lift {H : Type} [Group H] [Finite H] (N : Subgroup 
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro x hx
     have hx1 : ρ (x : Et) = 1 := hx
-    obtain ⟨k, hk⟩ := S.isPGroup' x
+    obtain ⟨k, hk⟩ := S.isPGroup x
     have hdvd : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
     have hodd : Odd (orderOf x) := by

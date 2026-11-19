@@ -127,7 +127,7 @@ theorem th_mulAut_inner :
 
 theorem th_index_nine_package :
     IndexNinePackage ↥J := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Dickson.I271.th_finite
+  have : Finite ↥J := CFSG.HardMathSupport.Dickson.I271.th_finite
   exact indexNinePackage_of_quotient (Γ := ↥J) (Δ := IndexNineA9.Alt)
     th_mulAut_inner isSylowTwoOf_thU normalizer_thU_le_M thPi thPi_surjective
     isPGroup_thPi_ker IndexNineA9.innerIndexNinePackage_A9

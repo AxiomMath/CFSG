@@ -39,15 +39,15 @@ theorem exists_mulEquiv_omegaMinus8 {Y : Type} [Group Y] (hZ : Subgroup.center Y
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2), Nat.card K = 4 ∧
       ∃ b c : K, (∀ s : K, s ^ 2 + b * s + c ≠ 0) ∧ Nonempty (Y ≃* ↥(omegaMinus8 K b c)) := by
   obtain ⟨-, K, hF, hfin, hK, b, c, hbc, ⟨e⟩⟩ := hL
-  letI : Field K := hF
-  letI : Finite K := hfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hF
+  let : Finite K := hfin
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 ^ 2 := by simpa [Nat.card_eq_fintype_card] using hK
-  letI hchar : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hK'
+  let hchar : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hK'
   have hQs : ∀ (d : K) (v : Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K),
       StatedQuadMinus 4 K b c (d • v) = d ^ 2 * StatedQuadMinus 4 K b c v := by
     intro d w
-    simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.smul_apply, smul_eq_mul,
+    simp only [StatedQuadMinus, Pi.smul_apply, smul_eq_mul,
       mul_add, Finset.mul_sum]
     have hterm : ∀ i : Fin (4 - 1),
         d * w (Sum.inl i) * (d * w (Sum.inr (Sum.inl i))) =
@@ -55,7 +55,7 @@ theorem exists_mulEquiv_omegaMinus8 {Y : Type} [Group Y] (hZ : Subgroup.center Y
     rw [Finset.sum_congr rfl fun i _ => hterm i]
     ring
   have hv₀ : StatedQuadMinus 4 K b c (Pi.single (Sum.inr (Sum.inr 0)) (1 : K)) ≠ 0 := by
-    simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+    simp [StatedQuadMinus]
   have hscal : (StatedScalars (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2) K).subgroupOf
       (StatedOmega (StatedQuadMinus 4 K b c)) = ⊥ :=
     TableBOrth.scalars_subgroupOf_omega_eq_bot (Q := StatedQuadMinus 4 K b c) hQs hv₀

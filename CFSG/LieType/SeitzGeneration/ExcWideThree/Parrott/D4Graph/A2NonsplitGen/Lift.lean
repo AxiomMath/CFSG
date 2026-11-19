@@ -27,7 +27,7 @@ theorem exists_fixed_mul_of_not_dvd {F : Type*} [FunLike F G G] [MonoidHomClass 
   let σ : Equiv.Perm N := ⟨f, fun m => f (f m), fun m => hf3 m, fun m => hf3 m⟩
   have hσ : σ ^ 3 ^ 1 = 1 := by
     refine Equiv.ext fun m => ?_
-    simp only [pow_one, pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
+    simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
     exact hf3 m
   obtain ⟨m, hm⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1)
     (by rwa [← Nat.card_eq_fintype_card]) hσ
@@ -64,7 +64,7 @@ theorem not_dvd_card_of_pow_eq_one {p n : ℕ} (hp : p.Prime) (hpn : ¬p ∣ n) 
         (x * a * x⁻¹ * a⁻¹) * (a * (x * b * x⁻¹ * b⁻¹) * a⁻¹) := by group
     rw [e]
     exact N.mul_mem ha' ((Subgroup.mem_normalizer_iff.1 ha _).1 hb')
-  one_mem' := ⟨(Subgroup.normalizer (N : Set G)).one_mem, by simpa using N.one_mem⟩
+  one_mem' := ⟨(Subgroup.normalizer (N : Set G)).one_mem, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, ha'⟩
     refine ⟨(Subgroup.normalizer (N : Set G)).inv_mem ha, ?_⟩

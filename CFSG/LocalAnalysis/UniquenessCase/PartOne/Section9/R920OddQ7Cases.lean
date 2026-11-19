@@ -59,7 +59,7 @@ theorem shape92_cases_seven {Q : Type} [Group Q] [Finite Q] (hQ : F09.Shape92 Q)
         all_goals first | omega | cases h
       obtain ⟨T⟩ : Nonempty (Sylow 3 Q) := inferInstance
       have h1 := CFSG.AGLEmbedding.pRank_le_one_of_isCyclic_sylow Nat.prime_three T
-        (hcyc T T.isPGroup')
+        (hcyc T T.isPGroup)
       omega
     · exact Or.inl ⟨p, f, hp3, hL⟩
   · exact Or.inr (Or.inl ⟨p, f, hpf, hL⟩)

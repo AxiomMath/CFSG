@@ -10,6 +10,7 @@ open Equiv Equiv.Perm
 
 variable {Ω : Type*} [DecidableEq Ω] {σ : Perm Ω}
 
+omit [DecidableEq Ω] in
 theorem pair_cases {g : Perm Ω} (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x, σ (σ x) = x)
     (hg : ∀ z, g z = z ∨ g z = σ z) (x : Ω) :
     (g x = x ∧ g (σ x) = σ x) ∨ (g x = σ x ∧ g (σ x) = x) := by
@@ -28,6 +29,7 @@ theorem pair_cases {g : Perm Ω} (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x, σ (�
       exact hσ1 x (g.injective (h'.trans h.symm))
     · rw [h', hσ2]
 
+omit [DecidableEq Ω] in
 theorem sq_eq_one_of_pair {g : Perm Ω} (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x, σ (σ x) = x)
     (hg : ∀ z, g z = z ∨ g z = σ z) : g * g = 1 := by
   ext x
@@ -55,6 +57,7 @@ theorem sq_eq_one_of_pair {g : Perm Ω} (hσ1 : ∀ x, σ x ≠ x) (hσ2 : ∀ x
       exact inv_eq_of_mul_eq_one_right this
     rw [h1]; exact hg z
 
+omit [DecidableEq Ω] in
 theorem mem_pairPres {hσ1 : ∀ x, σ x ≠ x} {hσ2 : ∀ x, σ (σ x) = x} {g : Perm Ω} :
     g ∈ pairPres σ hσ1 hσ2 ↔ ∀ z, g z = z ∨ g z = σ z := Iff.rfl
 

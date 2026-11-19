@@ -19,7 +19,7 @@ theorem mem_conjugate_iff (H : Subgroup G) (g x : G) :
   · rintro ⟨a, ha, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using ha
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 theorem Sec3SettingLB.conjugate [Finite G] {t : G} {L : Subgroup G} (h : Sec3SettingLB G t L)
     (g : G) : Sec3SettingLB G (g⁻¹ * t * g) (CFSG.conjugate L g) := by

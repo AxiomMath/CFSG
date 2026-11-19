@@ -836,7 +836,7 @@ public theorem CFSG.theorem_3_6_fitting_quotient_coprime_card
       have : (P : Subgroup ↥Q).Characteristic :=
         Sylow.characteristic_of_normal P hP_normal
       infer_instance
-    have hP_map_p : IsPGroup p ((P : Subgroup ↥Q).map Q.subtype) := P.isPGroup'.map Q.subtype
+    have hP_map_p : IsPGroup p ((P : Subgroup ↥Q).map Q.subtype) := P.isPGroup.map Q.subtype
     have hP_le_core : (P : Subgroup ↥Q).map Q.subtype ≤ pCore p (↥H ⧸ V) :=
       le_sSup ⟨hP_map_normal, hP_map_p⟩
     have hP_map_bot : (P : Subgroup ↥Q).map Q.subtype = ⊥ := by

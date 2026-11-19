@@ -118,6 +118,7 @@ theorem hasLieParamInRange_of_typ129II (h1 : Sec4.Item4_1LargePrime) {A L K S : 
   change q'.p ≠ 3
   omega
 
+omit [Finite G] in
 theorem hasLieParamInRange_of_typ129IV {q : TauCeti.PrimePower} {Y : Subgroup G}
     (hIV : Typ129IV q Y) : HasLieParamInRange Y := by
   obtain ⟨-, r, hr45, -, hG2⟩ := hIV

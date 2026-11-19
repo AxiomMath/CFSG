@@ -928,10 +928,10 @@ theorem sylow_commute_of_isCyclic (L : Subgroup G)
   have hinj : ∀ z ∈ (Q : Subgroup L), π z = 1 → z = 1 := by
     intro z hz hz1
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hz1
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨z, hz⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨z, hz⟩
     have hk' : z ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact eq_one_of_mem_theta_of_pow_eq_one hz1 hk'
-  obtain ⟨S, hS⟩ := (Q.isPGroup'.map π).exists_le_sylow
+  obtain ⟨S, hS⟩ := (Q.isPGroup.map π).exists_le_sylow
   have := hcyc S
   have hc : π x * π y = π y * π x := by
     have h1 := (IsCyclic.commGroup (α := S)).mul_comm ⟨π x, hS ⟨x, hx, rfl⟩⟩

@@ -86,8 +86,8 @@ theorem ggQ2_caseI_nondeg_of_lin {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
   have hxD : x ∈ D := by
     rw [hnb.2.1]
     exact Subgroup.subset_closure (by simp)
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
   have hcardV : Nat.card M.V = p ^ Module.finrank (ZMod p) M.V := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod p) (V := M.V), Nat.card_zmod]
   have hcardM : Nat.card M.V = Nat.card ↥Bs := by

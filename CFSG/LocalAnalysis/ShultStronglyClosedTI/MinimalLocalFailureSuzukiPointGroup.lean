@@ -27,9 +27,9 @@ theorem exists_central_involution {J : Subgroup G} (P : Sylow 2 J) (hJ : 2 ∣ N
     rw [← Finite.one_lt_card_iff_nontrivial]
     have := Nat.le_of_dvd Nat.card_pos hP2
     omega
-  have hZ := P.isPGroup'.center_nontrivial
+  have hZ := P.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card (Subgroup.center (P : Subgroup J)) := by
-    rcases (P.isPGroup'.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h1 | h1
+    rcases (P.isPGroup.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h1 | h1
     · exact absurd h1 (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne'
     · exact h1
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 hZ2

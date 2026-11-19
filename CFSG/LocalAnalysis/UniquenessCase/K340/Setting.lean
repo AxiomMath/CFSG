@@ -41,7 +41,7 @@ theorem exists_seedSetting {H L T : Subgroup G} {n : ℕ} (hF : Fstar H = CFSG.O
   obtain ⟨P, hP⟩ := hT
   refine ⟨k, hk, hkfin, hkchar, π, P, hP, ?_⟩
   refine ⟨hsurj, ?_, ?_, ?_⟩
-  · refine ⟨le_top, P.isPGroup', ?_⟩
+  · refine ⟨le_top, P.isPGroup, ?_⟩
     show ¬ 2 ∣ (P : Subgroup ↥H).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index

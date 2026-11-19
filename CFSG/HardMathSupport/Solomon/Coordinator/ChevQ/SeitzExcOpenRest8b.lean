@@ -60,7 +60,7 @@ theorem twClosingFrameAt (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat.card K)
       D.g * rootDiagUnit TwClass.f4Six.tag
         (Pi.mulSingle (⟨1, by decide⟩ : Fin TwClass.f4Six.tag.rank) ω) * D.g⁻¹) :
     ClosingFrameAt z (frameIn (TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.f4Six.tag.rank := ⟨1, by decide⟩ with hi₁
   set a : Fin TwClass.f4Six.tag.rank → D.Lˣ := Pi.mulSingle i₁ ω with ha
   have hchar : ∀ α : Fin TwClass.f4Six.tag.rank → ℤ, rootChar a α = ω ^ (α i₁) := by
@@ -127,15 +127,15 @@ theorem twClosingFrameAt (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat.card K)
     exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
   · refine nonsolvable_frameIn hle ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective
+    have := hs
+    have h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
         (le_sup_right : TwClass.f4Six.X₂ D ≤ TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial
+    have : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (↥(TwClass.f4Six.X₂ D))).ne hperf.commutator_eq_top
   · exact closing_of_twFrameClosing hle (twClosing_f4Six K h3 D)
   · exact normalizerSolvable_of_twFrame hle (twNormalizer_f4Six K hKq D)
@@ -300,11 +300,11 @@ theorem exists_unitaryFrame_model {τ : Tag} {K : Type} [Field K] [Finite K] {w 
         D.g⁻¹ * baseChangeGL (algebraMap K D.L) (x : ModGL τ K) * D.g ∈ E6Three.frameActSub ψ →
         ∃ γ : unitaryIsom3 h, ∀ y, x * ρ y * x⁻¹ = ρ (suConj h γ y) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hℓ : ℓ.Prime := hℓF.out
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
-  haveI : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hcard])
+  have : CharP D.L ℓ := charP_of_injective_algebraMap (algebraMap K D.L).injective ℓ
   have hFr : ∀ c, D.Fr c = c ^ (ℓ ^ f) := fun c => by rw [D.hFr, hcard]
   choose! ε hε using hψ.transv
   have hnm : D.nW ∈ monomialSubgroup τ D.L := canonicalRep_mem_monomialSubgroup D.L w
@@ -474,36 +474,36 @@ open scoped MatrixGroups
 theorem f4TwLayerModel_holds : F4TwLayerModel := by
   intro K _ _ hK h3 D ω hω z hzbc
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpp, hcardn⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcardn]
   have hp3 : p ≠ 3 := by
     rintro rfl
     have h3K : 3 ∣ Nat.card K := by rw [hcard]; exact dvd_pow_self 3 n.ne_zero
     omega
   have hq1 : p ^ (n : ℕ) % 3 = 2 := by rw [← hcard]; exact hK
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   let _ : Fintype (GaloisField p (2 * (n : ℕ))) := Fintype.ofFinite _
   let _ := ZMod.algebra D.L p
   let ι : GaloisField p (2 * (n : ℕ)) →+* D.L :=
     (IsAlgClosed.lift (R := ZMod p) (S := GaloisField p (2 * (n : ℕ))) (M := D.L)).toRingHom
-  letI : Algebra (GaloisField p (2 * (n : ℕ))) D.L := ι.toAlgebra
+  let : Algebra (GaloisField p (2 * (n : ℕ))) D.L := ι.toAlgebra
   have hU : UnitaryFieldData p n (GaloisField p (2 * (n : ℕ))) :=
-    ⟨hpp, n.one_le, GaloisField.card p (2 * (n : ℕ)) (by have := n.pos; omega)⟩
+    ⟨hpp, (_root_.one_le (a := n)), GaloisField.card p (2 * (n : ℕ)) (by have := n.pos; omega)⟩
   obtain ⟨πA, hπA⟩ := QuasiF4.long_graph
   obtain ⟨πB, hπB⟩ := QuasiF4.short_graph
   have hA := (f4Long_frame (L := D.L)).transport f4LongV
   have hB := f4Short_frame (L := D.L)
-  obtain ⟨ρA, hρAi, hρAr, hρAa⟩ := exists_unitaryFrame_model D h3 n.one_le hcard hp3 hq1 hU hA
+  obtain ⟨ρA, hρAi, hρAr, hρAa⟩ := exists_unitaryFrame_model D h3 (_root_.one_le (a := n)) hcard hp3 hq1 hU hA
     QuasiF4.S₁_eq_chain πA (fun i j hij => by
       show (QuasiF4.wF4 • (f4LongV • chainRoot f4chainLong i j) : Fin Tag.F4.rank → ℤ) =
         f4LongV • chainRoot f4chainLong (πA j) (πA i)
       rw [QuasiF4.w_smul, f4LongV_smul, f4LongV_smul]
       exact hπA i j hij)
-  obtain ⟨ρB, hρBi, hρBr, hρBa⟩ := exists_unitaryFrame_model D h3 n.one_le hcard hp3 hq1 hU hB
+  obtain ⟨ρB, hρBi, hρBr, hρBa⟩ := exists_unitaryFrame_model D h3 (_root_.one_le (a := n)) hcard hp3 hq1 hU hB
     QuasiF4.S₂_eq_chain πB (fun i j hij => by
       show (QuasiF4.wF4 • f4ShortSigma i j : Fin Tag.F4.rank → ℤ) = f4ShortSigma (πB j) (πB i)
       rw [QuasiF4.w_smul]
@@ -606,7 +606,7 @@ theorem hyperGen_F4_two_of_regularPlane {K : Type} [Field K] [Finite K]
     (hPE : P ≤ E₀) (hPc : Nat.card P = 3 ^ 2) (D : LangPlaneData .F4 K P)
     (hreg : ∀ α : Fin Tag.F4.rank → ℤ, IsRoot .F4 α → ¬ D.Kills α) : HyperGen 3 ⊤ E₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnd : ¬ 3 ∣ Nat.card K := by omega
   obtain ⟨D₁⟩ := exists_langLevi TwClass.f4Six.tag K TwClass.f4Six.w
     (TwClass.w_theta TwClass.f4Six)
@@ -770,12 +770,12 @@ theorem nonempty_langPlaneData_of_kills (hW : F4ThreeKilledPlaneWeyl) {K : Type}
     Nonempty (LangPlaneData .F4 K E₀) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set L := AlgebraicClosure K with hLdef
   obtain ⟨ℓ, hℓK⟩ := CharP.exists K
   have hℓp : ℓ.Prime := CharP.char_is_prime K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hℓ : ℓ ≠ 3 := by
     rintro rfl
     have : Fintype K := Fintype.ofFinite K
@@ -808,8 +808,8 @@ theorem nonempty_langPlaneData_of_kills (hW : F4ThreeKilledPlaneWeyl) {K : Type}
     group
   obtain ⟨x₀, hx₀P, y₀, hy₀P, hP⟩ := SeitzExcOpenRest3.exists_two_gen_of_card_sq' hp3 P hPc
     (fun x hx => hexpE x (hPE hx))
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
   obtain ⟨w₀, hw₀E, hw₀P⟩ : ∃ w₀ ∈ E₀, w₀ ∉ P := by
     by_contra h
     push Not at h
@@ -832,7 +832,7 @@ theorem nonempty_langPlaneData_of_kills (hW : F4ThreeKilledPlaneWeyl) {K : Type}
       · exact Or.inr (Or.inl rfl)
     have hw₀C : w₀ ∈ C := Subgroup.subset_closure (Or.inr (Or.inr rfl))
     have hlt : P < C := lt_of_le_of_ne hPC fun h => hw₀P (h ▸ hw₀C)
-    haveI : Finite C :=
+    have : Finite C :=
       Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
     have h1 := Subgroup.card_lt_of_lt hlt
     have h2 : Nat.card C ∣ 3 ^ 3 := hc ▸ Subgroup.card_dvd_of_le hCE
@@ -882,7 +882,7 @@ theorem nonempty_langPlaneData_of_kills (hW : F4ThreeKilledPlaneWeyl) {K : Type}
     exact mul_mem (mul_mem hC₀G (hφG x)) (inv_mem hC₀G)
   have hA''fin : (A'' : Set (ModGL Tag.F4 L)).Finite := by
     have : Finite (E₀.map φ) := by
-      haveI : Finite ↥E₀ := inferInstance
+      have : Finite ↥E₀ := inferInstance
       exact Finite.of_surjective _ (Subgroup.equivMapOfInjective E₀ φ
         ((baseChangeGL_injective ι).comp Subtype.val_injective)).surjective
     exact Set.Finite.image _ (Set.toFinite _)
@@ -970,8 +970,8 @@ theorem f4NonToralRegularPlane_of_killedPlaneWeyl (hW : F4ThreeKilledPlaneWeyl) 
     F4NonToralRegularPlane := by
   intro K _ _ hK3 _ E₀ hE₀ hc _ hD
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨F', hF'⟩ := Sylow.exists_subgroup_card_pow_prime (G := E₀) 3 (n := 2)
     (by rw [hc]; exact pow_dvd_pow 3 (by norm_num))
   set P : Subgroup (adjointGroup .F4 K) := F'.map E₀.subtype with hPdef

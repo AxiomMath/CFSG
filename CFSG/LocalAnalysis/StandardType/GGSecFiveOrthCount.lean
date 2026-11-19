@@ -410,7 +410,7 @@ private lemma ct_oc_plane_to_pair {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     rw [heq, hW] at hspan_fin
     omega
   have hlt : Submodule.span (ZMod 3) {u} < W := lt_of_le_of_ne hspan_le hspan_ne
-  obtain ⟨-, v, hvW, hvspan⟩ := SetLike.lt_iff_le_and_exists.mp hlt
+  obtain ⟨-, v, hvW, hvspan⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hlt
   have hv0 : v ≠ 0 := by
     intro hv
     exact hvspan (hv ▸ Submodule.zero_mem _)

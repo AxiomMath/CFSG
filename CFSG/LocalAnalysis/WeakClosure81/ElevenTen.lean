@@ -21,9 +21,9 @@ variable {G : Type} [Group G] [Finite G]
 private theorem eleven_ten_inf_centralizer {M V Q U L : Subgroup G} {n : ℕ}
     (hset : Setting11 M V Q) (hU : U ∈ deltaEleven M V)
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (hLM : ¬ L ≤ M)
-    (h78 : IsLTwoBlockType L n) :
+    (_h78 : IsLTwoBlockType L n) :
     V ⊓ Subgroup.centralizer (L : Set G) = U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := V ⊓ Subgroup.centralizer (L : Set G) with hCdef
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hset.isElemAbelian
   have hUleC : U ≤ C := by
@@ -58,7 +58,7 @@ private theorem eleven_ten_rMV_eq
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (hLM : ¬ L ≤ M)
     (h78 : IsLTwoBlockType L n) (hD : IsHallTwoPrimeOf D (L ⊓ M)) :
     rMV M V = (n : ℕ∞) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hset.isElemAbelian
   have hCV : V ⊓ Subgroup.centralizer (D : Set G) = U :=
     (eleven_nine_inf_centralizer_hall hset hU.1 hL hLM h78 hD).trans
@@ -109,7 +109,7 @@ private theorem eleven_ten_hall_structure
     (h78 : IsLTwoBlockType L n) (hX : IsHallTwoPrimeOf X (L ⊓ M)) :
     IsCyclic ↥X ∧ Nat.card X = 2 ^ n - 1 ∧ V ⊓ Subgroup.centralizer (X : Set G) = U ∧
       ActsRegularlyOn X (nonIdentity ⁅V, X⁆) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc := eleven_nine_isCyclic_hall hset hU.1 hL hLM h78 hX
   have hcard := eleven_nine_card_hall hset hU.1 hL hLM h78 hX
   have hCVX : V ⊓ Subgroup.centralizer (X : Set G) = U :=
@@ -155,6 +155,7 @@ private theorem eleven_ten_hall_structure
     by_contra hb1
     exact hz.2 (hfree b hb hb1 z hz.1 hbz)
 
+omit [Finite G] in
 private theorem eleven_ten_map_normalizer_eq {G' : Type*} [Group G'] {f : G →* G'}
     (hf : Function.Surjective f) {H : Subgroup G} (hker : f.ker ≤ H) :
     (Subgroup.normalizer (H : Set G)).map f =
@@ -174,14 +175,14 @@ private theorem eleven_ten_relIndex
     (h78 : IsLTwoBlockType L n) :
     (L ⊓ M).relIndex L = 2 ^ n + 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   obtain ⟨⟨hS, hBeq⟩, ⟨S, hSmap⟩⟩ := eleven_nine_one hset hU.1 hL hLM h78
   let Lq := ↥L ⧸ CFSG.pCore 2 ↥L
   let SL2 := Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)
   have hO2LM : oTwoIn L ≤ L ⊓ M := by
     obtain ⟨T, hT⟩ := sylow_of_isSylowOf hS
-    haveI : (CFSG.pCore 2 ↥L).Normal := pCore_normal
+    have : (CFSG.pCore 2 ↥L).Normal := pCore_normal
     have hpc : CFSG.pCore 2 ↥L ≤ (T : Subgroup ↥L) :=
       IsPGroup.le_sylow_of_normal pCore_isPGroup T
     have ho2le : oTwoIn L ≤ L ⊓ Q := by

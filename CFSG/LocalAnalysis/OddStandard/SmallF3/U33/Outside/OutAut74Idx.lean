@@ -157,9 +157,9 @@ theorem three_dvd_card_Oq : 3 ∣ Nat.card Oq := by
 
 theorem card_le_two_of_pgroup (H : Subgroup (Equiv.Perm V4)) (hH : H ≤ Oq) (hp : IsPGroup 2 H) :
     Nat.card H ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hposO : 0 < Nat.card Oq := by
-    haveI : Nonempty Oq := ⟨1⟩
+    have : Nonempty Oq := ⟨1⟩
     exact Nat.card_pos
   have hHdvd : Nat.card H ∣ Nat.card Oq := Subgroup.card_dvd_of_le hH
   have hHle : Nat.card H ≤ Nat.card Oq := Nat.le_of_dvd hposO hHdvd
@@ -170,7 +170,7 @@ theorem card_le_two_of_pgroup (H : Subgroup (Equiv.Perm V4)) (hH : H ≤ Oq) (hp
       _ ≤ 6 := card_Oq_le
   have hk2 : k ≤ 2 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h8dvd : 2 ^ 3 ∣ 2 ^ k := pow_dvd_pow 2 h
     have h8le : 2 ^ 3 ≤ 2 ^ k := Nat.le_of_dvd (Nat.pow_pos (by norm_num)) h8dvd
     norm_num at h8le

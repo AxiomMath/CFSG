@@ -51,7 +51,7 @@ private lemma flag_succ_one_eq_span_singleton_D22 (m : ℕ) {K : Type} [Field K]
         {j | (j : ℕ) < 1}
       = {Pi.single (Sum.inl (0 : Fin (m + 1))) (1 : K)} := by
     ext v
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hjval : (j : ℕ) = 0 := Nat.lt_one_iff.mp hj
@@ -146,7 +146,7 @@ private lemma spFlagLeviBlock_one_D22 (m : ℕ) {K : Type} [Field K]
   rw [hp]
   refine le_antisymm ?_ bot_le
   rintro x ⟨A, rfl⟩
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin 1) K) := inferInstance
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin 1) K) := inferInstance
   rw [Subsingleton.elim A 1]
   simp
 
@@ -240,9 +240,9 @@ theorem nonempty_bar2_hinf_lineStab_statedSp (K : Type) [Field K] [Finite K] [Ch
       (spFlagLeviHom (K := K) hI htI).range⁆ ≤ S :=
     commutator_range_spFlagLeviHom_le (K := K) hI htI
   have eS : ↥S ≃* StatedSp m K := pi_spFlagLeviBlock_equiv_D22 (K := K) m hK hm hI
-  haveI : Group.IsPerfect (StatedSp m K) :=
+  have : Group.IsPerfect (StatedSp m K) :=
     Group.isPerfect_def.mpr (spFlag_isQuasisimple_Sp (K := K) (m := m) hm (Or.inl hK)).1
-  haveI : Group.IsPerfect ↥S :=
+  have : Group.IsPerfect ↥S :=
     Group.IsPerfect.ofSurjective (f := eS.symm.toMonoidHom) eS.symm.surjective
   have hSperf : ⁅S, S⁆ = S := Subgroup.commutator_eq_self (H := S)
   have hSO2 : CFSG.pCore 2 ↥S = ⊥ := by

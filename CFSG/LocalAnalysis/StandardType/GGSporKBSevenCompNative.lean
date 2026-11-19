@@ -23,7 +23,7 @@ open CFSG.Blueprint CFSG.Sporadic.Bridge CFSG.Sporadic.Bridge.TwoGen
 private theorem wordProd_img2_mem_closure {G : Type*} [Group G] (g h : G)
     (w : List (ℕ × Bool)) : wordProd (img2 g h) w ∈ Subgroup.closure ({g, h} : Set G) := by
   induction w with
-  | nil => simpa [wordProd] using Subgroup.one_mem _
+  | nil => simp [wordProd]
   | cons l w ih =>
     have e : wordProd (img2 g h) (l :: w) =
         (if l.2 then img2 g h l.1 else (img2 g h l.1)⁻¹) * wordProd (img2 g h) w := by
@@ -56,9 +56,9 @@ private theorem isQuasisimple_of_assembly {J : Type*} [Group J]
   refine ⟨⟨h.1⟩, h.2, ?_⟩
   by_contra hne
   push Not at hne
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by omega)
-  haveI := h.2
-  letI : CommGroup (J ⧸ Subgroup.center J) :=
+  have : Finite J := Nat.finite_of_card_ne_zero (by omega)
+  have := h.2
+  let : CommGroup (J ⧸ Subgroup.center J) :=
     { (inferInstance : Group (J ⧸ Subgroup.center J)) with mul_comm := hne }
   have hp := IsSimpleGroup.prime_card (α := J ⧸ Subgroup.center J)
   have hcard : Nat.card (J ⧸ Subgroup.center J) = 20160 := by
@@ -108,7 +108,7 @@ open CFSG CFSG.StandardType CFSG.Assembly CFSG.Blueprint
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 
 theorem bSevenComp_of_conj_class {K : Type} [Group K] [Finite K] {x₀ : K}
-    (hx₀ : orderOf x₀ = 7) (hconj : ∀ x : K, orderOf x = 7 → IsConj x₀ x)
+    (_hx₀ : orderOf x₀ = 7) (hconj : ∀ x : K, orderOf x = 7 → IsConj x₀ x)
     {J : Subgroup K} (hJle : J ≤ Subgroup.centralizer {x₀}) (hJq : IsQuasisimple ↥J)
     (hJz : Nat.card ↥(Subgroup.center ↥J) = 2) (hJcard : Nat.card ↥J = 40320)
     (hcard : ∀ x : K, orderOf x = 7 →
@@ -158,7 +158,7 @@ theorem ggSporK_bSevenComp_B
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   exact @bSevenComp_of_mulEquiv NativeSporadic.B (TauCeti.CFSGIndex.sporadic .B).Group
     _ _ _ _ e' bSevenComp_native
 

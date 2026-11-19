@@ -40,7 +40,7 @@ theorem fStarSimple_subgroupOf (hN : FStarSimple N) (hidx : N.index ≤ 2)
   exact ⟨fStarSimple_of_normal_simple hN'simple hna hC, hidx',
     kProper_of_section hkp G₁ (MonoidHom.id ↥G₁) Function.surjective_id, ⟨hNe⟩⟩
 
-theorem type_max_v3 (pf : FiPinned) (rf : FiV3RowFacts) (lx : OddLieCompNotSporadic)
+theorem type_max_v3 (pf : FiPinned) (_rf : FiV3RowFacts) (lx : OddLieCompNotSporadic)
     (lit : Sol78Lit) (ih : BelowSec (Sol78PredS fiTypes) H) (hN : FStarSimple N)
     (hidx : N.index ≤ 2) (hkp : CFSG.Assembly.KProper CFSG.Blueprint.Catalog H)
     {L₁ : Subgroup H} (hL₁L : InL L₁) (hL : IsLS [.Fi24Prime] ↥L₁) :

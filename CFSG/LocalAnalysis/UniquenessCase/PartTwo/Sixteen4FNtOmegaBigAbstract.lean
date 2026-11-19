@@ -67,7 +67,7 @@ theorem w183_h1_abstract {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Mod
     Z1A (w183ElemAct Q) = B1A (w183ElemAct Q) := by
   have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ a := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hF
+  have : CharP K 2 := charP_of_card_eq_prime_pow hF
   obtain ⟨l, hl0, hl1⟩ := w183_exists_ne_zero_one hK ha
   have hv : P'.e + P'.f ∈ P.perp := HypPair.mem_perp.mpr
     ⟨by rw [polar_add_right, hP.ee, hP.ef, add_zero],

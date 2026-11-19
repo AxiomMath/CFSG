@@ -12,14 +12,14 @@ open scoped commutatorElement
 
 theorem sec9_sup_eq_of_card {G : Type} [Group G] [Finite G]
     {V W X₁ X₂ C : Subgroup G} {q n : ℕ}
-    (hVW : V ≤ W) (hX₁ : X₁ ≤ W) (hX₂ : X₂ ≤ W)
-    (hVc : ∀ v ∈ V, ∀ w ∈ W, v * w = w * v)
-    (hC : ∀ a ∈ W, ∀ b ∈ W, ⁅a, b⁆ ∈ C) (hCV : C ≤ V) (hCX₁ : C ≤ X₁) (hCX₂ : C ≤ X₂)
+    (_hVW : V ≤ W) (hX₁ : X₁ ≤ W) (hX₂ : X₂ ≤ W)
+    (_hVc : ∀ v ∈ V, ∀ w ∈ W, v * w = w * v)
+    (hC : ∀ a ∈ W, ∀ b ∈ W, ⁅a, b⁆ ∈ C) (_hCV : C ≤ V) (hCX₁ : C ≤ X₁) (_hCX₂ : C ≤ X₂)
     (hq : 2 ≤ q) (hn : 3 ≤ n)
-    (hW : Nat.card ↥W = q ^ (2 * n - 3)) (hV : Nat.card ↥V = q ^ 5)
+    (hW : Nat.card ↥W = q ^ (2 * n - 3)) (_hV : Nat.card ↥V = q ^ 5)
     (hX₁c : Nat.card ↥X₁ = q ^ n) (hX₂c : Nat.card ↥X₂ = q ^ n)
     (hI : Nat.card ↥(X₁ ⊓ X₂) ≤ q ^ 3)
-    (hVX₁ : Nat.card ↥(V ⊓ X₁) = q ^ 4) (hVX₂ : Nat.card ↥(V ⊓ X₂) = q ^ 4) :
+    (_hVX₁ : Nat.card ↥(V ⊓ X₁) = q ^ 4) (_hVX₂ : Nat.card ↥(V ⊓ X₂) = q ^ 4) :
     X₁ ⊔ X₂ = W := by
   have hq0 : 0 < q := by omega
   have hqpos : ∀ k : ℕ, 0 < q ^ k := fun k => pow_pos hq0 k
@@ -191,7 +191,7 @@ theorem sec9_comm_le_of_prod {G : Type} [Group G]
     {N L₁ L₂ W X₁ X₂ V : Subgroup G}
     (hN : ∀ s ∈ N, ∃ a ∈ L₁ ⊓ N, ∃ b ∈ L₂ ⊓ N, s = a * b)
     (hW : ∀ w ∈ W, ∃ x₁ ∈ X₁, ∃ x₂ ∈ X₂, w = x₁ * x₂)
-    (hX₁ : X₁ ≤ W) (hX₂ : X₂ ≤ W)
+    (hX₁ : X₁ ≤ W) (_hX₂ : X₂ ≤ W)
     (hVc : ∀ v ∈ V, ∀ w ∈ W, v * w = w * v)
     (hNV : ∀ s ∈ N, ∀ v ∈ V, s * v * s⁻¹ ∈ V)
     (h11 : ∀ s ∈ L₁ ⊓ N, ∀ x ∈ X₁, ⁅s, x⁆ ∈ V) (h12 : ∀ s ∈ L₁ ⊓ N, ∀ x ∈ X₂, ⁅s, x⁆ ∈ V)
@@ -267,7 +267,7 @@ theorem sec9_not_isPGroup_omegaPlusFour {K : Type} [Field K] [Finite K] [CharP K
     omega
 
 theorem sec9_quot_equiv_map {G S : Type} [Group G] [Group S] {R N R₀ : Subgroup G}
-    (hNR₀ : N ≤ R₀) (hR₀R : R₀ ≤ R) (ψ : ↥R →* S) (hker : ψ.ker = N.subgroupOf R)
+    (_hNR₀ : N ≤ R₀) (hR₀R : R₀ ≤ R) (ψ : ↥R →* S) (hker : ψ.ker = N.subgroupOf R)
     [hN : (N.subgroupOf R₀).Normal] :
     Nonempty ((↥R₀ ⧸ N.subgroupOf R₀) ≃* ↥((R₀.subgroupOf R).map ψ)) := by
   obtain ⟨ψ', hψ'⟩ : ∃ ψ' : ↥R₀ →* S, ∀ x : ↥R₀, ψ' x = ψ (Subgroup.inclusion hR₀R x) :=
@@ -318,11 +318,11 @@ theorem sec9_normal_sub_prod {S₁ S₂ : Type} [Group S₁] [Group S₂] [IsSim
   let K₂ : Subgroup S₂ := H.comap (MonoidHom.inr S₁ S₂)
   have hmem₁ : ∀ c : S₁, c ∈ K₁ ↔ ((c, 1) : S₁ × S₂) ∈ H := fun c => Iff.rfl
   have hmem₂ : ∀ c : S₂, c ∈ K₂ ↔ ((1, c) : S₁ × S₂) ∈ H := fun c => Iff.rfl
-  haveI hK₁ : K₁.Normal := ⟨fun c hc s => by
+  have hK₁ : K₁.Normal := ⟨fun c hc s => by
     rw [hmem₁] at hc ⊢
     have h1 := Subgroup.Normal.conj_mem inferInstance _ hc ((s, 1) : S₁ × S₂)
     simpa using h1⟩
-  haveI hK₂ : K₂.Normal := ⟨fun c hc s => by
+  have hK₂ : K₂.Normal := ⟨fun c hc s => by
     rw [hmem₂] at hc ⊢
     have h1 := Subgroup.Normal.conj_mem inferInstance _ hc ((1, s) : S₁ × S₂)
     simpa using h1⟩
@@ -386,8 +386,8 @@ theorem sec9_normal_sub_prod {S₁ S₂ : Type} [Group S₁] [Group S₂] [IsSim
       left
       refine ⟨MulEquiv.ofBijective ((MonoidHom.fst S₁ S₂).comp H.subtype) ⟨?_, ?_⟩⟩
       · intro x y hxy
-        have hx2 : x.1.2 = 1 := hB x.1.1 x.1.2 (by simpa using x.2)
-        have hy2 : y.1.2 = 1 := hB y.1.1 y.1.2 (by simpa using y.2)
+        have hx2 : x.1.2 = 1 := hB x.1.1 x.1.2 (by simp)
+        have hy2 : y.1.2 = 1 := hB y.1.1 y.1.2 (by simp)
         exact Subtype.ext (Prod.ext hxy (by rw [hx2, hy2]))
       · intro c
         have : ((c, 1) : S₁ × S₂) ∈ H := by
@@ -403,8 +403,8 @@ theorem sec9_normal_sub_prod {S₁ S₂ : Type} [Group S₁] [Group S₂] [IsSim
     right
     refine ⟨MulEquiv.ofBijective ((MonoidHom.snd S₁ S₂).comp H.subtype) ⟨?_, ?_⟩⟩
     · intro x y hxy
-      have hx1 : x.1.1 = 1 := hA x.1.1 x.1.2 (by simpa using x.2)
-      have hy1 : y.1.1 = 1 := hA y.1.1 y.1.2 (by simpa using y.2)
+      have hx1 : x.1.1 = 1 := hA x.1.1 x.1.2 (by simp)
+      have hy1 : y.1.1 = 1 := hA y.1.1 y.1.2 (by simp)
       exact Subtype.ext (Prod.ext (by rw [hx1, hy1]) hxy)
     · intro c
       have : ((1, c) : S₁ × S₂) ∈ H := by

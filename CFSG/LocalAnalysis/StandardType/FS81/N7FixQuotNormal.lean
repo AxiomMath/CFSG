@@ -12,6 +12,7 @@ open Equiv
 
 variable {β : Type*} [Fintype β] [DecidableEq β]
 
+omit [Fintype β] in
 private lemma p9uN7QN_comap_normal {T : Finset β} {M : Subgroup (Perm β)}
     (hnorm : ∀ g : Perm β, (∀ i, i ∉ T → g i = i) → ∀ m ∈ M, g * m * g⁻¹ ∈ M) :
     (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := by
@@ -56,7 +57,7 @@ theorem perm_eq_bot_of_normal_of_exp_two (T : Finset β) (hT : 5 ≤ T.card)
     p9uN7QN_comap_normal hnorm
   have hbot : M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) = ⊥ := by
     by_contra hne
-    haveI : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
+    have : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
     have hle : alternatingGroup {x // x ∈ T}
         ≤ M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) :=
       Equiv.Perm.alternatingGroup_le_of_normal (N := _)
@@ -94,7 +95,7 @@ theorem perm_eq_bot_of_normal_of_odd (T : Finset β) (hT : 5 ≤ T.card)
     p9uN7QN_comap_normal hnorm
   have hbot : M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) = ⊥ := by
     by_contra hne
-    haveI : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
+    have : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
     have hle : alternatingGroup {x // x ∈ T}
         ≤ M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) :=
       Equiv.Perm.alternatingGroup_le_of_normal (N := _)
@@ -140,6 +141,7 @@ theorem perm_eq_bot_of_normal_of_odd (T : Finset β) (hT : 5 ≤ T.card)
     omega
   exact p9uN7QN_eq_bot_of_comap_eq_bot hMT hbot
 
+omit [Fintype β] in
 theorem perm_apply_eq_self_of_preserves_pairs {σ : Perm β} {T : Finset β} (hT : 3 ≤ T.card)
     (h : ∀ i ∈ T, ∀ j ∈ T, i ≠ j → ∀ l, (σ l = i ∨ σ l = j) ↔ (l = i ∨ l = j)) :
     ∀ i ∈ T, σ i = i := by

@@ -53,7 +53,7 @@ theorem exists_RL (hd : Sec19DataT p f K z S W L t V) {a : G} (haS : a ∈ (S : 
   have hWN : W ≤ Subgroup.normalizer (RL : Set G) := fun w hw =>
     mem_normalizer_iff_conjSub_eq.mpr (hWRL w hw)
   have hP : IsPGroup 2 ↥(W ⊔ RL) :=
-    IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le hd.hWS) hRL.2.1 hWN
+    IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le hd.hWS) hRL.2.1 hWN
   obtain ⟨S₁, hS₁⟩ := hP.exists_le_sylow
   obtain ⟨η, hη, hWη⟩ := hd.hW
   have hηS₁ : ∀ U ∈ η, U ≤ (S₁ : Subgroup G) := fun U hU =>
@@ -95,7 +95,7 @@ theorem conj_eq_of_dData (hd : Sec19DataT p f K z S W L t V) {R RL K' L' : Subgr
   have hq := ht.branch.five
   have hΩ := hypOmegaMod_of_tightD ht
   have hWc := S1911.comm_of_mem hd.toSec19Data
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   have hzt : z ≠ t := fun h => hd.ne h.symm
   have hKL : K' ≠ L' := fun h => hzt (hdK.uinv.eq (h ▸ hdL.uinv))
   obtain ⟨i, hi⟩ := hdK.exists_rel hdL.u_memW (hdK.le_normalizer hdL.u_memW)

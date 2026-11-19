@@ -57,7 +57,7 @@ theorem stmtJ3Data_of (hS : KFactJ3Sylow) (hO : KFactJ3OuterInvolution)
   have hD1 : ∀ W : Subgroup (H ⧸ primeComplementCore (G := H) 3), W ≤ X₀ →
       X₀ ≤ Subgroup.normalizer (W : Set (H ⧸ primeComplementCore (G := H) 3)) →
       W = ⊥ ∨ centerOf (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)) ≤ W :=
-    fun W hW hWn => hIS.eq_bot_or_le Rbar.isPGroup' hTX hW hWn
+    fun W hW hWn => hIS.eq_bot_or_le Rbar.isPGroup hTX hW hWn
   rw [hRbar] at hIS hZ1 hD1
   have hXb : ((centerOf R).subgroupOf H).map π = centerOf ((R.subgroupOf H).map π) :=
     map_inf_centralizer_eq hRH hRp

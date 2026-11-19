@@ -45,7 +45,7 @@ theorem false_of_pairedSz
   rw [hK] at hKn hCK hKS
   set S := (T' : Subgroup H).map π with hSdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  have hS2 : IsPGroup 2 S := T'.isPGroup'.map π
+  have hS2 : IsPGroup 2 S := T'.isPGroup.map π
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.2
     ⟨le_top, hS2, by
       rw [Subgroup.relIndex_top_right, hSdef, ← Sylow.coe_mapSurjective hπs T']
@@ -69,7 +69,7 @@ theorem false_of_pairedSz
   have h₂ : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ K₂) K₂ := P2.isSylowOf_inf_left hc' hSsyl hKn'
   obtain ⟨U₁, hU₁⟩ := h₁.exists_sylow_eq_subgroupOf
   have hdSz := H13.QRC.benderData_suzuki ha hk
-  obtain ⟨θ', hθU, -⟩ := H13.QRC.exists_mulEquiv_map_sylow θ₁ U₁.isPGroup' U₁.not_dvd_index
+  obtain ⟨θ', hθU, -⟩ := H13.QRC.exists_mulEquiv_map_sylow θ₁ U₁.isPGroup U₁.not_dvd_index
     hdSz.isPGroup hdSz.not_dvd_index
   have hD : H13.QRC.BenderData K₁ (U₁ : Subgroup K₁) (2 * a + 1) := by
     have h := hdSz.map θ'.symm

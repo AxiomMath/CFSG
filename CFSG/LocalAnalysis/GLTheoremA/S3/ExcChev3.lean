@@ -21,7 +21,7 @@ private theorem ex3_dvd27_of_model {X : Type} [Group X] {t : CFSG.Open.StatedLie
     27 ∣ Nat.card X := by
   obtain ⟨hfin, -, hfac⟩ :=
     CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput X t n 3 f hadm hL
-  haveI := hfin
+  have := hfin
   have hne : Nat.card X ≠ 0 := Nat.card_pos.ne'
   have h : 3 ^ 3 ∣ Nat.card X :=
     (Nat.Prime.pow_dvd_iff_le_factorization (k := 3) Nat.prime_three hne).2
@@ -113,7 +113,7 @@ private theorem ex3_dvd27_of_ree {X : Type} [Group X] {t : CFSG.Open.StatedLieTa
 
 private theorem ex3_dvd27_G2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 q).Valid)
     (hp : q.p = 3) : 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.g2 q hv (by rw [hp]; norm_num)
@@ -130,7 +130,7 @@ private theorem ex3_dvd27_G2 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
 
 private theorem ex3_dvd27_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).Valid)
     (hp : q.p = 3) : 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.f4 q hv (by rw [hp]; norm_num)
@@ -144,7 +144,7 @@ private theorem ex3_dvd27_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
 
 private theorem ex3_dvd27_E6 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E6 q).Valid)
     (hp : q.p = 3) : 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.e6 q hv (by rw [hp]; norm_num)
@@ -158,7 +158,7 @@ private theorem ex3_dvd27_E6 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
 
 private theorem ex3_dvd27_E7 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E7 q).Valid)
     (hp : q.p = 3) : 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.e7 q hv (by rw [hp]; norm_num)
@@ -172,7 +172,7 @@ private theorem ex3_dvd27_E7 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
 
 private theorem ex3_dvd27_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8 q).Valid)
     (hp : q.p = 3) : 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.e8 q hv (by rw [hp]; norm_num)
@@ -187,7 +187,7 @@ private theorem ex3_dvd27_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
 private theorem ex3_dvd27_twistedE6 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) (hp : q.p = 3) :
     27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p (q.exponent * CFSG.Blueprint.Chevalley.TwistTag.E6.order))
       = q.card ^ CFSG.Blueprint.Chevalley.TwistTag.E6.order := by
     rw [GaloisField.card _ _ (Nat.mul_ne_zero q.exponent_pos.ne' (by decide)), pow_mul,
@@ -213,7 +213,7 @@ private theorem ex3_dvd27_twistedE6 (q : TauCeti.PrimePower)
 private theorem ex3_dvd27_trialityD4 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) (hp : q.p = 3) :
     27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p (q.exponent * CFSG.Blueprint.Chevalley.TwistTag.D4.order))
       = q.card ^ CFSG.Blueprint.Chevalley.TwistTag.D4.order := by
     rw [GaloisField.card _ _ (Nat.mul_ne_zero q.exponent_pos.ne' (by decide)), pow_mul,
@@ -240,7 +240,7 @@ private theorem ex3_dvd27_reeG2 (m : ℕ) (hv : (TauCeti.LieTypeIndex.reeG2 m).V
     27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.reeG2 m, hv⟩).Group := by
   have hm1 : 1 ≤ m :=
     ((TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 (2 * m + 1)) = 3 ^ (2 * m + 1) :=
     GaloisField.card _ _ (by omega)
   obtain ⟨b⟩ := CFSG.TauCetiBridge.typewiseBridges.reeG2 m hv (GaloisField 3 (2 * m + 1)) hK
@@ -387,7 +387,7 @@ private theorem ex3_A2_facts (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeInde
     (hq : q.card % 9 = 4 ∨ q.card % 9 = 7) :
     20160 ≤ Nat.card (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩).Group ∧
       ¬ 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩).Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm := ex3_card_A2_mul q hv hq
   have hq4 : 4 ≤ q.card := by omega
   have h1 : 64 ≤ q.card ^ 3 := by
@@ -416,7 +416,7 @@ private theorem ex3_U2_facts (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 2 q).Valid) (hq : q.card % 9 = 2 ∨ q.card % 9 = 5) :
     126000 ≤ Nat.card (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group ∧
       ¬ 27 ∣ Nat.card (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm := ex3_card_twistedA2_mul q hv hq
   have hstd := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1)

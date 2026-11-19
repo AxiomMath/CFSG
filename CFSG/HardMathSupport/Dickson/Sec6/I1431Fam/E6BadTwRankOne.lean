@@ -17,7 +17,7 @@ variable {K : Type} [Field K]
 theorem rankOne_upper_mul_lower :
     (!![1, 1; 0, 1] * !![1, 0; -3, 1] : Matrix (Fin 2) (Fin 2) K) = !![-2, 1; -3, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem rankOne_matrix_conj {z zi e : K} (hz : z ^ 2 + z + 1 = 0) (hzi : zi = z ^ 2)
     (he : e * (z ^ 2 - z) = 1) :

@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {n : ℕ} {c : ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6c_model_of_frame (fr : NFrame Q (Fin n) c) (hc : c ≠ 0) :
     ∃ m : A6CModel n (ProjSim Q), ∀ J : Finset (Fin n),
       m.ofMat (Matrix.diagonal fun i => if i ∈ J then (-1 : ZMod 3) else 1) =

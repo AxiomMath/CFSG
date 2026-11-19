@@ -104,12 +104,12 @@ theorem commute_iff (hκ : IsSpinCoord ψ κ) (hz : z ≠ 1) {j k : G} (hj : j �
   constructor
   · intro e
     by_contra hb
-    rw [if_neg hb] at h
+    rw [ite_eq_right hb] at h
     apply hz
     rw [← h, e]
     group
   · intro hb
-    rw [if_pos hb] at h
+    rw [ite_eq_left hb] at h
     calc j * k = (j * k * j⁻¹ * k⁻¹) * (k * j) := by group
       _ = k * j := by rw [h, one_mul]
 
@@ -119,10 +119,10 @@ theorem mul_self_eq_one_iff (hκ : IsSpinCoord ψ κ) (hz : z ≠ 1) {j : G} (hj
   constructor
   · intro e
     by_contra hq
-    rw [if_neg hq, e] at h
+    rw [ite_eq_right hq, e] at h
     exact hz h.symm
   · intro hq
-    rw [if_pos hq] at h
+    rw [ite_eq_left hq] at h
     exact h
 
 theorem mem_spinStab (hκ : IsSpinCoord ψ κ) {j x : G} (hj : j ∈ J z) (hx : x ∈ H z)
@@ -151,7 +151,7 @@ theorem exists_lift_of_mem_spinStab [Finite G] (hκ : IsSpinCoord ψ κ) (hzz : 
   · obtain ⟨v, hv⟩ := hnd
     obtain ⟨k, hk, rfl⟩ := hκ.surj v
     have hkj := hκ.comm k hk j hj
-    rw [if_neg hv] at hkj
+    rw [ite_eq_right hv] at hkj
     have hkH : k ∈ H z := J_le_H hk
     have hzj : j * z = z * j := (hzc j (J_le_H hj)).trans rfl
     refine ⟨k * x₀, mul_mem hkH hx₀, ?_, ?_⟩

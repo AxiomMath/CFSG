@@ -11,7 +11,7 @@ open Subgroup
 variable {S : Type} [Group S]
 
 theorem center_map_eq (α : MulAut S) : (center S).map α.toMonoidHom = center S := by
-  simpa using Subgroup.map_center_eq α
+  simp
 
 @[expose] noncomputable def centerAut (α : MulAut S) : MulAut (S ⧸ center S) :=
   quotAut α (center S) (center_map_eq α)

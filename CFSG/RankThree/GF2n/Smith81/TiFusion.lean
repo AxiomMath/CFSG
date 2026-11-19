@@ -31,7 +31,7 @@ theorem Z_isConj (H : StrothHyp M Q Z) {z z' : G} (hz : z ∈ Z) (hz1 : z ≠ 1)
   obtain ⟨B, hc⟩ := exists_ctx_of_strothHyp H
   obtain ⟨k, hkM, hko, hkreg⟩ := hc.cartan
   have hkM' : k ∈ M := (Subgroup.mem_inf.mp hkM).1
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   set q := Nat.card Z with hq
   have hq4 : 4 ≤ q := H.q4
   have hconjZ : ∀ (m : G), m ∈ M → ∀ v ∈ Z, m * v * m⁻¹ ∈ Z := fun m hm v hv =>
@@ -109,6 +109,7 @@ theorem _root_.CFSG.RankThree.GF2n.Stroth80.Ctx.exists_conj_mem_Z {B : Subgroup 
   obtain ⟨U, ⟨⟨⟨h, rfl⟩, -⟩, hwU⟩, -⟩ := hpart w hw hw1
   exact ⟨h, mem_conjSubgroup.mp hwU⟩
 
+omit [Finite G] in
 theorem tiFusion_of_not_sit (H : StrothHyp M Q Z)
     (h : ∀ (X : Subgroup G) (x : G), ¬ Sit M Q Z X x) : TIFusion M Q Z := by
   intro g z hz hz1 hM
@@ -124,7 +125,7 @@ theorem TIFusion.mem_Q (hT : TIFusion M Q Z) (H : StrothHyp M Q Z) {z τ : G} (h
 
 theorem corB_setup_of_tiFusion (H : StrothHyp M Q Z) (hT : TIFusion M Q Z) {z : G} (hz : z ∈ Z)
     (hz1 : z ≠ 1) : CFSG.Timmesfeld.CorB.Setup z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 Q := by
     rw [H.hQ]
     exact (CFSG.RankThree.GF2n.inSubgroup_pCore_two M).1

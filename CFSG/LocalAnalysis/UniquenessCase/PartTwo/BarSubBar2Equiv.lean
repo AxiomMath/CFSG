@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_bar2_mulEquiv_barSub_of_isSimpleGroup {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) {L : Subgroup G} (hLS : L ≤ stabTil V₀ V)
     (h2 : barSub V₀ V hV (pCoreOf 2 L) = ⊥) (hL1 : barSub V₀ V hV L ≠ ⊥)

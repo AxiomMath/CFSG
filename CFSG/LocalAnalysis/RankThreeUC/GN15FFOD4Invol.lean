@@ -22,9 +22,9 @@ private lemma funCongrLeft_single {ι : Type*} [DecidableEq ι] (π : Equiv.Perm
     Pi.single_apply]
   by_cases h : π i = j
   · have h' : i = π.symm j := by rw [← h, Equiv.symm_apply_apply]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : i ≠ π.symm j := fun hh => h (by rw [hh, Equiv.apply_symm_apply])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 omit [Finite K] [CharP K 2] in
 private theorem funCongrLeft_mul (π σ : Equiv.Perm (Fin 4 ⊕ Fin 4)) :
@@ -112,7 +112,7 @@ private theorem linearIndependent_single_sub_single {r : ℕ} {ι : Type*} [Deci
       (c j • (Pi.single (a j) (1:K) - Pi.single (b j) 1 : ι → K)) (a i) = 0 := by
     intro j hji
     simp only [Pi.smul_apply, Pi.sub_apply, Pi.single_apply, smul_eq_mul]
-    rw [if_neg (fun h : a i = a j => hji (hinj h).symm), if_neg (hne i j)]
+    rw [ite_eq_right (fun h : a i = a j => hji (hinj h).symm), ite_eq_right (hne i j)]
     simp
   have h := congrArg (fun v : ι → K => v (a i)) hc
   simp only [Finset.sum_apply, Pi.zero_apply] at h
@@ -196,7 +196,6 @@ private theorem commSpace_invPerm_zero :
       simp [e0, p0, ps, sub_self]
     all_goals
       first
-      | exact Submodule.zero_mem _
       | exact Submodule.subset_span
           (Set.mem_range_self (f := fun k : Fin 2 => ps (a0 k) (b0 k)) 0)
       | exact Submodule.subset_span
@@ -269,7 +268,6 @@ private theorem commSpace_invPerm_one :
       simp [e1, p1, ps, sub_self]
     all_goals
       first
-      | exact Submodule.zero_mem _
       | exact Submodule.subset_span
           (Set.mem_range_self (f := fun k : Fin 2 => ps (a1 k) (b1 k)) 0)
       | exact Submodule.subset_span
@@ -342,7 +340,6 @@ private theorem commSpace_invPerm_two :
       simp [e2, p2, ps]
     all_goals
       first
-      | exact Submodule.zero_mem _
       | exact Submodule.subset_span
           (Set.mem_range_self (f := fun k : Fin 4 => ps (a2 k) (b2 k)) 0)
       | exact Submodule.subset_span
@@ -425,7 +422,6 @@ private theorem commSpace_invPerm_four :
       simp [e4, p4, ps]
     all_goals
       first
-      | exact Submodule.zero_mem _
       | exact Submodule.subset_span
           (Set.mem_range_self (f := fun k : Fin 4 => ps (a4 k) (b4 k)) 0)
       | exact Submodule.subset_span
@@ -504,9 +500,9 @@ private theorem funCongrLeft_injective {ι : Type*} [DecidableEq ι] :
       rwa [funCongrLeft_single, funCongrLeft_single] at hh
     have h3 := congrFun h1 (π.symm j)
     simp only [Pi.single_apply] at h3
-    rw [if_true] at h3
+    rw [ite_true] at h3
     by_contra hne
-    rw [if_neg hne] at h3
+    rw [ite_eq_right hne] at h3
     exact one_ne_zero h3
   have hsymm : π.symm = σ.symm := Equiv.ext h2
   simpa using congrArg Equiv.symm hsymm
@@ -574,7 +570,6 @@ private theorem commSpace_e5 :
       simp [e5, p5, ps, sub_self]
     all_goals
       first
-      | exact Submodule.zero_mem _
       | exact Submodule.subset_span
           (Set.mem_range_self (f := fun k : Fin 1 => ps (a5 k) (b5 k)) 0)
       | (rw [single_sub_single_comm]

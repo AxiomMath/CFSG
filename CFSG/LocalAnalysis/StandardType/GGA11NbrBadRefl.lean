@@ -17,8 +17,8 @@ private lemma a11br_fpow_mul {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup C := IsMulCommutative.instCommGroup
+  have : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hFpow : ∀ i, F i ^ 7 = 1 := fun i => by
     apply Subtype.ext
@@ -61,8 +61,8 @@ private lemma a11br_fpow_zpow {G : Type} [Group G] (f : Fin 4 → G)
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup C := IsMulCommutative.instCommGroup
+  have : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hmem : ∀ u : Fin 4 → ZMod 7, fPow f u ∈ C := by
     intro u
@@ -99,8 +99,8 @@ private lemma a11br_fpow_injective {G : Type} [Group G] [Finite G] (f : Fin 4 �
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  haveI : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup C := IsMulCommutative.instCommGroup
+  have : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup C := IsMulCommutative.instCommGroup
   let F : Fin 4 → C := fun i => ⟨f i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hmem : ∀ u : Fin 4 → ZMod 7, fPow f u ∈ C := by
     intro u
@@ -133,7 +133,7 @@ private lemma a11br_fpow_injective {G : Type} [Group G] [Finite G] (f : Fin 4 �
     obtain ⟨y, hy, hyc⟩ := Subgroup.mem_map.mp hc
     obtain ⟨u, hu⟩ := hy
     exact ⟨u, by rw [hu]; exact Subtype.ext hyc⟩
-  letI : Fintype C := Fintype.ofFinite C
+  let : Fintype C := Fintype.ofFinite C
   have hcardC : Nat.card C = 7 ^ 4 := hcard
   have hcarddom : Nat.card (Multiplicative (Fin 4 → ZMod 7)) = 7 ^ 4 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_fun, ZMod.card,
@@ -251,7 +251,7 @@ theorem a11NbrBadReflInput_holds
     have hcne : c ≠ 1 := by
       rcases hc with h | h | h | h <;> rw [h] <;> decide
     exact hcne hc_eq
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hcard_sub : Nat.card ↥(E.subgroupOf K') = 7 ^ 3 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEK).toEquiv).trans hEcard
   have hEsubP : IsPGroup 7 ↥(E.subgroupOf K') := IsPGroup.of_card hcard_sub
@@ -285,9 +285,9 @@ theorem a11NbrBadReflInput_holds
       (⟨((b : ↥K') : G), hEBs (Subgroup.mem_subgroupOf.mp b.2)⟩ : Bs))
   have hEcommI : IsMulCommutative ↥(E.subgroupOf K') :=
     IsMulCommutative.mk (Std.Commutative.mk hEcomm)
-  haveI : IsMulCommutative ↥(E.subgroupOf K') := hEcommI
+  have : IsMulCommutative ↥(E.subgroupOf K') := hEcommI
   have hTcoe : (T : Subgroup ↥K') = E.subgroupOf K' := rfl
-  haveI : IsMulCommutative (T : Subgroup ↥K') := hTcoe.symm ▸ hEcommI
+  have : IsMulCommutative (T : Subgroup ↥K') := hTcoe.symm ▸ hEcommI
   have hK'leC : K' ≤ Subgroup.centralizer ({y'} : Set G) := hnb.1.2.2.2.1
   have hnorm_of : ∀ g : G, g * y' = y' * g → (∀ e ∈ E, g * e * g⁻¹ ∈ E) →
       (∀ e ∈ E, g⁻¹ * e * g ∈ E) → g ∈ Subgroup.normalizer (Bs : Set G) := by

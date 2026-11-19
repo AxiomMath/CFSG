@@ -30,7 +30,7 @@ open CFSG.OddTranspositions.PartFour.TableE1Five
 theorem minusBilin_apply (x y : Fin 4 → ZMod 5) :
     minusBilin x y = x 0 * y 0 + x 1 * y 1 + x 2 * y 2 - 2 * (x 3 * y 3) := by
   rw [minusBilin, fiveBilin_apply, fiveForm, Fin.sum_univ_three]
-  simp only [fiveSignRep, if_true, inv_one, one_mul, Bool.false_eq_true, if_false]
+  simp only [fiveSignRep, ite_true, inv_one, one_mul, Bool.false_eq_true, ite_false]
   rfl
 
 theorem minusBilin_comm (x y : Fin 4 → ZMod 5) : minusBilin x y = minusBilin y x :=
@@ -166,7 +166,7 @@ private theorem spinorNorm_eq_one {g : GL (Fin 4) (ZMod 5)} (hg : g ∈ reflGrou
   · intro r hr
     obtain ⟨v, hv, rfl⟩ := mem_reflSet_iff.mp hr
     have hQv : Qm v = 1 := by rw [Qm_apply, hv]
-    letI : Invertible (Qm v) := invertibleOfNonzero (by rw [hQv]; decide)
+    let : Invertible (Qm v) := invertibleOfNonzero (by rw [hQv]; decide)
     have hsub : (⟨toLinEquiv (Fin 4) (ZMod 5) (refl minusBilin v),
         mem_orthogonalGroup_of_mem (Subgroup.subset_closure hr)⟩ :
         TauCeti.QuadraticMap.orthogonalGroup Qm) =
@@ -232,7 +232,7 @@ private noncomputable def unitQ (v : Fin 4 → ZMod 5) : (ZMod 5)ˣ :=
 private theorem detSpinorNorm_reflO {v : Fin 4 → ZMod 5} (hv : Qm v ≠ 0) :
     detSpinorNorm Qm_nondegenerate (reflO v) =
       ((-1 : (ZMod 5)ˣ), TauCeti.squareClassHom (unitQ v)) := by
-  letI : Invertible (Qm v) := invertibleOfNonzero hv
+  let : Invertible (Qm v) := invertibleOfNonzero hv
   have hrefl : reflO v = TauCeti.QuadraticMap.reflectionOrthogonal Qm v := by
     apply Subtype.ext
     rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal]
@@ -307,7 +307,7 @@ private theorem minusSevenNineForm_apply (x y : Fin 4 → ZMod 5) :
 theorem orthReflSet_minusSevenNineForm :
     orthReflSet 5 4 minusSevenNineForm = reflSet minusBilin := by
   ext g
-  simp only [orthReflSet, CFSG.Open.fischerTransvections, Set.mem_setOf_eq,
+  simp only [orthReflSet, CFSG.Open.fischerTransvections, Set.mem_ofPred_eq,
     minusSevenNineForm_apply]
   constructor
   · rintro ⟨v, hv, hg⟩

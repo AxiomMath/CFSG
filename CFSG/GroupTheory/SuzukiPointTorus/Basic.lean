@@ -36,10 +36,12 @@ variable {q : ℕ} (h : SuzukiTorusData X q)
   Subgroup.normalizer ((U₁ : Subgroup X) : Set X) ⊓
     Subgroup.normalizer ((U₂ : Subgroup X) : Set X)
 
+omit [Finite X] in
 theorem torus_le_normalizer_left {U₁ U₂ : Sylow 2 X} :
     torus U₁ U₂ ≤ Subgroup.normalizer ((U₁ : Subgroup X) : Set X) :=
   inf_le_left
 
+omit [Finite X] in
 theorem torus_le_normalizer_right {U₁ U₂ : Sylow 2 X} :
     torus U₁ U₂ ≤ Subgroup.normalizer ((U₂ : Subgroup X) : Set X) :=
   inf_le_right
@@ -53,8 +55,8 @@ theorem torus_card (h : SuzukiTorusData X q) {U₁ U₂ : Sylow 2 X} (hne : U₁
   SuzukiTorusData.inf_normalizer_card h U₁ U₂ hne
 
 theorem sylow_finite : Finite (Sylow 2 X) :=
-  Finite.of_injective (fun P : Sylow 2 X => (P : Subgroup X))
-    (fun P Q h => Sylow.ext h)
+  Finite.of_injective (fun _P : Sylow 2 X => (_P : Subgroup X))
+    (fun _P _Q h => Sylow.ext h)
 
 end SuzukiTorusData
 

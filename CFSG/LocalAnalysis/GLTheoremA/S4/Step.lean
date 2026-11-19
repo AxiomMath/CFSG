@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem sup_glaPPrimeCoreOf_eq_of_card_eq {p : ℕ} (hp : p.Prime) {I K : Subgroup G} (hIK : I ≤ K)
     (h : Nat.card (PQuot p I) = Nat.card (PQuot p K)) : I ⊔ GLAPPrimeCoreOf p K = K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ψ : ↥I →* PQuot p K :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥K)).comp (Subgroup.inclusion hIK) with hψ
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := by
@@ -49,6 +49,7 @@ theorem sup_glaPPrimeCoreOf_eq_of_card_eq {p : ℕ} (hp : p.Prime) {I K : Subgro
   rw [e]
   exact Subgroup.mul_mem_sup i.2 hmem
 
+omit [Finite G] in
 theorem centMod_of_sup_eq {p : ℕ} {I K : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) (hIx : I ≤ Subgroup.centralizer ({x} : Set G))
     (hIK : I ≤ K) (hsup : I ⊔ GLAPPrimeCoreOf p K = K) : CentMod p K x := by
@@ -87,7 +88,7 @@ theorem pumpRel_step {p : ℕ} (hp : p.Prime) (h183 : Input18_3_4) (hKP : CFSG.O
       closureIn (GLAPLayer p (t.2.2 ⊓ Subgroup.centralizer ({t'.2.1} : Set G)))
         (GLAPLayer p (Subgroup.centralizer ({t'.2.1} : Set G))) = t'.2.2) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hx, hL⟩, ⟨hB', hx', hL'c⟩, hxB', -, hx'B', hx'L, hL'⟩ := hrel
   set L := t.2.2
   set L' := t'.2.2

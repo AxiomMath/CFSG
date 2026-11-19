@@ -24,7 +24,8 @@ section Basic
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
-theorem t158Core_chevAut_mem_stab {K J : Subgroup Γ} {b : Γ} (hJK : J ≤ K)
+omit [Finite Γ] in
+theorem t158Core_chevAut_mem_stab {K J : Subgroup Γ} {b : Γ} (_hJK : J ≤ K)
     (hbK : b ∈ Subgroup.normalizer (K : Set Γ)) (hbJ : b ∈ Subgroup.normalizer (J : Set Γ)) :
     chevAut 3 K ⟨b, hbK⟩ ∈ CFSG.GroupActions.subgroupStabAut (chevTransfer 3 K J) := by
   have key : ∀ (c : Γ) (hcN : c ∈ Subgroup.normalizer (K : Set Γ))
@@ -50,9 +51,11 @@ theorem t158Core_chevAut_mem_stab {K J : Subgroup Γ} {b : Γ} (hJK : J ≤ K)
     Subtype.ext (mul_inv_cancel b)
   rw [this, map_one, MulAut.one_apply]
 
+omit [Finite Γ] in
 theorem t158Core_card_pSimple_dvd (J : Subgroup Γ) : Nat.card (PSimple 3 J) ∣ Nat.card J :=
   (Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _)
 
+omit [Finite Γ] in
 theorem t158Core_indAut_eq_inv {K : Subgroup Γ} {x : Γ} (hx : x ∈ Subgroup.normalizer (K : Set Γ)) :
     MI.indAut 3 K x hx = (chevAut 3 K ⟨x, hx⟩)⁻¹ := by
   rw [← map_inv]
@@ -61,7 +64,7 @@ theorem t158Core_indAut_eq_inv {K : Subgroup Γ} {x : Γ} (hx : x ∈ Subgroup.n
 theorem t158Core_pow_of_cyclic {A : Type*} [Group A] [Finite A] [IsCyclic A] {a b : A}
     (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) (hb3 : b ^ 3 = 1) : ∃ j : ℕ, j < 3 ∧ b = a ^ j := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hoa : orderOf a = 3 := orderOf_eq_prime ha3 ha1
   have hmem : b ∈ Subgroup.zpowers a := by
     by_cases hb1 : b = 1
@@ -171,7 +174,7 @@ theorem t158Core_d4Eight_mem_innAutDerived {K : Type} [Field K] [Finite K] (hK :
           hK σ
         rw [hord] at hc
         simpa using hc
-      haveI : Finite (fixSubfield σ) := Subtype.finite
+      have : Finite (fixSubfield σ) := Subtype.finite
       obtain ⟨ι, hιinj, hιfix, hnorm, hsolv⟩ := ExcCopy.exists_fixed_structure Tag.D4 σ
       set F := fixSubgroup (entrywiseAdjointAut Tag.D4 σ) with hFdef
       set P' : Subgroup (adjointGroup Tag.D4 K) := P.map (ψ : MulAut (adjointGroup Tag.D4 K)).toMonoidHom
@@ -186,9 +189,9 @@ theorem t158Core_d4Eight_mem_innAutDerived {K : Type} [Field K] [Finite K] (hK :
         rw [hP'def, ← Subgroup.map_commutator, hperf]
       have hcardP' : Nat.card P' = Nat.card P :=
         Subgroup.card_map_of_injective (ψ : MulAut (adjointGroup Tag.D4 K)).injective
-      haveI := hnorm
-      haveI : Group.IsPerfect ↥P' := Subgroup.isPerfect_iff.mpr hP'perf
-      haveI : Group.IsPerfect ↥(P'.subgroupOf F) :=
+      have := hnorm
+      have : Group.IsPerfect ↥P' := Subgroup.isPerfect_iff.mpr hP'perf
+      have : Group.IsPerfect ↥(P'.subgroupOf F) :=
         Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hP'F).symm.toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe hP'F).symm.surjective
       have hle := CFSG.ComponentClassification.CatalogueBPrimeJoin.le_of_isPerfect_of_isSolvable_quotient
@@ -224,14 +227,14 @@ theorem t158Core_false_of_component_G2_eight {Y : Type} [Group Y] {β : MulAut Y
     (hJ : IsComponentOf J (fixSubgroup β)) (hcard : Nat.card (↥J ⧸ Subgroup.center ↥J) = 5515776) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF'3 : 3 ≤ Nat.card F' := by rw [hF']; norm_num
   have hG2simple : IsSimpleGroup ↥(adjointGroup Tag.G2 F') :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple
       (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card F' hF'3)
   have hsH : IsSimpleGroup ↥(fixSubgroup β) := (MulEquiv.isSimpleGroup_congr eG).2 hG2simple
-  haveI := hJ.2.2.2
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have := hJ.2.2.2
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   have hJne : J ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J).1 inferInstance
   have hJH : J = fixSubgroup β :=
     CFSG.StandardType.ggEq_of_isSubnormal_of_isSimpleGroup
@@ -263,7 +266,7 @@ theorem t158Core_component_eq_commutator_of_isoPGU {Y : Type} [Group Y] {β : Mu
     {J : Subgroup Y} (hJ : IsComponentOf J (fixSubgroup β)) :
     J = ⁅fixSubgroup β, fixSubgroup β⁆ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -291,7 +294,7 @@ theorem t158Core_exists_mulEquiv_projImage_slPi {Y : Type} [Group Y] {β : MulAu
           Matrix.ProjGenLinGroup (Fin 3) K) =
         (φ ⟨(y : Y), hJ.1 y.2⟩ : Matrix.ProjGenLinGroup (Fin 3) K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -357,7 +360,7 @@ theorem t158Core_mem_innAutDerived_of_isoPGU {Y : Type} [Group Y] {β : MulAut Y
     centerQuotientHom ↥J (CFSG.GroupActions.subgroupStabRestrict J ⟨x, hxstab⟩) ∈
       innAutDerived (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Sec4.PiField false 2 3 K :=
     ⟨Nat.prime_two, by norm_num, by simpa [Sec4.piCard] using hKcard⟩
   have hq2 : 2 < (2 : ℕ) ^ 3 := by norm_num
@@ -506,7 +509,7 @@ theorem t158Core_tri_d4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x�
   have hSc : GLAPComponent 3 S S :=
     CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_self_of_quasisimple hq hcore
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hSc
-  haveI := hsimple
+  have := hsimple
   have hN : ∀ y : Ω, y ∈ Subgroup.normalizer (S : Set Ω) := fun y => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top y
@@ -534,7 +537,7 @@ theorem t158Core_tri_d4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x�
   have hchev : IsChevSimple 2 (PSimple 3 S) :=
     Or.inl ⟨TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩, hchar, ⟨eS⟩⟩
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hFcard : Nat.card F = 2 ^ 3 := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) = 2 ^ 3
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
@@ -591,7 +594,7 @@ theorem t158Core_tri_td4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x
   have hSc : GLAPComponent 3 S S :=
     CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_self_of_quasisimple hq hcore
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hSc
-  haveI := hsimple
+  have := hsimple
   have hN : ∀ y : Ω, y ∈ Subgroup.normalizer (S : Set Ω) := fun y => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top y
@@ -624,8 +627,8 @@ theorem t158Core_tri_td4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x
     exact hcT1
   obtain ⟨K, hKf, hKfin, σ, hK, hσ, ⟨Θ, hker⟩, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   rw [hq2, hq3] at hK hσ
   let e : PSimple 3 S ≃* ↥(CFSG.LieType.Chevalley.graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     eS.trans eC
@@ -642,8 +645,8 @@ theorem t158Core_tri_td4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x
   have hβx : β * x = x * β := by
     rw [hγinv]
     exact (Commute.inv_right hβγ).eq
-  haveI : IsCyclic (K ≃+* K) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : Finite (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun f : K ≃+* K => (f : K → K)) (fun f g h => RingEquiv.ext (congrFun h))
   have hΘβ1 : Θ' β ≠ 1 := fun h => hβout ((hker' β).1 h)
   obtain ⟨j, -, hj⟩ := t158Core_pow_of_cyclic (a := Θ' β) (b := Θ' x)
@@ -675,7 +678,7 @@ theorem t158Core_tri_td4 {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} {x
   refine t158Core_false_of_restrict (hN x₁) (hN x₂) hx1 hL1 hU1 hF21 hTc.2.2 (fun hstab => ?_)
   have hk : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ 3 :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom (by norm_num) hK hσ
-  haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+  have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
   rcases CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv
       (f := 3) (by norm_num) hK hσ hβ'3 hβ'out with ⟨ψ, hψ | hψ⟩ | he₂
   ·

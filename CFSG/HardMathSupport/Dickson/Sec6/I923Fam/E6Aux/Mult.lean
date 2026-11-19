@@ -34,7 +34,7 @@ theorem card_hopfMultiplier_twistedE6 {X : Type} [Group X] {p f : ℕ}
     Nat.card_prod, Nat.card_prod, Nat.card_prod]
   by_cases h : p = 2 ∧ f = 1
   · obtain ⟨rfl, rfl⟩ := h
-    simp [genericOrders, exceptionalOrders, card_multiplicative_zmod]
+    simp [genericOrders, exceptionalOrders]
   · have h2 : exceptionalOrders .twistedE6 0 p f = (1, 1) := by
       unfold exceptionalOrders
       split <;> first | rfl | (exfalso; simp_all)

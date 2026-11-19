@@ -23,12 +23,12 @@ theorem O2_eq_iSup_of_blocks {V : Type} [CommGroup V] [Finite V] {X T M : Subgro
     (hperf : ∀ K ∈ 𝓗, Group.IsPerfect ↥K) :
     CFSG.Quasithin.H13.L319.S66.O2 ↥X = (⨆ K ∈ 𝓗, K).subgroupOf X := by
   classical
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hJX : ffJ X ≤ X := B6.ffJ_le X
   have hTX : T ≤ X := hctx.mp.isSylow.1
   have hTp : IsPGroup 2 ↥T := hctx.mp.isSylow.2.1
   rw [← hctx.ffJ_eq]
-  haveI : ((ffJ X).subgroupOf X).Normal :=
+  have : ((ffJ X).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJX).2 (B6.le_normalizer_ffJ X)
   have hP : IsPGroup 2 ↥(T.subgroupOf X) := hTp.comap_subtype
   have hYP : (ffJ X).subgroupOf X ⊔ T.subgroupOf X = ⊤ := by
@@ -65,7 +65,7 @@ theorem O2_eq_iSup_of_blocks {V : Type} [CommGroup V] [Finite V] {X T M : Subgro
     have hperf' : ∀ K' ∈ 𝓚, Group.IsPerfect ↥K' := by
       intro K' hK'
       obtain ⟨K, hK, rfl⟩ := hout K' hK'
-      haveI := hperf K hK
+      have := hperf K hK
       let e := Subgroup.subgroupOfEquivOfLe (hctx.mem_le hK)
       exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hcomm := commutator_iSup_eq_of_perfect 𝓚 hperf'

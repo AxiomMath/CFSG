@@ -14,12 +14,12 @@ open CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 
 theorem finite_mulAut (P : Type) [Group P] [Finite P] : Finite (MulAut P) :=
-  Finite.of_injective (fun a : MulAut P => (a : P → P)) fun a b hab => MulEquiv.ext (congrFun hab)
+  Finite.of_injective (fun _a : MulAut P => (_a : P → P)) fun _a _b hab => MulEquiv.ext (congrFun hab)
 
 theorem card_mulAut_dvd_of_outer {P : Type} [Group P] [Finite P] {a g N : ℕ}
     (hout : Nat.card (Outer P) ∣ a * g) (hcard : Nat.card P * g = N) :
     Nat.card (MulAut P) ∣ a * N := by
-  haveI := finite_mulAut P
+  have := finite_mulAut P
   have hinn : Nat.card (inner P) ∣ Nat.card P := Subgroup.card_range_dvd _
   have hAut : Nat.card (MulAut P) = Nat.card (Outer P) * Nat.card (inner P) :=
     (Subgroup.card_eq_card_quotient_mul_card_subgroup (inner P)).trans rfl
@@ -37,7 +37,7 @@ noncomputable def descend (S : Type) [Group S] : MulAut S →* MulAut (S ⧸ Sub
     ext z
     induction z using QuotientGroup.induction_on with
     | H z =>
-      simp only [map_mul, MulAut.mul_apply]
+      simp only [MulAut.mul_apply]
       rfl
 
 theorem descend_injective (S : Type) [Group S] [Group.IsPerfect S] :
@@ -87,7 +87,7 @@ theorem linear_aut_dvd {W K : Type} [Group W] [Finite W] [Field K] {p f : ℕ} (
   let ψ : W ⧸ Subgroup.center W ≃* LinearFlag.projectiveSL 3 K :=
     (quotCenterEquiv e').trans
       (QuotientGroup.quotientMulEquivOfEq (LinearFlag.scalars_eq_center 3 K)).symm
-  haveI : Finite (LinearFlag.projectiveSL 3 K) := Finite.of_equiv _ ψ.toEquiv
+  have : Finite (LinearFlag.projectiveSL 3 K) := Finite.of_equiv _ ψ.toEquiv
   have hout : Nat.card (Outer (LinearFlag.projectiveSL 3 K)) ∣ 2 * f * 3 := by
     have := UnitaryHigher.higher_linear_outer_order_divides_field_gcd_bound (n := 3) hp hf
       (le_refl 3) hK
@@ -103,8 +103,8 @@ theorem unitary_aut_dvd {W K : Type} [Group W] [Finite W] [Field K] {p f : ℕ}
     (h : UnitaryFieldData p f K) (h3 : 3 ∣ p ^ f + 1) (hq2 : p ^ f ≠ 2)
     (e : W ≃* unitarySU p f K 3) (hZ : Nat.card (Subgroup.center W) = 3) :
     Nat.card (MulAut (W ⧸ Subgroup.center W)) ∣ 2 * f * Nat.card W := by
-  haveI : Finite K := h.finite
-  haveI : Finite (unitarySU p f K 3) := Finite.of_equiv W e.toEquiv
+  have : Finite K := h.finite
+  have : Finite (unitarySU p f K 3) := Finite.of_equiv W e.toEquiv
   have hZ' : Nat.card (Subgroup.center (unitarySU p f K 3)) = 3 :=
     (Nat.card_congr (Subgroup.centerCongr e).toEquiv).symm.trans hZ
   have hscal : unitaryScalars h 3 = Subgroup.center (unitarySU p f K 3) :=
@@ -112,7 +112,7 @@ theorem unitary_aut_dvd {W K : Type} [Group W] [Finite W] [Field K] {p f : ℕ}
       rw [hZ', card_unitaryScalars h (by norm_num), Nat.gcd_eq_left h3])
   let ψ : W ⧸ Subgroup.center W ≃* unitaryPSU h 3 :=
     (quotCenterEquiv e).trans (QuotientGroup.quotientMulEquivOfEq hscal.symm)
-  haveI : Finite (unitaryPSU h 3) := Finite.of_equiv _ ψ.toEquiv
+  have : Finite (unitaryPSU h 3) := Finite.of_equiv _ ψ.toEquiv
   have hout : Nat.card (Outer (unitaryPSU h 3)) ∣ 2 * f * 3 := by
     have := (UnitaryHigher.unitary_full_diagonal_outer_order h (n := 3) (le_refl 3)
       (fun h' => hq2 h'.2)).2.2.2.2.1
@@ -136,7 +136,7 @@ theorem sl3Eps_aut_data {p : ℕ} {W : Type} [Group W] [Finite W] (h : SL3EpsOfC
   obtain ⟨hZ3, -⟩ := sl3Eps_facts h
   rcases h with ⟨F, hF, hfin, hchar, hmod, ⟨e⟩⟩ | ⟨F, hF, hfin, q, hchar, hcard, hq3, hq2, ⟨e⟩⟩
   ·
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, hp, hn⟩ := FiniteField.card F p
     have hK : Nat.card F = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
     have hr4 : 4 ≤ Nat.card F := by
@@ -151,7 +151,7 @@ theorem sl3Eps_aut_data {p : ℕ} {W : Type} [Group W] [Finite W] (h : SL3EpsOfC
     rw [← hW]
     exact linear_aut_dvd hp n.pos hK h3 e hZ3
   ·
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, hp, hn⟩ := FiniteField.card F p
     have hK : Nat.card F = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
     have hqd : q ∣ p ^ (n : ℕ) := ⟨q, by rw [← hK, hcard]; ring⟩
@@ -178,10 +178,10 @@ theorem l3AutDvd_of_isL3Kind {p : ℕ} {X : Type} [Group X] [Finite X] (h : IsL3
       r = p ^ f ∧ Nat.card (MulAut X) ∣ 2 * f * L3Ord r ε := by
   rcases h with hSL | ⟨W, hW, hWSL, ⟨ψ⟩⟩
   · obtain ⟨r, ε, f, hc, hcard, hr, hdvd⟩ := sl3Eps_aut_data hSL
-    haveI := CFSG.HardMathSupport.Dickson.Sec6.BM.isPerfect_of_sl3EpsOfChar hSL
+    have := CFSG.HardMathSupport.Dickson.Sec6.BM.isPerfect_of_sl3EpsOfChar hSL
     refine ⟨r, ε, f, 1, Or.inl rfl, hc, by rw [mul_one, hcard], hr, ?_⟩
     exact (Subgroup.card_dvd_of_injective _ (descend_injective X)).trans hdvd
-  · haveI := finite_of_sl3EpsOfChar hWSL
+  · have := finite_of_sl3EpsOfChar hWSL
     obtain ⟨r, ε, f, hc, hcard, hr, hdvd⟩ := sl3Eps_aut_data hWSL
     obtain ⟨hZ3, -⟩ := sl3Eps_facts hWSL
     refine ⟨r, ε, f, 3, Or.inr rfl, hc, ?_, hr, ?_⟩

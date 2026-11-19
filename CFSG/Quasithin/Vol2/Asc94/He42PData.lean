@@ -22,8 +22,8 @@ private lemma he42pd_trans (i : Fin 5) : ∃ σ ∈ alternatingGroup (Fin 5), σ
 private lemma he42pd_fixed_of_cube {α : Type*} [Finite α] (T : α → α) (hinj : Function.Injective T)
     (h3 : ∀ x, T (T (T x)) = x) (hcard : ¬ 3 ∣ Nat.card α) : ∃ x, T x = x := by
   classical
-  haveI : Fintype α := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype α := Fintype.ofFinite α
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let e : Equiv.Perm α := Equiv.ofBijective T ⟨hinj, Finite.injective_iff_surjective.mp hinj⟩
   have he : ∀ x, e x = T x := fun x => rfl
   have he3 : e ^ (3 ^ 1) = 1 := by
@@ -52,7 +52,7 @@ theorem he42pd_fix_iff (l l' : ↥L) : ψ l 0 = ψ l' 0 ↔ (l : Δ)⁻¹ * (l' 
 
 theorem he42pd_orderOf {Y : ↥L} {y₀ : Δ} (hY : (Y : Δ) = y₀) (hy₀A : y₀ ∉ A)
     (hy₀3 : orderOf y₀ = 3) : orderOf (ψ Y) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hy3 : y₀ ^ 3 = 1 := by rw [← hy₀3]; exact pow_orderOf_eq_one y₀
   have hY3 : Y ^ 3 = 1 := Subtype.ext (by simp [hY, hy3])
   have h3 : ψ Y ^ 3 = 1 := by rw [← map_pow, hY3, map_one]
@@ -183,7 +183,7 @@ theorem comm_of_klein {y : Δ} (hyL : y ∈ normalizer (L : Set Δ)) (hyK : y �
     rw [Subgroup.coe_mul, Subgroup.coe_inv, hcL, hl']
   rwa [e] at h3
 
-theorem exists_mul_centralizer [Finite Δ] {y : Δ} (hyL : y ∈ normalizer (L : Set Δ))
+theorem exists_mul_centralizer [Finite Δ] {y : Δ} (_hyL : y ∈ normalizer (L : Set Δ))
     (hy3 : y ^ 3 = 1) (hyc : ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ A) (h3 : ¬ 3 ∣ Nat.card A) :
     ∀ l ∈ L, ∃ a ∈ A, ∃ c ∈ L ⊓ centralizer ({y} : Set Δ), l = a * c := by
   intro l hl
@@ -309,9 +309,9 @@ theorem exists_inverting {y y₀ : Δ}
     exact eq_inv_of_mul_eq_one_left hZ0
 
 theorem mem_zpowers_of_commute {y y₀ : Δ}
-    (hcompl : ∀ l ∈ L, ∃ a ∈ A, ∃ c ∈ L ⊓ centralizer ({y} : Set Δ), l = a * c)
+    (_hcompl : ∀ l ∈ L, ∃ a ∈ A, ∃ c ∈ L ⊓ centralizer ({y} : Set Δ), l = a * c)
     (hAy : A ⊓ centralizer ({y} : Set Δ) = ⊥) (hy₀ : y₀ ∈ L ⊓ centralizer ({y} : Set Δ))
-    (hy₀K : y₀ ∈ K) (hy₀A : y₀ ∉ A) (hy₀3 : orderOf y₀ = 3) :
+    (_hy₀K : y₀ ∈ K) (hy₀A : y₀ ∉ A) (hy₀3 : orderOf y₀ = 3) :
     ∀ c ∈ L ⊓ centralizer ({y} : Set Δ), c * y₀ = y₀ * c → c ∈ zpowers y₀ := by
   intro c hc hcy
   obtain ⟨hcL, hcC⟩ := Subgroup.mem_inf.mp hc
@@ -364,7 +364,7 @@ theorem exists_rankOne {R : Subgroup Δ} (hRJ : R ≤ J)
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hs
     exact ⟨x, Subgroup.mem_subgroupOf.mp hx, rfl⟩
   choose px hpxR hpxψ using hpre
-  haveI : Fintype ↥((R.subgroupOf L).map ψ) := Fintype.ofFinite _
+  have : Fintype ↥((R.subgroupOf L).map ψ) := Fintype.ofFinite _
   refine ⟨((Finset.univ : Finset ↥((R.subgroupOf L).map ψ)).toList).map (fun s => (px s : Δ)),
     ?_, ?_⟩
   · intro u hu

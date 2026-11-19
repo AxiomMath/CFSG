@@ -242,8 +242,8 @@ theorem isPerfect_CQ_of_four_le_pow {τ : Tag} {L : Type} [Field L] [IsAlgClosed
     Group.IsPerfect ↥(CQ σ i) := by
   classical
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hs : 0 < s := by
     by_contra h0
     have h0' : s = 0 := by omega
@@ -384,13 +384,13 @@ theorem rckA1_exists_cover {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : 
           φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 (h * s))) := by
   classical
   obtain ⟨r, e, hr, hchar, he, hqr⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hs0 : 0 < s := Nat.pos_of_ne_zero (NeZero.ne s)
   have hσ' : ∀ c : L, σ c = c ^ (r ^ (e * s)) := fun c => by
     rw [hσ, hqr, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ := exists_fixSubfield_fintype S hs0 hσ
-  haveI : Finite (fixSubfield σ) := hfinK
+  have : Finite (fixSubfield σ) := hfinK
   have hsL : ∃ u : Lˣ, u ^ 2 ≠ 1 := by
     obtain ⟨c, hc⟩ := Infinite.exists_notMem_finset ({0, 1, -1} : Finset L)
     have hc0 : c ≠ 0 := fun h => hc (by simp [h])
@@ -433,8 +433,8 @@ theorem rckA1_exists_cover {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : 
         (K := fixSubfield σ) (χ := rootCharHom a) ht i
     have hRf : f.range = rationalComponent S.ρ S.Γ (rootCharHom a) i :=
       le_antisymm (hf2 (Subgroup.isPerfect_iff.1 hperfC)) hf1
-    haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
-    haveI : Fintype (GaloisField 2 (h * s)) := Fintype.ofFinite _
+    have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+    have : Fintype (GaloisField 2 (h * s)) := Fintype.ofFinite _
     have hG : Nat.card (GaloisField 2 (h * s)) = 2 ^ (h * s) :=
       GaloisField.card 2 (h * s) (by omega)
     have hF : Nat.card ↥(fixSubfield σ) = 2 ^ (h * s) := by
@@ -483,15 +483,15 @@ theorem rckA1_exists_cover {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : 
       calc S.D.q ^ s = 2 ^ (h * s) := by rw [hq, ← pow_mul]
         _ ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) hle
         _ ≤ 3 := by norm_num
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) ↥(fixSubfield σ)) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) ↥(fixSubfield σ)) :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_specialLinear_two_of_card_le_three
         hKle
-    haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
+    have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom a) i) :=
       Group.isSolvable_of_isSolvable_injective (f := eSL.symm.toMonoidHom)
         eSL.symm.injective
-    haveI : Group.IsSolvable ↥f.range :=
+    have : Group.IsSolvable ↥f.range :=
       Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-    haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
     exact CFSG.HardMathSupport.Solomon.Coordinator.LieComp.not_isSolvable_of_isQuasisimple
       hqs inferInstance

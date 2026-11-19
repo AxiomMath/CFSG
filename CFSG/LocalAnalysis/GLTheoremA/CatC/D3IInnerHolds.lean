@@ -20,7 +20,7 @@ theorem d3InnerInvolution_of_sylow (h : D3InnerSylow) : D3InnerInvolution := by
   · subst hA1
     rw [Subgroup.card_bot]
     exact Nat.one_le_pow _ _ (by norm_num)
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hf : 1 ≤ n := one_le_of_card_field hK
   obtain ⟨-, -, hcen⟩ := d4Facts2 Nat.prime_three (by norm_num) hf hK
   have hinj := CFSG.HardMathSupport.Timmesfeld.ComponentBalance.conj_injective_of_center_eq_bot hcen
@@ -57,7 +57,7 @@ theorem d3InnerInvolution_of_sylow (h : D3InnerSylow) : D3InnerInvolution := by
   have hαg : α g = g := by
     rw [hg, hαapp, hty]
   set S' : Sylow 3 ↥(adjointGroup Tag.D4 K) := Sylow.mapSurjective (f := φ.toMonoidHom) φ.surjective S with hS'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS'coe : (S' : Subgroup ↥(adjointGroup Tag.D4 K)) =
       (S : Subgroup (D4Model K)).map φ.toMonoidHom := rfl
   have hS'α : (S' : Subgroup ↥(adjointGroup Tag.D4 K)).map α.toMonoidHom = S' := by

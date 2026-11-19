@@ -31,7 +31,7 @@ theorem t5_cov5_model (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
     rw [commutatorElement_def]
     exact C.mul_mem (C.mul_mem (C.mul_mem hg hh) (C.inv_mem hg)) (C.inv_mem hh)
   obtain ⟨hGfin, hGsimple⟩ := ff_fin_simple_psl2 hLie
-  haveI := hGfin
+  have := hGfin
   obtain ⟨-, hnc⟩ := ff_simple_of_lieModel_psl2 hLie
   have hfB : ∀ x : ↥G1, G1.subtype x ∈ omegaGroup hQ ⊓ C := fun x => ⟨hG1le x.2, hG1leC x.2⟩
   have hX : t ∈ twoPrimeRes (twoRes (omegaGroup hQ ⊓ C)) :=

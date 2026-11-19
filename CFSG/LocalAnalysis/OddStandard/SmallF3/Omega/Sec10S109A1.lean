@@ -252,7 +252,7 @@ theorem sec10A_part1 [Finite G] (h3 : Asc82Sec3Res10) (h : Asc82Res10a) (hb : As
     (hctx : Sec10Ctx G t L S z K1 K2) (hneg : ¬ normalizer (S : Set G) ≤ secM t S L) :
     ∃ g : G, g ∈ normalizer (S : Set G) ∧ g ∉ secM t S L ∧ IsPGroup 2 ↥(zpowers g) ∧
       g⁻¹ * t * g = t * z ∧ g⁻¹ * z * g = z := by
-  obtain ⟨g0, hg0N, hg0M⟩ := SetLike.not_le_iff_exists.mp hneg
+  obtain ⟨g0, hg0N, hg0M⟩ := IsConcreteLE.not_le_iff_exists.mp hneg
   obtain ⟨m, hm, hg2⟩ := sec10A_exists_odd_pow g0
   have hgN : g0 ^ m ∈ normalizer (S : Set G) := Subgroup.pow_mem _ hg0N m
   have hsq : g0 * g0 ∈ secM t S L := sec10A_sq_mem_M h.l107c hctx hg0N hg0M

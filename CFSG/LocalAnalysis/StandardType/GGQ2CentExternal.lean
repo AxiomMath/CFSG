@@ -18,7 +18,7 @@ theorem externalTransfer_holds
   have hp3 : p = 3 := ggQ2_pThree hS
   subst hp3
   obtain ⟨hp, hBs, hxBs, hLx, -⟩ := hS.1.1.tableB_facts
-  haveI hFact : Fact (Nat.Prime 3) := ⟨hp⟩
+  have hFact : Fact (Nat.Prime 3) := ⟨hp⟩
   have hSstar : LargeEvenSStar 3 B x L := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hSstar.2.2.1
   have hcyc : ∀ S : Subgroup G, S ≤ Subgroup.centralizer (L : Set G) → IsPGroup 3 S →

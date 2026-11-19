@@ -61,7 +61,7 @@ theorem four_le_pRank_exceptional {G : Type} [Group G] [Finite G] (d : ValidLieT
       ⟨.twistedE6 q, hv⟩ trivial e
   | trialityD4 q =>
     have hp : q.p = 3 := by simpa using hd
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hT := CFSG.HardMathSupport.Timmesfeld.Tables.Census.twistedChevalleyModel_of_bridge
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.trialityD4 e
     have h4 := CFSG.SectionRank.four_le_pRank_of_trialityD4Model q.exponent_pos hT
@@ -69,7 +69,7 @@ theorem four_le_pRank_exceptional {G : Type} [Group G] [Finite G] (d : ValidLieT
     exact h4
   | G2 q =>
     have hp : q.p = 3 := by simpa using hd
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hU := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.untwistedChevalleyModel_of_bridge
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 e
     by_cases hf : 2 ≤ q.exponent

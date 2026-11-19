@@ -18,7 +18,7 @@ theorem s13_three_case_three (h : HAb A X Q t 3)
     ∃ L : Subgroup (MulAut W), L ≤ X ∧ Conc4_133 A t L ∧
       L = s13XSupp X (s13Supp X L) := by
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hQeq := w16g_three_Q_eq_XSupp h hH0 hQ9 he
   have hrk := w16g_three_rk_eq_six h he
   have hinv := w16g_three_inv_ne_bot h
@@ -63,9 +63,9 @@ theorem s13_three_case_two_supports (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   obtain ⟨lam, hl⟩ := exists_coord h.hW hp3 hp32 h.hXe
   have horth := s13_three_orthogonal h hH0 hQ3 he hl
   have hle3 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard ≤ 3 := by

@@ -34,8 +34,8 @@ private def e6c3w_h (i : Fin Tag.E6.rank) : ↥e6c3w_hypMod :=
 private def e6c3w_α (i : Fin Tag.E6.rank) :
     Module.Dual (ZMod 3) ↥e6c3w_hypMod where
   toFun v := v.1 i
-  map_add' v u := rfl
-  map_smul' c v := rfl
+  map_add' _v _u := rfl
+  map_smul' _c _v := rfl
 
 private theorem e6c3w_cartan_symm (i j : Fin Tag.E6.rank) :
     Tag.cartan .E6 i j = Tag.cartan .E6 j i := by
@@ -289,7 +289,6 @@ theorem e6Three_exists_weylIso {G : Type} [Group G] [Finite G] {Bs X : Subgroup 
     ?_, ?_, ?_, ?_, ?_⟩
   · intro k
     rw [MulEquiv.trans_apply, ggE6Row_coxeterGroupEquiv_simple]
-    change ((f0 (simple .E6 k)) : MulAut ↥Bs) = ggTDρB X Bs (nk k)
     rw [show f0 (simple .E6 k) = Fa (simple .E6 k) from rfl, hFa_simple k]
   · intro j
     exact (MulEquiv.symm_apply_eq _).mpr (ggE6Row_coxeterGroupEquiv_simple j).symm

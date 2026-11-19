@@ -125,7 +125,7 @@ theorem toMatrix_reflection {R V : Type} [CommRing R] [AddCommGroup V] [Module R
     Matrix.one_apply]
   by_cases h : i = j
   · subst h; ring
-  · rw [if_neg h, if_neg (fun hji => h hji.symm)]
+  · rw [ite_eq_right h, ite_eq_right (fun hji => h hji.symm)]
     ring
 
 private lemma repr_sum_smul {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)
@@ -137,7 +137,7 @@ private lemma repr_sum_smul {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hij
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
   · intro hi; simp at hi
 
 private lemma sum_smul_coord_apply {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)
@@ -147,7 +147,7 @@ private lemma sum_smul_coord_apply {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) 
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hij
-    rw [if_neg (fun h : i = j => hij h.symm), mul_zero]
+    rw [ite_eq_right (fun h : i = j => hij h.symm), mul_zero]
   · intro hi; simp at hi
 
 private lemma dual_apply_sum_smul {m : ℕ} (f : Module.Basis (Fin m) (ZMod p) U)

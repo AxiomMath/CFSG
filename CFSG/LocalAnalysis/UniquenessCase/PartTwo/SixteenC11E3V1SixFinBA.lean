@@ -160,8 +160,8 @@ theorem s1611e3_sixCodeValid_mul {c d : s1611e3_SixCode}
   simp only [s1611e3_sixCodeValid] at hc hd
   rw [show τ1 = sixAlpha σ1 from hc, show τ2 = sixAlpha σ2 from hd]
   cases ε1 <;> cases ε2 <;>
-    simp only [s1611e3_sixCodeMul, s1611e3_sixCodeValid, Bool.false_eq_true, if_true, if_false,
-      reduceIte, map_mul, sixAlpha_sixAlpha]
+    simp only [s1611e3_sixCodeMul, s1611e3_sixCodeValid, Bool.false_eq_true, ite_true, ite_false,
+      map_mul, sixAlpha_sixAlpha]
 
 theorem s1611e3_sixGhatOf_mul {c d : s1611e3_SixCode}
     (hc : s1611e3_sixCodeValid c) (hd : s1611e3_sixCodeValid d) :
@@ -172,8 +172,7 @@ theorem s1611e3_sixGhatOf_mul {c d : s1611e3_SixCode}
   simp only [s1611e3_sixCodeValid] at hc hd
   rw [show τ1 = sixAlpha σ1 from hc, show τ2 = sixAlpha σ2 from hd]
   cases ε1 <;> cases ε2 <;>
-    simp only [s1611e3_sixCodeMul, s1611e3_sixGhatOf, Bool.false_eq_true, if_true, if_false,
-      reduceIte]
+    simp only [s1611e3_sixCodeMul, s1611e3_sixGhatOf, Bool.false_eq_true, ite_true, ite_false]
   · exact map_mul sixRho σ1 σ2
   · rw [← mul_assoc, s1611e3_sixRho_mul_swap, mul_assoc, ← map_mul]
   · rw [mul_assoc, ← map_mul]
@@ -188,8 +187,8 @@ theorem s1611e3_sixCodeValid_inv {c : s1611e3_SixCode} (hc : s1611e3_sixCodeVali
   simp only [s1611e3_sixCodeValid] at hc
   rw [show τ = sixAlpha σ from hc]
   cases ε <;>
-    simp only [s1611e3_sixCodeInv, s1611e3_sixCodeValid, Bool.false_eq_true, if_true, if_false,
-      reduceIte, map_inv, sixAlpha_sixAlpha]
+    simp only [s1611e3_sixCodeInv, s1611e3_sixCodeValid, Bool.false_eq_true, ite_true, ite_false,
+      map_inv, sixAlpha_sixAlpha]
 
 theorem s1611e3_sixGhatOf_inv {c : s1611e3_SixCode} (hc : s1611e3_sixCodeValid c) :
     s1611e3_sixGhatOf (s1611e3_sixCodeInv c) = (s1611e3_sixGhatOf c)⁻¹ := by
@@ -197,10 +196,9 @@ theorem s1611e3_sixGhatOf_inv {c : s1611e3_SixCode} (hc : s1611e3_sixCodeValid c
   simp only [s1611e3_sixCodeValid] at hc
   rw [show τ = sixAlpha σ from hc]
   cases ε
-  · simp only [s1611e3_sixCodeInv, s1611e3_sixGhatOf, Bool.false_eq_true, if_false, reduceIte]
+  · simp only [s1611e3_sixCodeInv, s1611e3_sixGhatOf, Bool.false_eq_true, ite_false]
     rw [map_inv]
-  · simp only [s1611e3_sixCodeInv, s1611e3_sixGhatOf, Bool.false_eq_true, if_false, if_true,
-      reduceIte]
+  · simp only [s1611e3_sixCodeInv, s1611e3_sixGhatOf, ite_true]
     rw [mul_inv_rev,
       show sixSwap⁻¹ = sixSwap from inv_eq_of_mul_eq_one_right sixSwap_mul_self,
       show (sixRho σ)⁻¹ = sixRho σ⁻¹ from (map_inv sixRho σ).symm,
@@ -258,10 +256,9 @@ theorem s1611e3_sixVNat_act (c : s1611e3_SixCode) (u : SixE6 × SixE6)
       ((coreAct 6 σ) u1, (coreAct 6 (sixAlpha σ)) u2) := rfl
   cases ε
   · simp only [s1611e3_sixGhatOf, s1611e3_sixCodeAct, s1611e3_sixVNat, Bool.false_eq_true,
-      if_false, reduceIte, h1, h2]
+      ite_false, h1, h2]
     rw [hrho, s1611e3_sixE6Nat_coreAct, s1611e3_sixE6Nat_coreAct]
-  · simp only [s1611e3_sixGhatOf, s1611e3_sixCodeAct, s1611e3_sixVNat, Bool.false_eq_true,
-      if_true, reduceIte, h1, h2]
+  · simp only [s1611e3_sixGhatOf, s1611e3_sixCodeAct, s1611e3_sixVNat, ite_true, h1, h2]
     rw [show (sixSwap * sixRho σ) (u1, u2) =
         ((coreAct 6 (sixAlpha σ)) u2, (coreAct 6 σ) u1) from rfl]
     show s1611e3_sixE6Nat ((coreAct 6 (sixAlpha σ)) u2) +

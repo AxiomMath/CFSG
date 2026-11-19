@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
     (f112Amalgam L1 L2 S).Ghat →* G :=
   ((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)).subtype.comp (f112Completion L1 L2 S).theta
 
+omit [Finite G] in
 theorem coe_f112StabEquiv0_caseATheta
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :
     (f112StabEquiv0 L1 L2 S h : G) =
@@ -21,6 +22,7 @@ theorem coe_f112StabEquiv0_caseATheta
   rw [coe_f112StabEquiv0, RankTwoAmalgam.Completion.coe_theta0]
   rfl
 
+omit [Finite G] in
 theorem coe_f112StabEquiv1_caseATheta
     (h : MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)) :
     (f112StabEquiv1 L1 L2 S h : G) =
@@ -28,6 +30,7 @@ theorem coe_f112StabEquiv1_caseATheta
   rw [coe_f112StabEquiv1, RankTwoAmalgam.Completion.coe_theta0]
   rfl
 
+omit [Finite G] in
 theorem caseATheta_map_Z_γ₁ :
     (caseAZ (f112Gamma1 L1 L2 S)).map (caseATheta L1 L2 S) = Z2 L1 L2 S := by
   apply le_antisymm
@@ -53,6 +56,7 @@ theorem caseATheta_map_Z_γ₁ :
     · exact (caseA_mem_Z_γ₁_iff h).mpr (by rw [hh]; exact hz)
     · rw [← coe_f112StabEquiv1_caseATheta]; exact hh
 
+omit [Finite G] in
 theorem caseATheta_map_X_γ₀ :
     (caseAX (f112Gamma0 L1 L2 S)).map (caseATheta L1 L2 S) = str83X L1 L2 S := by
   apply le_antisymm
@@ -101,6 +105,7 @@ theorem caseATheta_map_X_γ₀ :
       (k : (f112Amalgam L1 L2 S).Ghat)⁻¹, hconj, ?_⟩
     rw [map_mul, map_mul, map_inv, ← hk_eq, coe_f112StabEquiv0_caseATheta k, ← hxz]
 
+omit [Finite G] in
 theorem caseATheta_injOn_stab_γ₀ :
     Set.InjOn (caseATheta L1 L2 S)
       (CosetGeom.stab (f112Gamma0 L1 L2 S) : Set (f112Amalgam L1 L2 S).Ghat) := by
@@ -183,6 +188,7 @@ theorem caseA_R_le_stab
   rw [CosetGeom.dist_comm]
   exact (CosetGeom.dist_eq_one_iff_adj.mpr hα).le
 
+omit [Finite G] in
 theorem caseATheta_map_R_γ₁ :
     (caseAR (f112Gamma1 L1 L2 S)).map (caseATheta L1 L2 S) = str83R L1 L2 S := by
   apply le_antisymm
@@ -239,6 +245,7 @@ theorem caseATheta_map_R_γ₁ :
       (k : (f112Amalgam L1 L2 S).Ghat)⁻¹, hconj, ?_⟩
     rw [map_mul, map_mul, map_inv, ← hk_eq, coe_f112StabEquiv1_caseATheta k, ← hyx]
 
+omit [Finite G] in
 theorem caseATheta_injOn_stab_γ₁ :
     Set.InjOn (caseATheta L1 L2 S)
       (CosetGeom.stab (f112Gamma1 L1 L2 S) : Set (f112Amalgam L1 L2 S).Ghat) := by

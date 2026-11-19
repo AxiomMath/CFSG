@@ -40,12 +40,11 @@ theorem ext {x y : FlagK K 3} (h1 : x.E 1 = y.E 1) (h2 : x.E 2 = y.E 2) : x = y 
     · simp
   dim := by
     intro j hj
-    interval_cases j <;> simp [hp, hL, Module.finrank_fin_fun]
+    interval_cases j <;> simp [hp, hL]
   top := by
     intro j hj
-    change (if j = 0 then ⊥ else if j = 1 then p else if j = 2 then L else ⊤) = ⊤
-    rw [if_neg (show ¬ j = 0 by omega), if_neg (show ¬ j = 1 by omega),
-      if_neg (show ¬ j = 2 by omega)]
+    rw [ite_eq_right (show ¬ j = 0 by omega), ite_eq_right (show ¬ j = 1 by omega),
+      ite_eq_right (show ¬ j = 2 by omega)]
 
 theorem ofChain_E_one (p L : Submodule K (Fin 3 → K)) (hp : finrank K p = 1)
     (hL : finrank K L = 2) (hpL : p ≤ L) : (ofChain p L hp hL hpL).E 1 = p := by
@@ -126,7 +125,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem exists_not_mem_union {n : ℕ} (hK : 3 < Nat.card K) (U₁ U₂ U₃ : Submodule K (Fin n → K))
     (h₁ : U₁ ≠ ⊤) (h₂ : U₂ ≠ ⊤) (h₃ : U₃ ≠ ⊤) : ∃ v : Fin n → K, v ∉ U₁ ∧ v ∉ U₂ ∧ v ∉ U₃ := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let p : Fin 3 → Submodule K (Fin n → K) := ![U₁, U₂, U₃]
   have hp : ∀ i, p i ≠ ⊤ := by
     intro i

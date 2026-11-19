@@ -27,7 +27,7 @@ theorem gamma_card_mul_le {X Y Z : Subgroup G} (hX : X ≤ Z) (hY : Y ≤ Z) :
 
 theorem gamma_exists_inv_of_two_dvd {K : Subgroup G} (h : 2 ∣ Nat.card K) :
     ∃ s ∈ K, orderOf s = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 h
   exact ⟨x, x.2, (Subgroup.orderOf_coe x).trans hx⟩
 

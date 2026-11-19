@@ -40,9 +40,9 @@ private theorem a10t1_comp_A5_perfect : Group.IsPerfect (alternatingGroup (Fin 5
 
 private theorem a10t1_comp_quasisimple {H : Type} [Group H] (e : H ≃* alternatingGroup (Fin 5)) :
     CFSG.IsQuasisimple H := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := a10t1_comp_A5_perfect
-  haveI : IsSimpleGroup H := e.isSimpleGroup
-  haveI : Group.IsPerfect H :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) := a10t1_comp_A5_perfect
+  have : IsSimpleGroup H := e.isSimpleGroup
+  have : Group.IsPerfect H :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hc : Subgroup.center H = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center H) with h | h
@@ -50,7 +50,7 @@ private theorem a10t1_comp_quasisimple {H : Type} [Group H] (e : H ≃* alternat
     · exact absurd (Subgroup.center_eq_top_iff.mp h) (Group.IsPerfect.not_isMulCommutative H)
   have hsimp : IsSimpleGroup (H ⧸ Subgroup.center H) :=
     MulEquiv.isSimpleGroup ((QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot)
-  haveI := hsimp
+  have := hsimp
   have hnc : ∃ a b : H ⧸ Subgroup.center H, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -61,7 +61,7 @@ private theorem a10t1_comp_quasisimple {H : Type} [Group H] (e : H ≃* alternat
 private theorem a10t1_comp_pPrimeCore {H : Type} [Group H] [Finite H] (f : H →* alternatingGroup (Fin 5))
     (hf : Function.Surjective f) (hc : ¬ 5 ∣ Nat.card f.ker) :
     CFSG.pPrimeCore 5 H = f.ker := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   apply le_antisymm
   · have hCn : (CFSG.pPrimeCore 5 H).Normal := CFSG.pPrimeCore_normal
     have hCc : ¬ 5 ∣ Nat.card (CFSG.pPrimeCore 5 H) :=
@@ -76,6 +76,7 @@ private theorem a10t1_comp_pPrimeCore {H : Type} [Group H] [Finite H] (f : H →
       exact hCc (dvd_trans (by norm_num) hd)
   · exact le_sSup ⟨f.normal_ker, (Nat.Prime.coprime_iff_not_dvd (by norm_num)).2 hc⟩
 
+omit [Finite G] in
 private theorem a10t1_comp_le_normalizer {S H : Subgroup G} (h : ∀ s ∈ S, ∀ a ∈ H, s * a * s⁻¹ ∈ H) :
     S ≤ Subgroup.normalizer (H : Set G) := by
   intro s hs
@@ -85,6 +86,7 @@ private theorem a10t1_comp_le_normalizer {S H : Subgroup G} (h : ∀ s ∈ S, �
   have := h s⁻¹ (S.inv_mem hs) _ ha
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem a10t1_comp_subnormal {W E₁ E₂ : Subgroup G} (hE₁ : E₁ ≤ W) (hE₂ : E₂ ≤ W)
     (hW : ∀ w ∈ W, ∀ e ∈ E₁ ⊔ E₂, w * e * w⁻¹ ∈ E₁ ⊔ E₂)
     (h₂ : ∀ e ∈ E₂, ∀ a ∈ E₁, e * a * e⁻¹ ∈ E₁) :
@@ -101,6 +103,7 @@ private theorem a10t1_comp_subnormal {W E₁ E₂ : Subgroup G} (hE₁ : E₁ �
     sup_le Subgroup.le_normalizer (a10t1_comp_le_normalizer (S := E₂) h₂)
   exact hle2 (Subgroup.mem_subgroupOf.1 hk)
 
+omit [Finite G] in
 private theorem a10t1_comp_ker_card {E O : Subgroup G} (f : ↥E →* alternatingGroup (Fin 5))
     (hker : f.ker = O.subgroupOf E) (hOc : ¬ 5 ∣ Nat.card O) : ¬ 5 ∣ Nat.card f.ker := by
   rw [hker]
@@ -118,7 +121,7 @@ private theorem a10t1_comp_ker_card {E O : Subgroup G} (f : ↥E →* alternatin
 private theorem a10t1_comp_residual {W E : Subgroup G} (hEW : E ≤ W)
     (hgen : Subgroup.closure {g : G | g ∈ E ∧ ∃ k : ℕ, g ^ 5 ^ k = 1} = E) :
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 5 ↥(E.subgroupOf W) = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hE : E ≤ (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 5 ↥E).map E.subtype := by
     refine hgen.symm.le.trans ((Subgroup.closure_le _).2 ?_)
     rintro g ⟨hgE, k, hk⟩
@@ -150,7 +153,7 @@ private theorem a10t1_comp_one {W O E : Subgroup G} (hEW : E ≤ W)
     GLAPComponent 5 W E ∧
       Nonempty (↥E ⧸ primeComplementCore (G := ↥E) 5 ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨f, hf, hker⟩ := hA
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcore : CFSG.pPrimeCore 5 ↥E = f.ker :=
     a10t1_comp_pPrimeCore f hf (a10t1_comp_ker_card f hker hOc)
   have hiso : ↥E ⧸ CFSG.pPrimeCore 5 ↥E ≃* alternatingGroup (Fin 5) :=
@@ -165,6 +168,7 @@ private theorem a10t1_comp_one {W O E : Subgroup G} (hEW : E ≤ W)
     CFSG.pPrimeCore_map_iso 5 e
   exact a10t1_comp_quasisimple ((QuotientGroup.congr _ _ e hmap).trans hiso)
 
+omit [Finite G] in
 private theorem a10t1_comp_ne {O E₁ E₂ : Subgroup G}
     (hcomm : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b * a⁻¹ * b⁻¹ ∈ O)
     (hA : ∃ f : ↥E₁ →* alternatingGroup (Fin 5), Function.Surjective f ∧ f.ker = O.subgroupOf E₁) :

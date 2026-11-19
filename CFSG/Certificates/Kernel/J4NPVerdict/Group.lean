@@ -34,7 +34,7 @@ theorem w5K_eq : ∀ cs : List Char, w5K cs = cs.filterMap fun ch =>
     | true =>
       obtain ⟨a1, a2⟩ := vj_andB_iff.1 hA
       rw [Nat.ble_eq] at a1 a2
-      rw [if_pos ⟨a1, a2⟩]
+      rw [ite_eq_left ⟨a1, a2⟩]
       change Int.ofNat (ch.toNat - 96) :: w5K cs = ((ch.toNat - 97 + 1 : Nat) : Int) :: w5K cs
       congr 1
       have : ch.toNat - 96 = ch.toNat - 97 + 1 := by omega
@@ -46,12 +46,12 @@ theorem w5K_eq : ∀ cs : List Char, w5K cs = cs.filterMap fun ch =>
         rw [← Nat.ble_eq] at a1 a2
         rw [a1, a2] at hA
         exact absurd hA (by decide)
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       cases hB : andB (Nat.ble 65 ch.toNat) (Nat.ble ch.toNat 69) with
       | true =>
         obtain ⟨b1, b2⟩ := vj_andB_iff.1 hB
         rw [Nat.ble_eq] at b1 b2
-        rw [if_pos ⟨b1, b2⟩]
+        rw [ite_eq_left ⟨b1, b2⟩]
         change Int.negSucc (ch.toNat - 65) :: w5K cs =
           (-((ch.toNat - 65 + 1 : Nat) : Int)) :: w5K cs
         rfl
@@ -61,7 +61,7 @@ theorem w5K_eq : ∀ cs : List Char, w5K cs = cs.filterMap fun ch =>
           rw [← Nat.ble_eq] at b1 b2
           rw [b1, b2] at hB
           exact absurd hB (by decide)
-        rw [if_neg h2]
+        rw [ite_eq_right h2]
 
 theorem w5K_toList (s : String) : w5K s.toList = CFSG.Sporadic.J4.QT2A.w5 s := by
   rw [w5K_eq]

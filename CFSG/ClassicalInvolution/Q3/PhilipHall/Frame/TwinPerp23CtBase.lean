@@ -44,9 +44,9 @@ include hne hperm
 
 @[expose] noncomputable def actHom : ↥(hZero K₀ t) →* MulAut ↥K₀ × MulAut ↥K' :=
   (K₀.normalizerMonoidHom.comp
-      (Subgroup.inclusion (fun c hc => (Subgroup.mem_inf.mp hc).2))).prod
+      (Subgroup.inclusion (fun _c hc => (Subgroup.mem_inf.mp hc).2))).prod
     (K'.normalizerMonoidHom.comp
-      (Subgroup.inclusion (fun c hc => mem_normalizer_iff_conjSub_eq.mpr
+      (Subgroup.inclusion (fun _c hc => mem_normalizer_iff_conjSub_eq.mpr
         (conjSub_of_mem_hZero hne hperm hc))))
 
 theorem actHom_fst (c : ↥(hZero K₀ t)) (x : ↥K₀) :

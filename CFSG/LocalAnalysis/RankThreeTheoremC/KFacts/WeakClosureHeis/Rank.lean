@@ -32,7 +32,7 @@ theorem le_pRank_of_injective_heis {p : ℕ} (hp : 1 < p) {X : Type*} [Group X] 
 
 theorem three_le_pRank_heis {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X] {Q Q₀ Q₁ : Subgroup X}
     (h : HeisShape p Q Q₀ Q₁) : 3 ≤ CFSG.Open.pRank p Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ₀p : IsPGroup p Q₀ := IsPGroup.to_le h.pgrp h.left_le
   have hQ₀nt : Nontrivial Q₀ := (Subgroup.nontrivial_iff_ne_bot Q₀).2 h.ne_bot
   obtain ⟨n, hn, hcard⟩ := (hQ₀p.nontrivial_iff_card).1 hQ₀nt
@@ -48,7 +48,7 @@ theorem three_le_pRank_heis {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Fini
   have hVQ₁ : V ≤ Q₁ := Subgroup.map_subtype_le K
   have hVcard : Nat.card V = p ^ 2 := by
     rw [hV, Subgroup.card_map_of_injective Q₁.subtype_injective, hK]
-  haveI : IsMulCommutative V := IsPGroup.isMulCommutative_of_card_eq_prime_sq hVcard
+  have : IsMulCommutative V := IsPGroup.isMulCommutative_of_card_eq_prime_sq hVcard
   have hcomm : ∀ a : E₁, ∀ b : V, Commute (a : X) (b : X) := fun a b =>
     h.comm a (hE₁Q₀ a.2) b (hVQ₁ b.2)
   let f : E₁ × V →* X := MonoidHom.noncommCoprod E₁.subtype V.subtype hcomm

@@ -19,7 +19,7 @@ private lemma isPGroup_comap_map_closure_gens {F : Type*} [Field F] {Y : Type*} 
 
 private lemma orderOf_conj_inv_mul {Y : Type*} [Group Y] {d : Y} (x : Y)
     (hd : orderOf d = 2) : orderOf (x⁻¹ * d * x) = 2 := by
-  have h : (MulAut.conj x⁻¹) d = x⁻¹ * d * x := by simp [MulAut.conj_apply]
+  have h : (MulAut.conj x⁻¹) d = x⁻¹ * d * x := by simp
   rw [← h, MulEquiv.orderOf_eq, hd]
 
 private lemma eq_mk_tGL_of_orderOf_eq_two {F : Type*} [Field F] (h3 : (3 : F) = 0)

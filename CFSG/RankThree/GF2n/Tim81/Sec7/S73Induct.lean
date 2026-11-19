@@ -70,7 +70,7 @@ theorem EpsIn.isHMember_barY (hE : EpsIn M V h) {P : Subgroup G}
     rw [hle, Subgroup.card_bot] at hcard
     exact hO₂ (Subgroup.eq_bot_of_card_eq _ hcard.symm)
   · intro hle
-    obtain ⟨c, hcH, hcM⟩ := SetLike.not_le_iff_exists.mp hH₀M
+    obtain ⟨c, hcH, hcM⟩ := IsConcreteLE.not_le_iff_exists.mp hH₀M
     have hc' : QuotientGroup.mk' (pPrimeCore 2 ↥(yOf h)) ⟨c, hH₀Y hcH⟩ ∈ barY h H₀ :=
       ⟨⟨c, hH₀Y hcH⟩, Subgroup.mem_subgroupOf.mpr hcH, rfl⟩
     exact hcM (hE.mem_rOf_of_bar_mem (hH₀Y hcH) (hle hc')).1

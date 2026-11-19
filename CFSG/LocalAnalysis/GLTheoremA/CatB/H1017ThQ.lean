@@ -223,10 +223,10 @@ theorem rho_word (ρ : ↥M →* MulAut (Multiplicative (Fin 8 → ZMod 2))) (a 
   | cons t l ih =>
     rw [wordElt, map_mul, MulAut.mul_apply]
     cases t
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [ha, ih]
       rfl
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [hb, ih]
       rfl
 
@@ -297,7 +297,7 @@ theorem card_centralizer_mul_dvd [Finite X] (P : (Fin 8 → ZMod 2) → Prop)
     {u : X} (huQ : u ∈ Q) {v : Fin 8 → ZMod 2}
     (hθ : θ'.symm (QuotientGroup.mk ⟨u, huQ⟩) = Multiplicative.ofAdd v) (hPv : P v) :
     Nat.card ↥(Subgroup.centralizer ({u} : Set X) ⊓ M) * Nat.card {v' // P v'} ∣ Nat.card ↥M := by
-  letI : MulAction ↥M (Multiplicative (Fin 8 → ZMod 2)) := MulAction.compHom _ (rhoGen M Q hc θ')
+  let : MulAction ↥M (Multiplicative (Fin 8 → ZMod 2)) := MulAction.compHom _ (rhoGen M Q hc θ')
   have horb : MulAction.orbit ↥M (Multiplicative.ofAdd v) = {w' | P (Multiplicative.toAdd w')} := by
     ext w'
     constructor
@@ -357,7 +357,7 @@ theorem rhoTh_y (v : Fin 8 → ZMod 2) :
 set_option maxRecDepth 100000 in
 theorem thQCentFact_holds : ThQCentFact := by
   intro u huQ hu2 huz
-  haveI : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
+  have : Finite ↥J := Finite.of_equiv _ thEquivJ.toEquiv
   obtain ⟨s, v, rfl⟩ := mem_Q_iff.1 huQ
   have hsing : thSing v := by
     refine ⟨fun hv0 => ?_, ?_⟩

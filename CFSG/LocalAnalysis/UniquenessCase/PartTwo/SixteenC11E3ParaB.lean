@@ -122,7 +122,7 @@ theorem s1611e3_transport_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K =
     · intro y
       refine ⟨⟨βe.symm y.1, ?_⟩, ?_⟩
       · rw [Subgroup.mem_comap]
-        simpa using y.2
+        simp
       · apply Subtype.ext
         simp
   rw [hcard_fix_mid, s1611e3_fixSub_card hK hP2 hPodd]

@@ -16,7 +16,7 @@ theorem lieCompIdx_classicalBCD : LieCompIdx isClassicalBCDIdx := by
     by_cases hB : n = 2 ∨ q.p = 2
     · exact compIdxAt_psp hp hp2 (d := ⟨.B n q, hd⟩) hB hpc
     ·
-      push_neg at hB
+      push Not at hB
       change p ≠ (TauCeti.LieTypeIndex.B n q).characteristic at hpc
       rw [TauCeti.LieTypeIndex.characteristic_B] at hpc
       have hn3 : 3 ≤ n := by
@@ -25,7 +25,7 @@ theorem lieCompIdx_classicalBCD : LieCompIdx isClassicalBCDIdx := by
         omega
       have hSC := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd n q hd hB.2 hn3
         (MulEquiv.refl _)
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact compIdxAt_pomegaOdd hSC hp hp2 hpc q.card_def
   | C n q => exact compIdxAt_psp hp hp2 (d := ⟨.C n q, hd⟩) trivial hpc
@@ -36,7 +36,7 @@ theorem lieCompIdx_classicalBCD : LieCompIdx isClassicalBCDIdx := by
     · change p ≠ (TauCeti.LieTypeIndex.D n q).characteristic at hpc
       rw [TauCeti.LieTypeIndex.characteristic_D] at hpc
       obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_D n q hd (MulEquiv.refl _)
-      · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
+      · have : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
           CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
         have h5 : 5 ≤ n := by
           have h4n : 4 ≤ n := hSC.1.2.2
@@ -48,7 +48,7 @@ theorem lieCompIdx_classicalBCD : LieCompIdx isClassicalBCDIdx := by
     change p ≠ (TauCeti.LieTypeIndex.twistedD n q).characteristic at hpc
     rw [TauCeti.LieTypeIndex.characteristic_twistedD] at hpc
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_twistedD n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact compIdxAt_pomegaMinus hSC hp hp2 hpc q.card_def
     · have h4n : 4 ≤ n := hadm.2.2

@@ -137,14 +137,7 @@ theorem unique_swap : ∀ x ∈ T0list, x.support.card = 2 → (∀ y ∈ P0list
     rfl | rfl <;>
   first
     | exact absurd h1 (by decide +kernel)
-    | exact absurd c1 (by decide +kernel)
-    | exact absurd c2 (by decide +kernel)
     | exact absurd c3 (by decide +kernel)
-    | exact absurd c4 (by decide +kernel)
-    | exact absurd c5 (by decide +kernel)
-    | exact absurd c6 (by decide +kernel)
-    | exact absurd c7 (by decide +kernel)
-    | exact absurd c8 (by decide +kernel)
     | rfl
 
 theorem unique_central_involution : ∀ z ∈ P0list, z ^ 2 = 1 → z ≠ 1 →
@@ -157,14 +150,8 @@ theorem unique_central_involution : ∀ z ∈ P0list, z ^ 2 = 1 → z ≠ 1 →
   first
     | exact absurd (by decide +kernel) h2
     | exact absurd h1 (by decide +kernel)
-    | exact absurd c1 (by decide +kernel)
-    | exact absurd c2 (by decide +kernel)
     | exact absurd c3 (by decide +kernel)
-    | exact absurd c4 (by decide +kernel)
     | exact absurd c5 (by decide +kernel)
-    | exact absurd c6 (by decide +kernel)
-    | exact absurd c7 (by decide +kernel)
-    | exact absurd c8 (by decide +kernel)
     | rfl
 
 theorem f0_mul_r_sq_support : (f0 * r ^ 2).support.card = 6 := by decide +kernel

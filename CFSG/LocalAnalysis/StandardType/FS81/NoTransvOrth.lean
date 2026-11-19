@@ -40,11 +40,11 @@ theorem dsign_isSign {n : ℕ} (k₀ k₁ : Fin (n + 1)) : IsSign (dsign k₀ k�
 theorem dsign_of_ne {n : ℕ} {k₀ k₁ k : Fin (n + 1)} (h₀ : k ≠ k₀) (h₁ : k ≠ k₁) :
     dsign k₀ k₁ k = 1 := by
   unfold dsign
-  rw [if_neg (by tauto)]
+  rw [ite_eq_right (by tauto)]
 
 theorem dsign_left {n : ℕ} (k₀ k₁ : Fin (n + 1)) : dsign k₀ k₁ k₀ = -1 := by
   unfold dsign
-  rw [if_pos (Or.inl rfl)]
+  rw [ite_eq_left (Or.inl rfl)]
 
 theorem dsign_prod {n : ℕ} {k₀ k₁ : Fin (n + 1)} (h₀ : k₀ ≠ 0) (h₁ : k₁ ≠ 0) (hne : k₀ ≠ k₁) :
     ∏ i : Fin n, dsign k₀ k₁ i.succ = 1 := by

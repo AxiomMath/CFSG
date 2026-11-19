@@ -198,7 +198,7 @@ theorem insp436F4_holds :
   ·
     exfalso
     have hUp : IsPGroup 2 ↥(F4.reeFixedPosUnipotent L a) := by
-      have h1 : IsPGroup 2 ↥((PU : Subgroup ↥C).map C.subtype) := PU.isPGroup'.map _
+      have h1 : IsPGroup 2 ↥((PU : Subgroup ↥C).map C.subtype) := PU.isPGroup.map _
       rwa [hPU, Subgroup.subgroupOf_map_subtype,
         inf_eq_left.2 reeFixedPosUnipotent_le_reeGamma] at h1
     obtain ⟨-, ⟨h1eq, -, -⟩⟩ :=

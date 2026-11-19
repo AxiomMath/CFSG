@@ -26,6 +26,7 @@ theorem mem_normalizer_of_map_eq {x : G} (h : L.map (MulAut.conj x).toMonoidHom 
   by_contra hx
   exact hP.ne (h.symm.trans (hP.map_conj_of_not_mem hx).1)
 
+omit hP in
 theorem inv_not_mem {g : G} (hg : g ∉ normalizer (L : Set G)) : g⁻¹ ∉ normalizer (L : Set G) :=
   fun h => hg (by simpa using inv_mem h)
 
@@ -35,12 +36,12 @@ theorem normalizer_normal : (normalizer (L : Set G)).Normal := by
   rw [map_conj_mul, map_conj_mul]
   by_cases hg : g ∈ normalizer (L : Set G)
   · rw [(hP.map_conj_of_mem (inv_mem hg)).1, hx'.1, (hP.map_conj_of_mem hg).1]
-  · rw [(hP.map_conj_of_not_mem (hP.inv_not_mem hg)).1, hx'.2, (hP.map_conj_of_not_mem hg).2]
+  · rw [(hP.map_conj_of_not_mem (IsPair.inv_not_mem hg)).1, hx'.2, (hP.map_conj_of_not_mem hg).2]
 
 theorem inv_mul_mem {g h : G} (hg : g ∉ normalizer (L : Set G))
     (hh : h ∉ normalizer (L : Set G)) : g⁻¹ * h ∈ normalizer (L : Set G) := by
   refine hP.mem_normalizer_of_map_eq ?_
-  rw [map_conj_mul, (hP.map_conj_of_not_mem hh).1, (hP.map_conj_of_not_mem (hP.inv_not_mem hg)).2]
+  rw [map_conj_mul, (hP.map_conj_of_not_mem hh).1, (hP.map_conj_of_not_mem (IsPair.inv_not_mem hg)).2]
 
 end IsPair
 
@@ -66,7 +67,7 @@ theorem IsPair.apply_mem_sup_map (hP : IsPair L L₂) {U : Submodule (ZMod 2) V}
     rw [mul_inv_cancel_left] at this
     exact add_mem (Submodule.mem_sup_left (hU g hg a ha)) (Submodule.mem_sup_right this)
   · have h2 : g * g₀ ∈ normalizer (L : Set G) := by
-      simpa using hP.inv_mul_mem (hP.inv_not_mem hg) hg₀
+      simpa using hP.inv_mul_mem (IsPair.inv_not_mem hg) hg₀
     have := hmap _ (hP.inv_mul_mem hg₀ hg) a ha
     rw [mul_inv_cancel_left] at this
     exact add_mem (Submodule.mem_sup_right this) (Submodule.mem_sup_left (hU _ h2 b hb))
@@ -140,8 +141,8 @@ theorem case_fixSub_ne_bot {G V : Type} [Group G] [Finite G] [AddCommGroup V] [M
     rw [hFn]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hnt : ∃ l ∈ L, ρ l ≠ 1 := by
     obtain ⟨g, hg⟩ := exists_ne (1 : SL(2, F))
     refine ⟨(e.symm g : G), (e.symm g).2, fun h => hg ?_⟩

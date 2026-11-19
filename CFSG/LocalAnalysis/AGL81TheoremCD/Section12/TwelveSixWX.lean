@@ -39,6 +39,7 @@ private theorem commutator_mem_relPPrimeCore_of_mem_kSub_of_mem_xSub {M H : Subg
   · exact (QuotientGroup.eq_one_iff (N := primeComplementCore (G := ↥H) p) _).mp hker
   · rfl
 
+omit [Finite G] in
 private theorem commutator_mem_relPPrimeCore_of_mem_relPPrimeCore {H : Subgroup G} {p : ℕ}
     (hH : H ≤ Subgroup.normalizer (relPPrimeCore p H : Set G))
     {o w : G} (ho : o ∈ relPPrimeCore p H) (hw : w ∈ H) :
@@ -54,7 +55,7 @@ theorem not_le_xSub_of_isPGroup {M : Subgroup G} {p : ℕ} {Q H : Subgroup G}
     (hW : IsPGroup p W) (hCW : Subgroup.centralizer (W : Set G) ≤ M) :
     ¬ W ≤ xSub p M H := by
   intro hWX
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   have hKH : kSub p M H ≤ H := kSub_le p M H
   have hOH : relPPrimeCore p H ≤ H := relPPrimeCore_le (p := p) H
   have hHnorm : H ≤ Subgroup.normalizer (relPPrimeCore p H : Set G) :=

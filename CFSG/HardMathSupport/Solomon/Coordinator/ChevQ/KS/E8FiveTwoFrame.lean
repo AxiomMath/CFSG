@@ -84,9 +84,9 @@ theorem frame_le_hyperClosure {K : Type} [Field K] [Finite K] {ℓ f : ℕ}
       ((Φ (Matrix.SpecialLinearGroup.transvection hij t) : SL(5, D.L)) :
         Matrix (Fin 5) (Fin 5) D.L) = 1 + Matrix.single (π j) (π i) ((b i j : D.L) * t ^ ℓ ^ f))
     (hΦρ : ∀ X, D.nW * D.frobGL (ρ X) * D.nW⁻¹ = ρ (Φ X))
-    (E : Subgroup (adjointGroup Tag.E8 K)) (hEc : Nat.card E = 5 ^ 3)
+    (E : Subgroup (adjointGroup Tag.E8 K)) (_hEc : Nat.card E = 5 ^ 3)
     (z e₀ e₁ : adjointGroup Tag.E8 K) (εz ε₀ ε₁ : ModGL Tag.E8 D.L)
-    (hz : z ∈ E) (he₀ : e₀ ∈ E) (he₁ : e₁ ∈ E)
+    (_hz : z ∈ E) (_he₀ : e₀ ∈ E) (_he₁ : e₁ ∈ E)
     (hιz : baseChangeGL (algebraMap K D.L) (z : ModGL Tag.E8 K) = D.g * εz * D.g⁻¹)
     (hι₀ : baseChangeGL (algebraMap K D.L) (e₀ : ModGL Tag.E8 K) = D.g * ε₀ * D.g⁻¹)
     (hι₁ : baseChangeGL (algebraMap K D.L) (e₁ : ModGL Tag.E8 K) = D.g * ε₁ * D.g⁻¹)
@@ -103,7 +103,7 @@ theorem frame_le_hyperClosure {K : Type} [Field K] [Finite K] {ℓ f : ℕ}
       (adjointGroup Tag.E8 K).subtype := by
   classical
   set ι := baseChangeGL (algebraMap K D.L) with hι
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hfixε : ∀ (e : adjointGroup Tag.E8 K) (ε : ModGL Tag.E8 D.L),
       ι (e : ModGL Tag.E8 K) = D.g * ε * D.g⁻¹ → D.nW * D.frobGL ε * D.nW⁻¹ = ε := by
     intro e ε he

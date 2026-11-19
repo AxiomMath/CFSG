@@ -47,7 +47,7 @@ theorem s16c1614_rMV_eq_top (D : Data G) {V : Subgroup G}
     (hempty : ∀ U : Subgroup G, U ≤ V → centralizer (U : Set G) ≤ D.M) : rMV D.M V = ⊤ := by
   have hS : {U : Subgroup G | U ≤ V ∧ ¬ centralizer (U : Set G) ≤ D.M} = ∅ := by
     ext U
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     exact fun h => h.2 (hempty U h.1)
   unfold rMV
   rw [hS]

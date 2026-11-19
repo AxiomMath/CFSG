@@ -19,15 +19,15 @@ theorem uc22p21k_map_solvableRadical_eq_center {L : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 L)) :
     (CFSG.solvableRadical ↥L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) =
       Subgroup.center (Bar2 L) := by
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
   exact CFSG.Quasithin.A314.map_solvableRadical_eq_center inferInstance
     (CFSG.Quasithin.A3.isQuasisimple_iff_open.2 hq)
 
 theorem uc22p21k_barInf_equiv {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 L)) :
     Nonempty (BarInf L ≃* Bar2 L ⧸ Subgroup.center (Bar2 L)) := by
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥L) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
   exact CFSG.Quasithin.A314.solvableRadical_quotient_equiv inferInstance
     (CFSG.Quasithin.A3.isQuasisimple_iff_open.2 hq)
 
@@ -54,9 +54,9 @@ theorem uc22p21k_center_eq_bot {X : Type} [Group X] [IsSimpleGroup X]
   rcases (inferInstance : (Subgroup.center X).Normal).eq_bot_or_eq_top with h | h
   · exact h
   · exfalso
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
-    haveI : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton (X ⧸ Subgroup.center X) :=
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+    have : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (X ⧸ Subgroup.center X) :=
       (QuotientGroup.quotientMulEquivOfEq h).injective.subsingleton
     exact not_subsingleton (X ⧸ Subgroup.center X) inferInstance
 
@@ -134,7 +134,7 @@ theorem uc22p21k_not_isSz {X : Type} [Group X] (h : SpU3Quot X) (m : ℕ) : ¬ I
 theorem uc22p21k_not_isL2 {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X) (h : SpU3Quot X)
     (m : ℕ) : ¬ IsL2 X m := by
   intro hL2
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL2
   have hcard := uc22p21k_card_quot_center (uc22p21k_center_eq_bot hq)
   have hX : Nat.card X = ordA 1 (2 ^ m) := hL2.card_eq_lieOrd (by norm_num)

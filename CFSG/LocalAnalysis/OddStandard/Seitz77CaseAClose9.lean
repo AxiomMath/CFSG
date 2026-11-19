@@ -47,7 +47,7 @@ theorem false
     (h : Hyp G A) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hS₁Q⟩ := S.sylow_S₁.isPGroup.exists_le_sylow
-  have hTp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup'
+  have hTp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup
   have hTidx : ¬ 2 ∣ (Q : Subgroup G).index := Q.not_dvd_index
   by_cases hTS : S₁ = (Q : Subgroup G)
   · rw [← hTS] at hTidx

@@ -112,7 +112,7 @@ theorem multiShapeAt_A5A5_of_data {Good Rk : ∀ (T : Type) [Group T], Prop}
     (hCbd : Nat.card ↥(Subgroup.centralizer ({k} : Set G) ⊓ P) ≤ 36000)
     (hpt : Nat.card ↥(Subgroup.centralizer ({k, x₁, y₁, τ * x₁ * τ⁻¹, τ * y₁ * τ⁻¹} : Set G) ⊓ P) ≤
       5) : MultiShapeAt 5 Good Rk x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x₂, hx₂⟩ : ∃ x₂ : G, x₂ = τ * x₁ * τ⁻¹ := ⟨_, rfl⟩
   obtain ⟨y₂, hy₂⟩ : ∃ y₂ : G, y₂ = τ * y₁ * τ⁻¹ := ⟨_, rfl⟩
   rw [← hx₂] at hc₁ hc₃
@@ -169,7 +169,7 @@ theorem multiShapeAt_A5A5_of_data {Good Rk : ∀ (T : Type) [Group T], Prop}
     rw [hCG]
     exact Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 hc, hg⟩
   have hCGP : CG ≤ P := by rw [hCG]; exact inf_le_right
-  haveI hfinCG : Finite ↥CG :=
+  have hfinCG : Finite ↥CG :=
     Finite.of_injective (Subgroup.inclusion hCGP) (Subgroup.inclusion_injective hCGP)
   have hCle : C ≤ CG := by
     rw [hC]
@@ -263,9 +263,9 @@ theorem multiShapeAt_A5A5_of_data {Good Rk : ∀ (T : Type) [Group T], Prop}
     · exact conj_mem_of_mem' L₂ my₂L
   have hL₁P : L₁ ≤ P := fun l hl => hCGP (hEle (h₁E hl))
   have hL₂P : L₂ ≤ P := fun l hl => hCGP (hEle (h₂E hl))
-  haveI : Finite ↥L₁ := Finite.of_injective (Subgroup.inclusion hL₁P)
+  have : Finite ↥L₁ := Finite.of_injective (Subgroup.inclusion hL₁P)
     (Subgroup.inclusion_injective hL₁P)
-  haveI : Finite ↥L₂ := Finite.of_injective (Subgroup.inclusion hL₂P)
+  have : Finite ↥L₂ := Finite.of_injective (Subgroup.inclusion hL₂P)
     (Subgroup.inclusion_injective hL₂P)
   have hperf : Group.IsPerfect ↥L₁ := by
     rw [hL₁]
@@ -310,7 +310,7 @@ theorem multiShapeAt_A5A5_of_data {Good Rk : ∀ (T : Type) [Group T], Prop}
     obtain ⟨T, hT⟩ : ∃ T : Subgroup G, T = Subgroup.centralizer
         ({k, x₁, y₁, x₂, y₂} : Set G) ⊓ P := ⟨_, rfl⟩
     rw [← hT] at hpt
-    haveI : Finite ↥T := by
+    have : Finite ↥T := by
       have hle : T ≤ P := by rw [hT]; exact inf_le_right
       exact Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
     have hDT : D ≤ T := by
@@ -342,7 +342,7 @@ theorem multiShapeAt_A5A5_of_data {Good Rk : ∀ (T : Type) [Group T], Prop}
       have := Subgroup.card_dvd_of_le hzD
       rwa [Nat.card_zpowers, hord] at this
     have hDle5 : Nat.card D ≤ 5 := (Subgroup.card_le_of_le hDT).trans hpt
-    haveI : Finite ↥D :=
+    have : Finite ↥D :=
       Finite.of_injective (Subgroup.inclusion hDT) (Subgroup.inclusion_injective hDT)
     have hDpos : 0 < Nat.card D := Nat.card_pos
     exact IsPGroup.of_card (n := 1)

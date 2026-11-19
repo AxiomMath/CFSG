@@ -97,7 +97,7 @@ theorem isLocallyBalancedAbs_three_two_of_outer {K : Type*} [Group K] [Finite K]
             Set (MulAut K)), Nat.Coprime 3 (orderOf y) → y = 1) :
     IsLocallyBalancedAbs 3 2 K := by
   intro D hD hcard H hH _
-  haveI := innerAut_normal' K
+  have := innerAut_normal' K
   obtain ⟨f, hfD, hf1, hi, hii⟩ := h D hD (by rw [hcard]; norm_num)
   exact localDeltaIn_eq_bot_of_outer (innerAut K) H D hH hfD hf1 hi hii
 

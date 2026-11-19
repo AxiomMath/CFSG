@@ -68,8 +68,8 @@ theorem orthE2_prod_pow_sub (Q n : ℕ) :
 theorem orthE2_card_sl_factor (n : ℕ) (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] {q : ℕ}
     (hq : 2 ≤ q) (hK : Nat.card K = q) :
     ∃ T : ℕ, Nat.Coprime T q ∧ Nat.card (StatedSL n K) = q ^ (n * (n - 1) / 2) * T := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero n := ⟨by omega⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : NeZero n := ⟨by omega⟩
   have hcard : Fintype.card K = q := by rw [← Nat.card_eq_fintype_card, hK]
   have hsl : Nat.card (StatedSL n K) = (∏ i : Fin n, (q ^ n - q ^ (i : ℕ))) / (q - 1) := by
     rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, hcard]
@@ -92,11 +92,11 @@ theorem orthE2_card_sl_two {K : Type} [Field K] [Finite K] {q : ℕ} (hq : 1 ≤
     (Nat.card (StatedSL 2 K) : ℤ) = (q : ℤ) * ((q : ℤ) ^ 2 - 1) := by
   rw [CFSG.Open.StatedAPI.card_statedSL_two K, hK]
   have h2 : 1 ≤ q ^ 2 := Nat.one_le_pow _ _ hq
-  push_cast [Nat.cast_sub h2] <;> ring
+  push_cast [Nat.cast_sub h2]; ring
 
 theorem orthE2_charP_two {K : Type} [Field K] [Finite K] {f : ℕ} (h : Nat.card K = 2 ^ f) :
     CharP K 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card, h]
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 2 ^ f := by
@@ -115,7 +115,7 @@ theorem orthE2_card_omega_plus_two {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨e⟩ := statedOmega_plus_four_nonempty_equiv K h4
   rw [Nat.card_congr e.toEquiv, Nat.card_prod, CFSG.Open.StatedAPI.card_statedSL_two K]
   have h2 : 1 ≤ Nat.card K ^ 2 := Nat.one_le_pow _ _ (by omega)
-  push_cast [Nat.cast_sub h2] <;> ring
+  push_cast [Nat.cast_sub h2]; ring
 
 theorem orthE2_card_omega_minus_two {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
@@ -128,7 +128,7 @@ theorem orthE2_card_omega_minus_two {K : Type} [Field K] [Finite K] [CharP K 2] 
   rw [e1]
   have hK0 : 0 < Nat.card K := Nat.card_pos
   have h4 : 1 ≤ Nat.card K ^ 4 := Nat.one_le_pow _ _ hK0
-  push_cast [Nat.cast_sub h4] <;> ring
+  push_cast [Nat.cast_sub h4]; ring
 
 theorem orthE2_exists_omega_plus {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
     (hm : 2 ≤ m) (h4 : 4 ≤ Nat.card K) :
@@ -257,7 +257,7 @@ theorem noA2All_of_caseE2 [Finite G] {M Q Z B : Subgroup G}
     · obtain ⟨hNS, A, B', instA, instB, hA, hB, ⟨eAB⟩⟩ := hP
       obtain ⟨K₁, fK₁, finK₁, hK₁, ⟨eA⟩⟩ := hA
       obtain ⟨K₂, fK₂, finK₂, hK₂, ⟨eB⟩⟩ := hB
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hAc : (Nat.card A : ℤ) = (Nat.card Z : ℤ) * ((Nat.card Z : ℤ) ^ 2 - 1) := by
         rw [Nat.card_congr eA.toEquiv]
         exact orthE2_card_sl_two hq1 hK₁
@@ -277,7 +277,7 @@ theorem noA2All_of_caseE2 [Finite G] {M Q Z B : Subgroup G}
     · obtain ⟨hNS, A, B', instA, instB, hA, hB, ⟨eAB⟩⟩ := hP
       obtain ⟨K₁, fK₁, finK₁, hK₁, ⟨eA⟩⟩ := hA
       obtain ⟨K₂, fK₂, finK₂, hK₂, b, c, hirr, ⟨eB⟩⟩ := hB
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hAc : (Nat.card A : ℤ) = (Nat.card Z : ℤ) * ((Nat.card Z : ℤ) ^ 2 - 1) := by
         rw [Nat.card_congr eA.toEquiv]
         exact orthE2_card_sl_two hq1 hK₁
@@ -313,7 +313,7 @@ theorem noA2All_of_caseE2 [Finite G] {M Q Z B : Subgroup G}
     · obtain ⟨hNS, A, B', instA, instB, hA, hB, ⟨eAB⟩⟩ := hP
       obtain ⟨K₁, fK₁, finK₁, hK₁, ⟨eA⟩⟩ := hA
       obtain ⟨K₂, fK₂, finK₂, hK₂, ⟨eB⟩⟩ := hB
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hsl : Nat.card (StatedSL (2 * m) K) = Nat.card A * Nat.card B' := by
         rw [← hquot, Nat.card_congr eAB.toEquiv, Nat.card_prod]
       obtain ⟨T₂, hT₂, hBeq⟩ :=
@@ -328,7 +328,7 @@ theorem noA2All_of_caseE2 [Finite G] {M Q Z B : Subgroup G}
     · obtain ⟨hNS, A, B', instA, instB, hA, hB, ⟨eAB⟩⟩ := hP
       obtain ⟨K₁, fK₁, finK₁, hK₁, ⟨eA⟩⟩ := hA
       obtain ⟨K₂, fK₂, finK₂, hK₂, b, c, hirr, ⟨eB⟩⟩ := hB
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hsl : Nat.card (StatedSL (2 * m) K) = Nat.card A * Nat.card B' := by
         rw [← hquot, Nat.card_congr eAB.toEquiv, Nat.card_prod]
       obtain ⟨T₂, hT₂, hBeq⟩ := orthE2_exists_omega_minus (K := K₂) hm2 hirr

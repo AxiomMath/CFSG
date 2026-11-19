@@ -14,10 +14,12 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L : Subgroup G} {F0 : Type} [Fie
   [CharP F0 2] {m : ℕ} {ψ : Su F0 2 1 m →* G}
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)}
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_val (c : Fin m → F0ˣ) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal fun i => (c i : F0) := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_mul (c c' : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag (c * c') =
       qTwoChartTwoThree_diag c * qTwoChartTwoThree_diag c' := by
@@ -26,18 +28,22 @@ private theorem qtwoDB3_a1_diag_mul (c c' : Fin m → F0ˣ) :
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_one :
     qTwoChartTwoThree_diag (fun _ : Fin m => (1 : F0ˣ)) = 1 := by
   apply Units.ext
   simp only [Units.val_one, qTwoChartTwoThree_diag]
   rw [← Matrix.diagonal_one]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_inv (c : Fin m → F0ˣ) :
     (qTwoChartTwoThree_diag c)⁻¹ = qTwoChartTwoThree_diag (fun j => (c j)⁻¹) := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_inv_diag (c : Fin m → F0ˣ) :
     qTwoChartTwoThree_diag c⁻¹ = (qTwoChartTwoThree_diag c)⁻¹ := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_const_comm (l : F0ˣ) (u : GL (Fin m) F0) :
     qTwoChartTwoThree_diag (fun _ : Fin m => l) * u =
       u * qTwoChartTwoThree_diag (fun _ : Fin m => l) := by
@@ -47,12 +53,14 @@ private theorem qtwoDB3_a1_diag_const_comm (l : F0ˣ) (u : GL (Fin m) F0) :
   simp only [Matrix.diagonal_mul, Matrix.mul_diagonal]
   ring
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_const_conj (l : F0ˣ) (u : GL (Fin m) F0) :
     qTwoChartTwoThree_diag (fun _ : Fin m => l) * u *
       (qTwoChartTwoThree_diag (fun _ : Fin m => l))⁻¹ = u := by
   rw [qtwoDB3_a1_diag_const_comm l u]
   group
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_a1_diag_injective {c c' : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_diag c = qTwoChartTwoThree_diag c') : c = c' := by
   funext i
@@ -152,6 +160,7 @@ private theorem qtwoDB3_a1_perm_key (π : Equiv.Perm (Fin m)) (e : Fin m → F0�
         rw [qtwoDB3_a1_diag_inv, ← qtwoDB3_a1_diag_mul]
         congr 1
 
+omit [Finite G] in
 private theorem qtwoDB3_a1_const_of_induces_one (hm : 3 ≤ m)
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) {e : Fin m → F0ˣ}
     (he : qTwoChartTwoThree_induces ψ (1 : G) e) :
@@ -233,12 +242,12 @@ private theorem qtwoDB3_a1_const_of_induces_one (hm : 3 ≤ m)
       have hcongr := congrFun hw i
       rwa [show (π' : Equiv.Perm (Fin m))⁻¹ i = k by
         rw [hπ'inv]
-        simpa [π'] using Equiv.swap_apply_left] at hcongr
+        simp [π']] at hcongr
     have hwi : (fun a => e a * (e (π⁻¹ a))⁻¹) i = e i * (e j)⁻¹ := by
       show e i * (e (π⁻¹ i))⁻¹ = e i * (e j)⁻¹
       rw [show π⁻¹ i = j by
         rw [hπinv]
-        simpa [π] using Equiv.swap_apply_left]
+        simp [π]]
     have hwk1 : (fun a => e a * (e (π⁻¹ a))⁻¹) k = 1 := by
       show e k * (e (π⁻¹ k))⁻¹ = 1
       rw [show π⁻¹ k = k by
@@ -273,6 +282,7 @@ theorem qtwoDB3_ind_exists (hbase : QTwoUnitBase p B Bs x L ψ ε) {s : G} (hs :
   rcases hind u with ⟨u', hu'mat, hu'ψ⟩
   exact ⟨u', by rw [hdiag, hu'mat], hu'ψ.symm⟩
 
+omit [Finite G] in
 theorem qtwoDB3_ind_mul {s s' : G} {c c' : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_induces ψ s c) (h' : qTwoChartTwoThree_induces ψ s' c') :
     qTwoChartTwoThree_induces ψ (s * s') (c * c') := by
@@ -285,10 +295,11 @@ theorem qtwoDB3_ind_mul {s s' : G} {c c' : Fin m → F0ˣ}
   · rw [hu₂ψ, hu₁ψ]
     group
 
+omit [Finite G] in
 theorem qtwoDB3_ind_inv {s : G} {c : Fin m → F0ˣ} (h : qTwoChartTwoThree_induces ψ s c) :
     qTwoChartTwoThree_induces ψ s⁻¹ c⁻¹ := by
   classical
-  haveI : Finite (Su F0 2 1 m) := inferInstance
+  have : Finite (Su F0 2 1 m) := inferInstance
   intro u
   let f : Su F0 2 1 m → Su F0 2 1 m := fun w => Classical.choose (h w)
   have hf_spec : ∀ w : Su F0 2 1 m,
@@ -312,13 +323,15 @@ theorem qtwoDB3_ind_inv {s : G} {c : Fin m → F0ˣ} (h : qTwoChartTwoThree_indu
     rw [hψ]
     group
 
+omit [Finite G] in
 theorem qtwoDB3_ind_one : qTwoChartTwoThree_induces ψ (1 : G) (fun _ => 1) := by
   intro u
   refine ⟨u, ?_, ?_⟩
   · rw [qtwoDB3_a1_diag_one, one_mul, inv_one, mul_one]
   · simp
 
-theorem qtwoDB3_ind_scalar (hF0 : Nat.card F0 = 4) (hm : 3 ≤ m)
+omit [Finite G] in
+theorem qtwoDB3_ind_scalar (_hF0 : Nat.card F0 = 4) (hm : 3 ≤ m)
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) {s : G} {c c' : Fin m → F0ˣ}
     (h : qTwoChartTwoThree_induces ψ s c) (h' : qTwoChartTwoThree_induces ψ s c') :
     ∃ l : F0ˣ, ∀ i, c' i = l * c i := by
@@ -391,6 +404,7 @@ theorem qtwoDB3_bs_le_normalizer (hbase : QTwoUnitBase p B Bs x L ψ ε) :
     have h2 := hfwd s⁻¹ (inv_mem hs) (s * h * s⁻¹) hh
     simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem qtwoDB3_ind_smul {s : G} {c : Fin m → F0ˣ} (l : F0ˣ)
     (h : qTwoChartTwoThree_induces ψ s c) :
     qTwoChartTwoThree_induces ψ s (fun i => l * c i) := by

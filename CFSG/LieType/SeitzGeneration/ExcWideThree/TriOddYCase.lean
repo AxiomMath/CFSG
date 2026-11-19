@@ -62,6 +62,7 @@ theorem triOdd_hasGLine_map (φ : MulAut (C0 σ)) (E : Subgroup (MulAut (C0 σ))
   · left; rw [← h]; group
   · right; rw [← h]; group
 
+omit [Finite X] in
 theorem triOdd_conj_mul_pow_three (g : C0 σ) (φ : MulAut (C0 σ)) (hφ : φ ^ 3 = 1) :
     (MulAut.conj g * φ) ^ 3 = MulAut.conj (g * φ g * φ (φ g)) := by
   refine MulEquiv.ext fun k => ?_
@@ -70,6 +71,7 @@ theorem triOdd_conj_mul_pow_three (g : C0 σ) (φ : MulAut (C0 σ)) (hφ : φ ^ 
     simpa [pow_succ, MulAut.mul_apply] using this
   simp only [pow_succ, pow_zero, one_mul, MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv, h3]
 
+omit [Finite X] in
 theorem triOdd_comm_of_commute (hZ : Subgroup.center (C0 σ) = ⊥) {b g : C0 σ} {φ : MulAut (C0 σ)}
     (hφb : φ b = b) (hcomm : Commute (MulAut.conj b) (MulAut.conj g * φ)) : b * g = g * b := by
   have key : ∀ k : C0 σ, (b * g) * φ k * (b * g)⁻¹ = (g * b) * φ k * (g * b)⁻¹ := by
@@ -169,7 +171,7 @@ theorem triOdd_hasGLine_of_mem_B {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ �
     have : tauAut σ ^ e = (MulAut.conj g₀)⁻¹ * β := by rw [hβdef]; group
     rw [this]
     exact mul_mem (inv_mem ⟨g₀, rfl⟩) h
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcb1 : MulAut.conj b ≠ 1 := fun h => hb1 (hinj (h.trans (map_one _).symm))
   have hcb3 : MulAut.conj b ^ 3 = 1 := by rw [← map_pow, hb3, map_one]
   have hβ1 : β ≠ 1 := fun h => hβout (h ▸ one_mem _)
@@ -204,13 +206,13 @@ theorem triOdd_hasGLine_of_mem_B {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ �
     show (MulAut.conj g₀ * tauAut σ ^ e) a ∈ _
     rw [MulAut.mul_apply, MulAut.conj_apply]
     exact hnorm _ (triOdd_tauPow_mem_A σ hτA e ha)
-  haveI : Finite (C0 σ) := by
+  have : Finite (C0 σ) := by
     have : Finite (ModGL TwistTag.D4.tag X) := finite_modGL
     exact Finite.of_injective (fun x : C0 σ => (x : ModGL TwistTag.D4.tag X)) Subtype.val_injective
   obtain ⟨ρ, hρ3, hρι⟩ := triOdd_restrict_aut ι hιinj β hβ3
     (fun M => (hιA _).1 (hβA _ ((hιA _).2 ⟨M, rfl⟩)))
   have hK2 : ringChar X ≠ 2 := by
-    haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       hℓ (k := f * 3) (by omega) (by rw [hX, pow_mul])
     rw [ringChar.eq X ℓ]
     exact hℓ2
@@ -392,7 +394,7 @@ theorem triOddYGLine : TriOddYGLine := by
     rw [this, h1]; group)
   set E' : Subgroup (MulAut (C0 σ)) := E.map (MulAut.congr (MulAut.conj h)).toMonoidHom with hE'def
   have hE' : CFSG.IsElementaryAbelian 3 E' := isElementaryAbelian_map_three hE _
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcard' : Nat.card E' = 3 ^ 2 := by
     rw [hE'def, Subgroup.card_map_of_injective (MulAut.congr (MulAut.conj h)).injective, hcard]
   have hout' : ¬ E' ≤ innerAut (C0 σ) := by

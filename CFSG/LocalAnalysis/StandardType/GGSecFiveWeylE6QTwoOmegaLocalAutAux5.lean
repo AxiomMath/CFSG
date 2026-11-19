@@ -12,6 +12,8 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
+omit [Finite G] in
 public theorem Ebar_isElemAbelian {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (hBs : IsElemAbelian 3 Bs)
     (hEbot : (Bs ⊓ L) ⊓ (Subgroup.center L).map L.subtype = ⊥) :
@@ -24,6 +26,8 @@ public theorem Ebar_isElemAbelian {Bs L : Subgroup G}
   exact (isElemAbelian_iff_isElementaryAbelian (p := 3) (E := Ebar Bs L θ)).mpr
     (CFSG.IsElementaryAbelian.of_mulEquiv (MulEquiv.ofBijective _ hbij) h2)
 
+omit [Finite K] in
+omit [Finite G] in
 public theorem Ebar_card {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (hEbot : (Bs ⊓ L) ⊓ (Subgroup.center L).map L.subtype = ⊥)
@@ -50,7 +54,7 @@ public theorem exists_frameSignedDataRPlus {Bs L : Subgroup G} {x : G}
           False) ∧
       (∀ y : OmPlusIdx 4, ∃ g ∈ Subgroup.normalizer (Ebar Bs L θ : Set _),
         ∀ f, g * (Θ f : OrthRest.RPlus K 4) * g⁻¹ = (Θ (omPlusRefl 3 y f) : OrthRest.RPlus K 4)) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   obtain ⟨-, -, -, hEbot, -⟩ := bstar_basic hZ2 hBs hx1 hBL
   obtain ⟨Θ, h1, h2, h3, -⟩ :=
@@ -59,6 +63,7 @@ public theorem exists_frameSignedDataRPlus {Bs L : Subgroup G} {x : G}
       (fun g hg hg3 => Ebar_selfCent hZ2 hBs hcard hcardE hx1 hLx hBL hstar θ g hg hg3)
   exact ⟨Θ, h1, h2, h3⟩
 
+omit [Finite G] [Finite K] in
 public theorem mem_E_of_pow_three {Bs L : Subgroup G} {y : ↥L}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
@@ -88,6 +93,7 @@ public theorem mem_E_of_pow_three {Bs L : Subgroup G} {y : ↥L}
   rw [hye2]
   exact mem_EL.mp he
 
+omit [Finite K] in
 public theorem exists_lift_mem_NL {Bs L : Subgroup G} {x : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4)
@@ -151,16 +157,18 @@ variable {K : Type} [Field K] [Finite K]
     ↥(NL L Bs) →* OrthRest.RPlus K 4 :=
   (qMap (K := K) θ).comp (NLtoL L Bs)
 
+omit [Finite G] [Finite K] in
 public theorem NLqMap_apply (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (l : ↥(NL L Bs)) :
     NLqMap Bs L θ l = qMap (K := K) θ (NLtoL L Bs l) := rfl
 
 @[expose] public noncomputable def conjC (Bs L : Subgroup G)
-    (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
+    (_θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (ΘE : ↥(Bs ⊓ L) ≃* (Fin 4 → Multiplicative (ZMod 3))) :
     ↥(NL L Bs) →* MulAut (Fin 4 → Multiplicative (ZMod 3)) :=
   (MulAut.congr ΘE).toMonoidHom.comp (conjE L Bs)
 
+omit [Finite K] [Finite G] in
 public theorem conjC_apply (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (ΘE : ↥(Bs ⊓ L) ≃* (Fin 4 → Multiplicative (ZMod 3)))
@@ -169,6 +177,7 @@ public theorem conjC_apply (Bs L : Subgroup G)
   rw [conjC, MonoidHom.comp_apply]
   simp [MulAut.congr]
 
+omit [Finite K] [Finite G] in
 public theorem qE_conjE_coe (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (l : ↥(NL L Bs)) (e : ↥(Bs ⊓ L)) :
@@ -183,6 +192,7 @@ public theorem qE_conjE_coe (Bs L : Subgroup G)
     rw [conjE_coe]
   rw [h1, map_mul, map_mul, map_inv]
 
+omit [Finite K] [Finite G] in
 public theorem conjC_relation (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ))

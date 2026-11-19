@@ -15,7 +15,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 private theorem j2_center_eq_bot :
     Subgroup.center CFSG.Blueprint.NativeSporadic.J2 = ⊥ := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
   have hsimple : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   have hcard : Nat.card CFSG.Blueprint.NativeSporadic.J2 = 604800 := CFSG.Sporadic.J2.card_J2
@@ -37,42 +37,42 @@ private theorem j2_center_eq_bot :
 private theorem j2_card_mulAut_le :
     Nat.card (MulAut CFSG.Blueprint.NativeSporadic.J2) ≤
       2 * Nat.card CFSG.Blueprint.NativeSporadic.J2 := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
   exact CFSG.EvenSporadicStandard.HSStd.Zassenhaus.ONan.card_mulAut_le_of_card_outer_le
     (k := 2) CFSG.Sporadic.Schreier.AT_J2_Schreier.1
 
 private theorem j2_sylow3_card
     (S : Sylow 3 CFSG.Blueprint.NativeSporadic.J2) :
     Nat.card (S : Subgroup CFSG.Blueprint.NativeSporadic.J2) = 27 := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac3 : (604800 : ℕ).factorization 3 = 3 := by
     rw [show (604800 : ℕ) = 3 ^ 3 * 22400 by norm_num,
       Nat.factorization_mul (a := 3 ^ 3) (b := 22400) (by norm_num) (by norm_num),
       Finsupp.add_apply, Nat.Prime.factorization_pow Nat.prime_three,
-      Nat.factorization_eq_zero_of_not_dvd (n := 22400) (p := 3) (by norm_num)] <;> simp
-  rw [Sylow.card_eq_multiplicity S, CFSG.Sporadic.J2.card_J2, hfac3] <;> norm_num
+      Nat.factorization_eq_zero_of_not_dvd (n := 22400) (p := 3) (by norm_num)]; simp
+  rw [Sylow.card_eq_multiplicity S, CFSG.Sporadic.J2.card_J2, hfac3]; norm_num
 
 private theorem sylow_two_projSL_card
     (T : Sylow 2 (CFSG.PGLModel.projSL 3 (GaloisField 2 2))) :
     Nat.card (T : Subgroup (CFSG.PGLModel.projSL 3 (GaloisField 2 2))) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (CFSG.PGLModel.projSL 3 (GaloisField 2 2)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (CFSG.PGLModel.projSL 3 (GaloisField 2 2)) :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.PGLModel.card_projSL_three_four]; norm_num)
   have hfac2 : (20160 : ℕ).factorization 2 = 6 := by
     rw [show (20160 : ℕ) = 2 ^ 6 * 315 by norm_num,
       Nat.factorization_mul (a := 2 ^ 6) (b := 315) (by norm_num) (by norm_num),
       Finsupp.add_apply, Nat.Prime.factorization_pow Nat.prime_two,
-      Nat.factorization_eq_zero_of_not_dvd (n := 315) (p := 2) (by norm_num)] <;> simp
-  rw [Sylow.card_eq_multiplicity T, CFSG.PGLModel.card_projSL_three_four, hfac2] <;> norm_num
+      Nat.factorization_eq_zero_of_not_dvd (n := 315) (p := 2) (by norm_num)]; simp
+  rw [Sylow.card_eq_multiplicity T, CFSG.PGLModel.card_projSL_three_four, hfac2]; norm_num
 
 private theorem j2_exists_nine
     (S : Sylow 3 CFSG.Blueprint.NativeSporadic.J2) (B : Subgroup CFSG.Blueprint.NativeSporadic.J2)
     (hBS : B ≤ (S : Subgroup CFSG.Blueprint.NativeSporadic.J2)) (hB9 : Nat.card B ≤ 9) :
     ∃ K : Subgroup CFSG.Blueprint.NativeSporadic.J2,
       K ≤ (S : Subgroup CFSG.Blueprint.NativeSporadic.J2) ∧ Nat.card K = 9 ∧ B ≤ K := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSc := j2_sylow3_card S
   have h1 : Nat.card B ∣ Nat.card (S : Subgroup CFSG.Blueprint.NativeSporadic.J2) :=
     Subgroup.card_dvd_of_le hBS
@@ -97,8 +97,8 @@ private theorem j2_sylow3_nine_normalizes
     (hKS : K ≤ (S : Subgroup CFSG.Blueprint.NativeSporadic.J2)) (hK9 : Nat.card K = 9) :
     ∃ V : Subgroup CFSG.Blueprint.NativeSporadic.J2, V ≠ ⊥ ∧ IsPGroup 2 V ∧
       K ≤ Subgroup.normalizer (V : Set CFSG.Blueprint.NativeSporadic.J2) := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, h5⟩ := CFSG.RankThree.PartTwo.Sec4.Sporadic.rank3II_4_15
     CFSG.Blueprint.NativeSporadic.J2 ⟨MulEquiv.refl _⟩ S _ rfl _ rfl
   obtain ⟨S₀, hS₀, -, -, ⟨T, ⟨eT⟩⟩, -⟩ := h5 K ⟨hKS, hK9⟩
@@ -114,8 +114,8 @@ private theorem j2_sylow3_nine_normalizes
 
 theorem norm2_J2 :
     Norm2 (CFSG.Blueprint.NativeSporadic.J2) := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.fam_j2_simplicity.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 CFSG.Blueprint.NativeSporadic.J2) := inferInstance
   refine Norm2.of_inner j2_center_eq_bot j2_card_mulAut_le S ?_
   intro B hBS hB9

@@ -32,7 +32,7 @@ theorem k2At_or_exceptional_of_e8_three_compConfig
   have hKperf : commutator ↥K = ⊤ := hKcomp.2.2.1
   have hBab : CFSG.Open.IsElemAbelian 3 B₁ := CFSG.Open.IsElemAbelian.mono hA hBA
   have hBpow : ∀ b ∈ B₁, b ^ 3 = 1 := fun b hb => hA.2 b (hBA hb)
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a :=
     exists_mul_ne_mul_centerQuot_of_perfect hKperf inferInstance
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hmem

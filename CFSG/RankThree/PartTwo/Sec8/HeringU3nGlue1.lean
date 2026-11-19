@@ -49,9 +49,9 @@ theorem commutator_eq_one_of_normal_two_group {H Θ R : Subgroup G} {s r x : G}
     (hΘH : H ≤ Subgroup.normalizer (Θ : Set G)) (hΘ : Θ ≤ H) (hΘodd : Odd (Nat.card Θ))
     (hR2 : IsPGroup 2 R) (hRH : R ≤ H) (hRs : R ≤ Subgroup.centralizer ({s} : Set G))
     (hRnorm : ∀ g ∈ H, g * s = s * g → ∀ ρ ∈ R, g * ρ * g⁻¹ ∈ R)
-    (hr : r ∈ R) (hxH : x ∈ H) (hxs : x * s = s * x)
+    (hr : r ∈ R) (_hxH : x ∈ H) (hxs : x * s = s * x)
     (hw : r * x * r⁻¹ * x⁻¹ ∈ Θ) : r * x * r⁻¹ * x⁻¹ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hΘ2 : ¬ 2 ∣ Nat.card Θ := by
     have := Nat.odd_iff.mp hΘodd
     omega

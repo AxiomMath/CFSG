@@ -48,16 +48,16 @@ theorem ggHasLabel_A6_two_equiv_SL7 {R : Type} [Group R]
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeLinear] at h
   obtain ⟨Kf, hf, hfin, hcard, ⟨e⟩⟩ := h
-  letI := hf
-  letI := hfin
+  let := hf
+  let := hfin
   have hcard2 : Nat.card Kf = 2 := by simpa using hcard
-  haveI : Fintype Kf := Fintype.ofFinite Kf
+  have : Fintype Kf := Fintype.ofFinite Kf
   have hcardZ : Fintype.card Kf = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard2]
-    simp [Nat.card_zmod]
+    simp
   let eF : Kf ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hcardZ
   have hunits : Nat.card Kfˣ = 1 := by rw [Nat.card_units, hcard2]
-  haveI : Subsingleton Kfˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hunits])
+  have : Subsingleton Kfˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hunits])
   have hscal : CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalars 7 Kf = ⊥ := by
     rw [eq_bot_iff]
     intro A hA
@@ -108,7 +108,7 @@ theorem ggF4H5Seven_image_inner {G : Type} [Group G] {p : ℕ} {Bs K : Subgroup 
 noncomputable def ggSL7ToPSL7 :
     SL(7, ZMod 2) ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 7 (ZMod 2) :=
   let hZ : Subgroup.center (SL(7, ZMod 2)) = ⊥ :=
-    FieldFiveSL.center_SL_eq_bot_of_card_two (K := ZMod 2) (m := 6) (by simp [Nat.card_zmod])
+    FieldFiveSL.center_SL_eq_bot_of_card_two (K := ZMod 2) (m := 6) (by simp)
   let q : Matrix.ProjectiveSpecialLinearGroup (Fin 7) (ZMod 2) ≃* SL(7, ZMod 2) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   q.symm.trans

@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 theorem card_CO_eq (hc : Ctx4L t L S x₁ x₂ lam rho tau) :
     Nat.card ↥(centralizer ({t * lam} : Set G) ⊓ ctxO t tau x₁ x₂) = 2 ^ 5 := by
-  have hOU : ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam := O_le_U hc
+  have hOU : ctxO t tau x₁ x₂ ≤ ctxU t tau x₁ x₂ lam := O_le_U
   set A : Subgroup G := ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G) with hA
   have hAcard : Nat.card A = 2 ^ 6 := hc.card_CU_tl
   have hAU : A ≤ ctxU t tau x₁ x₂ lam := inf_le_left

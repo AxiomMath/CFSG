@@ -112,7 +112,7 @@ theorem psu_inner_perfect_dvd {D : Subgroup ↥(fixedSubgroup (primeFormConjHom 
     (ι : Q →* sesqUnitaryGroup (idForm h n)) (hι : Function.Injective ι)
     (hc : ∀ x, ι x ∈ Subgroup.centralizer ({T} : Set (sesqUnitaryGroup (idForm h n))))
     (hQ : commutator Q = ⊤) : Nat.card (Q ⧸ Subgroup.center Q) ∣ 360 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨ρ, -, hρ⟩ := psu_inner_perfect_hom h A T hT ι hι hc hQ
   exact hD.psu_central_quotient_dvd ρ hQ hρ
 
@@ -127,7 +127,7 @@ theorem psu_inner_pair_false {D : Subgroup ↥(fixedSubgroup (primeFormConjHom h
     (hn₁ : Nat.card (Q₁ ⧸ Subgroup.center Q₁) = 360)
     (hn₂ : Nat.card (Q₂ ⧸ Subgroup.center Q₂) = 360)
     (hcomm : ∀ x y, ι₁ x * ι₂ y = ι₂ y * ι₁ x) : False := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨ρ₁, hρ₁, hk₁⟩ := psu_inner_perfect_hom h A T hT ι₁ hι₁ hc₁ hQ₁
   obtain ⟨ρ₂, hρ₂, hk₂⟩ := psu_inner_perfect_hom h A T hT ι₂ hι₂ hc₂ hQ₂
   refine hD.psu_commuting_pair_false ρ₁ ρ₂ hQ₁ hQ₂ hk₁ hk₂ hn₁ hn₂ ?_
@@ -143,14 +143,14 @@ theorem psu_emb_left {G U₁ U₂ : Type} [Group G] [Group U₁] [Group U₂] (C
     (e : C ≃* U₁ × U₂) {Q : Type} [Group Q] (j : Q →* U₁) (hj : Function.Injective j) :
     ∃ ι : Q →* G, Function.Injective ι ∧ ∀ x, ι x ∈ C :=
   ⟨C.subtype.comp (e.symm.toMonoidHom.comp ((MonoidHom.inl U₁ U₂).comp j)),
-    (Subgroup.subtype_injective _).comp (e.symm.injective.comp (fun a b hab =>
+    (Subgroup.subtype_injective _).comp (e.symm.injective.comp (fun _a _b hab =>
       hj (congrArg Prod.fst hab))), fun x => (e.symm (j x, 1)).2⟩
 
 theorem psu_emb_right {G U₁ U₂ : Type} [Group G] [Group U₁] [Group U₂] (C : Subgroup G)
     (e : C ≃* U₁ × U₂) {Q : Type} [Group Q] (j : Q →* U₂) (hj : Function.Injective j) :
     ∃ ι : Q →* G, Function.Injective ι ∧ ∀ x, ι x ∈ C :=
   ⟨C.subtype.comp (e.symm.toMonoidHom.comp ((MonoidHom.inr U₁ U₂).comp j)),
-    (Subgroup.subtype_injective _).comp (e.symm.injective.comp (fun a b hab =>
+    (Subgroup.subtype_injective _).comp (e.symm.injective.comp (fun _a _b hab =>
       hj (congrArg Prod.snd hab))), fun x => (e.symm (1, j x)).2⟩
 
 theorem psu_emb_gl {G U : Type} [Group G] [Group U] (C : Subgroup G) (e : C ≃* U) {Q : Type}
@@ -290,8 +290,8 @@ theorem psuInner_false (hO : LieOrderFormulasInput) {n f : ℕ} {K : Type} [Fiel
     (hA : orderOf (primeFormConjHom h (idGram K n) A) = 2)
     {D : Subgroup ↥(fixedSubgroup (primeFormConjHom h (idGram K n) A))}
     (hD : A6Hyp (primeFormConjHom h (idGram K n) A) D) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   obtain ⟨T, hT, hT2⟩ := psu_exists_involution_lift h hn A hA
   have hdimV : finrank K (Fin n → K) = n := Module.finrank_fin_fun K
   have hnV : 2 ≤ finrank K (Fin n → K) := by omega

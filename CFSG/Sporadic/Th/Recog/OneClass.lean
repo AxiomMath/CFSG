@@ -50,13 +50,13 @@ namespace ThSetting
 theorem exists_isSylow_le_H (S : ThSetting G) :
     ∃ T : Sylow 2 G, (T : Subgroup G) ≤ S.H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2H : IsPGroup 2 (S.Q.subgroupOf S.H) :=
     S.ext.1.of_equiv (Subgroup.subgroupOfEquivOfLe S.Q_le_H).symm
-  haveI hQnorm : (S.Q.subgroupOf S.H).Normal := S.Q_normal
+  have hQnorm : (S.Q.subgroupOf S.H).Normal := S.Q_normal
   obtain ⟨T_H, hQT_H⟩ := IsPGroup.exists_le_sylow (p := 2) hQ2H
   let T : Subgroup G := (T_H : Subgroup S.H).map S.H.subtype
-  have hT2 : IsPGroup 2 T := (T_H.isPGroup').map S.H.subtype
+  have hT2 : IsPGroup 2 T := (T_H.isPGroup).map S.H.subtype
   have hTleH : T ≤ S.H := Subgroup.map_subtype_le _
   have hQleT : S.Q ≤ T := by
     intro x hx
@@ -114,7 +114,7 @@ theorem exists_isSylow_le_H (S : ThSetting G) :
       intro t
       apply Subtype.ext
       have ht' : x⁻¹ * (t : G) * x ∈ T :=
-        (hxT (x⁻¹ * (t : G) * x)).mpr (by simpa [mul_assoc] using t.2)
+        (hxT (x⁻¹ * (t : G) * x)).mpr (by simp [mul_assoc])
       have hcomm := Subgroup.mem_center_iff.mp hzT_center
         ⟨x⁻¹ * (t : G) * x, ht'⟩
       have hcomm' : (x⁻¹ * (t : G) * x) * S.z = S.z * (x⁻¹ * (t : G) * x) :=
@@ -171,11 +171,11 @@ theorem exists_isSylow_le_H (S : ThSetting G) :
       have hyIP : (⟨y, hy⟩ : P) ∈ IP := by rw [htop]; trivial
       have hyT : ((⟨y, hy⟩ : P) : G) ∈ T := Subgroup.mem_subgroupOf.mp hyIP
       simpa using hyT
-    haveI : Finite P := Subtype.finite
+    have : Finite P := Subtype.finite
     have hnil : Group.IsNilpotent P := hP.isNilpotent
     have hnc : NormalizerCondition P := Group.normalizerCondition_of_isNilpotent
     have hgrowth : IP < Subgroup.normalizer (IP : Set P) := hnc IP hIPlt
-    obtain ⟨x, hxN, hxnotIP⟩ := SetLike.exists_of_lt hgrowth
+    obtain ⟨x, hxN, hxnotIP⟩ := _root_.IsConcreteLE.exists_of_lt hgrowth
     have hxNormT : (x : G) ∈ Subgroup.normalizer (T : Set G) := by
       have hxsub : x ∈ (Subgroup.normalizer (T : Set G)).subgroupOf P := by
         rw [Subgroup.subgroupOf_normalizer_eq hTP]
@@ -286,7 +286,7 @@ theorem mem_Q_iff_of_mulEquiv (Fd : FibreData S) (e : S.toSetting.M ≃* Max3.M)
 private theorem exists_conj_of_mem_Q_involution (Fd : FibreData S)
     (e : S.toSetting.M ≃* Max3.M) (he : ∀ h, (h, e h) ∈ Fd.F)
     {h₁ : S.toSetting.Q}
-    (hφh : (((Fd.φQ h₁ : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) : J) = Max3.q 0)
+    (_hφh : (((Fd.φQ h₁ : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) : J) = Max3.q 0)
     (hh1H2 : (h₁ : S.toSetting.M) * (h₁ : S.toSetting.M) = 1)
     (hh1_ne_one : (h₁ : S.toSetting.M) ≠ 1)
     (hh1_ne_z : (h₁ : S.toSetting.M) ≠ S.toSetting.zM) :
@@ -355,7 +355,7 @@ private theorem exists_conj_z_of_mem_Q (Fd : FibreData S) (e : S.toSetting.M ≃
   intro k hkQ hk2 hk1
   by_cases hkz : k = S.toSetting.zM
   · subst hkz
-    exact ⟨1, by simp [S.toSetting.coe_zM]⟩
+    exact ⟨1, by simp⟩
   · obtain ⟨c, hc⟩ :=
       exists_conj_of_mem_Q_involution Fd e he hφh hh1H2 hh1_ne_one hh1_ne_z
         k hkQ hk2 hk1 hkz
@@ -667,7 +667,7 @@ private theorem R_not_le_Q (Fd : FibreData S) {h₁ : S.toSetting.Q} {g₀ : G}
     exact hh1_ne_z (by simpa using hcommG'.symm)
 
 private theorem card_involutions_R_ge (Fd : FibreData S) (e : S.toSetting.M ≃* Max3.M)
-    (he : ∀ h, (h, e h) ∈ Fd.F) {h₁ : S.toSetting.Q} {g₀ : G}
+    (_he : ∀ h, (h, e h) ∈ Fd.F) {h₁ : S.toSetting.Q} {g₀ : G}
     (hφh : (((Fd.φQ h₁ : ↥(Max3.Q.subgroupOf Max3.M)) : Max3.M) : J) = Max3.q 0)
     (h143 : {w : J | w ∈ Max3.Q ∧ w * Max3.q 0 = Max3.q 0 * w ∧ w * w = 1 ∧
       w ≠ 1}.ncard = 143) :

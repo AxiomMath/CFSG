@@ -38,7 +38,7 @@ theorem finrank_le_six_of_four_group {𝕜 V : Type*} [Field 𝕜] [AddCommGroup
     simpa using this
   have hfix : ∀ f : Module.End 𝕜 V, f.eigenspace 1 = fixSpace f := fun f => by
     ext v
-    simp [Module.End.mem_eigenspace_iff, mem_fixSpace]
+    simp [mem_fixSpace]
   obtain ⟨h0, h1, h2', h3⟩ := finrank_four_group h2 σ τ hσ' hτ' hστ' ⊤ (fun _ _ => trivial)
     (fun _ _ => trivial)
   rw [hfix] at hs ht hst
@@ -62,6 +62,7 @@ section Critical
 
 variable {Y L : Type} [Group Y] [Finite Y] [Group L]
 
+omit [Finite Y] in
 theorem isSimpleGroup_quotient_ker_L3 (hL : LData L) (φ : Y →* L) (hφ : Function.Surjective φ) :
     IsSimpleGroup (Y ⧸ φ.ker) :=
   @MulEquiv.isSimpleGroup _ _ _ _ hL.simple (QuotientGroup.quotientKerEquivOfSurjective φ hφ)
@@ -176,6 +177,7 @@ theorem false_of_finrank_lt_eight (φ : Y →* L) (hφ : Function.Surjective φ)
 
 variable [Finite L]
 
+omit [Finite L] in
 theorem ker_eq_bot_of_pRank_le_two_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y →* L)
     (hφ : Function.Surjective φ) (hK : Group.IsSolvable φ.ker) (h3 : ¬ 3 ∣ Nat.card φ.ker)
     (hO2 : CFSG.pCore 2 Y = ⊥) (hrank : ∀ p : ℕ, p.Prime → 3 < p → CFSG.pRank p Y ≤ 2) :
@@ -201,6 +203,7 @@ theorem ker_eq_bot_of_pRank_le_two_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y
     (by omega)
 
 
+omit [Finite L] in
 theorem ker_eq_bot_of_localRank_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y →* L)
     (hφ : Function.Surjective φ) (hK : Group.IsSolvable φ.ker) (h3 : ¬ 3 ∣ Nat.card φ.ker)
     (hO2 : CFSG.pCore 2 Y = ⊥) (hloc : ∀ p : ℕ, p.Prime → 3 < p → localRank p Y < 3) :
@@ -244,6 +247,7 @@ theorem ker_eq_bot_of_localRank_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y �
   exact false_of_finrank_lt_eight φ hφ h3 hL.e9q8 hp3 ρ hker (by omega)
 
 
+omit [Finite L] in
 theorem ker_le_pCore_two_of_pRank_le_two_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y →* L)
     (hφ : Function.Surjective φ) (hK : Group.IsSolvable φ.ker) (h3 : ¬ 3 ∣ Nat.card φ.ker)
     (hrank : ∀ p : ℕ, p.Prime → 3 < p → CFSG.pRank p Y ≤ 2) : φ.ker ≤ CFSG.pCore 2 Y := by
@@ -281,6 +285,7 @@ theorem ker_le_pCore_two_of_pRank_le_two_L3 [Group.IsPerfect Y] (hL : LData L) (
   rw [hker', Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
   exact hbot
 
+omit [Finite L] in
 theorem ker_le_pCore_two_L3 [Group.IsPerfect Y] (hL : LData L) (φ : Y →* L)
     (hφ : Function.Surjective φ) (hK : Group.IsSolvable φ.ker) (h3 : ¬ 3 ∣ Nat.card φ.ker)
     (hloc : ∀ p : ℕ, p.Prime → 3 < p → localRank p Y < 3) : φ.ker ≤ CFSG.pCore 2 Y := by

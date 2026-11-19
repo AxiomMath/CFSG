@@ -33,7 +33,7 @@ theorem l216CoreFact_holds : L216CoreFact := by
     IsOrthCh5.exists_sylowCoord (m := 2) (show IsOrthCh5 L V (2 * 2) from horth)
       h.isSylowTwoOf_inf_ch6
   have hF16 : Nat.card F = 16 := by rw [hF]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := h.L_le_normalizer
   have hC : (L ⊔ T) ⊓ Subgroup.centralizer (V : Set G) ≤ T := h.sup_inf_centralizer_le_T_ch6
   have hT2 : IsPGroup 2 ↥T := h.sylow.1
@@ -279,7 +279,7 @@ theorem l216CoreFact_holds : L216CoreFact := by
     have hT' := hC hmemLT
     have hℓ2T : (ℓ2 : G) ∈ T := by
       have e : (ℓ2 : G) = tq * (((ℓ2⁻¹ * ⟨tq, hN2⟩ : Subgroup.normalizer (V : Set G)) : G))⁻¹ := by
-        simp [mul_assoc]
+        simp
       rw [e]
       exact T.mul_mem htq (T.inv_mem hT')
     have hthU' : th ∈ autOn (T ⊓ L) V := by

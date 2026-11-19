@@ -53,7 +53,7 @@ theorem sec6_false_of_disconnected {X : Type} [Group X] [Finite X]
   have hSE := hAsc D hN hD hgen hnp hdisc d hd
   set M := Timmesfeld.Connectivity.compStab hN d with hM
   have hF : Open.fusionStronglyEmbedded M := (Timmesfeld.Bridge.fusionStronglyEmbedded_iff M).2 hSE
-  haveI hsol : Group.IsSolvable ↥M :=
+  have hsol : Group.IsSolvable ↥M :=
     ComponentClassification.AschbacherStrongEmbedding.strongly_embedded_solvable X M hF hrank
   have hdM : d ∈ M := by
     show Timmesfeld.Connectivity.Reach D d (d * d * d⁻¹)

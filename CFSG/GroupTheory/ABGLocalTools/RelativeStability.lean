@@ -86,11 +86,11 @@ variable [Finite H] [Fact p.Prime]
 
 theorem le_normalizer_of_sup_normal {P : Subgroup H} (S : Sylow p H) (hPS : P ≤ S)
     (hn : (pPrimeCore p H ⊔ P).Normal) : (S : Subgroup H) ≤ normalizer (P : Set H) := by
-  have hPp : IsPGroup p P := S.isPGroup'.to_le hPS
+  have hPp : IsPGroup p P := S.isPGroup.to_le hPS
   have hsyl : IsSylowOf p P (pPrimeCore p H ⊔ P) :=
     isSylowOf_sup_of_coprime pPrimeCore_coprime_card hPp
   have heq : (S : Subgroup H) ⊓ (pPrimeCore p H ⊔ P) = P :=
-    hsyl.eq_of_le (le_inf hPS le_sup_right) inf_le_right (S.isPGroup'.to_le inf_le_left)
+    hsyl.eq_of_le (le_inf hPS le_sup_right) inf_le_right (S.isPGroup.to_le inf_le_left)
   intro s hs
   rw [← heq]
   exact Subgroup.inf_normalizer_le_normalizer_inf ⟨Subgroup.le_normalizer hs,
@@ -100,7 +100,7 @@ theorem isPStableWrt_sylow_iff (S : Sylow p H) :
     IsPStableWrt p H S ↔ IsPStable p H := by
   have hSsyl : IsSylowOf p (S : Subgroup H) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   constructor
   · rintro ⟨hOp, -, -, -, hst⟩
     refine ⟨hOp, fun P A hP1 hPp hn hAp hAN hcomm => ?_⟩
@@ -151,10 +151,10 @@ theorem isPStableWrt_sylow_iff (S : Sylow p H) :
     refine ⟨φ a, hA' ⟨a, ha, rfl⟩, ?_⟩
     simp
   · intro hst
-    refine ⟨hst.1, S.isPGroup', ?_, Or.inl ⟨S, le_rfl, Subgroup.le_normalizer⟩, ?_⟩
+    refine ⟨hst.1, S.isPGroup, ?_, Or.inl ⟨S, le_rfl, Subgroup.le_normalizer⟩, ?_⟩
     · exact hSsyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
     · intro P A hP1 hPS hn hAS hcomm
-      exact hst.2 P A hP1 (S.isPGroup'.to_le hPS) hn (S.isPGroup'.to_le hAS)
+      exact hst.2 P A hP1 (S.isPGroup.to_le hPS) hn (S.isPGroup.to_le hAS)
         (hAS.trans (le_normalizer_of_sup_normal S hPS hn)) hcomm
 
 end CFSG.ABGLocalTools

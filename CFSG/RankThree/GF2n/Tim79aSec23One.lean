@@ -18,10 +18,12 @@ namespace MinCex
 variable (hc : MinCex M V Q P H)
 include hc
 
+omit [Finite G] in
 theorem commute_of_mem_P {p v : G} (hp : p ∈ P) (hv : v ∈ V) : v * p = p * v := by
   have hp' : p ∈ Q ⊓ Subgroup.centralizer (V : Set G) := hc.hP ▸ hp
   exact Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hp').2 v hv
 
+omit [Finite G] in
 theorem barOf_V_comm {u w : Hbar V H} (hu : u ∈ barOf V H V) (hw : w ∈ barOf V H V) :
     u * w = w * u := by
   obtain ⟨a, ha, rfl⟩ := mem_barOf_iff.mp hu
@@ -30,6 +32,7 @@ theorem barOf_V_comm {u w : Hbar V H} (hu : u ∈ barOf V H V) (hw : w ∈ barOf
   congr 1
   exact Subtype.ext (hc.elemAb.comm ha hb)
 
+omit [Finite G] in
 theorem barOf_V_sq {u : Hbar V H} (hu : u ∈ barOf V H V) : u ^ 2 = 1 := by
   obtain ⟨a, ha, rfl⟩ := mem_barOf_iff.mp hu
   rw [← map_pow]
@@ -39,7 +42,7 @@ theorem barOf_V_sq {u : Hbar V H} (hu : u ∈ barOf V H V) : u ^ 2 = 1 := by
 theorem card_barOf_V_eq_two
     (hV1 : ∀ a ∈ barOf V H V, ∀ b ∈ barOf V H V, a ≠ 1 → b ≠ 1 → a = b) :
     Nat.card (barOf V H V) = 2 := by
-  obtain ⟨d, hdV, hdW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨d, hdV, hdW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hdH : d ∈ H := hc.V_le_H hdV
   have hd1 : piBar V H ⟨d, hdH⟩ ≠ 1 := fun h => hdW ((piBar_eq_one_iff _).1 h)
   have hdm : piBar V H ⟨d, hdH⟩ ∈ barOf V H V := mem_barOf_iff.mpr ⟨_, hdV, rfl⟩
@@ -136,15 +139,15 @@ theorem case_one_of_sup_eq {S : Subgroup (Hbar V H)} [S.Normal]
 
 theorem case_one (h : ¬ CFSG.oddCore (Xbar V H) ≤ Subgroup.center (Xbar V H)) :
     Nat.card (barOf V H V) = 2 ∧ barOf V H (xOf V H) = oddCoreX V H ⊔ barOf V H V := by
-  haveI := normal_oddCoreX V H
+  have := normal_oddCoreX V H
   rcases hc.sup_eq_or_central_of_odd (oddCoreX_le V H) (odd_card_oddCoreX V H) with hsup | hcen
   · exact hc.case_one_of_sup_eq (oddCoreX_le V H) (odd_card_oddCoreX V H) hsup
   · exact absurd ((oddCoreX_central_iff V H).1 hcen) h
 
 theorem pCore_two_le_center :
     CFSG.pCore 2 (Xbar V H) ≤ Subgroup.center (Xbar V H) := by
-  haveI := normal_barOf_xOf V H
-  haveI : ((CFSG.pCore 2 (Xbar V H)).map (barOf V H (xOf V H)).subtype).Normal :=
+  have := normal_barOf_xOf V H
+  have : ((CFSG.pCore 2 (Xbar V H)).map (barOf V H (xOf V H)).subtype).Normal :=
     normal_map_subtype_of_characteristic _
   set T' := (CFSG.pCore 2 (Xbar V H)).map (barOf V H (xOf V H)).subtype with hT'
   have hT'X : T' ≤ barOf V H (xOf V H) := by

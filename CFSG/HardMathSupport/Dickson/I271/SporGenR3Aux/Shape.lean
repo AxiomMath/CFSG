@@ -104,6 +104,7 @@ section Core
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem subgroupOf_inf_centralizer_eq {K : Subgroup X} {a k : X} (hk : k ∈ K)
     (hc : k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
     (K ⊓ Subgroup.centralizer ({a} : Set X)).subgroupOf K =
@@ -159,7 +160,7 @@ theorem center_eq_bot_of_mult (hSpM : SporadicMultipliers) {X : Type} [Group X] 
   have hZ : IsPGroup p (Subgroup.center ↥K) :=
     i271h_center_isPGroup hp hH.primeCore
   have hd := card_center_dvd_multiplier hSpM hH.quasi name e
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZ
   rw [hn] at hd
   apply Subgroup.eq_bot_of_card_eq

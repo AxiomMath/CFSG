@@ -17,7 +17,7 @@ variable {G : Type} [Group G] {z : G} {ι : Perm (Fin 10) →* G}
 private theorem lGC_tau0_orderOf : orderOf τ₀ = 2 :=
   orderOf_eq_prime (by rw [pow_two]; exact tau0_mul_self) (by decide)
 
-private theorem lGC_iota_tau0_mul_self (hC : CentData z ι) : ι τ₀ * ι τ₀ = 1 := by
+private theorem lGC_iota_tau0_mul_self (_hC : CentData z ι) : ι τ₀ * ι τ₀ = 1 := by
   rw [← map_mul, tau0_mul_self, map_one]
 
 private theorem lGC_iota_liftS8_mem_centralizer (ι : Perm (Fin 10) →* G) (ρ : Perm (Fin 8)) :
@@ -33,7 +33,7 @@ private theorem lGC_mem_triple_of_comm {α : Type*} [DecidableEq α] {w : Perm �
     intro y hya hyb hyc
     rw [hd, Perm.mul_apply, swap_apply_of_ne_of_ne hya hyc, swap_apply_of_ne_of_ne hya hyb]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2, h3⟩ := hcon
   have hcomm : w * d = d * w := by rw [hd]; exact h
   have hdx : d x ≠ x := by
@@ -367,8 +367,7 @@ theorem mem_CEgrp_iff (hC : CentData z ι) {c : G} :
         rw [hρ, ← mul_assoc, tau0_mul_self, one_mul]
       rcases hσ with h | h
       · exact ⟨0, 1, ρ, by rw [h, hσeq, map_mul]; simp⟩
-      · exact ⟨1, 1, ρ, by rw [h, hσeq, map_mul]; simp only [Fin.val_zero, Fin.val_one,
-          pow_zero, pow_one, one_mul]; group⟩
+      · exact ⟨1, 1, ρ, by rw [h, hσeq, map_mul]; simp only [Fin.val_one, pow_one]; group⟩
   · rintro ⟨i, j, ρ, rfl⟩
     refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
     · rw [mem_centralizer_singleton_iff]
@@ -419,7 +418,7 @@ theorem Egrp_inf_Siggrp (hC : CentData z ι) : Egrp z ι ⊓ Siggrp ι = ⊥ := 
     rw [← map_inv, inv_eq_of_mul_eq_one_right tau0_mul_self]
   rw [hij]
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one] at heq ⊢
+    simp only [pow_zero, pow_one] at heq ⊢
   · simp
   · exfalso
     rw [one_mul] at heq
@@ -444,7 +443,7 @@ theorem card_Egrp (hC : CentData z ι) : Nat.card (Egrp z ι) = 4 := by
     rw [Egrp, Tgrp, MonoidHom.map_zpowers]
   rw [hE, Tgrp_card hC, Nat.card_zpowers, lGC_tau0_orderOf]
 
-theorem mul_comm_of_mem_Egrp_of_mem_CEgrp (hC : CentData z ι) {e c : G} (he : e ∈ Egrp z ι)
+theorem mul_comm_of_mem_Egrp_of_mem_CEgrp (_hC : CentData z ι) {e c : G} (he : e ∈ Egrp z ι)
     (hc : c ∈ CEgrp z ι) : e * c = c * e := by
   have hle : Egrp z ι ≤ centralizer ({c} : Set G) := by
     rw [Egrp]
@@ -598,11 +597,11 @@ theorem pairOrder_z_Fgrp (hC : CentData z ι) (i j : Fin 2) :
     rw [← liftS8_ρ₄', cycleType_liftS8, card_cycleType_ρ₄']
   rw [mul_assoc, lGC_pairOrder_z_pow_mul z i ((ι τ₀) ^ (j : ℕ) * ι ρ₄)]
   fin_cases j
-  · simp only [Fin.val_zero, pow_zero, one_mul]
+  · simp only [pow_zero, one_mul]
     rw [pairOrder, hC.card_inf_centralizer ρ₄, two_mul_card_centralizer_perm_ten hρ₄sq,
       hcardρ₄]
     simp
-  · simp only [Fin.val_one, pow_one]
+  · simp only [pow_one]
     rw [← map_mul, pairOrder, hC.card_inf_centralizer (τ₀ * ρ₄),
       two_mul_card_centralizer_perm_ten τ₀_mul_ρ₄_mul_self, card_cycleType_τ₀_mul_ρ₄]
     simp
@@ -618,11 +617,11 @@ theorem pairOrder_x₁_Fgrp [Finite G] (hC : CentData z ι) (hx : IsConj z (ι �
   have hcond : ¬ ((1 : ℤˣ) = -1) := by decide
   have hp1 : pairOrder (ι τ₀) (ι ρ₄) = N10 4 := by
     have hp := D.pair_one ρ₄' ρ₄'_mul_self
-    rw [liftS8_ρ₄', card_cycleType_ρ₄', hε, if_neg hcond, Nat.add_zero] at hp
+    rw [liftS8_ρ₄', card_cycleType_ρ₄', hε, ite_eq_right hcond, Nat.add_zero] at hp
     exact hp
   have hp2 : pairOrder (ι τ₀) (z * ι ρ₄) = N10 5 := by
     have hp := D.pair_z ρ₄' ρ₄'_mul_self
-    rw [liftS8_ρ₄', card_cycleType_ρ₄', hε, if_neg hcond] at hp
+    rw [liftS8_ρ₄', card_cycleType_ρ₄', hε, ite_eq_right hcond] at hp
     norm_num at hp
     exact hp
   have hx1ρ : ι τ₀ * ι ρ₄ = ι ρ₄ * ι τ₀ := by
@@ -636,7 +635,7 @@ theorem pairOrder_x₁_Fgrp [Finite G] (hC : CentData z ι) (hx : IsConj z (ι �
       _ = z * (ι ρ₄ * ι τ₀) := by rw [hx1ρ]
       _ = (z * ι ρ₄) * ι τ₀ := by group
   fin_cases i <;> fin_cases j <;>
-    simp only [Fin.val_zero, Fin.val_one, pow_zero, pow_one, one_mul, mul_one]
+    simp only [pow_zero, pow_one, one_mul, mul_one]
   · exact hp1
   · rw [pairOrder_mul_right hx1ρ]; exact hp1
   · exact hp2
@@ -663,7 +662,7 @@ theorem Tgrp_le_CEgrp (hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ : 
       congr 1
       exact (hQ.τ₀_comm q hq).symm
 
-theorem Egrp_le_Tgrp (hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) :
+theorem Egrp_le_Tgrp (_hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) :
     Egrp z ι ≤ Tgrp z ι Q := by
   rw [Egrp, Tgrp]
   refine sup_le ?_ ?_

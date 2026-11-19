@@ -60,7 +60,7 @@ theorem card_le_card_sylow {G X : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.
   obtain ⟨z, hz⟩ : ∃ z : X, ∀ s ∈ (S x : Subgroup G), ρ s z = z := by
     let : MulAction (S x : Subgroup G) X :=
       MulAction.compHom X (ρ.comp (S x : Subgroup G).subtype)
-    obtain ⟨z, hz⟩ := (S x).isPGroup'.nonempty_fixed_point_of_prime_not_dvd_card X hX
+    obtain ⟨z, hz⟩ := (S x).isPGroup.nonempty_fixed_point_of_prime_not_dvd_card X hX
     exact ⟨z, fun s hs => hz ⟨s, hs⟩⟩
   have key : ∀ w : X, (∀ s ∈ (S w : Subgroup G), ρ s z = z) → z = w := by
     intro w hw

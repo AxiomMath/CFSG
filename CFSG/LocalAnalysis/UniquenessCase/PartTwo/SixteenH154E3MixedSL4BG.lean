@@ -21,8 +21,8 @@ theorem s16h_sl4_sup_pRank_two (D : Data G) {V L : Subgroup G} (h : Setting16 D 
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L) :
     2 ≤ CFSG.Open.pRank 3 (L ⊔ conjSubgroup L x) := by
   obtain ⟨e⟩ := s16h_sl4_isAlt_of_rowSL2 hrow
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup ↥(lBar ⊥ V h.hyp151.isElemAbelian L) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup ↥(lBar ⊥ V h.hyp151.isElemAbelian L) := MulEquiv.isSimpleGroup e
   refine s16h_e3_sup_pRank_two D h hxM hxn Nat.prime_three (by norm_num) inferInstance ?_
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
   simp [Nat.factorial]
@@ -72,7 +72,7 @@ theorem s16h_sl4_zz_normalizer
   obtain ⟨E, hEle, hE3, hEnc, hEn⟩ :=
     s16h_sl4_E9_normalizes_sup F (s16h_sl4_isAlt_of_rowSL2 hrow) hL'ne.symm
   have hEM : E ≤ Mbar D.M ⊥ V hV := hEle.trans (sup_le F.le_x F.le_x')
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPN, hP3, hPnc⟩ :=
     s16h_e3_normalizer_lift D hV hMs (imgTil ⊥ V hV (v1Sub D.M ⊥ V hV L)) (p := 3) hEM hE3 hEnc
       (by rw [hcase]; exact hEn)

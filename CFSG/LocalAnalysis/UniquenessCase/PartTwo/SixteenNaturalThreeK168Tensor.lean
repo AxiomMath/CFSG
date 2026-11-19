@@ -27,15 +27,15 @@ theorem s168e3_tensorNatL32_of_threeNat_kBar_168
     (hK168 : Nat.card ↥(s1t3KBar A B) = 168) :
     TensorNatL32 A := by
   classical
-  letI : Module (ZMod 2) (Additive W) := MulAutTwo.zmod2Module h.elem
+  let : Module (ZMod 2) (Additive W) := MulAutTwo.zmod2Module h.elem
   obtain ⟨m⟩ := h.exists_naturalThreeMultiplicityData h7 hL3
-  letI : AddCommGroup m.Q := m.qAdd
-  letI : Module (ZMod 2) m.Q := m.qModule
-  letI : Finite m.Q := m.qFinite
-  letI : AddCommGroup m.X := m.xAdd
-  letI : Module (ZMod 2) m.X := m.xModule
-  letI : Finite m.X := m.xFinite
-  haveI : Module.Finite (ZMod 2) m.X := Module.Finite.of_finite
+  let : AddCommGroup m.Q := m.qAdd
+  let : Module (ZMod 2) m.Q := m.qModule
+  let : Finite m.Q := m.qFinite
+  let : AddCommGroup m.X := m.xAdd
+  let : Module (ZMod 2) m.X := m.xModule
+  let : Finite m.X := m.xFinite
+  have : Module.Finite (ZMod 2) m.X := Module.Finite.of_finite
   let K : Subgroup (MulAut W) := s1t3KBar A B
   have hKcard : Nat.card ↥K = 168 := hK168
   have hker : LinearMap.ker m.qW = ⊥ := by

@@ -66,8 +66,8 @@ theorem isM11Like_of_data {X : Type*} [Group X] {y v i : X} (hcard : Nat.card X 
     (hord : ∀ g : X, M11Order (orderOf g)) (hy : orderOf y = 11) (hv : orderOf v = 11)
     (hyv : closure ({y, v} : Set X) = ⊤) (hi : orderOf i = 2)
     (hyi : closure ({y, i} : Set X) = ⊤) (hnc : y * v ≠ v * y) : IsM11Like X := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 11) := ⟨Nat.prime_eleven⟩
   refine ⟨hcard, hord, ⟨y, v, hy, hv, hyv⟩, ?_, ⟨y, v, hnc⟩⟩
   intro y' hy'
   have hS : Nat.card (zpowers y) = 11 ^ (Nat.card (⊤ : Subgroup X)).factorization 11 := by
@@ -76,10 +76,10 @@ theorem isM11Like_of_data {X : Type*} [Group X] {y v i : X} (hcard : Nat.card X 
     exists_conj_mem_of_orderOf_eq_prime (M := X) (p := 11) (R := ⊤) (S := zpowers y)
       le_top hS trivial hy'
   have hconjord : orderOf (x⁻¹ * y' * x) = 11 := by
-    rw [show x⁻¹ * y' * x = (MulAut.conj x⁻¹) y' by simp [MulAut.conj_apply]]
+    rw [show x⁻¹ * y' * x = (MulAut.conj x⁻¹) y' by simp]
     rw [MulEquiv.orderOf_eq (MulAut.conj x⁻¹) y', hy']
   have hy_zp : y ∈ zpowers (x⁻¹ * y' * x) := by
-    haveI : Finite ↥(zpowers y) :=
+    have : Finite ↥(zpowers y) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hy]; norm_num)
     have hle : zpowers (x⁻¹ * y' * x) ≤ zpowers y := Subgroup.zpowers_le.mpr hxmem
     have hcardeq : zpowers (x⁻¹ * y' * x) = zpowers y := by

@@ -15,7 +15,7 @@ private lemma l6kp_rinv {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)} {ι : Type} {s : ι → (V ≃ₗ[ZMod p] V)} {x : V}
     (S : GGFixLineHyp p N h α r s x) (i : Fin (N - 1)) : (r i).symm = r i := by
   have hii : α i (h i) = (2 : ZMod p) := by
-    rw [S.pair i i, l6kp_cartanA (p := p) (N := N) i i, if_pos rfl]
+    rw [S.pair i i, l6kp_cartanA (p := p) (N := N) i i, ite_eq_left rfl]
   have harg : r i (h i) = - h i := by
     rw [S.r_form i (h i), hii]
     rw [show (2 : ZMod p) • h i = h i + h i by rw [two_smul]]
@@ -211,8 +211,8 @@ private lemma l6kp_faithful {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup 
     (S : GGFixLineHyp p N h α r s x) {g : V ≃ₗ[ZMod p] V}
     (hgP : g ∈ Subgroup.closure (Set.range r))
     (hfix : ∀ v ∈ Submodule.span (ZMod p) (Set.range h), g v = v) : g = 1 := by
-  haveI : Module.Finite (ZMod p) V := by
-    haveI : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := by
+    have : Finite ι := S.finite_family
     exact ggFixLine_finite s S.s_refl S.fix_H
   have hdisp := l6kp_disp S g hgP
   have hfixall : ∀ w : V, g (g w - w) = g w - w := fun w => hfix (g w - w) (hdisp w)
@@ -273,7 +273,7 @@ private lemma l6kp_phi_inj {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V
 private lemma l6kp_top_closure {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin (N - 1) → V} {α : Fin (N - 1) → Module.Dual (ZMod p) V}
     {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)} {ι : Type} {s : ι → (V ≃ₗ[ZMod p] V)} {x : V}
-    (S : GGFixLineHyp p N h α r s x) :
+    (_S : GGFixLineHyp p N h α r s x) :
     (⊤ : Subgroup ↥(Subgroup.closure (Set.range r))) =
       Subgroup.closure (Set.range fun i : Fin (N - 1) =>
         (⟨r i, Subgroup.subset_closure (Set.mem_range_self i)⟩ :

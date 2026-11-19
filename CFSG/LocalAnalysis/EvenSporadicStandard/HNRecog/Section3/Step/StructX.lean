@@ -13,7 +13,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 
 open CFSG.EvenSporadicStandard.HNRecog
 
-private theorem Gxy_mul_comm_eq {G : Type} [Group G] {q z : G} (hqz : q * z = z * q) :
+private theorem Gxy_mul_comm_eq {G : Type} [Group G] {q z : G} (_hqz : q * z = z * q) :
     Gxy (q * z) z = Gxy q z := by
   ext g
   simp only [mem_Gxy, mem_Gx]
@@ -36,26 +36,26 @@ private theorem Gxy_mul_comm_eq {G : Type} [Group G] {q z : G} (hqz : q * z = z 
       _ = g * (q * z) := mul_assoc _ _ _
 
 theorem structXInput_holds :
-    ∀ (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type} [Group G] [Finite G] {a z : G}
-      (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z)
-      (hF3 : Vert Fusion3Facts a z) (hPic : Vert A8Pictures a z) (hOrb : Vert GzOrbitFacts a z)
-      (hY4a : Vert Y4aFacts a z) (hSGz : Vert StructGzFacts a z),
+    ∀ (_hI : TwoHSInterface) (_hS : SuborbitFacts) {G : Type} [Group G] [Finite G] {a z : G}
+      (_h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (_hF2 : Vert Fusion2Facts a z)
+      (_hF3 : Vert Fusion3Facts a z) (_hPic : Vert A8Pictures a z) (_hOrb : Vert GzOrbitFacts a z)
+      (_hY4a : Vert Y4aFacts a z) (_hSGz : Vert StructGzFacts a z),
       StructXFacts a z := by
-  intro hI hS G _ _ a z h hF1 hF2 hF3 hPic hOrb hY4a hSGz
+  intro _hI _hS G _ _ a z _h _hF1 _hF2 _hF3 _hPic _hOrb _hY4a _hSGz
   refine ⟨fun q hqQ hqA => ?_⟩
-  have hOrb' : GzOrbitFacts a z := hOrb a z (IsConj.refl a) (IsConj.refl z)
+  have hOrb' : GzOrbitFacts a z := _hOrb a z (IsConj.refl a) (IsConj.refl z)
   have hz2 : z ^ 2 = 1 := by
-    have := h.orderOf_z
+    have := _h.orderOf_z
     rw [← this]
     exact pow_orderOf_eq_one z
   have hqord : orderOf q = 2 := by
     obtain ⟨c, rfl⟩ := isConj_iff.1 hqA
-    rw [← h.orderOf_a]
+    rw [← _h.orderOf_a]
     exact (congrArg orderOf (MulAut.conj_apply c a)).symm.trans
       (MulEquiv.orderOf_eq (MulAut.conj c) a)
   have hqz' : IsConj q (q * z) :=
-    isConj_mul_of_mem_Qz h.cent_z h.orderOf_z hqord
-      (fun hqz => not_isConj_of_isF5Type hI h (hqz ▸ hqA)) hqQ
+    isConj_mul_of_mem_Qz _h.cent_z _h.orderOf_z hqord
+      (fun hqz => not_isConj_of_isF5Type _hI _h (hqz ▸ hqA)) hqQ
   have hqz : IsConj a (q * z) := hqA.trans hqz'
   have hqzQ : q * z ∈ Qz z := (Qz z).mul_mem hqQ (self_mem_Qz hz2)
   have hqGz : q ∈ Gx z := (Subgroup.map_subtype_le (CFSG.pCore 2 ↥(Gx z))) hqQ
@@ -63,8 +63,8 @@ theorem structXInput_holds :
     rw [mem_Gx] at hqGz ⊢
     exact hqGz.symm
   obtain ⟨x, b₀, u₀, hx, hT, h1, h2, hR⟩ :=
-    exists_tableX_at hI hS (isF5Type_of_isConj h hqA (IsConj.refl z)) (hF1 q z hqA (IsConj.refl z))
-      (hF2 q z hqA (IsConj.refl z)) (hPic q z hqA (IsConj.refl z)) hqA hzq hqz'
+    exists_tableX_at _hI _hS (isF5Type_of_isConj _h hqA (IsConj.refl z)) (_hF1 q z hqA (IsConj.refl z))
+      (_hF2 q z hqA (IsConj.refl z)) (_hPic q z hqA (IsConj.refl z)) hqA hzq hqz'
   have hzp : z ∈ Gx (q * z) := by
     rw [mem_Gx] at hzq ⊢
     rw [← mul_assoc, ← hzq, mul_assoc]
@@ -76,9 +76,9 @@ theorem structXInput_holds :
     rw [this]
     exact hqz.symm.trans hqA
   obtain ⟨x', b₀', u₀', hx', hT', -, -, -⟩ :=
-    exists_tableX_at hI hS (isF5Type_of_isConj h hqz (IsConj.refl z))
-      (hF1 (q * z) z hqz (IsConj.refl z)) (hF2 (q * z) z hqz (IsConj.refl z))
-      (hPic (q * z) z hqz (IsConj.refl z)) hqz hzp hpz
+    exists_tableX_at _hI _hS (isF5Type_of_isConj _h hqz (IsConj.refl z))
+      (_hF1 (q * z) z hqz (IsConj.refl z)) (_hF2 (q * z) z hqz (IsConj.refl z))
+      (_hPic (q * z) z hqz (IsConj.refl z)) hqz hzp hpz
   have hK' := pCore_K_eq_of_tableX hx' hT'
   have hGxy : Gxy (q * z) z = Gxy q z := Gxy_mul_comm_eq (mem_Gx.1 hzq)
   rw [hGxy] at hK'

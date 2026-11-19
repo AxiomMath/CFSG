@@ -61,7 +61,7 @@ noncomputable def tallEquiv (F : Type) [Field F] [CharP F 2] :
       exact ⟨⟨tmGL α β hn, tmGL_mem α β hn⟩, by simp [tmGL, tm]⟩⟩
 
 theorem card_Tall [Finite F] : Nat.card ↥(Tall F) = tc (Nat.card F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_congr (tallEquiv F), K421SpCountProof.card_norm_one_eq, tc]
 
 end Count
@@ -164,7 +164,7 @@ variable (F : Type) [Field F] [Finite F] [CharP F 2]
 theorem factorization_statedSp_tc :
     (Nat.card (CFSG.Open.StatedSp 3 F)).factorization 3 =
       3 * padicValNat 3 (tc (Nat.card F)) + 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hcard⟩ := FiniteField.card F 2
   have hQ : Nat.card F = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hQ2 : 2 ≤ Nat.card F := by
@@ -177,9 +177,9 @@ theorem factorization_statedSp_tc :
     omega
   by_cases h : 3 ∣ Nat.card F - 1
   · have hN : Nat.card F % 3 = 1 := by omega
-    rw [K421RProof.factorization_statedSp_three hN, tc, if_pos h]
+    rw [K421RProof.factorization_statedSp_three hN, tc, ite_eq_left h]
   · have hN : Nat.card F % 3 = 2 := by omega
-    rw [K421SpValProof.factorization_statedSp_three_of_two hN, tc, if_neg h]
+    rw [K421SpValProof.factorization_statedSp_three_of_two hN, tc, ite_eq_right h]
 
 theorem factorization_SpI :
     (Nat.card ↥(SpI F)).factorization 3 = 3 * padicValNat 3 (tc (Nat.card F)) + 1 := by
@@ -194,11 +194,11 @@ theorem factorization_Rall :
     rw [h0] at this
     exact Nat.card_pos.ne' this
   rw [Nat.factorization_mul (by norm_num) (pow_ne_zero 3 hne), Nat.factorization_pow]
-  simp [Nat.factorization_def _ Nat.prime_three, padicValNat_self]
+  simp [Nat.factorization_def _ Nat.prime_three]
   ring
 
 theorem exists_sylow_le_Rall : ∃ P : Sylow 3 ↥(SpI F), (P : Subgroup ↥(SpI F)) ≤ Rall F := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P0⟩ : Nonempty (Sylow 3 ↥(Rall F)) := inferInstance
   have hcard : Nat.card ((P0 : Subgroup ↥(Rall F)).map (Rall F).subtype) =
       3 ^ (Nat.card ↥(SpI F)).factorization 3 := by
@@ -209,7 +209,7 @@ theorem exists_sylow_le_Rall : ∃ P : Sylow 3 ↥(SpI F), (P : Subgroup ↥(SpI
 
 theorem hconj_sp {E : Subgroup ↥(SpI F)} (hE : IsElemAbelian 3 E) :
     ∃ g : ↥(SpI F), E.map (MulAut.conj g).toMonoidHom ≤ (monoSp F).A0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_sylow_le_Rall F
   have hp : IsPGroup 3 E := fun x => ⟨1, by
     apply Subtype.ext

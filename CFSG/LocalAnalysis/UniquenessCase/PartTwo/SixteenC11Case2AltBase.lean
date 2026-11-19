@@ -53,7 +53,7 @@ private lemma s16c11_case2alt_ncard_orbit_eq_relIndex [Finite G] {ρ : G →* Mu
     {T X : Subgroup G} {y : V}
     (hS : X ⊓ (MulAction.stabilizer (MulAut V) y).comap ρ = T) :
     {z : V | ∃ x ∈ X, ρ x y = z}.ncard = T.relIndex X := by
-  letI : MulAction G V := MulAction.compHom V ρ
+  let : MulAction G V := MulAction.compHom V ρ
   have hstab : MulAction.stabilizer G y = (MulAction.stabilizer (MulAut V) y).comap ρ := by
     ext g
     simp only [MulAction.mem_stabilizer_iff, Subgroup.mem_comap, MulAction.compHom_smul_def]
@@ -279,7 +279,7 @@ theorem s16c11_forcedPairs_ncard_eq_one {ρ : G →* MulAut V} {T₁ : Subgroup 
     (S16C11ForcedPairs ρ T₁ y₀ a b).ncard = 1 := by
   have hset : S16C11ForcedPairs ρ T₁ y₀ a b = {(y₀, S16C11SetStab ρ {y₀, a, b})} := by
     ext ⟨y, X⟩
-    simp only [S16C11ForcedPairs, Set.mem_setOf_eq, Set.mem_singleton_iff, Prod.mk.injEq]
+    simp only [S16C11ForcedPairs, Set.mem_ofPred_eq, Set.mem_singleton_iff, Prod.mk.injEq]
     constructor
     · rintro ⟨hy, hTX, hXS, hX3, -⟩
       refine ⟨hy, le_antisymm hXS ?_⟩

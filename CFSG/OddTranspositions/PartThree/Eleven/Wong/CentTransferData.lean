@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] (D : SplitData G)
 
+omit [Finite G] in
 private theorem mem_W_iff {x : G} : x ∈ D.W ↔
     x = 1 ∨ x = D.u ∨ x = D.v ∨ x = D.u * D.v ∨ x = D.w ∨ x = D.u * D.w ∨
       x = D.v * D.w ∨ x = D.u * D.v * D.w := by
@@ -56,6 +57,7 @@ private theorem mem_W_iff {x : G} : x ∈ D.W ↔
     · exact ⟨D.u * D.v, mul_mem (subset_closure (by simp)) (subset_closure (by simp)), D.w,
         mem_zpowers D.w, rfl⟩
 
+omit [Finite G] in
 private theorem relIndex_two_cover {H K : Subgroup G} (h2 : H.relIndex K = 2) {t : G}
     (htK : t ∈ K) (htH : t ∉ H) : (K : Set G) ⊆ (H : Set G) ∪ t • (H : Set G) := by
   intro x hxK
@@ -84,14 +86,14 @@ private theorem M_eq_map_Mh : D.M = D.Mh.map (MulAut.conj D.z⁻¹).toMonoidHom 
     rw [show D.z⁻¹ * (D.u * D.w) * D.z =
         (D.z⁻¹ * D.u * D.z) * (D.z⁻¹ * D.w * D.z) by group, D.z_u', hm]
     fin_cases m
-    · simp only [Fin.val_zero, pow_zero, mul_one, zero_add, pow_one]
+    · simp only [pow_zero, mul_one, zero_add, pow_one]
       calc (D.t * D.v) * (D.t * D.u * D.w)
           = D.t * (D.v * (D.t * (D.u * D.w))) := by group
         _ = D.t * (D.t * (D.v * (D.u * D.w))) := by rw [D.v_mul_t_mul (D.u * D.w)]
         _ = D.v * (D.u * D.w) := by rw [D.t_mul_t_mul]
         _ = D.u * (D.v * D.w) := by rw [D.v_mul_u_mul]
         _ = D.u * D.v * D.w := by group
-    · simp only [Fin.val_one, pow_one]
+    · simp only [pow_one]
       calc (D.t * D.v) * (D.t * D.u * D.v * D.w)
           = D.t * (D.v * (D.t * (D.u * (D.v * D.w)))) := by group
         _ = D.t * (D.t * (D.v * (D.u * (D.v * D.w)))) := by

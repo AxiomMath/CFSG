@@ -13,11 +13,11 @@ open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 theorem exists_mul_ne_of_sq_dvd_card {G : Type*} [Group G] [IsSimpleGroup G] {p : ℕ}
-    (hp : p.Prime) (h : p ^ 2 ∣ Nat.card G) (hG : Nat.card G ≠ 0) :
+    (hp : p.Prime) (h : p ^ 2 ∣ Nat.card G) (_hG : Nat.card G ≠ 0) :
     ∃ a b : G, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  letI : CommGroup G := { ‹Group G› with mul_comm := hc }
+  let : CommGroup G := { ‹Group G› with mul_comm := hc }
   have hq : (Nat.card G).Prime := IsSimpleGroup.prime_card
   rcases (Nat.dvd_prime hq).mp h with h1 | h1
   · exact hp.one_lt.ne' (Nat.pow_eq_one.mp h1 |>.resolve_right (by norm_num))
@@ -44,7 +44,7 @@ theorem isSolvable_inf_of_forall_sylow_le (R : Sylow p Y)
   have hTH : (T : Subgroup K) ≤ Y₀.subgroupOf K := fun t ht => by
     have h : (t : Y) ∈ (R : Subgroup Y) ⊓ K := hT ▸ mem_map_of_mem K.subtype ht
     exact mem_subgroupOf.mpr (hRY₀ h.1)
-  haveI := hK T _ hTH (subgroupOf_ne_top hKY₀)
+  have := hK T _ hTH (subgroupOf_ne_top hKY₀)
   let f : (K ⊓ Y₀ : Subgroup Y) →* Y₀.subgroupOf K :=
     { toFun := fun x => ⟨⟨x, x.2.1⟩, mem_subgroupOf.mpr x.2.2⟩
       map_one' := rfl
@@ -120,12 +120,13 @@ theorem normalizer_le_of_three_le_pRank_of_le (hp : p.Prime) {Y₀ E X : Subgrou
   have hR : 3 ≤ pRank p (R : Subgroup Y) := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact hX.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp hXR)
-  rw [if_pos hR] at hcore
+  rw [ite_eq_left hR] at hcore
   exact (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p hXR (by omega)
     (hX.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp le_sup_left))).trans hcore
 
 variable [Fact p.Prime] {K : Subgroup Y} [K.Normal]
 
+omit [Finite Y] in
 theorem exists_inv_mul_mem_centralizer_of_not_dvd (hout : ¬ p ∣ Nat.card (Outer K)) {r : Y}
     {n : ℕ} (hr : r ^ p ^ n = 1) : ∃ k ∈ K, k⁻¹ * r ∈ centralizer (K : Set Y) := by
   set o : Outer K := QuotientGroup.mk (MulAut.conjNormal r : MulAut K) with ho
@@ -158,7 +159,7 @@ private theorem mem_inf_of_mem_normalizer (R : Sylow p Y) {k : Y} (hkK : k ∈ K
     refine ⟨n, Subtype.ext ?_⟩
     simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hkn, one_zpow]
-  have hT₀p : IsPGroup p T₀ := hT ▸ T.isPGroup'.map K.subtype
+  have hT₀p : IsPGroup p T₀ := hT ▸ T.isPGroup.map K.subtype
   have hH : IsPGroup p (zpowers k ⊔ T₀ : Subgroup Y) :=
     IsPGroup.to_sup_of_normal_right' hkp hT₀p (zpowers_le.mpr hkN)
   have hHK : (zpowers k ⊔ T₀ : Subgroup Y) ≤ K := sup_le (zpowers_le.mpr hkK) inf_le_right
@@ -179,7 +180,7 @@ theorem sylow_le_sup_inf_centralizer_of_not_dvd (R : Sylow p Y)
     (R : Subgroup Y) ≤ ((R : Subgroup Y) ⊓ K) ⊔
       ((R : Subgroup Y) ⊓ centralizer (((R : Subgroup Y) ⊓ K : Subgroup Y) : Set Y)) := by
   intro r hr
-  obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
   have hrn : r ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
   obtain ⟨k, hkK, hc⟩ := exists_inv_mul_mem_centralizer_of_not_dvd hout hrn
   set c := k⁻¹ * r with hcdef
@@ -229,9 +230,9 @@ theorem sylow_le_sup_inf_centralizer_of_not_dvd (R : Sylow p Y)
 private theorem forall_mul_comm_of_card_eq (R : Sylow p Y) {Z : Subgroup Y}
     (hZR : Z ≤ R) (hZc : Nat.card Z = p) (hN : (R : Subgroup Y) ≤ normalizer (Z : Set Y)) :
     ∀ z ∈ Z, ∀ q ∈ (R : Subgroup Y), q * z = z * q := by
-  haveI : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup.isNilpotent
   set Z' : Subgroup (R : Subgroup Y) := Z.subgroupOf R
-  haveI : Z'.Normal := ⟨fun x hx g => mem_subgroupOf.mpr
+  have : Z'.Normal := ⟨fun x hx g => mem_subgroupOf.mpr
     ((mem_normalizer_iff.mp (hN g.2) x).mp (mem_subgroupOf.mp hx))⟩
   have hZ'c : Nat.card Z' = p := (Nat.card_congr (subgroupOfEquivOfLe hZR).toEquiv).trans hZc
   have hne : Z' ≠ ⊥ := fun h => by
@@ -261,13 +262,13 @@ theorem normalizer_inf_le_of_card_center_eq {Y₀ E : Subgroup Y} (R : Sylow p Y
   have hp : p.Prime := Fact.out
   set T₀ : Subgroup Y := (R : Subgroup Y) ⊓ K with hT₀
   by_cases h3 : 3 ≤ pRank p (R : Subgroup Y)
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p inf_le_left h2
       ?_).trans hcore
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     exact h3.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp
       (sylow_le_sup_inf_centralizer_of_not_dvd R hZ hout))
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     have hR2 : CFSG.Open.pRank p (R : Subgroup Y) ≤ 2 := by
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
       omega

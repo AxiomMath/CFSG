@@ -114,7 +114,7 @@ theorem griess_omegaPlus_clause (hGA : GriessAllModelsStatement) [CharP K 2]
     by_cases hf2 : f = 2
     · have h4 : Nat.card K = 4 := by rw [hK, hf2]; norm_num
       have hexp := statedOmegaPlus_four_ker_exponent hGA hf hK hE π hrange hkerY
-      rw [if_pos hf2] at hexp
+      rw [ite_eq_left hf2] at hexp
       have := statedOmega_plus_four_four_clause h4 hE π hrange hkerY hexp
       rw [hker] at this
       simpa [h4] using this

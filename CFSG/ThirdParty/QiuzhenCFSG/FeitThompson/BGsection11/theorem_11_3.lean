@@ -49,7 +49,7 @@ private theorem CFSG.section11_isComplement'_subgroupOf_sup_of_inf_eq_bot_of_le_
   let S : Subgroup G := R ⊔ H
   let Hs : Subgroup S := H.subgroupOf S
   let Rs : Subgroup S := R.subgroupOf S
-  haveI : Hs.Normal := by
+  have : Hs.Normal := by
     simpa [S, Hs] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := R) (N := H) hRnorm)
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
@@ -136,7 +136,7 @@ public theorem CFSG.theorem_11_3
       (corollary_11_2_b (M := M) (A0 := A0) (A := A) (p := p) (P := P)
         h11 (g := g) hgM hA_le_Mg)
   rcases h11.A_rank_two with ⟨_hAcard, hAelem⟩
-  letI : IsMulCommutative A := hAelem.toIsMulCommutative
+  let : IsMulCommutative A := hAelem.toIsMulCommutative
   have hR_le_cent : R ≤ Subgroup.centralizer (R : Set G) := by
     simpa [R] using section11_conjBy_le_centralizer_self
       (G := G) (A0 := A0) (A := A) h11.A0_le_A g
@@ -146,7 +146,7 @@ public theorem CFSG.theorem_11_3
       intro x hx
       exact ⟨hx.1, hR_le_cent hx.2⟩
     simpa [hfixG] using hle
-  have hsolvS : IsSolvable S :=
+  have hsolvS : Group.IsSolvable S :=
     section11_solvable_of_le_maximal h11.maximal hS_le_M
   have hoddS : Odd (Nat.card S) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card S)

@@ -43,8 +43,8 @@ theorem pk_refE : pkM refE0 = refEP.getD 0 0 ∧ pkM refE1 = refEP.getD 1 0 ∧
 
 theorem pk_selM (b : Bool) (g : M22) : pkM (selM b g) = cond b (pkM g) I := by
   cases b
-  · rw [selM, if_neg Bool.false_ne_true, pkM_one, cond_false]
-  · rw [selM, if_pos rfl, cond_true]
+  · rw [selM, ite_eq_right Bool.false_ne_true, pkM_one, Bool.cond_false]
+  · rw [selM, ite_eq_left rfl, _root_.Bool.cond_true]
 
 theorem crdP_ok : ∀ x : Fin 16, pcomp (nat_lit 22) (nat_lit 5) (nat_lit 31)
     (pcomp (nat_lit 22) (nat_lit 5) (nat_lit 31)
@@ -62,11 +62,11 @@ theorem pk_letter (c : Char) :
     pkM (if c = 'a' then refa else if c = 'b' then refb else refb⁻¹) =
       if c = 'a' then refaP else if c = 'b' then refbP else refbIP := by
   by_cases ha : c = 'a'
-  · rw [if_pos ha, if_pos ha, pk_refa]
-  · rw [if_neg ha, if_neg ha]
+  · rw [ite_eq_left ha, ite_eq_left ha, pk_refa]
+  · rw [ite_eq_right ha, ite_eq_right ha]
     by_cases hb : c = 'b'
-    · rw [if_pos hb, if_pos hb, pk_refb]
-    · rw [if_neg hb, if_neg hb, pk_refbI]
+    · rw [ite_eq_left hb, ite_eq_left hb, pk_refb]
+    · rw [ite_eq_right hb, ite_eq_right hb, pk_refbI]
 
 theorem pk_cOfWord_aux (l : List Char) : ∀ g : M22,
     pkM (l.foldl (fun g c => g * if c = 'a' then refa else if c = 'b' then refb else refb⁻¹) g) =

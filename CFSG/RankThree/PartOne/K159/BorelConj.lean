@@ -61,7 +61,7 @@ theorem not_dvd_card_sylow_two_of_torus {p : ℕ} {H : Type*} [Group H] [Finite 
   set N : Subgroup H := Subgroup.normalizer (T : Subgroup H) with hN
   have hTN : (T : Subgroup H) ≤ N := Subgroup.le_normalizer
   have hcop : Nat.Coprime (Nat.card T) (Nat.card D) := by
-    obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_left n ((Nat.coprime_two_left).2 hodd)
   have h1 : Nat.card T ∣ Nat.card N := Subgroup.card_dvd_of_le hTN
@@ -208,7 +208,7 @@ theorem exists_two_subgroup_of_borel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E
     obtain ⟨t', ht', h⟩ := hTinv e he t ht
     exact Subgroup.mem_map.2 ⟨t', ht', h⟩
   have hET' : E ≤ Subgroup.normalizer (T' : Set G) := le_normalizer_of_forall_conj_mem hT'inv
-  have hT'2 : IsPGroup 2 ↥T' := (T.isPGroup').map Y.subtype
+  have hT'2 : IsPGroup 2 ↥T' := (T.isPGroup).map Y.subtype
   obtain ⟨x, hxY, hxo, hxc⟩ :=
     exists_orderOf_eq_of_isPGroup_normalizes hp hEY hEp hpY
   have hxp : x ^ p = 1 := by

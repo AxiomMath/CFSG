@@ -233,7 +233,7 @@ private theorem fget_nePack {r : List Nat} (hr : ∀ x ∈ r, x < 64) {i : Nat} 
     fget (nePack r) i 6 = r.getD i 0 := by
   have hT : ∀ x ∈ r.take 64, x < 64 := fun x hx => hr x (List.mem_of_mem_take hx)
   rw [fget_eq', nePack_eq hr, packV_field _ hT i]
-  simp [List.getD_eq_getElem?_getD, List.getElem?_take, hi]
+  simp [List.getD_eq_getElem?_getD, hi]
 
 section Perm
 

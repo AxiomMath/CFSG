@@ -66,7 +66,7 @@ theorem ev_sl : ∀ {n k : ℕ} (a : ℕ), k < n → ev (sl k a) n = 2 ^ (18 * k
   | n + 1, k + 1, a, h => by
     have e : (fun m => sl (k + 1) a (m + 1)) = sl k a := funext fun m => by simp [sl]
     rw [ev_succ, e, ev_sl a (by omega)]
-    simp only [sl, if_neg (Nat.succ_ne_zero k).symm, Nat.zero_add]
+    simp only [sl, ite_eq_right (Nat.succ_ne_zero k).symm, Nat.zero_add]
     ring
 
 @[expose] def pk (W V : ℕ → ℕ) : ℕ :=
@@ -260,11 +260,11 @@ theorem blk_of {X : Matrix (Fin 3) (Fin 3) F25} (h : X 0 2 = 0 ∧ X 1 2 = 0 ∧
   have i0 : im (0 : F25) = 0 := rfl
   rw [zl 8 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h1, r0]),
     zl 5 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h2, r0]),
-    zl 0 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h3, r0]),
+    zl 0 (by norm_num) (by simp only [lanesB, List.getD_cons_zero, h3, r0]),
     zl 1 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h4, r0]),
     zh 8 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h1, i0]),
     zh 5 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h2, i0]),
-    zh 0 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h3, i0]),
+    zh 0 (by norm_num) (by simp only [lanesB, List.getD_cons_zero, h3, i0]),
     zh 1 (by norm_num) (by simp only [lanesB, List.getD_cons_succ, List.getD_cons_zero, h4, i0])]
   simp
 

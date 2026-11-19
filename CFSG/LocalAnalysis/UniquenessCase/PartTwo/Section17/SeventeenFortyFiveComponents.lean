@@ -47,6 +47,7 @@ theorem component_normal_in_conjClosure {M L : Subgroup G} (hL : L ∈ calC M) :
   rw [cCompSpan_conjClosure hL] at h
   exact h.2
 
+omit [Finite G] in
 theorem conjSetOf_eq_of_sup {M X K L : Subgroup G} (hXM : X ≤ M) (hKM : K ≤ M)
     (hM : M ≤ X ⊔ K) (hXN : (X.subgroupOf M).Normal)
     (hXL : X ≤ normalizer (L : Set G)) :
@@ -80,6 +81,7 @@ theorem conjSetOf_eq_of_sup {M X K L : Subgroup G} (hXM : X ≤ M) (hKM : K ≤ 
   · rintro K' ⟨k, hk, rfl⟩
     exact ⟨k, hKM hk, rfl⟩
 
+omit [Finite G] in
 theorem ncard_Gamma_eq_ncard_conjSetOf {H K L : Subgroup G} {Γ : Set G}
     (hreps : CIsCosetReps H K Γ) (hH : H = K ⊓ normalizer (L : Set G)) :
     Γ.ncard = (conjSetOf K L).ncard := by
@@ -145,7 +147,7 @@ theorem ncard_Gamma_eq_ncard_conjSetOf {H K L : Subgroup G} {Γ : Set G}
               rw [Subgroup.map_map]
               congr 1
               ext x
-              simp [MulAut.conj_apply, MulAut.mul_apply, MonoidHom.comp_apply, mul_assoc]
+              simp [MulAut.mul_apply, MonoidHom.comp_apply, mul_assoc]
       _ = L.map (MulAut.conj k).toMonoidHom := by rw [← hk_eq]
 
 theorem Ctx17_42.ncard_Gamma_eq_card_conjSet {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
@@ -172,7 +174,7 @@ theorem Ctx17_42.ncard_Gamma_eq_card_conjSet {D : Data G} {V₀ V L X : Subgroup
     uc22p22r_fo_sylow_inf (p := 2) D.sylowM
       (CFSG.Open.IsSubnormal.step hXM hXN (CFSG.Open.IsSubnormal.refl D.M))
   have hM : D.M ≤ X' ⊔ K' := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     simpa [K'] using uc22p22t_frattini_sup (q := 2) hXM hMX hS
   have hLX : L ≤ X' := by
     simpa [X'] using uc22p22v_le_conjClosure D.M L

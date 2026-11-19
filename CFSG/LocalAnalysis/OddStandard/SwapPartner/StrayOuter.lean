@@ -22,13 +22,13 @@ theorem four_le_card_inf_centralizer_of_simple (hF : DihedralOuterInvolutionFact
   · by_contra hlt
     push Not at hlt
     have hle : Nat.card ↥(L ⊓ centralizer ({a} : Set G)) ≤ 3 := by omega
-    haveI : IsSimpleGroup ↥L := hL
-    haveI : Group.IsPerfect ↥L :=
+    have : IsSimpleGroup ↥L := hL
+    have : Group.IsPerfect ↥L :=
       CFSG.TwoRankLowerBound.Helpers.perfect_of_nonabelian_simple ↥L hnab
-    haveI : Nontrivial ↥L := by
+    have : Nontrivial ↥L := by
       rw [← not_subsingleton_iff_nontrivial]
       intro hsub
-      haveI := hsub
+      have := hsub
       obtain ⟨x, y, hxy⟩ := hnab
       exact hxy (Subsingleton.elim (x * y) (y * x))
     have h4L : 4 ∣ Nat.card ↥L := four_dvd_card_of_isPerfect

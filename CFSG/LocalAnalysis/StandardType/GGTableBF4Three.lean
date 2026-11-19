@@ -147,7 +147,7 @@ theorem exists_conj_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {p : �
     ∃ g : G, E.map (MulAut.conj g).toMonoidHom ≤ X := by
   have := Fact.mk hp
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p X))
-  have hPp : IsPGroup p ((P : Subgroup X).map X.subtype) := P.isPGroup'.map _
+  have hPp : IsPGroup p ((P : Subgroup X).map X.subtype) := P.isPGroup.map _
   have hPidx : ¬ p ∣ ((P : Subgroup X).map X.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

@@ -117,27 +117,27 @@ theorem recipe2 [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (h�
       have := hσ θ
       rw [h, map_zero] at this
       exact this.symm
-    exact hθ (by simp [h, h0])
+    exact hθ (by simp [h0])
   have hk : (σ θ)⁻¹ * σ θ = 1 := inv_mul_cancel₀ hs
   have hvB1 : herm σ (v3 a b θ) (b 1) = 1 := by
     unfold v3
-    simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
+    simp [hf.bb, hf.ab]
   have hvA0 : herm σ (v3 a b θ) (a 0) = σ θ := by
     unfold v3
-    simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
+    simp [hf.aa, frameBA hσ hf]
   have hvA1 : herm σ (v3 a b θ) (a 1) = σ θ := by
     unfold v3
-    simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
+    simp [hf.aa, frameBA hσ hf]
   have hvpp : herm σ (v3 a b θ) (v3 a b θ) = 0 := by
     unfold v3
     simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
     linear_combination (θ + σ θ) * two
   have hvu1 : herm σ (v3 a b θ) (a 2) = 0 := by
     unfold v3
-    simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
+    simp [hf.aa, frameBA hσ hf]
   have hvw1 : herm σ (v3 a b θ) (b 2) = 0 := by
     unfold v3
-    simp [hf.aa, hf.bb, hf.ab, frameBA hσ hf]
+    simp [hf.bb, hf.ab]
   have hvu2 : herm σ (v3 a b θ) (a 0 + a 1) = 0 := by
     rw [herm_add_right, hvA0, hvA1]
     linear_combination (σ θ) * two

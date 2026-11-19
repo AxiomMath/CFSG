@@ -128,7 +128,7 @@ end Lift
 
 theorem isSimpleGroup_oPrimeRes_of_simple {Y : Type} [Group Y] [Finite Y] [IsSimpleGroup Y]
     (h5 : 5 ∣ Nat.card Y) : IsSimpleGroup ↥(oPrimeRes 5 Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Y) 5 h5
   have hgT : g ∈ oPrimeRes 5 Y :=
     subset_normalClosure (show ∃ j : ℕ, g ^ (5 ^ j) = 1 from
@@ -159,7 +159,7 @@ theorem oPrimeRes_perm_prod_eq {X : Type} [Group X] [Finite X] {Ω : Subgroup X}
     (hΩ : IsSimpleGroup ↥Ω) (h5 : 5 ∣ Nat.card Ω)
     (hX : ∀ x : X, (∃ j : ℕ, x ^ (5 ^ j) = 1) → x ∈ Ω) :
     oPrimeRes 5 (Equiv.Perm (Fin 3) × X) = (⊥ : Subgroup (Equiv.Perm (Fin 3))).prod Ω := by
-  haveI : (((⊥ : Subgroup (Equiv.Perm (Fin 3)))).prod Ω).Normal := Subgroup.prod_normal _ _
+  have : (((⊥ : Subgroup (Equiv.Perm (Fin 3)))).prod Ω).Normal := Subgroup.prod_normal _ _
   apply le_antisymm
   · unfold oPrimeRes
     apply normalClosure_le_normal
@@ -180,7 +180,7 @@ theorem oPrimeRes_perm_prod_eq {X : Type} [Group X] [Finite X] {Ω : Subgroup X}
   ·
     set N := oPrimeRes 5 (Equiv.Perm (Fin 3) × X) with hN
     have hΩ1 : ∀ x ∈ Ω, ((1 : Equiv.Perm (Fin 3)), x) ∈ N := by
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       let N₀ : Subgroup X := N.comap (MonoidHom.inr (Equiv.Perm (Fin 3)) X)
       obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥Ω) 5 h5
       have hx0 : (t : X) ^ 5 = 1 := by

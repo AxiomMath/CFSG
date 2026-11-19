@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_map_injective (x : MulAut W) :
     Function.Injective (fun I : Subgroup W => I.map x.toMonoidHom) := by
   intro I I' h
@@ -43,6 +44,7 @@ private noncomputable def s16t3_irrSetActFun (h : ThreeNat A L T) (a : ↥A) :
            MonoidHom.id W := by ext w; simp
        rw [hcomp, Subgroup.map_id]⟩⟩
 
+omit [Finite W] in
 private lemma s16t3_irrSetActFun_apply (h : ThreeNat A L T) (a : ↥A) (I : ↥(irrSet L)) :
     (s16t3_irrSetActFun h a I : Subgroup W) = (I : Subgroup W).map (a : MulAut W).toMonoidHom :=
   rfl
@@ -64,6 +66,7 @@ private noncomputable def s16t3_irrSetAct (h : ThreeNat A L T) :
     rw [Subgroup.map_map]
     congr 1
 
+omit [Finite W] in
 private lemma s16t3_irrSetAct_apply (h : ThreeNat A L T) (a : ↥A) (I : ↥(irrSet L)) :
     (s16t3_irrSetAct h a I : Subgroup W) = (I : Subgroup W).map (a : MulAut W).toMonoidHom :=
   rfl
@@ -105,7 +108,7 @@ theorem ThreeNat.three_dvd_card_outer (h : ThreeNat A L T) (h3 : Nat.card ↥(ir
     have hquot : Nat.card (↥A ⧸ A₀) = Nat.card ↥P :=
       Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv
     rw [hquot]
-    letI : MulAction ↥P ↥(irrSet L) :=
+    let : MulAction ↥P ↥(irrSet L) :=
       { smul := fun p x => (p : Equiv.Perm ↥(irrSet L)) x
         one_smul := fun _ => rfl
         mul_smul := fun p q x => by
@@ -126,7 +129,7 @@ theorem ThreeNat.three_dvd_card_outer (h : ThreeNat A L T) (h3 : Nat.card ↥(ir
       exact hgI.symm
     obtain ⟨I, hI, -⟩ := h.exists_natural_irr
     have hd : Nat.card ↥(irrSet L) ∣ Nat.card ↥P := by
-      haveI : Nonempty ↥(irrSet L) := ⟨⟨I, hI⟩⟩
+      have : Nonempty ↥(irrSet L) := ⟨⟨I, hI⟩⟩
       obtain ⟨x⟩ := ‹Nonempty ↥(irrSet L)›
       rw [← MulAction.index_stabilizer_of_transitive (G := ↥P) x]
       exact (MulAction.stabilizer ↥P x).index_dvd_card

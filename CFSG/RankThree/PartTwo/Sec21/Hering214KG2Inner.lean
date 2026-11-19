@@ -43,7 +43,7 @@ theorem eInvFour_G2_inner (h3 : 3 ∣ Nat.card K - 1)
     (hrange : Ē ≤ (MulAut.conj : ↥(adjointGroup .G2 K) →* MulAut ↥(adjointGroup .G2 K)).range) :
     EInvFour ↥(adjointGroup .G2 K) Ē := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥(adjointGroup .G2 K) = ⊥ := center_adjointGroup_eq_bot
   have hconjinj : Function.Injective
       (MulAut.conj : ↥(adjointGroup .G2 K) →* MulAut ↥(adjointGroup .G2 K)) :=

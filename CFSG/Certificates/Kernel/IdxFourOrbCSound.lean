@@ -25,7 +25,7 @@ theorem cntBelow_eq (f : Nat → Bool) :
     rw [Finset.range_add_one, Finset.filter_insert, ih]
     cases h : f n
     · rfl
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       rfl
 
 theorem ncard_orbit_of_orbCOK {G D L : Nat} {K : Subgroup (V12 ≃ₗ[ZMod 2] V12)}

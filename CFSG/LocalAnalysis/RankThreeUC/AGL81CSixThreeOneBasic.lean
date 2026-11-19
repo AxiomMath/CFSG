@@ -111,7 +111,7 @@ theorem map_oPPrimeHull {p : ℕ} [Fact p.Prime] {G G' : Type*} [Group G] [Finit
 theorem nonempty_quot_pCore_mulEquiv_of_surjective {p : ℕ} [Fact p.Prime] {A B : Type*} [Group A]
     [Group B] [Finite A] (f : A →* B) (hf : Function.Surjective f) (hker : IsPGroup p f.ker) :
     Nonempty (A ⧸ CFSG.pCore p A ≃* B ⧸ CFSG.pCore p B) := by
-  haveI : Finite B := Finite.of_surjective f hf
+  have : Finite B := Finite.of_surjective f hf
   have hmap : (CFSG.pCore p A).map f = CFSG.pCore p B :=
     CFSG.GroupTheory.FT63ChII.pCore_map_of_surjective hf hker
   have hkle : f.ker ≤ CFSG.pCore p A := le_sSup ⟨f.normal_ker, hker⟩

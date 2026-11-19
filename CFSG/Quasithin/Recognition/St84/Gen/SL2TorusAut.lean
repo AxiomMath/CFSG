@@ -70,7 +70,7 @@ theorem exists_torusElt_of_map_utri_of_fix_torus {F : Type} [Field F] [Finite F]
     have hlt : 1 < Nat.card Fˣ := by
       rw [Nat.card_units]
       exact lt_of_lt_of_le (by norm_num) hle
-    haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp hlt
+    have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp hlt
     obtain ⟨b, hbne⟩ := exists_ne (1 : Fˣ)
     have h01 := congrArg (fun g : SL(2, F) => g 0 1) (hconj_b b)
     sl2_simp at h01
@@ -147,7 +147,7 @@ theorem exists_mem_torus_conj_mem_of_normalizes {G : Type*} [Group G] {F : Type}
     group
   let N : Subgroup ↥L := Q.subgroupOf L
   have hN : α.ker = N := hker
-  haveI : N.Normal := by
+  have : N.Normal := by
     rw [← hN]
     exact MonoidHom.normal_ker α
   let β : ↥L →* SL(2, F) := α.comp cLHom

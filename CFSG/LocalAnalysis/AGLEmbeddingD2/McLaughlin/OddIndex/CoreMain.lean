@@ -13,7 +13,7 @@ theorem lThreeTwoCoreOdd_of_modFix (hS : CFSG.AGLEmbedding.CatalogOuterSolvable)
     (hmod : ∀ (Y : Type) [Group Y] [Finite Y] (a : Y), IsLThreeTwo (Y ⧸ CFSG.pCore 2 Y) →
       orderOf a = 3 → ModFix Y a) : LThreeTwoCoreOdd := by
   intro N _ _ hK I N₀ Y A hI h3 hA hAY hYN₀ hY hC
-  haveI := hI
+  have := hI
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 3 (by rw [hA] : 3 ∣ Nat.card A)
   have haY : (a : N) ∈ Y := hAY a.2
@@ -24,7 +24,7 @@ theorem lThreeTwoCoreOdd_of_modFix (hS : CFSG.AGLEmbedding.CatalogOuterSolvable)
     apply Subgroup.eq_of_le_of_card_ge
     · rw [Subgroup.zpowers_le]; exact a.2
     · rw [hA, Nat.card_zpowers, Subgroup.orderOf_coe, ha]
-  haveI : Finite ↥Y := inferInstance
+  have : Finite ↥Y := inferInstance
   let ρ : ↥Y →* MulAut ↥I := (MulAut.conjNormal : N →* MulAut ↥I).comp Y.subtype
   have hρ : ∀ (y : ↥Y) (x : ↥I), ((ρ y x : ↥I) : N) = (y : N) * x * (y : N)⁻¹ := fun y x => rfl
   let J : Subgroup ↥I := (I ⊓ N₀).subgroupOf I

@@ -64,9 +64,9 @@ theorem extend {G : Type*} [Group G] [Finite G] (ambient acting : Subgroup G)
   let ambientAction := localAmbient.normalizerMonoidHom.comp
     (Subgroup.inclusion (show (sylow : Subgroup product) ≤ Subgroup.normalizer (localAmbient : Set product) from
       Subgroup.le_normalizer_of_normal))
-  obtain ⟨insideSylow, hinsideInvariant⟩ := TwoActionInvariantSylow.exists_invariant sylow.isPGroup' ambientAction
+  obtain ⟨insideSylow, hinsideInvariant⟩ := TwoActionInvariantSylow.exists_invariant sylow.isPGroup ambientAction
   let localImage : Subgroup product := (insideSylow : Subgroup localAmbient).map localAmbient.subtype
-  have hlocalTwo : IsPGroup 2 localImage := insideSylow.isPGroup'.map localAmbient.subtype
+  have hlocalTwo : IsPGroup 2 localImage := insideSylow.isPGroup.map localAmbient.subtype
   have hlocalNormalizes : (sylow : Subgroup product) ≤ Subgroup.normalizer (localImage : Set product) := by
     intro actor hactor
     apply (CommutingComponentFamily.normalizer_iff_conjugate_eq _ actor).mpr
@@ -76,7 +76,7 @@ theorem extend {G : Type*} [Group G] [Finite G] (ambient acting : Subgroup G)
     convert hmap using 1
     congr 1
   have hlocalInSylow : localImage ≤ sylow := by
-    have htwoJoin := hlocalTwo.to_sup_of_normal_left' sylow.isPGroup' hlocalNormalizes
+    have htwoJoin := hlocalTwo.to_sup_of_normal_left' sylow.isPGroup hlocalNormalizes
     have heq := sylow.maximal_isPGroup.eq_of_ge htwoJoin (le_sup_right : (sylow : Subgroup product) ≤ localImage ⊔ sylow)
     rw [← heq]
     exact le_sup_left
@@ -86,7 +86,7 @@ theorem extend {G : Type*} [Group G] [Finite G] (ambient acting : Subgroup G)
       exact lift.property
     apply le_antisymm (le_inf hlocalInSylow hle)
     have hotherTwo : IsPGroup 2 (((sylow : Subgroup product).subgroupOf localAmbient) : Subgroup localAmbient) :=
-      sylow.isPGroup'.comap_subtype
+      sylow.isPGroup.comap_subtype
     have hinsideLe : (insideSylow : Subgroup localAmbient) ≤ (sylow : Subgroup product).subgroupOf localAmbient := by
       intro member hmember
       exact hlocalInSylow (Subgroup.mem_map.mpr ⟨member, hmember, rfl⟩)
@@ -142,7 +142,7 @@ theorem choices {G : Type*} [Group G] [Finite G] (ambient acting intersection : 
     rintro member ⟨lift, hlift, rfl⟩
     exact lift.property
   have hfirstAmbient := hfirstImage.trans hintersection
-  have hfirstTwo : IsPGroup 2 firstImage := first.isPGroup'.map intersection.subtype
+  have hfirstTwo : IsPGroup 2 firstImage := first.isPGroup.map intersection.subtype
   have hfirstCore := centralizes acting intersection firstImage hfirstImage hfirstTwo hfirstNormalizes hcommutator
   obtain ⟨second, hcontained, hsecondNormalizes⟩ := extend ambient acting htwo hnormalizesAmbient
     (firstImage.subgroupOf ambient) (hfirstTwo.comap_subtype (K := ambient)) (by
@@ -154,7 +154,7 @@ theorem choices {G : Type*} [Group G] [Finite G] (ambient acting intersection : 
     rw [Subgroup.map_subgroupOf_eq_of_le hfirstAmbient] at hmap
     exact hmap
   refine ⟨first, second, hfirstSecond, ?_, hsecondNormalizes, hfirstCore⟩
-  have hsecondTwo : IsPGroup 2 secondImage := second.isPGroup'.map ambient.subtype
+  have hsecondTwo : IsPGroup 2 secondImage := second.isPGroup.map ambient.subtype
   have hlocalTwo : IsPGroup 2 (secondImage.subgroupOf intersection) := hsecondTwo.comap_subtype
   have hfirstLe : (first : Subgroup intersection) ≤ secondImage.subgroupOf intersection := by
     intro member hmember

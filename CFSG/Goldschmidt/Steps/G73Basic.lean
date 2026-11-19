@@ -88,7 +88,7 @@ theorem isSStarIn_of_mem_benderM (hG : GoldSetting G S A) {a : G} (ha : a ∈ A)
   isSStarIn hG (CFSG.Walter.ne_top_of_mem_benderM hH) (le_of_mem_benderM hG ha hH)
 
 theorem isPGroup (hG : GoldSetting G S A) : IsPGroup 2 A :=
-  S.isPGroup'.to_le hG.le
+  S.isPGroup.to_le hG.le
 
 end Setting
 

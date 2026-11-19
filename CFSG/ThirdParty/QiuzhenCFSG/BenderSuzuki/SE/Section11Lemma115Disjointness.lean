@@ -33,8 +33,8 @@ public theorem lemma115_pPrimeCore_eq_bot_of_solvable_fitting_isPGroup
     (hsolv : Group.IsSolvable G)
     (hFp : IsPGroup p (fittingSubgroup G)) :
     pPrimeCore p G = ⊥ := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Group.IsSolvable G := hsolv
+  let : Fact p.Prime := ⟨hp⟩
+  let : Group.IsSolvable G := hsolv
   rw [pPrimeCore_eq_bot_iff]
   intro K hKnorm hKcop
   by_contra hKne
@@ -49,13 +49,13 @@ public theorem lemma115_pPrimeCore_eq_bot_of_solvable_fitting_isPGroup
     exact hfitK_ne_bot
       (Subgroup.map_injective K.subtype_injective (by simpa [L] using hLbot))
   have hL_normal : L.Normal := by
-    letI : K.Normal := hKnorm
-    letI : (fittingSubgroup K).Characteristic :=
+    let : K.Normal := hKnorm
+    let : (fittingSubgroup K).Characteristic :=
       fittingSubgroup_characteristic
     change ((fittingSubgroup K).map K.subtype).Normal
     infer_instance
   have hL_nilpotent : Group.IsNilpotent L := by
-    haveI : Group.IsNilpotent (fittingSubgroup K) := by infer_instance
+    have : Group.IsNilpotent (fittingSubgroup K) := by infer_instance
     let e : fittingSubgroup K ≃* L :=
       Subgroup.equivMapOfInjective
         (f := K.subtype) (fittingSubgroup K) K.subtype_injective
@@ -113,7 +113,7 @@ public theorem lemma115_pPrimeCore_V_eq_bot
   have hFambient : IsPGroup h102.exponent.r (fittingSubgroupOf V) := by
     rw [h102.fitting_eq_derived_inf]
     simpa [D, V] using h102.derived_inf_isPGroup
-  letI : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
+  let : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
   have hFinternal : IsPGroup h102.exponent.r (fittingSubgroup V) := by
     let e : fittingSubgroup V ≃* fittingSubgroupOf V :=
       Subgroup.equivMapOfInjective (f := V.subtype)
@@ -140,7 +140,7 @@ public theorem lemma115_ambient_sylow_r_le_D
   let E : Subgroup X := W ⊓ D
   let H : Subgroup X := (derivedSubgroup E).map E.subtype
   let r : Nat.Primes := ⟨h102.exponent.r, h102.exponent.r_prime⟩
-  letI : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
+  let : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
   have hHleD : H ≤ D :=
     (Subgroup.map_subtype_le (derivedSubgroup E)).trans inf_le_right
   have hrH : h102.exponent.r ∣ Nat.card H := by
@@ -153,7 +153,7 @@ public theorem lemma115_ambient_sylow_r_le_D
   let S : Sylow h102.exponent.r H := Sylow.nonempty.some
   let P : Subgroup X := (S : Subgroup H).map H.subtype
   have hPp : IsPGroup h102.exponent.r P :=
-    S.isPGroup'.map H.subtype
+    S.isPGroup.map H.subtype
   have hnotHindex : ¬ h102.exponent.r ∣ H.index := by
     intro hdiv
     exact (hHall.p_in_pi_of_p_dvd_index r hdiv) hrPi
@@ -203,7 +203,7 @@ public theorem lemma115_B_no_order_r
   have hfix := lemma115_B_nonidentity_fixedPoints_eq_empty
     hM ht htM d83 htwo h42 d h102 h114 hxB hxne
   obtain ⟨R, hRD⟩ := lemma115_ambient_sylow_r_le_D d h102
-  letI : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
+  let : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
   have hxpg : IsPGroup h102.exponent.r (Subgroup.zpowers x) := by
     apply IsPGroup.of_card (n := 1)
     simp [Nat.card_zpowers, hxorder]
@@ -426,7 +426,7 @@ public theorem lemma115_B_subgroup_properties
     simpa [D, V] using h102.derived_inf_isPGroup
   have hBcopF : Nat.Coprime (Nat.card B)
       (Nat.card (fittingSubgroupOf V)) := by
-    letI : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
+    let : Fact h102.exponent.r.Prime := ⟨h102.exponent.r_prime⟩
     rcases hFp.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact hBcopR.symm.pow_right n

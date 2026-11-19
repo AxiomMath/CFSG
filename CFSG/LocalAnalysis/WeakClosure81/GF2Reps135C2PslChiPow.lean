@@ -21,7 +21,7 @@ private theorem c2slchi_sum_digit_eq {f n : ℕ} (ε : Fin f → Finset (Fin n))
       = ∑ j : Fin n, ∑ r : Fin f, (if p j ∧ j ∈ ε r then 2 ^ (r : ℕ) else 0) := by
     refine Finset.sum_congr rfl fun j _ => ?_
     by_cases hp : p j
-    · simp only [hp, if_true, bDigit]
+    · simp only [hp, ite_true, bDigit]
       refine Finset.sum_congr rfl fun r _ => ?_
       by_cases hj : j ∈ ε r <;> simp [hj]
     · simp [hp]

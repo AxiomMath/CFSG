@@ -21,6 +21,7 @@ private noncomputable def rhoOf {K M : Subgroup G}
   e.toMonoidHom.comp ((QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)).comp
     (Subgroup.inclusion (inf_le_left : K ⊓ M ≤ K)))
 
+omit [Finite G] in
 private lemma rhoOf_range {K M : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11}
     (hI : ((((K ⊓ M).subgroupOf K).map
@@ -40,6 +41,7 @@ private noncomputable def thetaOf {K M : Subgroup G}
     ((rhoOf (M := M) e).codRestrict (a11TwoSetStab i j)
       (fun x => (rhoOf_range e hI) ▸ MonoidHom.mem_range.mpr ⟨x, rfl⟩))
 
+omit [Finite G] in
 private lemma thetaOf_surjective {K M : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11} (hij : i ≠ j)
     (hI : ((((K ⊓ M).subgroupOf K).map
@@ -57,6 +59,7 @@ private lemma thetaOf_surjective {K M : Subgroup G}
   have h := (nonempty_a11TwoSetStab_mulEquiv hij).some.surjective.comp hρS
   simpa [thetaOf] using h
 
+omit [Finite G] in
 private lemma thetaOf_ker_eq {K M : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11} (hij : i ≠ j)
     (hI : ((((K ⊓ M).subgroupOf K).map
@@ -64,20 +67,21 @@ private lemma thetaOf_ker_eq {K M : Subgroup G}
       a11TwoSetStab i j) :
     (thetaOf (M := M) e hij hI).ker = (rhoOf (M := M) e).ker := by
   ext x
-  simp [thetaOf, MonoidHom.codRestrict_apply, MulEquiv.map_eq_one_iff]
+  simp [thetaOf]
 
+omit [Finite G] in
 private lemma rhoOf_ker_eq {K M : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) :
     (rhoOf (M := M) e).ker =
       Subgroup.comap (Subgroup.inclusion (inf_le_left : K ⊓ M ≤ K))
         (CFSG.pPrimeCore 3 ↥K) := by
   ext x
-  simp [rhoOf, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
+  simp [rhoOf, QuotientGroup.eq_one_iff]
 
 private lemma isPGroup_pPrimeCore_three_kSub {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) (h2 : CaseTwo M H) :
     IsPGroup 2 (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEq : CFSG.pCore 2 ↥(kSub 3 M H) = CFSG.pPrimeCore 3 ↥(kSub 3 M H) := by
     apply Subgroup.map_injective (kSub 3 M H).subtype_injective
     simpa [pCoreOf] using h.pCoreOf_two_kSub_eq_caseTwo h2

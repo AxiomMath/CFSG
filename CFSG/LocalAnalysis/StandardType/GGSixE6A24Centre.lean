@@ -75,13 +75,13 @@ theorem ggSixE6A24_center_eq_bot (E : Type) [Group E] [Finite E] (hperf : commut
   · have hsimple := (CFSG.LieType.Simplicity.fam_e6_simplicity (E ⧸ Subgroup.center E) 2 1 hch).2
     obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hch
     have hK2 : Nat.card K = 2 := by simpa using hK
-    haveI := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK2)
+    have := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK2)
     obtain ⟨-, ⟨f⟩⟩ :=
       CFSG.LieType.Steinberg.CentralExt.FieldTwo.e6_two_hopfMultiplier (K := K) hK2
     have hsub : Subsingleton (CFSG.Open.griessHopfMultiplier (AdjointQuotient .E6 K)) := by
-      haveI : Subsingleton (Multiplicative (ZMod (Nat.gcd 3 (Nat.card K - 1)))) := by
+      have : Subsingleton (Multiplicative (ZMod (Nat.gcd 3 (Nat.card K - 1)))) := by
         rw [hK2]
         exact inferInstanceAs (Subsingleton (ZMod 1))
       exact f.toEquiv.subsingleton

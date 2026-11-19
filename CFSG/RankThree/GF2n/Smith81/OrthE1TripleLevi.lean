@@ -52,7 +52,7 @@ theorem mem_CC {g : T3E K} :
 theorem tensor3Act2_unip_iotaL (x : V4 K) :
     tensor3Act2 (unipSL (1 : K) : Matrix (Fin 2) (Fin 2) K) (iotaL x) = iotaL x := by
   funext a b c
-  fin_cases c <;> simp [tensor3Act2, unipSL_apply, iotaL_apply, Fin.sum_univ_two]
+  fin_cases c <;> simp [tensor3Act2, unipSL_apply, iotaL_apply]
 
 theorem eq_iotaL_of_fixed {T : Tensor3 K}
     (h : tensor3Act2 (unipSL (1 : K) : Matrix (Fin 2) (Fin 2) K) T = T) : T = iotaL (piL T) := by
@@ -177,11 +177,13 @@ theorem psiMat_injective : Function.Injective (psiMat (K := K)) := by
 @[expose] def polar0 (T T' : Tensor3 K) : K :=
   tensor3Form (T + T') - tensor3Form T - tensor3Form T'
 
+omit [CharP K 2] in
 theorem tensor3Form_of_mem_Ok {g : T3E K} (hg : g ∈ Ok 0) (T : Tensor3 K) :
     tensor3Form (g T) = tensor3Form T := by
   have := hg T
   simpa [Qk] using this
 
+omit [CharP K 2] in
 theorem polar0_of_mem_Ok {g : T3E K} (hg : g ∈ Ok 0) (T T' : Tensor3 K) :
     polar0 (g T) (g T') = polar0 T T' := by
   simp only [polar0, ← map_add, tensor3Form_of_mem_Ok hg]
@@ -213,6 +215,7 @@ theorem psiMat_sympPair (g : CC (K := K)) (v w : Fin 2 ⊕ Fin 2 → K) :
   obtain ⟨y, rfl⟩ := lamE.surjective w
   rw [psiMat_mulVec_lam, psiMat_mulVec_lam, sympPair_lamE, sympPair_lamE, omegaV_resL]
 
+omit [CharP K 2] in
 theorem gram_of_sympPair {M : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K}
     (h : ∀ v w, sympPair 2 K (M *ᵥ v) (M *ᵥ w) = sympPair 2 K v w) :
     Mᵀ * Matrix.fromBlocks 0 1 (-1) 0 * M = Matrix.fromBlocks 0 1 (-1) 0 := by
@@ -249,12 +252,14 @@ theorem psi_injective : Function.Injective (psi (K := K)) := by
     rintro _ ⟨B, rfl⟩
     exact (act1E_comm_act2E A B).symm⟩⟩
 
+omit [CharP K 2] in
 theorem resL_of_act1E {g : CC (K := K)} {A : Matrix.SpecialLinearGroup (Fin 2) K}
     (hg : (g : T3E K) = act1E A) (x : V4 K) (a b : Fin 2) :
     resL g x a b = ∑ b', (A : Matrix (Fin 2) (Fin 2) K) b b' * x a b' := by
   rw [resL_apply, hg, act1E_apply, piL_apply]
   simp [tensor3Act1, iotaL_apply]
 
+omit [CharP K 2] in
 theorem resL_of_act0E {g : CC (K := K)} {A : Matrix.SpecialLinearGroup (Fin 2) K}
     (hg : (g : T3E K) = act0E A) (x : V4 K) (a b : Fin 2) :
     resL g x a b = ∑ a', (A : Matrix (Fin 2) (Fin 2) K) a a' * x a' b := by
@@ -277,22 +282,26 @@ theorem psiMat_rowCC (A : Matrix.SpecialLinearGroup (Fin 2) K) :
   have hr := resL_of_act1E (g := rowCC A) (A := A) rfl x
   funext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [hr, Matrix.mulVec, dotProduct, Fin.sum_univ_two, ← hM, CharTwo.neg_eq] <;> ring
+    simp [hr, Fin.sum_univ_two, ← hM, CharTwo.neg_eq] <;> ring
 
 @[expose] def uS (S : Matrix (Fin 2) (Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K :=
   Matrix.fromBlocks 1 S 0 1
 
+omit [CharP K 2] in
 theorem uS_mul (S S' : Matrix (Fin 2) (Fin 2) K) : uS S * uS S' = uS (S + S') := by
   simp [uS, Matrix.fromBlocks_multiply, add_comm]
 
+omit [CharP K 2] in
 theorem uS_zero : uS (0 : Matrix (Fin 2) (Fin 2) K) = 1 := Matrix.fromBlocks_one
 
+omit [CharP K 2] in
 theorem uS_injective : Function.Injective (uS (K := K)) := by
   intro S S' h
   exact (Matrix.fromBlocks_inj.1 h).2.1
 
 @[expose] def S0 : Matrix (Fin 2) (Fin 2) K := !![0, 1; 1, 0]
 
+omit [CharP K 2] in
 theorem psiMat_of_line {g : CC (K := K)} {c : K} (hg : (g : T3E K) = act0E (unipSL c)) :
     psiMat g = uS (c • S0) := by
   apply Matrix.toLin'.injective
@@ -303,7 +312,7 @@ theorem psiMat_of_line {g : CC (K := K)} {c : K} (hg : (g : T3E K) = act0E (unip
   have hr := resL_of_act0E hg x
   funext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [hr, Matrix.mulVec, dotProduct, Fin.sum_univ_two, unipSL_apply, S0, Matrix.vecHead,
+    simp [hr, dotProduct, Fin.sum_univ_two, unipSL_apply, S0, Matrix.vecHead,
       Matrix.vecTail]
 
 end Transport
@@ -312,6 +321,7 @@ section Cases
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem lineG_ne_bot : (lineG : Subgroup (T3E K)) ≠ ⊥ := by
   intro h
   have h1 : act0E (unipSL (1 : K)) ∈ (lineG : Subgroup (T3E K)) := mem_lineG_iff.2 ⟨1, rfl⟩
@@ -322,6 +332,7 @@ theorem lineG_ne_bot : (lineG : Subgroup (T3E K)) ≠ ⊥ := by
 @[expose] def lowSL (c : K) : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![1, 0; c, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [CharP K 2] in
 theorem lowSL_apply (c : K) : (lowSL c : Matrix (Fin 2) (Fin 2) K) = !![1, 0; c, 1] := rfl
 
 end Cases

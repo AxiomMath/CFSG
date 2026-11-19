@@ -20,6 +20,7 @@ private noncomputable instance : Fintype (Module.Dual (ZMod 2) (Additive (Multip
     Finite.of_injective _ LinearMap.coe_injective
   Fintype.ofFinite _
 
+omit [Fintype F] in
 private theorem units_eq_one_of_sq_eq_one {x : Fˣ} (h : x ^ 2 = 1) : x = 1 := by
   have h2 : (x : F) ^ 2 = 1 := by rw [← Units.val_pow_eq_pow_val, h, Units.val_one]
   have h3 : ((x : F) + 1) ^ 2 = 0 := by
@@ -36,12 +37,13 @@ private theorem units_eq_one_of_sq_eq_one {x : Fˣ} (h : x ^ 2 = 1) : x = 1 := b
 @[expose] noncomputable def mulLeftAdd (s : F) : Additive (Multiplicative F) →+ Additive (Multiplicative F) where
   toFun x := Additive.ofMul (Multiplicative.ofAdd (s * Multiplicative.toAdd (Additive.toMul x)))
   map_zero' := mul_zero s
-  map_add' x y := mul_add s _ _
+  map_add' _x _y := mul_add s _ _
 
 @[expose] noncomputable def shiftDual (s : F) (χ : Module.Dual (ZMod 2) (Additive (Multiplicative F))) :
     Module.Dual (ZMod 2) (Additive (Multiplicative F)) :=
   χ ∘ₗ AddMonoidHom.toZModLinearMap 2 (mulLeftAdd s)
 
+omit [Fintype F] in
 theorem shiftDual_ne_self {χ : Module.Dual (ZMod 2) (Additive (Multiplicative F))} (hχ : χ ≠ 0)
     {s : F} (hs : s ≠ 1) : shiftDual s χ ≠ χ := by
   intro h
@@ -68,10 +70,12 @@ noncomputable abbrev upperRep (ρ : Representation k SL(2, F) V) :
     Representation k (Multiplicative F) V :=
   ρ.comp upperHom
 
+omit [Fintype F] [CharP F 2] in
 private theorem sl2Diag_mul_aux (a b : Fˣ) : sl2Diag F (a * b) = sl2Diag F a * sl2Diag F b := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
 
+omit [Fintype F] [CharP F 2] in
 private theorem sl2Diag_one_aux : sl2Diag F (1 : Fˣ) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
@@ -83,6 +87,7 @@ private theorem sum_range_shift_of_eq {M : Type*} [AddCommGroup M] (f : ℕ → 
   rw [h, h1] at h2
   exact add_right_cancel h2
 
+omit [Fintype F] [CharP F 2] in
 private theorem rho_sl2Diag_orbitSum (ρ : Representation k SL(2, F) V) (lam : Fˣ) (v : V) :
     ρ (sl2Diag F lam) (∑ j ∈ Finset.range (orderOf lam), ρ (sl2Diag F (lam ^ j)) v) =
       ∑ j ∈ Finset.range (orderOf lam), ρ (sl2Diag F (lam ^ j)) v := by
@@ -95,6 +100,7 @@ private theorem rho_sl2Diag_orbitSum (ρ : Representation k SL(2, F) V) (lam : F
   exact sum_range_shift_of_eq (fun j => ρ (sl2Diag F (lam ^ j)) v) (orderOf lam)
     (by simp only [pow_orderOf_eq_one, pow_zero])
 
+omit [Fintype F] in
 theorem rho_sl2Diag_mem_signWeightSpace (ρ : Representation k SL(2, F) V) (s : Fˣ)
     {χ : Module.Dual (ZMod 2) (Additive (Multiplicative F))} {v : V}
     (hv : v ∈ signWeightSpace (upperRep ρ) χ) :

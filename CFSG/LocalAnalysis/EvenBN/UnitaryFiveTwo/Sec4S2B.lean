@@ -65,7 +65,7 @@ theorem mem_normalizer_S_of_mem_normalizer_XF (h : d.Hyp) {n : G} (hnH : n ∈ d
   exact ⟨φ g, hS g hg, rfl⟩
 
 theorem NHS_le_normalizer_R₃ (h : d.Hyp) :
-    normalizer (d.S : Set G) ⊓ d.H ≤ normalizer (d.R₃ : Set G) := fun g hg =>
+    normalizer (d.S : Set G) ⊓ d.H ≤ normalizer (d.R₃ : Set G) := fun _g hg =>
   mem_normalizer_fintype fun _ hx => conj_mem_oTwo (h.NHS_le_normalizer_R₂ hg) hx
 
 theorem R₃D₂_inf_H_le_NHS (h : d.Hyp) :

@@ -57,7 +57,7 @@ theorem crossCharFamAt_G2_field : CrossCharFamAt .G2 regimeG2Field := by
     · exact crossCharFamAt_G2_fieldOdd idx hk p hp hp2 hc ⟨q, hd, hp5, hdq, hpf, hq2, hq3⟩
 
 theorem ge_three_or_field_of_not_regimeExcVac {c : TauCeti.PrimePower → TauCeti.LieTypeIndex}
-    (hc : Function.Injective c) (a : ℕ → ℕ) {idx : TauCeti.ValidLieTypeIndex} {p : ℕ}
+    (_hc : Function.Injective c) (a : ℕ → ℕ) {idx : TauCeti.ValidLieTypeIndex} {p : ℕ}
     {q : TauCeti.PrimePower} (hq : idx.1 = c q) (h : ¬ regimeExcVac c a idx p) :
     3 ≤ a (orderOf ((q.card : ℕ) : ZMod p)) ∨
       (a (orderOf ((q.card : ℕ) : ZMod p)) = 2 ∧ p ∣ q.exponent) := by

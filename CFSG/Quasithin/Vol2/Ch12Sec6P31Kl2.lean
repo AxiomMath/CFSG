@@ -117,7 +117,7 @@ private theorem kl2_card_center_dvd_of_hom {P : Type} [Group P] {X : Type} [Grou
   rw [hker] at hdvd
   have hodd2 : ¬ 2 ∣ Nat.card (Subgroup.center X) := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 2 h2
     have hz2 : z ^ 2 = 1 := by
       rw [← hz]
@@ -178,8 +178,8 @@ private theorem kl2_nonempty_mulEquiv_statedSL_three {X : Type} [Group X] {K : T
     (q : X →* StatedProj (StatedSL 3 K)) (hq : Function.Surjective q)
     (hker : q.ker = Subgroup.center X) (h3 : Nat.card (Subgroup.center X) = 3) :
     Nonempty (X ≃* ↥(StatedSL 3 K)) := by
-  haveI := hX
-  haveI := kl2_isPerfect_statedSL_three K
+  have := hX
+  have := kl2_isPerfect_statedSL_three K
   have hq3 : Nat.card q.ker = 3 := by rw [hker, h3]
   have hkey := kl2_ker_hopfLift_eq q hq hker.le (kl2_statedSLquot K)
     (kl2_statedSLquot_surjective K) (kl2_ker_statedSLquot_le_center K) e hq3

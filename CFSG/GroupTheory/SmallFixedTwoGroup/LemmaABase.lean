@@ -16,9 +16,9 @@ theorem exists_index_two_involutions_central_of_card_sixteen
     {T : Type*} [Group T] [Finite T] (hcard : Nat.card T = 16)
     {s : T} (hs : s * s = 1) (hsz : s ∉ center T)
     (hab : ∀ a ∈ centralizer ({s} : Set T), ∀ b ∈ centralizer ({s} : Set T), a * b = b * a)
-    (h8 : Nat.card (centralizer ({s} : Set T)) ≤ 8) :
+    (_h8 : Nat.card (centralizer ({s} : Set T)) ≤ 8) :
     ∃ M : Subgroup T, M.index = 2 ∧ ∀ u ∈ M, u * u = 1 → u ∈ center T := by
-  haveI hnt : Nontrivial T :=
+  have hnt : Nontrivial T :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   have hTp : IsPGroup 2 T :=
     IsPGroup.of_card (p := 2) (n := 4) (by rw [hcard]; norm_num)

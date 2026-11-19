@@ -13,10 +13,12 @@ section Part
 
 variable {Y : Type} [Group Y] [Finite Y] {F Γ B R₀ : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 private theorem nf5_conj_comp {K : Subgroup Y} (hK : IsComponentOf K ⊤) (g : Y) :
     IsComponentOf (K.map (MulAut.conj g).toMonoidHom) ⊤ :=
   (CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) K).2 hK
 
+omit [Finite Y] in
 private theorem nf5_mem_normalizer_iff {H : Subgroup Y} {g : Y} :
     g ∈ Subgroup.normalizer (H : Set Y) ↔ H.map (MulAut.conj g).toMonoidHom = H :=
   Subgroup.mem_normalizer_iff_map_conj_eq
@@ -39,7 +41,7 @@ theorem nf5_comp_normalized (h : NF5 F Γ B R₀ x)
     have hcomp : (MulAut.conj (f * f)).toMonoidHom =
         (MulAut.conj f).toMonoidHom.comp (MulAut.conj f).toMonoidHom := by
       ext y
-      simp [MulAut.conj_apply, mul_assoc, mul_inv_rev]
+      simp [MulAut.conj_apply, mul_assoc]
     rw [Subgroup.map_map, hcomp]
   have h13 : K ≠ (K.map (MulAut.conj f).toMonoidHom).map (MulAut.conj f).toMonoidHom := by
     intro e

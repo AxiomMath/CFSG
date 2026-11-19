@@ -15,7 +15,7 @@ theorem uc22p2214_j1NotL2Sz : J1NotL2Sz := by
   obtain ⟨e⟩ := hX
   have hcard : Nat.card X = 175560 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J1.card_J1
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine ⟨fun n hn => ?_, fun n hn => ?_⟩
   · have h1 := uc22p22r_L2_card hn
     rw [hcard] at h1

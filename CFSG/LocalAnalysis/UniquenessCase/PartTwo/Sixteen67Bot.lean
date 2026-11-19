@@ -41,8 +41,8 @@ theorem IsQ8Q8S3.of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (hA : IsQ8Q8S3 A) : IsQ8Q8S3 B := by
   obtain ⟨N, hN, hE, hS⟩ := hA
   have hN' : (N.map (e : A →* B)).Normal := hN.map (e : A →* B) e.surjective
-  haveI : N.Normal := hN
-  haveI : (N.map (e : A →* B)).Normal := hN'
+  have : N.Normal := hN
+  have : (N.map (e : A →* B)).Normal := hN'
   refine ⟨N.map (e : A →* B), hN', ?_, ?_⟩
   · exact isExtraspecialPlus2_of_mulEquiv
       (N.equivMapOfInjective (e : A →* B) e.injective) hE
@@ -55,7 +55,7 @@ theorem s1667_concl_bot (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig =
     (hs : Sit1665 D V₀ V hV L) (h0 : V₀ = ⊥) {g : G} (hg : conjSubgroup V g ∈ calO 1 D.M V₀ V) :
     Concl1667pre D V₀ V L hV g := by
   subst h0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxM, hxn⟩ :=
     c23_exists_mem_not_nBar D hS.setting.hyp151 hV hs.1.2.2.1
   have hcfg : Cfg1667 D.M V (wSub ⊥ V hV L) (conjSubgroup (wSub ⊥ V hV L) x) :=

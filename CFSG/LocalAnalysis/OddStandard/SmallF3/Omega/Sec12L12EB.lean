@@ -16,7 +16,7 @@ theorem sec12E_R_odd {r : G} (hr : r ∈ secR t) : Odd (orderOf r) :=
     (CFSG.ClassicalInvolution.Balance.odd_card_oddCoreIn (centralizer ({t} : Set G)))
     (Subgroup.orderOf_dvd_natCard (secR t) hr)
 
-theorem sec12E_C_le_Ct (F : Sec12Frame t L S) :
+theorem sec12E_C_le_Ct (_F : Sec12Frame t L S) :
     centralizer (secA t S L : Set G) ≤ centralizer ({t} : Set G) := by
   refine Subgroup.centralizer_le ?_
   rw [Set.singleton_subset_iff]

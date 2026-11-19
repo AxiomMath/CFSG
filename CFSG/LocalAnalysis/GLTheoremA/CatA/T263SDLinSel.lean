@@ -41,6 +41,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
 local notation "𝒱" => (Fin n → K)
 
+omit [Finite K] in
 theorem lift_commutes (h2 : (2 : K) = 0) (hn0 : 0 < n) {A : GL (Fin n) K} {w : projectiveSL n K}
     (hw : w ∈ fixSubgroup (conjAut n K A)) {g : Matrix.SpecialLinearGroup (Fin n) K}
     (hgw : proj n K g = w) {k : ℕ} (hgk : g ^ (2 ^ k) = 1) :
@@ -53,12 +54,14 @@ theorem lift_commutes (h2 : (2 : K) = 0) (hn0 : 0 < n) {A : GL (Fin n) K} {w : p
   have h3 := eq_of_proj_eq_of_two_pow h2 hn0 h2' hgk h1
   exact mem_fixSubgroup_slConjugation_iff.1 (mem_fixSubgroup.2 h3)
 
+omit [Finite K] in
 theorem gl_apply_inv_apply {V : Type*} [AddCommGroup V] [Module K V]
     (g : LinearMap.GeneralLinearGroup K V) (v : V) :
     (g : Module.End K V) (((g⁻¹ : LinearMap.GeneralLinearGroup K V) : Module.End K V) v) = v := by
   rw [← Module.End.mul_apply, ← Units.val_mul, mul_inv_cancel]
   rfl
 
+omit [Finite K] in
 theorem gl_inv_apply_apply {V : Type*} [AddCommGroup V] [Module K V]
     (g : LinearMap.GeneralLinearGroup K V) (v : V) :
     ((g⁻¹ : LinearMap.GeneralLinearGroup K V) : Module.End K V) ((g : Module.End K V) v) = v := by
@@ -76,8 +79,8 @@ theorem bad_block_trivial (h2 : (2 : K) = 0) (hn : 3 ≤ n) {p : ℕ} (hp : p.Pr
     (hm2 : primaryMultiplicity (glA A : Module.End K 𝒱) h = 2) (hq : Nat.card (AdjoinRoot h) ≤ 3) :
     ∀ v ∈ primaryComponent (glA A : Module.End K 𝒱) h,
       ((slGL n K zt : LinearMap.GeneralLinearGroup K 𝒱) : Module.End K 𝒱) v = v := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hn0 : 0 < n := by omega
   obtain ⟨hK2, hKu⟩ := units_eq_one_of_card_le_three h2 (E := AdjoinRoot h) hq
   have hp3 : 3 < p := by
@@ -125,8 +128,9 @@ variable {A : GL (Fin n) K}
 
 local notation "𝒲[" h "]" => primaryComponent (glA A : Module.End K 𝒱) h
 
+omit [Finite K] in
 theorem not_scalar_on_block (h2 : (2 : K) = 0) {B : GL (Fin n) K}
-    (hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱))) {h : K[X]}
+    (_hsq : Squarefree (minpoly K (glA A : Module.End K 𝒱))) {h : K[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End K 𝒱))
     {g zt s : Matrix.SpecialLinearGroup (Fin n) K} (hgc : slGL n K g ∈ gl_centralizer (glA A))
     (hBc : glA B ∈ gl_centralizer (glA A))
@@ -137,7 +141,7 @@ theorem not_scalar_on_block (h2 : (2 : K) = 0) {B : GL (Fin n) K}
       (((glA B : LinearMap.GeneralLinearGroup K 𝒱) : Module.End K 𝒱) (w : 𝒱)) =
         ((c • w : 𝒲[h]) : 𝒱) := by
   rintro ⟨c, hc⟩
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨l, hl⟩ := slGL_scalar_apply hs
   let γg := commutantRestrict h
     ⟨(slGL n K g : Module.End K 𝒱), mem_commutant_of_mem_gl_centralizer hgc⟩

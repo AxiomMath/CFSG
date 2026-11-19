@@ -28,6 +28,7 @@ private def q2cFS_blockDot (n lo hi : ℕ) : LinearMap.BilinForm K (Fin n → K)
       simp only [Pi.smul_apply, smul_eq_mul]
       rw [Finset.sum_congr rfl (fun i _ => mul_left_comm (x i) c (y i)), Finset.mul_sum])
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFS_blockDot_apply {lo hi : ℕ} (x y : Fin n → K) :
     q2cFS_blockDot n lo hi x y =
       ∑ i ∈ Finset.univ.filter (fun i : Fin n => lo ≤ i.val ∧ i.val < hi), x i * y i :=
@@ -49,9 +50,10 @@ private theorem q2cFS_hermLin_symm (hK : Nat.card K = (2 ^ f) ^ 2) (lo hi : ℕ)
   rw [q2cFS_hermLin_apply, q2cFS_hermLin_apply, map_sum]
   exact Finset.sum_congr rfl fun i _ => by
     by_cases h : lo ≤ i.val ∧ i.val < hi
-    · rw [if_pos h, if_pos h, map_mul, sg_sg hK]; exact mul_comm _ _
-    · rw [if_neg h, if_neg h, map_zero]
+    · rw [ite_eq_left h, ite_eq_left h, map_mul, sg_sg hK]; exact mul_comm _ _
+    · rw [ite_eq_right h, ite_eq_right h, map_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFS_mem_blockDot_ker {lo hi : ℕ} {x : Fin n → K} :
     x ∈ LinearMap.ker (q2cFS_blockDot n lo hi) ↔
       ∀ i : Fin n, lo ≤ i.val → i.val < hi → x i = 0 := by
@@ -118,7 +120,7 @@ private theorem q2cFS_hermLin_single {lo hi : ℕ} {j : Fin n} (hlj : lo ≤ j.v
   · simp [hlj, hjh]
   · intro i _ hij
     by_cases h : lo ≤ i.val ∧ i.val < hi
-    · rw [if_pos h, Pi.single_eq_of_ne' hij.symm]; simp
+    · rw [ite_eq_left h, Pi.single_eq_of_ne' hij.symm]; simp
     · simp [h]
 
 theorem q2cFS_perpB_Vsub_inf {lo hi : ℕ} (hlh : lo ≤ hi) :
@@ -142,15 +144,15 @@ private theorem q2cFS_perpB_sup_Vsub {lo hi : ℕ} (U : Submodule K (Fin n → K
   rw [eq_top_iff]
   intro v _
   have hw : (fun i : Fin n => if i.val < hi then v i else 0) ∈ Vsub n hi := by
-    intro j hj; exact if_neg (not_lt.mpr hj)
+    intro j hj; exact ite_eq_right (not_lt.mpr hj)
   have hv : v - (fun i : Fin n => if i.val < hi then v i else 0) ∈ perpB K f n lo hi U := by
     simp only [perpB, Submodule.mem_iInf, LinearMap.mem_ker]
     intro u _
     rw [q2cFS_hermLin_apply]
     exact Finset.sum_eq_zero fun i _ => by
       by_cases h : lo ≤ i.val ∧ i.val < hi
-      · rw [if_pos h, Pi.sub_apply, if_pos h.2, sub_self, mul_zero]
-      · rw [if_neg h]
+      · rw [ite_eq_left h, Pi.sub_apply, ite_eq_left h.2, sub_self, mul_zero]
+      · rw [ite_eq_right h]
   exact Submodule.mem_sup.mpr ⟨_, hv, _, hw, sub_add_cancel v _⟩
 
 private theorem q2cFS_sgS_inf_ker_blockDot {lo hi : ℕ} {U : Submodule K (Fin n → K)}

@@ -23,7 +23,7 @@ theorem kFactParabolicGen_of_hasParGen
     (h : ∀ (S : Type) [Group S] [Finite S], IsChevSimple 2 S → ¬ fusionIsBenderGroup S →
       HasParGen S) : KFactParabolicGen := by
   intro A _ _ K W hK hB hW J hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hW.exists_sylow_eq_subgroupOf
   have hWK : W ≤ K := hW.le
   have hpg := (hasParGen_iff_forall.mp (h ↥K hK hB)) Q

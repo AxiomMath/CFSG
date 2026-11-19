@@ -78,12 +78,12 @@ def GGTBTorA : Prop :=
 def GGTBTorE6 : Prop :=
   ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab → lab.tag = .E6 → 3 ∣ ggTorM lab →
     LargeEvenLabelAll lab fun R _ I _ =>
-      GGTorusTorW 3 5 (ggTorM lab) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ R I
+      GGTorusTorW 3 5 (ggTorM lab) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ R I
 
 def GGTBTorE8 : Prop :=
   ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab → lab.tag = .E8 →
     LargeEvenLabelAll lab fun R _ I _ =>
-      GGTorusTorW 3 (8 - ggTorEnn 3 lab) (ggTorME8 lab) 8 CartanMatrix.E₈ CoxeterMatrix.E₈ R I
+      GGTorusTorW 3 (8 - ggTorEnn 3 lab) (ggTorME8 lab) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈ R I
 
 
 end CFSG.StandardType

@@ -41,8 +41,8 @@ public theorem standard_two_transvections_generate_of_finrank_one
     ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
   let C : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Subgroup.closure ({X, Y} : Set _)
-  have hX : X ∈ C := Subgroup.subset_closure (by simp [C])
-  have hY : Y ∈ C := Subgroup.subset_closure (by simp [C])
+  have hX : X ∈ C := Subgroup.subset_closure (by simp)
+  have hY : Y ∈ C := Subgroup.subset_closure (by simp)
   have hXtrans : X = Matrix.SpecialLinearGroup.transvection
       (by decide : (0 : Fin 2) ≠ 1) r := by
     apply Subtype.ext

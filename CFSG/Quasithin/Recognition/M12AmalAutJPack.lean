@@ -144,12 +144,12 @@ theorem insK_cons (a b : ℕ) (l : List ℕ) :
     insK a (b :: l) = if a ≤ b then a :: b :: l else b :: insK a l := by
   change Bool.rec (motive := fun _ => List ℕ) (b :: insK a l) (a :: b :: l) (Nat.ble a b) = _
   by_cases hab : a ≤ b
-  · rw [if_pos hab, Nat.ble_eq_true_of_le hab]
+  · rw [ite_eq_left hab, Nat.ble_eq_true_of_le hab]
   · have hb : Nat.ble a b = false := by
       cases h : Nat.ble a b
       · rfl
       · exact absurd (Nat.le_of_ble_eq_true h) hab
-    rw [if_neg hab, hb]
+    rw [ite_eq_right hab, hb]
 
 @[expose] noncomputable def sortK (L : List ℕ) : List ℕ :=
   List.rec (motive := fun _ => List ℕ) [] (fun a _ acc => insK a acc) L
@@ -244,7 +244,6 @@ theorem famB_spec {mul : ℕ → ℕ → ℕ} {F : List (List ℕ)} {I ks : List
     · exact absurd (memN_iff.1 e) hn
   have hcB : allL (fun j => Nat.beq (mul u j) (mul j u)) X = true := by
     refine allL_iff.2 fun j hj => ?_
-    change Nat.beq (mul u j) (mul j u) = true
     rw [hc j hj]
     exact Nat.beq_refl _
   rw [hm, hcB] at h1

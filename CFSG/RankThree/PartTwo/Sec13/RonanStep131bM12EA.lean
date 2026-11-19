@@ -15,7 +15,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 theorem ycfgMixed_of_EA9 (h : CfgEA9) : YCfgMixed := by
   intro G _ _ A c L E F a b R Y hY
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCfg := hY.hCfg
   obtain ⟨hD, hSL2, -, hEle, hEe, hE27, hEC, hEL, -⟩ := hCfg
   have hEA9 : Nat.card (E ⊓ A : Subgroup G) = 9 := h G A c L E hY.hCfg

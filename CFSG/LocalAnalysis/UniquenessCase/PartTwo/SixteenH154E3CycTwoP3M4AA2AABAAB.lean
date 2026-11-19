@@ -15,7 +15,7 @@ theorem s16h_e3_CycTwoP3M4AA2AABAAB_normal_of_elemAbelian
     [Finite W] [Finite (MulAut W)]
     (hexp : ∀ w : W, w ^ 2 = 1) (hcard : Nat.card W = 2 ^ 4)
     {A : Subgroup (MulAut W)} {z : MulAut W}
-    (hzA : z ∈ A) (hzord : orderOf z = 3)
+    (_hzA : z ∈ A) (hzord : orderOf z = 3)
     (hfpf : ∀ w : W, z w = w → w = 1)
     (hAn : A ≤ Subgroup.normalizer (Subgroup.zpowers z : Set (MulAut W)))
     (hline : ∃ w : W, w ≠ 1 ∧ ∀ b ∈ A, b ≠ 1 → orderOf b = 3 → b w = w →

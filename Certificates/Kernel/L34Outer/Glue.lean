@@ -28,14 +28,14 @@ theorem wordVal_mem_of {L : List G} {H : Subgroup G} {k : ℕ} (hL : ∀ j < k, 
     rw [wordVal]
     refine H.mul_mem ?_ (wordVal_mem_of hL w fun y hy => h y (List.mem_cons_of_mem z hy))
     rcases h z List.mem_cons_self with ⟨h1, h2⟩ | ⟨h1, h2⟩
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       exact hL _ (by omega)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       exact H.inv_mem (hL _ (by omega))
 
 theorem wordVal_cons_pos (L : List G) {z : ℤ} (hz : 0 < z) (w : List ℤ) :
     wordVal L (z :: w) = L.getD (z.toNat - 1) 1 * wordVal L w := by
-  rw [wordVal, if_pos hz]
+  rw [wordVal, ite_eq_left hz]
 
 theorem mem_normalizer_zpowers' [Finite G] {h y : G} (hy : h * y * h⁻¹ ∈ Subgroup.zpowers y) :
     h ∈ Subgroup.normalizer (Subgroup.zpowers y : Set G) := by
@@ -45,6 +45,7 @@ theorem mem_normalizer_zpowers' [Finite G] {h y : G} (hy : h * y * h⁻¹ ∈ Su
   rw [← conj_zpow]
   exact Subgroup.zpow_mem _ hy k
 
+omit [Group G] in
 theorem ncard_three_le (a b c : G) : Nat.card ({a, b, c} : Set G) ≤ 3 := by
   rw [Nat.card_coe_set_eq]
   refine (Set.ncard_insert_le _ _).trans ?_
@@ -52,6 +53,7 @@ theorem ncard_three_le (a b c : G) : Nat.card ({a, b, c} : Set G) ≤ 3 := by
   rw [Set.ncard_singleton] at this
   omega
 
+omit [Group G] in
 theorem ncard_four_le (a b c d : G) : Nat.card ({a, b, c, d} : Set G) ≤ 4 := by
   rw [Nat.card_coe_set_eq]
   refine (Set.ncard_insert_le _ _).trans ?_
@@ -332,7 +334,7 @@ theorem order3 : ∀ r ∈ R, r ^ 3 = 1 → r ∈ L34T := by
 theorem pair_set {α β : Type*} (f : α → β) (p q : α) :
     {g | g ∈ [p, q].map f} = ({f p, f q} : Set β) := by
   ext g
-  simp [eq_comm]
+  simp
 
 theorem enum_facts {k cnt cap : Nat} {G GI T PL POS SRT SRI : Nat → Nat} (hk : k = 2)
     (hh : penumHdK (pidn 42 6) cnt cap T PL = true)
@@ -597,7 +599,7 @@ theorem exhibit : ∀ e ∈ l34OuterData.es, e.inS = false → ∃ L : List (Equ
     · exact ⟨wordVal_g4_mem _, exhibit_h hk (by decide)⟩
     · exact ⟨wordVal_g4_mem _, exhibit_h hk (by decide)⟩
   · refine le_antisymm ((Subgroup.closure_le _).2 fun h hh => ?_) ?_
-    · simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hh
+    · simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hh
       rcases hh with rfl | rfl <;> exact wordVal_g4_mem _
     · have hL2 : ∀ l < 2, Rp (HP (Nat.add (Nat.mul 2 k) l)) ([hw 0, hw 1].getD l 1) := by
         intro l hl

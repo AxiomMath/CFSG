@@ -47,14 +47,14 @@ theorem transvection_zero_one_eq_uSL (t : L) :
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.transvection_coe, coe_uSL]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem transvection_one_zero_eq_vSL (t : L) :
     Matrix.SpecialLinearGroup.transvection (by decide : (1 : Fin 2) ≠ 0) t = vSL t := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.transvection_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, vSL]
+  fin_cases i <;> fin_cases j <;> simp [vSL]
 
 theorem isSLFrame_rootSL2 {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β) :
     IsSLFrame (rootSL2 τ L β) (rankOneSigma β) where
@@ -140,7 +140,7 @@ theorem lang_diagSL_split [IsAlgClosed L] [NeZero ν] {Q : ℕ} (hQ : 2 ≤ Q) (
     ∀ δ ∈ diagSL ν L, ∃ δ' ∈ diagSL ν L, F' δ' * δ'⁻¹ = δ := by
   intro δ hδ
   obtain ⟨w, hw, rfl⟩ := exists_units_of_mem_diagSL hδ
-  haveI : Nonempty (Fin ν) := ⟨0⟩
+  have : Nonempty (Fin ν) := ⟨0⟩
   have hw' : ∏ i, w i = 1 := hw
   obtain ⟨y, hy, hyw⟩ := exists_lang_monomial ρ (e := -(Q : ℤ)) (by simpa using hQ) w hw'
   set x : Fin ν → Lˣ := fun k => (y k)⁻¹ with hxdef
@@ -183,14 +183,14 @@ theorem commutator_fix_map_two {σ : L ≃+* L} (hfin : Finite (fixSubfield σ))
       (Matrix.SpecialLinearGroup.map σ.toRingHom : SL(2, L) →* SL(2, L)).eqLocus
         (MonoidHom.id _) := by
   classical
-  haveI := Fintype.ofFinite (fixSubfield σ)
+  have := Fintype.ofFinite (fixSubfield σ)
   have h4' : ∃ s : Finset (fixSubfield σ), s.card = 4 := by
     have hle : 4 ≤ (Finset.univ : Finset (fixSubfield σ)).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
       exact h4
     obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq hle
     exact ⟨t, ht⟩
-  haveI hperf : Group.IsPerfect SL(2, fixSubfield σ) :=
+  have hperf : Group.IsPerfect SL(2, fixSubfield σ) :=
     CFSG.LinearGroups.special_linear_isPerfect le_rfl (Or.inr h4')
   let ι : SL(2, fixSubfield σ) →* SL(2, L) :=
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype
@@ -242,8 +242,8 @@ theorem rankOne_class_peel (h3 : ((3 : ℕ) : L) ≠ 0) (hT : rootDiagUnit Tag.E
     ∃ r' ∈ rationalComponent S.ρ S.Γ (rootCharHom ta) i, ∃ x' ∈ torusGroup Tag.E6 L ⊔ Q',
       S.D.step x' = x' ∧ x = r' * x' := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨β, hβ, hΨ⟩ := exists_pair_of_rank_one i hn
   have hψ := isSLFrame_rootSL2 (L := L) hβ
   set ψ : SL(2, L) →* ModGL Tag.E6 L := rootSL2 Tag.E6 L β with hψdef
@@ -267,10 +267,10 @@ theorem rankOne_class_peel (h3 : ((3 : ℕ) : L) ≠ 0) (hT : rootDiagUnit Tag.E
           ((S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hzmem, -, hz⟩ := exists_untwistT_Z S hT i (s := 1) one_pos hinner
   have hσc : ∀ c, σ c = c ^ S.D.q := fun c => by rw [hσ, pow_one]
@@ -322,7 +322,7 @@ theorem rankOne_class_peel (h3 : ((3 : ℕ) : L) ≠ 0) (hT : rootDiagUnit Tag.E
     rw [hF'mat, coe_diagSLOf]
     congr 2
     ext a b
-    fin_cases a <;> fin_cases b <;> simp [Matrix.diagonal_apply]
+    fin_cases a <;> fin_cases b <;> simp
   have hσs : (σ (s : L)) ≠ (σ (s : L))⁻¹ := by
     intro h
     apply hs2
@@ -335,7 +335,7 @@ theorem rankOne_class_peel (h3 : ((3 : ℕ) : L) ≠ 0) (hT : rootDiagUnit Tag.E
     simpa [pow_mul] using h2
   obtain ⟨ρ, hρ⟩ := exists_perm_conj_diag_two hCC hCC' ((map_ne_zero σ).2 (Units.ne_zero s)) hσs
     (by rw [hmat]; exact hFδ₀ 0 1 (by decide)) (by rw [hmat]; exact hFδ₀ 1 0 (by decide))
-  haveI : NeZero 2 := ⟨by norm_num⟩
+  have : NeZero 2 := ⟨by norm_num⟩
   have hLang := lang_diagSL_split hq2 σ.toRingHom (fun c => hσc c) hF'mat hρ
   obtain ⟨y, hy, x', hx'mem, hFx', hxeq⟩ := exists_peel_frame S.D.step F' ψ hψF
     (D := diagSL 2 L) (fun a ha b hb => torusGroup_comm ha hb)
@@ -373,7 +373,7 @@ theorem rankOne_class_quasisimple (hT : rootDiagUnit Tag.E6 ta ∈ S.D.torus)
     (hq4 : 4 ≤ r ^ e) :
     CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨β, hβ, hΨ⟩ := exists_pair_of_rank_one i hn
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
@@ -385,10 +385,10 @@ theorem rankOne_class_quasisimple (hT : rootDiagUnit Tag.E6 ta ∈ S.D.torus)
           ((S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
@@ -431,7 +431,7 @@ theorem rankOne_class_quasisimple (hT : rootDiagUnit Tag.E6 ta ∈ S.D.torus)
     · rintro ⟨c, rfl⟩
       obtain ⟨c', rfl⟩ := eSL.surjective c
       exact ⟨c', rfl⟩
-  haveI := Fintype.ofFinite (fixSubfield σ)
+  have := Fintype.ofFinite (fixSubfield σ)
   have h4 : ∃ u : Finset (fixSubfield σ), u.card = 4 := by
     have hle : 4 ≤ (Finset.univ : Finset (fixSubfield σ)).card := by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hKcard]

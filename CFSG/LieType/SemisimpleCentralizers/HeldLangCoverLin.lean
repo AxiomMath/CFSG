@@ -17,7 +17,7 @@ theorem card_center_SL_eq {K : Type} [Field K] [Finite K] {N : ℕ} [NeZero N] :
   have e := Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity' (n := Fin N) (R := K)
     ⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩
   rw [Nat.card_congr e.toEquiv, Fintype.card_fin]
-  haveI : NeZero (Nat.gcd N (Nat.card K - 1)) :=
+  have : NeZero (Nat.gcd N (Nat.card K - 1)) :=
     ⟨(Nat.gcd_pos_of_pos_left _ (Nat.pos_of_ne_zero (NeZero.ne N))).ne'⟩
   have hcard := CFSG.LinearGroups.card_rootsOfUnity_of_dvd (K := K)
     (d := Nat.gcd N (Nat.card K - 1)) (Nat.gcd_dvd_right _ _)
@@ -49,7 +49,7 @@ theorem false_of_outer_three_A_small' (n : ℕ) (q : TauCeti.PrimePower)
     (hd : (TauCeti.LieTypeIndex.A n q).Valid) (h3n : 3 ∣ n + 1) (hq8 : q.card < 8) {Q : Type} [Group Q]
     (e0 : Q ≃* (TauCeti.CFSGIndex.lie ⟨.A n q, hd⟩).Group) (γ : MulAut Q) (hγ3 : γ ^ 3 = 1)
     (hout : γ ∉ innAutDerived Q) : False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' : Q ≃* projectiveSL (n + 1) (GaloisField q.p q.exponent) :=
     (e0.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n q hd)).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (n + 1) _)
@@ -69,7 +69,7 @@ theorem false_of_outer_three_A_small' (n : ℕ) (q : TauCeti.PrimePower)
   omega
 
 theorem kd264I5CoverLift_linear (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCeti.LieTypeIndex.A n q).Valid)
-    (h3n : 3 ∣ n + 1) (h3q : 3 ∣ q.card - 1)
+    (h3n : 3 ∣ n + 1) (_h3q : 3 ∣ q.card - 1)
     (K : Type) [Group K] [Finite K] (hK : CFSG.Open.IsQuasisimple K)
     (eK : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie ⟨.A n q, hd⟩).Group)
     (β : MulAut K) (hβ3 : β ^ 3 = 1)
@@ -77,7 +77,7 @@ theorem kd264I5CoverLift_linear (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCet
     ∃ (L : Type) (_ : Group L) (_ : Finite L) (π : L →* K) (βL : MulAut L),
       Function.Surjective π ∧ (∀ x : L, π x = 1 → x ∈ Subgroup.center L) ∧
         IsI5UniversalCover ⟨.A n q, hd⟩ L ∧ βL ^ 3 = 1 ∧ ∀ x : L, π (βL x) = β (π x) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   by_cases hq8 : q.card < 8
   · exfalso
     have hγ3 : onCenterQuotient β ^ 3 = 1 := by
@@ -104,7 +104,7 @@ theorem kd264I5CoverLift_linear (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCet
       fun E _ _ π hπ hc => CFSG.LieType.Steinberg.CentralExt.SLClosed.sl_exists_section_of_central hn2
         (by rw [hcardF]; omega) hπ hc
     obtain ⟨π, βL, hπ, hπc, hβL3, hβL⟩ := exists_cover_lift_of_equiv hK hperf ι hsec β hβ3
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
     refine ⟨_, inferInstance, inferInstance, π, βL, hπ, hπc, ?_, hβL3, hβL⟩
     exact isI5UniversalCover_SL n q hd hN ι.isSimpleGroup
 

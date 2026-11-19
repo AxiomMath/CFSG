@@ -76,7 +76,7 @@ theorem seitz2313TwoEven_holds : Seitz2313TwoEven := by
   obtain ⟨t, n, f, ht, hadm, h1, h2, hLM⟩ :=
     Seitz2313Cover.exists_blueprintLieModel_of_scope d hs
   obtain ⟨ψ₀, hsurj, hker, hsimpleC, hnabC⟩ := Seitz2313Cover.exists_cover_even ht hadm hLM
-  haveI := hsimpleC
+  have := hsimpleC
   have hsimple : IsSimpleGroup S := MulEquiv.isSimpleGroup e
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnabC

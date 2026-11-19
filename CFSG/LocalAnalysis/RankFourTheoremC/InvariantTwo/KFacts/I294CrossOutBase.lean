@@ -14,6 +14,7 @@ variable {X : Type} [Group X] [Finite X]
 noncomputable def outerHomOfNormal (L : Subgroup X) [L.Normal] : X →* Outer ↥L :=
   (QuotientGroup.mk' (inner ↥L)).comp (MulAut.conjNormal : X →* MulAut ↥L)
 
+omit [Finite X] in
 theorem conjNormal_injective (L : Subgroup X) [L.Normal] (hcen : centralizer (L : Set X) = ⊥) :
     Function.Injective (MulAut.conjNormal : X →* MulAut ↥L) := by
   rw [injective_iff_map_eq_one]
@@ -28,6 +29,7 @@ theorem conjNormal_injective (L : Subgroup X) [L.Normal] (hcen : centralizer (L 
   rw [hcen, Subgroup.mem_bot] at hgc
   exact hgc
 
+omit [Finite X] in
 theorem mem_of_outerHomOfNormal_eq_one (L : Subgroup X) [L.Normal]
     (hcen : centralizer (L : Set X) = ⊥) {g : X} (hg : outerHomOfNormal L g = 1) : g ∈ L := by
   have h1 : MulAut.conjNormal (H := L) g ∈ inner ↥L :=

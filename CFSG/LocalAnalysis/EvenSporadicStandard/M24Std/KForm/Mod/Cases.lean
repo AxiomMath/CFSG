@@ -44,7 +44,7 @@ theorem layer_cases_mod {Y B : Type} [Group Y] [Finite Y] [Group B] {B₀ : Subg
       (MulEquiv.ofBijective ψ ⟨hinj, hψ⟩))
   · exact Or.inr (Or.inl ⟨(MulEquiv.subgroupCongr (Reduction.egaLayer_eq_layer Y)).trans
       (ModSwapData.layer_equiv hs).some⟩)
-  · haveI : S.Normal := hF.normal
+  · have : S.Normal := hF.normal
     refine Or.inr (Or.inr ⟨S, hF.normal, hF.simple, hF.cent, ?_⟩)
     refine Reduction.egaLayer_eq_of_simple_normal S hF.simple hF.nonab fun x hx y hy => ?_
     rw [hF.cent, Subgroup.mem_bot] at hx hy

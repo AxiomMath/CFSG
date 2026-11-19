@@ -17,7 +17,7 @@ namespace Ctx23L
 
 variable {D : Data G} {Ch : Choice2011 G}
 
-private theorem zOneOf_QV_eq (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
+private theorem zOneOf_QV_eq (c : Ctx23L D Ch) (_hV : IsElemAbelian 2 c.V)
     (h4 : S23_4 D Ch) (h1930 : H1930 D) (hn2 : 2 ≤ CFSG.Open.pRank 2 D.Z)
     (hCLV : c.L ⊓ Subgroup.centralizer (c.V : Set G) ≤ CFSG.Open.pCoreOf 2 c.L)
     (hA' : S23_23OmegaCaseA c) :
@@ -76,13 +76,13 @@ theorem normalizer_zOne_le_N_of_caseA (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.
   have hz2 : IsPGroup 2 (zOneOf D.T) :=
     D.sylowM.isPGroup.to_le (Subgroup.map_subtype_le (CFSG.higherElemThompsonOmega ↥D.T 1))
   have hT : D.T ≤ Subgroup.normalizer (zOneOf D.T : Set G) := by
-    letI : (CFSG.higherElemThompsonOmega ↥D.T 1).Characteristic :=
+    let : (CFSG.higherElemThompsonOmega ↥D.T 1).Characteristic :=
       CFSG.Quasithin.SteinbergBK.higherElemThompsonOmega_characteristic 1
     exact Subgroup.le_normalizer.trans
       (CFSG.BenderSuzuki.External.hkt_normalizer_le_normalizer_map_subtype_of_characteristic
         D.T (CFSG.higherElemThompsonOmega ↥D.T 1))
   have hL : c.L ≤ Subgroup.normalizer (zOneOf D.T : Set G) := by
-    letI : (CFSG.higherElemThompsonOmega ↥c.QV 1).Characteristic :=
+    let : (CFSG.higherElemThompsonOmega ↥c.QV 1).Characteristic :=
       CFSG.Quasithin.SteinbergBK.higherElemThompsonOmega_characteristic 1
     have hstep : Subgroup.normalizer (c.QV : Set G) ≤
         Subgroup.normalizer (zOneOf c.QV : Set G) :=
@@ -246,7 +246,7 @@ private theorem exists_mem_not_mem_centralizer (c : Ctx23L D Ch)
       rw [hpi]
       exact ⟨hrp, hrpow⟩
     exact hmem.2
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨b, hbord⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B) r hrdvdB
   refine ⟨b, b.2, ?_⟩
   intro hbcin
@@ -288,7 +288,7 @@ private theorem eq_bot_of_isSylowOf_fitting_of_pCore_eq_bot {p : ℕ} (hpp : p.P
     {P : Subgroup (Bar2 D.M)}
     (hPsyl : CFSG.ABGLocalTools.IsSylowOf p P (CFSG.fittingSubgroup (Bar2 D.M)))
     (hpbot : CFSG.pCore p (Bar2 D.M) = ⊥) : P = ⊥ := by
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨Q, hQ⟩ := hPsyl
   have hPle : P ≤ CFSG.pCore p (Bar2 D.M) :=
     hQ ▸ Sylow.map_le_pCore CFSG.fittingSubgroup_normal CFSG.fittingSubgroup_nilpotent p Q

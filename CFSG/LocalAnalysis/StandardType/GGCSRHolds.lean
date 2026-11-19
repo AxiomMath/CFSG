@@ -160,11 +160,11 @@ theorem ggSmallThreeRank_linear_rank_three_of_elemAbelian
     dsimp only [GGHasLabel, LargeEvenRawDatum] at hhas
     obtain ⟨K, _, _, hK, hQ⟩ := hhas
     obtain ⟨e⟩ := hQ
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcardK : Fintype.card K = 2 ^ n := by
       rw [← Nat.card_eq_fintype_card]
       exact hK
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) hcardK
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) hcardK
     have h3K : ((3 : ℕ) : K) ≠ 0 := by
       intro hzero
       have h2dvd : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp hzero
@@ -193,7 +193,7 @@ theorem ggSmallThreeRank_linear_rank_three_of_elemAbelian
     obtain ⟨K, _, _, hK, hQ⟩ := hhas
     obtain ⟨e⟩ := hQ
     have hU : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK (by omega)
-    haveI : CharP K 2 := hU.charP
+    have : CharP K 2 := hU.charP
     have h3K : ((3 : ℕ) : K) ≠ 0 := by
       intro hzero
       have h2dvd : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp hzero

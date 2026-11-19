@@ -103,7 +103,7 @@ theorem false_of_simple_not_catalog (hCIT : CITPart2)
       (Hyp.pRank_two_le_of_injective
         (S : Subgroup ↥(centralizer (P : Set G))).subtype
         (S : Subgroup ↥(centralizer (P : Set G))).subtype_injective).trans hr1
-    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' hrS with hcy | hgq
+    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup hrS with hcy | hgq
     · exact hcy
     · exfalso
       have hnd : ¬ Nat.card ↥(⊤ : Subgroup G) ∣ 95040 := by

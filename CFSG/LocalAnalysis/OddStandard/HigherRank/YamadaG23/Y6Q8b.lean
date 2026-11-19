@@ -45,7 +45,7 @@ private theorem y6q8_not_comm_of_commutator {x y w : G}
   exact hw (by rw [← hxy, commutatorElement_eq_one_iff_mul_comm]; exact h)
 
 private theorem y6q8_mul_z_comm_iff (h : Y6ARel a₁ b₁ a₂ b₂ z) {w c : G}
-    (hw : w ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G))
+    (_hw : w ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G))
     (hc : c ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G)) :
     Commute (w * z) c ↔ Commute w c := by
   have hzc : z * c = c * z := (y6q8_z_central h c hc).symm
@@ -117,7 +117,7 @@ theorem y6q8_W_le_A :
   tauto
 
 private theorem y6q8_cen_aux (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
-    (hA : Nat.card ↥(closure {a₁, b₁, a₂, b₂} : Subgroup G) = 32) :
+    (_hA : Nat.card ↥(closure {a₁, b₁, a₂, b₂} : Subgroup G) = 32) :
     ∀ a ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G),
       (∀ b ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G), a * b = b * a) → a = 1 ∨ a = z := by
   intro a ha hcomm
@@ -196,7 +196,7 @@ private theorem y6q8_pair_card (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
     · rw [h6]; simp
     · rw [h7]; simp
     · rw [h8]; simp
-  haveI : Finite ↥(closure {x, y} : Subgroup G) :=
+  have : Finite ↥(closure {x, y} : Subgroup G) :=
     Set.finite_coe_iff.mp ((Finset.finite_toSet _).subset hsub)
   have hle : Nat.card ↥(closure {x, y} : Subgroup G) ≤ 8 := by
     change ((closure {x, y} : Subgroup G) : Set G).ncard ≤ 8
@@ -228,7 +228,7 @@ private theorem y6q8_pair_card (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
   have hidx : ((Subgroup.zpowers x).subgroupOf (closure {x, y} : Subgroup G)).index * 4 =
       Nat.card ↥(closure {x, y} : Subgroup G) := by
     rw [← hsubcard]; exact Subgroup.index_mul_card _
-  haveI : Nonempty ↥(closure {x, y} : Subgroup G) := ⟨⟨1, one_mem _⟩⟩
+  have : Nonempty ↥(closure {x, y} : Subgroup G) := ⟨⟨1, one_mem _⟩⟩
   have hpos : 0 < Nat.card ↥(closure {x, y} : Subgroup G) := Nat.card_pos
   have hidxle : ((Subgroup.zpowers x).subgroupOf
       (closure {x, y} : Subgroup G)).index ≤ 2 := by omega

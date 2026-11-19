@@ -12,11 +12,12 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem isElemAbelian_map (hf : Function.Injective f) (p : ℕ) (E : Subgroup Γ₁) :
     IsElemAbelian p (E.map f) ↔ IsElemAbelian p E := by
   constructor
   · intro h
-    haveI : IsMulCommutative (E.map f) := h.1
+    have : IsMulCommutative (E.map f) := h.1
     refine ⟨IsMulCommutative.of_setLike_mul_comm ?_, ?_⟩
     · intro a ha b hb
       apply hf
@@ -26,7 +27,7 @@ theorem isElemAbelian_map (hf : Function.Injective f) (p : ℕ) (E : Subgroup Γ
       apply hf
       simpa using h.2 (f x) (show f x ∈ E.map f from ⟨x, hx, rfl⟩)
   · intro h
-    haveI : IsMulCommutative E := h.1
+    have : IsMulCommutative E := h.1
     refine ⟨inferInstance, ?_⟩
     rintro y ⟨x, hx, rfl⟩
     simpa using congrArg f (h.2 x hx)
@@ -55,6 +56,7 @@ private lemma pRank_congr_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X �
         (A.equivMapOfInjective e.symm.toMonoidHom e.symm.injective) hA,
       by rw [Subgroup.card_map_of_injective e.symm.injective, hc]⟩
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem pRank_map (hf : Function.Injective f) (p : ℕ) (V : Subgroup Γ₁) :
     pRank p (V.map f) = pRank p V :=
   (pRank_congr_of_mulEquiv (Subgroup.equivMapOfInjective V f hf) p).symm
@@ -65,6 +67,7 @@ private lemma map_upperCentralSeries_equiv {H K : Type*} [Group H] [Group K] (e 
   rw [← Subgroup.comap_upperCentralSeries (G := K) e n]
   exact Subgroup.map_comap_eq_self_of_surjective e.surjective _
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem zSeries_map (hf : Function.Injective f) (n : ℕ) (T : Subgroup Γ₁) :
     zSeries n (T.map f) = (zSeries n T).map f := by
   let e := Subgroup.equivMapOfInjective T f hf
@@ -81,6 +84,7 @@ theorem zSeries_map (hf : Function.Injective f) (n : ℕ) (T : Subgroup Γ₁) :
     _ = ((Subgroup.upperCentralSeries ↥T n).map T.subtype).map f := by rw [Subgroup.map_map]
     _ = (zSeries n T).map f := rfl
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem omega1_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     omega1 (T.map f) = (omega1 T).map f := by
   rw [omega1, omega1, MonoidHom.map_closure]
@@ -93,6 +97,7 @@ theorem omega1_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
   · rintro ⟨x, ⟨hxT, hx2⟩, rfl⟩
     exact ⟨⟨x, hxT, rfl⟩, by simpa using congrArg f hx2⟩
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem thompsonSubgroup_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     thompsonSubgroup (T.map f) = (thompsonSubgroup T).map f := by
   show ambientMaxCardThompson (T.map f) = (ambientMaxCardThompson T).map f
@@ -102,6 +107,7 @@ private def IsMaxAb (T U : Subgroup Γ₁) : Prop :=
   U ≤ T ∧ IsMulCommutative U ∧
     ∀ V : Subgroup Γ₁, V ≤ T → IsMulCommutative V → pRank 2 V ≤ pRank 2 U
 
+omit [Finite Γ₁] in
 private lemma thompsonRank_eq_sSup (T : Subgroup Γ₁) :
     thompsonRank T = sSup {U : Subgroup Γ₁ | IsMaxAb T U} := by
   rw [thompsonRank]
@@ -111,10 +117,11 @@ private lemma thompsonRank_eq_sSup (T : Subgroup Γ₁) :
   · exact sSup_le fun U hU => le_iSup_of_le U (le_iSup_of_le hU.1 (le_iSup_of_le hU.2.1
       (le_iSup_of_le hU.2.2 le_rfl)))
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma isMaxAb_map (hf : Function.Injective f) {T U : Subgroup Γ₁} (h : IsMaxAb T U) :
     IsMaxAb (T.map f) (U.map f) := by
   refine ⟨Subgroup.map_mono h.1, ?_, ?_⟩
-  · haveI : IsMulCommutative U := h.2.1
+  · have : IsMulCommutative U := h.2.1
     exact inferInstance
   · intro V' hV'T hV'c
     have hV'eq : (V'.comap f).map f = V' :=
@@ -123,31 +130,33 @@ private lemma isMaxAb_map (hf : Function.Injective f) {T U : Subgroup Γ₁} (h 
       rw [← Subgroup.comap_map_eq_self_of_injective hf T]
       exact Subgroup.comap_mono hV'T
     have hVc : IsMulCommutative (V'.comap f) := by
-      haveI : IsMulCommutative V' := hV'c
+      have : IsMulCommutative V' := hV'c
       exact Subgroup.comap_injective_isMulCommutative V' hf
     calc pRank 2 V' = pRank 2 ((V'.comap f).map f) := by rw [hV'eq]
       _ = pRank 2 (V'.comap f) := pRank_map hf 2 _
       _ ≤ pRank 2 U := h.2.2 _ hVle hVc
       _ = pRank 2 (U.map f) := (pRank_map hf 2 U).symm
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma isMaxAb_comap (hf : Function.Injective f) {T : Subgroup Γ₁} {U' : Subgroup Γ₂}
     (h : IsMaxAb (T.map f) U') : IsMaxAb T (U'.comap f) := by
   refine ⟨?_, ?_, ?_⟩
   · rw [← Subgroup.comap_map_eq_self_of_injective hf T]
     exact Subgroup.comap_mono h.1
-  · haveI : IsMulCommutative U' := h.2.1
+  · have : IsMulCommutative U' := h.2.1
     exact Subgroup.comap_injective_isMulCommutative U' hf
   · intro V hVT hVc
     have hU'eq : (U'.comap f).map f = U' :=
       Subgroup.map_comap_eq_self (le_trans h.1 (Subgroup.map_le_range f T))
     have hVc' : IsMulCommutative (V.map f) := by
-      haveI : IsMulCommutative V := hVc
+      have : IsMulCommutative V := hVc
       exact inferInstance
     calc pRank 2 V = pRank 2 (V.map f) := (pRank_map hf 2 V).symm
       _ ≤ pRank 2 U' := h.2.2 _ (Subgroup.map_mono hVT) hVc'
       _ = pRank 2 ((U'.comap f).map f) := by rw [hU'eq]
       _ = pRank 2 (U'.comap f) := pRank_map hf 2 _
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem thompsonRank_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     thompsonRank (T.map f) = (thompsonRank T).map f := by
   apply le_antisymm
@@ -160,6 +169,7 @@ theorem thompsonRank_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     rw [thompsonRank_eq_sSup (T.map f)]
     exact le_sSup (isMaxAb_map hf U.2)
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem maxElemAbelian_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     maxElemAbelian (T.map f) = Subgroup.map f '' maxElemAbelian T := by
   ext Y
@@ -203,7 +213,7 @@ private lemma sectionalTwoRankLE_equiv_forward {X X' : Type} [Group X] [Group X'
         = Subgroup.closure (e.toMonoidHom '' (↑s : Set X)) := by
             congr 1
             ext y
-            simp [Finset.mem_map]
+            simp
       _ = (Subgroup.closure (↑s : Set X)).map e.toMonoidHom :=
             (MonoidHom.map_closure e.toMonoidHom (↑s : Set X)).symm
       _ = (P'.comap e.toMonoidHom).map e.toMonoidHom := by rw [hcl]
@@ -216,6 +226,7 @@ theorem sectionalTwoRank_equiv {X X' : Type} [Group X] [Group X'] (e : X ≃* X'
   ext r
   exact ⟨sectionalTwoRankLE_equiv_forward e, sectionalTwoRankLE_equiv_forward e.symm⟩
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem sectionalTwoRank_map (hf : Function.Injective f) (T : Subgroup Γ₁) :
     GH74.sectionalTwoRank ↥(T.map f) = GH74.sectionalTwoRank ↥T :=
   (sectionalTwoRank_equiv (Subgroup.equivMapOfInjective T f hf)).symm

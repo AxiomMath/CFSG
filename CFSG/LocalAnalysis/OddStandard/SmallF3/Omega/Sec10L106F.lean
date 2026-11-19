@@ -12,7 +12,7 @@ variable {G : Type} [Group G]
 
 private theorem inv_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [IsCyclic A]
     {x y : A} (hx : orderOf x = 2) (hy : orderOf y = 2) : x = y := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hd : 2 ∣ Fintype.card A := hx ▸ orderOf_dvd_card
   have h := IsCyclic.card_orderOf_eq_totient (α := A) (d := 2) hd
   rw [Nat.totient_two] at h
@@ -25,8 +25,8 @@ private theorem inv_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [IsCyc
 private theorem exists_sq_eq_of_isCyclic_two [Finite G] {K : Subgroup G} (hK : IsCyclic K)
     (hK2 : IsPGroup 2 K) {t : G} (htK : t ∈ K) (ht : orderOf t = 2)
     (hne : K ≠ zpowers t) : ∃ u ∈ K, u * u = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic K := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic K := hK
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hK2
   have hle : zpowers t ≤ K := zpowers_le.2 htK
   have hn2 : 2 ≤ n := by
@@ -56,15 +56,15 @@ private theorem exists_sq_eq_of_isCyclic_two [Finite G] {K : Subgroup G} (hK : I
 private theorem isCyclic_of_isPGroup_le_centralizer [Finite G] (h102 : Asc82Lemma102)
     {t : G} {L : Subgroup G} (hset : Sec10Setting G t L) {X : Subgroup G}
     (hX : X ≤ centralizer (L : Set G)) (hX2 : IsPGroup 2 X) : IsCyclic ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX'2 : IsPGroup 2 (X.subgroupOf (centralizer (L : Set G))) :=
     hX2.of_equiv (Subgroup.subgroupOfEquivOfLe hX).symm
   obtain ⟨Q, hQle⟩ := hX'2.exists_le_sylow
   have hQcyc : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := h102 G t L hset Q
-  haveI : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := hQcyc
+  have : IsCyclic ↥(Q : Subgroup (centralizer (L : Set G))) := hQcyc
   have hX'cyc : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) :=
     Subgroup.isCyclic_of_le hQle
-  haveI : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) := hX'cyc
+  have : IsCyclic ↥(X.subgroupOf (centralizer (L : Set G))) := hX'cyc
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hX)
     (Subgroup.subgroupOfEquivOfLe hX).surjective
 

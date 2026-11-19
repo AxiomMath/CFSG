@@ -93,7 +93,7 @@ theorem inl_ibody_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
     exact Bool.noConfusion h
 
 theorem scanLineIK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
-    (hT : TabsOK m K fx hx fx' hx') {L : KILine} (hcv : L.cv < 3 ^ dim m)
+    (hT : TabsOK m K fx hx fx' hx') {L : KILine} (_hcv : L.cv < 3 ^ dim m)
     (hL : scanLineIK K L = true) :
     Chk.scanLineN (tabsK m K) m false true (isearchOf m L).S
       (Chk.bodyIC (tabsK m K) m (isearchOf m L)) L.cv = true := by
@@ -104,7 +104,7 @@ theorem scanLineIK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
   rcases hL' with hL' | hL'
   · left
     obtain ⟨e, he, hok⟩ := inl_refLIK_sound hT hL'
-    simp only [isearchOf, if_pos rfl, he]
+    simp only [isearchOf, he]
     exact hok
   · right
     have hW : ∀ n ps, iwalkK K L.cv (n + 1) ps = Bool.rec (motive := fun _ => Bool)
@@ -216,7 +216,7 @@ theorem nbr_coverK {t : Nat} :
       exact ⟨C, List.mem_cons_of_mem _ hC, hb⟩
 
 theorem nbrLineK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
-    (hT : TabsOK m K fx hx fx' hx') {cv : Nat} (hcv : cv < 3 ^ dim m) {cs : List KComp}
+    (hT : TabsOK m K fx hx fx' hx') {cv : Nat} (_hcv : cv < 3 ^ dim m) {cs : List KComp}
     (h : nbrLineK K cv cs = true) : Chk.nbrLineOK (tabsK m K) m (nsearchOf cs) cv = true := by
   have h' : band (compsK K (zmK K cv) cs)
       (allN K.r fun t => bor (bnot (bit (zmK K cv) t)) (coverK t cs)) = true := h

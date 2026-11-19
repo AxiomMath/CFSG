@@ -107,7 +107,7 @@ theorem caseA_false {X H : Type} [Group X] [Finite X] [Group H] [Finite H] (π :
     exact IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
   obtain ⟨P, hzP⟩ := hzpg.exists_le_sylow
   set P' : Subgroup X := (P : Subgroup X) with hP'
-  have hP'pg : IsPGroup 3 P' := P.isPGroup'
+  have hP'pg : IsPGroup 3 P' := P.isPGroup
   have hzmem : z ∈ P' := hzP (Subgroup.mem_zpowers z)
   have hXcard : Nat.card X = 54 * Nat.card K := by
     have h := card_eq_range_mul_ker π

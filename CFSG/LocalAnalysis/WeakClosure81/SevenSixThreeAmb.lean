@@ -12,13 +12,15 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_sup_right_of_le_normalizer {K N : Subgroup G}
     (hK : K ≤ Subgroup.normalizer (N : Set G)) : N.relIndex (K ⊔ N) = N.relIndex K := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hK
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hK
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
   exact (Nat.card_congr
     (QuotientGroup.quotientInfEquivProdNormalizerQuotient K N hK).toEquiv).symm
 
+omit [Finite G] in
 theorem isPGroup_quotient_of_exp {J Y : Subgroup G} [(J.subgroupOf Y).Normal] {p : ℕ}
     (hexp : ∀ y ∈ Y, y ^ p ∈ J) : IsPGroup p (↥Y ⧸ J.subgroupOf Y) := by
   intro x
@@ -35,7 +37,7 @@ theorem hyp76_of_member {V H E J A Y : Subgroup G} {p : ℕ} [(J.subgroupOf Y).N
     (hJY : J ≤ Y) (hYH : Y ≤ H) (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hfaith : ∀ a ∈ A, (∀ y ∈ Y, ⁅a, y⁆ ∈ J) → a ∈ J) (hexp : ∀ y ∈ Y, y ^ p ∈ J) :
     Hyp76 V H E J A Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg := isPGroup_quotient_of_exp (J := J) (Y := Y) hexp
   refine ⟨hV, hTI, hE, hEH, hEnorm, hOmH, hJ, hJnorm, hIJ, hJY, hYH, hAY, ?_, ?_, hfaith, ?_, ?_⟩
   · obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hpg
@@ -65,7 +67,7 @@ theorem Hyp76.inf_le_iSub_of_isPGroup {V H E J A X : Subgroup G} [(J.subgroupOf 
   have hIW : iSub V H E ≤ (S ⊓ Y) ⊔ iSub V H E := le_sup_right
   have hWY : (S ⊓ Y) ⊔ iSub V H E ≤ Y := sup_le inf_le_right hY.iSub_le
   have hodd := h.relIndex_odd_of_isHallCompl hY hIW hWY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hW2
   have hdvd : (iSub V H E).relIndex ((S ⊓ Y) ⊔ iSub V H E) ∣ 2 ^ n := by
     rw [← hn]
@@ -78,6 +80,7 @@ theorem Hyp76.inf_le_iSub_of_isPGroup {V H E J A X : Subgroup G} [(J.subgroupOf 
   have h1 : (iSub V H E).relIndex ((S ⊓ Y) ⊔ iSub V H E) = 1 := by rw [hi, hi0, pow_zero]
   exact le_sup_left.trans (Subgroup.relIndex_eq_one.mp h1)
 
+omit [Finite G] in
 theorem IsHallCompl.relIndex_eq {V H E J X Y : Subgroup G} (hY : IsHallCompl V H E J X Y)
     (hXn : X ≤ Subgroup.normalizer (J : Set G)) :
     (iSub V H E).relIndex Y = J.relIndex X := by
@@ -89,6 +92,7 @@ theorem IsHallCompl.relIndex_eq {V H E J X Y : Subgroup G} (hY : IsHallCompl V H
     rw [← Subgroup.inf_relIndex_left Y J, hY.inf_J]
   rw [h2, h3]
 
+omit [Finite G] in
 theorem IsHallCompl.le_commutator_sup {V H E J X Y : Subgroup G} (hY : IsHallCompl V H E J X Y)
     (hXn : X ≤ Subgroup.normalizer (J : Set G)) {u : G}
     (huJ : u ∈ Subgroup.normalizer (J : Set G)) (huY : u ∈ Subgroup.normalizer (Y : Set G))
@@ -134,6 +138,7 @@ theorem IsHallCompl.le_commutator_sup {V H E J X Y : Subgroup G} (hY : IsHallCom
     exact ⟨hjY, hj⟩
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hc) (Subgroup.mem_sup_right hjI)
 
+omit [Finite G] in
 theorem commutator_sup_le_of_le_sup {X J A B : Subgroup G} [(J.subgroupOf X).Normal]
     (hJX : J ≤ X) (hB : B ≤ Subgroup.normalizer (J : Set G)) (hA : A ≤ J ⊔ B) :
     ⁅X, A⁆ ⊔ J ≤ ⁅X, B⁆ ⊔ J := by
@@ -161,6 +166,7 @@ theorem commutator_sup_le_of_le_sup {X J A B : Subgroup G} [(J.subgroupOf X).Nor
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.commutator_mem_commutator hx hv))
     (Subgroup.mem_sup_right hvxj)
 
+omit [Finite G] in
 theorem IsHallCompl.ne_of_faithful {V H E J X Y U : Subgroup G} (hY : IsHallCompl V H E J X Y)
     (hIJ : iSub V H E ≤ J) (hUN : U ≤ Subgroup.normalizer (J : Set G)) (hUJ : ¬ U ≤ J)
     (hfaith : ∀ a ∈ U, (∀ x ∈ X, ⁅a, x⁆ ∈ J) → a ∈ J) : iSub V H E ≠ Y := by

@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M L1 L2 J : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_normalizer_commutator_self {A : Subgroup G} {x : G}
     (hx : x ∈ normalizer (A : Set G)) : x ∈ normalizer (⁅A, A⁆ : Subgroup G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hx ⊢
   rw [Subgroup.map_commutator (f := (MulAut.conj x : G →* G)), hx]
 
+omit [Finite G] in
 private lemma exists_mul_of_mem_sup {A B M : Subgroup G} (hAM : A ≤ M) (hBM : B ≤ M)
     (hsup : A ⊔ B = M) (hcomm : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a) {x : G} (hx : x ∈ M) :
     ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
@@ -37,7 +39,7 @@ private lemma exists_mul_of_mem_sup {A B M : Subgroup G} (hAM : A ≤ M) (hBM : 
 
 private lemma commutator_le_centIn {M L1 L2 : Subgroup G} (h : Gl3Pair M L1 L2)
     (hsup : centIn M L1 ⊔ centIn M L2 = M) : ⁅L1, M⁆ ≤ centIn M L2 := by
-  haveI : IsMulCommutative M := h.elem.1
+  have : IsMulCommutative M := h.elem.1
   have hcomm : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a := fun a ha b hb => setLike_mul_comm ha hb
   have hnorm : L1 ≤ normalizer (centIn M L2 : Set G) :=
     Gl3Pair.L2_le_normalizer_centIn h.symm (D := L2) le_rfl
@@ -67,7 +69,7 @@ theorem y7c_comm_inf_eq
   obtain ⟨hcardU1, hcardU2⟩ := y7c_cent_card h hJ hJM hU1 hU2
   have hsup : centIn M L1 ⊔ centIn M L2 = M := y7c_cent_sup h hJ hJM hU1 hU2
   have hinf : centIn M L1 ⊓ centIn M L2 = ⊥ := y7c_cent_inf hJ hJM
-  haveI : IsMulCommutative M := h.elem.1
+  have : IsMulCommutative M := h.elem.1
   have hcommM : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a := fun a ha b hb => setLike_mul_comm ha hb
   have hcomm : ⁅L1, M⁆ ≤ centIn M L2 := commutator_le_centIn h hsup
   have hL1norm : L1 ≤ normalizer (centIn M L2 : Set G) :=

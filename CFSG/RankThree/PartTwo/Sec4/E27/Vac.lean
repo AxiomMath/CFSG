@@ -161,7 +161,7 @@ theorem psp4_prime_order_three_inner {F : Type} [Field F] [Finite F] {p : ℕ} [
     β ∈ (MulAut.conj : StatedProj (StatedSp 2 F) →* MulAut (StatedProj (StatedSp 2 F))).range := by
   have hp : p.Prime := Fact.out
   have hodd : ringChar F ≠ 2 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
     rw [ringChar.eq F p]
     omega
@@ -193,7 +193,7 @@ theorem seitz27_projSp_prime {p : ℕ} [Fact p.Prime] (hp3 : 3 < p) {X : Type} [
   have hsY : IsSimpleGroup (StatedProj (StatedSp 2 F)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp F 2 (by norm_num)
       (Or.inl (Or.inr h4))
-  haveI := hsY
+  have := hsY
   have hsP : IsSimpleGroup (CFSG.PGLModel.projSp 2 F) := eP.isSimpleGroup
   have hR : CFSG.pRank 3 (CFSG.PGLModel.projSp 2 F ⧸
       Subgroup.center (CFSG.PGLModel.projSp 2 F)) ≤ 2 :=

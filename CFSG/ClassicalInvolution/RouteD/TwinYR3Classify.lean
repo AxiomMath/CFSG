@@ -97,11 +97,11 @@ theorem orth_hypPairUnsmul (hc : c ≠ 0) {P P' : HypPair (c • Q)} (h : P.Orth
 
 theorem card_frame_smul (hc : c ≠ 0) : Nat.card (OFrame (c • Q)) = Nat.card (OFrame Q) :=
   Nat.card_congr
-    { toFun := fun F => ⟨hypPairUnsmul hc F.P, hypPairUnsmul hc F.P', orth_hypPairUnsmul hc F.orth⟩
-      invFun := fun F => ⟨hypPairSmul hc F.P, hypPairSmul hc F.P', orth_hypPairSmul hc F.orth⟩
-      left_inv := fun F => CFSG.ClassicalInvolution.ModelFacts.Frame.ext_vec rfl
+    { toFun := fun _F => ⟨hypPairUnsmul hc _F.P, hypPairUnsmul hc _F.P', orth_hypPairUnsmul hc _F.orth⟩
+      invFun := fun _F => ⟨hypPairSmul hc _F.P, hypPairSmul hc _F.P', orth_hypPairSmul hc _F.orth⟩
+      left_inv := fun _F => CFSG.ClassicalInvolution.ModelFacts.Frame.ext_vec rfl
         (inv_smul_smul₀ hc _) rfl (inv_smul_smul₀ hc _)
-      right_inv := fun F => CFSG.ClassicalInvolution.ModelFacts.Frame.ext_vec rfl
+      right_inv := fun _F => CFSG.ClassicalInvolution.ModelFacts.Frame.ext_vec rfl
         (smul_inv_smul₀ hc _) rfl (smul_inv_smul₀ hc _) }
 
 end Smul
@@ -111,6 +111,7 @@ section Classify
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem card_frame_eq_zero_of_finrank_lt (h : Module.finrank K V < 4) :
     Nat.card (OFrame Q) = 0 := by
   rw [Nat.card_eq_zero]
@@ -120,6 +121,7 @@ theorem card_frame_eq_zero_of_finrank_lt (h : Module.finrank K V < 4) :
   rw [Frame.finrank_span] at h1
   omega
 
+omit [Finite K] in
 theorem ringChar_ne_two_of_two_ne_zero (h2 : (2 : K) ≠ 0) : ringChar K ≠ 2 := fun h => by
   have := ringChar.Nat.cast_ringChar (R := K)
   rw [h] at this

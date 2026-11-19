@@ -62,7 +62,7 @@ theorem nilpotent_normal_le_join {G : Type*} [Group G] [Finite G]
       sylow.characteristic_of_normal inferInstance
     let image := (sylow : Subgroup candidate).map candidate.subtype
     let : image.Normal := ConjAct.normal_of_characteristic_of_normal
-    have hle : image ≤ subgroup prime G := maximal prime image (sylow.isPGroup'.map candidate.subtype)
+    have hle : image ≤ subgroup prime G := maximal prime image (sylow.isPGroup.map candidate.subtype)
     intro member hmember
     exact (le_iSup (fun prime : {prime : ℕ // prime.Prime} => subgroup prime.val G)
       ⟨prime, hprime⟩) (hle (Subgroup.mem_map_of_mem candidate.subtype hmember))

@@ -55,7 +55,7 @@ theorem ncard_Ue_le (hn : n ≤ 5) (e : Fin n → ZMod 2) : (F.Ue e).ncard ≤ 1
   obtain ⟨Y₀, hY₀⟩ := F.P0
   have hsub : F.Ue e ⊆ {v : Fin n → ZMod 2 | (F.P Y₀).mulVec v = 0} := by
     rintro _ ⟨Y', rfl⟩
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [Matrix.mulVec_mulVec, F.PP Y₀ Y', Matrix.zero_mulVec]
   exact (Set.ncard_le_ncard hsub (Set.toFinite _)).trans (ncard_ker_le hn hY₀)
 
@@ -310,7 +310,7 @@ theorem flip_structure (F : FlipHyp j n) (hj : 3 ≤ j) (hn : n ≤ 5) :
     intro x hx
     by_contra hx0
     rw [hιapp] at hx
-    simp only [ι₀, if_neg hx0] at hx
+    simp only [ι₀, ite_eq_right hx0] at hx
     exact G.a_ne x hx0 hx
   have hθ : ∀ u ∈ F.Ue e, ∀ x, x ≠ 0 → θ₀ u x = θ₀ u xs := by
     intro u hu x hx

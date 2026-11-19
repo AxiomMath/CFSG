@@ -251,7 +251,7 @@ theorem exists_invariant_two_subgroup (hp : p.Prime) (hp2 : p ≠ 2) {E : Subgro
     (IsPGroup.of_card (n := 0) (by simp)) (by rw [hbot]; exact le_top)
   obtain ⟨hRle, hRp⟩ : R ≤ hatSub p I Sq ∧ IsPGroup 2 R := by
     obtain ⟨Q, rfl⟩ := hRsyl
-    exact ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _⟩
+    exact ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _⟩
   have hbR : Subgroup.zpowers b ≤ Subgroup.normalizer (R : Set G) := le_sup_left.trans hPR
   have hDR : D ≤ Subgroup.normalizer (R : Set G) := le_sup_right.trans hPR
   have hTR : ⁅R, Subgroup.zpowers b⁆ ≤ R := Subgroup.le_normalizer_iff_commutator_le_left.1 hbR

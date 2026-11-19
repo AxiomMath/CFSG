@@ -67,7 +67,7 @@ theorem five_le_finrank_span {h : Fin 6 → V} {α : Fin 6 → Dual (ZMod 3) V}
   have hfin : finrank (ZMod 3)
       (Submodule.span (ZMod 3) (Set.range fun k : Fin 5 => h k.succ)) = 5 := by
     rw [finrank_span_eq_card hli, Fintype.card_fin]
-  haveI : Module.Finite (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) :=
+  have : Module.Finite (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) :=
     Module.Finite.iff_fg.mpr (Submodule.fg_span (Set.finite_range h))
   have hle : Submodule.span (ZMod 3) (Set.range fun k : Fin 5 => h k.succ) ≤
       Submodule.span (ZMod 3) (Set.range h) := by
@@ -251,7 +251,7 @@ theorem bilinForm_reflection (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j :
   have hxx : B (h i) (h i) = 2 := by rw [hB, hα]
   rw [reflection_apply, reflection_apply]
   simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul,
-    hB, hux, hvx, hxx, hα]
+    hB, hux, hα]
   ring
 
 end CFSG.StandardType.E6QTwo

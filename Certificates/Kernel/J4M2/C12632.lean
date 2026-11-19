@@ -249,7 +249,7 @@ theorem form_c {G : Array V2} (hG : WfA G) (hz : mulRows zM G = mulRows G zM) {m
         rfl
     rw [key]
 
-theorem decodeF_codeF' (e : Bool) {c i : Nat} (hc : c < 4096) (hi : i < 3) :
+theorem decodeF_codeF' (e : Bool) {c i : Nat} (hc : c < 4096) (_hi : i < 3) :
     decodeF (codeF (e, c, i)) = (e, c, i) := by
   cases e <;> simp only [decodeF, codeF] <;> ext <;> simp <;> omega
 

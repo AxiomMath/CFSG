@@ -29,12 +29,12 @@ structure CoreSetting {k : Type} [Field k] {G : Type} [Group G] {Q : Type} [AddC
 theorem w183b2_quasi_of_simple_nonab {G : Type*} [Group G] {A : Subgroup G}
     (hs : IsSimpleGroup ↥A) (hnab : ∃ a ∈ A, ∃ b ∈ A, a * b ≠ b * a) :
     CFSG.Open.IsQuasisimple ↥A := by
-  haveI : IsSimpleGroup ↥A := hs
-  haveI : Group.IsPerfect ↥A := by
+  have : IsSimpleGroup ↥A := hs
+  have : Group.IsPerfect ↥A := by
     refine ⟨?_⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥A) with h | h
     · exfalso
-      haveI := (commutator_eq_bot_iff ↥A).mp h
+      have := (commutator_eq_bot_iff ↥A).mp h
       obtain ⟨a, ha, b, hb, hab⟩ := hnab
       exact hab (congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥A) ⟨b, hb⟩))
     · exact h
@@ -71,7 +71,7 @@ theorem w183b2_rho_comm {k : Type} [Field k] {G : Type} [Group G] {Q : Type} [Ad
     [Module k Q] {ρ : Representation k G Q} {A₁ A₂ Δ : Subgroup G}
     (h : CoreSetting ρ A₁ A₂ Δ) {d d' : G} (hd : d ∈ Δ) (hd' : d' ∈ Δ) :
     ρ d * ρ d' = ρ d' * ρ d := by
-  haveI : IsMulCommutative ↥Δ := h.elem.1
+  have : IsMulCommutative ↥Δ := h.elem.1
   have hcomm : (⟨d, hd⟩ : ↥Δ) * ⟨d', hd'⟩ = ⟨d', hd'⟩ * ⟨d, hd⟩ := mul_comm' _ _
   have hdd : d * d' = d' * d := congrArg Subtype.val hcomm
   rw [← map_mul, ← map_mul, hdd]

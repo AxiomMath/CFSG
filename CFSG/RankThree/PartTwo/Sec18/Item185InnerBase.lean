@@ -88,7 +88,7 @@ private theorem isElemAbelian_sup_zpowers_central {G : Type} [Group G] {A : Subg
     intro k hk
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hk
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hz3, one_zpow]
-  haveI : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center hz
+  have : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center hz
   have hsplit : ∀ x ∈ A ⊔ Subgroup.zpowers z,
       ∃ a ∈ A, ∃ k ∈ Subgroup.zpowers z, a * k = x :=
     fun x hx => Subgroup.mem_sup_of_normal_right.mp hx
@@ -111,7 +111,7 @@ private theorem isElemAbelian_sup_zpowers_central {G : Type} [Group G] {A : Subg
 private theorem card_sup_zpowers_eq_81 {G : Type} [Group G] [Finite G] {A : Subgroup G}
     (hA : Nat.card A = 27) {z : G} (hz : z ∈ Subgroup.center G) (hz3 : orderOf z = 3)
     (hzA : z ∉ A) : Nat.card (A ⊔ Subgroup.zpowers z : Subgroup G) = 81 := by
-  haveI : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center hz
+  have : (Subgroup.zpowers z).Normal := normal_zpowers_of_mem_center hz
   have hW : Nat.card (Subgroup.zpowers z) = 3 := by rw [Nat.card_zpowers, hz3]
   have hWA : Subgroup.zpowers z ⊓ A = ⊥ := by
     have hdvd : Nat.card (Subgroup.zpowers z ⊓ A : Subgroup G) ∣ 3 := by
@@ -273,7 +273,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem InnerData.three_not_dvd_card_center (hX : RankHyp X) {A B : Subgroup X} {c : X}
     (h : InnerData X A B c) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   intro hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 3 hdvd
   have hzc : (w : X) ∈ Subgroup.center X := w.2
   have hw3 : (w : X) ^ 3 = 1 := by
@@ -316,7 +316,7 @@ theorem oTwoP_normal_le {G : Type} [Group G] [Finite G] (N : Subgroup G) [N.Norm
 
 theorem oTwoP_map_mulEquiv {G H : Type} [Group G] [Group H] [Finite G] (e : G ≃* H) :
     (Sec4.oTwoP 3 G).map e.toMonoidHom = Sec4.oTwoP 3 H := by
-  haveI : Finite H := Finite.of_surjective _ e.surjective
+  have : Finite H := Finite.of_surjective _ e.surjective
   have hsub : (Sec4.oTwoP 3 H).map e.symm.toMonoidHom ≤ Sec4.oTwoP 3 G :=
     oTwoP_map_le_of_surjective e.symm.toMonoidHom e.symm.surjective
   apply le_antisymm
@@ -344,7 +344,7 @@ theorem InnerData.quotient (hX : RankHyp X) {A B : Subgroup X} {c : X} (h : Inne
   · rw [card_map_mk_center hAc, h.card_A]
   · exact Subgroup.map_mono h.le_B
   · rw [card_map_mk_center hBc, h.card_B]
-  · rw [h.eq_sup, Subgroup.map_sup, MonoidHom.map_zpowers] <;> rfl
+  · rw [h.eq_sup, Subgroup.map_sup, MonoidHom.map_zpowers]; rfl
   · intro hmem
     obtain ⟨b, hb, hbc⟩ := Subgroup.mem_map.mp hmem
     have hbc' : b⁻¹ * c ∈ Subgroup.center X := QuotientGroup.eq.mp hbc
@@ -416,7 +416,7 @@ theorem InnerData.quotient (hX : RankHyp X) {A B : Subgroup X} {c : X} (h : Inne
 theorem false_of_four_le_pRank (hX : RankHyp X) (hZ : ¬ 3 ∣ Nat.card (Subgroup.center X))
     {G : Type} [Group G] [Finite G] (e : X ⧸ Subgroup.center X ≃* G)
     (h4 : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := CFSG.SectionRank.pRank_quotient_eq (p := 3) (Subgroup.center X) hZ
   have he := CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e
   have h3 := hX.rank_three
@@ -432,7 +432,7 @@ theorem InnerCase.of_rankHyp {P : (S : Type) → [Group S] → Prop}
 theorem InnerData.of_mulEquiv {S T : Type} [Group S] [Group T] [Finite S] (e : S ≃* T)
     {A B : Subgroup S} {c : S} (h : InnerData S A B c) :
     InnerData T (A.map e.toMonoidHom) (B.map e.toMonoidHom) (e c) := by
-  haveI : Finite T := Finite.of_surjective _ e.surjective
+  have : Finite T := Finite.of_surjective _ e.surjective
   have hinj : Function.Injective e.toMonoidHom := e.injective
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact CFSG.RankThreeEvenClassification.Helpers.isElemAbelian_map 3 e.toMonoidHom A
@@ -440,7 +440,7 @@ theorem InnerData.of_mulEquiv {S T : Type} [Group S] [Group T] [Finite S] (e : S
   · rw [Subgroup.card_map_of_injective hinj, h.card_A]
   · exact Subgroup.map_mono h.le_B
   · rw [Subgroup.card_map_of_injective hinj, h.card_B]
-  · rw [h.eq_sup, Subgroup.map_sup, MonoidHom.map_zpowers] <;> rfl
+  · rw [h.eq_sup, Subgroup.map_sup, MonoidHom.map_zpowers]; rfl
   · intro hmem
     obtain ⟨b, hb, hbc⟩ := Subgroup.mem_map.mp hmem
     have hbc' : b = c := by
@@ -486,7 +486,7 @@ theorem InnerData.of_mulEquiv {S T : Type} [Group S] [Group T] [Finite S] (e : S
 
 theorem NoInnerData.of_mulEquiv {S T : Type} [Group S] [Group T] [Finite S] (e : S ≃* T)
     (h : NoInnerData T) : NoInnerData S :=
-  fun A B c hd => h _ _ _ (hd.of_mulEquiv e)
+  fun _A _B _c hd => h _ _ _ (hd.of_mulEquiv e)
 
 theorem noInnerData_of_noE27 {S : Type} [Group S] (h : NoE27 S) : NoInnerData S :=
   fun A _ _ hd => h A ⟨hd.isElemAbelian, hd.card_A⟩
@@ -538,7 +538,7 @@ theorem NormIrred.of_sylowModel {H : Type} [Group H] [Finite H] {z : Fin 3 → H
     (hf : WreathFacts z t) (hW : Nat.card (wreathW z t) = 3 ^ (Nat.card H).factorization 3)
     (h81 : Nat.card (wreathW z t) = 81)
     (hs : ∀ w : Fin 3 → ZMod 3, s * vecElt z w * s⁻¹ = vecElt z (sgnV w)) : NormIrred H :=
-  fun E U hE hUE hN =>
+  fun _E _U hE hUE hN =>
     Sec8.Item812Res12.irred_of_model hf hW h81 hs hE.1 hE.2 hUE hN
 
 theorem NormIrred.of_conjModel {H : Type} [Group H] {z : Fin 3 → H} {t s : H}
@@ -582,13 +582,13 @@ theorem autNoE27_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h 
 theorem noE27_of_mulEquiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h : NoE27 T) :
     NoE27 S := Sec4.RonanK429.NoE27.of_mulEquiv e h
 
-theorem isSolvable_oTwoP {H : Type} [Group H] [Finite H] : IsSolvable (Sec4.oTwoP 3 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+theorem isSolvable_oTwoP {H : Type} [Group H] [Finite H] : Group.IsSolvable (Sec4.oTwoP 3 H) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP2 : IsPGroup 2 (CFSG.pCore 2 H) := CFSG.pCore_isPGroup
   have hP3 : IsPGroup 3 (CFSG.pCore 3 (H ⧸ CFSG.pCore 2 H)) := CFSG.pCore_isPGroup
-  haveI : Group.IsNilpotent (CFSG.pCore 2 H) := hP2.isNilpotent
-  haveI : Group.IsNilpotent (CFSG.pCore 3 (H ⧸ CFSG.pCore 2 H)) := hP3.isNilpotent
+  have : Group.IsNilpotent (CFSG.pCore 2 H) := hP2.isNilpotent
+  have : Group.IsNilpotent (CFSG.pCore 3 (H ⧸ CFSG.pCore 2 H)) := hP3.isNilpotent
   have hPO : CFSG.pCore 2 H ≤ Sec4.oTwoP 3 H := Sec4.pCore_two_le_oTwoP 3 H
   let φ : ↥(Sec4.oTwoP 3 H) →* ↥(CFSG.pCore 3 (H ⧸ CFSG.pCore 2 H)) :=
     ((QuotientGroup.mk' (CFSG.pCore 2 H)).comp (Sec4.oTwoP 3 H).subtype).codRestrict _
@@ -602,10 +602,10 @@ theorem isSolvable_oTwoP {H : Type} [Group H] [Finite H] : IsSolvable (Sec4.oTwo
 theorem oTwoP_le_centralizer_of_simple_normal {H : Type} [Group H] [Finite H] (N : Subgroup H)
     [N.Normal] (hN : IsSimpleGroup N) (hna : ¬ ∀ x y : N, x * y = y * x) :
     Sec4.oTwoP 3 H ≤ Subgroup.centralizer (N : Set H) := by
-  haveI : IsSimpleGroup N := hN
-  haveI : Group.IsSolvable (Sec4.oTwoP 3 H) := isSolvable_oTwoP
-  haveI hOn : (Sec4.oTwoP 3 H).Normal := oTwoP_normal_aux 3 H
-  haveI hK : ((Sec4.oTwoP 3 H).subgroupOf N).Normal := inferInstance
+  have : IsSimpleGroup N := hN
+  have : Group.IsSolvable (Sec4.oTwoP 3 H) := isSolvable_oTwoP
+  have hOn : (Sec4.oTwoP 3 H).Normal := oTwoP_normal_aux 3 H
+  have hK : ((Sec4.oTwoP 3 H).subgroupOf N).Normal := inferInstance
   intro o ho
   rw [Subgroup.mem_centralizer_iff]
   intro n hn
@@ -638,7 +638,7 @@ theorem oTwoP_le_centralizer_of_simple_normal {H : Type} [Group H] [Finite H] (N
       intro a b hab
       have h' := congrArg Subtype.val hab
       exact Subtype.ext h'
-    haveI : Group.IsSolvable N := Group.isSolvable_of_isSolvable_injective hf
+    have : Group.IsSolvable N := Group.isSolvable_of_isSolvable_injective hf
     exact hna ((IsSimpleGroup.comm_iff_isSolvable).mpr inferInstance)
 
 @[expose] def SylowSignModel (H : Type) [Group H] [Finite H] : Prop :=

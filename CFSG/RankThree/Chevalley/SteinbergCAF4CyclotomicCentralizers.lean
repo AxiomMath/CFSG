@@ -337,7 +337,7 @@ theorem F4_cyclotomic_eight_twelve_tori_and_prime_centralizers
     · exact ⟨fun _ => odd_pow_four_sub_sq_add_one _, fun h => absurd h (by norm_num)⟩
   refine ⟨T, hcyc, hcard, ?_, fun P hP => ?_, fun x hx => ?_, fun S => ?_, htwo⟩
   · obtain ⟨S₀⟩ : Nonempty (Sylow p T) := inferInstance
-    have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map T.subtype
+    have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map T.subtype
     have hSi : ¬ p ∣ ((S₀ : Subgroup T).map T.subtype).index := by
       rw [Subgroup.index_map_subtype]
       exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hidx

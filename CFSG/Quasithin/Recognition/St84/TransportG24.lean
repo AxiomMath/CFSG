@@ -20,11 +20,13 @@ open scoped Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem pCoreOf_map_subgroupOf {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {Y : Subgroup H} (hY : Y ≤ P) :
     pCoreOf 2 ((Y.subgroupOf P).map φ) = ((pCoreOf 2 Y).subgroupOf P).map φ := by
   rw [pCoreOf_map_injective φ hφ, CFSG.Quasithin.H13.U3.GC137.pCoreOf_subgroupOf_eq hY]
 
+omit [Finite H] in
 private theorem oTwoPrime_map_subgroupOf {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {Y : Subgroup H} (hY : Y ≤ P) :
     oTwoPrime ((Y.subgroupOf P).map φ) = ((oTwoPrime Y).subgroupOf P).map φ := by
@@ -35,6 +37,7 @@ private theorem oTwoPrime_map_subgroupOf {U : Type} [Group U] {P : Subgroup H} {
       Subgroup.map_subgroupOf_eq_of_le ((oTwoPrime_le Y).trans hY)]
   rw [oTwoPrime_map (f := φ) hφ, hside]
 
+omit [Finite H] in
 private theorem relCent_map_subgroupOf {U : Type} [Group U] {P : Subgroup H} {φ : ↥P →* U}
     (hφ : Function.Injective φ) {E Z C : Subgroup H} (hE : E ≤ P) (hZ : Z ≤ P)
     (hC : C ≤ P) (hEZ : E ≤ Subgroup.normalizer (Z : Set H)) :
@@ -118,6 +121,7 @@ private theorem g24EdgeData_dictionary {L1 L2 S : Subgroup H}
       f112_pCoreOf_K_eq hF h1 h2]
   exact ⟨dL0, dL1, dQ0, dQ1, dZ0, dZ1, dCL0, dS⟩
 
+omit [Finite H] in
 private theorem g24EdgeData_irr_left {L1 L2 S : Subgroup H}
     {X : Setup (f112Gold L1 L2 S).treeGraph ↥(f112E5 L1 L2 S)}
     {Pa Ea : Subgroup H} {φa : ↥Pa →* (f112Gold L1 L2 S).Universal}
@@ -162,6 +166,7 @@ private theorem g24EdgeData_irr_left {L1 L2 S : Subgroup H}
     rw [SimsD1.Transport.img, SimsD1.Transport.img,
       ← hY', ← dQ0, h]
 
+omit [Finite H] in
 private theorem g24EdgeData_orth_left {L1 L2 S : Subgroup H}
     {X : Setup (f112Gold L1 L2 S).treeGraph ↥(f112E5 L1 L2 S)}
     {Pa Ea : Subgroup H} {φa : ↥Pa →* (f112Gold L1 L2 S).Universal}
@@ -225,6 +230,7 @@ private theorem g24EdgeData_orth_left {L1 L2 S : Subgroup H}
     exact (Subgroup.mem_map_iff_mem hj).mp h1
   · rwa [← natSec_map_iff_of_le hφa hLa hZaP hEP dL0 dZ0 hE']
 
+omit [Finite H] in
 private theorem g24EdgeData_relCent_S {L1 L2 S : Subgroup H}
     {X : Setup (f112Gold L1 L2 S).treeGraph ↥(f112E5 L1 L2 S)}
     {Pa Pb Ea Eb : Subgroup H} {φa : ↥Pa →* (f112Gold L1 L2 S).Universal}
@@ -281,6 +287,7 @@ private theorem g24EdgeData_relCent_S {L1 L2 S : Subgroup H}
         (H13.F431.subImg_eq_of_agree hab (hZbT.trans hTa)
           (hZbT.trans hTb)).symm
 
+omit [Finite H] in
 private theorem g24EdgeData_mid_right {L1 L2 S : Subgroup H}
     {X : Setup (f112Gold L1 L2 S).treeGraph ↥(f112E5 L1 L2 S)}
     {Pb Eb : Subgroup H} {φb : ↥Pb →* (f112Gold L1 L2 S).Universal}
@@ -324,6 +331,7 @@ private theorem g24EdgeData_mid_right {L1 L2 S : Subgroup H}
     exact Subgroup.map_mono hW'comm
   · exact (natSec_map_iff_of_le hφb hLb hWP hQbP dL1 hW' dQ1).mp hW'nat
 
+omit [Finite H] in
 private theorem g24EdgeData_cent_right {L1 L2 S : Subgroup H}
     {X : Setup (f112Gold L1 L2 S).treeGraph ↥(f112E5 L1 L2 S)}
     {Pa Pb Ea Eb : Subgroup H} {φa : ↥Pa →* (f112Gold L1 L2 S).Universal}

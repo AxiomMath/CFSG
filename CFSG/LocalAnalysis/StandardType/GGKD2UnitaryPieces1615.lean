@@ -73,7 +73,7 @@ open CFSG.SectionRank.OddCover (diagHom)
         (LargeEvenGUSet (Fin d) K (2 ^ n))
 
 @[expose] def UnitaryBlockOfComponent : Prop :=
-  ∀ (d n : ℕ) [NeZero d] (K : Type) [Field K] [Finite K] (h : UnitaryFieldData 2 n K),
+  ∀ (d n : ℕ) [NeZero d] (K : Type) [Field K] [Finite K] (_h : UnitaryFieldData 2 n K),
     3 ∣ 2 ^ n + 1 →
     ∀ {τ : Fin d → Kˣ}, (∀ i, τ i ^ 3 = 1) →
     ∀ {D : GL (Fin d) K}
@@ -88,7 +88,7 @@ open CFSG.SectionRank.OddCover (diagHom)
           (LargeEvenProjMk (unitarySU 2 n K d))
 
 @[expose] def UnitaryBlockAction : Prop :=
-  ∀ (d n : ℕ) [NeZero d] (K : Type) [Field K] [Finite K] (h : UnitaryFieldData 2 n K),
+  ∀ (d n : ℕ) [NeZero d] (K : Type) [Field K] [Finite K] (_h : UnitaryFieldData 2 n K),
     3 ∣ 2 ^ n + 1 →
     ∀ (L' : Type) [Group L'] [Finite L'] (ψ : L' →* LargeEvenProj (unitarySU 2 n K d)),
       Function.Surjective ψ → ψ.ker ≤ Subgroup.center L' →
@@ -96,7 +96,7 @@ open CFSG.SectionRank.OddCover (diagHom)
     ∀ (a : MulAut L'), (∀ j ∈ J, a j ∈ J) →
     ∀ {τ : Fin d → Kˣ}, (∀ i, τ i ^ 3 = 1) →
     ∀ {D N : GL (Fin d) K}
-      (hDnorm : D ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
+      (_hDnorm : D ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
       (hNnorm : N ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K))),
     N ∈ LargeEvenGUSet (Fin d) K (2 ^ n) →
     D = diagHom d τ →
@@ -425,7 +425,7 @@ private lemma ltrcu3_core_contradiction (h0 : UnitaryInndiagIsConj)
     (h3 : 3 ∣ 2 ^ lab.n + 1)
     {R : Type} [Group R] {I : Set (MulAut R)}
     {L' : Type} [Group L'] [Finite L'] (ψ : L' →* R) (hψ : Function.Surjective ψ)
-    (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
+    (hker : ψ.ker ≤ Subgroup.center L') (_hperf : commutator L' = ⊤)
     (e : MulAut L') (J : Subgroup L') (a : MulAut L')
     (hsetup : GGRankOneSetup I ψ 3 e J 3 a) (hsplit : SplitLift lab R I ψ e) : False := by
   obtain ⟨-, -, -, -, -, hJ, -, hlab, hea, ⟨φa, hφaI, hφa⟩, haJ, hnot⟩ := hsetup
@@ -440,8 +440,8 @@ private lemma ltrcu3_core_contradiction (h0 : UnitaryInndiagIsConj)
   rcases hsplit with ⟨hA, -⟩ | ⟨-, K, fK, finK, h, M, hMN, hM3, hMGU, θ, hθe, hθI⟩
   · rw [htag] at hA
     cases hA
-  · letI : Field K := fK
-    letI : Finite K := finK
+  · let : Field K := fK
+    let : Finite K := finK
     obtain ⟨β, hβ, hβa⟩ := hθI φa hφaI
     have hψ₀ : Function.Surjective (θ.toMonoidHom.comp ψ) := θ.surjective.comp hψ
     have hker₀ : (θ.toMonoidHom.comp ψ).ker ≤ Subgroup.center L' := by
@@ -457,8 +457,7 @@ private lemma ltrcu3_core_contradiction (h0 : UnitaryInndiagIsConj)
 
 theorem splitLiftUnitaryThreeDvd_of_pieces (h0 : UnitaryInndiagIsConj)
     (h1 : UnitaryBlockOfComponent) (h2 : UnitaryBlockAction) : SplitLiftUnitaryThreeDvd := by
-  intro lab hΛ htag h3
-  intro Q hraw
+  intro lab hΛ htag h3 Q hraw
   simp only [LargeEvenRawDatum, htag] at hraw ⊢
   obtain ⟨K, fieldK, finiteK, hcard, hQ⟩ := hraw
   refine ⟨K, fieldK, finiteK, hcard, hQ, ?_⟩

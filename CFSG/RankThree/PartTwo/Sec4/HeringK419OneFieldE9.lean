@@ -138,7 +138,7 @@ theorem Xm_Ym : (Xm : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) * Ym = Ym * 
   have h2 : (1 : F) + 1 = 0 := CharTwo.add_self_eq_zero 1
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [Xm, Ym, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, h2]
+    simp [Xm, Ym, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two]
 
 theorem Xm_symp : (Xm : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F)ᵀ * fromBlocks 0 1 (-1) 0 * Xm =
     fromBlocks 0 1 (-1) 0 := by
@@ -233,7 +233,7 @@ theorem hasE9_statedSp_two [Finite F] : HasE9 (StatedSp 2 F) := by
       (Sum.inl 1)) (Sum.inl 1)
     rw [coe_xg_pow, coe_yg] at this
     have h2 : (1 : F) + 1 = 0 := CharTwo.add_self_eq_zero 1
-    simp [Ym, Xm, pow_two, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, h2] at this
+    simp [Ym, Xm, pow_two, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two] at this
   exact exists_elemAbelian_of_commute hx3 hx1 hy3 hxy
     (not_mem_zpowers_of_pow_three hx3 hy1 hyx hyx2)
 
@@ -277,7 +277,7 @@ theorem matrix_pow_three_of_pow_nine {F : Type} [Field F] [CharP F 3]
 
 theorem projSU_pow_three_of_pow_nine {y : CFSG.PGLModel.projSU 3 3 1}
     (h : y ^ 9 = 1) : y ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hAS, hAy⟩ := Subgroup.mem_map.mp y.2
   have hdet : Matrix.GeneralLinearGroup.det A = 1 := by
     have hle : Subgroup.closure {A : GL (Fin 3) (GaloisField 3 (2 * 1)) |
@@ -315,9 +315,9 @@ theorem projSU_pow_three_of_pow_nine {y : CFSG.PGLModel.projSU 3 3 1}
   rw [← hAy, ← map_pow, hA3, map_one]
 
 theorem hasE9_projSU_three_three : HasE9 (CFSG.PGLModel.projSU 3 3 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (CFSG.PGLModel.projSU 3 3 1) = 6048 := CFSG.PGLModel.card_projSU_three_three
-  haveI : Finite (CFSG.PGLModel.projSU 3 3 1) :=
+  have : Finite (CFSG.PGLModel.projSU 3 3 1) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨H, hH⟩ := Sylow.exists_subgroup_card_pow_prime (G := CFSG.PGLModel.projSU 3 3 1) 3
     (n := 2) (by rw [hcard]; norm_num)
@@ -355,7 +355,7 @@ theorem slTwo_central_eq_one_char_two {F : Type} [Field F] [CharP F 2]
 
 theorem hasE9_adjointG2 {F : Type} [Field F] [Finite F] [CharP F 2] :
     HasE9 (adjointGroup .G2 F) := by
-  haveI : Finite (adjointGroup .G2 F) := Subtype.finite
+  have : Finite (adjointGroup .G2 F) := Subtype.finite
   obtain ⟨eL⟩ := nonempty_mulEquiv_g2LongSL2 (K := F)
   obtain ⟨eS⟩ := nonempty_mulEquiv_g2ShortSL2 (K := F)
   have h2 : (1 : F) + 1 = 0 := CharTwo.add_self_eq_zero 1

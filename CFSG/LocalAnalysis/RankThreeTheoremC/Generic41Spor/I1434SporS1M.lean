@@ -18,10 +18,10 @@ open _root_.Timmesfeld.PcReg CFSG.Sporadic.Th
 theorem hasNonabelianFiveSubgroup_of_surjective {G H : Type} [Group G] [Group H] [Finite G]
     {f : G →* H} (hf : Function.Surjective f) (h : HasNonabelianFiveSubgroup H) :
     HasNonabelianFiveSubgroup G := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite H := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite H := Finite.of_surjective f hf
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 5 G))
-  refine ⟨S, S.isPGroup', fun hS => ?_⟩
+  refine ⟨S, S.isPGroup, fun hS => ?_⟩
   obtain ⟨P, hP, hnc⟩ := h
   have hT : IsMulCommutative ((S.mapSurjective hf : Sylow 5 H) : Subgroup H) := by
     rw [Sylow.coe_mapSurjective]

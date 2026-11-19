@@ -29,7 +29,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
     orderOf ζ = p ∧ Function.Injective ι₀ ∧ ι₀.range = E ∧
     (∀ k s, nk k * ι₀ (Multiplicative.ofAdd s) * (nk k)⁻¹ =
       ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E7 p (simple .E7 k) s))) ∧
-    (∀ k, wt.n k = nk k) ∧ wt.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ ∧
+    (∀ k, wt.n k = nk k) ∧ wt.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ ∧
     ∀ t : Fin Tag.E7.rank → ZMod p, ι₀ (Multiplicative.ofAdd t) ≠ 1 →
       ∀ Y : Subgroup (adjointGroup .E7 Fq), IsComponentOf Y
         (Subgroup.centralizer ({ι₀ (Multiplicative.ofAdd t)} : Set (adjointGroup .E7 Fq))) →
@@ -149,7 +149,7 @@ theorem ggE7Levi_input_of_frame
       (f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs)),
       (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p)) ∧
+      (∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer X Bs = Subgroup.closure (Set.range φ) ∧
       (∃ b : ↥Bs, b ≠ 1 ∧ ∀ j, α j (ι (Additive.ofMul b)) = 0) ∧
@@ -744,7 +744,7 @@ theorem ggE7Levi_input_L_of_frame
       (f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer L Bs)),
       (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p)) ∧
+      (∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer L Bs = Subgroup.closure (Set.range φ) ∧
       (∃ b : ↥Bs, b ≠ 1 ∧ ∀ j, α j (ι (Additive.ofMul b)) = 0) ∧
@@ -849,7 +849,7 @@ theorem ggE7Levi_input_K_of_frame
       (f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer K Bs)),
       (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p)) ∧
+      (∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer K Bs = Subgroup.closure (Set.range φ) ∧
       (∃ b : ↥Bs, b ≠ 1 ∧ ∀ j, α j (ι (Additive.ofMul b)) = 0) ∧
@@ -909,7 +909,7 @@ theorem ggE7Levi_hJ
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ : Fin 7 → MulAut ↥Bs} {h : Fin 7 → V} {α : Fin 7 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i)
     {L : Type} [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot (ζ : L) p)

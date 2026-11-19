@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
-theorem two_orbit_of_hyperplane {A B : Subgroup (LGL 2 W)} (hA : IsElemAbelian 2 A) (hBA : B ≤ A)
+theorem two_orbit_of_hyperplane {A B : Subgroup (LGL 2 W)} (hA : IsElemAbelian 2 A) (_hBA : B ≤ A)
     (hidx : (B.subgroupOf A).index = 2) {w : W} (hw : ∀ b ∈ B, b w = w) {a₁ : LGL 2 W}
     (ha₁ : a₁ ∈ A) (hmv : a₁ w ≠ w) : ∀ b ∈ A, b w = w ∨ b w = a₁ w := by
   intro b hb
@@ -66,8 +66,8 @@ theorem exists_two_orbit_of_comm_ne [Finite W] {A X : Subgroup (LGL 2 W)} (hA : 
 
 theorem eq_bot_of_normal_isPGroup_irreducible [Finite W] [Nontrivial W] {K N : Subgroup (LGL 2 W)}
     (hirr : ∀ U : Submodule (ZMod 2) W, (∀ k ∈ K, ∀ u ∈ U, k u ∈ U) → U = ⊥ ∨ U = ⊤)
-    (hNK : N ≤ K) (hn : K ≤ normalizer (N : Set (LGL 2 W))) (hN : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (_hNK : N ≤ K) (hn : K ≤ normalizer (N : Set (LGL 2 W))) (hN : IsPGroup 2 N) : N = ⊥ := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinv : ∀ k ∈ K, ∀ u ∈ fixSub N, k u ∈ fixSub N := fun k hk u hu =>
     map_mem_fixSub_of_mem_normalizer N (hn hk) hu
   obtain ⟨u, -, hu0, hufix⟩ := exists_fixed_of_isPGroup (U := ⊤) hN

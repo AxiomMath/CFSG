@@ -134,7 +134,6 @@ theorem heis_scalar [FiniteDimensional K V] {A B M : Module.End K V} (hA : Funct
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp only [hν] at hij ⊢ <;>
       first
-      | rfl
       | (exfalso
          first
          | exact hwi1 (mul_right_cancel₀ hμ0 (by simpa using hij.symm))

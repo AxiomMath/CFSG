@@ -54,7 +54,7 @@ theorem mem_flagSub {ρ : Γ →* Module.End K V} {Z : Module.End K V} {γ : Γ}
 theorem isPGroup_flagSub [Nontrivial V] {p : ℕ} [Fact p.Prime] [CharP K p]
     {ρ : Γ →* Module.End K V} (hρ : Function.Injective ρ) {Z : Module.End K V}
     (hZ : IsNilpotent Z) : IsPGroup p (flagSub ρ Z) := by
-  haveI : CharP (Module.End K V) p :=
+  have : CharP (Module.End K V) p :=
     charP_of_injective_algebraMap (algebraMap K (Module.End K V)).injective p
   intro ⟨h, hh⟩
   obtain ⟨m, hm⟩ := hZ
@@ -98,7 +98,7 @@ variable (ι K) in
   map_mul' a b := by
     rw [Units.val_mul, ← toLin'_mul_eq]
 
-theorem glRep_injective : Function.Injective (glRep ι K) := fun a b h =>
+theorem glRep_injective : Function.Injective (glRep ι K) := fun _a _b h =>
   Units.ext (Matrix.toLin'.injective h)
 
 theorem isNilpotent_toLin' {N : Matrix ι ι K} (hN : IsNilpotent N) :

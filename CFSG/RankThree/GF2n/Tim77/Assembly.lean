@@ -20,9 +20,11 @@ section CoreAssembly
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G}
 
+omit [Finite G] in
 theorem Sec3Ctx.abar0_ne_bot (h : Sec3Ctx A Abar S₀ B) : Section3.Abar0 A Abar ≠ ⊥ :=
   h.nota.choice.2.1.1
 
+omit [Finite G] in
 theorem Sec3Ctx.abar0_ne (h : Sec3Ctx A Abar S₀ B) : Section3.Abar0 A Abar ≠ Abar :=
   h.nota.choice.2.1.2
 

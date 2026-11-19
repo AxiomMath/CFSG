@@ -38,15 +38,12 @@ private theorem centCheck_pk {C : List (List ℕ)} (hC : ∀ c ∈ C, IsC c) :
     centCheck C = centCK (C.map pk) := by
   unfold centCheck centCK
   refine all_pk fun a ha => ?_
-  beta_reduce
   rw [bne, sq_pk (hC a ha), inM10L_pk (hC a ha), inS6_pk (hC a ha)]
   congr 1
   refine all_pk fun b hb => ?_
-  beta_reduce
   rw [bne, sq_pk (hC b hb), inM10L_pk (hC b hb), inS6_pk (hC b hb)]
   congr 1
   refine any_pk fun p hp => ?_
-  beta_reduce
   unfold conjC
   rw [peq_pk (hC p hp) (hC a ha) (hC b hb) (hC p hp)]
 
@@ -57,7 +54,6 @@ theorem cent_classes : Core.pslLit.all (fun t => Core.cmul t t != Core.cid || t 
   · have ht' := isC_of_psl ht
     have hF : ∀ c ∈ Core.autL.filter (fun x => Core.cmul x t == Core.cmul t x), IsC c :=
       fun c hc => isC_of_autL (List.mem_filter.1 hc).1
-    beta_reduce
     rw [bne, sq_pk ht', beq_pk ht' isC_cid, pk_cid, centCheck_pk hF,
       map_filter_pk (q := fun x => commLaneK 10 x (pk t)) fun x hx => comm_pk (isC_of_autL hx) ht',
       autK_pin]
@@ -71,7 +67,6 @@ theorem out_classes_s6_check : Core.autL.all (fun c => Core.cmul c c != Core.cid
     (anyK (fun y => peqK y c 641083073040 y) pslK ||
       anyK (fun y => peqK y c 641083073040 y) m10tK)) fun c hc => ?_).trans ?_
   · have hc' := isC_of_autL hc
-    beta_reduce
     unfold conjC tFrobL tMulFrobL
     rw [bne, sq_pk hc', inM10L_pk hc', inS6_pk hc', out_any_pk hc' isC_tFrob pk_tFrob]
   · rw [autK_pin]
@@ -84,7 +79,6 @@ theorem out_classes_d_check : Core.autL.all (fun c => Core.cmul c c != Core.cid 
     (anyK (fun y => peqK y c 154977962355 y) pslK ||
       anyK (fun y => peqK y c 154977962355 y) m10tK)) fun c hc => ?_).trans ?_
   · have hc' := isC_of_autL hc
-    beta_reduce
     unfold conjC dL tMulFrobL
     rw [bne, sq_pk hc', inM10L_pk hc', inS6_pk hc', out_any_pk hc' isC_dL pk_dL]
   · rw [autK_pin]

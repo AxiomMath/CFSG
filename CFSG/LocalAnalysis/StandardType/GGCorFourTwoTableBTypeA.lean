@@ -566,7 +566,7 @@ theorem unitriangular_conj_two {K : Type} [Field K] [Finite K] [CharP K 2] (hd :
     have h2 := congrArg (fun M : Matrix (Fin d) (Fin d) K => M ⟨0, by omega⟩ ⟨1, by omega⟩) hc
     simp [CFSG.LinearGroups.coe_transvection] at h2
   · obtain ⟨P2, hP2⟩ := exists_sylow_unitriangular (K := K) 2 (n := d) (by omega)
-    have h2 : IsPGroup 2 (unitriangular d K) := hP2 ▸ P2.isPGroup'
+    have h2 : IsPGroup 2 (unitriangular d K) := hP2 ▸ P2.isPGroup
     exact (h2.map (proj d K)).map _
 
 variable [Finite K] [CharP K 2]

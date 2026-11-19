@@ -75,10 +75,10 @@ theorem tail1812Two_setting (hB : ListBNonabelian) {g : G}
   have hker : ∀ h : ↥H, π h = 1 → (h : G) ∈ kerMV V H := fun h hh =>
     cx.cex.hyp.inf_centralizer_eOmegaZ_le_kerMV ⟨h.2, (hπk h).1 hh⟩
   have hπkersolv : Group.IsSolvable ↥π.ker := by
-    haveI := hKs
+    have := hKs
     have hle : π.ker ≤ (kerMV V H).subgroupOf H := fun h hh =>
       Subgroup.mem_subgroupOf.2 (hker h hh)
-    haveI : Group.IsSolvable ↥((kerMV V H).subgroupOf H) := by
+    have : Group.IsSolvable ↥((kerMV V H).subgroupOf H) := by
       refine Group.isSolvable_of_isSolvable_injective
         (f := (H.subtype.comp (Subgroup.subtype ((kerMV V H).subgroupOf H))).codRestrict
           (kerMV V H) fun q => q.2) ?_

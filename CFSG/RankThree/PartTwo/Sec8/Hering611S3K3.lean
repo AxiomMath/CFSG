@@ -60,7 +60,7 @@ theorem exists_two_lift {K E' : Subgroup G}
     with hPdef
   have hPM : P ≤ preimageSub K W := Subgroup.map_subtype_le _
   have hPK : P ≤ K := hPM.trans (preimageSub_le K W)
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map (preimageSub K W).subtype
+  have hP2 : IsPGroup 2 P := S.isPGroup.map (preimageSub K W).subtype
   refine ⟨P, hPK, hP2, hAS, ?_⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hW2
   have hθ0 : Nat.card (inSubgroup (aschbacherSolvableCore 3) K) ≠ 0 := Nat.card_pos.ne'
@@ -78,8 +78,8 @@ theorem exists_two_lift {K E' : Subgroup G}
   · exact le_of_eq (by rw [card_imageSub_gen hPK hP2 hθ, hPcard])
 
 theorem sub_lift {K E' P : Subgroup G}
-    (hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K))
-    (hE'K : E' ≤ Subgroup.normalizer (K : Set G)) (hPK : P ≤ K) (hP2 : IsPGroup 2 P)
+    (_hθ : ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K))
+    (hE'K : E' ≤ Subgroup.normalizer (K : Set G)) (_hPK : P ≤ K) (_hP2 : IsPGroup 2 P)
     (hE'P : E' ≤ Subgroup.normalizer (P : Set G))
     {V : Subgroup (K ⧸ aschbacherSolvableCore 3 K)} (hVP : V ≤ imageSub K P)
     (hVinv : ∀ (x : G) (hx : x ∈ E'), ∀ w ∈ V, Sec12.thetaBarAct K ⟨x, hE'K hx⟩ w ∈ V) :

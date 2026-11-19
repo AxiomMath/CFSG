@@ -85,7 +85,7 @@ theorem exists_SU_conj_frameDiag {F : Type} [Field F] [Finite F] [CharP F 2] {f 
     ∃ g : SU (unitaryInvolution F 2 f) (m + 1),
       (g : GL (Fin (m + 1)) F) * LinFusion.ggFrameDiag Q e * (g : GL (Fin (m + 1)) F)⁻¹ =
         InnerDiagA.diagGL (e ∘ ρ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let n := m + 1
   have hn2 : 2 ≤ n := by omega
   let σ := unitaryInvolution F 2 f

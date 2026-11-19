@@ -26,11 +26,11 @@ theorem frattini_ne_bot_of_not_isMulCommutative {Q : Type*} [Group Q] [Finite Q]
   apply hnab
   have hcomm : IsMulCommutative (Q ⧸ frattini Q) :=
     (CFSG.GroupTheory.frattini_elementary_quotient (p := 3) hQp).2.1
-  haveI : IsMulCommutative (Q ⧸ frattini Q) := hcomm
+  have : IsMulCommutative (Q ⧸ frattini Q) := hcomm
   refine IsMulCommutative.of_comm (fun a b => ?_)
   have h1 : (((a * b)⁻¹ * (b * a) : Q) : Q ⧸ frattini Q) = 1 := by
     rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
-    simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
+    simp only [QuotientGroup.mk_mul]
     rw [mul_comm' (a : Q ⧸ frattini Q) (b : Q ⧸ frattini Q), inv_mul_cancel]
   have h2 : (a * b)⁻¹ * (b * a) ∈ frattini Q := (QuotientGroup.eq_one_iff _).mp h1
   rw [hbot, Subgroup.mem_bot] at h2
@@ -38,7 +38,7 @@ theorem frattini_ne_bot_of_not_isMulCommutative {Q : Type*} [Group Q] [Finite Q]
 
 theorem isMulCommutative_of_frattini_quotient_card_three {Q : Type*} [Group Q] [Finite Q]
     (hcard : Nat.card (Q ⧸ frattini Q) = 3) : IsMulCommutative Q := by
-  haveI : Nontrivial (Q ⧸ frattini Q) :=
+  have : Nontrivial (Q ⧸ frattini Q) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨y, hy1⟩ := exists_ne (1 : Q ⧸ frattini Q)
   have hzp : Subgroup.zpowers y = ⊤ := zpowers_eq_top_of_prime_card hcard hy1
@@ -53,7 +53,7 @@ theorem isMulCommutative_of_frattini_quotient_card_three {Q : Type*} [Group Q] [
     rw [sup_eq_left.mpr le_sup_right] at h
     exact h.symm
   have htop : Subgroup.zpowers x = ⊤ := frattini_nongenerating hsup
-  haveI : IsCyclic Q := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x, htop⟩
+  have : IsCyclic Q := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x, htop⟩
   infer_instance
 
 theorem card_frattini_quotient_eq_nine {Q : Type*} [Group Q] [Finite Q]
@@ -61,7 +61,7 @@ theorem card_frattini_quotient_eq_nine {Q : Type*} [Group Q] [Finite Q]
     Nat.card (Q ⧸ frattini Q) = 9 := by
   obtain ⟨-, -, -, -, d, hd, -⟩ :=
     CFSG.GroupTheory.frattini_elementary_quotient (p := 3) hQp
-  haveI : Nontrivial Q :=
+  have : Nontrivial Q :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQ27]; norm_num)
   have hΦtop : frattini Q ≠ ⊤ := frattini_ne_top_of_nontrivial
   have hΦbot : frattini Q ≠ ⊥ := frattini_ne_bot_of_not_isMulCommutative hQp hnab
@@ -104,6 +104,7 @@ noncomputable def frattiniQuotientActionGL (Q : Subgroup G) [Q.Normal]
     ((CFSG.LargeEvenClassification.Helpers.frattiniAutAction Q).comp
       (MulAut.conjNormal : G →* MulAut Q))
 
+omit [Finite G] in
 theorem frattiniQuotientActionGL_eq_one_iff_trivial (Q : Subgroup G) [Q.Normal]
     [IsElementaryAbelian 3 (Q ⧸ frattini Q)]
     (b : Module.Basis (Fin 2) (ZMod 3) (Additive (Q ⧸ frattini Q))) {g : G} :
@@ -150,13 +151,14 @@ theorem mem_pCore_of_frattiniQuotientActionGL_eq_one
   change (↑(MulAut.conjNormal g ⟨x, hx⟩ / ⟨x, hx⟩) : G) = g * x * g⁻¹ * x⁻¹
   rw [Subgroup.coe_div, MulAut.conjNormal_apply, div_eq_mul_inv]
 
+omit [Finite G] in
 theorem frattiniQuotientActionGL_eq_one_of_mem (Q : Subgroup G) [Q.Normal]
     [IsElementaryAbelian 3 (Q ⧸ frattini Q)]
     (b : Module.Basis (Fin 2) (ZMod 3) (Additive (Q ⧸ frattini Q)))
     {g : G} (hg : g ∈ Q) : frattiniQuotientActionGL Q b g = 1 := by
   rw [frattiniQuotientActionGL_eq_one_iff_trivial]
   intro y
-  haveI : IsMulCommutative (Q ⧸ frattini Q) := inferInstance
+  have : IsMulCommutative (Q ⧸ frattini Q) := inferInstance
   have hconj : MulAut.conjNormal g y = MulAut.conj (⟨g, hg⟩ : Q) y := by
     apply Subtype.ext
     rw [MulAut.conjNormal_apply, MulAut.conj_apply]
@@ -165,6 +167,7 @@ theorem frattiniQuotientActionGL_eq_one_of_mem (Q : Subgroup G) [Q.Normal]
   rw [QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv,
     mul_comm' ((⟨g, hg⟩ : Q) : Q ⧸ frattini Q) (y : Q ⧸ frattini Q), mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem det_frattiniQuotientActionGL_eq_one_of_mem_oPrimeResidual (Q : Subgroup G) [Q.Normal]
     [IsElementaryAbelian 3 (Q ⧸ frattini Q)]
     (b : Module.Basis (Fin 2) (ZMod 3) (Additive (Q ⧸ frattini Q))) {x : G}
@@ -210,6 +213,7 @@ theorem det_frattiniQuotientActionGL_eq_one_of_mem_oPrimeResidual (Q : Subgroup 
         rw [MonoidHom.mem_ker]
         exact det_frattiniQuotientActionGL_eq_one_of_mem_oPrimeResidual Q b x.2))
 
+omit [Finite G] in
 @[simp]
 theorem oPrimeResidualSL_val (Q : Subgroup G) [Q.Normal]
     [IsElementaryAbelian 3 (Q ⧸ frattini Q)]
@@ -221,6 +225,7 @@ theorem oPrimeResidualSL_val (Q : Subgroup G) [Q.Normal]
   rw [oPrimeResidualSL]
   rfl
 
+omit [Finite G] in
 theorem oPrimeResidualSL_ker (Q : Subgroup G) [Q.Normal]
     [IsElementaryAbelian 3 (Q ⧸ frattini Q)]
     (b : Module.Basis (Fin 2) (ZMod 3) (Additive (Q ⧸ frattini Q)))
@@ -244,10 +249,10 @@ theorem oPrimeResidualSL_ker (Q : Subgroup G) [Q.Normal]
 theorem exists_hom_sl23
     (hQ27 : Nat.card (CFSG.pCore 3 G) = 27) (hnab : ¬ IsMulCommutative (CFSG.pCore 3 G))
     (hcent : Subgroup.centralizer (CFSG.pCore 3 G : Set G) ≤ CFSG.pCore 3 G)
-    (hQX : CFSG.pCore 3 G ≤ CFSG.GH74.GLS.oPrimeResidual 3 G) :
+    (_hQX : CFSG.pCore 3 G ≤ CFSG.GH74.GLS.oPrimeResidual 3 G) :
     ∃ σ : ↥(CFSG.GH74.GLS.oPrimeResidual 3 G) →* Matrix.SpecialLinearGroup (Fin 2) (ZMod 3),
       σ.ker = (CFSG.pCore 3 G).subgroupOf (CFSG.GH74.GLS.oPrimeResidual 3 G) := by
-  haveI : IsElementaryAbelian 3
+  have : IsElementaryAbelian 3
       (CFSG.pCore 3 G ⧸ frattini (CFSG.pCore 3 G)) :=
     (CFSG.GroupTheory.frattini_elementary_quotient (p := 3)
       (CFSG.pCore_isPGroup (G := G) (p := 3))).2.2.2.1

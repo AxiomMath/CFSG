@@ -13,6 +13,7 @@ section Replacement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_sup_of_commute {X Y : Subgroup G} (hX : IsElemAbelian 2 X)
     (hY : IsElemAbelian 2 Y) (hc : ∀ x ∈ X, ∀ y ∈ Y, x * y = y * x) : IsElemAbelian 2 (X ⊔ Y) :=
   CFSG.Open.IsElemAbelian.sup_of_commute hX hY hc

@@ -350,7 +350,7 @@ private theorem odd_normal_complement_isCyclic
     by_cases hq2 : q = 2
     · subst q
       have hRcard : Nat.card R = 1 := by
-        rcases R.isPGroup'.card_eq_or_dvd with h | hdvd
+        rcases R.isPGroup.card_eq_or_dvd with h | hdvd
         · exact h
         · exfalso
           exact (Nat.prime_two.coprime_iff_not_dvd.mp hNcop)
@@ -359,7 +359,7 @@ private theorem odd_normal_complement_isCyclic
       exact isCyclic_of_subsingleton
     · let RA : Subgroup A := (R : Subgroup N).map N.subtype
       have hRAp : IsPGroup q RA :=
-        R.isPGroup'.map N.subtype
+        R.isPGroup.map N.subtype
       obtain ⟨Q, hRA_le_Q⟩ := hRAp.exists_le_sylow
       have hQcyclic : IsCyclic Q := hodd q hq2 Q
       have hRAcyclic : IsCyclic RA := Subgroup.isCyclic_of_le hRA_le_Q
@@ -576,7 +576,7 @@ private theorem claim5_noncyclic_sylow_two_exponent
         (unitEquiv.symm.injective.comp
           (R : Subgroup Fˣ).subtype_injective)
   have hRangeP : IsPGroup 2 rToQ.range :=
-    R.isPGroup'.of_surjective rToQ.rangeRestrict
+    R.isPGroup.of_surjective rToQ.rangeRestrict
       rToQ.rangeRestrict_surjective
   obtain ⟨T, hRange_le⟩ := hRangeP.exists_le_sylow
   have hT : T = P2 := Subsingleton.elim T P2

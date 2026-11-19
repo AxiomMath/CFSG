@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma q13e_kap_conj_eq {t g b p0 : G} (ht : t * t = 1)
     (hg' : g⁻¹ * t * g = t * p0) (hpt : p0 * t = t * p0⁻¹)
     (hbt : b * t = t * ⁅t, b⁆ * b) (hcomm : p0⁻¹ * ⁅t, b⁆ = ⁅t, b⁆ * p0⁻¹) :
@@ -93,6 +94,7 @@ theorem q13e_kap_conj (h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x�
   rw [hprod]
   exact q13d_N_normal_L h g hg _ hn0N
 
+omit [Finite G] in
 theorem q13e_kap_conj_t {g : G} (hg : g * t = t * g) (b : G) :
     ⁅t, g * b * g⁻¹⁆ = g * ⁅t, b⁆ * g⁻¹ := by
   have hgt : g * t * g⁻¹ = t := by

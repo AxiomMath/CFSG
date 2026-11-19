@@ -64,7 +64,7 @@ theorem permT {i : ℕ} (hi : i < 729) : permB 513 10 (QE.T i) = true := permB_o
 
 theorem memT {i : ℕ} (hi : i < 729) :
     permOfArr 513 (unpack 513 10 (QE.T i)) ∈ Subgroup.closure (permsA 513 qGens) :=
-  mem_of_pt hw hps enumQ.1 enumQ.2.1 enumQ.2.2 (iN hi)
+  mem_of_pt hps enumQ.1 enumQ.2.1 enumQ.2.2 (iN hi)
 
 theorem commAt_eq {a b : ℕ} (ha : a < 729) (hb : b < 729) :
     commAt (qCert ()).pts[a]! (qCert ()).pts[b]! = comK 513 10 [0, 167, 270] (QE.T a) (QE.T b) := by

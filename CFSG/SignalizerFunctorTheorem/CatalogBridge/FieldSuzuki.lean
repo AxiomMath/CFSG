@@ -113,7 +113,7 @@ theorem centralizer_signalizerFixedSubgroup_szFieldAut_eq_bot
     rw [← hP₀, Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.1 hd _ hzC).symm
   have hDp : IsPGroup 2 (Subgroup.centralizer (C : Set (suzukiGroup a K))) :=
-    P₀.isPGroup'.to_le hDP
+    P₀.isPGroup.to_le hDP
   by_contra hne
   have h2dvd : 2 ∣ Nat.card (Subgroup.centralizer (C : Set (suzukiGroup a K))) :=
     hDp.card_eq_or_dvd.resolve_left fun h => hne (Subgroup.card_eq_one.1 h)
@@ -124,7 +124,7 @@ theorem centralizer_signalizerFixedSubgroup_szFieldAut_eq_bot
     intro c hc
     rw [← hP₁, Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.1 d.2 c hc
-  have hCp : IsPGroup 2 C := P₁.isPGroup'.to_le hCP
+  have hCp : IsPGroup 2 C := P₁.isPGroup.to_le hCP
   have := hCp.isNilpotent
   exact hns inferInstance
 

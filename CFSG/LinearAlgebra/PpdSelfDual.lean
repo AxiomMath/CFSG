@@ -68,11 +68,11 @@ theorem bilin_apply_eq_pow_of_commute {X : Type*} [AddCommGroup X] [Module (ZMod
     {B : Module.End (ZMod 2) X} (hB : Commute (a : Module.End (ZMod 2) X) B) (x y : X) :
     β (B x) y = β x ((B ^ 2 ^ (2 * f)) y) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hf : 1 ≤ f := by
     by_contra hf
     have hX1 : Nat.card X = 1 := by simpa [show f = 0 by omega] using hX
-    haveI : Subsingleton X := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hX1)
+    have : Subsingleton X := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hX1)
     exact ha1 (LinearEquiv.ext fun v => Subsingleton.elim _ _)
   have hfin : Module.finrank (ZMod 2) X = 4 * f := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := X)
@@ -87,7 +87,7 @@ theorem bilin_apply_eq_pow_of_commute {X : Type*} [AddCommGroup X] [Module (ZMod
       orderOf_dvd_of_pow_eq_one ((CFSG.Timmesfeld.Bang.dvd_two_pow_sub_one_iff k).1 hdvd)
     rw [hord] at hdiv
     exact absurd (Nat.le_of_dvd hk hdiv) (by omega)
-  haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by
+  have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp (by
     rw [hX]; exact Nat.one_lt_two_pow (by omega))
   have hirr : ∀ W : Submodule (ZMod 2) X,
       W ≤ W.comap (a : Module.End (ZMod 2) X) → W = ⊥ ∨ W = ⊤ := fun W hW =>
@@ -130,11 +130,11 @@ theorem eq_one_of_ppd_selfDual {X : Type*} [AddCommGroup X] [Module (ZMod 2) X] 
     (hβa : ∀ x y, β (a x) (a y) = β x y) (hβb : ∀ x y, β (b x) (b y) = β x y) :
     b = 1 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hf : 1 ≤ f := by
     by_contra hf
     have hX1 : Nat.card X = 1 := by simpa [show f = 0 by omega] using hX
-    haveI : Subsingleton X := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hX1)
+    have : Subsingleton X := Finite.card_le_one_iff_subsingleton.mp (le_of_eq hX1)
     exact ha1 (LinearEquiv.ext fun v => Subsingleton.elim _ _)
   let N : ℕ := 2 ^ (2 * f)
   have hB : Commute (a : Module.End (ZMod 2) X) (b : Module.End (ZMod 2) X) := by

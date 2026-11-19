@@ -127,7 +127,7 @@ theorem footeNotConjAAstar_of_two (h : FooteLemma3Two) : FooteNotConjAAstar := b
     have hcard := D.card_A
     rw [← h', Nat.card_zpowers, D.a_order] at hcard
     norm_num at hcard
-  obtain ⟨a₁, ha₁, ha₁Z⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a₁, ha₁, ha₁Z⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have ha₁1 : a₁ ≠ 1 := fun h' => ha₁Z (h' ▸ one_mem _)
   have ha₁a : a₁ ≠ D.a := fun h' => ha₁Z (h' ▸ mem_zpowers _)
   have hy : g * a₁ * g⁻¹ ∈ D.Astar := by
@@ -138,7 +138,7 @@ theorem footeNotConjAAstar_of_two (h : FooteLemma3Two) : FooteNotConjAAstar := b
   have hya : g * a₁ * g⁻¹ ≠ D.a := fun h' => by
     rw [← hga] at h'
     exact ha₁a (mul_left_cancel (mul_right_cancel h'))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy2 : orderOf (g * a₁ * g⁻¹) = 2 := by
     refine orderOf_eq_prime ?_ hy1
     calc (g * a₁ * g⁻¹) ^ 2 = g * (a₁ * a₁) * g⁻¹ := by rw [sq]; group

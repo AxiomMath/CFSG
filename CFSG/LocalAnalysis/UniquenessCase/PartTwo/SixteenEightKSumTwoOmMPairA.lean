@@ -199,12 +199,14 @@ theorem s16k_pair_omega_two [CharP K 2] {Q : (ι → K) → K} {M : Matrix ι ι
         _ = a₂ := hpow
     exact hne hcontra
 
+omit [DecidableEq ι] in
 private theorem s16k_Q_add_smul {Q : (ι → K) → K} {M : Matrix ι ι K}
     (h : IsQuadWith Q M) {a w : ι → K} (hQw : Q w = 0) (haw : a ⬝ᵥ (M *ᵥ w) = 0) (μ : K) :
     Q (a + μ • w) = Q a := by
   rw [h.add, h.smul, hQw, Matrix.mulVec_smul, dotProduct_smul, haw, smul_eq_mul]
   ring
 
+omit [DecidableEq ι] in
 private theorem s16k_dot_add_smul_eq {M : Matrix ι ι K} {a b w : ι → K}
     (hww : w ⬝ᵥ (M *ᵥ w) = 0) (haw : a ⬝ᵥ (M *ᵥ w) = 0) (hwb : w ⬝ᵥ (M *ᵥ b) = 0)
     (μ μ' : K) : (a + μ • w) ⬝ᵥ (M *ᵥ (b + μ' • w)) = a ⬝ᵥ (M *ᵥ b) := by
@@ -212,6 +214,7 @@ private theorem s16k_dot_add_smul_eq {M : Matrix ι ι K} {a b w : ι → K}
     dotProduct_smul, smul_dotProduct, smul_eq_mul, hww, haw, hwb]
   ring
 
+omit [DecidableEq ι] in
 private theorem s16k_v_add_smul [CharP K 2] {M : Matrix ι ι K} {a w v : ι → K}
     (hvw : v ⬝ᵥ (M *ᵥ w) ≠ 0) :
     v ⬝ᵥ (M *ᵥ (a + (v ⬝ᵥ (M *ᵥ a) / (v ⬝ᵥ (M *ᵥ w))) • w)) = 0 := by
@@ -221,12 +224,14 @@ private theorem s16k_v_add_smul [CharP K 2] {M : Matrix ι ι K} {a w v : ι →
     smul_eq_mul]
   linear_combination (v ⬝ᵥ (M *ᵥ a)) * two_eq_zero_K (K := K) + hμ
 
+omit [DecidableEq ι] in
 private theorem s16k_dot_add_smul_left {M : Matrix ι ι K} {u a w : ι → K}
     (hua : u ⬝ᵥ (M *ᵥ a) = 0) (huw : u ⬝ᵥ (M *ᵥ w) = 0) (μ : K) :
     u ⬝ᵥ (M *ᵥ (a + μ • w)) = 0 := by
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, dotProduct_smul,
     smul_eq_mul, hua, huw, mul_zero, add_zero]
 
+omit [DecidableEq ι] in
 theorem s16k_pairs_of_singular_two [CharP K 2] {Q : (ι → K) → K} {M : Matrix ι ι K}
     (h : IsQuadWith Q M) {a₁ a₁' a₂ a₂' w v u : ι → K}
     (h1 : Q a₁ = 1) (h1' : Q a₁' = 1) (h11 : a₁ ⬝ᵥ (M *ᵥ a₁') = 1)
@@ -293,7 +298,7 @@ theorem s16k_pair_omega_two_subgroup [CharP K 2] [Finite K] {Q : (ι → K) → 
   obtain ⟨g₁, g₂, hg13, hg23, hgc, hgn, hg1x, hg2x, hg1y, hg2y⟩ :=
     s16k_pair_omega_two h h1 h1' h11 h2 h2' h22 h12 h12' h1'2 h1'2' hx1 hx1' hx2 hx2'
       hy1 hy1' hy2 hy2'
-  haveI : Finite ↥(CFSG.Open.StatedOmega Q) := by infer_instance
+  have : Finite ↥(CFSG.Open.StatedOmega Q) := by infer_instance
   let B : Subgroup ↥(CFSG.Open.StatedOmega Q) := Subgroup.closure ({g₁, g₂} : Set _)
   have hpg := s16c13bcA_pair_group Nat.prime_three hg13 hg23 hgc hgn
   refine ⟨B, hpg.1, hpg.2, ?_⟩

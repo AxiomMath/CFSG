@@ -48,9 +48,9 @@ theorem xOf_le_pResidual {G : Type} [Group G] [Finite G]
     {n : ℕ} (hn : 3 ≤ n) (e : ↥(StatedSp n (GaloisField 2 1)) ≃* XbarZ V H) :
     xOf V H ≤ pResidual 2 G := by
   have hperf : ⁅xOf V H, xOf V H⁆ = xOf V H := xOf_commutator_eq_top hH hn e
-  haveI : Group.IsPerfect ↥(xOf V H) := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥(xOf V H) := Subgroup.isPerfect_iff.mpr hperf
   set G₀ : Subgroup G := pResidual 2 G with hG₀
-  haveI : G₀.Normal := CFSG.Quasithin.G6.pResidual_normal_aux 2
+  have : G₀.Normal := CFSG.Quasithin.G6.pResidual_normal_aux 2
   have hquot2 : IsPGroup 2 (G ⧸ G₀) := by
     intro z
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective z
@@ -70,8 +70,8 @@ theorem xOf_le_pResidual {G : Type} [Group G] [Finite G]
     IsPGroup.to_le (G := G ⧸ G₀) (H := (xOf V H).map π) (K := ⊤) hTop le_top
   have hbot : (xOf V H).map π = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥((xOf V H).map π) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect ↥((xOf V H).map π) := hperfImg
+    have : Nontrivial ↥((xOf V H).map π) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have : Group.IsPerfect ↥((xOf V H).map π) := hperfImg
     exact (Group.IsPerfect.not_isNilpotent ↥((xOf V H).map π)) h2Img.isNilpotent
   have hxmem : π x ∈ (xOf V H).map π := Subgroup.mem_map_of_mem π hx
   rw [hbot, Subgroup.mem_bot] at hxmem
@@ -109,7 +109,7 @@ theorem inf_pResidual_eq_P {G : Type} [Group G] [Finite G]
   have hQnot : ¬ Q ≤ pResidual 2 G := by
     intro hQle
     obtain ⟨N, hN, hq, hQN⟩ := hOut
-    haveI := hN
+    have := hN
     have hG0leN : pResidual 2 G ≤ N := by
       refine pResidual_le (fun x => ?_)
       obtain ⟨k, hk⟩ := hq (QuotientGroup.mk' N x)

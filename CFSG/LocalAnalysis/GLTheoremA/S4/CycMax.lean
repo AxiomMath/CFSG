@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq' (a : G) :
     Subgroup.centralizer (Subgroup.zpowers a : Set G) = Subgroup.centralizer ({a} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]

@@ -65,14 +65,14 @@ private theorem card_range_torusE (K : Type) [Field K] [CharP K 2] :
   let e := MonoidHom.ofInjective (CFSG.StandardType.TableBF4Two.torusE_injective (K := K))
   rw [← Nat.card_congr e.toEquiv]
   rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 private theorem orderOf_cardK_dvd_two {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
     (hp : p.Prime) (hd : p ∣ Nat.card K ^ 2 - 1) :
     orderOf ((Nat.card K : ℕ) : ZMod p) ∣ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Nonempty K := ⟨0⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Nonempty K := ⟨0⟩
   have hqpos : 0 < Nat.card K := Nat.card_pos
   have h1le : 1 ≤ Nat.card K ^ 2 := Nat.one_le_pow 2 (Nat.card K) hqpos
   have h0 : ((Nat.card K ^ 2 - 1 : ℕ) : ZMod p) = 0 := by
@@ -89,8 +89,8 @@ private theorem orderOf_cardK_dvd_two {K : Type} [Field K] [Finite K] [CharP K 2
 theorem card_le_pow_four {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hd : p ∣ Nat.card K ^ 2 - 1) {E : Subgroup (adjointGroup .F4 K)}
     (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hfcard⟩ := FiniteField.card (K := K) 2
   let K' := GaloisField 2 (2 * (f : ℕ))
   have hK'ne : 2 * (f : ℕ) ≠ 0 := by

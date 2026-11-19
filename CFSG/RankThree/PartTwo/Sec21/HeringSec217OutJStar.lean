@@ -23,12 +23,12 @@ theorem isSolvable_of_eq_sup_theta {X : Type*} [Group X] [Finite X] {J P : Subgr
   have hPJ : P ≤ J := hJ ▸ le_sup_left
   have hJnT : J ≤ normalizer (T : Set X) := fun x hx =>
     Sec6.normalizer_le_normalizer_theta J (Subgroup.le_normalizer hx)
-  haveI hNn : (T.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTJ).2 hJnT
-  haveI hTs : Group.IsSolvable ↥T := isSolvable_inSubgroup_theta J
-  haveI hNs : Group.IsSolvable ↥(T.subgroupOf J) :=
+  have hNn : (T.subgroupOf J).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTJ).2 hJnT
+  have hTs : Group.IsSolvable ↥T := isSolvable_inSubgroup_theta J
+  have hNs : Group.IsSolvable ↥(T.subgroupOf J) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hTJ).toMonoidHom)
       (MulEquiv.injective _)
-  haveI hPs : Group.IsSolvable ↥(P.subgroupOf J) :=
+  have hPs : Group.IsSolvable ↥(P.subgroupOf J) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hPJ).toMonoidHom)
       (MulEquiv.injective _)
   set φ : ↥(P.subgroupOf J) →* ↥J ⧸ T.subgroupOf J :=
@@ -51,7 +51,7 @@ theorem isSolvable_of_eq_sup_theta {X : Type*} [Group X] [Finite X] {J P : Subgr
     have : (QuotientGroup.mk (⟨t, htJ⟩ : ↥J) : ↥J ⧸ T.subgroupOf J) = 1 :=
       (QuotientGroup.eq_one_iff _).2 (Subgroup.mem_subgroupOf.2 ht)
     rw [this, one_mul]
-  haveI hQs : Group.IsSolvable (↥J ⧸ T.subgroupOf J) :=
+  have hQs : Group.IsSolvable (↥J ⧸ T.subgroupOf J) :=
     Group.isSolvable_of_surjective (f := φ) hφsurj
   exact Group.isSolvable_of_subgroup_quotient (T.subgroupOf J)
 
@@ -145,7 +145,7 @@ theorem CoverOut.mem_lZeroStarAt_component (h45 : Sec4.Item4_5) (h : CoverOut A 
       exact (isPerfect_iff_commutator_eq _).1 hperf'
     have hPns : ¬ Group.IsSolvable ↥P := by
       intro hPs
-      haveI : Group.IsSolvable ↥J := isSolvable_of_eq_sup_theta hJeq hPs
+      have : Group.IsSolvable ↥J := isSolvable_of_eq_sup_theta hJeq hPs
       exact hIs (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIJ)
         (Subgroup.inclusion_injective hIJ))
     have hJK' : J = K := eq_of_perfect_le_inf_thetaComponentsAt hJ hKd (le_inf hPJ hPK) hPperf hPns

@@ -44,8 +44,8 @@ attribute [instance] TensorModel.instFieldK TensorModel.instFiniteK TensorModel.
 
 private theorem charP_two_of_natCard_eq_two_pow {K : Type} [Field K] [Finite K] {k : ℕ}
     (h : Nat.card K = 2 ^ k) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := Fintype.ofFinite K
+  have := ringChar.charP K
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 2 ^ k := by
     rw [← h, Nat.card_eq_fintype_card, hn]
@@ -59,7 +59,7 @@ theorem exists_tensorModel (hc : Ctx M Q Z B) {V₁ V₂ : Subgroup G}
   obtain ⟨n, γ, M₀, hn, gm⟩ := stroth_globalModelDataGF hc.hyp
   obtain ⟨F, hF, hFfin, hFcard, φ, hrange, hker, hZV₁, hV₁Q, hZV₂, hV₂Q, hinf, hsup,
     hact₁, hact₂, -, -⟩ := hS
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow (hFcard.trans hn)
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow (hFcard.trans hn)
   obtain ⟨ρH, hρπ, -, hρQ⟩ := exists_actionHom_H0 hc.hyp gm
   have hSH : Lgen M (LB M Q B) ≤ H0 M Z := Lgen_le_H0 hc
   let ρ := ρH.comp (Subgroup.inclusion hSH)
@@ -90,6 +90,7 @@ theorem exists_tensorModel (hc : Ctx M Q Z B) {V₁ V₂ : Subgroup G}
     qf := hqf
     act := fun s x hx => by rw [hρπ' s x hx]; exact hact s _ }⟩
 
+omit [Finite G] in
 private theorem Q_le_Lgen_LB : Q ≤ Lgen M (LB M Q B) :=
   (le_sup_left : Q ≤ Q ⊔ (QB B ⊓ M)).trans (le_Lgen_self M (LB M Q B))
 
@@ -102,17 +103,21 @@ variable (TM : TensorModel M Q Z B)
 
 variable {TM}
 
+omit [Finite G] in
 theorem mem_plane {u : Fin 2 → TM.F} {x : G} :
     x ∈ TM.plane u ↔ x ∈ Q ∧ ∃ n : Fin 2 → TM.F,
       TM.Φ (TM.M₀.π x) = Matrix.vecMulVec n u := Iff.rfl
 
+omit [Finite G] in
 theorem mem_plane_iff {u : Fin 2 → TM.F} {x : G} :
     x ∈ TM.plane u ↔ x ∈ Q ∧ TM.Φ (TM.M₀.π x) ∈ planeAdd u := Iff.rfl
 
+omit [Finite G] in
 theorem img_plane {u : Fin 2 → TM.F} {e : TM.M₀.E} :
     e ∈ TM.M₀.img (TM.plane u) ↔ TM.Φ e ∈ planeAdd u :=
   Tim79.QuadModel.mem_img_lift
 
+omit [Finite G] in
 theorem Z_le_plane (u : Fin 2 → TM.F) : Z ≤ TM.plane u := by
   intro z hz
   have hzQ : z ∈ Q := TM.gm.reg.V_le hz
@@ -120,12 +125,15 @@ theorem Z_le_plane (u : Fin 2 → TM.F) : Z ≤ TM.plane u := by
   rw [(TM.M₀.π_ker z hzQ).mpr hz, map_zero]
   exact (planeAdd u).zero_mem
 
+omit [Finite G] in
 theorem plane_le_Q (u : Fin 2 → TM.F) : TM.plane u ≤ Q := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem plane_smul {u : Fin 2 → TM.F} {c : TM.F} (hc : c ≠ 0) : TM.plane (c • u) = TM.plane u := by
   unfold plane
   rw [planeAdd_smul hc]
 
+omit [Finite G] in
 theorem card_plane {u : Fin 2 → TM.F} (hu : u ≠ 0) : Nat.card (TM.plane u) = Nat.card Z ^ 3 := by
   have h1 := TM.M₀.card_eq (plane_le_Q u) (Z_le_plane u)
   have h2 : Nat.card (TM.M₀.img (TM.plane u)) = Nat.card (planeAdd u) :=
@@ -133,6 +141,7 @@ theorem card_plane {u : Fin 2 → TM.F} (hu : u ≠ 0) : Nat.card (TM.plane u) =
   rw [h1, h2, card_planeAdd hu, TM.card_F]
   ring
 
+omit [Finite G] in
 theorem plane_inf_plane {u u' : Fin 2 → TM.F} (hu : u ≠ 0) (hu' : u' ≠ 0)
     (hne : ∀ c : TM.F, u' ≠ c • u) : TM.plane u ⊓ TM.plane u' = Z := by
   refine le_antisymm (fun x hx => ?_) (le_inf (Z_le_plane u) (Z_le_plane u'))
@@ -142,6 +151,7 @@ theorem plane_inf_plane {u u' : Fin 2 → TM.F} (hu : u ≠ 0) (hu' : u' ≠ 0)
   rw [planeAdd_inf hu hu' hne, AddSubgroup.mem_bot] at h0
   exact (TM.M₀.π_ker x hxQ).mp (TM.Φ.map_eq_zero_iff.mp h0)
 
+omit [Finite G] in
 theorem plane_sup_plane {u u' : Fin 2 → TM.F} (hu : u ≠ 0) (hu' : u' ≠ 0)
     (hne : ∀ c : TM.F, u' ≠ c • u) : TM.plane u ⊔ TM.plane u' = Q := by
   refine le_antisymm (sup_le (plane_le_Q u) (plane_le_Q u')) (fun x hxQ => ?_)
@@ -164,6 +174,7 @@ theorem plane_sup_plane {u u' : Fin 2 → TM.F} (hu : u ≠ 0) (hu' : u' ≠ 0)
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mem_sup_left haP)
     (Subgroup.mem_sup_right hbP)) (Subgroup.mem_sup_left (Z_le_plane u hz))
 
+omit [Finite G] in
 theorem plane_comm {u : Fin 2 → TM.F} {x y : G} (hx : x ∈ TM.plane u) (hy : y ∈ TM.plane u) :
     x * y = y * x := by
   obtain ⟨hxQ, hx'⟩ := mem_plane_iff.mp hx
@@ -175,6 +186,7 @@ theorem plane_comm {u : Fin 2 → TM.F} {x y : G} (hx : x ∈ TM.plane u) (hy : 
     linear_combination -h1
   exact TM.ε.injective (h3.trans (map_zero TM.ε).symm)
 
+omit [Finite G] in
 theorem conj_mem_Q (TM : TensorModel M Q Z B) {s x : G} (hs : s ∈ Lgen M (LB M Q B))
     (hx : x ∈ Q) : s * x * s⁻¹ ∈ Q := by
   have hk : (⟨x, Q_le_Lgen_LB hx⟩ : ↥(Lgen M (LB M Q B))) ∈ TM.φ.ker := by
@@ -184,6 +196,7 @@ theorem conj_mem_Q (TM : TensorModel M Q Z B) {s x : G} (hs : s ∈ Lgen M (LB M
   rw [TM.φ_ker] at h
   exact h
 
+omit [Finite G] in
 theorem act_of_mem {s : G} (hs : s ∈ Lgen M (LB M Q B)) {x : G} (hx : x ∈ Q) :
     TM.Φ (TM.M₀.π (s * x * s⁻¹)) =
       (TM.φ ⟨s, hs⟩ : Matrix (Fin 2) (Fin 2) TM.F) * TM.Φ (TM.M₀.π x) :=
@@ -293,7 +306,7 @@ theorem exists_plane_of_ctx {C : Subgroup G} (hC : Ctx M Q Z C) :
   one_mem' := by
     refine ⟨1, M.one_mem, Subgroup.one_mem _, fun s _ => ?_, fun x _ => ?_⟩
     · rw [commutatorElement_def]
-      simpa using Q.one_mem
+      simp
     · simp
   inv_mem' := by
     rintro H ⟨m, hm, hN, hS, hH⟩
@@ -310,6 +323,7 @@ theorem exists_plane_of_ctx {C : Subgroup G} (hC : Ctx M Q Z C) :
       rw [show m * (m⁻¹ * x * m⁻¹⁻¹) * m⁻¹ = x by group] at h
       rw [h, Matrix.mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.mul_one]
 
+omit [Finite G] in
 theorem mem_centralizer_of_right_mul (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M)
     {H : Matrix (Fin 2) (Fin 2) TM.F} (hdet : H.det = 1)
     (hmH : ∀ x ∈ Q, TM.Φ (TM.M₀.π (m * x * m⁻¹)) = TM.Φ (TM.M₀.π x) * H) :
@@ -494,7 +508,7 @@ theorem card_Gamma_inf_SL (hc : Ctx M Q Z B)
     Nat.card ↥(TM.Gamma ⊓ StatedSL 2 TM.F) ∣ 2 * (Nat.card TM.F - 1) := by
   obtain ⟨C₀, hQC, hCH, hC, hdvd⟩ := hCD
   have hcardC := card_eq_mul_card_Gamma_inf_SL (TM := TM) hc hQC hCH hC
-  haveI : Nonempty ↥Q := ⟨1⟩
+  have : Nonempty ↥Q := ⟨1⟩
   rw [hcardC, ← TM.card_F] at hdvd
   exact Nat.dvd_of_mul_dvd_mul_left Nat.card_pos hdvd
 

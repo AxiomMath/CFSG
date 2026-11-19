@@ -112,7 +112,7 @@ theorem exists_root : ∃ k ∈ escapingSylowImage S z,
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hkS, hkC, hk1, hkz⟩ := hs.outer
   have hP : IsPGroup 2 (escapingSylowImage S z) := by
-    have h := (sylowBarSylow hs.central).isPGroup'
+    have h := (sylowBarSylow hs.central).isPGroup
     rwa [coe_sylowBarSylow, sylowBar_range] at h
   obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp hP ⟨k, hkS⟩
   rw [Subgroup.orderOf_mk] at hn

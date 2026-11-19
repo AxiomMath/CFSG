@@ -28,15 +28,15 @@ theorem fpf_layer (A : ↥(StatedSp 2 F8)) (hA3 : A ^ 3 = 1) (hP : Pm (mat A) = 
   rw [natDegree_h0] at hdeg'
   have hd : d = 1 := by omega
   subst hd
-  haveI : Fact (Irreducible (h0 F8)) := ⟨irreducible_h0_F8⟩
+  have : Fact (Irreducible (h0 F8)) := ⟨irreducible_h0_F8⟩
   obtain ⟨eSU⟩ := nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hsymm hsep
     (finrank_primaryComponent_h0 A hP)
-  haveI := hE.finite
+  have := hE.finite
   have hcardfix : Nat.card hE.fixedField = Nat.card F8 := by
     rw [hE.card_fixedField]
     norm_num [card_F8]
-  haveI : Fintype ↥hE.fixedField := Fintype.ofFinite _
-  haveI : Fintype F8 := Fintype.ofFinite _
+  have : Fintype ↥hE.fixedField := Fintype.ofFinite _
+  have : Fintype F8 := Fintype.ofFinite _
   let ψ : ↥hE.fixedField ≃+* F8 := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcardfix])
   let eSL : ↥(sesqSpecialUnitaryGroup Hf) ≃* ↥(StatedSL 2 F8) :=

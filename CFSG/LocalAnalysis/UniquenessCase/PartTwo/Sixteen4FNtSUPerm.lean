@@ -15,7 +15,7 @@ theorem s16nt_su_perm_mem {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
     {n : ℕ} (π : Equiv.Perm (Fin n)) :
     ∃ p ∈ s16ntSuMono K n, ∀ v : Fin n → K, p • v = v ∘ π := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let P : Matrix (Fin n) (Fin n) K := π.permMatrix K
   have hPmulVec : ∀ v : Fin n → K, P *ᵥ v = v ∘ π :=
     fun v => Matrix.permMatrix_mulVec (σ := π) (v := v)
@@ -83,7 +83,7 @@ theorem s16nt_su_exists_s {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
       ∀ (g : SUid (s16ntSuSigma K) n) (l : K),
         g • s16ntSuV0 n K = l • s16ntSuV0 n K → g * s = s * g := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hσ : ∀ c : K, s16ntSuSigma K (s16ntSuSigma K c) = c :=
     (isUnitaryInvolution_unitaryInvolution (K := K) (p := 2) (f := 1)
       (by rw [hK]; norm_num)).invol

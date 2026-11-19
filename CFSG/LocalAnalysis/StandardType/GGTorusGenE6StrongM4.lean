@@ -62,7 +62,7 @@ theorem e6ThreeStrong_holds_T
   have hL : IsLang Fr g := ⟨hg, hgn⟩
   obtain ⟨D, hD⟩ := exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D.Good :=
-    { center := tFrame_center hn hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       shape := tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       torus := tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD

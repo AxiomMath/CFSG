@@ -36,8 +36,8 @@ theorem false_of_ne_char_of_forall_pElement {c : Counterexample4 G} (h : Case811
     (hpA : ∀ g ∈ c.S.M ⊓ Subgroup.normalizer (h.A : Set G), IsPGroup p (Subgroup.zpowers g) →
       g ∈ Subgroup.centralizer (h.A : Set G)) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   have hp5 : 5 ≤ p := c.five_le_of_mem_sigma hp
   have hp2 : p ≠ 2 := by omega
   have hM4 : 4 ≤ CFSG.Open.pRank p c.S.M := c.four_le_pRank_of_mem_sigma hp
@@ -117,7 +117,7 @@ theorem false_of_ne_char_of_forall_pElement {c : Counterexample4 G} (h : Case811
           have hpd : p ∣ Nat.card
               (c.L ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G) := by
             have hz : p ∣ Nat.card (Subgroup.zpowers y) := by
-              simpa [Nat.card_zpowers, hyp] using dvd_rfl
+              simp [Nat.card_zpowers, hyp]
             exact hz.trans (Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hmem))
           exact hnotdvdA (hCA_dvd.mp hpd)
         refine h.false_of_pElement_not_mem_L hp h76 hyM hyA hyp hyL ?_
@@ -150,7 +150,7 @@ theorem false_of_ne_char_of_forall_pElement {c : Counterexample4 G} (h : Case811
           have hpd : p ∣ Nat.card
               (c.L ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G) := by
             have hz : p ∣ Nat.card (Subgroup.zpowers y) := by
-              simpa [Nat.card_zpowers, hyp] using dvd_rfl
+              simp [Nat.card_zpowers, hyp]
             exact hz.trans (Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hmem))
           exact hnotdvdA (hCA_dvd.mp hpd)
         refine h.false_of_pElement_not_mem_L hp h76 hyM hyA hyp hyL ?_
@@ -167,7 +167,7 @@ theorem false_of_ne_char_of_forall_pElement {c : Counterexample4 G} (h : Case811
       obtain ⟨y, hy, hyp, hu⟩ := hKplus.2.2.2 rfl
       have hpdAbar : p ∣ Nat.card (Subgroup.centralizer (h.Abar : Set c.Lbar)) := by
         have hz : p ∣ Nat.card (Subgroup.zpowers y) := by
-          simpa [Nat.card_zpowers, hyp] using dvd_rfl
+          simp [Nat.card_zpowers, hyp]
         exact hz.trans (Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr hy))
       have hpdL : p ∣ Nat.card
           (c.L ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G) := hCA_dvd.mpr hpdAbar

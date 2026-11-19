@@ -29,7 +29,7 @@ theorem join_ofNat {p : Nat} (hp : p < 2 ^ 256) :
     have a2 : ¬ 128 ≤ i := by omega
     have a3 : ¬ 192 ≤ i := by omega
     have a4 : i < 256 := by omega
-    simp [h1, a1, a2, a3, a4]
+    simp [h1, a1, a2, a3]
   · have a1 : 64 ≤ i := by omega
     by_cases h2 : i < 128
     · have e : 64 + (i - 64) = i := by omega
@@ -37,7 +37,7 @@ theorem join_ofNat {p : Nat} (hp : p < 2 ^ 256) :
       have a3 : ¬ 192 ≤ i := by omega
       have a4 : i - 64 < 64 := by omega
       have a5 : i < 256 := by omega
-      simp [h1, a1, a2, a3, a4, a5, e]
+      simp [h1, a1, a2, a3, a4, e]
     · have a2 : 128 ≤ i := by omega
       have b1 : ¬ i - 64 < 64 := by omega
       by_cases h3 : i < 192
@@ -45,13 +45,13 @@ theorem join_ofNat {p : Nat} (hp : p < 2 ^ 256) :
         have a3 : ¬ 192 ≤ i := by omega
         have a4 : i - 128 < 64 := by omega
         have a5 : i < 256 := by omega
-        simp [h1, a1, a2, a3, a4, a5, b1, e]
+        simp [h1, a1, a2, a3, a4, b1, e]
       · have a3 : 192 ≤ i := by omega
         have b2 : ¬ i - 128 < 64 := by omega
         by_cases h4 : i < 256
         · have e : 192 + (i - 192) = i := by omega
           have a4 : i - 192 < 64 := by omega
-          simp [h1, a1, a2, a3, a4, h4, b1, b2, e]
+          simp [h1, a1, a2, a3, a4, b1, b2, e]
         · have b3 : ¬ i - 192 < 64 := by omega
           rw [hb i (by omega)]
           simp [h1, b1, b2, b3]
@@ -270,8 +270,8 @@ theorem getSet {par : Array Nat} {j i v : Nat} (hj : j < par.size) :
 theorem piPre_eq (n : Nat) (pi : Array Nat) : piPre n pi =
     (List.range' 0 nPts).foldl (fun pre i => pre.set! pi[i]! i) (Array.replicate n 0) := by
   unfold piPre
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
-    List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure, Std.Legacy.Range.size, Nat.add_sub_cancel,
+  simp only [Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
+    List.forIn_pure_yield_eq_foldl, bind_pure, Std.Legacy.Range.size, Nat.add_sub_cancel,
     Nat.div_one, Nat.sub_zero]
 
 @[expose] def PreInv (n : Nat) (pi : Array Nat) (I : Nat) (pre : Array Nat) : Prop :=
@@ -289,9 +289,9 @@ theorem preInv_fold {n : Nat} {pi : Array Nat} (hlt : ∀ i < nPts, pi[i]! < n) 
     · have hI : pi[I]! < pre.size := by rw [hs]; exact hlt I (by omega)
       rw [getSet hI]
       by_cases e : pi[I]! = j
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact ⟨by omega, e⟩
-      · rw [if_neg e]
+      · rw [ite_eq_right e]
         obtain ⟨i, hi, hij⟩ := hex
         have hi' : i < I := by
           rcases Nat.lt_or_ge i I with h | h

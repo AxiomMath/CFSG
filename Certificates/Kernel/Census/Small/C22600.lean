@@ -51,11 +51,9 @@ theorem check22600 : (∀ s : SE, s * s = 1 → s ≠ 1 → ∃ i : Fin 9, ∃ g
   refine ⟨C22600.conjRep, ?_⟩
   repeat' apply And.intro
   all_goals
-    simp only [CFSG.KC.GHFus.forall_se, CFSG.KC.GHFus.exists_se, Fin.forall_iff, Fin.exists_iff,
-      SE.O4E, SE.O4F, SE.commZ, SE.comm, CFSG.KC.GHFus.se_eq_iff, CFSG.KC.GHFus.predE_iff,
-      CFSG.KC.GHFus.predF_iff, CFSG.KC.GHFus.enc_mulS, CFSG.KC.GHFus.enc_inv,
+    simp only [CFSG.KC.GHFus.forall_se, Fin.forall_iff, CFSG.KC.GHFus.se_eq_iff, CFSG.KC.GHFus.enc_mulS, CFSG.KC.GHFus.enc_inv,
       CFSG.KC.GHFus.enc_dec, CFSG.KC.GHFus.enc_one, CFSG.KC.GHFus.enc_invRep,
-      CFSG.KC.GHFus.enc_gen0, ne_eq]
+      CFSG.KC.GHFus.enc_gen0]
     decide +kernel
 
 end CertificateChecks.KernelCensus

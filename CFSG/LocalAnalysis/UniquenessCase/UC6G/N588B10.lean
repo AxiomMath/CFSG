@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} {m : Mz614 Dat}
 
 theorem mem_M_of_normalizes (h620 : m.C620) {Y : Subgroup G} (hY : Y ≤ m.A ⊓ m.L) (hY1 : Y ≠ ⊥)
     {n : G} (hnL : n ∈ m.L) (hn : n ∈ normalizer (Y : Set G)) : n ∈ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set S := Y ⊔ m.Z with hS
   have hYA : Y ≤ m.A := hY.trans inf_le_left
   have hcomm : ∀ x ∈ Y, ∀ z ∈ m.Z, x * z = z * x := fun x hx z hz =>
@@ -91,7 +91,7 @@ theorem ι_t₀_mem_M (h620 : m.C620) : D.ι t₀ ∈ m.M := by
 include D in
 theorem three_not_mem_sigma (h619 : m.C619) (h620 : m.C620) : 3 ∉ Dat.sig := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSE : IsStronglyPEmbedded 3 m.M :=
     m.hk.sig1_sp _ (m.hσ1 h3)
   have hcent : ∀ τ : A10, (τ : Equiv.Perm (Fin 10)).IsThreeCycle → D.ι τ ∈ m.M →
@@ -203,7 +203,7 @@ theorem kleinSub_facts :
     simp
 
 theorem pRank_Ka (h619 : m.C619) (h620 : m.C620) : CFSG.Open.pRank 3 D.Ka = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : ∀ τ : A10, τ ^ 3 = 1 → τ ≠ 1 →
       IsElemAbelian 3 (zpowers (D.ι τ)) ∧ Nat.card (zpowers (D.ι τ)) = 3 ^ 1 := by
     intro τ h3 h1

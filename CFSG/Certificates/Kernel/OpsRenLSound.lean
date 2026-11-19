@@ -90,12 +90,12 @@ theorem renSet_getD {T : List (Option Nat)} {k t s r : Nat} (ht : t < T.length)
       rw [hx] at h
       simp only [Option.map_some, Option.getD_some] at h
       cases hb : isReg x k
-      · rw [hb, cond_false] at h
+      · rw [hb, Bool.cond_false] at h
         subst h
         refine ⟨fun hrk => ?_, rfl⟩
         subst hrk
         simp [isReg] at hb
-      · rw [hb, cond_true] at h
+      · rw [hb, _root_.Bool.cond_true] at h
         exact absurd h (by simp)
 
 theorem renSet_sound {c : Lay} {T : List (Option Nat)} {Rl Ro : List Nat} {k t : Nat} (v : Nat)
@@ -120,9 +120,9 @@ theorem renStep_sound {c : Lay} {T T' : List (Option Nat)} {o l : Op} {Rl Ro : L
     | mul a b t =>
       simp only [renStep, renGetD_eq, renLen_eq] at h
       cases hb : (isReg (T.getD a none) i && isReg (T.getD b none) j && decide (t < T.length))
-      · rw [hb, cond_false] at h
+      · rw [hb, Bool.cond_false] at h
         exact absurd h (by simp)
-      · rw [hb, cond_true, Option.some.injEq] at h
+      · rw [hb, _root_.Bool.cond_true, Option.some.injEq] at h
         subst h
         simp only [Bool.and_eq_true, decide_eq_true_eq] at hb
         obtain ⟨⟨ha, hb'⟩, ht⟩ := hb
@@ -138,9 +138,9 @@ theorem renStep_sound {c : Lay} {T T' : List (Option Nat)} {o l : Op} {Rl Ro : L
     | pow e' a t =>
       simp only [renStep, renGetD_eq, renLen_eq] at h
       cases hb : (Nat.beq e e' && isReg (T.getD a none) i && decide (t < T.length))
-      · rw [hb, cond_false] at h
+      · rw [hb, Bool.cond_false] at h
         exact absurd h (by simp)
-      · rw [hb, cond_true, Option.some.injEq] at h
+      · rw [hb, _root_.Bool.cond_true, Option.some.injEq] at h
         subst h
         simp only [Bool.and_eq_true, decide_eq_true_eq] at hb
         obtain ⟨⟨he, ha⟩, ht⟩ := hb

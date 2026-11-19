@@ -34,6 +34,7 @@ theorem relIndex_inf_le_relIndex_of_isMaxElemAbelian {T A Y R : Subgroup G}
   rw [hL, hR] at h
   exact h.trans (Subgroup.relIndex_le_of_le_left (le_inf hRA hRY) hR0)
 
+omit [Finite G] in
 private lemma g2_commutator_le_oTwoUpper {U X H : Subgroup G}
     (hXH : X ≤ H) (hXU : X ≤ Subgroup.centralizer (U : Set G))
     (hOX : oTwoUpper H ⊔ X = H) :
@@ -62,6 +63,7 @@ private lemma g2_commutator_le_oTwoUpper {U X H : Subgroup G}
     exact Subgroup.commutator_mem_commutator hu hp
   simpa only [hOX] using hKPsup
 
+omit [Finite G] in
 private lemma g2_minimal_of_count_one {H U X : Subgroup G} (hU : IsPGroup 2 U)
     (hUX : U ≤ X) (hXH : X ≤ H) (hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hXU : X ≤ Subgroup.centralizer (U : Set G)) (hOX : oTwoUpper H ⊔ X = H)
@@ -102,6 +104,7 @@ private lemma g2_minimal_of_count_one {H U X : Subgroup G} (hU : IsPGroup 2 U)
     exact le_antisymm hK'K
       ((g2_commutator_le_oTwoUpper hXH hXU hOX).trans hUPle)
 
+omit [Finite G] in
 theorem isChiefStep_commutator_of_count_one {H U X : Subgroup G} (hU : IsPGroup 2 U)
     (hUX : U ≤ X) (hXH : X ≤ H) (hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hXU : X ≤ Subgroup.centralizer (U : Set G)) (hOX : oTwoUpper H ⊔ X = H)

@@ -46,16 +46,16 @@ theorem Z2SetR.exists_S2 (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 4 ≤ r)
       (∀ s ∈ S₂, s * s ∈ T₀) ∧ S₂ ≤ Subgroup.centralizer ({u} : Set Y) ∧
       S₂ ≤ Subgroup.centralizer ({t} : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTF := TightLargeHypR.typeRFam hs.large
   obtain ⟨Q, hQ⟩ := (hs.hT₀.2.1.comap_of_injective (linkLayer R t).subtype
     Subtype.val_injective).exists_le_sylow
   set S₂ : Subgroup Y := (Q : Subgroup ↥(linkLayer R t)).map (linkLayer R t).subtype with hS₂def
   have hS₂Λ : S₂ ≤ linkLayer R t := Subgroup.map_subtype_le _
   have hT₀S₂ : T₀ ≤ S₂ := fun z hz => ⟨⟨z, hs.T₀_le_linkLayer hz⟩, hQ hz, rfl⟩
-  have hS₂2 : IsPGroup 2 ↥S₂ := Q.isPGroup'.map _
+  have hS₂2 : IsPGroup 2 ↥S₂ := Q.isPGroup.map _
   obtain ⟨eT⟩ := hTF.quat J hs.hJ.1 T₀ hs.hT₀
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hT₀card : Nat.card ↥T₀ = 2 ^ r := by
     rw [Nat.card_congr eT.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     obtain ⟨k, rfl⟩ : ∃ k, r = k + 2 := ⟨r - 2, by omega⟩
@@ -75,13 +75,13 @@ theorem Z2SetR.exists_S2 (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 4 ≤ r)
       exact hq
     exact Subtype.ext (eq_one_of_isPGroup_of_mem_odd
       (CFSG.ComponentClassification.OddCore.odd_card ↥(linkLayer R t)) hq'
-      (Q.isPGroup'.to_le (Subgroup.zpowers_le.mpr q.2)))
+      (Q.isPGroup.to_le (Subgroup.zpowers_le.mpr q.2)))
   have hrange : (mk'.comp (Q : Subgroup ↥(linkLayer R t)).subtype).range =
       (Q : Subgroup ↥(linkLayer R t)).map mk' := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
   have hQcard : Nat.card ↥(Q : Subgroup ↥(linkLayer R t)) ≤ 2 ^ (r + 1) := by
     rw [Nat.card_congr (MonoidHom.ofInjective hLQ).toEquiv, hrange]
-    exact Z2SetR.card_le_quot hs hr hArith (Q.isPGroup'.map mk')
+    exact Z2SetR.card_le_quot hs hr hArith (Q.isPGroup.map mk')
   have hS₂card : Nat.card ↥S₂ ≤ 2 ^ (r + 1) := by
     rw [hS₂def, Subgroup.card_map_of_injective Subtype.val_injective]
     exact hQcard
@@ -104,7 +104,7 @@ theorem Z2SetR.exists_S2 (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 4 ≤ r)
     · have hsT : s ∈ T₀ := Subgroup.relIndex_eq_one.mp h1 hs₂
       exact ⟨T₀.mul_mem hsT hsT, fun z hz => T₀.mul_mem (T₀.mul_mem hsT hz) (T₀.inv_mem hsT)⟩
     · have h2' : (T₀.subgroupOf S₂).index = 2 := h2
-      haveI := Subgroup.normal_of_index_eq_two h2'
+      have := Subgroup.normal_of_index_eq_two h2'
       refine ⟨?_, fun z hz => ?_⟩
       · have h3 := Subgroup.sq_mem_of_index_two h2' ⟨s, hs₂⟩
         rw [Subgroup.mem_subgroupOf] at h3
@@ -148,7 +148,7 @@ theorem Z2SetR.exists_Rprime (hs : Z2SetR r n R S t J u R₀ T₀ P) {S₂ : Sub
       R₁ ≤ linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u ∧
       ∀ s ∈ S₂, ∀ x ∈ R₁, s * x = x * s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht := hs.large.datum.isUniqueInvolution_core
   have hK : tightCore R ∈ CoreAssembly.conjClass (tightCore R) := ⟨1, conjSub_one _⟩
   have hS₂t : S₂ ≤ Subgroup.centralizer ({t} : Set Y) := hS₂Λ.trans linkLayerAt_le_centralizer

@@ -173,7 +173,7 @@ theorem D1OneSmallData.map_d1LiftX_eq_center [Fact p.Prime] (hExp : KFactSmallSy
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe ((d1LiftX_le p H R K).trans hRC')).toEquiv]
     exact (hd.d1LiftX_facts hz).2
   have hTp : IsPGroup p ((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ K :
-      Subgroup _) := Rbar.isPGroup'.to_le inf_le_left
+      Subgroup _) := Rbar.isPGroup.to_le inf_le_left
   have hge := sq_le_card_of_not_isCyclic hTp hd.noncyclic
   refine ⟨T₁, e, hT₁, hTF, Subgroup.eq_of_le_of_card_ge hXE ?_⟩
   rw [hEcard, hXcard]

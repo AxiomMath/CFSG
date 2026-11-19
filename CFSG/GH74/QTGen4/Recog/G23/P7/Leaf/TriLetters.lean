@@ -229,7 +229,7 @@ theorem eq_one_of_mem_of_card_eq_three [Finite G] {A B : Subgroup G} (hA : Nat.c
 
 theorem exists_ne_one_of_card_eq_three [Finite G] {A : Subgroup G} (hA : Nat.card A = 3) :
     ∃ x ∈ A, x ≠ 1 := by
-  haveI : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hA]; norm_num)
+  have : Nontrivial A := Finite.one_lt_card_iff_nontrivial.mp (by rw [hA]; norm_num)
   obtain ⟨x, hx⟩ := exists_ne (1 : A)
   exact ⟨x, x.2, fun h => hx (Subtype.ext h)⟩
 
@@ -256,7 +256,7 @@ theorem card_mul_le_card_sup [Finite G] {A B : Subgroup G} (h : A ⊓ B = ⊥) :
   exact Prod.ext (Subtype.ext ha) (Subtype.ext hb')
 
 theorem orderOf_eq_three_of_ne_one {x : G} (h3 : x ^ 3 = 1) (hx : x ≠ 1) : orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime h3 hx
 
 theorem ne_one_of_card_pair [Finite G] {x y : G} (hy : y ^ 3 = 1)
@@ -433,7 +433,7 @@ theorem leafTriLetters [G23Leaf LeafVertexLetters] [G23Leaf LeafTriClassify]
     satWords_relK_vec (e 0) (e 1) (e 2) (e 3) w₁ w₂ r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10
   rcases modelPair_or_collapse k₁ k₂ with hm | hcol
   · have hsat0 := satWords_vertexPart_zero_of_model hm hvp
-    simp only [modelPairs, List.mem_cons, List.mem_singleton, Prod.mk.injEq,
+    simp only [modelPairs, List.mem_cons, Prod.mk.injEq,
       List.not_mem_nil, or_false] at hm
     rcases hm with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
     ·
@@ -441,7 +441,7 @@ theorem leafTriLetters [G23Leaf LeafVertexLetters] [G23Leaf LeafTriClassify]
         closure_four_eq_sup_of_sign hlet (Or.inl rfl) (Or.inl rfl) (Or.inl rfl) (Or.inl rfl)⟩
     ·
       have hx : flipLetters (modelFlip (1, 1)) f = ![e 0, e 1, e 2, e 3, w₁, w₂⁻¹] := by
-        funext i; fin_cases i <;> first | rfl | simp [flipLetters, modelFlip, hf]
+        funext i; fin_cases i <;> first | rfl
       rw [hx] at hsat0
       refine ⟨![e 0, e 1, e 2, e 3, w₁, w₂⁻¹], ?_, ?_⟩
       · exact satWords_append
@@ -451,7 +451,7 @@ theorem leafTriLetters [G23Leaf LeafVertexLetters] [G23Leaf LeafTriClassify]
           (Or.inl rfl)
     ·
       have hx : flipLetters (modelFlip (2, 3)) f = ![e 0, e 1, (e 2)⁻¹, (e 3)⁻¹, w₁, w₂] := by
-        funext i; fin_cases i <;> first | rfl | simp [flipLetters, modelFlip, hf]
+        funext i; fin_cases i <;> first | rfl
       rw [hx] at hsat0
       have h3' : ((e 2)⁻¹) ^ 3 = 1 := by rw [inv_pow, r3, inv_one]
       have h4' : ((e 3)⁻¹) ^ 3 = 1 := by rw [inv_pow, r4, inv_one]
@@ -484,7 +484,7 @@ theorem leafTriLetters [G23Leaf LeafVertexLetters] [G23Leaf LeafTriClassify]
           (Or.inr rfl)
     ·
       have hx : flipLetters (modelFlip (3, 2)) f = ![(e 0)⁻¹, (e 1)⁻¹, e 2, e 3, w₁, w₂] := by
-        funext i; fin_cases i <;> first | rfl | simp [flipLetters, modelFlip, hf]
+        funext i; fin_cases i <;> first | rfl
       rw [hx] at hsat0
       have h0' : ((e 0)⁻¹) ^ 3 = 1 := by rw [inv_pow, r0, inv_one]
       have h1' : ((e 1)⁻¹) ^ 3 = 1 := by rw [inv_pow, r1, inv_one]

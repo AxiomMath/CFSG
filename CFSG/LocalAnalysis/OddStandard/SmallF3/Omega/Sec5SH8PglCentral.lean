@@ -13,7 +13,7 @@ theorem sec5sh8_central_mem_of_index_two {X : Type} [Group X] (P : Subgroup X)
     ∀ z ∈ P, (∀ g ∈ P, z * g = g * z) → z ∈ J := by
   intro z hzP hzcent
   by_contra hzJ
-  haveI hJn : J.Normal := Subgroup.normal_of_index_eq_two hJ
+  have hJn : J.Normal := Subgroup.normal_of_index_eq_two hJ
   let zP : ↥P := ⟨z, hzP⟩
   have hzPcoe : (zP : X) = z := rfl
   have hzcentP : ∀ g : ↥P, zP * g = g * zP := by
@@ -47,7 +47,7 @@ theorem sec5sh8_central_mem_of_index_two {X : Type} [Group X] (P : Subgroup X)
     have h := Subgroup.card_mul_index (H := J.subgroupOf P)
     rw [hNpindex, hcardP] at h
     omega
-  haveI hNpcomm : IsMulCommutative ↥(J.subgroupOf P) :=
+  have hNpcomm : IsMulCommutative ↥(J.subgroupOf P) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by
       rw [hcardNp]; norm_num)
   have hdecomp : ∀ a : ↥P, a ∈ J.subgroupOf P ∨ zP * a ∈ J.subgroupOf P := by
@@ -74,7 +74,7 @@ theorem sec5sh8_central_mem_of_index_two {X : Type} [Group X] (P : Subgroup X)
     · rcases hy with rfl | hy
       · exact (commute_iff_eq x zP).mpr (hzcentP x).symm
       · exact (commute_iff_eq x y).mpr (setLike_mul_comm hx hy)
-  haveI hclosurecomm : IsMulCommutative (Subgroup.closure k) :=
+  have hclosurecomm : IsMulCommutative (Subgroup.closure k) :=
     Subgroup.isMulCommutative_closure hkcomm
   have hzk : zP ∈ Subgroup.closure k :=
     Subgroup.subset_closure (by rw [hk]; simp)

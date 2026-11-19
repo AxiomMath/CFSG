@@ -154,7 +154,7 @@ public theorem CFSG.section10_sigma_focal_generator_mem_ambientDerived
     have hPGp : IsPGroup p.val PG := by
       change IsPGroup p.val ((P : Subgroup M).map M.subtype)
       simpa using
-        IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+        IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
     have hXp : IsPGroup p.val X := by
       let XPG : Subgroup PG := X.subgroupOf PG
       have hXPGp : IsPGroup p.val XPG :=
@@ -211,7 +211,7 @@ public theorem CFSG.section10_sigma_ambient_sylow_le_ambientDerived
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+      IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   rcases IsPGroup.exists_le_sylow (G := G) (p := p.val) hPGp with ⟨S, hPGS⟩
   have hS_eq : (S : Subgroup G) = PG :=
     section10_sigma_ambient_sylow_eq_of_le_sylow hpσ P S (by simpa [PG] using hPGS)
@@ -311,7 +311,7 @@ public theorem CFSG.section10_sylow_map_le_pCore_of_nilpotent_normal
   have hmap_normal : ((P : Subgroup N).map N.subtype).Normal := by
     infer_instance
   have hmap_p : IsPGroup p ((P : Subgroup N).map N.subtype) := by
-    exact IsPGroup.map (p := p) (H := (P : Subgroup N)) P.isPGroup' N.subtype
+    exact IsPGroup.map (p := p) (H := (P : Subgroup N)) P.isPGroup N.subtype
   exact le_sSup
     (show (P : Subgroup N).map N.subtype ∈
         {K : Subgroup H | K.Normal ∧ IsPGroup p K} from
@@ -967,7 +967,7 @@ public theorem CFSG.section10_prime_not_dvd_maximal_index_of_mem_alpha
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype)
   obtain ⟨S, hPGS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPGp
   have hS_eq_PG : (S : Subgroup G) = PG := by
     simpa [PG] using section10_sigma_ambient_sylow_eq_of_le_sylow hpσ P S hPGS

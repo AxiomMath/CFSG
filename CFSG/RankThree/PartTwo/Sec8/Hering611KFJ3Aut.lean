@@ -74,14 +74,14 @@ theorem aut_bound_J3 {M : Type} [Group M] (e : M ≃* Blueprint.NativeSporadic.J
     exact h1
   have hcenter : Subgroup.center M = ⊥ := by
     have hsJ := (CFSG.Sporadic.J3.fam_j3_simplicity).2.2
-    haveI hsM : IsSimpleGroup M := @MulEquiv.isSimpleGroup M _ _ _ hsJ e
+    have hsM : IsSimpleGroup M := @MulEquiv.isSimpleGroup M _ _ _ hsJ e
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center M) with h | h
     · exact h
     · exfalso
       have hcomm : ∀ a b : M, a * b = b * a := fun a b => by
         have : a ∈ Subgroup.center M := h ▸ Subgroup.mem_top a
         exact (Subgroup.mem_center_iff.mp this b).symm
-      letI : CommGroup M := { (inferInstance : Group M) with mul_comm := hcomm }
+      let : CommGroup M := { (inferInstance : Group M) with mul_comm := hcomm }
       have hp := IsSimpleGroup.prime_card (α := M)
       rw [Nat.card_congr e.toEquiv, CFSG.Sporadic.J3.card_J3] at hp
       have h2 : (2 : ℕ) ∣ 50232960 := by norm_num

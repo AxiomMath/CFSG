@@ -25,7 +25,7 @@ theorem w135c2_four_le_mQuot_sz
   have hq : IsQuasisimple ↥L := hctx.2.2.2.2.1
   have hirr : IsIrrOn L ⊤ ⊥ := hctx.2.2.2.2.2
   have : Nontrivial W := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨⟨v, 1, fun h => hv (h ▸ Subgroup.one_mem _)⟩⟩
   obtain ⟨-, a, ha, K, _, _, hfa, hK, ⟨α⟩⟩ := (CFSG.Blueprint.LieModel.suzukiModel hlie).2
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hfa]

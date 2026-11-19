@@ -12,15 +12,15 @@ open Subgroup CFSG CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 
 theorem not_isComponent_of_isCharacteristicP {C : Type*} [Group C] [Finite C]
     (h : IsCharacteristicP 2 C) (K : Subgroup C) : ¬ IsComponent K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact OutcomeLocal.not_isComponent_of_selfCentralizing (p := 2) (pCore_normal (p := 2) (G := C))
     (pCore_isPGroup (p := 2) (G := C)) h K
 
 theorem not_isSolvable_co2 : ¬ Group.IsSolvable (Carrier .Co2) := by
   intro hsolv
-  haveI : IsSimpleGroup (Carrier .Co2) := CFSG.Sporadic.Co2.isSimpleGroup_Co2
+  have : IsSimpleGroup (Carrier .Co2) := CFSG.Sporadic.Co2.isSimpleGroup_Co2
   have hcomm : ∀ a b : Carrier .Co2, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.2 hsolv
-  haveI : IsMulCommutative (Carrier .Co2) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative (Carrier .Co2) := ⟨⟨hcomm⟩⟩
   have hprime := (Group.is_simple_iff_prime_card (α := Carrier .Co2)).1 inferInstance
   have hG : Nat.card (Carrier .Co2) = 42305421312000 := CFSG.Sporadic.Co2.card_Co2
   rw [hG] at hprime
@@ -29,8 +29,8 @@ theorem not_isSolvable_co2 : ¬ Group.IsSolvable (Carrier .Co2) := by
 theorem not_isSolvable_of_co2_quotient {C : Type*} [Group C]
     (e : C ⧸ pCore 2 C ≃* Carrier .Co2) : ¬ Group.IsSolvable C := by
   intro hC
-  haveI : Group.IsSolvable (C ⧸ pCore 2 C) := inferInstance
-  exact not_isSolvable_co2 (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+  have : Group.IsSolvable (C ⧸ pCore 2 C) := inferInstance
+  exact not_isSolvable_co2 (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 @[expose] def SolvableOrComponent (X : Type) [Group X] (τ : X) : Prop :=
   Group.IsSolvable ↥(centralizer ({τ} : Set X)) ∨

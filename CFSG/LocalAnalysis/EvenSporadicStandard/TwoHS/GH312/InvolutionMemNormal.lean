@@ -65,7 +65,7 @@ private lemma isSimpleGroup_altCentralizer {u : X}
     IsSimpleGroup ↥(altCentralizer e) := by
   have h1 : IsSimpleGroup ↥(altSubgroup.comap e.toMonoidHom) := by
     obtain ⟨ee⟩ := nonempty_mulEquiv_alternatingGroup_comap_altSubgroup e
-    exact (MulEquiv.isSimpleGroup_congr ee).mpr alternatingGroup.isSimpleGroup_five
+    exact (MulEquiv.isSimpleGroup_congr ee).mpr (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact (MulEquiv.isSimpleGroup_congr (Subgroup.equivMapOfInjective
     (altSubgroup.comap e.toMonoidHom) (centralizer ({u} : Set X)).subtype
     (Subgroup.subtype_injective _))).mp h1
@@ -136,7 +136,7 @@ private lemma card_inf_altCentralizer_sylow [Finite X] {u : X}
   let C := ↥Csub
   let KC : Subgroup C := altSubgroup.comap e.toMonoidHom
   let BC : Subgroup C := B.subgroupOf Csub
-  haveI : Finite C := (inferInstance : Finite ↥Csub)
+  have : Finite C := (inferInstance : Finite ↥Csub)
   have hCcard : Nat.card C = 960 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_prod, DihedralGroup.nat_card, Nat.card_perm,
       Nat.card_fin]
@@ -149,7 +149,7 @@ private lemma card_inf_altCentralizer_sylow [Finite X] {u : X}
     dsimp only [KC]
     infer_instance
   have hprod : Nat.card ↥(KC ⊔ BC) * Nat.card ↥(KC ⊓ BC) = Nat.card ↥KC * Nat.card ↥BC := by
-    haveI := hKCnormal
+    have := hKCnormal
     have h1 := Subgroup.relIndex_mul_card (H := KC) (K := KC ⊔ BC)
     rw [Subgroup.relIndex_sup_left, inf_eq_left.mpr le_sup_left] at h1
     have h2 := Subgroup.relIndex_mul_card (H := KC) (K := BC)
@@ -438,8 +438,8 @@ theorem altCentralizer_le_of_mem [Finite X] {u : X} (hu1 : u ≠ 1)
     exact ⟨(altCentralizer e).mul_mem ((altCentralizer e).mul_mem hk hh.1)
         ((altCentralizer e).inv_mem hk), hT.conj_mem h hh.2 k⟩
   have hKTbot : altCentralizer e ⊓ T = ⊥ := by
-    haveI := hKsimple
-    haveI := hNnormal
+    have := hKsimple
+    have := hNnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((altCentralizer e ⊓ T).subgroupOf (altCentralizer e))
       with hbot | htop
     · have hd : Disjoint (altCentralizer e ⊓ T) (altCentralizer e) :=
@@ -486,9 +486,9 @@ theorem altCentralizer_le_of_mem [Finite X] {u : X} (hu1 : u ≠ 1)
       rw [centralizer_comap_altSubgroup] at hcenter
       exact Subgroup.mem_map.mpr ⟨⟨x, hxC⟩, hcenter, rfl⟩
     exact (le_inf hTC_centK inf_le_right).trans hcentKD
-  haveI : Finite ↥S := inferInstance
+  have : Finite ↥S := inferInstance
   have hSp : IsPGroup 2 ↥S := IsPGroup.of_card hsd.card_S
-  haveI : Group.IsNilpotent ↥S := hSp.isNilpotent
+  have : Group.IsNilpotent ↥S := hSp.isNilpotent
   let H : Subgroup ↥S := (T ⊓ S).subgroupOf S
   have hHnormal : H.Normal := by
     dsimp only [H]
@@ -501,7 +501,7 @@ theorem altCentralizer_le_of_mem [Finite X] {u : X} (hu1 : u ≠ 1)
       exact ⟨huT, hsd.le_S hsd.mem_B⟩
     rw [hbot] at hmem
     exact hu1 (Subtype.ext_iff.mp (Subgroup.mem_bot.mp hmem))
-  haveI := hHnormal
+  have := hHnormal
   obtain ⟨z', hz'ne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hHne)
   have hz'H : (z' : ↥S) ∈ H := z'.2.1
@@ -560,7 +560,7 @@ theorem mem_and_altCentralizer_le_and_card_dvd [Finite X] {u : X} (hu : u * u = 
     (P : Sylow 2 X) (hP : Nat.card ↥(P : Subgroup X) = 2 ^ 7) {T : Subgroup X} (hT : T.Normal)
     (hTe : Even (Nat.card ↥T)) :
     u ∈ T ∧ altCentralizer e ≤ T ∧ Nat.card ↥(T ⊓ centralizer ({u} : Set X)) ∣ 960 := by
-  haveI := hT
+  have := hT
   have hnorm : u ∈ normalizer (T : Set X) := by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top u

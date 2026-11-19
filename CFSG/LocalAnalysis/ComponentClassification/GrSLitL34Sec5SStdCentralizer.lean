@@ -62,7 +62,7 @@ theorem false_of_conj_eq_mul_of_card_four {J : Subgroup G} (hst : IsStandardSubg
   have hRS : R ≤ S' := by
     intro r hr
     exact Subgroup.mem_map.mpr ⟨⟨r, hRt hr⟩, hP₀ (Subgroup.mem_subgroupOf.mpr hr), rfl⟩
-  have hS'p : IsPGroup 2 S' := P₀.isPGroup'.map _
+  have hS'p : IsPGroup 2 S' := P₀.isPGroup.map _
   have hSC : Nat.card ↥(S' ⊓ centralizer (J : Set G)) = 4 := by
     refine le_antisymm (hC4 _ inf_le_right (hS'p.to_le inf_le_left)) ?_
     rw [← hR4]
@@ -95,7 +95,7 @@ theorem false_of_conj_eq_mul_of_card_four {J : Subgroup G} (hst : IsStandardSubg
       (fun w hw hwc hw2 => hZ' w (hP ▸ hw) (fun s hs => hwc s (hP.symm ▸ hs)) hw2) hnot hfus
   · obtain ⟨P, hSP⟩ := hS'p.exists_le_sylow
     have hlt : S' < (P : Subgroup G) := lt_of_le_of_ne hSP fun h' => hSyl ⟨P, h'.symm⟩
-    obtain ⟨x, -, hxN, hxt, -⟩ := exists_shear_of_lt ht₀ hS' P.isPGroup' hlt hzS.1 hzc hz hzt
+    obtain ⟨x, -, hxN, hxt, -⟩ := exists_shear_of_lt ht₀ hS' P.isPGroup hlt hzS.1 hzc hz hzt
       hZ' hnot
     exact false_of_shear_of_card_four hst hZ hcen hfix hZT hcyc ht₀ ht₀C hS' hSC hzS hz hxN hxt
 

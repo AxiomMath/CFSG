@@ -66,6 +66,7 @@ section Sylow
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem coe_smul_sylow' {p : ℕ} (g : G) (P : Sylow p G) :
     ((g • P : Sylow p G) : Subgroup G) = (P : Subgroup G).map (MulAut.conj g).toMonoidHom := by
   rw [Sylow.smul_def, Sylow.pointwise_smul_def, Subgroup.pointwise_smul_def]
@@ -107,7 +108,7 @@ theorem isSylowOf_map_hom {G' : Type*} [Group G'] {p : ℕ} [Fact p.Prime] {P K 
 
 theorem pRank_eq_of_isSylowOf_two {R H : Subgroup G} (hR : IsSylowOf 2 R H) :
     CFSG.Open.pRank 2 R = CFSG.Open.pRank 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm (CFSG.SectionRank.pRank_mono one_lt_two hR.le) ?_
   obtain ⟨E, hEH, hE, hEc⟩ := CFSG.SectionRank.exists_pRank one_lt_two H
   obtain ⟨c, -, hc⟩ := exists_mem_map_conj_le_of_isSylowOf hR hEH (IsPGroup.of_card hEc)
@@ -131,8 +132,8 @@ variable {P Q : Type*} [Group P] [Group Q] [Finite P]
 
 theorem comap_oddCore_eq_of_odd_ker (f : P →* Q) (hf : Function.Surjective f)
     (hker : Odd (Nat.card f.ker)) : (CFSG.oddCore Q).comap f = CFSG.oddCore P := by
-  haveI : Finite Q := Finite.of_surjective f hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Q := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · refine le_oddCore_of_normal ((CFSG.oddCore_normal Q).comap f) ?_
     rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]
@@ -169,7 +170,7 @@ theorem isPGroup_of_surjective_of_odd_normal {X : Type*} [Group X] [Finite X]
     (hQ : CFSG.oddCore Q = ⊥) (α : X →* Q) (hα : Function.Surjective α) (N : Subgroup X)
     (hNn : N.Normal) (hN : Odd (Nat.card N)) (hpow : ∀ x : X, ∃ k : ℕ, x ^ 2 ^ k ∈ N) :
     IsPGroup 2 Q := by
-  haveI : Finite Q := Finite.of_surjective α hα
+  have : Finite Q := Finite.of_surjective α hα
   have hle : N.map α ≤ CFSG.oddCore Q :=
     le_oddCore_of_normal (hNn.map α hα) (Odd.of_dvd_nat hN (Subgroup.card_map_dvd _ α))
   rw [hQ] at hle
@@ -211,6 +212,7 @@ theorem isIsolatedIn_of_mk_mem_center {H : Subgroup G} {t : G} (htH : t ∈ H) (
   have h1 := eq_one_of_mul_self_of_odd (card_O_odd H) ho ho2
   exact (inv_mul_eq_one.1 h1).symm
 
+omit [Finite G] in
 theorem pow_mem_of_relIndex_eq {Y K : Subgroup G} (hK : (K.subgroupOf Y).Normal) {n : ℕ}
     (hn : K.relIndex Y = 2 ^ n) {y : G} (hy : y ∈ Y) : y ^ 2 ^ n ∈ K := by
   have h := pow_card_eq_one' (G := ↥Y ⧸ K.subgroupOf Y) (x := QuotientGroup.mk ⟨y, hy⟩)
@@ -218,6 +220,7 @@ theorem pow_mem_of_relIndex_eq {Y K : Subgroup G} (hK : (K.subgroupOf Y).Normal)
   rw [hc, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at h
   simpa using mem_subgroupOf.1 h
 
+omit [Finite G] in
 theorem surjective_of_covers {H P : Subgroup G} (hPH : P ≤ H)
     (hcov : ∀ h ∈ H, ∃ p ∈ P, p⁻¹ * h ∈ O H) :
     Function.Surjective ((QuotientGroup.mk' (CFSG.oddCore H)).comp (inclusion hPH)) := by
@@ -263,7 +266,7 @@ theorem conj_mem_of_mem_factor {P : Subgroup G} (hP : P = 𝔖.S₁ ∨ P = 𝔖
 theorem z_mul_z_spec :
     𝔖.z₁ * 𝔖.z₂ ∈ 𝔖.S₁ ⊔ 𝔖.S₂ ∧ 𝔖.z₁ * 𝔖.z₂ ∉ 𝔖.S₁ ∧ 𝔖.z₁ * 𝔖.z₂ ∉ 𝔖.S₂ ∧
       orderOf (𝔖.z₁ * 𝔖.z₂) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h₁ := 𝔖.hz₁
   have h₂ := 𝔖.hz₂
   have hz₁1 : 𝔖.z₁ ≠ 1 := fun h => by rw [h, orderOf_one] at h₁; exact absurd h₁.2.1 (by norm_num)
@@ -280,7 +283,7 @@ theorem z_mul_z_spec :
 
 theorem isConj_z {t : G} (ht : orderOf t = 2) :
     IsConj t 𝔖.z₁ ∨ IsConj t 𝔖.z₂ ∨ IsConj t (𝔖.z₁ * 𝔖.z₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : IsPGroup 2 (zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
   obtain ⟨g, hg⟩ := exists_map_conj_le_sylow 𝔖.S hT
@@ -301,7 +304,7 @@ theorem isIsolatedIn_of_unique {H N R P : Subgroup G} (hR : IsSylowOf 2 R H)
     (hRS : R ≤ 𝔖.S) (hHN : H ≤ normalizer (N : Set G)) (hP : P = 𝔖.S₁ ∨ P = 𝔖.S₂) {z : G}
     (hz : z ∈ R ⊓ N ⊓ P) (hz2 : orderOf z = 2) (huniq : ∀ t ∈ R ⊓ N ⊓ P, orderOf t = 2 → t = z) :
     IsIsolatedIn H z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hzRN, hzP⟩ := mem_inf.1 hz
   obtain ⟨hzR, hzN⟩ := mem_inf.1 hzRN
   have hzH : z ∈ H := hR.le hzR

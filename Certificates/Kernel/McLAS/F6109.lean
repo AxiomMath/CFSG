@@ -112,7 +112,7 @@ theorem fb : szOK 10 4 = true ∧ (∀ j < 2, NW.G j = pidn 10 4 ∧
       (pg 4 (mask 4) (NW.GI k) i) = true) ∧
     (∀ t < 1000, tripK t = true) := by
   have h := k6109b
-  simp only [bAnd_iff, Nat.beq_eq, Nat.ble_eq] at h
+  simp only [bAnd_iff, Nat.ble_eq] at h
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
   refine ⟨h1, fun j hj => ?_, h3, h4, h5, h6, fun k hk i hi => allN_spec (allN_spec h7 k hk) i hi,
     fun t ht => allN_spec h8 t ht⟩

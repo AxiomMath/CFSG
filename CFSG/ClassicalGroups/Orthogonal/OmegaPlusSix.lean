@@ -109,9 +109,11 @@ theorem ee : polar Q e e = 0 := polar_self_eq_zero hF.Q_e
 
 theorem ff : polar Q f f = 0 := polar_self_eq_zero hF.Q_f
 
+omit hF in
 theorem aa [CharP K 2] : polar Q a a = 0 := by
   rw [polar_self_eq_two_mul, CharTwo.two_eq_zero, zero_mul]
 
+omit hF in
 theorem bb [CharP K 2] : polar Q b b = 0 := by
   rw [polar_self_eq_two_mul, CharTwo.two_eq_zero, zero_mul]
 
@@ -125,20 +127,19 @@ theorem polar_comb_f [CharP K 2] (x y s t : K) :
 
 theorem polar_comb_a [CharP K 2] (x y s t : K) :
     polar Q (x • e + y • f + s • a + t • b) a = t := by
-  rw [polar_comb4_left, hF.ea, hF.fa, hF.aa, hF.ba]; ring
+  rw [polar_comb4_left, hF.ea, hF.fa, MinusFrame.aa, hF.ba]; ring
 
 theorem polar_comb_b [CharP K 2] (x y s t : K) :
     polar Q (x • e + y • f + s • a + t • b) b = s := by
-  rw [polar_comb4_left, hF.eb, hF.fb, hF.ab, hF.bb]; ring
+  rw [polar_comb4_left, hF.eb, hF.fb, hF.ab, MinusFrame.bb]; ring
 
 theorem Q_comb (x y s t : K) :
     Q (x • e + y • f + s • a + t • b) = x * y + (s ^ 2 + s * t + c * t ^ 2) := by
   rw [QuadraticMap.map_add Q (x • e + y • f + s • a) (t • b),
     QuadraticMap.map_add Q (x • e + y • f) (s • a), QuadraticMap.map_add Q (x • e) (y • f),
     map_smul_eq_sq, map_smul_eq_sq, map_smul_eq_sq, map_smul_eq_sq]
-  simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq, hF.Q_e,
-    hF.Q_f, hF.Q_a, hF.Q_b, hF.ef, hF.fe, hF.ea, hF.eb, hF.fa, hF.fb, hF.ae, hF.af, hF.be, hF.bf,
-    hF.ab, hF.ba, hF.ee, hF.ff]
+  simp only [polar_add_left, polar_smul_left_eq, polar_smul_right_eq, hF.Q_e,
+    hF.Q_f, hF.Q_a, hF.Q_b, hF.ef, hF.ea, hF.eb, hF.fa, hF.fb, hF.ab]
   ring
 
 theorem Q_pair (s t : K) : Q (s • a + t • b) = s ^ 2 + s * t + c * t ^ 2 := by
@@ -177,7 +178,7 @@ theorem linearIndependent_pair : LinearIndependent K ![a, b] := by
   rw [Fintype.linearIndependent_iff]
   intro g hg
   rw [Fin.sum_univ_two] at hg
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hg
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hg
   have hQ0 : Q (g 0 • a + g 1 • b) = 0 := by rw [hg]; exact QuadraticMap.map_zero Q
   rw [hF.Q_pair] at hQ0
   obtain ⟨h0, h1⟩ := hF.anis _ _ hQ0
@@ -186,12 +187,16 @@ theorem linearIndependent_pair : LinearIndependent K ![a, b] := by
   · exact h0
   · exact h1
 
+omit hF in
 theorem e_mem : e ∈ frame4 K e f a b := Submodule.subset_span ⟨0, rfl⟩
 
+omit hF in
 theorem f_mem : f ∈ frame4 K e f a b := Submodule.subset_span ⟨1, rfl⟩
 
+omit hF in
 theorem a_mem : a ∈ frame4 K e f a b := Submodule.subset_span ⟨2, rfl⟩
 
+omit hF in
 theorem b_mem : b ∈ frame4 K e f a b := Submodule.subset_span ⟨3, rfl⟩
 
 theorem finrank_frame4 [CharP K 2] : Module.finrank K (frame4 K e f a b) = 4 := by
@@ -201,8 +206,8 @@ theorem finrank_frame4 [CharP K 2] : Module.finrank K (frame4 K e f a b) = 4 := 
 theorem polarNondegOn_frame4 [CharP K 2] : PolarNondegOn Q (frame4 K e f a b) := by
   intro z hz hz'
   obtain ⟨x, y, s, t, rfl⟩ := mem_frame4.mp hz
-  obtain ⟨hx, hy, hs, ht⟩ := hF.coeffs_eq_zero (hz' e hF.e_mem) (hz' f hF.f_mem)
-    (hz' a hF.a_mem) (hz' b hF.b_mem)
+  obtain ⟨hx, hy, hs, ht⟩ := hF.coeffs_eq_zero (hz' e MinusFrame.e_mem) (hz' f MinusFrame.f_mem)
+    (hz' a MinusFrame.a_mem) (hz' b MinusFrame.b_mem)
   simp [hx, hy, hs, ht]
 
 theorem exists_ne_zero_restrict [CharP K 2] [FiniteDimensional K V] {W : Submodule K V}
@@ -211,8 +216,8 @@ theorem exists_ne_zero_restrict [CharP K 2] [FiniteDimensional K V] {W : Submodu
   by_contra hcon
   push Not at hcon
   have hWfin : Module.finrank K W = 4 := by rw [hW]; exact hF.finrank_frame4
-  have he_mem : e ∈ W := by rw [hW]; exact hF.e_mem
-  have hf_mem : f ∈ W := by rw [hW]; exact hF.f_mem
+  have he_mem : e ∈ W := by rw [hW]; exact MinusFrame.e_mem
+  have hf_mem : f ∈ W := by rw [hW]; exact MinusFrame.f_mem
   set A : Submodule K V := Submodule.span K (Set.range ![a, b]) with hA
   have hmemA : ∀ y : V, y ∈ A ↔ ∃ s t : K, y = s • a + t • b := fun y => mem_span_range_pair_iff
   have hAW : A ≤ W := by
@@ -424,9 +429,9 @@ theorem card_eq_pow_of_minusFrame [Finite K] [CharP K 2] [FiniteDimensional K V]
   obtain ⟨W, hW⟩ : ∃ W : Submodule K V, W = frame4 K Ph.e Ph.f a b := ⟨_, rfl⟩
   have hWnd : PolarNondegOn Q W := by rw [hW]; exact hF.polarNondegOn_frame4
   have hWdim : Module.finrank K W = 4 := by rw [hW]; exact hF.finrank_frame4
-  have he : Ph.e ∈ W := by rw [hW]; exact hF.e_mem
-  have hf : Ph.f ∈ W := by rw [hW]; exact hF.f_mem
-  have ha : a ∈ W := by rw [hW]; exact hF.a_mem
+  have he : Ph.e ∈ W := by rw [hW]; exact MinusFrame.e_mem
+  have hf : Ph.f ∈ W := by rw [hW]; exact MinusFrame.f_mem
+  have ha : a ∈ W := by rw [hW]; exact MinusFrame.a_mem
   have hcompl : IsCompl (polarPerp Q W) W := (isCompl_polarPerp hWnd).symm
   have horth : ∀ p ∈ polarPerp Q W, ∀ w ∈ W, polar Q p w = 0 := fun p hp w hw =>
     mem_polarPerp.mp hp w hw
@@ -444,7 +449,7 @@ theorem card_eq_pow_of_minusFrame [Finite K] [CharP K 2] [FiniteDimensional K V]
   obtain ⟨hfixf, -, -⟩ := pair_facts h2 (L₁ := Lom Q Ph.e) (L₂ := Lom Q Ph.f)
     (x := Eom Q Ph.f a) (Eom_mem_Lom hF.fa) (Eom_mul_self hF.fa)
     (closure_Lom_insert_Eom hQ Ph.Q_e Ph.Q_f hef hF.fa hQa) hdec hcard.symm
-  letI inst : DistribMulAction (Gom (Q.restrict W)) M :=
+  let inst : DistribMulAction (Gom (Q.restrict W)) M :=
     DistribMulAction.compHom M (extId hcompl horth)
   have hdec' : IsCompl (fixedSub M (Lom (Q.restrict W) ⟨Ph.e, he⟩ : Set (Gom (Q.restrict W))))
       (fixedSub M (Lom (Q.restrict W) ⟨Ph.f, hf⟩ : Set (Gom (Q.restrict W)))) := by

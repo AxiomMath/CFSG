@@ -15,7 +15,7 @@ variable {G : Type*} [Group G] [Finite G]
 private theorem sbtvprod_iterate_six {α : Type*} {S : Set α} (hS : S.Finite) (hcard : S.ncard ≤ 3)
     {f : α → α} (hmaps : Set.MapsTo f S S) (hinj : Set.InjOn f S) {s : α} (hs : s ∈ S) :
     f^[6] s = s := by
-  haveI : Finite S := hS.to_subtype
+  have : Finite S := hS.to_subtype
   let g : S → S := fun t => ⟨f t, hmaps t.2⟩
   have hg : Function.Injective g := fun a b h =>
     Subtype.ext (hinj a.2 b.2 (congrArg Subtype.val h))
@@ -47,7 +47,7 @@ omit [Finite G] in
 private theorem sbtvprod_exists_commHom {V : Subgroup G} (hV : IsMulCommutative V) {g : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) :
     ∃ N : V →* G, ∀ v : V, N v = g * (v : G) * g⁻¹ * (v : G)⁻¹ := by
-  haveI := hV
+  have := hV
   have hmem : ∀ w : G, w ∈ V → g * w * g⁻¹ ∈ V := fun w hw =>
     (Subgroup.mem_normalizer_iff.mp hg w).mp hw
   refine ⟨MonoidHom.mk' (fun v : V => g * (v : G) * g⁻¹ * (v : G)⁻¹) ?_, fun v => rfl⟩

@@ -25,7 +25,7 @@ private abbrev conjAction (C : Subgroup G) : MulAction ↥C G where
 
 private theorem one_le_pRank_of_dvd_card {Q : Type*} [Group Q] [Finite Q] (J : Subgroup Q)
     {r : ℕ} (hr : r.Prime) (hd : r ∣ Nat.card J) : 1 ≤ CFSG.Open.pRank r J := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hd
   have hx' : orderOf (x : Q) = r := (Subgroup.orderOf_coe x).trans hx
   refine CFSG.SectionRank.le_pRank (p := r) (H := J) (E := Subgroup.zpowers (x : Q)) (k := 1)
@@ -39,7 +39,7 @@ theorem one_le_pRank_of_mem_small {M V₀ : Subgroup G} (hMV₀ : M ≤ normaliz
     1 ≤ CFSG.Open.pRank p (M ⊓ centralizer ({v} : Set G)) := by
   classical
   let Cv : Subgroup G := M ⊓ centralizer ({v} : Set G)
-  letI : MulAction ↥M G := conjAction M
+  let : MulAction ↥M G := conjAction M
   have hstab : MulAction.stabilizer ↥M v = Cv.subgroupOf M := by
     ext c
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
@@ -146,6 +146,7 @@ theorem one_le_pRank_of_dvd_cElt {M T V₀ V : Subgroup G} (h : Hyp123 M T V₀ 
     (hp.dvd_mul.mp (hcard ▸ hdvd)).resolve_right hp2n
   exact one_le_pRank_of_dvd_card Cv hp hpdvdCv
 
+omit [Finite G] in
 theorem dvd_card_cElt_of_mem_mbar {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {p : ℕ}
     {φ : MulAut (Vtil V₀ V hV)} (hφ : φ ∈ Mbar M V₀ V hV) (hord : orderOf φ = p) {v : G}
     (hv : v ∈ V)
@@ -187,7 +188,7 @@ theorem exists_mem_cTilde_of_not_dvd {M V₀ V : Subgroup G} (hV : IsElemAbelian
     (hcard : ¬ p ^ k ∣ Nat.card (Mbar M V₀ V hV)) :
     ∃ y ∈ F11.CTilde M V₀ V, orderOf y = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt M
   by_contra hno
   let φ : ↥E →* ↥(Mbar M V₀ V hV) :=
@@ -217,8 +218,8 @@ theorem exists_orderOf_fix_of_card_le {U : Type*} [Group U] [Finite U]
     (hU : Nat.card U ≤ p ^ a) {u : U} (hu : u ≠ 1) :
     ∃ φ ∈ X, orderOf φ = p ∧ φ u = u := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut U) := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut U) := inferInstance
   set q : ℕ := (MulAction.stabilizer (↥X) u).index with hq
   have hqcard : q = (MulAction.orbit (↥X) u).ncard := by
     rw [hq]

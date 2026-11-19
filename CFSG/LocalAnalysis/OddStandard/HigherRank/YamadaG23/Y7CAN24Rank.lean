@@ -19,8 +19,8 @@ theorem n24_rank_three (τ x : GL (Fin 6) (ZMod 2)) (hτ : τ * τ = 1) (hτ1 : 
       (LinearMap.range (Matrix.toLin' ((τ : Matrix (Fin 6) (Fin 6) (ZMod 2)) + 1))) = 3 := by
   classical
   have h2z : ∀ a : ZMod 2, a + a = 0 := by decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨T, hT⟩ : ∃ T : Matrix (Fin 6) (Fin 6) (ZMod 2),
       T = (τ : Matrix (Fin 6) (Fin 6) (ZMod 2)) := ⟨_, rfl⟩
   obtain ⟨X, hX⟩ : ∃ X : Matrix (Fin 6) (Fin 6) (ZMod 2),
@@ -91,7 +91,7 @@ theorem n24_rank_three (τ x : GL (Fin 6) (ZMod 2)) (hτ : τ * τ = 1) (hτ1 : 
     obtain ⟨u, rfl⟩ := hw
     refine ⟨X *ᵥ u, ?_⟩
     rw [hLapp, hLapp, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, hXN]
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   let f : Function.End W := fun w => ⟨X *ᵥ w.1, hWX w.1 w.2⟩
   have hfpow : ∀ (n : ℕ) (w : W),
       ((f ^ n) w : Fin 6 → ZMod 2) = (X ^ n) *ᵥ (w : Fin 6 → ZMod 2) := by

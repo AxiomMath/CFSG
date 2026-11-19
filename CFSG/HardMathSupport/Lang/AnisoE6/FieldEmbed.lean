@@ -9,8 +9,8 @@ namespace CFSG.HardMathSupport.Lang.AnisoE6
 theorem nonempty_ringHom_of_card_sq {ℓ f : ℕ} [Fact ℓ.Prime] {k K : Type} [Field k] [Field K]
     [Finite k] [Finite K] [CharP k ℓ] [CharP K ℓ] (hk : Nat.card k = ℓ ^ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) : Nonempty (k →+* K) := by
-  letI : Algebra (ZMod ℓ) k := ZMod.algebra k ℓ
-  letI : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
+  let : Algebra (ZMod ℓ) k := ZMod.algebra k ℓ
+  let : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
   have h1 := FiniteField.pow_finrank_eq_natCard ℓ k
   have h2 := FiniteField.pow_finrank_eq_natCard ℓ K
   rw [hk] at h1

@@ -33,7 +33,7 @@ theorem hdRo7CLCoordAux_card_inf_pow_of_innerDiag
     hdRo7CLCoordAux_statedClassicalModel_of_hasLabel_BC htag (by omega) h1n hhas
   obtain ⟨φ, hinj, hrange⟩ :=
     ggSpLiftInput_holds G L lab.rank lab.n (by omega) hperf hmodel
-  haveI : CharP (GaloisField 2 lab.n) 2 :=
+  have : CharP (GaloisField 2 lab.n) 2 :=
     charP_two_of_card (GaloisField.card 2 lab.n (by omega))
   have hZL : Subgroup.center ↥L = ⊥ :=
     hdRo7CLCoordAux_center_L_eq_bot_of_innerDiag p Bs L hM

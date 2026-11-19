@@ -40,7 +40,7 @@ lemma omm_spMat_mulVec_single (σ : Equiv.Perm (Fin n)) (s : Fin n → ZMod 3)
 lemma omm_single_eq_smul (j : Fin n) (c : ZMod 3) :
     Pi.single j c = c • Pi.single j (1 : ZMod 3) := by
   funext i
-  by_cases h : i = j <;> simp [Pi.single_apply, h]
+  by_cases h : i = j <;> simp [h]
 
 lemma omm_col_action_eq {P : Matrix (Fin n) (Fin n) (ZMod 3)}
     (σ : Equiv.Perm (Fin n)) (s : Fin n → ZMod 3) (σ' : Equiv.Perm (Fin n))
@@ -116,18 +116,18 @@ lemma omm_prod_sign_bool {ι : Type*} [DecidableEq ι] (s : Finset ι) (t : ι �
       rw [Finset.prod_insert ha]
       rcases ih with h | h
       · by_cases ht : t a
-        · right; rw [if_pos ht, h]; decide
-        · left; rw [if_neg ht, h]; decide
+        · right; rw [ite_eq_left ht, h]; decide
+        · left; rw [ite_eq_right ht, h]; decide
       · by_cases ht : t a
-        · left; rw [if_pos ht, h]; decide
-        · right; rw [if_neg ht, h]; decide
+        · left; rw [ite_eq_left ht, h]; decide
+        · right; rw [ite_eq_right ht, h]; decide
 
 @[expose] def omm_pattern (A : Finset (Fin n)) (t : A → Bool) : Fin n → ZMod 3 :=
   fun i => if hi : i ∈ A then (if t ⟨i, hi⟩ then -1 else 1) else 1
 
 @[expose] def omm_lt_extend (A : Finset (Fin n)) (d : Fin n) (t : A → Bool) : Fin n → ZMod 3 :=
   fun i =>
-    if hi : i ∈ A then omm_pattern A t i
+    if _hi : i ∈ A then omm_pattern A t i
     else if i = d then ∏ j : A, (if t j then (-1 : ZMod 3) else 1)
     else 1
 
@@ -136,15 +136,15 @@ lemma omm_lt_extend_sign (A : Finset (Fin n)) (d : Fin n) (t : A → Bool) :
   intro i
   unfold omm_lt_extend
   by_cases hA : i ∈ A
-  · rw [dif_pos hA]
+  · rw [dite_eq_left hA]
     unfold omm_pattern
-    rw [dif_pos hA]
+    rw [dite_eq_left hA]
     by_cases ht : t ⟨i, hA⟩ <;> simp [ht]
-  · rw [dif_neg hA]
+  · rw [dite_eq_right hA]
     by_cases hd : i = d
-    · rw [if_pos hd]
+    · rw [ite_eq_left hd]
       exact omm_prod_sign_bool (Finset.univ : Finset A) t
-    · rw [if_neg hd]
+    · rw [ite_eq_right hd]
       exact Or.inl rfl
 
 lemma omm_prod_pattern (A : Finset (Fin n)) (d : Fin n) (hd : d ∉ A) (t : A → Bool) :
@@ -164,15 +164,15 @@ lemma omm_prod_pattern (A : Finset (Fin n)) (d : Fin n) (hd : d ∉ A) (t : A �
     apply Finset.prod_congr rfl
     intro j _
     unfold omm_lt_extend omm_pattern
-    rw [dif_pos j.2, dif_pos j.2]
+    rw [dite_eq_left j.2, dite_eq_left j.2]
   have hdA : d ∈ Aᶜ := by simpa using hd
   have hCompl : (∏ i ∈ Aᶜ, omm_lt_extend A d t i) = PA := by
     rw [Finset.prod_eq_single d]
     · unfold omm_lt_extend
-      rw [dif_neg (by simpa using hdA), if_pos rfl]
+      rw [dite_eq_right (by simpa using hdA), ite_eq_left rfl]
     · intro i hi hne
       unfold omm_lt_extend
-      rw [dif_neg (by simpa using hi), if_neg hne]
+      rw [dite_eq_right (by simpa using hi), ite_eq_right hne]
     · intro hdnot
       exact absurd hdA hdnot
   rw [hsplit, hAprod, hCompl, hPA2]
@@ -182,16 +182,16 @@ lemma omm_lt_extend_injOn (A : Finset (Fin n)) (d : Fin n) (t t' : A → Bool)
   funext j
   have hj := h j.1 j.2
   unfold omm_lt_extend at hj
-  rw [dif_pos j.2, dif_pos j.2] at hj
+  rw [dite_eq_left j.2, dite_eq_left j.2] at hj
   unfold omm_pattern at hj
-  rw [dif_pos j.2, dif_pos j.2] at hj
+  rw [dite_eq_left j.2, dite_eq_left j.2] at hj
   by_cases ht : t j
   · by_cases ht' : t' j
     · simp [ht, ht']
-    · rw [if_pos ht, if_neg ht'] at hj
+    · rw [ite_eq_left ht, ite_eq_right ht'] at hj
       exact absurd hj (by decide)
   · by_cases ht' : t' j
-    · rw [if_neg ht, if_pos ht'] at hj
+    · rw [ite_eq_right ht, ite_eq_left ht'] at hj
       exact absurd hj.symm (by decide)
     · simp [ht, ht']
 

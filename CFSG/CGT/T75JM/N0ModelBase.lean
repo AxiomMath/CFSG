@@ -11,7 +11,7 @@ open CFSG.CosetTable CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Blueprint
 
 abbrev N0 : Type := PG 6 rels6
 
-@[expose] def n0 (w : List (Fin 6 × Bool)) : N0 := PresentedGroup.mk _ (FreeGroup.mk w)
+def n0 (w : List (Fin 6 × Bool)) : N0 := PresentedGroup.mk _ (FreeGroup.mk w)
 
 theorem n0_nil : n0 [] = 1 := by
   rw [n0]; exact map_one _
@@ -59,7 +59,7 @@ theorem rep_n0Tab (hinv : n0InvCheck = true) (w : List (Fin 6 × Bool)) :
   · cases b <;> simp [m22LetterZ] <;> omega
   · cases b <;> simp [m22LetterZ] <;> omega
 
-@[expose] noncomputable def n0Gen (i : Fin 6) : NativeSporadic.M22 := m22Gen i.castSucc
+noncomputable def n0Gen (i : Fin 6) : NativeSporadic.M22 := m22Gen i.castSucc
 
 theorem evalWord7_m22Gen (w : List (Fin 6 × Bool)) :
     FreeGroup.lift m22Gen (FreeGroup.mk (liftWord w)) =

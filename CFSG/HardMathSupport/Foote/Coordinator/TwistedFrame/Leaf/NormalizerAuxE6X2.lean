@@ -127,7 +127,7 @@ theorem e6Six_exchange {K : Type} [Field K] [Finite K]
       ∃ a b : SL(3, D.L), ∀ A B : SL(3, D.L), θ (twoA2MulSup (A, B)) =
         twoA2MulSup (a * Matrix.SpecialLinearGroup.map D.Fr B * a⁻¹,
           b * Matrix.SpecialLinearGroup.map D.Fr A * b⁻¹) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   exact CFSG.RankThree.PartOne.KE6.exists_exchanged_layer_pos (Fr := D.Fr)
     (Fr_bijective D).2 ((MulAut.conj (nW D)).toMonoidHom.comp (frobGL D))
     (IsSLFrame.conj_entrywise_injective (nW D) D.Fr) 1 1 (e6Six_twist_13 D) (e6Six_twist_56 D)
@@ -158,14 +158,14 @@ theorem e6Six_X₂_outer {K : Type} [Field K] [Finite K]
     (hperf : Group.IsPerfect ↥(D.frame (TwClass.S₂ TwClass.e6Six))) :
     Group.IsSolvable (Outer ↥(D.frame (TwClass.S₂ TwClass.e6Six))) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : ∀ c, D.Fr c = c ^ (p ^ (m : ℕ)) := fun c => by rw [D.hFr, hcard']
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   obtain ⟨θ, hθΨ, a, b, hθ⟩ := e6Six_exchange D
   obtain ⟨k₂, hk₂, h₁, h₂, ρ, hρ, hρfix, hρnorm, hρqs, hρker, hρkerc, hρiso, hρcen, hfin, hind,
     hder⟩ := CFSG.RankThree.Classical.SteinbergBY.exchanged_sl3_central_product_frobenius_full_fixed_layer
@@ -201,12 +201,12 @@ theorem e6Six_X₂_outer {K : Type} [Field K] [Finite K]
       rw [← e, commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
     rw [hΦ, ← Subgroup.map_commutator, h1]
   have hP'perf : ⁅P', P'⁆ = P' := by
-    haveI : Group.IsPerfect ↥ρ.range := hρqs.1
+    have : Group.IsPerfect ↥ρ.range := hρqs.1
     rw [hP', ← Subgroup.map_commutator, Subgroup.commutator_eq_self]
   have hfr : frameImage D S₂ = P' := by
     refine le_antisymm ?_ (le_frameImage_of_perfect D hP'le hP'perf)
-    haveI := hperf
-    haveI : Group.IsPerfect ↥(frameImage D S₂) :=
+    have := hperf
+    have : Group.IsPerfect ↥(frameImage D S₂) :=
       Group.IsPerfect.ofSurjective (f := (frameEquivImage D S₂).toMonoidHom)
         (frameEquivImage D S₂).surjective
     have h2 : ⁅frameImage D S₂, frameImage D S₂⁆ = frameImage D S₂ := Subgroup.commutator_eq_self
@@ -227,7 +227,7 @@ theorem e6Six_X₂_outer {K : Type} [Field K] [Finite K]
     have hdiag : ∀ i : Fin 3, (((A : Matrix (Fin 3) (Fin 3) ↥k₂) i i : ↥k₂) : D.L) =
         algebraMap K D.L c := fun i => by rw [hent i i]; simp
     have hoff : ∀ i j : Fin 3, i ≠ j → (((A : Matrix (Fin 3) (Fin 3) ↥k₂) i j : ↥k₂) : D.L) = 0 :=
-      fun i j hij => by rw [hent i j]; simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+      fun i j hij => by rw [hent i j]; simp [Matrix.scalar_apply, hij]
     rw [Matrix.SpecialLinearGroup.mem_center_iff]
     refine ⟨(A : Matrix (Fin 3) (Fin 3) ↥k₂) 0 0, ?_, ?_⟩
     · apply Subtype.ext
@@ -239,16 +239,16 @@ theorem e6Six_X₂_outer {K : Type} [Field K] [Finite K]
         simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq]
         rw [hdiag i, hdiag 0]
       · rw [hoff i j hij]
-        simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+        simp [Matrix.scalar_apply, hij]
   have hq2 : (p ^ (m : ℕ)) ^ 2 = p ^ (2 * (m : ℕ)) := by rw [← pow_mul, mul_comm]
   have hFcard : Nat.card k₂ = (p ^ (m : ℕ)) ^ 2 := by
     rw [hq2, ← CFSG.RankThree.Classical2.natCard_setOf_pow_eq_self (Ω := D.L) (ℓ := p)
       (by have := m.pos; omega : 2 * (m : ℕ) ≠ 0)]
-    exact Nat.card_congr (Equiv.subtypeEquivRight fun c => by rw [hk₂, hq2, Set.mem_setOf_eq])
-  haveI : Finite k₂ := Nat.finite_of_card_ne_zero (by
+    exact Nat.card_congr (Equiv.subtypeEquivRight fun c => by rw [hk₂, hq2, Set.mem_ofPred_eq])
+  have : Finite k₂ := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hpp.pos _) 2).ne')
-  haveI : Group.IsSolvable (Outer (SL(3, ↥k₂) ⧸ ρ.ker)) :=
+  have : Group.IsSolvable (Outer (SL(3, ↥k₂) ⧸ ρ.ker)) :=
     outer_solvable_SL_quotient (K := ↥k₂) (n := 3) le_rfl hker_le
   exact solvable_of_equiv (e₁.trans e₂.symm).symm
 

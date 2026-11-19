@@ -28,8 +28,8 @@ theorem exists_ne_ne_of_three_le_natCard {α : Type*} (h : 3 ≤ Nat.card α) (a
 theorem iff_of_ite_eq_ite {c : ℂ} (hc : c ≠ 0) {P Q : Prop} [Decidable P] [Decidable Q]
     (h : (if P then c else 0) = (if Q then c else 0)) : P ↔ Q := by
   refine ⟨fun hP => ?_, fun hQ => ?_⟩ <;> by_contra hn
-  · rw [if_pos hP, if_neg hn] at h; exact hc h
-  · rw [if_neg hn, if_pos hQ] at h; exact hc h.symm
+  · rw [ite_eq_left hP, ite_eq_right hn] at h; exact hc h
+  · rw [ite_eq_right hn, ite_eq_left hQ] at h; exact hc h.symm
 
 variable {G : Type*} [Group G] {W W1 W2 : Subgroup G}
   {σ : classFun ↥W →ₗ[ℂ] classFun G}
@@ -207,10 +207,10 @@ theorem cfInner_sum_signedTwoColumn_left (hW : IsCyclicTIPair W W1 W2)
       if p = (i, true) then δ else 0 := by
     rintro ⟨i', b⟩ -
     cases b
-    · rw [hW.cfInner_signedTwoColumn_false_eq_zero hσ δ (Or.inr (Ne.symm hjk)), if_neg (by simp)]
+    · rw [hW.cfInner_signedTwoColumn_false_eq_zero hσ δ (Or.inr (Ne.symm hjk)), ite_eq_right (by simp)]
     · rcases eq_or_ne i' i with rfl | hne
-      · rw [hW.cfInner_signedTwoColumn_true_self hσ δ j k, if_pos rfl]
-      · rw [hW.cfInner_signedTwoColumn_true_eq_zero hσ δ (Or.inl hne), if_neg (by simp [hne])]
+      · rw [hW.cfInner_signedTwoColumn_true_self hσ δ j k, ite_eq_left rfl]
+      · rw [hW.cfInner_signedTwoColumn_true_eq_zero hσ δ (Or.inl hne), ite_eq_right (by simp [hne])]
   rw [cfInner_sum_left, Finset.sum_congr rfl key, Finset.sum_ite_eq' S (i, true) fun _ => δ]
 
 open scoped Classical in
@@ -224,9 +224,9 @@ theorem cfInner_sum_signedTwoColumn_right (hW : IsCyclicTIPair W W1 W2)
     rintro ⟨i', b⟩ -
     cases b
     · rcases eq_or_ne i' i with rfl | hne
-      · rw [hW.cfInner_signedTwoColumn_false_self hσ δ j k, if_pos rfl]
-      · rw [hW.cfInner_signedTwoColumn_false_eq_zero hσ δ (Or.inl hne), if_neg (by simp [hne])]
-    · rw [hW.cfInner_signedTwoColumn_true_eq_zero hσ δ (Or.inr hjk), if_neg (by simp)]
+      · rw [hW.cfInner_signedTwoColumn_false_self hσ δ j k, ite_eq_left rfl]
+      · rw [hW.cfInner_signedTwoColumn_false_eq_zero hσ δ (Or.inl hne), ite_eq_right (by simp [hne])]
+    · rw [hW.cfInner_signedTwoColumn_true_eq_zero hσ δ (Or.inr hjk), ite_eq_right (by simp)]
   rw [cfInner_sum_left, Finset.sum_congr rfl key, Finset.sum_ite_eq' S (i, false) fun _ => -δ]
 
 theorem cfInner_sum_signedTwoColumn_eq_zero (hW : IsCyclicTIPair W W1 W2)

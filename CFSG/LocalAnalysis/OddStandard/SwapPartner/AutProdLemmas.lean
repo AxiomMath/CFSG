@@ -152,7 +152,7 @@ theorem card_le_of_injective_prod {D P₁ P₂ : Type*} [Group D] [Group P₁] [
     (hf : Function.Injective f) (C₁ : Subgroup P₁) (C₂ : Subgroup P₂)
     (h : ∀ d, (f d).1 ∈ C₁ ∧ (f d).2 ∈ C₂) :
     Nat.card D ≤ Nat.card C₁ ∨ Nat.card D ≤ Nat.card C₂ := by
-  haveI : Nontrivial D := hD.toNontrivial
+  have : Nontrivial D := hD.toNontrivial
   let f₁ : D →* P₁ := (MonoidHom.fst P₁ P₂).comp f
   let f₂ : D →* P₂ := (MonoidHom.snd P₁ P₂).comp f
   have hker₁ : f₁.ker = ⊥ ∨ f₁.ker = ⊤ := hD.eq_bot_or_eq_top_of_normal f₁.ker
@@ -189,8 +189,8 @@ theorem card_le_of_injective_prod {D P₁ P₂ : Type*} [Group D] [Group P₁] [
         · simpa [f₂] using h2' a
       have hf1 : f 1 = 1 := by
         apply Prod.ext
-        · simpa [f₁] using h1' 1
-        · simpa [f₂] using h2' 1
+        · simp
+        · simp
       exact ha (hf (hfa.trans hf1.symm))
 
 theorem mem_of_sign_eq_of_prod_le (I : Subgroup (Perm (Fin 8) × Perm (Fin 8)))
@@ -212,7 +212,7 @@ theorem mem_of_sign_eq_of_prod_le (I : Subgroup (Perm (Fin 8) × Perm (Fin 8)))
       (hA (g.1⁻¹ * u) (Equiv.Perm.mem_alternatingGroup.mpr h1)
         (g.2⁻¹ * v) (Equiv.Perm.mem_alternatingGroup.mpr h2))
     have heq : g * (g.1⁻¹ * u, g.2⁻¹ * v) = (u, v) := by
-      ext <;> simp [Equiv.Perm.mul_apply]
+      ext <;> simp
     rwa [heq] at hmem
 
 theorem card_eq_of_prod_le (I : Subgroup (Perm (Fin 8) × Perm (Fin 8)))
@@ -222,7 +222,7 @@ theorem card_eq_of_prod_le (I : Subgroup (Perm (Fin 8) × Perm (Fin 8)))
   let φ : Perm (Fin 8) × Perm (Fin 8) →* ℤˣ :=
     { toFun := fun w => sign w.1 * sign w.2
       map_one' := by simp
-      map_mul' := by intro a b; simp [map_mul, mul_assoc, mul_left_comm, mul_comm] }
+      map_mul' := by intro a b; simp [map_mul, mul_left_comm, mul_comm] }
   have hsurj : Function.Surjective φ := by
     intro y
     rcases Int.units_eq_one_or y with rfl | rfl

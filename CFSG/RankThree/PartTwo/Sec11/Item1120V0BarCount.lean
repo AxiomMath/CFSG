@@ -10,13 +10,13 @@ namespace Item1120V0Bar
 
 theorem card_le_three_pow_of_isPGroup {G : Type*} [Group G] [Finite G] {P : Subgroup G}
     (hP : IsPGroup 3 P) : Nat.card P ≤ 3 ^ (Nat.card G).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   calc Nat.card P ≤ Nat.card (Q : Subgroup G) := Subgroup.card_le_of_le hQ
     _ = 3 ^ (Nat.card G).factorization 3 := Sylow.card_eq_multiplicity Q
 
 theorem orderOf_mul_le_card_closure_pair {G : Type*} [Group G] [Finite G] {b ξ : G}
-    (hbξ : b * ξ = ξ * b) (hdisj : Subgroup.zpowers b ⊓ Subgroup.zpowers ξ = ⊥) :
+    (_hbξ : b * ξ = ξ * b) (hdisj : Subgroup.zpowers b ⊓ Subgroup.zpowers ξ = ⊥) :
     orderOf b * orderOf ξ ≤ Nat.card (Subgroup.closure ({b, ξ} : Set G)) := by
   have hbmem : b ∈ Subgroup.closure ({b, ξ} : Set G) :=
     Subgroup.subset_closure (Set.mem_insert _ _)

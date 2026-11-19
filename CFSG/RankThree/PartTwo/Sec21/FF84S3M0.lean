@@ -18,11 +18,13 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ :
     ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
   (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
 
+omit [Finite G] in
 theorem M0_quotIso_mk (hZ : Subgroup.center L = ⊥) (x : ↥L) :
     M0_quotIso hZ (QuotientGroup.mk x) = x := by
   simp only [M0_quotIso, MulEquiv.trans_apply, QuotientGroup.quotientMulEquivOfEq_mk]
   rfl
 
+omit [Finite G] in
 theorem M0_quotIso_symm_apply (hZ : Subgroup.center L = ⊥) (x : ↥L) :
     (M0_quotIso hZ).symm x = QuotientGroup.mk x := by
   rw [MulEquiv.symm_apply_eq, M0_quotIso_mk]
@@ -32,6 +34,7 @@ theorem M0_quotIso_symm_apply (hZ : Subgroup.center L = ⊥) (x : ↥L) :
     ↥L ≃* alternatingGroup (Fin 8) :=
   (M0_quotIso hZ).symm.trans e'
 
+omit [Finite G] in
 theorem M0_toL_apply (hZ : Subgroup.center L = ⊥)
     (e' : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) (x : ↥L) :
     M0_toL hZ e' x = e' (QuotientGroup.mk x) := by
@@ -42,9 +45,10 @@ theorem M0_conjNormal_val (σ : Equiv.Perm (Fin 8)) (h : alternatingGroup (Fin 8
       σ * (h : Equiv.Perm (Fin 8)) * σ⁻¹ := by
   simp [MulAut.conjNormal_apply]
 
+omit [Finite G] in
 theorem M0_orderOf3 (f : ↥L ≃* alternatingGroup (Fin 8)) {y : ↥L} (h3 : y ^ 3 = 1) (h1 : y ≠ 1) :
     orderOf ((f y : alternatingGroup (Fin 8)) : P8) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · have h' : (f y) ^ 3 = 1 := by rw [← map_pow, h3, map_one]
     have h'' := congrArg Subtype.val h'
@@ -55,6 +59,7 @@ theorem M0_orderOf3 (f : ↥L ≃* alternatingGroup (Fin 8)) {y : ↥L} (h3 : y 
     apply Subtype.ext
     simpa using h
 
+omit [Finite G] in
 theorem M0_card_cen (f : ↥L ≃* alternatingGroup (Fin 8)) (y : ↥L) :
     Nat.card ↥(Subgroup.centralizer ({((f y : alternatingGroup (Fin 8)) : P8)} : Set P8) ⊓ A8s) =
       Nat.card ↥(L ⊓ Cen (y : G)) := by
@@ -90,11 +95,13 @@ theorem M0_card_cen (f : ↥L ≃* alternatingGroup (Fin 8)) (y : ↥L) :
   rw [← key, Subgroup.card_map_of_injective hψi]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
 
+omit [Finite G] in
 theorem M0_mk_inj (hZ : Subgroup.center L = ⊥) (u v : ↥L) (h : (QuotientGroup.mk u : ↥L ⧸ Subgroup.center ↥L) = QuotientGroup.mk v) : u = v := by
   have h' := QuotientGroup.eq.1 h
   rw [hZ, Subgroup.mem_bot, inv_mul_eq_one] at h'
   exact h'
 
+omit [Finite G] in
 theorem M0_T0_conj (hL : ⁅L, L⁆ = L)
     (e' : ↥L ⧸ Subgroup.center ↥L ≃* alternatingGroup (Fin 8)) :
     ∃ θ : ↥(Nor L) →* P8,
@@ -116,7 +123,7 @@ theorem M0_quot (h : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L = ⊥) :
       ∀ x y : ↥L, (x : G) = b₁ → (y : G) = b₂ →
         ((e' (QuotientGroup.mk x) : alternatingGroup (Fin 8)) : P8) = m₁ ∧
         ((e' (QuotientGroup.mk y) : alternatingGroup (Fin 8)) : P8) = m₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e₀⟩ :=
     CFSG.RankThree.GF2n.Tim81.nonempty_mulEquiv_alternating_eight_of_psl4_model h.hyp.model
   obtain ⟨e⟩ : Nonempty (↥L ≃* alternatingGroup (Fin 8)) := ⟨M0_toL hZ e₀⟩

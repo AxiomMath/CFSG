@@ -23,7 +23,7 @@ variable {ρ : Representation (ZMod 2) G V}
 theorem isCompl_commOn_fixSub_of_odd {X : Subgroup G} [Finite ↥X] (hX : Odd (Nat.card ↥X)) :
     IsCompl (commOn ρ X ⊤) (fixSub ρ X) := by
   classical
-  haveI : Fintype ↥X := Fintype.ofFinite _
+  have : Fintype ↥X := Fintype.ofFinite _
   have hodd : Odd (Fintype.card ↥X) := Nat.card_eq_fintype_card (α := ↥X) ▸ hX
   have hfix : ∀ v ∈ fixSub ρ X, eSum ρ X v = v := fun v hv =>
     eSum_apply_of_mem_fixSub hodd (RankFourTheoremC.PEmpty.KD309.mem_fixSub.2 (mem_fixSub.1 hv))
@@ -66,8 +66,8 @@ theorem not_forall_apply_eq_of_inverts (hρ : Function.Injective ρ) {Q : Subgro
     (hQ3 : Nat.card ↥Q = 3) (hb : ∀ x ∈ Q, b * x * b⁻¹ = x⁻¹) (hq : q ∈ Q) :
     ¬ ∀ u ∈ commOn ρ Q ⊤, ρ b u = ρ q u := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ3]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ3]; norm_num)
   have hQinv := (invariant_commOn_top (ρ := ρ) (A := Q) (L := Q) Subgroup.le_normalizer).1
   obtain hbot | ⟨x, hxQ, hx1⟩ := Subgroup.bot_or_exists_ne_one Q
   · rw [hbot, Subgroup.card_bot] at hQ3
@@ -111,7 +111,7 @@ theorem exists_eq_apply_of_card_three [Finite V] (hρ : Function.Injective ρ) {
   have hGL : Nat.card (↥(commOn ρ Q ⊤) ≃ₗ[ZMod 2] ↥(commOn ρ Q ⊤)) = 6 := by
     rw [CFSG.HardMathSupport.U4FF.card_linearEquiv_eq_prod hQV, Fin.prod_univ_two]
     norm_num
-  haveI : Finite (↥(commOn ρ Q ⊤) ≃ₗ[ZMod 2] ↥(commOn ρ Q ⊤)) :=
+  have : Finite (↥(commOn ρ Q ⊤) ≃ₗ[ZMod 2] ↥(commOn ρ Q ⊤)) :=
     Nat.finite_of_card_ne_zero (by rw [hGL]; norm_num)
   have hIQ : Nat.card ↥(imgGL ρ _ _ hU Q) = 3 := by
     have h := card_imgGL_mul_card_cenOn (hU := hU) hQN

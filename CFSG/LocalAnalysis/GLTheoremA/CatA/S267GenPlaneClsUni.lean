@@ -30,9 +30,9 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
     PlaneNoComp p (primeFormP h (idGram K n)) := by
   classical
   intro P hP hcard J hJ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := h.finite
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := h.finite
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have hq : ¬(n = 3 ∧ ℓ ^ f = 2) := by
     rintro ⟨-, h2⟩
     apply hℓ
@@ -43,7 +43,7 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
   have hpK : (p : K) ≠ 0 := by
-    haveI := h.charP
+    have := h.charP
     intro h0
     have := (CharP.cast_eq_zero_iff K ℓ p).mp h0
     exact hpℓ ((Nat.prime_dvd_prime_iff_eq h.prime hp).mp this).symm
@@ -181,7 +181,7 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
       rw [hzB]
       exact hfac B τ
     rw [← h1, ← map_pow, hP.2 z hz, map_one]
-  haveI hVe : IsElementaryAbelian p ↥P :=
+  have hVe : IsElementaryAbelian p ↥P :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p P).2 hP
   obtain ⟨x₀, hx₀P, hx₀1, hx₀Φ⟩ : ∃ x₀ ∈ P, x₀ ≠ 1 ∧ primeFormFieldFactor h hC hn hq x₀ = 1 := by
     by_contra hcon
@@ -191,14 +191,14 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
       intro v hv
       by_contra hv1
       exact hcon v v.2 (fun h1 => hv1 (Subtype.ext h1)) hv
-    haveI := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_ringAut K
+    have := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_ringAut K
     exact IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hcard (isCyclic_of_injective _ hinj)
   have hx₀D : x₀ ∈ (primeFormFieldFactor h hC hn hq).ker := hx₀Φ
   rw [hkerD, primeFormD, MonoidHom.mem_range] at hx₀D
   obtain ⟨A, rfl⟩ := hx₀D
   obtain ⟨c, a, hc, hself, hgood, hJeq⟩ := hcompOf A hx₀P hx₀1
   have H := primaryData_toLin' h A.2 hp hpℓ hc
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   set F := (specialBlock (idForm h n) (Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K))
     (a : K[X])).comap (toLinSU h n) with hFdef
   have hperfF : ⁅F, F⁆ = F := commutator_comap_specialBlock_eq h H hgood
@@ -472,7 +472,7 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
     intro a ha u hu
     rw [hU, LinearMap.mem_ker] at hu ⊢
     rw [← Module.End.mul_apply, ← (hπcomm a ha).eq, Module.End.mul_apply, hu, map_zero]
-  letI : CommGroup ↥S1 :=
+  let : CommGroup ↥S1 :=
     { (inferInstance : Group ↥S1) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   let ρU : Representation K ↥S1 ↥U :=
     { toFun := fun a => ((Matrix.GeneralLinearGroup.toLin ((a : primeFormUnitary h (idGram K n)) :
@@ -480,14 +480,14 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
           Module.End K (Fin n → K)).restrict (hUinv a a.2)
       map_one' := by
         refine LinearMap.ext fun u => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, hact, OneMemClass.coe_one, OneMemClass.coe_one,
+        rw [_root_.LinearMap.coe_restrict_apply, hact, OneMemClass.coe_one, OneMemClass.coe_one,
           Units.val_one, Matrix.one_mulVec]
         rfl
       map_mul' := fun a b => by
         refine LinearMap.ext fun u => Subtype.ext ?_
-        rw [LinearMap.restrict_coe_apply, hact, Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul,
-          ← Matrix.mulVec_mulVec, Module.End.mul_apply, LinearMap.restrict_coe_apply,
-          LinearMap.restrict_coe_apply, hact, hact] }
+        rw [_root_.LinearMap.coe_restrict_apply, hact, Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul,
+          ← Matrix.mulVec_mulVec, Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply,
+          LinearMap.coe_restrict_apply, hact, hact] }
   have hUne : U ≠ ⊥ := by
     intro hbot
     apply hB1
@@ -505,7 +505,7 @@ theorem planeNoComp_primeFormP_of_dvd (h : UnitaryFieldData ℓ f K) (hn : 3 ≤
       rw [Subgroup.coe_one]
       exact eq_one_of_mulVec_eq_self hfixall)
     rw [hB1', map_one]
-  haveI : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.2 hUne
+  have : Nontrivial ↥U := Submodule.nontrivial_iff_ne_bot.2 hUne
   have hWU : ∀ u : Fin n → K, u ∈ U → u ∈ W → u = 0 := by
     intro u huU huW
     have h1 : π u = u := primaryProjection_of_mem hsqB bB.2 (by rw [hWB]; exact huW)

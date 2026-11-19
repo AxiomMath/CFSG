@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
 variable (D : FzRNum t x₁ x₂ lam rho tau T₂)
 
 open Classical in
+omit [Finite G] in
 theorem fzr_card_nums {H₁ : Subgroup G} (hH₁ : H₁ ≤ T₂) :
     ((Finset.range 512).filter fun n => fzrMu D n ∈ H₁).card = Nat.card H₁ := by
   classical
@@ -56,7 +57,7 @@ theorem fzr_th_prof (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCor
   have hTset : (↑((Finset.range 512).filter fun n => fzrMu D n ∈ H₁) : Set ℕ) =
       {n | n < 512 ∧ fzrMu D n ∈ H₁} := by
     ext n
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter, Finset.mem_range]
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, Finset.mem_filter, Finset.mem_range]
   have hbij' : Set.BijOn ψ ↑(fzrCent (fzrPar D) u)
       ↑((Finset.range 512).filter fun n => fzrMu D n ∈ H₁) := by
     rw [hTset]; exact hbij

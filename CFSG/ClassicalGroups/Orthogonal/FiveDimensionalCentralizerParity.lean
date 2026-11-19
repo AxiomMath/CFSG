@@ -21,8 +21,8 @@ theorem exists_centralizer_element_not_mem_commutator
       c ∈ C0 F ∧ c * F.tO = F.tO * c ∧
       c ∉ commutator (TauCeti.QuadraticMap.orthogonalGroup Q) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
+  let : Fintype K := Fintype.ofFinite K
+  let : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
   have hchar : ringChar K ≠ 2 := by
     intro h2
     have hEven : Even (Nat.card K) := by
@@ -44,19 +44,19 @@ theorem exists_centralizer_element_not_mem_commutator
   have hv0 : Q v ≠ 0 := by rw [hvQ]; exact hν0
   have hw : Q (F.e 2) = 1 := F.norm 2 (by norm_num)
   have hw0 : Q (F.e 2) ≠ 0 := by rw [hw]; exact one_ne_zero
-  letI : Invertible (Q v) := invertibleOfNonzero hv0
-  letI : Invertible (Q (F.e 2)) := invertibleOfNonzero hw0
+  let : Invertible (Q v) := invertibleOfNonzero hv0
+  let : Invertible (Q (F.e 2)) := invertibleOfNonzero hw0
   let c : TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflectionOrthogonal Q v *
       TauCeti.QuadraticMap.reflectionOrthogonal Q (F.e 2)
   have htv : (F.tO : V ≃ₗ[K] V) v = -v := by
-    simp [FrameData.tO, v, F.t_e, add_comm]
+    simp [v, F.t_e, add_comm]
   have hzv : (F.zO : V ≃ₗ[K] V) v = -v := by
-    simp [FrameData.zO, v, F.z_e, add_comm]
+    simp [v, F.z_e, add_comm]
   have htw : (F.tO : V ≃ₗ[K] V) (F.e 2) = F.e 2 := by
-    simp [FrameData.tO, F.t_e]
+    simp [F.t_e]
   have hzw : (F.zO : V ≃ₗ[K] V) (F.e 2) = -F.e 2 := by
-    simp [FrameData.zO, F.z_e]
+    simp [F.z_e]
   have htvQ : Q ((F.tO : V ≃ₗ[K] V) v) ≠ 0 := by
     rw [htv]
     simpa using hv0
@@ -69,10 +69,10 @@ theorem exists_centralizer_element_not_mem_commutator
   have hzwQ : Q ((F.zO : V ≃ₗ[K] V) (F.e 2)) ≠ 0 := by
     rw [hzw]
     simpa using hw0
-  haveI : Invertible (Q ((F.tO : V ≃ₗ[K] V) v)) := invertibleOfNonzero htvQ
-  haveI : Invertible (Q ((F.zO : V ≃ₗ[K] V) v)) := invertibleOfNonzero hzvQ
-  haveI : Invertible (Q ((F.tO : V ≃ₗ[K] V) (F.e 2))) := invertibleOfNonzero htwQ
-  haveI : Invertible (Q ((F.zO : V ≃ₗ[K] V) (F.e 2))) := invertibleOfNonzero hzwQ
+  have : Invertible (Q ((F.tO : V ≃ₗ[K] V) v)) := invertibleOfNonzero htvQ
+  have : Invertible (Q ((F.zO : V ≃ₗ[K] V) v)) := invertibleOfNonzero hzvQ
+  have : Invertible (Q ((F.tO : V ≃ₗ[K] V) (F.e 2))) := invertibleOfNonzero htwQ
+  have : Invertible (Q ((F.zO : V ≃ₗ[K] V) (F.e 2))) := invertibleOfNonzero hzwQ
   have htv_ref : TauCeti.QuadraticMap.reflectionOrthogonal Q ((F.tO : V ≃ₗ[K] V) v) =
       TauCeti.QuadraticMap.reflectionOrthogonal Q v := by
     ext x
@@ -209,7 +209,7 @@ theorem exists_centralizer_element_not_mem_commutator
     simpa [hvQ, pow_two] using huK
   refine ⟨c, hcC0, hct, ?_⟩
   intro hcD
-  haveI : IsMulCommutative (Kˣ × Multiplicative (SquareClassGroup K)) :=
+  have : IsMulCommutative (Kˣ × Multiplicative (SquareClassGroup K)) :=
     IsMulCommutative.of_comm (fun a b => by
       ext <;> simp [mul_comm, add_comm])
   have hker : c ∈ (CFSG.ClassicalInvolution.detSpinorNorm hQ).ker :=

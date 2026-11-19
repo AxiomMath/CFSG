@@ -63,22 +63,22 @@ private theorem relIndex_pCoreOf_oTwoPCore (p : ℕ) (O : Subgroup G) :
 
 private theorem exists_relIndex_oTwoPCore {p : ℕ} (hp : p.Prime) (O : Subgroup G) :
     ∃ a : ℕ, (CFSG.Open.pCoreOf 2 O).relIndex (oTwoPCore p O) = p ^ a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [relIndex_pCoreOf_oTwoPCore]
   exact IsPGroup.iff_card.mp CFSG.pCore_isPGroup
 
 private theorem isSolvable_oTwoPCore {p : ℕ} (hp : p.Prime) (O : Subgroup G) :
     Group.IsSolvable ↥(oTwoPCore p O) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 O) := by
-    haveI := (CFSG.pCore_isPGroup (p := 2) (G := O)).isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsSolvable ↥(CFSG.pCore 2 O) := by
+    have := (CFSG.pCore_isPGroup (p := 2) (G := O)).isNilpotent
     infer_instance
-  haveI : Group.IsSolvable ↥(CFSG.pCore p (O ⧸ CFSG.pCore 2 O)) := by
-    haveI := (CFSG.pCore_isPGroup (p := p) (G := O ⧸ CFSG.pCore 2 O)).isNilpotent
+  have : Group.IsSolvable ↥(CFSG.pCore p (O ⧸ CFSG.pCore 2 O)) := by
+    have := (CFSG.pCore_isPGroup (p := p) (G := O ⧸ CFSG.pCore 2 O)).isNilpotent
     infer_instance
   let W₀ : Subgroup O :=
     (CFSG.pCore p (O ⧸ CFSG.pCore 2 O)).comap (QuotientGroup.mk' (CFSG.pCore 2 O))
-  haveI : Group.IsSolvable ↥W₀ :=
+  have : Group.IsSolvable ↥W₀ :=
     Group.isSolvable_of_ker_le_range (Subgroup.inclusion (pCore_two_le_comap p O))
       ((QuotientGroup.mk' (CFSG.pCore 2 O)).subgroupComap
         (CFSG.pCore p (O ⧸ CFSG.pCore 2 O))) (by
@@ -143,7 +143,7 @@ theorem oTwoPCore_sup_package {X O R : Subgroup G} {p : ℕ} (hp : p.Prime) (hp5
       (∀ N : Subgroup G, N ≤ oTwoPCore p O ⊔ R →
         oTwoPCore p O ⊔ R ≤ Subgroup.normalizer (N : Set G) → ¬ 2 ∣ Nat.card N → N = ⊥) ∧
       ¬ 2 ∣ R.relIndex (oTwoPCore p O ⊔ R) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hWO : oTwoPCore p O ≤ O := oTwoPCore_le p O
   have hQW : CFSG.Open.pCoreOf 2 O ≤ oTwoPCore p O := pCoreOf_two_le_oTwoPCore p O
   have hRN : R ≤ Subgroup.normalizer (oTwoPCore p O : Set G) :=
@@ -168,8 +168,8 @@ theorem oTwoPCore_sup_package {X O R : Subgroup G} {p : ℕ} (hp : p.Prime) (hp5
     rw [card_sup_eq, hk, hrel]
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   ·
-    haveI : Group.IsSolvable ↥(oTwoPCore p O) := isSolvable_oTwoPCore hp O
-    haveI : ((oTwoPCore p O).subgroupOf (oTwoPCore p O ⊔ R)).Normal :=
+    have : Group.IsSolvable ↥(oTwoPCore p O) := isSolvable_oTwoPCore hp O
+    have : ((oTwoPCore p O).subgroupOf (oTwoPCore p O ⊔ R)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hWH).mpr hHN
     have hq : IsPGroup 2
         (↥(oTwoPCore p O ⊔ R) ⧸ (oTwoPCore p O).subgroupOf (oTwoPCore p O ⊔ R)) := by
@@ -178,9 +178,9 @@ theorem oTwoPCore_sup_package {X O R : Subgroup G} {p : ℕ} (hp : p.Prime) (hp5
         rw [relIndex_sup_eq_of_le_normalizer hRN, ← hk]
         exact Subgroup.relIndex_dvd_card _ _
       exact h
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         (↥(oTwoPCore p O ⊔ R) ⧸ (oTwoPCore p O).subgroupOf (oTwoPCore p O ⊔ R)) := by
-      haveI := hq.isNilpotent
+      have := hq.isNilpotent
       infer_instance
     exact Group.isSolvable_of_ker_le_range (Subgroup.inclusion hWH)
       (QuotientGroup.mk' ((oTwoPCore p O).subgroupOf (oTwoPCore p O ⊔ R)))

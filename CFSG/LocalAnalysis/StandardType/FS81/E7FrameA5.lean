@@ -85,7 +85,7 @@ theorem muWord_smul :
 
 theorem a2PerpNodes_eq_a5Nodes : a2PerpNodes = a5Nodes Tag.E7 := by
   ext j
-  simp only [a2PerpNodes, a5Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [a2PerpNodes, a5Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   fin_cases j <;> decide
 
 section Native

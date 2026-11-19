@@ -30,7 +30,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 theorem ff_dinv0_of_KM0_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = 1) (hz : Subgroup.center ↥L = ⊥)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ) {s : G} {x : ProjSim Q}
-    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (hss : s * s = 1) (h : KM0 x) :
+    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (_hss : s * s = 1) (h : KM0 x) :
     DInv L s 0 := by
   obtain ⟨f, _⟩ := ff_exists_centEquiv hQ (by omega) hz e hs
   change InnerOn L s ∧ s ∉ centralizer (L : Set G) ∧
@@ -44,7 +44,7 @@ theorem ff_dinv0_of_KM0_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
 theorem ff_dinv1_of_KM1_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = 1) (hz : Subgroup.center ↥L = ⊥)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ) {s : G} {x : ProjSim Q}
-    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (hss : s * s = 1) (h : KM1 x) :
+    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (_hss : s * s = 1) (h : KM1 x) :
     DInv L s 1 := by
   obtain ⟨f, _⟩ := ff_exists_centEquiv hQ (by omega) hz e hs
   have hshape := ff_layerModel_psl2 (ff_K1_layerModel hQ hdim hsgn h)
@@ -62,7 +62,7 @@ theorem ff_dinv1_of_KM1_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
 theorem ff_dinv2_of_KM2_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = 1) (hz : Subgroup.center ↥L = ⊥)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ) {s : G} {x : ProjSim Q}
-    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (hss : s * s = 1) (h : KM2 x) :
+    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (_hss : s * s = 1) (h : KM2 x) :
     DInv L s 2 := by
   obtain ⟨f, _⟩ := ff_exists_centEquiv hQ (by omega) hz e hs
   have hshape := ff_layerModel_psp (ff_K2_layerModel hQ hdim hsgn h)
@@ -79,7 +79,7 @@ theorem ff_dinv2_of_KM2_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
 theorem ff_dinv3_of_KM3_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = 1) (hz : Subgroup.center ↥L = ⊥)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ) {s : G} {x : ProjSim Q}
-    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (hss : s * s = 1) (h : KM3 x) :
+    (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (_hss : s * s = 1) (h : KM3 x) :
     DInv L s 3 := by
   obtain ⟨f, _⟩ := ff_exists_centEquiv hQ (by omega) hz e hs
   change ¬ InnerOn L s ∧ Group.IsSolvable ↥(L ⊓ centralizer ({s} : Set G))

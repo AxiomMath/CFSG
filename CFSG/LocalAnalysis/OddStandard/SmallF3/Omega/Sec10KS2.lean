@@ -166,7 +166,7 @@ theorem sec10KS_twoCore_sup [Finite G] (hP5 : Asc82FactPockets5) (hC5 : Asc82Fac
     {t : G} {L S : Subgroup G} {z : G} {K1 K2 : Subgroup G} (hpsp : IsPSp43 L)
     (hctx : Sec10Ctx G t L S z K1 K2) :
     secQ K1 K2 = twoCoreIn K1 ⊔ twoCoreIn K2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e1⟩ := (sec10KS_equiv hP5 hC5 hpsp hctx).1
   obtain ⟨e2⟩ := (sec10KS_equiv hP5 hC5 hpsp hctx).2
   set Q1 : Subgroup G := twoCoreIn K1 with hQ1
@@ -258,7 +258,7 @@ theorem sec10KS_twoCore_sup [Finite G] (hP5 : Asc82FactPockets5) (hC5 : Asc82Fac
       unfold twoCoreIn CFSG.inSubgroup
       exact (CFSG.pCore_isPGroup (G := ↥(K1 ⊔ K2)) (p := 2)).map (K1 ⊔ K2).subtype
     have hR2' : IsPGroup 2 ((twoCoreIn K).subgroupOf K) := hR2.comap_subtype
-    haveI : ((twoCoreIn K).subgroupOf K).Normal := twoCoreIn_normal_in K
+    have : ((twoCoreIn K).subgroupOf K).Normal := twoCoreIn_normal_in K
     have hP2' : IsPGroup 2 (P.subgroupOf K) := hP2.comap_subtype
     have hKcard : Nat.card ↥K = 288 := sec10KS_card_sup hP5 hC5 hpsp hctx
     have hindex : (P.subgroupOf K).index = 9 := by

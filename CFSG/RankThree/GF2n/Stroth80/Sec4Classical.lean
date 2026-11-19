@@ -173,7 +173,7 @@ private theorem subnormal_fst {A B : Type*} [Group A] [Group B] [IsSimpleGroup A
       ext <;> simp
     rw [heq] at hc'
     exact (hLmem _).mpr hc'
-  haveI := hL
+  have := hL
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L with hLb | hLt
   · left
     rw [eq_bot_iff]
@@ -221,7 +221,7 @@ private theorem subnormal_snd {A B : Type*} [Group A] [Group B] [IsSimpleGroup B
       ext <;> simp
     rw [heq] at hc'
     exact (hLmem _).mpr hc'
-  haveI := hL
+  have := hL
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L with hLb | hLt
   · left
     rw [eq_bot_iff]
@@ -366,13 +366,13 @@ theorem exists_orderOf_four_statedSL (K : Type) [Field K] [CharP K 2] (m : ℕ) 
         have := congrArg Fin.val h.2
         omega
       rw [hN]
-      simp [Matrix.single, Matrix.one_apply, h1, h2, h3]
+      simp [Matrix.single, h1, h2, h3]
     rw [Matrix.det_of_isUpperTriangular htri]
     refine Finset.prod_eq_one fun i _ => ?_
     have d1 : ¬ (i0 = i ∧ i1 = i) := fun h => h01 (h.1.trans h.2.symm)
     have d2 : ¬ (i1 = i ∧ i2 = i) := fun h => h12 (h.1.trans h.2.symm)
     rw [hN]
-    simp [Matrix.single, Matrix.one_apply, d1, d2]
+    simp [Matrix.single, d1, d2]
   have hIsU : IsUnit (1 + N) := by
     rw [Matrix.isUnit_iff_isUnit_det, hdet]
     exact isUnit_one
@@ -405,8 +405,8 @@ theorem exists_orderOf_four_statedSL (K : Type) [Field K] [CharP K 2] (m : ℕ) 
 
 theorem card_sylow_statedSL_two (K : Type) [Field K] [Finite K] [CharP K 2]
     (P : Sylow 2 ↥(StatedSL 2 K)) : Nat.card P = Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -420,7 +420,7 @@ theorem card_sylow_statedSL_two (K : Type) [Field K] [Finite K] [CharP K 2]
   have hsq4 : 4 ≤ Nat.card K ^ 2 := by nlinarith
   have hodd : ¬ 2 ∣ Nat.card K ^ 2 - 1 := by omega
   have hne : Nat.card K ^ 2 - 1 ≠ 0 := by omega
-  haveI : Finite (StatedSL 2 K) := Nat.finite_of_card_ne_zero (by
+  have : Finite (StatedSL 2 K) := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Open.StatedAPI.card_statedSL_two]
     exact Nat.mul_ne_zero hq0 hne)
   rw [Sylow.card_eq_multiplicity, CFSG.Open.StatedAPI.card_statedSL_two,
@@ -520,15 +520,15 @@ theorem subnormal_cases_of_shape (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) [
   · rcases isSubnormal_le_center_or_eq_top hq hF with h | h
     · exfalso
       apply hns
-      refine isSolvable_of_comm fun a b => ?_
+      refine _root_.Group.isSolvable_of_comm fun a b => ?_
       exact Subtype.ext (Subgroup.mem_center_iff.mp (h b.2) a)
     · exact Or.inl h
   · obtain ⟨e⟩ := hne
-    haveI : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hSL2
+    have : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hSL2
     have hA : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a := by
       by_contra h
       push Not at h
-      exact not_isSolvable_of_isQuasisimple hSL2 (isSolvable_of_comm fun a b => h a b)
+      exact not_isSolvable_of_isQuasisimple hSL2 (_root_.Group.isSolvable_of_comm fun a b => h a b)
     have hF' : (F.map e.toMonoidHom).IsSubnormal := hF.map e.surjective
     have eF : Nonempty (↥F ≃* ↥(F.map e.toMonoidHom)) :=
       ⟨Subgroup.equivMapOfInjective F e.toMonoidHom e.injective⟩
@@ -568,7 +568,7 @@ theorem subnormal_embedding_cases (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) 
       ((CFSG.IsQuasisimple Gc ∧ Nonempty (↥X ≃* Gc)) ∨
         Nonempty (↥X ≃* ↥(StatedSL 2 K) × ↥(StatedSL 2 K)))) ∨
       Nonempty (↥X ≃* ↥(StatedSL 2 K)) := by
-  haveI : Finite Gc := Finite.of_surjective π hπ
+  have : Finite Gc := Finite.of_surjective π hπ
   let f : ↥X →* Gc := π.comp (Subgroup.inclusion (hXH.trans hHR))
   have hfinj : Function.Injective f := by
     rw [injective_iff_map_eq_one]
@@ -601,7 +601,7 @@ theorem subnormal_embedding_cases (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) 
     Subgroup.IsSubnormal.step _ _ hFF' hF'n.isSubnormal hFn
   let e : ↥X ≃* ↥f.range := MonoidHom.ofInjective hfinj
   have hFns : ¬ Group.IsSolvable ↥f.range := fun h =>
-    hns (solvable_of_solvable_injective (f := e.toMonoidHom) e.injective)
+    hns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   rcases subnormal_cases_of_shape hSL2 hGc hFsub hFns with h | he'
   · have hsurj : Function.Surjective f := by
       intro g
@@ -643,6 +643,7 @@ section Uniqueness
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {q : ℕ}
 
+omit [Finite Γ] in
 theorem not_sl2_of_normal_of_unique (hq2 : ∃ k : ℕ, q = 2 ^ k)
     (hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = q → CFSG.IsQuasisimple ↥(StatedSL 2 K))
     {Y : Subgroup Γ} (hYu : ∀ C : Subgroup Γ, IsComponent C → IsSLModel 2 q ↥C → C = Y)
@@ -654,7 +655,7 @@ theorem not_sl2_of_normal_of_unique (hq2 : ∃ k : ℕ, q = 2 ^ k)
       ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a := fun K _ _ hK => by
     by_contra h
     push Not at h
-    exact not_isSolvable_of_isQuasisimple (hSL2 K hK) (isSolvable_of_comm fun a b => h a b)
+    exact not_isSolvable_of_isQuasisimple (hSL2 K hK) (_root_.Group.isSolvable_of_comm fun a b => h a b)
   constructor
   · rintro ⟨K, hF, hFin, hK, ⟨e⟩⟩
     have hq : CFSG.IsQuasisimple ↥X := isQuasisimple_of_mulEquiv' e.symm (hSL2 K hK)
@@ -665,13 +666,13 @@ theorem not_sl2_of_normal_of_unique (hq2 : ∃ k : ℕ, q = 2 ^ k)
   · intro K hF hFin hK hne
     obtain ⟨e⟩ := hne
     obtain ⟨k, hk⟩ := hq2
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hk)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hk)
     have hA := hnt K hK
     let F₁ : Subgroup ↥X := (⊤ : Subgroup ↥(StatedSL 2 K)).prod (⊥ : Subgroup ↥(StatedSL 2 K))
       |>.comap e.toMonoidHom
     let F₂ : Subgroup ↥X := (⊥ : Subgroup ↥(StatedSL 2 K)).prod (⊤ : Subgroup ↥(StatedSL 2 K))
       |>.comap e.toMonoidHom
-    haveI hF₁n : F₁.Normal := Subgroup.Normal.comap (by
+    have hF₁n : F₁.Normal := Subgroup.Normal.comap (by
       refine ⟨fun n hn g => ?_⟩
       obtain ⟨hn1, hn2⟩ := Subgroup.mem_prod.mp hn
       refine Subgroup.mem_prod.mpr ⟨Subgroup.mem_top _, ?_⟩
@@ -679,7 +680,7 @@ theorem not_sl2_of_normal_of_unique (hq2 : ∃ k : ℕ, q = 2 ^ k)
         have h2 : n.2 = 1 := Subgroup.mem_bot.mp hn2
         simp [h2]
       exact Subgroup.mem_bot.mpr this) e.toMonoidHom
-    haveI hF₂n : F₂.Normal := Subgroup.Normal.comap (by
+    have hF₂n : F₂.Normal := Subgroup.Normal.comap (by
       refine ⟨fun n hn g => ?_⟩
       obtain ⟨hn1, hn2⟩ := Subgroup.mem_prod.mp hn
       refine Subgroup.mem_prod.mpr ⟨?_, Subgroup.mem_top _⟩
@@ -753,7 +754,7 @@ theorem exists_two_factors (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) {X : Su
   have hnt : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    exact not_isSolvable_of_isQuasisimple hSL2 (isSolvable_of_comm fun a b => h a b)
+    exact not_isSolvable_of_isQuasisimple hSL2 (_root_.Group.isSolvable_of_comm fun a b => h a b)
   let F₁ : Subgroup ↥X := (⊤ : Subgroup ↥(StatedSL 2 K)).prod (⊥ : Subgroup ↥(StatedSL 2 K))
     |>.comap e.toMonoidHom
   let F₂ : Subgroup ↥X := (⊥ : Subgroup ↥(StatedSL 2 K)).prod (⊤ : Subgroup ↥(StatedSL 2 K))
@@ -808,8 +809,8 @@ theorem exists_two_factors (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) {X : Su
     have hx2' : (e x).2 = 1 := Subgroup.mem_bot.mp hx2
     have hy1' : (e y).1 = 1 := Subgroup.mem_bot.mp hy1
     apply Prod.ext <;> simp [hx2', hy1']
-  haveI := hF₁n
-  haveI := hF₂n
+  have := hF₁n
+  have := hF₂n
   obtain ⟨⟨s₁⟩, ⟨s₂⟩⟩ := sl2_of_commuting_normal_prod hSL2 e hF₁ne hF₂ne hcomm
   have hsup : F₁ ⊔ F₂ = ⊤ := by
     rw [eq_top_iff]
@@ -859,7 +860,7 @@ theorem not_isSimpleGroup_of_prod (hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K)) 
   have hnt : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    exact not_isSolvable_of_isQuasisimple hSL2 (isSolvable_of_comm fun a b => h a b)
+    exact not_isSolvable_of_isQuasisimple hSL2 (_root_.Group.isSolvable_of_comm fun a b => h a b)
   have hne : ∀ Z : Subgroup Γ, (↥Z ≃* ↥(StatedSL 2 K)) → Z ≠ ⊥ := by
     intro Z f hZ
     obtain ⟨a, b, hab⟩ := hnt
@@ -894,7 +895,7 @@ theorem exists_ne_one_inf_of_card {Γ : Type*} [Group Γ] [Finite Γ] {Λ N D A 
     (hcover : ∀ l ∈ Λ, ∃ d ∈ D, ∃ a ∈ A, l = d * a)
     (hne : Nat.card Λ ≠ 2 * Nat.card D) : ∃ c ∈ A ⊓ N, c ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hNpos : 0 < Nat.card N := Nat.card_pos
   have hsub : Nat.card (N.subgroupOf Λ) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNΛ).toEquiv
@@ -928,7 +929,7 @@ theorem exists_ne_one_inf_of_card {Γ : Type*} [Group Γ] [Finite Γ] {Λ N D A 
 
 theorem card_le_card_sylow {H : Type*} [Group H] [Finite H] {T : Subgroup H}
     (hT : IsPGroup 2 ↥T) (P : Sylow 2 H) : Nat.card T ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hT.exists_le_sylow
   have h1 : Nat.card T ≤ Nat.card Q := Subgroup.card_le_of_le hQ
   have h2 : Nat.card Q = Nat.card P := by
@@ -937,7 +938,7 @@ theorem card_le_card_sylow {H : Type*} [Group H] [Finite H] {T : Subgroup H}
 
 theorem card_sylow_eq_of_mulEquiv {H H' : Type*} [Group H] [Group H'] [Finite H] [Finite H']
     (e : H ≃* H') (P : Sylow 2 H) (P' : Sylow 2 H') : Nat.card P = Nat.card P' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card H = Nat.card H' := Nat.card_congr e.toEquiv
   rw [Sylow.card_eq_multiplicity P, Sylow.card_eq_multiplicity P', hcard]
 

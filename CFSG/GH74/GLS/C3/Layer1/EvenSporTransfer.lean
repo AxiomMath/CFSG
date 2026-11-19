@@ -100,7 +100,7 @@ theorem exists_sylow_eq_of_fusion {N W : Subgroup G} {x : G} (hW : IsSylowOf 2 W
   refine ⟨S, ?_⟩
   by_contra hne
   have hlt : W < (S : Subgroup G) := lt_of_le_of_ne hWS (Ne.symm hne)
-  have hSp : IsPGroup 2 ↥(S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 ↥(S : Subgroup G) := S.isPGroup
   have : Group.IsNilpotent ↥(S : Subgroup G) := hSp.isNilpotent
   have hnc : NormalizerCondition ↥(S : Subgroup G) := Group.normalizerCondition_of_isNilpotent
   have hW' : W.subgroupOf (S : Subgroup G) < ⊤ := by

@@ -49,7 +49,7 @@ theorem step07_holds : Step07 := by
     (hd.s56_CN_U11_eq h49).symm, fun n hn u hu => hd.s56_N_conj_U10 h49 hn hu, ?_,
     hd.s56_N_quot_P10_equiv h49, ?_, ?_, ?_, fun p => hd.s56_P0_inf_M_iff h49,
     hd.s56_P0_inf_M_relIndex h49⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hy3 hy1
   ·
     rintro y ⟨hyNL, hyo, -⟩

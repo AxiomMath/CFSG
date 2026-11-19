@@ -101,11 +101,11 @@ theorem fiveList_center_eq_bot (e : A ≃* Ks) (hq : CFSG.IsQuasisimple A)
     · exact (CFSG.LieType.Simplicity.fam_2b2_simplicity Ks 2 n
         (LieModel.twistedB2_iff.1 h).2).2
     · obtain ⟨e''⟩ := e'
-      haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+      have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
       exact e''.isSimpleGroup
     · exact (CFSG.LieType.Simplicity.fam_PSL_simplicity Ks 3 2 1
         ((LieModel.classical_iff (by decide)).1 h)).2
-  haveI : IsSimpleGroup A := e.isSimpleGroup
+  have : IsSimpleGroup A := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hq.2.2
   obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b

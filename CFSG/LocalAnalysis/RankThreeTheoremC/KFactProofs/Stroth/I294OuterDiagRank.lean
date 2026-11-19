@@ -77,7 +77,7 @@ theorem torus4_injective (hn : 5 ≤ n) : Function.Injective (torus4 (K := K) n)
   have e2 := congrFun hab ⟨2, by omega⟩
   have e3 := congrFun hab ⟨3, by omega⟩
   simp only [torus4_apply, torus4Nat] at e0 e1 e2 e3
-  simp only [if_true, one_ne_zero, if_false, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one] at e0 e1 e2 e3
+  simp only [ite_true, one_ne_zero, ite_false, OfNat.ofNat_ne_zero, OfNat.ofNat_ne_one] at e0 e1 e2 e3
   funext i
   fin_cases i
   · exact e0
@@ -99,7 +99,7 @@ theorem odTorus_four_le_pRank_statedProj (hp : p.Prime) (hn : 6 ≤ n) {ζ : Kˣ
     (hH : ∀ w : Fin n → Kˣ, (∀ i, w i ∈ Subgroup.zpowers ζ) → ∏ i, w i = 1 → diagU w ∈ H) :
     4 ≤ CFSG.Open.pRank p (⊤ : Subgroup (StatedProj H)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζp : ζ ^ p = 1 := hζ ▸ pow_orderOf_eq_one ζ
   let μ : Subgroup Kˣ := Subgroup.zpowers ζ
   have hμp : ∀ x : μ, x ^ p = 1 := by
@@ -143,7 +143,7 @@ variable {K : Type} [Field K] [Finite K] {p n : ℕ}
 
 theorem odFour_le_pRank_psl (hp : p.Prime) (hn : 6 ≤ n) (hpK : p ∣ Nat.card K - 1) :
     4 ≤ CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSL n K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' p hdvd
   refine odTorus_four_le_pRank_statedProj hp hn hζ fun w _ hw => ?_
@@ -153,7 +153,7 @@ theorem odFour_le_pRank_psl (hp : p.Prime) (hn : 6 ≤ n) (hpK : p ∣ Nat.card 
 theorem odFour_le_pRank_psu {ℓ f : ℕ} (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData ℓ f K)
     (hp : p.Prime) (hn : 6 ≤ n) (hpq : p ∣ ℓ ^ f + 1) :
     4 ≤ CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSU n (ℓ ^ f) K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hU.card_eq_sq]
     have h1 : (ℓ ^ f) ^ 2 - 1 ^ 2 = (ℓ ^ f + 1) * (ℓ ^ f - 1) := Nat.sq_sub_sq _ _

@@ -16,7 +16,7 @@ private theorem iterateFrobenius_two_pow_apply_of_fixed [ExpChar K 2] {e : ℕ} 
     iterateFrobenius K 2 e a = a := by
   rw [iterateFrobenius_def]
   have ha' : a ∈ fixSubfield σ := (mem_fixSubfield σ).2 ha
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
   have hcard : Fintype.card ↥(fixSubfield σ) = 2 ^ e := by
     rw [← Nat.card_eq_fintype_card]
     exact hk
@@ -50,20 +50,20 @@ theorem exists_inndiagGroup_of_fixed
     (hfix : Units.map (entrywiseHom σ.toRingHom) w = w) :
     ∃ w₀ ∈ inndiagGroup τ (fixSubfield σ), baseChangeGL (fixSubfield σ).subtype w₀ = w := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rw [← Nat.card_eq_fintype_card]
     exact hK
   set L := AlgebraicClosure K with hL
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsScalarTower (fixSubfield σ) K L := inferInstance
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsScalarTower (fixSubfield σ) K L := inferInstance
   have hιk : algebraMap (fixSubfield σ) L = (algebraMap K L).comp (fixSubfield σ).subtype :=
     IsScalarTower.algebraMap_eq (fixSubfield σ) K L
-  haveI : Module.Finite (fixSubfield σ) K := inferInstance
-  haveI : Algebra.IsAlgebraic (fixSubfield σ) K :=
+  have : Module.Finite (fixSubfield σ) K := inferInstance
+  have : Algebra.IsAlgebraic (fixSubfield σ) K :=
     Algebra.IsAlgebraic.of_finite (fixSubfield σ) K
-  haveI : Algebra.IsAlgebraic (fixSubfield σ) L :=
+  have : Algebra.IsAlgebraic (fixSubfield σ) L :=
     Algebra.IsAlgebraic.trans (fixSubfield σ) K L
   set Fr := iterateFrobenius L 2 e with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ Nat.card (fixSubfield σ) := by

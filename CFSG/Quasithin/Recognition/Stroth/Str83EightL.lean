@@ -201,7 +201,7 @@ theorem exists_sorted_orbit {n l : ℕ} (hl : 1 ≤ l) (hn : n = 3 * l) {J : Fin
   have h2ln : 2 * l < n := by omega
   have ha_l_mem : (a + l) % n ∈ J := by
     have h : (a + l) % n ∈ J.image (fun i => (i + l) % n) := by
-      simp only [Finset.mem_image, Finset.mem_univ, true_and]
+      simp only [Finset.mem_image]
       exact ⟨a, haJ, rfl⟩
     rwa [hshift] at h
   have ha_l : a + l < n := by
@@ -215,7 +215,7 @@ theorem exists_sorted_orbit {n l : ℕ} (hl : 1 ≤ l) (hn : n = 3 * l) {J : Fin
   have ha_lJ : a + l ∈ J := by simpa [ha_l, Nat.mod_eq_of_lt ha_l] using ha_l_mem
   have ha_2l_mem : (a + 2 * l) % n ∈ J := by
     have h : ((a + l) + l) % n ∈ J.image (fun i => (i + l) % n) := by
-      simp only [Finset.mem_image, Finset.mem_univ, true_and]
+      simp only [Finset.mem_image]
       exact ⟨a + l, ha_lJ, by ring_nf⟩
     rw [hshift] at h
     simpa [two_mul, add_assoc] using h
@@ -264,7 +264,7 @@ theorem eightL_module_bound {n l : ℕ} (hn : n = 3 * l)
         exact hg (LinearMap.ext hall)
       obtain ⟨w, hw⟩ := hex
       have hw0 : w ≠ 0 := fun hw' => hw (by rw [hw', map_zero])
-      haveI : Nontrivial W := ⟨0, w, fun h' => hw0 h'.symm⟩
+      have : Nontrivial W := ⟨0, w, fun h' => hw0 h'.symm⟩
       exact Finite.one_lt_card
     rw [h0, mul_zero, pow_zero] at hW
     omega

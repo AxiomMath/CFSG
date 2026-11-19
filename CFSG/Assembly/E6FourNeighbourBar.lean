@@ -52,7 +52,7 @@ theorem bar_isComponentOf (hp : p.Prime) (hO : ¬ p ∣ Nat.card O) {x : H} (hx 
   ·
     intro z hz
     have hzK : z ∈ K := (Subgroup.mem_inf.mp hz).1
-    haveI : ((K ⊓ O).subgroupOf K).Normal := by
+    have : ((K ⊓ O).subgroupOf K).Normal := by
       rw [Subgroup.inf_subgroupOf_left]
       exact Subgroup.normal_subgroupOf
     have hZproper : (K ⊓ O).subgroupOf K ≠ ⊤ := by

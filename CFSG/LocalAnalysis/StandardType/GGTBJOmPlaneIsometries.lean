@@ -18,6 +18,7 @@ open CFSG.RankThree.Classical2 (orthDerived)
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p r : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.tau_mulSingle_apply_iff [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (i : Fin r) (v : V) :
     Δ.τ (Pi.mulSingle i (ofAdd (1 : ZMod p))) v = v ↔
@@ -34,6 +35,7 @@ theorem TBJOmData.tau_mulSingle_apply_iff [Fact p.Prime]
     · rw [piMul_apply, toAdd_ofAdd, Pi.mulSingle_eq_of_ne hji, toAdd_one] at hj
       exact (hj rfl).elim
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem TBJOmData.mapsTo_orthogonal_inv_of_conj_tau_mulSingle [Fact p.Prime]
     (Δ : TBJOmData Q p A r) {i k : Fin r} {w : V ≃ₗ[K] V}
     (hwconj : w * Δ.τ (Pi.mulSingle i (ofAdd (1 : ZMod p))) * w⁻¹ =
@@ -54,6 +56,7 @@ private theorem TBJOmData.mapsTo_orthogonal_inv_of_conj_tau_mulSingle [Fact p.Pr
     exact h'.symm
   exact (Δ.tau_mulSingle_apply_iff i (w.symm v)).mp hvei u hu
 
+omit [Finite K] in
 theorem TBJOmData.mapsTo_piece_of_conj_tau_mulSingle [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) {i k : Fin r}
     {w : V ≃ₗ[K] V} (hwO : w ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -77,6 +80,7 @@ theorem TBJOmData.mapsTo_piece_of_conj_tau_mulSingle [Fact p.Prime]
   rwa [LinearMap.BilinForm.orthogonal_orthogonal hQ
     (QuadraticMap.isSymm_polarBilin Q).isRefl (Δ.F.U k)] at hmem
 
+omit [Finite K] in
 theorem TBJOmData.map_piece_eq_of_conj_tau_mulSingle [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) {i k : Fin r}
     {w : V ≃ₗ[K] V} (hwO : w ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -101,6 +105,7 @@ theorem TBJOmData.map_piece_eq_of_conj_tau_mulSingle [Fact p.Prime]
     rw [Δ.τ_eq]
     exact Δ.F.mapsTo (piMul r p f) i (u : V) u.2⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 @[simp]
 theorem TBJOmData.pieceAction_coe (Δ : TBJOmData Q p A r)
     (f : Fin r → Multiplicative (ZMod p)) (i : Fin r) (u : Δ.F.U i) :
@@ -117,6 +122,7 @@ structure PlaneMoveData (Δ : TBJOmData Q p A r) (o i : Fin r) where
     (∀ u ∈ Δ.F.U i, polar Q u v = 0) → w v = v
   eq_one_of_eq : i = o → w = 1
 
+omit [Finite K] in
 theorem exists_planeMoveData [Fact p.Prime]
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (o i : Fin r) :
     Nonempty (PlaneMoveData Δ o i) := by
@@ -144,11 +150,13 @@ theorem exists_planeMoveData [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (o i : Fin r) : V ≃ₗ[K] V :=
   (Classical.choice (exists_planeMoveData Δ hQ o i)).w
 
+omit [Finite K] in
 theorem TBJOmData.planeMove_mem_orthogonal [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (o i : Fin r) :
     Δ.planeMove hQ o i ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   (Classical.choice (exists_planeMoveData Δ hQ o i)).mem_orthogonal
 
+omit [Finite K] in
 theorem TBJOmData.planeMove_map_piece [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (o i : Fin r) :
     Submodule.map (Δ.planeMove hQ o i).toLinearMap (Δ.F.U o) = Δ.F.U i :=
@@ -166,6 +174,7 @@ theorem TBJOmData.planeMove_map_piece [Fact p.Prime] (Δ : TBJOmData Q p A r)
     exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp
       (Δ.planeMove_mem_orthogonal hQ o i) (u : V)
 
+omit [Finite K] in
 @[simp]
 theorem TBJOmData.planeIsometry_coe [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (o i : Fin r) (u : Δ.F.U o) :

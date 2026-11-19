@@ -38,7 +38,7 @@ theorem Q_le_Gi_pred (i : ℤ) : X.Q i ≤ X.Gi (i - 1) :=
 theorem L_le_of_edgeSylow_le (i : ℤ) {Y : Subgroup G} (hY : Y ≤ X.Gi (i + 1))
     (hnorm : X.Gi (i + 1) ≤ Subgroup.normalizer (Y : Set G)) (hS : X.edgeSylow i ≤ Y) :
     X.L (i + 1) ≤ Y := by
-  haveI : Finite ↥(X.Gi (i + 1)) := X.hyp.finite_stab (X.vert (i + 1))
+  have : Finite ↥(X.Gi (i + 1)) := X.hyp.finite_stab (X.vert (i + 1))
   have hSyl : IsSylowTwoOf (X.edgeSylow i) (X.Gi (i + 1)) :=
     isSylowTwoOf_of_edgeStab X.hyp (X.adj i).symm
       (by simpa only [inf_comm] using X.isSylowTwoOf_edgeSylow i)
@@ -144,7 +144,7 @@ theorem conjSub_R72 (hR3 : X.R72 ≤ X.Q 3) {g : G} (hg : g ∈ X.Gi 2) :
 
 theorem Gi_two_le_normalizer_R72 (hR3 : X.R72 ≤ X.Q 3) :
     X.Gi 2 ≤ Subgroup.normalizer (X.R72 : Set G) :=
-  fun g hg => Subgroup.mem_normalizer_iff_map_conj_eq.mpr (X.conjSub_R72 hR3 hg)
+  fun _g hg => Subgroup.mem_normalizer_iff_map_conj_eq.mpr (X.conjSub_R72 hR3 hg)
 
 theorem commutator_Q_one_Q_two_le : ⁅X.Q 1, X.Q 2⁆ ≤ X.R72 := by
   refine Subgroup.commutator_le.mpr ?_
@@ -208,7 +208,7 @@ theorem conjSub_M72 {g : G} (hg : g ∈ X.Gi 2) : conjSub g X.M72 = X.M72 := by
       conjSub g (conjSub g'' (X.Q 1))) (g⁻¹ * g') hmem
 
 theorem Gi_two_le_normalizer_M72 : X.Gi 2 ≤ Subgroup.normalizer (X.M72 : Set G) :=
-  fun g hg => Subgroup.mem_normalizer_iff_map_conj_eq.mpr (X.conjSub_M72 hg)
+  fun _g hg => Subgroup.mem_normalizer_iff_map_conj_eq.mpr (X.conjSub_M72 hg)
 
 theorem commutator_M72_Q_two_le (hR3 : X.R72 ≤ X.Q 3) : ⁅X.M72, X.Q 2⁆ ≤ X.R72 := by
   have hterm : ∀ g : {g : G // g ∈ X.Gi 2},
@@ -273,7 +273,7 @@ theorem commutator_mem_R72_of_Q_one (hc : CharTwoStab (V := V) (G := G))
     (hn0 : X.n 0 = 1 ∨ X.n 0 = 2) :
     ∀ a ∈ X.Q 1, ∀ b ∈ X.Q 1, ⁅a, b⁆ ∈ X.R72 := by
   classical
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hQ2norm : X.Q 1 ≤ Subgroup.normalizer (X.Q 2 : Set G) :=
     (X.Q_le_Gi_succ 1).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 2))
@@ -282,7 +282,7 @@ theorem commutator_mem_R72_of_Q_one (hc : CharTwoStab (V := V) (G := G))
       (Subgroup.inf_normalizer_le_normalizer_inf (H := X.Q 1) (K := X.Q 2))
   let N : Subgroup ↥(X.Q 1) := X.R72.subgroupOf (X.Q 1)
   have hN : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
-  letI : N.Normal := hN
+  let : N.Normal := hN
   have hcard : Nat.card (↥(X.Q 1) ⧸ N) = 2 ^ X.n 0 := by
     change (X.R72.subgroupOf (X.Q 1)).index = 2 ^ X.n 0
     rw [← Subgroup.relIndex]
@@ -307,7 +307,7 @@ theorem commutator_mem_R72_of_Q_one (hc : CharTwoStab (V := V) (G := G))
         exact commutatorElement_eq_one_iff_mul_comm.mpr (hcomm2 _ _)
       · have hcard4 : Nat.card (↥(X.Q 1) ⧸ N) = 2 ^ 2 := by
           rw [hcard, hn2]
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hcommq : IsMulCommutative (↥(X.Q 1) ⧸ N) :=
           IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hcard4
         exact commutatorElement_eq_one_iff_mul_comm.mpr (hcommq.is_comm.comm _ _)
@@ -330,7 +330,7 @@ theorem M72_inf_Q_two_inf_le (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) (hn0 : X.n 0 = 1 ∨ X.n 0 = 2) :
     (X.M72 ⊓ X.Q 2) ⊓ (⁅X.M72, X.M72⁆ ⊔ X.R72) ≤ X.R72 := by
   classical
-  haveI : Finite ↥X.M72 :=
+  have : Finite ↥X.M72 :=
     finite_of_le_stabilizer X.hyp (H := X.M72) (X.M72_le_L.trans (X.L_le_Gi 2))
   have hRleM : X.R72 ≤ X.M72 := inf_le_left.trans X.Q_one_le_M72
   have hRn : X.M72 ≤ Subgroup.normalizer (X.R72 : Set G) :=
@@ -348,7 +348,7 @@ theorem M72_inf_Q_two_inf_le (hc : CharTwoStab (V := V) (G := G))
   have hSyl : IsSylowTwoOf (X.edgeSylow 1) (X.Gi 2) :=
     isSylowTwoOf_of_edgeStab X.hyp (X.adj 1).symm
       (by simpa only [inf_comm] using X.isSylowTwoOf_edgeSylow 1)
-  haveI : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
+  have : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
   have hP : IsSylowTwoOf (X.M72 ⊓ X.edgeSylow 1) X.M72 :=
     isSylowTwoOf_inf_of_normal hSyl X.M72_le_Gi X.Gi_two_le_normalizer_M72
   have hQ2normQ1 : X.Q 2 ≤ Subgroup.normalizer (X.Q 1 : Set G) :=
@@ -377,7 +377,7 @@ theorem Q_one_le_commutator_sup (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) (hn0 : X.n 0 = 2) :
     X.Q 1 ≤ ⁅X.M72, X.M72⁆ ⊔ X.R72 := by
   classical
-  haveI : Finite ↥(X.Ki 2) :=
+  have : Finite ↥(X.Ki 2) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 2) (inf_le_right.trans (X.L_le_Gi 2))
   have hcard : Nat.card ↥(X.Ki 2) = 3 := by
     rw [X.card_Ki 2, X.n_two, hn0]; norm_num
@@ -404,7 +404,7 @@ theorem Q_one_le_commutator_sup (hc : CharTwoStab (V := V) (G := G))
       ((X.Q_le_Gi_succ 1).trans
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 2)))).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := X.Q 1) (K := X.Q 2))
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hunion : ∀ u ∈ X.Q 1, ∃ v ∈ X.Q 1, ∃ w ∈ X.R72, u = ⁅k, v⁆ * w :=
     exists_commutator_mul_of_fixedPointFree (U := X.Q 1) (R := X.R72)
@@ -732,7 +732,7 @@ theorem orderOf_eq_two_pow_of_mem_H72_centralizer (hc : CharTwoStab (V := V) (G 
     ∃ a : ℕ, orderOf c = 2 ^ a := by
   classical
   have hcM : c ∈ X.M72 := X.H72_le_M72 hcH
-  haveI : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
+  have : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
   have hfinOrd : IsOfFinOrder c := by
     rw [isOfFinOrder_iff_pow_eq_one]
     have h := isOfFinOrder_of_finite (⟨c, X.H72_le_Gi hcH⟩ : ↥(X.Gi 2))
@@ -792,7 +792,7 @@ theorem orderOf_eq_two_pow_of_mem_H72_centralizer (hc : CharTwoStab (V := V) (G 
 theorem charTwo_H72 (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) (hn0 : X.n 0 = 1 ∨ X.n 0 = 2) : CharTwo X.H72 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CharTwo, X.pCoreOf_H72 hc hR3 hn0]
   have hC2 : IsPGroup 2 ((X.H72 ⊓ Subgroup.centralizer (X.R72 : Set G) : Subgroup G)) := by
     rw [IsPGroup.iff_orderOf]

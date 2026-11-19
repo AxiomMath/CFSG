@@ -70,7 +70,7 @@ theorem odd_unitary_three_perfect_central_two_kernel_cyclic {p f : ℕ} (hp2 : p
     refine Subtype.ext (φ.injective (Subtype.ext ?_))
     rw [Subgroup.coe_pow, map_pow, Subgroup.coe_pow, ← hc, ← map_pow, hc3, map_one,
       Subgroup.coe_one, map_one, Subgroup.coe_one]
-  exact card_eq_one_of_isPGroup_two_of_dvd_odd C₂.isPGroup'
+  exact card_eq_one_of_isPGroup_two_of_dvd_odd C₂.isPGroup
     (odd_card_of_forall_pow_three_eq_one hker) hdvd
 
 theorem isCyclic_scalars_statedSU {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime]

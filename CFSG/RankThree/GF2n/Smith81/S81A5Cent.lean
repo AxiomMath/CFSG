@@ -92,12 +92,8 @@ theorem unipotent_cube_zero (a b f g : Fin 6 → K) (hfa : f ⬝ᵥ a = 0) (hgb 
     ((vecMulVec a f + vecMulVec b g + (f ⬝ᵥ b) • vecMulVec a g) ^ 3 : Matrix (Fin 6) (Fin 6) K) = 0 := by
   rw [pow_three]
   rcases mul_eq_zero.1 h with hα | hβ
-  · simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, smul_add, smul_smul,
-      fe3_vecMulVec_mul, hfa, hgb, hα, zero_smul, smul_zero, zero_add, add_zero, mul_zero,
-      zero_mul]
-  · simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, smul_add, smul_smul,
-      fe3_vecMulVec_mul, hfa, hgb, hβ, zero_smul, smul_zero, zero_add, add_zero, mul_zero,
-      zero_mul]
+  · simp only [add_mul, mul_add, mul_smul_comm, fe3_vecMulVec_mul, hfa, hgb, hα, zero_smul, smul_zero, zero_add, add_zero]
+  · simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, fe3_vecMulVec_mul, hfa, hgb, hβ, zero_smul, smul_zero, zero_add, add_zero]
 
 theorem fe3_pairing_ne_zero [CharP K 2] {x y : GL (Fin 6) K} {a b f g : Fin 6 → K}
     (hx : (x : Matrix (Fin 6) (Fin 6) K) = 1 + vecMulVec a f)
@@ -155,8 +151,8 @@ theorem exists_det_one_mulVec_two {a b : Fin 6 → K} (h : LinearIndependent K !
     · intro h0
       have h00 := congrFun h0 0
       simp [e] at h00
-    · simp [e, single_one_dotProduct, Pi.single_apply]
-    · simp [e, single_one_dotProduct]
+    · simp [e]
+    · simp [e]
   obtain ⟨g, hg, hgv⟩ := exists_sl_of_linearIndependent (by norm_num : (2 : ℕ) < 6) h he
   exact ⟨g, hg, hgv 0, hgv 1⟩
 
@@ -172,13 +168,13 @@ theorem transvection_zero_one_eq (α : K) :
     Matrix.transvection (0 : Fin 6) 1 α = 1 + vecMulVec (e K 0) (fun j => if j = 1 then α else 0) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply]
+    simp [Matrix.transvection, Matrix.vecMulVec, e, Pi.single_apply]
 
 theorem transvection_one_zero_eq (β : K) :
     Matrix.transvection (1 : Fin 6) 0 β = 1 + vecMulVec (e K 1) (fun j => if j = 0 then β else 0) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply]
+    simp [Matrix.transvection, Matrix.vecMulVec, e, Pi.single_apply]
 
 theorem fe3_vecMulVec_mulVec (u v x : Fin 6 → K) : (vecMulVec u v).mulVec x = (v ⬝ᵥ x) • u := by
   funext i
@@ -195,12 +191,12 @@ theorem fe3_mulVec_unipotent (u w x : Fin 6 → K) :
 theorem fe3_unipotent_det (u w : Fin 6 → K) (hu0 : u 0 = 0) (hu1 : u 1 = 0) (hw0 : w 0 = 0)
     (hw1 : w 1 = 0) :
     (1 + vecMulVec (e K 0) u + vecMulVec (e K 1) w : Matrix (Fin 6) (Fin 6) K).det = 1 := by
-  rw [Matrix.det_of_upperTriangular]
-  · simp [Fin.prod_univ_six, Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1, hw0, hw1]
+  rw [det_of_isUpperTriangular]
+  · simp [Fin.prod_univ_six, Matrix.vecMulVec, e, Pi.single_apply, hu0, hw1]
   · intro i j hji
     revert hji
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.one_apply, Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1, hw0, hw1]
+      simp [Matrix.vecMulVec, e, Pi.single_apply, hu0, hu1, hw0, hw1]
 
 theorem exists_unipotent_normalizer {f₁ g₁ : Fin 6 → K} {α β : K} (hα : α ≠ 0) (hβ : β ≠ 0)
     (hf0 : f₁ 0 = 0) (hf1 : f₁ 1 = α) (hg0 : g₁ 0 = β) (hg1 : g₁ 1 = 0) :
@@ -221,8 +217,8 @@ theorem exists_unipotent_normalizer {f₁ g₁ : Fin 6 → K} {α β : K} (hα :
   · intro j hj
     rw [fe3_mulVec_unipotent]
     constructor
-    · simp [e, dotProduct_add, dotProduct_smul, dotProduct_single_one, hu j hj, hw j hj, hf0, hf1, hα]
-    · simp [e, dotProduct_add, dotProduct_smul, dotProduct_single_one, hu j hj, hw j hj, hg0, hg1, hβ]
+    · simp [e, dotProduct_add, dotProduct_smul, hu j hj, hw j hj, hf0, hf1, hα]
+    · simp [e, dotProduct_add, dotProduct_smul, hu j hj, hw j hj, hg0, hg1, hβ]
 
 theorem fe3_vecMul_apply_e (M : Matrix (Fin 6) (Fin 6) K) (f : Fin 6 → K) (j : Fin 6) :
     (f ᵥ* M) j = f ⬝ᵥ (M *ᵥ e K j) := by
@@ -283,7 +279,7 @@ theorem fe3_conj_explicit {a b f g : Fin 6 → K} (ha : a ≠ 0) (hfa : f ⬝ᵥ
             have h0 : j.val ≠ 0 := fun h => hj0 (Fin.ext h)
             have h1 : j.val ≠ 1 := fun h => hj1 (Fin.ext h)
             omega
-          rw [(hPj j hj2).1, if_neg hj1]
+          rw [(hPj j hj2).1, ite_eq_right hj1]
     rw [conj_one_add_vecMulVec, inv_inv, hc_e0, hfP, transvection_zero_one_eq]
   · have hc_e1 : ((P⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ b = e K 1 := by
       rw [← hPe1, Matrix.mulVec_mulVec, Units.inv_mul, Matrix.one_mulVec]
@@ -300,7 +296,7 @@ theorem fe3_conj_explicit {a b f g : Fin 6 → K} (ha : a ≠ 0) (hfa : f ⬝ᵥ
             have h0 : j.val ≠ 0 := fun h => hj0 (Fin.ext h)
             have h1 : j.val ≠ 1 := fun h => hj1 (Fin.ext h)
             omega
-          rw [(hPj j hj2).2, if_neg hj0]
+          rw [(hPj j hj2).2, ite_eq_right hj0]
     rw [conj_one_add_vecMulVec, inv_inv, hc_e1, hgP, transvection_one_zero_eq]
 
 theorem fe3_conj [CharP K 2] {x y : GL (Fin 6) K} (hx : IsTransvec K x) (hy : IsTransvec K y)

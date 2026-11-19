@@ -46,7 +46,7 @@ theorem E8ZPkg.centralizer_eq_B (P : E8ZPkg z e E B T A X)
   set Ce : Subgroup G := Subgroup.centralizer ({e} : Set G)
   have hEC : E ≤ Ce := P.E_le_B.trans P.B_le
   have hTC : (T : Subgroup G) ≤ Ce := P.T_le.trans P.B_le
-  haveI hEn : (E.subgroupOf Ce).Normal :=
+  have hEn : (E.subgroupOf Ce).Normal :=
     (Subgroup.normal_subgroupOf_iff hEC).2 fun h k hh hk => by
       have h1 : k * h * k⁻¹ ∈ E.map (MulAut.conj k).toMonoidHom :=
         Subgroup.mem_map_of_mem (MulAut.conj k).toMonoidHom hh

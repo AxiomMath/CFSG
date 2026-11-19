@@ -16,7 +16,7 @@ theorem fi24in_exists_odd_index_stabilizer [Finite Γ] [Finite Ω] (hΩ : Odd (N
     ∃ ω : Ω, Odd (stabilizer Γ ω).index := by
   obtain ⟨P⟩ : Nonempty (Sylow 2 Γ) := inferInstance
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP : IsPGroup 2 P := P.isPGroup'
+  have hP : IsPGroup 2 P := P.isPGroup
   have hmod := hP.card_modEq_card_fixedPoints (α := Ω)
   have hodd : Odd (Nat.card (fixedPoints P Ω)) := by
     have h1 : Nat.card Ω % 2 = Nat.card (fixedPoints P Ω) % 2 := hmod

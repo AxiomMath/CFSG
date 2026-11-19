@@ -62,8 +62,8 @@ theorem s16h_sl4_conj_lbar_exists_order_three
     ∃ a ∈ lBar ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x), orderOf a = 3 := by
   have hV := h.hyp151.isElemAbelian
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := s16h_sl4_conj_lbar_isSLn D h hrow hxM
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h3 : 3 ∣ Nat.card K ^ 2 - 1 := by
     rw [hKcard]
     norm_num
@@ -85,15 +85,15 @@ theorem s16h_sl4_conj_lbar_center_eq_bot
     {x : G} (hxM : x ∈ D.M) :
     Subgroup.center ↥(lBar ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x)) = ⊥ := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := s16h_sl4_conj_lbar_isSLn D h hrow hxM
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hKeven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hKcard]
     norm_num
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hKcenter : Subgroup.center ↥(StatedSL 2 K) = ⊥ :=
     CFSG.RankThree.GF2n.Stroth80.center_statedSL_two_eq_bot
   have hcard : Nat.card ↥(Subgroup.center

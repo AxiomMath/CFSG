@@ -108,7 +108,7 @@ theorem exists_conj_le_torusPow [Finite K] {p : ℕ} (hp : p.Prime)
   have : Finite (adjointGroup .F4 K) := CFSG.LieType.Chevalley.generated_group_finite .F4 K
   set H' := (torusGroup .F4 K).subgroupOf (adjointGroup .F4 K) with hH'
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p H'))
-  have hPp : IsPGroup p ((P : Subgroup H').map H'.subtype) := P.isPGroup'.map _
+  have hPp : IsPGroup p ((P : Subgroup H').map H'.subtype) := P.isPGroup.map _
   have hPidx : ¬ p ∣ ((P : Subgroup H').map H'.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h

@@ -57,7 +57,7 @@ theorem s16c11_normalizer_le_of_case4 (D : Data G) (h61 : UC6.R6_1 D) (h1610 : R
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   obtain ⟨p, r, hp37, hr, h4At⟩ := h4
   have hpp : p.Prime := by rcases hp37 with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hL : lBar V₀ V hV L ≤ pCoreOf p (Mbar D.M V₀ V hV) :=
     s16n9b_case4_pcore D hV hc hpp hr h4At.1
   have hLexp : ∀ x ∈ lBar V₀ V hV L, x ^ p = 1 := fun x hx =>
@@ -69,7 +69,7 @@ theorem s16c11_normalizer_le_of_case4 (D : Data G) (h61 : UC6.R6_1 D) (h1610 : R
   have hPc : ¬ IsCyclic ↥(pCoreOf p (Mbar D.M V₀ V hV)) := by
     intro hcyc
     refine hLc ?_
-    haveI : IsCyclic ↥((lBar V₀ V hV L).subgroupOf (pCoreOf p (Mbar D.M V₀ V hV))) :=
+    have : IsCyclic ↥((lBar V₀ V hV L).subgroupOf (pCoreOf p (Mbar D.M V₀ V hV))) :=
       Subgroup.isCyclic _
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hL).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hL).surjective
@@ -91,7 +91,7 @@ theorem s16c11_normalizer_le_of_case10 (D : Data G) (h61 : UC6.R6_1 D) (h1610 : 
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   obtain ⟨p, hp37, -, -, -, hsig, hE⟩ := h10
   have hpp : p.Prime := by rcases hp37 with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp : p ∈ D.sig := by
     rw [hsig]
     exact Set.mem_singleton p

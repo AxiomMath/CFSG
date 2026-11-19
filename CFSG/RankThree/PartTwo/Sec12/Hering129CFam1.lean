@@ -41,7 +41,7 @@ theorem kFCensus46One_holds : KFCensus46One := by
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨p, e, hp, hp2, he, ⟨φ⟩⟩ := hQ
-  haveI : Finite (GaloisField p e) := inferInstance
+  have : Finite (GaloisField p e) := inferInstance
   obtain ⟨g, hg⟩ := (ppair_self hD).map φ
   exact hg.false_of_comm_centralizer (comm_centralizer_projSL_two (S := projSL 2 (GaloisField p e))
     (MulEquiv.refl _) _ hg.orderOf_s)

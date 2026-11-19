@@ -49,8 +49,8 @@ theorem vtwV_map_leviJ :
           v.toMonoidHom =
         (leviJ K ℓ f).subgroupOf (twistedE6RootGroup K (unitaryInvolution K ℓ f)) := by
   rintro v ⟨y, rfl⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
   rw [← range_leviSU hK hf hζ hσζ P hP]
   refine Subgroup.eq_of_le_of_card_ge ?_ (Subgroup.card_map_of_injective (MulEquiv.injective _)).ge
   rintro _ ⟨_, ⟨z, rfl⟩, rfl⟩
@@ -66,9 +66,9 @@ theorem vtwV_mem_zpowers_of_trivial :
       v ∈ Subgroup.zpowers (MulAut.conj (twE6R0 c hct)) := by
   rintro _ ⟨y, rfl⟩ hv
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
   have hJC₀ : leviJ K ℓ f ≤ twistedE6RootGroup K (unitaryInvolution K ℓ f) :=
     twE6LeviSA_le_twistedE6RootGroup hK hf
   have hJq : CFSG.Open.IsQuasisimple

@@ -195,13 +195,13 @@ private theorem w16f_diag2_pow_eq_one {F : Type} [Field F] {c : F} (hc : c ≠ 0
     Matrix.SpecialLinearGroup.diag2_coe, Matrix.diagonal_pow]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, Matrix.one_apply, h, inv_pow]
+    simp [h, inv_pow]
 
 private theorem w16f_diag2_odd_order {F : Type} [Field F] [Finite F] {c : F} (hc : c ≠ 0)
-    (hc1 : c ≠ 1) (h2 : (2 : F) = 0) :
+    (_hc1 : c ≠ 1) (h2 : (2 : F) = 0) :
     Odd (orderOf (Matrix.SpecialLinearGroup.diag2 c hc)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hchar : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   obtain ⟨n, hn, hcard⟩ := FiniteField.card F 2
   have hcard' : Nat.card F = 2 ^ (n : ℕ) := by
@@ -218,14 +218,14 @@ private theorem w16f_diag2_odd_order {F : Type} [Field F] [Finite F] {c : F} (hc
   exact Odd.of_dvd_nat hodd (orderOf_dvd_of_pow_eq_one (w16f_diag2_pow_eq_one hc hpowc))
 
 theorem exists_odd_fpf_lift (hW : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)} {t : MulAut W}
-    {U₀ U : Subgroup W} (hKs : K ≤ secStabAll U U₀) (hts : t ∈ secStabAll U U₀)
-    (hle : U₀ ≤ U) {F : Type} [Field F]
+    {U₀ U : Subgroup W} (_hKs : K ≤ secStabAll U U₀) (hts : t ∈ secStabAll U U₀)
+    (_hle : U₀ ≤ U) {F : Type} [Field F]
     [Finite F] (hF : 4 ≤ Nat.card F)
     (h : IsMatTensor2 (secImg K U U₀) (secImg (K.map (MulAut.conj t).toMonoidHom) U U₀) F) :
     ∃ x ∈ K, Odd (orderOf x) ∧ U ⊓ fixV (Subgroup.zpowers x) ≤ U₀ ∧
       U ⊓ fixV (Subgroup.zpowers (t * x * t⁻¹)) ≤ U₀ := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨φ₁, φ₂, ψ, h₁, h₂⟩ := h
   have hsec2 : ∀ z : SecT U U₀, z ^ 2 = 1 := by
     intro z
@@ -279,7 +279,7 @@ theorem exists_odd_fpf_lift (hW : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)
     simpa [a] using hsecA
   have hord_g : orderOf g = orderOf δ := by
     have h := (orderOf_injective φ₁.toMonoidHom φ₁.injective (φ₁.symm δ)).symm
-    simpa [g] using h
+    simp [g]
   have hord_g1 : orderOf (g : MulAut (SecT U U₀)) = orderOf δ := by
     rw [Subgroup.orderOf_coe, hord_g]
   have hdvd : orderOf δ ∣ orderOf a' := by

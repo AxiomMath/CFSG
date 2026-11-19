@@ -22,11 +22,11 @@ theorem orderOf_le_of_outer_involution_psl_even {J : Type} [Group J] [Finite J] 
   classical
   obtain ⟨K, _, hFin, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
-  haveI : Finite K := hFin
+  have : Finite K := hFin
   have hadm := hL.admissible
   have hf : 1 ≤ f := hadm.2.1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   have hqK : Nat.card K % 3 = 2 := by rw [hK]; exact hq
   have hnd : ¬ 3 ∣ Nat.card K - 1 := by omega

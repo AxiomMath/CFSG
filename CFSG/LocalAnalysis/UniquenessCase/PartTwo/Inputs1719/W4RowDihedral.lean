@@ -83,14 +83,14 @@ theorem le_mParam_of_dihedral {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← sq]; exact hW w
   unfold E3.mParam
   by_cases hEven : Even (Nat.card Y)
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     refine le_csInf ?_ ?_
     · obtain ⟨t, hto⟩ :=
         exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
       exact ⟨_, (t : MulAut W), t.2, by rwa [Subgroup.orderOf_coe], rfl⟩
     · rintro n ⟨t, htY, hto, rfl⟩
       exact le_rkIdx_fixV_of_dihedral hW' hO2 e hp2 hρ hgen (hYL t htY hto) hto
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     exact le_rk_of_two_mul_le_orderOf_two hW e hp2 hpS hρ
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row

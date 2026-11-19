@@ -22,6 +22,7 @@ private theorem y53_A_le_S (s : Setting3 G L) : s.fr.A ≤ s.fr.S := by
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
     tauto)
 
+omit [Finite G] in
 private theorem y53_zSeries_le (n : ℕ) (T : Subgroup G) : zSeries n T ≤ T := by
   rintro _ ⟨x, -, rfl⟩
   exact x.2
@@ -29,7 +30,7 @@ private theorem y53_zSeries_le (n : ℕ) (T : Subgroup G) : zSeries n T ≤ T :=
 private theorem y53_exists_maxElemAbelian_ge {Γ : Type} [Group Γ] [Finite Γ]
     {E : Subgroup Γ} (hE : IsElemAbelian 2 E) :
     ∃ M : Subgroup Γ, M ∈ maxElemAbelian (⊤ : Subgroup Γ) ∧ E ≤ M := by
-  haveI : Finite (Subgroup Γ) :=
+  have : Finite (Subgroup Γ) :=
     Finite.of_injective (fun H : Subgroup Γ => (H : Set Γ)) SetLike.coe_injective
   let T : Set (Subgroup Γ) := {M | E ≤ M ∧ IsElemAbelian 2 M}
   have hTfin : T.Finite := Set.toFinite T
@@ -104,7 +105,7 @@ private theorem y53_thompsonRank_top_eq_of_maxElemAbelian_pair {Γ : Type} [Grou
     have hAbU : Ab ≤ U := hEeq ▸ Subgroup.map_subtype_le E₀
     intro x hx
     refine hcent x (fun a ha => ?_)
-    haveI : IsMulCommutative U := hcomm
+    have : IsMulCommutative U := hcomm
     simpa using mul_comm' (⟨x, hx⟩ : U) (⟨a, hAbU ha⟩ : U)
   · rw [thompsonRank]
     refine le_iSup_of_le Ab (le_iSup_of_le le_top (le_iSup_of_le hAbe.1 (le_iSup_of_le ?_ le_rfl)))
@@ -119,7 +120,7 @@ theorem y53_jrS {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   obtain ⟨hZnorm, hmax⟩ := hH.hLF.fact14.2.2.2.2.1.2.1
   refine ⟨hZnorm, ?_⟩
   let N : Subgroup ↥s.fr.S := s.fr.Z.subgroupOf s.fr.S
-  haveI hNnorm : N.Normal := hZnorm
+  have hNnorm : N.Normal := hZnorm
   let Ab : Subgroup (↥s.fr.S ⧸ N) := (s.fr.A.subgroupOf s.fr.S).map (QuotientGroup.mk' N)
   let D : Subgroup (↥s.fr.S ⧸ N) :=
     ((zSeries 2 s.fr.S ⊔ Subgroup.closure {s.fr.h₀}).subgroupOf s.fr.S).map (QuotientGroup.mk' N)
@@ -214,7 +215,7 @@ theorem y53_jrS {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   exact y53_thompsonRank_top_eq_of_maxElemAbelian_pair hmax' hAbcard hDcard hcent
 
 theorem y53_jrS_T1 {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
-    SecProp c.e.T₁ c.s.fr.Z (fun Y _ _ π =>
+    SecProp c.e.T₁ c.s.fr.Z (fun _Y _ _ π =>
       thompsonRank ((c.s.fr.S.subgroupOf c.e.T₁).map π) =
         (c.s.fr.A.subgroupOf c.e.T₁).map π) := by
   have hA : LFactsA c.s := lfactsA_of_setting hH.hS hH.hZ c.s

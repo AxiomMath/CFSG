@@ -79,7 +79,7 @@ theorem famCentralizer_twoPower_mem_rootSpan [Finite K] [CharP K 2] {p : ℕ} (h
     exact hxMN
   let A : Subgroup (ModGL τ K) := N ⊔ M
   let xA : A := ⟨(x : ModGL τ K), hxNM⟩
-  haveI hMnorm : (M.subgroupOf A).Normal :=
+  have hMnorm : (M.subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hNM
   have hmA : m ∈ A := Subgroup.mem_sup_right hm
   have hnA : (n₀ : ModGL τ K) ∈ A := Subgroup.mem_sup_left ⟨n₀, hn₀, rfl⟩
@@ -110,7 +110,7 @@ theorem famCentralizer_twoPower_mem_rootSpan [Finite K] [CharP K 2] {p : ℕ} (h
   have hHQ : H ≤ Subgroup.normalizer (Q : Set (ModGL τ K)) := by
     simpa [H, Q] using
       torusGroup_le_normalizer_rootSpan (K := K) (S := famKernel F) (fun α hα => hα.1)
-  haveI hQnorm : (Q.subgroupOf M).Normal := by
+  have hQnorm : (Q.subgroupOf M).Normal := by
     simpa [M, H] using Subgroup.normal_subgroupOf_sup_of_le_normalizer hHQ
   let xM : M := ⟨(x : ModGL τ K), hxM⟩
   have hxM2 : xM ^ (2 ^ k) = 1 := by
@@ -123,9 +123,9 @@ theorem famCentralizer_twoPower_mem_rootSpan [Finite K] [CharP K 2] {p : ℕ} (h
     simpa [H] using not_dvd_card_torusGroup (τ := τ) (K := K) 2
   have hdvdH : orderOf (QuotientGroup.mk' (Q.subgroupOf M) xM) ∣ Nat.card H := by
     refine (orderOf_dvd_natCard _).trans ?_
-    haveI hQH : (Q.subgroupOf H).Normal :=
+    have hQH : (Q.subgroupOf H).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hHQ
-    haveI hQs : (Q.subgroupOf (H ⊔ Q)).Normal :=
+    have hQs : (Q.subgroupOf (H ⊔ Q)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hHQ
     have hiso := (QuotientGroup.quotientInfEquivProdNormalizerQuotient H Q hHQ).toEquiv
     rw [show M = H ⊔ Q from rfl, ← Nat.card_congr hiso]
@@ -199,7 +199,7 @@ theorem famCentralizer_twoPower_mem_rootSpan_of_algebraic
     simpa only [Subgroup.coe_pow, OneMemClass.coe_one, map_pow, map_one, hye] using hk
   have hkernel : famKernel (Set.range a') = famKernel (Set.range a) := by
     ext α
-    simp only [famKernel, Set.mem_setOf_eq, Set.forall_mem_range]
+    simp only [famKernel, Set.mem_ofPred_eq, Set.forall_mem_range]
     apply and_congr_right
     intro _
     constructor

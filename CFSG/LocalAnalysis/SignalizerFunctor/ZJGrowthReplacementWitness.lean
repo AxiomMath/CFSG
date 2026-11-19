@@ -46,7 +46,7 @@ theorem zj_growth_replacement_witness (prime : ℕ) (prime_prime : prime.Prime) 
     properties.2.2.2.1.trans properties.2.2.2.2
   obtain ⟨target, target_member, target_omits, normalized⟩ :=
     maximum_order_abelian_ambient_normalized_replacement prime prime_prime odd_prime base closure
-      sylow.isPGroup' closure_le class_two (properties.2.2.2.1.trans proper.le) omits
+      sylow.isPGroup closure_le class_two (properties.2.2.2.1.trans proper.le) omits
   have target_le : target.map base.subtype ≤ intersection := by
     apply le_inf (Subgroup.map_subtype_le target)
     let := target_member.1

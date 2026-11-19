@@ -65,7 +65,7 @@ private theorem sixteenC8SpinG2_isPSU_u33G :
 
 private theorem sixteenC8SpinG2_center_u33G :
     Subgroup.center U33G = ⊥ := by
-  haveI : IsSimpleGroup U33G := isSimpleGroup_u33Pres
+  have : IsSimpleGroup U33G := isSimpleGroup_u33Pres
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center U33G) with h | h
   · exact h
   · exfalso
@@ -146,7 +146,7 @@ private theorem sixteenC8SpinG2_g2_data
     rw [Subgroup.eq_bot_iff_forall]
     intro z hz
     by_contra hz1
-    haveI : (ρ.range.subgroupOf Γ).Normal := hKnorm
+    have : (ρ.range.subgroupOf Γ).Normal := hKnorm
     have hzK : z ^ 2 ∈ ρ.range.subgroupOf Γ := by
       simpa [hKindex] using Subgroup.pow_index_mem (ρ.range.subgroupOf Γ) z
     have hz2 : z ^ 2 = 1 := by
@@ -168,13 +168,13 @@ private theorem sixteenC8SpinG2_g2_data
       rw [show (Nat.factorization 12096) 2 = 6 from by decide +kernel] at h
       norm_num at h
       exact h
-    haveI : Fintype V := Fintype.ofFinite V
+    have : Fintype V := Fintype.ofFinite V
     have hVcard : 2 ∣ Nat.card V := by
       rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := V), hdim,
         ZMod.card]
       norm_num
     obtain ⟨b', hb'fix, hb'0⟩ := IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point
-      S.isPGroup' V hVcard (a := 0) (by simp)
+      S.isPGroup V hVcard (a := 0) (by simp)
     let S' : Subgroup (V ≃ₗ[ZMod 2] V) := S.map Γ.subtype
     let Z₀ : Subgroup (V ≃ₗ[ZMod 2] V) := Subgroup.zpowers (z : V ≃ₗ[ZMod 2] V)
     have hS'card : Nat.card S' = 64 := by

@@ -21,7 +21,7 @@ open CFSG.SignalizerFunctorTheorem.NearModels.Suzuki (szFieldAut coe_szFieldAut 
 theorem uc22r3e5c_eq_or_sq_of_orderOf_eq_three {H : Type*} [Group H] [Finite H]
     (hH : IsCyclic H) {x y : H} (hx : orderOf x = 3) (hy : orderOf y = 3) :
     y = x ∨ y = x ^ 2 := by
-  letI := hH
+  let := hH
   have hX : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, hx]
   have hY : Nat.card (Subgroup.zpowers y) = 3 := by rw [Nat.card_zpowers, hy]
   have hEq : Subgroup.zpowers x = Subgroup.zpowers y :=
@@ -44,7 +44,7 @@ theorem uc22r3e5c_eq_or_sq_of_orderOf_eq_three {H : Type*} [Group H] [Finite H]
   · right; rw [hpow]; norm_num
 
 theorem uc22r3e5c_szFieldAut_map_torus {a : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ (2 * a + 1)) (σ : K ≃+* K) :
+    (_hK : Nat.card K = 2 ^ (2 * a + 1)) (σ : K ≃+* K) :
     (suzukiT a K).map (szFieldAut a K σ).toMonoidHom = suzukiT a K := by
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · rintro _ ⟨g, hg, rfl⟩
@@ -69,7 +69,7 @@ theorem uc22r3e5c_iterateFrobeniusEquiv_pow {K : Type} [Field K] [Finite K] [Exp
 theorem uc22r3e5c_iterateFrobeniusEquiv_pow_three {K : Type} [Field K] [Finite K]
     [ExpChar K 2] {m k : ℕ} (h3k : 3 * k = m) (hK : Nat.card K = 2 ^ m) :
     (iterateFrobeniusEquiv K 2 k) ^ 3 = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [uc22r3e5c_iterateFrobeniusEquiv_pow, show k * 3 = m by omega]
   refine RingEquiv.ext fun x => ?_
   rw [iterateFrobeniusEquiv_def, RingAut.one_apply, ← hK, Nat.card_eq_fintype_card]
@@ -78,7 +78,7 @@ theorem uc22r3e5c_iterateFrobeniusEquiv_pow_three {K : Type} [Field K] [Finite K
 theorem uc22r3e5c_iterateFrobeniusEquiv_ne_one {K : Type} [Field K] [Finite K] [ExpChar K 2]
     {m k : ℕ} (hK : Nat.card K = 2 ^ m) (hk0 : 0 < k) (hkm : k < m) :
     iterateFrobeniusEquiv K 2 k ≠ 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   intro h
   have hfix : ∀ x : K, x ^ (2 ^ k) = x := by
     intro x
@@ -120,7 +120,6 @@ theorem uc22r3e5c_szFieldAut_iterateFrobenius_torus_pow {a : ℕ} {K : Type} [Fi
     (hc : c ∈ suzukiT a K) :
     szFieldAut a K (iterateFrobeniusEquiv K 2 k) c = c ^ (2 ^ k) := by
   obtain ⟨l, rfl⟩ := mem_suzukiT_iff.1 hc
-  change szFieldAut a K (iterateFrobeniusEquiv K 2 k) (suzukiDElt a K l) = _
   rw [szFieldAut_D]
   have hpow : suzukiDElt a K (l ^ (2 ^ k)) = (suzukiDElt a K l) ^ (2 ^ k) :=
     map_pow (uc22pwr1_szD a K) l (2 ^ k)
@@ -241,7 +240,7 @@ theorem uc22r3e5c_exists_conj_pow_of_not_inner {G : Type*} [Group G] [Finite G]
     {β Φ : MulAut G} (hβ3 : β ^ 3 = 1) (hΦ3 : Φ ^ 3 = 1)
     (hβni : β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner G)
     (hΦni : Φ ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner G)
-    (hcyc : IsCyclic (Outer G)) (h3dvd : 3 ∣ Nat.card (Outer G)) :
+    (hcyc : IsCyclic (Outer G)) (_h3dvd : 3 ∣ Nat.card (Outer G)) :
     ∃ j ∈ ({1, 2} : Finset ℕ), ∃ x : G, β = Φ ^ j * MulAut.conj x := by
   let q : MulAut G →* Outer G := QuotientGroup.mk' (inner G)
   have hqβ3 : (q β) ^ 3 = 1 := by rw [← map_pow, hβ3, map_one]

@@ -20,7 +20,7 @@ theorem spanSet_subset_spanBlock
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Coloring (Fin 2))
     {y : V} (hH : HasPropertyH Γ y) {p : ℕ}
     (hp : ∀ a b : V, c a = 0 → Γ.dist a b = 4 → (spanSet Γ a b).ncard = p + 1)
-    {z1 z2 a b : V} (hy0 : c y = 0) (hz10 : c z1 = 0) (hz20 : c z2 = 0)
+    {z1 z2 a b : V} (hy0 : c y = 0) (_hz10 : c z1 = 0) (_hz20 : c z2 = 0)
     (hyz1 : Γ.dist y z1 = 2) (hyz2 : Γ.dist y z2 = 2) (hz1z2 : Γ.dist z1 z2 = 4)
     (ha : a ∈ spanBlock Γ y z1 z2) (hb : b ∈ spanBlock Γ y z1 z2)
     (hab : Γ.dist a b = 4) :
@@ -167,11 +167,12 @@ private theorem card_erase_neighborFinset [DecidableEq V]
     ((Γ.neighborFinset L).erase b).card = s := by
   classical
   rw [Finset.card_erase_of_mem]
-  · rw [card_neighborFinset_eq_degree, hdeg L, if_neg (by rw [hL]; decide)]
+  · rw [card_neighborFinset_eq_degree, hdeg L, ite_eq_right (by rw [hL]; decide)]
     omega
   · rw [mem_neighborFinset]
     exact hb
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_ne_of_dist_eq_two
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L M x' b yb : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
@@ -208,6 +209,7 @@ theorem dist_eq_four_of_ne_of_dist_eq_two
     (existsUnique_proj hP hybL).unique ⟨hLx', hxy2⟩ ⟨hLb, hby2⟩
   exact hx'b hEq
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem not_meet_M_of_ne_commonNeighbor
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L M W b yb : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
@@ -298,11 +300,11 @@ theorem blockThrough_subset_spanUnion_of_block_eq [DecidableEq V]
     let p : V → V := fun x' => if h : x' ∈ Ls then Classical.choose (hpick x' h) else b
     have hpS : ∀ x' (hx' : x' ∈ Ls), p x' ∈ spanSet Γ x' yb := by
       intro x' hx'
-      simp only [p, dif_pos hx']
+      simp only [p, dite_eq_left hx']
       exact (Classical.choose_spec (hpick x' hx')).1
     have hpW : ∀ x' (hx' : x' ∈ Ls), Γ.Adj W (p x') := by
       intro x' hx'
-      simp only [p, dif_pos hx']
+      simp only [p, dite_eq_left hx']
       exact (Classical.choose_spec (hpick x' hx')).2
     have hpe : ∀ x' (hx' : x' ∈ Ls), p x' ≠ b := by
       intro x' hx' hpb

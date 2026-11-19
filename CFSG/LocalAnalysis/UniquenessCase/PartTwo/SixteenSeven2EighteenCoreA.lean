@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c167_conj_centralizer_singleton {g u : G} :
     conjSubgroup (Subgroup.centralizer ({g * u * g⁻¹} : Set G)) g =
       Subgroup.centralizer ({u} : Set G) := by
@@ -66,7 +67,7 @@ theorem s16c167_eighteen_u (D : Data G) {V L : Subgroup G}
     rw [hU]
     exact inf_le_inf_left V (Subgroup.centralizer_le hBA)
   have hlt : V ⊓ centralizer (A : Set G) < U := lt_of_le_of_ne hleU (Ne.symm hUne)
-  obtain ⟨u, huU, huNotA⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨u, huU, huNotA⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hUV : U ≤ V := by rw [hU]; exact inf_le_left
   have huV : u ∈ V := hUV huU
   have huCA : u ∉ centralizer (A : Set G) :=

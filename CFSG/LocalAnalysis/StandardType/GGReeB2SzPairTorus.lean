@@ -383,9 +383,9 @@ theorem reeNa_conj_tau
     rw [zpow_mul_zpow_zpow]
     congr 1
     · apply units_zpow_congr l₁ (1 + 2 * (2 ^ m : ℤ))
-      rw [hq]; push_cast; ring
+      rw [hq]; ring
     · apply units_zpow_congr l₂ (1 + 2 * (2 ^ m : ℤ))
-      rw [hq]; push_cast; ring
+      rw [hq]; ring
   have hx : ((l₂ ^ (1 + 2 * (2 ^ m : ℤ))) ^ (2 * (2 ^ m : ℤ)))⁻¹ *
       (l₁ ^ (1 + 2 * (2 ^ m : ℤ)) *
         (l₂ ^ (1 + 2 * (2 ^ m : ℤ))) ^ (1 + 2 * (2 ^ m : ℤ))) =
@@ -453,15 +453,13 @@ theorem reeB0_mem
     exact two_pow_eq_two_mul_sq m
   refine ⟨w, ?_⟩
   apply Subtype.ext
-  change (e : adjointGroup ReeTag.F4.tag K) =
-    (reeSz₂ hK hm (szD K m w) : adjointGroup ReeTag.F4.tag K)
   rw [he]
   change F4Rest.b2TorusElt K m w =
     (reeSz₂ hK hm (szD K m w) : adjointGroup ReeTag.F4.tag K)
   have hF2 := congrArg (fun x : reeFixed ReeTag.F4 K m =>
       (x : adjointGroup ReeTag.F4.tag K)) (reeSz₂_szD_eq hK hm w)
   rw [hF2]
-  simp only [Subgroup.coe_mul, coe_reeTorusHom]
+  simp only [Subgroup.coe_mul]
   change ReeTag.F4.reeTorus m 0 (w ^ (2 : ℤ) * (w ^ (2 ^ m)) ^ (2 : ℤ)) *
       ReeTag.F4.reeTorus m 1 (w ^ (3 : ℤ) * (w ^ (2 ^ m)) ^ (4 : ℤ)) =
     ReeTag.F4.reeTorus m 0 ((w ^ (1 + 2 * (2 ^ m : ℤ))) ^ (2 * (2 ^ m : ℤ))) *

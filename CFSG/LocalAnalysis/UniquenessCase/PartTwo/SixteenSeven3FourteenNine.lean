@@ -18,8 +18,8 @@ theorem s16c1614_not_five_dvd_case168_9 (D : Data G) {V₀ V L : Subgroup G}
     ¬ 5 ∣ Nat.card ↥(Mbar D.M V₀ V hV) := by
   classical
   obtain ⟨⟨e⟩, hL3, -⟩ := h
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := isSimpleGroup_of_isL3 hL3
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := isSimpleGroup_of_isL3 hL3
   have hdvd : Nat.card ↥(Mbar D.M V₀ V hV) ∣
       Nat.card ↥(fstarBar D.M V₀ V hV) * Nat.card (MulAut ↥(fstarBar D.M V₀ V hV)) :=
     s16c1614_card_dvd_fstar_subgroup _

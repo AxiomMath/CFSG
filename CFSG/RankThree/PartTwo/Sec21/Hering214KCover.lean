@@ -52,7 +52,7 @@ theorem eq_one_or_eq_or_eq_inv_of_card_three {Z : Type*} [Group Z] (hZ : Nat.car
     calc z = z ^ 3 * (z * z)⁻¹ := by group
       _ = 1 := by rw [hz3, h2]; simp
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hw1, hwz, hwi⟩ := hcon
   let f : Fin 4 → Z := ![1, z, z⁻¹, w]
   have hf : Function.Injective f := by
@@ -61,8 +61,6 @@ theorem eq_one_or_eq_or_eq_inv_of_card_three {Z : Type*} [Group Z] (hZ : Nat.car
       first
       | exact absurd hij (Ne.symm hz)
       | exact absurd hij hz
-      | exact absurd hij (Ne.symm hzi1)
-      | exact absurd hij hzi1
       | exact absurd hij hzz
       | exact absurd hij (Ne.symm hzz)
       | exact absurd hij (Ne.symm hw1)

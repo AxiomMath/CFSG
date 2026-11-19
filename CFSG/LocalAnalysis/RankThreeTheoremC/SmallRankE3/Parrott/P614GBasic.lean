@@ -66,7 +66,7 @@ theorem Ctx.of_hyp {P : Sylow 3 G} {M : Subgroup G} {x z : G} {H S K : Subgroup 
         (CFSG.AGLEmbedding.catalogSimpleSections_of_isKProper hyp.setting.kProper X
           fun h => hHtop (top_le_iff.mp (h ▸ hX)))
       B_le := hpair.le
-      B_three := P.isPGroup'.to_le hBP
+      B_three := P.isPGroup.to_le hBP
       maxInv := hyp.optimal.maxInv
       core_le := hyp.optimal.core_le
       S_ne_bot := hpair.ne_bot
@@ -93,7 +93,7 @@ theorem isPGroup_S (c : Ctx M B H S K z) : IsPGroup 2 S := c.maxInv.1.2.1
 
 theorem B_le_normalizer_S (c : Ctx M B H S K z) : B ≤ normalizer (S : Set G) := c.maxInv.1.2.2
 
-theorem isPGroup_core (c : Ctx M B H S K z) : IsPGroup 2 (pCoreOf 2 H) := pCoreOf_isPGroup 2 H
+theorem isPGroup_core (_c : Ctx M B H S K z) : IsPGroup 2 (pCoreOf 2 H) := pCoreOf_isPGroup 2 H
 
 theorem core_le_M (c : Ctx M B H S K z) : pCoreOf 2 H ≤ M := c.core_le.trans c.S_le_M
 
@@ -403,7 +403,7 @@ theorem isPGroup_dSub (c : Ctx M B H S K z) : IsPGroup 2 c.dSub := by
   exact hr'
 
 theorem core_le_dSub (c : Ctx M B H S K z) : pCoreOf 2 H ≤ c.dSub :=
-  fun o ho => ⟨c.mem_centK.2 ⟨_, c.rho_eq_one_of_mem_core ho⟩, mem_sup_right (c.core_le ho)⟩
+  fun _o ho => ⟨c.mem_centK.2 ⟨_, c.rho_eq_one_of_mem_core ho⟩, mem_sup_right (c.core_le ho)⟩
 
 theorem mem_normalizer_dSub (c : Ctx M B H S K z) {g : G} (hg : g ∈ H)
     (hg' : g ∈ normalizer ((K ⊔ S : Subgroup G) : Set G)) :
@@ -468,8 +468,10 @@ theorem le_normalizer_of_conj {X Y : Subgroup G} (h : ∀ x ∈ X, ∀ y ∈ Y, 
 @[expose] noncomputable def pre (K : Subgroup G) (U : Subgroup (Kbar K)) : Subgroup G :=
   (U.comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))).map K.subtype
 
+omit [Finite G] in
 theorem pre_le (K : Subgroup G) (U : Subgroup (Kbar K)) : pre K U ≤ K := map_subtype_le _
 
+omit [Finite G] in
 theorem mem_pre {K : Subgroup G} {U : Subgroup (Kbar K)} {g : G} (hg : g ∈ K) :
     g ∈ pre K U ↔ (QuotientGroup.mk ⟨g, hg⟩ : Kbar K) ∈ U := by
   constructor
@@ -527,6 +529,7 @@ theorem false_of_cover (c : Ctx M B H S K z)
 @[expose] noncomputable def kbarM (K M : Subgroup G) : Subgroup (Kbar K) :=
   (M.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))
 
+omit [Finite G] in
 theorem mk_mem_kbarM {K M : Subgroup G} {k : G} (hk : k ∈ K) (hkM : k ∈ M) :
     (QuotientGroup.mk ⟨k, hk⟩ : Kbar K) ∈ kbarM K M :=
   ⟨⟨k, hk⟩, mem_subgroupOf.mpr hkM, rfl⟩

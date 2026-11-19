@@ -211,10 +211,10 @@ theorem t5_b5_geom (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
       have hred : π₀ * (e * π₀) = e := by
         rw [← mul_assoc, hc, mul_assoc, hπ0_2, mul_one]
       rw [hred]; exact Or.inr (hEK he)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardC : Nat.card (OGroup (Q.restrict (commSp s))) = 2 :=
     natCard_oGroup_one hC hcdim
-  haveI : IsCyclic (OGroup (Q.restrict (commSp s))) :=
+  have : IsCyclic (OGroup (Q.restrict (commSp s))) :=
     isCyclic_of_prime_card (p := 2) hcardC
   let e := MonoidHom.ofInjective (blockHom_injective hss)
   have hmemP : ∀ p : ↥(fixSub (omegaConj hQ s)),

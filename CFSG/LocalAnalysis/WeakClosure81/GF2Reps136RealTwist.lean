@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem realizes_twist (D : FFModel) {L : Subgroup (MulAut W)} {U Z : Subgroup W} {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) (h : D.Realizes L U Z) :
     D.Realizes L (U.map g.toMonoidHom) (Z.map g.toMonoidHom) := by

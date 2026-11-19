@@ -153,7 +153,7 @@ private theorem orthCheck :
   have := this c4 h4
   simpa only [d04, d14, d24, d34, Bool.false_or] using this
 
-private theorem orth_chk (M : Matrix (Fin 5) (Fin 5) (ZMod 2)) (h : M.transpose * M = 1)
+private theorem orth_chk (M : Matrix (Fin 5) (Fin 5) (ZMod 2)) (_h : M.transpose * M = 1)
     (h' : M * M.transpose = 1) :
     M ^ 60 = 1 ∧ (M ^ 4 = 1 → M ≠ 1 → ∃ c : Matrix (Fin 5) (Fin 5) (ZMod 2),
       c * c.transpose = 1 ∧ c.transpose * c = 1 ∧

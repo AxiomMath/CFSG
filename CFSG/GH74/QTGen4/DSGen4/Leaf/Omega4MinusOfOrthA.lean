@@ -65,17 +65,21 @@ structure HermCtx (K : Type) [Field K] [Fintype K] [CharP K 2] (ω : K) : Prop w
 
 variable {K : Type} [Field K] [Fintype K] [CharP K 2]
 
+omit [Fintype K] in
 theorem two_eq_zero_K : (2 : K) = 0 := by
   exact_mod_cast CharP.cast_eq_zero K 2
 
+omit [Fintype K] in
 theorem sqK_apply (x : K) : sqK K x = x ^ 2 := rfl
 
+omit [Fintype K] in
 theorem cK_sq (c : ZMod 2) : cK K c ^ 2 = cK K c := by
   rw [← map_pow]
   congr 1
   revert c
   decide
 
+omit [Fintype K] in
 theorem sq_add_char2 (x y : K) : (x + y) ^ 2 = x ^ 2 + y ^ 2 := by
   rw [add_sq, two_eq_zero_K]
   ring
@@ -99,11 +103,12 @@ theorem omega_four {ω : K} (C : HermCtx K ω) : (ω ^ 2) ^ 2 = ω := by
   rw [← pow_mul]
   linear_combination ω * C.cube
 
+omit [CharP K 2] in
 theorem exists_omega (hK : Fintype.card K = 4) : ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 ∧ ω ^ 3 = 1 := by
   classical
   obtain ⟨x, hx0, hx1⟩ : ∃ x : K, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0
@@ -118,6 +123,7 @@ theorem exists_omega (hK : Fintype.card K = 4) : ∃ ω : K, ω ≠ 0 ∧ ω ≠
   rw [hK] at h
   simpa using h
 
+omit [Fintype K] in
 theorem comb_eq_zero {ω : K} (h0 : ω ≠ 0) (h1 : ω ≠ 1) {a c : ZMod 2}
     (h : cK K a + cK K c * ω = 0) : a = 0 ∧ c = 0 := by
   rcases (show ∀ x : ZMod 2, x = 0 ∨ x = 1 by decide) c with rfl | rfl
@@ -157,11 +163,13 @@ theorem exists_comb {ω : K} (C : HermCtx K ω) (b : K) :
 @[expose] def hermMat (ω : K) (v : Fin 4 → ZMod 2) : Matrix (Fin 2) (Fin 2) K :=
   !![cK K (v 0), cK K (v 1) + cK K (v 2) * ω; cK K (v 1) + cK K (v 2) * ω ^ 2, cK K (v 3)]
 
+omit [Fintype K] in
 theorem hermMat_add (ω : K) (v w : Fin 4 → ZMod 2) :
     hermMat ω (v + w) = hermMat ω v + hermMat ω w := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hermMat, map_add] <;> ring
 
+omit [Fintype K] in
 theorem hermMat_zero (ω : K) : hermMat ω 0 = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [hermMat]
@@ -189,7 +197,7 @@ theorem hermMat_injective {ω : K} (C : HermCtx K ω) : Function.Injective (herm
   have e01 := congrFun (congrFun h 0) 1
   have e11 := congrFun (congrFun h 1) 1
   simp only [hermMat, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue] at e00 e01 e11
+    Matrix.empty_val', Matrix.cons_val_fin_one, Fin.isValue] at e00 e01 e11
   have hc := comb_eq_zero C.ne_zero C.ne_one (a := v 1 - w 1) (c := v 2 - w 2)
     (by simp only [map_sub]; linear_combination e01)
   have h0 : v 0 = w 0 := (cK K).injective e00
@@ -244,7 +252,7 @@ theorem hermMat_hermCoord {ω : K} (C : HermCtx K ω) {X : Matrix (Fin 2) (Fin 2
     (hX : IsHermM X) : hermMat ω (hermCoord ω X) = X := by
   have h : ∃ v, hermMat ω v = X := exists_hermMat C hX
   unfold hermCoord
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 @[expose] def tm (s X : Matrix (Fin 2) (Fin 2) K) : Matrix (Fin 2) (Fin 2) K :=
@@ -262,16 +270,19 @@ theorem tm_isHerm {ω : K} (C : HermCtx K ω) (s : Matrix (Fin 2) (Fin 2) K) {X 
   rw [Matrix.map_mul, Matrix.map_mul, hX, hT]
   simp only [Matrix.transpose_mul, Matrix.transpose_transpose, Matrix.mul_assoc]
 
+omit [Fintype K] in
 theorem tm_mul (s t X : Matrix (Fin 2) (Fin 2) K) : tm (s * t) X = tm s (tm t X) := by
   simp only [tm, Matrix.map_mul, Matrix.transpose_mul, Matrix.mul_assoc]
 
+omit [Fintype K] in
 theorem tm_one (X : Matrix (Fin 2) (Fin 2) K) : tm 1 X = X := by
   simp [tm, Matrix.map_one (sqK K) (map_zero _) (map_one _)]
 
+omit [Fintype K] in
 theorem tm_add (s X Y : Matrix (Fin 2) (Fin 2) K) : tm s (X + Y) = tm s X + tm s Y := by
   simp [tm, Matrix.mul_add, Matrix.add_mul]
 
-@[expose] noncomputable def rhoFun {ω : K} (C : HermCtx K ω) (s : Matrix (Fin 2) (Fin 2) K)
+@[expose] noncomputable def rhoFun {ω : K} (_C : HermCtx K ω) (s : Matrix (Fin 2) (Fin 2) K)
     (v : Fin 4 → ZMod 2) : Fin 4 → ZMod 2 :=
   hermCoord ω (tm s (hermMat ω v))
 
@@ -359,6 +370,7 @@ theorem R4_transv_ne_one {ω : K} (C : HermCtx K ω) :
 @[expose] def transvSL : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨transvM, by simp [transvM, Matrix.det_fin_two]⟩
 
+omit [Fintype K] [CharP K 2] in
 theorem eig_of_det {β : Matrix (Fin 2) (Fin 2) K} {c : K}
     (h : (β - c • (1 : Matrix (Fin 2) (Fin 2) K)).det = 0) :
     ∃ w : Fin 2 → K, w ≠ 0 ∧ β *ᵥ w = c • w := by
@@ -375,8 +387,8 @@ theorem exists_eigen {ω : K} (C : HermCtx K ω) {β : Matrix (Fin 2) (Fin 2) K}
         (β - (ω ^ 2) • (1 : Matrix (Fin 2) (Fin 2) K)) =
           β * β * β - ((1 : K) + ω + ω ^ 2) • (β * β) + ((1 : K) * ω + ω * ω ^ 2 + ω ^ 2 * 1) • β -
             ((1 : K) * ω * ω ^ 2) • (1 : Matrix (Fin 2) (Fin 2) K) := by
-      simp only [sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, smul_smul, one_mul, mul_one,
-        Matrix.one_mul, Matrix.mul_one, mul_assoc]
+      simp only [sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul, mul_one,
+        mul_assoc]
       module
     rw [e]
     have h1 : (1 : K) + ω + ω ^ 2 = 0 := by linear_combination omega_sq_add C

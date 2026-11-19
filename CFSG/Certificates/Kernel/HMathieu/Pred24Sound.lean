@@ -15,7 +15,7 @@ theorem testBit_foldr_mask (f : Nat → Bool) (k : Nat) : ∀ L : List Nat,
   | j :: L => by
     rw [List.foldr_cons, List.any_cons, ← testBit_foldr_mask f k L]
     by_cases hf : f j
-    · rw [if_pos hf, Nat.testBit_or, Nat.testBit_shiftLeft, hf, Bool.and_true]
+    · rw [ite_eq_left hf, Nat.testBit_or, Nat.testBit_shiftLeft, hf, Bool.and_true]
       by_cases hjk : j = k
       · subst hjk
         simp
@@ -27,7 +27,7 @@ theorem testBit_foldr_mask (f : Nat → Bool) (k : Nat) : ∀ L : List Nat,
           · simp [hle]
         rw [h0, Bool.or_false]
         simp [hjk]
-    · rw [if_neg hf]
+    · rw [ite_eq_right hf]
       simp [hf]
 
 theorem testBit_maskOf (n : Nat) (f : Nat → Bool) {k : Nat} (hk : k < n) :

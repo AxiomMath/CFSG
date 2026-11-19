@@ -477,7 +477,7 @@ private theorem weylElt_mem_Γ_of_conj {L : Type} [Field L] [IsAlgClosed L]
     rfl
   rw [hΓ]
   refine ⟨_, hn k, ?_⟩
-  simp [MulAut.conj_apply, mul_assoc]
+  simp [mul_assoc]
 
 private theorem isComponentOf_map_conj' {G : Type*} [Group G] {K H : Subgroup G} (hK : IsComponentOf K H)
     (g : G) :
@@ -547,7 +547,7 @@ theorem exists_corootTorus_le_frame
       (MulAut.conj g⁻¹).toMonoidHom := D.model_eq_map_fixModel
   have hfin : Finite D.model := by
     rw [hmodel]
-    haveI := hfinF
+    have := hfinF
     exact Finite.of_equiv _ ((fixModel (τ := Tag.E6) (twistHom TwistTag.E6 L Fr)).equivMapOfInjective
       (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective).toEquiv
   let S := twE6LangSetup Fr q hq0 hFr hgC hg 5 Nat.prime_five (Or.inl le_rfl) ⟨hqpow, hqL⟩
@@ -558,7 +558,7 @@ theorem exists_corootTorus_le_frame
     change ⁅D.model, D.model⁆ = _
     rw [hmodel]
     rfl
-  haveI : Finite S.D.model := hfin
+  have : Finite S.D.model := hfin
   have hΓM : S.Γ ≤ S.D.model := by
     refine Subgroup.commutator_le.2 fun g hg h hh => ?_
     rw [commutatorElement_def]
@@ -584,7 +584,7 @@ theorem exists_corootTorus_le_frame
   obtain ⟨y, hy, hyE⟩ := hc s hs
   have : y = g * coroot α s * g⁻¹ := by
     rw [← hyE]
-    simp [MulAut.conj_apply]
+    simp
     group
   rw [← this]
   exact hy

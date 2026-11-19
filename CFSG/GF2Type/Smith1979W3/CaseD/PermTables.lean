@@ -193,8 +193,7 @@ theorem table_three {t t' : Perm (Fin 8)} (ht : IsDT t) (ht' : IsDT t')
       rw [hcard5, ho_eq]
       norm_num
     constructor
-    · change (t * t').IsCycle
-      rw [ht_eq]
+    · rw [ht_eq]
       exact hcyc.conj
     · rw [ht_eq, support_conj, Finset.card_map]
       exact hcard5

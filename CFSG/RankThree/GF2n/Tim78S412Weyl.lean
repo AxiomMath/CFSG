@@ -34,12 +34,14 @@ theorem weyl_conj_lower' {x : Matrix.SpecialLinearGroup (Fin 2) K} (hx : x ∈ l
   rw [this]
   exact (mem_upperUnipotent_iff K).mpr ⟨t, rfl⟩
 
+omit [CharP K 2] in
 theorem diag_conj_upper' (c : Kˣ) {x : Matrix.SpecialLinearGroup (Fin 2) K}
     (hx : x ∈ upperUnipotent K) : (diagElt c)⁻¹ * x * diagElt c ∈ upperUnipotent K := by
   have h := (Subgroup.mem_normalizer_iff.mp
     (Subgroup.inv_mem _ (diagElt_mem_normalizer_upperUnipotent c)) x).mp hx
   simpa using h
 
+omit [CharP K 2] in
 theorem diag_conj_lower' (c : Kˣ) {x : Matrix.SpecialLinearGroup (Fin 2) K}
     (hx : x ∈ lowerUnipotent K) : (diagElt c)⁻¹ * x * diagElt c ∈ lowerUnipotent K := by
   have h := (Subgroup.mem_normalizer_iff.mp
@@ -53,6 +55,7 @@ theorem weyl_diag_weyl' (c : Kˣ) :
         rw [weylElt_mul_diagElt]
     _ = diagElt c⁻¹ := by rw [mul_assoc, weylElt_mul_self, mul_one]
 
+omit [CharP K 2] in
 theorem diag_upper_conj' (c : Kˣ) (t : K) :
     diagElt c * upperElt K t * (diagElt c)⁻¹ = upperElt K ((c : K) ^ 2 * t) := by
   rw [diagElt_mul_upperElt]
@@ -208,7 +211,7 @@ theorem pair_centralizer_Pg (hCen : BenderCenterInput) (hU : UnitaryTwoGeneratio
     (hl : l ∈ B ⊔ conjSubgroup g B) (hc : ∀ u ∈ conjSubgroup g P, u * l = l * u) :
     l ∈ conjSubgroup g B := by
   refine (H.conj g).outer_centralizer_L (H.outer_conj_of_mutual hmut) hCen hU ?_ hc
-  rw [H.pair_L_conj_eq hmut]
+  rw [CFSG.RankThree.GF2n.Tim78.Hyp4.pair_L_conj_eq]
   exact hl
 
 theorem pair_le_normalizer_L :
@@ -227,7 +230,7 @@ theorem pair_swap {n : ℕ} (D : PairData P B g n) (hCen : BenderCenterInput)
       (fun y hy => (H.center_Q hb (H.P_le_Q hy)).symm)
     exact H.pair_centralizer_Pg hmut hCen hU hl (fun u hu => hc u hu)
   · obtain ⟨hl, hc⟩ := conj_comm_of_factor hwN (D.weyl_P_factor hw) (Subgroup.mem_sup_right ha)
-      (fun u hu => (H.pair_Pg_comm_A hmut hu ha).symm)
+      (fun u hu => (H.pair_Pg_comm_A hu ha).symm)
     exact H.outer_centralizer_L hmut.outer hCen hU hl (fun p hp => hc p hp)
 
 theorem pair_diag_normalizes {n : ℕ} (D : PairData P B g n) (hCen : BenderCenterInput)
@@ -243,7 +246,7 @@ theorem pair_diag_normalizes {n : ℕ} (D : PairData P B g n) (hCen : BenderCent
       (fun y hy => (H.center_Q hb (H.P_le_Q hy)).symm)
     exact H.outer_centralizer_L hmut.outer hCen hU hl (fun p hp => hc p hp)
   · obtain ⟨hl, hc⟩ := conj_comm_of_factor hτN (D.diag_Pg_factor hτ) (Subgroup.mem_sup_right ha)
-      (fun u hu => (H.pair_Pg_comm_A hmut hu ha).symm)
+      (fun u hu => (H.pair_Pg_comm_A hu ha).symm)
     exact H.pair_centralizer_Pg hmut hCen hU hl (fun u hu => hc u hu)
 
 end Mutual

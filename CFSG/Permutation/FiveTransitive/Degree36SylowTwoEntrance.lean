@@ -37,7 +37,7 @@ theorem fixed_six_and_image
   let Q := sylowImage X P s S
   let F := sylowFixedPoints X P s S
   let N := sylowNormalizer X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm

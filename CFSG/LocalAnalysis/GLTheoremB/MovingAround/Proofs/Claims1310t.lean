@@ -190,7 +190,7 @@ theorem le_M_of_twE6Eight (hGA : GriessMultipliersAllModels)
   obtain ⟨hcard, hB4⟩ := Claims1310r.card_autImage_eq h h139b hU hu hu1 hKc hN hcen
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -220,7 +220,7 @@ theorem le_M_of_twE6Eight (hGA : GriessMultipliersAllModels)
     CFSG.HardMathSupport.Lang.E6Descent.card_center_eq_three_E6 hGA hKt hZp hZne
       (Or.inr ⟨q, hv, ⟨eZ⟩, by rw [TauCeti.PrimePower.card_def, hq8]; norm_num⟩)
   obtain ⟨Kf, fK, σ, hKf, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite Kf := Nat.finite_of_card_ne_zero (by rw [hKf]; positivity)
+  have : Finite Kf := Nat.finite_of_card_ne_zero (by rw [hKf]; positivity)
   have hKf8 : Nat.card Kf = 8 ^ 2 := by rw [hKf, hq8]
   have hσ8 : ∀ c, σ c = c ^ 8 := fun c => by rw [hσ, hq8]
   have h2Kf : ringChar Kf = 2 :=
@@ -262,7 +262,7 @@ theorem le_M_of_twE6Eight (hGA : GriessMultipliersAllModels)
       exact h1 ⟨n, Subgroup.mem_subgroupOf.2 ⟨Subgroup.mem_subgroupOf.1 hn, n.2⟩, rfl⟩
     exact Inputs123b.mem_innerAut_of_quotientCenterAut' hperf h3
   obtain ⟨x, hxA', hxI⟩ := Set.not_subset.1 hA'ni
-  haveI : Finite ↥A' := Nat.finite_of_card_ne_zero (by rw [hA'card]; positivity)
+  have : Finite ↥A' := Nat.finite_of_card_ne_zero (by rw [hA'card]; positivity)
   have hx3 : x ^ 3 = 1 := hA'el.2 x hxA'
   have hx1 : x ≠ 1 := fun h1 => hxI (h1 ▸ (twistedE6Inn Kf σ).one_mem)
   have hxo : orderOf (⟨x, hxA'⟩ : ↥A') = 3 :=
@@ -324,7 +324,7 @@ theorem false_of_twE6Two (hX : Rank3CuResExcSeven)
   obtain ⟨hcard, -⟩ := Claims1310r.card_autImage_eq h h139b hU hu hu1 hKc hN hcen
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -377,7 +377,7 @@ theorem false_of_twE6Two (hX : Rank3CuResExcSeven)
   subst hiq
   have hq2 : q.p ^ q.exponent = 2 := by rw [hq.1, hq.2]; norm_num
   obtain ⟨Kf, fK, σ, hKf, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite Kf := Nat.finite_of_card_ne_zero (by rw [hKf]; positivity)
+  have : Finite Kf := Nat.finite_of_card_ne_zero (by rw [hKf]; positivity)
   obtain ⟨e'⟩ : Nonempty ((↥(barX 3 (Cg u) Kc) ⧸ Subgroup.center ↥(barX 3 (Cg u) Kc)) ≃*
       ↥(twistedE6RootGroup Kf σ)) := ⟨eZ.trans eC⟩
   set A' : Subgroup (MulAut ↥(twistedE6RootGroup Kf σ)) :=
@@ -387,7 +387,7 @@ theorem false_of_twE6Two (hX : Rank3CuResExcSeven)
   have hA'el : IsElemAbelian 3 A' := hAel.map _
   have hA'card : Nat.card A' = 3 ^ (CFSG.Open.pRank 3 B - 1) := by
     rw [hA', Subgroup.card_map_of_injective (MulAut.congr e').injective, hcard]
-  haveI : Finite ↥A' := Nat.finite_of_card_ne_zero (by rw [hA'card]; positivity)
+  have : Finite ↥A' := Nat.finite_of_card_ne_zero (by rw [hA'card]; positivity)
   have h81 : 3 ^ 4 ∣ Nat.card ↥A' := by
     rw [hA'card]; exact pow_dvd_pow 3 (by omega)
   obtain ⟨D₀, hD₀c, -⟩ := Sylow.exists_subgroup_card_pow_prime_le 3 h81 (⊥ : Subgroup ↥A') (n := 0)

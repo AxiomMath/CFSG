@@ -38,7 +38,7 @@ variable
 theorem cubeHom_apply (L : Type) [Field L] [Algebra K L] (G : ModGL Tag.E8 L)
     (x : adjointGroup Tag.E8 K) :
     cubeHom L G x = G⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL Tag.E8 K) * G := by
-  simp [cubeHom, MulAut.conj_apply]
+  simp [cubeHom]
 
 theorem cubeHom_injective (L : Type) [Field L] [Algebra K L] (G : ModGL Tag.E8 L) :
     Function.Injective (cubeHom (K := K) L G) := by
@@ -133,11 +133,11 @@ theorem frames_le (hK5 : 5 ∣ Nat.card K + 1) :
 theorem exists_conj_x_z (hK5 : 5 ∣ Nat.card K + 1) :
     ∃ g : adjointGroup Tag.E8 K, g * c.x' * g⁻¹ = c.z' := by
   classical
-  haveI : IsAlgClosed c.D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed c.D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hq : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hp5 : p ≠ 5 := by
     rintro rfl
@@ -145,7 +145,7 @@ theorem exists_conj_x_z (hK5 : 5 ∣ Nat.card K + 1) :
     have h1 : 5 ∣ 5 ^ (m : ℕ) := dvd_pow_self 5 m.ne_zero
     have := (Nat.dvd_add_right h1).1 hK5
     omega
-  haveI : CharP c.D.L p := charP_of_injective_algebraMap (algebraMap K c.D.L).injective p
+  have : CharP c.D.L p := charP_of_injective_algebraMap (algebraMap K c.D.L).injective p
   have hFr : c.D.Fr = iterateFrobenius c.D.L p m :=
     RingHom.ext fun x => by rw [c.D.hFr, hq, iterateFrobenius_def]
   have hFDz : entrywiseFrobGL Tag.E8 c.D.L p m c.D.g = c.D.g * c.D.nW := by

@@ -25,7 +25,7 @@ theorem s16c11_v1_cover_of_data {m : ℕ} (h1 : CFSG.CGT.Harada80.H1Natural m)
         Multiplicative.toAdd (β w))
     (hZ : Z ≤ fixV H) (hcomm : commV H = ⊤) : Z = ⊥ := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.VolI.modTwoW hW2
+  let : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.VolI.modTwoW hW2
   let βa : Additive W →+ (Fin m ⊕ Fin m ⊕ Fin 2 → ZMod 2) :=
     CFSG.Quasithin.H13.VolI.addMap β
   let ρa : ↥(omegaMinusTwo m) →* AddMonoid.End (Additive W) :=

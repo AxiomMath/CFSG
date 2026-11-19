@@ -164,10 +164,10 @@ theorem subcompField_of_inputs (hRig : GGLabelRigidInput) (hRest : GGInndiagComm
         _ < Nat.card ↥(⊤ : Subgroup (↥L ⧸ Subgroup.center ↥L)) :=
             Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card (↥L ⧸ Subgroup.center ↥L) := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
     have hqK := hKb.2.2
-    haveI := hqK.2
-    haveI : Nontrivial ↥Kb := (QuotientGroup.mk'_surjective (Subgroup.center ↥Kb)).nontrivial
+    have := hqK.2
+    have : Nontrivial ↥Kb := (QuotientGroup.mk'_surjective (Subgroup.center ↥Kb)).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Kb).ne hqK.1
   ·
     exfalso

@@ -23,12 +23,12 @@ theorem pRank_le_one_of_section {X S : Type*} [Group X] [Finite X] [Group S] [Fi
 theorem two_le_pRank_quotient_center {K : Type*} [Group K] [Finite K] [Group.IsPerfect K]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h2 : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup K)) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (K ⧸ Subgroup.center K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   have h1 : CFSG.Open.pRank p (⊤ : Subgroup (K ⧸ Subgroup.center K)) ≤ 1 := by omega
   obtain ⟨P⟩ : Nonempty (Sylow p K) := inferInstance
   have hcyc : IsCyclic ((P : Subgroup K).map (QuotientGroup.mk' (Subgroup.center K))) :=
-    CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2 le_top (P.isPGroup'.map _)
+    CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2 le_top (P.isPGroup.map _)
       ((CFSG.SectionRank.pRank_coe_eq_openPRank p ⊤).trans_le h1)
   have hab := CFSG.RankThree.CentralLiftU.sylow_commute_of_isCyclic_map _
     (QuotientGroup.ker_mk' (Subgroup.center K)).le _ hcyc

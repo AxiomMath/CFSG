@@ -28,7 +28,7 @@ theorem exists_functional_ker_eq {H : Submodule (ZMod 3) V}
       exact Nat.card_congr (Submodule.topEquiv (R := ZMod 3) (M := V)).toEquiv
     rw [← hcard, hH] at hV
     norm_num at hV
-  haveI : Module.Free (ZMod 3) (V ⧸ H) := inferInstance
+  have : Module.Free (ZMod 3) (V ⧸ H) := inferInstance
   obtain ⟨f, hfne, hfmap⟩ := Submodule.exists_dual_map_eq_bot_of_lt_top hHlt
     (inferInstance : Projective (ZMod 3) (V ⧸ H))
   have hle : H ≤ LinearMap.ker f := by
@@ -110,6 +110,7 @@ theorem exists_bilinForm_of_span_top (hP : ∀ i j, α i (h j) = (CartanMatrix.E
 
 variable {B : LinearMap.BilinForm (ZMod 3) V}
 
+omit [Finite V] in
 theorem bilinForm_symm_of_span_top
     (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hspan : Submodule.span (ZMod 3) (Set.range h) = ⊤)
@@ -123,6 +124,7 @@ theorem bilinForm_symm_of_span_top
   have h := LinearMap.congr_fun (LinearMap.congr_fun hflip u) v
   rwa [LinearMap.BilinForm.flip_apply] at h
 
+omit [Finite V] in
 theorem bilinForm_reflection_of_span_top
     (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hspan : Submodule.span (ZMod 3) (Set.range h) = ⊤)
@@ -138,15 +140,15 @@ theorem bilinForm_reflection_of_span_top
   have hxx : B (h i) (h i) = 2 := by rw [hB, hα]
   rw [reflection_apply, reflection_apply]
   simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul,
-    hB, hux, hvx, hxx, hα]
+    hB, hux, hα]
   ring
 
 theorem span_ne_top_of_card_six
     (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
     (hα : ∀ i, α i (h i) = 2) (hV : Nat.card V = 3 ^ 6)
-    (hW : Nat.card (e6Weyl hα) = 51840) {A : Subgroup (V ≃ₗ[ZMod 3] V)}
-    (hA : A ≤ e6Weyl hα) (hcardA : 720 ≤ Nat.card A) {x : V} (hx : x ≠ 0)
-    (hAx : ∀ g ∈ A, g x = x)
+    (_hW : Nat.card (e6Weyl hα) = 51840) {A : Subgroup (V ≃ₗ[ZMod 3] V)}
+    (hA : A ≤ e6Weyl hα) (_hcardA : 720 ≤ Nat.card A) {x : V} (_hx : x ≠ 0)
+    (_hAx : ∀ g ∈ A, g x = x)
     {H : Submodule (ZMod 3) V} (hH : Nat.card H = 3 ^ 5) (hxH : x ∈ H)
     (hAH : ∀ g ∈ A, ∀ v, g v - v ∈ H)
     (hfix : ∀ v, (∀ g ∈ A, g v - v ∈ (ZMod 3) ∙ x) → v ∈ (ZMod 3) ∙ x) :

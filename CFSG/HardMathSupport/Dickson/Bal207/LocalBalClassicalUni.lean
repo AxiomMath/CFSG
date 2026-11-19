@@ -22,12 +22,12 @@ theorem isLocallyBalancedAbs_three_one_primeFormP_uni {ℓ : ℕ} (h : UnitaryFi
     IsLocallyBalancedAbs 3 1 (primeFormP h (idGram K n)) := by
   subst hℓ
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (primeFormP h (idGram K n)) := finite_primeFormP
+  have : Finite K := h.finite
+  have : Finite (primeFormP h (idGram K n)) := finite_primeFormP
   have hn3 : 3 ≤ n := by omega
   have hq : 2 ^ f = 2 ∨ 2 ^ f = 8 := by rcases hf with rfl | rfl <;> simp
   have hne : ¬(n = 3 ∧ 2 ^ f = 2) := fun h' => by omega
-  have hpq : 3 ∣ 2 ^ f + 1 := by rcases hq with hq | hq <;> rw [hq] <;> norm_num
+  have hpq : 3 ∣ 2 ^ f + 1 := by rcases hq with hq | hq <;> rw [hq]; norm_num
   have hg : Nat.gcd n (2 ^ f + 1) = 1 := by
     have h3' : Nat.Coprime 3 n := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 h3
     rcases hq with hq | hq <;> rw [hq]

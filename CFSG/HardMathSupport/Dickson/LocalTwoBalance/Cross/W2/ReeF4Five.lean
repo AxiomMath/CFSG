@@ -99,7 +99,7 @@ end Layer
 
 theorem reeF4InnerFiveBalance_holds : ReeF4InnerFiveBalance := by
   intro a K _ _ _ ha hK E hEin hE hEc H hH
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hinj : Function.Injective

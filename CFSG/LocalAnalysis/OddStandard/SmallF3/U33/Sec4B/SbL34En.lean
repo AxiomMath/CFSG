@@ -60,16 +60,16 @@ theorem exists_u_cent' (hc : Ctx4L t L S x₁ x₂ lam rho tau) {n : G}
       _ = b⁻¹ * q' * b := by rw [hq'_def]
       _ = (t * lam) * x := hbx
   rcases x_one_or_z hc hxX hinv hcl with hx1 | hxz
-  · refine ⟨b⁻¹, O_le_U hc (inv_mem hb), ?_⟩
+  · refine ⟨b⁻¹, O_le_U (inv_mem hb), ?_⟩
     calc (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹
         = b⁻¹ * q' * b := by rw [hq'_def]; group
       _ = (t * lam) * x := hbx
       _ = t * lam := by rw [hx1, mul_one]
   · refine ⟨(x₁ ^ 2)⁻¹ * b⁻¹, ?_, ?_⟩
     · exact mul_mem
-        (inv_mem (O_le_U hc (hc.toCtx4Q.Q_le_O
+        (inv_mem (O_le_U (hc.toCtx4Q.Q_le_O
           (hc.toCtx4Q.V_le_Q (subset_closure (by simp))))))
-        (inv_mem (O_le_U hc hb))
+        (inv_mem (O_le_U hb))
     · have hgt : (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹ = (t * lam) * (x₁ * x₂) ^ 2 := by
         calc (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹
             = b⁻¹ * q' * b := by rw [hq'_def]; group
@@ -90,7 +90,7 @@ theorem exists_cent_of_comm_mem (ha : Ctx4A t L S x₁ x₂ lam rho tau) {W : Su
     have hwq : w * (t * lam) * w⁻¹ =
         ((t * lam) * w * (t * lam)⁻¹ * w⁻¹)⁻¹ * (t * lam) := by group
     rw [hwq]
-    exact mul_mem (O_le_U hc (inv_mem hcomm)) (q_mem_U hc)
+    exact mul_mem (O_le_U (inv_mem hcomm)) (q_mem_U hc)
   obtain ⟨u, hu, huq⟩ := exists_u_cent' hc hwN hwU
   have hdW : u * w ∈ W := mul_mem (hv.U_le hu) hw
   have hdC : u * w ∈ centralizer ({t * lam} : Set G) := by

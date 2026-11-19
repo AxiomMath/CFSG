@@ -22,7 +22,7 @@ theorem exists_noncommuting_of_perfect {p : ℕ} [Fact p.Prime] {K : Subgroup X}
     ∃ x ∈ (P : Subgroup K).map K.subtype, ∃ y ∈ (P : Subgroup K).map K.subtype, x * y ≠ y * x := by
   by_contra hcon
   push Not at hcon
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   have hcomm : ∀ x ∈ (P : Subgroup K), ∀ y ∈ (P : Subgroup K), x * y = y * x := by
     intro x hx y hy
     exact Subtype.ext (hcon x (Subgroup.mem_map_of_mem _ hx) y (Subgroup.mem_map_of_mem _ hy))
@@ -59,10 +59,10 @@ theorem isCyclic_inf_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (R : S
     {K : Subgroup X} (hKR : ¬ K ≤ GLBWeakCore p (R : Subgroup X)) {x y : X} (hxK : x ∈ K)
     (hxR : x ∈ (R : Subgroup X)) (hxp : x ^ p = 1) (hyK : y ∈ K) (hxy : x * y ≠ y * x) :
     IsCyclic ↥((R : Subgroup X) ⊓ Subgroup.centralizer (K : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hncyc
   have hC0p : IsPGroup p ↥((R : Subgroup X) ⊓ Subgroup.centralizer (K : Set X)) :=
-    R.isPGroup'.to_le inf_le_left
+    R.isPGroup.to_le inf_le_left
   obtain ⟨D, hDC0, hD, hDcard⟩ := exists_isElemAbelian_card_sq_of_not_isCyclic hp2 hC0p hncyc
   have hDR : D ≤ (R : Subgroup X) := hDC0.trans inf_le_left
   have hDC : D ≤ Subgroup.centralizer (K : Set X) := hDC0.trans inf_le_right
@@ -165,12 +165,12 @@ theorem false_of_inner
     (hCB : ∀ b ∈ B, b ∈ Subgroup.centralizer (K : Set X) → b ∈ Subgroup.zpowers z)
     (hinner : ∀ b ∈ B, ∃ k ∈ K, ∀ y ∈ K, b * y * b⁻¹ = k * y * k⁻¹)
     (hK4 : ¬ p ^ 4 ∣ Nat.card K) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal R
     (CFSG.ComponentClassification.Components.mathlib_subnormal_of_chain hK.2.1
       Subgroup.IsSubnormal.top)
   have hTcard : Nat.card ↥((R : Subgroup X) ⊓ K) ≤ p ^ 3 := card_le_of_sylow_map P hP hK4
-  have hTp : IsPGroup p ↥((R : Subgroup X) ⊓ K) := R.isPGroup'.to_le inf_le_left
+  have hTp : IsPGroup p ↥((R : Subgroup X) ⊓ K) := R.isPGroup.to_le inf_le_left
   have hTnc := exists_noncommuting_of_perfect hK.2.2.1 P hzK hzc hzp
   rw [hP] at hTnc
   obtain ⟨x, hxT, hxp, y, hyT, hxy⟩ := exists_pow_eq_one_not_central hp2 hTp hTnc hTcard
@@ -216,7 +216,7 @@ theorem false_of_inner
     calc p = Nat.card ↥(Subgroup.zpowers z) := by rw [Nat.card_zpowers, hzp]
       _ ≤ _ := Subgroup.card_le_of_le hle
   have hTle := le_sup_of_card_le hp.pos hTC0 hBC0 hBle hTcard hB3 hTinf hBinf
-  haveI : IsMulCommutative B := hBel.1
+  have : IsMulCommutative B := hBel.1
   have hBcomm : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b := fun b hb b' hb' =>
     congrArg Subtype.val (mul_comm' (⟨b, hb⟩ : B) ⟨b', hb'⟩)
   exact hxy (mul_comm_of_mem_sup hBcomm hC0comm hBC0 (hTle hxT) (hTle hyT))

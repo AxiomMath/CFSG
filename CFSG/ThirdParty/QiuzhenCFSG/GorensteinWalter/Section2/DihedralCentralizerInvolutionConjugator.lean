@@ -131,7 +131,7 @@ private theorem exists_involution_conjugator_in_product_centralizer_of_dihedral_
     apply hVCPC
     exact Subgroup.mem_subgroupOf.mpr hsV
   let PG : Subgroup G := (PC : Subgroup C).map C.subtype
-  have hPGp : IsPGroup 2 PG := PC.isPGroup'.map C.subtype
+  have hPGp : IsPGroup 2 PG := PC.isPGroup.map C.subtype
   have hPGcard : Nat.card PG = Nat.card (↥(PC : Subgroup C)) := by
     exact (Nat.card_congr
       (Subgroup.equivMapOfInjective (PC : Subgroup C) C.subtype
@@ -419,7 +419,7 @@ private theorem exists_involution_conjugator_in_product_centralizer_of_dihedral_
     rw [hyq]
     exact hqQ
   let Qc : Subgroup G := (Q : Subgroup G) ⊓ C
-  have hQcp : IsPGroup 2 Qc := Q.isPGroup'.to_inf_left
+  have hQcp : IsPGroup 2 Qc := Q.isPGroup.to_inf_left
   have hPGleQc : PG ≤ Qc := by
     intro x hx
     exact ⟨hPGQ hx, hPGleC hx⟩

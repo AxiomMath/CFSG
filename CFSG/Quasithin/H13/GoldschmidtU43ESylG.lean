@@ -141,7 +141,7 @@ theorem exists_sylow_Tg : ∃ P : Sylow 3 G, (P : Subgroup G) = S.Tg := by
       rw [htop]
       trivial
     exact this
-  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have hnc : NormalizerCondition ↥(P : Subgroup G) :=
     Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G))
   obtain ⟨x, hxN, hxn⟩ := IsConcreteLE.exists_of_lt (hnc _ hIlt)
@@ -154,7 +154,7 @@ theorem exists_sylow_Tg : ∃ P : Sylow 3 G, (P : Subgroup G) = S.Tg := by
   have hxH : (x : G) ∈ Hz z := S.normalizer_Tg_le_Hz h9 hxNorm
   set Q : Subgroup G := S.Tg ⊔ Subgroup.zpowers (x : G) with hQ
   have hQP : Q ≤ (P : Subgroup G) := sup_le hP (Subgroup.zpowers_le.mpr x.2)
-  have hQ3 : IsPGroup 3 Q := P.isPGroup'.to_le hQP
+  have hQ3 : IsPGroup 3 Q := P.isPGroup.to_le hQP
   have hQH : Q ≤ Hz z := sup_le S.Tg_le_Hz (Subgroup.zpowers_le.mpr hxH)
   have hdvd : Nat.card Q ∣ 1152 := S.hyp.card_H ▸ Subgroup.card_dvd_of_le hQH
   obtain ⟨k, hk⟩ := hQ3.exists_card_eq

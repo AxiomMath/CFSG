@@ -28,8 +28,8 @@ open CFSG.ComponentClassification.CatLeaf (card_quotient_center_congr)
 
 private theorem ringChar_eq_two_of_card_four {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 4) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   exact ringChar.eq K 2
 
@@ -82,7 +82,7 @@ theorem card_centerQuot_twE6Line_of_dim (hK : Nat.card K = 4) (hσ : ∀ c, σ c
       omega
     obtain ⟨r, e, hr, hqr, hmodel⟩ :=
       d5_class_strongModel D.S hFr hΦ D.hL3 D.hT D.hap (by rw [hq2]) hk i
-    haveI := D.hchar
+    have := D.hchar
     obtain rfl : r = 2 := by rw [← hr, ringChar.eq (AlgebraicClosure K) (ringChar K), hchar]
     obtain rfl : e = 1 :=
       Nat.pow_right_injective (le_refl 2) (hqr.symm.trans (hq2.trans (pow_one 2).symm))

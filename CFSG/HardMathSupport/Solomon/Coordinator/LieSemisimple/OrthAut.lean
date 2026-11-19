@@ -29,7 +29,7 @@ private theorem perfectInLayer_of_fix_eq_omega {S : Type*} [Group S] {β : MulAu
     (hJq : CFSG.IsQuasisimple J) (hsol : Group.IsSolvable (↥N ⧸ J.subgroupOf N)) :
     PerfectInLayer β := by
   subst hfix
-  haveI := hJn
+  have := hJn
   exact perfectInLayer_of_normal_quasisimple hJN hJq hsol
 
 section Field
@@ -47,10 +47,10 @@ private theorem perfectInLayer_fieldAutT_omega (S : SubfieldSetup k Q₀ Q σ p)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   exact perfectInLayer_of_fix_eq_omega hfix (subfieldDerivedImage_le k S.hext) hJn hJq
     inferInstance
 
@@ -76,6 +76,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ} {Q : QuadraticForm K (Fin d → K)} {f p : ℕ}
 
+omit [Finite K] in
 private theorem mem_E_of_pow_eq_one_omega (hg : OrthogonalGates Q f) (hp : p.Prime)
     (h : 3 < p ∨ projectivePointFamilyAut Q = ⊤) {β : MulAut (matrixProjectiveDerived Q)}
     (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by

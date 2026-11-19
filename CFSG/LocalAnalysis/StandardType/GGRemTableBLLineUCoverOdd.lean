@@ -17,7 +17,7 @@ theorem unitaryCoverOddAt_of_section {n d : ℕ} {K : Type} [Field K] [Finite K]
       Function.Surjective π → π.ker ≤ Subgroup.center E → Odd (Nat.card π.ker) →
         ∃ s : ↥(unitarySU 2 n K d) →* E, ∀ g, π (s g) = g) :
     Line63.UnitaryCoverOddAt n d K := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin d) K) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin d) K) :=
     Finite.of_injective (fun u : Matrix.GeneralLinearGroup (Fin d) K =>
       (u : Matrix (Fin d) (Fin d) K)) fun _ _ h => Units.ext h
   unfold Line63.UnitaryCoverOddAt
@@ -81,10 +81,10 @@ theorem unitaryCoverOddAt_six_two (K : Type) [Field K] [Finite K] (hK : Nat.card
     Line63.UnitaryCoverOddAt 1 6 K := by
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K :=
     ⟨Nat.prime_two, le_rfl, by norm_num [hK]⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by norm_num [hK]
   refine unitaryCoverOddAt_of_section ?_ ?_
-  · haveI := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
+  · have := CFSG.LieType.Steinberg.CentralExt.SUClosed.isPerfect_statedSU hF
       (show 4 ≤ 6 by norm_num)
     exact Group.IsPerfect.commutator_eq_top
   · intro E _ _ π hπ hcen hodd

@@ -62,8 +62,8 @@ theorem m12_autRank :
     CFSG.Sporadic.Schreier.m12_mulAut_card (r := 3) CFSG.QuasithinUnique.Setup.X1.m12_rank_le B hc hs
 
 theorem m12_cover :
-    ∀ (E : Type) [Group E] [Finite E] [Group.IsPerfect E] (π : E →* NativeSporadic.Carrier .M12),
-      Function.Surjective π → π.ker ≤ Subgroup.center E → Odd (Nat.card π.ker) → π.ker = ⊥ :=
-  fun E _ _ _ π hπ hC hodd => CFSG.SectionRank.M12_perfect_odd_cover_trivial π hπ hC hodd
+    ∀ (_E : Type) [Group _E] [Finite _E] [Group.IsPerfect _E] (π : _E →* NativeSporadic.Carrier .M12),
+      Function.Surjective π → π.ker ≤ Subgroup.center _E → Odd (Nat.card π.ker) → π.ker = ⊥ :=
+  fun _E _ _ _ π hπ hC hodd => CFSG.SectionRank.M12_perfect_odd_cover_trivial π hπ hC hodd
 
 end CFSG.Quasithin.Background.Harris.IrreducibleModulesAndBounds

@@ -40,7 +40,7 @@ theorem y4_T2_le_normV (c : Ctx4 s e) : s.T₂ ≤ normalizer (cen s.fr.B : Set 
   rwa [e] at h
 
 theorem y4_T2_inf_H (c : Ctx4 s e) : s.H ⊓ s.T₂ = s.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   symm
   exact sylowIn_eq_of_le s.sylow_T ((y4_T2_isPGroup c).to_le inf_le_right) inf_le_left
     (le_inf s.sylow_T.1 (y4_T_le_T2 s))
@@ -120,6 +120,7 @@ theorem y4_comm_t_mem_V (c : Ctx4 s e) {x : G} (hx : x ∈ s.C₂) : ⁅x, s.t�
   rw [← h]
   exact (f ⟨x, hx⟩).2
 
+omit [Finite G] in
 theorem y4_conj_t (x : G) (t : G) : x * t * x⁻¹ = ⁅x, t⁆ * t := by
   rw [commutatorElement_def]; group
 
@@ -180,7 +181,7 @@ theorem y4_V_sq (c : Ctx4 s e) {v : G} (hv : v ∈ cen s.fr.B) : v ^ 2 = 1 := by
         _ = s.fr.z * s.fr.z * (w * w) := by group
     rw [this, hzsq, hwsq, one_mul]
 
-theorem y4_V_comm (c : Ctx4 s e) {u v : G} (hu : u ∈ cen s.fr.B) (hv : v ∈ cen s.fr.B) :
+theorem y4_V_comm (_c : Ctx4 s e) {u v : G} (hu : u ∈ cen s.fr.B) (hv : v ∈ cen s.fr.B) :
     u * v = v * u := by
   have hv' : v ∈ s.fr.B := s3_cenB_le_B s hv
   have := Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hu).2 v hv'

@@ -36,7 +36,7 @@ theorem zSub_image_le_center
     ((zSub P c.L).subgroupOf c.L).map
         (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)) ≤ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -115,7 +115,7 @@ theorem Lz_sup_pCore_eq
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hZA : zSub P c.L ≤ A)
-    {x : G} (hx : x ∈ zSub P c.L) (hx1 : x ≠ 1)
+    {x : G} (hx : x ∈ zSub P c.L) (_hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M) :
     c.L = Lz c x ⊔ CFSG.Open.pCoreOf 2 c.L := by
   have hxL : x ∈ c.L := (Subgroup.mem_inf.mp hx).1.2
@@ -156,11 +156,11 @@ theorem Lz_image_eq_top
     exact Subgroup.mem_subgroupOf.mpr hlG
   have hOeq : (CFSG.Open.pCoreOf 2 c.L).subgroupOf c.L = CFSG.Open.pCore 2 ↥c.L := by
     ext u
-    simp [CFSG.Open.pCoreOf, Subgroup.mem_subgroupOf, Subgroup.mem_map]
+    simp [CFSG.Open.pCoreOf]
   have hOsub : ((CFSG.Open.pCoreOf 2 c.L).subgroupOf c.L).Normal := by
     rw [hOeq]
     exact CFSG.pCore_normal
-  letI := hOsub
+  let := hOsub
   rw [Subgroup.mem_sup_of_normal_right] at hl
   obtain ⟨lz, hlz, o, ho, hlo⟩ := hl
   refine Subgroup.mem_map.mpr ⟨lz, hlz, ?_⟩
@@ -181,7 +181,7 @@ theorem Lz_mem_thetaComponentsAt
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hZA : zSub P c.L ≤ A)
-    {x : G} (hx : x ∈ zSub P c.L) (hx1 : x ≠ 1)
+    {x : G} (hx : x ∈ zSub P c.L) (_hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M) :
     Lz c x ∈ thetaComponentsAt 3 x := by
   have hxL : x ∈ c.L := (Subgroup.mem_inf.mp hx).1.2

@@ -116,7 +116,7 @@ theorem node_exists : ∀ n < 4096, ∃ s ∈ Sg, ∀ i < 13, ∀ hq : lane C266
 
 theorem sN_spec {n : Nat} (h : n < 4096) : sN n ∈ Sg ∧ ∀ i < 13, ∀ hq : lane C26683.QP i < 1365,
     (sN n ⟨_, hq⟩ : Nat) = lane (nrec C26683.RP n) i := by
-  rw [sN, dif_pos h]
+  rw [sN, dite_eq_left h]
   exact Classical.choose_spec (node_exists n h)
 
 theorem sN_D {n : Nat} (h : n < 4096) : sN n ∈ twoBD := Sg_le (sN_spec h).1

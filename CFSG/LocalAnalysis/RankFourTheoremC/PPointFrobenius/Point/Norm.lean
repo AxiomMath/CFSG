@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem pt_P_le_centralizer_of_mem (hab : IsMulCommutative (P : Subgroup G)) {a : G}
     (ha : a ∈ (P : Subgroup G)) : (P : Subgroup G) ≤ centralizer ({a} : Set G) := by
   intro g hg
@@ -24,7 +25,7 @@ theorem pt_P_le_centralizer_of_mem (hab : IsMulCommutative (P : Subgroup G)) {a 
 
 theorem pt_isSylowOf_of_le [Fact p.Prime] (Q : Sylow p G) {K : Subgroup G}
     (hQK : (Q : Subgroup G) ≤ K) : IsSylowOf p (Q : Subgroup G) K :=
-  isSylowOf_iff.mpr ⟨hQK, Q.isPGroup', fun h =>
+  isSylowOf_iff.mpr ⟨hQK, Q.isPGroup, fun h =>
     Q.not_dvd_index (h.trans (relIndex_dvd_index_of_le hQK))⟩
 
 theorem pt_isPPoint_of_mem [Fact p.Prime] (hl : PtPoint p P M x) {a : G}
@@ -62,6 +63,7 @@ theorem pt_weakly_closed_P (hl : PtLocal p P M x) {h : G} (hh : h * x * h⁻¹ �
   rw [inv_inv, MonoidHom.map_zpowers] at h1
   simpa [MulAut.conj_apply] using h1
 
+omit [Finite G] in
 theorem pt_conj_zpowers_of_mul {Q U Z : Subgroup G} (hQ : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)
     (hUQ : U ≤ Q) (hZQ : Z ≤ Q) (hUZ : U ⊓ Z = ⊥) {u z t : G} (hu : u ∈ U) (hz : z ∈ Z)
     (htU : t ∈ normalizer (U : Set G)) (htZ : t * z * t⁻¹ = z)
@@ -142,7 +144,7 @@ theorem pt_norm [Fact p.Prime] (hk : PtKFacts) (hs : PtSchurBound) (hG : FrobGlo
     (hl : PtLocal p P M x) : PtNorm p P M x := by
   intro P₁ hP₁P hP₁c hP₁x
   have hp : p.Prime := Fact.out
-  haveI : IsCyclic P₁ := isCyclic_of_prime_card hP₁c
+  have : IsCyclic P₁ := isCyclic_of_prime_card hP₁c
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := P₁)
   have hP₁eq : P₁ = zpowers (g : G) := by
     ext y

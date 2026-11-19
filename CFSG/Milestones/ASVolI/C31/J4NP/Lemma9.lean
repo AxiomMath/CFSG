@@ -16,7 +16,7 @@ theorem burnsideJ4NP_exists_not_mem_Hj
     (hR : burnsideJ4NP_Hyp R) :
     ∃ l ∈ Subgroup.normalizer (R : Set J), l ∉ Hj := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply burnsideJ4NP_not_le_Hj_conj hR 1
   intro x hx
   rw [burnsideJ4NP_mem_map_conj]

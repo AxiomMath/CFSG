@@ -168,7 +168,7 @@ theorem sp_proj_bijective {K : Type} [Field K] [Fintype K] [CharP K 2] (m : ℕ)
     have hs : ((Matrix.GeneralLinearGroup.scalar (Fin m ⊕ Fin m) c : GL (Fin m ⊕ Fin m) K) :
         Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) =
         (c : K) • (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) := by
-      ext i j; by_cases hij : i = j <;> simp [hij, Matrix.one_apply]
+      ext i j; by_cases hij : i = j <;> simp [hij]
     simp only [formAdj, hm, hJinv] at h
     rw [hs] at h
     simp only [Matrix.transpose_smul, Matrix.transpose_one, Matrix.smul_mul, Matrix.mul_smul,
@@ -233,7 +233,7 @@ private theorem cSpC_sigmaGL_coe {K : Type} [Field K] {ι : Type} [Fintype ι] [
   ext i j
   rfl
 
-private theorem cSpC_transfer {K : Type} [Field K] [Fintype K] [CharP K 2] {m p : ℕ}
+private theorem cSpC_transfer {K : Type} [Field K] [Fintype K] [CharP K 2] {m _p : ℕ}
     (S : ClSetting K (Fin m ⊕ Fin m))
     (κ : ↥(cSpC_G K m) →* MulAut (LargeEvenProj (cSpC_G K m)))
     (Ebar : Subgroup (MulAut (LargeEvenProj (cSpC_G K m))))
@@ -405,7 +405,7 @@ private theorem cSpC_transfer {K : Type} [Field K] [Fintype K] [CharP K 2] {m p 
   · intro i j hij
     have h1 : κ (((⟨a₁, ha₁.1⟩ : ↥(cSpC_G K m)) ^ S.p ^ (s - 1)) ^ i *
         ((⟨a₂, ha₂.1⟩ : ↥(cSpC_G K m)) ^ S.p ^ (s - 1)) ^ j) = 1 := by
-      simp only [map_mul, map_pow, map_one]
+      simp only [map_mul, map_pow]
       exact hij
     have h2 : ((⟨a₁, ha₁.1⟩ : ↥(cSpC_G K m)) ^ S.p ^ (s - 1)) ^ i *
         ((⟨a₂, ha₂.1⟩ : ↥(cSpC_G K m)) ^ S.p ^ (s - 1)) ^ j = 1 :=
@@ -555,8 +555,7 @@ private theorem cSpC_field_case {K : Type} [Field K] [Fintype K] [CharP K 2] {m 
     rw [largeEvenSpForm_def]
     ext i j
     rcases i with i | i <;> rcases j with j | j <;>
-      simp only [Matrix.map_apply, Matrix.fromBlocks, Matrix.neg_apply, Matrix.one_apply,
-        Matrix.zero_apply]
+      simp only [Matrix.map_apply, Matrix.fromBlocks]
     all_goals (by_cases hij : i = j <;> simp [hij, map_zero, map_one, map_neg])
   let S : ClSetting K (Fin m ⊕ Fin m) :=
     { p := p
@@ -646,7 +645,7 @@ private theorem cSpC_field_case {K : Type} [Field K] [Fintype K] [CharP K 2] {m 
       S.adj (w : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) * w = 1 →
         (∀ e ∈ S.E₀, w * e = e * w) → w * x = x * w :=
     fun x hx w hw ha hb => H3 x hx w hw ⟨ha, hb⟩
-  exact cSpC_transfer (p := p) S κ Ebar f hinjκ hEbar_le hI_mem hE₀ hSadj hκ hκfield s hs2 k hk
+  exact cSpC_transfer (_p := p) S κ Ebar f hinjκ hEbar_le hI_mem hE₀ hSadj hκ hκfield s hs2 k hk
     H1 H2 H3' a₁ a₂ ha₁ ha₂ hind.2.2
 
 theorem ntCore_sp {K : Type} [Field K] [Fintype K] [CharP K 2] {m p : ℕ} (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2) :
@@ -676,7 +675,7 @@ theorem hilbert90 {L : Type} [Field L] [Finite L] (σ₀ : L ≃+* L) (lam : L)
     (hN : ∏ j ∈ Finset.range (orderOf σ₀), (σ₀ ^ j) lam = 1) :
     ∃ b : L, b ≠ 0 ∧ σ₀ b * lam = b := by
   classical
-  haveI : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
+  have : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
     (fun a b h => RingEquiv.ext (congrFun h))
   set n := orderOf σ₀ with hn
   have hn0 : 0 < n := orderOf_pos σ₀
@@ -740,7 +739,7 @@ theorem lin_descent {K : Type} [Field K] [Fintype K] [CharP K 2] {d : ℕ} (σ�
     simp [h0] at h1
   obtain ⟨a, b, hab⟩ := hx0
   have hN : ∏ j ∈ Finset.range (orderOf σ₀), (σ₀ ^ j) (lam : K) = 1 := by
-    haveI : Finite (K ≃+* K) := Finite.of_injective (fun e : K ≃+* K => (e : K → K))
+    have : Finite (K ≃+* K) := Finite.of_injective (fun e : K ≃+* K => (e : K → K))
       (fun a b h => RingEquiv.ext (congrFun h))
     have h := congrFun (congrFun (hiter (orderOf σ₀)) a) b
     rw [pow_orderOf_eq_one] at h
@@ -971,7 +970,7 @@ private theorem cUni_exists_eta {K : Type} [Field K]
     (p q : ℕ) (hp : p.Prime) (h2q : 2 ∣ q) (σ₀ : K ≃+* K)
     {θ : K} (hσθ : σ₀ θ = θ) (hθp : θ ^ p = 1) (hθq : θ ^ q = θ) :
     ∃ η : K, σ₀ η = η ∧ η ^ p = 1 ∧ η ^ (q + 1) = θ⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hθ0 : θ ≠ 0 := by
     rintro rfl
     rw [zero_pow hp.ne_zero] at hθp
@@ -1019,7 +1018,7 @@ private theorem cUni_exists_eta {K : Type} [Field K]
         exact ZMod.natCast_zmod_val (-((u⁻¹ : (ZMod p)ˣ) : ZMod p))
       have hcoe_u : ((u : ZMod p)) = (q + 1 : ZMod p) := by
         have := ZMod.coe_unitOfCoprime (q + 1) hcop
-        simpa [u] using this
+        simp [u]
       have ha : (a : ZMod p) * (q + 1 : ZMod p) = -1 := by
         rw [hcoe, ← hcoe_u, neg_mul, Units.inv_mul]
       have ha1 : ((a * (q + 1) + 1 : ℕ) : ZMod p) = 0 := by
@@ -1065,7 +1064,7 @@ private theorem cUni_transpose_pow {n : Type} [Fintype n] [DecidableEq n] {K : T
 
 private theorem uni_descent_of_not_dvd {K : Type} [Field K] [Fintype K] [CharP K 2] {d p q : ℕ} (hp : p.Prime)
     (hpd : ¬ p ∣ d) (hK : Fintype.card K = q ^ 2)
-    (σ₀ : K ≃+* K) (hσ₀ : orderOf σ₀ = p) (x : GL (Fin d) K) (hxU : x ∈ LargeEvenGUSet (Fin d) K q)
+    (σ₀ : K ≃+* K) (_hσ₀ : orderOf σ₀ = p) (x : GL (Fin d) K) (hxU : x ∈ LargeEvenGUSet (Fin d) K q)
     (lam : Kˣ) (hx : (x : Matrix (Fin d) (Fin d) K).map σ₀ = (lam : K) • (x : Matrix (Fin d) (Fin d) K))
     (ν : Kˣ) (hxp : ((x ^ p : GL _ K) : Matrix (Fin d) (Fin d) K) = (ν : K) • 1) :
     ∃ μ : Kˣ, ((μ : K) • (x : Matrix (Fin d) (Fin d) K)).map σ₀ = (μ : K) • (x : Matrix (Fin d) (Fin d) K) ∧
@@ -1353,7 +1352,7 @@ private theorem cW2_map_pow_fixed {K : Type} [Field K] [Fintype K] {d p : ℕ}
 
 private theorem cW2_uni_descent_not_dvd {K : Type} [Field K] [Fintype K] [CharP K 2] {d p q : ℕ}
     (hp : p.Prime) (h : ¬ p ∣ q + 1) (hK : Fintype.card K = q ^ 2)
-    (σ₀ : K ≃+* K) (hσ₀ : orderOf σ₀ = p) (x : GL (Fin d) K)
+    (σ₀ : K ≃+* K) (_hσ₀ : orderOf σ₀ = p) (x : GL (Fin d) K)
     (hxU : x ∈ LargeEvenGUSet (Fin d) K q)
     (lam : Kˣ) (hx : (x : Matrix (Fin d) (Fin d) K).map σ₀ = (lam : K) • (x : Matrix (Fin d) (Fin d) K))
     (ν : Kˣ) (hxp : ((x ^ p : GL _ K) : Matrix (Fin d) (Fin d) K) = (ν : K) • 1) :
@@ -1472,14 +1471,14 @@ private theorem cW2_uni_descent_not_dvd {K : Type} [Field K] [Fintype K] [CharP 
     have hmap_lam : ((η ^ p * (ν₁ : K)) • (1 : Matrix (Fin d) (Fin d) K)).map φ =
         φ (η ^ p * (ν₁ : K)) • 1 := by
       ext i j
-      by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, hij]
+      by_cases hij : i = j <;> simp [Matrix.map_apply, Matrix.smul_apply, hij]
     have htrans_lam : (((η ^ p * (ν₁ : K)) • (1 : Matrix (Fin d) (Fin d) K)).map φ)ᵀ =
         φ (η ^ p * (ν₁ : K)) • 1 := by
       rw [hmap_lam, Matrix.transpose_smul, Matrix.transpose_one]
     rw [hY₂p] at hpow
     rw [htrans_lam, Matrix.smul_mul, Matrix.one_mul, smul_smul] at hpow
     have h2 := congrFun (congrFun hpow i0) i0
-    rw [Matrix.smul_apply, Matrix.one_apply, if_pos rfl, smul_eq_mul, mul_one] at h2
+    rw [Matrix.smul_apply, Matrix.one_apply, ite_eq_left rfl, smul_eq_mul, mul_one] at h2
     rw [hφ (η ^ p * (ν₁ : K))] at h2
     rwa [← pow_succ] at h2
   have hlamfix : σ₀ (η ^ p * (ν₁ : K)) = η ^ p * (ν₁ : K) := by

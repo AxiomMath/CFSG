@@ -24,7 +24,7 @@ theorem HSL_eq_uvu_two [CharP L 2] (t : Lˣ) :
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_HSL, coe_uSL, coe_vSL]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, h, CharTwo.add_self_eq_zero]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
 
 theorem HSL_inv_eq_vuv_two [CharP L 2] (s : Lˣ) :
     (HSL s⁻¹ : SL2 L) = vSL (s : L) * uSL ((s⁻¹ : Lˣ) : L) * vSL (s : L) *
@@ -34,7 +34,7 @@ theorem HSL_inv_eq_vuv_two [CharP L 2] (s : Lˣ) :
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_HSL, coe_uSL, coe_vSL]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, h, CharTwo.add_self_eq_zero]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
 
 end SL2
 
@@ -76,6 +76,7 @@ theorem rootSL2_HSL_mem_rationalComponent_of_step
   exact rootSL2_HSL_mem_rationalComponent_of_model_odd S i hγ hW
     (rootSL2_HSL_mem_model_of_step S.D hγr h₁ h₂ ht) hm htm
 
+omit [CharP L 2] in
 theorem rootSL2_HSL_mem_rationalComponent_of_entrywise_step
     [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀) {Fr : L →+* L} {w : WeylGroup τ}
     (hΦ : S.D.Φ = Units.map (entrywiseHom Fr))
@@ -138,8 +139,7 @@ theorem rootSL2_HSL_mem_rationalComponent_of_entrywise_step
   have hmodel_diag : rootDiagUnit τ b ∈ S.D.model := by
     refine S.D.mem_model.2 ⟨?_, ?_⟩
     · exact hSL2 ▸ CFSG.LieType.Chevalley.rootSL2_mem_adjointGroup γ (HSL t)
-    · change S.D.n * S.D.Φ (rootDiagUnit τ b) * S.D.n⁻¹ = rootDiagUnit τ b
-      rw [hΦdiag, hn,
+    · rw [hΦdiag, hn,
         CFSG.HardMathSupport.Timmesfeld.Tables.T1b.canonicalRep_conj_rootDiagUnit, hweyl]
   exact rootSL2_HSL_mem_rationalComponent_of_model_odd (t := t) S i hγ hW
     (hSL2.symm ▸ hmodel_diag) hm htm

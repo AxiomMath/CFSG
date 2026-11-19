@@ -39,7 +39,7 @@ theorem e6_root_coordinate_eq_of_mod {p : ℕ} (hp : 4 < p)
   have ha := e6_root_coordinate_bounds hα j
   have hb : 0 ≤ (Pi.single i 1 : Fin Tag.E6.rank → ℤ) j ∧
       (Pi.single i 1 : Fin Tag.E6.rank → ℤ) j ≤ 1 := by
-    by_cases hij : j = i <;> simp [Pi.single_apply, hij, eq_comm]
+    by_cases hij : j = i <;> simp [hij]
   have hdiv : (p : ℤ) ∣ (Pi.single i 1 : Fin Tag.E6.rank → ℤ) j - α j :=
     (ZMod.intCast_eq_intCast_iff_dvd_sub _ _ p).1 hmod
   by_cases hnonneg : 0 ≤ (Pi.single i 1 : Fin Tag.E6.rank → ℤ) j - α j
@@ -77,7 +77,7 @@ theorem mem_parabolicWeylGroup_of_adAct_fix {p : ℕ} (hp : 4 < p)
         simp only [Pi.smul_apply, smul_eq_mul]
       _ = ∑ i, v i * (Pi.single i 1 : Fin Tag.E6.rank → ℤ) j :=
         Finset.sum_congr rfl fun i _ => congrArg (fun x : ℤ => v i * x) (hunit i j hj)
-      _ = v j := by simp [Pi.single_apply, eq_comm]
+      _ = v j := by simp [Pi.single_apply]
   have hw := (mem_parabolicWeylGroup_of_coord (A := S)
     ((coxeterSystem Tag.E6).length w⁻¹) w⁻¹ rfl hcoords).1
   simpa only [inv_inv] using (parabolicWeylGroup Tag.E6 S).inv_mem hw

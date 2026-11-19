@@ -249,7 +249,7 @@ private theorem exists_conj_J_one (h2 : (2 : F) ≠ 0) (D₀ : Matrix.SpecialLin
         exact (mul_eq_zero.mp h').resolve_left h2
       · ext i j
         fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-          first | ring1 | linear_combination e00
+          linear_combination e00
     · refine key !![0, b; 1, -a] ?_ ?_
       · rw [Matrix.det_fin_two_of]; simpa using hb
       · ext i j

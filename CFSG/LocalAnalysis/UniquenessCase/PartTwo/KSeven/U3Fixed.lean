@@ -52,7 +52,7 @@ theorem u3_fixedBy_zpowers_equiv {p f : ℕ} {K : Type} [Field K] (h : UnitaryFi
     (Nat.mul_div_cancel' hpf).symm, ?_, ?_, ?_⟩
   · exact ⟨(MulEquiv.subgroupCongr hF_eq).trans
       ((MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hrange)).symm⟩
-  · haveI : IsSimpleGroup ↥(fieldFixedPSU h 3 σ) := (hsimple hq₀).1
+  · have : IsSimpleGroup ↥(fieldFixedPSU h 3 σ) := (hsimple hq₀).1
     exact (MulEquiv.subgroupCongr hF_eq).isSimpleGroup
   · obtain ⟨a, ha⟩ := not_forall.mp (hsimple hq₀).2.1
     obtain ⟨b, hab⟩ := not_forall.mp ha

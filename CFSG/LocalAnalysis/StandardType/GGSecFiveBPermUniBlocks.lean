@@ -923,19 +923,19 @@ theorem GGSecFiveBPermUniLFrame.permSUHom_swap_mem_normalizer [Finite G] {π : E
       rw [h1, hxeta]
       by_cases hp : p = τ j
       · subst hp
-        rw [Equiv.symm_apply_apply, if_pos rfl, Pi.mulSingle_eq_same]
-      · rw [if_neg hp]
+        rw [Equiv.symm_apply_apply, ite_eq_left rfl, Pi.mulSingle_eq_same]
+      · rw [ite_eq_right hp]
         have hne : τ.symm p ≠ j := by
           intro h
           exact hp (by rw [← h]; exact (Equiv.apply_symm_apply τ p).symm)
-        simp only [Pi.mulSingle_apply, if_neg hne]
+        simp only [Pi.mulSingle_apply, ite_eq_right hne]
     have hρ_apply : ∀ q : Fin n, ρ (ρ q) = q := by
       intro q
       rw [show ρ (ρ q) = (ρ * ρ) q from rfl, hρ2, Equiv.Perm.one_apply]
     have hlam1 : lam = 1 := by
       obtain ⟨p0, hp0τ, hp0ρ⟩ := LineU.exists_not_mem_two hn (τ j) (ρ j)
       have h0 := hlam p0
-      rw [hη' p0, if_neg hp0τ, map_one] at h0
+      rw [hη' p0, ite_eq_right hp0τ, map_one] at h0
       have hρp0 : ρ p0 ≠ j := by
         intro h
         exact hp0ρ (by rw [← hρ_apply p0, h])
@@ -943,7 +943,7 @@ theorem GGSecFiveBPermUniLFrame.permSUHom_swap_mem_normalizer [Finite G] {π : E
       exact h0.symm
     by_contra hne
     have h1 := hlam (τ j)
-    rw [hη' (τ j), if_pos rfl, hlam1, mul_one] at h1
+    rw [hη' (τ j), ite_eq_left rfl, hlam1, mul_one] at h1
     have hρτ : ρ (τ j) ≠ j := by
       intro h
       exact hne (by rw [← hρ_apply (τ j), h])

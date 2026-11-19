@@ -176,10 +176,10 @@ theorem exists_traceFrame_of_cfg_sp {K : Type} [Field K] [Finite K] [CharP K 2]
       change F.ζ ^ k i * ψ d i = ψ (fun i => F.ζ * d i) i
       rw [ψ_apply, ψ_apply]
       by_cases hci : c i = F.ζ
-      · rw [if_pos hci, if_pos hci]
+      · rw [ite_eq_left hci, ite_eq_left hci]
         have hci' : F.ζ ^ k i = F.ζ := by simpa [c] using hci
         rw [hci']
-      · rw [if_neg hci, if_neg hci]
+      · rw [ite_eq_right hci, ite_eq_right hci]
         have hci2 : F.ζ ^ k i = F.ζ ^ 2 := by
           have h := (hc_cases i).resolve_left hci
           simpa [c] using h
@@ -336,8 +336,8 @@ theorem exists_traceFrame_of_cfg_sp {K : Type} [Field K] [Finite K] [CharP K 2]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [ψ_apply, ψ_apply]
     by_cases hci : c i = F.ζ
-    · rw [if_pos hci, if_pos hci, T_apply]
-    · rw [if_neg hci, if_neg hci, T_tau_tau, T_apply]
+    · rw [ite_eq_left hci, ite_eq_left hci, T_apply]
+    · rw [ite_eq_right hci, ite_eq_right hci, T_tau_tau, T_apply]
   have hζ2ζ : F.ζ ^ 2 ≠ F.ζ := by
     intro h
     have h0 : F.ζ * (F.ζ - 1) = 0 := by
@@ -437,12 +437,12 @@ theorem exists_traceFrame_of_cfg_sp {K : Type} [Field K] [Finite K] [CharP K 2]
         have hfval : (toAdd (f i)).val = (ee i).val := rfl
         by_cases hci : c i = F.ζ
         · have hei : F.ζ ^ (ee i).val = a i := by
-            rw [hee i, if_pos hci]
-          rw [if_pos hci, if_pos hci]
+            rw [hee i, ite_eq_left hci]
+          rw [ite_eq_left hci, ite_eq_left hci]
           simp [gfun, hei, hfval]
         · have hei : F.ζ ^ (ee i).val = τ (a i) := by
-            rw [hee i, if_neg hci]
-          rw [if_neg hci, if_neg hci]
+            rw [hee i, ite_eq_right hci]
+          rw [ite_eq_right hci, ite_eq_right hci]
           simp [gfun, hei, hfval, map_mul]
       · rfl
     refine ⟨e₂.symm (F.τ f), ?_, ?_⟩

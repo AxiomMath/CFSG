@@ -32,12 +32,12 @@ theorem involution_cases_of {K K' : Subgroup G} {z : G} (hΩ : HypOmegaMod Ω) (
   have hRK : R ≤ K := hR.1
   have hR'K' : R' ≤ K' := hR'.1
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRK hR'K'
-    (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (S.isPGroup.to_le (sup_le hRS hR'S))
 
   have hsyl : IsSylow2In (R ⊔ R') (K ⊔ K') := T7A.isSylow2In_sup_of_twin hΩ hK hK' hKK' hz hz'
     hR hR' hc
   have hle : R ⊔ R' ≤ (S : Subgroup G) ⊓ (K ⊔ K') := le_inf (sup_le hRS hR'S) hsyl.1
-  have hpg : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := S.isPGroup'.to_le inf_le_left
+  have hpg : IsPGroup 2 ↥((S : Subgroup G) ⊓ (K ⊔ K')) := S.isPGroup.to_le inf_le_left
   have heq : (S : Subgroup G) ⊓ (K ⊔ K') = R ⊔ R' := hsyl.2.2 _ inf_le_right hpg hle
   have huRR : u ∈ R ⊔ R' := heq ▸ (⟨huS, huK⟩ : u ∈ (S : Subgroup G) ⊓ (K ⊔ K'))
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_right_le_normalizer_left R R'

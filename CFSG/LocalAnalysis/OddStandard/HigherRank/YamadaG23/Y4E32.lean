@@ -22,8 +22,7 @@ private theorem Sσ_eq_sup' (s : Setting3 G L) (g : G) :
   have hset : ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
       ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀} : Set G) ∪ {g} := by
     ext x
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union,
-      Set.mem_empty_iff_false]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]
     tauto
   change Subgroup.closure ({s.fr.a₁, s.fr.b₁, s.fr.a₂, s.fr.b₂, s.fr.h₀, g} : Set G) =
     s.fr.S ⊔ Subgroup.closure {g}
@@ -33,7 +32,7 @@ private theorem Sσ_eq_sup' (s : Setting3 G L) (g : G) :
 private theorem card_le_eight_of_pRank {X : Subgroup G} (hX : pRank 2 X = 3) :
     ∀ E : Subgroup G, E ≤ X → IsElemAbelian 2 E → Nat.card E ≤ 8 := by
   intro E hEX hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 hE.isPGroup
   have hX' : CFSG.Open.pRank 2 X = 3 := by
     rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup,
@@ -47,7 +46,7 @@ private theorem card_le_eight_of_pRank {X : Subgroup G} (hX : pRank 2 X = 3) :
     _ = 8 := by norm_num
 
 theorem y4_E32_le (c : Ctx4 s e) (hRT : s.R ≠ s.T) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
-    (hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) {Y : Subgroup G} (hYT : Y ≤ s.T)
+    (_hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) {Y : Subgroup G} (hYT : Y ≤ s.T)
     (hY : IsElemAbelian 2 Y) (hcard : 32 ≤ Nat.card ↥Y) :
     Y ≤ s.fr.F ⊔ zpowers g ⊔ zpowers s.t := by
   let Sσ : Subgroup G := (frameWith s g).Sσ
@@ -156,7 +155,7 @@ theorem y4_E32_le (c : Ctx4 s e) (hRT : s.R ≠ s.T) {g : G} (hg2 : g ^ 2 = 1) (
     exact Subgroup.ext fun x => iff_of_eq (congrArg (fun S : Set G => x ∈ S) hset.symm)
   have hY'eq : Y' = s.fr.F ⊔ Subgroup.zpowers g := by
     have hcase : Y' ∈ maxElemAbelian (frameWith s g).Sσ := hY'max
-    rw [hF15.2.2.2.1.2.2, Set.mem_diff, Set.mem_insert_iff] at hcase
+    rw [hF15.2.2.2.1.2.2, Set.mem_sdiff, Set.mem_insert_iff] at hcase
     rcases hcase with ⟨hcase | hcase, -⟩
     · rw [hcase, ← Subgroup.zpowers_eq_closure]
       rfl

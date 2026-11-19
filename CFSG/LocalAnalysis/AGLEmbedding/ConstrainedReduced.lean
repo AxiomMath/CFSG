@@ -62,7 +62,7 @@ theorem reducedNongeneration_of_not_le (hp : p.Prime) (hp2 : p ≠ 2) (P : Sylow
     intro E hE hEcard hET F hFE hFidx
     rw [Sylow.coe_mapSurjective] at hET
     obtain ⟨E₁, hE₁T, hE₁map, hE₁, hE₁card⟩ :=
-      exists_isElemAbelian_lift hp _ hO T.isPGroup' hE hET
+      exists_isElemAbelian_lift hp _ hO T.isPGroup hE hET
     have hE₁Y : (E₁.map Y.subtype).subgroupOf Y = E₁ :=
       Subgroup.comap_map_eq_self_of_injective Y.subtype_injective _
     have hle := hyperplane_centralizers_map_le_map_inf_of_coprime hp P hWM

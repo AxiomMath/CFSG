@@ -102,7 +102,7 @@ private lemma lk0xpa4p_go_getD_of_nodup (s : List ℕ) (l acc : List ℕ) (i : �
             using ih (acc.set y (s.getD i 0)) (i + 1) hl' hys_bound
               (by rw [List.length_set, hacc]) k (by simpa [List.length_cons] using hk)
 
-private lemma lk0xpa4p_k0pAct_getD (a s : List ℕ) (ha : a.length = s.length)
+private lemma lk0xpa4p_k0pAct_getD (a s : List ℕ) (_ha : a.length = s.length)
     (hnodup : a.Nodup) (hbound : ∀ x ∈ a, x < s.length) :
     ∀ k, k < a.length → (k0pAct a s).getD (a.getD k 0) 0 = s.getD k 0 := by
   intro k hk
@@ -182,11 +182,11 @@ private lemma lk0xpa4p_omega_isPermList (T : GGKacType) :
   · intro a ha
     simp only [k0DiagOf, k0E8Diag] at ha ⊢
     simp at ha
-    rcases ha with rfl <;> decide
+    rcases ha with rfl; decide
   · intro a ha
     simp only [k0DiagOf, k0F4Diag] at ha ⊢
     simp at ha
-    rcases ha with rfl <;> decide
+    rcases ha with rfl; decide
 
 private lemma lk0xpa4p_base_isPermList (T : GGKacType) (tw : Bool) (d : ℕ)
     (hd : d = 1 ∨ d = 2) (a0 : List ℕ) (ha0 : a0 ∈ (k0DiagOf T).omega) :
@@ -487,7 +487,7 @@ theorem PA4'_orbit_coefficient
           have := Nat.le_of_dvd (by norm_num) h2
           omega
         exact hpndvd2 (dvd_trans hzero horb2)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact mul_ne_zero hm_ne horb_ne
 
 end CFSG.StandardType.GGK0ExcCentreU

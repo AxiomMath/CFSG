@@ -18,7 +18,7 @@ theorem fzc_sy1_of {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
     (h : FzCCtx G t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁ x₂ lam rho)
     (hr : Nat.card (twoCore t) = 2) (hV : FzSylow (l41V S t x₁ x₂))
     (ht : t ∉ fzP t x₁ x₂ rho) : False := by
-  haveI := h.simple
+  have := h.simple
   have hctx := h.ctx
   have hlam2 : lam * lam = 1 := by
     have h1 := pow_orderOf_eq_one lam

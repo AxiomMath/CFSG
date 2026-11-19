@@ -305,7 +305,7 @@ theorem ggTwE6Split_coverModel_K
       apply Subtype.ext
       simp [inv_pow, hBs.2 b hb]
     rw [hb1, map_one]
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     charP_two_of_card (K := F) (m := 2 * n) (by rw [hFcard, ← pow_mul, mul_comm])
   let σ : F →+* F := iterateFrobenius F 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
@@ -355,7 +355,7 @@ theorem ggTwE6Split_coverModel_K
     exact orderOf_eq_one_iff.mp (Nat.dvd_one.mp h3')
   have hZR : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 F σ) = ⊥ := by
     have hZ0 : Subgroup.center (TwE6Delta.RecipeR F n) = ⊥ := by
-      haveI : IsSimpleGroup (TwE6Delta.RecipeR F n) := _hSimple
+      have : IsSimpleGroup (TwE6Delta.RecipeR F n) := _hSimple
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (Subgroup.center (TwE6Delta.RecipeR F n)) with h | h
       · exact h

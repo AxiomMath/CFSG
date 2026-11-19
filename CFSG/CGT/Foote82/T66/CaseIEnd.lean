@@ -56,6 +56,7 @@ theorem le_finrank_of_dual' {c : GLV V} {r : ℕ} (w : Fin r → ↥(commSpace X
   rw [hrange, finrank_top, Module.finrank_fin_fun] at h1
   exact h1.trans (Submodule.finrank_mono inf_le_left)
 
+omit [Finite V] in
 theorem exists_comm_vec' (hsurj : Function.Surjective β) {c : GLV V}
     (hinv : ∀ u ∈ commSpace X' ⊤, c u ∈ commSpace X' ⊤) {σ : Perm (Fin N)}
     (hequiv : ∀ (w w' : ↥(commSpace X' ⊤)), (w' : V) = c (w : V) → ∀ y : evenWeight N,
@@ -100,37 +101,37 @@ theorem four_le_finrank_of_act (hsurj : Function.Surjective β) {c : GLV V}
         ((if b = x then 1 else 0) + (if b = y then 1 else 0))) : ZMod 2) :=
     fun a b x y w h => by rw [h, pairFun_comm]
   have f11 : pairFun p (σ p) (β w₁) = 1 := by
-    rw [F _ _ _ _ _ hβ₁]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₁]; simp [h1, h2, h3, Ne.symm h1]
   have f12 : pairFun p (σ p) (β w₂) = 0 := by
-    rw [F _ _ _ _ _ hβ₂]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₂]; simp [h4, h1, h2, h3, Ne.symm h1]; try decide
   have f13 : pairFun p (σ p) (β w₃) = 0 := by
-    rw [F _ _ _ _ _ hβ₃]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₃]; simp [Ne.symm hdp, Ne.symm hdq, Ne.symm e1, Ne.symm e2, Ne.symm e4, Ne.symm e5]
   have f14 : pairFun p (σ p) (β w₄) = 0 := by
-    rw [F _ _ _ _ _ hβ₄]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₄]; simp [k4, Ne.symm hdp, Ne.symm hdq, Ne.symm e1, Ne.symm e2, Ne.symm e4, Ne.symm e5]
   have f21 : pairFun p (σ (σ p)) (β w₁) = 0 := by
-    rw [F _ _ _ _ _ hβ₁]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₁]; simp [h1, h3, Ne.symm h2, Ne.symm h3]; try decide
   have f22 : pairFun p (σ (σ p)) (β w₂) = 1 := by
-    rw [F _ _ _ _ _ hβ₂]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₂]; simp [h4, h1, h3, Ne.symm h2, Ne.symm h3]
   have f23 : pairFun p (σ (σ p)) (β w₃) = 0 := by
-    rw [F _ _ _ _ _ hβ₃]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₃]; simp [Ne.symm hdp, Ne.symm hdr, Ne.symm e1, Ne.symm e3, Ne.symm e4, Ne.symm e6]
   have f24 : pairFun p (σ (σ p)) (β w₄) = 0 := by
-    rw [F _ _ _ _ _ hβ₄]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₄]; simp [k4, Ne.symm hdp, Ne.symm hdr, Ne.symm e1, Ne.symm e3, Ne.symm e4, Ne.symm e6]
   have f31 : pairFun d (σ d) (β w₁) = 0 := by
-    rw [F _ _ _ _ _ hβ₁]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₁]; simp [hdp, hdq, hdr, e1, e2, e3]
   have f32 : pairFun d (σ d) (β w₂) = 0 := by
-    rw [F _ _ _ _ _ hβ₂]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₂]; simp [h4, hdp, hdq, hdr, e1, e2, e3]
   have f33 : pairFun d (σ d) (β w₃) = 1 := by
-    rw [F _ _ _ _ _ hβ₃]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₃]; simp [k1, k2, k3, Ne.symm k1]
   have f34 : pairFun d (σ d) (β w₄) = 0 := by
-    rw [F _ _ _ _ _ hβ₄]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₄]; simp [k4, k1, k2, k3, Ne.symm k1]; try decide
   have f41 : pairFun d (σ (σ d)) (β w₁) = 0 := by
-    rw [F _ _ _ _ _ hβ₁]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₁]; simp [hdp, hdq, hdr, e4, e5, e6]
   have f42 : pairFun d (σ (σ d)) (β w₂) = 0 := by
-    rw [F _ _ _ _ _ hβ₂]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₂]; simp [h4, hdp, hdq, hdr, e4, e5, e6]
   have f43 : pairFun d (σ (σ d)) (β w₃) = 0 := by
-    rw [F _ _ _ _ _ hβ₃]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₃]; simp [k1, k3, Ne.symm k2, Ne.symm k3]; try decide
   have f44 : pairFun d (σ (σ d)) (β w₄) = 1 := by
-    rw [F _ _ _ _ _ hβ₄]; simp [h4, k4, h1, h2, h3, Ne.symm h1, Ne.symm h2, Ne.symm h3, k1, k2, k3, Ne.symm k1, Ne.symm k2, Ne.symm k3, hdp, hdq, hdr, Ne.symm hdp, Ne.symm hdq, Ne.symm hdr, e1, e2, e3, e4, e5, e6, Ne.symm e1, Ne.symm e2, Ne.symm e3, Ne.symm e4, Ne.symm e5, Ne.symm e6]; try decide
+    rw [F _ _ _ _ _ hβ₄]; simp [k4, k1, k3, Ne.symm k2, Ne.symm k3]
   refine le_finrank_of_dual' (β := β) ![w₁, w₂, w₃, w₄] (fun i => by fin_cases i <;> assumption)
     ![pairFun p (σ p), pairFun p (σ (σ p)), pairFun d (σ d), pairFun d (σ (σ d))] fun i k => ?_
   fin_cases i <;> fin_cases k <;> simp [f11, f12, f13, f14, f21, f22, f23, f24, f31, f32, f33, f34, f41, f42, f43, f44]
@@ -156,7 +157,7 @@ theorem Hyp.heartL (h : Hyp G L z v H₁ m ψ) :
       iota2 (m + 6) (a : Perm (Fin (m + 6))) := psi_jL a
   exact iota2_injective _ (h1.symm.trans h2)
 
-theorem Hyp.N_invariant (h : Hyp G L z v H₁ m ψ) :
+theorem Hyp.N_invariant (_h : Hyp G L z v H₁ m ψ) :
     (∀ x ∈ NN G L, ∀ u ∈ commSpace L ⊤, x u ∈ commSpace L ⊤) ∧
       ∀ x ∈ NN G L, ∀ u ∈ fixedSpace L, x u ∈ fixedSpace L := by
   refine ⟨invariant_commSpace (K := L) (K' := NN G L) (fun k' hk' k hk =>
@@ -239,7 +240,7 @@ theorem Hyp.betaL_equiv (h : Hyp G L z v H₁ m ψ) {ρL : ↥L →* Perm (Fin (
     group
   rcases altHeart_endo_eq_zero_or_id (by omega) g hg with h0 | h1
   · exfalso
-    haveI := altHeart_nontrivial (n := m + 6) (by omega)
+    have := altHeart_nontrivial (n := m + 6) (by omega)
     obtain ⟨u, hu⟩ := exists_ne (0 : altHeart (m + 6))
     obtain ⟨u', rfl⟩ := hH.surj u
     apply hu

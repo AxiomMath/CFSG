@@ -81,12 +81,12 @@ private theorem bfs_step (nrm : Ω → Ω) (hnrm : ∀ x, nrm x = x) (enc : Ω �
   have hzTr : gens.getD j 1 • x ∈ Tr := hcl _ hgen x (hTr x hx)
   simp only [hnrm]
   by_cases hc : st.seen.contains (enc (gens.getD j 1 • x)) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     obtain ⟨y, hy, hyz⟩ := (hseen _).1 hc
     have hyeq : y = gens.getD j 1 • x := hinj y (hTr y hy) _ hzTr hyz
     rw [hyeq] at hy
     exact ⟨id hI, ⟨[], by simp⟩, hy⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine ⟨oinv_push enc x₀ Tr st (gens.getD j 1 • x) (st.par.push i) (st.lab.push j)
       (id hI) hzTr hc, ⟨[gens.getD j 1 • x], by simp⟩, ?_⟩
     change gens.getD j 1 • x ∈ (st.O.push (gens.getD j 1 • x)).toList
@@ -129,10 +129,12 @@ private theorem bfs_fold (nrm : Ω → Ω) (hnrm : ∀ x, nrm x = x) (enc : Ω �
       · exact mem_of_append_eq he2 h3
       · exact g3 j' hj''
 
+omit [LawfulBEq E] in
 private theorem loop_zero (nrm : Ω → Ω) (enc : Ω → E) (gens : List Γ) (i : ℕ)
     (st : BfsState Ω E) : bfsLoop nrm enc gens 0 i st = st := by
   rw [bfsLoop]
 
+omit [LawfulBEq E] in
 private theorem loop_succ_lt (nrm : Ω → Ω) (enc : Ω → E) (gens : List Γ) (f i : ℕ)
     (st : BfsState Ω E) (hi : i < st.O.size) (x : Ω) (hx : st.O[i] = x) :
     bfsLoop nrm enc gens (f + 1) i st = bfsLoop nrm enc gens f (i + 1)
@@ -141,12 +143,14 @@ private theorem loop_succ_lt (nrm : Ω → Ω) (enc : Ω → E) (gens : List Γ)
         else ⟨st.O.push (nrm (gens.getD j 1 • x)), st.par.push i, st.lab.push j,
           st.seen.insert (enc (nrm (gens.getD j 1 • x)))⟩) st) := by
   subst hx
-  rw [bfsLoop, dif_pos hi]
+  rw [bfsLoop, dite_eq_left hi]
 
+omit [LawfulBEq E] in
 private theorem loop_succ_not_lt (nrm : Ω → Ω) (enc : Ω → E) (gens : List Γ) (f i : ℕ)
     (st : BfsState Ω E) (hi : ¬ i < st.O.size) : bfsLoop nrm enc gens (f + 1) i st = st := by
-  rw [bfsLoop, dif_neg hi]
+  rw [bfsLoop, dite_eq_right hi]
 
+omit [LawfulBEq E] in
 private theorem loopInv_next (gens : List Γ) (enc : Ω → E) (x₀ : Ω) (Tr : List Ω) (i : ℕ)
     (st st1 : BfsState Ω E) (hi : i < st.O.size)
     (hpr : ∀ x ∈ st.O.toList.take i, ∀ g ∈ gens, g • x ∈ st.O.toList)

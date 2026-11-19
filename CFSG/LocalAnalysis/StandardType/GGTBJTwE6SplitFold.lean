@@ -171,7 +171,7 @@ private theorem tf_chi_comb {M : Type*} [CommGroup M]
     rw [hρ α, hα]
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     simp only [ofAdd_add, ofAdd_sub, ofAdd_neg, map_mul, map_inv, map_div, hβ, hρα, inv_one,
-      mul_one, one_mul, div_one, one_div]
+      mul_one, div_one]
 
 private theorem tf_chi_orbSum {M : Type*} [CommGroup M]
     (χ₆ : Multiplicative (Fin TwistTag.E6.tag.rank → ℤ) →* M)
@@ -222,7 +222,7 @@ private theorem tf_kernelRoots_perm {M : Type*} [CommGroup M]
     permLattice TwistTag.E6.perm x ∈ kernelRoots χ₆ :=
   ⟨(tf_isRoot_permLattice_iff x).2 hx.1, by rw [hρ x]; exact hx.2⟩
 
-private def decEqTwE6Fast : DecidableEq (Fin TwistTag.E6.tag.rank → ℤ) := fun u v =>
+@[instance_reducible] private def decEqTwE6Fast : DecidableEq (Fin TwistTag.E6.tag.rank → ℤ) := fun u v =>
   decidable_of_iff (((List.finRange TwistTag.E6.tag.rank).all fun i => decide (u i = v i)) =
       true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]

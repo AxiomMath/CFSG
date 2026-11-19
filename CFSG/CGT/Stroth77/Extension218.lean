@@ -14,7 +14,7 @@ theorem hasStrothType_t121_or_t131_of_noInvolutionsCentralizing
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B)
     (hL : hB.data.L ≤ Subgroup.normalizer C)
-    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (hne : C ≠ B) :
+    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (_hne : C ≠ B) :
     HasStrothType C (StrothTypeIndex.t121 (s + 3) (by omega)) ∨
     HasStrothType C (StrothTypeIndex.t131 (s + 3) (by omega)) := by
   classical

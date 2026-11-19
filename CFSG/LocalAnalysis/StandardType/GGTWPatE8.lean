@@ -50,17 +50,17 @@ private theorem l05nT8_E8_path (a0 a1 a2 a3 a4 a5 a6 : Fin 8)
     d23, d24, d25, d26, d34, d35, d36, d45, d46, d56⟩ := hh
   fin_cases a0
   all_goals fin_cases a1
-  all_goals (first | exfalso; exact absurd h01 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h01 (by decide))
   all_goals fin_cases a2
-  all_goals (first | exfalso; exact absurd h12 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h12 (by decide))
   all_goals fin_cases a3
-  all_goals (first | exfalso; exact absurd h23 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h23 (by decide))
   all_goals fin_cases a4
-  all_goals (first | exfalso; exact absurd h34 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h34 (by decide))
   all_goals fin_cases a5
-  all_goals (first | exfalso; exact absurd h45 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h45 (by decide))
   all_goals fin_cases a6
-  all_goals (first | exfalso; exact absurd h56 (by decide) | skip)
+  all_goals (try first | exfalso; exact absurd h56 (by decide))
   all_goals simp_all
 
 private theorem l05nT8_E8_missing (t : Fin 8)
@@ -91,7 +91,7 @@ theorem ggTW_ext_E8 (e : Fin 8 ≃ Option (Fin 7)) {M : CoxeterMatrix (Option (F
   have hf_ne : ∀ i j : Fin 7, i ≠ j → f i ≠ f j := fun i j hij h => hij (hf_inj h)
   have ht_off : ∀ i : Fin 7, t ≠ f i := by
     intro i h
-    have h' : (none : Option (Fin 7)) = some i := e.symm.injective (by simpa [t, f] using h)
+    have h' : (none : Option (Fin 7)) = some i := e.symm.injective (by simp [t, f] at h)
     simp at h'
   have hhyp : l05nT8_E8_hyp (f 0) (f 1) (f 2) (f 3) (f 4) (f 5) (f 6) := by
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩

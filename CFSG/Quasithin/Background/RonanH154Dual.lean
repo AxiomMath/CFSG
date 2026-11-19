@@ -101,7 +101,7 @@ open scoped Classical in
 theorem dqPr_eq {x : W10} {k : P24} (hk : k ∈ mog22plus) :
     dqPr x k = if Rc ⟨k, hk⟩ x = x then 0 else 1 := by
   unfold dqPr
-  exact dif_pos hk
+  exact dite_eq_left hk
 
 theorem dqPr_eq_fix {x : W10} {k : P24} (hk : k ∈ NQ2) :
     dqPr x k = if Rc ⟨k, dq_mem_mog22plus hk⟩ x = x then 0 else 1 :=
@@ -115,11 +115,11 @@ theorem dq_P1 {x : W10} (hx : x ∈ X6) {k k' : P24} (hk : k ∈ NQ2) (hk' : k' 
   · rw [h2, h1]
     simp
   · rw [h2, dq_R_mul_c hk, h1]
-    simp [dq_ne x, dq_c_ne_one]
+    simp [dq_ne x]
   · rw [h2, h1]
-    simp [dq_ne x, dq_c_ne_one]
+    simp [dq_ne x]
   · rw [h2, dq_R_mul_c hk, h1]
-    simp [dq_c_sq_mul, dq_ne x, dq_c_ne_one] <;> decide
+    simp [dq_c_sq_mul, dq_ne x]; decide
 
 theorem dq_P2 {x x' : W10} (hx : x ∈ X6) (hx' : x' ∈ X6) {k : P24} (hk : k ∈ NQ2) :
     dqPr (x * x') k = dqPr x k + dqPr x' k := by
@@ -128,11 +128,11 @@ theorem dq_P2 {x x' : W10} (hx : x ∈ X6) (hx' : x' ∈ X6) {k : P24} (hk : k �
   · rw [h1, h2]
     simp
   · rw [h1, h2]
-    simp [dq_mul_c_ne x x', dq_ne x', dq_c_ne_one]
+    simp [dq_mul_c_ne x x', dq_ne x']
   · rw [h1, h2]
-    simp [dq_mul_c_ne'' x x', dq_ne x, dq_c_ne_one]
+    simp [dq_mul_c_ne'' x x', dq_ne x]
   · rw [h1, h2]
-    simp [dq_mul_c_sq x x', dq_ne x, dq_ne x'] <;> decide
+    simp [dq_mul_c_sq x x', dq_ne x, dq_ne x']; decide
 
 theorem dq_mem_rImg {k : P24} (hk : k ∈ NQ2) :
     Rc ⟨k, dq_mem_mog22plus hk⟩ ∈ rImg Rc NQ2 :=
@@ -142,7 +142,7 @@ theorem dq_mem_rImg {k : P24} (hk : k ∈ NQ2) :
 theorem dq_P3 {x : W10} (hx : x ∈ fixV (rImg Rc NQ2)) {k : P24} (hk : k ∈ NQ2) :
     dqPr x k = 0 := by
   rw [dqPr_eq_fix hk]
-  exact if_pos (mem_fixV.1 hx _ (dq_mem_rImg hk))
+  exact ite_eq_left (mem_fixV.1 hx _ (dq_mem_rImg hk))
 
 theorem dq_P4 {x : W10} (hx : x ∉ fixV (rImg Rc NQ2)) : ∃ k ∈ NQ2, dqPr x k ≠ 0 := by
   have hex : ∃ g ∈ rImg Rc NQ2, g x ≠ x := by
@@ -152,7 +152,7 @@ theorem dq_P4 {x : W10} (hx : x ∉ fixV (rImg Rc NQ2)) : ∃ k ∈ NQ2, dqPr x 
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hg
   refine ⟨(y : P24), hy, ?_⟩
   have hgx' : ¬ (Rc ⟨(y : P24), y.2⟩ x = x) := hgx
-  rw [dqPr_eq y.2, if_neg hgx']
+  rw [dqPr_eq y.2, ite_eq_right hgx']
   decide
 
 theorem dq_P5 {k : P24} (hk : k ∈ NQ2) (hk1 : k ≠ 1) : ∃ x ∈ X6, dqPr x k ≠ 0 := by
@@ -167,7 +167,7 @@ theorem dq_P5 {k : P24} (hk : k ∈ NQ2) (hk1 : k ≠ 1) : ∃ x ∈ X6, dqPr x 
   have hne : toW 10 (act10 (nq2Arr u) m) ≠ toW 10 m := fun h =>
     hmne (toW_inj (act10_lt _ _) hlt h)
   refine ⟨toW 10 m, toW_mem_maskSub hm, ?_⟩
-  rw [dqPr_eq_fix hk, dq_R_nq2, if_neg hne]
+  rw [dqPr_eq_fix hk, dq_R_nq2, ite_eq_right hne]
   decide
 
 theorem dq_P6 (g : ↥mog22plus) {x : W10} {k : P24} (hk : k ∈ NQ2) :
@@ -183,7 +183,7 @@ theorem dq_P6 (g : ↥mog22plus) {x : W10} {k : P24} (hk : k ∈ NQ2) :
   by_cases h : Rc ⟨k, hk'⟩ x = x
   · simp [h]
   · have hne : ¬ (Rc g (Rc ⟨k, hk'⟩ x) = Rc g x) := fun e => h (MulEquiv.injective (Rc g) e)
-    rw [if_neg h, if_neg hne]
+    rw [ite_eq_right h, ite_eq_right hne]
 
 theorem dual_std_X :
     IsDualOfConj Rc (MY mog22plus Qstd) X6 (fixV (rImg Rc (KY mog22plus Qstd)))

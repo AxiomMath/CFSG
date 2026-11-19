@@ -120,6 +120,7 @@ theorem barD_of_pow_four (hk : ∀ i, 2 ≤ τ.k i) (hk3 : 3 ≤ τ.k 1) (hk3' :
     (hw : w ^ 4 = 1) : barD dD hk w 1 = 0 ∧ barD dD hk w 2 = 0 :=
   ⟨barD_eq_zero_of_pow hk (j := 2) hw hk3, barD_eq_zero_of_pow hk (j := 2) hw hk3'⟩
 
+omit [Finite G] in
 theorem conj_eq_of_devMat_col (hk : ∀ i, 2 ≤ τ.k i) {y : G} (hy : y ∈ 𝓡[S, D])
     (hcol : ∀ i, devMat dD hk y hy i 0 = 0) {w : D} (hw1 : barD dD hk w 1 = 0)
     (hw2 : barD dD hk w 2 = 0) : y * w * y⁻¹ = w := by

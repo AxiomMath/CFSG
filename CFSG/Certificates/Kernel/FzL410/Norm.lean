@@ -89,10 +89,10 @@ theorem nrm_eq {s S1 S2 S3 S4 : ℕ} (hs : s = S1 + 256 * S2 + 65536 * S3 + 1677
   omega
 
 theorem evS_nat {A1 B1 C1 D1 A2 B2 C2 D2 A3 B3 C3 D3 A4 B4 C4 D4 K1 K2 K3 K4 : ℕ}
-    (hA1 : A1 < 4) (hB1 : B1 < 4) (hC1 : C1 < 2) (hD1 : D1 < 2)
-    (hA2 : A2 < 4) (hB2 : B2 < 4) (hC2 : C2 < 2) (hD2 : D2 < 2)
-    (hA3 : A3 < 4) (hB3 : B3 < 4) (hC3 : C3 < 2) (hD3 : D3 < 2)
-    (hA4 : A4 < 4) (hB4 : B4 < 4) (hC4 : C4 < 2) (hD4 : D4 < 2)
+    (hA1 : A1 < 4) (hB1 : B1 < 4) (hC1 : C1 < 2) (_hD1 : D1 < 2)
+    (hA2 : A2 < 4) (hB2 : B2 < 4) (hC2 : C2 < 2) (_hD2 : D2 < 2)
+    (hA3 : A3 < 4) (hB3 : B3 < 4) (hC3 : C3 < 2) (_hD3 : D3 < 2)
+    (hA4 : A4 < 4) (hB4 : B4 < 4) (hC4 : C4 < 2) (_hD4 : D4 < 2)
     (hK1 : K1 < 4) (hK2 : K2 < 4) (hK3 : K3 < 2) (hK4 : K4 < 2) :
     evS (A1 + 256 * B1 + 65536 * C1 + 16777216 * D1) (A2 + 256 * B2 + 65536 * C2 + 16777216 * D2)
       (A3 + 256 * B3 + 65536 * C3 + 16777216 * D3) (A4 + 256 * B4 + 65536 * C4 + 16777216 * D4)
@@ -268,7 +268,7 @@ theorem cntR_eq (f : ℕ → Bool) :
     rw [e, cntR_eq f n, Finset.range_add_one, Finset.filter_insert]
     cases h : f n
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       simp only
       omega
 
@@ -435,8 +435,7 @@ theorem isT_twin {c d : A} (h : IsT c d) : isTN (enc c) (enc d) = true := by
   unfold IsT at h
   obtain ⟨h0, h1, h2, h3⟩ := h
   rw [isTN, fixCnt, fix2Cnt]
-  simp only [gen4, bA_iff, cE1_eq, cE2_eq, cR1_eq, cR2_eq, cZ_eq, eqS_enc, dblS_enc, beq_enc,
-    Nat.beq_eq, enc_eq_iff]
+  simp only [gen4, bA_iff, cE1_eq, cE2_eq, cR1_eq, cR2_eq, cZ_eq, eqS_enc, dblS_enc, Nat.beq_eq, enc_eq_iff]
   exact ⟨h0, ⟨h1 _, h1 _, h1 _, h1 _⟩, h2, h3⟩
 
 theorem psiA_of {c d c0 d0 : A} (hd : (2 : ℕ) • d = 0)

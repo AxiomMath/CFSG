@@ -54,7 +54,7 @@ theorem eq_of_pinnedX_eq_pos {α α' : Fin τ.rank → ℤ} (hα : IsRoot τ α 
   have key := (positive_root_product_injectivity τ L β hβinj hpos).2
   have e1 : (List.ofFn fun i => pinnedX τ L (β i) (![c, -c'] i)).prod = 1 := by
     simp only [List.ofFn_succ, List.ofFn_zero, List.prod_cons, List.prod_nil, mul_one]
-    simp only [β, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ]
+    simp only [β, Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_succ]
     rw [h, ← pinnedX_add]
     simp [pinnedX_zero]
   have e2 : (List.ofFn fun i => pinnedX τ L (β i) ((0 : Fin 2 → L) i)).prod = 1 := by

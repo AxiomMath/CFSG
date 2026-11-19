@@ -37,7 +37,7 @@ theorem le_centralizerBar_of_centralizes_left {P L Q X : Subgroup G}
   exact (centralizerBar P L).mul_mem (hZQ q hq hq_comm) hc
 
 theorem commutator_le_pCore_of_le_centralizerBar {P L X : Subgroup G}
-    (hPNL : P ≤ Subgroup.normalizer (L : Set G))
+    (_hPNL : P ≤ Subgroup.normalizer (L : Set G))
     (hX : X ≤ centralizerBar P L) :
     ⁅X, L⁆ ≤ CFSG.Open.pCoreOf 2 L := by
   rw [Subgroup.commutator_le]

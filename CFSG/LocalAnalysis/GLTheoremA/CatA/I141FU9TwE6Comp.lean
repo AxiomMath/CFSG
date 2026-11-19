@@ -52,7 +52,7 @@ theorem twE6_centre_of_rat (h : E6TwoRatU38Centre) {K : Type} [Field K] [Finite 
     natCast_ne_zero_algebraicClosure_of_ne Nat.prime_two Nat.prime_three hK2 (by decide)
   have hTame :=
     langSetup_hTame_of_prime S Nat.prime_three hpL (fun h' => absurd h' (by decide)) hT hap h1
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨i, hqi, hJR⟩ :=
     components_of_langSetup S Nat.prime_three ι hinj hrange (twistedE6InndiagConj K σ g)
       hconj hT hap h1 hTame hI
@@ -77,8 +77,8 @@ theorem twE6U38Centre_of_rat (h : E6TwoRatU38Centre) : TwE6U38Centre := by
   intro S _ hS α hα3 hα1 I hI hcard
   obtain ⟨K, hfield, hfin, σ, hK, hσ, ⟨e⟩⟩ :=
     CatB.I2610.exists_twistedE6RootGroup_of_catalogIs_isTE6two hS
-  letI : Field K := hfield
-  letI : Finite K := hfin
+  let : Field K := hfield
+  let : Finite K := hfin
   have hα3' : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
   have hα1' : MulAut.congr e α ≠ 1 := fun h' =>
     hα1 ((MulAut.congr e).injective (by rw [map_one]; exact h'))

@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC CFSG.LocalAnalysis.RankThreeTheoremC.S
 variable {G : Type} [Group G] [Finite G] {P : Sylow 3 G} {M H S K : Subgroup G} {x z : G}
 
 theorem orderOf_z (hyp : Hyp P M x z H S) : orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime hyp.central.pow_eq_one hyp.central.ne_one
 
 theorem S_le (hyp : Hyp P M x z H S) : S ≤ H :=
@@ -34,10 +34,12 @@ theorem normal_pCoreOf_subgroupOf (h618 : Stage618 M H K z) :
   have h := (mem_normalizer_iff.mp (le_normalizer_pCoreOf 2 H (h618.comp.le g.2)) n).mp hn
   simpa using h
 
+omit [Finite G] in
 theorem isPGroup_pCoreOf_subgroupOf (K H : Subgroup G) :
     IsPGroup 2 ((pCoreOf 2 H).subgroupOf K) :=
   (isPGroup_pCoreOf 2 H).comap_subtype
 
+omit [Finite G] in
 theorem not_mem_pCoreOf_of_orderOf {g : G} (hg : orderOf g = 3) : g ∉ pCoreOf 2 H := by
   intro h
   obtain ⟨n, hn⟩ := isPGroup_pCoreOf 2 H ⟨g, h⟩
@@ -48,7 +50,7 @@ theorem not_mem_pCoreOf_of_orderOf {g : G} (hg : orderOf g = 3) : g ∉ pCoreOf 
 
 theorem mem_pPrimeCore_iff (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) (k : K) :
     k ∈ CFSG.pPrimeCore 3 K ↔ (k : G) ∈ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : (pCoreOf 2 H).subgroupOf K ≤ CFSG.pPrimeCore 3 K :=
     le_sSup (s := {N : Subgroup K | N.Normal ∧ Nat.Coprime 3 (Nat.card N)})
       ⟨normal_pCoreOf_subgroupOf h618,
@@ -141,7 +143,7 @@ theorem commutator_kbar_eq_top (h618 : Stage618 M H K z) : commutator (Kbar K) =
 
 theorem exists_ne_comm_kbar (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) :
     ∃ a b : Kbar K, a * b ≠ b * a := by
-  haveI := (isSimpleGroup_kbar hyp h618).toNontrivial
+  have := (isSimpleGroup_kbar hyp h618).toNontrivial
   by_contra h
   push Not at h
   have : IsMulCommutative (Kbar K) := ⟨⟨h⟩⟩
@@ -151,7 +153,7 @@ theorem exists_ne_comm_kbar (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) :
 
 theorem isKGroup_kbar (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) :
     CFSG.IsKGroup (Kbar K) := by
-  haveI : IsSimpleGroup G := hyp.setting.simple
+  have : IsSimpleGroup G := hyp.setting.simple
   have hH : CFSG.IsKGroup H :=
     CFSG.ComponentClassification.CatalogueKProper.proper_subgroup_isKGroup
       (CFSG.ComponentClassification.CatalogueKProper.open_isKProper_iff.1 hyp.setting.kProper)
@@ -160,7 +162,7 @@ theorem isKGroup_kbar (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) :
 
 theorem pRank_kbar (h618 : Stage618 M H K z) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (Kbar K)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.pRank_quotient_eq _ ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := K))),
     ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup K]
@@ -171,7 +173,7 @@ abbrev zbar (h618 : Stage618 M H K z) : Kbar K :=
 
 theorem orderOf_zbar (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z) :
     orderOf (zbar h618) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · rw [← map_pow, show (⟨z, z_mem h618⟩ : K) ^ 3 = 1 from
       Subtype.ext (by simpa using hyp.central.pow_eq_one), map_one]

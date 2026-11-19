@@ -128,7 +128,7 @@ theorem XZ_sq : ∀ i : Fin 4, XZ i * XZ i = 0 := by decide +kernel
 
 theorem YZ_sq : ∀ i : Fin 4, YZ i * YZ i = 0 := by decide +kernel
 
-theorem phiRootZ_not_root {β : Fin 4 → ℤ} (hβ : β ∉ d4Roots) : phiRootZ β = 0 := if_neg hβ
+theorem phiRootZ_not_root {β : Fin 4 → ℤ} (hβ : β ∉ d4Roots) : phiRootZ β = 0 := ite_eq_right hβ
 
 private theorem tableX_123 :
     (∀ i j : Fin 4, XZ i * HZ j + HZ j * (XZ i)ᵀ = ((cartanD4 j i).natAbs : ℤ) • phiRootZ (e i) ∧

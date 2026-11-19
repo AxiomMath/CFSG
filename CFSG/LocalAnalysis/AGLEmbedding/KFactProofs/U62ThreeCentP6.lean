@@ -65,8 +65,8 @@ theorem pow_three_eq_one_of_mem_of_not_nine_dvd {f : ℕ} {K : Type} [Field K]
     (M : Matrix (Fin 6) (Fin 6) K) (g : gramSU h M)
     (hg : (g : primeFormP h M) ^ 3 = 1) :
     (g : GL (Fin 6) K) ^ 3 = 1 := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   have hmem : g ^ 3 ∈ normOneScalars h (gramSU h M) 6 := by
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow]
     exact hg

@@ -474,7 +474,7 @@ private theorem relIndex_le
   calc (H z ⊓ Subgroup.centralizer ({a * b} : Set G)).relIndex (H z) ≤ T.ncard :=
         relIndex_inf_centralizer_le_ncard (Set.toFinite T) hmem
     _ ≤ ((J₁ : Set G) \ {e}).ncard := Set.ncard_image_le (Set.toFinite _)
-    _ = 127 := by rw [Set.ncard_diff_singleton_of_mem he, hJ₁card]
+    _ = 127 := by rw [Set.ncard_sdiff_singleton_of_mem he, hJ₁card]
 
 private theorem exists_mem_sylow_not_mem_J
     [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientDataPSp (z := z) hN)

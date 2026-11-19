@@ -47,7 +47,7 @@ theorem ggI1OfPairLOn_of_rank {P : ℕ → LargeEvenLabel → LargeEvenLabel →
   have hβ : p ∈ LargeEvenBeta 4 G := hI.2.2.2.2.2.1
   have hp : p.Prime := hβ.1
   have hp2 : p ≠ 2 := hβ.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxB : x ∈ B := hS.2.1
   have hx1 : x ≠ 1 := hS.2.2.1
   have hxp : x ^ p = 1 := hS.1.1.2 x hxB

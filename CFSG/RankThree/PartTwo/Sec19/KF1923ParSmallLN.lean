@@ -127,10 +127,10 @@ theorem ksm_not_noncyclic_l4 {X : Type} [Group X] [Finite X]
       subst hk1
       have hm3 : CFSG.Open.StatedClassicalModel X .PSL 3 2 2 :=
         ksm_stated_psl 3 (GaloisField 2 (2 * 1)) 2 2 (by norm_num [CFSG.Open.StatedLieAdmissible])
-          (by rw [ksm_card_gf2_even 1 le_rfl] <;> norm_num) e3
+          (by rw [ksm_card_gf2_even 1 le_rfl]) e3
       have hm4 : CFSG.Open.StatedClassicalModel X .PSL 4 2 1 :=
         ksm_stated_psl 4 (GaloisField 2 1) 2 1 (by norm_num [CFSG.Open.StatedLieAdmissible])
-          (by rw [GaloisField.card 2 1 (by norm_num)] <;> norm_num) e4
+          (by rw [GaloisField.card 2 1 (by norm_num)]) e4
       exact CFSG.Quasithin.Vol2.Ch11.SecB.not_isPSL_four_two_one_of_isPSL_three_two_two hm3 hm4
     · linarith
   · obtain ⟨eL4⟩ := hL4
@@ -171,8 +171,8 @@ theorem ksm_nsq_l4 {X : Type} [Group X] [Finite X] (e4 : X ≃* projSL 4 (Galois
     e4.trans CFSG.RankThree.PartTwo.Sec4.Res417Four.a8EquivProjSL.symm
   have hK : CFSG.LocalAnalysis.RankThreeUC.S15.K21dGeomAt X :=
     CFSG.LocalAnalysis.RankThreeUC.S15.k21dGeomA8_holds X ⟨eA8⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup X := eA8.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup X := eA8.isSimpleGroup
   have hN : Nat.card X = 20160 := (Nat.card_congr eA8.toEquiv).trans ksm_card_alt_eight
   have hZ : Subgroup.center X = ⊥ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.K21dRedProof.center_eq_bot_of_simple
@@ -187,8 +187,8 @@ theorem ksm_nsq_l5 {X : Type} [Group X] [Finite X] (e5 : X ≃* projSL 5 (Galois
     CFSG.LocalAnalysis.RankThreeUC.S15.K21dA8Proof.k21dGeomAt_of_mulEquiv
       (e'.trans CFSG.LocalAnalysis.RankThreeUC.S15.K21dL5Proof.slEquivGL5.symm)
       CFSG.LocalAnalysis.RankThreeUC.S15.K21dL5Proof.k21dGeomAt_SL5
-  haveI : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
-  haveI : IsSimpleGroup X := e'.isSimpleGroup
+  have : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
+  have : IsSimpleGroup X := e'.isSimpleGroup
   have hN : Nat.card X = 9999360 := by
     rw [Nat.card_congr e5.toEquiv, CFSG.RankThree.PartTwo.Sec14.Ronan148K.card_projSL_five_two_gf2]
   have hZ : Subgroup.center X = ⊥ :=

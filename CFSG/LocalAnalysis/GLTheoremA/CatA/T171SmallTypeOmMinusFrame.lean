@@ -40,7 +40,7 @@ theorem exists_frame_minus (m : ℕ) {V : Type} [AddCommGroup V] [Module (ZMod 2
         have hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q := by
           intro h
           exact absurd (htype.mp h) (by norm_num)
-        haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+        have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
         obtain ⟨a, ha0⟩ := exists_ne (0 : V)
         have hQa : Q a = 1 := by
           rcases eq_or_ne (Q a) 0 with h0 | h1

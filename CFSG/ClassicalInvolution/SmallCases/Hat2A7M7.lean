@@ -110,7 +110,7 @@ theorem c25_16sq_of_inv (hres : C25_16inv) : C25_16sq := by
   have haN : a ∈ Subgroup.normalizer (R' : Set G) := hF.1
   have hVle : R' ⊔ Subgroup.zpowers a ≤ (S : Subgroup G) :=
     sup_le h.hR'S (Subgroup.zpowers_le.mpr haS)
-  have hV2 : IsPGroup 2 ↥(R' ⊔ Subgroup.zpowers a) := S.isPGroup'.to_le hVle
+  have hV2 : IsPGroup 2 ↥(R' ⊔ Subgroup.zpowers a) := S.isPGroup.to_le hVle
   have hVn : R' ⊔ Subgroup.zpowers a ≤ Subgroup.normalizer (R' : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr haN)
   have hVR : ∀ y ∈ R' ⊔ Subgroup.zpowers a, conjSub y R' = R' := fun y hy =>

@@ -86,7 +86,7 @@ theorem a6c_invol_class (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
 
 private theorem a6c_two_ne_one {K : Type} [Group K] [Finite K] (h : 2 < Nat.card K) :
     ∃ a b : K, a ≠ b ∧ a ≠ 1 ∧ b ≠ 1 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at h
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.mp h
   by_cases ha : a = 1
@@ -114,7 +114,7 @@ theorem a6c_e8LayerFact_of_facts (hF : A6CKFacts) : Asc82E8LayerFact := by
   obtain ⟨fr⟩ := exists_nframe_six hQ hdim hsgn
   obtain ⟨m, hm⟩ := a6c_model_of_frame fr one_ne_zero
   have hcard : Nat.card (ProjSim Q) = 26127360 := ff_natCard_projSim_six_minus hQ hdim hsgn
-  haveI : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
   have hΓ : ¬ 25 ∣ Nat.card (ProjSim Q) := by rw [hcard]; norm_num
   have hA := a6c_invol_class hQ hdim hsgn fr hm φ hmem
   obtain ⟨⟨hle, hexp⟩, hrefl⟩ := a6c_redK
@@ -139,7 +139,7 @@ theorem a6c_e8LayerFact_of_facts (hF : A6CKFacts) : Asc82E8LayerFact := by
     a6c_KM2_of_isOmega5 hY' hdim hsgn (hind r) (hss r) (hexp _ ⟨r, rfl⟩) hΩ
   refine ⟨?_, ?_⟩
   ·
-    haveI : Finite ψ.range := inferInstance
+    have : Finite ψ.range := inferInstance
     obtain ⟨y₁, y₂, hne, h1, h2'⟩ := a6c_two_ne_one (K := ψ.range) (by omega)
     have hRf : ∃ κ ∈ ψ.range, IsConj (A6CElt m (Certificates.A6C.refl0M6 ())) κ := by
       rcases hrefl y₁ y₁.2 y₂ y₂.2 (fun h => hne (Subtype.ext h)) (fun h => h1 (Subtype.ext h))

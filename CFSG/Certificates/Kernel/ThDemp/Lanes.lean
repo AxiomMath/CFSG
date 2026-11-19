@@ -89,7 +89,7 @@ theorem testBit_stackN_s {s : ℕ} (hs : 0 < s) {F : ℕ → ℕ} (hF : ∀ k, F
     · by_cases h2 : p / s = m
       · have hge : p ≥ s * m := by rw [← h2]; exact Nat.mul_div_le p s
         have e : p - s * m = p % s := by rw [← h2]; omega
-        simp [h1, h2, hge, e]
+        simp [h2, hge, e]
       · have hm : m + 1 ≤ p / s := by omega
         have hge : p - s * m ≥ s := by
           have : s * (m + 1) ≤ s * (p / s) := Nat.mul_le_mul_left _ hm
@@ -101,7 +101,7 @@ theorem testBit_stackN_s {s : ℕ} (hs : 0 < s) {F : ℕ → ℕ} (hF : ∀ k, F
           have : s * m ≤ s * (p / s) := Nat.mul_le_mul_left _ (by omega)
           exact this.trans (Nat.mul_div_le p s)
         have h3 : ¬ p / s < m + 1 := by omega
-        simp [h1, h2, hz, h3, hsm]
+        simp [h1, hz, h3, hsm]
 
 theorem testBit_stackN {F : ℕ → ℕ} (hF : ∀ k, F k < 2 ^ 1280) :
     ∀ m p, (stackN 1280 m F).testBit p = (decide (p / 1280 < m) && (F (p / 1280)).testBit (p % 1280)) :=
@@ -152,7 +152,7 @@ theorem testBit_packD : ∀ (d Z p : ℕ),
       have e2 : p % 64 = p := by omega
       simp [h, e1, e2]
     · have : ¬ p / 64 < 2 ^ 0 := by simp; omega
-      simp [h, this]
+      simp [h]
   | d + 1, Z, p => by
     change (packD d (Z &&& ((1 <<< (1280 * (1 <<< d))) - 1)) |||
       packD d (Z >>> (1280 * (1 <<< d))) <<< (64 * (1 <<< d))).testBit p = _
@@ -222,7 +222,7 @@ theorem testBit_rep {x s : ℕ} (hs : 0 < s) (hx : x < 2 ^ s) :
           exact Nat.mul_div_le p s
         have e : p - s * n = p % s := by
           rw [← h2, Nat.mod_def]
-        simp [h1, h2, hge, e]
+        simp [h2, hge, e]
       · have hge : p ≥ s * n := by
           have : n ≤ p / s := by omega
           calc s * n ≤ s * (p / s) := Nat.mul_le_mul_left _ this
@@ -235,7 +235,7 @@ theorem testBit_rep {x s : ℕ} (hs : 0 < s) (hx : x < 2 ^ s) :
         have hz : x.testBit (p - s * n) = false :=
           Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hx (Nat.pow_le_pow_right (by omega) hbig))
         have h3 : ¬ p / s < n + 1 := by omega
-        simp [h1, h2, hge, hz, h3]
+        simp [h1, hge, hz, h3]
 
 theorem div_lt_iff_lt_mul' {p s n : ℕ} (hs : 0 < s) : p / s < n ↔ p < s * n := by
   rw [Nat.div_lt_iff_lt_mul hs, Nat.mul_comm]
@@ -313,7 +313,7 @@ theorem laneEq_repN {x d m j : ℕ} (hx : x < 2 ^ 1280) (hm : m ≤ 2 ^ d) (hj :
   simp [e1, e2, hj]
 
 theorem LaneEq.and_mask {N n L l j w : ℕ} (h : LaneEq N n j w) (hL : LaneEq L l j 1280)
-    (hl : ∀ i, l.testBit i = true → i < w) (hw : w ≤ 1280) :
+    (hl : ∀ i, l.testBit i = true → i < w) (_hw : w ≤ 1280) :
     LaneEq (N &&& L) (n &&& l) j 1280 := fun i hi => by
   rw [Nat.testBit_and, Nat.testBit_and, hL i hi]
   by_cases h2 : i < w

@@ -25,7 +25,7 @@ theorem qc_zpowers_relIndex_odd {H : Type} [Group H] [Finite H] {J : Subgroup H}
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   have hS2 : Nat.card (S : Subgroup B) ≤ 2 := by
-    have h := hrank ((S : Subgroup B).map B.subtype) hSle (S.isPGroup'.map B.subtype)
+    have h := hrank ((S : Subgroup B).map B.subtype) hSle (S.isPGroup.map B.subtype)
     rwa [Subgroup.card_map_of_injective B.subtype_injective] at h
   have hle : zpowers a ≤ B := (zpowers_le (G := H)).2 haJ
   have hcardP : Nat.card ((zpowers a).subgroupOf B) = 2 := by

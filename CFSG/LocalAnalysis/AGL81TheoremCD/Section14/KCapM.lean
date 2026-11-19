@@ -35,10 +35,10 @@ theorem map_inf_eq_normalizer_of_l34
   set Abar : Subgroup (↥K ⧸ N) := A'.map π with hAbardef
   set Y : Subgroup (↥K ⧸ N) := (M.subgroupOf K).map π with hYdef
   have hNnormal : N.Normal := hNdef ▸ CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
-  haveI : N.Normal := hNnormal
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N.Normal := hNnormal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA'p : IsPGroup 3 ↥A' := hA'def ▸ hA.isPGroup.comap_subtype
-  haveI : Fact (IsPGroup 3 ↥A') := ⟨hA'p⟩
+  have : Fact (IsPGroup 3 ↥A') := ⟨hA'p⟩
   have hnorm : Subgroup.normalizer Abar = (Subgroup.normalizer A').map π := by
     rw [hAbardef]
     exact CFSG.normalizer_map_quotient_eq_map_normalizer 3 A' N
@@ -79,7 +79,7 @@ theorem map_inf_eq_normalizer_of_l34
     have hGM : ((m⁻¹ * (⟨k, hk⟩ : ↥K) : ↥K) : G) ∈ M :=
       hO (Subgroup.mem_map_of_mem K.subtype hker)
     have hk_eq : (k : G) = (m : G) * ((m⁻¹ * (⟨k, hk⟩ : ↥K) : ↥K) : G) := by
-      simp [mul_assoc]
+      simp
     rw [hk_eq]
     exact M.mul_mem hm hGM
   obtain ⟨eK⟩ := hK
@@ -110,7 +110,7 @@ theorem HypCGen.conjQuotAction_map_aStar_eq
   let Y : Subgroup (↥K ⧸ N) := (M.subgroupOf K).map π
   let φ : MulAut (↥K ⧸ N) :=
     conjQuotAction H K N (kSub_le 3 M H) (hK 3 E H h) x
-  haveI : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
+  have : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
   have hKquot : Nonempty ((↥K ⧸ CFSG.pPrimeCore 3 ↥K) ≃*
       projSL 3 (GaloisField 2 2)) := by
     simpa [K, threeStar] using HypCGen.nonempty_mulEquiv_threeStar hC3
@@ -201,7 +201,7 @@ theorem HypCGen.inf_le_normalizer_sup_pPrimeCore
   let π : ↥K →* (↥K ⧸ N) := QuotientGroup.mk' N
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   let B : Subgroup G := A ⊔ O
-  haveI : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
+  have : N.Normal := CFSG.pPrimeCore_normal (p := 3) (G := ↥K)
   have hOcharNorm : H ≤ Subgroup.normalizer (O : Set G) := by
     refine (hK 3 E H h).trans ?_
     simpa [O, K] using

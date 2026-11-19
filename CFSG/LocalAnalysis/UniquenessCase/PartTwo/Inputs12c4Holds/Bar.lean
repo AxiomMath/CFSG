@@ -36,7 +36,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isQuasisimple_bar2 {M L : Subgroup G} (hL : F12.IsComponentModO2 M L) :
     CFSG.Open.IsQuasisimple (Bar2 L) := by
   obtain ⟨-, -, -, hN, hq⟩ := id hL
-  haveI := hN
+  have := hN
   have heq : CFSG.pCore 2 ↥L = (pCoreOf 2 M).subgroupOf L := by
     rw [← TwelveTwentyFive.pCoreOf_eq hL]
     exact (Subgroup.comap_map_eq_self_of_injective L.subtype_injective _).symm

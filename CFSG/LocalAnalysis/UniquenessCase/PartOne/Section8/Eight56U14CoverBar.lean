@@ -103,7 +103,7 @@ private theorem covbarrank_simple {B : Type} [Group B] [Finite B] {K S : Subgrou
     have hS3 : 3 ∣ ∏ i, Nat.card (T i) := by
       rw [← Nat.card_pi, Nat.card_congr e.toEquiv]
       exact covbarrank_three_dvd ho3 hSn hS1
-    obtain ⟨i, -, hi⟩ := (Nat.prime_three.prime.dvd_finset_prod_iff _).mp hS3
+    obtain ⟨i, -, hi⟩ := (Nat.prime_three.prime.dvd_finsetProd_iff _).mp hS3
     exact fun j => (hcard j i) ▸ hi
   have hr1 : r = 1 := by
     by_contra hne

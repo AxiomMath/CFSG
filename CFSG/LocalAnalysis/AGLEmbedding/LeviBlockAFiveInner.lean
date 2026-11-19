@@ -96,6 +96,7 @@ theorem normal_and_inner_of_map {X H : Type*} [Group X] [Finite X] [Group H] {C 
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {G : ι → Type} [∀ j, Group (G j)]
 
+omit [Fintype ι] in
 theorem conj_mem_block {Q : Type*} [Group Q] (S : ∀ j, Subgroup (G j)) (β : Q →* ∀ j, G j)
     (hpi : Subgroup.pi Set.univ S ≤ β.range) (hcomm : ⁅β.range, β.range⁆ ≤ Subgroup.pi Set.univ S)
     (j : ι) (q : Q) {u : G j} (hu : u ∈ S j) : β q j * u * (β q j)⁻¹ ∈ S j := by
@@ -140,7 +141,7 @@ theorem isFiveComponent_normal_inner {Y : Type} [Group Y] [Finite Y] {L P : Subg
     exact ⟨d, hd, hds⟩
   set N : Subgroup ↥R.range := (Subgroup.centralizer (S j : Set (G j))).subgroupOf R.range
     with hN
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [hN, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff] at hn ⊢
     obtain ⟨q, hq⟩ := g.2
     intro u hu
@@ -160,7 +161,7 @@ theorem isFiveComponent_normal_inner {Y : Type} [Group Y] [Finite Y] {L P : Subg
       QuotientGroup.eq_one_iff, hN, Subgroup.mem_subgroupOf, MonoidHom.coe_rangeRestrict,
       Subgroup.mem_centralizer_iff]
     set D := φ.ker.map R with hD
-    haveI : Group.IsSolvable ↥D := solvable_of_surjective (R.subgroupMap_surjective φ.ker)
+    have : Group.IsSolvable ↥D := Group.isSolvable_of_surjective (R.subgroupMap_surjective φ.ker)
     have hDn : (D.subgroupOf (S j)).Normal := ⟨fun d hd s => by
       rw [Subgroup.mem_subgroupOf] at hd ⊢
       obtain ⟨k, hk, hkd⟩ := hd
@@ -174,7 +175,7 @@ theorem isFiveComponent_normal_inner {Y : Type} [Group Y] [Finite Y] {L P : Subg
       have hSD : S j ≤ D := fun s hs => by
         have : (⟨s, hs⟩ : ↥(S j)) ∈ D.subgroupOf (S j) := htop ▸ Subgroup.mem_top _
         exact Subgroup.mem_subgroupOf.mp this
-      exact solvable_of_solvable_injective (f := Subgroup.inclusion hSD)
+      exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hSD)
         (Subgroup.inclusion_injective _)
     have hDc := CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq hDn hDne
     have hfix := conj_eq_of_conj_mem_center hq.1 (z := R n) fun u hu => by

@@ -21,7 +21,7 @@ theorem odd_relIndex_commutator_of_index_two {D : Set G}
   obtain ⟨d₀, rfl⟩ := hcls
   have hd₀ : d₀ ∈ {g | IsConj d₀ g} := IsConj.refl d₀
   set N : Subgroup G := ⁅L, L⁆ with hN
-  haveI : N.Normal := Subgroup.commutator_normal L L
+  have : N.Normal := Subgroup.commutator_normal L L
   let π : G →* G ⧸ N := QuotientGroup.mk' N
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective N
   set A : Subgroup (G ⧸ N) := L.map π with hA
@@ -84,7 +84,7 @@ theorem odd_relIndex_commutator_of_index_two {D : Set G}
       rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩
       refine ⟨f ⟨c * x * c⁻¹, hcx x x.2⟩, ⟨_, rfl⟩, ?_⟩
       simp only [Subgroup.coe_subtype, hf]
-      simp only [mul_assoc, hcinv, mul_inv_rev, inv_inv, hcc]
+      simp only [mul_assoc, hcinv, mul_inv_rev, hcc]
     rw [Subgroup.mem_normalizer_iff]
     intro b
     refine ⟨key b, fun hb => ?_⟩
@@ -108,7 +108,7 @@ theorem odd_relIndex_commutator_of_index_two {D : Set G}
   have hQle : Nat.card (G ⧸ N) ≤ 2 * Nat.card Bq := by
     have h1 : Nat.card (G ⧸ N) =
         Nat.card ((Subgroup.zpowers c : Set (G ⧸ N)) * (Bq : Set (G ⧸ N))) := by
-      rw [← hsup, htop]; simp [Nat.card_univ]
+      rw [← hsup, htop]; simp
     rw [h1]
     calc Nat.card ((Subgroup.zpowers c : Set (G ⧸ N)) * (Bq : Set (G ⧸ N)))
         ≤ Nat.card (Subgroup.zpowers c : Set (G ⧸ N)) * Nat.card (Bq : Set (G ⧸ N)) :=

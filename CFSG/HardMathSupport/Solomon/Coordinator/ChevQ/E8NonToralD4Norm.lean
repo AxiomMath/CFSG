@@ -170,7 +170,7 @@ private theorem torus_canonicalRep_conj_mem_rootRankOneGroup {t : ModGL τ L}
     · obtain ⟨μ, hμ⟩ := exists_torus_canonicalRep_conj_pinnedX ht w (IsRoot.neg hγ)
       rw [hμ c, smul_neg]
       exact Subgroup.subset_closure (Or.inr ⟨_, rfl⟩)
-  | one => simpa using one_mem _
+  | one => simp
   | mul x x' _ _ hx hx' =>
     have e : t * canonicalRep (coxeterSystem τ) L w * (x * x') *
         (t * canonicalRep (coxeterSystem τ) L w)⁻¹ =

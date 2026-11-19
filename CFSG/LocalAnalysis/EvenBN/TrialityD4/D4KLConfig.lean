@@ -108,7 +108,7 @@ private theorem le_V_of_isKLConfig {X : Type} [Group X] [Finite X] {f a : ℕ}
     rintro _ ⟨y, hy, rfl⟩
     exact mul_mem (mul_mem d.u_mem_leviShort (d.U₁_le_leviShort hy)) (inv_mem d.u_mem_leviShort)
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-  have hU₁ : IsPGroup 2 d.U₁ := (hP ▸ P.isPGroup').to_le d.U₁_le_S
+  have hU₁ : IsPGroup 2 d.U₁ := (hP ▸ P.isPGroup).to_le d.U₁_le_S
   refine le_of_fixed_of_ne_commute (Z₀ := d.V) (U := d.U₁)
     (U' := d.U₁.map (MulAut.conj d.u).toMonoidHom) (V := (d.Y : Set X))
     (V' := {x | d.u * x * d.u ∈ d.Y}) h.comm h.isPGroup (fun x hx z hz => ?_) hU₁

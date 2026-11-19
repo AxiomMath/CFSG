@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem omega1_le_self (T : Subgroup G) : omega1 T ≤ T := by
   rw [omega1, closure_le]
   rintro y ⟨hy, -⟩
@@ -24,7 +25,7 @@ private theorem omega1_le_self (T : Subgroup G) : omega1 T ≤ T := by
 
 theorem lf18_3e_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_3e s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   obtain ⟨h11, h12, h13, h14, h15, h16, h17, h18, h19, h110⟩ := s.facts
   obtain ⟨⟨h18_1_1, h18_1_2⟩, -, h18_3, -, -⟩ := h18
   obtain ⟨-, -, hB3, hB4, -⟩ := h18_3

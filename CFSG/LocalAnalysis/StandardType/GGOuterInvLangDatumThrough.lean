@@ -167,10 +167,10 @@ theorem exc_langDatum_through {τ : Tag}
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (b : ModGL τ K) ∈
         D.torus.map (MulAut.conj D.g0).toMonoidHom := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
   set ι₁ : K →+* L := algebraMap K L
   set u : ModGL τ L := baseChangeGL ι₁ (b : ModGL τ K)
   have hhL : u ∈ adjointGroup τ L := baseChangeGL_mem_adjointGroup_of_mem' ι₁ b.2
@@ -320,8 +320,8 @@ theorem exc_langDatum_through_fixed {τ : Tag}
       D.Φ = Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure K) 2 f)) ∧
       D.q = 2 ^ f ∧ u ∈ D.torus.map (MulAut.conj D.g0).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hmon : MonomialToralAt τ p :=
     monomialToralAt_exc monomialToralAt_E6_five monomialToralAt_E7_five hτ hp hp2

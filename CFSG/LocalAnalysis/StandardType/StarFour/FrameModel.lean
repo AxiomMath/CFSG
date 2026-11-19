@@ -22,12 +22,14 @@ instance SemiFrame.instModuleFinite [Finite F] (fr : SemiFrame F ρ) (i : Fin fr
 
 variable [Finite F] [Module.Finite F V]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma phi_blockIota (fr : SemiFrame F ρ) (i : Fin fr.r) (a : Fin (fr.m i))
     (t : fr.E i) : fr.Φ (fr.blockIota i a t) = Pi.single i (Pi.single a t) := by
   rw [SemiFrame.blockIota, LinearMap.comp_apply, LinearMap.comp_apply,
     LinearMap.single_apply, LinearMap.single_apply]
   exact fr.Φ.apply_symm_apply _
 
+omit [Finite F] [Module.Finite F V] in
 private lemma blockPi_apply (fr : SemiFrame F ρ) (i : Fin fr.r) (b : Fin (fr.m i)) (v : V) :
     fr.blockPi i b v = fr.Φ v i b := by
   rw [SemiFrame.blockPi, LinearMap.comp_apply, LinearMap.comp_apply, LinearMap.proj_apply,
@@ -42,21 +44,25 @@ private lemma single_eq_smul_single_one {E : Type} [Semiring E] {n : ℕ} (a : F
     simp
   · rw [Pi.single_eq_of_ne h, Pi.smul_apply, Pi.single_eq_of_ne h, smul_zero]
 
+omit [Finite F] [Module.Finite F V] in
 private theorem modelEquiv_apply (fr : SemiFrame F ρ) (i : Fin fr.r) (v : V) :
     fr.modelEquiv i v =
       (fr.Φ v i, fun a : {j : Fin fr.r // j ≠ i} => fr.Φ v a.1) :=
   rfl
 
+omit [Finite F] [Module.Finite F V] in
 private theorem modelEquiv_apply_eq_split (fr : SemiFrame F ρ) (i : Fin fr.r) (v : V) :
     fr.modelEquiv i v = fr.splitEquiv i (fr.Φ v) :=
   rfl
 
+omit [Finite F] [Module.Finite F V] in
 private theorem phi_modelEquiv_symm (fr : SemiFrame F ρ) (i : Fin fr.r)
     (p : (Fin (fr.m i) → fr.E i) × fr.blockCompl i) :
     fr.Φ ((fr.modelEquiv i).symm p) = (fr.splitEquiv i).symm p := by
   rw [show (fr.modelEquiv i).symm p =
       fr.Φ.symm ((fr.splitEquiv i).symm p) from rfl, LinearEquiv.apply_symm_apply]
 
+omit [Finite F] [Module.Finite F V] in
 private theorem splitEquiv_symm_apply_self (fr : SemiFrame F ρ) (i : Fin fr.r)
     (p : (Fin (fr.m i) → fr.E i) × fr.blockCompl i) :
     (fr.splitEquiv i).symm p i = p.1 := by
@@ -79,6 +85,7 @@ private noncomputable def frBlockSpecialLinearHom (fr : SemiFrame F ρ) (i : Fin
     · simp [Function.update_of_ne hj]
   map_mul' := fr.blockSpecialLinear_mul i
 
+omit [Finite F] [Module.Finite F V] in
 private theorem frSlOnBlock_eq_range (fr : SemiFrame F ρ) (i : Fin fr.r) :
     fr.slOnBlock i = (frBlockSpecialLinearHom fr i).range := by
   apply le_antisymm
@@ -93,6 +100,7 @@ private theorem frSlOnBlock_eq_range (fr : SemiFrame F ρ) (i : Fin fr.r) :
   · rintro g ⟨B, rfl⟩
     exact ⟨B, fr.blockSpecialLinear_apply i B⟩
 
+omit [Module.Finite F V] in
 private theorem frBlockSpecialLinearHom_comp_congr (fr : SemiFrame F ρ) (i : Fin fr.r) :
     (SpecialLinearGroup.congr_linearEquiv (fr.modelEquiv i)).toMonoidHom.comp
         (frBlockSpecialLinearHom fr i) =
@@ -115,6 +123,7 @@ private theorem frBlockSpecialLinearHom_comp_congr (fr : SemiFrame F ρ) (i : Fi
     hw, LinearEquiv.prodCongr_apply]
   rfl
 
+omit [Module.Finite F V] in
 theorem SemiFrame.map_slOnBlock_modelEquiv (fr : SemiFrame F ρ) (i : Fin fr.r) :
     (fr.slOnBlock i).map
         (SpecialLinearGroup.congr_linearEquiv (fr.modelEquiv i)).toMonoidHom =
@@ -125,6 +134,7 @@ theorem SemiFrame.map_slOnBlock_modelEquiv (fr : SemiFrame F ρ) (i : Fin fr.r) 
     frBlockSpecialLinearHom_comp_congr fr i]
   rfl
 
+omit [Finite F] [Module.Finite F V] in
 theorem SemiFrame.modelEquiv_comp_blockIota (fr : SemiFrame F ρ) (i : Fin fr.r)
     (a : Fin (fr.m i)) :
     (fr.modelEquiv i).toLinearMap ∘ₗ fr.blockIota i a =
@@ -140,6 +150,7 @@ theorem SemiFrame.modelEquiv_comp_blockIota (fr : SemiFrame F ρ) (i : Fin fr.r)
   change (Pi.single i (t • Pi.single a 1) : (∀ j, Fin (fr.m j) → fr.E j)) b.1 = 0
   rw [Pi.single_eq_of_ne b.2]
 
+omit [Finite F] [Module.Finite F V] in
 theorem SemiFrame.blockPi_comp_modelEquiv_symm (fr : SemiFrame F ρ) (i : Fin fr.r)
     (b : Fin (fr.m i)) :
     fr.blockPi i b ∘ₗ (fr.modelEquiv i).symm.toLinearMap =

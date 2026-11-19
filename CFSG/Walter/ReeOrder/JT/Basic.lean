@@ -38,7 +38,7 @@ theorem exists_normal_index_eq_of_commute_normalizer [Finite G] {p : ℕ} [Fact 
     exact hz1 (orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd
       (Nat.Coprime.coprime_dvd_left h2 P.card_coprime_index) (orderOf_dvd_of_pow_eq_one h1)))
   set A := φ.range
-  have hAp : IsPGroup p A := P.isPGroup'.to_subgroup A
+  have hAp : IsPGroup p A := P.isPGroup.to_subgroup A
   obtain ⟨n, hn⟩ := hAp.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

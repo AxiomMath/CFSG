@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem actsAs_pow {k : G} {α : MulAut (L ⧸ center L)} (h : ActsAs L k α) (n : ℕ) :
     ActsAs L (k ^ n) (α ^ n) := by
   induction n with
@@ -22,9 +23,11 @@ private noncomputable def jOnCod {V : Subgroup G} (hV : V ≤ normalizer (L : Se
   (jOn L hV).codRestrict (jSub L V) fun x => by
     rw [← range_jOn L hV]; exact ⟨x, rfl⟩
 
+omit [Finite G] in
 private theorem jOnCod_apply {V : Subgroup G} (hV : V ≤ normalizer (L : Set G)) (x : ↥V) :
     (jOnCod (L := L) hV x : MulAut (L ⧸ center L)) = jOn L hV x := rfl
 
+omit [Finite G] in
 private theorem jOnCod_surjective {V : Subgroup G} (hV : V ≤ normalizer (L : Set G)) :
     Function.Surjective (jOnCod (L := L) hV) := by
   intro y
@@ -100,17 +103,17 @@ theorem secProp_jSub [Group.IsPerfect ↥L] {V N : Subgroup G} (hV : V ≤ norma
   have hnorm := normal_subgroupOf_jSub_iff hV hNV hK
   constructor
   · rintro ⟨hN1, hq⟩
-    haveI : (N.subgroupOf V).Normal := hN1
+    have : (N.subgroupOf V).Normal := hN1
     have hN2 : ((jSub L N).subgroupOf (jSub L V)).Normal := hnorm.mp hN1
-    haveI : ((jSub L N).subgroupOf (jSub L V)).Normal := hN2
+    have : ((jSub L N).subgroupOf (jSub L V)).Normal := hN2
     exact ⟨hN2, (hQ _ _ (jSubQuotientEquiv hV hNV hK)).mp hq⟩
   · rintro ⟨hN2, hq⟩
-    haveI : ((jSub L N).subgroupOf (jSub L V)).Normal := hN2
+    have : ((jSub L N).subgroupOf (jSub L V)).Normal := hN2
     have hN1 : (N.subgroupOf V).Normal := hnorm.mpr hN2
-    haveI : (N.subgroupOf V).Normal := hN1
+    have : (N.subgroupOf V).Normal := hN1
     exact ⟨hN1, (hQ _ _ (jSubQuotientEquiv hV hNV hK).symm).mp hq⟩
 
-theorem isSylowIn_jSub [Group.IsPerfect ↥L] {p : ℕ} (hp : p.Prime) {V T : Subgroup G}
+theorem isSylowIn_jSub [Group.IsPerfect ↥L] {p : ℕ} (_hp : p.Prime) {V T : Subgroup G}
     (hV : V ≤ normalizer (L : Set G)) (hT : IsSylowIn p V T) :
     IsSylowIn p (jSub L V) (jSub L T) := by
   refine ⟨jSub_mono L hT.1, isPGroup_jSub L hT.2.1, ?_⟩
@@ -125,6 +128,7 @@ theorem isSylowIn_jSub [Group.IsPerfect ↥L] {p : ℕ} (hp : p.Prime) {V T : Su
   intro hpdiv
   exact hT.2.2 (hpdiv.trans hdvd)
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_actsAs {p : ℕ} {k : G} {α : MulAut (L ⧸ center L)}
     (hα : ActsAs L k α) (hk : IsPGroup p ↥(zpowers k)) : IsPGroup p ↥(zpowers α) := by
   obtain ⟨m, hm⟩ := hk ⟨k, Subgroup.mem_zpowers k⟩
@@ -161,7 +165,7 @@ theorem exists_pElem_of_jSub [Group.IsPerfect ↥L] {p : ℕ} (hp : p.Prime) {N 
       (actsAs_one_iff_mem_zL hkL).mpr hkz
     have hκm : κ ^ m = 1 := actsAs_unique L hacts hone
     have hpκ : p ∣ orderOf κ := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hne : (⟨κ, Subgroup.mem_zpowers κ⟩ : zpowers κ) ≠ 1 := by
         intro h; exact hκ1 (Subtype.ext_iff.mp h)
       have := hκp.dvd_orderOf hne
@@ -173,18 +177,18 @@ theorem isSylowIn_zpowers_of_secProp_perm3 {Γ : Type} [Group Γ] [Finite Γ] {N
     (hK : IsPGroup 2 ↥K) {κ : Γ} (hκ : κ ∈ N) (hκ3 : IsPGroup 3 ↥(zpowers κ)) (hκ1 : κ ≠ 1) :
     IsSylowIn 3 N (zpowers κ) := by
   obtain ⟨hKn, ⟨e⟩⟩ := h
-  haveI := hKn
+  have := hKn
   have hq : Nat.card (↥N ⧸ K.subgroupOf N) = 6 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     norm_num
   have hKidx : (K.subgroupOf N).index = 6 := by rw [Subgroup.index_eq_card, hq]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2) (G := ↥K)).mp hK
   have hcardKN : Nat.card ↥(K.subgroupOf N) = Nat.card ↥K := by
     rw [← Subgroup.card_subtype N (K.subgroupOf N), Subgroup.map_subgroupOf_eq_of_le hKN]
   have hNcard : Nat.card ↥N = 6 * 2 ^ a := by
     rw [← Subgroup.index_mul_card (H := K.subgroupOf N), hKidx, hcardKN, ha]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3ord : 3 ∣ orderOf κ := by
     have hne : (⟨κ, Subgroup.mem_zpowers κ⟩ : zpowers κ) ≠ 1 := by
       intro h; exact hκ1 (Subtype.ext_iff.mp h)
@@ -211,10 +215,10 @@ theorem isSylowIn_zpowers_of_secProp_perm3 {Γ : Type} [Group Γ] [Finite Γ] {N
   exact h9not h9
 
 theorem exists_threeElem_of_secProp_perm3 {Γ : Type} [Group Γ] [Finite Γ] {N K : Subgroup Γ}
-    (h : SecProp N K (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3)))) (hKN : K ≤ N) :
+    (h : SecProp N K (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3)))) (_hKN : K ≤ N) :
     ∃ κ ∈ N, IsPGroup 3 ↥(zpowers κ) ∧ κ ≠ 1 := by
   obtain ⟨hKn, ⟨e⟩⟩ := h
-  haveI := hKn
+  have := hKn
   have hq : Nat.card (↥N ⧸ K.subgroupOf N) = 6 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     norm_num
@@ -222,7 +226,7 @@ theorem exists_threeElem_of_secProp_perm3 {Γ : Type} [Group Γ] [Finite Γ] {N 
   have hNcard : 3 ∣ Nat.card ↥N := by
     rw [← Subgroup.index_mul_card (H := K.subgroupOf N), hKidx]
     exact ⟨2 * Nat.card ↥(K.subgroupOf N), by ring⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨κ, hκord⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 3 hNcard
   refine ⟨(κ : Γ), κ.2, ?_, ?_⟩
   · apply IsPGroup.of_card_dvd_pow (n := 1)
@@ -237,7 +241,7 @@ theorem eq_of_secProp_perm3 {N K M : Subgroup G}
     (hMN : M ≤ N) {k a : G} (hkM : k ∈ M) (hk : k ∉ K) (hk3 : IsPGroup 3 ↥(zpowers k))
     (haM : a ∈ M) (ha : a ∉ K) (ha2 : IsPGroup 2 ↥(zpowers a)) : M = N := by
   obtain ⟨hKn, ⟨e⟩⟩ := h
-  haveI := hKn
+  have := hKn
   let φ : ↥N →* Equiv.Perm (Fin 3) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (K.subgroupOf N))
   let M' : Subgroup (Equiv.Perm (Fin 3)) := (M.subgroupOf N).map φ
@@ -265,7 +269,7 @@ theorem eq_of_secProp_perm3 {N K M : Subgroup G}
     rw [QuotientGroup.ker_mk'] at hker
     exact hk (Subgroup.mem_subgroupOf.mp hker)
   have hkφ3 : 3 ∣ orderOf (φ ⟨k, hMN hkM⟩) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hne : (⟨φ ⟨k, hMN hkM⟩, Subgroup.mem_zpowers _⟩ :
         zpowers (φ ⟨k, hMN hkM⟩)) ≠ 1 := by
       intro h; exact hkφne (Subtype.ext_iff.mp h)
@@ -290,7 +294,7 @@ theorem eq_of_secProp_perm3 {N K M : Subgroup G}
     rw [QuotientGroup.ker_mk'] at hker
     exact ha (Subgroup.mem_subgroupOf.mp hker)
   have haφ2 : 2 ∣ orderOf (φ ⟨a, hMN haM⟩) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hne : (⟨φ ⟨a, hMN haM⟩, Subgroup.mem_zpowers _⟩ :
         zpowers (φ ⟨a, hMN haM⟩)) ≠ 1 := by
       intro h; exact haφne (Subtype.ext_iff.mp h)

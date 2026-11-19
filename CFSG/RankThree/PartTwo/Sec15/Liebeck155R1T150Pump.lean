@@ -56,7 +56,7 @@ theorem eq_bot_of_normal_isSolvable {J : Type*} [Group J] (hJs : IsSimpleGroup J
   · exfalso
     subst h
     have : Group.IsSolvable J :=
-      solvable_of_surjective (f := (Subgroup.topEquiv (G := J)).toMonoidHom)
+      Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := J)).toMonoidHom)
         (Subgroup.topEquiv (G := J)).surjective
     exact Group.IsPerfect.not_isSolvable J inferInstance
 
@@ -70,7 +70,7 @@ theorem le_ker_of_solvable {J : Type*} [Group J] (hJs : IsSimpleGroup J)
     (K : Subgroup H) [K.Normal] (hK : Group.IsSolvable K) : K ≤ φ.ker := by
   have := hK
   have : (K.map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
-  have : Group.IsSolvable (K.map φ) := solvable_of_surjective (f := φ.subgroupMap K)
+  have : Group.IsSolvable (K.map φ) := Group.isSolvable_of_surjective (f := φ.subgroupMap K)
     (MonoidHom.subgroupMap_surjective φ K)
   have h := eq_bot_of_normal_isSolvable hJs hJp (K.map φ) inferInstance
   rwa [Subgroup.map_eq_bot_iff] at h
@@ -572,7 +572,7 @@ theorem mem_thetaQuotCentralizer_of_mem {Λ : Subgroup Y} (hΛ : Λ ∈ thetaCom
       (f := (Λ.subtype.comp V.subtype).codRestrict U fun x => x.2)
       (fun a b hab => Subtype.ext (Subtype.ext (congrArg (fun x : U => (x : Y)) hab)))
   have hV'sol : Group.IsSolvable V' :=
-    solvable_of_surjective (f := (QuotientGroup.mk' θΛ).subgroupMap V)
+    Group.isSolvable_of_surjective (f := (QuotientGroup.mk' θΛ).subgroupMap V)
       (MonoidHom.subgroupMap_surjective _ V)
   have hV'n : V'.Normal := ⟨fun n hn g => by
     obtain ⟨v, hv, rfl⟩ := hn
@@ -584,7 +584,7 @@ theorem mem_thetaQuotCentralizer_of_mem {Λ : Subgroup Y} (hΛ : Λ ∈ thetaCom
   · exfalso
     have : Group.IsSolvable (↥Λ ⧸ θΛ) := by
       rw [hVtop] at hV'sol
-      exact solvable_of_surjective (f := (Subgroup.topEquiv (G := ↥Λ ⧸ θΛ)).toMonoidHom)
+      exact Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := ↥Λ ⧸ θΛ)).toMonoidHom)
         Subgroup.topEquiv.surjective
     have := CFSG.LocalCores.isQuasisimple_nontrivial hquasi
     exact Group.IsPerfect.not_isSolvable (↥Λ ⧸ θΛ) inferInstance

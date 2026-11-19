@@ -58,10 +58,10 @@ theorem suppIn_SA2_NAm (f : Fin 6 → ZMod 2) :
   · intro h
     have h0 := h 0 2 (by decide)
     have h3 := h 1 2 (by decide)
-    simp [NAm, Matrix.single_apply] at h0 h3
+    simp [NAm] at h0 h3
     exact ⟨h0, h3⟩
   · rintro ⟨h0, h3⟩ i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [NAm, Matrix.single_apply, SA2]
+    fin_cases i <;> fin_cases j <;> simp_all [NAm, SA2]
 
 theorem mem_A2_iff_eA {a : Hc} (ha : a ∈ A1) :
     a ∈ A2 ↔ eA (cm a) 0 = 0 ∧ eA (cm a) 3 = 0 := by
@@ -192,7 +192,7 @@ theorem GammaB_zero : GammaB 0 = {zt} := by
 
 theorem GammaB_one : GammaB 1 = ((A1 ⊓ A2 ⊓ U1 : Subgroup Hc) : Set Hc) \ {1, zt} := by
   ext a
-  simp only [GammaB, Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf,
+  simp only [GammaB, Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf,
     Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
   constructor
   · rintro ⟨haA, haB, ha1, hal⟩
@@ -209,7 +209,7 @@ theorem GammaB_one : GammaB 1 = ((A1 ⊓ A2 ⊓ U1 : Subgroup Hc) : Set Hc) \ {1
 
 theorem GammaB_two : GammaB 2 = ((A1 ⊓ A2 ⊓ U2 : Subgroup Hc) : Set Hc) \ {1, zt} := by
   ext a
-  simp only [GammaB, Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf,
+  simp only [GammaB, Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf,
     Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
   constructor
   · rintro ⟨haA, haB, ha1, hal⟩
@@ -227,7 +227,7 @@ theorem GammaB_two : GammaB 2 = ((A1 ⊓ A2 ⊓ U2 : Subgroup Hc) : Set Hc) \ {1
 theorem GammaB_three :
     GammaB 3 = {a | a ∈ A1 ∧ a ∈ A2 ∧ a ∈ Qh ∧ a ≠ 1 ∧ a ∉ U1 ∧ a ∉ U2} := by
   ext a
-  simp only [GammaB, Set.mem_setOf_eq]
+  simp only [GammaB, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨haA, haB, ha1, hal⟩
     have hf0 : eA (cm a) ≠ 0 := fun h => ha1 ((eq_one_iff_eA haA).2 h)
@@ -261,7 +261,7 @@ theorem B_orbits : ∃ Γ : Fin 6 → Set Hc,
     intro a ha hb
     exact hij (Fin.ext (ha.2.2.2.symm.trans hb.2.2.2))
   · ext a
-    simp only [Set.mem_iUnion, Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf,
+    simp only [Set.mem_iUnion, Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf,
       Set.mem_singleton_iff]
     constructor
     · rintro ⟨i, haA, haB, ha1, -⟩

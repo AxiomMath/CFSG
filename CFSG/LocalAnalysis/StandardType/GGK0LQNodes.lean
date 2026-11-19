@@ -19,6 +19,7 @@ private lemma lk0xlqnodes_diagOf_marks_length (T : GGKacType) :
     (k0DiagOf T).marks.length = (absTag T).rank + 1 := by
   cases T <;> rfl
 
+omit [CharP Omega 2] in
 private lemma lk0xlqnodes_marks_length (A : K0LangMark Omega lab p R I phi) :
     A.row.diagram.marks.length = A.tau.rank + 1 := by
   rw [← A.tau_eq]
@@ -66,6 +67,7 @@ private lemma lk0xlqnodes_pi_eq_sum_single (n : ℕ) (v : Fin n → ℤ) :
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 
+omit [CharP Omega 2] in
 private lemma lk0xlqnodes_nodeMap_weighted_zero (A : K0LangMark Omega lab p R I phi) :
     (∑ i : Fin A.row.diagram.marks.length,
       (A.row.diagram.marks.getD i.val 0 : ℤ) • A.nodeMap (Pi.single i 1)) = 0 := by
@@ -127,6 +129,7 @@ private lemma lk0xlqnodes_head_mem_comps (img : List ℕ → List ℕ) (fuel : �
         · rw [lk0xlqnodes_compOrbit_head]; exact List.mem_cons_self ..
         · exact List.mem_cons_of_mem _ (ih (seen ++ k0CompOrbit img fuel c) orb h)
 
+omit [CharP Omega 2] in
 private lemma lk0xlqnodes_orbit_mem (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     P.orbitNodes j ∈ k0CompOrbits (fun c => k0SortNat (c.map (fun i => A.row.rho.getD i 0)))
@@ -137,6 +140,7 @@ private lemma lk0xlqnodes_orbit_mem (A : K0LangMark Omega lab p R I phi) (P : K0
     (List.Perm.mem_iff P.orbitNodes_perm).mp (List.mem_ofFn.mpr ⟨j, rfl⟩)
   exact hmem0
 
+omit [CharP Omega 2] in
 theorem lq_nodes_mem_comps (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     (P.orbitNodes j).headD [] ∈
@@ -191,8 +195,9 @@ private lemma lk0xlqnodes_label_qs_false_iff (fam : LargeEvenLieTag) (r tw n : �
     (k0LabelOf fam r tw n).qs = false ↔
       fam = .A ∧ ((tw = 1 ∧ r = 1) ∨ (tw ≠ 1 ∧ r = 2)) ∧ n = 1 := by
   cases fam <;> simp only [k0LabelOf] <;> (try split_ifs) <;>
-    simp_all [decide_eq_false_iff_not]
+    simp_all
 
+omit [CharP Omega 2] in
 theorem lq_descriptor_eq (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     A.row.D.orbits[j] =
@@ -202,6 +207,7 @@ theorem lq_descriptor_eq (A : K0LangMark Omega lab p R I phi) (P : K0Positions A
   rw [P.orbit_descriptor j]
   rfl
 
+omit [CharP Omega 2] in
 theorem lq_qpow (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     A.setup.D.q ^ componentOrbitLength A.setup.ρ (componentRoots (rootCharHom A.a) (P.repr j)) =
@@ -209,6 +215,7 @@ theorem lq_qpow (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
   rw [P.orbit_length j, A.q_eq, P.field_exp j, ← pow_mul,
     Nat.mul_comm lab.n ((P.orbitNodes j).length)]
 
+omit [CharP Omega 2] in
 theorem lq_nodes_basic (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     lqNodes A P j ≠ [] ∧ (lqNodes A P j).Nodup ∧
@@ -231,6 +238,7 @@ theorem lq_nodes_basic (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
   obtain ⟨hxr, hxd⟩ := hxz
   exact ⟨by rw [← hlen]; exact List.mem_range.mp hxr, of_decide_eq_true hxd⟩
 
+omit [CharP Omega 2] in
 theorem lq_nodeMap_eq (A : K0LangMark Omega lab p R I phi)
     (x : Fin A.row.diagram.marks.length) :
     A.nodeMap (Pi.single x 1) = lqExtRoot A.tau A.row.T x.val := by
@@ -293,16 +301,17 @@ theorem lq_nodeMap_eq (A : K0LangMark Omega lab p R I phi)
       have hroot : lqExtRoot A.tau A.row.T (k + 1) = Pi.single ⟨k, hk⟩ 1 := by
         funext j
         have hx0 : ¬ (k + 1 = 0) := by omega
-        rw [lqExtRoot, if_neg hx0, Pi.single_apply]
+        rw [lqExtRoot, ite_eq_right hx0, Pi.single_apply]
         by_cases hj : j = ⟨k, hk⟩
         · subst hj; simp
         · have hne : j.val + 1 ≠ k + 1 := by
             intro h
             exact hj (Fin.ext (by show j.val = k; omega))
-          rw [if_neg hne, if_neg hj]
+          rw [ite_eq_right hne, ite_eq_right hj]
       rw [hroot]
       exact A.node_std ⟨k + 1, hn⟩ ⟨k, hk⟩ rfl
 
+omit [CharP Omega 2] in
 theorem lq_qs_false_iff (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     A.row.D.orbits[j].qs = false ↔
@@ -312,11 +321,13 @@ theorem lq_qs_false_iff (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         A.row.D.orbits[j].lab.n = 1 := by
   rw [lq_descriptor_eq A P j, lk0xlqnodes_label_qs_false_iff, k0LabelOf_lab_n]
 
+omit [CharP Omega 2] in
 theorem lq_compType_single (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (h : (lqNodes A P j).length = 1) :
     k0CompType (k0DiagOf A.row.T) (lqNodes A P j) = (.A, 1) := by
   exact lk0xlqnodes_compType_single_len (k0DiagOf A.row.T) (lqNodes A P j) h
 
+omit [CharP Omega 2] in
 theorem lq_orbit_n_pos (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (hn : 1 ≤ lab.n) : 1 ≤ A.row.D.orbits[j].lab.n := by
   rw [P.field_exp j]
@@ -357,6 +368,7 @@ theorem lq_compType_rank_ACD (D : K0Diag) (c : List ℕ)
     · split_ifs <;> (intro h; simp_all [lk0xlqnodes_sortNat_length])
   · split_ifs <;> (intro h; simp_all [lk0xlqnodes_sortNat_length])
 
+omit [CharP Omega 2] in
 theorem lq_pair_adj (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (h : (lqNodes A P j).length = 2) :
     ∃ x y : ℕ, lqNodes A P j = [x, y] ∧ x < y ∧ y < A.row.diagram.marks.length ∧

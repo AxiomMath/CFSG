@@ -122,8 +122,8 @@ theorem blockGL_mem_stabGL (r : Fin m → ZMod 2) (B : GL (Fin m) (ZMod 2)) :
   rw [mem_stabGL_iff]
   ext i
   induction i using Fin.cases <;>
-    simp [blockMat_mulVec_zero, blockMat_mulVec_succ, blockGL_val, ez, Pi.single_apply,
-      Fin.succ_ne_zero, Matrix.mulVec, dotProduct, Fin.sum_univ_succ]
+    simp [blockGL_val, ez, Pi.single_apply,
+      Fin.succ_ne_zero, Matrix.mulVec, dotProduct]
 
 
 @[expose] def blk (A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)) :
@@ -146,7 +146,7 @@ theorem col_zero_of_mulVec {A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)}
 theorem col_succ_zero_of_mulVec {A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)}
     (hA : A *ᵥ ez m = ez m) (i : Fin m) : A i.succ 0 = 0 := by
   rw [col_zero_of_mulVec hA]
-  simp [ez, Pi.single_apply, Fin.succ_ne_zero]
+  simp [ez, Fin.succ_ne_zero]
 
 theorem col_zero_zero_of_mulVec {A : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)}
     (hA : A *ᵥ ez m = ez m) : A 0 0 = 1 := by

@@ -42,7 +42,7 @@ private theorem le_of_le_sup_commutator_top {K : Type*} [Group K] [Group.IsNilpo
 
 theorem le_of_le_sup_commutator {H Q L : Subgroup G} (hH : Group.IsNilpotent H) (hQH : Q ≤ H)
     (hQ : H ≤ Subgroup.normalizer (Q : Set G)) (hLH : L ≤ H) (h : L ≤ Q ⊔ ⁅L, H⁆) : L ≤ Q := by
-  haveI : (Q.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQ
+  have : (Q.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQ
   have hT : L.subgroupOf H ≤ Q.subgroupOf H ⊔ ⁅L.subgroupOf H, (⊤ : Subgroup H)⁆ := by
     refine Subgroup.map_subtype_le_map_subtype.1 ?_
     rw [Subgroup.map_sup, Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hLH,

@@ -107,9 +107,9 @@ theorem lift_semisimple_sub [Finite G] {n : ℕ} (hn : 1 ≤ n) {T T₀ N Y A : 
   have hAT : A ≤ T := hAT₀.trans hT₀T
   have hKN : K ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT₀N
   have hKY : K ≤ Subgroup.normalizer (Y : Set G) := sup_le hNY hT₀Y
-  haveI hNn : (N.subgroupOf K).Normal :=
+  have hNn : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI hYn : (Y.subgroupOf K).Normal :=
+  have hYn : (Y.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKY
   have hmemK : ∀ S ∈ 𝒟, S ≤ K := fun S hS => (hSM.le_D S hS).trans hNK
   have hSylK : IsSylowIn 2 ((T ⊓ K).subgroupOf K) ⊤ := by

@@ -62,11 +62,13 @@ section Core
 
 variable [Finite G] {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem c33_BOf_le_normalizer (hS : C33Setting M V) :
     BOf M V g ≤ Subgroup.normalizer (V : Set G) := by
   rw [hS.normalizer_eq]
   exact inf_le_right
 
+omit [Finite G] in
 theorem c33_mQuot_eq_two (hS : C33Setting M V) (hh : C33Hyp M V g) :
     E3.mQuot (conjSubgroup V g) (BOf M V g) = 2 := by
   by_contra hne
@@ -77,14 +79,17 @@ theorem c33_mQuot_eq_two (hS : C33Setting M V) (hh : C33Hyp M V g) :
     ⟨inf_le_right, g, inf_le_left, rfl⟩
   exact hh.not_le (hS.gamma_le _ hle _ hmem)
 
+omit [Finite G] in
 theorem c33_B_mem_gammaSet (hS : C33Setting M V) (hh : C33Hyp M V g) :
     BOf M V g ∈ E3.gammaSet V 2 M :=
   ⟨inf_le_right, g, inf_le_left, c33_mQuot_eq_two hS hh⟩
 
+omit [Finite G] in
 theorem c33_E_mem_aSet (hS : C33Setting M V) (hh : C33Hyp M V g) :
     autI hS.elemAbelian (BOf M V g) ∈ E3.aSet 2 (autI hS.elemAbelian ⊤) :=
   hS.aSet_two _ (c33_B_mem_gammaSet hS hh) hh.not_le
 
+omit [Finite G] in
 theorem c33_dichotomy (hgeo : GeoDichotomy) (hS : C33Setting M V) (hh : C33Hyp M V g) :
     E3.gammaCheck 2 (autI hS.elemAbelian (BOf M V g)) = ⊤ ∨
       SingLineShape (autI hS.elemAbelian (BOf M V g)) := by

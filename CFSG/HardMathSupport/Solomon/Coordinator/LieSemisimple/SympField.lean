@@ -19,16 +19,16 @@ open CFSG.RankThree.PartOne.KCSpComm (mem_spFixedGroup spFixedGroup_fieldAut_eq_
 private theorem exists_not_comm_of_simple_perfect {Q : Type*} [Group Q] (hs : IsSimpleGroup Q)
     (hp : Group.IsPerfect Q) : ∃ a b : Q, a * b ≠ b * a := by
   by_contra h
-  haveI := hs
-  haveI := hp
+  have := hs
+  have := hp
   exact Group.IsPerfect.not_isSolvable Q
     (Group.isSolvable_of_comm fun a b => by_contra fun hab => h ⟨a, b, hab⟩)
 
 private theorem perfectInLayer_of_mulEquiv_simple {S : Type*} [Group S] {β : MulAut S}
     {H : Type*} [Group H] (e : ↥(fixSubgroup β) ≃* H) (hs : IsSimpleGroup H)
     (hp : Group.IsPerfect H) : PerfectInLayer β := by
-  haveI := hs
-  haveI := hp
+  have := hs
+  have := hp
   have hsC : IsSimpleGroup ↥(fixSubgroup β) := e.isSimpleGroup
   have hpC : Group.IsPerfect ↥(fixSubgroup β) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -48,7 +48,7 @@ private theorem perfectInLayer_of_mulEquiv_commutator {S : Type*} [Group S] {β 
   have hN : ((commutator ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
       (fixSubgroup β) = commutator ↥(fixSubgroup β) :=
     Subgroup.comap_map_eq_self_of_injective (fixSubgroup β).subtype_injective _
-  haveI : (((commutator ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
+  have : (((commutator ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf
       (fixSubgroup β)).Normal := by
     rw [hN]
     infer_instance
@@ -57,7 +57,7 @@ private theorem perfectInLayer_of_mulEquiv_commutator {S : Type*} [Group S] {β 
       (Subgroup.equivMapOfInjective (commutator ↥(fixSubgroup β)) (fixSubgroup β).subtype
         (fixSubgroup β).subtype_injective).symm
       (CFSG.IsQuasisimple.of_mulEquiv e₁ hqH)
-  haveI : IsMulCommutative (↥(fixSubgroup β) ⧸
+  have : IsMulCommutative (↥(fixSubgroup β) ⧸
       ((commutator ↥(fixSubgroup β)).map (fixSubgroup β).subtype).subgroupOf (fixSubgroup β)) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hN.ge
   exact perfectInLayer_of_normal_quasisimple (Subgroup.map_subtype_le _) hJq inferInstance
@@ -75,7 +75,7 @@ variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem perfectInLayer_fieldAut_sp (hr : 2 ≤ r) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (σ : K ≃+* K) (hσ : σ ^ p = 1) : PerfectInLayer (fieldAut r K σ) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨e⟩ := nonempty_fixSubgroup_equiv (r := r) (hp.odd_of_ne_two hp2) hσ
   by_cases hex : r = 2 ∧ Nat.card (descentField σ) = 2
   · obtain ⟨rfl, hk⟩ := hex

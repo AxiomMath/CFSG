@@ -15,7 +15,7 @@ theorem nonempty_mulEquiv_alt5_of_two_perm {J : Type*} [Group J] [Nontrivial J]
     (hJ : commutator J = ⊤) (ρ₁ ρ₂ : J →* Perm (Fin 5)) (hker : ρ₁.ker ⊓ ρ₂.ker = ⊥)
     (hirr : ∀ N₁ N₂ : Subgroup J, N₁.Normal → N₂.Normal → N₁ ⊔ N₂ = ⊤ → N₁ = ⊤ ∨ N₂ = ⊤) :
     Nonempty (J ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have himg : ∀ ρ : J →* Perm (Fin 5), ρ.range = ⊥ ∨ ρ.range = alternatingGroup (Fin 5) := by
     intro ρ
     by_cases h : ρ.range = ⊥
@@ -48,8 +48,8 @@ theorem nonempty_mulEquiv_alt5_of_two_perm {J : Type*} [Group J] [Nontrivial J]
       exact ⟨x, Subtype.ext hx⟩
     have hker' : ρ'.ker = ρ.ker := by
       ext x
-      simp [hρ', MonoidHom.mem_ker, ← Subtype.val_inj]
-    haveI : (σ.ker.map ρ').Normal := σ.normal_ker.map ρ' hρ's
+      simp [hρ', MonoidHom.mem_ker]
+    have : (σ.ker.map ρ').Normal := σ.normal_ker.map ρ' hρ's
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (σ.ker.map ρ') with h | h
     ·
       have hle : σ.ker ≤ ρ.ker := by
@@ -172,7 +172,7 @@ theorem nonempty_mulEquiv_alt5_of_altTen {K : Type} [Group K] [Finite K]
     (hJp : ⁅J, J⁆ = J) (hJ1 : J ≠ ⊥)
     (hirr : ∀ N₁ N₂ : Subgroup J, N₁.Normal → N₂.Normal → N₁ ⊔ N₂ = ⊤ → N₁ = ⊤ ∨ N₂ = ⊤) :
     Nonempty (J ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hes : Function.Surjective e.toMonoidHom := by
     rw [MulEquiv.coe_toMonoidHom]
     exact e.surjective
@@ -193,10 +193,10 @@ theorem nonempty_mulEquiv_alt5_of_altTen {K : Type} [Group K] [Finite K]
     { carrier := {k | ∀ x, (e k : Perm (Fin 10)) x ∈ B ↔ x ∈ B}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb x => by
-        simp only [Set.mem_setOf_eq, map_mul, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, map_mul, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
         rw [ha, hb]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq, map_inv, Subgroup.coe_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, map_inv, Subgroup.coe_inv] at ha ⊢
         exact inv_pres ha } with hSt
   have hJSt : J ≤ St := by
     rw [← hJp, commutator_le]
@@ -244,9 +244,9 @@ theorem nonempty_mulEquiv_alt5_of_altTen {K : Type} [Group K] [Finite K]
     apply e.injective
     apply Subtype.ext
     simpa [hρ] using hρ1
-  haveI : Group.IsPerfect J :=
+  have : Group.IsPerfect J :=
     (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
   exact nonempty_mulEquiv_alt5_of_two_perm
     (inferInstance : Group.IsPerfect J).commutator_eq_top ρ₁ ρ₂ hker hirr
 

@@ -25,7 +25,7 @@ theorem layerU3_not_normal
   let eΛ : ↥(layerU3 H) ≃* N :=
     ((QuotientGroup.quotientMulEquivOfEq hO).trans QuotientGroup.quotientBot).symm.trans eN
   obtain ⟨hNs, -⟩ := CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.u33_isSimpleGroup hmodel
-  haveI : IsSimpleGroup ↥(layerU3 H) := eΛ.isSimpleGroup
+  have : IsSimpleGroup ↥(layerU3 H) := eΛ.isSimpleGroup
   have hFle : genFittingFStar T ≤ layerU3 H := CaseIAmbient.fstar_le_of_normal hN hΛ1
   have hFeq : genFittingFStar T = layerU3 H := by
     have hFn : ((genFittingFStar T).subgroupOf (layerU3 H)).Normal :=
@@ -38,8 +38,8 @@ theorem layerU3_not_normal
     · exact le_antisymm hFle (Subgroup.subgroupOf_eq_top.mp h)
   obtain ⟨eQ⟩ := CFSG.GH74.KGroups.U33.equiv_of_lieModel hmodel
   let eF : ↥(genFittingFStar T) ≃* _ := (MulEquiv.subgroupCongr hFeq).trans (eΛ.trans eQ)
-  haveI := CFSG.GH74.KGroups.U33.finite_mulAut eF
-  haveI : (genFittingFStar T).Normal := CFSG.ClassicalInvolution.genFittingFStar_normal T
+  have := CFSG.GH74.KGroups.U33.finite_mulAut eF
+  have : (genFittingFStar T).Normal := CFSG.ClassicalInvolution.genFittingFStar_normal T
   have hT : Nat.card T ≤ 12096 := by
     rw [← CFSG.GH74.KGroups.U33.card_mulAut eF]
     refine Nat.card_le_card_of_injective (MulAut.conjNormal (H := genFittingFStar T)) ?_

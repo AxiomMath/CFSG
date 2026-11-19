@@ -25,6 +25,7 @@ theorem exists_scalar_tau (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {τ
   exact ⟨⟨GeneralLinearGroup.scalar (Fin 3) τu, scalar_mem_slPi_of_cube hK hq hτu3⟩,
     by rw [coe_scalar_eq_smul, hτu, Units.val_mk0]⟩
 
+omit hLn in
 theorem inf_centralizer_eq_zpowers (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     (e : L ≃* slPi π 3 (p ^ f) K) {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1)
     {t : slPi π 3 (p ^ f) K}

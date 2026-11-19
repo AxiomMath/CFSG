@@ -227,7 +227,7 @@ theorem innerPlaneBalance_adjointF4_of_dvd_add_one_of_negBalance {p : ℕ} (hp :
   have : NeZero (((Nat.card K + 1 : ℕ)) : L) := ⟨by
     rw [Nat.cast_add, hK0, zero_add, Nat.cast_one]
     exact one_ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (Nat.card K + 1)
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (Nat.card K + 1)
   set ζu : Lˣ := (hζ.isUnit (by omega)).unit with hζu
   have hζu' : IsPrimitiveRoot ζu (Nat.card K + 1) :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)
@@ -416,7 +416,7 @@ theorem isLocallyBalancedAbs_two_of_plane_witness {p : ℕ} {S : Type*} [Group S
 
 theorem mem_of_abelian_of_card_sq {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {P E : Subgroup G} (hEP : E ≤ P) (hP : Nat.card P = p ^ 3) (hE : Nat.card E = p ^ 2)
-    {z : G} (hzP : z ∈ P) (hzo : orderOf z = p) (hzc : ∀ g ∈ P, g * z = z * g)
+    {z : G} (hzP : z ∈ P) (_hzo : orderOf z = p) (hzc : ∀ g ∈ P, g * z = z * g)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hnc : ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a) :
     z ∈ E := by
   by_contra hzE
@@ -542,7 +542,7 @@ noncomputable def autOfMem (h : AutModel P R) (x : M) (hx : x ∈ R) : MulAut P 
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
 theorem hom_autOfMem (h : AutModel P R) {x : M} (hx : x ∈ R) : h.hom (autOfMem h x hx) = x :=
-  h.elt_eq hx fun p => rfl
+  h.elt_eq hx fun _p => rfl
 
 end AutModelBalance
 
@@ -748,7 +748,6 @@ theorem sporadicTwoPairHolds_He_seven (hB : SporadicBridges) (hOut : SporadicOut
     rw [hQeq]
     exact Iff.rfl
   have hQc : Nat.card Q = 7 ^ 3 := by
-    change Nat.card (Q : Subgroup ↥heP) = _
     rw [hQeq, show (7 : ℕ) ^ 3 = 343 by norm_num, ← hA0card]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA0P).toEquiv
   refine exists_plane_witness_of_sylow_card_cube' (G := ↥heP) (p := 7) (by norm_num) Q hQc

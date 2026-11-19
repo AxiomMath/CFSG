@@ -44,18 +44,18 @@ private theorem f112sl_relIndex_sup_eq_relIndex_inf {G : Type*} [Group G] {N B :
 
 theorem f112slP2_V_relIndex_X2_odd_of_hyp111R {L1 L2 S : Subgroup H}
     {n : ℕ} (hF : F112Hyp L1 L2 S) (hR : Hyp111R L1 L2 S)
-    (h2 : IsL2Quot n (oTwoQuot ↥L2)) :
+    (_h2 : IsL2Quot n (oTwoQuot ↥L2)) :
     Odd ((f112saP2_V L2 S).relIndex (f112saX2 L1 L2 S)) := by
-  haveI hN : ((f112saP2_V L2 S).subgroupOf (f112saX2 L1 L2 S)).Normal :=
+  have hN : ((f112saP2_V L2 S).subgroupOf (f112saX2 L1 L2 S)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (f112saX2_le_normalizer_V_of_hyp111R hF hR)
   refine f112sa_odd_relIndex_of_two_elements_mem
     (le_inf (f112saP2_V_le_M L2 S)
       (fun _ hx => (le_sup_right : S ≤ bigB L1 L2 S) hx.1.1)) ?_
   intro x hz
   have hzH : IsPGroup 2 (Subgroup.zpowers (x : H)) := by
-    have h2 := hz.map (Subgroup.subtype (f112saX2 L1 L2 S))
+    have _h2 := hz.map (Subgroup.subtype (f112saX2 L1 L2 S))
     have hEq := MonoidHom.map_zpowers (Subgroup.subtype (f112saX2 L1 L2 S)) x
-    rwa [hEq] at h2
+    rwa [hEq] at _h2
   exact f112saP2_le_V_of_isPGroup_of_hyp111R hF hR hzH
     (Subgroup.zpowers_le.mpr x.2) (Subgroup.mem_zpowers (x : H))
 
@@ -158,7 +158,7 @@ theorem f112sl_twoElement_Ealpha_mem_LQ {L1 L2 S : Subgroup H}
   have hX2LQnorm : X2 ≤ Subgroup.normalizer ((X2 ⊓ LQH : Subgroup H) : Set H) :=
     (le_inf Subgroup.le_normalizer hX2normLQH).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := X2) (K := LQH))
-  haveI hN : ((X2 ⊓ LQH).subgroupOf X2).Normal :=
+  have hN : ((X2 ⊓ LQH).subgroupOf X2).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hX2LQnorm
   let πX : ↥X2 →* ↥X2 ⧸ (X2 ⊓ LQH).subgroupOf X2 :=
     QuotientGroup.mk' ((X2 ⊓ LQH).subgroupOf X2)
@@ -244,7 +244,7 @@ theorem f112sl_finite_Nalpha_of_hyp111R {L1 L2 S : Subgroup H}
   let e := Subgroup.equivMapOfInjective
     ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S))
     (f112Gold L1 L2 S).ofA (f112Gold L1 L2 S).ofA_injective
-  haveI : Finite ↥((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)) := Subtype.finite
+  have : Finite ↥((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)) := Subtype.finite
   exact Finite.of_equiv _ e.toEquiv
 
 theorem f112sl_odd_relIndex_Halpha_Nalpha
@@ -254,8 +254,8 @@ theorem f112sl_odd_relIndex_Halpha_Nalpha
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 1) (n := n) (by norm_num) (by omega) hF.1
       (isL2Quot_of_VS3 h1) h2
-  haveI : Finite ↥(f112saNalpha L1 L2 S) := f112sl_finite_Nalpha_of_hyp111R hF hR
-  haveI : ((f112saHalpha L1 L2 S).subgroupOf (f112saNalpha L1 L2 S)).Normal :=
+  have : Finite ↥(f112saNalpha L1 L2 S) := f112sl_finite_Nalpha_of_hyp111R hF hR
+  have : ((f112saHalpha L1 L2 S).subgroupOf (f112saNalpha L1 L2 S)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (f112saNalpha_le_normalizer_Halpha hF)
   refine f112sa_odd_relIndex_of_two_elements_mem (f112saHalpha_le_Nalpha L1 L2 S) ?_
   intro x hx
@@ -453,7 +453,7 @@ theorem f112sl_finite_Ebeta_of_hyp111R {L1 L2 S : Subgroup H}
   let e := Subgroup.equivMapOfInjective
     ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S))
     (f112Gold L1 L2 S).ofB (f112Gold L1 L2 S).ofB_injective
-  haveI : Finite ↥((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)) := Subtype.finite
+  have : Finite ↥((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)) := Subtype.finite
   exact Finite.of_equiv _ e.toEquiv
 
 theorem f112sl_charTwo_Ebeta {L1 L2 S : Subgroup H}
@@ -492,7 +492,7 @@ theorem f112sl_charTwo_BigW {L1 L2 S : Subgroup H}
   let T := f112saBigT L1 L2 S
   let W := f112saBigW L1 L2 S
   have hWEβ : W ≤ Eβ := f112slBigW_le_Ebeta hF h1 hn h2
-  haveI : Finite ↥Eβ := f112sl_finite_Ebeta_of_hyp111R hF hR
+  have : Finite ↥Eβ := f112sl_finite_Ebeta_of_hyp111R hF hR
   have hcharTop : CharTwo (⊤ : Subgroup ↥Eβ) :=
     f112_charTwo_top (f112sl_charTwo_Ebeta hF h1 hn h2)
   have hTEβ : IsSylowTwoOf T Eβ := f112slBigT_isSylowTwoOf_Ebeta hF h1 hn h2 hbad
@@ -526,7 +526,7 @@ theorem f112slBigT_isSylowTwoOf_BigW
     (inf_le_right : Eβ ≤ X.ofB.range).trans (f112saUbeta_le_normalizer_MB hF h1)
   have hTnorm : T ≤ Subgroup.normalizer (MB : Set X.Universal) :=
     (f112slBigT_le_Ebeta hF h1 hn h2).trans hEβnorm
-  haveI : Finite ↥Eβ := f112sl_finite_Ebeta_of_hyp111R hF hR
+  have : Finite ↥Eβ := f112sl_finite_Ebeta_of_hyp111R hF hR
   have hT'syl : IsSylowTwoOf (T.subgroupOf Eβ) (⊤ : Subgroup ↥Eβ) := by
     refine CFSG.Quasithin.F7.isSylowTwoOf_of_relIndex le_top ?_ ?_
     · exact hTEβ.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hTEβ.1).symm
@@ -562,8 +562,8 @@ theorem f112slBigT_isSylowTwoOf_BigW
     rwa [hinf, hrel] at hodd
   have hidx : T.relIndex (f112saBigW L1 L2 S) = (T ⊓ MB).relIndex MB := by
     change T.relIndex (MB ⊔ T) = (T ⊓ MB).relIndex MB
-    haveI : Finite ↥(T.subgroupOf Eβ) := Subtype.finite
-    haveI : Finite ↥T :=
+    have : Finite ↥(T.subgroupOf Eβ) := Subtype.finite
+    have : Finite ↥T :=
       Finite.of_injective (fun x : ↥T =>
         (Subgroup.subgroupOfEquivOfLe hTEβ.1).symm x)
         (Subgroup.subgroupOfEquivOfLe hTEβ.1).symm.injective
@@ -694,7 +694,7 @@ theorem f112slBigW_quot_inf_Q2B {L1 L2 S : Subgroup H}
     exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L
   have hLnorm : W ⊔ Q ≤ Subgroup.normalizer (Q : Set (f112Gold L1 L2 S).Universal) :=
     sup_le hQnorm Subgroup.le_normalizer
-  haveI : (Q.subgroupOf (W ⊔ Q)).Normal :=
+  have : (Q.subgroupOf (W ⊔ Q)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLnorm
   let e1 := QuotientGroup.quotientInfEquivProdNormalizerQuotient W Q hQnorm
   have e2 : ↥(W ⊔ Q) ⧸ Q.subgroupOf (W ⊔ Q) ≃* oTwoQuot ↥(W ⊔ Q) :=
@@ -723,11 +723,11 @@ theorem f112slBigW_pCoreOf {L1 L2 S : Subgroup H}
     simp [N]
   have hNQ : (Q.subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQnorm
-  haveI := hNQ
+  have := hNQ
   have hNnorm : (N.subgroupOf W).Normal := by
     rw [hsub]
     exact hNQ
-  haveI := hNnorm
+  have := hNnorm
   have hNle : N ≤ pCoreOf 2 W :=
     CFSG.LieType.BorelTits.le_pCoreOf (r := 2) inf_le_left hNnorm
       (f112saQ2B_isPGroup.to_le inf_le_right)
@@ -782,12 +782,12 @@ theorem f112slBigW_quot_L2 {L1 L2 S : Subgroup H}
     exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (f112saBigL L1 L2 S)
   have hNQ : (Q.subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQnorm
-  haveI := hNQ
+  have := hNQ
   obtain ⟨eW⟩ := f112slBigW_quot_inf_Q2B hF h1 hn h2
   have hsub : N.subgroupOf W = Q.subgroupOf W := by
     ext x
     simp [N]
-  haveI hN : (N.subgroupOf W).Normal := by
+  have hN : (N.subgroupOf W).Normal := by
     rw [hsub]
     exact hNQ
   have hWQ : W ⊔ Q = f112saBigL L1 L2 S := f112slBigW_sup_Q2B_eq_BigL hF h1 hn h2
@@ -876,7 +876,7 @@ theorem f112sl_orderThree_trans {L1 L2 S : Subgroup H}
     hyp111R_of_isL2Quot (m := 1) (n := n) (by norm_num) (by omega) hF.1
       (isL2Quot_of_VS3 h1) h2
   let X := f112Gold L1 L2 S
-  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
   let y' : ↥(f112P1 L1 L2 S) := ⟨y, Subgroup.mem_sup_left hyL⟩
   have hy'3 : orderOf y' = 3 := by
     rw [Subgroup.orderOf_mk]
@@ -891,7 +891,7 @@ theorem f112sl_orderThree_trans {L1 L2 S : Subgroup H}
   have hxT : x ∈ Subgroup.normalizer (f112saBigT L1 L2 S : Set X.Universal) :=
     f112saBigT_le_normalizer_Halpha hF hxH
   have hxfix : x • baseA X = baseA X := MulAction.mem_stabilizer_iff.mp hxα
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hxtr : ∀ a b : Vtx X, X.treeGraph.Adj (baseA X) a →
       X.treeGraph.Adj (baseA X) b → ∃ k : ℤ, x ^ k • a = b := by
     intro a b ha hb

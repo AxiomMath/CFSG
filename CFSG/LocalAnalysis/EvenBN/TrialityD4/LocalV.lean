@@ -399,7 +399,7 @@ theorem normalizer_tV_le_normalizer_D (h : Setup G L f t) (d : TrialityD4Data L 
   have hP2 : IsPGroup 2 P := by
     have h2 : IsPGroup 2 d.D := by
       obtain ⟨P₀, hP₀⟩ := d.exists_sylow_eq_S
-      exact (hP₀ ▸ P₀.isPGroup').to_le d.D_le_S
+      exact (hP₀ ▸ P₀.isPGroup).to_le d.D_le_S
     exact (h2.map _).map _
   have hn : (d.D ⊔ d.leviShort).map L.subtype ≤ normalizer (P : Set G) := by
     intro s hs

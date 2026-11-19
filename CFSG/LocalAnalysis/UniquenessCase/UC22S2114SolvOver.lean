@@ -47,7 +47,7 @@ theorem uc22s2114_map_eq_of_solvable {L X : Subgroup G} (hX : Group.IsSolvable �
     Q.mapSurjective (QuotientGroup.mk'_surjective (CFSG.solvableRadical ↥L))
   have hP : IsPGroup 2
       ↥(((Q : Subgroup ↥L).map (piInf L)).map (rhoInf L ⟨b, hbL⟩).toMonoidHom) :=
-    (Q.isPGroup'.map _).map _
+    (Q.isPGroup.map _).map _
   have hle : ((Q : Subgroup ↥L).map (piInf L)).map (rhoInf L ⟨b, hbL⟩).toMonoidHom ≤
       (Q : Subgroup ↥L).map (piInf L) :=
     calc _ = _ ⊓ normalizer (S : Set (BarInf L)) := (inf_eq_left.2 (hPW.trans hWN)).symm

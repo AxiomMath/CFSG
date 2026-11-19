@@ -131,19 +131,19 @@ theorem SG.exists_sl2_sp_two {F : Type} [Field F] [CharP F 2] {M : Matrix (Fin 2
     simp only [mul_one, one_mul, hM3, hM3', hMM, hMM', CharTwo.add_self_eq_zero]
   have hB1 : dag (pM M) * !![jTwo, 0; 0, jTwo] * pM M = !![0, jTwo; jTwo, 0] := by
     rw [pM, dag_fin_two, mul_fin_two, mul_fin_two]
-    simp only [transpose_one, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add, hJ1, hJ2,
+    simp only [transpose_one, mul_one, one_mul, mul_zero, add_zero, zero_add, hJ1, hJ2,
       mul_assoc, hM3, CharTwo.add_self_eq_zero, ← mul_add, hMM, hMM']
   have hB3 : dag (pI M) * !![0, jTwo; jTwo, 0] * pI M = !![jTwo, 0; 0, jTwo] := by
     rw [pI, dag_fin_two, mul_fin_two, mul_fin_two]
-    simp only [transpose_one, mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add, hJ1, hJ2,
-      mul_assoc, hM3, CharTwo.add_self_eq_zero, ← mul_add, hMM, hMM']
+    simp only [transpose_one, mul_one, one_mul, mul_zero, add_zero, zero_add, hJ1, hJ2,
+      CharTwo.add_self_eq_zero, ← mul_add, hMM, hMM']
   have hB2 : ∀ t : SL(2, F), dag (dT t) * !![0, jTwo; jTwo, 0] * dT t = !![0, jTwo; jTwo, 0] := by
     intro t
     have ht := t.det_coe
     rw [det_fin_two] at ht
     have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
     rw [dT_eq, dag_fin_two, mul_fin_two, mul_fin_two]
-    simp only [sc_transpose, mul_zero, zero_mul, add_zero, zero_add, sc_mul_jTwo_mul, ← add_mul,
+    simp only [sc_transpose, mul_zero, add_zero, zero_add, sc_mul_jTwo_mul, ← add_mul,
       ← map_add]
     rw [show t 1 0 * t 0 0 + t 0 0 * t 1 0 = 0 by linear_combination t 0 0 * t 1 0 * h2,
       show t 1 0 * t 0 1 + t 0 0 * t 1 1 = 1 by linear_combination ht + t 0 1 * t 1 0 * h2,

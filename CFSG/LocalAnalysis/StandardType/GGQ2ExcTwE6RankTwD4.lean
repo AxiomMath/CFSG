@@ -32,12 +32,12 @@ theorem exists_fixed_singular_of_three {K : Type} [Field K] [Finite K] [CharP K 
     (hE : IsPGroup 3 ↥E) :
     ∃ u : V, u ≠ 0 ∧ Q u = 0 ∧ ∀ g ∈ E, (g : V ≃ₗ[K] V) u = u := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ∀ g : ↥E, ((g : ↥(orthDerived Q)) : V ≃ₗ[K] V) ∈
       TauCeti.QuadraticMap.orthogonalGroup Q := fun g =>
     CFSG.RankThree.Classical.orthDerived_le_orthogonalGroup Q (g : ↥(orthDerived Q)).2
-  letI : MulAction ↥E {v : V // Q v = 0} :=
+  let : MulAction ↥E {v : V // Q v = 0} :=
     { smul := fun g v => ⟨(g : V ≃ₗ[K] V) v.1, by
         rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp (hO g)]
         exact v.2⟩
@@ -132,7 +132,7 @@ theorem exists_anisotropic_mem_perp {K : Type} [Field K] {V : Type} [AddCommGrou
     refine h2.trans ?_
     simpa using (Finset.card_le_two (a := P.e) (b := P.f))
   have hpos : 0 < Module.finrank K P.perp := by omega
-  haveI : Nontrivial P.perp := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial P.perp := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨z, hz0⟩ := exists_ne (0 : P.perp)
   have hzmem : (z : V) ∈ P.perp := z.2
   have hzne : (z : V) ≠ 0 := fun h => hz0 (Subtype.ext h)
@@ -219,10 +219,10 @@ theorem excTwE6_twD4_twoSub
       exact ⟨h2, le_rfl, Or.inr ⟨rfl, h3⟩⟩
     exact ⟨⟨hnf, rfl⟩, hN, hI⟩
   obtain ⟨K, i1, i2, rest⟩ := ggQ2OrthNonFull_extract_minus hNF
-  letI : Field K := i1
-  letI : Finite K := i2
+  let : Field K := i1
+  let : Finite K := i2
   obtain ⟨hK, m, hm4, hmeven, b, c, hbc, θ, hN, hcomm, hBsI0⟩ := rest
-  letI : CharP K 2 :=
+  let : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (K := K) (f := 1)
       (by rw [hK, pow_one])
   let Q : QuadraticForm K (LargeEvenMinusIdx (m - 1) → K) := TableBOrth.qMinusForm K (m - 1) b c
@@ -256,7 +256,7 @@ theorem excTwE6_twD4_twoSub
     rw [h0, zero_smul] at ha
     exact hQx (by rw [ha]; exact QuadraticMap.map_zero Q)
   set U : Subgroup ↥(orthDerived Q) := (rootGroup Q v).comap (orthDerived Q).subtype with hU
-  haveI hU2 : IsPGroup 2 U := hU ▸ (rootGroup_isPGroup_two (Q := Q) v).comap_subtype
+  have hU2 : IsPGroup 2 U := hU ▸ (rootGroup_isPGroup_two (Q := Q) v).comap_subtype
   have hxu : (⟨eichler Q v x, hxmem⟩ : ↥(orthDerived Q)) ∈ U :=
     hU ▸ Subgroup.mem_comap.mpr (mem_rootGroup.mpr ⟨x, hxperp, rfl⟩)
   have hu₀ne : (⟨eichler Q v x, hxmem⟩ : ↥(orthDerived Q)) ≠ 1 := by
@@ -295,7 +295,7 @@ theorem excTwE6_twD4_twoSub
       rw [map_pow, hUexp (ψ (z : ↥L)) hz]
     rw [← hψker]
     exact MonoidHom.mem_ker.mpr h1
-  haveI hquotnil : IsPGroup 2 (↥P₀ ⧸ Subgroup.center ↥P₀) := by
+  have hquotnil : IsPGroup 2 (↥P₀ ⧸ Subgroup.center ↥P₀) := by
     intro y
     obtain ⟨z, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥P₀) y
     refine ⟨1, ?_⟩
@@ -304,7 +304,7 @@ theorem excTwE6_twD4_twoSub
     refine Subtype.ext ?_
     show (w : ↥L) * ((z : ↥P₀) : ↥L) ^ 2 = ((z : ↥P₀) : ↥L) ^ 2 * (w : ↥L)
     exact Subgroup.mem_center_iff.mp (hP₀exp z) (w : ↥P₀)
-  haveI hnil : Group.IsNilpotent ↥P₀ :=
+  have hnil : Group.IsNilpotent ↥P₀ :=
     Group.of_quotient_center_nilpotent (IsPGroup.isNilpotent (p := 2) hquotnil)
   have hact : ∀ bb : ↥Bs, ∃ e ∈ E, ∀ y : ↥L, ψ (ggGamma L hN bb y) = e * ψ y * e⁻¹ := by
     intro bb
@@ -338,7 +338,7 @@ theorem excTwE6_twD4_twoSub
     rw [hl]
     exact u.2
   set Sp : Sylow 2 ↥P₀ := Sylow.nonempty.some with hSp
-  haveI hSpNormal : ((Sp : Subgroup ↥P₀)).Normal := inferInstance
+  have hSpNormal : ((Sp : Subgroup ↥P₀)).Normal := inferInstance
   have hUtope : IsPGroup 2 (⊤ : Subgroup U) :=
     hU2.of_equiv (Subgroup.topEquiv (G := U)).symm
   have hStope : ((Sp.mapSurjective hφsurj : Sylow 2 U) : Subgroup U) = ⊤ :=
@@ -349,7 +349,7 @@ theorem excTwE6_twD4_twoSub
   have hSpchar : ((Sp : Subgroup ↥P₀)).Characteristic :=
     Sylow.characteristic_of_normal Sp hSpNormal
   refine ⟨((Sp : Subgroup ↥P₀).map P₀.subtype).map L.subtype, ?_, ?_, ?_, ?_⟩
-  · exact (Sp.isPGroup'.map P₀.subtype).map L.subtype
+  · exact (Sp.isPGroup.map P₀.subtype).map L.subtype
   · rintro _ ⟨y, hy, rfl⟩
     exact y.2
   · intro b hb

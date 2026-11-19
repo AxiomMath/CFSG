@@ -15,6 +15,7 @@ section TData
 
 variable {t : G} {E T T1 T2 V1 V2 F1 F2 : Subgroup G}
 
+omit [Finite G] in
 private lemma local_mem_sup_of_le_normalizer {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G)) {x : G} :
     x ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, a * b = x := by
@@ -35,10 +36,11 @@ private lemma local_mem_sup_of_le_normalizer {H K : Subgroup G}
             by group⟩ }
     have hHP : H ≤ P := fun a ha => ⟨a, ha, 1, K.one_mem, by simp⟩
     have hKP : K ≤ P := fun b hb => ⟨1, H.one_mem, b, hb, by simp⟩
-    exact SetLike.le_def.mp (sup_le hHP hKP) hx
+    exact _root_.IsConcreteLE.le_iff.mp (sup_le hHP hKP) hx
   · rintro ⟨a, ha, b, hb, rfl⟩
     exact Subgroup.mul_mem_sup ha hb
 
+omit [Finite G] in
 private lemma local_isElemAbelian_of_le {E H : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian 2 E) (hH : H ≤ E) : CFSG.Open.IsElemAbelian 2 H := by
   refine ⟨?_, ?_⟩

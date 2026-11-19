@@ -244,10 +244,10 @@ theorem e7_frameDatum_three (K : Type) [Field K] [Finite K]
         y ∈ e7FrameGroup K := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]
@@ -314,8 +314,8 @@ theorem conj_mem_map_adjointGroup_of_fixed {K L : Type} [Field K] [Finite K] [Fi
     refine sup_le hHle (Subgroup.closure_le _ |>.2 ?_)
     rintro _ rfl
     exact hhG
-  haveI : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
-  haveI : Finite X := Finite.of_injective
+  have : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
+  have : Finite X := Finite.of_injective
     (fun x : X => (⟨x.1, hXFix x.2⟩ : fixedSubE7 (L := L) ℓ f))
     (by intro x y hxy; have h := congrArg Subtype.val hxy; exact Subtype.ext h)
   have hXF : ∀ x ∈ X, Units.map (entrywiseHom (iterateFrobenius L ℓ f)) x = x :=
@@ -328,7 +328,7 @@ theorem conj_mem_map_adjointGroup_of_fixed {K L : Type} [Field K] [Finite K] [Fi
   · have hXH : X ≤ H := (Subgroup.relIndex_eq_one).1 h1
     exact H.mul_mem (H.mul_mem (hXH hhX) hy) (H.inv_mem (hXH hhX))
   · have h2 : (H.subgroupOf X).index = 2 := h1
-    haveI : (H.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two h2
+    have : (H.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two h2
     have hyH : (⟨y, hyX⟩ : X) ∈ H.subgroupOf X := Subgroup.mem_subgroupOf.2 hy
     have hc := (inferInstance : (H.subgroupOf X).Normal).conj_mem _ hyH ⟨h, hhX⟩
     exact Subgroup.mem_subgroupOf.1 hc
@@ -369,10 +369,10 @@ theorem e7_exists_mulEquiv_le_frame_of_neg {K : Type} [Field K] [Finite K]
       E₀.map φ.toMonoidHom ≤ e7FrameGroup K := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [D.hFr, iterateFrobenius_def, hq]
@@ -424,7 +424,7 @@ theorem hyperGen_prod_of_disjoint {A B : Type*} [Group A] [Group B] (hp : p.Prim
     {E : Subgroup (A × B)} (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3)
     (hdis : Disjoint E (MonoidHom.snd A B).ker) : HyperGen p ⊤ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE₁ : IsElemAbelian p (E.map (MonoidHom.fst A B)) :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hE _
   have hE₂ : IsElemAbelian p (E.map (MonoidHom.snd A B)) :=
@@ -473,7 +473,7 @@ theorem range_le_hyperClosure_of_hom_of_disjoint {X : Type*} [Group X] [Finite X
     (hEa : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3) (hEN : Disjoint E (N.map Ψ)) :
     Ψ.range ≤ hyperClosure p ⊤ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Ψ' : X →* Ψ.range := Ψ.rangeRestrict with hΨ'
   have hΨ'surj : Function.Surjective Ψ' := Ψ.rangeRestrict_surjective
   have hΨ'ker : Ψ'.ker = Ψ.ker := Ψ.ker_rangeRestrict
@@ -773,7 +773,7 @@ theorem false_of_four_frameR {K : Type} [Field K] {E : Subgroup (adjointGroup .E
       ⟨x, rfl⟩
     rw [Subgroup.noncommPiCoprod_range] at hmem
     exact (iSup_le fun k => (inf_le_left : A k ≤ E)) hmem
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
   have hle : Nat.card (∀ k, A k) ≤ Nat.card E :=
     Nat.card_le_card_of_injective (fun x => (⟨_, hrange x⟩ : E))
       (fun x y hxy => hinj (congrArg Subtype.val hxy))

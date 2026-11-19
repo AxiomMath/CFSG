@@ -164,7 +164,7 @@ theorem centralizer_le_of_sylow (hD1 : TheoremD1 G) (K1 : StronglyEmbeddedRankTw
     rw [hTR]
     exact Subgroup.mem_subgroupOf.mpr hc.u_mem_R
   have hTO : (T : Subgroup Y) ⊓ O = ⊥ :=
-    CFSG.AGLEmbedding.inf_eq_bot_of_isPGroup hprime T.isPGroup' hO
+    CFSG.AGLEmbedding.inf_eq_bot_of_isPGroup hprime T.isPGroup hO
   have hNR : NoncentralReduced p (Y ⧸ O) Tbar (((Y ⊓ M).subgroupOf Y).map π) (BY.map π) (π uY) := by
     refine ⟨hred, (catalogSimpleSections_of_isKProper hc.setting.kProper Y
       hc.centralizer_ne_top).quotient O, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩

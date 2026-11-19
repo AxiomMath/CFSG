@@ -76,7 +76,7 @@ theorem exists_ne_one_commute_sylow {X : Type*} [Group X] [Finite X] (hX : Even 
   obtain ⟨U⟩ := (inferInstance : Nonempty (Sylow 2 X))
   have hne : (U : Subgroup X) ≠ ⊥ := U.ne_bot_of_dvd_card (even_iff_two_dvd.mp hX)
   have : Nontrivial (U : Subgroup X) := ((U : Subgroup X).nontrivial_iff_ne_bot).mpr hne
-  have := U.isPGroup'.center_nontrivial
+  have := U.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center (U : Subgroup X))
   refine ⟨U, ((z : U) : X), fun h => hz1 (Subtype.ext (Subtype.ext h)), fun u hu => ?_⟩
   have h := Subgroup.mem_center_iff.mp z.2 ⟨u, hu⟩

@@ -48,7 +48,7 @@ theorem exists_qTorus (hT : OmTorusThree) (hn : Nat.card F = 2 ^ n)
       exact hz
     · intro hy
       exact ⟨⟨y, hTle hy⟩, hy, rfl⟩
-  haveI : IsMulCommutative ↥T := hTe.1
+  have : IsMulCommutative ↥T := hTe.1
   have hTΩe : IsElemAbelian q TΩ := by
     refine ⟨⟨⟨?_⟩⟩, ?_⟩
     · intro a b
@@ -101,7 +101,8 @@ theorem exists_qTorus (hT : OmTorusThree) (hn : Nat.card F = 2 ^ n)
     hFKle.trans Subgroup.le_normalizer
   exact ⟨FK, hFKe, hF3, hFcent, hFJN⟩
 
-theorem exists_restriction_fixed (hp : p.Prime) (hpF : (p : F) ≠ 0)
+omit [Finite F] [CharP F 2] in
+theorem exists_restriction_fixed (_hp : p.Prime) (hpF : (p : F) ≠ 0)
     {xD xE : V ≃ₗ[F] V} (hxodd : OddOrderIsometry Q p xD)
     (hxEpow : xE ^ p = 1)
     (hxEsupp : xE ∈ supportedBlock Q xD (X - 1)) :
@@ -137,7 +138,8 @@ theorem exists_restriction_fixed (hp : p.Prime) (hpF : (p : F) ≠ 0)
   exact ⟨xE', hxE'coe, hxE'odd⟩
 
 
-theorem exists_restriction_third_block (hp : p.Prime) (hpF : (p : F) ≠ 0)
+omit [Finite F] [CharP F 2] in
+theorem exists_restriction_third_block (_hp : p.Prime) (hpF : (p : F) ≠ 0)
     {xD xE xG : V ≃ₗ[F] V} {xE' : ↥(fixedSpace xD) ≃ₗ[F] ↥(fixedSpace xD)}
     (hxE'coe : ∀ z : ↥(fixedSpace xD), ((xE' z : ↥(fixedSpace xD)) : V) = xE (z : V))
     (hxE'odd : OddOrderIsometry (Q.comp (fixedSpace xD).subtype) p xE')
@@ -252,6 +254,7 @@ theorem exists_restriction_third_block (hp : p.Prime) (hpF : (p : F) ≠ 0)
   refine ⟨xGW, hxGWcoe, xGZ, hxGZcoe, ?_⟩
   exact hxGZ
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem map_fixedSpace_eq_common_fixed [Fintype ↥(orthImage Ã)]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hAe : IsElemAbelian p (orthImage Ã))
     (t : Hyperplane (orthImage Ã) p → ↥(orthImage Ã)) (ht : ∀ D, t D ∉ D.1)

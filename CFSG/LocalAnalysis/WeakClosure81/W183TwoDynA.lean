@@ -38,7 +38,7 @@ theorem exists_autAction {G : Type} [Group G] [Finite G] {K H L : Subgroup G}
       map_mul' := by
         intro a b
         ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group }
   have hcAut_apply : ∀ (n : ↥(H ⊓ Subgroup.normalizer (L : Set G))) (l : ↥L),
       (cAut n l : G) = (n : G) * (l : G) * (n : G)⁻¹ := fun n l => rfl
@@ -89,7 +89,7 @@ theorem exists_autAction {G : Type} [Group G] [Finite G] {K H L : Subgroup G}
         congr 1
         apply Subtype.ext
         rw [hcAut_apply, hcAut_apply, hcAut_apply]
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group }
   let ψ : ↥L ⧸ φ.ker ≃* X := QuotientGroup.quotientKerEquivOfSurjective φ hφs
   have hψ_mk : ∀ l : ↥L, ψ (QuotientGroup.mk l) = φ l := by
@@ -132,7 +132,7 @@ theorem exists_autAction {G : Type} [Group G] [Finite G] {K H L : Subgroup G}
     apply congrArg φ
     apply Subtype.ext
     rw [hcAut_apply, hcAut_apply, hcAut_apply]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
   · intro n l l' h
     change αFun n (φ l) = φ l'

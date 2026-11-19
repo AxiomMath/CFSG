@@ -42,7 +42,7 @@ theorem mem_wOf_of_centralizes_gen {v : G} (hv : v ∈ V)
     · exact Subgroup.mem_centralizer_iff.mpr fun w hw => (hvc w hw).symm
     · exact le_xOf (V_mem_omegaOf V H) hv
   have hvD : piBar V H ⟨v, hvH⟩ ∈ dbarOf V H :=
-    hc.barOf_V_subset_dbarOf (mem_barOf_iff.mpr ⟨⟨v, hvH⟩, hv, rfl⟩) hv1
+    CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf (mem_barOf_iff.mpr ⟨⟨v, hvH⟩, hv, rfl⟩) hv1
   obtain ⟨d₀, -, hcls⟩ := hc.dbarOf_isClass
   obtain ⟨x₁, -, hvx⟩ := (hcls _).1 hvD
   have hd₀C : d₀ ∈ barOf V H C := by
@@ -147,11 +147,11 @@ theorem exists_noncomm_conj (hd : Sec23Data V H) :
     ∃ g ∈ xOf V H, ∃ u ∈ V, ∃ w ∈ conjSubgroup g V, ⁅u, w⁆ ∉ wOf V H := by
   by_contra hcon
   push Not at hcon
-  obtain ⟨d, hdV, hdW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨d, hdV, hdW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   set dd : ↥H := ⟨d, hc.V_le_H hdV⟩
   have hd1 : piBar V H dd ≠ 1 := fun h => hdW ((piBar_eq_one_iff _).1 h)
   have hdV' : piBar V H dd ∈ barOf V H V := mem_barOf_iff.mpr ⟨dd, hdV, rfl⟩
-  have hdD : piBar V H dd ∈ dbarOf V H := hc.barOf_V_subset_dbarOf hdV' hd1
+  have hdD : piBar V H dd ∈ dbarOf V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hdV' hd1
   have hcomm : ∀ y ∈ dbarOf V H, piBar V H dd * y = y * piBar V H dd := by
     intro y hy
     obtain ⟨d₀, -, hcls⟩ := hc.dbarOf_isClass

@@ -19,7 +19,7 @@ theorem mem_mbarKer_iff {X : Type} [Group X] (M : Subgroup X) (x : ↥M) :
     (x : X) ∈ mbarKer M ↔ mbarMk M x = 1 := by
   show M.subtype x ∈ (goldschmidtOddCore ↥M).map M.subtype ↔ mbarMk M x = 1
   rw [Subgroup.mem_map_iff_mem M.subtype_injective]
-  simpa [mbarMk] using (QuotientGroup.eq_one_iff x).symm
+  simp [mbarMk]
 
 theorem mem_mbarPre_iff {X : Type} [Group X] (M : Subgroup X) (J : Subgroup (Mbar M))
     (x : ↥M) : (x : X) ∈ mbarPre M J ↔ mbarMk M x ∈ J := by
@@ -74,7 +74,7 @@ theorem mbarPre_quotient {X : Type} [Group X] (M : Subgroup X) [M.Normal]
   have hBM : mbarPre M J ≤ M := Subgroup.map_subtype_le (J.comap (mbarMk M))
   let ψ : ↥(mbarPre M J) →* Mbar M := (mbarMk M).comp (Subgroup.inclusion hBM)
   have hψmem : ∀ b : ↥(mbarPre M J), ψ b ∈ J := fun b =>
-    (mem_mbarPre_iff M J (Subgroup.inclusion hBM b)).1 (by simpa using b.2)
+    (mem_mbarPre_iff M J (Subgroup.inclusion hBM b)).1 (by simp)
   let φ : ↥(mbarPre M J) →* ↥J := ψ.codRestrict J hψmem
   have hφval : ∀ b : ↥(mbarPre M J),
       ((φ b : ↥J) : Mbar M) = mbarMk M (Subgroup.inclusion hBM b) := fun _ => rfl

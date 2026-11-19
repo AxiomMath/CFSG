@@ -93,7 +93,7 @@ theorem a2cube_exists_weyl_kernelRoots_eq {L : Type} [Field L] [IsAlgClosed L]
   rw [hker]
   congr 1
   ext γ
-  simp only [Set.mem_setOf_eq, dot_eq_dotμ, e0, e1, e2, e3, e4, e5, dotμ]
+  simp only [Set.mem_ofPred_eq, dot_eq_dotμ, e0, e1, e2, e3, e4, e5, dotμ]
   simp
 
 private theorem a2idxR_rootTorusSL2_eq {τ : Tag} {L : Type} [Field L] {β : Fin τ.rank → ℤ}
@@ -177,8 +177,8 @@ private theorem a2idxR_torusGroup_le {L : Type} [Field L] [IsAlgClosed L] :
       intro j
       rw [← a2idxR_NM j k, Finset.prod_zpow_eq_zpow_sum]
     rw [Finset.prod_congr rfl fun j _ => hcol j]
-    rw [Finset.prod_eq_single k (fun j _ hj => by rw [if_neg hj, zpow_zero])
-      (fun h => absurd (Finset.mem_univ k) h), if_pos rfl]
+    rw [Finset.prod_eq_single k (fun j _ hj => by rw [ite_eq_right hj, zpow_zero])
+      (fun h => absurd (Finset.mem_univ k) h), ite_eq_left rfl]
     rw [zpow_ofNat, hs k]
   have hmem : b ∈ (rootSpan Tag.E6 L {γ | IsRoot Tag.E6 γ ∧ (3 : ℤ) ∣ γ 3}).comap
       (rootDiagUnitHom Tag.E6 L) := by

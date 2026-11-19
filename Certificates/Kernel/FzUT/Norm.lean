@@ -314,7 +314,7 @@ theorem comm_rel (σ : MulAut FzUT) (h3 : ∀ x, σ (σ (σ x)) = x) :
     decide +kernel
   have h := congrArg UT3.c (congrArg σ e)
   rw [map_mul, map_mul, map_mul, sA0 σ h3, sB0 σ h3, sZ] at h
-  simp only [mul_a, mul_b, mul_c, mul_zero, zero_mul, add_zero, zero_add] at h
+  simp only [mul_a, mul_c, mul_zero, add_zero, zero_add] at h
   linear_combination h
 
 @[expose] def iA (x : F4c × F4c) : FzUT := ⟨x.1, 0, x.2⟩
@@ -399,9 +399,9 @@ theorem braid_A (σ : MulAut FzUT) (h3 : ∀ x, σ (σ (σ x)) = x) (hf : ∀ x,
 @[expose] def fzFrob : MulAut FzUT where
   toFun x := ⟨x.a * x.a, x.b * x.b, x.c * x.c⟩
   invFun x := ⟨x.a * x.a, x.b * x.b, x.c * x.c⟩
-  left_inv x := UT3.ext (f_sq4 _) (f_sq4 _) (f_sq4 _)
-  right_inv x := UT3.ext (f_sq4 _) (f_sq4 _) (f_sq4 _)
-  map_mul' x y := UT3.ext (f_frob_add _ _) (f_frob_add _ _) (f_frob3 _ _ _ _)
+  left_inv _x := UT3.ext (f_sq4 _) (f_sq4 _) (f_sq4 _)
+  right_inv _x := UT3.ext (f_sq4 _) (f_sq4 _) (f_sq4 _)
+  map_mul' _x _y := UT3.ext (f_frob_add _ _) (f_frob_add _ _) (f_frob3 _ _ _ _)
 
 theorem frob_frob (x : FzUT) : fzFrob (fzFrob x) = x :=
   UT3.ext (f_sq4 _) (f_sq4 _) (f_sq4 _)

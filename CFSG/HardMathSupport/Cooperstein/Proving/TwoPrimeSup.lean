@@ -35,7 +35,7 @@ theorem isTwoPrimeComponent_sup (hL : IsTwoPrimeComponent X L) (hSX : S ≤ X) (
     CFSG.Open.IsSubnormal.step le_sup_left hLn (CFSG.Open.IsSubnormal.refl _)
   have hbarTop : CFSG.Open.IsSubnormal (barM (L ⊔ S) L) ⊤ :=
     CFSG.Open.IsSubnormal.step le_top
-      (by haveI := hbarN; exact inferInstance) (CFSG.Open.IsSubnormal.refl _)
+      (by have := hbarN; exact inferInstance) (CFSG.Open.IsSubnormal.refl _)
   have hLY : L ≤ L ⊔ S := le_sup_left
   have hh : L ⊓ CFSG.Open.pCoreOf 2 X = L ⊓ CFSG.Open.pCoreOf 2 (L ⊔ S) :=
     hL.inf_twoCore.trans (inf_pCoreOf_sup hL hSX hS hSL).symm

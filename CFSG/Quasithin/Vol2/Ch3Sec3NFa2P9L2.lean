@@ -23,7 +23,7 @@ lemma p9Rot_one {F : Type*} [CommRing F] : p9Rot (1 : F) 0 = 1 := by
 lemma p9Rot_zero_eq_scalar {F : Type*} [CommRing F] (a : F) :
     p9Rot a 0 = Matrix.scalar (Fin 2) a := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 lemma p9Rot_neg {F : Type*} [CommRing F] (a b : F) : -p9Rot a b = p9Rot (-a) (-b) := by
   ext i j
@@ -31,11 +31,11 @@ lemma p9Rot_neg {F : Type*} [CommRing F] (a b : F) : -p9Rot a b = p9Rot (-a) (-b
 
 lemma p9_scalar_one {F : Type*} [CommRing F] : Matrix.scalar (Fin 2) (1 : F) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 lemma p9_scalar_neg_one {F : Type*} [CommRing F] : Matrix.scalar (Fin 2) (-1 : F) = -1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 lemma p9S_mul_self {F : Type*} [CommRing F] :
     (!![0, -1; 1, 0] : Matrix (Fin 2) (Fin 2) F) * !![0, -1; 1, 0] = -1 := by
@@ -83,12 +83,12 @@ lemma p9_form_comm {F : Type*} [CommRing F] (B : Matrix (Fin 2) (Fin 2) F)
     B = p9Rot (B 0 0) (-B 0 1) ∧ B 0 0 ^ 2 + (-B 0 1) ^ 2 = 1 := by
   have h11 : B 1 1 = B 0 0 := by
     have h := congrFun (congrFun hc 0) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_two] at h
     first | linear_combination h | linear_combination -h
   have h10 : B 1 0 = -B 0 1 := by
     have h := congrFun (congrFun hc 0) 0
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at h
-    first | linear_combination h | linear_combination -h
+    simp [Matrix.mul_apply, Fin.sum_univ_two] at h
+    first | linear_combination h
   refine ⟨?_, ?_⟩
   · ext i j
     fin_cases i <;> fin_cases j <;> simp [p9Rot, h11, h10]
@@ -100,7 +100,7 @@ lemma p9_form_anticomm {F : Type*} [CommRing F] (B : Matrix (Fin 2) (Fin 2) F)
   have hr : B 1 0 = B 0 1 := by
     have h := congrFun (congrFun hc 1) 1
     simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at h
-    first | linear_combination h | linear_combination -h
+    first | linear_combination h
   have hs : B 1 1 = -B 0 0 := by
     have h := congrFun (congrFun hc 0) 1
     simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct] at h
@@ -168,7 +168,7 @@ lemma p9_order_three_of_rot {F : Type*} [Field F] (B : Matrix.SpecialLinearGroup
     simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two]
     ring
   have hs0 : (Matrix.scalar (Fin 2) r) 1 0 = 0 := by
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [Matrix.scalar_apply]
   have e10 := congrFun (congrFun hr 1) 0
   rw [Matrix.SpecialLinearGroup.coe_pow, hB, hpow, hs0] at e10
   have h2 : b * (4 * a ^ 2 - 1) = 0 := by linear_combination (-1 : F) * e10 + b * hab
@@ -335,9 +335,9 @@ lemma p9_split_exists {F : Type*} [Field F] (l t : F) (hl : l ^ 2 = -1) (h2 : (2
     obtain ⟨x, hx, hxA⟩ := hm
     obtain ⟨p3, r3, hM3, h3a, h3b⟩ := hpow 3
     have hs1 : (Matrix.scalar (Fin 2) x) 1 0 = 0 := by
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.scalar_apply]
     have hs2 : (Matrix.scalar (Fin 2) x) 0 0 = x := by
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.scalar_apply]
     have e10 := congrFun (congrFun hxA 1) 0
     have e00 := congrFun (congrFun hxA 0) 0
     rw [Matrix.SpecialLinearGroup.coe_pow, hAval, hM3, hs1] at e10
@@ -383,7 +383,7 @@ lemma p9Poly_irreducible {F : Type*} [Field F] (hns : ¬ IsSquare (-1 : F)) :
 
 lemma p9_eq_one_of_pow_nine {F : Type*} [Field F] [Finite F] (q : ℕ) (hF : Nat.card F = q)
     (h9 : 9 ∣ q + 1) (hq3 : 3 ≤ q) (x : F) (hx : x ^ 9 = 1) : x = 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hx0 : x ≠ 0 := by
     rintro rfl
     rw [zero_pow (by norm_num)] at hx
@@ -405,9 +405,9 @@ lemma p9_nonsplit_case {F : Type*} [Field F] [Finite F] (q : ℕ) (hF : Nat.card
       orderOf (QuotientGroup.mk A : PSL(2, F)) = 9 ∧
       (A : Matrix (Fin 2) (Fin 2) F) * !![0, -1; 1, 0] =
         !![0, -1; 1, 0] * (A : Matrix (Fin 2) (Fin 2) F) := by
-  haveI : Fact (Irreducible (p9Poly F)) := ⟨p9Poly_irreducible hns⟩
-  haveI : Module.Finite F (AdjoinRoot (p9Poly F)) := (p9Poly_monic F).finite_adjoinRoot
-  haveI : Finite (AdjoinRoot (p9Poly F)) := Module.finite_of_finite F
+  have : Fact (Irreducible (p9Poly F)) := ⟨p9Poly_irreducible hns⟩
+  have : Module.Finite F (AdjoinRoot (p9Poly F)) := (p9Poly_monic F).finite_adjoinRoot
+  have : Finite (AdjoinRoot (p9Poly F)) := Module.finite_of_finite F
   have hfinrank : Module.finrank F (AdjoinRoot (p9Poly F)) = 2 := by
     rw [(AdjoinRoot.powerBasis' (p9Poly_monic F)).finrank]
     exact p9Poly_natDegree F
@@ -450,7 +450,7 @@ lemma p9_nonsplit_case {F : Type*} [Field F] [Finite F] (q : ℕ) (hF : Nat.card
     intro x
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.algebraMap_eq_diagonal, Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.algebraMap_eq_diagonal, Matrix.scalar_apply]
   have hζ9 : ζ ^ 9 = 1 := by
     rw [← hζ]
     exact pow_orderOf_eq_one ζ
@@ -621,7 +621,7 @@ lemma p9Good_of_mulEquiv {G H : Type*} [Group G] [Group H] (φ : G ≃* H) (a : 
 
 theorem nfa2_P9L2 : Leaf_P9L2 := by
   intro q hq hq24 h9 Kb _ hKb a ha
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod hq hKb
   have hq3 : 3 ≤ q := by omega
   have hea : orderOf (e a) = 2 := by

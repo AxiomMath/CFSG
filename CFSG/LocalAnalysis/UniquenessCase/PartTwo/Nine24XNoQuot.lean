@@ -32,7 +32,7 @@ theorem false_of_odd_quot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 1 < n)
   classical
   let P : Subgroup Q := CFSG.pCore 2 Q
   let S := Q ⧸ P
-  haveI hPnormal : P.Normal := CFSG.pCore_normal (p := 2) (G := Q)
+  have hPnormal : P.Normal := CFSG.pCore_normal (p := 2) (G := Q)
   have hSsimple : IsSimpleGroup S := isSimpleGroup_of_isL2 hL2
   have hScm : CFSG.Open.StatedClassicalModel S .PSL 2 2 (2 * n) :=
     (CFSG.Blueprint.LieModel.classical_iff (t := .PSL) (by decide)).mp hL2
@@ -61,8 +61,8 @@ theorem false_of_odd_quot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 1 < n)
     intro y
     exact QuotientGroup.mk'_surjective P y
   rcases hcases with ⟨F, hFfield, hFfinite, hFodd, ⟨eF⟩⟩ | ⟨m, hmOdd, hmL2⟩ | hExt
-  · letI : Field F := hFfield
-    letI : Finite F := hFfinite
+  · let : Field F := hFfield
+    let : Finite F := hFfinite
     have hFodd' : Nat.card F % 2 = 1 := Nat.odd_iff.mp hFodd
     have hSecSL2 : Sec8 (Matrix.SpecialLinearGroup (Fin 2) F) := by
       let φ : Matrix.SpecialLinearGroup (Fin 2) F →*
@@ -114,7 +114,7 @@ theorem false_of_odd_quot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 1 < n)
       calc 16 = 2 ^ 4 := by norm_num
         _ ≤ 2 ^ (2 * n) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  · haveI : IsSimpleGroup (Q ⧸ N) := isSimpleGroup_of_isL2 hmL2
+  · have : IsSimpleGroup (Q ⧸ N) := isSimpleGroup_of_isL2 hmL2
     have hker : π.ker = ⊥ ∨ π.ker = ⊤ :=
       IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker
     rcases hker with hbot | htop
@@ -135,7 +135,7 @@ theorem false_of_odd_quot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 1 < n)
       obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial S).exists_pair_ne
       exact hab (Subsingleton.elim a b)
   · obtain ⟨V, hVnormal, hQ8, hA5⟩ := hExt
-    haveI : V.Normal := hVnormal
+    have : V.Normal := hVnormal
     have hVcard : Nat.card V = 32 := by
       have h := (CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8.facts hQ8).1
       simpa using h

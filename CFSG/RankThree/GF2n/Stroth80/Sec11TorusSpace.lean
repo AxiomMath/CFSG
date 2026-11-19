@@ -61,13 +61,14 @@ theorem lbVec_of_mem {l : G} (h : l ∈ LB M Q B ⊓ M) (x : ↥(bar M Q (LB M Q
   obtain ⟨x, hxm⟩ := x
   change QuotientGroup.mk' (Q.subgroupOf M) ⟨l, h.2⟩ = x at hx
   subst hx
-  rw [lbVec, dif_pos h]
+  rw [lbVec, dite_eq_left h]
 
+omit [Finite G] in
 theorem lbVec_mul (hc : Ctx M Q Z B) {l l' : G} (hl : l ∈ LB M Q B) (hl' : l' ∈ LB M Q B) :
     lbVec M Q B (l * l') = lbVec M Q B l + lbVec M Q B l' := by
   have h1 : l ∈ LB M Q B ⊓ M := ⟨hl, hc.LB_le_M hl⟩
   have h2 : l' ∈ LB M Q B ⊓ M := ⟨hl', hc.LB_le_M hl'⟩
-  simp only [lbVec, dif_pos h1, dif_pos h2, dif_pos (Subgroup.mul_mem _ h1 h2)]
+  simp only [lbVec, dite_eq_left h1, dite_eq_left h2, dite_eq_left (Subgroup.mul_mem _ h1 h2)]
   rfl
 
 theorem lbVec_eq_zero_iff (hc : Ctx M Q Z B) {l : G} (hl : l ∈ LB M Q B) :
@@ -77,7 +78,7 @@ theorem lbVec_eq_zero_iff (hc : Ctx M Q Z B) {l : G} (hl : l ∈ LB M Q B) :
   have hinj : Function.Injective
       (Abelianization.of : ↥(bar M Q (LB M Q B)) →* Abelianization ↥(bar M Q (LB M Q B))) :=
     (MonoidHom.ker_eq_bot_iff _).mp (by rw [Abelianization.ker_of, commutator_eq_bot])
-  simp only [lbVec, dif_pos h1]
+  simp only [lbVec, dite_eq_left h1]
   rw [ofMul_eq_zero, map_eq_one_iff _ hinj]
   constructor
   · intro h

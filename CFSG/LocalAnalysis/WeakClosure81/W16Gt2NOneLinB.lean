@@ -15,17 +15,20 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mul_mul_mul_comm_of_mem {V : Subgroup G} (hV : IsElemAbelian 2 V) {a b c d : G}
-    (ha : a ∈ V) (hb : b ∈ V) (hc : c ∈ V) (hd : d ∈ V) :
+    (_ha : a ∈ V) (hb : b ∈ V) (hc : c ∈ V) (_hd : d ∈ V) :
     (a * b) * (c * d) = (a * c) * (b * d) := by
   rw [mul_assoc a b (c * d), ← mul_assoc b c d, B2F.isElemAbelian_comm hV hb hc,
     mul_assoc c b d, ← mul_assoc a c (b * d)]
 
+omit [Finite G] in
 private theorem inv_eq_self_of_mem {V : Subgroup G} (hV : IsElemAbelian 2 V) {x : G}
     (hx : x ∈ V) : x⁻¹ = x := by
   rw [inv_eq_iff_mul_eq_one]
   simpa [pow_two] using hV.2 x hx
 
+omit [Finite G] in
 private theorem mul_inv_mul_mul_inv_of_mem {V : Subgroup G} (hV : IsElemAbelian 2 V) {a b c d : G}
     (ha : a ∈ V) (hb : b ∈ V) (hc : c ∈ V) (hd : d ∈ V) :
     (a * b) * (c * d)⁻¹ = (a * c⁻¹) * (b * d⁻¹) := by
@@ -35,6 +38,7 @@ private theorem mul_inv_mul_mul_inv_of_mem {V : Subgroup G} (hV : IsElemAbelian 
     rw [mul_inv_rev, B2F.isElemAbelian_comm hV (V.inv_mem hd) (V.inv_mem hc)]
   rw [h1, h2]
 
+omit [Finite G] in
 private theorem exists_proj_of_isElemAbelian {A B Q V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hA : A ≤ V) (hB : B ≤ V) (hQ : A ⊔ B = Q) (hinf : A ⊓ B = ⊥) :
     ∃ π : G → G,
@@ -55,12 +59,12 @@ private theorem exists_proj_of_isElemAbelian {A B Q V : Subgroup G} (hV : IsElem
   have π_mem : ∀ q (hq : q ∈ Q), π q ∈ B := by
     intro q hq
     dsimp only [π]
-    rw [dif_pos hq]
+    rw [dite_eq_left hq]
     exact (Classical.choose_spec (hexp q hq)).1
   have π_proj : ∀ q ∈ Q, q * (π q)⁻¹ ∈ A := by
     intro q hq
     dsimp only [π]
-    rw [dif_pos hq]
+    rw [dite_eq_left hq]
     exact (Classical.choose_spec (hexp q hq)).2
   have π_kill : ∀ a ∈ A, π a = 1 := by
     intro a ha
@@ -103,7 +107,7 @@ private theorem exists_proj_of_isElemAbelian {A B Q V : Subgroup G} (hV : IsElem
   exact ⟨π, π_mem, π_kill, π_id, π_proj, π_mul⟩
 
 private theorem exists_extend_of_isElemAbelian {Q T V : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hQ : Q ≤ V) (hT : T ≤ V) (φ : G → G) (hφmem : ∀ q ∈ Q, φ q ∈ T)
+    (hQ : Q ≤ V) (_hT : T ≤ V) (φ : G → G) (hφmem : ∀ q ∈ Q, φ q ∈ T)
     (hφmul : ∀ q ∈ Q, ∀ q' ∈ Q, φ (q * q') = φ q * φ q') :
     ∃ Ψ : G → G, (∀ v ∈ V, Ψ v ∈ T) ∧
       (∀ v ∈ V, ∀ v' ∈ V, Ψ (v * v') = Ψ v * Ψ v') ∧
@@ -132,7 +136,7 @@ private theorem exists_extend_of_isElemAbelian {Q T V : Subgroup G} (hV : IsElem
   have Ψ_mem : ∀ v ∈ V, Ψ v ∈ T := by
     intro v hv
     dsimp only [Ψ]
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
     exact hφmem _ (Classical.choose_spec (hexp v hv)).1
   have Ψ_mul : ∀ v ∈ V, ∀ v' ∈ V, Ψ (v * v') = Ψ v * Ψ v' := by
     intro v hv v' hv'
@@ -154,14 +158,14 @@ private theorem exists_extend_of_isElemAbelian {Q T V : Subgroup G} (hV : IsElem
         (Classical.choose_spec (hexp (v * v') hvv')).1 (Subgroup.mul_mem _ hq hq')
         (Classical.choose_spec (hexp (v * v') hvv')).2 hkey
     dsimp only [Ψ]
-    rw [dif_pos hvv', dif_pos hv, dif_pos hv', hchoose, hφmul _ hq _ hq']
+    rw [dite_eq_left hvv', dite_eq_left hv, dite_eq_left hv', hchoose, hφmul _ hq _ hq']
   have Ψ_eq : ∀ q ∈ Q, Ψ q = φ q := by
     intro q hq
     have hspec := Classical.choose_spec (hexp q (hQ hq))
-    have hone : q * q⁻¹ ∈ C := by simpa using C.one_mem
+    have hone : q * q⁻¹ ∈ C := by simp
     have hchoose : Classical.choose (hexp q (hQ hq)) = q := huniq hspec.1 hq hspec.2 hone
     dsimp only [Ψ]
-    rw [dif_pos (hQ hq), hchoose]
+    rw [dite_eq_left (hQ hq), hchoose]
   exact ⟨Ψ, Ψ_mem, Ψ_mul, Ψ_eq⟩
 
 namespace Cfg1620
@@ -188,20 +192,20 @@ theorem exists_hom_of_complement (c : Cfg1620 M V₀ V U S R H g B) {U' : Subgro
   have Ψ₀_mem : ∀ y ∈ U ⊔ V₀, Ψ₀ y ∈ V₀ := by
     intro y hy
     dsimp only [Ψ₀]
-    rw [if_pos hy]
+    rw [ite_eq_left hy]
     exact V₀.mul_mem (σ_mem y hy) (τ_mem y hy)
   have Ψ₀_mul : ∀ y ∈ U ⊔ V₀, ∀ y' ∈ U ⊔ V₀, Ψ₀ (y * y') = Ψ₀ y * Ψ₀ y' := by
     intro y hy y' hy'
     have hyy' : y * y' ∈ U ⊔ V₀ := (U ⊔ V₀).mul_mem hy hy'
     dsimp only [Ψ₀]
-    rw [if_pos hyy', if_pos hy, if_pos hy', σ_mul y hy y' hy', τ_mul y hy y' hy']
+    rw [ite_eq_left hyy', ite_eq_left hy, ite_eq_left hy', σ_mul y hy y' hy', τ_mul y hy y' hy']
     exact mul_mul_mul_comm_of_mem hV (hV₀ (σ_mem y hy)) (hV₀ (σ_mem y' hy'))
       (hV₀ (τ_mem y hy)) (hV₀ (τ_mem y' hy'))
   have Ψ₀_V₀ : ∀ w ∈ V₀, Ψ₀ w = 1 := by
     intro w hw
     have hwQ : w ∈ U ⊔ V₀ := Subgroup.mem_sup_right hw
     dsimp only [Ψ₀]
-    rw [if_pos hwQ, σ_id w hw, τ_id w hw]
+    rw [ite_eq_left hwQ, σ_id w hw, τ_id w hw]
     have := hV.2 w (hV₀ hw)
     rwa [pow_two] at this
   have Ψ₀_U : ∀ u ∈ U, u * Ψ₀ u ∈ U' := by
@@ -210,7 +214,7 @@ theorem exists_hom_of_complement (c : Cfg1620 M V₀ V U S R H g B) {U' : Subgro
     have hτinv : (τ u)⁻¹ = τ u := inv_eq_self_of_mem hV (hV₀ (τ_mem u huQ))
     have h1 : Ψ₀ u = τ u := by
       dsimp only [Ψ₀]
-      rw [if_pos huQ, σ_kill u hu]
+      rw [ite_eq_left huQ, σ_kill u hu]
       group
     rw [h1]
     have := τ_proj u huQ

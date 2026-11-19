@@ -66,7 +66,7 @@ theorem fix_of_card_lt {Q : Type*} [Group Q] {p : ℕ} (hp : p.Prime) {α : MulA
     induction n with
     | zero => exact ht
     | succ n ih => rw [pow_succ', MulAut.mul_apply]; exact hs _ ih
-  haveI := Fintype.ofFinite s
+  have := Fintype.ofFinite s
   let f : Fin p → s := fun i => ⟨(α ^ (i : ℕ)) t, hmem i⟩
   obtain ⟨i, j, hne, hij⟩ := Fintype.exists_ne_map_eq_of_card_lt f
     (by rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]; exact hcard)
@@ -78,7 +78,7 @@ theorem fix_of_card_lt {Q : Type*} [Group Q] {p : ℕ} (hp : p.Prime) {α : MulA
 
 theorem noTwoAut_pgl2 (k : Type) [Field k] [Finite k] (hk : ringChar k ≠ 2) {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) : NoTwoAut p PGL(2, k) := by
-  haveI : Finite PGL(2, k) := Finite.of_surjective _ Matrix.ProjGenLinGroup.mk_surjective
+  have : Finite PGL(2, k) := Finite.of_surjective _ Matrix.ProjGenLinGroup.mk_surjective
   intro Q hQ α hα
   have hP : IsPGroup p (Subgroup.zpowers α) := by
     intro g
@@ -129,11 +129,11 @@ theorem noTwoAut_gl2 (K : Type) [Field K] [Finite K] (hK : ringChar K ≠ 2) {p 
     · let Ω : Subgroup T :=
         { carrier := {t | t ^ 2 = 1}
           mul_mem' := fun {a b} ha hb => by
-            simp only [Set.mem_setOf_eq] at *
+            simp only [Set.mem_ofPred_eq] at *
             rw [Commute.mul_pow (hab a b) 2, ha, hb, one_mul]
           one_mem' := by simp
           inv_mem' := fun {a} ha => by
-            simp only [Set.mem_setOf_eq] at *
+            simp only [Set.mem_ofPred_eq] at *
             rw [inv_pow, ha, inv_one] }
       have hΩ : Nat.card Ω ≤ 4 := by
         rw [← Subgroup.card_map_of_injective (f := T.subtype) T.subtype_injective]
@@ -248,7 +248,7 @@ theorem noTwoAut_of_le_range_toPGL3 (K : Type) [Field K] [Finite K] (hK : Odd (N
       Matrix.SpecialLinearGroup (Fin 3) K →* PGL(3, K)).range) : NoTwoAut p G := by
   have hK2 : ringChar K ≠ 2 := by
     intro h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h1 := (FiniteField.even_card_iff_char_two).1 h
     rw [← Nat.card_eq_fintype_card] at h1
     exact (Nat.not_even_iff_odd.2 hK) (Nat.even_iff.2 h1)

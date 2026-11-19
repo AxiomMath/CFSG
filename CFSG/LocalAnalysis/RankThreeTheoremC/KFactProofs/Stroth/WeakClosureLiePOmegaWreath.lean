@@ -29,7 +29,7 @@ private theorem wreathTower_exists_ne_one (p : ℕ) [hp : Fact p.Prime] (a : ℕ
     (i : ℕ) : ∃ g : wreathTower p (Multiplicative (ZMod (p ^ a))) i, g ≠ 1 := by
   cases i with
   | zero =>
-    haveI : Fact (1 < p ^ a) := ⟨Nat.one_lt_pow (by omega) hp.out.one_lt⟩
+    have : Fact (1 < p ^ a) := ⟨Nat.one_lt_pow (by omega) hp.out.one_lt⟩
     exact exists_ne (1 : Multiplicative (ZMod (p ^ a)))
   | succ i =>
     exact regularWreath_exists_ne_one (wreathTower p (Multiplicative (ZMod (p ^ a))) i)

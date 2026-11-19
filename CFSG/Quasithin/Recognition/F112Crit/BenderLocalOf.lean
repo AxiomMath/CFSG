@@ -205,6 +205,7 @@ theorem stab_γ₀_eq (hs : Setting L₁ L₂ S Z) : stab ν₀ = P₂ L₁ L₂
 theorem stab_γ₁_eq (hs : Setting L₁ L₂ S Z) : stab ν₁ = P₁ L₁ L₂ S :=
   hs.toCritAmalgam.stab_γ₁_eq
 
+omit [Finite G] in
 theorem bigB_le_normalizer (hs : Setting L₁ L₂ S Z) :
     bigB L₁ L₂ S ≤ Subgroup.normalizer (L₂ : Set G) :=
   (F1.bigB_le_normalizer_left hs.hyp).2
@@ -213,22 +214,28 @@ theorem bigB_le_normalizer_inf (hs : Setting L₁ L₂ S Z) :
     bigB L₁ L₂ S ≤ Subgroup.normalizer ((S ⊓ L₂ : Subgroup G) : Set G) :=
   (F1.bigB_le_normalizer_sylow hs.hyp).2
 
+omit [Finite G] in
 theorem P₂_le_normalizer (hs : Setting L₁ L₂ S Z) :
     P₂ L₁ L₂ S ≤ Subgroup.normalizer (L₂ : Set G) :=
   sup_le Subgroup.le_normalizer (bigB_le_normalizer hs)
 
+omit [Finite G] in
 theorem isSylowTwoOf_inf (hs : Setting L₁ L₂ S Z) : IsSylowTwoOf (S ⊓ L₂) L₂ :=
   hs.hyp.hyp.h2.sylow
 
 theorem pCoreOf_le_inf (hs : Setting L₁ L₂ S Z) : pCoreOf 2 L₂ ≤ S ⊓ L₂ :=
   F7.isSylowTwoOf_pCoreOf_le (isSylowTwoOf_inf hs)
 
+omit [Finite G] in
 theorem S_le_bigB : S ≤ bigB L₁ L₂ S := le_sup_right
 
+omit [Finite G] in
 theorem borelOf_le_bigB : borelOf L₂ S ≤ bigB L₁ L₂ S := le_sup_right.trans le_sup_left
 
+omit [Finite G] in
 theorem bigB_le_P₁ : bigB L₁ L₂ S ≤ P₁ L₁ L₂ S := le_sup_right
 
+omit [Finite G] in
 theorem bigB_le_P₂ : bigB L₁ L₂ S ≤ P₂ L₁ L₂ S := le_sup_right
 
 theorem pCoreOf_le_bigB (hs : Setting L₁ L₂ S Z) : pCoreOf 2 L₂ ≤ bigB L₁ L₂ S :=

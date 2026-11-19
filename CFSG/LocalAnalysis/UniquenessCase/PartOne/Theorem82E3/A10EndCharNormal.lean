@@ -31,7 +31,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem not_isPGroup_two_alternatingGroup_fin {n : ℕ} (hn : 4 ≤ n) :
     ¬ IsPGroup 2 (alternatingGroup (Fin n)) := by
   intro h
-  haveI : Nontrivial (alternatingGroup (Fin n)) :=
+  have : Nontrivial (alternatingGroup (Fin n)) :=
     alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; omega)
   have hnt : Nontrivial (Subgroup.center (alternatingGroup (Fin n))) := h.center_nontrivial
   rw [alternatingGroup.center_eq_bot (α := Fin n) (by rw [Nat.card_fin]; omega)] at hnt
@@ -40,7 +40,7 @@ theorem not_isPGroup_two_alternatingGroup_fin {n : ℕ} (hn : 4 ≤ n) :
 
 theorem eq_bot_of_isPGroup_two_of_alternatingGroup_le {n : ℕ} (hn : 5 ≤ n)
     {K N : Subgroup (Equiv.Perm (Fin n))} (hAK : alternatingGroup (Fin n) ≤ K)
-    (hNK : N ≤ K) (hKN : K ≤ Subgroup.normalizer (N : Set (Equiv.Perm (Fin n))))
+    (_hNK : N ≤ K) (hKN : K ≤ Subgroup.normalizer (N : Set (Equiv.Perm (Fin n))))
     (hN2 : IsPGroup 2 N) : N = ⊥ := by
   rcases CFSG.Holt.eq_bot_or_alternatingGroup_le (Λ := Fin n)
     (by rw [Nat.card_fin]; omega) (hAK.trans hKN) with h | h
@@ -49,7 +49,7 @@ theorem eq_bot_of_isPGroup_two_of_alternatingGroup_le {n : ℕ} (hn : 5 ≤ n)
     exact not_isPGroup_two_alternatingGroup_fin (by omega) (hN2.to_le h)
 
 theorem exists_swap_mem_of_offenderShape {n : ℕ} {E : Subgroup (Equiv.Perm (Fin n))}
-    (hE2 : IsPGroup 2 E) (hEne : E ≠ ⊥) (hshape : OffenderShapeConcl E)
+    (_hE2 : IsPGroup 2 E) (hEne : E ≠ ⊥) (hshape : OffenderShapeConcl E)
     (hfix : ∃ p, ∀ g ∈ E, g p = p) :
     ∃ i j : Fin n, i ≠ j ∧ Equiv.swap i j ∈ E := by
   classical
@@ -66,6 +66,7 @@ theorem exists_swap_mem_of_offenderShape {n : ℕ} {E : Subgroup (Equiv.Perm (Fi
   have hswap : Equiv.swap i (g i) ∈ orbitStab E := Classif.swap_mem_orbitStab hgE i
   rwa [← hEeq] at hswap
 
+omit [Finite X] in
 private theorem range_eq_alternatingGroup_of_ker_eq {n : ℕ}
     {φ θ : X →* Equiv.Perm (Fin n)} (hker : φ.ker = θ.ker)
     (hφ : φ.range = alternatingGroup (Fin n))
@@ -79,6 +80,7 @@ private theorem range_eq_alternatingGroup_of_ker_eq {n : ℕ}
     rw [hcardθ, ← hker, ← hcardφ, hφ]
   exact (Subgroup.eq_of_le_of_card_ge hθ (le_of_eq hcard)).symm
 
+omit [Finite X] in
 theorem exists_conj_of_ker_eq_of_range_eq_alternatingGroup {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
     {φ θ : X →* Equiv.Perm (Fin n)} (hker : φ.ker = θ.ker)
     (hφ : φ.range = alternatingGroup (Fin n))
@@ -131,6 +133,7 @@ theorem exists_conj_of_ker_eq_of_range_eq_alternatingGroup {n : ℕ} (hn : 5 ≤
   change (θA x : Equiv.Perm (Fin n)) = σ * (φA x : Equiv.Perm (Fin n)) * σ⁻¹
   rw [← hx, ← hσ, MulAut.conjNormal_apply]
 
+omit [Finite X] in
 theorem ne_bot_of_pCoreOf_le_of_range_eq {n : ℕ} (hn : 3 ≤ n) {T : Subgroup X}
     (hC : CharTwo (⊤ : Subgroup X)) (φ : X →* Equiv.Perm (Fin n))
     (hrange : φ.range = alternatingGroup (Fin n))
@@ -156,7 +159,7 @@ theorem ne_bot_of_pCoreOf_le_of_range_eq {n : ℕ} (hn : 3 ≤ n) {T : Subgroup 
     intro x
     have hxbot : x ∈ (⊥ : Subgroup X) := by rw [← htop]; exact Subgroup.mem_top x
     simpa using hxbot
-  haveI : Nontrivial (alternatingGroup (Fin n)) :=
+  have : Nontrivial (alternatingGroup (Fin n)) :=
     alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; omega)
   obtain ⟨σ, hσne⟩ := exists_ne (1 : alternatingGroup (Fin n))
   have hσmem : (σ : Equiv.Perm (Fin n)) ∈ alternatingGroup (Fin n) := σ.2
@@ -168,6 +171,7 @@ theorem ne_bot_of_pCoreOf_le_of_range_eq {n : ℕ} (hn : 3 ≤ n) {T : Subgroup 
   rw [← hx, hx1 x, map_one]
   simp
 
+omit [Finite X] in
 private theorem sup_eq_top_of_map_eq_alternatingGroup {n : ℕ} {L T : Subgroup X}
     {φ : X →* Equiv.Perm (Fin n)} (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
     (hrange : φ.range = alternatingGroup (Fin n))
@@ -323,6 +327,7 @@ private theorem exists_conj_offender_a10 {T : Subgroup X}
       (hker.trans hθ'ker_eq.symm) hrange hAlt
   exact ⟨θ', σ, hθ'apply, hθ'ker_eq, hθ'range_eq, hσ⟩
 
+omit [Finite X] in
 private theorem exists_fixed_point_of_offender {n : ℕ} {A T : Subgroup X}
     {φ θ' : X →* Equiv.Perm (Fin n)}
     {θ : ↥(⊤ : Subgroup X) →* Equiv.Perm (Fin n)}

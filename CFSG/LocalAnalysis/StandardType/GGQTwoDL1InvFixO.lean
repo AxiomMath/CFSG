@@ -61,8 +61,8 @@ theorem qtwoDL1_invFix_orth (hmod : QTwoDL1OrthModel) {G : Type} [Group G] [Fini
     t ∈ Subgroup.centralizer (X : Set G) := by
   classical
   obtain ⟨ι, instFι, instDι, Q₀, e, hQ, hind, hcardι⟩ := hmod G p Bs X Φ hF h5 hZ
-  letI := instFι
-  letI := instDι
+  let := instFι
+  let := instDι
   have hp3 : p = 3 := by
     have h : p ∣ 3 := by
       have := Φ.hpq

@@ -28,7 +28,7 @@ theorem plusFrame_vec_eq_single_kgcIdx {n : ℕ} {K : Type} [Field K] (hn : 3 �
 
 theorem plusFrame_vec_apply_of_ne_kgcIdx {n : ℕ} {K : Type} [Field K] (hn : 3 ≤ n) {k : Fin n}
     {r : Bool} {m : Fin n ⊕ Fin n} (hm : m ≠ kgcIdx k r) : (plusFrame n K hn).vec k r m = 0 := by
-  rw [plusFrame_vec_eq_single_kgcIdx, Pi.single_apply, if_neg hm]
+  rw [plusFrame_vec_eq_single_kgcIdx, Pi.single_apply, ite_eq_right hm]
 
 theorem spinAction_apply_eq_kgcDiag_mul {n : ℕ} {K : Type} [Field K] (hn : 3 ≤ n)
     {σ : spinGroup (quadPlus n K)}

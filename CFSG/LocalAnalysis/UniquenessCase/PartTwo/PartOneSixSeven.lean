@@ -20,6 +20,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_normalizer_subtype_le {H : Subgroup G} (Q : Subgroup ↥H) :
     (Subgroup.normalizer (Q : Set ↥H)).map H.subtype ≤
       Subgroup.normalizer (Q.map H.subtype : Set G) := by
@@ -36,6 +37,7 @@ private theorem map_normalizer_subtype_le {H : Subgroup G} (Q : Subgroup ↥H) :
     · rw [map_mul, map_mul, map_inv, hy'eq]
       group
 
+omit [Finite G] in
 private theorem pCoreOf_map_subtype {H : Subgroup G} (p : ℕ) (K : Subgroup ↥H) :
     (pCoreOf p K).map H.subtype = pCoreOf p (K.map H.subtype) := by
   let e : ↥K ≃* ↥(K.map H.subtype) := K.equivMapOfInjective H.subtype H.subtype_injective
@@ -68,6 +70,7 @@ private theorem isGraphFieldAut_conj {K K' : Type} [Group K] [Group K'] (φ : K 
     rfl
   rw [hL, he (φ.symm k'), hR]
 
+omit [Finite G] in
 private theorem conjOn_map_subtype_apply {H : Subgroup G} (L : Subgroup ↥H) {t : ↥H}
     (ht : t ∈ Subgroup.normalizer (L : Set ↥H))
     (ht' : (t : G) ∈ Subgroup.normalizer (L.map H.subtype : Set G)) (x : ↥L) :
@@ -80,6 +83,7 @@ private theorem conjOn_map_subtype_apply {H : Subgroup G} (L : Subgroup ↥H) {t
   rw [Subgroup.coe_equivMapOfInjective_apply, map_mul, map_mul, map_inv]
   rfl
 
+omit [Finite G] in
 private theorem inducesGraphField_map_subtype {H : Subgroup G} {L : Subgroup ↥H} {t : ↥H}
     (h : UC6.InducesGraphField t L) :
     UC6.InducesGraphField (t : G) (L.map H.subtype) := by
@@ -107,6 +111,7 @@ private theorem inducesGraphField_map_subtype {H : Subgroup G} {L : Subgroup ↥
   rw [hconj]
   exact isGraphFieldAut_conj (Subgroup.equivMapOfInjective L H.subtype H.subtype_injective) hauto
 
+omit [Finite G] in
 private theorem inducesTransposition_map_subtype {H : Subgroup G} {L : Subgroup ↥H} {t : ↥H}
     (h : UC6.InducesTransposition t L) :
     UC6.InducesTransposition (t : G) (L.map H.subtype) := by
@@ -120,6 +125,7 @@ private theorem inducesTransposition_map_subtype {H : Subgroup G} {L : Subgroup 
   rw [hx]
   simpa only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply] using he (eL.symm x)
 
+omit [Finite G] in
 private theorem graphFieldShape_map_subtype {H : Subgroup G} {t : ↥H} {L : Subgroup ↥H}
     (h : UC6.GraphFieldShape t L) :
     UC6.GraphFieldShape (t : G) (L.map H.subtype) := by

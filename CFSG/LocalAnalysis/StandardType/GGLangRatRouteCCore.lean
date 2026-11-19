@@ -94,7 +94,7 @@ theorem langRatRouteC_localNorm_of_modelPerfect
       (CFSG.LocalAnalysis.GLTheoremA.T171Sh.fixedPointSubgroup (iterHom S.D.step 1)
         (rootSpan τ L Ψ))
       ⟨fun g hg => hg.1, fun g hg => hg.2, by rw [hH]; exact hperf⟩ ⟨hxspan, hxfix⟩
-  haveI : NeZero (1 : ℕ) := ⟨one_ne_zero⟩
+  have : NeZero (1 : ℕ) := ⟨one_ne_zero⟩
   have hs : (S.ρ : (Fin τ.rank → ℤ) → _)^[1] '' Ψ = Ψ := by rw [Function.iterate_one]; exact hst
   have h := langRatFC_norm_factor_mem S hFr hΦ hn hb i (s := 1) hs
     (fun k hk hk1 => absurd hk1 (by omega)) u r hcore

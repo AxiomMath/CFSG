@@ -11,6 +11,7 @@ open Module CFSG.EvenSporadicStandard.HNRecog.Fpf
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private lemma exists_mul_of_swap {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {b : V ≃ₗ[ZMod 2] V}
     (hsw : SwapsFactors σ b) (g : A5 × A5) :
     ∃ g' : A5 × A5, b * σ g = σ g' * b := by
@@ -32,6 +33,7 @@ private lemma exists_mul_of_swap {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {b : 
   calc b * σ g = b * σ g * b⁻¹ * b := by group
     _ = σ (x g.2, y g.1) * b := by rw [hconj]
 
+omit [Finite V] in
 private lemma isometry_conj {B : LinearMap.BilinForm (ZMod 2) V}
     {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {b : V ≃ₗ[ZMod 2] V}
     (hBσ : ∀ g x y, B (σ g x) (σ g y) = B x y)

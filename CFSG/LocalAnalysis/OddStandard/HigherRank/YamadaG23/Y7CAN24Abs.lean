@@ -29,7 +29,7 @@ theorem n24_index_two {G : Type*} [Group G] (H K : Subgroup G) (hs : IsSimpleGro
       have hmem := h ((g : G) * (n : G)) (H.mul_mem g.property n.property) (g : G)⁻¹
         (H.inv_mem g.property) hgnK hginvK
       simpa using hmem
-  haveI : K'.Normal := hK'normal
+  have : K'.Normal := hK'normal
   rcases hs.eq_bot_or_eq_top_of_normal K' with hbot | htop
   · exfalso
     obtain ⟨x, hx⟩ := not_forall.mp hnc

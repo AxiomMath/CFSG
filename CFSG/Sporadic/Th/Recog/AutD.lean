@@ -114,7 +114,7 @@ theorem iotaP0_conj (j : Fin 6) :
   have hl := (tabRep_iotaP0.comp (tabRep_dP j)).comp tabRep_iotaP0_inv
   by_cases hj : j = 5
   · subst hj
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h' : (if (5 : Fin 6).val == 5 then (letInv ())[5]! else letArr[(5 : Fin 6).val]!) =
         (letInv ())[5]! := rfl
     rw [h'] at h
@@ -122,7 +122,7 @@ theorem iotaP0_conj (j : Fin 6) :
   · have hj' : (j.val == 5) = false := by
       rw [beq_eq_false_iff_ne]
       exact fun h' => hj (Fin.ext h')
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
     simp only [hj', Bool.false_eq_true, ↓reduceIte] at h
     exact (hl.beq_iff (tabRep_dP j)).1 h
 
@@ -153,10 +153,10 @@ theorem fP_symm_letter (k : OutD) (j : Fin 6) : (fP k).symm (dPD j) = wprod dPD 
   simp [mul_assoc]
 
 theorem iotaP_letter (j : Fin 6) (hj : j ≠ 5) : iotaP (dPD j) = dPD j :=
-  Subtype.ext (by rw [iotaP_apply, coe_dPD, iotaP0_conj, if_neg hj])
+  Subtype.ext (by rw [iotaP_apply, coe_dPD, iotaP0_conj, ite_eq_right hj])
 
 theorem iotaP_t : iotaP (dPD 5) = (dPD 5)⁻¹ :=
-  Subtype.ext (by rw [iotaP_apply, coe_dPD, iotaP0_conj, if_pos rfl]; rfl)
+  Subtype.ext (by rw [iotaP_apply, coe_dPD, iotaP0_conj, ite_eq_left rfl]; rfl)
 
 theorem partnerP (k : Twist) (x : ↥DP) :
     fP (k, false) x =
@@ -335,7 +335,7 @@ theorem aut_of_root {xt xit : Tab} {x₀ : ↥DP} (hx : TabRep xt (x₀ : Equiv.
     (α : ↥DP ≃* ↥DP) (c : ↥DP) (hc : α (hP 0) = c * x₀ * c⁻¹) :
     ∃ (k : OutD) (m : ↥DP), ∀ x, α x = m * fP k x * m⁻¹ := by
   set φ : ↥DP →* ↥DP := (MulAut.conj c⁻¹).toMonoidHom.comp α.toMonoidHom with hφ
-  have hφx : ∀ x, φ x = c⁻¹ * α x * c := fun x => by simp [hφ, MulAut.conj_apply]
+  have hφx : ∀ x, φ x = c⁻¹ * α x * c := fun x => by simp [hφ]
   have hφ0 : φ (hP 0) = x₀ := by rw [hφx, hc]; group
   have hy : ∀ S ∈ autTests, wprod ![x₀, φ (hP 1)] S = 1 := by
     intro S hS

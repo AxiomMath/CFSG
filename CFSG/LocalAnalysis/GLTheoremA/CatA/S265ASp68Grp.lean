@@ -35,8 +35,8 @@ private theorem exists_sp62Embedding (hK : Nat.card K = 8) {σ : K ≃+* K} (hσ
       Nat.prime_two Nat.prime_three (by norm_num) (by norm_num) (by norm_num) (by norm_num) hK' σ hσ
   set k := descentField σ
   have hk2 : Nat.card k = 2 := by rw [hkcard]; norm_num
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num : 1 ≤ 3) hK'
   let τ : ZMod 2 ≃+* k := ZMod.ringEquivOfPrime k Nat.prime_two
     (by rw [← Nat.card_eq_fintype_card, hk2])
@@ -69,7 +69,7 @@ theorem exists_elemAbelian_fixSubgroup_fieldAut_eight (hK : Nat.card K = 8) {σ 
     (hσ : orderOf σ = 3) :
     ∃ E : Subgroup (StatedProj (StatedSp 3 K)), E ≤ fixSubgroup (fieldAut 3 K σ) ∧
       IsElemAbelian 3 E ∧ Nat.card E = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, j, hj, -, hfix⟩ := exists_sp62Embedding hK hσ
   obtain ⟨Q, -, hQr⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10F.SpEngine.spF2QTorus_holds 3 (ZMod 2)
     (Nat.card_zmod 2) le_rfl
@@ -105,7 +105,7 @@ theorem eq_bot_of_normalized_two_subgroup_fieldAut_eight (hK : Nat.card K = 8) {
     (hU : IsPGroup 2 U) (hAU : A ≤ Subgroup.normalizer (U : Set (StatedProj (StatedSp 3 K)))) :
     U = ⊥ := by
   have hK' : Nat.card K = 2 ^ 3 := by rw [hK]; norm_num
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num : 1 ≤ 3) hK'
   obtain ⟨ι, j, hj, hjp, hfix⟩ := exists_sp62Embedding hK hσ
   let π : StatedSp 3 K ≃* StatedProj (StatedSp 3 K) := MulEquiv.ofBijective (proj 3 K)

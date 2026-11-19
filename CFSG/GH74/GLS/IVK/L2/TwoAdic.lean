@@ -143,7 +143,7 @@ theorem exists_orderOf_four_of_cyclic {G : Type*} [Group G] [Finite G] [IsCyclic
     intro x
     rw [Subgroup.mem_zpowers_iff]
     exact hγ x
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hord : orderOf γ = Nat.card G := by
     have h1 : Nat.card ↥(Subgroup.zpowers γ) = orderOf γ := by
       rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]

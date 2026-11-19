@@ -17,13 +17,14 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V
 theorem card_submodule [FiniteDimensional K V] (W : Submodule K V) :
     Nat.card W = Nat.card K ^ finrank K W := by
   classical
-  haveI := Fintype.ofFinite K
-  haveI hV : Finite V := Module.finite_of_finite K
-  haveI : Finite W := inferInstance
-  haveI := Fintype.ofFinite W
+  have := Fintype.ofFinite K
+  have hV : Finite V := Module.finite_of_finite K
+  have : Finite W := inferInstance
+  have := Fintype.ofFinite W
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K) (V := W),
     Nat.card_eq_fintype_card (α := K)]
 
+omit [Finite K] in
 theorem ncard_modEq_fixed [Finite V] (g : V ≃ₗ[K] V) {p : ℕ} [Fact p.Prime] (hg : g ^ p = 1)
     (P : Set V) (hP : ∀ v ∈ P, g v ∈ P) :
     P.ncard ≡ (P ∩ {v | g v = v}).ncard [MOD p] := by
@@ -69,7 +70,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem two_pow_mod_seven {d : ℕ} (hd : d ≤ 8) (h : 2 ^ d % 7 = 4) : d = 2 ∨ d = 5 ∨ d = 8 := by
   interval_cases d <;> simp_all
 
-theorem arith_zU {n : ℕ} (h : 136 ≡ n [MOD 7]) (hle : n ≤ 4) (hpos : 1 ≤ n) : n = 3 := by
+theorem arith_zU {n : ℕ} (h : 136 ≡ n [MOD 7]) (hle : n ≤ 4) (_hpos : 1 ≤ n) : n = 3 := by
   unfold Nat.ModEq at h
   omega
 
@@ -95,7 +96,7 @@ theorem no_commuting_three_seven (hK : Nat.card K = 2)
   obtain ⟨ha1, hu1⟩ := hcon
   set V := Fin 4 ⊕ Fin 4 → K with hVdef
   set Q : QuadraticForm K V := quadPlus 4 K with hQdef
-  haveI : Finite V := inferInstance
+  have : Finite V := inferInstance
   have hQnd : (QuadraticMap.polarBilin Q).Nondegenerate := nondegenerate_polarBilin_quadPlus 4 K
   have hreg : ∀ v, (∀ w, QuadraticMap.polar Q v w = 0) → v = 0 := fun v hv =>
     hQnd.1 v fun w => by simpa using hv w
@@ -111,8 +112,8 @@ theorem no_commuting_three_seven (hK : Nat.card K = 2)
     exact one_ne_zero h0
   have hoa : OddOrderIsometry Q 3 a := ⟨ha, ha3, hcast 3 (by norm_num), hreg⟩
   have hou : OddOrderIsometry Q 7 u := ⟨hu, hu7, hcast 7 (by norm_num), hreg⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdimV : finrank K V = 8 := by
     show finrank K (Fin 4 ⊕ Fin 4 → K) = 8
     simp

@@ -121,6 +121,6 @@ theorem isIrreducibleUnder_inf_normalizer_of_psl2_of_le {G : Type} [Group G] [Fi
     (hM : H ⊓ Subgroup.normalizer (X : Set G) ≤ M) :
     CFSG.LocalAnalysis.RankThreeUC.Section6.IsIrreducibleUnder (M ⊓ Subgroup.normalizer (X : Set G)) X :=
   isIrreducibleUnder_mono (isIrreducibleUnder_inf_normalizer_of_psl2 hp hn hH hXH hX)
-    (fun x hx => ⟨hM hx, hx.2⟩)
+    (fun _x hx => ⟨hM hx, hx.2⟩)
 
 end CFSG.LocalAnalysis.RankThreeUC.ProofSupport.ModelledSylowNormalizerAction

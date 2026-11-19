@@ -62,7 +62,7 @@ theorem hs_three_facts :
   obtain ⟨⟨-, ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hz3, hz1⟩, h13⟩, h22⟩, h32⟩, h123⟩, h233⟩, h132⟩, hm1⟩, hc1⟩, hc2⟩, hc3⟩⟩,
     ⟨⟨htree, hdist⟩, hsize⟩⟩ := h
   set z := evalCodes hsS zW with hzdef
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨orderOf_eq_prime hz3 hz1, ⟨?_, ?_, ?_, ?_⟩, ?_, ?_, ?_⟩
   · simpa [mooreHS] using h13
   · intro j hj2 hj3
@@ -150,7 +150,7 @@ theorem kd264RowData_HS_three : KD264Gen.KD264RowData 3 ↥hs100P := by
     rw [Subgroup.centralizer_closure, Subgroup.mem_centralizer_iff]
     rintro _ ⟨j, -, rfl⟩
     exact hcomm j
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hs : IsSimpleGroup ↥D := eL.symm.isSimpleGroup
   have hDcard : Nat.card ↥D = 60 := by
     rw [← Nat.card_congr eL.toEquiv, nat_card_alternatingGroup]

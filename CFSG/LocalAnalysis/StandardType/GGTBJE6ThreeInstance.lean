@@ -15,7 +15,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma e6c3i_commutator_sup_central_le {G : Type*} [Group G] {J K : Subgroup G}
     (hK : K ≤ Subgroup.center G) : ⁅J ⊔ K, J ⊔ K⁆ ≤ ⁅J, J⁆ := by
-  haveI : K.Normal := ⟨fun k hk g => by
+  have : K.Normal := ⟨fun k hk g => by
     have h := Subgroup.mem_center_iff.mp (hK hk) g
     rw [h]
     simpa using hk⟩
@@ -185,8 +185,8 @@ theorem ggE6Three_frameClass_of_tb
     have h1 : orderOf ζ ≤ Nat.card Kˣ := orderOf_le_card
     rw [hζo, Nat.card_units] at h1
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hKcard⟩ := FiniteField.card K 2
   have hn : 1 ≤ (n : ℕ) := n.pos
   have hK2 : Nat.card K = 2 ^ (n : ℕ) := by

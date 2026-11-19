@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F M : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_comm_zpowers {t g v : G} (htg : t * g = g * t) (hgv : g * v = v * g) :
     g * (t * v * t⁻¹) = (t * v * t⁻¹) * g := by
   have hgtinv : g * t⁻¹ = t⁻¹ * g := by
@@ -25,12 +26,14 @@ private lemma conj_comm_zpowers {t g v : G} (htg : t * g = g * t) (hgv : g * v =
     _ = t * v * (t⁻¹ * g) := by rw [hgtinv]
     _ = (t * v * t⁻¹) * g := by group
 
-private lemma conjSub_centEl_le (h : NtTwo t g P U S F M) :
+omit [Finite G] in
+private lemma conjSub_centEl_le (_h : NtTwo t g P U S F M) :
     conjSub t (centEl U g) ≤ conjSub t U := by
   intro b hb
   obtain ⟨w, hw, rfl⟩ := (mem_conjSub_iff' t (centEl U g) b).mp hb
   exact (mem_conjSub_iff' t U _).mpr ⟨w, (show centEl U g ≤ U from inf_le_left) hw, rfl⟩
 
+omit [Finite G] in
 private lemma centEl_mem_M (h : NtTwo t g P U S F M) {w : G} (hw : w ∈ centEl U g) :
     w ∈ M := by
   obtain ⟨u, hu, hwu⟩ := (y7n_fuFacts h).cls w hw
@@ -40,6 +43,7 @@ private lemma centEl_mem_M (h : NtTwo t g P U S F M) {w : G} (hw : w ∈ centEl 
   rw [hweq, ← commutatorElement_inv]
   exact M.inv_mem (h.M_comm u (h.wr.le_left.1 hu))
 
+omit [Finite G] in
 private lemma conjSub_centEl_mem_M (h : NtTwo t g P U S F M) {x : G}
     (hx : x ∈ conjSub t (centEl U g)) : x ∈ M := by
   obtain ⟨w, hw, rfl⟩ := (mem_conjSub_iff' t (centEl U g) x).mp hx
@@ -54,6 +58,7 @@ private lemma conjSub_centEl_mem_M (h : NtTwo t g P U S F M) {x : G}
   rw [hweq, hconj, ← commutatorElement_inv]
   exact M.inv_mem (h.M_comm (t * u * t⁻¹) (h.wr.le_left.2 hv))
 
+omit [Finite G] in
 private lemma card_sup_centEl_conjSub (h : NtTwo t g P U S F M) :
     Nat.card ↥(centEl U g ⊔ conjSub t (centEl U g)) = 64 := by
   have hFU := y7n_fuFacts h
@@ -101,6 +106,7 @@ theorem y7n_g_cent_M (h : NtTwo t g P U S F M) : ∀ m ∈ M, g * m = m * g := b
   intro m hm
   exact (Subgroup.mem_centralizer_singleton_iff.mp (sup_le hcentA hcentB hm)).symm
 
+omit [Finite G] in
 theorem y7n_g_notin_P (h : NtTwo t g P U S F M) : g ∉ P := by
   intro hgP
   have hmem : g ∈ S := by
@@ -132,7 +138,7 @@ theorem y7n_J2_facts (h : NtTwo t g P U S F M) :
   have hgne : g ≠ 1 := by
     intro h1
     exact h.sg.g_notin (h1 ▸ S.one_mem)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardZ : Nat.card (zpowers g) = 2 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime h.sg.g_sq hgne
@@ -161,7 +167,7 @@ theorem y7n_J2_facts (h : NtTwo t g P U S F M) :
               < Nat.card ↥(zpowers g) :=
                 Subgroup.card_lt_of_lt (lt_of_le_of_ne hle hne)
             _ = 2 := hcardZ
-        haveI : Nonempty ↥((centEl U g ⊔ conjSub t (centEl U g)) ⊓ zpowers g) := ⟨1⟩
+        have : Nonempty ↥((centEl U g ⊔ conjSub t (centEl U g)) ⊓ zpowers g) := ⟨1⟩
         have hpos : 0 < Nat.card
             ↥((centEl U g ⊔ conjSub t (centEl U g)) ⊓ zpowers g) := Nat.card_pos
         have hcard1 : Nat.card

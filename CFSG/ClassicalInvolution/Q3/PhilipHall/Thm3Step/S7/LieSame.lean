@@ -214,7 +214,7 @@ theorem td4ThreeFund24_proved : TD4ThreeFund24 := by
 
 theorem modelFacts_isFundTag_of {t : CFSG.Assembly.LowTwoRank.StatedLieTag}
     (h : Generic.IsFundTag t) : ModelFacts.IsFundTag t := by
-  cases t <;> first | trivial | exact h.elim
+  cases t <;> first | trivial
 
 theorem exists_conj_of_fund (hD4 : TD4ThreeFund24) {c : CompData} (hV : c.Valid) {P : Type}
     [Group P] (ψ : c.G →* P) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center c.G)
@@ -243,7 +243,7 @@ theorem exists_conj_of_fund (hD4 : TD4ThreeFund24) {c : CompData} (hV : c.Valid)
     · obtain ⟨g, hg⟩ := ModelFacts.fundamentalSingleClass t n 3 1 Nat.prime_three
         (modelFacts_isFundTag_of hfund) hadm hG2 hD R₁ h₁ R₂ h₂
       exact ⟨g, hg⟩
-  · haveI := isSolvable_sl2Three
+  · have := isSolvable_sl2Three
     exact absurd (Group.isSolvable_of_surjective hψ) hsol
   · exact Uniform.m11_classicalClass_conj h₁ h₂
 
@@ -273,8 +273,8 @@ theorem twoLieOrbitsSame_of_cit3 (hD4 : TD4ThreeFund24) : TwoLieOrbitsSame := by
   classical
   intro Y _ _ hcit hO _ hF Φ hΦ K hK J hJ zK zJ hzK hzJ ⟨hzKH, hLK⟩ ⟨hzJH, hLJ⟩ hG
   set L := genFittingFStar Y with hLdef
-  haveI : IsSimpleGroup ↥L := hF.1
-  haveI hLn : L.Normal := genFittingFStar_normal Y
+  have : IsSimpleGroup ↥L := hF.1
+  have hLn : L.Normal := genFittingFStar_normal Y
   have hC := centralizer_eq_bot_of_fStarSimple hF
   obtain ⟨hK8, Λ₁, w₁, -, hKΛ₁, h24₁, hcl₁⟩ := exists_classical_of_orbitLie hF hΦ hK hzK hzKH hLK
   obtain ⟨hJ8, Λ₂, w₂, -, hJΛ₂, h24₂, hcl₂⟩ := exists_classical_of_orbitLie hF hΦ hJ hzJ hzJH hLJ

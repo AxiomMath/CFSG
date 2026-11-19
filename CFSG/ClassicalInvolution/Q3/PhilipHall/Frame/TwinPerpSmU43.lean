@@ -81,7 +81,7 @@ theorem Emb.conj {Y : Type} [Group Y] {ρ : Y →* MulAut P43} (h : Emb ρ) (d :
 theorem exists_emb {Y : Type} [Group Y] [Finite Y]
     (hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥)
     (e : ↥(genFittingFStar Y) ≃* P43) : ∃ ρ : Y →* MulAut P43, Emb ρ := by
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   set ρ : Y →* MulAut P43 :=
     (MulAut.congr e).toMonoidHom.comp (MulAut.conjNormal : Y →* MulAut ↥(genFittingFStar Y))
     with hρ
@@ -270,7 +270,7 @@ theorem false_of_viol (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 ↥(tightCore R
 theorem longFundSetE3_of_quat1 (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 ↥(tightCore R))
     {ρ : Y →* MulAut P43} (hρ : Emb ρ) (ht : ρ t = tz) (hK : (tightCore R).map ρ = quat1) :
     LongFundSetE3 R t := by
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   set K := tightCore R with hKdef
   have hKL : K ≤ genFittingFStar Y := by
     intro k hk
@@ -377,8 +377,8 @@ theorem longFundSetE3_of_emb (h : PerpHypS n Y R S t) {ρ : Y →* MulAut P43} (
 
 theorem longFundSetE3_u43 (h : PerpHypS n Y R S t)
     (hF : CFSG.Blueprint.LieModel ↥(genFittingFStar Y) .PSU 4 3 1) : LongFundSetE3 R t := by
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := Q5L5U5.statedClassicalModel_of_lieModel_psu hF

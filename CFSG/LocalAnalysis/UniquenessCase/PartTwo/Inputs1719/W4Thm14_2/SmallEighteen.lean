@@ -19,6 +19,7 @@ section Rep
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {U : Type} [AddCommGroup U] [Module (ZMod 2) U] [Finite U]
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 private lemma repEquiv_pow (ρ : Representation (ZMod 2) SL(3, F) U) (x : SL(3, F)) (n : ℕ) :
     X7a.repEquiv ρ x ^ n = X7a.repEquiv ρ (x ^ n) := by
   induction n with
@@ -29,6 +30,7 @@ private lemma repEquiv_pow (ρ : Representation (ZMod 2) SL(3, F) U) (x : SL(3, 
     change ρ (x ^ n) (ρ x u) = ρ (x ^ n * x) u
     rw [map_mul, Module.End.mul_apply]
 
+omit [Fintype F] [CharP F 2] in
 private lemma scalarElement_pow_three (ω : Fˣ) (hω : ω ^ 3 = 1) :
     (LinearFlag.scalarElement ω hω : SL(3, F)) ^ 3 = 1 := by
   ext i j
@@ -37,6 +39,7 @@ private lemma scalarElement_pow_three (ω : Fˣ) (hω : ω ^ 3 = 1) :
     rw [← Units.val_pow_eq_pow_val, hω, Units.val_one]
   rw [h3, map_one, Matrix.SpecialLinearGroup.coe_one]
 
+omit [Fintype F] [CharP F 2] in
 private lemma scalarElement_ne_one (ω : Fˣ) (hω : ω ^ 3 = 1) (hω1 : (ω : F) ≠ 1) :
     LinearFlag.scalarElement ω hω ≠ 1 := by
   intro h
@@ -46,9 +49,10 @@ private lemma scalarElement_ne_one (ω : Fˣ) (hω : ω ^ 3 = 1) (hω1 : (ω : F
     change (Matrix.diagonal (fun _ : Fin 3 => (ω : F))) 0 0 = (ω : F)
     simp [Matrix.diagonal]
   rw [h, Matrix.SpecialLinearGroup.coe_one] at hcoeff
-  simp [Matrix.one_apply] at hcoeff
+  simp at hcoeff
   exact hω1 hcoeff.symm
 
+omit [Fintype F] [CharP F 2] [Finite U] in
 private lemma fixSpace_repEquiv_eq_bot (ρ : Representation (ZMod 2) SL(3, F) U)
     {x : SL(3, F)} (hx : x ∈ LinearFlag.scalars 3 F) (hx1 : x ≠ 1)
     (hz : ∀ x ∈ LinearFlag.scalars 3 F, x ≠ 1 → ∀ u, ρ x u = u → u = 0) :
@@ -58,6 +62,7 @@ private lemma fixSpace_repEquiv_eq_bot (ρ : Representation (ZMod 2) SL(3, F) U)
   rw [CFSG.RankThree.OrthogonalInvolutions.mem_fixSpace] at hu
   exact hz x hx hx1 u hu
 
+omit [Fintype F] [CharP F 2] in
 private lemma coe_stdAut_zero_scalarElement (M : GL (Fin 3) F) (σ : F ≃+* F)
     (ω : Fˣ) (hω : ω ^ 3 = 1) :
     ((CFSG.QuasithinUnique.K1.stdAut M σ 0 (LinearFlag.scalarElement ω hω) : SL(3, F)) :
@@ -82,6 +87,7 @@ private lemma coe_stdAut_zero_scalarElement (M : GL (Fin 3) F) (σ : F ≃+* F)
       Units.val_one, Matrix.mul_one]
   exact hm
 
+omit [Fintype F] [CharP F 2] in
 private lemma coe_stdAut_one_scalarElement (M : GL (Fin 3) F) (σ : F ≃+* F)
     (ω : Fˣ) (hω : ω ^ 3 = 1) :
     ((CFSG.QuasithinUnique.K1.stdAut M σ 1 (LinearFlag.scalarElement ω hω) : SL(3, F)) :
@@ -112,11 +118,13 @@ private lemma coe_stdAut_one_scalarElement (M : GL (Fin 3) F) (σ : F ≃+* F)
       Units.val_one, Matrix.mul_one]
   exact hm
 
+omit [Fintype F] [CharP F 2] in
 private lemma omega_sq_eq_inv (ω : Fˣ) (hω : ω ^ 3 = 1) :
     (ω : F) ^ 2 = ((ω⁻¹ : Fˣ) : F) := by
   rw [← Units.val_pow_eq_pow_val, CFSG.Fischer.Classification.sq_eq_inv_of_pow_three hω,
     Units.val_inv_eq_inv_val]
 
+omit [Fintype F] [CharP F 2] in
 private lemma stdAut_zero_scalarElement_eq_inv (M : GL (Fin 3) F) (σ : F ≃+* F)
     (ω : Fˣ) (hω : ω ^ 3 = 1) (hσω : σ (ω : F) = ((ω⁻¹ : Fˣ) : F)) :
     CFSG.QuasithinUnique.K1.stdAut M σ 0 (LinearFlag.scalarElement ω hω) =
@@ -127,6 +135,7 @@ private lemma stdAut_zero_scalarElement_eq_inv (M : GL (Fin 3) F) (σ : F ≃+* 
     LinearFlag.coe_scalarElement]
   rfl
 
+omit [Fintype F] [CharP F 2] in
 private lemma stdAut_one_scalarElement_eq_inv (M : GL (Fin 3) F) (ω : Fˣ) (hω : ω ^ 3 = 1) :
     CFSG.QuasithinUnique.K1.stdAut M 1 1 (LinearFlag.scalarElement ω hω) =
       (LinearFlag.scalarElement ω hω)⁻¹ := by
@@ -136,6 +145,7 @@ private lemma stdAut_one_scalarElement_eq_inv (M : GL (Fin 3) F) (ω : Fˣ) (hω
     LinearFlag.coe_scalarElement]
   simp [Units.val_inv_eq_inv_val]
 
+omit [Fintype F] in
 private lemma stdAut_one_eq_graphFieldHom_one (M : GL (Fin 3) F) (σ : F ≃+* F)
     (hσ : ∀ y, σ y = y ^ 2) :
     ∀ x : SL(3, F),
@@ -183,7 +193,7 @@ theorem five_le_rank_of_finrank_eighteen (hF : Fintype.card F = 2 ^ 2)
   have hU : Nontrivial U := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
-    haveI : Subsingleton U := hsub
+    have : Subsingleton U := hsub
     have h0 : Module.finrank (ZMod 2) U = 0 := Module.finrank_zero_of_subsingleton
     omega
   have hρinj : Function.Injective ρ := by
@@ -227,7 +237,7 @@ theorem five_le_rank_of_finrank_eighteen (hF : Fintype.card F = 2 ^ 2)
     rcases hmem_cases b hb with rfl | rfl
     · exact ⟨x, fun u => rfl⟩
     · exact haN x
-  haveI hEA : CFSG.IsElementaryAbelian 2 A :=
+  have hEA : CFSG.IsElementaryAbelian 2 A :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (x := a) (by simpa [pow_two] using ha2)
   let aA : ↥A := ⟨a, Subgroup.mem_zpowers a⟩
   have hν2 : X7a.normalizerHom ρ hker A hA aA * X7a.normalizerHom ρ hker A hA aA = 1 := by

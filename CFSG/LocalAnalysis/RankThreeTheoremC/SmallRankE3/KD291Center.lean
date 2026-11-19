@@ -47,8 +47,8 @@ theorem kd291_center_bot {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hY3 : Open.pRank p (⊤ : Subgroup Y) ≤ 3) : center ↥L = ⊥ := by
   by_contra hZ
   obtain ⟨hperf, hsimp⟩ := hL.2.2
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hsimp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hsimp
+  have : Fact p.Prime := ⟨hp⟩
   have hnonab : ∃ a b : ↥L ⧸ center ↥L, a * b ≠ b * a := kd291_aux_CA_nonab hperf
   have hcatL : IsCatalogGroup (↥L ⧸ center ↥L) :=
     CFSG.AGLEmbedding.CatalogSimpleSections.surjective_image hcat L
@@ -157,14 +157,14 @@ theorem kd291_centralizer_bot {p : ℕ} {Y : Type} [Group Y] [Finite Y] (L : Sub
 
 theorem kd291_simple_of_center_bot {Y : Type} [Group Y] (L : Subgroup Y)
     (hq : CFSG.Open.IsQuasisimple ↥L) (hZ : center ↥L = ⊥) : IsSimpleGroup ↥L := by
-  haveI := hq.2
+  have := hq.2
   exact (((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm).isSimpleGroup
 
 theorem kd291_nonabelian_of_quasisimple {Y : Type} [Group Y] (L : Subgroup Y)
     (hq : CFSG.Open.IsQuasisimple ↥L) : ∃ a b : ↥L, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
-  haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+  push Not at h
+  have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
   have hcomm : commutator ↥L = ⊥ := by
     rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
     intro g _
@@ -177,8 +177,8 @@ theorem kd291_nonabelian_of_quasisimple {Y : Type} [Group Y] (L : Subgroup Y)
 theorem kd291_ne_bot_of_quasisimple {Y : Type} [Group Y] (L : Subgroup Y)
     (hq : CFSG.Open.IsQuasisimple ↥L) : L ≠ ⊥ := by
   intro h
-  haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hq
-  haveI : Subsingleton ↥L := by
+  have := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+  have : Subsingleton ↥L := by
     rw [h]
     infer_instance
   exact not_subsingleton ↥L ‹_›

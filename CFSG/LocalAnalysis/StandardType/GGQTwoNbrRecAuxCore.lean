@@ -25,10 +25,10 @@ theorem qTwoNbrRec_core
   have hxBs : x ∈ Bs := hcfg.2.1.1 hcfg.1.2.2.2.2.2.2.1.2.1
   have hmark' := qTwoNbrRec_marking hd hmark hK
   obtain ⟨F, hFf, hFfin, θ, hF, hperf, hN, hind⟩ := qTwoNbrRec_unpack hd hmark'
-  letI : Field F := hFf
-  letI : Finite F := hFfin
+  let : Field F := hFf
+  let : Finite F := hFfin
   have hFd : UnitaryFieldData 2 1 F := TableBU.unitaryFieldData_of_card hF le_rfl
-  haveI : CharP F 2 := hFd.charP
+  have : CharP F 2 := hFd.charP
   have hBsel : CFSG.Open.IsElemAbelian 3 Bs := hcfg.2.1.2.1
   have hrank : 3 ^ (d / 3 + 2) ≤ Nat.card (ggGamma K hN).range := by
     by_cases hd6 : d = 6
@@ -38,7 +38,7 @@ theorem qTwoNbrRec_core
   obtain ⟨Q, hQ, q, hq_surj, hq_ker⟩ := qTwoNbrRec_exists_quot hN
   obtain ⟨ψ, hψker, hψrange, hψdiag⟩ :=
     qTwoNbrRec_model_psi hN hBsel hF hd θ hperf hind hrank q hq_ker
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF4 : Nat.card F = 4 := by rw [hF]; norm_num
   exact ⟨{
     hJK := hJK

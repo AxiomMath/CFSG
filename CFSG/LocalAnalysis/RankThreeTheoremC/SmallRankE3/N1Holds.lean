@@ -22,7 +22,7 @@ theorem noTwoComponentsE3_holds : NoTwoComponentsE3 := by
   obtain ⟨L, K, hL, hLp, hK, hKp, hLK⟩ := hmulti
   obtain ⟨hPM, hxM, hzM, hpl⟩ := N3.plane63E3_of_situation hSet hs hx hz
   have hp : (5 : ℕ).Prime := Nat.prime_five
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hβs := N3.betaStructure_E3
     CFSG.LocalAnalysis.RankFourTheoremC.kFactCenterCyclicGeFive_holds GL83.I_6_10_1_proved
     GL83.I713.i_7_13_1_holds K713S.kFactSylowSplit_holds hpl ⟨L, K, hL, hK, hLK⟩

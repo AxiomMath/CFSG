@@ -40,6 +40,7 @@ structure ElevenTwoFrame (hC : HypothesisC D) (S : Sylow 2 G) (T : Sylow 2 (Halp
   d_mem : hC.d ∈ (S : Subgroup G)
   inter_eq : (S : Set G) ∩ D = insert hC.d (Set.range fun i => ((r i : Halpha D hC.alpha) : G))
 
+omit [Finite G] in
 private theorem commute_d_frameT (hC : HypothesisC D) (r : Fin 3 → Halpha D hC.alpha) :
     Commute hC.d (frameT hC r) :=
   (Subgroup.mem_centralizer_singleton_iff.mp
@@ -103,6 +104,7 @@ private theorem inter_D_eq_minus {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.
           ((mem_DstarH_iff hC).mp ((hr.inter_eq ▸ Set.mem_range_self i).2))
       exact ⟨hTS (Subgroup.mem_map.mpr ⟨r i, hwiT, rfl⟩), hwiD⟩
 
+omit [Finite G] in
 private theorem mulAut_conj_prod_eq_of_image_eq {x : Fin 4 → G}
     (hx : Function.Injective x) (hcomm : ∀ i j, Commute (x i) (x j)) (g : G)
     (himg : MulAut.conj g '' Set.range x = Set.range x) :
@@ -126,7 +128,7 @@ private theorem mulAut_conj_prod_eq_of_image_eq {x : Fin 4 → G}
     obtain ⟨i, rfl⟩ := ha
     obtain ⟨j, rfl⟩ := hb
     exact hcomm i j
-  letI : IsMulCommutative A := Subgroup.isMulCommutative_closure hpair
+  let : IsMulCommutative A := Subgroup.isMulCommutative_closure hpair
   let z : Fin 4 → A := fun i => ⟨x i, Subgroup.subset_closure ⟨i, rfl⟩⟩
   let E : A := ∏ i, z i
   have hE : (E : G) = x 0 * x 1 * x 2 * x 3 := by
@@ -154,7 +156,7 @@ theorem ElevenTwoHyp.exists_frame {hC : HypothesisC D} (h : ElevenTwoHyp hC) :
   obtain ⟨r, hr⟩ := h.factsH.frame T
   obtain ⟨S, hTS, hdS⟩ := exists_sylow_frame hC T
   refine ⟨S, T, r, hr, hTS, hdS, ?_⟩
-  exact inter_D_eq_minus hr h.alpha_eq S.isPGroup' hTS hdS
+  exact inter_D_eq_minus hr h.alpha_eq S.isPGroup hTS hdS
 
 namespace ElevenTwoFrame
 
@@ -198,7 +200,7 @@ theorem mem_commSet (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) (i : Fi
     (mem_DstarH_iff hC).mp hri
   rwa [← h.DalphaStar_eq]
 
-private theorem frameT_mul_self (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+private theorem frameT_mul_self (_h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     frameT hC r * frameT hC r = 1 := by
   have hr : ∀ i, r i ∈ DstarH hC := fun i => (hF.frame.inter_eq ▸ Set.mem_range_self i).2
   have hsq : ∀ i, r i * r i = 1 := fun i =>
@@ -230,7 +232,7 @@ theorem frameT_not_mem (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     rw [← heq]
     exact (r 0 * r 1 * r 2 : Halpha D hC.alpha).2)
 
-theorem frameT_ne_one (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+theorem frameT_ne_one (_h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     frameT hC r ≠ 1 := by
   intro h1
   have hr0 : r 0 ∈ centSet (DstarH hC) (r 0 * r 1 * r 2) := by
@@ -324,7 +326,7 @@ theorem normalizer_le (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     rw [hrange]
     exact Set.mem_range_self i
   have hxcomm : ∀ i j, Commute (x i) (x j) := fun i j =>
-    commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup'
+    commute_of_mul_mem_of_isPGroup hC.setup.oddT S.isPGroup
       (hx_mem i).2 (hx_mem j).2 (S.mul_mem (hx_mem i).1 (hx_mem j).1)
   have himg : MulAut.conj g '' Set.range x = Set.range x := by
     rw [← hrange]
@@ -340,7 +342,8 @@ theorem normalizer_le (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
   calc g * frameE hC r = (g * frameE hC r * g⁻¹) * g := by group
     _ = frameE hC r * g := by rw [← MulAut.conj_apply, hfix]
 
-theorem d_mem_centSet (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+omit [Finite G] in
+theorem d_mem_centSet (_h : ElevenTwoHyp hC) (_hF : ElevenTwoFrame hC S T r) :
     hC.d ∈ centSet D (frameE hC r) := by
   refine ⟨hC.hd, ?_⟩
   rw [frameE]
@@ -374,7 +377,8 @@ theorem frameE_mem_localGroup (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T 
       (Subgroup.subset_closure h2)
   exact Subgroup.mul_mem _ (Subgroup.subset_closure hu) ht
 
-theorem commute_frameE (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+omit [Finite G] in
+theorem commute_frameE (_h : ElevenTwoHyp hC) (_hF : ElevenTwoFrame hC S T r) :
     ∀ x ∈ localGroup D (frameE hC r), Commute x (frameE hC r) := by
   intro x hx
   rw [localGroup] at hx

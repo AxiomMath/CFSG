@@ -121,7 +121,7 @@ theorem prime_le_succ_of_centralizer_le_of_free_action [Finite G] (hp : p.Prime)
     rw [hRdef, ← map_subgroupOf_eq_of_le hR0H]
     exact map_mono hT
   have hRp : IsPGroup r R :=
-    T.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ _ H.subtype_injective)
+    T.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ _ H.subtype_injective)
   have hCR : R ⊓ centralizer {x} = R0 := by
     refine (eq_of_le_of_card_ge (le_inf hR0R fun y hy => ?_) ?_).symm
     · exact mem_centralizer_singleton_iff.2

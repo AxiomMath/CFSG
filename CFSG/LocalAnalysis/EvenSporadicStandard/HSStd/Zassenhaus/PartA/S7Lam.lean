@@ -74,7 +74,7 @@ theorem s7_commutator_mulAut_alt6 : _root_.commutator (MulAut A6) = innA6 := by
     norm_num
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : IsMulCommutative (MulAut A6 ⧸ innA6) := by
-    haveI : Finite (MulAut A6 ⧸ innA6) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    have : Finite (MulAut A6 ⧸ innA6) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   rw [_root_.commutator_def]
   rw [Subgroup.commutator_le]
@@ -108,7 +108,7 @@ theorem commutator_prod_alt6 :
         rw [commutatorElement_eq_one_iff_mul_comm]
         exact mul_comm a b
       refine Prod.ext ?_ rfl
-      simpa [commutatorElement_def] using hab.symm
+      simp [commutatorElement_def]
   · rintro _ ⟨m, hm, rfl⟩
     have h0 : m ∈ ⁅(⊤ : Subgroup (MulAut A6)), (⊤ : Subgroup (MulAut A6))⁆ := by
       rw [← _root_.commutator_def]; exact innA6_le_commutator hm
@@ -124,6 +124,7 @@ section Lam
 
 variable {X : Type} [Group X] [Finite X] {t : X}
 
+omit [Finite X] in
 theorem e_symm_mem_commutator
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) {m : MulAut A6}
     (hm : m ∈ innA6) : e.symm (1, m) ∈ _root_.commutator ↥(centralizer ({t} : Set X)) := by
@@ -148,22 +149,24 @@ theorem e_symm_mem_commutator
   rw [this] at hl
   exact hl
 
+omit [Finite X] in
 theorem snd_eq_one_of_commute
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6)
     (g : ↥(centralizer ({t} : Set X)))
     (h : ∀ m ∈ innA6, g * e.symm (1, m) = e.symm (1, m) * g) : (e g).2 = 1 := by
-  haveI := isSimple_alt6
+  have := isSimple_alt6
   refine eq_one_of_commute_conj alt6_nonabelian _ fun s => ?_
   have h1 := congrArg e (h (MulAut.conj s) ⟨s, rfl⟩)
   rw [map_mul, map_mul, MulEquiv.apply_symm_apply] at h1
   have h2 := congrArg Prod.snd h1
   simpa using h2
 
+omit [Finite X] in
 theorem e_t_eq (ht : orderOf t = 2)
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) :
     (e ⟨t, mem_centralizer_singleton_iff.2 rfl⟩).2 = 1 ∧
       (e ⟨t, mem_centralizer_singleton_iff.2 rfl⟩).1 ≠ 1 := by
-  haveI := isSimple_alt6
+  have := isSimple_alt6
   set t' : ↥(centralizer ({t} : Set X)) := ⟨t, mem_centralizer_singleton_iff.2 rfl⟩ with ht'
   have hcen : ∀ x : ↥(centralizer ({t} : Set X)), x * t' = t' * x := fun x =>
     Subtype.ext (mem_centralizer_singleton_iff.1 x.2)
@@ -196,6 +199,7 @@ theorem e_t_eq (ht : orderOf t = 2)
     rw [center_mulAut_eq_bot alt6_nonabelian] at hz
     simpa using hz
 
+omit [Finite X] in
 theorem mem_zpowers_of_commute_derived (ht : orderOf t = 2)
     (e : ↥(centralizer ({t} : Set X)) ≃* Multiplicative (ZMod 2) × MulAut A6) {g : X}
     (hg : g ∈ centralizer ({t} : Set X)) (hc : ∀ l ∈ centralizerDerived t, g * l = l * g) :
@@ -265,7 +269,7 @@ theorem cent_normal_dichotomy (hO : Open.fusionOddCore X = ⊥) (ht : orderOf t 
     have h2 : 2 ∣ Nat.card B := by
       rw [Nat.not_odd_iff_even] at hev
       exact even_iff_two_dvd.1 hev
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := B) 2 h2
     have hb2 : b * b = 1 := mul_self_of_orderOf_two hb
     have h3 := hinv b b.2

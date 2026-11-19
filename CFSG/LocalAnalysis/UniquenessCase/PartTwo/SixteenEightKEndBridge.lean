@@ -25,9 +25,9 @@ theorem s16k_centralizer_of_addCommutant {Q : Type} [CommGroup Q] {L' : Subgroup
   by_cases hι : Nonempty ι
   · obtain ⟨π, hπ⟩ := h
     obtain ⟨f, hf⟩ := s16e_omc_centralizer_hom_units (H := L') hΓ hπ
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcardK : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-    haveI : Subsingleton Kˣ :=
+    have : Subsingleton Kˣ :=
       Fintype.card_le_one_iff_subsingleton.1 (by rw [Fintype.card_units, hcardK])
     rw [Subgroup.eq_bot_iff_forall]
     intro c hc
@@ -42,12 +42,12 @@ theorem s16k_centralizer_of_addCommutant {Q : Type} [CommGroup Q] {L' : Subgroup
       rw [injective_iff_map_eq_one]
       intro u hu
       exact Subtype.ext (Subgroup.mem_bot.mp ((hβk u).1 hu))
-    haveI hsubA : Subsingleton (ι → K) :=
+    have hsubA : Subsingleton (ι → K) :=
       ⟨fun f g => funext fun i => (hι.false i).elim⟩
-    haveI hsubM : Subsingleton ((FFModel.nat Γ).Amb) := hsubA
-    haveI hsubU : Subsingleton ↥(⊤ : Subgroup Q) :=
+    have hsubM : Subsingleton ((FFModel.nat Γ).Amb) := hsubA
+    have hsubU : Subsingleton ↥(⊤ : Subgroup Q) :=
       ⟨fun u v => hβ_inj (Subsingleton.elim (β u) (β v))⟩
-    haveI hsubQ : Subsingleton Q :=
+    have hsubQ : Subsingleton Q :=
       ⟨fun x y => (Subgroup.topEquiv (G := Q)).symm.injective (Subsingleton.elim _ _)⟩
     rw [Subgroup.eq_bot_iff_forall]
     intro c hc

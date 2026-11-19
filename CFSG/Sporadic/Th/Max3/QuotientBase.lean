@@ -14,13 +14,13 @@ namespace CFSG.Sporadic.Th.Max3
 open CFSG.Sporadic.Th.Native CFSG.ComponentClassification.PresentationLocal
 open scoped commutatorElement
 
-@[expose] def aPerm : Equiv.Perm (Fin 9) where
+def aPerm : Equiv.Perm (Fin 9) where
   toFun := ![1, 0, 3, 2, 5, 4, 7, 6, 8]
   invFun := ![1, 0, 3, 2, 5, 4, 7, 6, 8]
   left_inv := by decide
   right_inv := by decide
 
-@[expose] def bPerm : Equiv.Perm (Fin 9) where
+def bPerm : Equiv.Perm (Fin 9) where
   toFun := ![0, 8, 1, 4, 3, 2, 5, 6, 7]
   invFun := ![0, 2, 5, 4, 3, 6, 7, 8, 1]
   left_inv := by decide

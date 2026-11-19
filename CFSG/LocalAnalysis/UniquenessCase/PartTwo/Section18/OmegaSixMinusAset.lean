@@ -20,11 +20,11 @@ theorem k_Omega6Minus_aSet_rank :
   classical
   obtain ⟨F, hFfield, hFfinite, b, c, hF, hbc, ε, ψ, hψ⟩ :=
     exists_natCoords_of_natOmegaMinus hN
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
   obtain ⟨U, hU2, hUs, hfixU⟩ :=
     exists_fixed_singular_plane_of_mem_aSet hn hF hbc ε ψ hψ hE
   have hEab : IsElemAbelian2 E := hE.2.2.1
@@ -52,7 +52,6 @@ theorem k_Omega6Minus_aSet_rank :
     obtain ⟨e, -, rfl⟩ := Subgroup.mem_map.mp hl
     obtain ⟨e', -, rfl⟩ := Subgroup.mem_map.mp hl'
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (hEab.1 e e.2 e' e'.2)

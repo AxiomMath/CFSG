@@ -35,8 +35,8 @@ theorem s16k_false_of_sp6 (h : S16gRowCtx D V₀ V L hV)
   have hrk3 : 3 ≤ CFSG.Open.pRank p (Mbar D.M V₀ V hV) := h.three_le_pRank hpσ
   obtain ⟨Q, hQc, hQf, L', N, hsq, hcardQ, ⟨eL⟩, hirrImp, hNL, hrank, -⟩ :=
     s16k_exists_quot_data h
-  letI := hQc
-  letI := hQf
+  let := hQc
+  let := hQf
   have hcardQ8 : Nat.card Q = 2 ^ 8 := by rw [hcardQ, hm]
   have hQrw : CFSG.Open.pRank p (⊥ : Subgroup (MulAut Q)) ≤ 0 :=
     CFSG.SectionRank.pRank_le hp.one_lt fun E hE _ => by rw [le_bot_iff.1 hE]; simp
@@ -44,7 +44,7 @@ theorem s16k_false_of_sp6 (h : S16gRowCtx D V₀ V L hV)
     unfold rk
     rw [Subgroup.card_top, hcardQ8]
     exact padicValNat.prime_pow 8
-  haveI : Nontrivial Q :=
+  have : Nontrivial Q :=
     Finite.one_lt_card_iff_nontrivial.1 (by rw [hcardQ8]; norm_num)
   have hQirr : IsIrrOn L' ⊤ ⊥ := by
     refine ⟨bot_lt_top, ?_, ?_, ?_⟩
@@ -67,7 +67,7 @@ theorem s16k_false_of_sp6 (h : S16gRowCtx D V₀ V L hV)
   have h5 : 3 ≤ if p = 3 then 3 else 1 := le_trans hrk3 (h4.trans (h1.trans h2))
   have hp3 : p = 3 := by
     by_contra hne
-    rw [if_neg hne] at h5
+    rw [ite_eq_right hne] at h5
     omega
   have hrk : CFSG.Open.pRank 3 (Mbar D.M V₀ V hV) ≤ 3 := by
     have ha : CFSG.Open.pRank 3 (Mbar D.M V₀ V hV) ≤ CFSG.Open.pRank 3 N := by
@@ -79,15 +79,15 @@ theorem s16k_false_of_sp6 (h : S16gRowCtx D V₀ V L hV)
     exact ha.trans hb
   obtain ⟨Q₂, hQ2c, hQ2f, q, ρ, hqs, hqk, hρ, heq, hsq2, hcard2, hirr2⟩ :=
     s16k_exists_quot_map h
-  letI := hQ2c
-  letI := hQ2f
+  let := hQ2c
+  let := hQ2f
   have hcard2_8 : Nat.card Q₂ = 2 ^ 8 := by rw [hcard2, hm]
   have hρ_sp : IsSpn ↥ρ.range 6 1 := s16k_isSpn_of_mulEquiv (MonoidHom.ofInjective hρ) hS
   have hρ_rk : rk ↥(⊤ : Subgroup Q₂) = 8 := by
     unfold rk
     rw [Subgroup.card_top, hcard2_8]
     exact padicValNat.prime_pow 8
-  haveI hQ2nt : Nontrivial Q₂ :=
+  have hQ2nt : Nontrivial Q₂ :=
     Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard2_8]; norm_num)
   have hρ_irr : IsIrrOn ρ.range ⊤ ⊥ := by
     refine ⟨bot_lt_top, ?_, ?_, ?_⟩

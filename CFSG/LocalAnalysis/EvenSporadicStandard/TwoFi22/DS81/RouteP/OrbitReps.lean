@@ -149,7 +149,7 @@ theorem connected_of_level {a : V} {f : V → ℕ} (h0 : f a = 0) (huniq : ∀ b
     (hdown : ∀ c k, f c = k + 1 → ∃ n, Δ.Adj c n ∧ f n = k)
     (hlip : ∀ u v, Δ.Adj u v → f v ≤ f u + 1) : Δ.Connected := by
   have h := (dist_eq_of_level h0 huniq hdown hlip).1
-  haveI : Nonempty V := ⟨a⟩
+  have : Nonempty V := ⟨a⟩
   exact ⟨fun u w => (h u).symm.trans (h w)⟩
 
 theorem edist_eq_of_level {a : V} {f : V → ℕ} (h0 : f a = 0) (huniq : ∀ b, f b = 0 → b = a)
@@ -318,7 +318,7 @@ theorem connected_of_level_of_reps {a : V} {f : V → ℕ} (K : Subgroup X)
     (hdown : ∀ r ∈ R, ∀ k, f r = k + 1 → ∃ n, Δ.Adj r n ∧ f n = k)
     (hlip : ∀ r ∈ R, ∀ v, Δ.Adj r v → f v ≤ f r + 1) : Δ.Connected := by
   have h := (dist_eq_of_level_of_reps hΔ K hK hfK hR h0 huniq hdown hlip).1
-  haveI : Nonempty V := ⟨a⟩
+  have : Nonempty V := ⟨a⟩
   exact ⟨fun u w => (h u).symm.trans (h w)⟩
 
 private theorem preconnected_ronanSet_smul (x : X) (i : ℕ) (a b : V)

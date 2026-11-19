@@ -7,6 +7,7 @@ open Subgroup
 section
 variable {G M : Type*} [Group G] [Finite G] [AddCommGroup M] [Finite M] [DistribMulAction G M]
 
+omit [Finite M] in
 theorem nsmul_ne_zero_of_coprime {n : ℕ} (hn : Nat.Coprime n (Nat.card M)) {m : M}
     (hm : m ≠ 0) : n • m ≠ 0 := by
   intro h
@@ -14,17 +15,20 @@ theorem nsmul_ne_zero_of_coprime {n : ℕ} (hn : Nat.Coprime n (Nat.card M)) {m 
   have h2 : addOrderOf m ∣ Nat.card M := addOrderOf_dvd_natCard m
   exact hm (AddMonoid.addOrderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hn h1 h2))
 
+omit [Finite G] [Finite M] in
 theorem sum_smul_fix (H : Subgroup G) [Fintype H] {g : G} (hg : g ∈ H) (m : M) :
     g • ∑ h : H, (h : G) • m = ∑ h : H, (h : G) • m := by
   rw [Finset.smul_sum]
   simp_rw [smul_smul]
   exact Equiv.sum_comp (Equiv.mulLeft (⟨g, hg⟩ : H)) (fun h : H => (h : G) • m)
 
+omit [Finite G] [Finite M] in
 theorem sum_smul_const (H : Subgroup G) [Fintype H] {m : M} (hm : ∀ h ∈ H, h • m = m) :
     ∑ h : H, (h : G) • m = Nat.card H • m := by
   rw [Finset.sum_congr rfl (fun (h : H) _ => hm (h : G) h.2), Finset.sum_const, Finset.card_univ,
     Nat.card_eq_fintype_card]
 
+omit [Finite G] [Finite M] in
 private theorem sum_smul_eq_zero {V H : Subgroup G} [Fintype H]
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hHV : H ≤ V)
     (hHmax : ∀ K : Subgroup G, H ≤ K → K ≤ V → K = H ∨ K = V) {M₁ : AddSubgroup M}
@@ -133,8 +137,9 @@ private theorem plus_or_minus {V H : Subgroup G} (hVab : ∀ v ∈ V, ∀ w ∈ 
     · exact Or.inr fun v hv => (hm ▸ hv : v ∈ Cm).2
   · exact Or.inl fun v hv => (hp ▸ hv : v ∈ Cp).2
 
-private theorem minus_mul_minus {V H : Subgroup G} (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v)
-    (hHV : H ≤ V) {u w : G} (huV : ∀ v ∈ V, u * v * u⁻¹ ∈ V) (hwV : ∀ v ∈ V, w * v * w⁻¹ ∈ V)
+omit [Finite G] in
+private theorem minus_mul_minus {V H : Subgroup G} (_hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v)
+    (_hHV : H ≤ V) {u w : G} (_huV : ∀ v ∈ V, u * v * u⁻¹ ∈ V) (_hwV : ∀ v ∈ V, w * v * w⁻¹ ∈ V)
     (huN : ∀ h ∈ H, u * h * u⁻¹ ∈ H) (hwN : ∀ h ∈ H, w * h * w⁻¹ ∈ H)
     (hu : ∀ v ∈ V, u * v * u⁻¹ * v ∈ H) (hw : ∀ v ∈ V, w * v * w⁻¹ * v ∈ H) :
     (∀ h ∈ H, (u * w) * h * (u * w)⁻¹ ∈ H) ∧ ∀ v ∈ V, (u * w) * v * (u * w)⁻¹ * v⁻¹ ∈ H := by
@@ -151,16 +156,17 @@ private theorem minus_mul_minus {V H : Subgroup G} (hVab : ∀ v ∈ V, ∀ w �
     rw [e]
     exact H.mul_mem (huN a haH) hb
 
+omit [Finite G] [Finite M] in
 private theorem false_of_plus {V H : Subgroup G} [Fintype H]
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hHV : H ≤ V)
     (hHmax : ∀ K : Subgroup G, H ≤ K → K ≤ V → K = H ∨ K = V) {M₁ : AddSubgroup M}
     (hM₁V : ∀ v ∈ V, ∀ m ∈ M₁, v • m ∈ M₁) (hM₁0 : ∀ m ∈ M₁, (∀ v ∈ V, v • m = m) → m = 0)
-    {c z z' : G} (hz : z * z = 1) (hz' : z' * z' = 1) (hzz' : z * z' = z' * z)
+    {c z z' : G} (_hz : z * z = 1) (hz' : z' * z' = 1) (hzz' : z * z' = z' * z)
     (hcz : c * z = z * c) (hcz' : c * z' = z' * c)
     (hz'V : ∀ v ∈ V, z' * v * z'⁻¹ ∈ V) (hzz'V : ∀ v ∈ V, (z * z') * v * (z * z')⁻¹ ∈ V)
     (hz'N : ¬ ∀ h ∈ H, z' * h * z'⁻¹ ∈ H) (hzz'N : ¬ ∀ h ∈ H, (z * z') * h * (z * z')⁻¹ ∈ H)
     (hLA : ∀ y : M, c • y = y → z' • y = -y → y = 0)
-    {x : M} (hx : x ∈ M₁) (hxH : ∀ h ∈ H, h • x = x) (hxc : c • x = x)
+    {x : M} (_hx : x ∈ M₁) (hxH : ∀ h ∈ H, h • x = x) (hxc : c • x = x)
     (hM₁z' : z' • x ∈ M₁) (hM₁zz' : (z * z') • x ∈ M₁)
     (hs : ∑ h : H, (h : G) • (x + z • x) ≠ 0) : False := by
   have hz'C : ∀ h ∈ H, (z' * h * z'⁻¹) • (z' • x) = z' • x := fun h hh => by
@@ -189,16 +195,17 @@ private theorem false_of_plus {V H : Subgroup G} [Fintype H]
   rw [← this, hy0]
   simp
 
+omit [Finite G] [Finite M] in
 private theorem false_of_minus {V H : Subgroup G} [Fintype H]
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hHV : H ≤ V)
     (hHmax : ∀ K : Subgroup G, H ≤ K → K ≤ V → K = H ∨ K = V) {M₁ : AddSubgroup M}
     (hM₁V : ∀ v ∈ V, ∀ m ∈ M₁, v • m ∈ M₁) (hM₁0 : ∀ m ∈ M₁, (∀ v ∈ V, v • m = m) → m = 0)
-    {c z z' : G} (hz : z * z = 1) (hz' : z' * z' = 1) (hzz' : z * z' = z' * z)
+    {c z z' : G} (_hz : z * z = 1) (hz' : z' * z' = 1) (hzz' : z * z' = z' * z)
     (hcz : c * z = z * c) (hcz' : c * z' = z' * c)
     (hz'V : ∀ v ∈ V, z' * v * z'⁻¹ ∈ V) (hzz'V : ∀ v ∈ V, (z * z') * v * (z * z')⁻¹ ∈ V)
     (hz'N : ¬ ∀ h ∈ H, z' * h * z'⁻¹ ∈ H) (hzz'N : ¬ ∀ h ∈ H, (z * z') * h * (z * z')⁻¹ ∈ H)
     (hLA : ∀ y : M, c • y = y → z' • y = -y → y = 0)
-    {x : M} (hx : x ∈ M₁) (hxH : ∀ h ∈ H, h • x = x) (hxc : c • x = x)
+    {x : M} (_hx : x ∈ M₁) (hxH : ∀ h ∈ H, h • x = x) (hxc : c • x = x)
     (hM₁z' : z' • x ∈ M₁) (hM₁zz' : (z * z') • x ∈ M₁)
     (hs : ∑ h : H, (h : G) • (x - z • x) ≠ 0) : False := by
   have hz'C : ∀ h ∈ H, (z' * h * z'⁻¹) • (z' • x) = z' • x := fun h hh => by
@@ -228,6 +235,7 @@ private theorem false_of_minus {V H : Subgroup G} [Fintype H]
   rw [← this, hy0]
   simp
 
+omit [Finite G] [Finite M] in
 private theorem false_of_normalizing {V H : Subgroup G} [Fintype H]
     (hcop : Nat.Coprime (2 * Nat.card H) (Nat.card M))
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hHV : H ≤ V)
@@ -270,6 +278,7 @@ private theorem false_of_normalizing {V H : Subgroup G} [Fintype H]
     rw [hzy]
     exact hsum y hyM hyH hp
 
+omit [Finite M] in
 theorem exists_fix_hyperplane {V H : Subgroup G}
     (hcop : Nat.Coprime (Nat.card V) (Nat.card M)) (hModd : Odd (Nat.card M))
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hVodd : Odd (Nat.card V)) (hHV : H ≤ V)
@@ -286,7 +295,7 @@ theorem exists_fix_hyperplane {V H : Subgroup G}
     ∃ u ∈ ({z₁, z₂, z₁ * z₂} : Set G), (∀ h ∈ H, u * h * u⁻¹ ∈ H) ∧
       ∀ v ∈ V, u * v * u⁻¹ * v⁻¹ ∈ H := by
   classical
-  haveI := Fintype.ofFinite H
+  have := Fintype.ofFinite H
   have hcopH : Nat.Coprime (2 * Nat.card H) (Nat.card M) :=
     Nat.coprime_mul_iff_left.mpr ⟨Nat.coprime_two_left.mpr hModd,
       Nat.Coprime.coprime_dvd_left (Subgroup.card_dvd_of_le hHV) hcop⟩

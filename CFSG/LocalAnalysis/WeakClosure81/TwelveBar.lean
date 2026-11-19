@@ -158,7 +158,7 @@ theorem b12_TwelveBar_isSolvable_closure_pair {Y : Type} [Group Y] {t s : Y}
       _ = (k * rD * k⁻¹) ^ j := by rw [hkε]
       _ = k * rD ^ j * k⁻¹ := conj_zpow (a := k) (b := rD) (i := j)
       _ = k * n * k⁻¹ := by rw [hj]
-  haveI : R.Normal := hRnorm
+  have : R.Normal := hRnorm
   have hquot : Group.IsSolvable (↥D ⧸ R) := by
     let tD : ↥D := ⟨t, htD⟩
     let sD : ↥D := ⟨s, hsD⟩
@@ -190,7 +190,7 @@ theorem b12_TwelveBar_isSolvable_closure_pair {Y : Type} [Group Y] {t s : Y}
       · exact hts
       · exact hts.symm
       · exact (hab rfl).elim
-    haveI : IsMulCommutative
+    have : IsMulCommutative
         ↥(Subgroup.closure ({QuotientGroup.mk' R tD, QuotientGroup.mk' R sD} : Set (↥D ⧸ R))) :=
       Subgroup.isMulCommutative_closure hcomm_gen
     have hHtop : Subgroup.closure
@@ -204,14 +204,15 @@ theorem b12_TwelveBar_isSolvable_closure_pair {Y : Type} [Group Y] {t s : Y}
       (f := (Subgroup.closure
         ({QuotientGroup.mk' R tD, QuotientGroup.mk' R sD} : Set (↥D ⧸ R))).subtype) ?_
     rw [← MonoidHom.range_eq_top, Subgroup.range_subtype, hHtop]
-  haveI : Group.IsSolvable (↥D ⧸ R) := hquot
+  have : Group.IsSolvable (↥D ⧸ R) := hquot
   exact Group.isSolvable_of_subgroup_quotient R
 
 section PartTwo
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
-theorem b12_TwelveBar_mem_map_iff (h : Setting12Two A M n) {g : G} :
+omit [Finite G] in
+theorem b12_TwelveBar_mem_map_iff (_h : Setting12Two A M n) {g : G} :
     g ∈ M ↔ QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤) g ∈
       M.map (QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)) := by
   let π := QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)
@@ -225,7 +226,8 @@ theorem b12_TwelveBar_mem_map_iff (h : Setting12Two A M n) {g : G} :
     rw [← Subgroup.comap_map_eq_self (f := π) (H := M) hK]
     exact hg
 
-theorem b12_TwelveBar_map_eq_top_iff (h : Setting12Two A M n) :
+omit [Finite G] in
+theorem b12_TwelveBar_map_eq_top_iff (_h : Setting12Two A M n) :
     M.map (QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)) = ⊤ ↔ M = ⊤ := by
   have hK : (QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)).ker ≤ M := by
     rw [QuotientGroup.ker_mk']
@@ -240,10 +242,12 @@ theorem b12_TwelveBar_map_eq_top_iff (h : Setting12Two A M n) :
     rw [htop]
     exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem b12_TwelveBar_map_ne_top (h : Setting12Two A M n) :
     M.map (QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)) ≠ ⊤ :=
   fun htop => h.M_ne ((b12_TwelveBar_map_eq_top_iff h).mp htop)
 
+omit [Finite G] in
 theorem b12_TwelveBar_le_map_of_ne_top (h : Setting12Two A M n)
     {Nbar : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)}
     (hA : A.map (QuotientGroup.mk' (CFSG.Quasithin.kerIn M ⊤)) ≤ Nbar) (hN : Nbar ≠ ⊤) :
@@ -320,9 +324,10 @@ theorem Setting12Two.mem_ker_of_mem_inf_conj (h : Setting12Two A M n) {g x : G} 
   rw [show π.ker = CFSG.Quasithin.kerIn M ⊤ from QuotientGroup.ker_mk' _] at hxker
   exact hxker
 
+omit [Finite G] in
 theorem b12_TwelveBar_not_isSolvable (h : Setting12Two A M n) :
     ¬ Group.IsSolvable (G ⧸ CFSG.Quasithin.kerIn M ⊤) := by
-  haveI : IsSimpleGroup (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
+  have : IsSimpleGroup (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
     CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz h.type
   rw [← IsSimpleGroup.comm_iff_isSolvable]
   obtain ⟨a, b, hab⟩ := CFSG.Quasithin.E2.nonabelian_of_psl_or_sz h.one_lt_n h.type
@@ -345,9 +350,9 @@ theorem Setting12Two.not_le_ker (h : Setting12Two A M n) : ¬ A ≤ CFSG.Quasith
     intro y _
     by_cases hy : Subgroup.zpowers y = ⊤
     · exfalso
-      haveI : IsCyclic (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
+      have : IsCyclic (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
         isCyclic_iff_exists_zpowers_eq_top.mpr ⟨y, hy⟩
-      haveI : IsMulCommutative (G ⧸ CFSG.Quasithin.kerIn M ⊤) := IsCyclic.isMulCommutative
+      have : IsMulCommutative (G ⧸ CFSG.Quasithin.kerIn M ⊤) := IsCyclic.isMulCommutative
       exact b12_TwelveBar_not_isSolvable h inferInstance
     · exact b12_TwelveBar_le_map_of_ne_top h (by rw [hAmap]; exact bot_le) hy
         (Subgroup.mem_zpowers y)
@@ -401,7 +406,7 @@ theorem Setting12Two.not_isCyclic_map (h : Setting12Two A M n) (hA : IsElemAbeli
       hAle.trans (Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp)))
     have hne : Subgroup.closure ({t, s} : Set (G ⧸ CFSG.Quasithin.kerIn M ⊤)) ≠ ⊤ := by
       intro htop
-      haveI : Group.IsSolvable ↥(⊤ : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)) := htop ▸ hsolv
+      have : Group.IsSolvable ↥(⊤ : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)) := htop ▸ hsolv
       exact b12_TwelveBar_not_isSolvable h
         (Group.isSolvable_of_surjective
           (f := (Subgroup.topEquiv (G := G ⧸ CFSG.Quasithin.kerIn M ⊤)).toMonoidHom)
@@ -417,7 +422,7 @@ theorem Setting12Two.not_isCyclic_map (h : Setting12Two A M n) (hA : IsElemAbeli
     obtain ⟨c, hc⟩ := isConj_iff.mp hconj'
     rw [← hc]
     exact hconj c
-  haveI : IsSimpleGroup (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
+  have : IsSimpleGroup (G ⧸ CFSG.Quasithin.kerIn M ⊤) :=
     CFSG.Quasithin.E2.isSimpleGroup_of_psl_or_sz h.type
   have htop : Subgroup.normalClosure ({t} : Set (G ⧸ CFSG.Quasithin.kerIn M ⊤)) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

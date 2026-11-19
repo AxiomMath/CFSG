@@ -52,7 +52,7 @@ private lemma ltrcl_core_contradiction
     (lab : LargeEvenLabel) (hΛ : LargeEvenInLambda2 lab) (htag : lab.tag = .A)
     {R : Type} [Group R] {I : Set (MulAut R)}
     {L' : Type} [Group L'] [Finite L'] (ψ : L' →* R) (hψ : Function.Surjective ψ)
-    (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
+    (hker : ψ.ker ≤ Subgroup.center L') (_hperf : commutator L' = ⊤)
     (e : MulAut L') (J : Subgroup L') (a : MulAut L')
     (hsetup : GGRankOneSetup I ψ 3 e J 3 a) (hsplit : SplitLift lab R I ψ e) : False := by
   obtain ⟨-, -, -, -, -, hJ, -, hlab, hea, ⟨φa, hφaI, hφa⟩, haJ, hnot⟩ := hsetup
@@ -62,8 +62,8 @@ private lemma ltrcl_core_contradiction
   swap
   · rw [htag] at hA
     cases hA
-  letI : Field K := fK
-  letI : Finite K := finK
+  let : Field K := fK
+  let : Finite K := finK
   have h2 : (2 : K) = 0 := by
     have h0 : Nat.card K • (1 : K) = 0 := card_nsmul_eq_zero'
     rw [nsmul_one, hcard, Nat.cast_pow, Nat.cast_ofNat] at h0
@@ -85,9 +85,9 @@ private lemma ltrcl_core_contradiction
   obtain ⟨hJ₀, hlab₀⟩ := ltrcl_comp (θ.toMonoidHom.comp ψ) hψ₀ hker₀ hθe' hJ hlab
   obtain ⟨r, D, ee, hFld, hFin, hAlg, θH, i, -, hrange, he2, hWS, hJeq, ⟨φq⟩⟩ :=
     linearFixedComponentBlock h2 M hMN hM3 hJ₀
-  letI : ∀ k, Field (D k) := hFld
-  haveI : ∀ k, Finite (D k) := hFin
-  letI : ∀ k, Algebra K (D k) := hAlg
+  let : ∀ k, Field (D k) := hFld
+  have : ∀ k, Finite (D k) := hFin
+  let : ∀ k, Algebra K (D k) := hAlg
   have h2D : (2 : D i) = 0 := by
     rw [← map_ofNat (algebraMap K (D i)) 2, h2, map_zero]
   obtain ⟨hk2, hD8⟩ := kd2Lin_numerology h2D he2 φq hlab₀
@@ -129,8 +129,7 @@ theorem splitLiftLinear_holds :
           ψ.ker ≤ Subgroup.center L' → commutator L' = ⊤ →
           ∀ (e : MulAut L') (J : Subgroup L') (a : MulAut L'),
             GGRankOneSetup I ψ 3 e J 3 a → SplitLift lab R I ψ e → False) := by
-  intro lab hΛ htag
-  intro Q hraw
+  intro lab hΛ htag Q hraw
   simp only [CFSG.StandardType.LargeEvenRawDatum, htag] at hraw ⊢
   obtain ⟨K, fieldK, finiteK, hcard, hQ⟩ := hraw
   refine ⟨K, fieldK, finiteK, hcard, hQ, ?_⟩

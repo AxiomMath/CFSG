@@ -17,11 +17,13 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def Aprime614 (K : Subgroup G) (E : Subgroup (ModO2 K)) : Subgroup G :=
   (E.comap (mk614 K)).map K.subtype
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_mk614_eq_one {K : Subgroup G} {x : G} (hxK : x ∈ K)
     (h : mk614 K ⟨x, hxK⟩ = 1) : x ∈ pCoreOf 2 K := by
   have hmem : (⟨x, hxK⟩ : ↥K) ∈ CFSG.pCore 2 ↥K := (QuotientGroup.eq_one_iff _).mp h
   exact Subgroup.mem_map.mpr ⟨⟨x, hxK⟩, hmem, rfl⟩
 
+omit [Finite G] in
 theorem normalizer_ZV614 {T L V : Subgroup G} {d : G}
     (hdV : d ∈ Subgroup.normalizer (V : Set G))
     (hdTL : d ∈ Subgroup.normalizer ((T ⊓ L : Subgroup G) : Set G)) :
@@ -51,11 +53,13 @@ theorem normalizer_ZV614 {T L V : Subgroup G} {d : G}
     have e : d⁻¹ * (d * z * d⁻¹) * d⁻¹⁻¹ = z := by group
     rwa [e] at this
 
+omit [Finite G] in
 theorem aprime_le_K614 {K : Subgroup G} (E : Subgroup (ModO2 K)) : Aprime614 K E ≤ K := by
   intro x hx
   obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact y.2
 
+omit [Finite G] in
 theorem fwd_Aprime614 {K : Subgroup G} {E : Subgroup (ModO2 K)} {e : G}
     (he : e ∈ Subgroup.normalizer (K : Set G)) (hΦe : actModO2_614 K ⟨e, he⟩ = 1) :
     ∀ a ∈ Aprime614 K E, e * a * e⁻¹ ∈ Aprime614 K E := by
@@ -74,6 +78,7 @@ theorem fwd_Aprime614 {K : Subgroup G} {E : Subgroup (ModO2 K)} {e : G}
   rw [Subgroup.mem_comap, hmk]
   exact hyE
 
+omit [Finite G] in
 theorem normalizes_Aprime614 {K : Subgroup G} {E : Subgroup (ModO2 K)} {d : G}
     (hdK : d ∈ Subgroup.normalizer (K : Set G)) (hΦ : actModO2_614 K ⟨d, hdK⟩ = 1) :
     d ∈ Subgroup.normalizer ((Aprime614 K E : Subgroup G) : Set G) := by

@@ -127,7 +127,7 @@ theorem exists_small_normal {C : Type*} [Group C] [Finite C] {N : Subgroup C} [N
   by_cases h11 : 11 ∣ Nat.card N
   · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 11 N))
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hidx := (P : Subgroup N).card_mul_index
     have hnd : ¬ 11 ∣ (P : Subgroup N).index := P.not_dvd_index
     have hk1 : k = 1 := by

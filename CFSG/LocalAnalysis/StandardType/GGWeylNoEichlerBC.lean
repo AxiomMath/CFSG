@@ -42,7 +42,7 @@ private lemma ggBCDE_sum_ggBCRootFun_chain (n : ℕ) (ε : ZMod 3) (i : Fin n)
       (if (l : ℕ) = (i : ℕ) then (1 : ZMod 3) else 0) +
       (if (l : ℕ) = (i : ℕ) + 1 then (-1 : ZMod 3) else 0) := by
     intro l
-    rw [ggBCRootFun, if_pos hi]
+    rw [ggBCRootFun, ite_eq_left hi]
     by_cases h1 : (l : ℕ) = (i : ℕ)
     · have h2 : ¬ (l : ℕ) = (i : ℕ) + 1 := by omega
       simp [h1]
@@ -148,13 +148,13 @@ private lemma ggBCDE_coroot_chain {n : ℕ} (i : Fin n) (hi : (i : ℕ) + 1 < n)
 private lemma ggBCDE_coroot_last {n : ℕ} (i : Fin n) (hi : ¬ (i : ℕ) + 1 < n)
     (ε : ZMod 3) : ggBCCoroot n ε i = (Pi.single i ε : GGBCV n) := by
   funext j
-  rw [ggBCCoroot, if_neg hi]
+  rw [ggBCCoroot, ite_eq_right hi]
   by_cases hj : (j : ℕ) + 1 = n
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have hji : j = i := Fin.ext (by omega)
     subst j
     rw [Pi.single_eq_same]
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     rw [Pi.single_eq_of_ne]
     intro hh
     exact hj (by rw [hh]; omega)
@@ -236,11 +236,11 @@ private lemma ggBCDE_coroot_mem_roots {n : ℕ} (i : Fin n) {ε : ZMod 3} (hε :
         have := congrArg Fin.val h
         dsimp only at this
         omega)
-    rw [ggBCRoots, Set.mem_setOf_eq, hwt]
+    rw [ggBCRoots, Set.mem_ofPred_eq, hwt]
     omega
   · rw [ggBCDE_coroot_last i hi ε]
     have hwt : ggBCWt (Pi.single i ε : GGBCV n) = 1 := ggBCDE_wt_single_ne i hε
-    rw [ggBCRoots, Set.mem_setOf_eq, hwt]
+    rw [ggBCRoots, Set.mem_ofPred_eq, hwt]
     omega
 
 private theorem ggBCDE_rho_BC {n : ℕ} (hn : 3 ≤ n)

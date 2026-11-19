@@ -82,11 +82,11 @@ theorem foldl_eq_pickEFrom {n : Nat} : ∀ (vs : List Nat) (st : List Nat × Lis
     rw [List.foldl_cons]
     rw [pickEFrom_cons] at h ⊢
     cases hb : Nat.beq st.1.length n
-    · rw [hb, cond_false] at h
-      rw [cond_false]
+    · rw [hb, Bool.cond_false] at h
+      rw [Bool.cond_false]
       exact foldl_eq_pickEFrom vs _ (fun w hw => hv w (List.mem_cons_of_mem v hw)) h
-    · rw [hb, cond_true] at h
-      rw [cond_true]
+    · rw [hb, _root_.Bool.cond_true] at h
+      rw [_root_.Bool.cond_true]
       have hl := h (Nat.eq_of_beq_eq_true hb)
       rw [stepK_ladder hl (hv v List.mem_cons_self)]
       exact foldl_stepK_ladder vs st hl fun w hw => hv w (List.mem_cons_of_mem v hw)

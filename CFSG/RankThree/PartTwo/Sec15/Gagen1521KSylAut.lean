@@ -16,7 +16,7 @@ namespace Proof1521KS
 theorem commute_of_isPGroup_pgl3 {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (h5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K) {S : Subgroup (Matrix.ProjGenLinGroup (Fin 3) K)}
     (hS : IsPGroup p S) : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : GL (Fin 3) K →* Matrix.ProjGenLinGroup (Fin 3) K := Matrix.ProjGenLinGroup.mk
   let H : Subgroup (GL (Fin 3) K) := S.comap π
   let f : ↥H →* ↥S := (π.comp H.subtype).codRestrict S fun x => x.2
@@ -55,7 +55,7 @@ theorem isMulCommutative_of_injective_pgl3 {X : Type} [Group X] {K : Type} [Fiel
 theorem not_dvd_of_isChoice1519 {m p : ℕ} (hm : 1 ≤ m) (hp2 : p ≠ 2) (h : IsChoice1519 m p) :
     ¬ p ∣ m := by
   obtain ⟨hp, hsign, hcase⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : ∀ n : ℕ, (2 : ZMod p) ^ (p * n) = (2 : ZMod p) ^ n := fun n => by
     rw [pow_mul, ZMod.pow_card]
   rintro ⟨n, rfl⟩
@@ -110,7 +110,7 @@ open Proof1521KS
 theorem ks1521SylAut : KS1521SylAut := by
   intro X _ _ m hm hX p hch hp3
   have hp : p.Prime := hch.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h5 : 5 ≤ p := by
     rcases Nat.lt_or_ge p 5 with h | h
     · interval_cases p
@@ -138,7 +138,7 @@ theorem ks1521SylAut : KS1521SylAut := by
       rintro rfl
       have h2 := hch.2.1
       simp only [sign1519, pow_one] at h2
-      rw [if_neg (by norm_num)] at h2
+      rw [ite_eq_right (by norm_num)] at h2
       have h3 : ((3 : ℕ) : ZMod p) = 0 := by
         have h32 : ((3 : ℕ) : ZMod p) = (2 : ZMod p) + 1 := by push_cast; ring
         rw [h32, h2]

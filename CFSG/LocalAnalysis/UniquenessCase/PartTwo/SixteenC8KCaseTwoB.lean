@@ -25,7 +25,7 @@ theorem c8k_frattini_lift {H : Subgroup G} {d : ↥H} (hd : orderOf d = 3) {g : 
     ∃ n : ↥H, (n : G) ∈ normalizer ((zpowers (d : G) : Subgroup G) : Set G) ∧
       ∃ k : ℤ, (n : Hbar9 H) = (d : Hbar9 H) ^ k * g := by
   let N : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   have hS : IsPGroup 3 (Subgroup.zpowers d) := by
     apply IsPGroup.of_card (n := 1)
@@ -64,9 +64,11 @@ theorem c8k_frattini_lift {H : Subgroup G} {d : ↥H} (hd : orderOf d = 3) {g : 
   refine ⟨n, hnorm, 0, ?_⟩
   simpa using hng
 
+omit [Finite G] in
 private theorem c8k_opp_le (Y : Subgroup G) : Opp 3 Y ≤ Y :=
   (Subgroup.closure_le Y).mpr fun _ hz => hz.1
 
+omit [Finite G] in
 private theorem c8k_opp_conj_mem {Y : Subgroup G} {y : G} (hy : y ∈ Y) {x : G}
     (hx : x ∈ Opp 3 Y) : y * x * y⁻¹ ∈ Opp 3 Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup at hx ⊢
@@ -76,30 +78,31 @@ private theorem c8k_opp_conj_mem {Y : Subgroup G} {y : G} (hy : y ∈ Y) {x : G}
       obtain ⟨k, hk⟩ := hz.2
       refine ⟨k, ?_⟩
       have h := orderOf_injective (MulAut.conj y).toMonoidHom (MulAut.conj y).injective z
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at h
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at h
       rw [h, hk]
   | one => simp
   | mul a b _ _ ha hb =>
       have h := Subgroup.mul_mem (Subgroup.closure {x : G | x ∈ Y ∧ ∃ k, orderOf x = 3 ^ k}) ha hb
-      convert h using 1 <;> group
+      convert h using 1; group
   | inv a _ ha =>
       have h := Subgroup.inv_mem (Subgroup.closure {x : G | x ∈ Y ∧ ∃ k, orderOf x = 3 ^ k}) ha
-      convert h using 1 <;> group
+      convert h using 1; group
 
+omit [Finite G] in
 private theorem c8k_opp_subgroupOf_normal (Y : Subgroup G) :
     ((Opp 3 Y).subgroupOf Y).Normal :=
   ⟨fun _ hx y => Subgroup.mem_subgroupOf.mpr
     (c8k_opp_conj_mem y.2 (Subgroup.mem_subgroupOf.mp hx))⟩
 
-theorem c8k_mem_opp_mul {Y C : Subgroup G} (hCY : C ≤ Y) (hP : C8P0 Y C) :
+theorem c8k_mem_opp_mul {Y C : Subgroup G} (_hCY : C ≤ Y) (hP : C8P0 Y C) :
     ∀ n ∈ Y, ∃ x ∈ Opp 3 Y, ∃ c ∈ C, n = x * c := by
   obtain ⟨P, _, φ, hφs, hφk, ⟨N, hNn, hN64, hL3⟩, hperf⟩ := hP
-  haveI : Finite P := Finite.of_surjective φ hφs
-  haveI := hNn
+  have : Finite P := Finite.of_surjective φ hφs
+  have := hNn
   let X : Subgroup G := Opp 3 Y
   let X' : Subgroup ↥Y := X.subgroupOf Y
   have hXn : X'.Normal := c8k_opp_subgroupOf_normal Y
-  haveI := hXn
+  have := hXn
   let R : Subgroup P := X'.map φ
   have hRn : R.Normal := hXn.map φ hφs
   have h3 : ∀ x : P, (∃ k : ℕ, x ^ 3 ^ k = 1) → x ∈ R := by
@@ -129,7 +132,7 @@ theorem c8k_mem_opp_mul {Y C : Subgroup G} (hCY : C ≤ Y) (hP : C8P0 Y C) :
   · simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
 
-private theorem c8k_three_dvd_card_lieModel_psl2 {X : Type} [Group X] {e : ℕ} (he : 1 ≤ e)
+private theorem c8k_three_dvd_card_lieModel_psl2 {X : Type} [Group X] {e : ℕ} (_he : 1 ≤ e)
     (h : CFSG.Blueprint.LieModel X .PSL 2 7 e) : 3 ∣ Nat.card X := by
   have hsc : CFSG.Open.StatedClassicalModel X .PSL 2 7 e :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
@@ -160,6 +163,7 @@ private theorem c8k_three_dvd_card_isSL2Cover {Q : Type} [Group Q] {e : ℕ} (he
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center Q), hcent]
   exact dvd_mul_of_dvd_left hq 2
 
+omit [Finite G] in
 private theorem c8k_img9_subgroupOf_normal {H Y C : Subgroup G} (hCY : C ≤ Y)
     (hCn : (C.subgroupOf Y).Normal) :
     ((img9 H C).subgroupOf (img9 H Y)).Normal := by
@@ -218,8 +222,8 @@ theorem c8k_c_centralizes {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
   have hLp : ¬ Nat.Coprime 3 (Nat.card (Xbar.subgroupOf Ybar)) := by
     rw [hLcard, Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
     exact fun hdvd => hdvd (c8k_three_dvd_card_isSL2Cover he hS)
-  haveI := hCnbar
-  haveI := hXn
+  have := hCnbar
+  have := hXn
   have hcent := CFSG.le_centralizer_of_isQuasisimple_of_coprime (p := 3) Nat.prime_three
     (N := Cbar.subgroupOf Ybar) (L := Xbar.subgroupOf Ybar) hLq hNcop hLp
   have hcY : (c : G) ∈ Y := hCY hc

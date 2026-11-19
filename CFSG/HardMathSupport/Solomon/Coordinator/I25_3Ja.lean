@@ -98,7 +98,7 @@ section Ja
 
 variable {Q : Type} [Group Q] [Finite Q]
 
-theorem i253_ja (hQ : CFSG.Open.IsQuasisimple Q) {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
+theorem i253_ja (hQ : CFSG.Open.IsQuasisimple Q) {p : ℕ} (hp : p.Prime) (_hp3 : p ≠ 3)
     (α : MulAut Q) (β : MulAut (Q ⧸ GLAPPrimeCore 3 Q))
     (hαβ : ∀ x, QuotientGroup.mk' (GLAPPrimeCore 3 Q) (α x) =
       β (QuotientGroup.mk' (GLAPPrimeCore 3 Q) x))

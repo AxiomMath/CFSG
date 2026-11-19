@@ -46,7 +46,7 @@ theorem concA_of_A {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup 
     (hv : (TauCeti.LieTypeIndex.A r Q).Valid)
     (e : PSimple 3 S ≃* (TauCeti.CFSGIndex.lie ⟨.A r Q, hv⟩).Group) (h3 : 3 ∣ Q.card + 1) :
     S267ConcA 3 S B := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set F := GaloisField Q.p Q.exponent with hFdef
   have hFcard : Nat.card F = Q.card := by
     rw [hFdef, GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]

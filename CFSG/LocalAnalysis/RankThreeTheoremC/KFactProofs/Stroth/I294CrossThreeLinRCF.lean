@@ -83,6 +83,7 @@ section GoodPlane
 
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem pow_three_apply {g : Module.End K V} (hg3 : g ^ 3 = 1) (x : V) : g (g (g x)) = x := by
   have := congrArg (fun f : Module.End K V => f x) hg3
   simpa [pow_succ] using this
@@ -160,7 +161,7 @@ theorem exists_goodPlane (g : Module.End K V) (hg3 : g ^ 3 = 1) (h3 : (3 : K) �
     have hrank : 1 < finrank K (V ⧸ S) := by
       have := Submodule.finrank_quotient_add_finrank S
       omega
-    haveI : Nontrivial (V ⧸ S) := (Module.finrank_pos_iff (R := K) (M := V ⧸ S)).1 (by omega)
+    have : Nontrivial (V ⧸ S) := (Module.finrank_pos_iff (R := K) (M := V ⧸ S)).1 (by omega)
     obtain ⟨x, hx⟩ := exists_ne (0 : V ⧸ S)
     obtain ⟨y, hxy⟩ := exists_linearIndependent_pair_of_one_lt_finrank hrank hx
     obtain ⟨u₁, hu₁, rfl⟩ := hlift x
@@ -182,6 +183,7 @@ section Planes
 
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem finrank_span_pair_le (s t : V) : finrank K (Submodule.span K {s, t}) ≤ 2 := by
   classical
   have h := finrank_span_finset_le_card (R := K) ({s, t} : Finset V)
@@ -264,6 +266,7 @@ theorem exists_three_planes (g : Module.End K V) (hg3 : g ^ 3 = 1) (h3 : (3 : K)
     · exact h2.1
     · exact h2.2
 
+omit [FiniteDimensional K V] in
 theorem exists_invariant_complement (g : Module.End K V) (hg3 : g ^ 3 = 1) (h3 : (3 : K) ≠ 0)
     (U : Submodule K V) (hU : ∀ x ∈ U, g x ∈ U) :
     ∃ W : Submodule K V, (∀ x ∈ W, g x ∈ W) ∧ IsCompl U W := by

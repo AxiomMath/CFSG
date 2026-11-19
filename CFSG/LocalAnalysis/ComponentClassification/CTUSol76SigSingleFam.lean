@@ -59,6 +59,7 @@ theorem not_isQuasisimple_of_le_oddCoreIn {X : Subgroup Q} (hX : X ≤ oddCoreIn
   obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b
   rw [hsub a' b']
 
+omit [Finite Q] in
 theorem false_of_center_mem_left (hQ : IsQuasisimple Q) (hO : pPrimeCore 2 Q = ⊥)
     {X Y : Subgroup Q} (hXp : ⁅X, X⁆ = X) (hXq : IsQuasisimple (↥X ⧸ pPrimeCore 2 ↥X))
     (hcomm : ⁅X, Y⁆ ≤ oddCoreIn X ⊓ oddCoreIn Y)
@@ -83,6 +84,7 @@ theorem false_of_center_mem_left (hQ : IsQuasisimple Q) (hO : pPrimeCore 2 Q = �
     _ ≤ ⁅X, Y⁆ := commutator_mono le_rfl (hY ▸ le_top)
     _ ≤ oddCoreIn X := hcomm.trans inf_le_left
 
+omit [Finite Q] in
 theorem false_of_center_mem_right (hQ : IsQuasisimple Q) (hO : pPrimeCore 2 Q = ⊥)
     {X Y : Subgroup Q} (hYp : ⁅Y, Y⁆ = Y) (hYq : IsQuasisimple (↥Y ⧸ pPrimeCore 2 ↥Y))
     (hcomm : ⁅X, Y⁆ ≤ oddCoreIn X ⊓ oddCoreIn Y)

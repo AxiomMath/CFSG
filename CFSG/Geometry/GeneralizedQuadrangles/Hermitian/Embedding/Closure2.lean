@@ -91,19 +91,19 @@ theorem collar_ne_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       sup_le (submodule_le_perpSpan ⟨hp0, by simp⟩) hXHp
     let Lines := {L : V // c L = 1 ∧ Γ.Adj p L}
     let E : Set (Submodule K W) := {M | E0 ≤ M ∧ M ≤ Hp ∧ finrank K M = 3}
-    haveI : Finite A := Module.finite_of_finite K
-    haveI hfinSub : Finite {T : Submodule K W // T ≤ A} := by
-      haveI : Finite (Submodule K A) :=
+    have : Finite A := Module.finite_of_finite K
+    have hfinSub : Finite {T : Submodule K W // T ≤ A} := by
+      have : Finite (Submodule K A) :=
         Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
       exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
-    haveI : Finite E :=
+    have : Finite E :=
       Finite.of_injective (fun T : E => (⟨T.1, T.2.2.1.trans hHpA⟩ :
         {T : Submodule K W // T ≤ A}))
         (fun a b h => Subtype.ext
           (congrArg (fun x : {T : Submodule K W // T ≤ A} => (x : Submodule K W)) h))
     have hdegL : ∀ L : Lines, (Γ.neighborSet L.1).ncard = s + 1 := by
       intro L
-      rw [ncard_neighborSet, hdeg L.1, if_neg (by rw [L.2.1]; decide)]
+      rw [ncard_neighborSet, hdeg L.1, ite_eq_right (by rw [L.2.1]; decide)]
     have hex : ∀ L : Lines, ∃ y1 y2, y1 ≠ y2 ∧ Γ.Adj L.1 y1 ∧ Γ.Adj L.1 y2 := by
       intro L
       have h1 : 1 < (Γ.neighborSet L.1).ncard := by
@@ -198,9 +198,9 @@ theorem collar_ne_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       change Nat.card {L : V // Γ.Adj p L} = t + 1
       rw [show Nat.card {L : V // Γ.Adj p L} = (Γ.neighborSet p).ncard from
         Nat.card_coe_set_eq (Γ.neighborSet p)]
-      rw [ncard_neighborSet, hdeg p, if_pos hp0]
+      rw [ncard_neighborSet, hdeg p, ite_eq_left hp0]
     have hEcount : Nat.card E = s + 1 := by
-      haveI : FiniteDimensional K Hp := Submodule.finiteDimensional_of_le hHpA
+      have : FiniteDimensional K Hp := Submodule.finiteDimensional_of_le hHpA
       have hgap : finrank K Hp = finrank K E0 + 2 := by
         have hHdim := finrank_perpSpan_add_one hP hT hι hp0
         have hE0dim' : finrank K ↥(ι p ⊔ X) = 2 := hE0dim
@@ -258,7 +258,7 @@ theorem collar_ne_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       have hcardP : (pointFinset c : Set V).ncard = (s + 1) * (s * t + 1) := by
         rw [Set.ncard_coe_finset, card_pointFinset hP hT c hdeg]
       have hcardN : (Γ.neighborSet p).ncard = s + 1 := by
-        rw [ncard_neighborSet, hdeg p, if_neg (by rw [hp1]; decide)]
+        rw [ncard_neighborSet, hdeg p, ite_eq_right (by rw [hp1]; decide)]
       rw [hcardP, hcardN] at hcard1
       have hst : 2 * s ≤ s * t := by
         calc 2 * s = s * 2 := by ring
@@ -282,7 +282,7 @@ theorem collar_ne_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hN0z : Γ.Adj z N0 := commonNeighbor_adj_left hP hzp0
     have hN0p0 : Γ.Adj N0 p0 := (commonNeighbor_adj_right hP hzp0).symm
     have hdegz : (Γ.neighborSet z).ncard = t + 1 := by
-      rw [ncard_neighborSet, hdeg z, if_pos hz0]
+      rw [ncard_neighborSet, hdeg z, ite_eq_left hz0]
     have h1 : 1 < (Γ.neighborSet z).ncard := by
       rw [hdegz]
       omega

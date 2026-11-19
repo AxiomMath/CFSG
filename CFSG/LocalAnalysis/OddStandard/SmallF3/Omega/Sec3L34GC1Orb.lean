@@ -108,8 +108,7 @@ theorem L34GOrb.central_iff [Finite G] (hO : L34GOrb u x K 𝒪) {J : Subgroup G
   · intro h e he
     have hle : sSup 𝒪 ≤ centralizer ({j} : Set G) := by
       apply sSup_le
-      intro J' hJ'
-      intro a ha
+      intro J' hJ' a ha
       rw [Subgroup.mem_centralizer_singleton_iff]
       by_cases hEq : J' = J
       · rw [hEq] at ha

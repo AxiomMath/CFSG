@@ -376,7 +376,7 @@ theorem exists_blockScalar_of_commute_unitaryFrame_sylow (hF : Nat.card F = (p ^
           rw [uct_blockSel_conj_apply (i := 2 * k.val) hk2, hbx, hby] at hMxy
           exact hMxy
         · exact hoff a b hclass
-      rw [if_neg hab, hzero]
+      rw [ite_eq_right hab, hzero]
   · intro a b hclass
     change A a a = A b b
     by_cases hab : a = b

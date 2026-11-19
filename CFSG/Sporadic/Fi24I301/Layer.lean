@@ -54,23 +54,23 @@ theorem glaPLayer_eq_of_isSimple_index_sq {p : ℕ} (hp : p.Prime) {C L : Subgro
     (hs : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hpL : p ∣ Nat.card ↥L)
     (hk : Nat.card ↥C = Nat.card ↥L * p ^ 2) (hfac : (p ^ 2).factorial < Nat.card ↥C) :
     GLAPLayer p C = L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E : Subgroup ↥C := L.subgroupOf C
   have eL : ↥E ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLC
-  haveI : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
+  have : IsSimpleGroup ↥E := eL.isSimpleGroup_congr.2 hs
   have hpos : 0 < Nat.card ↥L := Nat.card_pos
   have hidx : E.index = p ^ 2 := by
     have h1 : E.index * Nat.card ↥E = Nat.card ↥C := Subgroup.index_mul_card E
     rw [Nat.card_congr eL.toEquiv, hk] at h1
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1, mul_comm])
-  haveI hEn : E.Normal := CFSG.HardMathSupport.Dickson.I271.normal_of_isSimple_of_index E hidx
+  have hEn : E.Normal := CFSG.HardMathSupport.Dickson.I271.normal_of_isSimple_of_index E hidx
     (pow_ne_zero 2 hp.ne_zero) hfac
   have hSn : ∀ g ∈ C, ∀ s ∈ L, g * s * g⁻¹ ∈ L := fun g hg s hs =>
     Subgroup.mem_subgroupOf.1 (hEn.conj_mem ⟨s, hLC hs⟩ (Subgroup.mem_subgroupOf.2 hs) ⟨g, hg⟩)
   have hq : Nat.card (↥C ⧸ E) = p ^ 2 := by
     rw [← Subgroup.index_eq_card]
     exact hidx
-  have hab := IsPGroup.commutative_of_card_eq_prime_sq hq
+  have hab := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hq).is_comm.comm
   have hc : ⁅C, C⁆ ≤ L := by
     rw [Subgroup.commutator_le]
     intro a ha b hb

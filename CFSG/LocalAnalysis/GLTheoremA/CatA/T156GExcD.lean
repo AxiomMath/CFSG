@@ -42,10 +42,10 @@ theorem exists_fixGeom_omegaPlus (hm : 4 ≤ m) {n p : ℕ} (hn : 1 ≤ n) (hp :
   have hS₀ : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus hm3
   have hna₀ : ∃ a b : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)), a * b ≠ b * a := by
-    haveI := hS₀
-    haveI : Group.IsPerfect ↥(LargeEvenOmega (LargeEvenQPlus k m)) :=
+    have := hS₀
+    have : Group.IsPerfect ↥(LargeEvenOmega (LargeEvenQPlus k m)) :=
       CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus hm3
-    haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
+    have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m))) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     exact Y10GField.exists_mul_ne_of_isPerfect _
   have hZ : Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) = ⊥ := by
@@ -57,7 +57,7 @@ theorem exists_fixGeom_omegaPlus (hm : 4 ≤ m) {n p : ℕ} (hn : 1 ≤ n) (hp :
   let e : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)) ≃* ↥(ggFixSub f) :=
     (MonoidHom.ofInjective (FieldFixOmegaPlus.subfieldInj_injective k hm1)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hS₀
+  have := hS₀
   exact ⟨k, inferInstance, inferInstance, hcard, hS₀, hna₀,
     ggFixGeom_of_inn hna₀ hZ (fun _ h => h) (fun _ h => h) e⟩
 

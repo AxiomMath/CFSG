@@ -142,9 +142,9 @@ theorem kTab23c_minus_of_le_normalizer
         piSet (B ⊓ fixingSubgroupOf ↥H W (fixedPointSubgroup ↥S W : Set W)) =
           piSet B ∩ {p : ℕ | p.Prime ∧ p ∣ 2 ^ n + 1} := by
   obtain ⟨-, K, hK, hKfin, b, c, hKcard, hirr, hR⟩ := hN
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hK
+  let : Finite K := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hn : 1 ≤ n := by
     have h2 : 1 < 2 ^ n := hKcard ▸ Finite.one_lt_card (α := K)
     rcases Nat.eq_zero_or_pos n with h | h
@@ -178,8 +178,7 @@ theorem kTab23c_minus_of_le_normalizer
     rw [hw₀def]
     intro h0
     have hcomp := congrArg (fun v => ((↑x⁻¹ : GL ιM K) : Matrix ιM ιM K) *ᵥ v) h0
-    simp only [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one,
-      Matrix.one_mulVec, Matrix.mulVec_zero] at hcomp
+    simp only [Matrix.mulVec_mulVec, ← Units.val_mul, Matrix.mulVec_zero] at hcomp
     have h1 := congrFun hcomp (Sum.inl 0)
     simp [e1M] at h1
   let σ : ↥H →* ↥Γ := (MulAut.conj (x⁻¹)).toMonoidHom.comp π.symm.toMonoidHom
@@ -260,9 +259,9 @@ theorem kTab23c_plus_of_le_normalizer
           ∀ E : Subgroup ↥H, E ≤ B →
             E ⊓ fixingSubgroupOf ↥H W (fixedPointSubgroup ↥S W : Set W) = ⊥ → IsCyclic ↥E := by
   obtain ⟨-, K, hK, hKfin, hKcard, hR⟩ := hN
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hK
+  let : Finite K := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -295,8 +294,7 @@ theorem kTab23c_plus_of_le_normalizer
     rw [hw₀def]
     intro h0
     have hcomp := congrArg (fun v => ((↑x⁻¹ : GL ιP K) : Matrix ιP ιP K) *ᵥ v) h0
-    simp only [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one,
-      Matrix.one_mulVec, Matrix.mulVec_zero] at hcomp
+    simp only [Matrix.mulVec_mulVec, ← Units.val_mul, Matrix.mulVec_zero] at hcomp
     have h1 := congrFun hcomp (Sum.inl 0)
     simp [e1P] at h1
   let σ : ↥H →* ↥Γ := (MulAut.conj (x⁻¹)).toMonoidHom.comp π.symm.toMonoidHom
@@ -376,8 +374,8 @@ theorem kTab23c_of_sylowFixedLine
   · rintro ⟨hOm, hNm⟩
     have hn1 : 1 ≤ n := by
       obtain ⟨-, K, hK, hKfin, b, c, hKcard, -, -⟩ := hNm
-      letI : Field K := hK
-      letI : Finite K := hKfin
+      let : Field K := hK
+      let : Finite K := hKfin
       have h2 : 1 < 2 ^ n := hKcard ▸ Finite.one_lt_card (α := K)
       rcases Nat.eq_zero_or_pos n with h | h
       · rw [h] at h2; simp at h2
@@ -389,8 +387,8 @@ theorem kTab23c_of_sylowFixedLine
     rcases Nat.eq_zero_or_pos n with hn0 | hnpos
     · subst hn0
       obtain ⟨-, K, hK, hKfin, hKcard, -⟩ := hNp
-      letI : Field K := hK
-      letI : Finite K := hKfin
+      let : Field K := hK
+      let : Finite K := hKfin
       have h2 : 1 < Nat.card K := Finite.one_lt_card
       rw [hKcard] at h2
       simp at h2
@@ -399,11 +397,11 @@ theorem kTab23c_of_sylowFixedLine
         have hsub : Subsingleton ↥H :=
           subsingleton_of_isOmegaPlus_four_one (hn1 ▸ hOp) hperf
         refine ⟨?_, ?_⟩
-        · haveI : Subsingleton ↥(B ⊓ CH) :=
+        · have : Subsingleton ↥(B ⊓ CH) :=
             ⟨fun a b => Subtype.ext (Subsingleton.elim (a.1 : ↥H) b.1)⟩
           exact isCyclic_of_subsingleton
         · intro E hEB hE
-          haveI : Subsingleton ↥E :=
+          have : Subsingleton ↥E :=
             ⟨fun a b => Subtype.ext (Subsingleton.elim (a.1 : ↥H) b.1)⟩
           exact isCyclic_of_subsingleton
       · have hBN : B ≤ Subgroup.normalizer ((S : Subgroup ↥H) : Set ↥H) :=

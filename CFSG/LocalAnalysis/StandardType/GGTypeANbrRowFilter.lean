@@ -81,7 +81,7 @@ theorem ggTablePRow_typeA_A {p n f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3
   · omega
   · omega
 
-theorem ggTablePRow_typeA_D3 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 2 ≤ f)
+theorem ggTablePRow_typeA_D3 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hf : 2 ≤ f)
     (hpf : p ∣ 2 ^ f - 1) {X : LargeEvenLabel} (h : GGTablePRow p ⟨.D, 3, f⟩ X) :
     GGTypeARowClass p 4 f X := by
   unfold GGTablePRow at h

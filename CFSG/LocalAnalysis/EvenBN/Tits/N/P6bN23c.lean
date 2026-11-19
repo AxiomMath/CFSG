@@ -29,7 +29,7 @@ theorem liftAdd_map_quotRep (σ : ↥B) (U : Submodule (ZMod 2) (Additive (V ⧸
   have hBmem : ∀ τ ∈ B, ∀ z' ∈ Z, (τ : MulAut V) z' ∈ Z := fun τ hτ z' hz' =>
     (hB τ hτ) ▸ ⟨z', hz', rfl⟩
   ext v
-  simp only [Subgroup.mem_map, MonoidHom.coe_coe, mem_liftAdd, Submodule.mem_toAddSubgroup,
+  simp only [Subgroup.mem_map, _root_.MonoidHom.coe_ofClass, mem_liftAdd, Submodule.mem_toAddSubgroup,
     Submodule.mem_map]
   constructor
   · rintro ⟨u, hu, hut⟩
@@ -42,7 +42,7 @@ theorem liftAdd_map_quotRep (σ : ↥B) (U : Submodule (ZMod 2) (Additive (V ⧸
     · rw [cls_mul, (cls_eq_zero_iff Z _).2 hzz, add_zero]; exact hu
     · have hinv : ∀ w : V, (σ : MulAut V) (((σ⁻¹ : ↥B) : MulAut V) w) = w := fun w => by
         have := congrArg (fun τ : ↥B => (τ : MulAut V) w) (mul_inv_cancel σ)
-        simpa using this
+        simp
       rw [map_mul, hinv]; group
   · rintro ⟨v', hv', rfl⟩
     refine ⟨cls Z v', hv', ?_⟩
@@ -192,7 +192,7 @@ theorem node23c_a (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (hin
     (cent : A6CentStmt) {o : G} (ho : o ∈ Hg d)
     (hoj : ∀ j ∈ Jp d, o * j * o⁻¹ * j⁻¹ ∈ Kz d z₀) : o ∈ Kz d z₀ := by
   have M := mdata_d h49 hd hz hinv hcard hh₀ hh
-  haveI hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
+  have hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
   have hW2 : ∀ w ∈ (Ws d).subgroupOf (Hs d), w * w = 1 := by
     intro w hw
     have := hWel.2 (w : MulAut ↥d.s56V) (Subgroup.mem_subgroupOf.1 hw)
@@ -200,7 +200,7 @@ theorem node23c_a (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (hin
   have hWJb := Wb_le_Jb h49 hd hWJ
   obtain ⟨eq⟩ := jp_quot_equiv_symm hz hWimg _ e
   obtain ⟨eb⟩ := jb_quot_equiv h49 hd hWJ _ eq
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hs := eb.isSimpleGroup
   have hWtriv : ∀ w ∈ (Ws d).subgroupOf (Hs d), quotRep (Zv d z₀) (Hs d) (map_Zv_eq hZH) w = 1 :=
     normal_exponent_two_acts_trivially _ M.card
@@ -254,13 +254,13 @@ theorem node23c_b (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (hin
     congrArg Subtype.val (hcom ⟨a, ha⟩ ⟨b, hb⟩)
   have hsG : ∀ a ∈ d.s56V, a * a = 1 := fun a ha => congrArg Subtype.val (hsq ⟨a, ha⟩)
   have M := mdata_d h49 hd hz hinv hcard hh₀ hh
-  haveI hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
+  have hWbN : ((Ws d).subgroupOf (Hs d)).Normal := Wb_normal hWnorm
   have hW2 : ∀ w ∈ (Ws d).subgroupOf (Hs d), w * w = 1 := by
     intro w hw
     have := hWel.2 (w : MulAut ↥d.s56V) (Subgroup.mem_subgroupOf.1 hw)
     exact Subtype.ext (by simpa [pow_two] using this)
   have hWJb := Wb_le_Jb h49 hd hWJ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   set ρ := quotRep (Zv d z₀) (Hs d) (map_Zv_eq hZH) with hρ
   have hWtriv : ∀ w ∈ (Ws d).subgroupOf (Hs d), ρ w = 1 :=
     normal_exponent_two_acts_trivially _ M.card
@@ -369,12 +369,12 @@ theorem node23c_of_cores (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z�
   have hinv : d.S56Z0Inv := fun z0 hz0 => by
     have := hVel.2 z0 hz0.mem_V
     simpa [pow_two] using this
-  haveI : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
-  haveI : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
-  haveI := hN
+  have : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
+  have : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
+  have := hN
   obtain ⟨h₀, hh₀, hh⟩ := hconj
   refine ⟨fun ⟨N', ⟨e⟩⟩ o ho hoj => ?_, fun s' hs' hss hr => ?_⟩
-  · haveI := N'
+  · have := N'
     exact node23c_a h49 hd hz hinv hcard hZH hh₀ hh hWimg hWnorm hWel hWJ e cent ho hoj
   · exact node23c_b h49 hd hz hinv hcard hZH hh₀ hh hWimg hWnorm hWel hWJ hcases r3 hs' hss
       (rk_quotRep_eq_three (Z_le_V h49 hd hz) hZH hs' hss hr)

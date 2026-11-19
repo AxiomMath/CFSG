@@ -43,7 +43,7 @@ private theorem root_five_of_aeval {L : Type} [Field L] [Algebra (ZMod 2) L] {r 
 
 private theorem natCard_adjoinRoot (p : (ZMod 2)[X]) (hp : Irreducible p) :
     Nat.card (AdjoinRoot p) = 2 ^ p.natDegree := by
-  haveI : Fact (Irreducible p) := ⟨hp⟩
+  have : Fact (Irreducible p) := ⟨hp⟩
   have hp0 : p ≠ 0 := hp.ne_zero
   have hfin : Module.Finite (ZMod 2) (AdjoinRoot p) :=
     (monic_of_ne_zero_zmod2 p hp0).finite_adjoinRoot
@@ -57,16 +57,16 @@ private theorem Phi5_irreducible : Irreducible Phi5 := by
   obtain ⟨p, hp, hpd⟩ := WfDvdMonoid.exists_irreducible_factor hnu Phi5_ne_zero
   have hp0 : p ≠ 0 := hp.ne_zero
   have hpm : p.Monic := monic_of_ne_zero_zmod2 p hp0
-  haveI : Fact (Irreducible p) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Irreducible p) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard := natCard_adjoinRoot p hp
   have hr : aeval (AdjoinRoot.root p) Phi5 = 0 := by
     rw [AdjoinRoot.aeval_eq, AdjoinRoot.mk_eq_zero]; exact hpd
   obtain ⟨hr5, hr1⟩ := root_five_of_aeval hr
   have hr0 : AdjoinRoot.root p ≠ 0 := fun h => by
     rw [h, zero_pow (by norm_num)] at hr5; exact zero_ne_one hr5
-  haveI : Finite (AdjoinRoot p) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
-  haveI : Fintype (AdjoinRoot p) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot p) := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have : Fintype (AdjoinRoot p) := Fintype.ofFinite _
   have h1 := FiniteField.pow_card_sub_one_eq_one (AdjoinRoot.root p) hr0
   rw [← Nat.card_eq_fintype_card, hcard] at h1
   have hdiv : 5 ∣ 2 ^ p.natDegree - 1 := by
@@ -128,8 +128,8 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
     (hz5 : σ z ^ 5 = 1) (hz1 : σ z ≠ 1) :
     ∃ W : Submodule (ZMod 2) A, 2 ^ 20 ≤ Nat.card W ∧ ∀ w ∈ W, σ z w = w → w = 0 := by
   classical
-  haveI : Fact (Irreducible Phi5) := ⟨Phi5_irreducible⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Irreducible Phi5) := ⟨Phi5_irreducible⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨T, hTdef⟩ : ∃ T : Module.End (ZMod 2) A, T = σ z := ⟨_, rfl⟩
   rw [← hTdef] at hz5 hz1
   obtain ⟨N, hNdef⟩ : ∃ N : Module.End (ZMod 2) A, N = aeval T Phi5 := ⟨_, rfl⟩
@@ -195,7 +195,7 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
     · exact Ideal.Quotient.lift_mk _ _ _
   have hιroot : ι (AdjoinRoot.root Phi5) = gW z := by
     rw [AdjoinRoot.root, hιmk, aeval_X]
-  letI : Module (AdjoinRoot Phi5) W := Module.compHom W ι
+  let : Module (AdjoinRoot Phi5) W := Module.compHom W ι
   have hsmul : ∀ (c : AdjoinRoot Phi5) (w : W), c • w = ι c w := fun _ _ => rfl
   have hcommι : ∀ (g : G) (c : AdjoinRoot Phi5), Commute (gW g) (ι c) := by
     intro g c
@@ -268,7 +268,7 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
     exact h5' ▸ orderOf_dvd_of_pow_eq_one hrootpow
   obtain ⟨a, ha⟩ : ∃ a : A, T a ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hz1 (LinearMap.ext fun x => by rw [Module.End.one_apply]; exact hcon x)
   have hNNa : N (N a) = N a := by rw [← Module.End.mul_apply, hNN]
   have huW : a - N a ∈ W := by
@@ -278,13 +278,13 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
     have h1 : a = N a := sub_eq_zero.mp h0
     have h2 : T (N a) = N a := by rw [← Module.End.mul_apply, hTN]
     exact ha ((congrArg T h1).trans (h2.trans h1.symm))
-  haveI : Nontrivial W := ⟨⟨⟨a - N a, huW⟩, 0, fun h => hune (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial W := ⟨⟨⟨a - N a, huW⟩, 0, fun h => hune (congrArg Subtype.val h)⟩⟩
   have hdpos : 0 < Module.finrank (AdjoinRoot Phi5) W := Module.finrank_pos
   have hd5ge : 5 ≤ Module.finrank (AdjoinRoot Phi5) W := Nat.le_of_dvd hdpos hd5
-  haveI : Finite (AdjoinRoot Phi5) := by
-    haveI : Module.Finite (ZMod 2) (AdjoinRoot Phi5) := Phi5_monic.finite_adjoinRoot
+  have : Finite (AdjoinRoot Phi5) := by
+    have : Module.Finite (ZMod 2) (AdjoinRoot Phi5) := Phi5_monic.finite_adjoinRoot
     exact Module.finite_of_finite (ZMod 2)
-  haveI : Module.Finite (AdjoinRoot Phi5) W := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (AdjoinRoot Phi5) W := Module.finite_iff_finite.mpr inferInstance
   have hcardK : Nat.card (AdjoinRoot Phi5) = 2 ^ 4 := by
     rw [natCard_adjoinRoot Phi5 Phi5_irreducible, Phi5_natDegree]
   have hcardW : Nat.card W = Nat.card (AdjoinRoot Phi5) ^ Module.finrank (AdjoinRoot Phi5) W :=
@@ -308,6 +308,7 @@ private theorem core_bound {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Fini
 
 variable {V : Type} [Group V] [Finite V]
 
+omit [Finite V] in
 private theorem mem_Fix_iff {F : Subgroup (MulAut V)} {v : V} :
     v ∈ Fix F ↔ ∀ f ∈ F, f v = v :=
   ⟨fun h f hf => (FixedPoints.mem_subgroup _ _ _).mp h ⟨f, hf⟩,
@@ -318,7 +319,7 @@ private theorem exists_central_five {G : Type} [Group G] [Finite G] (hG : IsPGro
     ∃ z : G, orderOf z = 5 ∧ (∀ g : G, g * z = z * g) ∧
       z ∈ ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, y, hxy⟩ := hnab
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup G, C = ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ := ⟨_, rfl⟩
   have hCne : C ≠ ⊥ := by
@@ -332,13 +333,13 @@ private theorem exists_central_five {G : Type} [Group G] [Finite G] (hG : IsPGro
   have hCn : C.Normal := by
     rw [hCdef]
     infer_instance
-  haveI : Group.IsNilpotent G := IsPGroup.isNilpotent hG
+  have : Group.IsNilpotent G := IsPGroup.isNilpotent hG
   obtain ⟨K, hKdef⟩ : ∃ K : Subgroup G, K = C ⊓ Subgroup.center G := ⟨_, rfl⟩
   have hKne : K ≠ ⊥ := by
     rw [hKdef]
     exact Group.IsNilpotent.inf_center_ne_bot_of_normal hCne
   have hK5 : IsPGroup 5 K := hG.to_subgroup K
-  haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
+  have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
   obtain ⟨n, hn, hcard⟩ := (IsPGroup.nontrivial_iff_card hK5).mp inferInstance
   have hdvd : 5 ∣ Nat.card K := by
     rw [hcard]
@@ -357,10 +358,10 @@ private theorem two_pow_twenty_core (hV : ∀ v : V, v * v = 1) {F : Subgroup (M
     (hF : IsPGroup 5 F) (hFnab : ∃ x ∈ F, ∃ y ∈ F, x * y ≠ y * x) :
     2 ^ 20 ≤ (Fix F).index := by
   classical
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V ≃ V))
       (fun f g h => MulEquiv.ext fun v => congrArg (fun e : V ≃ V => e v) h)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx, y, hy, hxy⟩ := hFnab
   obtain ⟨z, hzord, hzc, hzcomm⟩ := exists_central_five hF
     ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hxy (congrArg Subtype.val h)⟩
@@ -371,13 +372,13 @@ private theorem two_pow_twenty_core (hV : ∀ v : V, v * v = 1) {F : Subgroup (M
     have hab : (a * b)⁻¹ = a * b := inv_eq_of_mul_eq_one_right (hV _)
     rw [mul_inv_rev, ha, hb] at hab
     exact hab.symm
-  letI : AddCommGroup (Additive V) :=
+  let : AddCommGroup (Additive V) :=
     { (inferInstance : AddGroup (Additive V)) with
       add_comm := fun a b => congrArg Additive.ofMul (hcomm (Additive.toMul a) (Additive.toMul b)) }
   have h2 : ∀ a : Additive V, (2 : ℕ) • a = 0 := fun a => by
     rw [two_nsmul]
     exact hV (Additive.toMul a)
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule h2
   let act : MulAut V →* Module.End (ZMod 2) (Additive V) :=
     { toFun := fun f => AddMonoidHom.toZModLinearMap 2 (MulEquiv.toAdditive f).toAddMonoidHom
       map_one' := by ext a; rfl
@@ -405,7 +406,7 @@ private theorem two_pow_twenty_core (hV : ∀ v : V, v * v = 1) {F : Subgroup (M
       exact pow_orderOf_eq_one z
     rw [this, map_one]
   obtain ⟨W, hW2, hWfix⟩ := core_bound σ hzc hzcomm hz5 hz1
-  haveI : Finite (V ⧸ Fix F) := Quotient.finite _
+  have : Finite (V ⧸ Fix F) := Quotient.finite _
   let φ : W → V ⧸ Fix F := fun w => QuotientGroup.mk (Additive.toMul (w : Additive V))
   have hinj : Function.Injective φ := by
     intro w₁ w₂ h
@@ -450,6 +451,7 @@ private theorem isPGroup_of_le {G : Type} [Group G] {p : ℕ} {K F : Subgroup G}
   obtain ⟨k, hk⟩ := hK ⟨g.1, hle g.2⟩
   exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
 
+omit [Finite V] in
 private theorem inv_on_of_abelian {K : Subgroup (MulAut V)} {T : Set (MulAut V)}
     (hT : Subgroup.closure T = K) (hab : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) {e : MulAut V}
     (hinv : ∀ y ∈ T, e * y * e⁻¹ = y⁻¹) : ∀ y ∈ K, e * y * e⁻¹ = y⁻¹ := by
@@ -478,19 +480,19 @@ private theorem inv_on_of_abelian {K : Subgroup (MulAut V)} {T : Set (MulAut V)}
 
 private theorem sixteen_of_sq {x : ℕ} (h : 2 ^ 8 ≤ x ^ 2) : 16 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 2 ≤ 15 ^ 2 := Nat.pow_le_pow_left (by omega) 2
   exact absurd (le_trans h h1) (by norm_num)
 
 private theorem sixtyfour_of_sq {x : ℕ} (h : 2 ^ 12 ≤ x ^ 2) : 64 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 2 ≤ 63 ^ 2 := Nat.pow_le_pow_left (by omega) 2
   exact absurd (le_trans h h1) (by norm_num)
 
 private theorem sixtyfour_of_cube {x : ℕ} (h : 2 ^ 20 ≤ x ^ 3) : 64 ≤ x := by
   by_contra hx
-  push_neg at hx
+  push Not at hx
   have h1 : x ^ 3 ≤ 63 ^ 3 := Nat.pow_le_pow_left (by omega) 3
   exact absurd (le_trans h h1) (by norm_num)
 

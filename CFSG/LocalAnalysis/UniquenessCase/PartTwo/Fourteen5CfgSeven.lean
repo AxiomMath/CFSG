@@ -16,7 +16,7 @@ namespace Cfg145
 variable {K : Type} [Group K] [Finite K] {M X₁ X₂ P : Subgroup K}
 
 theorem isSylowOf_seven_top (c : Cfg145 M X₁ X₂ P) : CFSG.ABGLocalTools.IsSylowOf 7 P ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨Q, hQtop, hQM⟩ := c.strong.exists_isSylowOf_le
   have hQtop' : CFSG.ABGLocalTools.IsSylowOf 7 Q ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr hQtop
@@ -27,9 +27,9 @@ theorem isSylowOf_seven_top (c : Cfg145 M X₁ X₂ P) : CFSG.ABGLocalTools.IsSy
   rw [hcardPQ, hQtop'.card_eq]
 
 theorem ne_bot_seven (c : Cfg145 M X₁ X₂ P) : P ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro hbot
-  haveI : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
+  have : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
   have hpos : 0 < (Nat.card M).factorization 7 :=
     (by norm_num : Nat.Prime 7).factorization_pos_of_dvd (Nat.card_pos (α := M)).ne'
       c.strong.2.1
@@ -38,9 +38,10 @@ theorem ne_bot_seven (c : Cfg145 M X₁ X₂ P) : P ≠ ⊥ := by
   exact (one_lt_pow' (by norm_num : 1 < 7) hpos.ne').ne' hcard.symm
 
 theorem normalizer_seven_le (c : Cfg145 M X₁ X₂ P) : normalizer (P : Set K) ≤ M := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact c.strong.normalizer_le c.ne_bot_seven c.isSylowOf_seven.isPGroup c.isSylowOf_seven.le
 
+omit [Finite K] in
 lemma inv_mul_mul_eq_of_mem_centralizer {s : Set K} {k z : K}
     (hk : k ∈ centralizer s) (hz : z ∈ s) : k⁻¹ * z * k = z := by
   have h := Subgroup.mem_centralizer_iff.mp hk z hz
@@ -48,6 +49,7 @@ lemma inv_mul_mul_eq_of_mem_centralizer {s : Set K} {k z : K}
     _ = k⁻¹ * (k * z) := by rw [h]
     _ = z := by group
 
+omit [Finite K] in
 lemma map_conj_le_centralizer {X P : Subgroup K} {d : K}
     (hd : d ∈ normalizer (X : Set K)) (hP : P ≤ centralizer (X : Set K)) :
     P.map (MulAut.conj d).toMonoidHom ≤ centralizer (X : Set K) := by
@@ -65,7 +67,7 @@ theorem exists_mem_normalizer_inf (c : Cfg145 M X₁ X₂ P) (s₁ s₂ : Bool) 
     ∃ e ∈ normalizer ((X₁ ⊔ X₂ : Subgroup K) : Set K) ⊓ normalizer (P : Set K),
       (∀ x ∈ X₁, e * x * e⁻¹ = if s₁ then x⁻¹ else x) ∧
         (∀ x ∈ X₂, e * x * e⁻¹ = if s₂ then x⁻¹ else x) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let Xs : Set K := ((X₁ ⊔ X₂ : Subgroup K) : Set K)
   let C : Subgroup K := centralizer Xs
   have hPC : P ≤ C := c.le_centralizer
@@ -93,15 +95,15 @@ theorem exists_mem_normalizer_inf (c : Cfg145 M X₁ X₂ P) (s₁ s₂ : Bool) 
   · intro x hx
     have hz : (if s₁ then x⁻¹ else x) ∈ Xs := by
       by_cases hs : s₁
-      · rw [if_pos hs]; exact Subgroup.mem_sup_left (X₁.inv_mem hx)
-      · rw [if_neg hs]; exact Subgroup.mem_sup_left hx
+      · rw [ite_eq_left hs]; exact Subgroup.mem_sup_left (X₁.inv_mem hx)
+      · rw [ite_eq_right hs]; exact Subgroup.mem_sup_left hx
     rw [heval x, hd₁ x hx]
     exact inv_mul_mul_eq_of_mem_centralizer hkC hz
   · intro x hx
     have hz : (if s₂ then x⁻¹ else x) ∈ Xs := by
       by_cases hs : s₂
-      · rw [if_pos hs]; exact Subgroup.mem_sup_right (X₂.inv_mem hx)
-      · rw [if_neg hs]; exact Subgroup.mem_sup_right hx
+      · rw [ite_eq_left hs]; exact Subgroup.mem_sup_right (X₂.inv_mem hx)
+      · rw [ite_eq_right hs]; exact Subgroup.mem_sup_right hx
     rw [heval x, hd₂ x hx]
     exact inv_mul_mul_eq_of_mem_centralizer hkC hz
 

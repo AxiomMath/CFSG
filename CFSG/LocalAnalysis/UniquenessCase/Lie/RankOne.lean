@@ -45,7 +45,7 @@ theorem uc22pwr1_iter {X : Type} [Group X] {U E : Subgroup X} {φ : MulAut X} {i
 
 theorem uc22pwr1_eq_one_of_mem_inf {X : Type} [Group X] {U T : Subgroup X} (hU : IsPGroup 2 U)
     (hT : Odd (Nat.card T)) {u : X} (huU : u ∈ U) (huT : u ∈ T) : u = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_orderOf.1 hU ⟨u, huU⟩
   have h1 : orderOf u = 2 ^ a := (Subgroup.orderOf_coe (⟨u, huU⟩ : U)).trans ha
   have h2 : orderOf u ∣ Nat.card T := Subgroup.orderOf_dvd_natCard T huT
@@ -154,7 +154,7 @@ theorem uc22pwr1_of_datumG {X : Type} [Group X] [Finite X] {U : Subgroup X} (hU 
 
 theorem uc22pwr1_exists_equiv_sylow {X C : Type} [Group X] [Finite X] [Group C] (e₀ : X ≃* C) (U : Sylow 2 X)
     (U₀ : Sylow 2 C) : ∃ e : X ≃* C, (U : Subgroup X).map e.toMonoidHom = (U₀ : Subgroup C) := by
-  haveI : Finite C := Finite.of_equiv X e₀.toEquiv
+  have : Finite C := Finite.of_equiv X e₀.toEquiv
   let S' : Sylow 2 C := U.mapSurjective (f := e₀.toMonoidHom) e₀.surjective
   have hS' : (S' : Subgroup C) = (U : Subgroup X).map e₀.toMonoidHom := rfl
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C S' U₀
@@ -175,7 +175,7 @@ theorem uc22pwr1_concl_of_datum_sylowG {X C : Type} [Group X] [Finite X] [Group 
     (hm' : Odd m') {e : ℕ} (hnem : n = 2 ^ e * m') :
     ∃ E : Subgroup X, uc22pwlie_ConclAt uc22pwr1_shape X (U : Subgroup X) P ψ n m' E ∧
       uc22pwlie_Gal (U : Subgroup X) E ψ := by
-  haveI : Finite C := Finite.of_equiv X e₀.toEquiv
+  have : Finite C := Finite.of_equiv X e₀.toEquiv
   obtain ⟨e', he'⟩ := uc22pwr1_exists_equiv_sylow e₀ U U₀
   have hψ' : ∀ (g : P) (x : C), x ∈ (U₀ : Subgroup C) ↔
       ((MulAut.congr e').toMonoidHom.comp ψ) g x ∈ (U₀ : Subgroup C) := by
@@ -183,7 +183,7 @@ theorem uc22pwr1_concl_of_datum_sylowG {X C : Type} [Group X] [Finite X] [Group 
     rw [← he', uc22pwlie_mem_map_iff, uc22pwlie_mem_map_iff]
     have h1 := hψ g (e'.symm x)
     simpa [MulAut.congr_apply] using h1
-  obtain ⟨E', hE', hG⟩ := uc22pwr1_of_datumG U₀.isPGroup' D hP _ hψ' hm' hnem
+  obtain ⟨E', hE', hG⟩ := uc22pwr1_of_datumG U₀.isPGroup D hP _ hψ' hm' hnem
   rw [← he'] at hE' hG
   exact ⟨_, uc22pwlie_ConclAt.of_mulEquiv (fun e E h => uc22pwr1_shape_map e E h) e' ψ hE',
     uc22pwlie_Gal.of_mulEquiv e' ψ hG⟩

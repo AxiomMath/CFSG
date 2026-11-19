@@ -61,6 +61,7 @@ private theorem s16t3_altHeart_six_card : Nat.card (Multiplicative (AltHeart 6))
   rw [Nat.card_congr Multiplicative.toAdd, CFSG.Quasithin.H23P4.card_altHeart_six]
   norm_num
 
+omit [Finite W] in
 private theorem s16t3_alt6_exists_beta {H : Subgroup (MulAut W)} {U Z : Subgroup W}
     {π : ↥(alternatingGroup (Fin 6)) →* ↥H}
     (hR : (FFModel.altDn 6).RealizesVia H U Z π) :
@@ -95,7 +96,8 @@ private theorem s16t3_alt6_exists_beta {H : Subgroup (MulAut W)} {U Z : Subgroup
       _ = Multiplicative.ofAdd (hAct 6 (γ : Equiv.Perm (Fin 6))
             (Multiplicative.toAdd (e (β u)))) := by rw [← hmu]
 
-theorem s16t3_alt6_shape (hq : CFSG.Open.IsQuasisimple ↥L) (hL : UC22.IsAlt ↥L 6)
+omit [Finite W] in
+theorem s16t3_alt6_shape (_hq : CFSG.Open.IsQuasisimple ↥L) (hL : UC22.IsAlt ↥L 6)
     {I : Subgroup W} (hI : SumOfNatShape L I (I ⊓ fixV L) 1) :
     AlternatingNatural L I (I ⊓ fixV L) 6 := by
   have hc : Nat.card ↥L = 360 := s16t3_card_of_isAlt_six hL
@@ -107,6 +109,7 @@ theorem s16t3_alt6_shape (hq : CFSG.Open.IsQuasisimple ↥L) (hL : UC22.IsAlt �
   · obtain rfl : n = 6 := s16t3_eq_six_of_isAlt_card hn hc
     exact s16t3_sumOfNat_one hN
 
+omit [Finite W] in
 theorem s16t3_alt6_natural (hq : CFSG.Open.IsQuasisimple ↥L) (hL : UC22.IsAlt ↥L 6)
     {I : Subgroup W} (hI : SumOfNatShape L I (I ⊓ fixV L) 1) :
     Nat.card ↥I = 16 * Nat.card ↥(I ⊓ fixV L) ∧

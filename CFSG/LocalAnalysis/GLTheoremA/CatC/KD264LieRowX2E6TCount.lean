@@ -92,6 +92,7 @@ section D4
 variable
   {Ω : Type} [Field Ω] [IsAlgClosed Ω]
 
+omit [IsAlgClosed Ω] in
 theorem coe_phiSet_eq_kernel {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζ' : orderOf ζ = 3)
     (u : E6Idx → ZMod 3) :
     (↑(phiSet u) : Set (E6Idx → ℤ)) = kernelRoots (rootCharHom (thetaTuple ζ u)) := by
@@ -99,6 +100,7 @@ theorem coe_phiSet_eq_kernel {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζ' : orderOf ζ =
   exact ((mem_kernelRoots_iff_phiU hζ hζ' u γ).trans
     (Set.ext_iff.1 (phiU_eq_phiSet u) γ)).symm
 
+omit [IsAlgClosed Ω] in
 theorem mem_kernel_iff_mem_phiSet {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζ' : orderOf ζ = 3)
     (u : E6Idx → ZMod 3) (β : E6Idx → ℤ) :
     β ∈ kernelRoots (rootCharHom (thetaTuple ζ u)) ↔ β ∈ phiSet u :=

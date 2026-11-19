@@ -29,12 +29,12 @@ theorem commutator_mem_pCoreOf_of_mem_OInf {Y : Subgroup G} (hY : F11.O2E Y = Y)
       have : b ∈ (rankThreeLayer (⊤ : Subgroup (Bar2 Y))).comap π := by rw [h1]; trivial
       exact this
     rw [uc22p22u_layer_eq_rankThreeLayer_top, h2]
-  haveI : (CFSG.solvableRadical ↥Y).Normal := CFSG.ABGLocalTools.solvableRadical_normal
-  haveI : Group.IsSolvable (CFSG.solvableRadical ↥Y) :=
+  have : (CFSG.solvableRadical ↥Y).Normal := CFSG.ABGLocalTools.solvableRadical_normal
+  have : Group.IsSolvable (CFSG.solvableRadical ↥Y) :=
     CFSG.ABGLocalTools.solvableRadical_isSolvable
   set S : Subgroup (Bar2 Y) := (CFSG.solvableRadical ↥Y).map π with hS
-  haveI hSn : S.Normal := Subgroup.Normal.map inferInstance π hπs
-  haveI hSs : Group.IsSolvable S := by
+  have hSn : S.Normal := Subgroup.Normal.map inferInstance π hπs
+  have hSs : Group.IsSolvable S := by
     let f : ↥(CFSG.solvableRadical ↥Y) →* ↥S :=
       (π.comp (CFSG.solvableRadical ↥Y).subtype).codRestrict S (fun x => ⟨x, x.2, rfl⟩)
     have hf : Function.Surjective f := by
@@ -59,13 +59,13 @@ theorem isQuasisimple_bar2_of_ker_commutes {K L : Type} [Group K] [Finite K] [Gr
     (hL : CFSG.Open.IsQuasisimple L) (hcore : CFSG.pCore 2 K ≤ g.ker)
     (hcomm : ∀ k ∈ g.ker, ∀ k' : K, ⁅k, k'⁆ ∈ CFSG.pCore 2 K) :
     CFSG.Open.IsQuasisimple (K ⧸ CFSG.pCore 2 K) := by
-  haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   let gb : K ⧸ CFSG.pCore 2 K →* L := QuotientGroup.lift (CFSG.pCore 2 K) g hcore
   have hgb : Function.Surjective gb := fun l => by
     obtain ⟨k, rfl⟩ := hg l
     exact ⟨QuotientGroup.mk k, rfl⟩
-  haveI : Group.IsPerfect K := ⟨hperf⟩
-  haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+  have : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
   have hker : gb.ker ≤ Subgroup.center (K ⧸ CFSG.pCore 2 K) := by
     intro x hx
     obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective x

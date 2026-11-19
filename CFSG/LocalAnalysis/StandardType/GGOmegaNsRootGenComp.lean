@@ -40,18 +40,22 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)} {u : Fin k → V} {c t : F}
   {a b : Fin k} {s : Bool}
 
+omit [Finite F] [CharP F 2] in
 private theorem framePoly_monic (t : F) : (framePoly t).Monic := by
   unfold framePoly
   monicity!
 
+omit [Finite F] [CharP F 2] in
 private theorem framePoly_natDegree (t : F) : (framePoly t).natDegree = 2 := by
   unfold framePoly
   compute_degree!
 
+omit [Finite F] in
 private theorem framePoly_eval_one (t : F) : (framePoly t).eval 1 = t := by
   simp only [framePoly, eval_add, eval_pow, eval_X, eval_mul, eval_C, eval_one]
   linear_combination CharTwo.add_self_eq_zero (1 : F)
 
+omit [Finite F] [CharP F 2] in
 theorem framePoly_ne_X_sub_one (t : F) : framePoly t ≠ X - 1 := by
   intro h
   have h2 := congrArg (fun q : F[X] => q.natDegree) h
@@ -59,23 +63,27 @@ theorem framePoly_ne_X_sub_one (t : F) : framePoly t ≠ X - 1 := by
     simpa using natDegree_X_sub_C (1 : F)] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem two_smul_eq_zero (x : V) : (2 : F) • x = 0 := by
   rw [CharTwo.two_eq_zero, zero_smul]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem aeval_framePoly_apply (f : V ≃ₗ[F] V) (t : F) (v : V) :
     aeval f.toLinearMap (framePoly t) v = f (f v) + t • f v + v := by
   have h : aeval f.toLinearMap (framePoly t) =
       f.toLinearMap * f.toLinearMap + t • f.toLinearMap + 1 := by
-    simp only [framePoly, map_add, map_mul, map_pow, pow_two, aeval_X, aeval_C, aeval_one,
+    simp only [framePoly, map_add, map_mul, pow_two, aeval_X, aeval_C, aeval_one,
       Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul]
   rw [h, LinearMap.add_apply, LinearMap.add_apply, Module.End.mul_apply, LinearMap.smul_apply,
     Module.End.one_apply]
   rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem aeval_X_sub_one_apply (f : V ≃ₗ[F] V) (v : V) :
     aeval f.toLinearMap (X - 1 : F[X]) v = f v - v := by
   simp
 
+omit [Finite F] in
 private theorem framePoly_aeval_apply_eq_zero_of_rot {f : V ≃ₗ[F] V} {W : Submodule F V}
     (hW : Module.finrank F W = 2) {v : V} (hv : v ∈ W) (hfv : f v ∈ W)
     (hind : ∀ a b : F, a • v + b • f v = 0 → a = 0 ∧ b = 0)
@@ -116,6 +124,7 @@ private theorem framePoly_aeval_apply_eq_zero_of_rot {f : V ≃ₗ[F] V} {W : Su
   intro x hx
   exact hker (hspan.symm ▸ hx)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem inv_apply_eq_add_smul {f : V ≃ₗ[F] V} {v : V}
     (hrot : f (f v) = t • f v + v) : f.symm v = f v + t • v := by
   have h3 : f v = t • v + f.symm v := by
@@ -127,6 +136,7 @@ private theorem inv_apply_eq_add_smul {f : V ≃ₗ[F] V} {v : V}
     _ = t • v + f v := by rw [← h3]
     _ = f v + t • v := add_comm _ _
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem rot_symm {f : V ≃ₗ[F] V} {v : V} (hrot : f (f v) = t • f v + v) :
     f.symm (f.symm v) = t • f.symm v + v := by
   have h1 : f.symm v = f v + t • v := inv_apply_eq_add_smul hrot
@@ -135,6 +145,7 @@ private theorem rot_symm {f : V ≃ₗ[F] V} {v : V} (hrot : f (f v) = t • f v
     _ = v + t • f.symm v := by rw [LinearEquiv.symm_apply_apply]
     _ = t • f.symm v + v := add_comm _ _
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem independent_symm {f : V ≃ₗ[F] V} {v : V}
     (hrot : f (f v) = t • f v + v)
     (hind : ∀ a b : F, a • v + b • f v = 0 → a = 0 ∧ b = 0) :
@@ -150,6 +161,7 @@ private theorem independent_symm {f : V ≃ₗ[F] V} {v : V}
   rw [hb, zero_mul, add_zero] at ha
   exact ha
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem independent_u_e (hF : IsCoherentFrame Q p U e E u c t) (j : Fin k) :
     ∀ a b : F, a • u j + b • (e j : V ≃ₗ[F] V) (u j) = 0 → a = 0 ∧ b = 0 := by
   have hu0 : u j ≠ 0 := by
@@ -182,6 +194,7 @@ private theorem independent_u_e (hF : IsCoherentFrame Q p U e E u c t) (j : Fin 
     rw [hpol0, mul_zero, hF.polar_eq j] at h2
     exact htc h2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem pow_apply_mem (hF : IsCoherentFrame Q p U e E u c t) (j : Fin k) :
     ∀ n : ℕ, ∀ x ∈ U j, ((e j : V ≃ₗ[F] V) ^ n) x ∈ U j := by
   intro n
@@ -192,6 +205,7 @@ private theorem pow_apply_mem (hF : IsCoherentFrame Q p U e E u c t) (j : Fin k)
     rw [pow_succ', LinearEquiv.mul_apply]
     exact hF.maps_to j _ (ih x hx)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem inv_eq_pow (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime) (j : Fin k) :
     ((e j : V ≃ₗ[F] V))⁻¹ = (e j : V ≃ₗ[F] V) ^ (p - 1) := by
   have hjp : (e j : V ≃ₗ[F] V) ^ p = 1 := by
@@ -200,19 +214,22 @@ private theorem inv_eq_pow (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     simpa using h
   rw [inv_eq_iff_mul_eq_one, ← pow_succ', Nat.sub_one_add_one hp.ne_zero, hjp]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem inv_apply_mem (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime) (j : Fin k) :
     ∀ x ∈ U j, ((e j : V ≃ₗ[F] V))⁻¹ x ∈ U j := by
   intro x hx
   rw [inv_eq_pow hF hp j]
   exact pow_apply_mem hF j (p - 1) x hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem cond_mem (hF : IsCoherentFrame Q p U e E u c t) (s : Bool) :
     (cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) ∈ E := by
   cases s
   · simpa using hF.toIsPlaneFrame.mem b
   · simpa using inv_mem (hF.toIsPlaneFrame.mem b)
 
-private theorem cond_apply_eq_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem cond_apply_eq_of_ne (hF : IsCoherentFrame Q p U e E u c t) (_hp : p.Prime)
     {j : Fin k} (hj : j ≠ b) (s : Bool) {x : V} (hx : x ∈ U j) :
     ((cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) x = x := by
   have hxb : x ∈ polarPerp Q (U b) := mem_polarPerp_iff.mpr fun y hy => by
@@ -226,12 +243,14 @@ private theorem cond_apply_eq_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hp :
     rw [LinearEquiv.symm_apply_eq]
     exact (hF.apply_of_perp b x hxb).symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem y_apply_mem_U_a (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) {x : V} (hx : x ∈ U a) :
     ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) x =
       (e a : V ≃ₗ[F] V) x := by
   rw [Subgroup.coe_mul, LinearEquiv.mul_apply, cond_apply_eq_of_ne hF hp hab s hx]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem y_false_apply_mem_U_b (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b)
     {x : V} (hx : x ∈ U b) :
     ((e a * e b : ↥(orthDerived Q)) : V ≃ₗ[F] V) x = (e b : V ≃ₗ[F] V) x := by
@@ -240,6 +259,7 @@ private theorem y_false_apply_mem_U_b (hF : IsCoherentFrame Q p U e E u c t) (ha
   rw [QuadraticMap.polar_comm]
   exact hF.perp b a (fun h => hab h.symm) _ (hF.maps_to b x hx) y hy
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem y_true_apply_mem_U_b (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) {x : V} (hx : x ∈ U b) :
     ((e a * (e b)⁻¹ : ↥(orthDerived Q)) : V ≃ₗ[F] V) x = ((e b : V ≃ₗ[F] V))⁻¹ x := by
@@ -248,7 +268,8 @@ private theorem y_true_apply_mem_U_b (hF : IsCoherentFrame Q p U e E u c t) (hp 
   rw [QuadraticMap.polar_comm]
   exact hF.perp b a (fun h => hab h.symm) _ (inv_apply_mem hF hp b x hx) y hy
 
-private theorem y_apply_mem_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
+private theorem y_apply_mem_perp (hF : IsCoherentFrame Q p U e E u c t) (_hp : p.Prime)
     {x : V} (hx : x ∈ polarPerp Q (U a ⊔ U b)) :
     ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) x = x := by
   have hxa : x ∈ polarPerp Q (U a) := fun y hy =>
@@ -266,6 +287,7 @@ private theorem y_apply_mem_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.
   rw [Subgroup.coe_mul, LinearEquiv.mul_apply, hx1]
   exact hF.apply_of_perp a x hxa
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem y_maps_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) {x : V} (hx : x ∈ U a ⊔ U b) :
     ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) x ∈ U a ⊔ U b := by
@@ -284,6 +306,7 @@ private theorem y_maps_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Pri
         y_true_apply_mem_U_b hF hp hab hw]
       exact Submodule.mem_sup_right (inv_apply_mem hF hp b w hw)
 
+omit [Finite F] in
 private theorem framePoly_y_kills_U_a (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     ∀ x ∈ U a, aeval ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
@@ -304,6 +327,7 @@ private theorem framePoly_y_kills_U_a (hF : IsCoherentFrame Q p U e E u c t) (hp
       _ = t • (((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) (u a)) + u a := by
           rw [hfy]
 
+omit [Finite F] in
 private theorem framePoly_y_kills_U_b (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     ∀ x ∈ U b, aeval ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
@@ -343,6 +367,7 @@ private theorem framePoly_y_kills_U_b (hF : IsCoherentFrame Q p U e E u c t) (hp
         _ = t • (((e a * cond true (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) (u b)) +
               u b := by rw [hfy]
 
+omit [FiniteDimensional F V] in
 private theorem framePoly_irreducible (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) (hF : IsCoherentFrame Q p U e E u c t) (j : Fin k) :
     Irreducible (framePoly t) := by
@@ -428,19 +453,23 @@ private theorem framePoly_irreducible (hp : p.Prime) (hp2 : p ≠ 2)
       rw [heig, hlam1, one_smul]
     exact hv0 (hF.eq_zero_of_apply_eq j _ hmemv (by simpa [hf] using hfix))
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem iSup_pair_eq_sup :
     (⨆ j ∈ ({a, b} : Finset (Fin k)), U j) = U a ⊔ U b := by
   rw [Finset.iSup_insert, Finset.iSup_singleton]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem nondeg_U_pair (hF : IsCoherentFrame Q p U e E u c t) :
     (QuadraticMap.polarBilin (Q.comp (U a ⊔ U b).subtype)).Nondegenerate := by
   rw [← iSup_pair_eq_sup (a := a) (b := b)]
   exact hF.toIsPlaneSystem.nondeg_biSup {a, b}
 
+omit [Finite F] [CharP F 2] in
 private theorem isCompl_U_pair_perp (hF : IsCoherentFrame Q p U e E u c t) :
     IsCompl (U a ⊔ U b) (polarPerp Q (U a ⊔ U b)) :=
   isCompl_polarPerp (nondeg_U_pair hF)
 
+omit [Finite F] in
 private theorem framePoly_y_kills_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     ∀ x ∈ U a ⊔ U b,
@@ -451,6 +480,7 @@ private theorem framePoly_y_kills_U_pair (hF : IsCoherentFrame Q p U e E u c t) 
   rw [map_add, framePoly_y_kills_U_a hF hp hab u hu, framePoly_y_kills_U_b hF hp hab w hw,
     add_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem framePoly_y_apply_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     {x : V} (hx : x ∈ polarPerp Q (U a ⊔ U b)) :
     aeval ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
@@ -463,6 +493,7 @@ private theorem framePoly_y_apply_perp (hF : IsCoherentFrame Q p U e E u c t) (h
     _ = 0 + t • x := by rw [← two_smul F x, two_smul_eq_zero]
     _ = t • x := zero_add _
 
+omit [Finite F] in
 theorem primaryComponent_pair (hp : p.Prime) (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) (s : Bool) :
     primaryComponent ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
@@ -491,7 +522,7 @@ theorem framePoly_mem_primaryFactors (hp : p.Prime) (hp2 : p ≠ 2)
     (s : Bool) :
     framePoly t ∈ primaryFactors
       ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap := by
-  haveI : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
+  have : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
   refine mem_primaryFactors_of_primaryComponent_ne_bot (Fact.out) (framePoly_monic t) ?_
   rw [primaryComponent_pair hp hF hab s]
   intro hbot
@@ -506,7 +537,7 @@ theorem primaryMultiplicity_pair (hp : p.Prime) (hp2 : p ≠ 2)
     primaryMultiplicity
       ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
       (framePoly t) = 2 := by
-  haveI : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
+  have : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
   have hpc : Module.finrank F
       (primaryComponent ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
         (framePoly t)) = 4 := by
@@ -520,6 +551,7 @@ theorem primaryMultiplicity_pair (hp : p.Prime) (hp2 : p ≠ 2)
       (framePoly t)) = 2
   omega
 
+omit [Finite F] in
 private theorem fixedSpace_y_eq_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     fixedSpace ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) =
@@ -552,6 +584,7 @@ private theorem fixedSpace_y_eq_perp (hF : IsCoherentFrame Q p U e E u c t) (hp 
   · intro w hw
     exact mem_fixedSpace.mpr (y_apply_mem_perp hF hp hw)
 
+omit [Finite F] in
 private theorem aeval_y_mul_X_sub_one_eq_zero (hF : IsCoherentFrame Q p U e E u c t)
     (hp : p.Prime) (hab : a ≠ b) :
     aeval ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V).toLinearMap
@@ -595,6 +628,7 @@ private theorem primaryFactors_y_subset (hp : p.Prime) (hp2 : p ≠ 2)
     exact eq_of_monic_of_associated (monic_of_mem_primaryFactors hk) monic_X_sub_one
       (hk_irr.associated_of_dvd irreducible_X_sub_one hkd)
 
+omit [Finite F] [CharP F 2] in
 private theorem othersSpace_eq_fixedSpace_of_subset {x : V ≃ₗ[F] V} {h : F[X]}
     (hsub : ∀ k ∈ primaryFactors x.toLinearMap, k = h ∨ k = X - 1) (hh1 : h ≠ X - 1)
     (hself : reciprocalPolynomial h = h) :
@@ -615,10 +649,12 @@ private theorem othersSpace_eq_fixedSpace_of_subset {x : V ≃ₗ[F] V} {h : F[X
     have h1 : k = X - 1 := (hsub k hk.1).resolve_left hk.2.1
     rw [h1, hbot]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem y_mem (hF : IsCoherentFrame Q p U e E u c t) :
     (e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) ∈ E :=
   mul_mem (hF.toIsPlaneFrame.mem a) (cond_mem hF s)
 
+omit [Finite F] [CharP F 2] in
 private theorem y_ne_one (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime) (hab : a ≠ b) :
     (e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) ≠ 1 := by
   intro h1
@@ -629,9 +665,10 @@ private theorem y_ne_one (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime) (
     rwa [y_apply_mem_U_a hF hp hab hv] at h3
   exact hv0 (hF.eq_zero_of_apply_eq a v hv h2)
 
+omit [Finite F] [CharP F 2] in
 private theorem orderOf_y (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) : orderOf (e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (hF.isElemAbelian.2 _ (y_mem hF)) (y_ne_one hF hp hab)
 
 private theorem othersSpace_y_eq_perp (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
@@ -789,7 +826,7 @@ theorem mem_pairBlock_of_mul_self (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
       rw [othersSpace_y_eq_perp (s := s) hQ hp hp2 hpq hF hab] at hx
       exact hgP x hx
   refine Subgroup.mem_subgroupOf.mpr (mem_specialBlock.mpr ⟨hgS, ?_⟩)
-  haveI : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
+  have : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
   have hd2 : blockDet Q ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V)
       (framePoly t) ⟨g, hgS⟩ * blockDet Q
         ((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V)
@@ -811,7 +848,7 @@ theorem mem_pairBlock_of_mul_self (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
       _ = 1 := map_one _
   have hchar : CharP (AdjoinRoot (framePoly t)) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AdjoinRoot (framePoly t))).injective 2
-  haveI := hchar
+  have := hchar
   refine CharTwo.sq_injective ?_
   simpa [pow_two] using hd2
 
@@ -847,6 +884,7 @@ theorem dvd_card_pairBlock (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp 
         (Subgroup.mem_inf.mp hg).1)
   rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHle).toEquiv]
 
+omit [FiniteDimensional F V] [Finite F] in
 private theorem aeval_framePoly_apply_of_fixed {f : V ≃ₗ[F] V} {v : V} (hv : f v = v) :
     aeval f.toLinearMap (framePoly t) v = t • v := by
   have hfix : f.toLinearMap v = (1 : F) • v := by
@@ -854,6 +892,7 @@ private theorem aeval_framePoly_apply_of_fixed {f : V ≃ₗ[F] V} {v : V} (hv :
     rw [hv, one_smul]
   rw [Module.End.aeval_apply_of_mem_apply_eq_smul (μ := (1 : F)) hfix, framePoly_eval_one]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem aeval_symm_framePoly_apply_of {f : V ≃ₗ[F] V} {v : V}
     (hv : f.symm v = f v + t • v) :
     aeval f.symm.toLinearMap (framePoly t) v = 0 := by
@@ -868,10 +907,12 @@ private theorem aeval_symm_framePoly_apply_of {f : V ≃ₗ[F] V} {v : V}
     rw [← two_smul F v, ← two_smul F (t • f.symm v), two_smul_eq_zero, two_smul_eq_zero, add_zero]
   exact h2
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem inv_eq_pow_of_order (hp : p.Prime) {f : V ≃ₗ[F] V} (hf : f ^ p = 1) :
     f⁻¹ = f ^ (p - 1) := by
   rw [inv_eq_iff_mul_eq_one, ← pow_succ', Nat.sub_one_add_one hp.ne_zero, hf]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem pow_y_maps_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) : ∀ n : ℕ, ∀ v ∈ U a ⊔ U b,
       (((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q)) : V ≃ₗ[F] V) ^ n) v ∈ U a ⊔ U b := by
@@ -883,6 +924,7 @@ private theorem pow_y_maps_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p
     rw [pow_succ', LinearEquiv.mul_apply]
     exact y_maps_U_pair hF hp hab (ih v hv)
 
+omit [Finite F] [CharP F 2] in
 private theorem z_eq_pow (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     (((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V) =
@@ -893,12 +935,14 @@ private theorem z_eq_pow (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     rwa [orderOf_y (s := s) hF hp hab] at h
   exact inv_eq_pow_of_order hp hyp
 
+omit [Finite F] [CharP F 2] in
 private theorem z_maps_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) {v : V} (hv : v ∈ U a ⊔ U b) :
     ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)) v ∈ U a ⊔ U b := by
   rw [z_eq_pow (s := s) hF hp hab]
   exact pow_y_maps_U_pair (s := s) hF hp hab (p - 1) v hv
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem z_apply_mem_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     {v : V} (hv : v ∈ polarPerp Q (U a ⊔ U b)) :
     ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)) v = v := by
@@ -910,6 +954,7 @@ private theorem z_apply_mem_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.
     simpa using h3.symm
   exact h2
 
+omit [Finite F] in
 private theorem z_apply_eq_add (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) {v : V} (hv : v ∈ U a ⊔ U b) :
     ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)) v =
@@ -936,6 +981,7 @@ private theorem z_apply_eq_add (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Pr
     _ = t • v + y v := by rw [← h3]
     _ = y v + t • v := add_comm _ _
 
+omit [Finite F] in
 private theorem framePoly_z_kills_U_pair (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     ∀ v ∈ U a ⊔ U b, aeval
@@ -952,6 +998,7 @@ private theorem framePoly_z_kills_U_pair (hF : IsCoherentFrame Q p U e E u c t) 
     exact hzv
   exact h2
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem framePoly_z_apply_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     {v : V} (hv : v ∈ polarPerp Q (U a ⊔ U b)) :
     aeval ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)).toLinearMap
@@ -963,6 +1010,7 @@ private theorem framePoly_z_apply_perp (hF : IsCoherentFrame Q p U e E u c t) (h
     aeval_framePoly_apply_of_fixed h1
   exact h2
 
+omit [Finite F] in
 private theorem primaryComponent_z_pair (hp : p.Prime) (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) :
     primaryComponent ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) :
@@ -987,7 +1035,7 @@ private theorem primaryMultiplicity_z_pair (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     primaryMultiplicity ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) :
       V ≃ₗ[F] V)).toLinearMap (framePoly t) = 2 := by
-  haveI : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
+  have : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
   have hpc : Module.finrank F
       (primaryComponent ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) :
         V ≃ₗ[F] V)).toLinearMap (framePoly t)) = 4 := by
@@ -1005,7 +1053,7 @@ private theorem framePoly_z_mem_primaryFactors (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     framePoly t ∈ primaryFactors ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) :
       V ≃ₗ[F] V)).toLinearMap := by
-  haveI : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
+  have : Fact (Irreducible (framePoly t)) := ⟨framePoly_irreducible hp hp2 hpq hF a⟩
   refine mem_primaryFactors_of_primaryComponent_ne_bot (Fact.out) (framePoly_monic t) ?_
   rw [primaryComponent_z_pair hp hF hab]
   intro hbot
@@ -1014,11 +1062,13 @@ private theorem framePoly_z_mem_primaryFactors (hp : p.Prime) (hp2 : p ≠ 2)
   have h2 := hF.finrank_eq a
   omega
 
+omit [Finite F] [CharP F 2] in
 private theorem orderOf_z (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     orderOf (((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹)) = p := by
   rw [orderOf_inv, orderOf_y (s := s) hF hp hab]
 
+omit [Finite F] in
 private theorem fixedSpace_z_eq_perp (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
     (hab : a ≠ b) :
     fixedSpace ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)) =
@@ -1051,6 +1101,7 @@ private theorem fixedSpace_z_eq_perp (hF : IsCoherentFrame Q p U e E u c t) (hp 
   · intro w hw
     exact mem_fixedSpace.mpr (z_apply_mem_perp (s := s) hF hp hw)
 
+omit [Finite F] in
 private theorem aeval_z_mul_X_sub_one_eq_zero (hF : IsCoherentFrame Q p U e E u c t)
     (hp : p.Prime) (hab : a ≠ b) :
     aeval ((((e a * cond s (e b)⁻¹ (e b) : ↥(orthDerived Q))⁻¹) : V ≃ₗ[F] V)).toLinearMap
@@ -1110,6 +1161,7 @@ private theorem othersSpace_z_eq_perp (hQ : (QuadraticMap.polarBilin Q).Nondegen
     (framePoly_ne_X_sub_one t) hself]
   exact fixedSpace_z_eq_perp hF hp hab
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem isometryCentralizer_inv_eq (x : V ≃ₗ[F] V) :
     isometryCentralizer Q x⁻¹ = isometryCentralizer Q x := by
   rw [isometryCentralizer, isometryCentralizer]
@@ -1137,6 +1189,7 @@ private theorem supportedBlock_z_eq (hQ : (QuadraticMap.polarBilin Q).Nondegener
     othersSpace_z_eq_perp (s := s) hQ hp hp2 hpq hF hab,
     othersSpace_y_eq_perp (s := s) hQ hp hp2 hpq hF hab]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem specialBlock_eq_commutator_supportedBlock {x : V ≃ₗ[F] V} {h : F[X]}
     (hperf : Group.IsPerfect ↥(specialBlock Q x h)) :
     specialBlock Q x h = ⁅supportedBlock Q x h, supportedBlock Q x h⁆ := by

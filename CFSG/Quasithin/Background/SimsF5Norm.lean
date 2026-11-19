@@ -268,7 +268,7 @@ theorem exists_normIso {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} {Y : Typ
     ∃ (Θ : E ≃* ↥M0Dot) (zb : ↥M₁), ε (β.φ1 zb) = z ∧ NmCompat Θ Gp M₁ M₂ ∧
       (∀ x : E, ((Θ x : ↥M0Dot) : GL6) ∈ TDot ↔ x ∈ Tb) ∧
       ((Θ (fb : E) : ↥M0Dot) : GL6) = fDot ∧ ((Θ (zb : E) : ↥M0Dot) : GL6) = zDot := by
-  haveI : Finite E := h.f431.amalgam.finite
+  have : Finite E := h.f431.amalgam.finite
   have hGp : Gp.Normal := h.f431.amalgam.normal
   have hfbG : (fb : E) ∉ Gp := h.f431.amalgam.native.1
   have hfb2 : (fb : E) * (fb : E) = 1 := h.f431.amalgam.native.2.1

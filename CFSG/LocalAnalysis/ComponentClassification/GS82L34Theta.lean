@@ -54,7 +54,7 @@ theorem theta2
     (hZ : Nat.card ↥(center Q) = 16) (g : Q) (hg : g ∉ center Q) (hg2 : g ^ 2 ∈ center Q) :
     ∀ y : Q, Commute y g → ∃ k : ℕ, y ^ (2 ^ k) = 1 := by
   intro y hyg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := Q ⧸ center Q
   obtain ⟨e⟩ := GH74.KGroups.L34.equiv_of_lieModel hL
   set gb : P := (g : P)
@@ -93,8 +93,8 @@ private theorem mk_eq_iff {X : Type} [Group X] {J : Subgroup X} {a b : X} (ha : 
   simp
 
 theorem lemmaTheta
-    {X : Type} [Group X] [Finite X] (w x : X) (hw : orderOf w = 2)
-    (hx : orderOf x = 2) (hwx : w * x = x * w) (J : Subgroup X)
+    {X : Type} [Group X] [Finite X] (w x : X) (_hw : orderOf w = 2)
+    (hx : orderOf x = 2) (_hwx : w * x = x * w) (J : Subgroup X)
     (hJ : IsPCompIn 2 (centralizer ({w} : Set X)) J) (hxJ : x ∈ normalizer (J : Set X))
     (hL : IsL34Quotient (kBar J)) (hZ : Nat.card ↥(center (kBar J)) = 16)
     (hnt : ∃ y ∈ J, y⁻¹ * (x⁻¹ * y * x) ∉ pPrimeCoreOf 2 J)

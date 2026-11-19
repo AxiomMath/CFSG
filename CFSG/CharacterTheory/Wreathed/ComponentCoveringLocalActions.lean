@@ -153,7 +153,7 @@ theorem component_subgroup_quaternion_quotient_action_range [IsSimpleGroup G]
     have hVK := (modelV_le_sylow S e).trans hSK
     have hVN := (modelV_le_sylow S e).trans (sylow_le_involutionCentralizer n hn S e)
     have hV : IsPGroup 2 (modelV S e) :=
-      S.isPGroup'.of_injective (Subgroup.inclusion (modelV_le_sylow S e))
+      S.isPGroup.of_injective (Subgroup.inclusion (modelV_le_sylow S e))
         (Subgroup.inclusion_injective _)
     let bN : involutionCentralizer n S e :=
       ⟨(b : G), modelVNormalizer_le_involutionCentralizer n hn S e b.property⟩

@@ -30,8 +30,8 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : Sec7Core4 G) {H : Subgroup G}
     ⁅layerLift k.p H, CFSG.Open.pCoreOf q ((CFSG.pPrimeCore k.p ↥H).map H.subtype)⁆ = ⊥ := by
   classical
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact k.p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let K : Subgroup G := K₀.map H.subtype
   let J : Subgroup G := layerLift k.p H
@@ -56,7 +56,7 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : Sec7Core4 G) {H : Subgroup G}
   have hRq : IsPGroup q R := CFSG.LieType.BorelTits.pCoreOf_isPGroup q K
   have hq2 : q ≠ 2 := by
     intro hqeq
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2R : 2 ∣ Nat.card R := by
       rw [← hqeq]
       exact CFSG.RankThree.PartTwo.Sec21.dvd_card_of_isPGroup_ne_bot hRq hRne
@@ -103,7 +103,7 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : Sec7Core4 G) {H : Subgroup G}
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -155,7 +155,7 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : Sec7Core4 G) {H : Subgroup G}
     k.odd_card_pPrimeCore_of_not_le hH.not_le hH.two_le_pRank
   have hK₀solv : Group.IsSolvable ↥K₀ := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥K₀ hK₀odd
   have hksolv : Group.IsSolvable φ.ker := by
-    haveI : Group.IsSolvable ↥K₀ := hK₀solv
+    have : Group.IsSolvable ↥K₀ := hK₀solv
     exact Group.isSolvable_of_isSolvable_injective (f := ψ) hψinj
   have hker_dvd : Nat.card φ.ker ∣ Nat.card ↥K₀ :=
     Subgroup.card_dvd_of_injective ψ hψinj
@@ -239,7 +239,7 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : Sec7Core4 G) {H : Subgroup G}
       have heq : g⁻¹ * (g * c * g⁻¹) * (g⁻¹)⁻¹ = c := by group
       rwa [heq] at hc'
   let C : Subgroup ↥J := CJ.subgroupOf J
-  haveI : C.Normal :=
+  have : C.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (show CJ ≤ J from inf_le_left)).mpr hJC
   have hC : ∀ x : ↥J, ¬ q ∣ orderOf x → x ∈ C := by
     intro x hx
@@ -263,7 +263,7 @@ theorem step75_of_coverActsTriviallyOnSmall (k : Sec7Core4 G)
     Step75 k := by
   intro H hH
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let K : Subgroup G := K₀.map H.subtype
   have hKcard : Nat.card K = Nat.card ↥K₀ :=

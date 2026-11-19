@@ -148,8 +148,8 @@ theorem false_of_sylow_card_eq_prime {X : Type} [Group X] [Finite X] {p : ℕ}
     {L D : Subgroup X} [L.Normal] (hs : IsSimpleGroup L) (hnab : ∃ a b : L, a * b ≠ b * a)
     (hcat : IsCatalogGroup L) (hC : Subgroup.centralizer (L : Set X) = ⊥)
     (hF : ThompsonFrame p D) (P₀ : Sylow p L) (hP : Nat.card (P₀ : Subgroup L) = p) : False := by
-  haveI : Fact p.Prime := ⟨hF.prime⟩
-  haveI : IsSimpleGroup L := hs
+  have : Fact p.Prime := ⟨hF.prime⟩
+  have : IsSimpleGroup L := hs
   have hp0 : 0 < p := hF.prime.pos
   have hp2 : 2 ≤ p := hF.prime.two_le
   have hLcard : Nat.card L = p * (P₀ : Subgroup L).index := by
@@ -188,7 +188,7 @@ theorem false_of_sylow_card_eq_prime {X : Type} [Group X] [Finite X] {p : ℕ}
       have h1 := Subgroup.card_le_of_le h
       rw [hF.card, hS] at h1
       nlinarith
-    obtain ⟨d, hdD, hdS⟩ := SetLike.not_le_iff_exists.mp hDS
+    obtain ⟨d, hdD, hdS⟩ := IsConcreteLE.not_le_iff_exists.mp hDS
     have hdL : d ∉ L := fun h => hdS (Subgroup.mem_inf.mpr ⟨hdD, h⟩)
     have hcomp : CFSG.Open.IsComponentOf L ⊤ := ordP_isComponentOf hnab
     have hcatQ : IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=

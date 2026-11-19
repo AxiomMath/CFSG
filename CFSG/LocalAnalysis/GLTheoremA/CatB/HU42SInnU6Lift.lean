@@ -26,9 +26,9 @@ theorem exists_two_normal {G S : Type} [Group G] [Group S] [Finite G] {π : G �
     ∃ T₀ : Subgroup G, IsPGroup 2 T₀ ∧ T₀ ≠ ⊥ ∧
       ∀ p ∈ E.comap π, ∀ t ∈ T₀, p * t * p⁻¹ ∈ T₀ := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  haveI : Finite S := Finite.of_surjective π hπ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype G := Fintype.ofFinite G
+  have : Finite S := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hT
   have hTcard1 : Nat.card T ≠ 1 := fun h => hTne (Subgroup.card_eq_one.1 h)
   set Th : Subgroup G := T.comap π with hTh

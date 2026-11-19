@@ -84,7 +84,7 @@ private theorem ggLieCent_familyKernel_pair {τ : Tag} {L : Type} [Field L]
     (a₁ a₂ : Fin τ.rank → Lˣ) :
     familyKernel ![a₁, a₂] = kernelRoots (jointChar a₁ a₂) := by
   ext α
-  simp only [familyKernel, kernelRoots, Set.mem_setOf_eq]
+  simp only [familyKernel, kernelRoots, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, hα⟩
     have h0 := hα 0
@@ -217,7 +217,7 @@ private theorem ggLieCent_canonicalRep_pow_mem {τ : Tag} {L : Type} [Field L]
 
 theorem ggLieCentStructure_pow_mem
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (a₁ a₂ : Fin τ.rank → Lˣ)
+    (_hp2 : p ≠ 2) (a₁ a₂ : Fin τ.rank → Lˣ)
     (h₁ : rootDiagUnit τ a₁ ^ p = 1) (h₂ : rootDiagUnit τ a₂ ^ p = 1) :
     ∀ x ∈ adjointGroup τ L ⊓ Subgroup.centralizer
         ((Subgroup.closure {rootDiagUnit τ a₁, rootDiagUnit τ a₂} : Subgroup (ModGL τ L)) :

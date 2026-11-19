@@ -142,7 +142,7 @@ theorem exists_section_of_isPerfect {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ2 : ℓ 
     · exact x.2
     · have h : ((x : D) : F) = ((y : D) : F) := congrArg (fun z : ρ.ker => (z : F)) hxy
       exact Subtype.ext (Subtype.ext h)
-  have hZ₂p : IsPGroup 2 Z₂ := S.isPGroup'.map _
+  have hZ₂p : IsPGroup 2 Z₂ := S.isPGroup.map _
   have hdisj : ρ'.ker ⊓ Z₂ = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_ne p 2 (by omega) _ _ hA₀p hZ₂p)
   have hinj : Function.Injective ((QuotientGroup.mk' Z₂).comp ρ'.ker.subtype) := by

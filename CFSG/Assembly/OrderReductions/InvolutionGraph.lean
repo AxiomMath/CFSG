@@ -208,7 +208,7 @@ theorem sylow_normalizer_le_componentStabilizer {group : Type*} [Group group] [F
   change conjugator • (commutingGraph group).connectedComponentMk involution = _
   rw [componentMk_smul]
   apply SimpleGraph.ConnectedComponent.sound
-  apply two_subgroup_reachable (sylow : Subgroup group) sylow.isPGroup' _ _ _ mem_sylow
+  apply two_subgroup_reachable (sylow : Subgroup group) sylow.isPGroup _ _ _ mem_sylow
   rw [involution_smul_val]
   exact (Subgroup.mem_normalizer_iff.mp normalizes involution.val).mp mem_sylow
 
@@ -252,7 +252,7 @@ theorem components_transitive {group : Type*} [Group group] [Finite group]
       rw [componentMk_smul]
       apply SimpleGraph.ConnectedComponent.sound
       apply two_subgroup_reachable (second_sylow : Subgroup group)
-        second_sylow.isPGroup' _ _ _ second_mem
+        second_sylow.isPGroup _ _ _ second_mem
       rw [← conjugates]
       exact involution_smul_mem_sylow conjugator first_sylow first first_mem
 
@@ -285,7 +285,7 @@ theorem componentStabilizer_involution_iff {group : Type*} [Group group] [Finite
         rw [Sylow.coe_subtype, Subgroup.mem_subgroupOf] at conjugated_mem
         have ambient_mem : (conjugator.val • involution).val ∈ sylow := conjugated_mem
         have component_eq := SimpleGraph.ConnectedComponent.sound
-          (two_subgroup_reachable (sylow : Subgroup group) sylow.isPGroup'
+          (two_subgroup_reachable (sylow : Subgroup group) sylow.isPGroup
             (conjugator.val • involution) first ambient_mem first_mem)
         rw [← componentMk_smul] at component_eq
         have fixed : conjugator.val • (commutingGraph group).connectedComponentMk first =

@@ -7,7 +7,7 @@ import CFSG.FeitThompson.Representations.GramArraySameLineIntersection
 import CFSG.FeitThompson.Representations.LongColumnExclusivePivot
 import CFSG.FeitThompson.Representations.PairwiseIntersectingPairsCommonElement
 import Mathlib.Data.Int.Order.Units
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 import Mathlib.Tactic.Ring.RingNF
 
 public section
@@ -161,7 +161,7 @@ theorem exists_row_pivots_of_column_pivots {d m n : ℕ} (hm : 2 ≤ m) (hn : n 
     refine ne_of_dotProduct_ne_zero_of_dotProduct_eq_zero (hqsupp j) (hqsupp l)
       (x := b i₀ j) ?_ ?_
     · rw [hcdot i₀ j j]; norm_num
-    · rw [hcdot i₀ j l, if_neg hjl]
+    · rw [hcdot i₀ j l, ite_eq_right hjl]
   have hcc : ∀ j l : Fin n, j ≠ l → c j ⬝ᵥ c l = 0 := by
     intro j l hjl
     rw [eq_single_of_support_eq (hqsupp l), dotProduct_single,
@@ -178,9 +178,9 @@ theorem exists_row_pivots_of_column_pivots {d m n : ℕ} (hm : 2 ≤ m) (hn : n 
   have hajl : ∀ (i : Fin m) (j l : Fin n), j ≠ l → a i j ⬝ᵥ a i l = 1 := by
     intro i j l hjl
     have h1 : b i j ⬝ᵥ b i l = 1 := hb.dotProduct_row i hjl
-    have h2 : b i j ⬝ᵥ c l = 0 := by rw [hcdot i j l, if_neg hjl]
+    have h2 : b i j ⬝ᵥ c l = 0 := by rw [hcdot i j l, ite_eq_right hjl]
     have h3 : c j ⬝ᵥ b i l = 0 := by
-      rw [dotProduct_comm, hcdot i l j, if_neg (Ne.symm hjl)]
+      rw [dotProduct_comm, hcdot i l j, ite_eq_right (Ne.symm hjl)]
     simp only [hadef]
     rw [sub_dotProduct, dotProduct_sub, dotProduct_sub, h1, h2, h3, hcc j l hjl]
     ring
@@ -258,9 +258,9 @@ theorem exists_row_pivots_of_column_pivots {d m n : ℕ} (hm : 2 ≤ m) (hn : n 
   rw [dotProduct_single]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl, hbp i j]
+    rw [ite_eq_left rfl, hbp i j]
     rcases hs i with h | h <;> simp [h]
-  · rw [if_neg hik, hbp0 k i j (Ne.symm hik), zero_mul]
+  · rw [ite_eq_right hik, hbp0 k i j (Ne.symm hik), zero_mul]
 
 theorem support_pairwise_ne_of_dotProduct_eq_delta {d m n : ℕ} (hm : 1 ≤ m) (hn : 2 ≤ n)
     {b : Fin m → Fin n → Fin d → ℤ} {r : Fin m → Fin d → ℤ} {c : Fin n → Fin d → ℤ}
@@ -276,16 +276,16 @@ theorem support_pairwise_ne_of_dotProduct_eq_delta {d m n : ℕ} (hm : 1 ≤ m) 
   set j₀ : Fin n := ⟨0, hnpos⟩ with hj₀
   refine ⟨fun i k hik => ?_, fun j l hjl => ?_, fun i j => ?_⟩
   · exact (hr i).support_ne_of_dotProduct (hr k) (x := b i j₀)
-      (by rw [hrd i j₀ i, if_pos rfl]; norm_num) (by rw [hrd i j₀ k, if_neg hik])
+      (by rw [hrd i j₀ i, ite_eq_left rfl]; norm_num) (by rw [hrd i j₀ k, ite_eq_right hik])
   · exact (hc j).support_ne_of_dotProduct (hc l) (x := b i₀ j)
-      (by rw [hcd i₀ j j, if_pos rfl]; norm_num) (by rw [hcd i₀ j l, if_neg hjl])
+      (by rw [hcd i₀ j j, ite_eq_left rfl]; norm_num) (by rw [hcd i₀ j l, ite_eq_right hjl])
   ·
     obtain ⟨j', hj'⟩ : ∃ j' : Fin n, j' ≠ j := by
       have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
       obtain ⟨j', hj'⟩ := exists_ne j
       exact ⟨j', hj'⟩
     exact (hr i).support_ne_of_dotProduct (hc j) (x := b i j')
-      (by rw [hrd i j' i, if_pos rfl]; norm_num) (by rw [hcd i j' j, if_neg hj'])
+      (by rw [hrd i j' i, ite_eq_left rfl]; norm_num) (by rw [hcd i j' j, ite_eq_right hj'])
 
 theorem exists_row_col_pivots_of_four_le_row {d m n : ℕ} (hm : 4 ≤ m) (hn : n = 2 ∨ 4 ≤ n)
     {b : Fin m → Fin n → Fin d → ℤ} (hb : IsGramArray b) :

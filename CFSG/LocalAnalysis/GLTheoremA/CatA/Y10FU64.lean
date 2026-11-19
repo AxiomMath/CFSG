@@ -36,7 +36,7 @@ theorem subgroupOf_le_core_center {r : ℕ} (hr : r.Prime) {H : Type} [Group H] 
     {Y J' : Subgroup H} (hJ' : GLAPComponent r Y J') (hq : CFSG.Open.IsQuasisimple ↥J')
     (N : Subgroup H) [N.Normal] (hN : ¬ r ∣ Nat.card N) :
     N.subgroupOf J' ≤ Subgroup.center ↥J' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnorm : (N.subgroupOf J').Normal := inferInstance
   have hcop : Nat.Coprime r (Nat.card (N.subgroupOf J')) := by
     have h1 : Nat.card (N.subgroupOf J') ∣ Nat.card N := by
@@ -66,7 +66,7 @@ theorem hasLabel_image_bar {p r : ℕ} (hp : p.Prime) (hr : r.Prime) {X K J : Su
   have hφsurj : Function.Surjective φ := by
     rintro ⟨_, ⟨j, hj, rfl⟩⟩
     exact ⟨⟨j, hj⟩, rfl⟩
-  haveI hperf : Group.IsPerfect ↥J' := ⟨hq'.1⟩
+  have hperf : Group.IsPerfect ↥J' := ⟨hq'.1⟩
   have hker : φ.ker ≤ Subgroup.center ↥J' := by
     intro j hj
     have hj1 : π (j : ↥K) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hj)

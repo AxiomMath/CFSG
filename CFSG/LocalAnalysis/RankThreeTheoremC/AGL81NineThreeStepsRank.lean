@@ -21,7 +21,7 @@ theorem pRank_inf_centralizer_component_le_one {X : Type} [Group X] [Finite X] {
     {u : X} (huR : u ∈ R) (huL : u ∈ L) (hup : orderOf u = p) (hunc : ∃ c ∈ L, u * c ≠ c * u) :
     CFSG.Open.pRank p (R ⊓ Subgroup.centralizer (L : Set X)) ≤ 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   obtain ⟨A, hAle, hA, hAcard⟩ :=
@@ -71,7 +71,7 @@ theorem le_normalizer_all_components {X : Type} [Group X] [Finite X] {p : ℕ} (
     {L₀ : Subgroup X} (hL₀ : IsComponentOf L₀ ⊤) (hL₀X : ¬ L₀ ≤ X₀) :
     ∀ L : Subgroup X, IsComponentOf L ⊤ → R ≤ Subgroup.normalizer (L : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro L hL
   by_cases hLX : L ≤ X₀
   swap
@@ -100,8 +100,7 @@ theorem le_normalizer_all_components {X : Type} [Group X] [Finite X] {p : ℕ} (
   have hrank := pRank_inf_centralizer_component_le_one hp hC hL₀X hu₀R hu₀L hu₀p hu₀nc
   have hcen : ∀ (L' : Subgroup X), IsComponentOf L' ⊤ → L₀ ≠ L' →
       L' ≤ Subgroup.centralizer (L₀ : Set X) := by
-    intro L' hL' hne'
-    intro x hx
+    intro L' hL' hne' x hx
     rw [Subgroup.mem_centralizer_iff]
     intro l hl
     exact KFactProofs.K3.component_commute hL₀ hL' hne' hl hx

@@ -45,12 +45,14 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   (orthElementaryGroup (quadPlus 4 K)).subtype.comp
     ((plusDerivedEquiv 4 K (by norm_num)).toMonoidHom.comp (reindexOm8 K).symm.toMonoidHom)
 
+omit [Finite K] [CharP K 2] in
 theorem om8Lin_injective : Function.Injective (om8Lin K) := by
   intro g h hgh
   apply (reindexOm8 K).symm.injective
   apply (plusDerivedEquiv 4 K (by norm_num)).injective
   exact Subtype.ext (by simpa [om8Lin] using hgh)
 
+omit [Finite K] [CharP K 2] in
 theorem om8Lin_apply (g : Om8 K) (v : Fin 4 ⊕ Fin 4 → K) :
     om8Lin K g v = (((reindexOm8 K).symm g : GL (Fin 4 ⊕ Fin 4) K) :
       Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ v := by
@@ -58,6 +60,7 @@ theorem om8Lin_apply (g : Om8 K) (v : Fin 4 ⊕ Fin 4 → K) :
     MulEquiv.coe_toMonoidHom, plusDerivedEquiv_val]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem om8Lin_reindex (g : Om8 K) (v : Fin 4 ⊕ Fin 4 → K) :
     reindexVectorEquiv (plusIndexEquiv 4) (om8Lin K g v) =
       (g : GL (Fin (2 * 4)) K) *ᵥ reindexVectorEquiv (plusIndexEquiv 4) v := by
@@ -65,7 +68,7 @@ theorem om8Lin_reindex (g : Om8 K) (v : Fin 4 ⊕ Fin 4 → K) :
     (reindexVectorEquiv (plusIndexEquiv 4) v)
   have hc : ∀ x, conjPhi (1 : StatedOmega (StatedQuadPlus 4 K)) x =
       (reindexVectorEquiv (plusIndexEquiv 4)).symm x := fun x => by
-    simp [conjPhi, toLinEquiv_apply]
+    simp [conjPhi]
   have hg : conjOm8 (1 : StatedOmega (StatedQuadPlus 4 K)) g = (reindexOm8 K).symm g := by
     simp [conjOm8]
   rw [hc, hc, LinearEquiv.symm_apply_apply, hg, ← om8Lin_apply] at h
@@ -79,7 +82,7 @@ theorem om8Lin_posX {β : Fin 4 → ℤ} {i j : Fin 4} (hij : i < j) {s : Bool}
     rw [← plusVec_true]
     exact quadPlus_plusVec 4 K i true
   have hw : polar (quadPlus 4 K) (Pi.single (Sum.inl i) 1) (c • plusVec 4 K j s) = 0 := by
-    rw [← plusVec_true, polar_smul_right, polar_quadPlus_plusVec, if_neg (fun h => hij.ne h.1),
+    rw [← plusVec_true, polar_smul_right, polar_quadPlus_plusVec, ite_eq_right (fun h => hij.ne h.1),
       smul_zero]
   have key : ∀ u w y : Fin 4 ⊕ Fin 4 → K,
       AutOm.eichlerC (coordinateQuadPlus 4 K) (reindexVectorEquiv (plusIndexEquiv 4) u)
@@ -137,7 +140,7 @@ theorem odd_index_posUnipOm8 : Odd (posUnipOm8 K).index := by
   have hpos : 0 < Nat.card K ^ 12 := by positivity
   have hidx := Nat.eq_of_mul_eq_mul_left hpos h
   have hev : Even (Nat.card K) := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, even_iff_two_dvd]
     exact (CharP.cast_eq_zero_iff K 2 _).1 (FiniteField.cast_card_eq_zero K)
   have hq2 : 2 ≤ Nat.card K := by obtain ⟨k, hk⟩ := hev; omega

@@ -31,14 +31,14 @@ theorem s1614_row3_hrow (D : Data G) {V L : Subgroup G} (hV : IsElemAbelian 2 V)
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6
     rw [Subgroup.card_top, hn, padicValNat.prime_pow] at h6
     rw [hn, h6]
   have hMN := s16c167_mbar_le_normalizer_lbar D hV hc h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hAM, hAab, hA27⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (k := 3) hpr
   have hA27' : Nat.card ↥A = 27 := by

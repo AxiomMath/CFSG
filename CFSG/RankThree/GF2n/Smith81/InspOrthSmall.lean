@@ -25,7 +25,7 @@ theorem factorization_card_mulAut_sl2_le {X : Type} [Group X] {f : ℕ} (hf : 2 
         _ ≤ 2 ^ (f * 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
         _ = (2 ^ f) ^ 2 := by rw [pow_mul]
     exact mul_ne_zero (by positivity) (by omega)
-  haveI : Finite X := Nat.finite_of_card_ne_zero hX0
+  have : Finite X := Nat.finite_of_card_ne_zero hX0
   have hO0 : Nat.card (Outer X) ≠ 0 := Nat.card_pos.ne'
   have h := (Nat.factorization_le_iff_dvd Nat.card_pos.ne' (mul_ne_zero hO0 hX0)).mpr
     (card_mulAut_dvd_outer_mul X) 2
@@ -96,9 +96,9 @@ theorem orthE2Plus_two (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement)
   rw [hf] at hT
   obtain ⟨hN, A, Bo, _, _, hA, hB, ⟨e⟩⟩ := hT
   obtain ⟨K, _, _, hK, ⟨eB⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -111,8 +111,8 @@ theorem orthE2Plus_two (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement)
     ⟨K, inferInstance, inferInstance, hK, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨hAs, hAc, -⟩ := sl2_model_facts hf2 hA
   obtain ⟨hSs, hSc, -⟩ := sl2_model_facts hf2 hS
-  haveI := hAs
-  haveI := hSs
+  have := hAs
+  have := hSs
   have hA0 : Nat.card A ≠ 0 := by
     rw [hAc]
     have : 4 ≤ (2 ^ f) ^ 2 := by
@@ -120,7 +120,7 @@ theorem orthE2Plus_two (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement)
         _ ≤ 2 ^ (f * 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
         _ = (2 ^ f) ^ 2 := by rw [pow_mul]
     exact mul_ne_zero (by positivity) (by omega)
-  haveI : Finite A := Nat.finite_of_card_ne_zero hA0
+  have : Finite A := Nat.finite_of_card_ne_zero hA0
   have h4A : 4 ∣ Nat.card A := by
     rw [hAc]
     exact Dvd.dvd.mul_right (show 2 ^ 2 ∣ 2 ^ f from pow_dvd_pow 2 hf2) _
@@ -129,11 +129,11 @@ theorem orthE2Plus_two (h212 : Smith212OrthCoreStatement) (hK1 : K1NSLStatement)
     exact Dvd.dvd.mul_right (show 2 ^ 2 ∣ 2 ^ f from pow_dvd_pow 2 hf2) _
   have hAn := exists_not_commute_of_simple hAs h4A
   have hSn := exists_not_commute_of_simple hSs h4S
-  haveI : Finite (MulAut A) :=
+  have : Finite (MulAut A) :=
     Finite.of_injective (fun α : MulAut A => (α : A → A)) DFunLike.coe_injective
-  haveI : Finite (MulAut ↥(StatedSL 2 K)) :=
+  have : Finite (MulAut ↥(StatedSL 2 K)) :=
     Finite.of_injective (fun α : MulAut ↥(StatedSL 2 K) => (α : _ → _)) DFunLike.coe_injective
-  haveI : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
+  have : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
     Finite.of_injective (fun α : MulAut (↥(Lgen M (LB M Q B)) ⧸
       Q.subgroupOf (Lgen M (LB M Q B))) => (α : _ → _)) DFunLike.coe_injective
   have hTmul : Nat.card (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) ∣

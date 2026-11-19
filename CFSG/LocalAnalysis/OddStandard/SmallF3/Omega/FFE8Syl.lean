@@ -41,7 +41,7 @@ theorem ffE8Syl_normalizer_inf_le (hQ : Q.Nondegenerate)
     (fr : PFrame Q (Option (Fin 5)) ffC) :
     normalizer (ffP1Sim hQ fr : Set (ProjSim Q)) ⊓ ffOmegaSim hQ ≤ ffP1Sim hQ fr := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero
+  have : Finite ↥(omegaProj hQ) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_plus hQ hdim hsgn]; norm_num)
   have hp : IsPGroup 2 (normalizer (ffP1Sim hQ fr : Set (ProjSim Q))) :=
     ff6p_normalizer_isPGroup hQ hdim hsgn h2 fr _ fun x hx => ffE8Syl_act_eq hQ h2 fr hx
@@ -69,7 +69,7 @@ theorem ffE8Syl_card_inf_le (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
     (hsgn : quadSign Q = 1) (fr : PFrame Q (Option (Fin 5)) ffC) {K : Subgroup (ProjSim Q)}
     (hK : ¬ ffP1Sim hQ fr ≤ K) : Nat.card ↥(ffP1Sim hQ fr ⊓ K) ≤ 64 := by
   have hc := ffE8Syl_card_P1Sim hQ hdim hsgn fr
-  haveI : Finite ↥(ffP1Sim hQ fr) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite ↥(ffP1Sim hQ fr) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have hne : Nat.card ↥(ffP1Sim hQ fr ⊓ K) ≠ 128 := fun h => hK (inf_eq_left.mp
     (Subgroup.eq_of_le_of_card_ge inf_le_left (by rw [hc, h])))
   have hdvd := Subgroup.card_dvd_of_le (inf_le_left : ffP1Sim hQ fr ⊓ K ≤ ffP1Sim hQ fr)
@@ -93,7 +93,7 @@ theorem ffE8Syl_ts_mem_normalizer (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
     (fr : PFrame Q (Option (Fin 5)) ffC) :
     ffTs fr ∈ normalizer (ffP1Sim hQ fr : Set (ProjSim Q)) :=
-  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun h hh =>
+  Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun _h hh =>
     (ffE8Syl_ts_comm hQ hdim hsgn fr hh).symm)
 
 theorem ffE8Syl_eq_normalizers (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
@@ -105,7 +105,7 @@ theorem ffE8Syl_eq_normalizers (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
     (hYE : Y ≤ normalizer (Ē : Set (ProjSim Q))) :
     Y = normalizer (ffP1Sim hQ fr : Set (ProjSim Q)) ⊓ normalizer (Ē : Set (ProjSim Q)) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (ProjSim Q) :=
+  have : Finite (ProjSim Q) :=
     Nat.finite_of_card_ne_zero (by rw [ff_natCard_projSim_six_plus hQ hdim hsgn]; norm_num)
   set N := normalizer (ffP1Sim hQ fr : Set (ProjSim Q)) ⊓ normalizer (Ē : Set (ProjSim Q))
   have hsub : ffOmegaSim hQ ⊓ N ≤ ffP1Sim hQ fr ⊓ normalizer (Ē : Set (ProjSim Q)) := by

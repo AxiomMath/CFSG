@@ -13,7 +13,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
     ∀ (X : Type) [Group X] [Finite X], CFSG.Open.IsKGroup X → CFSG.pPrimeCore p X = ⊥ →
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) → ∀ N : Subgroup X, IsStronglyPEmbedded p N →
         ¬ CoverHasLargeTwoLocal ↥(CFSG.generalizedFitting X) →
-        IsSolvable ↥N ∨
+        Group.IsSolvable ↥N ∨
           (p = 5 ∧ Nonempty (↥(CFSG.generalizedFitting X) ≃* alternatingGroup (Fin 10)) ∧
             ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → Y ≤ CFSG.generalizedFitting X ∧
               ∃ f : ↥Y →* alternatingGroup (Fin 5) × alternatingGroup (Fin 5),

@@ -43,7 +43,7 @@ theorem mem_P1_of_comm (h2 : (2 : F) ≠ 0) {z n : SL3 F} (hz : NegShape z) (hc 
   have hze : (z : Matrix (Fin 3) (Fin 3) F) *ᵥ e0 = e0 := by
     rw [mulVec_e0]
     funext i
-    fin_cases i <;> simp [z00, z10, z20, Pi.single_apply]
+    fin_cases i <;> simp [z00, z10, z20]
   have hfix : (z : Matrix (Fin 3) (Fin 3) F) *ᵥ ((n : Matrix (Fin 3) (Fin 3) F) *ᵥ e0) =
       (n : Matrix (Fin 3) (Fin 3) F) *ᵥ e0 := by
     rw [Matrix.mulVec_mulVec, ← SpecialLinearGroup.coe_mul, ← hc, SpecialLinearGroup.coe_mul,
@@ -68,8 +68,7 @@ theorem eq_one_of_mem_Q1_of_comm (h2 : (2 : F) ≠ 0) {z m : SL3 F} (hz : NegSha
   simp only [SpecialLinearGroup.coe_mul, coe_tv hφ] at hcm
   have e1 := congrFun (congrFun hcm 0) 1
   have e2 := congrFun (congrFun hcm 0) 2
-  simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_mul, Matrix.mul_add,
-    Matrix.vecMulVec_apply, Pi.single_apply, hφ0, z00, z10, z20, z11, z12, z21, z22] at e1 e2
+  simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMulVec_apply, Pi.single_apply, hφ0, z00, z11, z12, z21, z22] at e1 e2
   have a1 : (2 : F) * φ 1 = 0 := by linear_combination -e1
   have a2 : (2 : F) * φ 2 = 0 := by linear_combination -e2
   have hφ1 := (mul_eq_zero.mp a1).resolve_left h2

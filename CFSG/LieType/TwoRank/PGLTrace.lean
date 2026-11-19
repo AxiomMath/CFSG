@@ -67,9 +67,9 @@ theorem card_le_sq_of_forall_trace_eq_zero {F : Type*} [Field F] {n : Type*} [Fi
     have hcf : c f * (Fintype.card n : F) = 0 := by
       rw [← hvA, ← hsingle, htrace]
     exact (mul_eq_zero.mp hcf).resolve_right hn
-  haveI : Module.Finite F (Matrix n n F) := Matrix.finiteDimensional
-  haveI : Finite E := hv.finite
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Module.Finite F (Matrix n n F) := Matrix.finiteDimensional
+  have : Finite E := hv.finite
+  have : Fintype E := Fintype.ofFinite E
   rw [Nat.card_eq_fintype_card]
   calc
     Fintype.card E ≤ finrank F (Matrix n n F) := hv.fintype_card_le_finrank

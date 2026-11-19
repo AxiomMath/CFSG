@@ -29,7 +29,7 @@ theorem ordD_four_dvd_card_of_marking {X : Type*} [Group X] {n : ℕ}
     (ℓ := ⟨.D, 4, n⟩) (Or.inr (Or.inr (Or.inr rfl))) hmark
   have hM' : LieModel R .POmegaPlus 4 2 n := by
     have h43 : ¬ ((4 : ℕ) = 3) := by decide
-    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, if_false] using hM
+    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h43, ite_false] using hM
   have hc : Nat.card R = ordD 4 (2 ^ n) :=
     CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags (by decide) hM'
   refine ⟨hn, ?_⟩
@@ -98,7 +98,7 @@ theorem not_dvd_card_of_ne_top_arith {R : Type} [Group R] {N o : ℕ} (hN : 0 < 
     (hcard : Nat.card R = N) (harith : ¬ o ∣ N ∨ N ≤ o) {J : Subgroup R} (hJ : J ≠ ⊤) :
     ¬ o ∣ Nat.card ↥J := by
   intro hdvd
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite R := Nat.finite_of_card_ne_zero (by omega)
   have hJN : Nat.card ↥J ∣ N := hcard ▸ Subgroup.card_subgroup_dvd_card J
   have hpos : 0 < Nat.card ↥J := Nat.card_pos
   have hidx := Subgroup.card_mul_index J

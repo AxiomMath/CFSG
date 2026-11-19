@@ -16,7 +16,7 @@ section Layers
 variable {G : Type*} [Group G] [Finite G]
 
 theorem le_centralizer_of_layer {N P L A : Subgroup G} {e t₀ : G}
-    (hPN : P ≤ N) (hPnorm : ∀ n ∈ N, ∀ p ∈ P, n * p * n⁻¹ ∈ P)
+    (_hPN : P ≤ N) (hPnorm : ∀ n ∈ N, ∀ p ∈ P, n * p * n⁻¹ ∈ P)
     (hPodd : Odd (Nat.card P))
     (hLN : L ≤ N) (hLe : ∀ x ∈ L, e * x = x * e)
     (hLnorm : ∀ g ∈ Subgroup.centralizer ({e} : Set G), ∀ x ∈ L, g * x * g⁻¹ ∈ L)
@@ -164,6 +164,7 @@ section Lift
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_of_central_mod_odd {O : Subgroup G} (hOc : O ≤ Subgroup.center G)
     (hOodd : Odd (Nat.card O)) {a : G} (ha : a * a = 1)
     (h : ∀ y : G, a * y * a⁻¹ * y⁻¹ ∈ O) : ∀ y : G, a * y = y * a := by

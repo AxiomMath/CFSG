@@ -194,7 +194,7 @@ theorem semidihedral_action_kernel_exact_two_component_list {J L : Subgroup H} (
     set R : Subgroup H := (RK : Subgroup K).map K.subtype with hRdef
     have hRK : R ≤ K := map_subtype_le _
     have hR2 : IsPGroup 2 (R.subgroupOf (coreActionKernel J)) :=
-      (RK.isPGroup'.map K.subtype).comap_of_injective _ (coreActionKernel J).subtype_injective
+      (RK.isPGroup.map K.subtype).comap_of_injective _ (coreActionKernel J).subtype_injective
     obtain ⟨S, hRS⟩ := hR2.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (coreActionKernel J) S₀ S
     set q : H := (g : H) with hqdef

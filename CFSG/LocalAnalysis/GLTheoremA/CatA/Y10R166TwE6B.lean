@@ -16,6 +16,7 @@ section PerfectLift
 
 variable {K C : Type} [Group K] [Finite K] [Group C] [Finite C]
 
+omit [Finite C] in
 theorem lift_perfect_trivialMult (π : K →* C) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) {X : Subgroup C} (hXperf : commutator ↥X = ⊤)
     (hXmult : TrivialMultiplierT ↥X) :
@@ -39,7 +40,7 @@ theorem lift_perfect_trivialMult (π : K →* C) (hπ : Function.Surjective π)
     rw [← Subgroup.comap_map_eq π D, hmapD, hHdef]
   have hmem : ∀ h ∈ H, ∃ d ∈ D, ∃ z ∈ π.ker, d * z = h := by
     intro h hh
-    haveI : π.ker.Normal := hkerN
+    have : π.ker.Normal := hkerN
     obtain ⟨d, hd, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp (hsup ▸ hh)
     exact ⟨d, hd, z, hz, rfl⟩
   have hle : D ≤ ⁅D, D⁆ := by
@@ -99,7 +100,7 @@ theorem lift_twoGroup (π : K →* C) (hπ : Function.Surjective π)
       Subgroup.comap π Y ≤ Subgroup.normalizer (S : Set K) ∧
       Nonempty (↥S ≃* ↥Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup K := Subgroup.comap π Y with hHdef
   let φ : ↥H →* ↥Y :=
     (π.comp H.subtype).codRestrict Y fun h => by
@@ -117,8 +118,8 @@ theorem lift_twoGroup (π : K →* C) (hπ : Function.Surjective π)
     have h1 : ((h : ↥H) : K) ∈ π.ker :=
       MonoidHom.mem_ker.mpr (congrArg Subtype.val hh)
     exact Subgroup.mem_center_iff.mp (hker h1) (g : K)
-  haveI hYnil : Group.IsNilpotent ↥Y := hY.isNilpotent
-  haveI hHnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center φ hkerφ
+  have hYnil : Group.IsNilpotent ↥Y := hY.isNilpotent
+  have hHnil : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center φ hkerφ
   have hdvd : Nat.card ↥Y ∣ Nat.card ↥H := Subgroup.card_dvd_of_surjective hφ
   obtain ⟨S', hS'card, hS'normal⟩ :=
     Group.IsNilpotent.exists_normal_card_eq_of_dvd_card (G := ↥H) hdvd
@@ -135,7 +136,7 @@ theorem lift_twoGroup (π : K →* C) (hπ : Function.Surjective π)
   have hcop : Nat.Coprime (2 ^ a) (Nat.card π.ker) :=
     (Nat.coprime_two_left.mpr hodd).pow_left a
   have hdisj : S ⊓ π.ker = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hScard]
     exact hcop
   have hkerφ_eq : φ.ker = π.ker.subgroupOf H := by
@@ -255,6 +256,7 @@ private def pairCommutatorHom (π : K →* C) (hker : π.ker ≤ Subgroup.center
         group
       rw [hconj, hcf.eq.symm]
 
+omit [Finite K] [Finite C] in
 private theorem pairCommutatorHom_ker (π : K →* C) (hker : π.ker ≤ Subgroup.center K)
     {ebar fbar : C} {e f : K} (he : π e = ebar) (hf : π f = fbar)
     {Hbar : Subgroup C} (hH : Hbar ≤ Subgroup.centralizer ({ebar, fbar} : Set C)) :
@@ -279,6 +281,7 @@ private theorem pairCommutatorHom_ker (π : K →* C) (hker : π.ker ≤ Subgrou
     · exact h1
     · exact h2
 
+omit [Finite K] [Finite C] in
 theorem centralizer_pair_normal_of_le_centralizer (π : K →* C)
     (hker : π.ker ≤ Subgroup.center K) {ebar fbar : C} {e f : K} (he : π e = ebar)
     (hf : π f = fbar) {Hbar : Subgroup C}
@@ -287,6 +290,7 @@ theorem centralizer_pair_normal_of_le_centralizer (π : K →* C)
   rw [← pairCommutatorHom_ker π hker he hf hH]
   exact MonoidHom.normal_ker _
 
+omit [Finite K] [Finite C] in
 theorem quotient_centralizer_pair_isMulCommutative (π : K →* C)
     (hker : π.ker ≤ Subgroup.center K) {ebar fbar : C} {e f : K} (he : π e = ebar)
     (hf : π f = fbar) {Hbar : Subgroup C}
@@ -296,21 +300,21 @@ theorem quotient_centralizer_pair_isMulCommutative (π : K →* C)
     IsMulCommutative (↥(Subgroup.comap π Hbar) ⧸
       (Subgroup.centralizer ({e, f} : Set K)).subgroupOf (Subgroup.comap π Hbar)) := by
   classical
-  letI := hN
+  let := hN
   let Φ := pairCommutatorHom π hker he hf hH
-  haveI hKcomm : IsMulCommutative ↥π.ker :=
+  have hKcomm : IsMulCommutative ↥π.ker :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (Subgroup.mem_center_iff.mp (hker b.2) (a : K))
-  haveI hT : IsMulCommutative (↥π.ker × ↥π.ker) :=
+  have hT : IsMulCommutative (↥π.ker × ↥π.ker) :=
     IsMulCommutative.of_comm fun a b =>
       Prod.ext (mul_comm' a.1 b.1) (mul_comm' a.2 b.2)
-  haveI : IsMulCommutative ↥Φ.range :=
+  have : IsMulCommutative ↥Φ.range :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (mul_comm' (a : ↥π.ker × ↥π.ker) (b : ↥π.ker × ↥π.ker))
   have hker : Φ.ker =
       (Subgroup.centralizer ({e, f} : Set K)).subgroupOf (Subgroup.comap π Hbar) :=
     pairCommutatorHom_ker π hker he hf hH
-  haveI : Φ.ker.Normal := MonoidHom.normal_ker Φ
+  have : Φ.ker.Normal := MonoidHom.normal_ker Φ
   have hcomm : IsMulCommutative (↥(Subgroup.comap π Hbar) ⧸ Φ.ker) :=
     CFSG.QuasiDihedralFusion.isMulCommutative_of_mulEquiv
       (QuotientGroup.quotientKerEquivRange Φ).symm inferInstance
@@ -320,6 +324,7 @@ theorem quotient_centralizer_pair_isMulCommutative (π : K →* C)
 
 variable {K C : Type} [Group K] [Finite K] [Group C] [Finite C]
 
+omit [Finite K] [Finite C] in
 theorem lift_layer (π : K →* C) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) {ebar fbar : C} {e f : K} (he : π e = ebar)
     (hf : π f = fbar) {Hbar : Subgroup C}
@@ -386,7 +391,7 @@ theorem lift_layer (π : K →* C) (hπ : Function.Surjective π)
       simpa [he] using congrArg π hke
     · have hkf : f * k = k * f := Subgroup.mem_centralizer_iff.mp hk f (by simp)
       simpa [hf] using congrArg π hkf
-  haveI hN : (CK.subgroupOf Hh).Normal :=
+  have hN : (CK.subgroupOf Hh).Normal :=
     centralizer_pair_normal_of_le_centralizer π hker he hf hHle
   have hquot : IsMulCommutative (↥Hh ⧸ CK.subgroupOf Hh) :=
     quotient_centralizer_pair_isMulCommutative π hker he hf hHle
@@ -432,13 +437,14 @@ theorem lift_layer (π : K →* C) (hπ : Function.Surjective π)
       have h1 : ((d : ↥D) : K) ∈ π.ker :=
         MonoidHom.mem_ker.mpr (congrArg Subtype.val hd)
       exact Subgroup.mem_center_iff.mp (hker h1) (g : K)
-    haveI : Group.IsPerfect ↥D := hDperf
+    have : Group.IsPerfect ↥D := hDperf
     have e1 : (↥D ⧸ Subgroup.center ↥D) ≃* (↥Lbar ⧸ Subgroup.center ↥Lbar) :=
       CFSG.Quasithin.SmithC27.quotCenterEquivOfSurjective πD hπD hkerπD
     rw [Nat.card_congr e1.toEquiv]
     exact h3
   exact ⟨D, rfl, hDCK, hDsnCK, hDq, hdvd, hmapD⟩
 
+omit [Finite C] in
 theorem lift_layer_glaPLayer (π : K →* C) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) {ebar fbar : C} {e f z : K} (he : π e = ebar)
     (hf : π f = fbar) (hz : z ∈ π.ker) {Hbar : Subgroup C}
@@ -453,8 +459,8 @@ theorem lift_layer_glaPLayer (π : K →* C) (hπ : Function.Surjective π)
     ext k
     rw [Subgroup.mem_centralizer_iff, Subgroup.mem_centralizer_iff]
     constructor
-    · rintro h
-      intro y hy
+    · intro h
+        y hy
       exact h y (by simp [hy])
     · intro h y hy
       have hy' : y = z ∨ y = e ∨ y = f := by simpa using hy

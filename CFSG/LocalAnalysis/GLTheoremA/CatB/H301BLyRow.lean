@@ -22,7 +22,7 @@ theorem rowLy_holds : I301BRow .ly := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Ly.nonempty_mulEquiv
   have eS : S ≃* NativeSporadic.Ly := e₁.trans (by exact b.symm)
   have e0 : S ≃* J := by exact eS.trans lyEquivJ
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun a : MulAut S => (a : S → S)) DFunLike.coe_injective
   have hOut : Nat.card (Outer S) ∣ 2 := (outer_order_divides_two ⟨eS⟩).1
   have hR0c' : Nat.card R0 = 32 := hR0c
@@ -54,7 +54,7 @@ theorem rowLy_holds : I301BRow .ly := by
     refine LyA11.mem_autZ_of_commute ?_
     have h := congrArg θ (comm_of_mem_normalizer hR0e hzR0 hzc hz1 hg)
     rwa [map_mul, map_mul, hθz] at h
-  haveI := hBe'.1
+  have := hBe'.1
   exact (LyA11.false_of_restriction (LyA11.autZPermOf θ) (LyA11.card_ker_autZPermOf_le hθ)
     (B := B) (N := R1 ⊓ Subgroup.normalizer (R0 : Set (MulAut S)))
     (fun g hg => hH g (hBN0 hg)) (fun g hg => hH g hg.2)

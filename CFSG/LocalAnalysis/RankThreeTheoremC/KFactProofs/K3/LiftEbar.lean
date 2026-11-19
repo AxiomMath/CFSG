@@ -231,7 +231,7 @@ theorem ed_comm_right {Y : Type} [Group Y] (a b w : Y) (h : w * a = a * w) :
     _ = a * b * a⁻¹ * b⁻¹ := by rw [h2, mul_inv_cancel_right]
 
 theorem ed_comm_central {Y : Type} [Group Y] {L : Subgroup Y} {a b z w : Y} (ha : a ∈ L)
-    (hb : b ∈ L) (hz : z ∈ L) (hw : w ∈ L) (hzc : ∀ g ∈ L, g * z = z * g)
+    (hb : b ∈ L) (_hz : z ∈ L) (hw : w ∈ L) (hzc : ∀ g ∈ L, g * z = z * g)
     (hwc : ∀ g ∈ L, g * w = w * g) : ⁅a * z, b * w⁆ = ⁅a, b⁆ := by
   have h1 : w * (a * z) = a * z * w := by
     calc w * (a * z) = (w * a) * z := by group

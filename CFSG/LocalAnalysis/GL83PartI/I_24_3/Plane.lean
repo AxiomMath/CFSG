@@ -46,12 +46,12 @@ theorem exists_conj_image {X : Type*} [Group X] {p : ℕ} {K B : Subgroup X}
 theorem exists_elemAbelian_image
     {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hBel : IsElemAbelian p B)
-    {z : X} (hzB : z ∈ B) (hzp : orderOf z = p)
+    {z : X} (_hzB : z ∈ B) (hzp : orderOf z = p)
     (hCB : ∀ b ∈ B, b ∈ Subgroup.centralizer (K : Set X) → b ∈ Subgroup.zpowers z)
     {n : ℕ} (hB : p ^ (n + 1) ≤ Nat.card B) :
     ∃ E : Subgroup (MulAut ↥K), IsElemAbelian p E ∧ Nat.card E = p ^ n ∧
       ∀ ε ∈ E, ∃ f ∈ B, ∀ y : ↥K, ((ε y : ↥K) : X) = f * (y : X) * f⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Im, hIm, hIm1, -, hcard⟩ := exists_conj_image hBN hBel
   have hC : Nat.card (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) ≤ p := by
     have hle : B ⊓ Subgroup.centralizer (K : Set X) ≤ Subgroup.zpowers z :=
@@ -75,7 +75,7 @@ theorem exists_elemAbelian_image
   have hjn : n ≤ j := by
     rw [hj] at hImn
     exact (Nat.pow_le_pow_iff_right hp.one_lt).mp hImn
-  haveI : Finite Im := Nat.finite_of_card_ne_zero (by rw [hj]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite Im := Nat.finite_of_card_ne_zero (by rw [hj]; exact pow_ne_zero _ hp.ne_zero)
   obtain ⟨E, hEcard, -, hEIm⟩ := Sylow.exists_subgroup_card_pow_prime_le_le hp
     (n := n) (H := ⊥) (L := Im) (by rw [Subgroup.card_bot]; exact one_dvd _)
     (by rw [hj]; exact pow_dvd_pow p hjn) bot_le

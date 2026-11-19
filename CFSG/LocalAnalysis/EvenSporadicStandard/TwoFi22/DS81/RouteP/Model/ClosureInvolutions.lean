@@ -54,7 +54,7 @@ theorem finite_and_card_closure_range_le {G : Type*} [Group G] {n : ℕ} (e : Fi
   have hpair : (Set.range e).Pairwise Commute := by
     rintro a ⟨i, rfl⟩ b ⟨j, rfl⟩ _
     exact hcomm i j
-  haveI hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  have hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
   let ec : Fin n → C := fun i => ⟨e i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have hec : ∀ i, ec i * ec i = 1 := fun i => Subtype.ext (by simpa using hsq i)
   let F : (Fin n → Bool) → C := fun b => ∏ i : Fin n, if b i then ec i else 1
@@ -64,7 +64,7 @@ theorem finite_and_card_closure_range_le {G : Type*} [Group G] {n : ℕ} (e : Fi
       = ∏ i : Fin n, (if Bool.xor (a i) (b i) then ec i else 1)
     rw [← Finset.prod_mul_distrib]
     refine Finset.prod_congr rfl fun i _ => ?_
-    cases h : a i <;> cases h' : b i <;> simp [h, h', hec i]
+    cases h : a i <;> cases h' : b i <;> simp [hec i]
   let Fg : (Fin n → Bool) → G := fun b => (F b : G)
   have hFg_mul : ∀ a b : Fin n → Bool, Fg a * Fg b = Fg (fun i => Bool.xor (a i) (b i)) :=
     fun a b => congrArg (fun x : C => (x : G)) (hFmul a b)
@@ -101,7 +101,7 @@ theorem finite_and_card_closure_range_le {G : Type*} [Group G] {n : ℕ} (e : Fi
     rintro ⟨x, hx⟩
     rcases hx with ⟨b, rfl⟩
     exact ⟨b, rfl⟩
-  haveI : Finite K := Finite.of_surjective g hg
+  have : Finite K := Finite.of_surjective g hg
   have hFinC : Finite C :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   have hcardC : Nat.card C ≤ Nat.card K := Subgroup.card_le_of_le hle

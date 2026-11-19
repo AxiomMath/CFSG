@@ -23,6 +23,7 @@ theorem ffC_optionCongr (σ : Equiv.Perm (Fin 5)) (i : Option (Fin 5)) :
     ffC (Equiv.optionCongr σ i) = ffC i := by
   cases i <;> simp [ffC]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.exists_pOrth (fr : PFrame Q (Option (Fin 5)) ffC) (σ : Equiv.Perm (Fin 5)) :
     ∃ g : OGroup Q, ∀ i, (g : V ≃ₗ[ZMod 3] V) (fr.b i) = fr.b (Equiv.optionCongr σ i) := by
   let τ : Equiv.Perm (Option (Fin 5)) := Equiv.optionCongr σ
@@ -63,11 +64,13 @@ noncomputable def PFrame.pOrth (fr : PFrame Q (Option (Fin 5)) ffC) (σ : Equiv.
     OGroup Q :=
   Classical.choose (fr.exists_pOrth σ)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.pOrth_basis (fr : PFrame Q (Option (Fin 5)) ffC) (σ : Equiv.Perm (Fin 5))
     (i : Option (Fin 5)) :
     ((fr.pOrth σ : OGroup Q) : V ≃ₗ[ZMod 3] V) (fr.b i) = fr.b (Equiv.optionCongr σ i) :=
   Classical.choose_spec (fr.exists_pOrth σ) i
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.pOrth_mul (fr : PFrame Q (Option (Fin 5)) ffC) (σ τ : Equiv.Perm (Fin 5)) :
     fr.pOrth (σ * τ) = fr.pOrth σ * fr.pOrth τ := by
   apply Subtype.ext
@@ -77,6 +80,7 @@ theorem PFrame.pOrth_mul (fr : PFrame Q (Option (Fin 5)) ffC) (σ τ : Equiv.Per
     fr.pOrth_basis τ i, fr.pOrth_basis σ (Equiv.optionCongr τ i)]
   cases i <;> rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.pOrth_one (fr : PFrame Q (Option (Fin 5)) ffC) : fr.pOrth 1 = 1 := by
   apply Subtype.ext
   apply fr.b.ext'
@@ -84,6 +88,7 @@ theorem PFrame.pOrth_one (fr : PFrame Q (Option (Fin 5)) ffC) : fr.pOrth 1 = 1 :
   rw [fr.pOrth_basis 1 i]
   cases i <;> rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.pOrth_mul_signChange (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) (J : Finset (Option (Fin 5))) :
     fr.pOrth σ * fr.signChange J =
@@ -97,17 +102,18 @@ theorem PFrame.pOrth_mul_signChange (fr : PFrame Q (Option (Fin 5)) ffC)
   · have hmem : Equiv.optionCongr σ i ∈ J.map (Equiv.optionCongr σ).toEmbedding := by
       rw [Finset.mem_map]
       exact ⟨i, hi, rfl⟩
-    rw [if_pos hi, map_neg, fr.pOrth_basis σ i,
+    rw [ite_eq_left hi, map_neg, fr.pOrth_basis σ i,
       fr.signChange_basis (J.map (Equiv.optionCongr σ).toEmbedding) (Equiv.optionCongr σ i),
-      if_pos hmem]
+      ite_eq_left hmem]
   · have hmem : Equiv.optionCongr σ i ∉ J.map (Equiv.optionCongr σ).toEmbedding := by
       rw [Finset.mem_map]
       rintro ⟨j, hj, hji⟩
       exact hi ((Equiv.optionCongr σ).injective hji ▸ hj)
-    rw [if_neg hi, fr.pOrth_basis σ i,
+    rw [ite_eq_right hi, fr.pOrth_basis σ i,
       fr.signChange_basis (J.map (Equiv.optionCongr σ).toEmbedding) (Equiv.optionCongr σ i),
-      if_neg hmem]
+      ite_eq_right hmem]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem PFrame.signChange_injective (fr : PFrame Q ι c) : Function.Injective fr.signChange := by
   intro J K h
   apply Finset.ext

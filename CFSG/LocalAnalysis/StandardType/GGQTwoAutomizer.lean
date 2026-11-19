@@ -45,7 +45,7 @@ private theorem ggQ2x_ne_bot_of_witness {G : Type} [Group G] {Bs J : Subgroup G}
 
 private theorem ggQ2x_caseA {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs J T : Subgroup G}
-    (hBsP : IsPGroup p Bs) (hnorm : Bs ≤ Subgroup.normalizer (J : Set G))
+    (_hBsP : IsPGroup p Bs) (hnorm : Bs ≤ Subgroup.normalizer (J : Set G))
     (h3 : ∀ j ∈ J, j ∈ Subgroup.centralizer (Bs : Set G) →
       IsPGroup p (Subgroup.zpowers j) → j ∈ Bs)
     (hTle : T ≤ J ⊔ Bs) (hBsT : Bs ≤ T) (hTp : IsPGroup p T) (hTne : T ≠ Bs)
@@ -53,7 +53,7 @@ private theorem ggQ2x_caseA {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
       n ∈ Subgroup.centralizer (Bs : Set G)) : False := by
   classical
   let Ht : Subgroup ↥T := Bs.subgroupOf T
-  haveI : Group.IsNilpotent ↥T := hTp.isNilpotent
+  have : Group.IsNilpotent ↥T := hTp.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥T)
   have hHlt : Ht < ⊤ := by
     rw [lt_top_iff_ne_top]
@@ -137,12 +137,12 @@ private theorem ggQ2x_commutator_mem {G : Type} [Group G] {p : ℕ} {Bs J P : Su
 
 private theorem ggQ2x_frattini {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {M Bs H' : Subgroup G}
-    (hBsH' : Bs ≤ H') (hMleH' : M ≤ H') (hBsM : Bs ≤ M)
+    (_hBsH' : Bs ≤ H') (hMleH' : M ≤ H') (hBsM : Bs ≤ M)
     (hMnorm : H' ≤ Subgroup.normalizer (M : Set G))
     (hBsSyl : CFSG.ABGLocalTools.IsSylowOf p Bs H') :
     ∀ h ∈ H', ∃ c ∈ M, ∃ n ∈ H' ⊓ Subgroup.normalizer (Bs : Set G), c * n = h := by
   classical
-  haveI hMh : (M.subgroupOf H').Normal :=
+  have hMh : (M.subgroupOf H').Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMleH').mpr hMnorm
   obtain ⟨Q, hQ⟩ := hBsSyl
   have hQle : (Q : Subgroup ↥H') ≤ M.subgroupOf H' := by
@@ -381,7 +381,7 @@ theorem ggQ2_automizer_ne_bot {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
     obtain ⟨Q, hQle⟩ := IsPGroup.exists_le_sylow hBsSubP
     let T : Subgroup G := (Q : Subgroup ↥H).map H.subtype
     have hTle : T ≤ H := Subgroup.map_subtype_le _
-    have hTp : IsPGroup p T := Q.isPGroup'.map H.subtype
+    have hTp : IsPGroup p T := Q.isPGroup.map H.subtype
     have hBsT : Bs ≤ T := by
       intro x hx
       exact ⟨⟨x, hBsH hx⟩, hQle (by rw [Subgroup.mem_subgroupOf]; exact hx), rfl⟩

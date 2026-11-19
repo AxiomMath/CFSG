@@ -22,13 +22,13 @@ theorem testBit_xorFold_sel (p : ℕ → Bool) (n j : ℕ) :
     by_cases hj : j < n
     · have h1 : j < n + 1 := by omega
       have h2 : n ≠ j := by omega
-      cases hs : p n <;> simp [hj, h1, h2, Nat.testBit_two_pow]
+      cases hs : p n <;> simp [hj, h1, h2]
     · by_cases hjn : j = n
       · subst hjn
-        cases hs : p j <;> simp [hj, hs, Nat.testBit_two_pow]
+        cases hs : p j <;> simp
       · have h1 : ¬ j < n + 1 := by omega
         have h2 : n ≠ j := by omega
-        cases hs : p n <;> simp [hj, h1, h2, Nat.testBit_two_pow]
+        cases hs : p n <;> simp [hj, h1, h2]
 
 theorem testBit_rev32 (d t : ℕ) : (rev32 d).testBit t = (decide (t < 32) && d.testBit (31 - t)) :=
   testBit_xorFold_sel (fun t => d.testBit (31 - t)) 32 t

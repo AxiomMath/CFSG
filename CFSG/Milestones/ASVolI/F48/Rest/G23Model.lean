@@ -25,7 +25,7 @@ open scoped Pointwise in
 open scoped Pointwise in
 open scoped Pointwise in
 theorem burnsideF48t_g23_ρ_injective : Function.Injective burnsideF48t_g23ρ := by
-  haveI : Finite ↥burnsideF48t_g23R :=
+  have : Finite ↥burnsideF48t_g23R :=
     Nat.finite_of_card_ne_zero (by rw [burnsideF48t_g23_card_R]; norm_num)
   have hsurj : Function.Surjective burnsideF48t_g23ρ.rangeRestrict :=
     MonoidHom.rangeRestrict_surjective _
@@ -42,8 +42,8 @@ theorem burnsideF48t_g23_ρ_injective : Function.Injective burnsideF48t_g23ρ :=
 theorem burnsideF48t_g23_equiv_X {H : Type} [Group H] (h : ChF.IsGenLie H .G2 3 1) :
     Nonempty (↥burnsideF48t_g23X ≃* H) := by
   obtain ⟨-, -, K, fK, finK, hK, ⟨e⟩⟩ := h
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card (ZMod 3) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hK, pow_one]

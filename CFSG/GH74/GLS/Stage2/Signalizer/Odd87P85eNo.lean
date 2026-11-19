@@ -26,7 +26,7 @@ theorem exists_conj_le_sylow {G : Type} [Group G] [Finite G] {S P : Subgroup G}
   obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
   have hQ : CFSG.ABGLocalTools.IsSylowOf 2 (Q : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   obtain ⟨k, -, hk⟩ := CFSG.ABGLocalTools.IsSylowOf.exists_mem_conj hS hQ

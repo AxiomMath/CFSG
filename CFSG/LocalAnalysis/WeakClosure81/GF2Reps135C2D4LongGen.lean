@@ -24,7 +24,7 @@ theorem trialityLongRoot_gen :
       (∀ y ∈ T, ConjC σ (Xr d4H 1) y) ∧
       C₀ ≤ Subgroup.closure (T : Set (ModGL TwistTag.D4.tag K)) := by
   classical
-  haveI := charP_two_of_card hf hK
+  have := charP_two_of_card hf hK
   have hσ3 := sigma_cube hK σ hσ
   have hk := card_fixedField hf hK σ hσ
   obtain ⟨t₁, t₂, t₃, hspan⟩ := exists_spanning hf hK σ hσ
@@ -145,7 +145,7 @@ theorem trialityLongRoot_gen :
         · rw [Set.mem_singleton_iff] at ht
           subst ht; exact hPi 2 e he
     have hB : (ox₁ σ t * nA K) * Xr d4H x * (ox₁ σ t * nA K)⁻¹ ∈ H := by
-      rw [trialityLine_conj_H σ hσ3 t x]; exact hH x hx
+      rw [trialityLine_conj_H σ t x]; exact hH x hx
     rw [show (ox₁ σ t * nA K) * (Xr d4P e * Xr d4H x) * (ox₁ σ t * nA K)⁻¹ =
         ((ox₁ σ t * nA K) * Xr d4P e * (ox₁ σ t * nA K)⁻¹) *
         ((ox₁ σ t * nA K) * Xr d4H x * (ox₁ σ t * nA K)⁻¹) from by group]

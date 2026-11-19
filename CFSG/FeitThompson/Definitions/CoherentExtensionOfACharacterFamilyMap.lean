@@ -43,7 +43,7 @@ theorem cfInner_self_eq_sum_normSq (f : X → ℂ) :
 
 @[simp] theorem cfInner_self_eq_zero [Nonempty X] {f : X → ℂ} : cfInner f f = 0 ↔ f = 0 := by
   rw [cfInner_self_eq_sum_normSq, mul_eq_zero]
-  have h : ((Nat.card X : ℂ))⁻¹ ≠ 0 := by simpa using Nat.card_pos.ne'
+  have h : ((Nat.card X : ℂ))⁻¹ ≠ 0 := by simp
   simp only [h, false_or, Complex.ofReal_eq_zero]
   rw [Finset.sum_eq_zero_iff_of_nonneg fun x _ => Complex.normSq_nonneg _]
   simp [funext_iff]

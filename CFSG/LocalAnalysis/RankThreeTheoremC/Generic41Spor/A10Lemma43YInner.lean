@@ -43,8 +43,8 @@ theorem a10y_not_le_centralizer (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {J A 
 theorem a10y_inner_action (hInn : KFactInnerAction) (h : A10YData Y P x t₁ t₂ J₁ J₂ F)
     {A : Subgroup Y} (hA : IsComponentOf A ⊤) (hPA : P ⊓ A ≠ ⊥) {q : Y} (hq : q ∈ P) :
     ∃ g ∈ P ⊓ A, ∀ a ∈ A, q * a * q⁻¹ = g * a * g⁻¹ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI hPc : IsMulCommutative P := h.P_comm
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hPc : IsMulCommutative P := h.P_comm
   obtain ⟨_, hSimple, hNonab, hCat⟩ := a10y_comp_simple h hA
   obtain ⟨S, hSP⟩ := h.sylow
   have hsub : A.IsSubnormal :=
@@ -60,7 +60,7 @@ theorem a10y_inner_action (hInn : KFactInnerAction) (h : A10YData Y P x t₁ t�
     intro a ha
     have hmem : (a : Y) ∈ (SA : Subgroup ↥A).map A.subtype := Subgroup.mem_map_of_mem _ ha
     rwa [hSA] at hmem
-  haveI hSAc : IsMulCommutative (SA : Subgroup ↥A) := by
+  have hSAc : IsMulCommutative (SA : Subgroup ↥A) := by
     refine ⟨⟨fun a b => ?_⟩⟩
     apply Subtype.ext
     apply Subtype.ext

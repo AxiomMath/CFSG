@@ -27,10 +27,10 @@ theorem exists_orbit_basis {K : Type} [Field K] [Finite K] {r e0 p : ℕ} [Fact 
       rw [Fin.val_add, Fin.val_one', Nat.mod_eq_of_lt hpf.out.one_lt]
     by_cases hj : (a : ℕ) + 1 < p
     · simp only
-      rw [if_pos hj, one_smul, hval, Nat.mod_eq_of_lt hj, odBv_succ]
+      rw [ite_eq_left hj, one_smul, hval, Nat.mod_eq_of_lt hj, odBv_succ]
     · have hjp : (a : ℕ) + 1 = p := by have := a.2; omega
       simp only
-      rw [if_neg hj, hval, hjp, Nat.mod_self, Nat.cast_zero, odBv_zero, ← odBv_succ, hjp,
+      rw [ite_eq_right hj, hval, hjp, Nat.mod_self, Nat.cast_zero, odBv_zero, ← odBv_succ, hjp,
         odBv_p S.hBp]
 
 theorem exists_twist_uni {K : Type} [Field K] {p : ℕ} [NeZero p] (hp : p.Prime) (hodd : Odd p)

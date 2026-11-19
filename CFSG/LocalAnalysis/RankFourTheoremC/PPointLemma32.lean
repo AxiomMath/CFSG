@@ -15,7 +15,7 @@ theorem exists_orderOf_eq_mem_inf_center {X : Type*} [Group X] [Finite X] {p : �
     (htK : t ∈ K) (ht1 : t ≠ 1) :
     ∃ y ∈ (R : Subgroup X) ⊓ K, orderOf y = p ∧ ∀ r ∈ (R : Subgroup X), r * y = y * r := by
   have hp : p.Prime := Fact.out
-  have : Group.IsNilpotent (R : Subgroup X) := R.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (R : Subgroup X) := R.isPGroup.isNilpotent
   have hH : K.subgroupOf (R : Subgroup X) ≠ ⊥ := by
     intro hbot
     have : (⟨t, htR⟩ : (R : Subgroup X)) ∈ K.subgroupOf (R : Subgroup X) := htK
@@ -30,7 +30,7 @@ theorem exists_orderOf_eq_mem_inf_center {X : Type*} [Group X] [Finite X] {p : �
   have ha1 : a ≠ 1 := fun h => hm1 (Subtype.ext (Subtype.ext h))
   have hac : ∀ r ∈ (R : Subgroup X), r * a = a * r := fun r hr =>
     congrArg Subtype.val (mem_center_iff.mp hmZ ⟨r, hr⟩)
-  obtain ⟨n, hn⟩ := R.isPGroup' ⟨a, haR⟩
+  obtain ⟨n, hn⟩ := R.isPGroup ⟨a, haR⟩
   have hdvd : orderOf a ∣ p ^ n :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hn)
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).mp hdvd
@@ -117,7 +117,7 @@ theorem exists_central_of_not_mem_zpowers [Fact p.Prime] (hp2 : p ≠ 2)
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set O : Subgroup C := primeComplementCore (G := C) p with hO
   set Q : Subgroup G := (P : Subgroup G) ⊓ C with hQ
-  have hQp : IsPGroup p Q := P.isPGroup'.to_inf_left
+  have hQp : IsPGroup p Q := P.isPGroup.to_inf_left
   have hQ' : IsPGroup p (Q.subgroupOf C) := hQp.comap_subtype
   have hOc : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   have hyR : y ∈ (Q.subgroupOf C).map (QuotientGroup.mk' O) := hReq ▸ hyRK.1

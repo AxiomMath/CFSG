@@ -35,8 +35,8 @@ theorem seitzExcAnisotropicTrialityThreeTwo_of_inner (h : TrialityThreeInner) :
     change (TauCeti.LieTypeIndex.trialityD4 q).characteristic = 2 at h
     rwa [TauCeti.LieTypeIndex.characteristic_trialityD4] at h
   have hfs := finite_isSimpleGroup_cat_trialityD4 hv
-  haveI : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
-  haveI : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
+  have : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
+  have : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
   have hel := isElementaryAbelian_of_isElemAbelian hE
   rw [planeGen_iff_closure_fixUnion]
   exact h q hqp _ ⟨hv, ⟨MulEquiv.refl _⟩⟩ E hel hc
@@ -50,8 +50,8 @@ theorem seitzThreeTrialityWideTwo_of_outer (h : TrialityThreeOuter) :
     change (TauCeti.LieTypeIndex.trialityD4 q).characteristic = 2 at h
     rwa [TauCeti.LieTypeIndex.characteristic_trialityD4] at h
   have hfs := finite_isSimpleGroup_cat_trialityD4 hv
-  haveI : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
-  haveI : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
+  have : Finite (Cat ⟨.trialityD4 q, hv⟩) := hfs.1
+  have : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := hfs.2
   have hel := isElementaryAbelian_of_isElemAbelian hE
   have hr2 : RankLE2 3 (Cat ⟨.trialityD4 q, hv⟩) :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.rankLE2_three_cat_trialityD4 q hv (by omega)

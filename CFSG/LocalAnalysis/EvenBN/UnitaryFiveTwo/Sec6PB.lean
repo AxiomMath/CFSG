@@ -61,7 +61,6 @@ theorem blockSL2_conj_YK₀ (A : SL(2, F4)) {y : SL(4, F4)} (hy : y ∈ YK) :
     ext i j
     fin_cases i <;> fin_cases j <;> simp [pMat, Matrix.mul_apply, Fin.sum_univ_four] <;>
       first
-      | ring1
       | linear_combination a₄ * hdet
       | linear_combination (-a₄) * hdet
       | linear_combination a₂ * hdet
@@ -83,7 +82,7 @@ theorem blockSL2_conj_YK₂ (A : SL(2, F4)) {y : SL(4, F4)} (hy : y ∈ YK) :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_pSL,
       pb_blockSL2_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [pMat, Matrix.mul_apply, Fin.sum_univ_four] <;> ring1
+    fin_cases i <;> fin_cases j <;> simp [pMat, Matrix.mul_apply, Fin.sum_univ_four]
   rw [key, mul_inv_cancel_right]
   exact ⟨_, _, _, _, rfl⟩
 

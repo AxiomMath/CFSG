@@ -95,7 +95,7 @@ theorem k_BorelSimple_POmegaMinus : KBorelSimple .POmegaMinus := by
         (anisotropic_minusTailForm hirr) (nondegenerate_minusTailForm hirr)
         (Or.inr finrank_fin_two_fun)
     rw [← hS₀]
-    exact ⟨le_top, S₀.isPGroup', by
+    exact ⟨le_top, S₀.isPGroup, by
       rw [show ((S₀ : Subgroup (orthElementaryGroup (quadTail (m - 1)
         (minusTailForm K b c)))).subgroupOf ⊤).index =
           (S₀ : Subgroup (orthElementaryGroup (quadTail (m - 1)

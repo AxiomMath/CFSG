@@ -23,12 +23,13 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isSimpleGroup_card_of_mulEquiv_alt7 {J : Subgroup G}
     (hJ : Nonempty (↥J ≃* alternatingGroup (Fin 7))) :
     IsSimpleGroup ↥J ∧ Nat.card J = 2520 ∧ 3 ∣ Nat.card J := by
   obtain ⟨e⟩ := hJ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by norm_num)
-  haveI : IsSimpleGroup ↥J := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by norm_num)
+  have : IsSimpleGroup ↥J := e.isSimpleGroup
   have hcard : Nat.card J = 2520 := by
     rw [Nat.card_congr e.toEquiv, KFacts.KS14.card_alternatingGroup_five_seven_ten.2.1]
   exact ⟨inferInstance, hcard, by rw [hcard]; norm_num⟩
@@ -37,7 +38,7 @@ private theorem pCore_eq_bot_of_mulEquiv_alt7 {J : Subgroup G}
     (hJ : Nonempty (↥J ≃* alternatingGroup (Fin 7))) :
     CFSG.pCore 2 ↥J = ⊥ := by
   obtain ⟨hsimple, hcard, h3⟩ := isSimpleGroup_card_of_mulEquiv_alt7 hJ
-  haveI := hsimple
+  have := hsimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 ↥J) with h | h
   · exact h
   · exfalso
@@ -54,7 +55,7 @@ theorem mem_scriptY4_of_mulEquiv {A : Subgroup G} {LB : Subgroup G → Subgroup 
     (htop : J ≠ ⊤) : J ∈ scriptY4 A LB := by
   obtain ⟨e⟩ := hJ
   obtain ⟨hsimple, hcard, h3⟩ := isSimpleGroup_card_of_mulEquiv_alt7 ⟨e⟩
-  haveI := hsimple
+  have := hsimple
   have hJres : J ≤ oPrimeResidualOf 3 J := by
     obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hxG3 : (x : G) ^ 3 = 1 := by
@@ -66,7 +67,7 @@ theorem mem_scriptY4_of_mulEquiv {A : Subgroup G} {LB : Subgroup G → Subgroup 
       intro h1
       have h1' : orderOf x = 1 := by rw [← Subgroup.orderOf_coe x, h1, orderOf_one]
       omega
-    haveI : ((oPrimeResidualOf 3 J).subgroupOf J).Normal :=
+    have : ((oPrimeResidualOf 3 J).subgroupOf J).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (Proof1515Res.le_normalizer_oRes3 Subgroup.le_normalizer)
     have hne : (oPrimeResidualOf 3 J).subgroupOf J ≠ ⊥ := by
@@ -96,7 +97,7 @@ private theorem inf_pCoreOf_eq_bot_of_mulEquiv {J X : Subgroup G}
     (hJ : Nonempty (↥J ≃* alternatingGroup (Fin 7))) (hJX : J ≤ X) :
     J ⊓ CFSG.Open.pCoreOf 2 X = ⊥ := by
   obtain ⟨hsimpleJ, hcardJ, h3J⟩ := isSimpleGroup_card_of_mulEquiv_alt7 hJ
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJN : J ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 X : Set G) :=
     hJX.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X)
   have hsubJN : (CFSG.Open.pCoreOf 2 X).subgroupOf J =
@@ -104,7 +105,7 @@ private theorem inf_pCoreOf_eq_bot_of_mulEquiv {J X : Subgroup G}
     ext x
     simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
-  haveI : ((J ⊓ CFSG.Open.pCoreOf 2 X).subgroupOf J).Normal := by
+  have : ((J ⊓ CFSG.Open.pCoreOf 2 X).subgroupOf J).Normal := by
     rw [← hsubJN]
     exact Subgroup.normal_subgroupOf_of_le_normalizer hJN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -136,7 +137,7 @@ private theorem oRes_sup_data {A : Subgroup G} {LB : Subgroup G → Subgroup G}
       oPrimeResidualOf 3 (J ⊔ D) =
         J ⊔ CFSG.Open.pCoreOf 2 (oPrimeResidualOf 3 (J ⊔ D)) ∧
       J ⊓ CFSG.Open.pCoreOf 2 (oPrimeResidualOf 3 (J ⊔ D)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup G := J ⊔ D with hY
   set X : Subgroup G := oPrimeResidualOf 3 Y with hX
   have hJY : J ≤ Y := le_sup_left
@@ -191,7 +192,7 @@ theorem mem_scriptY4_oRes_sup_of_mulEquiv {A : Subgroup G} {LB : Subgroup G → 
   have hNX : N ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
   have hJN : J ≤ Subgroup.normalizer (N : Set G) :=
     hJX.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X)
-  haveI : (N.subgroupOf X).Normal :=
+  have : (N.subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X)
   let f : ↥J →* ↥X ⧸ N.subgroupOf X :=
@@ -247,7 +248,7 @@ theorem exists_mem_scriptY0Star_of_mulEquiv {A : Subgroup G} {LB : Subgroup G �
     ∃ K ∈ scriptY0Star A LB, J ≤ K ∧
       ∀ M ∈ CFSG.maximalTwoLocalsContaining ((A ⊔ (J ⊔ D) : Subgroup G) : Set G),
         delta A LB M ≤ Subgroup.normalizer (K : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y₃ : Subgroup G := J ⊔ D with hY₃
   set X₃ : Subgroup G := oPrimeResidualOf 3 Y₃ with hX₃
   obtain ⟨hX4, ⟨χ⟩⟩ := mem_scriptY4_oRes_sup_of_mulEquiv hJ4 hJ hDQ hD2 hJD htop
@@ -292,6 +293,7 @@ variable {A : Subgroup G} {c : G} {L Y : Subgroup G}
 
 namespace Conf684
 
+omit [Finite G] in
 private theorem le_normalizer_of_klein {U T V : Subgroup G}
     (hAT : A ≤ Subgroup.normalizer (T : Set G))
     (hAU : A ≤ Subgroup.normalizer (U : Set G))
@@ -318,7 +320,7 @@ private theorem klein_scriptQ (h : Conf684 A c L Y) (hK2 : KFacts.KS163U35KleinG
       V₁ ≤ L ∧ V₂ ≤ L ∧ V₁ ≤ T₁ ∧ V₂ ≤ T₂ ∧
       A ≤ Subgroup.normalizer (V₁ : Set G) ∧ A ≤ Subgroup.normalizer (V₂ : Set G) ∧
       Nonempty (↥(V₁ ⊔ V₂) ≃* alternatingGroup (Fin 7)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₁Q : T₁ ∈ scriptQ A (lB A) := hmax.1.zeta₁.2.2.prop.1.1
   have hT₂Q : T₂ ∈ scriptQ A (lB A) := hmax.1.zeta₂.2.2.prop.1.1
   have hT₁2 : IsPGroup 2 T₁ := isPGroup_of_mem_scriptQPi Nat.prime_two hmax.1.zeta₁.2.2.prop
@@ -398,7 +400,7 @@ private theorem exists_star_of_sup {K U V T M : Subgroup G}
     (hVT : V ≤ T) (hUT : U ≤ T) (hT2 : IsPGroup 2 T) (hlt : V ⊔ U ≠ U) :
     ∃ T₃ : Subgroup G, IsZeta A L T₃ K ∧ V ⊔ U ≤ T₃ ∧
       Nat.card U < Nat.card (T ⊓ T₃ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNQ : V ⊔ U ∈ scriptQ A (lB A) :=
     sup_mem_scriptQ_of_item146 hE27 h146 hVQ hUQ hVU
   have hNM : V ⊔ U ≤ M := sup_le hVM hUM
@@ -421,7 +423,7 @@ theorem false_of_maxCE684_of_not_le (h : Conf684 A c L Y) (hK2 : KFacts.KS163U35
       Subgroup.centralizer ({c} : Set G) ≤ T₁ ⊓ T₂)
     (hc₂ : ¬ T₂ ⊓ Subgroup.normalizer ((T₁ ⊓ T₂ : Subgroup G) : Set G) ⊓
       Subgroup.centralizer ({c} : Set G) ≤ T₁ ⊓ T₂) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set U : Subgroup G := T₁ ⊓ T₂ with hU
   set V₁ : Subgroup G := T₁ ⊓ Subgroup.normalizer (U : Set G) ⊓
     Subgroup.centralizer ({c} : Set G) with hV₁

@@ -41,7 +41,7 @@ theorem not_dvd (h : IsTwoPowPpd f e r) (he : 1 ≤ e) (hf : 1 ≤ f) : ¬ r ∣
     rw [h2, orderOf_zero] at hord
     have : 0 < e * f := Nat.mul_pos he hf
     omega
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hne : (2 : ZMod r) ≠ 0 := by
     intro h0
     have : ((2 : ℕ) : ZMod r) = 0 := by exact_mod_cast h0

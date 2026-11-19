@@ -13,6 +13,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma homog_mem_conjugate {H : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   unfold CFSG.conjugate
@@ -20,8 +21,9 @@ private lemma homog_mem_conjugate {H : Subgroup G} {g x : G} :
   · rintro ⟨h, hh, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hh
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 private lemma homog_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -33,6 +35,7 @@ private lemma homog_normalizer_inf {A B : Subgroup G} {g : G}
   · rintro ⟨hgA, hgB⟩
     exact ⟨(hA h).mpr hgA, (hB h).mpr hgB⟩
 
+omit [Finite G] in
 private lemma homog_normalizer_of_comm {V K : Subgroup G} {a : G}
     (hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hK : K ≤ V) (ha : a ∈ V) :
     a ∈ Subgroup.normalizer (K : Set G) := by
@@ -52,6 +55,7 @@ private lemma homog_normalizer_of_comm {V K : Subgroup G} {a : G}
     rw [hc h hhV] at hah
     exact hah
 
+omit [Finite G] in
 private lemma homog_normalizer_centralizer {L0 : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L0 : Set G)) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer (L0 : Set G) : Subgroup G) : Set G) := by
@@ -74,6 +78,7 @@ private lemma homog_normalizer_centralizer {L0 : Subgroup G} {g : G}
       _ = g⁻¹ * ((g * c * g⁻¹) * (g * s * g⁻¹)) * g := by rw [h]
       _ = c * s := by group
 
+omit [Finite G] in
 theorem commutator_mem_of_sectionIso {X C J' K : Subgroup G} (h : IsXSectionIso X C J' K) {x : G}
     (hx : x ∈ X) (hxJ' : x ∈ Subgroup.normalizer (J' : Set G))
     (hxK : ∀ k ∈ K, x * k * x⁻¹ = k) : ∀ j ∈ J', j⁻¹ * (x * j * x⁻¹) ∈ C := by
@@ -110,8 +115,7 @@ theorem irrPlus_homog (h37 : Vol2Native.A37ForSQTKCat)
         (reducedAggregate (L ⊔ T) ⊓ Subgroup.centralizer (fsuL0 T L : Set G)) J'
         (J ⊔ reducedAggregate (L ⊔ T) ⊓ Subgroup.centralizer (fsuL0 T L : Set G)) →
       J' ≤ J ⊔ reducedAggregate (L ⊔ T) ⊓ Subgroup.centralizer (fsuL0 T L : Set G) := by
-  intro J' _ hJ'V hJ'N hJ'iso
-  intro j' hj'
+  intro J' _ hJ'V hJ'N hJ'iso j' hj'
   have hcomm : ∀ x ∈ fsuVM T L I, ∀ y ∈ fsuVM T L I, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : ↥(fsuVM T L I)) ⟨y, hy⟩)
   set R := reducedAggregate (L ⊔ T) with hR

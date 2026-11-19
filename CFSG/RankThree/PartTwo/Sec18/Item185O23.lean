@@ -59,6 +59,7 @@ private theorem oTwoPAux_pCore_mem_of_equiv {p : ℕ} {H : Type*} [Group H] (σ 
   rw [← h]
   exact Subgroup.mem_map_of_mem σ.toMonoidHom hx
 
+omit [Finite G] in
 private theorem oTwoPAux_conj_mem_of_normal {X Y : Subgroup G} (hYX : Y ≤ X)
     (hn : (Y.subgroupOf X).Normal) (x : X) {y : G} (hy : y ∈ Y) :
     (x : G) * y * (x : G)⁻¹ ∈ Y :=
@@ -73,6 +74,7 @@ private def oTwoPAux_conjEquiv {X Y : Subgroup G} (hYX : Y ≤ X)
   right_inv y := Subtype.ext (by simp [mul_assoc])
   map_mul' a b := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem oTwoPAux_conj_mem_map_of_stable {X Y : Subgroup G} (hYX : Y ≤ X)
     (hn : (Y.subgroupOf X).Normal) {S : Subgroup Y}
     (hS : ∀ σ : Y ≃* Y, ∀ s ∈ S, σ s ∈ S) (x : X) {g : G} (hg : g ∈ S.map Y.subtype) :
@@ -80,16 +82,19 @@ private theorem oTwoPAux_conj_mem_map_of_stable {X Y : Subgroup G} (hYX : Y ≤ 
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hg
   exact Subgroup.mem_map.mpr ⟨oTwoPAux_conjEquiv hYX hn x s, hS _ s hs, rfl⟩
 
+omit [Finite G] in
 private theorem oTwoPAux_conj_mem_map_of_normal {X : Subgroup G} {S : Subgroup X} (hS : S.Normal)
     (x : X) {g : G} (hg : g ∈ S.map X.subtype) :
     (x : G) * g * (x : G)⁻¹ ∈ S.map X.subtype := by
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hg
   exact Subgroup.mem_map.mpr ⟨x * s * x⁻¹, hS.conj_mem s hs x, rfl⟩
 
+omit [Finite G] in
 private theorem oTwoPAux_le_pCore_subgroupOf {p : ℕ} {X S : Subgroup G}
     (hSn : (S.subgroupOf X).Normal) (hSp : IsPGroup p S) : S.subgroupOf X ≤ CFSG.pCore p ↥X :=
   le_sSup ⟨hSn, hSp.comap_subtype⟩
 
+omit [Finite G] in
 theorem oTwoP_le_of_normal {X Y : Subgroup G} (hYX : Y ≤ X) (hn : (Y.subgroupOf X).Normal) :
     (Sec4.oTwoP 3 ↥Y).map Y.subtype ≤ (Sec4.oTwoP 3 ↥X).map X.subtype := by
   have hP2 : ((CFSG.pCore 2 ↥Y).map Y.subtype).subgroupOf X ≤ CFSG.pCore 2 ↥X := by
@@ -121,6 +126,7 @@ theorem oTwoP_le_of_normal {X Y : Subgroup G} (hYX : Y ≤ X) (hn : (Y.subgroupO
     Subgroup.mem_subgroupOf.mpr (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
   exact Subgroup.mem_map.mpr ⟨_, hle hz, rfl⟩
 
+omit [Finite G] in
 theorem inf_oTwoP_le {X Y : Subgroup G} (hYX : Y ≤ X) :
     (Sec4.oTwoP 3 ↥X).map X.subtype ⊓ Y ≤ (Sec4.oTwoP 3 ↥Y).map Y.subtype := by
   have hRn : ((((Sec4.oTwoP 3 ↥X).map X.subtype) ⊓ Y).subgroupOf Y).Normal := by
@@ -156,11 +162,12 @@ theorem inf_oTwoP_le {X Y : Subgroup G} (hYX : Y ≤ X) :
     hle (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr ⟨hgO, hgY⟩))
   exact Subgroup.mem_map.mpr ⟨⟨g, hgY⟩, hmem, rfl⟩
 
+omit [Finite G] in
 theorem le_oTwoP_of_normal_closure {Y B N : Subgroup G} (hBY : B ≤ Y) (hNY : N ≤ Y)
     (hN : IsPGroup 2 N) (hNn : (N.subgroupOf Y).Normal) (hB3 : IsPGroup 3 B)
     (hBN : ((B ⊔ N).subgroupOf Y).Normal) :
     B ≤ (Sec4.oTwoP 3 ↥Y).map Y.subtype := by
-  haveI : (N.subgroupOf Y).Normal := hNn
+  have : (N.subgroupOf Y).Normal := hNn
   have hNle : N.subgroupOf Y ≤ CFSG.pCore 2 ↥Y := oTwoPAux_le_pCore_subgroupOf hNn hN
   have hpow : ∀ r ∈ (B ⊔ N).subgroupOf Y, ∃ k : ℕ, r ^ 3 ^ k ∈ CFSG.pCore 2 ↥Y := by
     intro r hr

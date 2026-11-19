@@ -51,7 +51,7 @@ theorem quotCenter_cases_of_glaPComponent_conj_omega {G : Type} [Group G] [Finit
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a ha J hJcomp
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect g hg hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OrthFactorOver at hfac

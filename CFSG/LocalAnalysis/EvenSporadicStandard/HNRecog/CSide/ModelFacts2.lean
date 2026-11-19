@@ -19,11 +19,11 @@ private def cSideOrbSet (i : Fin 2) : Set V0 :=
 
 private lemma cSideOrbSet_zero : cSideOrbSet 0 = cSideOrb0 := by
   unfold cSideOrbSet
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 private lemma cSideOrbSet_one : cSideOrbSet 1 = cSideOrb1 := by
   unfold cSideOrbSet
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 private lemma sigma0_symm_apply (X : SL2 × SL2) (M : V0) :
     sigma0 (iota.symm X.1, iota.symm X.2) M = actFun X M := by

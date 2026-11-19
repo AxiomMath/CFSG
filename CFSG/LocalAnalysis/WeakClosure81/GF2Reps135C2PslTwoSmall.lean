@@ -62,7 +62,7 @@ theorem w135c2_psl_two_small {W : Type} [CommGroup W] [Finite W] [Module (ZMod 2
     intro w
     rw [B45L2.repOf_apply, pslRep_apply, c2sltwo_binPsi_eq_mulAutLinear]
     rfl
-  haveI : Fact (B45L2.repOf θ ψ).IsIrreducible := ⟨by rw [hrep]; exact hirr⟩
+  have : Fact (B45L2.repOf θ ψ).IsIrreducible := ⟨by rw [hrep]; exact hirr⟩
   have hnt : ∃ g, (B45L2.repOf θ ψ) g ≠ 1 := by
     obtain ⟨x, hx⟩ := hne
     exact ⟨x, by rw [hrep]; exact hx⟩

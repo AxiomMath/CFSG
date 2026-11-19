@@ -39,6 +39,7 @@ private theorem isComponent_subgroupOf_centralizer_of_commute {A : Subgroup B}
   exact ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv
     (Subgroup.subgroupOfEquivOfLe hAw).symm hAq, hKsn⟩
 
+omit [Finite B] in
 private theorem isComponent_subgroupOf_centralizer_conj {A : Subgroup B} {w d : B}
     (hd : d ∈ centralizer (A : Set B)) (hwA : A ≤ centralizer ({w} : Set B))
     (h : IsComponent (A.subgroupOf (centralizer ({w} : Set B)))) :
@@ -141,8 +142,8 @@ theorem isComponent_centralizer_of_relativeIdentity {A : Subgroup B}
     norm_num at haC2
   have hSnt : Nontrivial (S : Subgroup C) :=
     (Subgroup.nontrivial_iff_ne_bot (S : Subgroup C)).mpr hSne
-  letI : Nontrivial (S : Subgroup C) := hSnt
-  have hS2 : IsPGroup 2 (S : Subgroup C) := S.isPGroup'
+  let : Nontrivial (S : Subgroup C) := hSnt
+  have hS2 : IsPGroup 2 (S : Subgroup C) := S.isPGroup
   have hZnt : Nontrivial ↥(Subgroup.center (S : Subgroup C)) := hS2.center_nontrivial
   have hZp : IsPGroup 2 (Subgroup.center (S : Subgroup C)) := hS2.to_subgroup _
   obtain ⟨k, hk⟩ := hZp.exists_card_eq
@@ -182,7 +183,7 @@ theorem isComponent_centralizer_of_relativeIdentity {A : Subgroup B}
       hSyl (Subgroup.zpowers_le.mpr hvC) h2v
   have hcv : c⁻¹ * v * c ∈ conjugate (Subgroup.zpowers v) c := by
     rw [conjugate, Subgroup.mem_map]
-    exact ⟨v, Subgroup.mem_zpowers v, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨v, Subgroup.mem_zpowers v, by simp [mul_assoc]⟩
   obtain ⟨wC, hwS, hwval⟩ := Subgroup.mem_map.mp (hcS hcv)
   let w : B := c⁻¹ * v * c
   have hwval' : (wC : B) = w := hwval

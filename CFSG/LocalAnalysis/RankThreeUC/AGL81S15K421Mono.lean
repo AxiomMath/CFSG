@@ -361,9 +361,10 @@ noncomputable def Mono81.sylow {k : ℕ} (hk3 : ¬ 3 ∣ k) (hk : Nat.card G = 8
     rw [this]
     exact hk3)
 
+omit [Finite G] in
 theorem Mono81.coe_sylow {k : ℕ} (hk3 : ¬ 3 ∣ k) (hk : Nat.card G = 81 * k) :
     (D.sylow hk3 hk : Subgroup G) = D.R0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact IsPGroup.toSylow_coe _ _
 
 end Finite

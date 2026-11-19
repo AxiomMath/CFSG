@@ -25,7 +25,7 @@ private theorem uc22r3e5c_cartan_cap_pCore {D : Data G} {L C : Subgroup G}
     C ⊓ pCoreOf 2 (conjClosure D.M L) = ⊥ := by
   obtain ⟨a, ha⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2
     (conjClosure D.M L)).exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [ha]
   exact ((Nat.coprime_two_left.mpr hoddC).pow_left a).symm
 
@@ -34,7 +34,7 @@ private theorem uc22r3e5c_card_barImage_cartan {D : Data G} {L : Subgroup G} {C 
     (hcap : C ⊓ pCoreOf 2 (conjClosure D.M L) = ⊥) :
     Nat.card ↥(barImage (conjClosure D.M L) C) = Nat.card C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := uc22r3e5c_card_ker_mul_card_map
     (QuotientGroup.mk' (CFSG.pCore 2 ↥(conjClosure D.M L)))
     (C.subgroupOf (conjClosure D.M L))
@@ -96,7 +96,7 @@ private theorem uc22r3e5c_cartan_proj_bounds {D : Data G}
       DK ≤ Subgroup.normalizer (barImage K (D.T ⊓ K) : Set (Bar2 K)) ∧
       E ≤ DL.prod DK ∧ Nat.card ↥E = (2 ^ n - 1) ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup (Bar2 L × Bar2 K) := (barImage (conjClosure D.M L) C).map e.toMonoidHom
   let DL : Subgroup (Bar2 L) := E.map (MonoidHom.fst (Bar2 L) (Bar2 K))
   let DK : Subgroup (Bar2 K) := E.map (MonoidHom.snd (Bar2 L) (Bar2 K))
@@ -121,7 +121,7 @@ private theorem uc22r3e5c_card_normalizer_barImage {D : Data G}
     Nat.card ↥(Subgroup.normalizer (barImage L (D.T ⊓ L) : Set (Bar2 L))) =
       (2 ^ n) ^ 2 * (2 ^ n - 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hULsyl : IsSylowTwoOf (barImage L (D.T ⊓ L)) ⊤ :=
     uc22r3e5c_isSylowTwoOf_barImage_inf_T hL
   let QL : Sylow 2 (Bar2 L) := hULsyl.2.1.toSylow (by
@@ -241,7 +241,7 @@ private theorem uc22r3e5c_cartan_isMulCommutative {D : Data G} {L K : Subgroup G
     (hEdef : E = (barImage (conjClosure D.M L) C).map e.toMonoidHom)
     (hEeq : E = DL.prod DK) (hDLcomm : IsMulCommutative ↥DL)
     (hDKcomm : IsMulCommutative ↥DK) : IsMulCommutative ↥C := by
-  haveI : IsMulCommutative ↥E := by
+  have : IsMulCommutative ↥E := by
     rw [hEeq]
     refine ⟨⟨fun x y => ?_⟩⟩
     apply (Subgroup.prodEquiv DL DK).injective
@@ -306,10 +306,10 @@ theorem uc22r3e5c_exists_cartan_image {D : Data G}
   have hQK : (QK : Subgroup (Bar2 K)) = barImage K (D.T ⊓ K) := IsPGroup.toSylow_coe _ _
   have hKmem : K ∈ conjSetOf D.M L := by rw [hset]; exact Set.mem_insert_iff.mpr (Or.inr rfl)
   have hSzK : IsSz (Bar2 K) n := uc22r3e5c_isSz_of_mem_conjSetOf hKmem hSz
-  haveI hDLcomm : IsMulCommutative ↥DL :=
+  have hDLcomm : IsMulCommutative ↥DL :=
     uc22r3e5c_isMulCommutative_of_odd_le_normalizer
       (uc22r3e5c_quasithin_isSz_of_isSz hSz) QL (by rwa [hQL]) (by rw [hDLcard]; exact hm1)
-  haveI hDKcomm : IsMulCommutative ↥DK :=
+  have hDKcomm : IsMulCommutative ↥DK :=
     uc22r3e5c_isMulCommutative_of_odd_le_normalizer
       (uc22r3e5c_quasithin_isSz_of_isSz hSzK) QK (by rwa [hQK]) (by rw [hDKcard]; exact hm1)
   have hcomm := uc22r3e5c_cartan_isMulCommutative hCX hcap hEdef hEeq hDLcomm hDKcomm

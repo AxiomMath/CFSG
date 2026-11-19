@@ -31,7 +31,7 @@ theorem card_le_of_quot {m : ℕ} (ws : List (List (Fin m × Bool))) {Q : Type*}
   have hrel' : ∀ r ∈ {r : FreeGroup (Fin m) | r ∈ ws.map FreeGroup.mk},
       FreeGroup.lift f r = 1 := by
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hr
     obtain ⟨w, hw, rfl⟩ := hr
     exact hrel w hw
   set ρ := PresentedGroup.toGroup hrel'

@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
 private theorem exists_mem_ne_ne_of_two_lt {A : Subgroup G} (hA : 2 < Nat.card A) (a b : G) :
     ∃ x ∈ A, x ≠ a ∧ x ≠ b := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (A : Set G) ⊆ {a, b} := fun x hx => by
     by_cases hxa : x = a
     · exact Or.inl hxa
@@ -52,7 +52,7 @@ theorem inCatalog_of_not_centralizer_le
     (hcM : ¬ Subgroup.centralizer ({rep 5} : Set G) ≤ M) :
     Assembly.InCatalog G := by
   classical
-  haveI := S.simple
+  have := S.simple
   set H : Subgroup G := fiveCent rep with hH
   set Q : Subgroup G := fiveQ rep with hQ
   have h51 : rep 5 ≠ 1 := fun h => absurd ((rep_eq_one_iff hc).mp h) (by decide)
@@ -74,7 +74,7 @@ theorem inCatalog_of_not_centralizer_le
       rcases (hZ x hxQ).mp h with h | h
       · exact hx1 h
       · exact hx5 h
-    push_neg at hxc
+    push Not at hxc
     exact ⟨x, hxQ, hxc⟩
   have hext : IsExtraspecialPGroup 2 ↥Q :=
     LargeExtraspecial.isExtraspecialPGroup_two_of_center
@@ -110,7 +110,7 @@ theorem inCatalog_of_not_centralizer_le
     (fun g h h' hh hh' hg => S.mem_of_conj_oval hF hD hc hC1 hh hh' hg)
   have hred : T.IsReducible := by
     refine LargeExtraspecial.DW.W4Rank.isReducible_of_lt T (A := A) ?_ ?_ ?_
-    · rw [SetLike.lt_iff_le_and_exists]
+    · rw [IsConcreteLE.lt_iff_le_and_exists]
       refine ⟨fun x hx => ?_, ?_⟩
       · rcases (LargeExtraspecial.DW.W4Rank.mem_center_map_QG_iff T).mp hx with h | h
         · rw [h]

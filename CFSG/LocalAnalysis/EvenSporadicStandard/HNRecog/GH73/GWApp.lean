@@ -31,7 +31,7 @@ theorem simple_card_eq_sixty
       have hcen : Subgroup.center Y = ⊤ := (commutator_eq_bot_iff_center_eq_top Y).mp h
       exact hab ((Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top a) b).symm)
     · exact h
-  haveI : Group.IsPerfect Y := ⟨hcomm⟩
+  have : Group.IsPerfect Y := ⟨hcomm⟩
   obtain ⟨P, hPdih⟩ := exists_sylow_dihedral_two_of_card_four_mul_odd hm hcard
   have hP : ∃ n, Nonempty ((P : Subgroup Y) ≃* DihedralGroup n) := ⟨2, hPdih⟩
   rcases CFSG.GorensteinWalter.gorenstein_walter Y hnonab P hP with hA7 | hPSL
@@ -46,7 +46,7 @@ theorem simple_card_eq_sixty
   ·
     obtain ⟨p, k, hp, hpodd, h5, he⟩ := hPSL
     obtain ⟨e⟩ := he
-    haveI : Fact p.Prime := hp
+    have : Fact p.Prime := hp
     have hk_ne : k ≠ 0 := by rintro rfl; norm_num at h5
     have hk1 : 1 ≤ k := Nat.pos_of_ne_zero hk_ne
     have hFcard : Nat.card (GaloisField p k) = p ^ k := GaloisField.card p k hk_ne

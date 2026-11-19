@@ -43,7 +43,6 @@ theorem center_map_mulEquiv_k324 {G H : Type*} [Group G] [Group H] (e : G ≃* H
   · intro hy
     refine ⟨e.symm y, mem_center_iff.2 fun z => ?_, by simp⟩
     apply e.injective
-    change e (z * e.symm y) = e (e.symm y * z)
     rw [map_mul, map_mul, MulEquiv.apply_symm_apply, mem_center_iff.1 hy (e z)]
 
 noncomputable def centralQuotientCongr {G H : Type*} [Group G] [Group H] (e : G ≃* H) :
@@ -95,8 +94,8 @@ theorem false_of_noA6Comp {S : Type} [Group S] {s : S} (h : NoA6Comp (MulAut.con
     {Y : Subgroup S} (hYC : Y ≤ centralizer ({s} : Set S))
     (hYn : (Y.subgroupOf (centralizer ({s} : Set S))).Normal) (hY : UC22.IsAlt ↥Y 6) : False := by
   obtain ⟨φ⟩ := hY
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI hYs : IsSimpleGroup ↥Y := φ.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have hYs : IsSimpleGroup ↥Y := φ.isSimpleGroup
   have hnab : ∃ a b : ↥Y, a * b ≠ b * a := by
     refine ⟨φ.symm ⟨Equiv.swap 0 1 * Equiv.swap 0 2, by
         rw [Equiv.Perm.mem_alternatingGroup]; decide⟩,
@@ -169,7 +168,7 @@ section G2D4
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)
   {a : Fin τ.rank → Lˣ}
 
-theorem rationalLieType_G2_D4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hτ : τ = .G2 ∨ τ = .D4)
+theorem rationalLieType_G2_D4 {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hτ : τ = .G2 ∨ τ = .D4)
     (hT : rootDiagUnit τ a ∈ S.D.torus) (hap : ∀ i, a i ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
     (hℓ3 : ringChar L ≠ 3) (i : KernelComponent (rootCharHom a))
     (hq : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
@@ -368,10 +367,10 @@ theorem false_of_reeF4 {S : Type} [Group S] [Finite S] (m : ℕ)
   obtain ⟨N, -, -, hcomp, -, hNs⟩ :=
     largeRee_component_chev ha hK Nat.prime_five (by norm_num) _ hxo
   obtain ⟨φ⟩ := hY
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   set Y' := Y.map e2.toMonoidHom with hY'
   let eY : ↥Y ≃* ↥Y' := Y.equivMapOfInjective e2.toMonoidHom e2.injective
-  haveI : IsSimpleGroup ↥Y' := (eY.symm.trans φ).isSimpleGroup
+  have : IsSimpleGroup ↥Y' := (eY.symm.trans φ).isSimpleGroup
   have hnab : ∃ a b : ↥Y', a * b ≠ b * a := by
     refine ⟨(eY.symm.trans φ).symm ⟨Equiv.swap 0 1 * Equiv.swap 0 2, by
         rw [Equiv.Perm.mem_alternatingGroup]; decide⟩,
@@ -409,7 +408,7 @@ theorem false_of_tits {S : Type} [Group S] [Finite S] (hv : TauCeti.LieTypeIndex
     rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 3 (by rw [hY360]; norm_num)
   have hyo : orderOf (y : S) = 3 := by rw [Subgroup.orderOf_coe]; exact hy
   have hys : (y : S) * s = s * y := (mem_centralizer_singleton_iff.1 (hYC y.2))

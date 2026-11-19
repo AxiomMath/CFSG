@@ -69,7 +69,7 @@ theorem s9cFlag_mapB {E : Type} [Field E] {d : ℕ} {A B : Submodule E (Fin d �
       (∀ v ∈ B, (M : Matrix (Fin d) (Fin d) E) *ᵥ v ∈ B) := M.2
   exact h.2 v hv
 
-@[expose] abbrev s9cSub {E : Type} [Field E] {d : ℕ} (A B : Submodule E (Fin d → E)) : Type :=
+abbrev s9cSub {E : Type} [Field E] {d : ℕ} (A B : Submodule E (Fin d → E)) : Type :=
   ↥B ⧸ A.comap B.subtype
 
 @[expose] def s9cMk {E : Type} [Field E] {d : ℕ} {A B : Submodule E (Fin d → E)}
@@ -79,7 +79,7 @@ theorem s9cFlag_mapB {E : Type} [Field E] {d : ℕ} {A B : Submodule E (Fin d �
 @[expose] noncomputable def s9c3_res {E : Type} [Field E] {d : ℕ} {A B : Submodule E (Fin d → E)}
     (M : s9cFlag A B) : ↥B →ₗ[E] ↥B :=
   LinearMap.restrict (Matrix.mulVecLin (M : Matrix (Fin d) (Fin d) E)) (p := B) (q := B)
-    (fun v hv => s9cFlag_mapB M hv)
+    (fun _v hv => s9cFlag_mapB M hv)
 
 theorem s9c3_res_le {E : Type} [Field E] {d : ℕ} {A B : Submodule E (Fin d → E)}
     (M : s9cFlag A B) : A.comap B.subtype ≤ (A.comap B.subtype).comap (s9c3_res M) :=

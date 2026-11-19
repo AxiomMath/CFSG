@@ -34,7 +34,7 @@ variable {G : Type} [Group G] {L : Subgroup G} (F : PspFrame L) {K C : Subgroup 
 theorem isSL23Mod_img_iff (hX : K ≤ L) : IsSL23Mod ↥(F.img K) ↔ IsSL23Mod ↥K :=
   ⟨isSL23Mod_of_mulEquiv (F.imgEquiv hX).symm, isSL23Mod_of_mulEquiv (F.imgEquiv hX)⟩
 
-theorem isSubnormal_img_iff (hKC : K ≤ C) (hC : C ≤ L) :
+theorem isSubnormal_img_iff (_hKC : K ≤ C) (hC : C ≤ L) :
     (K.subgroupOf C).IsSubnormal ↔ ((F.img K).subgroupOf (F.img C)).IsSubnormal := by
   refine isSubnormal_iff_of_mulEquiv (F.imgEquiv hC) fun a => ?_
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, imgEquiv_apply]

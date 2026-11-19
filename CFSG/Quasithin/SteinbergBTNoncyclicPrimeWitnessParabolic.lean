@@ -65,7 +65,7 @@ theorem original_noncyclic_prime_witness_forbids_full_even_linear_three_paraboli
       rw [injective_iff_map_eq_one]
       intro y hy
       have h1 : φ (Subgroup.inclusion hXK (y : X)) = 1 := congrArg Subtype.val hy
-      obtain ⟨n, hn⟩ := P.isPGroup' y
+      obtain ⟨n, hn⟩ := P.isPGroup y
       have hord : orderOf (Subgroup.inclusion hXK (y : X)) ∣ p ^ n := by
         refine orderOf_dvd_of_pow_eq_one ?_
         have := congrArg (fun z : (P : Subgroup X) => Subgroup.inclusion hXK (z : X)) hn
@@ -99,7 +99,7 @@ theorem original_noncyclic_prime_witness_forbids_full_even_linear_three_paraboli
   obtain ⟨hcyc, -⟩ := SteinbergCD.even_projective_linear_three_parabolic_solvable_normal_odd_cyclic
     hk hk4 E hE heq hle hnorm hφXsolv
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p X))
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 P.isPGroup
   obtain ⟨e⟩ := hequiv P
   refine hPnc P (hcyc _ (map_mono fun y hy => ?_) p m hp hp2 ?_)
   · obtain ⟨z, -, rfl⟩ := hy

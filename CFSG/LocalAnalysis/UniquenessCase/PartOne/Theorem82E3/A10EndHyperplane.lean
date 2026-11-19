@@ -58,7 +58,7 @@ theorem card_sup_zpowers_eq_nine {x y : ↥atilde} (hx1 : x ≠ 1)
     (hyx : y ∉ Subgroup.zpowers x) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = 9 := by
   classical
-  haveI : IsMulCommutative ↥atilde := isElemAbelian_atilde.1
+  have : IsMulCommutative ↥atilde := isElemAbelian_atilde.1
   have hx3 : x ^ 3 = 1 := by
     apply Subtype.ext
     simpa using isElemAbelian_atilde.2 x x.2
@@ -106,7 +106,7 @@ theorem exists_pow_mul_of_mem_sup {x y z : ↥atilde}
     (hz : z ∈ Subgroup.zpowers x ⊔ Subgroup.zpowers y) :
     ∃ a b : Fin 3, z = x ^ (a : ℕ) * y ^ (b : ℕ) := by
   classical
-  haveI : IsMulCommutative ↥atilde := isElemAbelian_atilde.1
+  have : IsMulCommutative ↥atilde := isElemAbelian_atilde.1
   have hx3 : x ^ 3 = 1 := by
     apply Subtype.ext
     simpa using isElemAbelian_atilde.2 x x.2
@@ -234,6 +234,7 @@ private theorem inf_ker_phiA_eq_bot (F : A10Frame c) :
   have hone : orderOf x = 1 := Nat.eq_one_of_dvd_coprimes F.coprime_card_ker_phiA hordker hord3
   exact Subgroup.mem_bot.mpr (orderOf_eq_one_iff.mp hone)
 
+omit [Finite G] in
 private theorem exists_generator_of_card_three {B : Subgroup G} (hB3 : Nat.card B = 3) :
     ∃ b ∈ B, b ≠ 1 := by
   rcases Subgroup.bot_or_exists_ne_one B with h | h
@@ -302,7 +303,7 @@ private theorem A_le_normalizer_pCoreOf (F : A10Frame c) {p : ℕ} {B : Subgroup
     (hBA : B ≤ F.A) :
     F.A ≤ Subgroup.normalizer
       (CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) : Set G) :=
-  Subgroup.le_normalizer_iff.mpr fun a ha o ho =>
+  Subgroup.le_normalizer_iff.mpr fun _a ha _o ho =>
     CFSG.ClassicalGroups.PCoreSection.conj_mem_pCoreOf (F.A_le_centralizer hBA ha) ho
 
 private theorem phiA_eq_one_of_mem_inf_pCoreOf (F : A10Frame c) {p : ℕ} (hp : p.Prime)
@@ -310,7 +311,7 @@ private theorem phiA_eq_one_of_mem_inf_pCoreOf (F : A10Frame c) {p : ℕ} (hp : 
     ∀ z ∈ CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ⊓ D.M, ∀ hzD : z ∈ D.M,
       F.phiA ⟨z, hzD⟩ = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer (B : Set G)
   set X : Subgroup G := CFSG.Open.pCoreOf p H
   have hXH : X ≤ H := CFSG.ClassicalGroups.PCoreSection.pCoreOf_le p H
@@ -354,11 +355,11 @@ private theorem phiA_eq_one_of_mem_inf_pCoreOf (F : A10Frame c) {p : ℕ} (hp : 
   exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop hdvdpow hdvd162)
 
 private theorem inf_pCoreOf_inf_pCore_two_eq_bot (F : A10Frame c) {p : ℕ} (hp : p.Prime)
-    (hp5 : 5 ≤ p) {B : Subgroup G} (hBA : B ≤ F.A) (hB3 : Nat.card B = 3) :
+    (hp5 : 5 ≤ p) {B : Subgroup G} (_hBA : B ≤ F.A) (_hB3 : Nat.card B = 3) :
     (CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ⊓ D.M) ⊓
       (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer (B : Set G)
   set X : Subgroup G := CFSG.Open.pCoreOf p H
   have hXp : IsPGroup p X := CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf p H
@@ -389,7 +390,7 @@ private theorem commutator_inf_pCoreOf_eq_one (F : A10Frame c) {p : ℕ} (hp : p
     ∀ g ∈ CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ⊓ D.M, ∀ h ∈ F.A,
       g * h * g⁻¹ * h⁻¹ = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer (B : Set G)
   set X : Subgroup G := CFSG.Open.pCoreOf p H
   set Z : Subgroup G := X ⊓ D.M
@@ -473,7 +474,7 @@ private theorem inf_ker_subgroupOf_sup_eq_bot (F : A10Frame c) {B : Subgroup G} 
   rwa [inf_ker_phiA_eq_bot F] at hmem
 
 private theorem phiA_mem_sup_of_forall_deg_ne_three (F : A10Frame c) {B Z : Subgroup G} {b : G}
-    (hbB : b ∈ B) (hBA : B ≤ F.A) (hBz : B = Subgroup.zpowers b) (hZA : Z ≤ F.A)
+    (hbB : b ∈ B) (hBA : B ≤ F.A) (_hBz : B = Subgroup.zpowers b) (hZA : Z ≤ F.A)
     (hBZ : B ≤ Z) (hZ : ∀ a ∈ Z, F.deg (Subgroup.zpowers a) ≠ 3) {i j k : Fin 3}
     (hi : i ≠ 0) (hj : j ≠ 0) (hk : k ≠ 0)
     (hx : F.phiA ⟨b, F.A_le_M (hBA hbB)⟩ = toP i j k) {z : G} (hz : z ∈ Z) :
@@ -500,7 +501,7 @@ private theorem phiA_mem_sup_of_forall_deg_ne_three (F : A10Frame c) {B Z : Subg
       have hprod : (⟨b ^ (u : ℕ) * z ^ (v : ℕ), F.A_le_M (hZA hzZ)⟩ : ↥D.M) =
           ⟨b, F.A_le_M (hBA hbB)⟩ ^ (u : ℕ) * ⟨z, hzD⟩ ^ (v : ℕ) := by
         ext
-        simp [Subgroup.coe_pow]
+        simp
       rw [hprod, map_mul, map_pow, map_pow, hx, hijk']
     rwa [hzval] at hzdeg
   obtain ⟨u, v, huv⟩ := A10Perm.exists_mem_zpowers_sup i j k hi hj hk i' j' k' hysupp
@@ -688,7 +689,7 @@ private theorem exists_complement (F : A10Frame c) {B : Subgroup G} (hBA : B ≤
     (hB3 : Nat.card B = 3) :
     ∃ E : Subgroup G, E ≤ F.A ∧ E ⊓ B = ⊥ ∧ Nat.card E = 9 := by
   classical
-  haveI : CFSG.IsElementaryAbelian 3 ↥F.A := F.elemAbelian.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian 3 ↥F.A := F.elemAbelian.isElementaryAbelian
   obtain ⟨C, hC⟩ := CFSG.IsElementaryAbelian.exists_isCompl 3 ↥F.A (B.subgroupOf F.A)
   let E : Subgroup G := C.map F.A.subtype
   have hEA : E ≤ F.A := Subgroup.map_subtype_le C
@@ -714,7 +715,7 @@ private theorem exists_complement (F : A10Frame c) {B : Subgroup G} (hBA : B ≤
     rw [Subgroup.mem_bot]
     simpa using congrArg Subtype.val hmem
   have hE9 : Nat.card E = 9 := by
-    haveI : IsMulCommutative ↥F.A := F.elemAbelian.1
+    have : IsMulCommutative ↥F.A := F.elemAbelian.1
     have hnorm : B.subgroupOf F.A ≤ Subgroup.normalizer (C : Set ↥F.A) := by
       refine Subgroup.le_normalizer_iff.mpr fun x hx y hy => ?_
       have hcomm : x * y = y * x := F.elemAbelian.1.is_comm.comm x y
@@ -740,7 +741,7 @@ private theorem card_sup_zpowers_eq_nine_of_complement (F : A10Frame c) {B : Sub
     (hBA : B ≤ F.A) (hB3 : Nat.card B = 3) {E : Subgroup G} (hEA : E ≤ F.A)
     (hEinf : E ⊓ B = ⊥) {e : G} (he : e ∈ E) (he1 : e ≠ 1) :
     Nat.card ↥(B ⊔ Subgroup.zpowers e) = 9 := by
-    haveI : IsMulCommutative ↥F.A := F.elemAbelian.1
+    have : IsMulCommutative ↥F.A := F.elemAbelian.1
     have hBe : B ≤ F.A := hBA
     have heA : e ∈ F.A := hEA he
     have hnorm : B ≤ Subgroup.normalizer (Subgroup.zpowers e : Set G) := by
@@ -770,7 +771,7 @@ private theorem card_sup_zpowers_eq_nine_of_complement (F : A10Frame c) {B : Sub
     exact h
 
 private theorem inf_pCoreOf_inf_centralizer_le_sup (F : A10Frame c) {p : ℕ} {B : Subgroup G}
-    (hBA : B ≤ F.A) {e : G} :
+    (_hBA : B ≤ F.A) {e : G} :
     CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ⊓
         Subgroup.centralizer ({e} : Set G) ≤
       Subgroup.centralizer ((B ⊔ Subgroup.zpowers e : Subgroup G) : Set G) := by
@@ -790,10 +791,10 @@ private theorem inf_pCoreOf_inf_centralizer_le_sup (F : A10Frame c) {p : ℕ} {B
     intro y hy
     exact Subgroup.mem_centralizer_singleton_iff.mp (hsup hy)
 
-private theorem not_three_dvd_card_pCoreOf (F : A10Frame c) {p : ℕ} (hp : p.Prime)
+private theorem not_three_dvd_card_pCoreOf (_F : A10Frame c) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) {B : Subgroup G} :
     ¬ 3 ∣ Nat.card (CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp : IsPGroup p (CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G))) :=
     CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf p _
   obtain ⟨n, hn⟩ := hXp.exists_card_eq
@@ -853,7 +854,7 @@ theorem pCoreOf_centralizer_le_centralizer (F : A10Frame c) (hF : A10Facts F) {p
     CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ≤
       Subgroup.centralizer (Y : Set G) := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer (B : Set G)
   set X : Subgroup G := CFSG.Open.pCoreOf p H
   have hAX : F.A ≤ Subgroup.normalizer (X : Set G) := F.A_le_normalizer_pCoreOf hBA

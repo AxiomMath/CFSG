@@ -40,6 +40,7 @@ section Inner
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem inducesInnerIn_of_range_le {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (h : (actK hBN).range ≤ (MulAut.conj : ↥K →* MulAut ↥K).range) : InducesInnerIn B K := by
   intro b hb

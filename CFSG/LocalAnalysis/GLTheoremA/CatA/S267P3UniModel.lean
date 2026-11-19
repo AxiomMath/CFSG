@@ -21,14 +21,14 @@ variable {K : Type} [Field K] (σ : K ≃+* K)
     Subgroup (SpecialLinearGroup ι K) where
   carrier := {g | ((g : Matrix ι ι K).map σ)ᵀ * (g : Matrix ι ι K) = 1}
   mul_mem' {g h} hg hh := by
-    simp only [Set.mem_setOf_eq, Matrix.SpecialLinearGroup.coe_mul] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq, Matrix.SpecialLinearGroup.coe_mul] at hg hh ⊢
     rw [Matrix.map_mul, Matrix.transpose_mul, Matrix.mul_assoc,
       ← Matrix.mul_assoc _ (g : Matrix ι ι K), hg, Matrix.one_mul, hh]
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Matrix.SpecialLinearGroup.coe_one]
+    simp only [Set.mem_ofPred_eq, Matrix.SpecialLinearGroup.coe_one]
     rw [Matrix.map_one _ (map_zero σ) (map_one σ), Matrix.transpose_one, Matrix.one_mul]
   inv_mem' {g} hg := by
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     have hgi : (g : Matrix ι ι K) * ((g⁻¹ : SpecialLinearGroup ι K) : Matrix ι ι K) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
     have hinv : ((g⁻¹ : SpecialLinearGroup ι K) : Matrix ι ι K) =
@@ -191,13 +191,13 @@ theorem cU_rel {a b : K} (ha : 2 * a + 1 = 0) (hb : σ b * b = 1 - a * a) :
       cU σ a b (cU_det hb) + 1 = 0 := by
   ext i j
   fin_cases i <;> fin_cases j
-  · simp [cU, Matrix.mul_apply, Fin.sum_univ_two]
+  · simp [cU]
     linear_combination a * ha - hb
-  · simp [cU, Matrix.mul_apply, Fin.sum_univ_two]
+  · simp [cU]
     linear_combination b * ha
-  · simp [cU, Matrix.mul_apply, Fin.sum_univ_two]
+  · simp [cU]
     linear_combination (-σ b) * ha
-  · simp [cU, Matrix.mul_apply, Fin.sum_univ_two]
+  · simp [cU]
     linear_combination a * ha - hb
 
 theorem wU_mem {l : K} (hσσ : σ (σ l) = l) (hl : σ l * l = 1) :
@@ -206,7 +206,7 @@ theorem wU_mem {l : K} (hσσ : σ (σ l) = l) (hl : σ l * l = 1) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [wU, Matrix.mul_apply, Fin.sum_univ_two, hσσ] <;>
-    first | ring1 | linear_combination hl
+    linear_combination hl
 
 theorem cU_mul_wU_ne {a b l : K} (ha : 2 * a + 1 = 0) (hb : σ b * b = 1 - a * a)
     (hl : σ l * l = 1) (hl2 : l ^ 2 ≠ 1) (h3 : (3 : K) ≠ 0) :

@@ -135,7 +135,7 @@ theorem cSideFiveBoth_transport {V V' : Type} [AddCommGroup V] [Module (ZMod 2) 
   have hψg : ψ g = g' := MulEquiv.apply_symm_apply ψ g'
   have hg5 : orderOf g = 5 := by
     have hg := (ψ.symm).orderOf_eq g'
-    simpa [g, hg'5] using hg
+    simp [g, hg'5]
   have hgn : g.1 ≠ 1 ∧ g.2 ≠ 1 := by
     have hg := (cSide_psi_nontrivial_iff ψ.symm g').mp ⟨hg'1, hg'2⟩
     simpa [g] using hg

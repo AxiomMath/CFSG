@@ -28,9 +28,9 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem exists_sylow_card_eight {P : Subgroup X} {m : ℕ} (hm : ¬ 2 ∣ m)
     (hP : Nat.card P = 8 * m) : ∃ T : Subgroup X, T ≤ P ∧ IsPGroup 2 T ∧ Nat.card T = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀⟩ := (inferInstance : Nonempty (Sylow 2 ↥P))
-  refine ⟨(T₀ : Subgroup P).map P.subtype, Subgroup.map_subtype_le _, T₀.isPGroup'.map _, ?_⟩
+  refine ⟨(T₀ : Subgroup P).map P.subtype, Subgroup.map_subtype_le _, T₀.isPGroup.map _, ?_⟩
   have hm0 : m ≠ 0 := fun h => hm (h ▸ dvd_zero 2)
   have hf : (Nat.card P).factorization 2 = 3 := by
     rw [hP, Nat.factorization_mul (by norm_num) hm0, Finsupp.add_apply,
@@ -40,6 +40,7 @@ theorem exists_sylow_card_eight {P : Subgroup X} {m : ℕ} (hm : ¬ 2 ∣ m)
   rw [Subgroup.card_map_of_injective P.subtype_injective, Sylow.card_eq_multiplicity, hf]
   norm_num
 
+omit [Finite X] in
 theorem isSylowTwoOf_of_card {T Y : Subgroup X} (hTY : T ≤ Y) (hT : IsPGroup 2 T)
     (hT8 : Nat.card T = 8) {m : ℕ} (hm : ¬ 2 ∣ m) (hY : Nat.card Y = 8 * m) :
     CFSG.QuasithinUnique.IsSylowTwoOf T Y := by

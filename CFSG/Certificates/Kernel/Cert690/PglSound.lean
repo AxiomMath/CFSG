@@ -46,16 +46,16 @@ theorem firstMap_spec (f : ℕ → ℕ) : ∀ n,
     refine ⟨fun y => ?_, fun y d => ?_⟩
     · rw [hany1]
       by_cases hm : m.contains (f n) = true
-      · rw [if_pos hm, hc]
+      · rw [ite_eq_left hm, hc]
         by_cases hy : f n = y
         · subst hy
           rw [← hc, hm]
           rfl
         · simp [hy]
-      · rw [if_neg hm, Std.HashMap.contains_insert, hc, Bool.or_comm]
+      · rw [ite_eq_right hm, Std.HashMap.contains_insert, hc, Bool.or_comm]
     · rw [hfind1]
       by_cases hm : m.contains (f n) = true
-      · rw [if_pos hm, hg]
+      · rw [ite_eq_left hm, hg]
         cases hfr : (List.range n).find? (fun i => f i == y) with
         | some i => rfl
         | none =>
@@ -65,16 +65,16 @@ theorem firstMap_spec (f : ℕ → ℕ) : ∀ n,
             have := hsome _ hfr
             rw [← hc, hm] at this
             exact absurd this (by simp)
-          rw [if_neg hy]
+          rw [ite_eq_right hy]
           rfl
-      · rw [if_neg hm, Std.HashMap.getD_insert, hg]
+      · rw [ite_eq_right hm, Std.HashMap.getD_insert, hg]
         by_cases hy : f n = y
         · subst hy
           have hfr : (List.range n).find? (fun i => f i == f n) = none :=
             hnone _ (by rw [← hc]; simpa using hm)
-          rw [hfr, if_pos rfl, if_pos (by simp)]
+          rw [hfr, ite_eq_left rfl, ite_eq_left (by simp)]
           rfl
-        · rw [if_neg (by simpa using hy), if_neg hy]
+        · rw [ite_eq_right (by simpa using hy), ite_eq_right hy]
           cases (List.range n).find? (fun i => f i == y) <;> rfl
 
 theorem firstMap_getD (f : ℕ → ℕ) (n y d : ℕ) :
@@ -94,16 +94,16 @@ theorem lookup_zip_getElem {E V : List ℕ} (hE : E.Nodup) (hl : V.length = E.le
       simp only [List.zip_cons_cons, List.length_cons, Nat.add_right_cancel_iff] at hl ⊢
       rw [List.nodup_cons] at hE
       cases i with
-      | zero => simp [lookup_cons']
+      | zero => simp
       | succ i =>
         have hi' : i < E.length := by simpa using hi
         have hne : E[i] ≠ x := fun e => hE.1 (e ▸ List.getElem_mem hi')
         simp only [List.getElem_cons_succ]
-        rw [lookup_cons', if_neg hne]
+        rw [lookup_cons', ite_eq_right hne]
         exact ih hE.2 hl hi'
 
 theorem lookup_zip_none {E V : List ℕ} {c : ℕ} (hc : c ∉ E) : (E.zip V).lookup c = none :=
-  lookup_none fun a ha => fun e => hc (e ▸ (List.of_mem_zip ha).1)
+  lookup_none fun _a ha => fun e => hc (e ▸ (List.of_mem_zip ha).1)
 
 theorem invMapOf_getD {E V : List ℕ} (hE : E.Nodup) (hl : V.length = E.length) (c d : ℕ) :
     (invMapOf E.toArray V.toArray).getD c d = lookD E V c d := by
@@ -121,30 +121,30 @@ theorem invMapOf_getD {E V : List ℕ} (hE : E.Nodup) (hl : V.length = E.length)
         Std.HashMap.getD_insert, ih (by omega), List.getElem!_toArray, List.getElem!_toArray,
         getElem!_pos E k hk', getElem!_pos V k (by rw [hl]; exact hk')]
       have htk : E.take (k + 1) = E.take k ++ [E[k]] := by
-        rw [List.take_succ, List.getElem?_eq_getElem hk']
+        rw [List.take_add_one, List.getElem?_eq_getElem hk']
         rfl
       by_cases h : E[k] = c
       · subst h
         have hm : E[k] ∈ E.take (k + 1) := by
           rw [htk]
           exact List.mem_append_right _ (List.mem_singleton_self _)
-        rw [if_pos (by simp), if_pos hm, hE.idxOf_getElem k hk',
+        rw [ite_eq_left (by simp), ite_eq_left hm, hE.idxOf_getElem k hk',
           List.getD_eq_getElem _ _ (by rw [hl]; exact hk')]
-      · rw [if_neg (by simpa using h)]
+      · rw [ite_eq_right (by simpa using h)]
         have e : (c ∈ E.take (k + 1)) ↔ (c ∈ E.take k) := by
           rw [htk, List.mem_append, List.mem_singleton]
           exact ⟨fun h' => h'.resolve_right (fun e => h e.symm), Or.inl⟩
         by_cases hc : c ∈ E.take k
-        · rw [if_pos hc, if_pos (e.2 hc)]
-        · rw [if_neg hc, if_neg (fun h' => hc (e.1 h'))]
+        · rw [ite_eq_left hc, ite_eq_left (e.2 hc)]
+        · rw [ite_eq_right hc, ite_eq_right (fun h' => hc (e.1 h'))]
   rw [List.size_toArray, key E.length le_rfl, List.take_length]
   by_cases hc : c ∈ E
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hc
     rw [lookup_zip_getElem hE hl hi, hE.idxOf_getElem i hi,
       List.getD_eq_getElem _ _ (by rw [hl]; exact hi)]
     rfl
-  · rw [if_neg hc, lookup_zip_none hc]
+  · rw [ite_eq_right hc, lookup_zip_none hc]
     rfl
 
 theorem idxMapOf_getD' {C : Array ℕ} (h : C.toList.Nodup) (x : ℕ) :
@@ -207,7 +207,7 @@ theorem testBit_badMaskK (B : Array Bool) : ∀ n i,
       · subst hi
         simp [hb]
       · by_cases h' : i < n
-        · simp [h', hi, show i < n + 1 by omega]
+        · simp [h', show i < n + 1 by omega]
         · have : ¬ i < n + 1 := by omega
           simp only [h', this, decide_false, Bool.false_and, Bool.false_or, Bool.and_eq_false_iff,
             decide_eq_false_iff_not]
@@ -262,26 +262,34 @@ variable {K K0 : List ℕ} {P P0 : List (ℕ × ℕ)}
   (hK0 : enumData kPGL0Gens = (K0.toArray, P0.toArray))
 include hK hK0
 
+omit hK0 in
 theorem pgl_elems : (pglData ()).elems = K.toArray := by unfold pglData; rw [hK]
 
+omit hK0 in
 theorem pgl_par : (pglData ()).par = P.toArray := by unfold pglData; rw [hK]
 
+omit hK in
 theorem pgl_elems0 : (pglData ()).elems0 = K0.toArray := by unfold pglData; rw [hK0]
 
+omit hK in
 theorem pgl_par0 : (pglData ()).par0 = P0.toArray := by unfold pglData; rw [hK0]
 
+omit hK0 in
 theorem pgl_invs : (pglData ()).invs = (invsL K).toArray := by
   simp only [pglData, hK, invArr_eq]
 
+omit hK in
 theorem pgl_invs0 : (pglData ()).invs0 = (invsL K0).toArray := by
   simp only [pglData, hK0, invArr_eq]
 
+omit hK0 in
 theorem pgl_invMap (hnd : K.Nodup) (g d : ℕ) :
     (pglData ()).invMap.getD g d = lookD K (invsL K) g d := by
   have e : (pglData ()).invMap = invMapOf K.toArray (invsL K).toArray := by
     simp only [pglData, hK, invArr_eq]
   rw [e, invMapOf_getD hnd (by simp [invsL])]
 
+omit hK0 in
 theorem pgl_involutions : (pglData ()).involutions = (involL K).toArray := by
   simp only [pglData, hK, invsOf, involL, List.filter_toArray, isInvCode_eq]
 
@@ -289,10 +297,12 @@ theorem pgl_outers : (pglData ()).outers = (outersL K K0).toArray := by
   simp only [pglData, hK, hK0, invsOf, outersL, involL, List.filter_toArray, isInvCode_eq,
     List.contains_toArray]
 
+omit hK0 in
 theorem pgl_commWit : (pglData ()).commWit = (commWitL K).toArray := by
   simp only [pglData, hK, invArr_eq, commWitL, findCommutator, findCommK, List.size_toArray,
     List.getElem!_toArray, mul_eq_mulF]
 
+omit hK0 in
 theorem pgl_w9 : (pglData ()).w9 = w9K K := by
   simp only [pglData, hK, w9K, List.size_toArray, List.getElem!_toArray, act_eq_actF]
   congr 1
@@ -303,8 +313,8 @@ theorem pgl_w9 : (pglData ()).w9 = w9K K := by
 
 theorem pgl_w12 : (pglData ()).w12 = (w12L K K0).toArray := by
   simp only [pglData, hK, hK0, invArr_eq, w12L, List.size_toArray, List.getElem!_toArray,
-    mul_eq_mulF, invsOf, List.filter_toArray, List.filter_toArray', isInvCode_eq,
-    List.contains_toArray, array_map_eq, List.toList_toArray, outersL, involL]
+    mul_eq_mulF, invsOf, List.filter_toArray', isInvCode_eq,
+    List.contains_toArray, array_map_eq, outersL, involL]
   congr 1
   apply List.map_congr_left
   intro u _
@@ -362,8 +372,7 @@ theorem pglF10Of_eq (hnd : D.elems.toList.Nodup) : pglF10Of D = pglF10K D.elems 
   unfold pglF10Of pglF10K f10At f10Vecs
   simp only [mulIdxTable_eq (nodup_filter hnd _), conjIdxTable_eq (nodup_filter hnd _),
     idxMapOf_getD' (nodup_filter hnd _), centralMaskTable_eq, pow2K_eq, array_map_eq,
-    act_eq_actF, mul_eq_mulF, one_eq_oneF, card_hashSet, maskAllTrue_eq, ← Array.all_toList,
-    ← Array.any_toList, ← Array.contains_toList]
+    act_eq_actF, mul_eq_mulF, one_eq_oneF, card_hashSet, maskAllTrue_eq, ← Array.any_toList, ← Array.contains_toList]
   simp only [and_comm_beq0]
 
 theorem pglF11Of_eq (hnd : D.elems.toList.Nodup) :
@@ -372,7 +381,7 @@ theorem pglF11Of_eq (hnd : D.elems.toList.Nodup) :
   simp only [pglOutersOK_eq, mulIdxTable_eq (nodup_filter hnd _),
     conjIdxTable_eq (nodup_filter hnd _), idxMapOf_getD' (nodup_filter hnd _), pow2K_eq,
     array_map_eq, invArr_eq', mul_eq_mulF, one_eq_oneF, card_hashSet, maskAllTrue_eq,
-    ← Array.all_toList, ← Array.any_toList, ← Array.contains_toList]
+    ← Array.all_toList, ← Array.contains_toList]
   simp only [and_comm_beq0']
 
 theorem pglF12Of_eq :

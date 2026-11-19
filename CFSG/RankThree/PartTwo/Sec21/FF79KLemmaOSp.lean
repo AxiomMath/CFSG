@@ -54,10 +54,10 @@ theorem three_dvd_of_outer_psp {S : Type} [Group S] [Finite S] {ℓ r f : ℕ}
     (hm : StatedClassicalModel S .PSp r ℓ f)
     {α : MulAut S} (hα : α ^ 3 = 1) (hout : ∀ c : S, α ≠ MulAut.conj c) : 3 ∣ f := by
   obtain ⟨⟨hℓ, hf, hr, -⟩, k, _, _, hk, ⟨e'⟩⟩ := hm
-  haveI : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
+  have : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
   have hβ' : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hα, map_one]
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := k) hℓ hf hr hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd (orderOf (MulAut.congr e' α)) :=
     (by decide : Odd 3).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ')
   have hE : MulAut.congr e' α ∈ spSemilinearAutGroup r k :=

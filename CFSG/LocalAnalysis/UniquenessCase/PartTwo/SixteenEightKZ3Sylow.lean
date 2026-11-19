@@ -79,7 +79,7 @@ theorem s16k_z3_pRank_le {H : Subgroup S16kGL6}
   have hdiv : Nat.card E ∣ 181440 :=
     (Subgroup.card_dvd_of_le hEcent).trans s16k_z3_cent_card_dvd
   by_cases hp3 : p = 3
-  · rw [if_pos hp3, hp3]
+  · rw [ite_eq_left hp3, hp3]
     have hE1' : IsElemAbelian 3 E := hp3 ▸ hE1
     obtain ⟨c, hc, hcD⟩ := s16k_z3_elem3_diag hEcent hE1'
     calc Nat.card E = Nat.card (E.map (MulAut.conj c).toMonoidHom) :=
@@ -87,8 +87,8 @@ theorem s16k_z3_pRank_le {H : Subgroup S16kGL6}
       _ ≤ Nat.card s16kDiag := Subgroup.card_le_of_le hcD
       _ = 27 := s16k_diag_card
       _ = 3 ^ 3 := by norm_num
-  · rw [if_neg hp3, pow_one]
-    haveI : Fact p.Prime := ⟨hp⟩
+  · rw [ite_eq_right hp3, pow_one]
+    have : Fact p.Prime := ⟨hp⟩
     have hpg : IsPGroup p ↥E := fun x => ⟨1, by
       show x ^ p ^ 1 = 1
       rw [pow_one]

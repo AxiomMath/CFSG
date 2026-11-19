@@ -321,7 +321,7 @@ private theorem nfPre_ok (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = tr
     · rw [hb]
       refine ⟨ih1, ?_⟩
       show OM (nfPre (mulR 5 13 1729 133 9 L H CM RM) PC ONE m k) = _
-      simp only [hb, pow_zero, mul_one, ih2]
+      simp only [pow_zero, mul_one, ih2]
     · rw [hb]
       obtain ⟨h1, h2⟩ := mulR_sound hc ih1 (hPC k (by omega))
       refine ⟨h1, ?_⟩
@@ -451,7 +451,7 @@ private theorem cen_ok (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = true
 theorem cenAt_sound' {L H CM RM ONE LV HV : Nat} {PC RP TG : Nat → Nat} {np m k n : Nat}
     (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = true)
     (hPC : ∀ i < k + n, Canon 5 133 13 (PC i)) (hRP : ∀ a < np, Canon 5 133 13 (RP a))
-    (hm : m < 2 ^ k)
+    (_hm : m < 2 ^ k)
     (h : cenAt (mulR 5 13 1729 133 9 L H CM RM) (vecR 5 13 1729 133 9 LV HV RM) PC RP TG np ONE RM
       m k n = true) :
     ∀ e : Nat → Nat, (∀ i, e i < 2) → (∀ i < k, e i = m / 2 ^ i % 2) →

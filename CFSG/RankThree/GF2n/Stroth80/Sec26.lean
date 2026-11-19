@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_conj_iff {Z : Subgroup G} {g x : G} :
     x ∈ Subgroup.normalizer ((conjSubgroup g Z : Subgroup G) : Set G) ↔
       g⁻¹ * x * g ∈ Subgroup.normalizer (Z : Set G) := by

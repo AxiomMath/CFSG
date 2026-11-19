@@ -70,11 +70,11 @@ theorem wordA_mem {M' : Subgroup (Equiv.Perm (Fin 315))} {gs gi : Array (Array �
     rw [wordA]
     unfold letterA
     by_cases hpos : 0 < l
-    · rw [if_pos hpos]
+    · rw [ite_eq_left hpos]
       have e : l.toNat - 1 = l.natAbs - 1 := by omega
       rw [e]
       exact ⟨x * y, M'.mul_mem hxM hyM, rep_compA hx hy⟩
-    · rw [if_neg hpos]
+    · rw [ite_eq_right hpos]
       have e : (-l).toNat - 1 = l.natAbs - 1 := by omega
       rw [e]
       exact ⟨x⁻¹ * y, M'.mul_mem (M'.inv_mem hxM) hyM, rep_compA hxi hy⟩

@@ -47,7 +47,7 @@ private theorem s168e3_uniqueMax_wSub_three
       (commSub (⊤ : Subgroup (Vtil V₀ V hV)) (lBar V₀ V hV L) ⊓
         fixV (lBar V₀ V hV L)))
     (hs : s15 D.M V₀ V hV L = 2)
-    {w : G} (hw : w ∈ wSub V₀ V hV L) (hw1 : w ≠ 1) (h3 : 3 ∈ D.sig) :
+    {w : G} (hw : w ∈ wSub V₀ V hV L) (_hw1 : w ≠ 1) (h3 : 3 ∈ D.sig) :
     UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
   classical
   let W := Vtil V₀ V hV
@@ -100,7 +100,7 @@ private theorem s168e3_uniqueMax_wSub_three
     Subgroup.isPerfect_iff.mp
       (CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidualOf_isPerfect P₂)
   have hV₀comm : ∀ a ∈ V₀, ∀ b ∈ V₀, a * b = b * a := by
-    haveI : IsMulCommutative ↥V₀ := c.setting.hyp16.hyp125.pairFacts.elemAbelian₀.1
+    have : IsMulCommutative ↥V₀ := c.setting.hyp16.hyp125.pairFacts.elemAbelian₀.1
     intro a ha b hb
     have h := mul_comm' (⟨a, ha⟩ : V₀) ⟨b, hb⟩
     simpa using congrArg Subtype.val h
@@ -135,7 +135,7 @@ private theorem s168e3_uniqueMax_wSub_three
     exact ⟨x, Subtype.ext hx⟩
   let φA7 : ↥P₂ →* ↥(alternatingGroup (Fin 7)) := eH₂A7.toMonoidHom.comp φH
   have hφA7surj : Function.Surjective φA7 := eH₂A7.surjective.comp hφHsurj
-  haveI : Group.IsPerfect (alternatingGroup (Fin 7)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 7)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by norm_num))
   have hresSurj :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_surjects_to_perfect_image

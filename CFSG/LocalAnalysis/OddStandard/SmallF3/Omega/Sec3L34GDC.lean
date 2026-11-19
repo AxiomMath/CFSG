@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 
 theorem l34g_direct_closure [Finite G] (hKB : Asc82FactPocketLift) (hA : L34GLemmaA G) {r v u : G}
     {D I : Subgroup G} (hr : orderOf r = 2) (hv : orderOf v = 2) (hrv : r * v = v * r)
-    (hDv : IsComponentIn D (centralizer ({v} : Set G))) (hDF : InFStar D) (huD : u ∈ D)
+    (hDv : IsComponentIn D (centralizer ({v} : Set G))) (_hDF : InFStar D) (huD : u ∈ D)
     (hDI4 : IsI4PlusIn D u) (hI : IsComponentIn I (centralizer ({u} : Set G))) (hIF : InFStar I)
     (hIv : CFSG.conjugate I v = I) (hDI : CFSG.conjugate D r ≤ I) : False := by
   have hu : orderOf u = 2 := hDI4.1

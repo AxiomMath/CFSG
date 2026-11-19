@@ -43,7 +43,7 @@ theorem conj_mem_stabU {u : C6 F} (hu : u ∈ U6 F) : MulAut.conj u ∈ stabU F 
 
 theorem inner_two_mem_U6 [CharP F 2] {g : C6 F} {m : ℕ} (hs : MulAut.conj g ∈ stabU F)
     (hg : (MulAut.conj g) ^ (2 ^ m) = 1) : g ∈ U6 F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := U6_sylow F
   have hgm : g ^ (2 ^ m) = 1 := by
     apply conj_injective_C6 (F := F)
@@ -113,7 +113,7 @@ theorem mulAut_conj_conj {M : Type*} [Group M] (φ : MulAut M) (g : M) :
 
 theorem intU_isPGroup [CharP F 2] : IsPGroup 2 ↥(intU F) := by
   obtain ⟨P₀, hP₀⟩ := U6_sylow F
-  have := P₀.isPGroup'.map (MulAut.conj : C6 F →* MulAut (C6 F))
+  have := P₀.isPGroup.map (MulAut.conj : C6 F →* MulAut (C6 F))
   rw [hP₀] at this
   exact this
 
@@ -121,7 +121,7 @@ theorem intU_isPGroup [CharP F 2] : IsPGroup 2 ↥(intU F) := by
   intU F ⊔ Subgroup.zpowers (fieldAutE6 F δ)
 
 theorem T0_isPGroup [CharP F 2] {δ : F ≃+* F} (hδ2 : δ * δ = 1) : IsPGroup 2 ↥(T0 F δ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : IsPGroup 2 ↥(Subgroup.zpowers (fieldAutE6 F δ)) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers]
@@ -271,7 +271,7 @@ theorem e6_lang [CharP F 2] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     (hU : ULang F δ) {σ : MulAut (C6 F)} (hσ : σ ∈ stabU F) (hσ2 : σ * σ = 1)
     (hΘσ : Θ σ = (δ, 1)) :
     ∃ β ∈ stabU F, σ = β * fieldAutE6 F δ * β⁻¹ := by
-  haveI := finite_mulAut_E6 (K := F)
+  have := finite_mulAut_E6 (K := F)
   have hσB : σ ∈ B' Θ δ := by
     refine ⟨hσ, ?_⟩
     show Θ σ ∈ Subgroup.zpowers _

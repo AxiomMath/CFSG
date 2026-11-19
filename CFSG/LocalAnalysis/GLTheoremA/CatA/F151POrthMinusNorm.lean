@@ -15,9 +15,9 @@ open CFSG.LieType.Universal.Spin (quadMinus)
 
 theorem orthMinusNorm_holds : OrthMinusNorm := by
   intro n m K _ _ hn hK b c hirr p hp hp2
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := m)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨hQ, hT⟩ :=

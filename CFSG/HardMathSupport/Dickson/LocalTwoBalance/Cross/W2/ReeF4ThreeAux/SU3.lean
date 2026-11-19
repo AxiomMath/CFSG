@@ -19,16 +19,17 @@ theorem su3_pair_ne (hf : 2 ≤ f) : (3, 2 ^ f) ≠ (3, 2) := fun h => by
 
 theorem su3_isQuasisimple (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) :
     CFSG.IsQuasisimple (unitarySU 2 f K 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (isQuasisimple_statedSU_of_card (p := 2) (f := f) hK le_rfl (su3_pair_ne hf)).1
 
+omit [Finite K] in
 theorem unitaryFieldData_two (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) :
     UnitaryFieldData 2 f K :=
   ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, mul_comm]⟩
 
 theorem pow_three_eq_one_of_mem_center_su3 (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     {z : unitarySU 2 f K 3} (hz : z ∈ Subgroup.center (unitarySU 2 f K 3)) : z ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := unitaryFieldData_two (by omega) hK
   have hZ := (isQuasisimple_statedSU_of_card (p := 2) (f := f) hK le_rfl (su3_pair_ne hf)).2
   rw [hZ, ← unitaryScalars_eq h (by norm_num)] at hz
@@ -39,15 +40,18 @@ theorem pow_three_eq_one_of_mem_center_su3 (hf : 2 ≤ f) (hK : Nat.card K = (2 
   have h2 : (⟨z, hz⟩ : unitaryScalars h 3) ^ 3 = 1 := orderOf_dvd_iff_pow_eq_one.1 h1
   exact congrArg (fun w : unitaryScalars h 3 => (w : unitarySU 2 f K 3)) h2
 
+omit [Finite K] in
 theorem card_su3 (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) :
     Nat.card (unitarySU 2 f K 3) = (2 ^ f) ^ 3 * ((2 ^ f) ^ 2 - 1) * ((2 ^ f) ^ 3 + 1) :=
   card_unitarySU_three (unitaryFieldData_two hf hK)
 
+omit [Finite K] in
 theorem two_pow_dvd_card_su3 (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) :
     2 ^ (3 * f) ∣ Nat.card (unitarySU 2 f K 3) := by
   rw [card_su3 hf hK, mul_assoc, ← pow_mul, mul_comm f 3]
   exact dvd_mul_right _ _
 
+omit [Finite K] in
 theorem three_dvd_card_su3 {a : ℕ} (hf : f = 2 * a + 1) (hK : Nat.card K = (2 ^ f) ^ 2) :
     3 ∣ Nat.card (unitarySU 2 f K 3) := by
   rw [card_su3 (by omega) hK]

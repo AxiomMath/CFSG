@@ -20,6 +20,7 @@ section Generic
 
 variable {G K V : Type*} [Group G] [Finite G] [Group K]
 
+omit [Finite G] in
 private theorem map_inf_centralizer_of_le {C : Subgroup G} (N : Subgroup C) {H : Subgroup G}
     (hH : H ≤ C) : (N ⊓ Subgroup.centralizer (H.subgroupOf C : Set C)).map C.subtype =
       N.map C.subtype ⊓ Subgroup.centralizer (H : Set G) := by

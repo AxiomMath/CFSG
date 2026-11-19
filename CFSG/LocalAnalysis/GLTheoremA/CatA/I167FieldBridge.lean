@@ -43,6 +43,7 @@ theorem fld_range_mul {t : StatedLieTag} {n f q : ℕ} (hq : 2 ≤ q) (hr : FldR
 section Bridge
 
 
+omit [Finite Ω] in
 theorem fld_induces_inv {S : Subgroup Ω} {x : Ω} (hN : x ∈ Subgroup.normalizer (S : Set Ω))
     (hcen : Subgroup.center (PSimple p S) = ⊥) {R : Type} [Group R]
     (θ : PQuot p S ⧸ Subgroup.center (PQuot p S) ≃* R) (ψ : MulAut R)
@@ -81,7 +82,7 @@ theorem fld_fieldKind_of_fieldOn (hp : p.Prime) {X : Subgroup Ω} {x : Ω} (hSc 
       ¬ (lab.tag = .triD4 ∧ p = 3) := by
   have hq : CFSG.Open.IsQuasisimple (PQuot p X) := isQuasisimple_pQuot_of_glaPComponent hp hSc
   have hcen : Subgroup.center (PSimple p X) = ⊥ := Y10F.center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot p X) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p X) := ⟨hq.1⟩
   have hTperf : commutator (PSimple p X) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p X)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -171,9 +172,9 @@ private theorem fld_hasLabel_of_lieModel_aux1 {t : StatedLieTag} {n f : ℕ} (hr
   rcases hr with ⟨-, ⟨rfl, hn⟩ | ⟨rfl | rfl, hn⟩⟩
   · rfl
   · dsimp only [fldClassicalLabel, canonLabel]
-    rw [if_neg (show n ≠ 3 by omega)]
+    rw [ite_eq_right (show n ≠ 3 by omega)]
   · dsimp only [fldClassicalLabel, canonLabel]
-    rw [if_neg (show n ≠ 3 by omega), if_neg (show n ≠ 2 by omega)]
+    rw [ite_eq_right (show n ≠ 3 by omega), ite_eq_right (show n ≠ 2 by omega)]
 
 theorem fld_hasLabel_of_lieModel {G : Type} [Group G] [Finite G] (hp : p.Prime) {Y K : Subgroup G}
     (hK : GLAPComponent p Y K) (hq : CFSG.Open.IsQuasisimple ↥K) {t : StatedLieTag} {n f : ℕ}

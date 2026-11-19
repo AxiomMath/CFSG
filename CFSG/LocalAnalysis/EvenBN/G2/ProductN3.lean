@@ -76,22 +76,26 @@ variable {K : Type} [Field K] {f : ℕ} {t s : G} {M Λ N A P Y U : Subgroup G}
 
 include c
 
+omit [Finite G] in
 theorem comm_mem' {y x : G} (hy : y ∈ Λᵍ[t]) (hx : x ∈ Λ) : y * x * y⁻¹ * x⁻¹ ∈ M := by
   have h := Subgroup.commutator_mem_commutator hy hx
   rw [commutator_comm] at h
   have h2 := c.hcomm h
   rwa [commutatorElement_def] at h2
 
+omit [Finite G] in
 theorem comm_mem {x y : G} (hx : x ∈ Λ) (hy : y ∈ Λᵍ[t]) : x * y * x⁻¹ * y⁻¹ ∈ M := by
   have h := Subgroup.commutator_mem_commutator hx hy
   have h2 := c.hcomm h
   rwa [commutatorElement_def] at h2
 
+omit [Finite G] in
 theorem le_normalizer_left : N ≤ normalizer (Λ : Set G) := by
   rw [← c.hsup]
   refine sup_le le_normalizer ?_
   exact le_normalizer_of_commutator_mem fun y hy x hx => c.hMΛ (c.comm_mem' hy hx)
 
+omit [Finite G] in
 theorem le_normalizer_right : N ≤ normalizer ((Λᵍ[t] : Subgroup G) : Set G) := by
   rw [← c.hsup]
   refine sup_le ?_ le_normalizer
@@ -102,12 +106,15 @@ theorem le_normalizer_right : N ≤ normalizer ((Λᵍ[t] : Subgroup G) : Set G)
     exact Subgroup.map_mono c.hMΛ
   exact hM h
 
+omit [Finite G] in
 theorem A_le_normalizer_M : A ≤ normalizer (M : Set G) := c.hAN.trans c.hNM
 
+omit [Finite G] in
 theorem M_le_conj : M ≤ Λᵍ[t] := by
   rw [← c.hMt]
   exact Subgroup.map_mono c.hMΛ
 
+omit [Finite G] in
 theorem decomp_left {l : G} (hl : l ∈ Λ) : ∃ x ∈ Λ ⊓ A, ∃ m ∈ M, l = x * m := by
   have hl' : l ∈ A ⊔ M := c.hNA ▸ c.hΛN hl
   obtain ⟨a, ha, m, hm, rfl⟩ := CFSG.LocalAnalysis.EvenBN.Common.exists_mul_of_le_normalizer'
@@ -116,6 +123,7 @@ theorem decomp_left {l : G} (hl : l ∈ Λ) : ∃ x ∈ Λ ⊓ A, ∃ m ∈ M, l
   have := mul_mem hl (inv_mem (c.hMΛ hm))
   rwa [mul_inv_cancel_right] at this
 
+omit [Finite G] in
 theorem decomp_right {l : G} (hl : l ∈ Λᵍ[t]) : ∃ x ∈ Λᵍ[t] ⊓ A, ∃ m ∈ M, l = x * m := by
   have hl' : l ∈ A ⊔ M := c.hNA ▸ (c.hsup ▸ (Subgroup.mem_sup_right hl : l ∈ Λ ⊔ Λᵍ[t]))
   obtain ⟨a, ha, m, hm, rfl⟩ := CFSG.LocalAnalysis.EvenBN.Common.exists_mul_of_le_normalizer'
@@ -124,6 +132,7 @@ theorem decomp_right {l : G} (hl : l ∈ Λᵍ[t]) : ∃ x ∈ Λᵍ[t] ⊓ A, �
   have := mul_mem hl (inv_mem (c.M_le_conj hm))
   rwa [mul_inv_cancel_right] at this
 
+omit [Finite G] in
 theorem comm_X {x y : G} (hx : x ∈ Λ ⊓ A) (hy : y ∈ Λᵍ[t] ⊓ A) : x * y = y * x := by
   have h1 := c.comm_mem hx.1 hy.1
   have h2 : x * y * x⁻¹ * y⁻¹ ∈ A := mul_mem (mul_mem (mul_mem hx.2 hy.2) (inv_mem hx.2))
@@ -133,6 +142,7 @@ theorem comm_X {x y : G} (hx : x ∈ Λ ⊓ A) (hy : y ∈ Λᵍ[t] ⊓ A) : x *
   calc x * y = (x * y * x⁻¹ * y⁻¹) * (y * x) := by group
     _ = y * x := by rw [h3, one_mul]
 
+omit [Finite G] in
 theorem inf_X : (Λ ⊓ A) ⊓ (Λᵍ[t] ⊓ A) = ⊥ := by
   rw [eq_bot_iff]
   intro z hz
@@ -141,6 +151,7 @@ theorem inf_X : (Λ ⊓ A) ⊓ (Λᵍ[t] ⊓ A) = ⊥ := by
   have h2 : z ∈ A ⊓ M := ⟨hz.1.2, h1⟩
   rwa [c.hAM] at h2
 
+omit [Finite G] in
 theorem A_eq_mul {a : G} (ha : a ∈ A) : ∃ x ∈ Λ ⊓ A, ∃ y ∈ Λᵍ[t] ⊓ A, a = x * y := by
   have hΛ' : Λ ≤ normalizer ((Λᵍ[t] : Subgroup G) : Set G) := c.hΛN.trans c.le_normalizer_right
   have ha' : a ∈ Λ ⊔ Λᵍ[t] := c.hsup ▸ c.hAN ha
@@ -164,11 +175,13 @@ theorem A_eq_mul {a : G} (ha : a ∈ A) : ∃ x ∈ Λ ⊓ A, ∃ y ∈ Λᵍ[t]
   calc x * m * (y * m') = (x * y) * (y⁻¹ * m * y * m') := by group
     _ = x * y := by rw [h1, mul_one]
 
+omit [Finite G] in
 theorem conj_X : (Λ ⊓ A)ᵍ[t] = Λᵍ[t] ⊓ A := by
   rw [conj_inf, c.hAt]
 
 end Cfg
 
+omit [Finite G] in
 theorem nonempty_mulEquiv_of_quotient {Λ M A : Subgroup G} {T : Type*} [Group T]
     (hMΛ : M ≤ Λ) (hdec : ∀ l ∈ Λ, ∃ x ∈ Λ ⊓ A, ∃ m ∈ M, l = x * m) (hAM : A ⊓ M = ⊥)
     (h : IsQuotientIso Λ M T) : Nonempty (↥(Λ ⊓ A) ≃* T) := by
@@ -201,11 +214,13 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} {t s : G}
 
 include c
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem four_le : 4 ≤ Nat.card K := by
   rw [c.hK]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) c.hf
 
+omit [Finite G] in
 theorem sl2Pair : Sl2Pair K N M Λ Λᵍ[t] where
   charTwo := inferInstance
   four_le := c.four_le
@@ -218,6 +233,7 @@ theorem sl2Pair : Sl2Pair K N M Λ Λᵍ[t] where
       c.hquot t
     rwa [c.hMt] at this
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem inf_left_eq : P ⊓ Λ = (P ⊓ (Λ ⊓ A)) ⊔ M := by
   refine le_antisymm ?_ (sup_le (inf_le_inf_left P inf_le_left) (le_inf c.hMP c.hMΛ))
   intro p hp
@@ -229,6 +245,7 @@ theorem inf_left_eq : P ⊓ Λ = (P ⊓ (Λ ⊓ A)) ⊔ M := by
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (Subgroup.mem_sup_left ⟨hxP, hx⟩) (Subgroup.mem_sup_right hm)
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem inf_right_eq : P ⊓ Λᵍ[t] = (P ⊓ (Λᵍ[t] ⊓ A)) ⊔ M := by
   refine le_antisymm ?_ (sup_le (inf_le_inf_left P inf_le_left) (le_inf c.hMP c.M_le_conj))
   intro p hp
@@ -257,6 +274,7 @@ theorem card_T : Nat.card (P ⊓ (Λ ⊓ A) : Subgroup G) = Nat.card K := by
   have hM : 0 < Nat.card M := Nat.card_pos
   exact Nat.eq_of_mul_eq_mul_left hM (h2.symm.trans (mul_comm _ _))
 
+omit [Finite K] [CharP K 2] in
 theorem P_le : P ≤ M ⊔ (P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λᵍ[t] ⊓ A)) := by
   have h := (sylow_prod c.hPN c.hsup c.hinf c.hcomm c.hMP).2.2.1
   have hT : (P ⊓ (Λ ⊓ A) : Subgroup G) ≤ M ⊔ (P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λᵍ[t] ⊓ A)) :=
@@ -268,6 +286,7 @@ theorem P_le : P ≤ M ⊔ (P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λᵍ[t] ⊓ A)) := by
   rw [c.inf_left_eq, c.inf_right_eq]
   exact sup_le (sup_le hT hM) (sup_le hT' hM)
 
+omit [Finite G] [Field K] [Finite K] [CharP K 2] c in
 theorem conj_mem_centralizer {g z : G} (hg : g ∈ normalizer (Y : Set G))
     (hz : z ∈ centralizer (Y : Set G)) : g * z * g⁻¹ ∈ centralizer (Y : Set G) := by
   rw [mem_centralizer_iff]
@@ -282,9 +301,9 @@ theorem conj_mem_centralizer {g z : G} (hg : g ∈ normalizer (Y : Set G))
 
 theorem faith_X : (Λ ⊓ A) ⊓ centralizer (Y : Set G) = ⊥ := by
   obtain ⟨ψ⟩ := nonempty_mulEquiv_of_quotient c.hMΛ (fun l hl => c.decomp_left hl) c.hAM c.hquot
-  haveI : IsSimpleGroup SL(2, K) :=
+  have : IsSimpleGroup SL(2, K) :=
     CFSG.LocalAnalysis.EvenBN.Common.sl2_isSimpleGroup_of_charTwo c.four_le
-  haveI : IsSimpleGroup ↥(Λ ⊓ A) := ψ.isSimpleGroup
+  have : IsSimpleGroup ↥(Λ ⊓ A) := ψ.isSimpleGroup
   have hXY : (Λ ⊓ A) ≤ normalizer (Y : Set G) := inf_le_right.trans (c.hAN.trans c.hNY)
   have hnorm : ((Λ ⊓ A ⊓ centralizer (Y : Set G)).subgroupOf (Λ ⊓ A)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
@@ -293,12 +312,12 @@ theorem faith_X : (Λ ⊓ A) ⊓ centralizer (Y : Set G) = ⊥ := by
     intro z
     constructor
     · rintro ⟨hz1, hz2⟩
-      refine ⟨?_, c.conj_mem_centralizer (hXY hx) hz2⟩
+      refine ⟨?_, Cfg.conj_mem_centralizer (hXY hx) hz2⟩
       exact (mem_normalizer_iff.1 (le_normalizer hx) z).1 hz1
     · rintro ⟨hz1, hz2⟩
       refine ⟨?_, ?_⟩
       · exact (mem_normalizer_iff.1 (le_normalizer hx) z).2 hz1
-      · have := c.conj_mem_centralizer (inv_mem (hXY hx)) hz2
+      · have := Cfg.conj_mem_centralizer (inv_mem (hXY hx)) hz2
         simpa [mul_assoc] using this
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((Λ ⊓ A ⊓ centralizer (Y : Set G)).subgroupOf (Λ ⊓ A)) with h | h
@@ -325,6 +344,7 @@ theorem faith_X : (Λ ⊓ A) ⊓ centralizer (Y : Set G) = ⊥ := by
 
 end Cfg
 
+omit [Finite G] in
 theorem subgroupOf_map_aut {N : Subgroup G} (H : Subgroup G) (e : MulAut ↥N) (g : G)
     (hg : ∀ x : ↥N, ((e x : ↥N) : G) = g * (x : G) * g⁻¹) :
     (H.subgroupOf N).map e.toMonoidHom = (H.map (MulAut.conj g).toMonoidHom).subgroupOf N := by
@@ -346,7 +366,7 @@ theorem subgroupOf_map_aut {N : Subgroup G} (H : Subgroup G) (e : MulAut ↥N) (
     exact hh
 
 theorem split_ambient {N X Λ V F : Subgroup G} {t r : G} {q : ℕ} (hq : 2 ≤ q)
-    (ht : t * t = 1) (htN : t ∈ normalizer (N : Set G)) (hr : r ∈ N)
+    (_ht : t * t = 1) (htN : t ∈ normalizer (N : Set G)) (hr : r ∈ N)
     (hXN : X ≤ N) (hΛN : Λ ≤ N) (hVΛ : V ≤ Λ) (hXV : X ≤ V) (hFX : F ≤ X)
     (hNX : N ≤ normalizer (X : Set G)) (hNΛ : N ≤ normalizer (Λ : Set G))
     (hσX : Xᵍ[t] = X) (hcen : X ⊓ centralizer (N : Set G) = ⊥)
@@ -372,8 +392,8 @@ theorem split_ambient {N X Λ V F : Subgroup G} {t r : G} {q : ℕ} (hq : 2 ≤ 
       (H.map (MulAut.conj r).toMonoidHom).subgroupOf N :=
     fun H => subgroupOf_map_aut H (MulAut.conj rQ) r hρ
   have hΛ'N : Λᵍ[t] ≤ N := hΛσ ▸ le_sup_right
-  haveI : (X.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXN).2 hNX
-  haveI : (Λ.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hΛN).2 hNΛ
+  have : (X.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXN).2 hNX
+  have : (Λ.subgroupOf N).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hΛN).2 hNΛ
   have hVN : V ≤ N := hVΛ.trans hΛN
   have hVrN : V.map (MulAut.conj r).toMonoidHom ≤ N := by
     rintro _ ⟨v, hv, rfl⟩
@@ -484,6 +504,7 @@ theorem split_ambient {N X Λ V F : Subgroup G} {t r : G} {q : ℕ} (hq : 2 ≤ 
   · rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBN).toEquiv]
     exact k3
 
+omit [Finite G] in
 theorem map_conj_eq_of_mem_normalizer {H : Subgroup G} {g : G} (hg : g ∈ normalizer (H : Set G)) :
     H.map (MulAut.conj g).toMonoidHom = H := by
   ext x
@@ -496,6 +517,7 @@ theorem map_conj_eq_of_mem_normalizer {H : Subgroup G} {g : G} (hg : g ∈ norma
     have := (mem_normalizer_iff.1 (inv_mem hg) x).1 hx
     simpa using this
 
+omit [Finite G] in
 theorem conjG_eq_map {s : G} (hs : s * s = 1) (A : Subgroup G) :
     Aᵍ[s] = A.map (MulAut.conj s).toMonoidHom := by
   rw [inv_eq_of_mul_eq_one_right hs]
@@ -507,14 +529,19 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} {t s : G}
 
 include c
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem Y_le_Λ : Y ≤ Λ := c.hYM.trans c.hMΛ
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem Y_le_conj : Y ≤ Λᵍ[t] := c.hYM.trans c.M_le_conj
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem Y_le_P : Y ≤ P := c.hYM.trans c.hMP
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem A_le_normalizer_Y : A ≤ normalizer (Y : Set G) := c.hAN.trans c.hNY
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem K3_eq : Λ ⊓ (A ⊔ Y) = (Λ ⊓ A) ⊔ Y := by
   refine le_antisymm ?_ (sup_le (inf_le_inf_left Λ le_sup_left)
     (le_inf c.Y_le_Λ le_sup_right))
@@ -528,6 +555,7 @@ theorem K3_eq : Λ ⊓ (A ⊔ Y) = (Λ ⊓ A) ⊔ Y := by
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (Subgroup.mem_sup_left ⟨haΛ, ha⟩) (Subgroup.mem_sup_right hy)
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem K3'_eq : Λᵍ[t] ⊓ (A ⊔ Y) = (Λᵍ[t] ⊓ A) ⊔ Y := by
   refine le_antisymm ?_ (sup_le (inf_le_inf_left _ le_sup_left)
     (le_inf c.Y_le_conj le_sup_right))
@@ -541,9 +569,11 @@ theorem K3'_eq : Λᵍ[t] ⊓ (A ⊔ Y) = (Λᵍ[t] ⊓ A) ⊔ Y := by
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (Subgroup.mem_sup_left ⟨haΛ, ha⟩) (Subgroup.mem_sup_right hy)
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem conj_K3 : (Λ ⊓ (A ⊔ Y))ᵍ[t] = Λᵍ[t] ⊓ (A ⊔ Y) := by
   rw [conj_inf, conj_sup, c.hAt, c.hYt]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem P3_eq : P ⊓ (Λ ⊓ (A ⊔ Y)) = (P ⊓ (Λ ⊓ A)) ⊔ Y := by
   rw [c.K3_eq]
   refine le_antisymm ?_ (sup_le (inf_le_inf_left P (le_sup_left)) (le_inf c.Y_le_P le_sup_right))
@@ -558,25 +588,32 @@ theorem P3_eq : P ⊓ (Λ ⊓ (A ⊔ Y)) = (P ⊓ (Λ ⊓ A)) ⊔ Y := by
     rwa [mul_inv_cancel_right] at this
   exact mul_mem (Subgroup.mem_sup_left ⟨hxP, hx⟩) (Subgroup.mem_sup_right hy)
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem conj_P3_eq : (P ⊓ (Λ ⊓ (A ⊔ Y)))ᵍ[t] = (P ⊓ (Λᵍ[t] ⊓ A)) ⊔ Y := by
   rw [c.P3_eq, conj_sup, conj_inf, c.hPt, conj_inf, c.hAt, c.hYt]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem hsN : s ∈ N := c.hAN c.hsA
 
-theorem A_le_normalizer_X : A ≤ normalizer ((Λ ⊓ A : Subgroup G) : Set G) := fun a ha =>
+omit [Finite K] [CharP K 2] [Finite G] in
+theorem A_le_normalizer_X : A ≤ normalizer ((Λ ⊓ A : Subgroup G) : Set G) := fun _a ha =>
   le_normalizer_inf Λ A
     ⟨c.le_normalizer_left (c.hAN ha), le_normalizer ha⟩
 
-theorem A_le_normalizer_X' : A ≤ normalizer ((Λᵍ[t] ⊓ A : Subgroup G) : Set G) := fun a ha =>
+omit [Finite K] [CharP K 2] [Finite G] in
+theorem A_le_normalizer_X' : A ≤ normalizer ((Λᵍ[t] ⊓ A : Subgroup G) : Set G) := fun _a ha =>
   le_normalizer_inf _ A
     ⟨c.le_normalizer_right (c.hAN ha), le_normalizer ha⟩
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem s_normalizer_X : s ∈ normalizer ((Λ ⊓ A : Subgroup G) : Set G) :=
   c.A_le_normalizer_X c.hsA
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem s_normalizer_X' : s ∈ normalizer ((Λᵍ[t] ⊓ A : Subgroup G) : Set G) :=
   c.A_le_normalizer_X' c.hsA
 
+omit [Finite K] [CharP K 2] in
 theorem X_eq : Λ ⊓ A = (P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λ ⊓ A)).map (MulAut.conj s).toMonoidHom := by
   have hX₀X : ((P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λ ⊓ A)).map (MulAut.conj s).toMonoidHom) ≤ Λ ⊓ A :=
     sup_le inf_le_right ((Subgroup.map_mono inf_le_right).trans
@@ -643,8 +680,10 @@ theorem X_eq : Λ ⊓ A = (P ⊓ (Λ ⊓ A)) ⊔ (P ⊓ (Λ ⊓ A)).map (MulAut.
   rw [h3, mul_one]
   exact hx₀
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem s_normalizer_Y : s ∈ normalizer (Y : Set G) := c.hNY c.hsN
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem K3_inf_M : (Λ ⊓ (A ⊔ Y)) ⊓ M = Y := by
   refine le_antisymm ?_ (le_inf (le_inf c.Y_le_Λ le_sup_right) c.hYM)
   rintro z ⟨hzK, hzM⟩
@@ -662,6 +701,7 @@ theorem K3_inf_M : (Λ ⊓ (A ⊔ Y)) ⊓ M = Y := by
   rw [h3, one_mul]
   exact hy
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem P3_inf : (P ⊓ (Λ ⊓ (A ⊔ Y))) ⊓ (P ⊓ (Λ ⊓ (A ⊔ Y)))ᵍ[s] = Y := by
   rw [conjG_eq_map c.hs2]
   refine le_antisymm ?_ ?_
@@ -681,6 +721,7 @@ theorem P3_inf : (P ⊓ (Λ ⊓ (A ⊔ Y))) ⊓ (P ⊓ (Λ ⊓ (A ⊔ Y)))ᵍ[s]
         ⟨c.Y_le_P hz, c.Y_le_Λ hz, Subgroup.mem_sup_right hz⟩))
     exact hYle hy
 
+omit [Finite K] [CharP K 2] in
 theorem K3_eq_sup : Λ ⊓ (A ⊔ Y) =
     (P ⊓ (Λ ⊓ (A ⊔ Y))) ⊔ (P ⊓ (Λ ⊓ (A ⊔ Y)))ᵍ[s] := by
   have h1 : P ⊓ (Λ ⊓ (A ⊔ Y)) = (P ⊓ (Λ ⊓ A)) ⊔ Y := c.P3_eq
@@ -699,6 +740,7 @@ theorem K3_eq_sup : Λ ⊓ (A ⊔ Y) =
 
 end Cfg
 
+omit [Finite G] in
 theorem zc_sup_eq {X Y : Subgroup G} (hXY : X ≤ normalizer (Y : Set G))
     (hYab : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a) (hfaith : X ⊓ centralizer (Y : Set G) = ⊥) :
     zc (X ⊔ Y) = Y ⊓ centralizer ((X ⊔ Y : Subgroup G) : Set G) := by
@@ -725,6 +767,7 @@ theorem zc_sup_eq {X Y : Subgroup G} (hXY : X ≤ normalizer (Y : Set G))
   · rintro z ⟨hzY, hzC⟩
     exact ⟨Subgroup.mem_sup_right hzY, hzC⟩
 
+omit [Finite G] in
 theorem inf_centralizer_sup {X Y : Subgroup G} (hYab : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a) :
     Y ⊓ centralizer ((X ⊔ Y : Subgroup G) : Set G) = Y ⊓ centralizer (X : Set G) := by
   refine le_antisymm (inf_le_inf_left _ (Subgroup.centralizer_le (by exact_mod_cast le_sup_left)))
@@ -746,16 +789,19 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} {t s : G}
 
 include c
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem hquot' : IsQuotientIso Λᵍ[t] M (SL(2, K)) := by
   have := CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1SylowAux.IsQuotientIso.conj
     c.hquot t
   rwa [c.hMt] at this
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem nonempty_equiv_X : Nonempty (↥(Λ ⊓ A) ≃* SL(2, K)) :=
-  nonempty_mulEquiv_of_quotient c.hMΛ (fun l hl => c.decomp_left hl) c.hAM c.hquot
+  nonempty_mulEquiv_of_quotient c.hMΛ (fun _l hl => c.decomp_left hl) c.hAM c.hquot
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem nonempty_equiv_X' : Nonempty (↥(Λᵍ[t] ⊓ A) ≃* SL(2, K)) :=
-  nonempty_mulEquiv_of_quotient c.M_le_conj (fun l hl => c.decomp_right hl) c.hAM c.hquot'
+  nonempty_mulEquiv_of_quotient c.M_le_conj (fun _l hl => c.decomp_right hl) c.hAM c.hquot'
 
 theorem faith_X' : (Λᵍ[t] ⊓ A) ⊓ centralizer (Y : Set G) = ⊥ := by
   have h : (Λ ⊓ A ⊓ centralizer (Y : Set G))ᵍ[t] =
@@ -791,6 +837,7 @@ theorem zc_P3' : zc ((P ⊓ (Λ ⊓ (A ⊔ Y)))ᵍ[t]) =
   rw [c.conj_P3_eq, zc_sup_eq (inf_le_right.trans (inf_le_right.trans c.A_le_normalizer_Y))
     c.hYab hf, inf_centralizer_sup c.hYab]
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem X_le_normalizer_of_le_X' {E : Subgroup G} (hE : E ≤ Λᵍ[t] ⊓ A) :
     (Λ ⊓ A) ≤ normalizer (E : Set G) := by
   refine le_normalizer_of_commutator_mem fun x hx y hy => ?_
@@ -798,6 +845,7 @@ theorem X_le_normalizer_of_le_X' {E : Subgroup G} (hE : E ≤ Λᵍ[t] ⊓ A) :
   group
   exact one_mem _
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem X'_le_normalizer_of_le_X {E : Subgroup G} (hE : E ≤ Λ ⊓ A) :
     (Λᵍ[t] ⊓ A) ≤ normalizer (E : Set G) := by
   refine le_normalizer_of_commutator_mem fun x hx y hy => ?_
@@ -900,6 +948,7 @@ abbrev Tsub (P Λ A : Subgroup G) : Subgroup G := P ⊓ (Λ ⊓ A)
 
 abbrev Tsub' (t : G) (P Λ A : Subgroup G) : Subgroup G := P ⊓ (Λᵍ[t] ⊓ A)
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem conj_V₂ : (V₂ Y Λ A)ᵍ[t] = V₁ t Y Λ A := by
   have := CFSG.LocalAnalysis.EvenBN.Common.map_inf_centralizer (MulAut.conj t⁻¹) Y (Λ ⊓ A)
   rw [c.hYt, c.conj_X] at this
@@ -924,6 +973,7 @@ theorem decomp_Y {y : G} (hy : y ∈ Y) : ∃ v₂ ∈ V₂ Y Λ A, ∃ v₁ ∈
   have hy' : y ∈ V₂ Y Λ A ⊔ V₁ t Y Λ A := by rw [c.V_sup]; exact hy
   exact CFSG.LocalAnalysis.EvenBN.Common.exists_mul_of_le_normalizer' hn y hy'
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem X_le_normalizer_V₁ : (Λ ⊓ A) ≤ normalizer ((V₁ t Y Λ A : Subgroup G) : Set G) := by
   have key : ∀ g ∈ (Λ ⊓ A : Subgroup G), ∀ w ∈ V₁ t Y Λ A, g * w * g⁻¹ ∈ V₁ t Y Λ A := by
     intro g hg w hw
@@ -951,6 +1001,7 @@ theorem X_le_normalizer_V₁ : (Λ ⊓ A) ≤ normalizer ((V₁ t Y Λ A : Subgr
     have := key x⁻¹ (inv_mem hx) _ h
     simpa [mul_assoc] using this
 
+omit [Finite K] [CharP K 2] [Finite G] in
 theorem X'_le_normalizer_V₂ : (Λᵍ[t] ⊓ A) ≤ normalizer ((V₂ Y Λ A : Subgroup G) : Set G) := by
   have key : ∀ g ∈ (Λᵍ[t] ⊓ A : Subgroup G), ∀ w ∈ V₂ Y Λ A, g * w * g⁻¹ ∈ V₂ Y Λ A := by
     intro g hg w hw
@@ -978,6 +1029,7 @@ theorem X'_le_normalizer_V₂ : (Λᵍ[t] ⊓ A) ≤ normalizer ((V₂ Y Λ A : 
     have := key x⁻¹ (inv_mem hx) _ h
     simpa [mul_assoc] using this
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem conj_T : (Tsub P Λ A)ᵍ[t] = Tsub' t P Λ A := by
   show (P ⊓ (Λ ⊓ A))ᵍ[t] = P ⊓ (Λᵍ[t] ⊓ A)
   rw [conj_inf, c.hPt, conj_inf, c.hAt]
@@ -986,9 +1038,11 @@ theorem card_T' : Nat.card (Tsub' t P Λ A) = Nat.card K := by
   rw [← c.conj_T, card_conj]
   exact c.card_T
 
+omit [Finite K] [CharP K 2] in
 theorem P_eq : P = M ⊔ Tsub P Λ A ⊔ Tsub' t P Λ A :=
   le_antisymm c.P_le (sup_le (sup_le c.hMP inf_le_left) inf_le_left)
 
+omit [Finite K] [CharP K 2] in
 theorem mem_U_of_centralizes {v : G} (hvY : v ∈ Y) (hT : v ∈ centralizer (Tsub P Λ A : Set G))
     (hT' : v ∈ centralizer (Tsub' t P Λ A : Set G)) : v ∈ U := by
   have hP : P ≤ centralizer ({v} : Set G) := by
@@ -1002,16 +1056,19 @@ theorem mem_U_of_centralizes {v : G} (hvY : v ∈ Y) (hT : v ∈ centralizer (Ts
       Subgroup.mem_centralizer_singleton_iff.1 (hP hg)⟩
   rwa [c.hZP] at h
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem U_le_centralizer {u : G} (hu : u ∈ U) :
     u ∈ centralizer (P : Set G) := by
   have h : u ∈ P ⊓ centralizer (P : Set G) := by rw [c.hZP]; exact hu
   exact h.2
 
+omit [Finite K] [CharP K 2] in
 theorem U1_le_U : V₁ t Y Λ A ⊓ centralizer (Tsub P Λ A : Set G) ≤ U := by
   rintro v ⟨hv1, hvT⟩
   exact c.mem_U_of_centralizes hv1.1 hvT (Subgroup.mem_centralizer_iff.2 fun a ha =>
     Subgroup.mem_centralizer_iff.1 hv1.2 a ha.2)
 
+omit [Finite K] [CharP K 2] in
 theorem U2_le_U : V₂ Y Λ A ⊓ centralizer (Tsub' t P Λ A : Set G) ≤ U := by
   rintro v ⟨hv2, hvT'⟩
   exact c.mem_U_of_centralizes hv2.1 (Subgroup.mem_centralizer_iff.2 fun a ha =>
@@ -1105,9 +1162,10 @@ theorem card_U_eq :
 
 end Cfg
 
+omit [Finite G] in
 theorem commutator_self_of_equiv {K : Type} [Field K] [Finite K] {X : Subgroup G}
     (e : ↥X ≃* SL(2, K)) (h4 : 4 ≤ Nat.card K) : ⁅X, X⁆ = X := by
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K h4
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K h4
   have htop : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = (⊤ : Subgroup X) := by
     have h1 : (⁅(⊤ : Subgroup SL(2, K)), (⊤ : Subgroup SL(2, K))⁆).map
         e.symm.toMonoidHom = ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ := by
@@ -1124,6 +1182,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {f : ℕ} {t s : G}
 
 include c
 
+omit [CharP K 2] [Finite G] in
 theorem X_perfect : ⁅Λ ⊓ A, Λ ⊓ A⁆ = Λ ⊓ A := by
   obtain ⟨ψ⟩ := c.nonempty_equiv_X
   exact commutator_self_of_equiv ψ c.four_le
@@ -1231,6 +1290,7 @@ open CFSG.LocalAnalysis.ComponentInitial.EvenLinearTwoModule (actionFixed mem_ac
 open CFSG.Timmesfeld.ARS.NaturalModule (weylElt diagElt weylElt_mul_diagElt weylElt_mul_self
   diagElt_mem_normalizer_upperUnipotent)
 
+omit [Finite G] in
 theorem exists_torus_conj {X A T : Subgroup G} {k : Type} [Field k] [Finite k] [CharP k 2]
     {n : ℕ} (hk : Nat.card k = 2 ^ n) (ψ : ↥X ≃* SL(2, k))
     (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hXA : X ≤ normalizer (A : Set G))
@@ -1471,6 +1531,7 @@ theorem two_mul_lt₂ : 2 * Nat.card (V₂ Y Λ A ⊓ centralizer (Tsub' t P Λ 
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) c.hf
   nlinarith
 
+omit [Finite K] [CharP K 2] in
 theorem mem_normalizer_P_of_X {x : G} (hx : x ∈ Λ ⊓ A) (hxT : x ∈ normalizer (Tsub P Λ A : Set G)) :
     x ∈ N ⊓ normalizer (P : Set G) := by
   refine ⟨c.hAN hx.2, ?_⟩
@@ -1478,6 +1539,7 @@ theorem mem_normalizer_P_of_X {x : G} (hx : x ∈ Λ ⊓ A) (hxT : x ∈ normali
     (c.X_le_normalizer_of_le_X' (inf_le_right : Tsub' t P Λ A ≤ Λᵍ[t] ⊓ A) hx)
   rwa [← c.P_eq] at h
 
+omit [Finite K] [CharP K 2] in
 theorem mem_normalizer_P_of_X' {x : G} (hx : x ∈ Λᵍ[t] ⊓ A)
     (hxT : x ∈ normalizer (Tsub' t P Λ A : Set G)) : x ∈ N ⊓ normalizer (P : Set G) := by
   refine ⟨c.hAN hx.2, ?_⟩
@@ -1619,10 +1681,12 @@ theorem abstract_713 :
 
 end Cfg
 
+omit [Finite G] in
 theorem mem_normalizer_commutator_self {K : Subgroup G} {g : G}
     (hg : g ∈ normalizer (K : Set G)) : g ∈ normalizer ((⁅K, K⁆ : Subgroup G) : Set G) :=
   CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1SylowAux.mem_normalizer_commutator hg
 
+omit [Finite G] in
 theorem conj_centralizer_of_commute {S : Subgroup G} {t : G} (hS : ∀ j ∈ S, j * t = t * j) :
     (centralizer (S : Set G))ᵍ[t] = centralizer (S : Set G) := by
   ext x

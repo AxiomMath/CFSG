@@ -113,29 +113,30 @@ include hp hp2 hμ hF
 
 theorem glaPPrimeCore_JH_le_center :
     GLAPPrimeCore p ↥(JH F) ≤ Subgroup.center ↥(JH F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple
-    (isQuasisimple_JH hp hp2 hμ hF) (GLAPPrimeCore.normal p _) fun htop => ?_
+    (isQuasisimple_JH hF) (GLAPPrimeCore.normal p _) fun htop => ?_
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥(JH F))) := CFSG.pPrimeCore_coprime_card
   rw [htop, Subgroup.card_top] at hcop
   have hdvd : p ∣ Nat.card ↥(JH F) :=
-    (dvd_card_JH hp hp2 hμ hF).trans (Subgroup.card_quotient_dvd_card _)
+    (dvd_card_JH hp hp2 hμ).trans (Subgroup.card_quotient_dvd_card _)
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 hcop hdvd
 
 theorem nonempty_pSimple_JH_equiv :
     Nonempty (PSimple p (JH F) ≃* ProjectiveSpecialLinearGroup (Fin 3) F) := by
   obtain ⟨e₁⟩ := center_quot_equiv_of_surjective
-    (isQuasisimple_JH hp hp2 hμ hF).1 (QuotientGroup.mk' (GLAPPrimeCore p ↥(JH F)))
+    (isQuasisimple_JH hF).1 (QuotientGroup.mk' (GLAPPrimeCore p ↥(JH F)))
     (QuotientGroup.mk'_surjective _) (by
       rw [QuotientGroup.ker_mk']
       exact glaPPrimeCore_JH_le_center hp hp2 hμ hF)
   exact ⟨e₁.trans (QuotientGroup.congr _ _ jhEquivSL3 (Subgroup.map_center_eq _))⟩
 
+omit hF in
 theorem center_pQuot_JH_ne_bot (h3 : p = 3) :
     Subgroup.center (PQuot p (JH F)) ≠ ⊥ := by
   subst h3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have hμ0 := ne_zero_of_root hp hμ
   set c : Fin 4 → F := ![1, μ, μ, μ] with hc
   have hcprod : ∏ i, c i = 1 := by
     rw [Fin.prod_univ_four]
@@ -143,7 +144,7 @@ theorem center_pQuot_JH_ne_bot (h3 : p = 3) :
     rw [one_mul, ← pow_two, ← pow_succ, hμ.pow_eq_one]
   have hcJ : ∀ i j, i ≠ 0 → j ≠ 0 → c i = c j := by
     intro i j hi hj
-    fin_cases i <;> fin_cases j <;> simp_all [hc]
+    fin_cases i <;> fin_cases j <;> simp_all
   have hc0 : diagSL c hcprod ∈ coordBlockSL F blockJ := by
     rw [mem_coordBlockSL_iff]
     intro i j hij
@@ -152,7 +153,7 @@ theorem center_pQuot_JH_ne_bot (h3 : p = 3) :
     by_cases hij' : i = j
     · subst hij'
       rcases hi with rfl | rfl <;> simp [hc]
-    · rw [diagonal_apply_ne _ hij', if_neg hij']
+    · rw [diagonal_apply_ne _ hij', ite_eq_right hij']
   set x : ↥(JH F) := ⟨proj 4 F (diagSL c hcprod), Subgroup.mem_map_of_mem _ hc0⟩ with hx
   have hxZ : x ∈ Subgroup.center ↥(JH F) := by
     rw [Subgroup.mem_center_iff]
@@ -165,7 +166,7 @@ theorem center_pQuot_JH_ne_bot (h3 : p = 3) :
   have hx3 : x ^ 3 = 1 := by
     apply Subtype.ext
     simp only [hx, SubgroupClass.coe_pow, OneMemClass.coe_one]
-    rw [← map_pow, diagSL_pow_eq_one hp hp2 hμ
+    rw [← map_pow, diagSL_pow_eq_one
       (fun i => by fin_cases i <;> simp [hc, hμ.pow_eq_one]), map_one]
   have hx1 : x ≠ 1 := by
     intro h1
@@ -175,7 +176,7 @@ theorem center_pQuot_JH_ne_bot (h3 : p = 3) :
     have h4 := congrArg
       (fun g : SpecialLinearGroup (Fin 4) F => (g : Matrix (Fin 4) (Fin 4) F) 1 1) h3
     simp only [coe_diagSL, diagonal_apply_eq, Matrix.SpecialLinearGroup.coe_one, one_apply_eq] at h4
-    exact ne_one_of_root hp hp2 hμ h4
+    exact ne_one_of_root hp hμ h4
   intro hbot
   have hxim : (QuotientGroup.mk x : PQuot 3 (JH F)) ∈ Subgroup.center (PQuot 3 (JH F)) :=
     Subgroup.map_center_le_center (f := QuotientGroup.mk' (GLAPPrimeCore 3 ↥(JH F)))
@@ -211,6 +212,6 @@ theorem isSL3Type_JH (Q : TauCeti.PrimePower) [Fact Q.p.Prime] (hQ2 : Q.p ≠ 2)
   obtain ⟨e⟩ := nonempty_pSimple_JH_equiv hp hp2 hμ hF
   exact ⟨Q, rfl, Or.inl ⟨.lie ⟨.A 2 Q, hv⟩, rfl,
     ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 Q hv).symm⟩⟩,
-    fun h3 => center_pQuot_JH_ne_bot hp hp2 hμ hF h3⟩
+    fun h3 => center_pQuot_JH_ne_bot hp hp2 hμ h3⟩
 
 end CFSG.LocalAnalysis.GLTheoremA.H81.LinA3

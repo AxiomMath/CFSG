@@ -88,7 +88,7 @@ theorem ffClassificationSL3_of_card {F : Type} [Field F] [Fintype F] {n : ℕ} (
   classical
   intro W _ _ _ ρ hirr hnt B hBea hB1 hB
   have hNat : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, hF]
-  haveI hchar : CharP F 2 :=
+  have hchar : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hNat
   have hker := ker_le_scalars ρ hnt
@@ -130,9 +130,9 @@ theorem ffClassificationSL3_of_card {F : Type} [Field F] [Fintype F] {n : ℕ} (
     have : a = 1 := by rw [h] at ha; exact Subgroup.mem_bot.mp ha
     rw [this, map_one]; rfl
   have hA'B : A' ≤ B := hA'A.trans hAB
-  haveI hA'ea : CFSG.IsElementaryAbelian 2 ↥A' := isElementaryAbelian_two_of_le hA'B
+  have hA'ea : CFSG.IsElementaryAbelian 2 ↥A' := isElementaryAbelian_two_of_le hA'B
   set Ā : Subgroup (W ≃ₗ[ZMod 2] W) := A'.map (repGL ρ) with hĀ
-  haveI : CFSG.IsElementaryAbelian 2 ↥Ā := CFSG.IsElementaryAbelian.map (repGL ρ)
+  have : CFSG.IsElementaryAbelian 2 ↥Ā := CFSG.IsElementaryAbelian.map (repGL ρ)
   have hinj : Function.Injective ((repGL ρ).domRestrict A') := by
     intro x y hxy
     have hxy' : repGL ρ (x : SL(3, F)) = repGL ρ (y : SL(3, F)) := hxy

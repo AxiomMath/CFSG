@@ -153,7 +153,7 @@ theorem shiftLeft_eq_packN {n k : ℕ} (hk : k < n) (x : ℕ) :
     x <<< (16 * k) = packN n (fun j => if j = k then x else 0) := by
   rw [packN_eq_sum, Nat.shiftLeft_eq]
   simp only [mul_ite, mul_zero]
-  rw [Finset.sum_ite_eq' (Finset.range n) k, if_pos (Finset.mem_range.mpr hk), mul_comm]
+  rw [Finset.sum_ite_eq' (Finset.range n) k, ite_eq_left (Finset.mem_range.mpr hk), mul_comm]
 
 theorem packN_add (n : ℕ) (f g : ℕ → ℕ) : packN n f + packN n g = packN n (fun j => f j + g j) := by
   have := packN_add_mul n 1 f g
@@ -236,7 +236,7 @@ theorem vecZ_letter_split {τ : Tag} {p : ℕ} {H : Hd} (h : tagHdOK τ p 0 H = 
       rw [Nat.blt_eq, hn]
       exact hl
     simp only [hb]
-    rw [tcLetterElt, dif_pos hl]
+    rw [tcLetterElt, dite_eq_left hl]
     exact ⟨vecZ_simple h hl hf, red_simple hpos hp16' l f⟩
   · have hb : Nat.blt l H.n = false := by
       rw [Bool.eq_false_iff]
@@ -244,7 +244,7 @@ theorem vecZ_letter_split {τ : Tag} {p : ℕ} {H : Hd} (h : tagHdOK τ p 0 H = 
       rw [Nat.blt_eq, hn] at h1
       exact hl h1
     simp only [hb]
-    rw [tcLetterElt, dif_neg hl]
+    rw [tcLetterElt, dite_eq_right hl]
     exact ⟨vecZ_thetaL h hf, red_thetaL hpos hp16' f⟩
 
 theorem vecZ_word_split {τ : Tag} {p : ℕ} {H : Hd} (h : tagHdOK τ p 0 H = true) (w : List ℕ) :
@@ -279,7 +279,7 @@ theorem vecZ_letter_twist {p : ℕ} {H : Hd} (h : tagHdOK .E6 p 1 H = true) {f :
   have hs : ∀ (l : ℕ) (hl : l < Tag.E6.rank) {x : ℕ}, red H x = true →
       vecZ p Tag.E6.rank (CFSG.KC.GGToral.simple H l x) =
         cowAct (tcLetterElt Tag.E6 l) (vecZ p Tag.E6.rank x) := fun l hl x hx => by
-    rw [tcLetterElt, dif_pos hl]
+    rw [tcLetterElt, dite_eq_left hl]
     exact vecZ_simple h hl hx
   unfold letter
   rw [htw]

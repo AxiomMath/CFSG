@@ -66,7 +66,7 @@ public theorem lemma_11_3
   have hHW : H ≤ W := by
     exact (Subgroup.map_subtype_le (derivedSubgroup E)).trans inf_le_left
   have hHsylM : theorem4bIsSylowSubgroupOf e.r H M := by
-    letI : Fact e.r.Prime := ⟨e.r_prime⟩
+    let : Fact e.r.Prime := ⟨e.r_prime⟩
     rcases hHsylX with ⟨S, hS⟩
     have hSM : (S : Subgroup X) ≤ M := by simpa [hS] using hHM
     let T : Sylow e.r M := S.subtype hSM

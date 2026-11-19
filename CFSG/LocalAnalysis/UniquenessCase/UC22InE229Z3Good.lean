@@ -75,7 +75,7 @@ theorem goodZ3_of_l28Row {X : Type} [Group X] [Finite X] {N K Γ : Subgroup X} [
     (hD : Nonempty (↥Γ ≃* DihedralGroup 9)) (hP27 : Nat.card (P : Subgroup X) = 27)
     (hPnc : ¬ ∀ a ∈ (P : Subgroup X), ∀ b ∈ (P : Subgroup X), a * b = b * a) :
     InvolutionCentralizerHasPElementOutside 3 N ∧ AbelianPSubgroupLeFStar 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ⟩ := hD
   refine ⟨fun A hAN hA hAc t htN ht2 htA => ?_, fun B hBN hB hBab hBc => ?_⟩
   · exfalso
@@ -129,8 +129,8 @@ theorem goodZ3_of_m11Row {X : Type} [Group X] [Finite X] {N S : Subgroup X} (P :
     (hsup : (P : Subgroup X) ⊔ S = normalizer ((P : Subgroup X) : Set X))
     (hSC : S ⊓ centralizer ((P : Subgroup X) : Set X) = ⊥) :
     InvolutionCentralizerHasPElementOutside 3 N ∧ AbelianPSubgroupLeFStar 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsMulCommutative ↥(P : Subgroup X) := hE.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsMulCommutative ↥(P : Subgroup X) := hE.1
   have hPC : (P : Subgroup X) ≤ centralizer ((P : Subgroup X) : Set X) :=
     Subgroup.le_centralizer (P : Subgroup X)
   have hSn : S ≤ normalizer ((P : Subgroup X) : Set X) := le_sup_right.trans hsup.le
@@ -160,10 +160,10 @@ theorem goodZ3_of_rows {p : ℕ} (hp3 : p = 3) {X : Type} [Group X] [Finite X]
       (InvolutionCentralizerHasPElementOutside p N ∨
         IsoLie ↥(CFSG.generalizedFitting X) (.A 2 ⟨2, 2, Nat.prime_two, by norm_num⟩)) := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hrows⟩ := hrows
   obtain ⟨-, -, hKn, -⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
-  haveI := hKn
+  have := hKn
   have hgood : InvolutionCentralizerHasPElementOutside 3 N ∧ AbelianPSubgroupLeFStar 3 N →
       AbelianPSubgroupLeFStar 3 N ∧ (InvolutionCentralizerHasPElementOutside 3 N ∨
         IsoLie ↥(CFSG.generalizedFitting X) (.A 2 ⟨2, 2, Nat.prime_two, by norm_num⟩)) :=
@@ -221,7 +221,7 @@ theorem goodZ3_of_config (hG3 : Gls3StronglyThreeEmbeddedPlus)
           (((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
         IsoLie ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H))
           (.A 2 ⟨2, 2, Nat.prime_two, by norm_num⟩)) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨P₀⟩ : Nonempty (Sylow k.p ↥(H ⊓ k.M)) := inferInstance
   obtain ⟨P', -, hP'N⟩ := k.exists_sylow_map_of_isSylowOf hH
     (P := (P₀ : Subgroup ↥(H ⊓ k.M)).map (H ⊓ k.M).subtype) ⟨P₀, rfl⟩

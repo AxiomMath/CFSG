@@ -24,8 +24,8 @@ theorem card_sup_mul_card_le_of_normalizes {G : Type} [Group G] [Finite G]
     refine ⟨fun hh => hAB a ha h hh, fun hh => ?_⟩
     simpa [mul_assoc] using hAB a⁻¹ (A.inv_mem ha) _ hh
   have hrel : B.relIndex A = B.relIndex (A ⊔ B) := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hAN
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAN
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hAN
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAN
     exact Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient A B hAN).toEquiv
   have hC : B.relIndex (A ⊔ B) * Nat.card ↥B = Nat.card ↥(A ⊔ B) := by
@@ -65,7 +65,7 @@ theorem sec8_CN_commSec_lower (h51 : Stroth51Statement) (hA : Sec8AExistsStateme
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨r, hr, -, hopp, hIZ⟩ := sec8_Z0_data h51 hA hc hs hZ0
   obtain ⟨K, fK, finK, φ, u, u', hpts⟩ := sec8_exists_pts hPts hc hs hmSp hr
-  haveI : CharP K 2 := hpts.charP
+  have : CharP K 2 := hpts.charP
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
   have hLR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht

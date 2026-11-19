@@ -163,7 +163,7 @@ theorem sec414_elemAbelian_decomp [Finite G] {P : Subgroup G} (hP : IsElemAbelia
       (∀ x ∈ P, ∃ c ∈ C, ∃ d ∈ D, x = c * d ∧
         ∀ L : Subgroup G, L ≤ P → (∀ y ∈ L, n * y * n⁻¹ ∈ L) → x ∈ L → c ∈ L ∧ d ∈ L) := by
   obtain ⟨hcomm, hexp⟩ := hP
-  letI : CommGroup P := { (inferInstance : Group P) with mul_comm := fun a b => mul_comm' a b }
+  let : CommGroup P := { (inferInstance : Group P) with mul_comm := fun a b => mul_comm' a b }
   have hV : ∀ x : P, x * x = 1 := fun x =>
     Subtype.ext (by simpa [pow_two] using hexp x x.2)
   let ν : P →* P :=

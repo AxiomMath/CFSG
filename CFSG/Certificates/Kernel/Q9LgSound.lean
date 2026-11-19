@@ -54,11 +54,11 @@ theorem count_double (L : List ℕ) (n : ℕ) :
   | cons a L ih =>
     rw [List.map_cons, List.count_cons, ih, List.count_cons]
     by_cases h : n % 2 = 0
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       by_cases ha : a = n / 2
-      · rw [if_pos (by simp; omega), if_pos (by simp [ha])]
-      · rw [if_neg (by simp; omega), if_neg (by simp [ha])]
-    · rw [if_neg h, if_neg h, if_neg (by simp; omega)]
+      · rw [ite_eq_left (by simp; omega), ite_eq_left (by simp [ha])]
+      · rw [ite_eq_right (by simp; omega), ite_eq_right (by simp [ha])]
+    · rw [ite_eq_right h, ite_eq_right h, ite_eq_right (by simp; omega)]
 
 theorem mem_sl2 (M : SL2) : M ∈ sl2List := by
   have hf : ∀ x : F9, x ∈ f9List := by

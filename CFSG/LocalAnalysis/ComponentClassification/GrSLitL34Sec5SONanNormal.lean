@@ -249,7 +249,7 @@ private theorem false_of_onan_normal_component_core
     rw [oddIn, Subgroup.card_map_of_injective M.subtype_injective]
     exact hOodd
   have hA₀infOdd : A₀ ⊓ oddIn M = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     have h2 : Nat.Coprime 2 (Nat.card (oddIn M)) := Nat.coprime_two_left.mpr hOddInOdd
     have h8 : Nat.card A₀ = 2 ^ 3 := by rw [hA₀card]; norm_num
     rw [h8]
@@ -407,7 +407,7 @@ private theorem false_of_onan_normal_component_core
   obtain ⟨hSylG, -⟩ :=
     sylow_and_fusion_of_threeConnected_in hB hA₁e hA₁16 hSylA₁ h3
   have hSinfOdd : S ⊓ oddIn M = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2) (G := ↥S)).mp hS2
     rw [hk]
     exact (Nat.coprime_two_left.mpr hOddInOdd).pow_left k

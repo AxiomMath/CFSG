@@ -17,9 +17,9 @@ private lemma zpow_two_mul_mem {G : Type*} [Group G] {S : Subgroup G} {u : G}
 
 theorem exists_isPGroup_gt_of_two_dvd_index {G : Type*} [Group G] [Finite G] {S : Subgroup G}
     (hS : IsPGroup 2 S) (hidx : 2 ∣ S.index) : ∃ Q : Subgroup G, IsPGroup 2 Q ∧ S < Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hSP⟩ := hS.exists_le_sylow
-  refine ⟨P, P.isPGroup', lt_of_le_of_ne hSP ?_⟩
+  refine ⟨P, P.isPGroup, lt_of_le_of_ne hSP ?_⟩
   intro hEq
   exact Sylow.not_dvd_index P (hEq ▸ hidx)
 
@@ -27,13 +27,13 @@ theorem exists_mem_normalizer_sq_mem {G : Type*} [Group G] [Finite G] {S Q : Sub
     (hQ : IsPGroup 2 Q) (hSQ : S < Q) :
     ∃ u ∈ Q, u ∈ normalizer (S : Set G) ∧ u ∉ S ∧ u ^ 2 ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSQle : S ≤ Q := le_of_lt hSQ
   obtain ⟨q, hqQ, hqS⟩ := IsConcreteLE.exists_of_lt hSQ
   have hS'proper : S.subgroupOf Q < (⊤ : Subgroup ↥Q) := by
     rw [IsConcreteLE.lt_iff_le_and_exists]
     exact ⟨le_top, ⟨⟨q, hqQ⟩, by trivial, fun h => hqS (Subgroup.mem_subgroupOf.mp h)⟩⟩
-  haveI : Group.IsNilpotent (↥Q) := IsPGroup.isNilpotent hQ
+  have : Group.IsNilpotent (↥Q) := IsPGroup.isNilpotent hQ
   have hnc : NormalizerCondition (↥Q) := Group.normalizerCondition_of_isNilpotent (G := ↥Q)
   obtain ⟨-, x, hxnorm, hxS'⟩ :=
     IsConcreteLE.lt_iff_le_and_exists.mp (hnc (S.subgroupOf Q) hS'proper)
@@ -46,7 +46,7 @@ theorem exists_mem_normalizer_sq_mem {G : Type*} [Group G] [Finite G] {S Q : Sub
   have hpow : ∃ k, (x : G) ^ 2 ^ k ∈ S := ⟨a, by
     have hcoe : ((x ^ 2 ^ a : ↥Q) : G) = (x : G) ^ 2 ^ a := by simp
     rw [← hcoe, ha]
-    simpa using S.one_mem⟩
+    simp⟩
   set m := Nat.find hpow with hm_def
   have hm_spec : (x : G) ^ 2 ^ m ∈ S := by
     rw [hm_def]
@@ -106,7 +106,7 @@ theorem card_sup_zpowers_of_sq_mem {G : Type*} [Group G] [Finite G] {S : Subgrou
 theorem card_dvd_of_isPGroup_le {G : Type*} [Group G] [Finite G] {P K : Subgroup G}
     (hP : IsPGroup 2 P) (hPK : P ≤ K) {k m : ℕ} (hK : Nat.card K = 2 ^ k * m) (hm : Odd m) :
     Nat.card P ∣ 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hdiv : 2 ^ n ∣ 2 ^ k * m := by
     rw [← hn, ← hK]

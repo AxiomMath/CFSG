@@ -46,7 +46,7 @@ theorem exists_barAct {G : Type} [Group G] {M Q Hs : Subgroup G} [(Q.subgroupOf 
     ∃ φ : ↥(bar M Q Hs) →* (E ≃ₗ[K] E), Function.Injective φ ∧
       ∀ (y : ↥M) (hy : QuotientGroup.mk' (Q.subgroupOf M) y ∈ bar M Q Hs) (hyH : (y : G) ∈ Hs),
         φ ⟨QuotientGroup.mk' (Q.subgroupOf M) y, hy⟩ = φ₀ ⟨(y : G), hyH⟩ := by
-  haveI hN : (Q.subgroupOf Hs).Normal := normal_subgroupOf_of_le hQH hHM
+  have hN : (Q.subgroupOf Hs).Normal := normal_subgroupOf_of_le hQH hHM
   have hle : Q.subgroupOf Hs ≤ φ₀.ker := by
     intro x hx
     exact MonoidHom.mem_ker.mpr ((hker x).mpr (Subgroup.mem_subgroupOf.mp hx))
@@ -373,8 +373,8 @@ theorem Ctx.move_Tt_facts (hZV : Sec7ZVStatement) (hZc : Sec7CentreMpStatement)
       SetLike.coe_injective ((hrange a ha ha1).trans (hrange a₀ ha₀V ha₀1).symm)
     rw [map_mul, map_mul, map_inv, range_opm_conj, hsame]
   · intro g
-    haveI := Fintype.ofFinite K
-    haveI : Finite M₀.E := Module.finite_of_finite K
+    have := Fintype.ofFinite K
+    have : Finite M₀.E := Module.finite_of_finite K
     have h1 : Nat.card ↥(LinearMap.range (opm (φ a₀))) =
         Nat.card ↥(M₀.π '' (Vt M (LB M Q B) B Z t : Set G)) :=
       congrArg (fun S : Set M₀.E => Nat.card ↥S) (hrange a₀ ha₀V ha₀1)
@@ -385,7 +385,7 @@ theorem Ctx.move_Tt_facts (hZV : Sec7ZVStatement) (hZc : Sec7CentreMpStatement)
       rw [h2, h3]
       ring
     have h5 := Nat.eq_of_mul_eq_mul_right Nat.card_pos h4
-    haveI : Fintype ↥(LinearMap.range (opm (φ a₀))) := Fintype.ofFinite _
+    have : Fintype ↥(LinearMap.range (opm (φ a₀))) := Fintype.ofFinite _
     have h6 := Module.card_eq_pow_finrank (K := K) (V := ↥(LinearMap.range (opm (φ a₀))))
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card (α := K), h1, h5, hKcard] at h6
     have hq : 2 ≤ Nat.card Z := two_le_card_Z_of_ctx hc

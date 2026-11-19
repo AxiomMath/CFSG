@@ -20,7 +20,7 @@ private theorem finite_W (S : OmegaModel W) : Finite W :=
   Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
 
 private theorem finite_mulAut (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI := finite_W S
+  have := finite_W S
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
 private theorem eq_of_smul_eq_smul {a b : S.K} (h : ∀ w : W, S.smul a w = S.smul b w) :
@@ -210,9 +210,9 @@ theorem relIndex_inf_linSub_dvd_three (hK : Nat.card S.K = 8) {X : Subgroup (Mul
 
 theorem le_linSub_of_isPGroup (hK : Nat.card S.K = 8) {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
     {P : Subgroup (MulAut W)} (hP : IsPGroup p P) (hPN : P ≤ omegaNorm S) : P ≤ linSub S := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥P := by
-    haveI := finite_mulAut S
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥P := by
+    have := finite_mulAut S
     exact Finite.of_injective (Subtype.val) Subtype.coe_injective
   have hrel3 : (P ⊓ linSub S).relIndex P ∣ 3 := relIndex_inf_linSub_dvd_three S hK hPN
   obtain ⟨k, hk⟩ := hP.exists_card_eq
@@ -297,7 +297,7 @@ theorem normal_scalarSub_subgroupOf : ((scalarSub S).subgroupOf (omegaNorm S)).N
   obtain ⟨u, rfl⟩ := hh
   refine ⟨Units.mk0 ((twistHom S ⟨k, hk⟩) (u : S.K)) ?_, ?_⟩
   · intro hzero
-    exact u.ne_zero ((twistHom S ⟨k, hk⟩).injective (by simpa using hzero))
+    exact u.ne_zero ((twistHom S ⟨k, hk⟩).injective (by simp at hzero))
   · ext w
     show S.smul ((twistHom S ⟨k, hk⟩) (u : S.K)) w = (k * smulAutHom S u * k⁻¹) w
     rw [MulAut.mul_apply, MulAut.mul_apply]
@@ -308,11 +308,11 @@ theorem scalarSub_le_of_isPGroup_seven (hK : Nat.card S.K = 8) {X : Subgroup (Mu
     (hX : IsPGroup 7 X) (hXN : X ≤ omegaNorm S) (hcard : 7 ^ 3 ≤ Nat.card X) :
     scalarSub S ≤ X := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let N : Subgroup (MulAut W) := omegaNorm S
   have hXN' : X ≤ N := hXN
-  haveI : Finite ↥X := by
-    haveI := finite_mulAut S
+  have : Finite ↥X := by
+    have := finite_mulAut S
     exact Finite.of_injective (Subtype.val) Subtype.coe_injective
   obtain ⟨k, hk⟩ := hX.exists_card_eq
   have hk3 : 3 ≤ k := by
@@ -340,12 +340,12 @@ theorem scalarSub_le_of_isPGroup_seven (hK : Nat.card S.K = 8) {X : Subgroup (Mu
   have hX'P : IsPGroup 7 X' :=
     hX.of_injective (Subgroup.subgroupOfEquivOfLe hXN').toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hXN').injective
-  haveI : Finite ↥N := by
-    haveI := finite_mulAut S
+  have : Finite ↥N := by
+    have := finite_mulAut S
     exact Finite.of_injective (Subtype.val) Subtype.coe_injective
   obtain ⟨Q, hX'Q⟩ := hX'P.exists_le_sylow
-  haveI : Finite ↥Q := Finite.of_injective (Subtype.val) Subtype.coe_injective
-  obtain ⟨j, hj⟩ := Q.isPGroup'.exists_card_eq
+  have : Finite ↥Q := Finite.of_injective (Subtype.val) Subtype.coe_injective
+  obtain ⟨j, hj⟩ := Q.isPGroup.exists_card_eq
   have hjle3 : j ≤ 3 := by
     have hQdiv : 7 ^ j ∣ 2 ^ 7 * 3 ^ 5 * 7 ^ 3 := by
       rw [← hj]
@@ -369,7 +369,7 @@ theorem scalarSub_le_of_isPGroup_seven (hK : Nat.card S.K = 8) {X : Subgroup (Mu
   have hZ'pg : IsPGroup 7 Z' :=
     IsPGroup.of_card (p := 7) (n := 1) (by rw [hZ'card]; norm_num)
   have hZ'Q : Z' ≤ Q := by
-    haveI := hZ'normal
+    have := hZ'normal
     exact IsPGroup.le_sylow_of_normal hZ'pg Q
   have hZ'X' : Z' ≤ X' := by
     rw [hX'Qeq]
@@ -385,9 +385,9 @@ theorem scalarSub_le_of_isPGroup_seven (hK : Nat.card S.K = 8) {X : Subgroup (Mu
 theorem scalarSub_le_of_seven_pow_three_dvd (hK : Nat.card S.K = 8) {B : Subgroup (MulAut W)}
     (hBN : B ≤ omegaNorm S) (hB : 7 ^ 3 ∣ Nat.card B) : scalarSub S ≤ B := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Finite ↥B := by
-    haveI := finite_mulAut S
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite ↥B := by
+    have := finite_mulAut S
     exact Finite.of_injective (Subtype.val) Subtype.coe_injective
   let P : Sylow 7 ↥B := default
   have hB0 : Nat.card B ≠ 0 := Nat.card_pos.ne'
@@ -400,7 +400,7 @@ theorem scalarSub_le_of_seven_pow_three_dvd (hK : Nat.card S.K = 8) {B : Subgrou
   let X : Subgroup (MulAut W) := (P : Subgroup ↥B).map B.subtype
   have hXcard : Nat.card X = Nat.card ↥P := Subgroup.card_map_of_injective B.subtype_injective
   have hXge : 7 ^ 3 ≤ Nat.card X := by rw [hXcard]; exact hPge
-  have hXpg : IsPGroup 7 X := P.isPGroup'.map B.subtype
+  have hXpg : IsPGroup 7 X := P.isPGroup.map B.subtype
   have hXN : X ≤ omegaNorm S := (Subgroup.map_subtype_le (P : Subgroup ↥B)).trans hBN
   have hleX : scalarSub S ≤ X := scalarSub_le_of_isPGroup_seven S hK hXpg hXN hXge
   exact hleX.trans (Subgroup.map_subtype_le (P : Subgroup ↥B))

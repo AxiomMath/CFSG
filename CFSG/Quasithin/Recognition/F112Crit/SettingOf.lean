@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LieType.BorelTits CFSG.QuasithinUnique CFSG.Quasithin.F7
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 theorem centerOf_le_pCoreOf_of_charTwo {X : Subgroup G} (hX : CharTwo X) :
     centerOf X ≤ pCoreOf 2 X := fun _ hz =>
   hX ⟨hz.1, Subgroup.centralizer_le (Subgroup.map_subtype_le _) hz.2⟩
@@ -35,6 +36,7 @@ private theorem omegaOneOf_ne_bot_of_isPGroup {Y : Subgroup G} (hY : IsPGroup 2 
   rw [hy1, orderOf_one] at hy
   exact absurd hy (by norm_num)
 
+omit [Finite G] in
 theorem le_centralizer_omegaOneCenterOf (X : Subgroup G) :
     X ≤ Subgroup.centralizer (omegaOneCenterOf X : Set G) := by
   intro x hx
@@ -43,6 +45,7 @@ theorem le_centralizer_omegaOneCenterOf (X : Subgroup G) :
   have hz' : z ∈ centerOf X := A4.omegaOneCenterOf_le_centerOf _ hz
   exact (Subgroup.mem_centralizer_iff.mp hz'.2 x hx).symm
 
+omit [Finite G] in
 theorem P₂_swap_eq (L1 L2 S : Subgroup G) : P₂ L2 L1 S = L1 ⊔ S ⊔ borelOf L2 S := by
   simp only [P₂, bigB]
   apply le_antisymm

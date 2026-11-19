@@ -45,7 +45,7 @@ public theorem theorem_8_2_a
         symm
         exact natCard_subgroupOf_eq U0 S le_sup_right
       _ = Monoid.exponent (U0.subgroupOf S) := by
-        letI : IsZGroup (U0.subgroupOf S) := hZ
+        let : IsZGroup (U0.subgroupOf S) := hZ
         exact (IsZGroup.exponent_eq_card (U0.subgroupOf S)).symm
       _ = Monoid.exponent U0 := by
         exact Monoid.exponent_eq_of_mulEquiv (Subgroup.subgroupOfEquivOfLe le_sup_right)

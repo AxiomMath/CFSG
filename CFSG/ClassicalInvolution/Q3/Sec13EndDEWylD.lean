@@ -42,11 +42,13 @@ namespace TwinShift
 
 variable {Ω : Set (Subgroup G)} (S : TwinShift Ω)
 
+omit [Finite G] in
 theorem shift_shift_self (m : Lab2) {K : Subgroup G} (hK : K ∈ Ω) :
     S.shift m (S.shift m K) = K := by
   rw [← S.shift_add m m K hK, show m + m = 0 from by ext <;> simp [CharTwo.add_self_eq_zero],
     S.shift_zero K hK]
 
+omit [Finite G] in
 theorem shift_injective {K : Subgroup G} (hK : K ∈ Ω) {m m' : Lab2}
     (hmm : S.shift m K = S.shift m' K) : m = m' := by
   have h1 : S.shift (m + m') K = K := by
@@ -70,15 +72,17 @@ private theorem dd_eq_of_add_eq_zero {a c : Lab2} (hac : a + c = 0) : c = a := b
     _ = a + (a + c) := by abel
     _ = a := by rw [hac, add_zero]
 
+omit [Finite G] in
 private theorem dd_lam_eq_zero_of_no_member {Ω : Set (Subgroup G)} (S : TwinShift Ω) {q x : G}
     (hx : ¬∃ M, M ∈ dew1V Ω x) : S.lam q x = 0 := by
   unfold TwinShift.lam
-  rw [dif_neg hx]
+  rw [dite_eq_right hx]
 
 abbrev DdAdm {Ω : Set (Subgroup G)} (S : TwinShift Ω) (b : Lab2) (K : Subgroup G) (k j x : G) :
     Prop :=
   K ∈ Ω ∧ k ∈ K ∧ j ∈ S.shift b K ∧ k * j⁻¹ ∈ pCore 2 G ∧ x ∈ zGroup Ω ∧ k * x * k⁻¹ ≠ x
 
+omit [Finite G] in
 private theorem dd_expand {Ω : Set (Subgroup G)} {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     {F : G → M} (hF1 : F 1 = 0)
@@ -114,7 +118,7 @@ private theorem dd_coord_spec {Ω : Set (Subgroup G)} {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) {x : G} (hx : x ∈ zGroup Ω) :
     TL4.e8Coord e (dd_coord he x) = x := by
   unfold dd_coord
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   exact (TL4.exists_e8Coord_eq he hx).choose_spec
 
 private theorem dd_coord_e8Coord {Ω : Set (Subgroup G)} {e : Fin 3 → G}
@@ -149,15 +153,18 @@ namespace DE4Hyp
 variable {Ω : Set (Subgroup G)} (h : DE4Hyp Ω)
 include h
 
+omit [Finite G] in
 private theorem dd_dew1V_conj {g x : G} {M : Subgroup G} (hM : M ∈ dew1V Ω x) :
     conjSub g M ∈ dew1V Ω (g * x * g⁻¹) :=
   ⟨h.hyp.conjInvariant g M hM.1, hM.2.conj g⟩
 
+omit [Finite G] in
 private theorem dd_conj_mem_twinSet {L J : Subgroup G} (hJ : J ∈ twinSet Ω L) (g : G) :
     conjSub g J ∈ twinSet Ω (conjSub g L) := by
   obtain ⟨hJΩ, z, hLz, hJz⟩ := hJ
   exact ⟨h.hyp.conjInvariant g J hJΩ, g * z * g⁻¹, hLz.conj g, hJz.conj g⟩
 
+omit [Finite G] h in
 private theorem dd_twins (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K : Subgroup G} {u : G}
     (hK : K ∈ Ω) (hu : IsUniqueInvolution K u) : DewTwins Ω K (S.shift b K) u := by
   obtain ⟨hJ, z, hKz, hJz⟩ := S.shift_mem b K hK
@@ -193,7 +200,7 @@ theorem exists_twinShift : Nonempty (TwinShift Ω) := by
   have hV : dew1V Ω u₀ = twinSet Ω K₀ := dew1V_eq_twinSet hK₀ hu₀
   have hcard : (dew1V Ω u₀).ncard = 4 := h.ncard_dew1V hK₀ hu₀
   have h3 : ((dew1V Ω u₀) \ {K₀}).ncard = 3 := by
-    rw [Set.ncard_diff_singleton_of_mem hK₀V, hcard]
+    rw [Set.ncard_sdiff_singleton_of_mem hK₀V, hcard]
   obtain ⟨J₁, J₂, -, hJ₁, hJ₂, -, hJ₁J₂, -, -⟩ :=
     (Set.two_lt_ncard_iff (Set.toFinite _)).mp (by omega : 2 < ((dew1V Ω u₀) \ {K₀}).ncard)
   have hJ₁V : J₁ ∈ dew1V Ω u₀ := hJ₁.1
@@ -269,7 +276,7 @@ theorem exists_twinShift : Nonempty (TwinShift Ω) := by
   obtain ⟨gK, hgK⟩ : ∃ gK : Subgroup G → G, ∀ K ∈ Ω, conjSub (gK K) K₀ = K := by
     refine ⟨fun K => if hK : K ∈ Ω then Classical.choose (h.trans K₀ hK₀ K hK) else 1,
       fun K hK => ?_⟩
-    simp only [dif_pos hK]
+    simp only [dite_eq_left hK]
     exact Classical.choose_spec (h.trans K₀ hK₀ K hK)
   refine ⟨{ conj_mem := fun g K hK => h.hyp.conjInvariant g K hK
             shift := fun m K => conjSub (gK K * act m) K₀
@@ -349,7 +356,7 @@ theorem lam_spec (S : TwinShift Ω) {q x : G} (hq : q ∈ pCore 2 G) {M : Subgro
   have hm' : ∃ m : Lab2, conjSub q hx.choose = S.shift m hx.choose := ⟨m, hm.symm⟩
   have hlam : S.lam q x = hm'.choose := by
     unfold TwinShift.lam
-    rw [dif_pos hx, dif_pos hm']
+    rw [dite_eq_left hx, dite_eq_left hm']
   have hspec : conjSub q hx.choose = S.shift (S.lam q x) hx.choose := by
     rw [hlam]
     exact hm'.choose_spec
@@ -403,7 +410,7 @@ theorem lam_of_mem_zGroup (S : TwinShift Ω) {d : G} (hd : d ∈ zGroup Ω) (x :
 
 theorem lam_conj (S : TwinShift Ω) {q : G} (hq : q ∈ pCore 2 G) (g x : G) :
     S.lam (g * q * g⁻¹) (g * x * g⁻¹) = S.lam q x := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   have hgq : g * q * g⁻¹ ∈ pCore 2 G := (inferInstance : (pCore 2 G).Normal).conj_mem q hq g
   by_cases hx : ∃ M, M ∈ dew1V Ω x
   · obtain ⟨M, hM⟩ := hx
@@ -441,7 +448,7 @@ private theorem dd_transport (S : TwinShift Ω) {b : Lab2} {K : Subgroup G} {k j
     (hadm : DdAdm S b K k j x) (g : G) :
     DdAdm S b (conjSub g K) (g * k * g⁻¹) (g * j * g⁻¹) (g * x * g⁻¹) ∧
       S.lam (g * k * g⁻¹ * (g * j * g⁻¹)⁻¹) (g * x * g⁻¹) = S.lam (k * j⁻¹) x := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨hK, hk, hj, hkj, hx, hkx⟩ := hadm
   have hgkj : g * k * g⁻¹ * (g * j * g⁻¹)⁻¹ = g * (k * j⁻¹) * g⁻¹ := by group
   refine ⟨⟨h.hyp.conjInvariant g K hK, conj_mem_conjSub hk, ?_,
@@ -464,7 +471,7 @@ private theorem dd_same_K (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K : Subg
   obtain ⟨hK, hk₁, hj₁, hkj₁, hx, hkx₁⟩ := h₁
   obtain ⟨-, hk₂, hj₂, hkj₂, -, hkx₂⟩ := h₂
   obtain ⟨u, hu⟩ := h.exists_isUniqueInvolution hK
-  have tw : DewTwins Ω K (S.shift b K) u := h.dd_twins S hb hK hu
+  have tw : DewTwins Ω K (S.shift b K) u := DE4Hyp.dd_twins S hb hK hu
   have hx1 : x ≠ 1 := by
     rintro rfl
     exact hkx₁ (by simp)
@@ -534,7 +541,7 @@ theorem exists_isTransport (S : TwinShift Ω) : ∃ π : Lab2 → Lab2, IsTransp
   have hex : ∃ m : Lab2, ∃ (K : Subgroup G) (k j x : G),
       DdAdm S b K k j x ∧ S.lam (k * j⁻¹) x = m :=
     ⟨S.lam (k * j⁻¹) x, K, k, j, x, hadm, rfl⟩
-  simp only [dif_pos hex]
+  simp only [dite_eq_left hex]
   obtain ⟨K', k', j', x', hadm', heq⟩ := hex.choose_spec
   rw [← heq]
   exact h.dd_label_eq S hb hadm hadm'
@@ -550,13 +557,13 @@ theorem lam_dewDelta_of_isTransport (S : TwinShift Ω) {π : Lab2 → Lab2} (hπ
     rcases dd_zmod_two (φ x) with hφx | hφx
     · have hkx : k * x = x * k := by
         have e := hkφ x hxD
-        rw [if_pos hφx] at e
+        rw [ite_eq_left hφx] at e
         calc k * x = k * x * k⁻¹ * k := by group
           _ = x * k := by rw [e]
-      have hact := h.dewDelta_act_of_commute (h.dd_twins S hb hK hu) hk hj hkj hxD hkx hM
+      have hact := h.dewDelta_act_of_commute (DE4Hyp.dd_twins S hb hK hu) hk hj hkj hxD hkx hM
       rw [(h.conjSub_eq_iff_lam_eq_zero S hkj hM).mp hact, hφx, zero_smul]
     · have hkx : k * x * k⁻¹ ≠ x := by
-        rw [hkφ x hxD, if_neg (by rw [hφx]; exact one_ne_zero)]
+        rw [hkφ x hxD, ite_eq_right (by rw [hφx]; exact one_ne_zero)]
         intro e
         exact hu.ne_one (mul_right_cancel (e.trans (one_mul x).symm))
       rw [hφx, one_smul]
@@ -677,7 +684,7 @@ theorem isTransport_apply_eq (S : TwinShift Ω) {π : Lab2 → Lab2} (hπ : IsTr
   have hj₀ : q * k * q⁻¹ ∈ S.shift b K := by
     rw [← hqK]
     exact conj_mem_conjSub hkK
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   have hkq : k * q * k⁻¹ ∈ pCore 2 G := (inferInstance : (pCore 2 G).Normal).conj_mem q hq k
   have hδ : k * (q * k * q⁻¹)⁻¹ ∈ pCore 2 G := by
     have : k * (q * k * q⁻¹)⁻¹ = (k * q * k⁻¹) * q⁻¹ := by group
@@ -711,7 +718,7 @@ theorem lam_dewDelta_range (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K : Sub
         ∀ x, S.lam q x = f x • b) ∧
       (∀ f ∈ DE2Hyp.deq2Dual Ω, f u = 0 → ∃ q ∈ dewDelta K (S.shift b K),
         ∀ x, S.lam q x = f x • b) := by
-  have tw := h.dd_twins S hb hK hu
+  have tw := DE4Hyp.dd_twins S hb hK hu
   constructor
   · intro q hq
     obtain ⟨k, hk, j, hj, rfl, hkj⟩ := (h.mem_dewDelta_iff tw).mp hq
@@ -751,7 +758,7 @@ theorem dewDelta_inf_zGroup {K J : Subgroup G} {u : G} (tw : DewTwins Ω K J u) 
     have hkC : k ∈ Subgroup.centralizer (zGroup Ω : Set G) := by
       refine Subgroup.mem_centralizer_iff.mpr fun d hd => ?_
       have e := hkφ d hd
-      rw [if_pos (hφ0 d hd)] at e
+      rw [ite_eq_left (hφ0 d hd)] at e
       exact (calc k * d = (k * d * k⁻¹) * k := by group
         _ = d * k := by rw [e]).symm
     have hkK : k ∈ K ⊓ Subgroup.centralizer (zGroup Ω : Set G) := ⟨hk, hkC⟩
@@ -799,7 +806,7 @@ theorem exists_dual_ne {x y : G} (hx : x ∈ zGroup Ω) (hy : y ∈ zGroup Ω) (
     rw [← dd_coord_spec he hx, ← dd_coord_spec he hy, hc]
   obtain ⟨i, hi⟩ : ∃ i, dd_coord he x i ≠ dd_coord he y i := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (funext hcon)
   refine ⟨fun z => if z ∈ zGroup Ω then dd_coord he z i else 0, ⟨?_, ?_, ?_⟩, ?_⟩
   · simp [dd_coord_one he]
@@ -807,8 +814,8 @@ theorem exists_dual_ne {x y : G} (hx : x ∈ zGroup Ω) (hy : y ∈ zGroup Ω) (
     simp [hz]
   · intro a ha b hb
     have hab := (zGroup Ω).mul_mem ha hb
-    simp only [if_pos ha, if_pos hb, if_pos hab, dd_coord_mul he ha hb, Pi.add_apply]
-  · simp only [if_pos hx, if_pos hy]
+    simp only [ite_eq_left ha, ite_eq_left hb, ite_eq_left hab, dd_coord_mul he ha hb, Pi.add_apply]
+  · simp only [ite_eq_left hx, ite_eq_left hy]
     exact hi
 
 theorem lam_surj (S : TwinShift Ω) {F : G → Lab2} (hF : F ∈ dewDual2 Ω) :
@@ -877,7 +884,7 @@ theorem card_pCore_eq : Nat.card (pCore 2 G) = 512 := by
         simp [hx]
       · intro a ha b hb
         have hab := (zGroup Ω).mul_mem ha hb
-        simp only [if_pos ha, if_pos hb, if_pos hab, dd_coord_mul he ha hb, Pi.add_apply,
+        simp only [ite_eq_left ha, ite_eq_left hb, ite_eq_left hab, dd_coord_mul he ha hb, Pi.add_apply,
           add_smul, Finset.sum_add_distrib]
       · intro i
         simp [he.mem i, dd_coord_single he i]
@@ -904,7 +911,7 @@ theorem card_pCore_eq : Nat.card (pCore 2 G) = 512 := by
   have hidx : Λ.ker.index = 64 := by
     rw [Subgroup.index_ker, MonoidHom.range_eq_top.mpr hsurj, Subgroup.card_top]
     show Nat.card (Fin 3 → Lab2) = 64
-    simp [Nat.card_pi, Fin.prod_univ_three, Nat.card_prod, Nat.card_zmod]
+    simp
   rw [← Subgroup.card_mul_index Λ.ker, hkerCard, hidx]
 
 end DE4Hyp

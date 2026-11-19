@@ -230,7 +230,7 @@ theorem pair_facts {g0 a : Nat} {K0 FE Ka : List Nat} {rF : Rec}
       rw [eqPK_eq v1 validK_IDK, eqPK_eq v2 validK_IDK, eqPK_eq v1 v2,
         ← inRefl_decM hLF vF v1, ← inRefl_decM hLF vF v2, ← inRefl_decM hLF vF v12,
         (decM_mulK v1 v2).2, decM_IDK] at h4
-      simp only [Function.comp_apply, Bool.or_assoc] at h4 ⊢
+      simp only [Bool.or_assoc] at h4 ⊢
       exact h4
 
 theorem a6ck_sound {G GT EA ET : List Nat} {a0 g0 n0 tau r0 : Nat}

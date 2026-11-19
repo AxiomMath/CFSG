@@ -117,15 +117,15 @@ private theorem prop_preserved {T : Type} [Group T] {t : T} {d : MulAut T} (hd :
     (hD : ∀ d ∈ D, d t = t) :
     MulAction D {x : T // orderOf x = 2 ∧ orderOf (t * x) = 3} where
   smul g x := ⟨(g : MulAut T) x.1, prop_preserved (hD (g : MulAut T) g.2) x.1 x.2⟩
-  one_smul x := Subtype.ext rfl
-  mul_smul g h x := Subtype.ext rfl
+  one_smul _x := Subtype.ext rfl
+  mul_smul _g _h _x := Subtype.ext rfl
 
 theorem s3PartnerFixed_of_card {T : Type} [Group T]
     (h : ∀ t : T, orderOf t = 2 →
       ¬ 3 ∣ Nat.card {x : T // orderOf x = 2 ∧ orderOf (t * x) = 3}) : S3PartnerFixed T := by
   intro t ht D hD hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI act : MulAction D {x : T // orderOf x = 2 ∧ orderOf (t * x) = 3} := actE t D hfix
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let act : MulAction D {x : T // orderOf x = 2 ∧ orderOf (t * x) = 3} := actE t D hfix
   obtain ⟨⟨x, hx⟩, hmem⟩ :=
     IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card hD
       {x : T // orderOf x = 2 ∧ orderOf (t * x) = 3} (h t ht)
@@ -150,7 +150,7 @@ theorem descent_mk {Q : Type} [Group Q] (σ : MulAut Q) (q : Q) :
 
 theorem coprime_orderOf_of_mem_pPrimeCoreOf {Q : Type} [Group Q] [Finite Q] (K : Subgroup Q)
     {g : Q} (hg : g ∈ pPrimeCoreOf 3 K) : Nat.Coprime 3 (orderOf g) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g', hg', rfl⟩ := Subgroup.mem_map.1 hg
   have h1 : orderOf (K.subtype g') = orderOf g' :=
     orderOf_injective K.subtype K.subtype_injective g'
@@ -172,8 +172,8 @@ theorem odd_card_pPrimeCoreOf_of_s3PartnerFixed {Q : Type} [Group Q] [Finite Q]
     (D : Subgroup (MulAut Q)) (hD : IsPGroup 3 D) :
     Odd (Nat.card ↥(pPrimeCoreOf 3 (FixedPoints.subgroup D Q))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup Q := FixedPoints.subgroup D Q with hC
   by_contra hodd
   have h2 : 2 ∣ Nat.card ↥(pPrimeCoreOf 3 C) := by

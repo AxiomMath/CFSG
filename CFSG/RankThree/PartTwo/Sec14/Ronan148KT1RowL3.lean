@@ -73,7 +73,7 @@ theorem perfect_le_inner_of_mulEquiv {S Q : Type} [Group S] [Group Q] (e : S ≃
     (P : Subgroup (MulAut S)) (hP : Group.IsPerfect ↥P) :
     P ≤ (MulAut.conj : S →* MulAut S).range := by
   intro x hx
-  haveI : Group.IsPerfect ↥(P.map (MulAut.congr e).toMonoidHom) := Group.IsPerfect.map _
+  have : Group.IsPerfect ↥(P.map (MulAut.congr e).toMonoidHom) := Group.IsPerfect.map _
   have h1 : MulAut.congr e x ∈ P.map (MulAut.congr e).toMonoidHom := ⟨x, hx, rfl⟩
   exact (isInnerAut_congr e x).mp (hQ _ inferInstance h1)
 
@@ -588,7 +588,7 @@ open CFSG.RankThree.PartTwo.KFacts
 open CFSG.RankThree.PartTwo.Sec6.BThreeCensus (three_ne_zero_of_charP)
 
 theorem rowOf143_l3 (p e : ℕ) [Fact p.Prime] (hp3 : p ≠ 3)
-    (he : 1 ≤ e) : RowOf143 (projSL 3 (GaloisField p e)) := by
+    (_he : 1 ≤ e) : RowOf143 (projSL 3 (GaloisField p e)) := by
   unfold RowOf143
   intro S _ _ hS hnc ⟨φ⟩ h3
   obtain ⟨τ₀⟩ := nonempty_projSL_mulEquiv 3 (GaloisField p e)
@@ -627,8 +627,8 @@ theorem rowOf143_projSU_three_two_one : RowOf143 (projSU 3 2 1) := by
   unfold RowOf143
   intro S _ _ hS hnc ⟨φ⟩ _
   exfalso
-  haveI := hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : UnitaryFieldData 2 1 (GaloisField 2 (2 * 1)) :=
     ⟨Nat.prime_two, le_rfl, GaloisField.card 2 (2 * 1) (by norm_num)⟩
   obtain ⟨ψ⟩ := nonempty_unitaryPSU_mulEquiv_projSU h
@@ -642,7 +642,7 @@ theorem rowOf143_projSU_three_two_one : RowOf143 (projSU 3 2 1) := by
   obtain ⟨y, z, hy, hz, hyz⟩ := dvd_mul.mp hdvd
   obtain ⟨c, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hy
   obtain ⟨d, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hz
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hsolv : Group.IsSolvable S :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := c) (b := d)
       Nat.prime_two Nat.prime_three (by norm_num)
@@ -652,7 +652,7 @@ theorem rowOf143_projSU_three_two_one : RowOf143 (projSU 3 2 1) := by
 
 theorem rowOf143_u3_two (n : ℕ) (hn : 1 ≤ n) :
     RowOf143 (projSU 3 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h1 | h2
   · obtain rfl : n = 1 := by omega
     exact rowOf143_projSU_three_two_one

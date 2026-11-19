@@ -73,14 +73,14 @@ private theorem s16t3_card_eqv_end_le_two [Finite Q] {Λ : Subgroup Γ} {P : Sub
         by_contra hb
         have hthis : (if a.1 = 1 then (0 : Fin 2) else 1) =
             (if b.1 = 1 then (0 : Fin 2) else 1) := hab
-        rw [if_pos ha, if_neg hb] at hthis
+        rw [ite_eq_left ha, ite_eq_right hb] at hthis
         exact absurd hthis (by decide)
       exact Subtype.ext (ha.trans hb.symm)
     · have hb : b.1 ≠ 1 := by
         intro hb
         have hthis : (if a.1 = 1 then (0 : Fin 2) else 1) =
             (if b.1 = 1 then (0 : Fin 2) else 1) := hab
-        rw [if_neg ha, if_pos hb] at hthis
+        rw [ite_eq_right ha, ite_eq_left hb] at hthis
         exact absurd hthis (by decide)
       rcases s16t3_isEqv_end_eq_one_or_id hP hE a.1 a.2 with h | h
       · exact absurd h ha
@@ -94,11 +94,11 @@ private theorem s16t3_card_eqv_end_le_two [Finite Q] {Λ : Subgroup Γ} {P : Sub
 theorem s16t3_card_end_eq_two_of_endUnits [Finite Q] {Λ : Subgroup Γ} {P : Subgroup Q}
     (hP : XMod.IsIrr ↥Λ P) (hE : Z391.EndUnitsTrivial Λ P) :
     Nat.card (Module.End ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1)) = 2 := by
-  haveI : IsSimpleModule ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1) :=
+  have : IsSimpleModule ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1) :=
     (XMod.isIrr_iff hP.1).1 hP
-  haveI : Nontrivial ↥(XMod.toSubmod hP.1) :=
+  have : Nontrivial ↥(XMod.toSubmod hP.1) :=
     IsSimpleModule.nontrivial ↥(XMod.opRing ↥Λ Q) _
-  haveI : Finite (Module.End ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1)) :=
+  have : Finite (Module.End ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1)) :=
     Finite.of_injective
       (fun g : Module.End ↥(XMod.opRing ↥Λ Q) ↥(XMod.toSubmod hP.1) =>
         (g : ↥(XMod.toSubmod hP.1) → ↥(XMod.toSubmod hP.1)))

@@ -36,14 +36,17 @@ variable {G : Type} [Group G] [Finite G]
       CFSG.LocalAnalysis.WeakClosure81.InFSq 1 H₂ →
     UniqueMax M (H₁ ⊔ H₂) → k + 2 < E3.sParam hV → E3.wClos V 0 S ≠ ⊥ → H ≤ M
 
+omit [Finite G] in
 private theorem uniqueMax_le {M X : Subgroup G} (h : UniqueMax M X) : X ≤ M := by
   have hM : M ∈ calMOf X := by rw [h]; simp
   exact hM.2
 
+omit [Finite G] in
 private theorem uniqueMax_sup_of_sup_eq_T {M L T L₁ L₂ : Subgroup G} (hU : UniqueMax M (L ⊔ T))
     (hsup : L ⊔ T = L₁ ⊔ L₂) : UniqueMax M (L₁ ⊔ L₂) :=
   hsup ▸ hU
 
+omit [Finite G] in
 private theorem le_of_sup_eq_of_uniqueMax {M L T L₁ L₂ : Subgroup G} (hU : UniqueMax M (L ⊔ T))
     (hsup : L ⊔ T = L₁ ⊔ L₂) : L₁ ≤ M ∧ L₂ ≤ M := by
   have hLM : L ⊔ T ≤ M := uniqueMax_le hU
@@ -105,6 +108,7 @@ theorem seventeen_four_v0eq1 (D : Data G) (h111 : W3Thm111 G) (h126 : R126 D)
 
 namespace SeventeenFour
 
+omit [Finite G] in
 private theorem card_bar2_eq_six {L : Subgroup G}
     (h : Nonempty (Bar2 L ≃* Equiv.Perm (Fin 3))) : Nat.card (Bar2 L) = 6 := by
   obtain ⟨e⟩ := h
@@ -205,8 +209,8 @@ private theorem exists_order_three_subgroup {K T : Subgroup G} (hTK : T ≤ K)
   have hsub1 : (X : Set G) * (T : Set G) ⊆ (K : Set G) := by
     rintro _ ⟨a, ha, b, hb, rfl⟩
     exact K.mul_mem (hXle ha) (hTK hb)
-  haveI : Fintype ↥((X : Set G) * (T : Set G)) := Fintype.ofFinite _
-  haveI : Fintype ↥(K : Set G) := Fintype.ofFinite _
+  have : Fintype ↥((X : Set G) * (T : Set G)) := Fintype.ofFinite _
+  have : Fintype ↥(K : Set G) := Fintype.ofFinite _
   have hXT : (X : Set G) * (T : Set G) = (K : Set G) :=
     Set.eq_of_subset_of_card_le hsub1
       (le_of_eq (by simpa [Nat.card_eq_fintype_card] using hcardXT.symm))
@@ -219,7 +223,7 @@ private theorem exists_order_three_subgroup {K T : Subgroup G} (hTK : T ≤ K)
     rw [h2, mul_one] at h1
     rw [h1, hXcard]
     omega
-  haveI : Fintype ↥((T : Set G) * (X : Set G)) := Fintype.ofFinite _
+  have : Fintype ↥((T : Set G) * (X : Set G)) := Fintype.ofFinite _
   have hTX : (T : Set G) * (X : Set G) = (K : Set G) :=
     Set.eq_of_subset_of_card_le hsub2
       (le_of_eq (by simpa [Nat.card_eq_fintype_card] using hcardTX.symm))

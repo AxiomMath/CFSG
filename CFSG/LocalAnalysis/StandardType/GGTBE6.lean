@@ -61,7 +61,7 @@ private theorem weyl_eq_of_lift {K L : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem ggTorusTorW_adjoint_E6_three {K : Type} [Field K] [Finite K] [CharP K 2]
     (h3 : 3 ∣ Nat.card K - 1) :
-    GGTorusTorW 3 5 (Nat.card K - 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+    GGTorusTorW 3 5 (Nat.card K - 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
       (adjointGroup .E6 K) ((hatAut .E6 K).range : Set _) := by
   intro L _ _ ψ A hTB
   obtain ⟨hψ, hker, hperf, hA, hAI, h5, -, hsc⟩ := hTB
@@ -163,7 +163,7 @@ theorem ggTorusTorW_adjoint_E6_three {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem ggTorusTorW_recipe_E6_three {K : Type} [Field K] [Finite K] [CharP K 2]
     (h3 : 3 ∣ Nat.card K - 1) :
-    GGTorusTorW 3 5 (Nat.card K - 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+    GGTorusTorW 3 5 (Nat.card K - 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
       (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
   intro L _ _ ψ A hTB
   obtain ⟨hψ, hker, hperf, hA, hAI, h5, h3A, hsc⟩ := hTB

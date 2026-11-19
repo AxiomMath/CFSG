@@ -17,7 +17,7 @@ private theorem five_not_dvd_mulAut_card_of_card_nine
     ¬5 ∣ Nat.card (MulAut G) := by
   classical
   intro hfive
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, haorder⟩ :=
     exists_prime_orderOf_dvd_card'
       (G := MulAut G) 5 hfive
@@ -102,7 +102,7 @@ theorem five_point_stabilizer_card_ne_one_thousand_one_hundred_fifty_two
     Nat.card (fixingSubgroup P s) ≠ 1152 := by
   classical
   intro hHcard
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let S : Sylow 3 H := Sylow.nonempty.some
   have hScard : Nat.card S = 9 := by

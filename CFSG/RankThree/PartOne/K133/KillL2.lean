@@ -21,7 +21,7 @@ theorem isCyclic_of_commuting_pow_eq_one_sl2 {K : Type*} [Field K] [Finite K] {p
   have : Finite E := Subtype.finite
   have : NeZero p := ⟨hp.ne_zero⟩
   let L := AlgebraicClosure K
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   let φ : Matrix (Fin 2) (Fin 2) K →+* Matrix (Fin 2) (Fin 2) L :=
     (algebraMap K L).mapMatrix
   have hφinj : Function.Injective φ := fun a b h =>

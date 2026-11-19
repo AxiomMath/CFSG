@@ -15,11 +15,11 @@ variable {G X : Type*} [Group G] [MulAction G X]
     Subgroup G where
   carrier := {g | ∀ x, u (g • x) = u x}
   mul_mem' {a b} ha hb x := by
-    simp only [Set.mem_setOf_eq] at ha hb
+    simp only [Set.mem_ofPred_eq] at ha hb
     rw [mul_smul, ha, hb]
   one_mem' x := by rw [one_smul]
   inv_mem' {a} ha x := by
-    simp only [Set.mem_setOf_eq] at ha
+    simp only [Set.mem_ofPred_eq] at ha
     rw [← ha (a⁻¹ • x), smul_inv_smul]
 
 theorem mem_pmbFix {Y : Type*} {u : X → Y} {g : G} : g ∈ pmbFix G u ↔ ∀ x, u (g • x) = u x :=

@@ -120,7 +120,7 @@ theorem noOffender_of_m24Out
     [Finite G] (hm : M24Out G E t) {A : Subgroup G} (hA : A ≤ Nrm E)
     (hsq : ∀ a ∈ A, a ^ 2 = 1) (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAE : ¬ A ≤ E) :
     (A ⊓ E).relIndex A * Nat.card ↥(E ⊓ centralizer (A : Set G)) ≤ 2 ^ 10 := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   rw [relIndex_eq_card_range hm hA, card_inf_centralizer_eq hm hA]
   have hel := isElemAbelian2_range_actA hm hA hsq hcomm
   have hne := range_actA_ne_bot hm hA hAE

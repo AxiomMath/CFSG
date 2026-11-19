@@ -167,6 +167,7 @@ theorem Data42.qb₂ : qq (b * b₂) b₂ = (qq (b * b₂) b)⁻¹ := by
   rw [qq_mul ((Cen _).inv_mem D.cb) ((Cen _).zpow_mem
     (Subgroup.mem_centralizer_singleton_iff.mpr rfl : b * b₂ ∈ Cen (b * b₂)) 1), qq_xpow, mul_one]
 
+omit [Finite G] D in
 theorem Data42.closure_le : Subgroup.closure ({b, b₂} : Set G) ≤ Subgroup.closure {b, b * b₂} := by
   refine (Subgroup.closure_le _).mpr ?_
   rintro y (hy | hy) <;> rw [hy]
@@ -175,6 +176,7 @@ theorem Data42.closure_le : Subgroup.closure ({b, b₂} : Set G) ≤ Subgroup.cl
     exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.subset_closure (by simp)))
       (Subgroup.subset_closure (by simp))
 
+omit [Finite G] D in
 theorem Data42.mem_E₀ (k j : ℤ) : b ^ k * (b * b₂) ^ j ∈ Subgroup.closure ({b, b₂} : Set G) :=
   Subgroup.mul_mem _ (Subgroup.zpow_mem _ (Subgroup.subset_closure (by simp)) _)
     (Subgroup.zpow_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
@@ -184,7 +186,7 @@ theorem Data42.lift {u : G} (hu : u ∈ Cen (b * b₂))
     (h : qq (b * b₂) u ∈ Nor (Subgroup.zpowers (qq (b * b₂) b))) :
     u * b * u⁻¹ ∈ Subgroup.closure ({b, b₂} : Set G) := by
   obtain ⟨k, j, hkj⟩ := lift_nor' hu D.cb h
-  rw [hkj]; exact D.mem_E₀ k j
+  rw [hkj]; exact Data42.mem_E₀ k j
 
 theorem Data42.fs {u : G} (hu : u ∈ Cen (b * b₂))
     (h : qq (b * b₂) u ∈ Nor (Subgroup.zpowers (qq (b * b₂) b))) :
@@ -194,7 +196,7 @@ theorem Data42.fs {u : G} (hu : u ∈ Cen (b * b₂))
 theorem Data42.nor_of {u : G} (hu : u ∈ Cen (b * b₂))
     (h : u * b * u⁻¹ ∈ Subgroup.closure ({b, b₂} : Set G)) :
     qq (b * b₂) u ∈ Nor (Subgroup.zpowers (qq (b * b₂) b)) :=
-  nor_of' hu D.cb (D.closure_le h)
+  nor_of' hu D.cb (Data42.closure_le h)
 
 theorem Data42.inj_J : ∀ k ∈ J, (∃ i : ℤ, k = (b * b₂) ^ i) → k = 1 := by
   rintro k hk ⟨i, rfl⟩
@@ -208,7 +210,7 @@ theorem Data42.hyp_ord_b : orderOf (qq (b * b₂) b) = 3 := by
   · rw [← qq_pow D.cb, D.b3, qq_one]
   · intro h
     obtain ⟨k, hk⟩ := (qq_eq_one_iff D.cb).mp h
-    haveI := D.h4.basis.mono.1.1
+    have := D.h4.basis.mono.1.1
     obtain ⟨β, hβ⟩ := D.h4.exists_coord
     obtain ⟨hbB, -, hb2B, -⟩ := D.h4.basis.mem
     have hc := congrArg (cvG β) hk
@@ -265,11 +267,13 @@ theorem Data42.opp_le_M : Opp 3 (Cen b) ≤ Opp 3 (Cen b ⊓ Cen b₂) := by
   intro s hs o ho
   exact conj_mem_opp_of_mem_nor (Subgroup.le_normalizer hs.1) ho
 
+omit D in
 theorem Data42.nor_pair {u : G}
     (h : (u * b * u⁻¹ = b ∧ u * b₂ * u⁻¹ = b₂) ∨ (u * b * u⁻¹ = b₂ ∧ u * b₂ * u⁻¹ = b)) :
     u ∈ Nor (Cen b ⊓ Cen b₂) :=
   Subgroup.mem_normalizer_fintype fun y hy => preserve_cen_pair h y hy
 
+omit D [Finite G] in
 theorem Data42.cM {m : G} (hm : m ∈ Opp 3 (Cen b ⊓ Cen b₂)) : m ∈ Cen (b * b₂) :=
   mem_cen_mul (opp_le _ hm).1 (opp_le _ hm).2
 
@@ -284,7 +288,7 @@ theorem Data42.img_M : img (b * b₂) (Opp 3 (Cen b ⊓ Cen b₂)) ≤
     obtain ⟨u, hu, rfl⟩ := qq_surj _ s
     obtain ⟨m, hm, hmc, rfl⟩ := mem_img.mp hy
     rw [← qq_conj hu hmc]
-    exact qq_mem_img (conj_mem_opp_of_mem_nor (D.nor_pair (D.fs hu hs)) hm)
+    exact qq_mem_img (conj_mem_opp_of_mem_nor (Data42.nor_pair (D.fs hu hs)) hm)
       ((Cen _).mul_mem ((Cen _).mul_mem hu hmc) ((Cen _).inv_mem hu))
 
 theorem Data42.dec_fix {c : G} (hcb : c ∈ Cen b) (hcb₂ : c ∈ Cen b₂) :
@@ -320,7 +324,7 @@ theorem Data42.hyp_N :
       rcases D.fs hu hy with ⟨h1, h2⟩ | ⟨h1, h2⟩
       · exact ⟨1, u, by group, (Cen _).one_mem, Subgroup.one_mem _,
           by rw [qq_one]; exact Subgroup.one_mem _, mem_cen_of_conj h1, mem_cen_of_conj h2⟩
-      · refine ⟨t, t⁻¹ * u, by group, D.ct, D.nor_pair (Or.inr ⟨D.htb, D.htb₂⟩),
+      · refine ⟨t, t⁻¹ * u, by group, D.ct, Data42.nor_pair (Or.inr ⟨D.htb, D.htb₂⟩),
           Subgroup.subset_closure (by simp), mem_cen_of_conj ?_, mem_cen_of_conj ?_⟩
         · calc t⁻¹ * u * b * (t⁻¹ * u)⁻¹ = t⁻¹ * (u * b * u⁻¹) * t := by group
             _ = b := by rw [h1, ← D.htb]; group
@@ -328,9 +332,9 @@ theorem Data42.hyp_N :
             _ = b₂ := by rw [h2, ← D.htb₂]; group
     obtain ⟨m, hm, i, k, j, hj, rfl⟩ := D.dec_fix hcb hcb₂
     subst hsc
-    have hmc := D.cM hm
+    have hmc := Data42.cM hm
     have hm' : s * m * s⁻¹ ∈ Opp 3 (Cen b ⊓ Cen b₂) := conj_mem_opp_of_mem_nor hsN hm
-    have hsmc := D.cM hm'
+    have hsmc := Data42.cM hm'
     have hbk : b ^ i * b₂ ^ k ∈ Cen (b * b₂) := (Cen _).mul_mem (D.cbz i) ((Cen _).pow_mem D.cb₂ k)
     have hr : b ^ i * b₂ ^ k * j ∈ Cen (b * b₂) := (Cen _).mul_mem hbk (D.cJ hj)
     refine ⟨qq _ (s * m * s⁻¹), D.img_M (qq_mem_img hm' hsmc), qq _ (s * (b ^ i * b₂ ^ k * j)),
@@ -364,12 +368,12 @@ theorem Data42.hyp_E9 : IsElemAb 3 2 (Subgroup.closure {qq (b * b₂) b₁, qq (
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsub : Subgroup.closure ({b₁, b₃} : Set G) ≤ Subgroup.closure {b₁, b₂, b₃} :=
     Subgroup.closure_mono (by intro y hy; rcases hy with hy | hy <;> simp [hy])
-  haveI := D.h4.basis.elem.1
+  have := D.h4.basis.elem.1
   have hc := comm_of_isElemAb D.h4.basis.elem
-  haveI : IsElementaryAbelian 3 (Subgroup.closure ({b₁, b₃} : Set G)) :=
+  have : IsElementaryAbelian 3 (Subgroup.closure ({b₁, b₃} : Set G)) :=
     CFSG.IsElementaryAbelian.of_forall (fun a ha c hc' => hc a (hsub ha) c (hsub hc'))
       (fun a ha => elemPow_eq_one_of_isElementaryAbelian a (hsub ha))
-  haveI : IsElementaryAbelian 3 ((Subgroup.closure ({b₁, b₃} : Set G)).subgroupOf
+  have : IsElementaryAbelian 3 ((Subgroup.closure ({b₁, b₃} : Set G)).subgroupOf
       (Cen (b * b₂))) :=
     IsElementaryAbelian.subgroupOf (fun _ h => D.cJ (D.closure13_le_J h))
   rw [← D.img13]

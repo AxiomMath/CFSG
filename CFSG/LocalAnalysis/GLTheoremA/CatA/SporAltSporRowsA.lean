@@ -25,8 +25,8 @@ theorem srow_three_of_perm {name : TauCeti.SporadicName} {n : ℕ}
       Nat.card ↥(Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) < 60) :
     SRow name 3 := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 hs
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 hs
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hcG : Nat.card G = Nat.card ↥P := (Nat.card_congr b.toEquiv).symm
   have hnc : ∃ a c : G, a * c ≠ c * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hcG]; exact hcard)
@@ -96,9 +96,9 @@ theorem srow_ON_three
     SRow .ONan 3 := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .ONan) = 460815505920 :=
     CFSG.Sporadic.ON.card_ON
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     Finite.of_equiv _ CFSG.ONSchreier.onEquivPv.symm.toEquiv
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   exact srow_of_centShape hOut (hbr .ONan).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
@@ -113,9 +113,9 @@ theorem srow_McL_three
     SRow .McL 3 := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .McL) = 898128000 :=
     CFSG.Sporadic.McL.card_McL
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hsh := CFSG.HardMathSupport.Dickson.I271.mcl_constrainedShape_three
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL

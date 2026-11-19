@@ -176,6 +176,7 @@ theorem card_fixV_cube_le (hV : ∀ v : V, v * v = 1) {x y z : MulAut V} (hz : z
   calc Nat.card (E 0) ^ 3 = Nat.card (E 0) * (Nat.card (E 0) * Nat.card (E 0)) := by ring
     _ ≤ Nat.card V := hle
 
+omit [Finite V] in
 theorem index_fixV_conj (g h : MulAut V) :
     (fixV (Subgroup.zpowers (g * h * g⁻¹))).index = (fixV (Subgroup.zpowers h)).index :=
   CFSG.Quasithin.FixVLat.index_fixV_zpowers_conj g h

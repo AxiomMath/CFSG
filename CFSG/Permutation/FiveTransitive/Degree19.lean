@@ -55,7 +55,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_nineteen
     ext i
     exact hq i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5)
         (by omega) (by
@@ -87,7 +87,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_nineteen
   have hKcard : Nat.card K = 15 * h := by
     rw [hKindex, hPcard] at hKindexCard
     omega
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let T : Sylow 5 K := Sylow.nonempty.some
   have hTcard : Nat.card T = 5 :=
     sylow_five_card_eq_five_of_card_eq_fifteen_mul
@@ -106,8 +106,8 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_nineteen
   obtain ⟨Q, hQnormal, hComplement⟩ :=
     exists_normal_five_complement_of_normalizer_card_eq_five
       T hTcard hNormalizer
-  letI : Q.Normal := hQnormal
-  have hComplementCard := hComplement.card_mul
+  let : Q.Normal := hQnormal
+  have hComplementCard := hComplement.card_mul_card
   have hQcard : Nat.card Q = 6 ∨ Nat.card Q = 216 := by
     rcases hCases with htwo | hseventyTwo
     · left

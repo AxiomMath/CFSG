@@ -71,7 +71,7 @@ private lemma sq_eq_one_of_orders {a₁ a₂ b₁ b₂ : ℕ}
          (Multiplicative (ZMod b₁) × Multiplicative (ZMod b₂))) : z ^ 2 = 1 := by
   obtain ⟨h1, h2, h3, h4⟩ := h
   refine Prod.ext (Prod.ext ?_ ?_) (Prod.ext ?_ ?_) <;>
-    simp only [map_pow, Prod.fst_one, Prod.snd_one]
+    simp only [Prod.fst_one, Prod.snd_one]
   · exact sq_eq_one_zmod_of_dvd_two h1 _
   · exact sq_eq_one_zmod_of_dvd_two h2 _
   · exact sq_eq_one_zmod_of_dvd_two h3 _
@@ -128,13 +128,13 @@ theorem unique_involution_of_psl_psu
   obtain ⟨-, ⟨e⟩⟩ := hGA X τ (2 * m) 3 k
     (ComponentClassification.HarrisLit.models_lieModel_of_lieModel_of_ne_zero hm' hX)
   rcases hτ with rfl | rfl
-  · haveI : NeZero (Blueprint.Multiplier.genericOrders .PSL (2 * m) 3 k).1 := by
+  · have : NeZero (Blueprint.Multiplier.genericOrders .PSL (2 * m) 3 k).1 := by
       rw [show Blueprint.Multiplier.genericOrders .PSL (2 * m) 3 k =
         (Nat.gcd (2 * m) (3 ^ k - 1), 1) from rfl]
       exact ⟨(Nat.gcd_pos_of_pos_left (m := 2 * m) (3 ^ k - 1) (by omega)).ne'⟩
     exact unique_of_prod (e := e)
       (ComponentClassification.HarrisLit.odd_exceptionalOrders_psl (p := 3) (by norm_num))
-  · haveI : NeZero (Blueprint.Multiplier.genericOrders .PSU (2 * m) 3 k).1 := by
+  · have : NeZero (Blueprint.Multiplier.genericOrders .PSU (2 * m) 3 k).1 := by
       rw [show Blueprint.Multiplier.genericOrders .PSU (2 * m) 3 k =
         (Nat.gcd (2 * m) (3 ^ k + 1), 1) from rfl]
       exact ⟨(Nat.gcd_pos_of_pos_left (m := 2 * m) (3 ^ k + 1) (by omega)).ne'⟩

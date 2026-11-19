@@ -31,7 +31,7 @@ theorem nineteen_seven_not_dvd_index (D : Data G) {V₀ V : Subgroup G} {p : ℕ
     {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K) (h5 : R19_5At D V₀ V p L K h) {v : G}
     (hv : v ∈ V) (hv0 : v ∉ V₀) :
     ¬ 5 ∣ ((D.M ⊓ centralizer ({v} : Set G)).subgroupOf (F11.CElt D.M V₀ v)).index := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Q, hQ⟩ := h5 v hv hv0
   rw [cElt_eq_centModInM D V₀ v]
   intro h5dvd
@@ -46,7 +46,7 @@ theorem nineteen_seven_pRank_cTilde_le_one (D : Data G) {V₀ V : Subgroup G} {p
     {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K) (h5 : R19_5At D V₀ V p L K h)
     (h61 : UC6.R6_1 D) :
     CFSG.Open.pRank 5 (F11.CTilde D.M V₀ V) ≤ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hV0 : InCalV0 D.M V₀ V :=
     inCalV0_of_hyp125 h.hyp.hyp125 (ne_bot_of_one_lt_mSub h.hyp.big)
   by_contra hcon
@@ -101,7 +101,7 @@ theorem nineteen_seven_two_le_pRank_mbar (D : Data G) {V₀ V : Subgroup G} {p :
     2 ≤ CFSG.Open.pRank 5 (Mbar D.M V₀ V hV) := by
   have hP : PairFacts D.M V₀ V := h.hyp.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   have h1 : CFSG.Open.pRank 5 D.M - 1 ≤
       CFSG.Open.pRank 5 (⊤ : Subgroup ↥(Mbar D.M V₀ V hV)) := by
@@ -118,7 +118,7 @@ theorem nineteen_seven_exists_involution (D : Data G) {V₀ V : Subgroup G} {p :
     (hm : ¬ MBarGT D.M V₀ V 3) :
     ∃ t : MulAut (Vtil V₀ V hV), t ∈ Mbar D.M V₀ V hV ∧ orderOf t = 2 ∧
       E3.mQuot (⊤ : Subgroup (Vtil V₀ V hV)) (fixV (Subgroup.zpowers t)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : PairFacts D.M V₀ V := h.hyp.hyp125.pairFacts
   have hmP : E3.mParam (Mbar D.M V₀ V hV) ≤ 3 := by
     have hnot := (PartTwo.mBarGT_iff_lt_mBar D.M V₀ V hV hP.le hP.le_normalizer
@@ -133,7 +133,7 @@ theorem nineteen_seven_exists_involution (D : Data G) {V₀ V : Subgroup G} {p :
     exact hmP
   · exfalso
     unfold E3.mParam at hmP
-    rw [if_neg hev] at hmP
+    rw [ite_eq_right hev] at hmP
     have hsq : ∀ w : Vtil V₀ V hV, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one V₀ V hV
     have hpV : IsPGroup 2 (Vtil V₀ V hV) := CFSG.Quasithin.isPGroup_two_of_sq_eq_one hsq
     have h8 : Nat.card (Vtil V₀ V hV) ≤ 8 := by
@@ -160,7 +160,7 @@ theorem nineteen_seven_exists_involution (D : Data G) {V₀ V : Subgroup G} {p :
 theorem nineteen_seven_two_le_pRank_sup (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
     {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K) :
     2 ≤ CFSG.Open.pRank 5 (L ⊔ K) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hLKleM : L ⊔ K ≤ D.M := sup_le h.hyp.hL.1.1.le h.hK.1.le
   have hcomm1 : ⁅L, K⁆ ≤ CFSG.Open.pCoreOf 2 D.M :=
     (calC_commutator_le_of_ne h.hyp.hL.1 h.hK h.hne.symm).trans

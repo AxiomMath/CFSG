@@ -71,7 +71,7 @@ theorem nine3_thm77_core (hc : Nine3Choice V T A K S X p g x) {ρ : ↥K →* Eq
     (hh : h ∉ normalizer (V : Set G))
     (hDa : ∀ z ∈ conjSubgroup V h, z * (a : G) = (a : G) * z)
     (hDu : ∀ z ∈ conjSubgroup V h, z * (u : G) = (u : G) * z) : False := by
-  haveI : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
+  have : Fact p.Prime := ⟨hc.core.hyp.base.toTwoPTwo.prime⟩
   have hp : p.Prime := hc.core.hyp.base.toTwoPTwo.prime
   have hp2 : p ≠ 2 := hc.core.hyp.base.toTwoPTwo.odd
   have hAΩ : A ∈ omegaIn V K (nineE V K) :=

@@ -131,7 +131,7 @@ theorem exists_eq_scalar_mul_phi6 (hq : ℓ ^ f = 2) {ν μ : K} (hνμ : ν ≠
     rw [adj_smul, frameEmb_adj (h := h), Matrix.smul_mul, Matrix.mul_smul, smul_smul,
       ← frameEmb_mul hu] at hWu
     have h1 := congrFun (congrFun hWu i₀) i₀
-    rw [Matrix.smul_apply, frameEmb_cframe6_left, if_pos rfl, Matrix.one_apply_eq,
+    rw [Matrix.smul_apply, frameEmb_cframe6_left, ite_eq_left rfl, Matrix.one_apply_eq,
       smul_eq_mul, mul_one] at h1
     rw [h1, one_smul, ← frameEmb_one (h := h) (cframe6 (K := K) i₀)] at hWu
     exact frameEmb_injective hu hWu

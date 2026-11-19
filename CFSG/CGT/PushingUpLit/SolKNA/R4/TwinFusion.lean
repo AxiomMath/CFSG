@@ -25,6 +25,7 @@ theorem eq_of_mem_inf_of_four_dvd {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω)
     (padicValNat_dvd_iff_le (Nat.card_pos).ne').mp h4
   omega
 
+omit [Finite G] in
 private theorem eq_one_of_odd_of_isPGroup {O P : Subgroup G} (hOodd : Odd (Nat.card ↥O))
     (hP : IsPGroup 2 ↥P) {g : G} (hgO : g ∈ O) (hgP : g ∈ P) : g = 1 := by
   obtain ⟨k, hk⟩ := hP ⟨g, hgP⟩
@@ -36,7 +37,8 @@ private theorem eq_one_of_odd_of_isPGroup {O P : Subgroup G} (hOodd : Odd (Nat.c
     Nat.Coprime.pow_right k (Odd.coprime_two_right h2)
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd h3 h1)
 
-theorem exists_conj_eq_of_normal_complement {K O P : Subgroup G} (hOK : O ≤ K)
+omit [Finite G] in
+theorem exists_conj_eq_of_normal_complement {K O P : Subgroup G} (_hOK : O ≤ K)
     (hOn : ∀ k ∈ K, ∀ o ∈ O, k * o * k⁻¹ ∈ O) (hOodd : Odd (Nat.card ↥O))
     (hP : IsPGroup 2 ↥P) (hPK : P ≤ K) (hKOP : ∀ k ∈ K, ∃ o ∈ O, ∃ s ∈ P, k = o * s) {y k : G}
     (hy : y ∈ P) (hk : k ∈ K) (hky : k⁻¹ * y * k ∈ P) : ∃ s ∈ P, k⁻¹ * y * k = s⁻¹ * y * s := by

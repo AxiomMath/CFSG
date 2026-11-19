@@ -116,8 +116,8 @@ theorem FiveTwoLayerOutcome.catalog {S : Type} [Group S] (h : FiveTwoLayerOutcom
   · exact CFSG.Blueprint.lieModel_catalog S _ _ _ _ h
   · exact CFSG.Blueprint.lieModel_catalog S _ _ _ _ h
 
-theorem literal_of_stable {X : Type} [Group X] [Finite X] {Y N T : Subgroup X} (hNY : N ≤ Y)
-    (hN : IsPComponent 2 (N.subgroupOf Y)) (hTN : T ≤ N)
+theorem literal_of_stable {X : Type} [Group X] [Finite X] {Y N T : Subgroup X} (_hNY : N ≤ Y)
+    (_hN : IsPComponent 2 (N.subgroupOf Y)) (hTN : T ≤ N)
     (eT : ↥T ⧸ pPrimeCore 2 ↥T ≃* alternatingGroup (Fin 5))
     (h : T ⊔ (pPrimeCore 2 ↥N).map N.subtype = N) :
     Nonempty (↥N ⧸ pPrimeCore 2 ↥N ≃* alternatingGroup (Fin 5)) := by
@@ -144,7 +144,7 @@ theorem literal_of_stable {X : Type} [Group X] [Finite X] {Y N T : Subgroup X} (
     rw [map_mul, ho1, mul_one]
   have hR_bot : (pPrimeCore 2 ↥(T.subgroupOf N)).map ψ = ⊥ := by
     have hnorm : ((pPrimeCore 2 ↥(T.subgroupOf N)).map ψ).Normal := by
-      haveI : (pPrimeCore 2 ↥(T.subgroupOf N)).Normal := CFSG.pPrimeCore_normal
+      have : (pPrimeCore 2 ↥(T.subgroupOf N)).Normal := CFSG.pPrimeCore_normal
       exact Subgroup.Normal.map this ψ hψ
     have hcop : Nat.Coprime 2 (Nat.card ↥((pPrimeCore 2 ↥(T.subgroupOf N)).map ψ)) :=
       Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ ψ) CFSG.pPrimeCore_coprime_card
@@ -165,7 +165,7 @@ theorem literal_of_stable {X : Type} [Group X] [Finite X] {Y N T : Subgroup X} (
     rw [MonoidHom.mem_ker] at hs
     have hsO : (s : ↥N) ∈ pPrimeCore 2 ↥N := (QuotientGroup.eq_one_iff _).mp hs
     have hnorm : ((pPrimeCore 2 ↥N).comap (T.subgroupOf N).subtype).Normal := by
-      haveI : (pPrimeCore 2 ↥N).Normal := CFSG.pPrimeCore_normal
+      have : (pPrimeCore 2 ↥N).Normal := CFSG.pPrimeCore_normal
       exact Subgroup.Normal.comap this _
     have hcop : Nat.Coprime 2 (Nat.card ↥((pPrimeCore 2 ↥N).comap (T.subgroupOf N).subtype)) :=
       Nat.Coprime.coprime_dvd_right

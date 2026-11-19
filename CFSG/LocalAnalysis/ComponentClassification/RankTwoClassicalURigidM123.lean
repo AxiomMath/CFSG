@@ -93,7 +93,7 @@ theorem unitary_m123 [Finite K] [CharP K 2] (hf : 2 ≤ f) (hε : 2 ≤ ε)
       Set (StatedProj (StatedSU (2 * 1 + ε) (2 ^ f) K)))) := (map_mono hSst).trans hK4
   have hSbarSyl : IsSylowOf 2 Sbar ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup'.map π, ?_⟩
+    refine ⟨le_top, S.isPGroup.map π, ?_⟩
     rw [relIndex_top_right]
     exact (S.mapSurjective hπ).not_dvd_index
   have hlift : ∀ zbar : StatedProj (StatedSU (2 * 1 + ε) (2 ^ f) K),
@@ -102,7 +102,7 @@ theorem unitary_m123 [Finite K] [CharP K 2] (hf : 2 ≤ f) (hε : 2 ≤ ε)
           π N = zbar := by
     intro zbar hz
     obtain ⟨z, rfl⟩ := hπ zbar
-    obtain ⟨b, hb, N, hN, hNz⟩ := exists_one_add_of_mk_commute h hR hES S.isPGroup' (z := z)
+    obtain ⟨b, hb, N, hN, hNz⟩ := exists_one_add_of_mk_commute h hR hES S.isPGroup (z := z)
       fun s hs => by
         have := hz (π s) ⟨s, hs, rfl⟩
         rwa [← map_mul, ← map_mul] at this

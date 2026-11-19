@@ -17,7 +17,7 @@ theorem nonempty_psl_two_equiv_alternating_five {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4 ∨ Nat.card F = 5) :
     Nonempty (Matrix.SpecialLinearGroup (Fin 2) F ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega)
   have hcard : Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) = 60 := by
     rcases hF with h | h

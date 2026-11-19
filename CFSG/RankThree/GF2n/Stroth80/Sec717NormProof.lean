@@ -18,7 +18,7 @@ theorem conjSubgroup_eq_of_sylow {X : Type*} [Group X] [Finite X] {L V : Subgrou
     (hN : normalizer ((S : Subgroup X) : Set X) ≤ normalizer (conjSubgroup h V : Set X)) :
     conjSubgroup h L = L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsmul : ∀ (g : X) (P : Sylow 2 X),
       ((g • P : Sylow 2 X) : Subgroup X) = conjSubgroup g (P : Subgroup X) := fun g P => rfl
   have hS'N : ((h⁻¹ • S : Sylow 2 X) : Subgroup X) ≤ normalizer (L : Set X) := by

@@ -151,7 +151,7 @@ theorem hasLeviCensus_idxBBig (hZ : OddCenterRest) {X : Type} [Group X] [Finite 
   classical
   have hcomm_top : commutator (StatedSp (r - t) K) = ⊤ := by
     rcases Nat.eq_zero_or_pos (r - t) with hm | hm
-    · haveI : Subsingleton (StatedSp (r - t) K) := by rw [hm]; infer_instance
+    · have : Subsingleton (StatedSp (r - t) K) := by rw [hm]; infer_instance
       refine eq_top_iff.mpr ?_
       intro x _
       rw [Subsingleton.elim x 1]

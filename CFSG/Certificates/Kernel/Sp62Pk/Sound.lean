@@ -90,7 +90,7 @@ theorem pkMat_inj {A B : ℕ} (hA : A < 2 ^ 36) (hB : B < 2 ^ 36) (h : pkMat 6 A
   intro p
   by_cases hp : p < 36
   · have := congrFun (congrFun h ⟨p / 6, by omega⟩) ⟨p % 6, by omega⟩
-    simp only [pkMat, Matrix.of_apply, Fin.val_mk] at this
+    simp only [pkMat, Matrix.of_apply] at this
     have e : 6 * (p / 6) + p % 6 = p := by omega
     rw [e] at this
     exact ite_inj _ _ this
@@ -145,7 +145,7 @@ theorem step_facts6 {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {n 
   obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := e
   refine ⟨a, b, c, d, fun hpc => ?_, fun hpc => ?_⟩
   · have hb : Nat.beq (POS i) (C i) = true := Nat.beq_eq.mpr hpc
-    rw [hb, cond_true] at e
+    rw [hb, _root_.Bool.cond_true] at e
     simp only [Bool.and_eq_true, Nat.beq_eq] at e
     obtain ⟨⟨e1, e2⟩, e3⟩ := e
     rw [Nat.pred_eq_sub_one] at e2 e3
@@ -154,7 +154,7 @@ theorem step_facts6 {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {n 
       cases hq : Nat.beq (POS i) (C i)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hq) hpc
-    rw [hb, cond_false] at e
+    rw [hb, Bool.cond_false] at e
     exact Nat.eq_of_beq_eq_true e
 
 theorem push_table6 {start : List ℕ} {K : ℕ} {step : List ℕ → ℕ × ℕ → List ℕ}
@@ -277,12 +277,12 @@ theorem table6 {start : List ℕ} {mul : List ℕ → List ℕ → List ℕ} {ge
     exact pk_inj cp cm (by rw [pp, hx, pm, ph])
   obtain ⟨C', hC'lo, hC'hi⟩ : ∃ C' : ℕ → ℕ, (∀ i ≤ n * 2, C' i = C i) ∧
       ∀ i, n * 2 ≤ i → C' i = n := by
-    refine ⟨fun i => if i ≤ n * 2 then C i else n, fun i hi => if_pos hi, fun i hi => ?_⟩
+    refine ⟨fun i => if i ≤ n * 2 then C i else n, fun i hi => ite_eq_left hi, fun i hi => ?_⟩
     by_cases h : i ≤ n * 2
     · have e : i = n * 2 := by omega
-      simp only [if_pos h]
+      simp only [ite_eq_left h]
       rw [e, hCn]
-    · exact if_neg h
+    · exact ite_eq_right h
   have hstep : ∀ h < fuel, ∀ s < gens.length,
       CFSG.KC.G2Three.StepOK mul gens (build start mul gens PL) PL.toArray C' POS h s
         (h * gens.length + s) := by

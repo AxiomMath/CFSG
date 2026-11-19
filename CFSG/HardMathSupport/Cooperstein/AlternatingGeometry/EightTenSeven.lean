@@ -38,7 +38,7 @@ theorem eightTen_cases_of_natural_seven {G : Type} [Group G] [Finite G]
     {X S L : Subgroup G} (hX : CFSG.Open.IsKGroup ↥X) (hA : Asc81bHyp X S)
     (hL : IsWeakSBlock X S L) (hZ : Subgroup.center ↥(barM (L ⊔ S) L) = ⊥)
     (hN : NaturalSectionLSL S L 7) :
-    ∃ θ : ↥(L ⊔ S) →* Perm (Fin 7), ∃ r s : ℕ, 1 ≤ r ∧ 1 ≤ s ∧ 2 * r + s = 7 ∧
+    ∃ _θ : ↥(L ⊔ S) →* Perm (Fin 7), ∃ r s : ℕ, 1 ≤ r ∧ 1 ≤ s ∧ 2 * r + s = 7 ∧
       EightBlockData (L ⊔ S) S L r s ∧ EightBlockDataX S L r s ∧ HasSym3Lift S L (L ⊔ S) ∧
       ((r = 1 ∨ r = 3 ∨ 5 ≤ r) → (s = 1 ∨ s = 3 ∨ 5 ≤ s) → HasSym3LiftS S L (L ⊔ S)) := by
   have hSL : S ≤ Subgroup.normalizer (L : Set G) :=
@@ -50,9 +50,9 @@ theorem eightTen_cases_of_natural_seven {G : Type} [Group G] [Finite G]
   have hVS : blockV S L ≤ S := Coordinator.blockV_le hA hL hSL
   have hVN : L ⊔ S ≤ Subgroup.normalizer (blockV S L : Set G) := Coordinator.sup_le_normalizer_blockV S L
   have hV : CFSG.Open.IsElemAbelian 2 (blockV S L) := CFSG.AGLEmbedding.isElemAbelian_omegaOneCenterOf _
-  obtain ⟨θ, hAlt, hkerC, hsh⟩ := hN.exists_theta_shapes (Or.inl rfl) hVS hVN hV
+  obtain ⟨_θ, hAlt, hkerC, hsh⟩ := hN.exists_theta_shapes (Or.inl rfl) hVS hVN hV
   have hpS : pCoreOf 2 (L ⊔ S) ≤ S := Coordinator.twoCore_sup_le hA hL hSL
-  have hkerP : ∀ m' : ↥(L ⊔ S), θ m' = 1 ↔ (m' : G) ∈ pCoreOf 2 (L ⊔ S) := by
+  have hkerP : ∀ m' : ↥(L ⊔ S), _θ m' = 1 ↔ (m' : G) ∈ pCoreOf 2 (L ⊔ S) := by
     intro m'
     rw [hkerC]
     constructor
@@ -64,20 +64,20 @@ theorem eightTen_cases_of_natural_seven {G : Type} [Group G] [Finite G]
       intro v hv
       exact (CFSG.HardMathSupport.Cooperstein.StructureLie.commute_of_mem_pCoreOf_blockV h hv).symm
   have hodd : Odd (Fintype.card (Fin 7)) := ⟨3, by simp⟩
-  have hne : ((thompsonJ S).subgroupOf (L ⊔ S)).map θ ≠ ⊥ := by
+  have hne : ((thompsonJ S).subgroupOf (L ⊔ S)).map _θ ≠ ⊥ := by
     obtain ⟨A, hAmax, hAQ⟩ := Coordinator.exists_isMaxElemAbelian_not_le hA hL hSL
     obtain ⟨a, haA, haQ⟩ := Set.not_subset.1 hAQ
     have haJ : a ∈ thompsonJ S :=
       (le_iSup₂ (f := fun (A : Subgroup G) (_ : IsMaxElemAbelian S A) => A) A hAmax) haA
     have haM : a ∈ L ⊔ S := (le_sup_right : S ≤ L ⊔ S) (hAmax.1 haA)
     intro hbot
-    have h1 : θ ⟨a, haM⟩ ∈ (⊥ : Subgroup (Perm (Fin 7))) := hbot ▸
-      Subgroup.mem_map_of_mem θ (Subgroup.mem_subgroupOf.2 haJ)
+    have h1 : _θ ⟨a, haM⟩ ∈ (⊥ : Subgroup (Perm (Fin 7))) := hbot ▸
+      Subgroup.mem_map_of_mem _θ (Subgroup.mem_subgroupOf.2 haJ)
     exact haQ ((hkerP ⟨a, haM⟩).1 (Subgroup.mem_bot.1 h1))
-  have hres := eightTen_swapType_cases hA' hLs hSL hpS (Or.inr ⟨by simp, hodd⟩) θ hkerP hAlt
+  have hres := eightTen_swapType_cases hA' hLs hSL hpS (Or.inr ⟨by simp, hodd⟩) _θ hkerP hAlt
     (fun A hA'' => swapType_of_odd hodd (hsh A hA'')) hne
   rcases hres with ⟨r, s, h1, h2, h3, h4, h5, h6, h7, -⟩ | ⟨n, -, h2n, -⟩
-  · exact ⟨θ, r, s, h1, h2, by simpa using h3, h4, h5, h6, h7⟩
+  · exact ⟨_θ, r, s, h1, h2, by simpa using h3, h4, h5, h6, h7⟩
   · exfalso
     rcases hodd with ⟨k, hk⟩
     simp at h2n

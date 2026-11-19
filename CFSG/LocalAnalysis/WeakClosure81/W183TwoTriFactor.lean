@@ -14,7 +14,7 @@ open CFSG.Blueprint (LieModel)
 open CFSG.ComponentClassification.CatLeaf (LieOrderFormulasInput)
 
 private theorem isSolvable_perm_fin_three : Group.IsSolvable (Equiv.Perm (Fin 3)) := by
-  haveI : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
+  have : IsZGroup (Equiv.Perm (Fin 3)) := IsZGroup.of_squarefree (by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin,
       show Nat.factorial 3 = 2 * 3 from rfl]
     exact (Nat.squarefree_mul (by norm_num)).2
@@ -59,7 +59,7 @@ theorem not_compFactor_of_isTrialityOddTransp (hO : LieOrderFormulasInput)
   · have hcomm := isCompositionFactor_commute
       (fun x y : ↥(Subgroup.center X) => Subtype.ext (Subgroup.mem_center_iff.mp y.2 x.1)) hZ
     rcases hT with hL2 | hPSp
-    · haveI := Socle185Shape.finite (Or.inl ⟨5, 2, by norm_num, by norm_num, by norm_num, hL2⟩ :
+    · have := Socle185Shape.finite (Or.inl ⟨5, 2, by norm_num, by norm_num, by norm_num, hL2⟩ :
         Socle185Shape T)
       obtain ⟨a, b, hab⟩ := Socle185Shape.exists_not_commute (Or.inl
         ⟨5, 2, by norm_num, by norm_num, by norm_num, hL2⟩ : Socle185Shape T)
@@ -70,7 +70,7 @@ theorem not_compFactor_of_isTrialityOddTransp (hO : LieOrderFormulasInput)
     · have hShape : Socle185Shape T := Or.inl ⟨5, 2, by norm_num, by norm_num, by norm_num, hL2⟩
       exact noFactor_of_isTrialityOddTransp (P := Socle185Shape)
         (fun S _ hS => by
-          haveI := Socle185Shape.finite hS
+          have := Socle185Shape.finite hS
           exact Socle185Shape.exists_not_commute hS)
         (fun Y _ m n h => noSocle185Factor_of_isOrthGp hO h) h T hShape hQ
     · exact noFactor_of_isTrialityOddTransp (P := Psp45Shape)

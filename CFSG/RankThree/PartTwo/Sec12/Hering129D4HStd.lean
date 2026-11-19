@@ -33,9 +33,8 @@ theorem sl2Three_eq_commutator (k : Type) [Field k] [CharP k 2] :
       (!![0, 1; -1, -1] * !![0, 1; 1, 0]) * !![1, 1; 0, 1]
     rw [Matrix.mul_fin_two, Matrix.mul_fin_two, Matrix.mul_fin_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hn] <;>
-      first | linear_combination (0 : k) * h2 | linear_combination (-1 : k) * h2 |
-        linear_combination (1 : k) * h2
+    fin_cases i <;> fin_cases j <;> simp [hn];
+      first | linear_combination (0 : k) * h2 | linear_combination (-1 : k) * h2
   exact ((mul_inv_eq_iff_eq_mul.2 (mul_inv_eq_iff_eq_mul.2 key))).symm
 
 theorem sl2Three_ne_one (k : Type) [Field k] : sl2Three k ≠ 1 := by
@@ -82,8 +81,8 @@ theorem tStd_not_mem_zpowers : tStd P ∉ Subgroup.zpowers (zStd P) := by
 theorem tStd_mem_commutator :
     tStd P ∈ ⁅Subgroup.centralizer ({zStd P} : Set (C0 σ)),
       Subgroup.centralizer ({zStd P} : Set (C0 σ))⁆ := by
-  haveI := P.charP
-  haveI : CharP ↥(fixSubfield σ) 2 := inferInstance
+  have := P.charP
+  have : CharP ↥(fixSubfield σ) 2 := inferInstance
   obtain ⟨a, b, hab⟩ := sl2Three_eq_commutator (fixSubfield σ)
   have hcent : ∀ u : Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ),
       ((bsubEquiv P u : Bsub σ) : C0 σ) ∈ Subgroup.centralizer ({zStd P} : Set (C0 σ)) := by
@@ -102,7 +101,7 @@ theorem exists_conj_std_of_R {c y : C0 σ} {R : Subgroup (C0 σ)}
     (htR : γ₀⁻¹ * tStd P * γ₀ ∈ R) :
     ∃ γ : C0 σ, γ * c * γ⁻¹ = zStd P ∧ γ * y * γ⁻¹ = tStd P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set c' : ↥R := ⟨c, hcR⟩ with hc'
   have hc'3 : c' ^ 3 = 1 := Subtype.ext (by simpa using hc3)
   have hc'1 : c' ≠ 1 := fun h => hc1 (congrArg Subtype.val h)

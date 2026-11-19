@@ -36,13 +36,13 @@ theorem orthResDer_two_equiv_psu4 {F : Type} [Field F] [Finite F] [CharP F 2] {b
       (finrank_minusSpace_small (n := 3) (by norm_num))
       (fun U hU => exists_quadMinus_ne_zero_small hirr (by norm_num) U hU)
   obtain ⟨eR⟩ := nonempty_range_equiv_statedOmega (n := 3) ρ hcomm
-  haveI := D.finite_E
+  have := D.finite_E
   obtain ⟨g, hU, hK, hbar⟩ := D.exists_unitaryFieldData
   have hfg : f = g := Nat.pow_right_injective (le_refl 2) (hF.symm.trans hK)
   subst g
   obtain ⟨θ⟩ := D.nonempty_sixSU_mulEquiv hU hbar
-  haveI := Fintype.ofFinite E
-  haveI := Fintype.ofFinite (GaloisField 2 (2 * f))
+  have := Fintype.ofFinite E
+  have := Fintype.ofFinite (GaloisField 2 (2 * f))
   have hGF : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hKK : Fintype.card E = Fintype.card (GaloisField 2 (2 * f)) := by

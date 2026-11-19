@@ -58,7 +58,7 @@ theorem co2IndexNineWordCheck_spec (h : co2IndexNineWordCheck () = true) :
     eqA 2300 (wordArr cArrs nineYSig) (wordArr cArrs nineX2Sig) = false := by
   simp only [co2IndexNineWordCheck, co2IdxNineX3Check, co2IdxNineY3Check,
     co2IdxNineCommCheck, co2IdxNineXNeCheck, co2IdxNineYNeCheck, co2IdxNineYXCheck,
-    co2IdxNineYX2Check, Bool.and_eq_true, Bool.not_eq_true, and_assoc] at h
+    co2IdxNineYX2Check, Bool.and_eq_true, and_assoc] at h
   exact ⟨h.1, h.2.1, h.2.2.1, co2IdxNine_eqA_false h.2.2.2.1,
     co2IdxNine_eqA_false h.2.2.2.2.1, co2IdxNine_eqA_false h.2.2.2.2.2.1,
     co2IdxNine_eqA_false h.2.2.2.2.2.2.1⟩

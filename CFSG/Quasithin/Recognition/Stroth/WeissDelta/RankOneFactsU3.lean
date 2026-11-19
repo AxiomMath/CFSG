@@ -32,7 +32,7 @@ private lemma eq_one_of_odd_order_of_dvd_two_pow {G : Type*} [Group G] {x : G} {
   exact orderOf_eq_one_iff.mp hone
 
 private lemma dihedral_two_element_mem_complement {M : Type*} [Group M] [Finite M]
-    {A C D O : Subgroup M} {m : ℕ} (hC : C ≤ A) (hCn : (C.subgroupOf A).Normal)
+    {A C D O : Subgroup M} {m : ℕ} (_hC : C ≤ A) (hCn : (C.subgroupOf A).Normal)
     (hCD : C ⊓ D = ⊥) (hsup : C ⊔ D = A)
     (hD : Nonempty (D ≃* DihedralGroup m)) (hm : Odd m)
     (hO : O ≤ A) (hOodd : Odd (Nat.card O)) (hOC : O ⊓ C = ⊥) (hOne : O ≠ ⊥) :
@@ -87,7 +87,7 @@ private lemma dihedral_two_element_mem_complement {M : Type*} [Group M] [Finite 
   · exact absurd h hπo
 
 private lemma dihedral_odd_pow_mem_complement {M : Type*} [Group M] [Finite M]
-    {A C D : Subgroup M} {m : ℕ} (hC : C ≤ A) (hCn : (C.subgroupOf A).Normal)
+    {A C D : Subgroup M} {m : ℕ} (_hC : C ≤ A) (hCn : (C.subgroupOf A).Normal)
     (hCD : C ⊓ D = ⊥) (hsup : C ⊔ D = A)
     (hD : Nonempty (D ≃* DihedralGroup m)) :
     ∀ γ ∈ A, Odd (orderOf γ) → γ ^ m ∈ C := by
@@ -116,7 +116,7 @@ private lemma dihedral_odd_pow_mem_complement {M : Type*} [Group M] [Finite M]
           (by simpa using (orderOf_dvd_of_pow_eq_one h))
       rw [hone, one_pow]
   have hmem : ((γA ^ m : A) : M) ∈ C :=
-    (hπDker (γA ^ m)).mp (by simpa [map_pow, hpow])
+    (hπDker (γA ^ m)).mp (by simp [map_pow, hpow])
   simpa [γA] using hmem
 
 private lemma eq_of_normal_root {N : Type*} [Group N] [Finite N] {Ω : Type} [MulAction N Ω]
@@ -337,9 +337,9 @@ private lemma exists_rootData {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
     (hreg : ∀ α β : Ω, α ≠ ω → β ≠ ω → ∃! r : R, (r : X) • α = β) :
     Nonempty (PSU3RootData k M ω ω' R) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   let α : Ω := M.φ.symm (unitaryOuterIsotropicPoint M.J M.hJ 0 (by decide))
   let β : Ω := M.φ.symm (unitaryOuterIsotropicPoint M.J M.hJ 2 (by decide))
   have hP : UnitaryPointStructure ↥N Ω α β M.U' M.T' M.B' := M.hP
@@ -465,7 +465,7 @@ private lemma exists_rootData {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
         have h := congrArg (fun f : MulAut ↥N => (f ⟨n, hn⟩ : ↥N)) hx
         have hX := congrArg (fun y : ↥N => (y : X)) h
         rw [MulAut.conjNormal_apply] at hX
-        simp only [MulAut.one_apply, Subgroup.coe_one, mul_one] at hX
+        simp only [MulAut.one_apply] at hX
         have h' : x * n * x⁻¹ = n := hX
         have h2 : x * n = n * x := by
           calc x * n = (x * n * x⁻¹) * x := by group
@@ -638,8 +638,8 @@ private lemma exists_rootData {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
     card_D := hDcard
     D_dih := hDdih
     inj_conj := hInjS
-    RN_2 := S.isPGroup'
-    C_2 := S.isPGroup'.map (MulAut.conj (G := ↥N))
+    RN_2 := S.isPGroup
+    C_2 := S.isPGroup.map (MulAut.conj (G := ↥N))
     card_C := by
       change Nat.card ↥((MulAut.conj (G := ↥N)) '' (RN : Set ↥N)) = (2 ^ k) ^ 3
       rw [Nat.card_image_of_injOn hInjS]
@@ -718,9 +718,9 @@ private lemma psu3_center_le {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
         ∀ y ∈ Z, t * y * t⁻¹ ∈ Z) → Z ≠ ⊥ →
       ∀ y ∈ R, (∀ r ∈ R, r * y = y * r) → y ∈ Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   intro ω ω' hne R Z hR hRn hR2 hreg hZR hZcent hZinv hZne y hyR hycent
   obtain ⟨S⟩ := exists_rootData hN hk hF h2 M h hne R hR hRn hR2 hreg
   have hRleN : R ≤ N := RankOneLocal.le_socle hN h ⟨ω', hne.symm⟩ hR hRn hR2 hreg
@@ -787,9 +787,9 @@ private lemma psu3_centralizer_center {X Ω F : Type} [Group X] [Finite X] [Fint
       (∀ y ∈ R, (∀ r ∈ R, r * y = y * r) → g * y = y * g) →
       g ^ (2 ^ k + 1) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   intro ω ω' hne R hR hRn hR2 hreg g hg hodd hgU
   obtain ⟨S⟩ := exists_rootData hN hk hF h2 M h hne R hR hRn hR2 hreg
   have hRleN : R ≤ N := RankOneLocal.le_socle hN h ⟨ω', hne.symm⟩ hR hRn hR2 hreg
@@ -892,9 +892,9 @@ private lemma psu3_centralizer {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
       (∀ t ∈ N ⊓ MulAction.stabilizer X ω ⊓ MulAction.stabilizer X ω', g * t = t * g) →
       g = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   intro ω ω' hne g hg hg2 hgT
   obtain ⟨R, hR, hRn, hR2, hreg⟩ := h.root ω
   obtain ⟨S⟩ := exists_rootData hN hk hF h2 M h hne R hR hRn hR2 hreg
@@ -923,7 +923,7 @@ private lemma psu3_centralizer {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
     (MulAction.stabilizer X ω).mul_mem
       ((MulAction.stabilizer X ω).inv_mem ht₀T.1.2) hgnorm
   have hTcyc : IsCyclic ↥T := h.torus_cyclic ω ω' hne
-  letI : CommGroup ↥T := IsCyclic.commGroup
+  let : CommGroup ↥T := IsCyclic.commGroup
   have hcomm_g_t₀ : g * (t₀ : X) = (t₀ : X) * g := hgT t₀ ht₀X
   have hhT : ∀ t ∈ T, hX * t = t * hX := by
     intro t ht
@@ -1011,7 +1011,7 @@ private lemma psu3_centralizer {X Ω F : Type} [Group X] [Finite X] [Fintype Ω]
     have h3 : (S.t : X) = 1 := S.sigma_inj (by simpa using h2)
     exact S.t_ne (Subtype.ext h3)
   have hO_inf_C : O ⊓ S.RN.map (MulAut.conj (G := ↥N)) = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [S.card_C]
     exact (by
       simpa [pow_mul, mul_comm] using
@@ -1108,8 +1108,8 @@ theorem rankOneRoot_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAct
     (hΩ : Fintype.card Ω = 2 ^ (3 * k) + 1) :
     RankOneRoot X Ω N := by
   classical
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   let M := Classical.choice (exists_psu3_isotropicModel h2 k hk F hF N hN e hΩ)
   let h : RankOneLocal X Ω N := rankOneLocal_psu3 h2 k hk F hF N hN e hΩ
   exact h.rankOneRoot_of_centralizer (psu3_conditions hN hk hF h2 M h).centralizer
@@ -1121,8 +1121,8 @@ theorem rankOneCenter_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulA
     (hΩ : Fintype.card Ω = 2 ^ (3 * k) + 1) :
     RankOneCenter X Ω N (2 ^ k + 1) := by
   classical
-  letI : N.Normal := hN
-  letI : Fintype F := Fintype.ofFinite F
+  let : N.Normal := hN
+  let : Fintype F := Fintype.ofFinite F
   let M := Classical.choice (exists_psu3_isotropicModel h2 k hk F hF N hN e hΩ)
   let h : RankOneLocal X Ω N := rankOneLocal_psu3 h2 k hk F hF N hN e hΩ
   have hC := psu3_conditions hN hk hF h2 M h

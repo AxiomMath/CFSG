@@ -51,7 +51,7 @@ public theorem huppert_IV_3_3_quotient_equiv_sylow_mod_abelian_residual
       ((S : Subgroup Q) ⧸ (hktAbelianPResidual q Q).subgroupOf (S : Subgroup Q))) := by
   classical
   let N : Subgroup Q := hktAbelianPResidual q Q
-  haveI : N.Normal := hktAbelianPResidual_normal (Q := Q) (q := q)
+  have : N.Normal := hktAbelianPResidual_normal (Q := Q) (q := q)
   have hquot : IsPGroup q (Q ⧸ N) := by
     simpa [N] using hktAbelianPResidual_quotient_isPGroup (Q := Q) (q := q)
   have hmap_top : (S : Subgroup Q).map (QuotientGroup.mk' N) = ⊤ :=
@@ -121,7 +121,7 @@ public theorem huppert_IV_3_3_sylow_abelian_residual
   let N : Subgroup Q := hktAbelianPResidual q Q
   have hNnormal : N.Normal := by
     simpa [N] using hktAbelianPResidual_normal (Q := Q) (q := q)
-  haveI : (N.subgroupOf (S : Subgroup Q)).Normal :=
+  have : (N.subgroupOf (S : Subgroup Q)).Normal :=
     Subgroup.Normal.subgroupOf (H := N) (K := (S : Subgroup Q)) hNnormal
   let K : Subgroup (S : Subgroup Q) :=
     huppertIV33SylowDerivedSubgroup (Q := Q) (q := q) S
@@ -149,7 +149,7 @@ public theorem huppert_IV_3_3_sylow_abelian_residual
   have hKnormal : K.Normal := by
     rw [← hsub]
     infer_instance
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   constructor
   · simpa [N] using hSN
   · rcases huppert_IV_3_3_quotient_equiv_sylow_mod_abelian_residual

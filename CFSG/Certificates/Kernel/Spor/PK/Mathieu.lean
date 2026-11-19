@@ -79,7 +79,7 @@ private theorem mth_enc_eq_id_iff {n w : Nat} {g : Nat → Nat} (hg : ∀ i < n,
     exact enc_congr h
 
 theorem orderOK_iff {n w T p e : Nat} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
-    (hT : T < 2 ^ (w * n)) :
+    (_hT : T < 2 ^ (w * n)) :
     CFSG.KS.Mathieu.orderOK n w (mask w) (pidn n w) T p e = true ↔
       (∀ x < n, itr (fd w T) (p ^ (e + 1)) x = x) ∧ ¬ ∀ x < n, itr (fd w T) (p ^ e) x = x := by
   have hnw : n < 2 ^ w := by omega
@@ -100,7 +100,7 @@ theorem orderOK_iff {n w T p e : Nat} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
   rw [← key]
   cases Nat.beq (ppow n w (mask w) (pidn n w) T (p ^ e)) (pidn n w) <;> simp
 
-private theorem mth_table {n w : Nat} {t : Table} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
+private theorem mth_table {n w : Nat} {t : Table} (_hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
     (hlen : lenU t.toList = n) (hlt : allLtU n t.toList = true)
     (hperm : permOK n w (mask w) (n * w) (packU w t.toList)
       (pinvS n w (mask w) (packU w t.toList)) = true) :
@@ -121,7 +121,7 @@ private theorem mth_table {n w : Nat} {t : Table} (hn16 : n < 2 ^ 16) (hw : n + 
     apply enc_congr
     intro i hi
     have hi' : i < t.size := by omega
-    simp [ap, List.getD_eq_getElem?_getD, hi', getElem!_pos t i hi']
+    simp [ap, List.getD_eq_getElem?_getD, hi']
   have hfd : ∀ i < n, fd w (enc w (ap t) n) i = ap t i := fun i hi =>
     fd_enc (fun j hj => Nat.lt_trans (hap j hj) hnw) hi
   rw [hpk] at hperm ⊢
@@ -145,15 +145,15 @@ private theorem mth_gens_perm {n : Nat} {tA tB : Table} (hA : IsPermN n (ap tA))
     (hB : IsPermN n (ap tB)) (z : Int) : IsPermN n (gensT n tA tB z) := by
   unfold gensT
   by_cases h1 : z = 1
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
     exact hA
   by_cases h2 : z = -1
-  · simp only [h1, h2, if_true, if_false]
+  · simp only [h2, ite_true]
     exact hA.finv
   by_cases h3 : z = 2
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h3, ite_true]
     exact hB
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h1, h2, h3, ite_false]
     exact hB.finv
 
 private theorem mth_lettersP {n w : Nat} {D : Data} {A Ai B Bi : Nat}
@@ -351,7 +351,7 @@ private theorem mth_orderOK_nat {n : Nat} (hn32 : n < 2 ^ 32) {T : Table} {f : N
 
 private theorem mth_arr_get (a : Array Nat) {i : Nat} (h : i < a.size) :
     a[i]! = a.toList.getD i 0 := by
-  simp [getElem!_pos a i h, List.getD_eq_getElem?_getD, h]
+  simp [List.getD_eq_getElem?_getD, h]
 
 private theorem mth_native {n : Nat} {D : Data} (hn32 : n < 2 ^ 32) (hn0 : 0 < n)
     (hTA : TR n D.tA (ap D.tA)) (hPA : IsPermN n (ap D.tA))
@@ -392,7 +392,7 @@ private theorem mth_native {n : Nat} {D : Data} (hn32 : n < 2 ^ 32) (hn0 : 0 < n
     intro z hz
     have hj' : j < D.words.toList.length := by rw [hwl]; exact hj
     have hget : D.words[j]! = D.words.toList.getD j [] := by
-      simp [getElem!_pos D.words j hj, List.getD_eq_getElem?_getD, hj]
+      simp [List.getD_eq_getElem?_getD, hj]
     rw [hget] at hz
     obtain ⟨h1, h2', -⟩ := hws' j hj' z hz
     simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, Bool.or_eq_true, decide_eq_true_eq]
@@ -405,7 +405,7 @@ private theorem mth_native {n : Nat} {D : Data} (hn32 : n < 2 ^ 32) (hn0 : 0 < n
     intro z hz
     have hj' : j < D.words.toList.length := by rw [hwl]; exact hj
     have hget : D.words[j]! = D.words.toList.getD j [] := by
-      simp [getElem!_pos D.words j hj, List.getD_eq_getElem?_getD, hj]
+      simp [List.getD_eq_getElem?_getD, hj]
     rw [hget] at hz
     obtain ⟨-, -, h3⟩ := hws' j hj' z hz
     simpa using h3.resolve_left (by omega)

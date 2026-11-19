@@ -149,11 +149,11 @@ theorem weylAct_eq_one {w : WeylGroup Tag.E6} (h : weylActI w = 1) : w = 1 := by
       rw [Matrix.one_apply] at h1
       by_cases hji : j = i
       · subst hji
-        simp only [if_true] at h1
+        simp only [ite_true] at h1
         simp [h1]
       · have : ¬ i = j := fun h => hji h.symm
-        simp only [hji, if_false] at h1
-        simp [h1, Pi.single_apply, this]
+        simp only [hji, ite_false] at h1
+        simp [h1, this]
     exact_mod_cast (ZMod.intCast_zmod_eq_zero_iff_dvd _ 3).1 key
   have : w⁻¹ = 1 := ext_single fun j => by rw [hv j, one_smul]
   exact inv_eq_one.mp this

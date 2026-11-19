@@ -43,8 +43,8 @@ private theorem outer_solvable_of_central_quotient {K L : Type*} [Group K] [Grou
   let e : K ⧸ Subgroup.center K ≃* L ⧸ Subgroup.center L :=
     (QuotientGroup.quotientMulEquivOfEq hker'.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)
-  haveI := hK
-  haveI : Group.IsSolvable (Outer (L ⧸ Subgroup.center L)) := solvable_of_equiv e
+  have := hK
+  have : Group.IsSolvable (Outer (L ⧸ Subgroup.center L)) := solvable_of_equiv e
   exact solvable_of_centerQuotient L
 
 private theorem outer_solvable_of_sl4 {F : Type} [Field F] [Finite F] {L : Type} [Group L]

@@ -270,7 +270,7 @@ theorem bil_plane (i : Fin 2) (c d c' d' : K) :
       c * d' - d * c' := by
   simp only [K7.bil_add_right, K7.bil_smul_right, bil_single_inl, bil_single_inr,
     Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply, mul_neg]
-  simp only [Sum.inr_ne_inl, Sum.inl_ne_inr, if_false, if_true]
+  simp only [Sum.inr_ne_inl, Sum.inl_ne_inr, ite_false, ite_true]
   ring
 
 theorem bil_single_left (x : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) (c d : K) :

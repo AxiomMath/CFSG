@@ -116,7 +116,7 @@ theorem exists_r2D : Nonempty (R2D C) := by
     C.D.isPGroup_R.comap_of_injective _ (subtype_injective _)
   obtain ⟨P, hRP⟩ := hRp.exists_le_sylow
   set R₂ : Subgroup X := (P : Subgroup N).map N.subtype with hR₂
-  have hR₂p : IsPGroup 2 R₂ := P.isPGroup'.map _
+  have hR₂p : IsPGroup 2 R₂ := P.isPGroup.map _
   have hR₂N : R₂ ≤ N := map_subtype_le _
   have hRR₂ : C.D.R ≤ R₂ := fun r hr => ⟨⟨r, C.R_le_N hr⟩, hRP (mem_subgroupOf.mpr hr), rfl⟩
   have hmax : ∀ Q : Subgroup X, IsPGroup 2 Q → R₂ ≤ Q → Q ≤ N → Q = R₂ := by

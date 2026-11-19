@@ -75,13 +75,13 @@ theorem sporTypes_notList93_three
       (KDL227Rows.card_pSimple_dvd 3 I).trans (by
         have h := Subgroup.card_dvd_of_le (le_top : I ≤ ⊤)
         rwa [Subgroup.card_top] at h)
-    haveI : Finite (PSimple 3 I) := inferInstance
+    have : Finite (PSimple 3 I) := inferInstance
     have hle : Nat.card (PSimple 3 I) ≤ 7920 := by
       rw [← hcardT]
       exact Nat.le_of_dvd Nat.card_pos hdvd
     exact absurd (card_ge_of_isList93 hb hcat) (by omega)
   | J3 =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .J3 (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .J3 (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (GLTheoremB.MovingAround.Inputs273c.centTypes_of_centShapeSplit Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.centShapeSplit_J3)
@@ -90,7 +90,7 @@ theorem sporTypes_notList93_three
           obtain ⟨-, ⟨e6⟩⟩ := hA6
           exact not_isList93_of_alt hb (n := 6) (by norm_num) (by norm_num) e6))
   | McL =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .McL (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .McL (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (GLTheoremB.MovingAround.Inputs273c.centTypes_of_constrained Nat.prime_three fun k hk =>
         CFSG.HardMathSupport.Dickson.I271.mcl_constrainedShape_three
@@ -99,7 +99,7 @@ theorem sporTypes_notList93_three
           (by rw [← hk]; exact pow_orderOf_eq_one k))
       (fun T _ _ h => h.elim)
   | Suz =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Suz (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Suz (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (GLTheoremB.MovingAround.Inputs273c.centTypes_of_centShapeSplit Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.centShapeSplit_Suz)
@@ -108,7 +108,7 @@ theorem sporTypes_notList93_three
           obtain ⟨-, ⟨e6⟩⟩ := hA6
           exact not_isList93_of_alt hb (n := 6) (by norm_num) (by norm_num) e6))
   | ONan =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShapeRk Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.onThree_centShapeRk)
@@ -116,44 +116,44 @@ theorem sporTypes_notList93_three
         obtain ⟨-, ⟨e6⟩⟩ := h
         exact not_isList93_of_alt hb (n := 6) (by norm_num) (by norm_num) e6)
   | Co2 =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co2 (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Co2 (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.leafShape_Co2)
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Co3 =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co3 (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Co3 (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.leafShape_Co3)
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Fi22 =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi22 (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi22 (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.leafShape_Fi22)
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Fi23 =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi23 (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi23 (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         (HardMathSupport.Dickson.I271.TabFi23.leafShape_Fi23_of
             HardMathSupport.Dickson.I271.TabFi23.pConstrained_t3_two))
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Fi24Prime =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi24Prime (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi24Prime (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.leafShape_Fi24_three)
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Th =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Th (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Th (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShape Nat.prime_three
         CFSG.HardMathSupport.Dickson.I271.leafShape_Th)
       (fun T _ _ h => not_isList93_of_leafType hb hA h)
   | Ly =>
-    haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
+    have := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
     exact sporTypes_of_carrier_centTypes hBr
       (centTypes_of_centShapeRk Nat.prime_three
         (CFSG.HardMathSupport.Dickson.I271.tabLy_centShapeRk hOut hBr))
@@ -181,7 +181,7 @@ theorem sporTypes_notList93_three
         · exact not_isList93_of_sporadic (s := .Fi24Prime) hN2 ⟨3, by simp [k2Spor]⟩ ⟨e⟩
         · exact not_isList93_of_sporadic (s := .Th) hN2 ⟨3, by simp [k2Spor]⟩ ⟨e⟩)
   | M12 | M22 | M23 | M24 | J1 | J2 | J4 | HS | He | Ru | Co1 | HN =>
-    simp only [k2Spor] at hname <;> omega
+    simp only [k2Spor] at hname; try omega
 
 end RowCertificates
 

@@ -25,7 +25,7 @@ namespace NineCore
 
 theorem le_iff_starImg_le (h : NineCore G M p Q H E k) {A : Subgroup G} (hAH : A ≤ H) :
     A ≤ M ↔ starImg p H A ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   constructor
   · intro hAM
     exact Subgroup.map_mono (Subgroup.comap_mono hAM)
@@ -68,7 +68,7 @@ theorem Setting1417.isSylowOf_starImg (s : Setting1417 G M Q H F q)
 private theorem pCore_le_starImg_of_isSylowOf (s : Setting1417 G M Q H F q)
     (hQ : CFSG.ABGLocalTools.IsSylowOf q Q H) :
     CFSG.pCore q (StarGroup q H) ≤ starImg q H Q := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   refine CFSG.ABGLocalTools.pCore_le_of_not_dvd_index (p := q) ?_
   have h := (CFSG.ABGLocalTools.isSylowOf_iff.mp (s.isSylowOf_starImg hQ)).2.2
   simpa [Subgroup.relIndex_top_right] using h
@@ -76,7 +76,7 @@ private theorem pCore_le_starImg_of_isSylowOf (s : Setting1417 G M Q H F q)
 private theorem not_le_of_dvd_card (s : Setting1417 G M Q H F q) {J : Subgroup G}
     (hJH : J ≤ H) (hJM : J ≤ M) (hJsub_norm : (J.subgroupOf H).Normal)
     (hqJ : q ∣ Nat.card J) : False := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf q J
   have hRne : R ≠ ⊥ := by
     intro hbot
@@ -106,7 +106,7 @@ private theorem not_le_of_not_dvd_card (s : Setting1417 G M Q H F q) {J : Subgro
     (hJsub_norm : (J.subgroupOf H).Normal) (hqJ : ¬ q ∣ Nat.card J) : False := by
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   have hcop : Nat.Coprime q (Nat.card J) := (s.qPrime.coprime_iff_not_dvd).mpr hqJ
@@ -159,20 +159,20 @@ private theorem not_le_of_not_dvd_card (s : Setting1417 G M Q H F q) {J : Subgro
 theorem Setting1417.not_pLayerIn_le (s : Setting1417 G M Q H F q) :
     ¬ AGL81C.pLayerIn q H ≤ M := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   intro hL
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   let Jstar : Subgroup (StarGroup q H) :=
     CFSG.pCore q (StarGroup q H) ⊔ CFSG.layer (StarGroup q H)
   have hJstar_normal : Jstar.Normal := by
-    haveI : (CFSG.pCore q (StarGroup q H)).Normal := inferInstance
-    haveI hchar : (CFSG.layer (StarGroup q H)).Characteristic :=
+    have : (CFSG.pCore q (StarGroup q H)).Normal := inferInstance
+    have hchar : (CFSG.layer (StarGroup q H)).Characteristic :=
       CFSG.LocalCores.layer_characteristic
-    haveI : (CFSG.layer (StarGroup q H)).Normal := inferInstance
+    have : (CFSG.layer (StarGroup q H)).Normal := inferInstance
     dsimp only [Jstar]
     infer_instance
   let J : Subgroup G := (Jstar.comap (QuotientGroup.mk' O)).map H.subtype
@@ -204,7 +204,7 @@ theorem Setting1417.kStructure (s : Setting1417 G M Q H F q) (h1 : NineFourTwoSi
     ((AGL81C.kSub q M H).subgroupOf H).Normal ∧ AGL81C.xSub q M H ≤ M ∧
       Nat.Coprime q (Nat.card (AGL81C.xSub q M H)) ∧
       CFSG.LocalAnalysis.RankThreeTheoremC.NineFourListGroup q ↥(AGL81C.kStar q M H) := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   refine h1 G M Q H F q s.nine s.hq s.not_pLayerIn_le ?_
   intro P hP
   exact CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.rankThreeGamma_self_le s.strongQ
@@ -216,7 +216,7 @@ private theorem starImg_eq_kStar_of_isPComponent (s : Setting1417 G M Q H F q)
     AGL81C.starImg q H L = AGL81C.kStar q M H := by
   have hLk : L ≤ AGL81C.kSub q M H := by
     unfold AGL81C.kSub
-    rw [if_neg s.not_pLayerIn_le]
+    rw [ite_eq_right s.not_pLayerIn_le]
     exact le_sSup ⟨hL, hLM⟩
   have hLle : AGL81C.starImg q H L ≤ AGL81C.kStar q M H := by
     rw [AGL81C.kStar_eq_starImg]
@@ -259,7 +259,7 @@ theorem Setting1417.exists_eq_kSub (s : Setting1417 G M Q H F q)
   have hkdef : AGL81C.kSub q M H =
       sSup {Y : Subgroup G | AGL81C.IsPComponentIn q Y H ∧ ¬ Y ≤ M} := by
     unfold AGL81C.kSub
-    rw [if_neg s.not_pLayerIn_le]
+    rw [ite_eq_right s.not_pLayerIn_le]
   have hk : AGL81C.kSub q M H = L := by
     rw [hkdef]
     refine le_antisymm ?_ (le_sSup ⟨hL, hLM⟩)

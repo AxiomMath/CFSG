@@ -12,7 +12,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
     Nat.card P = 3 ^ (Nat.card H).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hcop⟩ := h
   obtain ⟨a, ha⟩ := hp.exists_card_eq
   have h1 := Subgroup.relIndex_mul_card P H
@@ -28,7 +28,7 @@ theorem isSylowOf_card {H P : Subgroup G} (h : IsSylowOf 3 P H) :
 
 theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
     (hc : Nat.card P = 3 ^ (Nat.card H).factorization 3) : IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hle, IsPGroup.of_card hc, ?_⟩
   have h1 := Subgroup.relIndex_mul_card P H
   rw [inf_of_le_left hle, hc] at h1
@@ -47,19 +47,19 @@ theorem isSylowOf_of_card {H P : Subgroup G} (hle : P ≤ H)
   omega
 
 theorem exists_sylowOf (H : Subgroup G) : ∃ P : Subgroup G, IsSylowOf 3 P H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr (P.not_dvd_index)
 
 theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hQH : Q ≤ H)
     (hQ : IsPGroup 3 Q) : ∃ k ∈ H, ∀ x ∈ Q, k * x * k⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPH, hPp, hPi⟩ := hP
   let A : Subgroup ↥H := P.subgroupOf H
   let Q' : Subgroup ↥H := Q.subgroupOf H
@@ -87,7 +87,7 @@ theorem exists_conj_le_sylowOf {H P Q : Subgroup G} (hP : IsSylowOf 3 P H) (hQH 
 
 theorem isSylowOf_inf_normal {H B N : Subgroup G} (hB : IsSylowOf 3 B H) (hNH : N ≤ H)
     (hnorm : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) : IsSylowOf 3 (B ⊓ N) N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := exists_sylowOf (G := G) N
   obtain ⟨k, hkH, hk⟩ := exists_conj_le_sylowOf hB (hQ.1.trans hNH) hQ.2.1
   let Q' : Subgroup G := Q.map (MulAut.conj k).toMonoidHom

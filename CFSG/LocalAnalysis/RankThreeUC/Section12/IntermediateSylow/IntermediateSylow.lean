@@ -16,6 +16,7 @@ namespace IntermediateSylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCoreOf_le_sylow {T M : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     CFSG.Open.pCoreOf 2 M ≤ T := by
   obtain ⟨P, rfl⟩ := hT

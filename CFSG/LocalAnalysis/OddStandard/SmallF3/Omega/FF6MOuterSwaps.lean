@@ -13,7 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 open Subgroup CFSG.Blueprint
 
 theorem ff6m_outer_swaps (G : Type) [Group G] [Finite G] (L : Subgroup G) (h : IsOm6M L)
-    (s : G) (hsN : s ∈ normalizer (L : Set G))
+    (s : G) (_hsN : s ∈ normalizer (L : Set G))
     (hout : InducesOutsideGStar L 6 (-1) s) (U : Subgroup G) (hUL : U ≤ L)
     (hU : IsElemAb2 U 4) : s ∉ normalizer (U : Set G) := by
   obtain ⟨V, _, _, _, Q, hQ, e, x, hdim, hsgn, hs, hxx, hxG⟩ := hout

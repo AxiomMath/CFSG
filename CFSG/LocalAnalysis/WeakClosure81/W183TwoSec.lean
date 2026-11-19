@@ -8,6 +8,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem tail1812Two_exists_section {K H L : Subgroup G} (hL : IsComponentModN K H L) {Y : Type}
     [Group Y] {π : ↥H →* Y} (hπs : Function.Surjective π)
     (hπk : ∀ h : ↥H, π h = 1 → (h : G) ∈ K) {Kk : Subgroup Y}

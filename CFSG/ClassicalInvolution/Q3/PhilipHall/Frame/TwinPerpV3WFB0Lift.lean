@@ -73,7 +73,7 @@ theorem lift_conj_involution (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.
     ∀ c ∈ Subgroup.centralizer ({u} : Set G),
       c * t * c⁻¹ = t ∨ c * t * c⁻¹ = y * t * y⁻¹ ∨ c * t * c⁻¹ = t * (y * t * y⁻¹) := by
   classical
-  haveI := Pf93.normal_coreHull hΩ hc2
+  have := Pf93.normal_coreHull hΩ hc2
   have key : ∀ c ∈ (Subgroup.centralizer ({u} : Set G)), ∃ v : ↥(coreHull Ω u), ((v : ↥(Subgroup.centralizer ({u} : Set G))) : G) = c * t * c⁻¹ ∧
       IsUniqueInvolution (TwinDisc.secImg Ω u (conjSub c J)) (QuotientGroup.mk v : ↥(coreHull Ω u) ⧸ classicalInvolutionOddCore ↥(coreHull Ω u)) := by
     intro c hc
@@ -153,7 +153,7 @@ theorem lift_conj_involution (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.
         _ = tX * (tX * sX) * sX := by rw [htsX]
         _ = (tX * tX) * (sX * sX) := by group
         _ = 1 := by rw [htX2, hsX2, one_mul]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : orderOf (tX⁻¹ * sX) = 2 := orderOf_eq_prime hsq2 hne1
     rw [h2] at hodd'
     exact absurd hodd' (by decide)

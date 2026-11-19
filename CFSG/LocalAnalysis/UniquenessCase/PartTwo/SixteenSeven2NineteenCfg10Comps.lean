@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {X Fs : Subgroup (MulAut W)} {I₁ I₂ : Subgroup W}
 
+omit [Finite W] in
 private lemma s16c167_cfg10_zpowers_resHom (I : Subgroup W) (f : stabSub I) :
     Subgroup.zpowers (resHom I f) = autSub (Subgroup.zpowers (f : MulAut W)) I := by
   rw [autSub]

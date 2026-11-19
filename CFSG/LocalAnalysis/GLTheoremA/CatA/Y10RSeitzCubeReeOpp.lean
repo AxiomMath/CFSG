@@ -148,7 +148,7 @@ theorem reeGamma_parabolicRadical_sup_oppRadical_of_ne (ha : 1 ≤ a) (hK : Nat.
   have hΓN : (⊤ : Subgroup ↥Γ) ≤ Subgroup.normalizer (H : Set ↥Γ) := by
     rw [hGen]
     exact sup_le (hMi.trans (Subgroup.le_normalizer (H := H))) hMkH
-  haveI hHnorm : H.Normal :=
+  have hHnorm : H.Normal :=
     ⟨fun n hn g => (Subgroup.mem_normalizer_iff.1 (hΓN (Subgroup.mem_top g)) n).1 hn⟩
   have hHbot : H ≠ ⊥ := by
     obtain ⟨u, hu, hu1⟩ := ReeTag.exists_ne_one_mem_reeFixedOrbitUnipotent
@@ -169,15 +169,15 @@ theorem reeGamma_parabolicRadical_sup_oppRadical_of_ne (ha : 1 ≤ a) (hK : Nat.
 
 
 
+omit [Finite K] [CharP K ReeTag.F4.prime] in
 theorem oppRadical_empty_eq_negUnipotent :
     CFSG.LieType.Chevalley.EvenOddRadical.oppRadical ReeTag.F4.tag K ∅ =
       negUnipotent ReeTag.F4.tag K := by
   unfold CFSG.LieType.Chevalley.EvenOddRadical.oppRadical negUnipotent
   congr 1
   ext α
-  simp only [CFSG.LieType.Chevalley.EvenOddRadical.oppRadicalRoots, Set.mem_setOf_eq,
-    mem_parabolicRadicalRoots_iff, Set.mem_empty_iff_false, not_false_eq_true, exists_true_left,
-    Set.mem_ofPred_eq]
+  simp only [CFSG.LieType.Chevalley.EvenOddRadical.oppRadicalRoots, Set.mem_ofPred_eq,
+    mem_parabolicRadicalRoots_iff, Set.mem_empty_iff_false, not_false_eq_true]
   constructor
   · rintro ⟨hroot, hpos, i, hi⟩
     refine ⟨by simpa using IsRoot.neg hroot, ?_⟩
@@ -259,6 +259,7 @@ theorem reeGamma_parabolicRadical_sup_oppRadical_empty
 
 
 
+omit [Finite K] [CharP K ReeTag.F4.prime] in
 private theorem fieldAut_mem_oppRadical {A : Set (Fin ReeTag.F4.tag.rank)} (σ : RingAut K)
     {g : ModGL ReeTag.F4.tag K}
     (hg : g ∈ CFSG.LieType.Chevalley.EvenOddRadical.oppRadical ReeTag.F4.tag K A) :
@@ -402,8 +403,8 @@ theorem ree_family_core (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     intro α
     exact exists_conj_oppRadical_of_mem ha hK (j := j) (R := R) (α := α) hRQ hNQ
   choose qOf hqOf using hVα
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction ↥R (ConjSet Q V₀) := {
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction ↥R (ConjSet Q V₀) := {
     smul α W :=
       ⟨Subgroup.map α.1.toMonoidHom W.1, by
         obtain ⟨q, hqQ, hW⟩ := W.2

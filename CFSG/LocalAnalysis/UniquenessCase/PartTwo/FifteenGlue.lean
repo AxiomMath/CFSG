@@ -25,6 +25,7 @@ theorem s15_Glue_wClos_zero_le {V X Y : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [hAeq]
   exact h g (hAeq ▸ hAX)
 
+omit [Finite G] in
 theorem s15_Glue_mem_preTil_fixV_iff (V₀ V E : Subgroup G) (hV : IsElemAbelian 2 V)
     (hE : E ≤ stabTil V₀ V) {w : G} (hw : w ∈ V) :
     w ∈ preTil V₀ V hV (fixV (barSub V₀ V hV E)) ↔
@@ -43,6 +44,7 @@ theorem s15_Glue_mem_preTil_fixV_iff (V₀ V E : Subgroup G) (hV : IsElemAbelian
     rw [actTil_mk, mkTil_eq_iff, actStab_apply_val]
     exact hall g hgE
 
+omit [Finite G] in
 theorem s15_Glue_orbit_mem_of_fix {V V₁ E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₁ : V₁ ≤ V) {v : G} (hv : v ∈ V) (hfix : ∀ e ∈ E, e * v * e⁻¹ * v⁻¹ ∈ V₁) :
     ∀ e ∈ E, v⁻¹ * (e⁻¹ * v * e) ∈ V₁ := by
@@ -80,8 +82,8 @@ theorem s15_Glue_inf_V_eq_bot (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D
 
 theorem s15_Glue_exists_hyperplane {B C : Subgroup G} (hB : IsPGroup 2 B) (hCB : C < B) :
     ∃ E : Subgroup G, C ≤ E ∧ E ≤ B ∧ E3.mQuot B E = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥B := hB.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥B := hB.isNilpotent
   have hC' : C.subgroupOf B ≠ ⊤ := fun htop =>
     hCB.not_ge (Subgroup.subgroupOf_eq_top.1 htop)
   obtain ⟨E', hE'c, hCE'⟩ :=
@@ -222,7 +224,7 @@ theorem fifteen_seven_G (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
       rw [← hxv, actTil_mk, mkTil_eq_iff, actStab_apply_val] at this
       exact this
     · by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply key.2
       rw [mem_fixV]
       intro φ hφ

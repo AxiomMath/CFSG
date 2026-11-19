@@ -43,7 +43,7 @@ theorem exists_order_three_elt : ∃ x : ↥M3, x ^ 3 = 1 ∧ rho3 j4Facts x ≠
   have hrho_top : (rho3 j4Facts).range = ⊤ :=
     Subgroup.eq_top_of_card_eq _ (by rw [card_range_rho3, hpermcard])
   obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin 5), orderOf σ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact exists_prime_orderOf_dvd_card' 3 (by rw [hpermcard]; norm_num)
   obtain ⟨m, hm⟩ : ∃ m : ↥M3, rho3 j4Facts m = σ := by
     have : σ ∈ (rho3 j4Facts).range := by rw [hrho_top]; trivial
@@ -98,7 +98,7 @@ theorem m3_row14conc [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] {B : Subgroup
   · intro b hb
     rw [hmap]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbKL : b ∈ KL := hBeq ▸ hb
     have hbM : b ∈ M3 := KL_le_M3 hbKL
     set t : ↥M3 := (⟨b, hbM⟩ : ↥M3)⁻¹ * x₀ with ht

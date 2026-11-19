@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 section Model
 
 theorem commutator_QP45_eq_top : _root_.commutator ↥QP45.originalSubgroup = ⊤ := by
-  haveI := isSimpleGroup_QP45_of_model
+  have := isSimpleGroup_QP45_of_model
   rcases (instNormalCommutator ↥QP45.originalSubgroup).eq_bot_or_eq_top with h | h
   · exfalso
     obtain ⟨a, b, hab⟩ := CFSG.HardMathSupport.Dickson.I271.nonabelian_QP45
@@ -47,6 +47,7 @@ section Main
 
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 
+omit [Finite G] in
 theorem conj_mem_CJ_of_commute {g σ : G} (hg : g ∈ H z) (hcomm : g * σ = σ * g) {y : G}
     (hy : y ∈ CJ z σ) : g * y * g⁻¹ ∈ CJ z σ := by
   obtain ⟨hyc, hyJ⟩ := mem_CJ.mp hy
@@ -68,8 +69,8 @@ theorem card_CJ_modEq_card_inf_CJ {σ₁ σ₂ : G} (hσ₂ : σ₂ ∈ H z) (hc
     (h3 : σ₂ ^ 3 = 1) :
     Nat.card ↥(CJ z σ₁) ≡ Nat.card ↥(CJ z σ₁ ⊓ CJ z σ₂) [MOD 3] := by
   classical
-  haveI : Fintype ↥(CJ z σ₁) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ↥(CJ z σ₁) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : Function.End ↥(CJ z σ₁) := fun y =>
     ⟨σ₂ * (y : G) * σ₂⁻¹, conj_mem_CJ_of_commute (z := z) hσ₂ hcomm y.2⟩
   have hf : f ^ 3 ^ 1 = 1 := by
@@ -102,6 +103,7 @@ theorem card_CJ_modEq_card_inf_CJ {σ₁ σ₂ : G} (hσ₂ : σ₂ ∈ H z) (hc
   rw [hcard] at hmod
   exact hmod
 
+omit hN [Finite G] in
 theorem centerIn_le_CJ_of_conjZ_eq_one {x : ↥(H z)} (hx : conjZ z x = 1) :
     centerIn (J z) ≤ CJ z (x : G) :=
   le_inf (centerIn_le_centralizer_of_conjZ_eq_one (z := z) hx) inf_le_left
@@ -188,7 +190,7 @@ theorem J_le_commutator_sup_centerIn_of_forall_centralizerJ_ne (h : Tim79a.Parro
     J z ≤ ⁅H z, H z⁆ ⊔ centerIn (J z) := by
   obtain ⟨σ₂, hσ₂3, hcomm, hinf⟩ := inf_CJ_eq_centerIn_of_forall_centralizerJ_ne (z := z) h D hIII
   set σ₁ := sigma1Nine (z := z) D with hσ₁
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHN : H z ≤ Subgroup.normalizer (J z : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (J_le_H (z := z))).mp hN
   have hp3 : ∀ x : ↥(H z), orderOf x = 3 → IsPGroup 3 (Subgroup.zpowers (x : G)) := by

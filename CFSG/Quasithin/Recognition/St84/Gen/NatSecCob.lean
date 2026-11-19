@@ -72,7 +72,7 @@ private lemma alpha_apply_zero_zero_mul {L S T : Subgroup G} {F : Type} [Field F
     {α : ↥L →* SL(2, F)}
     (hTS : T ≤ Subgroup.normalizer (S : Set G))
     (hS : (S.subgroupOf L).map α = CFSG.Timmesfeld.upperUnipotent F)
-    {k l : ↥L} (hkT : (k : G) ∈ T) (hlT : (l : G) ∈ T) :
+    {k l : ↥L} (_hkT : (k : G) ∈ T) (hlT : (l : G) ∈ T) :
     (α (k * l) : Matrix (Fin 2) (Fin 2) F) 0 0 =
       (α k : Matrix (Fin 2) (Fin 2) F) 0 0 * (α l : Matrix (Fin 2) (Fin 2) F) 0 0 := by
   have h10l := alpha_apply_one_zero_eq_zero hTS hS hlT
@@ -99,7 +99,7 @@ private noncomputable def torusChar {L S T : Subgroup G} {F : Type} [Field F] [C
     (hS : (S.subgroupOf L).map α = CFSG.Timmesfeld.upperUnipotent F) :
     ↥T →* Fˣ where
   toFun k := Units.mk0 ((α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F) 0 0)
-    (alpha_apply_zero_zero_ne_zero hTS hS (by simpa using k.2))
+    (alpha_apply_zero_zero_ne_zero hTS hS (by simp))
   map_one' := by
     apply Units.ext
     simp
@@ -109,7 +109,7 @@ private noncomputable def torusChar {L S T : Subgroup G} {F : Type} [Field F] [C
       (α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F) 0 0 *
         (α (Subgroup.inclusion hTL l) : Matrix (Fin 2) (Fin 2) F) 0 0
     rw [map_mul (Subgroup.inclusion hTL)]
-    exact alpha_apply_zero_zero_mul hTS hS (by simpa using k.2) (by simpa using l.2)
+    exact alpha_apply_zero_zero_mul hTS hS (by simp) (by simp)
 
 private lemma torusChar_eq_one {L Q S T : Subgroup G} [Finite ↥L]
     {F : Type} [Field F] [CharP F 2] {n : ℕ} {α : ↥L →* SL(2, F)}
@@ -120,10 +120,10 @@ private lemma torusChar_eq_one {L Q S T : Subgroup G} [Finite ↥L]
     (k : ↥T)
     (h00 : (α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F) 0 0 = 1) : k = 1 := by
   classical
-  haveI : Finite ↥T := Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
-  haveI : Nonempty ↥T := ⟨1⟩
+  have : Finite ↥T := Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
+  have : Nonempty ↥T := ⟨1⟩
   have h10 : (α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 :=
-    alpha_apply_one_zero_eq_zero hTS hS (by simpa using k.2)
+    alpha_apply_one_zero_eq_zero hTS hS (by simp)
   have h11 : (α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F) 1 1 = 1 := by
     have hdet : (α (Subgroup.inclusion hTL k) : Matrix (Fin 2) (Fin 2) F).det = 1 :=
       (α (Subgroup.inclusion hTL k)).2
@@ -168,7 +168,7 @@ private lemma torusChar_eq_one {L Q S T : Subgroup G} [Finite ↥L]
     exact Subgroup.mem_subgroupOf.mp hmem
   have hkbot : (k : G) ∈ (⊥ : Subgroup G) := by
     have hmem : (k : G) ∈ T ⊓ Q :=
-      ⟨by simpa using k.2, by simpa using hkQ⟩
+      ⟨by simp, by simpa using hkQ⟩
     rwa [hTQ] at hmem
   exact Subtype.ext (Subgroup.mem_bot.mp hkbot)
 
@@ -185,7 +185,7 @@ private lemma torusChar_injective {L Q S T : Subgroup G} [Finite ↥L]
       (α (Subgroup.inclusion hTL l) : Matrix (Fin 2) (Fin 2) F) 0 0 :=
     congrArg Units.val hkl
   have h10l : (α (Subgroup.inclusion hTL l) : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 :=
-    alpha_apply_one_zero_eq_zero hTS hS (by simpa using l.2)
+    alpha_apply_one_zero_eq_zero hTS hS (by simp)
   have hinv := upper_inv_apply (α (Subgroup.inclusion hTL l)) h10l
   let m : ↥T := k * l⁻¹
   have hm00 : (α (Subgroup.inclusion hTL m) : Matrix (Fin 2) (Fin 2) F) 0 0 = 1 := by
@@ -195,23 +195,23 @@ private lemma torusChar_injective {L Q S T : Subgroup G} [Finite ↥L]
     rw [hmul, map_mul, map_inv, Matrix.SpecialLinearGroup.coe_mul,
       Matrix.mul_apply, Fin.sum_univ_two, hinv.1, hinv.2, mul_zero, add_zero, h00,
       mul_inv_cancel₀]
-    · exact (alpha_apply_zero_zero_ne_zero hTS hS (by simpa using l.2))
+    · exact (alpha_apply_zero_zero_ne_zero hTS hS (by simp))
   have hm1 : m = 1 :=
     torusChar_eq_one hker hTL hTQ hT hTS hS m hm00
   exact mul_inv_eq_one.mp hm1
 
 theorem exists_mem_upper_diag_eq {L Q T S : Subgroup G} [Finite ↥L]
     {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ} (hF : Fintype.card F = 2 ^ n)
-    {α : ↥L →* SL(2, F)} (hker : α.ker = Q.subgroupOf L) (hTL : T ≤ L) (hSL : S ≤ L)
+    {α : ↥L →* SL(2, F)} (hker : α.ker = Q.subgroupOf L) (hTL : T ≤ L) (_hSL : S ≤ L)
     (hTQ : T ⊓ Q = ⊥) (hT : Nat.card ↥T = 2 ^ n - 1)
     (hS : (S.subgroupOf L).map α = CFSG.Timmesfeld.upperUnipotent F)
     (hTS : T ≤ Subgroup.normalizer (S : Set G)) :
     ∀ c : F, c ≠ 0 → ∃ k : ↥L, (k : G) ∈ T ∧
       (α k : Matrix (Fin 2) (Fin 2) F) 0 0 = c ∧ (α k : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by
   classical
-  haveI : Finite ↥T := Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
-  haveI : Fintype ↥T := Fintype.ofFinite _
-  haveI : Fintype Fˣ := Fintype.ofFinite _
+  have : Finite ↥T := Finite.of_equiv _ (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
+  have : Fintype ↥T := Fintype.ofFinite _
+  have : Fintype Fˣ := Fintype.ofFinite _
   let φ : ↥T →* Fˣ := torusChar hTL hTS hS
   have hφ_inj : Function.Injective φ := torusChar_injective hker hTL hTQ hT hTS hS
   have hcardT : Nat.card ↥T = 2 ^ n - 1 := hT
@@ -224,10 +224,10 @@ theorem exists_mem_upper_diag_eq {L Q T S : Subgroup G} [Finite ↥L]
     (Finite.injective_iff_surjective_of_equiv e).mp hφ_inj
   intro c hc
   obtain ⟨k, hk⟩ := hφ_surj (Units.mk0 c hc)
-  refine ⟨Subgroup.inclusion hTL k, by simpa using k.2, ?_, ?_⟩
+  refine ⟨Subgroup.inclusion hTL k, by simp, ?_, ?_⟩
   · have := congrArg Units.val hk
     simpa [φ, torusChar, Units.val_mk0] using this
-  · exact alpha_apply_one_zero_eq_zero hTS hS (by simpa using k.2)
+  · exact alpha_apply_one_zero_eq_zero hTS hS (by simp)
 
 open Multiplicative
 
@@ -264,8 +264,7 @@ private lemma upperElt_mulVec {F : Type} [Field F] (t : F) (w : Fin 2 → F) :
       ![w 0 + t * w 1, w 1] := by
   ext i
   fin_cases i <;>
-    simp [CFSG.Timmesfeld.RankOne.upperElt, Matrix.mulVec, Fin.sum_univ_two,
-      Matrix.vecHead, Matrix.vecTail]
+    simp [CFSG.Timmesfeld.RankOne.upperElt, Matrix.mulVec, Matrix.vecHead, Matrix.vecTail]
 
 private lemma one_add_upperElt_mulVec {F : Type} [Field F] [CharP F 2]
     (t : F) (w : Fin 2 → F) :
@@ -287,8 +286,8 @@ private lemma eq_line_of_card_of_invariant {F : Type} [Field F] [Fintype F] [Cha
       (CFSG.Timmesfeld.RankOne.upperElt F t : Matrix (Fin 2) (Fin 2) F) *ᵥ w ∈ W) :
     W = line F := by
   classical
-  haveI : Finite F := Finite.of_fintype F
-  haveI : Finite ↥W := Finite.of_injective (fun w : ↥W => (w : Fin 2 → F))
+  have : Finite F := Finite.of_fintype F
+  have : Finite ↥W := Finite.of_injective (fun w : ↥W => (w : Fin 2 → F))
     Subtype.val_injective
   have hline_card : Nat.card ↥(line F) = 2 ^ n := by
     rw [natCard_line, Nat.card_eq_fintype_card, hF]
@@ -309,7 +308,7 @@ private lemma eq_line_of_card_of_invariant {F : Type} [Field F] [Fintype F] [Cha
       change w 0 + s * w 1 = w 0 + t * w 1 at h0
       have h : s * w 1 = t * w 1 := by linear_combination h0
       exact mul_right_cancel₀ hw1 h
-    haveI : Fintype ↥W := Fintype.ofFinite _
+    have : Fintype ↥W := Fintype.ofFinite _
     have hcardW : Fintype.card ↥W = 2 ^ n := by
       rw [Fintype.card_eq_nat_card, hcard]
     have hcardF : Fintype.card F = Fintype.card ↥W := by
@@ -454,7 +453,7 @@ private lemma b1_comm {L V : Subgroup G} {F : Type} [Field F] [CharP F 2]
 private noncomputable def PImage {Q P : Subgroup G} {F : Type} [Field F]
     (β₂ : ↥Q →* Multiplicative (Fin 2 → F)) : AddSubgroup (Fin 2 → F) where
   carrier := {w | ∃ x : ↥Q, (x : G) ∈ P ∧ toAdd (β₂ x) = w}
-  zero_mem' := ⟨1, by simpa using P.one_mem, by simp⟩
+  zero_mem' := ⟨1, by simp⟩
   add_mem' := by
     rintro w₁ w₂ ⟨x, hxP, rfl⟩ ⟨y, hyP, rfl⟩
     refine ⟨x * y, ?_, ?_⟩
@@ -468,7 +467,7 @@ private noncomputable def PImage {Q P : Subgroup G} {F : Type} [Field F]
 
 private lemma natCard_map_P {Q P V : Subgroup G} {F : Type} [Field F]
     {β₂ : ↥Q →* Multiplicative (Fin 2 → F)} (hβ₂ker : β₂.ker = V.subgroupOf Q)
-    (hVP : V ≤ P) (hPQ : P ≤ Q) :
+    (_hVP : V ≤ P) (hPQ : P ≤ Q) :
     Nat.card ↥((P.subgroupOf Q).map β₂) = V.relIndex P := by
   classical
   let f : ↥(P.subgroupOf Q) →* Multiplicative (Fin 2 → F) :=
@@ -545,7 +544,7 @@ private lemma PImage_eq_line {L Q V P A : Subgroup G} {F : Type}
     exact ⟨y, hyP, rfl⟩
   simpa using hmem
 
-private lemma b2_coord_zero_of_mem_P {Q P V : Subgroup G} {F : Type} [Field F]
+private lemma b2_coord_zero_of_mem_P {Q P _V : Subgroup G} {F : Type} [Field F]
     {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hW : PImage (P := P) β₂ = line F) {x : ↥Q} (hxP : (x : G) ∈ P) :
     toAdd (β₂ x) 1 = 0 := by
@@ -566,7 +565,7 @@ private lemma mem_P_of_b2_coord_zero {Q P V : Subgroup G} {F : Type} [Field F]
     (b2_eq_zero_iff hβ₂ker (y⁻¹ * x)).mp hzero
   have hP : ((y⁻¹ * x : ↥Q) : G) ∈ P := hVP hV
   have hxeq : (x : G) = (y : G) * ((y⁻¹ * x : ↥Q) : G) := by
-    simp [mul_assoc]
+    simp
   rw [hxeq]
   exact P.mul_mem hyP hP
 
@@ -682,7 +681,7 @@ private lemma add_neg_mulVec_eq_one_add {F : Type} [Field F] [CharP F 2]
     v + -(A *ᵥ v) = ((1 : Matrix (Fin 2) (Fin 2) F) + A) *ᵥ v := by
   rw [Matrix.add_mulVec, Matrix.one_mulVec, neg_mulVec_eq_self]
 
-private lemma commPV_mem_V {L Q V P A : Subgroup G} {F : Type}
+private lemma commPV_mem_V {L Q V P _A : Subgroup G} {F : Type}
     [Field F] [CharP F 2]
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hQL : Q ≤ L) (hker : α.ker = Q.subgroupOf L)
@@ -711,7 +710,7 @@ private lemma commPV_mem_V {L Q V P A : Subgroup G} {F : Type}
     rw [hcomm_eq, map_mul, map_inv, toAdd_mul, toAdd_inv, hconj_val,
       b2_conj (L := L) (Q := Q) hQL hker hβ₂eq a x, ha,
       add_neg_mulVec_eq_one_add, one_add_upperElt_mulVec,
-      b2_coord_zero_of_mem_P (Q := Q) (P := P) (V := V) hW hxP]
+      b2_coord_zero_of_mem_P (Q := Q) (P := P) (_V := V) hW hxP]
     simp)
   simpa [c] using hmem
 
@@ -727,7 +726,7 @@ private noncomputable def commPV {L Q V P A : Subgroup G} {F : Type}
       CFSG.Timmesfeld.RankOne.upperElt F t)
     (x : ↥Q) (hxP : (x : G) ∈ P) (t : F) : ↥V :=
   (⟨⁅(x : G), ((zeta hsurj t : A.subgroupOf L) : G)⁆,
-    commPV_mem_V (A := A) hQL hker hβ₂ker hβ₂eq hW hxP t (zeta_spec hsurj t)⟩ : ↥V)
+    commPV_mem_V (_A := A) hQL hker hβ₂ker hβ₂eq hW hxP t (zeta_spec hsurj t)⟩ : ↥V)
 
 private lemma commPV_coe {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
@@ -813,7 +812,7 @@ private lemma cocycleG_add {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP 
     rw [commPV_coe]
     simp only [Subgroup.coe_mul]
     rw [commPV_coe, conjOf_coe, commPV_coe, ha_st]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+    simp only [Subgroup.coe_mul, commutatorElement_def]
     group
   rw [cocycleG, hconj, map_mul, toAdd_mul]
   congr 1
@@ -929,7 +928,7 @@ private lemma fCocycle_mul {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP 
     (hW : PImage (P := P) β₂ = line F)
     (hsurj : ∀ t : F, ∃ a : A.subgroupOf L, α a =
       CFSG.Timmesfeld.RankOne.upperElt F t)
-    (hinj : Function.Injective (fun a : A.subgroupOf L => α a))
+    (_hinj : Function.Injective (fun a : A.subgroupOf L => α a))
     (hβ₁eq : ∀ (ℓ : ↥L) (u v : ↥V), (v : G) = ℓ * u * ℓ⁻¹ →
       toAdd (β₁ v) = (α ℓ : Matrix (Fin 2) (Fin 2) F) *ᵥ toAdd (β₁ u))
     (hVconj : ∀ a : ↥L, ∀ x : ↥V, (a : G) * (x : G) * (a : G)⁻¹ ∈ V)
@@ -948,7 +947,7 @@ private lemma fCocycle_mul {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP 
     rw [commPV_coe]
     simp only [Subgroup.coe_mul]
     rw [conjOf_coe, commPV_coe, commPV_coe]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+    simp only [commutatorElement_def]
     group
   unfold fCocycle
   unfold cocycleG
@@ -1000,7 +999,7 @@ private noncomputable def fV {L V A : Subgroup G} {F : Type} [Field F] [CharP F 
     {α : ↥L →* SL(2, F)} {β₁ : ↥V →* Multiplicative (Fin 2 → F)}
     (hsurj : ∀ t : F, ∃ a : A.subgroupOf L, α a =
       CFSG.Timmesfeld.RankOne.upperElt F t)
-    (hβ₁eq : ∀ (ℓ : ↥L) (u v : ↥V), (v : G) = ℓ * u * ℓ⁻¹ →
+    (_hβ₁eq : ∀ (ℓ : ↥L) (u v : ↥V), (v : G) = ℓ * u * ℓ⁻¹ →
       toAdd (β₁ v) = (α ℓ : Matrix (Fin 2) (Fin 2) F) *ᵥ toAdd (β₁ u))
     (hVconj : ∀ a : ↥L, ∀ x : ↥V, (a : G) * (x : G) * (a : G)⁻¹ ∈ V)
     (v : ↥V) (t : F) : F :=
@@ -1064,8 +1063,8 @@ private lemma fCocycle_eq_zero_iff {L Q V Z P A : Subgroup G} {F : Type}
     rw [fCocycle, cocycleG, hβ0]
     rfl
 
-private lemma exists_xP {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
-    {n : ℕ} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
+private lemma exists_xP {_L Q _V P _A : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2]
+    {_n : ℕ} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hW : PImage (P := P) β₂ = line F) (p : F) :
     ∃ x : ↥Q, (x : G) ∈ P ∧ toAdd (β₂ x) = ![p, 0] := by
   have hmem : (![p, 0] : Fin 2 → F) ∈ PImage (P := P) β₂ := by
@@ -1122,7 +1121,7 @@ private lemma fCanon_eq {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2
     fCanon (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj x t =
       fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj x hxP t := by
   unfold fCanon
-  rw [dif_pos hxP]
+  rw [dite_eq_left hxP]
 
 private lemma conj_upperElt_eq {F : Type} [Field F] [CharP F 2]
     (M : SL(2, F)) (c b t : F) (hc : c ≠ 0)
@@ -1143,7 +1142,7 @@ private lemma conj_upperElt_eq {F : Type} [Field F] [CharP F 2]
   ring
 
 private lemma conj_zeta_eq {L Q A : Subgroup G} {F : Type} [Field F] [CharP F 2]
-    {α : ↥L →* SL(2, F)} (hker : α.ker = Q.subgroupOf L) (hAQ : A ⊓ Q = ⊥)
+    {α : ↥L →* SL(2, F)} (_hker : α.ker = Q.subgroupOf L) (_hAQ : A ⊓ Q = ⊥)
     (hAL : A ≤ L)
     (hinj : Function.Injective (fun a : A.subgroupOf L => α a))
     (hsurj : ∀ t : F, ∃ a : A.subgroupOf L, α a =
@@ -1176,7 +1175,7 @@ private lemma upper_mulVec_line {F : Type} [Field F]
     M *ᵥ ![p, 0] = ![c * p, 0] := by
   ext i
   fin_cases i <;>
-    simp [Matrix.mulVec, Fin.sum_univ_two, Matrix.vecHead, Matrix.vecTail, h00, h01, h10]
+    simp [Matrix.mulVec, Matrix.vecHead, Matrix.vecTail, h00, h01, h10]
 
 private lemma fCanon_conj {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
@@ -1217,7 +1216,7 @@ private lemma fCanon_conj {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F
         (commPV hQL hker hβ₂ker hβ₂eq hW hsurj x hxP t) := by
     apply Subtype.ext
     rw [commPV_coe, conjOf_coe, commPV_coe, conjQ_coe, ← hζ_eq_G]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+    simp only [commutatorElement_def]
     group
   rw [fCanon_eq (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hkxP (c ^ 2 * t),
     fCanon_eq (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hxP t]
@@ -1237,8 +1236,8 @@ private lemma fCanon_conj {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F
     ((cocycleG (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj x hxP t) 0) hk00 rfl hk10]
   rfl
 
-private lemma Phi_mod_v {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
-    {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
+private lemma Phi_mod_v {L Q V _P _A : Subgroup G} {F : Type} [Field F] [CharP F 2]
+    {_α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hβ₂ker : β₂.ker = V.subgroupOf Q)
     (xp : F → ↥Q) (hxp_coord : ∀ p, toAdd (β₂ (xp p)) = ![p, 0]) (p p' : F) :
     ∃ v : ↥Q, (v : G) ∈ V ∧ xp (p + p') = xp p * xp p' * v := by
@@ -1263,7 +1262,7 @@ private lemma Phi_mod_v {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2
   exact ⟨v, hvV, hz_eq⟩
 
 private lemma Phi_mod {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F]
-    [CharP F 2] {n : ℕ}
+    [CharP F 2] {_n : ℕ}
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     {β₁ : ↥V →* Multiplicative (Fin 2 → F)}
     (hQL : Q ≤ L) (hker : α.ker = Q.subgroupOf L)
@@ -1286,7 +1285,7 @@ private lemma Phi_mod {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F]
         fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp p) (hxpP p) t +
           fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp p') (hxpP p') t +
             t * w := by
-  obtain ⟨v, hvV, hz_eq⟩ := Phi_mod_v (L := L) (Q := Q) (V := V) (P := P) (A := A) (α := α) hβ₂ker xp hxp_coord p p'
+  obtain ⟨v, hvV, hz_eq⟩ := Phi_mod_v (L := L) (Q := Q) (V := V) (_P := P) (_A := A) (_α := α) hβ₂ker xp hxp_coord p p'
   have hvP : (v : G) ∈ P := hVP hvV
   refine ⟨(toAdd (β₁ (⟨(v : G), hvV⟩ : ↥V))) 1, fun t => ?_⟩
   rw [← fCanon_eq (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (hxpP (p + p')) t,
@@ -1304,16 +1303,16 @@ private lemma Phi_mod {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F]
   rw [fCocycle_of_mem_V (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hβ₁eq hVconj hVP hvV t]
   rw [fV_eq (β₁ := β₁) hsurj hβ₁eq hVconj (⟨(v : G), hvV⟩ : ↥V) t]
 
-private lemma Phi_tor_v {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
+private lemma Phi_tor_v {L Q V P _A : Subgroup G} {F : Type} [Field F] [CharP F 2]
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hQL : Q ≤ L) (hker : α.ker = Q.subgroupOf L)
     (hβ₂ker : β₂.ker = V.subgroupOf Q)
     (hβ₂eq : ∀ (ℓ : ↥L) (u v : ↥Q), (v : G) = ℓ * u * ℓ⁻¹ →
       toAdd (β₂ v) = (α ℓ : Matrix (Fin 2) (Fin 2) F) *ᵥ toAdd (β₂ u))
-    (k : ↥L) (hkP : (k : G) ∈ Subgroup.normalizer (P : Set G))
+    (k : ↥L) (_hkP : (k : G) ∈ Subgroup.normalizer (P : Set G))
     (c : F) (hk00 : (α k : Matrix (Fin 2) (Fin 2) F) 0 0 = c)
     (hk10 : (α k : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
-    (xp : F → ↥Q) (hxpP : ∀ p, (xp p : G) ∈ P)
+    (xp : F → ↥Q) (_hxpP : ∀ p, (xp p : G) ∈ P)
     (hxp_coord : ∀ p, toAdd (β₂ (xp p)) = ![p, 0]) (p : F) :
     ∃ v : ↥Q, (v : G) ∈ V ∧ conjQ hQL hker k (xp p) = xp (c * p) * v := by
   let x : ↥Q := xp p
@@ -1338,7 +1337,7 @@ private lemma Phi_tor_v {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2
   exact ⟨v, hvV, hz_eq⟩
 
 private lemma Phi_tor {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F]
-    [CharP F 2] {n : ℕ}
+    [CharP F 2] {_n : ℕ}
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     {β₁ : ↥V →* Multiplicative (Fin 2 → F)}
     (hQL : Q ≤ L) (hker : α.ker = Q.subgroupOf L)
@@ -1365,7 +1364,7 @@ private lemma Phi_tor {L Q V P A : Subgroup G} {F : Type} [Field F] [Fintype F]
           (hxpP (c * p)) (c ^ 2 * t) =
         c * fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp p) (hxpP p) t +
           t * w := by
-  obtain ⟨v, hvV, hz_eq⟩ := Phi_tor_v (L := L) (Q := Q) (V := V) (P := P) (A := A)
+  obtain ⟨v, hvV, hz_eq⟩ := Phi_tor_v (L := L) (Q := Q) (V := V) (P := P) (_A := A)
     (α := α) (β₂ := β₂) hQL hker hβ₂ker hβ₂eq k hkP c hk00 hk10 xp hxpP hxp_coord p
   have hvP : (v : G) ∈ P := hVP hvV
   refine ⟨c ^ 2 * (toAdd (β₁ (⟨(v : G), hvV⟩ : ↥V))) 1, fun t => ?_⟩
@@ -1484,7 +1483,7 @@ private lemma hsym_cocycle {L Q V P A Z : Subgroup G} {F : Type} [Field F] [Char
     (hsurj : ∀ t : F, ∃ a : A.subgroupOf L, α a =
       CFSG.Timmesfeld.RankOne.upperElt F t)
     (hinj : Function.Injective (fun a : A.subgroupOf L => α a))
-    (hVP : V ≤ P) (hVQ : V ≤ Q)
+    (hVP : V ≤ P) (_hVQ : V ≤ Q)
     (hβ₁ker : β₁.ker = Z.subgroupOf V)
     (hQQ : ⁅Q, Q⁆ ≤ Z)
     (y : ↥Q) (hy : toAdd (β₂ y) = ![0, 1]) (s t : F) :
@@ -1518,11 +1517,11 @@ private lemma hsym_cocycle {L Q V P A Z : Subgroup G} {F : Type} [Field F] [Char
   rw [← fCanon_eq (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hHtP s,
     ← fCanon_eq (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hHsP t]
   unfold fCanon
-  rw [dif_pos hHtP, dif_pos hHsP]
+  rw [dite_eq_left hHtP, dite_eq_left hHsP]
   unfold fCocycle cocycleG
   rw [hβeq]
 
-private lemma hfun_v {L Q V P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
+private lemma hfun_v {L Q V _P A : Subgroup G} {F : Type} [Field F] [CharP F 2]
     {α : ↥L →* SL(2, F)} {β₂ : ↥Q →* Multiplicative (Fin 2 → F)}
     (hQL : Q ≤ L) (hker : α.ker = Q.subgroupOf L)
     (hβ₂ker : β₂.ker = V.subgroupOf Q)
@@ -1581,15 +1580,15 @@ private lemma Phi_sym {L Q V P A Z : Subgroup G} {F : Type} [Field F] [CharP F 2
         fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp t) (hxpP t) s +
           s * w t := by
   let v : F → ↥Q := fun s => Classical.choose
-    (hfun_v (L := L) (Q := Q) (V := V) (P := P) (A := A) (α := α) (β₂ := β₂)
+    (hfun_v (L := L) (Q := Q) (V := V) (_P := P) (A := A) (α := α) (β₂ := β₂)
       hQL hker hβ₂ker hβ₂eq hsurj y hy xp hxp_coord s)
   have hvV : ∀ s, (v s : G) ∈ V := fun s =>
     (Classical.choose_spec
-      (hfun_v (L := L) (Q := Q) (V := V) (P := P) (A := A) (α := α) (β₂ := β₂)
+      (hfun_v (L := L) (Q := Q) (V := V) (_P := P) (A := A) (α := α) (β₂ := β₂)
         hQL hker hβ₂ker hβ₂eq hsurj y hy xp hxp_coord s)).1
   have hveq : ∀ s, commQ hQL hker ((zeta hsurj s : A.subgroupOf L) : ↥L) y = xp s * v s :=
     fun s => (Classical.choose_spec
-      (hfun_v (L := L) (Q := Q) (V := V) (P := P) (A := A) (α := α) (β₂ := β₂)
+      (hfun_v (L := L) (Q := Q) (V := V) (_P := P) (A := A) (α := α) (β₂ := β₂)
         hQL hker hβ₂ker hβ₂eq hsurj y hy xp hxp_coord s)).2
   let w : F → F := fun s => (toAdd (β₁ (⟨(v s : G), hvV s⟩ : ↥V))) 1
   have hfcanon : ∀ s t, fCanon (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj
@@ -1639,16 +1638,16 @@ private lemma Phi_exists {L Q V Z P A : Subgroup G} {F : Type} [Field F] [Fintyp
     (y : ↥Q) (hy : toAdd (β₂ y) = ![0, 1]) :
     ∀ p : F, ∃ w : F, ∀ t : F,
       fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj
-        (Classical.choose (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n) (β₂ := β₂) hW p))
-        (Classical.choose_spec (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n)
+        (Classical.choose (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n) (β₂ := β₂) hW p))
+        (Classical.choose_spec (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n)
           (β₂ := β₂) hW p)).1 t = t * w := by
   let xp : F → ↥Q := fun p => Classical.choose
-    (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n) (β₂ := β₂) hW p)
+    (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n) (β₂ := β₂) hW p)
   have hxpP : ∀ p, (xp p : G) ∈ P := fun p =>
-    (Classical.choose_spec (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n)
+    (Classical.choose_spec (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n)
       (β₂ := β₂) hW p)).1
   have hxp_coord : ∀ p, toAdd (β₂ (xp p)) = ![p, 0] := fun p =>
-    (Classical.choose_spec (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n)
+    (Classical.choose_spec (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n)
       (β₂ := β₂) hW p)).2
   change ∀ p : F, ∃ w : F, ∀ t : F,
     fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp p) (hxpP p) t = t * w
@@ -1658,13 +1657,13 @@ private lemma Phi_exists {L Q V Z P A : Subgroup G} {F : Type} [Field F] [Fintyp
     fCocycle_add (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hβ₁eq hVconj
       (hxpP p) s t
   have hmod : ∀ p p', ∃ w, ∀ t, Phi (p + p') t = Phi p t + Phi p' t + t * w :=
-    fun p p' => Phi_mod (β₁ := β₁) (n := n) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hβ₁eq
+    fun p p' => Phi_mod (β₁ := β₁) (_n := n) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hβ₁eq
       hVconj hVP xp hxpP hxp_coord p p'
   have htor' : ∀ c : F, c ≠ 0 → ∀ p, ∃ w, ∀ t,
       Phi (c * p) (c ^ 2 * t) = c * Phi p t + t * w := by
     intro c hc p
     obtain ⟨k, hkA, hkP, hk00, hk10⟩ := htor c hc
-    exact Phi_tor (β₁ := β₁) (n := n) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hAL hAQ hVP
+    exact Phi_tor (β₁ := β₁) (_n := n) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hAL hAQ hVP
       hβ₁eq hVconj k hkA hkP c hc hk00 hk10 xp hxpP hxp_coord p
   have hsym : ∃ w : F → F, ∀ s t, Phi s t + t * w s = Phi t s + s * w t :=
     Phi_sym (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hVP hVQ hβ₁ker
@@ -1683,14 +1682,14 @@ private lemma final_step_f {L Q V Z P A : Subgroup G} {F : Type} [Field F] [Char
     (hsurj : ∀ t : F, ∃ a : A.subgroupOf L, α a =
       CFSG.Timmesfeld.RankOne.upperElt F t)
     (hinj : Function.Injective (fun a : A.subgroupOf L => α a))
-    (hAU_eq : (A.subgroupOf L).map α = CFSG.Timmesfeld.upperUnipotent F)
-    (hAL : A ≤ L)
-    (hVP : V ≤ P) (hPQ : P ≤ Q) (hVQ : V ≤ Q)
-    (hβ₁ker : β₁.ker = Z.subgroupOf V)
+    (_hAU_eq : (A.subgroupOf L).map α = CFSG.Timmesfeld.upperUnipotent F)
+    (_hAL : A ≤ L)
+    (hVP : V ≤ P) (_hPQ : P ≤ Q) (_hVQ : V ≤ Q)
+    (_hβ₁ker : β₁.ker = Z.subgroupOf V)
     (hβ₁eq : ∀ (ℓ : ↥L) (u v : ↥V), (v : G) = ℓ * u * ℓ⁻¹ →
       toAdd (β₁ v) = (α ℓ : Matrix (Fin 2) (Fin 2) F) *ᵥ toAdd (β₁ u))
     (hVconj : ∀ a : ↥L, ∀ x : ↥V, (a : G) * (x : G) * (a : G)⁻¹ ∈ V)
-    (hβ₁surj : Function.Surjective β₁)
+    (_hβ₁surj : Function.Surjective β₁)
     (xp : F → ↥Q) (hxpP : ∀ p, (xp p : G) ∈ P)
     (hxp_coord : ∀ p, toAdd (β₂ (xp p)) = ![p, 0])
     (hcob : ∀ p : F, ∃ w : F, ∀ t : F,
@@ -1703,7 +1702,7 @@ private lemma final_step_f {L Q V Z P A : Subgroup G} {F : Type} [Field F] [Char
     ext i
     fin_cases i
     · rfl
-    · exact b2_coord_zero_of_mem_P (Q := Q) (P := P) (V := V) hW hxqP
+    · exact b2_coord_zero_of_mem_P (Q := Q) (P := P) (_V := V) hW hxqP
   let v' : ↥Q := (xp p)⁻¹ * xq
   have hv'V : (v' : G) ∈ V := by
     apply (b2_eq_zero_iff hβ₂ker v').mp
@@ -1765,7 +1764,7 @@ private lemma final_step {L Q V Z P A : Subgroup G} {F : Type} [Field F] [CharP 
     rw [hv, toAdd_ofAdd]
   let vq : ↥Q := ⟨(v : G), hVQ v.2⟩
   have hvqP : (vq : G) ∈ P := hVP v.2
-  have hvqV : (vq : G) ∈ V := by simpa [vq] using v.2
+  have hvqV : (vq : G) ∈ V := by simp [vq]
   have hzero : ∀ t, fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj
       (xq * vq) (by simpa using P.mul_mem hxqP hvqP) t = 0 := by
     intro t
@@ -1778,7 +1777,7 @@ private lemma final_step {L Q V Z P A : Subgroup G} {F : Type} [Field F] [CharP 
       apply Subtype.ext
       rfl
     rw [hvq_eq, fV_eq (β₁ := β₁) hsurj hβ₁eq hVconj v t, hv_coord]
-    simp only [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons, Matrix.tail_cons]; rw [← add_mul, CharTwo.add_self_eq_zero, zero_mul]
+    simp only [Matrix.cons_val_one, Matrix.cons_val_zero]; rw [← add_mul, CharTwo.add_self_eq_zero, zero_mul]
   have hZ : ∀ a : A.subgroupOf L,
       ⁅((xq * vq : ↥Q) : G), (a : G)⁆ ∈ Z :=
     (fCocycle_eq_zero_iff (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj hinj hAU_eq
@@ -1826,13 +1825,13 @@ theorem exists_mul_commutator_mem_of_isNatSecOf {L Q V Z P A : Subgroup G}
   have hy_coord : toAdd (β₂ y) = ![0, 1] := by
     rw [hy, toAdd_ofAdd]
   let xp : F → ↥Q := fun p => Classical.choose
-    (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A) (n := n) (β₂ := β₂) hW p)
+    (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A) (_n := n) (β₂ := β₂) hW p)
   have hxpP : ∀ p, (xp p : G) ∈ P := fun p =>
-    (Classical.choose_spec (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A)
-      (n := n) (β₂ := β₂) hW p)).1
+    (Classical.choose_spec (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A)
+      (_n := n) (β₂ := β₂) hW p)).1
   have hxp_coord : ∀ p, toAdd (β₂ (xp p)) = ![p, 0] := fun p =>
-    (Classical.choose_spec (exists_xP (L := L) (Q := Q) (P := P) (V := V) (A := A)
-      (n := n) (β₂ := β₂) hW p)).2
+    (Classical.choose_spec (exists_xP (_L := L) (Q := Q) (P := P) (_V := V) (_A := A)
+      (_n := n) (β₂ := β₂) hW p)).2
   have hcob : ∀ p : F, ∃ w : F, ∀ t : F,
       fCocycle (β₁ := β₁) hQL hker hβ₂ker hβ₂eq hW hsurj (xp p) (hxpP p) t = t * w := by
     have h := Phi_exists (β₁ := β₁) (β₂ := β₂) hn hF hQL hker hβ₂ker hβ₂eq hW hsurj

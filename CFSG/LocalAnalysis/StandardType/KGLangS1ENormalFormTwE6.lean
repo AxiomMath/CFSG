@@ -142,7 +142,7 @@ private theorem kgLangS1ENormalFormTwE6Aux_y_normalForm
 
 private theorem kgLangS1ENormalFormTwE6Aux_generator_toral
     {K₀ k L : Type} [Field K₀] [Field k] [Field L] [Algebra K₀ L]
-    (σ₀ : K₀ ≃+* K₀) (σ : k →+* k)
+    (σ₀ : K₀ ≃+* K₀) (_σ : k →+* k)
     (β : K₀ →+* k) (ι : k →+* L) (lamR : AlgebraicClosure K₀ →+* L)
     (hlam : lamR.comp (algebraMap K₀ (AlgebraicClosure K₀)) = ι.comp β)
     (W : Subgroup ↥(RecipeExcLang.twInndiagGroup K₀ σ₀))
@@ -249,8 +249,8 @@ private theorem kgLangS1ENormalFormTwE6Aux_normalForm
         (Ψ z : ModGL TwistTag.E6.tag k) =
           g' * baseChangeGL (τ := TwistTag.E6.tag) β
             (z : ModGL TwistTag.E6.tag K₀) * g'⁻¹ := by
-  letI : Fintype K₀ := Fintype.ofFinite K₀
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype K₀ := Fintype.ofFinite K₀
+  let : Fintype k := Fintype.ofFinite k
   have hcardF : Fintype.card K₀ = Fintype.card k := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hk]
   let φ₀ : K₀ ≃+* k := FiniteField.ringEquivOfCardEq hcardF

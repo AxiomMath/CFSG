@@ -77,7 +77,7 @@ theorem three_lt_twoLocalPrimeRank_of_fi22
   have hnc : ∃ a b : X ⧸ Y, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative (X ⧸ Y) := ⟨⟨fun x y => hc x y⟩⟩
+    have : IsMulCommutative (X ⧸ Y) := ⟨⟨fun x y => hc x y⟩⟩
     have hp := IsSimpleGroup.prime_card (α := X ⧸ Y)
     have hcard : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) = 64561751654400 :=
       card_Fi22

@@ -45,7 +45,7 @@ theorem s16c1610_out10_of_case3 (D : Data G) (hin : In10 D) {V₀ V L : Subgroup
   have h125 : Hyp125 D V₀ V := hc.setting.hyp16.hyp125
   have hnorm := s16c1610_mbar_le_normalizer_lbar D hV hc h
   obtain ⟨hEx, hcard, hσ⟩ := h.1.1, h.1.2.1, h.2.2
-  haveI : CFSG.IsExtraspecial 3 ↥(lBar V₀ V hV L) := hEx
+  have : CFSG.IsExtraspecial 3 ↥(lBar V₀ V hV L) := hEx
   have hLM : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := by
     unfold lBar Mbar
     exact barSub_mono V₀ V hV hc.setting.hyp151.le

@@ -20,7 +20,7 @@ theorem finrank_F4 : Module.finrank (ZMod 2) F4 = 2 := GaloisField.finrank 2 (by
 
 theorem exists_omega : ∃ ω : F4, ω ≠ 1 ∧ ω ^ 3 = 1 ∧ ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcard : Fintype.card F4ˣ = 3 := by
     rw [Fintype.card_units, card_F4]
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card 3 (by rw [hcard])
@@ -198,7 +198,7 @@ theorem mtilde_cube : mtilde ^ 3 = 1 := by
   show (!![(0 : F4), 1; 1, 1]) ^ 3 = 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, h2]
+    simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two, h2]
 
 end CFSG.LocalAnalysis.GLTheoremA.KD264Lie.X1LinCore.Model
 

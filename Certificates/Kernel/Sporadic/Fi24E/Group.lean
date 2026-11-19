@@ -263,6 +263,7 @@ theorem card_sigF : sigF.card = 1024 := by
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, (sig_iff hB ⟨x, hx⟩ P1).1 h, rfl⟩
 
+omit hB in
 theorem mem_sigF {h : R} (hb : ∀ i, h * bbar i = bbar i * h) : h • P1 ∈ sigF := by
   simp only [sigF, Finset.mem_filter, Finset.mem_univ, true_and]
   intro i
@@ -290,11 +291,12 @@ theorem card_stabB_le : Nat.card stabB ≤ 4 := by
       rw [Nat.card_eq_fintype_card, Fintype.card_coe, ← pp_length]
       exact List.toFinset_card_le _
 
+omit hB in
 theorem orbF_sub : orbF ⊆ sigF := by
   intro x hx
   simp only [orbF, Finset.mem_filter, Finset.mem_univ, true_and] at hx
   obtain ⟨b, hb, rfl⟩ := hx
-  exact mem_sigF hB (fi24EB_comm hb)
+  exact mem_sigF (fi24EB_comm hb)
 
 theorem card_orbF : orbF.card = 1024 ∧ Nat.card fi24EB = 4096 := by
   have hcard := CFSG.Perm.card_eq_orbit_mul fi24EB stabB P1 inf_le_left
@@ -303,7 +305,7 @@ theorem card_orbF : orbF.card = 1024 ∧ Nat.card fi24EB = 4096 := by
   have horb : Nat.card (MulAction.orbit fi24EB P1) = orbF.card := by
     have hset : MulAction.orbit fi24EB P1 = (orbF : Set (Fin 306936)) := by
       ext x
-      simp only [orbF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq,
+      simp only [orbF, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq,
         MulAction.mem_orbit_iff]
       constructor
       · rintro ⟨⟨b, hb⟩, rfl⟩
@@ -311,7 +313,7 @@ theorem card_orbF : orbF.card = 1024 ∧ Nat.card fi24EB = 4096 := by
       · rintro ⟨b, hb, rfl⟩
         exact ⟨⟨b, hb⟩, rfl⟩
     rw [hset, Nat.card_coe_set_eq, Set.ncard_coe_finset]
-  have hle : orbF.card ≤ 1024 := card_sigF hB ▸ Finset.card_le_card (orbF_sub hB)
+  have hle : orbF.card ≤ 1024 := card_sigF hB ▸ Finset.card_le_card (orbF_sub)
   have hge := le_card_fi24EB
   have hst := card_stabB_le hB
   rw [hcard, horb] at hge ⊢
@@ -321,9 +323,9 @@ theorem cent {h : R} (hb : ∀ i, h * bbar i = bbar i * h) : h ∈ fi24EB := by
   have hin : h • P1 ∈ orbF := by
     by_contra hn
     have hsub : orbF ⊆ sigF.erase (h • P1) := fun x hx =>
-      Finset.mem_erase.2 ⟨fun e => hn (e ▸ hx), orbF_sub hB hx⟩
+      Finset.mem_erase.2 ⟨fun e => hn (e ▸ hx), orbF_sub hx⟩
     have := Finset.card_le_card hsub
-    rw [Finset.card_erase_of_mem (mem_sigF hB hb), card_sigF hB, (card_orbF hB).1] at this
+    rw [Finset.card_erase_of_mem (mem_sigF hb), card_sigF hB, (card_orbF hB).1] at this
     omega
   simp only [orbF, Finset.mem_filter, Finset.mem_univ, true_and] at hin
   obtain ⟨y, hy, hyh⟩ := hin

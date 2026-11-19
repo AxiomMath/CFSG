@@ -25,7 +25,7 @@ theorem uc22k_le_centralizer_conj (D : Data G) (hK : K339Z)
     {Y : Subgroup (MBar D.M D.U)} {H : Subgroup G} (hpkg : HiPkgK D Y H) {g : G}
     (hgS : g ∈ normalizer (proofS D : Set G)) (hgE : g ∉ normalizer (proofEiHat D (preN D Y) : Set G)) :
     H ≤ centralizer ((proofEiHat D (preN D Y)).map (MulAut.conj g).toMonoidHom : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpkg' := hpkg
   obtain ⟨hSH, hG, hZ, hX, hb, hEle, -, -, -, -⟩ := hpkg
   set S : Subgroup G := proofS D with hSdef
@@ -151,21 +151,21 @@ theorem uc22k_le_centralizer_conj (D : Data G) (hK : K339Z)
 
 theorem uc22k_s22_7 (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaStd D)
     (h32 : S22_3_2 D Ch) (h4 : S22_4 D Ch) (h52 : S22_5_2Bar D Ch) (h6 : S22_6Hat D Ch)
-    (hHi : H1930 D → ∀ c : Ctx22c D Ch, ∀ (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U)), NbarSplit D Nb →
+    (hHi : H1930 D → ∀ _c : Ctx22c D Ch, ∀ (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U)), NbarSplit D Nb →
       ∀ i, ∃ H : Subgroup G, HiPkgK D (Nb i) H)
     (hK : K339Z) : S22_7 D Ch := by
-  intro hH c g hg
+  intro hH _c g hg
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  obtain ⟨m, Nb, hNb⟩ := h32 hH c
-  obtain ⟨i, hi⟩ := uc22k_exists_index_bar D hNb hpP (h52 hH c p hp)
-  obtain ⟨H, hpkg⟩ := hHi hH c m Nb hNb i
+  obtain ⟨m, Nb, hNb⟩ := h32 hH _c
+  obtain ⟨i, hi⟩ := uc22k_exists_index_bar D hNb hpP (h52 hH _c p hp)
+  obtain ⟨H, hpkg⟩ := hHi hH _c m Nb hNb i
   by_cases hgE : g ∈ normalizer (proofEiHat D (preN D (Nb i)) : Set G)
-  · exact h6 hH c m Nb hNb i hgE
+  · exact h6 hH _c m Nb hNb i hgE
   · by_contra hgM
     have hcen := uc22k_le_centralizer_conj D hK hpkg hg hgE
     obtain ⟨-, -, -, -, -, -, hHM, hpH, -⟩ := hpkg
-    have hsp : IsStronglyPEmbedded p D.M := hSg.sig1_sp p (h4 hH c ▸ hp)
+    have hsp : IsStronglyPEmbedded p D.M := hSg.sig1_sp p (h4 hH _c ▸ hp)
     refine hsp.2.2 g hgM ((hpH p hpP hp2 hi).trans (Subgroup.card_dvd_of_le ?_))
     intro x hx
     refine ⟨hHM hx, ?_⟩
@@ -177,7 +177,7 @@ theorem uc22k_s22_7 (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaStd D)
       calc e * (g⁻¹ * x * g) = g⁻¹ * ((g * e * g⁻¹) * x) * g := by group
         _ = g⁻¹ * (x * (g * e * g⁻¹)) * g := by rw [h1]
         _ = g⁻¹ * x * g * e := by group
-    have hM := h6 hH c m Nb hNb i (Subgroup.centralizer_le_normalizer _ hcomm)
+    have hM := h6 hH _c m Nb hNb i (Subgroup.centralizer_le_normalizer _ hcomm)
     exact ⟨g⁻¹ * x * g, hM, by simp [MulAut.conj_apply]; group⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

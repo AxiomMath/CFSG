@@ -38,11 +38,13 @@ theorem mem_normalizer_zpowers_of_conj_mem189 {a g : Y} (h1 : g * a * g⁻¹ ∈
 
 variable [Finite Y]
 
+omit [Finite Y] in
 theorem exists_pow_two_pow_eq_one189 (T : Sylow 2 Y) {z : Y} (hz : z ∈ (T : Subgroup Y)) :
     ∃ k : ℕ, z ^ 2 ^ k = 1 := by
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨z, hz⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨z, hz⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
+omit [Finite Y] in
 theorem not_mem_sylow_two189 (T : Sylow 2 Y) {y : Y} (hy3 : orderOf y = 3) :
     y ∉ (T : Subgroup Y) := by
   intro hy
@@ -167,6 +169,7 @@ theorem exists_conj_mem_torus189 (h : BorelQuotient D n H π M) (T : Sylow 2 Y) 
   refine ⟨k⁻¹, inv_mem hk, t ^ m, zpow_mem ht m, ?_⟩
   rw [inv_inv, map_zpow, hm]
 
+omit [Finite Y] in
 theorem normalizer_le_of_conj_mem_torus189 (h : BorelQuotient D n H π M) (T : Sylow 2 Y)
     (hT : (T : Subgroup Y) = (posUnipotent D).map π) {y k : Y} {t : K} (ht : t ∈ ⨆ i, H i)
     (hkt : k * y * k⁻¹ = π t) {J : Subgroup Y} (hTJ : (T : Subgroup Y) ≤ J) (hkJ : k ∈ J)
@@ -219,6 +222,7 @@ open Matrix CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTits CFSG.Assembly.
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem pow_two_pow_eq_self189 (hf : 2 ^ f % 3 = 1) {c : F} (hc : c ^ 3 = 1) : c ^ 2 ^ f = c := by
   rw [← Nat.div_add_mod (2 ^ f) 3, hf, pow_add, pow_mul, hc, one_pow, one_mul, pow_one]
 
@@ -266,7 +270,7 @@ theorem antidiag_mul_diagonal_mul_antidiag189 {m : ℕ} (d : Fin m → F) :
     · subst hab
       simp [antidiag]
     · have h1 : ¬ b = Fin.rev (Fin.rev a) := by rw [Fin.rev_rev]; exact Ne.symm hab
-      simp [antidiag, h1, diagonal_apply_ne _ hab, Ne.symm hab]
+      simp [antidiag, diagonal_apply_ne _ hab, Ne.symm hab]
   · intro k _ hk
     rw [mul_diagonal]
     simp [antidiag, hk]

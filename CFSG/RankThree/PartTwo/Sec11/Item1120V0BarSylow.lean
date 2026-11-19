@@ -19,7 +19,7 @@ theorem exists_isSylowOf_ge {G : Type*} [Group G] {p : ℕ} {K P : Subgroup G}
 theorem exists_conj_mem_of_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {H R T : Subgroup G} (hR : IsSylowOf p R H) (hTH : T ≤ H) (hT : IsPGroup p T) :
     ∃ h ∈ H, ∀ x ∈ T, h⁻¹ * x * h ∈ R := by
-  haveI : Finite (Sylow p G) :=
+  have : Finite (Sylow p G) :=
     Finite.of_injective (fun P : Sylow p G => ((P : Subgroup G) : Set G))
       fun P Q hPQ => Sylow.ext (SetLike.coe_injective hPQ)
   obtain ⟨Q0, hQ0⟩ := hR
@@ -31,7 +31,7 @@ theorem exists_conj_mem_of_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ} [
   rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hxS
   rw [← hQ0]
   exact Subgroup.mem_map.mpr
-    ⟨(MulAut.conj g)⁻¹ • (⟨x, hTH hx⟩ : H), hxS, by simp [MulAut.conj_inv_apply]⟩
+    ⟨(MulAut.conj g)⁻¹ • (⟨x, hTH hx⟩ : H), hxS, by simp⟩
 
 theorem mem_sup_of_forall_comm {G : Type*} [Group G] {A S T : Subgroup G}
     (hcomm : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u) (hS : S ≤ A) (hT : T ≤ A) {x : G}
@@ -211,7 +211,7 @@ theorem exists_conj_mem_of_isSylowOf
     refine IsPGroup.of_card_dvd_pow (n := k) ?_
     rw [Nat.card_zpowers]
     exact orderOf_dvd_of_pow_eq_one hz
-  haveI : Finite (Sylow 3 ↥M) :=
+  have : Finite (Sylow 3 ↥M) :=
     Finite.of_injective (fun P : Sylow 3 ↥M => (P : Set ↥M)) SetLike.coe_injective
   obtain ⟨Q, hRQ⟩ := IsPGroup.exists_le_sylow hR
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥M) S Q
@@ -240,7 +240,7 @@ theorem conj_mem_of_card_le_three_mul
     rw [← hcardH]
     exact Subgroup.card_mul_index (H := U.subgroupOf Q)
   have hpos : 0 < Nat.card U := by
-    haveI : Nonempty U := ⟨1⟩
+    have : Nonempty U := ⟨1⟩
     exact Nat.card_pos
   have hidx : (U.subgroupOf Q).index = 1 ∨ (U.subgroupOf Q).index = 3 := by
     have hdvd : (U.subgroupOf Q).index ∣ 3 ^ n := by
@@ -281,7 +281,7 @@ theorem conj_mem_of_card_le_three_mul
       have hp : ((3 : ℕ) ^ n).minFac.Prime := Nat.minFac_prime hn1
       have hdvd : ((3 : ℕ) ^ n).minFac ∣ 3 ^ n := Nat.minFac_dvd _
       exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow hdvd)
-    haveI hnorm : (U.subgroupOf Q).Normal :=
+    have hnorm : (U.subgroupOf Q).Normal :=
       Subgroup.normal_of_index_eq_minFac_card (by rw [hn, hmin, hidx3])
     intro q hq u hu
     have hmem : (⟨u, hUQ hu⟩ : Q) ∈ U.subgroupOf Q := Subgroup.mem_subgroupOf.2 hu

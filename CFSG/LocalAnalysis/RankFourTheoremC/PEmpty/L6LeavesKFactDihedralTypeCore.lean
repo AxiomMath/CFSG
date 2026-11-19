@@ -56,7 +56,7 @@ theorem centralizes_of_frattini_bounds {A : Type} [Group A] [Finite A] (R : Subg
       ∃ M : Subgroup A, M ≤ R ∧ (∀ a ∈ M, ∀ b ∈ M, a * b = b * a) ∧ M.relIndex R = 2) :
     ∀ y ∈ R, g * y = y * g := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd_r : Odd r := hr.odd_of_ne_two (by omega)
   obtain ⟨-, hcomm, hpow, -, d, hcard, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hR
   have hcomm' : ∀ a b : ↥R ⧸ frattini ↥R, a * b = b * a := fun a b => hcomm.is_comm.comm a b
@@ -93,7 +93,7 @@ theorem centralizes_of_frattini_bounds {A : Type} [Group A] [Finite A] (R : Subg
     exact hτne
       (CFSG.Assembly.Dichotomy.CentralizerContainment.eq_one_of_mem_of_odd_orderOf hPker hker hodd)
   have hσord : orderOf σ = r := by
-    haveI := Fact.mk hr
+    have := Fact.mk hr
     exact orderOf_eq_prime hσr hσne
   have hrdvd : r ∣ Nat.card (MulAut (↥R ⧸ frattini ↥R)) := hσord ▸ orderOf_dvd_natCard σ
   have hd3 : d ≤ 3 := by

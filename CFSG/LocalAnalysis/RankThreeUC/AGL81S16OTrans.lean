@@ -14,6 +14,7 @@ section Model
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [CharP F 2] in
 theorem transvection_quad (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (A : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F)
     (hiso : ∀ x, StatedQuadMinus 3 F b c (A *ᵥ x) = StatedQuadMinus 3 F b c x) (u : OW F)
@@ -92,7 +93,7 @@ theorem exists_outer_quad (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     show A *ᵥ (A *ᵥ x) = x
     rw [Matrix.mulVec_mulVec, hAA, Matrix.one_mulVec]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hzero : ∀ y ∈ CFSG.RankThree.OrthogonalInvolutions.commSpace ℓ,
       quadMinus 3 F b c y = 0 := by
     intro y hy
@@ -116,6 +117,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
 
+omit [Finite G] in
 theorem O6NatData.eqv_inv (v : ↥V) : d.eqv v⁻¹ = - d.eqv v := by
   have h : d.eqv (v⁻¹ * v) = d.eqv v⁻¹ + d.eqv v := d.eqv_mul _ _
   rw [inv_mul_cancel] at h
@@ -124,9 +126,11 @@ theorem O6NatData.eqv_inv (v : ↥V) : d.eqv v⁻¹ = - d.eqv v := by
   rw [h0] at h
   exact (neg_eq_of_add_eq_zero_left h.symm).symm
 
+omit [Finite G] in
 theorem O6NatData.eqv_one : d.eqv (1 : ↥V) = 0 := by
   rw [O6NatData.eqv_apply, map_one, toAdd_one]
 
+omit [Finite G] in
 theorem O6NatData.card_centralizer_eq (hMV : M ≤ normalizer (V : Set G)) {t : G} (ht : t ∈ M) :
     Nat.card ↥(V ⊓ centralizer ({t} : Set G)) =
       Nat.card {x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F // d.act t (hMV ht) x = x} := by
@@ -156,6 +160,7 @@ theorem O6NatData.card_centralizer_eq (hMV : M ≤ normalizer (V : Set G)) {t : 
       _ = (v : G) * t := by rw [h3]
 
 
+omit [Finite G] in
 theorem O6NatData.exists_matrix (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M)
     (hlin : ∀ (c : d.F) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F),
       d.act m (hMV hm) (c • x) = c • d.act m (hMV hm) x) :
@@ -170,6 +175,7 @@ theorem O6NatData.exists_matrix (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm
   rw [← Matrix.toLin'_apply, Matrix.toLin'_toMatrix']
   rfl
 
+omit [Finite G] in
 theorem O6NatData.matrix_pow (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M)
     {A : Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F}
     (hA : ∀ x, A *ᵥ x = d.act m (hMV hm) x) (k : ℕ) (hmk : m ^ (2 ^ k) = 1) :
@@ -190,6 +196,7 @@ theorem O6NatData.matrix_pow (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : 
   refine Matrix.ext_of_mulVec_single fun i => ?_
   rw [hpow, hP, Equiv.Perm.one_apply, Matrix.one_mulVec]
 
+omit [Finite G] in
 theorem O6NatData.eqv_comm (hMV : M ≤ normalizer (V : Set G)) {t : G} (ht : t ∈ M) {v : G}
     (hv : v ∈ V) (hc : ⁅t, v⁆ ∈ V) :
     d.eqv ⟨⁅t, v⁆, hc⟩ = d.act t (hMV ht) (d.eqv ⟨v, hv⟩) - d.eqv ⟨v, hv⟩ := by
@@ -206,7 +213,7 @@ theorem O6NatData.transvection (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norma
       (V ⊓ centralizer ({t} : Set G)).relIndex V < 2 ^ (2 * n) →
       ∀ v ∈ V, ⁅t, v⁆ ≠ 1 → ¬ d.sing ⁅t, v⁆ := by
   intro t htM h2g htC hidx v hv hcomm hsing
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨θ, hθ⟩ := d.act_semilinear hn hLM hML hMV htM
   have hmul : (V ⊓ centralizer ({t} : Set G)).relIndex V *
       Nat.card ↥(V ⊓ centralizer ({t} : Set G)) = 2 ^ (6 * n) := by
@@ -312,7 +319,7 @@ theorem O6NatData.transvection (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norma
     set r := (V ⊓ centralizer ({t} : Set G)).relIndex V with hr
     have hk3 : k ≤ 2 ^ (3 * n) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : (2 ^ (3 * n)) ^ 2 < k ^ 2 := Nat.pow_lt_pow_left h (by norm_num)
       have e : (2 ^ (3 * n)) ^ 2 = 2 ^ (6 * n) := by ring
       omega
@@ -325,11 +332,12 @@ theorem O6NatData.transvection (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norma
     omega
 
 
+omit [Finite G] in
 theorem O6NatData.exists_of_quad (hn : 1 ≤ n) (hMV : M ≤ normalizer (V : Set G)) {a : G}
     (ha : a ∈ M) (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F)
     (hx : StatedQuadMinus 3 d.F d.b d.c (d.act a (hMV ha) x - x) ≠ 0) :
     ∃ v ∈ V, ⁅a, v⁆ ≠ 1 ∧ ¬ d.sing ⁅a, v⁆ := by
-  haveI := d.charP hn
+  have := d.charP hn
   set w : ↥V := d.eqv.symm x with hw
   have hwx : d.eqv w = x := d.eqv.apply_symm_apply x
   have hc : ⁅a, (w : G)⁆ ∈ V := by
@@ -353,12 +361,13 @@ theorem O6NatData.exists_of_quad (hn : 1 ≤ n) (hMV : M ≤ normalizer (V : Set
     rw [← this]
     exact hQ
 
+omit [Finite G] in
 theorem O6NatData.outer_nonsing (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) :
     ∀ a ∈ M, a ^ 2 = 1 → a ∉ L ⊔ (M ⊓ centralizer (V : Set G)) →
       ∃ v ∈ V, ⁅a, v⁆ ≠ 1 ∧ ¬ d.sing ⁅a, v⁆ := by
   intro a haM ha2 haLC
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨θ, hθ⟩ := d.act_semilinear hn hLM hML hMV haM
   by_cases hθid : θ = RingHom.id d.F
   ·
@@ -455,7 +464,7 @@ theorem O6NatData.outer_nonsing (hn : 1 ≤ n) (hLM : L ≤ M) (hML : M ≤ norm
     set yy := Nat.card ψ.range with hyy'
     have hk3 : kk ≤ 2 ^ (3 * n) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : (2 ^ (3 * n)) ^ 2 < kk ^ 2 := Nat.pow_lt_pow_left h (by norm_num)
       have e : (2 ^ (3 * n)) ^ 2 = 2 ^ (6 * n) := by ring
       omega

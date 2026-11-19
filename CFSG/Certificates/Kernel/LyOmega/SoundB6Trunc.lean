@@ -225,6 +225,7 @@ private theorem bAnd_true' {a b : Bool} (h : Bool.rec (motive := fun _ => Bool) 
     a = true ∧ b = true := by
   cases a <;> simp_all
 
+set_option exponentiation.threshold 539 in
 private theorem cm_bit (n : ℕ) :
     (2047 * ∑ r ∈ Finset.range n, 2 ^ (539 * r)) < 2 ^ (539 * n) ∧
     ∀ i, (2047 * ∑ r ∈ Finset.range n, 2 ^ (539 * r)).testBit i = true → i % 539 < 11 := by
@@ -259,7 +260,7 @@ private theorem cm_bit (n : ℕ) :
           exact absurd h (by simp)
         omega
 
-private theorem colmask_mod {c k : ℕ} (hc : c ≤ 64) (hk : k < 49) (X : ℕ) :
+private theorem colmask_mod {c k : ℕ} (_hc : c ≤ 64) (hk : k < 49) (X : ℕ) :
     (X >>> (11 * k)) &&& (2047 * rep1 539 64) ≡
       ((X % 2 ^ (539 * c)) >>> (11 * k)) &&& (2047 * rep1 539 64) [MOD 2 ^ (539 * c)] := by
   unfold Nat.ModEq

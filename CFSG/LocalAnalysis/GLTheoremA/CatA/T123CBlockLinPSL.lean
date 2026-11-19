@@ -51,10 +51,10 @@ theorem innerBlockAt_projectiveSL_of_sl {p n : ℕ} {K : Type} [Field K] [Finite
   have hker : ∀ g : Matrix.SpecialLinearGroup (Fin n) K, proj n K g = 1 →
       g ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K) := fun g hg =>
     scalars_le_center n K (proj_eq_one_iff.1 hg)
-  haveI : CFSG.IsElementaryAbelian p A := hA.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian p A := hA.isElementaryAbelian
   obtain ⟨E0, hE0, hE0c, hE0A⟩ := CFSG.RankThree.PartOne.exists_lift_elementaryAbelian
     (proj n K) hp hZ A (fun x _ => MonoidHom.mem_range.2 (proj_surjective n K x)) hAc
-  haveI := hE0
+  have := hE0
   have hE0p : ∀ x ∈ E0, x ^ p = 1 := fun x hx =>
     CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
   have hinj : ∀ x ∈ E0, ∀ y ∈ E0, proj n K x = proj n K y → x = y := by

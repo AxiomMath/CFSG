@@ -10,9 +10,11 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 theorem s16t_blk_fixV_anti {X Y : Subgroup (MulAut T)} (h : X ≤ Y) : fixV Y ≤ fixV X :=
   fun _ hv x hx => hv x (h hx)
 
+omit [Finite T] in
 theorem s16t_blk_mem_fixV_map_conj (B : Subgroup (MulAut T)) (x : MulAut T) {v : T} :
     v ∈ fixV (B.map (MulAut.conj x).toMonoidHom) ↔ x⁻¹ v ∈ fixV B := by
   constructor
@@ -29,6 +31,7 @@ theorem s16t_blk_mem_fixV_map_conj (B : Subgroup (MulAut T)) (x : MulAut T) {v :
     rw [hv b hb]
     simp
 
+omit [Finite T] in
 theorem s16t_blk_fixV_map_conj (B : Subgroup (MulAut T)) (x : MulAut T) :
     fixV (B.map (MulAut.conj x).toMonoidHom) = (fixV B).map x.toMonoidHom := by
   apply le_antisymm
@@ -37,6 +40,7 @@ theorem s16t_blk_fixV_map_conj (B : Subgroup (MulAut T)) (x : MulAut T) :
   · rintro v ⟨u, hu, rfl⟩
     exact (s16t_blk_mem_fixV_map_conj B x).2 (by simpa using hu)
 
+omit [Finite T] in
 theorem s16t_blk_map_fixV_of_comm {B : Subgroup (MulAut T)} {a : MulAut T}
     (hcomm : ∀ b ∈ B, a * b = b * a) : (fixV B).map a.toMonoidHom = fixV B := by
   apply le_antisymm
@@ -56,6 +60,7 @@ theorem s16t_blk_map_fixV_of_comm {B : Subgroup (MulAut T)} {a : MulAut T}
     rw [h2]
     simpa using hu b hb
 
+omit [Finite T] in
 theorem s16t_blk_mem_fixV_sup_iff {B C : Subgroup (MulAut T)} (v : T) :
     v ∈ fixV (B ⊔ C) ↔ v ∈ fixV B ∧ v ∈ fixV C := by
   constructor
@@ -79,7 +84,7 @@ theorem s16t_blk_mem_fixV_sup_iff {B C : Subgroup (MulAut T)} (v : T) :
       exact a.injective (by rw [h2, ha])
 
 theorem s16t_blk_eq_top_of_lt_card {P : Type*} [Group P] [Finite P]
-    {A B C : Subgroup P} {p : ℕ} (hp : p.Prime) (hBA : B ≤ A) (hBC : B ≤ C) (hCA : C ≤ A)
+    {A B C : Subgroup P} {p : ℕ} (hp : p.Prime) (_hBA : B ≤ A) (hBC : B ≤ C) (hCA : C ≤ A)
     (hAcard : Nat.card A = p ^ 3) (hBcard : Nat.card B = p ^ 2) (hne : B ≠ C) : C = A := by
   obtain ⟨k, hk⟩ := Subgroup.card_dvd_of_le hBC
   have hkdvd : k ∣ p := by

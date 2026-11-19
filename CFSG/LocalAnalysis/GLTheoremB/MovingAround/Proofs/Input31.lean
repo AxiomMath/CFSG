@@ -20,21 +20,25 @@ variable {G : Type} [Group G] [Finite G]
 abbrev Input31Link (p k : ℕ) (R X Y : Subgroup G) : Prop :=
   IsEkIn p k R X ∧ IsEkIn p k R Y ∧ 2 ≤ CFSG.Open.pRank p (X ⊓ Y)
 
+omit [Finite G] in
 theorem input31_isEkIn_iff {p k : ℕ} {R X : Subgroup G} :
     IsEkIn p k R X ↔ X ≤ R ∧ IsElemAbelian p X ∧ Nat.card X = p ^ k := Iff.rfl
 
+omit [Finite G] in
 theorem input31_isPPlane_iff {p : ℕ} {U : Subgroup G} :
     IsPPlane p U ↔ IsElemAbelian p U ∧ Nat.card U = p ^ 2 := Iff.rfl
 
+omit [Finite G] in
 theorem input31_le_centralizer_symm {X Y : Subgroup G}
     (h : X ≤ Subgroup.centralizer (Y : Set G)) : Y ≤ Subgroup.centralizer (X : Set G) :=
-  fun y hy => Subgroup.mem_centralizer_iff.2 fun x hx =>
+  fun y hy => Subgroup.mem_centralizer_iff.2 fun _x hx =>
     (Subgroup.mem_centralizer_iff.1 (h hx) y hy).symm
 
+omit [Finite G] in
 theorem input31_le_centralizer_of_le {X Y Z : Subgroup G}
     (h : X ≤ Subgroup.centralizer (Y : Set G)) (hZ : Z ≤ Y) :
     X ≤ Subgroup.centralizer (Z : Set G) :=
-  fun x hx => Subgroup.mem_centralizer_iff.2 fun z hz =>
+  fun _x hx => Subgroup.mem_centralizer_iff.2 fun z hz =>
     Subgroup.mem_centralizer_iff.1 (h hx) z (hZ hz)
 
 theorem input31_card_sup_mul_card_inf {X Y : Subgroup G}
@@ -51,7 +55,7 @@ theorem input31_link {p k : ℕ} [hp : Fact p.Prime] {R X Y : Subgroup G} (hX : 
   obtain ⟨m, hm⟩ := exists_card_eq_pow hE.isPGroup
   have hm2 : 2 ≤ m := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hlt' : p ^ m < p ^ 2 := Nat.pow_lt_pow_right hp.out.one_lt hlt
     rw [hm] at h
     exact absurd h (not_le.2 hlt')
@@ -117,7 +121,7 @@ theorem input31_normal_plane {p : ℕ} [hp : Fact p.Prime] {R : Subgroup G}
       CFSG.ProperTwoGeneratedCore.high_two_rank_normal_four ↥R hR hrank
     have hUe : IsPPlane 2 (V.map R.subtype) :=
       input31_isPPlane_iff.2 ⟨CFSG.SectionRank.isElemAbelian_map hVe R.subtype,
-        by rw [Subgroup.card_map_of_injective R.subtype_injective, hV4] <;> norm_num⟩
+        by rw [Subgroup.card_map_of_injective R.subtype_injective, hV4]; norm_num⟩
     refine ⟨V.map R.subtype, Subgroup.map_subtype_le V, hUe, ?_⟩
     rw [← Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.map_subtype_le V),
       show (V.map R.subtype).subgroupOf R = V from
@@ -154,7 +158,7 @@ theorem input31_Q_exists {p k : ℕ} [hp : Fact p.Prime] (hk : 3 ≤ k) {R U W :
     obtain ⟨c, -, hCc⟩ := (Nat.dvd_prime_pow hp.out).1 h1
     have hkc : k - 1 ≤ c := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have hlt' : p ^ c < p ^ (k - 1) := Nat.pow_lt_pow_right hp1 hlt
       rw [← hCc] at hlt'
       exact absurd hcardC (not_le.2 hlt')
@@ -287,7 +291,7 @@ end Chain
 
 theorem input31_8_holds : Input31_8 := by
   intro G _ _ p k hp hk R hR A B hA hB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : 3 ≤ CFSG.Open.pRank p R := by
     obtain ⟨hAR, hAe, hAk⟩ := input31_isEkIn_iff.1 hA
     have := CFSG.SectionRank.le_pRank hp.one_lt hAR hAe hAk
@@ -315,6 +319,7 @@ section Input31_6
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem input31_kconnected_iff {p k : ℕ} {X A B : Subgroup G} :
     IsKConnectedIn p k X A B ↔ A ≤ X ∧ IsElemAbelian p A ∧ p ^ k ≤ Nat.card A ∧ B ≤ X ∧
       IsElemAbelian p B ∧ p ^ k ≤ Nat.card B ∧
@@ -324,13 +329,15 @@ theorem input31_kconnected_iff {p k : ℕ} {X A B : Subgroup G} :
           V ≤ Subgroup.centralizer (B : Set G)) :=
   Iff.rfl
 
+omit [Finite G] in
 theorem input31_kconnStep_iff {p k : ℕ} {X U V : Subgroup G} :
     IsKConnStep p k X U V ↔ IsEkIn p k X U ∧ IsEkIn p k X V ∧ U ≤ Subgroup.centralizer (V : Set G) :=
   Iff.rfl
 
+omit [Finite G] in
 theorem input31_le_centralizer_of_elemAbelian {p : ℕ} {E F : Subgroup G}
     (hE : IsElemAbelian p E) (hF : F ≤ E) : E ≤ Subgroup.centralizer (F : Set G) :=
-  fun e he => Subgroup.mem_centralizer_iff.2 fun f hf => elemAbelian_comm hE (hF hf) he
+  fun _e he => Subgroup.mem_centralizer_iff.2 fun _f hf => elemAbelian_comm hE (hF hf) he
 
 theorem input31_sub_of_card_le {p : ℕ} [hp : Fact p.Prime] {E F : Subgroup G}
     (hE : IsElemAbelian p E) (hF : F ≤ E) {m : ℕ} (hm : p ^ m ≤ Nat.card F) :
@@ -339,7 +346,7 @@ theorem input31_sub_of_card_le {p : ℕ} [hp : Fact p.Prime] {E F : Subgroup G}
   obtain ⟨c, hc⟩ := exists_card_eq_pow hFe.isPGroup
   have hmc : m ≤ c := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hlt' : p ^ c < p ^ m := Nat.pow_lt_pow_right hp.out.one_lt hlt
     rw [hc] at hm
     exact absurd hm (not_le.2 hlt')
@@ -364,7 +371,7 @@ theorem input31_plane_below {p : ℕ} [hp : Fact p.Prime] {R U E : Subgroup G} (
 theorem input31_two_connected {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup G}
     (hR : IsPGroup p R) {A B : Subgroup G} (hA : IsEkIn p 3 R A) (hB : IsEkIn p 3 R B) :
     IsKConnectedIn p 2 R A B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : 2 ≤ CFSG.Open.pRank p R := by
     have := CFSG.SectionRank.le_pRank hp.one_lt (input31_isEkIn_iff.1 hA).1
       (input31_isEkIn_iff.1 hA).2.1 (input31_isEkIn_iff.1 hA).2.2
@@ -391,7 +398,7 @@ theorem input31_two_connected {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subg
 theorem input31_three_connected (hI3 : Input31_3) (hG3 : Input31_GL3Rank) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup G} (hR : IsPGroup p R) {A B : Subgroup G}
     (hA : IsEkIn p 5 R A) (hB : IsEkIn p 5 R B) : IsKConnectedIn p 3 R A B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : 3 ≤ CFSG.Open.pRank p R := by
     have := CFSG.SectionRank.le_pRank hp.one_lt (input31_isEkIn_iff.1 hA).1
       (input31_isEkIn_iff.1 hA).2.1 (input31_isEkIn_iff.1 hA).2.2

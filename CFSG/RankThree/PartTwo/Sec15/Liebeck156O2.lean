@@ -56,6 +56,7 @@ theorem mem_normalizer_sSup_of_item45 (h45 : Sec4.Item4_5) (hG : TheoremFourHyp 
   exact Sec12.le_normalizer_of_mem_thetaComponentsAt h45 hG hd (h𝒳 hL) hP
     (Subgroup.zpowers_le.mpr hyN) (Subgroup.mem_zpowers y)
 
+omit [Finite G] in
 theorem le_of_le_sup_of_le_normalizer {N X Y : Subgroup G}
     (hN : Nat.Coprime 3 (Nat.card N)) (hXN : X ≤ Subgroup.normalizer (N : Set G))
     (hY : Y = oPrimeResidualOf 3 Y) (hYNX : Y ≤ N ⊔ X)

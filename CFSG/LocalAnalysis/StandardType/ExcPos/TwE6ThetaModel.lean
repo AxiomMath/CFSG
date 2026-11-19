@@ -21,7 +21,7 @@ theorem exists_twE6_model_of_theta {X : Type} [Group X] {f : ℕ} {G₀ : Subgro
       ∃ eF : ↥G₀ ≃* ↥(twistedE6RootGroup K σ),
         ∀ g, baseChangeGL (τ := Tag.E6) κ ((eF g : ModGL TwistTag.E6.tag K)) = θ g := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let K := GaloisField 2 (2 * f)
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (Nat.mul_ne_zero (by norm_num) (Nat.one_le_iff_ne_zero.mp hf))]

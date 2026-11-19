@@ -25,6 +25,7 @@ private theorem N_le_stabTil {A : Subgroup G} (hAN : c.N ≤ Subgroup.normalizer
     c.N ≤ stabTil ⊥ A :=
   le_inf hAN (by rw [Subgroup.normalizer_eq_top]; exact le_top)
 
+omit [Finite G] in
 private theorem nontrivial_vtil {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAne : A ≠ ⊥) :
     Nontrivial (Vtil (⊥ : Subgroup G) A hA) := by
   obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hAne
@@ -74,13 +75,13 @@ theorem barSub_N_ne_bot {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c
     exact le_inf hAV hAL
   exact hAne (le_bot_iff.mp hAle)
 
-theorem isIrrOn_barSub {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
+theorem isIrrOn_barSub {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G)) (hAne : A ≠ ⊥)
     (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A) :
     IsIrrOn (barSub ⊥ A hA c.N) ⊤ ⊥ := by
   have hNs : c.N ≤ stabTil ⊥ A := N_le_stabTil (A := A) c hAN
-  haveI := nontrivial_vtil hA hAne
+  have := nontrivial_vtil hA hAne
   have htopne : (⊤ : Subgroup (Vtil (⊥ : Subgroup G) A hA)) ≠ ⊥ := top_ne_bot
   refine ⟨bot_lt_iff_ne_bot.mpr htopne, ?_, ?_, ?_⟩
   · intro y hy u hu
@@ -143,7 +144,7 @@ theorem o2Trivial_barSub {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ 
     O2Trivial (barSub ⊥ A hA c.N) := by
   have hirr := isIrrOn_barSub c hA hAV hAN hAne hmin
   intro P hPN hPnorm hP2
-  haveI := nontrivial_vtil hA hAne
+  have := nontrivial_vtil hA hAne
   have hfixne : fixV P ≠ ⊥ :=
     CFSG.Quasithin.H13.A6.A6S20.fixV_ne_bot_of_two_group
       (s15_Infra_vtil_sq_eq_one (⊥ : Subgroup G) A hA) hP2
@@ -182,6 +183,7 @@ theorem isBasic_barSub {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.
     isIndivisible_barSub c hA hAV hAN hAne hmin,
     isBasicModule_barSub c hA hAV hAN hAne hmin⟩
 
+omit [Finite G] in
 theorem barSubHom_map_subgroupOf {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {X P : Subgroup G} (hP : P ≤ X) (hX : X ≤ stabTil ⊥ A) :
     (P.subgroupOf X).map (barSubHom hA X hX) =
@@ -202,7 +204,7 @@ theorem barSubHom_map_subgroupOf {A : Subgroup G} (hA : IsElemAbelian 2 A)
 
 theorem Hinf_subgroupOf_of_le {X : Type} [Group X] [Finite X] {L A : Subgroup X} (hA : A ≤ L) :
     Hinf (A.subgroupOf L) = (Hinf A).subgroupOf L := by
-  haveI : Finite ↥L := inferInstance
+  have : Finite ↥L := inferInstance
   apply Subgroup.map_subtype_inj.mp
   rw [Hinf_map, Subgroup.map_subgroupOf_eq_of_le hA,
     Subgroup.map_subgroupOf_eq_of_le ((uc22p21c_Hinf_le A).trans hA)]

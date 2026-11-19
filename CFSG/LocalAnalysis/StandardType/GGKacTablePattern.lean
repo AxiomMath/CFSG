@@ -287,10 +287,10 @@ private theorem k0pat_mem_rawDatums {T : GGKacType} {tw : Bool} {p n : ℕ} {D :
     (h : D ∈ ggKacTable T tw p n) (hb : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) :
     D ∈ k0RawDatums (k0DiagOf T) tw p n (if p ∣ 2 ^ n - 1 then 1 else 2) := by
   by_cases h1 : p ∣ 2 ^ n - 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact (k0shape_sortDatums_perm _).mem_iff.mp (by rwa [k0shape_table_branch1 T tw p n h1] at h)
   · have h2 : p ∣ 2 ^ n + 1 := hb.resolve_left h1
-    rw [if_neg h1]
+    rw [ite_eq_right h1]
     exact (k0shape_sortDatums_perm _).mem_iff.mp (by
       rwa [k0shape_table_branch2 T tw p n h1 h2] at h)
 
@@ -304,12 +304,12 @@ private theorem k0patIndicator_getD (s : List ℕ) (i : ℕ) :
 private theorem k0patIndicator_zero (s : List ℕ) (i : ℕ) :
     (k0patIndicator s).getD i 0 = 0 ↔ s.getD i 0 = 0 := by
   rw [k0patIndicator_getD]
-  by_cases h : s.getD i 0 = 0 <;> simp [h]
+  by_cases h : s.getD i 0 = 0 <;> simp
 
 private theorem k0patIndicator_pos (s : List ℕ) (i : ℕ) :
     0 < (k0patIndicator s).getD i 0 ↔ 0 < s.getD i 0 := by
   rw [k0patIndicator_getD]
-  by_cases h : s.getD i 0 = 0 <;> simp [h, Nat.pos_iff_ne_zero]
+  by_cases h : s.getD i 0 = 0 <;> simp [Nat.pos_iff_ne_zero]
 
 private theorem k0patIndicator_supports (s : List ℕ) :
     k0patIndicator s ∈ ggKacSupports s.length := by
@@ -402,7 +402,7 @@ private theorem k0patMarks_rho_form {T : GGKacType} {tw : Bool} {d : ℕ} {rho :
 
 private theorem k0patSupportGcd_dvd {T : GGKacType} {s s' rho : List ℕ} {p : ℕ}
     (hperm_rho : k0patPerm rho (k0DiagOf T).marks.length)
-    (hss : s.length = (k0DiagOf T).marks.length)
+    (_hss : s.length = (k0DiagOf T).marks.length)
     (hsum : (∑ i : Fin (k0DiagOf T).marks.length,
       (k0DiagOf T).marks.getD i 0 * s.getD i 0) = p)
     (hmarks : ∀ i < (k0DiagOf T).marks.length,
@@ -502,7 +502,7 @@ private theorem k0patPattern_mem (T : GGKacType) (tw : Bool) (d n : ℕ) {s' rho
     k0Datum (k0DiagOf T) s' rho d n 1 ∈ ggKacPatternTable T tw d n := by
   rw [ggKacPatternTable]
   simp only [List.mem_flatMap, List.mem_filterMap]
-  exact ⟨s', hs', rho, hrho, if_pos ⟨hact, hgcd⟩⟩
+  exact ⟨s', hs', rho, hrho, ite_eq_left ⟨hact, hgcd⟩⟩
 
 theorem exists_mem_ggKacPatternTable_of_ggKacValid {lab : LargeEvenLabel} {p : ℕ}
     (hgen : GGKacGeneric lab p) {D : GGKacDatum} (hD : GGKacValid lab p D) :

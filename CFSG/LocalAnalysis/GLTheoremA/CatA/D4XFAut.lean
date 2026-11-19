@@ -58,10 +58,10 @@ theorem d4two_aut_le {K : Type} [Group K] [Finite K] (h : catalogIs K S9.isD4two
     ∀ P : Subgroup (MulAut K), CFSG.Open.IsElemAbelian 3 P → ¬ P ≤ inner K → Nat.card P ≤ 3 ^ 3 := by
   obtain ⟨-, K₀, _, _, hK₀, ⟨e⟩⟩ := statedModel_of_d4two h
   have hK₀' : Nat.card K₀ = 2 := by rw [hK₀]; norm_num
-  haveI : Finite K₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Finite K₀ := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype K₀ := Fintype.ofFinite K₀
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK₀']; norm_num)
   have hunits : Nat.card K₀ˣ = 1 := by
     rw [Nat.card_units, hK₀']

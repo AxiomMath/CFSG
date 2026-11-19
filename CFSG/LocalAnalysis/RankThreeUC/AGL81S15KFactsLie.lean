@@ -217,7 +217,7 @@ theorem K420_of_outTwoRank
     (h : ∀ (Y : Type) [Group Y] [Finite Y], IsClassicalTwoOrG2 Y →
       CFSG.HardMathSupport.Cooperstein.StructureLie.OutTwoRank Y) : K420 := by
   intro L _ _ hq hY P hP a ha b hb
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
   have hOut := h (L ⧸ Subgroup.center L) hY
   set π := CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom L with hπ
   have hP' : IsPGroup 2 (P.map π) := hP.map π
@@ -273,7 +273,7 @@ theorem KSMAlt_holds : KSMAlt := by
   intro K _ _ hq n ⟨e⟩ hodd
   have hq' : CFSG.IsQuasisimple K :=
     ((CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1).2 hq
-  haveI : Group.IsPerfect K := hq'.1
+  have : Group.IsPerfect K := hq'.1
   have hperfX : Group.IsPerfect (alternatingGroup (Fin n)) :=
     isPerfect_of_quasisimple_quotient hq' e
   have hqs := centralQuotientMap_surjective e
@@ -288,13 +288,13 @@ theorem KSMAlt_holds : KSMAlt := by
   refine ⟨fun h67 => ?_, fun h8 => ?_⟩
   · have h5 : 5 ≤ n := by omega
     have := (CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput n h5).2
-    rw [if_pos h67] at this
+    rw [ite_eq_left h67] at this
     rw [this] at hdvd
     exact (Nat.Coprime.dvd_of_dvd_mul_left (Nat.coprime_two_right.2 hodd)
       (by simpa using hdvd : Nat.card (Subgroup.center K) ∣ 2 * 3))
   · have h5 : 5 ≤ n := by omega
     have := (CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput n h5).2
-    rw [if_neg (by omega)] at this
+    rw [ite_eq_right (by omega)] at this
     rw [this] at hdvd
     have h2 := Nat.le_of_dvd (by norm_num) hdvd
     rcases hodd with ⟨k, hk'⟩
@@ -328,7 +328,7 @@ theorem ksm_card_center_dvd (hG : CFSG.Open.GriessAllModelsStatement) {K : Type}
       ((exceptionalOrders t n p f).1 * (exceptionalOrders t n p f).2) := by
   have hq' : CFSG.IsQuasisimple K :=
     ((CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1).2 hq
-  haveI : Group.IsPerfect K := hq'.1
+  have : Group.IsPerfect K := hq'.1
   let e : K ⧸ Subgroup.center K ≃* K ⧸ Subgroup.center K := MulEquiv.refl _
   have hqs := centralQuotientMap_surjective e
   have hk := centralQuotientMap_ker e

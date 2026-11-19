@@ -20,13 +20,13 @@ theorem k_wf : kCode.toList.all Code.wf = true := by quickRfl
 theorem inv_k : ((kGens.map cc).zip KGI).all
     (fun p => eqL p.1.inv.rows.toList (fieldsL p.2)) = true := by
   simp only [Code.inv, Id.run, Std.Legacy.Range.forIn_eq_forIn_range',
-    List.forIn_pure_yield_eq_foldl, Std.Legacy.Range.size, Nat.sub_zero, Nat.add_sub_cancel,
+    Std.Legacy.Range.size, Nat.sub_zero, Nat.add_sub_cancel,
     Nat.div_one]
   decide +kernel
 
 theorem inv_g : eqL (codeOfWord gWord).inv.rows.toList (fieldsL GCI) = true := by
   simp only [Code.inv, Id.run, Std.Legacy.Range.forIn_eq_forIn_range',
-    List.forIn_pure_yield_eq_foldl, Std.Legacy.Range.size, Nat.sub_zero, Nat.add_sub_cancel,
+    Std.Legacy.Range.size, Nat.sub_zero, Nat.add_sub_cancel,
     Nat.div_one]
   decide +kernel
 

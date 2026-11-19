@@ -184,7 +184,7 @@ private theorem cand_eq_sigma {C : Cert D} {σ : (Q0 ≃* Q0) → Q0}
       rw [hw] at hv
       by_cases hwg : (w.g == p.1) = true
       · dsimp only at hv
-        rw [if_pos hwg] at hv
+        rw [ite_eq_left hwg] at hv
         have hw' : (witMapOf D.wits).get? p.1 = some w := by
           rw [← C.witMap_eq]
           exact hw
@@ -209,7 +209,7 @@ private theorem cand_eq_sigma {C : Cert D} {σ : (Q0 ≃* Q0) → Q0}
         exact hσ.candVal_wit_eq (reps_size C) (reps_hrep C)
           (fun i hi => rep_isHom C hi) hb hrep2 hk hkt hpsi htp' hitp hvC
       · dsimp only at hv
-        rw [if_neg hwg] at hv
+        rw [ite_eq_right hwg] at hv
         simp at hv
 
 private noncomputable def autOfPair (p : ℕ × ℕ) : Q0 ≃* Q0 :=
@@ -218,7 +218,7 @@ private noncomputable def autOfPair (p : ℕ × ℕ) : Q0 ≃* Q0 :=
 private theorem autOfPair_eq {p : ℕ × ℕ} (h : isHomTab (liftTab p.1 p.2) = true) :
     autOfPair p = ofTab (liftTab p.1 p.2) h := by
   unfold autOfPair
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private theorem pairHom (C : Cert D) {p : ℕ × ℕ} (hp : p ∈ a0Pairs (a8GensArr D)) :
     isHomTab (liftTab p.1 p.2) = true := by

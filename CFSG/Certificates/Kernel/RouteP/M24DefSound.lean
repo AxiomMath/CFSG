@@ -226,7 +226,7 @@ theorem tree_aux (TW PA GQ FP LD LI LM : Nat → Nat) (hlet : lettersTabOK LI LD
       have e : (TW q).land 31 = TW q % 32 := land31 _
       rw [e, hn]
       rfl
-    rw [hb1, cond_false, hb2, cond_true] at h
+    rw [hb1, Bool.cond_false, hb2, _root_.Bool.cond_true] at h
     simp only [bif_false, Bool.and_eq_true] at h
     obtain ⟨h1, hG, hF⟩ := h
     have hq1 : q = 1 := Nat.eq_of_beq_eq_true h1
@@ -257,7 +257,7 @@ theorem tree_aux (TW PA GQ FP LD LI LM : Nat → Nat) (hlet : lettersTabOK LI LD
       have e : (TW q).land 31 = TW q % 32 := land31 _
       rw [e, hn]
       rfl
-    rw [hb1, cond_false, hb2, cond_false] at h
+    rw [hb1, Bool.cond_false, hb2, Bool.cond_false] at h
     simp only [bif_false, bif_not, Bool.and_eq_true] at h
     obtain ⟨hp, hpd, heq, hu, hv, hF, hG⟩ := h
     have hx : ((TW q).shiftRight (((TW (PA q)).land 31).add 5)).land 1 =
@@ -478,7 +478,7 @@ theorem xor_hi (B X low t : Nat) (hlow : low < 2 ^ 21) :
   · have : ¬ (i ≥ 21 + t) := by omega
     simp [hi, this]
   · have e2 : (i ≥ 21 + t) ↔ (i - 21 ≥ t) := by omega
-    simp only [hi, if_false, Nat.sub_sub, e2]
+    simp only [hi, ite_false, Nat.sub_sub, e2]
 
 def GQOK (tab : Array (List (ℕ × Bool))) (GQ : Nat → Nat) : Prop :=
   ∀ q < 576, q / 24 ≠ q % 24 → ∀ j < 11,
@@ -512,7 +512,7 @@ def LetOK (LD LI : Nat → Nat) : Prop :=
 theorem move_eq {LD LI : Nat → Nat} (hl : LetOK LD LI) {st : HA} {h : ↥AutPerm} (hs : HAOK st h)
     {c : Nat} (hc : c < 4) (m B : Nat) :
     move LD LI c (enc m B st) = enc m B (st.step (c / 2) (c % 2 == 0)) := by
-  simp only [move, strictN_eq, r_land, r_shr, r_shl, r_add, r_mul, r_sub]
+  simp only [move, strictN_eq, r_land, r_shr, r_add, r_mul, r_sub]
   rw [enc_low hs, lowOf_u hs, lowOf_v hs, lowOf_c hs, (hl c hc).1 _ (HAOK.bwd_lt hs (by norm_num)),
     (hl c hc).1 _ (HAOK.bwd_lt hs (by norm_num)),
     dapp_eq_dualAct (hl c hc).2 (by simpa using dualAct_matA_lt st.fwd m)]
@@ -562,7 +562,7 @@ theorem walk_codes {tab : Array (List (ℕ × Bool))} (hL : ∀ p, ∀ l ∈ two
       obtain ⟨st', h', hs', e⟩ := walk_codes hL hl hGQ m codes _ _ _ (HAOK.step' hs hc0) hrest
       refine ⟨st', h', hs', ?_⟩
       rw [e]
-      simp only [hb', if_true, contribOf]
+      simp only [hb', ite_true, contribOf]
     · have hb' : (c % 2 == 0) = false := by simp [hb]
       have hk : letK LD LI GQ c (enc m B st) =
           emit GQ (c / 2) (move LD LI c (enc m B st)) := by
@@ -576,7 +576,7 @@ theorem walk_codes {tab : Array (List (ℕ × Bool))} (hL : ∀ p, ∀ l ∈ two
       obtain ⟨st', h', hs', e⟩ := walk_codes hL hl hGQ m codes _ _ _ (HAOK.step' hs hc0) hrest
       refine ⟨st', h', hs', ?_⟩
       rw [e]
-      simp only [hb', Bool.false_eq_true, if_false, contribOf]
+      simp only [hb', Bool.false_eq_true, ite_false, contribOf]
 
 theorem rec_foldl (g : Nat → Nat → Nat) (L : Nat → Nat) (N : Nat) :
     ∀ (len lo S : Nat), lo + len = N →
@@ -714,8 +714,8 @@ theorem bucket_cons (c : Nat × Nat) (L : List (Nat × Nat)) (κ : Nat) :
     bucket (c :: L) κ = if c.1 = κ then c.2 ^^^ bucket L κ else bucket L κ := by
   unfold bucket
   by_cases h : c.1 = κ
-  · simp [h, List.filter_cons, xorMasks]
-  · simp [h, List.filter_cons]
+  · simp [h, xorMasks]
+  · simp [h]
 
 theorem testBit_shift_lane {v : Nat} (hv : v < 2 ^ 11) (k κ : Nat) {b : Nat} (hb : b < 11) :
     (v <<< (11 * k)).testBit (11 * κ + b) = if k = κ then v.testBit b else false := by
@@ -723,7 +723,7 @@ theorem testBit_shift_lane {v : Nat} (hv : v < 2 ^ 11) (k κ : Nat) {b : Nat} (h
   by_cases hk : k = κ
   · subst hk
     simp [show 11 * k + b - 11 * k = b by omega]
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     by_cases hle : 11 * k ≤ 11 * κ + b
     · have hlt : k < κ := by omega
       have : v.testBit (11 * κ + b - 11 * k) = false :=
@@ -741,8 +741,8 @@ theorem testBit_foldl_keyTab : ∀ (L : List (Nat × Nat)), (∀ c ∈ L, c.2 < 
       _ κ b hb, Nat.testBit_xor, testBit_shift_lane (hv c List.mem_cons_self) c.1 κ hb,
       bucket_cons]
     by_cases h : c.1 = κ
-    · simp only [h, if_true, Nat.testBit_xor, Bool.xor_assoc]
-    · simp only [h, if_false, Bool.xor_false]
+    · simp only [h, ite_true, Nat.testBit_xor, Bool.xor_assoc]
+    · simp only [h, ite_false, Bool.xor_false]
 
 theorem bucketsZero_of_keyTab_bounds (L : List (Nat × Nat)) (hk : ∀ c ∈ L, c.1 < 1152)
     (hv : ∀ c ∈ L, c.2 < 2 ^ 11) (h0 : keyTab L = 0) : bucketsZero L = true := by
@@ -852,7 +852,7 @@ theorem ln_shift121 {M : Nat} (hM : M < 2 ^ 121) (x y : Nat) {j : Nat} (hj : j <
       have e : 11 * (11 * x + j) + b - 121 * x = 11 * j + b := by omega
       have e2 : 11 * (11 * x + j) + b ≥ 121 * x := by omega
       simp [hb, e, e2, testBit_ln]
-    · rw [if_neg hxy, Nat.zero_testBit]
+    · rw [ite_eq_right hxy, Nat.zero_testBit]
       rcases Nat.lt_or_gt_of_ne hxy with h | h
       · have : M.testBit (11 * (11 * y + j) + b - 121 * x) = false := Nat.testBit_eq_false_of_lt
           (lt_of_lt_of_le hM (Nat.pow_le_pow_right (by norm_num) (by omega)))
@@ -950,7 +950,7 @@ theorem rec_xor_filter (p : Nat → Bool) (g : Nat → Nat) : ∀ n,
       List.map_append, xorMasks_append, List.filter_cons, List.filter_nil]
     cases p n
     · simp [xorMasks]
-    · simp only [if_true, List.map_cons, List.map_nil, xorMasks, Nat.xor_zero]
+    · simp only [ite_true, List.map_cons, List.map_nil, xorMasks, Nat.xor_zero]
       rfl
 
 theorem strictP_eq (y : Nat) (k : Nat → Nat × Nat) : strictP y k = k y := by cases y <;> rfl
@@ -973,11 +973,11 @@ theorem packN_spec {f : Nat → Nat} (hf : ∀ j, f j < 2 ^ 11) : ∀ n,
       exact Nat.mul_lt_mul_of_pos_right (hf n) (Nat.two_pow_pos _)
     · rw [e, ln_or, h2, ln_shift (hf n)]
       by_cases hj : j < n
-      · rw [if_pos hj, if_neg (by omega), if_pos (by omega), Nat.or_zero]
-      · rw [if_neg hj, Nat.zero_or]
+      · rw [ite_eq_left hj, ite_eq_right (by omega), ite_eq_left (by omega), Nat.or_zero]
+      · rw [ite_eq_right hj, Nat.zero_or]
         by_cases hjn : n = j
-        · rw [if_pos hjn, if_pos (by omega), hjn]
-        · rw [if_neg hjn, if_neg (by omega)]
+        · rw [ite_eq_left hjn, ite_eq_left (by omega), hjn]
+        · rw [ite_eq_right hjn, ite_eq_right (by omega)]
 
 theorem lamStep_eq (LM : Nat → Nat) (c M A : Nat) :
     lamStep LM c (M, A) = (packN (fun j => dapp M (ln 11 (LM c) j)) 11,
@@ -988,14 +988,14 @@ theorem lamStep_eq (LM : Nat → Nat) (c M A : Nat) :
   simp only [strictP_eq]
   by_cases hc : c % 2 = 0
   · have e : Nat.beq (Nat.land c 1) 0 = true := by rw [Nat.beq_eq, r_land, Nat.and_one_is_mod, hc]
-    rw [e, if_pos hc, hx]
+    rw [e, ite_eq_left hc, hx]
     rfl
   · have e : Nat.beq (Nat.land c 1) 0 = false := by
       cases e' : Nat.beq (Nat.land c 1) 0
       · rfl
       · rw [Nat.beq_eq, r_land, Nat.and_one_is_mod] at e'
         exact absurd e' hc
-    rw [e, if_neg hc, hx]
+    rw [e, ite_eq_right hc, hx]
     rfl
 
 def vecYJ (y j : Nat) : Nat × Nat := (if y = 0 then 2 ^ j else 0, if y = 0 then 0 else 2 ^ j)
@@ -1032,7 +1032,7 @@ theorem lam_codes {LM : Nat → Nat}
     have hM'c : ∀ j < 11, ln 11 (packN (fun j => dapp M (ln 11 (LM c) j)) 11) j =
         act11 (st.step (c / 2) (c % 2 == 0)).fwd (2 ^ j) := by
       intro j hj
-      rw [hM'l, if_pos hj, hLM c hc0 j hj, dapp_eq_act11 hM (act11_lt _ _)]
+      rw [hM'l, ite_eq_left hj, hLM c hc0 j hj, dapp_eq_act11 hM (act11_lt _ _)]
       exact (act11_compA (Subtype.prop h) (Subtype.prop _) hs.1
         (hasArr_letterVal (c / 2, c % 2 == 0) hc2) _).symm
     have hX : (if c % 2 = 0 then M else packN (fun j => dapp M (ln 11 (LM c) j)) 11) < 2 ^ 121 := by
@@ -1054,14 +1054,14 @@ theorem lam_codes {LM : Nat → Nat}
     congr 2
     by_cases hb : c % 2 = 0
     · have he : (if (c % 2 == 0) = true then st else st.step (c / 2) (c % 2 == 0)) = st :=
-        if_pos (by simp [hb])
-      rw [he, foxT_eq st hc2 hy hj, if_pos hb]
+        ite_eq_left (by simp [hb])
+      rw [he, foxT_eq st hc2 hy hj, ite_eq_left hb]
       split_ifs
       · exact hM j hj
       · rfl
     · have he : (if (c % 2 == 0) = true then st else st.step (c / 2) (c % 2 == 0)) =
-          st.step (c / 2) (c % 2 == 0) := if_neg (by simp [hb])
-      rw [he, foxT_eq _ hc2 hy hj, if_neg hb]
+          st.step (c / 2) (c % 2 == 0) := ite_eq_right (by simp [hb])
+      rw [he, foxT_eq _ hc2 hy hj, ite_eq_right hb]
       split_ifs
       · exact hM'c j hj
       · rfl
@@ -1202,13 +1202,13 @@ theorem bezoutOK_of (TW PA GQ FP LD LI LM RW CB FS LA SD TD : Nat → Nat)
       unfold unitMask
       by_cases h : κ / 11 = i
       · have e : Nat.beq (Nat.div κ 11) i = true := Nat.beq_eq_true_eq _ _ ▸ h
-        rw [if_pos h, e]
+        rw [ite_eq_left h, e]
         exact (Nat.one_shiftLeft _).symm
       · have e : Nat.beq (Nat.div κ 11) i = false := by
           cases e' : Nat.beq (Nat.div κ 11) i
           · rfl
           · exact absurd (Nat.eq_of_beq_eq_true e') h
-        rw [if_neg h, e]
+        rw [ite_eq_right h, e]
     rw [hS, hlamK, hfil, hmap, hunit]
     exact hb
 

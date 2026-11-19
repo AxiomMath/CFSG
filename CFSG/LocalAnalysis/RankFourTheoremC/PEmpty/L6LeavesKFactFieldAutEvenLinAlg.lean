@@ -12,7 +12,7 @@ namespace KFAE
 theorem card_modEq_card_fixed_of_pow_eq_one {S : Type*} [Finite S] {r : ℕ} (hr : r.Prime)
     (σ : Equiv.Perm S) (hσ : σ ^ r = 1) :
     Nat.card S ≡ Nat.card {x : S // σ x = x} [MOD r] := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hord : orderOf σ ∣ r := orderOf_dvd_of_pow_eq_one hσ
   have hG : IsPGroup r (Subgroup.zpowers σ) := by
     rcases (Nat.dvd_prime hr).1 hord with h1 | h1
@@ -36,7 +36,7 @@ variable {F V : Type*} [Field F] [Finite F] [AddCommGroup V] [Module F V] [Modul
 theorem card_fixed_eq_pow (g : V ≃ₗ[F] V) :
     ∃ k : ℕ, k ≤ Module.finrank F V ∧ Nat.card {x : V // g x = x} = Nat.card F ^ k ∧
       (k = Module.finrank F V → g = 1) ∧ (k = 0 → ∀ x : V, g x = x → x = 0) := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   let C : Submodule F V := LinearMap.ker (g.toLinearMap - LinearMap.id)
   have hC : ∀ x : V, x ∈ C ↔ g x = x := fun x => by
     simp [C, LinearMap.mem_ker, sub_eq_zero]
@@ -56,8 +56,8 @@ theorem card_fixed_eq_pow (g : V ≃ₗ[F] V) :
 theorem pow_modEq_one_of_invariant {r : ℕ} (hr : r.Prime) (g : V ≃ₗ[F] V) (hg : g ^ r = 1)
     (W : Submodule F V) (hW : ∀ v ∈ W, g v ∈ W) (hfix : ∀ x : V, x ∈ W → g x = x → x = 0) :
     Nat.card F ^ Module.finrank F W ≡ 1 [MOD r] := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite W := inferInstance
+  have : Finite V := Module.finite_of_finite F
+  have : Finite W := inferInstance
   have hinj : Function.Injective fun w : W => (⟨g w, hW w w.2⟩ : W) := by
     intro a b hab
     exact Subtype.ext (g.injective (congrArg Subtype.val hab))
@@ -94,7 +94,7 @@ theorem submodule_eq_bot_or_top_of_ppd {r : ℕ} (hr : r.Prime) (g : V ≃ₗ[F]
     (hg1 : g ≠ 1) (hdvd : r ∣ Nat.card F ^ Module.finrank F V - 1)
     (hmin : ∀ k : ℕ, 0 < k → k < Module.finrank F V → ¬ r ∣ Nat.card F ^ k - 1)
     (W : Submodule F V) (hW : ∀ v ∈ W, g v ∈ W) : W = ⊥ ∨ W = ⊤ := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   have hq : 1 ≤ Nat.card F := Nat.card_pos
   have hVfix : ∀ x : V, g x = x → x = 0 := by
     obtain ⟨k, hkd, hcard, hkn, hk0⟩ := card_fixed_eq_pow g
@@ -141,8 +141,8 @@ variable [CharP F 2]
 
 theorem exists_ne_zero_fixed [Nontrivial V] (R : Subgroup (V ≃ₗ[F] V)) (hR : IsPGroup 2 R) :
     ∃ v : V, v ≠ 0 ∧ ∀ g ∈ R, g v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite V := Module.finite_of_finite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite V := Module.finite_of_finite F
   by_contra hno
   push Not at hno
   have h := hR.card_modEq_card_fixedPoints V
@@ -164,7 +164,7 @@ theorem exists_ne_zero_fixed [Nontrivial V] (R : Subgroup (V ≃ₗ[F] V)) (hR :
     rw [Module.natCard_eq_pow_finrank (K := F)]
     have hfin : 0 < Module.finrank F V := Module.finrank_pos
     have hF : Even (Nat.card F) := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have := FiniteField.even_card_of_char_two (F := F) (ringChar.eq F 2)
       rw [Nat.card_eq_fintype_card]
       exact Nat.even_iff.mpr this
@@ -189,7 +189,7 @@ theorem eq_bot_of_irreducible_normalizing [Nontrivial V] (R : Subgroup (V ≃ₗ
     have h2 : g⁻¹ (x (g w)) = w := by simpa [LinearEquiv.mul_apply] using h1
     have h3 : g (g⁻¹ (x (g w))) = x (g w) := by
       have : (g * g⁻¹) (x (g w)) = x (g w) := by simp
-      simpa [LinearEquiv.mul_apply] using this
+      simp
     rw [← h3, h2]
   have hWne : W ≠ ⊥ := by
     intro hbot

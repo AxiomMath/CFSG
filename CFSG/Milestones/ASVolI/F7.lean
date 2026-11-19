@@ -56,11 +56,11 @@ private theorem loc_pCoreOf_inf_le {K H : Subgroup G} (hKH : K ≤ H) :
 
 private theorem loc_finite_of_le {H K : Subgroup G} [Finite H] (h : K ≤ H) : Finite K :=
   Finite.of_injective (fun x : K => (⟨x.1, h x.2⟩ : H))
-    fun a b hab => Subtype.ext (congrArg (fun y : H => (y : G)) hab)
+    fun _a _b hab => Subtype.ext (congrArg (fun y : H => (y : G)) hab)
 
 private theorem loc_chain_stabilizes {H : Subgroup G} [Finite H] {f : ℕ → Subgroup G}
     (hf : Antitone f) (hfH : ∀ n, f n ≤ H) : ∃ n₀ : ℕ, ∀ m, n₀ ≤ m → f n₀ = f m := by
-  haveI : Finite (Subgroup H) :=
+  have : Finite (Subgroup H) :=
     Finite.of_injective (fun K : Subgroup H => (K : Set H)) SetLike.coe_injective
   obtain ⟨n₀, hn₀⟩ := WellFoundedLT.antitone_chain_condition
     (f := fun n => (f n).subgroupOf H) (fun m n hmn => Subgroup.subgroupOf_mono H (hf hmn))
@@ -183,7 +183,7 @@ private theorem loc_not_two_dvd_relIndex_inf {T H D : Subgroup G} [Finite T] (hT
 
 private theorem loc_isSylowTwoOf_inf_normal {T H N : Subgroup G} [Finite H] (h : IsSylowTwoOf T H)
     (hNH : N ≤ H) (hTN : T ≤ Subgroup.normalizer (N : Set G)) : IsSylowTwoOf (T ⊓ N) N := by
-  haveI : Finite T := loc_finite_of_le h.1
+  have : Finite T := loc_finite_of_le h.1
   exact isSylowTwoOf_of_relIndex inf_le_right (h.2.1.to_le inf_le_left)
     (loc_not_two_dvd_relIndex_inf h.1 hNH (isSylowTwoOf_odd_relIndex h) hTN)
 
@@ -270,7 +270,7 @@ private theorem loc_oTwoPrime_centralizer_eq_pCoreOf [Finite G₁] (hyp : Amalga
       (N := G₁ ⊓ Subgroup.centralizer (V : Set G)) inf_le_left
       (hyp.sylow₁.1.trans (le_normalizer_inf_centralizer hyp))
     rwa [← inf_assoc, inf_eq_left.mpr hyp.sylow₁.1] at this
-  haveI : Finite ↥(G₁ ⊓ Subgroup.centralizer (V : Set G)) := loc_finite_of_le inf_le_left
+  have : Finite ↥(G₁ ⊓ Subgroup.centralizer (V : Set G)) := loc_finite_of_le inf_le_left
   rw [loc_oTwoPrime_eq_of_normal_sylow hsyl (inf_le_left.trans (le_normalizer_pCoreOf 2 G₁)),
     hball]
 
@@ -596,7 +596,7 @@ private theorem loc_frattini_Vv_γ₁ [Finite G₁] [Finite G₂] (hyp : Amalgam
   have h := loc_isElemAbelian_Vv_γ₁ hyp hV hb
   have hle : Vv V (γ₁ G₀ G₁ G₂) ≤ G₂ :=
     (loc_Vv_γ₁_le_pCoreOf hyp hV (by omega)).trans (pCoreOf_le 2 G₂)
-  haveI : Finite ↥(Vv V (γ₁ G₀ G₁ G₂)) := loc_finite_of_le hle
+  have : Finite ↥(Vv V (γ₁ G₀ G₁ G₂)) := loc_finite_of_le hle
   have : Fact (IsPGroup 2 (Vv V (γ₁ G₀ G₁ G₂))) := ⟨isPGroup_of_isElemAbelian h⟩
   exact (CFSG.frattini_eq_bot_iff_isElementaryAbelian (p := 2)).mpr
     (isElementaryAbelian_of_isElemAbelian h)
@@ -874,8 +874,8 @@ private theorem asvol_amalgamV {G : Type} [Group G] {G₀ G₁ G₂ T V : Subgro
 
 theorem as_F_7_3 : F_7_3 := by
   intro G _ G₀ G₁ G₂ T hyp γ
-  haveI := hyp.finite₁
-  haveI := hyp.finite₂
+  have := hyp.finite₁
+  have := hyp.finite₂
   have hA := asvol_amalgam hyp
   have h₁ : G₁ ≤ G₀ := hA.le₁
   have h₂ : G₂ ≤ G₀ := hA.le₂
@@ -940,8 +940,8 @@ theorem as_F_7_5 : F_7_5 := by
 
 theorem as_F_7_7 : F_7_7 := by
   intro G _ G₀ G₁ G₂ T V hyp
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hV := asvol_amalgamV hyp
   exact ⟨CFSG.Quasithin.CosetGeom.loc_oTwoPrime_centralizer_eq_pCoreOf hV,
     fun α β h => CFSG.Quasithin.CosetGeom.loc_pCoreOf_stab_eq hV.toAmalgamHyp h⟩
@@ -952,8 +952,8 @@ theorem as_F_7_7 : F_7_7 := by
 
 theorem as_F_7_8 : F_7_8 := by
   intro G _ G₀ G₁ G₂ T V hyp hV
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   obtain ⟨hb0, hVb, -⟩ := CFSG.Quasithin.CosetGeom.loc_critDist_spec hA hV
   exact ⟨⟨hb0, hVb⟩, fun n hn => CFSG.Quasithin.CosetGeom.loc_le_critDist hA hV hn.1 hn.2⟩
@@ -968,8 +968,8 @@ theorem as_F_7_8 : F_7_8 := by
 
 theorem as_F_7_9 : F_7_9 := by
   intro G _ G₀ G₁ G₂ T V hyp hV
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   refine ⟨fun γ hγ δ hδ => CFSG.Quasithin.CosetGeom.loc_V_le_pCoreOf_of_dist_lt hA hV hγ hδ,
     ?_, CFSG.Quasithin.CosetGeom.loc_isLeast_critDist hA hV,
@@ -984,8 +984,8 @@ theorem as_F_7_9 : F_7_9 := by
 
 theorem as_F_7_10 : F_7_10 := by
   intro G _ G₀ G₁ G₂ T V hyp hV hb
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   have hconj : Vv V (γ₁ G₀ G₁ G₂) ≤ pCoreOf 2 G₂ :=
     CFSG.Quasithin.CosetGeom.loc_Vv_γ₁_le_pCoreOf hA hV (by omega)
@@ -1020,8 +1020,8 @@ theorem as_F_7_10 : F_7_10 := by
 
 theorem as_F_7_11 : F_7_11 := by
   intro G _ G₀ G₁ G₂ T V hyp hV γ hγ hVγ
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   refine ⟨fun n hn δ p hp v hv =>
       CFSG.Quasithin.CosetGeom.loc_V_le_stab_of_mem_walk_support hA hV p (by omega) hv,
@@ -1052,8 +1052,8 @@ theorem as_F_7_11 : F_7_11 := by
 
 theorem as_F_7_12 : F_7_12 := by
   intro G _ G₀ G₁ G₂ T V hyp hV
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   exact ⟨fun h => CFSG.Quasithin.CosetGeom.loc_critDist_eq_one_of_not_le_pCoreOf hA hV h,
     fun hVG₂ hna => CFSG.Quasithin.CosetGeom.loc_critDist_eq_two_of_nonabelian hA hV hVG₂ hna⟩
@@ -1078,8 +1078,8 @@ section F713
 theorem as_F_7_13
     : F_7_13 := by
   intro G _ G₀ G₁ G₂ T V hyp hV γ hd hVγ hgeo ha hb hc A hA₁ hA₂
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   exact CFSG.Quasithin.RonanF713.f713_main
     (CFSG.Quasithin.F7Two.claimCE1_of_invAutGenSQTK CFSG.Quasithin.F7Two.invAutGenSQTK_proved) hA
@@ -1098,8 +1098,8 @@ end F713
 
 theorem as_F_7_14 : F_7_14 := by
   intro G _ G₀ G₁ G₂ T V hyp hV
-  haveI := hyp.toHypF_7_1.finite₁
-  haveI := hyp.toHypF_7_1.finite₂
+  have := hyp.toHypF_7_1.finite₁
+  have := hyp.toHypF_7_1.finite₂
   have hA := asvol_amalgamV hyp
   refine ⟨fun hW => ?_, fun hW => ?_⟩
   · obtain ⟨k, hk⟩ := CFSG.Quasithin.CosetGeom.loc_odd_critDist_of_weakClosureW0_le_G₁ hA hV hW

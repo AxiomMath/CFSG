@@ -35,7 +35,7 @@ theorem orderOf_le_of_outer_involution_psu_odd {J : Type} [Group J] [Finite J] {
     exact (hαout ⟨z, hz⟩).elim
   · have h2 : (2 : F) ≠ 0 := two_ne_zero_of_odd_pow h hodd
     obtain ⟨D⟩ := exists_realData h h2 hAu hAA
-    haveI : Finite h.fixedField := Subtype.finite
+    have : Finite h.fixedField := Subtype.finite
     have hk2 : (2 : h.fixedField) ≠ 0 :=
       CFSG.GH74.Generic.S45.Uni.two_ne_zero_fixedField h h2
     have hk : ringChar h.fixedField ≠ 2 := ringChar_ne_two_of_two_ne_zero hk2

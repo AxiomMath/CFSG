@@ -128,7 +128,7 @@ theorem excluded_of_three_eleven_free
     let u : fixingSubgroup P s := ⟨g.val,(mem_fixingSubgroup_iff P).mpr (fun x hx => hsub hx)⟩
     have hu : orderOf u = 3 := (Subgroup.orderOf_coe u).symm.trans ((Subgroup.orderOf_coe g).trans hg)
     exact hthree s hs (hu ▸ orderOf_dvd_natCard u)
-  exact false_of_fixed_counts P hcard Q S.isPGroup' hF g hg hcomm hsmall
+  exact false_of_fixed_counts P hcard Q S.isPGroup hF g hg hcomm hsmall
 
 end FiveTransitive.Degree58ElevenContradictionCore
 

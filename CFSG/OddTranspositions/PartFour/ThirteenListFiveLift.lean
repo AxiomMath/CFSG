@@ -52,8 +52,8 @@ theorem exists_lift_of_psl_two {X : Type} [Group X] [Finite X]
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ∀ x : X, π x = 1 ↔ x ∈ Subgroup.center X := fun x => QuotientGroup.eq_one_iff x
   have hCperf : ⁅C, C⁆ = C := by
-    haveI := CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three K h3
-    haveI : Group.IsPerfect C := Group.IsPerfect.ofSurjective (f := eC.symm.toMonoidHom)
+    have := CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three K h3
+    have : Group.IsPerfect C := Group.IsPerfect.ofSurjective (f := eC.symm.toMonoidHom)
       eC.symm.surjective
     exact Subgroup.isPerfect_iff.mp inferInstance
   set N := C.comap π with hN
@@ -74,7 +74,7 @@ theorem exists_lift_of_psl_two {X : Type} [Group X] [Finite X]
     rw [commutatorElement_mul_center hz hz']
     exact Subgroup.commutator_mem_commutator hq hq'
   have hQZ : Q ⊓ Subgroup.center X = ⊥ := by
-    haveI : Group.IsPerfect Q := Subgroup.isPerfect_iff.mpr hQperf
+    have : Group.IsPerfect Q := Subgroup.isPerfect_iff.mpr hQperf
     let ρ₀ : Q →* C := (π.comp Q.subtype).codRestrict C fun q => hQmap ▸ ⟨q, q.2, rfl⟩
     let ρ : Q →* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K := eC.toMonoidHom.comp ρ₀
     have hρ : Function.Surjective ρ := by

@@ -70,7 +70,7 @@ theorem centFacts_of_centralizer_pair {G : Type} [Group G] [Finite G] {Λ : Subg
     · exact ht1 (by rw [ht_eq_c, h])
     · exact htne (by rw [ht_eq_c, h])
   have hl_ord : orderOf l = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hl_sq) hl_ne
   set C : Subgroup G := Λ ⊓ centralizer ({l} : Set G) with hCdef
   have hC_le_centw : C ≤ centralizer ({w} : Set G) := fun x hx => hΛ_le_centw hx.1

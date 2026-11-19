@@ -72,6 +72,7 @@ variable {α : Type*} [Fintype α] [DecidableEq α]
 
 @[expose] def c3 (a b c : α) : Perm α := swap a b * swap a c
 
+omit [Fintype α] in
 theorem c3_apply_of_ne {a b c x : α} (hxa : x ≠ a) (hxb : x ≠ b) (hxc : x ≠ c) :
     c3 a b c x = x := by
   rw [c3, Perm.mul_apply, swap_apply_of_ne_of_ne hxa hxc, swap_apply_of_ne_of_ne hxa hxb]
@@ -94,9 +95,10 @@ theorem c3_mem_altOn {m : ℕ} {F : Set (Fin m)} {a b c : Fin m} (ha : a ∈ F) 
   refine mem_altOn_iff.2 ⟨c3_mem_alternatingGroup hab hac hbc, fun x hx => ?_⟩
   exact c3_apply_of_ne (fun h => hx (h ▸ ha)) (fun h => hx (h ▸ hb)) (fun h => hx (h ▸ hc))
 
+omit [Fintype α] in
 theorem disjoint_c3 {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
     Equiv.Perm.Disjoint (c3 a b c) (c3 a' b' c') := by
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+  simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
     not_false_eq_true, List.nodup_nil, and_true] at h
   obtain ⟨⟨hab, hac, haa', hab', hac'⟩, ⟨hbc, hba', hbb', hbc'⟩, ⟨hca', hcb', hcc'⟩,
     ⟨ha'b', ha'c'⟩, hb'c'⟩ := h
@@ -111,6 +113,7 @@ theorem disjoint_c3 {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
     push Not at hx
     exact c3_apply_of_ne hx.1 hx.2.1 hx.2.2
 
+omit [Fintype α] in
 theorem c3_commute {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
     c3 a b c * c3 a' b' c' = c3 a' b' c' * c3 a b c :=
   (Equiv.Perm.Disjoint.commute (disjoint_c3 h)).eq
@@ -118,7 +121,7 @@ theorem c3_commute {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
 theorem cycleType_c3_mul {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
     (c3 a b c * c3 a' b' c').cycleType = {3, 3} := by
   have hn := h
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+  simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
     not_false_eq_true, List.nodup_nil, and_true] at hn
   rw [Equiv.Perm.Disjoint.cycleType_mul (disjoint_c3 h), (isThreeCycle_c3 hn.1.1 hn.1.2.1 hn.2.1.1),
     (isThreeCycle_c3 hn.2.2.2.1.1 hn.2.2.2.1.2 hn.2.2.2.2)]
@@ -127,7 +130,7 @@ theorem cycleType_c3_mul {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup)
 theorem cycleType_c3_mul_sq {a b c a' b' c' : α} (h : [a, b, c, a', b', c'].Nodup) :
     (c3 a b c * c3 a' b' c' * c3 a' b' c').cycleType = {3, 3} := by
   have hn := h
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+  simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
     not_false_eq_true, List.nodup_nil, and_true] at hn
   have h3 := isThreeCycle_c3 hn.2.2.2.1.1 hn.2.2.2.1.2 hn.2.2.2.2
   have hsq : c3 a' b' c' * c3 a' b' c' = (c3 a' b' c')⁻¹ := by

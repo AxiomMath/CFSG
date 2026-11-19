@@ -46,7 +46,7 @@ theorem exists_mem_range_mul_inv_mem_centralizer {P : Type} [CommGroup P]
   have hfinrankVJ : Module.finrank F (Fin (fr.m i) → fr.E i) =
       fr.m i * Module.finrank F (fr.E i) := by
     rw [Module.finrank_pi_fintype]
-    simp [Finset.sum_const, Finset.card_fin, nsmul_eq_mul]
+    simp [Finset.sum_const]
   have hVprod : Module.finrank F V =
       Module.finrank F (Fin (fr.m i) → fr.E i) + Module.finrank F (fr.blockCompl i) := by
     rw [LinearEquiv.finrank_eq (fr.modelEquiv i), Module.finrank_prod]

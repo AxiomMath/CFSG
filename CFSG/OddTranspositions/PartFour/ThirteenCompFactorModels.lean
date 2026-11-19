@@ -76,11 +76,11 @@ theorem of_commutator {Y : Type} [Group Y] (h : OddTranspFactors ↥(commutator 
 
 theorem of_index_two {Y : Type} [Group Y] [Finite Y] (A : Subgroup Y) (hidx : A.index = 2)
     (hA : OddTranspFactors ↥A) : OddTranspFactors Y := by
-  haveI : A.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : A.Normal := Subgroup.normal_of_index_eq_two hidx
   refine of_normal A hA (of_commute ?_)
-  haveI : Fact (Nat.card (Y ⧸ A)).Prime :=
+  have : Fact (Nat.card (Y ⧸ A)).Prime :=
     ⟨by rw [← Subgroup.index_eq_card, hidx]; exact Nat.prime_two⟩
-  haveI : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
+  have : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
   exact fun a b => (IsCyclic.commGroup (α := Y ⧸ A)).mul_comm a b
 
 theorem prod {A B : Type} [Group A] [Group B] (hA : OddTranspFactors A)
@@ -122,7 +122,7 @@ theorem of_isSimpleGroup {Y : Type} [Group Y] [IsSimpleGroup Y] (h : OddTranspFa
 
 theorem of_statedClassicalModel {Y : Type} [Group Y] {t : StatedLieTag} {n p f : ℕ}
     (hY : StatedClassicalModel Y t n p f) (h : OddTranspFactor Y) : OddTranspFactors Y := by
-  haveI := (CFSG.LieType.Simplicity.fam_classical_converse Y ⟨t, n, p, f, hY⟩).2.2
+  have := (CFSG.LieType.Simplicity.fam_classical_converse Y ⟨t, n, p, f, hY⟩).2.2
   exact of_isSimpleGroup h
 
 end OddTranspFactors
@@ -162,7 +162,7 @@ theorem oddTranspFactors_statedSL_four (hF : Nat.card F = 2 ^ f) (hf : 1 ≤ f) 
 
 theorem oddTranspFactors_statedSp (k : ℕ) (hF : Nat.card F = 2 ^ f) (hf : 2 ≤ f) :
     OddTranspFactors ↥(StatedSp k F) := by
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have h4 := four_le_two_pow hf
   rcases (by omega : k = 0 ∨ k = 1 ∨ 2 ≤ k) with rfl | rfl | hk
   · exact OddTranspFactors.of_commute fun a b =>
@@ -194,7 +194,7 @@ variable {F : Type} [Field F] [Finite F] {f : ℕ}
 
 theorem oddTranspFactors_orthogonalPlus {k : ℕ} (hk : 2 ≤ k) (hF : Nat.card F = 2 ^ f)
     (hf : 2 ≤ f) : OddTranspFactors ↥(CFSG.PGLModel.orthogonalPlus k F) := by
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   rcases (by omega : k = 2 ∨ k = 3 ∨ 4 ≤ k) with rfl | rfl | hk4
   · have hle : (OmegaPlusCell.jProd (F := F)).range ≤ orthGroup (StatedQuadPlus 2 F) := by
       rintro _ ⟨x, rfl⟩
@@ -225,7 +225,7 @@ theorem oddTranspFactors_orthogonalPlus {k : ℕ} (hk : 2 ≤ k) (hF : Nat.card 
 theorem oddTranspFactors_orthogonalMinus {k : ℕ} (hk : 1 ≤ k) (hF : Nat.card F = 2 ^ f)
     (hf : 2 ≤ f) {b c : F} (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     OddTranspFactors ↥(CFSG.PGLModel.orthogonalMinus k F b c) := by
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   refine OddTranspFactors.of_commutator
     ((?_ : OddTranspFactors ↥(StatedOmega (StatedQuadMinus (k + 1) F b c))).of_mulEquiv
       (commutatorOrthogonalMinusEquiv k F b c).symm)
@@ -236,7 +236,7 @@ theorem oddTranspFactors_orthogonalMinus {k : ℕ} (hk : 1 ≤ k) (hF : Nat.card
         (finrank_minusSpace_small (n := 2) (by norm_num))
         (fun U hU => exists_quadMinus_ne_zero_small hbc (by norm_num) U hU)
     obtain ⟨e⟩ := nonempty_range_equiv_statedOmega ρ hcomm
-    haveI := D.finite_E
+    have := D.finite_E
     have hE : Nat.card E = 2 ^ (2 * f) := by rw [D.card_E, hF, ← pow_mul, mul_comm]
     exact (oddTranspFactors_sl2 hE (by omega)).of_mulEquiv
       ((MonoidHom.ofInjective hinj).trans e)
@@ -266,7 +266,7 @@ theorem oddTranspFactors_wreathSym_sl2 {F : Type} [Field F] [Finite F] {f : ℕ}
 
 theorem oddTranspFactors_of_isSz {Y : Type} [Group Y] {f : ℕ} (h : IsSz f Y) :
     OddTranspFactors Y := by
-  haveI := (CFSG.LieType.Simplicity.fam_2b2_simplicity Y 2 f h).2
+  have := (CFSG.LieType.Simplicity.fam_2b2_simplicity Y 2 f h).2
   exact OddTranspFactors.of_isSimpleGroup (Or.inr (Or.inl ⟨0, f, Or.inr (Or.inr (Or.inr (Or.inr
     (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨rfl, rfl, h⟩))))))))⟩))
 

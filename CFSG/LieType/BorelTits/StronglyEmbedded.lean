@@ -20,11 +20,11 @@ theorem holds_two_of_stronglyEmbedded
   obtain ⟨hBtop, -, hodd⟩ := h Q
   have hQB : (Q : Subgroup G) ≤ B := Subgroup.le_normalizer
   have hQcore : (Q : Subgroup G) ≤ pCoreOf 2 B :=
-    le_pCoreOf_of_le_normalizer 2 hQB le_rfl Q.isPGroup'
+    le_pCoreOf_of_le_normalizer 2 hQB le_rfl Q.isPGroup
   have hsub : ∀ T : Subgroup G, T ≤ B → IsPGroup 2 T → T ≤ Q := by
     intro T hTB hT2
     have hsup : IsPGroup 2 (T ⊔ (Q : Subgroup G) : Subgroup G) :=
-      hT2.to_sup_of_normal_right' Q.isPGroup' hTB
+      hT2.to_sup_of_normal_right' Q.isPGroup hTB
     have hle : (T ⊔ (Q : Subgroup G) : Subgroup G) ≤ Q :=
       Q.maximal_isPGroup.2 hsup le_sup_right
     exact le_sup_left.trans hle

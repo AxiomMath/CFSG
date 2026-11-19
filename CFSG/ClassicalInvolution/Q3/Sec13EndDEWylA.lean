@@ -83,13 +83,14 @@ theorem dew1_conj_mem {Ω : Set (Subgroup G)} (h : DEHyp Ω) {g : G}
   have hc := hu.conj g
   rwa [hgu] at hc
 
-noncomputable def dew1Act {Ω : Set (Subgroup G)} (h : DEHyp Ω) (u : G) :
+@[instance_reducible] noncomputable def dew1Act {Ω : Set (Subgroup G)} (h : DEHyp Ω) (u : G) :
     MulAction (Subgroup.centralizer (zGroup Ω : Set G)) (dew1V Ω u) where
   smul g M := ⟨conjSub (g : G) M.1, dew1_conj_mem h g.2 M.2⟩
   one_smul M := Subtype.ext (conjSub_one M.1)
   mul_smul g g' M := Subtype.ext (conjSub_mul (g : G) (g' : G) M.1)
 
-theorem dew1V_eq_twinSet {Ω : Set (Subgroup G)} {K : Subgroup G} (hK : K ∈ Ω) {u : G}
+omit [Finite G] in
+theorem dew1V_eq_twinSet {Ω : Set (Subgroup G)} {K : Subgroup G} (_hK : K ∈ Ω) {u : G}
     (hu : IsUniqueInvolution K u) : dew1V Ω u = twinSet Ω K := by
   ext M
   constructor
@@ -103,8 +104,8 @@ theorem dew1_fixed_ncard_modEq {Ω : Set (Subgroup G)} (h : DEHyp Ω)
     {S : Subgroup G} (hS : S ≤ Subgroup.centralizer (zGroup Ω : Set G)) {p : ℕ} [hp : Fact p.Prime]
     (hSp : IsPGroup p S) {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqueInvolution K u) :
     ({M | M ∈ dew1V Ω u ∧ ∀ s ∈ S, conjSub s M = M} : Set (Subgroup G)).ncard ≡ 4 [MOD p] := by
-  letI : MulAction (Subgroup.centralizer (zGroup Ω : Set G)) (dew1V Ω u) := dew1Act h u
-  letI : MulAction S (dew1V Ω u) := MulAction.compHom _ (Subgroup.inclusion hS)
+  let : MulAction (Subgroup.centralizer (zGroup Ω : Set G)) (dew1V Ω u) := dew1Act h u
+  let : MulAction S (dew1V Ω u) := MulAction.compHom _ (Subgroup.inclusion hS)
   have hV : (dew1V Ω u).ncard = 4 := by
     rw [dew1V_eq_twinSet hK hu, h4 K hK]
   have hmod := hSp.card_modEq_card_fixedPoints (dew1V Ω u)
@@ -200,7 +201,7 @@ theorem dew1_conj_eq_of_psi {Ω : Set (Subgroup G)} (h : DEHyp Ω)
 
 theorem dew1_isPGroup_two {Γ : Type} [Group Γ] [Finite Γ] {H : Subgroup Γ}
     (hH : ∀ x ∈ H, Odd (orderOf x) → x = 1) : IsPGroup 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_orderOf]
   intro g
   obtain ⟨k, o, ho, hko⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos (g : Γ)).ne'
@@ -274,9 +275,9 @@ theorem dew1_isSolvable_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
           exact hM.elim
       rw [Nat.card_coe_set_eq, hempty]
       simp
-  haveI : ∀ u : G, Group.IsSolvable (Equiv.Perm (dew1V Ω u)) := fun u =>
+  have : ∀ u : G, Group.IsSolvable (Equiv.Perm (dew1V Ω u)) := fun u =>
     Equiv.Perm.isSolvable (hcard u)
-  haveI : Group.IsSolvable (∀ u : G, Equiv.Perm (dew1V Ω u)) := dew1_isSolvable_pi
+  have : Group.IsSolvable (∀ u : G, Equiv.Perm (dew1V Ω u)) := dew1_isSolvable_pi
   have hker : IsPGroup 2 (dew1Psi h).ker := by
     apply dew1_isPGroup_two
     intro x hx hodd
@@ -292,9 +293,9 @@ theorem dew1_isSolvable_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
       exact dew1_conj_eq_of_psi h (MonoidHom.mem_ker.mp hx) ⟨hL, hz⟩
     have := dew1_eq_one_of_odd_central h x.2 hxp hN
     exact Subtype.ext this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥(dew1Psi h).ker := by
-    haveI := hker.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥(dew1Psi h).ker := by
+    have := hker.isNilpotent
     infer_instance
   exact Group.isSolvable_of_ker_le_range (dew1Psi h).ker.subtype (dew1Psi h)
     (le_of_eq (Subgroup.range_subtype _).symm)
@@ -303,12 +304,12 @@ theorem dew1_no_big_prime {Ω : Set (Subgroup G)} (h : DEHyp Ω)
     (h4 : ∀ K ∈ Ω, (twinSet Ω K).ncard = 4) {x : G}
     (hx : x ∈ Subgroup.centralizer (zGroup Ω : Set G)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hxp : x ^ p = 1) : x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hx1
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hSle : Subgroup.zpowers x ≤ Subgroup.centralizer (zGroup Ω : Set G) :=
     Subgroup.zpowers_le.mpr hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSp : IsPGroup p (Subgroup.zpowers x) := by
     apply IsPGroup.of_card
     rw [Nat.card_zpowers, hord, pow_one]
@@ -328,7 +329,7 @@ theorem dew1_prime_dvd_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
   by_contra hne
   have h4' : p ≠ 4 := by rintro rfl; norm_num at hp
   have h5 : 5 ≤ p := by have := hp.two_le; omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hpd
   have hxp : (c : G) ^ p = 1 := by
     have h1 := pow_orderOf_eq_one c
@@ -340,12 +341,13 @@ theorem dew1_prime_dvd_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
   exact hp.one_lt.ne' hord.symm
 
 open scoped commutatorElement in
-theorem dew1_mod_two {N : Subgroup G} [N.Normal] (hQN : pCore 2 G ≤ N)
+omit [Finite G] in
+theorem dew1_mod_two {N : Subgroup G} [N.Normal] (_hQN : pCore 2 G ≤ N)
     (hcomm : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ pCore 2 G) {x : G} (hx : x ∈ N) {k : ℕ}
     (hxk : x ^ (2 ^ k) ∈ pCore 2 G) : x ∈ pCore 2 G := by
   classical
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : G →* G ⧸ pCore 2 G := QuotientGroup.mk' (pCore 2 G) with hπ
   have hcommq : ∀ y ∈ N, ∀ z ∈ N, Commute (π y) (π z) := by
     intro y hy z hz
@@ -369,7 +371,7 @@ theorem dew1_mod_two {N : Subgroup G} [N.Normal] (hQN : pCore 2 G ≤ N)
         have e2 : (π z) ^ (2 ^ (j + l)) = 1 := by
           rw [add_comm, pow_add, pow_mul, hzp, one_pow]
         rw [e1, e2, one_mul]
-      one_mem' := ⟨N.one_mem, 0, by simpa using (pCore 2 G).one_mem⟩
+      one_mem' := ⟨N.one_mem, 0, by simp⟩
       inv_mem' := by
         rintro y ⟨hy, j, hyj⟩
         refine ⟨N.inv_mem hy, j, ?_⟩
@@ -401,6 +403,7 @@ theorem dew1_mod_two {N : Subgroup G} [N.Normal] (hQN : pCore 2 G ≤ N)
   exact hTQ ⟨hx, k, hxk⟩
 
 open scoped commutatorElement in
+omit [Finite G] in
 theorem dew1_exists_R {C Q : Subgroup G} [Q.Normal] (hCn : C.Normal) (hQC : Q ≤ C)
     (hsolv : Group.IsSolvable ↥C) (hne : Q ≠ C) :
     ∃ R : Subgroup G, R.Normal ∧ Q ≤ R ∧ R ≤ C ∧ R ≠ Q ∧
@@ -426,7 +429,7 @@ theorem dew1_exists_R {C Q : Subgroup G} [Q.Normal] (hCn : C.Normal) (hQC : Q �
     | zero => exact hCn
     | succ n ih =>
       rw [hsucc]
-      haveI := ih
+      have := ih
       infer_instance
   have hsol : ∃ m, dser m ≤ Q := by
     obtain ⟨m, hm⟩ := hsolv.solvable
@@ -455,7 +458,7 @@ theorem dew1_exists_R {C Q : Subgroup G} [Q.Normal] (hCn : C.Normal) (hQC : Q �
     have := Nat.find_min hex (show j < k by omega)
     exact this
   let R : Subgroup G := dser j ⊔ Q
-  haveI : (dser j).Normal := hnorm j
+  have : (dser j).Normal := hnorm j
   have hRn : R.Normal := inferInstance
   refine ⟨R, hRn, le_sup_right, sup_le (hle j) hQC, ?_, ?_⟩
   · intro hR
@@ -488,12 +491,12 @@ theorem dew1_sylow_three {R Q : Subgroup G} [R.Normal] [Q.Normal] (hQR : Q ≤ R
       (P : Subgroup R).map R.subtype ≠ ⊥ := by
   classical
   let Qh : Subgroup R := Q.subgroupOf R
-  haveI : Qh.Normal := inferInstance
+  have : Qh.Normal := inferInstance
   have hQidx : ∃ k : ℕ, Qh.index = 3 ^ k := by
     have hne : Qh.index ≠ 0 := Subgroup.index_ne_zero_of_finite
     refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd hne ?_⟩
     intro d hd hdvd
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' d (G := R ⧸ Qh) hdvd
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective g
     have hy1 : (QuotientGroup.mk' Qh) (y ^ d) = 1 := by
@@ -562,7 +565,7 @@ theorem dew1_sylow_three {R Q : Subgroup G} [R.Normal] [Q.Normal] (hQR : Q ≤ R
 theorem dew1_frattini {R : Subgroup G} [R.Normal] (P : Sylow 3 R) (g : G) :
     ∃ n ∈ Subgroup.normalizer (((P : Subgroup R).map R.subtype : Subgroup G) : Set G),
       ∃ r ∈ R, g = n * r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := Sylow.normalizer_sup_eq_top P
   have hg : g ∈ Subgroup.normalizer ((P : Subgroup R).map R.subtype) ⊔ R := by
     rw [h]; exact Subgroup.mem_top g
@@ -724,13 +727,14 @@ theorem dew1_comm_mem {Ω : Set (Subgroup G)} (h : DEHyp Ω) {R X : Subgroup G}
   · exact Subgroup.Normal.conj_mem CFSG.pCore_normal _ ((pCore 2 G).inv_mem hq') k
 
 open scoped commutatorElement in
+omit [Finite G] in
 theorem dew1_central_mod {Ω : Set (Subgroup G)} (h : DEHyp Ω) {K : Subgroup G} (hK : K ∈ Ω)
     (hcomm : ∀ c ∈ Subgroup.centralizer (zGroup Ω : Set G), ∀ k ∈ K,
       c * k * c⁻¹ * k⁻¹ ∈ pCore 2 G)
     {c : G} (hc : c ∈ Subgroup.centralizer (zGroup Ω : Set G)) (g : G) :
     ⁅c, g⁆ ∈ pCore 2 G := by
   classical
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   set π : G →* G ⧸ pCore 2 G := QuotientGroup.mk' (pCore 2 G) with hπ
   let T : Subgroup G := (Subgroup.centralizer ({π c} : Set (G ⧸ pCore 2 G))).comap π
   have hT : pSpan Ω ≤ T := by
@@ -791,13 +795,13 @@ theorem dew1_central_three_trivial {Γ : Type} [Group Γ] [Finite Γ] {A : Subgr
     (hperf : commutator Γ = ⊤) (hAc : ∀ a ∈ A, ∀ g : Γ, a * g = g * a)
     (hA3 : IsPGroup 3 A) (hcard : Nat.card Γ = 168 * Nat.card A) : A = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hAn : A.Normal := ⟨fun a ha g => by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hAn : A.Normal := ⟨fun a ha g => by
     have e : g * a * g⁻¹ = a := by rw [← hAc a ha g]; group
     rw [e]; exact ha⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hA3
   obtain ⟨P⟩ : Nonempty (Sylow 3 Γ) := inferInstance
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hidx : 3 ^ j * (P : Subgroup Γ).index = 168 * 3 ^ m := by
     have h1 := (P : Subgroup Γ).index_mul_card
     rw [hj, hcard, hm, mul_comm] at h1
@@ -828,13 +832,13 @@ theorem dew1_central_three_trivial {Γ : Type} [Group Γ] [Finite Γ] {A : Subgr
       intro x y
       have hy : y ∈ Subgroup.center Pg := by rw [htop]; exact Subgroup.mem_top y
       exact Subgroup.mem_center_iff.mp hy x
-    · haveI : IsCyclic (Pg ⧸ Subgroup.center Pg) := by
+    · have : IsCyclic (Pg ⧸ Subgroup.center Pg) := by
         apply isCyclic_of_prime_card (p := 3)
         exact h1
       intro x y
-      exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center Pg))
-        (QuotientGroup.ker_mk' _).le x y
-  haveI : IsMulCommutative Pg := ⟨⟨fun a b => hPcomm a b⟩⟩
+      exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center Pg))
+        (QuotientGroup.ker_mk' _).le).is_comm.comm x y
+  have : IsMulCommutative Pg := ⟨⟨fun a b => hPcomm a b⟩⟩
   let t : Γ →* Pg := MonoidHom.transfer (MonoidHom.id Pg)
   have ht1 : ∀ g : Γ, t g = 1 := by
     have hker : commutator Γ ≤ t.ker := by
@@ -883,7 +887,7 @@ theorem dew1_pCore_eq_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
     (h4 : ∀ K ∈ Ω, (twinSet Ω K).ncard = 4) :
     pCore 2 G = Subgroup.centralizer (zGroup Ω : Set G) := by
   classical
-  haveI hQn : (pCore 2 G).Normal := CFSG.pCore_normal
+  have hQn : (pCore 2 G).Normal := CFSG.pCore_normal
   have hQC : pCore 2 G ≤ Subgroup.centralizer (zGroup Ω : Set G) :=
     h.pCore_le_centralizer_zGroup
   by_contra hne
@@ -894,7 +898,7 @@ theorem dew1_pCore_eq_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
       p = 2 ∨ p = 3 := fun p hp hpd => dew1_prime_dvd_centralizer h h4 hp hpd
   obtain ⟨R, hRn, hQR, hRC, hRQ, hRcomm⟩ :=
     dew1_exists_R hCn hQC hsolv hne
-  haveI := hRn
+  have := hRn
   have hM2R : ∀ x ∈ R, ∀ k : ℕ, x ^ (2 ^ k) ∈ pCore 2 G → x ∈ pCore 2 G :=
     fun x hx k hxk => dew1_mod_two hQR hRcomm hx hxk
   have hprimeR : ∀ p : ℕ, p.Prime → p ∣ Nat.card R → p = 2 ∨ p = 3 := fun p hp hpd =>
@@ -906,8 +910,8 @@ theorem dew1_pCore_eq_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
     obtain ⟨y, _, rfl⟩ := Subgroup.mem_map.mp hx
     exact hRC y.2
   have hX3 : IsPGroup 3 X := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
     apply IsPGroup.of_card (n := n)
     rw [hXdef, Subgroup.card_map_of_injective R.subtype_injective, hn]
   have hfrat : ∀ g : G, ∃ n ∈ Subgroup.normalizer (X : Set G), ∃ r ∈ R, g = n * r :=
@@ -979,18 +983,18 @@ theorem dew1_pCore_eq_centralizer {Ω : Set (Subgroup G)} (h : DEHyp Ω)
     have h1 : π ⁅c, g'⁆ = 1 := (QuotientGroup.eq_one_iff _).mpr (hcentral c hc g')
     rw [map_commutatorElement] at h1
     exact commutatorElement_eq_one_iff_mul_comm.mp h1
-  haveI hAn : A.Normal := ⟨fun a ha g => by
+  have hAn : A.Normal := ⟨fun a ha g => by
     have e : g * a * g⁻¹ = a := by rw [← hAc a ha g]; group
     rw [e]; exact ha⟩
   have hA3 : IsPGroup 3 A := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hodd : ∀ p : ℕ, p.Prime → p ∣ Nat.card A → p = 3 := by
       intro p hp hpd
       have hpC : p ∣ Nat.card ↥(Subgroup.centralizer (zGroup Ω : Set G)) := by
         rw [hCcard]; exact Dvd.dvd.mul_right hpd _
       rcases hprime p hp hpC with rfl | rfl
       · exfalso
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 2 hpd
         obtain ⟨c, hc, hca⟩ := Subgroup.mem_map.mp a.2
         have hsq : (a : G ⧸ pCore 2 G) ^ 2 = 1 := by
@@ -1025,6 +1029,7 @@ section Dew2
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem dew2_eq_one_or_eq_of_mem_zpowers {z x : G} (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -1053,6 +1058,7 @@ private theorem dew2_commute_of_basis {e : Fin 3 → G} (hbas : TL4.E8Basis (zGr
   unfold TL4.e8Coord
   exact ((hc.pow_right _).mul_right (h1.pow_right _)).mul_right (h2.pow_right _)
 
+omit [Finite G] in
 private theorem dew2_conjSub_commute {x g : G} {M : Subgroup G} (hg : Commute g x)
     (hM : ∀ m ∈ M, Commute m x) : ∀ m ∈ conjSub g M, Commute m x := by
   intro m hm
@@ -1125,11 +1131,13 @@ private theorem dew2_conj_mem_coset (h : DEHyp Ω) {x : G} (hx : x ∈ pCore 2 G
   obtain ⟨d, hd, hgd⟩ := hgen hg
   exact ⟨d, hd, hgd⟩
 
+omit [Finite G] in
 private theorem dew2_inv_conj_of_commute {y a : G} (hya : Commute y a) : y⁻¹ * a * y = a := by
   calc y⁻¹ * a * y = y⁻¹ * (a * y) := by group
     _ = y⁻¹ * (y * a) := by rw [hya.eq]
     _ = a := by group
 
+omit [Finite G] in
 private theorem dew2_cube_conj {y : G} (hy3 : orderOf y = 3) (a : G) :
     y⁻¹ * (y⁻¹ * (y⁻¹ * a * y) * y) * y = a := by
   have hyyy : y * y * y = 1 := by
@@ -1233,7 +1241,7 @@ private theorem dew2_seven_dvd_centralizer (h : DEHyp Ω) {x : G} (hx : x ∈ pC
 private theorem dew2_exists_order_seven (h : DEHyp Ω) {x : G} (hx : x ∈ pCore 2 G)
     (hxN : ∀ L ∈ Ω, x ∈ Subgroup.normalizer (L : Set G)) (hxD : x ∉ zGroup Ω) :
     ∃ g : G, orderOf g = 7 ∧ g * x = x * g := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 7 (dew2_seven_dvd_centralizer h hx hxN hxD)
   exact ⟨(c : G), (Subgroup.orderOf_coe c).trans hc,
     Subgroup.mem_centralizer_singleton_iff.mp c.2⟩
@@ -1284,7 +1292,7 @@ private theorem dew2_fixed_free (h : DEHyp Ω)
     ring
   have h7Q : ¬ 7 ∣ Nat.card (pCore 2 G) := by
     intro h7
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 7 h7
     have hord : orderOf (c : G) = 7 := (Subgroup.orderOf_coe c).trans hc
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := G)) c
@@ -1414,6 +1422,7 @@ private theorem dew2_exists_u (h : DEHyp Ω) {L : Subgroup G} (hL : L ∈ Ω) {t
         exact hcancel (t * j) e
       exact ⟨i * j, L.mul_mem hi hj, hsq, (dComm_eq_one_iff.mp hcz).symm, i, hi, hnc⟩
 
+omit [Finite G] in
 private theorem dew2_normalizes (h : DEHyp Ω) {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ Ω)
     (hKJ : K ≠ J) {z : G} (hz : IsUniqueInvolution K z) {u t : G}
     (huJ : u ∈ J) (hu2 : u * u = t) (ht : IsUniqueInvolution J t)
@@ -1937,7 +1946,7 @@ theorem centralizer_zGroup_eq_pCore :
 
 theorem exists_pCore_conj_of_mem_twinSet {K J : Subgroup G} (hK : K ∈ Ω) (hJ : J ∈ twinSet Ω K) :
     ∃ q ∈ pCore 2 G, conjSub q K = J := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨u, hu⟩ := h.exists_isUniqueInvolution hK
   obtain ⟨g, hg, hgK⟩ := h.exists_swap_of_mem_twinSet hK hJ hu
   rw [h.centralizer_eq_sup hK hu, centralizer_zGroup_eq_pCore h, sup_comm] at hg

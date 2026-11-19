@@ -37,11 +37,11 @@ theorem isQuasisimple_fixedRoot_unitary {ν : ℕ} (hν : 3 ≤ ν) (hq2 : ν �
     (π : Equiv.Perm (Fin ν)) (hπ : ∀ i j, i ≠ j → w • r i j = r (π j) (π i)) :
     CFSG.IsQuasisimple ↥(D.fixedRoot S) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : ∀ c, D.Fr c = c ^ (p ^ (m : ℕ)) := fun c => by rw [D.hFr, hcard']
   have hnm : D.nW ∈ monomialSubgroup τ D.L := canonicalRep_mem_monomialSubgroup D.L w

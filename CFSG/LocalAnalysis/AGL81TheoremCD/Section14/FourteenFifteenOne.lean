@@ -27,7 +27,7 @@ theorem mem_of_sylow_map_le {M Y U : Subgroup G} (hUleM : U ≤ M)
     (hNY : Subgroup.normalizer (Y : Set G) ≤ M) {n : G}
     (hYmap : Y.map (MulAut.conj n).toMonoidHom ≤ U) : n ∈ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYSyl' : CFSG.ABGLocalTools.IsSylowOf 3 (Y.map (MulAut.conj n).toMonoidHom) U :=
     CFSG.ABGLocalTools.isSylowOf_of_card hYmap (by
       rw [Subgroup.card_map_of_injective (MulAut.conj n).injective, hYSyl.card_eq])
@@ -67,6 +67,7 @@ namespace HypCGen
 
 variable {M E H P : Subgroup G}
 
+omit [Finite G] in
 theorem nonempty_mulEquiv_threeStar {M H : Subgroup G} (hC3 : CaseThree M H) :
     Nonempty (threeStar (kSub 3 M H) ≃* projSL 3 (GaloisField 2 2)) :=
   nonempty_mulEquiv_projSL_of_isL34Type hC3.2.1 hC3.2.2
@@ -99,7 +100,7 @@ theorem isElemAbelian_inf_kSub (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
 
 theorem centralizer_le_of_mem {M E H : Subgroup G} {q : ℕ} (h : HypCGen G M q E H)
     {d : G} (hdE : d ∈ E) (hd1 : d ≠ 1) : Subgroup.centralizer ({d} : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨h.prime⟩
+  have : Fact q.Prime := ⟨h.prime⟩
   have hdq : d ^ q = 1 := h.elem.2 d hdE
   have hElem : CFSG.Open.IsElemAbelian q (Subgroup.zpowers d) :=
     CFSG.Open.isElemAbelian_zpowers hdq
@@ -153,7 +154,7 @@ theorem exists_ne_one_mem_inf (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
     (hI : InnerOnKAt M) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (H ⊓ M)) (hEP : E ≤ P) :
     ∃ d ∈ E ⊓ (P ⊓ kSub 3 M H), d ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A K := by
@@ -196,11 +197,11 @@ theorem exists_ne_one_mem_inf (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
   exact absurd h4 (by omega)
 
 theorem normalizes_pPrimeCore_map_of_inner (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
-    (hI : InnerOnKAt M) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (H ⊓ M)) (hEP : E ≤ P) :
+    (hI : InnerOnKAt M) (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P (H ⊓ M)) (_hEP : E ≤ P) :
     E ⊔ (P ⊓ kSub 3 M H) ≤ Subgroup.normalizer
       ((CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   let OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
@@ -253,7 +254,7 @@ theorem exists_sylow_stepThree (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
       CFSG.ABGLocalTools.IsSylowOf 3 Y U ∧
       Subgroup.normalizer (Y : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   let OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
@@ -314,7 +315,7 @@ theorem exists_mem_pPrimeCore_map_of_inner (h : HypCGen G M 3 E H) (hC3 : CaseTh
       ∀ x ∈ kSub 3 M H, ((k : G) * x * (k : G)⁻¹)⁻¹ * (e * x * e⁻¹) ∈
         (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   let OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
@@ -350,7 +351,7 @@ theorem exists_quotient_conj_inner_eq (h : HypCGen G M 3 E H) (hC3 : CaseThree M
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) c =
         QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   let OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
@@ -382,7 +383,7 @@ theorem exists_quotient_conj_inner_eq (h : HypCGen G M 3 E H) (hC3 : CaseThree M
   let cK : ↥K := ⟨n * (e * n⁻¹ * e⁻¹), hcK⟩
   have hcEq : cK = ⟨n, hnK⟩ * (⟨k, hk⟩ * ⟨n, hnK⟩⁻¹ * ⟨k, hk⟩⁻¹) * yK := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     dsimp [cK, yK]
     group
   have hπc : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) cK =
@@ -425,7 +426,7 @@ theorem map_conj_E_le_stepThree (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
   have haA : (a : G) ∈ A := ha
   have hmem : n * (e * n⁻¹ * e⁻¹) ∈ A ⊔ (CFSG.pPrimeCore 3 ↥K).map K.subtype := by
     rw [← hc]
-    exact mem_sup_of_quotient_eq (A := A) (by simpa [A] using inf_le_right)
+    exact mem_sup_of_quotient_eq (A := A) (by simp [A])
       haA (by simpa [K] using hπ)
   have heU : e ∈ (E ⊔ A) ⊔ (CFSG.pPrimeCore 3 ↥K).map K.subtype :=
     Subgroup.mem_sup_left (Subgroup.mem_sup_left he)
@@ -475,7 +476,7 @@ theorem gamma_inf_kSub_le (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
     (hI : InnerOnKAt M) (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (H ⊓ M)) (hEP : E ≤ P) :
     CFSG.Open.rankThreeGamma 1 3 (P ⊓ kSub 3 M H) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := P ⊓ K
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A K := by
@@ -487,8 +488,7 @@ theorem gamma_inf_kSub_le (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
   have hCd : Subgroup.centralizer ({d} : Set G) ≤ M :=
     centralizer_le_of_mem h hdE hd1
   refine (CFSG.RankThreeCoreUniqueness.Helpers.gamma_le_iff 1 3 A M).mpr ?_
-  intro R hRA hR
-  intro g hg
+  intro R hRA hR g hg
   obtain ⟨E₀, hE₀R, hElem₀, hcard₀⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (k := 1) hR
   have hcard₀' : Nat.card E₀ = 3 := by simpa using hcard₀
@@ -558,7 +558,7 @@ theorem fourteenFifteenOneAt_of {M : Subgroup G} (hpre : PreambleTypes M)
   subst q
   have hC3 : CaseThree M H := h14 H ⟨3, E, hdata.mem_QSet, hdata.mem⟩
   have hU3 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.NineNineOne M 3 := hU 3 E H hdata
-  haveI : Fact (Nat.Prime 3) := ⟨hdata.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨hdata.prime⟩
   have hEHM : E ≤ H ⊓ M := le_inf hdata.E_le_H hdata.E_le_M
   obtain ⟨P, hP, hEP⟩ := CFSG.RankThree.PartOne.exists_isSylowOf_ge hEHM hdata.isPGroup
   obtain ⟨hAsyl, hAelem, hAcard, -, hΓ⟩ :=
@@ -574,7 +574,7 @@ theorem normalizerSylowKLeAt_of {M : Subgroup G} (hpre : PreambleTypes M)
   subst q
   have hC3 : CaseThree M H := h14 H ⟨3, E, hdata.mem_QSet, hdata.mem⟩
   have hU3 : CFSG.LocalAnalysis.RankThreeUC.AGL81C.NineNineOne M 3 := hU 3 E H hdata
-  haveI : Fact (Nat.Prime 3) := ⟨hdata.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨hdata.prime⟩
   have hEHM : E ≤ H ⊓ M := le_inf hdata.E_le_H hdata.E_le_M
   obtain ⟨P, hP, hEP⟩ := CFSG.RankThree.PartOne.exists_isSylowOf_ge hEHM hdata.isPGroup
   obtain ⟨hAsyl, -, -, hNA, -⟩ :=

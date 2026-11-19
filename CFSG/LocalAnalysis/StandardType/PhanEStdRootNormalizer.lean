@@ -88,6 +88,7 @@ theorem exists_sl2_fieldLang_swap (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c)
 
 variable [Finite K]
 
+omit [CharP K 2] [Finite K] in
 theorem e7W0_neg (v : Fin (e7Datum K).rank → ℤ) :
     weylAction (e7Datum K).isFiniteType (e7W0 K) v = -v := by
   have h : weylAction (e7Datum K).isFiniteType (e7W0 K) = -LinearMap.id := by

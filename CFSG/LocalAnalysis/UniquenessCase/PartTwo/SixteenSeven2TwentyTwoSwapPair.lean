@@ -14,18 +14,21 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_preTil_inf (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S T : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S ⊓ T) = preTil V₀ V hV S ⊓ preTil V₀ V hV T := by
   unfold preTil
   rw [Subgroup.comap_inf, Subgroup.map_inf _ _ (valHom V hV) IntMod.val_injective]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_preTil_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S T : Subgroup (Vtil V₀ V hV)) :
     preTil V₀ V hV (S ⊔ T) = preTil V₀ V hV S ⊔ preTil V₀ V hV T := by
   unfold preTil
   rw [← Subgroup.comap_sup_eq (mkTil V₀ V hV) S T (mkTil_surjective V₀ V hV), Subgroup.map_sup]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_imgTil_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     imgTil V₀ V hV ⊥ = ⊥ := by
   rw [eq_bot_iff]
@@ -35,6 +38,7 @@ theorem s16c167_twenty_two_imgTil_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 
   rw [h1, map_one]
   exact one_mem _
 
+omit [Finite G] in
 theorem s16c167_twenty_two_delta {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {Δ : Set (Subgroup G)} (hn : Δ.ncard = 2) (hle : ∀ I ∈ Δ, I ≤ V) (hi : sSupIndep Δ)
     (hs : sSup Δ = V) {F : Fin 3 → Subgroup (Vtil ⊥ V hV)}

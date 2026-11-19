@@ -29,7 +29,7 @@ theorem AbelOrRankFour.of_elemAbelian (hp : p.Prime) {E : Subgroup G} (hE : IsEl
 
 theorem AbelOrRankFour.of_mulEquiv {H : Type} [Group H] [Finite H] (hp : p.Prime) (e : H ≃* G)
     (h : AbelOrRankFour p G) : AbelOrRankFour p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases h with h | h
   · exact Or.inl (CFSG.LocalAnalysis.RankFourTheoremC.isMulCommutative_sylow_of_mulEquiv e h)
   · exact Or.inr (by rwa [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e])
@@ -48,11 +48,11 @@ theorem AbelOrRankFour.of_sylowTorus {m : ℕ}
   rw [isMulCommutative_iff]
   intro a b
   exact Subtype.ext
-    (CFSG.HardMathSupport.Timmesfeld.CrossChar.mul_comm_of_sylowTorus h S.isPGroup' a.2 b.2)
+    (CFSG.HardMathSupport.Timmesfeld.CrossChar.mul_comm_of_sylowTorus h S.isPGroup a.2 b.2)
 
 theorem orderOf_natCast_dvd_pred {p n : ℕ} (hp : p.Prime) (hn : ¬ p ∣ n) :
     orderOf ((n : ℕ) : ZMod p) ∣ p - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (n : ZMod p) ≠ 0 := fun h => hn ((ZMod.natCast_eq_zero_iff n p).1 h)
   exact ZMod.orderOf_dvd_card_sub_one hq0
 

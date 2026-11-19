@@ -18,7 +18,7 @@ theorem exists_maximal_two_subgroup {G : Type} [Group G] [Finite G] (X P : Subgr
       ∀ Q : Subgroup G, Q ≤ X → IsPGroup 2 Q → T ≤ Q → Q = T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (IsPGroup.comap_subtype hP (K := X)).exists_le_sylow
-  refine ⟨(Q : Subgroup ↥X).map X.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+  refine ⟨(Q : Subgroup ↥X).map X.subtype, ?_, Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩
   · intro x hx
     exact ⟨⟨x, hPX hx⟩, hQ hx, rfl⟩
   · intro Q' hQ'X hQ'p hle

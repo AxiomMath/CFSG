@@ -23,7 +23,7 @@ private theorem isCoatom_subgroupOf_of_isMaximalIn {Γ : Type} [Group Γ] {V M :
     exact Subgroup.mem_subgroupOf.mp hmem
   · intro K hKne hMK
     by_contra hKM
-    obtain ⟨k, hkK, hkM⟩ := SetLike.not_le_iff_exists.mp hKM
+    obtain ⟨k, hkK, hkM⟩ := IsConcreteLE.not_le_iff_exists.mp hKM
     let N : Subgroup Γ := K.map V.subtype
     have hNV : N ≤ V := by
       rintro x ⟨y, -, rfl⟩
@@ -51,7 +51,7 @@ theorem y54_S_le_N {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
 
 theorem y54_card_S {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     Nat.card ↥s.fr.S = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSN : s.fr.S ≤ normIn L s.fr.F := y54_S_le_N hH
   have hNL : normIn L s.fr.F ≤ L := inf_le_left
   have hodd : ¬ 2 ∣ s.fr.S.relIndex (normIn L s.fr.F) := by
@@ -88,12 +88,12 @@ theorem y54_card_NS {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
 
 theorem y54_card_B {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     Nat.card ↥s.fr.B = 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmax : IsMaximalIn s.fr.S s.fr.B := hH.hLF.fact14.2.2.1.2.2.1
   have hBS : s.fr.B ≤ s.fr.S := s3_B_le_S s
   have hcoatom : IsCoatom (s.fr.B.subgroupOf s.fr.S) :=
     isCoatom_subgroupOf_of_isMaximalIn hmax
-  haveI : Group.IsNilpotent ↥(s.fr.S) := (s3_isPGroup_S s).isNilpotent
+  have : Group.IsNilpotent ↥(s.fr.S) := (s3_isPGroup_S s).isNilpotent
   have hidx : s.fr.B.relIndex s.fr.S = 2 :=
     (IsPGroup.isCoatom_iff_index_eq_prime (p := 2) (s3_isPGroup_S s)).mp hcoatom
   have hcard := Subgroup.relIndex_mul_card (H := s.fr.B) (K := s.fr.S)

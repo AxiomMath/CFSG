@@ -36,7 +36,7 @@ theorem card_le_four
     Q B hB e hmap (fun b => heven b.val.val) hmax (by
       intro b q
       exact (Subgroup.mem_centralizer_iff.mp (hcentral b.property) q.val q.property).symm) hfree
-  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup.map _
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQp
   by_cases hkle : k ≤ 2
   · interval_cases k <;> norm_num [hk]

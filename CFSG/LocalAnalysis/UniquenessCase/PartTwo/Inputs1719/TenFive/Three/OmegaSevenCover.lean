@@ -23,20 +23,20 @@ variable {W : Type} [CommGroup W] [Finite W]
 private theorem omSevenX_four_le_mParam_of_quot_aut {Y L : Subgroup (MulAut W)}
     (hLY : L ≤ Y) (hLn : (L.subgroupOf Y).Normal) (hF : Fstar Y = L)
     (hLq : CFSG.IsQuasisimple ↥L) (hO2 : O2Trivial L)
-    (h : ∀ (t : MulAut W) (htY : t ∈ Y) (ht : orderOf t = 2)
+    (h : ∀ (t : MulAut W) (_htY : t ∈ Y) (_ht : orderOf t = 2)
       (σ : MulAut ↥L) (σ' : MulAut (↥L ⧸ center ↥L))
       (_hσ : ∀ l : ↥L, ((σ l : ↥L) : MulAut W) = t * l * t⁻¹)
       (_hσ' : ∀ l : ↥L, σ' (l : ↥L ⧸ center ↥L) = ((σ l : ↥L) : ↥L ⧸ center ↥L))
       (_hord : orderOf σ' = 2), 4 ≤ rkIdx (fixV (zpowers t))) :
     4 ≤ E3.mParam Y := by
   have hY : ∃ t ∈ Y, orderOf t = 2 := by
-    obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2
+    obtain ⟨t, _ht⟩ := exists_prime_orderOf_dvd_card' 2
       ((E6.two_dvd_card_of_isQuasisimple hLq).trans (Subgroup.card_dvd_of_le hLY))
-    exact ⟨t, t.2, (Subgroup.orderOf_coe t).trans ht⟩
+    exact ⟨t, t.2, (Subgroup.orderOf_coe t).trans _ht⟩
   refine SevenFour.le_mParam_of_forall hY ?_
-  intro t htY ht
-  obtain ⟨σ, σ', hσ, hσ', hord⟩ := exists_quotAut_of_involution hLY hLn hF hLq hO2 htY ht
-  exact h t htY ht σ σ' hσ hσ' hord
+  intro t _htY _ht
+  obtain ⟨σ, σ', hσ, hσ', hord⟩ := exists_quotAut_of_involution hLY hLn hF hLq hO2 _htY _ht
+  exact h t _htY _ht σ σ' hσ hσ' hord
 
 theorem omegaSevenCover_of_data (hD : OmegaSevenInvolData) : OmegaSevenCover := by
   intro W _ _ hW Y L hLY hLn hF hLq hO2 hmodel hZ3

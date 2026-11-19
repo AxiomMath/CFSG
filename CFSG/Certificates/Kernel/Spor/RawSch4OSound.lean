@@ -156,7 +156,7 @@ theorem sift_of_mem_PS {n w BP E lo : Nat} {LR TR TRI : Nat → Nat} (hsz : szOK
       exact ht l hlo (by omega) a ha hbl
     rw [siftK_succ]
     simp only [strictB_eq, bIf_eq]
-    rw [ept, hq l (by omega) a ha, if_pos (Nat.blt_eq.mpr ha)]
+    rw [ept, hq l (by omega) a ha, ite_eq_left (Nat.blt_eq.mpr ha)]
     have hG' := prep_pcomp hn (prep_pp hpa).2 hG
     simp only [tp, inv_mul_cancel_left] at hG'
     exact ih (l + 1) (by omega) (by omega) _ v hG' (PF.pcomp_shr _ _ hn hw0) hv
@@ -254,7 +254,7 @@ theorem gens_mem {n w kS kO nb BP TS : Nat} {S SI : Nat → Nat} {D : List (List
       apply Submonoid.subset_closure
       refine ⟨a, ha, ?_⟩
       unfold lp
-      rw [Nat.eq_of_beq_eq_true e, if_pos hj]
+      rw [Nat.eq_of_beq_eq_true e, ite_eq_left hj]
     · have := allN_iff.1 hder j hj
       rw [bIf_eq, ite_eq_right (by rw [blt_dec]; simpa using hjk), strictB_eq, Bool.and_eq_true,
         beq_dec, decide_eq_true_iff] at this

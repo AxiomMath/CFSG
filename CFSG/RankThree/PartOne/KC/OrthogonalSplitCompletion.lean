@@ -57,6 +57,7 @@ theorem activeCoords_mono {S T : Finset (Fin (n - 1))} (hST : S ⊆ T) :
         (Finset.mem_image.mpr ⟨k, hST hkS, rfl⟩))
   · exact Finset.mem_union_right _ hP
 
+omit [Finite F] [CharP F 2] in
 theorem anchoredSupport_mono {S T : Finset (Fin (n - 1))} (hST : S ⊆ T) :
     anchoredSupport F n S ≤ anchoredSupport F n T := by
   intro v hv
@@ -430,10 +431,10 @@ theorem existsUnique_levi_completion_of_coherent_charts_five (hcard : 2 < Nat.ca
     · subst hJB
       by_cases hIB : I = ({0, 2} : Finset (Fin 4))
       · subst hIB
-        simp only [Ψ, dif_pos rfl, MonoidHom.comp_apply]
+        simp only [Ψ, dite_eq_left rfl, MonoidHom.comp_apply]
         congr 1
         exact Subtype.ext hxy
-      · simp only [Ψ, dif_neg hIB, dif_pos rfl, MonoidHom.comp_apply]
+      · simp only [Ψ, dite_eq_right hIB, dite_eq_left rfl, MonoidHom.comp_apply]
         rcases subset_zero_two hIJ' hIB with rfl | rfl | rfl
         · have hx1 : x = 1 := by
             have hx : (x : spinGroup (quadMinus 5 F b c)) ∈
@@ -466,7 +467,7 @@ theorem existsUnique_levi_completion_of_coherent_charts_five (hcard : 2 < Nat.ca
     · have hIB : I ≠ ({0, 2} : Finset (Fin 4)) := by
         rintro rfl
         exact hJB (eq_zero_two_of_subset hJ hIJ')
-      simp only [Ψ, dif_neg hIB, dif_neg hJB, MonoidHom.comp_apply]
+      simp only [Ψ, dite_eq_right hIB, dite_eq_right hJB, MonoidHom.comp_apply]
       have hsub : Subgroup.inclusion (chartSubgroup_mono (n := 5) (F := F) (b := b) (c := c) hirr
           (totalCoords_mono (n := 5) hIJ'))
           (leviLocalOmega (n := 5) (F := F) (b := b) (c := c) hirr hcard hn4 ⟨I, hI⟩ x) =
@@ -489,7 +490,7 @@ theorem existsUnique_levi_completion_of_coherent_charts_five (hcard : 2 < Nat.ca
       intro h
       exact hJ (h ▸ totalCoords_five_zero_two)
     rw [hFhom J x]
-    simp only [Ψ, dif_neg hJB, MonoidHom.comp_apply]
+    simp only [Ψ, dite_eq_right hJB, MonoidHom.comp_apply]
   refine ⟨Fhom.comp eΩ.symm.toMonoidHom, ?_, ?_⟩
   · intro J hJ x
     change Fhom (eΩ.symm (eΩ x)) = _
@@ -571,6 +572,7 @@ theorem existsUnique_levi_completion_of_coherent_charts_of_three_le (r : ℕ) (h
     exact existsUnique_levi_completion_of_coherent_charts_five hirr hcard φ hφ
       (hdisj.resolve_left hr4)
 
+omit [Finite F] [CharP F 2] in
 theorem quadMinus_eq_binaryForm_add_minusPlaneCoordinates (r : ℕ)
     (v : Vm (r + 2) F) :
     quadMinus (r + 2) F b c v =
@@ -579,6 +581,7 @@ theorem quadMinus_eq_binaryForm_add_minusPlaneCoordinates (r : ℕ)
   simp only [minusPlaneCoordinates_apply, quadMinus_apply, binaryForm_apply, hypPlane_apply]
   ring_nf
 
+omit [Finite F] [CharP F 2] in
 theorem hypPlane_polarBilin_nondegenerate :
     (polarBilin (hypPlane F)).Nondegenerate := by
   refine nondegenerate_polarBilin_of_forall (Q := hypPlane F) fun p hp => ?_
@@ -616,13 +619,13 @@ private noncomputable def coordPlaneIsometry
       (LinearMap.single F (fun _ : Fin (r + 1) => F × F) i)
   { toLinearEquiv :=
     { toFun := fun z => ⟨ψ.symm (L z), by
-        have hL : L z = (0, Pi.single i z) := by simp [L, LinearMap.single_apply]
+        have hL : L z = (0, Pi.single i z) := by simp [L]
         rw [hL]
         exact mem_coordPlane.mpr ⟨z, rfl⟩⟩
       invFun := fun x => (ψ (x : Vm (r + 2) F)).2 i
       left_inv := by
         intro z
-        simp [L, LinearMap.single_apply]
+        simp [L]
       right_inv := by
         intro x
         apply Subtype.ext
@@ -630,12 +633,12 @@ private noncomputable def coordPlaneIsometry
         change ψ.symm (L ((ψ (x : Vm (r + 2) F)).2 i)) = (x : Vm (r + 2) F)
         have hLx : L ((ψ (x : Vm (r + 2) F)).2 i) =
             (0, Pi.single i ((ψ (x : Vm (r + 2) F)).2 i)) := by
-          simp [L, LinearMap.single_apply]
+          simp [L]
         rw [hLx]
         have hpsi : ψ (x : Vm (r + 2) F) = (0, Pi.single i z) := by
           rw [← hz, LinearEquiv.apply_symm_apply]
         rw [hpsi]
-        simp only [Prod.snd, Pi.single_eq_same]
+        simp only [Pi.single_eq_same]
         exact hz
       map_add' := by
         intro x y
@@ -650,7 +653,7 @@ private noncomputable def coordPlaneIsometry
     map_app' := by
       intro z
       change quadMinus (r + 2) F b c (ψ.symm (L z)) = hypPlane F z
-      have hL : L z = (0, Pi.single i z) := by simp [L, LinearMap.single_apply]
+      have hL : L z = (0, Pi.single i z) := by simp [L]
       rw [hL, hψ]
       simp only [LinearEquiv.apply_symm_apply]
       have hsum : (∑ t, hypPlane F ((Pi.single i z : Fin (r + 1) → F × F) t)) =
@@ -677,6 +680,7 @@ private theorem map_subgroupOfEquivOfLe_symm
       exact hx'
     · rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem coordAnchor_anisotropic_and_notPlus
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (ψ : Vm (r + 2) F ≃ₗ[F] (Fin 2 → F) × (Fin (r + 1) → F × F))
@@ -1016,7 +1020,7 @@ private theorem map_conj_mulAut_normalizes
   have hcomp : ((e.symm.trans b0).trans e).toMonoidHom.comp e.toMonoidHom =
       e.toMonoidHom.comp b0.toMonoidHom := by
     ext x
-    simp [MulEquiv.trans_apply]
+    simp
   calc
     (H.map e.toMonoidHom).map ((e.symm.trans b0).trans e).toMonoidHom
         = H.map (((e.symm.trans b0).trans e).toMonoidHom.comp e.toMonoidHom) :=
@@ -1427,8 +1431,7 @@ theorem exists_calibrated_deletion_chart_of_marked_supports_of_three_le
   have huO : u ∉ D0 ∩ Du := by simp [deletionPlanes, Ne.symm h0u]
   have hOeq : (D0 ∩ Du) = (Finset.univ.erase u).erase 0 := by
     ext x
-    simp only [deletionPlanes, Finset.mem_inter, Finset.mem_erase, Finset.mem_univ,
-      true_and]
+    simp only [deletionPlanes, Finset.mem_inter, Finset.mem_erase, Finset.mem_univ]
     tauto
   have hDu_eq : Du = insert 0 (D0 ∩ Du) := by
     rw [hOeq, Finset.insert_erase h0Du]
@@ -1645,8 +1648,7 @@ theorem exists_calibrated_deletion_chart_of_marked_supports_of_three_le
         change Q (((K159.supEquiv A0 E hdisj) (x, y) : A0E) : Vm (r + 2) F) =
           (Q.comp A0.subtype) x + (Q.comp E.subtype) y
         rw [K159.supEquiv_apply]
-        simp only [QuadraticMap.comp_apply, QuadraticMap.prod_apply,
-          Submodule.subtype_apply]
+        simp only [QuadraticMap.comp_apply, Submodule.subtype_apply]
         rw [QuadraticMap.map_add (⇑Q) _ _, horth x x.2 y y.2, add_zero] }
   have hJ_apply : ∀ (x : A0) (y : E),
       (J (x, y) : Vm (r + 2) F) = (x : Vm (r + 2) F) + (y : Vm (r + 2) F) := by
@@ -1702,8 +1704,6 @@ theorem exists_calibrated_deletion_chart_of_marked_supports_of_three_le
     change eK (incl g) = iOK (eO g)
     apply Subtype.ext
     apply Subtype.ext
-    change (((eK (incl g) : C Du) : orthDerived Q) : Vm (r + 2) F ≃ₗ[F] Vm (r + 2) F) =
-      (((iOK (eO g) : C Du) : orthDerived Q) : Vm (r + 2) F ≃ₗ[F] Vm (r + 2) F)
     change ((sS Du ((CFSG.RankThree.PartOne.orthDerivedEquiv J) (incl g)) : C Du) :
         Vm (r + 2) F ≃ₗ[F] Vm (r + 2) F) =
       ((sS O g : C O) : Vm (r + 2) F ≃ₗ[F] Vm (r + 2) F)
@@ -2008,7 +2008,7 @@ theorem conj_splitMinusRhoOfTwoLe_mem_nodeOmega_two (r : ℕ) (hr : 3 ≤ r)
     rintro g (⟨x, rfl⟩ | ⟨x, rfl⟩)
     · rw [MonoidHom.comp_apply, CFSG.ClassicalInvolution.WeakCT.rLong_tv01,
         CFSG.ClassicalInvolution.WeakCT.rLong_tv01, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply]
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       have h := (minusFrame (r + 2) b c).conj_longRoot w (succ_ne_of_lt (r + 2) hk0) true false
         (succ_ne_of_lt (r + 2) hk2) true false (hvec _ true |>.trans (by rw [h0]))
         (hvec _ false |>.trans (by rw [show σ ⟨(⟨0, by omega⟩ : Fin (r + 1)).val + 1, hk0⟩ =
@@ -2016,7 +2016,7 @@ theorem conj_splitMinusRhoOfTwoLe_mem_nodeOmega_two (r : ℕ) (hr : 3 ≤ r)
       rw [h, one_mul, one_mul]
     · rw [MonoidHom.comp_apply, CFSG.ClassicalInvolution.WeakCT.rLong_tv10,
         CFSG.ClassicalInvolution.WeakCT.rLong_tv10, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply]
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       have h := (minusFrame (r + 2) b c).conj_longRoot w (succ_ne_of_lt (r + 2) hk0).symm true
         false (succ_ne_of_lt (r + 2) hk2).symm true false
         (hvec _ true |>.trans (by rw [show σ ⟨(⟨0, by omega⟩ : Fin (r + 1)).val + 1, hk0⟩ =
@@ -2030,7 +2030,7 @@ theorem conj_splitMinusRhoOfTwoLe_mem_nodeOmega_two (r : ℕ) (hr : 3 ≤ r)
   have hmem : w * CFSG.ClassicalInvolution.WeakCT.rLong (r + 2) b c hk0 A * w⁻¹ ∈
       rankOne (minusDatum (r + 2) hirr).rootGroup (⟨2, by omega⟩ : Fin (r + 1)) := by
     have h := congrArg (fun f : SL(2, F) →* spinGroup (quadMinus (r + 2) F b c) => f A) hconj
-    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply] at h
     rw [h]
     exact (congrArg (fun H : Subgroup (spinGroup (quadMinus (r + 2) F b c)) =>
@@ -2432,7 +2432,7 @@ theorem existsUnique_extends_deletion_and_permutation_of_three_le
       · exact absurd (hxk ▸ hkS) hx
       · by_cases hxs : x = Fin.succ i
         · exact absurd (hxs ▸ hsuccS) hx
-        · rw [if_neg hxk, if_neg hxs]
+        · rw [ite_eq_right hxk, ite_eq_right hxs]
     have hmemS : ρ (Equiv.swap k (Fin.succ i)) ∈ B S := by
       change splitMinusRhoOfTwoLe (r := r) (F := F) (b := b) (c := c) hirr (by omega)
         (Equiv.swap k (Fin.succ i)) ∈

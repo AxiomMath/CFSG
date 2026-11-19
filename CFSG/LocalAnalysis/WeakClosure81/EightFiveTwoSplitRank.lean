@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rk_subgroupOf_eq {V H : Subgroup G} (hVH : V ≤ H) : rk ↥(V.subgroupOf H) = rk ↥V := by
   unfold rk
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVH).toEquiv]

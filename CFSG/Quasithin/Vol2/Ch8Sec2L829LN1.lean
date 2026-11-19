@@ -18,8 +18,8 @@ private theorem cf_of_cover {X Y : Type} [Group X] [Group Y] (f : X →* Y) {L :
     (hNs : N.IsSubnormal) (hMs : M.IsSubnormal)
     (hs : IsSimpleGroup (M ⧸ N.subgroupOf M)) (e : (M ⧸ N.subgroupOf M) ≃* L)
     (hcov : ∀ m ∈ M, ∃ x : X, ∃ n ∈ N, f x * n = m) : E1.IsCompositionFactor X L := by
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   let g : ↥(M.comap f) →* ↥M :=
     (f.comp (M.comap f).subtype).codRestrict M (fun x => Subgroup.mem_comap.mp x.2)
   let Φ : ↥(M.comap f) →* ↥M ⧸ N.subgroupOf M := (QuotientGroup.mk' (N.subgroupOf M)).comp g
@@ -45,7 +45,7 @@ private theorem cf_of_cover {X Y : Type} [Group X] [Group Y] (f : X →* Y) {L :
       group
     rw [hΦ, QuotientGroup.mk'_apply, QuotientGroup.eq, Subgroup.mem_subgroupOf, key]
     exact hn
-  haveI hKn : ((N.comap f).subgroupOf (M.comap f)).Normal := by
+  have hKn : ((N.comap f).subgroupOf (M.comap f)).Normal := by
     rw [← hker]
     infer_instance
   let Ψ : (↥(M.comap f) ⧸ (N.comap f).subgroupOf (M.comap f)) ≃* (↥M ⧸ N.subgroupOf M) :=
@@ -75,11 +75,11 @@ private theorem cf_push {X Y : Type} [Group X] [Group Y] (f : X →* Y)
     (hN : (N.subgroupOf M).Normal) (hNs : N.IsSubnormal) (hMs : M.IsSubnormal)
     (hs : IsSimpleGroup (M ⧸ N.subgroupOf M)) (e : (M ⧸ N.subgroupOf M) ≃* L)
     (hker : ∀ m ∈ M, f m ∈ N.map f → m ∈ N) : E1.IsCompositionFactor Y L := by
-  haveI := hN
-  haveI := hs
+  have := hN
+  have := hs
   have hnorm : ((N.map f).subgroupOf (M.map f)).Normal :=
     normal_map_subgroupOf_aux f M N hNM hN
-  haveI := hnorm
+  have := hnorm
   let g : ↥M →* ↥(M.map f) :=
     (f.comp M.subtype).codRestrict (M.map f) (fun m => Subgroup.mem_map_of_mem f m.2)
   let Θ : ↥M →* ↥(M.map f) ⧸ (N.map f).subgroupOf (M.map f) :=
@@ -129,7 +129,7 @@ theorem isCompositionFactor_congr {X Y : Type} [Group X] [Group Y] (e : X ≃* Y
 theorem isCompositionFactor_of_subnormal_surjection {X : Type} [Group X] {A : Subgroup X}
     (hA : A.IsSubnormal) {L : Type} [Group L] (hL : IsSimpleGroup L) (ψ : ↥A →* L)
     (hψ : Function.Surjective ψ) : E1.IsCompositionFactor X L := by
-  haveI := hL
+  have := hL
   have hkey : (ψ.ker.map A.subtype).subgroupOf A = ψ.ker := by
     ext x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_map]
@@ -139,7 +139,7 @@ theorem isCompositionFactor_of_subnormal_surjection {X : Type} [Group X] {A : Su
       exact hxy ▸ hy
     · intro hx
       exact ⟨x, hx, rfl⟩
-  haveI hkn : ((ψ.ker.map A.subtype).subgroupOf A).Normal := by
+  have hkn : ((ψ.ker.map A.subtype).subgroupOf A).Normal := by
     rw [hkey]
     infer_instance
   have hNA : ψ.ker.map A.subtype ≤ A := Subgroup.map_subtype_le ψ.ker
@@ -156,7 +156,7 @@ theorem isCompositionFactor_of_subnormal_surjection {X : Type} [Group X] {A : Su
 private theorem not_cf_of_subsingleton {X : Type} [Group X] (hX : ∀ x : X, x = 1) {L : Type}
     [Group L] (h : E1.IsCompositionFactor X L) : False := by
   obtain ⟨N, M, hN, hNM, hNs, hMs, hs, ⟨e⟩⟩ := h
-  haveI := hs
+  have := hs
   obtain ⟨a, ha⟩ := exists_ne (1 : ↥M ⧸ N.subgroupOf M)
   obtain ⟨x, hx⟩ := QuotientGroup.mk'_surjective (N.subgroupOf M) a
   subst hx
@@ -170,7 +170,7 @@ theorem isCompositionFactor_of_sup_eq_top {X : Type} [Group X] (A B : Subgroup X
     E1.IsCompositionFactor ↥A L ∨ E1.IsCompositionFactor ↥B L := by
   classical
   obtain ⟨N, M, hN, hNM, hNs, hMs, hs, ⟨e⟩⟩ := h
-  haveI := hs
+  have := hs
   by_cases hK : (M ⊓ A) ⊔ N = M
   ·
     left
@@ -186,7 +186,7 @@ theorem isCompositionFactor_of_sup_eq_top {X : Type} [Group X] (A B : Subgroup X
   ·
     right
     have hle : M ⊓ A ≤ N := by
-      haveI : ((A.subgroupOf M ⊔ N.subgroupOf M).map
+      have : ((A.subgroupOf M ⊔ N.subgroupOf M).map
           (QuotientGroup.mk' (N.subgroupOf M))).Normal :=
         Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
       rcases Subgroup.Normal.eq_bot_or_eq_top
@@ -269,7 +269,7 @@ private theorem normal_finset_sup_aux {X : Type} [Group X] (𝒮 : Finset (Subgr
   | insert a s ha ih =>
     have ha' : a.Normal := h a (Finset.mem_insert_self a s)
     have hs : ∀ N ∈ s, N.Normal := fun N hN => h N (Finset.mem_insert_of_mem hN)
-    haveI := ih hs
+    have := ih hs
     simp only [Finset.sup_insert, id_eq]
     exact Subgroup.sup_normal a (s.sup id)
 
@@ -299,12 +299,12 @@ private theorem finset_sup_cf_aux (n : ℕ) :
     intro X _ 𝒩 hcard hN hsup L _ hcf
     by_cases hne : 𝒩.Nonempty
     · obtain ⟨N₀, hN₀⟩ := hne
-      haveI : N₀.Normal := hN N₀ hN₀
+      have : N₀.Normal := hN N₀ hN₀
       have hsplit : 𝒩 = insert N₀ (𝒩.erase N₀) := (Finset.insert_erase hN₀).symm
       have hsup2 : N₀ ⊔ (𝒩.erase N₀).sup id = ⊤ := by
         rw [hsplit, Finset.sup_insert] at hsup
         exact hsup
-      haveI : ((𝒩.erase N₀).sup id).Normal :=
+      have : ((𝒩.erase N₀).sup id).Normal :=
         normal_finset_sup_aux (𝒩.erase N₀) (fun N hN' => hN N (Finset.mem_of_mem_erase hN'))
       rcases isCompositionFactor_of_sup_eq_top N₀ ((𝒩.erase N₀).sup id) hsup2 hcf with
         h₀ | hB
@@ -321,7 +321,7 @@ private theorem finset_sup_cf_aux (n : ℕ) :
             (fun N => N.subgroupOf ((𝒩.erase N₀).sup id)), T.Normal := by
           intro T hT
           obtain ⟨N, hN', rfl⟩ := Finset.mem_image.mp hT
-          haveI := hN N (Finset.mem_of_mem_erase hN')
+          have := hN N (Finset.mem_of_mem_erase hN')
           infer_instance
         have hsup' : ((𝒩.erase N₀).image
             (fun N => N.subgroupOf ((𝒩.erase N₀).sup id))).sup id = ⊤ := by

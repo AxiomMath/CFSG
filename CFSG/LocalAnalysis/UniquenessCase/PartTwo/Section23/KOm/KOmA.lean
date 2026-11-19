@@ -23,9 +23,9 @@ theorem kOmA_holds : KOmA := by
   by_contra hE1
   obtain ⟨K, hKfield, hKfin, hKchar, b, c, hKcard, hirr, e, -, hT, -⟩ :=
     KOm.exists_minusCoords hF
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   classical
   set Y : Subgroup (GL ιM K) :=
     KOm.isoFix (StatedQuadMinus 2 K b c) (KTabC.e1M K) ⊓

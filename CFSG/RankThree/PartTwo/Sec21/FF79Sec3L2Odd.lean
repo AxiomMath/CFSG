@@ -17,16 +17,16 @@ theorem exists_normal_complement_of_central {H : Type} [Group H] [Finite H] (P :
     (hP : Subgroup.normalizer (P : Set H) ≤ Subgroup.centralizer (P : Set H)) :
     ∃ X : Subgroup H, X.Normal ∧ Nat.card H = Nat.card X * Nat.card P ∧ ¬ 3 ∣ Nat.card X ∧
       ∀ h : H, Nat.Coprime (orderOf h) 3 → h ∈ X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc := MonoidHom.ker_transferSylow_isComplement' P hP
   refine ⟨(MonoidHom.transferSylow P hP).ker, inferInstance, ?_,
     MonoidHom.not_dvd_card_ker_transferSylow P hP, ?_⟩
-  · rw [← hc.card_mul]
+  · rw [← hc.card_mul_card]
   · intro h hh
     set f := MonoidHom.transferSylow P hP
     have h1 : orderOf (f h) ∣ orderOf h := orderOf_map_dvd f h
     have h2 : orderOf (f h) ∣ Nat.card P := orderOf_dvd_natCard (f h)
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have h3 : Nat.Coprime (orderOf (f h)) (3 ^ n) :=
       Nat.Coprime.pow_right n (Nat.Coprime.coprime_dvd_left h1 hh)
     rw [hn] at h2
@@ -65,7 +65,7 @@ theorem odd_card_cenS_of_rank {G : Type} [Group G] [Finite G] {b : G} {B A : Sub
     (hB : IsSylowOf 3 B (Cen b)) (hbB : b ∈ B) (hab : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hA : IsElemAb 3 4 A) (hAB : A ≤ Nor B) (hr : localRank 3 G ≤ 3) :
     Odd (Nat.card (CenS B)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup G := CenS B with hH
   have hBH : B ≤ H := fun x hx => Subgroup.mem_centralizer_iff.mpr fun y hy => (hab y hy x hx)
   have hHb : H ≤ Cen b := fun x hx =>
@@ -124,7 +124,7 @@ theorem odd_card_cenS_of_rank {G : Type} [Group G] [Finite G] {b : G} {B A : Sub
   have h2X : ¬ 2 ∣ Nat.card X := by
     intro h2
     have h2' : 2 ∣ Nat.card Xg := by rw [hcardXg]; exact h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hA3 : IsPGroup 3 A := IsPGroup.of_card (n := 4) hA.2
     have h3Xg : ¬ 3 ∣ Nat.card Xg := by rw [hcardXg]; exact h3X
     obtain ⟨S, hS, -, hAS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
@@ -135,7 +135,7 @@ theorem odd_card_cenS_of_rank {G : Type} [Group G] [Finite G] {b : G} {B A : Sub
           rw [(Subgroup.mem_bot).mp hy]; simp))
     have hSne : S ≠ ⊥ := by
       intro hSb
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Xg) 2 h2'
       have hxo : orderOf (x : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hx
       have hZ : Subgroup.zpowers (x : G) ≤ Xg := Subgroup.zpowers_le.mpr x.2
@@ -151,7 +151,7 @@ theorem odd_card_cenS_of_rank {G : Type} [Group G] [Finite G] {b : G} {B A : Sub
     have := four_le_localRank hSne hS.2.1 hA hAS
     omega
   have hoddX : Odd (Nat.card X) := Nat.odd_iff.mpr (by omega)
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have : Nat.card H = Nat.card X * 3 ^ n := by rw [hcard]; congr 1
   rw [this]
   exact hoddX.mul (Odd.pow (by decide))

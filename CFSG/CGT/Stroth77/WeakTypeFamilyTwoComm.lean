@@ -121,6 +121,7 @@ private theorem weak_e_commutator_rho_ofInt (dD : StrothWeakTypeData D τ)
     abel]
   rw [hy, weak_phi_rho_sq_sub_ofInt hrel v]
 
+omit [Finite G] in
 private theorem weak_rho_commutator_mem_closure (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 2 = τ.n)
     {x : G} (hx : x ∈ omegaIn 1 D) :
@@ -223,6 +224,7 @@ private theorem weak_rho_commutator_mem_closure (dD : StrothWeakTypeData D τ)
       (H.zpow_mem (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))) q)
   exact hmem
 
+omit [Finite G] in
 private theorem weak_commutator_zpowers_rho_le (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 2 = τ.n) :
     ⁅Subgroup.zpowers (dD.ρ : G), omegaIn 1 D⁆ ≤
@@ -387,6 +389,7 @@ private theorem weak_rho_commutator_ab_pow (dD : StrothWeakTypeData D τ)
   rw [← hval, hEqD]
   rfl
 
+omit [Finite G] in
 private theorem weak_omegaIn_pow (hrel : τ.m + 2 = τ.n) {x : D} (hx : orderOf x = 2 ^ τ.n) :
     (x : G) ^ (2 ^ (τ.m + 1)) ∈ omegaIn 1 D := by
   refine mem_omegaIn_one_of_mul_self (D.pow_mem x.2 _) ?_
@@ -397,11 +400,13 @@ private theorem weak_omegaIn_pow (hrel : τ.m + 2 = τ.n) {x : D} (hx : orderOf 
   rw [← hrel]
   ring
 
+omit [Finite G] in
 private theorem weak_omegaIn_ab_pow (dD : StrothWeakTypeData D τ) (hrel : τ.m + 2 = τ.n) :
     ((dD.a : G) ^ (2 ^ (τ.m + 1)) *
       (dD.b : G) ^ (2 ^ (τ.m + 1))) ∈ omegaIn 1 D :=
   (omegaIn 1 D).mul_mem (weak_omegaIn_pow hrel dD.orderOf_a) (weak_omegaIn_pow hrel dD.orderOf_b)
 
+omit [Finite G] in
 private theorem weak_commutator_zpowers_rho_ge (dD : StrothWeakTypeData D τ)
     (hrel : τ.m + 2 = τ.n) :
     Subgroup.closure ({(dD.a : G) ^ (2 ^ (τ.m + 1)),

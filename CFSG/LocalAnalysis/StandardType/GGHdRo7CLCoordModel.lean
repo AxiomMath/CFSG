@@ -83,7 +83,7 @@ private theorem hdRo7CLCoordAux_coordModel_core_of_innerDiag
   have hx0 : x ∈ Bs := hH.1.tableB_facts.2.2.1
   obtain ⟨R, hRgrp, I, θ, hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩ :=
     hdRo7CLCoordAux_torus_data_of_innerDiag p Bs L hM
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   have hZL : Subgroup.center ↥L = ⊥ :=
     hdRo7CLCoordAux_center_L_eq_bot_of_innerDiag p Bs L hM
   have hinner := hdRo7CLCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZL hBsN hBs3

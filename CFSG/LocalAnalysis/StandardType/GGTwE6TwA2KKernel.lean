@@ -154,9 +154,9 @@ theorem kernelRoots_eq_of_orbit_three
     {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup Tag.E6 L p₀)
     (h3 : ((3 : ℕ) : L) ≠ 0) {a : Fin Tag.E6.rank → Lˣ}
     (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus) (hap : ∀ j, a j ^ 3 = 1)
-    (h1 : rootDiagUnit Tag.E6 a ≠ 1) (i : KernelComponent (rootCharHom a))
+    (_h1 : rootDiagUnit Tag.E6 a ≠ 1) (i : KernelComponent (rootCharHom a))
     (hs3 : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 3)
-    (h6 : (componentRoots (rootCharHom a) i).ncard = 6) :
+    (_h6 : (componentRoots (rootCharHom a) i).ncard = 6) :
     (kernelRoots (rootCharHom a)).ncard = 18 ∧
       kernelRoots (rootCharHom a) =
         componentRoots (rootCharHom a) i ∪ (S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ)) '' componentRoots (rootCharHom a) i ∪ (S.ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))^[2] '' componentRoots (rootCharHom a) i := by
@@ -340,7 +340,7 @@ theorem encard_trivialOn_kernelRoots_le_three
       have h := congrArg (fun x => w • x) hγeq
       rw [smul_inv_smul] at h
       simpa [v] using h
-    rw [Set.mem_setOf_eq] at hγ
+    rw [Set.mem_ofPred_eq] at hγ
     have h1 : γ 3 = 1 := by rw [hγe, Pi.single_eq_same]
     rw [h1] at hγ
     exact absurd hγ.2 (by norm_num)

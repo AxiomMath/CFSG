@@ -68,8 +68,7 @@ private theorem localPermHom_conj (g : H) (z : V)
   ext w
   rw [Equiv.permCongrHom_coe, Equiv.permCongr_apply]
   rw [localPermHom_apply, localPermHom_apply]
-  simp [neighborEquiv, MulAction.stabilizerEquivStabilizer_apply, Equiv.Perm.smul_def,
-    mul_smul, MulAut.conj_apply]
+  simp [neighborEquiv, MulAction.stabilizerEquivStabilizer_apply, mul_smul, MulAut.conj_apply]
 
 private theorem localGroup_smul (g : H) (z : V) :
     localGroup H Γ (g • z) =
@@ -333,7 +332,7 @@ theorem RootFacts.exists_odd_torus [Finite H] {n : ℕ} (hn : 3 ≤ n) {z : V}
   have hFnormal : (F.subgroupOf Gz).Normal := by
     rw [← localPermHom_ker]
     infer_instance
-  haveI := hFnormal
+  have := hFnormal
   obtain ⟨aGz, haGz, kGz, hkGz, hak⟩ := Subgroup.mem_sup_of_normal_right.mp htSub
   let a : H := (aGz : H)
   let k : H := (kGz : H)
@@ -381,12 +380,12 @@ theorem RootFacts.exists_odd_torus [Finite H] {n : ℕ} (hn : 3 ≤ n) {z : V}
     exists_odd_pow_map_eq (localPermHom (H := H) Γ z) aGz hφa_odd
   let b : H := ((aGz ^ m : Gz) : H)
   have hb_eq : b = a ^ m := by
-    simp [b, a, Subgroup.coe_pow]
+    simp [b, a]
   have hbU : b ∈ U ⊔ U' := by
     have h := Subgroup.pow_mem (U ⊔ U') haU m
     simpa [b, a, Subgroup.coe_pow] using h
   have hbzp : a ^ m ∈ Subgroup.zpowers a := by
-    simpa using Subgroup.zpow_mem (Subgroup.zpowers a) (Subgroup.mem_zpowers a) (m : ℤ)
+    simp
   have hbω : b • ω = ω := by
     rw [hb_eq]
     exact smul_eq_self_of_mem_zpowers hbzp haω

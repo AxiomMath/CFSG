@@ -34,17 +34,17 @@ theorem kdLevelFiniteK_all
     (KDSpor.kdLevelFiniteSporK_all hOut hbr hM11 hM13 p)
 
 theorem ys02_of_kdLevelK
-    (h : ∀ p : ℕ, p.Prime → p ≠ 2 → KDLevelK p)
-    (hM : ∀ p : ℕ, p.Prime → p ≠ 2 → ListedMultiplierBound p) (hH : HatOddMultiplierBound) :
+    (h : ∀ _p : ℕ, _p.Prime → _p ≠ 2 → KDLevelK _p)
+    (hM : ∀ _p : ℕ, _p.Prime → _p ≠ 2 → ListedMultiplierBound _p) (hH : HatOddMultiplierBound) :
     YS02 :=
   ys02_of_i1132_i1412
-    (fun G _ _ m hctx p hp => i1132UsedAt_of_kd
+    (fun _G _ _ _m hctx _p hp => i1132UsedAt_of_kd
         HardMathSupport.Timmesfeld.Coordinator.tables112_holds
         HardMathSupport.Timmesfeld.Tables.Census.tableL2_unconditional
         HardMathSupport.Solomon.Coordinator.tables112Types_holds
         HardMathSupport.Solomon.Coordinator.tables112More_holds kd2028S_holds kdSU3_holds
         hctx.1.simple hctx.1.nonabelian hctx.1.kProper hp.1.1 hp.1.2.1)
-    (fun G _ _ m _ p hp => i1412UsedAt_of_kdLevelK hp.1.1 hp.1.2.1 (h p hp.1.1 hp.1.2.1)) hM hH
+    (fun _G _ _ _m _ _p hp => i1412UsedAt_of_kdLevelK hp.1.1 hp.1.2.1 (h _p hp.1.1 hp.1.2.1)) hM hH
 
 theorem ys02_of_m11_m13
     (h11 : KDSporRow .M 11) (h13 : KDSporRow .M 13) : YS02 :=

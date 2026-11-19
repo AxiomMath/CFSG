@@ -18,7 +18,7 @@ private theorem attained_of_model {p : ℕ} (hp : p.Prime) {s : TauCeti.Sporadic
   obtain ⟨i, hi, ⟨e⟩⟩ := hK
   simp only [S8.sporIs] at hi
   subst hi
-  haveI : Finite X := Finite.of_equiv K (b.trans e.symm).symm.toEquiv
+  have : Finite X := Finite.of_equiv K (b.trans e.symm).symm.toEquiv
   obtain ⟨U, hU2, hU1, E, hEN, hEe, hEc⟩ :=
     CFSG.RankThree.PartOne.exists_elemAbelian_of_le_localRank hp hr h
   exact attained_of_mulEquiv (b.trans e.symm)
@@ -83,13 +83,13 @@ theorem witFi24_holds : TwoRankAttained 3 .Fi24Prime 5 := by
   subst hi
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv
   have φ : NativeSporadic.Fi24prime ≃* K := b.trans e.symm
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Fi24.isSimpleGroup_Fi24prime φ.symm
   have hcard : Nat.card K = 1255205709190661721292800 := by
     rw [← Nat.card_congr φ.toEquiv, CFSG.Sporadic.Fi24.card_Fi24prime]
   have hZ : Subgroup.center K = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative fun hc => by
-      haveI := hc
+      have := hc
       have hp := (Group.is_simple_iff_prime_card (α := K)).1 inferInstance
       rw [hcard] at hp
       norm_num at hp

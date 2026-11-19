@@ -102,7 +102,7 @@ theorem u42RankAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : U42Rank
       rw [h1, h2] at this
       exact this
     obtain ⟨hc, hM⟩ := card_hopf_omegaPlus_two hGA hm
-    haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
+    have : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
     have hdiv : Nat.card p.ker ∣ 4 := by
       rw [← hM]
       exact card_ker_dvd_hopfMultiplier p hp hpc
@@ -125,7 +125,7 @@ theorem u42RankAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : U42Rank
       rw [h1, h2] at this
       exact this
     obtain ⟨hc, hM⟩ := card_hopf_u5two hGA hm
-    haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
+    have : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
     have hdiv : Nat.card p.ker ∣ 1 := by
       rw [← hM]
       exact card_ker_dvd_hopfMultiplier p hp hpc
@@ -149,7 +149,7 @@ theorem u42RankAt_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : U42Rank
       rw [h1, h2] at this
       exact this
     obtain ⟨hc, hM⟩ := card_hopf_u6two hGA hm
-    haveI : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
+    have : Group.IsPerfect (Q ⧸ Subgroup.center Q) := Group.isPerfect_def.mpr hc
     obtain ⟨K, hKF, hKfin, hK4, ⟨f⟩⟩ := classical_u6 hm
     refine ⟨fun h3 => ?_, fun hn => ?_⟩
     · rw [← hker_card] at h3

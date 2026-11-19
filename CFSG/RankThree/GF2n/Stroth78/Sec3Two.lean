@@ -34,9 +34,9 @@ theorem pCoreOf_Xsub_le_centerIn (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3
     pCoreOf p (Xsub S a) ≤ centerIn (Xsub S a) := by
   let R : Subgroup (Hbar z) := pCoreOf p (Xsub S a)
   have hRn : R.Normal := pCoreOf_Xsub_normal S a p
-  haveI : R.Normal := hRn
+  have : R.Normal := hRn
   have hOdd : Odd (Nat.card R) := by
-    letI : Fact p.Prime := ⟨hp⟩
+    let : Fact p.Prime := ⟨hp⟩
     obtain ⟨k, hk⟩ := (isPGroup_pCoreOf p (Xsub S a)).exists_card_eq
     rw [hk]
     exact Odd.pow (hp.odd_of_ne_two hp2)
@@ -81,17 +81,17 @@ theorem card_centerIn_Xsub (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S 
   have hCn : (Subgroup.centralizer (Xsub S a : Set (Hbar z))).Normal :=
     Subgroup.normal_centralizer
   have hZn : Z.Normal := by
-    haveI : (Xsub S a).Normal := hXn
-    haveI : (Subgroup.centralizer (Xsub S a : Set (Hbar z))).Normal := hCn
+    have : (Xsub S a).Normal := hXn
+    have : (Subgroup.centralizer (Xsub S a : Set (Hbar z))).Normal := hCn
     change (Xsub S a ⊓ Subgroup.centralizer (Xsub S a : Set (Hbar z))).Normal
     exact Subgroup.normal_inf_normal _ _
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   have hZc : IsMulCommutative ↥Z := ⟨⟨fun x y => Subtype.ext (by
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_centralizer_iff.mp y.2.2 x.val
       ((inf_le_left : Z ≤ Xsub S a) x.2))⟩⟩
-  haveI : IsMulCommutative ↥Z := hZc
-  haveI : Group.IsNilpotent ↥Z := inferInstance
+  have : IsMulCommutative ↥Z := hZc
+  have : Group.IsNilpotent ↥Z := inferInstance
   have hZodd : Odd (Nat.card Z) :=
     CFSG.LocalAnalysis.RankThreeUC.Section5.OddActorSylowFactorization.odd_of_pCore_bot
       (pCore_two_Hbar_eq_bot S) Z
@@ -114,9 +114,9 @@ theorem stroth78_32 (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
       aVec S h.mem_Q ∉ (⨆ y ∈ Y, commSpace (rhoLin S y)) →
       Lbar S a ≤ Subgroup.normalizer (Y : Set (Hbar z)) →
       Rbar S a = ⊥ ∨ Y = ⊥) :
-    (∀ p : ℕ, p.Prime → p ≠ 2 → pCoreOf p (Xsub S a) ≤ centerIn (Xsub S a)) ∧
+    (∀ _p : ℕ, _p.Prime → _p ≠ 2 → pCoreOf _p (Xsub S a) ≤ centerIn (Xsub S a)) ∧
       (Nat.card (centerIn (Xsub S a)) = 1 ∨ Nat.card (centerIn (Xsub S a)) = 3) :=
-  ⟨fun p hp hp2 => pCoreOf_Xsub_le_centerIn S h h217 hp hp2,
+  ⟨fun _p hp hp2 => pCoreOf_Xsub_le_centerIn S h h217 hp hp2,
     card_centerIn_Xsub S h h217⟩
 
 end CFSG.RankThree.GF2n.Stroth78

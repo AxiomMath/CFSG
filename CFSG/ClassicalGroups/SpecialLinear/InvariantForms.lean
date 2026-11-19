@@ -32,12 +32,12 @@ private theorem pairing_basis_eq_zero {K : Type} [Field K] {n : ℕ} (hn : 2 ≤
     by_contra h
     push Not at h
     exact hδ0 (funext h)
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   obtain ⟨k, hkj⟩ := exists_ne j
   obtain ⟨c, hc⟩ : ∃ c : Fin n → K, c = Pi.single k 1 - (δ k / δ j) • Pi.single j 1 :=
     ⟨_, rfl⟩
   have hck : c k = 1 := by
-    simp [hc, Pi.single_apply, hkj]
+    simp [hc, hkj]
   have hδc : δ ⬝ᵥ c = 0 := by
     simp [hc, dotProduct_sub, dotProduct_smul, hj]
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual K (Fin n → K), ∀ z, φ z = δ ⬝ᵥ z :=

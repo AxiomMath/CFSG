@@ -15,7 +15,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 variable (h : Tim79a.ParrottHyp z)
 
-@[expose] def ParrottEqualityBranch (h : Tim79a.ParrottHyp z) : Prop :=
+@[expose] def ParrottEqualityBranch (_h : Tim79a.ParrottHyp z) : Prop :=
   ∃ σ₂ : ↥(H z), orderOf σ₂ = 3 ∧
     qH (z := z) (D := D) σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup) ∧
       centralizerJ (sigma1Nine (z := z) D) = centralizerJ σ₂
@@ -97,7 +97,7 @@ noncomputable def actQFsub (hJ0 : (J0sub (z := z) (D := D)).Normal) :
 
 theorem actQFsub_eq_one (hJ0 : (J0sub (z := z) (D := D)).Normal) :
     actQFsub (z := z) (D := D) h hJ0 = 1 := by
-  haveI : IsSimpleGroup QP45.originalSubgroup := isSimpleGroup_QP45_of_model
+  have : IsSimpleGroup QP45.originalSubgroup := isSimpleGroup_QP45_of_model
   rcases Subgroup.Normal.eq_bot_or_eq_top
     (actQFsub (z := z) (D := D) h hJ0).ker with hbot | htop
   · exfalso
@@ -120,8 +120,8 @@ end ActionOnFsub
 theorem centralizerCentralizerJ_image_eq
     : Cimage h (centralizerJ (sigma1Nine (z := z) D)) =
       commutatorVSubmodule h (sigma1Nine (z := z) D) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hK : Kimage h (centralizerJ (sigma1Nine (z := z) D)) =
       fixSubmodule h (sigma1Nine (z := z) D) := by
     change (AddSubgroup.toZModSubmodule 2)
@@ -139,8 +139,8 @@ theorem centralizer_centralizerJ_eq_J1sub
     : (Subgroup.centralizer
         (centralizerJ (sigma1Nine (z := z) D) : Set (J z))).map (J z).subtype =
       J1sub (z := z) (D := D) h := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   let σ1 : ↥(H z) := sigma1Nine (z := z) D
   let JC : Subgroup (J z) := centralizerJ σ1
   let CJcJ : Subgroup (J z) := Subgroup.centralizer (JC : Set (J z))
@@ -206,13 +206,14 @@ theorem centralizer_centralizerJ_eq_J1sub
   · rw [J1sub]
     exact sup_le hPle hZle
 
+omit [Finite G] in
 theorem derived_le_P_H :
     ⁅H z, H z⁆ ≤ (P_H (z := z) (D := D)).map (H z).subtype := by
-  haveI : (P_H (z := z) (D := D)).Normal := P_H_normal (z := z) (D := D)
+  have : (P_H (z := z) (D := D)).Normal := P_H_normal (z := z) (D := D)
   have hcard : Nat.card (↥(H z) ⧸ P_H (z := z) (D := D)) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact index_P_H (z := z) (D := D)
-  haveI : IsCyclic (↥(H z) ⧸ P_H (z := z) (D := D)) :=
+  have : IsCyclic (↥(H z) ⧸ P_H (z := z) (D := D)) :=
     isCyclic_of_prime_card (p := 2) hcard
   have hcomm : _root_.commutator (↥(H z)) ≤ P_H (z := z) (D := D) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mp inferInstance
@@ -291,6 +292,7 @@ theorem derived_commutator_CJ_le_center (h : Tim79a.ParrottHyp z)
   rw [hcomm_eq]
   exact hmemZ
 
+omit [Finite G] hN in
 theorem centerIn_le_centralizer_J :
     centerIn (J z) ≤ Subgroup.centralizer (J z : Set G) :=
   inf_le_right

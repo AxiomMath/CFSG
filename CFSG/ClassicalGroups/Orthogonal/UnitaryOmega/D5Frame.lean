@@ -322,17 +322,17 @@ private noncomputable def d5HypFrame : HypFrame (normHypForm E 4) 5 where
       rw [h]
       exact isUnit_one
     · cases s
-      · rw [if_neg (by decide : ¬ ((false : Bool) = true)), polar_add_right,
+      · rw [ite_eq_right (by decide : ¬ ((false : Bool) = true)), polar_add_right,
           polar_d5FrameVecF_E E i k hki.symm, polar_d5FrameVecF_F E i k hki.symm]
         simp
-      · rw [if_pos rfl, polar_add_right, polar_d5FrameVecE_E E i k hki.symm,
+      · rw [ite_eq_left rfl, polar_add_right, polar_d5FrameVecE_E E i k hki.symm,
           polar_d5FrameVecE_F E i k hki.symm]
         simp
     · cases s
-      · rw [if_neg (by decide : ¬ ((false : Bool) = true)), polar_add_right,
+      · rw [ite_eq_right (by decide : ¬ ((false : Bool) = true)), polar_add_right,
           polar_d5FrameVecF_E E j k hkj.symm, polar_d5FrameVecF_F E j k hkj.symm]
         simp
-      · rw [if_pos rfl, polar_add_right, polar_d5FrameVecE_E E j k hkj.symm,
+      · rw [ite_eq_left rfl, polar_add_right, polar_d5FrameVecE_E E j k hkj.symm,
           polar_d5FrameVecE_F E j k hkj.symm]
         simp
 

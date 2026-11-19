@@ -100,7 +100,7 @@ theorem c25_5_proved : C25_5 p f := by
         Subgroup.mem_centralizer_singleton_iff.mp (hlet ha)
     exact haz (hZ a (hle hacl) ha1)
   have hB2 : IsPGroup 2 ↥(A ⊓ Subgroup.centralizer ({t'} : Set G)) :=
-    S.isPGroup'.to_le (inf_le_left.trans hAS)
+    S.isPGroup.to_le (inf_le_left.trans hAS)
   have hBz := eq_one_or_eq_of_isPGroup hB2 hnosq hinv
   by_contra hne
   have hbig : ∃ a ∈ A, a ≠ 1 ∧ a ≠ z := by
@@ -125,7 +125,7 @@ theorem c25_5_proved : C25_5 p f := by
       calc t' * a = (t' * a * t'⁻¹) * t' := by group
         _ = a * t' := by rw [h]
     exact h1.symm
-  obtain ⟨a, haA, ha1, haz, hcon⟩ := exists_conj_eq_mul_of_isPGroup (S.isPGroup'.to_le hAS) hzA
+  obtain ⟨a, haA, ha1, haz, hcon⟩ := exists_conj_eq_mul_of_isPGroup (S.isPGroup.to_le hAS) hzA
     hz2 hz1 (fun a ha => (hyp.hzS a (hAS ha)).symm) ht'2 htA htz hfix hbig
   apply hnf
   refine ⟨a⁻¹ * g, ?_⟩

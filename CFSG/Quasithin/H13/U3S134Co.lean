@@ -285,7 +285,6 @@ theorem s134_psi_comm (S : A6.Setting134 G T L V) {g : G} (hg : g ∈ normalizer
     rw [show (⟨v⁻¹, inv_mem hv⟩ : ↥V) = (⟨v, hv⟩ : ↥V)⁻¹ from rfl, map_inv, map_inv] at this
     exact this
   rw [h1, h2, coe_mul, coe_inv, G6.coreAct_coe]
-  try rfl
 
 theorem s134_exists_s1_mem_L2 (S : A6.Setting134 G T L V) :
     ∃ y ∈ l2Of S, ∃ hy : y ∈ normalizer (V : Set G),
@@ -453,7 +452,6 @@ theorem s134_chief_L2 (S : A6.Setting134 G T L V) : HasTwoNoncentralChiefFactors
           G6.permAct 6 c2perm (S.frame.ψ ⟨v, hvV⟩) * (S.frame.ψ ⟨v, hvV⟩ : A6.P6)⁻¹ := by
         have e : (⟨c * v * c⁻¹ * v⁻¹, h2V⟩ : ↥V) = ⟨c * v * c⁻¹, hcvV⟩ * (⟨v, hvV⟩ : ↥V)⁻¹ := rfl
         rw [e, map_mul, map_inv, coe_mul, coe_inv, hψc hvV]
-        try rfl
       rcases (s134_mem_ZV_iff_psi S h2V).1 h2 with h | h
       · rw [hψ2] at h
         exact hne1 (mul_inv_eq_one.1 h)
@@ -501,7 +499,6 @@ theorem s134_chief_L2 (S : A6.Setting134 G T L V) : HasTwoNoncentralChiefFactors
           G6.permAct 6 c2perm (S.frame.ψ ⟨v, hvV⟩) * (S.frame.ψ ⟨v, hvV⟩ : A6.P6)⁻¹ := by
         have e : (⟨c * v * c⁻¹ * v⁻¹, h2V⟩ : ↥V) = ⟨c * v * c⁻¹, hcvV⟩ * (⟨v, hvV⟩ : ↥V)⁻¹ := rfl
         rw [e, map_mul, map_inv, coe_mul, coe_inv, hψc hvV]
-        try rfl
       rw [hψ2] at h2W
       exact c2_moves_U0 _ (G6.mem_coreMod.1 (S.frame.ψ ⟨v, hvV⟩).2) hvW h2W
   ·

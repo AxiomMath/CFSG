@@ -21,15 +21,13 @@ theorem wcON_mul_self {a b : Fin 3} (hab : a ≠ b) : wcON D a b * wcON D a b = 
   simp [wcON, sub_mul, mul_sub, D.injX.eq_iff, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, hab,
     hab.symm]
 
-theorem wcON_mul_wcON {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d) :
+theorem wcON_mul_wcON {a b d : Fin 3} (_hab : a ≠ b) (_hbd : b ≠ d) (had : a ≠ d) :
     wcON D a b * wcON D b d = Matrix.single (D.X a) (D.X d) 1 := by
-  simp [wcON, sub_mul, mul_sub, D.injX.eq_iff, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, hab, hbd, had,
-    hab.symm, hbd.symm, had.symm]
+  simp [wcON, sub_mul, mul_sub, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, had]
 
-theorem wcON_mul_wcON_rev {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d) :
+theorem wcON_mul_wcON_rev {a b d : Fin 3} (_hab : a ≠ b) (_hbd : b ≠ d) (had : a ≠ d) :
     wcON D b d * wcON D a b = Matrix.single (D.Y d) (D.Y a) 1 := by
-  simp [wcON, sub_mul, mul_sub, D.injX.eq_iff, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, hab, hbd, had,
-    hab.symm, hbd.symm, had.symm]
+  simp [wcON, sub_mul, mul_sub, D.injX.eq_iff, D.X_ne_Y, D.Y_ne_X, had.symm]
 
 theorem wcON_comm {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d) :
     wcON D a b * wcON D b d - wcON D b d * wcON D a b = wcON D a d := by
@@ -39,14 +37,12 @@ theorem wcON_comm {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d
 theorem wcON_mul_mul {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d) :
     wcON D a b * wcON D b d * wcON D a b = 0 := by
   rw [wcON_mul_wcON D hab hbd had]
-  simp [wcON, mul_sub, D.injX.eq_iff, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, hab, hbd, had,
-    hab.symm, hbd.symm, had.symm]
+  simp [wcON, mul_sub, D.injX.eq_iff, D.X_ne_Y, had.symm]
 
 theorem wcON_rev_mul_mul {a b d : Fin 3} (hab : a ≠ b) (hbd : b ≠ d) (had : a ≠ d) :
     wcON D b d * wcON D a b * wcON D b d = 0 := by
   rw [wcON_mul_wcON_rev D hab hbd had]
-  simp [wcON, mul_sub, D.injX.eq_iff, D.injY.eq_iff, D.X_ne_Y, D.Y_ne_X, hab, hbd, had,
-    hab.symm, hbd.symm, had.symm]
+  simp [wcON, mul_sub, D.injY.eq_iff, D.Y_ne_X, had]
 
 theorem wcO_one_add_mul_one_sub {R : Type*} [Ring R] (M : R) (h : M * M = 0) :
     (1 + M) * (1 - M) = 1 := by
@@ -90,7 +86,7 @@ theorem wcOU_isometry (Q : (ι → F) → F)
     Q ((wcOU D hab c : Matrix ι ι F) *ᵥ v) = Q v := by
   rw [wcOU_mulVec, hQX, hQY]
   have h : (v + Pi.single (D.Y b) (-(c * v (D.Y a))) : ι → F) (D.Y a) = v (D.Y a) := by
-    simp [Pi.single_apply, D.injY.eq_iff, hab]
+    simp [D.injY.eq_iff, hab]
   rw [h]
   ring
 
@@ -164,7 +160,7 @@ theorem wcO_nonscalarPPair {p : ℕ} [Fact p.Prime] [CharP F p] (Q : (ι → F) 
     (hQX : ∀ v i a, Q (v + Pi.single (D.X i) a) = Q v + a * v (D.Y i))
     (hQY : ∀ v i a, Q (v + Pi.single (D.Y i) a) = Q v + a * v (D.X i)) :
     NonscalarPPair p (StatedOmega Q) := by
-  haveI : Nonempty ι := ⟨D.X 0⟩
+  have : Nonempty ι := ⟨D.X 0⟩
   have h01 : (0 : Fin 3) ≠ 1 := by decide
   have h02 : (0 : Fin 3) ≠ 2 := by decide
   have h10 : (1 : Fin 3) ≠ 0 := by decide
@@ -197,7 +193,7 @@ theorem wcO_nonscalarPPair {p : ℕ} [Fact p.Prime] [CharP F p] (Q : (ι → F) 
     have h1 : ⁅wcOU D h01 1, wcOU D h12 1⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 h
     rw [wcOU_comm D h01 h12 h02, mul_one] at h1
     have h2 := congrArg (fun u : GL ι F => (u : Matrix ι ι F) (D.X 0) (D.X 2)) h1
-    simp [wcOU_val, wcON, Matrix.single_apply, D.injX.eq_iff, D.Y_ne_X] at h2
+    simp [wcOU_val, wcON, D.injX.eq_iff, D.Y_ne_X] at h2
 
 end Abstract
 
@@ -216,8 +212,7 @@ theorem wcO_quadOdd_Y (hn : 3 ≤ n) (v : Fin n ⊕ Fin n ⊕ Unit → K) (i : F
 theorem wcO_quadPlus_Y (hn : 4 ≤ n) (v : Fin n ⊕ Fin n → K) (i : Fin 3) (a : K) :
     StatedQuadPlus n K (v + Pi.single ((plusData (K := K) hn).Y i) a) =
       StatedQuadPlus n K v + a * v ((plusData (K := K) hn).X i) := by
-  simp only [StatedQuadPlus, plusData, Pi.add_apply, Pi.single_apply, Sum.inl.injEq,
-    Sum.inr.injEq, reduceCtorEq, ↓reduceIte, add_zero, mul_add, Finset.sum_add_distrib, mul_ite,
+  simp only [StatedQuadPlus, plusData, Pi.add_apply, Pi.single_apply, Sum.inr.injEq, reduceCtorEq, ↓reduceIte, add_zero, mul_add, Finset.sum_add_distrib, mul_ite,
     mul_zero, Finset.sum_ite_eq', Finset.mem_univ]
   ring
 
@@ -235,20 +230,20 @@ end Forms
 theorem wcOn_pomegaOdd {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     (hn : 3 ≤ n) (h : CFSG.Open.StatedClassicalModel K .POmegaOdd n p f) : WCOn p K := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
+  have := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
   exact (wcO_nonscalarPPair (p := p) (oddData hn) _ (quadOdd_X hn) (wcO_quadOdd_Y hn)).wcOn e
 
 theorem wcOn_pomegaPlus {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     (hn : 4 ≤ n) (h : CFSG.Open.StatedClassicalModel K .POmegaPlus n p f) : WCOn p K := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
+  have := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
   exact (wcO_nonscalarPPair (p := p) (plusData hn) _ (quadPlus_X hn) (wcO_quadPlus_Y hn)).wcOn e
 
 theorem wcOn_pomegaMinus {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime]
     (_hp2 : p ≠ 2) (hn : 4 ≤ n) (h : CFSG.Open.StatedClassicalModel K .POmegaMinus n p f) :
     WCOn p K := by
   obtain ⟨-, F, _, _, hF, b, c, -, ⟨e⟩⟩ := h
-  haveI := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
+  have := CFSG.SectionRank.ClassicalOdd.charP_of_card hF
   exact (wcO_nonscalarPPair (p := p) (minusData hn b) _ (quadMinus_X hn b c)
     (wcO_quadMinus_Y hn b c)).wcOn e
 

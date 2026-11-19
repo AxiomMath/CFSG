@@ -15,9 +15,10 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r ρ : G}
   {B A : Subgroup G} {φ : (Fin 6 → ZMod 2) → G} {Q₁ Q₂ : Subgroup G} {a b : G}
 
+omit [Finite G] in
 theorem sec5p510_E_normal {E R : Subgroup G} (hle : E ≤ R) (hrel : E.relIndex R = 2) :
     ∀ d ∈ R, ∀ e ∈ E, d * e * d⁻¹ ∈ E := by
-  haveI : (E.subgroupOf R).Normal := Subgroup.normal_of_index_eq_two hrel
+  have : (E.subgroupOf R).Normal := Subgroup.normal_of_index_eq_two hrel
   intro d hd e he
   have hmem : (⟨d, hd⟩ : ↥R) * ⟨e, hle he⟩ * (⟨d, hd⟩ : ↥R)⁻¹ ∈ E.subgroupOf R :=
     Subgroup.Normal.conj_mem inferInstance _ (Subgroup.mem_subgroupOf.mpr he) _
@@ -64,6 +65,7 @@ theorem sec5p510_conj_mem_ab (h : Sec510Ctx G t L S z r ρ B A φ) (hab : Sec510
   · exact Or.inl hxa
   · exact Or.inr hxb
 
+omit [Finite G] in
 private theorem sec5p510_closure_comm {s : Set G} (hs : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) :
     ∀ x ∈ Subgroup.closure s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by
   have h1 : ∀ x ∈ s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by

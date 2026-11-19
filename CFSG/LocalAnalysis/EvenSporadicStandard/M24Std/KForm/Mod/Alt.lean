@@ -75,7 +75,7 @@ theorem z2s6_mod_alt_arm {S : Type} [Group S] [Finite S] {σ : MulAut S}
       have hle : Nat.card ↥(fixedSubgroup σ) ≤ Nat.card S :=
         Subgroup.card_le_card_group (fixedSubgroup σ)
       rw [hcardS] at hle
-      haveI : Nonempty ↥(fixedSubgroup σ) := ⟨1⟩
+      have : Nonempty ↥(fixedSubgroup σ) := ⟨1⟩
       have hpos : 0 < Nat.card ↥(fixedSubgroup σ) := Nat.card_pos
       have hge : 360 ≤ Nat.card ↥(fixedSubgroup σ) := Nat.le_of_dvd hpos hdata.dvd_card
       omega
@@ -86,7 +86,7 @@ theorem z2s6_mod_alt_arm {S : Type} [Group S] [Finite S] {σ : MulAut S}
       have hle : Nat.card ↥(fixedSubgroup σ) ≤ Nat.card S :=
         Subgroup.card_le_card_group (fixedSubgroup σ)
       rw [hcardS] at hle
-      haveI : Nonempty ↥(fixedSubgroup σ) := ⟨1⟩
+      have : Nonempty ↥(fixedSubgroup σ) := ⟨1⟩
       have hpos : 0 < Nat.card ↥(fixedSubgroup σ) := Nat.card_pos
       have hge : 360 ≤ Nat.card ↥(fixedSubgroup σ) := Nat.le_of_dvd hpos hdata.dvd_card
       have hcardF : Nat.card ↥(fixedSubgroup σ) = Nat.card S := by omega
@@ -113,7 +113,7 @@ theorem z2s6_mod_alt_arm {S : Type} [Group S] [Finite S] {σ : MulAut S}
       subst hr1'
       obtain ⟨x, y, hx7, hy7, hxy2⟩ := alt9_seven_pair θ hcyc hkey
       obtain ⟨N, hNnormal, hNodd, hNdvd⟩ := hdata.odd_quotient
-      haveI := hNnormal
+      have := hNnormal
       have hxN : x ∈ N := mem_of_orderOf_eq_seven N hNdvd hx7
       have hyN : y ∈ N := mem_of_orderOf_eq_seven N hNdvd hy7
       have hxyN : x * y ∈ N := N.mul_mem hxN hyN

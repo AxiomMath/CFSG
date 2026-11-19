@@ -337,14 +337,14 @@ theorem mem_of_orderOf_three {L H : Subgroup G} {α : ↥L →* SL4} (hα : Func
     rw [card_W0] at this
     exact this
   have h9P := P.pow_dvd_card_of_pow_dvd_card h9
-  obtain ⟨v, hv⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨v, hv⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hv2 : 2 ≤ v := by
     rw [hv] at h9P
     exact (Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 h9P
   have hP1 : ∀ p ∈ (P : Subgroup ↥K₁), f p = 1 → p = 1 := by
     intro p hp hfp
     obtain ⟨n, hn⟩ := hfk p hfp
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨p, hp⟩
     have hm' : p ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
     exact eq_one_of_pow_two_pow_three hn hm'
   have hPe : IsElemAbelian 3 (P : Subgroup ↥K₁) := by

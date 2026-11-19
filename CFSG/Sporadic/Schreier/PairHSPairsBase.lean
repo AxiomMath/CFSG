@@ -92,8 +92,8 @@ theorem hs_card_order
   exact card_eq_countW hsChainArrays (by norm_num) PairHS.chain_check.1 hs_groups
     (Pr := fun g => orderOf g = m) fun w g hw hg => ordB_iff hs_baseFaithful hs_bs_lt hw hg hm
 
-@[expose] def hsa0 : hsP := ⟨hsGen 0, hsGen_mem_P 0 (by norm_num)⟩
+def hsa0 : hsP := ⟨hsGen 0, hsGen_mem_P 0 (by norm_num)⟩
 
-@[expose] def hsa1 : hsP := ⟨hsGen 1, hsGen_mem_P 1 (by norm_num)⟩
+def hsa1 : hsP := ⟨hsGen 1, hsGen_mem_P 1 (by norm_num)⟩
 
 end CFSG.Sporadic.Schreier

@@ -31,8 +31,8 @@ theorem scalar_of_commute_Q8D8_aux {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E :
     (hcard : Nat.card E = q ^ 4) {S : Subgroup (MulAut E)} {z i j r t : MulAut E}
     (hF : Q8D8Facts S z) (hG : Q8D8Gens S z i j r t) {g : MulAut E}
     (hg : ∀ s ∈ S, g * s = s * g) : ∃ k : ℕ, ∀ e : E, g e = e ^ k := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hV : ∀ x : Additive E, q • x = 0 := by
     intro x
     have h1 := ofMul_pow q x.toMul
@@ -40,7 +40,7 @@ theorem scalar_of_commute_Q8D8_aux {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E :
     exact h1.symm.trans ofMul_one
   obtain ⟨hmod⟩ : ∃ m : Module (ZMod q) (Additive E), True :=
     ⟨AddCommGroup.zmodModule hV, trivial⟩
-  haveI : FiniteDimensional (ZMod q) (Additive E) :=
+  have : FiniteDimensional (ZMod q) (Additive E) :=
     Module.finite_iff_finite.mpr inferInstance
   have h2 : (2 : ZMod q) ≠ 0 := by
     intro h

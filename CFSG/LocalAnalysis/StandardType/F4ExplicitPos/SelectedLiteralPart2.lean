@@ -230,7 +230,7 @@ theorem a2_long_selected_pair_output_of_shape
     {M : Type*} [CommGroup M] {χ : Multiplicative (Fin Tag.F4.rank → ℤ) →* M}
     (i : KernelComponent χ) (Jbar : Subgroup (ModGL Tag.F4 Ω))
     (ρperm : Equiv.Perm (Fin Tag.F4.rank → ℤ)) (hρperm : FrobRootMap D ρperm)
-    (hker : ∀ α ∈ kernelRoots χ, ρperm α ∈ kernelRoots χ)
+    (_hker : ∀ α ∈ kernelRoots χ, ρperm α ∈ kernelRoots χ)
     (hstable : (ρperm : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
         componentRoots χ i = componentRoots χ i)
     (v : WeylGroup Tag.F4)
@@ -292,7 +292,7 @@ theorem a2_short_selected_pair_output_of_shape
     {M : Type*} [CommGroup M] {χ : Multiplicative (Fin Tag.F4.rank → ℤ) →* M}
     (i : KernelComponent χ) (Jbar : Subgroup (ModGL Tag.F4 Ω))
     (ρperm : Equiv.Perm (Fin Tag.F4.rank → ℤ)) (hρperm : FrobRootMap D ρperm)
-    (hker : ∀ α ∈ kernelRoots χ, ρperm α ∈ kernelRoots χ)
+    (_hker : ∀ α ∈ kernelRoots χ, ρperm α ∈ kernelRoots χ)
     (hstable : (ρperm : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
         componentRoots χ i = componentRoots χ i)
     (v : WeylGroup Tag.F4)

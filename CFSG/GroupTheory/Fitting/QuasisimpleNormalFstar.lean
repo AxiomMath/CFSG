@@ -184,7 +184,7 @@ theorem fstar_sup_zpowers_eq_of_quasisimple_normal [Finite W] [Nontrivial W]
         intro h
         rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h
         exact hgX (by rw [hgx]; exact X.mul_mem hxX h)
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2dvd : 2 ∣ orderOf (q ⟨t, htG₂⟩) := by
         have hqt2' : q ⟨t, htG₂⟩ ^ 2 = 1 := by
           rw [pow_two]

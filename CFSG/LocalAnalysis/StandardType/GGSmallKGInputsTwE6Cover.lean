@@ -45,7 +45,7 @@ theorem exists_isElemAbelian_lift {L' R : Type*} [Group L'] [Group R] [Finite L'
   have hinj : ∀ y ∈ (Q₀ : Subgroup Y), f y = 1 → y = 1 := by
     intro y hy h1
     have hyk : (y : L') ∈ ψ.ker := congrArg Subtype.val h1
-    obtain ⟨k, hk⟩ := Q₀.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := Q₀.isPGroup ⟨y, hy⟩
     have hord : orderOf (⟨y, hyk⟩ : ψ.ker) ∣ p ^ k := by
       refine orderOf_dvd_of_pow_eq_one (Subtype.ext ?_)
       have := congrArg (fun z : (Q₀ : Subgroup Y) => ((z : Y) : L')) hk

@@ -101,7 +101,6 @@ private theorem iota_fiveReflOf (v : Fin 5 → ZMod 5) [Invertible (Qplus v)] :
   rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   ext y
   rw [iota_apply, fiveReflOf_mulVec, TauCeti.QuadraticMap.reflection_apply, Qplus_polar]
-  congr 1
   rw [invOf_eq_inv, Qplus_apply, fiveForm_comm 4 true v y]
   ring_nf
 
@@ -151,7 +150,7 @@ private theorem bl_pairwise :
         refine ⟨?_, ?_⟩
         · intro b hb
           simp only [List.mem_cons, List.not_mem_nil, or_false] at hb
-          rcases hb with rfl <;> decide
+          rcases hb with rfl; decide
         · rw [List.pairwise_cons]
           exact ⟨by intro b hb; simp at hb, List.Pairwise.nil⟩
 
@@ -234,7 +233,7 @@ private theorem detSpinorNorm_negOrthogonal (hQ : Qplus.Nondegenerate) :
   have hper : ∀ v ∈ bl, detSpinorNorm hQ (reflO v) =
       ((-1 : (ZMod 5)ˣ), TauCeti.squareClassHom (f v)) := by
     intro v hv
-    letI : Invertible (Qplus v) := invertibleOfNonzero (bl_ne_zero v hv)
+    let : Invertible (Qplus v) := invertibleOfNonzero (bl_ne_zero v hv)
     rw [detSpinorNorm_reflO hQ]
     congr 1
     apply congrArg TauCeti.squareClassHom
@@ -320,7 +319,7 @@ private theorem detSpinorNorm_iota_mem_H (hQ : Qplus.Nondegenerate)
     have hnsq' : ¬ IsSquare (Qplus v) := by
       intro h
       exact Bool.false_ne_true (hnsq.mp (by rwa [Qplus_apply] at h))
-    letI : Invertible (Qplus v) := invertibleOfNonzero hv'
+    let : Invertible (Qplus v) := invertibleOfNonzero hv'
     have hsub : (⟨iota (fiveReflOf 4 true v),
         iota_mem_O (Subgroup.subset_closure hr)⟩ :
         TauCeti.QuadraticMap.orthogonalGroup Qplus) =
@@ -383,7 +382,7 @@ theorem notMem_fiveReflectionGroup_four_true_false_of_mem_fiveReflections_true
   have hsq' : IsSquare (Qplus v) := by
     rw [Qplus_apply]
     exact hsq.mpr rfl
-  letI : Invertible (Qplus v) := invertibleOfNonzero hv'
+  let : Invertible (Qplus v) := invertibleOfNonzero hv'
   have hH := detSpinorNorm_iota_mem_H Qplus_nondegenerate (fiveReflOf 4 true v) hmem
   have hsub : (⟨iota (fiveReflOf 4 true v), iota_mem_O hmem⟩ :
       TauCeti.QuadraticMap.orthogonalGroup Qplus) =

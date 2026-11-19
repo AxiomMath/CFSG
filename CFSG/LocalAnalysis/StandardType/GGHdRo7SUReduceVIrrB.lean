@@ -46,7 +46,7 @@ theorem hdRo7SUReduceVAux_singleton_contra {V : Type} [AddCommGroup V] [Module (
     (hHcl : H = Subgroup.closure S) (hSsing : S = {s0})
     (hs0sq : s0 * s0 = 1) (hs0nsuperm : ¬ SUPerm 3 b s0) : False := by
   have hm7 : 7 ≤ m := hD.hm
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   let i : Fin m := ⟨0, by omega⟩
   let j : Fin m := ⟨1, by omega⟩
   have hij : i ≠ j := by
@@ -91,8 +91,8 @@ theorem hdRo7SUReduceVAux_not_preserves_ones {V : Type} [AddCommGroup V] [Module
     ¬ (∀ a ∈ H, a (SUOnes 3 b) ∈ Submodule.span (ZMod 3) {SUOnes 3 b}) := by
   intro hHx
   have hm7 : 7 ≤ m := hD.hm
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : NeZero m := ⟨by omega⟩
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   obtain ⟨S, hS, hHcl, hSconn⟩ := hD.hgen
   have hsA : ∀ i j, i ≠ j → b.equiv b (Equiv.swap i j) ∈ A := by
     intro i j hij
@@ -191,8 +191,8 @@ theorem hdRo7SUReduceVAux_absIrred {V : Type} [AddCommGroup V] [Module (ZMod 3) 
     (hV : ∃ r ∈ H, GGLinRefl (p := 3) r ∧ ¬ ggLinMove (p := 3) r ≤ SUAug 3 b) :
     ZS.AbsIrred 3 H := by
   have hm7 : 7 ≤ m := hD.hm
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : NeZero m := ⟨by omega⟩
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   have hU := hdRo7SUReduceVAux_not_preserves_aug b H A hD hV
   have hx := hdRo7SUReduceVAux_not_preserves_ones b H A hD hN hU
   have hIrr : ∀ W : Submodule (ZMod 3) V, (∀ a ∈ H, ∀ w ∈ W, a w ∈ W) → W = ⊥ ∨ W = ⊤ := by

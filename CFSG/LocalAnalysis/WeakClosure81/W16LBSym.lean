@@ -12,7 +12,7 @@ open Subgroup
 
 private theorem w16l_odd_card_fusionOddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.Open.fusionOddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : CFSG.Open.fusionOddCore X = CFSG.pPrimeCore 2 X := by
     unfold CFSG.Open.fusionOddCore CFSG.pPrimeCore
     congr 1
@@ -34,7 +34,7 @@ private theorem w16l_odd_card_center_of_pCore_eq_bot {X : Type} [Group X] [Finit
 private theorem w16l_exists_normal_card_three_of_card_six {Y : Type*} [Group Y] [Finite Y]
     (hY : Nat.card Y = 6) :
     ∃ T : Subgroup Y, T.Normal ∧ Nat.card T = 3 ∧ T.index = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3dvd : 3 ∣ Nat.card Y := by rw [hY]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Y) 3 h3dvd
   have hTcard : Nat.card (Subgroup.zpowers x) = 3 := by
@@ -137,7 +137,7 @@ theorem w16l_sym_small {X : Type} [Group X] [Finite X] {B : Subgroup X} {k : ℕ
         (QuotientGroup.mk' (CFSG.Open.fusionOddCore X)))) := by
       rw [hNcard]
       exact Odd.mul (by decide : Odd 3) hOodd
-    haveI : (T.comap (QuotientGroup.mk' (CFSG.Open.fusionOddCore X))).Normal :=
+    have : (T.comap (QuotientGroup.mk' (CFSG.Open.fusionOddCore X))).Normal :=
       hTnormal.comap (QuotientGroup.mk' (CFSG.Open.fusionOddCore X))
     have hNle : T.comap (QuotientGroup.mk' (CFSG.Open.fusionOddCore X)) ≤
         CFSG.Open.fusionOddCore X := w16l_le_fusionOddCore hNodd
@@ -175,7 +175,7 @@ theorem w16l_sp_two_one {X : Type} [Group X] [Finite X] {B : Subgroup X}
   have hNodd : Odd (Nat.card (T.comap (QuotientGroup.mk' (Subgroup.center X)))) := by
     rw [hNcard]
     exact Odd.mul (by decide : Odd 3) hZodd
-  haveI : (T.comap (QuotientGroup.mk' (Subgroup.center X))).Normal :=
+  have : (T.comap (QuotientGroup.mk' (Subgroup.center X))).Normal :=
     hTnormal.comap (QuotientGroup.mk' (Subgroup.center X))
   have hNle : T.comap (QuotientGroup.mk' (Subgroup.center X)) ≤
       CFSG.Open.fusionOddCore X := w16l_le_fusionOddCore hNodd

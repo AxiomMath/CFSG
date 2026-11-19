@@ -181,7 +181,7 @@ theorem ggTBTorE7_holds : GGTBTorE7 := by
       intro h
       have htwo : p ∣ 2 := by
         have := Nat.dvd_sub h hminus
-        convert this using 1 <;> omega
+        convert this using 1; omega
       exact hp2 ((Nat.prime_two.dvd_iff_eq hp.ne_one).mp htwo).symm
     simp only [ggTorEnn, ggTorMpm, hplus, hminus, ↓reduceIte, Nat.sub_zero]
     intro Q hQ

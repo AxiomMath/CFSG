@@ -13,7 +13,7 @@ namespace CFSG.Monster.B.TwoA.Sp8
 
 open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B CFSG.Monster.B.TwoA
 
-@[expose] def qv (v : V8) : QuadraticForm (ZMod 2) V8 :=
+def qv (v : V8) : QuadraticForm (ZMod 2) V8 :=
   qForm + QuadraticMap.linMulLin (b0 v) (b0 v)
 
 theorem qv_apply (v w : V8) : qv v w = qPoly w + b0 v w := by
@@ -73,7 +73,7 @@ theorem exists_qv_eq (Q : QuadraticForm (ZMod 2) V8) (hQ : QuadraticMap.polarBil
   rw [qv_apply, hw, qForm_apply]
   ring
 
-@[expose] def minusForms : Set (QuadraticForm (ZMod 2) V8) :=
+def minusForms : Set (QuadraticForm (ZMod 2) V8) :=
   {Q | QuadraticMap.polarBilin Q = b0 ∧
     QuadraticMap.Equivalent Q (CFSG.LieType.Universal.Spin.quadMinus 4 (ZMod 2) 1 1)}
 

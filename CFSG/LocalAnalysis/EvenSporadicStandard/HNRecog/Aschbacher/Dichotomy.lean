@@ -16,11 +16,11 @@ open scoped commutatorElement
 
 theorem aschbacherDichotomy : AschbacherDichotomy := by
   intro L _ Q hQn hplus hC hL
-  haveI := hplus.finite
+  have := hplus.finite
   have hE := hplus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   have h8 : finrank (ZMod 2) (Additive (Abelianization Q)) = 8 := by

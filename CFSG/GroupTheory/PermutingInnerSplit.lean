@@ -263,7 +263,7 @@ theorem eq_sup_inf_centralizer_of_permuting_inner [Finite X]
       · intro hx
         obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
         rw [(hcomm.zpow_right j).eq]
-        simpa [mul_assoc] using Subgroup.zpow_mem_zpowers c j
+        simp [mul_assoc]
       · intro hx
         obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp hx
         have hconj := congrArg (fun y => b'⁻¹ * y * b') hj

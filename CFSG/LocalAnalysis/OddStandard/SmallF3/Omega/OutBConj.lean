@@ -117,7 +117,7 @@ theorem aor_cyclic_conjugate [Finite G] {L : Subgroup G}
     intro x hx
     exact ⟨⟨x, hP'le hx⟩, hQ (by rw [Subgroup.mem_subgroupOf]; exact hx), rfl⟩
   have hP'cyc : IsCyclic ↥(P.map (MulAut.conj g).toMonoidHom) := by
-    haveI : IsCyclic
+    have : IsCyclic
         ↥((Q : Subgroup ↥(centralizer (L : Set G))).map (centralizer (L : Set G)).subtype) :=
       hQcyc
     exact Subgroup.isCyclic_of_le hle

@@ -57,14 +57,15 @@ theorem not_isOmegaMinus_of_isOmegaPlus {X : Type} [Group X] [Finite X] {n : ℕ
   exact not_isL2_and_isL2Square' hn1 (isL2_two_mul_of_isOmegaMinus_four hn1 hM)
     (isL2Square_of_isOmegaPlus hn hP)
 
+omit [Finite G] in
 theorem mem_calB1_of_mem_calB {T M L B : Subgroup G} (hB : B ∈ calB T M L) :
     B ∈ calB1 T M L := by
   have hB0 := hB
   obtain ⟨hBL, hBcyc, -, hBodd, hBperm, hBinv⟩ := hB
-  haveI : IsCyclic ↥B := hBcyc
+  have : IsCyclic ↥B := hBcyc
   refine ⟨hBL, IsCyclic.isMulCommutative, B, ⊥, hB0, ?_, ?_, ?_, ?_, hBperm, hBinv, ?_⟩
   · exact IsMulCommutative.of_comm fun _ _ => Subsingleton.elim _ _
-  · simpa using hBodd
+  · simp
   · intro p hp hdvd
     rw [Subgroup.card_bot] at hdvd
     exact (hp.not_dvd_one hdvd).elim

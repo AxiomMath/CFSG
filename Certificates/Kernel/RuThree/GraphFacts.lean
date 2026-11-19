@@ -64,12 +64,12 @@ section Ru
 
 
 theorem mt_repF : ∀ j < 2160, RepF 11 (rd4 (MT j)) (treePerm gpM C0.P C0.L j) :=
-  repF_tab ctree (fun k hk => mRepF hk) all_bs11 fun i hi => Orb.allN_iff.1 kTabT i hi
+  repF_tab ctree (fun _k hk => mRepF hk) all_bs11 fun i hi => Orb.allN_iff.1 kTabT i hi
 
-theorem edgesM : ∀ i < 2160, ∀ k < 3, CE i k < 2160 ∧
-    treeArr 11 ruThreeM C0.P C0.L (CE i k) =
-      compA 11 ruThreeM[k]! (treeArr 11 ruThreeM C0.P C0.L i) :=
-  edges_of_edgeTK ctree (fun k hk => mRepF hk) (fun k hk => mRep hk) all_bs11
+theorem edgesM : ∀ i < 2160, ∀ _k < 3, CE i _k < 2160 ∧
+    treeArr 11 ruThreeM C0.P C0.L (CE i _k) =
+      compA 11 ruThreeM[_k]! (treeArr 11 ruThreeM C0.P C0.L i) :=
+  edges_of_edgeTK ctree (fun _k hk => mRepF hk) (fun _k hk => mRep hk) all_bs11
     (fun i hi => Orb.allN_iff.1 kTabT i hi) fun i hi => Orb.allN_iff.1 kEdgeT i hi
 
 @[expose] noncomputable def gam (i : Nat) : Array Nat :=

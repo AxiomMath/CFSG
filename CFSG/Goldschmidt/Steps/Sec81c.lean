@@ -286,17 +286,17 @@ theorem false_of_le_sup (h31 : S_G31) (h37 : S_G37) (h64 : S_G64) (hset : GoldSe
       simpa using conj_injective this)⟩⟩
     have hA₁H : A₁ ≤ H := fun x hx => hHa ▸ Subgroup.mem_centralizer_singleton_iff.mpr
       (congrArg Subtype.val (hA₁ab.is_comm.comm ⟨x, hx⟩ ⟨a, haA₁⟩))
-    have hA₁2 : IsPGroup 2 A₁ := (S.isPGroup'.to_le hset.le).map (MulAut.conj g⁻¹).toMonoidHom
+    have hA₁2 : IsPGroup 2 A₁ := (S.isPGroup.to_le hset.le).map (MulAut.conj g⁻¹).toMonoidHom
       |>.to_le inf_le_left
     obtain ⟨c, hcH, y, hy1, hy2⟩ := Quasithin.exists_conj_le_sylow_of_isPGroup S
-      (le_of_mem_benderM hset h4 ha hH) hA₁H S.isPGroup' hA₁2
+      (le_of_mem_benderM hset h4 ha hH) hA₁H S.isPGroup hA₁2
     have hyS : y ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := by
       have heq : Quasithin.conjSubgroup (S : Subgroup G) y = S :=
         Subgroup.eq_of_le_of_card_ge hy1 (by
           rw [Quasithin.conjSubgroup, Subgroup.card_map_of_injective (MulAut.conj y⁻¹).injective])
       exact Quasithin.conjSubgroup_eq_iff_mem_normalizer.mp heq
     have hyA : y ∈ Subgroup.normalizer (A : Set G) :=
-      N3a G S A S hset.le hset.closed S.isPGroup' hset.le hyS
+      N3a G S A S hset.le hset.closed S.isPGroup hset.le hyS
     have h1 : conjSub (g * (c * y)) A ≤ S := by
       rw [conjSub_mul, ← hA₁eq]
       exact hy2

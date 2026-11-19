@@ -19,10 +19,11 @@ namespace SolvNone
 
 variable {Y X : Type} [Group Y] [Finite Y] [Group X] [Finite X]
 
+omit [Finite Y] [Finite X] in
 theorem eq_one_of_isPGroup_of_coprime {π : Y →* X} (hker : Nat.Coprime 3 (Nat.card π.ker))
     {P : Subgroup Y} (hP : IsPGroup 3 P) : ∀ x ∈ P, π x = 1 → x = 1 := by
   intro x hx h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hP ⟨x, hx⟩
   have hn' : x ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
   have h1' : orderOf x ∣ 3 ^ n := orderOf_dvd_of_pow_eq_one hn'
@@ -38,12 +39,14 @@ theorem pRank_map_eq_of_coprime {π : Y →* X} (hker : Nat.Coprime 3 (Nat.card 
   CFSG.LocalAnalysis.RankThreeTheoremC.u3main_pRank_map Nat.prime_three π
     (eq_one_of_isPGroup_of_coprime hker hQ)
 
+omit [Finite X] in
 theorem map_normalizer_eq_of_coprime {π : Y →* X} (hπ : Function.Surjective π)
     (hker : Nat.Coprime 3 (Nat.card π.ker)) {Q : Subgroup Y} (hQ : IsPGroup 3 Q) :
     (normalizer (Q : Set Y)).map π = normalizer ((Q.map π : Subgroup X) : Set X) :=
   CFSG.SignalizerFunctor.Helpers.coprime_surjective_normalizer_image 3 Nat.prime_three π hπ Q
     hker hQ
 
+omit [Finite Y] [Finite X] in
 private theorem exists_map_eq_of_le {π : Y →* X} {P : Subgroup Y} {Q' : Subgroup X}
     (hQ' : Q' ≤ P.map π) : ∃ Q : Subgroup Y, Q ≤ P ∧ Q.map π = Q' := by
   refine ⟨Q'.comap π ⊓ P, inf_le_right, le_antisymm ?_ ?_⟩
@@ -70,6 +73,7 @@ theorem map_glbCore_eq {π : Y →* X} (hπ : Function.Surjective π)
     refine Subgroup.map_mono (le_sSup ⟨Q, hQP, ?_, rfl⟩)
     rwa [← pRank_map_eq_of_coprime hker (hP.to_le hQP)]
 
+omit [Finite Y] [Finite X] in
 private theorem map_inf_centralizer_eq {π : Y →* X} (hker : Nat.Coprime 3 (Nat.card π.ker))
     {P Q : Subgroup Y} (hP : IsPGroup 3 P) (hQP : Q ≤ P) :
     (P ⊓ centralizer (Q : Set Y)).map π =
@@ -124,16 +128,16 @@ theorem map_threeFourCore_le {π : Y →* X} (hπ : Function.Surjective π)
       else GLBCore 3 1 E) ≤ Y₀) :
     (if 3 ≤ CFSG.pRank 3 ((R : Subgroup Y).map π) then GLBWeakCore 3 ((R : Subgroup Y).map π)
       else GLBCore 3 1 (E.map π)) ≤ Y₀.map π := by
-  have hR : IsPGroup 3 (R : Subgroup Y) := R.isPGroup'
+  have hR : IsPGroup 3 (R : Subgroup Y) := R.isPGroup
   have hrk : CFSG.pRank 3 ((R : Subgroup Y).map π) = CFSG.pRank 3 (R : Subgroup Y) := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank, CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact pRank_map_eq_of_coprime hker hR
   rw [hrk]
   split_ifs with h3
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     rw [← map_glbWeakCore_eq hπ hker hR]
     exact Subgroup.map_mono hcore
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     rw [← map_glbCore_eq hπ hker (hR.to_le hER)]
     exact Subgroup.map_mono hcore
 
@@ -146,6 +150,7 @@ theorem conj_injective_of_center_eq_bot {K : Type*} [Group K] (hZ : center K = �
     exact (mul_inv_eq_iff_eq_mul.mp h1).symm
   rwa [hZ, Subgroup.mem_bot] at h
 
+omit [Finite Y] in
 theorem centralizer_map_rangeRestrict_conjNormal_eq_bot {K : Subgroup Y} [K.Normal]
     (hZ : center K = ⊥) :
     Subgroup.centralizer
@@ -168,6 +173,7 @@ theorem centralizer_map_rangeRestrict_conjNormal_eq_bot {K : Subgroup Y} [K.Norm
     rw [← this, ← h1, mul_inv_cancel_right]
   exact conj_injective_of_center_eq_bot hZ h2
 
+omit [Finite Y] in
 theorem ker_rangeRestrict_conjNormal (K : Subgroup Y) [K.Normal] :
     (MulAut.conjNormal : Y →* MulAut ↥K).rangeRestrict.ker = centralizer (K : Set Y) := by
   ext y
@@ -182,6 +188,7 @@ theorem ker_rangeRestrict_conjNormal (K : Subgroup Y) [K.Normal] :
     simp only [MulAut.conjNormal_apply, MulAut.one_apply]
     rw [(h m m.2).symm, mul_inv_cancel_right]
 
+omit [Finite Y] in
 theorem nonempty_mulEquiv_map_rangeRestrict_conjNormal {K : Subgroup Y} [K.Normal]
     (hZ : center K = ⊥) :
     Nonempty (↥(K.map (MulAut.conjNormal : Y →* MulAut ↥K).rangeRestrict) ≃* ↥K) := by

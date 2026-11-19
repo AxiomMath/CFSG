@@ -73,7 +73,7 @@ theorem k148Concl_of_hasFactors148 [Finite G] [Finite V] (hρ : Function.Injecti
     rw [hO i]
     exact Subgroup.commutator_le_self _
   have hNinv : ∀ i, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ ⊤ (commOn ρ (O i) ⊤) := fun i => by
-    haveI : (Hs i).Normal := TauCeti.normal_of_commute_of_sup_eq_top
+    have : (Hs i).Normal := TauCeti.normal_of_commute_of_sup_eq_top
       (fun c hc x hx => Subgroup.mem_centralizer_iff.1 hx c hc) (hHC i)
     have hON' : (O i).Normal := by
       rw [hO i]

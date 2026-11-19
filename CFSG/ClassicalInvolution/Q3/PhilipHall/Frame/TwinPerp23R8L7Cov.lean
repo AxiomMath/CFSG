@@ -206,9 +206,9 @@ theorem not_isSolvable_Ea (hc : P23Cfg n Y R S t K' W u e g) (hZ : P23ZData t u 
       exact (hOc _).mp ((ZTwo.mem_oddCore_iff_val _ x).mp hx)
   obtain ⟨σ, hσ⟩ := exists_surj_secImage_of_cover hE₀X hE₀E hcov π hπs hπO
   intro hs
-  haveI := D.perfect
-  haveI : Nontrivial (SecQ R e) := ⟨⟨_, 1, piE_e_ne_one hc⟩⟩
-  haveI := hs
+  have := D.perfect
+  have : Nontrivial (SecQ R e) := ⟨⟨_, 1, piE_e_ne_one hc⟩⟩
+  have := hs
   exact Group.IsPerfect.not_isSolvable (SecQ R e) (Group.isSolvable_of_surjective hσ)
 
 theorem central_Ea (hc : P23Cfg n Y R S t K' W u e g) (hZ : P23ZData t u e Z) (hVZ : V ≤ Z)

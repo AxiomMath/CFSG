@@ -75,7 +75,7 @@ theorem wActLin_one : wActLin hS ht 1 = LinearMap.id := by
 
 @[expose] def wAct : ↥(bar M Q (Rt M (LB M Q B) t)) →* (↥(S714.wsub hS t) ≃ₗ[K] ↥(S714.wsub hS t))
     where
-  toFun x := LinearEquiv.ofLinear (wActLin hS ht x) (wActLin hS ht x⁻¹)
+  toFun x := LinearEquiv.ofLinearMap (wActLin hS ht x) (wActLin hS ht x⁻¹)
     (by rw [← wActLin_mul, mul_inv_cancel, wActLin_one])
     (by rw [← wActLin_mul, inv_mul_cancel, wActLin_one])
   map_one' := LinearEquiv.ext fun w => by
@@ -166,7 +166,7 @@ theorem conjLin_one : conjLin hS ht 1 = LinearMap.id := by
 @[expose] def conjHom :
     ↥(bar M Q (Rt M (LB M Q B) t)) →* ((↥(S714.wsub hS t) →ₗ[K] M₀.E) ≃ₗ[K]
       (↥(S714.wsub hS t) →ₗ[K] M₀.E)) where
-  toFun x := LinearEquiv.ofLinear (conjLin hS ht x) (conjLin hS ht x⁻¹)
+  toFun x := LinearEquiv.ofLinearMap (conjLin hS ht x) (conjLin hS ht x⁻¹)
     (by rw [← conjLin_mul, mul_inv_cancel, conjLin_one])
     (by rw [← conjLin_mul, inv_mul_cancel, conjLin_one])
   map_one' := LinearEquiv.ext fun f => by

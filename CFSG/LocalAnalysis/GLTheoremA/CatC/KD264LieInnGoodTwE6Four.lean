@@ -30,8 +30,8 @@ theorem perfectCentralizerPlanes_twistedE6_four {ℓ f : ℕ} [Fact ℓ.Prime] (
   have : Fintype K := Fintype.ofFinite K
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hpq : (p : ℤ) ∣ ((ℓ ^ f : ℕ) : ℤ) ^ 2 + 1 := by exact_mod_cast hpd
   obtain ⟨-, hordq, hΦ, -⟩ := e6Four_data hp hp3 hpq
   set n : ModGL Tag.E6 L := canonicalRep (coxeterSystem Tag.E6) L (e6F4U * e6NegRho) with hn
@@ -55,7 +55,7 @@ theorem perfectCentralizerPlanes_twistedE6_four {ℓ f : ℕ} [Fact ℓ.Prime] (
   refine ⟨x, hxE, hx1, ⁅Subgroup.centralizer ({x} : Set (twistedE6RootGroup K σ)),
     Subgroup.centralizer ({x} : Set (twistedE6RootGroup K σ))⁆, Subgroup.commutator_le_self _,
     ?_, (Nat.Prime.dvd_iff_not_coprime hp).2 hpR⟩
-  haveI : Group.IsPerfect ↥(⁅Subgroup.centralizer ({x} : Set (twistedE6RootGroup K σ)),
+  have : Group.IsPerfect ↥(⁅Subgroup.centralizer ({x} : Set (twistedE6RootGroup K σ)),
     Subgroup.centralizer ({x} : Set (twistedE6RootGroup K σ))⁆ :
       Subgroup (twistedE6RootGroup K σ)) := hquasi.1
   exact Subgroup.commutator_eq_self

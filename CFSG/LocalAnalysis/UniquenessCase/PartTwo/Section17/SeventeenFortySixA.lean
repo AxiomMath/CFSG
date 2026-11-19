@@ -189,7 +189,7 @@ theorem s17_46_core
     simp [CS17LieRank] at hrank
   have hC3 : 3 ≤ CFSG.Open.pRank r C := by
     have h := cartanRank_le_pRank_cartan_on hK4 ctx.mem_calC ctx.cartan
-      (by change CS17LieRank t m ≤ 3; rw [hrank]) hmodel hr hr2 hrdvd hPSL hE6
+      (by rw [hrank]) hmodel hr hr2 hrdvd hPSL hE6
     rwa [hrank] at h
   have hZ : ¬ r ∣ Nat.card (Subgroup.center (Bar2 L)) := by
     by_cases htPSL : t = .PSL

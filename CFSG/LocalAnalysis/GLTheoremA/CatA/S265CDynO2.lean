@@ -50,8 +50,8 @@ theorem classicalOr360_of_quot_statedSL {X : Type} [Group X] [Finite X] {a k : �
       rw [CFSG.Open.StatedAPI.card_statedSL_two E, hE2] at hdvd
       norm_num at hdvd
       exact lt_of_le_of_lt (Nat.le_of_dvd (by norm_num) hdvd) (by norm_num)
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
-    haveI : Group.IsSolvable (X ⧸ Subgroup.center X) :=
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+    have : Group.IsSolvable (X ⧸ Subgroup.center X) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable hcard
     exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
       (J := X) inferInstance).elim
@@ -95,11 +95,11 @@ theorem classicalOr360_of_quot_heldSU {X : Type} [Group X] [Finite X] {a k : ℕ
   · by_cases h31 : a = 3 ∧ k = 1
     ·
       obtain ⟨rfl, rfl⟩ := h31
-      haveI := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
+      have := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
         τ' hτ' (fun x => by simpa using hτ'k x) (by simpa using hE)
-      haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+      have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
       exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
-        (J := X) (solvable_of_surjective (f := φ.symm.toMonoidHom)
+        (J := X) (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom)
           φ.symm.surjective)).elim
     · have hak : (a, 2 ^ k) ≠ (3, 2) := by
         intro h
@@ -144,7 +144,7 @@ theorem classicalOr360_of_spCover {X : Type} [Group X] {m k : ℕ} {K : Type} [F
     [Finite K] (hm : 2 ≤ m) (hne : ¬(m = 2 ∧ Nat.card K = 2)) (hK : Nat.card K = 2 ^ k)
     (g : StatedSp m K →* X) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center (StatedSp m K)) : ClassicalOr360 X := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hne' : (m, Fintype.card K) ≠ (2, 2) := fun h =>
     hne ⟨(Prod.mk.inj h).1, by rw [Nat.card_eq_fintype_card]; exact (Prod.mk.inj h).2⟩
   have hSpPerf : commutator (StatedSp m K) = ⊤ :=
@@ -201,8 +201,8 @@ theorem classicalOr360_lin {S : Type} [Group S] [Finite S] {labL : GLALabel} {β
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.ker_projMk_le_center hM.2.2.1 hMJ
   obtain ⟨eMZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv
     (Subgroup.equivMapOfInjective M _ hMinj)
-  letI := hEf
-  letI := hEalg
+  let := hEf
+  let := hEalg
   obtain ⟨k, hk⟩ := CFSG.LocalAnalysis.GLTheoremA.CanonTriL.exists_card_eq_two_pow
     (F := F) (E := E) h2
   exact ClassicalOr360.of_mulEquiv (J.equivMapOfInjective e.toMonoidHom e.injective)
@@ -240,11 +240,11 @@ theorem classicalOr360_uni {S : Type} [Group S] [Finite S] {labL : GLALabel} {β
       hJ with
     ⟨a, dd, E, hE, hEfin, τ', hτ', ha2, hτ'Q, hcardE, ⟨eM⟩⟩ |
     ⟨b, e', E, hE, hEfin, hb2, hcardE, ⟨eM⟩⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ dd = 2 ^ (labL.n * dd) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hτ'Q hcardE
     exact classicalOr360_of_quot_heldSU hJ.2.2 τ' hτ' ha2 hτ'Q hcardE ⟨eM⟩
-  · letI := hE
+  · let := hE
     have hpw : Q ^ (2 * e') = 2 ^ (labL.n * (2 * e')) := by rw [← hQdef, ← pow_mul]
     rw [hpw] at hcardE
     exact classicalOr360_of_quot_statedSL hJ.2.2 hb2 hcardE ⟨eM⟩
@@ -258,8 +258,8 @@ theorem classicalOr360_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {�
   classical
   obtain ⟨F, hF, hFf, r, hr, hn, hcard, h2, e, A, hαA⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.I141F.Cls.compType_symp_data hcen ht hin
-  letI := hF
-  letI := hFf
+  let := hF
+  let := hFf
   obtain ⟨x, hx⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnSympRed.exists_conjAut_eq_conj h2 A
   have hMEq : MulAut.congr e β = MulAut.conj (proj r F x) := by
     rw [← hx]
@@ -294,7 +294,7 @@ theorem classicalOr360_symp {S : Type} [Group S] [Finite S] {labL : GLALabel} {�
       (fun h => h.elim) (fun h => h.elim) (fun h => h.elim)
       hp hp2 Nat.prime_two hn hcard (by omega) hp2 (fun h => h.elim) x hxp
   obtain ⟨X, inst, hXfin, ⟨hXLie, -⟩, hfac, f, hf, hker⟩ := hcomp _ hJ'
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac
@@ -340,7 +340,7 @@ theorem classicalOr360_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {�
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.suFactorFacts_holds
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.omegaFactorField_holds
       hp hp2 (Or.inr ht) hG hp2 a hap J hJ
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect g hg hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.OrthFactorOver at hfac
@@ -352,7 +352,7 @@ theorem classicalOr360_orth {S : Type} [Group S] [Finite S] {labL : GLALabel} {�
       CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.uniCase_of_factor eJ hSU
     exact classicalOr360_of_quot_heldSU hJ.2.2 τ hτ hb hτk hE hφ
   · obtain ⟨K', _, _, hK'card, hK'ring, s, hs2, hne, ⟨eX⟩⟩ := hSp
-    haveI : Finite K' := Finite.of_fintype K'
+    have : Finite K' := Finite.of_fintype K'
     have hchar : CharP K' 2 := ringChar.of_eq hK'ring
     have hne' : ¬(s = 2 ∧ Nat.card K' = 2) := fun h => hne (by rw [h.1, h.2])
     obtain ⟨eXZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sp
@@ -406,7 +406,7 @@ theorem classicalOr360_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ 
   · by_cases hQ : 3 ≤ S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)
     · obtain ⟨K', hfin, hne, g, hg, hker⟩ := exists_spCover_of_spRange S hT i hinner (m := 2) le_rfl
         (fun K' hfin hcardK' => by
-          haveI := hfin
+          have := hfin
           obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
           have h3 : 3 ≤ Nat.card ↥K' := hcardK' ▸ hQ
           have h4 : 4 ≤ Nat.card ↥K' := by
@@ -415,7 +415,7 @@ theorem classicalOr360_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ 
             · interval_cases k <;> omega
             · calc 4 = 2 ^ 2 := by norm_num
                 _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-          haveI : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
+          have : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
           refine ⟨fun h => by omega, ?_⟩
           obtain ⟨Ψ, hΨker, hΨrange⟩ := spRange_f4_B2 h4
           rw [CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4)
@@ -425,12 +425,12 @@ theorem classicalOr360_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ 
           rw [hr']
           show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
           rw [hroots])
-      haveI := hfin
+      have := hfin
       obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
       exact classicalOr360_of_spCover le_rfl hne hk g hg hker
     · obtain ⟨K', hfin, hK2, ⟨eR⟩⟩ :=
         exists_sp42_equiv_rationalComponent S hT i v hroots hinner (not_le.1 hQ) hqs
-      haveI := hfin
+      have := hfin
       let eZ := QuotientGroup.congr
         (Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
         (Subgroup.center ↥(commutator (StatedSp 2 ↥K'))) eR.symm
@@ -438,7 +438,7 @@ theorem classicalOr360_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ 
       exact classicalOr360_of_quot_sp42 hK2 (MulEquiv.refl _) eZ
   · obtain ⟨K', hfin, hne, g, hg, hker⟩ := exists_spCover_of_spRange S hT i hinner (m := 3)
       (by norm_num) (fun K' hfin hcardK' => by
-        haveI := hfin
+        have := hfin
         obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
         have hk0 : 0 < k := by
           rcases Nat.eq_zero_or_pos k with h0 | h0
@@ -455,7 +455,7 @@ theorem classicalOr360_f4_class_nonA {L : Type} [Field L] [IsAlgClosed L] {p₀ 
         rw [hr']
         show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
         rw [hroots])
-    haveI := hfin
+    have := hfin
     obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
     exact classicalOr360_of_spCover (by norm_num) hne hk g hg hker
 
@@ -466,7 +466,7 @@ theorem classicalOr360_adjointF4 {K : Type} [Field K] [Finite K] (hK2 : ringChar
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) : ClassicalOr360 ↥J := by
   classical
   obtain ⟨h, hh, hβh, hp1, hh1⟩ := exists_inndiag_of_mem_innAutDerived_F4 β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := by rw [hK2]; exact hp2
@@ -536,7 +536,7 @@ theorem classicalOr360_F4 {S : Type} [Group S] [Finite S] {labL : GLALabel} {β 
     (CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcen).symm.trans
       (e₀.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot))
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'p : (MulAut.congr ψ β) ^ p = 1 := by rw [← map_pow, hβp, map_one]

@@ -126,6 +126,7 @@ theorem V_le_Q (hc : Ctx4Q t L S x₁ x₂ lam rho tau) :
   · exact pow_mem hc.x₁_mem_Q 2
   · exact pow_mem (mul_mem hc.x₁_mem_Q hc.x₂_mem_Q) 2
 
+omit [Finite G] in
 private theorem mem_cent_rho {a : G} (h : rho * a = a * rho) : a ∈ centralizer ({rho} : Set G) :=
   mem_centralizer_iff.mpr fun h' hh => by rw [Set.mem_singleton_iff.mp hh]; exact h
 

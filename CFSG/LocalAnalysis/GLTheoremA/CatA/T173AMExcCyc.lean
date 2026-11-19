@@ -14,7 +14,7 @@ theorem uexc_cycModSylow_map {p : ℕ} (hp : p.Prime) {Ω : Type} [Group Ω] [Fi
     {S : Subgroup Ω} (hS : S.Normal) (Z : Subgroup Ω) [Z.Normal] (hZ : ¬ p ∣ Nat.card Z)
     (hcyc : CycModSylow p S) : CycModSylow p (S.map (QuotientGroup.mk' Z)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : ¬ p ∣ Nat.card (QuotientGroup.mk' Z).ker := by
     rw [QuotientGroup.ker_mk']
     exact hZ

@@ -112,19 +112,19 @@ theorem lineL_of : ∀ j < 90, net j = true → 13 ≤ j → ∃ t < 31, nthN li
   decide +kernel
 
 
-theorem genG_one : genG 1 = a := if_pos rfl
+theorem genG_one : genG 1 = a := ite_eq_left rfl
 
 theorem genG_neg_one : genG (-1) = a := by
   unfold genG
-  rw [if_neg (by decide), if_pos rfl, a_inv]
+  rw [ite_eq_right (by decide), ite_eq_left rfl, a_inv]
 
 theorem genG_two : genG 2 = b := by
   unfold genG
-  rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem genG_inv {z : ℤ} (h1 : z ≠ 1) (h2 : z ≠ -1) (h3 : z ≠ 2) : genG z = b⁻¹ := by
   unfold genG
-  rw [if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 @[expose] noncomputable def LL (z : ℤ) : J :=
   if z.natAbs ≤ 2 then genG z else if 0 < z then line (z.natAbs - 3) else (line (z.natAbs - 3))⁻¹
@@ -133,21 +133,21 @@ theorem LL_inv (z : ℤ) (hz : z ≠ 0) : LL (-z) = (LL z)⁻¹ := by
   unfold LL
   rw [Int.natAbs_neg]
   by_cases h : z.natAbs ≤ 2
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     rcases (by omega : z = -2 ∨ z = -1 ∨ z = 1 ∨ z = 2) with rfl | rfl | rfl | rfl
     · rw [neg_neg, genG_two, genG_inv (by decide) (by decide) (by decide), inv_inv]
     · rw [neg_neg, genG_one, genG_neg_one, a_inv]
     · rw [genG_one, genG_neg_one, a_inv]
     · rw [genG_two, genG_inv (by decide) (by decide) (by decide)]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     rcases lt_or_gt_of_ne hz with h' | h'
-    · rw [if_pos (by omega : (0 : ℤ) < -z), if_neg (by omega : ¬ (0 : ℤ) < z), inv_inv]
-    · rw [if_neg (by omega : ¬ (0 : ℤ) < -z), if_pos h']
+    · rw [ite_eq_left (by omega : (0 : ℤ) < -z), ite_eq_right (by omega : ¬ (0 : ℤ) < z), inv_inv]
+    · rw [ite_eq_right (by omega : ¬ (0 : ℤ) < -z), ite_eq_left h']
 
 theorem LL_ofNat (l : ℕ) : LL (Int.ofNat (l + 3)) = line l := by
   unfold LL
   have e : (Int.ofNat (l + 3)).natAbs = l + 3 := rfl
-  rw [e, if_neg (by omega), if_pos (by rw [Int.ofNat_eq_coe]; omega), Nat.add_sub_cancel]
+  rw [e, ite_eq_right (by omega), ite_eq_left (by rw [Int.ofNat_eq_natCast]; omega), Nat.add_sub_cancel]
 
 theorem wEl_W (j : ℕ) : wEl LL (W[j]!) = line j := by
   rw [line, CFSG.Sporadic.Fi23.slpG_eq]
@@ -157,9 +157,9 @@ theorem wEl_W (j : ℕ) : wEl LL (W[j]!) = line j := by
     obtain ⟨-, hz1⟩ := W_letter j hj z hz
     unfold LL
     by_cases h2 : z.natAbs ≤ 2
-    · rw [if_pos h2, if_pos h2]
+    · rw [ite_eq_left h2, ite_eq_left h2]
     · have hlt : z.natAbs - 3 < j := by have := hz1.resolve_left h2; omega
-      rw [if_neg h2, if_neg h2, if_pos hlt]
+      rw [ite_eq_right h2, ite_eq_right h2, ite_eq_left hlt]
       rfl
   · rw [W_get_neg hj]
     rfl
@@ -176,7 +176,7 @@ theorem idx_gs_inv {j : Nat} (hj : j < 13) {q : Nat} (hq : q < 306936) :
   have e1 : (2 * j + 1) / 2 = j := by omega
   have e : pairG gs (2 * j + 1) = (gs j)⁻¹ := by
     unfold pairG
-    rw [if_neg (by omega), e1]
+    rw [ite_eq_right (by omega), e1]
   rwa [e, LN_odd] at h
 
 theorem pt_small {z : ℤ} (hz : z.natAbs ≤ 2) {q : ℕ} (hq : q < 306936) :
@@ -204,18 +204,18 @@ theorem pt_of_line {m : ℕ} (hm : net m = true)
   obtain ⟨hv, hpt⟩ := net_spec (netOK_all m hm)
   rw [ptZ_eq_lP]
   unfold LL
-  rw [if_neg (by omega), hz, Nat.add_sub_cancel]
+  rw [ite_eq_right (by omega), hz, Nat.add_sub_cancel]
   cases z with
   | ofNat n =>
     have hn : n = m + 3 := hz
     subst hn
-    have e : lP NV (Int.ofNat (m + 3)) = pF (NV (lidx (m + 3))) := if_neg (by omega)
-    rw [e, lidx_ge (by omega), Nat.add_sub_cancel, if_pos (by rw [Int.ofNat_eq_coe]; omega),
+    have e : lP NV (Int.ofNat (m + 3)) = pF (NV (lidx (m + 3))) := ite_eq_right (by omega)
+    rw [e, lidx_ge (by omega), Nat.add_sub_cancel, ite_eq_left (by rw [Int.ofNat_eq_natCast]; omega),
       h q hq]
   | negSucc n =>
     have hn : n + 1 = m + 3 := hz
-    have e : lP NV (Int.negSucc n) = pR (NV (lidx (n + 1))) := if_neg (by omega)
-    rw [e, hn, lidx_ge (by omega), Nat.add_sub_cancel, if_neg (by rw [Int.negSucc_eq]; omega)]
+    have e : lP NV (Int.negSucc n) = pR (NV (lidx (n + 1))) := ite_eq_right (by omega)
+    rw [e, hn, lidx_ge (by omega), Nat.add_sub_cancel, ite_eq_right (by rw [Int.negSucc_eq]; omega)]
     have hr : pR (NV m) q < 306936 := by
       have := (hpt _ (pR_lt hv (by omega : q < 524288))).1
       rw [pF_pR hv] at this
@@ -276,7 +276,7 @@ theorem pt_line : ∀ j, net j = true → ∀ q < 306936, idx 306936 (line j) q 
     obtain ⟨-, hz1⟩ := W_letter j hjW z hzW
     by_cases h2 : z.natAbs ≤ 2
     · unfold LL
-      rw [if_pos h2]
+      rw [ite_eq_left h2]
       exact pt_small h2 hq'
     · have hm := net_of_dir (dirOK_mem hdir z hz) h2
       exact pt_of_line hm (ih _ (by omega) hm) (by omega) q' hq'
@@ -285,7 +285,7 @@ theorem ptHyp : PtHyp LL NV net := by
   intro z hz q hq
   by_cases h2 : z.natAbs ≤ 2
   · unfold LL
-    rw [if_pos h2]
+    rw [ite_eq_left h2]
     exact pt_small h2 hq
   · have hm := net_of_dir hz h2
     exact pt_of_line hm (pt_line _ hm) (by omega) q hq
@@ -302,8 +302,8 @@ theorem fl_eq (j : ℕ) : (∀ y ∈ fl j, y ≠ 0) ∧ wEl LL (fl j) = line j :
       · rw [W_get_neg hs] at hy
         exact absurd hy List.not_mem_nil
     · unfold LL
-      rw [if_neg h2, if_pos hz]
-  have h := flatF_spec LL_inv hW 8 (Int.ofNat (j + 3)) (by rw [Int.ofNat_eq_coe]; omega)
+      rw [ite_eq_right h2, ite_eq_left hz]
+  have h := flatF_spec LL_inv hW 8 (Int.ofNat (j + 3)) (by rw [Int.ofNat_eq_natCast]; omega)
   rw [LL_ofNat] at h
   exact h
 

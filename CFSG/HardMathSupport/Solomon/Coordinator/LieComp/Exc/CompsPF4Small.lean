@@ -42,7 +42,7 @@ theorem fin3_up_single : ∀ i j : Fin 3, edgeUp 3 i j → ¬ (i = 1 ∧ j = 2) 
 
 theorem sq_eq_self_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (c : K) :
     c ^ 2 = c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := FiniteField.pow_card c
   rwa [← Nat.card_eq_fintype_card, hK] at h
 
@@ -192,10 +192,10 @@ end CompsPF4Small
 theorem innerRecog_f4_B3_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     InnerRecog 2 ↥(subsystemGroup .F4 K f4LeviB3) := by
   classical
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := ringChar_eq_of_natCard_eq_pow Nat.prime_two (f := 1) (by rw [hK]; norm_num) Nat.one_pos
     rw [← this]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact ringChar.charP K
   have hsq := CompsPF4Small.sq_eq_self_of_card_two hK
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num
@@ -267,8 +267,8 @@ theorem rationalLieType_of_f4Levi_class_any {L : Type} [Field L] [IsAlgClosed L]
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf

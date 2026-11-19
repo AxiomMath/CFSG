@@ -49,7 +49,7 @@ theorem u6Key_holds : U6Key := by
         by_cases hij : i = j
         · subst hij
           simp [hconst i]
-        · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
+        · simp [Matrix.diagonal_apply_ne _ hij]
       have hB' : B = (Pm : GL (Fin 6) F4) * D * (Pm : GL (Fin 6) F4)⁻¹ := by
         rw [hDeq]
         group
@@ -89,9 +89,9 @@ theorem u6Key_holds : U6Key := by
     exfalso
     have hc1 : c ≠ 1 := fun h => hB3 (by rw [hBc, h, map_one])
     obtain ⟨Tq, _, f, hf, hTs, hTc, hker⟩ := hPq
-    haveI : IsSimpleGroup Tq := hTs
-    haveI : Finite Tq := Nat.finite_of_card_ne_zero (by rw [hTc]; norm_num)
-    haveI : Group.IsPerfect Tq := CatB.I1431YD4.isPerfect_of_simple (by rw [hTc]; norm_num)
+    have : IsSimpleGroup Tq := hTs
+    have : Finite Tq := Nat.finite_of_card_ne_zero (by rw [hTc]; norm_num)
+    have : Group.IsPerfect Tq := CatB.I1431YD4.isPerfect_of_simple (by rw [hTc]; norm_num)
     have hαβB : ∀ k : M6, covM6 (conjM6 ⟨B, hB⟩ k) = β (covM6 k) :=
       fun k => (hβB k (conjM6 ⟨B, hB⟩ k) rfl).symm
     obtain ⟨LP, hLPperf, hLPfix, hLPP, hLPs⟩ :=

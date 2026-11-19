@@ -32,9 +32,9 @@ theorem d4t2CosetPart_of_residuals (hC : D4T2CentralTorus) (hT : D4T2CubeToral)
   by_cases hEM : Eh ≤ toralRootGroup .E6 L a
   swap
   · exact d4t2c_caseB hC S hS hAlg hl hf hq hl3 h3 h3q hdT hap hall hEhM hab hcard hdE hEM
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   obtain ⟨hch, halg⟩ := S.exists_charP_isAlgebraic_zmod hAlg hl hf hq
-  haveI := hch
+  have := hch
   obtain ⟨g, hgC, hgE⟩ := hT hl hl3 halg hap hall Eh hEM hab hcard hdE
   obtain ⟨S', c, hΦ', hq', hcC, hΓ', hEc⟩ :=
     d4t2c_exists_conj_setup S hS hl hf hq hEhM hdE hgC hgE

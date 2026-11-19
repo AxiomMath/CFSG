@@ -299,7 +299,7 @@ theorem burnsideJ410_LS_of_isConj
     {G : Type} [Group G] [Finite G] (M : RuDataM G) {c : G} {Bc : Subgroup G}
     (hc : IsConj M.z c) (hB : Nat.card Bc = 5)
     (hBc : Bc ≤ Subgroup.centralizer ({c} : Set G)) : burnsideJ410_LS M.z c Bc := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := isConj_iff.mp hc
   obtain ⟨x0, hx0B, hx05, hx01, -⟩ := exists_gen_of_card_five hB
   have hzp : Subgroup.zpowers x0 = Bc := zpowers_eq_of_card_five hB hx0B hx05 hx01
@@ -441,7 +441,7 @@ theorem burnsideJ410_LS_of_isConj
       rw [hT5, hG5] at h
       intro hd
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hpT : IsPGroup 2 (M.T5 b) := by
       rw [IsPGroup.iff_card, hT5]
       exact ⟨3, by norm_num⟩
@@ -828,6 +828,7 @@ section Loc2
 
 variable {z u : G} [Finite G]
 
+omit [Finite G] in
 theorem burnsideJ410_Einv_trichotomy (hL : burnsideJ410_Loc z u) {a b c d : G}
     (ha : a ∈ burnsideJ410_Einv z u) (hb : b ∈ burnsideJ410_Einv z u)
     (hc : c ∈ burnsideJ410_Einv z u) (hd : d ∈ burnsideJ410_Einv z u)
@@ -842,6 +843,7 @@ theorem burnsideJ410_Einv_trichotomy (hL : burnsideJ410_Loc z u) {a b c d : G}
   rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl <;>
     rcases hc with rfl | rfl | rfl <;> rcases hd with rfl | rfl | rfl <;> simp_all
 
+omit [Finite G] in
 theorem burnsideJ410_trichotomy (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) :
     (burnsideJ410_Cent z Y ∧ burnsideJ410_Inv u Y ∧ burnsideJ410_Inv (u * z) Y) ∨
@@ -873,6 +875,7 @@ theorem burnsideJ410_trichotomy (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
       _ = (u * y * u⁻¹)⁻¹ := by group
       _ = y := by rw [hu y hy, inv_inv]
 
+omit [Finite G] in
 theorem burnsideJ410_label_exists (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) :
     ∃ v ∈ burnsideJ410_Einv z u, burnsideJ410_Cent v Y ∧
@@ -897,6 +900,7 @@ theorem burnsideJ410_label_exists (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     · exact h2
     · exact absurd rfl hwz
 
+omit [Finite G] in
 theorem burnsideJ410_label_unique (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v v' : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hv' : v' ∈ burnsideJ410_Einv z u) (h : burnsideJ410_Cent v Y)
@@ -908,6 +912,7 @@ theorem burnsideJ410_label_unique (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     exact burnsideJ410_not_cent_inv hY.1 hxC (hcI x hx hne)
   rw [key v hv h, key v' hv' h']
 
+omit [Finite G] in
 theorem burnsideJ410_inv_of_ne (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v w : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hvY : burnsideJ410_Cent v Y) (hw : w ∈ burnsideJ410_Einv z u) (hwv : w ≠ v) :
@@ -917,11 +922,13 @@ theorem burnsideJ410_inv_of_ne (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
   subst this
   exact hcI w hw hwv
 
+omit [Finite G] in
 theorem burnsideJ410_LS_of_label (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hvY : burnsideJ410_Cent v Y) : burnsideJ410_LS z v Y :=
   hL.LS v Y (burnsideJ410_Einv_conj hL hv) hY.1 (burnsideJ410_le_centralizer_of_cent hvY)
 
+omit [Finite G] in
 theorem burnsideJ410_mem_O5N (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hvY : burnsideJ410_Cent v Y) {x : G} :
@@ -935,6 +942,7 @@ theorem burnsideJ410_mem_O5N (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
   · rintro ⟨h5, hc⟩
     exact hLS.mem_P x hc h5
 
+omit [Finite G] in
 theorem burnsideJ410_cent_O5N (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hvY : burnsideJ410_Cent v Y) :
@@ -1028,6 +1036,7 @@ section Equiv
 
 variable {z u : G} [Finite G]
 
+omit [Finite G] in
 theorem burnsideJ410_zpowers_sq {x : G} (h : x * x = 1) {s : G} (hs : s ∈ Subgroup.zpowers x) :
     s = 1 ∨ s = x := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hs
@@ -1036,6 +1045,7 @@ theorem burnsideJ410_zpowers_sq {x : G} (h : x * x = 1) {s : G} (hs : s ∈ Subg
   · left; rw [zpow_mul, hsq, one_zpow]
   · right; rw [zpow_add, zpow_mul, hsq, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 theorem burnsideJ410_mem_E_iff (hL : burnsideJ410_Loc z u) {x : G} :
     x ∈ burnsideJ410_E z u ↔ x = 1 ∨ x = z ∨ x = u ∨ x = u * z := by
   constructor
@@ -1059,12 +1069,14 @@ theorem burnsideJ410_mem_E_iff (hL : burnsideJ410_Loc z u) {x : G} :
     · exact mul_mem (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
         (Subgroup.mem_sup_right (Subgroup.mem_zpowers _))
 
+omit [Finite G] in
 theorem burnsideJ410_Einv_mem_E (hL : burnsideJ410_Loc z u) {w : G}
     (hw : w ∈ burnsideJ410_Einv z u) : w ∈ burnsideJ410_E z u := by
   rw [burnsideJ410_mem_E_iff hL]
   simp only [burnsideJ410_Einv, Set.mem_insert_iff, Set.mem_singleton_iff] at hw
   tauto
 
+omit [Finite G] in
 theorem burnsideJ410_conj_Einv (hL : burnsideJ410_Loc z u) {g w : G}
     (hg : g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G))
     (hw : w ∈ burnsideJ410_Einv z u) : g⁻¹ * w * g ∈ burnsideJ410_Einv z u := by
@@ -1087,6 +1099,7 @@ theorem burnsideJ410_conj_Einv (hL : burnsideJ410_Loc z u) {g w : G}
   · rw [h]; exact burnsideJ410_u_mem z u
   · rw [h]; exact burnsideJ410_uz_mem z u
 
+omit [Finite G] in
 theorem burnsideJ410_conj_mem_EInv5 {g : G}
     (hg : g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G)) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) : CFSG.conjugate Y g ∈ EInv5Ru z u := by
@@ -1096,6 +1109,7 @@ theorem burnsideJ410_conj_mem_EInv5 {g : G}
   rw [CFSG.ASVolI.RuChoice.fx_mem_conjugate]
   exact hY.2 ((Subgroup.mem_normalizer_iff.mp hg e).mp he)
 
+omit [Finite G] in
 theorem burnsideJ410_conj_cent {w : G} {Y : Subgroup G} (g : G) (h : burnsideJ410_Cent w Y) :
     burnsideJ410_Cent (g⁻¹ * w * g) (CFSG.conjugate Y g) := by
   intro x hx
@@ -1104,12 +1118,14 @@ theorem burnsideJ410_conj_cent {w : G} {Y : Subgroup G} (g : G) (h : burnsideJ41
   calc g⁻¹ * w * g * x * (g⁻¹ * w * g)⁻¹ = g⁻¹ * (w * (g * x * g⁻¹) * w⁻¹) * g := by group
     _ = x := by rw [this]; group
 
+omit [Finite G] in
 theorem burnsideJ410_mem_conj_inv {A : Subgroup G} (g : G) {a : G} (ha : a ∈ A) :
     g⁻¹ * a * g ∈ CFSG.conjugate A g := by
   rw [CFSG.ASVolI.RuChoice.fx_mem_conjugate]
   have : g * (g⁻¹ * a * g) * g⁻¹ = a := by group
   rw [this]; exact ha
 
+omit [Finite G] in
 theorem burnsideJ410_comm_conj (g a b : G) :
     (g * a * g⁻¹) * (g * b * g⁻¹) = (g * b * g⁻¹) * (g * a * g⁻¹) ↔ a * b = b * a := by
   constructor
@@ -1122,6 +1138,7 @@ theorem burnsideJ410_comm_conj (g a b : G) :
       _ = g * (b * a) * g⁻¹ := by rw [h]
       _ = (g * b * g⁻¹) * (g * a * g⁻¹) := by group
 
+omit [Finite G] in
 theorem burnsideJ410_conj_comm_bot {A B : Subgroup G} (g : G) :
     ⁅CFSG.conjugate A g, CFSG.conjugate B g⁆ = ⊥ ↔ ⁅A, B⁆ = ⊥ := by
   rw [burnsideJ410_comm_bot_iff, burnsideJ410_comm_bot_iff]
@@ -1136,6 +1153,7 @@ theorem burnsideJ410_conj_comm_bot {A B : Subgroup G} (g : G) :
     have h1 := h _ hx _ hy
     exact (burnsideJ410_comm_conj g x y).mp h1
 
+omit [Finite G] in
 theorem burnsideJ410_conj_nb (hL : burnsideJ410_Loc z u) {Y : Subgroup G}
     (hY : Y ∈ EInv5Ru z u) {v : G} (hv : v ∈ burnsideJ410_Einv z u)
     (hvY : burnsideJ410_Cent v Y) (w : G) {g : G}
@@ -1429,6 +1447,7 @@ theorem burnsideJ410_cent_triv (hL : burnsideJ410_Loc z u) {Y₀ Y₁ Y₂ : Sub
       exact Subgroup.mem_inf.mpr ⟨hg'P, Subgroup.mem_centralizer_singleton_iff.mpr hg'a⟩
     exact hnc (burnsideJ410_comm_of_gens h₀.1 h₂.1 hg'Y₀ hd₂ hg'1' hd₂1 hg'2 x₀ hx₀ d₂ hd₂)
 
+omit [Finite G] in
 theorem burnsideJ410_le_O5N (hL : burnsideJ410_Loc z u) {X A : Subgroup G}
     (hX : X ∈ EInv5Ru z u) (hA : A ∈ EInv5Ru z u) {p : G} (hp : p ∈ burnsideJ410_Einv z u)
     (hXp : burnsideJ410_Cent p X) (hAX : ⁅X, A⁆ = ⊥) : A ≤ O5N X := by
@@ -1437,6 +1456,7 @@ theorem burnsideJ410_le_O5N (hL : burnsideJ410_Loc z u) {X A : Subgroup G}
   exact (burnsideJ410_mem_O5N hL hX hp hXp).mpr
     ⟨burnsideJ410_pow_five hA.1 ha, fun y hy => (hcommA y hy a ha).symm⟩
 
+omit [Finite G] in
 theorem burnsideJ410_pow_conj {x δ d : G} (hxδ : x * δ * x⁻¹ = δ) (hxd : x * d * x⁻¹ = δ * d)
     (m : ℕ) : x ^ m * d * (x ^ m)⁻¹ = δ ^ m * d := by
   induction m with
@@ -1450,6 +1470,7 @@ theorem burnsideJ410_pow_conj {x δ d : G} (hxδ : x * δ * x⁻¹ = δ) (hxd : 
       _ = δ ^ (m + 1) * d := by rw [pow_succ]; group
 
 open scoped Pointwise in
+omit [Finite G] in
 theorem burnsideJ410_mem_sup_normalizer {S T : Subgroup G}
     (hle : S ≤ Subgroup.normalizer (T : Set G)) {g : G} (hg : g ∈ S ⊔ T) :
     ∃ s ∈ S, ∃ t ∈ T, s * t = g := by
@@ -1681,7 +1702,7 @@ theorem burnsideJ410_path_sup_ne (hL : burnsideJ410_Loc z u) {Y₀ Y₁ Y₂ Y�
     (c12 : ⁅Y₁, Y₂⁆ = ⊥) (c23 : ⁅Y₂, Y₃⁆ = ⊥) :
     Y₀ ⊔ burnsideJ410_QOf a ≠ Y₃ ⊔ burnsideJ410_QOf a := by
   intro hsup
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x₀, hx₀, d₁, hd₁, d₂, hd₂, x₃, hx₃, hd₁1, hd₂1, hnc, r2, r1, r4, r5, r3⟩ :=
     burnsideJ410_path_gens hL h₀ h₁ h₂ h₃ ha hb hc hab hac hbc hY₀ hY₁ hY₂ hY₃ c01 c12 c23
   have hx₃sup : x₃ ∈ Y₀ ⊔ burnsideJ410_QOf a := by
@@ -1810,6 +1831,7 @@ structure burnsideJ410_Fix (z u : G) (F1 B5 : Subgroup G) : Prop where
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem burnsideJ410_conj_le_iff {A B : Subgroup G} (g : G) :
     CFSG.conjugate A g ≤ CFSG.conjugate B g ↔ A ≤ B := by
   constructor
@@ -1823,16 +1845,19 @@ theorem burnsideJ410_conj_le_iff {A B : Subgroup G} (g : G) :
     rw [CFSG.ASVolI.RuChoice.fx_mem_conjugate] at hx ⊢
     exact h hx
 
+omit [Finite G] in
 theorem burnsideJ410_conj_conj_inv (A : Subgroup G) (g : G) :
     CFSG.conjugate (CFSG.conjugate A g) g⁻¹ = A := by
   rw [CFSG.ASVolI.RuChoice.fx_conjugate_conjugate, mul_inv_cancel,
     CFSG.ASVolI.RuChoice.fx_conjugate_one]
 
+omit [Finite G] in
 theorem burnsideJ410_conj_inv_conj (A : Subgroup G) (g : G) :
     CFSG.conjugate (CFSG.conjugate A g⁻¹) g = A := by
   rw [CFSG.ASVolI.RuChoice.fx_conjugate_conjugate, inv_mul_cancel,
     CFSG.ASVolI.RuChoice.fx_conjugate_one]
 
+omit [Finite G] in
 theorem burnsideJ410_conj_inj {A B : Subgroup G} (g : G)
     (h : CFSG.conjugate A g = CFSG.conjugate B g) : A = B := by
   have := congrArg (fun X => CFSG.conjugate X g⁻¹) h
@@ -1848,7 +1873,7 @@ theorem burnsideJ410_pCoreOf_conj (X : Subgroup G) (t : G) :
       (pCoreOf_le 2 X)) ?_ ?_
     · rw [CFSG.ASVolI.RuChoice.fx_normalizer_conjugate, burnsideJ410_conj_le_iff]
       exact le_normalizer_pCoreOf 2 X
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := (pCoreOf_isPGroup 2 X).exists_card_eq
       exact IsPGroup.of_card (n := k) (by rw [CFSG.ASVolI.RuChoice.fx_card_conjugate]; exact hk)
   apply le_antisymm _ (key X t)
@@ -1859,6 +1884,7 @@ theorem burnsideJ410_pCoreOf_conj (X : Subgroup G) (t : G) :
     CFSG.ASVolI.RuChoice.fx_conjugate_one]
   exact h
 
+omit [Finite G] in
 theorem burnsideJ410_conj_centralizer (w g : G) :
     CFSG.conjugate (Subgroup.centralizer ({w} : Set G)) g =
       Subgroup.centralizer ({g⁻¹ * w * g} : Set G) := by
@@ -1874,6 +1900,7 @@ theorem burnsideJ410_conj_QOf (w g : G) :
   unfold burnsideJ410_QOf
   rw [← burnsideJ410_pCoreOf_conj, burnsideJ410_conj_centralizer]
 
+omit [Finite G] in
 theorem burnsideJ410_mem_H_iff {z k : G} :
     k ∈ Subgroup.centralizer ({z} : Set G) ↔ k⁻¹ * z * k = z := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -1889,7 +1916,7 @@ theorem burnsideJ410_mem_H_iff {z k : G} :
 theorem burnsideJ410_sylow_conj {K : Subgroup G} (hK : ¬ 5 ^ 2 ∣ Nat.card K)
     {Y Y' : Subgroup G} (hY : Nat.card Y = 5) (hY' : Nat.card Y' = 5) (hYK : Y ≤ K)
     (hY'K : Y' ≤ K) : ∃ g ∈ K, Y' = CFSG.conjugate Y g := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y, hy, hy5, hy1, -⟩ := CFSG.Quasithin.RuType.exists_gen_of_card_five hY
   obtain ⟨y', hy', hy5', hy1', -⟩ := CFSG.Quasithin.RuType.exists_gen_of_card_five hY'
   have hzy := CFSG.Quasithin.RuType.zpowers_eq_of_card_five hY hy hy5 hy1
@@ -1905,12 +1932,14 @@ theorem burnsideJ410_sylow_conj {K : Subgroup G} (hK : ¬ 5 ^ 2 ∣ Nat.card K)
     exact Subgroup.zpowers_le.mpr hgy
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [CFSG.ASVolI.RuChoice.fx_card_conjugate, hY, hY'])
 
+omit [Finite G] in
 theorem burnsideJ410_conj_Q_eq {z n : G} (hn : n ∈ Subgroup.centralizer ({z} : Set G)) :
     CFSG.conjugate (burnsideJ410_QOf z) n = burnsideJ410_QOf z := by
   unfold burnsideJ410_QOf
   exact CFSG.ASVolI.RuChoice.fx_conjugate_eq_self
     (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Subgroup.centralizer ({z} : Set G)) hn)
 
+omit [Finite G] in
 theorem burnsideJ410_QOf_conj_mem {z h : G} (hh : h ∈ Subgroup.centralizer ({z} : Set G)) {q : G}
     (hq : q ∈ burnsideJ410_QOf z) : h * q * h⁻¹ ∈ burnsideJ410_QOf z := by
   unfold burnsideJ410_QOf at hq ⊢
@@ -1953,8 +1982,8 @@ theorem burnsideJ410_Z2 {z u : G} {F1 B5 : Subgroup G} (hF : burnsideJ410_Fix z 
     (hn' : n' ∈ Subgroup.centralizer ({z} : Set G))
     (h : CFSG.conjugate B5 n ⊔ burnsideJ410_QOf z = CFSG.conjugate B5 n' ⊔ burnsideJ410_QOf z) :
     CFSG.conjugate F1 n = CFSG.conjugate F1 n' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQn := burnsideJ410_conj_Q_eq hn
   have hY₀F : CFSG.conjugate B5 n ≤ CFSG.conjugate F1 n :=
     CFSG.ASVolI.RuChoice.fx_conjugate_mono n hF.B5_le
@@ -2052,6 +2081,7 @@ theorem burnsideJ410_Zeq_iff {z u : G} {F1 B5 : Subgroup G} (hF : burnsideJ410_F
     apply burnsideJ410_Z2 hF hn hn'
     rw [← burnsideJ410_Z1 hF hn hY cY, ← burnsideJ410_Z1 hF hn' hY' cY', h]
 
+omit [Finite G] in
 theorem burnsideJ410_Fset_le_centralizer {z u : G} {F1 B5 : Subgroup G}
     (hF : burnsideJ410_Fix z u F1 B5) {v : G} {E : Subgroup G} (hE : E ∈ FsetRu F1 z v) :
     E ≤ Subgroup.centralizer ({v} : Set G) := by
@@ -2222,7 +2252,7 @@ theorem burnsideJ410_not_mem_QOf {v w : G} {X : Subgroup G} (hX : Nat.card X = 5
     (hXv : X ≤ Subgroup.centralizer ({v} : Set G)) (hw : burnsideJ410_Inv w X) :
     w ∉ burnsideJ410_QOf v := by
   intro hwQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx, hx1⟩ := burnsideJ410_exists_ne_one hX
   have h1 : x * w * x⁻¹ ∈ burnsideJ410_QOf v := burnsideJ410_QOf_conj_mem (hXv hx) hwQ
   have h2 : (x * w * x⁻¹) * w⁻¹ ∈ burnsideJ410_QOf v := mul_mem h1 (inv_mem hwQ)
@@ -2283,6 +2313,7 @@ theorem burnsideJ410_Ev_le_two {z u : G} {F1 B5 : Subgroup G} (hL : burnsideJ410
   · exact Or.inr (Or.inr ((burnsideJ410_Fset_eq_iff hF ⟨kB, hkB, rfl⟩ ⟨kC, hkC, rfl⟩ (le_ kB)
       (le_ kC) (cp kB) (cp kC)).mpr h))
 
+omit [Finite G] in
 theorem burnsideJ410_conj_Fset {z v g : G} {F1 E' : Subgroup G} (h : E' ∈ FsetRu F1 z v) :
     CFSG.conjugate E' g ∈ FsetRu F1 z (g⁻¹ * v * g) := by
   obtain ⟨k, hk, rfl⟩ := h
@@ -2291,6 +2322,7 @@ theorem burnsideJ410_conj_Fset {z v g : G} {F1 E' : Subgroup G} (h : E' ∈ Fset
       _ = g⁻¹ * v * g := by rw [hk]
   · exact CFSG.ASVolI.RuChoice.fx_conjugate_conjugate F1 k g
 
+omit [Finite G] in
 theorem burnsideJ410_conj_Ev {z u v g : G} {F1 E' : Subgroup G}
     (hg : g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G)) (h : E' ∈ EvRu F1 z u v) :
     CFSG.conjugate E' g ∈ EvRu F1 z u (g⁻¹ * v * g) := by
@@ -2371,7 +2403,7 @@ theorem burnsideJ410_lab_inj {z u : G} (hL : burnsideJ410_Loc z u) {i j : ℤ}
   have hi : i % 3 = 0 ∨ i % 3 = 1 ∨ i % 3 = 2 := by omega
   have hj : j % 3 = 0 ∨ j % 3 = 1 ∨ j % 3 = 2 := by omega
   rcases hi with hi | hi | hi <;> rcases hj with hj | hj | hj <;>
-    first | omega | (exfalso; simp [hi, hj] at h <;> simp_all)
+    first | omega | (exfalso; simp [hi, hj] at h; simp_all)
 
 theorem burnsideJ410_lab_zero (z u : G) : burnsideJ410_lab z u 0 = z := by
   simp [burnsideJ410_lab]
@@ -2404,7 +2436,7 @@ theorem burnsideJ410_W_neg (z u : G) (B5 : Subgroup G) (n : ℕ) :
   rcases n with _ | n
   · simp [burnsideJ410_W, burnsideJ410_fw, burnsideJ410_bw]
   · have h : ¬ (0 ≤ -((n + 1 : ℕ) : ℤ)) := by omega
-    rw [burnsideJ410_W, if_neg h, neg_neg, Int.toNat_natCast]
+    rw [burnsideJ410_W, ite_eq_right h, neg_neg, Int.toNat_natCast]
 
 section Walk
 
@@ -2683,6 +2715,7 @@ open CFSG.ASVolI.ChIJK
 
 variable {G : Type} [Group G] [Finite G] {z u : G} {F1 B5 : Subgroup G}
 
+omit [Finite G] in
 theorem burnsideJ410_Fix_B5_cent (hF : burnsideJ410_Fix z u F1 B5) : burnsideJ410_Cent z B5 := by
   refine burnsideJ410_cent_iff_comm.mpr fun y hy => ?_
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hF.F1_le (hF.B5_le hy))).symm
@@ -2739,6 +2772,7 @@ section Theta
 
 variable {θ : ℤ → Subgroup G}
 
+omit [Finite G] in
 theorem burnsideJ410_W_zero (z u : G) (B5 : Subgroup G) : burnsideJ410_W z u B5 0 = B5 := by
   have := burnsideJ410_W_nat z u B5 0
   simpa [burnsideJ410_fw] using this
@@ -2938,11 +2972,13 @@ structure burnsideJ410_Fix2 (z u : G) (F1 B5 I0 : Subgroup G) : Prop where
     burnsideJ410_E z u ≤ Subgroup.normalizer (B₁ : Set G) ∧
     burnsideJ410_E z u ≤ Subgroup.normalizer (B₂ : Set G) ∧ ⁅B₁, B₂⁆ = ⊥
 
+omit [Finite G] in
 theorem burnsideJ410_R_symm {E₁ E₂ : Subgroup G} (h : burnsideJ410_R z u E₁ E₂) :
     burnsideJ410_R z u E₂ E₁ := by
   obtain ⟨B₁, B₂, h1, h2, c1, c2, n1, n2, hc⟩ := h
   exact ⟨B₂, B₁, h2, h1, c2, c1, n2, n1, by rw [Subgroup.commutator_comm]; exact hc⟩
 
+omit [Finite G] in
 theorem burnsideJ410_adj_iff {Es : Set (Subgroup G)} {E₁ E₂ : ↥Es} :
     (EgonGraph Es z u).Adj E₁ E₂ ↔ (E₁ : Subgroup G) ≠ E₂ ∧ burnsideJ410_R z u E₁ E₂ := by
   unfold EgonGraph
@@ -2954,6 +2990,7 @@ theorem burnsideJ410_adj_iff {Es : Set (Subgroup G)} {E₁ E₂ : ↥Es} :
   · rintro ⟨hne, h⟩
     exact ⟨fun h' => hne (congrArg Subtype.val h'), Or.inl h⟩
 
+omit [Finite G] in
 theorem burnsideJ410_conj_R {E₁ E₂ : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G)) (h : burnsideJ410_R z u E₁ E₂) :
     burnsideJ410_R z u (CFSG.conjugate E₁ g) (CFSG.conjugate E₂ g) := by
@@ -2966,6 +3003,7 @@ theorem burnsideJ410_conj_R {E₁ E₂ : Subgroup G} {g : G}
   · rw [CFSG.ASVolI.RuChoice.fx_card_conjugate]; exact c1
   · rw [CFSG.ASVolI.RuChoice.fx_card_conjugate]; exact c2
 
+omit [Finite G] in
 theorem burnsideJ410_conj_Es (hL : burnsideJ410_Loc z u) {g : G}
     (hg : g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G)) {E' : Subgroup G}
     (h : E' ∈ EsetRu F1 z u) : CFSG.conjugate E' g ∈ EsetRu F1 z u := by
@@ -3021,6 +3059,7 @@ theorem burnsideJ410_exists_conj_le_sylow {p : ℕ} [hp : Fact p.Prime] {K S A :
   rw [CFSG.ASVolI.RuChoice.fx_mem_conjugate]
   simpa using hx'
 
+omit [Finite G] in
 theorem burnsideJ410_E_isPGroup (hL : burnsideJ410_Loc z u) : IsPGroup 2 (burnsideJ410_E z u) := by
   intro x
   refine ⟨1, ?_⟩
@@ -3039,7 +3078,7 @@ theorem burnsideJ410_trans (hL : burnsideJ410_Loc z u) (hF : burnsideJ410_Fix z 
     (hB₁F : B₁ ≤ F1) :
     ∃ g ∈ F1, g ∈ Subgroup.normalizer (burnsideJ410_E z u : Set G) ∧
       B₁ = CFSG.conjugate B5 g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK1 : ¬ 5 ^ 2 ∣ Nat.card F1 := by rw [hF.F1_card]; norm_num
   obtain ⟨g₀, hg₀, hB₁eq⟩ := burnsideJ410_sylow_conj hK1 hF.B5_card hB₁.1 hF.B5_le hB₁F
   have hF1c : CFSG.conjugate F1 g₀ = F1 :=
@@ -3238,6 +3277,7 @@ open CFSG.ASVolI.ChIJK
 
 variable {G : Type} [Group G] [Finite G] {z u : G} {F1 B5 I0 : Subgroup G}
 
+omit [Finite G] in
 theorem burnsideJ410_lab_two (z u : G) : burnsideJ410_lab z u 2 = u * z := by
   simp [burnsideJ410_lab]
 
@@ -3621,6 +3661,7 @@ theorem burnsideJ410_F1_norm :
   exact mul_mem (Subgroup.zpow_mem _ hb n)
     (Subgroup.mem_sup_right (burnsideJ410_QOf_conj_mem hfH' hq))
 
+omit [Finite G] in
 theorem burnsideJ410_card_range :
     Nat.card (M.φ.comp (Subgroup.inclusion C.F1_le_H)).range = 20 := by
   set ψ := M.φ.comp (Subgroup.inclusion C.F1_le_H) with hψ
@@ -3689,6 +3730,7 @@ theorem burnsideJ410_NH_le {n : G} (hn : n ∈ Subgroup.centralizer ({M.z} : Set
   rw [burnsideJ410_Q_eq] at hq
   exact burnsideJ410_Q_le_normalizer C hq
 
+omit [Finite G] in
 theorem burnsideJ410_u_inv_zpowers {M : RuDataM G} (C : RuDataM.Conf47 M) :
     burnsideJ410_Inv C.u (Subgroup.zpowers C.b) := by
   intro y hy
@@ -3710,6 +3752,7 @@ theorem burnsideJ410_z_mem_SF1 {M : RuDataM G} (C : RuDataM.Conf47 M) (hzF : M.z
   ⟨⟨hzF, burnsideJ410_mem_normalizer_of_cent_or_inv (Or.inl (burnsideJ410_z_cent_zpowers C))⟩,
     Subgroup.mem_centralizer_singleton_iff.mpr C.u_comm_z.symm⟩
 
+omit [Finite G] in
 theorem burnsideJ410_conf_u_ne_one {M : RuDataM G} (C : RuDataM.Conf47 M) : C.u ≠ 1 := by
   intro h
   apply C.b_ne_inv
@@ -4002,7 +4045,7 @@ theorem burnsideJ410_exists_r
     {M : RuDataM G} (C : RuDataM.Conf47 M) :
     ∃ r ∈ Subgroup.centralizer ({M.z} : Set G),
       r ∈ Subgroup.normalizer (Subgroup.zpowers C.b : Set G) ∧ r * C.u * r⁻¹ = C.u * M.z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbH := C.b_mem_H
   have hb5 := C.orderOf_b
   set R := RuDataM.RB5 hbH hb5 with hR
@@ -4165,12 +4208,14 @@ theorem burnsideJ410_conf_hexagon
   burnsideJ410_hexagon (burnsideJ410_Loc_of_conf C) (burnsideJ410_Fix_of_conf C hzF hZ)
     (burnsideJ410_Fix2_of_conf C hzF (burnsideJ410_Loc_of_conf C))
 
+omit [Finite G] in
 theorem burnsideJ410_E_conj (g z u : G) :
     burnsideJ410_E (g * z * g⁻¹) (g * u * g⁻¹) = CFSG.conjugate (burnsideJ410_E z u) g⁻¹ := by
   unfold burnsideJ410_E
   rw [CFSG.ASVolI.RuChoice.fx_conjugate_sup, CFSG.ASVolI.RuChoice.fx_conjugate_zpowers,
     CFSG.ASVolI.RuChoice.fx_conjugate_zpowers, inv_inv]
 
+omit [Finite G] in
 theorem burnsideJ410_Fset_map (g : G) {F1 : Subgroup G} {z v : G} {E : Subgroup G}
     (h : E ∈ FsetRu F1 z v) :
     CFSG.conjugate E g⁻¹ ∈ FsetRu (CFSG.conjugate F1 g⁻¹) (g * z * g⁻¹) (g * v * g⁻¹) := by
@@ -4181,6 +4226,7 @@ theorem burnsideJ410_Fset_map (g : G) {F1 : Subgroup G} {z v : G} {E : Subgroup 
     congr 1
     group
 
+omit [Finite G] in
 theorem burnsideJ410_Es_map (g : G) {F1 : Subgroup G} {z u : G} {E : Subgroup G}
     (h : E ∈ EsetRu F1 z u) :
     CFSG.conjugate E g⁻¹ ∈ EsetRu (CFSG.conjugate F1 g⁻¹) (g * z * g⁻¹) (g * u * g⁻¹) := by
@@ -4202,6 +4248,7 @@ theorem burnsideJ410_Es_map (g : G) {F1 : Subgroup G} {z u : G} {E : Subgroup G}
     rw [e] at h1
     exact Or.inr h1
 
+omit [Finite G] in
 theorem burnsideJ410_R_map (g : G) {z u : G} {E₁ E₂ : Subgroup G}
     (h : burnsideJ410_R z u E₁ E₂) :
     burnsideJ410_R (g * z * g⁻¹) (g * u * g⁻¹) (CFSG.conjugate E₁ g⁻¹)
@@ -4218,6 +4265,7 @@ theorem burnsideJ410_R_map (g : G) {z u : G} {E₁ E₂ : Subgroup G}
   · rw [hE, CFSG.ASVolI.RuChoice.fx_normalizer_conjugate]
     exact CFSG.ASVolI.RuChoice.fx_conjugate_mono g⁻¹ n2
 
+omit [Finite G] in
 theorem burnsideJ410_Egon_transport (g : G) (F1 : Subgroup G) (z u : G) :
     Nonempty (EgonGraph (EsetRu F1 z u) z u ≃g
       EgonGraph (EsetRu (CFSG.conjugate F1 g⁻¹) (g * z * g⁻¹) (g * u * g⁻¹)) (g * z * g⁻¹)
@@ -4259,12 +4307,14 @@ theorem burnsideJ410_Egon_transport (g : G) (F1 : Subgroup G) (z u : G) :
   · rintro ⟨hne, hR⟩
     exact ⟨fun h => hne (burnsideJ410_conj_inj g⁻¹ h), burnsideJ410_R_map g hR⟩
 
+omit [Finite G] in
 theorem burnsideJ410_Egon_transport' (g : G) {F1 F1' : Subgroup G} {z z' u u' : G}
     (hF : CFSG.conjugate F1 g⁻¹ = F1') (hz : g * z * g⁻¹ = z') (hu : g * u * g⁻¹ = u') :
     Nonempty (EgonGraph (EsetRu F1 z u) z u ≃g EgonGraph (EsetRu F1' z' u') z' u') := by
   subst hF hz hu
   exact burnsideJ410_Egon_transport g F1 z u
 
+omit [Finite G] in
 theorem burnsideJ410_Egon_congr {Es Es' : Set (Subgroup G)} (h : Es = Es') {z u z' u' : G}
     (hE : burnsideJ410_E z u = burnsideJ410_E z' u') :
     Nonempty (EgonGraph Es z u ≃g EgonGraph Es' z' u') := by
@@ -4279,6 +4329,7 @@ theorem burnsideJ410_Egon_congr {Es Es' : Set (Subgroup G)} (h : Es = Es') {z u 
     rw [hE]
   rw [this]
 
+omit [Finite G] in
 theorem burnsideJ410_E_swap (z u : G) :
     burnsideJ410_E z (u * z) = burnsideJ410_E z u := by
   unfold burnsideJ410_E
@@ -4292,6 +4343,7 @@ theorem burnsideJ410_E_swap (z u : G) :
         (inv_mem (Subgroup.mem_sup_right (Subgroup.mem_zpowers z)))
     rwa [mul_inv_cancel_right] at h
 
+omit [Finite G] in
 theorem burnsideJ410_Es_swap {z : G} (hz : z * z = 1) (F1 : Subgroup G) (u : G) :
     EsetRu F1 z (u * z) = EsetRu F1 z u := by
   have hE := burnsideJ410_E_swap z u
@@ -4307,6 +4359,7 @@ theorem burnsideJ410_Es_swap {z : G} (hz : z * z = 1) (F1 : Subgroup G) (u : G) 
   simp only [Set.mem_union]
   tauto
 
+omit [Finite G] in
 theorem burnsideJ410_Egon_swap {z : G} (hz : z * z = 1) (F1 : Subgroup G) (u : G) :
     Nonempty (EgonGraph (EsetRu F1 z (u * z)) z (u * z) ≃g EgonGraph (EsetRu F1 z u) z u) :=
   burnsideJ410_Egon_congr (burnsideJ410_Es_swap hz F1 u) (burnsideJ410_E_swap z u)
@@ -4317,8 +4370,8 @@ theorem burnsideJ410_normalize
     (hu'F : u' ∈ C.F1) (hu'2 : u' * u' = 1) (hB5F : B5' ≤ C.F1) (hB5c : Nat.card B5' = 5)
     (hinv : ∀ x ∈ B5', u' * x * u'⁻¹ = x⁻¹) :
     ∃ h ∈ C.F1, h * u' * h⁻¹ = C.u ∨ h * u' * h⁻¹ = C.u * M.z := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxB, hx5, hx1, -⟩ := exists_gen_of_card_five hB5c
   have hxF : x ∈ C.F1 := hB5F hxB
   have hxo : orderOf x = 5 := orderOf_eq_prime hx5 hx1

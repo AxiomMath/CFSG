@@ -103,10 +103,10 @@ theorem gffa2_unitary_simple_nonab {K₀ : Type} [Field K₀] [Finite K₀] {m :
   refine ⟨hsimple, ?_⟩
   by_contra h
   push Not at h
-  haveI : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m))) :=
+  have : Nontrivial (LargeEvenProj (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m))) :=
     hsimple.toNontrivial
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m))) := by
-    haveI : Group.IsPerfect (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m)) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m))) := by
+    have : Group.IsPerfect (LargeEvenSUGroup (Fin 3) K₀ (2 ^ m)) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (K := K₀) (p := 2) (f := m) hK₀
         (n := 3) (by norm_num) hne
     infer_instance

@@ -72,19 +72,19 @@ theorem maskProd_xor : ∀ (gs : List G), (∀ g ∈ gs, g * g = 1) →
     generalize maskProd gs (b / 2) = Q at hgQ ⊢
     have hx := mod_two_xor a b
     by_cases ha : a % 2 = 1 <;> by_cases hb : b % 2 = 1
-    · rw [if_neg (fun h => (hx.1 h) ⟨fun _ => hb, fun _ => ha⟩), if_pos ha, if_pos hb]
+    · rw [ite_eq_right (fun h => (hx.1 h) ⟨fun _ => hb, fun _ => ha⟩), ite_eq_left ha, ite_eq_left hb]
       calc 1 * (P * Q) = (g * g) * (P * Q) := by rw [hgg]
         _ = g * (g * P) * Q := by simp only [mul_assoc]
         _ = g * (P * g) * Q := by rw [hgP]
         _ = g * P * (g * Q) := by simp only [mul_assoc]
-    · rw [if_pos (hx.2 (fun h => hb (h.1 ha))), if_pos ha, if_neg hb]
+    · rw [ite_eq_left (hx.2 (fun h => hb (h.1 ha))), ite_eq_left ha, ite_eq_right hb]
       simp only [one_mul, mul_assoc]
-    · rw [if_pos (hx.2 (fun h => ha (h.2 hb))), if_neg ha, if_pos hb]
+    · rw [ite_eq_left (hx.2 (fun h => ha (h.2 hb))), ite_eq_right ha, ite_eq_left hb]
       calc g * (P * Q) = (g * P) * Q := (mul_assoc _ _ _).symm
         _ = (P * g) * Q := by rw [hgP]
         _ = 1 * P * (g * Q) := by simp only [one_mul, mul_assoc]
-    · rw [if_neg (fun h => (hx.1 h) ⟨fun h' => absurd h' ha, fun h' => absurd h' hb⟩), if_neg ha,
-        if_neg hb]
+    · rw [ite_eq_right (fun h => (hx.1 h) ⟨fun h' => absurd h' ha, fun h' => absurd h' hb⟩), ite_eq_right ha,
+        ite_eq_right hb]
       simp only [one_mul]
 
 theorem xorHom_zero {ψ : ℕ → G} (hψ : ∀ a b, ψ (a ^^^ b) = ψ a * ψ b) : ψ 0 = 1 := by
@@ -116,7 +116,7 @@ theorem maskProd_two_pow : ∀ (gs : List G) (j : ℕ), maskProd gs (2 ^ j) = gs
     have h2 : 2 ^ (j + 1) / 2 = 2 ^ j := by
       rw [pow_succ]
       exact Nat.mul_div_cancel _ (by norm_num)
-    rw [maskProd_cons, h2, maskProd_two_pow gs j, List.getD_cons_succ, if_neg (by omega),
+    rw [maskProd_cons, h2, maskProd_two_pow gs j, List.getD_cons_succ, ite_eq_right (by omega),
       one_mul]
 
 end MaskProd

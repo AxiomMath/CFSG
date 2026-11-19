@@ -37,7 +37,7 @@ private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} 
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5_le_stabSub_commSub (L : Subgroup (MulAut W)) :
-    L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_le_stabSub_fixV (L : Subgroup (MulAut W)) : L ≤ stabSub (fixV L) := by
@@ -116,7 +116,7 @@ theorem s16h_H5_sum_glue [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
       Nat.card ↥(autSub E (commSub ⊤ L)) ≤ q ^ 2 := by
   intro q hq hq2 E hE hEab
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut_of_finite W
+  have : Finite (MulAut W) := s16h_finite_mulAut_of_finite W
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := commSub ⊤ L ⊓ fixV L with hZ
   have hLU : L ≤ stabSub U := by
@@ -182,8 +182,8 @@ theorem s16h_H5_sum_glue [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
   have hFea : IsElemAbelian q F := hE'ea.mono inf_le_left
   have hFcard : Nat.card F ≤ q :=
     s16h_sum_cent_sec hc.elem hN hk hS hLU hLZ hq hq2 hFle hFea
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut_of_finite (Sec U Z)
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut_of_finite (Sec U Z)
   have hrangeEA : IsElemAbelian q ρ.range := by
     have hmap := IsElemAbelian.map (hE'ea.subgroupOf E') ρ
     rw [Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map ρ] at hmap

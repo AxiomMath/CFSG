@@ -20,7 +20,7 @@ theorem concl166S_twA5Four_of_transport
     {K : Type} [Group K] [Finite K] {lab : GLALabel} {p : ℕ}
     (hK : HasLabel K (fun l : GLALabel => l = lab))
     (hfam : i166FamTwA5 lab p (Subgroup.center K = ⊥))
-    (hp : p.Prime) (hp2 : p ≠ 2) (he : 4 ≤ evenRank K)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_he : 4 ≤ evenRank K)
     (hr : GLATwoLocalRank p K + 1 = evenRank K)
     (hn : lab.n = 2) :
     ∃ (q : ℕ) (B' : Subgroup K) (x' : K) (J : Subgroup K), Concl166S K p q B' x' J := by
@@ -43,8 +43,8 @@ theorem concl166S_twA5Four_of_transport
   subst hlab
   obtain ⟨F, hFld, hFin, hF, ⟨e⟩⟩ :=
     exists_mulEquiv_unitarySU_of_hasLabel_twA5_two rfl hK hz
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   exact htr e (twA5FourModelAt_holds F hF)
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F

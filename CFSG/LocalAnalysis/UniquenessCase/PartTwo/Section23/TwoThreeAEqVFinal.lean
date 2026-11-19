@@ -62,7 +62,7 @@ private theorem Ctx23L.even_card_Mbar_V {D : Data G} {Ch : Choice2011 G} (c : Ct
   have hHcomm : ⁅H, H⁆ = H := barSub_commutator hV hLstab c.hL.1.2.1
   have hHne : H ≠ ⊥ := Ctx23L.barSub_L_ne_bot c hVne
   have hHnt : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hHne
-  haveI : Group.IsPerfect (H : Type) := Subgroup.isPerfect_iff.mpr hHcomm
+  have : Group.IsPerfect (H : Type) := Subgroup.isPerfect_iff.mpr hHcomm
   have hHnotodd : ¬ Odd (Nat.card ↥H) :=
     CFSG.CGT.PushingUpLit.LIT.Foote.not_odd_card_of_perfect (Q := ↥H)
   have hHeven : Even (Nat.card ↥H) := Nat.not_odd_iff_even.mp hHnotodd
@@ -102,10 +102,10 @@ private theorem Ctx23L.omega_bound_of_irrL {D : Data G} {Ch : Choice2011 G} (c :
         NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k → IrrOn c.L A)
     {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A) {k : ℕ}
-    (hnat : IsNaturalClassicalModule (barSub ⊥ A hA c.L) k)
-    (h2k : 2 * k = c.n) (hOm : IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k)
+    (_hnat : IsNaturalClassicalModule (barSub ⊥ A hA c.L) k)
+    (_h2k : 2 * k = c.n) (hOm : IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k)
     (hNat : NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k) :
     ∃ hW : IsElemAbelian 2 (W23_1 c), aBar (c.L0 ⊔ D.T) ⊥ (W23_1 c) hW ≤ k := by
   let hW : IsElemAbelian 2 (W23_1 c) :=
@@ -115,7 +115,7 @@ private theorem Ctx23L.omega_bound_of_irrL {D : Data G} {Ch : Choice2011 G} (c :
 
 private theorem Ctx23L.normal_L_N_of_isNaturalClassicalModule {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h208 : S20_8 D) (h1930 : H1930 D) {A : Subgroup G}
-    (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
+    (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
     (hAN : c.N ≤ Subgroup.normalizer (A : Set G)) {k : ℕ}
     (hnat : IsNaturalClassicalModule (barSub ⊥ A hA c.L) k)
     (hnorm : ((barSub ⊥ A hA c.L).subgroupOf (Mbar c.N ⊥ A hA)).Normal) :
@@ -128,17 +128,17 @@ private theorem Ctx23L.normal_L_N_of_isNaturalClassicalModule {D : Data G} {Ch :
 private theorem Ctx23L.false_of_involution_min {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1A : S23_1A D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
     (hE : UC22P20gExcFacts) (hDeg : KMinDegLow) (h1930 : H1930 D)
-    {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-    (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+    (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A) {k : ℕ}
     (hnat : IsNaturalClassicalModule (barSub ⊥ A hA c.L) k)
     (hk : k = c.n ∨ (2 * k = c.n ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k ∧
       NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k))
     (hnorm : ((barSub ⊥ A hA c.L).subgroupOf (Mbar c.N ⊥ A hA)).Normal)
-    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-      (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-      (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+      (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+      (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
         B = ⊥ ∨ B = A) {k : ℕ},
       IsNaturalClassicalModule (barSub ⊥ A hA c.L) k → 2 * k = c.n →
       IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k →
@@ -157,7 +157,7 @@ private theorem Ctx23L.false_of_involution_min {D : Data G} {Ch : Choice2011 G}
       h ∈ Subgroup.center ↥(barSub ⊥ c.V (Ctx23L.isElemAbelian_V_basic c) c.L)) :
     False := by
   let hV : IsElemAbelian 2 c.V := Ctx23L.isElemAbelian_V_basic c
-  have hVne : c.V ≠ ⊥ := fun h => hAne (le_bot_iff.mp (h ▸ hAV))
+  have hVne : c.V ≠ ⊥ := fun h => _hAne (le_bot_iff.mp (h ▸ _hAV))
   have hn3 : 3 ≤ c.n := uc22p20g_three_le_of_nparam hE h207 h1930 c.hL0 c.hn
   have hk' : 3 ≤ k ∨ 2 ≤ k ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k := by
     rcases hk with hk | ⟨h2k, hOm, -⟩
@@ -165,7 +165,7 @@ private theorem Ctx23L.false_of_involution_min {D : Data G} {Ch : Choice2011 G}
   by_cases hcent : ∀ h ∈ barSub (⊥ : Subgroup G) c.V hV c.L, Commute h (actN c x)
   · have hs1 : actN c x ≠ 1 := by
       intro h1
-      simpa [h1] using hs2x
+      simp [h1] at hs2x
     have hlt := Ctx23L.n_lt_rkIdx_fixV_of_mem_N c hDeg h207 h208 h209 hE h1930
       (x := x) hs1 hs2x hcent
     have hle := Ctx23L.mParam_V_le c h1A h1930 hVne
@@ -180,15 +180,15 @@ private theorem Ctx23L.false_of_involution_min {D : Data G} {Ch : Choice2011 G}
         calc actN c x * h = (actN c x * h * (actN c x)⁻¹) * actN c x := by group
           _ = h * actN c x := by rw [heq]
       exact hcomm.symm
-    have hLN := Ctx23L.normal_L_N_of_isNaturalClassicalModule c h208 h1930 hA hAV hAne hAN
+    have hLN := Ctx23L.normal_L_N_of_isNaturalClassicalModule c h208 h1930 hA _hAV _hAne _hAN
       hnat hnorm
-    have hge := Ctx23L.k_add_two_le_rkIdx_fixV_of_mem_N c (kNoTransv_holds) hLN hA hAV hAN
+    have hge := Ctx23L.k_add_two_le_rkIdx_fixV_of_mem_N c (kNoTransv_holds) hLN hA _hAV _hAN
       hnat hk' hCA hCW hs2x hnotcent
     rw [hsrkx] at hge
     rcases hk with hk | ⟨h2k, hOm, hNat⟩
     · have hle := Ctx23L.mParam_V_le c h1A h1930 hVne
       omega
-    · obtain ⟨hW23, hW23le⟩ := hW hA hAV hAne hAN hmin hnat h2k hOm hNat
+    · obtain ⟨hW23, hW23le⟩ := hW hA _hAV _hAne _hAN _hmin hnat h2k hOm hNat
       have hle := mBar_V_le_of_omegaMinus c h1A h1930 hVne (hV := hV) (k := k) hW23le
       omega
 
@@ -202,43 +202,43 @@ private theorem Ctx23L.a_eq_V_of_natural_of_omega_bound {D : Data G} {Ch : Choic
         (k = c.n ∨ (2 * k = c.n ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k ∧
           NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k)) ∧
         ((barSub ⊥ A hA c.L).subgroupOf (Mbar c.N ⊥ A hA)).Normal)
-    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-      (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-      (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+      (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+      (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
         B = ⊥ ∨ B = A) {k : ℕ},
       IsNaturalClassicalModule (barSub ⊥ A hA c.L) k → 2 * k = c.n →
       IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k →
       NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k →
       ∃ hW : IsElemAbelian 2 (W23_1 c), aBar (c.L0 ⊔ D.T) ⊥ (W23_1 c) hW ≤ k)
-    {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-    (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+    (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A) :
     A = c.V := by
   classical
-  obtain ⟨k, hnat, hk, hnorm⟩ := hnatA hA hAV hAne hAN hmin
+  obtain ⟨k, hnat, hk, hnorm⟩ := hnatA hA _hAV _hAne _hAN _hmin
   by_contra hAVne
   have hVL : ¬ ⁅c.V, c.L⁆ ≤ A := fun h =>
-    hAVne (Ctx23L.A_eq_V_of_commutator_le c hA hAV hAN h)
+    hAVne (Ctx23L.A_eq_V_of_commutator_le c hA _hAV _hAN h)
   obtain ⟨xn, hs2x, hsrkx⟩ := Ctx23L.exists_actN_involution_rkIdx_eq_mBar c
-    (fun h => hAne (le_bot_iff.mp (h ▸ hAV)))
-  have hCA := Ctx23L.centSub_le_center c h208 h1930 hAV hAne hAN
-  have hCW := Ctx23L.centQuot_le_center c h208 h1930 hAV hAN hVL
-  exact Ctx23L.false_of_involution_min c h1A h207 h208 h209 hE hDeg h1930 hA hAV hAne
-    hAN hmin hnat hk hnorm hW hs2x hsrkx hCA hCW
+    (fun h => _hAne (le_bot_iff.mp (h ▸ _hAV)))
+  have hCA := Ctx23L.centSub_le_center c h208 h1930 _hAV _hAne _hAN
+  have hCW := Ctx23L.centQuot_le_center c h208 h1930 _hAV _hAN hVL
+  exact Ctx23L.false_of_involution_min c h1A h207 h208 h209 hE hDeg h1930 hA _hAV _hAne
+    _hAN _hmin hnat hk hnorm hW hs2x hsrkx hCA hCW
 
 private theorem Ctx23L.exists_aBar_W23_le_of_natural {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1A : S23_1A D Ch) (h1930 : H1930 D) {A : Subgroup G}
-    (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-    (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-    (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+    (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+    (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A) {k : ℕ}
     (hnat : IsNaturalClassicalModule (barSub ⊥ A hA c.L) k)
     (hk : k = c.n ∨ (2 * k = c.n ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k ∧
       NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k))
-    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-      (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-      (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+      (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+      (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
         B = ⊥ ∨ B = A) {k : ℕ},
       IsNaturalClassicalModule (barSub ⊥ A hA c.L) k → 2 * k = c.n →
       IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k →
@@ -252,14 +252,14 @@ private theorem Ctx23L.exists_aBar_W23_le_of_natural {D : Data G} {Ch : Choice20
       rfl
     obtain ⟨hW', -, haBar⟩ :=
       h1A h1930 c c.V (Ctx23L.isElemAbelian_V_basic c) le_rfl heq
-        (fun h => hAne (le_bot_iff.mp (h ▸ hAV)))
+        (fun h => _hAne (le_bot_iff.mp (h ▸ _hAV)))
     have hWe : conjClosure c.L0 (c.V ⊓ D.Z) = W23_1 c := by
       rw [inf_eq_right.mpr hZleV]
       rfl
     exact ⟨hWe ▸ hW', by
       rw [← aBar_congr_subgroup hWe hW' (hWe ▸ hW'), hk]
       exact haBar⟩
-  · exact hW hA hAV hAne hAN hmin hnat h2k hOm hNat
+  · exact hW hA _hAV _hAne _hAN _hmin hnat h2k hOm hNat
 
 private theorem Ctx23L.conclusions23_2_of_natural_of_omega_bound {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h1A : S23_1A D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
@@ -271,9 +271,9 @@ private theorem Ctx23L.conclusions23_2_of_natural_of_omega_bound {D : Data G} {C
         (k = c.n ∨ (2 * k = c.n ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k ∧
           NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k)) ∧
         ((barSub ⊥ A hA c.L).subgroupOf (Mbar c.N ⊥ A hA)).Normal)
-    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V) (hAne : A ≠ ⊥)
-      (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-      (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hW : ∀ {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V) (_hAne : A ≠ ⊥)
+      (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+      (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
         B = ⊥ ∨ B = A) {k : ℕ},
       IsNaturalClassicalModule (barSub ⊥ A hA c.L) k → 2 * k = c.n →
       IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k →
@@ -281,12 +281,12 @@ private theorem Ctx23L.conclusions23_2_of_natural_of_omega_bound {D : Data G} {C
       ∃ hW : IsElemAbelian 2 (W23_1 c), aBar (c.L0 ⊔ D.T) ⊥ (W23_1 c) hW ≤ k) :
     c.Conclusions23_2 := by
   classical
-  obtain ⟨A, hAV, hAne, hAN, hmin⟩ := Ctx23L.exists_irreducible_submodule c
-  have hA : IsElemAbelian 2 A := IsElemAbelian.mono (Ctx23L.isElemAbelian_V_basic c) hAV
-  obtain ⟨k, hnat, hk, -⟩ := hnatA hA hAV hAne hAN hmin
+  obtain ⟨A, _hAV, _hAne, _hAN, _hmin⟩ := Ctx23L.exists_irreducible_submodule c
+  have hA : IsElemAbelian 2 A := IsElemAbelian.mono (Ctx23L.isElemAbelian_V_basic c) _hAV
+  obtain ⟨k, hnat, hk, -⟩ := hnatA hA _hAV _hAne _hAN _hmin
   have hAeq : A = c.V :=
     Ctx23L.a_eq_V_of_natural_of_omega_bound c h1A h207 h208 h209 hE hDeg h1930
-      hnatA hW hA hAV hAne hAN hmin
+      hnatA hW hA _hAV _hAne _hAN _hmin
   subst A
   have hV : IsElemAbelian 2 c.V := Ctx23L.isElemAbelian_V_basic c
   have hnatV : IsNaturalClassicalModule (c.H hV) k := by
@@ -305,7 +305,7 @@ private theorem Ctx23L.conclusions23_2_of_natural_of_omega_bound {D : Data G} {C
         exact hOm⟩
   obtain ⟨hcard, hU0, hUinf, hirr⟩ := Ctx23L.package_U0 c hV h207 h208 h209 h1930 hnatV
   refine ⟨hV, k, hk2, hnatV, hk', hcard, hU0, hUinf, hirr, ?_⟩
-  exact Ctx23L.exists_aBar_W23_le_of_natural c h1A h1930 hA hAV hAne hAN hmin hnat hk hW
+  exact Ctx23L.exists_aBar_W23_le_of_natural c h1A h1930 hA _hAV _hAne _hAN _hmin hnat hk hW
 
 private theorem s23_2_natural_of_omega_bound (D : Data G) (Ch : Choice2011 G)
     (h1A : S23_1A D Ch) (h207 : S20_7 D) (h208 : S20_8 D) (h209 : S20_9 D)
@@ -317,9 +317,9 @@ private theorem s23_2_natural_of_omega_bound (D : Data G) (Ch : Choice2011 G)
         (k = c.n ∨ (2 * k = c.n ∧ IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k ∧
           NatOmegaMinus (barSub ⊥ A hA c.L) ⊤ ⊥ 4 k)) ∧
         ((barSub ⊥ A hA c.L).subgroupOf (Mbar c.N ⊥ A hA)).Normal)
-    (hW : ∀ (c : Ctx23L D Ch) {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
-      (hAne : A ≠ ⊥) (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
-      (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
+    (hW : ∀ (c : Ctx23L D Ch) {A : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V)
+      (_hAne : A ≠ ⊥) (_hAN : c.N ≤ Subgroup.normalizer (A : Set G))
+      (_hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
         B = ⊥ ∨ B = A) {k : ℕ},
       IsNaturalClassicalModule (barSub ⊥ A hA c.L) k → 2 * k = c.n →
       IsOmegaMinus ↥(barSub ⊥ A hA c.L) 4 k →
@@ -327,12 +327,12 @@ private theorem s23_2_natural_of_omega_bound (D : Data G) (Ch : Choice2011 G)
       ∃ hW : IsElemAbelian 2 (W23_1 c), aBar (c.L0 ⊔ D.T) ⊥ (W23_1 c) hW ≤ k) :
     S23_2_natural D Ch := by
   intro h1930 c
-  obtain ⟨A, hAV, hAne, hAN, hmin⟩ := Ctx23L.exists_irreducible_submodule c
-  have hA : IsElemAbelian 2 A := IsElemAbelian.mono (Ctx23L.isElemAbelian_V_basic c) hAV
-  obtain ⟨k, hnat, hk, -⟩ := hnatA h1930 c hA hAV hAne hAN hmin
+  obtain ⟨A, _hAV, _hAne, _hAN, _hmin⟩ := Ctx23L.exists_irreducible_submodule c
+  have hA : IsElemAbelian 2 A := IsElemAbelian.mono (Ctx23L.isElemAbelian_V_basic c) _hAV
+  obtain ⟨k, hnat, hk, -⟩ := hnatA h1930 c hA _hAV _hAne _hAN _hmin
   have hAeq : A = c.V :=
     Ctx23L.a_eq_V_of_natural_of_omega_bound c h1A h207 h208 h209 hE hDeg h1930
-      (hnatA h1930 c) (hW c) hA hAV hAne hAN hmin
+      (hnatA h1930 c) (hW c) hA _hAV _hAne _hAN _hmin
   subst A
   have hV : IsElemAbelian 2 c.V := Ctx23L.isElemAbelian_V_basic c
   have hnatV : IsNaturalClassicalModule (c.H hV) k := by

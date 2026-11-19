@@ -286,7 +286,7 @@ theorem conj_mem_J {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgro
     obtain ⟨y, hyX, hyx⟩ := Subgroup.mem_map.mp hx'
     have hy_eq : y = t⁻¹ * x * t := by
       have := hyx
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at this
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at this
       rw [← this]; group
     rw [← hy_eq]
     exact hyX
@@ -303,7 +303,7 @@ theorem conj_mem_J {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgro
     refine Subgroup.mem_map.mpr ⟨(t⁻¹ * x * t) * j * (t⁻¹ * x * t)⁻¹, ?_, ?_⟩
     · exact conj_mem_J_of_mem_X h hodd hJ (htinvX x hxX) j hjJ
     · rw [← hjk]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
   let D : Subgroup G := K ⊓ J
   have hD_le_J : D ≤ J := inf_le_right

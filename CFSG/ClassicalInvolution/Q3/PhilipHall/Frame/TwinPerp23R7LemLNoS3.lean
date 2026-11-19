@@ -40,7 +40,7 @@ theorem vec_eq_of_cen_pair (hk5 : 5 ≤ k) (hk7 : k ≤ 7) {w : Wr k} (hw : w.pe
       _ = k := by simp
   omega
 
-theorem V4S_le_closure_odd (hk5 : 5 ≤ k) {w : Wr k} (hw : w.perm = 1) {γ : Finset (Fin k)}
+theorem V4S_le_closure_odd (_hk5 : 5 ≤ k) {w : Wr k} (hw : w.perm = 1) {γ : Finset (Fin k)}
     (hγc : γ.card = 4) (b : Bool) {e : Fin k} (he : e ∉ γ) (hconst : ∀ x ∈ γ, w.vec x = w.vec e) :
     V4S γ hγc b ≤ Subgroup.closure {y | y ∈ (Ea (aeMembers k Set.univ) (mkQ k w)).map (TL4.permBar k) ∧
       Odd (orderOf y)} := by

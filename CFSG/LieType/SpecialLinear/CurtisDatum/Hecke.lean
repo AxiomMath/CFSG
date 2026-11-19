@@ -198,19 +198,19 @@ theorem signedPerm_conj_apply {n : ℕ} {R : Type*} [Field R]
       M s (π⁻¹ b) * ε (π⁻¹ b) := by
     intro s
     rw [Matrix.mul_apply, Finset.sum_eq_single (π⁻¹ b)]
-    · rw [signedPerm_apply, if_pos rfl]
+    · rw [signedPerm_apply, ite_eq_left rfl]
     · intro t _ ht
       have hne : ¬ (t = π⁻¹ b) := ht
-      rw [signedPerm_apply, if_neg hne]
+      rw [signedPerm_apply, ite_eq_right hne]
       simp
     · simp
   simp only [hMQ]
   rw [Finset.sum_eq_single (π⁻¹ a)]
   · rw [signedPerm_apply]
-    rw [show π (π⁻¹ a) = a from Equiv.apply_symm_apply π a, if_pos rfl, mul_assoc]
+    rw [show π (π⁻¹ a) = a from Equiv.apply_symm_apply π a, ite_eq_left rfl, mul_assoc]
   · intro s _ hs
     have hne : ¬ (a = π s) := fun h => hs (by rw [h]; exact (Equiv.symm_apply_apply π s).symm)
-    rw [signedPerm_apply, if_neg hne]
+    rw [signedPerm_apply, ite_eq_right hne]
     simp
   · simp
 
@@ -448,21 +448,21 @@ theorem card_zeroOn_inversions (π : Equiv.Perm (Fin (m + 1))) :
       invFun := fun g => ⟨fun p => if h : π p.1.1 > π p.1.2 then 0 else g ⟨p, h⟩,
         fun p hp => by
           change (if h : π p.1.1 > π p.1.2 then 0 else g ⟨p, h⟩) = 0
-          rw [dif_pos hp]⟩
+          rw [dite_eq_left hp]⟩
       left_inv := fun f => by
         apply Subtype.ext
         funext p
         by_cases hp : π p.1.1 > π p.1.2
         · change (if h : π p.1.1 > π p.1.2 then 0 else f.1 p) = f.1 p
-          rw [dif_pos hp]
+          rw [dite_eq_left hp]
           exact (f.2 p hp).symm
         · change (if h : π p.1.1 > π p.1.2 then 0 else f.1 p) = f.1 p
-          rw [dif_neg hp]
+          rw [dite_eq_right hp]
       right_inv := fun g => by
         funext p
         rcases p with ⟨p, hp⟩
         change (if h : π p.1.1 > π p.1.2 then 0 else g ⟨p, h⟩) = g ⟨p, hp⟩
-        rw [dif_neg hp] }
+        rw [dite_eq_right hp] }
   rw [Nat.card_congr e, Nat.card_fun]
   congr 1
   simp only [Nat.card_eq_fintype_card, Fintype.card_subtype_compl]

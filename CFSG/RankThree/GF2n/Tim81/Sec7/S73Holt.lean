@@ -57,7 +57,8 @@ theorem orderOf_mk_eq_two_of_mem_V (hE : EpsIn M V h) {z : G} (hz : z ∈ V) (hz
   · exact absurd h hne
   · exact h
 
-theorem mk_mem_barY_iff_of_oddCore_le (hE : EpsIn M V h) {K : Subgroup G}
+omit [Finite G] in
+theorem mk_mem_barY_iff_of_oddCore_le (_hE : EpsIn M V h) {K : Subgroup G}
     (hK : inSubgroup (pPrimeCore 2) (yOf h) ≤ K) {y : G} (hy : y ∈ yOf h) :
     (QuotientGroup.mk (⟨y, hy⟩ : ↥(yOf h)) : YBar h) ∈ barY h K ↔ y ∈ K := by
   rw [barY, Subgroup.mem_map]
@@ -68,7 +69,7 @@ theorem mk_mem_barY_iff_of_oddCore_le (hE : EpsIn M V h) {K : Subgroup G}
       (QuotientGroup.eq_iff_div_mem).mp hq
     have hmem : (n : G) * y⁻¹ ∈ inSubgroup (pPrimeCore 2) (yOf h) := by
       refine ⟨(n : ↥(yOf h)) / ⟨y, hy⟩, hdiv, ?_⟩
-      simp [Subgroup.coe_div, div_eq_mul_inv]
+      simp [div_eq_mul_inv]
     have hKmem : (n : G) * y⁻¹ ∈ K := hK hmem
     rw [show y = ((n : G) * y⁻¹)⁻¹ * n by group]
     exact K.mul_mem (K.inv_mem hKmem) hnK
@@ -83,12 +84,12 @@ theorem exists_central_involution (hE : EpsIn M V h) :
       (S : Subgroup ↥(yOf h)).map (yOf h).subtype ≤ Subgroup.centralizer {z} := by
   obtain ⟨S, Sbar, hSR, hP0S, hZS, hSbar_eq, hZbar⟩ := hE.exists_sylow
   let Sfun : Subgroup G := (S : Subgroup ↥(yOf h)).map (yOf h).subtype
-  have hS2 : IsPGroup 2 Sfun := (S.isPGroup').map (yOf h).subtype
+  have hS2 : IsPGroup 2 Sfun := (S.isPGroup).map (yOf h).subtype
   have hSne : Sfun ≠ ⊥ := by
     intro hbot
     exact hE.root.ne_bot (le_bot_iff.mp (hE.le_p0.trans (hP0S.trans_eq hbot)))
-  haveI : Nontrivial ↥Sfun := (Subgroup.nontrivial_iff_ne_bot Sfun).mpr hSne
-  haveI : Nontrivial ↥(Subgroup.center ↥Sfun) := hS2.center_nontrivial
+  have : Nontrivial ↥Sfun := (Subgroup.nontrivial_iff_ne_bot Sfun).mpr hSne
+  have : Nontrivial ↥(Subgroup.center ↥Sfun) := hS2.center_nontrivial
   obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center ↥Sfun)
   let z : G := (((w : Subgroup.center ↥Sfun) : ↥Sfun) : G)
   have hzSfun : z ∈ Sfun := ((w : Subgroup.center ↥Sfun) : ↥Sfun).2
@@ -114,7 +115,7 @@ private theorem exists_mem_center_of_even_normal {K : Subgroup (YBar h)}
     ∃ u : YBar h, u ∈ K ∧ u ∈ (Sbar : Subgroup (YBar h)) ∧
       u ∈ Subgroup.centralizer (G := YBar h)
         ((Sbar : Subgroup (YBar h)) : Set (YBar h)) ∧ u ≠ (1 : YBar h) := by
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hTne : K.subgroupOf (Sbar : Subgroup (YBar h)) ≠ ⊥ := by
     intro hbot
     have hdisj : Disjoint K (Sbar : Subgroup (YBar h)) :=
@@ -123,10 +124,10 @@ private theorem exists_mem_center_of_even_normal {K : Subgroup (YBar h)}
       Sbar hKeven (by
         rw [inf_comm]
         exact disjoint_iff.mp hdisj)
-  haveI hTnormal : (K.subgroupOf (Sbar : Subgroup (YBar h))).Normal :=
+  have hTnormal : (K.subgroupOf (Sbar : Subgroup (YBar h))).Normal :=
     hKnormal.subgroupOf (Sbar : Subgroup (YBar h))
   have hinf := CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
-    Sbar.isPGroup' (K.subgroupOf (Sbar : Subgroup (YBar h))) hTne
+    Sbar.isPGroup (K.subgroupOf (Sbar : Subgroup (YBar h))) hTne
   obtain ⟨u, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hinf
   let uS : ↥(Sbar : Subgroup (YBar h)) := (u : ↥(Sbar : Subgroup (YBar h)))
   let ubar : YBar h := (uS : YBar h)
@@ -270,7 +271,7 @@ theorem smul_eq_iff_barY (hE : EpsIn M V h) {z : G} (hzV : z ∈ V) (hz1 : z ≠
   have hbase : (QuotientGroup.mk (q g) : YBar h ⧸ NB) =
       QuotientGroup.mk (1 : YBar h) ↔ q g ∈ NB := by
     rw [QuotientGroup.eq (s := NB)]
-    simp [Subgroup.inv_mem_iff]
+    simp
   rw [hsmul]
   exact (hfirst.trans (hsecond.trans
     ((hE.conj_mem_normalizer_oOf_iff hzV hz1 g.2).trans (hfourth.trans hbase.symm))))
@@ -420,13 +421,13 @@ theorem oddCore_yOf_eq (hHolt : CFSG.Holt.H78.HoltTheorem1) (hE : EpsIn M V h) :
   · have hO_normal : ((oOf M h).subgroupOf (yOf h)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer
         (oOf_le_rOf.trans rOf_le_yOf)).mpr hlt
-    haveI : ((oOf M h).subgroupOf (yOf h)).Normal := hO_normal
+    have : ((oOf M h).subgroupOf (yOf h)).Normal := hO_normal
     have hOleOY : oOf M h ≤ inSubgroup (pPrimeCore 2) (yOf h) :=
       subgroupOf_le_pPrimeCore_map (p := 2) (oOf_le_rOf.trans rOf_le_yOf)
         hE.odd_oOf.coprime_two_left
     exact le_antisymm (hE.oddCore_yOf_le).1 hOleOY
   · obtain ⟨hfaith, z, hT⟩ := hE.holtTriple hlt
-    haveI : FaithfulSMul (YBar h)
+    have : FaithfulSMul (YBar h)
         (YBar h ⧸ barY h (Subgroup.normalizer (oOf M h : Set G))) := hfaith
     have h3 : 3 ≤ Nat.card
         (YBar h ⧸ barY h (Subgroup.normalizer (oOf M h : Set G))) :=

@@ -246,7 +246,7 @@ theorem false_of_s3s3 {L Yp S : Subgroup G} (hZ : centerOf L = CFSG.Open.pCoreOf
   set T' : Subgroup (↥L ⧸ Z) := ((S ⊓ L).subgroupOf L).map π with hT'def
   have hTsyl : IsSylowTwoOf T' ⊤ := by
     rw [← hTeq]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   let ρ : ↥S →* MulAut (↥L ⧸ Z) :=
     (PerfectAutomorphisms.centerQuotientHom ↥L).comp
       ((Subgroup.normalizerMonoidHom L).comp (Subgroup.inclusion hSL))

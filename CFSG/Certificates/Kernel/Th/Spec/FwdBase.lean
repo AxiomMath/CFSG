@@ -41,7 +41,7 @@ private theorem marked_iff (m r : ℕ) : marked m r = true ↔ m.testBit r = tru
     rw [show Nat.land m (Nat.shiftLeft 1 r) = m &&& (1 <<< r) from rfl, Nat.one_shiftLeft,
       Nat.and_two_pow]
   rw [e]
-  cases m.testBit r <;> simp [Nat.two_pow_pos]
+  cases m.testBit r <;> simp
 
 private theorem marked_start {k : ℕ} (h : marked 34816 k = true) : k = 11 ∨ k = 15 := by
   rw [marked_iff] at h

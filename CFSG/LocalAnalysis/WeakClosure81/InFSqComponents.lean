@@ -21,10 +21,12 @@ open scoped Pointwise commutatorElement
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isComponent_map_conjAut {K : Subgroup Q} (hK : CFSG.IsComponent K) (t : Q) :
     CFSG.IsComponent (K.map (MulAut.conj t).toMonoidHom) :=
   CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj t) hK
 
+omit [Finite Q] in
 theorem orbitClosure_normal {K T : Subgroup Q} (hKT : orbitClosure K T ⊔ T = ⊤) :
     (orbitClosure K T).Normal := by
   have hF : orbitClosure K T ≤ Subgroup.normalizer (orbitClosure K T : Set Q) :=
@@ -44,8 +46,8 @@ theorem centralizer_orbitClosure_le {K T : Subgroup Q}
   let F : Subgroup Q := orbitClosure K T
   have hF : F.Normal := orbitClosure_normal hKT
   have hQF2 : IsPGroup 2 (Q ⧸ F) := by
-    haveI : F.Normal := hF
-    haveI : (F.subgroupOf (⊤ : Subgroup Q)).Normal := hF.subgroupOf ⊤
+    have : F.Normal := hF
+    have : (F.subgroupOf (⊤ : Subgroup Q)).Normal := hF.subgroupOf ⊤
     have htop : IsPGroup 2 ((⊤ : Subgroup Q) ⧸ F.subgroupOf ⊤) :=
       CFSG.Quasithin.F112R.isPGroup_quotient_of_sup_eq (p := 2) (G := Q)
         (L := F) (Q := T) (K := ⊤) hT le_top
@@ -58,7 +60,7 @@ theorem centralizer_orbitClosure_le {K T : Subgroup Q}
       (QuotientGroup.congr (F.subgroupOf ⊤) F Subgroup.topEquiv he)
   let C : Subgroup Q := Subgroup.centralizer (F : Set Q)
   have hCnorm : C.Normal := by
-    haveI : F.Normal := hF
+    have : F.Normal := hF
     exact Subgroup.normal_centralizer
   let φ : C →* Q ⧸ F := (QuotientGroup.mk' F).comp C.subtype
   let Z : Subgroup C := φ.ker
@@ -78,7 +80,7 @@ theorem centralizer_orbitClosure_le {K T : Subgroup Q}
     have hz' : z ∈ (C ⊓ F).subgroupOf C := hZeq ▸ hz
     have hzF : (z : Q) ∈ F := (Subgroup.mem_subgroupOf.mp hz').2
     exact (Subgroup.mem_centralizer_iff.mp x.2 (z : Q) hzF).symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCZ2 : IsPGroup 2 (C ⧸ Z) := by
     have hrange2 : IsPGroup 2 φ.range := hQF2.to_subgroup φ.range
     exact IsPGroup.of_equiv hrange2 (QuotientGroup.quotientKerEquivRange φ).symm
@@ -104,10 +106,10 @@ theorem centralizer_orbitClosure_le {K T : Subgroup Q}
   have hSchar : (S : Subgroup C).Characteristic :=
     Sylow.characteristic_of_normal S hSnormal
   have hSN : (S.map C.subtype).Normal := by
-    haveI : C.Normal := hCnorm
-    haveI : (S : Subgroup C).Characteristic := hSchar
+    have : C.Normal := hCnorm
+    have : (S : Subgroup C).Characteristic := hSchar
     exact ConjAct.normal_of_characteristic_of_normal (H := C) (K := (S : Subgroup C))
-  have hN2 : IsPGroup 2 (S.map C.subtype) := IsPGroup.map S.isPGroup' C.subtype
+  have hN2 : IsPGroup 2 (S.map C.subtype) := IsPGroup.map S.isPGroup C.subtype
   have hNnorm : ∀ x ∈ (⊤ : Subgroup Q), ∀ y ∈ S.map C.subtype, x * y * x⁻¹ ∈ S.map C.subtype :=
     fun x _ y hy => hSN.conj_mem y hy x
   have hSNbot : S.map C.subtype ≤ pCoreOf 2 (⊤ : Subgroup Q) :=
@@ -127,6 +129,7 @@ theorem centralizer_orbitClosure_le {K T : Subgroup Q}
     exact hCF.trans inf_le_right
   exact hCleF
 
+omit [Finite Q] in
 theorem orbitClosure_le_layer {K T : Subgroup Q} (hK : CFSG.IsComponent K) :
     orbitClosure K T ≤ CFSG.layer Q := by
   refine orbitClosure_le fun a _ => ?_
@@ -146,11 +149,12 @@ theorem layer_le_orbitClosure {K T : Subgroup Q}
   · exact h
   · exact (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h).trans hC
 
+omit [Finite Q] in
 theorem orbitClosure_le_of_mem_le {K T W : Subgroup Q} (hWn : W.Normal)
     {t : Q} (htW : K.map (MulAut.conj t).toMonoidHom ≤ W) :
     orbitClosure K T ≤ W := by
   refine orbitClosure_le fun s hs => ?_
-  haveI : W.Normal := hWn
+  have : W.Normal := hWn
   have hWmap : W.map (MulAut.conj (s * t⁻¹)).toMonoidHom = W :=
     Subgroup.Normal.map_conj_eq W (s * t⁻¹)
   have h1 : (K.map (MulAut.conj t).toMonoidHom).map (MulAut.conj (s * t⁻¹)).toMonoidHom ≤ W := by
@@ -181,7 +185,7 @@ theorem isChiefFactorOf_orbitClosure {K T : Subgroup Q} (hK : CFSG.IsComponent K
   let Z : Subgroup Q := F ⊓ Subgroup.centralizer (F : Set Q)
   have hF : F.Normal := orbitClosure_normal hKT
   have hZ : Z.Normal := by
-    haveI : F.Normal := hF
+    have : F.Normal := hF
     exact Subgroup.normal_inf_normal F (Subgroup.centralizer (F : Set Q))
   have hZle : Z ≤ F := inf_le_left
   have hZlt : Z < F := by
@@ -196,8 +200,8 @@ theorem isChiefFactorOf_orbitClosure {K T : Subgroup Q} (hK : CFSG.IsComponent K
       have h := hFab.is_comm.comm
         (⟨(a : Q), hKF a.2⟩ : F) (⟨(b : Q), hKF b.2⟩ : F)
       exact Subtype.ext (by simpa using congrArg Subtype.val h)
-    haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-    haveI : Group.IsPerfect ↥K := hK.1.1
+    have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    have : Group.IsPerfect ↥K := hK.1.1
     exact Group.IsPerfect.not_isMulCommutative K hKcomm
   refine ⟨⟨le_top, ?_⟩, ⟨le_top, ?_⟩, hZlt, ?_⟩
   · exact le_of_eq (Subgroup.normalizer_eq_top (h := hZ)).symm
@@ -237,8 +241,8 @@ theorem inF_top_of_components (h43c : W3Lem45_2Chief) {m : ℕ} (hm : 1 ≤ m)
   have hF : F.Normal := orbitClosure_normal hKT
   have hT2 : IsPGroup 2 T := hTsyl.isPGroup
   have hQF2 : IsPGroup 2 (Q ⧸ F) := by
-    haveI : F.Normal := hF
-    haveI : (F.subgroupOf (⊤ : Subgroup Q)).Normal := hF.subgroupOf ⊤
+    have : F.Normal := hF
+    have : (F.subgroupOf (⊤ : Subgroup Q)).Normal := hF.subgroupOf ⊤
     have htop : IsPGroup 2 ((⊤ : Subgroup Q) ⧸ F.subgroupOf ⊤) :=
       CFSG.Quasithin.F112R.isPGroup_quotient_of_sup_eq (p := 2) (G := Q)
         (L := F) (Q := T) (K := ⊤) hT2 le_top
@@ -252,7 +256,7 @@ theorem inF_top_of_components (h43c : W3Lem45_2Chief) {m : ℕ} (hm : 1 ≤ m)
   have hFT : ∀ T' : Subgroup Q, CFSG.ABGLocalTools.IsSylowOf 2 T' ⊤ → F ⊔ T' = ⊤ := by
     intro T' hT'
     have hT'in : IsSylowIn 2 T' ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT'
-    haveI : F.Normal := hF
+    have : F.Normal := hF
     let P : Sylow 2 Q := hT'in.isPGroup.toSylow (by simpa using hT'in.not_dvd_relIndex)
     have h := CFSG.section10_sylow_sup_normal_of_p_quotient_eq_top (N := F) hQF2 P
     rw [IsPGroup.toSylow_coe] at h

@@ -128,7 +128,7 @@ private theorem frameDiag_mem_twistedTorus
     ExcFrames.frameDiag ζ hζ s ∈ CFSG.RankThree.PartOne.KE.twistedTorusOf
       (canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w)
       (Units.map (entrywiseHom Fr)) := by
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   refine CFSG.RankThree.PartOne.KE.mem_twistedTorusOf.2 ⟨hfull _, ?_⟩
   · have hds : ExcFrames.frameDiag ζ hζ s =
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
@@ -155,8 +155,8 @@ private theorem exists_langSetup_data
         (adjointGroup τ K).subtype) := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let D : LangDatum τ L :=
     { Φ := Units.map (entrywiseHom Fr)
       q := Nat.card K

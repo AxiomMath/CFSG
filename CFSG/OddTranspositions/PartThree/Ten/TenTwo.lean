@@ -12,6 +12,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.OddTranspositions.QZ
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem not_alpha_subset_Halpha_of_pCore_eq_bot (hC : HypothesisC D)
     (hQ : CFSG.pCore 2 (Halpha D hC.alpha) = ⊥) :
     ¬ hC.alpha ⊆ (Halpha D hC.alpha : Set G) := by

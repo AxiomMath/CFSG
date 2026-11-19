@@ -57,11 +57,11 @@ theorem exists_family {n : ℕ} (hn : 4 ≤ n) (hK : Nat.card K = (p ^ f) ^ 2) {
       ∀ i j (h : edgeD n i j), (F.θ i j h).range = W i j := by
   classical
   let u : ℕ → Subgroup X := fun i => if h : i < n then U ⟨i, h⟩ else ⊥
-  have hu : ∀ (i : ℕ) (h : i < n), u i = U ⟨i, h⟩ := fun i h => dif_pos h
+  have hu : ∀ (i : ℕ) (h : i < n), u i = U ⟨i, h⟩ := fun i h => dite_eq_left h
   let Wf : (i : ℕ) → i + 2 < n → Subgroup X := fun i h =>
     W ⟨i, by omega⟩ ⟨i + 1, by omega⟩
   let w : ℕ → Subgroup X := fun i => if h : i + 2 < n then Wf i h else ⊥
-  have hw : ∀ (i : ℕ) (h : i + 2 < n), w i = Wf i h := fun i h => dif_pos h
+  have hw : ∀ (i : ℕ) (h : i + 2 < n), w i = Wf i h := fun i h => dite_eq_left h
   have hWf : ∀ (i : ℕ) (h : i + 2 < n),
       UnitaryBlockStandardPair K p f (Wf i h) (u i) (u (i + 1)) := by
     intro i h
@@ -146,15 +146,15 @@ theorem exists_family {n : ℕ} (hn : 4 ≤ n) (hK : Nat.card K = (p ^ f) ^ 2) {
   have hiota_chain : ∀ i : Fin n, i.val + 2 < n →
       iota i = (θc i.val).comp (embSUid (unitaryInvolution K p f) 2) := by
     intro i h
-    simp only [iota, dif_pos h]
+    simp only [iota, dite_eq_left h]
   have hiota_penult : ∀ i : Fin n, ¬ i.val + 2 < n → i.val = n - 2 →
       iota i = (θc (n - 3)).comp (embSUid (unitaryInvolution K p f) 0) := by
     intro i h hi
-    simp only [iota, dif_neg h, dif_pos hi]
+    simp only [iota, dite_eq_right h, dite_eq_left hi]
   have hiota_last : ∀ i : Fin n, ¬ i.val + 2 < n → i.val ≠ n - 2 →
       iota i = θ₂.comp (embSUid (unitaryInvolution K p f) 0) := by
     intro i h hi
-    simp only [iota, dif_neg h, dif_neg hi]
+    simp only [iota, dite_eq_right h, dite_eq_right hi]
   have hrange : ∀ i : Fin n, (iota i).range = U i := by
     intro i
     by_cases h : i.val + 2 < n
@@ -194,11 +194,11 @@ theorem exists_family {n : ℕ} (hn : 4 ≤ n) (hK : Nat.card K = (p ^ f) ^ 2) {
   have htheta_chain : ∀ (i j : Fin n) (h : edgeD n i j),
       i.val + 1 = j.val → j.val + 1 < n → theta i j h = θc i.val := by
     intro i j h h1 h2
-    simp only [theta, dif_pos (show i.val + 1 = j.val ∧ j.val + 1 < n from ⟨h1, h2⟩)]
+    simp only [theta, dite_eq_left (show i.val + 1 = j.val ∧ j.val + 1 < n from ⟨h1, h2⟩)]
   have htheta_fork : ∀ (i j : Fin n) (h : edgeD n i j),
       ¬ (i.val + 1 = j.val ∧ j.val + 1 < n) → theta i j h = θ₂ := by
     intro i j h hc
-    simp only [theta, dif_neg hc]
+    simp only [theta, dite_eq_right hc]
   have hleft : ∀ (i j : Fin n) (h : edgeD n i j),
       (theta i j h).comp (embSUid (unitaryInvolution K p f) 2) = iota i := by
     intro i j h

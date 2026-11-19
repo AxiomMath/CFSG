@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or {u x : G} (hu : u * u = 1) (hx : x ∈ zpowers u) :
     x = 1 ∨ x = u := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -22,6 +23,7 @@ private lemma mem_zpowers_eq_one_or {u x : G} (hu : u * u = 1) (hx : x ∈ zpowe
   · right
     rw [zpow_add, zpow_mul, zpow_two, hu, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma le_normalizer_inf' {A B C : Subgroup G} (hB : A ≤ normalizer (B : Set G))
     (hC : A ≤ normalizer (C : Set G)) :
     A ≤ normalizer ((B ⊓ C : Subgroup G) : Set G) := by

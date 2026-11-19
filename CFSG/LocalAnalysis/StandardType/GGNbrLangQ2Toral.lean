@@ -52,8 +52,8 @@ theorem q2_commutative_of_linearLift {P : Type} [Group P] {M : Subgroup (MulAut 
     IsMulCommutative ((M.map (MulAut.congr θ).toMonoidHom).comap (TableB.linConjAut (Fin d) K)) := by
   classical
   obtain ⟨a, D, hDf, hDfin, ψL, G, hG, hlift⟩ := h
-  letI : Field D := hDf
-  letI : Finite D := hDfin
+  let : Field D := hDf
+  let : Finite D := hDfin
   obtain ⟨ha, hcardD⟩ :=
     kgLangS1A_psl_typeDet (d := d) (d₁ := a) (m := m) (F₀ := K) (E := D) hd hm hK
       ((TypeA.recipeEquiv d K).symm.trans (θ.symm.trans ψL))

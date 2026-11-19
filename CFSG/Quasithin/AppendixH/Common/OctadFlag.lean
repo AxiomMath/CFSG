@@ -15,7 +15,7 @@ theorem exists_alt_two_trans {Q : Type*} [Fintype Q] [DecidableEq Q] (hQ : 4 ≤
     {p q p' q' : Q} (hpq : p ≠ q) (hpq' : p' ≠ q') :
     ∃ σ ∈ alternatingGroup Q, σ p = p' ∧ σ q = q' := by
   have h2t : MulAction.IsMultiplyPretransitive (alternatingGroup Q) Q 2 := by
-    haveI : MulAction.IsMultiplyPretransitive (alternatingGroup Q) Q (Nat.card Q - 2) :=
+    have : MulAction.IsMultiplyPretransitive (alternatingGroup Q) Q (Nat.card Q - 2) :=
       alternatingGroup.isMultiplyPretransitive Q
     have hsub : 2 ≤ Nat.card Q - 2 := by
       rw [Nat.card_eq_fintype_card]

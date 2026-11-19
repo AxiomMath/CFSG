@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V
 section Paired
 
 
-theorem specialBlock_central_of_paired (hO : LieOrderFormulasInput) {f₀ : ℕ} (hf₀ : 1 ≤ f₀)
+theorem specialBlock_central_of_paired (hO : LieOrderFormulasInput) {f₀ : ℕ} (_hf₀ : 1 ≤ f₀)
     (hK : Nat.card K = 2 ^ f₀) (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) (hne : h ≠ reciprocalPolynomial h)
     (hm : 2 ≤ primaryMultiplicity x.toLinearMap h)
@@ -58,7 +58,7 @@ end Paired
 
 section SelfDual
 
-theorem false_of_specialBlock_selfDual (hO : LieOrderFormulasInput) {f₀ : ℕ} (hf₀ : 1 ≤ f₀)
+theorem false_of_specialBlock_selfDual (hO : LieOrderFormulasInput) {f₀ : ℕ} (_hf₀ : 1 ≤ f₀)
     (hK : Nat.card K = 2 ^ f₀) (hx : OddOrderIsometry Q 3 x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hself : h = reciprocalPolynomial h) (hm : 2 ≤ primaryMultiplicity x.toLinearMap h)
@@ -152,7 +152,7 @@ theorem false_of_specialBlock_selfDual (hO : LieOrderFormulasInput) {f₀ : ℕ}
           exact_mod_cast hcard.trans e
         omega
     have h1 := card_eq_of_isLThreeFour hL
-    haveI : Finite ↥(specialBlock Q x h) := Finite.of_equiv _ e₁.symm.toEquiv
+    have : Finite ↥(specialBlock Q x h) := Finite.of_equiv _ e₁.symm.toEquiv
     have h2 : Nat.card (↥(specialBlock Q x h) ⧸ Subgroup.center ↥(specialBlock Q x h)) ≤
         Nat.card ↥(specialBlock Q x h) :=
       Nat.card_le_card_of_surjective _ (QuotientGroup.mk'_surjective _)

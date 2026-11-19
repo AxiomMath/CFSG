@@ -51,7 +51,7 @@ theorem largeEvenLabelAll_torusGenTableB_omegaPlusTwoThree
   subst ht hn
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by omega)] at hQ ⊢
+  rw [ite_eq_right (by omega)] at hQ ⊢
   obtain ⟨K, hfield, hfinite, hK, hQ⟩ := hQ
   have : Fintype K := Fintype.ofFinite K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

@@ -156,10 +156,10 @@ theorem exists_perfect_cover_act_sylow_of_centralizer {P Q : Type*} [Group P] [F
     rw [← hPiS]
     rintro _ ⟨x, hx, rfl⟩
     exact hcent x (hPiC hx)
-  haveI := hB
-  haveI : Group.IsSolvable ↥S := solvable_of_solvable_injective (Subgroup.inclusion_injective hSB)
-  haveI : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.mpr hS
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
+  have := hB
+  have : Group.IsSolvable ↥S := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hSB)
+  have : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.mpr hS
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
   exact Group.IsPerfect.not_isSolvable ↥S inferInstance
 
 theorem exists_perfect_cover_act_of_centralizer {P Q : Type*} [Group P] [Finite P] [Group Q]
@@ -177,7 +177,7 @@ theorem exists_perfect_cover_act_of_centralizer {P Q : Type*} [Group P] [Finite 
 
 theorem isPerfect_projSL_two_even {f : ℕ} (hf : 2 ≤ f) :
     Group.IsPerfect (projSL 2 (GaloisField 2 f)) := by
-  haveI := isSimpleGroup_projSL hf
+  have := isSimpleGroup_projSL hf
   refine TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => ?_
   have hp := (Group.is_simple_iff_prime_card (α := projSL 2 (GaloisField 2 f))).mp inferInstance
   rw [card_projSL_two_even f (by omega)] at hp
@@ -202,20 +202,20 @@ theorem false_of_frattini_section_of_minDegree {G : Type} [Group G] [Finite G] {
       ∀ (V : Type) [AddCommGroup V] [Module (ZMod p) V] [Module.Finite (ZMod p) V]
         (σ : X →* (V →ₗ[ZMod p] V)), (∃ x, σ x ≠ 1) → 7 ≤ Module.finrank (ZMod p) V) :
     False := by
-  haveI := isPerfect_projSL_two_even (show 2 ≤ f by omega)
-  haveI := isSimpleGroup_projSL (show 2 ≤ f by omega)
+  have := isPerfect_projSL_two_even (show 2 ≤ f by omega)
+  have := isSimpleGroup_projSL (show 2 ≤ f by omega)
   have hSperf : ⁅S, S⁆ = S := Subgroup.isPerfect_iff.mp
     (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective)
   have hS1 : S ≠ ⊥ := by
-    haveI : Nontrivial ↥S := e.toEquiv.nontrivial
+    have : Nontrivial ↥S := e.toEquiv.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot S).mp inferInstance
   obtain ⟨Pi, SK, hPiS, hPi, hnil, hSK, -, hPS, -, hact⟩ :=
     exists_perfect_cover_act_of_centralizer ρ hj hSperf hS1 hSj hSρ hB hcent
-  haveI : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
+  have : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
   set σ : Pi →* Q := ρ.comp Pi.subtype with hσ
   have hrange : σ.range = S := by
     rw [hσ, MonoidHom.range_comp, Subgroup.range_subtype, hPiS]
-  haveI : Group.IsNilpotent ↥σ.ker := hnil
+  have : Group.IsNilpotent ↥σ.ker := hnil
   have hN : Group.IsSolvable ↥σ.ker := inferInstance
   let e' : ↥Pi ⧸ σ.ker ≃* projSL 2 (GaloisField 2 f) :=
     (QuotientGroup.quotientKerEquivRange σ).trans ((MulEquiv.subgroupCongr hrange).trans e)

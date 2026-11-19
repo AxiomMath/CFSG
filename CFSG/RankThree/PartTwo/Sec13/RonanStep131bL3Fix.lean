@@ -22,7 +22,7 @@ theorem exists_stable_conj {H X : Type*} [Group H] [Finite H] [Group X] (φ : H 
     {N : Subgroup H} (hN : ¬ 3 ∣ N.index) {P : Subgroup (MulAut X)} (hP : IsPGroup 3 P)
     (hPφ : P ≤ φ.range) :
     ∃ h : H, ∀ σ ∈ P, ∃ n ∈ N, φ h * φ n * (φ h)⁻¹ = σ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hψ : Function.Surjective φ.rangeRestrict := φ.rangeRestrict_surjective
   have hN' : ¬ 3 ∣ (N.map φ.rangeRestrict).index := fun hd =>
     hN (hd.trans (Subgroup.index_map_dvd N hψ))
@@ -95,7 +95,7 @@ theorem exists_stable_of_mulEquiv {X Y : Type*} [Group X] [Group Y] (ι : X ≃*
     intro hbot
     have hmem : ι.symm (y : Y) ∈ V'.comap ι.toMonoidHom := by
       rw [Subgroup.mem_comap]
-      simpa using y.2
+      simp
     rw [hbot, Subgroup.mem_bot] at hmem
     apply hy
     apply Subtype.ext

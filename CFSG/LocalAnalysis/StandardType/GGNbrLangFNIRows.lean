@@ -98,7 +98,7 @@ theorem kgFieldNotInnerCont_of_fieldConj_exponent {R : Type} [Group R] [IsSimple
 theorem kgfni_tag_of_fieldDegree_eq_three {lab : LargeEvenLabel} (h : kgfniFieldDegree lab = 3) :
     lab.tag = .triD4 := by
   cases ht : lab.tag <;> simp only [kgfniFieldDegree, ht] at h ⊢ <;>
-    first | rfl | (exfalso; omega)
+    (exfalso; omega)
 
 theorem kgfni_prime_dvd_fieldDegree {p : ℕ} (hp : p.Prime) {lab : LargeEvenLabel}
     (hd : p ∣ kgfniFieldDegree lab) : p = 2 ∨ (p = 3 ∧ lab.tag = .triD4) := by
@@ -135,7 +135,7 @@ theorem kgfni_coprime_fieldDegree_of_not_t3 {p : ℕ} (hp : p.Prime) (hp2 : p �
 theorem kgfni_derived_n_eq_one {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (htag : KGFNIFamily.tagCase .derived lab.tag) : lab.n = 1 := by
   rcases htag with h | h | h <;>
-    (simp only [LargeEvenInLambda2, h] at hlab <;> exact hlab.2.2)
+    (simp only [LargeEvenInLambda2, h] at hlab; exact hlab.2.2)
 
 theorem kgFieldNotInnerInputOn_derived : KGFieldNotInnerInputOn (kgfniRow .derived) := by
   intro p lab hp hp2 hlab ht3 hrow

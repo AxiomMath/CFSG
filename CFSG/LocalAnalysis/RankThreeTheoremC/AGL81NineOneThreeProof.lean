@@ -112,7 +112,7 @@ theorem isSylowIn_of_isSylowIn_inf {p : ℕ} [hp : Fact p.Prime] {M H R : Subgro
   · exact heq ▸ hS
   exfalso
   have hSp : IsPGroup p ↥S := hS.isPGroup
-  haveI : Group.IsNilpotent ↥S := hSp.isNilpotent
+  have : Group.IsNilpotent ↥S := hSp.isNilpotent
   have hlt : R.subgroupOf S < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => heq (le_antisymm hRS fun s hs => ?_)
     have : (⟨s, hs⟩ : ↥S) ∈ R.subgroupOf S := htop ▸ Subgroup.mem_top _
@@ -156,7 +156,7 @@ theorem isSylowIn_of_isSylowIn_inf {p : ℕ} [hp : Fact p.Prime] {M H R : Subgro
 theorem isSylowIn_H_of_cfg {P : Sylow 3 G} {M H Q : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} (hd : AGL81CfgData 3 P M H Q K)
     {R : Subgroup G} (hR : IsSylowIn 3 R (H ⊓ M)) (hQR : Q ≤ R) : IsSylowIn 3 R H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   exact isSylowIn_of_isSylowIn_inf hR (normalizer_le_of_isAGLQ_escape hesc
     (isAGLQ_of_le hd.base hQR (hR.le.trans inf_le_right) hR.isPGroup))

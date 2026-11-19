@@ -21,6 +21,7 @@ local notation "ρ" => weylAction D.isFiniteType
 variable (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H)
 
 include hct hdiv in
+omit hct in
 theorem restrict_bruhatExtras (hBU : BruhatExtras D H) :
     BruhatExtras (restrict D he) (HC D H e) := by
   have hroot : ∀ γ ∈ (restrict D he).roots, ext e γ ∈ D.roots :=
@@ -39,6 +40,7 @@ theorem restrict_bruhatExtras (hBU : BruhatExtras D H) :
   exact Subtype.ext h1
 
 include hct hdiv in
+omit hct in
 theorem restrict_rootGroupCommutators (hE : RootGroupCommutators D) :
     RootGroupCommutators (restrict D he) where
   commutator_le γ hγ h2 := absurd h2 (two_smul_notMem_roots (D := restrict D he) rfl hγ)

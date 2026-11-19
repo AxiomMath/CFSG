@@ -116,7 +116,7 @@ theorem isSolvable_inf_barCentralizer_of_isoGTwoEven_one (hG : G2TwoCentThreeSol
     exact Subtype.ext (congrArg
       (fun z : ↥(barCentralizer (Subgroup.zpowers c) Y) => (z : Y ⧸ aschbacherSolvableCore 3 Y))
       h2)
-  haveI := hcs
+  have := hcs
   exact Group.isSolvable_of_isSolvable_injective hfinj
 
 theorem false_of_small (h45 : Sec4.Item4_5) (hF : KF84Field) (hG : G2TwoCentThreeSolvable)
@@ -136,7 +136,7 @@ theorem false_of_small (h45 : Sec4.Item4_5) (hF : KF84Field) (hG : G2TwoCentThre
   refine not_isSolvable_inf_barCentralizer h45 hF h hn2 hIJ hcN hdcl hdA hd3 hdN ?_
   rcases hH with hG2 | hP
   · exact isSolvable_inf_barCentralizer_of_isoGTwoEven_one hG hcN hdN hcd hd3 hin hne hZ hG2
-  · haveI : Group.IsSolvable ↥(barCentralizer (Subgroup.zpowers c) Y) :=
+  · have : Group.IsSolvable ↥(barCentralizer (Subgroup.zpowers c) Y) :=
       isSolvable_of_isoPGUThree_two hP
     exact Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (inf_le_left :

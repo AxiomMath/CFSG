@@ -10,7 +10,7 @@ namespace CFSG.GroupTheory
 theorem mem_closure_image_diff_iff {H K : Type*} [Group H] [Group K] {f : H →* K}
     (hf : Function.Injective f) {S : Set H} {x : H} :
     f x ∈ Subgroup.closure (f '' S \ {f x}) ↔ x ∈ Subgroup.closure (S \ {x}) := by
-  rw [← Set.image_singleton, ← Set.image_diff hf, ← MonoidHom.map_closure,
+  rw [← Set.image_singleton, ← Set.image_sdiff hf, ← MonoidHom.map_closure,
     Subgroup.mem_map_iff_mem hf]
 
 theorem mem_closure_preimage_diff_of_injective {H K : Type*} [Group H] [Group K] {f : H →* K}

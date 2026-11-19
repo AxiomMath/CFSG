@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183l313_mem_centralizer_of_odd {V V₀ : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
     (hV₀ : V₀ ≤ V) (hzV : ∀ v ∈ V, z * v * z⁻¹ * v⁻¹ ∈ V₀)
     (hzV₀ : ∀ w ∈ V₀, z * w = w * z) (hodd : Odd (orderOf z)) :
@@ -118,6 +119,7 @@ theorem w183l313_comm_of_mem_V_mul {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h 
     _ = v * (r * d) := by rw [hdr_comm]
     _ = (v * r) * d := by group
 
+omit [Finite G] in
 theorem w183l313_NOf_eq_of_mul {M V : Subgroup G} (hM : Subgroup.normalizer (V : Set G) = M)
     {p q c : G} (hc : c ∈ Subgroup.centralizer (V : Set G)) (hpqc : q * c * p⁻¹ ∈ M) :
     NOf M V p = NOf M V q := by

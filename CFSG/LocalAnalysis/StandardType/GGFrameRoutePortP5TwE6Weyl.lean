@@ -236,7 +236,7 @@ private theorem twE6_frame
         CoverOdd ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
   obtain ⟨D, hD⟩ := exists_tFrame (n := 1) le_rfl hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D.Good :=
-    { center := tFrame_center (n := 1) le_rfl hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful (n := 1) le_rfl hK σ hσ Fr hFr h3 hL hζ hζo hD
       shape := tFrame_shape (n := 1) le_rfl hK σ hσ Fr hFr h3 hL hζ hζo hD
       torus := tFrame_torus (n := 1) le_rfl hK σ hσ Fr hFr h3 hL hζ hζo hD

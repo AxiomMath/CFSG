@@ -309,7 +309,7 @@ theorem swap_qSp_conj : swapElt * qSp * swapElt⁻¹ = qSp := by
   rw [mul_inv_eq_iff_eq_mul]
   refine eq_of_mulVec_basis ?_ ?_ ?_ ?_ <;>
     (simp only [map_mul, ← Matrix.mulVec_mulVec, swap_e0, swap_e1, swap_f0, swap_f1, qSp_e0,
-      qSp_e1, qSp_f0, qSp_f1, Matrix.mulVec_add]; try module)
+      qSp_e1, qSp_f0, qSp_f1, Matrix.mulVec_add])
 
 theorem swap_tHub_conj : swapElt * tHub * swapElt⁻¹ = longBlock F3 2 1 uSL := by
   rw [mul_inv_eq_iff_eq_mul, tHub]

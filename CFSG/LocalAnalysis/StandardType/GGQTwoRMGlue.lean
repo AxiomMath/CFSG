@@ -51,7 +51,7 @@ private theorem nbr_le_ainf {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgr
         ⨆ (_ : GGNbr p B x D J y' K'), ggAutomizer K' Bs) y))
 
 theorem qTwo_ainf_fixes_x {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G)}
-    (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) {m : ℕ} (hLM : QTwoLocalModel m Bs L x)
+    (_hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) {m : ℕ} (hLM : QTwoLocalModel m Bs L x)
     (hC : ¬ ∀ b : ↥Bs, (∀ φ ∈ ggAInf 3 B Bs x L D J, φ b = b) → b = 1) :
     ∀ φ ∈ ggAInf 3 B Bs x L D J, φ ⟨x, hLM.mem⟩ = ⟨x, hLM.mem⟩ := by
   have hle : ggAutomizer L Bs ≤ ggAInf 3 B Bs x L D J := le_sup_left

@@ -21,7 +21,7 @@ private theorem monsterOrder_le_card (hf : Finite TauCeti.SporadicName.M.Group) 
   obtain ⟨b⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
   have c : MonsterY443Derived ≃* TauCeti.SporadicName.M.Group :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.y443DerivedEquivOpen.symm.trans b
-  haveI : Finite MonsterY443Derived := @Finite.of_equiv _ _ hf c.symm.toEquiv
+  have : Finite MonsterY443Derived := @Finite.of_equiv _ _ hf c.symm.toEquiv
   have h := Nat.card_le_card_of_surjective _ CFSG.RankThree.PartOne.SPOR.fM_surjective
   rw [CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder] at h
   exact h.trans (Nat.card_congr c.toEquiv).le

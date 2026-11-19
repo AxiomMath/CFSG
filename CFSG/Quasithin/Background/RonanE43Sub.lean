@@ -17,7 +17,7 @@ theorem goodFamily_of_subgroups {T L Ah Ph Vh : Subgroup G} (hT : IsSylowIn 2 T 
     (hP3 : Nat.card Ph = 3 * Nat.card ↥(T ⊓ L)) (hgen : L ≤ (Ah ⊔ T) ⊔ (Ph ⊔ T)) :
     GoodFamily T 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVG : Vh = pCoreOf 2 Ah := hA5.pCoreOf_eq.symm
   set H₂ : Subgroup G := Ah ⊔ T with hH₂
   set H₃ : Subgroup G := Ph ⊔ T with hH₃

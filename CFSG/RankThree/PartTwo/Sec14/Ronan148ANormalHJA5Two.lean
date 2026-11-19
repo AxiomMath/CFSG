@@ -227,7 +227,7 @@ theorem step148NormalHJA5_of_two (h142 : Concl142S14) (h134 : Item134) (h48 : Se
     sSup_le fun _ hQ => hQ.2
   have hCZ : img148 A Y Y ⊓ Subgroup.centralizer (Jα : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) ≤
       Subgroup.normalizer (Zα : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) := by
-    letI := ker148_normal hY₁.2
+    let := ker148_normal hY₁.2
     have hN₁ := img148_le_normalizer_of_map_normal (A := A) hX1Y₁ h148₁.1
     have hY₁Z : img148 A Y (centPre148 A Y J) ≤ Subgroup.normalizer (Zα : Set _) := by
       rw [hZα, ← map_img148_compare148 hcore.le le_sup_left,

@@ -26,8 +26,8 @@ theorem tw6SixLayer_unitary {K' Ω k : Type} [Field K'] [Finite K'] [Field Ω] [
         ↥(unitarySU 2 n k 3)) ∧
       Nat.card (Subgroup.center ↥(tw6SixLayer (L := Ω) (Fr := Fr) tw6SixFrameWeyl i)) ∣ 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K'
   obtain ⟨hstab0, hstab1⟩ := tw6SixLayerRoots_smul
     (tw6_torusRootKernel_smul_stable (Fr := Fr) (q := 2 ^ n) hFr hx) hW
   have hroots : ∀ j : Fin 2, ∀ α ∈ tw6SixLayerRoots tw6SixFrameWeyl j, IsRoot Tag.E6 α := by

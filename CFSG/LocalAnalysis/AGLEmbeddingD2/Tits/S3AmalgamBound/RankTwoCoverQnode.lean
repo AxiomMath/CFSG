@@ -58,7 +58,7 @@ theorem exists_qnode
       ∀ A : Subgroup K, borel D H ≤ A → A ≠ borel D H →
         (∀ A' : Subgroup K, borel D H ≤ A' → A' ≤ A → A' = borel D H ∨ A' = A) →
           ∃ k, A = Q k := by
-  haveI := cartan_borel_weylN_normal hct hext
+  have := cartan_borel_weylN_normal hct hext
   have hBN := isBNPair_borel_weylN hct hext
   set B := borel D H with hB
   set N := weylN n H with hN
@@ -87,7 +87,7 @@ theorem exists_qnode
     have hnP : n i ∈ parabolic B N {s i} := by
       rw [hBN.mem_parabolic_iff (hJS i)]
       exact ⟨s i, Subgroup.subset_closure rfl,
-        mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp [hB]⟩⟩
+        mem_dc_mk_iff.2 ⟨1, one_mem _, 1, one_mem _, by simp⟩⟩
     intro g hg
     rcases hext.rankOne_bruhat i g hg with ⟨h, hh, u, hu, rfl⟩ | ⟨u, hu, h, hh, v, hv, rfl⟩
     · have hα : (Pi.single i 1 : Fin D.rank → ℤ) ∈ D.roots :=

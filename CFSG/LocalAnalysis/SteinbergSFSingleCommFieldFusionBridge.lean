@@ -102,7 +102,7 @@ theorem ffAbstract_card_sq {E : Type} [Group E] [Finite E] [IsElementaryAbelian 
   let Ct : ℕ → AddSubgroup (Additive E) := fun i =>
     if h : i < r + 1 then Subgroup.toAddSubgroup (C ⟨i, h⟩) else ⊤
   have hCt : ∀ i (h : i < r + 1), Ct i = Subgroup.toAddSubgroup (C ⟨i, h⟩) := fun i h => by
-    simp only [Ct, dif_pos h]
+    simp only [Ct, dite_eq_left h]
   have hCt_cast : ∀ i : Fin r, Ct (i : ℕ) = Subgroup.toAddSubgroup (C i.castSucc) := fun i => by
     rw [hCt i (by omega)]
     rfl
@@ -190,7 +190,7 @@ theorem ffAbstract_card_sq {E : Type} [Group E] [Finite E] [IsElementaryAbelian 
       rw [← h2, div_eq_mul_inv, mul_comm]
     · rintro ⟨y, rfl⟩
       show ν (y⁻¹ * ν y) = y⁻¹ * ν y
-      simp [map_mul, map_inv, hν, hinv, mul_comm]
+      simp [map_mul, hν, hinv, mul_comm]
   exact card_eq_card_fixed_sq ν hfix
 
 theorem ffBridge_scalar_section {G : Type} [Group G] [Finite G] {K : Type} [Field K] {m r : ℕ}
@@ -254,7 +254,7 @@ theorem ffBridge_scalar_section {G : Type} [Group G] [Finite G] {K : Type} [Fiel
     show ((k₃ : ↥(C (Fin.last r))) : G) = (μ (l ^ 2 ^ m))⁻¹ * k * μ (l ^ 2 ^ m)
     rw [← hμa l]
     change a⁻¹ * ((μ l)⁻¹ * (a⁻¹ * k * a) * μ l) * a = (a⁻¹ * μ l * a)⁻¹ * k * (a⁻¹ * μ l * a)
-    simp only [mul_inv_rev, inv_inv, hainv, mul_assoc]
+    simp only [mul_inv_rev, hainv, mul_assoc]
   have hmono' : ∀ j : Fin (r + 1), C j ≤ C (Fin.last r) := fun j =>
     (Fin.monotone_iff_le_succ.mpr hCle) (Fin.le_last j)
   let π : ↥(C (Fin.last r)) →* ↥(C (Fin.last r)) ⧸ (C 0).subgroupOf (C (Fin.last r)) :=
@@ -547,7 +547,7 @@ theorem ffTorus_exists_oneParam (φ : L ≃* antiSp K) (f g : Kˣ →* Kˣ) :
       have hm0 : 2 ^ m ≠ 0 := pow_ne_zero _ two_ne_zero
       rw [h1, h2, map_pow, map_pow, Units.val_pow_eq_pow_val, Units.val_pow_eq_pow_val]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [diagMat, Matrix.diagonal_apply, inv_pow, hm0]
+      fin_cases i <;> fin_cases j <;> simp [diagMat, inv_pow]
     rw [hfr] at e
     show v₀⁻¹ * ((φ.symm (τ l) : L) : G) * v₀ = ((φ.symm (τ (l ^ 2 ^ m)) : L) : G)
     rw [e, hinv]
@@ -568,6 +568,7 @@ theorem ffTorus_comm_w (φ : L ≃* antiSp K) {v₀ : G} {m : ℕ}
       = (v₀ * ((φ.symm (FullCenterWeyl.weylElt K k) : L) : G) * v₀⁻¹) * v₀ := by group
     _ = _ := by rw [← h]
 
+omit [Finite K] in
 theorem ffTorus_card_K {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
     (hS : SCSetting L K n φ t i) (hn : Even n) : Nat.card K = 2 ^ (2 * (n / 2)) := by
   rw [hS.fc.setup.card_K]
@@ -599,6 +600,7 @@ theorem ffTorus_conj_w (φ : L ≃* antiSp K) (k : Axis) {μ : Kˣ →* G} (hμJ
       _ = (w φ k * v₀) * μ l * (v₀ * w φ k) := by rw [hc]
       _ = w φ k * (v₀ * μ l * v₀) * w φ k := by group
 
+omit [CharP K 2] [Finite K] in
 theorem ffTorus_normalizer_of_conj {φ : L ≃* antiSp K} {X : Subgroup G} {j : G} (hj : j ∈ J₀ φ)
     (h : ∀ g ∈ J₀ φ, ∀ x ∈ X, g⁻¹ * x * g ∈ X) : j ∈ normalizer (X : Set G) := by
   rw [mem_normalizer_iff'']
@@ -610,7 +612,7 @@ theorem ffTorus_normalizer_of_conj {φ : L ≃* antiSp K} {X : Subgroup G} {j : 
 
 theorem ffTorus_le_normalizer_sup {A B C : Subgroup G} (hB : A ≤ normalizer (B : Set G))
     (hC : A ≤ normalizer (C : Set G)) : A ≤ normalizer ((B ⊔ C : Subgroup G) : Set G) :=
-  fun a ha => Subgroup.inf_normalizer_le_normalizer_sup B C (mem_inf.mpr ⟨hB ha, hC ha⟩)
+  fun _a ha => Subgroup.inf_normalizer_le_normalizer_sup B C (mem_inf.mpr ⟨hB ha, hC ha⟩)
 
 theorem ffTorus_mem_normalizer_of_commute {X : Subgroup G} {y : G}
     (h : ∀ x ∈ X, y * x = x * y) : y ∈ normalizer (X : Set G) := by
@@ -638,6 +640,7 @@ theorem ffTorus_normalizer_map_conj {X : Subgroup G} {h : G} (hN : h ∈ normali
   rw [e]
   exact mem_normalizer_iff''.mp hN _
 
+omit [CharP K 2] in
 theorem ffTorus_exists_sqrt {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) :
     ∃ σ₀ : Kˣ →* Kˣ, ∀ l : Kˣ, σ₀ l ^ 2 = l := by
   have := Fintype.ofFinite K
@@ -688,6 +691,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog.SpChain CFSG.QuasithinUnique
 
 variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [Finite K] in
 theorem ffLayer_U (φ : L ≃* antiSp K) (k : Axis) {μ : Kˣ →* G} {f g : Kˣ →* Kˣ}
     (hμ : ffIsOneParam φ μ f g) (hχ : ∀ l : Kˣ, ffUChar k (f l : K) (g l : K) = l) :
     ∃ c : G → K, ScalarLayer μ (U φ k) ⊥ c := by
@@ -721,6 +725,7 @@ theorem ffLayer_U (φ : L ≃* antiSp K) (k : Axis) {μ : Kˣ →* G} {f g : Kˣ
     obtain ⟨a, rfl⟩ := exists_coordG_eq φ k hx
     rw [hconj, hc, hc, hχ l]
 
+omit [Finite K] in
 theorem ffLayer_U_normalizer (φ : L ≃* antiSp K) (k : Axis) {μ : Kˣ →* G} {f g : Kˣ →* Kˣ}
     (hμ : ffIsOneParam φ μ f g) (l : Kˣ) : μ l ∈ normalizer (U φ k : Set G) := by
   have hconj : ∀ (l : Kˣ) (b : K), ∃ b' : K, (μ l)⁻¹ * coordG φ k b * μ l = coordG φ k b' := by
@@ -799,11 +804,13 @@ theorem ffLayer_V (φ : L ≃* antiSp K) {n : ℕ} {t : G} (h : FullCenter.FCHyp
 noncomputable def ffRho (φ : L ≃* antiSp K) (q : K × K × K × K) : G :=
   ((φ.symm (uElt q.1 q.2.1 q.2.2.1 q.2.2.2) : L) : G)
 
+omit [Finite K] in
 theorem ffRho_injective (φ : L ≃* antiSp K) : Function.Injective (ffRho (G := G) φ) :=
   fun q q' h => by
     have := uElt_inj (φ.symm.injective (Subtype.ext h))
     exact Prod.ext this.1 (Prod.ext this.2.1 (Prod.ext this.2.2.1 this.2.2.2))
 
+omit [Finite K] in
 theorem ffRho_mul (φ : L ≃* antiSp K) (q q' : K × K × K × K) :
     ffRho (G := G) φ q * ffRho φ q' =
       ffRho φ (q.1 + q'.1, q.2.1 + q'.2.1 + q.1 * q'.2.2.2,
@@ -814,6 +821,7 @@ theorem ffRho_mul (φ : L ≃* antiSp K) (q q' : K × K × K × K) :
   rw [← Subgroup.coe_mul, ← map_mul, uElt_mul]
   rfl
 
+omit [Finite K] in
 theorem ffRho_mem_Z₀_iff (φ : L ≃* antiSp K) (x : G) :
     x ∈ Z₀ φ ↔ ∃ b c : K, x = ffRho φ (0, b, c, 0) := by
   constructor
@@ -823,6 +831,7 @@ theorem ffRho_mem_Z₀_iff (φ : L ≃* antiSp K) (x : G) :
   · rintro ⟨b, c, rfl⟩
     exact symm_mem_pull.mpr ⟨b, c, rfl⟩
 
+omit [Finite K] in
 theorem ffLayer_A_two (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* Kˣ}
     (hμ : ffIsOneParam φ μ f g) (hχ : ∀ l : Kˣ, (f l : K) * (g l : K)⁻¹ = l) :
     ∃ c : G → K, ScalarLayer μ (A φ Axis.two) (Z₀ φ) c := by
@@ -831,7 +840,7 @@ theorem ffLayer_A_two (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* K
   have hc : ∀ q, c (ffRho φ q) = q.1 := by
     intro q
     have h : ∃ q', ffRho φ q' = ffRho φ q := ⟨q, rfl⟩
-    simp only [c, dif_pos h]
+    simp only [c, dite_eq_left h]
     rw [ffRho_injective φ h.choose_spec]
   have hA : ∀ x ∈ A φ Axis.two, ∃ a b c' : K, x = ffRho φ (a, b, c', 0) := fun x hx => by
     obtain ⟨y, hy, rfl⟩ := exists_eq_symm_of_mem_pull hx
@@ -861,6 +870,7 @@ theorem ffLayer_A_two (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* K
     rw [hconj, hc, hc]
     simp only [hχ l]
 
+omit [Finite K] in
 theorem ffLayer_A_one (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* Kˣ}
     (hμ : ffIsOneParam φ μ f g) (hχ : ∀ l : Kˣ, (g l : K) ^ 2 = l) :
     ∃ c : G → K, ScalarLayer μ (A φ Axis.one) (Z₀ φ) c := by
@@ -869,7 +879,7 @@ theorem ffLayer_A_one (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* K
   have hc : ∀ q, c (ffRho φ q) = q.2.2.2 := by
     intro q
     have h : ∃ q', ffRho φ q' = ffRho φ q := ⟨q, rfl⟩
-    simp only [c, dif_pos h]
+    simp only [c, dite_eq_left h]
     rw [ffRho_injective φ h.choose_spec]
   have hA : ∀ x ∈ A φ Axis.one, ∃ b c' d : K, x = ffRho φ (0, b, c', d) := fun x hx => by
     obtain ⟨y, hy, rfl⟩ := exists_eq_symm_of_mem_pull hx
@@ -899,6 +909,7 @@ theorem ffLayer_A_one (φ : L ≃* antiSp K) {μ : Kˣ →* G} {f g : Kˣ →* K
     rw [hconj, hc, hc]
     simp only [hχ l]
 
+omit [Finite K] in
 theorem ffLayer_A (φ : L ≃* antiSp K) (k : Axis) {μ : Kˣ →* G} {f g : Kˣ →* Kˣ}
     (hμ : ffIsOneParam φ μ f g) (hχ : ∀ l : Kˣ, ffAChar k (f l : K) (g l : K) = l) :
     ∃ c : G → K, ScalarLayer μ (A φ k) (Z₀ φ) c := by

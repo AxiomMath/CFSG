@@ -22,7 +22,7 @@ theorem typPumpLeaf_spor_holds :
     TypPumpLeaf TypLeafSpor := by
   intro Y _ _ hq hO hZ ⟨s, ⟨e⟩⟩ β hβ T hTF hT hZT hC
   have h : Setting Y β T := ⟨hq, hO, hβ, hTF, hT, hZT, hC⟩
-  have hMcard := Open.Open.monster_y443_derived_card
+  have hMcard := Open.Thm.monster_y443_derived_card
   by_cases hTtop : T = ⊤
   · exact false_of_top (AGLEmbedding.card_carrier_eq_sporOrd hMcard) h hTtop e
   have hdvd : Nat.card (center Y) ∣ sporadicMultiplierOrder s :=

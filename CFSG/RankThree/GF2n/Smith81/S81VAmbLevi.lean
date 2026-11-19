@@ -10,6 +10,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 6 → F}
 
+omit [CharP F 2] in
 private theorem gu1b_levi_smul_a (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b)
     (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0) (hdet : σ A.det = A.det) (j : Fin 3) :
     levi hσ hf A hA hdet • a j = ∑ i, A i j • a i := by
@@ -17,6 +18,7 @@ private theorem gu1b_levi_smul_a (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b
   rw [gm_levi hσ hf A hA hdet, Fintype.sum_sum_type] at h
   simpa [fam] using h
 
+omit [CharP F 2] in
 private theorem gu1b_exists_det_one_cols (x : Fin 2 → Fin 3 → F) (hx : LinearIndependent F x) :
     ∃ A : Matrix (Fin 3) (Fin 3) F, A.det = 1 ∧ (fun i => A i 1) = x 0 ∧ (fun i => A i 2) = x 1 := by
   have hfin : Module.finrank F (Submodule.span F (Set.range x)) = 2 := by
@@ -28,7 +30,7 @@ private theorem gu1b_exists_det_one_cols (x : Fin 2 → Fin 3 → F) (hx : Linea
       rw [h]
     rw [finrank_top, hfin] at h3
     simp at h3
-  obtain ⟨u₀, -, hu₀⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hne)
+  obtain ⟨u₀, -, hu₀⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_top hne)
   have hxv : (![x 0, x 1] : Fin 2 → Fin 3 → F) = x := by
     funext i
     fin_cases i <;> rfl
@@ -41,7 +43,7 @@ private theorem gu1b_exists_det_one_cols (x : Fin 2 → Fin 3 → F) (hx : Linea
       A₀ = Matrix.of fun i j => ![u₀, x 0, x 1] j i := ⟨_, rfl⟩
   have hunit : IsUnit A₀ := by
     rw [hA₀]
-    exact Matrix.linearIndependent_cols_iff_isUnit.1 hvli
+    exact Matrix.linearIndependent_col_iff_isUnit.1 hvli
   have hd : A₀.det ≠ 0 := isUnit_iff_ne_zero.1 ((Matrix.isUnit_iff_isUnit_det _).1 hunit)
   have hc1 : ∀ i, A₀ i 1 = x 0 i := by
     intro i
@@ -58,6 +60,7 @@ private theorem gu1b_exists_det_one_cols (x : Fin 2 → Fin 3 → F) (hx : Linea
   · funext i
     rw [Matrix.updateCol_ne (show (2 : Fin 3) ≠ 0 by decide), hc2 i]
 
+omit [CharP F 2] in
 theorem exists_levi_H₀ (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) {H' : Submodule F (Fin 6 → F)}
     (hH'le : H' ≤ Wa a) (hH'3 : finrank F H' = 2) :
     ∃ (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0) (hdet : σ A.det = A.det),

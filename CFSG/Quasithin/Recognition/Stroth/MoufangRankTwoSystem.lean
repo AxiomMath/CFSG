@@ -21,6 +21,7 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
 
 variable {t : ZMod (2 * n) → V}
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem rootD_le_littleGroup (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (i : ℤ) :
     rootD (D := D) (Γ := Γ) (n := n) t i ≤ littleGroup D Γ n := by
   unfold rootD
@@ -28,11 +29,13 @@ theorem rootD_le_littleGroup (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (i 
   · exact aptRoot_le_littleGroup ht (by omega) i
   · exact aptRoot_le_littleGroup ht (by omega) ((n : ℤ) - i)
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem rootL_map_subtype (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (i : ℤ) :
     (rootL (D := D) (Γ := Γ) (n := n) t i).map (littleGroup D Γ n).subtype =
       rootD (D := D) (Γ := Γ) (n := n) t i :=
   Subgroup.map_subgroupOf_eq_of_le (rootD_le_littleGroup ht hn i)
 
+omit [FaithfulSMul D V] in
 theorem rootL_ne_bot (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) (hM : MoufangCondition D Γ n)
@@ -46,11 +49,12 @@ theorem rootL_ne_bot (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     · exact Or.inr h
     · exact Or.inl h
   rcases hpos with h | h
-  · rw [rootD, if_pos h] at hbot'
+  · rw [rootD, ite_eq_left h] at hbot'
     exact aptRoot_ne_bot ht hn hP hT hM i hbot'
-  · rw [rootD, if_neg (by omega)] at hbot'
+  · rw [rootD, ite_eq_right (by omega)] at hbot'
     exact aptRoot_ne_bot ht hn hP hT hM ((n : ℤ) - i) hbot'
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem rootD_map_conj_of_fix {g : D} (hg : ∀ k : ℤ, g • apt t k = apt t k) (i : ℤ) :
     (rootD (D := D) (Γ := Γ) (n := n) t i).map (MulAut.conj g).toMonoidHom =
       rootD (D := D) (Γ := Γ) (n := n) t i := by
@@ -63,6 +67,7 @@ theorem rootD_map_conj_of_fix {g : D} (hg : ∀ k : ℤ, g • apt t k = apt t k
   · rw [aptRoot_map_conj, hfun]
   · rw [aptRoot_map_conj, hfun]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem rootL_invariant (B N : Subgroup ↥(littleGroup D Γ n))
     (hfix : ∀ h ∈ B ⊓ N, ∀ k : ℤ,
       ((h : ↥(littleGroup D Γ n)) : D) • apt t k = apt t k)
@@ -79,6 +84,7 @@ theorem rootL_invariant (B N : Subgroup ↥(littleGroup D Γ n))
   rw [hmap] at hmem
   simpa [MulAut.conj_apply, mul_assoc] using hmem
 
+omit [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] [DecidableRel Γ.Adj] in
 private theorem mem_iSup_rootL_iff (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (S : Set ℤ)
     {x : ↥(littleGroup D Γ n)} :
     x ∈ ⨆ k ∈ S, rootL (D := D) (Γ := Γ) (n := n) t k ↔
@@ -125,11 +131,11 @@ theorem rootL_commutator_le (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     have hsup : (⨆ k ∈ Set.Ioo i j, rootD (D := D) (Γ := Γ) (n := n) t k) =
         ⨆ k ∈ Set.Ioo i j, aptRoot D Γ n t k := by
       exact biSup_congr fun k hk => by
-        rw [rootD, if_pos (by have := Set.mem_Ioo.1 hk; omega)]
+        rw [rootD, ite_eq_left (by have := Set.mem_Ioo.1 hk; omega)]
     rw [hsup]
     refine Subgroup.commutator_le.2 fun u hu v hv => ?_
-    rw [rootD, if_pos (by omega)] at hu
-    rw [rootD, if_pos (by omega)] at hv
+    rw [rootD, ite_eq_left (by omega)] at hu
+    rw [rootD, ite_eq_left (by omega)] at hv
     rw [commutatorElement_def]
     exact hP1 u hu v hv
   exact (mem_iSup_rootL_iff ht hn (Set.Ioo i j)).mpr (hleD hxD)
@@ -148,6 +154,7 @@ theorem rootU_coe (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t) (hn 
       Subgroup.commutator_le.mp (rootL_commutator_le ht hn hP hT hM hi hij (by omega))
   exact hC.carrier_eq (by omega) (by omega)
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem rootL_le_rootU (t : ZMod (2 * n) → V) {k : ℤ} (hk1 : 1 ≤ k) (hkn : k ≤ n) :
     rootL (D := D) (Γ := Γ) (n := n) t k ≤ rootU (D := D) (Γ := Γ) (n := n) t :=
   le_iSup₂_of_le k (mem_intList_iff.2 ⟨hk1, hkn⟩) le_rfl
@@ -155,7 +162,7 @@ theorem rootL_le_rootU (t : ZMod (2 * n) → V) {k : ℤ} (hk1 : 1 ≤ k) (hkn :
 theorem chainProd_rootL_subgroup (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) (hM : MoufangCondition D Γ n)
-    {i j : ℤ} (hi : 1 ≤ i) (hij : i ≤ j) (hjn : j ≤ n) :
+    {i j : ℤ} (hi : 1 ≤ i) (_hij : i ≤ j) (hjn : j ≤ n) :
     ∃ V : Subgroup ↥(littleGroup D Γ n),
       (V : Set ↥(littleGroup D Γ n)) =
         chainProd (rootL (D := D) (Γ := Γ) (n := n) t) (intList i j) ∧
@@ -173,7 +180,7 @@ theorem chainProd_rootL_subgroup (t : ZMod (2 * n) → V) (ht : IsPolygonApartme
 theorem chainProd_rootL_reverse (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) (hM : MoufangCondition D Γ n)
-    {i j : ℤ} (hi : 1 ≤ i) (hij : i ≤ j) (hjn : j ≤ n) :
+    {i j : ℤ} (hi : 1 ≤ i) (_hij : i ≤ j) (hjn : j ≤ n) :
     chainProd (rootL (D := D) (Γ := Γ) (n := n) t) (intList i j) =
       chainProd (rootL (D := D) (Γ := Γ) (n := n) t) (intList i j).reverse := by
   have hC : OctComm (rootL (D := D) (Γ := Γ) (n := n) t) (n : ℤ) :=
@@ -194,12 +201,12 @@ theorem rootL_prod_unique (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n
     intro k hk
     have h := hf k hk
     rw [rootL, Subgroup.mem_subgroupOf] at h
-    rwa [rootD, if_pos (by have := mem_intList_iff.1 hk; omega)] at h
+    rwa [rootD, ite_eq_left (by have := mem_intList_iff.1 hk; omega)] at h
   have hgD : ∀ k ∈ intList 1 n, (g k : D) ∈ aptRoot D Γ n t k := by
     intro k hk
     have h := hg k hk
     rw [rootL, Subgroup.mem_subgroupOf] at h
-    rwa [rootD, if_pos (by have := mem_intList_iff.1 hk; omega)] at h
+    rwa [rootD, ite_eq_left (by have := mem_intList_iff.1 hk; omega)] at h
   have heqD : ((intList 1 n).map (fun k => (f k : D))).prod =
       ((intList 1 n).map (fun k => (g k : D))).prod := by
     have h := congrArg (fun x : ↥(littleGroup D Γ n) => (x : D)) heq
@@ -226,6 +233,7 @@ theorem rootL_prod_unique (t : ZMod (2 * n) → V) (ht : IsPolygonApartment Γ n
   exact Subtype.ext (hP2 0 (fun l => (f l : D)) (fun l => (g l : D))
     hfD' hgD' heqD' k hk')
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem map_subtype_conjBy
     (m : ↥(littleGroup D Γ n)) (A : Subgroup ↥(littleGroup D Γ n)) :
     (CFSG.GH74.BNPair.conjBy m A).map (littleGroup D Γ n).subtype =
@@ -235,9 +243,10 @@ theorem map_subtype_conjBy
   have e : ((littleGroup D Γ n).subtype.comp (MulAut.conj m⁻¹).toMonoidHom) =
       ((MulAut.conj (m : D)⁻¹).toMonoidHom.comp (littleGroup D Γ n).subtype) := by
     ext x
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [e]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem conjBy_subgroupOf (m : ↥(littleGroup D Γ n))
     {A B : Subgroup D} (hA : A ≤ littleGroup D Γ n) (hB : B ≤ littleGroup D Γ n)
     (h : CFSG.GH74.BNPair.conjBy (m : D) A = B) :
@@ -247,6 +256,7 @@ theorem conjBy_subgroupOf (m : ↥(littleGroup D Γ n))
   rw [map_subtype_conjBy, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hA, h,
     Subgroup.map_subgroupOf_eq_of_le hB]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conjBy_eq_self_of_mem_cartan (B N : Subgroup ↥(littleGroup D Γ n))
     (hfix : ∀ h ∈ B ⊓ N, ∀ k : ℤ,
       ((h : ↥(littleGroup D Γ n)) : D) • apt t k = apt t k)
@@ -262,6 +272,7 @@ theorem conjBy_eq_self_of_mem_cartan (B N : Subgroup ↥(littleGroup D Γ n))
   · intro hx
     exact rootL_invariant B N hfix hi hh hx
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conjBy_eq_of_same_weyl (B N : Subgroup ↥(littleGroup D Γ n))
     [(cartan B N).Normal]
     (hfix : ∀ h ∈ B ⊓ N, ∀ k : ℤ,

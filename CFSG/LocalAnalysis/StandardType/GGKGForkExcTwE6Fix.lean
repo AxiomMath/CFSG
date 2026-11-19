@@ -30,7 +30,7 @@ private theorem ggKGTf_mactC_subtype_coe {G : Type} [CommGroup G] {r : ℕ} (H :
     mactC M (fun i => (a i : G)) = fun i => ((mactC M a i : H) : G) := by
   funext i
   simp only [mactC]
-  rw [Subgroup.val_finset_prod]
+  rw [Subgroup.val_finsetProd]
   exact Finset.prod_congr rfl fun j _ => by rw [Subgroup.coe_zpow]
 
 private theorem ggKGTf_canonicalRep_pow_charTwo
@@ -99,11 +99,11 @@ theorem card_fixed_le_five_cube_tw
     { Fr := Fr, v := w, g0 := g0, fr_eq := hFr, g0_mem := hg0, lang := hlang, mem_iff := hET }
   have hvW : (5 ∣ 2 ^ n - 1 ∧ F.v = 1) ∨ (5 ∣ 2 ^ n + 1 ∧ ExcIsLongest TwistTag.E6.tag F.v) :=
     Or.inr ⟨h5, hw⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨v, _hvW, hweyl_raw⟩ :=
     ggKGTwE6_normalizer_weyl hK hσ Nat.prime_five (by norm_num) F hvW hu
@@ -168,7 +168,7 @@ theorem card_fixed_le_five_cube_tw
       exact baseChangeGL_injective (algebraMap K (AlgebraicClosure K)) hfix
     calc e * u = (u * e * u⁻¹) * u := by rw [hconj]
       _ = u * e := by group
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have horder : orderOf v = 5 := orderOf_eq_prime hv5 hv1
   have hex : ∀ e : {e : twistedE6RootGroup K σ // e ∈ ET ∧ u * e = e * u},
       ∃ a : Fin TwistTag.E6.tag.rank → (AlgebraicClosure K)ˣ,
@@ -256,15 +256,15 @@ theorem card_fixed_le_five_cube_tw
     exact Subtype.ext
       (Subtype.ext (baseChangeGL_injective (algebraMap K (AlgebraicClosure K)) hBeq))
   have hCcard : Nat.card (rootsOfUnity 5 (AlgebraicClosure K)) = 5 := by
-    haveI : NeZero (5 : AlgebraicClosure K) := ⟨by
+    have : NeZero (5 : AlgebraicClosure K) := ⟨by
       intro h
       have h' : ((5 : ℕ) : AlgebraicClosure K) = 0 := h
       rw [CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 5] at h'
       norm_num at h'⟩
-    haveI : IsSepClosed (AlgebraicClosure K) := inferInstance
-    haveI : HasEnoughRootsOfUnity (AlgebraicClosure K) 5 :=
+    have : IsSepClosed (AlgebraicClosure K) := inferInstance
+    have : HasEnoughRootsOfUnity (AlgebraicClosure K) 5 :=
       IsSepClosed.hasEnoughRootsOfUnity (AlgebraicClosure K) 5
-    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 5
+    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 5
     exact hζ.card_rootsOfUnity
   calc Nat.card {e : twistedE6RootGroup K σ // e ∈ ET ∧ u * e = e * u}
       ≤ Nat.card {a : Fin TwistTag.E6.tag.rank → rootsOfUnity 5 (AlgebraicClosure K) //

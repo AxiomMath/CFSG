@@ -38,7 +38,7 @@ theorem even_normal_subgroup_contains_central_sylow_involution
     rw [Subgroup.map_bot]
     exact (normal_sylow_intersection_eq S M).trans hmeet
   obtain ⟨v, hvM, hvcenter, hvorder⟩ :=
-    normal_two_subgroup_contains_central_involution S.isPGroup' N hNne
+    normal_two_subgroup_contains_central_involution S.isPGroup N hNne
   refine ⟨(v : G), hvM, v.property, ?_, (Subgroup.orderOf_coe v).trans hvorder⟩
   intro s hs
   exact (show Commute (v : G) s from

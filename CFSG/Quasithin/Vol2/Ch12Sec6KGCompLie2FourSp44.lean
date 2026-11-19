@@ -126,11 +126,9 @@ theorem eq_one_of_commute_spDiag [CharP F 2] {ω : Fˣ} (hω1 : ω ≠ 1) (hω3 
           not_true_eq_false, or_false] <;>
         first
           | exact absurd rfl hij
-          | exact a₁ | exact (Ne.symm a₁) | exact a₂ | exact (Ne.symm a₂)
-          | exact a₃ | exact (Ne.symm a₃)
           | exact Or.inl a₁ | exact Or.inl (Ne.symm a₁) | exact Or.inr a₁
           | exact Or.inr (Ne.symm a₁) | exact Or.inl a₂ | exact Or.inl (Ne.symm a₂)
-          | exact Or.inr a₂ | exact Or.inr (Ne.symm a₂) | exact Or.inl a₃
+          | exact Or.inl a₃
           | exact Or.inl (Ne.symm a₃) | exact Or.inr a₃ | exact Or.inr (Ne.symm a₃)
     rcases key with hk | hk
     · have h0 : (spDiagVec (ω, 1) j - spDiagVec (ω, 1) i) *

@@ -187,7 +187,7 @@ theorem commK_spec (h : commK csW R B = true)
     (hB : ∀ i < 24, PR (B (csAt csW i)) (β (csAt csW i))) :
     (∀ i < 24, ∀ j < 24, ρ (csAt csW i) * β (csAt csW j) = β (csAt csW j) * ρ (csAt csW i)) ∧
       ∃ i < 24, ∀ j < 24, R (csAt csW i) ≠ B (csAt csW j) := by
-  simp only [commK, Bool.and_eq_true, PK.allN_iff, PK.strictB_eq, Bool.not_eq_true'] at h
+  simp only [commK, Bool.and_eq_true, PK.allN_iff, PK.strictB_eq] at h
   obtain ⟨h1, h2⟩ := h
   refine ⟨fun i hi j hj => eq22_sound (h1 i hi j hj) (hR i hi) (hB j hj) (hB j hj) (hR i hi), ?_⟩
   obtain ⟨i, hi, e⟩ := exN_spec h2

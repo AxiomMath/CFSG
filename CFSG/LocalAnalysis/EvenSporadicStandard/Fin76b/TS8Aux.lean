@@ -23,7 +23,7 @@ theorem exists_conj_le_of_max {H T Y : Subgroup G} (hTH : T ≤ H) (hT2 : IsPGro
   have hTp : IsPGroup 2 (T.subgroupOf H) := hT2.comap_subtype
   obtain ⟨TS, hTS⟩ := hTp.exists_le_sylow
   have hTSeq : (TS : Subgroup H) = T.subgroupOf H := by
-    have hmap : IsPGroup 2 ((TS : Subgroup H).map H.subtype) := TS.isPGroup'.map _
+    have hmap : IsPGroup 2 ((TS : Subgroup H).map H.subtype) := TS.isPGroup.map _
     have hle : T ≤ (TS : Subgroup H).map H.subtype := fun s hs =>
       ⟨⟨s, hTH hs⟩, hTS (mem_subgroupOf.2 hs), rfl⟩
     have heq := hTmax _ (by rintro _ ⟨y, -, rfl⟩; exact y.2) hmap hle

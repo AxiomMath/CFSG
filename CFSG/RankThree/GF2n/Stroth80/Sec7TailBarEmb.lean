@@ -20,7 +20,7 @@ theorem normal_subgroupOf_of_le {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M)
 
 variable (M Q) in
 noncomputable def embBar {S : Subgroup G} [(Q.subgroupOf S).Normal] (hSM : S ≤ M)
-    (hQS : Q ≤ S) : (↥S ⧸ Q.subgroupOf S) →* Mbar M Q :=
+    (_hQS : Q ≤ S) : (↥S ⧸ Q.subgroupOf S) →* Mbar M Q :=
   QuotientGroup.lift (Q.subgroupOf S)
     ((QuotientGroup.mk' (Q.subgroupOf M)).comp (Subgroup.inclusion hSM)) (by
       intro x hx

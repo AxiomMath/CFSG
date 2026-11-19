@@ -56,7 +56,7 @@ end SubgroupOf
 theorem le_pRank_normalizer_of_sylow {X : Type} [Group X] [Finite X] {R H T : Subgroup X}
     (hR : ¬ 3 ∣ Nat.card R) (hT : fusionIsSylowIn 2 T R) (hHR : H ≤ normalizer (R : Set X)) :
     CFSG.Open.pRank 3 H ≤ CFSG.Open.pRank 3 (normalizer (T : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEH, hE, hEc⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) H
   have hE3 : IsPGroup 3 E := IsPGroup.of_card hEc
   have hbot2 : IsPGroup 2 (⊥ : Subgroup X) := IsPGroup.of_card (n := 0) (by simp)
@@ -94,8 +94,8 @@ theorem l62_caseDelta_rank (k292 : KFact292) (hNC : T29.NoncyclicCentreRank)
     (hB : IsElemAbelian 3 B) (hΩ : ∀ q ∈ Px, q ^ 3 = 1 → q ∈ B)
     (hT : IsMaxTwoInvariantIn B ⊤ T) :
     3 ≤ CFSG.Open.pRank 3 (normalizer (T : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S', x', z', hB'⟩ := l62Data_toBar h
   obtain ⟨L, hL⟩ :=
     Stroth.Bal3.exists_isComponentOf_of_not_hasPrimeConstraint Nat.prime_three hnc

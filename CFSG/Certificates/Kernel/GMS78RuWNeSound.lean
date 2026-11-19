@@ -149,7 +149,7 @@ private theorem xorRec_eq (i : Nat) (F : Nat → Nat) : ∀ n,
     change Bool.rec (motive := fun _ => Nat) _ (Nat.xor _ (F n))
       (Nat.beq (Nat.land (Nat.shiftRight i n) 1) 1) = _
     rw [xorRec_eq i F n, bit_cond, List.range_succ, List.filter_append, List.foldl_append]
-    cases h : i.testBit n <;> simp [h] <;> rfl
+    cases h : i.testBit n <;> simp [h]
 
 
 theorem linTab_sound {T : List (List Nat)} (h : linTabK T = true) :

@@ -64,7 +64,6 @@ theorem mem_statedSU_iff (h : UnitaryFieldData p f K) (n : ℕ) (A : GL (Fin n) 
           exact isUnit_one }
   have hS : StatedSU n (p ^ f) K = S := by
     unfold StatedSU
-    try unfold CFSG.MatrixModel.unitaryCore
     apply le_antisymm
     · rw [Subgroup.closure_le]
       intro x hx
@@ -210,7 +209,7 @@ theorem exists_diag_StatedSU (h : UnitaryFieldData p f K) {ζ : K} (hζ : IsPrim
     rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
     rw [Units.val_pow_eq_pow_val, Units.val_one] at h3
     exact h3
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨A, hA⟩ :=
     CFSG.RankThree.PartOne.exists_conj_diagonal_of_commuting_pow_eq_one hζ E₀ hcomm' hpow'
   refine ⟨A, fun x hx i j hij => ?_⟩

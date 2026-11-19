@@ -122,7 +122,7 @@ theorem mem_stabSub {ι : Type*} (σ : A →* Equiv.Perm ι) (i₀ : ι) (a : A)
     a ∈ stabSub σ i₀ ↔ (σ a) i₀ = i₀ := Iff.rfl
 
 theorem upstairs_coord [Finite S] {ι : Type*} [Fintype ι] [DecidableEq ι] (ρ : A →* MulAut S)
-    (H : ι → Subgroup S) (hcomm : ∀ i j, i ≠ j → ∀ x ∈ H i, ∀ y ∈ H j, Commute x y)
+    (H : ι → Subgroup S) (_hcomm : ∀ i j, i ≠ j → ∀ x ∈ H i, ∀ y ∈ H j, Commute x y)
     (hinv : ∀ a i, (H i).map (ρ a).toMonoidHom = H i) (hfac : ∀ i, GoodA ρ (H i))
     (Q : Subgroup (∀ j, ↥(H j)))
     (hQ : Q ≤ fixA (coordHom ρ H 1 (hmap_one ρ H hinv))) (hQp : ⁅Q, Q⁆ = Q) :
@@ -159,9 +159,9 @@ theorem upstairs_coord [Finite S] {ι : Type*} [Fintype ι] [DecidableEq ι] (ρ
         · subst hk
           simp only [Pi.mulSingle_eq_same]
           exact mem_fixA.1 hy1 a
-        · simp [Pi.mulSingle_apply, hk]
+        · simp [hk]
       · intro j hj
-        simp [Pi.mulSingle_apply, hj]
+        simp [hj]
       · rw [coordPr_apply, Pi.mulSingle_eq_same]
   have hinjc : ∀ i, ∀ x ∈ fixA (coordHom ρ H 1 hm) ⊓ coordKer H i, coordPr H i x = 1 → x = 1 := by
     intro i x hx hx1
@@ -196,7 +196,7 @@ theorem upstairs_coord [Finite S] {ι : Type*} [Fintype ι] [DecidableEq ι] (ρ
         exact Subtype.ext hgq
       · have hgj : g j = 1 := (Subgroup.mem_inf.1 hgX).2 j hj
         rw [hgj, Pi.mulSingle_eq_of_ne hj]
-    haveI := coordKer_normal H i
+    have := coordKer_normal H i
     have hmono := GLALayer_mono_of_isSubnormal
       (isSubnormal_inf_of_normal (fixA (coordHom ρ H 1 hm)) (coordKer H i))
     rw [← hgi] at *

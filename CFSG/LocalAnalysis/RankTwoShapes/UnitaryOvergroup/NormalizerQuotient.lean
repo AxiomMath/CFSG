@@ -126,7 +126,7 @@ theorem isComplement'_pPrimeCore_of_sylow_central {X : Type*} [Group X] [Finite 
   have hTK : (MonoidHom.transferSylow Z hP).ker ≤ CFSG.pPrimeCore 2 X :=
     le_sSup ⟨inferInstance, (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr hTodd⟩
   have hKT : CFSG.pPrimeCore 2 X ≤ (MonoidHom.transferSylow Z hP).ker := by
-    obtain ⟨a, ha⟩ := Z.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := Z.isPGroup.exists_card_eq
     have h1 : (MonoidHom.transferSylow Z hP).ker.relIndex (CFSG.pPrimeCore 2 X) ∣
         Nat.card (CFSG.pPrimeCore 2 X) := Subgroup.relIndex_dvd_card _ _
     have h2 : (MonoidHom.transferSylow Z hP).ker.relIndex (CFSG.pPrimeCore 2 X) ∣ 2 ^ a := by
@@ -239,7 +239,7 @@ theorem exists_sylow_eq_map_centricQuotientMk [Finite G] (Q : Subgroup G)
       QuotientGroup.ker_mk']
     intro h
     exact P.not_dvd_index (h.trans (Subgroup.index_dvd_of_le le_sup_left))
-  exact ⟨(P.isPGroup'.map _).toSylow hidx, rfl⟩
+  exact ⟨(P.isPGroup.map _).toSylow hidx, rfl⟩
 
 theorem pCore_centricQuotient [Finite G] (Q : Subgroup G) (hQ : IsPGroup 2 Q)
     (hdecomp : (Q ⊓ Subgroup.centralizer (Q : Set G)) ⊔ centralizerOddPart Q =
@@ -381,8 +381,8 @@ theorem fourCenter_centricRadical_normalizerQuotient [Finite G] (Q : Subgroup G)
     exact CFSG.pPrimeCore_characteristic
   refine ⟨centralizerOddPart_le_centralizer Q, hchar, Subgroup.normal_of_characteristic _,
     coprime_two_natCard_centralizerOddPart Q, ?_,
-    inferInstance, hdecomp, ?_, ?_, injOn_centricQuotientMk Q P.isPGroup',
-    (injOn_centricQuotientMk Q P.isPGroup').mono hQP, exists_sylow_eq_map_centricQuotientMk Q P,
+    inferInstance, hdecomp, ?_, ?_, injOn_centricQuotientMk Q P.isPGroup,
+    (injOn_centricQuotientMk Q P.isPGroup).mono hQP, exists_sylow_eq_map_centricQuotientMk Q P,
     pCore_centricQuotient Q hQ hdecomp hrad, ?_, hcent⟩
   · obtain ⟨a, ha⟩ := hZp.exists_card_eq
     refine ⟨a, ?_⟩

@@ -26,7 +26,7 @@ theorem lin_sec311NotTrans (hl : d.LinCtx) (k : d.Know10) : d.Sec311NotTrans := 
   have hDS : d.D ≤ S := by rw [ha.S_eq]; exact le_sup_right
   have hSN : ∀ s ∈ S, s ∈ normalizer (d.E : Set G) := fun s hs =>
     d.L₂_le_normalizer_E (hS.le hs)
-  haveI hEn : (d.E.subgroupOf S).Normal :=
+  have hEn : (d.E.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hES).2 hSN
   have hJS : J ≤ normalizer (S : Set G) :=
     hJle.trans (inf_le_left.trans (inf_le_left.trans inf_le_left))

@@ -26,8 +26,8 @@ private theorem centralizer_pCoreOf_eq_of_isL2Quot [Finite G] {L : Subgroup G}
     L ⊓ Subgroup.centralizer (pCoreOf 2 L : Set G) = pCoreOf 2 L := by
   classical
   obtain ⟨e⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two hq
-  haveI : IsSimpleGroup (oTwoQuot ↥L) := e.isSimpleGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (oTwoQuot ↥L) := e.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQL : pCoreOf 2 L ≤ L := CFSG.LieType.BorelTits.pCoreOf_le 2 L
   have hQsub : (pCoreOf 2 L).subgroupOf L = CFSG.Open.pCore 2 ↥L := by
     ext x
@@ -42,7 +42,7 @@ private theorem centralizer_pCoreOf_eq_of_isL2Quot [Finite G] {L : Subgroup G}
       hQL hQn
   set π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥L) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI hCmap :
+  have hCmap :
       (((Subgroup.centralizer (pCoreOf 2 L : Set G)).subgroupOf L).map π).Normal :=
     Subgroup.Normal.map hCnorm π hπs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -108,7 +108,7 @@ theorem center_le_inf_of_core [Finite G] {L1 L2 S : Subgroup G}
     (card_right : Nat.card (pCoreOf 2 L2) = 2 ^ 6)
     (center_right : Nat.card ↥(centerOf L2) = 2 ^ 2) :
     centerOf L1 ≤ pCoreOf 2 L1 ⊓ pCoreOf 2 L2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl1 : IsSylowTwoOf S L1 := by
     have h := hF.1.h1.sylow
     rwa [inf_eq_left.mpr le_left] at h
@@ -144,7 +144,7 @@ theorem idx_eq_three_of_core [Finite G]
     (hZ : centerOf L1 ≤ pCoreOf 2 L2)
     (nat_right : NatSec L2 (centerOf L2) (pCoreOf 2 L2)) :
     L1.relIndex (L1 ⊔ bigB L1 L2 S) = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hsyl1 : IsSylowTwoOf S L1 := by
     have h := hF.1.h1.sylow
@@ -174,7 +174,7 @@ theorem idx_eq_three_of_core [Finite G]
   have hD2notL1 : ¬ D2 ≤ L1 := by
     intro hD2L1
     have h3dvd : 3 ∣ Nat.card ↥D2 := by
-      simpa [hD2card] using (dvd_refl 3 : 3 ∣ 3)
+      simp [hD2card]
     obtain ⟨x, hx3⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
     have hxD2 : (x : G) ∈ D2 := x.2
     have hxL1 : (x : G) ∈ L1 := hD2L1 hxD2

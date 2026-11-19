@@ -37,9 +37,9 @@ theorem layerData166At_D {m n : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n) :
   intro J _ _ q hlab hZ hq hq2 hqn
   obtain ⟨F, hfield, hfinite, hchar, hF, ⟨e⟩⟩ :=
     exists_mulEquiv_matrixProjectiveDerived_of_isLabel (K := J) hm hn hlab hZ
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfinite
+  let : CharP F 2 := hchar
   have hqF : q ∣ Nat.card F - 1 := by rw [hF]; exact hqn
   show LayerData166 J q m
   exact LayerData166.of_mulEquiv e
@@ -63,7 +63,7 @@ theorem i166On_famDFive_holds
       (∃ (q : ℕ) (B' : Subgroup R) (x' : R) (J : Subgroup R), Concl166S R p q B' x' J) →
       ∃ (q : ℕ) (B' : Subgroup K) (x' : K) (J : Subgroup K), Concl166S K p q B' x' J) :
     I166On (fun lab p z => i166FamD lab p z ∧ 5 ≤ lab.rank) :=
-  i166On_famDFive_of_transport htr (fun m n hm hn => layerData166At_D hm hn)
+  i166On_famDFive_of_transport htr (fun _m _n hm hn => layerData166At_D hm hn)
 
 end Certs
 

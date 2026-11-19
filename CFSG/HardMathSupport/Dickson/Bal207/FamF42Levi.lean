@@ -69,10 +69,10 @@ theorem exists_sp3Hom_f4_B3_two {K : Type} [Field K] [Finite K] (hK : Nat.card K
     ∃ Ψ : StatedSp 3 K →* ModGL Tag.F4 K, Ψ.ker ≤ Subgroup.center (StatedSp 3 K) ∧
       Ψ.range = subsystemGroup .F4 K f4LeviB3 := by
   classical
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have := ringChar_eq_of_natCard_eq_pow Nat.prime_two (f := 1) (by rw [hK]; norm_num) Nat.one_pos
     rw [← this]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact ringChar.charP K
   have hsq := CompsPF4Small.sq_eq_self_of_card_two hK
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num

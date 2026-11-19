@@ -38,7 +38,7 @@ theorem i165_false_of_split {K : Type} [Group K] {lab : GLALabel} {p : ℕ}
 theorem i165_false_of_rank_le_pRank {K : Type} [Group K] [Finite K] {p B : ℕ} {A : Subgroup K}
     (hp : p.Prime) (hlow : B ≤ CFSG.Open.pRank p (⊤ : Subgroup K))
     (hup : CFSG.Open.evenRank K ≤ B)
-    (hA : 3 ≤ CFSG.Open.pRank p A)
+    (_hA : 3 ≤ CFSG.Open.pRank p A)
     (hmax : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ CFSG.Open.pRank p A)
     (he : CFSG.Open.pRank p A + 1 ≤ CFSG.Open.evenRank K) : False := by
   have hmono : CFSG.Open.pRank p A ≤ CFSG.Open.pRank p (⊤ : Subgroup K) :=
@@ -51,7 +51,7 @@ theorem rk2Mult_A_le_two {l n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hmpos := rk2Ord_pos hp hp2 n
   have hcalc : rk2Mult ⟨.A, l, n⟩ (rk2Ord p n) = (l + 1) / rk2Ord p n := by
     simp only [rk2Mult]
-    rw [if_neg hm1]
+    rw [ite_eq_right hm1]
   rw [hcalc]
   have hlt : (l + 1) / rk2Ord p n < 3 := by
     rw [Nat.div_lt_iff_lt_mul hmpos]

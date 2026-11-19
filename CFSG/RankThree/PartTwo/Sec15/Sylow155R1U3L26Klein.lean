@@ -78,7 +78,7 @@ theorem exists_klein_four_of_surjective_of_pow_eight {H U : Type*} [Group H] [Fi
   have hθ : Function.Surjective θ := π.subgroupMap_surjective (S : Subgroup H)
   have h4 : ∀ s : (S : Subgroup H), θ s ^ 4 = 1 := by
     intro s
-    obtain ⟨k, hk⟩ := S.isPGroup' s
+    obtain ⟨k, hk⟩ := S.isPGroup s
     exact pow_four_eq_one_of_two_pow_of_pow_eight hT8 (k := k) (by rw [← map_pow, hk, map_one])
   have hT4 : Nat.card T ≤ 8 := by
     rcases CFSG.BenderSuzuki.sylowTwo_cyclic_or_quaternion_of_not_twoRank hH S with hcyc | hq

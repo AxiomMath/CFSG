@@ -62,7 +62,7 @@ private theorem fzb_alpha_conj_mem {G : Type} [Group G] {P : Subgroup G}
 
 private theorem fzb_T2_repr {G : Type} [Group G] [Finite G] {P T₂ : Subgroup G}
     {C : FzbCoding P} {c : Bool} {q s lam : G} (hE : FzbExact C c q s lam)
-    (hP : P ≤ T₂) (hqT : q ∈ T₂) (hsT : s ∈ T₂) (hyT : lam ∈ T₂)
+    (_hP : P ≤ T₂) (_hqT : q ∈ T₂) (_hsT : s ∈ T₂) (_hyT : lam ∈ T₂)
     (hgen : T₂ = P ⊔ closure {q, s, lam}) :
     ∀ g ∈ T₂, ∃ p ∈ P, ∃ w < 16, g = p * fzbAlpha q s lam w := by
   intro g hg

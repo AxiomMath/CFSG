@@ -16,10 +16,10 @@ theorem isLThreeOdd_of_equiv_sl3 {S : Type} [Group S] {F : Type} [Field F] [Fini
     (hk : Odd k) (hF : Nat.card F = 2 ^ k) (hm : m = 3)
     (e : S ≃* Matrix.SpecialLinearGroup (Fin m) F) : IsLThreeOdd S := by
   subst hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < k := hk.pos
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 k) := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 k) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 2 k) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF,
       GaloisField.card 2 k hk0.ne']
@@ -73,8 +73,8 @@ theorem leviM_sp_three_equiv {F : Type} [Field F] :
   have hB : B = blkSet {i : Fin 3 | i ≠ 2} (0 : Fin 4) := by
     ext q
     rw [mem_blkSet]
-    simp only [SameBlk, Set.mem_setOf_eq, ne_eq, not_not]
-    fin_cases q <;> simp [B] <;> omega
+    simp only [SameBlk, Set.mem_ofPred_eq, ne_eq, not_not]
+    fin_cases q <;> simp [B]
   have hl : Fin.last 3 ∉ B := by simp [B]
   have hnodes : nodesOf B = {i : Fin 3 | i ≠ 2} := by
     ext i
@@ -109,7 +109,7 @@ theorem leviM_spinMinus_four_equiv :
       {i : Fin (minusDatum 4 hirr).rank | i ≠ ⟨2, show 2 < 4 - 1 by norm_num⟩} := by
     ext i
     have h3 : i.val < 3 := i.isLt
-    simp only [Set.mem_setOf_eq, ne_eq, runNodes, Fin.ext_iff]
+    simp only [Set.mem_ofPred_eq, ne_eq, runNodes, Fin.ext_iff]
     show (0 ≤ i.val ∧ i.val ≤ 1) ↔ ¬ i.val = 2
     omega
   exact ⟨(MulEquiv.subgroupCongr (congrArg (leviM (minusDatum 4 hirr)) hset)).symm.trans

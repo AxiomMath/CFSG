@@ -117,7 +117,7 @@ theorem cvF_sound {X SQ A CA CB : ℕ → ℕ} (hT : TabF X) (hA : lettersF A = 
           intro i hi
           have hi3 := List.mem_range.1 hi
           have hc := hall i hi3
-          simp only [letB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.add_eq,
+          simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.add_eq,
             Nat.succ_eq_add_one] at hc
           obtain ⟨⟨⟨⟨⟨ht, hq⟩, hy⟩, hx⟩, hne⟩, hcm⟩ := hc
           rw [List.any_eq_true]
@@ -271,8 +271,7 @@ theorem ppF_sound {X SQ KND A CA CB : ℕ → ℕ} (hT : TabF X) (hA : lettersF 
                 (i + 1 == wf w 1) := by
             intro i hi
             have hc := hpre' i hi
-            simp only [letB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.add_eq,
-              Nat.succ_eq_add_one] at hc
+            simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, Nat.succ_eq_add_one] at hc
             obtain ⟨⟨hq1, hq2⟩, hq3⟩ := hc
             obtain ⟨ec, ep⟩ := pos_of hT (hE (e := i + 1) (by omega)) hq1 hq2
             refine ⟨hq1, hq2, ?_⟩

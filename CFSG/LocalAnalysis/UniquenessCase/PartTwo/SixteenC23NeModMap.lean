@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
   QuotientGroup.map (modNull Y V hV) (modNull V₀ V hV) (MonoidHom.id _)
     (fun x hx => (mem_modNull V₀ V hV x).2 (hYV₀ ((mem_modNull Y V hV x).1 hx)))
 
+omit [Finite G] in
 theorem c23neProj_mk {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀)
     (x : IntMod V hV) :
     c23neProj Y V₀ V hV hYV₀ (mkTil Y V hV x) = mkTil V₀ V hV x :=
@@ -25,17 +26,20 @@ theorem c23neProj_mk {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : 
     (hYV₀ : Y ≤ V₀) (E : Subgroup (Vtil V₀ V hV)) : Subgroup (Vtil Y V hV) :=
   E.comap (c23neProj Y V₀ V hV hYV₀)
 
+omit [Finite G] in
 theorem c23ne_mem_pBlock_iff {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀)
     (E : Subgroup (Vtil V₀ V hV)) (q : Vtil Y V hV) :
     q ∈ c23nePBlock Y V₀ V hV hYV₀ E ↔ c23neProj Y V₀ V hV hYV₀ q ∈ E :=
   Iff.rfl
 
+omit [Finite G] in
 theorem c23neProj_surjective {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀) :
     Function.Surjective (c23neProj Y V₀ V hV hYV₀) := by
   intro q
   obtain ⟨x, rfl⟩ := mkTil_surjective V₀ V hV q
   exact ⟨mkTil Y V hV x, c23neProj_mk hV hYV₀ x⟩
 
+omit [Finite G] in
 theorem c23neProj_ker {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀) :
     (c23neProj Y V₀ V hV hYV₀).ker = imgTil Y V hV V₀ := by
   have hone : ∀ x : IntMod V hV, mkTil V₀ V hV x = 1 ↔ x.val ∈ V₀ := by
@@ -54,6 +58,7 @@ theorem c23neProj_ker {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ :
     rw [h2]
     exact V₀.mul_mem (V₀.inv_mem (hYV₀ h1)) hy
 
+omit [Finite G] in
 theorem c23neProj_actTil {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀) {g : G}
     (hg₀ : g ∈ stabTil V₀ V) (hgY : g ∈ stabTil Y V) (q : Vtil Y V hV) :
     c23neProj Y V₀ V hV hYV₀ (actTil Y V hV ⟨g, hgY⟩ q) =
@@ -62,6 +67,7 @@ theorem c23neProj_actTil {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV�
   rw [actTil_mk, c23neProj_mk, c23neProj_mk, actTil_mk]
   congr 1
 
+omit [Finite G] in
 theorem c23ne_ker_le_pBlock {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀)
     (E : Subgroup (Vtil V₀ V hV)) : imgTil Y V hV V₀ ≤ c23nePBlock Y V₀ V hV hYV₀ E := by
   intro u hu
@@ -69,12 +75,14 @@ theorem c23ne_ker_le_pBlock {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hY
   rw [c23ne_mem_pBlock_iff, MonoidHom.mem_ker.1 hu]
   exact E.one_mem
 
+omit [Finite G] in
 theorem c23ne_mem_comap_iff {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀)
     (S : Subgroup (Vtil V₀ V hV)) {v : G} (hv : v ∈ V) :
     mkTil Y V hV (IntMod.mk hV ⟨v, hv⟩) ∈ S.comap (c23neProj Y V₀ V hV hYV₀) ↔
       v ∈ preTil V₀ V hV S := by
   rw [Subgroup.mem_comap, c23neProj_mk, mem_preTil_iff_of_mem V₀ V hV S hv]
 
+omit [Finite G] in
 theorem c23ne_preTil_comap {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV₀ : Y ≤ V₀)
     (S : Subgroup (Vtil V₀ V hV)) :
     preTil Y V hV (S.comap (c23neProj Y V₀ V hV hYV₀)) = preTil V₀ V hV S := by
@@ -88,6 +96,7 @@ theorem c23ne_preTil_comap {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hYV
     have hgV : g ∈ V := preTil_le V₀ V hV _ hg
     exact (mem_preTil_iff_of_mem Y V hV _ hgV).2 ((c23ne_mem_comap_iff hV hYV₀ S hgV).2 hg)
 
+omit [Finite G] in
 private theorem c23ne_modmap_mem_cTilde_iff {M V₀ V : Subgroup G} {g : G} :
     g ∈ F11.CTilde M V₀ V ↔ g ∈ M ∧ g ∈ Subgroup.normalizer (V₀ : Set G) ∧
       ∀ v ∈ V, g * v * g⁻¹ * v⁻¹ ∈ V₀ := by
@@ -100,6 +109,7 @@ private theorem c23ne_modmap_mem_cTilde_iff {M V₀ V : Subgroup G} {g : G} :
   · rintro ⟨h1, h2, h3⟩ v hv
     exact ⟨h1, h2, h3 v hv⟩
 
+omit [Finite G] in
 theorem c23ne_imgTil_le_fixV {Y V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {K : Subgroup G}
     (hK₀ : K ≤ centralizer (V₀ : Set G)) : imgTil Y V hV V₀ ≤ fixV (barSub Y V hV K) := by
   intro q hq

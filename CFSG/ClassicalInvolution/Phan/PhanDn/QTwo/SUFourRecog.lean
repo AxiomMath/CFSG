@@ -205,13 +205,13 @@ private theorem exists_orthonormal_four (hK : Nat.card K = 4) {v x : Fin 4 → K
       | last => simpa only [b3, Fin.snoc_last, ite_true] using hzz
       | cast j =>
         simp only [b3, Fin.snoc_last, Fin.snoc_castSucc]
-        rw [if_neg (Fin.castSucc_lt_last j).ne',
+        rw [ite_eq_right (Fin.castSucc_lt_last j).ne',
           CFSG.Fischer.Classification.Herm.form_conj hB (b2 j) z, hz j, map_zero]
     | cast i =>
       induction j using Fin.lastCases with
       | last =>
         simp only [b3, Fin.snoc_last, Fin.snoc_castSucc]
-        rw [if_neg (Fin.castSucc_lt_last i).ne, hz i]
+        rw [ite_eq_right (Fin.castSucc_lt_last i).ne, hz i]
       | cast j => simpa only [b3, Fin.snoc_castSucc, Fin.castSucc_inj] using hb2 i j
   obtain ⟨w, hw, hww⟩ :=
     CFSG.Fischer.Classification.Herm.exists_norm_one_perp (B := B) hb3 hσ hB hnd
@@ -225,13 +225,13 @@ private theorem exists_orthonormal_four (hK : Nat.card K = 4) {v x : Fin 4 → K
       | last => simpa only [b4, Fin.snoc_last, ite_true] using hww
       | cast j =>
         simp only [b4, Fin.snoc_last, Fin.snoc_castSucc]
-        rw [if_neg (Fin.castSucc_lt_last j).ne',
+        rw [ite_eq_right (Fin.castSucc_lt_last j).ne',
           CFSG.Fischer.Classification.Herm.form_conj hB (b3 j) w, hw j, map_zero]
     | cast i =>
       induction j using Fin.lastCases with
       | last =>
         simp only [b4, Fin.snoc_last, Fin.snoc_castSucc]
-        rw [if_neg (Fin.castSucc_lt_last i).ne, hw i]
+        rw [ite_eq_right (Fin.castSucc_lt_last i).ne, hw i]
       | cast j => simpa only [b4, Fin.snoc_castSucc, Fin.castSucc_inj] using hb3 i j
   refine ⟨b4, ?_, ?_, fun i j => ?_⟩
   · simp [b4, b3, b2]
@@ -357,7 +357,7 @@ private theorem finrank_eigenspace_eq_of_inv {t s : Su K 2 1 4}
     calc toL s⁻¹ (toL s v) = (toL s⁻¹ * toL s) v := rfl
       _ = (toL (s⁻¹ * s)) v := by rw [toL_mul]
       _ = v := by rw [inv_mul_cancel, toL_one, Module.End.one_apply]
-  exact LinearEquiv.finrank_eq (LinearEquiv.ofLinear f g hfg hgf)
+  exact LinearEquiv.finrank_eq (LinearEquiv.ofLinearMap f g hfg hgf)
 
 private theorem eq_zero_or_eq_three_of_dvd {d : ℕ} (h3 : 3 ∣ d) (h4 : d ≤ 4) :
     d = 0 ∨ d = 3 := by

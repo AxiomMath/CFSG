@@ -97,7 +97,7 @@ theorem pRank_Xbar_le_three
     CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt le_top
   have h2 : CFSG.Open.pRank 3 (⊤ : Subgroup (↥(G0 c P J) ⧸ N)) =
       CFSG.Open.pRank 3 (⊤ : Subgroup ↥(G0 c P J)) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     apply CFSG.SectionRank.pRank_quotient_eq
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   have h3 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(G0 c P J)) ≤

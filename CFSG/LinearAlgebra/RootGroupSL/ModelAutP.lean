@@ -18,10 +18,10 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
 private instance finite_sl : Finite (SpecialLinearGroup k (VJ × V₀)) := by
-  haveI : Finite VJ := Module.finite_of_finite k
-  haveI : Finite V₀ := Module.finite_of_finite k
-  haveI : Finite (VJ × V₀) := inferInstance
-  haveI : Finite ((VJ × V₀) ≃ₗ[k] (VJ × V₀)) :=
+  have : Finite VJ := Module.finite_of_finite k
+  have : Finite V₀ := Module.finite_of_finite k
+  have : Finite (VJ × V₀) := inferInstance
+  have : Finite ((VJ × V₀) ≃ₗ[k] (VJ × V₀)) :=
     Finite.of_injective (fun e : (VJ × V₀) ≃ₗ[k] (VJ × V₀) => e.toEquiv.toFun)
       (fun e f h => LinearEquiv.ext (fun x => congrFun h x))
   exact Subtype.finite
@@ -30,6 +30,7 @@ private noncomputable def transportAutOf {A P : Subgroup (SpecialLinearGroup k (
     (h : A ⊔ modelK1 k VJ V₀ = P) (α : MulAut ↥P) : MulAut ↥(A ⊔ modelK1 k VJ V₀) :=
   (MulEquiv.subgroupCongr h).trans (α.trans (MulEquiv.subgroupCongr h).symm)
 
+omit [Finite k] [CharP k 2] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma subgroupCongr_transportAutOf {A P : Subgroup (SpecialLinearGroup k (VJ × V₀))}
     (h : A ⊔ modelK1 k VJ V₀ = P) (α : MulAut ↥P)
     (x : ↥(A ⊔ modelK1 k VJ V₀)) :
@@ -62,6 +63,7 @@ private lemma mem_of_eq_pCoreOf {G : Type*} [Group G] {A P : Subgroup G} {p : �
     x ∈ A ↔ x ∈ CFSG.Open.pCoreOf p P := by
   rw [hA]
 
+omit [Finite k] [CharP k 2] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma alpha_preserves_pCore {A P : Subgroup (SpecialLinearGroup k (VJ × V₀))}
     (h : A ⊔ modelK1 k VJ V₀ = P) (hA : A = CFSG.Open.pCoreOf 2 P)
     (α : MulAut ↥P) :

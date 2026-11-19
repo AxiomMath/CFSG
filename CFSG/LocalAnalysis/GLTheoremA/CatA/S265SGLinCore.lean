@@ -83,7 +83,7 @@ private theorem linCore_sl2 {E : Type*} [Field E] [Finite E] [CharP E 2] {ζ : E
     rw [Nat.card_eq_fintype_card]; omega
   refine ⟨?_, ⟨CFSG.Timmesfeld.RankOne.upperElt E 1, CFSG.Timmesfeld.RankOne.lowerElt E 1,
     fun h => ?_⟩, ?_⟩
-  · haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  · have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact (CFSG.Timmesfeld.RankOne.psl2EquivSL2 E).symm.isSimpleGroup
   · have := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) E =>
       (g : Matrix (Fin 2) (Fin 2) E) 0 0) h
@@ -103,7 +103,7 @@ private theorem linCore_sl2 {E : Type*} [Field E] [Finite E] [CharP E 2] {ζ : E
     have ht1 : t ≠ 1 := fun h => hζ.ne_one (by norm_num) (by
       simpa [t] using congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) E =>
         (g : Matrix (Fin 2) (Fin 2) E) 0 0) h)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← orderOf_eq_prime ht3 ht1]
     exact orderOf_dvd_natCard t
 
@@ -122,10 +122,10 @@ theorem SG.exists_sl2_of_primaryBlock {F : Type} [Field F] [Finite F] [CharP F 2
       (∃ u w : A, u * w ≠ w * u) ∧ 3 ∣ Nat.card A ∧ Y ≤ Bt ∧ d ∈ Y ∧ Y.relIndex Bt ≤ 3 ∧
       ∀ y ∈ Y, ∀ z ∈ A, y * z = z * y := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
-  haveI : Finite (AdjoinRoot a) := Module.finite_of_finite F
-  haveI : CharP (AdjoinRoot a) 2 := charP_of_injective_algebraMap (algebraMap F _).injective 2
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Finite (AdjoinRoot a) := Module.finite_of_finite F
+  have : CharP (AdjoinRoot a) 2 := charP_of_injective_algebraMap (algebraMap F _).injective 2
   set T := Matrix.toLin' (g : Matrix (Fin n) (Fin n) F) with hT
   set W := primaryComponent T a with hW
   have h2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
@@ -140,7 +140,7 @@ theorem SG.exists_sl2_of_primaryBlock {F : Type} [Field F] [Finite F] [CharP F 2
     { toFun := fun y => commutantRestrict a ⟨_, (mem_commutant T).2 (hcT y y.2)⟩
       map_one' := LinearMap.ext fun v => Subtype.ext (by simp)
       map_mul' := fun y z => LinearMap.ext fun v => Subtype.ext (by
-        simp [Matrix.toLin'_mul_apply]) }
+        simp) }
   have hy3 : ∀ y : Bt, y ^ 3 = 1 := fun y => Subtype.ext (by simpa using hB3 _ y.2)
   obtain ⟨bs, χ, hχ⟩ := linCore_basis_char hζ φ (fun y z => by
     rw [commute_iff_eq, ← map_mul, ← map_mul,
@@ -175,7 +175,7 @@ theorem SG.exists_sl2_of_primaryBlock {F : Type} [Field F] [Finite F] [CharP F 2
     hσi.comp (blockSLOn_injective J)
   let eA := MonoidHom.ofInjective hρ
   obtain ⟨hs, ⟨u, w, huw⟩, h3⟩ := linCore_sl2 hζ (k := J.card) (Finset.card_pair hj01)
-  haveI := hs
+  have := hs
   refine ⟨_, _, eA.symm.isSimpleGroup, ⟨eA u, eA w, fun h => huw (eA.injective (by
     rw [map_mul, map_mul]; exact h))⟩, (Nat.card_congr eA.toEquiv) ▸ h3,
     Subgroup.map_subtype_le _, ⟨⟨d, hd⟩, (hker _).2 ((hχd j0).trans (hχd j1).symm), rfl⟩, hidx,

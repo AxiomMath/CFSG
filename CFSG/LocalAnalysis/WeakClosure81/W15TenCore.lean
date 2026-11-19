@@ -40,6 +40,7 @@ theorem kHull15_le_conjClosure (hI : NamedInputs15 G)
 
 end Hyp1510
 
+omit [Finite G] in
 private theorem b15_le_normalizer_commutator {C Q V : Subgroup G}
     (h : ∀ c ∈ C, ∀ a ∈ Q, ∀ b ∈ V, c * ⁅a, b⁆ * c⁻¹ ∈ ⁅Q, V⁆) :
     C ≤ normalizer ((⁅Q, V⁆ : Subgroup G) : Set G) := by
@@ -66,6 +67,7 @@ private theorem b15_le_normalizer_commutator {C Q V : Subgroup G}
     have h1 := key c⁻¹ (C.inv_mem hc) (c * x * c⁻¹) hx
     simpa [mul_assoc] using h1⟩
 
+omit [Finite G] in
 private theorem b15_le_normalizer_sup {C A B : Subgroup G}
     (hA : C ≤ normalizer (A : Set G))
     (hB : ∀ c ∈ C, ∀ b ∈ B, c * b * c⁻¹ ∈ A ⊔ B) :
@@ -98,9 +100,11 @@ namespace OddCore15
 
 variable {M V₀ V U S H P Q₀ : Subgroup G}
 
+omit [Finite G] in
 theorem le_H (hP : Hyp1510 V₀ V U S H P) (hQ : OddCore15 V₀ U H Q₀) : Q₀ ≤ H :=
   hQ.le_kHull.trans hP.kHull15_le
 
+omit [Finite G] in
 theorem normal_subgroupOf (hP : Hyp1510 V₀ V U S H P) (hQ : OddCore15 V₀ U H Q₀) :
     ((iHull15 V₀ U H).subgroupOf Q₀).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hQ.iHull_le).2
@@ -112,7 +116,7 @@ theorem inf_eq (hW : W15Eight1 G) (hS : Std15 G) (h : Cex15 M V₀ V U S)
   · intro x hx
     obtain ⟨hxQ, hxV⟩ := Subgroup.mem_inf.1 hx
     have hxI : x ∈ iHull15 V₀ U H := by
-      haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := hQ.normal_subgroupOf hP
+      have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := hQ.normal_subgroupOf hP
       have hpow : (⟨x, hxQ⟩ : ↥Q₀) ^ ((iHull15 V₀ U H).subgroupOf Q₀).relIndex ⊤
           ∈ (iHull15 V₀ U H).subgroupOf Q₀ :=
         Subgroup.pow_relIndex_mem _ (Subgroup.mem_top _)
@@ -138,7 +142,7 @@ theorem not_le_iHull15 (h : Cex15 M V₀ V U S) (hP : Hyp1510 V₀ V U S H P)
     (hQ : OddCore15 V₀ U H Q₀) : ¬ Q₀ ≤ iHull15 V₀ U H := by
   intro hle
   have hQeq : Q₀ = iHull15 V₀ U H := le_antisymm hle hQ.iHull_le
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI2 : IsPGroup 2 (iHull15 V₀ U H) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).to_le (hP.iHull15_le_pCoreOf h)
   have hV2 : IsPGroup 2 V₀ := h.hyp.isPGroup.to_le h.hyp.h6.le

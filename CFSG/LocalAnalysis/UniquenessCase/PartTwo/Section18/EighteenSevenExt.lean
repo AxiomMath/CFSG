@@ -19,14 +19,14 @@ theorem inFSq_top_of_normal_mulEquiv_isL2 (hKc : Inputs1719.K_L2SzAutRank)
     (e : Nonempty (↥J_E ≃* ↥J)) (h2 : IsPGroup 2 (E ⧸ J_E)) :
     InFSq m (⊤ : Subgroup E) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := E)
   have hS : IsSylowIn 2 (S : Subgroup E) ⊤ := isSylowIn_top S
   have hsup : J_E ⊔ (S : Subgroup E) = ⊤ :=
     CFSG.OrderReductions.PrimeQuotientFrattini.kernel_sup_sylow_eq_top 2 J_E h2 S
   have hperf' : ⁅J_E, J_E⁆ = J_E := by
     obtain ⟨e⟩ := e
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hperf
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hperf
     exact Subgroup.isPerfect_iff.mp
       (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective)
   have hL2' : IsL2 (Bar2 J_E) m := by
@@ -43,14 +43,14 @@ theorem inFSq_top_of_normal_mulEquiv_isU3 (hKidx : Inputs1719.K_U3IndexNormal)
     (e : Nonempty (↥J_E ≃* ↥J)) (h2 : IsPGroup 2 (E ⧸ J_E)) :
     InFSq m (⊤ : Subgroup E) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := E)
   have hS : IsSylowIn 2 (S : Subgroup E) ⊤ := isSylowIn_top S
   have hsup : J_E ⊔ (S : Subgroup E) = ⊤ :=
     CFSG.OrderReductions.PrimeQuotientFrattini.kernel_sup_sylow_eq_top 2 J_E h2 S
   have hperf' : ⁅J_E, J_E⁆ = J_E := by
     obtain ⟨e⟩ := e
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hperf
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hperf
     exact Subgroup.isPerfect_iff.mp
       (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective)
   have hU3' : IsU3 (Bar2 J_E) m := by

@@ -35,7 +35,7 @@ theorem kgLang_torusGroup_lang
     ∀ c ∈ torusGroup τ L, ∃ z ∈ torusGroup τ L, z⁻¹ * frobTwistGL τ L ℓ e Q z = c := by
   have hker : kernelRoots (MonoidHom.id (Multiplicative (Fin τ.rank → ℤ))) = ∅ := by
     ext α
-    simp only [kernelRoots, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and,
+    simp only [kernelRoots, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and,
       MonoidHom.id_apply]
     exact fun hα => hα.ne_zero
   have hconn := by
@@ -140,8 +140,8 @@ theorem kgLangExcTorusInput_of_toral_conj
   have hSt : CFSG.StandardType.LieCore.IsSteinbergEndZ τ L (2 ^ e) F₀ :=
     CFSG.StandardType.LieCore.isSteinbergEndZ_frobTwistGL 2 e hQ
   have hleF0 : ratPts τ L F₀ ≤ ratPts τ L (endPow F₀ p) := ratPts_le_endPow hp.one_le
-  haveI hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
-  haveI hfinF0 : Finite ↥(CFSG.StandardType.LieCore.ratPoints F₀) :=
+  have hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
+  have hfinF0 : Finite ↥(CFSG.StandardType.LieCore.ratPoints F₀) :=
     Finite.of_injective (Subgroup.inclusion hleF0) (Subgroup.inclusion_injective hleF0)
   obtain ⟨w, h, a, hh, hEa, hF⟩ :=
     exc_lang_frame_of_toral hM2 hp hp2 he hQ hfin hEab hEF htoral
@@ -311,10 +311,10 @@ theorem kgLangExcTorusInput
   have hSt : CFSG.StandardType.LieCore.IsSteinbergEndZ τ L (2 ^ e) F₀ :=
     CFSG.StandardType.LieCore.isSteinbergEndZ_frobTwistGL 2 e hQ
   have hleF0 : ratPts τ L F₀ ≤ ratPts τ L (endPow F₀ p) := ratPts_le_endPow hp.one_le
-  haveI hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
-  haveI hfinF0 : Finite ↥(CFSG.StandardType.LieCore.ratPoints F₀) :=
+  have hfinG : Finite ↥(ratPts τ L (endPow F₀ p)) := hfin
+  have hfinF0 : Finite ↥(CFSG.StandardType.LieCore.ratPoints F₀) :=
     Finite.of_injective (Subgroup.inclusion hleF0) (Subgroup.inclusion_injective hleF0)
-  haveI hfinE : Finite E :=
+  have hfinE : Finite E :=
     Finite.of_injective (Subgroup.inclusion (hEF.trans hleF0))
       (Subgroup.inclusion_injective (hEF.trans hleF0))
   have hcard : Nat.card E < p ^ CFSG.StandardType.LieCore.nontoralMinRank τ p :=

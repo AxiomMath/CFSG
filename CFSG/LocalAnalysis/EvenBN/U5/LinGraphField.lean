@@ -22,8 +22,8 @@ theorem graphField_swaps_radicals {f : ℕ} (hf : 2 ≤ f) {X : Type} [Group X] 
     (hτV : V.map τ.toMonoidHom = V) :
     V₁.map τ.toMonoidHom = V₂ ∧ V₂.map τ.toMonoidHom = V₁ := by
   obtain ⟨K, hF, h, σ, e, hσ, hey, -⟩ := S8c.canonical_form hf hX hA hτ hfix hout
-  haveI := h.finite
-  haveI := h.charP
+  have := h.finite
+  have := h.charP
   have hK : Nat.card K = (2 ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hyE : fieldAut 3 K σ * dualAut 3 K ∉ semilinearAutGroup 3 K := by
     intro hyE

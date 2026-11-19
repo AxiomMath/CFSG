@@ -34,7 +34,7 @@ variable {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p)
   {AT : Subgroup (↥T ≃ₗ[ZMod p] ↥T)}
 
 theorem finite_T (X : GGSmallD2Ctx p N A T AT) : Module.Finite (ZMod p) ↥T := by
-  haveI := X.finite
+  have := X.finite
   exact Module.Finite.of_injective (Submodule.subtype T) Subtype.val_injective
 
 theorem finrank_lt (X : GGSmallD2Ctx p N A T AT) : Module.finrank (ZMod p) ↥T < N := by
@@ -49,7 +49,7 @@ theorem ne_top (X : GGSmallD2Ctx p N A T AT) : T ≠ ⊤ := by
 
 theorem natCard_eq (X : GGSmallD2Ctx p N A T AT) : Nat.card ↥AT = Nat.card ↥A := by
   classical
-  haveI := X.finite_T
+  have := X.finite_T
   let res : ↥A → (↥T ≃ₗ[ZMod p] ↥T) := fun a =>
     LinearEquiv.ofBijective
       (LinearMap.restrict ((a : V ≃ₗ[ZMod p] V) : V →ₗ[ZMod p] V)
@@ -177,7 +177,7 @@ theorem false_of_central (X : GGSmallD2Ctx p N A T AT) {z : ↥T ≃ₗ[ZMod p] 
 theorem not_isImprimitiveOnV (X : GGSmallD2Ctx p N A T AT) :
     ¬ CFSG.Quasithin.SimsG4.IsImprimitiveOnV AT := by
   intro himp
-  haveI := X.finite_T
+  have := X.finite_T
   let d : ℕ := Module.finrank (ZMod p) ↥T
   have hgen : AT = Subgroup.closure {r | r ∈ AT ∧ GGLinRefl r} := X.reflGen
   obtain ⟨b, hmon⟩ := ggRC_monomial_of_imprimitive (p := p) (V := ↥T) (n := d) rfl AT
@@ -197,7 +197,7 @@ theorem not_isImprimitiveOnV (X : GGSmallD2Ctx p N A T AT) :
   exact ggRC_perm_not_monomial X.N_ge X.finrank_lt (π.comp ψ) hπ'comm
 
 theorem family (X : GGSmallD2Ctx p N A T AT) (hUse : ZS.UseInput) : ZS.Family p AT := by
-  haveI := X.finite_T
+  have := X.finite_T
   have h3 : 3 ≤ Module.finrank (ZMod p) ↥T := by
     have hN := X.N_ge
     rcases X.finrank_T with h | h <;> omega

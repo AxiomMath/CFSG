@@ -45,7 +45,7 @@ theorem exists_central_involution_of_sylow_two [Finite G] (P : Sylow 2 G)
     (hP : Nontrivial (P : Subgroup G)) :
     ∃ z : G, z ∈ (P : Subgroup G) ∧ orderOf z = 2 ∧ ∀ x ∈ (P : Subgroup G), x * z = z * x := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   have : Nontrivial (Subgroup.center (P : Subgroup G)) := hPp.center_nontrivial
   have hZp : IsPGroup 2 (Subgroup.center (P : Subgroup G)) := hPp.to_subgroup _
   have h2 : 2 ∣ Nat.card (Subgroup.center (P : Subgroup G)) := by

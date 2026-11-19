@@ -127,9 +127,10 @@ section Transport
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S A : Subgroup Ω} {P : Type} [Group P]
 
+omit [Finite Ω] in
 private theorem tr_mem_normalizer (hSn : S.Normal) (g : Ω) :
     g ∈ Subgroup.normalizer (S : Set Ω) := by
-  haveI := hSn
+  have := hSn
   rw [Subgroup.normalizer_eq_top S]
   exact Subgroup.mem_top g
 
@@ -143,7 +144,7 @@ private theorem tr_card_range (hSn : S.Normal) (hcore : GLAPPrimeCore 3 ↥S = �
     (hψ : ∀ (g : Ω) (hg : g ∈ A) (k k' : ↥S), (k' : Ω) = g * k * g⁻¹ → ψ ⟨g, hg⟩ (π k) = π k') :
     27 ≤ Nat.card ψ.range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcent : ∀ a : ↥A, ψ a = 1 → ∀ s ∈ S, s * (a : Ω) = a * s := by
     intro a ha1 s hs
     have hle := tr_le_fix π hker (S.normalizerMonoidHom ⟨(a : Ω), tr_mem_normalizer hSn a⟩) 1
@@ -204,6 +205,7 @@ private theorem tr_card_range (hSn : S.Normal) (hcore : GLAPPrimeCore 3 ↥S = �
       _ = _ := by ring
   exact Nat.le_of_mul_le_mul_left h5 (Nat.mul_pos hc0 hz)
 
+omit [Finite Ω] in
 private theorem tr_Tb (hSn : S.Normal) (π : ↥S →* P) (hker3 : IsPGroup 3 π.ker) (ψ : ↥A →* MulAut P)
     (hψ : ∀ (g : Ω) (hg : g ∈ A) (k k' : ↥S), (k' : Ω) = g * k * g⁻¹ → ψ ⟨g, hg⟩ (π k) = π k')
     (hT : ∃ T : Subgroup Ω, T ≤ S ∧ IsPGroup 2 T ∧ A ≤ Subgroup.normalizer (T : Set Ω) ∧
@@ -211,8 +213,8 @@ private theorem tr_Tb (hSn : S.Normal) (π : ↥S →* P) (hker3 : IsPGroup 3 π
     ∃ Tb : Subgroup P, IsPGroup 2 Tb ∧ (∀ α ∈ ψ.range, Tb.map α.toMonoidHom = Tb) ∧
       ∃ α ∈ ψ.range, ∃ t ∈ Tb, α t ≠ t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTS, hT2, hTN, hTA⟩ := hT
   have hT2' : IsPGroup 2 (T.subgroupOf S) := (Y10F.isPGroup_subgroupOf_iff hTS).2 hT2
   refine ⟨(T.subgroupOf S).map π, hT2'.map π, ?_, ?_⟩
@@ -277,8 +279,8 @@ private theorem tr_conclude {n : ℕ} [Finite P] (hSn : S.Normal) (hcore : GLAPP
         IsEmpty (T ≃* QuaternionGroup 2) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN := tr_mem_normalizer hSn
   have hψα : ∀ (g : Ω) (hg : g ∈ A) (k : ↥S),
       ψ ⟨g, hg⟩ (π k) = π (S.normalizerMonoidHom ⟨g, hN g⟩ k) :=

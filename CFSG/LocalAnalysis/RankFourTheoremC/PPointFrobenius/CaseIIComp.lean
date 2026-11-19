@@ -22,7 +22,7 @@ theorem mem_normalizer_of_isComponentOf_of_pow_eq_one_abelian {Y : Type} [Group 
     (hK : CFSG.Open.IsComponentOf K ⊤) {y : Y} (hy : y ^ p = 1) :
     y ∈ normalizer (K : Set Y) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hyK
   obtain ⟨R⟩ := (Sylow.nonempty : Nonempty (Sylow p Y))
   obtain ⟨t, htRK, hto, htC⟩ := exists_mem_sylow_inf_component hp hp2 hcore R hK

@@ -161,7 +161,7 @@ theorem uM_injective : Function.Injective uM := by
   subst this
   rfl
 
-theorem uG_injective : Function.Injective uG := fun p q h => uM_injective (congrArg Units.val h)
+theorem uG_injective : Function.Injective uG := fun _p _q h => uM_injective (congrArg Units.val h)
 
 @[expose] def U0 : Subgroup (GL V₄ (ZMod 3)) where
   carrier := Set.range uG
@@ -390,7 +390,7 @@ theorem coe_sylU0 : (sylU0 : Subgroup (StatedSp 2 (ZMod 3))) = U0.subgroupOf (St
 
 theorem exists_conj_le_U0 {P : Subgroup (GL V₄ (ZMod 3))} (hPS : P ≤ StatedSp 2 (ZMod 3))
     (hP : IsPGroup 3 P) : ∃ g ∈ StatedSp 2 (ZMod 3), ∀ x ∈ P, g⁻¹ * x * g ∈ U0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P' := P.subgroupOf (StatedSp 2 (ZMod 3)) with hP'
   have hP'p : IsPGroup 3 P' :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPS).symm
@@ -411,7 +411,7 @@ theorem exists_conj_le_U0 {P : Subgroup (GL V₄ (ZMod 3))} (hPS : P ≤ StatedS
 theorem exists_spTrans_mem_of_card {P : Subgroup (GL V₄ (ZMod 3))}
     (hPS : P ≤ StatedSp 2 (ZMod 3)) (hP : IsPGroup 3 P) (hc : 27 ≤ Nat.card P) :
     ∃ (a : V₄ → ZMod 3) (c : ZMod 3), a ≠ 0 ∧ c ≠ 0 ∧ spTrans a c ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg, hgP⟩ := exists_conj_le_U0 hPS hP
   set Q := P.map (MulAut.conj g⁻¹).toMonoidHom with hQ
   have hQU : Q ≤ U0 := by
@@ -450,7 +450,7 @@ theorem exists_spTrans_mem_of_card {P : Subgroup (GL V₄ (ZMod 3))}
     · rw [Subgroup.index_eq_one.mp h]; infer_instance
     · exact Subgroup.normal_of_index_eq_minFac_card (by
         rw [h, card_U0]; norm_num)
-  haveI := hU0p.isNilpotent
+  have := hU0p.isNilpotent
   have hne : Q' ≠ ⊥ := by
     intro h
     have := hQ'c
@@ -518,7 +518,7 @@ theorem tG_ne_one : tG ≠ 1 := fun h => by
   decide +kernel
 
 theorem orderOf_tG : orderOf tG = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime tG_pow_five tG_ne_one
 
 theorem tM_symp : tMᵀ * fromBlocks 0 1 (-1) 0 * tM = fromBlocks 0 1 (-1) 0 := by decide +kernel
@@ -536,7 +536,7 @@ theorem card_V4 : Nat.card (V₄ → ZMod 3) = 81 := by
 theorem eq_bot_or_top_of_tM {W : Submodule (ZMod 3) (V₄ → ZMod 3)}
     (hW : ∀ w ∈ W, tM *ᵥ w ∈ W) : W = ⊥ ∨ W = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set P := Subgroup.zpowers tG with hP
   have hPc : Nat.card P = 5 := by rw [hP, Nat.card_zpowers, orderOf_tG]
   have hPp : IsPGroup 5 P := IsPGroup.of_card (n := 1) (by rw [hPc, pow_one])
@@ -591,7 +591,7 @@ theorem eq_bot_or_top_of_tM {W : Submodule (ZMod 3) (V₄ → ZMod 3)}
     rw [hd, Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
 
 theorem isIrreducibleOn_of_tG_mem {G : Subgroup (GL V₄ (ZMod 3))} (ht : tG ∈ G) :
-    IsIrreducibleOn G := fun W hW => eq_bot_or_top_of_tM (fun w hw => hW tG ht w hw)
+    IsIrreducibleOn G := fun _W hW => eq_bot_or_top_of_tM (fun w hw => hW tG ht w hw)
 
 theorem tG_sq_noPlane : ∀ H : Submodule (ZMod 3) (V₄ → ZMod 3), Module.finrank (ZMod 3) H = 2 →
     ¬ ∀ w ∈ H, ((tG * tG : GL V₄ (ZMod 3)) : M4) *ᵥ w ∈ H := by
@@ -665,7 +665,7 @@ theorem false_of_centers_subset_sq {K : Type} [Field K] {G : Subgroup (GL V₄ K
     (hs : ∀ H : Submodule K (V₄ → K), Module.finrank K H = 2 →
       ¬ ∀ w ∈ H, ((s * s : GL V₄ K) : Matrix V₄ V₄ K) *ᵥ w ∈ H)
     {H : Submodule K (V₄ → K)}
-    (hH : ∀ v ∈ H, v ∈ transCenters G) (hHinf : H ⊓ orth H = ⊥)
+    (hH : ∀ v ∈ H, v ∈ transCenters G) (_hHinf : H ⊓ orth H = ⊥)
     (hHrank : Module.finrank K H = 2)
     (hcon : ∀ e ∈ transCenters G, e ∉ H → e ∈ orth H) : False := by
   have hOrank : Module.finrank K (orth H) = 2 := by
@@ -1060,7 +1060,7 @@ theorem conj_uG_mem_U0 {n : GL V₄ (ZMod 3)} (hn : n ∈ StatedSp 2 (ZMod 3))
     rw [hN] at hsym
     simp only [Jm, fromBlocks_transpose, fromBlocks_multiply, Matrix.transpose_zero,
       Matrix.zero_mul, Matrix.mul_zero, Matrix.mul_one, Matrix.mul_neg, zero_add, add_zero,
-      Matrix.neg_mul, Matrix.one_mul, neg_zero] at hsym
+      Matrix.neg_mul, neg_zero] at hsym
     exact (Matrix.fromBlocks_inj.mp hsym).2.1
   set S : Matrix (Fin 2) (Fin 2) (ZMod 3) := !![a, b; b, c] with hS
   set S' := A * S * Aᵀ with hS'
@@ -1138,7 +1138,7 @@ theorem uG_ne_spTrans {k : Fin 3} {r : Par} (hr : r ∈ E9par k) {a : V₄ → Z
   have e2 := congrFun (congrFun hM (Sum.inl 0)) (Sum.inr 1)
   have e3 := congrFun (congrFun hM (Sum.inl 1)) (Sum.inr 1)
   simp [uM, spTransMat, Matrix.vecMulVec_apply, Matrix.mulVec, dotProduct,
-    Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.one_apply] at e1 e2 e3
+    Fintype.sum_sum_type, Matrix.one_apply] at e1 e2 e3
   apply hm
   rw [e1, e2, e3]
   ring
@@ -1220,7 +1220,7 @@ theorem map_conj_mul (E : Subgroup (GL V₄ (ZMod 3))) (g h : GL V₄ (ZMod 3)) 
 theorem map_conj_one (E : Subgroup (GL V₄ (ZMod 3))) :
     E.map (MulAut.conj (1 : GL V₄ (ZMod 3))).toMonoidHom = E := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem inList_one : InList 1 := fun k => ⟨0, k, by rw [gUG_zero]⟩
 
@@ -1575,9 +1575,9 @@ theorem commute_of_normalizes_tG {y : GL V₄ (ZMod 3)} (hy3 : y ^ 3 = 1)
 
 theorem false_of_card_45_90 {K : Subgroup (GL V₄ (ZMod 3))} (ht : tG ∈ K)
     (hc : Nat.card K = 45 ∨ Nat.card K = 90) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := by
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := by
     rcases hc with h | h <;> exact Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
   set t' : K := ⟨tG, ht⟩ with ht'
   have hot : orderOf t' = 5 := by rw [← Subgroup.orderOf_coe, ht', orderOf_tG]
@@ -1709,11 +1709,11 @@ theorem oRes_normal (Y : Type*) [Group Y] : (oPrimeResidual 3 Y).Normal := by
 
 theorem not_three_dvd_index_oRes (Y : Type*) [Group Y] [Finite Y] :
     ¬ 3 ∣ (oPrimeResidual 3 Y).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 Y) := inferInstance
   have hP : (P : Subgroup Y) ≤ oPrimeResidual 3 Y := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     have := congrArg Subtype.val hk
     simpa using this
@@ -1776,14 +1776,14 @@ theorem prime_dvd_of_dvd_pow_mul_pow {d p q a b : ℕ} (hd : d.Prime) (hp : p.Pr
 
 theorem isSolvable_of_card_dvd {G : Type*} [Group G] [Finite G] {p q a b : ℕ} (hp : p.Prime)
     (hq : q.Prime) (h : Nat.card G ∣ p ^ a * q ^ b) : Group.IsSolvable G :=
-  CFSG.SignalizerFunctor.Helpers.two_prime_order_solvable G p q hp hq fun d hd hdG =>
+  CFSG.SignalizerFunctor.Helpers.two_prime_order_solvable G p q hp hq fun _d hd hdG =>
     prime_dvd_of_dvd_pow_mul_pow hd hp hq (hdG.trans h)
 
 theorem not_isSolvable_oRes {H : Subgroup (GL V₄ (ZMod 3))} (hHg : H ≤ gsp 2 (ZMod 3))
     (hns : ¬ Group.IsSolvable H) : ¬ Group.IsSolvable (oPrimeResidual 3 ↥H) := by
   intro hs
   apply hns
-  haveI := oRes_normal ↥H
+  have := oRes_normal ↥H
   have hHd : Nat.card H ∣ 103680 :=
     (Subgroup.card_dvd_of_le hHg).trans card_gsp_dvd
   have hQ : Nat.card (↥H ⧸ oPrimeResidual 3 ↥H) ∣ 2 ^ 8 * 5 ^ 1 := by
@@ -1798,7 +1798,7 @@ theorem not_isSolvable_oRes {H : Subgroup (GL V₄ (ZMod 3))} (hHg : H ≤ gsp 2
       rw [show (3 : ℕ) ^ 4 * (2 ^ 8 * 5 ^ 1) = 103680 by norm_num]
       exact h1
     exact hcop.dvd_of_dvd_mul_left h2
-  haveI : Group.IsSolvable (↥H ⧸ oPrimeResidual 3 ↥H) :=
+  have : Group.IsSolvable (↥H ⧸ oPrimeResidual 3 ↥H) :=
     isSolvable_of_card_dvd Nat.prime_two (by norm_num) hQ
   exact Group.isSolvable_of_subgroup_quotient (oPrimeResidual 3 ↥H)
 
@@ -1815,7 +1815,7 @@ theorem factorization_51840_five : (51840 : ℕ).factorization 5 = 1 := by
 
 theorem exists_conj_eq_tG {s : GL V₄ (ZMod 3)} (hsS : s ∈ StatedSp 2 (ZMod 3))
     (hs : orderOf s = 5) : ∃ g ∈ StatedSp 2 (ZMod 3), ∃ z : ℤ, g * s ^ z * g⁻¹ = tG := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set s' : StatedSp 2 (ZMod 3) := ⟨s, hsS⟩
   set t' : StatedSp 2 (ZMod 3) := ⟨tG, tG_mem⟩
   have hc : ∀ x : StatedSp 2 (ZMod 3), orderOf x = 5 →
@@ -1842,8 +1842,8 @@ theorem sp_le_or_equiv_CA0 {H : Subgroup (GL V₄ (ZMod 3))} (hHg : H ≤ gsp 2 
     (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) :
     StatedSp 2 (ZMod 3) ≤ H ∨ Nonempty (↥(oPrimeResidual 3 ↥H) ≃* CA0) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set S3 : Set (GL V₄ (ZMod 3)) := {x | x ∈ H ∧ ∃ k : ℕ, x ^ (3 ^ k) = 1} with hS3
   set K := (oPrimeResidual 3 ↥H).map H.subtype with hK
   have hKc : K = Subgroup.closure S3 := map_oRes_eq
@@ -1858,7 +1858,7 @@ theorem sp_le_or_equiv_CA0 {H : Subgroup (GL V₄ (ZMod 3))} (hHg : H ≤ gsp 2 
   set eK : ↥(oPrimeResidual 3 ↥H) ≃* K :=
     (oPrimeResidual 3 ↥H).equivMapOfInjective H.subtype H.subtype_injective with heK
   have hKns : ¬ Group.IsSolvable K := fun h => not_isSolvable_oRes hHg hns
-    (solvable_of_solvable_injective (f := eK.toMonoidHom) eK.injective)
+    (Group.isSolvable_of_isSolvable_injective (f := eK.toMonoidHom) eK.injective)
   have hK5 : 5 ∣ Nat.card K := by
     by_contra h5
     apply hKns
@@ -1931,7 +1931,7 @@ theorem sp_le_or_equiv_CA0 {H : Subgroup (GL V₄ (ZMod 3))} (hHg : H ≤ gsp 2 
       have hS₀c : Nat.card S₀ = 9 := by
         apply le_antisymm
         · have h1 := hsmall ((S₀ : Subgroup K₂).map K₂.subtype) (Subgroup.map_subtype_le _)
-            ((S₀.isPGroup').map _)
+            ((S₀.isPGroup).map _)
           rwa [Subgroup.card_map_of_injective K₂.subtype_injective] at h1
         · have h1 := Subgroup.card_le_of_le hS₀
           rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE₂K).toEquiv, hE₂c] at h1

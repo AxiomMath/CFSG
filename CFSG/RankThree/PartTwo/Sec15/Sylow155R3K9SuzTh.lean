@@ -200,7 +200,7 @@ private theorem goodJ2_thU :
 
 private theorem goodJ2_thS :
     GoodJ2 (Subgroup.centralizer ({thS} : Set ↥J)) := by
-  haveI : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
+  have : Finite ↥J := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.finite_J
   obtain ⟨hs, -, hu, -, hsu, hC⟩ := CFSG.HardMathSupport.Dickson.Sec6.th3_facts
   have hC' : Nat.card (Subgroup.centralizer ({thS} : Set ↥J)) ≤ 63685439 := hC
   have h37 : 3 ^ 7 ∣ Nat.card (Subgroup.centralizer ({thS} : Set ↥J)) := by

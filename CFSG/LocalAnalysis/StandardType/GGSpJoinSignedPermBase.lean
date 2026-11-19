@@ -10,9 +10,9 @@ theorem spRefl_involutive (n p : ℕ) (k : Fin n) : Function.Involutive (spRefl 
   intro f
   by_cases hk : k.val + 1 < n
   · funext i
-    simp only [spRefl, dif_pos hk, Equiv.swap_apply_self]
+    simp only [spRefl, dite_eq_left hk, Equiv.swap_apply_self]
   · funext i
-    simp only [spRefl, dif_neg hk]
+    simp only [spRefl, dite_eq_right hk]
     by_cases hik : i = k
     · subst hik
       simp
@@ -31,8 +31,8 @@ theorem spRefl_involutive (n p : ℕ) (k : Fin n) : Function.Involutive (spRefl 
 @[expose] def coordInv (n p : ℕ) (i : Fin n) : Equiv.Perm (Fin n → Multiplicative (ZMod p)) where
   toFun v := Function.update v i (v i)⁻¹
   invFun v := Function.update v i (v i)⁻¹
-  left_inv v := by funext t; by_cases h : t = i <;> simp [Function.update_apply, h]
-  right_inv v := by funext t; by_cases h : t = i <;> simp [Function.update_apply, h]
+  left_inv v := by funext t; by_cases h : t = i <;> simp [h]
+  right_inv v := by funext t; by_cases h : t = i <;> simp [h]
 
 @[simp] theorem coordInv_apply (n p : ℕ) (i : Fin n) (v : Fin n → Multiplicative (ZMod p)) :
     coordInv n p i v = Function.update v i (v i)⁻¹ := rfl
@@ -46,12 +46,12 @@ theorem spRefl_involutive (n p : ℕ) (k : Fin n) : Function.Involutive (spRefl 
 theorem spReflPerm_of_lt (n p : ℕ) (k : Fin n) (hk : k.val + 1 < n) :
     spReflPerm n p k = coordPerm n p (Equiv.swap k ⟨k.val + 1, hk⟩) := by
   ext v t
-  simp only [spReflPerm_apply, spRefl, dif_pos hk, coordPerm_apply, Equiv.symm_swap]
+  simp only [spReflPerm_apply, spRefl, dite_eq_left hk, coordPerm_apply, Equiv.symm_swap]
 
 theorem spReflPerm_of_not_lt (n p : ℕ) (k : Fin n) (hk : ¬ k.val + 1 < n) :
     spReflPerm n p k = coordInv n p k := by
   ext v t
-  simp only [spReflPerm_apply, spRefl, dif_neg hk, coordInv_apply]
+  simp only [spReflPerm_apply, spRefl, dite_eq_right hk, coordInv_apply]
 
 @[expose] def spSignedGroup (n p : ℕ) : Subgroup (Equiv.Perm (Fin n → Multiplicative (ZMod p))) :=
   Subgroup.closure (Set.range (spReflPerm n p))

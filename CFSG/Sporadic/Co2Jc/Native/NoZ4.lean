@@ -30,8 +30,7 @@ namespace NoZ4
 theorem Tab.toMat_ofMat {R : Type} [Inhabited R] (M : Matrix (Fin 10) (Fin 10) R) :
     (Tab.ofMat M).toMat = M := by
   ext i j
-  simp [Tab.ofMat, Tab.toMat, Matrix.of, Array.getElem!_eq_getD,
-    Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, i.isLt, j.isLt]
+  simp [Tab.ofMat, Tab.toMat, Matrix.of]
   rfl
 
 @[expose] def Tab.get {R : Type} [Inhabited R] (T : Tab R) (i j : Nat) : R :=
@@ -100,7 +99,7 @@ private theorem foldl_prod2_toMat (init : Tab (ZMod 2)) (l : List Nat) :
     (l.foldl (fun acc k => Tab.mul acc (G2Tab k)) init).toMat =
       init.toMat * (l.map G2).prod := by
   induction l generalizing init with
-  | nil => simp [Tab.toMat_ofMat]
+  | nil => simp
   | cons a l ih =>
     simp only [List.foldl_cons, List.map_cons, List.prod_cons]
     rw [ih (Tab.mul init (G2Tab a)), Tab.mul, Tab.toMat_ofMat]
@@ -114,7 +113,7 @@ private theorem foldl_prod4_toMat (init : Tab (ZMod 4)) (l : List Nat) :
     (l.foldl (fun acc k => Tab.mul acc (G4Tab k)) init).toMat =
       init.toMat * (l.map G4).prod := by
   induction l generalizing init with
-  | nil => simp [Tab.toMat_ofMat]
+  | nil => simp
   | cons a l ih =>
     simp only [List.foldl_cons, List.map_cons, List.prod_cons]
     rw [ih (Tab.mul init (G4Tab a)), Tab.mul, Tab.toMat_ofMat]
@@ -140,7 +139,7 @@ private theorem foldl_add_toMat (l : List Nat) (init : Tab (ZMod 2))
     (l.foldl (fun acc i => Tab.add acc (f i)) init).toMat =
       init.toMat + (l.map fun i => (f i).toMat).sum := by
   induction l generalizing init with
-  | nil => simp [Tab.toMat_ofMat]
+  | nil => simp
   | cons a l ih =>
     rw [List.foldl_cons, ih (Tab.add init (f a)), Tab.toMat_add]
     simp [add_assoc]
@@ -192,8 +191,8 @@ theorem coeff2_toMat (k : Nat) : (coeff2 k).toMat =
   apply List.map_congr_left
   intro i _
   by_cases h : (rels[r]!)[i]! = k
-  · simp only [h, if_true, Tab.toMat_mul, Tab.toMat_transpose]
-  · simp only [h, if_false]
+  · simp only [h, ite_true, Tab.toMat_mul, Tab.toMat_transpose]
+  · simp only [h, ite_false]
     rw [Tab.toMat_ofMat]
 
 @[expose] def matZero (M : M2) : Bool :=

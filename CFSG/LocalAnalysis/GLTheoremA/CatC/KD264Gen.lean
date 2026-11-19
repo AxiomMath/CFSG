@@ -61,7 +61,7 @@ theorem alphaHom_pow_eq_one (p : ℕ) {b : Y} (hb : b ^ p = 1) :
     (alphaHom K hK e b) ^ p = 1 := by
   rw [← map_pow, hb, map_one]
 
-@[expose] noncomputable def psiFun {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hZT : Subgroup.center T = ⊥) (hin : InnerAt p T) (B : Subgroup Y)
+@[expose] noncomputable def psiFun {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (_hZT : Subgroup.center T = ⊥) (hin : InnerAt p T) (B : Subgroup Y)
     (hB : ∀ b ∈ B, b ^ p = 1) (b : B) : T :=
   Classical.choose (hin (alphaHom K hK e (b : Y)) (alphaHom_pow_eq_one K hK e p (hB b b.2)))
 
@@ -138,7 +138,8 @@ open CFSG.Open
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (hf : Function.Injective f)
+omit [Finite Y] in
+theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (_hf : Function.Injective f)
     {S : Subgroup A} (hS : IsElemAbelian p S) : IsElemAbelian p (S.map f) := by
   have hcomm : ∀ u ∈ S.map f, ∀ v ∈ S.map f, u * v = v * u := by
     intro u hu v hv
@@ -153,6 +154,7 @@ theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (hf : F
   obtain ⟨s, hs, hsx⟩ := Subgroup.mem_map.1 hx
   rw [← hsx, ← map_pow, hS.2 s hs, map_one]
 
+omit [Finite Y] in
 theorem map_ker_psiHom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T : Type} [Group T] (hZT : Subgroup.center T = ⊥) (hin : InnerAt p T)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* T) (B : Subgroup Y)
     (hB : IsElemAbelian p B) :
@@ -169,6 +171,7 @@ theorem map_ker_psiHom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T : Type} [Grou
     refine ⟨⟨y, hyB⟩, ?_, rfl⟩
     exact (psiHom_eq_one_iff K hK e hp hp2 hZT hin B (fun b hb => hB.2 b hb) ⟨y, hyB⟩).2 hcen
 
+omit [Finite Y] in
 theorem card_inf_centralizer_eq_ker {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T : Type} [Group T] (hZT : Subgroup.center T = ⊥) (hin : InnerAt p T)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* T) (B : Subgroup Y)
     (hB : IsElemAbelian p B) :
@@ -269,6 +272,7 @@ variable {T : Type} [Group T] (K : Subgroup Y) (hK : K.Normal) (e : K ≃* T)
 variable {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hZT : Subgroup.center T = ⊥) (hin : InnerAt p T)
 variable (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ p = 1)
 
+omit [Finite Y] in
 theorem comm_iff_psi (b : B) (k : K) :
     (b : Y) * (k : Y) = (k : Y) * (b : Y) ↔
       psiHom K hK e hp hp2 hZT hin B hB b * e k = e k * psiHom K hK e hp hp2 hZT hin B hB b := by
@@ -300,6 +304,7 @@ theorem comm_iff_psi (b : B) (k : K) :
 @[expose] noncomputable def psiImage (E : Subgroup Y) : Subgroup (T) :=
   (E.subgroupOf B).map (psiHom K hK e hp hp2 hZT hin B hB)
 
+omit [Finite Y] in
 theorem centralizer_psiImage_map (E : Subgroup Y) (hEB : E ≤ B) :
     (Subgroup.centralizer ((psiImage K hK e hp hp2 hZT hin B hB E : Subgroup _) :
         Set (T))).map (K.subtype.comp e.symm.toMonoidHom) =
@@ -342,6 +347,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem glaPLayer_ne_bot_of_comp {T : Type} [Group T] [Finite T] (K : Subgroup Y) (hK : K.Normal)
     (e : K ≃* T) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hZT : Subgroup.center T = ⊥)
     (hin : InnerAt p T) (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ p = 1) (E : Subgroup Y) (hEB : E ≤ B)

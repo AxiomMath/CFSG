@@ -48,7 +48,7 @@ abbrev invSubAction {G α : Type*} [Group G] [MulAction G α] (P : Subgroup G) (
 theorem exists_common_fixed {G α : Type*} [Group G] [MulAction G α] {P : Subgroup G}
     (hP : IsPGroup 2 P) (X : Finset α) (hX : X.card = 3)
     (hinv : ∀ g ∈ P, ∀ x ∈ X, g • x ∈ X) : ∃ x ∈ X, ∀ g ∈ P, g • x = x := by
-  letI : MulAction P {x : α // x ∈ X} := invSubAction P X hinv
+  let : MulAction P {x : α // x ∈ X} := invSubAction P X hinv
   have hcard : Nat.card {x : α // x ∈ X} = 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, hX]
   have hmod := hP.card_modEq_card_fixedPoints {x : α // x ∈ X}

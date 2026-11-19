@@ -19,7 +19,7 @@ theorem adjCompTrivTwo_of (hA : CFSG.LocalAnalysis.GLTheoremA.T171Sh.ExcAdjCompI
         ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ Nat.card K ^ 2 - 1 → CompTriv p ↥(adjointGroup τ K) := by
   intro τ hτ K _ _ hK p hp hp2 hpq r hrp hr1 w hw hwp J hJ hJp
   have hK2 : ringChar K = 2 := CFSG.HardMathSupport.Timmesfeld.CrossChar.ringChar_eq_two_of_card hK
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   obtain ⟨hpK, hp5⟩ := not_dvd_card_and_five_le_of_not_dvd_sq_sub_one hK2 hp hp2 hpq
   have hp3 : p ≠ 3 := by omega
   have hτ' : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by

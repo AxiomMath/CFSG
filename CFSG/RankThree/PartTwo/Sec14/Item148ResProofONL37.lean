@@ -277,7 +277,7 @@ theorem card_sylow_seven_l37 (S : Sylow 7 L₃₇) : Nat.card S = 7 ^ 3 := by
   have hp : IsPGroup 7 uniSeven := IsPGroup.of_card card_uniSeven
   obtain ⟨S₀, hS₀⟩ := hp.exists_le_sylow
   have hS₀card : Nat.card S₀ = 7 ^ 3 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup
     have hdvd : 7 ^ k ∣ 7 ^ 3 * 5472 := by
       rw [← hk, ← card_l37]
       exact Subgroup.card_subgroup_dvd_card _

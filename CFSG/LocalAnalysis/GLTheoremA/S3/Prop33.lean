@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace S3
 
+omit [Finite G] in
 private theorem zpowers_isPGroup_of_pow_eq_one {p : ℕ} {y : G} (h : y ^ p = 1) :
     IsPGroup p (Subgroup.zpowers y) := by
   intro g
@@ -24,6 +25,7 @@ private theorem zpowers_isPGroup_of_pow_eq_one {p : ℕ} {y : G} (h : y ^ p = 1)
     zpow_natCast, h, one_zpow]
   rfl
 
+omit [Finite G] in
 private theorem centralizer_sup_zpowers (E : Subgroup G) (f : G) :
     Subgroup.centralizer ((E ⊔ Subgroup.zpowers f : Subgroup G) : Set G) =
       Subgroup.centralizer (E : Set G) ⊓ Subgroup.centralizer ({f} : Set G) := by
@@ -71,7 +73,7 @@ private theorem le_normalizer_sup_of_conj_mem {A B C : Subgroup G}
 
 theorem notPConstr_sup_of_centMod {p : ℕ} (hp : p.Prime) {E J₀ : Subgroup G} {f : G}
     (hJ₀ : GLAPComponent p (Subgroup.centralizer (E : Set G)) J₀) (hf : CentMod p J₀ f)
-    (hfp : f ^ p = 1) (hfE : ∀ e ∈ E, f * e = e * f) :
+    (hfp : f ^ p = 1) (_hfE : ∀ e ∈ E, f * e = e * f) :
     NotPConstr p (E ⊔ Subgroup.zpowers f) := by
   have hI := (glaPLayer_inf_centralizer hp hJ₀ (zpowers_isPGroup_of_pow_eq_one hfp) hf).1
   have hsub : IsSubnormal (J₀ ⊓ Subgroup.centralizer ({f} : Set G))
@@ -97,7 +99,7 @@ private theorem exists_lift_elemAbelian {H : Type} [Group H] [Finite H] {p : ℕ
     (hPb : IsElemAbelian p Pb) {n : ℕ} (hcard : Nat.card Pb = p ^ n) :
     ∃ P : Subgroup H, IsElemAbelian p P ∧ Nat.card P = p ^ n ∧
       ∀ x ∈ P, QuotientGroup.mk' N x ∈ Pb := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime (p ^ n) (Nat.card N) :=
     Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd hp).2 hN)
   set Pc : Subgroup H := Pb.comap (QuotientGroup.mk' N) with hPc
@@ -141,7 +143,7 @@ private theorem exists_lift_two_group {H : Type} [Group H] [Finite H] {p : ℕ} 
     (hP : IsPGroup p P) {Sb : Subgroup (H ⧸ N)} (hSb : Sb ≠ ⊥) (hSb2 : IsPGroup 2 Sb)
     (hPS : ∀ x ∈ P, QuotientGroup.mk' N x ∈ Subgroup.normalizer (Sb : Set (H ⧸ N))) :
     ∃ S : Subgroup H, IsPGroup 2 S ∧ S ≠ ⊥ ∧ P ≤ Subgroup.normalizer (S : Set H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Sc : Subgroup H := Sb.comap (QuotientGroup.mk' N) with hSc
   have hSccard : Nat.card Sc = Nat.card N * Nat.card Sb :=
     QuotientGroup.card_preimage_mk N (Sb : Set (H ⧸ N))
@@ -172,6 +174,7 @@ private theorem exists_lift_two_group {H : Type} [Group H] [Finite H] {p : ℕ} 
     ((Nat.Prime.coprime_iff_not_dvd hp).2 hScp) h2Sc
   exact ⟨S, hS2, hS, hPS'⟩
 
+omit [Finite G] in
 private theorem isElemAbelian_sup_of_commute {p : ℕ} {A P : Subgroup G} (hA : IsElemAbelian p A)
     (hP : IsElemAbelian p P) (hAP : ∀ a ∈ A, ∀ x ∈ P, a * x = x * a) :
     IsElemAbelian p (A ⊔ P) := by
@@ -205,12 +208,12 @@ private theorem isElemAbelian_sup_of_commute {p : ℕ} {A P : Subgroup G} (hA : 
     rw [hc.mul_pow, hA.2 a ha, hP.2 x hx, one_mul]
 
 theorem rank_lower_bound {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K A : Subgroup G}
-    (hK : GLAPComponent p X K) (hZ : Subgroup.center (PQuot p K) = ⊥) (hA : IsElemAbelian p A)
+    (_hK : GLAPComponent p X K) (hZ : Subgroup.center (PQuot p K) = ⊥) (hA : IsElemAbelian p A)
     (hAK : A ≤ Subgroup.centralizer (K : Set G)) {a : ℕ} (hAcard : Nat.card A = p ^ a)
     (hA2 : ∃ S : Subgroup G, S ≠ ⊥ ∧ IsPGroup 2 S ∧ A ≤ Subgroup.normalizer (S : Set G)) :
     GLATwoLocalRank p (PQuot p K) + a ≤ GLATwoLocalRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (GLAPPrimeCore p ↥K).Normal := GLAPPrimeCore.normal p ↥K
+  have : Fact p.Prime := ⟨hp⟩
+  have : (GLAPPrimeCore p ↥K).Normal := GLAPPrimeCore.normal p ↥K
   set n := GLATwoLocalRank p (PQuot p K) with hn
   rcases Nat.eq_zero_or_pos n with h0 | hpos
   · rw [h0, zero_add]
@@ -294,10 +297,10 @@ theorem rank_lower_bound {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K A : Subgr
     exact (Nat.pow_le_pow_iff_right hp.one_lt).1 hfin
 
 theorem final_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K T P : Subgroup G}
-    (hK : GLAPComponent p X K) (hT2 : IsPGroup 2 T) (hTne : T ≠ ⊥)
+    (_hK : GLAPComponent p X K) (hT2 : IsPGroup 2 T) (hTne : T ≠ ⊥)
     (hTK : T ≤ Subgroup.normalizer (K : Set G)) (hTc : ∀ t ∈ T, CentMod p K t)
     (hPK : P ≤ K) (hP : IsElemAbelian p P) : Nat.card P ≤ p ^ GLATwoLocalRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p K with hO
   have hTO : T ≤ Subgroup.normalizer (O : Set G) :=
     hTK.trans (normalizer_le_normalizer_glaPPrimeCoreOf p K)
@@ -327,6 +330,7 @@ theorem final_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X K T P : Subgrou
 
 end S3
 
+omit [Finite G] in
 private theorem le_layerClosure_self (p : ℕ) (D' J : Subgroup G) : J ≤ layerClosure p D' J := by
   unfold layerClosure
   have h : GLBConj (1 : G) J ≤
@@ -334,6 +338,7 @@ private theorem le_layerClosure_self (p : ℕ) (D' J : Subgroup G) : J ≤ layer
     le_iSup₂_of_le (1 : G) (Subgroup.one_mem _) le_rfl
   rwa [gLBConj_one] at h
 
+omit [Finite G] in
 private theorem chain_le_of_step {p : ℕ} {B : Subgroup G} {k : ℕ} {Es Js : ℕ → Subgroup G}
     (hstep : ∀ i, i + 1 < k → Step36 p B (Es i) (Js i) (Es (i + 1)) (Js (i + 1))) :
     (∀ i j, i ≤ j → j < k → Js i ≤ Js j) ∧ (∀ i j, i ≤ j → j < k → Es j ≤ Es i) := by
@@ -390,11 +395,11 @@ theorem exists_chain {p : ℕ} (hc : S3Ctx G p) (hI18 : Input18_3_4) (h1135 : I1
       obtain ⟨D', J', hD'⟩ := lemma36 hc hI18 h1135 hCl hUn hInn hS hEsB hnc hEsJ
       obtain ⟨hD'le, hD'card, -, hD'comp, -⟩ := id hD'
       have hEs1 : ∀ i, i ≤ n → (fun i => if i ≤ n then Es i else D') i = Es i :=
-        fun i hi => if_pos hi
+        fun i hi => ite_eq_left hi
       have hJs1 : ∀ i, i ≤ n → (fun i => if i ≤ n then Js i else J') i = Js i :=
-        fun i hi => if_pos hi
-      have hEs2 : (fun i => if i ≤ n then Es i else D') (n + 1) = D' := if_neg (by omega)
-      have hJs2 : (fun i => if i ≤ n then Js i else J') (n + 1) = J' := if_neg (by omega)
+        fun i hi => ite_eq_left hi
+      have hEs2 : (fun i => if i ≤ n then Es i else D') (n + 1) = D' := ite_eq_right (by omega)
+      have hJs2 : (fun i => if i ≤ n then Js i else J') (n + 1) = J' := ite_eq_right (by omega)
       refine ⟨fun i => if i ≤ n then Es i else D', fun i => if i ≤ n then Js i else J',
         ?_, ?_, ?_, ?_⟩
       · rw [hEs1 0 (Nat.zero_le _)]
@@ -514,7 +519,7 @@ private theorem prop33_end {p : ℕ} (hc : S3Ctx G p) (h1135 : I1135At G p)
     hInn hp hp2 _ K E hKX hK hKchev hEel hEK ⟨J₀, hJ₀K'⟩
   obtain ⟨a, haE, haF⟩ : ∃ a ∈ E, a ∉ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle := Subgroup.card_le_of_le (show E ≤ F from fun a ha => h a ha)
     rw [hEcard, hFcard] at hle
     have h1 : p ^ 2 ≤ p ^ k := Nat.pow_le_pow_right hp.pos hk
@@ -557,7 +562,7 @@ private theorem prop33_end {p : ℕ} (hc : S3Ctx G p) (h1135 : I1135At G p)
       ⟨a, hEB haE, hnotcm, hnotinn⟩
     obtain ⟨x, hxF, hx1⟩ : ∃ x ∈ F, x ≠ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hFne ((Subgroup.eq_bot_iff_forall F).2 h)
     have hxess := hFess x hxF hx1
     have hFx : Subgroup.zpowers x = F := by
@@ -618,7 +623,7 @@ theorem prop33 {p : ℕ} (hKM : KMUsedAt) (hDih : DihedralUsed) (hc : S3Ctx G p)
   obtain ⟨E₀, hE₀E, hE₀card, hE₀ess, -⟩ := hc.lemma31 B E N hB hEB hEnc hN hBN
   have hE₀ne : ∃ x ∈ E₀, x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : E₀ = ⊥ := (Subgroup.eq_bot_iff_forall _).2 h
     rw [hbot, Subgroup.card_bot, hEcard] at hE₀card
     have h1 : p ^ 2 ≤ p ^ k := Nat.pow_le_pow_right hp.pos hk

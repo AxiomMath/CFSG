@@ -41,8 +41,8 @@ private theorem isMulCommutative_of_natCard_eq_two {H : Type*} [Group H] (h : Na
 private theorem commutatorElement_mem_of_relIndex_two {M K : Subgroup G}
     (h2 : M.relIndex K = 2) : ∀ a ∈ K, ∀ a' ∈ K, ⁅a, a'⁆ ∈ M := by
   intro a ha a' ha'
-  haveI : (M.subgroupOf K).Normal := Subgroup.normal_of_index_eq_two h2
-  haveI : IsMulCommutative (↥K ⧸ M.subgroupOf K) :=
+  have : (M.subgroupOf K).Normal := Subgroup.normal_of_index_eq_two h2
+  have : IsMulCommutative (↥K ⧸ M.subgroupOf K) :=
     isMulCommutative_of_natCard_eq_two h2
   have hq : QuotientGroup.mk' (M.subgroupOf K)
       ⁅(⟨a, ha⟩ : ↥K), (⟨a', ha'⟩ : ↥K)⁆ = 1 := by
@@ -64,7 +64,7 @@ private theorem mem_sup_exists_mul_of_le_normalizer_aux {H K : Subgroup G}
 
 private theorem le_normalizer_of_relIndex_two_aux {W M : Subgroup G} (hMW : M ≤ W)
     (h2 : M.relIndex W = 2) : W ≤ normalizer (M : Set G) := by
-  haveI : (M.subgroupOf W).Normal := Subgroup.normal_of_index_eq_two h2
+  have : (M.subgroupOf W).Normal := Subgroup.normal_of_index_eq_two h2
   exact Subgroup.le_normalizer_of_normal_subgroupOf hMW
 
 theorem relIndex_eq_of_card_eq_mul [Finite G] {H K : Subgroup G} (hHK : H ≤ K) {n : ℕ}
@@ -73,7 +73,7 @@ theorem relIndex_eq_of_card_eq_mul [Finite G] {H K : Subgroup G} (hHK : H ≤ K)
   rw [inf_of_le_left hHK, h] at hcard
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hcard
 
-theorem y7b_sq_mem_of_relIndex_two {M K : Subgroup G} (hMK : M ≤ K) (h2 : M.relIndex K = 2) :
+theorem y7b_sq_mem_of_relIndex_two {M K : Subgroup G} (_hMK : M ≤ K) (h2 : M.relIndex K = 2) :
     ∀ a ∈ K, a ^ 2 ∈ M := by
   intro a ha
   have := Subgroup.sq_mem_of_index_two (H := M.subgroupOf K) h2 (⟨a, ha⟩ : ↥K)

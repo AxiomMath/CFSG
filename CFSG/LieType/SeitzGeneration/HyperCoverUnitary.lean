@@ -433,7 +433,7 @@ theorem exists_hyperGen_cover_unitary
   have hĒgen := hyperGen_map_of_surjective φ hφs hinj hAgen
   have hcopN : Nat.Coprime (Nat.card (QuotientGroup.mk' N).ker) p := by
     rw [QuotientGroup.ker_mk', hNdef, Subgroup.card_map_of_injective (Subgroup.subtype_injective _)]
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
     rw [hk]
     exact Nat.Coprime.pow_left k ((Nat.coprime_primes hℓp hp).2 (Ne.symm hpl))
   obtain ⟨E₁, hE₁a, hE₁c, hE₁map⟩ := exists_lift_isElemAbelian hp (QuotientGroup.mk' N)

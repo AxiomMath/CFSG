@@ -293,7 +293,7 @@ theorem four_dvd_index [IsSimpleGroup X] (hnab : ∃ a b : X, a * b ≠ b * a)
   obtain ⟨Q⟩ : Nonempty (Sylow 2 N) := inferInstance
   set R : Subgroup X := (Q : Subgroup N).map N.subtype with hR
   have hRN : R ≤ N := map_subtype_le _
-  have hRp : IsPGroup 2 R := Q.isPGroup'.map _
+  have hRp : IsPGroup 2 R := Q.isPGroup.map _
   have hRc : Nat.card R = 2 ^ (Nat.card N).factorization 2 := by
     rw [hR, card_map_of_injective (subtype_injective _), Sylow.card_eq_multiplicity]
   have hR2 : Nat.card R = 2 * Nat.card A.T := by

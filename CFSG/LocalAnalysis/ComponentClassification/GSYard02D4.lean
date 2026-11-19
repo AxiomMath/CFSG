@@ -21,6 +21,7 @@ section Counting
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem card_sup_mul_card_inf_of_comm (L R : Subgroup K)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup K) * Nat.card (L ⊓ R : Subgroup K) = Nat.card L * Nat.card R := by
@@ -57,12 +58,12 @@ theorem card_inf_eq_of_normal {A B N : Subgroup K} (hNB : N ≤ B)
     (hn : ∀ b ∈ B, ∀ n ∈ N, b * n * b⁻¹ ∈ N)
     (hAB : Nat.card ↥(A ⊓ B) = 2 ^ (Nat.card ↥B).factorization 2) :
     Nat.card ↥(A ⊓ N) = 2 ^ (Nat.card ↥N).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card ↥((A ⊓ B).subgroupOf B) = 2 ^ (Nat.card ↥B).factorization 2 := by
     rw [← hAB]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
   let S : Sylow 2 ↥B := Sylow.ofCard _ hS
-  haveI : (N.subgroupOf B).Normal :=
+  have : (N.subgroupOf B).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact hn g g.2 x hx⟩
@@ -91,7 +92,7 @@ variable {K : Type} [Group K] [Finite K]
 
 theorem card_sylow_inf_of_le (P : Sylow 2 K) {C : Subgroup K} (hPC : (P : Subgroup K) ≤ C) :
     Nat.card ↥((P : Subgroup K) ⊓ C) = 2 ^ (Nat.card ↥C).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [inf_of_le_left hPC]
   have h := Sylow.card_eq_multiplicity (P.subtype hPC)
   rw [← h]
@@ -101,7 +102,7 @@ theorem quatIn_of_sylow_sl2 {q : ℕ} (hq : Odd q) {E₁ Q₁ : Subgroup K} {z :
     (hsl2 : HasSL2Model ↥E₁ (fun r => r = q)) (hQE : Q₁ ≤ E₁)
     (hQcard : Nat.card ↥Q₁ = 2 ^ (Nat.card ↥E₁).factorization 2) (hzQ : z ∈ Q₁)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) : QuatIn z Q₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, iF, fF, hF, ⟨e⟩⟩ := hsl2
   have hFodd : Odd (Nat.card F) := by rw [show Nat.card F = q from hF]; exact hq
   let e' : ↥E₁ ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
@@ -209,8 +210,8 @@ variable {K : Type} [Group K]
 theorem fixedPoints_card_even {α : Type} [Finite α] (T : α → α) (hT : ∀ x, T (T x) = x)
     (h : 2 ∣ Nat.card α) : 2 ∣ Nat.card {x // T x = x} := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow : (show Function.End α from T) ^ 2 ^ 1 = (1 : Function.End α) := by
     refine funext fun x => ?_
     exact hT x
@@ -225,7 +226,7 @@ theorem fixedPoints_card_even {α : Type} [Finite α] (T : α → α) (hT : ∀ 
 theorem two_ne_zero_of_odd_card (F : Type) [Field F] [Finite F] (h : Odd (Nat.card F)) :
     (2 : F) ≠ 0 := by
   intro h2
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hdvd : ringChar F ∣ 2 :=
     (CharP.cast_eq_zero_iff F (ringChar F) 2).mp (by exact_mod_cast h2)
   have hne1 : ringChar F ≠ 1 := CharP.ringChar_ne_one
@@ -240,7 +241,7 @@ theorem two_ne_zero_of_odd_card (F : Type) [Field F] [Finite F] (h : Odd (Nat.ca
 
 theorem four_dvd_card_of_quatIn [Finite K] {z : K} {Q : Subgroup K} (hQ : QuatIn z Q) :
     4 ∣ Nat.card Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha, haz⟩ := hQ.exists_sq
   have h1 : ¬ a ^ 2 ^ 1 = 1 := by
     rw [pow_one, pow_two, haz]
@@ -277,7 +278,7 @@ theorem exists_fixed_pair [Finite K] {Q : Subgroup K} {z f : K} (hQ : QuatIn z Q
     (hfQ : ∀ g ∈ Q, f * g * f⁻¹ ∈ Q) (hnf : ∀ r ∈ Q, r * r = z → f * r * f⁻¹ ≠ r) :
     ∃ r ∈ Q, r * r = z ∧ f * r * f⁻¹ = r * z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨zQ, hzQdef⟩ : ∃ zQ : Q, zQ = ⟨z, hQ.mem⟩ := ⟨_, rfl⟩
   have hzQK : (zQ : K) = z := by rw [hzQdef]
   have hzQ2 : zQ * zQ = 1 := by
@@ -294,7 +295,7 @@ theorem exists_fixed_pair [Finite K] {Q : Subgroup K} {z f : K} (hQ : QuatIn z Q
     calc (g : K) * z = (((g : K) * z * (g : K)⁻¹) * (g : K)) := by group
       _ = z * (g : K) := by rw [hc]
   obtain ⟨N, hN⟩ : ∃ N : Subgroup Q, N = Subgroup.zpowers zQ := ⟨_, rfl⟩
-  haveI : N.Normal := by
+  have : N.Normal := by
     rw [hN]
     exact Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcen)
   let φ : Q →* K := (MulAut.conj f).toMonoidHom.comp Q.subtype
@@ -330,13 +331,13 @@ theorem exists_fixed_pair [Finite K] {Q : Subgroup K} {z f : K} (hQ : QuatIn z Q
   let C : Subgroup (Q ⧸ N) :=
     { carrier := {x | σbar x = x}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact map_one σbar
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hCcard : Nat.card C = Nat.card {x : Q ⧸ N // σbar x = x} := rfl
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (by rw [hCcard]; exact hpar : 2 ∣ Nat.card C)
@@ -631,7 +632,7 @@ theorem sylowFourJoined_of_ch6Rem (P : Sylow 2 K) {z t : K} {K₁ K₂ : Subgrou
     (hinter : K₁ ⊓ K₂ = Subgroup.zpowers z) (hz : orderOf z = 2)
     (hzP : z ∈ (P : Subgroup K)) (hzc : ∀ x ∈ (P : Subgroup K), x * z = z * x)
     (hodd₁ : Odd (Nat.card F₁)) (hodd₂ : Odd (Nat.card F₂)) : SylowFourJoined K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : z * z = 1 := by
     rw [← pow_two, ← hz]
     exact pow_orderOf_eq_one z
@@ -653,7 +654,7 @@ theorem sylowFourJoined_of_ch6Rem (P : Sylow 2 K) {z t : K} {K₁ K₂ : Subgrou
     rw [hRem.gen]
     have hgC : g ∈ Subgroup.centralizer ({z} : Set K) :=
       Subgroup.mem_centralizer_singleton_iff.2 (hzc g hg)
-    obtain ⟨k, hk⟩ := (P.isPGroup' : IsPGroup 2 (P : Subgroup K)) ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := (P.isPGroup : IsPGroup 2 (P : Subgroup K)) ⟨g, hg⟩
     have hk' : g ^ 2 ^ k = 1 := by
       have h := congrArg Subtype.val hk
       simpa only [Subgroup.coe_pow, Subgroup.coe_one, Subtype.coe_mk] using h
@@ -898,7 +899,7 @@ section Leaf
 theorem exists_sylow_central_involution (X : Type) [Group X] [Finite X] (h2 : 2 ∣ Nat.card X) :
     ∃ (P : Sylow 2 X) (z : X), z ∈ (P : Subgroup X) ∧ (∀ x ∈ (P : Subgroup X), x * z = z * x) ∧
       orderOf z = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hfac : 0 < (Nat.card X).factorization 2 :=
     Nat.Prime.factorization_pos_of_dvd Nat.prime_two Nat.card_pos.ne' h2
@@ -910,9 +911,9 @@ theorem exists_sylow_central_involution (X : Type) [Group X] [Finite X] (h2 : 2 
         _ ≤ 2 ^ (Nat.card X).factorization 2 := Nat.pow_le_pow_right (by norm_num) hfac
     exact lt_of_lt_of_le (by norm_num) h2le
   obtain ⟨c, hcZ, hc1⟩ : ∃ c ∈ Subgroup.center (P : Subgroup X), c ≠ 1 := by
-    obtain ⟨c, hc, hcn⟩ := SetLike.exists_of_lt (IsPGroup.bot_lt_center (P.isPGroup'))
+    obtain ⟨c, hc, hcn⟩ := _root_.IsConcreteLE.exists_of_lt (IsPGroup.bot_lt_center (P.isPGroup))
     exact ⟨c, hc, fun h => hcn (by rw [Subgroup.mem_bot]; exact h)⟩
-  have hdvd : 2 ∣ orderOf c := IsPGroup.dvd_orderOf (P.isPGroup') hc1
+  have hdvd : 2 ∣ orderOf c := IsPGroup.dvd_orderOf (P.isPGroup) hc1
   have hZdvd : 2 ∣ Nat.card (Subgroup.center (P : Subgroup X)) := by
     have h1 : orderOf (⟨c, hcZ⟩ : Subgroup.center (P : Subgroup X)) = orderOf c :=
       (Subgroup.orderOf_coe ⟨c, hcZ⟩).symm
@@ -929,7 +930,7 @@ theorem exists_sylow_central_involution (X : Type) [Group X] [Finite X] (h2 : 2 
 theorem two_dvd_card_of_three_le_twoRank (X : Type) [Group X] [Finite X]
     (h : 3 ≤ Open.twoRank X) : 2 ∣ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ : ∃ S : Set ℕ,
       S = {k : ℕ | ∃ E : Subgroup X, E ≤ ⊤ ∧ Open.IsElemAbelian 2 E ∧ Nat.card E = 2 ^ k} := ⟨_, rfl⟩
   have h' : 3 ≤ sSup S := by
@@ -959,7 +960,7 @@ theorem two_dvd_card_of_three_le_twoRank (X : Type) [Group X] [Finite X]
   have hE8 : 1 < Nat.card E := by
     rw [hE]
     exact lt_of_lt_of_le (by norm_num) h8
-  haveI : Nontrivial E := (Finite.one_lt_card_iff_nontrivial).mp hE8
+  have : Nontrivial E := (Finite.one_lt_card_iff_nontrivial).mp hE8
   obtain ⟨x, hx1⟩ := exists_ne (1 : E)
   have hx2 : (x : X) ^ 2 = 1 :=
     (show IsMulCommutative E ∧ ∀ y ∈ E, y ^ 2 = 1 from hEab).2 x.1 x.2

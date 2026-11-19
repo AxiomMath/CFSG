@@ -64,7 +64,7 @@ theorem wv_natW {n : Nat} {f : Nat → Equiv.Perm (Fin n)} {imgs : List (Equiv.P
     simp only [Int.natAbs_natCast] at h3
     have hp : (0 : Int) < (l : Int) := by omega
     have e : ((l : Int)).toNat - 1 = l - 1 := by omega
-    rw [wv_cons, wv_natW h hw', lv, if_pos hp, e, ← h (l - 1) (by omega)]
+    rw [wv_cons, wv_natW h hw', lv, ite_eq_left hp, e, ← h (l - 1) (by omega)]
     simp only [CFSG.Sporadic.ONOddCore.evalPos, List.map_cons, List.prod_cons]
 
 theorem pw_nr' : OPW.D 70 = 224 := Nat.eq_of_beq_eq_true pw_nr

@@ -44,10 +44,12 @@ namespace IsCompOf
 
 variable {H M : Subgroup (MulAut V)}
 
+omit [Finite V] in
 theorem le (hM : IsCompOf H M) : M ≤ H := by
   obtain ⟨L, -, rfl⟩ := hM
   exact Subgroup.map_subtype_le L
 
+omit [Finite V] in
 theorem conj (hM : IsCompOf H M) {b : MulAut V} (hb : b ∈ H) :
     IsCompOf H (M.map (MulAut.conj b).toMonoidHom) := by
   obtain ⟨L, hL, rfl⟩ := hM
@@ -159,16 +161,18 @@ theorem exists_isCompOf_not_le {H : Subgroup (MulAut V)} (hO2 : CFSG.Open.pCoreO
   rw [h2] at hodd
   exact absurd hodd (by decide)
 
+omit [Finite V] in
 theorem map_conj_mul_mulAut (M : Subgroup (MulAut V)) (x y : MulAut V) :
     M.map (MulAut.conj (x * y)).toMonoidHom =
       (M.map (MulAut.conj y).toMonoidHom).map (MulAut.conj x).toMonoidHom := by
   rw [Subgroup.map_map]
   congr 1
 
+omit [Finite V] in
 theorem map_conj_one_mulAut (M : Subgroup (MulAut V)) :
     M.map (MulAut.conj (1 : MulAut V)).toMonoidHom = M := by
   ext g
-  simp [MulAut.conj_apply]
+  simp
 
 theorem exists_diag_of_isCompOf {H M R : Subgroup (MulAut V)} (hM : IsCompOf H M)
     (hMZ : M ⊓ Subgroup.centralizer (M : Set (MulAut V)) = ⊥) (hRH : R ≤ H)
@@ -179,7 +183,7 @@ theorem exists_diag_of_isCompOf {H M R : Subgroup (MulAut V)} (hM : IsCompOf H M
       (∀ b : MulAut V, (∀ r ∈ R, b * r = r * b) → b * y₀ * b⁻¹ = y₀⁻¹ →
         b * y * b⁻¹ = y⁻¹) := by
   classical
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Fintype R := Fintype.ofFinite R
   set gen : R → MulAut V := fun r => (r : MulAut V) * y₀ * (r : MulAut V)⁻¹ with hgen
   have hgenM : ∀ r : R, gen r ∈ M.map (MulAut.conj (r : MulAut V)).toMonoidHom := fun r =>
     ⟨y₀, hy₀M, by simp [hgen, MulAut.conj_apply]⟩
@@ -200,7 +204,7 @@ theorem exists_diag_of_isCompOf {H M R : Subgroup (MulAut V)} (hM : IsCompOf H M
   have hpair : (Set.range gen).Pairwise Commute := by
     rintro _ ⟨r, rfl⟩ _ ⟨r', rfl⟩ hne'
     exact hcomm r r' fun h => hne' (h ▸ rfl)
-  haveI : IsMulCommutative P := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative P := Subgroup.isMulCommutative_closure hpair
   set g' : R → P := fun r => ⟨gen r, Subgroup.subset_closure ⟨r, rfl⟩⟩ with hg'
   set y' : P := ∏ r, g' r with hy'
   have hPH : P ≤ H := by
@@ -321,6 +325,7 @@ theorem exists_diag_of_isCompOf {H M R : Subgroup (MulAut V)} (hM : IsCompOf H M
     change b * (y' : MulAut V) * b⁻¹ = ((y'⁻¹ : P) : MulAut V) at h1
     rw [h1, InvMemClass.coe_inv]
 
+omit [Finite V] in
 theorem inner_and_card_le_of_suzuki {M A : Subgroup (MulAut V)}
     (hA : IsElemAbelian2 A) {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : M ≃* CFSG.Blueprint.suzukiGroup a K)
@@ -413,6 +418,7 @@ theorem inner_and_card_le_of_suzuki {M A : Subgroup (MulAut V)}
     rw [← hcard]
     exact Nat.mul_le_mul_left _ hrange
 
+omit [Finite V] in
 theorem inv_mul_mem_normalizer_of_map_conj_eq {M : Subgroup (MulAut V)} {b b' : MulAut V}
     (heq : M.map (MulAut.conj b).toMonoidHom = M.map (MulAut.conj b').toMonoidHom) :
     b⁻¹ * b' ∈ Subgroup.normalizer (M : Set (MulAut V)) := by
@@ -449,7 +455,7 @@ theorem two_mul_rk_le_rkIdx_of_centralizes (hV : ∀ v : V, v ^ 2 = 1)
         _ = b' * x * (b' : MulAut V)⁻¹ := by group
     · exact (hM.conj (hAH b.2)).commute (hM.conj (hAH b'.2)) heq ⟨x, hxM, rfl⟩
         ⟨x, hxM, rfl⟩
-  haveI : IsMulCommutative X := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative X := Subgroup.isMulCommutative_closure hpair
   have hXℓ : ∀ g ∈ X, g ^ ℓ = 1 := by
     intro g hg
     refine Subgroup.closure_induction (p := fun g _ => g ^ ℓ = 1) ?_ ?_ ?_ ?_ hg
@@ -481,7 +487,7 @@ theorem two_mul_rk_le_rkIdx_of_centralizes (hV : ∀ v : V, v ^ 2 = 1)
       rintro _ ⟨b, rfl⟩
       show c * gen b * c⁻¹ ∈ X
       have : c * gen b * c⁻¹ = gen ⟨c * b, A.mul_mem hc b.2⟩ := by
-        simp only [hgen, Subgroup.coe_mk, mul_inv_rev]
+        simp only [hgen, mul_inv_rev]
         group
       rw [this]
       exact Subgroup.subset_closure ⟨_, rfl⟩
@@ -495,7 +501,7 @@ theorem two_mul_rk_le_rkIdx_of_centralizes (hV : ∀ v : V, v ^ 2 = 1)
     simpa [mul_assoc] using this
   have hxA : ¬ X ≤ Subgroup.centralizer (A : Set (MulAut V)) := by
     intro hle
-    obtain ⟨m, hm, hmA⟩ := SetLike.not_le_iff_exists.mp hMA
+    obtain ⟨m, hm, hmA⟩ := IsConcreteLE.not_le_iff_exists.mp hMA
     obtain ⟨b, hb, hbm⟩ : ∃ b ∈ A, b * m ≠ m * b := by
       by_contra hall
       push Not at hall
@@ -552,7 +558,7 @@ theorem two_mul_rk_le_rkIdx_of_inner (hV : ∀ v : V, v ^ 2 = 1)
     exact orderOf_eq_prime hg2 hg1
   obtain ⟨ℓ, hℓ, hℓ2, hord⟩ :=
     Suzuki.exists_prime_orderOf_two_eq_four_mul (n := 2 * a + 1) (by omega)
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hdvd := Suzuki.dvd_card_of_orderOf_two_eq hK e hℓ hord
   obtain ⟨y₁, hy₁, hgy₁⟩ := Suzuki.exists_orderOf_eq_and_inv ha hK e hℓ hℓ2 hdvd hgo
   have hy₀M : (y₁ : MulAut V) ∈ M := y₁.2
@@ -563,7 +569,7 @@ theorem two_mul_rk_le_rkIdx_of_inner (hV : ∀ v : V, v ^ 2 = 1)
     exact hℓ.one_lt.ne hy₀ℓ
   have hgy₀ : g * (y₁ : MulAut V) * g⁻¹ = (y₁ : MulAut V)⁻¹ := by
     have h1 := congrArg Subtype.val hgy₁
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk, InvMemClass.coe_inv] at h1
+    simp only [Subgroup.coe_mul, InvMemClass.coe_inv] at h1
     exact h1
   have ha₀y₀ : a₀ * (y₁ : MulAut V) * a₀⁻¹ = (y₁ : MulAut V)⁻¹ := by
     rw [hg _ hy₀M, hgy₀]
@@ -697,7 +703,7 @@ theorem two_mul_rk_le_rkIdx_of_szComponents
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd
       exact two_mul_rk_le_rkIdx_of_centralizes hV hS3 hAH hA hM hMZ hNC hMA x.2 hℓ hℓ2
         (by rw [Subgroup.orderOf_coe, hx]) hIH
-    · obtain ⟨a₀, ⟨ha₀A, ha₀N⟩, ha₀C⟩ := SetLike.not_le_iff_exists.mp hNC
+    · obtain ⟨a₀, ⟨ha₀A, ha₀N⟩, ha₀C⟩ := IsConcreteLE.not_le_iff_exists.mp hNC
       exact two_mul_rk_le_rkIdx_of_inner hV hAH hA hM hMZ ha hK e ha₀A ha₀N ha₀C hIH
   · have hAF : A ≤ Subgroup.normalizer (fittingOf H : Set (MulAut V)) := by
       intro a ha

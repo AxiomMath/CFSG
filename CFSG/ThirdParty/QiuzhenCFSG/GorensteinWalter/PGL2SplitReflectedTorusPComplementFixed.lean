@@ -66,7 +66,7 @@ private lemma two_ne_zero_of_odd_card (K : Type u) [Field K] [Finite K]
             have hsub : Subsingleton K := (ringChar.ringChar_eq_one (R := K)).mp hrc1
             exact not_subsingleton K hsub
   have hdvd_card : 2 ∣ Fintype.card K :=
-    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simpa [hchar2])
+    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simp [hchar2])
   have hprime_dvd : (2 : ℕ) ∣ Nat.card K := by
     simpa [Nat.card_eq_fintype_card] using hdvd_card
   exact hodd.not_two_dvd_nat hprime_dvd
@@ -132,8 +132,7 @@ private lemma mk_conj_diag_scalar_mul (K : Type u) [Field K]
         apply Matrix.GeneralLinearGroup.ext
         intro i j
         fin_cases i <;> fin_cases j <;> simp [S, Matrix.GeneralLinearGroup.scalar,
-          Matrix.mul_apply, Matrix.smul_apply, Fin.sum_univ_two, one_apply,
-          mul_comm, mul_left_comm, mul_assoc]
+          Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
       _ = ((M * Dc * M⁻¹) * S) * M := by group
       _ = Dd * M := huM
   have hSM : (S : Matrix (Fin 2) (Fin 2) K) = (u : K) • 1 := by
@@ -159,7 +158,7 @@ private lemma mk_conj_diag_scalar_mul (K : Type u) [Field K]
         (M : Matrix (Fin 2) (Fin 2) K)) := by
     exact congrArg (fun X : Matrix (Fin 2) (Fin 2) K => (u⁻¹ : K) • X) huSM
   have hinv1 : (u⁻¹ : K) * (u : K) = 1 := by
-    simpa [mul_comm] using (Units.val_inv u)
+    simp
   simpa [smul_smul, hinv1] using hstep'
 
 /-- A field automorphism preserves multiplicative inverses of nonzero

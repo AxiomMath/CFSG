@@ -62,7 +62,7 @@ private theorem ggQ2Hyp_exists_notMem [Module.Finite (ZMod 3) V] {H : Submodule 
       rw [htop]
       exact finrank_top _ _
     omega
-  obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hHne)
+  obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hHne)
   exact ⟨v, hv⟩
 
 theorem ggQ2Hyp_eq_one [Module.Finite (ZMod 3) V] (A : Subgroup (V ≃ₗ[ZMod 3] V))
@@ -77,7 +77,7 @@ theorem ggQ2Hyp_eq_one [Module.Finite (ZMod 3) V] (A : Subgroup (V ≃ₗ[ZMod 3
       rw [htop]
       exact finrank_top _ _
     omega
-  obtain ⟨v₀, -, hv₀⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hHne)
+  obtain ⟨v₀, -, hv₀⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hHne)
   obtain ⟨f, hfv₀, hfH, hfv⟩ := ggQ2Hyp_proj H hhyp hv₀
   have huH : g v₀ - v₀ ∈ H := hV v₀
   have hform : ∀ v, g v = v + f v • (g v₀ - v₀) := by

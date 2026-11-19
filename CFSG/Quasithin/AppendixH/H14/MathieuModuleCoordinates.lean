@@ -15,7 +15,7 @@ theorem exists_equiv_cocode {d : ℕ} (hd : d ≠ 22) {a b : Fin 24} {Γ : Subgr
   obtain ⟨β, hβ⟩ := h
   let D : Subgroup (G6.PermMod 24) :=
     if d = 22 then golayC ⊔ Subgroup.zpowers (pairVec a b) else golayC
-  have hD : D = golayC := if_neg hd
+  have hD : D = golayC := ite_eq_right hd
   have hn : ∀ m, m ∈ (G6.coreMod 24 : Subgroup (G6.PermMod 24)) ↔
       G6.permAct 24 (1⁻¹) m ∈ G6.coreMod 24 := by
     intro m; simp
@@ -45,7 +45,7 @@ theorem exists_equiv_code {d : ℕ} (hd : d ≠ 22) {a b : Fin 24} {Γ : Subgrou
   obtain ⟨β, hβ⟩ := h
   let D : Subgroup (G6.PermMod 24) :=
     if d = 22 then golayC ⊓ pairKer a b else golayC
-  have hD : D = golayC := if_neg hd
+  have hD : D = golayC := ite_eq_right hd
   have hn : ∀ m, m ∈ D ↔ G6.permAct 24 (1⁻¹) m ∈ golayC := by
     intro m; rw [hD]; simp
   have hdD : ∀ m, m ∈ (Subgroup.zpowers (G6.allOnes 24) : Subgroup (G6.PermMod 24)) ↔

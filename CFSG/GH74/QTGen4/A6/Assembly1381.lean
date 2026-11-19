@@ -264,17 +264,17 @@ theorem stmt13_7_8_GH_of_inputs (h1332 : Stmt13_3_2_GH) (h13316 : Stmt13_3_16_GH
   · exact (h1379 G hc T L V S hNS hNU (not_isHatA6_of_gen4 hc.1 hH) (S.G1_mem_Hz_of hM) hab).1
 
 theorem stmt13_3_2_GH_of_F4 (h : CFSG.Quasithin.H13.Stmt13_3_2_F4) : Stmt13_3_2_GH :=
-  fun G _ _ hc => by haveI := finite4_of_gen4 hc.1; exact h G
+  fun G _ _ hc => by have := finite4_of_gen4 hc.1; exact h G
 
 theorem stmt13_3_6_GH_of_F4 (h : CFSG.Quasithin.H13.A6.Stmt13_3_6_F4) : Stmt13_3_6_GH :=
-  fun G _ _ hc => by haveI := finite4_of_gen4 hc.1; exact h G
+  fun G _ _ hc => by have := finite4_of_gen4 hc.1; exact h G
 
 theorem stmt13_5_12_six_GH_of_F4 (h : CFSG.Quasithin.H13.A6.Stmt13_5_12_six_F4) :
     Stmt13_5_12_six_GH :=
-  fun G _ _ hc => by haveI := finite4_of_gen4 hc.1; exact h G
+  fun G _ _ hc => by have := finite4_of_gen4 hc.1; exact h G
 
 theorem input1379Six_GH_of_F4 (h : CFSG.Quasithin.H13.A6.Input1379Six_F4) : Input1379Six_GH :=
-  fun G _ _ hc => by haveI := finite4_of_gen4 hc.1; exact h G
+  fun G _ _ hc => by have := finite4_of_gen4 hc.1; exact h G
 
 theorem stmt13_8_1_F4_of_inputs (h1332 : CFSG.Quasithin.H13.Stmt13_3_2_F4)
     (h13316 : CFSG.Quasithin.H13.Stmt13_3_16_F4) (h1336 : CFSG.Quasithin.H13.A6.Stmt13_3_6_F4)

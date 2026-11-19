@@ -550,7 +550,7 @@ theorem exists_sylow_semidihedral_ruE0
     φ.rangeRestrict_surjective.bijective_of_nat_card_le (by rw [h16, hcardSD])
   have hp : IsPGroup 2 φ.range := IsPGroup.of_card (n := 4) (by rw [h16]; norm_num)
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hdvd : 2 ^ k ∣ 15600 := by
     rw [← hk, ← card_ruE0]
     exact Subgroup.card_subgroup_dvd_card _

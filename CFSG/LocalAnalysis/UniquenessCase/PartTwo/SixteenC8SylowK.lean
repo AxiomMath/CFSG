@@ -39,7 +39,7 @@ private theorem mem_normalizer_of_subgroupOf_of_le {X : Type*} [Group X] {A C : 
 private theorem lt_inf_normalizer_of_isPGroup {X : Type*} [Group X] [Finite X]
     {p : ℕ} [Fact p.Prime] {R Q : Subgroup X} (hQ : IsPGroup p Q) (hRQ : R ≤ Q)
     (hne : R ≠ Q) : R < Q ⊓ Subgroup.normalizer (R : Set X) := by
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hlt : R.subgroupOf Q < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hRQ ?_)
     intro x hx
@@ -76,7 +76,7 @@ theorem c8_le_of_charNormal (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbe
     (hCchar : (C.subgroupOf (T' ⊓ K)).Characteristic) (hCn : (C.subgroupOf K).Normal) :
     T' ≤ K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup G := T' ⊓ K
   let N : Subgroup G := Subgroup.normalizer (C : Set G)
   have hS : S = T' ⊓ K := rfl

@@ -247,7 +247,7 @@ theorem item2110TwoThree_of (h45 : Sec4.Item4_5) (hJ : Item2110JThetaI)
   obtain ⟨S', hS', hAS'⟩ := exists_invariant_sylowOf hAN hAp
   obtain ⟨Q, hQ⟩ := hS'
   have hS'J : S' ≤ J' := hQ ▸ map_subtype_le _
-  have hS'3 : IsPGroup 3 S' := hQ ▸ Q.isPGroup'.map _
+  have hS'3 : IsPGroup 3 S' := hQ ▸ Q.isPGroup.map _
   have hcentr : ∀ y ∈ S', y ∈ normalizer (A : Set G) → ∀ a ∈ A, y * a = a * y := by
     intro y hyS hyA
     have hyM : y ∈ M := hJ'M (hS'J hyS)

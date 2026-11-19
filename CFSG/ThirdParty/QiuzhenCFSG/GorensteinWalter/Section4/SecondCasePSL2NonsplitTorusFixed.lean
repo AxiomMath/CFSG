@@ -79,7 +79,7 @@ private lemma two_ne_zero_of_odd_card (K : Type u) [Field K] [Finite K]
             have hsub : Subsingleton K := (ringChar.ringChar_eq_one (R := K)).mp hrc1
             exact not_subsingleton K hsub
   have hdvd_card : 2 ∣ Fintype.card K :=
-    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simpa [hchar2])
+    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simp [hchar2])
   have hprime_dvd : (2 : ℕ) ∣ Nat.card K := by
     simpa [Nat.card_eq_fintype_card] using hdvd_card
   exact hodd.not_two_dvd_nat hprime_dvd
@@ -101,7 +101,7 @@ itself. -/
 private lemma inv_mul_self_matrix (K : Type u) [Field K]
     (M : GL (Fin 2) K) :
     (M⁻¹ : Matrix (Fin 2) (Fin 2) K) * (M : Matrix (Fin 2) (Fin 2) K) = 1 := by
-  simp [Matrix.GeneralLinearGroup.coe_inv]
+  simp
 
 /-- A nonzero quotient `sigma x / x` is again nonzero. -/
 private lemma sigma_div_ne_zero (K : Type u) [Field K]
@@ -111,7 +111,7 @@ private lemma sigma_div_ne_zero (K : Type u) [Field K]
   have h0 : sigma x = 0 := by
     have h' : sigma x * x⁻¹ = 0 := by simpa [div_eq_mul_inv] using h
     exact (mul_eq_zero.mp h').resolve_right (inv_ne_zero hx)
-  exact sigma.injective (by simpa [h0] using (map_zero sigma))
+  exact sigma.injective (by simp [h0])
 
 /-- The projective conjugation equation `z · σ̃(mk N) · z⁻¹ = mk N` lifts to
 a matrix-level similarity `M · σ(N) · M⁻¹ = μ • N`. -/
@@ -149,8 +149,7 @@ private lemma semilinear_conj_similarity (K : Type u) [Field K]
         apply Matrix.GeneralLinearGroup.ext
         intro i j
         fin_cases i <;> fin_cases j <;> simp [S, Matrix.GeneralLinearGroup.scalar,
-          Matrix.mul_apply, Matrix.smul_apply, Fin.sum_univ_two, one_apply,
-          mul_comm, mul_left_comm, mul_assoc]
+          Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
       _ = ((M * (Matrix.GeneralLinearGroup.map sigma.toRingHom N) * M⁻¹) * S) * M := by group
       _ = N * M := huM
   have hprod : (M : Matrix (Fin 2) (Fin 2) K) *
@@ -177,14 +176,14 @@ private lemma semilinear_conj_similarity (K : Type u) [Field K]
       _ = ((N : Matrix (Fin 2) (Fin 2) K) * (M : Matrix (Fin 2) (Fin 2) K)) *
               (M⁻¹ : Matrix (Fin 2) (Fin 2) K) := by rw [hprod]
       _ = (N : Matrix (Fin 2) (Fin 2) K) := by
-            simp [Matrix.mul_assoc, inv_mul_self_matrix]
+            simp [Matrix.mul_assoc]
   have h1' : (u⁻¹ : K) • ((u : K) • ((M : Matrix (Fin 2) (Fin 2) K) *
       (Matrix.GeneralLinearGroup.map sigma.toRingHom N : Matrix (Fin 2) (Fin 2) K) *
         (M⁻¹ : Matrix (Fin 2) (Fin 2) K))) =
       (u⁻¹ : K) • (N : Matrix (Fin 2) (Fin 2) K) := by
     exact congrArg (fun X : Matrix (Fin 2) (Fin 2) K => (u⁻¹ : K) • X) h1
   have hinv1 : (u⁻¹ : K) * (u : K) = 1 := by
-    simpa [mul_comm] using (Units.val_inv u)
+    simp
   simpa [smul_smul, hinv1] using h1'
 
 /-- A pure coefficient automorphism commuting with an element of the
@@ -330,7 +329,7 @@ private lemma moved_nonsplitTorus_element_inverted
         simp [Matrix.smul_apply, one_apply, smul_eq_mul]
     have hσa_ne : sigma a ≠ 0 := by
       intro hsa
-      exact ha_ne0 (sigma.injective (by simpa [hsa] using (map_zero sigma)))
+      exact ha_ne0 (sigma.injective (by simp [hsa]))
     have hσNscalarGL : Matrix.GeneralLinearGroup.map sigma.toRingHom N =
         Matrix.GeneralLinearGroup.scalar (Fin 2) (Units.mk0 (sigma a) hσa_ne) := by
       apply Matrix.GeneralLinearGroup.ext
@@ -341,8 +340,7 @@ private lemma moved_nonsplitTorus_element_inverted
           GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) i j
       rw [hσN]
       fin_cases i <;> fin_cases j <;>
-        simp [hb0, Matrix.GeneralLinearGroup.scalar, Matrix.smul_apply, one_apply,
-          smul_eq_mul]
+        simp [hb0, Matrix.GeneralLinearGroup.scalar]
     have h1 : Matrix.ProjGenLinGroup.mk N = 1 := by
       rw [hNscalarGL]
       simp
@@ -356,7 +354,7 @@ private lemma moved_nonsplitTorus_element_inverted
     rw [hx, hMk]
     have hσb_ne : sigma b ≠ 0 := by
       intro hsb
-      exact hb_ne (sigma.injective (by simpa [hsb] using (map_zero sigma)))
+      exact hb_ne (sigma.injective (by simp [hsb]))
     apply Matrix.ProjGenLinGroup.mk_eq_mk_iff.mpr
     refine ⟨Units.mk0 (b / sigma b) (div_ne_zero hb_ne hσb_ne), ?_⟩
     apply Matrix.GeneralLinearGroup.ext
@@ -463,7 +461,7 @@ private lemma moved_nonsplitTorus_element_inverted
     rw [hx, hMk]
     have hσa_ne : sigma a ≠ 0 := by
       intro hsa
-      exact ha_ne (sigma.injective (by simpa [hsa] using (map_zero sigma)))
+      exact ha_ne (sigma.injective (by simp [hsa]))
     apply Matrix.ProjGenLinGroup.mk_eq_mk_iff.mpr
     refine ⟨Units.mk0 (a / sigma a) (div_ne_zero ha_ne hσa_ne), ?_⟩
     apply Matrix.GeneralLinearGroup.ext
@@ -475,17 +473,15 @@ private lemma moved_nonsplitTorus_element_inverted
     rw [hσN, hN]
     fin_cases i <;> fin_cases j
     · simp [Matrix.GeneralLinearGroup.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-        div_eq_mul_inv] <;> field_simp [ha_ne, hσa_ne] <;>
-          (try rw [h]) <;> (try rw [h.symm]) <;> ring
+        div_eq_mul_inv]; field_simp [ha_ne, hσa_ne]
     · simp [Matrix.GeneralLinearGroup.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-        div_eq_mul_inv] <;> field_simp [ha_ne, hσa_ne] <;>
-          (try rw [h]) <;> (try rw [h.symm]) <;> ring
+        div_eq_mul_inv]; field_simp [ha_ne, hσa_ne];
+          (try rw [h])
     · simp [Matrix.GeneralLinearGroup.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-        div_eq_mul_inv] <;> field_simp [ha_ne, hσa_ne] <;>
-          (try rw [h]) <;> (try rw [h.symm]) <;> ring
+        div_eq_mul_inv]; field_simp [ha_ne, hσa_ne];
+          (try rw [h])
     · simp [Matrix.GeneralLinearGroup.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-        div_eq_mul_inv] <;> field_simp [ha_ne, hσa_ne] <;>
-          (try rw [h]) <;> (try rw [h.symm]) <;> ring
+        div_eq_mul_inv]; field_simp [ha_ne, hσa_ne]
   have hneg : sigma a * b = -(sigma b * a) := by
     have hfac : (sigma a * b - sigma b * a) * (sigma a * b + sigma b * a) = 0 := by
       calc
@@ -505,8 +501,7 @@ private lemma moved_nonsplitTorus_element_inverted
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, hneg] <;>
-          try ring <;>
-          try linear_combination lam * hneg
+          try (ring; try linear_combination lam * hneg)
     have hc_ne : sigma a * a + sigma b * lam * b ≠ 0 := by
       intro hc
       have hd0 : Matrix.det ((Matrix.GeneralLinearGroup.map sigma.toRingHom N : Matrix (Fin 2) (Fin 2) K) *

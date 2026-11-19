@@ -32,7 +32,7 @@ theorem lieSInn_component_index (hL : LieSemisimpleCent) {S : Type} [Group S] [F
   obtain ⟨i, ⟨φ⟩, hrel⟩ := (compIdxAt_of_mulEquiv e.symm hI) α hα hα3 hα1 J hJcomp
   refine ⟨i, J, hrel, ⟨φ⟩, ?_⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 J) := isQuasisimple_quotient_of_glaPComponent hJ
-  haveI : Nontrivial (PQuot 3 J) := by
+  have : Nontrivial (PQuot 3 J) := by
     have := hq.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 J ⧸ Subgroup.center (PQuot 3 J))
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

@@ -46,7 +46,7 @@ private theorem m12_secQuot_equiv_of_sup {A X : Type} [Group A] [Group X] [Finit
     (ι : A →* X) (hι : Function.Injective ι) (N : Subgroup X) [N.Normal]
     (hN : Odd (Nat.card N)) (hsup : ι.range ⊔ N = ⊤) :
     Nonempty ((A ⧸ classicalInvolutionOddCore A) ≃* (X ⧸ classicalInvolutionOddCore X)) := by
-  haveI : Finite A := Finite.of_injective ι hι
+  have : Finite A := Finite.of_injective ι hι
   have hNO : N ≤ classicalInvolutionOddCore X := m12_le_oddCore_of_odd hN
   let ψ : A →* X ⧸ classicalInvolutionOddCore X :=
     (QuotientGroup.mk' (classicalInvolutionOddCore X)).comp ι
@@ -138,7 +138,7 @@ theorem m12_ht_iso (hs : M12Std K z J zJ H) :
   have hHs : firstFactor K ≤ sigmaGen K := firstFactor_le_sigmaGen hΩ
   have hnorm : firstFactor K ≤ Subgroup.normalizer (oddCoreOf (sigmaGen K) : Set T) := fun x hx =>
     mem_normalizer_oddCoreOf_of_mem_normalizer (Subgroup.le_normalizer (hHs hx))
-  haveI : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
+  have : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr hnorm
   have hodd : Odd (Nat.card ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNle).toEquiv]

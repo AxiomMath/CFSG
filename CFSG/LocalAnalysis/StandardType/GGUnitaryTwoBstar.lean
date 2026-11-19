@@ -69,7 +69,7 @@ private theorem exists_unitTwo_raw
     exact absurd h4 (not_ggInnerDiagOnLabel_unitary_four hcfg)
   · obtain ⟨-, lab, -, hraw⟩ := hne
     obtain ⟨R, iR, I, F₀, hQ⟩ := largeEvenRawDatum_exists hraw
-    letI : Group R := iR
+    let : Group R := iR
     obtain ⟨-, -, θ₀, hP⟩ := hQ
     have hp : p.Prime := hcfg.tableB_facts.1
     obtain ⟨⟨⟨hrow, hpq⟩, hn1, h3nd⟩, hrne⟩ := hP.1
@@ -262,7 +262,7 @@ private theorem UnitTB.le_centralizer_of_le_one {G : Type} [Group G] [Finite G]
     {ψ : ↥(unitarySU 2 n K d) →* ↥L} (hM : UnitTB.Model ψ) (hd1 : d ≤ 1)
     {U : Subgroup G} :
     U ≤ Subgroup.centralizer (L : Set G) := by
-  haveI : Subsingleton ↥(unitarySU 2 n K d) :=
+  have : Subsingleton ↥(unitarySU 2 n K d) :=
     CFSG.ComponentClassification.Burgoyne.C.subsingleton_statedSU_of_le_one hM.field hd1
   have hbot : L = ⊥ := by
     rw [eq_bot_iff]
@@ -412,8 +412,8 @@ theorem GGConfig.exists_unitaryModel_of_unitTwo
       5 ≤ d ∧ ¬ 3 ∣ d ∧ Nat.card F = (2 ^ 1) ^ 2 ∧ UnitTB.Model ψ ∧
         ∀ a ∈ (ggGamma L hN).range, ∃ t : Fin d → F, LineU.ActsDiagU ψ a t := by
   obtain ⟨rfl, d, F, iF, iFin, θ, hd5, hd3, hF, hact⟩ := exists_unitTwo_raw hcfg hmark
-  letI : Field F := iF
-  letI : Finite F := iFin
+  let : Field F := iF
+  let : Finite F := iFin
   have hpq : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have hdq : (d, 2 ^ 1) ≠ (3, 2) := by rintro ⟨rfl, -⟩; omega
   have h61 : (d, 1) ≠ (6, 1) := by rintro ⟨rfl, -⟩; exact hd3 (by norm_num)
@@ -461,8 +461,8 @@ theorem GGConfig.exists_inner_conj_of_unitTwo
   have hN := le_normalizer_of_unitTwo_mark hmark
   obtain ⟨hp3, d, F, iF, iFin, θ, hd5, hd3, hF, hact⟩ := exists_unitTwo_raw hcfg hmark
   subst hp3
-  letI : Field F := iF
-  letI : Finite F := iFin
+  let : Field F := iF
+  let : Finite F := iFin
   intro b hb
   obtain ⟨φ, hφ, hind⟩ := hact b hb
   have hφeq : φ = ggLAut L θ ⟨b⁻¹, (Subgroup.normalizer (L : Set G)).inv_mem (hN hb)⟩ :=
@@ -492,8 +492,8 @@ theorem GGConfig.center_eq_bot_of_unitaryTwo
   have hN := le_normalizer_of_unitTwo_mark hmark
   obtain ⟨-, d, F, iF, iFin, ψ, hd5, hd3, hF, hM, -⟩ :=
     hcfg.exists_unitaryModel_of_unitTwo hmark hN
-  letI : Field F := iF
-  letI : Finite F := iFin
+  let : Field F := iF
+  let : Finite F := iFin
   exact UnitTB.center_eq_bot_of_model_four hM hF (by omega : 3 ≤ d) hd3
 
 theorem GGConfig.lt_bstar_of_unitaryTwo

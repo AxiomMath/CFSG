@@ -73,9 +73,9 @@ theorem uE_mem_P0 (κ : ℕ) : uE κ ∈ P0 := by
   obtain ⟨k, hk, rfl⟩ := hx
   rw [List.mem_range] at hk
   by_cases h : κ.testBit k
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simpa only [P0] using uD_mem_PLam hk
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Subgroup.one_mem _
 
 @[expose] def bMap (k : ℕ) (v : Fin 9 → ZMod 2) : Fin 9 → ZMod 2 :=
@@ -110,8 +110,8 @@ private theorem sum_range_bvec (n k a : ℕ) :
     rw [show bMask (n + 1) k a = if a.testBit n then
       bMask n k a ^^^ (uConjTN.getD k []).getD n 0 else bMask n k a from rfl]
     by_cases h : a.testBit n
-    · rw [if_pos h, if_pos h, one_smul, bvec_xor]
-    · rw [if_neg h, if_neg h, zero_smul, add_zero]
+    · rw [ite_eq_left h, ite_eq_left h, one_smul, bvec_xor]
+    · rw [ite_eq_right h, ite_eq_right h, zero_smul, add_zero]
 
 private theorem bMap_bvec (k a : ℕ) : bMap k (bvec 9 a) = bvec 9 (bMask 9 k a) := by
   rw [bMap]
@@ -123,7 +123,7 @@ private theorem bMap_bvec (k a : ℕ) : bMap k (bvec 9 a) = bvec 9 (bMask 9 k a)
         intro i _
         rw [show f (i : ℕ) = (bvec 9 a ⟨(i : ℕ), by omega⟩) •
             bvec 9 ((uConjTN.getD k []).getD (i : ℕ) 0) from by
-          simp only [f, dif_pos (by omega : (i : ℕ) < 9)]]
+          simp only [f, dite_eq_left (by omega : (i : ℕ) < 9)]]
     _ = ∑ j ∈ Finset.range 9, f j := Fin.sum_univ_eq_sum_range f 9
     _ = ∑ j ∈ Finset.range 9, (if a.testBit j then (1 : ZMod 2) else 0) •
           bvec 9 ((uConjTN.getD k []).getD j 0) := by
@@ -131,7 +131,7 @@ private theorem bMap_bvec (k a : ℕ) : bMap k (bvec 9 a) = bvec 9 (bMask 9 k a)
         intro j hj
         rw [show f j = (bvec 9 a ⟨j, Finset.mem_range.1 hj⟩) •
             bvec 9 ((uConjTN.getD k []).getD j 0) from by
-          simp only [f, dif_pos (Finset.mem_range.1 hj)]]
+          simp only [f, dite_eq_left (Finset.mem_range.1 hj)]]
         rw [bvec_apply]
     _ = bvec 9 (bMask 9 k a) := sum_range_bvec 9 k a
 
@@ -145,8 +145,8 @@ private theorem foldr_bvec (l : List (Fin 10)) (κ τ : ℕ) :
   | cons a l ih =>
     rw [List.foldr_cons, List.foldr_cons]
     by_cases h : (bvec 10 κ) a = 1
-    · rw [if_pos h, if_pos h, ih, bMap_bvec]
-    · rw [if_neg h, if_neg h, ih]
+    · rw [ite_eq_left h, ite_eq_left h, ih, bMap_bvec]
+    · rw [ite_eq_right h, ite_eq_right h, ih]
 
 private theorem bAct_bvec (κ τ : ℕ) :
     bAct (bvec 10 κ) (bvec 9 τ) = bvec 9 (bActN κ τ) := by
@@ -172,7 +172,7 @@ private theorem Psi9_zero : Psi9 (0 : Fin 9 → ZMod 2) = 1 := by
   simp
 
 private theorem tVec_Psi9 (v : Fin 9 → ZMod 2) : tVec (Psi9 v) = v := by
-  rw [tVec, dif_pos (Psi9_mem_T9 v)]
+  rw [tVec, dite_eq_left (Psi9_mem_T9 v)]
   have h : tEquiv (Multiplicative.ofAdd v) = ⟨Psi9 v, Psi9_mem_T9 v⟩ :=
     Subtype.ext (coe_tEquiv _)
   calc (tEquiv.symm ⟨Psi9 v, Psi9_mem_T9 v⟩).toAdd
@@ -305,9 +305,9 @@ private theorem uEl_mem_P0 {l : List ℕ} (hl : ∀ k ∈ l, k < 10) (κ : ℕ) 
   rw [List.mem_map] at hx
   obtain ⟨k, hk, rfl⟩ := hx
   by_cases h : κ.testBit k
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simpa only [P0] using uD_mem_PLam (hl k hk)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Subgroup.one_mem _
 
 private theorem tVec_conj_uEl (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ : ℕ)
@@ -327,7 +327,7 @@ private theorem tVec_conj_uEl (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ : �
       group
     rw [hx, List.foldr_cons]
     by_cases h : κ.testBit a
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       rw [tVec_conj_uD a (hl a (by simp)) hy, ih hl']
     · simpa [h] using ih hl' 
 
@@ -362,7 +362,7 @@ private theorem foldr_range_finRange (n : ℕ) (hn : n ≤ 10) (κ : ℕ) (v : F
         (if κ.testBit n then bMap n v else v) from by
       rw [hbit]
       by_cases h : κ.testBit n <;> simp [h]]
-    simpa only [Fin.coe_castSucc] using ih (by omega) (v := if κ.testBit n then bMap n v else v)
+    simpa only [Fin.val_castSucc] using ih (by omega) (v := if κ.testBit n then bMap n v else v)
 
 private theorem bAct_eq_range_fold (κ : ℕ) (v : Fin 9 → ZMod 2) :
     bAct (bvec 10 κ) v =
@@ -400,7 +400,7 @@ private def uBar (k : ℕ) : Q :=
 
 private theorem uBar_apply {k : ℕ} (hk : k < 10) :
     uBar k = QuotientGroup.mk' (Lgrp.subgroupOf P0) ⟨uD k, uD_mem_P0 hk⟩ := by
-  simp [uBar, dif_pos hk]
+  simp [uBar, dite_eq_left hk]
 
 private theorem uBar_comm_lt {j k : ℕ} (hj : j < 10) (hk : k < 10) :
     uBar j * uBar k = uBar k * uBar j := by
@@ -539,8 +539,8 @@ private theorem mk'_list_prod_eq (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ :
           rw [List.mem_map] at hx
           obtain ⟨k, hk, rfl⟩ := hx
           by_cases h : κ.testBit k
-          · rw [if_pos h]; exact uD_mem_P0 (hl k hk)
-          · rw [if_neg h]; exact Subgroup.one_mem _)⟩ =
+          · rw [ite_eq_left h]; exact uD_mem_P0 (hl k hk)
+          · rw [ite_eq_right h]; exact Subgroup.one_mem _)⟩ =
       (l.map fun k => if κ.testBit k then uBar k else 1).prod := by
   let f : ℕ → P0 := fun k => if hk : k < 10 then
       if κ.testBit k then ⟨uD k, uD_mem_P0 hk⟩ else 1 else 1
@@ -549,8 +549,8 @@ private theorem mk'_list_prod_eq (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ :
         rw [List.mem_map] at hx
         obtain ⟨k, hk, rfl⟩ := hx
         by_cases h : κ.testBit k
-        · rw [if_pos h]; exact uD_mem_P0 (hl k hk)
-        · rw [if_neg h]; exact Subgroup.one_mem _)⟩ : P0) = (l.map f).prod := by
+        · rw [ite_eq_left h]; exact uD_mem_P0 (hl k hk)
+        · rw [ite_eq_right h]; exact Subgroup.one_mem _)⟩ : P0) = (l.map f).prod := by
     apply Subtype.ext
     rw [Subgroup.val_list_prod]
     change (l.map (fun k => if κ.testBit k then uD k else 1)).prod =
@@ -861,9 +861,9 @@ private theorem sCoord_conj_uEl (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ : 
     have hmemR : (if κ.testBit a then uD a else 1) *
         (uEl l κ * y * (uEl l κ)⁻¹) * (if κ.testBit a then uD a else 1)⁻¹ ∈ Lgrp := by
       by_cases h : κ.testBit a
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact conj_mem_Lgrp (uD_mem_P0 (hl a (by simp))) hy
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         simpa using hy
     have hxL : (⟨uEl (a :: l) κ * y * (uEl (a :: l) κ)⁻¹,
         conj_mem_Lgrp (uEl_mem_P0 hl κ) y.2⟩ : Lgrp) =
@@ -873,7 +873,7 @@ private theorem sCoord_conj_uEl (l : List ℕ) (hl : ∀ k ∈ l, k < 10) (κ : 
       exact hx
     rw [hxL, List.foldr_cons]
     by_cases h : κ.testBit a
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       have hmemA : uD a * (⟨uEl l κ * y * (uEl l κ)⁻¹, hy⟩ : Lgrp) * (uD a)⁻¹ ∈ Lgrp := by
         simpa [h] using hmemR
       have hstep := sCoord_conj_uD a (hl a (by simp))
@@ -908,7 +908,7 @@ private theorem foldr_range_finRange_a (n : ℕ) (hn : n ≤ 10) (κ : ℕ) (v :
         (if κ.testBit n then aMap n v else v) from by
       rw [hbit]
       by_cases h : κ.testBit n <;> simp [h]]
-    simpa only [Fin.coe_castSucc] using ih (by omega) (v := if κ.testBit n then aMap n v else v)
+    simpa only [Fin.val_castSucc] using ih (by omega) (v := if κ.testBit n then aMap n v else v)
 
 private theorem aAct_eq_range_fold (κ : ℕ) (v : Fin 16 → ZMod 2) :
     aAct (bvec 10 κ) v =

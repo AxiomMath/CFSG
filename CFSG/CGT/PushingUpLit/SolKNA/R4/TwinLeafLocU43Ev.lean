@@ -23,7 +23,7 @@ abbrev Gt : Type := UU ⋊[primeFormFieldU hud isPrimeFormGram_one4] (F9 ≃+* F
 theorem hud_bar9 (x : F9) : hud.bar x = bar9 x := hud_bar x
 
 theorem map_hud_bar (M : Matrix (Fin 4) (Fin 4) F9) : M.map hud.bar = M.map bar9 :=
-  Matrix.ext fun i j => hud_bar9 _
+  Matrix.ext fun _i _j => hud_bar9 _
 
 theorem barRE_mul_self : barRE * barRE = 1 := by
   refine RingEquiv.ext fun x => ?_
@@ -78,7 +78,7 @@ theorem glOf_mem (z : Array ℕ) (h : rawValid z = true) : glOf z h ∈ primeFor
 theorem unitOf_val {z : Array ℕ} (h : rawValid z = true) :
     ((unitOf z : UU) : GL (Fin 4) F9) = glOf z h := by
   unfold unitOf
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem unitOf_mat {z : Array ℕ} (h : rawValid z = true) :
     (((unitOf z : UU) : GL (Fin 4) F9) : Matrix (Fin 4) (Fin 4) F9) = matC z := by
@@ -94,9 +94,9 @@ theorem coe_glAut_pow (x : ℕ) (hx : x < 2) (g : GL (Fin 4) F9) :
     ((glAut (barRE ^ x) g : GL (Fin 4) F9) : Matrix (Fin 4) (Fin 4) F9) =
       if x = 1 then ((g : Matrix (Fin 4) (Fin 4) F9)).map bar9 else (g : Matrix (Fin 4) (Fin 4) F9) := by
   rcases (by omega : x = 0 ∨ x = 1) with rfl | rfl
-  · simp only [pow_zero, if_neg (by norm_num : ¬ ((0 : ℕ) = 1)), coe_glAut]
+  · simp only [pow_zero, ite_eq_right (by norm_num : ¬ ((0 : ℕ) = 1)), coe_glAut]
     exact Matrix.ext fun i j => rfl
-  · simp only [pow_one, if_true, coe_glAut]
+  · simp only [pow_one, ite_true, coe_glAut]
     rfl
 
 theorem decG_left (z : Array ℕ) : (decG z).left = unitOf z := rfl
@@ -197,8 +197,8 @@ theorem smul_one_map_bar9 (c : F9) :
   refine Matrix.ext fun i j => ?_
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.one_apply]
-  · simp [Matrix.one_apply, hij, bar9_zero]
+    simp
+  · simp [hij, bar9_zero]
 
 theorem exists_scalar_of_ev_eq {x y : Array ℕ} (hx : rawValid x = true) (hy : rawValid y = true)
     (h : ev x = ev y) :
@@ -231,10 +231,10 @@ theorem exists_scalar_of_ev_eq {x y : Array ℕ} (hx : rawValid x = true) (hy : 
   rcases (by omega : x[16]! = 0 ∨ x[16]! = 1) with h0 | h0
   · refine ⟨c, ?_, h16, ?_⟩
     · rw [← hud_norm9]; exact hno
-    · rw [hLm, if_neg (by omega), Matrix.mul_smul, Matrix.mul_one]
+    · rw [hLm, ite_eq_right (by omega), Matrix.mul_smul, Matrix.mul_one]
   · refine ⟨bar9 c, ?_, h16, ?_⟩
     · rw [bar9_bar9, mul_comm, ← hud_norm9]; exact hno
-    · rw [hLm, if_pos h0, smul_one_map_bar9, Matrix.mul_smul, Matrix.mul_one]
+    · rw [hLm, ite_eq_left h0, smul_one_map_bar9, Matrix.mul_smul, Matrix.mul_one]
 
 theorem uncode9_surj_aux : ∀ c : F9, ∃ d : Fin 9, uncode9 d = c := by decide
 

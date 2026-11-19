@@ -86,13 +86,13 @@ theorem rt_eq_of_sl_two (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     rw [inf_eq_left.mpr hQY, hQYidx] at this
     exact this.symm
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hSL
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hq4
   have hScard : Nat.card ↥(StatedSL 2 K) = Nat.card K * (Nat.card K ^ 2 - 1) :=
     card_statedSL_two K
-  haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hK4)
+  have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hK4)
   have hcen := center_eq_one_of_simple (S := ↥(StatedSL 2 K)) hK4 hScard
   have hRcard : Nat.card ↥(Rt M (LB M Q B) x) =
       Nat.card ↥(hc.CN x) * (Nat.card Z * (Nat.card Z ^ 2 - 1)) := by
@@ -302,6 +302,7 @@ theorem Rt_ne_LB_of_Y_le (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
   have h16 : 16 ≤ Nat.card Z ^ 2 := by nlinarith
   omega
 
+omit [Finite G] in
 theorem caseI_norm {t : G} {X Y : Subgroup G} (hsplit : Split95 M Q Z B t X Y) {x : G}
     (hR : Rt M (LB M Q B) x = (LB M Q B ⊓ X) ⊔ Y) :
     ∀ r ∈ Rt M (LB M Q B) x, conjSubgroup r Y = Y := by

@@ -137,6 +137,7 @@ theorem hall_inf_card {G : Type*} [Group G] [Finite G] {L H U B : Subgroup G} {a
     rw [← hprod, mul_comm a c]
   exact ⟨hBLeq, hTU, Nat.eq_of_mul_eq_mul_right ha hprod'⟩
 
+omit [Finite G] in
 theorem exists_hall_cover_of_torus {L H T : Subgroup G} {F : Type} [Field F]
     [Fintype F] [CharP F 2] (hHB : H ≤ bigB L1 L2 S)
     (hNB : bigB L1 L2 S ≤ Subgroup.normalizer (L : Set G) ⊓
@@ -166,6 +167,7 @@ theorem exists_hall_cover_of_torus {L H T : Subgroup G} {F : Type} [Field F]
       mem_trivOTwoQuot.mpr ⟨Subgroup.mul_mem _ (Subgroup.inv_mem _
         (Subgroup.le_normalizer (hTL htT))) hhNL, htprop⟩⟩⟩
 
+omit [Finite G] in
 theorem exists_hall_cover {L H : Subgroup G} {F : Type} [Field F] [Fintype F]
     [CharP F 2] {k : ℕ} (hSle : S ≤ L) (hHB : H ≤ bigB L1 L2 S)
     (hUinfH : S ⊓ H = ⊥) (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)

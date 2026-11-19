@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 theorem finite_of_isL2Gp {S : Type} [Group S] {n : ℕ} (h : IsL2Gp S n) : Finite S := by
   obtain ⟨F, _, hF, -, ⟨e⟩⟩ := h
-  haveI := hF
+  have := hF
   exact Finite.of_equiv _ e.symm.toEquiv
 
 theorem isL2Gp_of_mulEquiv {S T : Type} [Group S] [Group T] {n : ℕ} (h : IsL2Gp S n)
@@ -27,17 +27,17 @@ theorem commutator_eq_top_of_isL2Gp {S : Type} [Group S] {n : ℕ} (hn : 2 ≤ n
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
-  haveI : Group.IsPerfect S :=
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
+  have : Group.IsPerfect S :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Group.IsPerfect.commutator_eq_top
 
 theorem center_specialLinear_two_eq_bot {F : Type} [Field F] [Finite F] {n : ℕ}
     (hcard : Nat.card F = 2 ^ n) :
     Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hcard])
   rw [Subgroup.eq_bot_iff_forall]
   intro z hz
@@ -130,7 +130,7 @@ theorem mul_self_eq_one_of_mulVec_eq {F : Type} [Field F] [CharP F 2]
 
 theorem not_isPGroup_two_of_isL2Gp {S : Type} [Group S] {n : ℕ} (h : IsL2Gp S n) :
     ¬ IsPGroup 2 S := by
-  haveI := finite_of_isL2Gp h
+  have := finite_of_isL2Gp h
   intro h2
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp h2
   have h3 := three_dvd_card_of_isL2Gp h
@@ -140,7 +140,7 @@ theorem not_isPGroup_two_of_isL2Gp {S : Type} [Group S] {n : ℕ} (h : IsL2Gp S 
 
 theorem eq_bot_of_normal_isPGroup_of_isL2Gp {S : Type} [Group S] {n : ℕ} (hn : 2 ≤ n)
     (h : IsL2Gp S n) {N : Subgroup S} (hN : N.Normal) (h2 : IsPGroup 2 N) : N = ⊥ := by
-  haveI := isSimpleGroup_of_isL2Gp hn h
+  have := isSimpleGroup_of_isL2Gp hn h
   rcases hN.eq_bot_or_eq_top with h0 | h1
   · exact h0
   · exfalso
@@ -151,8 +151,8 @@ theorem eq_bot_of_normal_isPGroup_of_isL2Gp {S : Type} [Group S] {n : ℕ} (hn :
 theorem not_isSolvable_of_isL2Gp {S : Type} [Group S] {n : ℕ} (hn : 2 ≤ n) (h : IsL2Gp S n) :
     ¬ Group.IsSolvable S := by
   intro hS
-  haveI := finite_of_isL2Gp h
-  haveI : Nontrivial S := by
+  have := finite_of_isL2Gp h
+  have : Nontrivial S := by
     have h3 := three_dvd_card_of_isL2Gp h
     have := Nat.le_of_dvd Nat.card_pos h3
     exact Finite.one_lt_card_iff_nontrivial.mp (by omega)

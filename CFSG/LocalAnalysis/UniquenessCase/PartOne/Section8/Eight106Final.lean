@@ -19,7 +19,8 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem dvd_card_of_isL2 {K : Subgroup G} {n p : ℕ} (hn : n ≠ 0) (hL2 : IsL2 (Bar2 K) (2 * n))
+omit [Finite G] in
+theorem dvd_card_of_isL2 {K : Subgroup G} {n p : ℕ} (_hn : n ≠ 0) (hL2 : IsL2 (Bar2 K) (2 * n))
     (hpn : p ∣ 2 ^ n + 1) : p ∣ Nat.card K := by
   have hcard : Nat.card (Bar2 K) = 2 ^ (2 * n) * ((2 ^ (2 * n)) ^ 2 - 1) :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_two
@@ -65,11 +66,13 @@ theorem le_normalizer_of_le_isComponentOf {X Y K V : Subgroup G}
   exact hK1 (eq_bot_of_isComponentOf_of_isComponentOf_of_ne hY hY'
     (fun h => hne h.symm) hKY hKle hK)
 
+omit [Finite G] in
 private theorem isL2_bar2_subgroupOf {Y K : Subgroup G} {n : ℕ} (hKY : K ≤ Y)
     (hL2 : IsL2 (Bar2 K) (2 * n)) : IsL2 (Bar2 (K.subgroupOf Y)) (2 * n) := by
   obtain ⟨e⟩ := CFSG.Quasithin.H13.Ch4.L436.quotPCore_subgroupOf_mulEquiv hKY
   exact CFSG.Blueprint.LieModel.of_mulEquiv e.symm hL2
 
+omit [Finite G] in
 private theorem isStronglyPEmbedded_normalizer_subgroupOf {Y K M : Subgroup G} {p : ℕ}
     [Fact p.Prime] (hM : IsStronglyPEmbedded p M) (hKY : K ≤ Y) (hKM : K ≤ M) (hYM : ¬ Y ≤ M)
     (hYMK : Y ⊓ M ≤ normalizer (K : Set G)) (hNKM : normalizer (K : Set G) ≤ M)
@@ -89,6 +92,7 @@ private theorem isStronglyPEmbedded_normalizer_subgroupOf {Y K M : Subgroup G} {
   rw [hnorm]
   exact hM.subgroupOf hYM hdvd
 
+omit [Finite G] in
 private theorem autOn_map_subgroupOf_eq_self {Y K V : Subgroup G} (hKY : K ≤ Y)
     (hVK : V ≤ normalizer (K : Set G)) :
     ∀ α ∈ CFSG.Quasithin.autOn V Y,
@@ -109,6 +113,7 @@ private theorem autOn_map_subgroupOf_eq_self {Y K V : Subgroup G} (hKY : K ≤ Y
   rw [hmap, Subgroup.mem_normalizer_iff_map_conj_eq.mp (hVK hn),
     Subgroup.map_subgroupOf_eq_of_le hKY]
 
+omit [Finite G] in
 private theorem mulAut_conj_mem_autOn {Y K V M : Subgroup G} (hKY : K ≤ Y)
     (hVY : V ≤ normalizer (Y : Set G)) (hYMV : Y ⊓ M ≤ normalizer (V : Set G))
     (hNKM : normalizer (K : Set G) ≤ M) :
@@ -124,7 +129,7 @@ private theorem mulAut_conj_mem_autOn {Y K V M : Subgroup G} (hKY : K ≤ Y)
     (Subgroup.mem_normalizer_iff.mp (hYMV hyM) (v : G)).mp hv
   refine CFSG.Quasithin.AutOn.mem_autOn_iff.mpr ⟨⟨_, hVY hv'⟩, hv', ?_⟩
   ext z
-  simp [CFSG.Quasithin.AutOn.coe_conjAct_apply, CFSG.Quasithin.conjAct, MulAut.conj_apply,
+  simp [CFSG.Quasithin.conjAct, MulAut.conj_apply,
     mul_assoc]
 
 theorem false_of_kComp8106 (hKC : KComp8106) {Y K V M : Subgroup G} {n p : ℕ} [Fact p.Prime]
@@ -135,7 +140,7 @@ theorem false_of_kComp8106 (hKC : KComp8106) {Y K V M : Subgroup G} {n p : ℕ} 
     (hYMK : Y ⊓ M ≤ normalizer (K : Set G)) (hNKM : normalizer (K : Set G) ≤ M)
     (hV2 : IsPGroup 2 V) (hVY : V ≤ normalizer (Y : Set G)) (hVK : V ≤ normalizer (K : Set G))
     (hYMV : Y ⊓ M ≤ normalizer (V : Set G)) (hVc : ¬ V ≤ centralizer (Y : Set G)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hprank : CFSG.Open.pRank 3 (⊤ : Subgroup ↥Y) ≤ 1 := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top 3 ↥Y]
     exact hY3

@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)} {U Z : Subgroup W}
 
+omit [Finite W] in
 theorem SumOfNatShape.exists_summand {k : ℕ} (h : SumOfNatShape L U Z k) (i : Fin k) :
     ∃ I : Subgroup W, Z ≤ I ∧ I ≤ U ∧ SumOfNatShape L I Z 1 := by
   obtain ⟨n, hcases⟩ := h
@@ -33,6 +34,7 @@ theorem SumOfNatShape.eq_of_equivariant (hq : CFSG.Open.IsQuasisimple ↥L)
     ∀ u : ↥U, ((φ u : ↥U) : W) * (u : W)⁻¹ ∈ Z := by
   exact s16t3_eq_of_equivariant hq h φ hZ hφ
 
+omit [Finite W] in
 theorem SumOfNatShape.restrict {I : Subgroup W} (h : SumOfNatShape L U Z 1) (hIU : I ≤ U)
     (hI : StableUnder L I) (hIZ : I ⊔ Z = U) : SumOfNatShape L I (I ⊓ Z) 1 := by
   obtain ⟨n, hcases⟩ := h

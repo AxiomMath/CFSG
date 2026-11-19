@@ -173,7 +173,7 @@ theorem testBit_commMask {R Cc a : ℕ} (ha : a < 64) :
     · exact absurd h (by simp)
   · intro h
     refine ⟨a, ha, ?_⟩
-    rw [nIf_eq, if_pos (by rw [Nat.beq_eq]; exact beq_iff_eq.1 h), testBit_pw2]
+    rw [nIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact beq_iff_eq.1 h), testBit_pw2]
     simp
 
 theorem testBit_imgK {Cc m p : ℕ} :
@@ -193,7 +193,7 @@ theorem testBit_imgK {Cc m p : ℕ} :
     have hb : bit m a = true := by
       rw [bit_eq]
       exact hm
-    rw [nIf_eq, if_pos hb, testBit_pw2, hp]
+    rw [nIf_eq, ite_eq_left hb, testBit_pw2, hp]
     simp
 
 theorem imgK_eq {S : Array (Array ℕ)} {L MT : ℕ} (hL : S0Bind S L) (hd : distinctOK L = true)
@@ -241,7 +241,7 @@ theorem testBit_fixAll {F m z : ℕ} (hz : z < 64) :
     change (strictN _ fun acc => nIf(bit m n, Nat.land acc (fget F n (nat_lit 64)), acc)).testBit z = true ↔ _
     rw [strictN_eq, nIf_eq, bit_eq]
     by_cases hb : m.testBit n = true
-    · rw [if_pos hb, testBit_land, Bool.and_eq_true, ih]
+    · rw [ite_eq_left hb, testBit_land, Bool.and_eq_true, ih]
       constructor
       · rintro ⟨h1, h2⟩ a ha hma
         rcases Nat.lt_succ_iff_lt_or_eq.1 ha with ha | rfl
@@ -249,7 +249,7 @@ theorem testBit_fixAll {F m z : ℕ} (hz : z < 64) :
         · exact h2
       · intro h
         exact ⟨fun a ha hma => h a (by omega) hma, h n (by omega) hb⟩
-    · rw [if_neg hb, ih]
+    · rw [ite_eq_right hb, ih]
       constructor
       · intro h a ha hma
         rcases Nat.lt_succ_iff_lt_or_eq.1 ha with ha | rfl
@@ -266,13 +266,13 @@ theorem fix_of {S : Array (Array ℕ)} {L F : ℕ} (hL : S0Bind S L) (h : fixOK 
   have h2 := Nat.eq_of_beq_eq_true h1
   rw [bitN_eq, nIf_eq] at h2
   by_cases hc : (bvecK (mat L a) z).beq z = true
-  · rw [if_pos hc] at h2
+  · rw [ite_eq_left hc] at h2
     rw [Nat.eq_of_beq_eq_true hc, beq_self_eq_true]
     cases e : (fget F a 64).testBit z
     · rw [e] at h2
       exact absurd h2 (by decide)
     · rfl
-  · rw [if_neg hc] at h2
+  · rw [ite_eq_right hc] at h2
     have hne : bvecK (mat L a) z ≠ z := fun e => hc (by rw [e, Nat.beq_refl])
     rw [beq_eq_false_iff_ne.2 hne]
     cases e : (fget F a 64).testBit z

@@ -34,7 +34,7 @@ theorem D1ComponentConfigU.b0_of_shape (hcfg : D1ComponentConfigU p P M H R Rbar
   obtain ⟨m, hm, T, hRT, hTP⟩ := hcfg.exists_sylow_centralizer hRz
   set Q' : Subgroup G := (P : Subgroup G).map (MulAut.conj m).toMonoidHom with hQ'def
   set Tg : Subgroup G := (T : Subgroup C).map C.subtype with hTgdef
-  have hQ'p : IsPGroup p Q' := P.isPGroup'.map _
+  have hQ'p : IsPGroup p Q' := P.isPGroup.map _
   have hQ'M : Q' ≤ M := by
     rintro _ ⟨x, hx, rfl⟩
     exact M.mul_mem (M.mul_mem hm (hcfg.ext.sylow_le hx)) (M.inv_mem hm)
@@ -77,7 +77,7 @@ theorem D1ComponentConfigU.b0_of_shape (hcfg : D1ComponentConfigU p P M H R Rbar
   have hcore : GLBPrimeCore p C ≤ M :=
     intersecting_local_primeCore_le p hp P hcfg.ext.sylow_le hcfg.ext.weakCore_le
       (hcfg.ext.three_le_pRank.trans (pRank_mono p hp (le_inf hRz hcfg.ext.le_M)))
-  have hodd := D1Extremal.odd_card_glbPrimeCore_of_lt hcfg.ext hCM hcore (T.isPGroup'.map _) hTgC
+  have hodd := D1Extremal.odd_card_glbPrimeCore_of_lt hcfg.ext hCM hcore (T.isPGroup.map _) hTgC
     (hTP.trans hQ'M) (hcfg.ext.three_le_pRank.trans (pRank_mono p hp hRT)) hcard
   exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr heven)
 

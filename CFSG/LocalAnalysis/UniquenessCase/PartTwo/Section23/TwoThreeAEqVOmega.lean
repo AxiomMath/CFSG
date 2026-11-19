@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem aBar_congr_subgroup {M V₀ V V' : Subgroup G} (h : V = V')
     (hV : IsElemAbelian 2 V) (hV' : IsElemAbelian 2 V') :
     aBar M V₀ V hV = aBar M V₀ V' hV' := by
@@ -43,6 +44,7 @@ theorem aBar_le_of_omegaMinus_of_barSub_eq {D : Data G} {Ch : Choice2011 G} (c :
     aBar (c.L0 ⊔ D.T) ⊥ A hA ≤ k :=
   aBar_le_of_omegaMinus c hA (by rw [hL]; exact hOm) (by rw [hL]; exact hNat)
 
+omit [Finite G] in
 private theorem conj_eq_of_actTil_eq {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {g g' : G} (hg : g ∈ stabTil (⊥ : Subgroup G) A) (hg' : g' ∈ stabTil (⊥ : Subgroup G) A)
     (h : actTil (⊥ : Subgroup G) A hA ⟨g, hg⟩ = actTil (⊥ : Subgroup G) A hA ⟨g', hg'⟩)
@@ -54,6 +56,7 @@ private theorem conj_eq_of_actTil_eq {A : Subgroup G} (hA : IsElemAbelian 2 A)
   rw [actStab_apply_val, actStab_apply_val] at h2
   exact mul_inv_eq_one.mp h2
 
+omit [Finite G] in
 private theorem conjClosure_eq_iSup (H S : Subgroup G) :
     conjClosure H S = ⨆ l ∈ H, S.map (MulAut.conj l).toMonoidHom := by
   refine le_antisymm (iSup₂_le fun K hK => ?_) (iSup₂_le fun l hl => ?_)
@@ -61,6 +64,7 @@ private theorem conjClosure_eq_iSup (H S : Subgroup G) :
     exact le_iSup₂_of_le l hl le_rfl
   · exact le_iSup₂_of_le _ ⟨l, hl, rfl⟩ le_rfl
 
+omit [Finite G] in
 private theorem map_conj_le_conjClosure {A S H H' : Subgroup G} (hA : IsElemAbelian 2 A)
     (hSA : S ≤ A) (hH : H ≤ Subgroup.normalizer (A : Set G))
     (hL : barSub (⊥ : Subgroup G) A hA H = barSub (⊥ : Subgroup G) A hA H')

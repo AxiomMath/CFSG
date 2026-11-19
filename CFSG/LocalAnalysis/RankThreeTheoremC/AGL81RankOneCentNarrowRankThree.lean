@@ -19,7 +19,7 @@ theorem le_pRank_sylow {p : ℕ} [Fact p.Prime] {K : Type} [Group K] [Finite K] 
     k ≤ Open.pRank p (T : Subgroup K) := by
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h
   obtain ⟨T₀, hET₀⟩ := hE.isPGroup.exists_le_sylow
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (MulEquiv.refl K) T₀.isPGroup'
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow (MulEquiv.refl K) T₀.isPGroup
     T₀.not_dvd_index T
   rw [hΦ]
   exact CFSG.SectionRank.le_pRank (Fact.out : p.Prime).one_lt (Subgroup.map_mono hET₀)
@@ -61,7 +61,7 @@ open Matrix CFSG.Fischer.Classification CFSG.LocalAnalysis.ComponentInitial
 
 theorem three_le_pRank_three_spH :
     3 ≤ Open.pRank 3 (⊤ : Subgroup (SpH (pairedSympForm (ZMod 2) 3))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set z : Fin 3 → SpH (pairedSympForm (ZMod 2) 3) := zPair 3
   have h01 : (0 : Fin 3) ≠ 1 := by norm_num
   have h02 : (0 : Fin 3) ≠ 2 := by norm_num

@@ -28,11 +28,11 @@ variable {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime] [CharP K p]
   θ i j := if h : edgeD n i j then F.θ i j h else 1
   left i j hij hMij := by
     have hE : edgeD n i j := edgeD_of_lt_of_three hn hij hMij
-    rw [dif_pos hE]
+    rw [dite_eq_left hE]
     exact F.left i j hE
   right i j hij hMij := by
     have hE : edgeD n i j := edgeD_of_lt_of_three hn hij hMij
-    rw [dif_pos hE]
+    rw [dite_eq_left hE]
     exact F.right i j hE
   comm i j hMij a b := by
     obtain ⟨hij, h1, h2⟩ := (ggCoxeterMatrixD_eq_two_iff hn i j).1 hMij

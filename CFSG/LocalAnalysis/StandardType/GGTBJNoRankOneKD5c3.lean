@@ -26,7 +26,7 @@ private lemma ltrkd5c3_congr_apply_theta {G H : Type} [Group G] [Group H] (theta
 private lemma ltrkd5c3_odd_relIndex_inndiagU {K : Type} [Field K] [Finite K] {n : ℕ}
     (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K) (hn : 1 ≤ n) {d : ℕ}
     (hd : 3 ≤ d)
-    (hq : ¬(d = 3 ∧ 2 ^ n = 2)) (hd1 : 1 ≤ d) (hK : Nat.card K = (2 ^ n) ^ 2) :
+    (hq : ¬(d = 3 ∧ 2 ^ n = 2)) (hd1 : 1 ≤ d) (_hK : Nat.card K = (2 ^ n) ^ 2) :
     Odd ((MulAut.conj : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) →*
         MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))).range.relIndex
       (InndiagSU.inndiagU h hd1)) := by
@@ -43,7 +43,7 @@ private lemma ltrkd5c3_odd_relIndex_inndiagU {K : Type} [Field K] [Finite K] {n 
 
 theorem ggSU6NoParabolicKnown3_of_strong (h : S2MathAs3_1615.StrongKD2) :
     ∀ f : ℕ, 3 ∣ 2 ^ f + 1 →
-      LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun R _ I _ => GGSU6NoParabolicAt3 I := by
+      LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun _R _ I _ => GGSU6NoParabolicAt3 I := by
   intro f hf
   have hf1 : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with hf0 | hfpos
@@ -51,15 +51,14 @@ theorem ggSU6NoParabolicKnown3_of_strong (h : S2MathAs3_1615.StrongKD2) :
     · exact hfpos
   have hmem : LargeEvenInLambda2 (⟨.twA, 5, f⟩ : LargeEvenLabel) :=
     ⟨hf1, by norm_num, fun h => absurd h (by norm_num)⟩
-  refine LargeEvenLabelAll.mono (fun R _ I _ hs => ?_) (h ⟨.twA, 5, f⟩ hmem)
-  intro L' _ _ ψ hψsurj hψker hψcomm e J a hsetup A hAab hAcard heA haA hAind hAJ
-  intro V hVne hV2 hVI hnorm
+  refine LargeEvenLabelAll.mono (fun _R _ I _ hs => ?_) (h ⟨.twA, 5, f⟩ hmem)
+  intro L' _ _ ψ hψsurj hψker hψcomm e J a hsetup A hAab hAcard heA haA hAind hAJ V hVne hV2 hVI hnorm
   classical
   obtain ⟨-, hmodel⟩ := hs L' ψ hψsurj hψker hψcomm e J a hsetup
   obtain ⟨k, hkfield, hkfinite, hkdata, theta, alpha, halpha, hfieldtype, htrans⟩ := hmodel
-  letI := hkfield
-  letI := hkfinite
-  let χ : A → MulAut R := fun c => (hAind c.1 c.2).choose
+  let := hkfield
+  let := hkfinite
+  let χ : A → MulAut _R := fun c => (hAind c.1 c.2).choose
   have hχmem : ∀ c : A, χ c ∈ I := fun c => (hAind c.1 c.2).choose_spec.1
   have hχspec : ∀ c : A, ∀ l : L', χ c (ψ l) = ψ (c.1 l) :=
     fun c => (hAind c.1 c.2).choose_spec.2
@@ -75,9 +74,9 @@ theorem ggSU6NoParabolicKnown3_of_strong (h : S2MathAs3_1615.StrongKD2) :
       simp only [MulAut.mul_apply]
       rw [hχspec d l, hχspec c (d.1 l)]
       rfl
-  let χhom : A →* MulAut R := { toFun := χ, map_one' := hχone, map_mul' := hχmul }
-  let Ab : Subgroup (MulAut R) := Subgroup.map χhom ⊤
-  have hAb_mem : ∀ φ : MulAut R, φ ∈ Ab ↔ ∃ c : A, χhom c = φ := by
+  let χhom : A →* MulAut _R := { toFun := χ, map_one' := hχone, map_mul' := hχmul }
+  let Ab : Subgroup (MulAut _R) := Subgroup.map χhom ⊤
+  have hAb_mem : ∀ φ : MulAut _R, φ ∈ Ab ↔ ∃ c : A, χhom c = φ := by
     intro φ
     change φ ∈ Subgroup.map χhom ⊤ ↔ ∃ c : A, χhom c = φ
     rw [Subgroup.mem_map]
@@ -122,7 +121,7 @@ theorem ggSU6NoParabolicKnown3_of_strong (h : S2MathAs3_1615.StrongKD2) :
     rw [Subgroup.card_map_of_injective hχinj, Subgroup.card_top]
   have hK4 : Nat.card k = (2 ^ 1) ^ 2 := by rw [hkdata.card]; norm_num
   let R' : Type := LargeEvenProj (CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 k 6)
-  let Phi : MulAut R →* MulAut R' := (MulAut.congr theta).toMonoidHom
+  let Phi : MulAut _R →* MulAut R' := (MulAut.congr theta).toMonoidHom
   have hPhi_inj : Function.Injective Phi := by
     intro a b hab
     exact (MulAut.congr theta).injective hab

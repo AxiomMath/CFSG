@@ -20,9 +20,9 @@ theorem asc82Fink5_of_inputs (h36 : Asc82Lemma36) (hP34 : Asc82PocketExists)
     (h34c : Asc82Lemma34c) (h71 : Asc82Lemma71) (h33F : Asc82Lemma33F) (hP : Asc82Tab6P)
     (h25 : Asc76Lemma25) : Asc82Fink5 := by
   intro G _ _ t L S z hctx x hx hx4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := hctx.toSec3SettingLB
-  haveI := hS.simple
+  have := hS.simple
   have hLC : InCStar L := h71 G t L hS hctx.omega6
   have hLstd := s7f_isStandard_L h36 hP34 h34c hS hLC
   have hcyc := h33F G t L hS L hLC hS.inF

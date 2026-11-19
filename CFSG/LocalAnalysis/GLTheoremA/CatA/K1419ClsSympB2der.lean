@@ -31,7 +31,7 @@ theorem k1419ClsSympB2der : K1419ClsAt (fun l : GLALabel => l.tag = .B2der) := b
       if true = true then C else CFSG.Assembly.LargeEvenSpGroup K 2
     have hHdef : H = C := by
       change (if true = true then C else CFSG.Assembly.LargeEvenSpGroup K 2) = C
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     have hHle : Nat.card (CFSG.Assembly.LargeEvenProj H) ≤ 720 := by
       calc
         Nat.card (CFSG.Assembly.LargeEvenProj H) ≤ Nat.card ↥H :=

@@ -47,8 +47,8 @@ theorem ng_size : (nGens mclFiveDataP).size = 4 := by
   exact (c_ngens hC).1
 
 theorem ng_bind : (nGens mclFiveDataP).size = NE.k ∧
-    ∀ l < NE.k, (nGens mclFiveDataP)[l]! = unpack 275 9 (NE.G l) :=
-  ⟨(c_ngens hC).1, fun l hl => c_ng_get hC hl⟩
+    ∀ _l < NE.k, (nGens mclFiveDataP)[_l]! = unpack 275 9 (NE.G _l) :=
+  ⟨(c_ngens hC).1, fun _l hl => c_ng_get hC hl⟩
 
 theorem co_all : ∀ k < 5, wordEqK 275 9 (mask 9) (pidn 275 9) NE.G NGI NE.k (cW[k]!) (CO k) = true ∧
     canonK 275 9 (mask 9) (275 * 9) (CO k) = true ∧
@@ -141,10 +141,10 @@ theorem x_bind {i β : Nat} (hi : i < 113) (hβ : β < 4) :
   rw [PK.nIf_eq]
   by_cases h : l < 5
   · rw [Array.getElem_append_left (by rw [cs_size]; exact h),
-      ← getElem!_pos _ l (by rw [cs_size]; exact h), cs_get h, if_pos (Nat.blt_eq.mpr h)]
+      ← getElem!_pos _ l (by rw [cs_size]; exact h), cs_get h, ite_eq_left (Nat.blt_eq.mpr h)]
   · have hl' : l = 5 := by omega
     subst hl'
-    rw [if_neg (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [cs_size])]
+    rw [ite_eq_right (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [cs_size])]
     simp [cs_size, x_eq hi hβ]
 
 theorem x_perm {i β : Nat} (hi : i < 113) (hβ : β < 4) :
@@ -153,9 +153,9 @@ theorem x_perm {i β : Nat} (hi : i < 113) (hβ : β < 4) :
   unfold xlK xliK
   rw [PK.nIf_eq, PK.nIf_eq]
   by_cases h : l < 5
-  · rw [if_pos (Nat.blt_eq.mpr h), if_pos (Nat.blt_eq.mpr h)]
+  · rw [ite_eq_left (Nat.blt_eq.mpr h), ite_eq_left (Nat.blt_eq.mpr h)]
     exact (co_all l h).2.2
-  · rw [if_neg (by simp [Nat.blt_eq]; omega), if_neg (by simp [Nat.blt_eq]; omega)]
+  · rw [ite_eq_right (by simp [Nat.blt_eq]; omega), ite_eq_right (by simp [Nat.blt_eq]; omega)]
     exact (x_facts hi hβ).2.1
 
 theorem case_ok {i β : Nat} (hi : i < 113) (hβ : β < 4) :
@@ -177,7 +177,7 @@ theorem case_ok {i β : Nat} (hi : i < 113) (hβ : β < 4) :
         simp [x_eq hi hβ]⟩ fun _ _ => hp
   · have e : cGensI mclFiveDataP ++ #[invTab 275 (xT mclFiveDataP i β)] =
         (cGens mclFiveDataP ++ #[xT mclFiveDataP i β]).map (invTab mclFiveDataP.n) := by
-      simp [cGensI, Array.map_append, hD]
+      simp [cGensI, hD]
     rw [e]
     unfold Certificates.OverD2Perm.genOK
     simp only [Bool.and_eq_true, beq_iff_eq]
@@ -204,7 +204,6 @@ theorem mcl_centOver : checkCentOver mclFiveDataP = true := by
       (cc cb (cc_co hk))]
     exact (PK.allN_iff.1 hc1) k hk
   · rw [hb]
-    change (Certificates.FusD2Perm.powT 275 (unpack 275 9 (GP 1)) 5 == idTab 275) = true
     rw [powT_u hn cb 5, id_u hn, eq_u (pw_canon hn cb 5) (pidn_canon hn)]
     exact hc2
   · rw [hb]
@@ -228,9 +227,6 @@ theorem mcl_centOver : checkCentOver mclFiveDataP = true := by
       eq_u (cc cb hr1) (cc hr1 cb), hc7, hc8]
     rfl
   · rw [htT, hb]
-    change (comp 275 (unpack 275 9 (TT 0)) (unpack 275 9 (GP 1)) ==
-      comp 275 (Certificates.FusD2Perm.powT 275 (unpack 275 9 (GP 1)) 2)
-        (unpack 275 9 (TT 0))) = true
     rw [powT_u hn cb 2, comp_u ct cb, comp_u (pw_canon hn cb 2) ct,
       eq_u (cc ct cb) (cc (pw_canon hn cb 2) ct)]
     exact hc9

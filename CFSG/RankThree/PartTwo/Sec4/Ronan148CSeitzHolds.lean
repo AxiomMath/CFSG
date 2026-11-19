@@ -44,7 +44,7 @@ section Certs
 theorem rowSOf148_projSL_of_crossChar {r p e : ℕ} [hp : Fact p.Prime] (he : 1 ≤ e) (hp3 : p ≠ 3)
     (hv : (TauCeti.LieTypeIndex.A r ⟨p, e, hp.out, he⟩).Valid) :
     RowSOf148 (projSL (r + 1) (GaloisField p e)) := by
-  haveI : Fact (Nat.Prime (⟨p, e, hp.out, he⟩ : TauCeti.PrimePower).p) := hp
+  have : Fact (Nat.Prime (⟨p, e, hp.out, he⟩ : TauCeti.PrimePower).p) := hp
   exact rowSOf148_of_crossChar ⟨.A r ⟨p, e, hp.out, he⟩, hv⟩
     (CFSG.RankThree.PartTwo.Census.typeAGroupEquivProjSL r ⟨p, e, hp.out, he⟩ hv).symm
     (by rw [TauCeti.LieTypeIndex.characteristic_A]; exact hp3)
@@ -52,7 +52,7 @@ theorem rowSOf148_projSL_of_crossChar {r p e : ℕ} [hp : Fact p.Prime] (he : 1 
 theorem rowSOf148_projSU_of_crossChar {r p e : ℕ} [hp : Fact p.Prime] (he : 1 ≤ e) (hp3 : p ≠ 3)
     (hv : (TauCeti.LieTypeIndex.twistedA r ⟨p, e, hp.out, he⟩).Valid) :
     RowSOf148 (projSU (r + 1) p e) := by
-  haveI : Fact (Nat.Prime (⟨p, e, hp.out, he⟩ : TauCeti.PrimePower).p) := hp
+  have : Fact (Nat.Prime (⟨p, e, hp.out, he⟩ : TauCeti.PrimePower).p) := hp
   exact rowSOf148_of_crossChar ⟨.twistedA r ⟨p, e, hp.out, he⟩, hv⟩
     (CFSG.RankThree.PartTwo.Census.typeTwistedAGroupEquivProjSU r ⟨p, e, hp.out, he⟩ hv).symm
     (by rw [TauCeti.LieTypeIndex.characteristic_twistedA]; exact hp3)
@@ -60,7 +60,7 @@ theorem rowSOf148_projSU_of_crossChar {r p e : ℕ} [hp : Fact p.Prime] (he : 1 
 theorem rowSOf148_projSp_two_even {e : ℕ} (he : 1 ≤ e)
     (hv : (TauCeti.LieTypeIndex.B 2 ⟨2, e, Nat.prime_two, he⟩).Valid) :
     RowSOf148 (projSp 2 (GaloisField 2 e)) := by
-  haveI : Fact (Nat.Prime (⟨2, e, Nat.prime_two, he⟩ : TauCeti.PrimePower).p) :=
+  have : Fact (Nat.Prime (⟨2, e, Nat.prime_two, he⟩ : TauCeti.PrimePower).p) :=
     ⟨Nat.prime_two⟩
   exact rowSOf148_of_crossChar ⟨.B 2 ⟨2, e, Nat.prime_two, he⟩, hv⟩
     (CFSG.RankThree.PartTwo.Sec4.Census.typeB2GroupEquivProjSp ⟨2, e, Nat.prime_two, he⟩ hv).symm
@@ -69,7 +69,7 @@ theorem rowSOf148_projSp_two_even {e : ℕ} (he : 1 ≤ e)
 theorem rowSOf148_projSp_even {r e : ℕ} (hr : 3 ≤ r) (he : 1 ≤ e)
     (hv : (TauCeti.LieTypeIndex.B r ⟨2, e, Nat.prime_two, he⟩).Valid) :
     RowSOf148 (projSp r (GaloisField 2 e)) := by
-  haveI : Fact (Nat.Prime (⟨2, e, Nat.prime_two, he⟩ : TauCeti.PrimePower).p) :=
+  have : Fact (Nat.Prime (⟨2, e, Nat.prime_two, he⟩ : TauCeti.PrimePower).p) :=
     ⟨Nat.prime_two⟩
   exact rowSOf148_of_crossChar ⟨.B r ⟨2, e, Nat.prime_two, he⟩, hv⟩
     (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivProjSp r
@@ -128,7 +128,7 @@ theorem seitz82Rest_holds : Seitz82Rest where
   eight_Sp6 := rowSOf148_projSp_even (r := 3) (e := 1) le_rfl le_rfl (by simp)
   eight_Sp8 := rowSOf148_projSp_even (r := 4) (e := 1) (by norm_num) le_rfl (by simp)
   eight_OmegaPlus := by
-    haveI : Fact (Nat.Prime (⟨2, 1, Nat.prime_two, Nat.one_pos⟩ : TauCeti.PrimePower).p) :=
+    have : Fact (Nat.Prime (⟨2, 1, Nat.prime_two, Nat.one_pos⟩ : TauCeti.PrimePower).p) :=
       ⟨Nat.prime_two⟩
     have hv : (TauCeti.LieTypeIndex.D 4 ⟨2, 1, Nat.prime_two, Nat.one_pos⟩).Valid := by simp
     exact rowSOf148_of_crossChar ⟨.D 4 ⟨2, 1, Nat.prime_two, Nat.one_pos⟩, hv⟩

@@ -26,7 +26,7 @@ theorem conj_mem_omegaOneTwo189 {S : Subgroup G} {s x : G} (hs : s ∈ S)
     exact Subgroup.subset_closure
       ⟨S.mul_mem (S.mul_mem hs hy.1) (S.inv_mem hs),
         by rw [conj_pow, hy.2, mul_one, mul_inv_cancel]⟩
-  | one => simpa using (omegaOneTwo189 S).one_mem
+  | one => simp
   | mul y z _ _ hy hz =>
     have h : s * (y * z) * s⁻¹ = (s * y * s⁻¹) * (s * z * s⁻¹) := by group
     rw [h]

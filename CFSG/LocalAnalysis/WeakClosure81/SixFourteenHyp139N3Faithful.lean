@@ -64,24 +64,24 @@ theorem isElemAbelian2_of_fixed_and_quotient {W : Type} [CommGroup W]
 theorem sixfourteen_n3_D_faithful_on_L_rel {W : Type} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1)
     {G X D : Subgroup (MulAut W)} {s : MulAut W} {Y : Subgroup W} {n : ℕ}
-    (hK : CFSG.Open.IsKGroup ↥G) (hpCore : pCoreOf 2 G = ⊥)
+    (_hK : CFSG.Open.IsKGroup ↥G) (hpCore : pCoreOf 2 G = ⊥)
     (hirr : ∀ Z : Subgroup W, (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤)
     (ht2 : ∃ t ∈ G, orderOf t = 2 ∧ rkIdx (fixV (Subgroup.zpowers t)) ≤ 3)
     (hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ y ∈ X, g * y * g⁻¹ ∈ X)
     (hXcard : Nat.card X = 3)
-    (hsG : s ∈ G) (hs_ord2 : orderOf s = 2)
-    (hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
+    (_hsG : s ∈ G) (_hs_ord2 : orderOf s = 2)
+    (_hs_not_cent : s ∉ Subgroup.centralizer (X : Set (MulAut W)))
     (hYinv : ∀ a ∈ X, ∀ y ∈ Y, a y ∈ Y) (hYrk : rkIdx Y = 2)
     (hW : Nat.card W = 4 ^ n)
-    (hD : D ≤ G) (hDCX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d)
-    (hDs : ∀ d ∈ D, d * s = s * d)
-    (hElem : CFSG.Quasithin.IsElemAbelian2 D) (hDcard : Nat.card D = 2 ^ (n - 1))
+    (_hD : D ≤ G) (hDCX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d)
+    (_hDs : ∀ d ∈ D, d * s = s * d)
+    (hElem : CFSG.Quasithin.IsElemAbelian2 D) (_hDcard : Nat.card D = 2 ^ (n - 1))
     (hYD : Y ≤ fixV D)
     (hn : 2 < n)
-    (L : Subgroup (MulAut W)) (hLG : L ≤ G) (hLne : L ≠ ⊥)
+    (L : Subgroup (MulAut W)) (_hLG : L ≤ G) (hLne : L ≠ ⊥)
     (hLsub : CFSG.Open.IsSubnormal L G)
     (hLD : ⁅L, D⁆ = L)
-    (hLinv : ∀ d ∈ D, L.map (MulAut.conj d).toMonoidHom = L) :
+    (_hLinv : ∀ d ∈ D, L.map (MulAut.conj d).toMonoidHom = L) :
     ∀ d ∈ D, (∀ l ∈ L, d * l = l * d) → d = 1 := by
   intro d hdD hdL
   by_contra hd_ne
@@ -91,7 +91,7 @@ theorem sixfourteen_n3_D_faithful_on_L_rel {W : Type} [CommGroup W] [Finite W]
     omega
   have hfixX : fixV X = ⊥ := fixV_eq_bot_of_irreducible hirr hXG hXnorm hXne
   have hXcard' : Nat.card ↥X = 3 := hXcard
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by
@@ -148,7 +148,7 @@ theorem sixfourteen_n3_D_faithful_on_L_rel {W : Type} [CommGroup W] [Finite W]
   have hfix_of_mem : ∀ e : MulAut W, e ∈ D → e ≠ 1 → fixV (Subgroup.zpowers e) = Y := by
     intro e heD he_ne
     have hcomm : e * x = x * e := hDCX e heD x hxX
-    letI := galoisModule hw2 x hx3 hfix
+    let := galoisModule hw2 x hx3 hfix
     let Ys : Submodule (GaloisField 2 2) (Additive W) :=
       YSubmodule hw2 x hx3 hfix hxX hYinv
     have hKcard : Nat.card (GaloisField 2 2) = 4 := by

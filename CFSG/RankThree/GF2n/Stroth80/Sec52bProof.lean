@@ -50,6 +50,7 @@ theorem sec52b_card_QB_inf_Wt_conj (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Se
     rw [QB_conj, conjSubgroup_inf, sec52b_conj_Wt_of_mem_Rt hc hs hg]
   rw [← h, card_conjSubgroup]
 
+omit [Finite G] in
 theorem sec52b_prod_conj {W X Y : Subgroup G} {g : G} (hW : conjSubgroup g W = W)
     (h : ∀ x ∈ W, ∃ a ∈ X, ∃ b ∈ Y, x = a * b) :
     ∀ x ∈ W, ∃ a ∈ conjSubgroup g X, ∃ b ∈ conjSubgroup g Y, x = a * b := by
@@ -69,6 +70,7 @@ theorem sec52b_prod_conj {W X Y : Subgroup G} {g : G} (hW : conjSubgroup g W = W
       _ = g * (a * b) * g⁻¹ := by rw [hab]
       _ = g * a * g⁻¹ * (g * b * g⁻¹) := by group
 
+omit [Finite G] in
 theorem sec52b_mem_V_of_comm {V A₂ D : Subgroup G} {y : G}
     (hmap : conjSubgroup y A₂ = D) (hinf : A₂ ⊓ D = V) (hVA₂ : V ≤ A₂)
     {a : G} (ha : a ∈ A₂)
@@ -158,6 +160,7 @@ theorem sec52b_inf_of_prod {W V X Y : Subgroup G} {q n m : ℕ}
     Subgroup.eq_of_le_of_card_ge (le_inf le_sup_right le_sup_right) (by rw [hinfc, hVc])
   exact hVEq.symm
 
+omit [Finite G] in
 theorem sec52b_fixed_of_map {W V L A₁ A₂ D : Subgroup G} {y : G}
     (hQV : W ≤ Subgroup.normalizer (V : Set G))
     (hA₁W : A₁ ≤ W) (hA₂W : A₂ ≤ W)
@@ -209,11 +212,12 @@ theorem sec52b_GL_mulVec_inv {K : Type} [Field K] {ι : Type} [Fintype ι] [Deci
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   rw [h, Matrix.one_mulVec]
 
+omit [Finite G] in
 theorem sec52b_c2_core {K : Type} [Field K] [Finite K] [CharP K 2] {ι : Type} [Fintype ι]
     [DecidableEq ι] [Nonempty ι] {Q' : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)}
     (E : ElemMatrixIso Q' X) (hQ : (polarBilin Q').Nondegenerate)
     (h3 : 3 ≤ Module.finrank K (ι → K))
-    (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp hc n t)
+    (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (_hs : Sec5Hyp hc n t)
     (φ : ↥(Rt M (LB M Q B) t) →* GL ι K) (hφ : φ.range = X) (u : ι → K)
     (hQu : Q' u = 0) (hu0 : u ≠ 0)
     (hLB : ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)).map φ = E.LomGL u)
@@ -265,7 +269,7 @@ theorem sec52b_c2_core {K : Type} [Field K] [Finite K] [CharP K 2] {ι : Type} [
     rw [hdecomp, map_mul, map_mul, map_inv, hyφ]
   have hmatrix : ((Mg⁻¹ * A * Mg : GL ι K) : Matrix ι ι K) =
       Minv * (A : Matrix ι ι K) * Mx := by
-    simp only [Minv, Mx, Units.val_mul, Units.val_inv_eq_inv_val]
+    simp only [Minv, Mx, Units.val_mul]
   have hvec' : (φ ⟨r', hr'R⟩ : Matrix ι ι K) *ᵥ u =
       (Minv * (A : Matrix ι ι K)) *ᵥ c := by
     rw [hr'φ, hmatrix]
@@ -320,16 +324,16 @@ theorem sec52b_hC2 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement) :
   intro G _ _ M Q Z B hc n t hs hom r hr hplane
   obtain ⟨K, fK, finK, hK, hplus | hminus⟩ := hom
   · obtain ⟨m, hm, hnat⟩ := hplus
-    letI := fK
-    letI := finK
-    haveI : CharP K 2 := by
+    let := fK
+    let := finK
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     have hact' := hact
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hnat' : NaturalRep (ι := Fin m ⊕ Fin m) K (StatedOmega (StatedQuadPlus m K))
         (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (hc.CN t) := ⟨φ, hφ, hker, hact'⟩
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
@@ -345,16 +349,16 @@ theorem sec52b_hC2 (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement) :
     exact sec52b_c2_core (ElemMatrixIso.plus hm) hQ h3 hc hs φ hφ u hQu hu0 hL
       (fun r' => (hr' r').2) (fun r' => (hr' r').1) hr hplane
   · obtain ⟨m, b, c, hm, hirr, hnat⟩ := hminus
-    letI := fK
-    letI := finK
-    haveI : CharP K 2 := by
+    let := fK
+    let := finK
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     have hact' := hact
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have hnat' : NaturalRep (ι := Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K
         (StatedOmega (StatedQuadMinus m K b c)) (Rt M (LB M Q B) t)
         (Vt M (LB M Q B) B Z t) Z (hc.CN t) := ⟨φ, hφ, hker, hact'⟩

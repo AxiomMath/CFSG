@@ -29,7 +29,7 @@ theorem rckFII_PSL_degOne
     {J' : Subgroup (Matrix.SpecialLinearGroup (Fin (m + 1)) (GaloisField 2 g))}
     (hJe : IsComponentOf J' ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
       glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆)
-    {R Rm : Subgroup X} (hR : R ≤ J'.map φ) (hRm : Rm ≤ J'.map φ)
+    {R Rm : Subgroup X} (hR : R ≤ J'.map φ) (_hRm : Rm ≤ J'.map φ)
     (hpos : GGRootPosJ (J'.map φ) R Rm) (hR2 : Nat.card R = 2) :
     g = 1 ∧ blockDegree (Algebra.adjoin (GaloisField 2 g) (Units.val '' S)) e = 1 := by
   classical

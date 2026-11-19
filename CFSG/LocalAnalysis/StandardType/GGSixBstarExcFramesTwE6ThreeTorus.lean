@@ -87,7 +87,6 @@ theorem zetaVec_cartanChar {K : Type} [Field K] {ζ : Kˣ} (hζ : ζ ^ 3 = 1)
   simp only [cartanChar, TableBExc.E6Three.zetaVec, frameCoord]
   conv_rhs => rw [ofAdd_sum, map_prod]
   refine Finset.prod_congr rfl fun i _ => ?_
-  congr 2
   have hsymm : TwistTag.E6.tag.symmetrizedCartan = TwistTag.E6.tag.cartan := by
     rw [Tag.symmetrizedCartan]
     simp only [Tag.symmetrizer, TwistTag.tag]
@@ -142,8 +141,6 @@ theorem rootDiagUnit_compatDiag_mem_compatTorus {q : ℕ} {K : Type} [Field K] [
   obtain ⟨c, hc, hcb⟩ :=
     exists_compat_zpowMatrix_eq hK (σ := σ) hσ h3 (fun i => compatDiag_perm u i)
   rw [← hcb]
-  change rootDiagUnit TwistTag.E6.tag
-      (zpowMatrix (G := Kˣ) TwistTag.E6.tag.cartan c) ∈ compatTorus (t := TwistTag.E6) σ
   rw [← CFSG.RankThree.PartOne.TCX.Tri.torusCoordHom_eq_rootDiagUnit
     (τ := TwistTag.E6.tag) (K := K) c]
   exact (mem_compatTorus σ).2 ⟨c, hc, rfl⟩
@@ -358,7 +355,7 @@ theorem exists_threeFrame {f : ℕ} (hf : 1 ≤ f) (h3 : ¬ 3 ∣ 2 ^ f + 1) :
         (h : ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) ∈
           graphFixedRootTorus TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f) →
         h ^ 3 = 1 → h ∈ ι₀.range) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ : ∃ ζ : (GaloisField 2 (2 * f))ˣ, orderOf ζ = 3 := by
     refine TableBSymp.exists_orderOf_eq_of_dvd (K := GaloisField 2 (2 * f)) (p := 3) ?_
     rw [TwE6Toral.card_galoisField_two_mul f hf]

@@ -86,8 +86,8 @@ theorem lin_conjImage_pPower_inner {p n d : ℕ} {F : Type} [Field F] [Finite F]
     ∃ r : LinPSL d F, ∀ y : LinPSL d F, φ y = r * y * r⁻¹ := by
   obtain ⟨hp, _hpm, _hpdvd, hpndvd, hcard, _hn2, hd2⟩ := h
   obtain ⟨A, -, hA⟩ := hφ
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   have hpow : LargeEvenGraphAut (LinMk d F)
@@ -154,7 +154,7 @@ theorem lin_conjImage_pPower_inner {p n d : ℕ} {F : Type} [Field F] [Finite F]
         have h2 := congrArg (fun g : GL (Fin d) F => (g : Matrix (Fin d) (Fin d) F)) h
         rw [Matrix.GeneralLinearGroup.coe_scalar, Units.val_one] at h2
         exact h2
-      haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+      have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
       exact Units.ext ((Matrix.scalar_inj (n := Fin d)).mp (by rw [hmat, Units.val_one, map_one]))
     have hu1 : u = 1 := by
       have hu2F : (u : F) ^ 2 = 1 := by

@@ -101,7 +101,7 @@ section SpFour
 
 theorem kF418ModelOn_SpFourSix_of_outer (hB : KF418OuterOn (fun X _ => IsSpFourSix X)) :
     KF418ModelOn (fun X _ => IsSpFourSix X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine kF418ModelOn_of_outer ?_ ?_ hB
   · rintro X _ _ ⟨k, hk, h3k, ⟨φ⟩⟩
     have hk3 : 3 ≤ k := Nat.le_of_dvd (by omega) h3k

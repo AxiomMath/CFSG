@@ -21,7 +21,7 @@ theorem rootIrrModel_sp {n : ℕ} {F : Type} [Field F] [CharP F 2] (hcore : SpCo
   by_cases hRT : R ≤ T
   · exact Or.inl (le_antisymm hRT hTR)
   right
-  obtain ⟨x, hxR, hxT⟩ := SetLike.not_le_iff_exists.1 hRT
+  obtain ⟨x, hxR, hxT⟩ := IsConcreteLE.not_le_iff_exists.1 hRT
   obtain ⟨w, l, haw, hxw⟩ := exists_param_of_mem_spRad ha (hRP hxR)
   have hw : ∀ c : F, w ≠ c • a := fun c hc =>
     hxT ((hT.1 x).2 ⟨l, mat_eq_spTrans_of_param hxw hc⟩)
@@ -30,7 +30,7 @@ theorem rootIrrModel_sp {n : ℕ} {F : Type} [Field F] [CharP F 2] (hcore : SpCo
   by_cases hw' : ∃ c : F, w' = c • a
   · obtain ⟨c, hc⟩ := hw'
     exact hTR ((hT.1 y).2 ⟨l', mat_eq_spTrans_of_param hyw hc⟩)
-  push_neg at hw'
+  push Not at hw'
   obtain ⟨g, hga, c, hgw⟩ := exists_mat_mulVec_eq_mod haw haw' hw hw'
   have hgx : g * x * g⁻¹ ∈ R := hRnorm g ⟨1, one_ne_zero, by rw [hga, one_smul]⟩ x hxR
   obtain ⟨t, ht⟩ := hT.2 (l + l')
@@ -42,7 +42,7 @@ theorem rootIrrModel_sp {n : ℕ} {F : Type} [Field F] [CharP F 2] (hcore : SpCo
     refine eq_of_mat_mulVec_eq fun v => ?_
     rw [mat_mul_mulVec_of_param hagw (spForm_zero_right a) (mat_conj_mulVec_of_param hxw hga)
       (fun v => by rw [ht]; exact spTrans_mulVec_param a v (l + l')) v, hyw, hgw]
-    simp only [add_zero, spForm_add_left, spForm_smul_left', spForm_zero_right, mul_zero]
+    simp only [add_zero, spForm_add_left, spForm_smul_left', spForm_zero_right]
     have h2 := two_smul_vec_eq_zero ((c * spForm a v + l * spForm a v) • a)
     linear_combination (norm := module) h2
   rw [← hzy]

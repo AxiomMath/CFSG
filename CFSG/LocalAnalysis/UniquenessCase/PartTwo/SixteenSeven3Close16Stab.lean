@@ -19,6 +19,7 @@ variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hz : z ∈ V) : Vtil ⊥ V hV :=
   mkTil ⊥ V hV (IntMod.mk hV ⟨z, hz⟩)
 
+omit [Finite G] in
 theorem close16Vec_eq_one_iff {z : G} (hz : z ∈ V) : close16Vec V hV z hz = 1 ↔ z = 1 := by
   have h := mkTil_eq_iff ⊥ V hV (IntMod.mk hV ⟨z, hz⟩) 1
   rw [map_one] at h
@@ -26,6 +27,7 @@ theorem close16Vec_eq_one_iff {z : G} (hz : z ∈ V) : close16Vec V hV z hz = 1 
   rw [h, IntMod.val_one, inv_one, mul_one, Subgroup.mem_bot]
   exact Iff.rfl
 
+omit [Finite G] in
 theorem close16_actTil_vec_eq_iff (g : ↥(stabTil ⊥ V)) {z : G} (hz : z ∈ V) :
     actTil ⊥ V hV g (close16Vec V hV z hz) = close16Vec V hV z hz ↔
       (g : G) * z = z * (g : G) := by
@@ -57,7 +59,7 @@ theorem close16_barSub_T_sylow (hS : Close16Setting D V L hV) :
 theorem close16_exists_tau (hS : Close16Setting D V L hV) :
     ∃ τ : MulAut (Vtil ⊥ V hV),
       τ ∈ barSub ⊥ V hV D.T ∧ τ ∈ kBar D.M ⊥ V hV L ∧ τ ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : kBar D.M ⊥ V hV L ≤ Mbar D.M ⊥ V hV := inf_le_left
   have hsyl := IsSylowIn.inf_normal (close16_barSub_T_sylow hS) hKM (close16_kbar_normal hS)
   by_contra hcon
@@ -86,7 +88,7 @@ theorem close16_ptStab_central (hS : Close16Setting D V L hV) {z : G}
     exact (close16_actTil_vec_eq_iff g (Subgroup.mem_inf.1 hz).1).2
       (Subgroup.mem_centralizer_iff.1 (Subgroup.mem_inf.1 hz).2 (g : G) hgT)
 
-theorem close16_barSub_cent_eq (hS : Close16Setting D V L hV) {Y : Subgroup G}
+theorem close16_barSub_cent_eq (_hS : Close16Setting D V L hV) {Y : Subgroup G}
     (hY : Close16Pack D V L hV Y) {z : G} (hz : z ∈ V) :
     barSub ⊥ V hV (Y ⊓ centralizer ({z} : Set G)) =
       lBar ⊥ V hV L ⊓ MulAction.stabilizer (MulAut (Vtil ⊥ V hV)) (close16Vec V hV z hz) := by

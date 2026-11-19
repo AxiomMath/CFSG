@@ -201,10 +201,10 @@ theorem redV_clear : ∀ (B : List ℕ) (v : ℕ), EchS B → ∀ b ∈ B, (redV
         (Nat.log2_lt (hz d (List.mem_cons_of_mem _ hd))).1 ((List.pairwise_cons.mp hp).1 d hd)
       rw [redV_testBit_keep B _ hlow]
       by_cases h : v ^^^ c < v
-      · rw [if_pos (by simpa using h), Nat.testBit_xor, (xor_lt_iff_log2 hb0).1 h,
+      · rw [ite_eq_left (by simpa using h), Nat.testBit_xor, (xor_lt_iff_log2 hb0).1 h,
           Nat.testBit_log2 hb0]
         rfl
-      · rw [if_neg (by simpa using h)]
+      · rw [ite_eq_right (by simpa using h)]
         exact Bool.eq_false_iff.mpr (fun h' => h ((xor_lt_iff_log2 hb0).2 h'))
     · exact redV_clear B _ hB c hc
 
@@ -397,10 +397,10 @@ theorem echB_indep_aux : ∀ (vs B : List ℕ), EchS B →
   | v :: vs, B, hE, hlen, I, hI, hx => by
     rw [echB_cons, List.length_cons] at hlen
     by_cases hr : redV B v = 0
-    · rw [if_pos hr] at hlen
+    · rw [ite_eq_left hr] at hlen
       have := echB_length_le vs B
       omega
-    · rw [if_neg hr] at hlen
+    · rw [ite_eq_right hr] at hlen
       have hE' := echS_insDesc hr hE (redV_log2_ne hE hr)
       have hlen' : (echB (insDesc (redV B v) B) vs).length =
           (insDesc (redV B v) B).length + vs.length := by
@@ -413,10 +413,10 @@ theorem echB_indep_aux : ∀ (vs B : List ℕ), EchS B →
         omega
       rw [xm_cons] at hx
       rcases Nat.mod_two_eq_zero_or_one I with h0 | h1
-      · rw [if_neg (by omega), Nat.zero_xor] at hx
+      · rw [ite_eq_right (by omega), Nat.zero_xor] at hx
         have := echB_indep_aux vs _ hE' hlen' (I / 2) hI2 (xspan_mono hsub hx)
         omega
-      · rw [if_pos h1] at hx
+      · rw [ite_eq_left h1] at hx
         have e : xm vs (I / 2) =
             ((v ^^^ xm vs (I / 2)) ^^^ (redV B v ^^^ v)) ^^^ redV B v :=
           Nat.eq_of_testBit_eq fun i => by
@@ -487,8 +487,8 @@ theorem rho_E {y : J} (hy : y ∈ Eg uJ 11) {k : Fin 12} (hk : k ≠ 0) (l : Fin
   obtain ⟨i, rfl⟩ : ∃ i, k = i + 1 := ⟨k - 1, by omega⟩
   rw [rho_apply hyH, hin i (by omega), Nat.testBit_two_pow, Matrix.one_apply]
   by_cases h : i + 1 = l.val
-  · rw [if_pos (decide_eq_true h), if_pos (Fin.ext h)]
-  · rw [if_neg (by simpa using h), if_neg (fun e => h (congrArg Fin.val e))]
+  · rw [ite_eq_left (decide_eq_true h), ite_eq_left (Fin.ext h)]
+  · rw [ite_eq_right (by simpa using h), ite_eq_right (fun e => h (congrArg Fin.val e))]
 
 theorem mem_E_of_rho {g : J} (hg : g ∈ Hj)
     (h : ∀ k : Fin 12, k ≠ 0 → ∀ l, burnsideJ4NP_rho g k l = (1 : Matrix (Fin 12) (Fin 12) (ZMod 2)) k l) :
@@ -531,7 +531,7 @@ theorem tau_lt (g : J) : tau g < 2 ^ 11 := by
     omega
   · classical
     unfold tau burnsideJ4NP_encJ
-    rw [dif_neg hg]
+    rw [dite_eq_right hg]
     decide
 
 theorem tau_one : tau 1 = 0 := by
@@ -561,12 +561,12 @@ theorem tau_mul_E {g y : J} (hg : g ∈ Hj) (hy : y ∈ Eg uJ 11) : tau (g * y) 
       intro k
       by_cases hk : k = 0
       · subst hk
-        rw [burnsideJ4NP_rho_col0 hg 0, if_pos rfl, if_pos rfl, Matrix.one_apply_ne hl]
+        rw [burnsideJ4NP_rho_col0 hg 0, ite_eq_left rfl, ite_eq_left rfl, Matrix.one_apply_ne hl]
         ring
-      · rw [rho_E hy hk, if_neg hk, zero_add]
+      · rw [rho_E hy hk, ite_eq_right hk, zero_add]
     rw [Finset.sum_congr rfl (fun k _ => key k), Finset.sum_add_distrib, ← Matrix.mul_apply,
       Matrix.mul_one]
-    simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [zmod2_decide_add, Bool.xor_comm]
   · have h1 : ∀ x < 2 ^ 11, x.testBit j = false := fun x hx =>
       Nat.testBit_lt_two_pow (lt_of_lt_of_le hx (Nat.pow_le_pow_right (by norm_num) (by omega)))
@@ -580,7 +580,7 @@ theorem eq_one_of_tau {y : J} (hy : y ∈ Eg uJ 11) (h : tau y = 0) : y = 1 := b
   · subst hk
     by_cases hl : l = 0
     · subst hl
-      rw [burnsideJ4NP_rho_col0 hyH, if_pos rfl, Matrix.one_apply_eq]
+      rw [burnsideJ4NP_rho_col0 hyH, ite_eq_left rfl, Matrix.one_apply_eq]
     · obtain ⟨l, hl'⟩ := l
       have hl0 : l ≠ 0 := fun e => hl (Fin.ext e)
       obtain ⟨j, rfl⟩ : ∃ j, l = j + 1 := ⟨l - 1, by omega⟩
@@ -648,7 +648,7 @@ theorem rows_E_right {g y : J} (hg : g ∈ Hj) (hy : y ∈ Eg uJ 11) {k : Fin 12
     intro m
     by_cases hm : m = 0
     · subst hm
-      rw [burnsideJ4NP_rho_col0 hg k, if_neg hk, zero_mul, zero_mul]
+      rw [burnsideJ4NP_rho_col0 hg k, ite_eq_right hk, zero_mul, zero_mul]
     · rw [rho_E hy hm]
   rw [Finset.sum_congr rfl (fun m _ => key m), ← Matrix.mul_apply, Matrix.mul_one]
 
@@ -914,7 +914,7 @@ theorem nw_conj_eta (K : J) : ∀ (L : List ℕ) (I : ℕ),
 theorem forall₂_map_pk {f : ℕ → J} {F : ℕ → ℕ} :
     ∀ {L : List ℕ}, (∀ c ∈ L, PK (f c) (F c)) → List.Forall₂ PK (L.map f) (L.map F)
   | [], _ => .nil
-  | c :: L, h => .cons (h c List.mem_cons_self)
+  | c :: _L, h => .cons (h c List.mem_cons_self)
       (forall₂_map_pk fun d hd => h d (List.mem_cons_of_mem _ hd))
 
 theorem pk_rep {T : Tabs} (hT : tabsOK T = true) {e : ℕ} (he : e < 1024) {Ki : ℕ}
@@ -933,7 +933,7 @@ theorem prodFrom_zero : ∀ (acc : ℕ) (L : List ℕ), prodFrom acc L 0 = acc
   | _, [] => rfl
   | acc, x :: L => by
     unfold prodFrom
-    simp only [Nat.zero_mod, Nat.zero_ne_one, if_false, Nat.zero_div]
+    simp only [Nat.zero_mod, Nat.zero_ne_one, ite_false, Nat.zero_div]
     exact prodFrom_zero acc L
 
 theorem walk_zero_excl {T : Tabs} (hT : tabsOK T = true) {B : List ℕ} {bJ : List J}
@@ -1052,7 +1052,7 @@ theorem walk_three_excl {T : Tabs} (hT : tabsOK T = true) {B : List ℕ} {bJ : L
     rw [Nat.add_div_right _ (Nat.two_pow_pos _), Nat.div_eq_of_lt this]
   rw [xm_append, xm_mod L, hmod, ← xm_mod L, hdiv, ← hz] at hLz
   have : 2 ^ L.length ≤ J' % 2 ^ L.length + 2 ^ L.length := Nat.le_add_left _ _
-  have h0 := hLz (by simp [xm, Nat.xor_self])
+  have h0 := hLz (by simp [xm])
   have := Nat.two_pow_pos L.length
   omega
 
@@ -1150,7 +1150,7 @@ theorem conj_marked {T : Tabs} (hT : tabsOK T = true) {e Ki : ℕ} (he : e < 102
 theorem walk_two_cover {T : Tabs} (hT : tabsOK T = true) {B : List ℕ} {bJ : List J}
     (hB2 : List.Forall₂ PK bJ B) {H : WHd} (hH : whdOK T B H = true) {e Ki ce m : ℕ}
     {l : List ℕ} (he : e < 1024) (hD : walkOK T B H e (2 :: Ki :: ce :: m :: l) = true) {c : ℕ}
-    (hc : c < 2 ^ 11) (hx : eta uJ 11 c * Kel e ∈ Ccl bJ) :
+    (_hc : c < 2 ^ 11) (hx : eta uJ 11 c * Kel e ∈ Ccl bJ) :
     ∃ d < 2 ^ 11, eta uJ 11 d ∈ Ccl bJ ∧ ∃ I < 2 ^ m, ∃ y a : J,
       PK y (prodFrom (M (T.eta ce) (T.kel e))
         (((l.take m).map fun i => H.vs.getD i 0).map fun c => M (M Ki (T.eta c)) (T.kel e)) I) ∧

@@ -57,7 +57,7 @@ private theorem charSum_top_congr {K : Type} [Field K] [CharP K 2] {V V' : Type}
 private theorem charSum_quadPlus_top {K : Type} [Field K] [Finite K] [CharP K 2] {r : ℕ}
     (hr : 1 ≤ r) :
     OrdPNsOm.charSum (CFSG.LieType.Universal.Spin.quadPlus r K) ⊤ = (Nat.card K : ℤ) ^ r := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := charSum_qPlusForm (K := K) (r - 1)
   rw [Nat.sub_add_cancel hr] at h
   simpa only [TableBOrth.qPlusForm] using h
@@ -66,7 +66,7 @@ private theorem charSum_quadMinus_top {K : Type} [Field K] [Finite K] [CharP K 2
     (hr : 1 ≤ r) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     OrdPNsOm.charSum (CFSG.LieType.Universal.Spin.quadMinus r K b c) ⊤ =
       -((Nat.card K : ℤ) ^ r) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h := (charSum_qMinusForm (K := K) (r - 1) (b := b) (c := c) hirr).1
   rw [charSum_top_congr (TableBOrth.qMinusIsometry (r - 1) b c)] at h
   rw [Nat.sub_add_cancel hr] at h
@@ -79,9 +79,9 @@ theorem charSum_top_modEq_one_of_witt {Q : QuadraticForm F V}
       (¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q ∧ Odd r)) :
     OrdPNsOm.charSum Q ⊤ ≡ 1 [ZMOD p] := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite V := Module.finite_of_finite F
+  have : Fintype V := Fintype.ofFinite V
   have hq : (Nat.card F : ℤ) ≡ -1 [ZMOD p] :=
     modEq_neg_one_of_dvd (p := p) (q := Nat.card F) hpq
   rcases htype with ⟨hplus, heven⟩ | ⟨hminus, hodd⟩
@@ -112,9 +112,9 @@ theorem charSum_top_modEq_neg_one_of_witt {Q : QuadraticForm F V}
       (¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q ∧ Even r)) :
     OrdPNsOm.charSum Q ⊤ ≡ -1 [ZMOD p] := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite V := Module.finite_of_finite F
+  have : Fintype V := Fintype.ofFinite V
   have hq : (Nat.card F : ℤ) ≡ -1 [ZMOD p] :=
     modEq_neg_one_of_dvd (p := p) (q := Nat.card F) hpq
   rcases htype with ⟨hplus, hodd⟩ | ⟨hminus, heven⟩

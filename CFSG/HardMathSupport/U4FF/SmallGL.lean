@@ -24,7 +24,7 @@ theorem card_le_of_faithful_finrank_le_four {G W : Type} [Group G] [Finite G]
     [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (ρ : G →* (W ≃ₗ[ZMod 2] W)) (hρ : Function.Injective ρ)
     (hW : Module.finrank (ZMod 2) W ≤ 4) : Nat.card G ≤ 20160 := by
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun e : W ≃ₗ[ZMod 2] W => (e : W → W)) LinearEquiv.coe_injective
   have h1 : Nat.card G ≤ Nat.card (W ≃ₗ[ZMod 2] W) :=
     Nat.card_le_card_of_injective (ρ : G → (W ≃ₗ[ZMod 2] W)) hρ

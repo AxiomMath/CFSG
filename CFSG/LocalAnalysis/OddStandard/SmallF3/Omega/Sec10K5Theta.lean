@@ -10,6 +10,7 @@ namespace SL23Pair
 
 variable {K : Type} [Group K] [Finite K] {A B : Subgroup K} (h : SL23Pair K A B)
 
+omit [Finite K] in
 theorem eq_of_comm {p q : Fin 4 ⊕ Fin 4} (hpq : p.isLeft = q.isLeft)
     (hc : h.gen p * h.gen q = h.gen q * h.gen p) : p = q := by
   rcases p with i | i <;> rcases q with j | j
@@ -24,6 +25,7 @@ theorem eq_of_comm {p q : Fin 4 ⊕ Fin 4} (hpq : p.isLeft = q.isLeft)
     have h2 : k5g i * k5g j = k5g j * k5g i := by simpa using congrArg h.eB h1
     exact congrArg Sum.inr (comm_k5g h2)
 
+omit [Finite K] in
 theorem comm_of_blocks {p q : Fin 4 ⊕ Fin 4} (hpq : p.isLeft ≠ q.isLeft) :
     h.gen p * h.gen q = h.gen q * h.gen p := by
   rcases p with i | i <;> rcases q with j | j
@@ -32,6 +34,7 @@ theorem comm_of_blocks {p q : Fin 4 ⊕ Fin 4} (hpq : p.isLeft ≠ q.isLeft) :
   · exact (h.comm _ (h.gen_mem_A j) _ (h.gen_mem_B i)).symm
   · exact absurd rfl hpq
 
+omit [Finite K] in
 theorem isLeft_eq_false_of_mem_B {q : Fin 4 ⊕ Fin 4} {x : K} (hx : x ∈ B)
     (hq : x = h.gen q ∨ x = (h.gen q)⁻¹) : q.isLeft = false := by
   have hgB : h.gen q ∈ B := by
@@ -44,6 +47,7 @@ theorem isLeft_eq_false_of_mem_B {q : Fin 4 ⊕ Fin 4} {x : K} (hx : x ∈ B)
       (h.gen_ne_one _)
   · rfl
 
+omit [Finite K] in
 theorem mem_A_of_isLeft {q : Fin 4 ⊕ Fin 4} {x : K} (hq : q.isLeft = true)
     (hx : x = h.gen q ∨ x = (h.gen q)⁻¹) : x ∈ A := by
   rcases q with j | j

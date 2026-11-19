@@ -40,7 +40,7 @@ theorem cfgIAt_of_S
   have hprime : p.Prime := by
     rw [hpr]
     cases row <;> norm_num [S8.Row.prime]
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hRowI : S8.RowI row p (S8.cfgI p L c.D) := c.hData.2.2.1
   refine ⟨cfgI_isComponent hprime L c.D row hRowI, ?_⟩
   obtain ⟨hcat, hcard⟩ := hRowI

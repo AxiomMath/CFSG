@@ -121,7 +121,7 @@ theorem exists_commuting_of_order_three [Finite G] {E₀ : Subgroup G} (hcard : 
       omega
     have : Nontrivial ↥(P : Subgroup G) :=
       ⟨⟨⟨x, hxPm⟩, 1, fun h1 => hx1 (congrArg Subtype.val h1)⟩⟩
-    have hPp : IsPGroup 3 ↥(P : Subgroup G) := P.isPGroup'
+    have hPp : IsPGroup 3 ↥(P : Subgroup G) := P.isPGroup
     have hZnt := hPp.center_nontrivial
     have hZp : IsPGroup 3 ↥(center ↥(P : Subgroup G)) := hPp.to_subgroup _
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hZp

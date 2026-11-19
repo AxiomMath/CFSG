@@ -159,7 +159,7 @@ theorem permD {i : ℕ} (hi : i < 81) : permB 360 9 (E9D.T i) = true :=
 
 theorem memQ {i : ℕ} (hi : i < 243) :
     permOfArr 360 (unpack 360 9 (E9Q.T i)) ∈ Subgroup.closure (permsA 360 (qGens o8pE9)) :=
-  mem_of_pt hw9 psLt q_enum q_size q_get hi
+  mem_of_pt psLt q_enum q_size q_get hi
 
 theorem keyC3_eq (P : ℕ) :
     CFSG.KC.BfsPin.keyK 360 9 ps (pcomp 360 9 (mask 9) P (pcomp 360 9 (mask 9) P P)) =

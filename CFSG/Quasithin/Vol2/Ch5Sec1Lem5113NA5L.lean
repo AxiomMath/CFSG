@@ -125,13 +125,13 @@ theorem exists_conj_eq_q0 {S : Subgroup (Perm (Fin 5))} (hS : IsPGroup 2 S)
   have hPS : (P : Subgroup (Perm (Fin 5))) = S :=
     (Subgroup.eq_of_le_of_card_ge hSP (by
       rw [h8]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P.isPGroup'))).symm
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P.isPGroup))).symm
   have hq2 : IsPGroup 2 q0 := IsPGroup.of_card (n := 3) (by rw [card_q0]; norm_num)
   obtain ⟨P', hP'⟩ := hq2.exists_le_sylow
   have hP'eq : (P' : Subgroup (Perm (Fin 5))) = q0 :=
     (Subgroup.eq_of_le_of_card_ge hP' (by
       rw [card_q0]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P'.isPGroup'))).symm
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_eight P'.isPGroup))).symm
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Perm (Fin 5)) P P'
   refine ⟨g, ?_⟩
   rw [← hPS, ← hP'eq, ← hg, Sylow.coe_subgroup_smul]

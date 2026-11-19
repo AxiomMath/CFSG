@@ -29,7 +29,7 @@ theorem coe_ne_smul_one {A : GL (Fin n) F}
   · subst hn
     refine hA 1 (Units.ext (funext fun i => funext fun j => ?_))
     exact isEmptyElim i
-  · haveI : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
+  · have : Nonempty (Fin n) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hn)
     have hdet : IsUnit (Matrix.det (A : Matrix (Fin n) (Fin n) F)) :=
       (Matrix.isUnit_iff_isUnit_det _).mp A.isUnit
     rw [h, Matrix.det_smul, Matrix.det_one, mul_one, Fintype.card_fin] at hdet

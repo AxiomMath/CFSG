@@ -123,7 +123,7 @@ theorem ReducedNongeneration.sylow_le_centralizer_of_isCyclic
     (ht : t ∈ (Rb : Subgroup Y) ⊓ L) (htp : orderOf t = p) :
     (Rb : Subgroup Y) ≤ Subgroup.centralizer ({t} : Set Y) := by
   intro v hv
-  obtain ⟨k, hk⟩ := Rb.isPGroup' ⟨v, hv⟩
+  obtain ⟨k, hk⟩ := Rb.isPGroup ⟨v, hv⟩
   have hvk : v ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hcomm := commute_of_mem_normalizer_zpowers_of_pow_prime_pow h.prime htp
     (mem_normalizer_zpowers_of_mem_zpowers (h.conj_mem_zpowers_of_component hL hcyc ht hv)) hvk

@@ -65,7 +65,7 @@ theorem schSl_spec {i lo len : Nat} (h : schS i lo len = true) :
   have e : Nat.add lo (k - lo) = k := by
     change lo + (k - lo) = k
     omega
-  rw [e, bIf_eq, if_pos (Nat.blt_eq.mpr h3)] at h'
+  rw [e, bIf_eq, ite_eq_left (Nat.blt_eq.mpr h3)] at h'
   exact allN_iff.1 h' t ht
 
 theorem sch_all : ∀ i < 2, ∀ k < CNTS i, ∀ t < (lvK LS BS 42 i).length,
@@ -135,7 +135,7 @@ theorem sig_T23 {l : Nat} (hl : l < 42) : sig 31671 SL l ∈ T23 := by
         rw [actN_sig syl_hyp hl hx, actN_sig_inv syl_hyp (by omega) hx]
         congr 1
         unfold invL
-        rw [if_pos (by omega)]
+        rw [ite_eq_left (by omega)]
     have h0 : sig 31671 SL (2 * j) ∈ T23 := by
       have e0 : sig 31671 SL (2 * j) =
           ((sylWords ())[j]!.map fun z => sig 31671 (chainLetters orbLit) z.toNat).prod :=

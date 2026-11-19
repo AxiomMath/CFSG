@@ -223,7 +223,7 @@ theorem exists_normal_index_two_of_globalField (hL : CFSG.Open.standardComponent
         rw [← Subgroup.orderOf_coe, MonoidHom.coe_rangeRestrict]
       rw [← h1, hyz, Subgroup.orderOf_coe, hz, hTPcard]
     set W := (T : Subgroup N).map ρ with hW
-    have hWp : IsPGroup 2 W := T.isPGroup'.map ρ
+    have hWp : IsPGroup 2 W := T.isPGroup.map ρ
     have hW𝒜 : W ≤ ρ.range := map_le_range ρ _
     have hσW : fieldAut n F σ ∈ W := ⟨t₀, ht₀T, hρt⟩
     have hwW : ρ y ∈ W := ⟨y, hyT, rfl⟩

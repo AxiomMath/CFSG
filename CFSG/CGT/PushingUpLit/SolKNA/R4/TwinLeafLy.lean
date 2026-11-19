@@ -57,7 +57,7 @@ theorem not_twinPair_ly {F : Type} [Group F] (h : NativeSporadic.IsSporadic F .L
 theorem twinLeafR_ly {r n : ℕ} (hr : 4 ≤ r) :
     TwinLeafR r n fun F _ => NativeSporadic.IsSporadic F .Ly := by
   intro Y _ _ R S t hP _ hF
-  haveI := hP.core.simple
+  have := hP.core.simple
   obtain ⟨e⟩ := hF
   have hcomm : SocleComm2 ↥(genFittingFStar Y) :=
     socleComm2_of_outTwoCyclic (Nobq.OutTwoCyclic.of_mulEquiv e outTwoCyclic_ly)

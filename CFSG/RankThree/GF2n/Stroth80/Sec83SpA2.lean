@@ -12,14 +12,14 @@ open Matrix
 @[expose] def FixedNonA2Fact : Prop :=
   ∀ {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {X : Type} [Group X] {M : Type} [AddCommGroup M] [Finite M]
-    (φ : X →* GL (Fin m ⊕ Fin m) K) (hφ : φ.range = StatedSp m K) (hm : 1 ≤ m)
-    (h2 : ∀ a : M, a + a = 0) [DistribMulAction X M]
-    (hker : ∀ x ∈ φ.ker, ∀ a : M, x • a = a) {u u' : Fin m ⊕ Fin m → K}
-    (huu' : spForm m K u u' ≠ 0) {L₁ L₂ : Subgroup X}
-    (hL₁ : L₁.map φ = LspGL m K u) (hL₂ : L₂.map φ = LspGL m K u')
-    (hdec : IsCompl (fixedSub M (L₁ : Set X)) (fixedSub M (L₂ : Set X)))
-    {x : X} (hx : φ x ∈ LspGL m K u)
-    (hn : ∃ y : Fin m ⊕ Fin m → K,
+    (φ : X →* GL (Fin m ⊕ Fin m) K) (_hφ : φ.range = StatedSp m K) (_hm : 1 ≤ m)
+    (_h2 : ∀ a : M, a + a = 0) [DistribMulAction X M]
+    (_hker : ∀ x ∈ φ.ker, ∀ a : M, x • a = a) {u u' : Fin m ⊕ Fin m → K}
+    (_huu' : spForm m K u u' ≠ 0) {L₁ L₂ : Subgroup X}
+    (_hL₁ : L₁.map φ = LspGL m K u) (_hL₂ : L₂.map φ = LspGL m K u')
+    (_hdec : IsCompl (fixedSub M (L₁ : Set X)) (fixedSub M (L₂ : Set X)))
+    {x : X} (_hx : φ x ∈ LspGL m K u)
+    (_hn : ∃ y : Fin m ⊕ Fin m → K,
       spForm m K y ((φ x : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ y) ≠ 0),
     (comm M x).range = fixedSub M (L₁ : Set X) ∧
       Nat.card M = Nat.card (fixedSub M (L₁ : Set X)) ^ 2

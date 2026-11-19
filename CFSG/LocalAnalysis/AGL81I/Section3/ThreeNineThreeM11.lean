@@ -33,6 +33,7 @@ theorem card_normalizer_sylow_eq {q : ℕ} [Fact q.Prime] (P P' : Sylow q G) :
   rw [← e2] at h2
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos (h1.trans h2.symm)
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers {g t : G} (h1 : t * g * t⁻¹ ∈ Subgroup.zpowers g)
     (h2 : t⁻¹ * g * t ∈ Subgroup.zpowers g) :
     t ∈ Subgroup.normalizer ((Subgroup.zpowers g : Subgroup G) : Set G) := by
@@ -214,7 +215,7 @@ theorem false_of_threeNineHyp_M11
   have hOut : Nat.card (Outer ↥K) ≤ 2 := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
     exact CFSG.Sporadic.Schreier.at_m11_schreier.1
-  haveI : Finite (MulAut ↥K) :=
+  have : Finite (MulAut ↥K) :=
     Finite.of_injective (fun f : MulAut ↥K => (f : ↥K → ↥K)) fun f g hfg => MulEquiv.ext (congrFun hfg)
   have hOut0 : 0 < Nat.card (Outer ↥K) := Nat.card_pos
   have hd3 : 3 ≤ d := by

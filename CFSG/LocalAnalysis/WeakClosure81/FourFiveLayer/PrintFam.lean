@@ -262,7 +262,7 @@ private theorem ten_seven_eTwo_minimal [Finite G] {T1 H1 Y : Subgroup G} [Y.Norm
 
 private theorem ten_seven_eTwo_phi [Finite G] {Y H1 J T1 : Subgroup G} [Y.Normal]
     {I : Subgroup (G ⧸ Y)}
-    (hπJ : J.map (QuotientGroup.mk' Y) = I) (hT1J : T1 ≤ J)
+    (hπJ : J.map (QuotientGroup.mk' Y) = I) (_hT1J : T1 ≤ J)
     (hSyl1 : IsSylowIn 2 T1 H1) (hJ : J ∈ sFamily T1 H1 Y) :
     ∃ φ : ↥J →* ↥I, Function.Surjective φ ∧
       IsTwoClosed ((CFSG.Open.pCore 2 ↥I).comap φ) ∧
@@ -297,7 +297,7 @@ private theorem ten_seven_eTwo_phi [Finite G] {Y H1 J T1 : Subgroup G} [Y.Normal
 
 private theorem ten_seven_eTwo_minimality {T Y H1 J T1 : Subgroup G} [Y.Normal]
     {I : Subgroup (G ⧸ Y)}
-    (hJH1 : J ≤ H1) (hπJ : J.map (QuotientGroup.mk' Y) = I) (hJ : J ∈ sFamily T1 H1 Y)
+    (_hJH1 : J ≤ H1) (_hπJ : J.map (QuotientGroup.mk' Y) = I) (hJ : J ∈ sFamily T1 H1 Y)
     (hYH1 : Y ≤ H1) (hT1T : T1 ≤ T) (hT1J : T1 ≤ J) (φ : ↥J →* ↥I)
     (hkerY : ∀ j : ↥J, φ j = 1 → (j : G) ∈ Y) {M : Subgroup ↥J}
     (hSM : (T ⊓ J).subgroupOf J ≤ M) (hMk : M ⊔ φ.ker = ⊤) : M = ⊤ := by
@@ -338,13 +338,13 @@ private theorem isSolvable_twoResidual_of_map [Finite G] {J Y : Subgroup G} [Y.N
   set π := QuotientGroup.mk' Y with hπ
   have hIres : Group.IsSolvable ↥(twoResidual I) := by
     have h1 : Group.IsSolvable ↥((twoResidual I).subgroupOf I) := inferInstance
-    haveI := h1
+    have := h1
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (twoResidual_le I)).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe _).symm.injective
   have hJY : Group.IsSolvable ↥(twoResidual J ⊓ Y) := by
     have h1 : Group.IsSolvable ↥((twoResidual J ⊓ Y).subgroupOf Y) := inferInstance
-    haveI := h1
+    have := h1
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (inf_le_right : twoResidual J ⊓ Y ≤ Y)).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe _).symm.injective
@@ -362,8 +362,8 @@ private theorem isSolvable_twoResidual_of_map [Finite G] {J Y : Subgroup G} [Y.N
   have hle : f.ker ≤
       (Subgroup.inclusion (inf_le_left : twoResidual J ⊓ Y ≤ twoResidual J)).range := by
     rw [hker, Subgroup.inclusion_range]
-  haveI := hJY
-  haveI := hIres
+  have := hJY
+  have := hIres
   exact Group.isSolvable_of_ker_le_range _ f hle
 
 private theorem isSolvable_of_twoResidual_eq_map [Finite G] {J Y : Subgroup G} [Y.Normal]
@@ -373,7 +373,7 @@ private theorem isSolvable_of_twoResidual_eq_map [Finite G] {J Y : Subgroup G} [
   have hJres : Group.IsSolvable ↥(twoResidual J) := isSolvable_twoResidual_of_map hY hI hres
   have hNnorm : (twoResidual (⊤ : Subgroup ↥J)).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (le_normalizer_twoResidual ⊤))
-  haveI := hNnorm
+  have := hNnorm
   have hQ2 : IsPGroup 2 (↥J ⧸ twoResidual (⊤ : Subgroup ↥J)) := by
     intro x
     obtain ⟨xH, rfl⟩ := QuotientGroup.mk_surjective x
@@ -387,8 +387,8 @@ private theorem isSolvable_of_twoResidual_eq_map [Finite G] {J Y : Subgroup G} [
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (twoResidual_le J)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe _).injective
-  haveI := hNsolv
-  haveI := hQsolv
+  have := hNsolv
+  have := hQsolv
   exact Group.isSolvable_of_subgroup_quotient (twoResidual (⊤ : Subgroup ↥J))
 
 private theorem map_subgroupOf_map_print {X J Y : Subgroup G} [Y.Normal] {I : Subgroup (G ⧸ Y)}

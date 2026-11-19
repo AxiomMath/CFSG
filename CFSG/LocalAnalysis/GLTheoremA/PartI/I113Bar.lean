@@ -146,7 +146,7 @@ theorem exists_goodE_norm2 {B M : Subgroup Q} {c : Q} (Tr : Triple3 B M c)
         have hS₂M : S₂ ≤ M := Subgroup.map_subtype_le _
         have hS₂ne : S₂ ≠ ⊥ := fun h =>
           P.ne_bot_of_dvd_card h2M ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).1 h)
-        have hS₂2 : IsPGroup 2 S₂ := P.isPGroup'.map _
+        have hS₂2 : IsPGroup 2 S₂ := P.isPGroup.map _
         refine ⟨t113Y12 c y, Tr.goodE_Y12 hH3 hy ho hnc, S₂, hS₂ne, hS₂2, ?_, ?_⟩
         · intro b hb
           exact hnorm _ _ _ hS₂M (hB0M b hb)
@@ -199,7 +199,7 @@ theorem exists_goodE_norm2 {B M : Subgroup Q} {c : Q} (Tr : Triple3 B M c)
         have hS₄ne : S₄ ≠ ⊥ := fun h =>
           P.ne_bot_of_dvd_card h2M4
             ((Subgroup.map_eq_bot_iff_of_injective _ (GLBConj (g * t) M).subtype_injective).1 h)
-        have hS₄2 : IsPGroup 2 S₄ := P.isPGroup'.map _
+        have hS₄2 : IsPGroup 2 S₄ := P.isPGroup.map _
         refine ⟨t113Y c y, Tr.goodE_Y hH9 hy ho hnc, S₄, hS₄ne, hS₄2, ?_, ?_⟩
         · intro b hb
           exact hnorm _ _ _ hS₄M (hB0M4 b hb)

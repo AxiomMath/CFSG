@@ -92,7 +92,7 @@ theorem false_of_quasisimple_le (h : UnitaryFieldData 2 m K) (hq : 2 ^ m % 3 = 1
     [Group S'] [Finite S'] (e : S' ≃* unitarySU 2 m K 3) {y : S'} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (Q : Subgroup S') (hQC : Q ≤ Subgroup.centralizer ({y} : Set S')) (hQ : IsQuasisimple Q) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev := CFSG.RankThree.OddKernel.even_card_of_isQuasisimple hQ
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Q) 2 (even_iff_two_dvd.mp hev)
   have hc2 : (c : S') ^ 2 = 1 := by
@@ -114,7 +114,7 @@ theorem noCfgS427_su3 (h : UnitaryFieldData 2 m K) (hq : 2 ^ m % 3 = 1) :
     NoCfgS427 (unitarySU 2 m K 3) := by
   have := h.finite
   intro σ h3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime h3 h1
   by_cases hin : CFSG.RankThree.PartTwo.KFacts.IsInnerAut σ
   · obtain ⟨x, rfl, hx3, hx1⟩ := RonanKChevTwo.exists_conj_of_isInnerAut
@@ -146,7 +146,7 @@ theorem noCfgS427_su3 (h : UnitaryFieldData 2 m K) (hq : 2 ^ m % 3 = 1) :
       rfl
     rw [hfix]
     obtain ⟨hs, hna⟩ := CFSG.RankThree.OddKernel.isSimpleGroup_of_isQuasisimple hqs hZ
-    haveI := hs
+    have := hs
     refine good427_of_le_simple le_rfl hna ?_ fun _ hQC _ => hQC
     have hc := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int h₀ (n := 3) (by norm_num)
     have hp : ∏ i ∈ Finset.Icc 2 3, (((2 ^ f₀ : ℕ) : ℤ) ^ i - (-1) ^ i) =
@@ -181,7 +181,7 @@ theorem center_eq_bot_of_su3
     (hm : 1 ≤ m)
     {L : Type} [Group L] [Finite L] (hL : IsQuasisimple L) (hZ3 : IsPGroup 3 (Subgroup.center L))
     (e : L ⧸ Subgroup.center L ≃* CFSG.Open.StatedSU 3 (2 ^ m) K) : Subgroup.center L = ⊥ := by
-  haveI : Group.IsPerfect L := hL.1
+  have : Group.IsPerfect L := hL.1
   have hodd : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
     rw [hk]

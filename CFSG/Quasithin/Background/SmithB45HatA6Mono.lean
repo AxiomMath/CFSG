@@ -596,6 +596,7 @@ theorem false_of_pair (hV : ∀ v : V, v ^ 2 = 1) (hHyp : B4Hyp G L) (hP : B42Ty
     (congrArg Subtype.val huv) hw1 (fun y hy => hcov ⟨y, hy⟩) hidx
   simpa using hLzn ⟨l, hl⟩ 1 x
 
+omit [Finite V] in
 theorem index_fixV_map_conj (B : Subgroup (MulAut V)) (l : MulAut V) :
     (fixV (B.map (MulAut.conj l).toMonoidHom)).index = (fixV B).index :=
   CFSG.Quasithin.ConjTransport.index_fixV_map_conj B l

@@ -30,11 +30,13 @@ variable [Finite K] [CharP K 2]
     funext a b c
     by_cases h : a = 0 <;> simp [h]
 
+omit [Finite K] [CharP K 2] in
 theorem act0E_unipSL_apply (r : K) (T : Tensor3 K) :
     act0E (unipSL r) T = T + r • lineNil T := by
   funext a b c
   fin_cases a <;> simp [act0E_apply, tensor3Act0, unipSL_apply, lineNil, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 theorem conj_unip_eq (γ : T3E K) (a b : K) (hb : b ≠ 0)
     (h : γ * act0E (unipSL b) * γ⁻¹ = act0E (unipSL a)) (d : K) :
     γ * act0E (unipSL d) * γ⁻¹ = act0E (unipSL (d * a / b)) := by
@@ -55,6 +57,7 @@ theorem conj_unip_eq (γ : T3E K) (a b : K) (hb : b ≠ 0)
   congr 2
   ring
 
+omit [CharP K 2] in
 theorem lineG_conj_inf_or (γ : T3E K) :
     lineG ⊓ lineG.map (MulAut.conj γ).toMonoidHom = ⊥ ∨
       lineG.map (MulAut.conj γ).toMonoidHom = lineG := by
@@ -132,20 +135,25 @@ theorem exists_notTwoPow_rowG (hK : 4 ≤ Nat.card K) : ∃ y ∈ (rowG : Subgro
     NotTwoPow y :=
   notTwoPow_of_not_pgroup_sub (not_pgroup_range _ act1E_injective hK)
 
+omit [Finite K] in
 theorem simple_range {G : Type*} [Group G] (f : Matrix.SpecialLinearGroup (Fin 2) K →* G)
     (hf : Function.Injective f) (hK : 4 ≤ Nat.card K) : IsSimpleGroup ↥f.range := by
-  haveI := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
+  have := CFSG.CGT.PushingUpLit.A78.isSimpleGroup_SL2_charTwo K hK
   exact (MonoidHom.ofInjective hf).symm.isSimpleGroup
 
+omit [Finite K] in
 theorem simple_rowG (hK : 4 ≤ Nat.card K) : IsSimpleGroup ↥(rowG (K := K)) :=
   simple_range _ act1E_injective hK
 
+omit [Finite K] in
 theorem simple_colG (hK : 4 ≤ Nat.card K) : IsSimpleGroup ↥(colG (K := K)) :=
   simple_range _ act2E_injective hK
 
+omit [Finite K] [CharP K 2] in
 theorem not_comm_rowG : ¬ IsMulCommutative ↥(rowG (K := K)) :=
   not_comm_of_injective sl2_not_commutative _ act1E_injective
 
+omit [Finite K] [CharP K 2] in
 theorem not_comm_colG : ¬ IsMulCommutative ↥(colG (K := K)) :=
   not_comm_of_injective sl2_not_commutative _ act2E_injective
 
@@ -171,24 +179,28 @@ section Cols
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem conjFlip_conjFlip (g : T3E K) : conjFlip (conjFlip g) = g := by
   rw [conjFlip_apply, conjFlip_apply]
   calc (flipE : T3E K) * (flipE * g * flipE) * flipE = (flipE * flipE) * g * (flipE * flipE) := by
         simp only [mul_assoc]
     _ = g := by rw [flipE_mul_self, one_mul, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem conjFlip_mem_rowG {g : T3E K} (hg : g ∈ (colG : Subgroup (T3E K))) :
     conjFlip g ∈ (rowG : Subgroup (T3E K)) := by
   obtain ⟨A, rfl⟩ := hg
   rw [conjFlip_act2E]
   exact ⟨A, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem conjFlip_mem_colG {g : T3E K} (hg : g ∈ (rowG : Subgroup (T3E K))) :
     conjFlip g ∈ (colG : Subgroup (T3E K)) := by
   obtain ⟨A, rfl⟩ := hg
   rw [conjFlip_act1E]
   exact ⟨A, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem conjFlip_mem_lineG {g : T3E K} (hg : g ∈ (lineG : Subgroup (T3E K))) :
     conjFlip g ∈ (lineG : Subgroup (T3E K)) := by
   obtain ⟨c, rfl⟩ := mem_lineG_iff.mp hg
@@ -255,16 +267,21 @@ variable [Finite K] [CharP K 2]
 
 abbrev cjH (γ : T3E K) : T3E K →* T3E K := (MulAut.conj γ).toMonoidHom
 
+omit [Finite K] [CharP K 2] in
 theorem cjH_apply (γ g : T3E K) : cjH γ g = γ * g * γ⁻¹ := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem cjH_injective (γ : T3E K) : Function.Injective (cjH γ) := (MulAut.conj γ).injective
 
+omit [Finite K] [CharP K 2] in
 theorem cjH_cjH_inv (γ g : T3E K) : cjH γ (cjH γ⁻¹ g) = g := by
-  simp [cjH_apply, mul_assoc]
+  simp [mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 theorem cjH_inv_cjH (γ g : T3E K) : cjH γ⁻¹ (cjH γ g) = g := by
-  simp [cjH_apply, mul_assoc]
+  simp [mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 theorem lineG_comm_rowG : ∀ u ∈ (lineG : Subgroup (T3E K)), ∀ f ∈ (rowG : Subgroup (T3E K)),
     u * f = f * u := by
   intro u hu f hf
@@ -272,6 +289,7 @@ theorem lineG_comm_rowG : ∀ u ∈ (lineG : Subgroup (T3E K)), ∀ f ∈ (rowG 
   obtain ⟨B, rfl⟩ := hf
   exact act0E_comm_act1E _ _
 
+omit [Finite K] [CharP K 2] in
 theorem lineG_comm_colG : ∀ u ∈ (lineG : Subgroup (T3E K)), ∀ f ∈ (colG : Subgroup (T3E K)),
     u * f = f * u := by
   intro u hu f hf
@@ -279,11 +297,13 @@ theorem lineG_comm_colG : ∀ u ∈ (lineG : Subgroup (T3E K)), ∀ f ∈ (colG 
   obtain ⟨B, rfl⟩ := hf
   exact act0E_comm_act2E _ _
 
+omit [Finite K] [CharP K 2] in
 theorem rowG_comm_colG : ∀ u ∈ (rowG : Subgroup (T3E K)), ∀ f ∈ (colG : Subgroup (T3E K)),
     u * f = f * u := by
   rintro _ ⟨A, rfl⟩ _ ⟨B, rfl⟩
   exact act1E_comm_act2E _ _
 
+omit [Finite K] [CharP K 2] in
 theorem lineG_comm_rowG_colG : ∀ u ∈ (lineG : Subgroup (T3E K)),
     ∀ z ∈ (rowG ⊔ colG : Subgroup (T3E K)), u * z = z * u := by
   intro u hu z hz
@@ -294,6 +314,7 @@ theorem lineG_comm_rowG_colG : ∀ u ∈ (lineG : Subgroup (T3E K)),
     _ = f * (x * u) := by rw [lineG_comm_colG u hu x hx]
     _ = (f * x) * u := by rw [mul_assoc]
 
+omit [Finite K] in
 theorem unip_sq (u : T3E K) (hu : u ∈ (lineG : Subgroup (T3E K))) : u * u = 1 := by
   obtain ⟨a, rfl⟩ := mem_lineG_iff.mp hu
   rw [← map_mul, unipSL_mul, CharTwo.add_self_eq_zero, unipSL_zero, map_one]
@@ -314,9 +335,11 @@ structure CoreData (κ : K) (γ : T3E K) (𝔸 : Subgroup (T3E K)) : Prop where
 
 variable {κ : K} {γ : T3E K} {𝔸 : Subgroup (T3E K)}
 
+omit [Finite K] [CharP K 2] in
 theorem cjH_mem_Ok (hγ : γ ∈ Ok κ) {g : T3E K} (hg : g ∈ Ok κ) : cjH γ g ∈ Ok κ :=
   mul_mem (mul_mem hγ hg) (inv_mem hγ)
 
+omit [CharP K 2] in
 theorem lineG_conj_TI (D : CoreData κ γ 𝔸) :
     lineG.map (cjH γ) ⊓ lineG = ⊥ := by
   rcases lineG_conj_inf_or γ with h | h
@@ -343,6 +366,7 @@ theorem CoreData.claimB (hKF11a : Sp4InvolutionStatement) (hK : 4 ≤ Nat.card K
     obtain ⟨z, hz, rfl⟩ := hyz
     rw [← map_mul, ← map_mul, lineG_comm_rowG_colG u hu z hz]
 
+omit [Finite K] [CharP K 2] in
 theorem lineG_conj_comm_sup (D : CoreData κ γ 𝔸) :
     ∀ u ∈ lineG.map (cjH γ), ∀ p ∈ 𝔸 ⊔ colG, u * p = p * u := by
   rintro _ ⟨u, hu, rfl⟩ p hp
@@ -350,6 +374,7 @@ theorem lineG_conj_comm_sup (D : CoreData κ γ 𝔸) :
   obtain ⟨z, hz, rfl⟩ := hp'
   rw [← map_mul, ← map_mul, lineG_comm_rowG_colG u hu z hz]
 
+omit [Finite K] in
 theorem CoreData.lineG_split (hK : 4 ≤ Nat.card K) (D : CoreData κ γ 𝔸) :
     ∀ n ∈ (lineG : Subgroup (T3E K)), ∃ u ∈ lineG.map (cjH γ), ∃ a ∈ 𝔸, n = u * a := by
   intro n hn
@@ -358,7 +383,7 @@ theorem CoreData.lineG_split (hK : 4 ≤ Nat.card K) (D : CoreData κ γ 𝔸) :
     rwa [← D.hAsup] at this
   obtain ⟨u, hu, p, hp, rfl⟩ := fu_mem_sup (lineG_conj_comm_sup D) h1
   obtain ⟨a, ha, x, hx, rfl⟩ := fu_mem_sup D.hAc hp
-  haveI := simple_colG (K := K) hK
+  have := simple_colG (K := K) hK
   have hxz : ∀ z ∈ (colG : Subgroup (T3E K)), x * z = z * x := by
     intro z hz
     have hn' := lineG_comm_colG _ hn z hz
@@ -377,17 +402,17 @@ theorem CoreData.lineG_split (hK : 4 ≤ Nat.card K) (D : CoreData κ γ 𝔸) :
 
 theorem CoreData.claimC (hKF11a : Sp4InvolutionStatement) (hK : 4 ≤ Nat.card K)
     (D : CoreData κ γ 𝔸) : lineG ≤ 𝔸 := by
-  haveI := D.hAsimple
-  haveI := simple_colG (K := K) hK
-  haveI := simple_rowG (K := K) hK
+  have := D.hAsimple
+  have := simple_colG (K := K) hK
+  have := simple_rowG (K := K) hK
   set c' : T3E K →* T3E K := cjH γ⁻¹ with hc'
   have hc'inj : Function.Injective c' := cjH_injective γ⁻¹
   have hinfmap : ∀ (H₁ H₂ : Subgroup (T3E K)), (H₁ ⊓ H₂).map c' = H₁.map c' ⊓ H₂.map c' :=
     fun H₁ H₂ => Subgroup.map_inf H₁ H₂ c' hc'inj
   have hfu : (𝔸.map c' = rowG ∧ colG.map c' = colG) ∨ (𝔸.map c' = colG ∧ colG.map c' = rowG) := by
-    haveI : IsSimpleGroup ↥(𝔸.map (MulAut.conj γ⁻¹).toMonoidHom) :=
+    have : IsSimpleGroup ↥(𝔸.map (MulAut.conj γ⁻¹).toMonoidHom) :=
       simple_map (MulAut.conj γ⁻¹) 𝔸
-    haveI : IsSimpleGroup ↥(colG.map (MulAut.conj γ⁻¹).toMonoidHom) :=
+    have : IsSimpleGroup ↥(colG.map (MulAut.conj γ⁻¹).toMonoidHom) :=
       simple_map (MulAut.conj γ⁻¹) colG
     refine factor_unique (F₁ := rowG) (F₂ := colG) (F₁' := 𝔸.map c') (F₂' := colG.map c')
       rowG_comm_colG ?_ rowG_inf_colG ?_ ?_ not_comm_rowG not_comm_colG

@@ -89,7 +89,7 @@ theorem noThreeCover_of_table {X : Type} [Group X] {t : CFSG.Open.StatedLieTag} 
   obtain ⟨e⟩ := h
   have hcard : Nat.card (generic t n p f × exceptional t n p f) = 1 := by
     simp only [generic, exceptional, Nat.card_prod, card_multiplicative_zmod, hg, he]
-  haveI : Finite (generic t n p f × exceptional t n p f) :=
+  have : Finite (generic t n p f × exceptional t n p f) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact noThreeCover_of_hopf e (by rw [hcard]; norm_num)
 
@@ -97,7 +97,7 @@ section U58
 
 
 theorem noThreeCover_projSU_five_eight : NoThreeCover (projSU 5 2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have e₀ : projSU 5 2 3 ≃* StatedProj (StatedSU 5 (2 ^ 3) (GaloisField 2 (2 * 3))) :=
     ((Adapters.RankTwoModelTransports.statedProjEquivMapMk _).trans
       (MulEquiv.subgroupCongr (CFSG.RankThree.PartOne.projImage_statedSU_eq_projSU 5 2 3))).symm

@@ -63,7 +63,7 @@ theorem isElemAbelian_two_sup {X : Type*} [Group X] [Finite X] {p q : X} (hp2 : 
   rw [hc]
 
 
-theorem exists_xV (h : Hyp81 G A c L a) (h81 : Nat.card A = 81)
+theorem exists_xV (h : Hyp81 G A c L a) (_h81 : Nat.card A = 81)
     (hAN : A ≤ Subgroup.normalizer (L : Set G))
     (e₁ : L ⧸ aschbacherSolvableCore 3 L ≃* projSL 2 (GaloisField 3 (3 * 2)))
     (h9 : Nat.card (autThetaQuot A L ⊓ (MulAut.conj : (L ⧸ aschbacherSolvableCore 3 L) →*
@@ -117,7 +117,7 @@ theorem exists_xV (h : Hyp81 G A c L a) (h81 : Nat.card A = 81)
     apply hinj
     rw [map_pow, map_one]
     exact Item82OneProof.pow_three_of_mem_autThetaQuot hAe (Subgroup.mem_comap.mp hx).1
-  haveI : Fintype (GH74.GLS.IVK.fixedField σ) := Fintype.ofFinite _
+  have : Fintype (GH74.GLS.IVK.fixedField σ) := Fintype.ofFinite _
   have hK9 : Fintype.card (GH74.GLS.IVK.fixedField σ) = 9 := by
     rw [← Nat.card_eq_fintype_card, hej]
     norm_num

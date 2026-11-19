@@ -106,7 +106,7 @@ theorem rho_gen {W' : Subgroup Y} (hW' : W' ∈ WSet Ω[R]) (htW' : t ∈ W') {J
 
 include C in
 theorem step4 {c : Y} (hc : c * t * c⁻¹ = t) (hx : c * (y * t * y⁻¹) * c⁻¹ ∉ C.D) :
-    ∃ (a : Finset (Fin 8)) (ha : a.card = 4), C.P.ph t = vq a ∧
+    ∃ (a : Finset (Fin 8)) (_ha : a.card = 4), C.P.ph t = vq a ∧
       c * (y * t * y⁻¹) * c⁻¹ ∈ C.I ∧ (∀ z, C.P.rho (c * (y * t * y⁻¹) * c⁻¹) z ≠ z) ∧
       (∀ z, C.P.rho (c * (y * t * y⁻¹) * c⁻¹) z ∈ a ↔ z ∈ a) := by
   have hStd := C.H.ex.1

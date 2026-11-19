@@ -20,9 +20,9 @@ open CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.WordG
 
 section
 
-@[expose] noncomputable def hhGs (j : ℕ) : J := slpG genG hhWords j
+noncomputable def hhGs (j : ℕ) : J := slpG genG hhWords j
 
-@[expose] noncomputable def hhLetterG (z : ℤ) : J :=
+noncomputable def hhLetterG (z : ℤ) : J :=
   if z.natAbs ≤ 2 then genG z
   else if 0 < z then hhGs (z.natAbs - 3) else (hhGs (z.natAbs - 3))⁻¹
 

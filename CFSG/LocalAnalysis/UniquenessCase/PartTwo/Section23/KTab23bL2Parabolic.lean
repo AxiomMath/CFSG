@@ -27,7 +27,7 @@ noncomputable def statedSLNatImage (K : Type) [Field K] :
   one_mem' := by simp
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, toAdd_mul, Pi.add_apply] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, toAdd_mul, Pi.add_apply] at hx hy ⊢
     rw [hx, hy, add_zero]
   inv_mem' := by
     intro x hx
@@ -40,7 +40,7 @@ theorem fixedPointSubgroup_Rg_image (K : Type) [Field K] :
     letI : MulDistribMulAction ↥((SL2Model.Rg K).map SL2Model.natAct) (SL2Model.Wm K) :=
       MulDistribMulAction.compHom (SL2Model.Wm K) ((SL2Model.Rg K).map SL2Model.natAct).subtype
     fixedPointSubgroup ↥((SL2Model.Rg K).map SL2Model.natAct) (SL2Model.Wm K) = line0 K := by
-  letI : MulDistribMulAction ↥((SL2Model.Rg K).map SL2Model.natAct) (SL2Model.Wm K) :=
+  let : MulDistribMulAction ↥((SL2Model.Rg K).map SL2Model.natAct) (SL2Model.Wm K) :=
     MulDistribMulAction.compHom (SL2Model.Wm K) ((SL2Model.Rg K).map SL2Model.natAct).subtype
   ext x
   constructor
@@ -52,7 +52,7 @@ theorem fixedPointSubgroup_Rg_image (K : Type) [Field K] :
     have h1 : SL2Model.natAct (SL2Model.e12 (1 : K)) x = x := hfix
     have h2 := congrFun (congrArg Multiplicative.toAdd h1) 0
     rw [SL2Model.natAct_apply, toAdd_ofAdd, SL2Model.e12_smul] at h2
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, mul_one] at h2
+    simp only [Matrix.cons_val_zero] at h2
     rw [mem_line0]
     linear_combination h2
   · intro hx
@@ -77,7 +77,7 @@ theorem Bsub_smul_mem_line0 (K : Type) [Field K] {A : SL2 K} (hA : A ∈ Bsub K)
     letI : MulDistribMulAction (SL2 K) (SL2Model.Wm K) :=
       MulDistribMulAction.compHom (SL2Model.Wm K) SL2Model.natAct
     A • x ∈ line0 K := by
-  letI : MulDistribMulAction (SL2 K) (SL2Model.Wm K) :=
+  let : MulDistribMulAction (SL2 K) (SL2Model.Wm K) :=
     MulDistribMulAction.compHom (SL2Model.Wm K) SL2Model.natAct
   rw [mem_line0] at hx ⊢
   change (Multiplicative.toAdd (SL2Model.natAct A x)) 1 = 0
@@ -98,9 +98,9 @@ theorem fixedPointSubgroup_map_conj (A : Subgroup (MulAut V)) (h : MulAut V) :
       MulDistribMulAction.compHom V A.subtype
     fixedPointSubgroup ↥(A.map (MulAut.conj h).toMonoidHom) V =
       (fixedPointSubgroup ↥A V).map h.toMonoidHom := by
-  letI : MulDistribMulAction ↥(A.map (MulAut.conj h).toMonoidHom) V :=
+  let : MulDistribMulAction ↥(A.map (MulAut.conj h).toMonoidHom) V :=
     MulDistribMulAction.compHom V (A.map (MulAut.conj h).toMonoidHom).subtype
-  letI : MulDistribMulAction ↥A V :=
+  let : MulDistribMulAction ↥A V :=
     MulDistribMulAction.compHom V A.subtype
   ext v
   constructor
@@ -135,7 +135,7 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
 theorem natImageRg_isSylowTwoOf :
     IsSylowTwoOf ((SL2Model.Rg K).map (SL2Model.natAct (F := K)))
       (SL2Model.natAct (F := K)).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : Matrix.SpecialLinearGroup (Fin 2) K →* MulAut (SL2Model.Wm K) := SL2Model.natAct
   let Q : Sylow 2 f.range :=
     (SL2Model.Rg_isPGroup (F := K)).toSylow (SL2Model.Rg_index_odd (F := K)) |>.mapSurjective
@@ -209,9 +209,9 @@ theorem fixedPointSubgroup_sylow_map {V : Type} [Group V] {H : Subgroup (MulAut 
     letI : MulDistribMulAction ↥((S : Subgroup H).map H.subtype) V :=
       MulDistribMulAction.compHom V ((S : Subgroup H).map H.subtype).subtype
     fixedPointSubgroup ↥S V = fixedPointSubgroup ↥((S : Subgroup H).map H.subtype) V := by
-  letI : MulDistribMulAction ↥S V :=
+  let : MulDistribMulAction ↥S V :=
     MulDistribMulAction.compHom V (H.subtype.comp (S : Subgroup H).subtype)
-  letI : MulDistribMulAction ↥((S : Subgroup H).map H.subtype) V :=
+  let : MulDistribMulAction ↥((S : Subgroup H).map H.subtype) V :=
     MulDistribMulAction.compHom V ((S : Subgroup H).map H.subtype).subtype
   ext v
   constructor
@@ -249,9 +249,9 @@ theorem natImage_rank_one
   let V := SL2Model.Wm K
   let f := SL2Model.natAct (F := K)
   let H : Subgroup (MulAut V) := f.range
-  letI : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
-  letI : MulAction ↥H V := MulDistribMulAction.toMulAction
-  letI : MulAction ↥H (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
+  let : MulAction ↥H V := MulDistribMulAction.toMulAction
+  let : MulAction ↥H (Set V) := Set.mulActionSet
   change P ≤ MulAction.stabilizer H (fixedPointSubgroup ↥S V : Set V)
   let SH : Subgroup (MulAut V) := (S : Subgroup H).map H.subtype
   let PH : Subgroup (MulAut V) := P.map H.subtype
@@ -275,7 +275,7 @@ theorem natImage_rank_one
       rw [hSH_eq]
       exact Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
     exact Subgroup.mem_map.mpr ⟨h * x * h⁻¹, hSHPH hxSH, by
-      simp [MulAut.conj_apply, mul_assoc]⟩
+      simp [mul_assoc]⟩
   let e : Matrix.SpecialLinearGroup (Fin 2) K ≃* H :=
     MonoidHom.ofInjective (SL2Model.natAct_injective (F := K))
   have hPH'_le_H : PH' ≤ H := by
@@ -314,7 +314,7 @@ theorem natImage_rank_one
     have hPH_le_Bh : PH ≤ ((Bsub K).map f).map (MulAut.conj h).toMonoidHom := by
       intro x hx
       have hx' : h⁻¹ * x * h ∈ PH' :=
-        Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+        Subgroup.mem_map.mpr ⟨x, hx, by simp [mul_assoc]⟩
       have hx'' : h⁻¹ * x * h ∈ (Bsub K).map f := hPH'_le_B hx'
       exact Subgroup.mem_map.mpr ⟨h⁻¹ * x * h, hx'', by simp [MulAut.conj_apply, mul_assoc]⟩
     have hline_sub : fixedPointSubgroup ↥UH V = line0 K :=
@@ -393,12 +393,12 @@ theorem statedSLNatImage_eq_range (K : Type) [Field K] :
 
 theorem l2ParabolicLeStabilizer_statedSL
     (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ)
-    (hK : Nat.card K = 2 ^ n) :
+    (_hK : Nat.card K = 2 ^ n) :
     L2ParabolicLeStabilizer (SL2Model.Wm K) (statedSLNatImage K) n := by
   intro hL2 hBin
   rw [statedSLNatImage_eq_range]
   intro S
-  letI : MulAction ↥(SL2Model.natAct (F := K)).range (Set (SL2Model.Wm K)) :=
+  let : MulAction ↥(SL2Model.natAct (F := K)).range (Set (SL2Model.Wm K)) :=
     Set.mulActionSet
   let ℓ : Subgroup (SL2Model.Wm K) := fixedPointSubgroup ↥S (SL2Model.Wm K)
   let Pℓ : Subgroup ↥(SL2Model.natAct (F := K)).range :=
@@ -445,8 +445,8 @@ theorem exists_natural_image_of_binaryNaturalSL
       ∃ e : W ≃* SL2Model.Wm K,
         H.map (MulAut.congr e).toMonoidHom = statedSLNatImage K := by
   obtain ⟨K, hF, hFin, hK, π, hπ⟩ := hBin
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨e, he⟩ := CFSG.Quasithin.H.exists_mulEquiv_of_realizesVia (StatedSL 2 K) hπ
   refine ⟨K, hF, hFin, hK, e, ?_⟩
   rw [CFSG.Quasithin.H.map_congrHom_eq_natImage (StatedSL 2 K) hπ.1 e he,
@@ -465,10 +465,10 @@ theorem l2ParabolicLeStabilizer_of_transport
       L2ParabolicLeStabilizer W H n := by
   intro W _ _ H n hL2 hBin
   obtain ⟨K, hF, hFin, hK, e, hH'⟩ := exists_natural_image_of_binaryNaturalSL H n hBin
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by
       rw [← Nat.card_eq_fintype_card]

@@ -176,7 +176,7 @@ theorem pRank_centVec_ge (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgr
     m ≤ CFSG.Open.pRank p (D.M ⊓ centralizer (V : Set G)) := by
   classical
   have hp : p.Prime := h.p_prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set hV := h.hyp125.isElemAbelian with hVdef
   set X := conjClosure D.M L with hXdef
   have hXM : X ≤ D.M := TwelveTwentyThree.conjClosure_le h.hL.1.1.le
@@ -359,8 +359,8 @@ theorem exists_adjoint_of_isG2 {X : Type} [Group X] {f : ℕ} (hG2 : IsG2 X f) :
 theorem center_eq_bot_of_isG2 {X : Type} [Group X] {f : ℕ} (hG2 : IsG2 X f) :
     Subgroup.center X = ⊥ := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := exists_adjoint_of_isG2 hG2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   exact CFSG.GorensteinWalter.center_eq_bot_of_mulEquiv e
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
 
@@ -369,9 +369,9 @@ theorem pRank_le_two_of_isG2 {X : Type} [Group X] [Finite X] {f p : ℕ} (hf2 : 
     (hcong : (2 : ℤ) ^ f ≡ -1 [ZMOD (p : ℤ)]) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2 := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := exists_adjoint_of_isG2 hG2
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hp1 : 1 ≤ 2 ^ f := Nat.one_le_pow f 2 (by norm_num)
   have hdvd : p ∣ (2 ^ f) ^ 2 - 1 := by
     have hfac : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by
@@ -410,9 +410,9 @@ theorem barSub_ne_bot_of_binaryNaturalSL {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {f : ℕ}
     (h : CFSG.Quasithin.BinaryNaturalSL H ⊤ (CFSG.Quasithin.fixV H) 2 f) : H ≠ ⊥ := by
   obtain ⟨K, hKf, hKfin, -, hR⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨π, hπ⟩ := hR
   exact barSub_ne_bot_of_natRealizes (ι := Fin 2) (K := K) hπ
 
@@ -420,9 +420,9 @@ theorem barSub_ne_bot_of_natOmegaMinus4 {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {f : ℕ}
     (h : NatOmegaMinus H ⊤ (CFSG.Quasithin.fixV H) 4 (f / 2)) : H ≠ ⊥ := by
   obtain ⟨-, K, hKf, hKfin, b, c, -, -, hR⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨π, hπ⟩ := hR
   exact barSub_ne_bot_of_natRealizes (ι := Fin (4 / 2 - 1) ⊕ Fin (4 / 2 - 1) ⊕ Fin 2) hπ
 

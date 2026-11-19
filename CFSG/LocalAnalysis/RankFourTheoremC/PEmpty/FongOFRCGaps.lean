@@ -23,7 +23,7 @@ open CFSG.RankThree.PartOne.KE.CTCyclo (key_data cycloIdx)
 
 theorem orderOf_eq_nine_of_dvd_phi {p q : ℕ} (hp : p.Prime) (hp7 : 7 < p)
     (h : (p : ℤ) ∣ (exhaustionPhi 9).eval (q : ℤ)) : orderOf (q : ZMod p) = 9 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz : (((exhaustionPhi 9).eval (q : ℤ) : ℤ) : ZMod p) = 0 :=
     (ZMod.intCast_zmod_eq_zero_iff_dvd _ p).2 h
   simp only [exhaustionPhi, Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X,
@@ -51,11 +51,11 @@ theorem orderOf_eq_nine_of_dvd_phi {p q : ℕ} (hp : p.Prime) (hp7 : 7 < p)
   interval_cases k
   · exact absurd (by simp [hk9]) h3
   · exact absurd (by simp [hk9]) h3
-  · simpa [hk9]
+  · simp [hk9]
 
 theorem orderOf_eq_eighteen_of_dvd_phi {p q : ℕ} (hp : p.Prime) (hp7 : 7 < p)
     (h : (p : ℤ) ∣ (exhaustionPhi 18).eval (q : ℤ)) : orderOf (q : ZMod p) = 18 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz : (((exhaustionPhi 18).eval (q : ℤ) : ℤ) : ZMod p) = 0 :=
     (ZMod.intCast_zmod_eq_zero_iff_dvd _ p).2 h
   simp only [exhaustionPhi, Polynomial.eval_add, Polynomial.eval_sub, Polynomial.eval_pow,

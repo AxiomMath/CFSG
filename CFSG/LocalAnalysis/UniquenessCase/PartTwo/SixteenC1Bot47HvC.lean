@@ -21,7 +21,7 @@ theorem s16c1_core_bot_V (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig 
     ∀ h ∈ centralizer ({z} : Set G),
       ¬ V ⊓ conjSubgroup V h ≤ Subgroup.zpowers z → h ∈ D.M := by
   intro h hh hnot
-  rw [SetLike.not_le_iff_exists] at hnot
+  rw [IsConcreteLE.not_le_iff_exists] at hnot
   obtain ⟨w, hw, hwz⟩ := hnot
   have hwV : w ∈ V := hw.1
   have hz2 : z ^ 2 = 1 := hV.2 z hz
@@ -107,6 +107,7 @@ theorem s16c1_comm_V_conjV (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.si
     intro v hv
     exact (mul_inv_eq_iff_eq_mul.mp (hcent w hw v hv)).symm
 
+omit [Finite G] in
 theorem s16c1_V_le_pCoreOf_of_comm {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     (hcomm : ∀ h ∈ centralizer ({z} : Set G), ⁅V, conjSubgroup V h⁆ = ⊥) :
     V ≤ pCoreOf 2 (centralizer ({z} : Set G)) := by
@@ -119,7 +120,7 @@ theorem s16c1_V_le_pCoreOf_of_comm {V : Subgroup G} {z : G} (hV : IsElemAbelian 
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     rw [hy]
-    letI : IsMulCommutative ↥V := hV.1
+    let : IsMulCommutative ↥V := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨z, hz⟩ : ↥V) (⟨v, hv⟩ : ↥V))
   have hVkH : ∀ k : ↥H, conjSubgroup V (k : G) ≤ H := by
     intro k

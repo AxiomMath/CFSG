@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem map_conj_J {g : G} (hg : g ∈ H z) : (J z).map (MulAut.conj g).toMonoidHom = J z := by
   apply le_antisymm
   · rintro _ ⟨j, hj, rfl⟩
@@ -21,6 +22,7 @@ theorem map_conj_J {g : G} (hg : g ∈ H z) : (J z).map (MulAut.conj g).toMonoid
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite G] in
 theorem mem_commutator_conj_iff {g σ : G} (hg : g ∈ H z) (hgσ : g * σ = σ * g) (a : G) :
     a ∈ ⁅zpowers σ, J z⁆ ↔ g * a * g⁻¹ ∈ ⁅zpowers σ, J z⁆ := by
   have hmap : ∀ x : G, x ∈ H z → x * σ = σ * x →

@@ -85,7 +85,7 @@ theorem mem_of_odd_orderOf_of_le_sup {L T : Subgroup G} (hT : IsPGroup 2 T)
     · simpa using hj'
     · exfalso
       rw [hj'] at h5
-      exact (Nat.not_even_iff_odd.mpr h5) (by simp [pow_succ, Nat.even_mul])
+      exact (Nat.not_even_iff_odd.mpr h5) (by simp [pow_succ])
   have h6 : φ (ll * tt) = 1 := orderOf_eq_one_iff.mp h3
   have h7 : ll * tt ∈ N := (QuotientGroup.eq_one_iff _).mp h6
   have h8 : l * t ∈ L := h7
@@ -112,7 +112,7 @@ theorem isPGroup_two_of_le_sup [Finite G] {L T C : Subgroup G} (hT : IsPGroup 2 
     · simpa using hc
     · exfalso
       have : Odd (2 ^ (c + 1)) := hc ▸ hb
-      exact (Nat.not_even_iff_odd.mpr this) (by simp [pow_succ, Nat.even_mul])
+      exact (Nat.not_even_iff_odd.mpr this) (by simp [pow_succ])
   exact ⟨a, by rw [← hxo, hab, hb1, mul_one]⟩
 
 end CFSG.Quasithin.H13.NFa2

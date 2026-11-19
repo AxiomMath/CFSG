@@ -100,8 +100,8 @@ theorem kTab23cNineAt_sl {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulA
     {n k : ℕ} (hk : 2 ≤ k) (h : CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ k n) :
     KTab23cNineAt W H := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hn : 1 ≤ n := by
     have hcard : 1 < Nat.card K := Finite.one_lt_card
     rw [hKcard] at hcard
@@ -109,8 +109,8 @@ theorem kTab23cNineAt_sl {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulA
     have h0 : n = 0 := by omega
     subst h0
     norm_num at hcard
-  haveI : CharP K 2 := uc22p22d_charP_two hn hKcard
-  haveI : NeZero k := ⟨by omega⟩
+  have : CharP K 2 := uc22p22d_charP_two hn hKcard
+  have : NeZero k := ⟨by omega⟩
   exact kTab23cNineAt_of_realizes_sl H (k := k) (K := K) hk hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTab23cNine

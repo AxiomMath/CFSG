@@ -24,7 +24,7 @@ theorem i167Class_of_families (hLin : I167CLin) (hUni : I167CUni) (hSymp : I167C
   have hxp : x ^ p = 1 := hB.2 x hxB
   have hperf : Group.IsPerfect ↥X := ⟨hX.1⟩
   have hRig := CFSG.StandardType.ggLabelRigidInput_holds
-  haveI := nontrivial_pSimple_of_innDiagOn hinn
+  have := nontrivial_pSimple_of_innDiagOn hinn
   obtain ⟨eX⟩ := CFSG.LocalAnalysis.GLTheoremA.S265.SF.nonempty_centerQuot_equiv_pSimple (p := p) hX
   have hcat : catalogIs (↥X ⧸ Subgroup.center ↥X) K1419.I1419Classical2 :=
     (catalogIs_congr eX).2 hclass

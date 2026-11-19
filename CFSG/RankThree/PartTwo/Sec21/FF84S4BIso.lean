@@ -16,26 +16,32 @@ abbrev sg (c x : G) : G := c * x * c⁻¹
 
 abbrev pim (c x : G) : G := x * sg c x * sg c (sg c x)
 
+omit [Finite G] in
 lemma sg_mem {S : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G)) {x : G}
     (hx : x ∈ S) : sg c x ∈ S :=
   (Subgroup.mem_normalizer_iff.1 hc x).1 hx
 
+omit [Finite G] in
 lemma sg_mul (c x y : G) : sg c (x * y) = sg c x * sg c y := by
   simp only [sg]; group
 
+omit [Finite G] in
 lemma sg_three {c : G} (hc : c ^ 3 = 1) (x : G) : sg c (sg c (sg c x)) = x := by
   have hc' : c * c * c = 1 := by simpa [pow_succ] using hc
   have h : sg c (sg c (sg c x)) = c * c * c * x * (c * c * c)⁻¹ := by simp only [sg]; group
   rw [h, hc']; simp
 
+omit [Finite G] in
 lemma comm3 {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {a b d : G} (ha : a ∈ S)
     (hb : b ∈ S) (hd : d ∈ S) : a * b * d = b * d * a := by
   rw [hcm a ha b hb, mul_assoc, hcm a ha d hd, ← mul_assoc]
 
+omit [Finite G] in
 lemma pim_mem {S : Subgroup G} {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G)) {x : G}
     (hx : x ∈ S) : pim c x ∈ S :=
   mul_mem (mul_mem hx (sg_mem hc hx)) (sg_mem hc (sg_mem hc hx))
 
+omit [Finite G] in
 lemma pim_fix {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) (hc3 : c ^ 3 = 1) {x : G} (hx : x ∈ S) :
     sg c (pim c x) = pim c x := by
@@ -46,6 +52,7 @@ lemma pim_fix {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {
   rw [h1, sg_three hc3]
   exact (comm3 hcm hx hs1 hs2).symm
 
+omit [Finite G] in
 lemma phi_mul {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) {x y : G} (hx : x ∈ S) (hy : y ∈ S) :
     (x * y)⁻¹ * sg c (x * y) = (x⁻¹ * sg c x) * (y⁻¹ * sg c y) := by
@@ -66,16 +73,19 @@ noncomputable def phiHom (S : Subgroup G) (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y
   map_one' := by simp [sg]
   map_mul' x y := phi_mul hcm hc x.2 y.2
 
+omit [Finite G] in
 lemma phiHom_apply {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) (x : S) :
     phiHom S hcm hc x = (x : G)⁻¹ * sg c x := by
   simp only [phiHom, MonoidHom.coe_mk, OneHom.coe_mk]
 
+omit [Finite G] in
 lemma phiHom_eq_one_iff {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) (x : S) :
     phiHom S hcm hc x = 1 ↔ c * (x : G) = (x : G) * c := by
   rw [phiHom_apply, inv_mul_eq_one, sg, eq_comm, mul_inv_eq_iff_eq_mul]
 
+omit [Finite G] in
 lemma sg2_eq {c : G} (hcc : c * c * c = 1) (s : G) : sg c (sg c s) = c⁻¹ * s * c := by
   have hcinv : c⁻¹ = c * c := (eq_inv_of_mul_eq_one_left hcc).symm
   have hc2 : c⁻¹ * c⁻¹ = c := by
@@ -86,6 +96,7 @@ lemma sg2_eq {c : G} (hcc : c * c * c = 1) (s : G) : sg c (sg c s) = c⁻¹ * s 
   calc c * (c * s * c⁻¹) * c⁻¹ = c * c * s * (c⁻¹ * c⁻¹) := by group
     _ = c⁻¹ * s * c := by rw [hc2, hcinv]
 
+omit [Finite G] in
 lemma comm_c {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G} {s : G} (hs : s ∈ S) :
     s * c * s⁻¹ * c⁻¹ = s⁻¹ * sg c s := by
   have hinv : s⁻¹ = s := inv_eq_of_mul_eq_one_right (hsq s hs)
@@ -93,6 +104,7 @@ lemma comm_c {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G} {s : G} (hs
   simp only [sg]
   group
 
+omit [Finite G] in
 lemma comm_cinv {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hcc : c * c * c = 1)
     {s : G} (hs : s ∈ S) :
     s * c⁻¹ * s⁻¹ * c⁻¹⁻¹ = s * sg c (sg c s) := by
@@ -100,6 +112,7 @@ lemma comm_cinv {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hcc : c
   rw [inv_inv, hinv, sg2_eq hcc]
   group
 
+omit [Finite G] in
 lemma phi_comm_t {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) {s : G} (hs : s ∈ S) :
     (s * sg c s)⁻¹ * sg c (s * sg c s) = s * sg c (sg c s) := by
@@ -109,6 +122,7 @@ lemma phi_comm_t {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c : G}
     rw [← mul_assoc, hsq _ hu, one_mul]
   rw [inv_eq_of_mul_eq_one_right (hsq _ ht), sg_mul, mul_assoc s (sg c s), huu]
 
+omit [Finite G] in
 lemma range_le_comm {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G)) :
     (phiHom S hcm hc).range ≤ ⁅S, Subgroup.zpowers c⁆ := by
@@ -117,6 +131,7 @@ lemma range_le_comm {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y 
   rw [phiHom_apply, ← comm_c hsq ht]
   exact Subgroup.commutator_mem_commutator ht (Subgroup.mem_zpowers c)
 
+omit [Finite G] in
 lemma comm_mem_range {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hc3 : c ^ 3 = 1) {s : G} (hs : s ∈ S) {g : G} (hg : g ∈ Subgroup.zpowers c) :
@@ -137,6 +152,7 @@ lemma comm_mem_range {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y
     rw [phiHom_apply]
     exact (phi_comm_t hsq hc hs).trans (comm_cinv hsq hcc hs).symm
 
+omit [Finite G] in
 lemma commutator_zpowers_eq_range {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hc3 : c ^ 3 = 1) :
@@ -145,6 +161,7 @@ lemma commutator_zpowers_eq_range {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈
     (Subgroup.commutator_le.2 fun _ hg₁ _ hg₂ => comm_mem_range hcm hsq hc hc3 hg₁ hg₂)
     (range_le_comm hcm hsq hc)
 
+omit [Finite G] in
 lemma ker_map_eq {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) :
     (phiHom S hcm hc).ker.map S.subtype = S ⊓ Cen c := by
@@ -160,6 +177,7 @@ lemma ker_map_eq {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x
     rw [phiHom_eq_one_iff hcm hc]
     exact (Subgroup.mem_centralizer_singleton_iff.1 hxc).symm
 
+omit [Finite G] in
 lemma card_comm_mul {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hc3 : c ^ 3 = 1) :
@@ -170,8 +188,9 @@ lemma card_comm_mul {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y 
   rw [commutator_zpowers_eq_range hcm hsq hc hc3, ← hker, mul_comm]
   exact Subgroup.card_ker_mul_card_range (phiHom S hcm hc)
 
+omit [Finite G] in
 lemma perm_aux {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {x y p q r s : G}
-    (hx : x ∈ S) (hy : y ∈ S) (hp : p ∈ S) (hq : q ∈ S) (hr : r ∈ S) (hs : s ∈ S) :
+    (_hx : x ∈ S) (hy : y ∈ S) (hp : p ∈ S) (hq : q ∈ S) (hr : r ∈ S) (_hs : s ∈ S) :
     x * y * (p * r) * (q * s) = x * p * q * (y * r * s) := by
   have sw : ∀ {a b : G}, a ∈ S → b ∈ S → ∀ X : G, a * (b * X) = b * (a * X) := by
     intro a b ha hb X
@@ -184,6 +203,7 @@ lemma perm_aux {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) 
     _ = x * (p * (q * (y * (r * s)))) := by rw [sw hr hy]
     _ = x * p * q * (y * r * s) := by simp only [mul_assoc]
 
+omit [Finite G] in
 lemma pim_mul {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) {x y : G} (hx : x ∈ S) (hy : y ∈ S) :
     pim c (x * y) = pim c x * pim c y := by
@@ -197,27 +217,33 @@ lemma pim_mul {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {
   rw [e1]
   exact perm_aux hcm hx hy hp hq hr hs
 
+omit [Finite G] in
 lemma commute_sg {d e x : G} (hde : Commute d e) (hdx : Commute d x) :
     Commute d (sg e x) :=
   (hde.mul_right hdx).mul_right hde.inv_right
 
+omit [Finite G] in
 lemma pim_commute {d e x : G} (hde : Commute d e) (hdx : Commute d x) :
     Commute d (pim e x) :=
   (hdx.mul_right (commute_sg hde hdx)).mul_right (commute_sg hde (commute_sg hde hdx))
 
+omit [Finite G] in
 lemma commute_of_sg {e y : G} (h : e * y * e⁻¹ = y) : Commute e y := by
   show e * y = y * e
   calc e * y = e * y * e⁻¹ * e := by group
     _ = y * e := by rw [h]
 
+omit [Finite G] in
 lemma commute_of_mem_cen {c x : G} (h : x ∈ Cen c) : Commute c x :=
   (Subgroup.mem_centralizer_singleton_iff.1 h).symm
 
+omit [Finite G] in
 lemma pim_of_fix {S : Subgroup G} (hsq : ∀ x ∈ S, x * x = 1) {c y : G} (hy : y ∈ S)
     (h : sg c y = y) : pim c y = y := by
   show y * sg c y * sg c (sg c y) = y
   rw [h, h, hsq y hy, one_mul]
 
+omit [Finite G] in
 lemma pim_ker {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c x : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hx : x ∈ S) (h : pim c x = 1) : x ∈ ⁅S, Subgroup.zpowers c⁆ := by
@@ -233,6 +259,7 @@ lemma pim_ker {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
   show (sg c x)⁻¹ * sg c (sg c x) = x
   rw [hinv, hx2]
 
+omit [Finite G] in
 lemma pim_cancel {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {c : G}
     (hc : c ∈ Subgroup.normalizer (S : Set G)) {x y : G} (hx : x ∈ S) (hy : y ∈ S)
     (hfy : pim c y = y) (hxy : pim c x = y) : pim c (x * y⁻¹) = 1 := by
@@ -242,6 +269,7 @@ lemma pim_cancel {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x
   rw [inv_mul_cancel_right, hxy, hfy] at h1
   exact mul_right_cancel (by rw [one_mul]; exact h1.symm)
 
+omit [Finite G] in
 lemma closure_commute {A : Set G} {w : G} (h : ∀ g ∈ A, Commute g w) :
     ∀ g ∈ Subgroup.closure A, Commute g w := by
   intro g hg
@@ -251,6 +279,7 @@ lemma closure_commute {A : Set G} {w : G} (h : ∀ g ∈ A, Commute g w) :
     exact Subgroup.mem_centralizer_singleton_iff.2 (h g' hg')
   exact Subgroup.mem_centralizer_singleton_iff.1 (hle hg)
 
+omit [Finite G] in
 lemma cen_of_gen {B : Subgroup G} {b b₁ b₂ y : G} (hB : B = Subgroup.closure {b, b₁, b₂})
     (h : ∀ g ∈ ({b, b₁, b₂} : Set G), Commute g y) : y ∈ CenS B := by
   show y ∈ Subgroup.centralizer (B : Set G)
@@ -259,6 +288,7 @@ lemma cen_of_gen {B : Subgroup G} {b b₁ b₂ y : G} (hB : B = Subgroup.closure
   rw [hB] at hg
   exact closure_commute h g hg
 
+omit [Finite G] in
 lemma inter_le_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c d e : G} (hen : e ∈ Subgroup.normalizer (S : Set G))
     (he3 : e ^ 3 = 1) (hce : Commute c e) (hde : Commute d e)
@@ -271,11 +301,13 @@ lemma inter_le_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x
     hfix _ hy (pim_commute hce hcx) (pim_commute hde hdx) hey
   exact pim_ker hcm hsq hen hx h1
 
+omit [Finite G] in
 lemma sg_of_commute {c x : G} (h : Commute c x) : sg c x = x := by
   show c * x * c⁻¹ = x
   calc c * x * c⁻¹ = x * c * c⁻¹ := by rw [h.eq]
     _ = x := by group
 
+omit [Finite G] in
 lemma cardW {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hc3 : c ^ 3 = 1) (hcc : Nat.card ↥(S ⊓ Cen c) = 16) (hS : Nat.card S = 64) :
@@ -284,6 +316,7 @@ lemma cardW {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
   rw [hcc, hS] at h
   omega
 
+omit [Finite G] in
 lemma W_le_S {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Subgroup.normalizer (S : Set G))
     (hc3 : c ^ 3 = 1) : ⁅S, Subgroup.zpowers c⁆ ≤ S := by
@@ -328,6 +361,7 @@ lemma inter_eq_W {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x
     exact hk
   exact Subgroup.eq_of_le_of_card_ge hle hWle
 
+omit [Finite G] in
 lemma fix_of_B {S B : Subgroup G} {b b₁ b₂ : G} (hC : S ⊓ CenS B = ⊥)
     (hgen : B = Subgroup.closure {b, b₁, b₂}) {y : G} (hy : y ∈ S)
     (h : ∀ g ∈ ({b, b₁, b₂} : Set G), Commute g y) : y = 1 := by
@@ -335,6 +369,7 @@ lemma fix_of_B {S B : Subgroup G} {b b₁ b₂ : G} (hC : S ⊓ CenS B = ⊥)
   rw [hC] at hm
   exact Subgroup.mem_bot.1 hm
 
+omit [Finite G] in
 lemma join_mem {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {b b₁ b₂ : G} (hb : b ∈ Subgroup.normalizer (S : Set G))
     (hb1 : b₁ ∈ Subgroup.normalizer (S : Set G)) (hb3 : b ^ 3 = 1) (hb13 : b₁ ^ 3 = 1)
@@ -373,8 +408,8 @@ theorem B_isotypic {S B : Subgroup G} {b b₁ b₂ : G} (hS : IsElemAb 2 6 S) (h
   obtain ⟨hEA, hScard⟩ := hS
   obtain ⟨hBEA, -⟩ := hB
   have hS64 : Nat.card S = 64 := by rw [hScard]; norm_num
-  haveI := hEA
-  haveI := hBEA
+  have := hEA
+  have := hBEA
   have hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : S) ⟨y, hy⟩)
   have hsq : ∀ x ∈ S, x * x = 1 := fun x hx => by

@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Aux
 
+omit [Finite G] in
 private theorem le_normalizer_of_forall_mem {B Y : Subgroup G}
     (h : ∀ b ∈ B, ∀ y ∈ Y, b * y * b⁻¹ ∈ Y) : B ≤ Subgroup.normalizer (Y : Set G) := by
   intro b hb
@@ -24,6 +25,7 @@ private theorem le_normalizer_of_forall_mem {B Y : Subgroup G}
   have := h b⁻¹ (B.inv_mem hb) _ hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem conj_mem_centModSubgroup {p : ℕ} {J : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (J : Set G)) (hc : c ∈ centModSubgroup p J) :
     g * c * g⁻¹ ∈ centModSubgroup p J := by
@@ -40,10 +42,12 @@ private theorem conj_mem_centModSubgroup {p : ℕ} {J : Subgroup G} {g c : G}
       simp only [commutatorElement_def]; group
     rw [h3]; exact h2
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_centModSubgroup (p : ℕ) (J : Subgroup G) :
     Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer (centModSubgroup p J : Set G) :=
   le_normalizer_of_forall_mem fun _ hb _ hc => conj_mem_centModSubgroup hb hc
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_le_centModSubgroup (p : ℕ) (J : Subgroup G) :
     GLAPPrimeCoreOf p J ≤ centModSubgroup p J := by
   intro o ho
@@ -54,6 +58,7 @@ private theorem glaPPrimeCoreOf_le_centModSubgroup (p : ℕ) (J : Subgroup G) :
   rw [commutatorElement_def]
   exact Subgroup.mul_mem _ h1 (Subgroup.inv_mem _ ho)
 
+omit [Finite G] in
 private theorem exists_centMod_mul_of_inducesInnerMod {p : ℕ} {J : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (J : Set G)) (h : InducesInnerMod p J g) :
     ∃ c ∈ centModSubgroup p J, ∃ l ∈ J, g = c * l := by
@@ -67,6 +72,7 @@ private theorem exists_centMod_mul_of_inducesInnerMod {p : ℕ} {J : Subgroup G}
       simp only [commutatorElement_def]; group
     rw [h3]; exact Subgroup.inv_mem _ h2
 
+omit [Finite G] in
 private theorem exists_pow_mul_eq {C : Subgroup G} {s c : G}
     (hs : s ∈ Subgroup.normalizer (C : Set G)) (hc : c ∈ C) (n : ℕ) :
     ∃ c' ∈ C, (s * c) ^ n = s ^ n * c' := by
@@ -91,7 +97,7 @@ private theorem exists_relIndex_eq_two_pow {J S C : Subgroup G} (hS2 : IsPGroup 
   have hYN : Y ≤ Subgroup.normalizer (Z : Set G) := fun y hy =>
     Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Subgroup.le_normalizer hy.1, hJC hy.1⟩
-  haveI : (Z.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hZY).2 hYN
+  have : (Z.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hZY).2 hYN
   have hP : IsPGroup 2 (↥Y ⧸ Z.subgroupOf Y) := by
     intro q
     induction q using QuotientGroup.induction_on with
@@ -116,6 +122,7 @@ private theorem exists_relIndex_eq_two_pow {J S C : Subgroup G} (hS2 : IsPGroup 
   rw [Subgroup.index_eq_card]
   exact hk
 
+omit [Finite G] in
 private theorem le_sup_of_odd_relIndex_of_two_pow {A B Y : Subgroup G}
     (hA : ¬ 2 ∣ A.relIndex Y) {k : ℕ} (hB : B.relIndex Y = 2 ^ k) : Y ≤ A ⊔ B := by
   have h1 : (A ⊔ B).relIndex Y ∣ A.relIndex Y := Subgroup.relIndex_dvd_of_le_left Y le_sup_left
@@ -127,6 +134,7 @@ private theorem le_sup_of_odd_relIndex_of_two_pow {A B Y : Subgroup G}
   rw [hi0, pow_zero] at hi
   exact Subgroup.relIndex_eq_one.1 hi
 
+omit [Finite G] in
 private theorem le_normalizer_sup_of_le_sup {O Z R Y : Subgroup G} (hRY : R ≤ Y) (hZY : Z ≤ Y)
     (hYO : Y ≤ Subgroup.normalizer (O : Set G)) (hcomm : ∀ z ∈ Z, ∀ r ∈ R, ⁅z, r⁆ ∈ O)
     (hY : Y ≤ R ⊔ Z) : Y ≤ Subgroup.normalizer ((O ⊔ R : Subgroup G) : Set G) := by
@@ -143,6 +151,7 @@ private theorem le_normalizer_sup_of_le_sup {O Z R Y : Subgroup G} (hRY : R ≤ 
   exact (O ⊔ R).mul_mem (Subgroup.mem_sup_left h1)
     ((O ⊔ R).mul_mem (Subgroup.mem_sup_left (hcomm z hz r hr)) (Subgroup.mem_sup_right hr))
 
+omit [Finite G] in
 private theorem le_glaPPrimeCoreOf_of_normalized {p : ℕ} {A N : Subgroup G} (hNA : N ≤ A)
     (hn : A ≤ Subgroup.normalizer (N : Set G)) (hc : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p A := by
@@ -157,7 +166,7 @@ private theorem exists_sylow_two_relIndex (Y : Subgroup G) :
     ∃ R : Subgroup G, R ≤ Y ∧ IsPGroup 2 R ∧ ¬ 2 ∣ R.relIndex Y := by
   classical
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
-  refine ⟨(P : Subgroup ↥Y).map Y.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup ↥Y).map Y.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   have : ((P : Subgroup ↥Y).map Y.subtype).relIndex Y = (P : Subgroup ↥Y).index := by
     unfold Subgroup.relIndex Subgroup.subgroupOf
     rw [Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]
@@ -206,6 +215,7 @@ private theorem exists_invariant_twoSubgroup_sup_eq {p : ℕ} (hp : p.Prime) (hp
     · exact hWodd h
   exact ⟨Q, hQW.trans hWY, hQ2, hBQ, le_sup_of_odd_relIndex_of_two_pow hQodd' hk⟩
 
+omit [Finite G] in
 private theorem commutator_le_of_centralizes {J S B C Q : Subgroup G}
     (hBC : B ≤ Subgroup.normalizer (C : Set G)) (hJC : J ≤ Subgroup.normalizer (C : Set G))
     (hQJ : Q ≤ J) (hdec : ∀ s ∈ S, ∃ c ∈ C, ∃ l ∈ J, s = c * l)
@@ -244,8 +254,8 @@ private theorem commutator_le_of_centralizes {J S B C Q : Subgroup G}
 end Aux
 
 theorem exists_twoSubgroup_of_inducesInnerMod {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {X J B S : Subgroup G} (hJ : GLAPComponent p X J)
-    (hodd : Odd (Nat.card (GLAPPrimeCoreOf p J))) (hB : IsPGroup p B)
+    {X J B S : Subgroup G} (_hJ : GLAPComponent p X J)
+    (_hodd : Odd (Nat.card (GLAPPrimeCoreOf p J))) (hB : IsPGroup p B)
     (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hBS : B ≤ Subgroup.normalizer (S : Set G))
     (hS2 : IsPGroup 2 S) (hSJ : S ≤ Subgroup.normalizer (J : Set G))
     (hSB : (⁅S, B⁆ : Subgroup G) = S) (hinner : ∀ s ∈ S, InducesInnerMod p J s)

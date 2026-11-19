@@ -135,8 +135,7 @@ theorem ruTwoB_check : ruTwoBCheck = true := by
   rw [RuPair.lsz]
   unfold CFSG.Monster.B.Co2.Native.allLt
   change Nat.all (0 + 1 + 1 + 1) _ = true
-  simp only [Nat.all_succ, Nat.all_zero, Bool.true_and, Bool.and_eq_true, Nat.zero_add,
-    Nat.reduceAdd]
+  simp only [Nat.all_succ, Nat.all_zero, Bool.true_and, Bool.and_eq_true, Nat.reduceAdd]
   exact ⟨⟨cent_one (by decide) u_facts.2.2.2.1, cent_one (by decide) u_facts.2.2.2.2.1⟩,
     cent_one (by decide) u_facts.2.2.2.2.2⟩
 

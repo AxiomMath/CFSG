@@ -20,9 +20,11 @@ variable {ι κ : Type*} [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq
 private def embedMat (A : Matrix ι κ K) (B : Matrix κ ι K) (R : Matrix κ κ K) : Matrix ι ι K :=
   1 + A * (R - 1) * B
 
+omit [Fintype ι] in
 private theorem embedMat_one (A : Matrix ι κ K) (B : Matrix κ ι K) : embedMat A B 1 = 1 := by
   simp [embedMat]
 
+omit [DecidableEq ι] in
 private theorem mul_cancel_left_of_mul_eq_one {A : Matrix ι κ K} {B : Matrix κ ι K}
     (hBA : B * A = 1) {n : Type*} (X : Matrix κ n K) : B * (A * X) = X := by
   rw [← Matrix.mul_assoc, hBA, Matrix.one_mul]
@@ -42,7 +44,7 @@ private theorem embedMat_injective {A : Matrix ι κ K} {B : Matrix κ ι K} (hB
     intro T
     unfold embedMat
     simp only [Matrix.mul_sub, Matrix.sub_mul, Matrix.add_mul, Matrix.mul_add, Matrix.mul_one,
-      Matrix.one_mul, Matrix.mul_assoc, h1, hBA]
+      Matrix.mul_assoc, h1, hBA]
     abel
   rw [← key R, ← key S, h]
 
@@ -93,14 +95,13 @@ private theorem embedMat_conj {A : Matrix ι κ K} {B : Matrix κ ι K} {u : Mat
           simp only [Matrix.mul_assoc]
       _ = (A * U) * (R - 1) * (U * B) := by rw [hUA, hBu]
       _ = A * (U * R * U - U * U) * B := by
-          simp only [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one, Matrix.one_mul,
-            Matrix.mul_assoc]
+          simp only [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one, Matrix.mul_assoc]
       _ = A * (U * R * U - 1) * B := by rw [hU2]
   unfold embedMat
-  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, hu2]
+  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, hu2]
   rw [h1]
 
-private theorem proj_mul_involution {J : Matrix ι ι K} (hJ : Jᵀ = J) {u : Matrix ι ι K}
+private theorem proj_mul_involution {J : Matrix ι ι K} (_hJ : Jᵀ = J) {u : Matrix ι ι K}
     (hu : uᵀ * J * u = J) (hu2 : u * u = 1) {A : Matrix ι κ K} {G H U : Matrix κ κ K}
     (hG : Aᵀ * J * A = G) (hGH : G * H = 1) (hHG : H * G = 1) (hU2 : U * U = 1)
     (hUA : u * A = A * U) : (H * Aᵀ * J) * u = U * (H * Aᵀ * J) := by
@@ -155,14 +156,16 @@ section SL2
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem transvection_eq_fin_two :
     transvection (1 : Fin 2) 0 (1 : K) = !![1, 0; 1, 1] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.transvection]
 
 private def tvSL : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [CharP K 2] in
 private theorem tvSL_coe : ((tvSL : Matrix.SpecialLinearGroup (Fin 2) K) :
     Matrix (Fin 2) (Fin 2) K) = !![1, 0; 1, 1] := rfl
 
@@ -200,6 +203,7 @@ private def sl2Coe : Matrix.SpecialLinearGroup (Fin 2) K →* Matrix (Fin 2) (Fi
   map_one' := Matrix.SpecialLinearGroup.coe_one
   map_mul' := Matrix.SpecialLinearGroup.coe_mul
 
+omit [CharP K 2] in
 private theorem sl2Coe_injective : Function.Injective (sl2Coe (K := K)) :=
   fun _ _ h => Subtype.ext h
 
@@ -212,6 +216,7 @@ private def sl2Kron : Matrix.SpecialLinearGroup (Fin 2) K →*
     rw [Matrix.SpecialLinearGroup.coe_mul, ← Matrix.mul_kronecker_mul, Matrix.mul_one]
 
 open scoped Kronecker in
+omit [CharP K 2] in
 private theorem sl2Kron_injective : Function.Injective (sl2Kron (K := K)) := fun S S' h => by
   apply Subtype.ext
   ext i j
@@ -219,9 +224,11 @@ private theorem sl2Kron_injective : Function.Injective (sl2Kron (K := K)) := fun
   simpa [sl2Kron, Matrix.kroneckerMap_apply] using this
 
 open scoped Kronecker in
+omit [CharP K 2] in
 private theorem sl2Kron_apply (S : Matrix.SpecialLinearGroup (Fin 2) K) :
     sl2Kron S = (S : Matrix (Fin 2) (Fin 2) K) ⊗ₖ (1 : Matrix (Fin 2) (Fin 2) K) := rfl
 
+omit [CharP K 2] in
 private theorem sl2Kron_apply_apply (S : Matrix.SpecialLinearGroup (Fin 2) K)
     (i j i' j' : Fin 2) : sl2Kron S (i, j) (i', j') =
       (S : Matrix (Fin 2) (Fin 2) K) i i' * (1 : Matrix (Fin 2) (Fin 2) K) j j' := rfl
@@ -277,6 +284,7 @@ variable {K : Type} [Field K] [CharP K 2] {ι : Type} [Fintype ι] [DecidableEq 
 
 private def colVec {κ : Type} (A : Matrix ι κ K) (i : κ) : ι → K := fun r => A r i
 
+omit [CharP K 2] [DecidableEq ι] in
 private theorem gram_apply {κ : Type} (A : Matrix ι κ K) (J : Matrix ι ι K) (i j : κ) :
     (Aᵀ * J * A) i j = colVec A i ⬝ᵥ J *ᵥ colVec A j := by
   simp [Matrix.mul_apply, Matrix.mulVec, dotProduct, colVec, Finset.sum_mul, Finset.mul_sum,
@@ -285,11 +293,13 @@ private theorem gram_apply {κ : Type} (A : Matrix ι κ K) (J : Matrix ι ι K)
 
 variable {J : Matrix ι ι K} {u : Matrix ι ι K}
 
+omit [CharP K 2] [DecidableEq ι] in
 private theorem bil_symm (hJ : Jᵀ = J) (v w : ι → K) : v ⬝ᵥ J *ᵥ w = w ⬝ᵥ J *ᵥ v := by
   calc v ⬝ᵥ J *ᵥ w = (v ᵥ* J) ⬝ᵥ w := Matrix.dotProduct_mulVec v J w
     _ = (J *ᵥ v) ⬝ᵥ w := by rw [← hJ, Matrix.vecMul_transpose, hJ]
     _ = w ⬝ᵥ J *ᵥ v := dotProduct_comm _ _
 
+omit [CharP K 2] in
 private theorem J_mul_sub_one (hu : uᵀ * J * u = J) (hu2 : u * u = 1) :
     J * (u - 1) = (u - 1)ᵀ * J := by
   have hJu : J * u = uᵀ * J := by
@@ -298,6 +308,7 @@ private theorem J_mul_sub_one (hu : uᵀ * J * u = J) (hu2 : u * u = 1) :
   rw [Matrix.mul_sub, Matrix.transpose_sub, Matrix.transpose_one, Matrix.sub_mul, hJu,
     Matrix.mul_one, Matrix.one_mul]
 
+omit [CharP K 2] in
 private theorem bil_sub_one_right (hu : uᵀ * J * u = J) (hu2 : u * u = 1) (v w : ι → K) :
     v ⬝ᵥ J *ᵥ ((u - 1) *ᵥ w) = ((u - 1) *ᵥ v) ⬝ᵥ J *ᵥ w := by
   rw [Matrix.mulVec_mulVec, J_mul_sub_one hu hu2, ← Matrix.mulVec_mulVec,
@@ -310,6 +321,7 @@ private theorem sub_one_mul_self_eq_zero (hu2 : u * u = 1) : (u - 1) * (u - 1) =
     _ = (2 : K) • (1 - u) := (two_smul K _).symm
     _ = 0 := by rw [CharTwo.two_eq_zero, zero_smul]
 
+omit [CharP K 2] in
 private theorem exists_mulVec_ne_zero {N : Matrix ι ι K} (hN : N ≠ 0) :
     ∃ v : ι → K, N *ᵥ v ≠ 0 := by
   by_contra h
@@ -318,6 +330,7 @@ private theorem exists_mulVec_ne_zero {N : Matrix ι ι K} (hN : N ≠ 0) :
     ext i j
     simpa [Matrix.mulVec_single_one] using congrFun (h (Pi.single j 1)) i)
 
+omit [CharP K 2] in
 private theorem mulVec_eq_add_sub_one (u : Matrix ι ι K) (v : ι → K) :
     u *ᵥ v = v + (u - 1) *ᵥ v := by
   rw [Matrix.sub_mulVec, Matrix.one_mulVec]; abel
@@ -523,6 +536,7 @@ private theorem fromBlocks_mul_self :
   rw [Matrix.fromBlocks_multiply]
   simp [neg_one_matrix_eq]
 
+omit [CharP K 2] in
 private theorem fromBlocks_alternating (v : Fin m ⊕ Fin m → K) :
     v ⬝ᵥ (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ v = 0 := by
   simp [dotProduct, Matrix.mulVec, Fintype.sum_sum_type, Matrix.fromBlocks_apply₁₂,
@@ -580,9 +594,9 @@ theorem exists_inv_conj_of_lieModel_psp_of_orderOf_eq_two {Y : Type} [Group Y] {
     (h : CFSG.Blueprint.LieModel Y .PSp m 2 x) {d : Y} (hd : orderOf d = 2) :
     ∃ τ : Y, orderOf τ = 2 ^ x + 1 ∧ d⁻¹ * τ * d = τ⁻¹ := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hKcard
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : CharP K 2 := CFSG.Quasithin.R3c.charP_two_of_natCard_eq_two_pow hKcard
   have hd' : orderOf (e d) = 2 := by rw [MulEquiv.orderOf_eq, hd]
   obtain ⟨τ, hτ, hrel⟩ := exists_inv_conj_statedProj_statedSp (d := e d) hd'
   refine ⟨e.symm τ, ?_, ?_⟩

@@ -50,7 +50,7 @@ theorem scalar_involution_cases {q : ℕ} {E : Type} [Group E] (hq : q.Prime)
     (hexp : ∀ e : E, e ^ q = 1) (hnt : Nontrivial E) (g : MulAut E) (a : ℕ)
     (ha : ∀ e : E, g e = e ^ a) (hg : g * g = 1) :
     g = 1 ∨ (a : ZMod q) = -1 := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨e0, he0⟩ := exists_ne (1 : E)
   have h1 : e0 ^ (a * a) = e0 := by
     have h := congrArg (fun h : MulAut E => h e0) hg

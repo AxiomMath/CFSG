@@ -46,7 +46,7 @@ theorem nParam_le_one_of_action_image_bound [Finite G] (J B : Subgroup G)
     (hCs : Group.IsSolvable ↥((Subgroup.centralizer (J : Set G)).subgroupOf B))
     (hQH : E1.nParam (⊤ : Subgroup (quotientActionHom J hBN).range) ≤ 1) :
     E1.nParam B ≤ 1 := by
-  haveI : Group.IsPerfect J := hJ
+  have : Group.IsPerfect J := hJ
   let φ : B →* MulAut (↥J ⧸ Subgroup.center ↥J) := quotientActionHom J hBN
   have hker : Group.IsSolvable ↥φ.ker := by
     rw [ker_quotientActionHom hBN]
@@ -70,25 +70,25 @@ theorem action_image_psl2_structure [Finite G] {p f : ℕ}
       CFSG.generalizedFitting ↥((quotientActionHom J hBN).range) ⊔
         (S : Subgroup ↥((quotientActionHom J hBN).range)) = ⊤ := by
   classical
-  haveI : Group.IsPerfect J := hJ
+  have : Group.IsPerfect J := hJ
   let X := ↥J ⧸ Subgroup.center ↥J
   let φ : B →* MulAut X := quotientActionHom J hBN
   let H : Subgroup (MulAut X) := φ.range
   let I : Subgroup (MulAut X) := innAutOf X
   let IH : Subgroup H := I.subgroupOf H
-  haveI : Group.IsPerfect X :=
+  have : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center J))
       (QuotientGroup.mk'_surjective _)
   have hs : IsSimpleGroup X :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two hPSL
-  haveI : IsSimpleGroup X := hs
+  have : IsSimpleGroup X := hs
   have hnab : ∃ a b : X, a * b ≠ b * a := by
     have h := Group.IsPerfect.not_isMulCommutative X
     simpa only [isMulCommutative_iff, not_forall] using h
   have hZ : Subgroup.center X = ⊥ :=
     CFSG.Quasithin.Vol2.Ch11.SecB.center_eq_bot_of_nonabelian' hnab
   have hIH : I ≤ H := inner_le_range_quotientActionHom hBN hJB
-  haveI : IH.Normal := normal_innAutOf_subgroupOf hIH
+  have : IH.Normal := normal_innAutOf_subgroupOf hIH
   have hFstar : CFSG.generalizedFitting H = IH :=
     generalizedFitting_eq_innAutOf_subgroupOf hs hnab hIH
   have hmapJ : (J.subgroupOf B).map φ ≤ I :=
@@ -136,10 +136,10 @@ theorem nParam_le_one_of_action_image_psl2_pow [Finite G]
         (Subgroup.centralizer (J : Set G)).subgroupOf B) :
     E1.nParam (⊤ : Subgroup (quotientActionHom J hBN).range) ≤ 1 := by
   obtain ⟨hsF, hF, hsup⟩ := action_image_psl2_structure J B hJ hJB hBN hPSL hpow
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := (quotientActionHom J hBN).range)
   exact CFSG.Quasithin.RonanE114.L2.nParam_le_one_of_psl2_pow hp hp2 hf hsF hF
-    S.isPGroup' (hsup S)
+    S.isPGroup (hsup S)
 
 theorem nParam_le_one_of_action_image_psl2_noSQ [Finite G]
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h5 : 5 < p ^ f)
@@ -151,9 +151,9 @@ theorem nParam_le_one_of_action_image_psl2_noSQ [Finite G]
         (Subgroup.centralizer (J : Set G)).subgroupOf B) :
     E1.nParam (⊤ : Subgroup (quotientActionHom J hBN).range) ≤ 1 := by
   obtain ⟨hsF, hF, hsup⟩ := action_image_psl2_structure J B hJ hJB hBN hPSL hpow
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := (quotientActionHom J hBN).range)
-  exact nParam_le_one_of_isPSL2_noSQ hsF ⟨S.isPGroup', S.not_dvd_index⟩ (hsup S)
+  exact nParam_le_one_of_isPSL2_noSQ hsF ⟨S.isPGroup, S.not_dvd_index⟩ (hsup S)
     hp hp2 h5 hF
 
 theorem nParam_le_one_of_normalized_perfect_psl2_two_action [Finite G]

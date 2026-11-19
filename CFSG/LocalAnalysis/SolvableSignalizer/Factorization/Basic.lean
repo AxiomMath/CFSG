@@ -180,7 +180,7 @@ theorem FactorizationDatum.basic_subgroups (f : FactorizationDatum p α θ q M Q
   obtain ⟨S, hS⟩ := f.sylow_Q₀
   have hQ₀pg : IsPGroup q Q₀ := by
     rw [hS]
-    exact (S.isPGroup'.map (twoStageCore q M).subtype).map M.subtype
+    exact (S.isPGroup.map (twoStageCore q M).subtype).map M.subtype
   have : Nontrivial Q₀ := (Subgroup.nontrivial_iff_ne_bot Q₀).mpr f.nontrivial_Q₀
   have hQne : factorizationQ Q₀ ≠ ⊥ := fun h => hQ₀pg.bot_lt_center.ne'
     ((Subgroup.map_eq_bot_iff_of_injective (H := Subgroup.center Q₀)

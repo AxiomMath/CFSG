@@ -34,7 +34,7 @@ private theorem rckp8_elem_zero_or_one (c : GaloisField 2 1) : c = 0 ∨ c = 1 :
   have hcard : Nat.card (GaloisField 2 1) = 2 := GaloisField.card 2 1 (by decide)
   have hunits : Nat.card (GaloisField 2 1)ˣ = 1 := by
     rw [Nat.card_units, hcard]
-  haveI : Subsingleton (GaloisField 2 1)ˣ :=
+  have : Subsingleton (GaloisField 2 1)ˣ :=
     Finite.card_le_one_iff_subsingleton.mp (by rw [hunits])
   by_cases hc : c = 0
   · exact Or.inl hc
@@ -120,7 +120,7 @@ private theorem rckp8_T_card {G : Type*} [Group G] {x y : G}
     change z ∈ s ↔ z ∈ ({1, x, y, x * y} : Set G)
     simp only [s, Finset.mem_insert, Finset.mem_singleton, Set.mem_insert_iff,
       Set.mem_singleton_iff]
-  letI : Fintype ↑(rckp8_T x y hx2 hy2 hxy : Set G) := Fintype.ofFinset s H
+  let : Fintype ↑(rckp8_T x y hx2 hy2 hxy : Set G) := Fintype.ofFinset s H
   rw [show Nat.card ↥(rckp8_T x y hx2 hy2 hxy) =
       Nat.card ↑(rckp8_T x y hx2 hy2 hxy : Set G) from rfl, Nat.card_eq_fintype_card,
     Fintype.card_ofFinset s H]
@@ -130,7 +130,7 @@ private theorem rckp8_T_card {G : Type*} [Group G] {x y : G}
       hxy_ney.symm, rfl⟩]
 
 theorem rckIIPair_E8
-    (n : ℕ) (hadm : StatedLieAdmissible .E8 n 2 1) : RCKIIPair .E8 n := by
+    (n : ℕ) (_hadm : StatedLieAdmissible .E8 n 2 1) : RCKIIPair .E8 n := by
   have hθ : IsRoot .E8 rckp8_θ := isRoot_highRoot .E8
   have hθmem : rckp8_θ ∈ (e8Datum (GaloisField 2 1)).roots := mem_adjDatum_roots.2 hθ
   have hγ : IsRoot .E8 rckp8_γ := IsRoot.reflect _ hθ
@@ -205,7 +205,7 @@ theorem rckIIPair_E8
     (1 : GaloisField 2 1) 1
   have hcomm_z : ⁅xPar (F := rootOperatorFamily .E8) (K := GaloisField 2 1) (rckp8_γ - rckp8_θ) 1,
       x⁆ = y := by
-    rw [show (rckp8_γ - rckp8_θ) + rckp8_θ = rckp8_γ from sub_add_cancel _ _, if_pos hγmem,
+    rw [show (rckp8_γ - rckp8_θ) + rckp8_θ = rckp8_γ from sub_add_cancel _ _, ite_eq_left hγmem,
       mul_one] at hst
     exact hst
   have hγθ_ne : rckp8_γ ≠ rckp8_θ := by
@@ -251,11 +251,11 @@ theorem rckIIPair_E8
     have hprod : ([rckp8_γ, rckp8_θ].map f).prod = ([rckp8_γ, rckp8_θ].map g).prod := by
       simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
       show f rckp8_γ * f rckp8_θ = 1
-      simp only [f, if_pos rfl, if_neg (Ne.symm hγθ_ne), g]
+      simp only [f, ite_eq_left rfl, ite_eq_right (Ne.symm hγθ_ne)]
       rw [← hxy_eq]
       exact hx2
     have h1 := hpi f g hf hg hprod rckp8_γ (by simp)
-    simp only [f, if_pos rfl, g] at h1
+    simp only [f, ite_eq_left rfl, g] at h1
     exact hy1 h1
   have hxy_ne1 : x * y ≠ 1 := by
     intro h
@@ -335,8 +335,7 @@ theorem rckIIPair_E8
       Set ↥(adjointGroup .E8 (GaloisField 2 1)))) ∧
     ∀ v ∈ V, v ≠ 1 → ∃ j : ↥(adjointGroup .E8 (GaloisField 2 1)), v = j * x * j⁻¹
   refine ⟨rckp8_θ, x, Subgroup.closure {x, y}, hθmem, hlong, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · change (e8Datum (GaloisField 2 1)).rootGroup rckp8_θ = Subgroup.zpowers x
-    exact rckp8_rootGroup_eq_zpowers
+  · exact rckp8_rootGroup_eq_zpowers
   · exact hx2
   · exact hx1
   · exact Subgroup.subset_closure (Set.mem_insert_iff.mpr (Or.inl rfl))
@@ -370,9 +369,6 @@ theorem rckIIPair_E8
     rw [hVT]
     exact rckp8_T_card hx2 hy2 hxy hx1 hy1 hxney hxy_ne1 hxy_nex hxy_ney
   ·
-    change Subgroup.closure ({x, y} : Set ↥(adjointGroup .E8 (GaloisField 2 1))) ≤
-      pCoreOf 2 (Subgroup.normalizer (((e8Datum (GaloisField 2 1)).rootGroup rckp8_θ :
-        Subgroup ↥(adjointGroup .E8 (GaloisField 2 1))) : Set _))
     rw [show pCoreOf 2 (Subgroup.normalizer (((e8Datum (GaloisField 2 1)).rootGroup rckp8_θ :
         Subgroup ↥(adjointGroup .E8 (GaloisField 2 1))) : Set _)) =
         highestRootRadical (e8Datum (GaloisField 2 1)) rckp8_θ from

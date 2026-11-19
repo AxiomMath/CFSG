@@ -58,11 +58,11 @@ theorem sp_rank_arith (e l : ℕ) :
   by_cases he : Even e
   · obtain ⟨k, hk⟩ := he
     have h2 : Nat.gcd e 2 = 2 := Nat.gcd_eq_right ⟨k, by omega⟩
-    rw [if_pos ⟨k, hk⟩, h2, show e = 2 * k by omega, Nat.mul_div_mul_left _ _ two_pos,
+    rw [ite_eq_left ⟨k, hk⟩, h2, show e = 2 * k by omega, Nat.mul_div_mul_left _ _ two_pos,
       Nat.mul_div_cancel_left _ two_pos]
   · have hodd : Odd e := Nat.not_even_iff_odd.1 he
     have h1 : Nat.gcd e 2 = 1 := Nat.coprime_two_right.2 hodd
-    rw [if_neg he, h1, Nat.div_one]
+    rw [ite_eq_right he, h1, Nat.div_one]
 
 theorem not_dvd_of_dvd_two_pow {r z k : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hz : z ∣ 2 ^ k) :
     ¬ r ∣ z := fun h =>
@@ -84,7 +84,7 @@ theorem pRank_chev_B (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group
     (e : (K ⧸ Subgroup.center K) ≃* TauCeti.ValidLieTypeIndex.Group ⟨.B l Q, hv⟩)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CFSG.Open.pRank r (⊤ : Subgroup K) = rkSp l Q.card r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hl2 : 2 ≤ l :=
     ((TauCeti.LieTypeIndex.inStandardRange_iff (.B l Q)).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
@@ -116,10 +116,10 @@ theorem pRank_chev_B (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group
   have hrZ : ¬ r ∣ Nat.card (Subgroup.center K) :=
     not_dvd_of_dvd_two_pow hr hr2 (k := k) (by simpa using hdvd)
   obtain ⟨-, K', instF, instFin, hcard, ⟨φ⟩⟩ := hm
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have hKc : Fintype.card K' = 2 ^ Q.exponent := by
     rw [Fintype.card_eq_nat_card, hcard, hQ]
-  haveI : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
+  have : CharP K' 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq (f := Q.exponent)
     (by rw [hcard, hQ])
   have hpK : ¬ r ∣ Fintype.card K' := by
     rw [hKc]

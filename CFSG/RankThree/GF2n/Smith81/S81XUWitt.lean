@@ -11,10 +11,12 @@ open CFSG.RankThree.GF2n.Smith81 CFSG.RankThree.GF2n.Smith81.A5Cube Matrix exter
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 private theorem u6w_det_conjTr (M : Matrix (Fin 6) (Fin 6) F) : (conjTr σ M).det = σ M.det := by
   rw [conjTr, Matrix.det_transpose]
   exact (RingHom.map_det σ.toRingHom M).symm
 
+omit [CharP F 2] in
 private theorem u6w_sigma_det (M : Matrix (Fin 6) (Fin 6) F) (hM : conjTr σ M * M = 1) :
     σ M.det * M.det = 1 := by
   have h := congrArg Matrix.det hM
@@ -50,6 +52,7 @@ private theorem u6w_hilbert90 (hσ : IsUnitaryInvolution σ) {d : F} (hd : σ d 
 private noncomputable def u6w_T (τ : F ≃+* F) (l : F) : Fin 6 → F :=
   ![l, (τ l)⁻¹, 1, 1, 1, 1]
 
+omit [CharP F 2] in
 private theorem u6w_T_ne {l : F} (hl0 : l ≠ 0) : ∀ k, u6w_T σ l k ≠ 0 := by
   have hσl0 : σ l ≠ 0 := (map_ne_zero σ).mpr hl0
   intro k
@@ -93,7 +96,7 @@ private theorem u6w_D_mulVec (ω : F) (hω : ω + σ ω = 1) (t : Fin 6 → F) (
     by_cases h : i = ⟨2 * j.val, by omega⟩
     · subst h
       simp [Matrix.mulVec_diagonal]
-    · simp [Matrix.mulVec_diagonal, Pi.single_apply, h]
+    · simp [Matrix.mulVec_diagonal, h]
   rw [u6w_D_val, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hp, hd, Matrix.mulVec_smul,
     frameMat_mulVec_even (σ := σ) ω j]
 
@@ -131,6 +134,7 @@ private theorem u6w_D_unit (hσ : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ 
   rw [u6w_D_val]
   exact u6w_frame_unit hσ hω hM
 
+omit [CharP F 2] in
 private theorem u6w_gram (hσ : ∀ c, σ (σ c) = c) {l : F} (hl0 : l ≠ 0) :
     conjTr σ (Matrix.diagonal (u6w_T σ l)) * hypGram F * Matrix.diagonal (u6w_T σ l) =
       hypGram F := by
@@ -141,12 +145,12 @@ private theorem u6w_gram (hσ : ∀ c, σ (σ c) = c) {l : F} (hl0 : l ≠ 0) :
     by_cases h : i = j
     · subst h
       simp [conjTr_apply]
-    · simp [conjTr_apply, Matrix.diagonal_apply, h, Ne.symm h]
+    · simp [conjTr_apply, h, Ne.symm h]
   rw [hc]
   ext i j
   simp only [Matrix.mul_diagonal, Matrix.diagonal_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [u6w_T, hypGram, hσ, hσl0, hl0, map_inv₀, mul_inv_cancel₀, inv_mul_cancel₀]
+    simp [u6w_T, hypGram, hσ, hl0, map_inv₀]
 
 theorem u6_exists_su_of_ti (hσ : IsUnitaryInvolution σ) {v : Fin 3 → Fin 6 → F}
     (hv : ιMulti F 3 v ≠ 0) (hiso : ∀ i j, ∑ k, σ (v i k) * v j k = 0) :

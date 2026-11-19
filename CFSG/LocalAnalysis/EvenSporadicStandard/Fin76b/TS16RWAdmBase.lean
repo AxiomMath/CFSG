@@ -13,7 +13,7 @@ namespace CFSG.EvenSporadicStandard.Fin76b.W16
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
   CFSG.Sporadic.Schreier CFSG.Sporadic.Schreier.PairNative
 
-@[expose] def AdmPred (π : Equiv.Perm (Fin 128)) : Prop :=
+def AdmPred (π : Equiv.Perm (Fin 128)) : Prop :=
   π * π = 1 ∧ (π ⟨32, by norm_num⟩ : ℕ) = 32 ∧ (π ⟨64, by norm_num⟩ : ℕ) = 85 ∧
     (∀ c : Fin 128, (c : ℕ) < 32 → (π c : ℕ) < 32) ∧
     (Finset.univ.filter fun c : Fin 128 => (c : ℕ) < 32 ∧ π c = c).card = 8 ∧

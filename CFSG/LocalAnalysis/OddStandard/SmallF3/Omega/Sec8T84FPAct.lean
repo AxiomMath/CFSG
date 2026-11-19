@@ -14,7 +14,7 @@ theorem sec8t84_conj_injective {Y : Type} [Group Y] {E H : Subgroup Y} [E.Normal
     (htr : ∀ a ∈ E, a ≠ 1 → ∀ b ∈ E, b ≠ 1 → ∃ h ∈ H, h * a * h⁻¹ = b) :
     Function.Injective ((MulAut.conjNormal : Y →* MulAut ↥E).comp H.subtype) := by
   let φ : ↥H →* MulAut ↥E := (MulAut.conjNormal : Y →* MulAut ↥E).comp H.subtype
-  haveI : IsSimpleGroup ↥H :=
+  have : IsSimpleGroup ↥H :=
     hH.some.isSimpleGroup_congr.mpr
       (alternatingGroup.isSimpleGroup (α := Fin 6) (by simp [Nat.card_eq_fintype_card]))
   have hφ : Function.Injective φ := by
@@ -23,8 +23,8 @@ theorem sec8t84_conj_injective {Y : Type} [Group Y] {E H : Subgroup Y} [E.Normal
     · exact hbot
     · exfalso
       have hφ1 : φ = 1 := MonoidHom.ker_eq_top_iff.mp htop
-      haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
-      haveI : Fintype ↥E := Fintype.ofFinite ↥E
+      have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE.2]; norm_num)
+      have : Fintype ↥E := Fintype.ofFinite ↥E
       have hcard : Fintype.card ↥E = 16 := by
         rw [← Nat.card_eq_fintype_card, hE.2]; norm_num
       obtain ⟨a, b, c, hab, hac, hbc⟩ :=

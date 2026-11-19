@@ -148,9 +148,9 @@ theorem pow_fortyTwo_mem_centralizer_of_sz (h3 : Conclusion9_3 D hC)
   have hρR : ∀ t ∈ TG, ρ t ∈ TG ⊓ L := by
     intro t ht
     by_cases htL : t ∈ L
-    · simp only [ρ, if_pos htL]
+    · simp only [ρ, ite_eq_left htL]
       exact ⟨ht, htL⟩
-    · simp only [ρ, if_neg htL]
+    · simp only [ρ, ite_eq_right htL]
       rcases mem_or_mul_mem_of_conclusion9_3 hC h3 (Subgroup.map_subtype_le _ ht) with h | h
       · exact absurd h htL
       · exact ⟨TG.mul_mem huT ht, h⟩
@@ -158,20 +158,20 @@ theorem pow_fortyTwo_mem_centralizer_of_sz (h3 : Conclusion9_3 D hC)
     intro t ht
     by_cases htL : t ∈ L
     · left
-      simp only [ρ, if_pos htL]
+      simp only [ρ, ite_eq_left htL]
     · right
-      simp only [ρ, if_neg htL]
+      simp only [ρ, ite_eq_right htL]
       rw [← mul_assoc, hu2, one_mul]
   have hρmul : ∀ s ∈ TG, ∀ t ∈ TG, ρ (s * t) = ρ s * ρ t := by
     intro s hs t ht
     have hst := (hcu s hs).eq
     by_cases hsL : s ∈ L <;> by_cases htL : t ∈ L
-    · simp only [ρ, if_pos hsL, if_pos htL, if_pos (L.mul_mem hsL htL)]
+    · simp only [ρ, ite_eq_left hsL, ite_eq_left htL, ite_eq_left (L.mul_mem hsL htL)]
     · have h : s * t ∉ L := fun h => htL (by simpa using L.mul_mem (L.inv_mem hsL) h)
-      simp only [ρ, if_pos hsL, if_neg htL, if_neg h]
+      simp only [ρ, ite_eq_left hsL, ite_eq_right htL, ite_eq_right h]
       rw [← mul_assoc, ← mul_assoc, ← hst]
     · have h : s * t ∉ L := fun h => hsL (by simpa using L.mul_mem h (L.inv_mem htL))
-      simp only [ρ, if_neg hsL, if_pos htL, if_neg h]
+      simp only [ρ, ite_eq_right hsL, ite_eq_left htL, ite_eq_right h]
       rw [mul_assoc]
     · have hus : hC.d * s ∈ L := by
         rcases mem_or_mul_mem_of_conclusion9_3 hC h3 (Subgroup.map_subtype_le _ hs) with h | h
@@ -186,23 +186,23 @@ theorem pow_fortyTwo_mem_centralizer_of_sz (h3 : Conclusion9_3 D hC)
           _ = hC.d * (hC.d * s) * t := by rw [← hst]
           _ = s * t := by rw [← mul_assoc, hu2, one_mul]
       have hstL : s * t ∈ L := heq ▸ L.mul_mem hus hut
-      simp only [ρ, if_neg hsL, if_neg htL, if_pos hstL]
+      simp only [ρ, ite_eq_right hsL, ite_eq_right htL, ite_eq_left hstL]
       exact heq.symm
-  have hρL : ∀ t ∈ L, ρ t = t := fun t ht => if_pos ht
+  have hρL : ∀ t ∈ L, ρ t = t := fun t ht => ite_eq_left ht
   have hρT : ∀ t ∈ TG, ρ t ∈ TG := fun t ht => (hρR t ht).1
   have hρsq : ∀ t ∈ TG, t * t = ρ t * ρ t := by
     intro t ht
     by_cases htL : t ∈ L
-    · simp only [ρ, if_pos htL]
-    · simp only [ρ, if_neg htL]
+    · simp only [ρ, ite_eq_left htL]
+    · simp only [ρ, ite_eq_right htL]
       calc t * t = hC.d * (hC.d * t) * t := by rw [← mul_assoc, hu2, one_mul]
         _ = hC.d * (t * hC.d) * t := by rw [(hcu t ht).eq]
         _ = hC.d * t * (hC.d * t) := by group
   let p : G → GF8 := fun t => if h : ρ t ∈ TG ⊓ L then (c.symm ⟨ρ t, h⟩).1 else 0
   let q : G → GF8 := fun v => if h : v ∈ TG ⊓ L then (c.symm ⟨v, h⟩).2 else 0
   have hpt : ∀ t (ht : t ∈ TG), p t = (c.symm ⟨ρ t, hρR t ht⟩).1 := fun t ht =>
-    dif_pos (hρR t ht)
-  have hqv : ∀ v (hv : v ∈ TG ⊓ L), q v = (c.symm ⟨v, hv⟩).2 := fun v hv => dif_pos hv
+    dite_eq_left (hρR t ht)
+  have hqv : ∀ v (hv : v ∈ TG ⊓ L), q v = (c.symm ⟨v, hv⟩).2 := fun v hv => dite_eq_left hv
   have hUR : U ≤ TG ⊓ L := le_inf hU.le_sylow_map hU.le_pResidualOf
   have hcU : ∀ b, ((c (0, b) : (TG ⊓ L : Subgroup G)) : G) ∈ U := by
     intro b
@@ -272,9 +272,9 @@ theorem pow_fortyTwo_mem_centralizer_of_sz (h3 : Conclusion9_3 D hC)
       have hy : (y : G) ∈ TG := y.2.1
       show ρ t * y = y * ρ t
       by_cases htL : t ∈ L
-      · simp only [ρ, if_pos htL]
+      · simp only [ρ, ite_eq_left htL]
         exact (h y hy).eq
-      · simp only [ρ, if_neg htL]
+      · simp only [ρ, ite_eq_right htL]
         exact ((hcu y hy).mul_left (h y hy)).eq
   have hU' : ∀ t ∈ TG, t * t ∈ U := by
     intro t ht

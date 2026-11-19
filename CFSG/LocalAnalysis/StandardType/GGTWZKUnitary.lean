@@ -18,11 +18,11 @@ open CFSG CFSG.Assembly Matrix CFSG.ClassicalGroups.UnitaryFlag
 open CFSG.StandardType.TableBUE CFSG.StandardType.UnitTB CFSG.StandardType.LineU
 
 theorem ggLabelIso_twA_eq_of_A_or_twA {labJ : LargeEvenLabel} {r f : ℕ}
-    (hr : 3 ≤ r) (hJtag : labJ.tag = .A ∨ labJ.tag = .twA)
+    (_hr : 3 ≤ r) (hJtag : labJ.tag = .A ∨ labJ.tag = .twA)
     (hiso : GGLabelIso labJ ⟨.twA, r, f⟩) : labJ = ⟨.twA, r, f⟩ := by
   obtain ⟨t, l, m⟩ := labJ
   simp only [GGLabelIso] at hiso
-  simp only [LargeEvenLabel.tag, LargeEvenLabel.rank, LargeEvenLabel.n] at hJtag
+  simp only at hJtag
   rcases hiso with h | h | h | h | h | h | h | h <;> simp_all
 
 theorem ggHasLabel_twA_of_supported_unitary_block
@@ -220,7 +220,7 @@ theorem ggZK_unitary_dangerous_six_of_f_ne_one
     hRig hLB hH hLabK hΛK hf hpq hpJ3 hJΛ hJLab hSide
   have hlabJ := ggLabelIso_twA_eq_of_A_or_twA (by norm_num : 3 ≤ 4) hJtag hiso
   have hp7 : 3 ∣ (7 : ℕ) := by
-    simpa [hlabJ, LargeEvenLabel.rank] using hpJ
+    simp [hlabJ] at hpJ
   norm_num at hp7
 
 theorem ggLabelIso_twA_of_unitary_six_two
@@ -358,7 +358,7 @@ theorem ggZK_unitary_dangerous_six_two
     hRig hLB hH hLabK hΛK hpJ3 hJΛ hJLab hSide
   have hlabJ := ggLabelIso_twA_eq_of_A_or_twA (by norm_num : 3 ≤ 4) hJtag hiso
   have hp7 : 3 ∣ (7 : ℕ) := by
-    simpa [hlabJ, LargeEvenLabel.rank] using hpJ
+    simp [hlabJ] at hpJ
   norm_num at hp7
 
 theorem ggLabelIso_twA_of_unitary_six_side

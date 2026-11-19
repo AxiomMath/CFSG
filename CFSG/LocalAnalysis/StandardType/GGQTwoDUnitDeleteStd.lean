@@ -79,7 +79,7 @@ theorem qtwoDB13_stdSubPre_of {B Bs L J₁ : Subgroup G} {x : G} {m : ℕ}
     rw [qtwoDB13_closure_pair_eq_sup]
     have hb'1 : (b' : G) ≠ 1 := fun h => hb'not (h ▸ Subgroup.one_mem _)
     have hb'ord : orderOf (b' : G) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime hb'3 hb'1
     have hcardx : Nat.card (Subgroup.zpowers x) = 3 := by rw [Nat.card_zpowers, hxord]
     have hcardb : Nat.card (Subgroup.zpowers (b' : G)) = 3 := by
@@ -141,6 +141,7 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Fins
   {e' : Fin m ≃ ι} {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {ψ : Su F0 2 1 m →* G}
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
 
+omit [Finite G] in
 private theorem qtwoDB13_map_centralizer_conj (g y : G) :
     (Subgroup.centralizer ({y} : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ({g * y * g⁻¹} : Set G) := by
@@ -172,6 +173,7 @@ private theorem qtwoDB13_map_centralizer_conj (g y : G) :
     · change g * (g⁻¹ * z * g) * g⁻¹ = z
       group
 
+omit [Finite G] in
 private theorem qtwoDB13_layer_eq_of_derived_le {H D : Subgroup G}
     (hD : IsComponentOf D H) (hcomm : ⁅H, H⁆ ≤ D) :
     LargeEvenLayer H = D := by
@@ -184,10 +186,10 @@ private theorem qtwoDB13_layer_eq_of_derived_le {H D : Subgroup G}
     _ ≤ ⁅H, H⁆ := Subgroup.commutator_mono hK'.1 hK'.1
     _ ≤ D := hcomm
 
-theorem qtwoDB13_layer_eq (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
+theorem qtwoDB13_layer_eq (_hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
     (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε)
     (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω) {c : Fin m} {b' : ↥Bs}
-    (hb' : βL (Additive.ofMul b') = Pi.single c 1) (hb'B : (b' : G) ∈ B) :
+    (hb' : βL (Additive.ofMul b') = Pi.single c 1) (_hb'B : (b' : G) ∈ B) :
     LargeEvenLayer (L ⊓ Subgroup.centralizer
         (Subgroup.closure {x, (b' : G)} : Set G)) =
       (coordBlockSU F0 2 1 (Finset.univ.erase c)).map ψ ∧
@@ -215,7 +217,7 @@ theorem qtwoDB13_layer_eq (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
       rw [hb']
       by_cases hi : i = c
       · rw [hi]; simp [qtwoDB39_delDiag, Pi.single_eq_same, ZMod.val_one]
-      · simp [qtwoDB39_delDiag, hi, Pi.single_eq_of_ne hi]
+      · simp [qtwoDB39_delDiag, hi]
     obtain ⟨u', hu'mat, hu'ψ⟩ := hcoords.induces b' u
     have hu'eq : u' = δ u := by
       apply Subtype.ext
@@ -285,7 +287,7 @@ theorem qtwoDB13_layer_eq (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
       hbase.hyp.ker (1 : Su F0 2 1 m) (b' : G) δ hrel hQopen
     have hhom : ψ.comp (MulAut.conj (1 : Su F0 2 1 m)).toMonoidHom = ψ := by
       ext u
-      simp [MulAut.conj_apply]
+      simp
     rw [CFSG.ClassicalInvolution.Balance.range_comp_conj ψ (1 : Su F0 2 1 m),
       hhom, hbase.range] at hopen
     rw [hH, hCinf]
@@ -363,7 +365,7 @@ theorem ggQTwoDUnit_J_comp (hcfg : GGQTwoDCfg p B Bs x L D J 𝒦 M e)
   have hdSign_c : dSign m a b (Pi.single c 1) = Pi.single c 1 := by
     have hc : ¬ (c = a ∨ c = b) := by tauto
     have hb : Pi.single c 1 = dBasis m c := (Pi.basisFun_apply (ZMod 3) (Fin m) c).symm
-    rw [hb, dSign_apply, if_neg hc, one_smul]
+    rw [hb, dSign_apply, ite_eq_right hc, one_smul]
   have hαb' : α b' = b' := by
     apply Additive.ofMul.injective
     apply βL.injective

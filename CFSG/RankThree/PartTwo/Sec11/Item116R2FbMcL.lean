@@ -18,7 +18,7 @@ private theorem transport_elemAbelian81 {G X : Type} [Group G] [Group X] (f : X 
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, hexp y hy, map_one]
-  · rw [hc] <;> norm_num
+  · rw [hc]; norm_num
 
 theorem exists_elemAbelian81_McL {X : Type} [Group X]
     (e : X ≃* CFSG.Blueprint.NativeSporadic.McL) :

@@ -19,8 +19,9 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem two_ne_zero_of_char (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) : (2 : K) ≠ 0 := by
-  haveI : CharP K ℓ := h.charP
+  have : CharP K ℓ := h.charP
   intro h0
   have : ((2 : ℕ) : K) = 0 := by exact_mod_cast h0
   rw [CharP.cast_eq_zero_iff K ℓ] at this
@@ -54,10 +55,10 @@ theorem z1AutData_fieldAut (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) {p 
     (hbar : ∀ x : K, σ x = x → h.bar x = x ^ (ℓ ^ f₀)) (hpQ : p ∣ ℓ ^ f₀ + 1)
     (hq : ℓ ^ f = (ℓ ^ f₀) ^ p) (hq0 : 5 ≤ ℓ ^ f₀) :
     Z1AutData p (PU h) (fieldAut h σ) := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hK : Nat.card K = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hq5 : 5 ≤ ℓ ^ f := hq0.trans (by rw [hq]; exact Nat.le_self_pow (by omega) _)
@@ -133,7 +134,7 @@ theorem z1AutData_fieldAut (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) {p 
 
 theorem z1Model_PU (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) : Z1Model p (PU h) := by
-  haveI : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   refine ⟨fun E hE => card_le_pow_three h hℓ hp hp2 hpℓ hE, fun E hE hcard => ?_⟩
   obtain ⟨α, hαE, hαD, σ, hσ, -, hpf, hpQ, hK0, hbar, M, hM⟩ :=
     exists_fieldAut_mem h hℓ hp hp2 hpℓ hE hcard
@@ -160,7 +161,7 @@ theorem z1Model_PU (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) {p : ℕ} (
 theorem z1UniBranch_holds : Z1UniBranch := by
   intro p Q hp hp2 hQ2 hQp M _ _ hM
   obtain ⟨K, _, _, h, -, ⟨e⟩⟩ := exists_mulEquiv_PU hM
-  haveI : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   exact z1Model_congr hp e.symm (z1Model_PU h hQ2 hp hp2 (Ne.symm hQp))
 
 end CFSG.LocalAnalysis.GLTheoremA.S267Z.Uni

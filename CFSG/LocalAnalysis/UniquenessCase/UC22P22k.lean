@@ -15,7 +15,7 @@ universe u
 
 theorem uc22p22k_odd_aut_cyclic_two {C : Type*} [Group C] [Finite C] [IsCyclic C]
     (hC : IsPGroup 2 C) (φ : MulAut C) (hφ : Odd (orderOf φ)) : φ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hC
   have hcard : Nat.card (MulAut C) = Nat.totient (2 ^ k) := by
     rw [IsCyclic.card_mulAut C, hk]
@@ -35,11 +35,11 @@ theorem uc22p22k_odd_aut_cyclic_two {C : Type*} [Group C] [Finite C] [IsCyclic C
 theorem uc22p22k_ML {Q : Type*} [Group Q] [Finite Q] (hc : IsCyclic (commutator Q))
     {S : Subgroup Q} (hS : IsPGroup 2 S) {a : Q} (ha : a ∈ normalizer (S : Set Q))
     (hodd : Odd (orderOf a)) : ∀ s ∈ S, a * s * a⁻¹ = s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hc
   have hnorm : (commutator Q).Normal := inferInstance
   set S₀ : Subgroup Q := S ⊓ commutator Q with hS₀
-  haveI : IsCyclic ↥S₀ := Subgroup.isCyclic_of_le (inf_le_right : S₀ ≤ commutator Q)
+  have : IsCyclic ↥S₀ := Subgroup.isCyclic_of_le (inf_le_right : S₀ ≤ commutator Q)
   have hS₀2 : IsPGroup 2 ↥S₀ := hS.to_inf_left
   have haS₀ : a ∈ normalizer (S₀ : Set Q) := by
     rw [mem_normalizer_iff] at ha ⊢
@@ -225,7 +225,7 @@ theorem uc22p22k_exists_fixed_point [Finite K] {p n : ℕ} [Fact p.Prime] (hn : 
     (hK : Nat.card K = p ^ n) (W : Subgroup (coordinateG K)) (hW : IsPGroup p W) :
     ∃ ω : Omega K, ∀ w ∈ W, ((w : coordinateG K) : Equiv.Perm (Omega K)) ω = ω := by
   let f : ↥W →* Equiv.Perm (Omega K) := (coordinateG K).subtype.comp W.subtype
-  letI : MulAction ↥W (Omega K) := MulAction.compHom (Omega K) f
+  let : MulAction ↥W (Omega K) := MulAction.compHom (Omega K) f
   have hmod := hW.card_modEq_card_fixedPoints (Omega K)
   have hcard : Nat.card (Omega K) = p ^ n + 1 := by
     rw [Finite.card_option, hK]
@@ -281,7 +281,7 @@ theorem uc22p22k_normalize [Finite K] {p n : ℕ} [Fact p.Prime] [CharP K p] (hn
   map_mul' l l' := by ext t; simp [mul_assoc]
 
 theorem uc22p22k_linHom_cyclic [Finite K] : IsCyclic ↥(uc22p22k_linHom K).range := by
-  haveI : IsCyclic Kˣ := inferInstance
+  have : IsCyclic Kˣ := inferInstance
   exact isCyclic_of_surjective (uc22p22k_linHom K).rangeRestrict
     (uc22p22k_linHom K).rangeRestrict_surjective
 
@@ -295,15 +295,15 @@ theorem uc22p22k_symm_form {g : Equiv.Perm K} {l : Kˣ} {σ : K ≃+* K} (h : �
 theorem uc22p22k_comm_linear [Finite K] {g₁ g₂ : Equiv.Perm K} {l₁ l₂ : Kˣ} {σ₁ σ₂ : K ≃+* K}
     (h₁ : ∀ t, g₁ t = l₁ * σ₁ t) (h₂ : ∀ t, g₂ t = l₂ * σ₂ t) :
     ⁅g₁, g₂⁆ ∈ (uc22p22k_linHom K).range := by
-  haveI := fieldAut_isCyclic K
+  have := fieldAut_isCyclic K
   have hc : σ₁ * σ₂ = σ₂ * σ₁ := IsCyclic.commGroup.mul_comm σ₁ σ₂
   have hc' : ∀ x, σ₁ (σ₂ x) = σ₂ (σ₁ x) := fun x => by
     have := congrArg (fun f : K ≃+* K => f x) hc
     simpa using this
   have hl1 : (l₁ : K) ≠ 0 := l₁.ne_zero
   have hl2 : (l₂ : K) ≠ 0 := l₂.ne_zero
-  have hs1 : σ₁ (l₂ : K) ≠ 0 := by simpa using hl2
-  have hs2 : σ₂ (l₁ : K) ≠ 0 := by simpa using hl1
+  have hs1 : σ₁ (l₂ : K) ≠ 0 := by simp
+  have hs2 : σ₂ (l₁ : K) ≠ 0 := by simp
   let L : Kˣ := Units.mk0 ((l₁ : K) * σ₁ l₂ / (σ₂ l₁ * l₂))
     (div_ne_zero (mul_ne_zero hl1 hs1) (mul_ne_zero hs2 hl2))
   refine ⟨L, ?_⟩
@@ -325,7 +325,7 @@ theorem uc22p22k_comm_linear [Finite K] {g₁ g₂ : Equiv.Perm K} {l₁ l₂ : 
 theorem uc22p22k_cyc_of_semilinear [Finite K] {Y : Type*} [Group Y] (ψ : Y →* Equiv.Perm K)
     (hψ : ∀ y, ∃ (l : Kˣ) (σ : K ≃+* K), ∀ t, ψ y t = l * σ t) :
     IsCyclic ↥((commutator Y).map ψ) := by
-  haveI := uc22p22k_linHom_cyclic (K := K)
+  have := uc22p22k_linHom_cyclic (K := K)
   have hle : (commutator Y).map ψ ≤ (uc22p22k_linHom K).range := by
     have h1 : (commutator Y).map ψ = ⁅(⊤ : Subgroup Y).map ψ, (⊤ : Subgroup Y).map ψ⁆ :=
       Subgroup.map_commutator ⊤ ⊤ ψ
@@ -520,6 +520,7 @@ section Configuration
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22k_mem_sup {A B : Subgroup G} (hAB : A ≤ normalizer (B : Set G)) {z : G}
     (hz : z ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, z = a * b := by
   let T : Subgroup G :=
@@ -540,6 +541,7 @@ theorem uc22p22k_mem_sup {A B : Subgroup G} (hAB : A ≤ normalizer (B : Set G))
     (fun b hb => ⟨1, A.one_mem, b, hb, by simp⟩)
   exact this hz
 
+omit [Finite G] in
 theorem uc22p22k_frob_norm {R' O V : Subgroup G} (hF : uniqueFourIsFrobenius R' O V) :
     V ≤ normalizer (O : Set G) := by
   obtain ⟨_, _, hOR, hnorm, hVR, _, _, _⟩ := hF
@@ -558,7 +560,7 @@ theorem uc22p22k_frob_norm {R' O V : Subgroup G} (hF : uniqueFourIsFrobenius R' 
 
 theorem uc22p22k_frob_odd {R' O V : Subgroup G} (hF : uniqueFourIsFrobenius R' O V)
     (hO : IsPGroup 2 ↥O) : ∀ d ∈ V, Odd (orderOf d) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm := uc22p22k_frob_norm hF
   obtain ⟨hOne, _, _, _, _, _, _, hfix⟩ := hF
   intro d hd
@@ -587,6 +589,7 @@ theorem uc22p22k_frob_odd {R' O V : Subgroup G} (hF : uniqueFourIsFrobenius R' O
       _ = v * k := by group
   exact hk1 (hfix v hvV hv1 k hkO hcomm)
 
+omit [Finite G] in
 theorem uc22p22k_O_inf_L {O L P₀ V : Subgroup G}
     (hfix : ∀ v ∈ V, v ≠ 1 → ∀ k ∈ O, k * v = v * k → k = 1) (hP₀V : P₀ ≤ V) (hP₀ : P₀ ≠ ⊥)
     (hV : V ≤ centralizer (L : Set G)) : O ⊓ L = ⊥ := by
@@ -598,6 +601,7 @@ theorem uc22p22k_O_inf_L {O L P₀ V : Subgroup G}
   exact mem_bot.2 (hfix v (hP₀V hv) hv1 y hy.1 hcomm)
 
 
+omit [Finite G] in
 theorem uc22p22k_normalizer_centralizer {P₀ : Subgroup G} {n : G}
     (hn : n ∈ normalizer (P₀ : Set G)) : n ∈ normalizer ((centralizer (P₀ : Set G) : Subgroup G) : Set G) := by
   have key : ∀ n' ∈ normalizer (P₀ : Set G), ∀ c ∈ centralizer (P₀ : Set G),
@@ -620,6 +624,7 @@ theorem uc22p22k_normalizer_centralizer {P₀ : Subgroup G} {n : G}
     have := key n⁻¹ (inv_mem hn) _ hc
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22k_normalizer_inftyOf {H : Subgroup G} {n : G} (hn : n ∈ normalizer (H : Set G)) :
     n ∈ normalizer ((UC6.inftyOf H : Subgroup G) : Set G) := by
   have key : ∀ n' ∈ normalizer (H : Set G), ∀ z ∈ UC6.inftyOf H, n' * z * n'⁻¹ ∈ UC6.inftyOf H := by
@@ -639,6 +644,7 @@ theorem uc22p22k_normalizer_inftyOf {H : Subgroup G} {n : G} (hn : n ∈ normali
     have := key n⁻¹ (inv_mem hn) _ hz
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22k_normalizes_P1 {O P₁ L : Subgroup G} (hOL : O ⊓ L = ⊥) (hP₁L : P₁ ≤ L)
     (hP₁n : P₁ ≤ normalizer (O : Set G)) {n : G}
     (hnQ : n ∈ normalizer ((P₁ ⊔ O : Subgroup G) : Set G)) (hnL : n ∈ normalizer (L : Set G)) :
@@ -685,9 +691,11 @@ theorem uc22p22k_normalizes_P1 {O P₁ L : Subgroup G} (hOL : O ⊓ L = ⊥) (hP
     rw [e]
     exact (mem_normalizer_iff.1 (hOn (M.inv_mem haM)) _).1 (O.inv_mem (ha z hz))
 
+omit [Finite G] in
 theorem uc22p22k_Ktil_le {M O Q : Subgroup G} (hOn : M ≤ normalizer (O : Set G)) :
     uc22p22k_Ktil M O Q hOn ≤ M := fun _ h => h.1
 
+omit [Finite G] in
 theorem uc22p22k_Ktil_normal {M O Q : Subgroup G} (hOn : M ≤ normalizer (O : Set G))
     (hQ : M ≤ normalizer (Q : Set G)) :
     M ≤ normalizer ((uc22p22k_Ktil M O Q hOn : Subgroup G) : Set G) := by
@@ -710,6 +718,7 @@ theorem uc22p22k_Ktil_normal {M O Q : Subgroup G} (hOn : M ≤ normalizer (O : S
     have := key g⁻¹ (M.inv_mem hg) _ hk
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22k_mem_Ktil {M O P₁ : Subgroup G} (hOn : M ≤ normalizer (O : Set G))
     (hP₁M : P₁ ≤ M) {m : G} (hm : m ∈ M) (hcomm : ∀ y ∈ P₁, m * y * m⁻¹ = y) :
     m ∈ uc22p22k_Ktil M O (P₁ ⊔ O) hOn := by
@@ -725,6 +734,7 @@ theorem uc22p22k_mem_Ktil {M O P₁ : Subgroup G} (hOn : M ≤ normalizer (O : S
     O.mul_mem ((mem_normalizer_iff.1 (hOn hm) o).1 ho) (O.inv_mem ho)
   exact (mem_normalizer_iff.1 (hOn (hP₁M hy)) _).1 h1
 
+omit [Finite G] in
 theorem uc22p22k_O_le_Ktil {M O Q : Subgroup G} (hOn : M ≤ normalizer (O : Set G)) (hOM : O ≤ M)
     (hQM : Q ≤ M) : O ≤ uc22p22k_Ktil M O Q hOn := by
   intro o ho
@@ -776,6 +786,7 @@ theorem uc22p22k_frattini {p : ℕ} [Fact p.Prime] {M P P₀ K : Subgroup G}
     exact this ▸ hx'
 
 
+omit [Finite G] in
 theorem uc22p22k_T1 {M O Dd P₁ : Subgroup G} {B : Type*} [Group B] (π : ↥M →* B)
     (hπ : ∀ m : ↥M, π m = 1 ↔ (m : G) ∈ O) (hOM : O ≤ M) (hP₁M : P₁ ≤ M)
     (hDn : Dd ≤ normalizer (O : Set G)) (hP₁n : P₁ ≤ normalizer (O : Set G))
@@ -823,6 +834,7 @@ theorem uc22p22k_T1 {M O Dd P₁ : Subgroup G} {B : Type*} [Group B] (π : ↥M 
   exact Odd.of_dvd_nat (h1.mul h2) (hcommute.orderOf_mul_dvd_mul_orderOf)
 
 
+omit [Finite G] in
 theorem uc22p22k_psi_exists {p n : ℕ} [Fact p.Prime] (hn : 0 < n)
     {K : Type} [Field K] [Finite K] [CharP K p] (hK : Nat.card K = p ^ n)
     {L P₁ N : Subgroup G} (e₀ : ↥L ≃* coordinateG K) (hP₁L : P₁ ≤ L) (hP₁p : IsPGroup p ↥P₁)
@@ -846,7 +858,7 @@ theorem uc22p22k_psi_exists {p n : ℕ} [Fact p.Prime] (hn : 0 < n)
       obtain ⟨t, ht⟩ := hg (e₀ z) ⟨z, hz, rfl⟩
       refine ⟨t, ?_⟩
       rw [← ht]
-      simp [e, MulAut.conj_apply]
+      simp [e]
     let α : ↥N →* MulAut (coordinateG K) :=
       (MulAut.congr e).toMonoidHom.comp (L.normalizerMonoidHom.comp (Subgroup.inclusion hNL))
     have hα : ∀ (x : ↥N) (z : ↥L), α x (e z) =
@@ -882,7 +894,7 @@ theorem uc22p22k_psi_exists {p n : ℕ} [Fact p.Prime] (hn : 0 < n)
       rw [hez]
       apply Subtype.ext
       rw [h1]
-      simp [hez, ht]
+      simp
     rw [hα] at h2
     have h3 := e.injective h2
     have h4 := congrArg Subtype.val h3
@@ -902,7 +914,7 @@ theorem uc22p22k_r613rank_of (D : Data G) (h613 : UC6.R6_13 D) : R613Rank D := b
     h613 p P P₀ hyp
   obtain ⟨hpP, _⟩ := D.sig_prime p (by rw [D.sig_sub]; exact Or.inl (Or.inr hyp.mem_sig2))
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨L, hL⟩ : ∃ L : Subgroup G, L = UC6.inftyOf (centralizer (P₀ : Set G)) := ⟨_, rfl⟩
   rw [← hL] at hLieEx hFrob h4a h4b h4c
   have hLC : L ≤ centralizer (P₀ : Set G) := by rw [hL]; exact Subgroup.map_subtype_le _
@@ -952,7 +964,7 @@ theorem uc22p22k_r613rank_of (D : Data G) (h613 : UC6.R6_13 D) : R613Rank D := b
   have hst := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hLie
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hst
   have : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p :=
+  have : CharP F p :=
     charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
   let e₀ : ↥L ≃* coordinateG F := e.trans
     ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm.trans
@@ -963,7 +975,7 @@ theorem uc22p22k_r613rank_of (D : Data G) (h613 : UC6.R6_13 D) : R613Rank D := b
   have hψcyc := uc22p22k_cyc_of_semilinear ψ hψsl
   have hker' : ∀ n : ↥(D.M ⊓ normalizer (P₀ : Set G)), ψ n = 1 → (n : G) ∈ Kt :=
     fun n h => uc22p22k_mem_Ktil hOn hP₁M n.2.1 (hψker n h)
-  haveI hKnorm : (Kt.subgroupOf D.M).Normal :=
+  have hKnorm : (Kt.subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hKn
   have hcyc := uc22p22k_quot_cyc (M := D.M) (K := Kt) (N := D.M ⊓ normalizer (P₀ : Set G))
     inf_le_left hKM hfrat ψ hψcyc hker'

@@ -69,8 +69,8 @@ theorem TBJOmData.card_rankOne_of_card_two {Q : QuadraticForm K V} {p : ℕ} [Fa
     apply hf₀
     apply Δ.τ_inj
     rw [← hx f₀, hcomm, mul_assoc, mul_inv_cancel, mul_one]
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
   obtain ⟨w, hwΩ, -, hw⟩ := Δ.swapMove i j hij
   obtain ⟨N, hN, e, he⟩ := exists_odd_pow_pow_two_eq_one w

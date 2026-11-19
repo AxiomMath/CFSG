@@ -24,11 +24,11 @@ public theorem CFSG.section15_sylow_le_normal_hall_of_mem
     (P : Sylow p.val H) :
     (P : Subgroup H) ≤ S := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let PS : Sylow p.val S := Classical.choice (Sylow.nonempty (p := p.val) (G := S))
   let Psub : Subgroup H := (PS : Subgroup S).map S.subtype
   have hPsub_p : IsPGroup p.val Psub :=
-    IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup' S.subtype
+    IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup S.subtype
   have hp_not_S_index : ¬ p.val ∣ S.index := by
     intro hp_dvd
     exact (hSHall.p_in_pi_of_p_dvd_index p hp_dvd) hpπ
@@ -68,12 +68,12 @@ public theorem CFSG.section15_prime_mem_sigma_of_nilpotentNormalHallIn
     p ∈ section10SigmaPrimes M := by
   classical
   rcases hH with ⟨hHM, hHnormM, hHnil, hHHall⟩
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let P : Sylow p.val M := Classical.choice (Sylow.nonempty (p := p.val) (G := M))
   have hpM : p ∈ subgroupPrimeSet M :=
     section8_subgroupPrimeSet_mono hHM hpH
   have hP_le_Hsub : (P : Subgroup M) ≤ H.subgroupOf M := by
-    haveI : (H.subgroupOf M).Normal := hHnormM
+    have : (H.subgroupOf M).Normal := hHnormM
     exact section15_sylow_le_normal_hall_of_mem hHHall hpH P
   let S : Subgroup M := H.subgroupOf M
   let PS : Sylow p.val S := P.subtype (by simpa [S] using hP_le_Hsub)
@@ -82,9 +82,9 @@ public theorem CFSG.section15_prime_mem_sigma_of_nilpotentNormalHallIn
     exact Group.nilpotent_of_mulEquiv (G := H) (G' := S) (_h := hHnil) e.symm
   have hPS_normal : (PS : Subgroup S).Normal :=
     Group.IsNilpotent.sylow_normal hS_nil p.val PS
-  haveI : (PS : Subgroup S).Characteristic :=
+  have : (PS : Subgroup S).Characteristic :=
     Sylow.characteristic_of_normal PS hPS_normal
-  haveI : S.Normal := by
+  have : S.Normal := by
     simpa [S] using hHnormM
   have hPS_map_normal : ((PS : Subgroup S).map S.subtype).Normal := by
     infer_instance
@@ -231,7 +231,7 @@ public theorem CFSG.section15_exists_primeOrder_zpowers_in
     exact hxne (by simpa using hxbot)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨q, hqprime, hqdiv⟩
   let q' : Nat.Primes := ⟨q, hqprime⟩
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨z₀, hz₀_order⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers x) q hqdiv
   let z : G := z₀
@@ -287,7 +287,7 @@ public theorem CFSG.section15_exists_kappa_hallSubgroupIn
     ∃ K : Subgroup G,
       section12HallSubgroupIn (section14KappaPrimes M) K M := by
   classical
-  letI : MulDistribMulAction Unit M := {
+  let : MulDistribMulAction Unit M := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -321,7 +321,7 @@ public theorem CFSG.section15_exists_kappa_hallSubgroupIn_le_sigma_complement
     exact hN.1 (top_le_iff.mp htop_le_N)
   have hsolvD : Group.IsSolvable D :=
     IsMinCE.proper_subgroups_solvable D (lt_top_iff_ne_top.2 hDproper)
-  letI : MulDistribMulAction Unit D := {
+  let : MulDistribMulAction Unit D := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -405,7 +405,7 @@ private theorem CFSG.section15_ambientDerived_lt_maximal
     have hMsigma_bot : section10Msigma M = ⊥ := by
       exact le_bot_iff.mp (by simpa [hMbot] using hMsigma_le_M)
     exact (theorem_10_2_e (M := M) hM) hMsigma_bot
-  haveI : Nontrivial M := (Subgroup.nontrivial_iff_ne_bot (H := M)).2 hM_ne_bot
+  have : Nontrivial M := (Subgroup.nontrivial_iff_ne_bot (H := M)).2 hM_ne_bot
   have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   let : Group.IsSolvable M := hsolvM
@@ -940,7 +940,7 @@ private theorem CFSG.section15_kstar_le_pCoreIn_of_meets_fitting
       (B := F) hq (by simpa [F] using hmeet)
   have hKstar_q : IsPGroup q.val (section14KStar M K) :=
     section15_isPGroup_of_prime_card (A := section14KStar M K) hq
-  haveI : Group.IsNilpotent F := by
+  have : Group.IsNilpotent F := by
     simpa [F] using section8FittingSubgroup_isNilpotent M
   have hKstar_le_coreF :
       section14KStar M K ≤ piCoreIn ({q} : Set Nat.Primes) F :=
@@ -1026,7 +1026,7 @@ public theorem CFSG.section15_pCore_le_sylow
     pCore p H ≤ (P : Subgroup H) := by
   have hsup_p : IsPGroup p (((P : Subgroup H) ⊔ pCore p H : Subgroup H)) :=
     IsPGroup.to_sup_of_normal_right (p := p) (H := (P : Subgroup H))
-      (K := pCore p H) P.isPGroup' (pCore_isPGroup (G := H) (p := p))
+      (K := pCore p H) P.isPGroup (pCore_isPGroup (G := H) (p := p))
   have hEq : (((P : Subgroup H) ⊔ pCore p H : Subgroup H)) = (P : Subgroup H) :=
     le_antisymm (P.maximal_isPGroup.right hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq
@@ -1038,7 +1038,7 @@ private theorem CFSG.section15_normal_sylowSubgroupIn_subgroupOf_eq_pCore
     (hQnormal : section10NormalIn Q M) :
     Q.subgroupOf M = pCore q.val M := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   rcases hQ with ⟨P, hPamb⟩
   have hQsub_eq : Q.subgroupOf M = (P : Subgroup M) := by
     rw [← hPamb]
@@ -1050,7 +1050,7 @@ private theorem CFSG.section15_normal_sylowSubgroupIn_subgroupOf_eq_pCore
   have hP_le_core : (P : Subgroup M) ≤ pCore q.val M :=
     le_sSup (show (P : Subgroup M) ∈
       {K : Subgroup M | K.Normal ∧ IsPGroup q.val K} from
-        ⟨hPnormal, P.isPGroup'⟩)
+        ⟨hPnormal, P.isPGroup⟩)
   have hcore_le_P : pCore q.val M ≤ (P : Subgroup M) :=
     section15_pCore_le_sylow P
   rw [hQsub_eq]
@@ -1064,7 +1064,7 @@ private theorem CFSG.section15_kstar_le_normal_sylow_of_prime_card
     (hQnormal : section10NormalIn Q M) :
     section14KStar M K ≤ Q := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   rcases hQ with ⟨P, hPamb⟩
   have hQsub_eq : Q.subgroupOf M = (P : Subgroup M) := by
     rw [← hPamb]
@@ -1073,7 +1073,7 @@ private theorem CFSG.section15_kstar_le_normal_sylow_of_prime_card
   have hQloc_normal : (Q.subgroupOf M).Normal := hQnormal.2
   have hPnormal : (P : Subgroup M).Normal := by
     simpa [hQsub_eq] using hQloc_normal
-  haveI : Unique (Sylow q.val M) := Sylow.unique_of_normal P hPnormal
+  have : Unique (Sylow q.val M) := Sylow.unique_of_normal P hPnormal
   have hKstar_le_M : section14KStar M K ≤ M :=
     (show section14KStar M K ≤ section10Msigma M from inf_le_left).trans
       (section15_msigma_le (M := M))
@@ -1265,7 +1265,7 @@ private theorem CFSG.section15_msigma_quotient_pCore_nilpotent_of_kstar_le
   have hprime : section14ActsInPrimeManner K (section10Msigma M) :=
     section15_prime_action_of_MF_ne_msigma hM hMF hK hMFne
   have hKne : K ≠ ⊥ := section15_hall_kappa_ne_bot hP1.1 hK
-  haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
+  have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
   obtain ⟨x, hxK, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial K
   rcases section15_exists_primeOrder_zpowers_in (B := K) hxK hxne with
     ⟨r, z, _hzpowx, hzK, _hzne, hRprimeInK⟩
@@ -1302,11 +1302,11 @@ private theorem CFSG.section15_msigma_quotient_pCore_nilpotent_of_kstar_le
   have hS_normal : S.Normal := by
     simpa [S, section15_msigma_subgroupOf_eq] using
       (section15_msigma_normalIn (M := M)).2
-  haveI : S.Normal := hS_normal
+  have : S.Normal := hS_normal
   have hSbar_normal : Sbar.Normal := by
     exact Subgroup.Normal.map
       (H := S) (inferInstance : S.Normal) qM (QuotientGroup.mk'_surjective Qloc)
-  haveI : Sbar.Normal := hSbar_normal
+  have : Sbar.Normal := hSbar_normal
   have hSbar_Rbar_disj : Disjoint Sbar Rbar := by
     simpa [Sbar, Rbar, qM] using
       section15_disjoint_map_mk'_of_le_left_and_disjoint
@@ -1340,13 +1340,13 @@ private theorem CFSG.section15_msigma_quotient_pCore_nilpotent_of_kstar_le
   have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   have hsolvS : Group.IsSolvable S := by
-    letI : Group.IsSolvable M := hsolvM
+    let : Group.IsSolvable M := hsolvM
     infer_instance
   have hsolvQ : Group.IsSolvable (M ⧸ Qloc) := by
-    letI : Group.IsSolvable M := hsolvM
+    let : Group.IsSolvable M := hsolvM
     infer_instance
   have hsolvT : Group.IsSolvable T := by
-    letI : Group.IsSolvable (M ⧸ Qloc) := hsolvQ
+    let : Group.IsSolvable (M ⧸ Qloc) := hsolvQ
     infer_instance
   have hoddM : Odd (Nat.card M) :=
     odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card M)
@@ -1457,7 +1457,7 @@ private theorem CFSG.section15_sylow_map_le_pCore_of_nilpotent_normal
   have hmap_normal : ((P : Subgroup N).map N.subtype).Normal := by
     infer_instance
   have hmap_p : IsPGroup p ((P : Subgroup N).map N.subtype) := by
-    exact IsPGroup.map (p := p) (H := (P : Subgroup N)) P.isPGroup' N.subtype
+    exact IsPGroup.map (p := p) (H := (P : Subgroup N)) P.isPGroup N.subtype
   exact le_sSup
     (show (P : Subgroup N).map N.subtype ∈
         {K : Subgroup H | K.Normal ∧ IsPGroup p K} from
@@ -1504,11 +1504,11 @@ private theorem CFSG.section15_nilpotentNormalHallIn_of_normal_sylow
     rw [← hPamb]
     change IsPGroup q.val ((P : Subgroup M).map M.subtype)
     exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-      P.isPGroup' M.subtype
+      P.isPGroup M.subtype
   have hQnil : Group.IsNilpotent Q := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     exact IsPGroup.isNilpotent (p := q.val) (G := Q) hQp
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hQHall :
       IsHallSubgroup (subgroupPrimeSet Q) (Q.subgroupOf M) := by
     refine isHallSubgroup_of
@@ -1553,7 +1553,7 @@ private theorem CFSG.section15_normal_sylow_q_in_MF_of_kstar_meets_fitting
     let Qloc : Subgroup M := pCore q.val M
     let qM : M →* M ⧸ Qloc := QuotientGroup.mk' Qloc
     let Sbar : Subgroup (M ⧸ Qloc) := S.map qM
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     have hQloc_le_S : Qloc ≤ S := by
       intro x hxQ
       have hxM : (x : G) ∈ M := x.property
@@ -1574,7 +1574,7 @@ private theorem CFSG.section15_normal_sylow_q_in_MF_of_kstar_meets_fitting
     have hSbar_normal : Sbar.Normal := by
       exact Subgroup.Normal.map
         (H := S) (inferInstance : S.Normal) qM (QuotientGroup.mk'_surjective Qloc)
-    haveI : Sbar.Normal := hSbar_normal
+    have : Sbar.Normal := hSbar_normal
     have hnot_card_Sbar : ¬ q.val ∣ Nat.card Sbar :=
       section15_not_dvd_card_normal_nilpotent_subgroup_quotient_pCore
         (H := M) (p := q.val) Sbar hSbar_nil
@@ -1722,24 +1722,24 @@ private theorem CFSG.section15_msigma_eq_ambientDerived_of_MF_ne
     have hMP : M ∈ section14MFamilyP G := hP1.1
     have hZcyc : IsCyclic (section14Z M K) :=
       (theorem_14_7_d (G := G) (M := M) (K := K) hMP hK).2.1
-    letI : IsCyclic (section14Z M K) := hZcyc
+    let : IsCyclic (section14Z M K) := hZcyc
     exact Subgroup.isCyclic_of_le (show K ≤ section14Z M K by
       change K ≤ K ⊔ section14KStar M K
       exact le_sup_left)
   have hKcomm : IsMulCommutative K := by
-    letI : IsCyclic K := hKcyc
+    let : IsCyclic K := hKcyc
     infer_instance
   have hKloc_comm : IsMulCommutative Kloc := by
     refine ⟨⟨fun x y => Subtype.ext ?_⟩⟩
     apply Subtype.ext
     exact setLike_mul_comm
       (s := K) x.property y.property
-  haveI : Sloc.Normal := by
+  have : Sloc.Normal := by
     simpa [S, Sloc] using hSnormM.2
   let eQ : M ⧸ Sloc ≃* Kloc := hcomp'.QuotientMulEquiv
   have hquot_comm : IsMulCommutative (M ⧸ Sloc) := by
-    letI : IsMulCommutative Kloc := hKloc_comm
-    letI : CommGroup Kloc := IsMulCommutative.instCommGroup
+    let : IsMulCommutative Kloc := hKloc_comm
+    let : CommGroup Kloc := IsMulCommutative.instCommGroup
     refine ⟨⟨fun x y => ?_⟩⟩
     apply eQ.injective
     simpa [map_mul] using (mul_comm (eQ x) (eQ y))
@@ -1812,7 +1812,7 @@ private theorem CFSG.section15_exists_complement_to_normal_sylow_in_msigma
     change (Q.subgroupOf S).index ∣ (P : Subgroup M).index
     rwa [← hQrelM_eq]
   have hQloc_coprime : Nat.Coprime (Nat.card Qloc) Qloc.index := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     exact Nat.Coprime.of_dvd_right hQloc_index_dvd
       (by simpa [hQloc_card] using (P.card_coprime_index))
   have hQloc_norm : Qloc.Normal := by
@@ -1829,20 +1829,20 @@ private theorem CFSG.section15_exists_complement_to_normal_sylow_in_msigma
     have hconjQ : (((y * x * y⁻¹ : S) : G)) ∈ Q := by
       simpa [xM, yM, Subgroup.mem_subgroupOf] using hconjM
     simpa [Qloc, Subgroup.mem_subgroupOf] using hconjQ
-  haveI : Qloc.Normal := hQloc_norm
+  have : Qloc.Normal := hQloc_norm
   have hSnormM : section10NormalIn S M := by
     simpa [S] using (section15_msigma_normalIn (M := M))
   have hM_norm_S : M ≤ Subgroup.normalizer (S : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSnormM.1).1 hSnormM.2
   have hK_norm_S : K ≤ Subgroup.normalizer (S : Set G) :=
     hK.1.trans hM_norm_S
-  haveI : Subgroup.Normalizes K S := ⟨hK_norm_S⟩
+  have : Subgroup.Normalizes K S := ⟨hK_norm_S⟩
   have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   have hsolvS : Group.IsSolvable S := by
     let Sloc : Subgroup M := S.subgroupOf M
     have hSloc_solv : Group.IsSolvable Sloc := by
-      letI : Group.IsSolvable M := hsolvM
+      let : Group.IsSolvable M := hsolvM
       infer_instance
     let eS : Sloc ≃* S :=
       Subgroup.subgroupOfEquivOfLe (H := S) (K := M) hSleM
@@ -1872,11 +1872,11 @@ private theorem CFSG.section15_exists_complement_to_normal_sylow_in_msigma
         (Subgroup.subgroupOfEquivOfLe (H := S) (K := M) hSleM).toEquiv
     simpa [KlocM, SlocM, hKloc_card, hSloc_card] using hcopLoc
   have hQloc_p : IsPGroup q.val Qloc := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
-    rcases IsPGroup.iff_card.mp P.isPGroup' with ⟨n, hn⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
+    rcases IsPGroup.iff_card.mp P.isPGroup with ⟨n, hn⟩
     exact IsPGroup.iff_card.mpr ⟨n, by simp [hQloc_card, hn]⟩
   have hQloc_not_dvd_index : ¬ q.val ∣ Qloc.index := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     intro hqidx
     exact P.not_dvd_index (hqidx.trans hQloc_index_dvd)
   have hQlocHall : IsHallSubgroup ({q} : Set Nat.Primes) Qloc := by
@@ -1981,7 +1981,7 @@ private theorem CFSG.section15_complement_to_Q_nilpotent
     (hDcompl : section12ComplementIn (section10Msigma M) Q D) :
     Group.IsNilpotent D := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let S : Subgroup G := section10Msigma M
   let Sloc : Subgroup M := section10MsigmaSubgroup M
   let Dloc : Subgroup M := D.subgroupOf M
@@ -2000,7 +2000,7 @@ private theorem CFSG.section15_complement_to_Q_nilpotent
         (M := M) (Q := Q) (q := q) hQ hQnormal
   have hQloc_normal : Qloc.Normal := by
     simpa [Qloc] using (pCore_normal (p := q.val) (G := M))
-  haveI : Qloc.Normal := hQloc_normal
+  have : Qloc.Normal := hQloc_normal
   let qM : M →* M ⧸ Qloc := QuotientGroup.mk' Qloc
   have hKstar_le_Q : section14KStar M K ≤ Q :=
     section15_kstar_le_normal_sylow_of_prime_card
@@ -2033,7 +2033,7 @@ private theorem CFSG.section15_complement_to_Q_nilpotent
     Subgroup.map_mono hDloc_le_Sloc
   have hDmap_sub_nil :
       Group.IsNilpotent ((Dloc.map qM).subgroupOf (Sloc.map qM)) := by
-    letI : Group.IsNilpotent (Sloc.map qM) := hSbar_nil
+    let : Group.IsNilpotent (Sloc.map qM) := hSbar_nil
     exact Subgroup.isNilpotent ((Dloc.map qM).subgroupOf (Sloc.map qM))
   have hDmap_nil : Group.IsNilpotent (Dloc.map qM) := by
     let e : (Dloc.map qM).subgroupOf (Sloc.map qM) ≃* Dloc.map qM :=
@@ -2182,8 +2182,8 @@ private theorem CFSG.section15_sylowSubgroupIn_nilpotent
     rw [← hP]
     change IsPGroup q.val ((P : Subgroup M).map M.subtype)
     exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-      P.isPGroup' M.subtype
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+      P.isPGroup M.subtype
+  have : Fact q.val.Prime := ⟨q.property⟩
   exact IsPGroup.isNilpotent (p := q.val) (G := Q) hQp
 
 omit [Finite G] [IsMinCE G] in
@@ -2198,7 +2198,7 @@ public theorem CFSG.section15_nilpotent_of_central_complement
   classical
   let Qloc : Subgroup S := Q.subgroupOf S
   let Dloc : Subgroup S := D.subgroupOf S
-  haveI : Qloc.Normal := by
+  have : Qloc.Normal := by
     simpa [Qloc] using hQnorm.2
   have hsup : Qloc ⊔ Dloc = ⊤ := by
     calc
@@ -2262,8 +2262,8 @@ public theorem CFSG.section15_nilpotent_of_central_complement
     let e : Dloc ≃* D := Subgroup.subgroupOfEquivOfLe hcomp.2.1
     exact Group.nilpotent_of_mulEquiv (G := D) (G' := Dloc) (_h := hDnil) e.symm
   have hprod_nil : Group.IsNilpotent (Qloc × Dloc) := by
-    letI : Group.IsNilpotent Qloc := hQloc_nil
-    letI : Group.IsNilpotent Dloc := hDloc_nil
+    let : Group.IsNilpotent Qloc := hQloc_nil
+    let : Group.IsNilpotent Dloc := hDloc_nil
     infer_instance
   exact Group.nilpotent_of_mulEquiv
     (G := Qloc × Dloc) (G' := S) (_h := hprod_nil) (eprod.symm.trans eSD)
@@ -2276,14 +2276,14 @@ private theorem CFSG.section15_lt_inf_normalizer_of_lt_of_nilpotent
   classical
   let Cq : Subgroup Q := C.subgroupOf Q
   have hC_le_Q : C ≤ Q := hC_lt_Q.le
-  rcases SetLike.exists_of_lt hC_lt_Q with ⟨x, hxQ, hxC⟩
+  rcases _root_.IsConcreteLE.exists_of_lt hC_lt_Q with ⟨x, hxQ, hxC⟩
   have hCq_lt_top : Cq < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     have hxCq : (⟨x, hxQ⟩ : Q) ∈ Cq := by
       simp [htop]
     exact hxC (by simpa [Cq, Subgroup.mem_subgroupOf] using hxCq)
-  letI : Group.IsNilpotent Q := hQnil
+  let : Group.IsNilpotent Q := hQnil
   have hnc : NormalizerCondition Q := Group.normalizerCondition_of_isNilpotent (G := Q)
   have hCq_lt_norm : Cq < Subgroup.normalizer (Cq : Set Q) :=
     hnc Cq hCq_lt_top
@@ -2291,7 +2291,7 @@ private theorem CFSG.section15_lt_inf_normalizer_of_lt_of_nilpotent
   · intro y hyC
     exact ⟨hC_le_Q hyC, Subgroup.le_normalizer hyC⟩
   · intro hEq
-    rcases SetLike.exists_of_lt hCq_lt_norm with ⟨y, hyNorm, hyCq⟩
+    rcases _root_.IsConcreteLE.exists_of_lt hCq_lt_norm with ⟨y, hyNorm, hyCq⟩
     have hyNormAmbient : (y : G) ∈ Subgroup.normalizer (C : Set G) := by
       rw [Subgroup.mem_normalizer_iff] at hyNorm ⊢
       intro z
@@ -2423,7 +2423,7 @@ private theorem CFSG.section15_subgroupOf_map_mk'_ne_bot_of_lt
     (hAnorm : (A.subgroupOf N).Normal) :
     (B.subgroupOf N).map (QuotientGroup.mk' (A.subgroupOf N)) ≠ ⊥ := by
   classical
-  haveI : (A.subgroupOf N).Normal := hAnorm
+  have : (A.subgroupOf N).Normal := hAnorm
   intro hmap
   have hB_le_A : B ≤ A := by
     intro x hxB
@@ -2514,8 +2514,8 @@ private theorem CFSG.section15_exists_normalizer_quotient_lift_of_lt
       section15_inf_normalizer_normalIn_inf_normalizer_of_normalIn
         (M := M) (Q := Q) (C := A) hQnormal
   have hQNNorm : (QN.subgroupOf N).Normal := hQNNormData.2
-  haveI : (A.subgroupOf N).Normal := hANorm
-  haveI : (QN.subgroupOf N).Normal := hQNNorm
+  have : (A.subgroupOf N).Normal := hANorm
+  have : (QN.subgroupOf N).Normal := hQNNorm
   let qN : N →* N ⧸ A.subgroupOf N := QuotientGroup.mk' (A.subgroupOf N)
   let QNbar : Subgroup (N ⧸ A.subgroupOf N) :=
     (QN.subgroupOf N).map qN
@@ -2887,8 +2887,8 @@ private theorem CFSG.section15_nilpotentNormalHallIn_sup
   · have hsub_eq :
         (A ⊔ B).subgroupOf M = A.subgroupOf M ⊔ B.subgroupOf M := by
       exact Subgroup.subgroupOf_sup (A := A) (A' := B) (B := M) hAM hBM
-    haveI : (A.subgroupOf M).Normal := hAnormM
-    haveI : (B.subgroupOf M).Normal := hBnormM
+    have : (A.subgroupOf M).Normal := hAnormM
+    have : (B.subgroupOf M).Normal := hBnormM
     rw [hsub_eq]
     exact Subgroup.sup_normal (A.subgroupOf M) (B.subgroupOf M)
   · let F : Subgroup G := section8FittingSubgroup M
@@ -2901,7 +2901,7 @@ private theorem CFSG.section15_nilpotentNormalHallIn_sup
     have hSupF : A ⊔ B ≤ F := sup_le hAleF hBleF
     have hFnil : Group.IsNilpotent F := by
       simpa [F] using section8FittingSubgroup_isNilpotent M
-    haveI : Group.IsNilpotent F := hFnil
+    have : Group.IsNilpotent F := hFnil
     have hSupSubNil :
         Group.IsNilpotent (((A ⊔ B : Subgroup G).subgroupOf F)) := by
       infer_instance
@@ -2942,7 +2942,7 @@ private theorem CFSG.section15_nilpotentNormalHallIn_sup
             (B.subgroupOf M) := by
         intro q hq
         exact Or.inr (hBHall.p_in_pi_of_p_dvd_card q hq)
-      haveI : (B.subgroupOf M).Normal := hBnormM
+      have : (B.subgroupOf M).Normal := hBnormM
       have hSupπ :
           IsPiSubgroup (G := M) (subgroupPrimeSet A ∪ subgroupPrimeSet B)
             (A.subgroupOf M ⊔ B.subgroupOf M) :=
@@ -3064,7 +3064,7 @@ public theorem CFSG.section15_sylowSubgroupIn_isPiSubgroup_singleton
     rw [← hP]
     change IsPGroup q.val ((P : Subgroup M).map M.subtype)
     exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-      P.isPGroup' M.subtype
+      P.isPGroup M.subtype
   exact section8_isPiSubgroup_singleton_of_isPGroup hQp
 
 omit [Finite G] [IsMinCE G] in
@@ -3076,7 +3076,7 @@ private theorem CFSG.section15_le_of_subgroupOf_map_mk'_eq_bot
       (B.subgroupOf S).map (QuotientGroup.mk' (A.subgroupOf S)) = ⊥) :
     B ≤ A := by
   classical
-  letI : (A.subgroupOf S).Normal := hAnorm
+  let : (A.subgroupOf S).Normal := hAnorm
   let qS : S →* S ⧸ A.subgroupOf S := QuotientGroup.mk' (A.subgroupOf S)
   intro x hxB
   let xS : S := ⟨x, hBS hxB⟩
@@ -3098,7 +3098,7 @@ private theorem CFSG.section15_q_subgroup_le_normal_sylow
     (hAM : A ≤ M) (hAq : IsPGroup q.val A) :
     A ≤ Q := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   rcases hQ with ⟨P, hPamb⟩
   have hQsub_eq : Q.subgroupOf M = (P : Subgroup M) := by
     rw [← hPamb]
@@ -3107,7 +3107,7 @@ private theorem CFSG.section15_q_subgroup_le_normal_sylow
   have hQloc_normal : (Q.subgroupOf M).Normal := hQnormal.2
   have hPnormal : (P : Subgroup M).Normal := by
     simpa [hQsub_eq] using hQloc_normal
-  haveI : Unique (Sylow q.val M) := Sylow.unique_of_normal P hPnormal
+  have : Unique (Sylow q.val M) := Sylow.unique_of_normal P hPnormal
   let Aloc : Subgroup M := A.subgroupOf M
   have hAloc_q : IsPGroup q.val Aloc := by
     exact hAq.of_equiv
@@ -3139,7 +3139,7 @@ private theorem CFSG.section15_complement_to_normal_sylow_isPiSubgroup_compl
   by_cases hpq : p = q
   · have hpDq : q.val ∣ Nat.card D := by
       simpa [hpq] using hpD
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     let P : Sylow q.val D := Classical.choice (Sylow.nonempty (p := q.val) (G := D))
     have hPne : (P : Subgroup D) ≠ ⊥ :=
       Sylow.ne_bot_of_dvd_card (G := D) (p := q.val) P hpDq
@@ -3150,7 +3150,7 @@ private theorem CFSG.section15_complement_to_normal_sylow_isPiSubgroup_compl
       exact y.property
     have hPG_le_M : PG ≤ M := hPG_le_D.trans hDleM
     have hPG_q : IsPGroup q.val PG :=
-      IsPGroup.map (p := q.val) (H := (P : Subgroup D)) P.isPGroup' D.subtype
+      IsPGroup.map (p := q.val) (H := (P : Subgroup D)) P.isPGroup D.subtype
     have hPG_le_Q : PG ≤ Q :=
       section15_q_subgroup_le_normal_sylow
         (M := M) (Q := Q) (A := PG) (q := q) hQ hQnormal hPG_le_M hPG_q
@@ -3218,13 +3218,13 @@ private theorem CFSG.section15_pSubgroup_le_centralizer_piSubgroup_of_nilpotent_
     P ≤ Subgroup.centralizer (X : Set G) := by
   classical
   have hXnil : Group.IsNilpotent X := by
-    letI : Group.IsNilpotent L := hLnil
+    let : Group.IsNilpotent L := hLnil
     let Xsub : Subgroup L := X.subgroupOf L
     have hXsub_nil : Group.IsNilpotent Xsub := by infer_instance
     let e : Xsub ≃* X := Subgroup.subgroupOfEquivOfLe (H := X) (K := L) hXL
-    letI : Group.IsNilpotent Xsub := hXsub_nil
+    let : Group.IsNilpotent Xsub := hXsub_nil
     exact Group.nilpotent_of_mulEquiv (G := Xsub) (G' := X) e
-  letI : Group.IsNilpotent X := hXnil
+  let : Group.IsNilpotent X := hXnil
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup X) := by
     let e : X ≃* (⊤ : Subgroup X) :=
       (Subgroup.topEquiv : (⊤ : Subgroup X) ≃* X).symm
@@ -3240,7 +3240,7 @@ private theorem CFSG.section15_pSubgroup_le_centralizer_piSubgroup_of_nilpotent_
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hqX : q.val ∣ Nat.card X := Nat.dvd_of_mem_primeFactors q0.1.2
     have hqπ : q ∈ π := hXπ q hqX
     have hpq : p ≠ q := by
@@ -3279,13 +3279,13 @@ private theorem CFSG.section15_isPiSubgroup_le_centralizer_of_nilpotent_disjoint
     A ≤ Subgroup.centralizer (B : Set G) := by
   classical
   have hAnil : Group.IsNilpotent A := by
-    letI : Group.IsNilpotent L := hLnil
+    let : Group.IsNilpotent L := hLnil
     let Asub : Subgroup L := A.subgroupOf L
     have hAsub_nil : Group.IsNilpotent Asub := by infer_instance
     let e : Asub ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := L) hAL
-    letI : Group.IsNilpotent Asub := hAsub_nil
+    let : Group.IsNilpotent Asub := hAsub_nil
     exact Group.nilpotent_of_mulEquiv (G := Asub) (G' := A) e
-  letI : Group.IsNilpotent A := hAnil
+  let : Group.IsNilpotent A := hAnil
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup A) := by
     let e : A ≃* (⊤ : Subgroup A) :=
       (Subgroup.topEquiv : (⊤ : Subgroup A) ≃* A).symm
@@ -3301,7 +3301,7 @@ private theorem CFSG.section15_isPiSubgroup_le_centralizer_of_nilpotent_disjoint
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hqA : q.val ∣ Nat.card A := Nat.dvd_of_mem_primeFactors q0.1.2
     have hqπ : q ∈ π := hAπ q hqA
     have hqρ : q ∉ ρ := by
@@ -3353,7 +3353,7 @@ private theorem CFSG.section15_le_of_nilpotent_sup_quotient
   let Asub : Subgroup S := A.subgroupOf S
   let Bsub : Subgroup S := B.subgroupOf S
   let Dsub : Subgroup S := D.subgroupOf S
-  letI : Asub.Normal := by
+  let : Asub.Normal := by
     simpa [Asub, S] using hAnormS
   let qS : S →* S ⧸ Asub := QuotientGroup.mk' Asub
   let Bbar : Subgroup (S ⧸ Asub) := Bsub.map qS
@@ -3433,7 +3433,7 @@ private theorem CFSG.section15_le_of_nilpotent_sup_quotient
   have hsolvB : Group.IsSolvable B := by
     let BlocM : Subgroup M := B.subgroupOf M
     have hBlocM_solv : Group.IsSolvable BlocM := by
-      letI : Group.IsSolvable M := hsolvM
+      let : Group.IsSolvable M := hsolvM
       infer_instance
     let eB : BlocM ≃* B :=
       Subgroup.subgroupOfEquivOfLe (H := B) (K := M) hBM
@@ -3680,7 +3680,7 @@ private theorem CFSG.section15_le_of_kstar_position
     have hprime : section14ActsInPrimeManner K (section10Msigma M) :=
       section15_prime_action_of_MF_ne_msigma hM hMF hK hMFne
     have hKne : K ≠ ⊥ := section15_hall_kappa_ne_bot hP1.1 hK
-    haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
+    have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot (H := K)).2 hKne
     obtain ⟨x, hxK, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial K
     rcases section15_exists_primeOrder_zpowers_in (B := K) hxK hxne with
       ⟨r, z, _hzpowx, hzK, _hzne, hRprimeInK⟩
@@ -3717,9 +3717,9 @@ private theorem CFSG.section15_le_of_kstar_position
     have hSnormalH : Ssub.Normal := by
       simpa [Ssub] using
         (Subgroup.normal_subgroupOf_iff_le_normalizer hS_le_H).2 hH_norm_S
-    haveI : AsubH.Normal := by
+    have : AsubH.Normal := by
       simpa [AsubH] using hAnormH
-    haveI : Ssub.Normal := hSnormalH
+    have : Ssub.Normal := hSnormalH
     let qH : H →* H ⧸ AsubH := QuotientGroup.mk' AsubH
     let Sbar : Subgroup (H ⧸ AsubH) := Ssub.map qH
     let Rbar : Subgroup (H ⧸ AsubH) := Rsub.map qH
@@ -3771,7 +3771,7 @@ private theorem CFSG.section15_le_of_kstar_position
       exact Subgroup.Normal.map
         (H := Ssub) (inferInstance : Ssub.Normal) qH
         (QuotientGroup.mk'_surjective AsubH)
-    haveI : Sbar.Normal := hSbar_normal
+    have : Sbar.Normal := hSbar_normal
     have hSbar_Rbar_disj : Disjoint Sbar Rbar := by
       simpa [Sbar, Rbar, qH] using
         section15_disjoint_map_mk'_of_le_left_and_disjoint
@@ -3809,19 +3809,19 @@ private theorem CFSG.section15_le_of_kstar_position
     have hsolvH : Group.IsSolvable H := by
       let Hloc : Subgroup M := H.subgroupOf M
       have hHloc_solv : Group.IsSolvable Hloc := by
-        letI : Group.IsSolvable M := hsolvM
+        let : Group.IsSolvable M := hsolvM
         infer_instance
       let eH : Hloc ≃* H :=
         Subgroup.subgroupOfEquivOfLe (H := H) (K := M) hH_le_M
       exact Group.isSolvable_of_surjective (f := eH.toMonoidHom) eH.surjective
     have hsolvSsub : Group.IsSolvable Ssub := by
-      letI : Group.IsSolvable H := hsolvH
+      let : Group.IsSolvable H := hsolvH
       infer_instance
     have hsolvQ : Group.IsSolvable (H ⧸ AsubH) := by
-      letI : Group.IsSolvable H := hsolvH
+      let : Group.IsSolvable H := hsolvH
       infer_instance
     have hsolvT : Group.IsSolvable T := by
-      letI : Group.IsSolvable (H ⧸ AsubH) := hsolvQ
+      let : Group.IsSolvable (H ⧸ AsubH) := hsolvQ
       infer_instance
     have hoddM : Odd (Nat.card M) :=
       odd_of_card_dvd IsMinCE.odd_order (Subgroup.card_subgroup_dvd_card M)
@@ -3943,11 +3943,11 @@ private theorem CFSG.section15_le_of_kstar_position
     let AsubS : Subgroup S := A.subgroupOf S
     have hAnormSlocal : AsubS.Normal := by
       simpa [AsubS, S] using hAnormS
-    haveI : AsubS.Normal := hAnormSlocal
+    have : AsubS.Normal := hAnormSlocal
     have hAsubHsub_normal : (AsubH.subgroupOf Ssub).Normal := by
       exact Subgroup.Normal.subgroupOf (H := AsubH) (K := Ssub)
         (show AsubH.Normal from inferInstance)
-    haveI : (AsubH.subgroupOf Ssub).Normal := hAsubHsub_normal
+    have : (AsubH.subgroupOf Ssub).Normal := hAsubHsub_normal
     let eS : S ≃* Ssub :=
       (Subgroup.subgroupOfEquivOfLe (H := S) (K := H) hS_le_H).symm
     have hAsub_map : AsubS.map eS.toMonoidHom = AsubH.subgroupOf Ssub := by
@@ -4019,8 +4019,8 @@ private theorem CFSG.section15_quotient_minimal_normal_of_Q1_eq_Q
     simpa [hQ₁eq] using hxQ₁
   have hQ₀NormM : (Q₀.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ₀M).2 hM_norm_Q₀
-  letI : (Q₀.subgroupOf N).Normal := hQ₀NormN
-  letI : (Q₀.subgroupOf M).Normal := hQ₀NormM
+  let : (Q₀.subgroupOf N).Normal := hQ₀NormN
+  let : (Q₀.subgroupOf M).Normal := hQ₀NormM
   let QbarN : Subgroup (N ⧸ Q₀.subgroupOf N) :=
     (Q.subgroupOf N).map (QuotientGroup.mk' (Q₀.subgroupOf N))
   let QbarM : Subgroup (M ⧸ Q₀.subgroupOf M) :=
@@ -4356,7 +4356,7 @@ private theorem CFSG.section15_KD_frobenius_with_kernel_D
             (by simp [S])
             (by simp [S])
         _ = ⊤ := by simp [S]
-    letI : Dsub.Normal := hDnormalS
+    let : Dsub.Normal := hDnormalS
     refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
     · rw [Subgroup.disjoint_def]
       intro x hxD hxK
@@ -4525,14 +4525,14 @@ omit [Finite G] [IsMinCE G] in
 private theorem CFSG.section15_subgroupOf_le_normalizer_of_normalIn
     {M Q R : Subgroup G} (hQnormal : section10NormalIn Q M) :
     R.subgroupOf M ≤ Subgroup.normalizer ((Q.subgroupOf M : Subgroup M) : Set M) := by
-  letI : (Q.subgroupOf M).Normal := hQnormal.2
+  let : (Q.subgroupOf M).Normal := hQnormal.2
   exact le_top.trans (Subgroup.le_normalizer_of_normal (H := Q.subgroupOf M))
 
 omit [Finite G] [IsMinCE G] in
 private theorem CFSG.section15_subgroupOf_solvable_of_solvable
     {M Q : Subgroup G} (hsolvM : Group.IsSolvable M) :
     Group.IsSolvable (Q.subgroupOf M) := by
-  letI : Group.IsSolvable M := hsolvM
+  let : Group.IsSolvable M := hsolvM
   infer_instance
 
 omit [Finite G] [IsMinCE G] in
@@ -4634,11 +4634,11 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
   let Q0M : Subgroup M := Q₀.subgroupOf M
   let qM : M →* M ⧸ Q0M := QuotientGroup.mk' Q0M
   let Qbar : Subgroup (M ⧸ Q0M) := (Q.subgroupOf M).map qM
-  haveI : Q0M.Normal := by
+  have : Q0M.Normal := by
     simpa [Q0M] using hQ₀norm
-  haveI : Qbar.Normal := by
+  have : Qbar.Normal := by
     simpa [Qbar] using hQbar_norm
-  haveI : Nontrivial Qbar := by
+  have : Nontrivial Qbar := by
     exact Qbar.nontrivial_iff_ne_bot.mpr (by simpa [Qbar] using hQbar_ne)
   let S : Subgroup G := D ⊔ K
   let Dsub : Subgroup S := D.subgroupOf S
@@ -4658,9 +4658,9 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
     { toFun := fun x => ⟨x, by simp⟩
       map_one' := by ext; simp
       map_mul' := by intro x y; ext; simp }
-  letI : MulDistribMulAction (M ⧸ Q0M) Qbar :=
+  let : MulDistribMulAction (M ⧸ Q0M) Qbar :=
     MulDistribMulAction.compHom Qbar toTop
-  letI : MulDistribMulAction S Qbar :=
+  let : MulDistribMulAction S Qbar :=
     MulDistribMulAction.compHom Qbar toQ
   have hfrob :
       IsFrobeniusGroupWithKernelComplement Dsub Ksub := by
@@ -4672,19 +4672,19 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
   have hsolvS : Group.IsSolvable S := by
     let Sloc : Subgroup M := S.subgroupOf M
     have hSloc_solv : Group.IsSolvable Sloc := by
-      letI : Group.IsSolvable M := hsolvM
+      let : Group.IsSolvable M := hsolvM
       infer_instance
     let eS : Sloc ≃* S :=
       Subgroup.subgroupOfEquivOfLe (H := S) (K := M) hS_le_M
     exact Group.isSolvable_of_surjective (f := eS.toMonoidHom) eS.surjective
   have hQbar_p : IsPGroup q.val Qbar := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     rcases hQ with ⟨P, hP⟩
     have hQp : IsPGroup q.val Q := by
       rw [← hP]
       change IsPGroup q.val ((P : Subgroup M).map M.subtype)
       exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-        P.isPGroup' M.subtype
+        P.isPGroup M.subtype
     have hQloc_p : IsPGroup q.val (Q.subgroupOf M) := by
       have hcard : Nat.card (Q.subgroupOf M) = Nat.card Q := by
         exact Nat.card_congr
@@ -4693,7 +4693,7 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
       exact IsPGroup.iff_card.mpr ⟨n, by simp [hcard, hn]⟩
     simpa [Qbar, qM] using IsPGroup.map (p := q.val) (H := Q.subgroupOf M) hQloc_p qM
   have hnilQbar : Group.IsNilpotent Qbar := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     exact IsPGroup.isNilpotent (p := q.val) (G := Qbar) hQbar_p
   have hcop : Nat.Coprime (Nat.card S) (Nat.card Qbar) := by
     have hDπ : IsPiSubgroup (G := G) ({q} : Set Nat.Primes)ᶜ D :=
@@ -4711,7 +4711,7 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
     have hStopπ :
         IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (⊤ : Subgroup S) := by
       have hDsub_normal : Dsub.Normal := hfrob.normal
-      letI : Dsub.Normal := hDsub_normal
+      let : Dsub.Normal := hDsub_normal
       have hsupπ :
           IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (Ksub ⊔ Dsub) :=
         section15_isPiSubgroup_sup_of_normal_right hKsubπ hDsubπ
@@ -4972,7 +4972,7 @@ private theorem CFSG.section15_p_card_prime_of_theorem15_2_context
       exact section15_zpowers_centralizer_subgroupOf_eq_kstar_of_prime_manner
         (M := M) (K := K) (Q := Q) (x := xG)
         hzpow_le_M hQ_le_sigma hprime hxK hxneG hKstarQ
-    letI : (Q.subgroupOf M).Normal := hQnormal.2
+    let : (Q.subgroupOf M).Normal := hQnormal.2
     have hQbar_def : Qbar = (Q.subgroupOf M).map qM := by
       rfl
     have hqM_def : qM = QuotientGroup.mk' Q0M := by
@@ -5029,8 +5029,8 @@ private theorem CFSG.section15_elementary_prime_eq_of_nontrivial_pgroup
     (hHp : IsPGroup p H) (hElem : IsElementaryAbelian r H) :
     r = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx_ne⟩ := exists_ne (1 : H)
   have hxpow : x ^ r = 1 :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
@@ -5069,11 +5069,11 @@ private theorem CFSG.section15_Qbar_elementary_card
   let Q0M : Subgroup M := Q₀.subgroupOf M
   let qM : M →* M ⧸ Q0M := QuotientGroup.mk' Q0M
   let Qbar : Subgroup (M ⧸ Q0M) := (Q.subgroupOf M).map qM
-  haveI : Q0M.Normal := by
+  have : Q0M.Normal := by
     simpa [Q0M] using hQ₀norm
-  haveI : Qbar.Normal := by
+  have : Qbar.Normal := by
     simpa [Qbar] using hQbar_norm
-  haveI : Nontrivial Qbar := by
+  have : Nontrivial Qbar := by
     exact Qbar.nontrivial_iff_ne_bot.mpr (by simpa [Qbar] using hQbar_ne)
   have hQbar_min' :
       ∀ N : Subgroup (M ⧸ Q0M), N.Normal → N ≤ Qbar → N = ⊥ ∨ N = Qbar := by
@@ -5096,9 +5096,9 @@ private theorem CFSG.section15_Qbar_elementary_card
     { toFun := fun x => ⟨x, by simp⟩
       map_one' := by ext; simp
       map_mul' := by intro x y; ext; simp }
-  letI : MulDistribMulAction (M ⧸ Q0M) Qbar :=
+  let : MulDistribMulAction (M ⧸ Q0M) Qbar :=
     MulDistribMulAction.compHom Qbar toTop
-  letI : MulDistribMulAction S Qbar :=
+  let : MulDistribMulAction S Qbar :=
     MulDistribMulAction.compHom Qbar toQ
   have hfrob :
       IsFrobeniusGroupWithKernelComplement Dsub Ksub := by
@@ -5110,19 +5110,19 @@ private theorem CFSG.section15_Qbar_elementary_card
   have hsolvS : Group.IsSolvable S := by
     let Sloc : Subgroup M := S.subgroupOf M
     have hSloc_solv : Group.IsSolvable Sloc := by
-      letI : Group.IsSolvable M := hsolvM
+      let : Group.IsSolvable M := hsolvM
       infer_instance
     let eS : Sloc ≃* S :=
       Subgroup.subgroupOfEquivOfLe (H := S) (K := M) hS_le_M
     exact Group.isSolvable_of_surjective (f := eS.toMonoidHom) eS.surjective
   have hQbar_p : IsPGroup q.val Qbar := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     rcases hQ with ⟨P, hP⟩
     have hQp : IsPGroup q.val Q := by
       rw [← hP]
       change IsPGroup q.val ((P : Subgroup M).map M.subtype)
       exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-        P.isPGroup' M.subtype
+        P.isPGroup M.subtype
     have hQloc_p : IsPGroup q.val (Q.subgroupOf M) := by
       have hcard : Nat.card (Q.subgroupOf M) = Nat.card Q := by
         exact Nat.card_congr
@@ -5131,14 +5131,14 @@ private theorem CFSG.section15_Qbar_elementary_card
       exact IsPGroup.iff_card.mpr ⟨n, by simp [hcard, hn]⟩
     simpa [Qbar, qM] using IsPGroup.map (p := q.val) (H := Q.subgroupOf M) hQloc_p qM
   have hQbar_elem : IsElementaryAbelian q.val Qbar := by
-    haveI : IsMinimalNormal Qbar := {
+    have : IsMinimalNormal Qbar := {
       minimal := by
         intro N hNnorm hNle
         exact hQbar_min' N hNnorm hNle
     }
-    haveI : Group.IsSolvable Qbar := by
-      haveI : Fact q.val.Prime := ⟨q.property⟩
-      haveI : Group.IsNilpotent Qbar :=
+    have : Group.IsSolvable Qbar := by
+      have : Fact q.val.Prime := ⟨q.property⟩
+      have : Group.IsNilpotent Qbar :=
         IsPGroup.isNilpotent (p := q.val) (G := Qbar) hQbar_p
       infer_instance
     rcases minimalNormal_solvable_exists_isElementaryAbelian
@@ -5150,7 +5150,7 @@ private theorem CFSG.section15_Qbar_elementary_card
         (H := Qbar) q.property hrprime hQbar_p hElem_r
     simpa [hr_eq_q] using hElem_r
   have hnilQbar : Group.IsNilpotent Qbar := by
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     exact IsPGroup.isNilpotent (p := q.val) (G := Qbar) hQbar_p
   have hcop : Nat.Coprime (Nat.card S) (Nat.card Qbar) := by
     have hDπ : IsPiSubgroup (G := G) ({q} : Set Nat.Primes)ᶜ D :=
@@ -5168,7 +5168,7 @@ private theorem CFSG.section15_Qbar_elementary_card
     have hStopπ :
         IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (⊤ : Subgroup S) := by
       have hDsub_normal : Dsub.Normal := hfrob.normal
-      letI : Dsub.Normal := hDsub_normal
+      let : Dsub.Normal := hDsub_normal
       have hsupπ :
           IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (Ksub ⊔ Dsub) :=
         section15_isPiSubgroup_sup_of_normal_right hKsubπ hDsubπ
@@ -5429,7 +5429,7 @@ private theorem CFSG.section15_Qbar_elementary_card
       exact section15_zpowers_centralizer_subgroupOf_eq_kstar_of_prime_manner
         (M := M) (K := K) (Q := Q) (x := xG)
         hzpow_le_M hQ_le_sigma hprime hxK hxneG hKstarQ
-    letI : (Q.subgroupOf M).Normal := hQnormal.2
+    let : (Q.subgroupOf M).Normal := hQnormal.2
     have hcent_quot_eq :
         subgroupCentralizerIn Qbar ((Subgroup.zpowers (x : S)).map toQ) =
           subgroupCentralizerIn Qbar (Ksub.map toQ) := by
@@ -5585,7 +5585,7 @@ public theorem CFSG.section15_local_fitting_le_pCore_sup_pPrimeCore
   · subst hqp
     exact le_sup_left
   · have hqprime : Nat.Prime q.1 := Nat.prime_of_mem_primeFactors q.1.2
-    letI : Fact (Nat.Prime q.1) := ⟨hqprime⟩
+    let : Fact (Nat.Prime q.1) := ⟨hqprime⟩
     obtain ⟨n, hn⟩ := (pCore_isPGroup (G := H) (p := q.1)).exists_card_eq
     have hcop : Nat.Coprime p (Nat.card (pCore q.1 H)) := by
       rw [hn]
@@ -5604,7 +5604,7 @@ private theorem CFSG.section15_fitting_le_pCore_sup_pPrimeCore_map
     section8FittingSubgroup M ≤
       section15PCoreIn q M ⊔ (pPrimeCore q.val M).map M.subtype := by
   classical
-  letI : Fact q.val.Prime := ⟨q.property⟩
+  let : Fact q.val.Prime := ⟨q.property⟩
   have hlocal :
       fittingSubgroup M ≤ pCore q.val M ⊔ pPrimeCore q.val M :=
     section15_local_fitting_le_pCore_sup_pPrimeCore (H := M) (p := q.val)
@@ -5628,7 +5628,7 @@ private theorem CFSG.section15_fitting_le_Q_sup_centralizer_Q_of_pcore
     (hQ_eq_pcore : Q = section15PCoreIn q M) :
     section8FittingSubgroup M ≤ Q ⊔ subgroupCentralizerIn M Q := by
   classical
-  letI : Fact q.val.Prime := ⟨q.property⟩
+  let : Fact q.val.Prime := ⟨q.property⟩
   have hfit :
       section8FittingSubgroup M ≤
         section15PCoreIn q M ⊔ (pPrimeCore q.val M).map M.subtype :=
@@ -5671,9 +5671,9 @@ private theorem CFSG.section15_Q_sup_centralizer_Q_le_quotient_centralizer
   let Nloc : Subgroup M := N.subgroupOf M
   let qM : M →* M ⧸ Nloc := QuotientGroup.mk' Nloc
   let Qbar : Subgroup (M ⧸ Nloc) := (Q.subgroupOf M).map qM
-  haveI : Nloc.Normal := by
+  have : Nloc.Normal := by
     simpa [Nloc] using hNnorm
-  haveI : IsMulCommutative Qbar := by
+  have : IsMulCommutative Qbar := by
     simpa [Qbar, Nloc, qM] using hQbar_comm
   refine sup_le ?_ ?_
   · intro x hxQ
@@ -5727,7 +5727,7 @@ private theorem CFSG.section15_Qbar_D_centralizer_eq_bot_of_theorem15_2_context
       hM hMF hK hMFne hq hQ hQnormal hQMF hD with
     ⟨_hQ₀M, hQM, _hQ₀Q, hQ₀norm, _hQbar_ne, _hQbar_norm, _hQbar_min⟩
   let Q0M : Subgroup M := Q₀.subgroupOf M
-  haveI : Q0M.Normal := by
+  have : Q0M.Normal := by
     simpa [Q0M, Q₀] using hQ₀norm_arg
   let qM : M →* M ⧸ Q0M := QuotientGroup.mk' Q0M
   let Qloc : Subgroup M := Q.subgroupOf M
@@ -5806,13 +5806,13 @@ private theorem CFSG.section15_quotient_centralizer_normalIn
       M := by
   classical
   let Nloc : Subgroup M := N.subgroupOf M
-  haveI : Nloc.Normal := by
+  have : Nloc.Normal := by
     simpa [Nloc] using hNnorm
   let qM : M →* M ⧸ Nloc := QuotientGroup.mk' Nloc
   let Qbar : Subgroup (M ⧸ Nloc) := (Q.subgroupOf M).map qM
   let Cloc : Subgroup M := (Subgroup.centralizer (Qbar : Set (M ⧸ Nloc))).comap qM
   let Cbar : Subgroup G := Cloc.map M.subtype
-  haveI : Qbar.Normal := by
+  have : Qbar.Normal := by
     simpa [Qbar, Nloc, qM] using hQbar_norm
   have hCloc_norm : Cloc.Normal := by
     simpa [Cloc] using
@@ -5859,7 +5859,7 @@ private theorem CFSG.section15_le_normalizer_quotient_centralizer
               (QuotientGroup.mk' (N.subgroupOf H))).map H.subtype) : Set G) := by
   classical
   let Nloc : Subgroup H := N.subgroupOf H
-  haveI : Nloc.Normal := by
+  have : Nloc.Normal := by
     simpa [Nloc] using hNnorm
   let qH : H →* H ⧸ Nloc := QuotientGroup.mk' Nloc
   let Abar : Subgroup (H ⧸ Nloc) := (A.subgroupOf H).map qH
@@ -5965,20 +5965,20 @@ private theorem CFSG.section15_quotient_centralizer_le_of_minimal_normal
             (QuotientGroup.mk' (N.subgroupOf M))).map M.subtype := by
   classical
   let Nloc : Subgroup M := N.subgroupOf M
-  haveI : Nloc.Normal := by
+  have : Nloc.Normal := by
     simpa [Nloc] using hNnorm
   let qM : M →* M ⧸ Nloc := QuotientGroup.mk' Nloc
   let Qbar : Subgroup (M ⧸ Nloc) := (Q.subgroupOf M).map qM
   let Abar : Subgroup (M ⧸ Nloc) := (A.subgroupOf M).map qM
   let Cbar : Subgroup (M ⧸ Nloc) := (C.subgroupOf M).map qM
   let Qfix : Subgroup (M ⧸ Nloc) := subgroupCentralizerIn Qbar Cbar
-  haveI : Qbar.Normal := by
+  have : Qbar.Normal := by
     simpa [Qbar, Nloc, qM] using hQbar_norm
-  haveI : Cbar.Normal := by
+  have : Cbar.Normal := by
     simpa [Cbar, Nloc, qM] using
       Subgroup.Normal.map hCnorm qM (QuotientGroup.mk'_surjective (N := Nloc))
   have hQfix_norm : Qfix.Normal := by
-    haveI : (Subgroup.centralizer (Cbar : Set (M ⧸ Nloc))).Normal :=
+    have : (Subgroup.centralizer (Cbar : Set (M ⧸ Nloc))).Normal :=
       Subgroup.normal_centralizer (H := Cbar)
     change (Qbar ⊓ Subgroup.centralizer (Cbar : Set (M ⧸ Nloc))).Normal
     infer_instance
@@ -6074,7 +6074,7 @@ private theorem CFSG.section15_Q_sup_D_centralizer_Q_nilpotent
   have hEnil : Group.IsNilpotent E := by
     let Eloc : Subgroup D := E.subgroupOf D
     have hEloc_nil : Group.IsNilpotent Eloc := by
-      letI : Group.IsNilpotent D := hDnil
+      let : Group.IsNilpotent D := hDnil
       infer_instance
     let e : Eloc ≃* E := Subgroup.subgroupOfEquivOfLe (H := E) (K := D) hE_le_D
     exact Group.nilpotent_of_mulEquiv (G := Eloc) (G' := E) (_h := hEloc_nil) e
@@ -6113,7 +6113,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
   classical
   let Q₀ : Subgroup G := subgroupCentralizerIn Q D
   let Q0M : Subgroup M := Q₀.subgroupOf M
-  haveI : Q0M.Normal := by
+  have : Q0M.Normal := by
     simpa [Q0M, Q₀] using hQ₀norm
   let qM : M →* M ⧸ Q0M := QuotientGroup.mk' Q0M
   let Qbar : Subgroup (M ⧸ Q0M) := (Q.subgroupOf M).map qM
@@ -6133,7 +6133,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
       hM hMF hK hMFne hp hq hQ hQnormal hQMF hD with
     ⟨_hQ₀M', _hQM', _hQ₀Q', _hQ₀norm'', hQbar_elem, _hQbar_card⟩
   have hQbar_comm : IsMulCommutative Qbar := by
-    letI : IsElementaryAbelian q.val Qbar := by
+    let : IsElementaryAbelian q.val Qbar := by
       simpa [Qbar, Q0M, qM, Q₀] using hQbar_elem
     infer_instance
   have hCbar_le_QE :
@@ -6142,9 +6142,9 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
       let S : Subgroup G := D ⊔ K
       let Dsub : Subgroup S := D.subgroupOf S
       let Ksub : Subgroup S := K.subgroupOf S
-      haveI : Qbar.Normal := by
+      have : Qbar.Normal := by
         simpa [Qbar, Q0M, qM, Q₀] using hQbar_norm
-      haveI : Nontrivial Qbar := by
+      have : Nontrivial Qbar := by
         exact Qbar.nontrivial_iff_ne_bot.mpr (by simpa [Qbar] using hQbar_ne)
       have hDcomp : section12ComplementIn (section10Msigma M) Q D := hD.2.1
       have hD_le_M : D ≤ M := hDcomp.2.1.trans section15_msigma_le
@@ -6158,9 +6158,9 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
         { toFun := fun x => ⟨x, by simp⟩
           map_one' := by ext; simp
           map_mul' := by intro x y; ext; simp }
-      letI : MulDistribMulAction (M ⧸ Q0M) Qbar :=
+      let : MulDistribMulAction (M ⧸ Q0M) Qbar :=
         MulDistribMulAction.compHom Qbar toTop
-      letI : MulDistribMulAction S Qbar :=
+      let : MulDistribMulAction S Qbar :=
         MulDistribMulAction.compHom Qbar toQ
       have hfrob :
           IsFrobeniusGroupWithKernelComplement Dsub Ksub := by
@@ -6169,7 +6169,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
             hM hMF hK hMFne hq hQ hQnormal hD
       have hDsub_solv : Group.IsSolvable Dsub := by
         have hDsolv : Group.IsSolvable D := by
-          letI : Group.IsNilpotent D := hD.2.2.1
+          let : Group.IsNilpotent D := hD.2.2.1
           infer_instance
         let e : Dsub ≃* D :=
           Subgroup.subgroupOfEquivOfLe
@@ -6264,7 +6264,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
               rw [hDbar_eq]
         simp [hfix_eq, hcent_D_bot]
       let N : Subgroup S := (MulDistribMulAction.toMulAut S Qbar).ker
-      haveI : N.Normal := by
+      have : N.Normal := by
         dsimp [N]
         infer_instance
       have hD_not_le_N : ¬ Dsub ≤ N := by
@@ -6298,7 +6298,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
         (section15_MF_ne_msigma_implies_P1 hM hMF hK hMFne).2
       let KlocM : Subgroup M := K.subgroupOf M
       let SiglocM : Subgroup M := (section10Msigma M).subgroupOf M
-      haveI : SiglocM.Normal := by
+      have : SiglocM.Normal := by
         simpa [SiglocM] using (section15_msigma_normalIn (M := M)).2
       have hKsigma_top : KlocM ⊔ SiglocM = ⊤ := by
         calc
@@ -6324,7 +6324,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
       have hsgkg : sg * kg = x := by
         simpa [sg, kg, xM] using congrArg (fun y : M => (y : G)) hsgkgM
       let DlocM : Subgroup M := D.subgroupOf M
-      haveI : Qloc.Normal := by
+      have : Qloc.Normal := by
         simpa [Qloc] using hQnormal.2
       have hQD_local : Qloc ⊔ DlocM = (Q ⊔ D).subgroupOf M := by
         symm
@@ -6436,7 +6436,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
     have hxM : x ∈ M := section15_msigma_le hxSigma
     let xM : M := ⟨x, hxM⟩
     let Dloc : Subgroup M := D.subgroupOf M
-    haveI : Qloc.Normal := by
+    have : Qloc.Normal := by
       simpa [Qloc] using hQnormal.2
     have hQD_local : Qloc ⊔ Dloc = (Q ⊔ D).subgroupOf M := by
       symm
@@ -6603,7 +6603,7 @@ private theorem CFSG.section15_quotient_centralizer_le_fitting_of_theorem15_2_co
     let Csub : Subgroup (↥(Q ⊔ subgroupCentralizerIn D Q)) :=
       Cbar.subgroupOf (Q ⊔ subgroupCentralizerIn D Q)
     have hCsub_nil : Group.IsNilpotent Csub := by
-      letI : Group.IsNilpotent (↥(Q ⊔ subgroupCentralizerIn D Q)) := hQE_nil
+      let : Group.IsNilpotent (↥(Q ⊔ subgroupCentralizerIn D Q)) := hQE_nil
       infer_instance
     let e : Csub ≃* Cbar :=
       Subgroup.subgroupOfEquivOfLe (H := Cbar)
@@ -6675,7 +6675,7 @@ private theorem CFSG.section15_ambientDerived_le_sup_commutator_of_complement
   classical
   let Qloc : Subgroup S := Q.subgroupOf S
   let Dloc : Subgroup S := D.subgroupOf S
-  haveI : Qloc.Normal := by
+  have : Qloc.Normal := by
     simpa [Qloc] using hQnorm.2
   have hloc_sup_top : Qloc ⊔ Dloc = ⊤ := by
     calc
@@ -6754,7 +6754,7 @@ private theorem CFSG.section15_fitting_eq_Q_sup_centralizer_Q_of_theorem15_2_con
   have hQbar_comm :
       IsMulCommutative
         ((Q.subgroupOf M).map (QuotientGroup.mk' (Q₀.subgroupOf M))) := by
-    letI : IsElementaryAbelian q.val
+    let : IsElementaryAbelian q.val
         ((Q.subgroupOf M).map (QuotientGroup.mk' (Q₀.subgroupOf M))) := by
       simpa [Q₀] using hQbar_elem
     infer_instance
@@ -6819,7 +6819,7 @@ private theorem CFSG.section15_msigma_derived_le_quotient_centralizer_of_theorem
   classical
   let Q₀ : Subgroup G := subgroupCentralizerIn Q D
   let Q0M : Subgroup M := Q₀.subgroupOf M
-  haveI : Q0M.Normal := by
+  have : Q0M.Normal := by
     simpa [Q0M, Q₀] using hQ₀norm
   let qM : M →* M ⧸ Q0M := QuotientGroup.mk' Q0M
   let Qloc : Subgroup M := Q.subgroupOf M
@@ -6835,17 +6835,17 @@ private theorem CFSG.section15_msigma_derived_le_quotient_centralizer_of_theorem
   rcases section15_Qbar_elementary_card
       hM hMF hK hMFne hp hq hQ hQnormal hQMF hD with
     ⟨_hQ₀M', _hQM', _hQ₀Q', _hQ₀norm'', hQbar_elem, hQbar_card⟩
-  letI : Fact q.val.Prime := ⟨q.property⟩
-  haveI : Qbar.Normal := by
+  let : Fact q.val.Prime := ⟨q.property⟩
+  have : Qbar.Normal := by
     simpa [Qbar, Qloc, Q0M, qM, Q₀] using hQbar_norm
-  haveI : Nontrivial Qbar := by
+  have : Nontrivial Qbar := by
     exact Qbar.nontrivial_iff_ne_bot.mpr (by simpa [Qbar, Qloc, Q0M, qM, Q₀] using hQbar_ne)
   have hQbar_comm : IsMulCommutative Qbar := by
-    letI : IsElementaryAbelian q.val Qbar := by
+    let : IsElementaryAbelian q.val Qbar := by
       simpa [Qbar, Qloc, Q0M, qM, Q₀] using hQbar_elem
     infer_instance
   have hQbar_p : IsPGroup q.val Qbar := by
-    letI : IsElementaryAbelian q.val Qbar := by
+    let : IsElementaryAbelian q.val Qbar := by
       simpa [Qbar, Qloc, Q0M, qM, Q₀] using hQbar_elem
     exact IsElementaryAbelian.isPGroup q.val Qbar
   have hnilQbar : Group.IsNilpotent Qbar :=
@@ -6883,9 +6883,9 @@ private theorem CFSG.section15_msigma_derived_le_quotient_centralizer_of_theorem
     { toFun := fun x => ⟨x, by simp⟩
       map_one' := by ext; simp
       map_mul' := by intro x y; ext; simp }
-  letI : MulDistribMulAction (M ⧸ Q0M) Qbar :=
+  let : MulDistribMulAction (M ⧸ Q0M) Qbar :=
     MulDistribMulAction.compHom Qbar toTop
-  letI : MulDistribMulAction S Qbar :=
+  let : MulDistribMulAction S Qbar :=
     MulDistribMulAction.compHom Qbar toQ
   have hfrob :
       IsFrobeniusGroupWithKernelComplement Dsub Ksub := by
@@ -6897,7 +6897,7 @@ private theorem CFSG.section15_msigma_derived_le_quotient_centralizer_of_theorem
   have hsolvS : Group.IsSolvable S := by
     let Sloc : Subgroup M := S.subgroupOf M
     have hSloc_solv : Group.IsSolvable Sloc := by
-      letI : Group.IsSolvable M := hsolvM
+      let : Group.IsSolvable M := hsolvM
       infer_instance
     let eS : Sloc ≃* S :=
       Subgroup.subgroupOfEquivOfLe (H := S) (K := M) hS_le_M
@@ -6920,7 +6920,7 @@ private theorem CFSG.section15_msigma_derived_le_quotient_centralizer_of_theorem
     have hStopπ :
         IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (⊤ : Subgroup S) := by
       have hDsub_normal : Dsub.Normal := hfrob.normal
-      letI : Dsub.Normal := hDsub_normal
+      let : Dsub.Normal := hDsub_normal
       have hsupπ :
           IsPiSubgroup (G := S) ({q} : Set Nat.Primes)ᶜ (Ksub ⊔ Dsub) :=
         section15_isPiSubgroup_sup_of_normal_right hKsubπ hDsubπ
@@ -7495,7 +7495,7 @@ private theorem CFSG.section15_le_centralizer_of_sylow_images
         (S : Subgroup X).map X.subtype ≤ Subgroup.centralizer (K : Set G)) :
     X ≤ Subgroup.centralizer (K : Set G) := by
   classical
-  haveI : Finite X := Subtype.finite
+  have : Finite X := Subtype.finite
   let C : Subgroup X := (Subgroup.centralizer (K : Set G)).comap X.subtype
   have htop_le_C : (⊤ : Subgroup X) ≤ C := by
     rw [← Sylow.iSup_sylow_eq_top (G := X)]
@@ -7505,7 +7505,7 @@ private theorem CFSG.section15_le_centralizer_of_sylow_images
     intro hr
     have hrprime : Nat.Prime r := Nat.prime_of_mem_primeFactors hr
     let p : Nat.Primes := ⟨r, hrprime⟩
-    haveI : Fact p.val.Prime := ⟨p.property⟩
+    have : Fact p.val.Prime := ⟨p.property⟩
     let S : Sylow p.val X := default
     change (S : Subgroup X) ≤ C
     intro y hyS
@@ -7541,7 +7541,7 @@ private theorem CFSG.section15_D_le_centralizer_Q_of_not_mem_beta
     rw [← hP]
     change IsPGroup q.val ((P : Subgroup M).map M.subtype)
     exact IsPGroup.map (p := q.val) (H := (P : Subgroup M))
-      P.isPGroup' M.subtype
+      P.isPGroup M.subtype
   have hQnarrow : IsNarrowPGroup q.val Q := by
     rcases hQ with ⟨P, hP⟩
     have hPnarrow :
@@ -7575,7 +7575,7 @@ private theorem CFSG.section15_D_le_centralizer_Q_of_not_mem_beta
   have hPp : IsPGroup p.val P := by
     simpa [P] using
       (IsPGroup.map (p := p.val) (H := (S : Subgroup D))
-        S.isPGroup' D.subtype)
+        S.isPGroup D.subtype)
   have hP_le_D : P ≤ D := by
     intro x hxP
     rcases Subgroup.mem_map.mp hxP with ⟨y, _hy, rfl⟩

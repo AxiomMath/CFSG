@@ -22,7 +22,7 @@ theorem sec4_normalizer_closure_conj (z : G) {A : Subgroup G} {m : G}
     obtain ⟨h, -, rfl⟩ := hxcl
     refine Subgroup.subset_closure ⟨⟨m * h, Subgroup.mem_top _, by group⟩, ?_⟩
     exact (Subgroup.mem_set_normalizer_iff.mp hm (h * z * h⁻¹)).mp hxA
-  · simpa using (Subgroup.one_mem (Subgroup.closure (conjClassIn ⊤ z ∩ (A : Set G))))
+  · simp
   · intro x y _ _ ihx ihy
     rw [show m * (x * y) * m⁻¹ = (m * x * m⁻¹) * (m * y * m⁻¹) by group]
     exact mul_mem ihx ihy

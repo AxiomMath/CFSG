@@ -36,7 +36,7 @@ private lemma isElemAbelian_tSub (h : TwoTransHyp X T α) (β : Ω) :
 private lemma tSub_alpha_eq (h : TwoTransHyp X T α) : h.tSub α = T := by
   rw [h.tSub_eq_conj (x := 1) X.one_mem (by simp)]
   ext s
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 private lemma exists_mem_tSub_ne_one (h : TwoTransHyp X T α) (β : Ω) :
     ∃ t ∈ h.tSub β, t ≠ 1 := by
@@ -166,7 +166,7 @@ theorem exists_card_eq (h : TwoTransHyp X T α) : ∃ j : ℕ, Nat.card Ω = 2 ^
   have hcard : Nat.card (Sylow 2 ↥(twoTransY X T)) =
       Nat.card (h.sylowAt α : Subgroup ↥(twoTransY X T)) + 1 :=
     CFSG.Goldschmidt.GoldType.card_sylow_of_bender hB (h.sylowAt α)
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp (h.sylowAt α).isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp (h.sylowAt α).isPGroup
   refine ⟨j, ?_⟩
   rw [← h.card_sylow_eq_card, hcard, hj]
 
@@ -175,9 +175,9 @@ end TwoTransHyp
 private lemma card_subtype_ne {j : ℕ} (hcard : Nat.card Ω = 2 ^ j + 1) :
     Nat.card {β : Ω // β ≠ α} = 2 ^ j := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
-  haveI : Fintype {β : Ω // β ≠ α} := Fintype.ofFinite _
-  haveI : Fintype {β : Ω // β = α} := Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite Ω
+  have : Fintype {β : Ω // β ≠ α} := Fintype.ofFinite _
+  have : Fintype {β : Ω // β = α} := Fintype.ofFinite _
   have hc : Fintype.card {β : Ω // β ≠ α} = Fintype.card Ω - 1 := by
     have h := Fintype.card_subtype_compl (p := fun β : Ω => β = α)
     rwa [Fintype.card_subtype_eq] at h
@@ -220,7 +220,7 @@ private lemma card_add_one_of_transitive {T : Subgroup (Equiv.Perm Ω)} {α : Ω
     (hTtrans : ∀ a b : {β : Ω // β ≠ α}, ∃ t : T, t • a = b) :
     Nat.card T + 1 = Nat.card Ω := by
   have hpow : 0 < 2 ^ j := Nat.pow_pos (by norm_num)
-  haveI : Nontrivial Ω :=
+  have : Nontrivial Ω :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; omega)
   obtain ⟨β0, hβ0⟩ := exists_ne α
   let β0' : {β : Ω // β ≠ α} := ⟨β0, hβ0⟩
@@ -260,15 +260,15 @@ theorem card_add_one_of_semireg {N : Type} [Group N] [Finite N] (φ : N →* Equ
   classical
   let Ω' := {β : Ω // β ≠ α}
   have hΩ'card : Nat.card Ω' = 2 ^ j := card_subtype_ne (α := α) hcard
-  letI : MulAction N Ω' := actionOnComplement φ hNα
-  letI : MulAction T Ω' := actionOnComplement T.subtype (fun t => hTα t.1 t.2)
+  let : MulAction N Ω' := actionOnComplement φ hNα
+  let : MulAction T Ω' := actionOnComplement T.subtype (fun t => hTα t.1 t.2)
   have hTtrans : ∀ a b : Ω', ∃ t : T, t • a = b := by
     intro a b
     have htrans : ∀ a b : Ω', ∃ x : N, x • a = b := by
       intro a b
       obtain ⟨x, hx⟩ := hN a.1 b.1 a.2 b.2
       exact ⟨x, Subtype.ext hx⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨p, hpP, hpab⟩ := CFSG.Quasithin.St84.sylow_pretransitive_of_card_prime_pow
       (p := 2) (k := j) hΩ'card htrans hP hidx a b
     have hpval : (φ p) a.1 = b.1 := congrArg Subtype.val hpab
@@ -315,10 +315,11 @@ private lemma sylowAt_alpha_eq_tSub (h : TwoTransHyp X T α)
 
 end Certificates
 
-private noncomputable def normalizerT (h : TwoTransHyp X T α) :
+private noncomputable def normalizerT (_h : TwoTransHyp X T α) :
     Subgroup (Equiv.Perm Ω) :=
   Subgroup.normalizer (T : Set (Equiv.Perm Ω)) ⊓ twoTransY X T
 
+omit [Finite Ω] in
 private lemma normalizerT_eq_map (h : TwoTransHyp X T α) :
     normalizerT h =
       (Subgroup.normalizer
@@ -331,6 +332,7 @@ private lemma normalizerT_eq_map (h : TwoTransHyp X T α) :
   rw [← Subgroup.subgroupOf_normalizer_eq (le_twoTransY (X := X) (T := T)),
     Subgroup.subgroupOf_map_subtype]
 
+omit [Finite Ω] in
 private lemma mem_normalizer_T (h : TwoTransHyp X T α) {p : Equiv.Perm Ω}
     (hpX : p ∈ X) (hpα : p α = α) :
     p ∈ Subgroup.normalizer (T : Set (Equiv.Perm Ω)) := by
@@ -347,6 +349,7 @@ private lemma mem_normalizer_T (h : TwoTransHyp X T α) {p : Equiv.Perm Ω}
     have hmem := h.normal p⁻¹ hp'X hp'α (p * t * p⁻¹) ht
     simpa [mul_assoc] using hmem
 
+omit [Finite Ω] in
 private lemma le_normalizer_twoTransY {P : Subgroup (Equiv.Perm Ω)} (hPX : P ≤ X) :
     P ≤ Subgroup.normalizer (twoTransY X T : Set (Equiv.Perm Ω)) := by
   intro p hp
@@ -360,6 +363,7 @@ private lemma le_normalizer_twoTransY {P : Subgroup (Equiv.Perm Ω)} (hPX : P �
     have hmem := conj_mem_twoTransY hp'X hy
     simpa [mul_assoc] using hmem
 
+omit [Finite Ω] in
 private lemma conj_mem_normalizer_T (h : TwoTransHyp X T α) {p a : Equiv.Perm Ω}
     (hpX : p ∈ X) (hpα : p α = α)
     (ha : a ∈ Subgroup.normalizer (T : Set (Equiv.Perm Ω))) :
@@ -394,6 +398,7 @@ private lemma conj_mem_normalizer_T (h : TwoTransHyp X T α) {p a : Equiv.Perm �
     have h2 : p⁻¹ * t * p ∈ T := (ha _).mpr h1'
     exact (Subgroup.mem_normalizer_iff.mp hp'N t).mpr h2
 
+omit [Finite Ω] in
 private lemma le_normalizer_normalizer_T (h : TwoTransHyp X T α)
     {P : Subgroup (Equiv.Perm Ω)} (hPX : P ≤ X)
     (hPα : ∀ p ∈ P, p α = α) :
@@ -413,6 +418,7 @@ private lemma le_normalizer_normalizer_T (h : TwoTransHyp X T α)
     have hmem := conj_mem_normalizer_T h hp'X hp'α ha
     simpa [mul_assoc] using hmem
 
+omit [Finite Ω] in
 private lemma le_normalizer_normalizerT (h : TwoTransHyp X T α)
     {P : Subgroup (Equiv.Perm Ω)} (hPX : P ≤ X)
     (hPα : ∀ p ∈ P, p α = α) :
@@ -504,13 +510,13 @@ private lemma commutator_normalizerT_le (h : TwoTransHyp X T α)
     have h : D ≤ Q ⊔ D := le_sup_right
     have h' : Q ⊔ D = AY := hDsup
     rwa [h'] at h
-  haveI : (Q.subgroupOf AY).Normal := Subgroup.normal_in_normalizer
+  have : (Q.subgroupOf AY).Normal := Subgroup.normal_in_normalizer
   have hsup : Q.subgroupOf AY ⊔ D.subgroupOf AY = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hQAY hDAY, hDsup, Subgroup.subgroupOf_self]
-  haveI : IsCyclic D := hDcyc
-  haveI : IsCyclic (D.subgroupOf AY) :=
+  have : IsCyclic D := hDcyc
+  have : IsCyclic (D.subgroupOf AY) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hDAY)).mpr hDcyc
-  haveI : IsMulCommutative (D.subgroupOf AY) := IsCyclic.isMulCommutative
+  have : IsMulCommutative (D.subgroupOf AY) := IsCyclic.isMulCommutative
   have hcommA : _root_.commutator AY ≤ Q.subgroupOf AY :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
       (H := D.subgroupOf AY) hsup
@@ -559,7 +565,7 @@ theorem exists_mod_centralizer (h : TwoTransHyp X T α)
     (hPα : ∀ p ∈ P, p α = α) (hP : IsPGroup 2 P) :
     ∃ x ∈ P, ∀ y ∈ P, ∃ k : ℕ,
       y⁻¹ * x ^ k ∈ Subgroup.centralizer (T : Set (Equiv.Perm Ω)) := by
-  haveI : IsMulCommutative T := h.elemAb.1
+  have : IsMulCommutative T := h.elemAb.1
   have hTne : T ≠ ⊥ := by
     have h4 : 1 < Nat.card T := lt_of_lt_of_le (by norm_num) h.four_le
     exact (Subgroup.one_lt_card_iff_ne_bot T).mp h4

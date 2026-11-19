@@ -47,7 +47,7 @@ theorem isHardExceptionalIndex_split (i : CFSGIndex) (h : IsHardExceptionalIndex
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (h : False).elim
   · exact (h : False).elim
-  · cases li <;> first | exact (h : False).elim | skip
+  · cases li <;> try exact (h : False).elim
     · obtain ⟨h1, h2⟩ := h
       by_cases h4 : 4 ≤ ‹PrimePower›.exponent
       · exact Or.inl ⟨h1, h4⟩
@@ -96,7 +96,7 @@ theorem isHardRankTwoNineIndex_split (i : CFSGIndex) (h : IsHardRankTwoNineIndex
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (h : False).elim
   · exact (h : False).elim
-  · cases li <;> first | exact (h : False).elim | skip
+  · cases li <;> try exact (h : False).elim
     · exact Or.inl h
     · exact Or.inr (Or.inl h)
     · exact Or.inr (Or.inr h)
@@ -107,7 +107,7 @@ theorem isHardRankTwoIndex_split_nine (i : CFSGIndex) (h : IsHardRankTwoIndex i)
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (h : False).elim
   · exact (h : False).elim
-  · cases li <;> first | exact (h : False).elim | skip
+  · cases li <;> try exact (h : False).elim
     all_goals
       obtain ⟨h1, h2, h3⟩ := h
       by_cases h9 : ‹PrimePower›.card = 9
@@ -120,7 +120,7 @@ theorem isHardG2SmallIndex_split_nine (i : CFSGIndex) (h : IsHardG2SmallIndex i)
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (h : False).elim
   · exact (h : False).elim
-  · cases li <;> first | exact (h : False).elim | skip
+  · cases li <;> try exact (h : False).elim
     obtain ⟨h1, h2, -⟩ := h
     by_cases h9 : ‹PrimePower›.card = 9
     · exact Or.inr h9

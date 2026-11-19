@@ -42,7 +42,7 @@ theorem index_ne_two_of_dihedral {X : Type} [Group X] [Finite X] {y t : X}
     rw [hEq] at hcl
     have hle := card_zpowers_le_four_of_pow_four_eq_one hy
     omega
-  haveI hNnormal : N.Normal := Subgroup.normal_of_index_eq_two hNidx
+  have hNnormal : N.Normal := Subgroup.normal_of_index_eq_two hNidx
   have hy2N : y ^ 2 ∈ N := Subgroup.sq_mem_of_index_two hNidx y
   have hy2_sq : y ^ 2 * y ^ 2 = 1 := by
     calc y ^ 2 * y ^ 2 = y ^ 4 := by group
@@ -94,9 +94,9 @@ theorem exists_compl_or_forall_mem_mod {G X : Type} [Group G] [Group X] [Finite 
     (∃ K : Subgroup G, V ≤ K ∧ K ≤ H ∧ K ⊓ J = V ∧ K ⊔ J = H) ∨
       ∀ h ∈ H, h * h ∈ V → h ∈ J := by
   classical
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hVH : V ≤ H := hVJ.trans hJH
-  haveI hVHnormal : (V.subgroupOf H).Normal :=
+  have hVHnormal : (V.subgroupOf H).Normal :=
     ⟨fun x hx g => Subgroup.mem_subgroupOf.mpr
       (hVn (g : G) g.2 (x : G) (Subgroup.mem_subgroupOf.mp hx))⟩
   have hVleKer : V.subgroupOf H ≤ π.ker := by
@@ -226,7 +226,7 @@ theorem eq_of_inf_eq_of_sup_eq {G X : Type} [Group G] [Group X] [Finite G]
     (hVK' : V ≤ K') (hK'H : K' ≤ H) (hK'J : K' ⊓ J = V) (hK'J' : K' ⊔ J = H) :
     K = K' := by
   classical
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hVH : V ≤ H := hVJ.trans hJH
   have hJcard : Nat.card (J.subgroupOf H) = Nat.card J :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJH).toEquiv
@@ -234,7 +234,7 @@ theorem eq_of_inf_eq_of_sup_eq {G X : Type} [Group G] [Group X] [Finite G]
     have h := Subgroup.card_ker_mul_card_of_surjective (f := π) hπ
     rw [hker, hJcard] at h
     exact h.symm
-  haveI hJHnormal : (J.subgroupOf H).Normal :=
+  have hJHnormal : (J.subgroupOf H).Normal :=
     ⟨fun x hx g => Subgroup.mem_subgroupOf.mpr
       (hJn (g : G) g.2 (x : G) (Subgroup.mem_subgroupOf.mp hx))⟩
   let πK : ↥K →* X := π.comp (Subgroup.inclusion hKH)

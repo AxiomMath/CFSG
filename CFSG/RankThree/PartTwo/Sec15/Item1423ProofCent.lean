@@ -148,7 +148,7 @@ theorem commutator_le_theta_of_item142 {A L : Subgroup G} {c : G} (h : Sec14Std 
           Finite.of_equiv _ e.toEquiv
         have : Group.IsNilpotent
             ↥(T : Subgroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 2))) :=
-          T.isPGroup'.isNilpotent
+          T.isPGroup.isNilpotent
         exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hDimg : img142 A (lB A) c D = ⊥ := by
       have hDp' : Group.IsPerfect (D.subgroupOf (kA142 A (lB A) c)) := by

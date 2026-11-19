@@ -33,7 +33,7 @@ theorem pow_four_eq_one_of_three {x y t : X}
       _ = (y * t * y) * x := by rw [h6, htxt]
       _ = y * t * y * x := rfl
   rw [show (x * t * y) ^ 4 = x * t * y * x * t * y * x * t * y * x * t * y by
-    simp only [pow_succ, pow_two]; group]
+    simp only [pow_succ]; group]
   calc x * t * y * x * t * y * x * t * y * x * t * y
       = x * (t * y * x * t) * (y * x * t * y * x * t * y) := by group
     _ = x * (y * t * y * x) * (y * x * t * y * x * t * y) := by rw [h7]

@@ -71,16 +71,16 @@ theorem le_centralizer_of_isSubnormal_of_perfect {J H N : Subgroup G} (hJ : IsSu
 
 private theorem eq_bot_of_perfect_of_le_of_isSolvable {J S : Subgroup G} (hJS : J ≤ S)
     (hS : Group.IsSolvable S) (hJ : ⁅J, J⁆ = J) : J = ⊥ := by
-  haveI : Group.IsSolvable J :=
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJS)
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJ
   by_contra hne
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hne
   exact Group.IsPerfect.not_isSolvable J inferInstance
 
 private theorem eq_bot_of_perfect_of_isPGroup {q : ℕ} [Fact q.Prime] {J : Subgroup G} [Finite J]
     (hJq : IsPGroup q J) (hJ : ⁅J, J⁆ = J) : J = ⊥ := by
-  haveI : Group.IsNilpotent J := hJq.isNilpotent
+  have : Group.IsNilpotent J := hJq.isNilpotent
   exact eq_bot_of_perfect_of_le_of_isSolvable le_rfl
     (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective le_rfl)) hJ
 
@@ -88,24 +88,24 @@ theorem commutator_inf_eq_bot_of_quasisimple_quotient [Finite G] {p q : ℕ} (hp
     (hq : q.Prime) (hpq : p ≠ q) {J N : Subgroup G} (hJN : J ≤ normalizer (N : Set G))
     (hN : IsPGroup p N) {Q : Type*} [Group Q] (f : J →* Q) (hf : Function.Surjective f)
     (hfk : IsPGroup q f.ker) (hQ : CFSG.Open.IsQuasisimple Q) : ⁅J ⊓ N, J⁆ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   set M : Subgroup J := N.subgroupOf J
   have hMn : M.Normal := ⟨fun n hn g => (Subgroup.mem_normalizer_iff.mp (hJN g.2) n).mp hn⟩
   have hMp : IsPGroup p M := hN.comap_of_injective J.subtype J.subtype_injective
   have hMc : M.map f ≤ center Q := by
-    haveI : (M.map f).Normal := hMn.map f hf
+    have : (M.map f).Normal := hMn.map f hf
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hQ (M.map f) with
       h | h
     · exact h
     · exfalso
-      haveI : Finite Q := Finite.of_surjective f hf
+      have : Finite Q := Finite.of_surjective f hf
       have hQp : IsPGroup p Q :=
         ((hMp.map f).to_le (h ▸ le_rfl : (⊤ : Subgroup Q) ≤ M.map f)).of_equiv
           Subgroup.topEquiv
-      haveI : Nontrivial Q := CFSG.ComponentClassification.Quasisimple.nontrivial hQ
-      haveI : Group.IsPerfect Q := ⟨hQ.1⟩
-      haveI : Group.IsNilpotent Q := hQp.isNilpotent
+      have : Nontrivial Q := CFSG.ComponentClassification.Quasisimple.nontrivial hQ
+      have : Group.IsPerfect Q := ⟨hQ.1⟩
+      have : Group.IsNilpotent Q := hQp.isNilpotent
       exact Group.IsPerfect.not_isSolvable Q inferInstance
   rw [eq_bot_iff, Subgroup.commutator_le]
   intro x hx j hj
@@ -149,8 +149,8 @@ theorem exists_solvable_centralizer_of_isSolvable {p : ℕ} {H : Subgroup G}
 theorem isSolvable_centralizer_inf_of_le [Finite G] {p : ℕ} (hp : p.Prime) {H N : Subgroup G}
     (hN : IsPGroup p N) (hCN : centralizer (N : Set G) ⊓ H ≤ N) :
     Group.IsSolvable (centralizer (N : Set G) ⊓ H : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent (centralizer (N : Set G) ⊓ H : Subgroup G) := (hN.to_le hCN).isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent (centralizer (N : Set G) ⊓ H : Subgroup G) := (hN.to_le hCN).isNilpotent
   infer_instance
 
 theorem solvable_centralizer_map_of_injective {G' : Type*} [Group G'] {p : ℕ} {χ : G →* G'}
@@ -169,8 +169,8 @@ theorem solvable_centralizer_map_of_injective {G' : Type*} [Group G'] {p : ℕ} 
       ⟨Subgroup.mem_centralizer_iff.mpr fun n hn => hχ ?_, hh⟩, rfl⟩
     rw [map_mul, map_mul]
     exact Subgroup.mem_centralizer_iff.mp hyC (χ n) (Subgroup.mem_map_of_mem χ hn)
-  haveI := hCN
-  haveI : Group.IsSolvable ((centralizer (N : Set G) ⊓ H).map χ) :=
+  have := hCN
+  have : Group.IsSolvable ((centralizer (N : Set G) ⊓ H).map χ) :=
     Group.isSolvable_of_surjective
       (f := (Subgroup.equivMapOfInjective (centralizer (N : Set G) ⊓ H) χ hχ).toMonoidHom)
       (Subgroup.equivMapOfInjective _ χ hχ).surjective
@@ -186,9 +186,9 @@ theorem exists_quasisimple_quotient_range {I G : Type*} [Group I] [Finite I] [Gr
     (κ : I →* G) (hκ : κ.range ≠ ⊥) :
     ∃ (Q : Type u) (_ : Group Q) (f : κ.range →* Q), Function.Surjective f ∧
       IsPGroup q f.ker ∧ CFSG.Open.IsQuasisimple Q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set M : Subgroup T := κ.ker.map ψ
-  haveI : M.Normal := κ.normal_ker.map ψ hψ
+  have : M.Normal := κ.normal_ker.map ψ hψ
   let f : κ.range →* T ⧸ M :=
     (QuotientGroup.map κ.ker M ψ (Subgroup.le_comap_map ψ κ.ker)).comp
       (QuotientGroup.quotientKerEquivRange κ).symm.toMonoidHom
@@ -227,7 +227,7 @@ theorem exists_quasisimple_quotient_range {I G : Type*} [Group I] [Finite I] [Gr
     rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hT M with h | h
     · exact h
     · exfalso
-      haveI : Finite κ.range := Finite.of_surjective κ.rangeRestrict κ.rangeRestrict_surjective
+      have : Finite κ.range := Finite.of_surjective κ.rangeRestrict κ.rangeRestrict_surjective
       have hrq : IsPGroup q κ.range := by
         intro x
         obtain ⟨i, rfl⟩ := κ.rangeRestrict_surjective x
@@ -253,8 +253,8 @@ theorem exists_inner_hom_of_perfect {Y I : Type*} [Group Y] [Group I] {K : Subgr
     (σ : I →* Y) :
     ∃ κ : I →* Y, κ.range ≤ K ∧ κ.ker = (centralizer (K : Set Y)).comap σ ∧
       ∀ i, (κ i)⁻¹ * σ i ∈ centralizer (K : Set Y) := by
-  haveI : Group.IsPerfect I := ⟨hI⟩
-  haveI := hOut
+  have : Group.IsPerfect I := ⟨hI⟩
+  have := hOut
   set θ : Y →* MulAut K := MulAut.conjNormal with hθ
   have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := by
     refine (injective_iff_map_eq_one _).mpr fun a ha => ?_
@@ -371,8 +371,8 @@ theorem exists_perfect_subnormal_of_not_le_centralizer {Y I : Type*} [Group Y] [
 
 private theorem isComponentOf_top_of_isSimpleGroup {Y : Type*} [Group Y] {K : Subgroup Y}
     [K.Normal] (hK : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a) : IsComponentOf K ⊤ := by
-  haveI := hK
-  haveI : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
+  have := hK
+  have : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
   exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
     CFSG.ComponentClassification.Quasisimple.simple_of_perfect K⟩
 
@@ -383,7 +383,7 @@ section Criteria
 private theorem center_outer_of_mulEquiv {K X : Type*} [Group K] [Group X] (e : K ≃* X)
     (hZ : center X = ⊥) (hout : Group.IsSolvable (Outer X)) :
     center K = ⊥ ∧ Group.IsSolvable (Outer K) := by
-  haveI := hout
+  have := hout
   refine ⟨?_, CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm⟩
   rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e,
     Subgroup.map_eq_bot_iff_of_injective _ e.injective] at hZ
@@ -407,7 +407,7 @@ theorem threeFourTwoAt_of_forall_of_center_eq_bot {p : ℕ} {X : Type*} [Group X
     ThreeFourTwoAt p X := by
   intro Y _ _ K Y₀ E R I T _ _ _ σ ψ hp hp2 hKn hKX hrk hC hcomp hER hE hEc hcore _ hσs hI hψ
     hψk hT hσC
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   obtain ⟨hZK, hOutK⟩ := center_outer_of_mulEquiv e hZ hout
   have hRY : (R : Subgroup Y) ≤ Y₀ := (sylow_le_threeFourCore hp R hER hE hEc).trans hcore
@@ -439,7 +439,7 @@ theorem threeFourTwoNoneAt_of_forall_of_center_eq_bot {p : ℕ} {X : Type*} [Gro
     ThreeFourTwoNoneAt p X := by
   intro Y _ _ K Y₀ E R I T _ _ _ σ ψ hp hp2 hKn hKX hrk hC hcomp hER hE hEc hcore _ hσs hI hψ
     hψk hT
-  haveI := hKn
+  have := hKn
   by_contra hσC
   obtain ⟨e⟩ := hKX
   obtain ⟨hZK, hOutK⟩ := center_outer_of_mulEquiv e hZ hout
@@ -453,7 +453,7 @@ theorem threeFourTwoNoneAt_of_forall_of_center_eq_bot {p : ℕ} {X : Type*} [Gro
 private theorem not_le_of_mulEquiv {Y X : Type*} [Group Y] [Group X] (hX : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) {K Y₀ : Subgroup Y} [K.Normal] (e : K ≃* X)
     (hcomp : ∀ L : Subgroup Y, IsComponentOf L ⊤ → L ≤ K → ¬ L ≤ Y₀) : ¬ K ≤ Y₀ := by
-  haveI := hX
+  have := hX
   refine hcomp K (isComponentOf_top_of_isSimpleGroup e.isSimpleGroup ?_) le_rfl
   obtain ⟨a, b, hab⟩ := hnab
   refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩
@@ -475,11 +475,11 @@ theorem threeFourTwoAt_of_forall {p : ℕ} {X : Type*} [Group X] (hX : IsSimpleG
       ∃ iK iJ : TauCeti.CFSGIndex, IsThreeFourPair p iK iJ ∧ Nonempty (K ≃* iK.Group) ∧
         ∃ g : J →* iJ.Group, Function.Surjective g) :
     ThreeFourTwoAt p X := by
-  haveI := hX
+  have := hX
   refine threeFourTwoAt_of_forall_of_center_eq_bot
     (CFSG.ComponentClassification.Helpers.center_eq_bot X hnab) hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn hKX hrk hC hcomp hER hE hEc hcore hRY
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   exact h Y K Y₀ E R hp hp2 hKn ⟨e⟩ hrk hC hcomp hER hE hEc hcore hRY
     (not_le_of_mulEquiv hX hnab e hcomp)
@@ -498,11 +498,11 @@ theorem threeFourTwoNoneAt_of_forall {p : ℕ} {X : Type*} [Group X] (hX : IsSim
       (∃ (Q : Type) (_ : Group Q) (f : J →* Q), Function.Surjective f ∧ IsPGroup 2 f.ker ∧
         CFSG.Open.IsQuasisimple Q) → False) :
     ThreeFourTwoNoneAt p X := by
-  haveI := hX
+  have := hX
   refine threeFourTwoNoneAt_of_forall_of_center_eq_bot
     (CFSG.ComponentClassification.Helpers.center_eq_bot X hnab) hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn hKX hrk hC hcomp hER hE hEc hcore hRY
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   exact h Y K Y₀ E R hp hp2 hKn ⟨e⟩ hrk hC hcomp hER hE hEc hcore hRY
     (not_le_of_mulEquiv hX hnab e hcomp)

@@ -83,7 +83,7 @@ theorem exists_mem_UinS_of_two_lt (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOm
   push Not at hno
   have hΩc := hΩ.conjInvariant
   set 𝒮 : Subgroup G := (S : Subgroup G) with h𝒮
-  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup'
+  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup
   obtain ⟨β, hβ, hβinv⟩ := exists_invariant_mem_etaSet hp hq hΩ S
   obtain ⟨habel, hUW⟩ := eta_abelian_of_cyc66 hp hq hΩ hC hβ hβinv
   have hβK : ∀ V ∈ β, ¬ V ≤ K := fun V hV hle => hno V (hβ.1 hV) hle
@@ -221,7 +221,7 @@ theorem eta_inf_mem_of_cyc66 (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOmegaMo
   set W : Subgroup G := ⨆ V ∈ η, V with hW
   have hWS : W ≤ (S : Subgroup G) := iSup₂_le fun V hV => hηS V hV
   have hV₀W : V₀ ≤ W := le_iSup₂_of_le V₀ hV₀η le_rfl
-  have hX2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup'.to_le hWS).to_inf_right
+  have hX2 : IsPGroup 2 ↥(K ⊓ W) := (S.isPGroup.to_le hWS).to_inf_right
   obtain ⟨R₀, -, J, hJ, hR₀J, hV₀R₀, -, hR₀card, -⟩ := hΩ.exists_data_of_mem_USet hp hV₀U
   have hJK : J = K := hΩ.eq_of_mem_USet hp hV₀U hJ hK (hV₀R₀.trans hR₀J.1) hV₀K
   have hR₀K : IsSylow2In R₀ K := hJK ▸ hR₀J

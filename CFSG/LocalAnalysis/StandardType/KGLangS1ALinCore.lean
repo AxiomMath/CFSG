@@ -147,7 +147,7 @@ theorem kgLangS1A_lin_core {d n p : ℕ} {F : Type} [Field F] [Finite F] (hp : p
         B * Matrix.SpecialLinearGroup.toGL e = Matrix.SpecialLinearGroup.toGL e * B ∧
         B * Matrix.SpecialLinearGroup.toGL s = Matrix.SpecialLinearGroup.toGL s * B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2le : 2 ≤ p := hp.two_le
   have hd0 : 0 < d := by rcases hd with h | h <;> omega
   obtain ⟨hpdvdn, hF0⟩ := kgLangTorA_card_fixed_linear hn hF hσ

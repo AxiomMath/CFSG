@@ -69,11 +69,10 @@ theorem irgSS_sp_inf (F : Type) [Field F] {β : Fin 1 → ℤ}
       (congrFun (congrArg (SpExtras.mat 1 F) hb) (Sum.inl i)) (Sum.inr i)
     rw [SpExtras.mat_elt_positiveLong, SpExtras.mat_elt_negativeLong] at h
     have h0 : Matrix.transvection (Sum.inr i) (Sum.inl i) b (Sum.inl i) (Sum.inr i) = 0 := by
-      simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply, Sum.inl_ne_inr,
+      simp [Matrix.transvection, Sum.inl_ne_inr,
         Sum.inr_ne_inl]
     have h1 : Matrix.transvection (Sum.inl i) (Sum.inr i) a (Sum.inl i) (Sum.inr i) = a := by
-      simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply, Sum.inl_ne_inr,
-        Sum.inr_ne_inl]
+      simp [Matrix.transvection, Sum.inl_ne_inr]
     rw [h1, h0] at h
     rw [h, SpExtras.elt_zero]
   | negativeLong i =>
@@ -87,11 +86,10 @@ theorem irgSS_sp_inf (F : Type) [Field F] {β : Fin 1 → ℤ}
       (congrFun (congrArg (SpExtras.mat 1 F) hb) (Sum.inr i)) (Sum.inl i)
     rw [SpExtras.mat_elt_positiveLong, SpExtras.mat_elt_negativeLong] at h
     have h0 : Matrix.transvection (Sum.inl i) (Sum.inr i) b (Sum.inr i) (Sum.inl i) = 0 := by
-      simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply, Sum.inl_ne_inr,
+      simp [Matrix.transvection, Sum.inl_ne_inr,
         Sum.inr_ne_inl]
     have h1 : Matrix.transvection (Sum.inr i) (Sum.inl i) a (Sum.inr i) (Sum.inl i) = a := by
-      simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply, Sum.inl_ne_inr,
-        Sum.inr_ne_inl]
+      simp [Matrix.transvection, Sum.inr_ne_inl]
     rw [h1, h0] at h
     rw [h, SpExtras.elt_zero]
 
@@ -175,7 +173,7 @@ theorem irgSS_longRootHom_inf {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ} {i
   have hoff : Unitary.SUExtras.mat σ n (Unitary.longRootHom σ hri d) i
       (Fin.rev i) = 0 := by
     rw [Unitary.SUExtras.mat_apply, Unitary.coe_longRootHom]
-    simp [Unitary.longRootMatrix, Matrix.one_apply, Matrix.single_apply, hi, hi.symm]
+    simp [Unitary.longRootMatrix, hi, hi.symm]
   have hon : Unitary.SUExtras.mat σ n (Unitary.longRootHom σ hi c) i (Fin.rev i) =
       (c.toAdd : F) := by
     rw [Unitary.SUExtras.mat_apply, Unitary.coe_longRootHom,

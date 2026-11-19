@@ -26,7 +26,7 @@ theorem exists_gen {Ω : Type} [Group Ω] [Finite Ω] {B D' : Subgroup Ω} {x : 
     ∃ d ∈ φ.range, d ≠ 1 ∧ d ^ 3 = 1 ∧
       ∀ b : ↥B, (b : Ω) ∈ D' ↔ φ b ∈ Subgroup.zpowers d := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D'' : Subgroup ↥B := D'.subgroupOf B
   have hD''card : Nat.card D'' = 9 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDB).toEquiv, hD9]; norm_num
@@ -162,7 +162,7 @@ theorem eq_layer_of_normal_quasisimple {G : Type} [Group G] {H N K : Subgroup G}
 theorem catalogIs_isLnA_four_of_three_le {m : ℕ} (hm : 3 ≤ m) {X : Type} [Group X]
     (e : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin m) (GaloisField 2 2)) :
     catalogIs X (isLnA m 4) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
   let q : TauCeti.PrimePower := ⟨2, 2, Nat.prime_two, two_pos⟩
   have hadm : StatedLieAdmissible .PSL (r + 1) 2 2 := by
@@ -188,7 +188,7 @@ theorem catalogIs_isLnA_four_of_three_le {m : ℕ} (hm : 3 ≤ m) {X : Type} [Gr
 theorem catalogIs_isLnA_four_two {X : Type} [Group X]
     (e : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :
     catalogIs X (isLnA 2 4) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card _ _ (by norm_num)]; norm_num
   obtain ⟨e5⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five
@@ -200,8 +200,8 @@ theorem catalogIs_isLnA_four_two {X : Type} [Group X]
 theorem pSimple_equiv_centerQuot {Ω : Type} [Group Ω] [Finite Ω] {K : Subgroup Ω}
     (hq : CFSG.Open.IsQuasisimple ↥K) (h3 : 3 ∣ Nat.card ↥K) :
     Nonempty (↥K ⧸ Subgroup.center ↥K ≃* PSimple 3 K) := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOne : GLAPPrimeCore 3 ↥K ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) :=
@@ -234,7 +234,7 @@ theorem classify_gen {n r : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgr
        (Module.finrank (ZMod 2) (GL.fixSp d) = 1 ∧ catalogIs (PSimple 3 K') (isLnA r 4))) := by
   classical
   obtain ⟨hDB, hDel, hD9, hxD, hKeq, hKc, hDeq⟩ := hstd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hdE, hd1, hd3, hD⟩ := exists_gen L.φ L.hker L.hBel L.hxB L.hx1 hDB hxD hD9
   refine ⟨d, hdE, hd1, hd3, hD, ?_⟩
   have hcent := inf_cs_eq_map L.Θ L.φ hDB L.hΘ L.hΘS L.hconj hdE hD
@@ -315,7 +315,7 @@ theorem classify_gen {n r : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgr
       (Subgroup.equivMapOfInjective (GL.Nsub hd3) L.Θ L.hΘ).symm
     obtain ⟨hs, hnab⟩ := GL.Nsub_simple_nonab_c (by omega : 3 ≤ 2 * r - 1) hd3 hc'
     have hKsn := GL.simple_nonab_of_equiv eK ⟨hs, hnab⟩
-    haveI := hKsn.1
+    have := hKsn.1
     have hKZ : Subgroup.center ↥((GL.Nsub hd3).map L.Θ) = ⊥ :=
       GL.center_eq_bot_of_simple_nonab hKsn.2
     have hK3 : 3 ∣ Nat.card ↥((GL.Nsub hd3).map L.Θ) := by
@@ -379,7 +379,7 @@ theorem exists_lsetup
     {S B D K : Subgroup Ω} {x : Ω} (hcfg : Cfg172 3 S B D K x)
     (hS : catalogIs (PSimple 3 S) (isLnA n 2)) : Nonempty (LSetup n r Ω S B x) := by
   classical
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   obtain ⟨hZ, ⟨θ⟩, hin⟩ := exists_theta (n := n) (by omega) hcfg.qs hS
   obtain ⟨Θ, φ, hΘ, hΘS, hconj, hker'⟩ :=
     exists_action (B := B) (fun b hb => hcfg.elem.2 b hb) hZ θ hin

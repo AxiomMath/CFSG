@@ -120,16 +120,16 @@ theorem exists_sylow_abelian_of_lieModel_twistedF4
     (hrd : r ∣ 2 ^ f - 1) :
     (∀ S : Sylow r X, IsMulCommutative ↥S) ∧ 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, hR⟩ := LieModel.reeTitsModel (G := X) (t := .twistedF4) (n := 0) (p := 2)
     (f := f) h (by simp [reeTitsTags])
   have hcardX : Nat.card X = ordTwistedF4 (2 ^ f) :=
     CFSG.RankThree.PartOne.S12K.card_of_reeTitsModel_twistedF4 hR
   obtain ⟨a, K, hKF, hKFin, hcp, ha, hfa, hK, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hR
-  letI : Field K := hKF
-  letI : Finite K := hKFin
-  letI : CharP K ReeTag.F4.prime := hcp
+  let : Field K := hKF
+  let : Finite K := hKFin
+  let : CharP K ReeTag.F4.prime := hcp
   have hK2 : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hfa]
   have hK' : Nat.card K = ReeTag.F4.prime ^ (2 * a + 1) := by
     rw [hK2]
@@ -165,7 +165,7 @@ theorem exists_sylow_abelian_of_lieModel_twistedF4
   have hScomm : IsMulCommutative ↥S := by
     change IsMulCommutative ↥(S : Subgroup Gf)
     rw [Sylow.coe_ofCard]
-    letI : IsMulCommutative ↥T := hTcomm
+    let : IsMulCommutative ↥T := hTcomm
     infer_instance
   have hAllGf : ∀ Q : Sylow r Gf, IsMulCommutative ↥Q := by
     intro Q
@@ -188,7 +188,7 @@ theorem exists_sylow_abelian_of_lieModel_twistedF4
       Subgroup.equivMapOfInjective Q E.toMonoidHom E.injective
     refine IsMulCommutative.of_comm fun a b => eQ.injective ?_
     rw [map_mul, map_mul]
-    haveI : IsMulCommutative ↥(Q.map E.toMonoidHom) := hmapcomm
+    have : IsMulCommutative ↥(Q.map E.toMonoidHom) := hmapcomm
     exact mul_comm' (eQ a) (eQ b)
   refine ⟨hAllX, ?_⟩
   have hp2 : r ≠ 2 := by omega

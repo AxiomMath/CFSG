@@ -233,8 +233,8 @@ theorem compK_sound {B : Fin 12 → Fin 12 → ZMod 3} {Lp : List ℕ} (hL : LpO
     have hg := hGlt (Gd.getD j []) (getD_mem hj)
     rw [(hU3 j hj).1, vz_enc (by rw [zpre_length, hg.1]) (zpre_lt hg.2 _), zpre_getD, ← hGv j l]
     by_cases h : j < l
-    · rw [if_neg (by omega), if_pos h]
-    · rw [if_pos (by omega), if_neg h]
+    · rw [ite_eq_right (by omega), ite_eq_left h]
+    · rw [ite_eq_left (by omega), ite_eq_right h]
       rfl
   have hUd : ∀ j : Fin 12, (((upDiag Gd 0).2.getD j 0 : ℕ) : ZMod 3) =
       betaC 12 B (vz (D'.1.getD j 0)) (vz (D'.1.getD j 0)) := by

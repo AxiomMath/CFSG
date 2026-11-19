@@ -23,10 +23,10 @@ theorem sec7_Hset_card8 [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
   classical
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t

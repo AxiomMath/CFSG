@@ -38,7 +38,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem exists_conj_A0 (P : D4Par n X σ) {x : C0 σ} (hx : x ∈ Asub σ) (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) : ∃ g ∈ Asub σ, g * x * g⁻¹ ∈ A0sub σ := by
-  haveI := P.charP
+  have := P.charP
   rw [← iotaA_range P] at hx
   obtain ⟨x', rfl⟩ := hx
   have hx'3 : x' ^ 3 = 1 := by
@@ -56,7 +56,7 @@ theorem exists_conj_A0 (P : D4Par n X σ) {x : C0 σ} (hx : x ∈ Asub σ) (hx3 
 theorem exists_conj_Asub (P : D4Par n X σ) {x y : C0 σ} (hx : x ∈ Asub σ) (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hy : y ∈ Asub σ) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) :
     ∃ g ∈ Asub σ, g * x * g⁻¹ = y := by
-  haveI := P.charP
+  have := P.charP
   have h2 : (2 : X) = 0 := CharTwo.two_eq_zero
   have h3 : (3 : X) ≠ 0 := by
     intro h

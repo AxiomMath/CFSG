@@ -29,11 +29,11 @@ theorem scalar {A : Type} [CommGroup A] [Finite A] (H : Subgroup (MulAut A)) (Q 
   let S : Subgroup A :=
     { carrier := {x | φ x = x ^ k}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [map_mul, ha, hb, mul_zpow]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [map_inv, ha, inv_zpow] }
   have hle : Subgroup.closure {x : A | ∃ h ∈ H, x ∈ Q.map h.toMonoidHom} ≤ S := by
     rw [Subgroup.closure_le]

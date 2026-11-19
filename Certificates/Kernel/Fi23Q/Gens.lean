@@ -39,11 +39,11 @@ noncomputable def aE (k : ℕ) : CFSG.Sporadic.Fi23.J :=
 termination_by k
 
 theorem aE_lt3 {k : ℕ} (hk : k < 3) : aE k = qG k := by
-  rw [aE, if_pos hk]
+  rw [aE, ite_eq_left hk]
 
 theorem aE_comm {k : ℕ} (h1 : 3 ≤ k) (h2 : k < 13) :
     aE k = (aE (cI k))⁻¹ * (qG (cJ k))⁻¹ * aE (cI k) * qG (cJ k) := by
-  rw [aE, if_neg (by omega), dif_pos ⟨h1, h2⟩]
+  rw [aE, ite_eq_right (by omega), dite_eq_left ⟨h1, h2⟩]
 
 theorem cover8 {P : ℕ → Prop} (h0 : ∀ x, 0 ≤ x → x < 0 + 4096 → P x)
     (h1 : ∀ x, 4096 ≤ x → x < 4096 + 4096 → P x) (h2 : ∀ x, 8192 ≤ x → x < 8192 + 4096 → P x)

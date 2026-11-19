@@ -87,7 +87,7 @@ theorem psl28Inner : Psl28Inner := by
   intro S _ _ hs hna h
   obtain ⟨e⟩ := exists_equiv_g8 h
   have hsG8 : IsSimpleGroup L28Res.G8 := (MulEquiv.isSimpleGroup_congr e).1 hs
-  haveI : Finite L28Res.G8 := Finite.of_equiv S e.toEquiv
+  have : Finite L28Res.G8 := Finite.of_equiv S e.toEquiv
   exact ⟨(radRigidInner_three_of_centralizers L28Res.card_G8 g8_centralizer_nine).of_mulEquiv e.symm,
     (holds_three_of_centralizers hsG8 L28Res.card_G8 g8_centralizer_nine).of_mulEquiv e.symm⟩
 
@@ -99,13 +99,13 @@ theorem psl28Full : Psl28Full := by
   intro S _ _ hs hna h
   obtain ⟨e⟩ := exists_equiv_g8 h
   have hsG8 : IsSimpleGroup L28Res.G8 := (MulEquiv.isSimpleGroup_congr e).1 hs
-  haveI : Finite L28Res.G8 := Finite.of_equiv S e.toEquiv
+  have : Finite L28Res.G8 := Finite.of_equiv S e.toEquiv
   have hnaG8 : ∃ a b : L28Res.G8, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     refine ⟨e a, e b, fun h' => hab (e.injective ?_)⟩
     rw [map_mul, map_mul]
     exact h'
-  haveI : Finite (MulAut L28Res.G8) := L28Res.finite_mulAut
+  have : Finite (MulAut L28Res.G8) := L28Res.finite_mulAut
   have hAut : Nat.card (MulAut L28Res.G8) = 3 * Nat.card L28Res.G8 := by
     rw [L28Res.card_mulAut, L28Res.card_G8]
   exact ⟨(radRigid_three_of_centralizers hsG8 hnaG8 L28Res.card_G8 g8_centralizer_nine

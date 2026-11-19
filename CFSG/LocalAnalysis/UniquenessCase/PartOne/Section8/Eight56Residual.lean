@@ -475,7 +475,7 @@ theorem threeCoverSylow_of_quotientData {X : Type} [Group X] [Finite X]
     obtain ⟨x, hx, y, hy, hxy⟩ :=
       sylow_three_noncomm_of_perfect_of_center hperf (by rw [hZ]) S
     exact hxy (congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥(S : Subgroup X)) ⟨y, hy⟩))
-  have hext := CFSG.RankThree.PartTwo.isExtraspecialPGroup_of_card_eq_pow_three S.isPGroup' hexp
+  have hext := CFSG.RankThree.PartTwo.isExtraspecialPGroup_of_card_eq_pow_three S.isPGroup hexp
     (by rw [hcard]; norm_num) hnc
   exact isExtraspecialExpP_of_isHeisThree
     ⟨hext, hcard, res_exponent_eq_three hexp (by rw [hcard]; norm_num)⟩

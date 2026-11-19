@@ -186,7 +186,7 @@ theorem IsMaxFrame.su3_residue_prev {m : ℕ} (he : Even m) (hm : 4 ≤ m)
 section AllCertificates
 
 
-private theorem exists_mem_map_heis_conjSub_Q (h : TransvectionHyp H Δ)
+private theorem exists_mem_map_heis_conjSub_Q (_h : TransvectionHyp H Δ)
     (hFn : Nat.card F = (2 ^ n) ^ 2)
     {θ : SU (unitaryInvolution F 2 n) 3 →* H}
     (hθt : (su3Top (unitaryInvolution F 2 n)).map θ = P k)
@@ -197,7 +197,7 @@ private theorem exists_mem_map_heis_conjSub_Q (h : TransvectionHyp H Δ)
     ∃ b ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ,
       conjSub (Q k) b = X := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := _h.finite
   have hσ : ∀ c, unitaryInvolution F 2 n (unitaryInvolution F 2 n c) = c :=
     unitaryInvolution_involutive hFn
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hFn
@@ -255,7 +255,7 @@ theorem IsMaxFrame.existsUnique_conjSub_heis (h : TransvectionHyp H Δ) (hML : M
     ∃! b, b ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ∧
       conjSub (Q k) b = X := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hσ : ∀ c, unitaryInvolution F 2 n (unitaryInvolution F 2 n c) = c :=
     unitaryInvolution_involutive hFn
   let Xh : Subgroup (SU (unitaryInvolution F 2 n) 3) :=

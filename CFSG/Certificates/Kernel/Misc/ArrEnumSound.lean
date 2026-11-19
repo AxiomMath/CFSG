@@ -127,6 +127,7 @@ theorem comp_unpack {p q : ℕ} (hp : permB n w p = true) (hq : permB n w q = tr
     compA n (unpack n w p) (unpack n w q) = unpack n w (pcomp n w (mask w) p q) :=
   comp_unpack' hw hp hq
 
+omit hw in
 theorem inv_unpack {p : ℕ} (hp : permB n w p = true) :
     invCand n (unpack n w p) = unpack n w (pinvS n w (mask w) p) :=
   (CFSG.KS.Prim.invEqK_sound hp).1

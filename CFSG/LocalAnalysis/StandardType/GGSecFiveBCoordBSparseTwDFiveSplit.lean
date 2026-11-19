@@ -221,7 +221,7 @@ private theorem exists_calibrated_marked_K_chart
   obtain ⟨-, k, -, -, hkinj, hkrange, hmarkK⟩ :=
     ggTBJOrthNbr_exists_markedDeletionChart_of_conj (r := r) (F := F) (p := p)
       (b := b) (c := c) (hr := hr) (hirr := hirr)
-      (Bs := Bs) (L := L) (K := K) (eta := eta) (ell := ell) (u := u) (h0u := h0u)
+      (Bs := Bs) (L := L) (K := K) (eta := eta) (ell := ell) (u := u) (_h0u := h0u)
       (w := w) (hw := hw) (hact := hact) (hK := hK)
       (a := a) (ha := ha) (haL := haL) (hmarkL := hmarkL)
   let D0 : Finset (Fin (r + 1)) := Finset.univ.erase (0 : Fin (r + 1))

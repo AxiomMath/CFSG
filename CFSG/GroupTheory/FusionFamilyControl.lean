@@ -24,7 +24,7 @@ theorem FamilyControlsFusion.mul_inv_mem {F : Set (Subgroup G)} {P Q : Subgroup 
   · intro a b hab
     exact hstep a b hab
   · intro a
-    simpa using Q.one_mem
+    simp
   · intro a b _ ih
     have h : b⁻¹ * a = (a⁻¹ * b)⁻¹ := by group
     rw [h]
@@ -45,7 +45,7 @@ theorem inf_commutator_le_of_familyControlsFusion [Finite G] {p : ℕ} [Fact p.P
   rintro z ⟨x, hxP, y, hyP, hxy, rfl⟩
   exact hctrl.mul_inv_mem (Q := Q) hstep hxP hyP hxy
 
-theorem no_fusion_in_cyclic_sylow_two_quotient [Finite G] {H K T : Subgroup G} (hKH : K ≤ H)
+theorem no_fusion_in_cyclic_sylow_two_quotient [Finite G] {H K T : Subgroup G} (_hKH : K ≤ H)
     [hKnormal : (K.subgroupOf H).Normal] (hT : CFSG.ABGLocalTools.IsSylowOf 2 T H)
     (hcyc : IsCyclic ((T.subgroupOf H).map (QuotientGroup.mk' (K.subgroupOf H))))
     {h x : G} (hh : h ∈ H) (hx : x ∈ T) (hconj : h * x * h⁻¹ ∈ T) :
@@ -82,7 +82,7 @@ theorem no_fusion_in_cyclic_sylow_two_quotient [Finite G] {H K T : Subgroup G} (
     change π yH = π hH * π xH * (π hH)⁻¹
     rw [← map_mul, ← map_inv, ← map_mul]
     congr 1
-  letI : IsCyclic (Tbar : Subgroup (H ⧸ N)) := hcycTbar
+  let : IsCyclic (Tbar : Subgroup (H ⧸ N)) := hcycTbar
   have hcomm : IsMulCommutative (Tbar : Subgroup (H ⧸ N)) := IsCyclic.isMulCommutative
   have hxbarC : xbar ∈ Subgroup.centralizer ((Tbar : Subgroup (H ⧸ N)) : Set (H ⧸ N)) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -123,7 +123,7 @@ theorem no_fusion_in_cyclic_sylow_two_quotient [Finite G] {H K T : Subgroup G} (
     have hmemK : ((xH⁻¹ * yH : H) : G) ∈ K := Subgroup.mem_subgroupOf.mp hmemN
     simpa [xH, yH] using hmemK
   · have hTbar_bot : (Tbar : Subgroup (H ⧸ N)) = ⊥ := by
-      obtain ⟨k, hk⟩ := Tbar.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := Tbar.isPGroup.exists_card_eq
       have hdvd : 2 ^ k ∣ Nat.card (H ⧸ N) := by
         rw [← hk]
         exact Subgroup.card_subgroup_dvd_card _
@@ -160,7 +160,7 @@ theorem inf_commutator_le_of_familyControlsFusion_sylow [Finite G] {T : Sylow 2 
   have hTleH : (T : Subgroup G) ≤ H := hH H hHF
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup G) H := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨hTleH, T.isPGroup', ?_⟩
+    refine ⟨hTleH, T.isPGroup, ?_⟩
     intro h2
     exact T.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le hTleH))
   obtain ⟨K, hKn, hKH, hTKS, hcycK⟩ := hK H hHF
@@ -168,7 +168,7 @@ theorem inf_commutator_le_of_familyControlsFusion_sylow [Finite G] {T : Sylow 2 
     rw [← hyeq]
     exact hyT
   have hmemK : x⁻¹ * (h' * x * h'⁻¹) ∈ K := by
-    haveI : (K.subgroupOf H).Normal := hKn
+    have : (K.subgroupOf H).Normal := hKn
     exact no_fusion_in_cyclic_sylow_two_quotient hKH hTsyl hcycK hh'H hxT hconjT
   have hmemT : x⁻¹ * (h' * x * h'⁻¹) ∈ (T : Subgroup G) :=
     T.mul_mem (T.inv_mem hxT) hconjT

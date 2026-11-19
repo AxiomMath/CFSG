@@ -67,8 +67,8 @@ theorem exists_catEquiv_statedProj {q : TauCeti.PrimePower}
       rw [GaloisField.card c (2 * e) (by omega), ← pow_mul, mul_comm]
     have : Finite (GaloisField c (2 * e)) :=
       Nat.finite_of_card_ne_zero (by rw [hG]; exact pow_ne_zero 2 (pow_ne_zero e (Fact.out : c.Prime).ne_zero))
-    letI : Fintype F := Fintype.ofFinite F
-    letI : Fintype (GaloisField c (2 * e)) := Fintype.ofFinite _
+    let : Fintype F := Fintype.ofFinite F
+    let : Fintype (GaloisField c (2 * e)) := Fintype.ofFinite _
     let ε : GaloisField c (2 * e) ≃+* F := FiniteField.ringEquivOfCardEq (by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hG, hF])
     exact ⟨E0.trans (CFSG.Quasithin.Vol2.Ch11.SecS.OE5.statedProjSUEquiv ε 6 (c ^ e))⟩

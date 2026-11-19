@@ -44,7 +44,7 @@ theorem scalars_subgroupOf_statedSU_eq_bot (hK : Nat.card K = (p ^ f) ^ 2)
       by_cases hij : i = j
       · subst hij
         simp [conjTr]
-      · simp [conjTr, Matrix.one_apply, hij, Ne.symm hij]
+      · simp [conjTr, hij, Ne.symm hij]
     rw [e, smul_mul_smul_comm, Matrix.one_mul] at hiso
     have h0 := congrFun (congrFun hiso 0) 0
     simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one] at h0
@@ -67,8 +67,8 @@ theorem inspL3_U {G : Type} [Group G] [Finite G] {p f : ℕ} (hq : p ^ f % 3 = 1
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
     have hKc : CharP K p :=
       charP_of_card_eq_prime_pow (f := 2 * f)
         (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])

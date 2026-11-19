@@ -39,7 +39,7 @@ private theorem pSimple_equiv_of_conj {P : Type} [Group P] [Finite P] {α ψ : M
   let E : ↥(fixSubgroup α) ≃* X :=
     ((CFSG.HardMathSupport.Solomon.Coordinator.LieComp.fixSubgroupCongrEquiv (ψ : P ≃* P) α).trans
       (MulEquiv.subgroupCongr (by rw [hc]))).trans e
-  haveI : IsSimpleGroup ↥(fixSubgroup α) := E.isSimpleGroup
+  have : IsSimpleGroup ↥(fixSubgroup α) := E.isSimpleGroup
   have hcomm : ⁅fixSubgroup α, fixSubgroup α⁆ ≤ fixSubgroup α := by
     refine Subgroup.commutator_le.2 fun a ha b hb => ?_
     rw [commutatorElement_def]
@@ -61,7 +61,7 @@ private theorem fieldType_conj {K : Type} [Field K] [Finite K] [CharP K 3] {f : 
     ∃ (d : ℕ) (T : K ≃+* K) (ψ : MulAut (adjointGroup Tag.D4 K)), d * 3 = f ∧
       (∀ c, T c = c ^ 3 ^ d) ∧ (ψ * α * ψ⁻¹ = entrywiseAdjointAut Tag.D4 T ∨
         ψ * α ^ 2 * ψ⁻¹ = entrywiseAdjointAut Tag.D4 T) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ :=
     exists_frobenius_of_cube Nat.prime_three hf K hK σ hσ3 hσ1
   rw [d4Graph_zero, mul_one] at hαeq
@@ -88,8 +88,8 @@ private theorem twisted_fixed_facts {K : Type} [Field K] [Finite K] [CharP K 3] 
     ∃ (X : Type) (_ : Group X),
       Nonempty (↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T)) ≃* X) ∧ IsSimpleGroup X ∧
         (∃ a b : X, a * b ≠ b * a) ∧ CFSG.Blueprint.LieModel X .trialityD4 0 3 e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP (AlgebraicClosure K) 3 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP (AlgebraicClosure K) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 3
   obtain ⟨σ, r, hr, hσ, hfix⟩ : ∃ (σ : K ≃+* K) (r : ℕ), (r = 1 ∨ r = 2) ∧
       (∀ c, σ c = c ^ ((3 ^ e) ^ r)) ∧ fixSubgroup (twistedEntrywiseAut TwistTag.D4 j T) =
@@ -120,8 +120,8 @@ private theorem graphFieldType_comp {K : Type} [Field K] [Finite K] [CharP K 3] 
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε))
     {A : Subgroup (adjointGroup Tag.D4 K)} (hA : GLAPComponent 3 (fixSubgroup α) A) :
     ∃ f', 3 * f' = f ∧ CFSG.Blueprint.LieModel (PSimple 3 A) .trialityD4 0 3 f' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   obtain ⟨e, T, he, hef, hT, hσT⟩ := exists_frobenius_eq_or_inv_of_orderOf_three Nat.prime_three
     hf K hK σ (orderOf_eq_prime hσ3 hσ1)
   have hK4 : 4 ≤ Nat.card K := by
@@ -163,22 +163,22 @@ private theorem graphType_comp {K : Type} [Field K] [Finite K] [CharP K 3] {f : 
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε))
     {A : Subgroup (adjointGroup Tag.D4 K)} (hA : GLAPComponent 3 (fixSubgroup α) A) :
     CFSG.Blueprint.LieModel (PSimple 3 A) .G2 0 3 f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv hf K hK α
       hα3 g a (by omega) hαeq
-  haveI : CharP K₃ 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K₃ 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_three (k := 3 * f) (by omega) (by rw [hK₃, ← pow_mul, mul_comm])
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 Fr
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 Fr
   exact g2_of_layer_triD4
     (outerSubThree_of_mulEquiv e (outerSubThree_triD4_graphFixed hf hK₃ Fr hFr φ hφ3 hφout) A hA)
 
 theorem d4ThreeOuterCases_holds : D4ThreeOuterCases := by
   intro K _ f hK hf α hα3 hout
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ (by norm_num))
-  haveI : CharP K 3 :=
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ (by norm_num))
+  have : CharP K 3 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three
       hf hK
   obtain ⟨g, a, σ, ε, hε, hαeq, hσ3, hcase⟩ := outer_cube_normal_form_cases α hα3 hout

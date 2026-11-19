@@ -68,9 +68,8 @@ theorem fld9_not_mem_img9 : fld9 ∉ img9 := by
   rw [herm_eight_eq] at e8
   rw [herm_sixteen_eq] at e16
   simp only [Matrix.mul_apply, Fin.sum_univ_three, bar, Matrix.transpose_apply, Matrix.map_apply,
-    Matrix.of_apply, Matrix.cons_val, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.cons_val_two, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_fin_const, Matrix.tail_cons, cj] at e1 e2 e8 e16
+    Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+    Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, cj] at e1 e2 e8 e16
   exact no_entry_identity (N 0 0) (N 1 1) (N 0 1) (N 1 0) (by linear_combination e1)
     (by linear_combination e2) (by linear_combination e8) (by linear_combination e16)
 

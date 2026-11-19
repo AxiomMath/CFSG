@@ -76,7 +76,7 @@ theorem BigEndHyp.exists_naturalModule (h : BigEndHyp M V Q P H)
     have hplane : D.psi0 (c • D.a) = D.θ ![c, 0] := by
       have := D.psi0_plane ![c, 0]
       simpa using this
-    simpa [hψ, BigNatData.psi0W, hplane, hc]
+    simp [hψ, BigNatData.psi0W, hplane, hc]
   refine ⟨D.f, D.n, D.Φ, ψ, D.hn, D.hf, D.h2f, ?_,
     ⟨D.a, D.T, D.a_ne_zero, hTa, D.hTmap, hline, hline_surj⟩⟩
   · intro x v

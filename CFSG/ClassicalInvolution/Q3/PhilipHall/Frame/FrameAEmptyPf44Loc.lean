@@ -62,7 +62,7 @@ theorem tightCore_eq_of_mem_conjClass {K : Subgroup G} {t : G} (hD : FrameTightD
   rw [← conjSub_tightCore, hD.tightCore_eq]
 
 theorem aViol_omegaAFam_of_le (hΩ : HypOmegaGen Ω) (hcore : ∀ P ∈ Ω, tightCore P = P)
-    {X L J : Subgroup G} {zL zJ : G} (hL : L ∈ Ω) (hLX : L ≤ X) (hJX : J ≤ X)
+    {X L J : Subgroup G} {zL zJ : G} (_hL : L ∈ Ω) (hLX : L ≤ X) (hJX : J ≤ X)
     (hv : AViol Ω L J zL zJ) :
     AViol (omegaAFam Ω X) (L.subgroupOf X) (J.subgroupOf X) ⟨zL, hLX hv.hzK.mem⟩
       ⟨zJ, hJX hv.hzJ.mem⟩ := by

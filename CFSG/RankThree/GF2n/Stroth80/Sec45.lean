@@ -13,7 +13,7 @@ open scoped commutatorElement Matrix
 
 @[expose] def Stroth45Statement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-    (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+    (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
     layer (Mbar M Q) ≠ ⊥ ∧
     (CFSG.IsQuasisimple ↥(layer (Mbar M Q)) ∨
       (∃ X Y : Subgroup (Mbar M Q), X ⊔ Y = layer (Mbar M Q) ∧ X ⊓ Y = ⊥ ∧
@@ -33,9 +33,9 @@ section
 
 theorem stroth45_layer_ne_bot (h34 : Stroth34Statement) (h44 : Stroth44Statement) :
     ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) [(Q.subgroupOf M).Normal]
-      (hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
+      (_hc : Ctx M Q Z B) (n : ℕ), Width Q Z n → 2 < n → NoA2 Q Z (LB M Q B) → GenByB M Q B →
       layer (Mbar M Q) ≠ ⊥ := by
-  intro G _ _ M Q Z B hN hc n hw hn hno hgen hl
+  intro G _ _ M Q Z B hN _hc n hw hn hno hgen hl
   classical
   have hF : generalizedFitting (Mbar M Q) = fittingSubgroup (Mbar M Q) := by
     rw [generalizedFitting.eq_sup, hl, sup_bot_eq]
@@ -43,21 +43,21 @@ theorem stroth45_layer_ne_bot (h34 : Stroth34Statement) (h44 : Stroth44Statement
       fittingSubgroup (Mbar M Q) := by
     have := CFSG.centralizer_generalizedFitting_le (Mbar M Q)
     rwa [hF] at this
-  haveI hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
-  haveI : Group.IsNilpotent ↥(fittingSubgroup (Mbar M Q)) := CFSG.fittingSubgroup_nilpotent
+  have hFn : (fittingSubgroup (Mbar M Q)).Normal := CFSG.fittingSubgroup_normal
+  have : Group.IsNilpotent ↥(fittingSubgroup (Mbar M Q)) := CFSG.fittingSubgroup_nilpotent
   have hodd : Odd (Nat.card ↥(fittingSubgroup (Mbar M Q))) :=
-    odd_card_of_normal_nilpotent hc.pCore_two_Mbar _
-  haveI hHn : (bar M Q (H0 M Z)).Normal := hc.normal_bar_H0
+    odd_card_of_normal_nilpotent _hc.pCore_two_Mbar _
+  have hHn : (bar M Q (H0 M Z)).Normal := _hc.normal_bar_H0
   set A : Subgroup (Mbar M Q) := fittingSubgroup (Mbar M Q) ⊓ bar M Q (H0 M Z) with hAdef
-  haveI hAn : A.Normal := inferInstance
-  have hLH : LB M Q B ≤ H0 M Z := fun t ht => ⟨hc.LB_le_M ht, Subgroup.mem_centralizer_iff.mpr
+  have hAn : A.Normal := inferInstance
+  have hLH : LB M Q B ≤ H0 M Z := fun t ht => ⟨_hc.LB_le_M ht, Subgroup.mem_centralizer_iff.mpr
     fun z hz => by
-      have := hc.LB_centralizes_Z ht z hz
+      have := _hc.LB_centralizes_Z ht z hz
       calc z * t = (t * z * t⁻¹) * t := by rw [this]
         _ = t * z := by group⟩
   have hΛH : bar M Q (LB M Q B) ≤ bar M Q (H0 M Z) :=
     Subgroup.map_mono (fun x hx => hLH hx)
-  have hA0 : A = ⊥ := h44 G M Q Z B hc n hw hn hno hgen A inf_le_right
+  have hA0 : A = ⊥ := h44 G M Q Z B _hc n hw hn hno hgen A inf_le_right
     (fun x _ => by
       rw [Subgroup.normalizer_eq_top_iff.mpr hAn]
       exact Subgroup.mem_top x)
@@ -81,7 +81,7 @@ theorem stroth45_layer_ne_bot (h34 : Stroth34Statement) (h44 : Stroth44Statement
       hcent (Subgroup.mem_centralizer_iff.mpr fun f hf => hcomm f hf h hh)
     have h2 : h ∈ A := ⟨h1, hh⟩
     rwa [hA0] at h2
-  have h4 := hc.four_le_card_bar_LB h34 hw hn hno hgen
+  have h4 := _hc.four_le_card_bar_LB h34 hw hn hno hgen
   have hΛbot : bar M Q (LB M Q B) = ⊥ := le_bot_iff.mp (hHbot ▸ hΛH)
   rw [hΛbot, Subgroup.card_bot] at h4
   omega

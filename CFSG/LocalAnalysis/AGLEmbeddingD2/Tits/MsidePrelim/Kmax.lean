@@ -256,7 +256,7 @@ theorem D2L34BetaConf3.eq_of_maxTwoLocal_of_cover_of_facts {d : TauCeti.ValidLie
   obtain ⟨T, hET⟩ := hEpN.exists_le_sylow
   set E₀ : Subgroup G := (T : Subgroup N).map N.subtype with hE₀
   have hEE₀ : E ≤ E₀ := fun a ha => ⟨⟨a, hEN ha⟩, hET (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
-  have hE₀p : IsPGroup 3 E₀ := T.isPGroup'.map N.subtype
+  have hE₀p : IsPGroup 3 E₀ := T.isPGroup.map N.subtype
   have hE₀M : E₀ ≤ M := hup E₀ hE₀p hEE₀
   have hE₀N : E₀ ≤ N := Subgroup.map_subtype_le _
   have hrank₀ : Open.pRank 3 (N ⊓ M) ≤ 2 := by
@@ -314,7 +314,7 @@ theorem D2L34BetaConf3.eq_of_maxTwoLocal_of_cover_of_facts {d : TauCeti.ValidLie
     have h1 := (Nat.prime_three.dvd_iff_one_le_factorization hidx0).mp h3
     omega
   have hRbK : (Rbar₀ : Subgroup (N ⧸ primeComplementCore (G := N) 3)) ≤ K₀ :=
-    le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Rbar₀.isPGroup'
+    le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Rbar₀.isPGroup
   have hAK₀ : (E.subgroupOf N).map πN ≤ K₀ := by
     rw [hAE, ← hRbar₀]
     exact hRbK

@@ -26,18 +26,20 @@ theorem commutator_eq_top_of_simple {Q : Type*} [Group Q] (hS : IsSimpleGroup Q)
 theorem not_isSolvable_of_simple {Q : Type*} [Group Q] (hS : IsSimpleGroup Q)
     (hnc : ¬ ∀ a b : Q, a * b = b * a) : ¬ Group.IsSolvable Q := by
   intro hsol
-  haveI := hS.toNontrivial
+  have := hS.toNontrivial
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial Q).ne
     (commutator_eq_top_of_simple hS hnc)
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem sup_eq_top_of_map_eq_top {P K : Subgroup X} [P.Normal]
     (h : K.map (QuotientGroup.mk' P) = ⊤) : K ⊔ P = ⊤ := by
   have h1 := Subgroup.comap_map_eq (QuotientGroup.mk' P) K
   rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at h1
   exact h1.symm
 
+omit [Finite X] in
 theorem le_of_map_eq_bot {P K : Subgroup X} [P.Normal]
     (h : K.map (QuotientGroup.mk' P) = ⊥) : K ≤ P := by
   intro x hx
@@ -45,10 +47,11 @@ theorem le_of_map_eq_bot {P K : Subgroup X} [P.Normal]
   rw [h, mem_bot] at this
   exact (QuotientGroup.eq_one_iff x).1 this
 
+omit [Finite X] in
 theorem le_of_normal_of_isSolvable {P : Subgroup X} [P.Normal] (hS : IsSimpleGroup (X ⧸ P))
     (hnc : ¬ ∀ a b : X ⧸ P, a * b = b * a) {N : Subgroup X} (hN : N.Normal)
     (hNs : Group.IsSolvable N) : N ≤ P := by
-  haveI : (N.map (QuotientGroup.mk' P)).Normal := hN.map _ (QuotientGroup.mk'_surjective P)
+  have : (N.map (QuotientGroup.mk' P)).Normal := hN.map _ (QuotientGroup.mk'_surjective P)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' P)) with h | h
   · exact le_of_map_eq_bot h
   · exfalso
@@ -60,6 +63,7 @@ theorem le_of_normal_of_isSolvable {P : Subgroup X} [P.Normal] (hS : IsSimpleGro
       exact ⟨⟨x, hx⟩, rfl⟩
     exact Group.isSolvable_of_surjective hsurj
 
+omit [Finite X] in
 theorem card_quot_dvd_of_sup_eq_top {N K : Subgroup X} [N.Normal] (h : N ⊔ K = ⊤) :
     Nat.card (X ⧸ N) ∣ Nat.card K := by
   have hsurj : Function.Surjective ((QuotientGroup.mk' N).comp K.subtype) := by
@@ -73,6 +77,7 @@ theorem card_quot_dvd_of_sup_eq_top {N K : Subgroup X} [N.Normal] (h : N ⊔ K =
     exact Normal.conj_mem' inferInstance n hn k
   exact Subgroup.card_dvd_of_surjective hsurj
 
+omit [Finite X] in
 theorem eq_top_of_coprime_quot {r : ℕ}
     (hgen : ∀ T : Subgroup X, (∀ ℓ : X, (∃ a : ℕ, orderOf ℓ = r ^ a) → ℓ ∈ T) → T = ⊤)
     {N : Subgroup X} [N.Normal] (hN : Nat.Coprime r (Nat.card (X ⧸ N))) : N = ⊤ := by
@@ -89,11 +94,12 @@ theorem eq_top_of_coprime_quot {r : ℕ}
 
 theorem isSolvable_fittingSubgroupOf_top :
     Group.IsSolvable (CFSG.fittingSubgroupOf (⊤ : Subgroup X)) := by
-  haveI : Group.IsSolvable (CFSG.fittingSubgroup ↥(⊤ : Subgroup X)) := inferInstance
+  have : Group.IsSolvable (CFSG.fittingSubgroup ↥(⊤ : Subgroup X)) := inferInstance
   exact Group.isSolvable_of_surjective
     (f := ((CFSG.fittingSubgroup ↥(⊤ : Subgroup X)).equivMapOfInjective _
       (⊤ : Subgroup X).subtype_injective).toMonoidHom) (MulEquiv.surjective _)
 
+omit [Finite X] in
 theorem isSubnormal_of_isComponentOf_top {K : Subgroup X} (hK : IsComponentOf K ⊤) :
     K.IsSubnormal := by
   have h := hK.2.1.map (f := (⊤ : Subgroup X).subtype) fun x => ⟨⟨x, mem_top x⟩, rfl⟩
@@ -133,7 +139,7 @@ theorem quasisimple_or_centralizer_le {r : ℕ} {P : Subgroup X} [P.Normal]
       obtain ⟨a, b, hab⟩ := hKnt.exists_pair_ne
       exact hab (Subsingleton.elim a b)
     · have hsup : K ⊔ P = ⊤ := sup_eq_top_of_map_eq_top h
-      haveI hKn : K.Normal := ⟨fun n hn g => by
+      have hKn : K.Normal := ⟨fun n hn g => by
         have hg : g ∈ K ⊔ P := hsup ▸ mem_top g
         obtain ⟨k, hk, p, hp, rfl⟩ := mem_sup_of_normal_right.mp hg
         have hc : ⁅n, p⁆ = 1 := by

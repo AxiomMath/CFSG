@@ -131,8 +131,8 @@ theorem ordLAux_innerL (M : SL2) : ∀ (k : ℕ) (P : SL2) (n : ℕ),
     simp only [ordLAux, ordAuxK]
     rw [← map_mul, normL_eq, ih, enc_mul]
     by_cases h : enc P = 2190
-    · rw [if_pos (hP.mpr h), if_pos h]
-    · rw [if_neg (mt hP.mp h), if_neg h]
+    · rw [ite_eq_left (hP.mpr h), ite_eq_left h]
+    · rw [ite_eq_right (mt hP.mp h), ite_eq_right h]
 
 theorem ordL_innerL (M : SL2) : ordL (innerL M) = ordK (enc M) := by
   simp only [ordL, ordK, normL_eq, ordLAux_innerL]
@@ -161,7 +161,7 @@ theorem chkCenter_eq : chkCenter = chkCenterK := by
 
 theorem chkQ8_eq : chkQ8 = chkQ8K := by
   simp only [chkQ8, chkQ8K, ← sl2_map, List.all_map, List.any_map, Function.comp_def, beq_enc,
-    enc_mul, enc_one, enc_minusOne]
+    enc_mul, enc_minusOne]
 
 theorem chkConjFixed5_eq : chkConjFixed5 = chkConjFixed5K := by
   simp only [chkConjFixed5, chkConjFixed5K, ← sl2_map, List.all_map, List.any_map,

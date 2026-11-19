@@ -53,7 +53,7 @@ theorem lemmaO_linear_P {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.P
     (hA : Nonempty (↥K ≃* alternatingGroup (Fin 5)))
     (hB : ThreeRankLeOneInv S) :
     (r = 1 ∧ (q.card = 64 ∨ q.card = 125)) ∨ (r = 2 ∧ q.card = 4) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := ((TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1).1
   obtain ⟨e⟩ := he
@@ -103,7 +103,7 @@ theorem lemmaO_linear_P {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.P
     have h4 : q.p ^ q.exponent = 2 ^ 2 := hQ4.trans (by norm_num)
     have hp2 : q.p = 2 := (Nat.prime_dvd_prime_iff_eq q.prime_p Nat.prime_two).1
       (q.prime_p.dvd_of_dvd_pow (h4 ▸ dvd_pow_self q.p q.exponent_pos.ne' : q.p ∣ 2 ^ 2))
-    haveI : CharP (GaloisField q.p q.exponent) 2 :=
+    have : CharP (GaloisField q.p q.exponent) 2 :=
       ⟨fun n => by rw [← hp2]; exact CharP.cast_eq_zero_iff _ q.p n⟩
     have h6 : 5 ≤ r + 1 := by omega
     obtain ⟨t, u, v, ht, htu, htv, huv, hu, hv3, hnot⟩ :=

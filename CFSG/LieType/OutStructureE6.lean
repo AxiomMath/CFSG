@@ -23,12 +23,12 @@ private theorem normal_of_ker_dvd_three
     {P0 : Subgroup G} (hP0p : IsPGroup p P0) (hP0map : P0.map Φ = P) :
     P0.Normal := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := Φ.ker
   have hDnormal : D.Normal := inferInstance
   have hDle : Nat.card D ≤ 3 := Nat.le_of_dvd (by norm_num) hDvd
-  haveI : IsCyclic D := isCyclic_of_card_dvd_prime (p := 3) hDvd
+  have : IsCyclic D := isCyclic_of_card_dvd_prime (p := 3) hDvd
   have hcardAut2 : Nat.card (MulAut D) ≤ 2 := by
     rw [IsCyclic.card_mulAut]
     rcases (Nat.dvd_prime Nat.prime_three).mp hDvd with h1 | h3
@@ -65,7 +65,7 @@ private theorem normal_of_ker_dvd_three
     rw [Subgroup.mem_comap, ← hP0map]
     exact Subgroup.mem_map_of_mem Φ hx
   have hNnormal : N.Normal := hPN.comap Φ
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hdecomp : ∀ x : G, x ∈ N → ∃ p ∈ P0, ∃ d ∈ D, x = p * d := by
     intro x hx
     have hx' : Φ x ∈ P := hx
@@ -215,7 +215,7 @@ theorem exists_fieldPart_adjointGroup_E6
       ∀ x : MulAut (adjointGroup Tag.E6 K), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ inner (adjointGroup Tag.E6 K) ⊔ F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
   set I : Subgroup (MulAut (adjointGroup Tag.E6 K)) := inner _
   obtain ⟨Θ, hΘsurj, hΘform, hΘker, -, -⟩ :=
@@ -299,13 +299,13 @@ theorem exists_fieldPart_adjointGroup_E6
       rw [hΦE σ, hΦE σ'] at h'
       exact h'
     exact congrArg Prod.fst h1
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun σ : RingAut K => (σ : K → K)) DFunLike.coe_injective
-  haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp₀ K hK).2
+  have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp₀ K hK).2
   have hcardAut : Nat.card (RingAut K) = f := (card_ringAut_and_isCyclic hp₀ K hK).1
   let S : Sylow p (RingAut K) := Classical.choice (Sylow.nonempty)
   let F : Subgroup (MulAut (adjointGroup Tag.E6 K)) := (S : Subgroup (RingAut K)).map E
-  have hFp : IsPGroup p F := S.isPGroup'.map E
+  have hFp : IsPGroup p F := S.isPGroup.map E
   have hFcyc : IsCyclic ↥F := by
     have hScyc : IsCyclic ↥(S : Subgroup (RingAut K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (RingAut K)) E hEinj).isCyclic.mp hScyc
@@ -334,13 +334,13 @@ theorem exists_fieldPart_adjointGroup_E6
   let P_out : Subgroup (Outer (adjointGroup Tag.E6 K)) := F.map mk
   let P_V : Subgroup (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) :=
     (S : Subgroup (RingAut K)).map (MonoidHom.inl _ _)
-  haveI : Finite (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) := by
+  have : Finite (RingAut K × Multiplicative (ZMod (exactE Tag.E6))) := by
     have : Finite (Multiplicative (ZMod (exactE Tag.E6))) :=
       Nat.finite_of_card_ne_zero (by
         rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
         decide)
     infer_instance
-  haveI : IsMulCommutative (RingAut K) := IsCyclic.isMulCommutative
+  have : IsMulCommutative (RingAut K) := IsCyclic.isMulCommutative
   have hPVnormal : P_V.Normal := inferInstance
   have hP0p : IsPGroup p P_out := hFp.map mk
   have hmap : P_out.map Φ = P_V := by
@@ -399,7 +399,7 @@ theorem exists_fieldPart_adjointGroup_E6
     intro T
     let Q : Sylow p (Outer (adjointGroup Tag.E6 K)) := hP0p.toSylow hPoutidx
     have hQnormal : (Q : Subgroup (Outer (adjointGroup Tag.E6 K))).Normal := hPoutnormal
-    haveI : Unique (Sylow p (Outer (adjointGroup Tag.E6 K))) := Sylow.unique_of_normal Q hQnormal
+    have : Unique (Sylow p (Outer (adjointGroup Tag.E6 K))) := Sylow.unique_of_normal Q hQnormal
     exact Sylow.normal_of_subsingleton T
   exact exists_fieldPart_of_isPGroup hp F hFp hFcyc hFbot hSylow hHidx
 
@@ -416,7 +416,7 @@ theorem exists_fieldPart_twistedE6
       ∀ x : MulAut (twistedE6RootGroup K σ), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ inner (twistedE6RootGroup K σ) ⊔ F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
   set C := twistedE6RootGroup K σ with hC
   set I : Subgroup (MulAut C) := inner C with hI
@@ -462,13 +462,13 @@ theorem exists_fieldPart_twistedE6
     rw [hΦE δ, hΦE δ'] at h'
     exact h'
   have hK2 : Nat.card K = p₀ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Finite (RingAut K) :=
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun σ : RingAut K => (σ : K → K)) DFunLike.coe_injective
-  haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp₀ K hK2).2
+  have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp₀ K hK2).2
   have hcardAut : Nat.card (RingAut K) = 2 * f := (card_ringAut_and_isCyclic hp₀ K hK2).1
   let S : Sylow p (RingAut K) := Classical.choice (Sylow.nonempty)
   let F : Subgroup (MulAut C) := (S : Subgroup (RingAut K)).map E
-  have hFp : IsPGroup p F := S.isPGroup'.map E
+  have hFp : IsPGroup p F := S.isPGroup.map E
   have hFcyc : IsCyclic ↥F := by
     have hScyc : IsCyclic ↥(S : Subgroup (RingAut K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (RingAut K)) E hEinj).isCyclic.mp hScyc
@@ -489,7 +489,7 @@ theorem exists_fieldPart_twistedE6
   let mk : MulAut C →* Outer C := QuotientGroup.mk' I
   let P_out : Subgroup (Outer C) := F.map mk
   let P_V : Subgroup (RingAut K) := (S : Subgroup (RingAut K))
-  haveI : IsMulCommutative (RingAut K) := IsCyclic.isMulCommutative
+  have : IsMulCommutative (RingAut K) := IsCyclic.isMulCommutative
   have hPVnormal : P_V.Normal := inferInstance
   have hP0p : IsPGroup p P_out := hFp.map mk
   have hmap : P_out.map Φ = P_V := by
@@ -546,7 +546,7 @@ theorem exists_fieldPart_twistedE6
     intro T
     let Q : Sylow p (Outer C) := hP0p.toSylow hPoutidx
     have hQnormal : (Q : Subgroup (Outer C)).Normal := hPoutnormal
-    haveI : Unique (Sylow p (Outer C)) := Sylow.unique_of_normal Q hQnormal
+    have : Unique (Sylow p (Outer C)) := Sylow.unique_of_normal Q hQnormal
     exact Sylow.normal_of_subsingleton T
   exact exists_fieldPart_of_isPGroup hp F hFp hFcyc hFbot hSylow hHidx
 
@@ -555,9 +555,9 @@ theorem i713ClauseFor_lie_E6
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E6 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let S := (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group
-  haveI : Finite S := Finite.of_equiv K eK.toEquiv
+  have : Finite S := Finite.of_equiv K eK.toEquiv
   have hm : ChevalleyExceptionalModel S .E6 q.p q.exponent := by
     refine ⟨⟨q.prime_p, q.exponent_pos, rfl⟩, ?_⟩
     by_cases hq2 : q.p = 2
@@ -573,9 +573,9 @@ theorem i713ClauseFor_lie_E6
     rw [hEq] at hpRank
     omega
   obtain ⟨L, hLfield, hLfin, hLcard, ⟨eL⟩⟩ := nonempty_mulEquiv_adjointGroup .E6 hm.2
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (adjointGroup Tag.E6 L) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (adjointGroup Tag.E6 L) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_adjointGroup_E6 q.prime_p q.exponent_pos L hLcard hp hp2 hp3)))
 
@@ -583,9 +583,9 @@ theorem i713ClauseFor_lie_twistedE6
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let S := (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hv⟩).Group
-  haveI : Finite S := Finite.of_equiv K eK.toEquiv
+  have : Finite S := Finite.of_equiv K eK.toEquiv
   have hm : ChevalleyExceptionalModel S .twistedE6 q.p q.exponent := by
     refine ⟨⟨q.prime_p, q.exponent_pos, rfl⟩, ?_⟩
     by_cases hq2 : q.p = 2
@@ -604,9 +604,9 @@ theorem i713ClauseFor_lie_twistedE6
     omega
   obtain ⟨L, hLfield, hLfin, σ, hLcard, hσ, ⟨eL⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_E6 hm
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (twistedE6RootGroup L σ) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (twistedE6RootGroup L σ) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_twistedE6 q.prime_p q.exponent_pos L hLcard σ hσ hp hp2 hp3)))
 

@@ -16,11 +16,11 @@ variable {f : ℕ} {K : Type} [Field K]
 theorem exists_opposite_hermitian (h : UnitaryFieldData 2 f K)
     {A N : Matrix (Fin 3) (Fin 3) K} (hAu : (A.map h.bar)ᵀ * A = 1)
     (hN2 : N * N = 0) (hN0 : N ≠ 0) (hNs : (N.map h.bar)ᵀ = N) (hAN : A * N = N * A)
-    {lam : K} (hlam : lam ≠ 0) (hA3 : A * A * A = lam • (1 : Matrix (Fin 3) (Fin 3) K)) :
+    {lam : K} (_hlam : lam ≠ 0) (hA3 : A * A * A = lam • (1 : Matrix (Fin 3) (Fin 3) K)) :
     ∃ N' : Matrix (Fin 3) (Fin 3) K, N' * N' = 0 ∧ (N'.map h.bar)ᵀ = N' ∧ N * N' * N = N ∧
       N' * N * N' = N' ∧ A * N' = N' * A := by
   classical
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hbb : ∀ x : K, h.bar (h.bar x) = x := h.bar_bar
   have hbar0 : ∀ x : K, h.bar x = 0 ↔ x = 0 := fun x => by simp

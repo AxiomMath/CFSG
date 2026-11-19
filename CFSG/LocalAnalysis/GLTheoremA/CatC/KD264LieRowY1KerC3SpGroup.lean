@@ -13,7 +13,7 @@ noncomputable section
 theorem not_three_dvd_of_sq_one {G : Type} [Group G] [Finite G] (h : ∀ x : G, x ^ 2 = 1) :
     ¬ 3 ∣ Nat.card G := by
   intro hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := G) 3 hdvd
   have h2 := h x
   have h3 : x ^ 3 = 1 := by
@@ -28,8 +28,8 @@ theorem not_three_dvd_of_sq_one {G : Type} [Group G] [Finite G] (h : ∀ x : G, 
 theorem three_not_dvd_card_of_char {K : Type} [Field K] [Finite K] (h3 : (3 : K) ≠ 0) :
     ¬ 3 ∣ Nat.card K := by
   intro hdvd
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime (ringChar K)) := ⟨CharP.char_is_prime K (ringChar K)⟩
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at hdvd
   have h3p : 3 ∣ ringChar K := Nat.Prime.dvd_of_dvd_pow Nat.prime_three hdvd

@@ -3,7 +3,7 @@ module
 public import CFSG.LieType.CurtisTits.Recognition
 public import CFSG.LocalAnalysis.AGLEmbeddingD2.McLaughlin.OrdinaryProofs.CentreTransfer
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -13,16 +13,16 @@ theorem not_sq_dvd_20160 {p : ℕ} (hpp : p.Prime) (h5 : 5 ≤ p) : ¬ p ^ 2 ∣
   intro hdvd
   have hle : p ^ 2 ≤ 20160 := Nat.le_of_dvd (by norm_num) hdvd
   have hp141 : p ≤ 141 := by nlinarith
-  interval_cases p <;> (try norm_num at hpp) <;> (try norm_num at hdvd) <;> omega
+  interval_cases p <;> (try norm_num at hpp) <;> (try norm_num at hdvd)
 
 theorem not_dvd_card_ker {H A : Type} [Group H] [Group A] [Finite H]
     (Q : Subgroup H) [Q.Normal] (hQ : IsPGroup 2 Q) (hq : CFSG.IsQuasisimple (H ⧸ Q))
     (φ : H →* A) (hφ : Function.Surjective φ) (hA : Nat.card A = 20160)
     (p : ℕ) [Fact p.Prime] (hp : 5 ≤ p) : ¬ p ∣ Nat.card φ.ker := by
   have hpp : p.Prime := Fact.out
-  haveI : Finite A := Finite.of_surjective φ hφ
+  have : Finite A := Finite.of_surjective φ hφ
   obtain ⟨M, hM⟩ : ∃ M : Subgroup H, M = φ.ker ⊔ Q := ⟨_, rfl⟩
-  haveI : M.Normal := by rw [hM]; infer_instance
+  have : M.Normal := by rw [hM]; infer_instance
   have hKM : φ.ker ≤ M := by rw [hM]; exact le_sup_left
   have hQM : Q ≤ M := by rw [hM]; exact le_sup_right
   have hMtop : M ≠ ⊤ := by
@@ -48,7 +48,7 @@ theorem not_dvd_card_ker {H A : Type} [Group H] [Group A] [Finite H]
   have hπ : Function.Surjective (QuotientGroup.mk' Q : H →* H ⧸ Q) :=
     QuotientGroup.mk'_surjective Q
   obtain ⟨N, hN⟩ : ∃ N : Subgroup (H ⧸ Q), N = M.map (QuotientGroup.mk' Q) := ⟨_, rfl⟩
-  haveI : N.Normal := by
+  have : N.Normal := by
     rw [hN]
     exact Subgroup.Normal.map ‹M.Normal› _ hπ
   have hNtop : N ≠ ⊤ := by
@@ -80,7 +80,7 @@ theorem not_dvd_card_ker {H A : Type} [Group H] [Group A] [Finite H]
   have hsq : ¬ p ^ 2 ∣ Nat.card ((H ⧸ Q) ⧸ Subgroup.center (H ⧸ Q)) := fun h =>
     not_sq_dvd_20160 hpp hp (h.trans hchain)
   obtain ⟨hperf, -, -⟩ := hq
-  haveI : Finite (H ⧸ Q) := Finite.of_surjective _ hπ
+  have : Finite (H ⧸ Q) := Finite.of_surjective _ hπ
   have hZ : ¬ p ∣ Nat.card (Subgroup.center (H ⧸ Q)) :=
     CFSG.AGLEmbeddingD2.McLaughlin.not_dvd_card_center_of_perfect hperf.commutator_eq_top hsq
   have hNZp : ¬ p ∣ Nat.card N := fun h => hZ (h.trans (Subgroup.card_dvd_of_le hNZ))
@@ -92,7 +92,7 @@ theorem not_dvd_card_ker {H A : Type} [Group H] [Group A] [Finite H]
     have := Nat.le_of_dvd (by norm_num) h2
     omega
   have hMcard : Nat.card M = Nat.card N * Nat.card Q := by
-    haveI : Finite (H ⧸ M) := Finite.of_surjective _ (QuotientGroup.mk'_surjective M)
+    have : Finite (H ⧸ M) := Finite.of_surjective _ (QuotientGroup.mk'_surjective M)
     have hpos : 0 < M.index := Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (H := M))
     have e1 : Nat.card M * M.index = Nat.card H := Subgroup.card_mul_index (H := M)
     have e2 : Nat.card Q * Nat.card (H ⧸ Q) = Nat.card H := Subgroup.card_mul_index (H := Q)

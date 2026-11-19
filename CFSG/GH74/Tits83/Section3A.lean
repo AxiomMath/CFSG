@@ -163,7 +163,7 @@ theorem lemma31 {i : ℤ} {u : G} (hu : u ∈ T.U i) (hu1 : u ≠ 1)
     convert hy using 2 <;> ring
   have hmx : T.mu i u * x * (T.mu i u)⁻¹ ∈ T.U (i + 5) := by
     have h := Moves.conj_mem T (T.moves_mu (n := 8) hu hu1) (j := i + 3) hxU
-    convert h using 2 <;> ring
+    convert h using 2; ring
   set w : G := x⁻¹ * T.nu i u * x * (T.nu i u)⁻¹ with hwdef
   have hweq : w = y * (T.mu i u * x * (T.mu i u)⁻¹) := by
     rw [hwdef]
@@ -203,7 +203,7 @@ theorem lemma31 {i : ℤ} {u : G} (hu : u ∈ T.U i) (hu1 : u ≠ 1)
     have h := congrArg (fun t => t * w) hconjz
     simpa [mul_assoc] using h
   have hw1 : w = 1 := T.lemma212_i' (n := 8) (by norm_num) (i := i + 10) (j := i + 5)
-    (by omega) (by omega) hzU hz1 (by convert hwmem using 2 <;> ring) hzw.symm
+    (by omega) (by omega) hzU hz1 (by convert hwmem using 2; ring) hzw.symm
   have hmx1 : T.mu i u * x * (T.mu i u)⁻¹ = 1 := by
     have hprod : y * (T.mu i u * x * (T.mu i u)⁻¹) = 1 := by
       rw [← hweq, hw1]

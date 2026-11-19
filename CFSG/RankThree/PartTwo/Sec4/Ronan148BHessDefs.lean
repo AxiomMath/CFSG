@@ -56,7 +56,7 @@ theorem hessPhiMat_mul_inv (hω : ω ^ 2 + ω + 1 = 0) (h3 : (3 : F) ≠ 0) :
   have h2 := one_add_two_mul_sq_ne_zero hω h3
   ext i k
   fin_cases i <;> fin_cases k <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessPhiMat, hessPhiInvMat, Matrix.one_apply] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hessPhiMat, hessPhiInvMat] <;>
     field_simp <;>
     grind
 
@@ -66,7 +66,7 @@ theorem hessPhiInvMat_mul (hω : ω ^ 2 + ω + 1 = 0) (h3 : (3 : F) ≠ 0) :
   have h2 := one_add_two_mul_sq_ne_zero hω h3
   ext i k
   fin_cases i <;> fin_cases k <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessPhiMat, hessPhiInvMat, Matrix.one_apply] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hessPhiMat, hessPhiInvMat] <;>
     field_simp <;>
     grind
 

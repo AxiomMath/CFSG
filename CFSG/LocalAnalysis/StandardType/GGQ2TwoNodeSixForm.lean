@@ -25,14 +25,14 @@ private theorem cartanA5_edge {i j : Fin 5} (hij : i ≠ j)
     (CartanMatrix.A 5 i j : ZMod 3) = -1 := by
   have h : CartanMatrix.A 5 i j = -1 := by
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg hij, if_pos hadj]
+    rw [ite_eq_right hij, ite_eq_left hadj]
   rw [h]
   norm_num
 
 private theorem cartanA5_nonEdge : (CartanMatrix.A 5 2 0 : ZMod 3) = 0 := by
   have h : CartanMatrix.A 5 2 0 = 0 := by
     simp only [CartanMatrix.A, Matrix.of_apply]
-    rw [if_neg (by decide), if_neg (by decide)]
+    rw [ite_eq_right (by decide), ite_eq_right (by decide)]
   rw [h]
   norm_num
 

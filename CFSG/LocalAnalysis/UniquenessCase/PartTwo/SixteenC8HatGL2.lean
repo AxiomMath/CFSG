@@ -26,23 +26,23 @@ theorem c8h_gl2_of_op {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} {p : ℕ} (hp 
       C8HatMod p d ψ Oh Zh φ := by
   classical
   let I := CFSG.pPrimeCore 3 Γ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp1 : 1 < p := hp.one_lt
   have hsimple_card :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hl3
-  haveI hsimple : IsSimpleGroup (Γ ⧸ I) := hsimple_card.1
+  have hsimple : IsSimpleGroup (Γ ⧸ I) := hsimple_card.1
   have hcard168 : Nat.card (Γ ⧸ I) = 168 := hsimple_card.2
-  haveI hperf : Group.IsPerfect (Γ ⧸ I) := by
+  have hperf : Group.IsPerfect (Γ ⧸ I) := by
     apply TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative
     intro hc
-    haveI : IsMulCommutative (Γ ⧸ I) := hc
+    have : IsMulCommutative (Γ ⧸ I) := hc
     have hpcard : (Nat.card (Γ ⧸ I)).Prime := Group.is_simple_iff_prime_card.mp hsimple
     rw [hcard168] at hpcard
     norm_num at hpcard
   obtain ⟨E, hEn, hEp, hEmap⟩ :=
     exists_perfect_normal_map_eq_top (QuotientGroup.mk' I) (QuotientGroup.mk'_surjective I)
-  haveI hEpI : Group.IsPerfect ↥E := hEp
+  have hEpI : Group.IsPerfect ↥E := hEp
   have hcover : ∀ γ : Γ, ∃ e ∈ E, ∃ i ∈ I, γ = e * i := by
     intro γ
     have hmem : (QuotientGroup.mk' I) γ ∈ E.map (QuotientGroup.mk' I) := by
@@ -69,7 +69,7 @@ theorem c8h_gl2_of_op {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} {p : ℕ} (hp 
       infer_instance
     have hmapn : (N.map (QuotientGroup.mk' I)).Normal :=
       Subgroup.Normal.map hNn _ (QuotientGroup.mk'_surjective I)
-    haveI hmapnI : (N.map (QuotientGroup.mk' I)).Normal := hmapn
+    have hmapnI : (N.map (QuotientGroup.mk' I)).Normal := hmapn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' I)) with
       hbot | htop
     · have hNI : N ≤ I := by
@@ -114,7 +114,7 @@ theorem c8h_gl2_of_op {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} {p : ℕ} (hp 
     exact Nat.Coprime.coprime_dvd_left h1 h2
   obtain ⟨D, hDs, hfaith⟩ :=
     CFSG.Quasithin.exists_isSupercritical_faithful (P := ↥R) hp2 hRp
-  haveI hDchar : D.Characteristic := hDs.characteristic
+  have hDchar : D.Characteristic := hDs.characteristic
   have hDp : IsPGroup p ↥D := hRp.to_subgroup D
   have hDexp : ∀ x : ↥D, x ^ p = 1 := fun x =>
     Subtype.ext (by simpa using hDs.pow_eq_one (x : ↥R) x.2)
@@ -208,13 +208,13 @@ theorem c8h_gl2_of_op {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} {p : ℕ} (hp 
   have hZ : Zh = UC22.fratSub Oh := by
     rw [show Zh = frattiniIn Oh from hfr.symm]
     rfl
-  haveI hOhChar : Oh.Characteristic := by
+  have hOhChar : Oh.Characteristic := by
     show (D.map R.subtype).Characteristic
     infer_instance
-  haveI hfrChar : (frattiniIn D).Characteristic := by
+  have hfrChar : (frattiniIn D).Characteristic := by
     show ((frattini ↥D).map D.subtype).Characteristic
     infer_instance
-  haveI hZhChar : Zh.Characteristic := by
+  have hZhChar : Zh.Characteristic := by
     show ((frattiniIn D).map R.subtype).Characteristic
     infer_instance
   have hzle : Zh ≤ Oh := by

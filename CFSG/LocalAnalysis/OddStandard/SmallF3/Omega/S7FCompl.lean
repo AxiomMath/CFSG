@@ -15,7 +15,7 @@ namespace S7FFrame
 
 variable {t : G} {B E H : Subgroup G} {φ : (Fin 5 → ZMod 2) → G}
 
-theorem kap_zpow (F : S7FFrame t B E H φ) (k : ℤ) : s7fKap t (t ^ k) = 1 := by
+theorem kap_zpow (_F : S7FFrame t B E H φ) (k : ℤ) : s7fKap t (t ^ k) = 1 := by
   unfold s7fKap
   group
 
@@ -25,7 +25,7 @@ theorem s7fU_inf (F : S7FFrame t B E H φ) {u : Fin 5 → G} (hu : ∀ i, u i �
   rintro x ⟨hxt, hxU⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hxt
   have ht1 : t ≠ 1 := fun h => F.t_not_mem (h ▸ B.one_mem)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact F.t_sq) ht1
   have hmod : t ^ (k % 2) = t ^ k := by
     simpa [hord] using zpow_mod_orderOf t k

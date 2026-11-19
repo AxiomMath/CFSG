@@ -50,7 +50,7 @@ theorem elevenSimpleCases_of_catalog {S : Type} [Group S] [IsSimpleGroup S]
     ⟨t, n, p, f, ht, hp, hf, hnmin, hn0, hnB, hadm, hc, -⟩ |
     ⟨p, f, hree⟩ | ⟨p, f, htits⟩ | ⟨s, ⟨e⟩⟩
   ·
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hcard : Nat.card S = n.factorial / 2 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     left

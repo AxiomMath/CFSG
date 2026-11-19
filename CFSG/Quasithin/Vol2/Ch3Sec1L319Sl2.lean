@@ -29,7 +29,7 @@ private theorem lower_left_eq_zero {K : Type} [Field K] (z : SpecialLinearGroup 
   have key : ((z * unipotent (1 : K) * z⁻¹ : SpecialLinearGroup (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K) 1 0 =
       -((z : Matrix (Fin 2) (Fin 2) K) 1 0 * (z : Matrix (Fin 2) (Fin 2) K) 1 0) := by
-    simp [coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two] <;> ring
+    simp [coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]; ring
   have h10 : ((z * unipotent (1 : K) * z⁻¹ : SpecialLinearGroup (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K) 1 0 =
       ((unipotent r : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 1 0 := by
@@ -46,8 +46,7 @@ private theorem lower_left_wElt_conj {K : Type} [Field K] (z : SpecialLinearGrou
       Matrix (Fin 2) (Fin 2) K) 1 0 = -(z : Matrix (Fin 2) (Fin 2) K) 0 1 := by
   dsimp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv, coe_wElt]
   simp only [Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply,
-    Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_fin_const]
+    Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
   ring
 
 private theorem lower_left_lElt_conj {K : Type} [Field K] (z : SpecialLinearGroup (Fin 2) K) :
@@ -57,15 +56,14 @@ private theorem lower_left_lElt_conj {K : Type} [Field K] (z : SpecialLinearGrou
         (z : Matrix (Fin 2) (Fin 2) K) 0 1 - (z : Matrix (Fin 2) (Fin 2) K) 1 1 := by
   dsimp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv, coe_lElt]
   simp only [Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply,
-    Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_fin_const]
+    Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
   ring
 
 theorem sl2_normal_le_normalizer_sylow {K : Type} [Field K] [Finite K] [CharP K 2]
     (E S : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)) (hE : E.Normal)
     (hS : Nat.card S = Nat.card K)
     (hES : E ≤ Subgroup.normalizer (S : Set (Matrix.SpecialLinearGroup (Fin 2) K))) : E = ⊥ := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   obtain ⟨g, hg⟩ := exists_conj_unipotent_mem Nat.prime_two hcard hS

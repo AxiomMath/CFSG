@@ -34,7 +34,7 @@ variable {K : Type} [Field K]
         exact hdet
       · ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [threeAMatrix, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply] <;> grind⟩
+          simp [threeAMatrix, Matrix.mul_apply, Fin.sum_univ_six] <;> grind⟩
 
 theorem coe_threeASU {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     (((threeASU hω : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) : GL (Fin 6) K) :
@@ -78,7 +78,7 @@ theorem le_of_centralizer_le_of_threeA {G : Type*} [Group G] [Finite G] [Finite 
     (hYX : Y ≤ Subgroup.normalizer (X : Set G)) (hY : ¬ 3 ∣ Nat.card Y)
     (hfix : Y ⊓ Subgroup.centralizer {e} ≤ X) : Y ≤ X := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨P₀, z₀, hP₀card, hP₀exp, hz₀P, hP₀cent, hP₀conj⟩ :=
     exists_extraspecial_conj_threeA (K := K) hK hω
   let P_L : Subgroup L := P₀.comap φ.toMonoidHom
@@ -92,7 +92,7 @@ theorem le_of_centralizer_le_of_threeA {G : Type*} [Group G] [Finite G] [Finite 
     { toFun := fun l => ⟨φ (l : L), l.2⟩
       invFun := fun h => ⟨φ.symm h, by
         change φ (φ.symm h) ∈ P₀
-        simpa using h.2⟩
+        simp⟩
       left_inv := by intro l; apply Subtype.ext; simp
       right_inv := by intro h; apply Subtype.ext; simp }
   have hP_Gcard : Nat.card P_G = 27 := by

@@ -178,13 +178,13 @@ theorem SAB_sub_SA2 (i j : Fin 5) (h : SAB i j) : SA2 i j := ⟨by have := h.1; 
 theorem uE_apply (v : Fin 2 → ZMod 2) (i : Fin 2) : uE v (rIdx i) 2 = v i := by
   have h : (2 : Fin 5) = 2 ∧ (rIdx i).val < 2 := ⟨rfl, i.isLt⟩
   show (if h' : (2 : Fin 5) = 2 ∧ (rIdx i).val < 2 then v ⟨(rIdx i).val, h'.2⟩ else 0) = v i
-  exact dif_pos h
+  exact dite_eq_left h
 
 theorem wE_apply (w : Fin 2 → ZMod 2) (j : Fin 2) : wE w 2 (cIdx j) = w j := by
   have h : (2 : Fin 5) = 2 ∧ 3 ≤ (cIdx j).val := ⟨rfl, by show 3 ≤ 3 + j.val; omega⟩
   show (if h' : (2 : Fin 5) = 2 ∧ 3 ≤ (cIdx j).val then
     w ⟨(cIdx j).val - 3, by have := (cIdx j).isLt; omega⟩ else 0) = w j
-  exact (dif_pos h).trans (congrArg w (Fin.ext (by show 3 + j.val - 3 = j.val; omega)))
+  exact (dite_eq_left h).trans (congrArg w (Fin.ext (by show 3 + j.val - 3 = j.val; omega)))
 
 theorem zE_apply (m : Matrix (Fin 2) (Fin 2) (ZMod 2)) (i j : Fin 2) :
     zE m (rIdx i) (cIdx j) = m i j := by
@@ -193,7 +193,7 @@ theorem zE_apply (m : Matrix (Fin 2) (Fin 2) (ZMod 2)) (i j : Fin 2) :
   show (if h' : (rIdx i).val ≤ 1 ∧ 3 ≤ (cIdx j).val then
     m ⟨(rIdx i).val, by have := h'.1; omega⟩ ⟨(cIdx j).val - 3, by have := (cIdx j).isLt; omega⟩
     else 0) = m i j
-  exact (dif_pos h).trans (congrArg₂ (fun a b : Fin 2 => m a b) (Fin.ext rfl)
+  exact (dite_eq_left h).trans (congrArg₂ (fun a b : Fin 2 => m a b) (Fin.ext rfl)
     (Fin.ext (by show 3 + j.val - 3 = j.val; omega)))
 
 theorem uE_zero (v : Fin 2 → ZMod 2) : SuppIn SA (uE v) := by
@@ -201,19 +201,19 @@ theorem uE_zero (v : Fin 2 → ZMod 2) : SuppIn SA (uE v) := by
   have hne : ¬ (j = 2 ∧ i.val < 2) := fun h =>
     hij ⟨by have := h.2; omega, by rw [h.1]; decide⟩
   show (if h : j = 2 ∧ i.val < 2 then v ⟨i.val, h.2⟩ else 0) = 0
-  exact dif_neg hne
+  exact dite_eq_right hne
 
 theorem wE_supp (w : Fin 2 → ZMod 2) : SuppIn SA2 (wE w) := by
   intro i j hij
   have hne : ¬ (i = 2 ∧ 3 ≤ j.val) := fun h => hij ⟨by rw [h.1]; decide, h.2⟩
   show (if h : i = 2 ∧ 3 ≤ j.val then w ⟨j.val - 3, by have := j.isLt; omega⟩ else 0) = 0
-  exact dif_neg hne
+  exact dite_eq_right hne
 
 theorem zE_supp (m : Matrix (Fin 2) (Fin 2) (ZMod 2)) : SuppIn SAB (zE m) := by
   intro i j hij
   show (if h : i.val ≤ 1 ∧ 3 ≤ j.val then
     m ⟨i.val, by have := h.1; omega⟩ ⟨j.val - 3, by have := j.isLt; omega⟩ else 0) = 0
-  exact dif_neg hij
+  exact dite_eq_right hij
 
 theorem fin5_A2_up : ∀ i j : Fin 5, j ≤ i → ¬ (i.val ≤ 2 ∧ 3 ≤ j.val) := by decide
 
@@ -281,13 +281,13 @@ theorem cm_eq_one_add_zE {x : Hc} (hx : x ∈ A1 ⊓ A2) : cm x = 1 + zE (zC x) 
       show (if h' : a.val ≤ 1 ∧ 3 ≤ b.val then
         zC x ⟨a.val, by have := h'.1; omega⟩ ⟨b.val - 3, by have := b.isLt; omega⟩
         else 0) = _
-      rw [dif_pos ⟨ha1, hb3⟩, zC_apply]
+      rw [dite_eq_left ⟨ha1, hb3⟩, zC_apply]
     rw [Matrix.one_apply_ne hne, zero_add, hz, hra, hcb, cm_eq_sub_one_of_ne x hne]
   · have hz : zE (zC x) a b = 0 := by
       show (if h' : a.val ≤ 1 ∧ 3 ≤ b.val then
         zC x ⟨a.val, by have := h'.1; omega⟩ ⟨b.val - 3, by have := b.isLt; omega⟩
         else 0) = 0
-      exact dif_neg hab
+      exact dite_eq_right hab
     have h0 : cm x a b = (1 : Mt) a b := by
       by_cases hA : a.val ≤ 1 ∧ 2 ≤ b.val
       · have hB : ¬ (a.val ≤ 2 ∧ 3 ≤ b.val) := fun hB => hab ⟨hA.1, hB.2⟩
@@ -503,15 +503,12 @@ theorem mem_Jm_of_coords {t : Hc} (ht : t ∈ Tm)
     have e02 : cm c 0 2 = 0 := by
       have h : cm c 0 2 = cm (unipS 1 2 (by decide) 1) 0 2 := congrFun hcu 0
       rw [h, cm_unipS]
-      simp [Matrix.single_apply]
+      simp
     have e32 : cm t 3 2 = 0 := Tm_entry_zero ht (by decide)
     have e42 : cm t 4 2 = 0 := Tm_entry_zero ht (by decide)
     simp [e00, e01, e02, e32, e42] at key
     first
       | exact key
-      | exact hz1 _ _ key
-      | exact hz2 _ _ key
-      | simpa using key
   have h34 : cm t 3 4 = 0 := by
     obtain ⟨c, hc⟩ : ∃ c : Hc, c = t * unipS 2 3 (by decide) 1 * t⁻¹ := ⟨_, rfl⟩
     have hcA : c ∈ A2 := by rw [hc]; exact A2_conj_Tm ht unip23_mem_A2
@@ -528,11 +525,11 @@ theorem mem_Jm_of_coords {t : Hc} (ht : t ∈ Tm)
     have e23 : cm c 2 3 = 1 := by
       have h : cm c 2 3 = cm (unipS 2 3 (by decide) 1) 2 3 := congrFun hcw 0
       rw [h, cm_unipS]
-      simp [Matrix.single_apply]
+      simp
     have e24 : cm c 2 4 = 0 := by
       have h : cm c 2 4 = cm (unipS 2 3 (by decide) 1) 2 4 := congrFun hcw 1
       rw [h, cm_unipS]
-      simp [Matrix.single_apply]
+      simp
     have e20 : cm c 2 0 = 0 := Tm_entry_zero hcT (by decide)
     have e21 : cm c 2 1 = 0 := Tm_entry_zero hcT (by decide)
     have e22 : cm c 2 2 = 1 := hdiag c hcT 2
@@ -540,9 +537,6 @@ theorem mem_Jm_of_coords {t : Hc} (ht : t ∈ Tm)
     simp [e20, e21, e22, e23, e24, e44] at key
     first
       | exact key
-      | exact hz2 _ _ key
-      | exact hz1 _ _ key
-      | simpa using key
   obtain ⟨N, hN⟩ : ∃ N : Mt, N = cm t - 1 := ⟨_, rfl⟩
   have hcN : cm t = 1 + N := by
     rw [hN]
@@ -574,14 +568,14 @@ theorem mem_Jm_of_coords {t : Hc} (ht : t ∈ Tm)
   have hEsupp : SuppIn SA2 E := by
     intro i j hij
     have hne : ¬ (i = 2 ∧ 3 ≤ j.val) := fun h => hij ⟨by rw [h.1]; decide, h.2⟩
-    rw [hEapp, if_neg hne]
+    rw [hEapp, ite_eq_right hne]
   obtain ⟨R, hR⟩ : ∃ R : Mt, R = N - E := ⟨_, rfl⟩
   have hRsupp : SuppIn SA R := by
     intro i j hij
     rw [hR, Matrix.sub_apply]
     by_cases h : i = 2 ∧ 3 ≤ j.val
-    · rw [hEapp, if_pos h, sub_self]
-    · rw [hEapp, if_neg h]
+    · rw [hEapp, ite_eq_left h, sub_self]
+    · rw [hEapp, ite_eq_right h]
       exact (sub_zero _).trans (hzero i j hij h)
   have hEE : E * E = 0 := suppIn_mul_eq_zero hSA2 hEsupp hEsupp
   have hRE : SuppIn SA (R + R * E) := by

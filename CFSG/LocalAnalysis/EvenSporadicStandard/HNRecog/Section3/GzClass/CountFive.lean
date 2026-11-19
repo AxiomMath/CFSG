@@ -28,9 +28,9 @@ private theorem commutator_eq_sq_of_conj {G : Type*} [Group G] {c q : G} (hc : c
 private theorem pow_two_mem_centerOf_of_isPlusExtraspecial {K : Type*} [Group K]
     {Q : Subgroup K} (hQ : IsPlusExtraspecial 4 Q) {q : K} (hq : q ∈ Q) :
     q ^ 2 ∈ centerOf Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let qQ : ↥Q := ⟨q, hq⟩
-  haveI : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
+  have : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
     hQ.1.quotient_elementary_abelian
   have hExp : Monoid.exponent (↥Q ⧸ Subgroup.center ↥Q) ∣ 2 :=
     CFSG.IsElementaryAbelian.exponent_dvd_p 2 (↥Q ⧸ Subgroup.center ↥Q)
@@ -135,7 +135,7 @@ theorem exists_orderOf_five_commute {K : Type*} [Group K] [Finite K] (Q : Subgro
         (s : K ⧸ Q) = (x : K ⧸ Q)} :=
       Nat.dvd_of_mul_dvd_mul_left (by positivity : 0 < 2 ^ j) h
     exact (Nat.pow_dvd_pow 2 (by omega : 4 ≤ 9 - j)).trans hcancel
-  haveI : Nonempty {s : K // (∃ k : K, k * x * k⁻¹ = s) ∧ (s : K ⧸ Q) = (x : K ⧸ Q)} :=
+  have : Nonempty {s : K // (∃ k : K, k * x * k⁻¹ = s) ∧ (s : K ⧸ Q) = (x : K ⧸ Q)} :=
     ⟨⟨x, ⟨⟨1, by simp⟩, rfl⟩⟩⟩
   have hMpos : 0 < Nat.card {s : K // (∃ k : K, k * x * k⁻¹ = s) ∧
       (s : K ⧸ Q) = (x : K ⧸ Q)} := Nat.card_pos
@@ -167,7 +167,7 @@ theorem exists_orderOf_five_commute {K : Type*} [Group K] [Finite K] (Q : Subgro
     rcases (Nat.prime_five.dvd_mul).mp h5 with h | h
     · exact absurd h h5M
     · exact h
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ρ', hρ'⟩ := exists_prime_orderOf_dvd_card' 5 h5D
   exact ⟨(ρ' : K), by rw [Subgroup.orderOf_coe, hρ'],
     Subgroup.mem_centralizer_singleton_iff.mp ρ'.2⟩

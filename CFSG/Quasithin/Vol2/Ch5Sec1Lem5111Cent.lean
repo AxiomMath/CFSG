@@ -45,11 +45,11 @@ theorem centralizer_le_of_pCore_eq_bot {Y : Subgroup A} [Y.Normal]
     rw [Subsingleton.elim Q P] at hQ
     exact hQ (Subgroup.mem_zpowers y)
   have hP' : (P : Subgroup ↥C).map C.subtype ≤ CFSG.pCore 2 A := by
-    refine le_sSup ⟨⟨fun x hx a => ?_⟩, (P.isPGroup').map C.subtype⟩
+    refine le_sSup ⟨⟨fun x hx a => ?_⟩, (P.isPGroup).map C.subtype⟩
     obtain ⟨y, hy, rfl⟩ := hx
     have haC : a * (y : A) * a⁻¹ ∈ C :=
       (inferInstance : C.Normal).conj_mem _ y.2 a
-    obtain ⟨e, he⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨e, he⟩ := P.isPGroup ⟨y, hy⟩
     have he' : (y : A) ^ 2 ^ e = 1 := by
       have := congrArg (fun z : ↥(P : Subgroup ↥C) => ((z : ↥C) : A)) he
       simpa using this

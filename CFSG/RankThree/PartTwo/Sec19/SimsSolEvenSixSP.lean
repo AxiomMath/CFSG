@@ -76,7 +76,7 @@ theorem false_of_sup_eq_T1
   have hPT1 : P ≤ C.T1 i j := h ▸ le_sup_left
   have hPM : P ≤ M := hPT1.trans (C.thetaPre_le_M _)
   have hQK : Q ≤ CGOf x := H4b.Q_le_CGOf C hR hx
-  have hcons := H4b.twoConstrained_P C hR hx hx1
+  have hcons := H4b.twoConstrained_P C hx hx1
   have hθP : ((P.subgroupOf M).map C.θ) = klein4 J := by
     have h1 : ((C.T1 i j).subgroupOf M).map C.θ = klein4 J := C.theta_thetaPre hsurj _
     rw [← h, Subgroup.subgroupOf_sup hPM (pCoreOf_le_self M), Subgroup.map_sup] at h1

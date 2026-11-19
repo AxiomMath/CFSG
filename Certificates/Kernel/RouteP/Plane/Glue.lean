@@ -110,7 +110,7 @@ theorem letter_act {l : ℤ} (hl : 1 ≤ l.natAbs ∧ l.natAbs ≤ 16) (y : Pt) 
   unfold letterPerm pl
   by_cases hp : 0 < l
   · have hk : (l - 1).toNat < 16 := by omega
-    rw [if_pos ⟨hp, hk⟩, if_pos hp]
+    rw [ite_eq_left ⟨hp, hk⟩, ite_eq_left hp]
     have e : l.toNat - 1 = (l - 1).toNat := by omega
     rw [e]
     have hr := pReg_lt hk
@@ -119,7 +119,7 @@ theorem letter_act {l : ℤ} (hl : 1 ≤ l.natAbs ∧ l.natAbs ≤ 16) (y : Pt) 
     rw [e2, eL_Q (z := Int.negSucc (pReg (l - 1).toNat)) (by change pReg (l - 1).toNat + 1 - 1 < 58; omega)]
     exact gT_apply (lokO (by change pReg (l - 1).toNat + 1 - 1 < 58; omega)) y
   · have hk : (-l - 1).toNat < 16 := by omega
-    rw [if_neg (fun h => hp h.1), if_pos ⟨by omega, hk⟩, if_neg hp]
+    rw [ite_eq_right (fun h => hp h.1), ite_eq_left ⟨by omega, hk⟩, ite_eq_right hp]
     have e : (-l).toNat - 1 = (-l - 1).toNat := by omega
     rw [e]
     have hr := pReg_lt hk
@@ -154,7 +154,7 @@ theorem planeGenWord_eq {s : Nat} (hs : s < 14) :
   rcases (by omega : s = 0 ∨ s = 1 ∨ (2 ≤ s ∧ s < 13) ∨ s = 13) with rfl | rfl | h | rfl
   · rfl
   · rfl
-  · rw [if_neg (by omega), if_pos h.2, if_neg (by omega), if_pos h.2]
+  · rw [ite_eq_right (by omega), ite_eq_left h.2, ite_eq_right (by omega), ite_eq_left h.2]
   · rfl
 
 theorem wordG_act {w : List ℤ} (hw : ∀ l ∈ w, 1 ≤ l.natAbs ∧ l.natAbs ≤ 16) (y : Pt) :
@@ -200,18 +200,18 @@ theorem apG {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]! (gO r)) {
       exact h
     exact (word_spec hl.1 hl.2 hw hpl hk N hN).symm
   rcases (by omega : s < 2 ∨ (2 ≤ s ∧ s < 13) ∨ s = 13) with h2 | h2 | rfl
-  · rw [if_pos h2, ap_planeGenTab hR (wT_letters s (by omega)) hx]
+  · rw [ite_eq_left h2, ap_planeGenTab hR (wT_letters s (by omega)) hx]
     have e : zl s = Int.ofNat (58 + s + 1) := by
       unfold zl
-      rw [if_pos h2, Int.ofNat_eq_coe]
+      rw [ite_eq_left h2, Int.ofNat_eq_natCast]
       omega
     rw [e]
     exact hnet s (by omega) x hx
-  · rw [if_neg (by omega), if_pos h2.2, ap_planeGenTab hR (by simp; omega) hx]
+  · rw [ite_eq_right (by omega), ite_eq_left h2.2, ap_planeGenTab hR (by simp; omega) hx]
     unfold zl
-    rw [if_neg (by omega), if_pos h2.2]
+    rw [ite_eq_right (by omega), ite_eq_left h2.2]
     rfl
-  · rw [if_neg (by omega), if_neg (by omega), ap_planeGenTab hR (wT_letters 2 (by omega)) hx]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ap_planeGenTab hR (wT_letters 2 (by omega)) hx]
     exact hnet 2 (by omega) x hx
 
 theorem pf_spec {t p : Nat} (ht : t < 16) (hp : p < 3) :
@@ -320,7 +320,7 @@ theorem planesOKAt_of {tabs : Array Table} (hR : ∀ r < 58, Rep 920808 tabs[r]!
     rw [hG s hs _ fixPt_lt]
     have := pf_spec (t := s) (by omega) hp
     unfold fW at this
-    rw [if_pos hs] at this
+    rw [ite_eq_left hs] at this
     exact this
   · refine fix3_of fun p hp => ?_
     rw [planeUWord_eq, uWord_eq, ap_planeGenTab hR uv_letters.1 fixPt_lt]

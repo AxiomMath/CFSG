@@ -149,9 +149,9 @@ theorem charTwo_of_inH (hEven : quasithinEvenCharacteristic G) (T : Sylow 2 G) {
   have hU2 : IsPGroup 2 (pCoreOf 2 H) := pCoreOf_isPGroup 2 H
   have hHN : H ≤ Subgroup.normalizer (pCoreOf 2 H : Set G) := le_normalizer_pCoreOf 2 H
   have hZ : pCoreOf 2 H ⊓ ((T : Subgroup G) ⊓ Subgroup.centralizer (T : Set G)) ≠ ⊥ :=
-    inf_center_ne_bot T.isPGroup' hUT (hTH.trans hHN) hH.2
+    inf_center_ne_bot T.isPGroup hUT (hTH.trans hHN) hH.2
   have hSyl : IsSylowTwoOf (T : Subgroup G) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     have : ((T : Subgroup G).subgroupOf ⊤).index = (T : Subgroup G).index :=
       Subgroup.relIndex_top_right _
     rw [this]
@@ -188,7 +188,7 @@ theorem isHv_of_inM (hEven : quasithinEvenCharacteristic G) (T : Sylow 2 G) {M :
   have hF : CharTwo M := hEven M hM.1.1 ⟨T, hM.2⟩
   obtain ⟨-, hel⟩ := conjClosure_le_centerOf_pCoreOf M T hM.2 hF le_rfl
   have hVne : VZ (T : Subgroup G) M ≠ ⊥ :=
-    VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup' (ne_bot_of_inH T (inH_of_inM hM)))
+    VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup (ne_bot_of_inH T (inH_of_inM hM)))
   have hloc : IsTwoLocal (Subgroup.normalizer (VZ (T : Subgroup G) M : Set G)) :=
     ⟨_, hVne, isPGroup_of_isElemAbelian hel, rfl⟩
   exact (hM.1.2 _ hloc (le_normalizer_conjClosure _ _)).symm
@@ -380,7 +380,7 @@ private theorem facts (hEven : quasithinEvenCharacteristic G) (T : Sylow 2 G) {M
         ((M ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) :=
       le_normalizer_inf Subgroup.le_normalizer (le_normalizer_centralizer hVn)
     refine exists_mul_of_sylow inf_le_left hN (inf_le_inf_right _ hTM)
-      (T.isPGroup'.to_le inf_le_left) ?_
+      (T.isPGroup.to_le inf_le_left) ?_
     have h := not_two_dvd_relIndex_inf (S := (T : Subgroup G))
       (D := M ⊓ Subgroup.centralizer (V : Set G)) T.not_dvd_index (hTM.trans hN)
     have heq : (T : Subgroup G) ⊓ (M ⊓ Subgroup.centralizer (V : Set G)) =
@@ -416,7 +416,7 @@ theorem eq_pCoreOf_and_charTwo (hEven : quasithinEvenCharacteristic G) (T : Sylo
   have hF : CharTwo M := hEven M hM.1.1 ⟨T, hM.2⟩
   have hRM : (T : Subgroup G) ⊓ Subgroup.centralizer (V : Set G) ≤ M := inf_le_left.trans hM.2
   have hR2 : IsPGroup 2 ((T : Subgroup G) ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) :=
-    T.isPGroup'.to_le inf_le_left
+    T.isPGroup.to_le inf_le_left
   have hFN := CT.CharTwo.inf_normalizer hF hRM hR2
   refine ⟨le_antisymm ?_ ?_, hFN⟩
   · have hred := isTwoReducedIn_conjClosure _ T hTN hFN hZ'
@@ -443,7 +443,7 @@ theorem isTwoReducedIn_normalizer (hEven : quasithinEvenCharacteristic G) (T : S
   obtain ⟨hel, hVn, hVR, hTN, hfac, hVN⟩ := facts hEven T hM hZ' hVZ'
   have hF : CharTwo M := hEven M hM.1.1 ⟨T, hM.2⟩
   have hFN := CT.CharTwo.inf_normalizer hF (inf_le_left.trans hM.2)
-    (T.isPGroup'.to_le (inf_le_left : (T : Subgroup G) ⊓ Subgroup.centralizer (V : Set G) ≤ T))
+    (T.isPGroup.to_le (inf_le_left : (T : Subgroup G) ⊓ Subgroup.centralizer (V : Set G) ≤ T))
   have := isTwoReducedIn_conjClosure _ T hTN hFN hZ'
   rwa [← hVN] at this
 
@@ -468,7 +468,7 @@ theorem isUniqueM (hEven : quasithinEvenCharacteristic G) (T : Sylow 2 G) {M V :
   have hVne : V ≠ ⊥ := by
     rcases hV with h | h
     · rw [h]
-      exact VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup'
+      exact VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup
         (ne_bot_of_inH T (inH_of_inM hM)))
     · exact h.1
   have hpc := (eq_pCoreOf_and_charTwo hEven T hM hV').1
@@ -554,7 +554,7 @@ theorem isUniqueM_normalizer (hEven : quasithinEvenCharacteristic G) (T : Sylow 
   have hF : CharTwo H := charTwo_of_inH hEven T hH
   obtain ⟨-, hel⟩ := conjClosure_le_centerOf_pCoreOf H T hH.1 hF le_rfl
   have hVne : VZ (T : Subgroup G) H ≠ ⊥ :=
-    VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup' (ne_bot_of_inH T hH))
+    VZ_ne_bot (quasithinOmegaOneCenter_ne_bot T.isPGroup (ne_bot_of_inH T hH))
   have hloc : IsTwoLocal (Subgroup.normalizer (VZ (T : Subgroup G) H : Set G)) :=
     ⟨_, hVne, isPGroup_of_isElemAbelian hel, rfl⟩
   have huniq : ∀ M₂ : Subgroup G, InM H M₂ →

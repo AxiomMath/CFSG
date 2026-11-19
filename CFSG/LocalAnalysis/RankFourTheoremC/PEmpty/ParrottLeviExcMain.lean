@@ -86,8 +86,8 @@ theorem leviAt_of_normalizer_le [Finite K] [CharP K 2] {i₀ j₀ : Fin τ.rank}
     LeviAt K₀ p := by
   intro _ hp h5 hrank _ hne hsyl
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Module.End K (RootModule τ K)) := Module.finite_of_finite K
   have hBK₀ : (borelGroup τ K).subgroupOf (adjointGroup τ K) ≤ K₀ :=
     borel_subgroupOf_le_normalizer.trans hN
   have hBP : borelGroup τ K ≤ K₀.map (adjointGroup τ K).subtype := fun x hx =>

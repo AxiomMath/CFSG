@@ -458,7 +458,7 @@ private theorem quotient_centralizer_equiv_perm_three_of_kleinFour_fusion
       ext x
       simp [T]
     rw [hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ (1 : N))]
-    simpa [hN.card_four]
+    simp
   let St : Subgroup M := MulAction.stabilizer M t
   let Ct : Subgroup M := Subgroup.centralizer ({(t : M)} : Set M)
   have hStCt : St = Ct := by
@@ -749,7 +749,7 @@ private lemma odd_order_subgroup_le_U
       exact hsmu.symm
     rw [hxeq]
     exact Subgroup.mul_mem_sup hsS' huU'
-  have hS2 : IsPGroup 2 ↥(c.S : Subgroup G) := c.S.isPGroup'
+  have hS2 : IsPGroup 2 ↥(c.S : Subgroup G) := c.S.isPGroup
   have hf : IsPGroup 2 (↥c.H ⧸ U') := by
     let f : ↥(c.S : Subgroup G) →* ↥c.H ⧸ U' :=
       q.comp (Subgroup.inclusion hSH)
@@ -757,7 +757,7 @@ private lemma odd_order_subgroup_le_U
       intro y
       rcases QuotientGroup.mk'_surjective U' y with ⟨h, rfl⟩
       have hhSU : h ∈ S' ⊔ U' := by
-        simpa [htop'] using (Subgroup.mem_top h)
+        simp [htop']
       have hhprod : (h : ↥c.H) ∈ (S' : Set (↥c.H)) * (U' : Set (↥c.H)) := by
         rw [← Subgroup.mul_normal (H := S') (N := U')]
         exact hhSU
@@ -1244,7 +1244,7 @@ private lemma branch_one_twoCore_isKleinFour_of_not_le_S0
     (hNnot : ¬ twoCoreOf c.Hhat ≤ c.S0) :
     IsKleinFour (pCore 2 c.Hhat) := by
   classical
-  obtain ⟨x, hxN, hxnotS0⟩ := SetLike.not_le_iff_exists.mp hNnot
+  obtain ⟨x, hxN, hxnotS0⟩ := IsConcreteLE.not_le_iff_exists.mp hNnot
   have hxS : x ∈ (c.S : Subgroup G) := twoCoreOf_le_S c hxN
   have hxInv : IsInvolution x :=
     centralizerSetup_reflection_isInvolution c ⟨hxS, hxnotS0⟩
@@ -1518,7 +1518,7 @@ private lemma branch_one_C_eq_twoCore_of_not_le_S0
   apply le_antisymm ?_ hNleC
   intro x hxC
   by_contra hxN
-  obtain ⟨r, hrN, hrnotS0⟩ := SetLike.not_le_iff_exists.mp hNnot
+  obtain ⟨r, hrN, hrnotS0⟩ := IsConcreteLE.not_le_iff_exists.mp hNnot
   have hrC : r ∈
       (c.S : Subgroup G) ⊓ Subgroup.centralizer (c.U : Set G) :=
     hNleC hrN
@@ -1880,7 +1880,7 @@ private lemma S_inter_centralizer_U_le_twoCoreOf_of_Hhat_eq_H
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hC_le_Hhat, hHhat]
     exact hHnormalC
   have hCp : IsPGroup 2 C :=
-    (c.S).isPGroup'.to_le hC_le_S
+    (c.S).isPGroup.to_le hC_le_S
   exact le_qCoreOf_of_normal_isPGroup c.Hhat C 2 hC_le_Hhat hCnormal hCp
 
 /-! ## Branch 1: `O₂(Ĥ) ≠ 1` -/
@@ -3067,7 +3067,7 @@ public theorem sylow_le_of_normal_odd_index_local
   let pi : Q →* Q ⧸ L := QuotientGroup.mk' L
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmapP : IsPGroup 2 ((P : Subgroup Q).map pi) :=
-    P.isPGroup'.map pi
+    P.isPGroup.map pi
   rcases IsPGroup.iff_card.mp hmapP with ⟨n, hn⟩
   have hcard_dvd : Nat.card ((P : Subgroup Q).map pi) ∣ Nat.card (Q ⧸ L) :=
     Subgroup.card_subgroup_dvd_card ((P : Subgroup Q).map pi)
@@ -3250,7 +3250,7 @@ public theorem pgl2_model_sylow_transport_distinguished_involution
   have hqPinj : Function.Injective qP := by
     have hcop : Nat.Coprime (Nat.card (P : Subgroup c.Hhat))
         (Nat.card O) := by
-      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
       rw [hn]
       exact hOcop.pow_left n
     have hdis : Disjoint (P : Subgroup c.Hhat) O :=
@@ -3276,7 +3276,6 @@ public theorem pgl2_model_sylow_transport_distinguished_involution
   have hqPqsurj : Function.Surjective qPq := by
     intro y
     have hy : y.1 ∈ (P : Subgroup c.Hhat).map q := by
-      change y.1 ∈ (P : Subgroup c.Hhat).map q
       exact y.2
     rcases Subgroup.mem_map.mp hy with ⟨x, hxP, hxy⟩
     let xP : P := ⟨x, hxP⟩
@@ -3321,8 +3320,7 @@ public theorem pgl2_model_sylow_transport_distinguished_involution
   have htModelsq : tModel ^ 2 = 1 := by
     calc
       tModel ^ 2 = eTransport (tP ^ 2) := by
-        simpa [tModel] using
-          (eTransport.toMonoidHom.map_pow tP 2).symm
+        simp [tModel]
       _ = eTransport 1 := by
         congr 1
         apply Subtype.ext
@@ -3933,7 +3931,7 @@ public theorem exists_invariant_sylow_two_of_involutive_normalizer_t26
         rw [Subgroup.map_map]
         have hφφ : φ.symm.toMonoidHom.comp φ.toMonoidHom = MonoidHom.id B := by
           ext x
-          simpa using congrArg Subtype.val (φ.left_inv x)
+          simp
         rw [hφφ, Subgroup.map_id]
       right_inv := by
         intro T
@@ -3942,7 +3940,7 @@ public theorem exists_invariant_sylow_two_of_involutive_normalizer_t26
         rw [Subgroup.map_map]
         have hφφ : φ.toMonoidHom.comp φ.symm.toMonoidHom = MonoidHom.id B := by
           ext x
-          simpa using congrArg Subtype.val (φ.right_inv x)
+          simp
         rw [hφφ, Subgroup.map_id] }
   have hσsq : σ ^ 2 = 1 := by
     apply DFunLike.ext
@@ -4027,7 +4025,7 @@ public theorem component_branch_final_contradiction_t26
   have hT0leH : T0 ≤ c.Hhat := hT0leB.trans (inf_le_left : B ≤ c.Hhat)
   have hT0p : IsPGroup 2 T0 := by
     dsimp [T0]
-    exact T.isPGroup'.map B.subtype
+    exact T.isPGroup.map B.subtype
   have hT0card : Nat.card T0 = Nat.card (T : Subgroup B) := by
     dsimp [T0]
     exact (Nat.card_congr
@@ -4071,13 +4069,12 @@ public theorem component_branch_final_contradiction_t26
       simpa using (by rw [hh] at hQ; exact hQ)
     have hxS : ((h * ⟨x, hT0leH hx⟩ * h⁻¹ : c.Hhat) : G) ∈
         (c.S : Subgroup G) := by
-      change ((h * ⟨x, hT0leH hx⟩ * h⁻¹ : c.Hhat) : G) ∈ (c.S : Subgroup G)
       exact hxP
     change x ∈ (conjugateSubgroup (c.S : Subgroup G) g)
     rw [conjugateSubgroup, Subgroup.mem_map]
     refine ⟨((h * ⟨x, hT0leH hx⟩ * h⁻¹ : c.Hhat) : G), hxS, ?_⟩
     have hgval : (g : G) = (h : G)⁻¹ := by
-      simp [g, Subgroup.coe_inv]
+      simp [g]
     rw [hgval]
     change (h : G)⁻¹ * ((h : G) * x * (h : G)⁻¹) * ((h : G)⁻¹)⁻¹ = x
     simp
@@ -4102,7 +4099,7 @@ public theorem component_branch_final_contradiction_t26
         simp
       calc
         c.t = (g : G)⁻¹ * (g * c.t * (g : G)⁻¹) * (g : G) := by
-          simp [Subgroup.coe_inv, Subgroup.coe_mul, mul_assoc]
+          simp [mul_assoc]
         _ = 1 := hval
     · calc
         z ^ 2 = g * (c.t ^ 2) * g⁻¹ := by

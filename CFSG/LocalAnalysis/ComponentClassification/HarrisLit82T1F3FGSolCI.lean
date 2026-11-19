@@ -44,7 +44,7 @@ theorem oddLieType_or_m11_of_slTwoThree_fstar (hCI : GSLit.ClassicalInvolutionIn
       rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, map_eq_one_iff _ e₃.injective,
         QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
       exact h1
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     have h2 : orderOf s ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       have := congrArg Subtype.val hk

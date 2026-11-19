@@ -62,7 +62,7 @@ theorem escape {G : Type*} [Group G] [Finite G] (ambient acting intersection : S
       rw [Subgroup.card_map_of_injective intersection.subtype_injective]
       exact OddCore.odd_card intersection
     have hcyclicTwo : IsPGroup 2 (Subgroup.zpowers displacement) :=
-      (sylow.isPGroup'.map intersection.subtype).to_le (Subgroup.zpowers_le.mpr hdisplacementFixed)
+      (sylow.isPGroup.map intersection.subtype).to_le (Subgroup.zpowers_le.mpr hdisplacementFixed)
     have hbot := TwoActionOddIntersection.two_in_odd_eq_bot (Subgroup.zpowers displacement)
       ((componentClassificationOddCore intersection).map intersection.subtype) hcyclicTwo hcoreOdd
         (Subgroup.zpowers_le.mpr hcore)

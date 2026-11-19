@@ -31,7 +31,7 @@ def conjOnD (Z : StrothDatum X) (x : G) (hx : x ∈ Z.normalizerIn) : Z.D →* Z
     simp
   map_mul' a b := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul]
     group
 
 @[expose]
@@ -46,7 +46,7 @@ def deviationMul (Z : StrothDatum X) (x : G) (hx : x ∈ Z.centralizerInMho) :
     simp [conjOnD]
   map_mul' a b := by
     apply Subtype.ext
-    haveI : IsMulCommutative Z.D := Z.dataD.isMulCommutative
+    have : IsMulCommutative Z.D := Z.dataD.isMulCommutative
     have h : ((conjOnD Z x hx.1 (a * b)) * (a * b)⁻¹ : Z.D) =
         (((conjOnD Z x hx.1 a) * a⁻¹) * ((conjOnD Z x hx.1 b) * b⁻¹) : Z.D) := by
       rw [map_mul]

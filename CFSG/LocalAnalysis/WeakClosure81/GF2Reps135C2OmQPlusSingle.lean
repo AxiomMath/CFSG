@@ -17,7 +17,7 @@ private theorem c2slomqsi_spinMatrix_apply {K : Type*} [Field K] {σ : Type*} [F
   rfl
 
 private theorem c2slomqsi_t0_torusD {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F]
-    (i : Fin n) (a : Fˣ) {m : Fin n} (hm : m.val = 0) :
+    (i : Fin n) (a : Fˣ) {m : Fin n} (_hm : m.val = 0) :
     (spinMatrix (quadPlus n F) (torusD F hn i a) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inl m) (Sum.inl m) =
       ((a ^ longCoroot (rootIdxD n i) (rootIdxD' n i) true (rootSignD n i) m true : Fˣ) : F) := by
@@ -33,7 +33,7 @@ private theorem c2slomqsi_spinAction_torusD_e0 {n : ℕ} (hn : 3 ≤ n) {F : Typ
   rw [c2slomqsi_t0_torusD hn i a hm, spinAction_torusD]
 
 private theorem c2slomqsi_t0_apply {n : ℕ} {F : Type} [Field F]
-    (h : spinGroup (quadPlus n F)) {m : Fin n} (hm : m.val = 0) :
+    (h : spinGroup (quadPlus n F)) {m : Fin n} (_hm : m.val = 0) :
     (spinMatrix (quadPlus n F) h : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
         (Sum.inl m) (Sum.inl m) =
       spinAction (quadPlus n F) h (plusVec n F m true) (Sum.inl m) := by
@@ -47,7 +47,7 @@ private theorem c2slomqsi_longCoroot_self {n : ℕ} (hn : 3 ≤ n) {m : Fin n}
   have hne : m ≠ (⟨m.val + 1, h1⟩ : Fin n) := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   simp [longCoroot, hne]
 
@@ -64,7 +64,7 @@ private theorem c2slomqsi_longCoroot_ne {n : ℕ} (hn : 3 ≤ n) {m i : Fin n}
   have hrj : (rootIdxD' n i).val ≠ 0 := by
     by_cases h : i.val + 1 < n
     · rw [rootIdxD'_of_lt n h]
-      simp only [Fin.val_mk]
+      simp only
       omega
     · rw [val_rootIdxD'_of_not_lt n h]
       omega
@@ -223,7 +223,7 @@ theorem omq_omPlus_label_of_single {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F]
     intro h hh
     exact (key h hh).2.2
   have hcard_pos : 1 ≤ Nat.card Fˣ := by
-    haveI : Nonempty Fˣ := ⟨1⟩
+    have : Nonempty Fˣ := ⟨1⟩
     exact Nat.succ_le_of_lt Nat.card_pos
   by_cases hc₀ : c₀ = 0
   · refine ⟨Nat.card Fˣ, hcard_pos, le_rfl, ?_, ?_, ?_⟩

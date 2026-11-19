@@ -18,7 +18,7 @@ theorem oddCoversTrivial_of_sq_not_dvd {K : Type} [Group K] [Finite K]
   rw [Subgroup.mem_bot] at hx1
   obtain ⟨p, hp, hpdvd⟩ : ∃ p, p.Prime ∧ p ∣ orderOf x :=
     Nat.exists_prime_and_dvd (by rwa [Ne, orderOf_eq_one_iff])
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxo : orderOf x ∣ Nat.card π.ker := by
     have := Subgroup.orderOf_dvd_natCard π.ker hx
     exact this
@@ -42,7 +42,7 @@ theorem oddCoversTrivial_of_sq_not_dvd {K : Type} [Group K] [Finite K]
   let f : ↥(P : Subgroup Γ) →* K := π.comp (P : Subgroup Γ).subtype
   have hfr : IsCyclic ↥f.range := by
     have hpg : IsPGroup p ↥f.range :=
-      P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+      P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective
     obtain ⟨k, hk⟩ := hpg.exists_card_eq
     have hdvd : p ^ k ∣ Nat.card K := hk ▸ Subgroup.card_subgroup_dvd_card f.range
     have hk1 : k ≤ 1 := by
@@ -66,7 +66,7 @@ theorem oddCoversTrivial_of_sq_not_dvd {K : Type} [Group K] [Finite K]
     exact Subgroup.mem_center_iff.1 (hZc ha') b
   have hcommP : IsMulCommutative ↥(P : Subgroup Γ) :=
     f.rangeRestrict.isMulCommutative_of_isCyclic_of_ker_le_center hfker
-  letI : CommGroup ↥(P : Subgroup Γ) :=
+  let : CommGroup ↥(P : Subgroup Γ) :=
     { (inferInstance : Group ↥(P : Subgroup Γ)) with
       mul_comm := fun a b => hcommP.is_comm.comm a b }
   let τ : Γ →* ↥(P : Subgroup Γ) := (MonoidHom.id ↥(P : Subgroup Γ)).transfer

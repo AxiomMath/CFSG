@@ -142,7 +142,7 @@ private theorem iSup_conj_le_normalizer {V Z : Subgroup G} (hZV : Z ≤ V) (hZne
   have hZU : Z ≤ ⨆ l : c.L, Z.map (MulAut.conj (l : G)).toMonoidHom := by
     refine le_trans ?_ (le_iSup (fun l : c.L => Z.map (MulAut.conj (l : G)).toMonoidHom) 1)
     intro z hz
-    exact Subgroup.mem_map.mpr ⟨z, hz, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨z, hz, by simp⟩
   have hUne : (⨆ l : c.L, Z.map (MulAut.conj (l : G)).toMonoidHom) ≠ ⊥ :=
     fun h => hZne (le_bot_iff.mp (hZU.trans (le_of_eq h)))
   have hmapU : ∀ l : c.L,
@@ -205,7 +205,7 @@ private theorem le_centralizer_iSup_conj {Z R : Subgroup G}
   rw [Subgroup.le_centralizer_iff]
   exact iSup_le hZmapC
 
-private theorem inf_centralizer_ne_bot_of_two (F : A10Frame c) {V S : Subgroup G}
+private theorem inf_centralizer_ne_bot_of_two (_F : A10Frame c) {V S : Subgroup G}
     (hS2 : IsPGroup 2 S) (hSM : S ≤ D.M) (hV : UC22.InCalV D.M V) :
     V ⊓ Subgroup.centralizer (S : Set G) ≠ ⊥ :=
   CFSG.Walter.inf_centralizer_ne_bot_of_isPGroup Nat.prime_two hS2 hV.2.2.2.isPGroup

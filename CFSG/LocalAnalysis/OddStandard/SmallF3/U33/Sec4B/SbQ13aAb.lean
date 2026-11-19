@@ -23,7 +23,7 @@ private theorem card_eq_sq_fix_comm {T : Type} [Group T] [Finite T]
     (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) :
     Nat.card T = Nat.card ↥(Outside.fixSub x) ^ 2 := by
   classical
-  letI : IsMulCommutative T := IsMulCommutative.of_comm hcomm
+  let : IsMulCommutative T := IsMulCommutative.of_comm hcomm
   have hxρ_apply : ∀ g : T, x (ρ g) = ρ⁻¹ (x g) := by
     intro g
     have h : x * ρ = ρ⁻¹ * x := by

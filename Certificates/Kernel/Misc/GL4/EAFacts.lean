@@ -10,7 +10,7 @@ namespace CertificateChecks.KernelMisc.GL4EA
 
 open CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4
 open CFSG.KC.Misc.Clos (ExactList allR)
-open Certificates.GL4 (GL4)
+open Certificates.GL4Sub (GL4)
 
 theorem eaAt_ok (k : ℕ) (hk : k < 20160) : eaAt k = true := by
   have h := GEAK.all (k / 5040) (Nat.lt_of_lt_of_le (by omega : k / 5040 < 4) (by decide))

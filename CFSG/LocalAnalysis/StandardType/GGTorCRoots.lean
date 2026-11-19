@@ -23,10 +23,10 @@ open CFSG.StandardType CFSG.StandardType.SpJoin
       (if h : k.val + 1 < n then c k * (c ⟨k.val + 1, h⟩)⁻¹ else c k ^ 2) *
         (if h : k.val + 1 < n then d k * (d ⟨k.val + 1, h⟩)⁻¹ else d k ^ 2)
     by_cases h : k.val + 1 < n
-    · simp only [dif_pos h, Pi.mul_apply]
+    · simp only [dite_eq_left h, Pi.mul_apply]
       rw [mul_inv]
       ac_rfl
-    · simp only [dif_neg h, Pi.mul_apply]
+    · simp only [dite_eq_right h, Pi.mul_apply]
       rw [mul_pow]
 
 theorem rootC_apply_of_lt {n m : ℕ} (c : Fin n → Multiplicative (ZMod m)) (k : Fin n)
@@ -46,10 +46,10 @@ theorem rootC_apply_of_not_lt {n m : ℕ} (c : Fin n → Multiplicative (ZMod m)
     by_cases h : k.val + 1 < n <;> simp [h]
   map_mul' z w := by
     by_cases h : k.val + 1 < n
-    · simp only [dif_pos h, Pi.mulSingle_mul, Pi.mulSingle_inv]
+    · simp only [dite_eq_left h, Pi.mulSingle_mul, Pi.mulSingle_inv]
       rw [mul_inv]
       ac_rfl
-    · simp only [dif_neg h, Pi.mulSingle_mul]
+    · simp only [dite_eq_right h, Pi.mulSingle_mul]
 
 theorem corC_apply_of_lt_eq {n m : ℕ} (k : Fin n) (h : k.val + 1 < n)
     (z : Multiplicative (ZMod m)) (i : Fin n) :
@@ -58,7 +58,7 @@ theorem corC_apply_of_lt_eq {n m : ℕ} (k : Fin n) (h : k.val + 1 < n)
   rw [show corC n m k z = Pi.mulSingle k z * Pi.mulSingle ⟨k.val + 1, h⟩ z⁻¹ by
     simp [corC, h]]
   by_cases h1 : i = k
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     have hne : k ≠ ⟨k.val + 1, h⟩ := by
       intro hh
       have := congrArg Fin.val hh
@@ -66,14 +66,14 @@ theorem corC_apply_of_lt_eq {n m : ℕ} (k : Fin n) (h : k.val + 1 < n)
     rw [h1, Pi.mul_apply, Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne hne]
     simp
   · by_cases h2 : i = ⟨k.val + 1, h⟩
-    · rw [if_neg h1, if_pos h2]
+    · rw [ite_eq_right h1, ite_eq_left h2]
       have hne : ⟨k.val + 1, h⟩ ≠ k := by
         intro hh
         have := congrArg Fin.val hh
         simp at this
       rw [h2, Pi.mul_apply, Pi.mulSingle_eq_of_ne hne, Pi.mulSingle_eq_same]
       simp
-    · rw [if_neg h1, if_neg h2, Pi.mul_apply, Pi.mulSingle_eq_of_ne h1,
+    · rw [ite_eq_right h1, ite_eq_right h2, Pi.mul_apply, Pi.mulSingle_eq_of_ne h1,
           Pi.mulSingle_eq_of_ne h2]
       simp
 
@@ -126,7 +126,7 @@ theorem spRefl_eq_mul_corC {n m : ℕ} (k : Fin n) (c : Fin n → Multiplicative
     spRefl n m k c = c * (corC n m k (rootC n m c k))⁻¹ := by
   funext i
   by_cases hk : k.val + 1 < n
-  · rw [spRefl, dif_pos hk, rootC_apply_of_lt c k hk, Pi.mul_apply, Pi.inv_apply,
+  · rw [spRefl, dite_eq_left hk, rootC_apply_of_lt c k hk, Pi.mul_apply, Pi.inv_apply,
       corC_apply_of_lt_eq k hk]
     have hne : k ≠ ⟨k.val + 1, hk⟩ := by
       intro h
@@ -146,7 +146,7 @@ theorem spRefl_eq_mul_corC {n m : ℕ} (k : Fin n) (c : Fin n → Multiplicative
           rw [Equiv.swap_apply_def]
           simp [h1, h2]
         simp [hswap, h1, h2]
-  · rw [spRefl, dif_neg hk, rootC_apply_of_not_lt c k hk, Pi.mul_apply, Pi.inv_apply,
+  · rw [spRefl, dite_eq_right hk, rootC_apply_of_not_lt c k hk, Pi.mul_apply, Pi.inv_apply,
       corC_apply_of_not_lt_eq k hk]
     by_cases h1 : i = k
     · subst h1

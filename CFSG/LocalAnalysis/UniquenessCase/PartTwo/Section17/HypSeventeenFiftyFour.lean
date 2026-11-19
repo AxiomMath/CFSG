@@ -117,6 +117,7 @@ theorem dvd_card_bar2_of_isL2 {L : Subgroup G} {p n : ℕ} (h : IsL2 (Bar2 L) n)
   exact dvd_mul_of_dvd_right
     (CFSG.RankThree.PartOne.K1320.dvd_two_pow_double_sub_one hdvd) _
 
+omit [Finite G] in
 theorem dvd_card_bar2_of_isSz {L : Subgroup G} {p n : ℕ} (h : IsSz (Bar2 L) n)
     (hdvd : p ∣ 2 ^ (2 * n) + 1) : p ∣ Nat.card (Bar2 L) := by
   have hsz : CFSG.Blueprint.SuzukiModel (Bar2 L) 2 n := by
@@ -128,8 +129,8 @@ theorem dvd_card_bar2_of_isSz {L : Subgroup G} {p n : ℕ} (h : IsSz (Bar2 L) n)
     · exact absurd h3.2.1 (by decide)
     · exact h4.2.2
   obtain ⟨-, a, ha, K, hfield, hfinite, hf, hKcard, ⟨e⟩⟩ := hsz
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hKcard' : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hf]; exact hKcard
   have hcard : Nat.card (Bar2 L) =
       Nat.card (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a) := by
@@ -143,6 +144,7 @@ theorem dvd_card_bar2_of_isSz {L : Subgroup G} {p n : ℕ} (h : IsSz (Bar2 L) n)
   rw [hcard, CFSG.SectionRank.card_suzukiMatrixGroup a ha]
   exact dvd_mul_of_dvd_left (dvd_mul_of_dvd_left hdvd' _) _
 
+omit [Finite G] in
 theorem dvd_card_bar2_of_isSp4 {L : Subgroup G} {p n : ℕ} (h : IsSp4 (Bar2 L) n)
     (hdvd : p ∣ 2 ^ n + 1) : p ∣ Nat.card (Bar2 L) := by
   have hcard := CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags
@@ -157,6 +159,7 @@ theorem dvd_card_bar2_of_isSp4 {L : Subgroup G} {p n : ℕ} (h : IsSp4 (Bar2 L) 
     rwa [show 2 ^ (2 * n) = (2 ^ n) ^ 2 by rw [mul_comm 2 n, pow_mul]] at h
   exact dvd_mul_of_dvd_right (dvd_mul_of_dvd_left h2 _) _
 
+omit [Finite G] in
 theorem dvd_card_bar2_of_isG2
     {L : Subgroup G} {p n : ℕ} (h : IsG2 (Bar2 L) n)
     (hdvd : p ∣ 2 ^ n + 1) : p ∣ Nat.card (Bar2 L) := by
@@ -171,6 +174,7 @@ theorem dvd_card_bar2_of_isG2
     simpa [show 2 ^ (2 * n) = (2 ^ n) ^ 2 by rw [mul_comm 2 n, pow_mul]] using h
   exact dvd_mul_of_dvd_right h2 _
 
+omit [Finite G] in
 theorem dvd_card_bar2_of_isU4 {L : Subgroup G} {p n : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (h : IsU4 (Bar2 L) n) (hdvd : p ∣ 2 ^ n + 1) :
     p ∣ Nat.card (Bar2 L) := by
@@ -209,6 +213,7 @@ theorem dvd_card_bar2_of_isU4 {L : Subgroup G} {p n : ℕ} (hp : p.Prime)
     hcop.mul_dvd_of_dvd_of_dvd hN hgN
   exact (Nat.dvd_div_iff_mul_dvd hgN).2 (by simpa [mul_comm] using hpgN)
 
+omit [Finite G] in
 theorem five_dvd_card_bar2_of_isU5_two {L : Subgroup G} (h : IsU5 (Bar2 L) 2) :
     5 ∣ Nat.card (Bar2 L) := by
   have hcard := CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags

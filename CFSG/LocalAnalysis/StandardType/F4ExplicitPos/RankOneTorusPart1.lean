@@ -36,64 +36,73 @@ noncomputable def simpleRootMap
   (simpleRootSL2 Tag.F4 K i).codRestrict (adjointGroup Tag.F4 K)
     (simpleRootSL2_mem_adjointGroup i)
 
+omit [CharP K 2] in
 theorem rootGroup_single_eq
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     rootGroup F K (Pi.single i 1) = F.rootSubgroup K (simpleRoot Tag.F4 i) := by
   classical
   rw [show rootGroup F K (Pi.single i 1) =
       (if h : IsRoot Tag.F4 (Pi.single i 1) then F.rootSubgroup K ⟨Pi.single i 1, h⟩ else ⊥)
-      from rfl, dif_pos (isRoot_single Tag.F4 i)]
+      from rfl, dite_eq_left (isRoot_single Tag.F4 i)]
   rfl
 
+omit [CharP K 2] in
 theorem rootGroup_neg_single_eq
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     rootGroup F K (-Pi.single i 1) = F.rootSubgroup K (-simpleRoot Tag.F4 i) := by
   classical
   rw [show rootGroup F K (-Pi.single i 1) =
       (if h : IsRoot Tag.F4 (-Pi.single i 1) then F.rootSubgroup K ⟨-Pi.single i 1, h⟩ else ⊥)
-      from rfl, dif_pos (isRoot_neg_single Tag.F4 i)]
+      from rfl, dite_eq_left (isRoot_neg_single Tag.F4 i)]
   rfl
 
+omit [CharP K 2] in
 theorem xPar_single_eq
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     xPar F (Pi.single i 1) c = F.eltElement (simpleRoot Tag.F4 i) c := by
   classical
   rw [show xPar F (Pi.single i 1) c =
       F.eltElement ⟨Pi.single i 1, isRoot_single Tag.F4 i⟩ c from
-    dif_pos (isRoot_single Tag.F4 i)]
+    dite_eq_left (isRoot_single Tag.F4 i)]
   rfl
 
+omit [CharP K 2] in
 theorem xPar_neg_single_eq
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     xPar F (-Pi.single i 1) c = F.eltElement (-simpleRoot Tag.F4 i) c := by
   classical
   rw [show xPar F (-Pi.single i 1) c =
       F.eltElement ⟨-Pi.single i 1, isRoot_neg_single Tag.F4 i⟩ c from
-    dif_pos (isRoot_neg_single Tag.F4 i)]
+    dite_eq_left (isRoot_neg_single Tag.F4 i)]
   rfl
 
+omit [CharP K 2] in
 theorem xPar_coe_single
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     (xPar F (Pi.single i 1) c : ModGL Tag.F4 K) = xUnit Tag.F4 K i c := by
   rw [xPar_single_eq, F.coe_eltElement, F.eltUnit_simple]
 
+omit [CharP K 2] in
 theorem xPar_coe_neg_single
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     (xPar F (-Pi.single i 1) c : ModGL Tag.F4 K) = yUnit Tag.F4 K i c := by
   rw [xPar_neg_single_eq, F.coe_eltElement, F.eltUnit_neg_simple]
 
+omit [CharP K 2] in
 theorem xPar_single_mem
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     xPar F (Pi.single i 1) c ∈ rootGroup F K (Pi.single i 1) := by
   rw [rootGroup_single_eq, xPar_single_eq]
   exact F.eltElement_mem_rootSubgroup _ c
 
+omit [CharP K 2] in
 theorem xPar_neg_single_mem
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     xPar F (-Pi.single i 1) c ∈ rootGroup F K (-Pi.single i 1) := by
   rw [rootGroup_neg_single_eq, xPar_neg_single_eq]
   exact F.eltElement_mem_rootSubgroup _ c
 
+omit [CharP K 2] in
 theorem mem_rootGroup_single_iff
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (g : ↥(adjointGroup Tag.F4 K)) :
     g ∈ rootGroup F K (Pi.single i 1) ↔ ∃ c : K, xPar F (Pi.single i 1) c = g := by
@@ -106,6 +115,7 @@ theorem mem_rootGroup_single_iff
     rw [xPar_single_eq]
     exact F.eltElement_mem_rootSubgroup _ c
 
+omit [CharP K 2] in
 theorem mem_rootGroup_neg_single_iff
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (g : ↥(adjointGroup Tag.F4 K)) :
     g ∈ rootGroup F K (-Pi.single i 1) ↔ ∃ c : K, xPar F (-Pi.single i 1) c = g := by
@@ -118,6 +128,7 @@ theorem mem_rootGroup_neg_single_iff
     rw [xPar_neg_single_eq]
     exact F.eltElement_mem_rootSubgroup _ c
 
+omit [CharP K 2] in
 theorem simpleRootMap_uSL
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     simpleRootMap K i (uSL c) = xPar F (Pi.single i 1) c := by
@@ -125,6 +136,7 @@ theorem simpleRootMap_uSL
   change (simpleRootSL2 Tag.F4 K i (uSL c) : ModGL Tag.F4 K) = _
   rw [simpleRootSL2_uSL, xPar_coe_single]
 
+omit [CharP K 2] in
 theorem simpleRootMap_vSL
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (c : K) :
     simpleRootMap K i (vSL c) = xPar F (-Pi.single i 1) c := by
@@ -132,6 +144,7 @@ theorem simpleRootMap_vSL
   change (simpleRootSL2 Tag.F4 K i (vSL c) : ModGL Tag.F4 K) = _
   rw [simpleRootSL2_vSL, xPar_coe_neg_single]
 
+omit [CharP K 2] in
 theorem simpleRootMap_HSL
     (i : Fin Tag.F4.rank) (t : Kˣ) :
     simpleRootMap K i (HSL t) = torusElement Tag.F4 K i t := by
@@ -139,6 +152,7 @@ theorem simpleRootMap_HSL
   change (simpleRootSL2 Tag.F4 K i (HSL t) : ModGL Tag.F4 K) = torusElt Tag.F4 K i t
   rw [simpleRootSL2_HSL]
 
+omit [CharP K 2] in
 theorem simpleRootMap_WSL
     (i : Fin Tag.F4.rank) :
     simpleRootMap K i WSL = weylElement Tag.F4 K i := by
@@ -153,6 +167,7 @@ theorem simpleRootMap_injective
   apply E6GraphRadical.simpleRootSL2_injective_of_two (CharP.cast_eq_zero K 2) i
   exact congrArg (fun x : ↥(adjointGroup Tag.F4 K) => (x : ModGL Tag.F4 K)) h
 
+omit [CharP K 2] in
 theorem rootGroup_single_le_range
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     rootGroup F K (Pi.single i 1) ≤ (simpleRootMap (K := K) i).range := by
@@ -160,6 +175,7 @@ theorem rootGroup_single_le_range
   obtain ⟨c, rfl⟩ := (mem_rootGroup_single_iff F i g).1 hg
   exact ⟨uSL c, simpleRootMap_uSL F i c⟩
 
+omit [CharP K 2] in
 theorem rootGroup_neg_single_le_range
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     rootGroup F K (-Pi.single i 1) ≤ (simpleRootMap (K := K) i).range := by
@@ -167,6 +183,7 @@ theorem rootGroup_neg_single_le_range
   obtain ⟨c, rfl⟩ := (mem_rootGroup_neg_single_iff F i g).1 hg
   exact ⟨vSL c, simpleRootMap_vSL F i c⟩
 
+omit [CharP K 2] in
 theorem rankOne_le_range
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     rankOne (rootGroup F K) i ≤ (simpleRootMap (K := K) i).range :=
@@ -178,6 +195,7 @@ noncomputable def steinbergWeyl
   xPar F (Pi.single i 1) (t : K) * xPar F (-Pi.single i 1) (-(t⁻¹ : K)) *
     xPar F (Pi.single i 1) (t : K)
 
+omit [CharP K 2] in
 theorem steinbergWeyl_eq_weylElt
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (t : Kˣ) :
     steinbergWeyl F i t =
@@ -189,6 +207,7 @@ theorem steinbergWeyl_eq_weylElt
   simp only [Units.val_mul, coe_xUnit, coe_yUnit, coe_weylElt]
   rw [Units.val_inv_eq_inv_val]
 
+omit [CharP K 2] in
 theorem steinbergWeyl_mem_rankOne
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (t : Kˣ) :
     steinbergWeyl F i t ∈ rankOne (rootGroup F K) i := by
@@ -197,6 +216,7 @@ theorem steinbergWeyl_mem_rankOne
     (Subgroup.mem_sup_right (xPar_neg_single_mem F i _)))
     (Subgroup.mem_sup_left (xPar_single_mem F i _))
 
+omit [CharP K 2] in
 theorem weylElement_mem_rankOne
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     weylElement Tag.F4 K i ∈ rankOne (rootGroup F K) i := by
@@ -205,6 +225,7 @@ theorem weylElement_mem_rankOne
   rw [← steinbergWeyl_eq_weylElt F i 1]
   exact steinbergWeyl_mem_rankOne F i 1
 
+omit [CharP K 2] in
 theorem torusElement_mem_rankOne
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) (t : Kˣ) :
     torusElement Tag.F4 K i t ∈ rankOne (rootGroup F K) i := by
@@ -219,6 +240,7 @@ theorem torusElement_mem_rankOne
   rw [h, ← steinbergWeyl_eq_weylElt F i t, ← steinbergWeyl_eq_weylElt F i 1]
   exact mul_mem (steinbergWeyl_mem_rankOne F i t) (inv_mem (steinbergWeyl_mem_rankOne F i 1))
 
+omit [CharP K 2] in
 theorem range_le_rankOne
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     (simpleRootMap (K := K) i).range ≤ rankOne (rootGroup F K) i := by
@@ -234,11 +256,13 @@ theorem range_le_rankOne
       (torusElement_mem_rankOne F i _)) (weylElement_mem_rankOne F i))
       (Subgroup.mem_sup_left (xPar_single_mem F i _))
 
+omit [CharP K 2] in
 theorem simpleRootMap_range
     (F : RootOperatorFamily Tag.F4) (i : Fin Tag.F4.rank) :
     (simpleRootMap (K := K) i).range = rankOne (rootGroup F K) i :=
   le_antisymm (range_le_rankOne F i) (rankOne_le_range F i)
 
+omit [CharP K 2] in
 theorem torusElement_mul_weylElement
     (i : Fin Tag.F4.rank) (t : Kˣ) :
     torusElement Tag.F4 K i t * weylElement Tag.F4 K i =
@@ -256,6 +280,7 @@ theorem torusElement_mul_weylElement
       _ = weylElt Tag.F4 K i 1 * torusElt Tag.F4 K i t⁻¹ := by group
   exact h2
 
+omit [CharP K 2] in
 theorem rankOne_bruhat
     (F : RootOperatorFamily Tag.F4)
     (i : Fin Tag.F4.rank) {g : ↥(adjointGroup Tag.F4 K)}
@@ -284,6 +309,7 @@ theorem rankOne_bruhat
       torusElement_mul_weylElement i t]
     group
 
+omit [CharP K 2] in
 theorem eq_one_of_uSL_mul_vSL_mul_inv {c d : K}
     (h : uSL c * vSL 1 * (uSL c)⁻¹ = vSL d) : c = 0 := by
   have h00 := congrArg (fun M : SL2 K => ((M : Matrix (Fin 2) (Fin 2) K) 0 0)) h
@@ -318,6 +344,7 @@ theorem eq_one_of_mem_normalizer
   rw [hc0] at hc
   exact Subtype.ext (by rw [← hc, xPar_coe_single, xUnit_zero]; rfl)
 
+omit [CharP K 2] in
 theorem torus_commute
     {i j : Fin Tag.F4.rank} {g h : ↥(adjointGroup Tag.F4 K)}
     (hg : g ∈ torus (τ := Tag.F4) K i) (hh : h ∈ torus (τ := Tag.F4) K j) : Commute g h := by

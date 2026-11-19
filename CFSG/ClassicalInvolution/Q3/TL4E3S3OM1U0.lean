@@ -52,7 +52,7 @@ theorem matV1_mul' : matN9 617683856656887 * matN9 codeV1 = 1 := by decide +kern
 
 theorem glN9_val {k : ℕ} (h : (matN9 k).det ≠ 0) :
     (glN9 k : Matrix (Fin 4) (Fin 4) F9) = matN9 k := by
-  rw [glN9, dif_pos (isUnit_iff_ne_zero.mpr h)]
+  rw [glN9, dite_eq_left (isUnit_iff_ne_zero.mpr h)]
   rfl
 
 @[expose] noncomputable def r0P : Equiv.Perm (Fin 820) := perm820 matR0

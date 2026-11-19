@@ -30,7 +30,7 @@ theorem det_upM (p q r : F) : (upM p q r).det = 1 := by
 theorem upSL_mul (p q r p' q' r' : F) :
     upSL p q r * upSL p' q' r' = upSL (p + p') (q + q' + p * r') (r + r') := by
   apply Subtype.ext
-  simp only [SpecialLinearGroup.coe_mul, coe_upSL]
+  simp only [coe_upSL]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [upM, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
@@ -55,21 +55,21 @@ theorem upSL_eq_transvection01 (p : F) :
   apply Subtype.ext
   rw [SpecialLinearGroup.transvection_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [upM, Matrix.single_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [upM]
 
 theorem upSL_eq_transvection02 (q : F) :
     upSL 0 q 0 = SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 2 by decide) q := by
   apply Subtype.ext
   rw [SpecialLinearGroup.transvection_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [upM, Matrix.single_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [upM]
 
 theorem upSL_eq_transvection12 (r : F) :
     upSL 0 0 r = SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 2 by decide) r := by
   apply Subtype.ext
   rw [SpecialLinearGroup.transvection_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [upM, Matrix.single_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [upM]
 
 @[expose] def jM : Matrix (Fin 3) (Fin 3) F := !![0, 0, 1; 0, 1, 0; 1, 0, 0]
 
@@ -100,7 +100,7 @@ theorem jSL_conj_transvection [CharP F 2] {i j : Fin 3} (hij : i ≠ j) (i' j' :
   subst hi hj
   rw [jSL_inv]
   apply Subtype.ext
-  simp only [SpecialLinearGroup.coe_mul, SpecialLinearGroup.transvection_coe]
+  simp only [SpecialLinearGroup.transvection_coe]
   change jM * (1 + Matrix.single i j c) * jM = 1 + Matrix.single (Fin.rev i) (Fin.rev j) c
   ext a b
   rw [jM_mul_mul_jM_apply]
@@ -131,7 +131,7 @@ theorem xSL_mul_upSL {l : F} (hl : l ^ 7 = 1) (p q r : F) :
   change xM l * upM p q r = upM (l ^ 3 * p) q (l ^ 4 * r) * xM l
   ext i j
   fin_cases i <;> fin_cases j <;> simp [xM, upM, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination (-(l * p)) * hl | linear_combination (l * p) * hl
+    first | ring1 | linear_combination (-(l * p)) * hl
 
 @[expose] def uSL (σ : F ≃+* F) (ω a : F) : SpecialLinearGroup (Fin 3) F :=
   upSL a (ω * (a * σ a)) (σ a)
@@ -293,11 +293,8 @@ theorem tauJ_uSL (hσσ : ∀ x, σ (σ x) = x) (hω : ω ^ 2 + ω + 1 = 0) (hσ
   rw [jM_mul_mul_jM_apply]
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   fin_cases i <;> fin_cases j <;> simp [upM, Matrix.transpose_apply, hσσ, hσω] <;>
-    first | ring1 | linear_combination (-a) * h2 | linear_combination (-(σ a)) * h2 |
-      linear_combination (-(σ a * a)) * hω + (σ a * a) * h2 |
-      linear_combination (σ a * a) * hω - (σ a * a) * h2 |
-      linear_combination (-(a * σ a)) * hω + (a * σ a) * h2 |
-      linear_combination (a * σ a) * hω - (a * σ a) * h2
+    first | linear_combination (-a) * h2 | linear_combination (-(σ a)) * h2 |
+      linear_combination (-(σ a * a)) * hω + (σ a * a) * h2 
 
 theorem tauJ_jSL : tauJ σ (proj 3 F jSL) = proj 3 F jSL := by
   rw [tauJ_proj]
@@ -308,6 +305,7 @@ theorem tauJ_jSL : tauJ σ (proj 3 F jSL) = proj 3 F jSL := by
   rw [jM_mul_mul_jM_apply]
   fin_cases i <;> fin_cases j <;> simp [jSL, jM, Matrix.transpose_apply]
 
+omit [CharP F 2] in
 theorem xSL_inv_coe (hl : l ^ 7 = 1) :
     (((xSL hl)⁻¹ : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       Matrix.diagonal ![l ^ 6, l ^ 2, l ^ 6] := by
@@ -330,7 +328,7 @@ theorem tauJ_xSL (hl : l ^ 7 = 1) (hσl : σ l = l) :
   rw [coe_tauJ_lift, xSL_inv_coe]
   ext i j
   rw [jM_mul_mul_jM_apply]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.transpose_apply, Matrix.diagonal_apply, hσl]
+  fin_cases i <;> fin_cases j <;> simp [hσl]
 
 theorem tauJ_mul_self (hσσ : ∀ x, σ (σ x) = x) : tauJ σ * tauJ σ = 1 := by
   have h := sq_conjAut_fieldAut_dualAut (n := 3) (SpecialLinearGroup.toGL
@@ -356,6 +354,7 @@ theorem tauJ_mul_self (hσσ : ∀ x, σ (σ x) = x) : tauJ σ * tauJ σ = 1 := 
   rw [sq, hA, hσ2, map_one, map_one, one_mul] at h
   exact h
 
+omit [CharP F 2] in
 theorem orderOf_proj_xSL (hl : l ^ 7 = 1) (hl1 : l ≠ 1) : orderOf (proj 3 F (xSL hl)) = 7 := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   apply orderOf_eq_prime
@@ -427,10 +426,12 @@ theorem pow_63 (hF : Nat.card F = 64) {x : F} (hx : x ≠ 0) : x ^ 63 = 1 := by
   have h := FiniteField.pow_card_sub_one_eq_one x hx
   rwa [Fintype.card_eq_nat_card, hF] at h
 
+omit [Finite F] in
 theorem charP_two (hF : Nat.card F = 64) : CharP F 2 :=
   finite_field_prime_power_characteristic (p := 2) (k := 6) Nat.prime_two (by norm_num)
     (by rw [hF]; norm_num)
 
+omit [Finite F] in
 theorem exists_sigma (hF : Nat.card F = 64) : ∃ σ : F ≃+* F, ∀ x, σ x = x ^ 8 := by
   obtain ⟨φ, hφ, -⟩ := finite_field_automorphism_fixed_field_cardinality (p := 2) (n := 6)
     Nat.prime_two (by norm_num) (by rw [hF]; norm_num)
@@ -466,6 +467,7 @@ theorem sigma_sigma (hF : Nat.card F = 64) (hσ : ∀ x, σ x = x ^ 8) (x : F) :
   rw [hσ, hσ, ← pow_mul]
   exact pow_64 hF x
 
+omit [Finite F] in
 theorem sigma_cube_root (hσ : ∀ x, σ x = x ^ 8) {ω : F} (hω : ω ^ 2 + ω + 1 = 0) :
     σ ω = ω ^ 2 := by
   rw [hσ]
@@ -473,6 +475,7 @@ theorem sigma_cube_root (hσ : ∀ x, σ x = x ^ 8) {ω : F} (hω : ω ^ 2 + ω 
   calc ω ^ 8 = (ω ^ 3) ^ 2 * ω ^ 2 := by ring
     _ = ω ^ 2 := by rw [h3]; ring
 
+omit [Finite F] in
 theorem sigma_seventh_root (hσ : ∀ x, σ x = x ^ 8) {l : F} (hl : l ^ 7 = 1) : σ l = l := by
   rw [hσ]
   calc l ^ 8 = l ^ 7 * l := by ring
@@ -674,6 +677,7 @@ section Involution
 
 variable [CharP F 2]
 
+omit [CharP F 2] in
 theorem eq_diagonal_of_commute {θ ζ : F} (hθ : θ ≠ 0) (hζ : ζ ^ 2 + ζ + 1 = 0) (hζ1 : ζ ≠ 1)
     {M : Matrix (Fin 3) (Fin 3) F}
     (h : M * Matrix.diagonal ![θ, θ * ζ, θ * ζ ^ 2] =
@@ -936,6 +940,7 @@ section Frobenius
 
 variable [Finite F]
 
+omit [Finite F] in
 theorem pow_three_eq_one_of_fix (hF : Nat.card F = 64) {σ : F ≃+* F} {c : F} (hc3 : c ^ 3 = 1)
     (hc1 : c ≠ 1) (h : σ c = c) : σ ^ 3 = 1 := by
   obtain ⟨φ, hφ, hord, hzp, -⟩ := finite_field_automorphism_fixed_field_cardinality (p := 2)
@@ -979,6 +984,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem conj_injective_projectiveSL [CharP F 2] :
     Function.Injective (MulAut.conj : projectiveSL 3 F →* MulAut (projectiveSL 3 F)) := by
   have := (CFSG.LinearGroups.linear_projective_simple (K := F) (n := 3) (by norm_num)
@@ -1136,11 +1142,13 @@ section Aut2
 
 variable {D : Subgroup (projectiveSL 3 F)} {X : Subgroup (MulAut (projectiveSL 3 F))}
 
+omit [Finite F] [CharP F 2] in
 theorem mul_conj_mul_inv (α : MulAut (projectiveSL 3 F)) (y : projectiveSL 3 F) :
     α * MulAut.conj y * α⁻¹ = MulAut.conj (α y) := by
   ext m
   simp [MulAut.mul_apply, map_mul, map_inv]
 
+omit [Finite F] [CharP F 2] in
 theorem apply_eq_of_mem (hinn : ∀ p : projectiveSL 3 F, MulAut.conj p ∈ X → p = 1)
     (hDX : ∀ d ∈ D, MulAut.conj d ∈ Subgroup.normalizer (X : Set (MulAut (projectiveSL 3 F))))
     {x : MulAut (projectiveSL 3 F)} (hx : x ∈ X) {e : projectiveSL 3 F} (he : e ∈ D) :
@@ -1155,6 +1163,7 @@ theorem apply_eq_of_mem (hinn : ∀ p : projectiveSL 3 F, MulAut.conj p ∈ X �
   rw [mul_eq_one_iff_eq_inv, map_inv, inv_inv] at h1
   exact h1.symm
 
+omit [Finite F] [CharP F 2] in
 theorem exists_pow_conjAut_fieldAut (A : GL (Fin 3) F) (σ : F ≃+* F) (n : ℕ) :
     ∃ B : GL (Fin 3) F, (conjAut 3 F A * fieldAut 3 F σ) ^ n =
       conjAut 3 F B * fieldAut 3 F (σ ^ n) := by
@@ -1173,6 +1182,7 @@ variable (hinn : ∀ p : projectiveSL 3 F, MulAut.conj p ∈ X → p = 1) (hX : 
 
 include hinn hX hc3 hc1 hz hfix
 
+omit [CharP F 2] in
 theorem eq_one_of_conjAut_fieldAut (hF : Nat.card F = 64) {x : MulAut (projectiveSL 3 F)}
     (hx : x ∈ X) {A : GL (Fin 3) F} {σ : F ≃+* F} (hxA : x = conjAut 3 F A * fieldAut 3 F σ) :
     x = 1 := by
@@ -1220,6 +1230,7 @@ theorem eq_one_of_conjAut_fieldAut (hF : Nat.card F = 64) {x : MulAut (projectiv
   have hcop : Nat.Coprime 3 (2 ^ k) := Nat.Coprime.pow_right k (by norm_num)
   exact orderOf_eq_one_iff.1 (Nat.eq_one_of_dvd_coprimes hcop h1 h2)
 
+omit [CharP F 2] in
 theorem sq_eq_one_of_conjAut_fieldAut_dualAut (hF : Nat.card F = 64)
     {x : MulAut (projectiveSL 3 F)} (hx : x ∈ X) {A : GL (Fin 3) F} {σ : F ≃+* F}
     (hxA : x = conjAut 3 F A * fieldAut 3 F σ * dualAut 3 F) : x * x = 1 ∧ σ ≠ 1 := by
@@ -1259,6 +1270,7 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInit
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem graphField_mul_graphField (A B : GL (Fin 3) F) (σ ρ : F ≃+* F) :
     conjAut 3 F A * fieldAut 3 F σ * dualAut 3 F * (conjAut 3 F B * fieldAut 3 F ρ * dualAut 3 F) =
       conjAut 3 F (A * Matrix.GeneralLinearGroup.map (σ : F →+* F)

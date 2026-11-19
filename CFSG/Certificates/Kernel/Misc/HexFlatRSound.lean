@@ -50,11 +50,9 @@ private theorem stepHR_dig (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
 
 private theorem stepHR_ent (hj : Nat.beq j N = false)
@@ -68,17 +66,14 @@ private theorem stepHR_ent (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [he]
 
 private theorem stepHR_tab (hj : Nat.beq j N = false)
@@ -92,17 +87,14 @@ private theorem stepHR_tab (hj : Nat.beq j N = false)
   rw [hj]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
   try dsimp only
   rw [strictB_eqP]
-  try dsimp only
   rw [he]
 
 end Steps

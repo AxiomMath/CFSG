@@ -24,6 +24,7 @@ section Generic
 
 variable {p : ℕ}
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {A B : Subgroup G} (hBA : B ≤ Subgroup.normalizer (A : Set G)) {x : G}
     (hx : x ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, a * b = x := by
   rw [Subgroup.sup_eq_closure] at hx
@@ -44,6 +45,7 @@ theorem exists_mul_of_mem_sup {A B : Subgroup G} (hBA : B ≤ Subgroup.normalize
     have := (Subgroup.mem_normalizer_iff.1 (hBA (B.inv_mem hb)) a⁻¹).1 (A.inv_mem ha)
     simpa using this
 
+omit [Finite G] in
 theorem comm_mem_of_sup_left {A₁ A₂ Z : Subgroup G} {b : G}
     (hAZ : A₁ ⊔ A₂ ≤ Subgroup.centralizer (Z : Set G)) (h₁ : ∀ a ∈ A₁, ⁅a, b⁆ ∈ Z)
     (h₂ : ∀ a ∈ A₂, ⁅a, b⁆ ∈ Z) : ∀ a ∈ A₁ ⊔ A₂, ⁅a, b⁆ ∈ Z := by
@@ -80,6 +82,7 @@ theorem comm_mem_of_sup_left {A₁ A₂ Z : Subgroup G} {b : G}
     rw [e, hc]
     exact Z.inv_mem (ihy hy')
 
+omit [Finite G] in
 theorem comm_mem_of_sup_right {B₁ B₂ Z : Subgroup G} {a : G}
     (hBZ : B₁ ⊔ B₂ ≤ Subgroup.centralizer (Z : Set G)) (h₁ : ∀ b ∈ B₁, ⁅a, b⁆ ∈ Z)
     (h₂ : ∀ b ∈ B₂, ⁅a, b⁆ ∈ Z) : ∀ b ∈ B₁ ⊔ B₂, ⁅a, b⁆ ∈ Z := by
@@ -90,6 +93,7 @@ theorem comm_mem_of_sup_right {B₁ B₂ Z : Subgroup G} {a : G}
   rw [← commutatorElement_inv]
   exact Z.inv_mem (key b hb)
 
+omit [Finite G] in
 theorem es_basic {Q : Subgroup G} (hQ : IsExtraSpec2 Q ∨ Nat.card Q = 2) :
     IsPGroup 2 Q ∧ Nat.card (centerOf Q) = 2 ∧ ⁅Q, Q⁆ ≤ centerOf Q ∧
       (IsExtraSpec2 Q → ⁅Q, Q⁆ = centerOf Q) := by
@@ -127,6 +131,7 @@ theorem es_basic {Q : Subgroup G} (hQ : IsExtraSpec2 Q ∨ Nat.card Q = 2) :
     rw [hbot]
     exact bot_le
 
+omit [Finite G] in
 theorem center_le_centralizer {Q D : Subgroup G} (hZ : Nat.card (centerOf Q) = 2)
     (hDQ : D ≤ Subgroup.normalizer (Q : Set G)) : centerOf Q ≤ Subgroup.centralizer (D : Set G) := by
   intro z hz
@@ -154,6 +159,7 @@ theorem center_le_centralizer {Q D : Subgroup G} (hZ : Nat.card (centerOf Q) = 2
     calc d * z = d * z * d⁻¹ * d := by group
       _ = z * d := by rw [h2]
 
+omit [Finite G] in
 theorem mem_center_iff_mem_centerOf {P : Subgroup G} (x : ↥P) :
     x ∈ Subgroup.center ↥P ↔ (x : G) ∈ centerOf P := by
   unfold centerOf
@@ -165,7 +171,7 @@ theorem mem_center_iff_mem_centerOf {P : Subgroup G} (x : ↥P) :
     rw [← this]
     exact hy
 
-theorem es_of_props {P : Subgroup G} (hP2 : IsPGroup 2 P) (hZ : Nat.card (centerOf P) = 2)
+theorem es_of_props {P : Subgroup G} (_hP2 : IsPGroup 2 P) (hZ : Nat.card (centerOf P) = 2)
     (hcomm : ∀ g ∈ P, ∀ h ∈ P, ⁅g, h⁆ ∈ centerOf P) (hsq : ∀ g ∈ P, g ^ 2 ∈ centerOf P)
     (hna : ¬ P ≤ centerOf P) : IsExtraSpec2 P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -179,7 +185,7 @@ theorem es_of_props {P : Subgroup G} (hP2 : IsPGroup 2 P) (hZ : Nat.card (center
     rw [mem_center_iff_mem_centerOf]
     have := hcomm a a.2 b b.2
     simpa [commutatorElement_def] using this
-  haveI hcomm' : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
+  have hcomm' : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := Subgroup.center ↥P)).2 hcl
   have hexp : Monoid.exponent (↥P ⧸ Subgroup.center ↥P) ∣ 2 := by
     refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun q => ?_
@@ -195,7 +201,7 @@ theorem es_of_props {P : Subgroup G} (hP2 : IsPGroup 2 P) (hZ : Nat.card (center
     intro g hg
     have : (⟨g, hg⟩ : ↥P) ∈ Subgroup.center ↥P := htop ▸ Subgroup.mem_top _
     exact (mem_center_iff_mem_centerOf _).1 this
-  haveI hE : CFSG.IsExtraspecial 2 ↥P :=
+  have hE : CFSG.IsExtraspecial 2 ↥P :=
     { center_order_p := hcen
       quotient_elementary_abelian := { exponent_dvd_p := hexp }
       quotient_nontrivial := hnt }
@@ -204,12 +210,13 @@ theorem es_of_props {P : Subgroup G} (hP2 : IsPGroup 2 P) (hZ : Nat.card (center
 
 theorem es_sq {Q : Subgroup G} (hQ : IsExtraSpec2 Q) {g : G} (hg : g ∈ Q) : g ^ 2 ∈ centerOf Q := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ.1⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ.1⟩
   have h := CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (⟨g, hg⟩ : ↥Q)
   rw [hQ.2.2.1] at h
   have := (mem_center_iff_mem_centerOf _).1 h
   simpa using this
 
+omit [Finite G] in
 theorem es_not_le_center {Q : Subgroup G} (hQ : IsExtraSpec2 Q) : ¬ Q ≤ centerOf Q := by
   intro h
   obtain ⟨-, hZ, -, hcomm⟩ := es_basic (Or.inl hQ)
@@ -223,6 +230,7 @@ theorem es_not_le_center {Q : Subgroup G} (hQ : IsExtraSpec2 Q) : ¬ Q ≤ cente
   rw [hbot, Subgroup.card_bot] at hZ
   norm_num at hZ
 
+omit [Finite G] in
 theorem comm_fix_commutator {Q D : Subgroup G} (hDQ : D ≤ Subgroup.normalizer (Q : Set G))
     (hQ : IsExtraSpec2 Q ∨ Nat.card Q = 2) :
     ⁅Q ⊓ Subgroup.centralizer (D : Set G), ⁅Q, D⁆⁆ = ⊥ := by
@@ -271,8 +279,8 @@ theorem commutator_es (hp : p.Prime) (hp2 : p ≠ 2) {Q D : Subgroup G} (hD : Is
     rw [hZ2] at hdvd
     rcases (Nat.dvd_prime Nat.prime_two).1 hdvd with h | h
     · exfalso
-      haveI : Nontrivial ↥(⁅Q, D⁆ : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).2 hP1
-      haveI := hP2.center_nontrivial
+      have : Nontrivial ↥(⁅Q, D⁆ : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).2 hP1
+      have := hP2.center_nontrivial
       have hcard : Nat.card (Subgroup.center ↥(⁅Q, D⁆ : Subgroup G)) = 1 := by
         rw [← h]
         unfold centerOf
@@ -288,7 +296,7 @@ theorem commutator_es (hp : p.Prime) (hp2 : p ≠ 2) {Q D : Subgroup G} (hD : Is
       rw [hk]
       exact Nat.Coprime.pow_left k (coprime_card_of_two hp hp2 hQ2)
     have hsolv : Group.IsSolvable ↥Q := by
-      haveI := hQ2.isNilpotent
+      have := hQ2.isNilpotent
       infer_instance
     rw [GL83.commutator_double_eq_self D Q hDQ hcop hsolv]
   have hna : ¬ ⁅Q, D⁆ ≤ centerOf ⁅Q, D⁆ := by
@@ -314,6 +322,7 @@ theorem commutator_es (hp : p.Prime) (hp2 : p ≠ 2) {Q D : Subgroup G} (hD : Is
   · rw [hZeq]
     exact es_sq hQes (hPQ hg)
 
+omit [Finite G] in
 theorem comm_sup_fix {V R0 D : Subgroup G} (hVR : V ≤ Subgroup.centralizer (R0 : Set G))
     (hRD : R0 ≤ Subgroup.centralizer (D : Set G)) (hDV : D ≤ Subgroup.normalizer (V : Set G))
     (hV : V ≤ ⁅V, D⁆) : ⁅V ⊔ R0, D⁆ = V := by
@@ -406,7 +415,7 @@ theorem le_pCore_of_stabilizes (hchar : IsCharTwoType G) {M A : Subgroup G} (hM 
       rw [hn]
       exact Nat.Coprime.pow_right _ (Nat.coprime_two_right.2 hodd)
     have hsolv : Group.IsSolvable ↥S := by
-      haveI := hS2.isNilpotent
+      have := hS2.isNilpotent
       infer_instance
     have hdbl := GL83.commutator_double_eq_self (Subgroup.zpowers h) S hPS hcop hsolv
     have hSP : ⁅S, Subgroup.zpowers h⁆ ≤ S' := by
@@ -449,6 +458,7 @@ theorem le_pCore_of_stabilizes (hchar : IsCharTwoType G) {M A : Subgroup G} (hM 
     simpa using this
   exact hASt.trans (CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hStM hMSt hSt2)
 
+omit [Finite G] in
 theorem conj_mem_centralizer {U : Subgroup G} {b s : G} (hb : b ∈ Subgroup.normalizer (U : Set G))
     (hs : s ∈ Subgroup.centralizer (U : Set G)) : b * s * b⁻¹ ∈ Subgroup.centralizer (U : Set G) := by
   rw [Subgroup.mem_centralizer_iff] at hs ⊢
@@ -554,6 +564,7 @@ theorem exists_U2 {T U : Subgroup G} (hT2 : IsPGroup 2 T) (hUT : U ≤ T)
     rw [e]
     exact (Subgroup.mem_normalizer_iff.1 (hBU hb) _).1 (hts _ hs')
 
+omit [Finite G] in
 theorem exists_ne_one_of_hyperplane (hp : p.Prime) {A D : Subgroup G} (hDcard : Nat.card D = p ^ 2)
     (hA : (A.subgroupOf D).index = p) : ∃ a ∈ A, a ≠ 1 := by
   by_contra h
@@ -565,8 +576,8 @@ theorem exists_ne_one_of_hyperplane (hp : p.Prime) {A D : Subgroup G} (hDcard : 
   omega
 
 theorem exists_a_W (hp : p.Prime) (hp2 : p ≠ 2) {D U U2 : Subgroup G} (hD : IsElemAbelian p D)
-    (hDcard : Nat.card D = p ^ 2) (hU2 : IsPGroup 2 U2) (hU : IsPGroup 2 U)
-    (hDU2 : D ≤ Subgroup.normalizer (U2 : Set G)) (hDU : D ≤ Subgroup.normalizer (U : Set G))
+    (hDcard : Nat.card D = p ^ 2) (hU2 : IsPGroup 2 U2) (_hU : IsPGroup 2 U)
+    (hDU2 : D ≤ Subgroup.normalizer (U2 : Set G)) (_hDU : D ≤ Subgroup.normalizer (U : Set G))
     (hcomm : ⁅U2, U2⁆ ≤ U) (hfix : U2 ⊓ Subgroup.centralizer (D : Set G) ≤ U) (hne : ¬ U2 ≤ U) :
     ∃ a ∈ D, a ≠ 1 ∧ ¬ ⁅U2 ⊓ cx a, D⁆ ≤ U := by
   have : Fact p.Prime := ⟨hp⟩
@@ -721,7 +732,7 @@ theorem central_product_es {U W : Subgroup G} (hWU : W ≤ Subgroup.centralizer 
 theorem i312 {T V : Subgroup G} (hVT : V ≤ T) (hV : IsExtraSpec2 V) (hTV : ⁅T, V⁆ ≤ centerOf V) :
     T ≤ V ⊔ (T ⊓ Subgroup.centralizer (V : Set G)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hE : CFSG.IsExtraspecial 2 ↥V :=
+  have hE : CFSG.IsExtraspecial 2 ↥V :=
     (CFSG.isExtraspecialPGroup_iff_isExtraspecial).1 ⟨hV.1, hV.2.1.trans hV.2.2.1, hV.2.2.1, hV.2.2.2⟩
   intro t ht
   have htN : t ∈ Subgroup.normalizer (V : Set G) := mem_normalizer_of_conj_le fun v hv => by
@@ -764,7 +775,8 @@ theorem i312 {T V : Subgroup G} (hVT : V ≤ T) (hV : IsExtraSpec2 V) (hTV : ⁅
   rw [e]
   exact Subgroup.mul_mem_sup d.2 hdt
 
-theorem comm_T_V {T U W : Subgroup G} (hUT : U ≤ T)
+omit [Finite G] in
+theorem comm_T_V {T U W : Subgroup G} (_hUT : U ≤ T)
     (hgen : T ≤ U ⊔ (T ⊓ Subgroup.centralizer (U : Set G)))
     (hW : W ≤ T ⊓ Subgroup.centralizer (U : Set G))
     (hU1W : ⁅T ⊓ Subgroup.centralizer (U : Set G), W⁆ ≤ U) (hUU : ⁅U, U⁆ ≤ centerOf U)
@@ -835,8 +847,8 @@ theorem le_comm_comm_D (hp : p.Prime) (hp2 : p ≠ 2) (c : SporCfg G p x L row) 
     rw [c.hD.2.2.1]
     exact Nat.Coprime.pow_left 2 (coprime_card_of_two hp hp2 hQ2)
   have hsolv : Group.IsSolvable ↥Q := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hQ2.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hQ2.isNilpotent
     infer_instance
   rw [GL83.commutator_double_eq_self c.D Q hDQ hcop hsolv]
 

@@ -16,7 +16,7 @@ open CFSG.Open CFSG.StandardType CFSG.LieType.Universal CFSG.LieType.RootSystem
   CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.HardMathSupport.Timmesfeld
   CFSG.HardMathSupport.Timmesfeld.LangTorus CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
 
-abbrev ExcOmega (f : ℕ) : Type := GGFinModel.GGL
+abbrev ExcOmega (_f : ℕ) : Type := GGFinModel.GGL
 
 @[expose] def excCurve
     {τ : CFSG.Blueprint.Chevalley.Tag} {K : Type} [Field K] (α : Fin τ.rank → ℤ)

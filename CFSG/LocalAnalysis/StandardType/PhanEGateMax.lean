@@ -28,7 +28,7 @@ private lemma p9uGX_length_longest_mul_add {I J : Set ι} (hIJ : I ⊆ J)
     [Finite (cs.parabolic J)] :
     cs.length (longest cs I * longest cs J) + cs.length (longest cs I) =
       cs.length (longest cs J) := by
-  haveI : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   have hI := isLongest_longest (cs := cs) I
   have hJ := isLongest_longest (cs := cs) J
   have hmem : longest cs I ∈ cs.parabolic J := cs.parabolic_mono hIJ hI.1
@@ -39,7 +39,7 @@ private lemma p9uGX_length_simple_mul_longest_mul_add {I J : Set ι} (hIJ : I �
     [Finite (cs.parabolic J)] {i : ι} (hi : i ∈ I) :
     cs.length (cs.simple i * (longest cs I * longest cs J)) =
       cs.length (longest cs I * longest cs J) + 1 := by
-  haveI : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   have hI := isLongest_longest (cs := cs) I
   have hJ := isLongest_longest (cs := cs) J
   have hmem : longest cs I * cs.simple i ∈ cs.parabolic J :=
@@ -67,7 +67,7 @@ theorem length_dist_resProj_add_le [Finite (cs.parabolic J)] (hB : IsWeylDistanc
     (hIJ : I ⊆ J) (hx₁ : x₁ ∈ residue cs δ J a) (hc : c ∈ residue cs δ J a) :
     cs.length (δ c (resProj cs δ I x₁ c)) + cs.length (longest cs I) ≤
       cs.length (longest cs J) := by
-  haveI : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   obtain ⟨z, hzI, hzdist⟩ :=
     p9uGX_exists_mem_residue_dist_eq_longest (cs := cs) (I := I) (x₁ := x₁)
       hB (resProj_mem hB I x₁ c)
@@ -84,7 +84,7 @@ theorem length_dist_resProj_add_le [Finite (cs.parabolic J)] (hB : IsWeylDistanc
 theorem exists_isFar [Finite (cs.parabolic J)] (hB : IsWeylDistanceBuilding cs δ)
     (hIJ : I ⊆ J) (hx₁ : x₁ ∈ residue cs δ J a) (hx : x ∈ residue cs δ I x₁) :
     ∃ c ∈ residue cs δ J a, resProj cs δ I x₁ c = x ∧ IsFar cs δ I J x₁ c := by
-  haveI : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   have hxJ : x ∈ residue cs δ J a := by
     have h := residue_mono hIJ x₁ hx
     rwa [residue_eq_of_mem hB hx₁] at h
@@ -145,7 +145,7 @@ theorem isFar_iff_length_add_eq [Finite (cs.parabolic J)] (hB : IsWeylDistanceBu
     IsFar cs δ I J x₁ c ↔
       cs.length (δ c (resProj cs δ I x₁ c)) + cs.length (longest cs I) =
         cs.length (longest cs J) := by
-  haveI : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   obtain ⟨z, hzI, hzdist⟩ :=
     p9uGX_exists_mem_residue_dist_eq_longest (cs := cs) (I := I) (x₁ := x₁)
       hB (resProj_mem hB I x₁ c)
@@ -187,7 +187,7 @@ theorem flipMaxSet_eq [Finite (cs.parabolic J)] (hB : IsWeylDistanceBuilding cs 
     flipMaxSet cs δ t J a =
       {c | c ∈ residue cs δ J a ∧ IsFar cs δ I J x₁ c ∧
         resProj cs δ I x₁ c ∈ flipPsiMax cs δ t J a} := by
-  haveI hIfin : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
+  have hIfin : Finite (cs.parabolic I) := p9uGX_finite_parabolic_of_subset hIJ
   have hx₁R : x₁ ∈ residue cs δ J a := by
     have hmem : x₁ ∈ flipCore cs δ t J a := by rw [hI]; exact self_mem_residue I x₁
     simp only [flipCore, projSet, Set.mem_image] at hmem
@@ -195,7 +195,7 @@ theorem flipMaxSet_eq [Finite (cs.parabolic J)] (hB : IsWeylDistanceBuilding cs 
     rw [← hy]
     exact resProj_mem hB J a y
   ext c
-  simp only [flipMaxSet, Set.mem_setOf_eq]
+  simp only [flipMaxSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hcR, hcmax⟩
     set xg : C := resProj cs δ I x₁ c with hxg

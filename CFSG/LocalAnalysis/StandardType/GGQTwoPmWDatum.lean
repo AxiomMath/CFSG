@@ -136,7 +136,7 @@ theorem GGQ2WDatum.root_linearIndependent_of_finrank {p : ℕ} [Fact p.Prime] (h
   have hvi : ∀ i : D.Λ, D.root i v = (Pi.single j (1 : ZMod p) : D.Λ → ZMod p) i :=
     fun i => congrFun hv i
   simp only [hvi, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at h1
+    Finset.mem_univ, ite_true] at h1
   exact h1
 
 theorem GGQ2WDatum.inner_of_ker (D : GGQ2WDatum 3) (u : D.V) (hu0 : u ≠ 0)

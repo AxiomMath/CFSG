@@ -290,7 +290,7 @@ theorem finite4_of_quasithinO2QuotientIso_F4 {G : Type} [Group G] [CFSG.GH74.QTG
     {H : Subgroup G} {K : Type} [Group K] (hiso : quasithinO2QuotientIso H K) :
     CFSG.GH74.QTGen4.Finite4 K := by
   obtain ⟨φ, hsurj, -⟩ := hiso
-  haveI : CFSG.GH74.QTGen4.Finite4 (↥H ⧸ φ.ker) :=
+  have : CFSG.GH74.QTGen4.Finite4 (↥H ⧸ φ.ker) :=
     CFSG.GH74.QTGen4.instFinite4Quotient ↥H φ.ker
   exact CFSG.GH74.QTGen4.Finite4.of_mulEquiv (QuotientGroup.quotientKerEquivOfSurjective φ hsurj)
 
@@ -298,13 +298,13 @@ theorem lemma14_7_11_of_F4 (hThm : Thm14_5_3_F4) (h4 : Lemma14_7_4_two_three_F4)
     (h1332 : Stmt13_3_2_F4) (h1334 : A6.Stmt13_3_4_F4) (h13314 : A6.Stmt13_3_14_F4) : Lemma14_7_11_F4 := by
   intro G _ _ T L V H S
   refine ⟨fun hiso => ?_, fun hiso => ?_, fun hiso => ?_⟩
-  · haveI := finite4_of_quasithinO2QuotientIso_F4 hiso
+  · have := finite4_of_quasithinO2QuotientIso_F4 hiso
     obtain ⟨V₂, H₂, z, a, l, p, C, hidx, hO⟩ :=
       exists_ctx711_F4 modelIdx_SL3 hThm h4 h1222 h1332 h1334 h13314 S hiso
     rw [index_P0_SL3] at hidx
     rw [SL3.card_P0] at hO
     exact C.false_A3_F4 (by rw [hidx]; norm_num) hiso hO
-  · haveI := finite4_of_quasithinO2QuotientIso_F4 hiso
+  · have := finite4_of_quasithinO2QuotientIso_F4 hiso
     obtain ⟨V₂, H₂, z, a, l, p, C, hidx, hO⟩ :=
       exists_ctx711_F4 modelIdx_A6 hThm h4 h1222 h1332 h1334 h13314 S hiso
     rw [index_QA6] at hidx
@@ -312,7 +312,7 @@ theorem lemma14_7_11_of_F4 (hThm : Thm14_5_3_F4) (h4 : Lemma14_7_4_two_three_F4)
     refine C.false_C3_F4 (by rw [hidx]; norm_num) (Or.inl hiso) hO.ge ?_
     rw [U3.relIndex_pCoreOf_of_quot hiso, card_A6]
     norm_num
-  · haveI := finite4_of_quasithinO2QuotientIso_F4 hiso
+  · have := finite4_of_quasithinO2QuotientIso_F4 hiso
     obtain ⟨V₂, H₂, z, a, l, p, C, hidx, hO⟩ :=
       exists_ctx711_F4 modelIdx_S6 hThm h4 h1222 h1332 h1334 h13314 S hiso
     rw [index_D6] at hidx

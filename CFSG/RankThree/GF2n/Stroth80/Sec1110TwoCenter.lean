@@ -31,15 +31,15 @@ theorem nonempty_xbarMod_mulEquiv_psl2GF [(Q.subgroupOf M).Normal] {x : ℕ}
   have hStated := hLm2.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
   simp only [CFSG.Open.StatedClassicalModel] at hStated
   obtain ⟨-, K, hKf, hKfin, hKcard, he⟩ := hStated
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨eK⟩ := he
   have hx0 : x ≠ 0 := by
     have h1 : 1 ≤ x := (hLm2.admissible).2.1
     omega
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 x) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 x) := Fintype.ofFinite _
   have hcardF : Fintype.card K = Fintype.card (GaloisField 2 x) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard,
       GaloisField.card 2 x hx0]
@@ -57,7 +57,7 @@ theorem isPerfect_xbarMod_of_lieModel [(Q.subgroupOf M).Normal] {x : ℕ}
     rw [GaloisField.card 2 x (by omega)]
     calc 3 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ x := Nat.pow_le_pow_right (by norm_num) hx
-  haveI := CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three (GaloisField 2 x) hcard
+  have := CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three (GaloisField 2 x) hcard
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem isCyclic_sylow_xbarMod_of_lieModel [Finite G] [(Q.subgroupOf M).Normal] {x : ℕ}
@@ -67,7 +67,7 @@ theorem isCyclic_sylow_xbarMod_of_lieModel [Finite G] [(Q.subgroupOf M).Normal] 
   have hx := two_le_exponent_of_lieModel_psl_two hLm2
   have hcyc := CFSG.Timmesfeld.RankOne.isCyclic_sylow_psl2 hx p hp2
     (S.mapSurjective (f := e.toMonoidHom) e.surjective)
-  haveI : IsCyclic ↥((S : Subgroup (XbarMod M Q Z B)).map e.toMonoidHom) := hcyc
+  have : IsCyclic ↥((S : Subgroup (XbarMod M Q Z B)).map e.toMonoidHom) := hcyc
   exact isCyclic_of_surjective
     (Subgroup.equivMapOfInjective (S : Subgroup (XbarMod M Q Z B)) e.toMonoidHom
       e.injective).symm.toMonoidHom (MulEquiv.surjective _)
@@ -75,11 +75,11 @@ theorem isCyclic_sylow_xbarMod_of_lieModel [Finite G] [(Q.subgroupOf M).Normal] 
 theorem Ctx.odd_card_center_Xbar [Finite G]
     [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     Odd (Nat.card (Subgroup.center ↥(Xbar M Q Z B))) := by
-  haveI : (Xbar M Q Z B).Normal := hc.Xbar_normal
+  have : (Xbar M Q Z B).Normal := hc.Xbar_normal
   let C : Subgroup (Mbar M Q) := (Subgroup.center ↥(Xbar M Q Z B)).map (Xbar M Q Z B).subtype
-  haveI : C.Normal := ConjAct.normal_of_characteristic_of_normal
-  haveI : Group.IsNilpotent ↥C := by
-    haveI : IsMulCommutative ↥C := Subgroup.map_isMulCommutative _ _
+  have : C.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : Group.IsNilpotent ↥C := by
+    have : IsMulCommutative ↥C := Subgroup.map_isMulCommutative _ _
     exact CommGroup.isNilpotent
   have h := odd_card_of_normal_nilpotent hc.pCore_two_Mbar C
   rwa [Subgroup.card_map_of_injective (Xbar M Q Z B).subtype_injective] at h

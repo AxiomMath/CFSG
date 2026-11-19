@@ -76,7 +76,7 @@ private theorem exists_of_mulEquiv {X G : Type} [Group X] [Finite X] [Group G] [
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : IsPGroup 3 (zpowers (φ.symm x)) := IsPGroup.of_card (hN'.1.trans (pow_one 3).symm)
   obtain ⟨S, hS⟩ := h3.exists_le_sylow
-  exact ⟨S, zpowers (φ.symm x), S.isPGroup', S.not_dvd_index, ⟨hN'.1, hS, hN'.2.2⟩, hRX⟩
+  exact ⟨S, zpowers (φ.symm x), S.isPGroup, S.not_dvd_index, ⟨hN'.1, hS, hN'.2.2⟩, hRX⟩
 
 private theorem exists_radicalFacts_of_isU4 {X : Type} [Group X] [Finite X] {n : ℕ}
     (hU4 : IsU4 X n) (hn : Even n) :

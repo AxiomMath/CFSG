@@ -374,7 +374,7 @@ theorem examExcludes_f4
   obtain ⟨⟨S, hS⟩, -, -, -⟩ := large_Ree_Sylow_center a ha F hF'
   have hU : IsSylowTwoOf ((F4.reeFixedPosUnipotent F a).subgroupOf (F4.reeGamma F a)) ⊤ := by
     rw [← hS]
-    exact CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   obtain ⟨R₀, A₀, A₀', hRU, hnorm, hne, hA, hA', hel, hstrong⟩ :=
     h.toAbs.exists_RprimeE θ hθsurj hker _ hU
   exact F4Exam.f4_false ha hF' R₀ A₀ A₀' hRU hU hnorm hne hA hA' hel hstrong

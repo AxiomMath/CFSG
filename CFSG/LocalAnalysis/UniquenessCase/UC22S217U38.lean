@@ -124,7 +124,7 @@ theorem uc22s217u38_pRank_of_cover {M L : Subgroup G} (hL : L ∈ calC M)
     4 ≤ Open.pRank 3 M := by
   classical
   have hSp : Group.IsPerfect S := Group.isPerfect_def.2 hS
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN
   let f : MulAut G := MulAut.conj m
   have hM : M.map f.toMonoidHom = M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hmM)

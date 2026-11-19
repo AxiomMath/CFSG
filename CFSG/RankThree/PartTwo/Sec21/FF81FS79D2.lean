@@ -13,6 +13,7 @@ variable {H : Type} [Group H] [Finite H]
 
 namespace Ctl34
 
+omit [Finite H] in
 theorem mem_zpowers_conj_iff {β g y : H} :
     y ∈ Subgroup.zpowers (g * β * g⁻¹) ↔ g⁻¹ * y * g ∈ Subgroup.zpowers β := by
   constructor
@@ -57,7 +58,7 @@ theorem conjBy_Nor_zpowers' (g β : H) :
 
 theorem ctlEq_conj {b β g : H} (hg : g * b = b * g) (h : CtlEq b β) :
     CtlEq b (g * β * g⁻¹) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold CtlEq at h ⊢
   have hN := conjBy_Nor_zpowers' g β
   have hgN : g ∈ Nor (Subgroup.zpowers b) := mem_Nor_zpowers_of_comm hg
@@ -115,12 +116,13 @@ variable (S : Std b t b₁ b₂ J)
 
 include S
 
+omit [Finite H] in
 theorem frame_D2 (hctl : CtlEq b (b₁ * b₂⁻¹)) :
     Ctl34.Frame b b₁ b₂ J (b₁ * b₂) (S.ι J6.rev) (b₁ * b₂⁻¹) S.Dsub where
-  w_mem := S.d_mem_B₁
+  w_mem := CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁
   w_ne := S.d_ne_one
   w3 := S.beta_pow_three
-  c_mem := Subgroup.mul_mem _ S.b₁_mem_B₁ (Subgroup.inv_mem _ S.b₂_mem_B₁)
+  c_mem := Subgroup.mul_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ (Subgroup.inv_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁)
   c_ne := S.c_ne_one
   c3 := S.c_pow_three
   B₁_le := by
@@ -178,7 +180,7 @@ theorem frame_D2 (hctl : CtlEq b (b₁ * b₂⁻¹)) :
     rw [e]
     obtain ⟨p, -, hp⟩ := Finset.mem_image.mp hE
     rw [← hp, map_mul, map_pow, map_pow, S.ι_c₁, S.ι_c₂]
-    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ S.b₁_mem_B₁ _) (Subgroup.pow_mem _ S.b₂_mem_B₁ _)
+    exact Subgroup.mul_mem _ (Subgroup.pow_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ _) (Subgroup.pow_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁ _)
   ctl_c := hctl
 
 theorem ctlEq_c (h34 : R34Stmt b b₁ b₂) : CtlEq b (b₁ * b₂⁻¹) := by

@@ -25,7 +25,7 @@ theorem exists_fixed_in_coset {q : ℕ} [Fact q.Prime] {T M : Subgroup K} (hT : 
       group
     rw [h1]
     exact M.mul_mem (hx t ht) ((Subgroup.mem_normalizer_iff.mp (hTM ht) _).mp hy)
-  letI hact : MulAction ↥T {y : K // x⁻¹ * y ∈ M} :=
+  let hact : MulAction ↥T {y : K // x⁻¹ * y ∈ M} :=
     { smul := fun g v => ⟨(g : K) * v.1 * (g : K)⁻¹, hmem (g : K) g.2 v.1 v.2⟩
       one_smul := fun v => Subtype.ext (by
         show ((1 : ↥T) : K) * v.1 * ((1 : ↥T) : K)⁻¹ = v.1
@@ -37,7 +37,7 @@ theorem exists_fixed_in_coset {q : ℕ} [Fact q.Prime] {T M : Subgroup K} (hT : 
   have hY : Nat.card {y : K // x⁻¹ * y ∈ M} = Nat.card M :=
     Nat.card_congr
       { toFun := fun y => ⟨x⁻¹ * y.1, y.2⟩
-        invFun := fun m => ⟨x * m.1, by simpa using m.2⟩
+        invFun := fun m => ⟨x * m.1, by simp⟩
         left_inv := fun y => Subtype.ext (by simp)
         right_inv := fun m => Subtype.ext (by simp) }
   have hY' : ¬ q ∣ Nat.card {y : K // x⁻¹ * y ∈ M} := by
@@ -76,13 +76,13 @@ theorem trace_exists_norm {G A : Type*} [Group G] [CommGroup A] (ψ : G →* A) 
     ∃ N : G →* A, (∀ g, N g = ∏ i ∈ Finset.range p, ψ ((φ ^ i) g)) ∧ ∀ g, N (φ g) = N g := by
   refine ⟨∏ i ∈ Finset.range p, ψ.comp (φ ^ i : MulAut G).toMonoidHom, ?_, ?_⟩
   · intro g
-    rw [MonoidHom.finset_prod_apply]
+    rw [MonoidHom.finsetProd_apply]
     rfl
   · intro g
     have h1 : ∀ g, (∏ i ∈ Finset.range p, ψ.comp (φ ^ i : MulAut G).toMonoidHom) g =
         ∏ i ∈ Finset.range p, ψ ((φ ^ i) g) := by
       intro g
-      rw [MonoidHom.finset_prod_apply]
+      rw [MonoidHom.finsetProd_apply]
       rfl
     rw [h1, h1]
     set f : ℕ → A := fun i => ψ ((φ ^ i) g) with hf
@@ -97,6 +97,7 @@ theorem trace_exists_norm {G A : Type*} [Group G] [CommGroup A] (ψ : G →* A) 
     apply mul_right_cancel (b := f 0)
     rw [← h5, ← h3, ← h4]
 
+omit [Finite K] in
 theorem pow_mem_commutator_of_fixed {P : Subgroup K} {z x : K} {p : ℕ} (hz : z ^ p = 1)
     (hzP : z ∈ normalizer (P : Set K)) (hxP : x ∈ ⁅zpowers z, P⁆) (hxfix : z * x = x * z) :
     x ^ p ∈ ⁅P, P⁆ := by
@@ -156,6 +157,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem rrBasic_conj_centralizer {X : Subgroup K} {z : K} (hz : z ∈ normalizer (X : Set K))
     {g : K} (hg : g ∈ centralizer (X : Set K)) : z * g * z⁻¹ ∈ centralizer (X : Set K) := by
   rw [Subgroup.mem_centralizer_iff] at hg ⊢
@@ -169,6 +171,7 @@ theorem rrBasic_conj_centralizer {X : Subgroup K} {z : K} (hz : z ∈ normalizer
     _ = z * (g * (z⁻¹ * x * z)) * z⁻¹ := by rw [hc]
     _ = z * g * z⁻¹ * x := by group
 
+omit [Finite K] in
 theorem rrBasic_normalizes_centralizer {X : Subgroup K} {z : K}
     (hz : z ∈ normalizer (X : Set K)) :
     z ∈ normalizer ((centralizer (X : Set K) : Subgroup K) : Set K) := by
@@ -184,13 +187,15 @@ theorem rrBasic_normalizes_centralizer {X : Subgroup K} {z : K}
     rw [e] at h'
     exact h'
 
+omit [Finite K] in
 theorem rrBasic_normalizer_inf {S C : Subgroup K} {z : K} (h1 : z ∈ normalizer (S : Set K))
     (h2 : z ∈ normalizer (C : Set K)) : z ∈ normalizer ((S ⊓ C : Subgroup K) : Set K) := by
   rw [Subgroup.mem_normalizer_iff] at h1 h2 ⊢
   intro g
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (h1 g) (h2 g)
 
+omit [Finite K] in
 theorem RR_le_S {S : Subgroup K} {z : K} (hzS : zpowers z ≤ normalizer (S : Set K)) :
     RR S z ≤ S := by
   refine Subgroup.commutator_le.2 ?_
@@ -203,8 +208,8 @@ theorem RR_le_S {S : Subgroup K} {z : K} (hzS : zpowers z ≤ normalizer (S : Se
 theorem commutator_RR_eq {p : ℕ} {S : Subgroup K} {z : K} (hp : p.Prime) (hp2 : p ≠ 2)
     (hS : IsPGroup 2 S) (hzp : z ^ p = 1) (hz1 : z ≠ 1)
     (hzS : zpowers z ≤ normalizer (S : Set K)) : ⁅RR S z, zpowers z⁆ = RR S z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq hS
   have hz : Nat.card (zpowers z) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hzp hz1]
@@ -218,6 +223,7 @@ theorem commutator_RR_eq {p : ℕ} {S : Subgroup K} {z : K} (hp : p.Prime) (hp2 
   rw [Subgroup.commutator_comm (zpowers z) S]
   exact key
 
+omit [Finite K] in
 theorem centralizer_S_X {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f S X N z) :
     ∀ s ∈ S, (∀ x ∈ X, s * x = x * s) → s = 1 := by
   intro s hsS hsX
@@ -256,7 +262,7 @@ theorem k_pos {p f : ℕ} {S X N : Subgroup K} {z : K} (h : Setup628 p f S X N z
   have hk0 : k = 0 := by omega
   subst hk0
   have hcard : Nat.card (RR S z) = 2 := hk.trans (by norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht_ord : orderOf t = 2 := orderOf_eq_prime hR.t_sq hR.t_ne
   have hle : zpowers t ≤ RR S z := Subgroup.zpowers_le.2 hR.t_mem
   have heq : zpowers t = RR S z :=

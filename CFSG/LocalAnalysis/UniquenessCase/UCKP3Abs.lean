@@ -314,7 +314,7 @@ theorem u3Fix3Inner_of_Y (hZ : Nat.card (center X) ∣ 3) (hW : YFix3Wit (X ⧸ 
       · rw [MulEquiv.orderOf_eq]; exact ht
       · simp [hs1]
     · have h7 : orderOf (φ s) = 7 := by
-        haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+        have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
         rw [MulEquiv.orderOf_eq]; exact orderOf_eq_prime hs7 hs1
       obtain ⟨zb, hz3, hzs⟩ := hW (φ s) h7
       refine ⟨φ.symm zb, ?_, ?_⟩
@@ -334,7 +334,7 @@ theorem u3E9Fix_of_Y (hP : commutator X = ⊤) (hZ : Nat.card (center X) ∣ 3)
     ∀ x : X, orderOf x = 7 → ∀ β : MulAut X, β ^ 3 = 1 → β x = x →
       ∃ E : Subgroup X, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧ ∀ e ∈ E, β e = e := by
   intro x hx7 β hβ3 hβx
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hx7' : x ^ 7 = 1 := hx7 ▸ pow_orderOf_eq_one x
   have hxc : (QuotientGroup.mk x : X ⧸ center X) ≠ 1 := by
     intro h1

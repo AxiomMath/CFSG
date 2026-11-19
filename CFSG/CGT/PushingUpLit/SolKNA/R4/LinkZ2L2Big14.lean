@@ -18,6 +18,7 @@ section CentQ
 variable {X : Type} [Group X] [Finite X] {F : Type} [Field F] [Finite F] {Q : Subgroup X} {r : ℕ}
   {p f : ℕ}
 
+omit [Finite X] [Finite F] in
 theorem rho_comm_qEmb (E : PGamEmb X F) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) {β : MulAut X}
     (hβ : ∀ x ∈ Q, β x = x) (c : QuaternionGroup (2 ^ (r - 2))) :
     E.ρ β * qEmb E e c = qEmb E e c * E.ρ β := by
@@ -36,6 +37,7 @@ theorem rho_comm_qEmb (E : PGamEmb X F) (e : ↥Q ≃* QuaternionGroup (2 ^ (r -
     _ = E.ρ (MulAut.conj ((e.symm c : ↥Q) : X)) * E.ρ β := by rw [map_mul]
     _ = qEmb E e c * E.ρ β := by simp only [qEmb_apply]
 
+omit [Finite X] [Finite F] in
 theorem rho_conj_comm_qEmb (E : PGamEmb X F) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) {x : X}
     (hx : ∀ y ∈ Q, x * y = y * x) (c : QuaternionGroup (2 ^ (r - 2))) :
     E.ρ (MulAut.conj x) * qEmb E e c = qEmb E e c * E.ρ (MulAut.conj x) := by
@@ -54,7 +56,7 @@ theorem centralizer_qEmb [Fact p.Prime] (E : PGamEmb X F)
     (hgr : g.right * g.right = 1) {k : ℕ} (hk : g ^ 2 ^ k = 1) :
     g = 1 ∨ g = ubar F ∨
       (g.right = σ₀ ∧ g * g = ubar F ∧ ∀ x : X, E.ρ (MulAut.conj x) ≠ g) := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have h2 : (2 : F) ≠ 0 := (field_facts (Fact.out : p.Prime) hp2 hF h4).2
   have hσ : ∀ σ : F ≃+* F, σ * σ = 1 → σ = 1 ∨ σ = σ₀ :=
     fun σ hσ2 => ringAut_sq_eq_one hF hp2 h4 hσ₀1 hσ₀2 hσ2
@@ -128,7 +130,7 @@ theorem cent_two_elements [Fact p.Prime] (E : PGamEmb X F)
     {σ₀ : F ≃+* F} (hσ₀1 : σ₀ ≠ 1) (hσ₀2 : σ₀ * σ₀ = 1)
     (hq : ∀ x : F, σ₀ x = x ^ (p ^ (f / 2))) {x : X} (hx : ∀ y ∈ Q, x * y = y * x)
     (hk : ∃ k : ℕ, x ^ 2 ^ k = 1) : x = 1 ∨ x = quatInvolution r e := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   obtain ⟨k, hk⟩ := hk
   have hgc : ∀ c : QuaternionGroup (2 ^ (r - 2)),
       E.ρ (MulAut.conj x) * qEmb E e c = qEmb E e c * E.ρ (MulAut.conj x) :=

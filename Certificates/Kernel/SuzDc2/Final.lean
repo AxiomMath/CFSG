@@ -141,7 +141,7 @@ theorem sb_ok : sbOK = true := by
     rw [List.length_map, ho]
     omega
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.KD.SuzDc2 in
 theorem facts :
     CFSG.KC.SLD2.dc2Check C D = true ∧

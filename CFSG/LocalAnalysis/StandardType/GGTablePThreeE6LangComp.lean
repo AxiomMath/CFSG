@@ -93,7 +93,7 @@ theorem e6_lang_rationalComponents
     ext γ
     have hchi : (e6Chi v) (Multiplicative.ofAdd γ) =
         Multiplicative.ofAdd (∑ k, ((γ k : ℤ) : ZMod 3) * v k) := rfl
-    simp only [kernelRoots, Set.mem_setOf_eq, hchi, ofAdd_eq_one]
+    simp only [kernelRoots, Set.mem_ofPred_eq, hchi, ofAdd_eq_one]
   have hker : kernelRoots (rootCharHom a) = kernelRoots (e6Chi v) := by
     rw [(frobRootMap_e6_admissible S hT ω hω v hv).2, ← hker']
   have horbitE : ∀ Ψ' : Set (Fin Tag.E6.rank → ℤ), E6KerComponent v Ψ' →
@@ -153,10 +153,10 @@ theorem e6_lang_rationalComponents
       by_cases htw : twistInner (componentRoots (rootCharHom a) i)
           ((S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom a) i)])
-      · left; unfold twistKind; rw [if_pos htw]
+      · left; unfold twistKind; rw [ite_eq_left htw]
       · right
         unfold twistKind
-        rw [if_neg htw]
+        rw [ite_eq_right htw]
         have hexc : ¬ ((compRank (componentRoots (rootCharHom a) i) = 6 ∧
             (componentRoots (rootCharHom a) i).ncard = 72) ∨
             (compRank (componentRoots (rootCharHom a) i) = 4 ∧
@@ -172,8 +172,8 @@ theorem e6_lang_rationalComponents
           rintro ⟨h4, htwo⟩
           rw [hr5] at htwo
           omega
-        rw [if_neg hexc, if_neg htwoD,
-          if_pos (show 2 ≤ compRank (componentRoots (rootCharHom a) i) ∧
+        rw [ite_eq_right hexc, ite_eq_right htwoD,
+          ite_eq_left (show 2 ≤ compRank (componentRoots (rootCharHom a) i) ∧
               (componentRoots (rootCharHom a) i).ncard =
                 compRank (componentRoots (rootCharHom a) i) *
                   (compRank (componentRoots (rootCharHom a) i) + 1) from
@@ -241,7 +241,7 @@ theorem e6_lang_rationalComponents
         rw [horb3]
         exact h
       unfold twistKind
-      rw [if_pos htw]
+      rw [ite_eq_left htw]
     · intro hq2
       have hnot : ¬ twistInner (componentRoots (rootCharHom a) i)
           ((S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ

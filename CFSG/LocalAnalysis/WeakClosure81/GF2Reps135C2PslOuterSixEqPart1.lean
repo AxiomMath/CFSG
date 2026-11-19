@@ -63,7 +63,7 @@ theorem c2slout6e_revMap_minor_id {K : Type} [Field K] (h2 : (2 : K) = 0)
   simpa only [c2slout6e_slMap_id, Matrix.map_id] using h
 
 theorem c2slout6e_minor_revMap_borelStd {K : Type} [Field K] [Fintype K] [CharP K 2]
-    (hK : Fintype.card K = 2) (B : Matrix.GeneralLinearGroup (Fin 6) K) (τ : K ≃+* K)
+    (_hK : Fintype.card K = 2) (B : Matrix.GeneralLinearGroup (Fin 6) K) (τ : K ≃+* K)
     (hτ : τ = RingEquiv.refl K) (g : Matrix.SpecialLinearGroup (Fin 6) K)
     (v : Set.powersetCard (Fin 6) 3 → K) :
     (minor (B : Matrix (Fin 6) (Fin 6) K) :

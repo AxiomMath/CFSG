@@ -39,7 +39,7 @@ theorem permV_eq (a b c d : Fin 16) : permV a.val b.val c.val d.val = permN (lin
 theorem mkPerm_apply {f : Fin 16 → Fin 16} (h : isPermChk f = true) (i : Fin 16) :
     mkPerm f i = f i := by
   unfold mkPerm
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem cvV_eq {a b c d : Fin 16} (h : permN (linFun (a, b, c, d)) = true) :
@@ -47,7 +47,7 @@ theorem cvV_eq {a b c d : Fin 16} (h : permN (linFun (a, b, c, d)) = true) :
   have hp : permV a.val b.val c.val d.val = true := by rw [permV_eq]; exact h
   have hc : isPermChk (linFun (a, b, c, d)) = true := by rw [isPermChk_eq]; exact h
   unfold cvV
-  rw [dif_pos hp]
+  rw [dite_eq_left hp]
   apply Subtype.ext
   change pmk 16 5 (linV a.val b.val c.val d.val) =
     pmk 16 (wC 16) (fun i => if h : i < 16 then (mkPerm (linFun (a, b, c, d)) ⟨i, h⟩ : Nat) else 0)
@@ -60,15 +60,15 @@ theorem cvV_eq {a b c d : Fin 16} (h : permN (linFun (a, b, c, d)) = true) :
     omega
   have hm : ∀ x < 16, (if h : x < 16 then (mkPerm (linFun (a, b, c, d)) ⟨x, h⟩ : Nat) else 0) <
       2 ^ 5 := fun x hx => by
-    rw [dif_pos hx]
+    rw [dite_eq_left hx]
     have := (mkPerm (linFun (a, b, c, d)) ⟨x, hx⟩).isLt
     omega
   refine eq_of_fld (by norm_num) (fld_pmk (by norm_num) hl) (fld_congr (fld_pmk (by norm_num) hm) ?_)
   intro i
   by_cases hi : i < 16
-  · rw [if_pos hi, if_pos hi, dif_pos hi, mkPerm_apply hc]
+  · rw [ite_eq_left hi, ite_eq_left hi, dite_eq_left hi, mkPerm_apply hc]
     exact (linV_eq a b c d ⟨i, hi⟩).symm
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_right hi, ite_eq_right hi]
 
 theorem rowQ_sound {g : Fin 16 → Fin 16 → Bool} {c : CV 16 → Bool} {k : Nat}
     (h : rowQ g c k = true) : allQ2RowC g c k = true := by

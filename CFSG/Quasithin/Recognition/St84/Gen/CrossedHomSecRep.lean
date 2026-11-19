@@ -19,9 +19,10 @@ variable {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']
 private noncomputable def secFactor {Q Z N : Subgroup G} {W H : Type}
     [AddCommGroup W] [Module (ZMod 2) W] [CommGroup H]
     (s : SecRep N Z Q W) (f : ↥Q →* H)
-    (hf : ∀ z : ↥Q, (z : G) ∈ Z → f z = 1) (w : W) : Additive H :=
+    (_hf : ∀ z : ↥Q, (z : G) ∈ Z → f z = 1) (w : W) : Additive H :=
   Additive.ofMul (f (Classical.choose (s.exists_cl w)))
 
+omit [Finite G] in
 private theorem secFactor_cl {Q Z N : Subgroup G} {W H : Type}
     [AddCommGroup W] [Module (ZMod 2) W] [CommGroup H]
     (s : SecRep N Z Q W) (f : ↥Q →* H)
@@ -38,6 +39,7 @@ private theorem secFactor_cl {Q Z N : Subgroup G} {W H : Type}
   change Additive.ofMul (f u₀) = Additive.ofMul (f u)
   rw [h1]
 
+omit [Finite G] in
 private theorem secFactor_add {Q Z N : Subgroup G} {W H : Type}
     [AddCommGroup W] [Module (ZMod 2) W] [CommGroup H]
     (s : SecRep N Z Q W) (f : ↥Q →* H)
@@ -68,6 +70,7 @@ private noncomputable def secFactorLin {Q Z N : Subgroup G} {W H : Type}
     (hf : ∀ z : ↥Q, (z : G) ∈ Z → f z = 1) : W →ₗ[ZMod 2] Additive H :=
   (secFactorAddHom s f hf).toZModLinearMap 2
 
+omit [Finite G] in
 private theorem secFactorLin_cl {Q Z N : Subgroup G} {W H : Type}
     [AddCommGroup W] [Module (ZMod 2) W] [CommGroup H]
     [Module (ZMod 2) (Additive H)]
@@ -76,6 +79,7 @@ private theorem secFactorLin_cl {Q Z N : Subgroup G} {W H : Type}
     secFactorLin s f hf (s.cl u) = Additive.ofMul (f u) :=
   secFactor_cl s f hf u
 
+omit [Finite G'] in
 private theorem zmod_two_smul_eq_zero {Z' : Subgroup G'}
     (hZ'2 : ∀ z ∈ Z', z ^ 2 = 1) (v : Additive ↥Z') : 2 • v = 0 := by
   rw [two_nsmul]
@@ -85,6 +89,7 @@ private theorem zmod_two_smul_eq_zero {Z' : Subgroup G'}
   apply Subtype.ext
   simpa using hZ'2 ((Additive.toMul v : ↥Z') : G') (Additive.toMul v).2
 
+omit [Finite G] in
 theorem crossedHomPrincipalOn_of_secRep {Q Z R N : Subgroup G} {Z' R' : Subgroup G'}
     (e : ↥R ≃* ↥R') (hRQ : R ≤ Subgroup.normalizer (Q : Set G)) (hNR : N ≤ R)
     (hZ'c : ∀ a ∈ Z', ∀ b ∈ Z', a * b = b * a) (hZ'2 : ∀ z ∈ Z', z ^ 2 = 1)
@@ -97,14 +102,14 @@ theorem crossedHomPrincipalOn_of_secRep {Q Z R N : Subgroup G} {Z' R' : Subgroup
     CrossedHomPrincipalOn Q Z R N Z' R' e := by
   classical
   intro δ hZδ hcoc
-  haveI hZ'comm : IsMulCommutative ↥Z' :=
+  have hZ'comm : IsMulCommutative ↥Z' :=
     ⟨⟨fun a b => Subtype.ext (hZ'c (a : G') a.2 (b : G') b.2)⟩⟩
-  letI : CommGroup ↥Z' := IsMulCommutative.instCommGroup
-  haveI : Finite ↥Z' := Subtype.finite
-  letI : Module (ZMod 2) (Additive ↥Z') :=
+  let : CommGroup ↥Z' := IsMulCommutative.instCommGroup
+  have : Finite ↥Z' := Subtype.finite
+  let : Module (ZMod 2) (Additive ↥Z') :=
     AddCommGroup.zmodModule (zmod_two_smul_eq_zero hZ'2)
-  haveI : Finite (Additive ↥Z') := inferInstanceAs (Finite ↥Z')
-  haveI : Module.Finite (ZMod 2) (Additive ↥Z') := Module.Finite.of_finite
+  have : Finite (Additive ↥Z') := inferInstanceAs (Finite ↥Z')
+  have : Module.Finite (ZMod 2) (Additive ↥Z') := Module.Finite.of_finite
   have hNZ : ∀ (n : ↥N) (z : ↥Q), (z : G) ∈ Z → ((n : G) * (z : G) * (n : G)⁻¹) ∈ Z := by
     intro n z hz
     have hz0 : s.cl z = 0 := (s.cl_eq_zero_iff z).mpr hz
@@ -168,7 +173,7 @@ theorem crossedHomPrincipalOn_of_secRep {Q Z R N : Subgroup G} {Z' R' : Subgroup
       have harg : ((conjHom Q R hRQ (⟨n * m, hNR (n * m).2⟩⁻¹)) u : ↥Q) = v := by
         apply Subtype.ext
         rw [conjHom_apply hRQ (⟨n * m, hNR (n * m).2⟩⁻¹) u, hv, hw0]
-        simp only [Subgroup.coe_inv, Subgroup.coe_mul]
+        simp only [Subgroup.coe_inv]
         group
       change (δ ⟨n * m, hNR (n * m).2⟩)
         (((conjHom Q R hRQ (⟨n * m, hNR (n * m).2⟩⁻¹)) u)) = δ (nR * mR) v
@@ -260,6 +265,7 @@ theorem crossedHomPrincipalOn_of_secRep {Q Z R N : Subgroup G} {Z' R' : Subgroup
     _ = (φ w : G') * (φ v : G')⁻¹ := rfl
     _ = (φ w : G') * ((e r : G') * (φ v : G') * (e r : G')⁻¹)⁻¹ := by rw [hcentral]
 
+omit [Finite G] in
 theorem eq_one_of_secRep_of_fixed {Q Z R N : Subgroup G} {Z' R' : Subgroup G'}
     (e : ↥R ≃* ↥R') (hRQ : R ≤ Subgroup.normalizer (Q : Set G)) (hNR : N ≤ R)
     (hZ'c : ∀ a ∈ Z', ∀ b ∈ Z', a * b = b * a) (hZ'2 : ∀ z ∈ Z', z ^ 2 = 1)
@@ -271,13 +277,13 @@ theorem eq_one_of_secRep_of_fixed {Q Z R N : Subgroup G} {Z' R' : Subgroup G'}
       (φ w : G') = (e n : G') * (φ v : G') * (e n : G')⁻¹) :
     φ = 1 := by
   classical
-  haveI hZ'comm : IsMulCommutative ↥Z' :=
+  have hZ'comm : IsMulCommutative ↥Z' :=
     ⟨⟨fun a b => Subtype.ext (hZ'c (a : G') a.2 (b : G') b.2)⟩⟩
-  letI : CommGroup ↥Z' := IsMulCommutative.instCommGroup
-  haveI : Finite ↥Z' := Subtype.finite
-  letI : Module (ZMod 2) (Additive ↥Z') :=
+  let : CommGroup ↥Z' := IsMulCommutative.instCommGroup
+  have : Finite ↥Z' := Subtype.finite
+  let : Module (ZMod 2) (Additive ↥Z') :=
     AddCommGroup.zmodModule (zmod_two_smul_eq_zero hZ'2)
-  haveI : Finite (Additive ↥Z') := inferInstanceAs (Finite ↥Z')
+  have : Finite (Additive ↥Z') := inferInstanceAs (Finite ↥Z')
   let φbar : W →ₗ[ZMod 2] Additive ↥Z' := secFactorLin s φ hφZ
   have hφbar : ∀ (n : ↥N) (x : W), φbar (ρ n x) = φbar x := by
     intro n x
@@ -303,6 +309,7 @@ theorem eq_one_of_secRep_of_fixed {Q Z R N : Subgroup G} {Z' R' : Subgroup G'}
   rw [hφval u, hzero, LinearMap.zero_apply, toMul_zero]
   rfl
 
+omit [Finite G] in
 theorem crossedHomPrincipal_of_secRep {Q Z R N : Subgroup G} {Z' R' : Subgroup G'}
     (e : ↥R ≃* ↥R') (hRQ : R ≤ Subgroup.normalizer (Q : Set G))
     (hRZ : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ ∈ Z) (hR'Z' : ∀ r ∈ R', ∀ z ∈ Z', r * z * r⁻¹ ∈ Z')

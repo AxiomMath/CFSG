@@ -273,7 +273,7 @@ theorem cyclic_sylow {N₂ : Subgroup H} (hN₂ : IsComponent N₂)
   have hkey : ∀ s : ↥D, s ∈ (S : Subgroup ↥D) →
       (s : ↥N₂ ⧸ center ↥N₂) ∈ Subgroup.zpowers (π y') := by
     intro s hs
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨s, hs⟩
     have hsk : (s : ↥N₂ ⧸ center ↥N₂) ^ (2 ^ k) = 1 := by
       have h1 : (⟨s, hs⟩ : ↥S) ^ (2 ^ k) = 1 := by rw [← hk]; exact pow_orderOf_eq_one _
       have h2 := congrArg (fun z : ↥S => ((z : ↥D) : ↥N₂ ⧸ center ↥N₂)) h1

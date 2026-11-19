@@ -22,7 +22,7 @@ theorem cntN_eq' (f : Nat → Bool) :
     rw [strictN_eq', cntN_eq' f m, Finset.range_add_one, Finset.filter_insert]
     cases hf : f m
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       rfl
 
 noncomputable def czSet (T0 T1 : Nat → Nat) (F : Nat → Nat → Bool) (n : Nat) :
@@ -81,14 +81,14 @@ theorem ncard_eq_czCnt (hP : Nat.card ↥P1408 = 177408000) {F : Nat → Nat →
   rw [czCnt_eq]
   have hinj : Set.InjOn (fun p : Nat × Nat => t0P p.1 * t1P p.2) ↑(czSet T0 T1 F 1280) := by
     rintro ⟨i, j⟩ hp ⟨i', j'⟩ hp' e
-    simp only [czSet, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_setOf_eq]
+    simp only [czSet, Finset.coe_filter, Finset.mem_product, Finset.mem_range, Set.mem_ofPred_eq]
       at hp hp'
     obtain ⟨h1, h2⟩ := el_inj hp.1.1 hp'.1.1 hp.1.2 hp'.1.2 e
     rw [h1, h2]
   have himg : {g | g ∈ P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408))) ∧ Q g} =
       ↑((czSet T0 T1 F 1280).image fun p => t0P p.1 * t1P p.2) := by
     ext g
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, czSet, Finset.coe_filter,
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, czSet, Finset.coe_filter,
       Finset.mem_product, Finset.mem_range, Prod.exists]
     constructor
     · rintro ⟨hg, hq⟩
@@ -141,7 +141,7 @@ theorem card_cent_of_stabK (hP : Nat.card ↥P1408 = 177408000) {H n : Nat}
         Set (Equiv.Perm (Fin 1408))) =
       {g | g ∈ P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408))) ∧ g * h = h * g} := by
     ext g
-    rw [SetLike.mem_coe, mem_inf, Set.mem_setOf_eq, mem_centralizer_singleton_iff]
+    rw [SetLike.mem_coe, mem_inf, Set.mem_ofPred_eq, mem_centralizer_singleton_iff]
   have hcard : Nat.card ↥(P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408))) ⊓
       centralizer ({h} : Set (Equiv.Perm (Fin 1408)))) =
       ((P1408 ⊓ centralizer ({elemZ} : Set (Equiv.Perm (Fin 1408))) ⊓

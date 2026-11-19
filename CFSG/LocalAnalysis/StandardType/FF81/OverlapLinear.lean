@@ -50,7 +50,7 @@ theorem range_blockSL_le_coordBlockSL {m k i : ℕ} (h : i + k ≤ m) {J : Finse
   rintro _ ⟨A, rfl⟩
   rw [mem_coordBlockSL_iff]
   intro a b hab
-  rw [coe_blockSL, blockMat_apply, dif_neg, Matrix.one_apply]
+  rw [coe_blockSL, blockMat_apply, dite_eq_right, Matrix.one_apply]
   rintro ⟨ha, hb⟩
   rcases hab with h' | h'
   · exact h' (hJ a ha.1 ha.2)
@@ -95,8 +95,8 @@ theorem invTransposeSL_mem_coordBlockSL {m : ℕ} {J : Finset (Fin m)} {u : SL(m
   intro a b hab
   rw [coe_invTransposeSL, transpose_apply, hu' b a hab.symm]
   by_cases hab' : a = b
-  · rw [if_pos hab'.symm, if_pos hab']
-  · rw [if_neg (Ne.symm hab'), if_neg hab']
+  · rw [ite_eq_left hab'.symm, ite_eq_left hab']
+  · rw [ite_eq_right (Ne.symm hab'), ite_eq_right hab']
 
 variable [CharP K 2]
 
@@ -145,9 +145,9 @@ theorem permSL_overlapRot_conj_blockSL {K : Type} [Field K] [CharP K 2] {M : ℕ
   have ha := overlapRot_val M a
   have hb := overlapRot_val M b
   by_cases hab : 2 ≤ a.val ∧ 2 ≤ b.val
-  · rw [if_neg (by omega)] at ha
-    rw [if_neg (by omega)] at hb
-    rw [dif_pos (by omega), dif_pos (by omega)]
+  · rw [ite_eq_right (by omega)] at ha
+    rw [ite_eq_right (by omega)] at hb
+    rw [dite_eq_left (by omega), dite_eq_left (by omega)]
     have e1 : (⟨(overlapRot M a).val - 0, by omega⟩ : Fin M) = ⟨a.val - 2, by omega⟩ :=
       Fin.ext (show (overlapRot M a).val - 0 = a.val - 2 by omega)
     have e2 : (⟨(overlapRot M b).val - 0, by omega⟩ : Fin M) = ⟨b.val - 2, by omega⟩ :=
@@ -157,7 +157,7 @@ theorem permSL_overlapRot_conj_blockSL {K : Type} [Field K] [CharP K 2] {M : ℕ
         (0 ≤ (overlapRot M b).val ∧ (overlapRot M b).val < 0 + M)) := by
       split_ifs at ha hb <;> omega
     have h2 : ¬((2 ≤ a.val ∧ a.val < 2 + M) ∧ (2 ≤ b.val ∧ b.val < 2 + M)) := by omega
-    rw [dif_neg h1, dif_neg h2, Matrix.one_apply, Matrix.one_apply]
+    rw [dite_eq_right h1, dite_eq_right h2, Matrix.one_apply, Matrix.one_apply]
     simp only [EmbeddingLike.apply_eq_iff_eq]
 
 @[expose] def overlapJQ {M : ℕ} (J' : Finset (Fin M)) : Finset (Fin (M + 2)) :=
@@ -183,7 +183,7 @@ theorem mem_overlapJK_of_rot {M : ℕ} {J' : Finset (Fin M)} {a : Fin (M + 2)}
   rw [mem_overlapJK]
   intro ha
   have hv := overlapRot_val M a
-  rw [if_neg (by omega)] at hv
+  rw [ite_eq_right (by omega)] at hv
   have hlt : (overlapRot M a).val < M := by omega
   have e : (⟨(overlapRot M a).val, hlt⟩ : Fin M) = ⟨a.val - 2, by omega⟩ := Fin.ext hv
   exact e ▸ h hlt
@@ -196,7 +196,7 @@ theorem compIndicator_overlapJQ_mul_blockMat {K : Type} [Field K] {M : ℕ}
   ext i j
   rw [compIndicator_mul_apply, mul_compIndicator_apply, blockMat_apply]
   by_cases hij : (0 ≤ i.val ∧ i.val < 0 + M) ∧ (0 ≤ j.val ∧ j.val < 0 + M)
-  · rw [dif_pos hij]
+  · rw [dite_eq_left hij]
     have hiM : i.val < M := by omega
     have hjM : j.val < M := by omega
     have h := congrFun (congrFun ha ⟨i.val, hiM⟩) ⟨j.val, hjM⟩
@@ -207,11 +207,11 @@ theorem compIndicator_overlapJQ_mul_blockMat {K : Type} [Field K] {M : ℕ}
       mem_overlapJQ.trans ⟨fun h => h hjM, fun h _ => h⟩
     simp only [hi, hj]
     exact h
-  · rw [dif_neg hij, Matrix.one_apply]
+  · rw [dite_eq_right hij, Matrix.one_apply]
     by_cases hij' : i = j
     · subst hij'
       rfl
-    · simp only [hij', if_false, ite_self]
+    · simp only [hij', ite_false, ite_self]
 
 end Rotation
 

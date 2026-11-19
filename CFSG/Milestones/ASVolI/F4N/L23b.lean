@@ -164,7 +164,7 @@ theorem burnsideF4n_N1set_tits_iff {E : Type} [Group E] {M₁ M₂ : Subgroup E}
     f1 (c := c) a ∈ N1set c GLKind.Tits (f1 (c := c) a₀ • c.lv) yc ↔
       f1 (c := d) a ∈ N1set d GLKind.Tits (f1 (c := d) a₀ • d.lv) yd := by
   unfold N1set
-  rw [if_pos rfl, if_pos rfl]
+  rw [ite_eq_left rfl, ite_eq_left rfl]
   show (_ ∧ HasCycle c _ _ _ ∧ _) ↔ (_ ∧ HasCycle d _ _ _ ∧ _)
   rw [burnsideF4n_hasCycle1_iff c hc, burnsideF4n_hasCycle1_iff d hd]
   constructor
@@ -191,7 +191,7 @@ theorem burnsideF4n_N2set_tits_iff {E : Type} [Group E] {M₁ M₂ : Subgroup E}
     f2 (c := c) b ∈ N2set c GLKind.Tits ccc (f2 (c := c) b₀ • c.xv) y'c ↔
       f2 (c := d) b ∈ N2set d GLKind.Tits ccd (f2 (c := d) b₀ • d.xv) y'd := by
   unfold N2set
-  rw [if_pos rfl, if_pos rfl]
+  rw [ite_eq_left rfl, ite_eq_left rfl]
   exact burnsideF4n_cyc2_iff c d hc hd b₀ b
 
 theorem burnsideF4n_N1set_g2d_iff {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y Y' : Type}
@@ -200,7 +200,7 @@ theorem burnsideF4n_N1set_g2d_iff {E : Type} [Group E] {M₁ M₂ : Subgroup E} 
     f2 (c := c) b ∈ N1set c GLKind.G2d ccc (f2 (c := c) b₀ • c.xv) ↔
       f2 (c := d) b ∈ N1set d GLKind.G2d ccd (f2 (c := d) b₀ • d.xv) := by
   unfold N1set
-  rw [if_neg (by decide), if_neg (by decide)]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide)]
   exact burnsideF4n_cyc2_iff c d hc hd b₀ b
 
 theorem burnsideF4n_N2set_g2d_mem_iff {E : Type} [Group E] {M₁ M₂ : Subgroup E} {Y : Type}
@@ -213,7 +213,7 @@ theorem burnsideF4n_N2set_g2d_mem_iff {E : Type} [Group E] {M₁ M₂ : Subgroup
         b₁⁻¹ * b ∈ (RankTwoAmalgam.ofSubgroups M₁ M₂).α2.range ∧
         b * b₁ ∈ (RankTwoAmalgam.ofSubgroups M₁ M₂).α2.range) := by
   unfold N2set
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
   show (_ ∈ stv c _ ∧ HasCycle c _ _ _) ↔ _
   have hx : f1 (c := c) a₀ • c.xv = c.xv := f1_smul_xv a₀
   have hconj := burnsideF4n_hasCycle_conj c (f1 (c := c) a₀) (f2 (c := c) b) c.xv
@@ -307,13 +307,13 @@ theorem burnsideF4n_phat_of_small
     have hsl : s ∈ stv ρ ρ.lv := by
       have := hsN
       unfold N1set at this
-      rw [if_neg (by decide)] at this
+      rw [ite_eq_right (by decide)] at this
       exact this.1
     obtain ⟨b, rfl⟩ := stv_lv_le_range_f2 ρ hsl
     have htc : t ∈ stv ρ (f1 (c := ρ) a₀ • ρ.lv) := by
       have := htN
       unfold N2set at this
-      rw [if_neg (by decide)] at this
+      rw [ite_eq_right (by decide)] at this
       exact this.1
     have ht' : (f1 (c := ρ) a₀)⁻¹ * t * f1 (c := ρ) a₀ ∈ stv ρ ρ.lv := by
       rw [MulAction.mem_stabilizer_iff, mul_smul, mul_smul, MulAction.mem_stabilizer_iff.mp htc,
@@ -328,10 +328,10 @@ theorem burnsideF4n_phat_of_small
       (f2 (c := ρ) b₀ • ρ.xv)).mpr htN
     refine ⟨(xi2 M₁ M₂ b, xi1 M₁ M₂ a₀ * xi2 M₁ M₂ b' * (xi1 M₁ M₂ a₀)⁻¹), ?_, ?_, ?_⟩
     · refine ⟨?_, f2 (c := β) b, hsβ, (theta_ξ2 β b).symm⟩
-      rw [liftDom1, if_neg (by decide)]
+      rw [liftDom1, ite_eq_right (by decide)]
       exact ⟨b, rfl⟩
     · refine ⟨?_, f1 (c := β) a₀ * f2 (c := β) b' * (f1 (c := β) a₀)⁻¹, htβ, ?_⟩
-      · rw [liftDom2, if_neg (by decide)]
+      · rw [liftDom2, ite_eq_right (by decide)]
         exact ⟨a₀, rfl, b', rfl⟩
       · show _ = β.theta (xi1 M₁ M₂ a₀ * xi2 M₁ M₂ b' * (xi1 M₁ M₂ a₀)⁻¹)
         rw [map_mul, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
@@ -356,13 +356,13 @@ theorem burnsideF4n_phat_of_small
     have hsx : s ∈ stv ρ ρ.xv := by
       have := hsN
       unfold N1set at this
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       exact this.1
     obtain ⟨a, rfl⟩ := stv_xv_le_range_f1 ρ hsx
     have htl : t ∈ stv ρ ρ.lv := by
       have := htN
       unfold N2set at this
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       exact this.1
     obtain ⟨b, rfl⟩ := stv_lv_le_range_f2 ρ htl
     have hsβ := (burnsideF4n_N1set_tits_iff β ρ hβ hρ Fβ Fρ a₀ a (f2 (c := β) b₀ • β.xv)
@@ -372,10 +372,10 @@ theorem burnsideF4n_phat_of_small
       (f1 (c := ρ) a₀ • f2 (c := ρ) b₁ • ρ.xv)).mpr htN
     refine ⟨(xi1 M₁ M₂ a, xi2 M₁ M₂ b), ?_, ?_, ?_⟩
     · refine ⟨?_, f1 (c := β) a, hsβ, (theta_ξ1 β a).symm⟩
-      rw [liftDom1, if_pos rfl]
+      rw [liftDom1, ite_eq_left rfl]
       exact ⟨a, rfl⟩
     · refine ⟨?_, f2 (c := β) b, htβ, (theta_ξ2 β b).symm⟩
-      rw [liftDom2, if_pos rfl]
+      rw [liftDom2, ite_eq_left rfl]
       exact ⟨b, rfl⟩
     · have e : ρ.toCompletion.hat (xi1 M₁ M₂ a) * ρ.toCompletion.hat (xi2 M₁ M₂ b) =
           ((f1 (c := ρ) a * f2 (c := ρ) b : ρ.G0) : Y') := by

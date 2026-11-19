@@ -54,7 +54,7 @@ theorem pRank_top_le_two_of_quotient_subgroup_permFive {Y : Type} [Group Y] [Fin
   let S5 : Subgroup (Perm (Fin 5)) := (S : Subgroup ↥P).map ι
   have hS5card : Nat.card S5 = Nat.card (S : Subgroup ↥P) :=
     Subgroup.card_map_of_injective hι
-  have hS5p : IsPGroup 2 S5 := S.isPGroup'.map ι
+  have hS5p : IsPGroup 2 S5 := S.isPGroup.map ι
   have hS_dvd : Nat.card (S : Subgroup ↥P) ∣ 8 := by
     rw [← hS5card]
     exact CFSG.Quasithin.H13.GM22.card_dvd_eight_of_isPGroup S5 hS5p

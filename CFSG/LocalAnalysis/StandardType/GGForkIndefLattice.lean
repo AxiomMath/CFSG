@@ -53,24 +53,24 @@ private theorem latw_single_cast {p : ℕ} {N : Type} [DecidableEq N] (k i : N) 
       (Pi.single k (1 : ZMod p) : N → ZMod p) i := by
   rw [Pi.single_apply, Pi.single_apply]
   by_cases h : i = k
-  · rw [if_pos h, if_pos h]; exact Int.cast_one
-  · rw [if_neg h, if_neg h]; exact Int.cast_zero
+  · rw [ite_eq_left h, ite_eq_left h]; exact Int.cast_one
+  · rw [ite_eq_right h, ite_eq_right h]; exact Int.cast_zero
 
 private theorem latw_single_smul_sum {p : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {N : Type} [Fintype N] [DecidableEq N] (k : N) (v : N → V) :
     ∑ i, ((Pi.single k (1 : ZMod p) : N → ZMod p) i) • v i = v k := by
   refine (Fintype.sum_eq_single k ?_).trans ?_
   · intro i hi
-    rw [Pi.single_apply, if_neg hi, zero_smul]
-  · rw [Pi.single_apply, if_pos rfl, one_smul]
+    rw [Pi.single_apply, ite_eq_right hi, zero_smul]
+  · rw [Pi.single_apply, ite_eq_left rfl, one_smul]
 
 private theorem latw_single_mul_sum {p : ℕ} {N : Type} [Fintype N] [DecidableEq N]
     (k : N) (f : N → ZMod p) :
     ∑ i, ((Pi.single k (1 : ZMod p) : N → ZMod p) i) * f i = f k := by
   refine (Fintype.sum_eq_single k ?_).trans ?_
   · intro i hi
-    rw [Pi.single_apply, if_neg hi, zero_mul]
-  · rw [Pi.single_apply, if_pos rfl, one_mul]
+    rw [Pi.single_apply, ite_eq_right hi, zero_mul]
+  · rw [Pi.single_apply, ite_eq_left rfl, one_mul]
 
 private theorem latw_reflect_involutive {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V] {N : Type}
@@ -403,7 +403,7 @@ private theorem latc_reflConjSimple {G : Type} [Group G] [Finite G] {p : ℕ} [F
   classical
   unfold GGReflConjSimple
   rw [hAL]
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   have hFT : TauCeti.IsFiniteType (fun i j => X (some i) (some j)) :=
     isFiniteType_of_ggIsWeylMatrixFixed hM hC
   have hind : LinearIndependent (ZMod p) (fun i : Λ => h' (some i)) :=

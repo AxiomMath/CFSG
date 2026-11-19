@@ -180,7 +180,7 @@ private theorem Z_two_eq_centerOf_L_two (hc : CharTwoStab (V := V) (G := G))
     X.Z 2 = centerOf (X.L 2) := by
   have h := X.Z_zero_eq_centerOf_L_zero hc hmax hs hodd h5 hX hGT
   have hc2 := congrArg (conjSub (X.τ ^ (1 : ℤ))) h
-  simp only [centerOf, conjSub_inf, conjSub_centralizer] at hc2
+  simp only [centerOf, conjSub_inf] at hc2
   rw [show (2 : ℤ) = 0 + 2 * 1 by norm_num, X.Z_add 1 0, X.L_add 1 0]
   change conjSub (X.τ ^ 1) (X.Z 0) =
     conjSub (X.τ ^ 1) (X.L 0) ⊓ Subgroup.centralizer (conjSub (X.τ ^ 1) (X.L 0))
@@ -214,11 +214,11 @@ theorem card_Z_zero_le (hc : CharTwoStab (V := V) (G := G))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT)) :
     Nat.card (X.Z 0) ≤ 2 ^ X.n 0 := by
   obtain ⟨m, -, hreg⟩ := X.exists_isMaxReg hs hodd hX
-  haveI : Finite ↥X.GT := finite_of_le_stabilizer X.hyp (H := X.GT) (X.GT_le_Gi 0)
-  haveI : Finite ↥X.QT :=
+  have : Finite ↥X.GT := finite_of_le_stabilizer X.hyp (H := X.GT) (X.GT_le_Gi 0)
+  have : Finite ↥X.QT :=
     Finite.of_injective (Subgroup.inclusion X.QT_le_GT) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
-  haveI : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
   have hm : m = 4 := X.m_eq_four hc hmax hs hodd h5 hX hGT hreg
   have hZM := X.Z_zero_le_ZM hc hmax hs hodd h5 hX hGT
   have hQTM := X.QT_le_centerOf_Lst hGT hs hodd h5 hX
@@ -387,8 +387,8 @@ theorem Z_zero_inf_Q_four (hc : CharTwoStab (V := V) (G := G))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     X.Z 0 ⊓ X.Q 4 = ⊥ := by
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
-  haveI : Finite ↥(X.Z 0 ⊓ X.Q 4) :=
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0 ⊓ X.Q 4) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hrel := X.relIndex_Z_zero_inf_Q_four hc hmax hs hodd h5 hX hGT hreg
   have hle := X.card_Z_zero_le hc hmax hs hodd h5 hX hGT
@@ -409,7 +409,7 @@ theorem card_Z_zero (hc : CharTwoStab (V := V) (G := G))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     Nat.card (X.Z 0) = 2 ^ X.n 0 := by
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hinf := X.Z_zero_inf_Q_four hc hmax hs hodd h5 hX hGT hreg
   have hrel := X.relIndex_Z_zero_inf_Q_four hc hmax hs hodd h5 hX hGT hreg
   have hcard2 := Subgroup.relIndex_mul_card (H := X.Z 0 ⊓ X.Q 4) (K := X.Z 0)
@@ -476,10 +476,10 @@ private theorem card_Z_zero_sup_QT {m : ℕ} (hc : CharTwoStab (V := V) (G := G)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     Nat.card ↥(X.Z 0 ⊔ X.QT) = 2 ^ X.n 0 * Nat.card ↥X.QT := by
-  haveI : Finite ↥X.GT := finite_of_le_stabilizer X.hyp (H := X.GT) (X.GT_le_Gi 0)
-  haveI : Finite ↥X.QT :=
+  have : Finite ↥X.GT := finite_of_le_stabilizer X.hyp (H := X.GT) (X.GT_le_Gi 0)
+  have : Finite ↥X.QT :=
     Finite.of_injective (Subgroup.inclusion X.QT_le_GT) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hZT := X.Z_zero_le_ZM hc hmax hs hodd h5 hX hGT
   have hQT := X.QT_le_centerOf_Lst hGT hs hodd h5 hX
   have hcent : X.QT ≤ Subgroup.centralizer (X.Z 0 : Set G) := by
@@ -505,7 +505,7 @@ theorem ZM_eq_Z_zero_sup_QT (hc : CharTwoStab (V := V) (G := G))
   have h4 : X.Z 0 ⊔ X.QT ≤ X.ZM :=
     sup_le (X.Z_zero_le_ZM hc hmax hs hodd h5 hX hGT)
       (X.QT_le_centerOf_Lst hGT hs hodd h5 hX)
-  haveI : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
+  have : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
   have hm : m = 4 := X.m_eq_four hc hmax hs hodd h5 hX hGT hreg
   refine (Subgroup.eq_of_le_of_card_ge h4 ?_).symm
   rw [X.card_ZM hGT hs hodd h5 hX hreg,
@@ -623,7 +623,7 @@ theorem Z_four_inf_Q_zero (hc : CharTwoStab (V := V) (G := G))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     X.Z 4 ⊓ X.Q 0 = ⊥ := by
-  haveI : Finite ↥(X.Z 4) := by
+  have : Finite ↥(X.Z 4) := by
     have hle : X.Z 4 ≤ X.Gi 4 := by
       rw [X.Z_four_eq_conjSub_tau_sq]
       have h := conjSub_mono (X.τ ^ (2 : ℤ))
@@ -631,7 +631,7 @@ theorem Z_four_inf_Q_zero (hc : CharTwoStab (V := V) (G := G))
           (i := 0) (by omega) (by omega))
       rwa [← X.Gi_add 2 0] at h
     exact finite_of_le_stabilizer X.hyp hle
-  haveI : Finite ↥(X.Z 4 ⊓ X.Q 0) :=
+  have : Finite ↥(X.Z 4 ⊓ X.Q 0) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hsup := X.Z_four_sup_Q_zero hc hmax hs hodd h5 hX hGT hreg
   have hcard4 : Nat.card ↥(X.Z 4) = 2 ^ X.n 0 := by
@@ -695,8 +695,8 @@ private theorem Z_neg_four_inf_Q_zero {m : ℕ} (hc : CharTwoStab (V := V) (G :=
     have h := conjSub_mono (X.τ ^ (-2 : ℤ))
       (X.Z_zero_le_Gi_of_mem hc hmax hs hodd h5 hX hGT hreg (i := 4) (by omega) (by omega))
     rwa [← X.Gi_add (-2) 4] at h
-  haveI : Finite ↥(X.Z (-4)) := finite_of_le_stabilizer X.hyp (H := X.Z (-4)) hZm4_Gi1
-  haveI : Finite ↥(X.Z (-4) ⊓ X.Q 0) :=
+  have : Finite ↥(X.Z (-4)) := finite_of_le_stabilizer X.hyp (H := X.Z (-4)) hZm4_Gi1
+  have : Finite ↥(X.Z (-4) ⊓ X.Q 0) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hsup := X.Z_neg_four_sup_Q_zero hc hmax hs hodd h5 hX hGT hreg
   have hcard := X.card_Z_neg_four hc hmax hs hodd h5 hX hGT hreg
@@ -819,11 +819,11 @@ private theorem card_Z_zero_sup_Z_two {m : ℕ} (hc : CharTwoStab (V := V) (G :=
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     Nat.card ↥(X.Z 0 ⊔ X.Z 2) = 2 ^ X.n 0 * 2 ^ X.n 0 := by
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
-  haveI : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2)
     (X.Z_two_le_Gi_of_mem hc hmax hs hodd h5 hX hGT hreg (i := 2)
       (by omega) (by omega))
-  haveI : Finite ↥(X.Z 0 ⊔ X.Z 2) :=
+  have : Finite ↥(X.Z 0 ⊔ X.Z 2) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 0 ⊔ X.Z 2)
       (sup_le (X.Z_le_Gi 0) (X.Z_two_le_Gi_of_mem hc hmax hs hodd h5 hX hGT hreg
         (i := 0) (by omega) (by omega)))
@@ -904,8 +904,8 @@ private theorem relIndex_Z_one_inf_ZM_le (hGT : Even (Nat.card X.GT))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s)
     :
     (X.Z 1 ⊓ X.ZM).relIndex (X.Z 1) ≤ 2 ^ X.n 0 := by
-  haveI : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
-  haveI : Finite ↥(relCent (X.E X.QT 0) X.ZM (X.skP X.QT)) :=
+  have : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
+  have : Finite ↥(relCent (X.E X.QT 0) X.ZM (X.skP X.QT)) :=
     finite_of_le_stabilizer X.hyp
       (H := relCent (X.E X.QT 0) X.ZM (X.skP X.QT))
       (fun x hx => (inf_le_left.trans (X.Q_le_Gi 0)) hx.1)
@@ -938,14 +938,14 @@ theorem card_Z_one_sq (hc : CharTwoStab (V := V) (G := G))
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) (hGT : Even (Nat.card X.GT))
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     Nat.card (X.Z 1) = 2 ^ (2 * X.n 0) := by
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
-  haveI : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
-  haveI : Finite ↥(X.Z 1 ⊓ X.ZM) :=
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥X.ZM := finite_of_le_stabilizer X.hyp (H := X.ZM) X.ZM_le_Gi_zero
+  have : Finite ↥(X.Z 1 ⊓ X.ZM) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hZ1_Gi0 : X.Z 1 ≤ X.Gi 0 :=
     (X.Z_le_Q 1).trans ((X.Q_le_Gi_adj 1).trans inf_le_left)
   have hZM_Gi0 : X.ZM ≤ X.Gi 0 := X.ZM_le_Gi_zero
-  haveI : Finite ↥(X.Z 1 ⊔ X.ZM) :=
+  have : Finite ↥(X.Z 1 ⊔ X.ZM) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 1 ⊔ X.ZM) (sup_le hZ1_Gi0 hZM_Gi0)
   have hZ1ZM := X.Z_one_inf_ZM hc hmax hs hodd h5 hX hGT hreg
   have hrel_le := X.relIndex_Z_one_inf_ZM_le hGT hs hodd h5 hX
@@ -979,12 +979,12 @@ theorem Z_one_eq_Z_zero_sup_Z_two (hc : CharTwoStab (V := V) (G := G))
     {m : ℕ} (hreg : X.IsMaxReg 0 (2 * (m : ℤ))) :
     X.Z 1 = X.Z 0 ⊔ X.Z 2 := by
   have hle := X.Z_zero_sup_Z_two_le hc hmax hs hodd h5 hX hGT hreg
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hZ2_2 : X.Z 2 ≤ X.Gi 2 :=
     X.Z_two_le_Gi_of_mem hc hmax hs hodd h5 hX hGT hreg (i := 2)
       (by omega) (by omega)
-  haveI : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2) hZ2_2
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥(X.Z 2) := finite_of_le_stabilizer X.hyp (H := X.Z 2) hZ2_2
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
   refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
   rw [X.card_Z_zero_sup_Z_two hc hmax hs hodd h5 hX hGT hreg,
     X.card_Z_one_sq hc hmax hs hodd h5 hX hGT hreg]
@@ -1094,8 +1094,8 @@ theorem L_one_inf_centralizer_Z_one (hc : CharTwoStab (V := V) (G := G))
   have hZ1_Z0 : X.Z 1 ≤ X.Z 0 := by
     intro z hz
     exact hle (Subgroup.mem_inf.mpr ⟨hZ1_centS hz, hZ1_Q0 hz⟩)
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hcard_le : Nat.card ↥(X.Z 1) ≤ Nat.card ↥(X.Z 0) := Subgroup.card_le_of_le hZ1_Z0
   rw [X.card_Z_one_sq hc hmax hs hodd h5 hX hGT hreg,
     X.card_Z_zero hc hmax hs hodd h5 hX hGT hreg] at hcard_le
@@ -1120,11 +1120,11 @@ private theorem Z_one_inf_centralizer_eq {T : Set G} {W Y : Subgroup G}
     (hcardY : Nat.card ↥Y = 2 ^ X.n 0) (hcardW : Nat.card ↥W = 2 ^ X.n 0)
     (hcardZ1 : Nat.card ↥(X.Z 1) = 2 ^ (2 * X.n 0)) :
     X.Z 1 ⊓ Subgroup.centralizer T = W := by
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
-  haveI : Finite ↥Y := finite_of_le_stabilizer X.hyp (H := Y) (hY.trans (X.Z_le_Gi 1))
-  haveI : Finite ↥(X.Z 1 ⊓ Subgroup.centralizer T) :=
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥Y := finite_of_le_stabilizer X.hyp (H := Y) (hY.trans (X.Z_le_Gi 1))
+  have : Finite ↥(X.Z 1 ⊓ Subgroup.centralizer T) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥W :=
+  have : Finite ↥W :=
     finite_of_le_stabilizer X.hyp (H := W) (hW.trans (inf_le_left.trans (X.Z_le_Gi 1)))
   have hnorm : Y ≤ Subgroup.normalizer
       ((X.Z 1 ⊓ Subgroup.centralizer T : Subgroup G) : Set G) := by
@@ -1648,7 +1648,7 @@ theorem n_one_le_n_zero (hc : CharTwoStab (V := V) (G := G))
     (X.Z_le_Q 1).trans (X.hyp.isLocL2_oTwoPrime (X.vert 1)).oTwo_le
   let H : Subgroup G := X.L 1
   let V' : Subgroup ↥H := (X.Z 1).subgroupOf H
-  haveI : Finite ↥H := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
+  have : Finite ↥H := finite_of_le_stabilizer X.hyp (H := X.L 1) (X.L_le_Gi 1)
   have hquot : IsL2Quot (X.n 1) (oTwoQuot ↥(⊤ : Subgroup ↥H)) := by
     obtain ⟨e⟩ := (X.hyp.isLocL2_oTwoPrime (X.vert 1)).quot
     exact ⟨(CFSG.Quasithin.F112R.oTwoQuotCongr Subgroup.topEquiv).trans e⟩

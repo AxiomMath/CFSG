@@ -45,7 +45,7 @@ private theorem leviSub_commutator_eq_T2J7
 private theorem pCore_leviSub_eq_bot_T2J7
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     CFSG.pCore 2 ↥(leviSub (stdP0 F b c)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eL⟩ := nonempty_leviSub_equiv_statedOmega (F := F) (b := b) (c := c) hirr
     (perpIsMinusTwo_stdP0 F b c)
   have hT : CFSG.pCore 2 ↥(StatedOmega (StatedQuadMinus 2 F b c)) = ⊥ :=
@@ -101,7 +101,7 @@ theorem isL2_bar2_derInf_std {n : ℕ} (hcard : Nat.card F = 2 ^ n)
     (hLX : leviSub (stdP0 F b c) ≤ X)
     (hXS : X ≤ pointStabilizer (quadMinus 3 F b c) (stdP0 F b c).e) :
     IsL2 (Bar2 (F07.DerInf X)) (2 * n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eL⟩ := nonempty_leviSub_equiv_statedOmega (F := F) (b := b) (c := c) hirr
     (perpIsMinusTwo_stdP0 F b c)
   have hLperf : ⁅leviSub (stdP0 F b c), leviSub (stdP0 F b c)⁆ = leviSub (stdP0 F b c) :=
@@ -143,7 +143,7 @@ private theorem exists_ne_one_inf_derInf_Lom_T2J7
   have hSD : S ≤ Subgroup.normalizer (D : Set (Gom Q6)) := by
     have h := uc22p22m_le_normalizer_Hinf S
     rwa [hinf_eq_derInf_T2J7 S] at h
-  haveI : Nontrivial (Gom (Q6.restrict P.perp)) := nontrivial_gom_restrict_perp hirr hP
+  have : Nontrivial (Gom (Q6.restrict P.perp)) := nontrivial_gom_restrict_perp hirr hP
   obtain ⟨l, hl, a, ha, hla⟩ := exists_mem_leviSub_app_ne P
   have hQ : (polarBilin Q6).Nondegenerate :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite 3 F hirr

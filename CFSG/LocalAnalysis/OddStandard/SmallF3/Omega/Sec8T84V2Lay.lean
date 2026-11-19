@@ -26,7 +26,7 @@ theorem sec8t84v_adjust {G : Type} [Group G] {L : Subgroup G} {γ l c : G} (hγ2
     intro x hx
     have hx' : γ⁻¹ * x * γ ∈ L := by
       have := hN x hx
-      rwa [hγinv] at this ⊢
+      rw [hγinv] at this ⊢; assumption
     have h1 : (γ⁻¹ * x * γ) * y = y * (γ⁻¹ * x * γ) := Subgroup.mem_centralizer_iff.mp hy _ hx'
     calc x * (γ * y * γ⁻¹) = γ * ((γ⁻¹ * x * γ) * y) * γ⁻¹ := by group
       _ = γ * (y * (γ⁻¹ * x * γ)) * γ⁻¹ := by rw [h1]
@@ -65,7 +65,7 @@ theorem sec8t84v_adjust {G : Type} [Group G] {L : Subgroup G} {γ l c : G} (hγ2
 
 private theorem sec8t84v_odd_card_oddCore (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 

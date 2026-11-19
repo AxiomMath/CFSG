@@ -28,9 +28,10 @@ theorem zmod_two_mul_eq_zero {m : ℕ} (x : ZMod (2 ^ m)) (hx : 2 * x = 0) :
         have h2' : 2 * x.val = 2 * 2 ^ (m - 1) := by
           rw [h2, ← pow_succ', Nat.sub_add_cancel hm]
         exact Nat.mul_left_cancel (by norm_num) h2'
-      haveI : NeZero (2 ^ m) := ⟨pow_ne_zero m (by norm_num)⟩
+      have : NeZero (2 ^ m) := ⟨pow_ne_zero m (by norm_num)⟩
       rw [← ZMod.natCast_zmod_val x, hval]
 
+omit [Finite G] in
 theorem mem_omegaIn_one_iff_of_comm {D : Subgroup G}
     (hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) {x : G} :
     x ∈ omegaIn 1 D ↔ x ∈ D ∧ x * x = 1 := by
@@ -57,20 +58,20 @@ theorem t100_torus_decomp (m : ℕ) (z : Torus (StrothTypeIndex.t100 m).k) :
     z = (z 0).val • gen (StrothTypeIndex.t100 m).k 0 +
         (z 1).val • gen (StrothTypeIndex.t100 m).k 1 +
         (z 2).val • gen (StrothTypeIndex.t100 m).k 2 := by
-  haveI h0n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 0)) := by
+  have h0n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 0)) := by
     rw [show (StrothTypeIndex.t100 m).k 0 = m from by
       simp [StrothTypeIndex.k, Type100.k]]
     exact ⟨pow_ne_zero m (by norm_num)⟩
-  haveI h1n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 1)) := by
+  have h1n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 1)) := by
     rw [show (StrothTypeIndex.t100 m).k 1 = m + 1 from by
       simp [StrothTypeIndex.k, Type100.k]]
     exact ⟨pow_ne_zero (m + 1) (by norm_num)⟩
-  haveI h2n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 2)) := by
+  have h2n : NeZero (2 ^ ((StrothTypeIndex.t100 m).k 2)) := by
     rw [show (StrothTypeIndex.t100 m).k 2 = m + 1 from by
       simp [StrothTypeIndex.k, Type100.k]]
     exact ⟨pow_ne_zero (m + 1) (by norm_num)⟩
   funext i
-  fin_cases i <;> simp only [id_eq, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk]
+  fin_cases i <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk]
   · rw [Pi.add_apply, Pi.add_apply,
       nsmul_gen_self (z 0).val (StrothTypeIndex.t100 m).k (0 : Fin 3),
       nsmul_gen_of_ne (z 1).val (StrothTypeIndex.t100 m).k (i := (0 : Fin 3)) (j := (1 : Fin 3)) (by decide),
@@ -89,6 +90,7 @@ theorem t100_torus_decomp (m : ℕ) (z : Torus (StrothTypeIndex.t100 m).k) :
       nsmul_gen_self (z 2).val (StrothTypeIndex.t100 m).k (2 : Fin 3), zero_add, zero_add]
     exact (ZMod.natCast_zmod_val (z 2)).symm
 
+omit [Finite G] in
 theorem ofTorus_t100_eq {D : Subgroup G} {m : ℕ}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m))
     (z : Torus (StrothTypeIndex.t100 m).k) :
@@ -115,13 +117,14 @@ theorem t100_coords_of_two_torsion {m : ℕ} (z : Torus (StrothTypeIndex.t100 m)
   · apply zmod_two_mul_eq_zero (m := (StrothTypeIndex.t100 m).k 2)
     simpa [two_mul, Pi.add_apply] using congrFun hz 2
 
+omit [Finite G] in
 theorem omegaIn_one_t100 {D : Subgroup G} {m : ℕ}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)) :
     omegaIn 1 D = Subgroup.closure
       ({(dD.c : G) ^ (2 ^ (m - 1)), (dD.a : G) ^ (2 ^ m),
         (dD.b : G) ^ (2 ^ m)} : Set G) := by
   classical
-  haveI : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
   have hcomm : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a :=
     fun a ha b hb => mul_comm_mem_of_isMulCommutative ha hb
   let K : Subgroup G := Subgroup.closure
@@ -153,7 +156,7 @@ theorem omegaIn_one_t100 {D : Subgroup G} {m : ℕ}
         · subst hm
           have hk0 : (StrothTypeIndex.t100 0).k 0 = 0 := by
             simp [StrothTypeIndex.k, Type100.k]
-          haveI : Subsingleton (ZMod (2 ^ ((StrothTypeIndex.t100 0).k 0))) := by
+          have : Subsingleton (ZMod (2 ^ ((StrothTypeIndex.t100 0).k 0))) := by
             rw [hk0]
             exact ZMod.subsingleton_iff.mpr rfl
           have hzero : z 0 = 0 := Subsingleton.elim _ _
@@ -305,6 +308,7 @@ theorem stroth31Case2_frame (F : StrothFrame G) {D : Subgroup G} {m : ℕ}
     False :=
   stroth31Case2 (X := F.toAmbient hH) (Z := h.toDatum hH) dD hfus hsplit hnf1 hsub1 hnf2 hsub2
 
+omit [Finite G] in
 theorem stroth31Case3_frame {D : Subgroup G} {m : ℕ}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)} {r : G}
     (hsplit : strothConj r (dD.c : G) = ((dD.c : G))⁻¹ ∨
@@ -314,6 +318,7 @@ theorem stroth31Case3_frame {D : Subgroup G} {m : ℕ}
     False :=
   stroth31Case3 dD hsplit hsub1 hsub2
 
+omit [Finite G] in
 theorem stroth31Case4_frame {D : Subgroup G} {m : ℕ}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)} {r : G}
     (hsplit : strothConj r (dD.c : G) = ((dD.c : G))⁻¹ ∨
@@ -327,7 +332,7 @@ theorem stroth31Case4_frame {D : Subgroup G} {m : ℕ}
 theorem no_index_four_D_ne_A (F : StrothFrame G) {D : Subgroup G} {m : ℕ}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t100 m)} (h : F.IsD D dD)
     (hH : NoInvolutionsCentralizing (F.S : Subgroup G) F.A)
-    (hne : D ≠ F.A) (C : Subgroup G)
+    (_hne : D ≠ F.A) (C : Subgroup G)
     (hCR : C ≤ strothR (F.toAmbient hH) D)
     (hmin : IsMinimalLModuleMod (h.toDatum hH).dataD C)
     (hfus : ∀ g ∈ strothR (F.toAmbient hH) D,

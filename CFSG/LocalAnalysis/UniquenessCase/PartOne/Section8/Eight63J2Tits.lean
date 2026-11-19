@@ -22,13 +22,13 @@ theorem not_five_dvd_card_outer_of_isSpor_J2
     ¬ 5 ∣ Nat.card (Outer X) := by
   obtain ⟨e⟩ := h
   rw [CFSG.SignalizerFunctorTheorem.CatalogBridge.card_outer_eq_of_mulEquiv e]
-  haveI : Finite (Carrier .J2) := Finite.of_equiv X e.toEquiv
-  haveI : Finite (MulAut (Carrier .J2)) :=
+  have : Finite (Carrier .J2) := Finite.of_equiv X e.toEquiv
+  have : Finite (MulAut (Carrier .J2)) :=
     Finite.of_injective (fun α : MulAut (Carrier .J2) => (α : Carrier .J2 → Carrier .J2))
       DFunLike.coe_injective
-  haveI : Finite (Outer (Carrier .J2)) :=
+  have : Finite (Outer (Carrier .J2)) :=
     Finite.of_surjective (QuotientGroup.mk' (inner (Carrier .J2))) QuotientGroup.mk_surjective
-  haveI : Nonempty (Outer (Carrier .J2)) :=
+  have : Nonempty (Outer (Carrier .J2)) :=
     ⟨QuotientGroup.mk' (inner (Carrier .J2)) 1⟩
   have h2 : Nat.card (Outer (Carrier .J2)) ≤ 2 :=
     CFSG.Sporadic.Schreier.AT_J2_Schreier.1
@@ -40,9 +40,9 @@ theorem exists_elemAbelian_five_two_of_isSpor_J2
     {X : Type} [Group X] [Finite X] (h : IsSpor X .J2) :
     ∃ E : Subgroup X, CFSG.Open.IsElemAbelian 5 E ∧ Nat.card E = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := h
-  haveI : Finite (Carrier .J2) := Finite.of_equiv X e.toEquiv
+  have : Finite (Carrier .J2) := Finite.of_equiv X e.toEquiv
   obtain ⟨x, y, -, hx, hy, hxy, hcard, -⟩ :=
     CFSG.SectionRank.J2_sylow5_square_witness
   let xC : Carrier .J2 := x
@@ -58,7 +58,7 @@ theorem exists_elemAbelian_five_two_of_isSpor_J2
       intro z hz
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
       rcases hz with hz | hz
-      · subst z; simpa [h1] using Subgroup.one_mem (Subgroup.zpowers yC)
+      · subst z; simp [h1]
       · subst z; exact Subgroup.mem_zpowers yC
     have hdvd : Nat.card (Subgroup.closure ({xC, yC} : Set (Carrier .J2))) ∣
         Nat.card (Subgroup.zpowers yC) := Subgroup.card_dvd_of_le hle
@@ -132,14 +132,14 @@ theorem exists_elemAbelian_five_two_of_lieModel_tits
     (h : LieModel X .Tits 0 2 1) :
     ∃ E : Subgroup X, CFSG.Open.IsElemAbelian 5 E ∧ Nat.card E = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hree : CFSG.Blueprint.ReeTitsModel X .Tits 2 1 :=
     (CFSG.Blueprint.LieModel.reeTitsModel h (by decide)).2
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, ⟨e⟩⟩ :=
     CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hree
-  letI := hKfield
-  letI := hKfin
-  haveI := hKchar
+  let := hKfield
+  let := hKfin
+  have := hKchar
   obtain ⟨x, y, -, hx, hy, hxy, hcard, -⟩ :=
     CFSG.SectionRank.Tits_sylow5_square_witness (K := K) hKcard
   let D := commutator (CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 K 0)
@@ -150,7 +150,7 @@ theorem exists_elemAbelian_five_two_of_lieModel_tits
       intro z hz
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
       rcases hz with hz | hz
-      · subst z; simpa [h1] using Subgroup.one_mem (Subgroup.zpowers y)
+      · subst z; simp [h1]
       · subst z; exact Subgroup.mem_zpowers y
     have hdvd : Nat.card (Subgroup.closure ({x, y} : Set D)) ∣
         Nat.card (Subgroup.zpowers y) := Subgroup.card_dvd_of_le hle
@@ -205,9 +205,9 @@ theorem pRank_five_eq_two_of_lieModel_tits
     (CFSG.Blueprint.LieModel.reeTitsModel h (by decide)).2
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, ⟨e⟩⟩ :=
     CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hree
-  letI := hKfield
-  letI := hKfin
-  haveI := hKchar
+  let := hKfield
+  let := hKfin
+  have := hKchar
   have hdvd : Nat.card X ∣ 35942400 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.SectionRank.TitsOrder.Tits_commutator_card_dvd (K := K) hKcard

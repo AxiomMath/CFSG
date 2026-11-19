@@ -52,7 +52,7 @@ theorem marked_iff (m r : ℕ) : marked m r = true ↔ m.testBit r = true := by
     change Nat.blt 0 (m &&& 1 <<< r) = _
     rw [Nat.one_shiftLeft]
   rw [e, Nat.and_two_pow]
-  cases m.testBit r <;> simp [Nat.two_pow_pos]
+  cases m.testBit r <;> simp
 
 theorem marked_gmask3 {GR k : ℕ} (h : marked (gmask3 GR) k = true) :
     ∃ i : Fin 3, k = regAt GR i.val := by

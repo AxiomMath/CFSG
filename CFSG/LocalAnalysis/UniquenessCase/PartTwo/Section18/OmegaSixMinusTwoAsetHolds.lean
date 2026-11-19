@@ -72,7 +72,7 @@ private theorem pair_isIrr_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W]
       refine ⟨Multiplicative.ofAdd (Pi.single (Sum.inl ⟨0, by norm_num⟩) 1), 1, ?_⟩
       intro h
       have h' := congrArg Multiplicative.toAdd h
-      simp [Pi.single_eq_same] at h'
+      simp at h'
     have _ : Subsingleton ↥U := by rw [hbot]; infer_instance
     exact (not_subsingleton_iff_nontrivial.mpr hnt) hβs.subsingleton
   refine ⟨hUbot, ?_⟩
@@ -213,14 +213,14 @@ private theorem eq_one_of_fixes_natOmegaMinus_summand {W : Type} [CommGroup W] [
     exact h
   ext w
   obtain ⟨x, hx, y, hy, rfl⟩ := Subgroup.mem_sup.mp (by rw [hsup]; exact Subgroup.mem_top w)
-  simpa [map_mul, hafix0 x hx, hay y hy]
+  simp [map_mul, hafix0 x hx, hay y hy]
 
 theorem k_Omega6Minus_sumOfTwo_aParam_holds : K_Omega6Minus_sumOfTwo_aParam := by
   classical
   intro W _ _ X N n hSum hN
   by_cases hev : Even (Nat.card N)
   · unfold E3.aParam
-    rw [if_pos hev]
+    rw [ite_eq_left hev]
     by_cases hne : {k : ℕ | 0 < k ∧ (E3.aSet k N).Nonempty}.Nonempty
     · refine csSup_le hne ?_
       rintro k ⟨hk0, A, hA⟩
@@ -316,7 +316,6 @@ theorem k_Omega6Minus_sumOfTwo_aParam_holds : K_Omega6Minus_sumOfTwo_aParam := b
         obtain ⟨u, hu0, hufix⟩ := exists_fixed_lineSub hA'p hform
         have hJ : ∀ a ∈ A', ∀ w ∈ (lineSub (ι := OIdx6) u), a w ∈ (lineSub (ι := OIdx6) u) := by
           intro a ha w hw
-          change a w ∈ lineSub u
           have hmap := hufix a ha
           rw [← hmap]
           exact ⟨w, hw, rfl⟩
@@ -848,7 +847,7 @@ theorem k_Omega6Minus_sumOfTwo_aParam_holds : K_Omega6Minus_sumOfTwo_aParam := b
     · rw [Set.not_nonempty_iff_eq_empty.1 hne, csSup_empty]
       exact Nat.zero_le _
   · unfold E3.aParam
-    rw [if_neg hev]
+    rw [ite_eq_right hev]
     exact Nat.zero_le _
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S18

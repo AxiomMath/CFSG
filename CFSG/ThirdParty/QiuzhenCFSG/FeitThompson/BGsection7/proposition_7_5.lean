@@ -364,7 +364,7 @@ private theorem CFSG.pCore_le_sylow
     pCore p G ≤ (S : Subgroup G) := by
   have hsup_p : IsPGroup p (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) := by
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup G)) (K := pCore p G)
-      S.isPGroup' (pCore_isPGroup (G := G) (p := p))
+      S.isPGroup (pCore_isPGroup (G := G) (p := p))
   have hEq : (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) = (S : Subgroup G) :=
     le_antisymm (S.maximal_isPGroup.2 hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq
@@ -457,7 +457,7 @@ private theorem CFSG.le_pPrimeCore_of_contains_sylow
     simpa [M] using (pPrimeCore_coprime_card (G := X) (p := p))
   have hPX_inf_M : (PX : Subgroup X) ⊓ M = ⊥ := by
     simpa [M] using
-      inf_eq_bot_of_isPGroup_and_coprime_card (G := X) (p := p) PX.isPGroup' hMcop
+      inf_eq_bot_of_isPGroup_and_coprime_card (G := X) (p := p) PX.isPGroup hMcop
   have hYX_card : Nat.card YX = Nat.card Y := by
     simpa [YX] using
       (Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := Y) (K := X) hYX).toEquiv)
@@ -1106,7 +1106,7 @@ private theorem CFSG.proposition_7_5_case_scn
   have hA0cent_eq : Subgroup.centralizer (A0 : Set P) = A0 := hA0'.2.1
   have hA0groupRank : 2 ≤ groupRank A0 := hA0'.2.2
   let : A0.Normal := hA0norm
-  let : Fact (IsPGroup p P) := ⟨P.isPGroup'⟩
+  let : Fact (IsPGroup p P) := ⟨P.isPGroup⟩
   have hA0_noncyc : ¬ IsCyclic A0 := by
     intro hcyc
     let : IsCyclic A0 := hcyc
@@ -1259,7 +1259,7 @@ private theorem CFSG.proposition_7_5_case_scn
             let φ : P →* MulAut B0 := MulAut.conjNormal (H := B0)
             have hφ_range_p : IsPGroup p φ.range := by
               have hPtop : IsPGroup p (⊤ : Subgroup P) := by
-                simpa using P.isPGroup'.to_subgroup (⊤ : Subgroup P)
+                simpa using P.isPGroup.to_subgroup (⊤ : Subgroup P)
               rw [MonoidHom.range_eq_map]
               exact IsPGroup.map (p := p) (H := (⊤ : Subgroup P)) hPtop φ
             have hφcard : Nat.card φ.range ≤ p :=
@@ -1290,7 +1290,7 @@ private theorem CFSG.proposition_7_5_case_scn
                   simpa using (Subgroup.index_mul_card (H := P1subP)).symm
                 _ ≤ p * Nat.card P1subP := Nat.mul_le_mul hP1idx_le_p le_rfl
                 _ = p * Nat.card P1 := by rw [hP1subP_card]
-            have hP1p : IsPGroup p P1 := P.isPGroup'.to_inf_left
+            have hP1p : IsPGroup p P1 := P.isPGroup.to_inf_left
             have hP1Xp : IsPGroup p (P1.subgroupOf Xb) := by
               exact hP1p.of_equiv (Subgroup.subgroupOfEquivOfLe (H := P1) (K := Xb) hP1_le_Xb).symm
             obtain ⟨P2, hP1XP2⟩ := IsPGroup.exists_le_sylow hP1Xp
@@ -1300,7 +1300,7 @@ private theorem CFSG.proposition_7_5_case_scn
               simpa [P2G] using
                 (Subgroup.card_map_of_injective (K := (P2 : Subgroup Xb)) (f := Xb.subtype) Xb.subtype_injective)
             have hP2Gp : IsPGroup p P2G := by
-              exact IsPGroup.map (p := p) (H := (P2 : Subgroup Xb)) P2.isPGroup' Xb.subtype
+              exact IsPGroup.map (p := p) (H := (P2 : Subgroup Xb)) P2.isPGroup Xb.subtype
             have hP2card_le_P : Nat.card P2 ≤ Nat.card P := by
               rw [← hP2G_card]
               exact card_le_card_sylow_of_isPGroup hP2Gp P
@@ -1332,7 +1332,7 @@ private theorem CFSG.proposition_7_5_case_scn
               exact hb_ne (congrArg Subtype.val hb_one)
             let : Nontrivial P2 := P2.nontrivial_iff_ne_bot.mpr hP2_ne_bot
             let : P1P2.Normal :=
-              normal_of_index_le_prime_of_isPGroup (H := P1P2) P2.isPGroup' hP1P2_idx_le_p
+              normal_of_index_le_prime_of_isPGroup (H := P1P2) P2.isPGroup hP1P2_idx_le_p
             have hzP1 : z ∈ P1 := ⟨zP.2, hzXb⟩
             have hzP1X : (⟨z, hzXb⟩ : Xb) ∈ P1.subgroupOf Xb := by
               simpa [Subgroup.mem_subgroupOf] using hzP1

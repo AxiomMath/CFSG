@@ -75,7 +75,7 @@ noncomputable def netPerm (k n N : Nat) : Equiv.Perm (Fin n) := by
 theorem netPerm_apply {k n N : Nat} (h : Good k n N) (i : Fin n) :
     (netPerm k n N i : Nat) = benesPerm k N i := by
   unfold netPerm
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem prod_apply {k n : Nat} : ∀ Ns : List Nat, (∀ N ∈ Ns, Good k n N) → ∀ i : Fin n,
@@ -191,10 +191,10 @@ theorem codesL_catW {w P1 L1 P2 L2 : Nat} (h : P1 < 2 ^ (w * L1)) :
   congr 1
   · apply List.map_congr_left
     intro i hi
-    rw [fieldAt_or_shl h, if_pos (List.mem_range.mp hi)]
+    rw [fieldAt_or_shl h, ite_eq_left (List.mem_range.mp hi)]
   · apply List.map_congr_left
     intro i _
-    rw [Function.comp_apply, fieldAt_or_shl h, if_neg (by omega), Nat.add_sub_cancel_left]
+    rw [Function.comp_apply, fieldAt_or_shl h, ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 theorem fieldAt_push {w acc g : Nat} (hg : g < 2 ^ w) (i : Nat) :
     fieldAt w ((acc <<< w) ||| g) i = if i = 0 then g else fieldAt w acc (i - 1) := by
@@ -202,9 +202,9 @@ theorem fieldAt_push {w acc g : Nat} (hg : g < 2 ^ w) (i : Nat) :
   rw [e, fieldAt_or_shl (L := 1) (by rwa [Nat.mul_one])]
   by_cases hi : i = 0
   · subst hi
-    rw [if_pos (by decide), if_pos rfl, fieldAt_eq', Nat.mul_zero, Nat.shiftRight_zero,
+    rw [ite_eq_left (by decide), ite_eq_left rfl, fieldAt_eq', Nat.mul_zero, Nat.shiftRight_zero,
       Nat.mod_eq_of_lt hg]
-  · rw [if_neg (by omega), if_neg hi]
+  · rw [ite_eq_right (by omega), ite_eq_right hi]
 
 theorem invA_spec {w : Nat} (hw : 0 < w) : ∀ (len Q acc a : Nat), acc < 2 ^ (w * a) →
     (∀ i, fieldAt w (Nat.rec (motive := fun _ => Nat → Nat → Nat) (fun _ acc => acc)
@@ -235,12 +235,12 @@ theorem invA_spec {w : Nat} (hw : 0 < w) : ∀ (len Q acc a : Nat), acc < 2 ^ (w
       len (Q >>> w) ((acc <<< w) ||| (fieldAt w Q 0 ^^^ 1))) i = _
     rw [ih1 i, fieldAt_push hg]
     by_cases h1 : i < len
-    · rw [if_pos h1, if_pos (by omega), fieldAt_shr, show len - 1 - i + 1 = len + 1 - 1 - i by omega]
-    · rw [if_neg h1]
+    · rw [ite_eq_left h1, ite_eq_left (by omega), fieldAt_shr, show len - 1 - i + 1 = len + 1 - 1 - i by omega]
+    · rw [ite_eq_right h1]
       by_cases h2 : i = len
       · subst h2
-        rw [if_pos (by omega), if_pos (by omega), show i + 1 - 1 - i = 0 by omega]
-      · rw [if_neg (by omega), if_neg (by omega), show i - len - 1 = i - (len + 1) by omega]
+        rw [ite_eq_left (by omega), ite_eq_left (by omega), show i + 1 - 1 - i = 0 by omega]
+      · rw [ite_eq_right (by omega), ite_eq_right (by omega), show i - len - 1 = i - (len + 1) by omega]
 
 theorem codesL_invW {w P len : Nat} (hw : 0 < w) :
     codesL w (invW w P len) len = ((codesL w P len).reverse).map (· ^^^ 1) ∧
@@ -253,7 +253,7 @@ theorem codesL_invW {w P len : Nat} (hw : 0 < w) :
     simp only [codesL, List.length_map, List.length_range] at hi1
     simp only [codesL, List.getElem_map, List.getElem_range, List.getElem_reverse,
       List.length_map, List.length_range]
-    exact (h1 i).trans (if_pos hi1)
+    exact (h1 i).trans (ite_eq_left hi1)
 
 section Words
 

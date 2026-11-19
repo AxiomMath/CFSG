@@ -65,7 +65,6 @@ theorem dwSplitWidthThree_of (h1 : DW3NoNondeg) (h2 : DW3NoTS2) (h6 : DW3CaseIIN
       have hAel : IsElementaryAbelian 2 A := hEA
       have hAcard : Nat.card A = 2 ^ (S.width + 1) := by
         rw [S.card_clPre, S.card_submodule, h3W]
-        change 2 * 2 ^ 3 = 2 ^ (S.width + 1)
         rw [hw]
         norm_num
       have hAmax : DW.MaxEA S A := ⟨S.clPre_le_QG W, hAcard⟩

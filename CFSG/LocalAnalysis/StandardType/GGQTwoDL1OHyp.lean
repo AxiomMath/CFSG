@@ -12,8 +12,8 @@ namespace CFSG.StandardType.QTwo
 open CFSG.RankThree.Classical2 (orthDerived)
 
 theorem qtwoDL1_oChart_mem_hyp_iff {p : ℕ} {G : Type} [Group G] [Finite G] {Bs L : Subgroup G}
-    (Φ : OrthTorus.OrthFrameCore p Bs L) (hZ : Subgroup.center ↥L = ⊥)
-    (hBN : Bs ≤ Subgroup.normalizer (L : Set G)) {i j k : Fin Φ.r}
+    (Φ : OrthTorus.OrthFrameCore p Bs L) (_hZ : Subgroup.center ↥L = ⊥)
+    (_hBN : Bs ≤ Subgroup.normalizer (L : Set G)) {i j k : Fin Φ.r}
     {w₀ w₁ : ↥(orthDerived Φ.Q)}
     (hw₀ : ∀ f : Fin Φ.r → Multiplicative (ZMod p),
       (w₀ : Φ.V ≃ₗ[Φ.F] Φ.V) * Φ.Δ.τ f * (w₀ : Φ.V ≃ₗ[Φ.F] Φ.V)⁻¹ =

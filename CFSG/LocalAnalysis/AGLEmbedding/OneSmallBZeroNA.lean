@@ -92,7 +92,7 @@ theorem D1OneSmallData.false_of_na (hd : D1OneSmallData p P M H R Rbar K) {z : G
   have hRC : R ≤ Subgroup.centralizer ({z} : Set G) := hd.le_centralizer_czElt hz
   obtain ⟨x, hxP, hxN, -, hxz⟩ := hd.exists_moving_elt hz hB0
   have hxM : x ∈ M := hd.cfg.ext.sylow_le hxP
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   set A := centerOf R with hAdef
   have hzA : z ∈ A := mem_centerOf_iff_commute.mpr ⟨hz.1, fun r hr =>

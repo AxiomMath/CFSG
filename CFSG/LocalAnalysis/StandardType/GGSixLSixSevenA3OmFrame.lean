@@ -53,7 +53,7 @@ theorem GGOmA3Hyp.exists_mem_normalizer_conj_le (H : GGOmA3Hyp F E J) :
       ∀ e ∈ E, w⁻¹ * e * w ∈ J := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨i, j, k, l, hij, hik, hil, hjk, hjl, hkl, hE0, hk, hl⟩ := H.exists_shape
   set π : Equiv.Perm (Fin r) := Equiv.swap i k * Equiv.swap j l with hπ
   obtain ⟨h1, h2⟩ := ggA3_swap_symm hij hjk hkl

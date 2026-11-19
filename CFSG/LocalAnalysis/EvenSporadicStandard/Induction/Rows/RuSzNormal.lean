@@ -161,8 +161,8 @@ theorem card_ruL_eq : Nat.card ruL = 4 * Nat.card K0 := by
 
 theorem eq_K0_of_card {X : Subgroup (Equiv.Perm (Fin 4060))} (hXL : X ≤ ruL)
     (hX : Nat.card X = 29120) : X = K0 := by
-  haveI := K0_simple
-  haveI := K0_finite
+  have := K0_simple
+  have := K0_finite
   have : Finite (Equiv.Perm (Fin 4060)) := inferInstance
   exact eq_of_card_eq_of_card_le K0_le_L hXL card_ruL_eq (by rw [card_K0]; norm_num)
     (by rw [hX, card_K0])
@@ -223,7 +223,7 @@ theorem comm_K0_of_comm_gens {x : Equiv.Perm (Fin 4060)} (hs : x * sG = sG * x)
 
 theorem bG_comm_K0 : ∀ k ∈ K0, bG * k = k * bG := comm_K0_of_comm_gens bG_comm_sG bG_comm_tG
 
-theorem ruA0_comm_K0 : ∀ k ∈ K0, ruA0 * k = k * ruA0 := fun k hk =>
+theorem ruA0_comm_K0 : ∀ _k ∈ K0, ruA0 * _k = _k * ruA0 := fun _k hk =>
   (Subgroup.mem_centralizer_singleton_iff.1 (ruL_le_centralizer (K0_le_L hk)).2).symm
 
 end Cent

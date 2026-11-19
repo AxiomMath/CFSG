@@ -81,7 +81,7 @@ theorem D1OneSmallData.false_of_ab' (hOrb : KFactSmallOrbits)
   have hB0' : ∀ g ∈ (P : Subgroup G), g * z = z * g → g ∈ R := fun g hg hgz =>
     hd.inf_centralizer_le_of_b0 hB0 ⟨hg, Subgroup.mem_centralizer_singleton_iff.mpr hgz⟩
   have h4 := betaFour_all_sylows_rank_ge_four hd.cfg.loc.beta P
-  exact false_of_frame P.isPGroup' hd.cfg.ext.le_P hRcomm hexpR hRcard hTR
+  exact false_of_frame P.isPGroup hd.cfg.ext.le_P hRcomm hexpR hRcard hTR
     (by simpa using hTcard) hzR hzT hzp hB0' hZ hZT h4
 
 end Config

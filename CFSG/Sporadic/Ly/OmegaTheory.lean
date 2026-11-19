@@ -94,7 +94,7 @@ section Squeeze
 variable {J X : Type*} [Group J] [Finite J] [MulAction J X]
 
 theorem squeeze (E : X) (H : Subgroup J) (hH : H ≤ stabilizer J E) {N h₀ : ℕ}
-    (hJ : Nat.card J = N * h₀) (hh : h₀ ≤ Nat.card H) (h0 : 0 < h₀) {ι : Type*} [Fintype ι]
+    (hJ : Nat.card J = N * h₀) (hh : h₀ ≤ Nat.card H) (_h0 : 0 < h₀) {ι : Type*} [Fintype ι]
     [DecidableEq X] (O : ι → Finset X) (hO : ∀ i, (O i : Set X) ⊆ orbit J E)
     (hd : Pairwise fun i j => Disjoint (O i) (O j)) (hsum : N ≤ ∑ i, (O i).card) :
     stabilizer J E = H ∧ Nat.card H = h₀ ∧ Nat.card (orbit J E) = N ∧ ∑ i, (O i).card = N ∧

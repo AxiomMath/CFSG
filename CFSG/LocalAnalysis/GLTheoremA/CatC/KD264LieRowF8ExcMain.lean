@@ -16,12 +16,12 @@ theorem exc_contra (τ : Tag) (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ =
     (hK : Nat.card K = 2 ^ 3) {S : Type} [Group S] [Finite S] (e : S ≃* adjointGroup τ K)
     (A : Subgroup (MulAut S)) (hA : KD264F8Hyp S A) : False := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e.toEquiv
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv S e.toEquiv
   obtain ⟨hAab', hout', hnot'⟩ := F8Trans.hyp_transport e A hA
   have h4 : CFSG.Open.pRank 3 A ≤ 4 := hA.2.2.1
   have h3 := pRank_map_mulEquiv (p := 3) (MulAut.congr e) A
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot'
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot'
   have hb3 : b ^ 3 = 1 := hAab'.2 b hbA
   obtain ⟨E, hEfix, hEab, hEcard⟩ := F8Exc.exists_fixed_rank_four_of_outer τ hτ hK hb3 hbout
   have hbnin : b ∉ (MulAut.conj : ↥(adjointGroup τ K) →*

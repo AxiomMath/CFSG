@@ -18,9 +18,9 @@ theorem conclK_HS
     (h : KConfig (NativeSporadic.Carrier .HS) L V MK) :
     ConclK (NativeSporadic.Carrier .HS) L V MK := by
   let φ : NativeSporadic.Carrier .HS ≃* G₀ := hs100Equiv
-  haveI : Finite G₀ :=
+  have : Finite G₀ :=
     Finite.of_injective (fun x : G₀ => (x : Equiv.Perm (Fin 100))) Subtype.val_injective
-  haveI : Finite (NativeSporadic.Carrier .HS) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .HS) := Finite.of_injective (⇑φ) φ.injective
   have h' : KConfig G₀ (L.map φ.toMonoidHom) (V.map φ.toMonoidHom)
       (MK.map φ.toMonoidHom) := h.map_mulEquiv φ
   obtain ⟨σ, hV | hV⟩ := h'.hs_cases
@@ -31,9 +31,9 @@ theorem conclK_HS
 
 theorem forK_HS :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .HS)) := by
-  haveI : Finite G₀ :=
+  have : Finite G₀ :=
     Finite.of_injective (fun x : G₀ => (x : Equiv.Perm (Fin 100))) Subtype.val_injective
-  haveI : Finite (NativeSporadic.Carrier .HS) :=
+  have : Finite (NativeSporadic.Carrier .HS) :=
     Finite.of_injective (⇑hs100Equiv) hs100Equiv.injective
   refine forK_of_kConfig (X := NativeSporadic.Carrier .HS) ?_ ?_
   · rw [CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.nativeRow_HS]

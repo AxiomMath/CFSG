@@ -35,7 +35,7 @@ theorem conjAut_ne_one_of_comm_scalar {n : ℕ} {F : Type} [Field F] [Finite F] 
 theorem linHeisenbergBalance_holds : LinHeisenbergBalance := by
   intro n F _ _ hn p hp hp5 hpq hnp A B hAB hcomm hAp hBp H hH
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨z, hz⟩ := exists_comm_scalar hn hcomm
   obtain ⟨a, ha⟩ := exists_pow_scalar hn hAp

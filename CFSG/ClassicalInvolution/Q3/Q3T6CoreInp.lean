@@ -89,7 +89,7 @@ theorem false_of_stronglyClosed_cStar (hB1 : S19B.GoldschmidtB1Tmp) (S : Sylow 2
     (hcomm : (c : G) * z * (c : G)⁻¹ * z = z * ((c : G) * z * (c : G)⁻¹)) {n : ℕ}
     (hM : Q3.M11Facts) (hIH : CITBelowT (.sl2 3 1) n) (hn : Nat.card G ≤ n) : False := by
   obtain ⟨-, hΩΛ, hDEΛ, hcard, hTop⟩ := sectionInputs3 hK hΩ hDE hN hnab
-    (S.isPGroup'.to_le hBS) hB hBK hzB c hne hcomm
+    (S.isPGroup.to_le hBS) hB hBK hzB c hne hcomm
   exact false_of_stronglyClosed_three hB1 hnab S hBS hB hsc hM hIH (hcard.trans_le hn) hΩΛ
     ⟨_, ⟨1, conjSub_one _⟩⟩ hDEΛ hTop
 

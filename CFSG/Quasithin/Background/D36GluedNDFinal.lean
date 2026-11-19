@@ -64,6 +64,7 @@ theorem d36nd_normalizer (hL38 : D3L38) (n : D36Norm M Mp T L V t) {g : MulAut W
     rw [← h3, inf_idem] at hrank
     omega
 
+omit [Finite W] in
 theorem resHom_conj_apply (U : Subgroup W) (g l : stabSub U) (u : ↥U) :
     (((resHom U g * resHom U l * (resHom U g)⁻¹) u : ↥U) : W) =
       ((g : MulAut W) * (l : MulAut W) * (g : MulAut W)⁻¹) (u : W) := by

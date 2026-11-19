@@ -158,7 +158,7 @@ theorem s17_47_sl34_five_le_p {D : Data G} {V₀ V L X : Subgroup G} {p n l : �
     exact hSg.sig1_sp p (CFSG.LocalAnalysis.UniquenessCase.UC6S846.sig_subset_sig1 hSg hns hp)
   have hk : D.k = 1 := by
     show CFSG.LocalAnalysis.RankThreeUC.kParam D.M = 1
-    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos hsp3]
+    rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left hsp3]
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_calC ctx.mem_calC
   have hDc1 : CFSG.Open.pRank 3 Dc ≤ 1 :=
     pRank_three_Dc_le_one_of_k_one_of_borel ctx

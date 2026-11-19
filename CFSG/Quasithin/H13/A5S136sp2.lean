@@ -461,7 +461,7 @@ theorem elim1366Sp4_of (h1222 : Stmt12_2_2) (h517 : Stmt5_1_7_one)
         _ = (h * h) * (h * h) := by simp only [pow_succ, pow_zero, one_mul, mul_assoc]
     rw [h4]
     exact (P : Subgroup ↥K).mul_mem hh2 hh2
-  obtain ⟨m, hm⟩ := P.isPGroup' ⟨h, hhP⟩
+  obtain ⟨m, hm⟩ := P.isPGroup ⟨h, hhP⟩
   have hm' : h ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
   have hord1 : orderOf h ∣ 2 ^ m := orderOf_dvd_of_pow_eq_one hm'
   have hord3 : orderOf h ∣ 3 := orderOf_dvd_of_pow_eq_one hh3

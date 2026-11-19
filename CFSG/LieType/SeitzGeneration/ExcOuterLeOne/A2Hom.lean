@@ -73,7 +73,7 @@ theorem a2_steinbergFamily (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E
       rwa [neg_sub] at this))
     obtain ⟨ε, hε, hcomm⟩ := commutator_xPar_pair hD hG2 (K := K) (hroot i j hij) (hroot j l hkl) h4 h5
       hsum hd' (fun h => h2 (mem_rootFinset.2 h)) (fun h => h3 (mem_rootFinset.2 h))
-    rw [hcomm c d, a2Root_add, intCast_eq_one_of_pm_one hε, one_mul, if_pos rfl]
+    rw [hcomm c d, a2Root_add, intCast_eq_one_of_pm_one hε, one_mul, ite_eq_left rfl]
   · by_cases hil : i = l
     · subst hil
       obtain ⟨h1, h2, h3, h4, h5⟩ := a2_adj hτ i j k i ⟨hij, hkl, hex, Or.inr rfl⟩
@@ -86,9 +86,9 @@ theorem a2_steinbergFamily (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E
       obtain ⟨ε, hε, hcomm⟩ := commutator_xPar_pair hD hG2 (K := K) (hroot i j hij) (hroot k i hkl) h4 h5
         hsum hd' (fun h => h2 (mem_rootFinset.2 h)) (fun h => h3 (mem_rootFinset.2 h))
       rw [hcomm c d, add_comm (a2Root τ i j) (a2Root τ k i), a2Root_add, intCast_eq_one_of_pm_one hε,
-        one_mul, if_neg hjk, if_pos rfl, CharTwo.neg_eq]
+        one_mul, ite_eq_right hjk, ite_eq_left rfl, CharTwo.neg_eq]
     · obtain ⟨h1, h2⟩ := a2_far hτ i j k l ⟨hij, hkl, hjk, hil⟩
-      rw [if_neg hjk, if_neg hil]
+      rw [ite_eq_right hjk, ite_eq_right hil]
       exact commutatorElement_eq_one_iff_commute.2
         (commute_xPar hD hG2 (hroot i j hij) (hroot k l hkl) h2 (fun h => h1 (mem_rootFinset.2 h)) c d)
 

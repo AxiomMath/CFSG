@@ -95,31 +95,31 @@ theorem coe_orbitX_two (c : orbitField TwistTag.E6 K σ ⟨2, by decide⟩) :
     (orbitX TwistTag.E6 K σ ⟨2, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       xUnit Tag.E6 K (e6Index 3) c := by
   rw [coe_orbitX, card_orbit_two, orbitMin_two]
-  simp <;> rfl
+  simp; rfl
 
 theorem coe_orbitY_two (c : orbitField TwistTag.E6 K σ ⟨2, by decide⟩) :
     (orbitY TwistTag.E6 K σ ⟨2, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       yUnit Tag.E6 K (e6Index 3) c := by
   rw [coe_orbitY, card_orbit_two, orbitMin_two]
-  simp <;> rfl
+  simp; rfl
 
 theorem coe_orbitX_three (c : orbitField TwistTag.E6 K σ ⟨3, by decide⟩) :
     (orbitX TwistTag.E6 K σ ⟨3, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       xUnit Tag.E6 K (e6Index 1) c := by
   rw [coe_orbitX, card_orbit_three, orbitMin_three]
-  simp <;> rfl
+  simp; rfl
 
 theorem coe_orbitY_three (c : orbitField TwistTag.E6 K σ ⟨3, by decide⟩) :
     (orbitY TwistTag.E6 K σ ⟨3, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       yUnit Tag.E6 K (e6Index 1) c := by
   rw [coe_orbitY, card_orbit_three, orbitMin_three]
-  simp <;> rfl
+  simp; rfl
 
 end Orbits
 
 theorem dvd_sq_add_add_one_of_orderOf_eq_three {p q : ℕ} (hp : p.Prime)
     (hord : orderOf (q : ZMod p) = 3) : p ∣ q ^ 2 + q + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h3 : (q : ZMod p) ^ 3 = 1 := by
     rw [← hord]
     exact pow_orderOf_eq_one _
@@ -148,12 +148,12 @@ theorem closure_centralizers_twistedE6_phi3 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf
     (hE₀c : Nat.card E₀ = p ^ 2) (hR : ¬ NormRSub ℓ E₀) :
     cl E₀ = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
     intro c
     rw [hσ, ← hk, ← map_pow]
     congr 1
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype k := Fintype.ofFinite k
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   have hp' : p ∣ Nat.card k ^ 2 + Nat.card k + 1 := by

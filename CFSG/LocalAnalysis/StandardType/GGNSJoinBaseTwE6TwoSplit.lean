@@ -55,7 +55,7 @@ theorem GGConfig.lt_bstar_of_twE6Two_inner_model {G : Type} [Group G] [Finite G]
     (hH : ∀ v, Multiplicative.ofAdd v ∈ Φ.range ↔ v ∈ NoOffRest.hypE6) :
     B < Bs :=
   GGConfig.lt_bstar_of_bstar_eq_sup hcfg (GGConfig.bstar_eq_sup_of_e6Three_inner_model hcfg hN Φ T w hM hH)
-    fun U hUL hU2 hBsU =>
+    fun _U hUL hU2 hBsU =>
       le_centralizer_of_isPGroup_two_of_twE6Two_marking hcfg hmark hU2 hUL hBsU
 
 

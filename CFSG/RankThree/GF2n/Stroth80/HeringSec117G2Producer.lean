@@ -17,7 +17,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Qf : QuadraticForm K V} {X : Type} [Group X]
   {K' : Type} [Field K'] [Finite K'] [CharP K' 2]
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem isLongRootElement_of_isConj (ρ : X →* (V ≃ₗ[K] V)) (hρQ : ∀ g v, Qf (ρ g v) = Qf v)
     {Y : Type*} [Group Y] (ψ : X ≃* Y) {t₀ x : X} (ht₀ : IsLongRootElement Qf (ρ t₀))
     (hx : IsConj (ψ x) (ψ t₀)) : IsLongRootElement Qf (ρ x) := by

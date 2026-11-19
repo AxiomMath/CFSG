@@ -386,7 +386,7 @@ theorem matAct_rootN_pureT (f f' : Fin 2 → K) (y : L) :
   simp only [matAct_apply, pureT_apply, rootN, det2, Matrix.of_apply, Pi.smul_apply]
   rw [smul_smul, smul_smul, smul_smul, ← add_smul]
   congr 1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
   ring
 
 theorem exists_eq_pureT_add_pureT {f f' : Fin 2 → K} (hdet : det2 f f' ≠ 0) (x : Fin 2 → L) :

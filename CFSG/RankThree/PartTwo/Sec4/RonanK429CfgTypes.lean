@@ -46,8 +46,8 @@ theorem center_eq_bot_of_isoLThreePi {X : Type} [Group X] [Finite X] [Group.IsPe
       have h2 : p ^ e = 2 := by omega
       obtain ⟨rfl, rfl⟩ := (Nat.prime_two.pow_eq_iff).mp h2
       have hs := Sec13.isSolvable_projSU_two
-      have hsolv : IsSolvable X :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+      have hsolv : Group.IsSolvable X :=
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       exact Group.IsPerfect.not_isSolvable X hsolv
 
 theorem center_eq_bot_of_isType429
@@ -58,18 +58,18 @@ theorem center_eq_bot_of_isType429
   · obtain ⟨φ⟩ := h
     exact center_eq_bot_of_mulEquiv φ Sec13.isPerfect_center_alt7.2
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
+    have : IsSimpleGroup Blueprint.NativeSporadic.M12 :=
       CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-    haveI : IsSimpleGroup X := φ.isSimpleGroup
+    have : IsSimpleGroup X := φ.isSimpleGroup
     exact center_eq_bot_of_isSimpleGroup_of_isPerfect
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
+    have : IsSimpleGroup Blueprint.NativeSporadic.M22 :=
       CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
-    haveI : IsSimpleGroup X := φ.isSimpleGroup
+    have : IsSimpleGroup X := φ.isSimpleGroup
     exact center_eq_bot_of_isSimpleGroup_of_isPerfect
   · obtain ⟨φ⟩ := h
-    haveI : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
-    haveI : IsSimpleGroup X := φ.isSimpleGroup
+    have : IsSimpleGroup Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+    have : IsSimpleGroup X := φ.isSimpleGroup
     exact center_eq_bot_of_isSimpleGroup_of_isPerfect
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429

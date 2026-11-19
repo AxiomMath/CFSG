@@ -18,7 +18,7 @@ private theorem lup10as_card_Bs {G : Type} [Group G] {p : ℕ} [Fact p.Prime] {B
   have h3 : Fintype.card M.ι = Module.finrank (ZMod p) M.V := hbas.2
   have h2 : Module.finrank (ZMod p) M.V = 5 := by
     rw [← h3, Fintype.card_congr e.symm, Fintype.card_fin]
-  haveI : Module.Finite (ZMod p) M.V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
+  have : Module.Finite (ZMod p) M.V := Module.finite_of_finrank_pos (by rw [h2]; norm_num)
   rw [h1, Module.natCard_eq_pow_finrank (K := ZMod p), Nat.card_zmod, h2]
 
 theorem ggQ2GammaXGraphD5Amb_of_inputs
@@ -26,7 +26,7 @@ theorem ggQ2GammaXGraphD5Amb_of_inputs
     (hlab : GGD5LabelDataInput) (hforced : GGD5ForcedInput) : GGQ2GammaXGraphD5AmbInput := by
   intro G _ _ p B Bs x L D J hS hp hI1 hxL hpp hrow hno y K hnb M e hecart he0 hV φ hφ hφx
     π μ c w hSc hw hT hπb hπ1
-  haveI : Fact p.Prime := hpp
+  have : Fact p.Prime := hpp
   have hbas : M.toLin.Basis := lup10d_caseI M e hecart he0 hV hp
   have hcard5 : Nat.card Bs = p ^ 5 := lup10as_card_Bs M e hbas
   have hTF : lup10fa_TwistFacts := lup10fa_twistFacts_of_check

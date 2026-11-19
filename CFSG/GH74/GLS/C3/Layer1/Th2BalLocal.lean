@@ -24,12 +24,14 @@ variable {X : Type*} [Group X] [Finite X]
   (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom L).comp
     (CFSG.LocalAnalysis.ComponentInitial.normalizerConjHom L)
 
+omit [Finite X] in
 @[simp] theorem canonicalNormalizerAction_apply (L : Subgroup X) [Group.IsPerfect L]
     (x : Subgroup.normalizer (L : Set X)) :
     canonicalNormalizerAction L x =
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom L)
         (CFSG.LocalAnalysis.ComponentInitial.normalizerConjHom L x) := rfl
 
+omit [Finite X] in
 @[simp] theorem canonicalNormalizerAction_rangeRestrict_apply
     (L : Subgroup X) [Group.IsPerfect L]
     (x : Subgroup.normalizer (L : Set X)) :
@@ -47,7 +49,7 @@ structure CoupledActionData (L : Subgroup X) [Group.IsPerfect L]
     (canonicalNormalizerAction L).rangeRestrict
   hAcard : Nat.card A = Nat.card F
   hA2 : ∀ a ∈ A, a * a = 1
-  hFinj : ∀ (f : X) (hf : f ∈ F) (hfM : f ∈ Subgroup.normalizer (L : Set X)),
+  hFinj : ∀ (f : X) (_hf : f ∈ F) (hfM : f ∈ Subgroup.normalizer (L : Set X)),
     canonicalNormalizerAction L ⟨f, hfM⟩ = 1 → f = 1
   D0 : Subgroup (canonicalNormalizerAction L).range
   hD0 : D0 = (D.subgroupOf (Subgroup.normalizer (L : Set X))).map
@@ -56,7 +58,7 @@ structure CoupledActionData (L : Subgroup X) [Group.IsPerfect L]
   hActive : ∀ (d : X) (hdM : d ∈ Subgroup.normalizer (L : Set X)),
     (¬ ∀ x ∈ L, d * x = x * d) → canonicalNormalizerAction L ⟨d, hdM⟩ ≠ 1
 
-noncomputable def coupled_action_data {L : Subgroup X} (hL : IsComponent L) [Group.IsPerfect L]
+noncomputable def coupled_action_data {L : Subgroup X} (_hL : IsComponent L) [Group.IsPerfect L]
     {F : Subgroup X} (hF2 : ∀ f ∈ F, f * f = 1)
     (hFL : ∀ f ∈ F, conjSub f L = L)
     (hFfaith : ∀ f ∈ F, f ≠ 1 → ¬ ∀ x ∈ L, f * x = x * f)
@@ -150,7 +152,7 @@ theorem commute_of_faithful_k {L : Subgroup X} (hL : IsComponent L) {k : ℕ}
     {D : Subgroup X} (hD : ∀ d ∈ D, conjSub d L = L)
     (hDF : ∀ f ∈ F, f ≠ 1 → D ≤ CFSG.Assembly.Dichotomy.involutionOddCore f) :
     ∀ d ∈ D, ∀ x ∈ L, d * x = x * d := by
-  haveI : Group.IsPerfect L := hL.1.1
+  have : Group.IsPerfect L := hL.1.1
   obtain ⟨hker, hInn, A, hA, hAcard, hA2, hFinj, D0, hD0, hD0le, hActive⟩ :=
     coupled_action_data hL hF2 hFL hFfaith hD hDF
   let ρ := canonicalNormalizerAction L

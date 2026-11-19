@@ -14,12 +14,13 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_three_dvd_card_sup {H K : Subgroup G} (hK : K ≤ Subgroup.normalizer (H : Set G))
     (hH : ¬ 3 ∣ Nat.card H) (hK3 : ¬ 3 ∣ Nat.card K) : ¬ 3 ∣ Nat.card (H ⊔ K : Subgroup G) := by
   rw [sup_comm H K]
   have hset : ((K ⊔ H : Subgroup G) : Set G) = (K : Set G) * (H : Set G) :=
     Subgroup.coe_mul_of_left_le_normalizer_right K H hK
-  haveI : (H.subgroupOf (K ⊔ H)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
+  have : (H.subgroupOf (K ⊔ H)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hK
   let φ : K →* (↥(K ⊔ H) ⧸ H.subgroupOf (K ⊔ H)) :=
     (QuotientGroup.mk' (H.subgroupOf (K ⊔ H))).comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ H))
   have hφ : Function.Surjective φ := by
@@ -57,7 +58,7 @@ theorem le_pPrimeCoreOf_of_normal {Y X M : Subgroup G}
     (hM : M ≤ X ⊔ pPrimeCoreOf 3 Y) (hM3 : ¬ 3 ∣ Nat.card M)
     (hMn : X ⊔ pPrimeCoreOf 3 Y ≤ Subgroup.normalizer (M : Set G)) :
     M ≤ pPrimeCoreOf 3 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Z, hZ⟩ : ∃ Z : Subgroup G, Z = X ⊔ pPrimeCoreOf 3 Y := ⟨_, rfl⟩
   rw [← hZ] at hXN hM hMn
   have hcopM : Nat.Coprime 3 (Nat.card M) :=
@@ -80,13 +81,14 @@ theorem le_pPrimeCoreOf_of_normal {Y X M : Subgroup G}
 
 theorem h2b_not_three_dvd_card {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) {U : Subgroup G}
     (hU : IsPGroup p U) : ¬ 3 ∣ Nat.card U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hU
   rw [hn]
   intro h
   exact hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp
     (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h)).symm
 
+omit [Finite G] in
 theorem h2b_le_sup_inf (N U M : Subgroup G) (hMN : M ≤ Subgroup.normalizer (N : Set G))
     (hUNM : U ≤ N ⊔ M) : U ≤ ((N ⊔ U) ⊓ M) ⊔ N := by
   intro u hu
@@ -106,8 +108,8 @@ theorem h2b_index_eq_pow {p : ℕ} [Fact p.Prime] {N U F : Subgroup G}
     (hFN : F ≤ Subgroup.normalizer (N : Set G)) (hUN : U ≤ Subgroup.normalizer (N : Set G))
     (hU : IsPGroup p U) (hUF : U ≤ F ⊔ N) (hFU : F ≤ U ⊔ N) :
     ∃ k : ℕ, (N.subgroupOf F).index = p ^ k := by
-  haveI : (N.subgroupOf (F ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hFN
-  haveI : (N.subgroupOf F).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hFN
+  have : (N.subgroupOf (F ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hFN
+  have : (N.subgroupOf F).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hFN
   have hcard : (N.subgroupOf F).index =
       Nat.card ((F ⊔ N : Subgroup G) ⧸ N.subgroupOf (F ⊔ N)) := by
     rw [Subgroup.index_eq_card]
@@ -149,7 +151,7 @@ theorem h2b_le_sup_sylow {p : ℕ} [Fact p.Prime] {N F : Subgroup G}
     (hFN : F ≤ Subgroup.normalizer (N : Set G)) (P : Sylow p F)
     (hidx : ∃ k : ℕ, (N.subgroupOf F).index = p ^ k) :
     F ≤ N ⊔ (P : Subgroup F).map F.subtype := by
-  haveI : (N.subgroupOf F).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hFN
+  have : (N.subgroupOf F).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hFN
   have hP : ¬ p ∣ (P : Subgroup F).index := Sylow.not_dvd_index P
   have htop : (P : Subgroup F) ⊔ N.subgroupOf F = ⊤ := h2b_sup_eq_top hP hidx
   intro f hf
@@ -170,7 +172,7 @@ theorem exists_invariant_pSubgroup_le_sup {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 
     (hAU : A ≤ Subgroup.normalizer (U : Set G)) :
     ∃ S : Subgroup G, S ≤ M ∧ IsPGroup p S ∧ A ≤ Subgroup.normalizer (S : Set G) ∧
       U ≤ N ⊔ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hUT : U ≤ T := hUNM.trans (sup_le hNT hMT)
   have hUN : U ≤ Subgroup.normalizer (N : Set G) := hUT.trans hTN
   have hMN : M ≤ Subgroup.normalizer (N : Set G) := hMT.trans hTN
@@ -196,10 +198,11 @@ theorem exists_invariant_pSubgroup_le_sup {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 
     hsylow, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact hFM x.2
-  · exact sylow.isPGroup'.map ((N ⊔ U) ⊓ M).subtype
+  · exact sylow.isPGroup.map ((N ⊔ U) ⊓ M).subtype
   · exact hUF.trans (sup_le hF_le le_sup_left)
 
 
+omit [Finite G] in
 theorem commutator_le_of_le_sup_centralizer {A S K V : Subgroup G}
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) (hV : V ≤ Subgroup.centralizer (A : Set G))
     (hVK : V ≤ Subgroup.normalizer (K : Set G)) (hS : S ≤ K ⊔ V) : ⁅S, A⁆ ≤ K := by
@@ -223,6 +226,7 @@ theorem commutator_le_of_le_sup_centralizer {A S K V : Subgroup G}
   rw [hkk]
   exact K.mul_mem hk hnorm
 
+omit [Finite G] in
 theorem commutator_le_sup_of_le_sup {A N S U : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (N : Set G)) (hUNS : U ≤ N ⊔ S)
     (hSN : S ≤ Subgroup.normalizer (N : Set G)) :
@@ -244,6 +248,7 @@ theorem commutator_le_sup_of_le_sup {A N S U : Subgroup G}
     ((N ⊔ ⁅S, A⁆).mul_mem (Subgroup.mem_sup_left hn) (Subgroup.mem_sup_right hcomm))
     (Subgroup.mem_sup_left hnorm)
 
+omit [Finite G] in
 theorem le_normalizer_commutator {A S : Subgroup G}
     (hAS : A ≤ Subgroup.normalizer (S : Set G)) :
     A ≤ Subgroup.normalizer ((⁅S, A⁆ : Subgroup G) : Set G) := by
@@ -274,6 +279,7 @@ theorem le_normalizer_commutator {A S : Subgroup G}
     rw [e] at h'
     exact h'
 
+omit [Finite G] in
 theorem commutator_le_self {A S : Subgroup G}
     (hAS : A ≤ Subgroup.normalizer (S : Set G)) : ⁅S, A⁆ ≤ S := by
   rw [Subgroup.commutator_le]
@@ -286,6 +292,7 @@ theorem commutator_le_self {A S : Subgroup G}
   exact S.mul_mem hs hn
 
 
+omit [Finite G] in
 theorem le_normalizer_sup_of_normal_image {Y X : Subgroup G} (hXY : X ≤ Y)
     (hn : ((X.subgroupOf Y).map (QuotientGroup.mk' (pPrimeCore 3 ↥Y))).Normal) :
     Y ≤ Subgroup.normalizer ((X ⊔ pPrimeCoreOf 3 Y : Subgroup G) : Set G) := by
@@ -348,7 +355,7 @@ theorem normalizer_ne_top_of_simple {D : Subgroup G} (hG : IsSimpleGroup G)
   have hDtop : D = ⊤ := (Subgroup.Normal.eq_bot_or_eq_top D).resolve_left hD1
   subst hDtop
   have hGp : IsPGroup p G := hD.of_equiv Subgroup.topEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcen : Subgroup.center G = ⊤ :=
     (Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center G)).resolve_left
       (IsPGroup.bot_lt_center hGp).ne'
@@ -374,7 +381,7 @@ theorem key_core {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
       U' ≤ N₁)
     (hU : IsPGroup p U) (hUX : U ≤ X) (hAU : A ≤ Subgroup.normalizer (U : Set G))
     (hUA : ⁅U, A⁆ = U) : U ≤ pPrimeCoreOf 3 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := pPrimeCoreOf 3 Y with hN
   have hNY : N ≤ Y := pPrimeCoreOf_le 3 Y
   have hYN : Y ≤ Subgroup.normalizer (N : Set G) := le_normalizer_pPrimeCoreOf 3 Y

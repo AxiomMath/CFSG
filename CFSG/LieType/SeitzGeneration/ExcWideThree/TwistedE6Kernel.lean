@@ -65,6 +65,7 @@ theorem two_lt_card_fix_pair {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hc
 
 abbrev toE6 (g : ModGL TwistTag.E6.tag K) : ModGL Tag.E6 K := g
 
+omit [Finite K] in
 theorem exists_matrix_of_mem_inn_sup_diag (σ : K ≃+* K) (ι : MulAut (twistedE6RootGroup K σ))
     (hι : ι ∈ twistedE6Inn K σ ⊔ twistedE6Diag K σ) :
     ∃ y : ModGL Tag.E6 K, ∀ x : twistedE6RootGroup K σ,
@@ -85,6 +86,7 @@ theorem exists_matrix_of_mem_inn_sup_diag (σ : K ≃+* K) (ι : MulAut (twisted
     simp only [mul_assoc, mul_inv_rev]
   exact h
 
+omit [Finite K] in
 theorem endHom_xE6_simple (i : Fin Tag.E6.rank) (c : K) :
     endHom K (xE6 (Pi.single i 1) c) = xOp Tag.E6 K i c := by
   rw [xE6, xPar_simple, endHom_eltElement, (rootOperatorFamily Tag.E6).elt_simple]
@@ -119,7 +121,7 @@ theorem twistedE6_kernel_of_ne_corner {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : 
   have hc3all : ∀ t : K, (y : Module.End K (RootModule Tag.E6 K)) * xOp Tag.E6 K 3 t =
       xOp Tag.E6 K 3 t * (y : Module.End K (RootModule Tag.E6 K)) := by
     intro t
-    haveI : Fintype {c : K // σ c = c ∧ η c = c} := Fintype.ofFinite _
+    have : Fintype {c : K // σ c = c ∧ η c = c} := Fintype.ofFinite _
     have hD : entryDegreeBound Tag.E6 = 2 := by simp [entryDegreeBound]
     refine commute_of_polynomial_entries (F := xOp Tag.E6 K 3) (D := entryDegreeBound Tag.E6)
       (fun a b => ?_) _ (Subtype.val : {c : K // σ c = c ∧ η c = c} → K) Subtype.val_injective

@@ -68,9 +68,9 @@ private theorem exists_statedClassicalModel_psp {S : Type} [Group S]
 
 private theorem ringChar_eq_of_card {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hK : Nat.card K = ℓ ^ f) : ringChar K = ℓ := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ringChar.eq K ℓ
 
 private theorem lieCompsCase_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -80,7 +80,7 @@ private theorem lieCompsCase_symplectic {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ p = 1)
     (hout : lieIndexChar idx.1 ≠ p ∨ ∀ a : S, MulAut.conj a ≠ β) :
     LieCompsExport (lieIndexChar idx.1) β := by
-  haveI := hs
+  have := hs
   obtain ⟨e⟩ := he
   obtain ⟨r, f, ⟨hℓ, hf, hr, hne⟩, K, _, _, hK, ⟨e'⟩⟩ :=
     exists_statedClassicalModel_psp idx hsp e
@@ -164,7 +164,7 @@ private theorem lieCompsCase_orthogonal {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ p = 1)
     (hout : lieIndexChar idx.1 ≠ p ∨ ∀ a : S, MulAut.conj a ≠ β) :
     LieCompsExport (lieIndexChar idx.1) β := by
-  haveI := hs
+  have := hs
   have hp2 : p ≠ 2 := by omega
   obtain ⟨e⟩ := he
   obtain ⟨t, n, f, ht, hG⟩ := exists_statedClassicalModel_orth idx hor e
@@ -192,7 +192,7 @@ theorem lieCompsOn_symplecticOrthogonal {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     by_cases hsp : q.p = 2 ∨ r = 2
     · exact lieCompsCase_symplectic hp (by omega) hs hna ⟨_, hv⟩ (Or.inl ⟨r, q, rfl, hsp⟩) he β hβ
         hout
-    · push_neg at hsp
+    · push Not at hsp
       exact lieCompsCase_orthogonal hp hp5 hs hna ⟨_, hv⟩
         (Or.inl ⟨r, q, rfl, hsp.1, by simp only at hr; omega⟩) he β hβ hout
   | C r q =>

@@ -15,6 +15,7 @@ universe u
 
 variable {K : Type u} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem normal_subgroupOf_of_commutator {A B : Subgroup K} (hBA : B ≤ A)
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, ⁅x, y⁆ ∈ B) :
     (B.subgroupOf A).Normal := by
@@ -24,7 +25,8 @@ private theorem normal_subgroupOf_of_commutator {A B : Subgroup K} (hBA : B ≤ 
   rw [hk']
   exact B.mul_mem (hcomm k hk h (hBA hh)) hh
 
-private theorem quotient_mul_comm {A B : Subgroup K} (hBA : B ≤ A)
+omit [Finite K] in
+private theorem quotient_mul_comm {A B : Subgroup K} (_hBA : B ≤ A)
     (hcomm : ∀ x ∈ A, ∀ y ∈ A, ⁅x, y⁆ ∈ B) [hN : (B.subgroupOf A).Normal] :
     ∀ q₁ q₂ : ↥A ⧸ B.subgroupOf A, q₁ * q₂ = q₂ * q₁ := by
   intro q₁ q₂
@@ -50,12 +52,14 @@ private noncomputable def conjOnSubgroup {A Y : Subgroup K}
     (hYA : Y ≤ normalizer (A : Set K)) : ↥Y →* MulAut ↥A :=
   (Subgroup.normalizerMonoidHom A).comp (Subgroup.inclusion hYA)
 
+omit [Finite K] in
 private theorem conjOnSubgroup_apply {A Y : Subgroup K}
     (hYA : Y ≤ normalizer (A : Set K)) (y : ↥Y) (x : ↥A) :
     ((conjOnSubgroup hYA y) x : ↥A) =
       ⟨(y : K) * x * (y : K)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hYA y.2) (x : K)).mp x.2⟩ := rfl
 
+omit [Finite K] in
 private theorem conjOnSubgroup_symm_apply {A Y : Subgroup K}
     (hYA : Y ≤ normalizer (A : Set K)) (y : ↥Y) (x : ↥A) :
     (((conjOnSubgroup hYA y).symm x : ↥A)) =
@@ -66,6 +70,7 @@ private theorem conjOnSubgroup_symm_apply {A Y : Subgroup K}
   rw [← MulAut.inv_apply, ← map_inv, conjOnSubgroup_apply]
   simp
 
+omit [Finite K] in
 private theorem map_conjOnSubgroup {A B Y : Subgroup K}
     (hYA : Y ≤ normalizer (A : Set K)) (hYB : Y ≤ normalizer (B : Set K)) (y : ↥Y) :
     (B.subgroupOf A).map (conjOnSubgroup hYA y : ↥A →* ↥A) = B.subgroupOf A := by
@@ -109,9 +114,10 @@ private noncomputable def actionQ {A B Y : Subgroup K}
       rw [MulAut.mul_apply, QuotientGroup.congr_mk, QuotientGroup.congr_mk, QuotientGroup.congr_mk]
       congr 1
       exact Subtype.ext (by
-        simp only [conjOnSubgroup_apply, Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [conjOnSubgroup_apply, Subgroup.coe_mk, Subgroup.coe_mul]
         group)
 
+omit [Finite K] in
 private theorem actionQ_mk {A B Y : Subgroup K}
     (hYA : Y ≤ normalizer (A : Set K)) (hYB : Y ≤ normalizer (B : Set K))
     [hN : (B.subgroupOf A).Normal] (y : ↥Y) (x : ↥A) :
@@ -132,8 +138,9 @@ private noncomputable def addAutToLinearEquiv {Q : Type*} [CommGroup Q] {r : ℕ
     Multiplicative (AddAut (Additive Q)) →* (Additive Q ≃ₗ[ZMod r] Additive Q) where
   toFun e := (Multiplicative.toAdd e).toLinearEquiv (fun c x => ZMod.map_smul _ c x)
   map_one' := rfl
-  map_mul' e₁ e₂ := rfl
+  map_mul' _e₁ _e₂ := rfl
 
+omit [Finite K] in
 private theorem quotient_smul_eq_zero {A B : Subgroup K} {r : ℕ}
     (hexp : ∀ x ∈ A, x ^ r ∈ B) [hN : (B.subgroupOf A).Normal] :
     ∀ v : Additive (↥A ⧸ B.subgroupOf A), r • v = 0 := by
@@ -150,7 +157,7 @@ private theorem quotient_smul_eq_zero {A B : Subgroup K} {r : ℕ}
 
 private theorem finrank_quotient_le_four {A B : Subgroup K} {r : ℕ} [Fact r.Prime]
     (hBA : B ≤ A) (hcard : Nat.card A ≤ r ^ 4 * Nat.card B)
-    [hN : (B.subgroupOf A).Normal] [hC : CommGroup (↥A ⧸ B.subgroupOf A)]
+    [_hN : (B.subgroupOf A).Normal] [hC : CommGroup (↥A ⧸ B.subgroupOf A)]
     [hM : Module (ZMod r) (Additive (↥A ⧸ B.subgroupOf A))] :
     Module.finrank (ZMod r) (Additive (↥A ⧸ B.subgroupOf A)) ≤ 4 := by
   have hcardV : Nat.card (Additive (↥A ⧸ B.subgroupOf A)) =
@@ -161,8 +168,8 @@ private theorem finrank_quotient_le_four {A B : Subgroup K} {r : ℕ} [Fact r.Pr
   have hA : Nat.card ↥A = Nat.card (↥A ⧸ B.subgroupOf A) * Nat.card ↥B := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (B.subgroupOf A), hBcard]
   have hBpos : 0 < Nat.card ↥B := by
-    haveI : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
-    haveI : Finite ↥B := Subtype.finite
+    have : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
+    have : Finite ↥B := Subtype.finite
     exact Nat.card_pos
   have hQle : Nat.card (↥A ⧸ B.subgroupOf A) ≤ r ^ 4 := by
     refine Nat.le_of_mul_le_mul_right (c := Nat.card ↥B) ?_ hBpos
@@ -175,6 +182,7 @@ private theorem finrank_quotient_le_four {A B : Subgroup K} {r : ℕ} [Fact r.Pr
       _ ≤ r ^ 4 := hQle
   exact (Nat.pow_le_pow_iff_right (Fact.out : r.Prime).one_lt).mp hpow
 
+omit [Finite K] in
 private theorem commutator_mem_of_action_eq_one {A B Y : Subgroup K} {r : ℕ}
     (hYA : Y ≤ normalizer (A : Set K)) (hYB : Y ≤ normalizer (B : Set K))
     [hN : (B.subgroupOf A).Normal] [hC : CommGroup (↥A ⧸ B.subgroupOf A)]
@@ -215,14 +223,14 @@ theorem exists_linearAction_of_section {r : ℕ} [Fact r.Prime] {Y A B : Subgrou
       (_ : FiniteDimensional (ZMod r) V) (ρ : ↥Y →* (V ≃ₗ[ZMod r] V)),
       Module.finrank (ZMod r) V ≤ 4 ∧
         ∀ y : ↥Y, ρ y = 1 → ∀ x ∈ A, ⁅x, (y : K)⁆ ∈ B := by
-  letI hB'N : (B.subgroupOf A).Normal := normal_subgroupOf_of_commutator hBA hcomm
-  letI hComm : CommGroup (↥A ⧸ B.subgroupOf A) := quotientCommGroup hBA hcomm
-  letI hAddC : AddCommGroup (Additive (↥A ⧸ B.subgroupOf A)) := Additive.addCommGroup
+  let hB'N : (B.subgroupOf A).Normal := normal_subgroupOf_of_commutator hBA hcomm
+  let hComm : CommGroup (↥A ⧸ B.subgroupOf A) := quotientCommGroup hBA hcomm
+  let hAddC : AddCommGroup (Additive (↥A ⧸ B.subgroupOf A)) := Additive.addCommGroup
   have hzero := quotient_smul_eq_zero hexp
-  letI hM : Module (ZMod r) (Additive (↥A ⧸ B.subgroupOf A)) :=
+  let hM : Module (ZMod r) (Additive (↥A ⧸ B.subgroupOf A)) :=
     @AddCommGroup.zmodModule r (Additive (↥A ⧸ B.subgroupOf A))
       Additive.addCommGroup hzero
-  letI hFin : FiniteDimensional (ZMod r) (Additive (↥A ⧸ B.subgroupOf A)) :=
+  let hFin : FiniteDimensional (ZMod r) (Additive (↥A ⧸ B.subgroupOf A)) :=
     Module.Finite.of_finite
   let ρ : ↥Y →* (Additive (↥A ⧸ B.subgroupOf A) ≃ₗ[ZMod r]
       Additive (↥A ⧸ B.subgroupOf A)) :=

@@ -61,7 +61,7 @@ theorem exists_eq_map_conj_of_card_three {L D₃ A : Subgroup G} (hA5 : IsAlt (B
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAL).toEquiv, hA]
   have hcyc : ∀ T : Sylow 3 ↥L, IsCyclic ↥T := by
     intro T
-    have hT : IsPGroup 3 ↥((T : Subgroup ↥L).map L.subtype) := T.isPGroup'.map L.subtype
+    have hT : IsPGroup 3 ↥((T : Subgroup ↥L).map L.subtype) := T.isPGroup.map L.subtype
     have h := card_dvd_three_of_isPGroup hA5 hT (Subgroup.map_subtype_le (T : Subgroup ↥L))
     rw [Subgroup.card_map_of_injective L.subtype_injective] at h
     exact isCyclic_of_card_dvd_prime h

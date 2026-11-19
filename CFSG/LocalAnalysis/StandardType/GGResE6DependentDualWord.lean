@@ -250,7 +250,7 @@ lemma noTF_sum_zero (c d : K) (h : c + d = 0)
     (hTF : QTwoLin.TransvectionFree H)
     (hs : ∀ i : Fin 6, E6DependentDualSeven.s i ∈ H)
     (hr : rCD c d ∈ H) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfix := alpha_s4_fixed_all c d h
   have hroot_ne := s4_root_ne_all c d h
   let g : V7 ≃ₗ[K] V7 := E6DependentDualSeven.s 4
@@ -271,7 +271,7 @@ lemma noTF_sum_two (c d : K) (h : c + d = 2)
     (hTF : QTwoLin.TransvectionFree H)
     (hs : ∀ i : Fin 6, E6DependentDualSeven.s i ∈ H)
     (hr : rCD c d ∈ H) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hneg := s5_root_neg_all c d h
   have hfix := QTwoLin.reflection_fixes_of_negated_root
     (K := K) (V := V7) (A := H) (c := root c d) (x := E6DependentDualSeven.tU)

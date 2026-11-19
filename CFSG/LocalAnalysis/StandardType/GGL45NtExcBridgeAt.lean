@@ -216,7 +216,7 @@ private theorem bridgeAt_finite
       (inndiagGroup τ K).map (baseChangeGL (algebraMap K L))) :
     Finite ↥(adjointGroup τ L ⊓ (endPowU (frobTwistGL τ L 2 e 1) p).eqLocus (MonoidHom.id _)) := by
   rw [hrat]
-  haveI : Finite (inndiagGroup τ K) := finite_inndiagGroup
+  have : Finite (inndiagGroup τ K) := finite_inndiagGroup
   exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective
     (baseChangeGL (algebraMap K L)) (inndiagGroup τ K))
 
@@ -362,7 +362,7 @@ private theorem bridgeAtTwE6_frob
       (bridgeAtTwE6E K σ (f r) : ModGL TwistTag.E6.tag K) =
         baseChangeGL (iterateFrobenius K 2 (2 * (n / p) * j)) (bridgeAtTwE6E K σ r) := by
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   have hE : ∀ (φ : MulAut (LargeEvenCenterQuot (graphFixedRootGroup TwistTag.E6 K σ.toRingHom))) r,
       bridgeAtTwE6E K σ (φ r) =
         MulAut.congr (bridgeAtTwE6E K σ) φ (bridgeAtTwE6E K σ r) :=
@@ -402,7 +402,7 @@ private theorem bridgeAtTwE6_hrat
         (MonoidHom.id _) =
       (twInndiagGroup K σ).map (baseChangeGL (algebraMap K L)) := by
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   have hP2 : (diagramMap TwistTag.E6 L) ^ 2 = 1 := diagramMap_pow_order TwistTag.E6 L
   have hPfix : ∀ k, Units.map (entrywiseHom (iterateFrobenius L 2 k))
       (diagramMap TwistTag.E6 L) = diagramMap TwistTag.E6 L :=
@@ -586,8 +586,8 @@ private theorem bridgeAtTwE6_finite
       (endPowU (frobTwistGL TwistTag.E6.tag L 2 e (diagramMap TwistTag.E6 L)) p).eqLocus
         (MonoidHom.id _)) := by
   rw [hrat]
-  haveI : Finite (inndiagGroup TwistTag.E6.tag K) := finite_inndiagGroup
-  haveI : Finite (twInndiagGroup K σ) :=
+  have : Finite (inndiagGroup TwistTag.E6.tag K) := finite_inndiagGroup
+  have : Finite (twInndiagGroup K σ) :=
     Finite.of_injective _ (Subgroup.inclusion_injective (twInndiag_le_inndiag σ))
   exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective
     (baseChangeGL (algebraMap K L)) (twInndiagGroup K σ))
@@ -604,7 +604,7 @@ private theorem bridgeAtTwE6_field_action
           (bridgeAtTwE6Rho K σ L r) := by
   intro f' hf' hf'p
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   have he' : n / p = e := by rw [he, Nat.mul_div_cancel _ hp.pos]
   obtain ⟨-, j, hpj, hj⟩ := bridgeAtTwE6_frob hn hK σ hσ hp hp2 hf' hf'p
   rw [he'] at hj
@@ -669,7 +669,7 @@ private theorem bridgeAtTwE6_model
               ((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).subtype.comp ε.toMonoidHom)) := by
   classical
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   rintro ⟨f, hfF, hfp⟩
   obtain ⟨hpn, -⟩ := bridgeAtTwE6_frob hn hK σ hσ hp hp2 hfF hfp
   set e := n / p with he
@@ -789,7 +789,7 @@ theorem bridge_twE6_chev_spec
           ((baseChangeGL (algebraMap K L)).comp
             ((graphFixedRootGroup TwistTag.E6 K σ.toRingHom).subtype.comp ε.toMonoidHom)) := by
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   obtain ⟨-, -, -, -, -, -, -, -, -, -, hperf, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form Nat.prime_two hn K hK σ hσ
   have hH : MarkChev.twistedH TwistTag.E6.tag.cartan (IsRoot TwistTag.E6.tag) K

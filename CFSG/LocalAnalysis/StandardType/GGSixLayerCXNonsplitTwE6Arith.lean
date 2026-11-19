@@ -114,7 +114,7 @@ end Card
 
 section Ten
 
-theorem five_lt_of_dvd_phiTen {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hq : 1 ≤ q)
+theorem five_lt_of_dvd_phiTen {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (_hq : 1 ≤ q)
     (hq2 : ¬ p ∣ q + 1)
     (hpf : (p : ℤ) ∣ (CFSG.RankThree.Chevalley.exhaustionPhi 10).eval (q : ℤ)) :
     5 < p := by

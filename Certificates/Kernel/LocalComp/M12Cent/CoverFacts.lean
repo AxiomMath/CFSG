@@ -89,11 +89,11 @@ theorem genOK_of_genK {gs : List (Equiv.Perm (Fin 12))} {S SI : Nat → Nat} {g 
     simp only [List.length_append, List.length_singleton] at hj
     unfold extP
     rcases Nat.lt_or_ge j gs.length with hl | hl
-    · rw [List.getD_append _ _ _ _ hl, if_pos (hgl ▸ hl)]
+    · rw [List.getD_append _ _ _ _ hl, ite_eq_left (hgl ▸ hl)]
       exact hg j hl
     · have e : j = gs.length := by omega
       subst e
-      rw [List.getD_append_right _ _ _ _ (le_refl _), Nat.sub_self, if_neg (by omega)]
+      rw [List.getD_append_right _ _ _ _ (le_refl _), Nat.sub_self, ite_eq_right (by omega)]
       exact hx
   have hp' : ∀ j < (gs ++ [evalCodes [m12gA, m12gB] d.xw]).length,
       permOK 12 4 (mask 4) (12 * 4) (extP S g (xK d) j)
@@ -102,9 +102,9 @@ theorem genOK_of_genK {gs : List (Equiv.Perm (Fin 12))} {S SI : Nat → Nat} {g 
     simp only [List.length_append, List.length_singleton] at hj
     unfold extP
     by_cases hl : j < g
-    · rw [if_pos hl, if_pos hl]
+    · rw [ite_eq_left hl, ite_eq_left hl]
       exact hp j (hgl ▸ hl)
-    · rw [if_neg hl, if_neg hl]
+    · rw [ite_eq_right hl, ite_eq_right hl]
       exact hpx
   have hl' : (gs ++ [evalCodes [m12gA, m12gB] d.xw]).length = g + 1 := by simp [hgl]
   have hA := evalCodes_img sz12 hg' hp' one12 (hl' ▸ haw)

@@ -21,7 +21,7 @@ open CFSG.Blueprint.Chevalley
 theorem card_ne_of_f42CompType {Q : Type} [Group Q] (h : F42CompType Q) :
     Nat.card Q ≠ 25920 := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (le_refl 1) (by rw [hF]; norm_num)
   have hZ := CFSG.HardMathSupport.Dickson.Bal207.center_statedSp_eq_bot_of_charP_two (K := F) 3
@@ -80,7 +80,7 @@ theorem u42FieldTwoAt_F4 : U42FieldTwoAt fun d => ∃ q, d = .F4 q := by
   have hlay := hsh.layer _ hJ.1 (glaPComponent_perfect hJ)
   have hJc := (glaPComponent_isComponent_of_le_layer hJ hlay).1
   have h25920 : Nat.card (PSimple 3 J) = 25920 := I1431Z.card_eq_of_u4two hT
-  haveI : Nontrivial (PSimple 3 J) := by
+  have : Nontrivial (PSimple 3 J) := by
     rw [← Finite.one_lt_card_iff_nontrivial, h25920]
     norm_num
   obtain ⟨φ⟩ := nonempty_centerQuot_equiv_psimple hJc.2.2 inferInstance

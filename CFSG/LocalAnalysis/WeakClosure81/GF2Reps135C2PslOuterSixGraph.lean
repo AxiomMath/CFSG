@@ -17,7 +17,7 @@ private lemma c2slout6g_eq_one_of_ne_zero {K : Type*} [Field K] [Fintype K]
   classical
   have hcard : Fintype.card Kˣ = 1 := by
     rw [Fintype.card_units, hK]
-  haveI hsub : Subsingleton Kˣ :=
+  have hsub : Subsingleton Kˣ :=
     Fintype.card_le_one_iff_subsingleton.mp (by simp [hcard])
   have h := congrArg (fun u : Kˣ => (u : K))
     (Subsingleton.elim (Units.mk0 x hx) 1)
@@ -69,13 +69,13 @@ theorem w135c2_graph_six_twenty {K : Type} [Field K] [Fintype K] [CharP K 2]
       simp
     rw [h1, AddEquiv.map_sub, hgraph w]
     rfl
-  haveI hfinW : Finite (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) :=
+  have hfinW : Finite (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) :=
     Finite.of_injective Subtype.val Subtype.coe_injective
-  haveI hfinK : Finite (LinearMap.range T) :=
+  have hfinK : Finite (LinearMap.range T) :=
     Finite.of_injective Subtype.val Subtype.coe_injective
-  haveI hmodW : Module.Finite (ZMod 2) (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) :=
+  have hmodW : Module.Finite (ZMod 2) (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) :=
     Module.Finite.of_finite
-  haveI hmodK : Module.Finite K (LinearMap.range T) := Module.Finite.of_finite
+  have hmodK : Module.Finite K (LinearMap.range T) := Module.Finite.of_finite
   have hiff : ∀ a : W, (a ∈ LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) ↔
       (β.toEquiv a ∈ LinearMap.range T) := by
     intro a
@@ -96,7 +96,7 @@ theorem w135c2_graph_six_twenty {K : Type} [Field K] [Fintype K] [CharP K 2]
   have hcard1 : Nat.card (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) =
       2 ^ Module.finrank (ZMod 2) (LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1)) :=
     (Module.natCard_eq_pow_finrank (K := ZMod 2) (V :=
-        LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1))).trans (by simp [Nat.card_zmod])
+        LinearMap.range ((d : W →ₗ[ZMod 2] W) - 1))).trans (by simp)
   have hcard2 : Nat.card (LinearMap.range T) =
       2 ^ Module.finrank K (LinearMap.range T) :=
     (Module.natCard_eq_pow_finrank (K := K) (V := LinearMap.range T)).trans

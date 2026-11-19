@@ -120,7 +120,7 @@ theorem finrank_sup_four_le [Module.Finite (ZMod 2) V] {A A' B B' : Submodule (Z
   have h3 := Submodule.finrank_sup_add_finrank_inf_eq (A ⊔ B) (A' ⊔ B')
   have h4 : A ⊔ (A' ⊔ (B ⊔ B')) = (A ⊔ B) ⊔ (A' ⊔ B') := by
     rw [sup_sup_sup_comm]
-    simp only [sup_assoc, sup_comm, sup_left_comm]
+    simp only [sup_comm, sup_left_comm]
   have h5 : A ⊓ A' ≤ (A ⊔ B) ⊓ (A' ⊔ B') :=
     inf_le_inf le_sup_left le_sup_left
   have h6 := Submodule.finrank_mono h5

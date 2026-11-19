@@ -28,7 +28,7 @@ theorem isCyclic_map_fstar_of_goldschmidtSimpleType {X : Type} [Group X] [Finite
     {Q : Subgroup X} (hQ : IsPGroup 2 Q) :
     letI : (genFittingFStar X).Normal := CFSG.ComponentClassification.GeneralizedFitting.normal X
     IsCyclic ↥(Q.map (QuotientGroup.mk' (genFittingFStar X))) := by
-  haveI : (genFittingFStar X).Normal := CFSG.ComponentClassification.GeneralizedFitting.normal X
+  have : (genFittingFStar X).Normal := CFSG.ComponentClassification.GeneralizedFitting.normal X
   exact isCyclic_map_mk_of_outCyc (CFSG.Adapters.generalized_fitting_self_centralizing X)
     (outCyc_of_goldschmidtSimpleType hty) hQ
 

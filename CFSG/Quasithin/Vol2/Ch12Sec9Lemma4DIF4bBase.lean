@@ -58,7 +58,7 @@ theorem exists_B_eq_one (B : LinearMap.BilinForm (ZMod 2) W)
     (hq : ∀ v w, q (v + w) = q v + q w + B v w) {u : W} (hu : u ≠ 0) :
     ∃ x : W, B x u = 1 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hu
   apply hB u
   intro w
@@ -79,7 +79,7 @@ theorem trLin_trLin (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) W)
     trLin B u (trLin B u x) = x := by
   have hB' : B (x + B x u • u) u = B x u := by
     simp only [map_add, LinearMap.add_apply, LinearMap.map_smul, LinearMap.smul_apply,
-      smul_eq_mul, B_self q B hq u, smul_zero, mul_zero, add_zero]
+      smul_eq_mul, B_self q B hq u, mul_zero, add_zero]
   rw [trLin_apply B u x, trLin_apply B u (x + B x u • u), hB', add_assoc, ← add_smul,
     zmod2_add_self, zero_smul, add_zero]
 
@@ -109,10 +109,10 @@ theorem trEquiv_mem (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) W)
 theorem exists_nonsing_perp [FiniteDimensional (ZMod 2) W]
     (B : LinearMap.BilinForm (ZMod 2) W) (hB : ∀ v : W, (∀ w, B v w = 0) → v = 0)
     (q : W → ZMod 2) (hq : ∀ v w, q (v + w) = q v + q w + B v w)
-    (hdim : Module.finrank (ZMod 2) W = 6) {x : W} (hx : x ≠ 0) (hqx : q x = 0) :
+    (hdim : Module.finrank (ZMod 2) W = 6) {x : W} (hx : x ≠ 0) (_hqx : q x = 0) :
     ∃ y : W, B x y = 0 ∧ q y = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsing : ∀ y : W, B x y = 0 → q y = 0 := fun y hy => by
     rcases zmod2_cases (q y) with h | h
     · exact h
@@ -163,7 +163,7 @@ theorem exists_nonsing_perp [FiniteDimensional (ZMod 2) W]
     omega
   obtain ⟨y, hyA, hyS⟩ : ∃ y ∈ LinearMap.ker (B x), y ∉ Submodule.span (ZMod 2) {x} := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hnotle hc
   have hpoint : ∀ w : W, B y w = B x w * B y a := by
     intro w

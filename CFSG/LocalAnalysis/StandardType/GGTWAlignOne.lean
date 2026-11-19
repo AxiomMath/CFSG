@@ -26,9 +26,9 @@ theorem ggTW_align_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] 
     hM₁, hWM₁, hC₁, hlin₁, hrefl₁, hpair₁, f₁ex, hclos₁⟩ := hXL
   obtain ⟨fL, hfL⟩ := fLex
   obtain ⟨f₁, hf₁⟩ := f₁ex
-  letI := iΛf; letI := iΛd; letI := iΛaf; letI := iΛad
-  letI := iVadd; letI := iVmod
-  letI := iΛ₁f; letI := iΛ₁d; letI := iV₁add; letI := iV₁mod
+  let := iΛf; let := iΛd; let := iΛaf; let := iΛad
+  let := iVadd; let := iVmod
+  let := iΛ₁f; let := iΛ₁d; let := iV₁add; let := iV₁mod
   have hn : 2 ≤ N - 1 := by omega
   let φ₂ : Λ → MulAut ↥Bs := fun i => φ (Sum.inl i)
   have hf₂ : ∀ i, (fL (ML.simple i) : MulAut ↥Bs) = φ₂ i := hfL

@@ -12,11 +12,13 @@ open Module CFSG.Monster.B.Geometry CFSG.LieType.Chevalley.CosetBuilding
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2] {m : ℕ} {d : List ℕ}
 
+omit [Finite K] [CharP K 2] in
 private lemma q2cFPm_blockU_le_Vsub {n : ℕ} {d : List ℕ} (hd : IsCut n d)
     (E : ℕ → Submodule K (Fin n → K)) {i r : ℕ} (hi : i + 1 < d.length) :
     blockU K n d E i r ≤ Vsub n (d.getD (i + 1) 0) :=
   sup_le inf_le_right (Vsub_mono (le_of_lt (hd.strict i hi)))
 
+omit [Finite K] [CharP K 2] in
 private lemma q2cFPm_inf_inf_eq_inf_of_le {n : ℕ} {A B C : Submodule K (Fin n → K)}
     (hAC : A ≤ C) : A ⊓ (B ⊓ C) = A ⊓ B := by
   rw [← inf_assoc, inf_eq_left.mpr (le_trans inf_le_left hAC)]
@@ -32,7 +34,7 @@ theorem mem_flagPsiMax_iff (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) (h
     x ∈ flagPsiMax hK hd pol ↔
       x ∈ refSet K (m + 1) d ∧
         flagδ m x (flagPsi hK hd pol x) = longest (symCox m) (cutTypes m d) := by
-  haveI : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
+  have : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
   constructor
   · rintro ⟨hxR, hxmax⟩
     obtain ⟨z, hzR, hzlong⟩ := exists_opp_flagPsi hK hq hn hd pol
@@ -63,7 +65,7 @@ theorem blockOK_iff_flagδ (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut (m + 1) d
         (Nat.sub_le _ _),
       psiSub]
     by_cases hp : pol.getD b false = true
-    · rw [if_pos hp] at h ⊢
+    · rw [ite_eq_left hp] at h ⊢
       rw [show blockSize d b - (blockSize d b - r) = r by omega,
         gateFlag_E hd hE hb hr]
       have hAC : blockU K (m + 1) d E.E b r ≤ Vsub (m + 1) (d.getD (b + 1) 0) :=
@@ -71,7 +73,7 @@ theorem blockOK_iff_flagδ (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut (m + 1) d
       exact (q2cFPm_inf_inf_eq_inf_of_le
         (B := perpB K f (m + 1) (d.getD b 0) (d.getD (b + 1) 0)
           (blockU K (m + 1) d E.E b r)) hAC).trans h
-    · rw [if_neg hp] at h ⊢
+    · rw [ite_eq_right hp] at h ⊢
       rw [gateFlag_E hd hE hb (Nat.sub_le _ _)]
       exact h
   · intro hflag b hb r hr
@@ -82,18 +84,18 @@ theorem blockOK_iff_flagδ (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut (m + 1) d
         (Nat.sub_le _ _)] at h
     rw [psiSub] at h
     by_cases hp : pol.getD b false = true
-    · rw [if_pos hp] at h
+    · rw [ite_eq_left hp] at h
       rw [show blockSize d b - (blockSize d b - r) = r by omega,
         gateFlag_E hd hE hb hr'] at h
-      rw [if_pos hp]
+      rw [ite_eq_left hp]
       have hAC : blockU K (m + 1) d E.E b r ≤ Vsub (m + 1) (d.getD (b + 1) 0) :=
         q2cFPm_blockU_le_Vsub hd E.E hb
       exact ((q2cFPm_inf_inf_eq_inf_of_le
         (B := perpB K f (m + 1) (d.getD b 0) (d.getD (b + 1) 0)
           (blockU K (m + 1) d E.E b r)) hAC).symm).trans h
-    · rw [if_neg hp] at h
+    · rw [ite_eq_right hp] at h
       rw [gateFlag_E hd hE hb (Nat.sub_le _ _)] at h
-      rw [if_neg hp]
+      rw [ite_eq_right hp]
       exact h
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Flag

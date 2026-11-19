@@ -39,7 +39,7 @@ theorem exists_index_prime_of_raw_aut {G : Type} [Group G] [Finite G] {p : ℕ} 
       ∀ (b : G) (hb : b ∈ Bs), b ∈ B₀ ↔ ρ ⟨b, hb⟩ ∈ I := by
   obtain ⟨hmul, hinv, hinn, -⟩ := hraw hsimple hna
   obtain ⟨N, hNI, hNn⟩ := exists_normal_subgroup_of_raw hmul hinv hinn hnorm
-  haveI := hNn
+  have := hNn
   have hmemN : ∀ a : MulAut R, a ∈ N ↔ a ∈ I := fun a => by rw [← hNI]; rfl
   let χ₀ : ↥Bs →* MulAut R ⧸ N := (QuotientGroup.mk' N).comp ρ
   have hΦ : IsCyclic ↥((Subgroup.closure F).map (QuotientGroup.mk' N)) :=
@@ -51,7 +51,7 @@ theorem exists_index_prime_of_raw_aut {G : Type} [Group G] [Finite G] {p : ℕ} 
     have hu1 : QuotientGroup.mk' N u = 1 := (QuotientGroup.eq_one_iff u).2 ((hmemN u).2 hu)
     show QuotientGroup.mk' N f = QuotientGroup.mk' N (ρ b)
     rw [hbuf, map_mul, hu1, one_mul]
-  haveI : IsCyclic ↥χ₀.range := Subgroup.isCyclic_of_le hle
+  have : IsCyclic ↥χ₀.range := Subgroup.isCyclic_of_le hle
   have hker : ∀ b : ↥Bs, χ₀.rangeRestrict b = 1 ↔ ρ b ∈ I := fun b => by
     rw [← hmemN, ← QuotientGroup.eq_one_iff, Subtype.ext_iff]
     rfl
@@ -62,7 +62,7 @@ theorem exists_index_prime_of_raw_aut {G : Type} [Group G] [Finite G] {p : ℕ} 
 private theorem isCyclic_quotient_of_gen {M : Type*} [Group M] {J S : Subgroup M}
     (hN : (J.subgroupOf S).Normal) (hcyc : ∃ g ∈ S, ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J) :
     IsCyclic (S ⧸ J.subgroupOf S) := by
-  haveI := hN
+  have := hN
   obtain ⟨g₀, hg₀, hgen⟩ := hcyc
   refine ⟨⟨(QuotientGroup.mk (⟨g₀, hg₀⟩ : S) : S ⧸ J.subgroupOf S), fun x => ?_⟩⟩
   induction x using QuotientGroup.induction_on with
@@ -85,8 +85,8 @@ theorem exists_index_prime_of_raw_pcyclic {G : Type} [Group G] [Finite G] {p : �
     ∃ B₀ : Subgroup G, B₀ ≤ Bs ∧ Nat.card B₀ * p = Nat.card Bs ∧ b₀ ∉ B₀ ∧
       ∀ (b : G) (hb : b ∈ Bs), b ∈ B₀ ↔ ρ ⟨b, hb⟩ ∈ I := by
   obtain ⟨J, S, hJI, -, hN, hcyc, hpow⟩ := hPC hsimple hna
-  haveI := hN
-  haveI : IsCyclic (S ⧸ J.subgroupOf S) := isCyclic_quotient_of_gen hN hcyc
+  have := hN
+  have : IsCyclic (S ⧸ J.subgroupOf S) := isCyclic_quotient_of_gen hN hcyc
   have hmemJ : ∀ a : MulAut R, a ∈ J ↔ a ∈ I := fun a => by rw [← hJI]; rfl
   have hρS : ∀ b : ↥Bs, ρ b ∈ S := fun b => hpow (ρ b) ⟨1, by
     have hb : b ^ p = 1 := Subtype.ext (hBs.2 b b.2)

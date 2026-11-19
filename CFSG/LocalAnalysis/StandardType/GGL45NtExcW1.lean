@@ -88,7 +88,7 @@ theorem exists_unit_pow_ne_one {K : Type} [Field K] [Infinite K] {n : ℕ} (hn :
   have := congrArg (fun P => Polynomial.coeff P 1) h0
   simp only [Polynomial.coeff_sub, Polynomial.coeff_X_pow, Polynomial.coeff_X_one,
     Polynomial.coeff_zero] at this
-  rw [if_neg (by omega)] at this
+  rw [ite_eq_right (by omega)] at this
   norm_num at this
 
 theorem eq_of_rootChar_eq {τ : Tag} {K : Type} [Field K] [Infinite K] {u v : Fin τ.rank → ℤ}

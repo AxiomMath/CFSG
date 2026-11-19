@@ -13,6 +13,7 @@ open CFSG.Assembly CFSG.ClassicalInvolution.Phan CFSG.ClassicalInvolution.PhanDn
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qtwoDB36_perfect {X N : Subgroup G} (hN : LargeEvenPComponent 3 X N) :
     commutator ↥N = ⊤ := by
   have hL := (largeEvenPComponent_iff_lBalance 3 X N).1 hN
@@ -24,6 +25,7 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Fins
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
   {a b c : Fin m} {α : MulAut ↥Bs} {g : G} {b' : ↥Bs}
 
+omit [Finite G] in
 private lemma qtwoDB36_b'_central {N : Subgroup G}
     (hN : LargeEvenPComponent 3 (Subgroup.centralizer ({(b' : G)} : Set G)) N) :
     (b' : G) ∈ Subgroup.centralizer (N : Set G) := by
@@ -36,6 +38,7 @@ private lemma qtwoDB36_three_smul (v : DVec m) : 3 • v = 0 := by
   funext j
   rw [Pi.smul_apply, nsmul_eq_mul, h3, zero_mul, Pi.zero_apply]
 
+omit [Finite G] in
 private lemma qtwoDB36_eq_b'_pow (s : ↥Bs) (hb' : βL (Additive.ofMul b') = Pi.single c 1)
     (hoff : ∀ k : Fin m, k ≠ c → βL (Additive.ofMul s) k = 0) :
     ∃ k : ℕ, s = b' ^ k := by
@@ -49,6 +52,7 @@ private lemma qtwoDB36_eq_b'_pow (s : ↥Bs) (hb' : βL (Additive.ofMul b') = Pi
     exact (ZMod.natCast_zmod_val (βL (Additive.ofMul s) c)).symm
   · rw [hoff j hj, Pi.smul_apply, Pi.single_eq_of_ne hj, smul_zero]
 
+omit [Finite G] in
 private lemma qtwoDB36_b'_pow_three (hb' : βL (Additive.ofMul b') = Pi.single c 1) :
     b' ^ 3 = 1 := by
   apply Additive.ofMul.injective
@@ -56,6 +60,7 @@ private lemma qtwoDB36_b'_pow_three (hb' : βL (Additive.ofMul b') = Pi.single c
   rw [ofMul_pow, map_nsmul, hb', ofMul_one, map_zero]
   exact qtwoDB36_three_smul _
 
+omit [Finite G] in
 private lemma qtwoDB36_b'_ne_one (hb' : βL (Additive.ofMul b') = Pi.single c 1) : b' ≠ 1 := by
   intro h
   have h1 : βL (Additive.ofMul b') = βL (Additive.ofMul (1 : ↥Bs)) := by rw [h]
@@ -63,6 +68,7 @@ private lemma qtwoDB36_b'_ne_one (hb' : βL (Additive.ofMul b') = Pi.single c 1)
   have := congrFun h1 c
   simp at this
 
+omit [Finite G] in
 theorem qtwoDB36_gamma_of (hm : 1 ≤ m) (hBsE : IsElemAbelian 3 Bs)
     (hSC : ∀ h ∈ Subgroup.centralizer (Bs : Set G), h ^ 3 = 1 → h ∈ Bs)
     (hcard : Nat.card Bs = 3 ^ m) (hb' : βL (Additive.ofMul b') = Pi.single c 1)
@@ -75,7 +81,7 @@ theorem qtwoDB36_gamma_of (hm : 1 ≤ m) (hBsE : IsElemAbelian 3 Bs)
       Nat.card (ggGamma N hBsN).range = 3 ^ (m - 1) ∧ IsElemAbelian 3 (ggGamma N hBsN).range ∧
         (ggGamma N hBsN).range ≤ (MulAut.conj : ↥N →* MulAut ↥N).range ∧
           GGTorusSelfCent 3 (ggGamma N hBsN).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker_char : ∀ s : ↥Bs, ggGamma N hBsN s = 1 ↔
       ∀ k : Fin m, k ≠ c → βL (Additive.ofMul s) k = 0 := by
     intro s
@@ -156,13 +162,13 @@ private noncomputable def qtwoDB36_wBsFun {m : ℕ} (βL : Additive ↥Bs ≃+ D
   map_one' := by
     apply Additive.ofMul.injective
     apply βL.injective
-    simp only [ofMul_one, map_zero, LinearEquiv.map_zero, ofMul_toMul, AddEquiv.apply_symm_apply,
-      toMul_zero]
+    simp only [ofMul_one, map_zero, toMul_zero]
   map_mul' s t := by
     apply Additive.ofMul.injective
     apply βL.injective
     simp only [ofMul_mul, map_add, ofMul_toMul, AddEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private lemma qtwoDB36_wBsFun_apply {m : ℕ} (βL : Additive ↥Bs ≃+ DVec m)
     (w : DVec m ≃ₗ[ZMod 3] DVec m) (s : ↥Bs) :
     βL (Additive.ofMul (qtwoDB36_wBsFun βL w s)) = w (βL (Additive.ofMul s)) := by
@@ -170,6 +176,7 @@ private lemma qtwoDB36_wBsFun_apply {m : ℕ} (βL : Additive ↥Bs ≃+ DVec m)
     w (βL (Additive.ofMul s))
   rw [ofMul_toMul, AddEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private lemma qtwoDB36_wBsFun_mul_apply {m : ℕ} (βL : Additive ↥Bs ≃+ DVec m)
     (w₁ w₂ : DVec m ≃ₗ[ZMod 3] DVec m) (s : ↥Bs) :
     qtwoDB36_wBsFun βL (w₁ * w₂) s = qtwoDB36_wBsFun βL w₁ (qtwoDB36_wBsFun βL w₂ s) := by
@@ -178,6 +185,7 @@ private lemma qtwoDB36_wBsFun_mul_apply {m : ℕ} (βL : Additive ↥Bs ≃+ DVe
   rw [qtwoDB36_wBsFun_apply, LinearEquiv.mul_apply, qtwoDB36_wBsFun_apply,
     qtwoDB36_wBsFun_apply]
 
+omit [Finite G] in
 private lemma qtwoDB36_wBsFun_div_apply {m : ℕ} (βL : Additive ↥Bs ≃+ DVec m)
     (w₁ w₂ : DVec m ≃ₗ[ZMod 3] DVec m) (s : ↥Bs) :
     βL (Additive.ofMul (qtwoDB36_wBsFun βL w₁ s * (qtwoDB36_wBsFun βL w₂ s)⁻¹)) =
@@ -220,9 +228,9 @@ private lemma qtwoDB36_dEven_fix_eq_of_sub_supported {m : ℕ} {c : Fin m}
         qtwoDB36_eval_smul_basis_of_ne m _ (Ne.symm hσ), sub_zero] at hval
       have hT : σ₁ k ∉ T₁ := by
         intro hmem
-        rw [if_pos hmem] at hval
+        rw [ite_eq_left hmem] at hval
         exact absurd hval (by decide)
-      rw [if_neg hT] at hval
+      rw [ite_eq_right hT] at hval
       exact absurd hval (by decide)
 
 theorem qtwoDB36_weyl_embed_of {N : Subgroup G} (hBsN : Bs ≤ Subgroup.normalizer (N : Set G))
@@ -290,7 +298,7 @@ theorem qtwoDB36_weyl_embed_of {N : Subgroup G} (hBsN : Bs ≤ Subgroup.normaliz
       Φ w hwc (f s) = f (qtwoDB36_wBsFun βL w s) := by
     intro w hwc s
     exact MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ s
-  haveI : Finite ↥A := inferInstance
+  have : Finite ↥A := inferInstance
   have hbij : ∀ w : ↥(dEvenStab m (Pi.single c 1)),
       Function.Bijective (Φ (w : DVec m ≃ₗ[ZMod 3] DVec m) w.2.2) := by
     intro w

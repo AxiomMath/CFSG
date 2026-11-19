@@ -67,6 +67,7 @@ theorem psi_mem_threePartTop {x : G} (hx : x ∈ threePart P) :
     rw [e, map_inv]
     exact Subgroup.inv_mem _ ihx
 
+omit [Finite Kt] in
 theorem exists_threePart_lift (hψ : Function.Surjective ψ) {k : Kt} {j : ℕ} (hk : k ^ 3 ^ j = 1) :
     ∃ x : G, ∃ hx : x ∈ threePart P, ψ ⟨x, threePart_le P hx⟩ = k ∧ ∃ a : ℕ, x ^ 3 ^ a = 1 := by
   obtain ⟨x, hxk, a, ha⟩ := exists_pow_prime_pow_lift ψ hψ Nat.prime_three hk
@@ -218,6 +219,7 @@ theorem threeComp_of (hAI : threePart P ≤ I) (hIP : I ≤ Subgroup.normalizer 
       interval_cases b <;> norm_num at hlt
     exact h9 ((pow_dvd_pow 3 h2).trans hdvd)
 
+omit [Finite Kt] in
 theorem exists_preimage_threePartTop (hψ : Function.Surjective ψ) {k : Kt}
     (hk : k ∈ threePartTop Kt) : ∃ x : G, ∃ hx : x ∈ threePart P, ψ ⟨x, threePart_le P hx⟩ = k := by
   induction hk using Subgroup.closure_induction with
@@ -276,6 +278,7 @@ theorem threePartTop_normal (Kt : Type*) [Group Kt] : (threePartTop Kt).Normal :
     rw [conj_pow, hj, mul_one, mul_inv_cancel]
   exact key hk
 
+omit [Finite Kt] in
 theorem le_threePart_sup (hψ : Function.Surjective ψ) {S₂ : Subgroup G} (_hS₂P : S₂ ≤ P)
     (hkerS : ψ.ker.map P.subtype ≤ S₂)
     (htop : threePartTop Kt ⊔ (S₂.subgroupOf P).map ψ = ⊤) : P ≤ threePart P ⊔ S₂ := by
@@ -415,6 +418,7 @@ theorem eq_bot_or_eq_threePartTop_three {N : Subgroup (Equiv.Perm (Fin 3))}
   · exact Or.inl (Subgroup.eq_bot_of_card_eq N h)
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge hN (by rw [h, card_threePartTop_three]))
 
+omit [Finite G] in
 theorem isSylowTwoOf_map_surj {K : Type*} [Group K] {H S : Subgroup G}
     (hS : IsSylowTwoOf S H) (ρ : ↥H →* K) (hρ : Function.Surjective ρ) :
     IsSylowTwoOf ((S.subgroupOf H).map ρ) ⊤ := by

@@ -24,7 +24,7 @@ theorem Ctx.inZClass_of_mem_sup (hc : Ctx M Q Z B) {w : G} (hw : w ∈ Z ⊔ B) 
     by_cases hy : u 1 = 0
     · exact ⟨1, by simp [hy]⟩
     · refine ⟨⟨!![0, -(u 1)⁻¹; u 1, -(u 0)], by simp [Matrix.det_fin_two_of, hy]⟩, ?_⟩
-      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> ring
+      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]; ring
   obtain ⟨A, hA1⟩ := hA (Multiplicative.toAdd (ψ ⟨w, hw⟩))
   obtain ⟨s, hsA⟩ := hs A
   have hw' : (s : G) * w * (s : G)⁻¹ ∈ Z ⊔ B := hXW (s : G) s.2 w hw

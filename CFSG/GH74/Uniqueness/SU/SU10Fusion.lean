@@ -133,7 +133,7 @@ theorem controls_involution_fusion_of_mem (S : Sylow 2 G) {M : Subgroup G}
         _ = n⁻¹ * (m⁻¹ * x * m) * n := by rw [hm]
         _ = (m * n)⁻¹ * x * (m * n) := by group
     · refine ⟨m, hmM, ?_⟩
-      have hQp : IsPGroup 2 Q := (S.isPGroup').to_le hQ.1
+      have hQp : IsPGroup 2 Q := (S.isPGroup).to_le hQ.1
       have hyn : n⁻¹ * (c⁻¹ * x * c) * n ∈ Q :=
         (Subgroup.mem_normalizer_iff''.mp hn _).mp hyQ
       have hy2 : orderOf (c⁻¹ * x * c) = 2 := by

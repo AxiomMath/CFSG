@@ -186,7 +186,7 @@ theorem alternatingGroup_le_of_fixed_action_cycle_kernel
         Nat.card
           (Equiv.Perm.OnCycleFactors.toPermHom gSupport).ker := by
     simpa only [N, SN, F, g, gSupport] using hKernelNotDvd
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card]
       simpa only [N, SN, F] using hfive)

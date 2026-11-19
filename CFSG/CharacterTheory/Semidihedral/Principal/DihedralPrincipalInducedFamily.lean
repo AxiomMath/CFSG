@@ -48,7 +48,7 @@ theorem normalHallOdd_complement_of_sylow {G : Type*} [Group G] [Finite G] (S : 
     rintro x ⟨hxR, y, rfl⟩
     rw [Subgroup.mem_bot]
     have hodd : Odd (orderOf (ι y)) := hRodd.of_dvd_nat (R.orderOf_dvd_natCard hxR)
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' y
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup y
     rw [orderOf_injective ι hι y, hj] at hodd
     have hj0 : j = 0 := by
       by_contra hne

@@ -92,10 +92,10 @@ theorem su4NaturalLine_of_hyp
       one_le := by
         rcases Nat.eq_zero_or_pos a with rfl | ha
         · exfalso
-          haveI : Fintype K := Fintype.ofFinite K
+          have : Fintype K := Fintype.ofFinite K
           have h2 : 1 < Fintype.card K := Fintype.one_lt_card
           rw [← Nat.card_eq_fintype_card, hK] at h2
-          simpa using h2
+          simp at h2
         · exact ha
       card := by rw [hK, ← pow_mul, Nat.mul_comm a 2] }
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := 2) (ε := 0) h

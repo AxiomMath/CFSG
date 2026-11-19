@@ -38,7 +38,7 @@ theorem qTwoRho_of_lt_two {k : Fin 5} (hk : (k : ℕ) < 2)
     qTwoRho E hω t κ k x = deletionPhiThree E t κ {0, 1} (pair_ne_univ_four 0 1)
       ⟨(qTwoLambda E hω).symm x,
         map_rankOne_le_normBlock_zero_one E hω hk (Subgroup.mem_map_of_mem _ x.2)⟩ := by
-  simp only [qTwoRho, dif_pos hk]
+  simp only [qTwoRho, dite_eq_left hk]
   rfl
 
 theorem qTwoRho_of_two_le {k : Fin 5} (hk : 2 ≤ (k : ℕ))
@@ -46,7 +46,7 @@ theorem qTwoRho_of_two_le {k : Fin 5} (hk : 2 ≤ (k : ℕ))
     qTwoRho E hω t κ k x = deletionPhiThree E t κ {2, 3} (pair_ne_univ_four 2 3)
       ⟨(qTwoLambda E hω).symm x,
         map_rankOne_le_normBlock_two_three E hω hk (Subgroup.mem_map_of_mem _ x.2)⟩ := by
-  simp only [qTwoRho, dif_neg (show ¬(k : ℕ) < 2 by omega)]
+  simp only [qTwoRho, dite_eq_right (show ¬(k : ℕ) < 2 by omega)]
   rfl
 
 private lemma eq_top_of_singleton_le

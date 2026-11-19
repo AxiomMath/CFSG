@@ -79,7 +79,7 @@ theorem exists_invariant_mem_etaSet [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f)
   classical
   have hΩc := hΩ.conjInvariant
   set 𝒮 : Subgroup G := (S : Subgroup G) with h𝒮
-  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup'
+  have h𝒮2 : IsPGroup 2 𝒮 := S.isPGroup
   let Adm : Set (Set (Subgroup G)) :=
     {η | η ⊆ UinS Ω 𝒮 ∧ (∀ s ∈ 𝒮, ∀ U ∈ η, conjSub s U ∈ η) ∧ InDistinctMembers Ω η}
   have hAdm : Adm.Nonempty :=
@@ -169,7 +169,7 @@ theorem eta_abelian_of_cyc66 [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ :
       {U | U ∈ USet Ω ∧ U ≤ ⨆ V ∈ η, V} = η := by
   have hcomm : ∀ A ∈ η, ∀ B ∈ η, Commutes A B := by
     have hdistinct : ∀ A ∈ η, ∀ B ∈ η, A ≠ B → Commutes A B := by
-      refine hC (S : Subgroup G) S.isPGroup' η (fun A hA => (h.1 hA).2)
+      refine hC (S : Subgroup G) S.isPGroup η (fun A hA => (h.1 hA).2)
         (fun A hA s hs => hinv s hs A hA) ?_ ?_
       · intro A hA
         obtain ⟨R, -, J, -, -, -, hcyc, -, h4⟩ := hΩ.exists_data_of_mem_USet hp (h.1 hA).1

@@ -263,15 +263,15 @@ theorem lieModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : ℕ
     intro i j hij u hu v hv
     have hi2 : i.val + 2 < n := by have := j.isLt; omega
     refine Subtype.ext ?_
-    simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf] at hu
+    simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf] at hu
     obtain ⟨A, hA⟩ := hu
     by_cases hj2 : j.val + 2 < n
-    · simp only [hU, hnodeG, if_pos hj2, Subgroup.mem_subgroupOf] at hv
+    · simp only [hU, hnodeG, ite_eq_left hj2, Subgroup.mem_subgroupOf] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hcomm i.val j.val (by omega) (by omega) (by omega) (by simp only [dEdge]; omega)
         (by simp only [dEdge]; omega) _ _
-    · simp only [hU, hnodeG, if_neg hj2, Subgroup.mem_subgroupOf, hVg] at hv
+    · simp only [hU, hnodeG, ite_eq_right hj2, Subgroup.mem_subgroupOf, hVg] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hlongVg i.val (by have := j.isLt; omega) _ _
@@ -285,14 +285,14 @@ theorem lieModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : ℕ
     have hjv : j.val = i.val + 1 := hij.symm
     have hi' : ((ρ i.val).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
       have := hN i
-      simpa only [hnodeG, if_pos hi2] using this
+      simpa only [hnodeG, ite_eq_left hi2] using this
     have hj' : ((ρ (i.val + 1)).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
       have := hN j
-      simpa only [hnodeG, if_pos hj, hjv] using this
+      simpa only [hnodeG, ite_eq_left hj, hjv] using this
     obtain ⟨W, hW⟩ := linearPair_of_frame ιF h0 h1 hnt C hi' hj'
     refine ⟨W, ?_⟩
     have hj3 : i.val + 1 + 2 < n := by omega
-    simp only [hU, hnodeG, if_pos hi2, hjv, if_pos hj3]
+    simp only [hU, hnodeG, ite_eq_left hi2, hjv, ite_eq_left hj3]
     exact hW
   have htwU : ∀ i j : Fin (n - 1), i.val + 3 = n → j.val + 2 = n →
       ∃ W, TwistedB2BlockPair hirr W (U i) (U j) := by
@@ -301,8 +301,8 @@ theorem lieModel_of_chain {k : Type} [Field k] {G : Type} [Group G] {n p f : ℕ
     have hi2 : i.val + 2 < n := by omega
     have hj2 : ¬ j.val + 2 < n := by omega
     have hni : nodeG i = ((ρ (n - 3)).comp (Matrix.SpecialLinearGroup.map ιF)).range := by
-      simp only [hnodeG, if_pos hi2, hiv]
-    have hnj : nodeG j = Vg := by simp only [hnodeG, if_neg hj2]
+      simp only [hnodeG, ite_eq_left hi2, hiv]
+    have hnj : nodeG j = Vg := by simp only [hnodeG, ite_eq_right hj2]
     have hΦinj : Function.Injective
         ((Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp (blockSL2 K 3 1)) := by
       have e : (Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp (blockSL2 K 3 1) =

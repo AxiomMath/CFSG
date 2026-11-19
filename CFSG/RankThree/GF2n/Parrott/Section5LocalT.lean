@@ -83,11 +83,12 @@ theorem mem_centralizer_z1_iff_qH_mem_QP45 (h : Tim79a.ParrottHyp z)
     rw [hK, Subgroup.mem_subgroupOf] at hxK
     exact hxK.2
 
+omit hN [Finite G] in
 theorem centerIn_J_le_of_isSylowOf_centralizer (h : Tim79a.ParrottHyp z) {y : ↥(H z)}
     (hy : conjZ z y = 1) {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ centralizer ({(y : G)} : Set G))) :
     centerIn (J z) ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := H z ⊓ centralizer ({(y : G)} : Set G) with hK
   have hZK : centerIn (J z) ≤ K := by
     intro e he
@@ -102,7 +103,7 @@ theorem centerIn_J_le_of_isSylowOf_centralizer (h : Tim79a.ParrottHyp z) {y : �
     rw [card_centerIn_J h]
     norm_num
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
-  haveI : ((centerIn (J z)).subgroupOf K).Normal :=
+  have : ((centerIn (J z)).subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZK).mpr hnorm
   have hZ2' : IsPGroup 2 ↥((centerIn (J z)).subgroupOf K) := by
     have hc := hZ2.comap_subtype (K := K)
@@ -151,7 +152,7 @@ private theorem exists_mem_isSylowOf_conj_of_pow {y : ↥(H z)} {b : ↥(H z)}
     ∃ xH : ↥(H z), (xH : G) ∈ T ∧
       qH D xH ∉ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := H z ⊓ centralizer ({(y : G)} : Set G) with hK
   have hbK : (b : G) ∈ K := by
     refine Subgroup.mem_inf.mpr ⟨b.2, ?_⟩
@@ -217,7 +218,7 @@ private theorem mem_QP45_of_isPGroup_zpowers_centralizer_sigma1Nine
     (u : ↥(centralizerSigma1QA45)) (hu2 : IsPGroup 2 (Subgroup.zpowers u)) :
     (u : QA45.originalSubgroup) ∈ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup QA45.originalSubgroup :=
     Subgroup.closure ({(⟨alpha2, alpha2_mem_A⟩ : QA45.originalSubgroup),
       (⟨beta2, beta2_mem_A⟩ : QA45.originalSubgroup)} : Set QA45.originalSubgroup) with hA
@@ -420,6 +421,7 @@ theorem z_mem_commutator_of_isSylowOf_centralizer_sigma1Nine_mul (h : Tim79a.Par
   have hmem := Subgroup.commutator_mem_commutator (H₁ := T₃) (H₂ := T₃) hxT hz₁T
   rwa [hcomm] at hmem
 
+omit [Finite G] hN in
 private theorem not_mem_centerIn_of_conj_z1 (h : Tim79a.ParrottHyp z) {z₁ x : G}
     {T₂ : Subgroup G} (hzcent : z ∈ centerIn T₂) (hxT : x ∈ T₂)
     (hxconj : x * z₁ * x⁻¹ = z * z₁) :

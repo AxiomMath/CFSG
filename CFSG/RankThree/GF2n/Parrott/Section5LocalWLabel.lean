@@ -95,6 +95,7 @@ theorem eq_one_of_conj_tau_eq_mul (h : Tim79a.ParrottHyp z) (P : GL8)
     rw [← hqe, hcomm, mul_inv_cancel_right]
   exact mul_left_cancel (h1.trans (mul_one (τ : G)).symm)
 
+omit [Finite G] hN in
 private theorem conj_eq_of_conj_mul_eq {q q' τ e e' : G} (hq' : q' ∈ J z)
     (he : e ∈ centerIn (J z)) (he' : e' ∈ centerIn (J z))
     (heq : q * τ * q⁻¹ * e = q' * τ * q'⁻¹ * e') :
@@ -141,6 +142,8 @@ theorem isLemma54Label_unique (h : Tim79a.ParrottHyp z) (P : GL8)
   have h2 := eq_one_of_conj_tau_eq_mul (z := z) D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ hQ hee' hconj
   exact (mul_inv_eq_one.mp h2).symm
 
+omit hN in
+omit [Finite G] in
 private theorem pi_inv_eq_pi_label (h : Tim79a.ParrottHyp z) (y : J z) :
     QuotientV.pi z y⁻¹ = QuotientV.pi z y := by
   rw [map_inv]
@@ -162,6 +165,7 @@ private theorem tau_mem_centralizer_sigmaLabel {σ₂ τ : ↥(H z)}
       _ = (sigma1Nine D * σ₂⁻¹) * τ := by group
   exact Subgroup.mem_centralizer_singleton_iff.mpr (congrArg Subtype.val hcomm)
 
+omit [Finite G] in
 private theorem not_mem_J_of_qH_eq_tA_label {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) :
     (τ : G) ∉ J z := by
   intro hmem
@@ -378,6 +382,7 @@ private theorem card_stabilizer_isLemma54Label (h : Tim79a.ParrottHyp z) (P : GL
       from inf_le_left)).toEquiv]
   exact card_lemma54N (z := z) D h P hP hσ₂ hq₂ hc₂ hqτ hτ₁ hτ₂
 
+omit [Finite G] in
 private theorem card_orbit_isLemma54Label {τ : G} {Q : Subgroup G} [MulAction ↥Q G]
     (hstab : Nat.card (MulAction.stabilizer ↥Q τ) = 16) (hQB : Nat.card ↥Q = 64) :
     Nat.card ↥(MulAction.orbit ↥Q τ) = 4 := by
@@ -388,6 +393,7 @@ private theorem card_orbit_isLemma54Label {τ : G} {Q : Subgroup G} [MulAction �
   rw [hstab, hQB] at hcount
   omega
 
+omit [Finite G] hN in
 private theorem label_set_card_eq_orbit {σ τ e : G} {Q : Subgroup G} [MulAction ↥Q G]
     (hQ : Q = J z ⊓ centralizer ({σ} : Set G))
     (hsmul : ∀ (q : ↥Q) (y : G), q • y = (q : G) * y * (q : G)⁻¹) :
@@ -424,7 +430,7 @@ theorem ncard_setOf_isLemma54Label (h : Tim79a.ParrottHyp z) (P : GL8)
         4 := by
   let Q₀ : Subgroup G := J z ⊓
     centralizer ({((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G)} : Set G)
-  letI : MulAction ↥Q₀ G :=
+  let : MulAction ↥Q₀ G :=
     MulAction.compHom G ((MulEquiv.toMonoidHom ConjAct.toConjAct).comp Q₀.subtype)
   have hsmul : ∀ (q : ↥Q₀) (y : G), q • y = (q : G) * y * (q : G)⁻¹ :=
     fun q y => ConjAct.toConjAct_smul (q : G) y
@@ -442,6 +448,7 @@ theorem ncard_setOf_isLemma54Label (h : Tim79a.ParrottHyp z) (P : GL8)
   rw [label_set_card_eq_orbit (σ := ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G))
     (τ := (τ : G)) rfl hsmul, horbcard]
 
+omit hN [Finite G] in
 private theorem lemma54W_inf_J {σ τ : G} (hτG : τ * τ = 1) (hτJ : τ ∉ J z) :
     lemma54W z σ τ ⊓ J z =
       J z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({τ} : Set G) := by
@@ -482,7 +489,7 @@ private theorem ncard_lemma54W_diff_J (h : Tim79a.ParrottHyp z) (P : GL8)
   have hset : ((W : Set G) \ (J z : Set G)) =
       ((W : Set G) \ ((W ⊓ J z : Subgroup G) : Set G)) := by
     ext y
-    simp only [Set.mem_diff, SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Set.mem_sdiff, SetLike.mem_coe, Subgroup.mem_inf]
     tauto
   rw [show ((lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) : Set G) \
       (J z : Set G)) = ((W : Set G) \ (J z : Set G)) from rfl]
@@ -513,7 +520,7 @@ theorem exists_isLemma54Label (h : Tim79a.ParrottHyp z) (P : GL8)
     intro e e' hne
     refine Set.disjoint_left.mpr (fun y hy hy' => hne (Subtype.ext ?_))
     exact isLemma54Label_unique (z := z) D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ e.2 e'.2 hy hy'
-  haveI : Fintype ↥(centerIn (J z)) := Fintype.ofFinite _
+  have : Fintype ↥(centerIn (J z)) := Fintype.ofFinite _
   have hUnion : (⋃ e : ↥(centerIn (J z)), S e).ncard = 16 := by
     rw [Set.ncard_iUnion_of_finite (fun e => Set.toFinite _) hdisj,
       finsum_eq_sum_of_fintype]
@@ -532,6 +539,7 @@ theorem exists_isLemma54Label (h : Tim79a.ParrottHyp z) (P : GL8)
   obtain ⟨e, he⟩ := Set.mem_iUnion.mp hxmem
   exact ⟨e, e.2, he⟩
 
+omit hN [Finite G] in
 theorem isLemma54Label_conj {σ τ g x e ℓ : G} (hgH : g ∈ H z)
     (hgσ : g ∈ centralizer ({σ} : Set G)) (hℓ : ℓ ∈ centerIn (J z))
     (hgτ : IsLemma54Label (z := z) σ τ (g * τ * g⁻¹) ℓ) (hx : IsLemma54Label (z := z) σ τ x e) :
@@ -566,11 +574,13 @@ theorem isLemma54Label_conj {σ τ g x e ℓ : G} (hgH : g ∈ H z)
     hℓq'inv]
   group
 
+omit [Finite G] hN in
 private theorem z_mul_self_label (h : Tim79a.ParrottHyp z) : z * z = 1 := by
   have h2 := pow_orderOf_eq_one z
   rw [h.1, pow_two] at h2
   exact h2
 
+omit [Finite G] hN in
 private theorem eq_one_or_eq_z_of_mem_zpowers (h : Tim79a.ParrottHyp z) {ζ : G}
     (hζ : ζ ∈ Subgroup.zpowers z) : ζ = 1 ∨ ζ = z := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hζ
@@ -584,11 +594,13 @@ private theorem eq_one_or_eq_z_of_mem_zpowers (h : Tim79a.ParrottHyp z) {ζ : G}
   · rw [hper, h0]; simp
   · rw [hper, h1]; simp
 
+omit hN [Finite G] in
 private theorem zpowers_z_commute_H (h : Tim79a.ParrottHyp z) {ζ : G}
     (hζ : ζ ∈ Subgroup.zpowers z) {x : G} (hx : x ∈ H z) : ζ * x = x * ζ :=
   (Subgroup.mem_centralizer_iff.mp
     (Subgroup.zpowers_le.mpr (z_centralizes_H h) hζ) x hx).symm
 
+omit hN [Finite G] in
 private theorem exists_zpowers_mul_comm (h : Tim79a.ParrottHyp z) {a b : G}
     (ha : a ∈ J z) (hb : b ∈ J z) :
     ∃ ζ ∈ Subgroup.zpowers z, a * b = b * a * ζ := by
@@ -606,11 +618,14 @@ private theorem exists_zpowers_mul_comm (h : Tim79a.ParrottHyp z) {a b : G}
             ha']
           group
 
+omit hN [Finite G] in
 private theorem commutator_mul_mem_J {t : G} (ht : t ∈ H z) {q : G} (hq : q ∈ J z) :
     q * t * q⁻¹ * t⁻¹ ∈ J z := by
   rw [show q * t * q⁻¹ * t⁻¹ = q * (t * q⁻¹ * t⁻¹) by group]
   exact (J z).mul_mem hq (conj_mem_J_of_mem_H ht ((J z).inv_mem hq))
 
+omit hN in
+omit [Finite G] in
 private theorem commutator_mul_tau_exists (h : Tim79a.ParrottHyp z) {q₁ q₂ t : G}
     (ht : t ∈ H z) (hq₁ : q₁ ∈ J z) (hq₂ : q₂ ∈ J z) :
     ∃ ζ ∈ Subgroup.zpowers z,
@@ -640,6 +655,7 @@ private theorem commutator_mul_tau_exists (h : Tim79a.ParrottHyp z) {q₁ q₂ t
             show c₁ * ζ₁ * c₂ * ζ₂ = c₁ * (ζ₁ * c₂) * ζ₂ by group, hζ₁c₂]
           group
 
+omit [Finite G] in
 private theorem eq_commutator_mul_of_label {τ q e n : G} (hτe : e * τ = τ * e)
     (h : n * τ = q * τ * q⁻¹ * e) :
     n = (q * τ * q⁻¹ * τ⁻¹) * e := by
@@ -648,6 +664,7 @@ private theorem eq_commutator_mul_of_label {τ q e n : G} (hτe : e * τ = τ * 
   rw [h1, h, show q * τ * q⁻¹ * e * τ⁻¹ = q * τ * q⁻¹ * (e * τ⁻¹) by group, hcomm]
   group
 
+omit [Finite G] in
 private theorem mul_tau_calc {τ Q c₁ c₂ e₁ e₂ ζ : G}
     (hc_eq : c₁ * c₂ = (Q * τ * Q⁻¹ * τ⁻¹) * ζ⁻¹)
     (he₁c₂ : e₁ * c₂ = c₂ * e₁) (heτ : e₁ * e₂ * τ = τ * (e₁ * e₂))
@@ -670,6 +687,7 @@ private theorem mul_tau_calc {τ Q c₁ c₂ e₁ e₂ ζ : G}
             show (Q * τ * Q⁻¹ * τ⁻¹) * τ = Q * τ * Q⁻¹ by group,
             hζe]
 
+omit [Finite G] hN in
 private theorem mul_tau_eq_of_labels (h : Tim79a.ParrottHyp z) {τ q₁ q₂ e₁ e₂ n₁ n₂ : G}
     (hτH : τ ∈ H z) (hτe : ∀ e ∈ centerIn (J z), e * τ = τ * e)
     (hq₁ : q₁ ∈ J z) (hq₂ : q₂ ∈ J z)

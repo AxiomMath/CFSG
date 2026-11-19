@@ -22,7 +22,7 @@ theorem a2MinusCompsWith_holds {P : (X : Type) → [Group X] → Prop} (hP : IsC
         Function.Surjective g → g.ker ≤ Subgroup.center ↥(StatedSU 3 (p ^ f) F) → P Q) :
     A2MinusCompsWith P p f := by
   intro hp hp2 hp3 hf hq K _ _ hK σ hσ s hs
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K₄, _, _, hCh, hK₄, σ₄, ε, hσ₄, hε, b, hb3, hb1, s₄, hs₄, ψ₄, hinj, hint, hfix⟩ :=
     un_frame hp hf hq K hK σ hσ s hs
   have hp5 : 5 ≤ p := by
@@ -44,10 +44,10 @@ theorem a2MinusComps_holds : A2MinusComps := by
   refine a2MinusCompsWith_holds (isComponentProperty_componentFactor p) ?_ hp hp2 hp3 hf hq hK hσ
     (s := s) hs
   intro F _ _ hF Q _ _ g hg hk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = (p ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F p := charP_of_card_eq_prime_pow (f := 2 * f)
+  have : CharP F p := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [hFc, ← pow_mul, mul_comm])
   have hp5 : 5 ≤ p := by
     have := hp.two_le

@@ -133,7 +133,7 @@ theorem not_weaklyClosed_of_wreath_twists [Finite C] [Finite S] {a : ℕ} (ha : 
     (hS : ¬ 3 ^ (3 * a + 2) ∣ Nat.card S) {z : S} (hz : orderOf z = 3) :
     ¬ WeaklyClosed (Subgroup.zpowers z) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBcard : Nat.card φ.range = 3 ^ (3 * a) := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hφ).toEquiv, Nat.card_fun, hC,
       Nat.card_eq_fintype_card, Fintype.card_fin, ← pow_mul, mul_comm]

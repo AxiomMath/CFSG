@@ -78,7 +78,7 @@ public theorem lemma115_actionKernel_image_eq_P
       exact hxN
     exact hxNV.1
   have hKnorm : normalizerIn M P ≤ Subgroup.normalizer (K : Set X) := by
-    letI : core.Normal := by
+    let : core.Normal := by
       dsimp [core, Nstar]
       infer_instance
     have hNstarNorm : Nstar ≤ Subgroup.normalizer (K : Set X) := by

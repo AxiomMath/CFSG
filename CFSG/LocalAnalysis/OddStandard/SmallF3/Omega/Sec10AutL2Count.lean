@@ -13,6 +13,7 @@ variable {F : Type} [Field F] [Finite F]
 abbrev projHom (A : Subgroup (PGammaL2 F)) : A →* (F ≃+* F) :=
   SemidirectProduct.rightHom.comp A.subtype
 
+omit [Finite F] in
 theorem projHom_apply (A : Subgroup (PGammaL2 F)) (x : A) :
     projHom A x = (x : PGammaL2 F).right := rfl
 

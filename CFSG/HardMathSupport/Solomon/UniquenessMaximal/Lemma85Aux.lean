@@ -212,7 +212,7 @@ theorem exists_sylow_of_max {R Q : Subgroup G} (hQR : Q ≤ R) (hQ2 : IsPGroup 2
     intro x hx
     exact ⟨⟨x, hQR hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have h2 : (S : Subgroup ↥R).map R.subtype = Q :=
-    hmax _ h1 (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    hmax _ h1 (Subgroup.map_subtype_le _) (S.isPGroup.map _)
   rw [← h2]
   exact (Subgroup.comap_map_eq_self_of_injective R.subtype_injective _).symm
 

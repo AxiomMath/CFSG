@@ -8,11 +8,11 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 
 open Subgroup CFSG.OddStandard.HigherRank.G2Three CFSG.OddStandard.HigherRank.G2Three.Sec1
 
-theorem y6_O2_le {G : Type} [Group G] [Finite G] {N A M : Subgroup G} (hAN : A ≤ N)
+theorem y6_O2_le {G : Type} [Group G] [Finite G] {N A M : Subgroup G} (_hAN : A ≤ N)
     (hfrob : SecProp N A (fun Y _ _ _ => IsFrobeniusOfOrder 18 Y)) (hMN : M ≤ N)
     (hMnorm : ∀ n ∈ N, ∀ m ∈ M, n * m * n⁻¹ ∈ M) (hM2 : IsPGroup 2 ↥M) : M ≤ A := by
   obtain ⟨hAnorm, hfr⟩ := hfrob
-  haveI := hAnorm
+  have := hAnorm
   let π : ↥N →* ↥N ⧸ A.subgroupOf N := QuotientGroup.mk' (A.subgroupOf N)
   let P : Subgroup (↥N ⧸ A.subgroupOf N) := (M.subgroupOf N).map π
   have hMn : (M.subgroupOf N).Normal :=

@@ -12,12 +12,13 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma isElemAbelian_inf_centralizer {A : Subgroup G}
     (hA : CFSG.Open.IsElemAbelian 2 A) :
     CFSG.Open.IsElemAbelian 2 (A ⊓ centralizer ({t} : Set G)) := by
   refine ⟨IsMulCommutative.of_comm fun x y => Subtype.ext ?_,
     fun x hx => hA.2 x (Subgroup.mem_inf.mp hx).1⟩
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   exact congrArg (Subtype.val : ↥A → G) (mul_comm'
     (⟨(x : G), (Subgroup.mem_inf.mp x.2).1⟩ : ↥A)
     (⟨(y : G), (Subgroup.mem_inf.mp y.2).1⟩ : ↥A))
@@ -40,7 +41,7 @@ theorem l18_U_W_normal (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) {R A : 
       mul_mem (mul_mem hs' hw.2) (inv_mem hs')⟩
 
 theorem l18_U_card_W (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgroup G}
-    (hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) :
+    (_hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) :
     4 ≤ Nat.card ↥(A ⊓ centralizer ({t} : Set G)) := by
   have ht2 : t * t = 1 := S4A.t_mul_self hc.hyp
   have htR : t ∈ R := h𝒮R (l18_T_le_sylow hc.toCtx18S).1
@@ -155,7 +156,7 @@ theorem l18_U_VA (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgro
   have hb2 : (t * a * t⁻¹) * (t * a * t⁻¹) = 1 :=
     by simpa [pow_two] using hA.2.1.2 (t * a * t⁻¹) hbA
   have hb_inv : (t * a * t⁻¹)⁻¹ = t * a * t⁻¹ := inv_eq_of_mul_eq_one_right hb2
-  haveI : IsMulCommutative ↥A := hA.2.1.1
+  have : IsMulCommutative ↥A := hA.2.1.1
   have hcomm : (t * a * t⁻¹) * a = a * (t * a * t⁻¹) :=
     congrArg Subtype.val (mul_comm'
       (⟨t * a * t⁻¹, hbA⟩ : ↥A) (⟨a, ha⟩ : ↥A))

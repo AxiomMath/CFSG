@@ -393,6 +393,7 @@ theorem mul_self_eq_one_of_mem_centerIn (h : Tim79a.ParrottHyp z) {ζ : G}
 
 omit
   hN in
+omit [Finite G] in
 theorem conj_mem_centerIn_J {g : G} (hg : g ∈ H z) {ζ : G} (hζ : ζ ∈ centerIn (J z)) :
     g * ζ * g⁻¹ ∈ centerIn (J z) := by
   have := (conjZ z ⟨g, hg⟩ ⟨ζ, hζ⟩).2

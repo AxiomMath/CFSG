@@ -44,7 +44,7 @@ theorem diag_unitary_fin_two {K : Type} [Field K] (b : K →+* K) {x y : K}
     Matrix.transpose ((!![x, 0; 0, y] : Matrix (Fin 2) (Fin 2) K).map b) * !![x, 0; 0, y] = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, hx, hy]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, hx, hy]
 
 theorem glTwoCentDiag_mem {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π p f K)
     {t : K} (ht : t ≠ 0) (htq : π = false → t ^ (p ^ f) * t = 1) :

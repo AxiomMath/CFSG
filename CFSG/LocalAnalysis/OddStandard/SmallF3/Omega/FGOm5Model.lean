@@ -36,8 +36,8 @@ theorem fg_model_om5_involutions (hQ : Q.Nondegenerate)
       w₀ * w₀ = 1 ∧ w₁ * w₁ = 1 ∧
       HasType ((w₀ : ↥(omegaProj hQ)) : ProjOrth Q) 4 1 ∧
       HasType ((w₁ : ↥(omegaProj hQ)) : ProjOrth Q) 2 (-1) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
   have hcdim : Module.finrank (ZMod 3) (commSp t) = 1 := congrArg Prod.fst htype
   have hUdim : Module.finrank (ZMod 3) (fixSp t) = 5 := by
@@ -76,7 +76,7 @@ theorem fg_model_om5_involutions (hQ : Q.Nondegenerate)
   have hlieR : LieModel ↥ψ.range .PSp 2 3 1 :=
     hlie.of_mulEquiv (MonoidHom.ofInjective hψinj)
   obtain ⟨hS, hnc⟩ := ff_simple_of_lieModel_psp hlieR
-  haveI : Finite ↥ψ.range := inferInstance
+  have : Finite ↥ψ.range := inferInstance
   have hX : ∀ g : omegaGroup hR, ψ g * ψ g = 1 → ψ g ∈ twoRes (⊤ : Subgroup ↥(ffFix hQ
       h2 (projOrthToProjSim Q (toProj Q t)))) := by
     intro g hg

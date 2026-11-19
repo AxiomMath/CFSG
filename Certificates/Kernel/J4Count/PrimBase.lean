@@ -71,17 +71,17 @@ open CertificateChecks.KernelJ4Count (ncard_orbit_mem mem_orbit_of_ncard qv qv_m
 open CFSG.Sporadic.SmallF2 (toVecD toVecD_apply toVecD_xor toVecD_zero)
 open scoped Matrix
 
-@[expose] noncomputable def treeOK : Bool :=
+noncomputable def treeOK : Bool :=
   Nat.beq PTS[0]! rootBits && (List.range 112).all fun k =>
     Nat.blt PTS[k]! (2 ^ 112) && (Nat.beq k 0 || (Nat.blt PAR[k]! k &&
       Nat.beq PTS[k]! (vecJ rm PTS[PAR[k]!]! (if Nat.beq LET[k]! 0 then Ai else Bi))))
 
 theorem treeOK_true : treeOK = true := by quickRfl
 
-@[expose] def selX (m : ℕ) : ℕ :=
+def selX (m : ℕ) : ℕ :=
   (List.range 112).foldl (fun acc i => if m.testBit i then acc ^^^ PTS[i]! else acc) 0
 
-@[expose] def spanOK : Bool := (List.range 112).all fun j => Nat.beq (selX MSK[j]!) (2 ^ j)
+def spanOK : Bool := (List.range 112).all fun j => Nat.beq (selX MSK[j]!) (2 ^ j)
 
 theorem spanOK_true : spanOK = true := by quickRfl
 
@@ -132,13 +132,13 @@ theorem pts_mem : ∀ k < 112, rho PTS[k]! ∈ orbit J v := by
       change g • v = rho PTS[PAR[k]!]! at hg
       have hp := (tree_parts (k := PAR[k]!) (by omega)).1
       by_cases hl : LET[k]! = 0
-      · rw [if_pos hl] at he
+      · rw [ite_eq_left hl] at he
         refine ⟨a * g, ?_⟩
         have e := inv_smul_PR PR_Ai hp
         rw [inv_inv] at e
         change (a * g) • v = rho PTS[k]!
         rw [mul_smul, hg, e, ← he]
-      · rw [if_neg hl] at he
+      · rw [ite_eq_right hl] at he
         refine ⟨b * g, ?_⟩
         have e := inv_smul_PR PR_Bi hp
         rw [inv_inv] at e
@@ -153,7 +153,7 @@ theorem toVecD_two_pow {j : ℕ} (hj : j < 112) :
   · subst h
     simp
   · have h' : j ≠ i.val := fun e => h (Fin.ext e.symm)
-    simp [h', Pi.single_apply, h]
+    simp [h', h]
 
 theorem eq_one_of_fix {g : J} (h : ∀ k < 112, g • rho PTS[k]! = rho PTS[k]!) : g = 1 := by
   set N : Matrix (Fin 112) (Fin 112) (ZMod 2) :=

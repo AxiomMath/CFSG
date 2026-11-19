@@ -56,7 +56,7 @@ theorem u6CardLarge_holds : U6CardLarge := by
   cases d with
   | twistedA r q =>
     rcases r with _ | _ | _ | _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     · have hcard : Nat.card S = I1420.lieOrderFormula (LieTypeIndex.twistedA 5 q) :=
         lieOrderBridge_holds ⟨.twistedA 5 q, hv⟩ S ⟨e⟩
       have hqc : q.card = 2 ^ k := by

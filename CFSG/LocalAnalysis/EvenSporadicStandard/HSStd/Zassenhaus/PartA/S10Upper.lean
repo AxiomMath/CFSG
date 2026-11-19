@@ -12,6 +12,7 @@ section Upper
 
 variable {G : Type} [Group G] [Finite G] {L A : Subgroup G} {t u : G}
 
+omit [Finite G] in
 theorem card_cen_tu_eq (S : FusionSetup G L A t u) (hn : ¬ IsConj t u)
     (hX : IsSporadic (QuotT (t * u)) .HS) : Nat.card ↥(Cen (t * u)) = 88704000 := by
   have h := (zpowers (wOf (t * u))).card_eq_card_quotient_mul_card_subgroup
@@ -29,7 +30,8 @@ theorem card_cen_tu_eq (S : FusionSetup G L A t u) (hn : ¬ IsConj t u)
   rw [hcard2, card_eq_of_isSporadic_hs hX] at h
   omega
 
-theorem comm_t_of_comm_tu (S : FusionSetup G L A t u) {g : G} (h1 : g * (t * u) = (t * u) * g)
+omit [Finite G] in
+theorem comm_t_of_comm_tu (_S : FusionSetup G L A t u) {g : G} (h1 : g * (t * u) = (t * u) * g)
     (h2 : g * u = u * g) : g * t = t * g := by
   apply mul_right_cancel (b := u)
   calc g * t * u = g * (t * u) := mul_assoc _ _ _
@@ -38,6 +40,7 @@ theorem comm_t_of_comm_tu (S : FusionSetup G L A t u) {g : G} (h1 : g * (t * u) 
     _ = t * (g * u) := by rw [h2]
     _ = t * g * u := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem card_cent_uH (S : FusionSetup G L A t u) :
     Nat.card ↥(centralizer ({(⟨u, S.u_mem_Cen_tu⟩ : ↥(Cen (t * u)))} : Set ↥(Cen (t * u)))) =
       Nat.card ↥(centralizer ((Vsub t u : Subgroup G) : Set G)) := by

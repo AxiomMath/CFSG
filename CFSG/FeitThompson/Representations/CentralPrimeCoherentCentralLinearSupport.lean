@@ -86,8 +86,8 @@ theorem exists_isCoherentWith_of_bridges (hc : IsSubcoherent S tau R)
   have hgramu : ∀ i j, cfInner (u i) (u j) = if i = j then g i else 0 := by
     intro i j
     by_cases hij : i = j
-    · rw [if_pos hij, hij]
-    · rw [if_neg hij]
+    · rw [ite_eq_left hij, hij]
+    · rw [ite_eq_right hij]
       exact cfInner_eq_zero_of_ne hc (hXS (hXcoe i)) (hXS (hXcoe j))
         fun hcc => hij (Subtype.ext hcc)
   have hgne : ∀ i, g i ≠ 0 := fun i hgi =>

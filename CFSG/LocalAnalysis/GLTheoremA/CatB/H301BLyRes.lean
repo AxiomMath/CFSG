@@ -21,10 +21,10 @@ private theorem mulConj_lyJ (α : MulAut J) (x : J) :
   rw [map_mul, map_mul, map_inv, α.apply_symm_apply]
 
 theorem center_lyJ_eq_bot : Subgroup.center J = ⊥ := by
-  haveI : IsSimpleGroup J := isSimpleGroup_J
+  have : IsSimpleGroup J := isSimpleGroup_J
   have hnc : ¬ IsMulCommutative J := by
     intro hcomm
-    haveI : IsMulCommutative J := hcomm
+    have : IsMulCommutative J := hcomm
     have hp : (Nat.card J).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
     rw [card_J] at hp
     exact (by norm_num : ¬ Nat.Prime 51765179004000000) hp

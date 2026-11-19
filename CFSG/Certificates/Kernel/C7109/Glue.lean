@@ -450,8 +450,8 @@ theorem exists_idx (ht : TableOK N mat row) {S : Subgroup G5} (hSU : S ≤ U5)
   obtain ⟨i, hi, hgi⟩ := ht.compl _ (hSU hg) hsqM hM1
   exact ⟨i, mem_idxs.mpr ⟨hi, g, hg, hgi.symm⟩, hgi.symm⟩
 
-theorem closed_idxs (ht : TableOK N mat row) {S : Subgroup G5} (hSU : S ≤ U5)
-    (hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) (hsq : ∀ x ∈ S, x * x = 1) :
+theorem closed_idxs (ht : TableOK N mat row) {S : Subgroup G5} (_hSU : S ≤ U5)
+    (hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) (_hsq : ∀ x ∈ S, x * x = 1) :
     Closed N mat row (idxs N mat S) := by
   refine ⟨fun a ha => (mem_idxs.mp ha).1, fun a ha b hb hab => ?_⟩
   obtain ⟨haN, ga, hga, hgae⟩ := mem_idxs.mp ha

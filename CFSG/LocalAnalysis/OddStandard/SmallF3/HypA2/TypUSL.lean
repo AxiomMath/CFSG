@@ -15,7 +15,7 @@ theorem typU_of_slTwo_case (hI : Phase1Inputs) {H : Type} [Group H] [Finite H]
     (hH : SectionRank.IsKGroupCat H) {M : Subgroup H} {x : H} {T : Subgroup H} {w : H}
     (h : VCSetting M x T w) {q₁ : ℕ} (hq : Odd q₁) (h9 : 9 ≤ q₁)
     (hSL : HarrisLit.IsSLTwoOver q₁ (↥T ⧸ pPrimeCore 2 ↥T)) : TypU ↥M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : HarrisLit.IsTwoQuasisimple ↥T :=
     ((HarrisLit.isTwoComponentIn_iff h.hTx).mpr h.hT).2.2
   have hTcard : Nat.card (↥T ⧸ Open.fusionZStar ↥T) * 2 = q₁ * (q₁ ^ 2 - 1) :=

@@ -27,8 +27,8 @@ theorem exists_le_closure_hyperRSet_of_layer {G H : Type*} [Group G] [Group H] [
     (hEgen : (⊤ : Subgroup H) ≤ Subgroup.closure (hyperRSet ⊤ E r p)) :
     ∃ V : Subgroup G, IsElemAbelian p V ∧ Nat.card V = p ^ 4 ∧
       P ≤ Subgroup.closure (hyperRSet ⊤ V r p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥P := ⟨hQ.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥P := ⟨hQ.1⟩
   obtain ⟨B, hBel, hBc, hBmap, -⟩ := ExcHigh.exists_elemAbelian_central_lift π hπ hcop hEel hEc
   have hPB : (⊤ : Subgroup ↥P) ≤ Subgroup.closure (hyperRSet ⊤ B r p) :=
     top_le_closure_hyperRSet_of_central_lift hr ((Nat.coprime_primes hp hr).2 hpr) π hπ
@@ -70,8 +70,8 @@ theorem exists_cube_top_le_closure_hyperRSet_E6 (q : TauCeti.PrimePower)
     refine UniSeitzPlanes.mono (fun d p E hs => ?_) Inputs2311k.uniSeitzPlanes_triality_inner_phi36
     obtain ⟨⟨hin, hp5, ⟨q, hq, hdvd⟩, -⟩, -⟩ := hs
     exact ⟨hin, hp5, q, hq, Or.inl hdvd⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨K, _, _, hK, hKchar, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
   obtain ⟨ψ, hinj, hcomm, hψ⟩ := CFSG.HardMathSupport.Malle.SeitzCube.exists_three_sl3_E6_signed K
@@ -126,7 +126,7 @@ theorem exists_rLayer_E8 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8
   obtain ⟨K8, _, _, -, -, ⟨e8⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
   have hfin8 : Finite (ModGL Tag.E8 K8) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
+  have : Finite (Cat ⟨.E8 q, hv⟩) := Finite.of_equiv _ e8.symm.toEquiv
   have hp3 : Nat.Coprime 3 p := (Nat.coprime_primes (by norm_num) hp).2 (by omega)
   rcases he3 with rfl | rfl
   · obtain ⟨P, A, π, hπ, hker, hcen, hQ, hAel, hAc, hcomm, hdisj⟩ :=

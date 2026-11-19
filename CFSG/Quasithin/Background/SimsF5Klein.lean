@@ -40,7 +40,7 @@ theorem kleinInvMat_mul_kleinMat : kleinInvMat * kleinMat = 1 := by
   decide
 
 @[expose] def kleinEquiv : (Fin 3 ⊕ Fin 3 → ZMod 3) ≃ₗ[ZMod 3] (Fin 6 → ZMod 3) :=
-  LinearEquiv.ofLinear (Matrix.toLin' kleinMat) (Matrix.toLin' kleinInvMat)
+  LinearEquiv.ofLinearMap (Matrix.toLin' kleinMat) (Matrix.toLin' kleinInvMat)
     (by rw [← Matrix.toLin'_mul, kleinMat_mul_kleinInvMat, Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, kleinInvMat_mul_kleinMat, Matrix.toLin'_one])
 
@@ -54,7 +54,7 @@ theorem kleinEquiv_apply (w : Fin 3 ⊕ Fin 3 → ZMod 3) :
       w (.inl 0) + w (.inr 0), w (.inl 0) + 2 * w (.inr 0)] := by
   funext k
   fin_cases k <;> simp [kleinEquiv_eq_mulVec, kleinMat, kleinE, kleinF, Matrix.mulVec, dotProduct,
-    Fintype.sum_sum_type, Fin.sum_univ_three] <;> ring
+    Fintype.sum_sum_type, Fin.sum_univ_three]; ring
 
 theorem qV_kleinEquiv (w : Fin 3 ⊕ Fin 3 → ZMod 3) :
     qV (kleinEquiv w) = ∑ i : Fin 3, w (.inl i) * w (.inr i) := by
@@ -174,17 +174,17 @@ theorem card_MDot : Nat.card ↥MDot = 6065280 := by
   exact CFSG.Quasithin.H13.card_psl_four_three
 
 theorem isSimpleGroup_MDot : IsSimpleGroup ↥MDot := by
-  haveI := isSimpleGroup_PSL_four_three
+  have := isSimpleGroup_PSL_four_three
   exact mdotEquivPSL.isSimpleGroup
 
 theorem center_MDot_eq_bot : Subgroup.center ↥MDot = ⊥ := by
-  haveI := isSimpleGroup_MDot
+  have := isSimpleGroup_MDot
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥MDot) with h | h
   · exact h
   · exfalso
     have hc : ∀ a b : ↥MDot, a * b = b * a := fun a b =>
       (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b)) a
-    letI : CommGroup ↥MDot := { (inferInstance : Group ↥MDot) with mul_comm := hc }
+    let : CommGroup ↥MDot := { (inferInstance : Group ↥MDot) with mul_comm := hc }
     have := IsSimpleGroup.prime_card (α := ↥MDot)
     rw [card_MDot] at this
     norm_num at this

@@ -73,9 +73,9 @@ theorem foldCntB (b : ℕ) (c : ℕ → Bool) : ∀ len s : ℕ,
     have e0 : Nat.add b len = b + len := rfl
     rw [sN_eq, foldCntB b c len, Finset.range_add_one, Finset.filter_insert, e0, nRec_eq]
     by_cases hc : c (b + len) = true
-    · rw [if_pos hc, if_pos hc, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left hc, ite_eq_left hc, Finset.card_insert_of_notMem (by simp)]
       omega
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
 
 theorem cnt_spec {POS PAR LAB : ℕ → ℕ} {S : List (List ℕ × Bool)} {lo len c : ℕ}
     (h : cntSlK POS PAR LAB G S lo len c = true) :
@@ -93,7 +93,7 @@ theorem memK_spec : ∀ {F : List ℕ} {v : ℕ}, memK F v = true → v ∈ F
     by_cases hp : Nat.beq p v = true
     · rw [beq_of hp]
       exact List.mem_cons_self
-    · rw [if_neg hp] at h
+    · rw [ite_eq_right hp] at h
       exact List.mem_cons_of_mem p (memK_spec h)
 
 theorem movK_spec : ∀ {W : List (List ℕ)} {v : ℕ}, movK G W v = true → ∃ w ∈ W, wv G w v ≠ v
@@ -102,7 +102,7 @@ theorem movK_spec : ∀ {W : List (List ℕ)} {v : ℕ}, movK G W v = true → �
     change Bool.rec (motive := fun _ => Bool) true (movK G W v) (Nat.beq (wv G w v) v) = true at h
     rw [bRec_eq] at h
     by_cases hw : Nat.beq (wv G w v) v = true
-    · rw [if_pos hw] at h
+    · rw [ite_eq_left hw] at h
       obtain ⟨w', hw', e⟩ := movK_spec h
       exact ⟨w', List.mem_cons_of_mem w hw', e⟩
     · exact ⟨w, List.mem_cons_self, fun e => hw (beq_true e)⟩
@@ -117,7 +117,7 @@ theorem fix_spec {F : List ℕ} {W : List (List ℕ)} (hW : ∀ w ∈ W, WOK w) 
   rw [e, bRec_eq] at h1
   by_cases hm : memK F v = true
   · exact memK_spec hm
-  · rw [if_neg hm] at h1
+  · rw [ite_eq_right hm] at h1
     obtain ⟨w, hw, hne⟩ := movK_spec h1
     exact absurd (by rw [wv_eq (hW w hw) hv]; exact hfix w hw) hne
 
@@ -147,7 +147,7 @@ theorem witK_spec {p q : ℕ} : ∀ {X : List ℕ}, List.rec (motive := fun _ =>
     rw [bRec_eq] at h
     by_cases hx : ddiffK G p q x = true
     · exact ⟨x, List.mem_cons_self, hx⟩
-    · rw [if_neg hx] at h
+    · rw [ite_eq_right hx] at h
       obtain ⟨y, hy, e⟩ := witK_spec h
       exact ⟨y, List.mem_cons_of_mem x hy, e⟩
 
@@ -414,10 +414,10 @@ private theorem enumIK_spec {W : List (List ℕ)} {m n PAR IMG : ℕ} {LT : List
   rw [en_sB] at h2
   refine ⟨fun hi => ?_, fun hi => ?_, fun j hj => ?_⟩
   · subst hi
-    rw [if_pos (Nat.beq_refl 0)] at h1
+    rw [ite_eq_left (Nat.beq_refl 0)] at h1
     exact Nat.eq_of_beq_eq_true h1
   · have hb : ¬ Nat.beq i 0 = true := fun e => hi (Nat.eq_of_beq_eq_true e)
-    rw [if_neg hb] at h1
+    rw [ite_eq_right hb] at h1
     simp only [en_sB, en_bAnd, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h1
     exact h1
   · have h3 := CFSG.KS.allN_spec h2 j hj
@@ -482,8 +482,8 @@ private theorem cd_inj_of_ord {IMG ORD n : ℕ} (h : ordK IMG ORD n = true) :
   · exact absurd e (ne_of_lt (hmono a b h' hb))
   · exact absurd e.symm (ne_of_lt (hmono b a h' ha))
 
-theorem enum_sound {W : List (List ℕ)} {m n PAR IMG ORD : ℕ} {LT : List ℕ} (hm : m ≤ 4)
-    (hW : ∀ j < m, WOK (W.getD j [])) (hn : 0 < n)
+theorem enum_sound {W : List (List ℕ)} {m n PAR IMG ORD : ℕ} {LT : List ℕ} (_hm : m ≤ 4)
+    (hW : ∀ j < m, WOK (W.getD j [])) (_hn : 0 < n)
     (he : ∀ i < n, enumIK G W m n PAR IMG LT i = true) (ho : ordK IMG ORD n = true) :
     TabData (fun j => wE (W.getD j [])) (parOf n (ppK PAR) (pjK PAR)) (ltOf m n (ltK LT)) n m ∧
       ∀ i < n, ∀ t < 6, idx 31671 (tabElt (fun j => wE (W.getD j []))

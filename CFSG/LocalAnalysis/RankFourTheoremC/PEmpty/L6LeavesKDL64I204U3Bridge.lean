@@ -61,7 +61,7 @@ theorem chev204Hyp_of_U3p {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Z : Type} [G
     (hC : Subgroup.centralizer (L : Set Z) = ⊥) {B : Subgroup Z} (hB : IsElemAbelian p B)
     (hSC : ∀ y ∈ Subgroup.centralizer (B : Set Z), y ^ p = 1 → y ∈ B) :
     Chev204Hyp p L B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨K, hFld, hFin, hK, ⟨e⟩⟩ := hU3
   have hK1 : Nat.card K = (p ^ 1) ^ 2 := by rw [pow_one]; exact hK

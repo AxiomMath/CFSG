@@ -15,23 +15,26 @@ open scoped commutatorElement
 theorem eq_one_of_isPGroup_of_isPerfect {Y : Type} [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     (hp : IsPGroup p Y) [Group.IsPerfect Y] (y : Y) : y = 1 := by
   by_contra hy
-  haveI : Nontrivial Y := ⟨⟨y, 1, hy⟩⟩
+  have : Nontrivial Y := ⟨⟨y, 1, hy⟩⟩
   exact Group.IsPerfect.not_isNilpotent Y (IsPGroup.isNilpotent hp)
 
 section Omega
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_omegaOneCenter (Q : Subgroup G) :
     IsElemAbelian 2 (quasithinOmegaOneCenter Q) :=
   CFSG.Quasithin.B2F.isElemAbelian_omegaOneCenterOf Q
 
+omit [Finite G] in
 theorem omegaOne_le (Q : Subgroup G) : quasithinOmegaOneCenter Q ≤ Q := by
   unfold quasithinOmegaOneCenter
   rw [Subgroup.closure_le]
   intro z hz
   exact (Subgroup.mem_inf.mp hz.1).1
 
+omit [Finite G] in
 theorem le_centralizer_omegaOne (Q : Subgroup G) :
     Q ≤ Subgroup.centralizer (quasithinOmegaOneCenter Q : Set G) := by
   rw [Subgroup.le_centralizer_iff]
@@ -40,6 +43,7 @@ theorem le_centralizer_omegaOne (Q : Subgroup G) :
   intro z hz
   exact (Subgroup.mem_inf.mp hz.1).2
 
+omit [Finite G] in
 theorem conj_mem_omegaOne {Q H : Subgroup G} (hQH : H ≤ Subgroup.normalizer (Q : Set G))
     {h : G} (hh : h ∈ H) {r : G} (hr : r ∈ quasithinOmegaOneCenter Q) :
     h * r * h⁻¹ ∈ quasithinOmegaOneCenter Q := by
@@ -73,6 +77,7 @@ theorem conj_mem_omegaOne {Q H : Subgroup G} (hQH : H ≤ Subgroup.normalizer (Q
   have := hmap ⟨r, hr, rfl⟩
   simpa [MulAut.conj_apply] using this
 
+omit [Finite G] in
 theorem normalizer_le_omegaOne {Q H : Subgroup G} (hQH : H ≤ Subgroup.normalizer (Q : Set G)) :
     H ≤ Subgroup.normalizer (quasithinOmegaOneCenter Q : Set G) := by
   intro h hh
@@ -98,7 +103,7 @@ theorem centralizer_inf_eq_pCoreOf {K R : Subgroup G} (hKR : K ≤ Subgroup.norm
     K ⊓ Subgroup.centralizer (R : Set G) = pCoreOf 2 K := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hperf
+  have := hperf
   set C₁ : Subgroup G := K ⊓ Subgroup.centralizer (R : Set G) with hC₁
   have hC₁n : (C₁.subgroupOf K).Normal := by
     constructor
@@ -126,7 +131,7 @@ theorem centralizer_inf_eq_pCoreOf {K R : Subgroup G} (hKR : K ≤ Subgroup.norm
   set π : ↥K →* ↥K ⧸ CFSG.pCore 2 ↥K := QuotientGroup.mk' (CFSG.pCore 2 ↥K) with hπ
   set M : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K) := (C₁.subgroupOf K).map π with hM
   have hMn : M.Normal := Subgroup.Normal.map hC₁n π (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) := hsimp
+  have : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) := hsimp
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (G := ↥K ⧸ CFSG.pCore 2 ↥K) M with hM0 | hM1
   · refine le_antisymm (fun c hc => ?_) (le_inf (CFSG.LieType.BorelTits.pCoreOf_le 2 K) hOC)
     obtain ⟨hcK, hcC⟩ := Subgroup.mem_inf.mp hc
@@ -143,7 +148,7 @@ theorem centralizer_inf_eq_pCoreOf {K R : Subgroup G} (hKR : K ≤ Subgroup.norm
       rw [hM1]
       exact Subgroup.mem_top _
     obtain ⟨c, hc, hπc⟩ := Subgroup.mem_map.mp hk1
-    haveI hperfQ : Group.IsPerfect (↥K ⧸ C₁.subgroupOf K) :=
+    have hperfQ : Group.IsPerfect (↥K ⧸ C₁.subgroupOf K) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (C₁.subgroupOf K))
         (QuotientGroup.mk'_surjective _)
     have hpg : IsPGroup 2 (↥K ⧸ C₁.subgroupOf K) := by

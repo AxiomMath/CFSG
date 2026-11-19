@@ -65,9 +65,11 @@ private theorem mul_pow_three_of_commute {M : Type*} [Monoid M] {a b : M} (hab :
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem mul_self_V (h : Tim79a.ParrottHyp z) (v : QuotientV.V z) : v * v = 1 := by
   rw [← pow_two, QuotientV.pow_two_eq_one_V h v]
 
+omit [Finite G] in
 private theorem conjV_apply_apply_apply (h : Tim79a.ParrottHyp z) {s : ↥(H z)} (hs : s ^ 3 = 1)
     (v : QuotientV.V z) : conjV h s (conjV h s (conjV h s v)) = v := by
   have h1 : conjV h (s ^ 3) v = v := by rw [hs, map_one]; rfl
@@ -94,6 +96,7 @@ theorem conjV_tH_commute_sigma1Nine (h : Tim79a.ParrottHyp z) :
       exact Subtype.ext t_commute_sigma1)
   rwa [map_mul, map_mul] at h1
 
+omit [Finite G] in
 theorem conjV_tH_commute_sigma2 (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
     (hq₂ : qH D σ₂ = (⟨sigma2, sigma2_mem_A⟩ : QA45.originalSubgroup)) :
     conjV h (tH D) * conjV h σ₂ = conjV h σ₂ * conjV h (tH D) := by
@@ -122,6 +125,7 @@ theorem conjV_uH_conj_sigma2 (h : Tim79a.ParrottHyp z) {σ₂ : ↥(H z)}
       exact Subtype.ext hus2)
   rwa [map_mul, map_mul, map_inv] at h1
 
+omit [Finite G] in
 theorem conjV_tH_mul_self (h : Tim79a.ParrottHyp z) :
     conjV h (tH D) * conjV h (tH D) = 1 := by
   have h1 := conjV_eq_of_qH_eq h D (a := tH D * tH D) (b := 1) (by
@@ -129,6 +133,7 @@ theorem conjV_tH_mul_self (h : Tim79a.ParrottHyp z) :
       exact Subtype.ext t_sq)
   rwa [map_mul, map_one] at h1
 
+omit [Finite G] in
 theorem conjV_uH_mul_self (h : Tim79a.ParrottHyp z) :
     conjV h (uH D) * conjV h (uH D) = 1 := by
   have h1 := conjV_eq_of_qH_eq h D (a := uH D * uH D) (b := 1) (by
@@ -136,6 +141,7 @@ theorem conjV_uH_mul_self (h : Tim79a.ParrottHyp z) :
       exact Subtype.ext u_sq)
   rwa [map_mul, map_one] at h1
 
+omit [Finite G] in
 theorem conjV_tH_commute_uH (h : Tim79a.ParrottHyp z) :
     conjV h (tH D) * conjV h (uH D) = conjV h (uH D) * conjV h (tH D) := by
   have h1 := conjV_eq_of_qH_eq h D (a := tH D * uH D) (b := uH D * tH D) (by
@@ -143,6 +149,7 @@ theorem conjV_tH_commute_uH (h : Tim79a.ParrottHyp z) :
       exact Subtype.ext t_commute_u)
   rwa [map_mul, map_mul] at h1
 
+omit [Finite G] in
 theorem conjV_betaH_conj_uH (h : Tim79a.ParrottHyp z) :
     conjV h (betaH D) * conjV h (uH D) * (conjV h (betaH D))⁻¹ = conjV h (tH D) := by
   have hbu : beta * u * beta⁻¹ = t := by
@@ -152,6 +159,7 @@ theorem conjV_betaH_conj_uH (h : Tim79a.ParrottHyp z) :
       exact Subtype.ext hbu)
   rwa [map_mul, map_mul, map_inv] at h1
 
+omit [Finite G] in
 theorem conjV_eq_tH_mul_uH (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z)
     (hx : cosetJ (z := z) (tH D * uH D) x) :
     conjV h ⟨x, hxH⟩ = conjV h (tH D) * conjV h (uH D) := by

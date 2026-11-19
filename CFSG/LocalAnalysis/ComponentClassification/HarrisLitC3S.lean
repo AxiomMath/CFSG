@@ -27,7 +27,6 @@ theorem uStar_bd_dOne {s c : K} (hc : h.norm c = -1) (hs : h.bar s = -s) :
   fin_cases i <;> fin_cases j <;>
     simp [uStar, bd, dOne, bJ, Matrix.mul_apply, Fin.sum_univ_four, hs] <;>
     first
-    | ring1
     | linear_combination hc'
     | linear_combination s * hc'
     | linear_combination (-s) * hc'

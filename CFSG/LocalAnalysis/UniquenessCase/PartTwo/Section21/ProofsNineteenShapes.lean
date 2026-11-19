@@ -62,7 +62,7 @@ theorem mem_uniqueSet_of_card_eq_three (D : Data G) (h8107 : F08.R8107 D) {L K :
   have h3K : 3 ∣ Nat.card K := by
     refine CFSG.GroupTheory.dvd_card_of_one_le_pRank Nat.prime_three ?_
     rw [hK3.1]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 h3K
   let A₂ : Subgroup G := Subgroup.zpowers ((x : ↥K) : G)
   have hxG : orderOf ((x : ↥K) : G) = 3 := by

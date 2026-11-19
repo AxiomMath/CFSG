@@ -141,9 +141,9 @@ theorem ggTwoNodeNineDepL_two (hAll : LR6NineAll) (hOrb : GGResCentBoundInput) (
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨Λ, i1, i2, ML, CL, V, i3, i4, ι, φ, h, α, e, hML, hWML, hCL, hlin, hrefl, hpair, ⟨f, hf⟩,
     hclos⟩ := hXd
-  letI := i1; letI := i2; letI := i3; letI := i4
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let := i1; let := i2; let := i3; let := i4
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hN5 : 5 ≤ 9 := by norm_num
   have hpN : 3 ∣ 9 := by norm_num
   let xv : V := ι (Additive.ofMul ⟨x, hx⟩)
@@ -273,8 +273,8 @@ theorem ggTwoNodeNineDepL_two (hAll : LR6NineAll) (hOrb : GGResCentBoundInput) (
   · exfalso
     obtain ⟨Λ', j1, j2, b₁, b₂, M', C', MJ', V', j3, j4, ι', φ', h', α', hb, hW', hC', hWJ', hMJ',
       hlin', hrefl', hpair', ⟨f', hf'⟩, hcl', hfJ', hclJ', hconj'⟩ := hKs
-    letI := j1; letI := j2
-    haveI : Nontrivial Λ' := ⟨⟨b₁, b₂, hb⟩⟩
+    let := j1; let := j2
+    have : Nontrivial Λ' := ⟨⟨b₁, b₂, hb⟩⟩
     exact ggNine_A1_false ι hKA hW' hrefl' f' hf' hcl' ⟨t', ht'K, ht'move⟩ htcent htuniq
 
 end CFSG.StandardType

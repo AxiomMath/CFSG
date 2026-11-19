@@ -43,12 +43,12 @@ theorem d4t2c_exists_conj_setup {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ
       c ∈ toralCentralizer .E6 L a ∧ (∀ y, y ∈ S'.Γ ↔ c * y * c⁻¹ ∈ S.Γ) ∧
       ∀ x ∈ Eh, c⁻¹ * x * c ∈ S'.D.torus := by
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hl0 : ((l : ℕ) : L) = 0 := by
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
     exact (pow_eq_zero_iff hf.ne').1 h
-  haveI : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
+  have : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
   obtain ⟨t, ht, Fr, hFr, hΦ⟩ := hS
   have ht' : t = TwistTag.E6 := by
     cases t
@@ -161,7 +161,7 @@ theorem d4t2c_exists_conj_setup {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ
     intro y
     rw [LangDatum.Γ, LangDatum.Γ, hmodel, ← Subgroup.map_commutator, Subgroup.mem_map_equiv,
       MulAut.conj_symm_apply, inv_inv]
-  haveI : Finite S.D.model := S.finite
+  have : Finite S.D.model := S.finite
   have hfin : Finite D'.model := by
     refine Finite.of_injective (β := S.D.model)
       (fun y => ⟨g * z * (y : ModGL Tag.E6 L) * (g * z)⁻¹, (hmem y).1 y.2⟩) fun y₁ y₂ h => ?_

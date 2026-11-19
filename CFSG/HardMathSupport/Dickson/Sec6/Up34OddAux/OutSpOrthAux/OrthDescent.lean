@@ -28,6 +28,7 @@ section Field
 variable {K : Type} [Field K] [Finite K] {k : Subfield K} {d : ℕ}
   {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)} {σ : K ≃+* K} {p : ℕ}
 
+omit [Finite K] in
 theorem noL34Layer_of_fieldDescent {Q' : QuadraticForm K (Fin d → K)}
     {Q₀' : QuadraticForm k (Fin d → k)} (S : SubfieldSetup k Q₀' Q' σ p) (U : similarityPairs Q)
     (Θ : matrixProjectiveDerived Q ≃* matrixProjectiveDerived Q') (g' : similarityPairs Q')
@@ -87,7 +88,7 @@ theorem noL34Layer_omega_odd_outer (hO : LieOrderFormulasInput) {G : Type} [Grou
   have htop : projectivePointFamilyAut (coordinateQuadOdd n K) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant G .POmegaOdd
       (.inl rfl) n ℓ f hG) K hK).2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) :=
     Finite.of_equiv G (coordinateOddWitnessEquiv K e).toEquiv
   refine noL34Layer_of_gates_outer (coordinateOddWitnessEquiv K e) hgates β hβ
     (mem_E_of_pow_eq_one_three hgates htop) hout ?_
@@ -130,7 +131,7 @@ theorem noL34Layer_omega_plus_of_E (hO : LieOrderFormulasInput) {G : Type} [Grou
   obtain ⟨-, -, hn4⟩ := hG.1
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) n ℓ f hG K hK e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv G (coordinatePlusWitnessEquiv K e).toEquiv
   refine noL34Layer_of_gates_outer (coordinatePlusWitnessEquiv K e) hgates β hβ hE hout ?_
   intro a haE haD hap
@@ -181,7 +182,7 @@ theorem noL34Layer_omega_minus_outer (hO : LieOrderFormulasInput) {G : Type} [Gr
   have htop : projectivePointFamilyAut (coordinateQuadMinus n K hn1 b c) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant G .POmegaMinus (.inr rfl) n ℓ f hG)
       hn1 K hK b c hirr).2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv G (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   refine noL34Layer_of_gates_outer (coordinateMinusWitnessEquiv K hn1 b c e) hgates β hβ
     (mem_E_of_pow_eq_one_three hgates htop) hout ?_

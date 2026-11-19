@@ -25,7 +25,7 @@ theorem burnsideJ4NP_col_Wv_eq_Eg (k : ℕ) :
   unfold burnsideJ4NP_Wv Eg
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map]
+  simp only [Set.mem_ofPred_eq, List.mem_map]
   constructor
   · rintro ⟨ce, hce, rfl⟩
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hce

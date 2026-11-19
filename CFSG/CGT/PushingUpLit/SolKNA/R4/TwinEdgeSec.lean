@@ -15,7 +15,7 @@ open CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.Thm4Twin
 
 variable {r : ℕ} {G : Type} [Group G] [Finite G] {J L L₀ : Subgroup G}
 
-theorem F2ConfigR.exists_sectionDatum (hr : 4 ≤ r) (hc : F2ConfigR r J L L₀) {K : Subgroup G}
+theorem F2ConfigR.exists_sectionDatum (_hr : 4 ≤ r) (hc : F2ConfigR r J L L₀) {K : Subgroup G}
     (hK : K ∈ CoreAssembly.conjClass J ∪ CoreAssembly.conjClass L) {z : G}
     (hz : IsUniqueInvolution K z) {W : Subgroup G} (hKW : K ≤ W) (hWs : IsSubnormal W ⊤)
     (hWg : (⨆ x : W, conjSub (x : G) K) = W) (htw : ¬ PhilipHall.Frame.HasTwin (K.subgroupOf W)) :

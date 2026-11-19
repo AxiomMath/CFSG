@@ -82,7 +82,7 @@ theorem rckBlockModel_linearCase {W : Type} [Group W] {m : ℕ} {H : Subgroup W}
     {Φ : ↥H ≃* GL (Fin m) E} :
     ∃ (t : StatedLieTag) (m' g : ℕ) (κ : (ggU t m' g).K →* ↥H),
       RCKClassicalTag t ∧ 1 ≤ g ∧ RCKModelConverse C t m' g κ := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hmap : CFSG.Open.IsComponentOf (C.map Φ.toMonoidHom) ⊤ := by
     have h := CFSG.isComponentOf_map_mulEquiv Φ hCo
     rwa [Subgroup.map_top, MonoidHom.range_eq_top.mpr Φ.surjective] at h
@@ -90,7 +90,7 @@ theorem rckBlockModel_linearCase {W : Type} [Group W] {m : ℕ} {H : Subgroup W}
     (CFSG.Assembly.isComponentOf_iff_open).2 hmap
   have hm0 : m ≠ 0 := by
     rintro rfl
-    haveI : Subsingleton (GL (Fin 0) E) := inferInstance
+    have : Subsingleton (GL (Fin 0) E) := inferInstance
     exact CFSG.StandardType.GGHalf.ne_bot_of_isComponentOf hmapA
       (Subgroup.eq_bot_of_subsingleton _)
   obtain ⟨k, hk⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
@@ -123,7 +123,7 @@ theorem rckBlockModel_unitaryCase {W : Type} [Group W] {m Q : ℕ} {H : Subgroup
       Nat.card E' = Q' ^ 2 ∧ ∃ Φ' : ↥H ≃* ↥(ClassicalBlocks.GUFull m' Q' E'),
         C.map Φ'.toMonoidHom =
           (CFSG.Open.StatedSU m' Q' E').subgroupOf (ClassicalBlocks.GUFull m' Q' E')) := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hmap : CFSG.Open.IsComponentOf (C.map Φ.toMonoidHom) ⊤ := by
     have h := CFSG.isComponentOf_map_mulEquiv Φ hCo
     rwa [Subgroup.map_top, MonoidHom.range_eq_top.mpr Φ.surjective] at h
@@ -201,7 +201,7 @@ theorem rckBlockModel_PSp {n f : ℕ} (hf : 1 ≤ f) {s : GL (Fin n ⊕ Fin n) (
           Φ.toMonoidHom =
           (CFSG.Open.StatedSU m Q E).subgroupOf (ClassicalBlocks.GUFull m Q E)) := by
   classical
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   let H : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f)) :=
     glBlockCentralizer (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype {s} ε
   let C : Subgroup ↥H := J'.subgroupOf H
@@ -222,14 +222,14 @@ theorem rckBlockModel_PSp {n f : ℕ} (hf : 1 ≤ f) {s : GL (Fin n ⊕ Fin n) (
   · rcases rckBlockModel_PSp_spCase (n := n) (f := f) hf hCo (Φ := Φ) with h | h
     · exact Or.inl h
     · exact Or.inr (Or.inl h)
-  · letI : Field E := hEfield
-    letI : Finite E := hEfin
-    letI : CharP E 2 := hchar
+  · let : Field E := hEfield
+    let : Finite E := hEfin
+    let : CharP E 2 := hchar
     exact Or.inl (rckBlockModel_linearCase (m := m) (E := E)
       hCo (Φ := Φ))
-  · letI : Field E := hEfield
-    letI : Finite E := hEfin
-    letI : CharP E 2 := hchar
+  · let : Field E := hEfield
+    let : Finite E := hEfin
+    let : CharP E 2 := hchar
     rcases rckBlockModel_unitaryCase (m := m) (Q := Q) (E := E)
       hCo hEcard (Φ := Φ) with h | h
     · exact Or.inl h

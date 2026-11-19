@@ -356,11 +356,11 @@ private theorem perfectInLayer_of_primaryData (hq : 2 ≤ ℓ ^ f)
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥(fixSubgroup α) →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := isSolvable_pi_of_finite_index
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(fixSubgroup α) →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //

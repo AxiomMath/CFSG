@@ -20,7 +20,7 @@ noncomputable def tiDadeMap (A : Set G) (L : Subgroup G) (f : L → ℂ) (g : G)
 
 theorem tiDadeMap_eq_zero (hg : ∀ x : L, (x : G) ∈ A → ¬ IsConj (x : G) g) :
     tiDadeMap A L f g = 0 := by
-  rw [tiDadeMap, dif_neg]
+  rw [tiDadeMap, dite_eq_right]
   rintro ⟨x, hx, hxg⟩
   exact hg x hx hxg
 
@@ -45,7 +45,7 @@ theorem tiDadeMap_apply_of_isConj (h : IsTIWithNormalizer A L) (hf : IsClassFun 
     (x : L) (hx : (x : G) ∈ A) (hxg : IsConj (x : G) g) :
     tiDadeMap A L f g = f x := by
   have hex : ∃ y : L, (y : G) ∈ A ∧ IsConj (y : G) g := ⟨x, hx, hxg⟩
-  rw [tiDadeMap, dif_pos hex]
+  rw [tiDadeMap, dite_eq_left hex]
   obtain ⟨hy, hyg⟩ := hex.choose_spec
   obtain ⟨c, hc, hcx⟩ := h.fusion hy hx (hyg.trans hxg.symm)
   exact hf.apply_eq (isConj_iff.2 ⟨⟨c, hc⟩, Subtype.ext (by simpa using hcx)⟩)
@@ -83,8 +83,8 @@ private theorem indClassFun_eq_sum_extZero [Fintype G] (f : L → ℂ) (g : G) :
   congr 1
   refine Finset.sum_congr rfl fun t _ => ?_
   by_cases hz : t⁻¹ * g * t ∈ L
-  · rw [dif_pos hz, extZero_of_mem f hz]
-  · rw [dif_neg hz, extZero_of_notMem f hz]
+  · rw [dite_eq_left hz, extZero_of_mem f hz]
+  · rw [dite_eq_right hz, extZero_of_notMem f hz]
 
 private theorem card_filter_mem [Fintype G] (L : Subgroup G) [DecidablePred (· ∈ L)] :
     (Finset.univ.filter (· ∈ L)).card = Nat.card L := by
@@ -112,10 +112,10 @@ theorem tiDadeMap_eq_indClassFun [Fintype G] (h : IsTIWithNormalizer A L) (hf : 
           have := h.conj_mem ha (inv_mem hs)
           simpa using this
         have hzL : s⁻¹ * (a : G) * s ∈ L := h.subset_coe hmem
-        rw [if_pos hs, extZero_of_mem f hzL]
+        rw [ite_eq_left hs, extZero_of_mem f hzL]
         exact hf.apply_eq (isConj_iff.2 ⟨⟨s, hs⟩⁻¹, Subtype.ext (by simp)⟩)
       ·
-        rw [if_neg hs]
+        rw [ite_eq_right hs]
         by_cases hzL : s⁻¹ * (a : G) * s ∈ L
         · rw [extZero_of_mem f hzL]
           refine (hf0 _ fun hmem => hs ?_).symm

@@ -10,6 +10,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {H : Subgroup G}
 
+omit [Finite G] in
 theorem kSub_le (p : ℕ) (M H : Subgroup G) : kSub p M H ≤ H := by
   unfold kSub
   split_ifs
@@ -20,14 +21,15 @@ theorem kSub_le (p : ℕ) (M H : Subgroup G) : kSub p M H ≤ H := by
     rintro Y ⟨hY, _⟩
     exact hY.1
 
+omit [Finite G] in
 theorem kSub_of_le (hL : pLayerIn p H ≤ M) :
     kSub p M H = sSup {Y : Subgroup G | Y ≤ H ∧ Nat.card Y = p} := by
   unfold kSub
-  rw [if_pos hL]
+  rw [ite_eq_left hL]
 
 private theorem kSub_eq_closure_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) :
     kSub p M H = closure {x : G | x ∈ H ∧ orderOf x = p} := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [kSub_of_le hL]
   apply le_antisymm
   · apply sSup_le
@@ -37,7 +39,7 @@ private theorem kSub_eq_closure_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) :
       have h1 : Nat.card Y = 1 := by rw [hbot, Subgroup.card_bot]
       rw [hYcard] at h1
       exact hp.ne_one h1
-    haveI : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+    have : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
     obtain ⟨y, hyY, hy1⟩ := Subgroup.exists_ne_one_of_nontrivial Y
     have hyorder : orderOf y = p := by
       apply orderOf_eq_prime
@@ -56,6 +58,7 @@ private theorem kSub_eq_closure_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) :
         ⟨Subgroup.zpowers_le.mpr hx.1, by rw [Nat.card_zpowers, hx.2]⟩)
       (Subgroup.mem_zpowers x)
 
+omit [Finite G] in
 theorem kSub_normal_of_le (hL : pLayerIn p H ≤ M) : ((kSub p M H).subgroupOf H).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (kSub_le p M H)]
   intro h k hh hk
@@ -80,7 +83,7 @@ theorem kSub_normal_of_le (hL : pLayerIn p H ≤ M) : ((kSub p M H).subgroupOf H
 
 theorem le_kSub_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) {A : Subgroup G} (hAH : A ≤ H)
     (hA : ∀ a ∈ A, a ^ p = 1) : A ≤ kSub p M H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [kSub_eq_closure_of_le hp hL]
   intro a ha
   by_cases ha1 : a = 1
@@ -88,12 +91,15 @@ theorem le_kSub_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) {A : Subgroup G} 
     exact Subgroup.one_mem _
   · exact Subgroup.subset_closure ⟨hAH ha, orderOf_eq_prime (hA a ha) ha1⟩
 
+omit [Finite G] in
 theorem kStar_eq_starImg (p : ℕ) (M H : Subgroup G) : kStar p M H = starImg p H (kSub p M H) :=
   rfl
 
+omit [Finite G] in
 theorem kStar_normal_of_le (hL : pLayerIn p H ≤ M) : (kStar p M H).Normal := by
   exact (kSub_normal_of_le hL).map _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 private theorem closure_subgroupOf_eq (s : Set G) (hs : s ⊆ H) :
     (closure s).subgroupOf H = closure {z : ↥H | (z : G) ∈ s} := by
   apply Subgroup.map_injective H.subtype_injective
@@ -108,7 +114,7 @@ private theorem closure_subgroupOf_eq (s : Set G) (hs : s ⊆ H) :
 
 theorem kStar_eq_closure_of_le (hp : p.Prime) (hL : pLayerIn p H ≤ M) :
     kStar p M H = closure {x : StarGroup p H | orderOf x = p} := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let ν : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have hsc : Nat.Coprime p (Nat.card O) := primeComplementCore_coprime p

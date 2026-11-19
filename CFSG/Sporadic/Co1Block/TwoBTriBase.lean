@@ -58,14 +58,14 @@ abbrev conjArr (σ g : Array ℕ) : Array ℕ := compA 1365 (compA 1365 σ g) (i
 abbrev triP (k : ℕ) : ℕ × ℕ := twoBTris[k]!
 
 
-@[expose] def InTri (v : Vec24) (k : ℕ) : Prop :=
+def InTri (v : Vec24) (k : ℕ) : Prop :=
   ∃ x, inTriN (triP k) x = true ∧ v = toVecD 24 x
 
 theorem inTriN_iff {p : ℕ × ℕ} {x : ℕ} :
     inTriN p x = true ↔ x = p.1 ∨ x = p.2 ∨ x = p.1 ^^^ p.2 := by
   simp [inTriN, or_assoc]
 
-@[expose] def TriPres (g : GL24) : Prop :=
+def TriPres (g : GL24) : Prop :=
   ∀ k < 1365, ∃ k' < 1365, ∀ v, InTri v k →
     InTri (((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v) k'
 

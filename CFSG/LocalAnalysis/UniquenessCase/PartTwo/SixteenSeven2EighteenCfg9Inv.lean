@@ -139,10 +139,10 @@ theorem s16c167_natSum3_uniform (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAu
     have := congrArg (fun z : MulAut W => z * (g : MulAut W)) hgy
     simpa [mul_assoc] using this
   have hcenter : Subgroup.center ↥L = ⊥ := by
-    haveI : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
+    have : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
     refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L)).resolve_right ?_
     intro ht
-    haveI : IsMulCommutative ↥L := Subgroup.center_eq_top_iff.mp ht
+    have : IsMulCommutative ↥L := Subgroup.center_eq_top_iff.mp ht
     have hp : (Nat.card ↥L).Prime := (Group.is_simple_iff_prime_card (α := ↥L)).mp inferInstance
     rw [card_eq_168_of_isPSL_three_two hL] at hp
     exact absurd hp (by norm_num)
@@ -189,7 +189,7 @@ private theorem s16c167_moved_le_mQuot (hW : ∀ w : W, w ^ 2 = 1) (t : MulAut W
   omega
 
 theorem s16c167_natSum3_involution (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
-    (hL : IsPSL 3 2 1 ↥L) {J : Subgroup W} (hJ : NatSum3 L J) {t : MulAut W} (ht : t * t = 1)
+    (hL : IsPSL 3 2 1 ↥L) {J : Subgroup W} (hJ : NatSum3 L J) {t : MulAut W} (_ht : t * t = 1)
     (hn : L.map (MulAut.conj t).toMonoidHom = L) (hJt : J.map t.toMonoidHom = J) :
     J ≤ fixV (Subgroup.zpowers t) ∨ 3 ≤ E3.mQuot J (J ⊓ fixV (Subgroup.zpowers t)) := by
   obtain ⟨I₀, I₁, I₂, hi₀, hi₁, hi₂, hc₀, hc₁, hc₂, h01, h012, rfl⟩ := hJ

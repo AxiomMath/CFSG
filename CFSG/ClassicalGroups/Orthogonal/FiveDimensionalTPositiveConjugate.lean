@@ -36,19 +36,23 @@ abbrev swapConjHom (F : FrameData Q) :
     TauCeti.QuadraticMap.orthogonalGroup Q →* TauCeti.QuadraticMap.orthogonalGroup Q :=
   (MulAut.conj F.sO).toMonoidHom
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem swapConjHom_apply (F : FrameData Q)
     (x : TauCeti.QuadraticMap.orthogonalGroup Q) :
     swapConjHom F x = F.sO * x * F.sO⁻¹ := rfl
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem swapConjHom_injective (F : FrameData Q) : Function.Injective (swapConjHom F) :=
   (MulAut.conj F.sO).injective
 
+omit [FiniteDimensional K V] [Finite K] in
 theorem sO_mem_G (F : FrameData Q)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
     F.sO ∈ G :=
   hLG (sO_mem_derived F)
 
+omit [Finite K] in
 theorem sO_mem_P (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
@@ -79,7 +83,7 @@ theorem localS_map_conj_s (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
     (localS F W G).map (swapConjHom F) = localS F W G := by
-  letI : G.Normal := Subgroup.Normal.of_commutator_le
+  let : G.Normal := Subgroup.Normal.of_commutator_le
     (G := TauCeti.QuadraticMap.orthogonalGroup Q) hLG
   have hG : Subgroup.map (swapConjHom F) G = G := by
     simpa using Subgroup.Normal.map_conj_eq G F.sO
@@ -265,6 +269,7 @@ theorem localS_eq_P_inf_KConj (F : FrameData Q) (hodd : Odd (Nat.card K))
   rw [← hmap, ← localS_eq_P_inf_K F hodd W G hLG P hP]
   exact (localS_map_conj_s F W G hLG).symm
 
+omit [Finite K] in
 theorem betaBaseO_le_centralizer_zO (F : FrameData Q) (D : Subgroup (O2 K)) :
     betaBaseO F D ≤ Subgroup.centralizer ({F.zO} :
       Set (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
@@ -275,13 +280,14 @@ theorem betaBaseO_le_centralizer_zO (F : FrameData Q) (D : Subgroup (O2 K)) :
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact betaO_commute_zO F p.1 p.2
 
+omit [Finite K] in
 theorem P_map_conj_s (F : FrameData Q) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
     (P : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hP : P = wreathO F W.D ⊓ G) :
     P.map (swapConjHom F) = P := by
-  letI : G.Normal := Subgroup.Normal.of_commutator_le
+  let : G.Normal := Subgroup.Normal.of_commutator_le
     (G := TauCeti.QuadraticMap.orthogonalGroup Q) hLG
   have hG : Subgroup.map (swapConjHom F) G = G := by
     simpa using Subgroup.Normal.map_conj_eq G F.sO
@@ -292,11 +298,12 @@ theorem P_map_conj_s (F : FrameData Q) (W : FiveDimensionalWreathData F)
       (Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hs))
   rw [hP, Subgroup.map_inf _ _ (swapConjHom F) (swapConjHom_injective F), hTw, hG]
 
+omit [Finite K] in
 theorem XConj_le_G (F : FrameData Q)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G) :
     tPositiveDerivedConj F ≤ G := by
-  letI : G.Normal := Subgroup.Normal.of_commutator_le
+  let : G.Normal := Subgroup.Normal.of_commutator_le
     (G := TauCeti.QuadraticMap.orthogonalGroup Q) hLG
   rintro x ⟨y, hy, rfl⟩
   simpa [MulAut.conj_apply] using
@@ -305,8 +312,8 @@ theorem XConj_le_G (F : FrameData Q)
 theorem localS_common_centralizer_eq_bot (F : FrameData Q) (hodd : Odd (Nat.card K))
     (h3 : 3 < Nat.card K) (W : FiveDimensionalWreathData F)
     (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
-    (hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
-    (hGSO : G ≤ Q.specialOrthogonalWithin) :
+    (_hLG : commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ≤ G)
+    (_hGSO : G ≤ Q.specialOrthogonalWithin) :
     localS F W G ⊓ Subgroup.centralizer (localX F :
       Set (TauCeti.QuadraticMap.orthogonalGroup Q)) ⊓
       Subgroup.centralizer (tPositiveDerivedConj F :

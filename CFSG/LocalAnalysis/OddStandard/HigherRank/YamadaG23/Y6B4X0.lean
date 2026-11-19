@@ -230,7 +230,7 @@ theorem y6b_exists_x1 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.
     (hN : ¬ (centralizer ({c.g} : Set G) ⊓
       normalizer ((zpowers c.g ⊔ zpowers c.s.t : Subgroup G) : Set G) ≤ c.s.H)) :
     Y6bHasX1 c := by
-  obtain ⟨n, hnNC, hnH⟩ := SetLike.not_le_iff_exists.mp hN
+  obtain ⟨n, hnNC, hnH⟩ := IsConcreteLE.not_le_iff_exists.mp hN
   let NC : Subgroup G := centralizer ({c.g} : Set G) ⊓
     normalizer ((zpowers c.g ⊔ zpowers c.s.t : Subgroup G) : Set G)
   let D : Subgroup G := centralizer ({c.g} : Set G) ⊓ c.s.H

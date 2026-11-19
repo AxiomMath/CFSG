@@ -18,7 +18,7 @@ theorem isSubnormal_bot_or_eq {Y : Type} [Group Y] {A K : Subgroup Y} (h : IsSub
     rcases ih hK' with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hHM))
     · subst hM
-      haveI := hK'
+      have := hK'
       rcases Subgroup.Normal.eq_bot_or_eq_top (H.subgroupOf M) with h1 | h1
       · left
         ext x
@@ -36,7 +36,7 @@ theorem isSubnormal_bot_or_eq {Y : Type} [Group Y] {A K : Subgroup Y} (h : IsSub
 
 theorem nontrivial_of_isQuasisimple {G : Type} [Group G] (h : CFSG.Open.IsQuasisimple G) :
     Nontrivial G := by
-  haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := h.2
+  have : IsSimpleGroup (G ⧸ Subgroup.center G) := h.2
   exact Function.Surjective.nontrivial (QuotientGroup.mk_surjective (s := Subgroup.center G))
 
 theorem nontrivial_of_quotient {G : Type} [Group G] (N : Subgroup G) [Nontrivial (G ⧸ N)] :
@@ -63,11 +63,11 @@ theorem not_comp_of_solvable {Y : Type} [Group Y] [Finite Y] {X A : Subgroup Y}
     (hX : Group.IsSolvable ↥X) (hA : CFSG.Open.GLAPComponent 3 X A) : False := by
   have hp : Nat.Prime 3 := Nat.prime_three
   have hAX : A ≤ X := hA.1
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hAX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hAX).surjective
   have hQ := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hA
-  haveI := nontrivial_of_isQuasisimple hQ
+  have := nontrivial_of_isQuasisimple hQ
   have hlt : commutator (PQuot 3 A) < ⊤ := Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot 3 A)
   exact absurd hQ.1 (ne_of_lt hlt)
 
@@ -93,7 +93,7 @@ theorem card_of_isA6 (i : TauCeti.CFSGIndex) (hi : CFSG.LocalAnalysis.GLTheoremA
         · exact (show False from h).elim
         · have hq9c : q.card = 9 := h
           have hq9 : q.p ^ q.exponent = 9 := (TauCeti.PrimePower.card_def q).symm.trans hq9c
-          haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+          have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
           have hexp : q.exponent ≠ 0 := q.exponent_pos.ne'
           have hF : Nat.card (GaloisField q.p q.exponent) = 9 := by
             rw [GaloisField.card q.p q.exponent hexp]
@@ -127,7 +127,7 @@ theorem catalogIs_three18 {S : Type} [Group S] [Finite S]
       · exact (show False from hi).elim
       · have hqc : q.card = 3 ^ 18 := hi
         have hq : q.p ^ q.exponent = 3 ^ 18 := (TauCeti.PrimePower.card_def q).symm.trans hqc
-        haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+        have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
         have hexp : q.exponent ≠ 0 := q.exponent_pos.ne'
         refine ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, ?_,
           ⟨e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv).trans
@@ -140,17 +140,17 @@ theorem catalogIs_three18 {S : Type} [Group S] [Finite S]
 
 theorem isPGroup_center_of_glaPPrimeCore_eq_bot {Y : Type} [Group Y] [Finite Y]
     (hO : CFSG.Open.GLAPPrimeCore 3 Y = ⊥) : IsPGroup 3 ↥(Subgroup.center Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [IsPGroup.iff_card]
   refine ⟨(Nat.card ↥(Subgroup.center Y)).primeFactorsList.length, ?_⟩
   refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' ?_
   intro d hd hdvd
   by_contra hd3
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' d hdvd
   have hwc : (w : Y) ∈ Subgroup.center Y := w.2
   have hN : Subgroup.zpowers (w : Y) ≤ Subgroup.center Y := Subgroup.zpowers_le.2 hwc
-  haveI hNn : (Subgroup.zpowers (w : Y)).Normal := Subgroup.normal_of_le_center hN
+  have hNn : (Subgroup.zpowers (w : Y)).Normal := Subgroup.normal_of_le_center hN
   have hcop : Nat.Coprime 3 (Nat.card (Subgroup.zpowers (w : Y))) := by
     rw [Nat.card_zpowers, Subgroup.orderOf_coe, hw]
     exact (Nat.coprime_primes Nat.prime_three hd).2 (Ne.symm hd3)
@@ -176,7 +176,7 @@ theorem not_comp_A6_of_simple {Y : Type} [Group Y] [Finite Y] {X A : Subgroup Y}
   have hW : IsSimpleGroup (StatedProj (StatedSL 2 F₀)) :=
     (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F₀).isSimpleGroup_congr.1
       (Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega))
-  haveI hX : IsSimpleGroup ↥X := e.isSimpleGroup
+  have hX : IsSimpleGroup ↥X := e.isSimpleGroup
   have hcardW : Nat.card ↥X = Nat.card (StatedProj (StatedSL 2 F₀)) := Nat.card_congr e.toEquiv
   have h3X : 3 ∣ Nat.card ↥X := by
     have key := CFSG.HardMathSupport.Solomon.Coordinator.l514c_card_psl2 (F := F₀)
@@ -205,17 +205,17 @@ theorem not_comp_A6_of_simple {Y : Type} [Group Y] [Finite Y] {X A : Subgroup Y}
   rcases isSubnormal_bot_or_eq hA.2.1 hX with hbot | htop
   · exfalso
     rw [hbot] at hQ0
-    haveI := nontrivial_of_isQuasisimple hQ0
+    have := nontrivial_of_isQuasisimple hQ0
     exact not_nontrivial_bot (nontrivial_of_quotient (CFSG.Open.GLAPPrimeCore 3 ↥(⊥ : Subgroup Y)))
   · rw [htop] at hQ0 hcat
     have eQ : PQuot 3 X ≃* ↥X :=
       (QuotientGroup.quotientMulEquivOfEq hO3).trans QuotientGroup.quotientBot
-    haveI hSQ : IsSimpleGroup (PQuot 3 X) := eQ.isSimpleGroup
+    have hSQ : IsSimpleGroup (PQuot 3 X) := eQ.isSimpleGroup
     have hcz : Subgroup.center (PQuot 3 X) = ⊥ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center (PQuot 3 X)) with h | h
       · exact h
       · exfalso
-        haveI := hQ0.2
+        have := hQ0.2
         obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 X ⧸ Subgroup.center (PQuot 3 X))
         obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
         obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b

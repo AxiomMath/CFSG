@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam CFSG.Quasithin.RankTwoAmalgam.
 theorem burnsideF4nB_card_sigma_const {ι : Type*} {β : ι → Type*} [Finite ι]
     [∀ i, Finite (β i)] {k : ℕ} (h : ∀ i, Nat.card (β i) = k) :
     Nat.card (Σ i, β i) = Nat.card ι * k := by
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   rw [Nat.card_sigma, Finset.sum_congr rfl (fun i _ => h i), Finset.sum_const, Finset.card_univ,
     smul_eq_mul, Nat.card_eq_fintype_card]
 
@@ -224,8 +224,8 @@ theorem burnsideF4nB_ncard_apart (F : c.Facts46 6) (hs : c.IsSmall 6)
     ((π.adj 3 (by norm_num)).symm : c.graph.Adj (π 4) (π 3))
   have hVw : ∀ w : W, Nat.card (Vw w) = 2 := fun w =>
     burnsideF4nB_card_diff_one (by rw [hval]) (w.2.1.symm : c.graph.Adj w.1 (π 4))
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
-  haveI : ∀ w : W, Finite (Vw w) := fun w => Nat.finite_of_card_ne_zero (by rw [hVw w]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : ∀ w : W, Finite (Vw w) := fun w => Nat.finite_of_card_ne_zero (by rw [hVw w]; norm_num)
   let Ψ : (Σ w : W, Vw w) → GPath c.graph 6 := fun x =>
     burnsideF4nB_ext2 π x.1.1 x.2.1 x.1.2.1 x.2.2.1
   have hΨle : ∀ x : (Σ w : W, Vw w), ∀ i ≤ 4, Ψ x i = π i := fun x i hi =>
@@ -280,10 +280,10 @@ theorem burnsideF4nB_ncard_apart (F : c.Facts46 6) (hs : c.IsSmall 6)
   have hExtcard : Nat.card ↥Ext = 4 := by
     rw [← hΨrange, ← Nat.card_congr (Equiv.ofInjective Ψ hΨinj),
       burnsideF4nB_card_sigma_const hVw, hW]
-  haveI : Finite ↥Ext := Nat.finite_of_card_ne_zero (by rw [hExtcard]; norm_num)
+  have : Finite ↥Ext := Nat.finite_of_card_ne_zero (by rw [hExtcard]; norm_num)
   have hR : ∀ p : ↥Ext, Nat.card (R p) = 2 := fun p =>
     burnsideF4nB_card_diff_one (hcardg (hExt_dist _ p.2)) (hExt_geod _ p.2)
-  haveI : ∀ p : ↥Ext, Finite (R p) := fun p =>
+  have : ∀ p : ↥Ext, Finite (R p) := fun p =>
     Nat.finite_of_card_ne_zero (by rw [hR p]; norm_num)
   rw [hset, ← Nat.card_coe_set_eq, ← Nat.card_congr (Equiv.ofInjective Φ hΦinj),
     burnsideF4nB_card_sigma_const hR, hExtcard]

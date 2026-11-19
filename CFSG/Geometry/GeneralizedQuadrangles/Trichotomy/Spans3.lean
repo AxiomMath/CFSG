@@ -16,6 +16,7 @@ section Basics
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_two_or_four_of_point_colors
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {x y : V}
     (hx : c x = 0) (hy : c y = 0) (hne : x ≠ y) :
@@ -35,6 +36,7 @@ section BlockContainment
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem neighborSet_subset_spanUnion
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2))
     {L M x : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
@@ -196,7 +198,7 @@ theorem spanOrLine_comm (hP : IsGeneralizedPolygon Γ 4) (x y : V) :
       rw [hEq]
     · have h4' : ¬ Γ.dist y x = 4 := fun h => h4 (by rwa [SimpleGraph.dist_comm] at h)
       have h2' : ¬ Γ.dist y x = 2 := fun h => h2 (by rwa [SimpleGraph.dist_comm] at h)
-      rw [spanOrLine, spanOrLine, if_neg h4, dif_neg h2, if_neg h4', dif_neg h2']
+      rw [spanOrLine, spanOrLine, ite_eq_right h4, dite_eq_right h2, ite_eq_right h4', dite_eq_right h2']
 
 theorem spanUnion_comm (hP : IsGeneralizedPolygon Γ 4) (L M : V) :
     spanUnion hP L M = spanUnion hP M L := by
@@ -237,7 +239,7 @@ private theorem spanSet_subset_blockThrough_of_ne
     {ba : V} (hH : HasPropertyH Γ ba) {p : ℕ}
     (hp : ∀ a b : V, c a = 0 → Γ.dist a b = 4 → (spanSet Γ a b).ncard = p + 1)
     {L M a b x yb : V}
-    (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
+    (hL : c L = 1) (_hM : c M = 1) (_hLM : Γ.dist L M = 4)
     (hLba : Γ.Adj L ba) (hLb : Γ.Adj L b) (hLx : Γ.Adj L x)
     (haL : ¬ Γ.Adj L a)
     (hba : Γ.dist ba a = 2) (hb : Γ.dist ba b = 2) (hyb : Γ.dist ba yb = 2)
@@ -296,7 +298,7 @@ theorem spanOrLine_subset_blockThrough
     {L M a x yb : V}
     (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4)
     (hLba : Γ.Adj L ba) (hLx : Γ.Adj L x) (haL : ¬ Γ.Adj L a)
-    (hba : Γ.dist ba a = 2) (hMyb : Γ.Adj M yb) (hbyb : Γ.dist ba yb = 2)
+    (hba : Γ.dist ba a = 2) (_hMyb : Γ.Adj M yb) (hbyb : Γ.dist ba yb = 2)
     (hayb : Γ.dist a yb = 4) (hxS : x ∈ spanSet Γ a yb) :
     ∀ b : V, Γ.Adj L b →
       spanOrLine hP a b ⊆ blockThrough Γ ba (spanSet Γ a yb) := by

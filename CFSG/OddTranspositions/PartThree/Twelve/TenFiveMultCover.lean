@@ -45,10 +45,10 @@ theorem commutatorElement_mul_mul_of_mem_center {G : Type*} [Group G] {a b c d :
 theorem modelInvolutionCover_abstract
     {U X Ω Γ : Type} [Group U] [Finite U] [Group X] [Group Ω] [Group Γ] [Finite Γ]
     (σ : U →* X) (ω : U →* Ω) (mk : Ω →* X) (z₀ : U)
-    (hUperf : commutator U = ⊤)
+    (_hUperf : commutator U = ⊤)
     (hσ : Function.Surjective σ) (hω : Function.Surjective ω)
     (hσmk : ∀ u, σ u = mk (ω u))
-    (hσker_center : σ.ker ≤ Subgroup.center U)
+    (_hσker_center : σ.ker ≤ Subgroup.center U)
     (hsect : ∀ (E : Type) [Group E] [Finite E] (p : E →* U), Function.Surjective p →
       p.ker ≤ Subgroup.center E → ∃ s : U →* E, ∀ g, p (s g) = g)
     (hcardZ : Nat.card σ.ker ≤ 4)
@@ -67,11 +67,11 @@ theorem modelInvolutionCover_abstract
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, map_mul]
+        simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, map_mul]
         rw [ha, hb]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv, map_inv]
+        simp only [Set.mem_ofPred_eq, Prod.fst_inv, Prod.snd_inv, map_inv]
         rw [ha] }
   let proj : E →* U := (MonoidHom.fst U Γ).comp E.subtype
   have hproj_surj : Function.Surjective proj := by

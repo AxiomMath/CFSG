@@ -82,7 +82,7 @@ private theorem plr_hermLin_glLin {lo hi : ℕ} {g : GL (Fin n) K}
           (((g : Matrix (Fin n) (Fin n) K).map (sg K f : K →+* K)).transpose *ᵥ v) k :=
         Finset.sum_congr rfl fun k _ => by rw [hR k]
 
-private theorem plr_perpB_map (hK : Nat.card K = (2 ^ f) ^ 2) {lo hi : ℕ} {g g' : GL (Fin n) K}
+private theorem plr_perpB_map (_hK : Nat.card K = (2 ^ f) ^ 2) {lo hi : ℕ} {g g' : GL (Fin n) K}
     (hblock : plr_BlockOne n lo hi (g : Matrix (Fin n) (Fin n) K))
     (hgg' : (g' : Matrix (Fin n) (Fin n) K) *
       ((g : Matrix (Fin n) (Fin n) K).map (sg K f : K →+* K)).transpose = 1)
@@ -149,7 +149,6 @@ private theorem plr_sgS_map (hK : Nat.card K = (2 ^ f) ^ 2) {g g' : GL (Fin n) K
       have hgw' : glLin g' w = v := hgw
       change glLin g (sgv K f n w) = sgv K f n v
       rw [h3]
-      change sgv K f n (glLin g' w) = sgv K f n v
       rw [hgw']
 
 theorem flagPsi_flagAct_coll (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d)
@@ -177,7 +176,7 @@ theorem flagPsi_flagAct_coll (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d)
     rw [hjeq, flagPsi_E hK hd _ hmemg hb hs]
     simp only [flagAct, flagMap_E]
     rw [flagPsi_E hK hd _ hx hb hs]
-    rw [psiSub, if_neg hne, psiSub, if_neg hne]
+    rw [psiSub, ite_eq_right hne, psiSub, ite_eq_right hne]
     have hmap : (flagMap (glLin g) x).E
           (d.getD (plr_cutBlock d j) 0 + (j - d.getD (plr_cutBlock d j) 0)) =
         Submodule.map (glLin g).toLinearMap
@@ -194,6 +193,7 @@ private theorem plr_BlockDiag_map {A : Matrix (Fin n) (Fin n) K} (hA : BlockDiag
   exact ⟨by rw [Matrix.map_apply, (hA b hb i j hi hj).1, map_zero],
     by rw [Matrix.map_apply, (hA b hb i j hi hj).2, map_zero]⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem plr_BlockDiag_transpose {A : Matrix (Fin n) (Fin n) K} (hA : BlockDiag d A) :
     BlockDiag d A.transpose := by
   intro b hb i j hi hj
@@ -237,7 +237,7 @@ theorem flagPsi_flagAct_pol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d)
     rw [hjeq, flagPsi_E hK hd _ hmemg hb hs]
     simp only [flagAct, flagMap_E]
     rw [flagPsi_E hK hd _ hx hb hs]
-    rw [psiSub, if_pos hpol, psiSub, if_pos hpol]
+    rw [psiSub, ite_eq_left hpol, psiSub, ite_eq_left hpol]
     have hmap : (flagMap (glLin g) x).E (d.getD b 0 + (blockSize d b - s)) =
         Submodule.map (glLin g).toLinearMap (x.E (d.getD b 0 + (blockSize d b - s))) :=
       flagMap_E _ _ _
@@ -264,9 +264,10 @@ theorem flagPsi_flagAct_pol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d)
     ⟨R, R, hR, hR⟩
   else 1
 
+omit [Finite K] [CharP K 2] in
 theorem revBlocks_blockDiag (hd : IsCut n d) :
     BlockDiag d ((revBlocks K n d : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
-  rw [revBlocks, dif_pos hd]
+  rw [revBlocks, dite_eq_left hd]
   intro b hb i j hi hj
   constructor
   · have hrev_mem : d.getD b 0 ≤ (q2cFPt_blockRev hd i).val ∧
@@ -284,7 +285,7 @@ theorem revBlocks_blockDiag (hd : IsCut n d) :
         exact congrArg Fin.val h
       exact hj (by rw [← hval]; exact hrev_mem)
     simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact h_eq (by simpa using h)
   · have hrev_mem : ¬ (d.getD b 0 ≤ (q2cFPt_blockRev hd j).val ∧
@@ -312,18 +313,19 @@ theorem revBlocks_blockDiag (hd : IsCut n d) :
         exact congrArg Fin.val h
       exact hrev_mem ⟨by omega, by omega⟩
     simp only [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact h_eq (by simpa using h)
 
+omit [Finite K] [CharP K 2] in
 theorem revBlocks_mul_self (hd : IsCut n d) : revBlocks K n d * revBlocks K n d = 1 := by
-  rw [revBlocks, dif_pos hd]
+  rw [revBlocks, dite_eq_left hd]
   have hσσ : (q2cFPt_blockRevI hd) * (q2cFPt_blockRevI hd) = 1 := by
     rw [← q2cFPt_blockRevI_inv hd]
     exact mul_inv_cancel _
   have hR : (q2cFPt_blockRevI hd).permMatrix K * (q2cFPt_blockRevI hd).permMatrix K = 1 := by
     rw [← Matrix.permMatrix_mul, hσσ, Matrix.permMatrix_one]
-  ext <;> simp [hR, Matrix.GeneralLinearGroup.coe_mul]
+  ext; simp [hR]
 
 theorem flagPsi_stdFlag_coll (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) :
     flagPsi hK hd (List.replicate (d.length - 1) false) (stdFlag K n) = stdFlag K n := by
@@ -344,7 +346,7 @@ theorem flagPsi_stdFlag_coll (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) :
     have hne : ¬ ((List.replicate (d.length - 1) false).getD (plr_cutBlock d j) false = true) := by
       rw [hpol]; exact Bool.false_ne_true
     rw [hjeq, flagPsi_E hK hd _ hstd_mem hb hs]
-    rw [psiSub, if_neg hne]
+    rw [psiSub, ite_eq_right hne]
     rw [show (stdFlag K n).E (d.getD (plr_cutBlock d j) 0 + (j - d.getD (plr_cutBlock d j) 0)) =
         Vsub n (d.getD (plr_cutBlock d j) 0 + (j - d.getD (plr_cutBlock d j) 0)) from rfl]
     rw [sgS_Vsub]

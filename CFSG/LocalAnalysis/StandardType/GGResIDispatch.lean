@@ -200,17 +200,17 @@ theorem ggResI_dispatch_shape (H : GGResIHyp p b ML CL MK CK g h α x)
   have hrowK : ∀ j, j ≠ ib → Km ib j = if j = ic then Km ib ic else 0 := by
     intro j hj
     by_cases hjc : j = ic
-    · rw [if_pos hjc, hjc]
-    · rw [if_neg hjc]
+    · rw [ite_eq_left hjc, hjc]
+    · rw [ite_eq_right hjc]
       by_contra h0
       exact huniq j ic hj hic hjc h0 hKic
   have hcolK : ∀ j, j ≠ ib → Km j ib = if j = ic then Km ic ib else 0 := by
     intro j hj
     by_cases hjc : j = ic
-    · rw [if_pos hjc, hjc]
-    · rw [if_neg hjc]
+    · rw [ite_eq_left hjc, hjc]
+    · rw [ite_eq_right hjc]
       have := hrowK j hj
-      rw [if_neg hjc] at this
+      rw [ite_eq_right hjc] at this
       exact (hKsym _ _).mp this
   have hrow : ∀ (j : Fin n) (hj : e j ≠ b),
       CK none (some ⟨e j, hj⟩) = if j = ic then Km ib ic else 0 := by
@@ -269,15 +269,15 @@ theorem ggResI_dispatch_shape (H : GGResIHyp p b ML CL MK CK g h α x)
       · subst hi
         by_cases hj : j = i
         · subst hj
-          rw [if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl]
           simp only [hKm, Matrix.submatrix_apply, hψib]
           exact hKaa
-        · rw [if_pos rfl, if_neg hj, hrowK j hj]
-      · rw [if_neg hi]
+        · rw [ite_eq_left rfl, ite_eq_right hj, hrowK j hj]
+      · rw [ite_eq_right hi]
         by_cases hj : j = ib
         · subst hj
-          rw [if_pos rfl, hcolK i hi]
-        · rw [if_neg hj, hKJ i j hi hj]
+          rw [ite_eq_left rfl, hcolK i hi]
+        · rw [ite_eq_right hj, hKJ i j hi hj]
     simp only [ggVecOK, Bool.and_eq_true, List.any_eq_true, List.mem_finRange, true_and,
       List.all_eq_true, true_implies, Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq,
       bne_iff_ne, ne_eq] at hvec

@@ -52,7 +52,7 @@ private theorem ggKGTq_padicValNat_prodT {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤
     (hq : 1 < q) (hpq : p ∣ q - 1) :
     padicValNat p (q ^ 36 * (q ^ 12 - 1) * (q ^ 9 + 1) * (q ^ 8 - 1) * (q ^ 6 - 1) *
       (q ^ 5 + 1) * (q ^ 2 - 1)) = 4 * padicValNat p (q - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro hd
     have h1 : p ∣ q - (q - 1) := Nat.dvd_sub hd hpq
@@ -121,7 +121,7 @@ theorem padicValNat_card_twE6_split
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {n p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) (hpq : p ∣ 2 ^ n - 1) :
     padicValNat p (Nat.card (twistedE6RootGroup K σ)) = 4 * padicValNat p (2 ^ n - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK2 : 1 < Nat.card K := Finite.one_lt_card
   have hn : 1 ≤ n := by
     by_contra h

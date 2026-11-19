@@ -73,8 +73,8 @@ theorem torusGroup_pow_seven [Finite K] (hK : Nat.card K = 8) {h : ModGL τ K}
 theorem three_not_dvd_card_torusGroup [Finite K] (hK : Nat.card K = 8) :
     ¬ 3 ∣ Nat.card (torusGroup τ K) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL τ K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL τ K) := inferInstance
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(torusGroup τ K)) 3 h3
   have h7 : ((x : ModGL τ K)) ^ 7 = 1 := torusGroup_pow_seven hK x.2
   have hd : orderOf (x : ModGL τ K) ∣ 7 := orderOf_dvd_of_pow_eq_one h7
@@ -119,7 +119,7 @@ theorem card_le_three_of_le_parabolic_singleton [Finite K] [CharP K 2] (hK : Nat
     (i : Fin τ.rank) {E : Subgroup (ModGL τ K)} (hE : E ≤ parabolicSubgroup τ K {i})
     (hcomm : ∀ a b : E, a * b = b * a) (h3 : ∀ x : E, x ^ 3 = 1) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := parabolicSubgroup τ K {i} with hP
   have hPcard := card_parabolicSubgroup_singleton (τ := τ) (K := K) i
   have h3H := three_not_dvd_card_torusGroup (τ := τ) hK
@@ -151,8 +151,8 @@ theorem card_le_three_of_le_parabolic_singleton [Finite K] [CharP K 2] (hK : Nat
     · exact yUnit_mem_parabolicSubgroup i c
   let ρP : SL2 K →* ↥P := ρ.codRestrict P hρP
   have hρPinj : Function.Injective ρP := fun a b h => hinj (congrArg Subtype.val h)
-  haveI : Finite (SL2 K) := inferInstance
-  haveI : Finite ↥P := inferInstance
+  have : Finite (SL2 K) := inferInstance
+  have : Finite ↥P := inferInstance
   obtain ⟨R⟩ : Nonempty (Sylow 3 (SL2 K)) := inferInstance
   have hRcard : Nat.card R = 9 := by
     rw [Sylow.card_eq_multiplicity R, card_SL2_eight hK]
@@ -164,7 +164,7 @@ theorem card_le_three_of_le_parabolic_singleton [Finite K] [CharP K 2] (hK : Nat
   set R₁ : Subgroup ↥P := (R : Subgroup (SL2 K)).map ρP with hR₁
   have hR₁card : Nat.card R₁ = 9 := by
     rw [hR₁, Subgroup.card_map_of_injective hρPinj, hRcard]
-  have hR₁p : IsPGroup 3 R₁ := R.isPGroup'.map ρP
+  have hR₁p : IsPGroup 3 R₁ := R.isPGroup.map ρP
   have hR₁idx : ¬ 3 ∣ R₁.index := by
     intro hdvd
     have hmul := Subgroup.card_mul_index R₁
@@ -235,7 +235,7 @@ theorem g2_card_le_three [Finite K] [CharP K 2] (hK : Nat.card K = 8)
     {E T : Subgroup ↥(adjointGroup .G2 K)} (hE : IsElemAbelian 3 E) (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     (hEN : E ≤ Subgroup.normalizer (T : Set ↥(adjointGroup .G2 K))) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, J, hJ, hk⟩ := exists_conj_le_parabolic_G2 K hT hT2
   obtain ⟨k0, hk0⟩ : ∃ k0, k0 ∉ J := by
     by_contra h

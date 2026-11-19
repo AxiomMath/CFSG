@@ -55,10 +55,12 @@ def Ctx.a2PlaneKernel (hc : Ctx M Q Z B) (a : G) : Subgroup ↥(Xbar M Q Z B) wh
       rw [mul_assoc, hcomm.inv_left.eq, inv_mul_cancel_left]
       exact Z.inv_mem hz
 
+omit [Finite G] in
 theorem Ctx.mem_a2PlaneKernel_iff (hc : Ctx M Q Z B) {a : G} {c : ↥(Xbar M Q Z B)} :
     c ∈ hc.a2PlaneKernel a ↔ (c : Mbar M Q) ∈ fixA2Plane M Q Z a :=
   Iff.rfl
 
+omit [Finite G] in
 theorem Ctx.commute_of_mem_a2PlaneKernel (hc : Ctx M Q Z B) {a : G} (haM : a ∈ M)
     {t : ↥(Xbar M Q Z B)} (ht : (t : Mbar M Q) = QuotientGroup.mk (⟨a, haM⟩ : ↥M))
     {c : ↥(Xbar M Q Z B)} (hcK : c ∈ hc.a2PlaneKernel a) : t * c = c * t := by
@@ -165,6 +167,7 @@ theorem Ctx.mem_normalizer_bar_LB_of_mem_a2PlaneKernel (hc : Ctx M Q Z B) {a : G
   exact hc.mk_mem_normalizer_bar_LB_of_fix_line hB (H0_le_M k.2)
     (T := (φ k : M₀.E →ₗ[K] M₀.E)) (fun y hy => hφπ k y hy) hfix
 
+omit [Finite G] in
 private theorem Ctx.sq_eq_one_of_coe_eq_mk (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q B)
     (hA : IsA2 Q Z a) {t : ↥(Xbar M Q Z B)}
     (ht : (t : Mbar M Q) = QuotientGroup.mk (⟨a, hc.LB_le_M ha⟩ : ↥M)) : t ^ 2 = 1 := by

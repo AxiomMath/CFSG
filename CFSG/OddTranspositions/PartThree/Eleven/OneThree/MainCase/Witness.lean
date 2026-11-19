@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G} {hC : HypothesisC D}
 
 private theorem twoOddCore_conj_mem_DalphaStar (hC : HypothesisC D) {x : G}
     (hx : x ∈ DalphaStar D hC.alpha) {k : Halpha D hC.alpha}
-    (hk : k ∈ EightOne.twoOddCore (Halpha D hC.alpha)) :
+    (_hk : k ∈ EightOne.twoOddCore (Halpha D hC.alpha)) :
     (k : G) * x * (k : G)⁻¹ ∈ DalphaStar D hC.alpha := by
   let xH : Halpha D hC.alpha := ⟨x, Subgroup.subset_closure hx⟩
   have hmem : k * xH * k⁻¹ ∈ DstarH hC :=

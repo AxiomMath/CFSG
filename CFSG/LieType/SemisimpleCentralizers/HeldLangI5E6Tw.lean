@@ -32,7 +32,7 @@ theorem kd264I5Universal_twE6 (q : TauCeti.PrimePower)
     ∃ E : Subgroup L, E ≤ CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup β ∧ IsElemAbelian 3 E ∧
       5 + CFSG.Open.pRank 3 (Subgroup.center L) ≤ CFSG.Open.pRank 3 E := by
   classical
-  haveI hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
+  have hcyc : IsCyclic ↥(Subgroup.center L) := hL.2.2.1
   obtain ⟨eX⟩ := hL.2.1
   have hγ3 : onCenterQuotient β ^ 3 = 1 := by
     have := congrArg (centerQuotientHom L) hβ3
@@ -42,7 +42,7 @@ theorem kd264I5Universal_twE6 (q : TauCeti.PrimePower)
   have hZ3 : Nat.card (Subgroup.center L) = 3 := by
     rw [hL.2.2.2]
     exact Nat.gcd_eq_left h3q
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   set F := GaloisField q.p (2 * q.exponent) with hF
   have hF2 : Nat.card F = q.card ^ 2 := by
     rw [TauCeti.PrimePower.card_def, GaloisField.card _ _ (by have := q.exponent_pos; omega),
@@ -99,10 +99,10 @@ theorem kd264I5Universal_twE6 (q : TauCeti.PrimePower)
         (twFJModelEquiv σ η).symm)
   let σ₀ : ↥(fixSubfield η) →+* ↥(fixSubfield η) := (fixSubfieldRestrict σ η).toRingHom
   let Ψ : ↥JX ≃* ↥(twDerived σ₀) := Ψ₁.trans (MulEquiv.subgroupCongr hΓ₀.symm)
-  haveI : Finite ↥(twDerived σ₀) := Finite.of_equiv ↥JX Ψ.toEquiv
-  haveI : Group.IsPerfect ↥(twistedE6RootGroup (fixSubfield η) (fixSubfieldRestrict σ η)) :=
+  have : Finite ↥(twDerived σ₀) := Finite.of_equiv ↥JX Ψ.toEquiv
+  have : Group.IsPerfect ↥(twistedE6RootGroup (fixSubfield η) (fixSubfieldRestrict σ η)) :=
     Group.isPerfect_def.2 hperf₀
-  haveI : Group.IsPerfect ↥JX :=
+  have : Group.IsPerfect ↥JX :=
     Group.IsPerfect.ofSurjective (f := Ψ₁.symm.toMonoidHom) Ψ₁.symm.surjective
   have hJ : ⁅JX, JX⁆ = JX := commutator_eq_self_of_isPerfect JX
   have hfix : ∀ j ∈ JX, onCenterQuotient β j = j := by
@@ -122,9 +122,9 @@ theorem kd264I5Universal_twE6 (q : TauCeti.PrimePower)
       (∀ x, π x = 1 ↔ x ∈ Subgroup.center M) → 3 ∣ Nat.card (Subgroup.center M) →
         6 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup M) := by
     intro M _ _ π hπ hker hZ
-    haveI : Fact q₀.p.Prime := ⟨q₀.prime_p⟩
-    haveI : Fintype ↥(fixSubfield η) := Fintype.ofFinite _
-    haveI : CharP ↥(fixSubfield η) q₀.p := charP_of_card_eq_prime_pow (f := 2 * q₀.exponent)
+    have : Fact q₀.p.Prime := ⟨q₀.prime_p⟩
+    have : Fintype ↥(fixSubfield η) := Fintype.ofFinite _
+    have : CharP ↥(fixSubfield η) q₀.p := charP_of_card_eq_prime_pow (f := 2 * q₀.exponent)
       (by rw [← Nat.card_eq_fintype_card, hK₀, ← pow_mul, mul_comm])
     exact six_le_pRank_of_cover_twE6 σ₀ q₀.exponent_pos h3q₀ hK₀ hσ₀ π hπ hker hZ
   obtain ⟨E, hEfix, hEab, m, hEcard, hm⟩ :=

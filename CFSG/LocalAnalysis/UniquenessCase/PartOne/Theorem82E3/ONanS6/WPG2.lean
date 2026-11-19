@@ -53,8 +53,8 @@ theorem g2_coprime_section''
       ((p ^ f % 3 = 1 ∧ StatedClassicalModel S .PSL 3 p f) ∨
         (p ^ f % 3 = 2 ∧ StatedClassicalModel S .PSU 3 p f)) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   have hK2 : K2ONanCentralizer := K2ONanCentralizer_holds
   have hK6 : K6ONanClasses := K6_of_K2 hK2
   let T : Subgroup G := P ⊓ Subgroup.centralizer ({a} : Set G)
@@ -100,13 +100,13 @@ theorem g2_coprime_section''
   have hqC : Function.Surjective qC := QuotientGroup.mk'_surjective _
   have hCperf : Group.IsPerfect ↥C := by
     obtain ⟨K, hKfield, hKfin, hcase⟩ := hSL
-    letI := hKfield
-    letI := hKfin
+    let := hKfield
+    let := hKfin
     rcases hcase with ⟨hKcard, hmod1, ⟨eSL⟩⟩ | ⟨hKcard, hmod2, ⟨eSU⟩⟩
-    · haveI : Group.IsPerfect ↥(CFSG.Open.StatedSL 3 K) :=
+    · have : Group.IsPerfect ↥(CFSG.Open.StatedSL 3 K) :=
         CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le (by norm_num) K
       exact Group.IsPerfect.ofSurjective (f := eSL.symm.toMonoidHom) eSL.symm.surjective
-    · haveI : Group.IsPerfect ↥(CFSG.Open.StatedSU 3 (p ^ f) K) :=
+    · have : Group.IsPerfect ↥(CFSG.Open.StatedSU 3 (p ^ f) K) :=
         CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hKcard (by norm_num) (by
           intro h
           have := congrArg Prod.snd h
@@ -119,7 +119,7 @@ theorem g2_coprime_section''
       hf1 hSL
   have hSqsimple : IsSimpleGroup Sq := by
     rcases hIsoL with ⟨hmod, ⟨eSL⟩⟩ | ⟨hmod, ⟨eSU⟩⟩
-    · letI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
+    · let : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
         CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p f)
           (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
       exact eSL.isSimpleGroup
@@ -129,7 +129,7 @@ theorem g2_coprime_section''
         have := congrArg Prod.snd h
         have hq2 : p ^ f ≠ 2 := by omega
         exact hq2 this
-      letI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
+      let : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
         CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
       exact eSU.isSimpleGroup
   have hSqnonab : ∃ x y : Sq, x * y ≠ y * x := by
@@ -244,7 +244,7 @@ theorem g2_coprime_section''
       exact Subtype.ext (by
         show (a : Jtilde J) * (b : Jtilde J) = (b : Jtilde J) * (a : Jtilde J)
         exact (Subgroup.mem_center_iff.mp a.2 (b : Jtilde J)).symm)
-    letI : CommMagma Zt := { mul_comm := hZcomm }
+    let : CommMagma Zt := { mul_comm := hZcomm }
     have hCinf_ker : Cinf ≤ (φ.ker).map Ctilde.subtype := by
       change ⁅Ctilde, Ctilde⁆ ≤ (φ.ker).map Ctilde.subtype
       rw [Subgroup.commutator_le]

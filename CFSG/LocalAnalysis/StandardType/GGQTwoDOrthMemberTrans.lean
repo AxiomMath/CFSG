@@ -17,20 +17,23 @@ section Img
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {Bs Y : Subgroup G}
   (Φ : OrthFrameCore p Bs Y)
 
+omit [Finite G] in
 theorem OrthFrameCore.rank1_le_orthDerived [Fact p.Prime] (x : OmPlusIdx Φ.r) :
     Φ.rank1 x ≤ orthDerived Φ.Q := by
   rw [OrthFrameCore.rank1]
   exact (ggOTwoPrime_le _).trans inf_le_left
 
+omit [Finite G] in
 theorem OrthFrameCore.rank2_le_orthDerived [Fact p.Prime] (x y : OmPlusIdx Φ.r) :
     Φ.rank2 x y ≤ orthDerived Φ.Q := by
   rw [OrthFrameCore.rank2]
   exact (ggOTwoPrime_le _).trans inf_le_left
 
+omit [Finite G] in
 theorem OrthFrameCore.img_standardPair {K : Type} [Field K] [Finite K] [CharP K 2] {Y' : Type}
     [Group Y'] (Θ : (Φ.V ≃ₗ[Φ.F] Φ.V) ≃* Y') {S S₁ S₂ : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)}
-    {S' S₁' S₂' : Subgroup Y'} (hS : S ≤ orthDerived Φ.Q) (hS₁ : S₁ ≤ orthDerived Φ.Q)
-    (hS₂ : S₂ ≤ orthDerived Φ.Q) (h : S.map Θ.toMonoidHom = S')
+    {S' S₁' S₂' : Subgroup Y'} (hS : S ≤ orthDerived Φ.Q) (_hS₁ : S₁ ≤ orthDerived Φ.Q)
+    (_hS₂ : S₂ ≤ orthDerived Φ.Q) (h : S.map Θ.toMonoidHom = S')
     (h₁ : S₁.map Θ.toMonoidHom = S₁') (h₂ : S₂.map Θ.toMonoidHom = S₂')
     (hpair : UnitaryBlockStandardPair K 2 1 S' S₁' S₂') :
     UnitaryBlockStandardPair K 2 1 (Φ.img S) (Φ.img S₁) (Φ.img S₂) := by
@@ -51,6 +54,7 @@ theorem OrthFrameCore.img_standardPair {K : Type} [Field K] [Finite K] [CharP K 
   simpa only [OrthFrameCore.img] using
     CFSG.GH74.L5U5.unitaryBlockStandardPair_map' hres Φ.ψ Φ.hinj
 
+omit [Finite G] in
 theorem OrthFrameCore.exists_hom_range_img {S₀ Y' : Type} [Group S₀] [Group Y']
     (Θ : (Φ.V ≃ₗ[Φ.F] Φ.V) ≃* Y') {A B : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)}
     {A' B' : Subgroup Y'} (hA : A ≤ orthDerived Φ.Q) (hB : B ≤ orthDerived Φ.Q)
@@ -77,9 +81,10 @@ theorem OrthFrameCore.exists_hom_range_img {S₀ Y' : Type} [Group S₀] [Group 
     ← MonoidHom.range_eq_map, hθ₁]
   simpa only [OrthFrameCore.img] using OrthFrameCore.img_sup Φ hA hB
 
+omit [Finite G] in
 theorem OrthFrameCore.img_commute {Y' : Type} [Group Y'] (Θ : (Φ.V ≃ₗ[Φ.F] Φ.V) ≃* Y')
-    {A B : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)} {A' B' : Subgroup Y'} (hA : A ≤ orthDerived Φ.Q)
-    (hB : B ≤ orthDerived Φ.Q) (h : A.map Θ.toMonoidHom = A') (h' : B.map Θ.toMonoidHom = B')
+    {A B : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)} {A' B' : Subgroup Y'} (_hA : A ≤ orthDerived Φ.Q)
+    (_hB : B ≤ orthDerived Φ.Q) (h : A.map Θ.toMonoidHom = A') (h' : B.map Θ.toMonoidHom = B')
     (hc : ∀ a ∈ A', ∀ b ∈ B', a * b = b * a) : ∀ a ∈ Φ.img A, ∀ b ∈ Φ.img B, a * b = b * a := by
   intro a ha b hb
   rw [OrthFrameCore.img, Subgroup.mem_map] at ha
@@ -109,6 +114,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs Y : Subgro
     (Φ.V ≃ₗ[Φ.F] Φ.V) ≃* ((Fin n → K) ≃ₗ[Φ.F] (Fin n → K)) :=
   (MulAut.conj μ).trans (LinearEquiv.autCongr χ)
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem orthModelEquiv_map (χ : Φ.V ≃ₗ[Φ.F] (Fin n → K)) (μ : Φ.V ≃ₗ[Φ.F] Φ.V)
     (S : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)) :
     S.map (orthModelEquiv Φ χ μ).toMonoidHom =
@@ -118,6 +124,7 @@ theorem orthModelEquiv_map (χ : Φ.V ≃ₗ[Φ.F] (Fin n → K)) (μ : Φ.V ≃
     ext x; rfl
   rw [hcomp, ← Subgroup.map_map]
 
+omit [Finite G] in
 theorem OrthFrameCore.rank1_map_model (χ : Φ.V ≃ₗ[Φ.F] (Fin n → K)) {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hμ : μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q)
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}
@@ -129,6 +136,7 @@ theorem OrthFrameCore.rank1_map_model (χ : Φ.V ≃ₗ[Φ.F] (Fin n → K)) {μ
   rw [orthModelEquiv_map, ← CFSG.StandardType.QTwo.qtwoOrth_rank1_conj Φ hμ hw hx]
   exact hU
 
+omit [Finite G] in
 theorem OrthFrameCore.rank2_map_model (χ : Φ.V ≃ₗ[Φ.F] (Fin n → K)) {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hμ : μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q)
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}

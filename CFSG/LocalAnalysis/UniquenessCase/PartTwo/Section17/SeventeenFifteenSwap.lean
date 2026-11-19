@@ -49,6 +49,7 @@ theorem not_dvd_card_inf_of_mem_conjSetOf {D : Data G} {V₀ V L : Subgroup G} {
   rw [hinf, Subgroup.card_map_of_injective (MulAut.conj u).injective]
   exact h3
 
+omit [Finite G] in
 theorem exists_three_conj_of_two_lt_ncard {M L : Subgroup G}
     (h : 2 < (conjSetOf M L).ncard) :
     ∃ x ∈ M, ∃ y ∈ M, L.map (MulAut.conj x).toMonoidHom ≠ L ∧
@@ -106,7 +107,7 @@ theorem exists_conj_pair_of_not_normal {D : Data G} {L : Subgroup G}
       rcases hK with rfl | rfl
       · refine ⟨1, D.M.one_mem, ?_⟩
         ext x
-        simp [MulAut.conj_apply]
+        simp
       · exact ⟨t, D.sylowM.le ht, rfl⟩
     have hc : ({L, L.map (MulAut.conj t).toMonoidHom} : Set (Subgroup G)).ncard = 2 :=
       Set.ncard_pair hLt.symm
@@ -116,7 +117,7 @@ theorem exists_conj_pair_of_not_normal {D : Data G} {L : Subgroup G}
   have hself : L ∈ conjSetOf D.M L := by
     refine ⟨1, D.M.one_mem, ?_⟩
     ext x
-    simp [MulAut.conj_apply]
+    simp
   obtain ⟨L₂, hL₂ne, hclass⟩ :=
     exists_pair_eq_conjSetOf_of_ncard_eq_two hself hc2
   have hKmem : L.map (MulAut.conj t).toMonoidHom = L₂ := by
@@ -138,13 +139,13 @@ theorem exists_conj_pair_of_not_normal {D : Data G} {L : Subgroup G}
   exact ⟨L₂, hex, hL₂ne.symm, hall⟩
 
 @[expose] def Gap17_15_threeConjInFSq (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 →
     CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ NTL17 D L)) →
       CFSG.LocalAnalysis.WeakClosure81.InFSq 1 (L ⊔ D.T)
 
 @[expose] def Gap17_15_swapPairInner (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7 →
     ¬ (L.subgroupOf (L ⊔ D.T)).Normal →
@@ -152,7 +153,7 @@ theorem exists_conj_pair_of_not_normal {D : Data G} {L : Subgroup G}
         Permutes X₁ (NTL17 D L) ∧ Permutes X₂ (NTL17 D L) ∧ L ≤ X₁ ⊔ X₂ ⊔ D.T
 
 @[expose] def Gap17_15_swapInFSq (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7 →
     ¬ (L.subgroupOf (L ⊔ D.T)).Normal →
@@ -160,7 +161,7 @@ theorem exists_conj_pair_of_not_normal {D : Data G} {L : Subgroup G}
         CFSG.LocalAnalysis.WeakClosure81.InFSq 1 (X ⊔ D.T)
 
 @[expose] def Gap17_15_swapSplit (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ (L.subgroupOf (L ⊔ D.T)).Normal →
     IsL2Over17 (Bar2 (L ⊔ NTL17 D L)) 7 ∨
       CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ NTL17 D L))

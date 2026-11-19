@@ -342,8 +342,8 @@ theorem exists_conj_of_rank_eq_three [IsSimpleGroup G] (hnonab : ∃ a b : G, a 
     exact hxy ⟨1, N.one_mem, by group⟩
   set Ω := omegaOneOfComm 2 (T : Subgroup G) hcommT with hΩdef
   have hΩcard : Nat.card Ω = 8 := by
-    rw [card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup',
-      ← rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup', hr]
+    rw [card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup,
+      ← rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup, hr]
     norm_num
   obtain ⟨w, hwΩ, hwne⟩ : ∃ w ∈ Ω, w ∉ ({1, x, y, x * y} : Set G) := by
     by_contra h

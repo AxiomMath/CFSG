@@ -143,8 +143,8 @@ theorem k1419ClsUniNu {L : Type} [Field L] [Finite L] {n Q : ℕ} {τ : L ≃+* 
     (hτ : ∀ x, τ (τ x) = x) (hτQ : ∀ x, τ x = x ^ Q) (hL : Nat.card L = Q ^ 2)
     (hQ : ∃ j : ℕ, Q = 2 ^ j) (A : GL (Fin n) L) (hA : A ∈ heldGU n L τ hτ) (c : L)
     (hA3 : ((A ^ 3 : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) = c • (1 : Matrix (Fin n) (Fin n) L))
-    (X Y : Submodule L (Fin n → L)) (hXY : X ⊔ Y = ⊤) (hX : X ≠ ⊥) (hY : Y ≠ ⊥)
-    (hXi : ∀ x ∈ X, ∀ x' ∈ X, hfm τ x x' = 0) (hYi : ∀ y ∈ Y, ∀ y' ∈ Y, hfm τ y y' = 0)
+    (X Y : Submodule L (Fin n → L)) (hXY : X ⊔ Y = ⊤) (hX : X ≠ ⊥) (_hY : Y ≠ ⊥)
+    (hXi : ∀ x ∈ X, ∀ x' ∈ X, hfm τ x x' = 0) (_hYi : ∀ y ∈ Y, ∀ y' ∈ Y, hfm τ y y' = 0)
     (p q : L) (hp : ∀ x ∈ X, (A : Matrix (Fin n) (Fin n) L) *ᵥ x = p • x)
     (hq : ∀ y ∈ Y, (A : Matrix (Fin n) (Fin n) L) *ᵥ y = q • y) (hpq : p ≠ q) :
     Q % 3 = 1 := by

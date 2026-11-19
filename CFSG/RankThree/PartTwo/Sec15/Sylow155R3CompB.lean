@@ -31,7 +31,7 @@ private theorem mem_of_mem_zpowers_of_orderOf_three {J : Subgroup Q} {y : Q}
 private theorem card_zpowers_sup_zpowers_eq_nine (hc3 : c ^ 3 = 1) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
     (hcd : c ∉ Subgroup.zpowers d) (hcomm : c * d = d * c) :
     Nat.card (Subgroup.zpowers c ⊔ Subgroup.zpowers d : Subgroup Q) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc1 : c ≠ 1 := fun h => hcd (by rw [h]; exact Subgroup.one_mem _)
   have hcard_c : Nat.card (Subgroup.zpowers c) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hc3 hc1]
@@ -55,7 +55,7 @@ private theorem orderOf_d (h : Res3QComp c d A B₀ K) : orderOf d = 3 := by
   exact h.K_cover.1
 
 private theorem orderOf_c (h : Res3QComp c d A B₀ K) : orderOf c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime h.c_pow fun h1 => h.c_notMem ?_
   rw [h1]
   exact K.one_mem
@@ -96,7 +96,7 @@ theorem Res3QBase.exists_mem_inf (h : Res3QBase c d A B₀ K)
     (h3J : ∀ J : Subgroup Q, CFSG.IsComponent J → 3 ∣ Nat.card J)
     {J : Subgroup Q} (hJ : CFSG.IsComponent J) (hJK : J ≠ K) :
     ∃ u ∈ J, u ≠ 1 ∧ u ∈ Subgroup.zpowers c ⊔ Subgroup.zpowers d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcN : c ∈ Subgroup.normalizer (J : Set Q) :=
     h.mem_normalizer_of_isComponent huniq hnK hJ h.toRes3QComp.c_mem_centralizer
   have hP : IsPGroup 3 (Subgroup.zpowers c) :=

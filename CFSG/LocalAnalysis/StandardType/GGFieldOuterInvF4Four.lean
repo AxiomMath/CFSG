@@ -69,7 +69,7 @@ private theorem ggPA44_not_isRoot_add_two_smul_F4_long
     have e : (1 • α + 2 • Pi.single j 1 : Fin Tag.F4.rank → ℤ) =
         α + (2 : ℤ) • Pi.single j 1 := by
       ext k
-      simp only [Pi.add_apply, Pi.smul_apply, one_smul, smul_eq_mul, Nat.cast_ofNat]
+      simp only [Pi.add_apply, Pi.smul_apply, one_smul, smul_eq_mul]
       ring
     rw [e]
     exact h
@@ -582,14 +582,14 @@ private theorem ggPA44_exists_longRoot_rootChar_one
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p : ℕ} (hp : p.Prime)
     (hp35 : p = 3 ∨ p = 5) (a : Fin Tag.F4.rank → Lˣ) (ha : ∀ i, a i ^ p = 1) :
     ∃ θ : Fin Tag.F4.rank → ℤ, IsRoot Tag.F4 θ ∧ iform θ θ = 4 ∧ rootChar a θ = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by rcases hp35 with h | h <;> omega
   have hpL : (p : L) ≠ 0 := by
     intro h
     have hdvd : 2 ∣ p := (CharP.cast_eq_zero_iff L 2 p).mp h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp hdvd).symm
-  haveI : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero (p : L) := ⟨hpL⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   let ζ' : Lˣ := (hζ.isUnit hp.ne_zero).unit
   have hζ' : IsPrimitiveRoot ζ' p := hζ.isUnit_unit hp.ne_zero
   have hx : ∀ i, ∃ x : ℕ, x < p ∧ ζ' ^ x = a i := fun i =>

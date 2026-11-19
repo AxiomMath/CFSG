@@ -24,14 +24,14 @@ theorem exists_three_cycle_of_ncard_conj_eq_three {A D : Subgroup G}
         (MulAut.conj a).toMonoidHom = D := by
   classical
   have hStabNormal : ((A ⊓ normalizer (D : Set G)).subgroupOf A).Normal :=
-    Subgroup.normal_of_comm _
+    normal_of_isMulCommutative _
   have : Fintype ↥A := Fintype.ofFinite _
   have : Fintype (Subgroup G) := Fintype.ofFinite _
   let _ : MulAction ↥A (Subgroup G) := MulAction.compHom _ (MulAut.conj.comp A.subtype)
   have hset : (MulAction.orbit (↥A) D : Set (Subgroup G)) =
       {R : Subgroup G | ∃ g ∈ A, R = D.map (MulAut.conj g).toMonoidHom} := by
     ext K
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨m, rfl⟩
       exact ⟨(m : G), m.2, rfl⟩

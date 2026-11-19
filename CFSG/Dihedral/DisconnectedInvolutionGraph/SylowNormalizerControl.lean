@@ -67,7 +67,7 @@ theorem sylow_inheritance_of_normalizer_le (prime : ℕ) [Fact (Nat.Prime prime)
       rw [show within.map (ambient : Subgroup G).subtype = smaller from hmap] at hmapped
       exact hnormalizer hmapped
     · exact Subgroup.le_normalizer
-  have _ : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup'.isNilpotent
+  have _ : Group.IsNilpotent (ambient : Subgroup G) := ambient.isPGroup.isNilpotent
   have htop : within = ⊤ :=
     normalizerCondition_iff_only_full_group_self_normalizing.mp
       Group.normalizerCondition_of_isNilpotent within hselfNormalizer

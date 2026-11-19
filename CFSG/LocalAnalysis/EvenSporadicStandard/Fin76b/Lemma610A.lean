@@ -81,7 +81,7 @@ theorem Theta_inv {α : G} (hα : AlphaSpec S z t α) {m : G}
   have hnX : m * e * m⁻¹ ∉ XSet S E z := by
     intro hX
     apply h.E2_not_X he
-    have := h.X_inv (inv_mem hm) hX
+    have := CFSG.EvenSporadicStandard.Fin76b.Hyp69.X_inv (inv_mem hm) hX
     have e1 : m⁻¹ * (m * e * m⁻¹) * m⁻¹⁻¹ = e := by group
     rwa [e1] at this
   have hnA : m * e * m⁻¹ ∉ blk α {1, t} := by

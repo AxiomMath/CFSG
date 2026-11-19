@@ -21,7 +21,7 @@ theorem exists_root_at {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
       ∀ a b : Ω, a ≠ ω → b ≠ ω → ∃! r : R, (r : X) • a = b := by
   classical
   obtain ⟨S, hS⟩ := P.exists_sylow
-  have hQ2 : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup'
+  have hQ2 : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup
   have hQle : Q ≤ MulAction.stabilizer N ω := by
     rw [← P.sup_eq_stabilizer]
     exact le_sup_left
@@ -59,7 +59,7 @@ theorem exists_root_arbitrary {X Ω : Type*} [Group X] [Finite X] [MulAction X �
       (R.subgroupOf (MulAction.stabilizer X x)).Normal ∧ IsPGroup 2 R ∧
       ∀ a b : Ω, a ≠ x → b ≠ x → ∃! r : R, (r : X) • a = b := by
   classical
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
       (h2 := P.isMultiplyPretransitive)
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq N ω x
@@ -109,7 +109,7 @@ theorem odd_of_odd_inf_normal_outer {X : Type} [Group X] [Finite X]
     (hT : T = H ⊓ N) (hTodd : Odd (Nat.card T))
     (hOut : Odd (Nat.card (Outer N))) : Odd (Nat.card H) := by
   classical
-  letI : (T.subgroupOf H).Normal := hTn
+  let : (T.subgroupOf H).Normal := hTn
   let f : H →* Outer N := (outerHom N).comp H.subtype
   have hker : f.ker = T.subgroupOf H := by
     ext x
@@ -184,7 +184,7 @@ theorem inf_stabilizer_eq_map_subtype {X Ω : Type*} [Group X] [MulAction X Ω] 
     exact ⟨⟨h.2, hh.1⟩, hh.2⟩
 
 theorem fix_two_conj {N Ω : Type*} [Group N] [MulAction N Ω] {q : ℕ} {ω β : Ω}
-    {Q T : Subgroup N} (P : SuzukiPointAction N Ω q ω β Q T)
+    {Q T : Subgroup N} (_P : SuzukiPointAction N Ω q ω β Q T)
     (hfix : ∀ t ∈ T, t ≠ 1 → ∀ z : Ω, t • z = z → z = ω ∨ z = β)
     {x y : Ω} (n : N) (hx : n • ω = x) (hy : n • β = y) :
     ∀ t ∈ T.map (MulAut.conj n).toMonoidHom, t ≠ 1 →
@@ -230,8 +230,8 @@ theorem rankOneLocal_sz {X Ω : Type} [Group X] [Finite X]
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 _ (by omega)
   obtain ⟨ω, β, Q, T, ψ, P, hψT, hψQ, hψB⟩ :=
     exists_szPointAction (X := X) (Ω := Ω) h2 ha N hN e hΩ
-  haveI : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hTcard : Nat.card T = 2 ^ (2 * a + 1) - 1 := P.card_T
   have hTodd : Odd (Nat.card T) := by
@@ -262,14 +262,14 @@ theorem rankOneLocal_sz {X Ω : Type} [Group X] [Finite X]
                   Nat.mul_le_mul_left _ Nat.one_le_two_pow
               _ = (2 ^ (2 * a + 1)) ^ 2 := by ring
     exact (ne_of_gt hq) h1
-  haveI : Nontrivial N := by
+  have : Nontrivial N := by
     obtain ⟨q, hq⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hQbot
     exact ⟨q, 1, fun h => hq (Subtype.ext h)⟩
   have hNnonab : ¬ IsMulCommutative N := hperfN.not_isMulCommutative
   have hCbot : Subgroup.centralizer (N : Set X) = ⊥ :=
     centralizer_eq_bot_of_isMultiplyPretransitive hNnonab h2
   have hOut := outer_sz_cyclic_odd a ha e
-  haveI : IsMulCommutative (Outer N) := hOut.1.isMulCommutative
+  have : IsMulCommutative (Outer N) := hOut.1.isMulCommutative
   have hOutSolv : Group.IsSolvable (Outer N) :=
     Group.isSolvable_of_comm fun x y => mul_comm' x y
   have hOutOdd : Odd (Nat.card (Outer N)) := hOut.2
@@ -315,7 +315,7 @@ theorem rankOneLocal_sz {X Ω : Type} [Group X] [Finite X]
     have hfield : N ⊓ MulAction.stabilizer X x ⊓ MulAction.stabilizer X y = Tsub :=
       inf_stabilizer_eq_map_subtype hTxy
     have hTcyc : IsCyclic T := P.isCyclic
-    letI : IsCyclic T := hTcyc
+    let : IsCyclic T := hTcyc
     rw [hfield]
     have hcyc : IsCyclic (T.map (MulAut.conj n).toMonoidHom) :=
       isCyclic_of_surjective
@@ -340,7 +340,7 @@ theorem rankOneLocal_sz {X Ω : Type} [Group X] [Finite X]
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer hTH]
       rw [hTsub]
       have hHN : H ≤ Subgroup.normalizer (N : Set X) := by
-        haveI : N.Normal := hN
+        have : N.Normal := hN
         rw [Subgroup.normalizer_eq_top]
         exact le_top
       refine le_trans (le_inf Subgroup.le_normalizer hHN) ?_
@@ -404,7 +404,7 @@ theorem rankOneZassenhaus_sz_of_centralizer
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 _ (by omega)
   obtain ⟨ω, β, Q, T, ψ, P, hψT, hψQ, hψB⟩ :=
     exists_szPointAction (X := X) (Ω := Ω) h2 ha N hN e hΩ
-  haveI : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
+  have : MulAction.IsMultiplyPretransitive N Ω 2 := P.isMultiplyPretransitive
   have hcent := (suzuki_split_torus_odd_prime_centralizers (a := a) (K := K) hK).1
   have hdisj := suzukiU_inf_suzukiT (a := a) (K := K) hK
   have hCQ : ∀ t ∈ T, t ≠ 1 → ∀ q ∈ Q, q * t = t * q → q = 1 :=

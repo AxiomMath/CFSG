@@ -13,11 +13,12 @@ section TwoModule
 
 variable {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite G] in
 theorem le_center_of_le_centralizer_of_normalClosure {H D : Subgroup G} [H.Normal]
     (hgen : Subgroup.normalClosure (D : Set G) = ⊤) (hD : H ≤ Subgroup.centralizer (D : Set G)) :
     H ≤ Subgroup.center G := by
   let C : Subgroup G := Subgroup.centralizer (H : Set G)
-  haveI : C.Normal := ⟨fun n hn g => Subgroup.mem_centralizer_iff.2 fun h hh => by
+  have : C.Normal := ⟨fun n hn g => Subgroup.mem_centralizer_iff.2 fun h hh => by
     have hh' : g⁻¹ * h * g ∈ H := by
       have := (inferInstance : H.Normal).conj_mem h hh g⁻¹
       simpa using this
@@ -40,8 +41,8 @@ theorem pPrimeCore_three_le_center (hSz : KSz) (hK : CFSG.Open.IsKGroup G) (ρ :
     (hgen : Subgroup.normalClosure (D : Set G) = ⊤) (hfix : fixV ρ D = ⊥) :
     CFSG.pPrimeCore 3 G ≤ Subgroup.center G := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hHn : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hHn : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
   set H : Subgroup G := CFSG.pPrimeCore 3 G with hH
   have hcop : Nat.Coprime 3 (Nat.card H) := CFSG.pPrimeCore_coprime_card
   have hcent : ∀ q : ℕ, q.Prime → q ≠ 2 → ∀ Q : Subgroup G, Q ≤ H → IsPGroup q Q →
@@ -49,7 +50,7 @@ theorem pPrimeCore_three_le_center (hSz : KSz) (hK : CFSG.Open.IsKGroup G) (ρ :
     intro q hq hq2 Q hQH hQ hDQ
     by_cases hq3 : q = 3
     · subst hq3
-      haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+      have : Fact (Nat.Prime 3) := ⟨hq⟩
       obtain ⟨k, hk⟩ := hQ.exists_card_eq
       have hdvd : Nat.card Q ∣ Nat.card H := Subgroup.card_dvd_of_le hQH
       have hk0 : k = 0 := by
@@ -75,7 +76,7 @@ theorem pPrimeCore_three_le_center (hSz : KSz) (hK : CFSG.Open.IsKGroup G) (ρ :
   have hnormR : ((⁅H, D⁆ : Subgroup G).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRH).2 hHN
   have hpR : IsPGroup 2 ((⁅H, D⁆ : Subgroup G).subgroupOf H) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     apply IsPGroup.of_card (n := k)
     rw [← hk]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRH).toEquiv

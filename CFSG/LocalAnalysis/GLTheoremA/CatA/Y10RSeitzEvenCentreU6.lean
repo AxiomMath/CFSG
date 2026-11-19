@@ -16,7 +16,7 @@ theorem noncentralWitness_twA {K : Type} [Group K] [Finite K] {lab : GLALabel}
     NoncentralWitness K p (lab.rank - 2 + CFSG.Open.pRank p (Subgroup.center K)) := by
   obtain ⟨R, hR, θ, h, w, X, hpow, hcomm, hind, hinv, hcross, hX1, hX2, hNX⟩ :=
     exists_crossedInversionBasis_twA hK hp hp2 htag hpq
-  letI := hR
+  let := hR
   exact noncentralWitness_of_central_lift θ hp hp2 hpow hcomm hind hinv hcross hX1 hX2 hNX
 
 theorem seitzEvenCentre_twA5 {K : Type} [Group K] [Finite K]

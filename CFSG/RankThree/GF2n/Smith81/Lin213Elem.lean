@@ -51,6 +51,7 @@ theorem lin213_of_mem_Q {M Q Z : Subgroup G} (H : StrothHyp M Q Z) {w : G} (hw :
     (by rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul]; exact Z_sq H (sq_mem_Z H hw))
     (fun hne => ⟨1, w ^ 2, sq_mem_Z H hw, hne, by group⟩)
 
+omit [Finite G] in
 theorem InZClass.ne_one {Z : Subgroup G} {v : G} (h : InZClass Z v) : v ≠ 1 := by
   obtain ⟨g, z, -, hz1, rfl⟩ := h
   intro e

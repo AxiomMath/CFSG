@@ -70,7 +70,7 @@ private theorem t158i_indAut_zpow {p : ℕ} {L : Subgroup G} {g : G} (hg : g ∈
   rw [← map_zpow]
   congr 1
   apply Subtype.ext
-  simp [zpow_neg, inv_zpow]
+  simp [zpow_neg]
 
 private theorem t158i_innDiagOn_mono {p : ℕ} {A A' L : Subgroup G} (hA : InnDiagOn p A L) (h : A' ≤ A) :
     InnDiagOn p A' L :=

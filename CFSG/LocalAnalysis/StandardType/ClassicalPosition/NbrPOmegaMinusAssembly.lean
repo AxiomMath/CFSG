@@ -118,6 +118,7 @@ variable (S : Set (GL (Ix n) (GaloisField 2 f))) (J' : Subgroup (UK n f)) (ε e_
   (heJ : IsPrimIdemIn (AdS f S) e_J)
 include S J' ε e_J hB hF hE heJ
 
+omit hF in
 private theorem nbrpmmx_J_degree (heJε : e_J * ε = e_J) (hsplit : SplitD n f ε e_J) :
     DegD n f S ε e_J := by
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18,
@@ -161,7 +162,7 @@ private theorem nbrpmmx_J_split :
     unfold EpsD
     exact ⟨hε, hJ'ε⟩
   exact ⟨S, J', ε, e_J, hB, hF, hE, heJ, heJε, hsplit,
-    nbrpmmx_J_degree n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ heJε hsplit⟩
+    nbrpmmx_J_degree n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hE heJ heJε hsplit⟩
 
 end Stmts
 
@@ -213,7 +214,7 @@ theorem nbrpmmx_assembly
     nbrpmmx_J_split n f hn ψ p G₀ B₁ D J L x hH
   rcases hdeg with homega | hsu | hsl
   · obtain ⟨R, Rm, hRJ, hRmJ, hR0, hJcase⟩ :=
-      nbrpmmx_J_omega n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ homega
+      nbrpmmx_J_omega n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hE heJ homega
     rcases hJcase with hO | hSL2
     · obtain ⟨t', mJ, βJ, ht', hmJ, hβJ, hlongJ, hviaJ, hrankJ⟩ := hO
       refine ⟨R, Rm, hRJ, hRmJ, hR0, Or.inl ⟨t', mJ, βJ, ht', hmJ, hβJ, hlongJ, hviaJ, ?_⟩⟩
@@ -226,7 +227,7 @@ theorem nbrpmmx_assembly
       exact nbrpmmx_K_omega_sl n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K hKG₀
         hKcomp hJK R Rm hRJ hR0 hKne homega kJ βJ hrankJ
   · obtain ⟨R, Rm, hRJ, hRmJ, hR0, m'J, βJ, hβJ, hviaJ, hrankJ⟩ :=
-      nbrpmmx_J_su n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ hsu
+      nbrpmmx_J_su n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hE heJ hsu
     refine ⟨R, Rm, hRJ, hRmJ, hR0, Or.inr (Or.inr ⟨m'J, βJ, hβJ, hviaJ, ?_⟩)⟩
     intro e heD he1 K hKG₀ hKcomp hJK hKne hZodd
     exact nbrpmmx_K_su n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K hKG₀
@@ -237,7 +238,7 @@ theorem nbrpmmx_assembly
       · exact absurd hself hsl.1
       · exact ⟨hne, hpair, heq, hsl.2⟩
     obtain ⟨R, Rm, hRJ, hRmJ, hR0, kJ, βJ, hβJ, hviaJ, hrankJ⟩ :=
-      nbrpmmx_J_sl n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ hsl'
+      nbrpmmx_J_sl n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hE heJ hsl'
     refine ⟨R, Rm, hRJ, hRmJ, hR0, Or.inr (Or.inl ⟨kJ, βJ, hβJ, hviaJ, ?_⟩)⟩
     intro e heD he1 K hKG₀ hKcomp hJK hKne hZodd
     exact nbrpmmx_K_sl n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K hKG₀

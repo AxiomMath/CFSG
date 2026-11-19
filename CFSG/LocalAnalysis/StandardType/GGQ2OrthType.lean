@@ -99,12 +99,12 @@ private noncomputable def splitPlaneForm (a s : ℕ) (δ : Fin 2) :
     rw [splitSum a s δ.val]
     refine congrArg₂ (· + ·) ?_ ?_
     · refine Finset.sum_congr rfl fun x _ => ?_
-      rw [if_pos x.isLt, if_pos (by rw [Fin.val_castAdd, Fin.val_castAdd]; omega)]
+      rw [ite_eq_left x.isLt, ite_eq_left (by rw [Fin.val_castAdd, Fin.val_castAdd]; omega)]
     · refine Finset.sum_congr rfl fun x _ => ?_
       rw [Fin.val_cast, Fin.val_natAdd]
       by_cases h : (x : ℕ) < s
-      · rw [if_pos h, if_pos (by omega)]
-      · rw [if_neg h, if_neg (by omega)]
+      · rw [ite_eq_left h, ite_eq_left (by omega)]
+      · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 omit [Finite K] [CharP K 2] in
 private theorem isPlusType_zero (δ : Fin 2) : IsPlusType (planeQForm K 0 δ) := by

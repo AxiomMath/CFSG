@@ -34,7 +34,7 @@ theorem qTwoD_gn_of_chart4 {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs L D J
       subst n
       exact qTwoD_not_unitaryChart_four hC hLB hPJ hnbr hF hloc hrange hdiag
     exact qTwoD_gn_of_unitaryChart hC hLB hPJ hnbr hF hloc hrange hdiag hn
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hJX : J ≤ K' := le_of_ggNbr hLB hC.1 hC.2.2 (hPJ G p B x L D J hC.1 hC.2.2) hnbr
     have hcomp := ggIsComponentOf_inf_centralizer_nbr hC hnbr hJX
     have hxBs : x ∈ Bs := hC.2.1.1 hC.1.2.2.2.2.2.2.1.2.1

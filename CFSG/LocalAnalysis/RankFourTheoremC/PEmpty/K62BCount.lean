@@ -30,6 +30,7 @@ section Conjugate
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem centralPart_cjComp (g : Y) (K : ComponentIndex Y) (U : Subgroup Y) :
     centralPart (cjComp g K) (U.map (MulAut.conj g).toMonoidHom) =
       (centralPart K U).map (MulAut.conj g).toMonoidHom := by
@@ -61,6 +62,7 @@ theorem centralPart_cjComp (g : Y) (K : ComponentIndex Y) (U : Subgroup Y) :
       _ = g * (y * (g⁻¹ * m * g)) * g⁻¹ := h'
       _ = g * y * g⁻¹ * m := by group
 
+omit [Finite Y] in
 theorem card_centralPart_cjComp (g : Y) (K : ComponentIndex Y) (U : Subgroup Y) :
     Nat.card (centralPart (cjComp g K) (U.map (MulAut.conj g).toMonoidHom)) =
       Nat.card (centralPart K U) := by
@@ -76,6 +78,7 @@ section Join
 variable {Y : Type*} [Group Y] [Finite Y] {ι : Type*} [Fintype ι]
   (K : ι → ComponentIndex Y) (U : ι → Subgroup Y)
 
+omit [Fintype ι] in
 theorem pairwise_commute (hK : Function.Injective K) (hU : ∀ i, U i ≤ (K i).1) :
     Pairwise fun i j : ι => ∀ x y : Y, x ∈ U i → y ∈ U j → Commute x y :=
   fun _ _ hij x y hx hy => componentIndex_commute (hK.ne hij) x y (hU _ hx) (hU _ hy)
@@ -141,10 +144,12 @@ theorem commute_joinMul_iff [DecidableEq ι] (hK : Function.Injective K)
 @[expose] def centralPi : Subgroup (∀ i, U i) :=
   Subgroup.pi Set.univ fun i => (centralPart (K i) (U i)).subgroupOf (U i)
 
+omit [Finite Y] [Fintype ι] in
 theorem mem_centralPi_iff {u : ∀ i, U i} :
     u ∈ centralPi K U ↔ ∀ i, (u i : Y) ∈ centralPart (K i) (U i) := by
   simp [centralPi, Subgroup.mem_pi, mem_subgroupOf]
 
+omit [Finite Y] in
 theorem card_centralPi :
     Nat.card (centralPi K U) = ∏ i, Nat.card (centralPart (K i) (U i)) := by
   have h : Nat.card (centralPi K U) =
@@ -174,16 +179,19 @@ theorem ker_joinMul_le [DecidableEq ι] (hK : Function.Injective K) (hU : ∀ i,
 
 variable {p : ℕ}
 
+omit [Finite Y] [Fintype ι] in
 theorem pi_mul_comm (hUe : ∀ i, IsElemAbelian p (U i)) (u v : ∀ i, U i) : u * v = v * u := by
   funext i
-  haveI := (hUe i).1
+  have := (hUe i).1
   exact mul_comm' (u i) (v i)
 
+omit [Finite Y] [Fintype ι] in
 theorem pi_pow_eq_one (hUe : ∀ i, IsElemAbelian p (U i)) (u : ∀ i, U i) : u ^ p = 1 := by
   funext i
   apply Subtype.ext
   simpa using (hUe i).2 (u i : Y) (u i).2
 
+omit [Finite Y] [Fintype ι] in
 theorem isPGroup_pi (hUe : ∀ i, IsElemAbelian p (U i)) : IsPGroup p (∀ i, U i) :=
   fun u => ⟨1, by simpa using pi_pow_eq_one U hUe u⟩
 
@@ -211,7 +219,7 @@ end Count
 
 section Main
 
-open Count
+open _root_.CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.K62B.Count
 
 theorem card_iSup_components {Y : Type*} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)
     {ι : Type*} [Fintype ι] (K : ι → ComponentIndex Y) (hK : Function.Injective K)
@@ -237,14 +245,14 @@ theorem card_iSup_components {Y : Type*} [Group Y] [Finite Y] {p : ℕ} (hp : p.
       intro i
       by_cases hi : i = j
       · subst hi
-        simpa using c.2
+        simp
       · simp [Pi.mulSingle_eq_of_ne hi, one_mem]
     have hv' : (Pi.mulSingle j (⟨c, hcU⟩ : U j) : ∀ i, U i) ∉ (joinMul K U hK hU).ker := by
       rw [MonoidHom.mem_ker, joinMul_mulSingle]
       exact fun h => hc (Subtype.ext h)
     have hlt : (joinMul K U hK hU).ker < centralPi K U :=
       lt_of_le_of_ne hker fun h => hv' (h ▸ hv)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hP := isPGroup_pi U hUe
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (hP.to_subgroup (joinMul K U hK hU).ker)
     obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp (hP.to_subgroup (centralPi K U))

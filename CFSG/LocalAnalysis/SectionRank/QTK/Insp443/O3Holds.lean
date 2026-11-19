@@ -18,9 +18,9 @@ theorem o3Facts_holds : O3Facts := by
     rw [h] at h0
     exact_mod_cast h0
   refine ⟨fun E hE => ?_, fun E hE h16 h hhE hh => ?_⟩
-  · haveI := isElemAbelian_iff_isElementaryAbelian.mp hE
+  · have := isElemAbelian_iff_isElementaryAbelian.mp hE
     exact CFSG.LieType.TwoRank.card_le_sixteen_of_isElementaryAbelian_statedProj hF hι E
-  · haveI := isElemAbelian_iff_isElementaryAbelian.mp hE
+  · have := isElemAbelian_iff_isElementaryAbelian.mp hE
     exact CFSG.LieType.TwoRank.trace_eq_zero_of_card_eq_sixteen_statedProj hF hι E h16 hhE hh
 
 end CFSG.SectionRank.QTK.Insp443

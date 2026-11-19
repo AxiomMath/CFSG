@@ -40,7 +40,7 @@ theorem uniElemAbelian_rangeP {p : ℕ} {G : Type*} [Group G] {C : Type*} [CommG
 theorem uniExists_cyclic_prime {p : ℕ} [OddPrime p] (h : UnitaryFieldData 2 f K)
     (h3 : p ∣ 2 ^ f + 1) :
     ∃ C : Subgroup Kˣ, Nat.card C = p ∧ ∀ x ∈ C, h.norm (x : K) = 1 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hcard : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card, show 2 * f = f * 2 from mul_comm _ _, pow_mul]
     have : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by
@@ -72,7 +72,7 @@ theorem uniExists_elemAbelian_sq_su {p : ℕ} [OddPrime p] {s ε : ℕ} (hm : 3 
     (h3 : p ∣ 2 ^ f + 1) :
     ∃ E : Subgroup (GL (HypIndex s ε) K), E ≤ hypSU h s ε ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 2 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := s) (ε := ε) h
   obtain ⟨C, hCcard, hCnorm⟩ := uniExists_cyclic_prime h h3
   have hC3 : ∀ x : C, x ^ p = 1 := fun x => by
@@ -94,7 +94,7 @@ theorem uniFour_le_pRankP {p : ℕ} [OddPrime p] {Y : Type} [Group Y] [Finite Y]
     {r ε : ℕ}
     (hn : 6 ≤ 2 * r + ε) (h3 : p ∣ 2 ^ f + 1) (ρ : hypSU h r ε →* ↥L)
     (hZ : ∀ y, ρ y ∈ Subgroup.center ↥L ↔ y ∈ hypScalars h r ε) : 4 ≤ Open.pRank p L := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
   obtain ⟨C, hCcard, hCnorm⟩ := uniExists_cyclic_prime h h3
   have hC3 : ∀ x : C, x ^ p = 1 := fun x => by
@@ -132,7 +132,7 @@ theorem uniExists_pow_eq_normOneP {p : ℕ} [OddPrime p] (h : UnitaryFieldData 2
     (hm : ¬ p ∣ Nat.gcd m (2 ^ f + 1)) {d u : Kˣ} (hd : h.norm (d : K) = 1)
     (hu : h.norm (u : K) = 1) (hdu : d ^ (p ^ k) = u ^ m) :
     ∃ μ : Kˣ, h.norm (μ : K) = 1 ∧ μ ^ m = d := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let Z : Subgroup Kˣ := (powMonoidHom (2 ^ f + 1) : Kˣ →* Kˣ).ker
   have hZmem : ∀ x : Kˣ, x ∈ Z ↔ h.norm (x : K) = 1 := fun x => by
     rw [UnitaryFieldData.norm_eq_pow, ← Units.val_pow_eq_pow_val, Units.val_eq_one]
@@ -167,7 +167,7 @@ theorem uniHZP {p : ℕ} [OddPrime p] {Y : Type} [Group Y] [Finite Y] {L : Subgr
     (hβx : uniLeviHom h hε hI x ∈ E.map (MonoidHom.mulSingle (uniBlockGroup K s ε I) j)) :
     x = 1 := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hxs : (x : hypSU h (t + s) ε) ∈ hypScalars h (t + s) ε :=
     (hZ _).1 (by rw [hρx]; exact Subgroup.one_mem _)

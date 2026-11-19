@@ -15,7 +15,7 @@ variable {G : Type} [Group G] {a z p : G}
 
 private theorem lines_orderOf_mul_two {u t : G} (hu : orderOf u = 2) (ht : orderOf t = 2)
     (hcomm : u * t = t * u) (hne : u * t ≠ 1) : orderOf (u * t) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ hne
   have hu2 : u ^ 2 = 1 := by rw [← pow_orderOf_eq_one, hu]
   have ht2 : t ^ 2 = 1 := by rw [← pow_orderOf_eq_one, ht]
@@ -107,7 +107,7 @@ theorem lines_not_twoA_of_five (h : IsF5Type a z) (hT4 : TableIVFacts a z) {x t 
   · obtain ⟨h2, -⟩ := perp_orderOf_row_five h hta hi
     omega
 
-theorem lines_five_A (hU : U35Facts) (h : IsF5Type a z) (hnc : ¬ IsConj a z)
+theorem lines_five_A (hU : U35Facts) (h : IsF5Type a z) (_hnc : ¬ IsConj a z)
     (hPar : ParityFacts a z) (hT4 : TableIVFacts a z) (hT5 : Vert TableVFacts a z)
     (hT7 : TableVIIFacts a z) {x : G} (hx : x ∈ orb5A a a) :
     IsConjOrbit (Gxy a x) {t | t ∈ Gxy a x ∧ orderOf t = 2} ∧

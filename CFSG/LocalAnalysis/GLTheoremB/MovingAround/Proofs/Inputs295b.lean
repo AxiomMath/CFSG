@@ -159,7 +159,7 @@ theorem no295_suzM :
       IsConj k ⟨c, hc⟩ := fun hc hkc => isConj_iff.2 ⟨⟨h, hh⟩, Subtype.ext (by simpa using hkc)⟩
   have hy : Excl295At (⟨yPerm, yPerm_mem⟩ : ↥suzM) := by
     obtain ⟨eA⟩ := nonempty_mulEquiv_Esub_alt6
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     have hcard : Nat.card Esub = 360 := Esub_derived.2
     exact excl295At_of_ambient_simple yPerm_mem Esub_le_C eA.isSimpleGroup
       (exists_noncomm_of_isSimpleGroup eA.isSimpleGroup (by rw [hcard]; norm_num))
@@ -218,7 +218,7 @@ theorem no295_JH :
 theorem no295_HN
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .HN)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .HN) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.HN := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.HN := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.HN
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.HN) hf' ↥JH (inferInstance : Group ↥JH)
     (inferInstance : Finite ↥JH) hnEquivJ no295_JH
@@ -240,7 +240,7 @@ theorem allExcl295_Fi22J :
 theorem no295_Fi22
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi22)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Fi22 := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Fi22 := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Fi22
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Fi22) hf' ↥CFSG.Sporadic.Fi22.J
     (inferInstance : Group ↥CFSG.Sporadic.Fi22.J) (inferInstance : Finite ↥CFSG.Sporadic.Fi22.J)
@@ -264,7 +264,7 @@ theorem allExcl295_Fi23J :
 theorem no295_Fi23
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi23)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Fi23) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Fi23 := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Fi23 := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Fi23
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Fi23) hf' ↥CFSG.Sporadic.Fi23.J
     (inferInstance : Group ↥CFSG.Sporadic.Fi23.J) (inferInstance : Finite ↥CFSG.Sporadic.Fi23.J)
@@ -291,7 +291,7 @@ theorem allExcl295_co2P :
 theorem no295_Co2
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co2)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Co2) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Co2 := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Co2 := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Co2
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Co2) hf' ↥co2P
     (inferInstance : Group ↥co2P) (inferInstance : Finite ↥co2P)
@@ -312,7 +312,7 @@ theorem allExcl295_ThJ :
 theorem no295_Th
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Th) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Th := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Th := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Th
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Th) hf' ↥CFSG.Sporadic.Th.J
     (inferInstance : Group ↥CFSG.Sporadic.Th.J)
@@ -368,7 +368,7 @@ theorem co1_eE_mem
 
 theorem allExcl295_GA :
     @AllExcl295 ↥GA _ CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.finite_GA := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   intro s hs
   obtain ⟨k, r, hr, hkr⟩ := Co1Spor.exists_rep hs
   refine Excl295At.of_isConj (y := r) (isConj_iff.2 ⟨k⁻¹, by rw [← hkr]; group⟩) ?_
@@ -397,7 +397,7 @@ theorem allExcl295_GA :
 theorem no295_Co1
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Co1)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Co1) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Co1 := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Co1 := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Co1
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Co1) hf' ↥GA
     (inferInstance : Group ↥GA) Co1T.finite_GA
@@ -413,7 +413,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance
 theorem fi24_excl_of_fix
     {x : ↥CFSG.Sporadic.Fi24.J} (hx : orderOf x = 3) {u : Fin 306936} (hu : x • u = u) :
     @Excl295At ↥CFSG.Sporadic.Fi24.J _ Fi24Three.finite_J x := by
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥CFSG.Sporadic.Fi24.J CFSG.Sporadic.Fi24.root u
   have hyM : g⁻¹ * x * g ∈ CFSG.Sporadic.Fi24.M := by
     rw [MulAction.mem_stabilizer_iff, mul_smul, mul_smul, hg, hu, ← hg, inv_smul_smul]
@@ -434,7 +434,7 @@ theorem fi24_excl_of_fix
 theorem fi24_excl_xJ :
     @Excl295At ↥CFSG.Sporadic.Fi24.J _ Fi24Three.finite_J
       CFSG.HardMathSupport.Dickson.I271.TabFi24.xJ := by
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
   have hF := CFSG.HardMathSupport.Dickson.I271.TabFi24.frame_facts
   obtain ⟨-, -, -, hcard⟩ := CFSG.HardMathSupport.Dickson.I271.TabFi24.leaf_closure_of_six_some
     CFSG.HardMathSupport.Dickson.I271.TabFi24.epsJ hF.eps_rel hF.eps_ne
@@ -450,7 +450,7 @@ theorem fi24_excl_xJ :
 
 theorem allExcl295_Fi24J :
     @AllExcl295 ↥CFSG.Sporadic.Fi24.J _ Fi24Three.finite_J := by
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Fi24Three.finite_J
   intro x hx
   obtain ⟨i, hi⟩ := Fi24Sylow.fi24ThreeClasses_holds x hx
   have hord : orderOf (fi24Rep3 i) = 3 := by
@@ -470,7 +470,7 @@ theorem allExcl295_Fi24J :
 theorem no295_Fi24
     [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) := by
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.Fi24prime := hf
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.Fi24prime := hf
   exact @No295.of_equiv CFSG.Blueprint.NativeSporadic.Fi24prime
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.Fi24prime) hf' ↥CFSG.Sporadic.Fi24.J
     (inferInstance : Group ↥CFSG.Sporadic.Fi24.J) Fi24Three.finite_J
@@ -487,7 +487,7 @@ theorem allExcl295_MGriess [Finite MGriess] : AllExcl295 MGriess := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv MGriess φ.toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv MGriess φ.toEquiv
   intro s hs
   by_cases hinv : InvertedByTwoA s
   · obtain ⟨α, -, -, -, i, hi, hsh⟩ :=
@@ -519,10 +519,10 @@ theorem allExcl295_MGriess [Finite MGriess] : AllExcl295 MGriess := by
 theorem no295_M [hf : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M)] :
     No295 (CFSG.Blueprint.NativeSporadic.Carrier .M) := by
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_griess_y443Derived
-  haveI hf' : Finite CFSG.Blueprint.NativeSporadic.MonsterModel.y443Derived.Carrier := hf
-  haveI hg : Finite CFSG.Blueprint.NativeSporadic.MonsterModel.griess.Carrier :=
+  have hf' : Finite CFSG.Blueprint.NativeSporadic.MonsterModel.y443Derived.Carrier := hf
+  have hg : Finite CFSG.Blueprint.NativeSporadic.MonsterModel.griess.Carrier :=
     Finite.of_equiv _ e.symm.toEquiv
-  haveI : Finite MGriess := hg
+  have : Finite MGriess := hg
   exact No295.of_equiv e.symm (No295.of_all allExcl295_MGriess)
 
 end Monster
@@ -698,8 +698,8 @@ theorem input29_5'LieD42_of_t2
     Input29_5'LieD42 := by
   intro X _ _ L hLn hq hK hC d he h42 hrk x hx hC4 hrk3 hsolv Q hQ
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
   have hZ : Subgroup.center ↥L = ⊥ := center_eq_bot_of_cent hC
   have hD42 : catalogIs (↥L ⧸ Subgroup.center ↥L) CFSG.LocalAnalysis.GLTheoremA.S9.isD4two :=
     ⟨_, h42, he⟩
@@ -791,7 +791,7 @@ theorem input29_5'LieD42_of_t2
         (((CFSG.HardMathSupport.Dickson.Bal207.D42Tri.l0Sub.comap
           (CFSG.HardMathSupport.Dickson.Bal207.D42Tri.conjEmb e g)).equivMapOfInjective _
           hinj).trans (MulEquiv.subgroupCongr hT1))
-    haveI := CFSG.HardMathSupport.Dickson.Bal207.D42Tri.isSimpleGroup_l0Sub
+    have := CFSG.HardMathSupport.Dickson.Bal207.D42Tri.isSimpleGroup_l0Sub
     have hsT := f.isSimpleGroup
     have hcT : Nat.card ↥((CFSG.HardMathSupport.Dickson.Bal207.D42Tri.l0Sub.comap
         (CFSG.HardMathSupport.Dickson.Bal207.D42Tri.conjEmb e g)).map L.subtype) = 6048 := by
@@ -889,8 +889,8 @@ theorem input29_5'Lie_of_id
   intro X _ _ L hLn hq hK hC d he hchev hrk x hx hC4 hrk3 hsolv
   obtain ⟨hD42, hSyl⟩ := hId X L hLn hq hK hC d he hchev hrk x hx hC4 hrk3 hsolv
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
   have hZ : Subgroup.center ↥L = ⊥ := center_eq_bot_of_cent hC
   have hL42 : catalogIs ↥L CFSG.LocalAnalysis.GLTheoremA.S9.isD4two :=
     catalogIs_of_center_eq_bot hZ hD42
@@ -947,7 +947,6 @@ theorem input29_5'Lie_of_id
     refine ⟨E.map L.subtype, fun y hy => ⟨⟨y, hDL hy⟩, hDE hy, rfl⟩, Subgroup.map_subtype_le E,
       CFSG.SectionRank.isElemAbelian_map hEa _, ?_⟩
     rw [Subgroup.card_map_of_injective L.subtype_injective]
-    norm_num
     omega
 
 end Lie

@@ -586,7 +586,7 @@ public theorem CFSG.section10_primeRank_normalizer_of_derived_sylow_ge_of_not_be
   let SMsub : Subgroup M := (S : Subgroup Usub).map Usub.subtype
   have hSMsub_p : IsPGroup p.val SMsub := by
     simpa [SMsub] using
-      IsPGroup.map (p := p.val) (H := (S : Subgroup Usub)) S.isPGroup' Usub.subtype
+      IsPGroup.map (p := p.val) (H := (S : Subgroup Usub)) S.isPGroup Usub.subtype
   have hSMsub_not_index : ¬ p.val ∣ SMsub.index := by
     have hidx :
         SMsub.index = (S : Subgroup Usub).index * Usub.index := by
@@ -612,7 +612,7 @@ public theorem CFSG.section10_primeRank_normalizer_of_derived_sylow_ge_of_not_be
   have hUsub_rank : 2 ≤ primeRank p.val Usub :=
     hS_rank.trans <|
       (section10_groupRank_le_primeRank_of_isPGroup_local
-        (R := (S : Subgroup Usub)) (p := p.val) S.isPGroup').trans
+        (R := (S : Subgroup Usub)) (p := p.val) S.isPGroup).trans
         (section8_primeRank_le_of_subgroup (G := Usub) (S : Subgroup Usub) p.val)
   let eU : Usub ≃* U :=
     Subgroup.subgroupOfEquivOfLe (H := U) (K := M) hU_le_M
@@ -795,7 +795,7 @@ public theorem CFSG.section10_proposition_10_14_a_sylow
   · intro hX
     have hNarrowP : IsNarrowPGroup p.val P := by
       exact
-        (theorem_5_3 (p := p.val) hpodd (R := P) P.isPGroup' hPrank).2
+        (theorem_5_3 (p := p.val) hpodd (R := P) P.isPGroup hPrank).2
           ⟨X, hX.1, hX.2⟩
     exact (hnotNarrow P) hNarrowP
   · intro hX

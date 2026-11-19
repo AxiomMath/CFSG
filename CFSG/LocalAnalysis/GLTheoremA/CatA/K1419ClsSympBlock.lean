@@ -75,13 +75,13 @@ private theorem range_comp_eq_commutator {A : Subgroup G} {B X : Type*} [Group B
 private theorem not_isSolvable_of_isQuasisimple_commutator {H : Subgroup G}
     (hQ : CFSG.IsQuasisimple ↥⁅H, H⁆) : ¬ Group.IsSolvable ↥H := by
   intro hs
-  haveI := hs
+  have := hs
   have hle : ⁅H, H⁆ ≤ H := commutator_le_self' H
-  haveI : Group.IsSolvable ↥⁅H, H⁆ :=
+  have : Group.IsSolvable ↥⁅H, H⁆ :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥⁅H, H⁆ := hQ.1
-  haveI : Nontrivial ↥⁅H, H⁆ := by
+  have : Group.IsPerfect ↥⁅H, H⁆ := hQ.1
+  have : Nontrivial ↥⁅H, H⁆ := by
     obtain ⟨a, b, hab⟩ := hQ.2.2
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -109,7 +109,7 @@ private theorem four_le_card_of_equiv_sl_two {E : Type} [Field E] [Fintype E] {A
     (φ : A ≃* Matrix.SpecialLinearGroup (Fin 2) E) (hQ : CFSG.IsQuasisimple ↥⁅A, A⁆) :
     4 ≤ Fintype.card E := by
   by_contra hlt
-  haveI := isSolvable_sl_two_of_card_lt_four (not_le.1 hlt)
+  have := isSolvable_sl_two_of_card_lt_four (not_le.1 hlt)
   exact not_isSolvable_of_isQuasisimple_commutator hQ
     (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
 
@@ -166,7 +166,7 @@ private theorem isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : Type} [F
   have hq2 : 2 ≤ ℓ ^ g := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : g ≠ 0) hE.prime.one_lt
     omega
-  haveI := finite_generalLinearGroup hE (W := W)
+  have := finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · have hq : ¬ ((Module.finrank E W = 2 → 4 ≤ ℓ ^ g) ∧ (Module.finrank E W = 3 → 3 ≤ ℓ ^ g)) := by
       rcases hsmall with h | h
@@ -287,10 +287,10 @@ private theorem tame_of_mulEquiv_gl {r R : ℕ} {K : Type} [Field K] [Finite K]
     {A : Subgroup (StatedSp R K)} (φ : A ≃* Matrix.GeneralLinearGroup (Fin r) K) :
     CFSG.IsQuasisimple ↥⁅A, A⁆ ∨ Group.IsSolvable ↥A := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rcases Nat.lt_or_ge r 2 with hr | hr
   · right
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
       isSolvable_gl_of_le_one (by omega)
     exact Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
   · by_cases hsmall : r = 2 ∧ Nat.card K ≤ 3
@@ -299,7 +299,7 @@ private theorem tame_of_mulEquiv_gl {r R : ℕ} {K : Type} [Field K] [Finite K]
       have hcard : Nat.card K = 2 ∨ Nat.card K = 3 := by
         have h2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
         omega
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
       exact Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
     · left
@@ -349,8 +349,8 @@ private theorem tame_of_mulEquiv_heldGU {r n : ℕ} {K E : Type} [Field K] [Fini
     {R : ℕ} {A : Subgroup (StatedSp R K)} (φ : A ≃* heldGU r E τ hτ) :
     CFSG.IsQuasisimple ↥⁅A, A⁆ ∨ Group.IsSolvable ↥A := by
   classical
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite E
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite E
   have hE : UnitaryFieldData 2 n E :=
     { prime := Nat.prime_two
       one_le := hn
@@ -365,8 +365,8 @@ private theorem tame_of_mulEquiv_heldGU {r n : ℕ} {K E : Type} [Field K] [Fini
     rw [hτQ y, hK]
     change y ^ 2 ^ n = hE.bar y
     rw [hE.bar_apply]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   let B : (Fin r → E) →ₛₗ[hE.bar] (Fin r → E) →ₗ[E] E :=
     CFSG.LinearGroups.stdHermForm hE r
   have hB : B.IsSymm := CFSG.LinearGroups.stdHermForm_isSymm hE r
@@ -391,7 +391,7 @@ private theorem tame_of_mulEquiv_heldGU {r n : ℕ} {K E : Type} [Field K] [Fini
       ¬ ((Module.finrank E (Fin r → E) = 2 → 4 ≤ 2 ^ n) ∧
         (Module.finrank E (Fin r → E) = 3 → 3 ≤ 2 ^ n))
   · right
-    haveI : Group.IsSolvable ↥(sesqUnitaryGroup B) :=
+    have : Group.IsSolvable ↥(sesqUnitaryGroup B) :=
       isSolvable_sesqUnitaryGroup_of_small hE hB hBl hsmall
     exact Group.isSolvable_of_surjective (f := φU.symm.toMonoidHom) φU.symm.surjective
   · left
@@ -458,7 +458,7 @@ private theorem centerQuot_equiv_pSimple_of_component {S : Type} [Group S] [Fini
   have hO : GLAPPrimeCore 3 ↥J ≤ Subgroup.center ↥J := by
     by_cases htop : GLAPPrimeCore 3 ↥J = ⊤
     · exfalso
-      haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
+      have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
       obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot 3 J)
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -554,7 +554,7 @@ private theorem spFactor_cases {s r : ℕ} {K : Type} [Field K] [Finite K]
     (s = 2 ∧ Nat.card K = 2 ∧
       Nonempty (↥⁅A, A⁆ ≃* ↥(commutator (StatedSp 2 K)))) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_cases hs1 : s = 1
   · subst hs1
     left
@@ -769,7 +769,7 @@ private theorem sbz_other_not_quasisimple {K : Type} [Field K] [Finite K] {m : �
     ¬ CFSG.IsQuasisimple ↥⁅Q, Q⁆ := by
   classical
   intro hQq
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hbij := CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
     (r := m) (K := K)
   have hπinj : Function.Injective (proj m K) := hbij.1
@@ -835,7 +835,7 @@ private theorem sbz_other_not_quasisimple {K : Type} [Field K] [Finite K] {m : �
     induction b using QuotientGroup.induction_on
     rw [QuotientGroup.eq, hcenter]
     trivial
-  haveI := hQp.2.1.toNontrivial
+  have := hQp.2.1.toNontrivial
   exact not_subsingleton _ hsub
 
 private theorem sba_map_elemAbelian {G H : Type*} [Group G] [Group H] {p : ℕ}
@@ -883,7 +883,7 @@ private theorem sba_elemAbelian_proj₂ {G : Type*} [Group G] {P Q : Subgroup G}
   simpa only [sbz_proj₂, Subgroup.map_map] using h
 
 private theorem sba_three_le_or_card_four {K : Type} [Field K] [Fintype K] {r : ℕ}
-    (h4 : 4 ≤ Nat.card K) (hr : 2 ≤ r) : 3 ≤ r ∨ ∃ s : Finset K, s.card = 4 := by
+    (h4 : 4 ≤ Nat.card K) (_hr : 2 ≤ r) : 3 ≤ r ∨ ∃ s : Finset K, s.card = 4 := by
   rcases Nat.lt_or_ge r 3 with h3 | h3
   · right
     have h4' : 4 ≤ (Finset.univ : Finset K).card := by
@@ -894,12 +894,12 @@ private theorem sba_three_le_or_card_four {K : Type} [Field K] [Fintype K] {r : 
 
 private theorem sba_isCyclic_gl_one (K : Type) [Field K] [Finite K] :
     IsCyclic (Matrix.GeneralLinearGroup (Fin 1) K) := by
-  haveI : Finite Kˣ := Finite.of_injective Units.val Units.val_injective
-  haveI : Finite ↥(⊤ : Subgroup Kˣ) :=
+  have : Finite Kˣ := Finite.of_injective Units.val Units.val_injective
+  have : Finite ↥(⊤ : Subgroup Kˣ) :=
     Finite.of_injective (fun x : ↥(⊤ : Subgroup Kˣ) => (x : Kˣ)) Subtype.val_injective
   have hcycK : IsCyclic Kˣ :=
     (MulEquiv.isCyclic Subgroup.topEquiv).mp (isCyclic_subgroup_units (⊤ : Subgroup Kˣ))
-  haveI : IsCyclic Kˣ := hcycK
+  have : IsCyclic Kˣ := hcycK
   refine isCyclic_of_injective (Matrix.GeneralLinearGroup.det (n := Fin 1) (R := K)) ?_
   intro A B hAB
   refine Units.ext (Matrix.ext fun i j => ?_)
@@ -950,8 +950,8 @@ private theorem sba_isQuasisimple_heldGU {r n : ℕ} {K Ef : Type} [Field K] [Fi
     {R : ℕ} {A : Subgroup (StatedSp R K)} (φ : A ≃* heldGU r Ef τ hτ) :
     CFSG.IsQuasisimple ↥⁅A, A⁆ := by
   classical
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite Ef
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite Ef
   have h2n : 4 ≤ 2 ^ n := by rw [← hK]; exact h4
   have hE : UnitaryFieldData 2 n Ef :=
     { prime := Nat.prime_two
@@ -967,8 +967,8 @@ private theorem sba_isQuasisimple_heldGU {r n : ℕ} {K Ef : Type} [Field K] [Fi
     rw [hτQ y, hK]
     change y ^ 2 ^ n = hE.bar y
     rw [hE.bar_apply]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP Ef 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP Ef 2 := hE.charP
   let B : (Fin r → Ef) →ₛₗ[hE.bar] (Fin r → Ef) →ₗ[Ef] Ef :=
     CFSG.LinearGroups.stdHermForm hE r
   have hB : B.IsSymm := CFSG.LinearGroups.stdHermForm_isSymm hE r
@@ -1050,8 +1050,8 @@ private theorem sbz_rank_a1 {K : Type} [Field K] [Finite K] {n m : ℕ}
     {E : Subgroup (StatedSp m K)} (hE : E ≤ Subgroup.centralizer ({x} : Set (StatedSp m K)))
     (hEab : CFSG.Open.IsElemAbelian 3 E) : Nat.card E ≤ 9 := by
   classical
-  haveI := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  have := hchar
+  have : Fintype K := Fintype.ofFinite K
   have hn : 1 ≤ n := by
     by_contra hn
     have hn0 : n = 0 := by omega
@@ -1101,8 +1101,8 @@ private theorem sbz_rank_a1 {K : Type} [Field K] [Finite K] {n m : ℕ}
         exact hnotq (sba_isQuasisimple_gl (K := K) hr2 (sba_three_le_or_card_four h4 hr2) eGL)
       have hr_eq : r = 1 := by omega
       subst hr_eq
-      haveI : IsCyclic (Matrix.GeneralLinearGroup (Fin 1) K) := sba_isCyclic_gl_one K
-      haveI : IsCyclic ↥A₂ := (MulEquiv.isCyclic eGL).mpr inferInstance
+      have : IsCyclic (Matrix.GeneralLinearGroup (Fin 1) K) := sba_isCyclic_gl_one K
+      have : IsCyclic ↥A₂ := (MulEquiv.isCyclic eGL).mpr inferInstance
       exact CFSG.HardMathSupport.Solomon.LocalBalance.card_le_of_isCyclic_of_isElemAbelian
         hEA2 (by norm_num) (Subgroup.isCyclic (sbz_proj₂ hcomm hdisj E))
     · have hrle : r ≤ 1 := by
@@ -1111,9 +1111,9 @@ private theorem sbz_rank_a1 {K : Type} [Field K] [Finite K] {n m : ℕ}
         exact hnotq (sba_isQuasisimple_heldGU hK hn hEcf hτQf hr2 h4 eGU)
       have hr_eq : r = 1 := by omega
       subst hr_eq
-      haveI : IsCyclic (Matrix.GeneralLinearGroup (Fin 1) Ef) := sba_isCyclic_gl_one Ef
+      have : IsCyclic (Matrix.GeneralLinearGroup (Fin 1) Ef) := sba_isCyclic_gl_one Ef
       have hcycGU : IsCyclic ↥(heldGU 1 Ef τ hτ) := Subgroup.isCyclic (heldGU 1 Ef τ hτ)
-      haveI : IsCyclic ↥A₂ := (MulEquiv.isCyclic eGU).mpr hcycGU
+      have : IsCyclic ↥A₂ := (MulEquiv.isCyclic eGU).mpr hcycGU
       exact CFSG.HardMathSupport.Solomon.LocalBalance.card_le_of_isCyclic_of_isElemAbelian
         hEA2 (by norm_num) (Subgroup.isCyclic (sbz_proj₂ hcomm hdisj E))
   have hEsup : E ≤ A₁ ⊔ A₂ := by rw [hjoin]; exact hE
@@ -1148,7 +1148,7 @@ private theorem sbz_rank_gl {K : Type} [Field K] [Finite K] {n m : ℕ}
     {E : Subgroup (StatedSp m K)} (hE : E ≤ Subgroup.centralizer ({x} : Set (StatedSp m K)))
     (hEab : CFSG.Open.IsElemAbelian 3 E) : Nat.card E ≤ 9 := by
   classical
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   have hdisj : A₂ ⊓ A₁ = ⊥ := by
     refine le_antisymm ?_ bot_le
     intro g hg
@@ -1165,7 +1165,7 @@ private theorem sbz_rank_gl {K : Type} [Field K] [Finite K] {n m : ℕ}
       · refine le_antisymm ?_ bot_le
         intro y _
         rw [Subgroup.mem_bot]
-        haveI : Subsingleton (StatedSp 0 K) := by
+        have : Subsingleton (StatedSp 0 K) := by
           have hcard : Nat.card (StatedSp 0 K) = 1 := by
             rw [SymplecticFlag.card_statedSp]
             simp
@@ -1187,7 +1187,7 @@ private theorem sbz_rank_gl {K : Type} [Field K] [Finite K] {n m : ℕ}
   have hA₁le : A₁ ≤ ⊥ := by
     intro g hg
     rw [Subgroup.mem_bot]
-    haveI : Subsingleton ↥A₁ := by
+    have : Subsingleton ↥A₁ := by
       have hcard : Nat.card ↥A₁ = 1 := by
         rw [Nat.card_congr hsφ.toEquiv, hs0, SymplecticFlag.card_statedSp]
         simp
@@ -1236,8 +1236,8 @@ private theorem sbc_card_quot_center_a6 {R F : Type} [Group R] [Field F] [Finite
 
 private theorem a1_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
     (hK : Nat.card K = 2 ^ n) (hchar : CharP K 2) (hm : 1 ≤ m) {x : StatedSp m K}
-    (hx : x ^ 3 = 1) {J : Subgroup (StatedProj (StatedSp m K))}
-    (hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
+    (_hx : x ^ 3 = 1) {J : Subgroup (StatedProj (StatedSp m K))}
+    (_hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
     {A₁ A₂ : Subgroup (StatedSp m K)}
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a)
     (hjoin : A₁ ⊔ A₂ = Subgroup.centralizer ({x} : Set (StatedSp m K)))
@@ -1250,7 +1250,7 @@ private theorem a1_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
     (hJeq : J = (⁅A₁, A₁⁆).map (proj m K)) :
     SympBlockConclusion x J := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hπinj : Function.Injective (proj m K) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo).1
   obtain ⟨eMJ⟩ : Nonempty (↥⁅A₁, A₁⁆ ≃* ↥J) :=
@@ -1281,7 +1281,7 @@ private theorem a1_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
 private theorem gl_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
     (hK : Nat.card K = 2 ^ n) (hchar : CharP K 2) (hm : 1 ≤ m) {x : StatedSp m K}
     (hx : x ^ 3 = 1) (hx1 : x ≠ 1) {J : Subgroup (StatedProj (StatedSp m K))}
-    (hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
+    (_hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
     {A₁ A₂ : Subgroup (StatedSp m K)}
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a)
     (hjoin : A₁ ⊔ A₂ = Subgroup.centralizer ({x} : Set (StatedSp m K)))
@@ -1291,8 +1291,8 @@ private theorem gl_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
     {s : ℕ} (hsφ : A₁ ≃* StatedSp s K) :
     SympBlockConclusion x J := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
-  haveI := hchar
+  have : NeZero m := ⟨by omega⟩
+  have := hchar
   have hπinj : Function.Injective (proj m K) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo).1
   obtain ⟨eMJ⟩ : Nonempty (↥⁅A₂, A₂⁆ ≃* ↥J) :=
@@ -1302,16 +1302,16 @@ private theorem gl_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
   have hMle : ⁅A₂, A₂⁆ ≤ A₂ := commutator_le_self' A₂
   have hnotSolv : ¬ Group.IsSolvable ↥A₂ := by
     intro hsol
-    haveI := hsol
-    haveI hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ :=
+    have := hsol
+    have hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMle)
         (Subgroup.inclusion_injective hMle)
-    haveI : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
-    haveI : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+    have : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
+    have : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
     exact (Group.IsPerfect.not_isSolvable ↥⁅A₂, A₂⁆) inferInstance
   have hr2 : 2 ≤ r := by
     by_contra hlt
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
       isSolvable_gl_of_le_one (by omega)
     exact hnotSolv (Group.isSolvable_of_surjective (f := hφ.symm.toMonoidHom) hφ.symm.surjective)
   have hcond : 3 ≤ r ∨ ∃ t : Finset K, t.card = 4 := by
@@ -1323,14 +1323,14 @@ private theorem gl_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
       have hle : Nat.card K ≤ 3 := by
         by_contra hlt
         have h4 : 4 ≤ Nat.card K := by omega
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         have h4' : 4 ≤ (Finset.univ : Finset K).card := by
           simpa [Nat.card_eq_fintype_card] using h4
         obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq h4'
         exact hno ⟨t, ht⟩
       have h2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
       have hcard : Nat.card K = 2 ∨ Nat.card K = 3 := by omega
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
       exact hnotSolv (Group.isSolvable_of_surjective (f := hφ.symm.toMonoidHom) hφ.symm.surjective)
     · exact Or.inl h3
@@ -1367,7 +1367,7 @@ private theorem gl_branch {K : Type} [Field K] [Finite K] {n m : ℕ}
   rw [Matrix.GeneralLinearGroup.center_eq_range_scalar] at hcentGL
   obtain ⟨lam, hlam⟩ := hcentGL
   have hxA3 : xA ^ 3 = 1 := Subtype.ext (by simpa using hx)
-  haveI : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
   have hlam3 : lam ^ 3 = 1 := by
     apply Units.ext
     show (lam : K) ^ 3 = 1
@@ -1439,7 +1439,7 @@ private theorem isSolvable_subgroupOf_heldSU {r : ℕ} {E : Type} [Field E]
     {τ : E ≃+* E} {hτ : ∀ y, τ (τ y) = y}
     (h : Group.IsSolvable ↥(heldSU r E τ hτ)) :
     Group.IsSolvable ↥((heldSU r E τ hτ).subgroupOf (heldGU r E τ hτ)) := by
-  haveI : Group.IsSolvable ↥(heldGU r E τ hτ ⊓ StatedSL r E) := h
+  have : Group.IsSolvable ↥(heldGU r E τ hτ ⊓ StatedSL r E) := h
   exact Group.isSolvable_of_surjective
     (f := (Subgroup.subgroupOfEquivOfLe
       (inf_le_left : heldSU r E τ hτ ≤ heldGU r E τ hτ)).symm.toMonoidHom)
@@ -1458,8 +1458,8 @@ private theorem sbc_commutator_isSolvable_of_heldSU {r : ℕ} {E : Type} [Field 
       (MulEquiv.subgroupCongr (by
         rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top,
           MonoidHom.range_eq_top.2 φ.surjective, ← commutator_def]))
-  haveI : Group.IsSolvable ↥(commutator ↥(heldGU r E τ hτ)) := by
-    haveI := isSolvable_subgroupOf_heldSU (r := r) hSU
+  have : Group.IsSolvable ↥(commutator ↥(heldGU r E τ hτ)) := by
+    have := isSolvable_subgroupOf_heldSU (r := r) hSU
     have hle : commutator ↥(heldGU r E τ hτ) ≤
         (heldSU r E τ hτ).subgroupOf (heldGU r E τ hτ) := by
       intro g hg
@@ -1471,7 +1471,7 @@ private theorem sbc_commutator_isSolvable_of_heldSU {r : ℕ} {E : Type} [Field 
         CFSG.LieType.SemisimpleCentralizers.Held.commutatorElement_mem_heldSU hx hy)) hg'
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Group.IsSolvable ↥(commutator ↥A) :=
+  have : Group.IsSolvable ↥(commutator ↥A) :=
     Group.isSolvable_of_surjective (f := ecomm.symm.toMonoidHom) ecomm.symm.surjective
   exact Group.isSolvable_of_surjective (f := e1.toMonoidHom) e1.surjective
 
@@ -1479,7 +1479,7 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
     {n m : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) (hchar : CharP K 2) (hm : 1 ≤ m)
     {x : StatedSp m K} (hx : x ^ 3 = 1) (hx1 : x ≠ 1)
     {J : Subgroup (StatedProj (StatedSp m K))}
-    (hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
+    (_hcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))))
     {A₁ A₂ : Subgroup (StatedSp m K)}
     (hjoin : A₁ ⊔ A₂ = Subgroup.centralizer ({x} : Set (StatedSp m K)))
     (hx2 : x ∈ A₂) {r : ℕ} {τ : E ≃+* E} {hτ : ∀ y, τ (τ y) = y}
@@ -1488,8 +1488,8 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
     (hJeq : J = (⁅A₂, A₂⁆).map (proj m K)) :
     SympBlockConclusion x J := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
-  haveI := hchar
+  have : NeZero m := ⟨by omega⟩
+  have := hchar
   have hπinj : Function.Injective (proj m K) :=
     (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo).1
   obtain ⟨eMJ⟩ : Nonempty (↥⁅A₂, A₂⁆ ≃* ↥J) :=
@@ -1499,31 +1499,31 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
   have hMle : ⁅A₂, A₂⁆ ≤ A₂ := commutator_le_self' A₂
   have hnotSolv : ¬ Group.IsSolvable ↥A₂ := by
     intro hsol
-    haveI := hsol
-    haveI hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ :=
+    have := hsol
+    have hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMle)
         (Subgroup.inclusion_injective hMle)
-    haveI : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
-    haveI : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+    have : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
+    have : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
     exact (Group.IsPerfect.not_isSolvable ↥⁅A₂, A₂⁆) inferInstance
   have hr2 : 2 ≤ r := by
     by_contra hlt
     have hrle : r ≤ 1 := by omega
-    haveI : Group.IsSolvable ↥(heldGU r E τ hτ) := by
+    have : Group.IsSolvable ↥(heldGU r E τ hτ) := by
       have hcomm : ∀ a b : heldGU r E τ hτ, a * b = b * a := by
         intro a b
         exact Subtype.ext (CFSG.LieType.SemisimpleCentralizers.Held.mul_comm_GL_of_le_one
           (M := E) hrle (a : GL (Fin r) E) (b : GL (Fin r) E))
       exact Group.isSolvable_of_comm hcomm
     exact hnotSolv (Group.isSolvable_of_surjective (f := hφ.symm.toMonoidHom) hφ.symm.surjective)
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite E
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite E
   have hE : UnitaryFieldData 2 n E :=
     { prime := Nat.prime_two
       one_le := hn
       card := by rw [hEc, hK, ← pow_mul, show n * 2 = 2 * n by omega] }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := hE.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := hE.charP
   have hbad : ¬ (r ≤ 3 ∧ Nat.card K = 2) := by
     rintro ⟨hrle, hK2⟩
     have hr23 : r = 2 ∨ r = 3 := by omega
@@ -1539,22 +1539,22 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
           (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
           (by rw [hcard, hK2]; norm_num)
       have hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ := sbc_commutator_isSolvable_of_heldSU hφ hsol
-      haveI : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
-      haveI : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+      have : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
+      have : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
       exact (Group.IsPerfect.not_isSolvable ↥⁅A₂, A₂⁆) hMsol
     · have hEcard : Nat.card E = (2 ^ 1) ^ 2 := by
         rw [hEc, hK2]; norm_num
       have hcard : Nat.card (StatedSU 3 (2 ^ 1) E) = 216 := by
         rw [CFSG.RankThree.PartTwo.Sec8.Item87Proof.card_statedSU_three_two hEcard]; norm_num
-      haveI hsol : Group.IsSolvable ↥(heldSU 3 E τ hτ) := by
+      have hsol : Group.IsSolvable ↥(heldSU 3 E τ hτ) := by
         rw [CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU hτQ, hK2]
         exact CFSG.LieType.SemisimpleCentralizers.Held.hct_isSolvable_of_natCard_eq
           (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two Nat.prime_three (by norm_num)
           (by have h216 : Nat.card ↥(StatedSU 3 2 E) = 216 := by simpa using hcard
               rw [h216]; norm_num)
       have hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ := sbc_commutator_isSolvable_of_heldSU hφ hsol
-      haveI : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
-      haveI : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+      have : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
+      have : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
       exact (Group.IsPerfect.not_isSolvable ↥⁅A₂, A₂⁆) hMsol
   have hperfSU : Group.IsPerfect ↥(heldSU r E τ hτ) := by
     rcases Nat.lt_or_ge r 3 with hr3 | hr3
@@ -1579,8 +1579,8 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
               (p := 2) (q := 3) (a := 3) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
               (by rw [hcard, h]; norm_num)
         have hMsol : Group.IsSolvable ↥⁅A₂, A₂⁆ := sbc_commutator_isSolvable_of_heldSU hφ hsolSU
-        haveI : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
-        haveI : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+        have : Group.IsPerfect ↥⁅A₂, A₂⁆ := hQ.1
+        have : Nontrivial ↥⁅A₂, A₂⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
         exact (Group.IsPerfect.not_isSolvable ↥⁅A₂, A₂⁆) hMsol
       have hEcard : Nat.card E = (2 ^ n) ^ 2 := by rw [hEc, hK]
       rw [CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU hτQ, hK]
@@ -1642,8 +1642,8 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
         Matrix.scalar (Fin r) c := by
       rw [hc]
       ext i j
-      by_cases h : i = j <;> simp [Matrix.scalar, Matrix.one_apply, h]
-    haveI : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
+      by_cases h : i = j <;> simp [Matrix.scalar, h]
+    have : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
     have hscal : (Matrix.scalar (Fin r) c) ^ 3 = 1 := by
       rw [← hcmat]
       exact h3mat
@@ -1665,8 +1665,7 @@ private theorem gu_branch {K E : Type} [Field K] [Finite K] [Field E] [Finite E]
     rw [show ((hφ xA : GL (Fin r) E) : Matrix (Fin r) (Fin r) E) = c • 1 from hc] at hgu
     let i : Fin r := ⟨0, by omega⟩
     have he := congrFun (congrFun hgu i) i
-    simp [Matrix.smul_one_eq_diagonal, Matrix.diagonal_mul, Matrix.mul_diagonal,
-      Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply] at he
+    simp [Matrix.smul_one_eq_diagonal, Matrix.mul_diagonal] at he
     exact he
   have hcK1 : c ^ (Nat.card K + 1) = 1 := by
     rw [pow_succ, ← hτQ c]
@@ -1733,9 +1732,9 @@ theorem k1419ClsSympBlock_sized {K : Type} [Field K] [Finite K] {n m : ℕ} (hK 
         Nonempty (↥J ⧸ Subgroup.center ↥J ≃* StatedProj (StatedSp s K))) ∨
     (Nat.card K = 2 ∧ Nat.card (↥J ⧸ Subgroup.center ↥J) = 360) := by
   classical
-  haveI hchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [Fintype.card_eq_nat_card, hK])
   have hn : 1 ≤ n := by
     by_contra h
@@ -1751,7 +1750,7 @@ theorem k1419ClsSympBlock_sized {K : Type} [Field K] [Finite K] {n m : ℕ} (hK 
     have hcard : Nat.card (StatedSp 0 K) = 1 := by
       rw [SymplecticFlag.card_statedSp]
       simp
-    haveI : Subsingleton (StatedSp 0 K) := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton (StatedSp 0 K) := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact hx1 (Subsingleton.elim x 1)
   obtain ⟨A₁, A₂, hcomm, hjoin, hx2, ⟨s, hsφ⟩, hA2⟩ := k1419ClsSympCent hK hn hm x hx hx1
   let F : Fin 2 → Subgroup (StatedSp m K) := ![A₁, A₂]
@@ -1776,12 +1775,12 @@ theorem k1419ClsSympBlock_sized {K : Type} [Field K] [Finite K] {n m : ℕ} (hK 
     fin_cases i
     · rcases Nat.eq_zero_or_pos s with hs0 | hs1
       · right
-        haveI : Subsingleton ↥A₁ := by
+        have : Subsingleton ↥A₁ := by
           have hcard : Nat.card ↥A₁ = 1 := by
             rw [Nat.card_congr hsφ.some.toEquiv, hs0, SymplecticFlag.card_statedSp]
             simp
           exact (Nat.card_eq_one_iff_unique.mp hcard).1
-        haveI : Group.IsSolvable ↥A₁ := inferInstance
+        have : Group.IsSolvable ↥A₁ := inferInstance
         exact hF0.symm ▸ (inferInstance : Group.IsSolvable ↥A₁)
       · exact (tame_of_mulEquiv_statedSp hs1 hsφ.some).imp (fun h => hF0.symm ▸ h) (fun h => hF0.symm ▸ h)
     · rcases hA2 with ⟨r, hr, ⟨eGL⟩⟩ | ⟨r, E, hEf, hEfin, τ, hτ, hr, hEc, hτQ, ⟨eGU⟩⟩
@@ -1797,15 +1796,15 @@ theorem k1419ClsSympBlock_sized {K : Type} [Field K] [Finite K] {n m : ℕ} (hK 
   · simp [F] at hQ hJeq
     rcases Nat.eq_zero_or_pos s with hs0 | hs1
     · exfalso
-      haveI : Subsingleton ↥A₁ := by
+      have : Subsingleton ↥A₁ := by
         have hcard : Nat.card ↥A₁ = 1 := by
           rw [Nat.card_congr hsφ.some.toEquiv, hs0, SymplecticFlag.card_statedSp]
           simp
         exact (Nat.card_eq_one_iff_unique.mp hcard).1
-      haveI hMsub : Subsingleton ↥⁅A₁, A₁⁆ :=
+      have hMsub : Subsingleton ↥⁅A₁, A₁⁆ :=
         (Subgroup.inclusion_injective (commutator_le_self' A₁)).subsingleton
-      haveI : Subsingleton (↥⁅A₁, A₁⁆ ⧸ Subgroup.center ↥⁅A₁, A₁⁆) := inferInstance
-      haveI : Nontrivial (↥⁅A₁, A₁⁆ ⧸ Subgroup.center ↥⁅A₁, A₁⁆) := hQ.2.1.toNontrivial
+      have : Subsingleton (↥⁅A₁, A₁⁆ ⧸ Subgroup.center ↥⁅A₁, A₁⁆) := inferInstance
+      have : Nontrivial (↥⁅A₁, A₁⁆ ⧸ Subgroup.center ↥⁅A₁, A₁⁆) := hQ.2.1.toNontrivial
       obtain ⟨a, b, hab⟩ := exists_pair_ne (↥⁅A₁, A₁⁆ ⧸ Subgroup.center ↥⁅A₁, A₁⁆)
       exact hab (Subsingleton.elim a b)
     · exact a1_branch hK hchar hm hx hJ (A₁ := A₁) (A₂ := A₂) hcomm hjoin hs1 hsφ.some
@@ -1831,9 +1830,9 @@ theorem k1419ClsSympBlock {K : Type} [Field K] [Finite K] {n m : ℕ} (hK : Nat.
         Nonempty (PSimple 3 J ≃* StatedProj (StatedSp s K))) ∨
     (Nat.card K = 2 ∧ Nat.card (PSimple 3 J) ≤ 720) := by
   classical
-  haveI hchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [Fintype.card_eq_nat_card, hK])
   have hPIL : CFSG.HardMathSupport.Solomon.Coordinator.PerfectInLayer (MulAut.conj (proj m K x)) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfectInLayer_conj_sp

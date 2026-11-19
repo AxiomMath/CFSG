@@ -284,11 +284,10 @@ theorem Orders.isDSystemIn (h1332 : Stmt13_3_2) (O : C.Orders) :
     · exact absurd rfl hij
   · intro i j k hij hik hjk
     fin_cases i <;> fin_cases j <;> fin_cases k <;>
-      first
+      try first
       | exact absurd rfl hij
       | exact absurd rfl hik
       | exact absurd rfl hjk
-      | skip
     · exact fun h => O.not_L1_le_H3 ((le_inf (L1_le_L.trans le_sup_left) hL1 |>.trans
         h.le).trans inf_le_right)
     · exact fun h => O.not_L1_le_H3 ((le_inf (L1_le_L.trans le_sup_left) hL1 |>.trans

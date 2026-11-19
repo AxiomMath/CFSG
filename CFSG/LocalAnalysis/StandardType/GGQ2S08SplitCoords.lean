@@ -57,16 +57,16 @@ theorem ggQ2LDatum_rootCoords {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     let K : Subgroup (MulAut ↥Bs) :=
       { carrier := {φ | ggLin (p := 3) M.model φ v = v}
         one_mem' := by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           rw [map_one]
           rfl
         mul_mem' := by
           intro φ ψ hφ hψ
-          simp only [Set.mem_setOf_eq] at hφ hψ ⊢
+          simp only [Set.mem_ofPred_eq] at hφ hψ ⊢
           rw [map_mul, LinearEquiv.mul_apply, hψ, hφ]
         inv_mem' := by
           intro φ hφ
-          simp only [Set.mem_setOf_eq] at hφ ⊢
+          simp only [Set.mem_ofPred_eq] at hφ ⊢
           apply (ggLin (p := 3) M.model φ).injective
           rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
           rw [hφ]

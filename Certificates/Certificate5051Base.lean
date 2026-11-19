@@ -479,7 +479,7 @@ private theorem Sh0L_mul_chk_12 : mulClosedChkP Sh0L = true := by
   · have h := L5S.sh0L_length
     rwa [L5S.sh0L_eq, List.length_map] at h
   · intro a ha b hb
-    obtain ⟨h1, h2⟩ := L5S.mF_spec L5S.sh0Chk_true L5S.sh0C_codes ha hb
+    obtain ⟨h1, h2⟩ := L5S.mF_spec L5S.sh0Chk_true ha hb
     refine ⟨h1, PkCV.ev_injective ?_⟩
     rw [PkCV.ev_mul, ← L5S.sh0L_getD, ← L5S.sh0L_getD, ← L5S.sh0L_getD]
     exact h2
@@ -490,7 +490,7 @@ private theorem Sh0L_inv_chk_13 : invClosedChkP Sh0L = true := by
   intro x hx
   obtain ⟨a, ha, rfl⟩ := List.getElem_of_mem hx
   have ha' : a < 128 := by rwa [L5S.sh0L_length] at ha
-  obtain ⟨h1, h2⟩ := L5S.iF_spec L5S.sh0Chk_true L5S.sh0C_codes ha'
+  obtain ⟨h1, h2⟩ := L5S.iF_spec L5S.sh0Chk_true ha'
   rw [← List.getD_eq_getElem Sh0L 1 ha, h2,
     List.getD_eq_getElem _ _ (by rwa [L5S.sh0L_length])]
   exact List.getElem_mem _

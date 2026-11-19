@@ -32,21 +32,21 @@ theorem eq_bot_of_isPerfect_of_isSylowIn_normal {L S : Subgroup G}
     (hperf : Group.IsPerfect ↥L) (hSL : S ≤ L)
     (hSn : L ≤ Subgroup.normalizer (S : Set G)) (hSyl : IsSylowIn 2 S L) : L = ⊥ := by
   by_contra hL
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hL
-  haveI : Group.IsPerfect ↥L := hperf
-  haveI hN : (S.subgroupOf L).Normal :=
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).2 hL
+  have : Group.IsPerfect ↥L := hperf
+  have hN : (S.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSL).mpr hSn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 (S.subgroupOf L) := hSyl.isPGroup.comap_subtype
   have hnil : Group.IsNilpotent ↥(S.subgroupOf L) := hS2.isNilpotent
-  haveI : Group.IsSolvable ↥(S.subgroupOf L) := @IsNilpotent.to_isSolvable _ _ hnil
+  have : Group.IsSolvable ↥(S.subgroupOf L) := @IsNilpotent.to_isSolvable _ _ hnil
   have hrel : (S.subgroupOf L).index = S.relIndex L := by
     rw [← Subgroup.relIndex_top_right (H := S.subgroupOf L), ← Subgroup.subgroupOf_self L,
       Subgroup.relIndex_subgroupOf (le_rfl : L ≤ L)]
   have hodd : Odd (Nat.card (↥L ⧸ (S.subgroupOf L))) := by
     rw [← Subgroup.index_eq_card, hrel]
     exact Nat.not_even_iff_odd.mp fun h => hSyl.not_dvd_relIndex h.two_dvd
-  haveI : Group.IsSolvable (↥L ⧸ (S.subgroupOf L)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable (↥L ⧸ (S.subgroupOf L)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hsolv : Group.IsSolvable ↥L := Group.isSolvable_of_subgroup_quotient (S.subgroupOf L)
   exact Group.IsPerfect.not_isSolvable ↥L hsolv
 

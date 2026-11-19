@@ -12,8 +12,8 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD1426Lift
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-theorem card_center_dvd_three {K : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisimple ↥K)
-    (hcore : GLAPPrimeCore 3 ↥K = ⊥) {n : ℕ} (hn : 5 ≤ n) (hn7 : n = 7)
+theorem card_center_dvd_three {K : Subgroup Y} (_hK : K.Normal) (hq : CFSG.Open.IsQuasisimple ↥K)
+    (hcore : GLAPPrimeCore 3 ↥K = ⊥) {n : ℕ} (hn : 5 ≤ n) (_hn7 : n = 7)
     (eK : ↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin n)) :
     Nat.card (Subgroup.center ↥K) = 1 ∨ Nat.card (Subgroup.center ↥K) = 3 := by
   rcases KD264Z.center_eq_bot_or_three Nat.prime_three (by norm_num) hq hcore hn eK with h | h

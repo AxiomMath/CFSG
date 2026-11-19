@@ -41,7 +41,7 @@ theorem ncard_componentRoots_mem {L : Type} [Field L] {a : Fin Tag.E6.rank → L
 
 theorem finite_kernelRoots_E6 {M : Type*} [CommGroup M]
     (χ : Multiplicative (Fin Tag.E6.rank → ℤ) →* M) : (kernelRoots χ).Finite :=
-  (finite_setOf_isRoot Tag.E6).subset fun α hα => hα.1
+  (finite_setOf_isRoot Tag.E6).subset fun _α hα => hα.1
 
 theorem componentRoots_subset_kernelRoots {M : Type*} [CommGroup M]
     (χ : Multiplicative (Fin Tag.E6.rank → ℤ) →* M) (i : KernelComponent χ) :

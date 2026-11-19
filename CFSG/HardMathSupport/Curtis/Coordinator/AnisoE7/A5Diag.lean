@@ -55,7 +55,7 @@ variable (L) in
   map_one' := by
     apply Subtype.ext
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [dEntry, Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp [dEntry]
   map_mul' a b := by
     apply Subtype.ext
     show Matrix.diagonal (fun i => ((dEntry (a * b) i : Lˣ) : L)) =
@@ -74,7 +74,7 @@ theorem chainDiag_mulSingle (t : Fin 5) (s : Lˣ) :
   rw [coe_chainDiag, coe_blockSL2_HSL]
   congr 1
   funext i
-  fin_cases t <;> fin_cases i <;> simp [dEntry, hEntries, Pi.mulSingle_apply]
+  fin_cases t <;> fin_cases i <;> simp [dEntry, hEntries]
 
 theorem a5Frame_chainDiag (a : Fin 5 → Lˣ) :
     a5Frame L (chainDiag L a) = chainTorus L a := by

@@ -42,7 +42,7 @@ theorem pow_fixes {E : Type} [Group E] {δ : MulAut E} {a : E} (h : δ a = a) (n
 theorem scalar_eq_one {E : Type} [Group E] {f : ℕ} (hf : f.Prime) (hexp : ∀ e : E, e ^ f = 1)
     (g : MulAut E) {k : ℕ} (hk : ∀ e : E, g e = e ^ k) {a : E} (ha1 : a ≠ 1) (hga : g a = a) :
     g = 1 := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hoa : orderOf a = f := orderOf_eq_prime (hexp a) ha1
   have hak : a ^ k = a ^ 1 := by
     rw [pow_one, ← hk a, hga]
@@ -117,8 +117,8 @@ theorem eq_one_of_mem_odd_two {Y : Type} [Group Y] [Finite Y] {O Q : Subgroup Y}
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd hcop hdQ)
 
 theorem mul_decomp_of_mem_sup {Y : Type} [Group Y] (X O Q : Subgroup Y)
-    (hOX : O ≤ X) (hQX : Q ≤ X) (hO : (O.subgroupOf X).Normal) (hQ : (Q.subgroupOf X).Normal)
-    {w : Y} (hwOQ : w ∈ O ⊔ Q) (hwX : w ∈ X) : ∃ o ∈ O, ∃ t ∈ Q, w = o * t := by
+    (hOX : O ≤ X) (hQX : Q ≤ X) (hO : (O.subgroupOf X).Normal) (_hQ : (Q.subgroupOf X).Normal)
+    {w : Y} (hwOQ : w ∈ O ⊔ Q) (_hwX : w ∈ X) : ∃ o ∈ O, ∃ t ∈ Q, w = o * t := by
   let T : Subgroup Y :=
     { carrier := {w | w ∈ X ∧ ∃ o ∈ O, ∃ t ∈ Q, w = o * t}
       one_mem' := ⟨X.one_mem, 1, O.one_mem, 1, Q.one_mem, (mul_one 1).symm⟩

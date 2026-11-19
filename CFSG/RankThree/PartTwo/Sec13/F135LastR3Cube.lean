@@ -18,7 +18,7 @@ theorem r3_elem3 {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime) {Y J�
     (ho₀ : orderOf w₀ = p) (ho₁ : orderOf w₁ = p) :
     ∃ F : Subgroup N, CFSG.Open.IsElemAbelian p F ∧ Nat.card F = p ^ 3 ∧
       F = Y ⊔ Subgroup.zpowers w₀ ⊔ Subgroup.zpowers w₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ x ∈ J₀, ∀ y ∈ J₁, x * y = y * x := by
     intro x hx y hy
     rcases CFSG.LocalCores.distinct_components_commute h₀ h₁ with he | hb

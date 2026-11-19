@@ -75,7 +75,7 @@ private theorem sylow_fixed_card
     Nat.card_eq_fintype_card (α := Function.fixedPoints u.val.val),
     Equiv.Perm.card_fixedPoints,hct,hcard] at hle
   change Nat.card (fixedPoints S X) ≤ 2 at hle
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints X
+  have hm := S.isPGroup.card_modEq_card_fixedPoints X
   change Nat.card X % 13 = Nat.card (fixedPoints S X) % 13 at hm
   rw [Nat.card_eq_fintype_card,hcard] at hm
   omega

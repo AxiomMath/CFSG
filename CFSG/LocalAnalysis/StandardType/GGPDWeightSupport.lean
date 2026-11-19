@@ -64,10 +64,10 @@ theorem ggPD_weight_support {K : Type} [Field K] {d : ℕ} {ζ : K} (hζ : IsPri
       rw [hdiag] at hmat
       have hcoord := congrFun hmat j₀
       rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single j₀] at hcoord
-      · rw [Matrix.diagonal_apply, if_pos rfl] at hcoord
+      · rw [Matrix.diagonal_apply, ite_eq_left rfl] at hcoord
         exact mul_right_cancel₀ hcj₀ hcoord
       · intro k _ hk
-        rw [Matrix.diagonal_apply, if_neg (Ne.symm hk), zero_mul]
+        rw [Matrix.diagonal_apply, ite_eq_right (Ne.symm hk), zero_mul]
       · intro hmem
         exact absurd (Finset.mem_univ j₀) hmem
     funext k

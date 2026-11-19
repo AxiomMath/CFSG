@@ -161,7 +161,7 @@ theorem false_of_noncentral_pCore [Group.IsPerfect H]
   have : Vh.Normal := Subgroup.Normal.comap inferInstance π
   obtain ⟨S⟩ : Nonempty (Sylow q Vh) := inferInstance
   set Q : Subgroup H := (S : Subgroup Vh).map Vh.subtype with hQ
-  have hQq : IsPGroup q Q := S.isPGroup'.map Vh.subtype
+  have hQq : IsPGroup q Q := S.isPGroup.map Vh.subtype
   have hVQ : ∀ v ∈ V, ∃ x ∈ Q, π x = v := by
     let f : Vh →* V := (π.comp Vh.subtype).codRestrict V fun x => x.2
     have hf : Function.Surjective f := by
@@ -298,7 +298,7 @@ theorem false_of_noncentral_pCore [Group.IsPerfect H]
   obtain ⟨P⟩ : Nonempty (Sylow 2 NA) := inferInstance
   set Ah : Subgroup H := (P : Subgroup NA).map NA.subtype with hAh
   have hAhNA : Ah ≤ NA := Subgroup.map_subtype_le _
-  have hAh2 : IsPGroup 2 Ah := P.isPGroup'.map NA.subtype
+  have hAh2 : IsPGroup 2 Ah := P.isPGroup.map NA.subtype
   have hAhN : Ah ≤ Subgroup.normalizer (Q : Set H) := hAhNA.trans inf_le_right
   have hZ2 : IsPGroup 2 Z := fun z => ⟨1, Subtype.ext (by
     rw [Subgroup.coe_pow, pow_one, suzukiZ0_sq hF z.2, Subgroup.coe_one])⟩

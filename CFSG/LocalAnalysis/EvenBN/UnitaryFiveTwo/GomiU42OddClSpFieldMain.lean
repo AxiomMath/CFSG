@@ -138,7 +138,7 @@ theorem u42_sp_field_false {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite
     SymplecticFlag.pairedSympForm_isAlt SymplecticFlag.pairedSympForm_nondegenerate σ hσ2 hσ h2
     (semilinearCoordMap (A : GL (Fin r ⊕ Fin r) K) σ) μ d b c (semilinearCoordMap_smul _ σ)
     (semilinearCoordMap_form _ σ μ hμ) (semilinearCoordMap_sq _ σ hσ2 d hd) hb hc
-  haveI : Finite ↥(isometryGroup (pairedSympForm K r)) :=
+  have : Finite ↥(isometryGroup (pairedSympForm K r)) :=
     Finite.of_equiv _ (statedSpIsometryEquiv (r := r) (K := K)).toEquiv
   have hne1 : negIsometry (pairedSympForm K r) ≠ 1 := by
     intro h1

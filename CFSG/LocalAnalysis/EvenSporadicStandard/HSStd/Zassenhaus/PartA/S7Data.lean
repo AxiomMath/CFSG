@@ -82,7 +82,7 @@ theorem PA5.s7_F₀_comm_ub (hb : PAB G L t E W z) (a : PA5 L t E z) :
     calc a.ub * a.u₁ * a.ub = a.ub * (a.u₁ * a.ub) := mul_assoc _ _ _
       _ = a.ub * (a.ub * a.u₁) := by rw [hcomm]
 
-theorem PA5.s7_F₀_isPGroup (hb : PAB G L t E W z) (a : PA5 L t E z) : IsPGroup 2 ↥a.F₀ := by
+theorem PA5.s7_F₀_isPGroup (_hb : PAB G L t E W z) (a : PA5 L t E z) : IsPGroup 2 ↥a.F₀ := by
   cases hd : a.dcase
   · refine IsPGroup.of_card (n := 2) ?_
     simpa using a.F₀_card hd
@@ -92,14 +92,14 @@ theorem PA5.s7_F₀_isPGroup (hb : PAB G L t E W z) (a : PA5 L t E z) : IsPGroup
     have : orderOf a.ub = 2 := a.ub_ord
     simp [this]
 
-theorem PA5.s7_card_F₀_le (hb : PAB G L t E W z) (a : PA5 L t E z) : Nat.card a.F₀ ≤ 4 := by
+theorem PA5.s7_card_F₀_le (_hb : PAB G L t E W z) (a : PA5 L t E z) : Nat.card a.F₀ ≤ 4 := by
   cases hd : a.dcase
   · exact (a.F₀_card hd).le
   · obtain ⟨hF₀, -⟩ := a.F₀_e4 hd
     rw [hF₀, Nat.card_zpowers, a.ub_ord]
     norm_num
 
-theorem PA5.s7_d8_facts (hb : PAB G L t E W z) (a : PA5 L t E z) (hd : a.dcase = DCase.d8) :
+theorem PA5.s7_d8_facts (_hb : PAB G L t E W z) (a : PA5 L t E z) (hd : a.dcase = DCase.d8) :
     a.u₁ * a.u₁ = 1 ∧ a.u₁ * a.ub = a.ub * a.u₁ ∧ t * a.u₁ * t⁻¹ = a.ub * a.u₁ ∧
       a.u₁ ≠ 1 ∧ a.u₁ ≠ a.ub := by
   obtain ⟨hu₁ord, hu₁Cub, -, hu₁t, -, hnm, -⟩ := a.d8_props hd
@@ -150,7 +150,7 @@ theorem PA5.s7_t_conj_F₀ (hb : PAB G L t E W z) (a : PA5 L t E z) :
   have key : ∀ f ∈ a.F₀, t * f * t⁻¹ ∈ a.F₀ := by
     intro f hf
     rcases (a.s7_mem_F₀_iff hb f).1 hf with h | h | ⟨hd, h | h⟩
-    · rw [h]; simpa using one_mem _
+    · rw [h]; simp
     · rw [h, a.s7_t_conj_ub hb]; exact a.s7_ub_mem_F₀ hb
     · obtain ⟨-, -, ht1, -, -⟩ := a.s7_d8_facts hb hd
       rw [h, ht1]; exact a.s7_ubu₁_mem_F₀ hb hd

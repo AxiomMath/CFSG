@@ -61,7 +61,7 @@ theorem isChevSimple_of_statedPSU {G : Type} [Group G] {n : ℕ} (hadm : StatedL
   have hf : 1 ≤ f := hadm.2.1
   have hn : 3 ≤ n := hadm.2.2.1
   have hv := CFSG.ClassicalModels.unitaryCatalog_index_valid n p f hadm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let q : TauCeti.PrimePower := ⟨p, f, hp, by omega⟩
   let L := GaloisField p (2 * f)
   let _ : Fintype K' := Fintype.ofFinite K'
@@ -87,9 +87,9 @@ theorem outerCentData_primeFormFieldHom {n : ℕ} (h : UnitaryFieldData p f K) (
       innerAut (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))) :
     OuterCentData p (primeFormFieldHom h
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.isPrimeFormGram_one (n := n)) σ) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.finite
-  haveI := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.finite
+  have := h.charP
   have hp := h.prime
   have hf1 := h.one_le
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) :=
@@ -139,7 +139,7 @@ theorem outerCentData_primeFormFieldHom {n : ℕ} (h : UnitaryFieldData p f K) (
     exact (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h₀ n).symm.trans
       (unitaryPSUEquiv h₀ (by omega))
   have hZc : Subgroup.center T = ⊥ := by
-    haveI := isSimpleGroup_primeFormP_one h hn hq
+    have := isSimpleGroup_primeFormP_one h hn hq
     exact b3Lie_center_eq_bot (by
       by_contra hcon
       push Not at hcon

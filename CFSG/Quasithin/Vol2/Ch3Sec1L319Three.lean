@@ -75,7 +75,7 @@ theorem lemma319KerNoThree_of_common (hC : Lemma319Common) : Lemma319KerNoThree 
   intro G _ _ T hs hnab hK hT M M₀ H V hM hbase hII hq hMu hVH hdual hconcl hno h3
   obtain ⟨hmp, -, hUT, -, -, hstep2⟩ :=
     hC G T hs hnab hK hT M M₀ H V hM hbase hII hq hMu hVH hdual hconcl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(kerIn (H ⊓ M) H)) 3 h3
   have hyJ : (y : G) ∈ kerIn (H ⊓ M) H := y.2
   have hyH : (y : G) ∈ H := hmp.kerIn_le_H hyJ

@@ -236,6 +236,7 @@ theorem mem_normalizer_centralizer_singleton [Finite G] {g t : G} (hg : g * t = 
 
 end Generic
 
+omit [Finite Q] in
 theorem center_sup_of {A A' M : Subgroup Q} (hMc : ∀ x ∈ M, ∀ y ∈ M, x * y = y * x)
     (hc1 : ∀ x ∈ (A ⊔ A') ⊔ M, (∀ m ∈ M, x * m = m * x) → x ∈ M) :
     (A ⊔ M) ⊓ centralizer ((A ⊔ M : Subgroup Q) : Set Q) = M ⊓ centralizer (A : Set Q) := by
@@ -298,11 +299,13 @@ namespace HatData
 variable {t v : Q} {A M Qs F Lv L0 : Subgroup Q} (D : HatData t v A M Qs F Lv L0)
 include D
 
+omit [Finite Q] in
 theorem v_mem : v ∈ (A ⊔ Aᵍ[t]) ⊔ M := by
   obtain ⟨v₁, hv₁, hv⟩ := D.v_dec
   rw [hv]
   exact mem_sup_left (mul_mem (mem_sup_left hv₁) (mem_sup_right (conj_mem_map_conj_inv t hv₁)))
 
+omit [Finite Q] in
 theorem A'_M : Aᵍ[t] ≤ normalizer (M : Set Q) := by
   rintro _ ⟨a, ha, rfl⟩
   have h1 : t⁻¹ ∈ normalizer (M : Set Q) := by
@@ -310,17 +313,19 @@ theorem A'_M : Aᵍ[t] ≤ normalizer (M : Set Q) := by
     exact D.M_t
   exact mul_mem (mul_mem h1 (D.A_M ha)) (inv_mem h1)
 
+omit [Finite Q] in
 theorem Qs_v_le : Qs.map (MulAut.conj v).toMonoidHom ≤ A := by
   obtain ⟨v₁, hv₁, hv⟩ := D.v_dec
   rintro _ ⟨q, hq, rfl⟩
   have hq' : q ∈ A := D.Qs_A hq
   have hv₁' : t⁻¹ * v₁ * t ∈ Aᵍ[t] := conj_mem_map_conj_inv t hv₁
   have e : (MulAut.conj v).toMonoidHom q = v₁ * ((t⁻¹ * v₁ * t) * q * (t⁻¹ * v₁ * t)⁻¹) * v₁⁻¹ := by
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, hv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, hv]
     group
   rw [e, conj_eq_self_of_commute' D.A_comm hq' hv₁']
   exact mul_mem (mul_mem hv₁ hq') (inv_mem hv₁)
 
+omit [Finite Q] in
 theorem Qs'_v_le : (Qsᵍ[t]).map (MulAut.conj v).toMonoidHom ≤ Aᵍ[t] := by
   obtain ⟨v₁, hv₁, hv⟩ := D.v_dec
   rintro _ ⟨q, hq, rfl⟩
@@ -330,11 +335,12 @@ theorem Qs'_v_le : (Qsᵍ[t]).map (MulAut.conj v).toMonoidHom ≤ Aᵍ[t] := by
     mul_mem (mul_mem hv₁' hq') (inv_mem hv₁')
   have e : (MulAut.conj v).toMonoidHom q =
       v₁ * ((t⁻¹ * v₁ * t) * q * (t⁻¹ * v₁ * t)⁻¹) * v₁⁻¹ := by
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, hv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, hv]
     group
   rw [e, conj_eq_self_of_commute D.A_comm hv₁ hy]
   exact hy
 
+omit [Finite Q] in
 theorem A_eq : A = Qs ⊔ Qs.map (MulAut.conj v).toMonoidHom := by
   have hgen := D.gen
   rw [Subgroup.map_sup] at hgen
@@ -345,11 +351,13 @@ theorem A_eq : A = Qs ⊔ Qs.map (MulAut.conj v).toMonoidHom := by
   rw [hgen]
   exact sup_sup_sup_comm _ _ _ _
 
+omit [Finite Q] in
 theorem Z₂_eq : zOf M (Aᵍ[t]) = (zOf M A)ᵍ[t] := by
   have h := map_inf_centralizer_aux (MulAut.conj t⁻¹) M A
   rw [D.M_t] at h
   exact h.symm
 
+omit [Finite Q] in
 theorem Z_inf : zOf M A ⊓ zOf M (Aᵍ[t]) = ⊥ := by
   rw [eq_bot_iff]
   intro z hz
@@ -617,6 +625,7 @@ theorem M_eq_sup : M = zOf M A ⊔ zOf M (Aᵍ[t]) ∧
     rw [hcard2, hcZ, ← sq]
     exact D.free.le
 
+omit [Finite Q] in
 theorem diag_fix {z : Q} (hz : z ∈ M) (hz' : t⁻¹ * z * t ∈ M) :
     z * (t⁻¹ * z * t) ∈ M ⊓ centralizer ({t} : Set Q) := by
   refine Subgroup.mem_inf.2 ⟨mul_mem hz hz', ?_⟩
@@ -628,24 +637,27 @@ theorem diag_fix {z : Q} (hz : z ∈ M) (hz' : t⁻¹ * z * t ∈ M) :
   calc z * (t⁻¹ * z * t) * t = t * (t⁻¹ * (z * (t⁻¹ * z * t)) * t) := by group
     _ = t * (z * (t⁻¹ * z * t)) := by rw [hy]
 
+omit [Finite Q] in
 theorem Z₂_t : (zOf M (Aᵍ[t]))ᵍ[t] = zOf M A := by
   rw [D.Z₂_eq, map_conj_inv_map_conj_inv D.t_sq]
 
-theorem A_norm_Z₂ : A ≤ normalizer ((zOf M (Aᵍ[t]) : Subgroup Q) : Set Q) := fun a ha =>
+theorem A_norm_Z₂ : A ≤ normalizer ((zOf M (Aᵍ[t]) : Subgroup Q) : Set Q) := fun _a ha =>
   mem_normalizer_inf_D4 (D.A_M ha)
     (mem_normalizer_centralizer_D4 (le_normalizer_of_commute D.A_comm le_rfl le_rfl ha))
 
-theorem A'_norm_Z₁ : Aᵍ[t] ≤ normalizer ((zOf M A : Subgroup Q) : Set Q) := fun a ha =>
+theorem A'_norm_Z₁ : Aᵍ[t] ≤ normalizer ((zOf M A : Subgroup Q) : Set Q) := fun _a ha =>
   mem_normalizer_inf_D4 (D.A'_M ha)
     (mem_normalizer_centralizer_D4
-      (le_normalizer_of_commute (fun a ha b hb => (D.A_comm b hb a ha).symm)
+      (le_normalizer_of_commute (fun _a ha b hb => (D.A_comm b hb _a ha).symm)
         (le_rfl : Aᵍ[t] ≤ Aᵍ[t]) (le_rfl : A ≤ A) ha))
 
+omit [Finite Q] in
 theorem H₂_eq : (hOf t A M)ᵍ[t] = Aᵍ[t] ⊔ zOf M A := by
   rw [Subgroup.map_sup]
   congr 1
   exact D.Z₂_t
 
+omit [Finite Q] in
 theorem H_comm : ∀ a ∈ hOf t A M, ∀ b ∈ (hOf t A M)ᵍ[t], a * b = b * a := by
   intro a ha b hb
   rw [D.H₂_eq] at hb
@@ -739,7 +751,7 @@ theorem fixed_eq :
     have ha : t⁻¹ * h₁ * t ∈ H₁ᵍ[t] := conj_mem_map_conj_inv t hh₁
     have hb : t⁻¹ * h₂ * t ∈ H₁ := by
       have := mem_map_conj_inv_iff.1 hh₂
-      rwa [ht'] at this ⊢
+      rw [ht'] at this ⊢; assumption
     have hab : (t⁻¹ * h₂ * t) * (t⁻¹ * h₁ * t) = h₁ * h₂ := by
       calc (t⁻¹ * h₂ * t) * (t⁻¹ * h₁ * t) = (t⁻¹ * h₁ * t) * (t⁻¹ * h₂ * t) :=
             D.H_comm _ hb _ ha
@@ -782,7 +794,7 @@ theorem fixed_eq :
     have e : (MulAut.conj v).toMonoidHom q = v₁ * q * v₁⁻¹ := by
       have e0 : (MulAut.conj v).toMonoidHom q =
           v₁ * ((t⁻¹ * v₁ * t) * q * (t⁻¹ * v₁ * t)⁻¹) * v₁⁻¹ := by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, hv]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, hv]
         group
       rw [e0, conj_eq_self_of_commute' D.A_comm hq' hv₁']
     rw [e]
@@ -958,7 +970,7 @@ theorem bar_map_conj {g : G} (hg : g ∈ normalizer (W : Set G)) {X : Subgroup G
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       rw [← hxz]
       simp [MulAut.conj_apply]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     rw [← map_inv, ← map_mul, ← map_mul, ← e]
   · rintro ⟨y', hy', rfl⟩
     obtain ⟨x, hx, rfl⟩ := mem_bar_iff_exists.1 hy'
@@ -967,7 +979,7 @@ theorem bar_map_conj {g : G} (hg : g ∈ normalizer (W : Set G)) {X : Subgroup G
       mul_mem (mul_mem hg hxN) (inv_mem hg)
     refine mem_bar_iff_exists.2 ⟨⟨g * x * g⁻¹, hzN⟩, ⟨x, hx, ?_⟩, ?_⟩
     · simp [MulAut.conj_apply]
-    · simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    · simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       rw [← map_inv, ← map_mul, ← map_mul]
       rfl
 
@@ -1028,7 +1040,7 @@ theorem bar_centerMod (A : Subgroup G) :
 
 theorem isPGroup_lift_of [Finite G] {Y : Subgroup (Bar W)} (hW : IsPGroup 2 W)
     (hY : IsPGroup 2 Y) : IsPGroup 2 (lift Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact isPGroup_lift hW hY
 
 theorem relIndex_eq_card_bar [Finite G] {X : Subgroup G} (hWX : W ≤ X)
@@ -1055,7 +1067,7 @@ theorem bar_zpowers {t : G} (htW : t ∈ normalizer (W : Set G)) :
   · intro hy
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
     refine mem_bar_iff_exists.2 ⟨⟨t, htW⟩ ^ n, ?_, by rw [map_zpow]⟩
-    simpa using Subgroup.zpow_mem_zpowers t n
+    simp
 
 theorem centralizer_zpowers_eq {Γ : Type*} [Group Γ] (a : Γ) :
     centralizer ((zpowers a : Subgroup Γ) : Set Γ) = centralizer ({a} : Set Γ) := by
@@ -1216,7 +1228,7 @@ theorem isQuotientIso_sup {A B : Subgroup G} {T : Type*} [Group T]
     IsQuotientIso (A ⊔ B) B T := by
   obtain ⟨φ, hφs, hφk⟩ := hiso
   have hKn : (A ⊔ B) ≤ normalizer (B : Set G) := sup_le hAB le_normalizer
-  haveI hnB : (B.subgroupOf (A ⊔ B)).Normal :=
+  have hnB : (B.subgroupOf (A ⊔ B)).Normal :=
     (normal_subgroupOf_iff_le_normalizer le_sup_right).2 hKn
   set ψ : ↥A →* ↥(A ⊔ B) ⧸ B.subgroupOf (A ⊔ B) :=
     (QuotientGroup.mk' (B.subgroupOf (A ⊔ B))).comp (Subgroup.inclusion le_sup_left) with hψ
@@ -1237,8 +1249,8 @@ theorem isQuotientIso_sup {A B : Subgroup G} {T : Type*} [Group T]
       Subgroup.coe_inclusion, Subgroup.mem_inf]
     exact ⟨fun hb => ⟨x.2, hb⟩, fun hb => hb.2⟩
   have hker : φ.ker = ψ.ker := by rw [hφk, hkerψ]
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   let e : T ≃* ↥(A ⊔ B) ⧸ B.subgroupOf (A ⊔ B) :=
     (QuotientGroup.quotientKerEquivOfSurjective φ hφs).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hker).trans
@@ -1266,8 +1278,8 @@ theorem eq_or_eq_of_quotient_simple {X B C : Subgroup G} {T : Type*} [Group T] [
     (hiso : IsQuotientIso X B T) (hBC : B ≤ C) (hCX : C ≤ X)
     (hCn : X ≤ normalizer (C : Set G)) : C = B ∨ C = X := by
   obtain ⟨φ, hφs, hφk⟩ := hiso
-  haveI hC' : (C.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hCX).2 hCn
-  haveI hmapN : ((C.subgroupOf X).map φ).Normal := hC'.map φ hφs
+  have hC' : (C.subgroupOf X).Normal := (normal_subgroupOf_iff_le_normalizer hCX).2 hCn
+  have hmapN : ((C.subgroupOf X).map φ).Normal := hC'.map φ hφs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((C.subgroupOf X).map φ) with hb | ht
   · left
     refine le_antisymm ?_ hBC
@@ -1352,7 +1364,7 @@ theorem mem_normalizer_oTwoPrimeRes {X : Subgroup G} [Finite G] {g : G}
 theorem mem_normalizer_normalizer [Finite G] {X : Subgroup G} {g : G}
     (hg : g ∈ normalizer (X : Set G)) :
     g ∈ normalizer ((normalizer (X : Set G) : Subgroup G) : Set G) :=
-  mem_normalizer_fintype fun n hn => mul_mem (mul_mem hg hn) (inv_mem hg)
+  mem_normalizer_fintype fun _n hn => mul_mem (mul_mem hg hn) (inv_mem hg)
 
 theorem map_conj_map_conj_comm {g t : G} (hgt : g * t = t * g) (X : Subgroup G) :
     (X.map (MulAut.conj g).toMonoidHom).map (MulAut.conj t⁻¹).toMonoidHom =
@@ -1381,9 +1393,10 @@ section Context
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem isPGroup_of_isSylowOf {P K : Subgroup G} (h : IsSylowOf 2 P K) : IsPGroup 2 P := by
   obtain ⟨Q, hQ⟩ := h
-  have := Q.isPGroup'.map K.subtype
+  have := Q.isPGroup.map K.subtype
   rwa [hQ] at this
 
 theorem t_mem_normalizer_M₆ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
@@ -1412,9 +1425,10 @@ theorem not_P_le_centralizer_Y₂ (h : Setup G L f t) (d : TrialityD4Data L (2 ^
   rw [d.comm₂₅] at h1
   have h2 : d.x₆ (1 * 1) = d.x₆ 0 := by rw [h1, d.x₆_zero]
   have h3 := d.x₆_injective h2
-  have h4 : (1 : d.Γ₀) = 0 := by simpa using h3
+  have h4 : (1 : d.Γ₀) = 0 := by simp at h3
   exact one_ne_zero h4
 
+omit [Finite G] in
 theorem normalizer_P_le_normalizer_of_series {P X : Subgroup G} {n : ℕ}
     (hX : (Subgroup.upperCentralSeries ↥P n).map P.subtype = X) :
     normalizer (P : Set G) ≤ normalizer (X : Set G) := by
@@ -1430,6 +1444,7 @@ theorem W₃_le_M₆ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : 
     yamadaW₃ d t ≤ yamadaM₆ d t :=
   (h.yamadaW₃_le_yamadaF₄_R5 d hlay).trans (h.yamadaF₄_le_yamadaM₆_PA d hlay)
 
+omit [Finite G] in
 theorem prodX_le_P (d : TrialityD4Data L (2 ^ f)) : prodX d t ≤ yamadaP d t :=
   inf_le_left.trans (yamadaD₅_le_yamadaP d t)
 
@@ -1526,11 +1541,13 @@ section Fields
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem four_le_card_Γ₀ (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) : 4 ≤ Nat.card d.Γ₀ := by
   rw [d.card_Γ₀]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
 
+omit [Finite G] in
 theorem isSimpleGroup_SL (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     IsSimpleGroup SL(2, d.Γ₀) :=
   sl2_isSimpleGroup_of_charTwo (four_le_card_Γ₀ d hf)
@@ -1565,6 +1582,7 @@ theorem inf_centralizer_eq_or {A E₁ : Subgroup G} {T : Type*} [Group T] [IsSim
   · exact Or.inl h
   · exact Or.inr (h ▸ inf_le_right)
 
+omit [Finite G] in
 theorem sup_le_centralizer_of_le {A E₁ : Subgroup G} {t : G}
     (hcomm : ∀ a ∈ A, ∀ b ∈ Aᵍ[t], a * b = b * a) (hEA : E₁ ≤ A)
     (hAC : A ≤ centralizer (E₁ : Set G)) :
@@ -1583,9 +1601,10 @@ theorem sup_le_centralizer_of_le {A E₁ : Subgroup G} {t : G}
   rw [centralizer_sup_aux]
   exact sup_le (le_inf hAC hAC') (le_inf hA'C₁ hA'C)
 
+omit [Finite G] in
 theorem inf_centralizer_le {K A E₁ Q₃ : Subgroup G} {t : G}
-    (hKc : ∀ a ∈ K, ∀ b ∈ Kᵍ[t], a * b = b * a) (hQc : ∀ a ∈ Q₃, ∀ b ∈ Q₃ᵍ[t], a * b = b * a)
-    (hE₁K : E₁ ≤ K) (hEQ : E₁ ≤ Q₃) (hQ₃K : Q₃ ≤ K) (hQ₃A : Q₃ ≤ A)
+    (hKc : ∀ a ∈ K, ∀ b ∈ Kᵍ[t], a * b = b * a) (_hQc : ∀ a ∈ Q₃, ∀ b ∈ Q₃ᵍ[t], a * b = b * a)
+    (hE₁K : E₁ ≤ K) (_hEQ : E₁ ≤ Q₃) (hQ₃K : Q₃ ≤ K) (hQ₃A : Q₃ ≤ A)
     (hcen : A ⊓ centralizer (E₁ : Set G) = E₁)
     {a b : G} (ha : a ∈ Q₃) (hb : b ∈ Q₃ᵍ[t])
     (hab : a * b ∈ centralizer ((E₁ ⊔ E₁ᵍ[t] : Subgroup G) : Set G)) :
@@ -1754,6 +1773,7 @@ theorem B1_abstract {T : Type*} [Group T] [IsSimpleGroup T] {t : G}
     exact mul_mem (hY₂M (hXC x hx hxC)) hm
   · exact le_inf (hPeq ▸ le_sup_left) hMC
 
+omit [Finite G] in
 theorem characteristic_subgroupOf_of_inf_centralizer {P Y M : Subgroup G} {Z : Subgroup ↥P}
     [Z.Characteristic] (hZ : Z.map P.subtype = Y) (hM : P ⊓ centralizer (Y : Set G) = M) :
     (M.subgroupOf P).Characteristic := by
@@ -1792,6 +1812,7 @@ theorem center_SL_trivial {k : Type*} [Field k] [CharP k 2]
   have := congrFun (congrFun hrA i) j
   simpa [Matrix.scalar_apply, Matrix.one_apply] using this.symm
 
+omit [Finite G] in
 theorem mem_of_commutator_mem_of_quotient {X M : Subgroup G} {T : Type*} [Group T]
     (hiso : IsQuotientIso X M T) (hcen : ∀ x : T, (∀ y, x * y = y * x) → x = 1) {k : G}
     (hk : k ∈ X) (h : ∀ a ∈ X, k * a * k⁻¹ * a⁻¹ ∈ M) : k ∈ M := by
@@ -1815,6 +1836,7 @@ theorem mem_of_commutator_mem_of_quotient {X M : Subgroup G} {T : Type*} [Group 
   rw [hφk, mem_subgroupOf] at h2
   exact h2
 
+omit [Finite G] in
 theorem conj_mem_centralizerMod {W B : Subgroup G} {g x : G}
     (hgW : g ∈ normalizer (W : Set G)) (hgB : g ∈ normalizer (B : Set G))
     (hx : x ∈ centralizerMod W B) : g * x * g⁻¹ ∈ centralizerMod W B := by
@@ -1922,6 +1944,7 @@ theorem C1_abstract {T : Type*} [Group T] [IsSimpleGroup T]
     rw [hN]
     exact sup_le hK₂Z hK₂'Z
 
+omit [Finite G] in
 theorem isQuotientIso_map_conj {X B : Subgroup G} {T : Type*} [Group T] (g : G)
     (h : IsQuotientIso X B T) :
     IsQuotientIso (X.map (MulAut.conj g).toMonoidHom) (B.map (MulAut.conj g).toMonoidHom) T := by
@@ -2041,12 +2064,12 @@ theorem B1_proof (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
     ⟨hYE, hEinf, hEelem, hEcard, hEQ, hEnorm, hEcoat⟩⟩ := A2_sylow h d hp hK
   obtain ⟨⟨hEK, hpc, hq3, hzc, hN3, hAinf, hAcomm, hq33⟩, ⟨hNX, hLv, hN3M, v₁, hv₁, hdec, hv₁n⟩,
     ⟨hN3M6, hpN2, hPeq, hPsyl, hCM⟩⟩ := A3_structure h d hp hK
-  haveI hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
+  have hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
   have hS5 := S5_upperCentralSeries_P h d hlay
   have hKc : ∀ a ∈ K, ∀ b ∈ Kᵍ[t], a * b = b * a := fun a ha b hb =>
     (mem_centralizer_iff.1 (commutator_eq_bot_iff_le_centralizer.1 hK.comm ha) b hb).symm
   have hE₁abel : ∀ x ∈ eOne d t K, ∀ y ∈ eOne d t K, x * y = y * x := by
-    haveI := hEelem.1
+    have := hEelem.1
     exact fun x hx y hy => congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : eOne d t K) ⟨y, hy⟩)
   have hEn : qThree d t K ≤ normalizer ((eOne d t K : Subgroup G) : Set G) :=
     (normal_subgroupOf_iff_le_normalizer hEQ).1 hEnorm
@@ -2061,7 +2084,7 @@ theorem B1_proof (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
     (hNX ▸ le_sup_left) hN3M hN3M6 hPeq inf_le_right hXM (not_P_le_centralizer_Y₂ h d hlay)
   have hZ : (Subgroup.upperCentralSeries ↥(yamadaP d t) 2).map (yamadaP d t).subtype =
       yamadaY₂ d t := hS5.2.1
-  haveI hchar : ((yamadaM₆ d t).subgroupOf (yamadaP d t)).Characteristic :=
+  have hchar : ((yamadaM₆ d t).subgroupOf (yamadaP d t)).Characteristic :=
     characteristic_subgroupOf_of_inf_centralizer hZ hMeq
   refine ⟨part1, hMeq, hchar, ?_⟩
   have hMP : yamadaM₆ d t ≤ yamadaP d t := yamadaM₆_le_yamadaP d t
@@ -2080,7 +2103,7 @@ theorem C1_proof (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
     nTwo d t ⊓ centralizerMod (yamadaW₃ d t) (yamadaM₆ d t) = yamadaM₆ d t := by
   have hlay := hp.layer
   obtain ⟨⟨hN2eq, hK₂inf, hcomm, hiso, -⟩, -⟩ := B1_proof h d hp hK
-  haveI hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
+  have hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
   have hMW : yamadaW₃ d t ≤ yamadaM₆ d t := W₃_le_M₆ h d hlay
   have hN₂W := nTwo_le_normalizer_W₃ h d hp hK
   have hN₂M := nTwo_le_normalizer_M₆ h d hp hK
@@ -2569,6 +2592,7 @@ theorem J_comm {X : Type*} [Group X] {q : ℕ} (d : TrialityD4Data X q) :
 theorem L_le_centralizer_t (h : Setup G L f t) : L ≤ centralizer ({t} : Set G) := fun x hx =>
   mem_centralizer_singleton_iff.2 (mem_centralizer_iff.1 h.htL x hx)
 
+omit [Finite G] in
 theorem J_map_le_centralizer_J₀ {q : ℕ} (d : TrialityD4Data L q) :
     d.J.map L.subtype ≤ centralizer ((d.J₀.map L.subtype : Subgroup G) : Set G) := by
   rintro _ ⟨a, ha, rfl⟩
@@ -2607,7 +2631,7 @@ theorem J_map_le_normalizer_nThree (h : Setup G L f t) (d : TrialityD4Data L (2 
 
 theorem J_map_le_normalizer_nTwo (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hp : ProductHyp h d) {K : Subgroup G} (hK : IsLayerComponent d t K) :
-    d.J.map L.subtype ≤ normalizer (nTwo d t : Set G) := fun x hx =>
+    d.J.map L.subtype ≤ normalizer (nTwo d t : Set G) := fun _x hx =>
   mem_normalizer_sup (J_map_le_normalizer_nThree h d hp.layer hx)
     (J_map_le_normalizer_M₆ h d hp hK hx)
 
@@ -2744,7 +2768,7 @@ theorem hat_L0_Z (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
       normalizer ((zOf (bar (yamadaW₃ d t) (yamadaM₆ d t)) (bar (yamadaW₃ d t) (kThree d t K)) ⊔
         zOf (bar (yamadaW₃ d t) (yamadaM₆ d t))
           ((bar (yamadaW₃ d t) (kThree d t K))ᵍ[hatT h d hp]) : Subgroup _) : Set _) := by
-  haveI hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
+  have hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
   have hlay := hp.layer
   have htW := t_mem_normalizer_W₃ h d hlay
   have hK₂W := kTwo_le_normalizer_W₃ h d hp hK
@@ -2933,7 +2957,7 @@ theorem leviLong_le_commutator (hq : 4 ≤ Nat.card d.Γ₀) :
     d.leviLong ≤ ⁅d.leviLong, d.leviLong⁆ := by
   have hperf : Group.IsPerfect SL(2, d.Γ₀) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect (exists_finset_card_four hq)
-  haveI : Group.IsPerfect ↥d.leviLong :=
+  have : Group.IsPerfect ↥d.leviLong :=
     Group.IsPerfect.ofSurjective (f := d.leviLongEquiv.symm.toMonoidHom)
       d.leviLongEquiv.symm.surjective
   exact (Subgroup.isPerfect_iff.1 this).ge
@@ -3037,13 +3061,14 @@ theorem core_abstract {G : Type*} [Group G] [Finite G] {K M R : Subgroup G} {T :
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem not_isPGroup_SL (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     ¬ IsPGroup 2 SL(2, d.Γ₀) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hf
-  haveI : Finite SL(2, d.Γ₀) := inferInstance
-  haveI : Group.IsPerfect SL(2, d.Γ₀) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hf
+  have : Finite SL(2, d.Γ₀) := inferInstance
+  have : Group.IsPerfect SL(2, d.Γ₀) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect
       (exists_finset_card_four (four_le_card_Γ₀ d hf))
   exact Group.IsPerfect.not_isNilpotent SL(2, d.Γ₀) h.isNilpotent
@@ -3070,6 +3095,7 @@ theorem lvM_le_normalizer_W₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)
     lvM d ≤ normalizer (yamadaW₃ d t : Set G) :=
   (lvM_le_nTwo h d hp hK).trans (nTwo_le_normalizer_W₃ h d hp hK)
 
+omit [Finite G] in
 theorem D_map_le_lvM (d : TrialityD4Data L (2 ^ f)) : d.D.map L.subtype ≤ lvM d := by
   refine Subgroup.map_mono (sup_le (le_trans ?_ le_sup_left) (d.F_le_M.trans le_sup_right))
   rintro _ ⟨a, rfl⟩
@@ -3179,7 +3205,7 @@ theorem hat_core (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Produc
       IsPGroup 2 R → bar (yamadaW₃ d t) (kThree d t K) ≤ normalizer (R : Set (Bar (yamadaW₃ d t))) →
       R ≤ bar (yamadaW₃ d t) (yamadaM₆ d t) := by
   intro R hR hR2 hRn
-  haveI hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
+  have hSL : IsSimpleGroup SL(2, d.Γ₀) := isSimpleGroup_SL d hp.two_le
   have hKW : kThree d t K ≤ normalizer (yamadaW₃ d t : Set G) :=
     (kThree_le_nThree h d hp hK).trans (nThree_le_normalizer_W₃ h d hp hK)
   have hK₂W := kTwo_le_normalizer_W₃ h d hp hK
@@ -3429,6 +3455,7 @@ theorem lvM_inf_W₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Pr
     obtain ⟨w, hw, rfl⟩ := hz
     exact ⟨w, mem_sup_right (d.F_le_M (d.W_le_F hw)), rfl⟩
 
+omit [Finite G] in
 theorem W_map_le_lvM (d : TrialityD4Data L (2 ^ f)) : d.W.map L.subtype ≤ lvM d :=
   Subgroup.map_mono (d.W_le_F.trans (d.F_le_M.trans le_sup_right))
 

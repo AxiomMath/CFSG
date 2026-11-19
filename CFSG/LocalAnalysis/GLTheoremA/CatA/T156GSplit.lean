@@ -150,7 +150,7 @@ theorem t156_split {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S A : Subgroup Ω}
   obtain ⟨hX, lab₁, hlab₁, hraw₁⟩ := hMs
   obtain ⟨R₁, _, I₁, F₁, hQ⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw₁
   obtain ⟨hs, hna, θ₁, hPc, hP'⟩ := hQ
-  haveI : Finite R₁ := Finite.of_equiv (PSimple p S) θ₁.toEquiv
+  have : Finite R₁ := Finite.of_equiv (PSimple p S) θ₁.toEquiv
   have hRaw := hP'.1 hs hna
   have hOAC := hP'.2.1 hs hna
   have hFC := hP'.2.2.1

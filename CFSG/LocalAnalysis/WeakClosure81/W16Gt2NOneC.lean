@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ModDataE.isSylowIn_img_of_isSylowIn {J E : Subgroup G} (M : ModDataE J E)
     {T : Subgroup G} (hT : IsSylowIn 2 T J) : IsSylowIn 2 (M.img T) (M.img J) := by
   have hrelidx : (M.img T).relIndex (M.img J) = ((T.subgroupOf J) ⊔ M.ρ.ker).index := by
@@ -179,7 +180,7 @@ theorem exists_odd_normal_img (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen
     ∃ O : Subgroup (LGL 2 Mo.W), O ≤ Mo.img (conjClosure V H) ∧ Odd (Nat.card O) ∧
       (∀ x ∈ Mo.img H, ∀ o ∈ O, x * o * x⁻¹ ∈ O) ∧
       Mo.img (conjClosure V H) = Subgroup.zpowers t ⊔ O := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP, hRP⟩ := exists_isSylowIn_ge 2 c.mem.1 c.sylow.isPGroup
   have hPM : P ≤ M := le_M_of_isSylowIn h1 h15 hS c hP hRP
   have hP' : IsSylowIn 2 (Mo.img P) (Mo.img H) := Mo.isSylowIn_img_of_isSylowIn hP

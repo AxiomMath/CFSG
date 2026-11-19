@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_commutator {N X : Subgroup G} {x : G} (hxN : x ∈ normalizer (N : Set G))
     (hxX : x ∈ normalizer (X : Set G)) {k : G} (hk : k ∈ ⁅N, X⁆) : x * k * x⁻¹ ∈ ⁅N, X⁆ := by
   rw [Subgroup.commutator_def] at hk ⊢
@@ -26,7 +27,7 @@ theorem conj_mem_commutator {N X : Subgroup G} {x : G} (hxN : x ∈ normalizer (
       x * y * x⁻¹, (Subgroup.mem_normalizer_iff.1 hxX y).1 hy, ?_⟩
     simp only [commutatorElement_def]
     group
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     rw [show x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) by group]
     exact Subgroup.mul_mem _ ha hb
@@ -34,11 +35,12 @@ theorem conj_mem_commutator {N X : Subgroup G} {x : G} (hxN : x ∈ normalizer (
     rw [show x * a⁻¹ * x⁻¹ = (x * a * x⁻¹)⁻¹ by group]
     exact Subgroup.inv_mem _ ha
 
+omit [Finite G] in
 theorem comm_le_pCoreOf_of_normalizes {L X N : Subgroup G} (hXL : X ≤ L)
     (hLX : L = X ⊔ pCoreOf 2 L) (hs : IsSimpleGroup (Bar2 L)) (h3 : 3 ∣ Nat.card (Bar2 L))
     (hNL : N ≤ normalizer (L : Set G)) (hXN : X ≤ normalizer (N : Set G))
     (hN3 : ¬ 3 ∣ Nat.card N) : ⁅N, X⁆ ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKL : ⁅N, X⁆ ≤ L := by
     rw [Subgroup.commutator_le]
     intro n hn x hx
@@ -57,7 +59,7 @@ theorem comm_le_pCoreOf_of_normalizes {L X N : Subgroup G} (hXL : X ≤ L)
   set ψ : ↥(⁅N, X⁆ : Subgroup G) →* Bar2 L :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hKL) with hψ
   have hsurj := surjective_mk_inclusion_of_sup hXL hLX
-  haveI hnorm : ψ.range.Normal := by
+  have hnorm : ψ.range.Normal := by
     refine ⟨fun s hs b => ?_⟩
     obtain ⟨k, rfl⟩ := hs
     obtain ⟨x, rfl⟩ := hsurj b
@@ -95,7 +97,7 @@ theorem comm_mem_pCoreOf_of_not_normalizes {D : Data G} {L A : Subgroup G} (hL :
     (hAM : A ≤ D.M) (hA3 : ¬ 3 ∣ Nat.card A) {a d : G} (ha : a ∈ A) (hdA : d ∈ normalizer (A : Set G))
     (hdL : d ∈ L) (haL : a ∉ normalizer (L : Set G)) {k : ℕ} (hdk : orderOf d = 3 ^ k) :
     ⁅a, d⁆ ∈ pCoreOf 2 D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   have hL' : uniqueFourConj a⁻¹ L ∈ calC D.M :=
     uc22p22u_calC_conj (Subgroup.le_normalizer) hL (D.M.inv_mem (hAM ha))
@@ -141,6 +143,7 @@ theorem comm_mem_pCoreOf_of_not_normalizes {D : Data G} {L A : Subgroup G} (hL :
     CFSG.RankThree.PartTwo.Sec16.Step163Alt.mem_pCore_two_iff] at h1
   exact h1
 
+omit [Finite G] in
 theorem commutator_mem_of_three_elements {X A B : Subgroup G} (hXB : X ≤ normalizer (B : Set G))
     (h : ∀ d ∈ X, (∃ k : ℕ, orderOf d = 3 ^ k) → ∀ a ∈ A, ⁅a, d⁆ ∈ B) :
     ∀ x ∈ Opp 3 X, ∀ a ∈ A, ⁅a, x⁆ ∈ B := by
@@ -148,7 +151,7 @@ theorem commutator_mem_of_three_elements {X A B : Subgroup G} (hXB : X ≤ norma
   have key : x ∈ X ∧ ∀ a ∈ A, ⁅a, x⁆ ∈ B := by
     induction hx using Subgroup.closure_induction with
     | mem x hx => exact ⟨hx.1, h x hx.1 hx.2⟩
-    | one => exact ⟨X.one_mem, fun a _ => by simpa using B.one_mem⟩
+    | one => exact ⟨X.one_mem, fun a _ => by simp⟩
     | mul x y _ _ hx hy =>
       refine ⟨X.mul_mem hx.1 hy.1, fun a ha => ?_⟩
       have e : ⁅a, x * y⁆ = ⁅a, x⁆ * (x * ⁅a, y⁆ * x⁻¹) := by

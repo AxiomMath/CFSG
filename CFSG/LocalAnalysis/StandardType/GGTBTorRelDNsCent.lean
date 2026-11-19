@@ -19,6 +19,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p k : ℕ} {U : Fin k → Submodule F V}
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)} {u : Fin k → V} {c t : F}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem restrictEquiv_pow_coe {W : Submodule F V} {g : V ≃ₗ[F] V}
     (h1 : ∀ w ∈ W, g w ∈ W) (h2 : ∀ w ∈ W, g.symm w ∈ W) (n : ℕ) (w : W) :
     ((CFSG.RankThree.PartOne.KCOrthogonal.restrictEquiv W g h1 h2 ^ n) w : V) = (g ^ n) (w : V) := by
@@ -29,6 +30,7 @@ private theorem restrictEquiv_pow_coe {W : Submodule F V} {g : V ≃ₗ[F] V}
         CFSG.RankThree.PartOne.KCOrthogonal.coe_restrictEquiv, ih, pow_succ',
         LinearEquiv.mul_apply]
 
+omit [Finite F] [CharP F 2] in
 theorem preserves_plane_of_commute (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {g : ↥(orthDerived Q)} (hc : ∀ x ∈ E, g * x = x * g) (a : Fin k) :
     (∀ w ∈ U a, (g : V ≃ₗ[F] V) w ∈ U a) ∧
@@ -101,6 +103,7 @@ theorem preserves_plane_of_commute (hF : OmNsRootGen.IsCoherentFrame Q p U e E u
       (g : V ≃ₗ[F] V).symm ((e a : V ≃ₗ[F] V) v - v)
     rw [map_sub, ← happ' v]
 
+omit [Finite F] [CharP F 2] in
 theorem restrictEquiv_mem_centralizer (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     {g : ↥(orthDerived Q)} (hc : ∀ x ∈ E, g * x = x * g) (a : Fin k)
     {hgU : ∀ w ∈ U a, (g : V ≃ₗ[F] V) w ∈ U a}
@@ -124,6 +127,7 @@ theorem restrictEquiv_mem_centralizer (hF : OmNsRootGen.IsCoherentFrame Q p U e 
     CFSG.RankThree.PartOne.KCOrthogonal.coe_restrictEquiv]
   exact (happ (w : V)).symm
 
+omit [Finite F] in
 theorem commute_planeRot_of_commute (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     [Fact (Irreducible (OmNsRootGen.framePoly t))]
     {g : ↥(orthDerived Q)} (hc : ∀ x ∈ E, g * x = x * g) (a : Fin k) (z : normOne t) :
@@ -212,6 +216,7 @@ section Rigidity
 
 variable [Fact (Irreducible (OmNsRootGen.framePoly t))]
 
+omit [Finite F] in
 private theorem normOne_pow_card_add_one (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) (z : normOne t) : z ^ (Nat.card F + 1) = 1 := by
   refine planeRot_injective hF a ?_

@@ -49,13 +49,13 @@ theorem cInc_x0_smul_l0 (h : ↥c.G1) : CInc c.G1 c.G2 c.x0 ((h : G) • c.l0) :
   refine ⟨h, ?_, by simp [MulAction.Quotient.smul_mk]⟩
   show ((h : G) : G ⧸ c.G1) = ((1 : G) : G ⧸ c.G1)
   rw [QuotientGroup.eq]
-  simpa using h.2
+  simp
 
 theorem cInc_x0_smul_pi0 (h : ↥c.G1) : CInc c.G1 c.G3 c.x0 ((h : G) • c.pi0) := by
   refine ⟨h, ?_, by simp [MulAction.Quotient.smul_mk]⟩
   show ((h : G) : G ⧸ c.G1) = ((1 : G) : G ⧸ c.G1)
   rw [QuotientGroup.eq]
-  simpa using h.2
+  simp
 
 theorem smul_l0_eq_iff (h h' : G) : h • c.l0 = h' • c.l0 ↔ h⁻¹ * h' ∈ c.G2 := by
   simp only [Loc49.l0, basePt, MulAction.Quotient.smul_mk, smul_eq_mul, mul_one]
@@ -101,12 +101,12 @@ open Classical in
 
 theorem trio_smul (h : ↥c.G1) : ρ.trio ((h : G) • c.l0) = ρ.φ h • ρ.l₀ := by
   have hex : ∃ h' : ↥c.G1, (h' : G) • c.l0 = (h : G) • c.l0 := ⟨h, rfl⟩
-  rw [trio, dif_pos hex]
+  rw [trio, dite_eq_left hex]
   exact (ρ.φ_smul_l₀_eq_iff _ _).2 hex.choose_spec
 
 theorem sext_smul (h : ↥c.G1) : ρ.sext ((h : G) • c.pi0) = ρ.φ h • ρ.U₀ := by
   have hex : ∃ h' : ↥c.G1, (h' : G) • c.pi0 = (h : G) • c.pi0 := ⟨h, rfl⟩
-  rw [sext, dif_pos hex]
+  rw [sext, dite_eq_left hex]
   exact (ρ.φ_smul_U₀_eq_iff _ _).2 hex.choose_spec
 
 theorem trio_l0 : ρ.trio c.l0 = ρ.l₀ := by

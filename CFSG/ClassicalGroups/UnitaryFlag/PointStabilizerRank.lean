@@ -31,7 +31,7 @@ namespace CFSG.ClassicalGroups.UnitaryFlag
 variable {n : ℕ} {K : Type} [Field K]
 
 private theorem exists_add_bar_eq_one (h : UnitaryFieldData 2 n K) : ∃ c : K, c + h.bar c = 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have h2z : ∀ z : K, z + z = 0 := fun z => by
     have hzz : (2 : K) * z = 0 := by rw [h2, zero_mul]
@@ -52,9 +52,9 @@ theorem exists_pthRoots_subgroup (h : UnitaryFieldData 2 n K) {p : ℕ} (hp : p.
     (hpd : p ∣ 2 ^ n + 1) :
     ∃ μ : Subgroup Kˣ, Nat.card ↥μ = p ∧ (∀ a : ↥μ, a ^ p = 1) ∧
       ∀ a : ↥μ, h.bar ((a : Kˣ) : K) * ((a : Kˣ) : K) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
-  haveI : Finite Kˣ := Finite.of_injective (fun z : Kˣ => (z : K)) Units.val_injective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Finite Kˣ := Finite.of_injective (fun z : Kˣ => (z : K)) Units.val_injective
   have hdvd : p ∣ Nat.card Kˣ := by
     have hcard : Nat.card Kˣ = 2 ^ (2 * n) - 1 := by
       rw [Nat.card_units, h.card]
@@ -117,26 +117,18 @@ private theorem cbMat_mul_cbInvMat (c cb : K) (hc : c + cb = 1) (h2 : (2 : K) = 
   ext a b
   rcases a with i | k | i <;> rcases b with j | l | j <;>
     (try fin_cases i) <;> (try fin_cases j) <;> (try fin_cases k) <;> (try fin_cases l) <;>
-    simp [Matrix.mul_apply, Matrix.one_apply, Fintype.sum_sum_type, Fin.sum_univ_one,
-      cbMat, cbInvMat, Matrix.of_apply]
+    simp [Matrix.mul_apply, Fintype.sum_sum_type, cbMat, cbInvMat, Matrix.of_apply]
   all_goals first
     | linear_combination hc
     | linear_combination h2
     | linear_combination (c * cb) * h2
-    | linear_combination (cb * c) * h2
-    | linear_combination (c * c) * h2
-    | linear_combination (cb * cb) * h2
-    | linear_combination c * h2
-    | linear_combination cb * h2
-    | ring
 
 private theorem cbInvMat_mul_cbMat (c cb : K) (hc : c + cb = 1) (h2 : (2 : K) = 0) :
     cbInvMat c cb * cbMat c cb = 1 := by
   ext a b
   rcases a with i | k | i <;> rcases b with j | l | j <;>
     (try fin_cases i) <;> (try fin_cases j) <;> (try fin_cases k) <;> (try fin_cases l) <;>
-    simp [Matrix.mul_apply, Matrix.one_apply, Fintype.sum_sum_type, Fin.sum_univ_one,
-      cbMat, cbInvMat, Matrix.of_apply]
+    simp [Matrix.mul_apply, Fintype.sum_sum_type, cbMat, cbInvMat, Matrix.of_apply]
   all_goals first
     | linear_combination hc
     | linear_combination h2
@@ -146,7 +138,6 @@ private theorem cbInvMat_mul_cbMat (c cb : K) (hc : c + cb = 1) (h2 : (2 : K) = 
     | linear_combination (cb * cb) * h2
     | linear_combination c * h2
     | linear_combination cb * h2
-    | ring
 
 private theorem cbMat_gram (h : UnitaryFieldData 2 n K) {c cb : K} (hcb : h.bar c = cb)
     (hc : c + cb = 1) (h2 : (2 : K) = 0) :
@@ -155,8 +146,7 @@ private theorem cbMat_gram (h : UnitaryFieldData 2 n K) {c cb : K} (hcb : h.bar 
   ext a b
   rcases a with i | k | i <;> rcases b with j | l | j <;>
     (try fin_cases i) <;> (try fin_cases j) <;> (try fin_cases k) <;> (try fin_cases l) <;>
-    simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply,
-      Fintype.sum_sum_type, Fin.sum_univ_one, cbMat, hypGram_apply, hypPartner, hcb, hbcb,
+    simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Fintype.sum_sum_type, cbMat, hypGram_apply, hypPartner, hcb, hbcb,
       Matrix.of_apply]
   all_goals first
     | linear_combination hc
@@ -167,7 +157,6 @@ private theorem cbMat_gram (h : UnitaryFieldData 2 n K) {c cb : K} (hcb : h.bar 
     | linear_combination (cb * cb) * h2
     | linear_combination c * h2
     | linear_combination cb * h2
-    | ring
 
 private theorem cbInvMat_gram (h : UnitaryFieldData 2 n K) {c cb : K} (hcb : h.bar c = cb)
     (hc : c + cb = 1) (h2 : (2 : K) = 0) :
@@ -177,18 +166,12 @@ private theorem cbInvMat_gram (h : UnitaryFieldData 2 n K) {c cb : K} (hcb : h.b
   rcases a with i | k | i <;> rcases b with j | l | j <;>
     (try fin_cases i) <;> (try fin_cases j) <;> (try fin_cases k) <;> (try fin_cases l) <;>
     simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
-      Fintype.sum_sum_type, Fin.sum_univ_one, cbInvMat, hypGram_apply, hypPartner, hcb, hbcb,
+      Fintype.sum_sum_type, cbInvMat, hypGram_apply, hypPartner, hcb, hbcb,
       Matrix.of_apply]
   all_goals first
     | linear_combination hc
     | linear_combination h2
     | linear_combination (c * cb) * h2
-    | linear_combination (cb * c) * h2
-    | linear_combination (c * c) * h2
-    | linear_combination (cb * cb) * h2
-    | linear_combination c * h2
-    | linear_combination cb * h2
-    | ring
 
 private noncomputable def diagUnit (d : HypIndex 1 1 → Kˣ) : GL (HypIndex 1 1) K where
   val := Matrix.diagonal fun i => (d i : K)
@@ -212,7 +195,7 @@ private theorem diagUnit_mul (d d' : HypIndex 1 1 → Kˣ) :
     diagUnit (d * d') = diagUnit d * diagUnit d' := by
   apply Units.ext
   rw [coe_diagUnit, Units.val_mul, coe_diagUnit, coe_diagUnit, Matrix.diagonal_mul_diagonal]
-  first | rfl | (congr 1; funext i; exact Units.val_mul (d i) (d' i))
+  first | rfl
 
 private theorem diagUnit_injective : Function.Injective (diagUnit (K := K)) := by
   intro d d' h
@@ -247,7 +230,7 @@ private noncomputable def conjDiag (Cg : GL (HypIndex 1 1) K) :
   (MulAut.conj Cg).toMonoidHom.comp diagTriple
 
 private theorem conjDiag_injective (Cg : GL (HypIndex 1 1) K) :
-    Function.Injective (conjDiag Cg) := fun p q h =>
+    Function.Injective (conjDiag Cg) := fun _p _q h =>
   diagTriple_injective ((MulAut.conj Cg).injective h)
 
 private theorem coe_diagTriple (p : Kˣ × Kˣ × Kˣ) :
@@ -298,7 +281,7 @@ private theorem conjDiag_mem_hypUnitary (h : UnitaryFieldData 2 n K) {c cb : K} 
 
 private def tripleSubtype (μ : Subgroup Kˣ) :
     (↥μ × ↥μ × ↥μ) →* (Kˣ × Kˣ × Kˣ) :=
-  MonoidHom.mk' (fun p => ((p.1 : Kˣ), (p.2.1 : Kˣ), (p.2.2 : Kˣ))) (fun a b => rfl)
+  MonoidHom.mk' (fun p => ((p.1 : Kˣ), (p.2.1 : Kˣ), (p.2.2 : Kˣ))) (fun _a _b => rfl)
 
 private theorem tripleSubtype_injective (μ : Subgroup Kˣ) :
     Function.Injective (tripleSubtype μ) := by
@@ -315,7 +298,7 @@ theorem exists_prime_elemAbelian_le_projIsoStabilizer (h : UnitaryFieldData 2 n 
           IsElemAbelian p E ∧ Nat.card E = p ^ 3 := by
   classical
   have h2v : (2 : K) = 0 := by
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     exact CharP.cast_eq_zero K 2
   obtain ⟨p, hp, hp2, hp5, hpd⟩ :=
     CFSG.SectionRank.QTK.exists_prime_ne_five_dvd_two_pow_add_one h.one_le hn

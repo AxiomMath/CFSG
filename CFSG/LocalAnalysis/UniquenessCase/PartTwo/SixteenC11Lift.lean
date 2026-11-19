@@ -20,9 +20,9 @@ theorem s16c11_normalizer_le_of_bar_noncyclic (D : Data G) (h61 : UC6.R6_1 D)
     (hPW : P ≤ normalizer ((barSub V₀ V hV (E3.wClos V 0 D.T) : Subgroup _) : Set _)) :
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hprime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hP : PairFacts D.M V₀ V := h.pairFacts
   have hM : D.M ≤ stabTil V₀ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   have hT : IsSylowIn 2 D.T D.M :=
@@ -51,12 +51,12 @@ theorem s16c11_normalizer_le_of_bar_noncyclic (D : Data G) (h61 : UC6.R6_1 D)
   have hXp : IsPGroup p (P'.map N₁.subtype) := hP'p.map N₁.subtype
   have hXc : ¬ IsCyclic ↥(P'.map N₁.subtype) := by
     intro hcyc
-    haveI : IsCyclic ↥(P'.map N₁.subtype) := hcyc
-    haveI : IsCyclic ↥P' :=
+    have : IsCyclic ↥(P'.map N₁.subtype) := hcyc
+    have : IsCyclic ↥P' :=
       isCyclic_of_surjective
         (Subgroup.equivMapOfInjective P' N₁.subtype N₁.subtype_injective).symm
         (Subgroup.equivMapOfInjective P' N₁.subtype N₁.subtype_injective).symm.surjective
-    haveI : IsCyclic ↥(P'.map f) :=
+    have : IsCyclic ↥(P'.map f) :=
       isCyclic_of_surjective (f.subgroupMap P') (f.subgroupMap_surjective P')
     rw [hP'map] at this
     exact hPc this

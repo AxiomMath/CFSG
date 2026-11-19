@@ -28,6 +28,7 @@ theorem mem_closure_greedyGens :
           (mem_greedyGens S _ s (List.mem_append_right _ (List.mem_singleton_self s)))
     · exact mem_closure_greedyGens S _ s hs
 
+omit [Group (Idx n)] in
 theorem getD_map_fst (L : List (List (Idx n × List Nat))) (j : Nat) :
     (L.map fun W => W.map Prod.fst).getD j [] = (L.getD j []).map Prod.fst := by
   simp only [List.getD_eq_getElem?_getD, List.getElem?_map]
@@ -49,6 +50,7 @@ theorem ctxGens_of {reps : List (Idx n)} {Rs : List (List (Idx n))} (h : ctxGens
   rw [mkHomCtx_gens, greedyGens_of_genChk (h.2 k hk)]
   rfl
 
+omit [Group (Idx n)] in
 theorem xOK_false {e : Eng n} {ld : List Nat} {i : Idx n} (h : xWit e ld i = true) :
     xOK e ld = false := by
   simp only [xWit, Bool.and_eq_true, List.contains_iff_mem, decide_eq_true_eq] at h
@@ -60,6 +62,7 @@ theorem xOK_false {e : Eng n} {ld : List Nat} {i : Idx n} (h : xWit e ld i = tru
   simp only [hb, decide_true, Bool.not_true, Bool.false_or, decide_eq_true_eq] at h2
   omega
 
+omit [Group (Idx n)] in
 theorem thompsonOK_false {e : Eng n} {ld : List Nat} {h : Nat} {u : Idx n}
     (hw : thWit e ld h u = true) : thompsonOK e ld = false := by
   simp only [thWit, Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq,

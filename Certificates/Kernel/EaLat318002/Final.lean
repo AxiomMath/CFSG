@@ -81,7 +81,7 @@ noncomputable def nd (k : ℕ) : Γ24 :=
 
 theorem enc_nd {k : ℕ} (hk : k < 592) : enc24 (nd k) = NC k := by
   unfold nd
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   exact (slp_mem k hk).choose_spec.2
 
 noncomputable def gensR : List Γ24 := [nd 161, nd 303, nd 431, nd 591]
@@ -153,7 +153,7 @@ noncomputable def vv (i : ℕ) : Γ24 := if h : i < 191 then (v_exists i h).choo
 
 theorem enc_vv {i : ℕ} (hi : i < 191) : enc24 (vv i) = V i := by
   unfold vv
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact (v_exists i hi).choose_spec
 
 theorem hncw : ∀ x y : Γ24, ∀ w < 24, ncw24 (enc24 x) (enc24 y) w = true → x * y ≠ y * x :=
@@ -275,7 +275,7 @@ theorem cntW_eq (W : ℕ → ℕ) (el sz : ℕ) (ha : ∀ p < 24, pop24 (orbW W 
       · rfl
     rw [ih (by omega), Finset.range_add_one (n := m)]
     simp only [hc, add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_range, ha m (by omega), if_true]
+      Finset.mem_range, ha m (by omega), ite_true]
     rw [Nat.one_shiftLeft, pow_mul]
     norm_num
 
@@ -388,7 +388,7 @@ theorem m24_profile_kc :
       decide⟩
   have hE2 : IsPGroup 2 ↥E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x.1 x.2)⟩
   obtain ⟨P, hEP⟩ := hE2.exists_le_sylow
-  have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf (P : Subgroup Γ24) ⊤ := ⟨le_top, P.isPGroup', by
+  have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf (P : Subgroup Γ24) ⊤ := ⟨le_top, P.isPGroup, by
     rw [show ((P : Subgroup Γ24).subgroupOf ⊤).index = (P : Subgroup Γ24).index from
       Subgroup.relIndex_top_right _]
     exact Sylow.not_dvd_index P⟩

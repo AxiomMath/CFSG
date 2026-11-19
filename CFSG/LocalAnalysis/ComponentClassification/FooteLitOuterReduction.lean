@@ -61,7 +61,7 @@ theorem footeOuterReduction_of_inputs (hLB : FooteLBalanceInput)
   have hSX : S ≤ X := map_subtype_le _
   have hScard : Nat.card S = Nat.card P := Subgroup.card_map_of_injective X.subtype_injective
   have hSp : IsPGroup 2 S := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := k) (by rw [hScard, hk])
   have htS : t ∈ S := ⟨⟨t, htX⟩, hP0P (mem_subgroupOf.mpr (mem_zpowers t)), rfl⟩
   have hev : ¬ Odd (Nat.card ↥(G₀ ⊓ C)) := fun hodd => by

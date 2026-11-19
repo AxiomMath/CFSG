@@ -75,7 +75,7 @@ private theorem ggK1Dt_isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : T
   have hq2 : 2 ≤ ℓ ^ g := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : g ≠ 0) hE.prime.one_lt
     omega
-  haveI := ggK1Dt_finite_generalLinearGroup hE (W := W)
+  have := ggK1Dt_finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · have hq : ¬ ((Module.finrank E W = 2 → 4 ≤ ℓ ^ g) ∧ (Module.finrank E W = 3 → 3 ≤ ℓ ^ g)) := by
       rcases hsmall with h | h
@@ -123,7 +123,7 @@ private theorem ggK1Dt_isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : T
       ((b : LinearMap.GeneralLinearGroup E W) : Module.End E W)).eq
     simpa [Subgroup.coe_mul, Units.val_mul] using this
 
-private theorem ggK1Dt_sesqUnitaryGroup_tame {nf : ℕ} (hnf : 1 ≤ nf)
+private theorem ggK1Dt_sesqUnitaryGroup_tame {nf : ℕ} (_hnf : 1 ≤ nf)
     {E : Type} [Field E] (hE : UnitaryFieldData 2 nf E)
     {W : Type} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) :
@@ -171,8 +171,8 @@ theorem ggK1D_tame_paired {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     CFSG.IsQuasisimple ↥⁅supportedBlock Q x h, supportedBlock Q x h⁆ ∨
       Group.IsSolvable ↥(supportedBlock Q x h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := finite_adjoinRoot_of_fact h
   have eGL : ↥(supportedBlock Q x h) ≃*
       Matrix.GeneralLinearGroup (Fin (Module.finrank (AdjoinRoot h)
         (primaryComponent x.toLinearMap h))) (AdjoinRoot h) :=
@@ -190,9 +190,9 @@ theorem ggK1D_tame_selfDual {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     CFSG.IsQuasisimple ↥⁅supportedBlock Q x h, supportedBlock Q x h⁆ ∨
       Group.IsSolvable ↥(supportedBlock Q x h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite (AdjoinRoot h)
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite (AdjoinRoot h)
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
   have hmon : h.Monic := (mem_primaryFactors.mp hh).2.1
   have hdvdX : h ∣ X ^ p - 1 := hx.dvd_X_pow_sub_one hh

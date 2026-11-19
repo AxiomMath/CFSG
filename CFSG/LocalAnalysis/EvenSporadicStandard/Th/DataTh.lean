@@ -19,7 +19,7 @@ theorem exists_sylow_center_elementary {J : Type*} [Group J] [Finite J] {Mc Q : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 (Q.subgroupOf Mc) := hp ▸ CFSG.pCore_isPGroup
   obtain ⟨S₀, hS₀⟩ := hQp.exists_le_sylow
-  refine ⟨(S₀ : Subgroup Mc).map Mc.subtype, S₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S₀ : Subgroup Mc).map Mc.subtype, S₀.isPGroup.map _, ?_, ?_⟩
   · have h1 : ((S₀ : Subgroup Mc).map Mc.subtype).relIndex Mc = (S₀ : Subgroup Mc).index := by
       rw [Subgroup.relIndex,
         show ((S₀ : Subgroup Mc).map Mc.subtype).subgroupOf Mc = (S₀ : Subgroup Mc) from

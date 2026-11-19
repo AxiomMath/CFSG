@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mul_inv_mem_of_eq_sup {Y D : Subgroup G} {e : G}
     (hdec : Y = pPrimeCoreOf 3 Y ⊔ D)
     (heO : e ∈ Subgroup.normalizer (pPrimeCoreOf 3 Y : Set G))
@@ -53,6 +54,7 @@ theorem conj_mul_inv_mem_of_eq_sup {Y D : Subgroup G} {e : G}
   rw [hdec] at hy
   exact ((sup_le hOS hDS) hy).2
 
+omit [Finite G] in
 theorem trivial_of_dec {A Y : Subgroup G} {LB : Subgroup G → Subgroup G} {e : G} (heA : e ∈ A)
     (he3 : orderOf e = 3) (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hdec : Y = pPrimeCoreOf 3 Y ⊔
@@ -188,7 +190,7 @@ theorem mem_zpowers_of_trivial {A : Subgroup G} {c : G} {L : Subgroup G} (h : Se
   (X.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))
 
 omit [Finite G] in
-theorem conj_mem_normalizer_barR {X Y R : Subgroup G} (hXY : X ≤ Y)
+theorem conj_mem_normalizer_barR {X Y R : Subgroup G} (_hXY : X ≤ Y)
     (hXR : X ≤ Subgroup.normalizer (R : Set G)) :
     ∀ k ∈ imgX X Y, MulAut.conj k ∈ Subgroup.normalizer (barR Y R : Set _) := by
   rintro _ ⟨x, hx, rfl⟩
@@ -201,6 +203,7 @@ theorem isPGroup_barR {Y R : Subgroup G} (hRY : R ≤ Subgroup.normalizer (Y : S
     (hR2 : IsPGroup 2 R) : IsPGroup 2 (barR Y R) :=
   (hR2.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm).map _
 
+omit [Finite G] in
 theorem commutator_le_of_forall {X Y R : Subgroup G} (hXY : X ≤ Y)
     (hXR : X ≤ Subgroup.normalizer (R : Set G)) (hRY : R ≤ Subgroup.normalizer (Y : Set G))
     (hR2 : IsPGroup 2 R)

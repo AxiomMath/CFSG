@@ -62,7 +62,7 @@ section WithFinite
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K J W : Subgroup G} {z t : G}
 
-theorem neighbours_of_frame_of_zero_of (hΩ : ConjInvariant Ω) (hK : K ∈ Ω)
+theorem neighbours_of_frame_of_zero_of (hΩ : ConjInvariant Ω) (_hK : K ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∃ g : G, conjSub g K = L) (F : FrameData Ω W K J z t)
     (h0 : ∀ M ∈ omegaNbr Ω K, ∃ j, M = (F.ρ j).K) :
     ∀ i : Fin 4, ∀ M ∈ omegaNbr Ω (F.ρ i).K, ∃ j, M = (F.ρ j).K := by

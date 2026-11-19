@@ -47,7 +47,7 @@ theorem cj_inv {g a : Nat} (hg : g < 256) (ha : a < 256) :
     cj mt inv (inv g) (cj mt inv g a) = a := by
   have := G.il _ hg
   unfold cj
-  simp [G.inv_inv hg, G.as, G.cl, G.il, G.canc1, G.canc2, G.ir, G.ii, G.e0l, G.e0r, hg, ha, this]
+  simp [G.inv_inv hg, G.as, G.cl, G.il, G.canc2, G.ii, G.e0r, hg, ha, this]
 
 theorem cj_lt {g a : Nat} (hg : g < 256) (ha : a < 256) : cj mt inv g a < 256 :=
   G.cl _ _ (G.cl _ _ hg ha) (G.il _ hg)
@@ -88,8 +88,7 @@ theorem cjW_inv {g h : Nat} (hg : g < 256) (hh : h < 256) {w : WEl} (hw : VW w) 
   obtain ⟨hc, hd⟩ : c < 256 ∧ d < 256 := hw
   have := G.il _ hg
   have := G.il _ hh
-  cases e <;> simp (maxDischargeDepth := 10) [cjW, G.inv_inv hg, G.inv_inv hh, G.as, G.cl, G.il, G.canc1, G.canc2, G.ir,
-    G.ii, G.e0l, G.e0r, hg, hh, hc, hd, *]
+  cases e <;> simp (maxDischargeDepth := 10) [cjW, G.inv_inv hg, G.inv_inv hh, G.as, G.cl, G.il, G.canc2, G.ii, G.e0r, *]
 
 theorem cjW_mul {g h : Nat} (hg : g < 256) (hh : h < 256) {x y : WEl} (hx : VW x) (hy : VW y) :
     cjW mt inv g h (wmul mt x y) = wmul mt (cjW mt inv g h x) (cjW mt inv g h y) := by
@@ -99,8 +98,7 @@ theorem cjW_mul {g h : Nat} (hg : g < 256) (hh : h < 256) {x y : WEl} (hx : VW x
   obtain ⟨hc', hd'⟩ : c' < 256 ∧ d' < 256 := hy
   have := G.il _ hg
   have := G.il _ hh
-  cases e <;> cases e' <;> simp (maxDischargeDepth := 10) [cjW, wmul, G.as, G.cl, G.il, G.canc1, G.canc2, G.ir, G.ii,
-    G.e0l, G.e0r, *]
+  cases e <;> cases e' <;> simp (maxDischargeDepth := 10) [cjW, wmul, G.as, G.cl, G.il, G.canc2, *]
 
 theorem cjW_one {g h : Nat} (hg : g < 256) (hh : h < 256) : cjW mt inv g h wone = wone := by
   simp [cjW, wone, G.e0r _ hg, G.e0r _ hh, G.ir _ hg, G.ir _ hh]
@@ -150,15 +148,14 @@ theorem mem_cenList {mt : Nat → Nat → Nat} {lab : Nat → Nat} {m a b : Nat}
   cases e
   · simp only [List.mem_append, List.mem_flatMap, List.mem_map, getD_blk, List.mem_filter,
       List.mem_range, beq_iff_eq, Prod.mk.injEq, Bool.false_eq_true, Bool.true_eq_false,
-      and_false, and_true, exists_false, or_false, false_or, if_false]
+      and_false, and_true, exists_false, or_false, ite_false]
     constructor
     · rintro ⟨c', ⟨hc, hac⟩, d', ⟨-, ⟨hd, hbd⟩, hm⟩, rfl, rfl⟩
       exact ⟨hc, hd, hm, hac, hbd⟩
     · rintro ⟨hc, hd, hm, hac, hbd⟩
       exact ⟨c, ⟨hc, hac⟩, d, ⟨hlab c hc, ⟨hd, hbd⟩, hm⟩, rfl, rfl⟩
   · simp only [List.mem_append, List.mem_flatMap, List.mem_map, getD_blk, List.mem_filter,
-      List.mem_range, beq_iff_eq, Prod.mk.injEq, Bool.false_eq_true, Bool.true_eq_false,
-      and_false, and_true, exists_false, or_false, false_or, if_true]
+      List.mem_range, beq_iff_eq, Prod.mk.injEq, Bool.false_eq_true, and_false, and_true, exists_false, false_or, ite_true]
     constructor
     · rintro ⟨c', ⟨hc, hac⟩, d', ⟨-, ⟨hd, hbd⟩, hm⟩, rfl, rfl⟩
       exact ⟨hc, hd, hm, hac, hbd⟩
@@ -204,6 +201,7 @@ variable {mt : Nat → Nat → Nat} {inv : Nat → Nat} {lab : Nat → Nat} (G :
     lab (mt (mt g c) (inv h)) = lab c)
 include G hlab hL
 
+omit hlab in
 theorem inCen_cjW {m a b g h : Nat} (ha : a < 256) (hb : b < 256) (hg : g < 256)
     (hh : h < 256) (hg0 : lab g = 0) (hh0 : lab h = 0) {w : WEl}
     (hw : inCen mt lab m a b w) :
@@ -218,21 +216,21 @@ theorem inCen_cjW {m a b g h : Nat} (ha : a < 256) (hb : b < 256) (hg : g < 256)
   · cases e <;> simpa [cjW, hL _ _ _ hg hh hc hg0 hh0, hL _ _ _ hh hg hd hh0 hg0,
       hL _ _ _ hg hg hc hg0 hg0, hL _ _ _ hh hh hd hh0 hh0] using hm
   · cases e
-    · simp only [Bool.false_eq_true, if_false] at hcd ⊢
+    · simp only [Bool.false_eq_true, ite_false] at hcd ⊢
       obtain ⟨h1, h2⟩ := hcd
       have e1 := congrArg (fun t => mt g (mt t (inv g))) h1
       have e2 := congrArg (fun t => mt h (mt t (inv h))) h2
-      simp only [cjW, cj, Bool.false_eq_true, if_false] at e1 e2 ⊢
-      simp (maxDischargeDepth := 10) only [G.as, G.cl, G.il, G.canc1, G.canc2, hg, hh, ha, hb,
-        hc, hd, hgi, hhi] at e1 e2 ⊢
+      simp only [cjW, cj, Bool.false_eq_true, ite_false] at e1 e2 ⊢
+      simp (maxDischargeDepth := 10) only [G.as, G.cl, G.il, G.canc2, hg, hh, ha, hb,
+        hc, hd] at e1 e2 ⊢
       exact ⟨e1, e2⟩
-    · simp only [if_true] at hcd ⊢
+    · simp only [ite_true] at hcd ⊢
       obtain ⟨h1, h2⟩ := hcd
       have e1 := congrArg (fun t => mt g (mt t (inv h))) h1
       have e2 := congrArg (fun t => mt h (mt t (inv g))) h2
-      simp only [cjW, cj, if_true] at e1 e2 ⊢
-      simp (maxDischargeDepth := 10) only [G.as, G.cl, G.il, G.canc1, G.canc2, hg, hh, ha, hb,
-        hc, hd, hgi, hhi] at e1 e2 ⊢
+      simp only [cjW, cj, ite_true] at e1 e2 ⊢
+      simp (maxDischargeDepth := 10) only [G.as, G.cl, G.il, G.canc2, hg, hh, ha, hb,
+        hc, hd] at e1 e2 ⊢
       exact ⟨e1, e2⟩
 
 theorem cenList_perm (hLi : ∀ g, g < 256 → lab g = 0 → lab (inv g) = 0) {m a b g h : Nat}
@@ -252,14 +250,14 @@ theorem cenList_perm (hLi : ∀ g, g < 256 → lab g = 0 → lab (inv g) = 0) {m
     have hgi := G.il _ hg
     have hhi := G.il _ hh
     refine List.mem_map.2 ⟨cjW mt inv (inv g) (inv h) w, (mem_cenList hlab).2 ?_, ?_⟩
-    · have := inCen_cjW G hlab hL (G.cj_lt hg ha) (G.cj_lt hh hb) hgi hhi
+    · have := inCen_cjW G hL (G.cj_lt hg ha) (G.cj_lt hh hb) hgi hhi
         (hLi g hg hg0) (hLi h hh hh0) hw'
       rwa [G.cj_inv hg ha, G.cj_inv hh hb] at this
     · have := G.cjW_inv hgi hhi (w := w) ⟨hw'.1, hw'.2.1⟩
       rwa [G.inv_inv hg, G.inv_inv hh] at this
   · intro hw
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hw
-    exact (mem_cenList hlab).2 (inCen_cjW G hlab hL ha hb hg hh hg0 hh0 ((mem_cenList hlab).1 hx))
+    exact (mem_cenList hlab).2 (inCen_cjW G hL ha hb hg hh hg0 hh0 ((mem_cenList hlab).1 hx))
 
 end Conj
 

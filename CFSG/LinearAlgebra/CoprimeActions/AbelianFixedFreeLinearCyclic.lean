@@ -17,13 +17,13 @@ theorem isCyclic_of_fixedFree {F : Type*} [Field F] {A : Type*} [Group A] [Finit
     [IsMulCommutative A] {V : Type*} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
     [Nontrivial V] (ρ : Representation F A V)
     (hfree : ∀ a : A, a ≠ 1 → ∀ v : V, ρ a v = v → v = 0) : IsCyclic A := by
-  letI : CommGroup A := { ‹Group A› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
+  let : CommGroup A := { ‹Group A› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   let φ : MonoidAlgebra F A →ₐ[F] Module.End F V := asAlgebraHom ρ
   let R := MonoidAlgebra F A ⧸ RingHom.ker φ
   let ψ : R →ₐ[F] Module.End F V := Ideal.kerLiftAlg φ
   have hψ : Function.Injective ψ := Ideal.kerLiftAlg_injective φ
   have hfin : FiniteDimensional F R := inferInstance
-  haveI : Nontrivial R := by
+  have : Nontrivial R := by
     refine ⟨⟨0, 1, fun h => ?_⟩⟩
     have := congrArg ψ h
     simp at this
@@ -36,10 +36,10 @@ theorem isCyclic_of_fixedFree {F : Type*} [Field F] {A : Type*} [Group A] [Finit
     show ψ (Ideal.Quotient.mk (RingHom.ker φ) (MonoidAlgebra.of F A a)) = ρ a
     rw [show ψ (Ideal.Quotient.mk (RingHom.ker φ) (MonoidAlgebra.of F A a))
       = φ (MonoidAlgebra.of F A a) from Ideal.kerLiftAlg_mk φ _]
-    simp [φ, MonoidAlgebra.of_apply, asAlgebraHom_single_one]
-  haveI : Ideal.IsMaximal m := hm
-  haveI : m.IsPrime := hm.isPrime
-  haveI : IsArtinianRing R := IsArtinianRing.of_finite F R
+    simp [φ, MonoidAlgebra.of_apply]
+  have : Ideal.IsMaximal m := hm
+  have : m.IsPrime := hm.isPrime
+  have : IsArtinianRing R := IsArtinianRing.of_finite F R
   refine isCyclic_of_injective_ringHom (R := R ⧸ m) χ ?_
   rw [injective_iff_map_eq_one]
   intro a ha

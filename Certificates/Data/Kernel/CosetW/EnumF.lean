@@ -29,13 +29,13 @@ theorem getF_eq (b : WStore) (i : Nat) : getF b i = b.get i := by
   unfold getF WStore.get
   by_cases h : i < b.n
   · rw [show Nat.blt i b.n = true from Nat.blt_eq.mpr h, Bool.cond_true,
-      ite_cond_eq_true _ _ (eq_true h)]
+      ite_eq_left_of_eq_true _ _ (eq_true h)]
     rfl
   · have h2 : Nat.blt i b.n = false := by
       cases e : Nat.blt i b.n
       · rfl
       · exact absurd (Nat.blt_eq.mp e) h
-    rw [h2, Bool.cond_false, ite_cond_eq_false _ _ (eq_false h)]
+    rw [h2, Bool.cond_false, ite_eq_right_of_eq_false _ _ (eq_false h)]
 
 @[expose] def getLF (b : WStore) (c : Nat) : Nat := Nat.xor (getF b c) c
 

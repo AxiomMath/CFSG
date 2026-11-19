@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.FongKF
 theorem kdI278SporB_holds :
     KDI278SporB := by
   intro p s hpair Z _ _ K hKn hsK hC _
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   right
   intro B U _ hB _ hU
   obtain ⟨eK⟩ := hsK

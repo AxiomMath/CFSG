@@ -306,12 +306,12 @@ theorem centralizer_qbar {y : Equiv.Perm (Fin 54)} (hy : y ∈ (rho1Of h1).range
 theorem entry1 :
     Nat.card (rho1Of h1).range = 1658880 ∧
       Nat.card (suzQbarOf h1) = 64 ∧
-      (∀ k < 10, ∀ x ∈ suzQbarOf h1, kperm1Of h1 k * x * (kperm1Of h1 k)⁻¹ ∈ suzQbarOf h1) ∧
-      (∀ i < 6, ∀ j < 6, qpermOf h1 i * qpermOf h1 j = qpermOf h1 j * qpermOf h1 i) ∧
-      ∀ y ∈ (rho1Of h1).range, (∀ j < 6, y * qpermOf h1 j = qpermOf h1 j * y) →
-        y ∈ suzQbarOf h1 :=
-  ⟨card_range_rho1 h1, card_qbar h1, fun k hk x hx => conj_mem_qbar h1 hk hx,
-    fun i hi j hj => qperm_comm h1 hi hj, fun y hy hc => centralizer_qbar h1 hy hc⟩
+      (∀ _k < 10, ∀ _x ∈ suzQbarOf h1, kperm1Of h1 _k * _x * (kperm1Of h1 _k)⁻¹ ∈ suzQbarOf h1) ∧
+      (∀ _i < 6, ∀ _j < 6, qpermOf h1 _i * qpermOf h1 _j = qpermOf h1 _j * qpermOf h1 _i) ∧
+      ∀ _y ∈ (rho1Of h1).range, (∀ _j < 6, _y * qpermOf h1 _j = qpermOf h1 _j * _y) →
+        _y ∈ suzQbarOf h1 :=
+  ⟨card_range_rho1 h1, card_qbar h1, fun _k hk _x hx => conj_mem_qbar h1 hk hx,
+    fun _i hi _j hj => qperm_comm h1 hi hj, fun _y hy hc => centralizer_qbar h1 hy hc⟩
 
 end Entry1
 

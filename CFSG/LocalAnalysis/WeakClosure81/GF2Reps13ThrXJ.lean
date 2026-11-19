@@ -43,7 +43,7 @@ private theorem w16g_sum_le_of_two_le {ι : Type*} [Fintype ι] (f : ι → ℕ)
 
 private theorem w16g_dParam_three : dParam 3 = 2 := by
   rw [dParam]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by decide) (by decide)
 
 theorem s13_three_shape (h : HAb A X Q t 3)
@@ -54,9 +54,9 @@ theorem s13_three_shape (h : HAb A X Q t 3)
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
   have hd3 : dParam 3 = 2 := w16g_dParam_three
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
   have hSsub : s13Supp X Q ⊆ s13IsoComps X := fun U hU => hU.1
   have hSne : (s13Supp X Q).Nonempty := by
     rw [Set.nonempty_iff_ne_empty]
@@ -129,7 +129,7 @@ theorem s13_three_shape (h : HAb A X Q t 3)
     Nat.le_of_dvd (card_subgroup_pos _) (Subgroup.card_dvd_of_le hQle)
   have hQcard_lt : Nat.card ↥(s13XSupp X (s13Supp X Q)) < 3 ^ (s13Supp X Q).ncard :=
     s13_card_XSupp_lt h.hW hp3 hp32 h.hXe hH0 hSsub hSne
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hpgQ : IsPGroup 3 ↥Q := by
     intro q
     refine ⟨1, ?_⟩
@@ -178,9 +178,9 @@ theorem s13_three_ranks (h : HAb A X Q t 3) :
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
   have hd3 : dParam 3 = 2 := w16g_dParam_three
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
   have hsum_eq : (∑ i : {U : Subgroup W // U ∈ s13Supp X Q}, rk ↥(i.1)) =
       rk ↥(commSub ⊤ Q) := by
     rw [rk_commSub_top_eq_sum h.hW hp3 hp32 h.hXe h.hQX]

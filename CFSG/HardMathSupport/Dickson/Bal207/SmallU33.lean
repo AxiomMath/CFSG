@@ -45,7 +45,7 @@ theorem bal207PlusSmallU33 (G : ∀ (S : Type) [Group S], MulAut S → Prop) :
   obtain ⟨⟨d, hv⟩, hd, ⟨eJ⟩⟩ := hS
   have hd' : IsU33Idx d := hd
   obtain ⟨q, rfl, hq3, hq1⟩ := IsU33Idx.exists hd'
-  haveI := isSimpleGroup_u33 hv
+  have := isSimpleGroup_u33 hv
   obtain ⟨⟨e₃⟩, -⟩ := barX_centralQuotient hJC eJ.isSimpleGroup
   let eT := e₃.symm.trans eJ
   have hcard : Nat.card (↥(barX 3 (Subgroup.centralizer ({a} : Set X)) J) ⧸

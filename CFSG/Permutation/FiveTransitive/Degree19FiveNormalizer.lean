@@ -26,7 +26,7 @@ theorem nonidentity_sylow_fixed_embedding_bound
     N.index * (p - 1) * f.descFactorial m ≤ Nat.card P := by
   classical
   dsimp
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let A := Degree15.NonidentitySylowElements p P
   let val : A → P :=
     Degree15.nonidentitySylowElementVal p P
@@ -78,14 +78,14 @@ theorem nonidentity_sylow_fixed_embedding_bound
       _ = ∑ q : P,
           Fintype.card (MulAction.fixedBy E q) := by
         simp
-  letI : MulAction.IsPretransitive P E := by
+  let : MulAction.IsPretransitive P E := by
     change MulAction.IsMultiplyPretransitive P X m
     exact hm
-  letI : Nonempty E := Fintype.card_pos_iff.mp (by
+  let : Nonempty E := Fintype.card_pos_iff.mp (by
     rw [Fintype.card_embedding_eq, Fintype.card_fin,
       Nat.descFactorial_pos]
     exact hmCard)
-  letI : Unique (MulAction.orbitRel.Quotient P E) :=
+  let : Unique (MulAction.orbitRel.Quotient P E) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P E).mp hm)
@@ -180,7 +180,7 @@ theorem sylow_five_card_eq_five
     (hnotFive : ¬5 ∣ h)
     (S : Sylow 5 P) :
     Nat.card S = 5 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hh : h ≠ 0 := by
     intro hz
     subst h
@@ -350,7 +350,7 @@ private theorem triple_five_centralizer_card_le_thirty
       ∀ q : ℕ, q.Prime → (q = 2 ∨ q = 3) →
         ¬q ∣ Nat.card cycleMap.ker := by
     intro q hq hqCases hqdvd
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hvorder⟩ :=
       exists_prime_orderOf_dvd_card'
         (G := cycleMap.ker) q hqdvd
@@ -501,7 +501,7 @@ theorem sylow_five_normalizer_card_eq_one_twenty
   have hPcard : Nat.card P = 1395360 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hScard : Nat.card S = 5 :=
     sylow_five_card_eq_five P h hPcard hnotFive S
   let N : Subgroup P :=
@@ -534,7 +534,7 @@ theorem sylow_five_normalizer_card_eq_one_twenty
     rw [Degree15.card_fixedBy_subgroup_perm, hcard,
       husupport]
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5)
         (by omega) (by
@@ -562,9 +562,9 @@ theorem sylow_five_normalizer_card_eq_one_twenty
     exact Nat.le_of_mul_le_mul_left hscaled
       (Nat.pos_of_ne_zero
         Subgroup.index_ne_zero_of_finite)
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -618,7 +618,7 @@ theorem sylow_five_normalizer_card_eq_one_twenty
     simp only [S.coe_coe]
   have hrDvd : C.relIndex N ∣ 4 := by
     rwa [hrEq]
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrPos : 0 < C.relIndex N :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

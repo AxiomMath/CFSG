@@ -43,8 +43,8 @@ theorem ggK1C_raw_symp {p nf r : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeSymplectic] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1C_coprime_center (hS : GGK0Schur GGKacGenericClC)
@@ -85,8 +85,7 @@ theorem ggK1C_coprime_center (hS : GGK0Schur GGKacGenericClC)
 theorem ggK0MainBS_clC (hS : GGK0Schur GGKacGenericClC) :
     GGK0MainBS GGKacGenericClC GGMultValidCl := by
   classical
-  intro p lab hlab hgen
-  intro Q hQ
+  intro p lab hlab hgen Q hQ
   obtain ⟨tag, r, nf⟩ := lab
   have hp : p.Prime := hgen.1.1
   have hp2 : p ≠ 2 := hgen.1.2.1

@@ -25,7 +25,8 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalScalarSquare
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
-theorem ff_commSp_reflOf (hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem ff_commSp_reflOf (_hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
     commSp (reflOf Q a ha) = Submodule.span (ZMod 3) {a} := by
   have h2 : reflOf Q a ha * reflOf Q a ha = 1 := reflOf_mul_self a ha
   ext v
@@ -60,7 +61,8 @@ theorem ff_commSp_reflOf (hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
       _ = k • (-a) := by rw [hqa]
       _ = -(k • a) := by rw [smul_neg]
 
-theorem ff_quadSign_span (hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
+omit [FiniteDimensional (ZMod 3) V] in
+theorem ff_quadSign_span (_hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
     quadSign (Q.restrict (Submodule.span (ZMod 3) {a})) = toSign (Units.mk0 (Q a) ha) := by
   have ha0 : a ≠ 0 := fun h => ha (by rw [h, map_zero])
   let u : (ZMod 3)ˣ := Units.mk0 (Q a) ha
@@ -100,17 +102,20 @@ theorem ff_invType_reflOf (hQ : Q.Nondegenerate) {a : V} (ha : Q a ≠ 0) :
       (ff_quadSign_span hQ ha)
   rw [invType, h1, h2]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_polar_sub_sub (x₁ x₂ y₁ y₂ : V) :
     polar Q (x₁ - y₁) (x₂ - y₂) =
       polar Q x₁ x₂ - polar Q x₁ y₂ - polar Q y₁ x₂ + polar Q y₁ y₂ := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_sub_right, QuadraticMap.polar_sub_right]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_map_sub (x y : V) : Q (x - y) = Q x + Q y - polar Q x y := by
   rw [sub_eq_add_neg, CFSG.RankThree.OrthogonalInvolutions.map_add_eq Q,
     QuadraticMap.map_neg, QuadraticMap.polar_neg_right]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_posKernel_singular {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1))
     {x : V} (hx : x ∈ positiveSquareKernel A 1) : Q x = 0 := by
   have hAx : A x = (1 : ZMod 3) • x := by
@@ -123,6 +128,7 @@ theorem ff_posKernel_singular {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-
   have h2 : (2 : ZMod 3) * Q x = 0 := by rw [two_mul]; nth_rewrite 2 [h]; abel
   exact (mul_eq_zero.mp h2).resolve_left (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_negKernel_singular {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1))
     {y : V} (hy : y ∈ negativeSquareKernel A 1) : Q y = 0 := by
   have hAy : A y = -y := by
@@ -136,18 +142,21 @@ theorem ff_negKernel_singular {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-
   have h2 : (2 : ZMod 3) * Q y = 0 := by rw [two_mul]; nth_rewrite 2 [h]; abel
   exact (mul_eq_zero.mp h2).resolve_left (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_posKernel_apply {A : V ≃ₗ[ZMod 3] V} {x : V}
     (hx : x ∈ positiveSquareKernel A 1) : A x = x := by
   have h := (Module.End.mem_eigenspace_iff).mp (by
     rwa [positiveSquareKernel_eq A 1 one_ne_zero] at hx)
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_negKernel_apply {A : V ≃ₗ[ZMod 3] V} {y : V}
     (hy : y ∈ negativeSquareKernel A 1) : A y = -y := by
   have h := (Module.End.mem_eigenspace_iff).mp (by
     rwa [negativeSquareKernel_eq A 1 one_ne_zero] at hy)
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_posKernel_polar {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1)) {x z : V}
     (hx : x ∈ positiveSquareKernel A 1) (hz : z ∈ positiveSquareKernel A 1) :
     polar Q x z = 0 := by
@@ -157,6 +166,7 @@ theorem ff_posKernel_polar {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1))
   rw [h1] at h2
   exact h2
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_negKernel_polar {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1)) {x z : V}
     (hx : x ∈ negativeSquareKernel A 1) (hz : z ∈ negativeSquareKernel A 1) :
     polar Q x z = 0 := by
@@ -166,12 +176,14 @@ theorem ff_negKernel_polar {A : V ≃ₗ[ZMod 3] V} (hA : IsSimilitude Q A (-1))
   rw [h1] at h2
   exact h2
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_polar_add_add (x₁ x₂ y₁ y₂ : V) :
     polar Q (x₁ + y₁) (x₂ + y₂) =
       polar Q x₁ x₂ + polar Q x₁ y₂ + polar Q y₁ x₂ + polar Q y₁ y₂ := by
   rw [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right, QuadraticMap.polar_add_right]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_polar_sub_add (x₁ x₂ y₁ y₂ : V) :
     polar Q (x₁ - y₁) (x₂ + y₂) =
       polar Q x₁ x₂ + polar Q x₁ y₂ - polar Q y₁ x₂ - polar Q y₁ y₂ := by

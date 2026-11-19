@@ -30,8 +30,8 @@ theorem SG.exists_sl2_primeFormP {F : Type} [Field F] {n d : ℕ} (h : UnitaryFi
         (∀ i, ((g : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) *ᵥ x i = a • x i) →
         (∀ i, ((g : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) *ᵥ y i = a⁻¹ • y i) →
         A ≤ fixSubgroup (primeFormConjHom h _ g) := by
-  haveI := h.finite
-  haveI := h.charP
+  have := h.finite
+  have := h.charP
   obtain ⟨ρ, hρinj, hρz, hρg⟩ := SG.exists_sl2_leviHom_suid (σ := h.barEquiv) h.bar_bar x y hxx hyy
     hxy hzx hzy
   have e := gramSU_one_eq_SUid h d
@@ -58,7 +58,7 @@ theorem SG.exists_sl2_primeFormP {F : Type} [Field F] {n d : ℕ} (h : UnitaryFi
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (2 * n) := Nat.pow_le_pow_right (by norm_num) (by have := h.one_le; omega)
   have hsimple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := by
-    haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF4
+    have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF4
     have hcen : Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) = ⊥ := by
       rw [eq_bot_iff]
       intro A hA
@@ -73,7 +73,7 @@ theorem SG.exists_sl2_primeFormP {F : Type} [Field F] {n d : ℕ} (h : UnitaryFi
     have e' : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F ≃*
         Matrix.SpecialLinearGroup (Fin 2) F :=
       (QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := e'.symm.toEquiv.nontrivial
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := e'.symm.toEquiv.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective e'.toMonoidHom e'.surjective
   have hnc : ∃ a b : Matrix.SpecialLinearGroup (Fin 2) F, a * b ≠ b * a := by
     refine ⟨⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩,
@@ -107,8 +107,8 @@ theorem SG.exists_sl2_primeFormP {F : Type} [Field F] {n d : ℕ} (h : UnitaryFi
     rw [← orderOf_eq_prime ht3 ht1]
     exact orderOf_dvd_natCard t
   let eΦ : Matrix.SpecialLinearGroup (Fin 2) F ≃* Φ.range := MonoidHom.ofInjective hinj
-  haveI := hsimple
-  haveI : IsSimpleGroup Φ.range := eΦ.symm.isSimpleGroup
+  have := hsimple
+  have : IsSimpleGroup Φ.range := eΦ.symm.isSimpleGroup
   refine ⟨Φ.range, this, ?_, ?_, ?_⟩
   · obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eΦ a, eΦ b, fun h' => hab (eΦ.injective (by rw [map_mul, map_mul]; exact h'))⟩

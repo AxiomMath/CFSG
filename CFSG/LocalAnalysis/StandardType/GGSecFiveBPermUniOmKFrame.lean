@@ -36,9 +36,9 @@ private theorem ggSecFiveBPermOmK_normBar_signs {p m f : ℕ} [Fact p.Prime] (hp
   · have hk : k ∉ Finset.univ.filter fun k => ε k = -1 := by
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, h]
       exact ZMod.neg_one_ne_one.symm
-    rw [if_neg hk, h, one_mul, ofAdd_toAdd]
+    rw [ite_eq_right hk, h, one_mul, ofAdd_toAdd]
   · have hk : k ∈ Finset.univ.filter fun k => ε k = -1 := by simp [h]
-    rw [if_pos hk, h, neg_one_mul, ofAdd_neg, ofAdd_toAdd]
+    rw [ite_eq_left hk, h, neg_one_mul, ofAdd_neg, ofAdd_toAdd]
 
 private theorem ggSecFiveBPermOmK_frame_of_signFree {G : Type} [Group G] {p n m f : ℕ}
     [Fact p.Prime] {F K : Type} [Field F] [Field K] [Algebra F K] [Finite K] [CharP K 2]

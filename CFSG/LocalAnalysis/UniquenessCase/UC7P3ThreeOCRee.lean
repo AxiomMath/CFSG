@@ -21,7 +21,7 @@ open CFSG.RankThree.PartOne.Census3 (IsoLie)
 theorem good_of_isoLie_reeG2 {X : Type} [Group X] [Finite X] (hO : CFSG.pPrimeCore 3 X = ⊥)
     {N : Subgroup X} (hN : IsStronglyPEmbedded 3 N) {m : ℕ}
     (hI : IsoLie ↥(CFSG.generalizedFitting X) (.reeG2 m)) : SEFive.Good 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hv, ⟨e⟩⟩ := hI
   have hd : IsReeGTwoIndex 3 ⟨.reeG2 m, hv⟩ := ⟨rfl, m, rfl⟩
   refine SEFive.good_of_rankOne hO hN (kFactReeBorelMaximal _ _ hd ⟨e⟩) (fun T => ?_)

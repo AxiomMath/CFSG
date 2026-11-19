@@ -58,7 +58,7 @@ theorem exists_S5_A (hC : GorensteinHaradaThmCInput) (hO : pPrimeCore 2 Y = ⊥)
   set φ₀ := sylowConj D.Y1 2 with hφ₀
   have hY : Nat.card Y = 7680 := by rw [← D.Y1.card_mul_index, hidx, hY1]
   have hE : Nat.card D.E = 64 := by rw [card_map_of_injective D.toG_injective, SE.card_Esub]
-  have hE2 : IsPGroup 2 D.E := D.S.isPGroup'.to_le D.E_le_S
+  have hE2 : IsPGroup 2 D.E := D.S.isPGroup.to_le D.E_le_S
   set E' := D.E.subgroupOf D.Y1 with hE'
   have hE'n : E'.Normal := hψker ▸ ψ.normal_ker
   have hE'2 : IsPGroup 2 E' := hE2.comap_of_injective D.Y1.subtype D.Y1.subtype_injective
@@ -99,7 +99,7 @@ theorem exists_S5_A (hC : GorensteinHaradaThmCInput) (hO : pPrimeCore 2 Y = ⊥)
           Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 2 ∣ 15), hE',
           Nat.card_congr (subgroupOfEquivOfLe D.E_le_Y1).toEquiv, hE] at hc
         exact absurd hc (by norm_num)
-      · have hp : IsPGroup 2 ((T₀ : Subgroup ↥D.Y1).map ψ) := T₀.isPGroup'.map ψ
+      · have hp : IsPGroup 2 ((T₀ : Subgroup ↥D.Y1).map ψ) := T₀.isPGroup.map ψ
         rw [ht'] at hp
         obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hp
         rw [card_top, hA5] at hk

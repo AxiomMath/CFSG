@@ -25,7 +25,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 @[simp] theorem hdRo7SmAAux_delEmbed_last (v : SMV 7) :
     hdRo7SmAAux_delEmbed v (Fin.last 7) = -∑ i, v i := by
-  rw [hdRo7SmAAux_delEmbed, LinearMap.pi_apply, dif_neg (by decide)]
+  rw [hdRo7SmAAux_delEmbed, LinearMap.pi_apply, dite_eq_right (by decide)]
   simp only [LinearMap.smul_apply, smul_eq_mul, LinearMap.sum_apply, LinearMap.proj_apply]
   exact neg_one_mul _
 

@@ -13,7 +13,7 @@ theorem isPGroup_rootGroup_sup {Y : Type} [Group Y] [Finite Y] {D : Set Y}
     (hD : CFSG.Timmesfeld.IsRootInvolutionSet D) {d e : Y} (hd : d ∈ D) (he : e ∈ D)
     (h4 : orderOf (d * e) = 4) :
     IsPGroup 2 ↥(CFSG.Timmesfeld.rootGroup D d ⊔ CFSG.Timmesfeld.rootGroup D e) := by
-  haveI := CFSG.Timmesfeld.isNilpotent_sup_rootGroup hD hd he h4
+  have := CFSG.Timmesfeld.isNilpotent_sup_rootGroup hD hd he h4
   have hcl : Subgroup.closure ((CFSG.Timmesfeld.rootGroup D d : Set Y) ∪
       (CFSG.Timmesfeld.rootGroup D e : Set Y)) =
       CFSG.Timmesfeld.rootGroup D d ⊔ CFSG.Timmesfeld.rootGroup D e := by
@@ -39,8 +39,8 @@ theorem false_of_le_rootGroup (hd : Sec23Data V H)
     (hnd : ∃ d ∈ Dy V H, ∃ e ∈ Dy V H, orderOf (d * e) = 4)
     {d : Xbar V H ⧸ Subgroup.center (Xbar V H)} (hdD : d ∈ Dtilde V H)
     (hle : Vtilde V H ≤ CFSG.Timmesfeld.rootGroup (Dtilde V H) d) : False := by
-  have hH := hc.tilde_hyp hd hnd
-  haveI := hH.finite
+  have hH := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_hyp hd hnd
+  have := hH.finite
   obtain ⟨d₁, hd₁, e₁, he₁, h41⟩ := hH.nondeg
   obtain ⟨g, hg⟩ := isConj_iff.mp (hH.isConj hd₁ hdD)
   have he₂ : g * e₁ * g⁻¹ ∈ Dtilde V H := hH.conj_mem g he₁

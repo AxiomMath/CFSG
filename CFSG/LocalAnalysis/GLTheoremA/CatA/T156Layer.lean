@@ -16,9 +16,11 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem glaPLayer_eq_sSup {p : ℕ} {X : Subgroup G} :
     GLAPLayer p X = sSup {L : Subgroup G | GLAPComponent p X L} := rfl
 
+omit [Finite G] in
 theorem gLBConj_glaPLayer_le {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     GLBConj g (GLAPLayer p X) ≤ GLAPLayer p X := by
@@ -41,6 +43,7 @@ theorem gLBConj_glaPLayer_le {p : ℕ} {X : Subgroup G} {g : G}
   have h4 := CFSG.LocalAnalysis.GLTheoremB.gLBConj_mono g key
   rwa [gLBConj_gLBConj_inv] at h4
 
+omit [Finite G] in
 theorem normalizes_glaPLayer {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer ((GLAPLayer p X : Subgroup G) : Set G) := by

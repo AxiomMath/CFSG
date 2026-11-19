@@ -74,22 +74,22 @@ theorem letT_mem {i : Nat} {CG FT FTi FC TH X : Nat} {T : Nat → GL} {θ C : GL
   intro e he
   unfold letT
   by_cases hlt : e < NN
-  · rw [blt_true hlt, cond_true]
+  · rw [blt_true hlt, _root_.Bool.cond_true]
     obtain ⟨U, hU, hUP⟩ := hN e hlt
     exact ⟨U, Subgroup.mem_sup_left hU, hUP⟩
-  · rw [blt_false hlt, cond_false]
+  · rw [blt_false hlt, Bool.cond_false]
     set l := e - NN with hl
     have hl11 : l < 11 := by omega
     have hV : ∃ V ∈ confR CG FC i T θ X, IsP V (candL CG FT FTi FC TH i X l) := by
       unfold candL confR candR
       by_cases h5 : l < 5
-      · rw [blt_true h5, cond_true]
+      · rw [blt_true h5, _root_.Bool.cond_true]
         obtain ⟨U, hU⟩ := hcg i hi _ (mem_five.2 ⟨l, h5, rfl⟩)
         exact ⟨U, Subgroup.subset_closure (Or.inl (Or.inl
           (Subgroup.subset_closure ⟨_, mem_five.2 ⟨l, h5, rfl⟩, hU⟩))), hU⟩
-      · rw [blt_false h5, cond_false]
+      · rw [blt_false h5, Bool.cond_false]
         by_cases h10 : l < 10
-        · rw [blt_true h10, cond_true]
+        · rw [blt_true h10, _root_.Bool.cond_true]
           have hm : look CG (Nat.add (Nat.mul 5 (fld FC X)) (Nat.sub l 5)) ∈ five CG (fld FC X) :=
             mem_five.2 ⟨l - 5, by omega, rfl⟩
           obtain ⟨U, hU⟩ := hcg _ hX _ hm
@@ -97,7 +97,7 @@ theorem letT_mem {i : Nat} {CG FT FTi FC TH X : Nat} {T : Nat → GL} {θ C : GL
             ⟨U, Subgroup.subset_closure ⟨_, hm, hU⟩, rfl⟩)), ?_⟩
           rw [mul_assoc]
           exact hT.mul (hU.mul hTi)
-        · rw [blt_false h10, cond_false]
+        · rw [blt_false h10, Bool.cond_false]
           exact ⟨θ, Subgroup.subset_closure (Or.inr rfl), hθ⟩
     obtain ⟨V, hV, hVP⟩ := hV
     refine ⟨C * V * C⁻¹, Subgroup.mem_sup_right ⟨V, hV, rfl⟩, ?_⟩
@@ -112,8 +112,8 @@ theorem isP_wordP {NLG NLGI : Nat} (hinv : invOK NLG NLGI 3 = true) (w : List Na
   obtain ⟨U, hU⟩ := IsP.exists_of_mul (hl _ hl3)
   have hm : U ∈ lGrp NLG 3 := Subgroup.subset_closure ⟨_, hl3, hU⟩
   cases h : Nat.beq (e % 2) 0
-  · exact ⟨U⁻¹, inv_mem hm, by rw [cond_false]; exact hU.inv (hl _ hl3)⟩
-  · exact ⟨U, hm, by rw [cond_true]; exact hU⟩
+  · exact ⟨U⁻¹, inv_mem hm, by rw [Bool.cond_false]; exact hU.inv (hl _ hl3)⟩
+  · exact ⟨U, hm, by rw [_root_.Bool.cond_true]; exact hU⟩
 
 theorem n2_isP {i : Nat} {NI : Nat} (hrows : ((ResPair.n2Gens i).all fun r => rowsOK r.toList) = true)
     (hinv : invsOK ((ResPair.n2Gens i).map packR) NI = true) :

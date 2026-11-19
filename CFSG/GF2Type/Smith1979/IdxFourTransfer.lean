@@ -72,7 +72,7 @@ theorem exists_conj_mem_of_isSylowTwoIn [Finite G] {x g : G} {S L : Subgroup G}
   obtain ⟨S', hS', hLS'⟩ := S5.exists_isSylowTwoIn_ge hL'C hL'2
   obtain ⟨c, hc, hcS⟩ := hS.exists_conj hS'
   refine ⟨c, hc, fun y hy => ?_⟩
-  have hy' : g⁻¹ * y * g ∈ L' := ⟨y, hy, by simp [MulAut.conj_apply]⟩
+  have hy' : g⁻¹ * y * g ∈ L' := ⟨y, hy, by simp⟩
   exact (hcS _).mp (hLS' hy')
 
 theorem card_le_of_isSylowTwoIn [Finite G] {x g : G} {S L : Subgroup G}
@@ -81,7 +81,7 @@ theorem card_le_of_isSylowTwoIn [Finite G] {x g : G} {S L : Subgroup G}
   obtain ⟨c, -, hcS⟩ := exists_conj_mem_of_isSylowTwoIn hS hL2 hLC
   set φ : G →* G := (MulAut.conj (g * c)⁻¹).toMonoidHom with hφ
   have hφy : ∀ y, φ y = c⁻¹ * (g⁻¹ * y * g) * c := fun y => by
-    simp [hφ, MulAut.conj_apply, mul_assoc]
+    simp [hφ, mul_assoc]
   have hLS : L.map φ ≤ S := by
     rintro _ ⟨y, hy, rfl⟩
     rw [hφy]
@@ -104,10 +104,10 @@ theorem isSylowTwoIn_centralizer_of_unique [Finite G] {x z : G} {S : Subgroup G}
     refine lt_top_iff_ne_top.mpr fun htop => hne (le_antisymm hST fun y hy => ?_)
     have : (⟨y, hy⟩ : T) ∈ S.subgroupOf T := htop ▸ mem_top _
     exact this
-  haveI : Finite T := inferInstance
+  have : Finite T := inferInstance
   have hTp : IsPGroup 2 T := hT.isPGroup
-  haveI : Group.IsNilpotent T := hTp.isNilpotent
-  obtain ⟨n, hnN, hnS⟩ := SetLike.exists_of_lt
+  have : Group.IsNilpotent T := hTp.isNilpotent
+  obtain ⟨n, hnN, hnS⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt)
   have hnS' : (n : G) ∉ S := hnS
   have hnorm : ∀ s : G, s ∈ S ↔ (n : G) * s * (n : G)⁻¹ ∈ S := by

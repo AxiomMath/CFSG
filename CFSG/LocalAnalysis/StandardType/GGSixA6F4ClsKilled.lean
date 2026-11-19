@@ -201,7 +201,7 @@ private theorem ggA6F4_all_ok :
   intro e0 h0 e1 h1 e2 h2 e3 h3
   have hc : ∀ c : ZMod 7,
       ggA6F4Cnt (ggA6F4MkE e0 e1 e2 e3) c = KilledK.cntK e0 e1 e2 e3 c.val KilledK.RL :=
-    KilledK.cnt_eq _ e0 e1 e2 e3 (by simp [ggA6F4MkE, idx, Fin.ext_iff])
+    KilledK.cnt_eq _ e0 e1 e2 e3 (by simp [ggA6F4MkE, idx])
       (by simp [ggA6F4MkE, idx, Fin.ext_iff]) (by simp [ggA6F4MkE, idx, Fin.ext_iff])
       (by simp [ggA6F4MkE, idx, Fin.ext_iff])
   rw [ggA6F4OkE]
@@ -270,7 +270,7 @@ private theorem ggA6F4Cnt_eq_filter
   rw [← Set.ncard_coe_finset]
   congr 1
   ext γ
-  simp only [Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_filter, List.mem_toFinset, List.mem_map]
+  simp only [Set.mem_ofPred_eq, Finset.mem_coe, Finset.mem_filter, List.mem_toFinset, List.mem_map]
   constructor
   · rintro ⟨hγ, hv⟩
     obtain ⟨l, hl, rfl⟩ := (mem_rts_iff γ).1 hγ
@@ -367,7 +367,7 @@ theorem ggA6F4_killed_root
       exact ggA6F4_scale_eq ρ hroot (hscale p.1 p.2) c
     calc ∑ p ∈ ggA6F4Ps, ggA6F4Cnt (fun i => p.1 * e₁ i + p.2 * e₂ i) 0
         = ∑ _p ∈ ggA6F4Ps, (6 : ℕ) := Finset.sum_congr rfl h6
-      _ = ggA6F4Ps.card * 6 := by simp [Finset.sum_const, nsmul_eq_mul]
+      _ = ggA6F4Ps.card * 6 := by simp [Finset.sum_const]
       _ = 288 := by rw [ggA6F4Ps_card]
   have hright : ∑ p ∈ ggA6F4Ps, ggA6F4Cnt (fun i => p.1 * e₁ i + p.2 * e₂ i) 0 = 288 + 42 * s := by
     calc ∑ p ∈ ggA6F4Ps, ggA6F4Cnt (fun i => p.1 * e₁ i + p.2 * e₂ i) 0

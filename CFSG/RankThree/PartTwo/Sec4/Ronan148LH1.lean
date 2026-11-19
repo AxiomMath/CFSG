@@ -30,7 +30,7 @@ theorem centerQuot_equiv {J : Type*} [Group J] (hJ : commutator J = ⊤) (N : Su
 
 theorem pCore_two_le_center {J : Type*} [Group J] [Finite J] (hJ : CFSG.Open.IsQuasisimple J) :
     CFSG.pCore 2 J ≤ Subgroup.center J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases normal_eq_top_or_le_center hJ (inferInstance : (CFSG.pCore 2 J).Normal) with h | h
   · exfalso
     have h2 : IsPGroup 2 J := by
@@ -39,11 +39,11 @@ theorem pCore_two_le_center {J : Type*} [Group J] [Finite J] (hJ : CFSG.Open.IsQ
       obtain ⟨k, hk⟩ := hp ⟨g, h ▸ Subgroup.mem_top g⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     have hsol : Group.IsSolvable J := by
-      haveI := h2.isNilpotent
+      have := h2.isNilpotent
       infer_instance
     obtain ⟨a, b, hab⟩ := exists_ne_comm_of_isQuasisimple hJ
-    haveI : Group.IsPerfect J := ⟨hJ.1⟩
-    haveI : Nontrivial J := ⟨⟨a * b, b * a, hab⟩⟩
+    have : Group.IsPerfect J := ⟨hJ.1⟩
+    have : Nontrivial J := ⟨⟨a * b, b * a, hab⟩⟩
     exact Group.IsPerfect.not_isSolvable J hsol
   · exact h
 

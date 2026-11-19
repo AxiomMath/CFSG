@@ -36,6 +36,7 @@ theorem finrank_range_sup_add_finrank_comap (f : E →ₗ[K] E) (T : Submodule K
   have h2 := Submodule.finrank_sup_add_finrank_inf_eq (LinearMap.range f) T
   omega
 
+omit [FiniteDimensional K E] in
 private theorem orthogonal_sup_eq (B : LinearMap.BilinForm K E) (U W : Submodule K E) :
     B.orthogonal (U ⊔ W) = B.orthogonal U ⊓ B.orthogonal W := by
   ext x

@@ -97,15 +97,15 @@ theorem s16h_sl28_seven_kbar_pRank_two
       exact hyL_ne (Subgroup.mem_bot.mp this)
     have hcard504 : Nat.card ↥Lb = 504 := by
       obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hrow.1
-      letI := hKf
-      letI := hKfin
+      let := hKf
+      let := hKfin
       rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKcard]
       norm_num
-    haveI : Nontrivial ↥Lb :=
+    have : Nontrivial ↥Lb :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard504]; norm_num)
-    haveI : Group.IsPerfect ↥Lb := ⟨hcomp.2.2.1⟩
+    have : Group.IsPerfect ↥Lb := ⟨hcomp.2.2.1⟩
     have hnc : ¬ IsMulCommutative ↥Lb := Group.IsPerfect.not_isMulCommutative ↥Lb
-    haveI : IsSimpleGroup ↥Lb := s16h_sl28_eight_simple_of_isSLn_two_three hrow.1
+    have : IsSimpleGroup ↥Lb := s16h_sl28_eight_simple_of_isSLn_two_three hrow.1
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥Lb) with h | h
     · exact hcenter_ne h
     · exact hnc (Subgroup.center_eq_top_iff.mp h)

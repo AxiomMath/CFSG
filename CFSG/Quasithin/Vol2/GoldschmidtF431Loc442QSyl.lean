@@ -19,7 +19,7 @@ theorem exists_sylowTwo_ge [Finite G] {P H : Subgroup G} (hPH : P ≤ H) (hP : I
   have hP' : IsPGroup 2 (P.subgroupOf H) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   have hQS : (Q : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _
-  refine ⟨(Q : Subgroup H).map H.subtype, ⟨hQS, Q.isPGroup'.map H.subtype, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup H).map H.subtype, ⟨hQS, Q.isPGroup.map H.subtype, ?_⟩, ?_⟩
   · change ¬ 2 ∣ (Subgroup.comap H.subtype ((Q : Subgroup H).map H.subtype)).index
     rw [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact Sylow.not_dvd_index Q

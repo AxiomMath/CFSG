@@ -41,7 +41,7 @@ theorem s16t_w3_pow_36 (h : S16tW3Hyp Y X) {g : MulAut T} (hgX : g ∈ X) : g ^ 
     rw [map_pow, h6] at h1
     exact h1
   calc g ^ 36 = (g ^ 6) ^ 6 := by rw [← pow_mul]
-    _ = 1 := by simp only [s16t_w3_pow_six_of_fix h hfix, one_pow]
+    _ = 1 := by simp only [s16t_w3_pow_six_of_fix h hfix]
 
 theorem s16t_w3_exists_S (h : S16tW3Hyp Y X) :
     ∃ S : Subgroup (MulAut T), (∀ g, g ∈ S ↔ g ∈ X ∧ (∀ i, (Y i).map g.toMonoidHom = Y i) ∧

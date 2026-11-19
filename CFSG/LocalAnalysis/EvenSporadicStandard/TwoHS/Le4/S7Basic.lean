@@ -12,7 +12,7 @@ theorem not_two_dvd_index_of_normalizer_le {G : Type*} [Group G] [Finite G] {T :
     (hT : IsPGroup 2 T) (hN : normalizer (T : Set G) ≤ T) : ¬ 2 ∣ T.index := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
-  have hP : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hP : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   have hnil : Group.IsNilpotent (P : Subgroup G) := hP.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := (P : Subgroup G))
   have hEq : T = P := by

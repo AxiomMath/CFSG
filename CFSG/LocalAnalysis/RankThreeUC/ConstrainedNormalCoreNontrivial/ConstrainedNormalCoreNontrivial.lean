@@ -10,8 +10,10 @@ namespace ConstrainedNormalCoreNontrivial
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCoreOf_le {J : Subgroup G} : CFSG.Open.pCoreOf 2 J ≤ J := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_pCoreOf (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 X : Set G) := by
   have le_pCoreOf_of_normal {X N : Subgroup G} (hNX : N ≤ X) (hN : (N.subgroupOf X).Normal)

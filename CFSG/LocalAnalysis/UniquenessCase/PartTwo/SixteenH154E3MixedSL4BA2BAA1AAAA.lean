@@ -46,8 +46,8 @@ theorem s16h_sl4_induced_involution_reduce
     hthin hZ hbad hrow hZ4 hs hsq hs1 hsN
   obtain ⟨hSL, -⟩ := hrow
   obtain ⟨K, hKf, hKfin, hKcard, -⟩ := hSL
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨s', hs'N, hs'2, hs'1, hs'le⟩ := s16h_sl4_natNorm_transvection (K := K) hKcard
   refine ⟨K, hKf, hKfin, ?_, s', hs'N, hs'2, hs'1, ?_⟩
   · rw [hKcard]

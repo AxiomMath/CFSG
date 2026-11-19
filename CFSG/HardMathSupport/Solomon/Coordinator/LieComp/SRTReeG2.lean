@@ -30,7 +30,7 @@ theorem nonempty_commutator_reeGamma_G2_cat (b : ℕ) (k : Type) [Field k] [Fini
   rcases Nat.eq_zero_or_pos b with rfl | hb
   · obtain ⟨-, -, -, ⟨e⟩, -, -⟩ :=
       CFSG.ComponentClassification.LiteratureLocal.G2_reeGamma_zero_structure hk
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q8 : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
     have hv8 : (TauCeti.LieTypeIndex.A 1 q8).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -51,13 +51,13 @@ theorem srtOut_reeGamma_G2_outer {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [
     (hin : β ∉ (MulAut.conj : ReeTag.G2.reeGamma K a →*
       MulAut (ReeTag.G2.reeGamma K a)).range) : SRTOut 3 β := by
   have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, δ, σ, hσord, hδ, -⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.small_Ree_odd_prime_field_descent a ha K hK hp hp2 β hβ
       hin
   obtain ⟨b, -, hbcard, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK hp hp2 hσord
-  haveI := hchar
+  have := hchar
   refine SRTOut.of_conj δ ?_
   rw [hδ]
   let e : ↥(fixSubgroup (ReeTag.G2.reeGammaFieldAut K a σ)) ≃*
@@ -67,8 +67,8 @@ theorem srtOut_reeGamma_G2_outer {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [
     CFSG.ComponentClassification.CatalogueBSmallRee.small_Ree_whole_group_p_components b
       (fixSubfield σ) hbcard
   obtain ⟨idx, ⟨hcat⟩⟩ := nonempty_commutator_reeGamma_G2_cat b (fixSubfield σ) hbcard
-  haveI := hs
-  haveI : Finite ↥(commutator (ReeTag.G2.reeGamma (fixSubfield σ) b)) := inferInstance
+  have := hs
+  have : Finite ↥(commutator (ReeTag.G2.reeGamma (fixSubfield σ) b)) := inferInstance
   exact srtOut_of_fixed_equiv_derived _ e hs hnc (isChevSimple_commutator_reeGamma b _ hbcard)
     fun hb => isEmpty_quot_alternating_six_of_equiv_cat hb hnc idx ⟨hcat⟩
 
@@ -77,12 +77,12 @@ theorem srtOut_reeGamma_G2 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
     (hp2 : p ≠ 2) (hp3 : p ≠ 3) {β : MulAut (ReeTag.G2.reeGamma K a)} (hβ : β ^ p = 1)
     (hβ1 : β ≠ 1) : SRTOut 3 β := by
   have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hin : β ∈
       (MulAut.conj : ReeTag.G2.reeGamma K a →* MulAut (ReeTag.G2.reeGamma K a)).range
   · obtain ⟨-, hsimple, hnc⟩ :=
       CFSG.ComponentClassification.CatalogueBSmallRee.reeGamma_G2_simple ha K hK
-    haveI := hsimple
+    have := hsimple
     obtain ⟨x, rfl, hxp, hx1⟩ :=
       exists_eq_conj_of_mem_range (b3Lie_center_eq_bot hnc) hin hβ hβ1
     refine srtOut_of_isSolvable 3 _ ?_

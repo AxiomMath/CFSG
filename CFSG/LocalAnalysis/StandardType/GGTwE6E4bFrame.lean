@@ -210,11 +210,13 @@ theorem frameX_eq : frameX (L := L) = frameRho1 L (frameBeta (L := L)) *
     frameRho2 L (frameBeta (L := L)) := by
   simp [frameX, frameQ]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem frameRho1_diag_mem_torus {A : SL(3, L)}
     (hA : ∀ i j, i ≠ j → (A : Matrix (Fin 3) (Fin 3) L) i j = 0) :
     frameRho1 L A ∈ torusGroup Tag.E6 L :=
   (a2Std₁.embedding frameV1).diag L A hA
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem frameRho2_diag_mem_torus {A : SL(3, L)}
     (hA : ∀ i j, i ≠ j → (A : Matrix (Fin 3) (Fin 3) L) i j = 0) :
     frameRho2 L A ∈ torusGroup Tag.E6 L :=
@@ -266,7 +268,7 @@ theorem frameDiagTuple_explicit {L : Type} [Field L] (s u : Lˣ) :
     frameFixedA2ActionVec j i) = _
   simp only [Fin.prod_univ_succ]
   fin_cases j <;> norm_num [Tag.cartan, Tag.cartanE, frameFixedA2ActionVec]
-  all_goals ext <;> simp <;> field_simp <;> ring
+  all_goals ext; simp; field_simp
 
 def frameExpA : Fin Tag.E6.rank → ℤ := ![1, 1, 1, 0, 1, 1]
 
@@ -317,9 +319,8 @@ theorem frameA_eq_rootDiagUnit :
   congr 1
   funext i
   fin_cases i <;>
-    simp [frameScalar, diagSL3, frameTorusTuple, frameExpA, frameOmega_inv,
-      frameOmega_sq_inv, frameOmega_sq_mul_sq, frameOmega_sq_mul,
-      Units.val_inv_eq_inv_val]
+    simp [frameTorusTuple, frameExpA, frameOmega_inv,
+      frameOmega_sq_inv, frameOmega_sq_mul_sq, frameOmega_sq_mul]
 
 theorem frameT_eq_rootDiagUnit :
     frameT (L := L) = rootDiagUnit Tag.E6 (frameTorusTuple (L := L) frameExpT) := by
@@ -329,10 +330,9 @@ theorem frameT_eq_rootDiagUnit :
   congr 1
   funext i
   fin_cases i <;>
-    simp [frameBeta, diagSL3, frameTorusTuple, frameExpT, frameOmega_inv,
-      frameOmega_sq_inv, frameOmega_sq_mul_sq, frameOmega_sq_mul,
-      Units.val_inv_eq_inv_val]
+    simp [frameTorusTuple, frameExpT, frameOmega_inv]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem a2Equiv₁_e6TorusPair (s u : Lˣ) :
     a2Equiv₁ L ⟨e6TorusPair (e6Index 0) (e6Index 2) s u,
       e6TorusPair_mem_subsystemGroup _ _ s u⟩ = diagSL3 s u := by
@@ -344,8 +344,9 @@ theorem a2Equiv₁_e6TorusPair (s u : Lˣ) :
   rw [a2Mat₁_torus]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagSL3, Matrix.diagonal_apply]
+    simp [diagSL3]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem e6rhoA2₁_diagSL3 (s u : Lˣ) :
     e6rhoA2₁ L (diagSL3 s u) =
       e6TorusPair (e6Index 0) (e6Index 2) s u := by
@@ -479,10 +480,12 @@ theorem cE6_inv_smul_single (i : Fin Tag.E6.rank) :
   funext j
   fin_cases i <;> fin_cases j <;> decide +kernel
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem weylTuple_cE6_apply (b : Fin Tag.E6.rank → Lˣ) (i : Fin Tag.E6.rank) :
     weylTuple cE6 b i = rootChar b (frameCInvSingle i) := by
   rw [weylTuple, cE6_inv_smul_single]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem weylTuple_cE6_eq_imp (b : Fin Tag.E6.rank → Lˣ)
     (h : weylTuple cE6 b = b) :
     b 0 = b 5 ∧ b 1 = b 2 ∧ b 2 = b 4 := by
@@ -1003,11 +1006,13 @@ theorem frameD_card : Nat.card (frameD (L := L)) = 27 := by
   rw [frameD_eq_sup_zpowers]
   simpa using h.2
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem weylTuple_mul (w : WeylGroup Tag.E6) (a b : Fin Tag.E6.rank → Lˣ) :
     weylTuple w (a * b) = weylTuple w a * weylTuple w b := by
   funext i
   simp only [weylTuple, Pi.mul_apply, rootChar, mul_zpow, Finset.prod_mul_distrib]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem weylTuple_inv (w : WeylGroup Tag.E6) (a : Fin Tag.E6.rank → Lˣ) :
     weylTuple w a⁻¹ = (weylTuple w a)⁻¹ := by
   funext i
@@ -1146,7 +1151,7 @@ theorem frame_actualE_torus_eq_frameD
         (by rw [← hconj, hcomm])
     obtain ⟨h05, h12, h24⟩ := weylTuple_cE6_eq_imp b hfix
     exact frameCToralTuple_mem_frameD b hb3 h05 h12 h24
-  haveI : Finite (frameD (L := L)) :=
+  have : Finite (frameD (L := L)) :=
     (Nat.card_pos_iff.mp (by rw [frameD_card]; norm_num)).2
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [frameD_card, hDcard])
 

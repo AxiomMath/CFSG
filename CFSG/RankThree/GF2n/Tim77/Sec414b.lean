@@ -25,7 +25,7 @@ theorem not_four_dvd {x y : G} (hx : x ∈ Sec414D A A0) (hy : y ∈ Sec414D A A
     rcases hw with rfl | rfl
     · exact hx
     · exact hy
-  have hcw : c * w * c⁻¹ ∈ Sec414D A A0 := S.mem_D_conj c hw'
+  have hcw : c * w * c⁻¹ ∈ Sec414D A A0 := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_conj c hw'
   obtain ⟨g₁, a, ha, ha0, rfl⟩ := hx
   obtain ⟨g₂, b, hb, hb0, hb'⟩ := hcw
   apply S.four a ha ha0 (g₁⁻¹ * g₂) b hb hb0
@@ -101,12 +101,13 @@ theorem comm_of_isPGroup_conj (g h : G)
       _ = a₁⁻¹ * (a₁ * b) * a₁⁻¹ := by rw [ih]
       _ = b * a₁⁻¹ := by group
 
+omit [Finite G] S in
 theorem mem_D_of_conj {k x : G} (hx : x ∈ conjSubgroup k A) (hx0 : x ∉ conjSubgroup k A0) :
     x ∈ Sec414D A A0 := by
   obtain ⟨a, ha, rfl⟩ := (mem_conjSubgroup_exists_t77 k A x).1 hx
   exact ⟨k, a, ha, fun h0 => hx0 ((mem_conjSubgroup_conj_t77 k a A0).2 h0), rfl⟩
 
-theorem mem_normalizer_of_inO2 (g h : G) {t : G} (htC : t ∈ conjSubgroup g A) (ht1 : t ≠ 1)
+theorem mem_normalizer_of_inO2 (g h : G) {t : G} (htC : t ∈ conjSubgroup g A) (_ht1 : t ≠ 1)
     (hO : Sec414InO2 (conjSubgroup g A ⊔ conjSubgroup h A) t) :
     t ∈ normalizer (conjSubgroup h A : Set G) := by
   have hCel := isElemAbelian_conj S.elem g
@@ -114,11 +115,11 @@ theorem mem_normalizer_of_inO2 (g h : G) {t : G} (htC : t ∈ conjSubgroup g A) 
   have ht2 : t * t = 1 := by rw [← sq]; exact hCel.2 t htC
   obtain ⟨c, hcC', hcC'0⟩ := (S.conj h).exists_not_mem
   have hc2 : c * c = 1 := by rw [← sq]; exact hC'el.2 c hcC'
-  have hc1 : c ≠ 1 := (S.conj h).ne_one_of_not_mem hcC'0
-  have hcD : c ∈ Sec414D A A0 := S.mem_D_of_conj hcC' hcC'0
+  have hc1 : c ≠ 1 := CFSG.RankThree.GF2n.Tim77.Sec414Sys.ne_one_of_not_mem hcC'0
+  have hcD : c ∈ Sec414D A A0 := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_of_conj hcC' hcC'0
   obtain ⟨P, hPV, hP2, hPn, htP⟩ := hO
   have hcV : c ∈ conjSubgroup g A ⊔ conjSubgroup h A := Subgroup.mem_sup_right hcC'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (Subgroup.zpowers c) := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by
@@ -139,7 +140,7 @@ theorem mem_normalizer_of_inO2 (g h : G) {t : G} (htC : t ∈ conjSubgroup g A) 
     by_contra hlt
     push Not at hlt
     have hc'D : (t * c)⁻¹ * c * (t * c) ∈ Sec414D A A0 := by
-      have := S.mem_D_conj (t * c)⁻¹ hcD
+      have := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_conj (t * c)⁻¹ hcD
       simpa [mul_assoc] using this
     apply S.not_four_dvd hcD hc'D
     rw [sec414_orderOf_mul_conj hc2 ht2]
@@ -240,7 +241,7 @@ theorem pow_centralizes {g₁ g₂ a b : G} (ha : a ∈ A) (ha0 : a ∉ A0) (hb 
   constructor
   · refine S.centralizes_of_mul_mem_D (g := g₁) (a := a) rfl ha ha0 hzx ?_
     rw [sec414_dihedral_pow_odd hx2 hy2 k]
-    have := S.mem_D_conj ((x * y) ^ k)⁻¹ hyD
+    have := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_conj ((x * y) ^ k)⁻¹ hyD
     simpa using this
   · have hyz : y * (x * y) ^ (2 * k + 1) = ((x * y) ^ (k + 1))⁻¹ * x * (x * y) ^ (k + 1) := by
       have hxr : x * (x * y) = y := by rw [← mul_assoc, hx2, one_mul]
@@ -250,7 +251,7 @@ theorem pow_centralizes {g₁ g₂ a b : G} (ha : a ∈ A) (ha0 : a ∉ A0) (hb 
         _ = _ := sec414_dihedral_pow_even hx2 hy2 (k + 1)
     refine S.centralizes_of_mul_mem_D (g := g₂) (a := b) rfl hb hb0 hzy ?_
     rw [hyz]
-    have := S.mem_D_conj ((x * y) ^ (k + 1))⁻¹ hxD
+    have := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_conj ((x * y) ^ (k + 1))⁻¹ hxD
     simpa using this
 
 end Sec414Sys

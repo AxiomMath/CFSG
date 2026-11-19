@@ -35,7 +35,7 @@ theorem exists_conj_mem_of_not_dvd_relIndex {R W : Subgroup G} (hWR : W ≤ R) {
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPR).toEquiv,
       Subgroup.card_map_of_injective (Subgroup.subtype_injective _)]
   have hPp : IsPGroup r (P.subgroupOf R) := by
-    obtain ⟨k, hk⟩ := PW.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := PW.isPGroup.exists_card_eq
     exact IsPGroup.of_card (hPcard.trans hk)
   have hPidx : ¬ r ∣ (P.subgroupOf R).index := by
     have h1 := Subgroup.card_mul_index (P.subgroupOf R)
@@ -300,7 +300,7 @@ theorem card_torusU_eq_card_torusW_of_hall
   obtain ⟨P, hP⟩ := hu₀p.exists_le_sylow
   have hu₀P : c⁻¹ * (b₀ : G) * c⁻¹⁻¹ ∈ (P : Subgroup R).map R.subtype :=
     ⟨_, hP (Subgroup.mem_zpowers _), rfl⟩
-  have hPGp : IsPGroup r ((P : Subgroup R).map R.subtype) := P.isPGroup'.map _
+  have hPGp : IsPGroup r ((P : Subgroup R).map R.subtype) := P.isPGroup.map _
   have hPM : (P : Subgroup R).map R.subtype ≤ M := by
     refine le_of_coprime_relIndex hMR hRM (Subgroup.map_subtype_le _) ?_
     rw [hidxM]

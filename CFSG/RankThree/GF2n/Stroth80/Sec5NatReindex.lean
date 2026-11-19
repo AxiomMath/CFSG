@@ -55,7 +55,7 @@ theorem transpose_mul_J_mul (A : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) :
   rcases i with i | i <;> rcases j with j | j <;>
     simp [Matrix.mul_apply, Fintype.sum_sum_type, Matrix.fromBlocks_apply₁₁,
       Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂,
-      Matrix.one_apply, Fin.fin_one_eq_zero] <;> ring
+      Fin.fin_one_eq_zero] <;> ring
 
 theorem map_reindexGL_statedSp_one :
     (StatedSp 1 K).map (reindexGL sumFinTwo).toMonoidHom = StatedSL 2 K := by

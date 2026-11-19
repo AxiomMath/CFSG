@@ -62,7 +62,7 @@ theorem fHom_root (e : A ≃ₗ[ZMod 2] A) (hq : ∀ a, e (e a) + e a + a = 0) :
 theorem exists_fModule (e : A ≃ₗ[ZMod 2] A) (hq : ∀ a, e (e a) + e a + a = 0) :
     ∃ (_ : Module Fq A), IsScalarTower (ZMod 2) Fq A ∧
       ∀ a, (AdjoinRoot.root q4pol) • a = e a := by
-  letI : Module Fq A := Module.compHom A (fHom e hq).toRingHom
+  let : Module Fq A := Module.compHom A (fHom e hq).toRingHom
   refine ⟨this, ⟨fun c f a => ?_⟩, fun a => ?_⟩
   · show (fHom e hq) (c • f) a = c • (fHom e hq f a)
     rw [map_smul]
@@ -81,11 +81,12 @@ variable {A : Type} [AddCommGroup A] [Module (ZMod 2) A] [Module Fq A]
 
 theorem finrank_two_mul [FiniteDimensional (ZMod 2) A] :
     Module.finrank (ZMod 2) A = 2 * Module.finrank Fq A := by
-  haveI : Module.Finite Fq A := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq A
+  have : Module.Finite Fq A := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq A
   have := Module.finrank_mul_finrank (ZMod 2) Fq A
   rw [finrank_Fq] at this
   exact this.symm
 
+omit [IsScalarTower (ZMod 2) Fq A] in
 theorem root_pow_smul {e : A ≃ₗ[ZMod 2] A} (hroot : ∀ a, (AdjoinRoot.root q4pol) • a = e a)
     (n : ℕ) (a : A) : ((AdjoinRoot.root q4pol) ^ n) • a = (e ^ n) a := by
   induction n generalizing a with
@@ -137,8 +138,8 @@ theorem even_finrank_comSp (h3 : e ^ 3 = 1) : Even (Module.finrank (ZMod 2) (com
     have := quad_of_mem_comSp h3 a.2
     simpa [resComSp_apply] using this
   obtain ⟨inst, hts, -⟩ := exists_fModule (resComSp e) hq
-  haveI := inst
-  haveI := hts
+  have := inst
+  have := hts
   rw [finrank_two_mul (A := comSp e)]
   exact even_two_mul _
 

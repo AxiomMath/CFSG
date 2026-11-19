@@ -61,8 +61,8 @@ theorem relIndex_cent_le_six (V H : Subgroup G) (hV : Nat.card V = 4)
       calc (x : G) * y.1.1 * (x : G)⁻¹ = (y.1.1 * (x : G)) * (x : G)⁻¹ := by rw [h2]
         _ = y.1.1 := by rw [mul_assoc, mul_inv_cancel, mul_one]
   have hT : Nat.card T = 3 := by
-    haveI := Fintype.ofFinite V
-    haveI : Fintype T := Fintype.ofFinite T
+    have := Fintype.ofFinite V
+    have : Fintype T := Fintype.ofFinite T
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq,
       ← Nat.card_eq_fintype_card, hV]
   have hdvd := Subgroup.card_subgroup_dvd_card φ.range
@@ -76,7 +76,7 @@ theorem sup_closure_eq_of_index_six (K N : Subgroup G) (hNK : N ≤ K)
     (ha : a ∈ K) (hb : b ∈ K) (ha3 : a * a * a ∈ N) (ha' : a ∉ N) (hb2 : b * b ∈ N)
     (hb' : b ∉ N) : N ⊔ closure {a, b} = K := by
   classical
-  haveI hN'normal : (N.subgroupOf K).Normal :=
+  have hN'normal : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr
       (fun k hk => Subgroup.mem_normalizer_fintype (fun n hn => hNn k hk n hn))
   let Q := K ⧸ N.subgroupOf K
@@ -181,7 +181,7 @@ theorem card_sup_zpowers_of_sq (N : Subgroup G) {b : G} (hbN : ∀ n ∈ N, b * 
   have hznorm : zpowers b ≤ Subgroup.normalizer (N : Set G) := Subgroup.zpowers_le.mpr hbNnorm
   have hMnorm : M ≤ Subgroup.normalizer (N : Set G) := by
     rw [hMdef]; exact sup_le Subgroup.le_normalizer hznorm
-  haveI hN'normal : (N.subgroupOf M).Normal :=
+  have hN'normal : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hMnorm
   have hindex : (N.subgroupOf M).index = 2 := by
     refine Subgroup.index_eq_two_iff_exists_notMem_and.mpr ⟨⟨b, hbM⟩, ?_, ?_⟩

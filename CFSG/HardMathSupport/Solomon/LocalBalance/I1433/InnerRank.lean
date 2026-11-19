@@ -64,7 +64,7 @@ theorem I1433SCfg.exists_order_three_not_mem_zpowers (c : I1433SCfg Q x J q)
     (hybc : yb ∉ Subgroup.center (↥J ⧸ GLAPPrimeCore 3 ↥J)) :
     ∃ y ∈ J, orderOf y = 3 ∧ y ∉ Subgroup.zpowers x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup ↥J := (Subgroup.zpowers yb).comap (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J)) with hH
   have hmap : H.map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥J)) = Subgroup.zpowers yb :=
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥J)) _
@@ -105,8 +105,8 @@ theorem I1433SCfg.exists_order_three_not_mem_zpowers (c : I1433SCfg Q x J q)
   exact ⟨u, Subgroup.mem_subgroupOf.2 hux, rfl⟩
 
 private theorem inf_eq_bot_of_card_three {G : Type*} [Group G] {A B : Subgroup G}
-    (hA : Nat.card A = 3) (hB : Nat.card B = 3) (hne : ¬ B ≤ A) : A ⊓ B = ⊥ := by
-  haveI : Fact (Nat.card ↥B).Prime := ⟨by rw [hB]; exact Nat.prime_three⟩
+    (_hA : Nat.card A = 3) (hB : Nat.card B = 3) (hne : ¬ B ≤ A) : A ⊓ B = ⊥ := by
+  have : Fact (Nat.card ↥B).Prime := ⟨by rw [hB]; exact Nat.prime_three⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (A.subgroupOf B) with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
     exact disjoint_iff.1 h
@@ -118,7 +118,7 @@ theorem I1433SCfg.three_le_pRank_of_inner (c : I1433SCfg Q x J q) (hZ : Subgroup
       yb ∉ Subgroup.center (↥J ⧸ GLAPPrimeCore 3 ↥J)) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup S) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha, b, hb, hab⟩ := c.nonabelian
   obtain ⟨g, rfl⟩ := hin a ha
   have hinj := conj_injective_of_center_eq_bot hZ
@@ -209,7 +209,7 @@ theorem I1433SCfg.three_le_pRank_of_inner (c : I1433SCfg Q x J q) (hZ : Subgroup
         exact (Subgroup.zpowers_le.2 hu₂J) this
       exact hgnx (c.mem_zpowers_of_commute hgJ' hgJ hg3)
   have hAY : A ⊓ Y = ⊥ := by
-    haveI : Fact (Nat.card ↥Y).Prime := ⟨by rw [hYc]; exact Nat.prime_three⟩
+    have : Fact (Nat.card ↥Y).Prime := ⟨by rw [hYc]; exact Nat.prime_three⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card (A.subgroupOf Y) with h | h
     · rw [Subgroup.subgroupOf_eq_bot] at h
       exact disjoint_iff.1 h

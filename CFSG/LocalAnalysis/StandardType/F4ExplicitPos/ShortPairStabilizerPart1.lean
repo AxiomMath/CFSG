@@ -68,6 +68,7 @@ abbrev Mstar
     : Subgroup (ModGL Tag.F4 Ω) :=
   torusGroup Tag.F4 Ω ⊔ rootSpan Tag.F4 Ω (Sstar)
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem UA_map_incl
     (α : Fin Tag.F4.rank → ℤ) :
     (UA Ω α).map (A Ω).subtype = rootSubgroup Tag.F4 Ω α := by
@@ -76,6 +77,7 @@ theorem UA_map_incl
   rw [← Set.range_comp]
   rfl
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem TA_map_incl :
     (TA Ω).map (A Ω).subtype = torusGroup Tag.F4 Ω := by
   rw [TA, MonoidHom.map_closure]
@@ -83,12 +85,14 @@ theorem TA_map_incl :
   rw [← Set.range_comp]
   rfl
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem RSA_map_incl
     (S : Set (Fin Tag.F4.rank → ℤ)) :
     (RSA Ω S).map (A Ω).subtype = rootSpan Tag.F4 Ω S := by
   unfold RSA rootSpan
   simp_rw [Subgroup.map_iSup, UA_map_incl]
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem UA_subgroupOf
     (α : Fin Tag.F4.rank → ℤ) :
     (rootSubgroup Tag.F4 Ω α).subgroupOf (A Ω) = UA Ω α := by
@@ -96,6 +100,7 @@ theorem UA_subgroupOf
   rw [Subgroup.subgroupOf_map_subtype, UA_map_incl,
     inf_eq_left.2 (rootSubgroup_le_adjointGroup α)]
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem normalizer_UA_map_incl
     (α : Fin Tag.F4.rank → ℤ) :
     (Subgroup.normalizer (UA Ω α)).map (A Ω).subtype =
@@ -241,6 +246,7 @@ theorem LA_map_sigma :
   have hMs : MstarA Ω = TA Ω ⊔ RSA Ω Sstar := rfl
   rw [hLA, hMs, Subgroup.map_sup, TA_map_sigma, RSA_map_sigma]
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem LA_map_incl
     : (LA Ω).map (A Ω).subtype = Lθ Tag.F4 Ω := by
   have hLA : LA Ω = TA Ω ⊔ RSA Ω S_J := rfl
@@ -250,6 +256,7 @@ theorem LA_map_incl
   rw [hLA, hsup, TA_map_incl Ω, RSA_map_incl Ω S_J]
   exact (f4_Lθ_eq_torus_sup_rootSpan (K := Ω)).symm
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem MstarA_map_incl
     : (MstarA Ω).map (A Ω).subtype = Mstar Ω := by
   have hMs : MstarA Ω = TA Ω ⊔ RSA Ω Sstar := rfl
@@ -265,6 +272,7 @@ abbrev KlongA : Subgroup (A Ω) :=
 abbrev KshortA : Subgroup (A Ω) :=
   Subgroup.normalizer (UA Ω (δ)) ⊓ Subgroup.normalizer (UA Ω (-δ))
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem KlongA_eq_LA :
     KlongA Ω = LA Ω := by
   have hKl : KlongA Ω = Subgroup.normalizer (UA Ω (highRoot Tag.F4)) ⊓

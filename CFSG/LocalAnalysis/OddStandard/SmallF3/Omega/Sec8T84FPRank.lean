@@ -22,7 +22,7 @@ private theorem isElemAbelian_of_le {G : Type*} [Group G] {p : ℕ} {E E₀ : Su
 theorem sec8t84_two_e16_of_e32 {M : Type} [Group M] [Finite M] {A : Subgroup M}
     (hA : IsElemAb2 A 5) :
     ∃ K₁ K₂ : Subgroup M, K₁ ≤ A ∧ K₂ ≤ A ∧ K₁ ≠ K₂ ∧ IsElemAb2 K₁ 4 ∧ IsElemAb2 K₂ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₁, hK₁card, -, hK₁le⟩ :=
     Sylow.exists_subgroup_card_pow_prime_le_le (p := 2) Nat.prime_two (n := 4)
       (H := ⊥) (L := A) (by rw [Subgroup.card_bot]; exact one_dvd _)
@@ -34,7 +34,7 @@ theorem sec8t84_two_e16_of_e32 {M : Type} [Group M] [Finite M] {A : Subgroup M}
     have hc : Nat.card K₁ = Nat.card A := by rw [heq]
     rw [hK₁card, hA.2] at hc
     norm_num at hc
-  obtain ⟨x, hxA, hxK₁⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxA, hxK₁⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hx2 : x ^ 2 = 1 := hA.1.2 x hxA
   have hx1 : x ≠ 1 := fun hx => hxK₁ (by rw [hx]; exact Subgroup.one_mem K₁)
   have hxord : orderOf x = 2 := orderOf_eq_prime hx2 hx1
@@ -72,7 +72,7 @@ theorem sec8t84_rank_cent {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y}
       CFSG.Open.IsElemAbelian 2 A ∧ 16 ≤ Nat.card A) :
     ∀ s : Y, orderOf s = 2 → CFSG.Open.pRank 2 (centralizer ({s} : Set Y)) = 4 := by
   intro s hs2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAC, hAel, hAcard⟩ := hwit s hs2
   have hA2 : IsPGroup 2 A := fun y => ⟨1, Subtype.ext (by simpa using hAel.2 y y.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hA2

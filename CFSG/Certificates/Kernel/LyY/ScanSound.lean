@@ -42,10 +42,10 @@ private theorem ksLY_memN_iff (p : Nat) : ∀ l : List Nat, memN p l = true ↔ 
     rw [CFSG.KS.Raw.Orb.bIf_eq]
     by_cases h : Nat.beq x p = true
     · have hxp : x = p := Nat.eq_of_beq_eq_true h
-      rw [if_pos h]
+      rw [ite_eq_left h]
       simp [hxp]
     · have hxp : x ≠ p := fun e => h (by rw [e, Nat.beq_refl])
-      rw [if_neg h, ksLY_memN_iff p l]
+      rw [ite_eq_right h, ksLY_memN_iff p l]
       simp only [List.mem_cons]
       constructor
       · exact Or.inr
@@ -404,7 +404,7 @@ private theorem ksLY_img_facts {n w A B k N : Nat} {TL OP OG : List Nat}
         cases h : Nat.beq i 0 with
         | false => rfl
         | true => exact absurd (Nat.eq_of_beq_eq_true h) hi0
-      rw [if_neg (by rw [hb']; exact Bool.false_ne_true)] at hb
+      rw [ite_eq_right (by rw [hb']; exact Bool.false_ne_true)] at hb
       rw [CFSG.KS.bAnd_iff] at hb
       obtain ⟨hOP, hb2⟩ := hb
       rw [CFSG.KS.bAnd_iff] at hb2
@@ -419,11 +419,11 @@ private theorem ksLY_img_rep {n w A B OG : Nat} {α β : Equiv.Perm (Fin n)}
   by_cases h : Nat.beq OG 0 = true
   · refine ⟨α, Subgroup.subset_closure (by simp), ?_⟩
     rw [show Bool.rec (motive := fun _ => Nat) B A (Nat.beq OG 0) = A
-      from by rw [CFSG.KS.Raw.Orb.nIf_eq, if_pos h]]
+      from by rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_left h]]
     exact hA
   · refine ⟨β, Subgroup.subset_closure (by simp), ?_⟩
     rw [show Bool.rec (motive := fun _ => Nat) B A (Nat.beq OG 0) = B
-      from by rw [CFSG.KS.Raw.Orb.nIf_eq, if_neg h]]
+      from by rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_right h]]
     exact hB
 
 private theorem ksLY_img_set_eq {n : Nat} {OS : List (List Nat)} {OP : List Nat} {i : Nat}
@@ -569,7 +569,7 @@ private theorem ksLY_img_distinct {n w A B N : Nat} {OP OG : List Nat}
   have hbeq : Nat.beq (keyN w (lgetL OS i)) (keyN w (lgetL OS j)) = true := by
     rw [Nat.beq_eq]
     exact hkeyeq
-  rw [if_pos hbeq] at hj'
+  rw [ite_eq_left hbeq] at hj'
   exact Bool.noConfusion hj'
 
 private theorem ksLY_img_mem {n w A B N : Nat} {OP OG : List Nat}
@@ -769,7 +769,7 @@ private theorem ksLY_codePerm_spec {n w kO : Nat} {LR TR : Nat → Nat}
         (ksLY_codePerm w LR TR S kO C i) := by
   classical
   unfold ksLY_codePerm
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 private theorem ksLY_code_rep {n w kS kO BP NS CH N : Nat} {PS PSI LR TR TRI : Nat → Nat}
@@ -1170,21 +1170,21 @@ private theorem ksLY_orb_facts {n w k L : Nat} {G : Nat → Nat} {TL TP TG TD : 
   rw [CFSG.KS.Raw.Orb.bIf_eq] at hp3
   refine ⟨Nat.blt_eq.mp hl, fun j => Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec hinv j j.2), ?_, ?_⟩
   · intro hroot
-    rw [if_pos (by rw [hroot, Nat.beq_refl])] at hp3
+    rw [ite_eq_left (by rw [hroot, Nat.beq_refl])] at hp3
     rw [CFSG.KS.bAnd_iff] at hp3
     obtain ⟨hTD, hmin⟩ := hp3
     refine ⟨Nat.eq_of_beq_eq_true hTD, ?_⟩
     intro r hr hlab
     have hmin' := CFSG.KS.allN_spec hmin r hr
     rw [CFSG.KS.Raw.Orb.bIf_eq] at hmin'
-    rw [if_pos (by rw [hlab, Nat.beq_refl])] at hmin'
+    rw [ite_eq_left (by rw [hlab, Nat.beq_refl])] at hmin'
     exact Bool.noConfusion hmin'
   · intro hroot
     have hbeq : Nat.beq (lget TP p) p = false := by
       cases h : Nat.beq (lget TP p) p with
       | false => rfl
       | true => exact absurd (Nat.eq_of_beq_eq_true h) hroot
-    rw [if_neg (by rw [hbeq]; exact Bool.false_ne_true)] at hp3
+    rw [ite_eq_right (by rw [hbeq]; exact Bool.false_ne_true)] at hp3
     rw [CFSG.KS.bAnd_iff] at hp3
     obtain ⟨hq, hp4⟩ := hp3
     rw [CFSG.KS.bAnd_iff] at hp4

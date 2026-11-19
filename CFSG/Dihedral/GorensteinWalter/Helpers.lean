@@ -76,7 +76,7 @@ private lemma dihedralIndex_eq_two_pow {G : Type*} [Group G] [Finite G]
     ∃ m : ℕ, n = 2 ^ m := by
   obtain ⟨e⟩ := h
   let : Finite (DihedralGroup n) := Finite.of_equiv _ e.toEquiv
-  obtain ⟨r, hr⟩ := (P.isPGroup'.of_equiv e).exists_card_eq
+  obtain ⟨r, hr⟩ := (P.isPGroup.of_equiv e).exists_card_eq
   rw [DihedralGroup.nat_card] at hr
   cases r with
   | zero => simp at hr
@@ -104,7 +104,7 @@ private lemma sylow_ne_top_of_noncommutative {G : Type*} [Group G] [Finite G]
   intro htop
   have hpTop : IsPGroup 2 (⊤ : Subgroup G) := by
     rw [← htop]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hpG : IsPGroup 2 G := hpTop.of_equiv Subgroup.topEquiv
   let : Nontrivial (Subgroup.center G) := hpG.center_nontrivial
   simpa [center_eq_bot_of_noncommutative hnonab] using
@@ -708,7 +708,7 @@ private lemma involution_mem_sylow_of_sylow_le_centralizer {G : Type*} [Group G]
       (Subgroup.centralizer_le_normalizer (Q : Set G))
   have hSup :
       IsPGroup 2 (Subgroup.zpowers b ⊔ (Q : Subgroup G) : Subgroup G) :=
-    hZPowers.to_sup_of_normal_right' Q.isPGroup' hZPowersNormalizesQ
+    hZPowers.to_sup_of_normal_right' Q.isPGroup hZPowersNormalizesQ
   have hSupEq : Subgroup.zpowers b ⊔ (Q : Subgroup G) = Q :=
     (Q.maximal_isPGroup.eq_of_le hSup le_sup_right).symm
   change b ∈ (Q : Subgroup G)

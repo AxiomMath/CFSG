@@ -624,7 +624,7 @@ theorem burnsideF4k_Qbar_normal {E : Type} [Group E] (p : ℕ) {Gp : Subgroup E}
 theorem burnsideF4k_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     {H P S : Subgroup E} (hS : IsSylowOf p S H) (hSP : S ≤ P) (hPH : P ≤ H) :
     pCoreOf p P ≤ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSH, hSp, hSidx⟩ := hS
   have h1 : IsPGroup p (S.subgroupOf P) := hSp.comap_subtype
   have hdvd : S.relIndex P ∣ S.relIndex H :=
@@ -632,7 +632,7 @@ theorem burnsideF4k_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (
   have h2 : ¬ p ∣ (S.subgroupOf P).index := fun h => hSidx (h.trans hdvd)
   let T : Sylow p ↥P := h1.toSylow h2
   have hcore : CFSG.pCore p ↥P ≤ (T : Subgroup ↥P) := by
-    haveI : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
+    have : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
     exact (CFSG.LieType.BorelTits.pCore_isPGroup p).le_sylow_of_normal T
   have h3 : (T : Subgroup ↥P) = S.subgroupOf P := rfl
   rw [h3] at hcore
@@ -658,7 +658,7 @@ theorem burnsideF4k_Q_le_S {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Pri
     {Gp M₁ M₂ : Subgroup E} (hN : Gp.Normal)
     (hP : IsLieParabolics p Gp (Gp ⊓ (M₁ ⊓ M₂)) (Gp ⊓ M₁) (Gp ⊓ M₂)) :
     pCoreOf p (Gp ⊓ M₁) ≤ pCoreOf p (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 := (burnsideF4k_pCoreOf_le hp hP).1
   have h1 : pCoreOf p (Gp ⊓ M₁) ≤ Gp ⊓ M₁ := CFSG.LieType.BorelTits.pCoreOf_le p _
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer p ?_ ?_
@@ -936,9 +936,9 @@ theorem burnsideF4k_lie_ne (hF : F_4_6) (hcompat : NativeChartCompatibilityGoal)
 theorem burnsideF4k_F416 (hF : F_4_6) (hcompat : NativeChartCompatibilityGoal)
     (hreg : burnsideF4k_Reg) : F_4_16 := by
   intro κ p f E _ Gp M₁ M₂ hyp hext Y _ β hβ hs S hS hx hl
-  haveI := hyp.finite
+  have := hyp.finite
   have hp := burnsideF4a_prime_of_isGenLie hyp.model
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : Gp.Normal := hyp.normal
   have hP := burnsideF4k_parabolics hcompat hyp
   have hF46 := burnsideF4a_facts46_of_compat hF hcompat hyp β hβ
@@ -1014,7 +1014,7 @@ theorem burnsideF4k_Z3_pairs {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y] {c :
     (hp₂ : p₂ ∈ c.geods m a b) (hq₂ : q₂ ∈ c.geods m a b) (h₁ : p₁ ≠ q₁) (h₂ : p₂ ≠ q₂) :
     ∃ g ∈ stv c a ⊓ stv c b, (g • p₁ = p₂ ∧ g • q₁ = q₂) ∨ (g • p₁ = q₂ ∧ g • q₁ = p₂) := by
   classical
-  haveI : Finite ↥(stv c a ⊓ stv c b) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite ↥(stv c a ⊓ stv c b) := Nat.finite_of_card_ne_zero (by omega)
   have hncard : (c.geods m a b).ncard = 3 := by rw [← Nat.card_coe_set_eq]; exact hcard
   have hreg : ∀ r ∈ c.geods m a b, ∀ h ∈ stv c a ⊓ stv c b, h • r = r → h = 1 := by
     intro r hr h hh hhr
@@ -1151,7 +1151,7 @@ open CFSG.ASVolI.ChF
 theorem burnsideF4k_pElt_mem_pCoreOf {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     {H S B : Subgroup E} (hS : IsSylowOf p S H) (hB : B = H ⊓ Subgroup.normalizer (S : Set E))
     {x : E} (hx : x ∈ B) {k : ℕ} (hk : orderOf x = p ^ k) : x ∈ pCoreOf p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSH, hSp, hSidx⟩ := hS
   have hSB : S ≤ B := by rw [hB]; exact le_inf hSH Subgroup.le_normalizer
   have hBN : B ≤ Subgroup.normalizer (S : Set E) := by rw [hB]; exact inf_le_right
@@ -1169,7 +1169,7 @@ theorem burnsideF4k_pElt_mem_pCoreOf {E : Type} [Group E] [Finite E] {p : ℕ} (
     have hy : IsPGroup p (Subgroup.zpowers y) :=
       IsPGroup.of_card (by rw [Nat.card_zpowers, Subgroup.orderOf_mk]; exact hk)
     obtain ⟨Q, hQ⟩ := hy.exists_le_sylow
-    haveI : Unique (Sylow p ↥B) := Sylow.unique_of_normal T hTn
+    have : Unique (Sylow p ↥B) := Sylow.unique_of_normal T hTn
     have hQT : Q = T := Subsingleton.elim _ _
     have hyT : y ∈ (T : Subgroup ↥B) := hQT ▸ hQ (Subgroup.mem_zpowers y)
     exact hyT
@@ -1252,7 +1252,7 @@ theorem burnsideF4k_pCoreOf_borel_mem_oPPrime [Finite E] {p : ℕ} (hp : p.Prime
     (hc : c.IsFaithful) (d : (RankTwoAmalgam.ofSubgroups N₁ N₂).G12)
     (hd : burnsideF4k_val12 N₁ N₂ d ∈ pCoreOf p (⊤ ⊓ (N₁ ⊓ N₂))) :
     burnsideF4k_Phi c d ∈ oPPrime p (stv c c.xv ⊓ stv c c.lv) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup p (⊤ ⊓ (N₁ ⊓ N₂))) ⟨_, hd⟩
   refine Subgroup.subset_closure ⟨burnsideF4k_Phi_mem c hc d, k, ?_⟩
@@ -1567,7 +1567,7 @@ theorem burnsideF4k_mem_normalizer_subgroupOf {E : Type} [Group E] {Gp X : Subgr
 theorem burnsideF4k_restrict (hcompat : NativeChartCompatibilityGoal) {κ : GLKind} {p f : ℕ}
     {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ p f Gp M₁ M₂) :
     HypF_4_4 κ p f (⊤ : Subgroup ↥Gp) ((Gp ⊓ M₁).subgroupOf Gp) ((Gp ⊓ M₂).subgroupOf Gp) := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hP := burnsideF4k_parabolics hcompat hyp
   obtain ⟨chart, hchart⟩ := hyp.lie_amalgam
   obtain ⟨chart', hchart'⟩ := burnsideF4k_chart_restrict chart hchart
@@ -1619,7 +1619,7 @@ theorem burnsideF4k_split_aux {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 theorem burnsideF4k_Reg_of_F45 (h5 : F_4_5) (hcompat : NativeChartCompatibilityGoal) :
     burnsideF4k_Reg := by
   intro κ p f E _ Gp M₁ M₂ hyp
-  haveI := hyp.finite
+  have := hyp.finite
   have hp := burnsideF4a_prime_of_isGenLie hyp.model
   have hyp' := burnsideF4k_restrict hcompat hyp
   have hP' := burnsideF4k_parabolics hcompat hyp'

@@ -39,9 +39,9 @@ theorem isSylowOf_top_of_normalizer_le {p : ℕ} [Fact p.Prime] {M T : Subgroup 
   have hST : (S : Subgroup G) ≤ T := by
     by_contra hne
     obtain ⟨x, hxS, hxN, hxT⟩ :=
-      exists_mem_normalizer_not_mem S.isPGroup' (lt_of_le_not_ge hTS hne)
+      exists_mem_normalizer_not_mem S.isPGroup (lt_of_le_not_ge hTS hne)
     have hQ := hT.eq_of_le (le_inf hTS Subgroup.le_normalizer) (inf_le_right.trans hN)
-      S.isPGroup'.to_inf_left
+      S.isPGroup.to_inf_left
     exact hxT (hQ ▸ ⟨hxS, hxN⟩)
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, hT.isPGroup, ?_⟩
@@ -159,7 +159,7 @@ theorem le_centralizer_iSup_conj {M T X R : Subgroup G}
       by_contra hk0
       exact h4 (dvd_pow_self 2 hk0)
     rw [← Subgroup.index_eq_one, hk, hk0, pow_zero]
-  have hS2 : IsPGroup 2 ((S' : Subgroup R).map R.subtype) := S'.isPGroup'.map R.subtype
+  have hS2 : IsPGroup 2 ((S' : Subgroup R).map R.subtype) := S'.isPGroup.map R.subtype
   obtain ⟨g, hgM, hg⟩ := exists_conj_mem_of_isSylowOf hT hS2 ((map_subtype_le _).trans hRM)
   have hRX : ∀ r ∈ R, ∀ x ∈ X, (g⁻¹ * x * g) * r = r * (g⁻¹ * x * g) := by
     have hZ : (S' : Subgroup R) ⊔ N ≤

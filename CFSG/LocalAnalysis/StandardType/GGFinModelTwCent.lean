@@ -127,7 +127,7 @@ private theorem e6LongestData_length_max (w : WeylGroup TwistTag.E6.tag) :
   exact hmax₁ w
 
 theorem ggTwCentTriv {K L : Type} [Field K] [Field L] (σ : K →+* K)
-    (hσ : Function.Surjective σ) (ι : K →+* L) {z : ModGL TwistTag.E6.tag L}
+    (_hσ : Function.Surjective σ) (ι : K →+* L) {z : ModGL TwistTag.E6.tag L}
     (hz : z ∈ adjointGroup TwistTag.E6.tag L)
     (hc : ∀ h ∈ (graphFixedRootGroup TwistTag.E6 K σ).map (baseChangeGL ι), z * h = h * z) :
     z = 1 := by

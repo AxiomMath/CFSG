@@ -72,7 +72,7 @@ instance : Group (PHat n) :=
       obtain ⟨b₁, b₂, b₃, be⟩ := b
       rcases zmod_two_eq_zero_or_one ae with rfl | rfl <;>
         rcases zmod_two_eq_zero_or_one be with rfl | rfl <;>
-        ext <;> simp [mul_assoc, add_assoc, one_add_one_zmod_two, one_add_one_add_zmod_two])
+        ext <;> simp [mul_assoc, one_add_one_zmod_two, one_add_one_add_zmod_two])
     (fun a => by ext <;> simp)
     (fun a => by
       obtain ⟨a₁, a₂, a₃, ae⟩ := a

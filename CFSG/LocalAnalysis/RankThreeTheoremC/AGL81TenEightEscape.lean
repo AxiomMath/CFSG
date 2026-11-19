@@ -25,7 +25,7 @@ theorem kFactInputs_of_escape (h31 : KFactThreeOne) (h75 : KFactSevenFive)
     (hB : IsAGLQ p M B) (hBN : B ≤ N) (hNtop : N ≠ ⊤) (hK : d1KBar p M N ≠ ⊥) :
     TenThirteen.KFactInputs p M N (d1KBar p M N) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p with hOdef
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p

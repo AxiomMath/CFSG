@@ -21,7 +21,7 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K] [CharP K 3] {J : Set (Fin τ
 
 theorem eq_one_of_mul_self_radical {q : ModGL τ K} (hq : q ∈ parabolicRadical τ K J) (h : q * q = 1) :
     q = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, hfin⟩ := parabolic_root_radical_Levi_factors τ K J
   have hP := (hfin 3).2.1
   by_contra hne
@@ -37,7 +37,7 @@ theorem eq_one_of_mul_self_radical {q : ModGL τ K} (hq : q ∈ parabolicRadical
 
 theorem conj_eq_of_radical_sq {q : ModGL τ K} (hq : q ∈ parabolicRadical τ K J)
     (hsq : ∀ x ∈ adjointGroup τ K, q * q * x * (q * q)⁻¹ = x) {x : ModGL τ K}
-    (hx : x ∈ adjointGroup τ K) : q * x * q⁻¹ = x := by
+    (_hx : x ∈ adjointGroup τ K) : q * x * q⁻¹ = x := by
   have hqd : q ∈ degSeries τ K J 1 := by rw [degSeries_one]; exact hq
   have hqC : q ∈ adjointGroup τ K := degSeries_le_adjointGroup (K := K) (J := J) 1 hqd
   have hcen : (⟨q * q, mul_mem hqC hqC⟩ : adjointGroup τ K) ∈ Subgroup.center (adjointGroup τ K) := by
@@ -80,7 +80,7 @@ theorem nonempty_layer_J013_one :
 
 local notation "Jout" => ({0, 1, 3} : Set (Fin Tag.D4.rank))
 
-theorem J013_not_typeS (hK2 : ringChar K ≠ 2) {φ : ModGL Tag.D4 K →* ModGL Tag.D4 K}
+theorem J013_not_typeS (_hK2 : ringChar K ≠ 2) {φ : ModGL Tag.D4 K →* ModGL Tag.D4 K}
     {Γ₁ Γ₂ : ModGL Tag.D4 K} (G : A4Grp Jout φ Γ₁ Γ₂)
     (hne₁ : ∃ x ∈ adjointGroup Tag.D4 K, Γ₁ * x * Γ₁⁻¹ ≠ x)
     {q : ModGL Tag.D4 K} (hq : q ∈ parabolicRadical Tag.D4 K Jout) {b' : Fin Tag.D4.rank → Kˣ}
@@ -179,7 +179,7 @@ theorem J013_card_A (hK2 : ringChar K ≠ 2) {φ : ModGL Tag.D4 K →* ModGL Tag
     {A : Subgroup (ModGL Tag.D4 K)} (hA : A ≤ parabolicRadical Tag.D4 K Jout)
     (hA₁ : ∀ a ∈ A, Γ₁ * a * Γ₁⁻¹ = a) (hA₂ : ∀ a ∈ A, Γ₂ * a * Γ₂⁻¹ = a) :
     Nat.card A ≤ Nat.card K ^ 3 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hd1 : (1 : ℤ) ≤ 1 := le_refl 1
   have hd2 : (1 : ℤ) ≤ 2 := by norm_num
   have hL1 := isLayer_degSeries (K := K) (J := Jout) hd1

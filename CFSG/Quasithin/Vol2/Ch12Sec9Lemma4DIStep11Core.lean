@@ -23,8 +23,8 @@ theorem eq_one_or_eq_of_order_three {M : Type} [AddCommGroup M] [Module (ZMod 2)
     (hσ : σ ^ 3 = 1) (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
     σ = 1 ∨ σ = τ ∨ σ = τ * τ := by
   have hpos : 0 < Module.finrank (ZMod 2) M := by rw [hM]; norm_num
-  haveI : Module.Finite (ZMod 2) M := Module.finite_of_finrank_pos hpos
-  haveI : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
+  have : Module.Finite (ZMod 2) M := Module.finite_of_finrank_pos hpos
+  have : Module.Free (ZMod 2) M := Module.Free.of_divisionRing (ZMod 2) M
   let b : Module.Basis (Fin 2) (ZMod 2) M := Module.finBasisOfFinrankEq (ZMod 2) M hM
   let Φ : (M →ₗ[ZMod 2] M) →* Matrix (Fin 2) (Fin 2) (ZMod 2) :=
     { toFun := LinearMap.toMatrix b b

@@ -88,7 +88,7 @@ theorem orderD_ne_sixty {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (hq2 : 2 ≤ q)
   have h3 : 3 * 2 ≤ n * (n - 1) := Nat.mul_le_mul hn (by omega)
   omega
 
-theorem orderTwistedD_ne_sixty {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (hq2 : 2 ≤ q) :
+theorem orderTwistedD_ne_sixty {n q : ℕ} (hn : 3 ≤ n) (hq : Even q) (_hq2 : 2 ≤ q) :
     orderTwistedD n q ≠ 60 := by
   intro h
   have hodd : Odd (q ^ n + 1) := by
@@ -135,7 +135,7 @@ theorem not_isA5Type_of_lie {Q : Type} [Group Q] {d : TauCeti.ValidLieTypeIndex}
     (e : Q ≃* (TauCeti.CFSGIndex.lie d).Group) (hd : lieOrderFormula d.1 ≠ 60) : ¬ IsA5Type Q := by
   intro hA5
   have h60 := hA5.card
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [h60]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [h60]; norm_num)
   exact hd ((lieOrderBridge_holds d Q ⟨e⟩).symm.trans h60)
 
 theorem not_isA5Type_of_alt6 {Q : Type} [Group Q] (e : Q ≃* alternatingGroup (Fin 6)) :

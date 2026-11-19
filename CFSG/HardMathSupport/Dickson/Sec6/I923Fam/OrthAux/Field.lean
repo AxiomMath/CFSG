@@ -40,10 +40,10 @@ theorem noL2Layer_fieldAutT (S : SubfieldSetup k Q₀ Q σ p)
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
   have hJn := subfieldDerivedImage_normal k S.hext
-  haveI := hJn
+  have := hJn
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   refine noL2Layer_of_fix_eq _ _ _ hfix (subfieldDerivedImage_le k S.hext) inferInstance hJs
     hJnab fun r hr hT => hL2 r hr ?_
   exact l2fld_isTypeL2_of_mulEquiv e.symm hT

@@ -12,9 +12,11 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_eq_self_of_mem {M : Subgroup G} {y : G} (hy : y ∈ M) : GLBConj y M = M :=
   gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hy)
 
+omit [Finite G] in
 theorem isSCp_gLBConj_of_mem {p : ℕ} {M A : Subgroup G} {y : G} (hy : y ∈ M)
     (hA : IsSCp p M A) : IsSCp p M (GLBConj y A) := by
   refine ⟨?_, CFSG.SectionRank.isElemAbelian_map hA.2.1 _, ?_⟩

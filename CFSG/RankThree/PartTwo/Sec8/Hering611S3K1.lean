@@ -15,7 +15,7 @@ theorem theta_K_odd (hbig : NoBig3 G) {A K : Subgroup G} (hA : CFSG.Assembly.IsE
     (hA27 : 27 < Nat.card A) (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     ¬ 2 ∣ Nat.card (inSubgroup (aschbacherSolvableCore 3) K) := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t', ht'⟩ := exists_prime_orderOf_dvd_card'
     (G := inSubgroup (aschbacherSolvableCore 3) K) 2 h2
   obtain ⟨t, htθ, hto⟩ : ∃ t : G,
@@ -41,11 +41,11 @@ theorem kernel_odd (hbig : NoBig3 G) {A K : Subgroup G} {d : G}
     (hA : CFSG.Assembly.IsElemAbelian 3 A) (hA27 : 27 < Nat.card A) (hdA : d ∈ A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hAdec : ∀ x ∈ A, ∃ k ∈ A ⊓ K, x * k⁻¹ ∈ Subgroup.zpowers d)
-    (hdK : K ≤ Subgroup.centralizer ({d} : Set G)) :
+    (_hdK : K ≤ Subgroup.centralizer ({d} : Set G)) :
     ¬ 2 ∣ Nat.card (Sec4.thetaQuotCentralizer K ⊓ Subgroup.centralizer ({d} : Set G) :
       Subgroup G) := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set D : Subgroup G := Sec4.thetaQuotCentralizer K ⊓ Subgroup.centralizer ({d} : Set G)
     with hD
   set θ : Subgroup G := inSubgroup (aschbacherSolvableCore 3) K with hθ

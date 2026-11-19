@@ -160,13 +160,13 @@ theorem largeEvenLabelAll_torusSCRank_unitary
   · dsimp only at h hpn hpl ⊢
     subst h
     have hl2 : 2 ≤ l := hlab.2.1
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact recipeUnitary_torusSCRank hp hpn hn (by omega) hpl rfl hQ
   · dsimp only at h hl hpn ⊢
     subst h hl
     rw [ite_self]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (show ¬ (3 = 2) by decide), if_pos rfl] at hQ ⊢
+    rw [ite_eq_right (show ¬ (3 = 2) by decide), ite_eq_left rfl] at hQ ⊢
     have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hn hpn
     refine recipeUnitary_torusSCRank hp hpn hn (by norm_num) (fun h4 => hp2 ?_) rfl hQ
     have h1 : p ∣ 2 ^ 2 := by norm_num; exact h4

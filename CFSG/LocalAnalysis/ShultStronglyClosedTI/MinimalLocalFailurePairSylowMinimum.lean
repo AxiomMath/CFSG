@@ -95,7 +95,7 @@ theorem pairSylow_minimum_pair_opposite_transport
     exact htriple
   have hcomparison := hmin delta hdeltafamily
   rw [← hpair, pairSylow_theta_rightConjugate_card] at hcomparison
-  exact ⟨beta, hbeta, P, P₀.isPGroup'.map V.subtype, hPH, hPF,
+  exact ⟨beta, hbeta, P, P₀.isPGroup.map V.subtype, hPH, hPF,
     hzP, hmotion, t, ht, htreturn, htP, hcomparison⟩
 
 end CFSG.ShultStronglyClosedTI

@@ -37,7 +37,7 @@ theorem E81C.innerOfFix_of_host (S : Type) [Group S] [Finite S] (h : catalogIs S
 
 theorem u42E81CentAt_holds : U42E81CentAt := by
   intro S _ _ hS E hE hcard t ht hcomm
-  haveI := isSimple_of_host S hS
+  have := isSimple_of_host S hS
   have hinj := conj_injective_of_center (center_eq_bot_of_simple E hcard)
   have hfix : ∀ e ∈ E, t e = e := by
     intro e he
@@ -59,7 +59,7 @@ theorem u42E81CentAt_holds : U42E81CentAt := by
     apply hinj
     rw [map_mul, map_mul]
     exact hcomm e he
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 (Subgroup.zpowers g) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hg2 hg1, pow_one])
   have hT1 : Subgroup.zpowers g ≠ ⊥ := fun h => hg1 (Subgroup.zpowers_eq_bot.1 h)

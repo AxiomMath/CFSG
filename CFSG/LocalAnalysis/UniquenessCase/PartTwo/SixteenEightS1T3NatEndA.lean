@@ -63,7 +63,7 @@ theorem s16t3_sumOfNat_singleton {N : Subgroup (MulAut W) → Subgroup W → Sub
     rw [hone, sup_eq_right.2 hZI]
 
 theorem s16t3_realizes_restrict {D : FFModel} {H : Subgroup (MulAut W)} {U Z I : Subgroup W}
-    (h : D.Realizes H U Z) (hIU : I ≤ U) (hI : StableUnder H I) (hIZ : I ⊔ Z = U) :
+    (h : D.Realizes H U Z) (_hIU : I ≤ U) (hI : StableUnder H I) (hIZ : I ⊔ Z = U) :
     D.Realizes H I (I ⊓ Z) := by
   obtain ⟨π, hπ⟩ := h
   have hI' : ∀ g : ↥H, ∀ u ∈ I, (g : MulAut W) u ∈ I := fun g u hu => hI g g.2 u hu

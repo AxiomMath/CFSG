@@ -75,6 +75,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem preuniq_conjugate {M L : Subgroup G} {m : G} (hm : m ∈ M)
     (hpre : ∀ t ∈ CMK M L, orderOf t = 2 → centralizer ({t} : Set G) ≤ M) :
     ∀ t ∈ CMK M (conjugate L m), orderOf t = 2 → centralizer ({t} : Set G) ≤ M := by
@@ -88,16 +89,16 @@ theorem preuniq_conjugate {M L : Subgroup G} {m : G} (hm : m ∈ M)
       exact M.mul_mem (M.mul_mem hm hy) (M.inv_mem hm)
     · intro hx
       exact ⟨m⁻¹ * x * m, M.mul_mem (M.mul_mem (M.inv_mem hm) hx) hm, by
-        simp only [MulEquiv.coe_toMonoidHom, MonoidHom.comp_apply, MulAut.conj_apply]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group⟩
   have hmapL : cmap m (conjugate L m) = L := by
     have hconj : conjugate L m = cmap m⁻¹ L := rfl
     rw [hconj, cmap_cmap, mul_inv_cancel]
-    simpa using Subgroup.map_id L
+    simp
   have hmapO : cmap m (pPrimeCoreOf 2 (conjugate L m)) = pPrimeCoreOf 2 L := by
     have hconj : conjugate L m = cmap m⁻¹ L := rfl
     rw [hconj, pPrimeCoreOf_cmap, cmap_cmap, mul_inv_cancel]
-    simpa using Subgroup.map_id (pPrimeCoreOf 2 L)
+    simp
   have hCMK : cmap m (CMK M (conjugate L m)) = CMK M L := by
     unfold CMK
     rw [cmap_inf, cmap_centralizerSection, hmapM, hmapL, hmapO]
@@ -146,7 +147,7 @@ theorem centralizer_le_of_nonnormal {M L : Subgroup G}
       calc cmap mG L = cmap mG (cmap mG⁻¹ L) := congrArg (cmap mG) h3
         _ = L := by
           rw [cmap_cmap]
-          simpa using (show cmap (mG * mG⁻¹) L = L by rw [mul_inv_cancel, cmap_one])
+          simp
     have hsub : (L.subgroupOf M).map (MulAut.conj m).toMonoidHom = L.subgroupOf M := by
       apply Subgroup.map_injective M.subtype_injective
       rw [CFSG.map_subgroupOf_map_conj_eq hL.1 m, Subgroup.map_subgroupOf_eq_of_le hL.1]
@@ -168,15 +169,15 @@ theorem centralizerSection_le_of_nonnormal {M L : Subgroup G}
     (hnotnormal : ¬ (L.subgroupOf M).Normal) :
     centralizerSection L (pPrimeCoreOf 2 L) ≤ M := by
   have hb := centralizer_le_of_nonnormal hL hpre hnotnormal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup G := pPrimeCoreOf 2 L with hO
   set S : Subgroup G := centralizerSection L O with hS
   have hO_le_L : O ≤ L := by rw [hO]; exact Subgroup.map_subtype_le _
   have hOsub_eq : O.subgroupOf L = pPrimeCore 2 ↥L := by
     rw [hO, pPrimeCoreOf]
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_map]
-  haveI : (O.subgroupOf L).Normal := by
+    simp
+  have : (O.subgroupOf L).Normal := by
     rw [hOsub_eq]
     infer_instance
   have hO_odd : Odd (Nat.card ↥O) := by
@@ -190,7 +191,7 @@ theorem centralizerSection_le_of_nonnormal {M L : Subgroup G}
   let P : Sylow 2 ↥L := Classical.choice (inferInstance : Nonempty (Sylow 2 ↥L))
   have hPne : (P : Subgroup ↥L) ≠ ⊥ := Sylow.ne_bot_of_dvd_card P h2L
   let Pamb : Subgroup G := (P : Subgroup ↥L).map L.subtype
-  have hPamb2 : IsPGroup 2 Pamb := (P.isPGroup').map L.subtype
+  have hPamb2 : IsPGroup 2 Pamb := (P.isPGroup).map L.subtype
   have hPamb_le : Pamb ≤ L := Subgroup.map_subtype_le _
   have hO_le_S : O ≤ S := by
     rw [hS]
@@ -221,9 +222,9 @@ theorem centralizerSection_le_of_nonnormal {M L : Subgroup G}
       rw [hn] at hodd
       exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)
     rw [Subgroup.eq_bot_iff_card, hn, hn0, pow_zero]
-  haveI : Nontrivial ↥(P : Subgroup ↥L) := (Subgroup.nontrivial_iff_ne_bot _).2 hPne
+  have : Nontrivial ↥(P : Subgroup ↥L) := (Subgroup.nontrivial_iff_ne_bot _).2 hPne
   obtain ⟨zP, hzP2⟩ :=
-    CFSG.GroupTheory.SuzukiTwoGroup.exists_orderOf_eq_two (S := ↥(P : Subgroup ↥L)) P.isPGroup'
+    CFSG.GroupTheory.SuzukiTwoGroup.exists_orderOf_eq_two (S := ↥(P : Subgroup ↥L)) P.isPGroup
   let z : G := (((zP : ↥L) : G))
   have hzPamb : z ∈ Pamb := by
     refine Subgroup.mem_map_of_mem L.subtype ?_
@@ -239,7 +240,7 @@ theorem centralizerSection_le_of_nonnormal {M L : Subgroup G}
   let φ : MulAut ↥L :=
     CFSG.GH74.GLS.Stage1.Thm3.Sec8.Basic.conjMulAut hNnorm s hsN
   let B : Subgroup ↥L := (P : Subgroup ↥L).map φ.toMonoidHom
-  have hB2 : IsPGroup 2 B := (P.isPGroup').map φ.toMonoidHom
+  have hB2 : IsPGroup 2 B := (P.isPGroup).map φ.toMonoidHom
   have hmap : (P : Subgroup ↥L).map (QuotientGroup.mk' (O.subgroupOf L)) =
       B.map (QuotientGroup.mk' (O.subgroupOf L)) := by
     apply le_antisymm
@@ -280,7 +281,7 @@ theorem centralizerSection_le_of_nonnormal {M L : Subgroup G}
       exact ⟨p, hp, heq.symm⟩
   obtain ⟨o, ho, hconj⟩ :=
     CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerp23.exists_odd_conj
-      (N := O.subgroupOf L) hOsub_odd (P.isPGroup') hB2 hmap
+      (N := O.subgroupOf L) hOsub_odd (P.isPGroup) hB2 hmap
   have hoO : (o : G) ∈ O := Subgroup.mem_subgroupOf.mp ho
   let a : G := s⁻¹ * (o : G)
   have haS : a ∈ S := S.mul_mem (S.inv_mem hs) (hO_le_S hoO)
@@ -522,7 +523,7 @@ theorem normalizer_le_of_nonnormal [IsSimpleGroup G] {M L : Subgroup G}
   have hYleM : Y ≤ M := by
     rw [hY]
     exact Subgroup.map_subtype_le _
-  haveI : (pLayer ↥M 2 ⊔ pPrimeCore 2 ↥M).Normal := inferInstance
+  have : (pLayer ↥M 2 ⊔ pPrimeCore 2 ↥M).Normal := inferInstance
   have hM_Y : M ≤ normalizer (Y : Set G) := by
     rw [hY]
     exact CFSG.ABGLocalTools.le_normalizer_map_subtype M
@@ -532,7 +533,7 @@ theorem normalizer_le_of_nonnormal [IsSimpleGroup G] {M L : Subgroup G}
     exact (Subgroup.mem_normalizer_iff.mp (hM_Y hm) y).mp hy
   have hNY : normalizer (Y : Set G) = M :=
     CFSG.GH74.GLS.C3.Layer1.Bk.normalizer_eq_of_coatom inferInstance hM hYleM hYn hYne
-  haveI : (pLayer ↥H 2).Characteristic :=
+  have : (pLayer ↥H 2).Characteristic :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic
   have hNH_layer : normalizer (H : Set G) ≤
       normalizer ((pLayer ↥H 2).map H.subtype : Set G) :=

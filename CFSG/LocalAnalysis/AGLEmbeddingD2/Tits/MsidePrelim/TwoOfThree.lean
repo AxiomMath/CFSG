@@ -45,6 +45,7 @@ theorem generalizedFitting_eq_pCore_of_charTwo [Finite G] {X : Subgroup G} (h : 
   obtain ⟨y, hy, hyx⟩ := h hx'
   rwa [← Subtype.ext hyx]
 
+omit [Finite G] in
 theorem charTwo_of_le_of_pCoreOf_le {Y P : Subgroup G} (hYP : Y ≤ P) (hP : CharTwo P)
     (hR : pCoreOf 2 P ≤ Y) : CharTwo Y := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hP hYP hR
 

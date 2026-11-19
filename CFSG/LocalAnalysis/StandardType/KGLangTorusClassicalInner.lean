@@ -19,7 +19,7 @@ private noncomputable def kgLangCInnerAux_conjPowElem {ι : Type} [Fintype ι] [
     (hH : ∀ h : ↥H, A * (↑h : Matrix.GeneralLinearGroup ι 𝕂) * A⁻¹ ∈ H) (k : ℕ) (h : ↥H) : ↥H :=
   ⟨A ^ k * (↑h : Matrix.GeneralLinearGroup ι 𝕂) * (A ^ k)⁻¹, by
     induction k with
-    | zero => simpa using h.2
+    | zero => simp
     | succ k ih =>
         have hmem : A * (A ^ k * (↑h : Matrix.GeneralLinearGroup ι 𝕂) * (A ^ k)⁻¹) * A⁻¹ ∈ H :=
           hH ⟨A ^ k * (↑h : Matrix.GeneralLinearGroup ι 𝕂) * (A ^ k)⁻¹, ih⟩
@@ -51,7 +51,7 @@ private theorem kgLangCInnerAux_pow_apply {ι : Type} [Fintype ι] [DecidableEq 
       simp only [kgLangCInnerAux_conjPowElem]
       group
 
-theorem kgLangC_conjImage_pow_inner_linear {d : ℕ} (hd : 1 ≤ d) (𝕂 : Type) [Field 𝕂] :
+theorem kgLangC_conjImage_pow_inner_linear {d : ℕ} (_hd : 1 ≤ d) (𝕂 : Type) [Field 𝕂] :
     ∀ u ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) 𝕂)) Set.univ,
       ∃ r : LargeEvenProj (LargeEvenSLGroup (Fin d) 𝕂), u ^ d = MulAut.conj r := by
   intro u hu
@@ -111,7 +111,7 @@ theorem kgLangC_conjImage_pow_inner_linear {d : ℕ} (hd : 1 ≤ d) (𝕂 : Type
       _ = M * (↑h : Matrix.GeneralLinearGroup (Fin d) 𝕂) * M⁻¹ := by group
   rw [harg, MulAut.conj_apply, map_mul, map_mul, map_inv]
 
-theorem kgLangC_conjImage_pow_inner_unitary {d n : ℕ} (hd : 1 ≤ d) (𝕂 : Type) [Field 𝕂] [Finite 𝕂]
+theorem kgLangC_conjImage_pow_inner_unitary {d n : ℕ} (_hd : 1 ≤ d) (𝕂 : Type) [Field 𝕂] [Finite 𝕂]
     (h𝕂 : Nat.card 𝕂 = (2 ^ n) ^ 2) :
     ∀ u ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) 𝕂 (2 ^ n)))
         (LargeEvenGUSet (Fin d) 𝕂 (2 ^ n)),
@@ -127,7 +127,7 @@ theorem kgLangC_conjImage_pow_inner_unitary {d n : ℕ} (hd : 1 ≤ d) (𝕂 : T
       omega
     · exact h
   have hfield := unitaryFieldData_of_card hn h𝕂
-  haveI : CharP 𝕂 2 := hfield.charP
+  have : CharP 𝕂 2 := hfield.charP
   let σ : 𝕂 →+* 𝕂 := iterateFrobenius 𝕂 2 n
   have hσ : ∀ x, σ x = x ^ 2 ^ n := iterateFrobenius_def 2 n
   have hm : ∀ M : Matrix (Fin d) (Fin d) 𝕂, M.map (· ^ 2 ^ n) = M.map σ := fun M => by

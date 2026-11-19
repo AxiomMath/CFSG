@@ -250,7 +250,7 @@ private theorem ggKGCASplit_gen_aux :
         rw [hfin', hU2] at h
         omega
       · exact ⟨u, hS⟩
-    · haveI : Subsingleton W := not_nontrivial_iff_subsingleton.mp hnt
+    · have : Subsingleton W := not_nontrivial_iff_subsingleton.mp hnt
       exact ⟨0, by rw [Module.finrank_zero_of_subsingleton], ⟨Fin.elim0, Subsingleton.elim _ _⟩⟩
 
 private theorem ggKGCASplit_gen {W : Type} [AddCommGroup W] [Module GGKGCF W]
@@ -288,19 +288,19 @@ private lemma ggKGCASplit_restrict_rel
 
 theorem ggKGCASplit_rank
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
-    {k : V ≃ₗ[GGKGCF] V} (hk3 : k ^ 3 = 1) :
+    {k : V ≃ₗ[GGKGCF] V} (_hk3 : k ^ 3 = 1) :
     ∃ r : ℕ, Module.finrank GGKGCF (ggKGCAPlane k) = 2 * r := by
   obtain ⟨r, hfin, -⟩ := ggKGCASplit_gen (ggKGCASplit_restrict k) (ggKGCASplit_restrict_rel k)
   exact ⟨r, hfin⟩
 
 theorem ggKGCASplit_card_restrict_le
     {V : Type} [AddCommGroup V] [Module GGKGCF V] [FiniteDimensional GGKGCF V]
-    {k : V ≃ₗ[GGKGCF] V} (hk3 : k ^ 3 = 1) {r : ℕ}
+    {k : V ≃ₗ[GGKGCF] V} (_hk3 : k ^ 3 = 1) {r : ℕ}
     (hr : Module.finrank GGKGCF (ggKGCAPlane k) = 2 * r) :
     Nat.card (Set.range fun g : {g : V ≃ₗ[GGKGCF] V // g * k = k * g} =>
       fun t : ggKGCAPlane k => (g.1 t : V)) ≤ Nat.card (ggKGCAPlane k) ^ r := by
-  haveI : Finite V := Module.finite_of_finite GGKGCF
-  haveI : Finite (ggKGCAPlane k) := Subtype.finite
+  have : Finite V := Module.finite_of_finite GGKGCF
+  have : Finite (ggKGCAPlane k) := Subtype.finite
   obtain ⟨r₀, hfin₀, v, hspan⟩ :=
     ggKGCASplit_gen (ggKGCASplit_restrict k) (ggKGCASplit_restrict_rel k)
   have hr₀ : r₀ = r := by omega

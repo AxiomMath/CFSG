@@ -38,7 +38,7 @@ theorem not_lieModel_psp_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {w : ℕ
     ¬ CFSG.Blueprint.LieModel ↥(Xsub S a) .PSp m 2 1 := by
   intro hX
   classical
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨Q₁, Q₂, φ, π, -, hQ₂, hQ₁, hsurj, hker, hπ, -⟩ :=
     exists_naturalSeries_psp S h h217 h34 hm hX
   have hD := rootClass_Xsub S h h217 h34

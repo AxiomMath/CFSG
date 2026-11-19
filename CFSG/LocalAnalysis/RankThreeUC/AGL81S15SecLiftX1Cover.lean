@@ -36,6 +36,7 @@ private theorem surjective_mk_comp_inclusion {G : Type} [Group G] {A B E : Subgr
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_gnLayerPre_of_isComponentOf {T L : Subgroup X}
     (h : CFSG.Open.IsComponentOf (L.map (toStar T)) ⊤) : L ≤ gnLayerPre T :=
   fun _ hx => Subgroup.mem_comap.2 (le_sSup (show L.map (toStar T) ∈
@@ -49,7 +50,7 @@ theorem gnCoverP_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X �
   have hgn₁ := gnSetting_sup_of_normal hX hLn
   have hle := le_gnLayerPre_of_isComponentOf (isComponentOf_map_toStar_subgroupOf le_sup_right
     le_sup_left hLn hgn₁ hlift.1 (not_le_gnC_of_liftOf hcomp.1 hlift))
-  haveI := hLn
+  have := hLn
   obtain ⟨k, hk⟩ := relIndex_two_pow_of_sup_eq_top hgn₁.sylow.2.1
     (Subgroup.normal_subgroupOf : (L.subgroupOf (L ⊔ T)).Normal) (sup_subgroupOf_sup_eq_top L T) A
   have h1 : B.relIndex A ∣ (L.subgroupOf (L ⊔ T) ⊓ A).relIndex A :=
@@ -64,12 +65,12 @@ theorem gnCoverSec_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X 
     GNCoverSec (T.subgroupOf (L ⊔ T)) (T₁.subgroupOf (L ⊔ T)) (T₂.subgroupOf (L ⊔ T)) := by
   intro S _ hS hns
   obtain ⟨B, A, hBn, -, -, -, hsimp, ⟨e⟩⟩ := hS
-  haveI := hBn
-  haveI := hLn
+  have := hBn
+  have := hLn
   have hgn₁ := gnSetting_sup_of_normal hX hLn
   have hDB : ¬ A ⊓ L.subgroupOf (L ⊔ T) ≤ B := by
     intro hD
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 (↥A ⧸ B.subgroupOf A) := by
       intro g
       obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective g
@@ -79,7 +80,7 @@ theorem gnCoverSec_sup_of_normal {T T₁ T₂ L : Subgroup X} {Ls : Subgroup (X 
       refine hD (Subgroup.mem_inf.2 ⟨(a ^ 2 ^ k).2, ?_⟩)
       rw [Subgroup.mem_subgroupOf]
       exact hk
-    haveI := hp.isNilpotent
+    have := hp.isNilpotent
     exact hns (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
   have hnD : ∀ a ∈ A, ∀ d ∈ A ⊓ L.subgroupOf (L ⊔ T), a * d * a⁻¹ ∈ A ⊓ L.subgroupOf (L ⊔ T) :=
     fun a ha d hd => ⟨A.mul_mem (A.mul_mem ha hd.1) (A.inv_mem ha),

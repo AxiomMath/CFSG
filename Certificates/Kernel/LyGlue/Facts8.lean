@@ -15,7 +15,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.LyGlue CFSG.Sporadic.Recognition.LyonsSims Equ
 section
 
 variable {Φ : ↥Ly0.UYperm ≃* ↥Ly1080.Y0}
-  (hgen : ∀ k (hk : k < 4) (hmem : Ly0.uG k ∈ Ly0.UYperm),
+  (hgen : ∀ k (_hk : k < 4) (hmem : Ly0.uG k ∈ Ly0.UYperm),
     (Φ ⟨Ly0.uG k, hmem⟩ : Perm (Fin 1080)) = Ly1080.ug k)
 
 include hgen in

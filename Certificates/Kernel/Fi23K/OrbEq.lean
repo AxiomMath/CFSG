@@ -32,7 +32,7 @@ theorem dep_pt {k : Nat} (hk : k < 31671) :
     cases e : k.beq 0
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hk0
-  rw [hb, if_neg Bool.false_ne_true] at h3
+  rw [hb, ite_eq_right Bool.false_ne_true] at h3
   exact Nat.eq_of_beq_eq_true h3
 
 theorem orbLit_size : orbLit.keys.size = 31671 := by

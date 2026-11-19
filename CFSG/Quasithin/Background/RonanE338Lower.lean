@@ -15,18 +15,22 @@ section ZSat
 @[expose] def zSat (Q V : Subgroup G) : Subgroup G :=
   ⨆ n : ↥(Subgroup.normalizer (Q : Set G)), conjSubgroup V (n : G)
 
+omit [Finite G] in
 theorem conjSubgroup_le_zSat {Q V : Subgroup G} {n : G} (hn : n ∈ Subgroup.normalizer (Q : Set G)) :
     conjSubgroup V n ≤ zSat Q V :=
   le_iSup (fun m : ↥(Subgroup.normalizer (Q : Set G)) => conjSubgroup V (m : G)) ⟨n, hn⟩
 
+omit [Finite G] in
 theorem le_zSat (Q V : Subgroup G) : V ≤ zSat Q V := by
   have h := conjSubgroup_le_zSat (Q := Q) (V := V) (n := 1) (Subgroup.one_mem _)
   rwa [conjSubgroup_one] at h
 
+omit [Finite G] in
 theorem zSat_le {Q V X : Subgroup G}
     (h : ∀ n ∈ Subgroup.normalizer (Q : Set G), conjSubgroup V n ≤ X) : zSat Q V ≤ X :=
   iSup_le fun n => h n n.2
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_zSat (Q V : Subgroup G) :
     Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (zSat Q V : Set G) := by
   have key : ∀ m ∈ Subgroup.normalizer (Q : Set G), ∀ x ∈ zSat Q V, m * x * m⁻¹ ∈ zSat Q V := by
@@ -51,21 +55,25 @@ theorem normalizer_le_normalizer_zSat (Q V : Subgroup G) :
   refine ⟨key m hm x, fun h => ?_⟩
   simpa [mul_assoc] using key m⁻¹ (Subgroup.inv_mem _ hm) _ h
 
+omit [Finite G] in
 theorem zSat_le_self {Q V : Subgroup G} (hVQ : V ≤ Q) : zSat Q V ≤ Q :=
   zSat_le fun n hn =>
     (conjSubgroup_mono_left n hVQ).trans (conjSubgroup_eq_iff_mem_normalizer.2 hn).le
 
+omit [Finite G] in
 theorem zSat_le_centralizer {Q V : Subgroup G} (hVQ : V ≤ Subgroup.centralizer (Q : Set G)) :
     zSat Q V ≤ Subgroup.centralizer (Q : Set G) :=
   zSat_le fun n hn => by
     refine (conjSubgroup_mono_left n hVQ).trans ?_
     rw [conjSubgroup_centralizer, conjSubgroup_eq_iff_mem_normalizer.2 hn]
 
+omit [Finite G] in
 theorem zSat_comm {Q V : Subgroup G} (hVQ : V ≤ Q)
     (hVC : V ≤ Subgroup.centralizer (Q : Set G)) {x y : G} (hx : x ∈ zSat Q V)
     (hy : y ∈ zSat Q V) : x * y = y * x :=
   (Subgroup.mem_centralizer_iff.1 (zSat_le_centralizer hVC hx) y (zSat_le_self hVQ hy)).symm
 
+omit [Finite G] in
 theorem isElemAbelian_zSat {Q V : Subgroup G} (hV : IsElemAbelian 2 V) (hVQ : V ≤ Q)
     (hVC : V ≤ Subgroup.centralizer (Q : Set G)) : IsElemAbelian 2 (zSat Q V) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -99,6 +107,7 @@ theorem mQuot_inf_le_of_le {V' Z' A : Subgroup G} (hV' : IsPGroup 2 V') (hZ' : I
   rw [relIndex_eq_two_pow hV' A, relIndex_eq_two_pow hZ' A] at h2
   exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).1 h2
 
+omit [Finite G] in
 theorem mem_normalizer_zSat_of_forall {Q V : Subgroup G} {x : G}
     (h : ∀ n : ↥(Subgroup.normalizer (Q : Set G)),
       x ∈ Subgroup.normalizer (conjSubgroup V (n : G) : Set G)) :
@@ -148,19 +157,21 @@ section Sat
 
 omit [Finite G] in
 theorem le_centralizer_self_of_isElemAbelian (hV : IsElemAbelian 2 V) :
-    V ≤ Subgroup.centralizer (V : Set G) := fun v hv =>
-  Subgroup.mem_centralizer_iff.2 fun w hw => B2F.isElemAbelian_comm hV hw hv
+    V ≤ Subgroup.centralizer (V : Set G) := fun _v hv =>
+  Subgroup.mem_centralizer_iff.2 fun _w hw => B2F.isElemAbelian_comm hV hw hv
 
+omit [Finite G] in
 theorem le_inf_centralizer (hV : IsElemAbelian 2 V) (hT : E3.HypE322 T V) :
     V ≤ T ⊓ Subgroup.centralizer (V : Set G) :=
   le_inf hT.le (le_centralizer_self_of_isElemAbelian hV)
 
 omit [Finite G] in
-theorem le_centralizer_inf (hV : IsElemAbelian 2 V) :
+theorem le_centralizer_inf (_hV : IsElemAbelian 2 V) :
     V ≤ Subgroup.centralizer ((T ⊓ Subgroup.centralizer (V : Set G) : Subgroup G) : Set G) :=
   le_centralizer_iff_comm.1 inf_le_right
 
-theorem inf_centralizer_zSat (hV : IsElemAbelian 2 V) (hT : E3.HypE322 T V) :
+omit [Finite G] in
+theorem inf_centralizer_zSat (hV : IsElemAbelian 2 V) (_hT : E3.HypE322 T V) :
     T ⊓ Subgroup.centralizer
         (zSat (T ⊓ Subgroup.centralizer (V : Set G)) V : Set G) =
       T ⊓ Subgroup.centralizer (V : Set G) := by
@@ -168,6 +179,7 @@ theorem inf_centralizer_zSat (hV : IsElemAbelian 2 V) (hT : E3.HypE322 T V) :
     (le_inf inf_le_left ?_)
   exact le_centralizer_iff_comm.1 (zSat_le_centralizer (le_centralizer_inf hV))
 
+omit [Finite G] in
 theorem hypE322_zSat (hV : IsElemAbelian 2 V) (hT : E3.HypE322 T V) :
     E3.HypE322 T (zSat (T ⊓ Subgroup.centralizer (V : Set G)) V) where
   sylow := hT.sylow

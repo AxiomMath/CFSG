@@ -72,6 +72,7 @@ theorem normalizer_le_of_central {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M D :
   exact (normalizer_le_weakCore p hDm h2 (hEz3.trans (pRank_mono p hp hle))).trans
     (glbWeakCore_smul_le hp hcore hm)
 
+omit [Finite G] in
 theorem conj_mem_centralizer_of_mem_normalizer {D : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (D : Set G)) (hx : x ∈ Subgroup.centralizer (D : Set G)) :
     g * x * g⁻¹ ∈ Subgroup.centralizer (D : Set G) := by
@@ -99,7 +100,7 @@ theorem normalizer_le_of_centralizer {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M
   have hR3 : 3 ≤ Open.pRank p R :=
     h3.trans ((CFSG.SectionRank.le_pRank hp.one_lt le_rfl hE hEcard).trans (pRank_mono p hp hER))
   have hNR : Subgroup.normalizer (R : Set G) ≤ M :=
-    normalizer_le_of_three hcore ((Subgroup.map_subtype_le _).trans hC) (S.isPGroup'.map _) hR3
+    normalizer_le_of_three hcore ((Subgroup.map_subtype_le _).trans hC) (S.isPGroup.map _) hR3
   intro g hg
   let σ : MulAut C :=
     { toFun := fun c => ⟨g * c * g⁻¹, conj_mem_centralizer_of_mem_normalizer hg c.2⟩
@@ -131,7 +132,7 @@ theorem isSylow_of_inter {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M Y : Subgrou
   have hp := (Fact.out : p.Prime)
   set R : Subgroup G := W.1.map (Y ⊓ M : Subgroup G).subtype with hRdef
   have hRYM : R ≤ Y ⊓ M := Subgroup.map_subtype_le _
-  have hRp : IsPGroup p R := W.isPGroup'.map _
+  have hRp : IsPGroup p R := W.isPGroup.map _
   have hR3 : 3 ≤ Open.pRank p R := by
     obtain ⟨E, hEYM, hE, hEcard⟩ := pRank_attained p hp (Y ⊓ M)
     have hEtop : Open.pRank p (Y ⊓ M) ≤ Open.pRank p (⊤ : Subgroup ↥(Y ⊓ M : Subgroup G)) := by
@@ -150,7 +151,7 @@ theorem isSylow_of_inter {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M Y : Subgrou
     have hRT : R ≤ T.1.map Y.subtype := by
       intro r hr
       exact ⟨⟨r, (hRYM hr).1⟩, hT hr, rfl⟩
-    have hTp : IsPGroup p (T.1.map Y.subtype) := T.isPGroup'.map _
+    have hTp : IsPGroup p (T.1.map Y.subtype) := T.isPGroup.map _
     obtain ⟨x, hxT, hxR, hxN⟩ := exists_mem_normalizer_not_mem_of_lt_of_isPGroup hTp
       (lt_of_le_of_ne hRT (Ne.symm (fun h => hne h.le)))
     have hxYM : x ∈ Y ⊓ M := ⟨Subgroup.map_subtype_le _ hxT, hNR hxN⟩

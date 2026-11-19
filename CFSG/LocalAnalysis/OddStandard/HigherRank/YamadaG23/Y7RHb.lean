@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_sup_zpowers {S : Subgroup G} {t : G} (ht : t ^ 2 = 1)
     (hcomm : ∀ x ∈ S, x * t = t * x) {x : G} (hx : x ∈ S ⊔ Subgroup.zpowers t) :
     x ∈ S ∨ x * t⁻¹ ∈ S := by
@@ -71,6 +72,7 @@ private lemma mem_sup_zpowers {S : Subgroup G} {t : G} (ht : t ^ 2 = 1)
     exact Or.inr (by rw [mul_inv_cancel]; exact S.one_mem)
   exact sup_le hKS hKt hx
 
+omit [Finite G] in
 private lemma relIndex_sup_zpowers_le_two {S : Subgroup G} {t : G} (ht : t ^ 2 = 1)
     (hcomm : ∀ x ∈ S, x * t = t * x) :
     S.relIndex (S ⊔ Subgroup.zpowers t) ≤ 2 := by
@@ -113,7 +115,7 @@ private lemma card_le_sixteen_of_le_sup {S F : Subgroup G} {t : G} (hS : RankFac
     (ht : t ^ 2 = 1) (hcomm : ∀ x ∈ S, x * t = t * x)
     (hF : F ≤ S ⊔ Subgroup.zpowers t) (hFab : IsElemAbelian 2 F) : Nat.card F ≤ 16 := by
   have hrel : S.relIndex F ≤ 2 := by
-    haveI : S.IsFiniteRelIndex (S ⊔ Subgroup.zpowers t) :=
+    have : S.IsFiniteRelIndex (S ⊔ Subgroup.zpowers t) :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     exact (Subgroup.relIndex_le_of_le_right hF Subgroup.relIndex_ne_zero).trans
       (relIndex_sup_zpowers_le_two ht hcomm)
@@ -130,7 +132,7 @@ theorem cent_elem_bound {S T : Subgroup G} {t : G} (hS : RankFacts S) (ht : t ^ 
     (hT : IsSylowIn 2 (centralizer ({t} : Set G)) T) :
     ∀ E : Subgroup G, E ≤ centralizer ({t} : Set G) → IsElemAbelian 2 E → Nat.card E ≤ 16 := by
   intro E hEH hEab
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := centralizer ({t} : Set G) with hHdef
   have hT' : IsSylowIn 2 H T := by rw [hHdef]; exact hT
   have hH_E : E ≤ H := by rw [hHdef]; exact hEH
@@ -139,7 +141,7 @@ theorem cent_elem_bound {S T : Subgroup G} {t : G} (hS : RankFacts S) (ht : t ^ 
     simpa only [Subgroup.relIndex] using hT'.2.2
   let P : Sylow 2 ↥H := hTsub_pg.toSylow hTsub_ne
   have hPcoe : (P : Subgroup ↥H) = T.subgroupOf H := rfl
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
   have hEsub_pg : IsPGroup 2 (E.subgroupOf H) := (hEab.subgroupOf H).isPGroup
   obtain ⟨Q, hQ⟩ := hEsub_pg.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (M := ↥H) P Q

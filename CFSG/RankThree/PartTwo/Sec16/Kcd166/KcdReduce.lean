@@ -43,7 +43,7 @@ theorem step166KcdA5_of_gFlatAt166
     hPU _ hAP hPJ hIX hIA5 hUθ hUidem
   obtain ⟨hUp', hUD', hUd', I₁, hI₁p, hI₁d, hUI₁, hI₁2, hI₁A5⟩ :=
     exists_iOne_at h hJ hdA hd1 hdc hb hXL hp hp3 hAJ hPU hAP hPJ hIX hIA5 hUθ hUidem
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hθs : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥X) :=
     (solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three).1
   have hU'bot := eq_bot_of_gflat inferInstance hθs hUp' hUD' hUd' hUI₁

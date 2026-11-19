@@ -23,10 +23,10 @@ theorem foldr_GZ_eq {T U : ℕ → ℕ → ℕ} {f : ℕ → Equiv.Perm (Fin n)}
     rw [List.foldr_cons, foldr_GZ_eq hT hU w hw' x, ptoLetters_cons' hl0 hlj]
     unfold GZ
     by_cases hp : 0 < l
-    · rw [if_pos hp, decide_eq_true hp, Quiver.SchreierGraph.evalWord_cons_true,
+    · rw [ite_eq_left hp, decide_eq_true hp, Quiver.SchreierGraph.evalWord_cons_true,
         Equiv.Perm.mul_apply, show l.toNat - 1 = l.natAbs - 1 by omega]
       exact hT _ (by omega) _
-    · rw [if_neg hp, decide_eq_false hp, Quiver.SchreierGraph.evalWord_cons_false,
+    · rw [ite_eq_right hp, decide_eq_false hp, Quiver.SchreierGraph.evalWord_cons_false,
         Equiv.Perm.mul_apply, show (-l).toNat - 1 = l.natAbs - 1 by omega]
       exact hU _ (by omega) _
 
@@ -38,12 +38,12 @@ theorem gz_inv {T U : ℕ → ℕ → ℕ} {f : ℕ → Equiv.Perm (Fin n)} {j :
   unfold GZ
   by_cases hp : 0 < z
   · have hn : ¬ (0 < -z) := by omega
-    rw [if_pos hp, if_neg hn, show (-(-z)).toNat - 1 = z.toNat - 1 by omega]
+    rw [ite_eq_left hp, ite_eq_right hn, show (-(-z)).toNat - 1 = z.toNat - 1 by omega]
     have h1 : T (z.toNat - 1) y = (f (z.toNat - 1) ⟨y, hy⟩ : ℕ) := hT _ (by omega) ⟨y, hy⟩
     rw [h1, hU _ (by omega) (f (z.toNat - 1) ⟨y, hy⟩)]
     exact ⟨Fin.isLt _, by simp⟩
   · have hn : 0 < -z := by omega
-    rw [if_neg hp, if_pos hn]
+    rw [ite_eq_right hp, ite_eq_left hn]
     have h1 : U ((-z).toNat - 1) y = ((f ((-z).toNat - 1))⁻¹ ⟨y, hy⟩ : ℕ) :=
       hU _ (by omega) ⟨y, hy⟩
     rw [h1, hT _ (by omega) ((f ((-z).toNat - 1))⁻¹ ⟨y, hy⟩)]
@@ -106,20 +106,20 @@ theorem ev_wit (hT : ∀ h < 8, ∀ x : Fin n, TT h x = (f h x : ℕ))
         simp [nqWitL, wcl, h4]
       rw [hσ]
       unfold wlw
-      rw [if_pos h4]
+      rw [ite_eq_left h4]
       by_cases h2 : c % 2 = 0
-      · rw [if_pos h2, if_pos h2]
+      · rw [ite_eq_left h2, ite_eq_left h2]
         exact hn _ h4 y
-      · rw [if_neg h2, if_neg h2]
+      · rw [ite_eq_right h2, ite_eq_right h2]
         exact ev_winv hT hU hb (hnw _ h4) (hn _ h4) y
     · have hσ : nqWitL S R g nw m a i (wcl c).1 = R (g (a + 1)) * S (m i) := by
         simp [nqWitL, wcl, h4]
       rw [hσ]
       unfold wlw
-      rw [if_neg h4]
+      rw [ite_eq_right h4]
       by_cases h2 : c % 2 = 0
-      · rw [if_pos h2, if_pos h2, ev_append, hm, hg, Equiv.Perm.mul_apply]
-      · rw [if_neg h2, if_neg h2, ev_append, ev_winv hT hU hb hgw hg y,
+      · rw [ite_eq_left h2, ite_eq_left h2, ev_append, hm, hg, Equiv.Perm.mul_apply]
+      · rw [ite_eq_right h2, ite_eq_right h2, ev_append, ev_winv hT hU hb hgw hg y,
           ev_winv hT hU hb hmw hm, mul_inv_rev, Equiv.Perm.mul_apply]
   induction cs with
   | nil =>
@@ -134,9 +134,9 @@ theorem ev_wit (hT : ∀ h < 8, ∀ x : Fin n, TT h x = (f h x : ℕ))
           Quiver.SchreierGraph.evalWord (nqWitL S R g nw m a i) (cs.map wcl) := by
       by_cases h2 : c % 2 = 0
       · have e : wcl c = ((wcl c).1, true) := Prod.ext rfl (by simp [wcl, h2])
-        rw [e, Quiver.SchreierGraph.evalWord_cons_true, if_pos h2]
+        rw [e, Quiver.SchreierGraph.evalWord_cons_true, ite_eq_left h2]
       · have e : wcl c = ((wcl c).1, false) := Prod.ext rfl (by simp [wcl, h2])
-        rw [e, Quiver.SchreierGraph.evalWord_cons_false, if_neg h2]
+        rw [e, Quiver.SchreierGraph.evalWord_cons_false, ite_eq_right h2]
     rw [hc, Equiv.Perm.mul_apply]
 
 end CFSG.KS.ONNQ

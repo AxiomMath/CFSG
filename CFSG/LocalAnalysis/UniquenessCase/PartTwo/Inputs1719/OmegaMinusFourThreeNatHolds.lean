@@ -31,6 +31,7 @@ def o4param (a b : K) : O4Idx → K := a • o4e3 + b • o4e4
 
 noncomputable abbrev o4Q : QuadraticForm K (O4Idx → K) := quadMinus 2 K B C
 
+omit [Finite K] [CharP K 2] in
 theorem o4Q_apply (v : O4Idx → K) :
     o4Q (B := B) (C := C) v =
       v (Sum.inl 0) * v (Sum.inr (Sum.inl 0)) + v (Sum.inr (Sum.inr 0)) ^ 2 +
@@ -38,6 +39,7 @@ theorem o4Q_apply (v : O4Idx → K) :
         C * v (Sum.inr (Sum.inr 1)) ^ 2 := by
   rw [o4Q, quadMinus_apply, Fin.sum_univ_one]
 
+omit [Finite K] [CharP K 2] in
 theorem o4Q_e1 : o4Q (B := B) (C := C) o4e1 = 0 := by
   rw [o4Q_apply]
   simp [o4e1]
@@ -64,6 +66,7 @@ theorem o4_eq_of_c1_eq {x y : O4Idx → K}
     · exact hx.2.1.trans hy.2.1.symm
     · exact hx.2.2.trans hy.2.2.symm
 
+omit [Finite K] in
 theorem polar_o4Q_apply (x y : O4Idx → K) :
     polar (⇑(o4Q (B := B) (C := C))) x y =
       o4c1 x * o4c2 y + o4c2 x * o4c1 y +
@@ -73,11 +76,13 @@ theorem polar_o4Q_apply (x y : O4Idx → K) :
   simp [o4c1, o4c2, o4c3, o4c4, h2]
   ring
 
+omit [Finite K] in
 theorem polar_e1_param (a b : K) :
     polar (⇑(o4Q (B := B) (C := C))) o4e1 (o4param a b) = 0 := by
   rw [polar_o4Q_apply]
   simp [o4e1, o4c1, o4c2, o4c3, o4c4, o4param, o4e3, o4e4]
 
+omit [Finite K] [CharP K 2] in
 theorem o4param_add (a b a' b' : K) :
     o4param a b + o4param a' b' = o4param (a + a') (b + b') := by
   simp only [o4param, add_smul]
@@ -86,17 +91,20 @@ theorem o4param_add (a b a' b' : K) :
 noncomputable def o4sylowLin (a b : K) : (O4Idx → K) ≃ₗ[K] (O4Idx → K) :=
   eichler (o4Q (B := B) (C := C)) o4e1 (o4param a b)
 
+omit [Finite K] in
 theorem o4sylowLin_mul (a b a' b' : K) :
     o4sylowLin (B := B) (C := C) a b * o4sylowLin (B := B) (C := C) a' b' =
       o4sylowLin (B := B) (C := C) (a + a') (b + b') := by
   rw [o4sylowLin, o4sylowLin, o4sylowLin,
     eichler_mul (polar_e1_param a b) (polar_e1_param a' b'), o4param_add]
 
+omit [Finite K] [CharP K 2] in
 theorem o4sylowLin_one :
     o4sylowLin (B := B) (C := C) 0 0 = 1 := by
   rw [o4sylowLin, o4param]
   simp only [zero_smul, add_zero, eichler_zero_right]
 
+omit [Finite K] in
 theorem o4sylowLin_apply (a b : K) (x : O4Idx → K) :
     o4sylowLin (B := B) (C := C) a b x =
       x + o4c2 x • o4param a b -
@@ -106,12 +114,14 @@ theorem o4sylowLin_apply (a b : K) (x : O4Idx → K) :
   simp [polar_o4Q_apply, o4e1, o4c1, o4c2, o4c3, o4c4, o4param, o4e3, o4e4]
   ring
 
+omit [Finite K] in
 theorem o4sylowLin_apply_e2 (a b : K) :
     o4sylowLin (B := B) (C := C) a b o4e2 =
       o4e2 + o4param a b - (o4Q (B := B) (C := C) (o4param a b)) • o4e1 := by
   rw [o4sylowLin_apply]
-  simp [o4e2, o4c1, o4c2, o4c3, o4c4]
+  simp [o4e2, o4c2, o4c3, o4c4]
 
+omit [Finite K] in
 theorem o4sylowLin_injective : Function.Injective
     (fun p : K × K => o4sylowLin (B := B) (C := C) p.1 p.2) := by
   rintro ⟨a, b⟩ ⟨a', b'⟩ h
@@ -119,7 +129,7 @@ theorem o4sylowLin_injective : Function.Injective
   simp only [o4sylowLin_apply_e2] at h2
   have h3 := congrFun h2 (Sum.inr (Sum.inr 0))
   have h4 := congrFun h2 (Sum.inr (Sum.inr 1))
-  simp [o4e2, o4e1, o4c1, o4c2, o4c3, o4c4, o4param, o4e3, o4e4] at h3 h4
+  simp [o4e2, o4e1, o4param, o4e3, o4e4] at h3 h4
   exact Prod.ext h3 h4
 
 theorem B_ne_zero (hirr : ∀ s : K, s ^ 2 + B * s + C ≠ 0) : B ≠ 0 := by
@@ -144,17 +154,18 @@ theorem o4sylowLin_fixed_iff (hirr : ∀ s : K, s ^ 2 + B * s + C ≠ 0) (x : O4
     have h2 := congrFun h10 (Sum.inr (Sum.inr 0))
     have h4 := congrFun h10 (Sum.inl 0)
     have h3 := congrFun h01 (Sum.inl 0)
-    simp [o4param, o4e1, o4e3, o4e4, o4c1, o4c2, o4c3, o4c4, o4Q_apply] at h2 h3 h4
+    simp [o4param, o4e1, o4e3, o4e4, o4c2, o4c3, o4c4, o4Q_apply] at h2 h3 h4
     rw [h2] at h3 h4
     simp at h3 h4
     exact ⟨h2, h3.resolve_left hB, h4.resolve_left hB⟩
   · rintro ⟨h2, h3, h4⟩ a b
     rw [o4sylowLin_apply]
-    simp only [h2, h3, h4, mul_zero, add_zero, zero_mul, zero_smul, sub_zero]
+    simp only [h2, h3, h4, mul_zero, add_zero, zero_smul, sub_zero]
 
 noncomputable def o4sylowMat (a b : K) : GL O4Idx K :=
   (toLinEquiv O4Idx K).symm (o4sylowLin (B := B) (C := C) a b)
 
+omit [Finite K] [CharP K 2] in
 theorem toLinEquiv_o4sylowMat (a b : K) :
     toLinEquiv O4Idx K (o4sylowMat (B := B) (C := C) a b) =
       o4sylowLin (B := B) (C := C) a b := by
@@ -227,7 +238,7 @@ theorem card_outer_l2_four {X : Type} [Group X] [Finite X]
     Nat.card (Outer X) = 4 := by
   obtain ⟨-, F, hF, hFfin, hFcard, hchar, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22g_isL2_psl h
-  letI : Field F := hF
+  let : Field F := hF
   have : Finite F := hFfin
   have h1 : Nat.card F = 16 := by simpa using hFcard
   have h2 : Nat.card (Outer (CFSG.GorensteinWalter.PSL2 F)) = 4 := by
@@ -337,7 +348,7 @@ theorem sumOfNat_omegaMinus_four_cent_seventeen {W : Type} [CommGroup W] [Finite
   obtain ⟨I, -, hind, hsup, hNat⟩ := hsum
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥X))
   let R : Subgroup (MulAut W) := (P : Subgroup ↥X).map X.subtype
-  have hR2 : IsPGroup 2 ↥R := P.isPGroup'.map X.subtype
+  have hR2 : IsPGroup 2 ↥R := P.isPGroup.map X.subtype
   have hRX : ∀ r ∈ R, r ∈ X := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

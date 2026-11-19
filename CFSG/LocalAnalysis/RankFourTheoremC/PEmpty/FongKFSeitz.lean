@@ -48,7 +48,7 @@ theorem SeitzGen.of_mulEquiv {p : ℕ} {Q Q' : Type*} [Group Q] [Group Q'] (e : 
   have hset : {k' : Q' | ∃ d' ∈ D.map e.toMonoidHom, d' ≠ 1 ∧ k' * d' = d' * k'} =
       e.toMonoidHom '' {k : Q | ∃ d ∈ D, d ≠ 1 ∧ k * d = d * k} := by
     ext k'
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨d', hd', hd1', hk'⟩
       obtain ⟨d, hd, rfl⟩ := Subgroup.mem_map.mp hd'
@@ -113,7 +113,7 @@ theorem seitzGen_of_lie (hS : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo) {p : ℕ} (
           f ≠ 1 ∧ f k = k} =
         {k : (TauCeti.CFSGIndex.lie d).Group | ∃ g ∈ D, g ≠ 1 ∧ k * g = g * k} := by
       ext k
-      simp only [Set.mem_setOf_eq, Subgroup.mem_map]
+      simp only [Set.mem_ofPred_eq, Subgroup.mem_map]
       constructor
       · rintro ⟨φ, ⟨g, hg, rfl⟩, hφ1, hφk⟩
         refine ⟨g, hg, fun h1 => hφ1 ?_, ?_⟩
@@ -136,13 +136,13 @@ theorem lieIndex_of_statedPSL {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Q : Type
     ∃ d : TauCeti.ValidLieTypeIndex, Nonempty (Q ≃* (TauCeti.CFSGIndex.lie d).Group) ∧
       p ≠ d.1.characteristic ∧ ¬ CFSG.AGLEmbeddingD2.IsD2SeitzException p d.1 := by
   obtain ⟨n, rfl⟩ : ∃ n, p = n + 1 := ⟨p - 1, by omega⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨r, -, ⟨f, hf⟩, hr, hKcard⟩ := FiniteField.card' K
   have hK' : Nat.card K = r ^ f := by
     rw [Nat.card_eq_fintype_card]
     exact hKcard
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (TauCeti.PrimePower.p ⟨r, f, hr, hf⟩).Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (TauCeti.PrimePower.p ⟨r, f, hr, hf⟩).Prime := ⟨hr⟩
   have hv : (TauCeti.LieTypeIndex.A n ⟨r, f, hr, hf⟩).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
@@ -175,7 +175,7 @@ theorem lieIndex_of_statedPSU {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Q : Type
       p ≠ d.1.characteristic ∧ ¬ CFSG.AGLEmbeddingD2.IsD2SeitzException p d.1 := by
   obtain ⟨n, rfl⟩ : ∃ n, p = n + 1 := ⟨p - 1, by omega⟩
   have hn4 : 4 ≤ n := by omega
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hρ, hKm⟩ := FiniteField.card K (ringChar K)
   have hcard : Fintype.card K = q ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
@@ -191,8 +191,8 @@ theorem lieIndex_of_statedPSU {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Q : Type
       omega
     · exact h
   subst hqj
-  haveI : Fact (ringChar K).Prime := ⟨hρ⟩
-  letI : Fintype (GaloisField (ringChar K) (2 * j)) := Fintype.ofFinite _
+  have : Fact (ringChar K).Prime := ⟨hρ⟩
+  let : Fintype (GaloisField (ringChar K) (2 * j)) := Fintype.ofFinite _
   have hcardK : Fintype.card K = Fintype.card (GaloisField (ringChar K) (2 * j)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKq,
       GaloisField.card (ringChar K) (2 * j) (by omega), ← pow_mul, mul_comm]

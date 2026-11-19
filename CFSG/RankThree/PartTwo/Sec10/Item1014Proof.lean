@@ -514,7 +514,7 @@ theorem exists_inducesOuterTheta (h : Sec10Std G A c L a R) {d : G} (hdA : d ∈
     (isPGroup_autThetaQuot fun x hx => h.pow_three hx).comap_of_injective _ hcinj
   obtain ⟨U, hTU⟩ := hT3.exists_le_sylow
   have hK : Nat.card (GaloisField 3 3) = 3 ^ 3 := GaloisField.card 3 3 (by norm_num)
-  have hUab := (KFacts.isElemAbelian_of_isPGroup_three_of_mulEquiv hK eX U.isPGroup').1
+  have hUab := (KFacts.isElemAbelian_of_isPGroup_three_of_mulEquiv hK eX U.isPGroup).1
   have h27U : 27 ∣ Nat.card (U : Subgroup (X ⧸ aschbacherSolvableCore 3 X)) := by
     rw [Sylow.card_eq_multiplicity]
     have h0 : Nat.card (X ⧸ aschbacherSolvableCore 3 X) ≠ 0 := Nat.card_pos.ne'

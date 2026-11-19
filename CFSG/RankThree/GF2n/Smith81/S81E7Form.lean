@@ -20,7 +20,7 @@ open _root_.Classical in
 theorem wt_opp (a : Fin e7Data.d) : e7Data.wt (opp a) = -e7Data.wt a := by
   have h := exists_opp a
   unfold opp
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem opp_eq {a b : Fin e7Data.d} (h : e7Data.wt b = -e7Data.wt a) : opp a = b :=
@@ -199,9 +199,9 @@ theorem beta_single (a b : Fin e7Data.d) :
     · subst h
       simp
     · have h' : b ≠ opp a := fun e => h e.symm
-      simp [Finsupp.single_apply, h, h']
+      simp [h]
   · intro c _ hc
-    simp [Finsupp.single_apply, hc, Ne.symm hc]
+    simp [Finsupp.single_apply, hc]
   · intro h
     exact absurd (Finset.mem_univ a) h
 
@@ -217,7 +217,7 @@ theorem beta_nondeg_V0 {v : V K} (hv : ∀ b, b ∉ idx0 → v b = 0)
       have hne : opp b ≠ c := by
         rintro rfl
         exact hc hob
-      rw [Finsupp.single_apply, if_neg hne]
+      rw [Finsupp.single_apply, ite_eq_right hne]
     have hvw := h (Finsupp.single (opp b) (1 : K)) hw
     unfold beta at hvw
     rw [Finset.sum_eq_single b] at hvw
@@ -229,7 +229,7 @@ theorem beta_nondeg_V0 {v : V K} (hv : ∀ b, b ∉ idx0 → v b = 0)
         have h2 := congrArg opp e
         rw [opp_opp, opp_opp] at h2
         exact h2.symm
-      rw [Finsupp.single_apply, if_neg hne, mul_zero]
+      rw [Finsupp.single_apply, ite_eq_right hne, mul_zero]
     · intro hb'
       exact absurd (Finset.mem_univ b) hb'
   · exact hv b hb

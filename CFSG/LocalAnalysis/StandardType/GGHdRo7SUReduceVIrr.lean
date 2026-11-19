@@ -28,9 +28,9 @@ theorem hdRo7SUReduceVAux_sum_coord_basis {V : Type} [AddCommGroup V] [Module (Z
     (∑ k, b.coord k) (b i) = 1 := by
   rw [LinearMap.sum_apply]
   rw [Finset.sum_eq_single i]
-  · rw [hdRo7SUReduceVAux_coord_basis b i i, if_pos rfl]
+  · rw [hdRo7SUReduceVAux_coord_basis b i i, ite_eq_left rfl]
   · intro k _ hk
-    rw [hdRo7SUReduceVAux_coord_basis b k i, if_neg (fun h : k = i => hk h)]
+    rw [hdRo7SUReduceVAux_coord_basis b k i, ite_eq_right (fun h : k = i => hk h)]
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
 theorem hdRo7SUReduceVAux_diff_mem_aug {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -155,7 +155,7 @@ theorem hdRo7SUReduceVAux_map_aug_eq {V : Type} [AddCommGroup V] [Module (ZMod 3
     [Fact (Nat.Prime 3)] {m : ℕ} (b : Module.Basis (Fin m) (ZMod 3) V)
     {x : V ≃ₗ[ZMod 3] V} (hx : ∀ v, x v - v ∈ SUAug 3 b) :
     (SUAug 3 b).map x.toLinearMap = SUAug 3 b := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   have hle : (SUAug 3 b).map x.toLinearMap ≤ SUAug 3 b := by
     rintro _ ⟨w, hw, rfl⟩
     have hxw := hx w
@@ -199,7 +199,7 @@ theorem hdRo7SUReduceVAux_const_of_preserves_aug {V : Type} [AddCommGroup V]
     ∃ (u : V) (φ : V →ₗ[ZMod 3] ZMod 3), ReflData s u φ ∧
       (∀ i j, b.coord i u = b.coord j u) ∧ (∀ i j, φ (b i) = φ (b j)) ∧
       u ∉ SUAug 3 b := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   obtain ⟨u, φ, hrd⟩ := hdRo7SUReduceVAux_reflData s hsrefl
   have hu_not : u ∉ SUAug 3 b := by
     intro hu
@@ -236,8 +236,8 @@ theorem hdRo7SUReduceVAux_not_preserves_aug {V : Type} [AddCommGroup V] [Module 
     ¬ (∀ a ∈ H, ∀ w ∈ SUAug 3 b, a w ∈ SUAug 3 b) := by
   intro hHU
   have hm7 : 7 ≤ m := hD.hm
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : NeZero m := ⟨by omega⟩
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   obtain ⟨S, hS, hHcl, hSconn⟩ := hD.hgen
   have hsA : ∀ i j, i ≠ j → b.equiv b (Equiv.swap i j) ∈ A := by
     intro i j hij

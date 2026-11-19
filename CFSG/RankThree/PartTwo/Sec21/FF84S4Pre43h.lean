@@ -27,7 +27,7 @@ theorem not_mem_two_group {G : Type} [Group G] {N : Subgroup G} (hN : IsPGroup 2
 
 theorem S43_tail_of_Tstar (hT : S43_Tstar) : S43_tail := by
   intro G _ _ b L B K b₁ b₂ h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   obtain ⟨V, hV⟩ := FF79.L41.exists_sylowOf_p (p := 2) (Opp 3 (Cen b))
   have hVne : V ≠ ⊥ := by

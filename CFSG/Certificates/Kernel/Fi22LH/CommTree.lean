@@ -118,13 +118,13 @@ theorem cStep_inv {T : Array Table} (hT : ∀ k < 3510, TR 3510 T[k]! (ent (R k)
   rcases commHit_spec hne with ⟨hc, he⟩ | ⟨hc, hp, he⟩ | ⟨hc, hp, ho, hpa, he⟩
   · rw [he]
     unfold cStep
-    rw [if_neg (by rw [hap]; simp [hc])]
+    rw [ite_eq_right (by rw [hap]; simp [hc])]
     exact ⟨h1, h2, h3, h4, h5⟩
   · rw [he]
     have hseen : bitAt s.2.2 (ent lb j) = true :=
       (h5.2 _ (by omega)).2 ⟨posC cq j, hp, (hpos j hj).2⟩
     unfold cStep
-    rw [if_neg (by rw [hseen]; simp)]
+    rw [ite_eq_right (by rw [hseen]; simp)]
     exact ⟨h1, h2, h3, h4, h5⟩
   · rw [he]
     have hseen : bitAt s.2.2 (ent lb j) = false := by
@@ -135,7 +135,7 @@ theorem cStep_inv {T : Array Table} (hT : ∀ k < 3510, TR 3510 T[k]! (ent (R k)
       have := hord k (by omega) (posC cq j) (hpos j hj).1 hk2
       omega
     unfold cStep
-    rw [if_pos (by rw [hseen, hap, hc]; simp)]
+    rw [ite_eq_left (by rw [hseen, hap, hc]; simp)]
     refine ⟨by rw [Array.size_push, h1], fun k hk => ?_, by rw [Array.size_push, h3],
       fun k hk => ?_, (bitsIs_setBit h5 (by omega)).congr fun y _ => ?_⟩
     · dsimp only
@@ -167,7 +167,7 @@ theorem toList_eq_map {S : Array Nat} (hS : S.size = 351) (hSj : ∀ j < 351, S[
 
 theorem commTree_eq_of {T : Array Table} {S : Array Nat}
     (hT : ∀ k < 3510, TR 3510 T[k]! (ent (R k))) (hS : S.size = 351)
-    (hSj : ∀ j < 351, S[j]! = ent lb j) (hinc : incK lb = true) (h0 : ent lb 0 = 0)
+    (hSj : ∀ j < 351, S[j]! = ent lb j) (hinc : incK lb = true) (_h0 : ent lb 0 = 0)
     (hc : commK R X lb cq = true) :
     commTree T S = (Array.ofFn (n := 351) fun k => fd (X k.val) 30 4095,
       Array.ofFn (n := 351) fun k => fd (X k.val) 42 511) := by
@@ -198,7 +198,7 @@ theorem commTree_eq_of {T : Array Table} {S : Array Nat}
   have hSm : ∀ h m, Sf h m ≠ 0 → m ≤ Sf h m := fun h m hne => by
     simp only [Sf] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun j m => H h j m) (fun j => hH0 h j) (fun j m => hHm h j m) _ _ hne).2
     · exact absurd rfl hne
   have hC : ∀ h ≤ 351, C h ≠ 0 ∧ C h ≤ 351 := by
@@ -231,7 +231,7 @@ theorem commTree_eq_of {T : Array Table} {S : Array Nat}
     intro h hh s hs
     have hfin : C (h + 1) = (List.range 351).foldl (fun m j => H h j m) (C h) := by
       rw [hC_succ]
-      simp only [Sf, if_pos (hCh h hh)]
+      simp only [Sf, ite_eq_left (hCh h hh)]
     have hgen : ∀ j ≤ 351, CInv X ((List.range j).foldl (fun m j => H h j m) (C h))
         ((List.range j).foldl (fun s j => cStep T h (fd (X h) 30 4095) (ent lb j) s) s) := by
       intro j
@@ -337,7 +337,7 @@ theorem commK_facts (hc : commK R X lb cq = true) :
   have hSm : ∀ h m, Sf h m ≠ 0 → m ≤ Sf h m := fun h m hne => by
     simp only [Sf] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun j m => H h j m) (fun j => hH0 h j) (fun j m => hHm h j m) _ _ hne).2
     · exact absurd rfl hne
   have hC : ∀ h ≤ 351, C h ≠ 0 ∧ C h ≤ 351 := by
@@ -369,7 +369,7 @@ theorem commK_facts (hc : commK R X lb cq = true) :
     intro h hh j hj
     have hfin : C (h + 1) = (List.range 351).foldl (fun m j => H h j m) (C h) := by
       rw [hC_succ]
-      simp only [Sf, if_pos (hCh h hh)]
+      simp only [Sf, ite_eq_left (hCh h hh)]
     have e : (List.range 351).foldl (fun m j => H h j m) (C h) =
         ((List.range (351 - (j + 1))).map ((j + 1) + ·)).foldl (fun m j => H h j m)
           (H h j (M h j)) := by
@@ -431,7 +431,7 @@ theorem commK_facts (hc : commK R X lb cq = true) :
               exact hcom
       have hfin : C (h + 1) = M h 351 := by
         rw [hC_succ]
-        simp only [Sf, M, if_pos (hCh h (by omega))]
+        simp only [Sf, M, ite_eq_left (hCh h (by omega))]
       rw [hfin] at hk
       exact hQ 351 (Nat.le_refl _) k hk0 hk
   intro k hk0 hk

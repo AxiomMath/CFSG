@@ -32,7 +32,7 @@ theorem ident_omega {K : Subgroup (Equiv.Perm (Fin 360))} {s : Equiv.Perm (Fin 3
   Certificates.certificate125.2.2.2.1 hd
 
 theorem forall₂_ws : List.Forall₂ (Rep 360) (wsA ()) wsP :=
-  forall₂_perms fun a ha => ⟨_, (data_spec (List.mem_append_right _ ha)).1⟩
+  forall₂_perms fun _a ha => ⟨_, (data_spec (List.mem_append_right _ ha)).1⟩
 
 theorem ws_mem (k : ℕ) : wsP.getD k 1 ∈ omegaT := by
   rw [List.getD_eq_getElem?_getD]

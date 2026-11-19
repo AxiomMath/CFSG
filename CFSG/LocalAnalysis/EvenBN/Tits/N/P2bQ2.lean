@@ -32,7 +32,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
 theorem t_mem_Q2 (hd : d.Hyp) : d.t ∈ d.s56Q2 :=
   s56_mem_Q2_iff.2 ⟨s56_A_le_M d (mem_sup_right (mem_zpowers _)),
-    fun e he => hd.L_comm_t (s56_E_le_L d he)⟩
+    fun _e he => hd.L_comm_t (s56_E_le_L d he)⟩
 
 theorem eps_t (hd : d.Hyp) : d.s56Eps d.t = 1 :=
   calc d.s56Eps d.t = d.t * (d.t * d.t * d.t⁻¹) := rfl
@@ -547,7 +547,7 @@ theorem maxElemAbelian2_Q2 (hV : IsElemAbelian 2 d.s56V) (hVcard : Nat.card d.s5
   have hlt : ∀ D : Subgroup G, D ≤ d.s56Q2 → IsElemAbelian 2 D → ¬ D ≤ d.s56V →
       Nat.card D ≤ 64 := by
     intro D hDQ hDe hDV
-    obtain ⟨a, haD, haV⟩ := SetLike.not_le_iff_exists.1 hDV
+    obtain ⟨a, haD, haV⟩ := IsConcreteLE.not_le_iff_exists.1 hDV
     exact hb a (hDQ haD) haV (elemAb_mul_self hDe haD) D hDQ
       (fun b hb' => elemAb_comm hDe hb' haD) hDe
   ext D

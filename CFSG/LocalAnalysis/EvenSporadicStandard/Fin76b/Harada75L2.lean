@@ -15,6 +15,7 @@ section L2
 
 variable {S : Type} [Group S] [Finite S] {E F : Subgroup S} {z : S}
 
+omit [Finite S] in
 theorem Cfg2.E_le_centralizer (h : Cfg2 S E F z) :
     E ≤ Subgroup.centralizer (E : Set S) := by
   intro e he
@@ -63,7 +64,7 @@ theorem Cfg2.K_comm (hS : IsPGroup 2 S) (h : Cfg2 S E F z) :
     have := Subgroup.mem_centralizer_iff.mp g.2 (x : S) hx'
     exact Subtype.ext this.symm
   intro x hx y hy
-  have := commutative_of_cyclic_center_quotient (QuotientGroup.mk' E') hker ⟨x, hx⟩ ⟨y, hy⟩
+  have := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' E') hker).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   exact congrArg Subtype.val this
 
 

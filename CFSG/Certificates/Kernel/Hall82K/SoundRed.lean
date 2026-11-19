@@ -113,23 +113,23 @@ theorem lane1 {a0 a1 : ℕ} (h0 : a0 < 64) (h1 : a1 < 64) :
     a0 ||| a1 <<< 6 = enc6 a0 a1 0 0 0 0 := by
   rw [← lorTree_eq_enc6 (x2 := 0) (x3 := 0) (x4 := 0) (x5 := 0) h0 h1 (by norm_num)
     (by norm_num) (by norm_num)]
-  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.zero_or, Nat.or_assoc]
+  simp only [Nat.zero_shiftLeft, Nat.or_zero]
 
 theorem lane2 {a0 a1 a2 : ℕ} (h0 : a0 < 64) (h1 : a1 < 64) (h2 : a2 < 64) :
     (a0 ||| a1 <<< 6) ||| a2 <<< 12 = enc6 a0 a1 a2 0 0 0 := by
   rw [← lorTree_eq_enc6 (x3 := 0) (x4 := 0) (x5 := 0) h0 h1 h2 (by norm_num) (by norm_num)]
-  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.zero_or, Nat.or_assoc]
+  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.or_assoc]
 
 theorem lane3 {a0 a1 a2 a3 : ℕ} (h0 : a0 < 64) (h1 : a1 < 64) (h2 : a2 < 64) (h3 : a3 < 64) :
     ((a0 ||| a1 <<< 6) ||| a2 <<< 12) ||| a3 <<< 18 = enc6 a0 a1 a2 a3 0 0 := by
   rw [← lorTree_eq_enc6 (x4 := 0) (x5 := 0) h0 h1 h2 h3 (by norm_num)]
-  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.zero_or, Nat.or_assoc]
+  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.or_assoc]
 
 theorem lane4 {a0 a1 a2 a3 a4 : ℕ} (h0 : a0 < 64) (h1 : a1 < 64) (h2 : a2 < 64) (h3 : a3 < 64)
     (h4 : a4 < 64) :
     (((a0 ||| a1 <<< 6) ||| a2 <<< 12) ||| a3 <<< 18) ||| a4 <<< 24 = enc6 a0 a1 a2 a3 a4 0 := by
   rw [← lorTree_eq_enc6 (x5 := 0) h0 h1 h2 h3 h4]
-  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.zero_or, Nat.or_assoc]
+  simp only [Nat.zero_shiftLeft, Nat.or_zero, Nat.or_assoc]
 
 theorem lane5 {a0 a1 a2 a3 a4 a5 : ℕ} (h0 : a0 < 64) (h1 : a1 < 64) (h2 : a2 < 64)
     (h3 : a3 < 64) (h4 : a4 < 64) :

@@ -25,7 +25,7 @@ theorem a2l_two_dvd_card_of_involution {G : Type} [Group G] [Finite G] (T : Subg
     (hz : z ∈ T) (hz2 : z * z = 1) (hz1 : z ≠ 1) : 2 ∣ Nat.card T := by
   have h : (⟨z, hz⟩ : T) ^ 2 = 1 := Subtype.ext (by simpa [sq] using hz2)
   have h1 : (⟨z, hz⟩ : T) ≠ 1 := fun h' => hz1 (congrArg Subtype.val h')
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf (⟨z, hz⟩ : T) = 2 := orderOf_eq_prime h h1
   rw [← ho]
   exact orderOf_dvd_natCard _

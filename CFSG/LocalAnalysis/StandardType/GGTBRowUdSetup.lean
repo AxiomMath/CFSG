@@ -60,8 +60,8 @@ theorem ggSudRow_labelAll
   dsimp only at hq htag hr3 hpd hpq
   subst htag
   obtain ⟨K, hF, hFin, hK, hQ'⟩ := hQ
-  letI := hF
-  haveI := hFin
+  let := hF
+  have := hFin
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hlab.1 hpq
   have hd5 : 5 ≤ r + 1 := by
     by_contra hlt
@@ -77,7 +77,7 @@ theorem ggSudRow_labelAll
       (LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) K (2 ^ f))) :=
     ggTorusLift_unitary hK (by omega) (by omega) hdq hp hpq
   have hrank : ggUnitaryTorusRank p (r + 1) = r + 1 - 3 := by
-    rw [ggUnitaryTorusRank, if_pos hpd]
+    rw [ggUnitaryTorusRank, ite_eq_left hpd]
   refine ⟨K, hF, hFin, hK, hQ', ?_⟩
   refine ⟨r + 1, f, K, hF, hFin, MulEquiv.refl _, ?_, hd5, hq, hpd, hpq, hK, ?_⟩
   · rw [← hrank]

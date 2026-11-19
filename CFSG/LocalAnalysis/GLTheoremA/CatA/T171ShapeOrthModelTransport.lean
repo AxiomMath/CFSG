@@ -77,7 +77,7 @@ theorem indAut_mem_innAutDerived_iff_centerQuotientHom {Γ : Type} [Group Γ] [F
               y⁻¹) * y := by group
         _ = y⁻¹ * (q : Γ) * y := by rw [h4]
     rw [hinv_apply]
-    simp only [Subtype.coe_mk, inv_inv]
+    simp only [inv_inv]
   rw [(mem_innAutDerived_congr e.symm).symm, hkey, inv_mem_iff]
 
 theorem indAut_mem_inner_iff_centerQuotientHom {Γ : Type} [Group Γ] [Finite Γ]
@@ -168,7 +168,7 @@ theorem indAut_mem_inner_iff_centerQuotientHom {Γ : Type} [Group Γ] [Finite Γ
               y⁻¹) * y := by group
         _ = y⁻¹ * (q : Γ) * y := by rw [h4]
     rw [hinv_apply]
-    simp only [Subtype.coe_mk, inv_inv]
+    simp only [inv_inv]
   have hinner_iff : MulAut.congr e.symm (MI.indAut p J y hN) ∈
       inner (↥J ⧸ Subgroup.center ↥J) ↔ MI.indAut p J y hN ∈ inner (PSimple p J) :=
     congr_mem_inner_iff e.symm (MI.indAut p J y hN)

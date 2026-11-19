@@ -147,8 +147,8 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 namespace CaseBData
 
-theorem sec52_comm (hB : d.CaseBHyp) (c : d.CaseBData) (h11 : CaseBData.Sec52Sylow hB c)
-    (h12 : CaseBData.Sec52Factors hB c) (h13 : c.W₂.map (MulAut.conj d.s).toMonoidHom = c.W₂)
+theorem sec52_comm (hB : d.CaseBHyp) (c : d.CaseBData) (_h11 : CaseBData.Sec52Sylow hB c)
+    (_h12 : CaseBData.Sec52Factors hB c) (h13 : c.W₂.map (MulAut.conj d.s).toMonoidHom = c.W₂)
     (h14 : c.Kc = c.W₂ ⊔ (c.W₂ ⊓ c.W₂.map (MulAut.conj d.r).toMonoidHom).map
       (MulAut.conj (d.r * d.s)).toMonoidHom) :
     CaseBData.Sec52Comm c := by

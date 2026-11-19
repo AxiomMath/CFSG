@@ -10,12 +10,14 @@ open CFSG.Quasithin CFSG.Quasithin.H.Om4 Matrix
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem s16c11_case5_matrix_inv_mul (A : GL (Fin 2) K) :
     (A : Matrix (Fin 2) (Fin 2) K)⁻¹ * (A : Matrix (Fin 2) (Fin 2) K) = 1 := by
   have h := congrArg (fun u : GL (Fin 2) K => (u : Matrix (Fin 2) (Fin 2) K))
     (inv_mul_cancel A)
-  simpa [Units.val_mul, Units.val_inv_eq_inv_val] using h
+  simp
 
+omit [Finite K] in
 private theorem s16c11_case5_scalar_transpose (c : Kˣ) :
     (((Matrix.GeneralLinearGroup.scalar (Fin 2) c : GL (Fin 2) K)) :
       Matrix (Fin 2) (Fin 2) K)ᵀ =
@@ -24,14 +26,15 @@ private theorem s16c11_case5_scalar_transpose (c : Kˣ) :
   ext i j
   simp [Matrix.transpose_apply, Matrix.diagonal_apply, eq_comm]
 
+omit [Finite K] in
 private theorem s16c11_case5_matrix_scalar_central (u : Kˣ) (X : Matrix (Fin 2) (Fin 2) K) :
     X * (Matrix.GeneralLinearGroup.scalar (Fin 2) u : Matrix (Fin 2) (Fin 2) K) =
       (Matrix.GeneralLinearGroup.scalar (Fin 2) u : Matrix (Fin 2) (Fin 2) K) * X := by
   ext i j
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-    Matrix.diagonal_apply]
+  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Matrix.diagonal_apply]
   fin_cases i <;> fin_cases j <;> simp <;> ring
 
+omit [Finite K] in
 private theorem s16c11_case5_lr_scalar_inv (c : Kˣ) :
     lr (Matrix.GeneralLinearGroup.scalar (Fin 2) c)
        (Matrix.GeneralLinearGroup.scalar (Fin 2) c⁻¹) = 1 := by
@@ -51,6 +54,7 @@ private noncomputable def s16c11_case5_scalPair :
     have h : (c * d)⁻¹ = c⁻¹ * d⁻¹ := by rw [_root_.mul_inv_rev, mul_comm]
     simp [h, map_mul]
 
+omit [Finite K] in
 private theorem s16c11_case5_scalPair_injective :
     Function.Injective (s16c11_case5_scalPair (K := K)) := by
   intro c d h
@@ -58,6 +62,7 @@ private theorem s16c11_case5_scalPair_injective :
   have h1 := congrArg (fun p => (p.1 : Matrix (Fin 2) (Fin 2) K) 0 0) h
   simpa [s16c11_case5_scalPair, Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply] using h1
 
+omit [Finite K] in
 private theorem s16c11_case5_lr_inj_right (A B B' : GL (Fin 2) K)
     (h : lr A B = lr A B') : B = B' := by
   have key : ∀ X : Matrix (Fin 2) (Fin 2) K,
@@ -70,11 +75,12 @@ private theorem s16c11_case5_lr_inj_right (A B B' : GL (Fin 2) K)
   have hmul : (A : Matrix (Fin 2) (Fin 2) K) * (A : Matrix (Fin 2) (Fin 2) K)⁻¹ = 1 := by
     have h := congrArg (fun u : GL (Fin 2) K => (u : Matrix (Fin 2) (Fin 2) K))
       (mul_inv_cancel A)
-    simpa [Units.val_mul, Units.val_inv_eq_inv_val] using h
+    simp
   have h1 := key ((A : Matrix (Fin 2) (Fin 2) K)⁻¹)
-  simp only [hmul, Matrix.one_mul, Matrix.mul_one] at h1
+  simp only [hmul, Matrix.one_mul] at h1
   exact Units.ext (Matrix.transpose_injective h1)
 
+omit [Finite K] in
 private theorem s16c11_case5_transpose_eq_inv (A B : GL (Fin 2) K)
     (hAB : (A : Matrix (Fin 2) (Fin 2) K) * (B : Matrix (Fin 2) (Fin 2) K)ᵀ = 1) :
     (B : Matrix (Fin 2) (Fin 2) K)ᵀ = (A : Matrix (Fin 2) (Fin 2) K)⁻¹ := by
@@ -87,6 +93,7 @@ private theorem s16c11_case5_transpose_eq_inv (A B : GL (Fin 2) K)
         rw [Matrix.mul_assoc]
     _ = (A : Matrix (Fin 2) (Fin 2) K)⁻¹ := by rw [hAB, Matrix.mul_one]
 
+omit [Finite K] in
 private theorem s16c11_case5_lrHom_ker_eq :
     (s16c11_case5_lrHom (K := K)).ker = (s16c11_case5_scalPair (K := K)).range := by
   ext p
@@ -141,6 +148,7 @@ private theorem s16c11_case5_lrHom_ker_eq :
     rw [MonoidHom.mem_ker]
     simpa [s16c11_case5_lrHom, s16c11_case5_scalPair] using s16c11_case5_lr_scalar_inv c
 
+omit [Finite K] in
 private theorem s16c11_case5_trM_ne_lr (A B : GL (Fin 2) K) :
     (trM : MulAut (VM K)) ≠ lr A B := by
   intro h
@@ -186,8 +194,9 @@ private theorem s16c11_case5_trM_ne_lr (A B : GL (Fin 2) K) :
       Matrix.single (1 : Fin 2) (0 : Fin 2) (1 : K) := by
     rw [hconj, ht01]
   have := congrArg (fun M : Matrix (Fin 2) (Fin 2) K => M 1 0) hc1
-  simpa [ht, Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hA10] using this
+  simp [ht, Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hA10] at this
 
+omit [Finite K] in
 private theorem s16c11_case5_conj_mem_Omega (A B : GL (Fin 2) K) {y : MulAut (VM K)}
     (hy : y ∈ s16c11_case5_Omega (K := K)) :
     lr A B * y * (lr A B)⁻¹ ∈ s16c11_case5_Omega (K := K) := by
@@ -218,6 +227,7 @@ private theorem s16c11_case5_conj_mem_Omega (A B : GL (Fin 2) K) {y : MulAut (VM
     · exact Units.ext rfl
     · exact Units.ext rfl
 
+omit [Finite K] in
 theorem s16c11_case5_lrHom_ker_card :
     Nat.card ↥(s16c11_case5_lrHom (K := K)).ker = Nat.card Kˣ := by
   rw [s16c11_case5_lrHom_ker_eq, MonoidHom.range_eq_map,
@@ -226,7 +236,7 @@ theorem s16c11_case5_lrHom_ker_card :
 
 theorem s16c11_case5_card_lrRange (hK : Nat.card K = 4) :
     Nat.card ↥(s16c11_case5_lrRange (K := K)) = 10800 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hGL : Nat.card (GL (Fin 2) K) = 180 := by
     have hcard : Fintype.card K = 4 := by
       rw [← Nat.card_eq_fintype_card]
@@ -242,12 +252,14 @@ theorem s16c11_case5_card_lrRange (hK : Nat.card K = 4) :
   norm_num
   exact hcard
 
+omit [Finite K] in
 theorem s16c11_case5_trM_not_mem_lrRange :
     (trM : MulAut (VM K)) ∉ s16c11_case5_lrRange (K := K) := by
   rw [s16c11_case5_mem_lrRange]
   rintro ⟨A, B, h⟩
   exact s16c11_case5_trM_ne_lr A B h
 
+omit [Finite K] in
 theorem s16c11_case5_lrRange_le_normalizer :
     s16c11_case5_lrRange (K := K) ≤
       Subgroup.normalizer (s16c11_case5_Omega (K := K) : Set (MulAut (VM K))) := by

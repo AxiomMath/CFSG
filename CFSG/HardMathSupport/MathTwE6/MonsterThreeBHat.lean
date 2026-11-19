@@ -18,7 +18,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 theorem card_mulAut_dvd_of_perfect {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤) :
     Nat.card (MulAut X) ∣ Nat.card (MulAut (X ⧸ Subgroup.center X)) := by
-  haveI := finite_mulAut (X ⧸ Subgroup.center X)
+  have := finite_mulAut (X ⧸ Subgroup.center X)
   exact Subgroup.card_dvd_of_injective _
     (CFSG.HardMathSupport.Timmesfeld.Coordinator.autCenterQuot_injective_of_perfect hX)
 

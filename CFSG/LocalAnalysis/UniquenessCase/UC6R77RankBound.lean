@@ -12,6 +12,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_range_dvd_of_elemAbelian {p r : ℕ} [Fact r.Prime] {P : Subgroup G}
     (hPel : IsElemAbelian p P) (χ : ↥P →* (ZMod r)ˣ) :
     Nat.card χ.range ∣ p ∧ Nat.card χ.range ∣ r - 1 := by

@@ -38,9 +38,9 @@ theorem exists_fieldPart_primeFormP {p₀ f N : ℕ} {K : Type} [Field K] [Finit
           x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (primeFormP h
             ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K)) ⊔ F := by
   classical
-  haveI : Fact p₀.Prime := ⟨h.prime⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p₀.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   let C : GL (Fin N) K := 1
   have hC : IsPrimeFormGram C := isPrimeFormGram_one
   let T := primeFormP h (C : Matrix (Fin N) (Fin N) K)
@@ -50,9 +50,9 @@ theorem exists_fieldPart_primeFormP {p₀ f N : ℕ} {K : Type} [Field K] [Finit
     unitary_full_diagonal_outer_order h hN hq
   have hcardAut : Nat.card (K ≃+* K) = 2 * f := fieldAut_card K h.prime h.card
   have h2f : 0 < 2 * f := Nat.mul_pos (by norm_num) (Nat.lt_of_lt_of_le zero_lt_one h.one_le)
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; exact h2f.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut T) :=
     (S : Subgroup (K ≃+* K)).map (primeFormFieldHom h hC)
@@ -91,7 +91,7 @@ theorem exists_fieldPart_primeFormP {p₀ f N : ℕ} {K : Type} [Field K] [Finit
     have hScyc : IsCyclic ↥(S : Subgroup (K ≃+* K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (K ≃+* K))
       (primeFormFieldHom h hC) hfinj).isCyclic.mp hScyc
-  have hFp : IsPGroup p F := (S.isPGroup').map (primeFormFieldHom h hC)
+  have hFp : IsPGroup p F := (S.isPGroup).map (primeFormFieldHom h hC)
   have hgcd : ¬ p ∣ Nat.gcd N (p₀ ^ f + 1) := by
     intro hdvd
     obtain ⟨hpN, hpq⟩ := Nat.dvd_gcd_iff.1 hdvd

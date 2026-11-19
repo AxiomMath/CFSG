@@ -141,7 +141,7 @@ theorem rckExc_not_shape_D4_of_neg
       twistInner ((fun α => v • α) '' parabolicRoots Tag.E8 rckD4Nodes) (fun γ => -γ))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a : Fin Tag.E8.rank → GGLˣ}
     (hpa : rootDiagUnit Tag.E8 a ^ p = 1) {ρ : Equiv.Perm (Fin Tag.E8.rank → ℤ)}
-    (hroot : ∀ γ, IsRoot Tag.E8 (ρ γ) ↔ IsRoot Tag.E8 γ) (hneg : ∀ γ, ρ (-γ) = -ρ γ)
+    (_hroot : ∀ γ, IsRoot Tag.E8 (ρ γ) ↔ IsRoot Tag.E8 γ) (hneg : ∀ γ, ρ (-γ) = -ρ γ)
     (hform : ∀ γ δ, iform (ρ γ) (ρ δ) = iform γ δ)
     (hsq : ∀ γ, IsRoot Tag.E8 γ → ρ (ρ γ) = -γ)
     (hstab : ∀ γ ∈ kernelRoots (rootCharHom a), ρ γ ∈ kernelRoots (rootCharHom a))
@@ -160,7 +160,7 @@ theorem rckExc_not_shape_D4_of_neg
     congr 2
     ext j
     simp only [Finset.coe_insert, Finset.coe_singleton, Set.mem_insert_iff, Set.mem_singleton_iff,
-      Option.some.injEq, Set.mem_setOf_eq, rckD4Nodes]
+      Option.some.injEq, Set.mem_ofPred_eq, rckD4Nodes]
     revert j
     decide
   have hcomp := isRootComponent_componentRoots (χ := rootCharHom a) i

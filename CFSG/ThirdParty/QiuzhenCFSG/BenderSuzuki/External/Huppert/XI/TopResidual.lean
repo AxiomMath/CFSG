@@ -19,7 +19,7 @@ public theorem huppert_XI_2_5_pResidual_ne_top_of_cyclic_sylow_two
     {G : Type u} [Group G] [Finite G]
     (hEven : 2 ∣ Nat.card G) (P : Sylow 2 G) (hP : IsCyclic P) :
     hktPResidual 2 G ≠ (⊤ : Subgroup G) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmin : (Nat.card G).minFac = 2 :=
     (Nat.minFac_eq_two_iff (Nat.card G)).2 hEven
   have hcomp : HasNormalPComplement 2 G :=

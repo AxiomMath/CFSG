@@ -30,7 +30,7 @@ private theorem mem_centralizer_mul {G : Type} [Group G] {a b x : G}
 private theorem catalog_quotCenter {G : Type} [Group G] (hK : Assembly.KProper Blueprint.Catalog G)
     {M : Subgroup G} (hM : M ≠ ⊤) (hq : CFSG.IsQuasisimple ↥M) :
     Blueprint.Catalog (↥M ⧸ center ↥M) := by
-  haveI : IsSimpleGroup (↥M ⧸ center ↥M) := hq.2.1
+  have : IsSimpleGroup (↥M ⧸ center ↥M) := hq.2.1
   exact KCore.KProperNonab.catalogue_of_surjective SectionRank.catalog_isoInvariant hK M hM
     hq.2.2 (QuotientGroup.mk' (center ↥M)) (QuotientGroup.mk'_surjective _)
 

@@ -60,8 +60,8 @@ theorem card_pSimple_dvd {S : Type} [Group S] (p : ℕ) (I : Subgroup S) :
 theorem isLieOverField_three_of_isLpType {T : Type} [Group T] (hZ : Subgroup.center T = ⊥)
     (h : IsLpType 3 3 T) : Prop1116Design.IsLieOverField 3 T := by
   obtain ⟨F, hF, hFin, hc, ⟨f⟩⟩ := h
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
-  haveI : Fact Claims1116c.pp3.p.Prime := ⟨Claims1116c.pp3.prime_p⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact Claims1116c.pp3.p.Prime := ⟨Claims1116c.pp3.prime_p⟩
   have hc' : Nat.card F = 3 ^ 1 := by rw [hc]; norm_num
   let eK := CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 3 3 1 (by norm_num) hc'
   let eC := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 Claims1116c.pp3
@@ -86,7 +86,7 @@ theorem component_of_glaPComponent {p : ℕ} (hp : p.Prime) {S : Type} [Group S]
   have hO : GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
     by_cases htop : GLAPPrimeCore p ↥J = ⊤
     · exfalso
-      haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
+      have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hq
       obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot p J)
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -141,7 +141,7 @@ theorem center_eq_bot_of_l3 {Y : Type} [Group Y] (hq : CFSG.Open.IsQuasisimple Y
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = 3 ^ 13)
     (e : Y ⧸ Subgroup.center Y ≃* StatedProj (StatedSL 3 F)) : Subgroup.center Y = ⊥ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF5 : 5 ≤ Fintype.card F := by
     rw [Fintype.card_eq_nat_card, hF]
     norm_num
@@ -167,7 +167,7 @@ section Reduction
 theorem inputL33DownThree_of_simple (h : SimpleL33DownThree) : Claims1116c.InputL33DownThree := by
   intro Y _ _ hq hO hchev β hβ _ I hI hL33
   have hp13 : (13 : ℕ).Prime := by norm_num
-  haveI := Inputs1315.hol_finite Y
+  have := Inputs1315.hol_finite Y
   set a : Inputs1315.Hol Y := SemidirectProduct.inr β with ha
   have hKc : GLAPComponent 13 (Inputs1315.Kin Y) (Inputs1315.Kin Y) :=
     Inputs1315.kin_component hq hO
@@ -177,7 +177,7 @@ theorem inputL33DownThree_of_simple (h : SimpleL33DownThree) : Claims1116c.Input
     have hN : (Inputs1315.Kin Y).Normal := by
       rw [Inputs1315.Kin, SemidirectProduct.range_inl_eq_ker_rightHom]
       exact MonoidHom.normal_ker _
-    haveI := hN
+    have := hN
     rw [Subgroup.normalizer_eq_top (Inputs1315.Kin Y)]
     exact Subgroup.mem_top _
   have hap : a ^ 13 = 1 := by rw [ha, ← map_pow, hβ, map_one]
@@ -216,7 +216,7 @@ theorem inputL33DownThree_of_simple (h : SimpleL33DownThree) : Claims1116c.Input
       ⟨(Prop1116Design.mulEquivQuotCenterOfEqBot hZ).trans eY⟩⟩
   · right
     obtain ⟨idx, ⟨g⟩, hfo⟩ := hS
-    haveI := hsS
+    have := hsS
     have hZS := CFSG.LocalAnalysis.GLTheoremA.chev_center_eq_bot_of_simple_nonabelian hnaS
     exact ⟨idx, ⟨(eS.symm.trans (Prop1116Design.mulEquivQuotCenterOfEqBot hZS)).trans g⟩, hfo⟩
 

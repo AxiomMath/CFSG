@@ -38,7 +38,7 @@ theorem uc22p2121d_pRank_mulAut_l2 {X : Type} [Group X] [Finite X] {n p : ℕ} (
     CFSG.Open.pRank p (⊤ : Subgroup (MulAut X)) ≤ 2 ∧
       (¬ p ∣ n → CFSG.Open.pRank p (⊤ : Subgroup (MulAut X)) ≤ 1) := by
   obtain ⟨hs, hnonab⟩ := CFSG.ComponentClassification.HarrisLit.L415.simple_nonabelian_of_lieModel hX
-  haveI := hs
+  have := hs
   have hZ := GL83.I713.center_eq_bot_of_simple hnonab
   have hm : CFSG.Open.StatedClassicalModel X .PSL 2 2 n := hX.statedClassicalModel (by decide)
   have hX1 := CFSG.QuasithinUnique.Id2519.pRank_le_one_psl_two_even hm hp hp2

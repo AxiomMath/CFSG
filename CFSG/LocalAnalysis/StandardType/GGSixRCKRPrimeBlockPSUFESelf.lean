@@ -50,7 +50,7 @@ theorem rckRP_flaggedModel_PSU_fieldExtSelf
       have hb : b.1 ∈ (⊥ : Subgroup ↥X) := hbot ▸ hJe.1 b.2
       rw [Subgroup.mem_bot] at ha hb
       rw [ha, hb])⟩
-    haveI := hsub
+    have := hsub
     obtain ⟨a, b, hab⟩ := CFSG.LocalCores.isQuasisimple_nontrivial
       ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J').mp hJe.2.2)
     exact hab (Subsingleton.elim a b)
@@ -58,14 +58,14 @@ theorem rckRP_flaggedModel_PSU_fieldExtSelf
       hσ1, hβs, hβn, hφ, hφiso, hφsurj, hact⟩ :=
     exists_blockAction_selfDual_PSU (F := GaloisField 2 (2 * (g + 1))) (f := g + 1) (n := n)
       (card_galoisField_two_mul 2 (g + 1) (by omega)) hSU hS hodd he hadj hdeg hnt
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 (2 * (g + 1))) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 (2 * (g + 1))) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ (g + 1) * blockDegree
       (Algebra.adjoin (GaloisField 2 (2 * (g + 1))) (Units.val '' S)) e := by
     calc 2 ≤ blockDegree
@@ -114,7 +114,7 @@ theorem rckRP_modelBig_PSU_fieldExtSelf
       have hb : b.1 ∈ (⊥ : Subgroup ↥X) := hbot ▸ hJe.1 b.2
       rw [Subgroup.mem_bot] at ha hb
       rw [ha, hb])⟩
-    haveI := hsub
+    have := hsub
     obtain ⟨a, b, hab⟩ := CFSG.LocalCores.isQuasisimple_nontrivial
       ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J').mp hJe.2.2)
     exact hab (Subsingleton.elim a b)
@@ -122,14 +122,14 @@ theorem rckRP_modelBig_PSU_fieldExtSelf
       hσ1, hβs, hβn, hφ, hφiso, hφsurj, hact⟩ :=
     exists_blockAction_selfDual_PSU (F := GaloisField 2 (2 * (g + 1))) (f := g + 1) (n := n)
       (card_galoisField_two_mul 2 (g + 1) (by omega)) hSU hS hodd he hadj hdeg hnt
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 (2 * (g + 1))) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 (2 * (g + 1))) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ (g + 1) * blockDegree
       (Algebra.adjoin (GaloisField 2 (2 * (g + 1))) (Units.val '' S)) e := by
     calc 2 ≤ blockDegree

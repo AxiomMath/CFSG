@@ -18,7 +18,7 @@ open CFSG.Open CFSG.RankThree.GF2n.SzExplicit CFSG.CGT.PushingUpLit.SolKNA Matri
 theorem szWt_eq_intCast_szWtInt (a : ℕ) (i : Fin 4) :
     szWt a i = ((szWtInt a i : ℤ) : ZMod (2 ^ (2 * a + 1) - 1)) := by
   fin_cases i <;>
-    simp [szWt, szWtInt, ← Int.natCast_pow] <;> push_cast <;> ring
+    simp [szWt, szWtInt]
 
 private theorem two_pow_succ_sq (a : ℕ) :
     (2 : ZMod (2 ^ (2 * a + 1) - 1)) ^ (a + 1) * 2 ^ (a + 1) = 2 := by

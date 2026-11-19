@@ -12,10 +12,10 @@ variable {n : ℕ}
 
 noncomputable instance instFintypeLbl (n : ℕ) : Fintype (Lbl n) :=
   Fintype.ofEquiv ((Fin n → Bool) × (Fin n → Bool) × (Fin n → Bool))
-    { toFun := fun x => ⟨x.1, x.2.1, x.2.2⟩
-      invFun := fun l => (l.a, l.b, l.c)
-      left_inv := fun x => rfl
-      right_inv := fun l => rfl }
+    { toFun := fun _x => ⟨_x.1, _x.2.1, _x.2.2⟩
+      invFun := fun _l => (_l.a, _l.b, _l.c)
+      left_inv := fun _x => rfl
+      right_inv := fun _l => rfl }
 
 private theorem fiber_modEq_cases {x y N : ℕ} (hx : x ≤ N) (hy : y ≤ N)
     (h : x ≡ y [MOD N]) : x = y ∨ (x = 0 ∧ y = N) ∨ (x = N ∧ y = 0) := by

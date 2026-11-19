@@ -16,6 +16,7 @@ open CFSG.Assembly CFSG.ClassicalInvolution.Phan
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_const_of_mem_centralizer (hK : Nat.card K = 4) {L Bs : Subgroup G}
     {Q : Type} [Group Q] {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))
@@ -58,6 +59,7 @@ theorem ggQTwoDUnitSix_const_of_mem_centralizer (hK : Nat.card K = 4) {L Bs : Su
     hψk (by rw [MonoidHom.mem_ker, map_mul, map_inv, hψu', mul_inv_cancel])
   exact qtwoDB12_diag_eq_of_conj_permSU hK (by norm_num) hu'mat hz
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_cent_J (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type} [Group Q]
     {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))
@@ -100,6 +102,7 @@ theorem ggQTwoDUnitSix_cent_J (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Typ
       exact Subgroup.mem_inf.mpr
         ⟨b'.2, Subgroup.mem_centralizer_iff.mpr fun j hj => (hc j hj).symm⟩
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_layer_eq (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type} [Group Q]
     {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))

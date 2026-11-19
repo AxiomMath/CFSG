@@ -14,6 +14,7 @@ section Q14D
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem q14_conj_F {g : G} (hg : g ∈ l41M t x₁ x₂ rho) {f : G} (hf : f ∈ l41F t x₁ x₂ rho) :
     g * f * g⁻¹ ∈ l41F t x₁ x₂ rho :=
   (Subgroup.mem_normalizer_iff.mp hg f).mp hf
@@ -21,9 +22,11 @@ theorem q14_conj_F {g : G} (hg : g ∈ l41M t x₁ x₂ rho) {f : G} (hf : f ∈
 theorem q14_F_isPGroup (h : L41GPh8 t L S x₁ x₂ lam rho) : IsPGroup 2 (l41F t x₁ x₂ rho) :=
   IsPGroup.of_card (by rw [m13_card_F h])
 
+omit [Finite G] in
 theorem q14_F_le_M (t x₁ x₂ rho : G) : l41F t x₁ x₂ rho ≤ l41M t x₁ x₂ rho :=
   Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem q14_t_mem_F (t x₁ x₂ rho : G) : t ∈ l41F t x₁ x₂ rho :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
 
@@ -65,18 +68,18 @@ theorem q14_card_M (h : L41GPh10 t L S x₁ x₂ lam rho) :
   · exact h3072
   exfalso
   obtain ⟨Sy, hVS⟩ := exists_sylow_gt h.normalizerFacts.V_pGroup h.normalizerFacts.V_not_sylow
-  obtain ⟨n, hnSy, hnN, hnV⟩ := exists_mem_normalizer_not_mem Sy.isPGroup' hVS
+  obtain ⟨n, hnSy, hnN, hnV⟩ := exists_mem_normalizer_not_mem Sy.isPGroup hVS
   have hnM : n ∈ l41M t x₁ x₂ rho := q14_normalizer_V_le_M h hnN
   have hUSy : l41V S t x₁ x₂ ⊔ zpowers n ≤ (Sy : Subgroup G) :=
     sup_le hVS.le (Subgroup.zpowers_le.mpr hnSy)
-  have hUp : IsPGroup 2 ↥(l41V S t x₁ x₂ ⊔ zpowers n) := Sy.isPGroup'.to_le hUSy
+  have hUp : IsPGroup 2 ↥(l41V S t x₁ x₂ ⊔ zpowers n) := Sy.isPGroup.to_le hUSy
   have hUM : l41V S t x₁ x₂ ⊔ zpowers n ≤ l41M t x₁ x₂ rho :=
     sup_le (h.normalizerFacts.V_le.trans (m13_N_le_M h.toL41GPh8))
       (Subgroup.zpowers_le.mpr hnM)
   have hVU : l41V S t x₁ x₂ < l41V S t x₁ x₂ ⊔ zpowers n :=
     lt_of_le_of_ne le_sup_left fun heq =>
       hnV (heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers n))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp hUp)
   have hlt := Subgroup.card_lt_of_lt hVU
   have hdvd := Subgroup.card_dvd_of_le hUM

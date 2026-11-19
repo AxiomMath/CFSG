@@ -11,6 +11,7 @@ open Matrix CFSG.Open
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] in
 theorem mem_SU_iff (hF : Nat.card F = (2 ^ 2) ^ 2) (A : GL (Fin 6) F) :
     A ∈ StatedSU 6 (2 ^ 2) F ↔ (A : Matrix (Fin 6) (Fin 6) F).det = 1 ∧
       (((A : Matrix (Fin 6) (Fin 6) F)).map (iterateFrobenius F 2 2 : F →+* F))ᵀ *
@@ -25,12 +26,14 @@ theorem mem_SU_iff (hF : Nat.card F = (2 ^ 2) ^ 2) (A : GL (Fin 6) F) :
       (by rw [← blkM_mul d l (inv_comm_of g hg) hg, Units.inv_mul, blkM_one])
   else 1
 
+omit [CharP F 2] in
 theorem blkU_val {d : Fin 6 → F} {l : F} {g : GL (Fin 6) F}
     (hg : (g : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * g) :
     ((blkU d l g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = blkM d l g := by
   unfold blkU
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
 
+omit [CharP F 2] in
 theorem commute_mul_of {d : Fin 6 → F} {l : F} {g k : GL (Fin 6) F}
     (hg : (g : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * g)
     (hk : (k : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * k) :
@@ -38,6 +41,7 @@ theorem commute_mul_of {d : Fin 6 → F} {l : F} {g k : GL (Fin 6) F}
       eigP d l * ((g * k : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) := by
   rw [Units.val_mul, mul_assoc, hk, ← mul_assoc, hg, mul_assoc]
 
+omit [CharP F 2] in
 theorem blkU_mul {d : Fin 6 → F} {l : F} {g k : GL (Fin 6) F}
     (hg : (g : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * g)
     (hk : (k : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * k) :
@@ -46,6 +50,7 @@ theorem blkU_mul {d : Fin 6 → F} {l : F} {g k : GL (Fin 6) F}
   rw [blkU_val (commute_mul_of hg hk), Units.val_mul, Units.val_mul, blkU_val hg, blkU_val hk]
   exact blkM_mul d l hg hk
 
+omit [CharP F 2] in
 theorem blkU_one (d : Fin 6 → F) (l : F) : blkU d l 1 = 1 := by
   have h1 : ((1 : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) * eigP d l =
       eigP d l * ((1 : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) := by
@@ -54,6 +59,7 @@ theorem blkU_one (d : Fin 6 → F) (l : F) : blkU d l 1 = 1 := by
   rw [blkU_val h1, Units.val_one]
   exact blkM_one d l
 
+omit [CharP F 2] in
 theorem blkU_inv {d : Fin 6 → F} {l : F} {g : GL (Fin 6) F}
     (hg : (g : Matrix (Fin 6) (Fin 6) F) * eigP d l = eigP d l * g) :
     blkU d l g⁻¹ = (blkU d l g)⁻¹ := by
@@ -118,6 +124,7 @@ theorem blkU_mem_SU {d : Fin 6 → F} {l : F} (hF : Nat.card F = (2 ^ 2) ^ 2) {g
             ((a.1 : Matrix (Fin 6) (Fin 6) F) * (1 - eigP d l)) := by rw [ha.2]
       _ = 1 - eigP d l := Units.inv_mul_cancel_left _ _⟩
 
+omit [CharP F 2] in
 theorem Ng_det {d : Fin 6 → F} {x : ↥(StatedSU 6 (2 ^ 2) F)} (hx : x ∈ Ng d) (l : F) :
     (blkU d l x.1 : GL (Fin 6) F).val.det = 1 := by
   have h := congrArg Units.val (hx.2 l)
@@ -133,8 +140,9 @@ theorem psiG_val {d : Fin 6 → F} (hF : Nat.card F = (2 ^ 2) ^ 2) (l : F)
     {x : ↥(StatedSU 6 (2 ^ 2) F)} (hx : x ∈ Ng d) :
     (psiG d hF l x).1 = blkU d l x.1 := by
   unfold psiG
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
+omit [CharP F 2] in
 theorem blkU_eq_self {d : Fin 6 → F} {l : F} {g : GL (Fin 6) F}
     (hc : ∀ m : F, (g : Matrix (Fin 6) (Fin 6) F) * eigP d m = eigP d m * g)
     (hq : (g : Matrix (Fin 6) (Fin 6) F) * (1 - eigP d l) = 1 - eigP d l) :
@@ -215,6 +223,7 @@ theorem Ng_eq_one_of_psi {d : Fin 6 → F} (hF : Nat.card F = (2 ^ 2) ^ 2)
   rw [sub_sub_cancel] at hxP
   exact hxP
 
+omit [CharP F 2] in
 theorem Ug_conj {d : Fin 6 → F} (l : F) {c : ↥(StatedSU 6 (2 ^ 2) F)} (hc : c ∈ Cg d)
     {u : ↥(StatedSU 6 (2 ^ 2) F)} (hu : u ∈ Ug d l) : c * u * c⁻¹ ∈ Ug d l := by
   have hc' : ∀ m : F, (c.1 : Matrix (Fin 6) (Fin 6) F) * eigP d m = eigP d m * c.1 := hc
@@ -264,7 +273,8 @@ theorem Ug_conj {d : Fin 6 → F} (l : F) {c : ↥(StatedSU 6 (2 ^ 2) F)} (hc : 
       _ = (1 - eigP d l) := by
           rw [← mul_assoc, Units.mul_inv, one_mul]
 
-theorem J_le_Ng {d : Fin 6 → F} (hF : Nat.card F = (2 ^ 2) ^ 2)
+omit [CharP F 2] in
+theorem J_le_Ng {d : Fin 6 → F} (_hF : Nat.card F = (2 ^ 2) ^ 2)
     {J : Subgroup ↥(StatedSU 6 (2 ^ 2) F)} (hJq : CFSG.Open.IsQuasisimple J) (hJC : J ≤ Cg d) :
     J ≤ Ng d := by
   intro j hj
@@ -281,18 +291,19 @@ theorem J_le_Ng {d : Fin 6 → F} (hF : Nat.card F = (2 ^ 2) ^ 2)
 
 theorem exists_block {d : Fin 6 → F} (hF : Nat.card F = (2 ^ 2) ^ 2)
     {J : Subgroup ↥(StatedSU 6 (2 ^ 2) F)} (hJq : CFSG.Open.IsQuasisimple J) (hJC : J ≤ Cg d)
-    (hnorm : ∀ c ∈ Cg d, ∀ j ∈ J, c * j * c⁻¹ ∈ J) :
+    (hnorm : ∀ _c ∈ Cg d, ∀ j ∈ J, _c * j * _c⁻¹ ∈ J) :
     ∃ l0 : F, J ≤ Ug d l0 :=
   block_mem_of_block (C := Cg d) (N := Ng d) (U := Ug d) (ψ := psiG d hF) hJq
-    (J_le_Ng hF hJq hJC) (fun x hx => hx.1) hnorm
-    (fun l => Ug_le_Ng hF l)
-    (fun l c hc u hu => Ug_conj l hc hu)
-    (fun l x hx y hy => psiG_mul hF l hx hy)
-    (fun l x hx => psiG_mem hF l hx)
-    (fun l u hu => psiG_id hF l hu)
-    (fun l m hlm u hu => psiG_zero hF hlm hu)
-    (fun x hx h => Ng_eq_one_of_psi hF hx h)
+    (J_le_Ng hF hJq hJC) (fun _x hx => hx.1) hnorm
+    (fun _l => Ug_le_Ng hF _l)
+    (fun _l _c hc _u hu => Ug_conj _l hc hu)
+    (fun _l _x hx _y hy => psiG_mul hF _l hx hy)
+    (fun _l _x hx => psiG_mem hF _l hx)
+    (fun _l _u hu => psiG_id hF _l hu)
+    (fun _l _m hlm _u hu => psiG_zero hF hlm hu)
+    (fun _x hx h => Ng_eq_one_of_psi hF hx h)
 
+omit [CharP F 2] in
 theorem commute_diag_iff (d : Fin 6 → F) (X : Matrix (Fin 6) (Fin 6) F) :
     Matrix.diagonal d * X = X * Matrix.diagonal d ↔ ∀ l : F, X * eigP d l = eigP d l * X := by
   constructor
@@ -321,6 +332,7 @@ theorem commute_diag_iff (d : Fin 6 → F) (X : Matrix (Fin 6) (Fin 6) F) :
         exact hX h1
       simp [hdij, mul_comm]
 
+omit [CharP F 2] in
 theorem centralizer_eq_Cg {g : ↥(StatedSU 6 (2 ^ 2) F)} {d : Fin 6 → F}
     (hg : (g : GL (Fin 6) F).val = Matrix.diagonal d) :
     Subgroup.centralizer ({g} : Set ↥(StatedSU 6 (2 ^ 2) F)) = Cg d := by

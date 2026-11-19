@@ -64,7 +64,7 @@ theorem ggLieParabolicCharInputOn_A :
   rw [hp] at hS hSi ⊢
   have hv : (TauCeti.LieTypeIndex.A r q).Valid := hm ▸ d.2
   obtain rfl : d = ⟨.A r q, hv⟩ := Subtype.ext hm
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let φ : K ≃* projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
     (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv)).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _)

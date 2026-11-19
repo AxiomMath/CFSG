@@ -87,7 +87,7 @@ theorem frameDiag_eq_smul (c : GGQ2S08RoSix Bs L x) {b : Bs} {σ σ' : Fin 6 →
 
 theorem diag_eq_of_frameDiag (c : GGQ2S08RoSix Bs L x) {b : Bs} {σ : Fin 6 → c.Kˣ}
     (h0 : σ (0 : Fin 6) = 1) (h : c.FrameDiag b σ) : c.diag b = σ :=
-  e6QTwoSixFrameAct_inj c.hK (c.diag_zero b) h0 (fun k => c.cube _) (fun k => c.cube _)
+  e6QTwoSixFrameAct_inj c.hK (c.diag_zero b) h0 (fun _k => c.cube _) (fun _k => c.cube _)
     (c.frameDiag_diag b) h
 
 theorem exists_eq_smul_diag (c : GGQ2S08RoSix Bs L x) {b : Bs} {σ : Fin 6 → c.Kˣ}

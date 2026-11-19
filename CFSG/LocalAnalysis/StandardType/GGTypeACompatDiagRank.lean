@@ -133,7 +133,7 @@ private lemma det_tridiag {K : Type*} [Field K] {n : ℕ}
       (Int.castRingHom K) ((CartanMatrix.A (n+1)).det) :=
     (RingHom.map_det (Int.castRingHom K) (CartanMatrix.A (n+1))).symm
   rw [← hdetconj, hconj, hcast, CartanMatrix.A_det]
-  simp only [map_add, map_one, map_natCast, map_ofNat]
+  simp only [map_add, map_one, map_natCast]
   push_cast
   ring
 
@@ -148,9 +148,9 @@ theorem pow_le_card_of_weylOfType_A {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Bs
     (hA : ∀ φ ∈ A, φ ∈ ggInduced ⊤ Bs) {m : ℕ}
     (hW : GGWeylOfType p (CoxeterMatrix.A (m + 1)) A) (hpm : ¬ p ∣ m + 2) :
     p ^ (m + 1) ≤ Nat.card Bs := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
+  have : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
   obtain ⟨e, he⟩ := hW
   let ψ : (CoxeterMatrix.A (m + 1)).Group →* MulAut ↥Bs :=
     (Subgroup.subtype A).comp e.toMonoidHom
@@ -185,7 +185,7 @@ theorem pow_le_card_of_weylOfType_A {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Bs
         rintro (h1 | h1)
         · exact hnot (Or.inr h1)
         · exact hnot (Or.inl h1)
-      simp only [CoxeterMatrix.A, Matrix.of_apply, hij, if_false, hcond, if_false]
+      simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false, hcond, ite_false]
     have horder2 : orderOf (φ i * φ j) = 2 := by rw [horder i j, hM2]
     have hsqφ : (φ i * φ j) ^ 2 = 1 := by rw [← horder2]; exact pow_orderOf_eq_one _
     have hsqr : (reflection (hfx i) * reflection (hfx j)) ^ 2 = 1 := by
@@ -208,7 +208,7 @@ theorem pow_le_card_of_weylOfType_A {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Bs
     have hij' : i ≠ j := by rintro rfl; omega
     have hM3 : (CoxeterMatrix.A (m + 1)) i j = 3 := by
       have hcond : (j : ℕ) + 1 = i ∨ (i : ℕ) + 1 = j := Or.inr hij
-      simp only [CoxeterMatrix.A, Matrix.of_apply, hij', if_false, hcond, if_true]
+      simp only [CoxeterMatrix.A, Matrix.of_apply, hij', ite_false, hcond, ite_true]
     have horder3 : orderOf (φ i * φ j) = 3 := by rw [horder i j, hM3]
     have h3φ : (φ i * φ j) ^ 3 = 1 := by rw [← horder3]; exact pow_orderOf_eq_one _
     have h3r : (reflection (hfx i) * reflection (hfx j)) ^ 3 = 1 := by

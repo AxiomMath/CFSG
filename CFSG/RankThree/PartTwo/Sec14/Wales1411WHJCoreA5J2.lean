@@ -270,7 +270,7 @@ theorem exists_commute_three_of_j2 (h415 : Sec4.Item4_15) {G : Type} [Group G] [
       have h := Subgroup.card_le_of_le hle
       rw [h27, hcardZ] at h
       norm_num at h
-    obtain ⟨y, hyP, hyd⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨y, hyP, hyd⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     have hy1 : y ≠ 1 := fun h => hyd (h ▸ one_mem _)
     exact ⟨y, hord y hyP hy1, hdc y hyP, hyd⟩
   · push Not at hdc
@@ -383,10 +383,10 @@ theorem ks1411HJCoreA5J2_of (hJs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T _ _ _ _
   exfalso
   obtain ⟨φ⟩ := hX
-  haveI := HJInner.normal_X hset
-  haveI : Finite (alternatingGroup (Fin 5) × CFSG.Blueprint.NativeSporadic.J2) :=
+  have := HJInner.normal_X hset
+  have : Finite (alternatingGroup (Fin 5) × CFSG.Blueprint.NativeSporadic.J2) :=
     Finite.of_equiv _ φ.toEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 :=
     Finite.of_surjective
       (Prod.snd : alternatingGroup (Fin 5) × CFSG.Blueprint.NativeSporadic.J2 → _)
       Prod.snd_surjective

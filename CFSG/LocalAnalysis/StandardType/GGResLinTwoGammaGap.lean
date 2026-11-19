@@ -52,12 +52,12 @@ theorem GGResLeviDatumCard.card_range_gamma_J_le_pow_of_fixed_of_weylType
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, ha1, ha3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, ⟨fX, hfX⟩, hother, hgenX, hgenY, hc, hgenJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hfull : GGWeylTypeData (Fintype.card Λ) (Nat.card ↥(ggAutomizer X Bs))
       (Nat.card ↥(Subgroup.center ↥(ggAutomizer X Bs))) := by
     rw [← Nat.card_congr fX.toEquiv, ← Nat.card_congr (Subgroup.centerCongr fX).toEquiv]

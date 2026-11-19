@@ -37,7 +37,7 @@ private theorem s₀_inverts_p₁₀ : s₀ * p₁₀ * s₀⁻¹ = p₁₀⁻¹
 private theorem s₀_inverts_p₂₀ : s₀ * p₂₀ * s₀⁻¹ = p₂₀⁻¹ := by decide
 
 private theorem p₁₀_orderOf : orderOf p₁₀ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   exact orderOf_eq_prime p₁₀_pow_three p₁₀_ne_one
 
 private theorem p₂₀_notMem_zpowers : p₂₀ ∉ Subgroup.zpowers p₁₀ := by

@@ -22,7 +22,7 @@ theorem card_map_outer_le_two (hOut : OutCyc L) {A : Subgroup (MulAut L)}
   have hB2 : IsPGroup 2 B := fun b => ⟨1, by
     rw [pow_one, pow_two]
     exact Subtype.ext (hB b b.2)⟩
-  haveI := hOut B hB2
+  have := hOut B hB2
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := B)
   rw [← orderOf_eq_card_of_forall_mem_zpowers hg]
   exact Nat.le_of_dvd (by norm_num)

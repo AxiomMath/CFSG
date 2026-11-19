@@ -78,7 +78,7 @@ theorem exists_alt_eight_centralizing (V K Z S : Subgroup X)
       simpa [um, um'] using e5
     have hVmem : ∀ h : ↥K, (h : X) * m * (h : X)⁻¹ * m⁻¹ ∈ V := fun h =>
       V.mul_mem (hVK h h.2 m hmV) (V.inv_mem hmV)
-    letI : CommGroup ↥V := { (inferInstance : Group ↥V) with
+    let : CommGroup ↥V := { (inferInstance : Group ↥V) with
       mul_comm := fun a b => Subtype.ext (hVc _ a.2 _ b.2) }
     let θ : ↥H →* ↥V :=
       { toFun := fun h => ⟨((h : ↥K) : X) * m * ((h : ↥K) : X)⁻¹ * m⁻¹, hVmem h⟩

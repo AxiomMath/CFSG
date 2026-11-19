@@ -34,16 +34,16 @@ theorem pow_eq_pow_of_modEq' {G : Type*} [Group G] {y : G} {N m m' : ℕ} (hy : 
 theorem exists_indep {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) (E : Subgroup G)
     (hE : ∀ x ∈ E, x ^ p = 1) (hcard : p ^ 2 ≤ Nat.card E) :
     ∃ e₁ ∈ E, ∃ e₂ ∈ E, ∀ i j : ℕ, e₁ ^ i * e₂ ^ j = 1 → p ∣ i ∧ p ∣ j := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hpos : 0 < Nat.card E := lt_of_lt_of_le (pow_pos hp.pos 2) hcard
-  haveI : Finite E := Nat.finite_of_card_ne_zero hpos.ne'
+  have : Finite E := Nat.finite_of_card_ne_zero hpos.ne'
   have hlt1 : 1 < Nat.card E := lt_of_lt_of_le (Nat.one_lt_pow two_ne_zero hp.one_lt) hcard
-  haveI := Finite.one_lt_card_iff_nontrivial.1 hlt1
+  have := Finite.one_lt_card_iff_nontrivial.1 hlt1
   obtain ⟨⟨e₁, he₁⟩, h1⟩ := exists_ne (1 : E)
   have he₁1 : e₁ ≠ 1 := fun h => h1 (Subtype.ext h)
   have ho₁ : orderOf e₁ = p := orderOf_eq_prime (hE e₁ he₁) he₁1
   have hZ : Nat.card (Subgroup.zpowers e₁) = p := by rw [Nat.card_zpowers, ho₁]
-  haveI : Finite (Subgroup.zpowers e₁) := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
+  have : Finite (Subgroup.zpowers e₁) := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
   have : ¬ E ≤ Subgroup.zpowers e₁ := by
     intro hle
     have := Subgroup.card_le_of_le hle
@@ -199,7 +199,7 @@ theorem block_supp {R : Type*} [Ring R] {η Y : R} (hη : η * η = η) :
 theorem exists_trace_coeffs {L : Type} [Field L] [Fintype L] (σ₀ : L ≃+* L) :
     ∃ c : L → L, ∀ i < orderOf σ₀, ∑ l, c l * (σ₀ ^ i) l = if i = 0 then 1 else 0 := by
   classical
-  haveI : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
+  have : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
     (fun a b h => RingEquiv.ext (congrFun h))
   set n := orderOf σ₀ with hn
   have hn0 : 0 < n := orderOf_pos σ₀
@@ -243,7 +243,7 @@ theorem trace_descent_scalar {L : Type} [Field L] [Fintype L] (σ₀ : L ≃+* L
     (hc : ∀ i < orderOf σ₀, ∑ l, c l * (σ₀ ^ i) l = if i = 0 then 1 else 0) (z : L) :
     z = ∑ l, c l * ∑ i ∈ Finset.range (orderOf σ₀), (σ₀ ^ i) (l * z) := by
   have hn0 : 0 < orderOf σ₀ := by
-    haveI : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
+    have : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
       (fun a b h => RingEquiv.ext (congrFun h))
     exact orderOf_pos σ₀
   simp_rw [Finset.mul_sum, map_mul]
@@ -252,13 +252,13 @@ theorem trace_descent_scalar {L : Type} [Field L] [Fintype L] (σ₀ : L ≃+* L
   rw [Finset.sum_eq_single 0]
   · rw [hc 0 hn0]; simp
   · intro i hi hi0
-    rw [hc i (Finset.mem_range.1 hi), if_neg hi0, zero_mul]
+    rw [hc i (Finset.mem_range.1 hi), ite_eq_right hi0, zero_mul]
   · intro h; exact absurd (Finset.mem_range.2 hn0) h
 
 theorem trace_fixed {L : Type} [Field L] [Finite L] (σ₀ : L ≃+* L) (z : L) :
     σ₀ (∑ i ∈ Finset.range (orderOf σ₀), (σ₀ ^ i) z) =
       ∑ i ∈ Finset.range (orderOf σ₀), (σ₀ ^ i) z := by
-  haveI : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
+  have : Finite (L ≃+* L) := Finite.of_injective (fun e : L ≃+* L => (e : L → L))
     (fun a b h => RingEquiv.ext (congrFun h))
   rw [map_sum]
   have hs : ∀ i, σ₀ ((σ₀ ^ i) z) = (σ₀ ^ (i + 1)) z := fun i => by rw [pow_succ']; rfl
@@ -290,7 +290,7 @@ def blockGL {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : 
 
 theorem sigma_idempotent {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] {ε : Matrix ι ι K} (hε : ε ∈ S.A) (hεε : ε * ε = ε) : S.σ ε = ε := by
   obtain ⟨a, ha⟩ := exists_pow_two_of_ringEquiv S.σ₀
-  haveI := Fact.mk S.hp
+  have := Fact.mk S.hp
   have hiter : ∀ k (c : K), (S.σ₀ ^ k) c = c ^ 2 ^ (a * k) := by
     intro k
     induction k with
@@ -376,7 +376,7 @@ theorem adj_sigma_mul {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq
   rw [S.adj_sigma, ← map_mul, hg, map_one]
 
 theorem exists_frob_exp {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] : ∃ Q : ℕ, 2 ≤ Q ∧ (∀ M ∈ S.A, M ^ Q = M) ∧ S.p ∣ Q - 1 := by
-  haveI := Fact.mk S.hp
+  have := Fact.mk S.hp
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have h2 : ¬ S.p ∣ 2 := fun h => S.hp2 ((Nat.prime_dvd_prime_iff_eq S.hp Nat.prime_two).1 h)
   have h2' : (2 : ZMod S.p) ≠ 0 := by
@@ -647,7 +647,7 @@ theorem eq_zero_of_B_right {K : Type} [Field K] {ι : Type} [Fintype ι] [Decida
     rw [show S.τ ∘ (Pi.single i 1 : ι → K) = Pi.single i 1 from funext fun j => by
       by_cases hj : j = i
       · subst hj; simp
-      · simp [Pi.single_apply, hj], single_one_dotProduct] at this
+      · simp [hj], single_one_dotProduct] at this
     exact this
   rw [← Matrix.one_mulVec y, ← Matrix.nonsing_inv_mul _ S.hG, ← Matrix.mulVec_mulVec, hGy,
     Matrix.mulVec_zero]
@@ -760,7 +760,7 @@ theorem minIdem_inv {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
 theorem exists_minIdem {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] {η : Matrix ι ι K} (hηA : η ∈ S.A) (hηη : η * η = η)
     (hη0 : η ≠ 0) : ∃ ε, S.IsMinIdem ε ∧ ε * η = ε := by
   classical
-  haveI : Finite (Matrix ι ι K) := show Finite (ι → ι → K) from inferInstance
+  have : Finite (Matrix ι ι K) := show Finite (ι → ι → K) from inferInstance
   let T : Matrix ι ι K → Set (Matrix ι ι K) :=
     fun δ => {δ' | δ' ∈ S.A ∧ δ' * δ' = δ' ∧ δ' * δ = δ'}
   have hex : ∃ n, ∃ δ, δ ∈ S.A ∧ δ * δ = δ ∧ δ ≠ 0 ∧ δ * η = δ ∧ (T δ).ncard = n :=
@@ -829,7 +829,7 @@ theorem minIdem_cases {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq
       · exact h1
 
 theorem mul_mem_A_of_cyclic {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] {ε' c : Matrix ι ι K} (hε'A : ε' ∈ S.A) (hε' : ε' * ε' = ε')
-    (hc : ∀ e ∈ S.E₀, c * (e : Matrix ι ι K) = e * c) {v : ι → K} (hv : ε' *ᵥ v = v)
+    (hc : ∀ e ∈ S.E₀, c * (e : Matrix ι ι K) = e * c) {v : ι → K} (_hv : ε' *ᵥ v = v)
     (hcyc : ∀ x, ε' *ᵥ x = x → ∃ a ∈ S.A, x = a *ᵥ v) : c * ε' ∈ S.A := by
   have hcA : ∀ M ∈ S.A, c * M = M * c := fun M hM => commute_of_mem_spanE S.E₀ hc hM
   obtain ⟨a₀, ha₀A, ha₀⟩ := hcyc ((c * ε') *ᵥ v) (by
@@ -869,7 +869,7 @@ theorem sigma_surj {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι
   rw [← pow_succ', Nat.sub_add_cancel h1, hσp]; rfl
 
 theorem exists_proj {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] {η : Matrix ι ι K} (hηA : η ∈ S.A)
-    (hηa : S.adj η = η) (W : Submodule K (ι → K)) (hWA : ∀ a ∈ S.A, ∀ w ∈ W, a *ᵥ w ∈ W)
+    (_hηa : S.adj η = η) (W : Submodule K (ι → K)) (hWA : ∀ a ∈ S.A, ∀ w ∈ W, a *ᵥ w ∈ W)
     (hWσ : ∀ w ∈ W, S.σ₀ ∘ w ∈ W) (hWη : ∀ w ∈ W, η *ᵥ w = w)
     (hnd : ∀ w ∈ W, (∀ w' ∈ W, S.B w' w = 0) → w = 0) :
     ∃ f : Matrix ι ι K, (∀ e ∈ S.E₀, f * (e : Matrix ι ι K) = e * f) ∧ f * f = f ∧
@@ -917,11 +917,11 @@ theorem exists_proj {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
   have hfx : ∀ x, f *ᵥ x = P x := fun x => LinearMap.toMatrix'_mulVec P x
   have hfW : ∀ w ∈ W, f *ᵥ w = w := fun w hw => by
     rw [hfx]
-    exact congrArg Subtype.val (Submodule.linearProjOfIsCompl_apply_left hc ⟨w, hw⟩)
+    exact congrArg Subtype.val (Submodule.projectionOnto_apply_left hc ⟨w, hw⟩)
   have hfWp : ∀ y ∈ Wp, f *ᵥ y = 0 := fun y hy => by
     rw [hfx]
     show ((Submodule.projectionOnto W Wp hc y : W) : ι → K) = 0
-    rw [(Submodule.linearProjOfIsCompl_apply_eq_zero_iff hc).2 hy]
+    rw [(Submodule.projectionOnto_apply_eq_zero_iff hc).2 hy]
     rfl
   have hfmem : ∀ x, f *ᵥ x ∈ W := fun x => by
     rw [hfx]; exact (Submodule.projectionOnto W Wp hc x).2
@@ -987,7 +987,7 @@ theorem exists_fixed_tau_ne {K : Type} [Field K] {ι : Type} [Fintype ι] [Decid
   classical
   by_contra H
   push Not at H
-  haveI : Finite (K ≃+* K) := Finite.of_injective (fun e : K ≃+* K => (e : K → K))
+  have : Finite (K ≃+* K) := Finite.of_injective (fun e : K ≃+* K => (e : K → K))
     (fun a b h => RingEquiv.ext (congrFun h))
   obtain ⟨c, hc⟩ := exists_trace_coeffs S.σ₀
   set n := orderOf S.σ₀ with hn
@@ -1465,7 +1465,7 @@ theorem pElt_mem_A_of_atom {K : Type} [Field K] {ι : Type} [Fintype ι] [Decida
     have hzeq : (z : Matrix ι ι K) = z * η + (1 - η) := by rw [← hzs']; noncomm_ring
     rw [hzeq]; exact Submodule.add_mem _ (hC _ hzc) (Submodule.sub_mem _ S.one_mem_A hη.1)
   by_contra hzA
-  haveI : Finite (GL ι K) := Finite.of_injective (fun u : GL ι K => (u : Matrix ι ι K)) fun _ _ h => Units.ext h
+  have : Finite (GL ι K) := Finite.of_injective (fun u : GL ι K => (u : Matrix ι ι K)) fun _ _ h => Units.ext h
   set X := S.suppGroup H hη
   let φ : X →* X :=
     { toFun := fun x => ⟨S.σGL (x : GL ι K), S.sigma_mem_supp hH hη x.2⟩
@@ -1553,7 +1553,7 @@ theorem goodGroup_U {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
   g ∈ H ∧ S.Cent g ∧ ∃ k : ℕ, g ^ S.p ^ k = 1
 
 theorem matrix_core {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι] (S : ClSetting K ι) [Fintype K] [CharP K 2] {H : Subgroup (GL ι K)} (hH : S.GoodGroup H) (hSat : S.Sat H)
-    (hEH : ∀ e ∈ S.E₀, e ∈ H) (hcard : S.p ^ 2 ≤ Nat.card S.E₀) :
+    (_hEH : ∀ e ∈ S.E₀, e ∈ H) (hcard : S.p ^ 2 ≤ Nat.card S.E₀) :
     ∃ s : ℕ, 2 ≤ s ∧ ∃ k : ℕ, ¬ S.p ∣ k ∧
       (∀ x y, S.CentP H x → S.CentP H y → x * y = y * x) ∧
       (∀ x, S.CentP H x → x ^ S.p ^ s = 1 ∧
@@ -1562,7 +1562,7 @@ theorem matrix_core {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq �
       ∃ a₁ a₂ : GL ι K, S.CentP H a₁ ∧ S.CentP H a₂ ∧
         a₁ ^ S.p ^ (s - 1) ∈ S.E₀ ∧ a₂ ^ S.p ^ (s - 1) ∈ S.E₀ ∧
         ∀ i j : ℕ, (a₁ ^ S.p ^ (s - 1)) ^ i * (a₂ ^ S.p ^ (s - 1)) ^ j = 1 → S.p ∣ i ∧ S.p ∣ j := by
-  haveI := Fact.mk S.hp
+  have := Fact.mk S.hp
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   obtain ⟨a, ha⟩ := exists_pow_two_of_ringEquiv S.σ₀
   have hσp : S.σ₀ ^ S.p = 1 := S.hσ₀ ▸ pow_orderOf_eq_one S.σ₀

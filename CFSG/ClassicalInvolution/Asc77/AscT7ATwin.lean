@@ -216,7 +216,7 @@ theorem exists_twinFrameData_of_sylows (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : 
     have := hR'T₀.conjSub g
     rwa [hgR'] at this
   obtain ⟨S₁, hS₁⟩ : ∃ S₁ : Sylow 2 G, conjSub g (S₀ : Subgroup G) ≤ (S₁ : Subgroup G) :=
-    (isPGroup_conjSub g S₀.isPGroup').exists_le_sylow
+    (isPGroup_conjSub g S₀.isPGroup).exists_le_sylow
   have hS₀ : ∀ {A : Subgroup G}, A ≤ (S₀ : Subgroup G) → conjSub g A ≤ (S₁ : Subgroup G) :=
     fun hA => (conjSub_mono hA).trans hS₁
   have hR₁S : R₁ ≤ (S₁ : Subgroup G) := by rw [← hgR]; exact hS₀ hR₀S

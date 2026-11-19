@@ -351,13 +351,13 @@ theorem exists_sl3_frame_E6 {K : Type} [Field K] [Finite K] [CharP K 2] :
       ∀ i, ∃ j, j ≠ i ∧ ∃ g : adjointGroup .E6 K, ∀ A, g * ρ i A * g⁻¹ = ρ j A := by
   refine ⟨e6FrameRho K, ?_, ?_, ?_⟩
   · intro i
-    fin_cases i <;> simp only [e6FrameRho_zero, e6FrameRho_one, e6FrameRho_two]
+    fin_cases i <;> simp only
     · exact e6FrameRho0_injective K
     · exact e6FrameRho1_injective K
     · exact e6FrameRho2_injective K
   · intro i j hij A B
     fin_cases i <;> fin_cases j <;>
-      simp only [e6FrameRho_zero, e6FrameRho_one, e6FrameRho_two]
+      simp only
     · exact absurd rfl hij
     · exact e6FrameCommute01 K A B
     · exact e6FrameCommute02 K A B
@@ -368,7 +368,7 @@ theorem exists_sl3_frame_E6 {K : Type} [Field K] [Finite K] [CharP K 2] :
     · exact e6FrameCommute21 K A B
     · exact absurd rfl hij
   · intro i
-    fin_cases i <;> simp only [e6FrameRho_zero, e6FrameRho_one, e6FrameRho_two]
+    fin_cases i <;> simp only
     · exact ⟨2, by decide, e6FrameWeylEltAdj K, fun A => e6FrameConjWeyl_rho0 K A⟩
     · exact ⟨0, by decide, (e6FrameMoveEltAdj K)⁻¹, fun A => e6FrameConjMoveInv_rho1 K A⟩
     · exact ⟨0, by decide, (e6FrameWeylEltAdj K)⁻¹, fun A => e6FrameConjWeylInv_rho2 K A⟩

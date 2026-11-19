@@ -20,7 +20,7 @@ theorem i9List93At_of_residual (G : Type) [Group G] [Finite G] (p : ℕ)
     · exact Or.inl h1
     · by_cases h2 : catalogIs (PSimple p L) (k2 p)
       · exact Or.inr h2
-      · rw [if_neg h1, if_neg h2] at hlev
+      · rw [ite_eq_right h1, ite_eq_right h2] at hlev
         split_ifs at hlev <;> omega
   rcases i9List93_dispatch hF hp hp2 (PSimple p L) hC2 hk with h | ⟨rfl, h94⟩ | hnoE
   · exact h

@@ -72,6 +72,7 @@ theorem conj_pre {U : Submodule K X} (hU : IsInvSub act U) (r : G) (hr : r ∈ R
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_pre (U : Submodule K X) : Nat.card (hB.pre U) = Nat.card V * Nat.card U := by
   classical
   let F : ↥(hB.pre U) →* Multiplicative ↥U :=
@@ -116,11 +117,13 @@ theorem card_pre (U : Submodule K X) : Nat.card (hB.pre U) = Nat.card V * Nat.ca
     rw [hB.f_mul x x.2 y y.2]
     rfl
 
+omit [Finite G] in
 theorem f_zpow {a : G} (ha : a ∈ W) (c : ℤ) : f (a ^ c) = c • f a := by
   have h := map_zpow hB.fW ⟨a, ha⟩ c
   have h' := congrArg Multiplicative.toAdd h
   simpa [fW] using h'
 
+omit [Finite G] in
 theorem exists_proj {U : Submodule K X} (hU : IsInvSub act U) (A' : Subgroup G) (hA'W : A' ≤ W)
     (hA'R : ∀ r ∈ R, conjSubgroup r A' = A') (hsup : hB.pre U ⊔ A' = W)
     (hinf : hB.pre U ⊓ A' = V) :

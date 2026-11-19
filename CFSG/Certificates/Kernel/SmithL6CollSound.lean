@@ -57,7 +57,7 @@ theorem apK_append (l : List Nat) (p x : Nat) : apK (l ++ [p]) x = apN l p x := 
   unfold apN
   induction l generalizing x with
   | nil =>
-    simp only [List.nil_append, apK, List.length_nil, Nat.pow_zero, Nat.mod_one, Nat.testBit_zero]
+    simp only [List.nil_append, apK, List.length_nil, Nat.testBit_zero]
     by_cases h : x % 2 = 1 <;> simp [h]
   | cons c l ih =>
     simp only [List.cons_append, List.length_cons, apK]
@@ -175,7 +175,7 @@ theorem flatMap_filter_and (A B : Nat → Bool) (g : Nat → List (List Nat)) (x
   | cons a xs ih =>
     have ih' := ih (fun p hp => hg p (by simp [hp]))
     cases hA : A a <;> cases hB : B a <;>
-      simp [List.filter_cons, hA, hB, ih', hg a (by simp)]
+      simp [hA, hB, ih', hg a (by simp)]
 
 theorem goG_filter (Q R : List Nat → Nat → Bool) (f : List Nat → Bool) (N : Nat)
     (hR : ∀ x : List Nat, x.length = N → f x = true → ∀ k < N, R (x.take k) (x.getD k 0) = true) :
@@ -217,7 +217,7 @@ theorem pruneK_of_inv (x : List Nat) (hx : x.length = 9) (hinv : invK x = true) 
     intro y hy
     rw [← apK_append]
     have e : x.take k ++ [x.getD k 0] = x.take (k + 1) := by
-      rw [List.take_succ]
+      rw [List.take_add_one]
       have : x[k]? = some (x.getD k 0) := by
         simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (by omega : k < x.length)]
       rw [this]
@@ -252,7 +252,7 @@ theorem collL_eq_goG : collL = (((goG QK 9 []).filter invK).map List.toArray).to
   rw [collGo_eq, List.filter_map]
   have e : (collInvB ∘ List.toArray) = invK := hf
   rw [e]
-  simp only [Array.toList_empty]
+  simp only
   rw [hg]
 
 theorem fld_eq (T s : Nat) : fld T s = T / 2 ^ (9 * s) % 512 := by
@@ -595,7 +595,7 @@ private theorem tab9_eq_tab {A : List Nat} (hA : A.length = 9) (hlt : ∀ c ∈ 
     | succ j ih =>
       have hjA : j < A.length := by omega
       rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ih (by omega),
-        List.take_succ, List.getElem?_eq_getElem hjA, Option.toList_some,
+        List.take_add_one, List.getElem?_eq_getElem hjA, Option.toList_some,
         tab_append (fun c hc => hlt c (List.mem_of_mem_take hc)) (hlt _ (List.getElem_mem hjA)),
         List.length_take, min_eq_left (by omega), List.getD_eq_getElem?_getD,
         List.getElem?_eq_getElem hjA, Option.getD_some]

@@ -53,6 +53,7 @@ variable {D : Submodule (ZMod 2) V12} (hsing : ∀ x ∈ D, q0 x = 0)
   (hdim : finrank (ZMod 2) D = 6)
 include hsing hdim
 
+omit hsing hdim in
 theorem spanOf_le {vs : List ℕ} (hD : ∀ v ∈ vs, vecOf v ∈ D) : spanOf vs ≤ D :=
   Submodule.span_le.2 fun _ ⟨v, hv, hx⟩ => hx ▸ hD v hv
 
@@ -62,11 +63,11 @@ theorem lagr_step : ∀ (k : ℕ) (vs cands : List ℕ), (∀ v ∈ vs, v < 4096
     ∃ ws ∈ lagrDFS k vs cands, spanOf ws = D ∧ ∀ v ∈ ws, v < 4096
   | 0, vs, cands, hlt, hD, hk, _ =>
     ⟨vs, List.mem_singleton_self _,
-      Submodule.eq_of_le_of_finrank_eq (spanOf_le hsing hdim hD) (by rw [hdim]; omega), hlt⟩
+      Submodule.eq_of_le_of_finrank_eq (spanOf_le hD) (by rw [hdim]; omega), hlt⟩
   | k + 1, vs, cands, hlt, hD, hk, hc => by
-    have hle := spanOf_le hsing hdim hD
+    have hle := spanOf_le hD
     have hne : spanOf vs ≠ D := fun h => by rw [h, hdim] at hk; omega
-    obtain ⟨x, hxD, hxS⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hle hne)
+    obtain ⟨x, hxD, hxS⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hle hne)
     have hex : ∃ n, n < 4096 ∧ vecOf n ∈ D ∧ vecOf n ∉ spanOf vs :=
       ⟨codeOf x, codeOf_lt x, by rwa [vecOf_codeOf], by rwa [vecOf_codeOf]⟩
     classical
@@ -106,7 +107,7 @@ theorem lagr_step : ∀ (k : ℕ) (vs cands : List ℕ), (∀ v ∈ vs, v < 4096
         simp [hvn, hf])
     refine ⟨ws, ?_, hwsD, hwslt⟩
     simp only [lagrDFS, List.mem_flatMap]
-    exact ⟨v, hc v hv4 hvD hvS, by rw [if_pos hcond]; exact hws⟩
+    exact ⟨v, hc v hv4 hvD hvS, by rw [ite_eq_left hcond]; exact hws⟩
 
 theorem exists_mem_lagrDFS {a0 : ℕ} (ha0 : a0 < 4096) (ha00 : a0 ≠ 0) (haD : vecOf a0 ∈ D) :
     ∃ vs ∈ lagrDFS 5 [a0] (lagrCand a0), spanOf vs = D ∧ ∀ v ∈ vs, v < 4096 := by

@@ -17,6 +17,7 @@ theorem two_pow_mod_three_of_odd {n : ℕ} (hn : Odd n) : 2 ^ n % 3 = 2 := by
 variable
   {τ : Tag} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem entrywiseAdjointAut_apply_three {σ : K ≃+* K} (hσ : σ ^ 3 = 1) (x : adjointGroup τ K) :
     entrywiseAdjointAut τ σ (entrywiseAdjointAut τ σ (entrywiseAdjointAut τ σ x)) = x := by
   have h : entrywiseAdjointAut τ σ ^ 3 = 1 := by
@@ -90,8 +91,8 @@ theorem exists_fixed_of_odd_level {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ 
     rw [h1, h2, card_levelRadical, hK, ← pow_mul]
   have hX2 : IsPGroup 2 X := IsPGroup.of_card hcardX
   obtain ⟨u, huX, hu1, hφu⟩ : ∃ u ∈ X, u ≠ 1 ∧ φ u = u := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Fintype X := Fintype.ofFinite _
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fintype X := Fintype.ofFinite _
     let T : Function.End X := fun x => ⟨φ x, hφX x x.2⟩
     have hT : T ^ 3 ^ 1 = 1 := by
       funext x
@@ -104,7 +105,7 @@ theorem exists_fixed_of_odd_level {f : ℕ} (hf : Odd f) (hK : Nat.card K = 2 ^ 
           Fintype.card (Function.fixedPoints T) % 3 := h
       rw [← h', two_pow_mod_three_of_odd (hf.mul hodd)]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Function.fixedPoints T ⊆ {1} := by
       intro x hx
       have hx' : φ x = x := congrArg Subtype.val hx

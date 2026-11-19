@@ -31,16 +31,20 @@ private abbrev locX (L₁ L₂ S : Subgroup G) : Subgroup G :=
 
 variable {L₁ L₂ S Z : Subgroup G} [Finite G]
 
+omit [Finite G] in
 private theorem sylow_le_bigB (L₁ L₂ S : Subgroup G) : S ⊓ L₁ ≤ bigB L₁ L₂ S :=
   (F1.sylow_le_borelOf L₁ S).trans (le_sup_left.trans le_sup_left)
 
+omit [Finite G] in
 private theorem P₁_le_normalizer_left (h : Hyp111R L₁ L₂ S) :
     P₁ L₁ L₂ S ≤ Subgroup.normalizer (L₁ : Set G) :=
   sup_le Subgroup.le_normalizer (F1.bigB_le_normalizer_left h).1
 
+omit [Finite G] in
 private theorem locX_le : locX L₁ L₂ S ≤ P₁ L₁ L₂ S :=
   sup_le ((MS93.oddGen_le L₁).trans le_sup_left) (coreIn_le_left _ _)
 
+omit [Finite G] in
 private theorem P₁_le_normalizer_locX (h : Hyp111R L₁ L₂ S) :
     P₁ L₁ L₂ S ≤ Subgroup.normalizer (locX L₁ L₂ S : Set G) :=
   F1.le_normalizer_sup ((P₁_le_normalizer_left h).trans (normalizer_le_normalizer_oddGen L₁))
@@ -102,6 +106,7 @@ private theorem not_bigB_le_kerB (h : Hyp111R L₁ L₂ S) : ¬ bigB L₁ L₂ S
     rwa [F1.pCoreOf_borelOf h.hyp.h1.sylow] at this
   exact (F1.lt_borelOf h).not_ge (le_inf le_rfl hL₁S)
 
+omit [Finite G] in
 private theorem relIndex_borelOf_ne_two (h : Hyp111R L₁ L₂ S) : (borelOf L₁ S).relIndex L₁ ≠ 2 :=
   fun h2 => F7.isSylowTwoOf_odd_relIndex h.hyp.h1.sylow
     (h2 ▸ Subgroup.relIndex_dvd_of_le_left L₁ (F1.sylow_le_borelOf L₁ S))

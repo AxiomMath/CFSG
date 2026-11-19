@@ -224,7 +224,7 @@ theorem exists_conjugate_eq_of_sylow {S₁ S₂ Y : Subgroup H} (h1 : S₁ ≤ Y
   obtain ⟨P₁, hP₁⟩ := hS₁
   obtain ⟨P₂, hP₂⟩ := hS₂
   have hS2 : IsPGroup 2 S₁ := by
-    have := P₁.isPGroup'.map Y.subtype
+    have := P₁.isPGroup.map Y.subtype
     rwa [hP₁, subgroupOf_map_subtype, inf_of_le_left h1] at this
   obtain ⟨c, hc, hle⟩ := exists_conjugate_le_of_sylow ⟨P₂, hP₂⟩ h1 hS2
   refine ⟨c, hc, Subgroup.eq_of_le_of_card_ge hle ?_⟩

@@ -72,7 +72,6 @@ theorem exists_eigen_aux {ω : k} (hω : ω ^ 2 + ω + 1 = 0) {A : Matrix ι ι 
     rw [h3]
     match_scalars
     all_goals first
-      | ring1
       | linear_combination (-1 : k) * hω3
       | linear_combination (-1 : k) * hω
       | linear_combination hω + hω3
@@ -131,7 +130,6 @@ theorem exists_joint_eigenvector {ω : k} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω
     rw [h3x]
     match_scalars
     all_goals first
-      | ring1
       | linear_combination (-1 : k) * hω3
       | linear_combination (-1 : k) * hω
       | linear_combination hω + hω3
@@ -248,7 +246,7 @@ theorem exists_primitive_cube_root {K : Type} [Field K] [Finite K] (h3 : 3 ∣ N
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 ∧ ω ≠ 1 := by
   classical
   have hc : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (hc ▸ h3)
   have hω3 : ω ^ 3 = 1 := by rw [← hω]; exact pow_orderOf_eq_one ω
   have hω1 : ω ≠ 1 := by

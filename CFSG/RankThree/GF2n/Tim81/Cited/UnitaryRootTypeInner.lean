@@ -214,7 +214,7 @@ private theorem exists_plane_of_not_mem_span {F : Type} [Field F] [CharP F 2] {�
     have h21c : uForm σ (c • p₂) p₁ = 0 := by
       rw [uForm_smul_left, h21, mul_zero]
     simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right,
-      hp₁iso, hp₂iso, hp₁p₂, h21, h21c, mul_zero, add_zero, zero_add]
+      hp₁iso, hp₂iso, hp₁p₂, h21c, mul_zero, add_zero]
   · intro c
     rw [mulVec_add, mulVec_smul, hp₁fix, hp₂fix]
 
@@ -261,7 +261,7 @@ private theorem exists_plane_of_forall_mem_span {F : Type} [Field F] [CharP F 2]
     have h21c : uForm σ (c • p₂) p₁ = 0 := by
       rw [uForm_smul_left, h21, mul_zero]
     simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right,
-      hp₁iso, hp₂iso, hp₁p₂, h21, h21c, mul_zero, add_zero, zero_add]
+      hp₁iso, hp₂iso, hp₁p₂, h21c, mul_zero, add_zero]
 
 private theorem exists_plane {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
     (hσ : ∀ c, σ (σ c) = c) (htr : ∀ a, σ a = a → ∃ c, c + σ c = a)
@@ -550,9 +550,9 @@ theorem IsSUImage.le_of_isRootTypeTI {K : Type} [Group K] [Finite K] {X₀ : Sub
     have hv0 : v ≠ 0 := by
       rcases hv with rfl | ⟨c, rfl⟩
       · intro h
-        exact one_ne_zero (hind 0 1 (by simpa [h])).2
+        exact one_ne_zero (hind 0 1 (by simp [h])).2
       · intro h
-        exact one_ne_zero (hind 1 c (by simpa [h])).1
+        exact one_ne_zero (hind 1 c (by simp [h])).1
     have hxv : suMat σ N x *ᵥ v = v := by
       rcases hv with rfl | ⟨c, rfl⟩
       · exact hp₂fix

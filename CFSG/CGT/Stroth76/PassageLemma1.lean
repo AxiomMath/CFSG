@@ -24,7 +24,7 @@ theorem frame_map_eq_of_mk'_map_eq (O : Subgroup (Subgroup.normalizer (F.A : Set
     (h : R.map (QuotientGroup.mk' O) = R'.map (QuotientGroup.mk' O)) :
     R.map (Subgroup.normalizer (F.A : Set G)).subtype =
       R'.map (Subgroup.normalizer (F.A : Set G)).subtype := by
-  rw [eq_of_map_eq_of_le_isPGroup hO (frameSylowN F).isPGroup' hR hR' h]
+  rw [eq_of_map_eq_of_le_isPGroup hO (frameSylowN F).isPGroup hR hR' h]
 
 theorem frame_arch76Lemma1 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
     (hne : Subgroup.centralizer (F.A : Set G) ⊓ (F.S : Subgroup G) ≠ F.A) :
@@ -58,7 +58,7 @@ theorem frame_arch76Lemma1 (h11 : ¬ 2 ^ 11 ∣ Nat.card G)
           c * F.dA.toConfig.x * F.dA.toConfig.y ^ 2 ∧
         F.dA.toConfig.u⁻¹ * c * F.dA.toConfig.u = c⁻¹)) := by
   obtain ⟨O, hON, -, hOodd, hZ⟩ := frame_exists_oddComplement F h11
-  haveI := hON
+  have := hON
   have hinj := frame_injOn_configN_A F O hOodd
   obtain ⟨-, hshape⟩ := arch76Lemma1 (F.configN.map (QuotientGroup.mk' O) hinj)
     (frame_odd_orderOf_configX_ρ F O hinj) (frame_centralizer_configX F O hOodd hZ hinj)

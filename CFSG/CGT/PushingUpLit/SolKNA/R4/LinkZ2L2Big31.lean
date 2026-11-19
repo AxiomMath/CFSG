@@ -24,7 +24,7 @@ variable {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow
 theorem Z2SetR.hw_e0_center (hs : Z2SetR r n R S t J u R₀ T₀ P)
     (e₀ : ↥R₀ ≃* QuaternionGroup (2 ^ (r - 2))) :
     ((e₀.symm (QuaternionGroup.a (2 ^ (r - 2) : ℕ)) : ↥R₀) : Y) = t := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have h2 : (QuaternionGroup.a (2 ^ (r - 2) : ℕ) : QuaternionGroup (2 ^ (r - 2))) *
       QuaternionGroup.a (2 ^ (r - 2) : ℕ) = 1 :=
     (QuatAutH.mul_self_eq_one_iff _).mpr (Or.inr rfl)

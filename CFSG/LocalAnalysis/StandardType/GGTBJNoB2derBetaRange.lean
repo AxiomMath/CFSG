@@ -56,7 +56,7 @@ private lemma l48bR_ker_iff {G : Type} [Group G] {B L : Subgroup G}
 
 theorem ggB2der_beta_range {G : Type} [Group G] [Finite G] {B L : Subgroup G} {x : G}
     {hBL : B ≤ Subgroup.normalizer (L : Set G)} {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hK : Nat.card K = 2) {r : ℕ} [NeZero r] (hr : 3 ≤ r)
+    (_hK : Nat.card K = 2) {r : ℕ} [NeZero r] (_hr : 3 ≤ r)
     {ψ : ↥L →* LargeEvenProj (LargeEvenSpGroup K r)}
     {β : ↥B →* LargeEvenProj (LargeEvenSpGroup K r)} (hM : GGB2derModelProp B L hBL ψ β)
     (hperf : commutator ↥L = ⊤) (hB : IsElemAbelian 3 B) (hxB : x ∈ B) (hx1 : x ≠ 1)

@@ -157,7 +157,7 @@ theorem edges :
     ∀ i < 600, ∀ k < 3, E i k < 600 ∧
       treeArr 8330 heFiveC0Gens C0.P C0.L (E i k) =
         compA 8330 heFiveC0Gens[k]! (treeArr 8330 heFiveC0Gens C0.P C0.L i) :=
-  edges_of_edgeAtK tree hg hgs (fun a ha b hb => he_mul_mem_iff ha hb) gp_mem gp_par q_lt bs_lt
+  edges_of_edgeAtK tree hg hgs (fun _a ha _b hb => he_mul_mem_iff ha hb) gp_mem gp_par q_lt bs_lt
     faithful fun i hi => allN_spec kEdge i hi
 
 theorem keys_lt : ∀ p ∈ heFiveKeys, p < 8330 := by decide

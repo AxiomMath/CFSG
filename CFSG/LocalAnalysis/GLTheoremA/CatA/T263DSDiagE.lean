@@ -40,7 +40,7 @@ end Bridge
 theorem t263DiagStep_holds : T263DiagStep := by
   intro p hp hp2 Ω _ _ S B x J W hSn hSq hSp hBel hxB hxC hJ hJq hWJ hW2 hWB hWnc
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup Ω := S ⊓ Subgroup.centralizer ({x} : Set Ω) with hX
   have hBc : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := fun a ha b hb => isElemAbelian_commute hBel ha hb
   have hBX : B ≤ Subgroup.normalizer (X : Set Ω) := by

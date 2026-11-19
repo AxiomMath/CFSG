@@ -18,6 +18,7 @@ section Generic
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_coe_mul_mul_card_inf (A B : Subgroup G) :
     Nat.card ((A : Set G) * (B : Set G)) * Nat.card (A ⊓ B : Subgroup G) =
       Nat.card A * Nat.card B := by
@@ -99,6 +100,7 @@ theorem commutator_mem_of_coprime_trivial {P A Y Z : Subgroup G}
     group]
   exact mul_mem (hB c hc.1 _ (hn.2 y hy)) (hC c hc y hy)
 
+omit [Finite G] in
 theorem mem_of_map_upperCentralSeries_succ {P Z Z' : Subgroup G} {n : ℕ}
     (hZ : (Subgroup.upperCentralSeries P n).map P.subtype = Z)
     (hZ' : (Subgroup.upperCentralSeries P (n + 1)).map P.subtype = Z') {x : G} :
@@ -168,6 +170,7 @@ theorem le_of_index_two_of_fixed_le {C₀ A B D₁ J : Subgroup G} {t : G}
     have := mul_mem (inv_mem (hD₁A hd)) hcA
     rwa [hcd, inv_mul_cancel_left] at this
 
+omit [Finite G] in
 theorem mem_normalizer_map_conj {A : Subgroup G} {w g : G} (hg : g ∈ normalizer (A : Set G)) :
     w * g * w⁻¹ ∈ normalizer ((A.map (MulAut.conj w).toMonoidHom : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff]
@@ -330,6 +333,7 @@ theorem yamadaP_inf_centralizer_le (hW : CFSG.Walter.WalterOrderForm) (h : Setup
   rw [← hPR₅]
   exact ⟨hcP, h3⟩
 
+omit [Finite K] in
 theorem isPGroup_yamadaR₈ (d : G2Data L K) (t : G) : IsPGroup 2 (yamadaR₈ d t) :=
   LieType.BorelTits.pCoreOf_isPGroup 2 _
 
@@ -393,7 +397,7 @@ theorem yamada_5_52 (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : 
   have hbot : ∀ g : G, g ∈ normalizer ((⊥ : Subgroup G) : Set G) := fun g => by
     rw [mem_normalizer_iff]
     intro n
-    simp only [SetLike.mem_coe, Subgroup.mem_bot, mul_inv_eq_one, mul_eq_one_iff_eq_inv]
+    simp only [Subgroup.mem_bot, mul_eq_one_iff_eq_inv]
     constructor
     · intro hn
       simp [hn]
@@ -530,8 +534,9 @@ theorem yamadaC₁_le_yamadaCstar (h : Setup G L f t) (d : G2Data L K) (hK : Nat
   rw [← hC₁inf]
   exact inf_le_left
 
+omit [Finite K] [CharP K 2] in
 theorem inf_normalizer_U_le_normalizer_yamadaC₇ (h : Setup G L f t) (d : G2Data L K) :
-    L ⊓ normalizer (d.U : Set G) ≤ normalizer (yamadaC₇ d t : Set G) := fun n hn =>
+    L ⊓ normalizer (d.U : Set G) ≤ normalizer (yamadaC₇ d t : Set G) := fun _n hn =>
   LieType.BorelTits.le_normalizer_pCoreOf 2 _ (h.inf_normalizer_U_le_normalizer_yamadaC₁ d hn)
 
 theorem mul_self_mem_yamadaC₁_of_mem_yamadaCstar (h : Setup G L f t) (d : G2Data L K)
@@ -555,6 +560,7 @@ theorem mul_self_mem_yamadaC₁_of_mem_yamadaCstar (h : Setup G L f t) (d : G2Da
   have := mul_mem hδ2 h1
   rwa [mul_inv_cancel_left] at this
 
+omit [Finite K] in
 theorem yamadaD₁_le_yamadaS₂ (h : Setup G L f t) (d : G2Data L K) (hD : h.DoublingFacts d) :
     yamadaD₁ d t ≤ yamadaS₂ d t := by
   obtain ⟨-, -, -, -, -, -, -, hDS, -, -⟩ := d.inclusions

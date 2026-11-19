@@ -108,7 +108,7 @@ theorem kleinian_pair_J : ∃ S : Subgroup J,
 theorem inspPair_of_card_three {ℓ : ℕ} {R₀ : Subgroup J}
     (h : InspPair ℓ (Subgroup.zpowers (CFSG.Sporadic.J1.b : J)) R₀)
     (D : Subgroup J) (hD : Nat.card D = 3) : ∃ R : Subgroup J, InspPair ℓ D R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac := factorization_three_card_J
   have hb : Nat.card (Subgroup.zpowers (CFSG.Sporadic.J1.b : J)) =
       3 ^ (Nat.card J).factorization 3 := by

@@ -37,11 +37,11 @@ theorem countN_eq (n : Nat) (f : Nat → Bool) :
     rw [ih, Finset.range_add_one, Finset.filter_insert]
     cases hfn : f n with
     | true =>
-      rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+      rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       change 1 + _ = _
       omega
     | false =>
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
       change 0 + _ = _
       omega
 

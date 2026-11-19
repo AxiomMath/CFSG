@@ -22,7 +22,7 @@ theorem Hyp.s56_J_sup_Q2 (h49 : d.Thm49Statement) (hd : d.Hyp) :
   obtain ⟨-, hQ2c, -, -, hQ0c, -⟩ := hd.s56_structure_M h49
   have hJM : d.s56J ≤ d.M := hd.s56_J_le_M
   have hQ2M : d.s56Q2 ≤ d.M := fun _ hq => ((s56_mem_Q2_iff).1 hq).1
-  haveI : (d.s56Q2.subgroupOf d.M).Normal :=
+  have : (d.s56Q2.subgroupOf d.M).Normal :=
     ⟨fun n hn g => hd.s56_Q2_conj_mem g.2 hn⟩
   have hrel : d.s56Q2.relIndex (d.s56J ⊔ d.s56Q2) = d.s56Q2.relIndex d.s56J := by
     have h := Subgroup.relIndex_sup_right (H := d.s56J.subgroupOf d.M)
@@ -112,7 +112,7 @@ theorem Hyp.s56_C_conj_X_mem_E (hd : d.Hyp) {c g : G} (hc : c ∈ centralizer (d
   have hNC := s56_M_le_normalizer_C d
   let T : Subgroup G :=
     { carrier := {g | g ∈ d.M ∧ ∀ c ∈ centralizer (d.A : Set G), c⁻¹ * (g * c * g⁻¹) ∈ d.E}
-      one_mem' := ⟨one_mem _, fun c hc => by simpa using one_mem d.E⟩
+      one_mem' := ⟨one_mem _, fun c hc => by simp⟩
       mul_mem' := by
         rintro g h ⟨hgM, hg⟩ ⟨hhM, hh⟩
         refine ⟨mul_mem hgM hhM, fun c hc => ?_⟩
@@ -144,8 +144,8 @@ theorem Hyp.s56_C_conj_X_mem_E (hd : d.Hyp) {c g : G} (hc : c ∈ centralizer (d
 
 theorem Hyp.s56_Q_inf_C (h49 : d.Thm49Statement) (hd : d.Hyp) :
     d.s56Q ⊓ centralizer (d.A : Set G) = d.E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨z₁, hz₁Q2, hz₁Q, hεz, -, hdich⟩ := hd.s56_exists_z1 h49
   have hSQ := hd.s56_Q_comm_le_S h49 hz₁Q2 hεz hdich
   have hEQ := hd.s56_E_le_Q h49
@@ -198,8 +198,8 @@ theorem Hyp.s56_CQX_le_S (h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
     (hz₁ : z₁ ∈ d.s56Q2) (hε : d.s56Eps z₁ = d.z)
     (hdich : ∀ q ∈ d.s56Q2, d.s56Cm q ∈ d.E ∨ ∃ e ∈ d.E, d.s56Cm q = z₁ * e) :
     d.s56Q ⊓ centralizer ((zpowers d.x₅ : Subgroup G) : Set G) ≤ d.E ⊔ zpowers z₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ2 : IsPGroup 2 d.s56Q := IsPGroup.to_le (s56_Q0_isPGroup d) hd.s56_Q_le_Q0
   have hQX : zpowers d.x₅ ≤ normalizer (d.s56Q : Set G) :=
     hd.s56_X_le_M.trans (hd.s56_M_le_normalizer_Q h49)
@@ -207,8 +207,8 @@ theorem Hyp.s56_CQX_le_S (h49 : d.Thm49Statement) (hd : d.Hyp) {z₁ : G}
     (S56.centralizer_le_derived_of_commutator_eq (p := 2) (r := 5) (by norm_num)
       hQ2 hd.s56_X_isPGroup hQX hd.s56_Q_comm_X hw)
 
-theorem Hyp.s56_E_le_Q2 (hd : d.Hyp) : d.E ≤ d.s56Q2 := fun e he =>
-  (s56_mem_Q2_iff).2 ⟨s56_E_le_M d he, fun e' he' => hd.s56_E_comm he' he⟩
+theorem Hyp.s56_E_le_Q2 (hd : d.Hyp) : d.E ≤ d.s56Q2 := fun _e he =>
+  (s56_mem_Q2_iff).2 ⟨s56_E_le_M d he, fun _e' he' => hd.s56_E_comm he' he⟩
 
 theorem Hyp.s56_eps_of_comm (hd : d.Hyp) {m : G} (hm : m * d.t = d.t * m) : d.s56Eps m = 1 := by
   rw [s56Eps]

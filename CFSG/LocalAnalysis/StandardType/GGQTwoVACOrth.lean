@@ -57,7 +57,7 @@ theorem ggQ2OrthPlus_gamma_upper
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :
     Nat.card (ggGamma L hBsN).range ≤ 3 ^ m := by
   classical
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))
   let A : Subgroup (MulAut ↥L) := (ggGamma L hBsN).range
   have hcfg : GGConfig 3 B Bs x L D J := hS.1.1
@@ -82,7 +82,7 @@ theorem ggQ2OrthPlus_gamma_upper
   have h3eq : Nat.card K + 1 = 3 := by rw [hK]
   rw [h3eq] at hTor
   obtain ⟨w, hw⟩ := hTor
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ggTD_card_range_le_pow (p := 3) (m := 3) (N := m)
     (C := CartanMatrix.D m) (M := ggCoxeterMatrixD m) (by norm_num) (by norm_num)
     hBsE hSC hBsN w hw
@@ -173,7 +173,7 @@ theorem ggQ2OrthPlus_gamma_lower
     3 ^ m ≤ Nat.card (ggGamma L hBsN).range := by
   classical
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K (m' + 1)))
   have hAI : ∀ a ∈ (ggGamma L hBsN).range, ∃ φ ∈ LargeEvenInnSet R, ∀ l : L,
       φ (ggQuotHom θ l) = ggQuotHom θ (a l) := by
@@ -237,7 +237,7 @@ theorem ggQ2OrthMinus_gamma_upper
     Nat.card (ggGamma L hBsN).range ≤ 3 ^ m := by
   classical
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m' b c))
   let A : Subgroup (MulAut ↥L) := (ggGamma L hBsN).range
   have hcfg : GGConfig 3 B Bs x L D J := hS.1.1
@@ -261,7 +261,7 @@ theorem ggQ2OrthMinus_gamma_upper
   have h3eq : Nat.card K + 1 = 3 := by rw [hK]
   rw [h3eq] at hTor
   obtain ⟨w, hw⟩ := hTor
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ggTD_card_range_le_pow (p := 3) (m := 3) (N := m' + 1)
     (C := CartanMatrix.D (m' + 1)) (M := ggCoxeterMatrixD (m' + 1))
     (by norm_num) (by norm_num) hBsE hSC hBsN w hw
@@ -280,7 +280,7 @@ theorem ggQ2OrthMinus_gamma_lower
     3 ^ m ≤ Nat.card (ggGamma L hBsN).range := by
   classical
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK, pow_one])
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m' b c))
   have hAI : ∀ a ∈ (ggGamma L hBsN).range, ∃ φ ∈ LargeEvenInnSet R, ∀ l : L,
       φ (ggQuotHom θ l) = ggQuotHom θ (a l) := by
@@ -362,7 +362,7 @@ theorem ggQ2TBFull_of_orthFull
     dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
     have hrankD : 4 ≤ (⟨.D, rank, n⟩ : LargeEvenLabel).rank := by simpa using hrank
     have hrk3 : (⟨.D, rank, n⟩ : LargeEvenLabel).rank ≠ 3 := by omega
-    rw [if_neg hrk3, hn1] at hraw
+    rw [ite_eq_right hrk3, hn1] at hraw
     obtain ⟨K, i1, i2, hK, hQ⟩ := hraw
     obtain ⟨-, -, θ, hQ⟩ := hQ
     obtain ⟨-, hBsN, hBsI0⟩ := hQ
@@ -376,7 +376,7 @@ theorem ggQ2TBFull_of_orthFull
     have hrankTwD : 4 ≤ (⟨.twD, rank, n⟩ : LargeEvenLabel).rank := by simpa using hrank
     have hrk2 : (⟨.twD, rank, n⟩ : LargeEvenLabel).rank ≠ 2 := by omega
     have hrk3 : (⟨.twD, rank, n⟩ : LargeEvenLabel).rank ≠ 3 := by omega
-    rw [if_neg hrk2, if_neg hrk3, hn1] at hraw
+    rw [ite_eq_right hrk2, ite_eq_right hrk3, hn1] at hraw
     obtain ⟨K, i1, i2, hK, b, c, hbc, hQ⟩ := hraw
     obtain ⟨-, -, θ, hQ⟩ := hQ
     obtain ⟨-, hBsN, hBsI0⟩ := hQ

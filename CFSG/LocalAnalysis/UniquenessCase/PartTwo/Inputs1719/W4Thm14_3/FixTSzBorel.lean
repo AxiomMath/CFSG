@@ -22,8 +22,8 @@ theorem borelMoves_of_surjective_sz {W : Type} [CommGroup W]
       ∃ l : Kˣ, ((π (suzukiDElt a K l) : ↥L) : MulAut W) x ≠ x) :
     ∃ S₀ : Subgroup (MulAut W), IsSylowIn 2 S₀ L ∧ BorelMoves L S₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   let U₀ : Subgroup ↥(CFSG.Blueprint.suzukiGroup a K) := suzukiU a K
   let T₀ : Subgroup ↥(CFSG.Blueprint.suzukiGroup a K) := suzukiT a K
   have hU₀ : IsSylowIn 2 U₀ ⊤ := by

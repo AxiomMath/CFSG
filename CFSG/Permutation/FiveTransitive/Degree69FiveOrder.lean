@@ -45,7 +45,7 @@ theorem card_le_five
   by_cases hS : Nat.card S = 1
   · omega
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hF : Nat.card (fixedPoints Q X) = 9 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact (Degree69FiveFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS).1

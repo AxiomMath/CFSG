@@ -31,9 +31,9 @@ theorem l154d4tp_twoPart_card_of_odd_factor {M : Type*} [Group M] {G C T : Subgr
     (hCG : C ≤ G) (hTG : T ≤ G) (hnormC : ∀ y ∈ G, ∀ x ∈ C, y * x * y⁻¹ ∈ C)
     (hTodd : Odd (Nat.card T)) (hdec : ∀ y ∈ G, ∃ t ∈ T, ∃ x ∈ C, y = t * x) :
     twoPart (Nat.card G) = twoPart (Nat.card C) := by
-  haveI : Finite T := Finite.of_injective (Subgroup.inclusion hTG)
+  have : Finite T := Finite.of_injective (Subgroup.inclusion hTG)
     (Subgroup.inclusion_injective hTG)
-  haveI hnorm : (C.subgroupOf G).Normal := ⟨fun x hx y => by
+  have hnorm : (C.subgroupOf G).Normal := ⟨fun x hx y => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hnormC y.1 y.2 x.1 hx⟩
   let φ : ↥T →* ↥G ⧸ C.subgroupOf G :=
@@ -55,7 +55,7 @@ theorem l154d4tp_twoPart_card_of_odd_factor {M : Type*} [Group M] {G C T : Subgr
     Subgroup.card_eq_card_quotient_mul_card_subgroup _
   have hC' : Nat.card (C.subgroupOf G) = Nat.card C :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCG).toEquiv
-  haveI : Finite C := Finite.of_injective (Subgroup.inclusion hCG)
+  have : Finite C := Finite.of_injective (Subgroup.inclusion hCG)
     (Subgroup.inclusion_injective hCG)
   rw [hcardG, hC', l154d4tp_twoPart_mul_odd hodd Nat.card_pos.ne']
 
@@ -88,16 +88,19 @@ variable
     Subgroup (ModGL τ L) :=
   rootSpan τ L Ψ ⊓ (frobGL σ).eqLocus (MonoidHom.id _)
 
+omit [IsAlgClosed L] in
 theorem l154d4tp_unionRootSpan_singleton (i : KernelComponent χ) :
     unionRootSpan L χ ({i} : Set (KernelComponent χ)) = rootSpan τ L (componentRoots χ i) := by
   change rootSpan τ L (unionRoots χ ({i} : Set (KernelComponent χ))) = _
   rw [unionRoots_singleton]
 
+omit [IsAlgClosed L] in
 theorem mem_l154d4tpFix {σ : L ≃+* L} {Ψ : Set (Fin τ.rank → ℤ)} {x : ModGL τ L} :
     x ∈ l154d4tpFix σ Ψ ↔ x ∈ rootSpan τ L Ψ ∧ frobGL σ x = x := Iff.rfl
 
 variable (σ : L ≃+* L) (i : KernelComponent χ)
 
+omit [IsAlgClosed L] in
 theorem l154d4tp_CQ_le_rootSpan : CQ σ i ≤ rootSpan τ L (componentRoots χ i) := by
   unfold CQ
   refine (Subgroup.closure_le _).2 ?_
@@ -105,6 +108,7 @@ theorem l154d4tp_CQ_le_rootSpan : CQ σ i ≤ rootSpan τ L (componentRoots χ i
   rw [unionRoots_singleton] at hγ
   exact pinnedX_mem_rootSpan hγ c
 
+omit [IsAlgClosed L] in
 theorem l154d4tp_frobGL_eq_self_of_mem_CQ {x : ModGL τ L} (hx : x ∈ CQ σ i) : frobGL σ x = x := by
   have : CQ σ i ≤ (frobGL σ).eqLocus (MonoidHom.id _) := by
     unfold CQ
@@ -114,7 +118,8 @@ theorem l154d4tp_frobGL_eq_self_of_mem_CQ {x : ModGL τ L} (hx : x ∈ CQ σ i) 
     rw [frobGL_pinnedX, hc]
   exact this hx
 
-theorem l154d4tp_fix_decomp (hs : ∃ s : Lˣ, s ^ 2 ≠ 1) {y : ModGL τ L}
+omit [IsAlgClosed L] in
+theorem l154d4tp_fix_decomp (_hs : ∃ s : Lˣ, s ^ 2 ≠ 1) {y : ModGL τ L}
     (hy : y ∈ l154d4tpFix σ (componentRoots χ i)) :
     ∃ t ∈ unionTorus L χ ({i} : Set (KernelComponent χ)), frobGL σ t = t ∧
       ∃ x ∈ CQ σ i, y = t * x := by
@@ -125,6 +130,7 @@ theorem l154d4tp_fix_decomp (hs : ∃ s : Lˣ, s ^ 2 ≠ 1) {y : ModGL τ L}
     (by rw [one_mul]; exact (mem_l154d4tpFix.1 hy).2)
   exact ⟨t, ht, by simpa using hφ, x, hx, hyt⟩
 
+omit [IsAlgClosed L] in
 theorem l154d4tp_odd_card_fixTorus {e : ℕ} (he : 1 ≤ e) (hσ : ∀ c, σ c = c ^ (2 ^ e))
     [Finite ↥(unionTorus L χ ({i} : Set (KernelComponent χ)) ⊓
       (frobGL σ).eqLocus (MonoidHom.id _))] :
@@ -143,6 +149,7 @@ theorem l154d4tp_odd_card_fixTorus {e : ℕ} (he : 1 ≤ e) (hσ : ∀ c, σ c =
     have h4 : (t : ModGL τ L) ^ (2 ^ e - 1) = 1 := mul_eq_right.1 h3
     simpa using h4
 
+omit [IsAlgClosed L] in
 theorem l154d4tp_CQ_conj_mem (hs : ∃ s : Lˣ, s ^ 2 ≠ 1) {y : ModGL τ L}
     (hy : y ∈ l154d4tpFix σ (componentRoots χ i)) {x : ModGL τ L} (hx : x ∈ CQ σ i) :
     y * x * y⁻¹ ∈ CQ σ i := by
@@ -165,14 +172,14 @@ theorem l154d4tp_fix_twoPart {e : ℕ} (he : 1 ≤ e) (hσ : ∀ c, σ c = c ^ (
     twoPart (Nat.card ↥(l154d4tpFix σ (componentRoots χ i))) =
       2 ^ (e * (posRoots (componentRoots χ i)).ncard) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hfinK, hKcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.finite_card_fixSubfield (L := L) (r := 2)
       (n := e) (by omega) σ hσ
-  haveI := hfinK
+  have := hfinK
   have hCG : CQ σ i ≤ l154d4tpFix σ (componentRoots χ i) := fun x hx =>
     ⟨l154d4tp_CQ_le_rootSpan σ i hx, l154d4tp_frobGL_eq_self_of_mem_CQ σ i hx⟩
-  haveI : Finite ↥(CQ σ i) := Finite.of_injective (Subgroup.inclusion hCG)
+  have : Finite ↥(CQ σ i) := Finite.of_injective (Subgroup.inclusion hCG)
     (Subgroup.inclusion_injective hCG)
   have hCcard : Nat.card (CQ σ i) = Nat.card (componentRootSpan (fixSubfield σ) χ i) := by
     rw [CQ_eq_map i σ]
@@ -186,7 +193,7 @@ theorem l154d4tp_fix_twoPart {e : ℕ} (he : 1 ≤ e) (hσ : ∀ c, σ c = c ^ (
     ⟨by
       rw [← l154d4tp_unionRootSpan_singleton]
       exact unionTorus_le_unionRootSpan ht.1, ht.2⟩
-  haveI : Finite ↥(unionTorus L χ ({i} : Set (KernelComponent χ)) ⊓
+  have : Finite ↥(unionTorus L χ ({i} : Set (KernelComponent χ)) ⊓
       (frobGL σ).eqLocus (MonoidHom.id _)) :=
     Finite.of_injective (Subgroup.inclusion hTG) (Subgroup.inclusion_injective hTG)
   rw [l154d4tp_twoPart_card_of_odd_factor hCG hTG
@@ -251,14 +258,14 @@ theorem l154d4tp_layer_twoPart (S₀ : LangSetup τ L p) {a : Fin τ.rank → L�
       have hgf' : frobGL σ g = g := hgf
       rw [show S₀.D.step (z * g * z⁻¹) = iterHom S₀.D.step 1 (z * g * z⁻¹) from rfl, h1, hgf']
   have hfinH : Finite ↥(rootSpan τ L Ψ ⊓ S₀.D.model) := by
-    haveI := S₀.finite
+    have := S₀.finite
     exact Finite.of_injective (Subgroup.inclusion (inf_le_right :
       rootSpan τ L Ψ ⊓ S₀.D.model ≤ S₀.D.model)) (Subgroup.inclusion_injective _)
   have hcongr : Nat.card ↥(rootSpan τ L Ψ ⊓ S₀.D.model) = Nat.card ↥(l154d4tpFix σ Ψ) := by
     rw [hlayer]
     exact Nat.card_congr ((l154d4tpFix σ Ψ).equivMapOfInjective (MulAut.conj z).toMonoidHom
       (MulAut.conj z).injective).toEquiv.symm
-  haveI : Finite ↥(l154d4tpFix σ Ψ) := by
+  have : Finite ↥(l154d4tpFix σ Ψ) := by
     have h : Finite ↥((l154d4tpFix σ Ψ).map (MulAut.conj z).toMonoidHom) := hlayer ▸ hfinH
     exact Finite.of_equiv _ ((l154d4tpFix σ Ψ).equivMapOfInjective (MulAut.conj z).toMonoidHom
       (MulAut.conj z).injective).toEquiv.symm

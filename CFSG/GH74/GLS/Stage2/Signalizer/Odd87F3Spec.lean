@@ -77,7 +77,7 @@ theorem not_mem_pGroup_of_pow_ne_one {M : Type*} [Group M] {G N : Subgroup M} {p
   rw [← orderOf_dvd_iff_pow_eq_one, hj']
   exact pow_dvd_pow p hjk
 
-theorem f3S_core' {G : Subgroup (Equiv.Perm (Fin n))} {u : Equiv.Perm (Fin n)} (hu2 : u * u = 1)
+theorem f3S_core' {G : Subgroup (Equiv.Perm (Fin n))} {u : Equiv.Perm (Fin n)} (_hu2 : u * u = 1)
     {p N : ℕ} (hp : p.Prime) (hk : ¬ p ^ (N + 1) ∣ Nat.card G) (ogP : List (Equiv.Perm (Fin n)))
     (hogG : ∀ g ∈ ogP, g ∈ G) (hogC : ∀ g ∈ ogP, u * g = g * u)
     (hogO : ∀ g ∈ ogP, Odd (orderOf g)) (WT : List (Table × Table))

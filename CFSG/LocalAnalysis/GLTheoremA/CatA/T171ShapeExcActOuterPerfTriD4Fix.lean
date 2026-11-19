@@ -14,7 +14,7 @@ theorem excTri_twistedFixedGroup_D4_perfect {L : Type} [Field L] [IsAlgClosed L]
     {f : ℕ} (hf : 1 ≤ f) (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) :
     Group.IsPerfect ↥(twistedFixedGroup TwistTag.D4 L Fr) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hfin, hcard⟩ :=
     CFSG.HardMathSupport.Timmesfeld.LangTorus.ncard_pow_eq_self (L := L) 2 (3 * f)
       (by omega)
@@ -30,7 +30,7 @@ theorem excTri_twistedFixedGroup_D4_perfect {L : Type} [Field L] [IsAlgClosed L]
   have hKcard : Nat.card K = (2 ^ f) ^ 3 := by
     have h1 : Nat.card K = (K : Set L).ncard := Nat.card_coe_set_eq (K : Set L)
     rw [h1, hset, hcard, ← pow_mul, mul_comm]
-  haveI : CharP K 2 := (Algebra.charP_iff K L 2).2 inferInstance
+  have : CharP K 2 := (Algebra.charP_iff K L 2).2 inferInstance
   let σ : K →+* K := iterateFrobenius K 2 f
   have hσ : ∀ c, σ c = c ^ ((2 ^ f) ^ 1) := fun c => by
     change iterateFrobenius K 2 f c = _
@@ -38,12 +38,12 @@ theorem excTri_twistedFixedGroup_D4_perfect {L : Type} [Field L] [IsAlgClosed L]
   let C₀ : Subgroup (ModGL TwistTag.D4.tag K) := graphFixedRootGroup TwistTag.D4 K σ
   have hsimple := CFSG.RankThree.PartOne.KD4L.isSimple_graphFixedRootGroup_triality
     (ℓ := 2) (d := f) Nat.prime_two hf (K := K) hKcard 1 (Or.inl rfl) σ hσ
-  haveI : IsSimpleGroup C₀ := hsimple.1
+  have : IsSimpleGroup C₀ := hsimple.1
   have hnc : ¬ IsMulCommutative C₀ := by
     intro hcomm
     obtain ⟨x, y, hxy⟩ := hsimple.2
     exact hxy (isMulCommutative_iff.1 hcomm x y)
-  haveI : Group.IsPerfect C₀ :=
+  have : Group.IsPerfect C₀ :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
   have hfixed₀ := CFSG.RankThree.PartOne.KD4L.d4_fixed_set_eq_map_general
     (ℓ := 2) (d := f) Nat.prime_two hf (K := K) hKcard (Ω := L) 1 (Or.inl rfl) σ hσ Fr hFr

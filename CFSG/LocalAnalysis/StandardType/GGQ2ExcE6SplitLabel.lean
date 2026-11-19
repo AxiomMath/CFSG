@@ -286,7 +286,7 @@ theorem componentLabel_e6Split_eq_label (hS : E6SplitLangTwo S) {ι : Type}
       · exact hYne.ne_empty hYempty
       · have hRdiff : R \ Y = ∅ := by
           rw [hYfull, ← hΨR]
-          exact Set.diff_self
+          exact Set.sdiff_self
         exact hYcomp.ne_empty hRdiff
     have he2 : e = 2 := by omega
     have hn2 : n = 2 := by omega

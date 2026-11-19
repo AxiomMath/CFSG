@@ -37,12 +37,12 @@ theorem ggF4TwoSCNoTwoLocal_holds :
   intro R _ _ hR E hE hcard hsc S hS hnorm
   obtain ⟨K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434Exc.exists_mulEquiv_adjointGroup hR
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [← Nat.card_eq_fintype_card, hK])
-  haveI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K ReeTag.F4.prime := ‹CharP K 2›
   by_contra hSne
   have hE' : IsElemAbelian 3 (E.map e.toMonoidHom) := TableB.isElemAbelian_map hE _
   have hcard' : Nat.card (E.map e.toMonoidHom) = 3 ^ 3 := by

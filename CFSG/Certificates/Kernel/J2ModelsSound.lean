@@ -33,7 +33,7 @@ theorem decompColsG_eq_fold (yD : Nat → Nat → Nat × Nat) (mtA : Array (Arra
     decompColsG yD mtA gn pr = ((colsFold yD mtA gn pr 127).1, (colsFold yD mtA gn pr 127).2) := by
   unfold decompColsG colsFold colsOuter colsStep
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', List.forIn_pure_yield_eq_foldl,
-    Std.Legacy.Range.size, bind_pure_comp, map_pure, pure_bind, bind_pure]
+    Std.Legacy.Range.size, bind_pure_comp, map_pure]
   simp only [Nat.sub_zero, Nat.add_sub_cancel, Nat.div_one]
   rfl
 

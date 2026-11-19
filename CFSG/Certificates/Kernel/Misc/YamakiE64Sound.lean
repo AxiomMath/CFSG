@@ -13,7 +13,7 @@ open CFSG.KD.Sp62 (MULF ONE)
 
 variable {R : ℕ → ℕ} {o : ℕ}
 
-theorem coreLen_map (T : List ℕ) (hT : ∀ x ∈ T, x < 2 ^ 36) :
+theorem coreLen_map (T : List ℕ) (_hT : ∀ x ∈ T, x < 2 ^ 36) :
     ((T.map arrN).filter fun x =>
         decide (64 ≤ ((T.map arrN).filter fun y => decide (compA x y = compA y x)).length)).length =
       coreLen T := by
@@ -78,7 +78,7 @@ theorem e64Check_of {RA PA PB PAA PBA : ℕ → ℕ}
     change i < 32 * (i / 32) + 32
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at e
   simp only [e64At, CFSG.KC.YamakiRepF.strictY_eq] at e
   rw [e4 i hi]
   beta_reduce

@@ -18,18 +18,20 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] {Y : Type} [Group Y] [
 
 
 
+omit [Finite Y] in
 theorem thm107_card_dvd_sec622N (H : HypYW ρ t u x h) : Nat.card Y ∣ sec622N := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   have h1 : Nat.card Y ∣ Nat.card (V ≃ₗ[ZMod 2] V) := Subgroup.card_dvd_of_injective ρ H.inj
   rw [CFSG.GF2Type.Smith1980Orth.W4Sigma.card_linearEquiv_eq_prod H.dim] at h1
   have h2 : ∏ i : Fin 8, (2 ^ 8 - 2 ^ (i : ℕ)) = sec622N := by
     simp [Fin.prod_univ_succ, sec622N]
   rwa [h2] at h1
 
+omit [Finite Y] in
 theorem thm107_two_elements_pow_eight (H : HypYW ρ t u x h) :
     ∀ g : Y, (∃ k : ℕ, orderOf g = 2 ^ k) → g ^ 8 = 1 := by
   rintro g ⟨k, hk⟩
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   have hg : (ρ g) ^ (2 ^ k) = 1 := by
     rw [← map_pow, ← hk, pow_orderOf_eq_one, map_one]
   have := pow_eq_one_of_two_pow (ρ g) hg (m := 3) (by rw [H.dim]; norm_num)
@@ -37,6 +39,7 @@ theorem thm107_two_elements_pow_eight (H : HypYW ρ t u x h) :
   rw [map_pow, map_one]
   simpa using this
 
+omit [Finite Y] in
 theorem thm107_closure_pair_inv (t u : Y) : closure ({t, u⁻¹} : Set Y) = closure {t, u} := by
   refine le_antisymm ((Subgroup.closure_le _).2 ?_) ((Subgroup.closure_le _).2 ?_)
   · rintro g (rfl | rfl)
@@ -48,6 +51,7 @@ theorem thm107_closure_pair_inv (t u : Y) : closure ({t, u⁻¹} : Set Y) = clos
       rw [this]
       exact inv_mem (subset_closure (by simp))
 
+omit [Finite Y] in
 theorem thm107_closure_triple_inv (t u x : Y) :
     closure ({t, u⁻¹, x} : Set Y) = closure {t, u, x} := by
   refine le_antisymm ((Subgroup.closure_le _).2 ?_) ((Subgroup.closure_le _).2 ?_)
@@ -62,6 +66,7 @@ theorem thm107_closure_triple_inv (t u x : Y) :
       exact inv_mem (subset_closure (by simp))
     · exact subset_closure (by simp)
 
+omit [Finite Y] in
 theorem thm107_exists_u_sq (H : HypYW ρ t u x h) :
     ∃ u' : Y, u' * x * u'⁻¹ = x ^ 2 ∧ u' ^ 2 = u ^ 2 ∧ SecTwoHyp Y t u' ∧
       closure ({t, u', x} : Set Y) = closure {t, u, x} := by

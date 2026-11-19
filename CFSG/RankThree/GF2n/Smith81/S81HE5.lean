@@ -44,7 +44,7 @@ theorem lgenBar_eq_fstar_E5_of (h34 : Stroth34Statement) (hGen : StrothGenByBSta
     rw [hFv] at h
     exact (pow_dvd_pow 2 (by nlinarith : 2 ≤ f * 63)).trans h
   have hC := Insp.centralizer_fstar_eq_bot hS h4F
-  haveI : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
+  have : (generalizedFitting (SubCfgGroup M Q Z)).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := SubCfgGroup M Q Z)).2
   obtain ⟨K, _, _, _, hK, ⟨g⟩⟩ := E7Model.exists_equiv_EGrp_of_lieModel hLF
   set e := g.trans (HardMathSupport.Cooperstein.Coordinator.Survivors.e7Equiv (K := K))
@@ -105,7 +105,7 @@ theorem exists_lgen_hom_EAut_E5_of (h34 : Stroth34Statement) (hGen : StrothGenBy
   obtain ⟨t, hD, hE5⟩ := h5
   obtain ⟨hN, f, hf, hLF⟩ :=
     lieModel_of_caseE5_recursion hb (hSt _ hb.1) SubCfg.subConfigE5Statement_holds hc hD hE5
-  haveI := hN
+  have := hN
   have hEq := lgenBar_eq_fstar_E5_of h34 hGen hSt hb hc ⟨t, hD, hE5⟩
   obtain ⟨K, _, _, _, hK, ⟨g⟩⟩ := E7Model.exists_equiv_EGrp_of_lieModel hLF
   have hLH := Br37.Lgen_LB_le_H0 hc.ctx

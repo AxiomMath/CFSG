@@ -14,7 +14,7 @@ theorem s16h_not_dvd_of_central_sylow {H : Type*} [Group H] [Finite H] {J S : Su
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hS : IsSylowIn p S J)
     (hScen : ∀ s ∈ S, ∀ j ∈ J, s * j = j * s)
     (hJgen : ∃ X : Set H, (∀ g ∈ X, g ^ 2 = 1) ∧ J = closure X) : ¬ p ∣ Nat.card ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Sy : Sylow p ↥J := hS.toSylow
   have hSy_coe : (Sy : Subgroup ↥J) = S.subgroupOf J := IsSylowIn.coe_toSylow hS
   have hSy_centIn : (Sy : Subgroup ↥J) ≤
@@ -31,7 +31,7 @@ theorem s16h_not_dvd_of_central_sylow {H : Type*} [Group H] [Finite H] {J S : Su
     simpa using (hScen (x : H) hxS (y : H) y.property).symm
   obtain ⟨K, hKnorm, hKcop, hKquot⟩ :=
     CFSG.hasNormalPComplement_of_sylow_le_center_normalizer (G := ↥J) p Sy hSy_centIn
-  haveI : K.Normal := hKnorm
+  have : K.Normal := hKnorm
   obtain ⟨X, hXinv, hJX⟩ := hJgen
   have hXK : X ⊆ K.map J.subtype := by
     intro g hg

@@ -187,7 +187,7 @@ theorem isPrimitiveRoot_w0 : IsPrimitiveRoot w0 3 := by
 theorem exists_ne_zero_entry {M : Matrix (Fin 3) (Fin 3) K} (hM : ¬ ∃ c : K, M = c • 1) :
     ∃ i j, M i j ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hM
   exact ⟨0, by ext i j; simp [hcon i j]⟩
 

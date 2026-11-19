@@ -209,12 +209,12 @@ theorem even_of_isSquare_pow {p e : ℕ} (hp : p.Prime) (h : IsSquare (p ^ e)) :
 
 private theorem le_orbLen_even {p e B : ℕ} (hE : Even e) (hB : B ≤ p ^ e) (_hp : 1 ≤ p) :
     (B - 1) / (2 * (p - 1)) ≤ orbLen p e := by
-  rw [orbLen, if_pos hE]
+  rw [orbLen, ite_eq_left hE]
   exact Nat.div_le_div_right (by omega)
 
 private theorem le_orbLen_odd {p e B : ℕ} (hE : ¬ Even e) (hB : B ≤ p ^ e) (_hp : 1 ≤ p) :
     (B - 1) / (p - 1) ≤ orbLen p e := by
-  rw [orbLen, if_neg hE]
+  rw [orbLen, ite_eq_right hE]
   exact Nat.div_le_div_right (by omega)
 
 private theorem two_le_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (he : 1 < e) :
@@ -230,9 +230,9 @@ private theorem two_le_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (he : 1
     calc 2 * (2 * (p - 1)) = 4 * (p - 1) := by ring
       _ ≤ (p + 1) * (p - 1) := Nat.mul_le_mul_right _ h4
   by_cases hE : Even e
-  · rw [orbLen, if_pos hE, Nat.le_div_iff_mul_le (by omega : 0 < 2 * (p - 1))]
+  · rw [orbLen, ite_eq_left hE, Nat.le_div_iff_mul_le (by omega : 0 < 2 * (p - 1))]
     omega
-  · rw [orbLen, if_neg hE, Nat.le_div_iff_mul_le (by omega : 0 < p - 1)]
+  · rw [orbLen, ite_eq_right hE, Nat.le_div_iff_mul_le (by omega : 0 < p - 1)]
     have hstep' : 2 * (p - 1) ≤ p ^ 2 - 1 := by
       calc 2 * (p - 1) ≤ 2 * (2 * (p - 1)) :=
             Nat.mul_le_mul_left _ (by omega)
@@ -263,7 +263,7 @@ theorem sixteen_le_dihedralDeg_mul_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p �
       norm_num at hpowe
       omega
     have hδ : dihedralDeg 3 = 2 := by
-      rw [dihedralDeg, dParam_eq_of_small.1, if_pos (by decide : Even 2)]
+      rw [dihedralDeg, dParam_eq_of_small.1, ite_eq_left (by decide : Even 2)]
     by_cases hE : Even e
     · have he4 : 4 ≤ e := by
         by_contra h
@@ -292,7 +292,7 @@ theorem sixteen_le_dihedralDeg_mul_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p �
       rw [heq] at hq25
       norm_num at hq25
     have hδ : dihedralDeg 5 = 4 := by
-      rw [dihedralDeg, dParam_eq_of_small.2.1, if_pos (by decide : Even 4)]
+      rw [dihedralDeg, dParam_eq_of_small.2.1, ite_eq_left (by decide : Even 4)]
     by_cases hE : Even e
     · have he4 : 4 ≤ e := by
         by_contra h
@@ -322,7 +322,7 @@ theorem sixteen_le_dihedralDeg_mul_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p �
       norm_num at hpowe
       omega
     have hδ : dihedralDeg 7 = 6 := by
-      rw [dihedralDeg, dParam_eq_of_small.2.2.1, if_neg (by decide : ¬ Even 3)]
+      rw [dihedralDeg, dParam_eq_of_small.2.2.1, ite_eq_right (by decide : ¬ Even 3)]
     by_cases hE : Even e
     · have hB : 7 ^ 2 ≤ 7 ^ e := Nat.pow_le_pow_right (by norm_num) he2
       have h3 : 3 ≤ orbLen 7 e := by
@@ -352,14 +352,14 @@ theorem sixteen_le_dihedralDeg_mul_orbLen {p e : ℕ} (hp : p.Prime) (hp2 : p �
 
 theorem dihedralDeg_mul_orbLen_twentyFive : dihedralDeg 5 * orbLen 5 2 = 12 := by
   have hd : dihedralDeg 5 = 4 := by
-    rw [dihedralDeg, dParam_eq_of_small.2.1, if_pos (by decide : Even 4)]
+    rw [dihedralDeg, dParam_eq_of_small.2.1, ite_eq_left (by decide : Even 4)]
   have ho : orbLen 5 2 = 3 := by
-    rw [orbLen, if_pos (by decide : Even 2)]
+    rw [orbLen, ite_eq_left (by decide : Even 2)]
     norm_num
   rw [hd, ho]
 
 theorem orbLen_one {p : ℕ} (hp : p.Prime) : orbLen p 1 = 1 := by
-  rw [orbLen, if_neg (by decide : ¬ Even 1), pow_one]
+  rw [orbLen, ite_eq_right (by decide : ¬ Even 1), pow_one]
   exact Nat.div_self (by have := hp.two_le; omega)
 
 theorem twentyFour_le_dParam_mul {p e : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (he : 1 < e)
@@ -567,7 +567,7 @@ theorem field_counts_small :
       (7 ^ (2 * 1) - 1) / (2 * (7 - 1)) = 4 ∧ 2 * ((7 ^ 1 - 1) / (7 - 1)) = 2 ∧
       dihedralDeg 7 = 6 := by
   have hd : dihedralDeg 7 = 6 := by
-    rw [dihedralDeg, dParam_eq_of_small.2.2.1, if_neg (by decide : ¬ Even 3)]
+    rw [dihedralDeg, dParam_eq_of_small.2.2.1, ite_eq_right (by decide : ¬ Even 3)]
   norm_num [hd]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.SevenFour

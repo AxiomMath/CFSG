@@ -43,12 +43,12 @@ theorem eq_one_of_commute_sgn_pairs {m : GL (Fin 8) (ZMod 3)} {p : ℕ} (hp : p.
       k ≠ b) a b
     rcases hab2 with ha2 | hb2
     · refine key {a, k} (hc a k ha2 hk2 hka.symm) ?_
-      simp only [sgnOn, Finset.mem_insert, Finset.mem_singleton, true_or, if_true, Ne.symm hab,
-        Ne.symm hkb, or_self, if_false]
+      simp only [sgnOn, Finset.mem_insert, Finset.mem_singleton, true_or, ite_true, Ne.symm hab,
+        Ne.symm hkb, or_self, ite_false]
       decide
     · refine key {b, k} (hc b k hb2 hk2 hkb.symm) ?_
-      simp only [sgnOn, Finset.mem_insert, Finset.mem_singleton, true_or, if_true, hab,
-        Ne.symm hka, or_self, if_false]
+      simp only [sgnOn, Finset.mem_insert, Finset.mem_singleton, true_or, ite_true, hab,
+        Ne.symm hka, or_self, ite_false]
       decide
   have hcol0 : ∀ a, M a 0 = (Pi.single (0 : Fin 8) (1 : ZMod 3) : Fin 8 → ZMod 3) a := by
     intro a
@@ -185,11 +185,11 @@ theorem eq_one_of_commute_sgn_pairs {m : GL (Fin 8) (ZMod 3)} {p : ℕ} (hp : p.
 @[expose] def fixE0 (k : ℕ) : Subgroup (GL (Fin (k + 1)) (ZMod 3)) where
   carrier := {x | (x : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 3)) *ᵥ Pi.single 0 1 = Pi.single 0 1}
   mul_mem' := fun {x y} hx hy => by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Units.val_mul, ← Matrix.mulVec_mulVec, hy, hx]
-  one_mem' := by simp only [Set.mem_setOf_eq, Units.val_one, Matrix.one_mulVec]
+  one_mem' := by simp only [Set.mem_ofPred_eq, Units.val_one, Matrix.one_mulVec]
   inv_mem' := fun {x} hx => by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     conv_lhs => rw [← hx]
     rw [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec]
 
@@ -225,14 +225,14 @@ theorem sgnOn_pair_comm {k : ℕ} {i j l : Fin k} (hij : i ≠ j) (hil : i ≠ l
 
 theorem prod_succ_succ_sgnOn {T : Finset (Fin 8)} (h0 : (0 : Fin 8) ∉ T) (h1 : (1 : Fin 8) ∉ T) :
     ∏ i : Fin 6, sgnOn T i.succ.succ = (-1) ^ T.card := by
-  have e0 : sgnOn T 0 = 1 := if_neg h0
-  have e1 : sgnOn T (Fin.succ 0) = 1 := if_neg h1
+  have e0 : sgnOn T 0 = 1 := ite_eq_right h0
+  have e1 : sgnOn T (Fin.succ 0) = 1 := ite_eq_right h1
   rw [← prod_sgnOn T, Fin.prod_univ_succ (fun i : Fin 8 => sgnOn T i),
     Fin.prod_univ_succ (fun i : Fin 7 => sgnOn T i.succ), e0, e1, one_mul, one_mul]
 
 theorem sgnOn_mem_hSeven {T : Finset (Fin 8)} (h0 : (0 : Fin 8) ∉ T) (h1 : (1 : Fin 8) ∉ T)
     (heven : Even T.card) : spMat 1 (sgnOn T) ∈ hSeven :=
-  ⟨1, sgnOn T, isSign_sgnOn T, ⟨rfl, if_neg h0, rfl, by rw [prod_succ_succ_sgnOn h0 h1,
+  ⟨1, sgnOn T, isSign_sgnOn T, ⟨rfl, ite_eq_right h0, rfl, by rw [prod_succ_succ_sgnOn h0 h1,
     heven.neg_one_pow]⟩, rfl⟩
 
 theorem perm_mem_hSeven {π : Equiv.Perm (Fin 8)} (h0 : π 0 = 0) (h1 : π 1 = 1) :
@@ -333,7 +333,7 @@ theorem e7_eq_one_of_fix {Xg Mg : Subgroup (GL (Fin (7 + 1)) (ZMod 3))}
       (Equiv.swap_apply_of_ne_of_ne (hne01 j hj).2.symm (hne01 k hk).2.symm)
   obtain ⟨x, hxX, hx⟩ := hH _ hα
   obtain ⟨y, hyX, hy⟩ := hH _ hπ
-  have hxe : x ∈ fixE0 7 := by rw [mem_fixE0, hx]; exact spMat_mulVec_e0 rfl (if_neg (by
+  have hxe : x ∈ fixE0 7 := by rw [mem_fixE0, hx]; exact spMat_mulVec_e0 rfl (ite_eq_right (by
     simp [Ne.symm (hne01 i hi2).1, Ne.symm (hne01 k hk).1]))
   have hye : y ∈ fixE0 7 := by
     rw [mem_fixE0, hy]

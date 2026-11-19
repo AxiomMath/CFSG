@@ -72,7 +72,7 @@ theorem lvlGrp_zero_eq_E0 : lvlGrp SP TL 0 = E0 := by
   rw [lvlGrp, E0, Viol.genGrp, hTL]
   congr 1
   ext U
-  simp only [Set.mem_setOf_eq, Viol.GenSet, e0Gens, List.mem_cons, List.not_mem_nil, or_false,
+  simp only [Set.mem_ofPred_eq, Viol.GenSet, e0Gens, List.mem_cons, List.not_mem_nil, or_false,
     exists_eq_or_imp, exists_eq_left, IsP, linP_eq_of_rowsP h0, linP_eq_of_rowsP h1,
     linP_eq_of_rowsP h2]
 

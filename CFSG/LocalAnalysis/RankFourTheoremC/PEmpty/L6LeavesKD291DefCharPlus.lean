@@ -87,7 +87,7 @@ theorem altE_diag {a b : Fin n} (hab : a ≠ b) (i : Fin n) : (altE a b : Matrix
 
 theorem altE_apply_self {a b : Fin n} (hab : a ≠ b) :
     (altE a b : Matrix (Fin n) (Fin n) K) a b = 1 := by
-  simp [altE, Matrix.single_apply, hab, hab.symm]
+  simp [altE, hab, hab.symm]
 
 theorem altE_apply_of_ne {a b i j : Fin n} (h1 : ¬ (a = i ∧ b = j)) (h2 : ¬ (b = i ∧ a = j)) :
     (altE a b : Matrix (Fin n) (Fin n) K) i j = 0 := by
@@ -121,7 +121,7 @@ theorem inv_upperUni {A : GL (Fin n) K} (hA : (A : Matrix (Fin n) (Fin n) K).IsU
       1 := by
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   have hup : ((A⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).IsUpperTriangular := by
-    haveI : Invertible (A : Matrix (Fin n) (Fin n) K) := A.invertible
+    have : Invertible (A : Matrix (Fin n) (Fin n) K) := A.invertible
     rw [Matrix.coe_units_inv]
     exact Matrix.blockTriangular_inv_of_blockTriangular hA
   refine ⟨hup, fun i => ?_⟩
@@ -207,10 +207,10 @@ theorem rankThreeCent_pomegaPlus {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n
     [Group G] [Finite G] (h : StatedClassicalModel G .POmegaPlus n p f) :
     RankThreeCent p G := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hn3 : 3 ≤ n := by omega
   let H : Subgroup (GL (Fin n ⊕ Fin n) K) := StatedOmega (StatedQuadPlus n K)
   let π : ↥H →* G :=
@@ -261,7 +261,7 @@ theorem rankThreeCent_pomegaPlus {p n f : ℕ} [hp : Fact p.Prime] (hn : 4 ≤ n
     exact altE_apply_self h12
 
 theorem inOmegaPlus : InOmegaPlus := fun p n f hp _ hn G _ _ hm => by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact rankThreeCent_pomegaPlus hn hm
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291DC

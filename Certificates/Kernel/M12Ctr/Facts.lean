@@ -87,7 +87,7 @@ theorem imgF_enc3 (f : Nat → Nat) {a b c : Nat} (ha : a < 12) (hb : b < 12) (h
 
 theorem toF_mul (g h : Perm (Fin 12)) (x : Nat) (hx : x < 12) : toF (g * h) x = toF g (toF h x) := by
   simp only [toF, hx, dite_true, Perm.mul_apply]
-  rw [dif_pos (h ⟨x, hx⟩).isLt]
+  rw [dite_eq_left (h ⟨x, hx⟩).isLt]
 
 theorem imgF_toF_mul (g h : Perm (Fin 12)) (n : Nat) :
     imgF (toF (g * h)) n = imgF (toF g) (imgF (toF h) n) := by

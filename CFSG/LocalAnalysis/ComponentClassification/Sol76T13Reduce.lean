@@ -36,7 +36,7 @@ theorem four_dvd_card_centralizer_of_perfect {Q : Type} [Group Q] [Finite Q]
   have hTC : X = (T : Subgroup Q) ⊓ C := by
     refine eq_of_le_of_card_ge (le_inf hXT hXC) ?_
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
-      ((T.isPGroup').to_le (inf_le_left : (T : Subgroup Q) ⊓ C ≤ T))
+      ((T.isPGroup).to_le (inf_le_left : (T : Subgroup Q) ⊓ C ≤ T))
     have hdvd : 2 ^ k ∣ Nat.card C :=
       hk ▸ card_dvd_of_le (inf_le_right : (T : Subgroup Q) ⊓ C ≤ C)
     have hk1 : k ≤ 1 :=
@@ -49,7 +49,7 @@ theorem four_dvd_card_centralizer_of_perfect {Q : Type} [Group Q] [Finite Q]
     rw [h1, orderOf_one] at hx
     norm_num at hx
   have : Nontrivial ↥(T : Subgroup Q) := ⟨⟨_, _, hne⟩⟩
-  have : Nontrivial ↥(center ↥(T : Subgroup Q)) := (T.isPGroup').center_nontrivial
+  have : Nontrivial ↥(center ↥(T : Subgroup Q)) := (T.isPGroup).center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(center ↥(T : Subgroup Q)))
   have hzX : ((z : ↥(T : Subgroup Q)) : Q) ∈ X := by
     rw [hTC]

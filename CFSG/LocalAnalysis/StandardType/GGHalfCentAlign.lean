@@ -29,7 +29,7 @@ theorem exists_conj_nsSL_binary {n s r : ℕ}
       M⁻¹ * SLNS.nsSL ε det_rootMat_phi3 k * M = SLNS.nsSL ε det_rootMat_phi3 k' ∧
       ∀ i, (k' i = 0 ∨ k' i = 1) ∧ (k' i = 0 ↔ k i % 3 = 0) := by
   classical
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   let t : Fin s → ZMod 3 := fun i => (k i : ZMod 3)
   let η : Fin s → (ZMod 3)ˣ := fun i => centAlignEta3 (t i)
   have hη : ∀ i, η i ∈ galExp phi3 root_phi3_pow_three := fun i => galExp_phi3 (η i)

@@ -37,7 +37,7 @@ private theorem ggNSPosPE_su_eq_unitarySU {K : Type} [Field K] [Finite K] [CharP
 
 private theorem ggNSPosPE_isPerfect_su {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} (hcard : Nat.card K = (2 ^ f) ^ 2) (hn : 4 ≤ n) :
     Group.IsPerfect (Su K 2 f n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ : IsUnitaryInvolution (unitaryInvolution K 2 f) :=
     isUnitaryInvolution_unitaryInvolution (p := 2) (f := f) hcard
   exact isPerfect_SUid hσ (by omega) (fun h3 => by omega)
@@ -81,7 +81,7 @@ private theorem ggNSPosPE_scalar_of_induces_one {G : Type} [Group G] {p : ℕ} {
     ∃ u : Kˣ, N = GeneralLinearGroup.scalar (Fin n) u := by
   classical
   have hf : 1 ≤ f := ggNSPosPE_one_le_f hp hp2 hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdata : UnitaryFieldData 2 f K := ggNSPosPE_unitaryFieldData hcard hf
   have hperf : Group.IsPerfect (Su K 2 f n) := ggNSPosPE_isPerfect_su hcard hn
   let τ : Su K 2 f n →* Su K 2 f n :=

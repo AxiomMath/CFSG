@@ -78,7 +78,7 @@ theorem pa450010_G2_red (b : Bool) {y : Perm (Fin 28)}
   have hTT : pT * pT = 1 := pT_mul_self
   have hGT := pG_comm_pT true
   have hGG := pG_mul_self true
-  simp only [if_true] at hGG
+  simp only [ite_true] at hGG
   interval_cases i
   · have hc : Nat.card ↥(K28 b ⊓ centralizer ({y} : Set (Perm (Fin 28)))) = 768 := by
       change 495 * _ = 380160 at hsz

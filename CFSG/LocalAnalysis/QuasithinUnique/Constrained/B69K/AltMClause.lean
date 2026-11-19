@@ -145,7 +145,7 @@ theorem mStructure_general {X T M A L : Subgroup (MulAut V)}
     obtain ⟨τ, -, rfl⟩ := hLφ x hx
     have : τ ∈ R := htop ▸ Subgroup.mem_top τ
     exact this
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hcoatom : IsCoatom (MulAction.stabilizer (Equiv.Perm (Fin m)) p) :=
     MulAction.IsPreprimitive.isCoatom_stabilizer_of_isPreprimitive (Equiv.Perm (Fin m)) p
   have hReq : R = MulAction.stabilizer (Equiv.Perm (Fin m)) p :=

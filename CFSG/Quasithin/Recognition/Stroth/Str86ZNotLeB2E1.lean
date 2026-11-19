@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_smul_inf_centralizer (h : G) (X Y : Subgroup G) :
     MulAut.conj h • (X ⊓ Subgroup.centralizer (Y : Set G)) =
       (MulAut.conj h • X) ⊓ Subgroup.centralizer ((MulAut.conj h • Y : Subgroup G) : Set G) := by
@@ -32,6 +33,7 @@ theorem conj_smul_inf_centralizer (h : G) (X Y : Subgroup G) :
       _ = h⁻¹ * (x * (h * y * h⁻¹)) * h := by rw [h']
       _ = h⁻¹ * x * h * y := by group
 
+omit [Finite G] in
 theorem isElemAbelian_conj_smul {X : Subgroup G} (hX : IsElemAbelian 2 X) (h : G) :
     IsElemAbelian 2 (MulAut.conj h • X) := by
   refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩

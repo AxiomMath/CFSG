@@ -11,7 +11,7 @@ open CFSG.AGLEmbedding (Asc81bHyp barM)
 
 variable {G : Type} [Group G]
 
-theorem conj_mem_barM_of_normalizes {X S L : Subgroup G} (hSX : S ≤ X)
+theorem conj_mem_barM_of_normalizes {X S L : Subgroup G} (_hSX : S ≤ X)
     (hSL : S ≤ normalizer (L : Set G)) {s l : ↥X ⧸ CFSG.pCore 2 ↥X} (hs : s ∈ barM X S)
     (hl : l ∈ barM X L) : s * l * s⁻¹ ∈ barM X L := by
   obtain ⟨x, hxX, hxS, rfl⟩ := mem_barM_iff.1 hs

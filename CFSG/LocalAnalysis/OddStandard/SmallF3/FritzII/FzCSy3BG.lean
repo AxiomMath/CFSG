@@ -37,7 +37,7 @@ private theorem fzc_sy3_c_b_eq (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFact
     simpa [mul_inv_rev, inv_inv, mul_assoc] using hh
   calc q * lam * (rho * a * rho⁻¹) * (q * lam)⁻¹
       = q * (lam * rho * a * rho⁻¹ * lam⁻¹) * q⁻¹ := by
-        simp only [mul_inv_rev, inv_inv]; group
+        simp only [mul_inv_rev]; group
     _ = q * ((lam * rho * lam⁻¹) * (lam * a * lam⁻¹) * (lam * rho⁻¹ * lam⁻¹)) * q⁻¹ := by
         rw [show lam * rho * a * rho⁻¹ * lam⁻¹
               = (lam * rho * lam⁻¹) * (lam * a * lam⁻¹) * (lam * rho⁻¹ * lam⁻¹) by group]

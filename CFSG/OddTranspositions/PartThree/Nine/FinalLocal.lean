@@ -34,7 +34,7 @@ theorem center_Halpha_eq_zpowers {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.
     have hxx' : x' = x := Subtype.ext hx'x
     subst hxx'
     have hxP : x' ∈ CFSG.pCore 2 (Halpha D hC.alpha) :=
-      mem_pCore_of_mem_center hx ((T.isPGroup').to_le ((Subgroup.zpowers_le).mpr hx'T))
+      mem_pCore_of_mem_center hx ((T.isPGroup).to_le ((Subgroup.zpowers_le).mpr hx'T))
     rw [← h3.2.1]
     exact Subgroup.mem_map_of_mem _ hxP
   · rw [Subgroup.zpowers_le]

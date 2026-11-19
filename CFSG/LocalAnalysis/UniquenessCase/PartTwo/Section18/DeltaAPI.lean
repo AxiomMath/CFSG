@@ -26,7 +26,7 @@ theorem Hyp18.L_le_M (h : Hyp18 D V₀ V p L) : L ≤ D.M := h.L_mem_calC.1.le
 
 theorem Hyp18.p_dvd_card_L (h : Hyp18 D V₀ V p L) : p ∣ Nat.card L := h.hL.2.2
 
-theorem Hyp18.L_le_X (h : Hyp18 D V₀ V p L) : L ≤ conjClosure D.M L := by
+theorem Hyp18.L_le_X (_h : Hyp18 D V₀ V p L) : L ≤ conjClosure D.M L := by
   have hmem : L ∈ conjSetOf D.M L := ⟨1, D.M.one_mem, by
     show L = L.map (MulAut.conj (1 : G)).toMonoidHom
     rw [show MulAut.conj (1 : G) = 1 from map_one _]

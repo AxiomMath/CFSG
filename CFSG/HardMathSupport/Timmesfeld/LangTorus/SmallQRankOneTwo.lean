@@ -177,12 +177,12 @@ theorem norm_mem_bigComponentSet_of_rankOneOrbit_two (S : LangSetup τ L p)
     exists_untwist_pair_torus_two S hq hβ (m := 3) (by norm_num) h3
   obtain ⟨hfinK, hKcard⟩ := exists_fixSubfield_fintype S (by norm_num : 0 < 3) hσ
   have := hfinK
-  letI _inst : Fintype (fixSubfield σ) := Fintype.ofFinite _
+  let _inst : Fintype (fixSubfield σ) := Fintype.ofFinite _
   have hKcard' : Fintype.card (fixSubfield σ) = S.D.q ^ 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hKcard
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hes : 0 < e * 3 := Nat.mul_pos he (by norm_num)
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * 3)) := fun c => by rw [hσ, hq', ← pow_mul]
   have hQ4' : 4 ≤ r ^ (e * 3) := by rw [pow_mul, ← hq']; exact hQ4
@@ -248,7 +248,7 @@ theorem norm_mem_bigComponentSet_of_rankOneOrbit_two (S : LangSetup τ L p)
   have hdvd : p ∣ Nat.card (SL(2, fixSubfield σ)) := by
     rw [card_SL2_field, hKcard]
     exact Dvd.dvd.mul_left hpm _
-  haveI : Fact p.Prime := ⟨S.hp⟩
+  have : Fact p.Prime := ⟨S.hp⟩
   obtain ⟨B, hB⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hrk : ∀ B' : SL(2, fixSubfield σ), rootSL2 τ (fixSubfield σ) β B' ∈ Cg := by
     intro B'

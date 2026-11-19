@@ -20,8 +20,8 @@ public theorem CFSG.natCard_omega₁_cyclic_quotient_eq_prime
     [Fact (IsPGroup p G)] (hcyc : IsCyclic G) [Nontrivial G] :
     Nat.card (omega₁ (G := G) (p := p)) = p := by
   classical
-  letI : IsCyclic G := hcyc
-  letI : CommGroup G := hcyc.commGroup
+  let : IsCyclic G := hcyc
+  let : CommGroup G := hcyc.commGroup
   have hOmega_eq_ker : omega₁ (G := G) (p := p) = (powMonoidHom p : G →* G).ker := by
     apply le_antisymm
     · rw [omega₁, omega]
@@ -105,8 +105,8 @@ public theorem CFSG.lemma_4_10 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
       IsElementaryAbelian p (omega₁ (G := R) (p := p)) := by
   classical
   obtain ⟨S, hS_normal, hS_cyclic, hquot_cyclic⟩ := hmeta
-  letI : S.Normal := hS_normal
-  letI : IsCyclic S := hS_cyclic
+  let : S.Normal := hS_normal
+  let : IsCyclic S := hS_cyclic
   let q : R →* R ⧸ S := QuotientGroup.mk' S
   let Tbar : Subgroup (R ⧸ S) := omega₁ (G := R ⧸ S) (p := p)
   let T : Subgroup R := Tbar.comap q
@@ -118,17 +118,17 @@ public theorem CFSG.lemma_4_10 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
       exact (Subgroup.topEquiv.isCyclic).1 hcyc_top
     exact hncyc hcycR
   have hRquot_p : IsPGroup p (R ⧸ S) := (Fact.out : IsPGroup p R).to_quotient S
-  letI : Fact (IsPGroup p (R ⧸ S)) := ⟨hRquot_p⟩
+  let : Fact (IsPGroup p (R ⧸ S)) := ⟨hRquot_p⟩
   have hquot_nontriv : Nontrivial (R ⧸ S) :=
     (QuotientGroup.nontrivial_iff (G := R) (N := S)).2 hS_ne_top
-  letI : Nontrivial (R ⧸ S) := hquot_nontriv
+  let : Nontrivial (R ⧸ S) := hquot_nontriv
   have hTbar_char : Tbar.Characteristic := by
     simpa [Tbar] using omega₁_characteristic (G := R ⧸ S) (p := p)
-  letI : Tbar.Characteristic := hTbar_char
+  let : Tbar.Characteristic := hTbar_char
   have hTbar_normal : Tbar.Normal := by infer_instance
   have hT_normal : T.Normal := by
     exact hTbar_normal.comap q
-  letI : T.Normal := hT_normal
+  let : T.Normal := hT_normal
   have hTbar_card : Nat.card Tbar = p :=
     natCard_omega₁_cyclic_quotient_eq_prime (G := R ⧸ S) (p := p) hquot_cyclic
   have hS_le_T : S ≤ T := by
@@ -159,11 +159,11 @@ public theorem CFSG.lemma_4_10 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
           rw [hT_quot_card]
           exact (Fact.out : Nat.Prime p).one_lt
         exact (Finite.one_lt_card_iff_nontrivial).1 hcard_gt
-      letI : Nontrivial (T ⧸ S.subgroupOf T) := hTquot_nontriv
+      let : Nontrivial (T ⧸ S.subgroupOf T) := hTquot_nontriv
       have hT_nontriv : Nontrivial T := (QuotientGroup.mk'_surjective (S.subgroupOf T)).nontrivial
-      letI : Nontrivial T := hT_nontriv
+      let : Nontrivial T := hT_nontriv
       have hTp : IsPGroup p T := (Fact.out : IsPGroup p R).to_subgroup T
-      letI : Fact (IsPGroup p T) := ⟨hTp⟩
+      let : Fact (IsPGroup p T) := ⟨hTp⟩
       exact natCard_omega₁_cyclic_quotient_eq_prime (G := T) (p := p) hTcyc
     have hOmegaR_card_eq : Nat.card (omega₁ (G := R) (p := p)) = p := by
       calc
@@ -188,7 +188,7 @@ public theorem CFSG.lemma_4_10 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
     exact (Subgroup.subgroupOfEquivOfLe (H := S) (K := T) hS_le_T).isCyclic.2
       hS_cyclic
   have hTp : IsPGroup p T := (Fact.out : IsPGroup p R).to_subgroup T
-  letI : Fact (IsPGroup p T) := ⟨hTp⟩
+  let : Fact (IsPGroup p T) := ⟨hTp⟩
   obtain ⟨hOmegaT_card_sq, hOmegaT_elem⟩ :=
     lemma_4_5_b (R := T) (p := p) hpodd hT_not_cyclic hindex
   constructor
@@ -201,7 +201,7 @@ public theorem CFSG.lemma_4_10 {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact 
       _ = p ^ 2 := hOmegaT_card_sq
   · let e : omega₁ (G := T) (p := p) ≃* (omega₁ (G := T) (p := p)).map T.subtype :=
       Subgroup.equivMapOfInjective (omega₁ (G := T) (p := p)) T.subtype T.subtype_injective
-    letI : IsElementaryAbelian p (omega₁ (G := T) (p := p)) := hOmegaT_elem
+    let : IsElementaryAbelian p (omega₁ (G := T) (p := p)) := hOmegaT_elem
     have hElem_map : IsElementaryAbelian p ((omega₁ (G := T) (p := p)).map T.subtype) := by
       refine {
         toIsMulCommutative := inferInstance

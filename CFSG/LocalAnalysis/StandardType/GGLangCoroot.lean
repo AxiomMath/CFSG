@@ -131,7 +131,7 @@ theorem langCorootFactor
     (hT : rootDiagUnit τ (fun j => ζ ^ corootPair α (Pi.single j 1)) ∈ S.D.torus) :
     rootDiagUnit τ (fun j => ζ ^ corootPair α (Pi.single j 1)) ∈
       rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq
   have hr : IsRoot τ α := isRoot_of_mem_rationalRoots S i hα
   have hwM : rootSL2 τ L α WSL ∈ S.D.model := rootSL2_WSL_mem_model_of_rho S hr hρα
   have hwΓ : rootSL2 τ L α WSL ∈ S.Γ :=
@@ -161,7 +161,7 @@ theorem langCorootFactor
     have e : (HSL η : SL2 L) ^ 2 = HSL (η ^ 2) := by
       ext i j
       simp only [pow_two, Matrix.SpecialLinearGroup.coe_mul, coe_HSL]
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, sq]
+      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
     rw [← map_commutatorElement, commutatorElement_HSL_WSL, ← e, map_pow]
   have hhΓ : rootSL2 τ L α (HSL η) ∈ S.Γ := by
     refine langModel_mem_Γ_of_sq_mem S hτ hq hAlg hhM ?_

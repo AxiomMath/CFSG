@@ -11,7 +11,6 @@ namespace Certificates
 theorem certificate1023102 : 
     CFSG.StandardType.SporadicShape.SporKRestCover 3 CFSG.Blueprint.NativeSporadic.Ru ∧
       CFSG.StandardType.SporadicShape.SporKRestCover 5 CFSG.Blueprint.NativeSporadic.Ru := by
-  intros
   exact ⟨@CFSG.StandardType.SporadicShape.SporKRestCover.of_mulEquiv
       ↥(CFSG.Sporadic.SmallF2.J CFSG.Sporadic.Ru.Native.ruData) CFSG.Blueprint.NativeSporadic.Ru
       inferInstance inferInstance CFSG.Sporadic.Bridge.Ru.nativeEquiv.symm 3

@@ -15,8 +15,8 @@ theorem kdSporRow_of_exact {name : TauCeti.SporadicName} {p : ℕ} {H : Type} [G
     (b : H ≃* (TauCeti.CFSGIndex.sporadic name).Group) (hcard : ¬ (Nat.card H).Prime)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpc : ¬ p ^ 2 ∣ Nat.card H) : KDSporRow name p := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hcG : Nat.card G = Nat.card H := (Nat.card_congr b.toEquiv).symm
   have hnc : ∃ a c : G, a * c ≠ c * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hcG]; exact hcard)
@@ -34,7 +34,7 @@ theorem kdSporRow_M12_eleven
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KDSporRow .M12 11 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
-  haveI : IsSimpleGroup _ := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+  have : IsSimpleGroup _ := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
   exact kdSporRow_of_exact hOut b (by rw [CFSG.Sporadic.Mathieu.card_M12]; norm_num) (by norm_num)
     (by norm_num) (by rw [CFSG.Sporadic.Mathieu.card_M12]; norm_num)
 
@@ -57,8 +57,8 @@ theorem kdSporRow_of_model {name : TauCeti.SporadicName} {p : ℕ} {H : Type} [G
     (hno : ∀ x : H, orderOf x = p → ∀ I : Subgroup H,
       GLAPComponent p (Subgroup.centralizer ({x} : Set H)) I → False) : KDSporRow name p := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 inferInstance
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hcG : Nat.card G = Nat.card H := (Nat.card_congr b.toEquiv).symm
   have hnc : ∃ a c : G, a * c ≠ c * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hcG]; exact hcard)
@@ -90,7 +90,7 @@ theorem kdSporRow_J4_eleven
     (hbr : SporadicBridges)
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KDSporRow .J4 11 := by
-  haveI hJs : IsSimpleGroup ↥J := isSimpleGroup_J j4Facts
+  have hJs : IsSimpleGroup ↥J := isSimpleGroup_J j4Facts
   have b : ↥J ≃* (TauCeti.CFSGIndex.sporadic .J4).Group :=
     (seedEquiv j4Facts.mat).symm.trans (hbr .J4).some
   have h2 : 2 ∣ Nat.card ↥J := by
@@ -131,7 +131,7 @@ theorem kdSporRow_J4_eleven
         · rw [h0, mul_zero] at hk; exact absurd hk Nat.card_pos.ne'
         · exact h0
       omega
-    haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({u} : Set ↥J))
+    have := Fintype.ofFinite ↥(Subgroup.centralizer ({u} : Set ↥J))
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 11) (q := 2) (a := 2) (b := k - 1) (by norm_num) (by norm_num) (by norm_num) ?_
     rw [Fintype.card_eq_nat_card, hk]
@@ -139,7 +139,7 @@ theorem kdSporRow_J4_eleven
 
 theorem isSolvable_of_card_eq {X : Type*} [Group X] [Finite X] {p q a b : ℕ} (hp : p.Prime)
     (hq : q.Prime) (hpq : p ≠ q) (h : Nat.card X = p ^ a * q ^ b) : Group.IsSolvable X := by
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [Fintype.card_eq_nat_card, h])
 
@@ -153,7 +153,7 @@ theorem kdSporRow_ON_seven
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KDSporRow .ONan 7 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
-  haveI hs : IsSimpleGroup ↥CFSG.ONSchreier.Pv :=
+  have hs : IsSimpleGroup ↥CFSG.ONSchreier.Pv :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.ON.isSimpleGroup_ON CFSG.ONSchreier.onEquivPv.symm
   have hc : Nat.card ↥CFSG.ONSchreier.Pv = 460815505920 := CFSG.ONSchreier.card_Pv
   refine @kdSporRow_of_model .ONan 7 ↥CFSG.ONSchreier.Pv _ inferInstance hs hOut

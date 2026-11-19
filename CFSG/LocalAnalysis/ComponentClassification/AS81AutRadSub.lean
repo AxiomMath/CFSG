@@ -33,7 +33,7 @@ theorem unipU_one_mul_apply' (M : Matrix (Fin 3) (Fin 3) k) (y z : k) (i j : Fin
     ((unipU k 0 y z : Matrix (Fin 3) (Fin 3) k) * M) i j =
       M i j + (if i = 0 then z * M 2 j else 0) + (if i = 1 then y * M 2 j else 0) := by
   rw [coe_unipU]
-  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three]; try ring)
+  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three])
 
 theorem commute_unipU_zero_of_det {M : Matrix (Fin 3) (Fin 3) k} {a c a' c' : k}
     (hdet : a * c' - c * a' ≠ 0)

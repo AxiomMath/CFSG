@@ -25,10 +25,10 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem mem_P_of_pow_eq_one_of_commute {A : Subgroup G} {c : G} {L : Subgroup G}
     (h : Sec15R G A c L) {p : ℕ} {P : Subgroup G} (hP : Data1519 A (lB A) L p P)
-    {X Q : Subgroup G} (hX : X ∈ scriptY2 A) (hQX : Q ≤ X) (hQp : IsPGroup p Q) (hPQ : P ≤ Q) :
+    {X Q : Subgroup G} (hX : X ∈ scriptY2 A) (hQX : Q ≤ X) (_hQp : IsPGroup p Q) (hPQ : P ≤ Q) :
     ∀ x ∈ Q, x ^ p = 1 → (∀ y ∈ P, y * x = x * y) → x ∈ P := by
   have hp : p.Prime := hP.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := hP.2.1
   have hPe : CFSG.Assembly.IsElemAbelian p P := hP.2.2.2.1
   have hPcard : Nat.card P = p ^ 2 := hP.2.2.2.2.1
@@ -101,7 +101,7 @@ private theorem isMulCommutative_of_sec15 {A : Subgroup G} {c : G} {L : Subgroup
     (hΩ : ∀ x ∈ Q, x ^ p = 1 → (∀ y ∈ P, y * x = x * y) → x ∈ P) :
     IsMulCommutative Q := by
   have hp : p.Prime := hP.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := hP.2.1
   have hp2 : p ≠ 2 := by omega
   obtain ⟨m, hm1, hiso, hchoice⟩ := hP.2.2.1
@@ -191,9 +191,9 @@ private theorem isMulCommutative_of_sec15 {A : Subgroup G} {c : G} {L : Subgroup
   have hQNL : Q ≤ Subgroup.normalizer (L : Set G) :=
     hQc.trans (CFSG.RankThree.PartTwo.Sec14.centralizer_le_normalizer_of_three_dvd
       h.toSec14Std h3L)
-  haveI hLperf : Group.IsPerfect ↥L :=
+  have hLperf : Group.IsPerfect ↥L :=
     CFSG.RankThree.PartOne.isPerfect_of_mem_thetaComponentsAt h.toSec13Data.mem_lA.1
-  haveI hLnontriv : Nontrivial ↥L := hLs.toNontrivial
+  have hLnontriv : Nontrivial ↥L := hLs.toNontrivial
   have hnc : ¬ IsMulCommutative ↥L := Group.IsPerfect.not_isMulCommutative ↥L
   have hpair : ∃ x y : ↥L, x * y ≠ y * x := by
     by_contra hcon
@@ -214,7 +214,7 @@ theorem isMulCommutative_and_mem_of_le {A : Subgroup G} {c : G} {L : Subgroup G}
   have hQab : IsMulCommutative Q :=
     isMulCommutative_of_sec15 hK h hLs hP hQp hPQ hcQ hΩ
   refine ⟨hQab, fun x hxQ hxp => hΩ x hxQ hxp (fun y hy => ?_)⟩
-  haveI : IsMulCommutative Q := hQab
+  have : IsMulCommutative Q := hQab
   exact congrArg Subtype.val (mul_comm' (⟨y, hPQ hy⟩ : Q) ⟨x, hxQ⟩)
 
 end CFSG.RankThree.PartTwo.Sec15.Proof1521T

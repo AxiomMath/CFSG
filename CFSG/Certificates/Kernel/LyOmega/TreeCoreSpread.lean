@@ -147,7 +147,7 @@ private theorem mask_bit {i e k : ℕ} (hi : i < 16) (he : e < 65536) (hk : k < 
   have hj : 3 * (e % 2 ^ (16 - i)) + k < 12 * 2 ^ (16 - i) := by omega
   rw [hq, hF _ _ hj]
   beta_reduce
-  rw [if_pos hh, Nat.testBit_shiftLeft, Nat.testBit_two_pow_sub_one]
+  rw [ite_eq_left hh, Nat.testBit_shiftLeft, Nat.testBit_two_pow_sub_one]
   generalize e % 2 ^ (16 - i) = l at hl ⊢
   rw [two_pow_sixteen_sub hi] at hl
   generalize 2 ^ (15 - i) = T at hl ⊢
@@ -173,19 +173,19 @@ private theorem step_iff {A m s : ℕ} {p p' : ℕ → ℕ} {c : ℕ → Prop} [
       obtain ⟨e, he, k, hk, hq, hX⟩ := (IH q).1 hA
       rw [hq, hm e he k hk] at hM
       have hc : ¬ c e := by simpa using hM
-      exact ⟨e, he, k, hk, by rw [hp, if_neg hc, Nat.add_zero]; exact hq, hX⟩
+      exact ⟨e, he, k, hk, by rw [hp, ite_eq_right hc, Nat.add_zero]; exact hq, hX⟩
     · simp only [Bool.and_eq_true, decide_eq_true_eq] at h
       obtain ⟨hs, h1, h2⟩ := h
       obtain ⟨e, he, k, hk, hq, hX⟩ := (IH _).1 h1
       rw [hq, hm e he k hk] at h2
       have hc : c e := by simpa using h2
       refine ⟨e, he, k, hk, ?_, hX⟩
-      rw [hp, if_pos hc]
+      rw [hp, ite_eq_left hc]
       omega
   · rintro ⟨e, he, k, hk, rfl, hX⟩
     by_cases hc : c e
     · right
-      rw [hp, if_pos hc]
+      rw [hp, ite_eq_left hc]
       have e1 : p e + s + k - s = p e + k := by omega
       simp only [Bool.and_eq_true, decide_eq_true_eq]
       refine ⟨by omega, ?_, ?_⟩
@@ -194,7 +194,7 @@ private theorem step_iff {A m s : ℕ} {p p' : ℕ → ℕ} {c : ℕ → Prop} [
       · rw [e1, hm e he k hk]
         simpa using hc
     · left
-      rw [hp, if_neg hc, Nat.add_zero, (IH _).2 ⟨e, he, k, hk, rfl, hX⟩, hm e he k hk]
+      rw [hp, ite_eq_right hc, Nat.add_zero, (IH _).2 ⟨e, he, k, hk, rfl, hX⟩, hm e he k hk]
       simp [hc]
 
 private theorem bit_lt {x N q : ℕ} (hx : x < 2 ^ N) (h : x.testBit q = true) : q < N := by

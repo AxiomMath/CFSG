@@ -48,7 +48,7 @@ theorem false_of_two_climbs {M K₀ L₁ L₂ Q : Subgroup G} (hL₁ : IsFooteBl
       congr 1
       exact Subtype.ext (hcomm a (Subgroup.mem_subgroupOf.mp ha) b (Subgroup.mem_subgroupOf.mp hb))
     have hq := hcomp₁.2.2
-    haveI := hq.2
+    have := hq.2
     have hc : Subgroup.center ↥(barIn K₀ L₁) = ⊤ := by
       rw [eq_top_iff]
       intro x _

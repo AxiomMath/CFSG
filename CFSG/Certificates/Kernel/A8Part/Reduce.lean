@@ -78,12 +78,15 @@ theorem exists_conj_le {p : ℕ} [Fact p.Prime] {A S P : Subgroup G} (hSA : S �
 
 abbrev conjBy (g : G) (N : Subgroup G) : Subgroup G := N.map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem mem_conjBy {g z : G} {N : Subgroup G} (hz : z ∈ N) : g * z * g⁻¹ ∈ conjBy g N :=
   ⟨z, hz, rfl⟩
 
+omit [Finite G] in
 theorem card_conjBy (g : G) (N : Subgroup G) : Nat.card (conjBy g N) = Nat.card N :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem conjBy_le {g : G} {N A : Subgroup G} (hg : g ∈ A) (hN : N ≤ A) : conjBy g N ≤ A := by
   rintro _ ⟨z, hz, rfl⟩
   exact A.mul_mem (A.mul_mem hg (hN hz)) (A.inv_mem hg)
@@ -163,6 +166,7 @@ theorem sylow3_cand {A S₀ Q₀ H N : Subgroup G} {T : ℕ → Subgroup G} {x r
     rw [hky]
     group
 
+omit [Finite G] in
 theorem le_of_dcover {A B J K : Subgroup G} {ρ : ℕ → G} {nρ : ℕ} (hJ : J ≤ B)
     (hcov : ∀ σ ∈ A, ∃ i < nρ, ∃ π ∈ J, ∃ κ ∈ J, σ = π * ρ i * κ)
     (hρ : ∀ i < nρ, ρ i ∈ B ∨ A ≤ J ⊔ Subgroup.closure {ρ i})

@@ -49,7 +49,7 @@ theorem exists_sylow_invariant {Y : Type*} [Group Y] [Finite Y] {Γ : Type*} [Gr
       have h := Subgroup.smul_mem_pointwise_smul y γ (Q₀ : Subgroup K) hy
       rwa [← Sylow.pointwise_smul_def, hfix] at h
     exact ⟨_, hm, (hφ γ y)⟩
-  refine ⟨(Q₀ : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _,
+  refine ⟨(Q₀ : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _,
     fun n hn => ?_, fun γ => le_antisymm (hle γ) ?_⟩
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective K)]
     exact Q₀.pow_dvd_card_of_pow_dvd_card hn

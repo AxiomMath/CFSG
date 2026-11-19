@@ -98,7 +98,7 @@ theorem ncard_orbit_qs : (orbit P.S (P.qsF hb)).ncard = b.osz := by
     ← List.toFinset_card_of_nodup (List.nodup_range.filter _), ← Set.ncard_coe_finset]
   congr 1
   ext p
-  simp only [Set.mem_image, Set.mem_setOf_eq, Finset.coe_filter, List.mem_toFinset,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toFinset,
     List.mem_filter, List.mem_range, Finset.mem_coe]
   constructor
   · rintro ⟨q, hq, rfl⟩

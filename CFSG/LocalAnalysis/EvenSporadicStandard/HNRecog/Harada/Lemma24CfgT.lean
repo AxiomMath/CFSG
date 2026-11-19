@@ -22,7 +22,7 @@ private theorem image_tInvolutions_Y (hD : HData G t z b z₁ S Eg T T' W0 ι)
   ext y
   constructor
   · rintro ⟨x, hx, rfl⟩
-    simp only [tInvolutions, Set.mem_setOf_eq] at hx
+    simp only [tInvolutions, Set.mem_ofPred_eq] at hx
     obtain ⟨hxC, hx2, hx1, hxτ⟩ := hx
     have hyT : (x : G) ∈ centralizer ({t} : Set G) := by
       rw [Subgroup.mem_centralizer_singleton_iff]
@@ -32,7 +32,7 @@ private theorem image_tInvolutions_Y (hD : HData G t z b z₁ S Eg T T' W0 ι)
     exact ⟨hyT, x.2, hy2, hy1, (isConj_iff_tTG hD hconj hyT hy2 hy1).mp hxτ⟩
   · rintro ⟨hyT, hyA, hy2, hy1, hyTG⟩
     refine ⟨⟨y, hyA⟩, ?_, rfl⟩
-    simp only [tInvolutions, Set.mem_setOf_eq]
+    simp only [tInvolutions, Set.mem_ofPred_eq]
     have hxT : (⟨y, hyA⟩ : Y24 a) ∈ centralizer ({tY hat} : Set (Y24 a)) := by
       rw [Subgroup.mem_centralizer_singleton_iff]
       apply Subtype.ext
@@ -156,7 +156,7 @@ theorem W_comm_Y (hD : HData G t z b z₁ S Eg T T' W0 ι) (hD3 : HData3 G t z z
     rw [hcomm]; exact hsW
   obtain ⟨s', hs'comm, hs'eq⟩ := Subgroup.mem_map.mp hsW'
   refine ⟨s', ?_, hs'comm⟩
-  simp only [tInvolutions, Set.mem_setOf_eq]
+  simp only [tInvolutions, Set.mem_ofPred_eq]
   have hs'T : s' ∈ centralizer ({tY hat} : Set (Y24 a)) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     apply Subtype.ext

@@ -19,7 +19,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 
 theorem mem_uniqueSet_of_card_three (S : SliceCore D L D₃ Y H) {A : Subgroup G} (hAL : A ≤ L)
     (hA3 : Nat.card A = 3) : A ∈ uniqueSet D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := CFSG.AGLEmbeddingD2.exists_eq_map_conj_of_isCyclic (J := ↥L) (p := 3)
     S.isCyclic_sylow_three_L (Y₀ := D₃.subgroupOf L) (Y₁ := A.subgroupOf L)
     (by rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe S.D₃_le).toEquiv, S.D₃_card])

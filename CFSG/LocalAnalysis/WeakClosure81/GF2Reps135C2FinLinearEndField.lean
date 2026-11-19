@@ -17,8 +17,8 @@ theorem card_endField_eq_two_of_card_eq_two {K : Type} [Field K] [Fintype K] [Ch
       ρ.asModule) = 2 := by
   classical
   obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : n ≠ 0)
-  haveI : ρ.IsIrreducible := hirr
-  haveI : Finite (CFSG.LieType.RootSystem.coxeterMatrix
+  have : ρ.IsIrreducible := hirr
+  have : Finite (CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)).Group :=
     CFSG.LieType.RootSystem.finite_group (CFSG.LieType.Universal.SpecialLinear.isFiniteType_A m)
   let D := CFSG.LieType.SpecialLinear.curtisDatum m K 2
@@ -29,7 +29,7 @@ theorem card_endField_eq_two_of_card_eq_two {K : Type} [Field K] [Fintype K] [Ch
     have hcard : Nat.card K = 2 := by rw [Nat.card_eq_fintype_card, hK]
     rw [hcard] at hpow
     simpa using hpow
-  haveI : (CFSG.endFieldRep ρ).IsIrreducible := CFSG.endFieldRep_isIrreducible ρ
+  have : (CFSG.endFieldRep ρ).IsIrreducible := CFSG.endFieldRep_isIrreducible ρ
   have hsimple : CFSG.Quasithin.SmithCurtis.IsSimpleRep (CFSG.endFieldRep ρ) :=
     CFSG.HardMathSupport.GuralnickMalle.isSimpleRep_of_isIrreducible (CFSG.endFieldRep ρ)
   have hsplit : CFSG.Quasithin.SmithCurtis.SplitOver (Module.End (MonoidAlgebra (ZMod 2)

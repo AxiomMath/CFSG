@@ -33,7 +33,7 @@ private theorem L2Datum.exists_sylow_pair (hS : Sec7Hyp M V n f) (hD : L2Datum M
   have hAM : A ≤ M := (hS.sec5.le_M_of_mem_sigmaSet hD.memA).1
   have hBM : B ≤ M := (hS.sec5.le_M_of_mem_sigmaSet hD.memB).1
   have hXM : A ⊔ B ≤ M := _root_.sup_le hAM hBM
-  haveI : IsMulCommutative ↥A := hD.l2.isElemAbelian.1
+  have : IsMulCommutative ↥A := hD.l2.isElemAbelian.1
   obtain ⟨S₁, hS₁⟩ := IsPGroup.exists_le_sylow (isPGroup_two_zpowers_of_mul_self_eq_one ha2)
   obtain ⟨S₂, hS₂⟩ := IsPGroup.exists_le_sylow (isPGroup_two_zpowers_of_mul_self_eq_one hb2)
   have hne : S₁ ≠ S₂ := by
@@ -42,7 +42,7 @@ private theorem L2Datum.exists_sylow_pair (hS : Sec7Hyp M V n f) (hD : L2Datum M
     have hbS : b ∈ (S₁ : Subgroup ↥(A ⊔ B)) := by
       rw [hEq]; exact hS₂ (Subgroup.mem_zpowers b)
     exact not_exists_isPGroup_two_mem_of_odd_orderOf hx hodd hx1
-      ⟨(S₁ : Subgroup ↥(A ⊔ B)), S₁.isPGroup', haS, hbS⟩
+      ⟨(S₁ : Subgroup ↥(A ⊔ B)), S₁.isPGroup, haS, hbS⟩
   obtain ⟨g₁, hg₁⟩ := hD.l2.isL2Pair.exists_conj_eq_sylow S₁
   obtain ⟨g₂, hg₂⟩ := hD.l2.isL2Pair.exists_conj_eq_sylow S₂
   set T₁ : Subgroup G := (S₁ : Subgroup ↥(A ⊔ B)).map (A ⊔ B).subtype with hT₁
@@ -78,8 +78,8 @@ private theorem L2Datum.exists_sylow_pair (hS : Sec7Hyp M V n f) (hD : L2Datum M
       have hXab : IsMulCommutative ↥(T₁ ⊔ T₂) := by
         rw [Subgroup.sup_eq_closure]
         refine Subgroup.isMulCommutative_closure ?_
-        haveI := hT₁ab
-        haveI := hT₂ab
+        have := hT₁ab
+        have := hT₂ab
         rintro p (hp | hp) q (hq | hq) -
         · exact setLike_mul_comm (s := T₁) hp hq
         · exact (Subgroup.mem_centralizer_iff.mp
@@ -93,7 +93,7 @@ private theorem L2Datum.exists_sylow_pair (hS : Sec7Hyp M V n f) (hD : L2Datum M
         intro p hp
         rw [Subgroup.mem_centralizer_iff]
         intro q hq
-        haveI := hXab
+        have := hXab
         exact setLike_mul_comm (s := T₁ ⊔ T₂)
           (by rw [hTsup]; exact Subgroup.mem_sup_right hq)
           (by rw [hTsup]; exact Subgroup.mem_sup_left hp)
@@ -358,7 +358,7 @@ private theorem Sec7Hyp.finrank_subSec_inf_cenOf_sup (hS : Sec7Hyp M V n f)
     Module.finrank (ZMod 2) (subSec hS.pbarHyp (Pc M V ⊓ cenOf (C ⊔ D))) =
       f * (2 * n - 4) := by
   classical
-  haveI : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
   set UC := subSec hS.pbarHyp ⁅Pc M V, C⁆ with hUC
   set KD := subSec hS.pbarHyp (Pc M V ⊓ cenOf D) with hKD
   set KC := subSec hS.pbarHyp (Pc M V ⊓ cenOf C) with hKC
@@ -402,7 +402,7 @@ private theorem Sec7Hyp.finrank_subSec_commutator_sup (hS : Sec7Hyp M V n f)
     (hl : IsL2Gen C D) :
     Module.finrank (ZMod 2)
       ↥((subSec hS.pbarHyp ⁅Pc M V, C⁆) ⊔ (subSec hS.pbarHyp ⁅Pc M V, D⁆)) = f * 4 := by
-  haveI : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
   have h := Submodule.finrank_sup_add_finrank_inf_eq
     (subSec hS.pbarHyp ⁅Pc M V, C⁆) (subSec hS.pbarHyp ⁅Pc M V, D⁆)
   rw [hS.subSec_commutator_inf_subSec_commutator hC hD hl,
@@ -417,7 +417,7 @@ private theorem Sec7Hyp.Pc_decomp_sup (hS : Sec7Hyp M V n f)
     subSec hS.pbarHyp (Pc M V) =
         subSec hS.pbarHyp (Pc M V ⊓ cenOf (C ⊔ D)) ⊔
           (subSec hS.pbarHyp ⁅Pc M V, C⁆ ⊔ subSec hS.pbarHyp ⁅Pc M V, D⁆) := by
-  haveI : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (SecMod hS.pbarHyp) := Module.Finite.of_finite
   have hinf := hS.Pc_decomp_inf hC hD hl
   have hsup : subSec hS.pbarHyp (Pc M V ⊓ cenOf (C ⊔ D)) ⊔
       (subSec hS.pbarHyp ⁅Pc M V, C⁆ ⊔ subSec hS.pbarHyp ⁅Pc M V, D⁆) = ⊤ := by
@@ -442,7 +442,7 @@ theorem Sec7Hyp.Pc_decomp (hS : Sec7Hyp M V n f) {C D : Subgroup G}
     (Pc M V ⊓ cenOf (C ⊔ D)) ⊓ (⁅Pc M V, C⁆ ⊔ ⁅Pc M V, D⁆) = V ∧
     Nat.card ↥(Pc M V ⊓ cenOf (C ⊔ D)) = Nat.card V ^ (2 * n - 3) ∧
     Nat.card ↥(⁅Pc M V, C⁆ ⊔ ⁅Pc M V, D⁆) = Nat.card V ^ 5 := by
-  letI := Sec6Hyp.pbarModule hS.toSec6Hyp
+  let := Sec6Hyp.pbarModule hS.toSec6Hyp
   have hmod := hS.Pc_decomp_sup hC hD hl
   have hinf := hS.Pc_decomp_inf hC hD hl
   have hV_le_Pc : V ≤ Pc M V := hS.sec5.toRootHyp.toHyp.le_Pc

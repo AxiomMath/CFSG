@@ -122,7 +122,7 @@ private theorem exists_sylow_conj_Pst_of_card_eq_81
       (∀ x, x ∈ (S : Subgroup (alternatingGroup (Fin 10))) ↔
         ∃ s ∈ Pst, g * s * g⁻¹ = x) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ3 : IsPGroup 3 Q := IsPGroup.of_card (n := 4) (by rw [hQ]; norm_num)
   obtain ⟨S, hQS⟩ := hQ3.exists_le_sylow
   have hS81 : Nat.card (S : Subgroup (alternatingGroup (Fin 10))) = 81 := by
@@ -179,7 +179,7 @@ private theorem existsUnique_elemAbelian_card_27_of_sylow_conj
     obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.mp hx
     obtain ⟨s, hs, hgs⟩ := (hpoint e).mp (hE'_le_S he)
     have hxe : (MulAut.conj g⁻¹).toMonoidHom e = s := by
-      rw [← hgs]; simp [MulAut.conj_apply]; group
+      rw [← hgs]; simp; group
     rw [hxe]
     exact hs
   have hE'_conj_ab : CFSG.Open.IsElemAbelian 3 (E'.map (MulAut.conj g⁻¹).toMonoidHom) :=
@@ -195,7 +195,7 @@ private theorem existsUnique_elemAbelian_card_27_of_sylow_conj
     have hsEbar : s ∈ Ebar := by
       have hmem : s ∈ E'.map (MulAut.conj g⁻¹).toMonoidHom := by
         refine Subgroup.mem_map.mpr ⟨e, he, ?_⟩
-        rw [← hgs]; simp [MulAut.conj_apply]; group
+        rw [← hgs]; simp; group
       rwa [hE'_conj_eq] at hmem
     rw [← hgs]
     exact Subgroup.mem_map.mpr ⟨s, hsEbar, rfl⟩
@@ -240,12 +240,12 @@ private theorem exists_map_sylow_data
         E' ≤ (P : Subgroup X).map Φ → CFSG.Open.IsElemAbelian 3 E' →
         Nat.card E' = 27 → E' = E) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Φ : X →* alternatingGroup (Fin 10) := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hinjP : Function.Injective (Φ.comp (P : Subgroup X).subtype) := by
     have h1 : Function.Injective ((QuotientGroup.mk' Z).comp (P : Subgroup X).subtype) :=
       CFSG.GroupTheory.SteinbergBS.injective_mk'_comp_subtype (p := 3) (N := Z)
-        (Q := (P : Subgroup X)) hZ3 P.isPGroup'
+        (Q := (P : Subgroup X)) hZ3 P.isPGroup
     exact e.injective.comp h1
   have hPcard : Nat.card (P : Subgroup X) = 81 := card_sylow_eq_81_of_quotient hZ3 e P
   have hrange : (Φ.comp (P : Subgroup X).subtype).range = (P : Subgroup X).map Φ := by
@@ -263,7 +263,7 @@ theorem existsUnique_elemAbelian_card_27_of_sylow_of_quotient
     (e : X ⧸ Z ≃* alternatingGroup (Fin 10)) (P : Sylow 3 X) :
     ∃! A : Subgroup X, A ≤ P ∧ CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Φ, E, hΦ, hinjP, hE_le, hE_ab, hE_card, hEuniq⟩ := exists_map_sylow_data hZ3 e P
   let f : ↥P →* alternatingGroup (Fin 10) := Φ.comp (P : Subgroup X).subtype
   let E' : Subgroup ↥P := E.comap f
@@ -311,6 +311,7 @@ theorem existsUnique_elemAbelian_card_27_of_sylow_of_quotient
     exact Subgroup.mem_map.mpr ⟨⟨b, hbP⟩, Subgroup.mem_comap.mpr hbE, rfl⟩
   exact Subgroup.eq_of_le_of_card_ge hB_le_A (by rw [hA_card, hB_card])
 
+omit [Finite X] in
 private theorem orderOf_map_quotient_eq_three
     (hZ3 : ¬ 3 ∣ Nat.card Z) (e : X ⧸ Z ≃* alternatingGroup (Fin 10))
     {x : X} (hx : orderOf x = 3) : orderOf (e (QuotientGroup.mk' Z x)) = 3 := by
@@ -355,6 +356,7 @@ private theorem exists_conj_map_of_map_conj_eq_Ebar
   rw [hEq]
   exact ha'
 
+omit [Finite X] [Z.Normal] in
 private theorem mem_of_mul_inv_mem_center_of_pow_three
     (hZc : Z ≤ Subgroup.center X) (hZ3 : ¬ 3 ∣ Nat.card Z)
     {A : Subgroup X} (hA_ab : CFSG.Open.IsElemAbelian 3 A)
@@ -379,13 +381,14 @@ private theorem mem_of_mul_inv_mem_center_of_pow_three
   rw [← hza, hz1, one_mul]
   exact ha
 
+omit [Finite X] in
 theorem exists_conj_mem_of_elemAbelian_card_27_of_quotient
     (hZc : Z ≤ Subgroup.center X) (hZ3 : ¬ 3 ∣ Nat.card Z)
     (e : X ⧸ Z ≃* alternatingGroup (Fin 10))
     {A : Subgroup X} (hA_ab : CFSG.Open.IsElemAbelian 3 A) (hA_card : Nat.card A = 27)
     {x : X} (hx : orderOf x = 3) : ∃ g : X, g * x * g⁻¹ ∈ A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   have hinjA : Function.Injective (π.comp A.subtype) := by
     simpa only [π] using

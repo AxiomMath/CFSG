@@ -8,6 +8,7 @@ namespace CFSG.Quasithin.H13.Abs523
 
 variable {E : Type} [CommGroup E] [Finite E]
 
+omit [Finite E] in
 theorem iff_of_inv {𝒦 : Subgroup (MulAut E)} {Y : Subgroup E}
     (hY : ∀ k ∈ 𝒦, ∀ y ∈ Y, k y ∈ Y) (k : MulAut E) (hk : k ∈ 𝒦) (y : E) :
     y ∈ Y ↔ k y ∈ Y := by
@@ -63,6 +64,7 @@ theorem act_trivial_of_small {𝒦 : Subgroup (MulAut E)} [IsSimpleGroup ↥𝒦
 @[expose] def vec (Y₀ : Subgroup E) {Y₁ : Subgroup E} (y : E) (hy : y ∈ Y₁) : Vsec Y₀ Y₁ :=
   ⟨(y : Qt Y₀), mem_Vq.mpr ⟨y, hy, rfl⟩⟩
 
+omit [Finite E] in
 theorem vec_mul (Y₀ : Subgroup E) {Y₁ : Subgroup E} {y z : E} (hy : y ∈ Y₁) (hz : z ∈ Y₁)
     (hyz : y * z ∈ Y₁) :
     vec Y₀ (y * z) hyz = vec Y₀ y hy * vec Y₀ z hz := by
@@ -70,23 +72,27 @@ theorem vec_mul (Y₀ : Subgroup E) {Y₁ : Subgroup E} {y z : E} (hy : y ∈ Y�
   show ((y * z : E) : Qt Y₀) = (y : Qt Y₀) * (z : Qt Y₀)
   rw [QuotientGroup.mk_mul]
 
+omit [Finite E] in
 theorem vec_one (Y₀ : Subgroup E) {Y₁ : Subgroup E} : vec Y₀ (1 : E) Y₁.one_mem = 1 := by
   apply Subtype.ext
   show ((1 : E) : Qt Y₀) = 1
   rfl
 
+omit [Finite E] in
 theorem vec_inv (Y₀ : Subgroup E) {Y₁ : Subgroup E} {y : E} (hy : y ∈ Y₁) (hy' : y⁻¹ ∈ Y₁) :
     vec Y₀ y⁻¹ hy' = (vec Y₀ y hy)⁻¹ := by
   apply Subtype.ext
   show ((y⁻¹ : E) : Qt Y₀) = ((y : Qt Y₀))⁻¹
   rw [QuotientGroup.mk_inv]
 
+omit [Finite E] in
 theorem vec_eq_one_of_mem (Y₀ : Subgroup E) {Y₁ : Subgroup E} {y : E} (hy : y ∈ Y₁)
     (hy0 : y ∈ Y₀) : vec Y₀ y hy = 1 := by
   apply Subtype.ext
   show ((y : E) : Qt Y₀) = 1
   exact mk_eq_one_of_mem hy0
 
+omit [Finite E] in
 theorem secHom_vec {Y₀ Y₁ : Subgroup E} (g : stabY Y₀ Y₁) {y : E} (hy : y ∈ Y₁) :
     secHom Y₀ Y₁ g (vec Y₀ y hy) = vec Y₀ (g.1 y) ((g.2.1 y).mp hy) := by
   apply Subtype.ext

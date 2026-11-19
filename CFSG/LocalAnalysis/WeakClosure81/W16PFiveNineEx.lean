@@ -29,8 +29,8 @@ theorem IsMinFam16.exists_comm_mem_of_extraspecial (h1 : W16One G) (h5 : W16Five
     {x : G} (hxS : conjSubgroup V x ≤ S) {a : G} (ha : a ∈ conjSubgroup V x) :
     ∃ v ∈ V, ∀ k ∈ conjClosure V H,
       (a * v⁻¹) * k * (a * v⁻¹)⁻¹ * k⁻¹ ∈ pCoreOf 2 (conjClosure V H) := by
-  haveI : Finite ↥(conjClosure V H) := Subtype.finite
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite ↥(conjClosure V H) := Subtype.finite
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hVea : IsElemAbelian 2 V := h.hyp.h6.elemAbelian
   have haV : a ∈ centralizer (V : Set G) :=
     Cex16.conj_le_centralizer_of_le_S h1 hS h hxS ha

@@ -27,9 +27,9 @@ theorem kd291Nilp_lin (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
   have hp5 : 5 ≤ p := hY.five_le
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL := hcfg.comp
-  haveI hLn : L.Normal := I291.normal_of_unique hL hcfg.uniq
+  have hLn : L.Normal := I291.normal_of_unique hL hcfg.uniq
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
   have hZp : IsPGroup p (center ↥L) := I291.isPGroup_center hY.core hL
   have hx1 : x ≠ 1 := by
@@ -60,7 +60,7 @@ theorem kd291Nilp_lin (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} {Y : 
     rw [hxθ] at h1
     exact I292CaseA.conjAut_not_mem_inner hn3 ŷ hdet ⟨_, h1.symm⟩
   obtain ⟨φ, -, hφπ⟩ := exists_cover_linear hp hp5 hGA hq hZp hn3 eP
-  haveI hperfS : Group.IsPerfect (SpecialLinearGroup (Fin p) K) :=
+  have hperfS : Group.IsPerfect (SpecialLinearGroup (Fin p) K) :=
     LinearGroups.special_linear_isPerfect (by omega) (Or.inl hn3)
   have hφker : ∀ k ∈ φ.ker, k ∈ scalars p K := fun k hk => by
     apply proj_eq_one_iff.1

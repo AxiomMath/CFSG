@@ -63,7 +63,7 @@ private theorem commute_inv_of_comm {x y : Γ} (h : x * y = y * x) :
 
 private theorem comp_subtype_apply (ρ : Γ →* Multiplicative (AddAut E)) (X : Subgroup Γ)
     (s : X) : (ρ.comp X.subtype) s = ρ (s : Γ) := by
-  first | rfl | simp
+  first | rfl
 
 theorem mem_actImage_iff (ρ : Γ →* Multiplicative (AddAut E)) (g : Γ) (W : AddSubgroup E)
     (v : E) : v ∈ actImage ρ g W ↔ (ρ g⁻¹).toAdd v ∈ W := by
@@ -136,7 +136,7 @@ theorem actImage_invariant (ρ : Γ →* Multiplicative (AddAut E)) {X : Subgrou
 
 theorem actImage_simple (ρ : Γ →* Multiplicative (AddAut E)) {X : Subgroup Γ} {y : Γ}
     (hy : ∀ x ∈ X, x * y = y * x) {W : AddSubgroup E}
-    (hW : ∀ x ∈ X, ∀ v ∈ W, (ρ x).toAdd v ∈ W)
+    (_hW : ∀ x ∈ X, ∀ v ∈ W, (ρ x).toAdd v ∈ W)
     (hs : ∀ T : AddSubgroup E, T ≤ W → (∀ x ∈ X, ∀ v ∈ T, (ρ x).toAdd v ∈ T) →
       T = ⊥ ∨ T = W) :
     ∀ T : AddSubgroup E, T ≤ actImage ρ y W → (∀ x ∈ X, ∀ v ∈ T, (ρ x).toAdd v ∈ T) →
@@ -297,7 +297,7 @@ theorem eq_iSup_actImage_span {K : Type*} [Field K] [Module K E]
 
 theorem actImage_span_card {K : Type*} [Field K] [Finite K] [Module K E]
     (ρ : Γ →* Multiplicative (AddAut E)) {y : Γ}
-    (hlin : ∀ (c : K) (v : E), (ρ y).toAdd (c • v) = c • (ρ y).toAdd v) {b : E} (hb : b ≠ 0) :
+    (_hlin : ∀ (c : K) (v : E), (ρ y).toAdd (c • v) = c • (ρ y).toAdd v) {b : E} (hb : b ≠ 0) :
     Nat.card (actImage ρ y (Submodule.span K {b}).toAddSubgroup) = Nat.card K := by
   have h1 : Nat.card (actImage ρ y (Submodule.span K {b}).toAddSubgroup) =
       Nat.card (Submodule.span K {b}).toAddSubgroup :=
@@ -464,7 +464,7 @@ theorem tensor_decomp {K : Type*} [Field K] [Finite K] [Module K E] [Finite E]
     exact actImage_simple ρ (hy i) hWa_inv Sa.simple T hT
       (fun x hx v hv => hTinv ⟨x, hx⟩ v hv)
   obtain ⟨J, hJfin, hJind, hJsup⟩ := exists_iSupIndep_of_simple ρa Wf hinv hsimple
-  haveI : Fintype J := hJfin.fintype
+  have : Fintype J := hJfin.fintype
   let A : AddSubgroup E := ⨆ j : J, Wf (j : ↥Xb)
   have hsmulA : ∀ (c : K) (v : E), v ∈ A → c • v ∈ A := by
     intro c v hv
@@ -556,7 +556,7 @@ theorem tensor_decomp {K : Type*} [Field K] [Finite K] [Module K E] [Finite E]
     show Nat.card (commIn ρa (Pa.subgroupOf Xa) (⨆ j : J, Wf (j : ↥Xb))) ≤ _
     refine (card_commIn_iSup_le ρa (Pa.subgroupOf Xa) (fun j : J => Wf (j : ↥Xb))).trans ?_
     calc ∏ j : J, Nat.card (commIn ρa (Pa.subgroupOf Xa) (Wf (j : ↥Xb)))
-        ≤ ∏ _j : J, Nat.card K := Finset.prod_le_prod' (fun j _ => ?_)
+        ≤ ∏ _j : J, Nat.card K := Finset.prod_le_prod (fun j _ => ?_)
       _ = Nat.card K ^ Fintype.card J := by rw [Finset.prod_const, Finset.card_univ]
     show Nat.card (commIn ρa (Pa.subgroupOf Xa)
       (actImage ρ ((j : ↥Xb) : Γ) Wa.toAddSubgroup)) ≤ _
@@ -610,7 +610,7 @@ theorem case34_false {K : Type*} [Field K] [Finite K] [Module K E] [Finite E]
     (hn : n + 1 ≤ 7) : False := by
   classical
   have hq : 1 < Nat.card K := Finite.one_lt_card
-  haveI : Module.Finite K E := Module.Finite.of_finite
+  have : Module.Finite K E := Module.Finite.of_finite
   obtain ⟨k, V, hk, hVc, -, hfixP, -, hcommle⟩ := tensor_decomp ρ hcomm Sa Sb
   have hE : Nat.card E = Nat.card K ^ (2 * n) := by
     rw [Module.natCard_eq_pow_finrank (K := K), hdim]
@@ -653,7 +653,7 @@ theorem tensor_count_false {K : Type*} [Field K] [Finite K] [Module K E] [Finite
     (hn : n + 1 ≤ d₁ + d₂) : False := by
   classical
   have hq : 1 < Nat.card K := Finite.one_lt_card
-  haveI : Module.Finite K E := Module.Finite.of_finite
+  have : Module.Finite K E := Module.Finite.of_finite
   have hE : Nat.card E = Nat.card K ^ (2 * n) := by
     rw [Module.natCard_eq_pow_finrank (K := K), hdim]
   obtain ⟨k₂, V₂, hk₂, hV₂c, hV₂i, -, hV₂t, -⟩ :=

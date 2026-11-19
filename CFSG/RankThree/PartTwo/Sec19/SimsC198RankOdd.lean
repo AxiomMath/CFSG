@@ -245,7 +245,7 @@ end Psl
 section G2
 
 theorem false_of_rankHyp_G2_large (h : RankHyp X) {q : TauCeti.PrimePower} (hp : 3 < q.p)
-    (hq : q.exponent = 1) (hX : Sec4.IsoGTwo (X ⧸ Subgroup.center X) q) : False := by
+    (_hq : q.exponent = 1) (hX : Sec4.IsoGTwo (X ⧸ Subgroup.center X) q) : False := by
   obtain ⟨hv, ⟨θ⟩⟩ := hX
   have hmod := CFSG.SectionRank.chevalleyExceptionalModel_of_mulEquiv θ
     (Sec4.Census.chevalleyExceptionalModel_G2_of_odd q hv (by omega))
@@ -275,7 +275,7 @@ theorem false_of_rankHyp_G2_three (h : RankHyp X)
       ⟨eA.trans (Subgroup.equivMapOfInjective _
         (CFSG.Quasithin.G2U.glHom (RingEquiv.refl (ZMod 3)))
         (CFSG.Quasithin.G2U.glHom_injective _)), trivial⟩
-    haveI : Finite CFSG.HardMathSupport.Timmesfeld.LieRank.RG := Finite.of_equiv _ eR.toEquiv
+    have : Finite CFSG.HardMathSupport.Timmesfeld.LieRank.RG := Finite.of_equiv _ eR.toEquiv
     have hRG : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup CFSG.HardMathSupport.Timmesfeld.LieRank.RG) :=
       CFSG.HardMathSupport.Timmesfeld.LieRank.specA.n_le_pRank Nat.prime_three
     have heq : CFSG.Open.pRank 3 (⊤ : Subgroup (X ⧸ Subgroup.center X)) =

@@ -29,8 +29,8 @@ theorem isSolvable_of_quotient_twoGroup {G : Type*} [Group G] [Finite G]
     (h : IsPGroup 2 (G ⧸ classicalInvolutionOddCore G)) : Group.IsSolvable G := by
   have hO : Group.IsSolvable (classicalInvolutionOddCore G) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (CFSG.ComponentClassification.OddCore.odd_card G)
-  haveI : Group.IsNilpotent (G ⧸ classicalInvolutionOddCore G) := h.isNilpotent
-  exact solvable_of_ker_le_range (classicalInvolutionOddCore G).subtype
+  have : Group.IsNilpotent (G ⧸ classicalInvolutionOddCore G) := h.isNilpotent
+  exact Group.isSolvable_of_ker_le_range (classicalInvolutionOddCore G).subtype
     (QuotientGroup.mk' (classicalInvolutionOddCore G)) (by simp [QuotientGroup.ker_mk'])
 
 theorem isSolvable_comap_subtype {Y : Type*} [Group Y] {T K : Subgroup Y}
@@ -43,12 +43,12 @@ theorem isSolvable_comap_subtype {Y : Type*} [Group Y] {T K : Subgroup Y}
     intro x y hxy
     have h1 := congrArg Subtype.val hxy
     exact Subtype.ext (Subtype.ext h1)
-  exact solvable_of_solvable_injective hf
+  exact Group.isSolvable_of_isSolvable_injective hf
 
 theorem isSolvable_conjSub {Y : Type*} [Group Y] {K : Subgroup Y} (g : Y)
     (hK : Group.IsSolvable ↥K) : Group.IsSolvable ↥(conjSub g K) := by
-  haveI := hK
-  exact solvable_of_surjective (f := (Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom
+  have := hK
+  exact Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom
     (MulAut.conj g).injective).toMonoidHom)
     (Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom
       (MulAut.conj g).injective).surjective
@@ -106,9 +106,9 @@ theorem not_twinPair_of_twinCyc4 {F : Type} [Group F] [Finite F] (hcyc : TwinCyc
 theorem exists_twinPair_of_perp {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y]
     {R : Subgroup Y} {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hcomm : SocleComm2 ↥(genFittingFStar Y)) : TwinPair ↥(genFittingFStar Y) := by
-  haveI hsimple := h.core.simple
+  have hsimple := h.core.simple
   have hnab := h.core.nonab
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot hnab
   have hΩ : HypOmegaGen (CoreAssembly.conjClass (tightCore R)) := h.core.hyp
@@ -178,7 +178,7 @@ theorem exists_twinPair_of_perp {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] 
     rw [Subgroup.orderOf_mk]; exact h.core.datum.order
   have hRsolv : Group.IsSolvable ↥R := isSolvable_of_quotient_twoGroup h.core.datum.twoGroup
   have hK₀solv : Group.IsSolvable ↥(tightCore R) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective (tightCore_le R))
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (tightCore_le R))
   have hK'solv : Group.IsSolvable ↥K' := hg ▸ isSolvable_conjSub g hK₀solv
   have hcz : (Subgroup.centralizer ({t} : Set Y)).comap T.subtype =
       Subgroup.centralizer ({z} : Set ↥T) := by

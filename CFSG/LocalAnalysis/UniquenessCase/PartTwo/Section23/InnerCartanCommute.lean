@@ -64,12 +64,14 @@ theorem alpha_conj_of_inducedBar (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D 
 
 end Ctx23L
 
+omit [Finite G] in
 theorem inducedBar_one {L : Subgroup G} : InducedBar L (1 : G) 1 := by
   intro l l' hll'
   have h : l' = l := Subtype.ext (by simpa using hll')
   subst h
   simp
 
+omit [Finite G] in
 theorem inducedBar_pow {L : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) {θ : MulAut (Bar2 L)}
     (h : InducedBar L x θ) (k : ℕ) : InducedBar L (x ^ k) (θ ^ k) := by
@@ -92,8 +94,9 @@ theorem inducedBar_pow {L : Subgroup G} {x : G}
         _ = (θ ^ k) (QuotientGroup.mk l₂) := by rw [h1]
         _ = QuotientGroup.mk l' := h2
 
+omit [Finite G] in
 theorem inducedBar_mul {L : Subgroup G} {x y : G}
-    (hx : x ∈ Subgroup.normalizer (L : Set G)) (hy : y ∈ Subgroup.normalizer (L : Set G))
+    (_hx : x ∈ Subgroup.normalizer (L : Set G)) (hy : y ∈ Subgroup.normalizer (L : Set G))
     {θ φ : MulAut (Bar2 L)} (hθ : InducedBar L x θ) (hφ : InducedBar L y φ) :
     InducedBar L (x * y) (θ * φ) := by
   intro l l' hll'
@@ -108,8 +111,9 @@ theorem inducedBar_mul {L : Subgroup G} {x y : G}
   change θ (φ (QuotientGroup.mk l)) = QuotientGroup.mk l'
   rw [hφl, hθl]
 
+omit [Finite G] in
 theorem inducedBar_inv {L : Subgroup G} {x : G}
-    (hx : x ∈ Subgroup.normalizer (L : Set G)) {θ : MulAut (Bar2 L)}
+    (_hx : x ∈ Subgroup.normalizer (L : Set G)) {θ : MulAut (Bar2 L)}
     (h : InducedBar L x θ) : InducedBar L x⁻¹ θ⁻¹ := by
   intro l l' hll'
   have hxl' : (l : G) = x * (l' : G) * x⁻¹ := by
@@ -119,6 +123,7 @@ theorem inducedBar_inv {L : Subgroup G} {x : G}
   change θ⁻¹ (QuotientGroup.mk l) = QuotientGroup.mk l'
   rw [← hh, MulAut.inv_apply_self]
 
+omit [Finite G] in
 theorem inducedBar_of_mem {L : Subgroup G} (g : ↥L) :
     InducedBar L (g : G) (MulAut.conj (QuotientGroup.mk g : Bar2 L)) := by
   intro l l' hll'
@@ -127,6 +132,7 @@ theorem inducedBar_of_mem {L : Subgroup G} (g : ↥L) :
   congr 1
   exact Subtype.ext hll'.symm
 
+omit [Finite G] in
 theorem inducedBar_unique {L : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) {θ θ' : MulAut (Bar2 L)}
     (h : InducedBar L x θ) (h' : InducedBar L x θ') : θ = θ' := by
@@ -138,8 +144,9 @@ theorem inducedBar_unique {L : Subgroup G} {x : G}
   have h2 := h' l l' rfl
   exact h1.trans h2.symm
 
+omit [Finite G] in
 theorem inducedBar_conj {L : Subgroup G} {g x : G} (hg : g ∈ L)
-    (hx : x ∈ Subgroup.normalizer (L : Set G)) {ℓ : Bar2 L}
+    (_hx : x ∈ Subgroup.normalizer (L : Set G)) {ℓ : Bar2 L}
     (h : InducedBar L x (MulAut.conj ℓ)) :
     InducedBar L (g * x * g⁻¹)
       (MulAut.conj ((QuotientGroup.mk ⟨g, hg⟩ : Bar2 L) * ℓ *
@@ -175,6 +182,7 @@ theorem inducedBar_conj {L : Subgroup G} {g x : G} (hg : g ∈ L)
       = q * (ℓ * (QuotientGroup.mk l₁ : Bar2 L) * ℓ⁻¹) * q⁻¹ := by group
     _ = q * (QuotientGroup.mk l₁' : Bar2 L) * q⁻¹ := by rw [hq]
 
+omit [Finite G] in
 theorem inducedBar_conj_pow {L : Subgroup G} {a : G}
     (hL : a ∈ Subgroup.normalizer (L : Set G))
     {ℓ : Bar2 L} (hθ : InducedBar L a (MulAut.conj ℓ)) (t : ↥L) (k : ℕ) :
@@ -189,6 +197,7 @@ theorem inducedBar_conj_pow {L : Subgroup G} {a : G}
   have hpow := inducedBar_pow hnorm h₁ k
   simpa only [map_pow] using hpow
 
+omit [Finite G] in
 theorem inducedBar_conj_pow_eq_one {L : Subgroup G} {n : ℕ} {a : G}
     (hL : a ∈ Subgroup.normalizer (L : Set G))
     {ℓ : Bar2 L} (hθ : InducedBar L a (MulAut.conj ℓ))
@@ -199,6 +208,7 @@ theorem inducedBar_conj_pow_eq_one {L : Subgroup G} {n : ℕ} {a : G}
   rw [hpow] at hθpow
   exact inducedBar_unique (Subgroup.one_mem _) hθpow inducedBar_one
 
+omit [Finite G] in
 theorem inducedBar_one_of_conj_mem {L : Subgroup G} {g x : G} (hg : g ∈ L)
     (hx : x ∈ Subgroup.normalizer (L : Set G))
     (h : InducedBar L (g * x * g⁻¹) 1) : InducedBar L x 1 := by

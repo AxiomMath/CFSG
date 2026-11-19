@@ -72,7 +72,7 @@ theorem burnsideF45_g2d_flag_six {u w : W} (huw : Γ.Adj u w) (h3 : (Γ.neighbor
   have hw₂w : w₂ ≠ w := hw₂.2
   have hex : ∃ g ∈ B, g • w₁ = w₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hBK : B ≤ burnsideF45_g2dKer Γ G u := by
       intro g hg
       have hgw : g • w = w := MulAction.mem_stabilizer_iff.mp hg.2
@@ -107,7 +107,7 @@ theorem burnsideF45_g2d_chart (hyp : HypF_4_4g .G2d 2 1 (⊤ : Subgroup E) M₁ 
         (∀ e, e ∈ M₁ ↔ π e ∈ G2Native.smallLocal K (G2Native.pointParabolic K)) ∧
         (∀ e, e ∈ M₂ ↔ π e ∈ G2Native.smallLocal K (G2Native.lineParabolic K)) := by
   obtain ⟨K, fK, finK, hK, marking, h1, h2⟩ := burnsideF4gG2Two_chart_G2d hyp
-  letI := fK
+  let := fK
   refine ⟨K, fK, finK, hK, Subgroup.topEquiv.symm.trans marking.symm, fun e => ?_, fun e => ?_⟩
   · have e1 : e ∈ M₁ ↔ (⟨e, Subgroup.mem_top e⟩ : ↥(⊤ : Subgroup E)) ∈ M₁.subgroupOf ⊤ := Iff.rfl
     rw [e1, h1]
@@ -122,6 +122,7 @@ theorem burnsideF45_g2d_chart (hyp : HypF_4_4g .G2d 2 1 (⊤ : Subgroup E) M₁ 
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem burnsideF45_g2d_isLie (hK : Nat.card K = 2) (π : E ≃* G2Native.SmallModel K)
     (h1 : ∀ e, e ∈ M₁ ↔ π e ∈ G2Native.smallLocal K (G2Native.pointParabolic K))
     (h2 : ∀ e, e ∈ M₂ ↔ π e ∈ G2Native.smallLocal K (G2Native.lineParabolic K)) :
@@ -159,12 +160,13 @@ section Normalizer
 
 variable {E : Type} [Group E] [Finite E] {M₁ M₂ : Subgroup E}
 
+omit [Finite E] in
 theorem burnsideF45_g2d_normalizer_borel (hP : IsLieParabolics 2 ⊤ (⊤ ⊓ (M₁ ⊓ M₂)) (⊤ ⊓ M₁) (⊤ ⊓ M₂))
     (hB : IsPGroup 2 ↥(M₁ ⊓ M₂)) :
     Subgroup.normalizer ((M₁ ⊓ M₂ : Subgroup E) : Set E) = M₁ ⊓ M₂ := by
   obtain ⟨⟨S, ⟨-, hSp, hSi⟩, hBS⟩, -⟩ := hP
   rw [top_inf_eq, top_inf_eq] at hBS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSi' : ¬ 2 ∣ S.index := by rwa [Subgroup.relIndex_top_right] at hSi
   let T : Sylow 2 E := hSp.toSylow hSi'
   have hT : (T : Subgroup E) = S := rfl
@@ -193,7 +195,7 @@ theorem burnsideF45_g2d_Qu (hyp : HypF_4_4 .G2d 2 1 (⊤ : Subgroup E) M₁ M₂
 
 theorem burnsideF45_g2d_three (hyp : HypF_4_4 .G2d 2 1 (⊤ : Subgroup E) M₁ M₂)
     (u : (incl M₁ M₂).Γ) : ((incl M₁ M₂).graph.neighborSet u).ncard = 3 := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨hq1, hq2⟩ := burnsideF45_q_G2d hyp rfl
   have h := card_nbrs (c := incl M₁ M₂) (incl_faithful M₁ M₂) u
   rw [← Nat.card_coe_set_eq]
@@ -209,7 +211,7 @@ theorem burnsideF45_g2d_mem_flag (g : (incl M₁ M₂).G0) :
 theorem burnsideF45_g2d_C6 (hyp : HypF_4_4 .G2d 2 1 (⊤ : Subgroup E) M₁ M₂)
     (hP : IsLieParabolics 2 ⊤ (⊤ ⊓ (M₁ ⊓ M₂)) (⊤ ⊓ M₁) (⊤ ⊓ M₂)) (hB : IsPGroup 2 ↥(M₁ ⊓ M₂)) :
     ∀ u v : (incl M₁ M₂).Γ, (incl M₁ M₂).graph.Adj u v → burnsideF45_C6Body 2 ⊤ M₁ M₂ u v := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hm : 3 ≤ GLKind.G2d.m := burnsideF45_three_le_m _
   have hbij := burnsideF45_toE_bijective hyp.gen
   have hNE := burnsideF45_g2d_normalizer_borel hP hB

@@ -154,9 +154,10 @@ private lemma centralizer_conj_eq_of_mem_center {X : Type*} [Group X] {e z : X}
   rw [show (MulAut.conj g) e = e * z by rw [MulAut.conj_apply, hge]]
   exact centralizer_singleton_mul_mem_center hz
 
+omit [Finite G] in
 private lemma sHt_exists_central {L : Subgroup G} {c e : G} {heC : e ∈ sC c}
-    (hLc : L ≤ sC c) (hCN : sC c ≤ Subgroup.normalizer (L : Set G))
-    (heN : e ∈ Subgroup.normalizer (L : Set G))
+    (hLc : L ≤ sC c) (_hCN : sC c ≤ Subgroup.normalizer (L : Set G))
+    (_heN : e ∈ Subgroup.normalizer (L : Set G))
     (g : sC c) (hg : sPi c g ∈ sHt c e heC) :
     ∃ z0 : sC c, z0 ∈ Subgroup.center (sC c) ∧
       (g : sC c) * ⟨e, heC⟩ * (g : sC c)⁻¹ = z0 * ⟨e, heC⟩ ∧
@@ -257,14 +258,14 @@ private lemma isSolvable_of_map_le_theta {L : Subgroup G} {Y : Subgroup ↥L}
   let κ := sKappa L
   let Yim : Subgroup (↥L ⧸ θL) := Y.map κ
   have hYim_le : Yim ≤ inSubgroup (aschbacherSolvableCore 3) W := hY
-  haveI hThetaSolv : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) W) :=
+  have hThetaSolv : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) W) :=
     Sec15.Proof1510Steps.isSolvable_theta W
-  haveI hYim_solv : Group.IsSolvable ↥Yim :=
+  have hYim_solv : Group.IsSolvable ↥Yim :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hYim_le)
       (Subgroup.inclusion_injective hYim_le)
-  haveI hker_solv : Group.IsSolvable ↥(Y ⊓ θL) := by
-    haveI : Group.IsSolvable ↥θL :=
+  have hker_solv : Group.IsSolvable ↥(Y ⊓ θL) := by
+    have : Group.IsSolvable ↥θL :=
       (solvable_prime_complement_core_characterization (H := ↥L) Nat.prime_three).1
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (inf_le_right : Y ⊓ θL ≤ θL))
@@ -384,6 +385,7 @@ private lemma sY'_le_sH' {L : Subgroup G} {c e : G} (he : e ∈ sC c)
   have := congrArg (sPi c) hcomm
   simpa only [map_mul] using this
 
+omit [Finite G] in
 private lemma sF_surj {c e : G} (he : e ∈ sC c) : Function.Surjective (sF c e he) := by
   intro h
   obtain ⟨g, hg⟩ := QuotientGroup.mk'_surjective (sK c) (h : sC c ⧸ sK c)
@@ -433,14 +435,14 @@ private lemma sYim'_subgroupOf_le_theta {L A' : Subgroup G} {c e : G}
     exact inf_le_left
   have hY_solv : Group.IsSolvable ↥Y := isSolvable_of_map_le_theta hYim_le
   have hY_3 : ¬ 3 ∣ Nat.card Y := not_three_dvd_card_of_map_le_theta hYim_le
-  haveI hY'_solv : Group.IsSolvable ↥Y' :=
+  have hY'_solv : Group.IsSolvable ↥Y' :=
     Group.isSolvable_of_surjective (f := (sIota L hLc).subgroupMap Y)
       (MonoidHom.subgroupMap_surjective _ _)
   have hY'_3 : ¬ 3 ∣ Nat.card Y' := by
     rw [show Y' = Y.map (sIota L hLc) from rfl,
       Subgroup.card_map_of_injective (Subgroup.inclusion_injective hLc)]
     exact hY_3
-  haveI hYim'_solv : Group.IsSolvable ↥Yim' :=
+  have hYim'_solv : Group.IsSolvable ↥Yim' :=
     Group.isSolvable_of_surjective (f := (sPi c).subgroupMap Y')
       (MonoidHom.subgroupMap_surjective _ _)
   have hYim'_3 : ¬ 3 ∣ Nat.card Yim' := by
@@ -450,7 +452,7 @@ private lemma sYim'_subgroupOf_le_theta {L A' : Subgroup G} {c e : G}
   have hf_surj : Function.Surjective f := sF_surj (hA'c heA)
   have hYH_eq : (Y'.subgroupOf H').map f = YH :=
     sF_map_subgroupOf (hA'c heA) hLc heN
-  haveI hYH_solv : Group.IsSolvable ↥YH :=
+  have hYH_solv : Group.IsSolvable ↥YH :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hYim'_le).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYim'_le).injective
@@ -467,8 +469,8 @@ private lemma sY_ybar_theta {L A' : Subgroup G} {c e y : G}
     (hLc : L ≤ sC c) (hcL : c ∉ L) (hc3 : orderOf c = 3)
     (hCN : sC c ≤ Subgroup.normalizer (L : Set G))
     (hA'c : A' ≤ sC c) (heA : e ∈ A') (heN : e ∈ Subgroup.normalizer (L : Set G))
-    (hyL : y ∈ L) (hye : e * y = y * e)
-    (hs : ((⟨y, hyL⟩ : ↥L) : ↥L ⧸ sThetaL L) ∈
+    (hyL : y ∈ L) (_hye : e * y = y * e)
+    (_hs : ((⟨y, hyL⟩ : ↥L) : ↥L ⧸ sThetaL L) ∈
       inSubgroup (aschbacherSolvableCore 3) (GL3TwoFixedModel.autFixed (sRho L e heN)))
     (hyY : (⟨y, hyL⟩ : ↥L) ∈ sY L e heN) :
     sPi c ⟨y, hLc hyL⟩ ∈ inSubgroup (aschbacherSolvableCore 3) (sHt c e (hA'c heA)) := by
@@ -542,8 +544,8 @@ private lemma sT_solv {L : Subgroup G} {c : G} (hLc : L ≤ sC c)
       have := congrArg Subtype.val hxy
       simpa [gT] using this
     exact Subtype.ext (sPiL_inj hLc hcL hc3 h1)
-  haveI : Group.IsSolvable ↥(T.map πL) := by
-    haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 (sC c ⧸ sK c)) :=
+  have : Group.IsSolvable ↥(T.map πL) := by
+    have : Group.IsSolvable ↥(aschbacherSolvableCore 3 (sC c ⧸ sK c)) :=
       (solvable_prime_complement_core_characterization (H := sC c ⧸ sK c) Nat.prime_three).1
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hTπ_le)

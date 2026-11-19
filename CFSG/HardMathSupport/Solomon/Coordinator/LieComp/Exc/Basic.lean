@@ -53,12 +53,12 @@ theorem noThreeComponents_of_isSolvable {S : Type} [Group S] [Finite S] (β : Mu
   have hQ : CFSG.Open.IsQuasisimple (↥J ⧸ GLAPPrimeCore 3 ↥J) :=
     isQuasisimple_quotient_of_glaPComponent hJ
   have hJC : J ≤ fixSubgroup β := hJ.1
-  haveI : Group.IsSolvable ↥J :=
+  have : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJC)
-  haveI : Group.IsSolvable (↥J ⧸ GLAPPrimeCore 3 ↥J) :=
+  have : Group.IsSolvable (↥J ⧸ GLAPPrimeCore 3 ↥J) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥J))
-  haveI : Group.IsPerfect (↥J ⧸ GLAPPrimeCore 3 ↥J) := ⟨hQ.1⟩
-  haveI : Nontrivial (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
+  have : Group.IsPerfect (↥J ⧸ GLAPPrimeCore 3 ↥J) := ⟨hQ.1⟩
+  have : Nontrivial (↥J ⧸ GLAPPrimeCore 3 ↥J) := by
     have := hQ.2.toNontrivial
     exact (QuotientGroup.mk_surjective (s := Subgroup.center (↥J ⧸ GLAPPrimeCore 3 ↥J))).nontrivial
   exact Group.IsPerfect.not_isSolvable (↥J ⧸ GLAPPrimeCore 3 ↥J) inferInstance
@@ -163,7 +163,7 @@ theorem lieCompExport_of_derived_eq_simple {q : ℕ} {S : Type} [Group S] [Finit
       rw [commutatorElement_def]
       exact (fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ha hb)
         ((fixSubgroup δ).inv_mem ha)) ((fixSubgroup δ).inv_mem hb)
-  haveI hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
+  have hJnorm : (J.subgroupOf (fixSubgroup δ)).Normal := by
     rw [← hder]
     have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup δ) (fixSubgroup δ)
     rwa [sup_idem] at h

@@ -62,7 +62,7 @@ theorem index_eq_two_pow {N : Subgroup D} (hO : oTwoUpper (⊤ : Subgroup D) ≤
   obtain ⟨R⟩ : Nonempty (Sylow r D) := inferInstance
   have hRN : (R : Subgroup D) ≤ N := by
     intro x hx
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨x, hx⟩
     have hk' : x ^ r ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hord : orderOf x ∣ r ^ k := orderOf_dvd_of_pow_eq_one hk'
     have hodd' : Odd (orderOf x) := Odd.of_dvd_nat (hodd.pow) hord

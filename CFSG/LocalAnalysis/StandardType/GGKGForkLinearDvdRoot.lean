@@ -58,12 +58,12 @@ private theorem ggKGSd_reflection {d p : ℕ} {K : Type} [Field K] [Finite K] [C
     ∃ i j : Fin d, i ≠ j ∧
       φ₀ = ggConjAut A (ggKGSd_conj_permSL_mem_normalizer hN i j) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hsw : ∀ x y : Fin d, x ≠ y →
       GGIsReflection p (TypeANbrDvd.permAut φ' A hN (Equiv.swap x y)) := by
     intro x y hxy

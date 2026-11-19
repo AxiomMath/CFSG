@@ -42,9 +42,9 @@ private theorem exists_statedClassicalModel_psp {S : Type} [Group S]
 
 private theorem ringChar_eq_of_card {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hK : Nat.card K = ℓ ^ f) : ringChar K = ℓ := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ringChar.eq K ℓ
 
 private theorem congr_conj_apply {S G : Type} [Group S] [Group G] (e : S ≃* G) (s : S) :
@@ -64,7 +64,7 @@ theorem lieCompCase_symplectic
     (hsp : (∃ r q, idx.1 = .B r q ∧ (q.p = 2 ∨ r = 2)) ∨ ∃ r q, idx.1 = .C r q)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group)) (β : MulAut S) (hβ : β ^ 3 = 1) :
     LieCompExport (lieIndexChar idx.1) β ∨ NoThreeComponents β := by
-  haveI := hs
+  have := hs
   by_cases hβ1 : β = 1
   · subst hβ1
     exact Or.inl (lieCompExport_one hna idx he (isEmpty_mulEquiv_alternating_six hb _ he))

@@ -135,8 +135,8 @@ theorem s16e_natAct_fixed_eq_one_statedOmega {ι : Type} [Fintype ι] [Decidable
 theorem s16e_inf_fixV_eq_bot_natOmegaMinus {H : Subgroup (MulAut W)} {U : Subgroup W}
     (h : NatOmegaMinus H U ⊥ 4 3) : U ⊓ fixV H = ⊥ := by
   obtain ⟨-, K, hKf, hKfin, b, c, hK, hirr, hreal⟩ := h
-  letI := hKf
-  haveI := hKfin
+  let := hKf
+  have := hKfin
   have hreal' : (FFModel.nat (StatedOmega (StatedQuadMinus 2 K b c))).Realizes H U ⊥ := hreal
   refine s16e_inf_fixV_eq_bot_of_nat hreal' fun m hm => ?_
   refine s16e_natAct_fixed_eq_one_statedOmega (Q := quadMinus 2 K b c)
@@ -148,8 +148,8 @@ theorem s16e_inf_fixV_eq_bot_natOmegaMinus {H : Subgroup (MulAut W)} {U : Subgro
 theorem s16e_inf_fixV_eq_bot_natOmegaPlus {H : Subgroup (MulAut W)} {U : Subgroup W}
     (h : NatOmegaPlus H U ⊥ 4 2) : U ⊓ fixV H = ⊥ := by
   obtain ⟨-, K, hKf, hKfin, hK, hreal⟩ := h
-  letI := hKf
-  haveI := hKfin
+  let := hKf
+  have := hKfin
   have hreal' : (FFModel.nat (StatedOmega (StatedQuadPlus 2 K))).Realizes H U ⊥ := hreal
   refine s16e_inf_fixV_eq_bot_of_nat hreal' fun m hm => ?_
   refine s16e_natAct_fixed_eq_one_statedOmega (Q := quadPlus 2 K)

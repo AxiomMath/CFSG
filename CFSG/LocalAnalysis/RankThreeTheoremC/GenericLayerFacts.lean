@@ -109,7 +109,7 @@ theorem pRank_top_le_three (hS : Setting G) {p : ℕ} [Fact p.Prime] (hp : p ∈
     CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 3 := by
   obtain ⟨-, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup G) ⊤ :=
-    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, P.isPGroup',
+    (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, P.isPGroup,
       by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   exact (pRank_le_of_isSylowOf hsyl).trans hP3.le
 
@@ -136,7 +136,7 @@ theorem centralizer_layer_le (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ} 
   obtain ⟨-, hpos⟩ := layer_data_of_isGenericPoint hx hm e
   have hS1p : IsPGroup p ↥(((P : Subgroup G) ⊓ centralizer ({x} : Set G)) ⊓
       rankThreeLayer (centralizer ({x} : Set G))) :=
-    P.isPGroup'.to_inf_left.to_inf_left
+    P.isPGroup.to_inf_left.to_inf_left
   have hN := normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hS1p
     ((inf_le_left.trans inf_le_left).trans hPM) hpos
   exact (Subgroup.centralizer_le inf_le_right).trans

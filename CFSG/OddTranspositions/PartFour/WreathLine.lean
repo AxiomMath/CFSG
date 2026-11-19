@@ -91,11 +91,10 @@ theorem wreathLine_sigma_left_right {k l : Fin m} (hkl : k ≠ l) (z : L) :
   simp [Pi.mul_apply, Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne hkl.symm,
     Equiv.swap_apply_right]
 
-theorem wreathLine_sigma_left_ne {k l : Fin m} (hkl : k ≠ l) (z : L) {p : Fin m}
+theorem wreathLine_sigma_left_ne {k l : Fin m} (_hkl : k ≠ l) (z : L) {p : Fin m}
     (hpk : p ≠ k) (hpl : p ≠ l) : (wreathLine_sigma k l z).left p = 1 := by
   rw [wreathLine_sigma_left_apply]
-  simp [Pi.mul_apply, Pi.mulSingle_eq_of_ne hpk, Pi.mulSingle_eq_of_ne hpl,
-    Equiv.swap_apply_of_ne_of_ne hpk hpl]
+  simp [Pi.mul_apply, Pi.mulSingle_eq_of_ne hpk, Equiv.swap_apply_of_ne_of_ne hpk hpl]
 
 theorem wreathLine_sigma_isConj {a b k l : Fin m} (hab : a ≠ b) (hkl : k ≠ l) (z : L) :
     IsConj (SemidirectProduct.inr (Equiv.swap a b)) (wreathLine_sigma k l z) := by
@@ -253,7 +252,7 @@ theorem wreathLine_sigma_eq_inr_of_commute
       (wreathLine_sigma i j z))
     {y : L}
     (hself : Commute (wreathLine_sigma i j y) (SemidirectProduct.inr (Equiv.swap i j)))
-    (hother : Commute (wreathLine_sigma i j y) (SemidirectProduct.inr (Equiv.swap p q)))
+    (_hother : Commute (wreathLine_sigma i j y) (SemidirectProduct.inr (Equiv.swap p q)))
     (hxsub : perpMem {x : WreathSym L m | IsConj (SemidirectProduct.inr (Equiv.swap a b)) x}
         (SemidirectProduct.inr (Equiv.swap i j)) ∩
       perpMem {x : WreathSym L m | IsConj (SemidirectProduct.inr (Equiv.swap a b)) x}
@@ -409,7 +408,7 @@ theorem wreathLine_lineMem_data {a b c d : Fin m} (hab : a ≠ b) (hac : a ≠ c
 theorem wreathLine_lineMem_case_ab
     (hL₁ : ∀ y : L, y * y = 1 → y ≠ 1 → ∃ z : L, z * z = 1 ∧ (y * z) * (y * z) ≠ 1)
     {a b c d : Fin m} (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c)
-    (hbd : b ≠ d) (hcd : c ≠ d) {y : L}
+    (hbd : b ≠ d) (_hcd : c ≠ d) {y : L}
     (hxv : Commute (wreathLine_sigma a b y) (SemidirectProduct.inr (Equiv.swap a b)))
     (hxw : Commute (wreathLine_sigma a b y) (SemidirectProduct.inr (Equiv.swap c d)))
     (hxsub : perpMem {x : WreathSym L m | IsConj (SemidirectProduct.inr (Equiv.swap a b)) x}
@@ -507,6 +506,7 @@ theorem exists_mul_self_ne_one_sl2 :
   simp [CFSG.CGT.Timmesfeld75.mul_apply_01, CFSG.CGT.Timmesfeld75.one_apply_01,
     ht00, ht01, ht11] at h01
 
+omit [CharP F 2] in
 theorem wreathLine_sl2_entry_facts (y : Matrix.SpecialLinearGroup (Fin 2) F) (hy : y * y = 1) :
     y 0 0 * y 0 0 + y 0 1 * y 1 0 = 1 ∧
     y 0 0 * y 0 1 + y 0 1 * y 1 1 = 0 ∧
@@ -544,7 +544,7 @@ theorem wreathLine_sl2_eq_one_of_entries (y : Matrix.SpecialLinearGroup (Fin 2) 
       CFSG.CGT.Timmesfeld75.one_apply_11]
 
 theorem wreathLine_sl2_exists_of_q_eq_zero (y : Matrix.SpecialLinearGroup (Fin 2) F)
-    (hq : y 0 1 = 0) (hr : y 1 0 ≠ 0) (hrs : y 1 0 * (y 0 0 + y 1 1) = 0) :
+    (_hq : y 0 1 = 0) (hr : y 1 0 ≠ 0) (hrs : y 1 0 * (y 0 0 + y 1 1) = 0) :
     ∃ z : Matrix.SpecialLinearGroup (Fin 2) F, z * z = 1 ∧ (y * z) * (y * z) ≠ 1 := by
   let z : Matrix.SpecialLinearGroup (Fin 2) F :=
     CFSG.CGT.Timmesfeld75.sl2Mk 1 1 0 1 (by norm_num)
@@ -554,8 +554,7 @@ theorem wreathLine_sl2_exists_of_q_eq_zero (y : Matrix.SpecialLinearGroup (Fin 2
   have hz11 : z 1 1 = 1 := by simp [z, CFSG.CGT.Timmesfeld75.sl2Mk]
   have hz : z * z = 1 := by
     apply CFSG.CGT.Timmesfeld75.mul_self_eq_one_of_trace_eq_zero
-    simp [z, CFSG.CGT.Timmesfeld75.sl2Mk, CFSG.CGT.Timmesfeld75.one_apply_00,
-      CFSG.CGT.Timmesfeld75.one_apply_11, CharTwo.add_self_eq_zero]
+    simp [z, CFSG.CGT.Timmesfeld75.sl2Mk, CharTwo.add_self_eq_zero]
   refine ⟨z, hz, ?_⟩
   intro h
   have hen : y 1 0 * y 0 0 + (y 1 0 + y 1 1) * y 1 0 = 0 := by
@@ -577,8 +576,7 @@ theorem wreathLine_sl2_exists_of_q_ne_zero (y : Matrix.SpecialLinearGroup (Fin 2
   have hz11 : z 1 1 = 1 := by simp [z, CFSG.CGT.Timmesfeld75.sl2Mk]
   have hz : z * z = 1 := by
     apply CFSG.CGT.Timmesfeld75.mul_self_eq_one_of_trace_eq_zero
-    simp [z, CFSG.CGT.Timmesfeld75.sl2Mk, CFSG.CGT.Timmesfeld75.one_apply_00,
-      CFSG.CGT.Timmesfeld75.one_apply_11, CharTwo.add_self_eq_zero]
+    simp [z, CFSG.CGT.Timmesfeld75.sl2Mk, CharTwo.add_self_eq_zero]
   refine ⟨z, hz, ?_⟩
   intro h
   have hen : (y 0 0 + y 0 1) * y 0 1 + y 0 1 * y 1 1 = 0 := by
@@ -754,11 +752,11 @@ theorem exists_lineMem_ncard_le_two_of_isWreathTransposition {X : Type} [Group X
       perpMem {x | IsConj s x} v ≠ perpMem {x | IsConj s x} w ∧
       (perpMem {x | IsConj s x} '' lineMem {x | IsConj s x} v w).ncard ≤ 2 := by
   obtain ⟨-, F, hF, hFin, hFcard, e, i, j, hij, hconj⟩ := hs
-  letI := hF
-  letI := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  let := hF
+  let := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
@@ -783,11 +781,11 @@ theorem exists_pow_ne_one_of_isWreathTransposition {X : Type} [Group X]
     (hZ : Subgroup.center X = ⊥) {s : X} {f m : ℕ} (hs : IsWreathTransposition X f m s) :
     ∃ v ∈ {x | IsConj s x}, ∃ w ∈ {x | IsConj s x}, ∀ k : ℕ, 0 < k → k ≤ 3 → (v * w) ^ k ≠ 1 := by
   obtain ⟨hf, F, hF, hFin, hFcard, e, i, j, hij, hconj⟩ := hs
-  letI := hF
-  letI := hFin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  let := hF
+  let := hFin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   obtain ⟨a, -, ha⟩ := Set.exists_mem_notMem_of_ncard_lt_ncard (s := ({0, 1} : Set F))
     (t := Set.univ) (by

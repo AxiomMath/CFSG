@@ -80,7 +80,7 @@ theorem lieField_eq_two_of_lt_four (d : TauCeti.ValidLieTypeIndex) (hd : IsClass
     rw [he1]; norm_num
   generalize d.1 = i at hd hq
   cases i <;> simp only [IsClassicalOrG2Index, LieField] at hd hq ⊢ <;>
-    first | exact absurd hd (by simp) | exact key _ hd hq
+    exact key _ hd hq
 
 omit [Finite G] in
 theorem center_eq_bot_of_alt {X : Type*} [Group X] {N : ℕ} (hN : 5 ≤ N)

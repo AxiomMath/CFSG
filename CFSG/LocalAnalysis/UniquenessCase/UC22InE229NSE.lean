@@ -18,12 +18,12 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22ine229_s21_1Hyp {D : Data G} {X : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hXr : Nat.card X = r) (hXT : X ≤ normalizer (D.T : Set G)) (hXU : X ∈ uniqueSet D.M) :
     S21_1Hyp D X := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hT := D.sylowM.isPGroup
   obtain ⟨k, hk⟩ := hT.exists_card_eq
   have hcard : Nat.card ↥(X ⊔ D.T) = 2 ^ k * r := by
     rw [sup_comm, UC6.card_sup_uc6 hr hr2 hXr hT hXT, hk, hXr]
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card hXr
+  have : IsCyclic ↥X := isCyclic_of_prime_card hXr
   refine ⟨hXr ▸ hr, hXr ▸ hr2,
     CFSG.RankThree.PartTwo.Sec18.isSolvable_sup_of_le_normalizer IsCyclic.isMulCommutative hT hXT,
     ⟨X, ⟨le_sup_left, hXr ▸ hr.odd_of_ne_two hr2, k, ?_⟩, IsCyclic.isMulCommutative⟩, ?_, hXU⟩
@@ -31,7 +31,7 @@ theorem uc22ine229_s21_1Hyp {D : Data G} {X : Subgroup G} {r : ℕ} (hr : r.Prim
     rw [hcard, hXr, mul_comm] at h
     exact (Nat.eq_of_mul_eq_mul_left hr.pos h).symm
   · intro p hp hp2
-    haveI : Fact p.Prime := ⟨hp.1⟩
+    have : Fact p.Prime := ⟨hp.1⟩
     have hcop : Nat.Coprime p (2 ^ k) :=
       Nat.Coprime.pow_right k ((Nat.coprime_primes hp.1 Nat.prime_two).2 hp2)
     refine (CFSG.SectionRank.pRank_le (k := 1) hp.1.one_lt fun E hEY hE => ?_).trans one_le_two

@@ -47,7 +47,7 @@ theorem i65At_of {G : Type} [Group G] [Finite G] {p : ℕ} (h : KD65 p) : I65At 
   intro hp _hp2 X K _hX hK hchev hex
   obtain ⟨a, ha, hap, _, hni⟩ := hex
   have hq : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   have hsimple : IsSimpleGroup (PSimple p K) := hq.2
   have hnonab : ∃ x y : PSimple p K, x * y ≠ y * x :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq

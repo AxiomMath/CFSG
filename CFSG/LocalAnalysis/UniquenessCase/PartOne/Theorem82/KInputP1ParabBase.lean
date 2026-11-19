@@ -60,7 +60,7 @@ theorem eq_bot_of_perfect_of_le_solvable {X : Type*} [Group X] {J K : Subgroup X
     (Subgroup.inclusion_injective hKJ)
   have hperf : Group.IsPerfect K := Subgroup.isPerfect_iff.mpr hK
   have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hne
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (G := K)).ne
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := K)).ne
     (Group.isPerfect_def.mp hperf)
 
 @[expose] noncomputable def sylowOfTopTwo {X : Type*} [Group X] [Finite X] {T : Subgroup X}

@@ -94,7 +94,7 @@ theorem blk_mul (a b a' b' : SL(2, ZMod 7)) : blk (a * a') (b * b') = blk a b * 
 
 theorem blk_one : blk 1 1 = 1 := by
   apply slext
-  simp only [coe_blk, SpecialLinearGroup.coe_one, fromBlocks_one]
+  simp only [coe_blk]
   simp [reindex_apply]
 
 @[expose] noncomputable def blkHom : SL(2, ZMod 7) × SL(2, ZMod 7) →* SL(4, ZMod 7) where
@@ -153,8 +153,7 @@ theorem exists_blocks_of_comm {g : SL(4, ZMod 7)} (h : g * dSL = dSL * g) :
     | (simp at hh; first
         | exact (zmod7_zero_of_neg hh).trans rfl
         | exact (zmod7_zero_of_neg' hh).trans rfl
-        | exact (zmod7_zero_of_neg hh.symm).trans rfl
-        | exact (zmod7_zero_of_neg' hh.symm).trans rfl)
+)
 
 theorem mem_cent_iff {g : SL(4, ZMod 7)} : g ∈ centralizer {dSL} ↔ g * dSL = dSL * g :=
   mem_centralizer_singleton_iff
@@ -343,11 +342,11 @@ instance : Group.IsPerfect SL(2, ZMod 7) :=
   (GH74.Generic.BProg.B1.PilotS3.isQuasisimple_sl2 (F := ZMod 7) (by rw [card_zmod7]; norm_num)).1
 
 theorem B1_perfect : ⁅B1, B1⁆ = B1 := by
-  haveI : Group.IsPerfect B1 := Group.IsPerfect.range beta1
+  have : Group.IsPerfect B1 := Group.IsPerfect.range beta1
   exact Subgroup.commutator_eq_self
 
 theorem B2_perfect : ⁅B2, B2⁆ = B2 := by
-  haveI : Group.IsPerfect B2 := Group.IsPerfect.range beta2
+  have : Group.IsPerfect B2 := Group.IsPerfect.range beta2
   exact Subgroup.commutator_eq_self
 
 theorem proj_blk_mem_X1 (a b : SL(2, ZMod 7)) : π (blk a b) ∈ X1 :=
@@ -417,7 +416,7 @@ theorem conj_mem_B2 {x b : G4} (hx : x ∈ blockImage) (hb : b ∈ B2) : x * b *
     mul_assoc (beta2 q) (beta1 p) (beta2 a), beta_comm p a]
   group
 
-theorem subnormal_of_chain {X : Type*} [Group X] {B S C : Subgroup X} (hBS : B ≤ S) (hSC : S ≤ C)
+theorem subnormal_of_chain {X : Type*} [Group X] {B S C : Subgroup X} (hBS : B ≤ S) (_hSC : S ≤ C)
     (hB : ∀ s ∈ S, ∀ b ∈ B, s * b * s⁻¹ ∈ B) (hS : ∀ c ∈ C, ∀ s ∈ S, c * s * c⁻¹ ∈ S) :
     (B.subgroupOf C).IsSubnormal := by
   have hSn : (S.subgroupOf C).Normal :=
@@ -648,8 +647,8 @@ noncomputable instance : Module K49 (VA A hA) where
     (one_mulVec _)
   mul_smul z w v := (congrArg (fun M : M4 => M *ᵥ (v : Fin 4 → ZMod 7))
     (map_mul (rhoM A hA) z w)).trans (mulVec_mulVec _ _ _).symm
-  smul_zero z := mulVec_zero _
-  smul_add z v w := mulVec_add _ _ _
+  smul_zero _z := mulVec_zero _
+  smul_add _z _v _w := mulVec_add _ _ _
   add_smul z w v := (congrArg (fun M : M4 => M *ᵥ (v : Fin 4 → ZMod 7))
     (map_add (rhoM A hA) z w)).trans (add_mulVec _ _ _)
   zero_smul v := (congrArg (fun M : M4 => M *ᵥ (v : Fin 4 → ZMod 7))
@@ -686,7 +685,7 @@ theorem comm_rhoM {g : M4} (hg : g * (A' : M4) = (A' : M4) * g) (z : K49) :
 @[expose] noncomputable def gLin (g : centralizer ({A'} : Set (SL(4, ZMod 7)))) :
     VA (A' : M4) hA →ₗ[K49] VA (A' : M4) hA where
   toFun v := ((g : SL(4, ZMod 7)) : M4) *ᵥ (v : Fin 4 → ZMod 7)
-  map_add' v w := mulVec_add _ _ _
+  map_add' _v _w := mulVec_add _ _ _
   map_smul' z v := (mulVec_mulVec _ _ _).trans ((congrArg (· *ᵥ (v : Fin 4 → ZMod 7))
     (comm_rhoM A' hA (congrArg (fun x : SL(4, ZMod 7) => (x : M4))
       (mem_centralizer_singleton_iff.1 g.2)) z)).trans (mulVec_mulVec _ _ _).symm)
@@ -695,7 +694,7 @@ theorem comm_rhoM {g : M4} (hg : g * (A' : M4) = (A' : M4) * g) (z : K49) :
     centralizer ({A'} : Set (SL(4, ZMod 7))) →* Module.End K49 (VA (A' : M4) hA) where
   toFun g := gLin A' hA g
   map_one' := LinearMap.ext fun v => one_mulVec (v : Fin 4 → ZMod 7)
-  map_mul' g h := LinearMap.ext fun v => (mulVec_mulVec (v : Fin 4 → ZMod 7) _ _).symm
+  map_mul' _g _h := LinearMap.ext fun v => (mulVec_mulVec (v : Fin 4 → ZMod 7) _ _).symm
 
 @[expose] noncomputable def detK : centralizer ({A'} : Set (SL(4, ZMod 7))) →* K49 :=
   LinearMap.det.comp (psiHom A' hA)

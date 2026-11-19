@@ -15,7 +15,7 @@ theorem exists_eq_mul_of_complement {G : Type*} [Group G] [Finite G] {Q X E : Su
     (hTS : ∀ t ∈ T, t ∈ Q ∧ t ∈ X) (hT : T.card = 81) (hQ : Nat.card Q = 729)
     (hE : Nat.card E = 9) : ∀ q ∈ Q, ∃ e ∈ E, ∃ t ∈ T, e = q * t := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   set S : Subgroup G := Q ⊓ X with hS
   let f : E × S → Q := fun p => ⟨(p.1 : G) * (p.2 : G), Q.mul_mem (hEQ p.1.2) p.2.2.1⟩
   have hf : Function.Injective f := by
@@ -180,9 +180,9 @@ theorem u38SylowMeetsX_of_check (h : u38SylowCheck () = true) : U38SylowMeetsX :
   have hcover := fun {E : Subgroup (Equiv.Perm (Fin 513))} (hEQ : E ≤ U38Q) (hE : IsElemAbelian 3 E)
       (hE9 : Nat.card E = 9) =>
     meets_X_of_cover (Q := U38Q) (hval := hval) (hmem := hmem) hQ hsize hnIdx hnd hN
-      (hgens 0 (by omega)) (Subgroup.subset_closure ⟨0, by rw [Set.mem_setOf_eq, hsz3]; omega, rfl⟩)
-      (hgens 1 (by omega)) (Subgroup.subset_closure ⟨1, by rw [Set.mem_setOf_eq, hsz3]; omega, rfl⟩) hnc hEQ hE hE9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      (hgens 0 (by omega)) (Subgroup.subset_closure ⟨0, by rw [Set.mem_ofPred_eq, hsz3]; omega, rfl⟩)
+      (hgens 1 (by omega)) (Subgroup.subset_closure ⟨1, by rw [Set.mem_ofPred_eq, hsz3]; omega, rfl⟩) hnc hEQ hE hE9
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Qs : Subgroup U38G := U38Q.subgroupOf U38G
   have hQs : Nat.card Qs = 3 ^ 6 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQΓ).toEquiv, hQ]

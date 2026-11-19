@@ -22,9 +22,9 @@ theorem uc22s2112l3p_le_map_centralizer {L : Subgroup G}
     K ≤ ((centralizer ({b} : Set G)).subgroupOf L).map
       (QuotientGroup.mk' (CFSG.solvableRadical ↥L)) := by
   classical
-  haveI : Fact (orderOf b).Prime := ⟨hbp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have : Fact (orderOf b).Prime := ⟨hbp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
   set α : MulAut ↥L := L.normalizerMonoidHom ⟨b, hb⟩ with hαdef
   have hbpow : (⟨b, hb⟩ : ↥(normalizer (L : Set G))) ^ orderOf b = 1 := by
     rw [← Subgroup.orderOf_mk b hb]

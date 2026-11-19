@@ -54,7 +54,7 @@ theorem pgl29_outer_inverts_five_aux {y : P10} (hy : y ∈ A6Models.pgl29) (hy2 
       intro h
       apply hne
       rw [h, code_one]
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hord : orderOf x = 5 := orderOf_eq_prime hx5 hx1
     refine ⟨x, hx, hord, ?_⟩
     have hy' : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy2

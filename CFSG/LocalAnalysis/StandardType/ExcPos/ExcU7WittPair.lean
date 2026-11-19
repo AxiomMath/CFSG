@@ -72,21 +72,18 @@ theorem exists_fixed_witt_pair [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f :
       (by
         intro j i
         fin_cases j <;>
-          simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ,
-            Matrix.head_cons] <;>
+          simp only <;>
           first | exact hv i | exact hu i | exact hw i)
       (by
         intro j i
         fin_cases j <;>
-          simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ,
-            Matrix.head_cons] <;>
+          simp only <;>
           first | exact hv' i | exact hu' i | exact hw' i)
       hli hli'
       (by
         intro i j
         fin_cases i <;> fin_cases j <;>
-          simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ,
-            Matrix.head_cons]
+          simp only
         · exact hvv
         · exact hvu
         · exact hvw
@@ -99,8 +96,7 @@ theorem exists_fixed_witt_pair [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f :
       (by
         intro i j
         fin_cases i <;> fin_cases j <;>
-          simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_succ,
-            Matrix.head_cons]
+          simp only
         · exact hvv'
         · exact hvu'
         · exact hvw'

@@ -23,12 +23,12 @@ theorem L210_normal_of_theoremA (hGold : GoldschmidtTheoremA) {X : Type} [Group 
         ∃ q ∈ B, q ∉ A ∧ q * q = 1)
     (hodd : ∀ P : Subgroup X, P.Normal → Odd (Nat.card P) → P = ⊥) : A.Normal := by
   let M : Subgroup X := Subgroup.normalClosure (A : Set X)
-  haveI hMnormal : M.Normal := Subgroup.normalClosure_normal
+  have hMnormal : M.Normal := Subgroup.normalClosure_normal
   have hAM : A ≤ M := Subgroup.le_normalClosure
   have hAb' : IsMulCommutative A := hAb.1
   have hO : goldschmidtOddCore ↥M = ⊥ := goldschmidtOddCore_eq_bot_of_normal (M := M) hodd
   have hPnorm : (pCoreOf 2 M).Normal := pCoreOf_normal (M := M)
-  haveI : (pCoreOf 2 M).Normal := hPnorm
+  have : (pCoreOf 2 M).Normal := hPnorm
   have htwo : pCoreOf 2 M = ⊥ ∨ pCoreOf 2 M = A :=
     L210_normal_two_subgroup S hSN hirr hcent hO2 (isPGroup_pCoreOf M)
   rcases htwo with hPbot | hPA

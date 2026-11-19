@@ -12,7 +12,7 @@ theorem fx_qe_pow_four_mem {G : Type} [Group G] {C : Subgroup G} {x : G}
     (hdvd : C.relIndex (zpowers x) ∣ 8)
     (hnc : C.relIndex (zpowers x) = 8 →
       ∃ a ∈ zpowers x, ∃ b ∈ zpowers x, a * b * a⁻¹ * b⁻¹ ∉ C) : x ^ 4 ∈ C := by
-  haveI : (C.subgroupOf (zpowers x)).Normal := inferInstance
+  have : (C.subgroupOf (zpowers x)).Normal := inferInstance
   have hxmem : x ^ (C.subgroupOf (zpowers x)).index ∈ C := by
     have h := Subgroup.pow_index_mem (C.subgroupOf (zpowers x))
       (⟨x, Subgroup.mem_zpowers x⟩ : zpowers x)

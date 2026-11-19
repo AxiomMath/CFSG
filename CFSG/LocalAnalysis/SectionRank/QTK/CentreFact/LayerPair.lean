@@ -65,7 +65,7 @@ theorem false_of_components_psu_three_two_pow
 
 private theorem components_commute {H : Type} [Group H] [Finite H] {L₁ L₂ : Subgroup H}
     (h₁ : CFSG.IsComponent L₁) (h₂ : CFSG.IsComponent L₂) (hne : L₁ ≠ L₂) :
-    ∀ a ∈ L₁, ∀ b ∈ L₂, Commute a b := fun a ha b hb =>
+    ∀ _a ∈ L₁, ∀ _b ∈ L₂, Commute _a _b := fun _a ha _b hb =>
   commutatorElement_eq_one_iff_commute.1 (Subgroup.mem_bot.1
     (((CFSG.LocalCores.distinct_components_commute h₁ h₂).resolve_left hne) ▸
       Subgroup.commutator_mem_commutator ha hb))

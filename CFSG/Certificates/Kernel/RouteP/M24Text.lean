@@ -13,7 +13,7 @@ open String CFSG.KC.Str CFSG.KC.RouteP Certificates.RouteP.M24Defect
 
 theorem take_drop_succ {cs : List Char} {b k : Nat} (h : b + k < cs.length) :
     (cs.drop b).take (k + 1) = (cs.drop b).take k ++ [cs.getD (b + k) 'a'] := by
-  rw [List.take_succ, List.getElem?_drop, List.getElem?_eq_getElem h, List.getD_eq_getElem _ _ h]
+  rw [List.take_add_one, List.getElem?_drop, List.getElem?_eq_getElem h, List.getD_eq_getElem _ _ h]
   rfl
 
 theorem drop_getD {cs : List Char} {i : Nat} (h : i < cs.length) :
@@ -29,7 +29,7 @@ theorem splitSL_two {a c : Char} {cs : List Char} : ∀ (f b i j : Nat) (r : Lis
   | f + 1, b, i, j, r, hi, hj, hb, ha, hf => by
     rw [splitSL]
     by_cases hn : cs.length ≤ i
-    · rw [if_pos hn, show i = cs.length by omega, List.drop_length]
+    · rw [ite_eq_left hn, show i = cs.length by omega, List.drop_length]
       rcases (by omega : j = 0 ∨ j = 1) with rfl | rfl
       · simp [split2K]
       · have ha' := ha rfl
@@ -39,7 +39,7 @@ theorem splitSL_two {a c : Char} {cs : List Char} : ∀ (f b i j : Nat) (r : Lis
           show cs.length = i by omega, ha'] at e
         rw [show cs.length = i by omega, e]
         simp [split2K]
-    · rw [if_neg hn]
+    · rw [ite_eq_right hn]
       have hd := drop_getD (cs := cs) (i := i) (by omega)
       have hii : cs.getD (i + 1 - 1) 'a' = cs.getD i 'a' := by rw [Nat.add_sub_cancel]
       generalize hch : cs.getD i 'a' = ch at hd hii
@@ -48,29 +48,29 @@ theorem splitSL_two {a c : Char} {cs : List Char} : ∀ (f b i j : Nat) (r : Lis
         rw [show b + (i - b) = i by omega, hch] at e
         by_cases hc : (ch == a) = true
         · have hc' : ch = a := by simpa using hc
-          rw [if_pos (by simpa using hc), if_neg (by simp),
+          rw [ite_eq_left (by simpa using hc), ite_eq_right (by simp),
             splitSL_two f b (i + 1) 1 r (by omega) le_rfl (by omega) (fun _ => by rw [hii, hc'])
               (by omega), hd, show i + 1 - 1 - b = i - b by omega, Nat.sub_zero]
-          simp [split2K, hc'] <;> rfl
-        · rw [if_neg (by simpa using hc), Nat.sub_zero,
+          simp [split2K, hc']
+        · rw [ite_eq_right (by simpa using hc), Nat.sub_zero,
             splitSL_two f b (i + 1) 0 r (by omega) (Nat.zero_le _) (by omega) (by simp) (by omega),
             hd, show i + 1 - 0 - b = i - b + 1 by omega, e]
-          simp [split2K, hc] <;> rfl
+          simp [split2K, hc]
       · have ha' := ha rfl
         have e := take_drop_succ (cs := cs) (b := b) (k := i - 1 - b) (by omega)
         rw [show b + (i - 1 - b) = i - 1 by omega, show i - 1 - b + 1 = i - b by omega, ha'] at e
         by_cases hc : (ch == c) = true
-        · rw [if_pos (by simpa using hc), if_pos (by simp),
+        · rw [ite_eq_left (by simpa using hc), ite_eq_left (by simp),
             splitSL_two f (i + 1) (i + 1) 0 _ (by omega) (Nat.zero_le _) (by omega) (by simp)
               (by omega), hd]
-          simp [split2K, hc] <;> rfl
-        · rw [if_neg (by simpa using hc), show i - 1 + 1 = i by omega,
+          simp [split2K, hc]
+        · rw [ite_eq_right (by simpa using hc), show i - 1 + 1 = i by omega,
             splitSL_two f b i 0 r (by omega) (Nat.zero_le _) (by omega) (by simp) (by omega), hd,
             show i - 0 - b = i - b by omega, e]
           by_cases hca : ch = a
           · have hac : a ≠ c := fun h => hc (by simp [hca, h])
-            simp [split2K, hc, hca, hac] <;> rfl
-          · simp [split2K, hc, hca] <;> rfl
+            simp [split2K, hca, hac]
+          · simp [split2K, hc, hca]
 
 theorem splitSepL_two (a c : Char) (cs : List Char) :
     splitSepL cs [a, c] = split2K a c cs [] false := by
@@ -111,7 +111,7 @@ theorem tok_eq {t : List Char} (h : (t.isEmpty || digitsL t) = true) :
     simp only [List.isEmpty_cons, Bool.false_or] at h
     have hne : String.ofList (c :: ds) ≠ "" := fun e => by
       simpa using congrArg String.toList e
-    rw [if_neg hne, toNat!_digits h]
+    rw [ite_eq_right hne, toNat!_digits h]
     simp [tokNat]
 
 theorem parseNats_ofList {l : List Char} (h : natsOKL l = true) :

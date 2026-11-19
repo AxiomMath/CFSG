@@ -54,10 +54,10 @@ theorem q2c_F4_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .F4) (h
   subst hlab
   have hsplt : p ∣ 2 ^ n - 1 ∨ (n = 1 ∧ p = 3) :=
     (largeEvenSplit_F4_iff (lab := ⟨.F4, l, n⟩) rfl).mp hsplit
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro Q hQ
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro A hA hAI hbig hlo hup
   have hZ : Subgroup.center (TableBF4.RecipeGroup K) = ⊥ :=

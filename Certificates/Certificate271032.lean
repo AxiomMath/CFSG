@@ -67,7 +67,7 @@ theorem certificate271032 : (tCheck7 = true) ∧ (bCheck7 = true) ∧ (normalChe
       have e := hcent y hy
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at e
       exact e
-    simp only [CFSG.KC.N0K.S4, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
     exact h
   · refine center_of letterRd_NL h1 h2 n7k_ok centerK_ok z (fun i => ?_) hd
     have e := hz i

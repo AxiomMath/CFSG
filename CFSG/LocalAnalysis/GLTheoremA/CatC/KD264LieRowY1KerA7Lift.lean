@@ -44,7 +44,7 @@ theorem lift_of_elemAbelian7 [Finite K]
     have hq := Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective ρ hρ).toEquiv
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup ρ.ker, hq, hc]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := Sylow.exists_subgroup_card_pow_prime (G := E') 3 h27
   let P : Subgroup (Matrix.SpecialLinearGroup (Fin 7) K) := Q.map E'.subtype
   have hcardP : Nat.card P = 27 := by

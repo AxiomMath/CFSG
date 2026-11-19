@@ -24,7 +24,7 @@ theorem certificate7069 :
     intro y hy
     rw [T22.len] at hy
     rw [fixTab_get FixTab22.tab y (by simp [hMc]; omega)]
-    simp [fixMasks, List.getD_eq_getElem?_getD, List.getElem?_take, hy]
+    simp [fixMasks, List.getD_eq_getElem?_getD, hy]
   have hA := forallGreedyAll_fixT T22.gtabs (by rw [T22.len]; exact T22.lenOK.2) pos22s2_eq
     T22.Mc FixTab22.F22 10 hFs _
     (fun L S st => pred22E 9 T22.Mc FixTab22.F22 71 L S st && predOffK T22.P L S st)

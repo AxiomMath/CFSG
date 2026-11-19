@@ -67,6 +67,7 @@ end KTree
 
 variable {M : Type*} [Group M] [DecidableEq M]
 
+omit [DecidableEq M] in
 theorem conj_mem_productsOf {K : List M} : ∀ (Ts : List (List M)),
     (∀ T ∈ Ts, ∀ u ∈ T, ∀ k ∈ K, u⁻¹ * k * u ∈ K) →
       ∀ g ∈ productsOf Ts, ∀ k ∈ K, g⁻¹ * k * g ∈ K

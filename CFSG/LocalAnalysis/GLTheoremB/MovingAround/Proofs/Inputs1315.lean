@@ -24,12 +24,12 @@ variable {F : Type} [Field F]
 abbrev L2S (F : Type) [Field F] : Type := StatedProj (StatedSL 2 F)
 
 @[expose] def uGL (v : F) : GL (Fin 2) F :=
-  ⟨!![1, v; 0, 1], !![1, -v; 0, 1], by simp [Matrix.mul_fin_two, Matrix.one_fin_two],
-    by simp [Matrix.mul_fin_two, Matrix.one_fin_two]⟩
+  ⟨!![1, v; 0, 1], !![1, -v; 0, 1], by simp [Matrix.one_fin_two],
+    by simp [Matrix.one_fin_two]⟩
 
 @[expose] def lGL (v : F) : GL (Fin 2) F :=
-  ⟨!![1, 0; v, 1], !![1, 0; -v, 1], by simp [Matrix.mul_fin_two, Matrix.one_fin_two],
-    by simp [Matrix.mul_fin_two, Matrix.one_fin_two]⟩
+  ⟨!![1, 0; v, 1], !![1, 0; -v, 1], by simp [Matrix.one_fin_two],
+    by simp [Matrix.one_fin_two]⟩
 
 theorem coe_uGL (v : F) : ((uGL v : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![1, v; 0, 1] :=
   rfl
@@ -47,10 +47,12 @@ theorem lGL_mem (v : F) : lGL v ∈ StatedSL 2 F :=
 
 @[expose] def lS (v : F) : StatedSL 2 F := ⟨lGL v, lGL_mem v⟩
 
+omit [Field F] in
 theorem entries_of_eq {X Y : Matrix (Fin 2) (Fin 2) F} (h : X = Y) :
     X 0 0 = Y 0 0 ∧ X 0 1 = Y 0 1 ∧ X 1 0 = Y 1 0 ∧ X 1 1 = Y 1 1 :=
   ⟨by rw [h], by rw [h], by rw [h], by rw [h]⟩
 
+omit [Field F] in
 theorem matrix_ext_two {X Y : Matrix (Fin 2) (Fin 2) F} (h00 : X 0 0 = Y 0 0) (h01 : X 0 1 = Y 0 1)
     (h10 : X 1 0 = Y 1 0) (h11 : X 1 1 = Y 1 1) : X = Y := by
   ext i j
@@ -191,7 +193,7 @@ theorem exists_le_conj {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact p.P
   have hUp : IsPGroup p U := IsPGroup.of_card hU
   obtain ⟨P, hUP⟩ := hUp.exists_le_sylow
   have hPU : (P : Subgroup G) = U := by
-    obtain ⟨m, hm⟩ := (IsPGroup.iff_card.1 P.isPGroup')
+    obtain ⟨m, hm⟩ := (IsPGroup.iff_card.1 P.isPGroup)
     have hdvd : p ^ m ∣ Nat.card G := hm ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup G)
     have hmk : m ≤ k := by
       by_contra hlt
@@ -211,8 +213,8 @@ theorem exists_le_conj {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact p.P
 variable {F : Type} [Field F]
 
 theorem charP_of_card [Finite F] {p n : ℕ} (hp : p.Prime) (hF : Nat.card F = p ^ n) : CharP F p := by
-  haveI := Fintype.ofFinite F
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
   exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hF)
 
 theorem not_dvd_card_L2S [Finite F] {p n : ℕ} (hp : p.Prime) (hn : 1 ≤ n) (hF : Nat.card F = p ^ n) :
@@ -238,7 +240,7 @@ theorem exists_le_conj_Ubar [Finite F] {p n : ℕ} [hp : Fact p.Prime] (hn : 1 �
 theorem pGroup_facts [Finite F] {p n : ℕ} [hp : Fact p.Prime] (hn : 1 ≤ n)
     (hF : Nat.card F = p ^ n) {S : Subgroup (L2S F)} (hS : IsPGroup p S) :
     IsElemAbelian p S ∧ Nat.card S ≤ p ^ n := by
-  haveI := charP_of_card hp.out hF
+  have := charP_of_card hp.out hF
   obtain ⟨g, hg⟩ := exists_le_conj_Ubar hn hF hS
   have hel : IsElemAbelian p ((Ubar F).map (MulAut.conj g).toMonoidHom) :=
     CFSG.SectionRank.isElemAbelian_map (isElemAbelian_Ubar p) _
@@ -249,7 +251,7 @@ theorem pGroup_facts [Finite F] {p n : ℕ} [hp : Fact p.Prime] (hn : 1 ≤ n)
 
 theorem exists_pGroup_card [Finite F] {p n : ℕ} [hp : Fact p.Prime] (hF : Nat.card F = p ^ n) :
     ∃ S : Subgroup (L2S F), IsPGroup p S ∧ Nat.card S = p ^ n := by
-  haveI := charP_of_card hp.out hF
+  have := charP_of_card hp.out hF
   exact ⟨Ubar F, Lemma1315b.isPGroup_of_elemAbelian (isElemAbelian_Ubar p), by rw [card_Ubar, hF]⟩
 
 end Sylow
@@ -260,8 +262,8 @@ variable {F : Type} [Field F]
 
 @[expose] noncomputable def dGL (a : Fˣ) : GL (Fin 2) F :=
   ⟨!![(a : F), 0; 0, (a : F)⁻¹], !![(a : F)⁻¹, 0; 0, (a : F)],
-    by simp [Matrix.mul_fin_two, Matrix.one_fin_two],
-    by simp [Matrix.mul_fin_two, Matrix.one_fin_two]⟩
+    by simp [Matrix.one_fin_two],
+    by simp [Matrix.one_fin_two]⟩
 
 theorem coe_dGL (a : Fˣ) :
     ((dGL a : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = !![(a : F), 0; 0, (a : F)⁻¹] := rfl
@@ -305,7 +307,7 @@ theorem mem_normalizer_of_conj_mem {G : Type*} [Group G] {S : Subgroup G} [Finit
 theorem torus_fact [Finite F] {p n : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) (hn : 1 ≤ n)
     (hF : Nat.card F = p ^ n) {S : Subgroup (L2S F)} (hS : IsPGroup p S) (hSp : Nat.card S = p) :
     ∃ m ∈ Subgroup.normalizer (S : Set (L2S F)), ∃ s ∈ S, m * s * m⁻¹ ≠ s := by
-  haveI := charP_of_card hp.out hF
+  have := charP_of_card hp.out hF
   obtain ⟨g, hg⟩ := exists_le_conj_Ubar hn hF hS
   have hS1 : (⊥ : Subgroup (L2S F)) ≠ S := by
     intro h
@@ -427,7 +429,7 @@ theorem frobGL_frobGL (i j : ℕ) (A : GL (Fin 2) F) :
 theorem frobGL_zero (A : GL (Fin 2) F) : frobGL p 0 A = A := by
   apply Units.ext
   ext k l
-  simp [coe_frobGL]
+  simp
 
 theorem frobGL_eq_self {j : ℕ} (hfix : ∀ x : F, x ^ p ^ j = x) (A : GL (Fin 2) F) :
     frobGL p j A = A := by
@@ -500,6 +502,7 @@ theorem inner_of_semi {z : MulAut (L2S F)} {k : GL (Fin 2) F} {j : ℕ} (hz : Is
           group
       _ = k * (A : GL (Fin 2) F) * k⁻¹ := by rw [h1]; group
 
+omit hp [CharP F p] in
 theorem frobFix_mul {j : ℕ} {x : F} (hfix : x ^ p ^ j = x) : ∀ m : ℕ, x ^ p ^ (j * m) = x
   | 0 => by simp
   | m + 1 => by
@@ -532,9 +535,10 @@ theorem inner_of_semi_of_pow (hp2 : p ≠ 2) {z : MulAut (L2S F)} {g : GL (Fin 2
   rw [hdet, Units.val_pow_eq_pow_val, hδ, Matrix.GeneralLinearGroup.val_det_apply, ← pow_mul,
     ← pow_succ', mul_comm r 2, ← hr, add_comm]
 
+omit hp [CharP F p] in
 theorem frobFix_of_card [Finite F] {n : ℕ} (hF : Nat.card F = p ^ n) (m : ℕ) (x : F) :
     x ^ p ^ (n * m) = x := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [pow_mul, ← hF, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card_pow m x
 
@@ -544,6 +548,7 @@ theorem not_dvd_of_semi [Finite F] (hp2 : p ≠ 2) (hF : Nat.card F = p ^ p) {x 
   rintro ⟨m, rfl⟩
   exact hxI (inner_of_semi_of_pow p hp2 hx (frobFix_of_card p hF m) hxp)
 
+omit [CharP F p] in
 theorem fix_pow_p [Finite F] (hF : Nat.card F = p ^ p) {j : ℕ} (hj : ¬ p ∣ j) {t : F}
     (ht : t ^ p ^ j = t) : t ^ p = t := by
   have hj0 : (j : ZMod p) ≠ 0 := by rwa [Ne, ZMod.natCast_eq_zero_iff]
@@ -562,9 +567,10 @@ theorem fix_pow_p [Finite F] (hF : Nat.card F = p ^ p) {j : ℕ} (hj : ¬ p ∣ 
   rw [hjk, pow_succ, pow_mul, frobFix_of_card p hF _ t] at h1
   exact h1
 
+omit [CharP F p] in
 theorem card_fix_le [Finite F] : Nat.card {t : F // t ^ p = t} ≤ p := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hP : (Polynomial.X ^ p - Polynomial.X : Polynomial F) ≠ 0 :=
     FiniteField.X_pow_card_sub_X_ne_zero F hp.out.one_lt
   have hdeg : (Polynomial.X ^ p - Polynomial.X : Polynomial F).natDegree = p :=
@@ -808,7 +814,7 @@ variable {F : Type} [Field F]
 
 theorem exists_frobenius_pow [Finite F] (p : ℕ) [Fact p.Prime] [CharP F p] (σ : F ≃+* F) :
     ∃ j : ℕ, ∀ x : F, σ x = x ^ p ^ j := by
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   let σ' : F ≃ₐ[ZMod p] F := AlgEquiv.ofRingEquiv (f := σ) fun x =>
     DFunLike.congr_fun (RingHom.ext_zmod (σ.toRingHom.comp (algebraMap (ZMod p) F))
       (algebraMap (ZMod p) F)) x
@@ -838,7 +844,7 @@ theorem ιP_equiv (y : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :
 
 theorem inputAutPSL2_holds : InputAutPSL2 := by
   intro p hp F _ _ hchar α
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set e := CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F with he
   set α' : MulAut (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) := MulAut.congr e.symm α with hα'
   obtain ⟨g, σ, hg⟩ := CFSG.RankThree.PartTwo.KFacts.exists_pglAction_mul_psl2FieldAut α'
@@ -873,8 +879,8 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (innerAut)
 
 theorem l2Facts_model {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hF : Nat.card F = p ^ p) : Lemma1315b.L2Facts p (L2S F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := charP_of_card hp hF
+  have : Fact p.Prime := ⟨hp⟩
+  have := charP_of_card hp hF
   have h1 : 1 ≤ p := hp.one_lt.le
   exact ⟨center_eq_bot, fun S hS => pGroup_facts h1 hF hS, exists_pGroup_card hF,
     fun E hE => elemAbelian_aut_card p hp5 hF inputAutPSL2_holds hE,
@@ -975,7 +981,7 @@ theorem input3_3_of_chevTwoOdd (h : Prop1116Design.InputChevTwoOdd) : Lemma1315b
   have eZ : K ≃* K ⧸ Subgroup.center K :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
   rcases hcases with ⟨⟨f⟩, rfl⟩ | ⟨h7, rfl⟩
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨g⟩ := CFSG.ClassicalInvolution.A7M.nonempty_mulEquiv_alternatingGroup_five_psl
     exact ⟨Or.inl rfl, ZMod 5, inferInstance, inferInstance, Nat.card_zmod 5,
       ⟨eZ.trans (f.trans (g.trans
@@ -1011,19 +1017,21 @@ theorem glaPComponent_self_of_quasisimple {Y : Type*} [Group Y] {p : ℕ} {S : S
 abbrev Hol (K : Type) [Group K] : Type := K ⋊[MonoidHom.id (MulAut K)] MulAut K
 
 theorem hol_finite (K : Type) [Group K] [Finite K] : Finite (Hol K) :=
-  Finite.of_injective (fun z : Hol K => (z.left, z.right)) fun a b h =>
+  Finite.of_injective (fun z : Hol K => (z.left, z.right)) fun _a _b h =>
     SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h)
 
 variable {K : Type} [Group K] [Finite K]
 
 abbrev Kin (K : Type) [Group K] : Subgroup (Hol K) := (SemidirectProduct.inl : K →* Hol K).range
 
+omit [Finite K] in
 theorem inl_conj (x : MulAut K) (k : K) :
     (SemidirectProduct.inr x : Hol K) * SemidirectProduct.inl k * (SemidirectProduct.inr x)⁻¹ =
       SemidirectProduct.inl (x k) := by
   rw [← map_inv]
   exact (SemidirectProduct.inl_aut x k).symm
 
+omit [Finite K] in
 theorem kin_inf_centralizer (x : MulAut K) :
     Kin K ⊓ Subgroup.centralizer ({(SemidirectProduct.inr x : Hol K)} : Set (Hol K)) =
       (Lemma1314.fixSub x).map (SemidirectProduct.inl : K →* Hol K) := by
@@ -1045,20 +1053,24 @@ theorem kin_inf_centralizer (x : MulAut K) :
 @[expose] noncomputable def kinEquiv (K : Type) [Group K] : K ≃* ↥(Kin K) :=
   MonoidHom.ofInjective (SemidirectProduct.inl_injective (φ := MonoidHom.id (MulAut K)))
 
+omit [Finite K] in
 theorem kin_core_eq_bot {p : ℕ} (hO : GLAPPrimeCore p K = ⊥) : GLAPPrimeCore p ↥(Kin K) = ⊥ := by
   have h := glaPPrimeCore_map_iso p (kinEquiv K)
   rw [hO, Subgroup.map_bot] at h
   exact h.symm
 
+omit [Finite K] in
 theorem kin_coreOf_eq_bot {p : ℕ} (hO : GLAPPrimeCore p K = ⊥) : GLAPPrimeCoreOf p (Kin K) = ⊥ := by
   rw [GLAPPrimeCoreOf, kin_core_eq_bot hO, Subgroup.map_bot]
 
+omit [Finite K] in
 theorem kin_component {p : ℕ} (hK : CFSG.Open.IsQuasisimple K) (hO : GLAPPrimeCore p K = ⊥) :
     GLAPComponent p (Kin K) (Kin K) :=
   glaPComponent_self_of_quasisimple
     (CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv (kinEquiv K) hK)
     (kin_core_eq_bot hO)
 
+omit [Finite K] in
 theorem pSimple_kin_equiv {p : ℕ} (hO : GLAPPrimeCore p K = ⊥) :
     Nonempty (PSimple p (Kin K) ≃* K ⧸ Subgroup.center K) := by
   have e1 : PQuot p (Kin K) ≃* K :=
@@ -1071,7 +1083,7 @@ theorem input14_4_1_of_kd
     (hI : ∀ p : ℕ, p.Prime → 5 ≤ p → CFSG.LocalAnalysis.GLTheoremA.KDChevInner p) :
     Lemma1315b.Input14_4_1 := by
   intro p q hp hp5 hq K _ _ hK hO hchev J _ x ⟨hx, J1, hJ1, ⟨eJ⟩⟩
-  haveI := hol_finite K
+  have := hol_finite K
   set a : Hol K := SemidirectProduct.inr x with ha
   have hKc : GLAPComponent p (Kin K) (Kin K) := kin_component hK.1 hO
   obtain ⟨eS⟩ := pSimple_kin_equiv (K := K) hO
@@ -1080,7 +1092,7 @@ theorem input14_4_1_of_kd
     have hN : (Kin K).Normal := by
       rw [Kin, SemidirectProduct.range_inl_eq_ker_rightHom]
       exact MonoidHom.normal_ker _
-    haveI := hN
+    have := hN
     rw [Subgroup.normalizer_eq_top (Kin K)]
     exact Subgroup.mem_top _
   have hap : a ^ p = 1 := by
@@ -1166,7 +1178,7 @@ theorem eq_psl_two_of_sylow_le {t : StatedLieTag} {n p f : ℕ} (hadm : StatedLi
       omega) h).elim
   all_goals omega
 
-theorem factorization_le_one {q N : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3)
+theorem factorization_le_one {q N : ℕ} (_hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3)
     (hN : N = 60 ∨ N = 168 ∨ N = 360 ∨ N = 6048 ∨ N = 25920) : N.factorization q ≤ 1 := by
   obtain ⟨a, b, r, hr, rfl⟩ : ∃ a b r : ℕ, (r = 5 ∨ r = 7) ∧ N = 2 ^ a * 3 ^ b * r := by
     rcases hN with rfl | rfl | rfl | rfl | rfl
@@ -1269,7 +1281,7 @@ theorem inputChevTwoOdd_holds : Prop1116Design.InputChevTwoOdd := by
             | (left; rfl)
             | (right; rfl)
             | (exfalso; norm_num at hq; done)
-            | (exfalso; rw [hc] at hset; norm_num at hset; done)
+            | (exfalso; rw [hc] at hset; norm_num at hset)
         rcases hq57 with rfl | rfl
         · obtain ⟨eA⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five K
             (Or.inr hK)

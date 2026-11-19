@@ -62,6 +62,7 @@ theorem normal_le_center_of_secondKindTriangle' (hS : Asc72.Setup G D)
     htri.1 (hS.oddT.mul_self_eq_one htri.1)
     (hNo.of_dvd_nat (Subgroup.orderOf_dvd_natCard N hxN)) hxinv
 
+omit [Finite G] in
 theorem normal_le_center_of_mem_closure_commSet' (hS : Asc72.Setup G D)
     {N : Subgroup G} (hN : N.Normal) (hNo : Odd (Nat.card N))
     {u : G} (hu : u ∈ D) (huD : u ∈ Subgroup.closure (commSet D u)) :

@@ -23,8 +23,8 @@ theorem exists_plane_element {G : Type*} [Group G] {E₀ : Subgroup G}
       ∃ z ∈ E₀, z ∉ P ∧ E₀ ≤ P ⊔ Subgroup.zpowers z := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
   obtain ⟨P, hPE, hPc⟩ := exists_subgroup_card_sq_le hp3 hc
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
   obtain ⟨z, hzE, hzP⟩ : ∃ z ∈ E₀, z ∉ P := by
     by_contra h
     push Not at h
@@ -37,7 +37,7 @@ theorem exists_plane_element {G : Type*} [Group G] {E₀ : Subgroup G}
   have hPC : P ≤ C := le_sup_left
   have hzC : z ∈ C := (le_sup_right : Subgroup.zpowers z ≤ C) (Subgroup.mem_zpowers z)
   have hlt : P < C := lt_of_le_of_ne hPC fun h => hzP (h ▸ hzC)
-  haveI : Finite C :=
+  have : Finite C :=
     Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
   have h1 := Subgroup.card_lt_of_lt hlt
   have h2 : Nat.card C ∣ 3 ^ 3 := hc ▸ Subgroup.card_dvd_of_le hCE

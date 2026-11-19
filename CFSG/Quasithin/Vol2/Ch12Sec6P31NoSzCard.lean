@@ -22,7 +22,7 @@ theorem card_L1_two_three (h1222 : Stmt12_2_2) (F : Frame126 T L V) (hH : Hyp126
       Subgroup.centralizer (V : Set G)) at hcard
   have hprime : ∀ r : ℕ, r.Prime → r ∣ Nat.card (S126L19b.L1bar F hH) → r = 2 ∨ r = 3 := by
     intro r hr hdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := S126L19b.L1bar F hH) r hdvd
     have h24 : ((σ : ↥(alternatingGroup (Fin 8))) : Equiv.Perm (Fin 8)) ^ 24 = 1 :=
       S126L19a.pow_24 (S126L19b.blocks_of_mem_L1bar F hH σ.2)
@@ -79,6 +79,7 @@ section Join
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_dvd {A B : Subgroup G} (hB : B ≤ Subgroup.normalizer (A : Set G)) :
     Nat.card ↥(A ⊔ B) ∣ Nat.card ↥A * Nat.card ↥B := by
   set X : Subgroup G := A ⊔ B with hX
@@ -86,7 +87,7 @@ theorem card_sup_dvd {A B : Subgroup G} (hB : B ≤ Subgroup.normalizer (A : Set
   have hBX : B ≤ X := le_sup_right
   have hXN : X ≤ Subgroup.normalizer (A : Set G) :=
     sup_le Subgroup.le_normalizer hB
-  haveI hAn : (A.subgroupOf X).Normal :=
+  have hAn : (A.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAX).2 hXN
   have h1 : (A.subgroupOf X) ⊔ (B.subgroupOf X) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hAX hBX]

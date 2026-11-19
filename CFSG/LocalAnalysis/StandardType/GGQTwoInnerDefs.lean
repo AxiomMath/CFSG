@@ -63,7 +63,7 @@ theorem ggQ2_inner_of_hom {H H' : Type} [Group H] [Group H'] (f : H →* H')
     have hy : ∃ t' ∈ T, f t' = f t := ⟨t, ht, rfl⟩
     have hc := Classical.choose_spec hy
     have hct : Classical.choose hy = t := hf hc.2
-    simp only [π', dif_pos hy, hct]
+    simp only [π', dite_eq_left hy, hct]
   obtain ⟨g', hg', hg't⟩ := h π'
     (by
       rintro _ ⟨t, ht, rfl⟩
@@ -139,11 +139,11 @@ theorem ggQ2_inner_image {H H' : Type} [Group H] [Group H'] (f : H →* H')
   let π : H → H := fun t => if ht : ∃ u ∈ T, f u = π' (f t) then Classical.choose ht else t
   have hπf : ∀ t ∈ T, f (π t) = π' (f t) := by
     intro t ht
-    simp only [π, dif_pos (hex t ht)]
+    simp only [π, dite_eq_left (hex t ht)]
     exact (Classical.choose_spec (hex t ht)).2
   have hπT : ∀ t ∈ T, π t ∈ T := by
     intro t ht
-    simp only [π, dif_pos (hex t ht)]
+    simp only [π, dite_eq_left (hex t ht)]
     exact (Classical.choose_spec (hex t ht)).1
   obtain ⟨g, hg, hgt⟩ := h π hπT
     (by

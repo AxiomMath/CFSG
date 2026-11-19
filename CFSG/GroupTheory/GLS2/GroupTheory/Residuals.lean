@@ -39,11 +39,11 @@ theorem closure_primeSupported_compl_characteristic (π : Set ℕ) :
   constructor
   · rintro ⟨y, hy, rfl⟩
     change primeSupported πᶜ (orderOf (e y))
-    simpa only [Set.mem_setOf_eq, e.orderOf_eq] using hy
+    simpa only [Set.mem_ofPred_eq, e.orderOf_eq] using hy
   · intro hx
     refine ⟨e.symm x, ?_, e.apply_symm_apply x⟩
     change primeSupported πᶜ (orderOf (e.symm x))
-    simpa only [Set.mem_setOf_eq, e.symm.orderOf_eq] using hx
+    simpa only [Set.mem_ofPred_eq, e.symm.orderOf_eq] using hx
 
 theorem exists_primeSupported_pow_mem_closure
     [Finite G] (π : Set ℕ) (x : G) :
@@ -162,7 +162,7 @@ theorem oPrimeResidual_eq_piResidual_compl_singleton
   unfold GH74.GLS.oPrimeResidual
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_singleton_iff, not_not]
+  simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_singleton_iff, not_not]
   constructor
   · rintro ⟨k, hk⟩ q hq
     apply Subtype.ext

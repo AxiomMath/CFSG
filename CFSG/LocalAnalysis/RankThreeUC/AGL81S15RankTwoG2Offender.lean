@@ -34,12 +34,13 @@ section IndexBound
 variable {K : Type} [Group K] [Finite K] {L B : Subgroup K} (h : InnerCtx L B)
   {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
 
+omit [Finite K] in
 theorem exists_g2AdjointEquiv (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n)
     (e : ↥L ≃* ↥(quasithinG2 F)) :
     Nonempty (↥L ≃* ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 F)) := by
   classical
   have hNatF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
+  have : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
   obtain ⟨ψ, -, hsurj, hker⟩ :=
     CFSG.Quasithin.B42G2Id.exists_adjointGroup_hom_cayleyGroup (K := F) hNatF hn
   have hZadj : Subgroup.center ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 F) = ⊥ :=
@@ -57,7 +58,7 @@ theorem g2_relIndex_innerPart_le_two (h : InnerCtx L B) (hn : 2 ≤ n)
     (innerPart L B).relIndex B ≤ 2 := by
   classical
   have hNatF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
+  have : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
   have hBN : B ≤ Subgroup.normalizer (L : Set K) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr h.normal_L]
     exact le_top
@@ -272,7 +273,7 @@ theorem g2_offender_facts_of_natural (hn : 2 ≤ n) (hF : Fintype.card F = 2 ^ n
     · obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp ha'
       exact congrArg (fun x => Multiplicative.ofAdd x) (y.2 a ha)
   have hcardW : Nat.card (Multiplicative Y) = Nat.card Y := Nat.card_congr Multiplicative.toAdd
-  haveI hAeI : CFSG.IsElementaryAbelian 2 ↥A := hAe
+  have hAeI : CFSG.IsElementaryAbelian 2 ↥A := hAe
   have hA'e : IsElemAbelian2 A' := by
     constructor
     · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
@@ -334,9 +335,9 @@ theorem core_inner_g2 (h : InnerCtx L B) (hn : 2 ≤ n) (hF : Fintype.card F = 2
     (e : ↥L ≃* ↥(quasithinG2 F)) (hd : ChiefData L B κ) :
     ∀ b ∈ B, ∃ l ∈ L, ConjAgree L b l := by
   classical
-  haveI := hd.nontrivial
+  have := hd.nontrivial
   have hNatF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card]; exact hF
-  haveI : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
+  have : CharP F 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card hNatF
   have hperf : commutator ↥L = ⊤ := h.quasi.1
   have hZbot : Subgroup.center ↥L = ⊥ := by
     have hmap : (Subgroup.center ↥L).map (e : ↥L →* ↥(quasithinG2 F)) = ⊥ := by
@@ -348,7 +349,7 @@ theorem core_inner_g2 (h : InnerCtx L B) (hn : 2 ≤ n) (hF : Fintype.card F = 2
     CFSG.Quasithin.H13.Ch4.FFG2.isSimpleGroup_of_quasisimple
       ((CFSG.Quasithin.A3.isQuasisimple_iff_open (Q := ↥L)).mpr h.quasi) hZbot
   obtain ⟨Y, hY⟩ := exists_lMin L κ
-  haveI : Nontrivial ↥Y := (Submodule.nontrivial_iff_ne_bot).mpr hY.ne_bot
+  have : Nontrivial ↥Y := (Submodule.nontrivial_iff_ne_bot).mpr hY.ne_bot
   have hnt := hY.nontriv h hd
   have hY4 : 4 < Nat.card ↥Y := inner_four_lt_card hperf hY.inv hnt
   have hBN : B ≤ Subgroup.normalizer (L : Set K) := by

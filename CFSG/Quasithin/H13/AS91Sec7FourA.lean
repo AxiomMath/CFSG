@@ -106,11 +106,11 @@ section ClaimA
 include ρ in
 theorem claimA (hI : Sec7Inputs) (hJ : HypJ4 G z) {x u y v : G ⧸ c.G1} (h2 : c.Rh 2 x u y)
     (h1 : ¬ c.Rh 1 x u y) (hxv : c.Delta.Adj x v) (huv : c.Delta.Adj u v)
-    (hyv : c.Delta.Adj y v) {L M N : G ⧸ c.G2} (hLu : c.OnL u L) (hLx : c.OnL x L)
+    (hyv : c.Delta.Adj y v) {L M N : G ⧸ c.G2} (_hLu : c.OnL u L) (_hLx : c.OnL x L)
     (hMu : c.OnL u M) (hMy : c.OnL y M) (hNu : c.OnL u N) (hNv : c.OnL v N)
-    (hNL : N ∈ c.deltaAt 1 u L ∨ N ∈ c.deltaAt 2 u L) (hNM : N ∈ c.deltaAt 1 u M) :
+    (_hNL : N ∈ c.deltaAt 1 u L ∨ N ∈ c.deltaAt 2 u L) (hNM : N ∈ c.deltaAt 1 u M) :
     c.Rh 2 x v y ∧ ¬ c.Rh 1 x v y := by
-  clear hLu hLx hNL
+  clear _hLu _hLx _hNL
   obtain ⟨hxu, huy, hxy, -⟩ := c.rh21_path h2 h1
   have hnxy : ¬ c.Delta.Adj x y := c.rh21_not_adj h1 hxu huy
   obtain ⟨L', hxL', hvL'⟩ := c.exists_onL_of_adj hxv

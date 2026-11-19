@@ -48,7 +48,7 @@ theorem ncard_le_of_ovoid [Finite K] [Module.Finite K E] {n : ℕ}
     omega
   have hcard : Nat.card (W ⧸ U') = Nat.card K ^ (n - 1) := by
     rw [Module.natCard_eq_pow_finrank (K := K), hQdim]
-  haveI : Finite (W ⧸ U') := Module.finite_of_finite K
+  have : Finite (W ⧸ U') := Module.finite_of_finite K
   have hmem : ∀ p ∈ S, p - c₀ ∈ W := fun p hp => by
     rw [hmemW, LinearMap.map_sub₂, (hS p hp).2, (hS c₀ hc₀).2, sub_self]
   let f : S → W ⧸ U' := fun p => Submodule.Quotient.mk ⟨p.1 - c₀, hmem p.1 p.2⟩
@@ -74,11 +74,11 @@ end Ov37
 theorem ovoid37 : Ovoid37Statement := by
   intro hHKS k n hk hn E _ _ _ hdim Bf Qf hQsmul hQadd H hHQ b hbs U hUs hUdim hbU Λ hΛH hΛcard
     hΛcomm hΛsq hΛb P hbP hP0 hPsmul hPH hPorth hPspan hΛsemi hΛnorm hmoves
-  haveI : Finite E := Module.finite_of_finite (GaloisField 2 k)
-  haveI : Finite (Submodule (GaloisField 2 k) E) :=
+  have : Finite E := Module.finite_of_finite (GaloisField 2 k)
+  have : Finite (Submodule (GaloisField 2 k) E) :=
     Finite.of_injective (fun S : Submodule (GaloisField 2 k) E => (S : Set E))
       SetLike.coe_injective
-  haveI : Finite (E ≃ₗ[GaloisField 2 k] E) :=
+  have : Finite (E ≃ₗ[GaloisField 2 k] E) :=
     Finite.of_injective (fun f : E ≃ₗ[GaloisField 2 k] E => (f : E → E)) DFunLike.coe_injective
   have hiso : ∀ h ∈ H, ∀ x y : E, Bf (h x) (h y) = Bf x y := fun h hh x y =>
     TailFalse.bf_map_map Bf Qf hQadd h (hHQ h hh) x y
@@ -199,7 +199,7 @@ theorem ovoid37 : Ovoid37Statement := by
     obtain ⟨r, hr, hu⟩ := hreg β.1 ⟨β.2, fun h => hβ (Subtype.ext h)⟩ γ.1
       ⟨γ.2, fun h => hγ (Subtype.ext h)⟩
     exact ⟨r, Subtype.ext hr, fun r' hr' => hu r' (congrArg Subtype.val hr')⟩
-  haveI : FaithfulSMul ↥H ↥(MulAction.orbit (↥H) α₀) := by
+  have : FaithfulSMul ↥H ↥(MulAction.orbit (↥H) α₀) := by
     have key : ∀ g : ↥H, (∀ ω : ↥(MulAction.orbit (↥H) α₀), g • ω = ω) → g = 1 := by
       intro g hg
       have hμ : ∀ p ∈ P, ∃ μ : GaloisField 2 k, μ • p = (g : E ≃ₗ[GaloisField 2 k] E) p := by
@@ -295,7 +295,7 @@ theorem ovoid37 : Ovoid37Statement := by
       _ ≤ k * (n - 1) := Nat.mul_le_mul_left k (by omega)
   obtain ⟨L, hLn, hLsimple, ⟨hLiso⟩, hL2, hRL⟩ := hHKS (↥H) ↥(MulAction.orbit (↥H) α₀)
     (k * (n - 1)) hkn hcardΩ htwo α R hRstab hRnorm hRelem hregΩ
-  haveI : MulAction.IsPretransitive ↥L ↥(MulAction.orbit (↥H) α₀) :=
+  have : MulAction.IsPretransitive ↥L ↥(MulAction.orbit (↥H) α₀) :=
     MulAction.isPretransitive_of_is_two_pretransitive (h2 := hL2)
   let e : ↥L ≃* ↥(L.map H.subtype) :=
     Subgroup.equivMapOfInjective L H.subtype H.subtype_injective

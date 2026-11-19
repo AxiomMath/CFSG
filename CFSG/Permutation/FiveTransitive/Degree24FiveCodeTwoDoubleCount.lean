@@ -258,7 +258,7 @@ theorem three_dvd_card_sylow_five_fixing_embedding
       (Sylow 5
         (fixingSubgroup P (Set.range e₀))) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let E := Fin 5 ↪ X
   let C :=
     FiveSubgroupCardTwentyFiveFixedNine X P
@@ -389,7 +389,7 @@ theorem sylow_five_card_eq_twenty_five_of_card_eq_twenty_five_mul
     (hGcard : Nat.card G = 25 * m)
     (S : Sylow 5 G) :
     Nat.card S = 25 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfactorization :
       (25 * m).factorization 5 = 2 := by
     rw [show 25 * m = 5 * (5 * m) by ring,
@@ -422,7 +422,7 @@ theorem five_point_stabilizer_card_ne_eighty_nine_thousand_six_hundred_and_ne_fi
       Nat.card (fixingSubgroup P s) ≠ 51200 ∧
       Nat.card (fixingSubgroup P s) ≠ 102400 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -442,7 +442,7 @@ theorem five_point_stabilizer_card_ne_eighty_nine_thousand_six_hundred_and_ne_fi
       (fixingSubgroup P s).index = 5100480
     omega
   have hHindexCard := H.index_mul_card
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]

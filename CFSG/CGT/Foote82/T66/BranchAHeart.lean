@@ -36,25 +36,25 @@ theorem sigma0_isThreeCycle (hn : 4 ≤ n) : (sigma0 hn).IsThreeCycle :=
 private theorem zmod2_add_self : ∀ a : ZMod 2, a + a = 0 := by decide
 
 theorem vab_apply_zero (hn : 4 ≤ n) (a b : ZMod 2) : vab hn a b (pt hn 0) = a := by
-  simp [vab, Pi.single_apply, pt_ne hn (k := 0) (l := 1) (by decide) (by decide) (by decide),
+  simp [vab, pt_ne hn (k := 0) (l := 1) (by decide) (by decide) (by decide),
     pt_ne hn (k := 0) (l := 2) (by decide) (by decide) (by decide)]
 
 theorem vab_apply_one (hn : 4 ≤ n) (a b : ZMod 2) : vab hn a b (pt hn 1) = b := by
-  simp [vab, Pi.single_apply, pt_ne hn (k := 1) (l := 0) (by decide) (by decide) (by decide),
+  simp [vab, pt_ne hn (k := 1) (l := 0) (by decide) (by decide) (by decide),
     pt_ne hn (k := 1) (l := 2) (by decide) (by decide) (by decide)]
 
 theorem vab_apply_two (hn : 4 ≤ n) (a b : ZMod 2) : vab hn a b (pt hn 2) = a + b := by
-  simp [vab, Pi.single_apply, pt_ne hn (k := 2) (l := 0) (by decide) (by decide) (by decide),
+  simp [vab, pt_ne hn (k := 2) (l := 0) (by decide) (by decide) (by decide),
     pt_ne hn (k := 2) (l := 1) (by decide) (by decide) (by decide)]
 
 theorem vab_apply_of_ne (hn : 4 ≤ n) (a b : ZMod 2) {i : Fin n} (h0 : i ≠ pt hn 0)
     (h1 : i ≠ pt hn 1) (h2 : i ≠ pt hn 2) : vab hn a b i = 0 := by
-  simp [vab, Pi.single_apply, h0, h1, h2]
+  simp [vab, h0, h1, h2]
 
 theorem vab_mem (hn : 4 ≤ n) (a b : ZMod 2) : vab hn a b ∈ evenWeight n := by
   show ∑ i, vab hn a b i = 0
   simp only [vab, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', Finset.mem_univ,
-    if_true]
+    ite_true]
   calc a + b + (a + b) = (a + a) + (b + b) := by ring
     _ = 0 := by rw [zmod2_add_self, zmod2_add_self, add_zero]
 
@@ -131,7 +131,7 @@ theorem range_sigma0_eq (hn : 4 ≤ n) :
     have hy : yv ∈ evenWeight n := by
       show ∑ i, yv i = 0
       simp only [yv, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
       calc a + (a + b) + b = (a + a) + (b + b) := by ring
         _ = 0 := by rw [zmod2_add_self, zmod2_add_self, add_zero]
     refine ⟨⟨yv, hy⟩, ?_⟩
@@ -145,11 +145,11 @@ theorem range_sigma0_eq (hn : 4 ≤ n) :
     have h13 := pt_ne hn (k := 1) (l := 3) (by decide) (by decide) (by decide)
     have h23 := pt_ne hn (k := 2) (l := 3) (by decide) (by decide) (by decide)
     have y0 : yv (pt hn 0) = 0 := by
-      simp [yv, Pi.single_apply, h01, h02, h03]
+      simp [yv, h01, h02, h03]
     have y1 : yv (pt hn 1) = a := by
-      simp [yv, Pi.single_apply, h12, h13]
+      simp [yv, h12, h13]
     have y2 : yv (pt hn 2) = a + b := by
-      simp [yv, Pi.single_apply, h12.symm, h23]
+      simp [yv, h12.symm, h23]
     have hb2 : a + (a + b) = b := by
       rw [← add_assoc, zmod2_add_self, zero_add]
     rw [y0, y1, y2, zero_add, hb2] at h
@@ -168,9 +168,11 @@ section Additivity
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem add_self_zero (w : V) : w + w = 0 := by
   rw [← two_smul (ZMod 2) w, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [Finite V] in
 theorem eq_zero_of_mem_range_of_fixed {x : GLV V} (hx3 : x ^ 3 = 1) {u : V}
     (hxv : x (x u - u) = x u - u) : x u - u = 0 := by
   have h3 : x (x (x u)) = u := by
@@ -188,6 +190,7 @@ theorem eq_zero_of_mem_range_of_fixed {x : GLV V} (hx3 : x ^ 3 = 1) {u : V}
   rw [h2] at h3
   rw [h3, sub_self]
 
+omit [Finite V] in
 theorem apply_mem_commSpace {L : Subgroup (GLV V)} {x : GLV V} (hx : x ∈ L) {w : V}
     (hw : w ∈ commSpace L ⊤) : x w ∈ commSpace L ⊤ := by
   have := (commSpace L ⊤).add_mem (sub_mem_commSpace hx (Submodule.mem_top (x := w))) hw

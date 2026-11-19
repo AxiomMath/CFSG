@@ -48,7 +48,7 @@ theorem le_oPrimeResidual_of_quasisimple [Finite Y] {Kb : Subgroup Y} (hKq : IsQ
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Kb) := inferInstance
   have hSM : (S : Subgroup ↥Kb) ≤ M := by
     intro x hx
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     refine Subgroup.subset_closure ⟨k, ?_⟩
     have := congrArg (fun z : ↥S => ((z : ↥Kb) : Y)) hk
     simpa using this

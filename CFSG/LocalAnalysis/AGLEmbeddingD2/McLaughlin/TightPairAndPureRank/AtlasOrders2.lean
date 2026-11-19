@@ -31,8 +31,8 @@ theorem card_of_isL5Two {X : Type} [Group X] (h : IsL5Two X) : Nat.card X = 9999
     exact ⟨h2, (Nat.prime_two.pow_eq_iff.mp hpow).2⟩
   have hmod := CFSG.AGLEmbedding.KFactProofs.CoverFive.statedClassicalModel_psl_of_typeA 4 q hv e
   rw [hp.1, hp.2] at hmod
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (GaloisField 2 1) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (GaloisField 2 1) := inferInstance
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.PSLN.psl_equiv_of_stated (F := GaloisField 2 1) 5 2 1
     (by norm_num) (by rw [GaloisField.card 2 1 one_ne_zero, pow_one]) hmod
   have e2 := CFSG.RankThree.PartTwo.Sec4.Census.pslEquivProjSL 5 (GaloisField 2 1)

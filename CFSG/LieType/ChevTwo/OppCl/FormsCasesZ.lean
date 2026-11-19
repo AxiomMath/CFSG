@@ -19,12 +19,13 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] [Fact (Nat.Prime p)] in
 theorem realize_siegel_core (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (c : V →ₗ[F] V)
-    (hcW' : ∀ v, c v ∈ W') (hc0 : ∀ v ∈ M ⊔ W', c v = 0)
+    (hcW' : ∀ v, c v ∈ W') (_hc0 : ∀ v ∈ M ⊔ W', c v = 0)
     (hsa : ∀ u v, Φ.β (c u) v = Φ.β u (c v))
     (hdiag : EA2 Φ Sing ρ ∨ ∀ u, Φ.β u (c u) = 0) :
     ∃ u : H, ∀ v, ρ u v = v + c v := by
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   have hW : Φ.IsTotallyIsotropic (X m) := C.hTS _ (C.hXts m)
   have hW' : Φ.IsTotallyIsotropic W' := C.hTS _ C.hsplit.ts_W'
   have hW'0 : ∀ x ∈ W', ∀ y ∈ W', Φ.β x y = 0 := fun x hx y hy => (Φ.mem_perp.mp (hW' hy)) x hx

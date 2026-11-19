@@ -93,7 +93,7 @@ public theorem oddCentralCover_eq_bot_of_cyclic_sylow_at_center_primes
       exact hxy.symm
     have hcommS : ∀ a b : S, a * b = b * a := by
       intro a b
-      exact commutative_of_cyclic_center_quotient qS hqSker a b
+      exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center qS hqSker).is_comm.comm a b
     let : IsMulCommutative S := ⟨⟨hcommS⟩⟩
     let : CommGroup S := IsMulCommutative.instCommGroup
     let tr : E →* S := MonoidHom.transfer (MonoidHom.id S)

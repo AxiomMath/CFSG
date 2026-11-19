@@ -55,12 +55,12 @@ theorem _root_.CFSG.AGLEmbedding.D1Extremal.normalizer_le_and_eq_sylow {p : ℕ}
   refine ⟨hN, ?_⟩
   by_contra hne
   have hlt : R < (P : Subgroup G) := lt_of_le_of_ne h.le_P hne
-  obtain ⟨x, hxP, hxN, hxR⟩ := exists_mem_normalizer_not_mem_of_lt P.isPGroup' hlt
+  obtain ⟨x, hxP, hxN, hxR⟩ := exists_mem_normalizer_not_mem_of_lt P.isPGroup hlt
   have hXP : R ⊔ Subgroup.zpowers x ≤ (P : Subgroup G) :=
     sup_le h.le_P (Subgroup.zpowers_le.mpr hxP)
   have hXH : R ⊔ Subgroup.zpowers x ≤ H :=
     sup_le h.le_H (Subgroup.zpowers_le.mpr (hN hxN))
-  have := le_of_le_of_isPGroup_of_not_dvd_index le_sup_left hXH (P.isPGroup'.to_le hXP)
+  have := le_of_le_of_isPGroup_of_not_dvd_index le_sup_left hXH (P.isPGroup.to_le hXP)
     h.toD1Escape.not_dvd_index_R
   exact hxR (this (Subgroup.mem_sup_right (Subgroup.mem_zpowers x)))
 

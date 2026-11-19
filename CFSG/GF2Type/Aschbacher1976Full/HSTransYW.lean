@@ -95,8 +95,8 @@ theorem card_WZ_ge (c : BL.Ctx z 2 Z A T) (hti : HSTI z)
     (hcard : Nat.card (ET (T : Subgroup G) z) = 8)
     (hne : Nat.card (BL.WZ Z (T : Subgroup G)) ≠ 64) :
     128 ≤ Nat.card (BL.WZ Z (T : Subgroup G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hW2 : IsPGroup 2 (BL.WZ Z (T : Subgroup G)) := T.isPGroup'.to_le BL.WZ_le
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hW2 : IsPGroup 2 (BL.WZ Z (T : Subgroup G)) := T.isPGroup.to_le BL.WZ_le
   obtain ⟨m, hm⟩ := hW2.exists_card_eq
   have h64 := sixtyfour_le_card_WZ c hti hcard
   rw [hm] at h64 hne ⊢

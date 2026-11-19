@@ -38,6 +38,7 @@ theorem pairsB_congr {C D : List M} (h : ∀ x, x ∈ C ↔ x ∈ D) (t : M) :
   unfold pairsB
   simp only [all_filter_congr_mem h, all_congr_mem h, any_congr_mem h]
 
+omit [DecidableEq M] in
 theorem conj_mem_list (A : Subgroup M) {L : List M} (hL : ∀ x, x ∈ L ↔ x ∈ A) {g : M}
     (hg : g ∈ A) : (∀ x ∈ L, g * x * g⁻¹ ∈ L) ∧ ∀ x ∈ L, g⁻¹ * x * g ∈ L :=
   ⟨fun x hx => (hL _).2 (A.mul_mem (A.mul_mem hg ((hL x).1 hx)) (A.inv_mem hg)),
@@ -133,12 +134,12 @@ theorem q8c2free_of_invol (A : Subgroup (Equiv.Perm (Fin n))) {L : List (Equiv.P
       rw [Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
       exact hi
     rw [q8c2At, centB] at h'
-    rw [hd, cond_true]
+    rw [hd, _root_.Bool.cond_true]
     exact h'
   · have hd : (decide (c ^ 2 = 1) && decide (c ≠ 1)) = false := by
       rw [← Bool.not_eq_true, Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
       exact hi
-    rw [hd, cond_false]
+    rw [hd, Bool.cond_false]
 
 end Q8C2
 

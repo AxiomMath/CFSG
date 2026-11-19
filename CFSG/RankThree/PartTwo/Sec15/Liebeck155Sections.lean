@@ -56,7 +56,7 @@ private theorem InList.of_mulEquiv {e : ℕ} {K K' : Type} [Group K] [Group K'] 
   · exact Or.inl ⟨j, hj, CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv φ hm⟩
   · exact Or.inr (Or.inl (CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv φ hm))
   · refine Or.inr (Or.inr ⟨f, hf, hfe, ?_⟩)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases hL with ⟨⟨ψ⟩⟩ | ⟨hq, ⟨ψ⟩⟩
     · exact Or.inl ⟨φ.symm.trans ψ⟩
     · exact Or.inr ⟨hq, ⟨φ.symm.trans ψ⟩⟩
@@ -66,7 +66,7 @@ private theorem outer_solvable_of_inList {e : ℕ} {K : Type} [Group K] (h : InL
   rcases h with ⟨j, -, hj⟩ | h9 | ⟨f, hf, -, hL⟩
   · exact (linear_two_classical_model_schreier hj).2
   · exact (linear_two_classical_model_schreier h9).2
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases hL with ⟨⟨φ⟩⟩ | ⟨hq, ⟨φ⟩⟩
     · exact (linear_higher_classical_model_schreier (by norm_num)
         (CFSG.Assembly.RankThreeEven.statedClassicalModel_of_projSL
@@ -262,9 +262,9 @@ private theorem reducible_case {F : Type} [Field F] [Finite F]
       intro q
       obtain ⟨g, rfl⟩ := hθ q
       exact ⟨QuotientGroup.mk g, rfl⟩
-    haveI : Nontrivial (D ⧸ ρ'.ker) := hθ'.nontrivial
+    have : Nontrivial (D ⧸ ρ'.ker) := hθ'.nontrivial
     obtain ⟨j, hj, hM⟩ := statedClassicalModel_of_sl2_perfect hF hn φ
-    haveI hSs : IsSimpleGroup (D ⧸ ρ'.ker) :=
+    have hSs : IsSimpleGroup (D ⧸ ρ'.ker) :=
       CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hM
     have hinj : Function.Injective θ' :=
       CFSG.GH74.GLS.IVK.Lifted.injective_of_surjective_simple θ' hθ'
@@ -311,7 +311,7 @@ private theorem exists_lift {F : Type} [Field F] [Finite F] {Hm : Subgroup (GL (
       (D₁.equivMapOfInjective Hm.subtype Hm.subtype_injective)
   have hDH : D ≤ Hm := Subgroup.map_subtype_le _
   refine ⟨D, hDH, ?_, (θ₀.comp D₀.subtype).comp ι.symm.toMonoidHom, ?_, ?_⟩
-  · haveI := hD₀
+  · have := hD₀
     exact Group.IsPerfect.ofSurjective (f := ι.toMonoidHom) ι.surjective
   · have hs : Function.Surjective (θ₀.comp D₀.subtype) := by
       intro q
@@ -363,7 +363,7 @@ private theorem irreducible_case {F : Type} [Field F] [Finite F] {Hm : Subgroup 
   have hkerΦ : ΦL.ker = Subgroup.center ↥L := by
     ext x
     exact hΦL x
-  haveI hLsimple : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2.1
+  have hLsimple : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLq.2.1
   let eR : ↥L ⧸ Subgroup.center ↥L ≃* ↥ΦL.range :=
     (QuotientGroup.quotientMulEquivOfEq hkerΦ.symm).trans (QuotientGroup.quotientKerEquivRange ΦL)
   have hKs : IsSimpleGroup ↥ΦL.range := MulEquiv.isSimpleGroup eR.symm
@@ -372,8 +372,8 @@ private theorem irreducible_case {F : Type} [Field F] [Finite F] {Hm : Subgroup 
     exact ⟨eR a, eR b, fun h => hab (eR.injective (by rw [map_mul, map_mul, h]))⟩
   have hlist : InList e ↥ΦL.range := hS _ hKs hKn
   have hOutK : Group.IsSolvable (Outer ↥ΦL.range) := outer_solvable_of_inList hlist
-  haveI : Group.IsPerfect ↥L := hLq.1
-  haveI : Group.IsSolvable (Outer (↥L ⧸ Subgroup.center ↥L)) :=
+  have : Group.IsPerfect ↥L := hLq.1
+  have : Group.IsSolvable (Outer (↥L ⧸ Subgroup.center ↥L)) :=
     (CFSG.LocalAnalysis.ComponentInitial.outer_isomorphism eR.symm).2.mp hOutK
   have hOutL : Group.IsSolvable (Outer ↥L) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥L
@@ -425,13 +425,13 @@ theorem evenPerfectSection_of (hS : Sec14.Ronan148T.EvenSimpleList) :
           (∃ f : ℕ, 1 ≤ f ∧ f ∣ e ∧
             (haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩; IsLThreeEpsAt Q 2 f))) := by
   intro X _ _ e he hiso Q _ _ H N _ hQe hperf hnt hQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hperf
-  haveI := hnt
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hperf
+  have := hnt
   obtain ⟨eQ⟩ := hQe
   obtain ⟨π, F, _, hF, hq, ⟨φ⟩⟩ := Ronan148T.exists_slPi_quotient he hiso
-  haveI := hF.finite
-  haveI := Ronan148T.charP_of_piField hF
+  have := hF.finite
+  have := Ronan148T.charP_of_piField hF
   obtain ⟨n, hn1, hnF⟩ : ∃ n : ℕ, 1 ≤ n ∧ Nat.card F = 2 ^ n := by
     cases π
     · refine ⟨2 * e, by omega, ?_⟩
@@ -457,7 +457,7 @@ theorem evenPerfectSection_of (hS : Sec14.Ronan148T.EvenSimpleList) :
     · rintro ⟨c, hc⟩
       exact ⟨c, hc.symm⟩
   obtain ⟨D, hDH, hDp, θ, hθ, hker⟩ := exists_lift σ hσs H N eQ
-  haveI := hDp
+  have := hDp
   by_cases hirr : SubgroupLists.IsIrreducibleOn D
   · exact irreducible_case σ hσ hDH hirr θ hθ hker (hS X e he hiso)
   · unfold SubgroupLists.IsIrreducibleOn at hirr

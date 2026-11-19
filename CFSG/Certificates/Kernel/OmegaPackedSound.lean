@@ -175,7 +175,7 @@ theorem good_modE_canonE {w : ℕ} {Y : List Entry} (hY : Y.length ≤ 2 ^ 16)
   · rw [List.pairwise_filterMap]
     refine h1'.imp fun {a b} hab => ?_
     intro a' ha' b' hb'
-    split_ifs at ha' hb' <;> simp at ha' hb'
+    split_ifs at ha' hb'; simp at ha' hb'
     rw [← ha', ← hb']
     exact hab
   · intro e he
@@ -443,13 +443,13 @@ theorem cf_combineE (A : List Entry) (c r : ℕ) : cf R (combineE A) c r = cf R 
     · rw [cf_cons]
     · simp only
       by_cases hk : (Nat.beq e.1 e'.1 && Nat.beq e.2.1 e'.2.1) = true
-      · rw [if_pos hk]
+      · rw [ite_eq_left hk]
         simp only [Bool.and_eq_true, Nat.beq_eq] at hk
         obtain ⟨h1, h2⟩ := hk
         rw [cf_cons, cf_cons]
         simp only [← h1, ← h2]
         split_ifs <;> push_cast <;> ring
-      · rw [if_neg hk, cf_cons]
+      · rw [ite_eq_right hk, cf_cons]
 
 theorem cf_filter (A : List Entry) (c r : ℕ) :
     cf R (A.filter fun e => e.2.2 != 0) c r = cf R A c r := by
@@ -480,9 +480,9 @@ theorem cf_modE (h2 : (2 : R) = 0) (A : List Entry) (c r : ℕ) :
         rw [← intCast_emod_two h2]
         push_cast at h ⊢
         rw [h, Int.cast_zero]
-      simp only [h, if_true]
+      simp only [h, ite_true]
       simp [h0]
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
       rw [cf_cons]
       push_cast
       rw [intCast_emod_two h2]
@@ -499,14 +499,14 @@ theorem redW_coeff {s : R} (hs : s ^ 2 + s + 1 = 0) (x : PEntry) (c r : ℕ) :
     conv_lhs => rw [← Nat.div_add_mod x.1.1 3, pow_add, pow_mul, h3, one_pow, one_mul]
   rw [hpow]
   rcases (by omega : x.1.1 % 3 = 0 ∨ x.1.1 % 3 = 1 ∨ x.1.1 % 3 = 2) with h | h | h
-  · simp only [redW, h, if_true, show (0 : ℕ) ≠ 2 by omega, show (0 : ℕ) ≠ 1 by omega,
-      if_false, cf_cons, cf_nil]
+  · simp only [redW, h, ite_true, show (0 : ℕ) ≠ 2 by omega, show (0 : ℕ) ≠ 1 by omega,
+      ite_false, cf_cons, cf_nil]
     split_ifs <;> ring
-  · simp only [redW, h, if_true, show (1 : ℕ) ≠ 2 by omega, show (1 : ℕ) ≠ 0 by omega,
-      if_false, cf_cons, cf_nil]
+  · simp only [redW, h, ite_true, show (1 : ℕ) ≠ 2 by omega, show (1 : ℕ) ≠ 0 by omega,
+      ite_false, cf_cons, cf_nil]
     split_ifs <;> ring
-  · simp only [redW, h, if_true, show (2 : ℕ) ≠ 0 by omega, show (2 : ℕ) ≠ 1 by omega,
-      if_false, cf_cons, cf_nil]
+  · simp only [redW, h, ite_true, show (2 : ℕ) ≠ 0 by omega, show (2 : ℕ) ≠ 1 by omega,
+      ite_false, cf_cons, cf_nil]
     split_ifs
     · push_cast
       linear_combination (-(x.2.2.2 : R)) * hs
@@ -533,10 +533,10 @@ theorem cp_filter_map (A : List PEntry) (y : PEntry) (s : R) (c r : ℕ) :
     rw [List.filter_cons]
     cases hb : Nat.beq x.2.1 y.2.2.1
     · have h : x.2.1 ≠ y.2.2.1 := fun h => by rw [h, Nat.beq_refl] at hb; cases hb
-      simp only [Bool.false_eq_true, if_false, ih, cp_cons, h, false_and, zero_add]
+      simp only [Bool.false_eq_true, ite_false, ih, cp_cons, h, false_and, zero_add]
     · have h : x.2.1 = y.2.2.1 := Nat.eq_of_beq_eq_true hb
-      simp only [if_true, List.map_cons, cp_cons, ih, h, true_and]
-      by_cases hc : y.2.1 = c <;> by_cases hr : x.2.2.1 = r <;> simp [hc, hr, pow_add] <;> ring
+      simp only [ite_true, List.map_cons, cp_cons, ih, h, true_and]
+      by_cases hc : y.2.1 = c <;> by_cases hr : x.2.2.1 = r <;> simp [hc, hr, pow_add]; ring
 
 theorem cp_pmul {w : ℕ} (A : List PEntry) {B : List PEntry} (hB : ∀ y ∈ B, y.2.2.1 < w)
     (s : R) (c r : ℕ) :
@@ -638,9 +638,9 @@ theorem intCast_parity (h2 : (2 : R) = 0) (z : ℤ) :
   have key : z.natAbs % 2 = 0 ↔ z % 2 = 0 := by
     rcases Int.natAbs_eq z with h | h <;> omega
   rcases Int.emod_two_eq_zero_or_one z with h | h
-  · rw [h, if_pos (key.2 h)]
+  · rw [h, ite_eq_left (key.2 h)]
     simp
-  · rw [h, if_neg (by rw [key, h]; omega)]
+  · rw [h, ite_eq_right (by rw [key, h]; omega)]
     simp
 
 theorem pv_stepE (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w U V d c r : ℕ}
@@ -650,9 +650,9 @@ theorem pv_stepE (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w U V d c 
   have hz := intCast_parity h2 e.2.2
   unfold stepE
   by_cases hp : e.2.2.natAbs % 2 = 0
-  · simp [Nat.beq_eq, hp, hz]
-  rw [if_neg (by simpa [Nat.beq_eq] using hp)]
-  rw [if_neg hp] at hz
+  · simp [hp, hz]
+  rw [ite_eq_right (by simpa [Nat.beq_eq] using hp)]
+  rw [ite_eq_right hp] at hz
   rw [hz]
   have hcol : ∀ X, (X = U ∨ X = V) → ∀ i, w ≤ i → (OPcol w (2 ^ w - 1) X e.2.1).testBit i = false :=
     fun X _ i hi => by rw [testBit_colOf]; simp; omega
@@ -666,23 +666,23 @@ theorem pv_stepE (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w U V d c 
   unfold pv
   simp only
   interval_cases d
-  · simp only [Nat.beq_refl, if_true, testBit_xor', hU, hV, bR_xor h2]
+  · simp only [Nat.beq_refl, ite_true, testBit_xor', hU, hV, bR_xor h2]
     by_cases hc : c = e.1
     · simp [hc, hr]
       ring
     · simp [hc, Ne.symm hc, bR]
-  · simp only [Nat.beq_refl, if_true, testBit_xor', hU, hV, hUV, bR_xor h2,
-      show Nat.beq 1 0 = false from rfl, Bool.false_eq_true, if_false]
+  · simp only [Nat.beq_refl, ite_true, testBit_xor', hV, hUV, bR_xor h2,
+      show Nat.beq 1 0 = false from rfl, Bool.false_eq_true, ite_false]
     by_cases hc : c = e.1
-    · simp only [hc, decide_true, Bool.true_and, hr, decide_true, if_true, bR_xor h2]
+    · simp only [hc, decide_true, Bool.true_and, hr, decide_true, ite_true, bR_xor h2]
       linear_combination (bR (V.testBit (w * e.2.1 + r)) : R) * hs -
         ((bR (V.testBit (w * e.2.1 + r)) : R) * s ^ 2) * h2
     · simp [hc, Ne.symm hc, bR]
-  · simp only [testBit_xor', hU, hV, hUV, bR_xor h2,
+  · simp only [testBit_xor', hU, hUV, bR_xor h2,
       show Nat.beq 2 0 = false from rfl, show Nat.beq 2 1 = false from rfl,
-      Bool.false_eq_true, if_false]
+      Bool.false_eq_true, ite_false]
     by_cases hc : c = e.1
-    · simp only [hc, decide_true, Bool.true_and, hr, decide_true, if_true, bR_xor h2]
+    · simp only [hc, decide_true, Bool.true_and, hr, decide_true, ite_true, bR_xor h2]
       linear_combination (bR (U.testBit (w * e.2.1 + r)) : R) * hs -
         ((bR (U.testBit (w * e.2.1 + r)) : R) * s ^ 2) * h2 +
         ((bR (V.testBit (w * e.2.1 + r)) : R) * (1 - s)) * hs
@@ -700,7 +700,7 @@ theorem pv_foldl_stepE (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w U 
 theorem pv_zero (w : ℕ) (s : R) (c r : ℕ) : pv R w s (0, 0) c r = 0 := by
   simp [pv, bR]
 
-theorem stepE_sum (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w : ℕ} (M : ℕ × ℕ)
+theorem stepE_sum (_h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {w : ℕ} (M : ℕ × ℕ)
     (D : List Entry) (hD : ∀ e ∈ D, e.2.1 < w) (k p c r : ℕ) :
     (D.map fun e => if e.1 = c then (e.2.2 : R) * s ^ ((k * p) % 3) * pv R w s M e.2.1 r
       else 0).sum =
@@ -723,14 +723,13 @@ theorem pv_stepF (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {τ : Tag} 
       ∑ m ∈ Finset.range w,
         pv R w s M m r * cp R (nilpE τ f.1 (famSign τ f.1 * f.2.1) f.2.2 0) s c m := by
   have hC := intCast_parity h2 (famSign τ f.1 * f.2.1)
-  simp only [cp_nilpE, mul_add, Finset.sum_add_distrib, mul_left_comm _ (((_ : ℤ) : R) * _ ^ _) _,
-    ← Finset.mul_sum]
+  simp only [cp_nilpE, mul_add, Finset.sum_add_distrib]
   unfold stepF
   by_cases hp : (famSign τ f.1 * f.2.1).natAbs % 2 = 0
-  · rw [if_pos hp] at hC
-    simp [Nat.beq_eq, hp, hC]
-  rw [if_neg (by simpa [Nat.beq_eq] using hp)]
-  rw [if_neg hp] at hC
+  · rw [ite_eq_left hp] at hC
+    simp [hp, hC]
+  rw [ite_eq_right (by simpa [Nat.beq_eq] using hp)]
+  rw [ite_eq_right hp] at hC
   rw [hC]
   simp only [List.foldl_cons, List.foldl_nil]
   rw [pv_xor h2]
@@ -739,7 +738,7 @@ theorem pv_stepF (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {τ : Tag} 
   rw [pv_foldl_stepE h2 hs (hd 3) hr, pv_foldl_stepE h2 hs (hd 2) hr,
     pv_foldl_stepE h2 hs (hd 1) hr, pv_zero, stepE_sum h2 hs M _ (hD 1 (by simp)),
     stepE_sum h2 hs M _ (hD 2 (by simp)), stepE_sum h2 hs M _ (hD 3 (by simp))]
-  simp only [Prod.mk.eta, one_mul, Finset.mul_sum, mul_assoc]
+  simp only [one_mul, Finset.mul_sum]
   ring_nf
 
 theorem testBit_foldl_lor (w j : ℕ) : ∀ (l : List ℕ) (a : ℕ),
@@ -810,7 +809,7 @@ theorem pv_foldl_stepF (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 0) {τ :
         ring
       · simp [h, Ne.symm h]
     rw [Finset.sum_congr rfl this, Finset.sum_add_distrib, Finset.sum_ite_eq]
-    simp only [Finset.mem_range, hr, if_true]
+    simp only [Finset.mem_range, hr, ite_true]
     ring
 
 theorem cf_good {w : ℕ} {A : List Entry} (hA : Good w A) (c r : ℕ) :
@@ -829,7 +828,7 @@ theorem cf_good {w : ℕ} {A : List Entry} (hA : Good w A) (c r : ℕ) :
         rw [he] at this
         unfold KLt at this
         simp at this
-      simp [hk, he1, hn, he]
+      simp [hn, he]
     · have hne : (c, r, (1 : ℤ)) ≠ e := fun h => hk ⟨by rw [← h], by rw [← h]⟩
       simp [hk, List.mem_cons, hne]
 
@@ -838,12 +837,12 @@ theorem ind_inj [Nontrivial R] (h2 : (2 : R) = 0) {s : R} (hs : s ^ 2 + s + 1 = 
     (h : ((if p0 then 1 else 0) + s * (if p1 then 1 else 0) : R) =
       (if q0 then 1 else 0) + s * (if q1 then 1 else 0)) : (p0 ↔ q0) ∧ (p1 ↔ q1) := by
   have h10 : (1 : R) ≠ 0 := one_ne_zero
-  have hs0 : s ≠ 0 := fun h0 => h10 (by rw [h0] at hs; simpa using hs)
+  have hs0 : s ≠ 0 := fun h0 => h10 (by rw [h0] at hs; simp at hs)
   have hs1 : s + 1 ≠ 0 := fun h1 => h10 (by linear_combination hs - s * h1)
   by_cases a : p0 <;> by_cases b : p1 <;> by_cases c : q0 <;> by_cases d : q1 <;>
-    simp only [a, b, c, d, if_true, if_false, mul_one, mul_zero, add_zero, zero_add,
-      iff_true, iff_false, true_iff, false_iff, not_true, not_false_eq_true, and_true,
-      and_false, true_and, false_and] at h ⊢
+    simp only [a, b, c, d, ite_true, ite_false, mul_one, mul_zero, add_zero, zero_add,
+      iff_true, iff_false, not_true, and_true,
+      and_false] at h ⊢
   all_goals first
     | exact h10 h | exact h10 h.symm | exact hs0 h | exact hs0 h.symm
     | exact hs1 (by linear_combination h) | exact hs1 (by linear_combination -h)

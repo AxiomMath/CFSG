@@ -380,7 +380,7 @@ theorem sqLeft_of_mem_normalizer (S : Gens A) (C : A.CaseKD) (hκ : κ = C.k ∨
   obtain ⟨P⟩ : Nonempty (Sylow 2 G') := inferInstance
   have hP : (P : Subgroup G') ≤ χ.ker := by
     intro p hp
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have hk' : ((p : G') : X) ^ 2 ^ k = 1 := by
       have := congrArg (fun x : (P : Subgroup G') => ((x : G') : X)) hk
       simpa using this
@@ -431,7 +431,7 @@ theorem conj_eq_of_mem_normalizer_kd (S : Gens A) (C : A.CaseKD)
   obtain ⟨P⟩ : Nonempty (Sylow 2 G') := inferInstance
   have hP : (P : Subgroup G') ≤ (G' ⊓ centralizer ({κ} : Set X)).subgroupOf G' := by
     intro p hp
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have hk' : ((p : G') : X) ^ 2 ^ k = 1 := by
       have := congrArg (fun x : (P : Subgroup G') => ((x : G') : X)) hk
       simpa using this

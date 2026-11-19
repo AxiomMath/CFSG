@@ -67,7 +67,7 @@ theorem gs03_classCheck_sound {n : ℕ} (QP : RawSchreierDatum n) (hQP : ValidSc
   have hB : ∀ w, gs03WordEval (ss.map fun x => x⁻¹ * r * x) w ∈ C := by
     intro w
     induction w with
-    | nil => simpa [gs03WordEval] using Subgroup.one_mem C
+    | nil => simp [gs03WordEval]
     | cons l w ih => simpa [gs03WordEval] using Subgroup.mul_mem C (hA l) ih
   have hgen : {x | x ∈ gens} ⊆ C := by
     intro g hg

@@ -44,7 +44,7 @@ private theorem e6li_xr_mul_self
 
 private theorem e6li_qE_le_normalizer_of_coord
     {T : Subgroup EC} {U : Submodule (ZMod 2) e6TwoRestQV}
-    {c : ↥qE →* Multiplicative e6TwoRestQV} (hc : IsQCoord c)
+    {c : ↥qE →* Multiplicative e6TwoRestQV} (_hc : IsQCoord c)
     (hTle : T ≤ qE)
     (hTU : ∀ q : ↥qE, Multiplicative.toAdd (c q) ∈ U ↔ (q : EC) ∈ T) :
     qE ≤ Subgroup.normalizer (T : Set EC) := by
@@ -281,7 +281,7 @@ private theorem e6li_single_yLamAS_zero
     refine ⟨isRoot_single .E6 j, ?_⟩
     intro i hi
     have hji : i ≠ j := fun h => hi (h ▸ hj)
-    rw [Pi.single_apply, if_neg hji]
+    rw [Pi.single_apply, ite_eq_right hji]
   exact hmem.2
 
 private theorem e6li_single_level0
@@ -366,7 +366,7 @@ private theorem e6li_lamLevi_le_normalizer
       rw [hK, Subgroup.mem_map]
       refine ⟨⟨torusElt .E6 F2 i t, torusElt_mem_adjointGroup i t⟩, ?_, rfl⟩
       rw [Subgroup.mem_comap]
-      haveI : Subsingleton F2ˣ := e6li_F2_units_subsingleton
+      have : Subsingleton F2ˣ := e6li_F2_units_subsingleton
       have ht : t = 1 := Subsingleton.elim t 1
       have h1 : (⟨torusElt .E6 F2 i t, torusElt_mem_adjointGroup i t⟩ : EC) = 1 := by
         apply Subtype.ext

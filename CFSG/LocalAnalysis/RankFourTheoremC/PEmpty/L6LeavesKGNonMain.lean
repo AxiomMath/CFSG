@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KGQ Subgroup
 
 variable {A : Type} [Group A] [Finite A] {p : ℕ} {Kb Sb Bb Mb : Subgroup A} {z : A}
 
+omit [Finite A] in
 theorem mem_normalizer_zpowers_of_commute {a b : A} (h : b * a = a * b) :
     b ∈ normalizer (zpowers a : Set A) :=
   KGB.mem_normalizer_of_commute fun t ht => by

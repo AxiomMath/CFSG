@@ -37,19 +37,19 @@ theorem tensor3Cube_act0 (A : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Cube K (tensor3Act0 A T) = actMap 0 A (tensor3Cube K T) := by
   funext x
   rw [actMap_apply, tensor3Cube_apply]
-  simp [tensor3Act0, tensor3Cube_apply, Function.update_apply]
+  simp [tensor3Act0, tensor3Cube_apply]
 
 theorem tensor3Cube_act1 (A : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Cube K (tensor3Act1 A T) = actMap 1 A (tensor3Cube K T) := by
   funext x
   rw [actMap_apply, tensor3Cube_apply]
-  simp [tensor3Act1, tensor3Cube_apply, Function.update_apply]
+  simp [tensor3Act1, tensor3Cube_apply]
 
 theorem tensor3Cube_act2 (A : Matrix (Fin 2) (Fin 2) K) (T : Tensor3 K) :
     tensor3Cube K (tensor3Act2 A T) = actMap 2 A (tensor3Cube K T) := by
   funext x
   rw [actMap_apply, tensor3Cube_apply]
-  simp [tensor3Act2, tensor3Cube_apply, Function.update_apply]
+  simp [tensor3Act2, tensor3Cube_apply]
 
 end T3
 

@@ -39,7 +39,7 @@ theorem isL34Index_of_lie {R : Sylow 3 X} {A X₀ K B : Subgroup X}
             ⟨q, hd, hqp, h2⟩
           exact hRA (h.sylow_inf_eq_of_psl2 (e.trans e')).2
       ·
-        refine h.not_le (h.le_of_glbCore_eq_top (R.subtype hRK).isPGroup' ?_
+        refine h.not_le (h.le_of_glbCore_eq_top (R.subtype hRK).isPGroup ?_
           (kFactLinThreeCore K d ⟨e⟩ 3 Nat.prime_three (by norm_num) ⟨q, hqp, hq1, hd⟩
             (R.subtype hRK)))
         rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hRK]

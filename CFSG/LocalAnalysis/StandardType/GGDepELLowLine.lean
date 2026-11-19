@@ -14,7 +14,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private lemma l05nLY_inv_spec {p : ℕ} [Fact p.Prime] {a : ℕ} (ha : (a : ZMod p) ≠ 0) :
     ((ggTWLInv p a : ℕ) : ZMod p) = ((a : ZMod p))⁻¹ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hp : 0 < p := (Fact.out : p.Prime).pos
   set b : ZMod p := ((a : ZMod p))⁻¹ with hbdef
   have hb : b * (a : ZMod p) = 1 := by rw [hbdef]; exact inv_mul_cancel₀ ha

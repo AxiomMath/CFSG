@@ -128,7 +128,7 @@ private theorem wcgapm_hasQuotShape_map {M M' : Type} [Group M] [Group M'] (e : 
     (h : HasQuotShape K (N : Set M) P) :
     HasQuotShape (K.map e.toMonoidHom) ((N.map e.toMonoidHom : Subgroup M') : Set M') P := by
   obtain ⟨X, hX, φ, hφ, hker, hP⟩ := h
-  letI : Group X := hX
+  let : Group X := hX
   let ee := Subgroup.equivMapOfInjective K e.toMonoidHom e.injective
   refine ⟨X, hX, φ.comp ee.symm.toMonoidHom, ?_, ?_, hP⟩
   · intro x
@@ -168,7 +168,7 @@ private theorem wcgapm_oddResMod_bot_map {M M' : Type} [Group M] [Group M'] (e :
     oddResMod (⊥ : Subgroup M') (P.map e.toMonoidHom) =
       (oddResMod (⊥ : Subgroup M) P).map e.toMonoidHom := by
   let s := wcgapm_oddSet (⊥ : Subgroup M) P
-  haveI : Nonempty s :=
+  have : Nonempty s :=
     ⟨⟨P, bot_le, le_rfl, by rw [Subgroup.subgroupOf_self]; infer_instance,
       by rw [Subgroup.relIndex_self]; norm_num⟩⟩
   have hL : oddResMod (⊥ : Subgroup M) P = ⨅ Q : s, (Q : Subgroup M) :=

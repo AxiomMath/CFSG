@@ -72,8 +72,8 @@ theorem xiCandsF_eq (Mc : List (List Nat)) (S : List Nat) :
     unfold xiCandsK
     rw [List.filter_cons]
     by_cases h : s = 191
-    · rw [decide_eq_true h, if_neg (by simp [h])]
-    · rw [decide_eq_false h, if_pos (by simpa using h), List.flatMap_cons, fixMasks_one,
+    · rw [decide_eq_true h, ite_eq_right (by simp [h])]
+    · rw [decide_eq_false h, ite_eq_left (by simpa using h), List.flatMap_cons, fixMasks_one,
         ← fixLstQ_eq]
       rfl
 

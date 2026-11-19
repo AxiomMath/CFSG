@@ -67,7 +67,7 @@ theorem exists_isPGroup_map_eq [Finite G] [Fact r.Prime] {V : Subgroup (G ⧸ Z)
     have h := (Sylow.mapSurjective hf P).maximal_isPGroup.eq_of_ge (hV.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h.symm
-  refine ⟨(P : Subgroup W).map W.subtype, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup W).map W.subtype, P.isPGroup.map _, ?_⟩
   have hcomp : (QuotientGroup.mk' Z).comp W.subtype = V.subtype.comp f := MonoidHom.ext fun _ => rfl
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, htop, ← MonoidHom.range_eq_map,
     Subgroup.range_subtype]
@@ -119,7 +119,7 @@ theorem Holds.quotient {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Prime]
   · refine (pCoreOf_le_map_pCoreOf_comap Z hZ hZr _).trans ?_
     rw [← hNU]
     exact (Subgroup.map_mono hcore₀).trans (map_pCoreOf_le _ P₀)
-  · rw [Sylow.coe_mapSurjective, ← normalizer_eq_comap_normalizer_map Z hZ hZr S₀.isPGroup']
+  · rw [Sylow.coe_mapSurjective, ← normalizer_eq_comap_normalizer_map Z hZ hZr S₀.isPGroup]
     exact hS₀
 
 theorem scalar_eq_one_of_pow_eq_one {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field K] {r : ℕ}

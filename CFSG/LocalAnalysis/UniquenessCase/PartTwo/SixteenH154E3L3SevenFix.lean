@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_e3_l3_mem_of_comm_mem_sum {L : Subgroup (MulAut W)} {Z : Subgroup W} {k : ℕ}
     (hZ : Z ≤ fixV L) (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z 3 1) L ⊤ Z k)
     {x : W} (hx : ∀ l ∈ L, l x * x⁻¹ ∈ Z) : x ∈ Z := by

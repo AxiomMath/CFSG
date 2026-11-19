@@ -74,7 +74,7 @@ theorem map_conj_eq_of_stray [Finite X] (h : SwapShape t Sg V) {J : Subgroup X}
                 ((b : X) * (MulAut.conj t) (b : X)) := by
               rw [mul_assoc] }
   have hφperf : Group.IsPerfect φ.range := by
-    haveI : Group.IsPerfect J := hJ.1.1
+    have : Group.IsPerfect J := hJ.1.1
     exact Group.IsPerfect.range φ
   have hRC : φ.range ≤ centralizer ({t} : Set X) := by
     intro x hx

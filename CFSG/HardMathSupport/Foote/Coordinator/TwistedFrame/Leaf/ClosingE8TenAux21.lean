@@ -21,7 +21,7 @@ variable {K : Type} [Field K] [Finite K] (D : LangLevi TwClass.e8Ten.tag K TwCla
 
 theorem sg_eq_one (hK : Nat.card K = 2) {β : Fin Tag.E8.rank → ℤ} (hβ : IsRoot Tag.E8 β) :
     (toSetup D ⊥).sg β = 1 := by
-  haveI := charP_L D hK
+  have := charP_L D hK
   exact E8TwoD.eq_one_of_mul_self_eq_one ((toSetup D ⊥).hm β hβ).1
 
 theorem ΨE_comm (a b : ModGL Tag.E8 K) : ΨE D ⁅a, b⁆ = ⁅ΨE D a, ΨE D b⁆ := by
@@ -31,8 +31,8 @@ theorem exists_rho (hK : Nat.card K = 2) {β₀ β₁ : Fin Tag.E8.rank → ℤ}
     {s : D.L} (hs : s ^ 4 = s) :
     ∃ ρ : ModGL Tag.E8 K, ρ ∈ Rθ (TwClass.e8Ten.X₁ D) ∧
       ΨE D ρ = pinnedX Tag.E8 D.L β₀ s * pinnedX Tag.E8 D.L β₁ (s ^ 2) := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set S := toSetup D ⊥ with hS
   have hr₀ : IsRoot Tag.E8 β₀ := mem_rootFinset.1 hA.h₀
   have hr₁ : IsRoot Tag.E8 β₁ := mem_rootFinset.1 hA.h₁
@@ -96,8 +96,8 @@ theorem exists_aneg :
 theorem exists_Zroot (hK : Nat.card K = 2) {β₀ β₁ : Fin Tag.E8.rank → ℤ} (hA : PairData β₀ β₁) :
     ∃ Z ∈ Agp D, ∃ ζ : D.L, ζ ≠ 0 ∧
       ΨE D Z = pinnedX Tag.E8 D.L (β₀ + (-highRoot Tag.E8 + β₁)) ζ := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨t, ht0, hat⟩ := exists_aneg D
   set a' := pinnedX Tag.E8 K (-highRoot Tag.E8) 1 with ha'
   have ha'U : a' ∈ Heis.Uneg Tag.E8 K := mem_rootSubgroup.2 ⟨1, rfl⟩

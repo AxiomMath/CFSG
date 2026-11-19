@@ -35,7 +35,7 @@ include d
 theorem eq_bot_of_normal {W : Subgroup (QA H D)} (hWK : W ≤ img H D L)
     (hWn : ∀ k ∈ img H D L, ∀ w ∈ W, k * w * k⁻¹ ∈ W) (hcop : Nat.Coprime p (Nat.card W)) :
     W = ⊥ := by
-  haveI := d.simple_img
+  have := d.simple_img
   set W' : Subgroup ↥(img H D L) := W.subgroupOf (img H D L) with hW'
   have hW'n : W'.Normal := ⟨fun n hn g => hWn g.1 g.2 n.1 hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal W' with hbot | htop
@@ -59,7 +59,7 @@ theorem eq_bot_of_normal {W : Subgroup (QA H D)} (hWK : W ≤ img H D L)
 
 theorem pPrimeCore_eq {X : Subgroup G} (hX : X = pElementSubgroup p L ⊔ S) :
     CFSG.pPrimeCore p ↥X = D.subgroupOf X := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hXH : X ≤ H := hX ▸ d.X_le_H
   have hDX : D ≤ X := hX ▸ d.D_le_X
   have hDXn : (D.subgroupOf X).Normal :=
@@ -75,8 +75,8 @@ theorem pPrimeCore_eq {X : Subgroup G} (hX : X = pElementSubgroup p L ⊔ S) :
 
 theorem pCore_eq {X : Subgroup G} (hX : X = pElementSubgroup p L ⊔ S) :
     CFSG.pCore 2 ↥X = D.subgroupOf X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hXH : X ≤ H := hX ▸ d.X_le_H
   have hDX : D ≤ X := hX ▸ d.D_le_X
   have hDXn : (D.subgroupOf X).Normal :=
@@ -94,7 +94,7 @@ theorem exists_inj {X : Subgroup G} (hX : X = pElementSubgroup p L ⊔ S) :
     ∃ φ : (↥X ⧸ CFSG.pPrimeCore p ↥X) →* QA H D, Function.Injective φ ∧
       ∀ x : ↥X, φ (QuotientGroup.mk' (CFSG.pPrimeCore p ↥X) x) =
         qmk H D ⟨x, (hX ▸ d.X_le_H) x.2⟩ := by
-  haveI : Fact p.Prime := ⟨d.prime⟩
+  have : Fact p.Prime := ⟨d.prime⟩
   have hXH : X ≤ H := hX ▸ d.X_le_H
   have hpP := d.pPrimeCore_eq hX
   let ι : ↥X →* QA H D := (qmk H D).comp (Subgroup.inclusion hXH)
@@ -125,7 +125,7 @@ theorem chev_or_alt (hzj : KFactZJFactorizationGe) :
     IsChevSimple 2 ↥(img H D L) ∨ ∃ n, Nonempty (↥(img H D L) ≃* alternatingGroup (Fin n)) := by
   have d : KGData p H D S B L M z := d3.toData
   have hp := d.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := d.five_le; omega
   obtain ⟨X, hX⟩ : ∃ X : Subgroup G, X = pElementSubgroup p L ⊔ S := ⟨_, rfl⟩
   have hXH : X ≤ H := hX ▸ d.X_le_H
@@ -159,7 +159,7 @@ theorem chev_or_alt (hzj : KFactZJFactorizationGe) :
       rw [hφ ⟨h, hhX⟩]
   let e : ↥L' ≃* ↥(img H D L) :=
     (Subgroup.equivMapOfInjective L' φ hφinj).trans (MulEquiv.subgroupCongr hmap)
-  haveI := d.simple_img
+  have := d.simple_img
   have hLs : IsSimpleGroup ↥L' := e.isSimpleGroup
   have hLnab : ∃ a b : ↥L', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := d.nonab_img
@@ -213,7 +213,7 @@ theorem chev_or_alt (hzj : KFactZJFactorizationGe) :
     rw [hk]
     exact Nat.pow_le_pow_right hp.pos hk2
   have hsylow : CFSG.ABGLocalTools.IsSylowOf 2 (CFSG.pCore 2 ↥X) (CFSG.pPrimeCore p ↥X) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [hpC, hpP]
     refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_rfl, d.D_two.comap_subtype, ?_⟩
     rw [Subgroup.relIndex_self]
@@ -281,7 +281,7 @@ theorem chev_or_alt (hzj : KFactZJFactorizationGe) :
     intro h3
     have h4 := h3.trans (Subgroup.card_dvd_of_le hcomm)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDX).toEquiv] at h4
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp d.D_two
     rw [hk] at h4
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h4

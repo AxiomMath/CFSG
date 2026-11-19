@@ -13,15 +13,15 @@ section SmallThreeGroups
 
 theorem isMulCommutative_of_isPGroup_three_of_card_lt {G : Type*} [Group G] [Finite G]
     (hG : IsPGroup 3 G) (hc : Nat.card G < 27) : IsMulCommutative G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hG
   rcases Nat.lt_or_ge n 3 with hn3 | hn3
   · interval_cases n
     · have h1 : Nat.card G = 1 := by simpa using hn
-      haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.1 h1).1
+      have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 h1).1
       exact ⟨⟨fun a b => Subsingleton.elim (a * b) (b * a)⟩⟩
     · have h3 : Nat.card G = 3 := by simpa using hn
-      haveI : IsCyclic G := isCyclic_of_prime_card h3
+      have : IsCyclic G := isCyclic_of_prime_card h3
       infer_instance
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hn
   · have h27 : 27 ≤ 3 ^ n :=
@@ -61,6 +61,7 @@ theorem inf_centralizer_eq_zpowers_of_card_center_eq_three {K : Subgroup Y} {z :
   · rw [Nat.card_zpowers, hzo]
     exact (card_inf_centralizer_le_card_center K).trans hZ.le
 
+omit [Finite Y] in
 theorem ker_conjNormal_eq_centralizer (K : Subgroup Y) [K.Normal] :
     (MulAut.conjNormal : Y →* MulAut ↥K).ker = centralizer (K : Set Y) := by
   ext g
@@ -83,15 +84,15 @@ section SylowMeet
 theorem le_card_sylow_inf_of_dvd_card_center {Y : Type} [Group Y] [Finite Y] (R : Sylow 3 Y)
     (K : Subgroup Y) [K.Normal] (hKq : CFSG.Open.IsQuasisimple K)
     (hdvd : 3 ∣ Nat.card (center K)) : 27 ≤ Nat.card ↥((R : Subgroup Y) ⊓ K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : CFSG.ABGLocalTools.IsSylowOf 3 (R : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, R.isPGroup', R.not_dvd_index⟩
+    exact ⟨le_top, R.isPGroup, R.not_dvd_index⟩
   have hRK : CFSG.ABGLocalTools.IsSylowOf 3 ((R : Subgroup Y) ⊓ K) K :=
     hR.inf_of_le_normalizer le_top le_normalizer_of_normal
   obtain ⟨Q, hQ⟩ := hRK.exists_sylow_eq_subgroupOf
   have hnab := (GL83.I_6_10_1_proved K hKq 3 Nat.prime_three (by norm_num) hdvd Q).1
-  have h27 := le_card_of_isPGroup_three_of_not_isMulCommutative Q.isPGroup' hnab
+  have h27 := le_card_of_isPGroup_three_of_not_isMulCommutative Q.isPGroup hnab
   have hcard : Nat.card ↥(Q : Subgroup ↥K) = Nat.card ↥((R : Subgroup Y) ⊓ K) := by
     rw [hQ]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
@@ -110,10 +111,10 @@ theorem sylow_eq_mul_of_small_aut {Y : Type} [Group Y] [Finite Y] (R : Sylow 3 Y
       ∃ c ∈ (R : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y), t * c = u) ∧
     (∀ x ∈ (R : Subgroup Y) ⊓ K, ∀ y ∈ (R : Subgroup Y) ⊓ K,
       x * y * x⁻¹ * y⁻¹ ∈ Subgroup.zpowers z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Φ, hker⟩ : ∃ Φ : Y →* MulAut ↥K, Φ.ker ≤ centralizer (K : Set Y) :=
     ⟨MulAut.conjNormal, (ker_conjNormal_eq_centralizer K).le⟩
-  have hB : IsPGroup 3 ↥((R : Subgroup Y).map Φ) := R.isPGroup'.map Φ
+  have hB : IsPGroup 3 ↥((R : Subgroup Y).map Φ) := R.isPGroup.map Φ
   have hBcard : Nat.card ↥((R : Subgroup Y).map Φ) ≤ 9 := hS _ hB
   have hBcomm : IsMulCommutative ↥((R : Subgroup Y).map Φ) :=
     isMulCommutative_of_isPGroup_three_of_card_lt hB (by omega)
@@ -132,7 +133,7 @@ theorem sylow_eq_mul_of_small_aut {Y : Type} [Group Y] [Finite Y] (R : Sylow 3 Y
   rw [Subgroup.relIndex_ker] at hmul
   have hTcard : 9 ≤ Nat.card ↥(((R : Subgroup Y) ⊓ K).map Φ) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card ↥(((R : Subgroup Y) ⊓ K).map Φ) *
         Nat.card ↥(Φ.ker ⊓ ((R : Subgroup Y) ⊓ K)) < 27 := by nlinarith
     omega

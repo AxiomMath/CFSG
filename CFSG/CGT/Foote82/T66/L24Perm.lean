@@ -30,7 +30,7 @@ theorem pa_ev (σ : Perm (Fin N)) (k : Fin N) : pa σ (ev k) = ev (σ k) := by
   by_cases h : m = σ k
   · subst h
     simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro h'
     apply h
     rw [← h']
@@ -70,7 +70,7 @@ theorem ev_add_ev_mem_Ew {S : Finset (Fin N)} {a b : Fin N} (ha : a ∈ S) (hb :
     have hkb : k ≠ b := fun h => hk (h ▸ hb)
     simp [ev_apply, hka, hkb]
   · simp only [Pi.add_apply, Finset.sum_add_distrib, ev, Finset.sum_pi_single', Finset.mem_univ,
-      if_true]
+      ite_true]
     decide
 
 @[expose] def jS (S : Finset (Fin N)) : Fin N → ZMod 2 := fun k => if k ∈ S then 1 else 0
@@ -148,10 +148,10 @@ theorem Ew_le_span (S : Finset (Fin N)) :
     by_cases hm2 : m = a0
     · subst hm2
       simp
-    · rw [if_neg hm2, zero_mul, add_zero]
+    · rw [ite_eq_right hm2, zero_mul, add_zero]
       by_cases hm : m ∈ S
-      · rw [if_pos (Finset.mem_erase.2 ⟨hm2, hm⟩)]
-      · rw [if_neg (fun h => hm (Finset.mem_of_mem_erase h)), hoff m hm]
+      · rw [ite_eq_left (Finset.mem_erase.2 ⟨hm2, hm⟩)]
+      · rw [ite_eq_right (fun h => hm (Finset.mem_of_mem_erase h)), hoff m hm]
   rw [key]
   refine Submodule.sum_mem _ fun k hk => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
   exact ⟨k, Finset.mem_of_mem_erase hk, a0, ha0, rfl⟩
@@ -169,7 +169,7 @@ theorem swap_mul_swap_mem_altOn {S : Finset (Fin N)} {a b c d : Fin N} (ha : a �
     have hxd : x ≠ d := fun h => hxS (h ▸ hd)
     rw [Perm.mul_apply, swap_apply_of_ne_of_ne hxc hxd, swap_apply_of_ne_of_ne hxa hxb]
 
-theorem exists_altOn_move {S : Finset (Fin N)} (hS : 4 ≤ S.card) {p q r : Fin N} (hp : p ∈ S)
+theorem exists_altOn_move {S : Finset (Fin N)} (hS : 4 ≤ S.card) {p q r : Fin N} (_hp : p ∈ S)
     (hq : q ∈ S) (hr : r ∈ S) (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q ≠ r) :
     ∃ σ ∈ altOn (S : Set (Fin N)), σ p = p ∧ σ q = r := by
   classical
@@ -204,9 +204,9 @@ theorem Ew_le_of_invariant {S : Finset (Fin N)} (hS : 4 ≤ S.card)
     apply hvj
     funext m
     by_cases hm : m ∈ S
-    · rw [jS_apply, if_pos hm]
+    · rw [jS_apply, ite_eq_left hm]
       exact (h01 (v m)).resolve_left (h m hm)
-    · rw [jS_apply, if_neg hm]
+    · rw [jS_apply, ite_eq_right hm]
       exact hvE.1 m hm
   have hki : k ≠ i := by
     rintro rfl
@@ -235,27 +235,27 @@ theorem Ew_le_of_invariant {S : Finset (Fin N)} (hS : 4 ≤ S.card)
     · refine ⟨l, hlS, hli, funext fun m => ?_⟩
       rw [Pi.sub_apply, pa_apply, Pi.add_apply, ev_apply, ev_apply]
       by_cases hmi : m = i
-      · rw [hmi, hσi, hk, hi, if_pos rfl, if_neg (Ne.symm hli)]
+      · rw [hmi, hσi, hk, hi, ite_eq_left rfl, ite_eq_right (Ne.symm hli)]
         decide
       by_cases hmk : m = k
-      · rw [hmk, hσk, hl, hk, if_neg hki, if_neg (Ne.symm hlk)]
+      · rw [hmk, hσk, hl, hk, ite_eq_right hki, ite_eq_right (Ne.symm hlk)]
         decide
       by_cases hml : m = l
-      · rw [hml, hσl, hi, hl, if_neg hli, if_pos rfl]
+      · rw [hml, hσl, hi, hl, ite_eq_right hli, ite_eq_left rfl]
         decide
-      · rw [hσm m hmi hmk hml, sub_self, if_neg hmi, if_neg hml, add_zero]
+      · rw [hσm m hmi hmk hml, sub_self, ite_eq_right hmi, ite_eq_right hml, add_zero]
     · refine ⟨k, hkS, hki, funext fun m => ?_⟩
       rw [Pi.sub_apply, pa_apply, Pi.add_apply, ev_apply, ev_apply]
       by_cases hmi : m = i
-      · rw [hmi, hσi, hk, hi, if_pos rfl, if_neg (Ne.symm hki)]
+      · rw [hmi, hσi, hk, hi, ite_eq_left rfl, ite_eq_right (Ne.symm hki)]
         decide
       by_cases hmk : m = k
-      · rw [hmk, hσk, hl, hk, if_neg hki, if_pos rfl]
+      · rw [hmk, hσk, hl, hk, ite_eq_right hki, ite_eq_left rfl]
         decide
       by_cases hml : m = l
-      · rw [hml, hσl, hi, hl, if_neg hli, if_neg hlk]
+      · rw [hml, hσl, hi, hl, ite_eq_right hli, ite_eq_right hlk]
         decide
-      · rw [hσm m hmi hmk hml, sub_self, if_neg hmi, if_neg hmk, add_zero]
+      · rw [hσm m hmi hmk hml, sub_self, ite_eq_right hmi, ite_eq_right hmk, add_zero]
   have hix_mem : ev i + ev x ∈ X := by
     rw [← hdiff]
     exact X.sub_mem (hX σ hσA v hvX) hvX

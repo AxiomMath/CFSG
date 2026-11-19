@@ -37,7 +37,7 @@ private theorem commute_sylow_two_of_odd_card {M : Type*} [Group M] [Finite M]
     intro x hx
     let xS : ↥(S : Subgroup M) := ⟨x, hx⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)
-      (G := ↥(S : Subgroup M))).mp S.isPGroup' xS
+      (G := ↥(S : Subgroup M))).mp S.isPGroup xS
     have hkx : orderOf x = 2 ^ k := by
       rw [← Subgroup.orderOf_coe xS] at hk
       simpa [xS] using hk
@@ -62,7 +62,7 @@ private theorem fittingSubgroup_le_center {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
   rw [CFSG.LocalCores.fittingSubgroup_eq_iSup_pCore]
   refine iSup_le fun q => ?_
   have hqprime : (q : ℕ).Prime := Nat.prime_of_mem_primeFactors q.2
-  haveI : Fact (q : ℕ).Prime := ⟨hqprime⟩
+  have : Fact (q : ℕ).Prime := ⟨hqprime⟩
   by_cases hq2 : (q : ℕ) = 2
   · rw [hq2]
     exact hO2
@@ -72,7 +72,7 @@ private theorem fittingSubgroup_le_center {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
   · have hqodd : Odd (q : ℕ) := hqprime.odd_of_ne_two hq2
     let M : Subgroup ↥G := CFSG.pCore (q : ℕ) ↥G
     have hMn : M.Normal := CFSG.pCore_normal
-    haveI : M.Normal := hMn
+    have : M.Normal := hMn
     have hMp : IsPGroup (q : ℕ) ↥M := CFSG.pCore_isPGroup
     have hMsolv : Group.IsSolvable ↥M :=
       @IsNilpotent.to_isSolvable _ _ hMp.isNilpotent
@@ -86,14 +86,14 @@ private theorem fittingSubgroup_le_center {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
     exact le_center_of_solvable_normal (p := p) hp5 (σ := Fin 2 ⊕ Fin 2)
       (by simp [Fintype.card_sum]) hG hO M hMsolv hM2
 
-private theorem exists_ne_commute_of_isIrreducibleOn {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
+private theorem exists_ne_commute_of_isIrreducibleOn {p : ℕ} [Fact p.Prime] (_hp5 : 5 ≤ p)
     {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p))} (hG : oPPrimeHull p G = G)
     (hirr : CFSG.RankThree.SubgroupLists.IsIrreducibleOn G) :
     ∃ a b : ↥G, a * b ≠ b * a := by
   classical
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative ↥G := ⟨⟨hcon⟩⟩
+  have : IsMulCommutative ↥G := ⟨⟨hcon⟩⟩
   have hO : CFSG.pCore p ↥G = ⊥ := pCore_eq_bot_of_isIrreducibleOn hirr
   have hPtop : IsPGroup p (⊤ : Subgroup ↥G) := by
     have h := CFSG.GroupTheory.isPGroup_closure_of_isNilpotent (p := p) (Y := ↥G)
@@ -170,7 +170,7 @@ private theorem fixedBySubmodule_invariant {p : ℕ} [Fact p.Prime]
       h * ((hG⁻¹ * l * hG : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod p)) := by
     have hconj : ((hG⁻¹ * l * hG : ↥G) : GL (Fin 2 ⊕ Fin 2) (ZMod p)) =
         (h : GL (Fin 2 ⊕ Fin 2) (ZMod p))⁻¹ * (l : GL (Fin 2 ⊕ Fin 2) (ZMod p)) * h := by
-      simp [hG, map_mul]
+      simp [hG]
     rw [hconj]
     group
   have hstep : (↑(G.subtype l) : Mat4 p) * (h : Mat4 p) =
@@ -391,7 +391,7 @@ private theorem mem_centralizer_sup_of_pow_prime_eq_one {p : ℕ} [Fact p.Prime]
     {x : ↥G} (hx : x ^ p = 1) :
     x ∈ Subgroup.centralizer (L : Set ↥G) ⊔ L := by
   classical
-  haveI : L.Normal := hLnormal
+  have : L.Normal := hLnormal
   let e : ↥L ≃* ↥(L.map G.subtype) := L.equivMapOfInjective G.subtype G.subtype_injective
   let α : MulAut ↥(L.map G.subtype) :=
     MulAut.congr e (MulAut.conjNormal (H := L) x)
@@ -418,7 +418,7 @@ theorem isQuasisimple_of_pCore_two_le_center {p : ℕ} [Fact p.Prime] (hp5 : 5 �
     exists_ne_commute_of_isIrreducibleOn hp5 hG hirr
   obtain ⟨L, hL⟩ := exists_isComponent_of_fittingSubgroup_le_center hF hnab
   have hLnormal : L.Normal := normal_of_isComponent hp5 hGS hG hL
-  haveI : L.Normal := hLnormal
+  have : L.Normal := hLnormal
   by_cases hcard : Nat.card ↥L = Nat.card ↥(CFSG.Open.StatedSp 2 (ZMod p))
   · exact quasisimple_of_card_eq_statedSp hGS hL hcard
   · let C : Subgroup ↥G := Subgroup.centralizer (L : Set ↥G)

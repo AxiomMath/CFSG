@@ -45,7 +45,7 @@ theorem hessPhi_conj_mem_hessH (hω : ω ^ 2 + ω + 1 = 0) (h3 : (3 : F) ≠ 0) 
 
 theorem blockMat_one : blockMat (1 : Matrix (Fin 2) (Fin 2) F) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blockMat, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blockMat]
 
 theorem blockMat_mul (A B : Matrix (Fin 2) (Fin 2) F) :
     blockMat (A * B) = blockMat A * blockMat B := by

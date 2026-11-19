@@ -106,8 +106,8 @@ theorem exists_injective_alternatingGroup_prod_of_perfect {O : Finset Ω}
       rw [hr₂] at h
       simpa using h
   ·
-    haveI : IsEmpty Ω := ⟨fun x => hΩ ⟨x⟩⟩
-    haveI : Subsingleton ↥V := ⟨fun a b => by
+    have : IsEmpty Ω := ⟨fun x => hΩ ⟨x⟩⟩
+    have : Subsingleton ↥V := ⟨fun a b => by
       apply Subtype.ext
       ext x
       exact isEmptyElim x⟩
@@ -131,11 +131,11 @@ theorem card_le_of_perfect_of_preserves {B : Finset (Fin 10)} (hB : B.card = 5)
   have hcard₂ : Nat.card {x // x ∉ B} = 5 := by
     rw [Nat.card_eq_fintype_card,
       Fintype.card_subtype_compl (fun x => x ∈ B), Fintype.card_fin, Fintype.card_coe, hB]
-  haveI : Nontrivial {x // x ∈ B} :=
+  have : Nontrivial {x // x ∈ B} :=
     nontrivial_iff.2 (Fintype.one_lt_card_iff.1 (by
       rw [Fintype.card_coe, hB]
       norm_num))
-  haveI : Nontrivial {x // x ∉ B} :=
+  have : Nontrivial {x // x ∉ B} :=
     nontrivial_iff.2 (Fintype.one_lt_card_iff.1 (by
       rw [Fintype.card_subtype_compl (fun x => x ∈ B), Fintype.card_fin,
         Fintype.card_coe, hB]

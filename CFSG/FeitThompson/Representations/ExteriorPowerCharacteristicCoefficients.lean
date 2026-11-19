@@ -85,7 +85,7 @@ theorem trace_exteriorPower_map_eq_sum_prod (b : Basis ι R M) (f : Module.End R
       smul_eq_mul, mul_one, Finsupp.single_apply, Matrix.diagonal_apply]
     rcases eq_or_ne i j with h | h
     · simp [h]
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   rw [trace_exteriorPower_map b, hm]
   refine Finset.sum_congr rfl fun s _ => ?_
   rw [show (Matrix.diagonal α).submatrix (Subtype.val : ↥s → ι) Subtype.val

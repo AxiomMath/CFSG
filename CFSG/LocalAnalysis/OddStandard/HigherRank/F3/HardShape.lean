@@ -35,7 +35,7 @@ private lemma pPrimeCore_le_fusionZStar (J : Type) [Group J] :
   intro x hx
   rw [CFSG.ComponentClassification.GSThmB.OddQuot.mem_fusionZStar_iff]
   intro m
-  haveI : (pPrimeCore 2 J).Normal := pPrimeCore_normal
+  have : (pPrimeCore 2 J).Normal := pPrimeCore_normal
   exact Subgroup.commutator_le_left (H₁ := pPrimeCore 2 J) (H₂ := ⊤)
     (Subgroup.commutator_mem_commutator hx (Subgroup.mem_top m))
 
@@ -51,22 +51,22 @@ private lemma false_of_slTwoThree {J : Type} [Group J]
     exact ⟨QuotientGroup.mk' (pPrimeCore 2 J) x, by
       rw [QuotientGroup.map_mk']
       rfl⟩
-  haveI : Group.IsSolvable SL(2, ZMod 3) := by
+  have : Group.IsSolvable SL(2, ZMod 3) := by
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 2) (q := 3) (a := 3) (b := 1) Nat.prime_two Nat.prime_three (by norm_num) ?_
     rw [← Nat.card_eq_fintype_card, card_specialLinearGroup_two_zmod_three]
     norm_num
-  haveI : Group.IsSolvable (J ⧸ pPrimeCore 2 J) :=
+  have : Group.IsSolvable (J ⧸ pPrimeCore 2 J) :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsSolvable (J ⧸ Open.fusionZStar J) :=
+  have : Group.IsSolvable (J ⧸ Open.fusionZStar J) :=
     Group.isSolvable_of_surjective hmap
   have hsub : Subsingleton (J ⧸ Open.fusionZStar J) := by
     by_contra h
-    haveI : Nontrivial (J ⧸ Open.fusionZStar J) := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial (J ⧸ Open.fusionZStar J) := not_subsingleton_iff_nontrivial.mp h
     have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial (J ⧸ Open.fusionZStar J)
     rw [hperf] at hlt
     exact lt_irrefl _ hlt
-  haveI := hsub
+  have := hsub
   have hcard := card_griessHopfMultiplier_of_subsingleton (Q := J ⧸ Open.fusionZStar J)
   unfold PartialCentre at hp
   rw [hcard] at hp

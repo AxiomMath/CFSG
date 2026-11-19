@@ -75,7 +75,7 @@ theorem false_of_u35_of_field (h : Sec15R G A c L) [Fact (Nat.Prime 5)]
         ∃ y ∈ Yc, QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) x * y ≠
           y * QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) x) : False := by
   obtain ⟨x, ⟨hxO, hxA⟩, y, -, hne⟩ := hfield
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y ⟨x, hxO⟩
   have hx1 : (x : G) = 1 :=
     eq_one_of_two_elem_of_u35 h φU hsimp hodd h9 ⟨k, by simpa using congrArg Subtype.val hk⟩ hxA

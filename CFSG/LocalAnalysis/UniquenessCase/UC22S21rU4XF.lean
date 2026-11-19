@@ -32,6 +32,7 @@ theorem u4x_covBy {T X : Subgroup Q} (hlt : T < X) {r : ℕ} (hr : r.Prime)
     rw [hk, mul_comm]
     exact Nat.le_of_dvd (Nat.mul_pos hr.pos hT0) hX
 
+omit [Finite Q] in
 theorem u4x_eq_one_of_isPGroup {S : Subgroup Q} (hS : IsPGroup 2 S) {y : Q} (hy : y ∈ S)
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hyr : y ^ r = 1) : y = 1 := by
   obtain ⟨k, hk⟩ := hS ⟨y, hy⟩
@@ -63,6 +64,7 @@ theorem u4x_card_sup_dvd {S T : Subgroup Q} (hST : S ≤ T) {y : Q}
     _ = Nat.card S * (Nat.card ↥(T ⊔ (zpowers y ⊔ S)) * (k * Nat.card ↥(S ⊓ zpowers y))) := by
         rw [hk]; ring
 
+omit [Finite Q] in
 theorem u4x_mem_normalizer_sup {A B : Subgroup Q} {g : Q} (hA : g ∈ normalizer (A : Set Q))
     (hB : g ∈ normalizer (B : Set Q)) : g ∈ normalizer ((A ⊔ B : Subgroup Q) : Set Q) := by
   rw [mem_normalizer_iff_map_conj_eq] at hA hB ⊢
@@ -73,7 +75,7 @@ theorem u4x_mem_normalizer_inf {F₀ F₁ T : Subgroup Q} (hcomm : ∀ x ∈ F�
     {x₀ x₁ : Q} (hx₀ : x₀ ∈ F₀) (hx₁ : x₁ ∈ F₁) (hβ : x₀ * x₁ ∈ normalizer (T : Set Q)) :
     x₀ ∈ normalizer ((T ⊓ (F₀ ⊔ F₁) : Subgroup Q) : Set Q) ∧
       x₁ ∈ normalizer ((T ⊓ (F₀ ⊔ F₁) : Subgroup Q) : Set Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTβ : ∀ s ∈ T, x₀ * x₁ * s * (x₀ * x₁)⁻¹ ∈ T := fun s hs =>
     (mem_normalizer_iff.1 hβ s).1 hs
   constructor <;> refine Subgroup.mem_normalizer_fintype fun s hs => ?_ <;>
@@ -101,6 +103,7 @@ theorem u4x_mem_normalizer_inf {F₀ F₁ T : Subgroup Q} (hcomm : ∀ x ∈ F�
 
 end Generic
 
+omit [Finite G] in
 theorem u4x_conj_mem_barImage {M P P' : Subgroup G} {t : ↥M}
     (h : P.map (MulAut.conj (t : G)).toMonoidHom = P') {x : Bar2 M} (hx : x ∈ barImage M P) :
     uc22p21cPi M t * x * (uc22p21cPi M t)⁻¹ ∈ barImage M P' := by
@@ -136,7 +139,7 @@ theorem conj_mem_V (u : U4X D L K n) {x₀ x₁ : Bar2 D.M} (hx₀ : x₀ ∈ ba
     (ht : (t : G) ∈ D.T) :
     uc22p21cPi D.M t * (x₀ * x₁⁻¹) * (uc22p21cPi D.M t)⁻¹ ∈
       zpowers (x₀ * x₁⁻¹) ⊔ (barImage D.M D.T ⊓ (barImage D.M L ⊔ barImage D.M K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, hinf, -, -, -, hXn, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hT := u4x_isSylowOf_barImage (p := 2) D.sylowM
   have hτ : uc22p21cPi D.M t ∈ barImage D.M D.T := uc22p21c_mem_barImage.2 ⟨t, ht, rfl⟩

@@ -110,7 +110,7 @@ theorem exists_cyclic_sylow_seven (h : OneComp J M X P) (h7 : 7 ∣ Nat.card J) 
       Nat.Prime.factorization_pos_of_dvd (by norm_num) hJne h7
     calc 1 < 7 ^ 1 := by norm_num
       _ ≤ 7 ^ (Nat.card J).factorization 7 := Nat.pow_le_pow_right (by norm_num) hpos
-  · haveI : IsCyclic ↥P := h.isCyclic
+  · have : IsCyclic ↥P := h.isCyclic
     have hf0 : Function.Injective (J.subtype.comp (P.subgroupOf J).subtype) :=
       J.subtype_injective.comp (P.subgroupOf J).subtype_injective
     exact isCyclic_of_injective

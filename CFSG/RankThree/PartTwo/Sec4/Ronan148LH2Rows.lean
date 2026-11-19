@@ -65,7 +65,7 @@ theorem kH2_four_SU (p : ℕ) [Fact p.Prime] (_ : 3 < p) :
   rowOfH2_projSU 3 p 1 le_rfl (valid_twistedA (by norm_num) (by omega))
 
 theorem kH2_seven_SL3 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSL 3 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     exact rowOfH2_of_noCQ (NoCQOf.of_not_dvd (by rw [card_projSL_three_two]; norm_num))
@@ -76,7 +76,7 @@ theorem kH2_seven_SL3 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSL 3 (GaloisField 
         omega)
 
 theorem kH2_seven_SU3 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSU 3 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     exact rowOfH2_of_noCQ (NoCQOf.of_not_dvd
@@ -87,7 +87,7 @@ theorem kH2_seven_SU3 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSU 3 2 n) := by
       omega)
 
 theorem kH2_seven_Sp4 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSp 2 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     exact rowOfH2_of_noCQ (NoCQOf.of_not_dvd
@@ -98,7 +98,7 @@ theorem kH2_seven_Sp4 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSp 2 (GaloisField 
         (by simp only [TauCeti.PrimePower.card_def]; omega))
 
 theorem kH2_seven_SU4 (n : ℕ) (hn : 1 ≤ n) : RowOfH2 (projSU 4 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSU 3 2 n hn (valid_twistedA (by norm_num) (by omega))
 
 theorem kH2_seven_G2 (q : PrimePower) (_ : q.p = 2) (hq : (LieTypeIndex.G2 q).Valid) :
@@ -118,20 +118,20 @@ theorem kH2_seven_Tits (ht : LieTypeIndex.tits.Valid) :
   rowOfH2_of_lie ⟨_, ht⟩ ⟨MulEquiv.refl _⟩
 
 theorem kH2_eight_SU5 : RowOfH2 (projSU 5 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSU 4 2 1 le_rfl (valid_twistedA (by norm_num) (by omega))
 
 theorem kH2_eight_SL6 : RowOfH2 (projSL 6 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSL 5 2 1 le_rfl
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) (by omega))
 
 theorem kH2_eight_SU6 : RowOfH2 (projSU 6 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSU 5 2 1 le_rfl (valid_twistedA (by norm_num) (by omega))
 
 theorem kH2_eight_SL7 : RowOfH2 (projSL 7 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSL 6 2 1 le_rfl
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) (by omega))
 
@@ -164,7 +164,7 @@ theorem kH2_eight_OmegaMinus (b c : GaloisField 2 1)
   exact rowOfH2_of_lie _ ⟨e.symm⟩
 
 theorem kH2_eight_SL4 : RowOfH2 (projSL 4 (GaloisField 2 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSL 3 2 2 (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
     simp only [TauCeti.PrimePower.card_def]
@@ -175,27 +175,27 @@ theorem kH2_eight_Sp6_4 : RowOfH2 (projSp 3 (GaloisField 2 2)) := by
   exact rowOfH2_of_lie _ ⟨e.symm⟩
 
 theorem kH2_eight_SU5_8 : RowOfH2 (projSU 5 2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfH2_projSU 4 2 3 (by norm_num) (valid_twistedA (by norm_num) (by omega))
 
 theorem kH2_eight_F4 : RowOfH2 (TauCeti.CFSGIndex.lie f4TwoIndex).Group :=
   rowOfH2_of_lie f4TwoIndex ⟨MulEquiv.refl _⟩
 
 theorem kH2_nine_SL3_nine : RowOfH2 (projSL 3 (GaloisField 3 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact rowOfH2_projSL 2 3 2 (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
     simp only [TauCeti.PrimePower.card_def]
     norm_num)
 
 theorem kH2_nine_SU3_nine : RowOfH2 (projSU 3 3 2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact rowOfH2_projSU 2 3 2 (by norm_num) (valid_twistedA le_rfl fun _ => by
     simp only [TauCeti.PrimePower.card_def]
     norm_num)
 
 theorem kH2_nine_SL4 : RowOfH2 (projSL 4 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact rowOfH2_projSL 3 3 1 le_rfl
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
     simp only [TauCeti.PrimePower.card_def]

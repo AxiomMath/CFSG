@@ -85,14 +85,14 @@ theorem exists_noncentral_order_three {C : Subgroup H} (hC : IsQuasisimple ↥C)
   have hcyc' : IsCyclic ↥((P : Subgroup ↥C).map C.subtype) :=
     CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
       (show (P : Subgroup ↥C).map C.subtype ≤ C from Subgroup.map_subtype_le _)
-      (P.isPGroup'.map C.subtype) hrank
+      (P.isPGroup.map C.subtype) hrank
   let e : ↥(P : Subgroup ↥C) ≃* ↥((P : Subgroup ↥C).map C.subtype) :=
     Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective
   have hcycP : IsCyclic ↥(P : Subgroup ↥C) :=
     isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   have : IsMulCommutative (P : Subgroup ↥C) :=
     ⟨⟨fun a b => (IsCyclic.commGroup (α := ↥(P : Subgroup ↥C))).mul_comm a b⟩⟩
-  have := eq_one_of_mem_center_of_perfect (p := 3) hC.1 P.isPGroup' P.not_dvd_index hcen
+  have := eq_one_of_mem_center_of_perfect (p := 3) hC.1 P.isPGroup P.not_dvd_index hcen
     (hP (Subgroup.mem_zpowers a'))
   exact ha1' (congrArg Subtype.val this)
 

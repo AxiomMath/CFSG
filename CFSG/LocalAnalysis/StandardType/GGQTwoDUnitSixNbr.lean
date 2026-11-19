@@ -88,15 +88,15 @@ theorem ggQTwoDUnitSix_dSign_one {a c : Fin 6} (hac : a ≠ c) :
   rw [dSign_apply_vec, Pi.add_apply, Pi.add_apply]
   by_cases hka : k = a
   · subst hka
-    rw [if_pos (Or.inl rfl), Pi.single_eq_same, Pi.single_eq_of_ne hac]
+    rw [ite_eq_left (Or.inl rfl), Pi.single_eq_same, Pi.single_eq_of_ne hac]
     show (-1 : ZMod 3) = 1 + 1 + 0
     decide
   · by_cases hkc : k = c
     · subst hkc
-      rw [if_pos (Or.inr rfl), Pi.single_eq_of_ne hka, Pi.single_eq_same]
+      rw [ite_eq_left (Or.inr rfl), Pi.single_eq_of_ne hka, Pi.single_eq_same]
       show (-1 : ZMod 3) = 1 + 0 + 1
       decide
-    · rw [if_neg (not_or.mpr ⟨hka, hkc⟩), Pi.single_eq_of_ne hka, Pi.single_eq_of_ne hkc,
+    · rw [ite_eq_right (not_or.mpr ⟨hka, hkc⟩), Pi.single_eq_of_ne hka, Pi.single_eq_of_ne hkc,
         add_zero, add_zero]
 
 omit [Finite K] [CharP K 2] in
@@ -105,9 +105,10 @@ theorem ggQTwoDUnitSix_single_delDiag (ω : Kˣ) (k : Fin 6) :
   funext i
   simp only [qtwoDB39_delDiag]
   by_cases hik : i = k
-  · rw [if_pos hik, hik, Pi.single_eq_same, show (1 : ZMod 3).val = 1 by decide, pow_one]
-  · rw [if_neg hik, Pi.single_eq_of_ne hik, ZMod.val_zero, pow_zero]
+  · rw [ite_eq_left hik, hik, Pi.single_eq_same, show (1 : ZMod 3).val = 1 by decide, pow_one]
+  · rw [ite_eq_right hik, Pi.single_eq_of_ne hik, ZMod.val_zero, pow_zero]
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_Bs_le_normalizer (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type}
     [Group Q] {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))

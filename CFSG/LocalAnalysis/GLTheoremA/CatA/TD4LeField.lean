@@ -15,6 +15,7 @@ structure Std (e : ℕ) (K : Type) [Field K] (σ : K ≃+* K) : Prop where
 
 variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {e : ℕ}
 
+omit [Finite K] in
 theorem Std.charP_two (h : Std e K σ) : CharP K 2 := by
   have hK3 : Nat.card K = 2 ^ (3 * e) := by rw [h.hK, ← pow_mul, mul_comm]
   exact CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
@@ -24,6 +25,7 @@ theorem Std.pow_cube (h : Std e K σ) (c : K) : c ^ (2 ^ e) ^ 3 = c := by
   have : Fintype K := Fintype.ofFinite K
   rw [← h.hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
 
+omit [Finite K] in
 theorem symm_pow_apply_pow_apply (σ : K ≃+* K) (n : ℕ) (c : K) :
     (σ.symm.toRingHom ^ n) ((σ.toRingHom ^ n) c) = c := by
   induction n generalizing c with
@@ -33,6 +35,7 @@ theorem symm_pow_apply_pow_apply (σ : K ≃+* K) (n : ℕ) (c : K) :
       RingHom.coe_mul, Function.comp_apply]
     simpa using ih c
 
+omit [Finite K] in
 theorem orbitField_symm (t : TwistTag) (σ : K ≃+* K) (a : Fin t.foldedTag.rank) :
     orbitField t K σ.symm.toRingHom a = orbitField t K σ.toRingHom a := by
   ext c
@@ -69,6 +72,7 @@ theorem card_orbitField_std (h : Std e K σ) (a : Fin TwistTag.D4.foldedTag.rank
   rw [e1]
   exact hcard a
 
+omit [Finite K] in
 theorem Std.apply_eq_of_pow_three (h : Std e K σ) (hQ : 2 ^ e % 3 = 1) {a : K} (ha : a ^ 3 = 1) :
     σ a = a := by
   have key : ∀ n : ℕ, n % 3 = 1 → a ^ n = a := fun n hn => by

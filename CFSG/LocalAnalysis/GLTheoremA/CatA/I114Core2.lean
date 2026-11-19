@@ -45,8 +45,8 @@ theorem exists_normal_two_subgroup {Y : Type} [Group Y] [Finite Y] {B K P T : Su
     ∃ P₀ : Subgroup Y, P₀ ≤ K ∧ P₀ ≠ ⊥ ∧ IsPGroup 2 P₀ ∧
       ∀ b ∈ B, b ∈ Subgroup.normalizer (K : Set Y) → cj b P₀ = P₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKN : K ≤ Subgroup.normalizer (P : Set Y) := commutes_normalizer (commutes_symm hKP)
   have hTN : ∀ s ∈ T, s ∈ Subgroup.normalizer (P : Set Y) := fun s hs =>
     (sup_le hKN Subgroup.le_normalizer) (hTK hs)
@@ -89,7 +89,7 @@ theorem exists_normal_two_subgroup {Y : Type} [Group Y] [Finite Y] {B K P T : Su
   have hNcard_dvd : Nat.card (Z.subgroupOf S) ∣ 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZS).toEquiv]
     exact hZcard
-  haveI hNn : (Z.subgroupOf S).Normal := by
+  have hNn : (Z.subgroupOf S).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (g : Y) * (n : Y) * (g : Y)⁻¹ = n := by
@@ -162,7 +162,7 @@ theorem exists_normal_two_subgroup {Y : Type} [Group Y] [Finite Y] {B K P T : Su
       exact hmem
     have ha_eq : a = n''.1 := by
       have := congrArg Subtype.val heq
-      simp only [Subgroup.coe_mk, Subgroup.coe_mul, hp1, one_mul] at this
+      simp only [Subgroup.coe_mul, hp1, one_mul] at this
       exact this
     apply haP
     rw [ha_eq]
@@ -194,7 +194,7 @@ theorem exists_normal_two_subgroup {Y : Type} [Group Y] [Finite Y] {B K P T : Su
       eq_one_of_cube_and_two_pow (hZ3 _ (Subgroup.mem_subgroupOf.1 hn'')) hv
     have hgp : g = p''.1 := by
       have := congrArg Subtype.val heq
-      simp only [Subgroup.coe_mk, Subgroup.coe_mul] at this
+      simp only [Subgroup.coe_mul] at this
       rw [this, hv1, mul_one]
     rw [hgp]
     exact ⟨p'', hp'', rfl⟩
@@ -218,6 +218,6 @@ theorem exists_normal_two_subgroup {Y : Type} [Group Y] [Finite Y] {B K P T : Su
   rw [mem_cj]
   have hb' := hle b⁻¹ (B.inv_mem hb) ((Subgroup.normalizer _).inv_mem hbN)
   apply hb'
-  exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+  exact ⟨y, hy, by simp⟩
 
 end CFSG.LocalAnalysis.GLTheoremA.I114

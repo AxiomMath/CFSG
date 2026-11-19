@@ -11,19 +11,23 @@ namespace CFSG.LinearAlgebra.RootGroupSL
 variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
   [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma mem_flagW_iff (v : DSpace E X) : v ∈ flagW k E X ↔ v.2 = 0 := by
   rw [flagW, LinearMap.mem_ker]
   rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma mem_flagK_iff (v : DSpace E X) : v ∈ flagK k E X ↔ v.2.2 = 0 := by
   rw [flagK, LinearMap.mem_ker]
   rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma rootEquiv_sub_self_mem_flagW (t : E) (v : DSpace E X) :
     rootEquiv k X t v - v ∈ flagW k E X := by
   rw [mem_flagW_iff]
   simp [rootEquiv, shearE, LinearMap.mulLeft_apply]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma snd_snd_eq_zero_of_rootEquiv_one_eq_self {v : DSpace E X}
     (h : rootEquiv k X 1 v = v) : v.2.2 = 0 := by
   have h1 : v.1 + v.2.2 = v.1 := by
@@ -31,6 +35,7 @@ private lemma snd_snd_eq_zero_of_rootEquiv_one_eq_self {v : DSpace E X}
     simpa [rootEquiv, shearE, LinearMap.mulLeft_apply] using this
   exact add_eq_left.mp h1
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma blockDiag_apply_flagW (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E)
     {v : DSpace E X} (hv : v ∈ flagW k E X) :
     blockDiag a g b v = (a v.1, 0, 0) := by
@@ -38,6 +43,7 @@ private lemma blockDiag_apply_flagW (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b :
   have h2 : v.2.2 = 0 := congrArg Prod.snd ((mem_flagW_iff v).mp hv)
   ext <;> simp [blockDiag, LinearEquiv.prodCongr_apply, h1, h2]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma blockDiag_one_sub_smul_mem_flagW (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E) (c : k)
     (hg : ∀ x : X, g x = c • x) {v : DSpace E X} (hv : v ∈ flagK k E X) :
     blockDiag (1 : E ≃ₗ[k] E) g b v - c • v ∈ flagW k E X := by
@@ -46,6 +52,7 @@ private lemma blockDiag_one_sub_smul_mem_flagW (g : X ≃ₗ[k] X) (b : E ≃ₗ
   rw [mem_flagW_iff, h2]
   simp [blockDiag, LinearEquiv.prodCongr_apply, hg]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma mulLeftEquiv_symm_apply (u : Eˣ) (x : E) :
     (mulLeftEquiv k u).symm x = ((u⁻¹ : Eˣ) : E) * x := by
   apply (mulLeftEquiv k u).injective
@@ -53,9 +60,11 @@ private lemma mulLeftEquiv_symm_apply (u : Eˣ) (x : E) :
   rw [Units.val_inv_eq_inv_val u]
   exact (mul_inv_cancel_left₀ (Units.ne_zero u) x).symm
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 private lemma smulOfUnit_apply' (a : kˣ) (x : X) :
     (LinearEquiv.smulOfUnit a : X ≃ₗ[k] X) x = (a : k) • x := rfl
 
+omit [Finite k] [CharP k 2] in
 private lemma det_smulOfUnit_eq (a : kˣ) :
     LinearEquiv.det (LinearEquiv.smulOfUnit a : X ≃ₗ[k] X) = a ^ Module.finrank k X := by
   apply Units.ext
@@ -66,12 +75,14 @@ private lemma det_smulOfUnit_eq (a : kˣ) :
     rfl
   rw [h, LinearMap.det_smul, map_one, mul_one]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma det_mulLeftEquiv_eq_norm (u : Eˣ) :
     ((LinearEquiv.det (mulLeftEquiv k u) : kˣ) : k) = Algebra.norm k (u : E) := by
   apply det_mulLeft_eq_norm
   ext x
   simp [mulLeftEquiv_apply]
 
+omit [Finite k] [CharP k 2] in
 private lemma mapsTo_flagW_flagK_of_semilinear
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (T : DSpace E X ≃+ DSpace E X)
@@ -79,7 +90,7 @@ private lemma mapsTo_flagW_flagK_of_semilinear
     (hα : ∀ (g : SpecialLinearGroup k (DSpace E X)) (v : DSpace E X), α g (T v) = T (g v)) :
     Set.MapsTo T (flagW k E X : Set (DSpace E X)) (flagW k E X) ∧
       Set.MapsTo T (flagK k E X : Set (DSpace E X)) (flagK k E X) := by
-  haveI : Module.Finite k E := inferInstance
+  have : Module.Finite k E := inferInstance
   constructor
   · intro w hw
     change w ∈ flagW k E X at hw
@@ -121,6 +132,7 @@ private lemma mapsTo_flagW_flagK_of_semilinear
       exact h
     exact snd_snd_eq_zero_of_rootEquiv_one_eq_self hfix
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private lemma map_inv_semilinear
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (T : DSpace E X ≃+ DSpace E X)
@@ -145,6 +157,7 @@ private lemma map_inv_semilinear
     rw [show α (α⁻¹ g) = g by simp, AddEquiv.apply_symm_apply] at h
     exact ((AddEquiv.symm_apply_eq T).mpr h).symm
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 private lemma field_form_scalar_eq_one
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (T : DSpace E X ≃+ DSpace E X)
@@ -177,6 +190,7 @@ private lemma field_form_scalar_eq_one
   rw [Algebra.smul_def, mul_one] at h2
   exact FaithfulSMul.algebraMap_injective k E (by rw [h2, map_one])
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma field_form_Kpart
     (hX : 0 < Module.finrank k X)
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
@@ -242,6 +256,7 @@ private lemma field_form_Kpart
     · exact absurd h hx0
   exact sub_eq_zero.mp hsub
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 private lemma norm_exists (c' : kˣ) :
     ∃ s : Eˣ, Algebra.norm k (s : E) = (c' : k) ^ Module.finrank k X := by
   obtain ⟨s, hs⟩ := FiniteField.unitsMap_norm_surjective k E (c' ^ Module.finrank k X)
@@ -249,6 +264,7 @@ private lemma norm_exists (c' : kˣ) :
     have := congrArg (fun u : kˣ => (u : k)) hs
     simpa [Units.val_pow_eq_pow_val] using this⟩
 
+omit [Finite k] [CharP k 2] in
 private lemma det_blockSL_eq_one (c' : kˣ) (s : Eˣ)
     (hnorm : Algebra.norm k (s : E) = (c' : k) ^ Module.finrank k X) :
     LinearEquiv.det (1 : E ≃ₗ[k] E) *
@@ -266,19 +282,21 @@ private lemma det_blockSL_eq_one (c' : kˣ) (s : Eˣ)
       Algebra.norm_inv, hnorm]
   rw [map_one, one_mul, hg, hb, mul_inv_cancel]
 
+omit [Finite k] [CharP k 2] in
 private lemma blockSL_mem_normalizer (c' : kˣ) (s : Eˣ)
     (hdet : LinearEquiv.det (1 : E ≃ₗ[k] E) *
       LinearEquiv.det (LinearEquiv.smulOfUnit c' : X ≃ₗ[k] X) *
       LinearEquiv.det (mulLeftEquiv k s⁻¹) = 1) :
     blockSL (1 : E ≃ₗ[k] E) (LinearEquiv.smulOfUnit c' : X ≃ₗ[k] X) (mulLeftEquiv k s⁻¹) hdet ∈
       Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))) := by
-  haveI : Module.Finite k E := inferInstance
+  have : Module.Finite k E := inferInstance
   rw [blockSL_mem_normalizer_iff]
   intro t
   refine ⟨t * s, ?_⟩
   ext y
-  simp [mulLeftEquiv_symm_apply, LinearMap.mulLeft_apply, mul_assoc]
+  simp [mulLeftEquiv_symm_apply, LinearMap.mulLeft_apply]
 
+omit [CharP k 2] in
 private lemma center_scalar (z : SpecialLinearGroup k (DSpace E X))
     (hz : z ∈ Subgroup.center (SpecialLinearGroup k (DSpace E X))) :
     ∃ lam : kˣ, ∀ x : DSpace E X,
@@ -292,12 +310,13 @@ private lemma center_scalar (z : SpecialLinearGroup k (DSpace E X))
     exact h.symm
   exact exists_smul_of_commute_specialLinearGroup (z : DSpace E X ≃ₗ[k] DSpace E X) hcomm
 
+omit [Finite k] [CharP k 2] in
 private lemma field_form_blockSL (c : k) (hc : c ≠ 0) :
     ∃ h : SpecialLinearGroup k (DSpace E X),
       h ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))) ∧
       (∀ w ∈ flagW k E X, h w = w) ∧
       (∀ v ∈ flagK k E X, h v - c • v ∈ flagW k E X) := by
-  haveI : Module.Finite k E := inferInstance
+  have : Module.Finite k E := inferInstance
   let c' : kˣ := Units.mk0 c hc
   obtain ⟨s, hnorm⟩ := norm_exists (k := k) (E := E) (X := X) c'
   have hdet := det_blockSL_eq_one (k := k) (E := E) (X := X) c' s hnorm
@@ -322,6 +341,7 @@ private lemma field_form_blockSL (c : k) (hc : c ≠ 0) :
       (mulLeftEquiv k s⁻¹) c (fun y => smulOfUnit_apply' c' y) hv
   exact ⟨h, hhN, hhWid, hK⟩
 
+omit [CharP k 2] in
 private lemma field_form_decompose
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (h : SpecialLinearGroup k (DSpace E X))
@@ -338,6 +358,7 @@ private lemma field_form_decompose
   obtain ⟨lam, hlam⟩ := center_scalar (k := k) (E := E) (X := X) z hz
   exact ⟨u, z, lam, hu, hz, hαh, hlam⟩
 
+omit [CharP k 2] in
 private lemma field_form_scalar_step
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hC : ∀ h ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))),
@@ -361,6 +382,7 @@ private lemma field_form_scalar_step
     field_form_scalar_eq_one α T hα hmapWinv h u z hu hαh lam hlam hhWid
   exact ⟨h, u, z, lam, hhN, hu, hz, hαh, hlam, hlam1, hK⟩
 
+omit [CharP k 2] in
 private lemma field_form_nonzero
     (hX : 0 < Module.finrank k X)
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
@@ -378,6 +400,7 @@ private lemma field_form_nonzero
     field_form_scalar_step α hC T hα hmapWinv c hc
   exact field_form_Kpart hX α T σ hT hα hmapW hmapKinv c h u z hu hαh lam hlam hlam1 hK
 
+omit [CharP k 2] in
 theorem field_form_eq_refl (hX : 0 < Module.finrank k X)
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)
@@ -387,7 +410,7 @@ theorem field_form_eq_refl (hX : 0 < Module.finrank k X)
     (hT : ∀ (c : k) (v : DSpace E X), T (c • v) = σ c • T v)
     (hα : ∀ (g : SpecialLinearGroup k (DSpace E X)) (v : DSpace E X), α g (T v) = T (g v)) :
     σ = RingEquiv.refl k := by
-  haveI : Module.Finite k E := inferInstance
+  have : Module.Finite k E := inferInstance
   have hmap := mapsTo_flagW_flagK_of_semilinear α T hR hα
   have hmapW : Set.MapsTo T (flagW k E X : Set (DSpace E X)) (flagW k E X) := hmap.1
   have hinv := map_inv_semilinear α T hR hα

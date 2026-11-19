@@ -18,7 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 private theorem sec8t84t_aux_center_eq_bot {S : Type} [Group S] (hS : IsSimpleGroup S)
     (hnc : ∃ a b : S, a * b ≠ b * a) : center S = ⊥ := by
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center S) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hnc
@@ -29,7 +29,7 @@ theorem sec8t84t_centB_eq_one (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
     (hE : IsSimpleGroup ↥E) (hnc : ∃ a b : ↥E, a * b ≠ b * a)
     (h2 : IsPGroup 2 (↥(ffFix hQ (by omega) x) ⧸ E)) {c : ↥(ffFix hQ (by omega) x)}
     (hc : ∀ e ∈ E, c * e = e * c) : c = 1 := by
-  haveI := hE
+  have := hE
   have hcen : center ↥E = ⊥ := sec8t84t_aux_center_eq_bot hE hnc
   obtain ⟨j, hj⟩ := h2 (QuotientGroup.mk c)
   have hcE : c ^ (2 ^ j) ∈ E := by
@@ -128,11 +128,11 @@ theorem sec8t84t_centB_eq_one (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
           (projOrthToProjSim Q ((w : ↥(omegaProj hQ)) : ProjOrth Q))) =>
             (z : ↥(omegaProj hQ))) hab
     exact Subtype.ext (Subtype.ext h3)
-  haveI : Group.IsSolvable ↥(ffFix hQ (by omega)
+  have : Group.IsSolvable ↥(ffFix hQ (by omega)
       (projOrthToProjSim Q ((w : ↥(omegaProj hQ)) : ProjOrth Q))) := hsol
-  haveI : Group.IsSolvable ↥E :=
+  have : Group.IsSolvable ↥E :=
     Group.isSolvable_of_isSolvable_injective (f := f) hf_inj
-  haveI : Group.IsPerfect ↥E := (ff_isQuasisimple_of_simple hE hnc).1
+  have : Group.IsPerfect ↥E := (ff_isQuasisimple_of_simple hE hnc).1
   exact (Group.IsPerfect.not_isSolvable ↥E) inferInstance
 
 end CFSG.OddStandard.SmallF3.Omega

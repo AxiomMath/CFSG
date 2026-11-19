@@ -38,7 +38,7 @@ theorem a2lE6_component_toral {K : Type} [Field K] [Finite K] (hK : Nat.card K =
       (adjointGroup .E6 K ⊓
         centralizer ({rootDiagUnit .E6 (bitsTuple (K := K) e6BitsA5)} : Set (ModGL .E6 K))) := by
   have hK' : Nat.card K = 3 ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 3 :=
+  have : CharP K 3 :=
     finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hK'
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hS : rootSpan .E6 K (rootCharKernel (bitsTuple (K := K) e6BitsA5)) =

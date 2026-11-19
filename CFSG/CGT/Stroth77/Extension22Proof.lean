@@ -16,12 +16,14 @@ namespace StrothTypeData
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)}
 
+omit [Finite S] in
 theorem comm_t100 (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x y : B) :
     x * y = y * x := by
   apply Additive.ofMul.injective
   apply D.e.injective
   simp only [ofMul_mul, map_add, add_comm]
 
+omit [Finite S] in
 theorem card_t100 (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Nat.card B = 2 ^ (3 * m + 2) := by
   have h := D.card
@@ -32,6 +34,7 @@ theorem card_t100 (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
   rw [show m + (m + 1) + (m + 1) = 3 * m + 2 by ring] at h
   exact h
 
+omit [Finite S] in
 theorem closure_c_a_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Subgroup.closure ({(D.c : S), (D.a : S), (D.b : S)} : Set S) = B := by
   apply le_antisymm
@@ -56,7 +59,7 @@ theorem closure_c_a_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
         z 1 • gen (StrothTypeIndex.t100 m).k 1 + z 2 • gen (StrothTypeIndex.t100 m).k 2 := by
       funext i
       fin_cases i <;>
-        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply, Pi.smul_apply]
+        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply]
     have hx' : xB = D.c ^ (z 0) * D.a ^ (z 1) * D.b ^ (z 2) := by
       apply Additive.ofMul.injective
       apply D.e.injective
@@ -97,16 +100,16 @@ theorem lt_of_relIndex (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B) : B 
       _ = Nat.card B := hrel.symm
   exact (lt_irrefl _ hlt).elim
 
-theorem comm_of_le_centralizer (D : StrothTypeData B (StrothTypeIndex.t100 m))
+theorem comm_of_le_centralizer (_D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B) (x y : C) : x * y = y * x := by
   let H : Subgroup C := B.subgroupOf C
   have hindex : H.index = 2 := index_two_of_relIndex hBC hrel
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hindex
+  have : H.Normal := Subgroup.normal_of_index_eq_two hindex
   have hcard : Nat.card (C ⧸ H) = 2 := by
     rw [← Subgroup.index_eq_card, hindex]
-  haveI : IsCyclic (C ⧸ H) :=
-    isCyclic_of_card_dvd_prime (p := 2) (by simpa [hcard])
+  have : IsCyclic (C ⧸ H) :=
+    isCyclic_of_card_dvd_prime (p := 2) (by simp [hcard])
   have hker : (QuotientGroup.mk' H).ker ≤ Subgroup.center C := by
     rw [QuotientGroup.ker_mk']
     intro b hb
@@ -114,7 +117,7 @@ theorem comm_of_le_centralizer (D : StrothTypeData B (StrothTypeIndex.t100 m))
     intro g
     have hbB : (b : S) ∈ B := Subgroup.mem_subgroupOf.mp hb
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hC g.2) (b : S) hbB).symm
-  exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' H) hker x y
+  exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' H) hker).is_comm.comm x y
 
 noncomputable def torusHomOfGens {A : Type*} [AddCommGroup A] (k : Fin 3 → ℕ)
     (x : (i : Fin 3) → A) (hx : ∀ i, (2 ^ k i) • x i = 0) : Torus k →+ A :=
@@ -125,22 +128,24 @@ noncomputable def torusHomOfGens {A : Type*} [AddCommGroup A] (k : Fin 3 → ℕ
 theorem torusHomOfGens_gen {A : Type*} [AddCommGroup A] {k : Fin 3 → ℕ}
     (x : (i : Fin 3) → A) (hx : ∀ i, (2 ^ k i) • x i = 0) (j : Fin 3) :
     torusHomOfGens k x hx (gen k j) = x j := by
-  rw [torusHomOfGens, AddMonoidHom.finset_sum_apply]
+  rw [torusHomOfGens, _root_.AddMonoidHom.finsetSum_apply]
   rw [Finset.sum_eq_single j]
   · simp only [AddMonoidHom.comp_apply, Pi.evalAddMonoidHom_apply, gen, Pi.single_eq_same]
     simpa [zmultiplesHom_apply, one_zsmul] using
       (ZMod.lift_coe (2 ^ k j) (f := ⟨zmultiplesHom A (x j), _⟩) (1 : ℤ))
   · intro i _ hij
-    simp [gen, Pi.single_eq_of_ne hij, ZMod.lift_coe, zmultiplesHom_apply]
+    simp [gen, Pi.single_eq_of_ne hij]
   · intro h
     simp at h
 
+omit [Finite S] in
 theorem sq_mem_of_index_two {x : C} (hindex : (B.subgroupOf C).index = 2) :
     ((x : S) * (x : S)) ∈ B := by
   have h : x ^ 2 ∈ B.subgroupOf C := Subgroup.sq_mem_of_index_two hindex x
   rw [pow_two] at h
   simpa [Subgroup.mem_subgroupOf] using h
 
+omit [Finite S] in
 theorem mem_or_exists_mul_of_index_two {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
     (hindex : (B.subgroupOf C).index = 2) {x : S} (hxC : x ∈ C) :
     x ∈ B ∨ ∃ b ∈ B, x = d * b := by
@@ -160,7 +165,7 @@ theorem mem_or_exists_mul_of_index_two {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
         exact (hxH hx').elim
     refine ⟨dC⁻¹ * xC, ?_, ?_⟩
     · simpa [Subgroup.mem_subgroupOf] using h
-    · simp only [Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv]
+    · simp only [Subgroup.coe_inv]
       rw [mul_inv_cancel_left]
 
 theorem closure_eq_of_sq (D : StrothTypeData B (StrothTypeIndex.t100 m))
@@ -198,16 +203,14 @@ theorem closure_eq_of_sq (D : StrothTypeData B (StrothTypeIndex.t100 m))
 
 theorem n_t100 (m : ℕ) : (StrothTypeIndex.t100 m).n = m + 1 := by
   have h := congrFun (StrothTypeIndex.k_eq (StrothTypeIndex.t100 m)) 1
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero, Matrix.cons_val_two,
-    Matrix.tail_cons] at h
+  simp only [Matrix.cons_val_one, Matrix.cons_val_zero] at h
   have hk : (StrothTypeIndex.t100 m).k 1 = m + 1 := rfl
   rw [hk] at h
   exact h.symm
 
 theorem m_t100 (m : ℕ) : (StrothTypeIndex.t100 m).m = m := by
   have h := congrFun (StrothTypeIndex.k_eq (StrothTypeIndex.t100 m)) 0
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero, Matrix.cons_val_two,
-    Matrix.tail_cons] at h
+  simp only [Matrix.cons_val_zero] at h
   have hk : (StrothTypeIndex.t100 m).k 0 = m := rfl
   rw [hk] at h
   exact h.symm
@@ -344,6 +347,7 @@ section ConjCheck
     apply Subtype.ext
     simp [conjBy, mul_assoc]
 
+omit [Finite S] in
 theorem conj_eq_of_generator_images {k : Fin 3 → ℕ} {g : S}
     (hg : g ∈ Subgroup.normalizer C) (E : Additive C ≃+ Torus k) (φ : Torus k →+ Torus k)
     {xd xa xb : C}
@@ -406,10 +410,11 @@ def basisElems (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C) {
     (hdC : d ∈ C) : Fin 3 → C :=
   ![⟨d, hdC⟩, ⟨D.a, hBC D.a.2⟩, ⟨D.b, hBC D.b.2⟩]
 
+omit [Finite S] in
 theorem hasStrothType_t300_of_generator_images
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
-    (hrel : Nat.card C = 2 * Nat.card B) (hL : D.L ≤ Subgroup.normalizer C)
-    {d : S} (hdC : d ∈ C) (hdB : d ∉ B) (hd2 : d * d = (D.c : S))
+    (_hrel : Nat.card C = 2 * Nat.card B) (hL : D.L ≤ Subgroup.normalizer C)
+    {d : S} (hdC : d ∈ C) (_hdB : d ∉ B) (_hd2 : d * d = (D.c : S))
     (E : TorusBasisEquiv D hBC d hdC)
     (huv : ∀ j : Fin 3, E.e (Additive.ofMul (conjBy (hL D.uv_mem_L) (basisElems D hBC hdC j))) =
       (Type300.action (m + 1)).φuv (gen (Type300.k (m + 1)) j))
@@ -437,10 +442,11 @@ theorem hasStrothType_t300_of_generator_images
       (Type300.action (m + 1)).φu hxd hxa hxb (hu 0) (hu 1) (hu 2),
     conj_eq_of_generator_images (hL D.ρ_mem_L) E.e
       (Type300.action (m + 1)).φρ hxd hxa hxb (hρ 0) (hρ 1) (hρ 2)⟩⟩
+omit [Finite S] in
 theorem hasStrothType_t310_of_generator_images
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
-    (hrel : Nat.card C = 2 * Nat.card B) (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m)
-    {d : S} (hdC : d ∈ C) (hdB : d ∉ B) (hd2 : d * d = (D.c : S))
+    (_hrel : Nat.card C = 2 * Nat.card B) (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m)
+    {d : S} (hdC : d ∈ C) (_hdB : d ∉ B) (_hd2 : d * d = (D.c : S))
     (E : TorusBasisEquiv D hBC d hdC)
     (huv : ∀ j : Fin 3, E.e (Additive.ofMul (conjBy (hL D.uv_mem_L) (basisElems D hBC hdC j))) =
       (Type310.action (m + 1) (by omega)).φuv (gen (Type310.k (m + 1)) j))

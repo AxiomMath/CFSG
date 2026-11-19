@@ -52,7 +52,7 @@ theorem pRankLeTwo_of_sylowShape {p e : ℕ} (hp : p.Prime)
     · exact ⟨0, by rw [h2]; simp⟩
     · exact ⟨1, by rw [h2]; simp⟩
   obtain ⟨S, hRS⟩ := hRP.exists_le_sylow
-  obtain ⟨φ⟩ := h (S : Subgroup T) S.isPGroup' (Sylow.not_dvd_index S)
+  obtain ⟨φ⟩ := h (S : Subgroup T) S.isPGroup (Sylow.not_dvd_index S)
   let R' : Subgroup ↥(S : Subgroup T) := R.subgroupOf S
   have hcard : Nat.card R' = Nat.card R :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRS).toEquiv

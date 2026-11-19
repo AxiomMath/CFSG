@@ -59,12 +59,12 @@ theorem conj_phi {g : ↥L} {σ : Equiv.Perm (Fin 6)} {K : Finset (Fin 6)}
       (g : G) * sec5c_phi L B r i fr φc u * (g : G)⁻¹ =
         sec5c_phi L B r i fr φc (permVec σ u) := by
     intro u hu
-    rw [h.phi_even hu]
+    rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even hu]
     have hu' : IsEvenVec (permVec σ u) := by
       change ∑ j, permVec σ u j = 0
       rw [sec5c_sum_perm]
       exact hu
-    rw [h.phi_even hu', sec5c_supp_perm]
+    rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even hu', sec5c_supp_perm]
     exact h.conj_lift hg ((sec5c_isEvenVec_iff u).mp hu)
   by_cases hv : IsEvenVec v
   · exact even_conj v hv
@@ -136,7 +136,7 @@ theorem conj_phi {g : ↥L} {σ : Equiv.Perm (Fin 6)} {K : Finset (Fin 6)}
         have hlift : uL = sec5c_liftL L B φc (φc uL : OGroup Q) :=
           (h.liftL_unique huB).symm
         rw [hlift, hphi_uL, ← hsupp]
-        exact (h.phi_even heven_vec).symm
+        exact (CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even heven_vec).symm
       calc (g : G) * r * (g : G)⁻¹
           = (uL : G) * r := by rw [huL_val]; group
         _ = sec5c_phi L B r i fr φc (Pi.single (σ i) 1 + Pi.single i 1) *

@@ -158,7 +158,7 @@ theorem exists_fixed_noncentral (hin : SectionSevenBase) (hC : Counterexample G 
     intro y
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hxc y y.2)
   have hZc : Z ≤ Subgroup.center X := fun x hx =>
-    hcen x hx.2 (P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx.1))
+    hcen x hx.2 (P.isPGroup.to_le (Subgroup.zpowers_le.mpr hx.1))
   have hZP : Z ≤ (P : Subgroup X) := fixedIn_le _ _
   have hZα : Z.map (α : X →* X) = Z := by
     apply le_antisymm
@@ -169,7 +169,7 @@ theorem exists_fixed_noncentral (hin : SectionSevenBase) (hC : Counterexample G 
       exact ⟨x, hx, hx.2⟩
   obtain ⟨m, hmk⟩ := exists_ne hC k
   have hZcyc : IsCyclic Z := by
-    apply isCyclic_of_comm_of_unique (P.isPGroup'.to_le hZP)
+    apply isCyclic_of_comm_of_unique (P.isPGroup.to_le hZP)
     · exact ⟨⟨fun a b => Subtype.ext (Subgroup.mem_center_iff.mp (hZc b.2) a)⟩⟩
     · intro a ha b hb ha2 hb2
       by_contra hab
@@ -186,7 +186,7 @@ theorem exists_fixed_noncentral (hin : SectionSevenBase) (hC : Counterexample G 
     exact P.ne_bot_of_dvd_card (even_iff_two_dvd.mp heven)
   set β := restrictAut α (P : Subgroup X) hPα
   have hβ : β ^ 2 = 1 := restrictAut_sq α hα _ hPα
-  obtain ⟨p, hp1, hβp⟩ := exists_fixed_ne_one P.isPGroup' β hβ
+  obtain ⟨p, hp1, hβp⟩ := exists_fixed_ne_one P.isPGroup β hβ
   have hZne : Z ≠ ⊥ := by
     intro hbot
     have hpZ : (p : X) ∈ Z := ⟨p.2, congrArg Subtype.val hβp⟩

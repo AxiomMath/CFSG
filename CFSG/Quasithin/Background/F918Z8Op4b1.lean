@@ -19,7 +19,7 @@ theorem opq4b_exists_inverts_of_index {H : Type*} [Group H] [Finite H] {p : ℕ}
   obtain ⟨S, hS⟩ : ∃ S : Sylow p H, (S : Subgroup H) = P :=
     ⟨hP.toSylow (by rw [hPidx]; exact hpm), IsPGroup.toSylow_coe _ _⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p T) := inferInstance
-  have hQ : IsPGroup p ((Q : Subgroup T).map T.subtype) := Q.isPGroup'.map _
+  have hQ : IsPGroup p ((Q : Subgroup T).map T.subtype) := Q.isPGroup.map _
   have hidx : ¬ p ∣ ((Q : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype, (Fact.out : p.Prime).dvd_mul, not_or]
     exact ⟨Q.not_dvd_index, hT⟩

@@ -20,7 +20,7 @@ theorem centShapeSplit_suzM : CentShapeSplit 3 ↥suzM :=
 
 theorem centShapeSplit_Suz : CentShapeSplit 3 (NativeSporadic.Carrier .Suz) := by
   have e : NativeSporadic.Suz ≃* ↥suzM := suzEquivM
-  haveI : Finite (NativeSporadic.Carrier .Suz) := Finite.of_equiv ↥suzM e.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier .Suz) := Finite.of_equiv ↥suzM e.symm.toEquiv
   exact CentShapeSplit.of_equiv Nat.prime_three e.symm centShapeSplit_suzM
 
 end Assembly

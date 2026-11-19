@@ -84,7 +84,7 @@ theorem e16DiagGL_proj_ne_one {p f : ℕ} {F : Type} [Field F] (hU : UnitaryFiel
   have e1 := congrArg (fun M : GL (Fin 3) F => (M : Matrix (Fin 3) (Fin 3) F) 1 1) hc
   simp only [coe_e16DiagGL, GeneralLinearGroup.coe_scalar, scalar_apply,
     diagonal_apply_eq] at e0 e1
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at e0 e1
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at e0 e1
   apply hne
   apply Units.ext
   rw [e0, e1]
@@ -94,8 +94,8 @@ theorem e16_psu3_odd_commuting {p f : ℕ} {F : Type} [Field F] (hU : UnitaryFie
     ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ ∃ y : unitaryPSU hU 3, orderOf y = r ∧
       y * unitaryProj hU 3 (unitaryInvT hU) = unitaryProj hU 3 (unitaryInvT hU) * y := by
   classical
-  haveI : Finite F := hU.finite
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Finite F := hU.finite
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨q, hq⟩ : ∃ q, q = p ^ f := ⟨_, rfl⟩
   rw [← hq] at hq4 hq3
   have hmod : (q + 1) % 4 = 2 := by omega
@@ -108,7 +108,7 @@ theorem e16_psu3_odd_commuting {p f : ℕ} {F : Type} [Field F] (hU : UnitaryFie
     omega
   have hrq1 : r ∣ q + 1 :=
     hrq.trans (Nat.div_dvd_of_dvd (by omega : 2 ∣ q + 1))
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcardF : Fintype.card F = q ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hU.card, hq, ← pow_mul, mul_comm]
   have hdvd : r ∣ Fintype.card Fˣ := by

@@ -87,7 +87,7 @@ theorem axis_of_hSeven {δ : ZMod 3} (hδ : δ = 1 ∨ δ = -1) {A : Matrix (Fin
         · rw [hσk, Pi.single_eq_same] at hk'
           exact ⟨hσk, hk'⟩
         · exfalso
-          rw [Pi.single_apply, if_neg (Ne.symm hσk)] at hk'
+          rw [Pi.single_apply, ite_eq_right (Ne.symm hσk)] at hk'
           exact absurd hk' (by decide)
       have hprod : ∏ i : Fin 6, s i.succ.succ = -1 := by
         have hjs : ∃ i : Fin 6, i.succ.succ = j := by

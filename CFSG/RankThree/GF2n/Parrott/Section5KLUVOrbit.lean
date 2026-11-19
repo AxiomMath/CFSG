@@ -336,12 +336,14 @@ private noncomputable def qHsub_kl (E : Subgroup G) (hE : E ≤ H z) : E →* A4
     rw [show (⟨((a * b : E) : G), _⟩ : ↥(H z)) =
       (⟨(a : G), _⟩ : ↥(H z)) * ⟨(b : G), _⟩ from Subtype.ext rfl, map_mul]
 
+omit [Finite G] in
 private theorem qHsub_ker_kl (E : Subgroup G) (hE : E ≤ H z) :
     (qHsub_kl (z := z) (D := D) E hE).ker = (J z).comap E.subtype := by
   ext y
   show qH (z := z) D ⟨(y : G), hE y.2⟩ = 1 ↔ (y : G) ∈ J z
   rw [← J_mem_iff (z := z) D ⟨(y : G), hE y.2⟩, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem card_eq_card_inf_mul_card_range_kl (E : Subgroup G) (hE : E ≤ H z) :
     Nat.card E = Nat.card ↥(E ⊓ J z) * Nat.card ↥(qHsub_kl (z := z) (D := D) E hE).range := by
   have h := Subgroup.card_ker_mul_card_range (qHsub_kl (z := z) (D := D) E hE)

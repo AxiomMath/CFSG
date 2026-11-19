@@ -52,7 +52,7 @@ private theorem b2W_eq_bHomW : b2W = bHomW (Multiplicative.ofAdd (Pi.single (0 :
   apply Subtype.ext
   change (xBlock (Q := W5) : Matrix W7 W7 𝔽₂) =
     bMatW (Pi.single (0 : Fin 3) (1 : ZMod 3))
-  simp [xBlock, coe_xBlock, bMatW, Pi.single_eq_same, fromBlocks_one]
+  simp [xBlock, bMatW, Pi.single_eq_same, fromBlocks_one]
   rw [zmod3_val_one, pow_one]
   rfl
 
@@ -71,13 +71,13 @@ private theorem eHom23_single0 : eHom23 (Multiplicative.ofAdd (Pi.single (0 : Fi
     Multiplicative.ofAdd (Pi.single (0 : Fin 3) (1 : ZMod 3)) := by
   apply Multiplicative.toAdd.injective
   funext i
-  fin_cases i <;> simp [eHom23, extend23, Pi.single_apply]
+  fin_cases i <;> simp [eHom23, extend23]
 
 private theorem eHom23_single1 : eHom23 (Multiplicative.ofAdd (Pi.single (1 : Fin 2) (1 : ZMod 3))) =
     Multiplicative.ofAdd (Pi.single (1 : Fin 3) (1 : ZMod 3)) := by
   apply Multiplicative.toAdd.injective
   funext i
-  fin_cases i <;> simp [eHom23, extend23, Pi.single_apply]
+  fin_cases i <;> simp [eHom23, extend23]
 
 private theorem b2W_mem_EJW : b2W ∈ EJW := by
   rw [b2W_eq_bHomW, ← eHom23_single0]
@@ -106,7 +106,7 @@ private theorem centralizer_xBlock_W3_le (B : Matrix.SpecialLinearGroup W5 𝔽�
 private theorem b2W_comm_jHom5 (B : Matrix.SpecialLinearGroup W5 𝔽₂) :
     jHom5 B * b2W = b2W * jHom5 B := by
   apply Subtype.ext
-  simp [jHom5, b2W, coe_jBlockHom, coe_xBlock, xBlockMat, Matrix.fromBlocks_multiply]
+  simp [jHom5, b2W, coe_jBlockHom, coe_xBlock, Matrix.fromBlocks_multiply]
 
 private theorem comm_J5_zpowers_b2W :
     CFSG.ClassicalInvolution.Generic.Commutes J5 (Subgroup.zpowers b2W) := by
@@ -281,7 +281,7 @@ private theorem b4W_eq : b4W = jHom5 (jHom3 (xBlock (Q := Fin 1))) := by
   apply Subtype.ext
   change bMatW (Pi.single (2 : Fin 3) (1 : ZMod 3)) =
     fromBlocks 1 0 0 (fromBlocks 1 0 0 (xBlockMat (Q := Fin 1)))
-  simp [bMatW, xBlockMat, Pi.single_eq_same, Pi.single_eq_of_ne, fromBlocks_one]
+  simp [bMatW, xBlockMat, Pi.single_eq_same, Pi.single_eq_of_ne]
   rw [zmod3_val_one, pow_one]
 
 private theorem b4W_pow_three : b4W ^ 3 = 1 := by

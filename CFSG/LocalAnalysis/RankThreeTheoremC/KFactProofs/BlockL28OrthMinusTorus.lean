@@ -67,10 +67,10 @@ variable (b c : K) in
 @[expose] noncomputable def minusParabTorus (k : ℕ) (hk : k + 1 ≤ r) (hr : 3 ≤ r) :
     (Fin k → Kˣ) →* ↥(orthParab r (minusTailForm K b c) d) :=
   (((orthDMapOneHom K r).comp ((SpecialLinearGroup.toGL).comp (minusTorusSL K k hk))).codRestrict
-      (orthElementaryGroup (quadTail r (minusTailForm K b c))) fun t =>
+      (orthElementaryGroup (quadTail r (minusTailForm K b c))) fun _t =>
         NonsplitOrthogonalCover.dMap_one_mem_orthElementaryGroup hr
-          (minusTorusSL K k hk t).2).codRestrict _ fun t =>
-    mem_orthParab.2 fun i => map_tailFlag_dMap (blockTriangular_diagonal _) _ _
+          (minusTorusSL K k hk _t).2).codRestrict _ fun _t =>
+    mem_orthParab.2 fun _i => map_tailFlag_dMap (blockTriangular_diagonal _) _ _
 
 omit [Finite K] in
 theorem minusParabTorus_injective (b c : K) (k : ℕ) (hk : k + 1 ≤ r) (hr : 3 ≤ r) :

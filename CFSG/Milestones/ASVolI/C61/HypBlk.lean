@@ -186,6 +186,7 @@ theorem burnsideC56_three_key {H A B : Subgroup G} (hAH : A ≤ H) (hBH : B ≤ 
   exact burnsideC56_alt3_no_central hA a.2
     (fun a' ha' => (Subgroup.mem_centralizer_iff.mp (hAB ha') a haB).symm) hao
 
+omit [Finite G] in
 theorem burnsideC56_oTwoUpper_eq_of_s1 {H TH R K₁ : Subgroup G} (hcfg : BlockConfig H TH R K₁)
     (hs : ∀ t ∈ TH, conjByElt t K₁ = K₁) : oTwoUpper H = K₁ := by
   rw [hcfg.prod]
@@ -241,8 +242,8 @@ theorem burnsideC56_W3_case {H : Subgroup G} {Y : Type} [Group Y] (ψ : ↥H →
     rw [← hker', Subgroup.index_ker, ← MonoidHom.map_range, Subgroup.inclusion_range, himg,
       ← Subgroup.card_map_of_injective (f := e.toMonoidHom) e.injective, hYW, W3.card_N0]
 
-theorem burnsideC56_hypI_blocks {H TH R K₁ : Subgroup G} (hc : CharTwo H)
-    (hi : burnsideC56_HypI H) (hT : IsSylowTwoOf TH H) (hcfg : BlockConfig H TH R K₁) :
+theorem burnsideC56_hypI_blocks {H TH R K₁ : Subgroup G} (_hc : CharTwo H)
+    (hi : burnsideC56_HypI H) (_hT : IsSylowTwoOf TH H) (hcfg : BlockConfig H TH R K₁) :
     ((∀ t ∈ TH, conjByElt t K₁ = K₁) ∧ oTwoUpper H = K₁ ∧
         ((∃ n : ℕ, 1 < n ∧ IsLin2Type K₁ n) ∨ IsAltType K₁ 5) ∧
         ¬ IsA3Product H (oTwoUpper H) 1 ∧ ¬ IsA3Product H (oTwoUpper H) 2) ∨

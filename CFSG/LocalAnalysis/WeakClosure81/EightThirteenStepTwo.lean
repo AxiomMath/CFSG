@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_eGrp_of_isCalH {V H T : Subgroup G} (hH : IsCalH V H)
     (hT : IsSylowIn 2 T (H ⊓ normalizer (V : Set G))) : IsElemAbelian 2 (eGrp H T) := by
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH hH hT
@@ -34,6 +35,7 @@ theorem isElemAbelian_eGrp_of_isCalH {V H T : Subgroup G} (hH : IsCalH V H)
     exact (Subgroup.mem_normalizer_iff.mp (hHnorm hh) c).1 (hC hc)
   exact CFSG.Open.IsElemAbelian.mono (B2F.isElemAbelian_omegaOneCenterOf (pCoreOf 2 H)) hEO
 
+omit [Finite G] in
 private theorem not_isCyclic_of_isElemAbelian_of_two_lt_card {A : Subgroup G}
     (hA : IsElemAbelian 2 A) (hcard : 2 < Nat.card A) : ¬ IsCyclic A := by
   intro hcyc

@@ -14,6 +14,7 @@ section Map
 variable {M N : Type*} [Group M] [DecidableEq M] [Group N] [DecidableEq N] (f : M →* N)
   (hf : Function.Injective f)
 
+omit [DecidableEq M] [DecidableEq N] in
 theorem q8Span_map (i j : M) : q8Span (f i) (f j) = (q8Span i j).map f := by
   simp only [q8Span, List.map_cons, List.map_nil, map_one, map_pow, map_inv, map_mul]
 

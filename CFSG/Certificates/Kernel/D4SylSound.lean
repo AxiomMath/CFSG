@@ -181,10 +181,10 @@ theorem getD_walkK {A B : Array GF8} {X : List (Array GF8)} {nxt : List (Nat × 
     rw [walkK_cons, wordFold_cons]
     cases c
     · obtain ⟨h1, h2⟩ := ih hb1
-      rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true, ← hb2]
+      rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true, ← hb2]
       exact ⟨h1, h2⟩
     · obtain ⟨h1, h2⟩ := ih ha1
-      rw [if_pos rfl, if_pos rfl, ← ha2]
+      rw [ite_eq_left rfl, ite_eq_left rfl, ← ha2]
       exact ⟨h1, h2⟩
 
 theorem coe_wordFold {A B x : Array GF8} {g h u : GL (Fin 8) GF8}
@@ -198,8 +198,8 @@ theorem coe_wordFold {A B x : Array GF8} {g h u : GL (Fin 8) GF8}
     rw [wordFold_cons, wordFold_cons]
     refine ih ?_
     cases c
-    · rw [Units.val_mul, hu, if_neg Bool.false_ne_true, if_neg Bool.false_ne_true, hh, toMat_mulArr]
-    · rw [Units.val_mul, hu, if_pos rfl, if_pos rfl, hg, toMat_mulArr]
+    · rw [Units.val_mul, hu, ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true, hh, toMat_mulArr]
+    · rw [Units.val_mul, hu, ite_eq_left rfl, ite_eq_left rfl, hg, toMat_mulArr]
 
 theorem getD_zero_bfsElems (A B : Array GF8) (par : List (Nat × Bool)) :
     (bfsElems A B par).getD 0 oneArr = oneArr := by

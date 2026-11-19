@@ -24,7 +24,7 @@ private theorem ggStar_dvd_card_J {G : Type} [Group G] [Finite G] {p : ℕ}
     (hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J) :
     p ∣ Nat.card J := by
   have hp : p.Prime := hC.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ n := hC.three_le
   obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
   have hN3 : 3 ≤ N + 1 := hC.three_le
@@ -66,7 +66,7 @@ theorem GGFarCtx.star_dichotomy {G : Type} [Group G] [Finite G] (hLB : GGLBalanc
     {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {n f : ℕ} {y : G}
     {K : Subgroup G} (h : GGTypeANbrCfg p B Bs x L D J n f y K)
     {φ₁ φ₂ : Matrix.SpecialLinearGroup (Fin (n + 1)) (GaloisField 2 f) →* G}
-    (hC : GGFarCtx p Bs φ₁ φ₂ x y) (hL : φ₁.range = L) (hK : φ₂.range = K)
+    (hC : GGFarCtx p Bs φ₁ φ₂ x y) (hL : φ₁.range = L) (_hK : φ₂.range = K)
     (hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J)
     (j : Fin n) (hj : j.val + 1 = n) (κ : Additive ↥Bs ≃+ (Fin (n + 1) → ZMod p))
     (hκ₁ : ∀ (σ : Equiv.Perm (Fin (n + 1))) (b : ↥Bs),
@@ -75,7 +75,7 @@ theorem GGFarCtx.star_dichotomy {G : Type} [Group G] [Finite G] (hLB : GGLBalanc
       kRefl p n (κ (Additive.ofMul b)))
     {m : ℕ} (E : Equiv.Perm (Fin (m + 1)) →* MulAut ↥Bs) (hEinj : Function.Injective E)
     (hEind : ∀ σ, E σ ∈ ggInduced ⊤ Bs)
-    (hErefl : ∀ a b : Fin (m + 1), a ≠ b → GGIsReflection p (E (Equiv.swap a b)))
+    (_hErefl : ∀ a b : Fin (m + 1), a ≠ b → GGIsReflection p (E (Equiv.swap a b)))
     (ι : Fin (n + 1) → Fin (m + 1)) (hιinj : Function.Injective ι)
     (π : Equiv.Perm (Fin (n + 1)) → Equiv.Perm (Fin (m + 1)))
     (hπ : ∀ σ, E (π σ) = hC.permAut₁ σ) (hπι : ∀ σ a, π σ (ι a) = ι (σ a))
@@ -86,7 +86,7 @@ theorem GGFarCtx.star_dichotomy {G : Type} [Group G] [Finite G] (hLB : GGLBalanc
           kThreeRefl p n (κ (Additive.ofMul b))) := by
   classical
   have hp : p.Prime := hC.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ n := hC.three_le
   have hjval : j.val = n - 1 := by omega
   have h' := h

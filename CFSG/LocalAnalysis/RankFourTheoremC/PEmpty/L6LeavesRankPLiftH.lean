@@ -23,8 +23,8 @@ theorem exists_lift_in_H (hI : GL83I66Two) {f : ℕ} (hf : f.Prime) (hf5 : 5 ≤
         ∀ s ∈ (S : Subgroup C.1), coord hZ C ⟨z, hzΛ⟩ * s = s * coord hZ C ⟨z, hzΛ⟩) :
     ∃ h ∈ H, h ^ f = 1 ∧ QuotientGroup.mk' R h = z := by
   classical
-  haveI := Fact.mk hf
-  haveI hTnorm : (T.subgroupOf H).Normal := ⟨fun n hn g => hTn g g.2 n hn⟩
+  have := Fact.mk hf
+  have hTnorm : (T.subgroupOf H).Normal := ⟨fun n hn g => hTn g g.2 n hn⟩
   let ψ : H →* X ⧸ R := (QuotientGroup.mk' R).comp H.subtype
   have hψ : T.subgroupOf H ≤ ψ.ker := fun t ht =>
     MonoidHom.mem_ker.mpr ((QuotientGroup.eq_one_iff _).mpr (hTR ht))

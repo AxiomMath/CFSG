@@ -75,7 +75,7 @@ theorem sylow_le_kbar (hm : 10 ≤ m) (P : Sylow 2 ↥(Jbar O h4))
     intro x hx
     have : (⟨x, hx⟩ : ↥(P : Subgroup (Jbar O h4))) ∈ H := htop ▸ mem_top _
     exact this
-  have := (P.isPGroup').isNilpotent
+  have := (P.isPGroup).isNilpotent
   obtain ⟨n, hn, hnH⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent H hlt)
   have heJ : ebar O h4 ∈ Jbar O h4 := hKJ ⟨_, rfl⟩
   have heK : (⟨ebar O h4, heJ⟩ : Jbar O h4) ∈ (kbar O h4).subgroupOf (Jbar O h4) :=

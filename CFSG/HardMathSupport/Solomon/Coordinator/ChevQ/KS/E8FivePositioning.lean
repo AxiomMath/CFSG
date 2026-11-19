@@ -38,7 +38,7 @@ theorem exists_finite_descent
       E0.map (adjointBaseChangeHom Tag.E8 F.subtype) = E ∧
       Nat.card E0 = Nat.card E := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   let Sx : E → Finset PrimeFieldClosure := fun x =>
     (exists_finset_descent (τ := Tag.E8) (k := PrimeFieldClosure)
       (x := (x : adjointGroup Tag.E8 PrimeFieldClosure))
@@ -181,7 +181,7 @@ theorem universal_positioning
   let k := AlgebraicClosure (ZMod 2)
   let ι : k →+* L := (IsAlgClosed.lift (R := ZMod 2) (S := k) (M := L)).toRingHom
   let : Algebra k L := ι.toAlgebra
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨ζkU, hζkU⟩ := CFSG.StandardType.GGFinModel.exists_zeta k Nat.prime_five (by norm_num)
   let ζk : k := ζkU
   have hζk : IsPrimitiveRoot ζk 5 :=
@@ -338,7 +338,7 @@ theorem centralizer_eq_of_nonToral_baseChange
     apply Subtype.ext
     exact baseChangeGL_injective f (congrArg Subtype.val h)
   let A : Subgroup (adjointGroup Tag.E8 L) := E.map ι
-  letI : Finite A := Finite.of_equiv E (E.equivMapOfInjective ι hι).toEquiv
+  let : Finite A := Finite.of_equiv E (E.equivMapOfInjective ι hι).toEquiv
   have hιcomp : (adjointGroup Tag.E8 L).subtype.comp ι =
       (baseChangeGL f).comp (adjointGroup Tag.E8 K).subtype := by
     ext g
@@ -404,7 +404,7 @@ theorem universal_perfect_normalizer_transfer
     rcases Subgroup.mem_map.1 hy with ⟨x, hx, hxy⟩
     refine ⟨⟨x, hx⟩, ?_⟩
     exact Subtype.ext hxy
-  haveI : Finite F := Finite.of_surjective _ hFsurj
+  have : Finite F := Finite.of_surjective _ hFsurj
   have hF5 : CFSG.Open.IsElemAbelian 5 F := by
     dsimp only [F]
     exact CFSG.Open.IsElemAbelian.map hE (MulAut.conj c).toMonoidHom

@@ -41,7 +41,7 @@ theorem exists_crit_config (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀
   have hG := hc.amalgam.gen
   obtain ⟨α', hdist, hnZ⟩ := exists_dist_eq_critB hc
   have hα' : vtype α' = false := CosetGeom.vtype_eq_false_of_even hG (by rw [hdist]; exact hb)
-  obtain ⟨z, hzZ, hzn⟩ := SetLike.not_le_iff_exists.mp hnZ
+  obtain ⟨z, hzZ, hzn⟩ := IsConcreteLE.not_le_iff_exists.mp hnZ
   set b := critB G₀ G₁ G₂ Z with hbdef
   obtain ⟨β, hβ, hβd⟩ := CosetGeom.exists_adj_dist_eq hG (α := γ₀ G₀ G₁ G₂) (δ := α')
     (d := b - 1) (by rw [hdist]; omega)
@@ -64,7 +64,7 @@ theorem exists_crit_config (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀
       (by rw [CosetGeom.dist_comm, hα₂d]; omega)
   have hW₂ : Wv Z α₂ ≤ stab α' := Wv_le_stab hc hvα₂ (by rw [hα₂d]; omega) (by rw [hα₂d]; omega)
   have hel : IsElemAbelian 2 (Wv Z α') := isElemAbelian_Wv hc hb4 hα'
-  haveI : IsMulCommutative ↥(Wv Z α') := hel.1
+  have : IsMulCommutative ↥(Wv Z α') := hel.1
   obtain ⟨X₁, h₁⟩ :=
     exists_isLocalReg_of_vtype hloc (vtype_eq_true_of_mem_nbrs CosetGeom.vtype_γ₀ hα₁)
   have hup := card_commSubgroup_le_two_mul_relIndex hc h₁ hα₁ hα₂
@@ -80,21 +80,21 @@ theorem exists_crit_config (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀
 theorem false_of_three_points (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X₀ : Subgroup G}
     (hloc : IsLocalReg (γ₁ G₀ G₁ G₂) p X₀) (hp : p = 3 ∨ p = 5) (hb4 : 4 ≤ critB G₀ G₁ G₂ Z)
     {α α' : CosetGeom G₀ G₁ G₂} (hα : vtype α = false) (hα' : vtype α' = false)
-    {L : Subgroup G} (hL : BenderLocal α L) (hW' : Wv Z α' ≤ stab α) (hW : Wv Z α ≤ stab α')
+    {L : Subgroup G} (hL : BenderLocal α L) (_hW' : Wv Z α' ≤ stab α) (hW : Wv Z α ≤ stab α')
     {ω : ↥(nbrs α)} {a b : ↥(stab α)} (ha : (a : G) ∈ Wv Z α') (hb : (b : G) ∈ Wv Z α')
     (h1 : a • ω ≠ ω) (h2 : b • ω ≠ ω) (h3 : b • ω ≠ a • ω) : False := by
   classical
   obtain ⟨ω, hω⟩ := ω
   have hWab : IsElemAbelian 2 (Wv Z α) := isElemAbelian_Wv hc hb4 hα
-  haveI : IsMulCommutative ↥(Wv Z α) := hWab.1
-  haveI : Fact (stab α ≤ Subgroup.normalizer (Wv Z α : Set G)) := ⟨stab_le_normalizer_Wv hc α⟩
+  have : IsMulCommutative ↥(Wv Z α) := hWab.1
+  have : Fact (stab α ≤ Subgroup.normalizer (Wv Z α : Set G)) := ⟨stab_le_normalizer_Wv hc α⟩
   have h2M := ConjAut.add_self_eq_zero (Wv Z α) fun v hv => by rw [← pow_two]; exact hWab.2 v hv
   obtain ⟨U, hUL, hU2, -, hUtrans, -, -⟩ := exists_unipotentH hL hω
   set ω₀ : ↥(nbrs α) := ⟨ω, hω⟩ with hω₀
   obtain ⟨hV, hstab, hK⟩ := avg_inputs hc hloc hp hα hL
   have htrans := exists_mem_smul_eq hL
   have hW'ab : IsElemAbelian 2 (Wv Z α') := isElemAbelian_Wv hc hb4 hα'
-  haveI : IsMulCommutative ↥(Wv Z α') := hW'ab.1
+  have : IsMulCommutative ↥(Wv Z α') := hW'ab.1
   set P : Subgroup ↥(stab α) := (Wv Z α').subgroupOf (stab α) with hPdef
   have hP : IsPGroup 2 P := by
     intro x
@@ -167,7 +167,7 @@ theorem false_of_three_points (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} {X
     calc a • ω₀ = b • ((a * b) • ω₀) := by rw [habc, smul_smul, ← mul_assoc, hbinv, one_mul]
       _ = b • (b • ω₀) := by rw [h]
       _ = ω₀ := by rw [smul_smul, hbinv, one_smul]
-  haveI := Fintype.ofFinite ↥(nbrs α)
+  have := Fintype.ofFinite ↥(nbrs α)
   have hodd : Odd (Fintype.card ↥(nbrs α)) := by
     rw [← Nat.card_eq_fintype_card]
     exact odd_card_nbrs hc hα
@@ -217,7 +217,7 @@ theorem card_nbrs_γ₀_ne_nine (hc : CritAmalgam G₀ G₁ G₂ T Z) {p : ℕ} 
     le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) h3)
   have hidx : 2 < (Wv Z α' ⊓ stab α₁).relIndex (Wv Z α') := by omega
   have hWG₀ : Wv Z α' ≤ G₀ := hW.trans (CosetGeom.stab_le α₂)
-  letI : MulAction ↥(Wv Z α') (CosetGeom G₀ G₁ G₂) :=
+  let : MulAction ↥(Wv Z α') (CosetGeom G₀ G₁ G₂) :=
     MulAction.compHom _ (Subgroup.inclusion hWG₀)
   have hsm : ∀ g : ↥(Wv Z α'), g • α₁ = (⟨(g : G), hWG₀ g.2⟩ : ↥G₀) • α₁ := fun g => rfl
   have hstabW : MulAction.stabilizer ↥(Wv Z α') α₁ =

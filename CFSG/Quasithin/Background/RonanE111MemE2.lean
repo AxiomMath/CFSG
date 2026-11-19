@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_inf_le_tauOf {H T A : Subgroup G} (hTH : T ≤ H) :
     T ⊓ Subgroup.centralizer (A : Set G) ≤ E1.tauOf H T A := by
   intro t ht
@@ -26,6 +27,7 @@ theorem centralizer_inf_le_tauOf {H T A : Subgroup G} (hTH : T ≤ H) :
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem pow_mem_of_mem_sup_two {J S : Subgroup G} (hSJ : S ≤ Subgroup.normalizer (J : Set G))
     (hS2 : IsPGroup 2 S) {y : G} (hy : y ∈ J ⊔ S) : ∃ k : ℕ, y ^ 2 ^ k ∈ J := by
   have hSJ' : ∀ s ∈ S, ∀ j ∈ J, s * j * s⁻¹ ∈ J := fun s hs j hj =>
@@ -43,7 +45,7 @@ theorem pow_mem_of_mem_sup_two {J S : Subgroup G} (hSJ : S ≤ Subgroup.normaliz
       have hsm' : s⁻¹ ^ 2 ^ m ∈ S := S.pow_mem (S.inv_mem hs) _
       refine ⟨(s⁻¹ ^ 2 ^ m) * j' * (s⁻¹ ^ 2 ^ m)⁻¹ * j', J.mul_mem (hSJ' _ hsm' _ hj') hj', ?_⟩
       rw [pow_succ, pow_mul, hjm, sq]
-      simp only [inv_pow, mul_inv_rev, inv_inv, pow_succ, pow_mul]
+      simp only [inv_pow, inv_inv, pow_succ, pow_mul]
       group
   obtain ⟨j', hj', hjm⟩ := key m
   exact ⟨m, by rw [hjm, hsm, one_mul]; exact hj'⟩
@@ -106,7 +108,7 @@ theorem P_le_cov_E2 {X T J : Subgroup G} (hR : E111Reduced G X T) (hJ : IsComp X
     exact perfectCore_le_of_le_sup_two hSN hS2 hPH
   obtain ⟨Z, hZA, hZV, hZVA⟩ := exists_compl hAab (inf_le_left : V ≤ A)
   have hset : DiagSetting X T A J Z := ⟨hR, hAT, hAab, hJ, hZA, hZV⟩
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Fintype ↥Z := Fintype.ofFinite _
   have hSylX' : IsSylowIn 2 (T ⊓ XM) XM := by
     have : T ⊓ XM = S ⊓ XM := by
       ext x

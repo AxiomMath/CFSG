@@ -12,8 +12,8 @@ theorem pow_three_of_pow_nine_of_witness {N : Type*} [Group N] [Finite N] {x y :
     (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hzx : Commute ⁅x, y⁆ x) (hzy : Commute ⁅x, y⁆ y)
     (hcard : Nat.card (Subgroup.closure ({x, y} : Set N)) = 3 ^ 3)
     (hN : (Nat.card N).factorization 3 = 3) {g : N} (hg : g ^ 9 = 1) : g ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite (Sylow 3 N) :=
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite (Sylow 3 N) :=
     Finite.of_injective (fun P : Sylow 3 N => (P : Set N)) SetLike.coe_injective
   have hP₀card : Nat.card (Subgroup.closure ({x, y} : Set N)) =
       3 ^ (Nat.card N).factorization 3 := by

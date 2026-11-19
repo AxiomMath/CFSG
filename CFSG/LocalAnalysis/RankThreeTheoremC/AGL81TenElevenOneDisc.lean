@@ -28,7 +28,7 @@ theorem rankThreeGamma_le_of_centRankThreeAt {p : ℕ} {P : Sylow p G} {M H₁ R
     (hesc : D1Escape p P M H₁ R₁) (V : Sylow p G) (hVM : (V : Subgroup G) ≤ M)
     (hc : CentRankThreeAt p M) :
     rankThreeGamma 2 p (V : Subgroup G) ≤ M := by
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   obtain ⟨m, hm, hVeq⟩ := exists_mem_eq_map_conj_of_sylow_le P V hesc.sylow_le hVM
   have hW : GLBWeakCore p (V : Subgroup G) ≤ M := by
     rw [hVeq]; exact weakCore_conj_le hesc.prime hesc.weakCore_le hm

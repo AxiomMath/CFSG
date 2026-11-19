@@ -393,7 +393,7 @@ theorem card_le_of_le_M
     (hE : CFSG.Open.IsElemAbelian 2 E) : Nat.card E ≤ 32 := by
   by_cases hEQ : E ≤ Q
   · exact card_le_of_le_Q hEQ fun a ha b hb => mul_comm_of_isElemAbelian hE ha hb
-  obtain ⟨e, heE, heQ⟩ := SetLike.not_le_iff_exists.1 hEQ
+  obtain ⟨e, heE, heQ⟩ := IsConcreteLE.not_le_iff_exists.1 hEQ
   obtain ⟨g, hgM, hg⟩ := InvRep.exists_conj_x_of_not_mem_Q (hEM heE) heQ (by
     rw [← sq]
     exact hE.2 e heE)

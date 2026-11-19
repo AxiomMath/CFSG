@@ -104,7 +104,7 @@ theorem tableIII_mul_comm_of_card_eq_fifteen {H : Type*} [Group H] [Finite H]
     omega
   have hPnorm : P.Normal :=
     Subgroup.normal_of_index_eq_minFac_card (H := P) (by rw [hPindex, hH]; norm_num)
-  haveI : P.Normal := hPnorm
+  have : P.Normal := hPnorm
   have hrP : r ∈ P := Subgroup.mem_zpowers r
   have hmem : x * r * x⁻¹ ∈ P := hPnorm.conj_mem r hrP x
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
@@ -199,7 +199,7 @@ theorem tableIII_isElemAbelian_closure_three {G : Type} [Group G] {x y w : G}
     · exact ⟨6, by simp [f]⟩
     · exact ⟨7, by simp [f]⟩
   have hEfin : (E : Set G).Finite := (Set.finite_range f).subset hET
-  haveI : Finite ↥E := hEfin.to_subtype
+  have : Finite ↥E := hEfin.to_subtype
   have hEcard_le : Nat.card ↥E ≤ 8 := by
     change Nat.card ↥(E : Set G) ≤ 8
     rw [Nat.card_coe_set_eq]

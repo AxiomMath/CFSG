@@ -14,7 +14,7 @@ variable {K : Type} [Field K]
 
 private theorem cube_eq_one [Finite K] (hK : Nat.card K = 4) {a : K} (ha : a ≠ 0) :
     a ^ 3 = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4 : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h := FiniteField.pow_card_sub_one_eq_one a ha
   rw [h4] at h
@@ -82,7 +82,7 @@ private lemma diag_perm_unitary [Finite K] (hK : Nat.card K = 4)
     rw [Matrix.one_apply]
     by_cases h : c = c'
     · rw [h]
-      simp only [if_pos rfl]
+      simp only
       rw [← pow_succ, show 2 + 1 = 3 by norm_num]
       exact cube_eq_one hK (hμ _)
     · simp [h]
@@ -91,7 +91,7 @@ private lemma diag_perm_unitary [Finite K] (hK : Nat.card K = 4)
     have hsrc : σ r ≠ c := by
       intro hcon
       exact hr (by rw [← hcon, Equiv.symm_apply_apply])
-    rw [if_neg hsrc]
+    rw [ite_eq_right hsrc]
     simp
   · intro hmem
     exact (hmem (Finset.mem_univ _)).elim
@@ -108,8 +108,8 @@ private lemma diag_perm_cube (σ : Equiv.Perm (Fin 4)) (hσ3 : σ ^ 3 = 1) (μ :
   rw [diag_perm_cube_apply σ hσ3 μ i j]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, hcyc i, Matrix.one_apply_eq]
-  · rw [if_neg h, Matrix.one_apply_ne h]
+    rw [ite_eq_left rfl, hcyc i, Matrix.one_apply_eq]
+  · rw [ite_eq_right h, Matrix.one_apply_ne h]
 
 private lemma su_of_data [Finite K] (hK : Nat.card K = 4)
     {σ : Equiv.Perm (Fin 4)} {μ : Fin 4 → K}
@@ -145,7 +145,7 @@ private lemma exists_order_three_fixing [Finite K] (hK : Nat.card K = 4)
     ∃ g ∈ StatedSU 4 2 K, orderOf g = 3 ∧
       Matrix.mulVec (g : Matrix (Fin 4) (Fin 4) K) x = x := by
   obtain ⟨g, hgmem, hg3, hg1, hgcoe⟩ := su_of_data hK hσ3 hsign hμ hprod hcyc hA1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨g, hgmem, orderOf_eq_prime hg3 hg1, ?_⟩
   rw [hgcoe]
   ext i
@@ -178,7 +178,7 @@ private lemma diag_exists [Finite K] (hK : Nat.card K = 4)
       Matrix.mulVec (g : Matrix (Fin 4) (Fin 4) K) x = x := by
   let μ : Fin 4 → K := Function.update (Function.update (fun _ => 1) i w) j (w ^ 2)
   have hμi : μ i = w := by simp [μ, hij]
-  have hμj : μ j = w ^ 2 := by simp [μ, hij]
+  have hμj : μ j = w ^ 2 := by simp [μ]
   have hμ : ∀ r, μ r ≠ 0 := by
     intro r
     by_cases hri : r = i
@@ -296,14 +296,14 @@ private lemma cycle_exists [Finite K] (hK : Nat.card K = 4)
     intro h
     have hii : (Matrix.diagonal μ * σ.permMatrix K) i i =
         (1 : Matrix (Fin 4) (Fin 4) K) i i := by rw [h]
-    rw [diag_perm_apply, if_neg (by rw [hσi]; exact Ne.symm hij),
+    rw [diag_perm_apply, ite_eq_right (by rw [hσi]; exact Ne.symm hij),
       Matrix.one_apply_eq] at hii
     exact zero_ne_one hii
   exact exists_order_three_fixing hK x hσ3 hsign hμ hprod hcyc hfix hA1
 
 theorem rSU4NatFix_holds : RSU4NatFix := by
   intro K _ _ hK x
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardu : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   obtain ⟨u, hu⟩ :=
     exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by simp [hcardu])

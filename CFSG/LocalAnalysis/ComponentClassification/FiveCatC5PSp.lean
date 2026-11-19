@@ -60,7 +60,7 @@ theorem false_of_a5_high {K : Type} [Field K] [Finite K] {n f : ℕ} (hK : Nat.c
   have hsub : L.IsSubnormal := by
     obtain ⟨-, -, h, -, -⟩ := hL
     exact h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hs : IsSimpleGroup (L ⧸ pPrimeCore 2 L) := eA.isSimpleGroup
   have hZO : center L = pPrimeCore 2 L := GSThmB.X10Rec.center_eq_pPrimeCore hq hs
   have hZ : ∀ z ∈ L, (∀ y ∈ L, z * y = y * z) → z * z = 1 → z = 1 := by
@@ -120,7 +120,7 @@ theorem psp4_f {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Na
     (hA : Nonempty (M ⧸ pPrimeCore 2 M ≃* alternatingGroup (Fin 5))) : f = 1 := by
   obtain ⟨eA⟩ := hA
   have h5 : 5 ≤ 5 ^ f := Nat.le_self_pow (by omega) 5
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hnt : Nontrivial (M ⧸ pPrimeCore 2 M) := (eA.isSimpleGroup).toNontrivial
   have hcardM : Nat.card M = 60 * Nat.card (pPrimeCore 2 M) := by
     rw [card_eq_card_quotient_mul_card_subgroup (pPrimeCore 2 M), Nat.card_congr eA.toEquiv,
@@ -130,7 +130,7 @@ theorem psp4_f {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Na
   · exfalso
     rw [hO, Subgroup.card_bot] at hcardM
     exact num_a h5 (by omega)
-  · haveI := hs
+  · have := hs
     have hO := GSThmB.Pump516.pPrimeCore_eq_bot_of_simple hnt
     rw [hO, Subgroup.card_bot] at hcardM
     have h55 : 5 ^ f = 5 ^ 1 := by
@@ -138,12 +138,12 @@ theorem psp4_f {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f) (hK : Na
       simpa using this
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 5) h55
   · exfalso
-    haveI := hs
+    have := hs
     have hO := GSThmB.Pump516.pPrimeCore_eq_bot_of_simple hnt
     rw [hO, Subgroup.card_bot] at hcardM
     exact num_c h5 (by omega)
   · exfalso
-    haveI := hs
+    have := hs
     have hO := GSThmB.Pump516.pPrimeCore_eq_bot_of_simple hnt
     rw [hO, Subgroup.card_bot] at hcardM
     exact num_d (hk ▸ h5) (by omega)

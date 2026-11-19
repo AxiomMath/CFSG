@@ -51,11 +51,13 @@ variable {G : Type} [Group G] [Finite G] (L : Subgroup G) [L.Normal] {n : ℕ} (
 @[expose] noncomputable def theta : G →* Perm (Fin n) :=
   (autPerm hn hn6).toMonoidHom.comp (Odd.psi L φ)
 
+omit [Finite G] in
 theorem psi_apply_coe (g : G) (k : alternatingGroup (Fin n)) :
     ((Odd.psi L φ g k : alternatingGroup (Fin n)) : Perm (Fin n)) =
       theta L hn hn6 φ g * k * (theta L hn hn6 φ g)⁻¹ :=
   autPerm_apply_coe hn hn6 _ k
 
+omit [Finite G] in
 theorem psi_fix_iff (g : G) (k : alternatingGroup (Fin n)) :
     Odd.psi L φ g k = k ↔ theta L hn hn6 φ g * k = k * theta L hn hn6 φ g := by
   rw [← Subtype.coe_inj, psi_apply_coe L hn hn6 φ]
@@ -68,11 +70,13 @@ theorem psi_fix_iff (g : G) (k : alternatingGroup (Fin n)) :
     rw [h]
     group
 
+omit [Finite G] in
 theorem theta_of_mem {y : G} (hy : y ∈ L) :
     theta L hn hn6 φ y = (φ (QuotientGroup.mk ⟨y, hy⟩) : Perm (Fin n)) := by
   change autPerm hn hn6 (Odd.psi L φ y) = _
   rw [Odd.psi_eq_conj L φ hy, autPerm_conj]
 
+omit [Finite G] in
 theorem theta_eq_one_iff (g : G) :
     theta L hn hn6 φ g = 1 ↔ ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ Odd.centerOf L := by
   constructor
@@ -95,7 +99,7 @@ end Alt36
 
 namespace Hyp36
 
-open Alt36 Odd
+open Alt36 _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 

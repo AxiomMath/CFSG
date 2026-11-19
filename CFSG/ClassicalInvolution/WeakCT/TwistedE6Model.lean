@@ -91,7 +91,7 @@ theorem commute_rankOne_twistedE6 :
       ∀ u ∈ CFSG.LieType.CurtisTits.rankOne (twistedDatum k θ).rootGroup i,
         ∀ v ∈ CFSG.LieType.CurtisTits.rankOne (twistedDatum k θ).rootGroup j, u * v = v * u := by
   intro i j hij
-  fin_cases i <;> fin_cases j <;> first | (exfalso; revert hij; simp; done) | skip
+  fin_cases i <;> fin_cases j <;> try (exfalso; revert hij; simp; done)
   · exact commute_rankOne_twistedE6_zero_two θ hθ
   · exact commute_rankOne_twistedE6_zero_three θ hθ
   · exact commute_rankOne_twistedE6_one_three θ hθ

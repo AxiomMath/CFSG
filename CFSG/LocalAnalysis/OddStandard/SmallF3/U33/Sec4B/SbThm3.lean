@@ -15,8 +15,8 @@ open Subgroup
 @[expose] def Lemma418CaseAStmt : Prop :=
   ∀ {G : Type} [Group G] [Finite G]
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
-    (hG : Sec4Glob G) (hc : Ctx18 t L S x₁ x₂ lam rho tau om 𝒮)
-    (hcard : Nat.card (ctxCY t tau x₁ x₂ rho) = 2 ^ 8), False
+    (_hG : Sec4Glob G) (_hc : Ctx18 t L S x₁ x₂ lam rho tau om 𝒮)
+    (_hcard : Nat.card (ctxCY t tau x₁ x₂ rho) = 2 ^ 8), False
 
 theorem lemma4_18_of_caseA (hA : Lemma418CaseAStmt) : Lemma4_18Stmt := by
   intro G _ _ t L S x₁ x₂ lam rho tau om hG hc 𝒮 h𝒮 hU hK

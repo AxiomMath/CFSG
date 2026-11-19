@@ -125,7 +125,7 @@ theorem IsBlockHom.agree (h2K : (2 : K) ≠ 0) {J : Set (Fin 3)} (hJ : J.encard 
       refine hφ.agree_of_factor hinj (a := a) (b := a) rfl rfl t hmem y 1 ?_
       rw [map_one, mul_one, ← hA, hy]
   · obtain ⟨a, b, hab, rfl⟩ := Set.encard_eq_two.1 h
-    fin_cases a <;> fin_cases b <;> first | exact absurd rfl hab | skip
+    fin_cases a <;> fin_cases b <;> try exact absurd rfl hab
     · exact hφ.agree_zero_one hq hg rfl h2K t hmem
     · exact hφ.agree_zero_two hq hg rfl h2K t hmem
     · exact hφ.agree_zero_one hq hg (Set.pair_comm _ _) h2K t hmem

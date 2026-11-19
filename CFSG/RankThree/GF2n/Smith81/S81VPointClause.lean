@@ -14,6 +14,7 @@ open CFSG CFSG.RankThree.GF2n CFSG.RankThree.GF2n.Stroth80 CFSG.RankThree.GF2n.S
 variable {G : Type} [Group G] {M Q Z B : Subgroup G} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite K] in
 theorem point_clauseU (hσ : IsUnitaryInvolution σ) (e' : K ≃+* Fσ σ) (ψ : M₀.E ≃ₗ[K] E3UWspace σ e')
     (T : Lgen M (LB M Q B) →* (M₀.E ≃ₗ[K] M₀.E)) (A : SUid σ 6 →* (M₀.E ≃ₗ[K] M₀.E))
     (hψA : ∀ g v, ψ (A g v) = e3uWact σ e' g (ψ v))

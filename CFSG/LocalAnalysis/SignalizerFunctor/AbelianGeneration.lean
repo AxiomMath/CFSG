@@ -4,7 +4,7 @@ public import CFSG.LocalAnalysis.SignalizerFunctor.FixedPointLifting
 public import CFSG.LocalAnalysis.SignalizerFunctor.IrreducibleAction
 public import CFSG.LocalAnalysis.SignalizerFunctor.InvariantActions
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar

@@ -53,6 +53,7 @@ private theorem card_mul_card_le_of_inf_eq_bot {X : Type*} [Group X] [Finite X]
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_centralizer {B : Subgroup G} {w : G}
     (hw : w ∈ Subgroup.normalizer (B : Set G)) :
     w ∈ Subgroup.normalizer ((Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) := by
@@ -76,6 +77,7 @@ private theorem mem_normalizer_centralizer {B : Subgroup G} {w : G}
       _ = w⁻¹ * ((w * x * w⁻¹) * (w * b * w⁻¹)) * w := by rw [h]
       _ = x * b := by group
 
+omit [Finite G] in
 private theorem map_conj_map_conj (H : Subgroup G) (x y : G) :
     (H.map (MulAut.conj x).toMonoidHom).map (MulAut.conj y).toMonoidHom =
       H.map (MulAut.conj (y * x)).toMonoidHom := by
@@ -102,7 +104,7 @@ theorem exists_centralizer_component_data (h1 : Sec4.Item4_1LargePrime)
       ¬ (B.subgroupOf (Subgroup.centralizer (B : Set G))).map
           (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Subgroup.centralizer (B : Set G)))) ≤ Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFE := (hT.partTwoF_eq_partTwoE hS).1
   have hAE : A ∈ partTwoE G := hFE ▸ hA
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hA.1
@@ -236,7 +238,7 @@ theorem exists_invariant_of_not_isPConstrained (h1 : Sec4.Item4_1LargePrime)
       ∀ w ∈ Subgroup.normalizer (A : Set G), w ∈ Subgroup.normalizer (B : Set G) →
         F.map (MulAut.conj w).toMonoidHom = F := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer (B : Set G) with hCdef
   obtain ⟨Y, -, hYaut, ⟨a, haA, ha1, haY⟩, hBY⟩ :=
     exists_centralizer_component_data h1 h2 h43 hin hT hS hA hBA hB9 hcon
@@ -328,7 +330,7 @@ theorem isPConstrained_of_case3 (h1 : Sec4.Item4_1LargePrime) (h2 : Sec4.Item4_1
     (hfree : ∀ b ∈ B, b ≠ 1 → Subgroup.zpowers b ∉ omegaA A) :
     CFSG.ABGLocalTools.IsPConstrained 3 ↥(Subgroup.centralizer (B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   have hFE := (hT.partTwoF_eq_partTwoE hS).1
   have hAE : A ∈ partTwoE G := hFE ▸ hA

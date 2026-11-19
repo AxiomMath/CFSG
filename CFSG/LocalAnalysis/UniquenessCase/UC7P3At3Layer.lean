@@ -24,9 +24,9 @@ theorem le_rankThreeLayer_opp_of_coprime (k : Sec7Core4 G) (h75 : Step75 k) {H :
     S ≤ CFSG.Open.rankThreeLayer (UC22.Opp k.p H) ∧
       S ≤ centralizer (((CFSG.pPrimeCore k.p ↥H).map H.subtype : Subgroup G) : Set G) := by
   classical
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨hsimple, hnab, -, hFc⟩ := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI := hsimple
+  have := hsimple
   set K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H with hK₀
   have hJH : layerLift k.p H ≤ H := layerLift_le k.p H
   have hmap : ((layerLift k.p H).subgroupOf H).map (QuotientGroup.mk' K₀) =

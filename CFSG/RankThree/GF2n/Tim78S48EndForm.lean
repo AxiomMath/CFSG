@@ -51,27 +51,36 @@ variable [Finite G] {M B Q P T : Subgroup G} {g : G} {C L : Subgroup G}
   (E : EndgameData M B Q P T g C L)
 include E
 
+omit [Finite G] in
 theorem C_le_L : C ≤ L := by rw [E.hL]; exact le_sup_left
 
+omit [Finite G] in
 theorem Bg_le_L : conjSubgroup g B ≤ L := by rw [E.hL]; exact le_sup_right
 
+omit [Finite G] in
 theorem B_le_L : B ≤ L := E.B_le_C.trans E.C_le_L
 
+omit [Finite G] in
 theorem comm_L {a b : G} (ha : a ∈ L) (hb : b ∈ L) : a * b = b * a :=
   comm_of_isElemAbelian E.L_elem ha hb
 
+omit [Finite G] in
 theorem comm_C {a b : G} (ha : a ∈ C) (hb : b ∈ C) : a * b = b * a :=
   comm_of_isElemAbelian E.C_elem ha hb
 
+omit [Finite G] in
 theorem sq_C {c : G} (hc : c ∈ C) : c * c = 1 := IsElemAbelian.mul_self_eq_one E.C_elem hc
 
+omit [Finite G] in
 theorem C_le_P : C ≤ P := fun c hc => ((E.hC c).mp hc).1
 
 variable (H : Hyp4 M B Q P T)
 include H
 
+omit [Finite G] in
 theorem C_le_Q : C ≤ Q := E.C_le_P.trans H.P_le_Q
 
+omit [Finite G] in
 theorem Bg_ne_B : conjSubgroup g B ≠ B := by
   intro h
   apply H.B_ne_bot
@@ -84,13 +93,14 @@ section Form
 variable {b' : G}
 
 omit E H in
+omit [Finite G] in
 theorem u_conj {x : G} (hxb' : x * b' = b' * x) (y : G) :
     ⁅b', x * y * x⁻¹⁆ = x * ⁅b', y⁆ * x⁻¹ := by
   have hb : x * b' * x⁻¹ = b' := by rw [hxb']; group
   calc ⁅b', x * y * x⁻¹⁆ = ⁅x * b' * x⁻¹, x * y * x⁻¹⁆ := by rw [hb]
     _ = x * ⁅b', y⁆ * x⁻¹ := by simp only [commutatorElement_def]; group
 
-omit H in
+omit H [Finite G] in
 theorem u_mem (hb' : b' ∈ conjSubgroup g B) {y : G} (hy : y ∈ Q) : ⁅b', y⁆ ∈ C := by
   have h := C.inv_mem (E.Q_comm y hy b' (E.Bg_le_L hb'))
   rwa [commutatorElement_inv] at h
@@ -254,6 +264,7 @@ theorem mem_C_of_comm_mem_B (hb' : b' ∈ conjSubgroup g B) (hb'1 : b' ≠ 1) {p
   rwa [commutatorElement_inv] at this
 
 omit H in
+omit [Finite G] in
 theorem u_mul_C_right (hb' : b' ∈ conjSubgroup g B) {y c : G} (hc : c ∈ C) :
     ⁅b', y * c⁆ = ⁅b', y⁆ := by
   have hbc : ⁅b', c⁆ = 1 :=
@@ -269,7 +280,7 @@ theorem D_mul_C_left (hb' : b' ∈ conjSubgroup g B) {y c y' : G} (hy : y ∈ Q)
     commutatorElement_eq_one_iff_mul_comm.mpr (E.comm_C hc (E.u_mem hb' hy'))
   rw [this, mul_one]
 
-omit H in
+omit H [Finite G] in
 theorem D_mul_C_right (hb' : b' ∈ conjSubgroup g B) {y y' c : G} (hc : c ∈ C) :
     ⁅y, ⁅b', y' * c⁆⁆ = ⁅y, ⁅b', y'⁆⁆ := by
   rw [E.u_mul_C_right hb' hc]

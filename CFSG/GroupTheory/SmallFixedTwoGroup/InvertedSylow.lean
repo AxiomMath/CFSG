@@ -28,7 +28,7 @@ theorem exists_inverting_automorphism_of_sylow [Finite G] {θ : MulAut G} (hθ :
   let A := {h : (P : Subgroup G) // θ' (h : G) = (h : G)⁻¹}
   have hineq' : Nat.card (P : Subgroup G) * Nat.card Sθ ≤ Nat.card G * Nat.card A := hineq
   have hSpos : 0 < Nat.card Sθ := by
-    haveI : Nonempty Sθ := ⟨⟨1, by simp [Sθ]⟩⟩
+    have : Nonempty Sθ := ⟨⟨1, by simp⟩⟩
     exact Nat.card_pos
   have step2 : Nat.card (P : Subgroup G) ≤ 4 * Nat.card A := by
     apply Nat.le_of_mul_le_mul_right _ hSpos
@@ -52,7 +52,7 @@ theorem exists_inverting_automorphism_of_sylow [Finite G] {θ : MulAut G} (hθ :
       exact R.inv_mem (Subgroup.subset_closure ⟨htP, htinv⟩)
     intro r hr
     exact hle hr
-  have hRp : IsPGroup p R := P.isPGroup'.to_le hRP
+  have hRp : IsPGroup p R := P.isPGroup.to_le hRP
   let SR := {r : R // θ' (r : G) = (r : G)⁻¹}
   have hASR : Nat.card A ≤ Nat.card SR := by
     apply Nat.card_le_card_of_injective
@@ -69,7 +69,7 @@ theorem exists_inverting_automorphism_of_sylow [Finite G] {θ : MulAut G} (hθ :
   have step5 : ∀ r ∈ R, θ' r = r⁻¹ :=
     inverted_of_card_inverted_ge (θ := θ') hθ' hp hRp hRθ' hcard
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hRp
-  obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hdiv : p ^ a ∣ p ^ b := by
     rw [← ha, ← hb]
     exact Subgroup.card_dvd_of_le hRP
@@ -90,7 +90,7 @@ theorem exists_inverting_automorphism_of_sylow [Finite G] {θ : MulAut G} (hθ :
         _ ≤ 4 * p ^ a := hpb
     have hposa : 0 < p ^ a := by
       rw [← ha]
-      haveI : Nonempty R := ⟨1, R.one_mem⟩
+      have : Nonempty R := ⟨1, R.one_mem⟩
       exact Nat.card_pos
     have hp4 : p ≤ 4 := Nat.le_of_mul_le_mul_right hle hposa
     omega

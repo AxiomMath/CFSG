@@ -150,15 +150,18 @@ private noncomputable def sigma (D : SL2Setup h hZ) :
   D.Φ.toMonoidHom.comp ((MulAut.conj D.g).toMonoidHom.comp
     (longBlock (GaloisField 2 D.f) D.n D.k))
 
+omit [Finite G] in
 private theorem sigma_apply (D : SL2Setup h hZ)
     (s : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 D.f)) :
     D.sigma s = D.Φ (D.g * longBlock (GaloisField 2 D.f) D.n D.k s * D.g⁻¹) := rfl
 
+omit [Finite G] in
 private theorem sigma_injective (D : SL2Setup h hZ) : Function.Injective D.sigma := by
   intro s t hst
   exact longBlock_injective (K := GaloisField 2 D.f) D.k
     ((MulAut.conj D.g).injective (D.Φ.injective hst))
 
+omit [Finite G] in
 private theorem map_upper (D : SL2Setup h hZ) :
     (upperUnipotent (GaloisField 2 D.f)).map D.sigma = Vy V H := by
   rw [sigma, ← Subgroup.map_map, ← Subgroup.map_map]
@@ -172,6 +175,7 @@ private theorem map_upper (D : SL2Setup h hZ) :
       (by have := D.hn; omega : 1 ≤ D.n)).symm]
   simpa [k] using D.hroot
 
+omit [Finite G] in
 private theorem map_lower (D : SL2Setup h hZ) :
     (lowerUnipotent (GaloisField 2 D.f)).map D.sigma =
       (Vy V H).map (MulAut.conj (D.sigma (weylElt (GaloisField 2 D.f)))).toMonoidHom := by
@@ -197,10 +201,11 @@ private def NN (V H : Subgroup G) (y : G) : Subgroup G :=
 
 private def Ksub (V : Subgroup G) (y : G) : Subgroup G := V ⊔ conjSubgroup y V
 
+omit [Finite G] in
 private theorem NN_le_wOf (V H : Subgroup G) (y : G) : NN V H y ≤ wOf V H :=
   sup_le inf_le_right inf_le_right
 
-private theorem V_le_normalizer_NN (hc : MinCex M V Q P H) {y : G} (hyH : y ∈ H) :
+private theorem V_le_normalizer_NN (hc : MinCex M V Q P H) {y : G} (_hyH : y ∈ H) :
     V ≤ Subgroup.normalizer (NN V H y : Set G) := by
   have hmap : ∀ v ∈ V, ∀ n ∈ NN V H y, v * n * v⁻¹ ∈ NN V H y := by
     intro v hv n hn
@@ -569,6 +574,7 @@ private theorem exists_noncommuting {h : BigEndHyp M V Q P H}
   exact upperElt_one_commutator_ne_one F
     (commutatorElement_eq_one_iff_mul_comm.mpr hcomm1)
 
+omit [Finite G] in
 private theorem mem_left_of_centralizes {A B Pz U : Subgroup G} {n : G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hBW : B ≤ wOf V H) (hn : n ∈ A ⊔ B)
     (hUn : ∀ u ∈ U, u * n = n * u) (hUA : ∀ u ∈ U, ∀ a ∈ A, u * a = a * u)
@@ -598,6 +604,7 @@ private theorem mem_left_of_centralizes {A B Pz U : Subgroup G} {n : G}
   rw [hb1, mul_one]
   exact ha
 
+omit [Finite G] in
 private theorem hCW_conj (hCW : wOf V H ⊓ Subgroup.centralizer (V : Set G) = P ⊓ wOf V H)
     {y : G} (hyH : y ∈ H) :
     wOf V H ⊓ Subgroup.centralizer ((conjSubgroup y V) : Set G) =
@@ -674,7 +681,7 @@ private theorem hfix {h : BigEndHyp M V Q P H}
     letI := rhoAction D hy
     ∀ v : Additive ↥(NN V H (y : G)),
       (∀ x : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 D.f), x • v = v) → v = 0 := by
-  letI := rhoAction D hy
+  let := rhoAction D hy
   intro v hv
   let F := GaloisField 2 D.f
   let hc : MinCex M V Q P H := h.setup.mc.toMinCex
@@ -723,8 +730,7 @@ private theorem hfix {h : BigEndHyp M V Q P H}
       hVcent ?_ hCW ?_
     · intro a ha b hb
       exact hc.wOf_isElemAbelian.comm (Subgroup.mem_inf.mp ha).2 (Subgroup.mem_inf.mp hb).2
-    · change (n : G) ∈ (V ⊓ wOf V H) ⊔ (conjSubgroup (y : G) V ⊓ wOf V H)
-      exact n.2
+    · exact n.2
     · intro u hu a ha
       exact hc.elemAb.comm hu (Subgroup.mem_inf.mp ha).1
     · exact (h.concl.1 y y.2 hnc).2.2
@@ -735,8 +741,7 @@ private theorem hfix {h : BigEndHyp M V Q P H}
       (hCW_conj hCW (xOf_le_H hc.V_le_H y.2)) ?_
     · intro a ha b hb
       exact hc.wOf_isElemAbelian.comm (Subgroup.mem_inf.mp ha).2 (Subgroup.mem_inf.mp hb).2
-    · change (n : G) ∈ (conjSubgroup (y : G) V ⊓ wOf V H) ⊔ (V ⊓ wOf V H)
-      rw [sup_comm]
+    · rw [sup_comm]
       exact n.2
     · intro u hu a ha
       exact (isElemAbelian_conjSubgroup hc.elemAb (y : G)).comm hu
@@ -771,7 +776,7 @@ private theorem hquad {h : BigEndHyp M V Q P H}
     ∀ a ∈ upperUnipotent (GaloisField 2 D.f),
       ∀ a' ∈ upperUnipotent (GaloisField 2 D.f),
         ∀ v : Additive ↥(NN V H (y : G)), a' • (a • v - v) = a • v - v := by
-  letI := rhoAction D hy
+  let := rhoAction D hy
   intro a ha a' ha' v
   let F := GaloisField 2 D.f
   let hc : MinCex M V Q P H := h.setup.mc.toMinCex
@@ -824,7 +829,7 @@ private theorem hw {h : BigEndHyp M V Q P H}
         ↥(NN V H (y : G)))) =
       (Additive.ofMul (⟨(w : G), Subgroup.mem_sup_left w.2⟩ :
         ↥(NN V H (y : G)))) := by
-  letI := rhoAction D hy
+  let := rhoAction D hy
   intro a ha
   let F := GaloisField 2 D.f
   let hc : MinCex M V Q P H := h.setup.mc.toMinCex
@@ -863,8 +868,8 @@ private theorem theta_exists {h : BigEndHyp M V Q P H}
         ∀ u, θ ((s : Matrix (Fin 2) (Fin 2) (GaloisField 2 D.f)) *ᵥ u) =
           (x : G) * θ u * (x : G)⁻¹) := by
   let hc : MinCex M V Q P H := h.setup.mc.toMinCex
-  letI : CommGroup ↥(NN V H (y : G)) := commGroupNN hc (y : G)
-  letI : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 D.f))
+  let : CommGroup ↥(NN V H (y : G)) := commGroupNN hc (y : G)
+  let : DistribMulAction (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 D.f))
       (Additive ↥(NN V H (y : G))) := rhoAction D hy
   obtain ⟨⟨w, hwmem⟩, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hc.V_inf_wOf_ne_bot
   let w' : ↥(V ⊓ wOf V H) := ⟨w, hwmem⟩
@@ -937,8 +942,7 @@ private theorem theta_exists {h : BigEndHyp M V Q P H}
         hVcent ?_ hCW ?_
       · intro a ha b hb
         exact hc.wOf_isElemAbelian.comm (Subgroup.mem_inf.mp ha).2 (Subgroup.mem_inf.mp hb).2
-      · change (nθ : G) ∈ (V ⊓ wOf V H) ⊔ (conjSubgroup (y : G) V ⊓ wOf V H)
-        exact nθ.2
+      · exact nθ.2
       · intro u hu a ha
         exact hc.elemAb.comm hu (Subgroup.mem_inf.mp ha).1
       · exact (h.concl.1 y y.2 hnc).2.2

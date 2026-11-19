@@ -160,8 +160,8 @@ theorem exists_natCoords_of_natSUn {W : Type} [CommGroup W] [Finite W]
         (ψ : W ≃* Multiplicative (Fin 4 → F)), NatCoordsSU4 H n F ε ψ := by
   classical
   obtain ⟨K, hK, hKf, hK2, π, hπ⟩ := hN
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hinj : Function.Injective π :=
     CFSG.Quasithin.FFModel.RealizesVia.injective_of_faithful
       (CFSG.Quasithin.FFModel.nat_faithful _) hπ
@@ -200,8 +200,8 @@ theorem r18_15_of_case1 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgro
   obtain ⟨-, -, hn1, -⟩ := isU4_barSub_cong h h1742 (isU4_of_isSUn_four hSUn)
   have hn2 : 2 ≤ n := by omega
   obtain ⟨F, hF, hFfin, hFcard, ε, ψ, hcoords⟩ := exists_natCoords_of_natSUn hNat
-  letI : Field F := hF
-  haveI : Finite F := hFfin
+  let : Field F := hF
+  have : Finite F := hFfin
   refine r18_15_of_bar D h fun x hx0 => ?_
   have h1 := h141 n hn2 hSUn F hFcard ε ψ hcoords x.val x.val_mem hx0
   let C : Subgroup (MulAut (Vtil V₀ V h.hyp125.isElemAbelian)) :=
@@ -229,11 +229,11 @@ theorem r18_15_of_case1 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgro
       rw [S17.card_of_isL2 hL2] at hle
       omega
     · have hSU3 : IsSU3 (Bar2 C) n := h1.1 hsum
-      haveI : Nontrivial (Bar2 C ⧸ Subgroup.center (Bar2 C)) := hSU3.1.2.1
+      have : Nontrivial (Bar2 C ⧸ Subgroup.center (Bar2 C)) := hSU3.1.2.1
       have hq : 1 < Nat.card (Bar2 C ⧸ Subgroup.center (Bar2 C)) := Finite.one_lt_card
       have hd2 : Nat.card (Bar2 C ⧸ Subgroup.center (Bar2 C)) ∣ Nat.card (Bar2 C) :=
         Subgroup.card_quotient_dvd_card _
-      haveI : Nontrivial (Bar2 C) :=
+      have : Nontrivial (Bar2 C) :=
         Finite.one_lt_card_iff_nontrivial.mp
           (lt_of_lt_of_le hq (Nat.le_of_dvd Nat.card_pos hd2))
       have hgt : 1 < Nat.card (Bar2 C) := Finite.one_lt_card

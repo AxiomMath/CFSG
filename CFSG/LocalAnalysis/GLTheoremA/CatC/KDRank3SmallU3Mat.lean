@@ -118,7 +118,7 @@ theorem key_block (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
     · rw [blk_smul]; exact hβ
   calc x - 1 = Q * (Qi * x * Q - 1) * Qi := (hconj_sub x).symm
     _ = Q * (β • (Qi * h₁ * Q - 1)) * Qi := by rw [hNx]
-    _ = β • (Q * (Qi * h₁ * Q - 1) * Qi) := by simp [Matrix.mul_smul, Matrix.smul_mul]
+    _ = β • (Q * (Qi * h₁ * Q - 1) * Qi) := by simp
     _ = β • (h₁ - 1) := by rw [hconj_sub h₁]
 
 theorem expand_unit (M N : Matrix (Fin 3) (Fin 3) K) (r a : K)
@@ -135,8 +135,8 @@ theorem map_transpose_one_add_smul (bar : K →+* K) (r : K) (M : Matrix (Fin 3)
   ext i j
   by_cases h : i = j
   · subst h
-    simp [Matrix.one_apply, map_add, map_mul, map_one, Matrix.transpose_apply, Matrix.map_apply]
-  · simp [Matrix.one_apply, h, Ne.symm h, Matrix.transpose_apply, Matrix.map_apply]
+    simp [map_add, map_mul, map_one, Matrix.transpose_apply, Matrix.map_apply]
+  · simp [h, Ne.symm h, Matrix.transpose_apply, Matrix.map_apply]
 
 theorem no_involution_of_F9 (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
     (bar : K →+* K) (F₀ : Subfield K) (hF₀ : Nat.card F₀ = 9) (hbarF : ∃ c ∈ F₀, bar c ≠ c)
@@ -171,8 +171,8 @@ theorem no_involution_of_F9 (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
     intro x hx
     obtain ⟨β, hβ⟩ := key x hx
     exact ⟨β, hβ, by simp only [φ, hβ, Matrix.smul_apply, smul_eq_mul, hmdef]⟩
-  haveI : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
+  have : Fintype F₀ := Fintype.ofFinite F₀
   have hT : (Finset.univ.image (fun a : F₀ => (a : K))).card = 9 := by
     rw [Finset.card_image_of_injective _ Subtype.val_injective, Finset.card_univ,
       Fintype.card_eq_nat_card, hF₀]

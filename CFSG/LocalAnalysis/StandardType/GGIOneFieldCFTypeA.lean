@@ -152,6 +152,7 @@ theorem rel_of_comm (hd : 3 ≤ d) {B D : GL (Fin d) K} {τ : K ≃+* K}
           rw [map_mul, mul_assoc]
   exact eq_smul_of_conjAut_eq hd (mul_right_cancel h1)
 
+omit [Finite K] in
 theorem diag_rel_of_eq {B D : GL (Fin d) K} {τ : K ≃+* K} {a : K}
     (hD : ∀ i j, i ≠ j → (D : Matrix (Fin d) (Fin d) K) i j = 0)
     (ha : ((D * B : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
@@ -351,7 +352,7 @@ theorem exists_twoSubgroup_frame (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime) (hp2 : 
           · exact absurd (hDd i j hij) hne) hx
       have h1 : κ (φ u) = conjAut d K D (κ u) := by
         rw [hDφ]
-        simp [MulAut.mul_apply, MulAut.inv_apply_self]
+        simp [MulAut.mul_apply]
       change κ (φ u) ∈ elProj (suppSub (K := K) S)
       rw [h1]
       exact conjAut_mem_elProj D hDW (fun w hw => inv_mulVec_mem_of_mem D hDW hw) (κ u) hu
@@ -359,7 +360,7 @@ theorem exists_twoSubgroup_frame (hd : 3 ≤ d) {p : ℕ} (hp : p.Prime) (hp2 : 
       change κ (f u) ∈ elProj (suppSub (K := K) S)
       have h1 : κ (f u) = conjAut d K B (fieldAut d K τ (κ u)) := by
         have h2 : κ (f u) = f' (κ u) := by
-          simp [hf', MulAut.mul_apply, MulAut.inv_apply_self]
+          simp [hf', MulAut.mul_apply]
         rw [h2, hBτ, MulAut.mul_apply]
       rw [h1]
       exact conjAut_mem_elProj B hBW hBW' _ (fieldAut_mem_elProj τ hτW hτW' _ hu)

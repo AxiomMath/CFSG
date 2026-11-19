@@ -17,6 +17,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ds_l515b_mem_centerIn_commute {I : Subgroup G} {d : G} (hd : d ∈ centerIn I) :
     ∀ y ∈ I, d * y = y * d := by
   rw [centerIn, Subgroup.mem_map] at hd
@@ -24,6 +25,7 @@ private theorem ds_l515b_mem_centerIn_commute {I : Subgroup G} {d : G} (hd : d �
   intro y hy
   exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hc ⟨y, hy⟩)).symm
 
+omit [Finite G] in
 private theorem ds_l515b_card_twoRes_conj (I : Subgroup G) {l : G} (hl : l ∈ I) (w : G) :
     Nat.card ↥(twoRes (I ⊓ centralizer ({l * w * l⁻¹} : Set G))) =
       Nat.card ↥(twoRes (I ⊓ centralizer ({w} : Set G))) := by
@@ -47,6 +49,7 @@ private theorem ds_l515b_card_twoRes_conj (I : Subgroup G) {l : G} (hl : l ∈ I
         simp only [inv_inv]
         exact Subgroup.card_map_of_injective (MulAut.conj l).injective
 
+omit [Finite G] in
 private theorem ds_l515b_inf_centralizer_mul_of_mem_centerIn {I : Subgroup G} {d : G}
     (hd : d ∈ centerIn I) (w : G) :
     I ⊓ centralizer ({d * w} : Set G) = I ⊓ centralizer ({w} : Set G) := by

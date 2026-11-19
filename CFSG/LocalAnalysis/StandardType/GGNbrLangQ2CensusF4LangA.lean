@@ -51,8 +51,8 @@ theorem q2cF4_langA_not_psl5
         S hT i hr1 hn2 hqs
     rw [hch] at hmodel
     obtain ⟨-, K', hF', hFin', hK'card, ⟨e⟩⟩ := hmodel
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     let ψ : LinearFlag.projectiveSL 5 K ≃* LargeEvenProj (LargeEvenSLGroup (Fin 2) K') :=
       (TypeA.recipeEquiv 5 K).symm.trans
         (θ.symm.trans (e.trans (q2cF4A_statedProjEquiv 2 K').symm))
@@ -95,8 +95,8 @@ theorem q2cF4_langA_not_psl5
           S hT i hν hψ hΨ π hπ
       rw [hch] at hmodel
       obtain ⟨-, K', hF', hFin', hK'card, ⟨e⟩⟩ := hmodel
-      letI : Field K' := hF'
-      letI : Finite K' := hFin'
+      let : Field K' := hF'
+      let : Finite K' := hFin'
       let ψrev : LinearFlag.projectiveSL 5 K ≃* LargeEvenProj (LargeEvenSLGroup (Fin ν) K') :=
         (TypeA.recipeEquiv 5 K).symm.trans
           (θ.symm.trans (e.trans (q2cF4A_statedProjEquiv ν K').symm))
@@ -111,8 +111,8 @@ theorem q2cF4_langA_not_psl5
       rw [hch] at hmodel
       have hadm : StatedLieAdmissible .PSU ν 2 f := hmodel.1
       obtain ⟨-, K', hF', hFin', hK'card, ⟨e⟩⟩ := hmodel
-      letI : Field K' := hF'
-      letI : Finite K' := hFin'
+      let : Field K' := hF'
+      let : Finite K' := hFin'
       have hΛtw : LargeEvenInLambda2 (⟨.twA, ν - 1, f⟩ : LargeEvenLabel) := by
         refine ⟨hf1, Nat.le_sub_one_of_lt (by omega : 2 < ν), ?_⟩
         rintro hν3

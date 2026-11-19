@@ -39,10 +39,10 @@ theorem rk2_split_low_twD_add {K : Type} [Group K] [Finite K] {lab : GLALabel}
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, b, c, hirr, ⟨θ⟩⟩ :=
     hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hcard
   have hmult1 : Nat.card (CFSG.Open.griessHopfMultiplier
       (StatedProj (StatedOmega (StatedQuadMinus ℓ F b c)))) = 1 := by
@@ -50,7 +50,7 @@ theorem rk2_split_low_twD_add {K : Type} [Group K] [Finite K] {lab : GLALabel}
         .POmegaMinus ℓ 2 n :=
       ⟨⟨Nat.prime_two, hn, hℓ⟩, F, hfield, hfinite, hcard, b, c, hirr, ⟨MulEquiv.refl _⟩⟩
     exact card_griessHopfMultiplier_pomegaMinus_eq_one hn hSC
-  haveI : Finite (CFSG.Open.griessHopfMultiplier
+  have : Finite (CFSG.Open.griessHopfMultiplier
       (StatedProj (StatedOmega (StatedQuadMinus ℓ F b c)))) :=
     Nat.finite_of_card_ne_zero (by rw [hmult1]; norm_num)
   have hZcardK : Nat.card (Subgroup.center K) = 1 := by

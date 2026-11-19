@@ -79,7 +79,7 @@ theorem O2Z_ne_bot {G : Type} [Group G] [Finite G]
     rcases Nat.even_or_odd (Nat.card (center L)) with he | ho
     · exact even_iff_two_dvd.1 he
     · exact absurd ho hev
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ : ∃ c : center L, orderOf c = 2 := exists_prime_orderOf_dvd_card' 2 h2
   have hc2 : c ^ 2 = 1 := by rw [← hc]; exact pow_orderOf_eq_one c
   have hcL : ∀ y : L, (c : L) * y = y * (c : L) := fun y => ((mem_center_iff.1 c.2) y).symm
@@ -100,7 +100,7 @@ theorem O2Z_ne_bot {G : Type} [Group G] [Finite G]
 theorem noncyclic_three_of_U62 {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hm : CFSG.Blueprint.LieModel (L ⧸ center L) .PSU 6 2 1) :
     ∃ S : Subgroup G, S ≤ L ∧ IsPGroup 3 S ∧ ¬ IsCyclic S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : StatedClassicalModel (L ⧸ center L) .PSU 6 2 1 := by
     rcases hm with ⟨-, h⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ <;>
       first | exact h | exact absurd h (by norm_num)

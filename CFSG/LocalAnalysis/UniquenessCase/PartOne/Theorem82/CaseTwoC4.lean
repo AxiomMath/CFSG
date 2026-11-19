@@ -123,12 +123,12 @@ private theorem K49L_subnormal_H : CFSG.Open.IsSubnormal t.K49L t.K49H := by
   exact hL0L.trans hLH
 
 private theorem K49L_mem_oTwoComponentsIn
-    (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
-    (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
-    (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
+    (_hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
+    (_hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
+    (_hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     t.K49L ∈ CFSG.RankThree.PartTwo.oTwoComponentsIn t.K49H := by
   obtain ⟨hN, hq⟩ := (t.hcomp 0).2.2.2
-  letI := hN
+  let := hN
   have hqOpen : CFSG.Open.IsQuasisimple
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 t.K49L) := hq
   have hq' : CFSG.IsQuasisimple
@@ -138,7 +138,7 @@ private theorem K49L_mem_oTwoComponentsIn
     Subgroup.subgroupOfEquivOfLe t.K49L_le_H
   refine CFSG.RankThree.PartTwo.mem_oTwoComponentsIn_iff.mpr
     ⟨t.K49L_le_H, ?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥t.K49L := Subgroup.isPerfect_iff.mpr (t.d.hperf 0)
+  · have : Group.IsPerfect ↥t.K49L := Subgroup.isPerfect_iff.mpr (t.d.hperf 0)
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   · exact (CFSG.Open.IsSubnormal.iff_subgroupOf t.K49L_le_H).mp t.K49L_subnormal_H
   · exact CFSG.LocalCores.isQuasisimple_of_mulEquiv
@@ -184,10 +184,9 @@ private theorem K49I_eq : c.L = ⨆ x ∈ t.K49X, CFSG.conjugate t.K49L x := by
     refine sup_le (sup_le ?_ ?_) ?_
     · have hone : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
         ext z
-        simp [MulAut.conj_apply]
+        simp
       have h0 : CFSG.conjugate t.K49L (1 : G) = t.d.Lf 0 := by
         rw [CFSG.conjugate, inv_one]
-        change Subgroup.map (MulAut.conj (1 : G)).toMonoidHom t.K49L = t.d.Lf 0
         rw [hone, Subgroup.map_id]
         rfl
       exact le_iSup₂_of_le (1 : G) (Subgroup.one_mem t.K49X) (le_of_eq h0.symm)
@@ -266,7 +265,7 @@ private theorem isAlt_bar2_K49L
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 t.K49L) 5 := by
   classical
   obtain ⟨V, hVnormal, -, hVA5⟩ := hExt
-  letI := hVnormal
+  let := hVnormal
   obtain ⟨eA⟩ := hVA5
   have hcardA5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup]
@@ -293,7 +292,7 @@ private theorem isAlt_bar2_K49L
         rw [h, Subgroup.map_top, Subgroup.range_subtype]
       exact hVne hVtop
   let Nsub : Subgroup ↥t.Ky := (t.Ky ⊓ t.d.N).subgroupOf t.Ky
-  haveI : Nsub.Normal := K49Nsub_normal t
+  have : Nsub.Normal := K49Nsub_normal t
   have hVN : V ≤ Nsub := by
     intro v hv
     exact Subgroup.mem_subgroupOf.mpr
@@ -321,7 +320,7 @@ private theorem isAlt_bar2_K49L
   have hqs : CFSG.IsQuasisimple
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 t.K49L) := by
     obtain ⟨hN, hq⟩ := (t.hcomp 0).2.2.2
-    letI := hN
+    let := hN
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq
   have hc : Subgroup.center
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 t.K49L) = ⊥ := by
@@ -336,7 +335,7 @@ private theorem isAlt_bar2_K49L
     CFSG.CGT.PushingUpLit.CGT6.isSimpleGroup_of_quasisimple_of_center_eq_bot
       hqs.2.1 hc
   have hSimpleA5 : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-    alternatingGroup.isSimpleGroup_five
+    (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hInj : Function.Injective g := by
     rw [← MonoidHom.ker_eq_bot_iff g]
     by_contra hker
@@ -350,9 +349,9 @@ private theorem isAlt_bar2_K49L
     exact bot_ne_top (hrange.symm.trans htoprange)
   exact ⟨(MulEquiv.ofBijective g ⟨hInj, hg_surj⟩).symm⟩
 private theorem K49Q_le_pCoreOf_H
-    (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
-    (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
-    (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
+    (_hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
+    (_hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
+    (_hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     t.K49Q ≤ CFSG.Open.pCoreOf 2 t.K49H := by
   have hMN : c.S.M ≤ Subgroup.normalizer (t.d.N : Set G) := by
     rw [show t.d.N = CFSG.Open.pCoreOf 2 c.S.M by
@@ -403,7 +402,7 @@ private theorem pCoreOf_H_le_K49Q
       ⟨t.K49H_le_normalizer_L hh, (t.K49H_le_M.trans hMN) hh⟩
   have hLQnorm : (t.K49LQ.subgroupOf t.K49H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLQH).mpr hHnormLQ
-  letI := hLQnorm
+  let := hLQnorm
   let KqH : Subgroup ↥t.K49H := t.K49LQ.subgroupOf t.K49H
   let piH : ↥t.K49H →* (↥t.K49H ⧸ KqH) := QuotientGroup.mk' KqH
   let f : t.K49X →* (↥t.K49H ⧸ KqH) :=
@@ -535,6 +534,7 @@ private theorem tightlyEmbedded_CQL
         exact heq2
       simpa using (Subgroup.normalizer (t.CQL : Set G)).inv_mem hmem
 
+omit [Finite G] in
 private theorem catalog_of_case3
     (h : CFSG.Open.StatedClassicalModel G .PSL 3 3 1 ∨
       CFSG.Open.StatedClassicalModel G .PSU 3 3 1 ∨
@@ -553,9 +553,9 @@ private theorem CQL_comm_or_pRank_one
     (X : C4Data G c.S.M)
     (hST : CFSG.CGT.PushingUpLit.SolKNA.SolomonTimmesfeldMainRankGe2)
     {p : ℕ} (hN : t.PairNormalizerLe p)
-    (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
-    (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
-    (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
+    (_hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
+    (_hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
+    (_hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     IsMulCommutative ↥t.CQL ∨ CFSG.Open.pRank 2 t.CQL = 1 := by
   by_cases hcomm : IsMulCommutative ↥t.CQL
   · exact Or.inl hcomm

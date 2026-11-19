@@ -58,8 +58,8 @@ theorem finL28_steinberg_descent {F : Type} [Field F] [Fintype F] [CharP F 2]
           Nonempty ((matRepE b ιD).Equiv (frobTensor F E ({0, 1, 2} : Finset ℕ))) := by
   obtain ⟨d, hd1, hDcard, hb⟩ :=
     binary_SL2_irreducible_Frobenius_descent (n := 3) (by norm_num) hF ρ hnt
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
   have hfinrank : Module.finrank (ZMod 2) V = 8 := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V)
     rw [Nat.card_zmod, hV] at h1
@@ -96,7 +96,7 @@ theorem finL28_card_fixed_eq_pow {F : Type} [Field F] {V : Type} [AddCommGroup V
     {E : Type} [Field E] [Finite E] (ιD : EndRing ρ →+* E) (h : SL(2, F)) :
     Nat.card {v : V // ρ h v = v} = 2 ^ Module.finrank E (LinearMap.ker (matRepE b ιD h - 1)) := by
   classical
-  haveI : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
   have hcoord : Nat.card {v : V // ρ h v = v} =
       Nat.card {x : Fin (Module.finrank (EndRing ρ) V) → EndRing ρ //
         (matRep b h - 1).mulVec x = 0} := by
@@ -117,8 +117,8 @@ theorem finL28_card_fixed_eq_pow {F : Type} [Field F] {V : Type} [AddCommGroup V
       Nat.card E ^ Module.finrank E (LinearMap.ker (matRepE b ιD h - 1)) := by
     rw [hkerE, Module.natCard_eq_pow_finrank (K := E)]
   rw [hleft] at hbc
-  letI := ιD.toAlgebra
-  haveI : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
+  let := ιD.toAlgebra
+  have : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
   have hE : Nat.card E = 2 ^ Module.finrank (EndRing ρ) E := by
     rw [Module.natCard_eq_pow_finrank (K := EndRing ρ) (V := E), hD]
   rw [hE] at hbc
@@ -135,7 +135,7 @@ theorem finL28_card_range_eq_pow {F : Type} [Field F] {V : Type} [AddCommGroup V
     Nat.card (LinearMap.range (ρ h - 1)) =
       2 ^ Module.finrank E (LinearMap.range (matRepE b ιD h - 1)) := by
   classical
-  haveI : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
   have hfin2 : Module.finrank (ZMod 2) V = Module.finrank (EndRing ρ) V := by
     rw [CFSG.Quasithin.G11.Harris.L2.finrank_eq_mul_of_card (d := 1) (by rw [hD, pow_one]), one_mul]
   have hV2 : Nat.card V = 2 ^ Module.finrank (EndRing ρ) V := by
@@ -199,9 +199,9 @@ theorem finL28_two_pow_four_le_card_range {F : Type} [Field F] [Fintype F] [Char
     (hnt : ∃ g, ρ g ≠ 1) {h : SL(2, F)} (hh : h * h = 1) (h1 : h ≠ 1) :
     2 ^ 4 ≤ Nat.card (LinearMap.range (ρ h - 1)) := by
   classical
-  haveI : Fact ρ.IsIrreducible := ⟨hρ⟩
+  have : Fact ρ.IsIrreducible := ⟨hρ⟩
   obtain ⟨hD, hb⟩ := finL28_steinberg_descent hF hV ρ hnt
-  haveI : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) V := Module.Finite.of_finite
   let b := Module.finBasis (EndRing ρ) V
   obtain ⟨E, hEfield, hEfin, hEchar, hAlg, ιD, ⟨Φ⟩⟩ := hb b
   have hrank : 4 ≤ Module.finrank E (LinearMap.range (matRepE b ιD h - 1)) := by

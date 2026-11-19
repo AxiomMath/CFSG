@@ -115,7 +115,7 @@ theorem odd_mem_A0_of_centralizes (hs : LUSyl G z S K₁ K₂ t u) (hc : LUComps
     exact two_elem_centralizer_K hs hc hmem.1 hmem.2 hτG
   have hTle : (T : Subgroup ↥D) ≤ zpowers (⟨z, hzD⟩ : ↥D) := by
     intro τ hτ
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨τ, hτ⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨τ, hτ⟩
     have hn' : τ ^ (2 ^ n) = 1 := by
       have := congrArg Subtype.val hn
       simpa using this
@@ -135,7 +135,7 @@ theorem odd_mem_A0_of_centralizes (hs : LUSyl G z S K₁ K₂ t u) (hc : LUComps
     have hd'ord : orderOf d' = orderOf d := Subgroup.orderOf_mk d hd
     have hmem : d' ∈ (N' : Set ↥D) * (T : Set ↥D) := by rw [hmul]; exact Set.mem_univ _
     obtain ⟨a, ha, τ, hτ, hdaτ⟩ := Set.mem_mul.mp hmem
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨τ, hτ⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨τ, hτ⟩
     have hk' : τ ^ (2 ^ k) = 1 := by
       have := congrArg Subtype.val hk
       simpa using this
@@ -350,11 +350,11 @@ theorem cs₁_aux (hc : LUComps G q z K₁ K₂) (hs : LUSyl G z S K₁ K₂ t u
       _ = a * ((s * k₂') * b) := by group
       _ = a * (b * (s * k₂')) := by rw [h3]
       _ = (a * b) * (s * k₂') := by group
-  obtain ⟨n, hn⟩ := (S.isPGroup') ⟨s, hsS⟩
+  obtain ⟨n, hn⟩ := (S.isPGroup) ⟨s, hsS⟩
   have hn' : s ^ (2 ^ n) = 1 := by
     have := congrArg Subtype.val hn
     simpa using this
-  obtain ⟨n', hn''⟩ := (S.isPGroup') ⟨s⁻¹ * s', (S : Subgroup G).mul_mem ((S : Subgroup G).inv_mem hsS) hs'S⟩
+  obtain ⟨n', hn''⟩ := (S.isPGroup) ⟨s⁻¹ * s', (S : Subgroup G).mul_mem ((S : Subgroup G).inv_mem hsS) hs'S⟩
   have hq2 : (s⁻¹ * s') ^ (2 ^ n') = 1 := by
     have := congrArg Subtype.val hn''
     simpa using this

@@ -158,7 +158,7 @@ theorem not_conjTo_z_k (hnc : ¬ SubConj F.E₁ F.E₂) : ¬ ConjTo S.z F.kF := 
   have hCp : IsPGroup 2 C := Y.isPGroup.to_le inf_le_left
   obtain ⟨P', hP'⟩ := (hCp.comap_subtype (K := Kz)).exists_le_sylow
   set Tz : Subgroup X := (P' : Subgroup Kz).map Kz.subtype with hTz
-  have hTzp : IsPGroup 2 Tz := P'.isPGroup'.map _
+  have hTzp : IsPGroup 2 Tz := P'.isPGroup.map _
   have hCT : C ≤ Tz := fun c hc => ⟨⟨c, (mem_inf.mp hc).2⟩, hP' hc, rfl⟩
   have hTK : Tz ≤ Kz := map_subtype_le _
   have hmaxTz : ∀ R : Subgroup X, IsPGroup 2 R → Tz ≤ R → R ≤ Kz → R = Tz := by

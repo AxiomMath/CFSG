@@ -23,14 +23,14 @@ theorem up34SporLeaf_of_free (hOut : SporadicOuterLeTwo) (h : ∀ name, SporL34F
     Up34SporLeaf := by
   intro S _ _ hS hnab name he α hpump
   obtain ⟨hα3, hα1, I, hI, hI34⟩ := hpump
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := up34_center_eq_bot_of_simple hnab
   have hout : Nat.card (Outer S) ≤ 2 := hOut S hS hnab name he
   obtain ⟨s, rfl, hs3⟩ := exists_conj_of_pow Nat.prime_three (by norm_num) hcen hout α hα3
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact hα1 (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hso : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   rw [fixSubgroup_conj] at hI
   exact h name S hnab he s hso I ⟨hI, hI34⟩

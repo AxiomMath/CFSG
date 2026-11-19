@@ -26,10 +26,10 @@ theorem hasRows_rep {i : ℕ} (hi : i < 10) :
 theorem rep_zero : rep 0 = rCr := by
   apply Subtype.ext
   change ((1 * letterCr 9 : Cr) : Kstab v0) = rK
-  rw [one_mul, letterCr, if_pos (by norm_num : (9 : ℕ) < 21), gC,
-    dif_pos (by norm_num : (9 : ℕ) < 21)]
+  rw [one_mul, letterCr, ite_eq_left (by norm_num : (9 : ℕ) < 21), gC,
+    dite_eq_left (by norm_num : (9 : ℕ) < 21)]
   change cGen ⟨9, by norm_num⟩ = rK
-  rw [cGen, dif_neg (by norm_num)]
+  rw [cGen, dite_eq_right (by norm_num)]
   rfl
 
 attribute [irreducible] rep

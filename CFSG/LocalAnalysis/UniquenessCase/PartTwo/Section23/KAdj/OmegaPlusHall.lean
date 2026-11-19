@@ -71,7 +71,7 @@ private theorem torus_le_normalizer_unipotent_E03 {K : Type} [Field K] [Finite K
 theorem exists_conj_torusElt_of_mem_borel {K : Type} [Field K] [Finite K] [CharP K 2]
     {t : PlusLin K} (ht : t ∈ borel 3 K) (hodd : Odd (orderOf t)) :
     ∃ e ∈ unipotent 3 K, ∃ a : Fin 3 → Kˣ, e * t * e⁻¹ = torusElt 3 K a := by
-  haveI : Finite (PlusLin K) :=
+  have : Finite (PlusLin K) :=
     Finite.of_injective (fun g : PlusLin K => (g : (Fin 3 ⊕ Fin 3 → K) → (Fin 3 ⊕ Fin 3 → K)))
       DFunLike.coe_injective
   have ht' : t ∈ (unipotent 3 K : Set (PlusLin K)) * (torus 3 K : Set (PlusLin K)) := by

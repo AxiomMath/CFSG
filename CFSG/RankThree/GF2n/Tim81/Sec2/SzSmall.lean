@@ -27,7 +27,7 @@ theorem isSzNatural_of_finrank_eq_four
   let π : ↥(suzukiGroup a K) →* (W ≃ₗ[ZMod 2] W) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) W).toMonoidHom.comp ρ.toHomUnits
   have hπ : repOfG π = ρ := rfl
-  haveI : Fact (repOfG π).IsIrreducible := ⟨by rw [hπ]; exact Fact.out⟩
+  have : Fact (repOfG π).IsIrreducible := ⟨by rw [hπ]; exact Fact.out⟩
   have hnt' : ∃ g, repOfG π g ≠ 1 := by simpa [hπ] using hnt
   obtain ⟨c, φ, hφ⟩ := sz_exists_natural_of_four hK π hnt' (by rw [hπ]; exact hdim)
   refine ⟨c, φ, fun g w => ?_⟩

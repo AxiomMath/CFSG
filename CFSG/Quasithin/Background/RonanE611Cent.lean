@@ -28,6 +28,7 @@ theorem card_center_sylow_modelOf {q k : ℕ} (h : ModelOf A q k) {P : Subgroup 
   have hB := h.fusionBenderBorel (hP2.toSylow hPidx)
   exact hB.2.2.2.1
 
+omit [Finite A] in
 theorem exists_unitriangular_iso {n : ℕ} (hA : StatedClassicalModel A .PSL 3 2 n)
     {P : Subgroup A} (hP : IsSylowTwoOf P ⊤) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (φ : A ≃* projectiveSL 3 K),
@@ -84,6 +85,7 @@ theorem card_map_of_injOn {G' N : Type*} [Group G'] [Group N] (f : G' →* N) (H
     ⟨fun a b hab => ?_, f.subgroupMap_surjective H⟩)
   exact Subtype.ext (hinj a a.2 b b.2 (congrArg Subtype.val hab))
 
+omit [Finite G] in
 theorem mem_centerOf_iff_center {x : G} :
     x ∈ centerOf L ↔ ∃ z ∈ Subgroup.center ↥L, (z : G) = x := by
   constructor
@@ -94,6 +96,7 @@ theorem mem_centerOf_iff_center {x : G} :
     refine ⟨z.2, Subgroup.mem_centralizer_iff.2 fun g hg => ?_⟩
     exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hz ⟨g, hg⟩)
 
+omit [Finite G] in
 theorem center_le_of_isSylowTwoOf (hS : IsSylowTwoOf S L) (hZ : IsPGroup 2 (Subgroup.center ↥L)) :
     ∀ z ∈ Subgroup.center ↥L, (z : G) ∈ S := by
   intro z hz

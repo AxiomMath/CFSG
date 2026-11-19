@@ -221,7 +221,7 @@ theorem ordRun_spec (W : List (List ℕ)) : ∀ (ko : List ℕ) (b m M : ℕ), o
   | x :: ko, b, m, M, h => by
     unfold ordRun at h
     dsimp only at h
-    rw [cond_eq_if] at h
+    rw [Bool.cond_eq_ite] at h
     split_ifs at h with hc
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at hc
     obtain ⟨h1, h2, h3⟩ := ordRun_spec W ko _ _ M h
@@ -289,7 +289,7 @@ theorem rowsW_spec {gs : List MatK} {wv : List (List ℕ)} {wu : List (List (Lis
   | r :: rows, m, M, hm, h => by
     unfold rowsW at h
     dsimp only at h
-    rw [cond_eq_if] at h
+    rw [Bool.cond_eq_ite] at h
     split_ifs at h with hc
     simp only [Bool.and_eq_true, Nat.blt_eq, beq_iff_eq, M3BF.f13S_bit] at hc
     obtain ⟨⟨⟨hn, hb⟩, hk⟩, he⟩ := hc

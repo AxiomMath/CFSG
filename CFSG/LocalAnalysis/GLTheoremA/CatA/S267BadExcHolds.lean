@@ -81,7 +81,7 @@ theorem s267FactBadExcCore_of_dvd
           have hpq : p ≠ Q.p := Ne.symm hqp
           have he := three_le_orderOf_of_not_dvd hp (not_dvd_card_of_ne hp hpq) hd
           have hrk := pRank_mulAut_le_twistedE6 Q hv e hp hpq he
-          rw [h6.1, if_neg h6.2.1, show max 1 (degCountTw 6) + 0 = 3 by decide] at hrk
+          rw [h6.1, ite_eq_right h6.2.1, show max 1 (degCountTw 6) + 0 = 3 by decide] at hrk
           have hBle := card_le_pow_succ_of_pRank_mulAut_le hp hSn hperf hB hBC hrk
           exact false_of_hq_of_lift (r := 5)
             ((pRank_le_of_card_le_pow hp hBle).trans_lt (by norm_num)) hHq e

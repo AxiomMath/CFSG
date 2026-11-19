@@ -291,6 +291,7 @@ theorem mixed_conjugation_calculusJ_d (h : IsSeed S ρ (Ecore G) ψ)
       (isElemAbelian_iff.mp (isElemAbelian_Fcore (G := G))).1 a ha b hb
   · exact w_calculusJ_commutator_eq_bot_Six4b h hΛ hα hF hgH hg2 hhH hhM hh2
 
+omit [Finite G] in
 private theorem gxg_sq_one_Six4b {g x : G} (hg2 : g ^ 2 = 1) (hx2 : x ^ 2 = 1) :
     (g * x * g) ^ 2 = 1 := by
   have hg : g * g = 1 := by rw [← pow_two]; exact hg2

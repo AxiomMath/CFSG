@@ -419,7 +419,6 @@ theorem normL_pin (inv : List ℕ → List ℕ) (hinv : ∀ σ : P10, inv (code 
   · obtain ⟨κ, rfl⟩ := isC_of_psl hk
     refine all_pk fun v hv => ?_
     obtain ⟨ν, rfl⟩ := hV v hv
-    beta_reduce
     rw [hinv, Bool.eq_iff_iff, List.contains_iff_mem, conj_mem_iff hV, pk_code, pk_code]
   · rw [beq_iff_eq.1 pslK_pin]
 
@@ -570,8 +569,7 @@ theorem encF_sum (a : ℕ → ℕ) (k : ℕ) : encF a k = ∑ i ∈ Finset.range
 theorem enc_inv (σ : P10) : enc σ⁻¹ = invPK (enc σ) := by
   rw [enc, invPK, encF_sum, invS_sum, Finset.sum_range, Finset.sum_range]
   refine (Equiv.sum_comp σ _).symm.trans (Finset.sum_congr rfl fun i _ => ?_)
-  beta_reduce
-  rw [dif_pos (σ i).isLt, rd_enc (by norm_num) σ i]
+  rw [dite_eq_left (σ i).isLt, rd_enc (by norm_num) σ i]
   simp
 
 theorem isC_invC {a : List ℕ} (ha : IsC a) : IsC (Setup.X3Aut.invC a) := by

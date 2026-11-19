@@ -27,7 +27,7 @@ theorem w135c2_exists_involution_lift {G H : Type} [Group G] [Group H] (φ : G �
     ∃ y : G, y * y = 1 ∧ y ≠ 1 ∧ φ y = t := by
   obtain ⟨x, hx⟩ := hrange
   have hpos : Nat.card φ.ker ≠ 0 := hker.pos.ne'
-  haveI : Finite φ.ker := Nat.finite_of_card_ne_zero hpos
+  have : Finite φ.ker := Nat.finite_of_card_ne_zero hpos
   have ht2 : t ^ 2 = 1 := ht ▸ pow_orderOf_eq_one t
   have hx2 : x ^ 2 ∈ φ.ker := by rw [MonoidHom.mem_ker, map_pow, hx, ht2]
   have hc : (⟨x ^ 2, hx2⟩ : φ.ker) ^ Nat.card φ.ker = 1 := pow_card_eq_one'

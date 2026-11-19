@@ -41,6 +41,7 @@ variable {p : ℕ} [Fact p.Prime] {F : Type} [Field F] [Finite F]
 
 variable {p : ℕ} [Fact p.Prime] {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem ker_rhoU_scalar (hF : Nat.card F = p ^ 2) {A : ↥(GU2Stated (p ^ 1) F)}
     (h : piU p F (Lemma41aU3.blkU (uniData hF) A) = 1) :
     ∃ l : F, l ^ 3 = 1 ∧ ((A : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) = Matrix.scalar (Fin 2) l := by
@@ -51,6 +52,7 @@ theorem ker_rhoU_scalar (hF : Nat.card F = p ^ 2) {A : ↥(GU2Stated (p ^ 1) F)}
   have := congrFun (congrFun hc (Fin.castSucc i)) (Fin.castSucc j)
   fin_cases i <;> fin_cases j <;> simpa [Lemma41aL3.blkMat, Matrix.scalar_apply] using this
 
+omit [Finite F] in
 theorem unitary_eq (hF : Nat.card F = p ^ 2) {M : GL (Fin 2) F} (hM : M ∈ GU2Stated (p ^ 1) F) :
     ((M : Matrix (Fin 2) (Fin 2) F).map (· ^ p))ᵀ * (M : Matrix (Fin 2) (Fin 2) F) = 1 := by
   have := (Lemma41aU3.mem_GU2Stated_iff (uniData hF)).1 hM

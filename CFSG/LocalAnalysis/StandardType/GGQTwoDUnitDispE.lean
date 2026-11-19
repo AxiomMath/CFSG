@@ -34,6 +34,7 @@ private noncomputable def qtwoDB24_E (βL : Additive ↥Bs ≃+ DVec m) (c : Fin
       ).toAddSubgroup.comap
       βL.toAddMonoidHom)
 
+omit [Finite G] in
 private theorem qtwoDB24_mem_E (βL : Additive ↥Bs ≃+ DVec m) (c : Fin m) (s : ↥Bs) :
     s ∈ qtwoDB24_E βL c ↔ βL (Additive.ofMul s) c = 0 := by
   rw [qtwoDB24_E, AddSubgroup.mem_toSubgroup', AddSubgroup.mem_comap,
@@ -47,15 +48,15 @@ private noncomputable def qtwoDB24_hyperplaneEquiv (m : ℕ) (c : Fin m) :
   left_inv v := by
     apply Subtype.ext
     funext j
-    simp only [Subtype.coe_mk]
+    simp only
     by_cases hj : j = c
-    · rw [dif_pos hj, hj]
+    · rw [dite_eq_left hj, hj]
       exact v.2.symm
-    · rw [dif_neg hj]
+    · rw [dite_eq_right hj]
   right_inv u := by
     funext i
-    simp only [Subtype.coe_mk]
-    rw [dif_neg i.2]
+    simp only
+    rw [dite_eq_right i.2]
 
 private theorem qtwoDB24_card_ne_subtype (m : ℕ) (c : Fin m) :
     Nat.card {x : Fin m // x ≠ c} = m - 1 := by
@@ -80,11 +81,13 @@ private noncomputable def qtwoDB24_E_equiv (βL : Additive ↥Bs ≃+ DVec m) (c
     apply Subtype.ext
     simp
 
+omit [Finite G] in
 private theorem qtwoDB24_card_E (βL : Additive ↥Bs ≃+ DVec m) (c : Fin m) :
     Nat.card (qtwoDB24_E βL c) = 3 ^ (m - 1) := by
   rw [Nat.card_congr (qtwoDB24_E_equiv βL c)]
   exact qtwoDB24_card_hyperplane m c
 
+omit [Finite G] in
 theorem qtwoDB24_image_of (hBs3 : IsElemAbelian 3 Bs) {βL : Additive ↥Bs ≃+ DVec m} {c : Fin m}
     {N : Subgroup G} (hE_mem : ∀ s : ↥Bs, βL (Additive.ofMul s) c = 0 → (s : G) ∈ N)
     (hcent : ∀ s : ↥Bs, βL (Additive.ofMul s) c = 0 →
@@ -243,7 +246,7 @@ theorem ggQTwoDUnit_not_exceptional
     {lab : LargeEvenLabel} (hlab : GGHasLabel lab (↥N ⧸ Subgroup.center ↥N))
     (hE : (m = 7 ∧ lab = ⟨.twE6, 0, 1⟩) ∨ (m = 8 ∧ lab = ⟨.E7, 0, 1⟩) ∨
       (m = 10 ∧ lab = ⟨.E8, 0, 1⟩)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hAea, hAcard⟩ := qtwoDB24_image_E hm hbase hcoords hdel hJ₁ hJ₂
   rcases hE with ⟨hm7, hlab7⟩ | ⟨hm8, hlab8⟩ | ⟨hm10, hlab10⟩
   · subst hm7

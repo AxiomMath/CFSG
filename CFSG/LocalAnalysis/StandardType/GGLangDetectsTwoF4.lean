@@ -84,7 +84,7 @@ theorem langRatCentralizerDetects_two_F4
       Subgroup.centralizer {rootDiagUnit .F4 b}) :
     ∀ γ ∈ rationalRoots S.ρ (rootCharHom a) i, rootChar b γ = 1 := by
   have hq' : S.D.q = 2 ^ 1 := by rw [hq, pow_one]
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq'
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq'
   have hcomp : ∀ γ ∈ componentRoots (rootCharHom a) i, rootChar b γ = 1 := by
     intro γ hγ
     have hγr : IsRoot Tag.F4 γ := isRoot_of_mem_componentRoots hγ

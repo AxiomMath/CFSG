@@ -164,7 +164,7 @@ theorem f_cent : Subgroup.centralizer ({ae6ModelZ} : Set AE6Om) =
     rw [ae6LetterSub, MonoidHom.map_closure, czQ, certificate_originalSubgroup]
     congr 1
     ext g
-    simp only [Set.mem_image, Set.mem_range, Set.mem_setOf_eq, Subgroup.coe_subtype]
+    simp only [Set.mem_image, Set.mem_range, Set.mem_ofPred_eq, Subgroup.coe_subtype]
     constructor
     · rintro ⟨_, ⟨_, ⟨x, rfl⟩, rfl⟩, rfl⟩
       have hg : ((A6.curtisGen (ae6CLetter x) : AE6Om) : Equiv.Perm (Fin 360)) =
@@ -462,7 +462,7 @@ theorem map_ae6ModelW : ae6ModelW.map omegaT.subtype = (wQ ()).originalSubgroup 
   rw [wQ, certificate_originalSubgroup, ae6ModelW, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq,
+  simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq,
     w0Gens, wWords, List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil, or_false,
     Subgroup.coe_subtype]
   constructor

@@ -39,7 +39,7 @@ theorem stdFrameRefl_apply (hV : Nat.card V = 3 ^ 5)
     (hr : r ⬝ᵥ r = 2) (u : V) :
     frameCoord hV hf (stdFrameRefl hV hf r u) = stdRefl r (frameCoord hV hf u) := by
   unfold stdFrameRefl
-  rw [dif_pos hr, rootRefl_apply, map_sub, map_smul]
+  rw [dite_eq_left hr, rootRefl_apply, map_sub, map_smul]
   rw [frameCoord_form hV hf ((frameCoord hV hf).symm r) u, LinearEquiv.apply_symm_apply]
   rfl
 
@@ -72,7 +72,7 @@ theorem stdFrameRefl_mem (hV : Nat.card V = 3 ^ 5)
       hFy]
     exact hry
   · unfold stdFrameRefl
-    rw [dif_pos hr]
+    rw [dite_eq_left hr]
 
 theorem stdFrameWord_mem (hV : Nat.card V = 3 ^ 5)
     (hf : ∀ i j, B (f i) (f j) = if i = j then 1 else 0) {y : V}
@@ -251,7 +251,7 @@ theorem e6Weyl_le_closure_insert_of_one
       · exact hstep r hr h1 hry
     · by_cases hry : r = y
       · have : rootRefl (B := B) r hr = rootRefl (B := B) y hy := by
-          simpa [hry]
+          simp [hry]
         rw [this]
         exact hyH
       · have hz : B (-r) (-r) = 2 := by

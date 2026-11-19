@@ -94,7 +94,7 @@ theorem eq_of_isComponentOf_of_card_le
       (T : Subgroup G) ⊓ J ≤ (T : Subgroup G) ⊓ Subgroup.centralizer (L : Set G) :=
     fun hJ hJL => inf_le_inf_left _ (le_centralizer_of_isComponentOf_ne hJ hL hJL)
   have hdisj : Disjoint ((T : Subgroup G) ⊓ J₁) ((T : Subgroup G) ⊓ J₂) := by
-    rw [disjoint_iff, eq_bot_iff, ← inf_inf_eq_bot T.isPGroup' hQ₁]
+    rw [disjoint_iff, eq_bot_iff, ← inf_inf_eq_bot T.isPGroup hQ₁]
     exact le_inf (inf_le_right.trans (inf_le_inf_left _
       (le_centralizer_of_isComponentOf_ne hJ₂ hJ₁ (Ne.symm h12)))) inf_le_left
   have hcomm : (T : Subgroup G) ⊓ J₂ ≤ Subgroup.normalizer
@@ -123,7 +123,7 @@ theorem isTypeL2Even
   have hHA := hG.isAStar_of_isCoatom hHco
   have hTH := hG.sylow_le_of_mem_benderM T htT hH
   set U := (T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) with hUdef
-  have hUp : IsPGroup 2 U := T.isPGroup'.to_le inf_le_left
+  have hUp : IsPGroup 2 U := T.isPGroup.to_le inf_le_left
   have hUab : IsMulCommutative U :=
     ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨U₀, hU₀U, hU₀⟩ :=
@@ -152,7 +152,7 @@ theorem isTypeL2Even
     push Not at h
     exact hEM (sSup_le fun J hJ => h J hJ)
   set V := (T : Subgroup G) ⊓ Subgroup.centralizer (Kb : Set G) with hVdef
-  have hVp : IsPGroup 2 V := T.isPGroup'.to_le inf_le_left
+  have hVp : IsPGroup 2 V := T.isPGroup.to_le inf_le_left
   have hVab : IsMulCommutative V :=
     ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨V₀, hV₀V, hV₀⟩ :=

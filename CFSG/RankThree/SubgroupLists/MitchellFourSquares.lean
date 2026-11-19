@@ -73,7 +73,7 @@ theorem false_of_conj_sq_comm (h2 : (2 : K) ≠ 0) {G : Subgroup (GL V₄ K)}
         ((b * x * b⁻¹ : G) : GL V₄ K) ^ 2 * ((a * x * a⁻¹ : G) : GL V₄ K) ^ 2 ∨
       ((a * x * a⁻¹ : G) : GL V₄ K) ^ 2 * ((b * x * b⁻¹ : G) : GL V₄ K) ^ 2 =
         -(((b * x * b⁻¹ : G) : GL V₄ K) ^ 2 * ((a * x * a⁻¹ : G) : GL V₄ K) ^ 2)) : False := by
-  haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2.1
+  have : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2.1
   have hω : (QuotientGroup.mk (x ^ 2) : G ⧸ Subgroup.center G) ≠ 1 := by
     rw [Ne, mk_eq_one_iff hZ hneg, Subgroup.coe_pow]
     have hx4' : ((x : GL V₄ K) ^ 2) ^ 2 = -1 := by rw [← pow_mul]; exact hx4

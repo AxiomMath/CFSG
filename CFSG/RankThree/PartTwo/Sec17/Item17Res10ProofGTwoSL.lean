@@ -377,7 +377,7 @@ theorem exists_sylow_of_weaklyClosed {Z : Subgroup X} (hZ3 : Nat.card Z = 3)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZp : IsPGroup 3 Z := IsPGroup.of_card (n := 1) (by rw [hZ3, pow_one])
   obtain ⟨S, hZS⟩ := hZp.exists_le_sylow
-  have hSp : IsPGroup 3 (S : Subgroup X) := S.isPGroup'
+  have hSp : IsPGroup 3 (S : Subgroup X) := S.isPGroup
   have hSN : (S : Subgroup X) ≤ Subgroup.normalizer (Z : Set X) := by
     by_contra hne
     set H := (S : Subgroup X) ⊓ Subgroup.normalizer (Z : Set X) with hH

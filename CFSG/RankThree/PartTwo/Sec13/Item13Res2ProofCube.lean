@@ -223,7 +223,7 @@ theorem diagUnits_cube_identity {d₀ d₁ d₂ ξ ζ ν : Kˣ} {k : ℕ} (hk : 
     · field_simp
       linear_combination hν' - (ζ : K) * (ξ : K) ^ 2 * hζ'
   congr 1
-  all_goals first | exact key0 | exact key _
+  all_goals exact key _
 
 theorem sLTwoData_exists_cube_root {X : Type} [Group X] (D : SLTwoData X π p f K) {z : X}
     (hz : z ∈ D.L₀) (hz3 : z ^ 3 = 1) (hzC : z ∉ Subgroup.centralizer (D.L₀ : Set X)) {c₀ : X}

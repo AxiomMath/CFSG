@@ -89,7 +89,7 @@ theorem conj_pw {π : Equiv.Perm (Fin 1755)} {M : Mat5}
   have hn : n = Pi.single (0 : Fin 5) (n 0) + Pi.single (1 : Fin 5) (n 1) +
       Pi.single (2 : Fin 5) (n 2) + Pi.single (3 : Fin 5) (n 3) + Pi.single (4 : Fin 5) (n 4) := by
     ext j
-    fin_cases j <;> simp [Pi.single_apply]
+    fin_cases j <;> simp
   have key := hQ _ _ (hQ _ _ (hQ _ _ (hQ _ _ (conj_pw_single h 0 (n 0)) (conj_pw_single h 1 (n 1)))
     (conj_pw_single h 2 (n 2))) (conj_pw_single h 3 (n 3))) (conj_pw_single h 4 (n 4))
   rwa [← hn] at key

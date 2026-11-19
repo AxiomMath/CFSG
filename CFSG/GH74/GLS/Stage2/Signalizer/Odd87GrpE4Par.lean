@@ -129,7 +129,7 @@ theorem isParabolicGrp_map_iff [Finite G] [Fact p.Prime] (ψ : G →* H)
     obtain ⟨g, rfl⟩ := hψ t
     rw [Sylow.coe_mapSurjective] at ht
     exact Subgroup.mem_map_of_mem ψ
-      (hS (mem_normalizer_of_map_mem_normalizer ψ hcen hcop S.isPGroup' ht))
+      (hS (mem_normalizer_of_map_mem_normalizer ψ hcen hcop S.isPGroup ht))
 
 theorem isMaxParabolicGrp_map_iff [Finite G] [Fact p.Prime] (ψ : G →* H)
     (hψ : Function.Surjective ψ) (hcen : ψ.ker ≤ center G)

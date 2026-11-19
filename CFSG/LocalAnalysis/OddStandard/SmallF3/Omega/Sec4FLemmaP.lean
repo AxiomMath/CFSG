@@ -43,7 +43,7 @@ private theorem inf_centralizer_singleton_mul_of_mem_centralizer {H : Subgroup G
       _ = b * (x * a) * a⁻¹ := by rw [← hxa]
       _ = b * x := by group
 
-theorem sec4_lemmaP (h36 : Asc82Lemma36) (h39 : Asc82Lemma39) (hk6 : Asc82FactK6)
+theorem sec4_lemmaP (_h36 : Asc82Lemma36) (h39 : Asc82Lemma39) (hk6 : Asc82FactK6)
     (hf6 : Asc82Fact6Class) (hD : Asc82FactD) (hABC : Asc82ClaimsABC) [Finite G] {t : G}
     {L S : Subgroup G} {z : G} (hctx : Sec4Ctx G t L S z) {s : G}
     (hs : ∃ h : G, s = h⁻¹ * t * h) (hsc : s ∈ centralizer ({t} : Set G))
@@ -98,7 +98,7 @@ theorem sec4_lemmaP (h36 : Asc82Lemma36) (h39 : Asc82Lemma39) (hk6 : Asc82FactK6
     _ = l' * (x⁻¹ * t * x) * l'⁻¹ := by rw [hx]
     _ = (x * l'⁻¹)⁻¹ * t * (x * l'⁻¹) := by group
 
-theorem sec4_no_triangle (h36 : Asc82Lemma36) (h39 : Asc82Lemma39) (hk6 : Asc82FactK6)
+theorem sec4_no_triangle (_h36 : Asc82Lemma36) (h39 : Asc82Lemma39) (hk6 : Asc82FactK6)
     (hD : Asc82FactD) (hABC : Asc82ClaimsABC) [Finite G] {t : G} {L S : Subgroup G} {z : G}
     (hctx : Sec4Ctx G t L S z) {m : G} (hm : ∃ h : G, m = h⁻¹ * t * h)
     (hmt : ∃ h : G, m * t = h⁻¹ * t * h) (hmc : m ∈ centralizer ({t} : Set G))

@@ -197,7 +197,7 @@ theorem fusionIsSylowIn_of_maximal_sigN {H A P : Subgroup G} (hAH : A ≤ H) (hA
   have hOn : (O.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOM).mpr (sup_le hPO Subgroup.le_normalizer)
   have hp' : IsPGroup p ((T : Subgroup M).subgroupOf (O.subgroupOf M)) :=
-    T.isPGroup'.comap_subtype
+    T.isPGroup.comap_subtype
   have hidx : ¬ p ∣ ((T : Subgroup M).subgroupOf (O.subgroupOf M)).index := by
     intro hdvd
     exact T.not_dvd_index (dvd_trans hdvd

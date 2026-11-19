@@ -314,10 +314,10 @@ public theorem proposition_1_c_exists_S_Q1
   have hP_le_core : SQ ≤ pCore 2 Q := by
     exact le_sSup (show SQ ∈
       {K : Subgroup Q | K.Normal ∧ IsPGroup 2 K} from
-        ⟨hPnormal, P.isPGroup'⟩)
+        ⟨hPnormal, P.isPGroup⟩)
   have hcore_le_P : pCore 2 Q ≤ SQ := by
     have hsup_p : IsPGroup 2 ((SQ ⊔ pCore 2 Q : Subgroup Q)) :=
-      IsPGroup.to_sup_of_normal_right P.isPGroup'
+      IsPGroup.to_sup_of_normal_right P.isPGroup
         (pCore_isPGroup (G := Q) (p := 2))
     exact le_sup_right.trans (P.maximal_isPGroup.2 hsup_p le_sup_left)
   have hP_eq_core : SQ = pCore 2 Q :=
@@ -330,7 +330,7 @@ public theorem proposition_1_c_exists_S_Q1
       (pPrimeCore_coprime_card (G := Q) (p := 2))
   have hdisj_Q : Disjoint SQ Q1Q := by
     apply Subgroup.disjoint_of_coprime_natCard
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rw [hn]
     exact (pPrimeCore_coprime_card (G := Q) (p := 2)).pow_left n
   have hcomm_Q :

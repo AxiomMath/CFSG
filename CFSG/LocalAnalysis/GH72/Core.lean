@@ -52,9 +52,9 @@ theorem index_ne_two_of_commutator_eq_top (hperf : commutator Y = ⊤) (N : Subg
   have hp : Nat.Prime (Nat.card (Y ⧸ N)) := by
     rw [← Subgroup.index, h2]
     exact Nat.prime_two
-  haveI : Fact (Nat.card (Y ⧸ N)).Prime := ⟨hp⟩
-  haveI : IsCyclic (Y ⧸ N) := isCyclic_of_prime_card rfl
-  letI : CommGroup (Y ⧸ N) := IsCyclic.commGroup
+  have : Fact (Nat.card (Y ⧸ N)).Prime := ⟨hp⟩
+  have : IsCyclic (Y ⧸ N) := isCyclic_of_prime_card rfl
+  let : CommGroup (Y ⧸ N) := IsCyclic.commGroup
   have hle : commutator Y ≤ (QuotientGroup.mk' N).ker :=
     Abelianization.commutator_subset_ker (QuotientGroup.mk' N)
   rw [hperf, QuotientGroup.ker_mk', top_le_iff] at hle
@@ -147,7 +147,7 @@ theorem hDD_of_aStar (h : AStarStatement) : HDDStatement := by
       P, m, m, by omega, by omega, by omega, hP⟩
   obtain ⟨L₁, L₂, hL₁, hL₂, hinf, hodd, hF₁, hF₂⟩ := h Y hhyp
   have hsup : L₁ ⊔ L₂ = ⊤ := by
-    haveI : (L₁ ⊔ L₂).Normal := Subgroup.sup_normal L₁ L₂
+    have : (L₁ ⊔ L₂).Normal := Subgroup.sup_normal L₁ L₂
     exact eq_top_of_odd_index_of_perfect hperf _ hodd
   refine ⟨L₁, L₂, hL₁, hL₂, hinf, hsup, ?_⟩
   have hp₁ : commutator L₁ = ⊤ := commutator_eq_top_of_inf_eq_bot_of_sup_eq_top' hperf hinf hsup

@@ -56,7 +56,7 @@ theorem componentLayerOf_eq_sup (hb : PAB G L t E W z) (a : PA5 L t E z)
   rw [componentLayerOf_eq, layer_eq_of_orbit hb a hK horb, Subgroup.map_sup,
     conjSub_map_subtype hb a]
 
-theorem conj_map_subtype (hb : PAB G L t E W z) (a : PA5 L t E z) (g : ↥(Cen a.ub))
+theorem conj_map_subtype (_hb : PAB G L t E W z) (a : PA5 L t E z) (g : ↥(Cen a.ub))
     (K : Subgroup ↥(Cen a.ub)) :
     (K.map (Cen a.ub).subtype).map (MulAut.conj (g : G)).toMonoidHom =
       (cj g K).map (Cen a.ub).subtype := by
@@ -85,7 +85,7 @@ theorem cj_eq_of_commute {Γ : Type*} [Group Γ] {t : Γ} (ht : t * t = 1) {K : 
     rw [h x hx]; group
 
 theorem centralizes_sup_of_mem {Γ : Type*} [Group Γ] {K K' : Subgroup Γ}
-    (hcomm : ∀ x ∈ K, ∀ y ∈ K', x * y = y * x) {k : Γ} (hk : k ∈ K) (hkK' : k ∈ K')
+    (hcomm : ∀ x ∈ K, ∀ y ∈ K', x * y = y * x) {k : Γ} (hk : k ∈ K) (_hkK' : k ∈ K')
     (hkc : ∀ x ∈ K, k * x = x * k) : ∀ x ∈ K ⊔ K', k * x = x * k := by
   intro x hx
   obtain ⟨a, ha, b, hb, rfl⟩ := exists_mul_of_mem_sup hcomm hx

@@ -37,8 +37,8 @@ theorem two_pow_two_mul_eq_four_pow (d : ℕ) : 2 ^ (2 * d) = 4 ^ d := by
 
 theorem coprime_card_normOneScalars_four {n : ℕ} (h : UnitaryFieldData 2 2 K) :
     Nat.Coprime (Nat.card (normOneScalars h (gramSU h (idGram K n)) n)) 2 := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Nat.Coprime.symm ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 fun h2 => ?_)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   obtain ⟨c, hc, -, hzc⟩ := z.2
@@ -69,8 +69,8 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
     (hs2 : ∃ m : ℕ, s ^ 2 ^ m = 1) :
     s ∈ GLALayer (fixSubgroup (primeFormConjHom h (idGram K n) A)) := by
   classical
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
+  have := h.finite
+  have : CharP K 2 := h.charP
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   have hq : 2 ≤ 2 ^ 2 := by norm_num
   set x : LinearMap.GeneralLinearGroup K (Fin n → K) :=
@@ -83,10 +83,10 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
     QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : π.ker = normOneScalars h (gramSU h (idGram K n)) n := QuotientGroup.ker_mk' _
-  haveI : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) :=
+  have : Finite (LinearMap.GeneralLinearGroup K (Fin n → K)) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.finite_gl_of_unitaryFieldData h
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite π.ker := inferInstance
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite π.ker := inferInstance
   have hcop : Nat.Coprime (Nat.card π.ker) 2 := by
     rw [hker]
     exact coprime_card_normOneScalars_four h
@@ -121,8 +121,8 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
   have hdet : ∀ b : primaryFactors (x : Module.End K (Fin n → K)),
       blockDetHom x (b : K[X]) ⟨y, hyU.2⟩ = 1 := by
     intro b
-    haveI : Fact (Irreducible (b : K[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
-    haveI : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
+    have : Fact (Irreducible (b : K[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
+    have : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
     have hchar : ringChar (AdjoinRoot (b : K[X])) = 2 := by
       rw [← Algebra.ringChar_eq K (AdjoinRoot (b : K[X])), hK2]
     refine Inputs256e.eq_one_of_coprime_card (Inputs256e.coprime_card_units Nat.prime_two hchar)
@@ -131,8 +131,8 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
   have hbad : ∀ b : primaryFactors (x : Module.End K (Fin n → K)), ¬ IsGoodBlock h x b →
       blockRestrict x (b : K[X]) ⟨y, hyU.2⟩ = 1 := by
     intro b hb
-    haveI : Fact (Irreducible (b : K[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
-    haveI : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
+    have : Fact (Irreducible (b : K[X])) := ⟨irreducible_of_mem_primaryFactors b.2⟩
+    have : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
     have hchar : ringChar (AdjoinRoot (b : K[X])) = 2 := by
       rw [← Algebra.ringChar_eq K (AdjoinRoot (b : K[X])), hK2]
     have hle : primaryMultiplicity (x : Module.End K (Fin n → K)) (b : K[X]) ≤ 1 := by
@@ -148,7 +148,7 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
       omega
     have hcopgl := Inputs256e.coprime_card_gl_of_finrank_le_one
       (W := primaryComponent (x : Module.End K (Fin n → K)) (b : K[X])) Nat.prime_two hchar hle
-    haveI : Finite (blockGL (x : Module.End K (Fin n → K)) (b : K[X])) :=
+    have : Finite (blockGL (x : Module.End K (Fin n → K)) (b : K[X])) :=
       Nat.finite_of_card_ne_zero (Nat.pos_of_ne_zero (fun h0 => by
         rw [blockGL] at h0
         rw [h0] at hcopgl
@@ -189,7 +189,7 @@ theorem twoElement_mem_glaLayer_primeFormConjHom {n : ℕ} (h : UnitaryFieldData
         CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.toLinSU_injective).trans
         (MulEquiv.subgroupCongr (hFmap a))
     have hQ := (specialBlockFacts_of_good H hq a.1 a.2).quasisimple a.2.1
-    haveI : Group.IsPerfect ↥(specialBlock (idForm h n) x (a.1 : K[X])) := hQ.1
+    have : Group.IsPerfect ↥(specialBlock (idForm h n) x (a.1 : K[X])) := hQ.1
     exact Subgroup.isPerfect_iff.1 (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective)
   have hFfix : ∀ a, F a ≤ fixSubgroup α := fun a g' hg' =>
     (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.mem_fixSubgroup_primeFormConjSU_iff A hx g').mpr
@@ -226,24 +226,24 @@ theorem isGF4Comp_of_isComponentOf_primeFormConjHom {n : ℕ} (h : UnitaryFieldD
       ⟨F, hF, hFt, hcharF, hcardF, h4, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm, hne, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, hcharE, hcardE, hm2, h4, g, hg, hk⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     have hperf : commutator (Matrix.SpecialLinearGroup (Fin 2) F) = ⊤ :=
       (slFactorFacts_holds F 2 le_rfl (fun _ => h4)).perfect
     have hcat := (CFSG.LocalAnalysis.GLTheoremA.KD264Lie.catalogueOver_sl F 2 le_rfl
       (fun _ => h4)).of_surjective hperf g hg hk
     rw [hcharF, hcardF, two_pow_two_mul_eq_four_pow] at hcat
     exact isGF4Comp_of_catalogueOver hT hdd hcat
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hperf : commutator ↥(StatedSU m (2 ^ (2 * dd)) E) = ⊤ :=
       (suFactorFacts_holds E m (2 ^ (2 * dd)) hcardE hm hne).perfect
     have hcat := (CFSG.LocalAnalysis.GLTheoremA.KD264Lie.catalogueOver_su E m (2 ^ (2 * dd)) hcardE hm
       hne).of_surjective hperf g hg hk
     rw [hcharE, two_pow_two_mul_eq_four_pow] at hcat
     exact isGF4Comp_of_catalogueOver hT hdd hcat
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     have hperf : commutator (Matrix.SpecialLinearGroup (Fin m) E) = ⊤ :=
       (slFactorFacts_holds E m hm2 (fun _ => h4)).perfect
     have hcat := (CFSG.LocalAnalysis.GLTheoremA.KD264Lie.catalogueOver_sl E m hm2
@@ -262,7 +262,7 @@ theorem gf4Gen_primeFormP {n : ℕ} (hn : 3 ≤ n) (h : UnitaryFieldData 2 2 K)
     unitary_prime_form_full_semilinear_realization h hC hn hq'
   have hσ : primeFormFieldFactor h hC hn hq' β = 1 := by
     by_contra hσ
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hσp : orderOf (primeFormFieldFactor h hC hn hq' β) = 3 :=
       orderOf_eq_prime (by rw [← map_pow, hβ3, map_one]) hσ
     obtain ⟨h32, -⟩ := CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.unitary_prime_descent_char h hn hq'
@@ -474,7 +474,7 @@ theorem catalogueOver_component_triality_outer {S : Type} [Group S] (q : TauCeti
   classical
   obtain ⟨F, _, _, σ, hF, hσ, -, ⟨eF⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' := eS.trans eF
   have hφ3 : MulAut.congr e' β ^ 3 = 1 := by rw [← map_pow, hβ3, map_one]
   have hφ : MulAut.congr e' β ∉ (MulAut.conj :

@@ -60,18 +60,18 @@ theorem f11 : pglF11K K.toArray K0.toArray (outersL K K0).toArray = true := by
     f11I23, f11I24, f11I25, f11I26, f11I27]
 
 theorem pglFactsP : pglFactsCheck () = true := by
-  have hel := pgl_elems enumK_eq enumK0_eq
-  have hel0 := pgl_elems0 enumK_eq enumK0_eq
+  have hel := pgl_elems enumK_eq
+  have hel0 := pgl_elems0 enumK0_eq
   have hnd : (pglData ()).elems.toList.Nodup := by rw [hel]; exact ix.1
   have e1 : enumOK kPGLGens (pglData ()).elems (pglData ()).par = true := by
-    rw [hel, pgl_par enumK_eq enumK0_eq]
+    rw [hel, pgl_par enumK_eq]
     exact enumOK_of ixK (by rw [lenK]; norm_num) headK enumK.1 enumK.2.1 enumK.2.2
   have e2 : enumOK kPGL0Gens (pglData ()).elems0 (pglData ()).par0 = true := by
-    rw [hel0, pgl_par0 enumK_eq enumK0_eq]
+    rw [hel0, pgl_par0 enumK0_eq]
     exact enumOK_of ixK0 (by rw [lenK0]; norm_num) headK0 enumK0.1 enumK0.2.1 enumK0.2.2
   have hf1 : pglF1Of (pglData ()) = true := by
-    rw [pglF1Of_eq, e1, e2, hel, hel0, pgl_invs enumK_eq enumK0_eq,
-      pgl_invs0 enumK_eq enumK0_eq, f1]
+    rw [pglF1Of_eq, e1, e2, hel, hel0, pgl_invs enumK_eq,
+      pgl_invs0 enumK0_eq, f1]
     rfl
   have hf2 : pglF2Of (pglData ()) = true := f2
   have hf3 : pglF3Of (pglData ()) = true := by
@@ -79,8 +79,8 @@ theorem pglFactsP : pglFactsCheck () = true := by
     rw [hel, hel0, List.size_toArray, List.size_toArray, lenK, lenK0]
     rfl
   have hf4 : pglF4Of (pglData ()) = true := by
-    rw [pglF4Of_eq _ (pgl_invMap enumK_eq enumK0_eq ix.1 · 0), hel, hel0,
-      pgl_invs enumK_eq enumK0_eq, pgl_commWit enumK_eq enumK0_eq]
+    rw [pglF4Of_eq _ (pgl_invMap enumK_eq ix.1 · 0), hel, hel0,
+      pgl_invs enumK_eq, pgl_commWit enumK_eq]
     exact f4
   have hf5 : pglF5Of (pglData ()) = true := by
     rw [pglF5Of_eq]
@@ -89,17 +89,17 @@ theorem pglFactsP : pglFactsCheck () = true := by
   have hf7 : pglF7Of (pglData ()) = true := by rw [pglF7Of_eq, hel, hel0]; exact f7
   have hf8 : pglF8Of (pglData ()) = true := by rw [pglF8Of_eq, hel0]; exact f8
   have hf9 : pglF9Of (pglData ()) = true := by
-    rw [pglF9Of_eq, hel, pgl_w9 enumK_eq enumK0_eq]
+    rw [pglF9Of_eq, hel, pgl_w9 enumK_eq]
     exact f9
   have hf10 : pglF10Of (pglData ()) = true := by
-    rw [pglF10Of_eq _ hnd, hel, pgl_invs enumK_eq enumK0_eq]
+    rw [pglF10Of_eq _ hnd, hel, pgl_invs enumK_eq]
     exact f10
   have hf11 : pglF11Of (pglData ()) = true := by
     rw [pglF11Of_eq _ hnd, hel, hel0, pgl_outers enumK_eq enumK0_eq]
     exact f11
   have hf12 : pglF12Of (pglData ()) = true := by
-    rw [pglF12Of_eq, hel, hel0, pgl_invs enumK_eq enumK0_eq,
-      pgl_involutions enumK_eq enumK0_eq, pgl_outers enumK_eq enumK0_eq,
+    rw [pglF12Of_eq, hel, hel0, pgl_invs enumK_eq,
+      pgl_involutions enumK_eq, pgl_outers enumK_eq enumK0_eq,
       pgl_w12 enumK_eq enumK0_eq]
     exact f12
   have hf13 : pglF13Of (pglData ()) = true := by rw [pglF13Of_eq, hel, hel0]; exact f13

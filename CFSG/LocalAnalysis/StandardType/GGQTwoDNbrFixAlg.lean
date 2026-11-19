@@ -127,7 +127,7 @@ theorem dTau_not_comm_of_share (m : ℕ) (ε ε' : Bool) {x y y' : Fin m} (hxy :
   intro h
   have h1 := congrFun (h (dBasis m x)) y'
   simp only [dTau_coord_of_ne m ε hxy (Ne.symm hxy') (Ne.symm hyy'), dTau_coord_right m ε' hxy',
-    dTau_coord_left m ε hxy, plnf_dBasis_apply, if_pos rfl, if_neg hxy.symm] at h1
+    dTau_coord_left m ε hxy, plnf_dBasis_apply, ite_eq_right hxy.symm] at h1
   cases ε' <;> simp at h1
 
 theorem dTau_comm_iff (m : ℕ) (ε ε' : Bool) {c d c' d' : Fin m} (hcd : c ≠ d)

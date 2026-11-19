@@ -31,23 +31,23 @@ private theorem relExp_perm_eq (a : ℕ) (k : Fin ReeTag.F4.tag.rank) :
   · have hp : ReeTag.F4.perm (0 : Fin ReeTag.F4.tag.rank) = 3 := by decide
     have hr : ReeTag.F4.relationExponent a (3 : Fin ReeTag.F4.tag.rank) = 2 ^ (a + 1) :=
       rfl
-    rw [hp, hr, if_pos h0, pow_succ]
+    rw [hp, hr, ite_eq_left h0, pow_succ]
     push_cast
     ring
   · have hp : ReeTag.F4.perm (1 : Fin ReeTag.F4.tag.rank) = 2 := by decide
     have hr : ReeTag.F4.relationExponent a (2 : Fin ReeTag.F4.tag.rank) = 2 ^ (a + 1) :=
       rfl
-    rw [hp, hr, if_pos h1, pow_succ]
+    rw [hp, hr, ite_eq_left h1, pow_succ]
     push_cast
     ring
   · have hp : ReeTag.F4.perm (2 : Fin ReeTag.F4.tag.rank) = 1 := by decide
     have hr : ReeTag.F4.relationExponent a (1 : Fin ReeTag.F4.tag.rank) = 2 ^ a := rfl
-    rw [hp, hr, if_neg h2]
+    rw [hp, hr, ite_eq_right h2]
     push_cast
     ring
   · have hp : ReeTag.F4.perm (3 : Fin ReeTag.F4.tag.rank) = 0 := by decide
     have hr : ReeTag.F4.relationExponent a (0 : Fin ReeTag.F4.tag.rank) = 2 ^ a := rfl
-    rw [hp, hr, if_neg h3]
+    rw [hp, hr, ite_eq_right h3]
     push_cast
     ring
 

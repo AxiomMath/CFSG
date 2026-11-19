@@ -187,7 +187,7 @@ theorem centralizer_le_of_nonsingular (S : Setting G M J m) (hE : EvenCase J m)
   intro h hh
   obtain ⟨u, hu1, hu, hx⟩ := exists_singular_conj_mem_pCoreOf S hE hb hw hh
   have hx2 : (h * (u : G) * h⁻¹) ^ 2 = 1 := by
-    simpa [S.elemU.2 (u : G) u.2] using conj_pow (i := 2) (a := h) (b := (u : G))
+    simp [S.elemU.2 (u : G) u.2]
   exact mem_of_singular_conj_mem_vOmega S hE hu1 hu
     ((mem_vOmega_iff (S := S) hE.toBlockCase).mpr ⟨hx, hx2⟩)
 
@@ -223,7 +223,7 @@ theorem isTI_vOmega (S : Setting G M J m) (hE : EvenCase J m) :
     have hx1' : (x : G) ≠ 1 := by
       intro h1
       exact hx1 (Subtype.ext h1)
-    haveI : IsMulCommutative ↥(vOmega M) :=
+    have : IsMulCommutative ↥(vOmega M) :=
       (isElemAbelian_vOmega (S := S) hE.toBlockCase).1
     have hcommVg : IsMulCommutative
         ↥(CFSG.CGT.Timmesfeld75.conjSubgroup g (vOmega M)) :=

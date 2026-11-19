@@ -72,7 +72,7 @@ private theorem u42_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H K 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -98,13 +98,13 @@ private theorem u42_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [Group
   have hq : CFSG.Open.IsQuasisimple (PQuot p (⊤ : Subgroup T)) :=
     isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥(⊤ : Subgroup T) ⧸ GLAPPrimeCore p ↥(⊤ : Subgroup T)) := by
-    haveI : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
+    have : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
       hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (PQuot p (⊤ : Subgroup T)))).nontrivial
   have hOb : GLAPPrimeCore p ↥(⊤ : Subgroup T) = ⊥ := by
     let ψ : ↥(⊤ : Subgroup T) ≃* T := Subgroup.topEquiv
-    haveI : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
+    have : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (GLAPPrimeCore.normal p _) ψ.toMonoidHom ψ.surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom) with h | h
@@ -135,18 +135,18 @@ private theorem u42_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [Group
 private theorem u42_kLevel_eq_one {p : ℕ} {S : Type} [Group S] (h : IsChevSimple p S) :
     kLevel p S = 1 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem u42_nonab_of_card_not_prime {T : Type} [Group T] [IsSimpleGroup T]
     (hc : ¬ (Nat.card T).Prime) : ∃ a b : T, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
+  let : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := T)).1 ‹IsSimpleGroup T›)
 
 private theorem u42_false_of_solvable_component {p : ℕ} {S : Type} [Group S] [Finite S]
     {X I : Subgroup S} (hsolv : Group.IsSolvable ↥X) (hI : GLAPComponent p X I) : False := by
-  haveI := hsolv
+  have := hsolv
   have hJX : I ≤ X := hI.1
   have hperf : ⁅I, I⁆ = I := glaPComponent_perfect hI
   have hne : I ≠ ⊥ := glaPComponent_ne_bot' hI
@@ -186,7 +186,7 @@ private theorem u42_card_outer {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) (hq : q.card = 2) :
     Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) = 2 := by
   obtain ⟨hAut, hS⟩ := u42_card hv hq
-  haveI := u42_simple hv hq
+  have := u42_simple hv hq
   have hnc := u42_nonab_of_card_not_prime (T := (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)
     (by rw [hS]; norm_num)
   have hZ := u42_center_eq_bot hnc
@@ -225,7 +225,7 @@ private theorem u42_conj_of_pow {q : TauCeti.PrimePower}
   have hp' : π α ^ 3 = 1 := by
     rw [← map_pow, hα, map_one]
   have hord : orderOf (π α) ∣ 3 := orderOf_dvd_of_pow_eq_one hp'
-  haveI : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) :=
+  have : Finite (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) :=
     Nat.finite_of_card_ne_zero (by rw [u42_card_outer hv hq]; norm_num)
   have hdvd : orderOf (π α) ∣ Nat.card (Outer (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) :=
     orderOf_dvd_natCard _
@@ -250,7 +250,7 @@ private theorem u42_centralizer_solvable {S : Type} [Group S] [Finite S]
   have hord : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   have hnd : ¬ 5 ∣ Nat.card (Subgroup.centralizer ({g} : Set S)) := by
     intro hdvd
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨h, hh⟩ := exists_prime_orderOf_dvd_card' 5 hdvd
     have hcomm : Commute g (h : S) := by
       have hmem : (h : S) ∈ Subgroup.centralizer ({g} : Set S) := h.2
@@ -282,9 +282,9 @@ theorem u42_fixSubgroup_solvable_of_noFifteen
     (α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) (hα : α ^ 3 = 1) (hα1 : α ≠ 1) :
     Group.IsSolvable ↥(fixSubgroup α) := by
   obtain ⟨hAut, hS⟩ := u42_card hv hq
-  haveI := u42_simple hv hq
+  have := u42_simple hv hq
   obtain ⟨g, rfl⟩ := u42_conj_of_pow hv hq α hα
-  haveI := u42_finite hv hq
+  have := u42_finite hv hq
   have hnc := u42_nonab_of_card_not_prime (T := (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)
     (by rw [hS]; norm_num)
   have hZ := u42_center_eq_bot hnc
@@ -316,8 +316,8 @@ theorem u42_downLe_of_noFifteen
   · subst hα1
     rw [u42_fixSubgroup_one] at hI
     obtain ⟨hAut, hS⟩ := u42_card hv hq
-    haveI := u42_simple hv hq
-    haveI := u42_finite hv hq
+    have := u42_simple hv hq
+    have := u42_finite hv hq
     have hnc := u42_nonab_of_card_not_prime (T := (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)
       (by rw [hS]; norm_num)
     obtain ⟨f⟩ := u42_pSimple_top_equiv (by norm_num : Nat.Prime 3) hnc hI
@@ -325,7 +325,7 @@ theorem u42_downLe_of_noFifteen
       Or.inr ⟨TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩, ⟨hq, rfl⟩, ⟨MulEquiv.refl _⟩⟩
     exact (kLevel_congr 3 f).trans_le (u42_kLevel_eq_one hT).le
   · exfalso
-    haveI := u42_finite hv hq
+    have := u42_finite hv hq
     exact u42_false_of_solvable_component
       (u42_fixSubgroup_solvable_of_noFifteen hv hq h15 α hα hα1) hI
 
@@ -336,8 +336,8 @@ open Polynomial
 private theorem u42_exists_cube_root {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ∃ w : K, w ^ 2 + w + 1 = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcard : Nat.card Kˣ = 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [hcard])
@@ -363,7 +363,7 @@ private theorem u42_mem_of_card_four {K : Type} [Field K] [Finite K] (hK : Nat.c
     {w : K} (hw : w ^ 2 + w + 1 = 0) (x : K) :
     x = 0 ∨ x = 1 ∨ x = w ∨ x = w ^ 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hx : x ^ 4 = x := by
     have := FiniteField.pow_card x
     rw [Fintype.card_eq_nat_card, hK] at this
@@ -429,7 +429,7 @@ private theorem u42_id_zero_0 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_zero]
   linear_combination (-1 + X ^ 3 - X ^ 4 - X ^ 5 - X ^ 6 - X ^ 8 - X ^ 9 - X ^ 10 - X ^ 12 - X ^ 13 - X ^ 14 - X ^ 16 - X ^ 17 - X ^ 18) * h2'
 
 private theorem u42_id_zero_1 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) (ha : a = 0) (hb : b = 1) :
@@ -439,7 +439,7 @@ private theorem u42_id_zero_1 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_zero, map_one]
   linear_combination (-1 - X ^ 4 - X ^ 5 - X ^ 6 - X ^ 7 - X ^ 8 - X ^ 9 - X ^ 10 - X ^ 11 - X ^ 12 - X ^ 13 - X ^ 14 - X ^ 15 - X ^ 16 - X ^ 17) * h2'
 
 private theorem u42_id_one_0 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) (ha : a = 1) (hb : b = 0) :
@@ -449,7 +449,7 @@ private theorem u42_id_one_0 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) (
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_zero, map_one]
   linear_combination (-X ^ 4 - X ^ 5 - X ^ 6 - X ^ 7 - X ^ 8 - X ^ 9 - X ^ 10 - X ^ 11 - X ^ 12 - X ^ 13 - X ^ 14 - X ^ 15) * h2'
 
 private theorem u42_id_one_1 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) (ha : a = 1) (hb : b = 1) :
@@ -459,7 +459,7 @@ private theorem u42_id_one_1 {K : Type} [Field K] (a b : K) (h2 : (2 : K) = 0) (
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_one]
   linear_combination (-1 - X - X ^ 2 - X ^ 3 - X ^ 4) * h2'
 
 private theorem u42_id_w_0 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 = 0)
@@ -474,7 +474,7 @@ private theorem u42_id_w_0 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_zero]
   linear_combination (1 - 2 * X + X ^ 2 - C w * X ^ 2 + 2 * X ^ 3 - C w * X ^ 3 + C w * X ^ 4 - C w ^ 2 * X ^ 4 - 4 * X ^ 5 - X ^ 6 - C w * X ^ 6 + 2 * X ^ 7 - 2 * C w * X ^ 7 + C w * X ^ 8 - C w ^ 2 * X ^ 8 - 2 * X ^ 9 + C w * X ^ 9 - C w ^ 2 * X ^ 9 - 4 * X ^ 10 + 2 * X ^ 11 - 2 * C w * X ^ 11 + X ^ 12 - C w * X ^ 12 + C w * X ^ 13 - C w ^ 2 * X ^ 13 - 4 * X ^ 14 - X ^ 15 - C w * X ^ 15 + X ^ 16 - C w * X ^ 16 + C w * X ^ 17 - C w ^ 2 * X ^ 17 - 2 * X ^ 18) * hw' + (-1 - C w + X + C w * X - X ^ 2 - X ^ 3 - C w * X ^ 3 - 2 * C w * X ^ 4 + 2 * X ^ 5 + 2 * C w * X ^ 5 + C w * X ^ 6 - 2 * X ^ 7 - 2 * C w * X ^ 8 + X ^ 9 + 2 * X ^ 10 + 2 * C w * X ^ 10 - 2 * X ^ 11 - X ^ 12 - C w * X ^ 12 - 2 * C w * X ^ 13 + 2 * X ^ 14 + 2 * C w * X ^ 14 + C w * X ^ 15 - X ^ 16 - C w * X ^ 17 + X ^ 18 + C w * X ^ 18) * h2'
 
 private theorem u42_id_w_1 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 = 0)
@@ -489,7 +489,7 @@ private theorem u42_id_w_1 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_one]
   linear_combination (-1 + X - C w * X - X ^ 2 + C w * X ^ 3 - C w ^ 2 * X ^ 3 - 4 * X ^ 4 + X ^ 5 - C w * X ^ 5 - X ^ 6 - C w * X ^ 6 + C w * X ^ 7 - C w ^ 2 * X ^ 7 - X ^ 8 - C w * X ^ 8 - C w * X ^ 9 - X ^ 10 - X ^ 11 + C w * X ^ 11 - C w ^ 2 * X ^ 11 - 2 * X ^ 12 + 2 * X ^ 13 - 2 * C w * X ^ 13 - 2 * X ^ 14 + C w * X ^ 15 - C w ^ 2 * X ^ 15 - 2 * X ^ 16) * hw' + (C w - X + X ^ 2 - C w * X ^ 3 + 2 * X ^ 4 + 2 * C w * X ^ 4 - X ^ 5 - C w * X ^ 5 + C w * X ^ 6 - 2 * C w * X ^ 7 + C w * X ^ 8 + X ^ 12 - 2 * X ^ 13 + X ^ 14 - X ^ 15 - C w * X ^ 15 + X ^ 16 + C w * X ^ 16 - X ^ 17) * h2'
 
 private theorem u42_id_wsq_0 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 = 0)
@@ -504,7 +504,7 @@ private theorem u42_id_wsq_0 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_pow, map_zero]
   linear_combination (-1 + C w * X - C w ^ 2 * X + X ^ 2 - C w * X ^ 2 - C w * X ^ 3 + C w ^ 3 * X ^ 3 - C w ^ 4 * X ^ 3 - 4 * X ^ 4 + C w ^ 2 * X ^ 4 - C w ^ 3 * X ^ 4 + 2 * C w * X ^ 5 - 2 * C w ^ 2 * X ^ 5 + X ^ 6 - C w ^ 2 * X ^ 6 + 2 * X ^ 7 - 2 * C w * X ^ 7 + C w ^ 3 * X ^ 7 - C w ^ 4 * X ^ 7 - 4 * X ^ 8 + C w ^ 2 * X ^ 8 - C w ^ 3 * X ^ 8 - 2 * X ^ 9 + C w * X ^ 9 - C w ^ 3 * X ^ 9 + 2 * C w * X ^ 10 - 2 * C w ^ 2 * X ^ 10 + 2 * X ^ 11 - 2 * C w * X ^ 11 + C w ^ 3 * X ^ 11 - C w ^ 4 * X ^ 11 - X ^ 12 - C w * X ^ 12 + C w ^ 3 * X ^ 12 - C w ^ 4 * X ^ 12 - 4 * X ^ 13 + C w ^ 2 * X ^ 13 - C w ^ 3 * X ^ 13 + 2 * C w * X ^ 14 - 2 * C w ^ 2 * X ^ 14 + X ^ 15 - C w ^ 2 * X ^ 15 + X ^ 16 - C w * X ^ 16 + C w ^ 3 * X ^ 16 - C w ^ 4 * X ^ 16 - 2 * X ^ 17 + C w ^ 2 * X ^ 17 - C w ^ 3 * X ^ 17) * hw' + (C w - C w * X - X ^ 2 + C w * X ^ 3 + 2 * X ^ 4 + 2 * C w * X ^ 4 - 2 * C w * X ^ 5 - X ^ 6 - C w * X ^ 6 - 2 * X ^ 7 + 2 * X ^ 8 + 2 * C w * X ^ 8 + X ^ 9 - 2 * C w * X ^ 10 - 2 * X ^ 11 + C w * X ^ 12 + 2 * X ^ 13 + 2 * C w * X ^ 13 - 2 * C w * X ^ 14 - X ^ 15 - C w * X ^ 15 - X ^ 16 + X ^ 17 + C w * X ^ 17 - C w * X ^ 18) * h2'
 
 private theorem u42_id_wsq_1 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 1 = 0)
@@ -519,7 +519,7 @@ private theorem u42_id_wsq_1 {K : Type} [Field K] (w a b : K) (hw : w ^ 2 + w + 
     have h := congrArg C h2
     rw [map_ofNat, map_zero] at h
     exact h
-  simp only [map_pow, map_zero, map_one]
+  simp only [map_pow, map_one]
   linear_combination (1 + X - C w * X - X ^ 2 - 2 * X ^ 3 + C w ^ 2 * X ^ 3 - C w ^ 3 * X ^ 3 + 2 * C w * X ^ 4 - 2 * C w ^ 2 * X ^ 4 - X ^ 5 - C w * X ^ 5 + X ^ 6 - C w ^ 2 * X ^ 6 + C w ^ 3 * X ^ 6 - C w ^ 4 * X ^ 6 - 4 * X ^ 7 + C w ^ 2 * X ^ 7 - C w ^ 3 * X ^ 7 + X ^ 8 - C w * X ^ 8 + C w ^ 3 * X ^ 8 - C w ^ 4 * X ^ 8 - C w ^ 2 * X ^ 9 - X ^ 10 - X ^ 11 + C w * X ^ 11 - C w ^ 3 * X ^ 11 - 2 * X ^ 12 + 2 * X ^ 13 - 2 * C w * X ^ 13 + C w ^ 3 * X ^ 13 - C w ^ 4 * X ^ 13 - 2 * X ^ 14 + C w * X ^ 14 - C w ^ 2 * X ^ 14 - 2 * X ^ 15 + C w ^ 2 * X ^ 15 - C w ^ 3 * X ^ 15 + C w * X ^ 16 - C w ^ 2 * X ^ 16) * hw' + (-1 - C w - X + X ^ 2 + X ^ 3 + C w * X ^ 3 - 2 * C w * X ^ 4 + C w * X ^ 5 - X ^ 6 - C w * X ^ 6 + 2 * X ^ 7 + 2 * C w * X ^ 7 - X ^ 8 - C w * X ^ 8 + X ^ 12 - 2 * X ^ 13 + X ^ 14 + C w * X ^ 15 - C w * X ^ 16 - X ^ 17) * h2'
 
 end Identities
@@ -583,7 +583,7 @@ private theorem u42_mem_SU_matrix {K : Type} [Field K] [Finite K] [CharP K 2] (h
     (g : Matrix (Fin 4) (Fin 4) K).det = 1 ∧
       ((g : Matrix (Fin 4) (Fin 4) K).map (CFSG.LieType.BorelTits.unitaryInvolution K 2 1)).transpose *
         (g : Matrix (Fin 4) (Fin 4) K) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   rw [← CFSG.LieType.Universal.Unitary.SUid_eq_statedSU hF 4] at hg
   exact CFSG.LieType.Universal.Unitary.mem_SUid.1 hg
@@ -620,7 +620,7 @@ private theorem u42_proj_fifteen {K : Type} [Field K] [Finite K] [CharP K 2] (hK
   rw [← hc] at hdet hun
   have hc3 : (c : K) ^ 3 = 1 := by
     have h00 := congrFun (congrFun hun 0) 0
-    simp [Matrix.mul_apply, Matrix.transpose_apply, Matrix.diagonal_apply, frobenius_def] at h00
+    simp [Matrix.mul_apply, Matrix.diagonal_apply, frobenius_def] at h00
     linear_combination h00
   have hc4 : (c : K) ^ 4 = 1 := by
     simpa [Matrix.det_diagonal, Finset.prod_const, Finset.card_univ, Fintype.card_fin] using hdet
@@ -660,7 +660,7 @@ theorem u42_noFifteen {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.twist
   have h15 : x ^ 15 = 1 := by
     rw [← hx]
     exact pow_orderOf_eq_one x
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA 3 q, hv⟩).Prime :=
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA 3 q, hv⟩).Prime :=
     ⟨TauCeti.ValidLieTypeIndex.characteristic_prime _⟩
   have hchar : TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA 3 q, hv⟩ = q.p :=
     TauCeti.LieTypeIndex.characteristic_twistedA 3 q
@@ -693,7 +693,7 @@ theorem u42_noFifteen {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.twist
 theorem u42_fixSubgroup_solvable (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) (hq : q.card = 2)
     (α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group) (hα : α ^ 3 = 1) (hα1 : α ≠ 1) :
-    IsSolvable ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) :=
+    Group.IsSolvable ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) :=
   u42_fixSubgroup_solvable_of_noFifteen hv hq (u42_noFifteen hv hq) α hα hα1
 
 theorem u42_downLe (q : TauCeti.PrimePower)

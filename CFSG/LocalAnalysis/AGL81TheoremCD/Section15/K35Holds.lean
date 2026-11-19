@@ -36,8 +36,8 @@ end K35
 
 theorem kFactThreeFiveInner_holds : KFactThreeFiveInner := by
   intro X _ _ hcat K E _ hKq _ hE hE9 h23 hΓ _
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hKq.2.1
+  have : Group.IsPerfect K := hKq.1
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hKq.2.1
   exact K35.exists_inner_of_k35Good K E hE hE9 h23 hΓ (K35.k35Good_of_isCatalogGroup hKq.2.2
     (hcat K (Subgroup.center K) inferInstance hKq.2.1 hKq.2.2))
 

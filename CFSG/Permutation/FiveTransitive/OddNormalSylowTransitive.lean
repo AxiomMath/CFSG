@@ -21,7 +21,7 @@ private theorem orbit_meets_fixed_points
     exact (IsBlock.orbit_of_normal (N := N) x).ncard_dvd_card ⟨x, mem_orbit_self x⟩
   have ho : ¬ 2 ∣ Nat.card (orbit N x) := (hodd.of_dvd_nat hd).not_two_dvd_nat
   let O := SylowThreeFixedOrbits.orbitAction (S : Subgroup N) x
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints O
+  have hm := S.isPGroup.card_modEq_card_fixedPoints O
   have hnonzero : Nat.card (fixedPoints S O) ≠ 0 := by
     intro he
     change Nat.card (orbit N x) % 2 = Nat.card (fixedPoints S O) % 2 at hm

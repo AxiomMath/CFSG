@@ -64,7 +64,7 @@ theorem exists_isSylowOf_C {σ : Setting G} (hσ : σ.IsValid) (hCs : CStructure
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
   have : Fact σ.p.Prime := ⟨hp⟩
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hDC : σ.D ≤ Subgroup.normalizer (σ.C : Set G) :=
     inf_le_right.trans (normalizer_le_normalizer_centralizer_self σ.T)
   have hDO : σ.D ≤ Subgroup.normalizer (oddCoreIn σ.C : Set G) :=
@@ -152,7 +152,7 @@ private theorem mem_maximals_of_card_max (hσ : σ.IsValid) (h41 : σ.PropV41 J)
     U ∈ maximals (signalizersPerm ⊤ σ.D W σ.p) := by
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   refine ⟨hU, fun U' hU' hUU' => ?_⟩
   by_contra hne
   have hlt : U < U' := lt_of_le_of_ne hUU' (Ne.symm hne)
@@ -195,7 +195,7 @@ theorem propV61 {G : Type} [Group G] [Finite G] {σ : Setting G} (hσ : σ.IsVal
   have hp := hσ.p_prime
   have hp2 := hσ.p_ne_two
   have : Fact σ.p.Prime := ⟨hp⟩
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   have hT2 : IsPGroup 2 σ.T := hD2.to_le (σ.T_le_D hσ)
   have hJ41 := h41 J hJ
   have hJ31 := hV31 J hJ

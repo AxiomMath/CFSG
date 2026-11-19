@@ -122,8 +122,8 @@ theorem exists_he_normal_fi24 (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
   have hwQ : X7 * Y7 ^ lam ∈ Q7 := Q7.mul_mem X7_mem (Q7.pow_mem Y7_mem lam)
   have hF1 : ∀ N : Subgroup J, ¬ 7 ∣ Nat.card N → H ≤ normalizer (N : Set J) → N = ⊥ :=
     fun N hN hHN => eq_bot_of_le_normalizer sevenLine_c hQH hwQ hwc hhH hhw hN hHN
-  have hNs : IsSolvable (normalizer (Q7 : Set J)) := by
-    have hsol : IsSolvable ↥(normalizer ((zpowers C7 : Subgroup J) : Set J)) :=
+  have hNs : Group.IsSolvable (normalizer (Q7 : Set J)) := by
+    have hsol : Group.IsSolvable ↥(normalizer ((zpowers C7 : Subgroup J) : Set J)) :=
       isSolvable_normalizer_zpowers (G := J) sevenLine_c card_centralizer_C7
     exact @Group.isSolvable_of_isSolvable_injective _ _ _ _
       (inclusion (normalizer_le_normalizer_zpowers sevenLine_c)) (inclusion_injective _) hsol
@@ -272,7 +272,7 @@ theorem conclusion_of_fi24Prime (hb : LieOrderBridge) (hOrd : SporadicOrdersTabl
     Subgroup.card_map_of_injective hφinj
   have hNQ : Subgroup.normalizer (Q7 : Set ↥J) ≤ W := by
     rw [← hSφ, ← Subgroup.map_normalizer_eq_of_bijective _ ⟨hφinj, hφsurj⟩]
-    exact Subgroup.map_mono (hEN S S.isPGroup' hES)
+    exact Subgroup.map_mono (hEN S S.isPGroup hES)
   have hEtC : ∀ t ∈ Et, t ≠ 1 → Subgroup.centralizer ({t} : Set ↥J) ≤ W := by
     rintro _ ⟨v, hv, rfl⟩ ht x hx
     have hv1 : v ≠ 1 := fun h1 => ht (by rw [h1, map_one])

@@ -101,7 +101,7 @@ theorem ggSixRootCommKnown_marking
     obtain ⟨-, lab, hlab, hraw⟩ := hmk
     obtain ⟨R, _, I, F, hprop⟩ := largeEvenRawDatum_exists hraw
     obtain ⟨hs, hna, θ, hP⟩ := hprop
-    haveI : IsSimpleGroup R := hs
+    have : IsSimpleGroup R := hs
     exact θ.isSimpleGroup
   have hQna : ∃ a b : ↥G₀ ⧸ Subgroup.center ↥G₀, a * b ≠ b * a := by
     obtain ⟨-, lab, hlab, hraw⟩ := hmk

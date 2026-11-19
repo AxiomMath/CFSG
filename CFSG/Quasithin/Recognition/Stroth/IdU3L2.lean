@@ -16,8 +16,8 @@ theorem idU3L2_of_moufang (hM : Str86Moufang) (hO : Str86Orders)
     (hW : Weiss80UnitaryQuadrangle) : IdU3L2 := by
   intro G _ _ L1 L2 S hF hU3 hBig hL2
   obtain ⟨k, hk, F, hField, hFin, hFc, hSU3⟩ := hU3
-  letI : Field F := hField
-  haveI : Finite F := hFin
+  let : Field F := hField
+  have : Finite F := hFin
   obtain ⟨hm, -, -, hS⟩ := hO G L1 L2 S k F hF hk hFc hSU3 hBig hL2
   have hWM := hM G L1 L2 S hF ⟨k, hk, F, hField, hFin, hFc, hSU3⟩ hBig hL2
   have hN1 : HasNormalCopy (Subconst (L1 ⊔ bigB L1 L2 S) (L2 ⊔ bigB L1 L2 S))
@@ -39,7 +39,7 @@ theorem idU3L2_of_moufang (hM : Str86Moufang) (hO : Str86Orders)
       ⟨2 * k, by omega, by
         rw [f112_parabolic_inf_eq_bigB hF.toW]
         exact f112_relIndex_right_l2 hF.toW (by omega) hm⟩
-  letI : Group D := hDgrp
+  let : Group D := hDgrp
   have hA : IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsLieOverTwo .PSU 5 k) :=
     isAmalgamOfGroup_psu5_of_ext hF hk hFc hSU3 hm hS hD hE
   have hk2 : k = 2 := eq_two_of_isAmalgamOfGroup_psu5 hF (by omega) hA

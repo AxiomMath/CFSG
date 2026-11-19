@@ -117,7 +117,7 @@ theorem sec10_B_normal {t z : G} {L S : Subgroup G} (hBD : Sec10BData t L S)
       obtain ⟨x, hx, x', hx', rfl⟩ := hy
       exact Subgroup.subset_closure
         ⟨m * x * m⁻¹, hTM m hm x hx, m * x' * m⁻¹, hTM m hm x' hx', by group⟩
-  | one => simpa using N.one_mem
+  | one => simp
   | mul y y' _ _ ihy ihy' =>
       have : m * (y * y') * m⁻¹ = (m * y * m⁻¹) * (m * y' * m⁻¹) := by group
       rw [this]

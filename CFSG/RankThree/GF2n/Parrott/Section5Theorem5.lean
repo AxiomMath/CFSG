@@ -15,20 +15,24 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem mul_self_eq_one_of_parrottHyp (h : Tim79a.ParrottHyp z) : z * z = 1 := by
   have hz := pow_orderOf_eq_one z
   rwa [h.1, pow_two] at hz
 
+omit [Finite G] in
 private theorem ne_one_of_parrottHyp (h : Tim79a.ParrottHyp z) : z ≠ 1 := by
   intro hz
   have hordz : orderOf z = 2 := h.1
   rw [hz, orderOf_one] at hordz
   exact absurd hordz (by norm_num)
 
+omit [Finite G] in
 private theorem mul_comm_of_mem_centerIn_J (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) : z * z₁ = z₁ * z :=
   (Subgroup.mem_centralizer_iff.mp (z_centralizes_H h) z₁ (J_le_H hz₁.1)).symm
 
+omit [Finite G] in
 private theorem orbit23_facts {W : Subgroup G} {O : Fin 7 → Finset G}
     (hW2 : ∀ a ∈ W, a * a = 1)
     (hOW : ∀ i, ∀ a ∈ O i, a ∈ W ∧ a ≠ 1)
@@ -46,11 +50,11 @@ private theorem orbit23_facts {W : Subgroup G} {O : Fin 7 → Finset G}
     · exact fun h => Finset.disjoint_left.mp (hdisj 3 1 (by decide)) h3 h
   rcases haO with h2 | h3
   · refine ⟨(hOW 2 a h2).1, (hOW 2 a h2).2, hJ 2 (by norm_num) a h2, ?_, hnot0, hnot1⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2)
       (by simpa [pow_two] using hW2 a (hOW 2 a h2).1) (hOW 2 a h2).2
   · refine ⟨(hOW 3 a h3).1, (hOW 3 a h3).2, hJ 3 (by norm_num) a h3, ?_, hnot0, hnot1⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2)
       (by simpa [pow_two] using hW2 a (hOW 3 a h3).1) (hOW 3 a h3).2
 
@@ -116,6 +120,7 @@ private theorem mul_z_mem_J_not_centerIn [DecidableEq G] (h : Tim79a.ParrottHyp 
       rw [haz]
       simp
 
+omit [Finite G] in
 private theorem conj_z_data_of_mem_normalizer (h : Tim79a.ParrottHyp z) {z₁ σ g : G}
     {W T₂ : Subgroup G} (hz₁ : z₁ ∈ centerIn (J z))
     (hT₂ : IsSylowOf 2 T₂ (H z ⊓ centralizer ({σ} : Set G))) (hWT : W ≤ T₂)
@@ -150,6 +155,7 @@ private theorem conj_z_data_of_mem_normalizer (h : Tim79a.ParrottHyp z) {z₁ σ
       _ = z * g := by rw [heq]
   exact ⟨hgC, hgz, hgz'⟩
 
+omit [Finite G] in
 private theorem conj_mem_centralizer_z1_of_conj {z₁ b n y : G}
     (hn : n * z₁ * n⁻¹ = b) (hy : y ∈ centralizer ({b} : Set G)) :
     n⁻¹ * y * (n⁻¹)⁻¹ ∈ centralizer ({z₁} : Set G) := by
@@ -162,6 +168,7 @@ private theorem conj_mem_centralizer_z1_of_conj {z₁ b n y : G}
     _ = n⁻¹ * (b * y) * n := by rw [hbC]
     _ = z₁ * (n⁻¹ * y * n) := by rw [hz₁b]; group
 
+omit [Finite G] in
 private theorem isConj_of_mem_O4 {σ : G} {W : Subgroup G} {O : Fin 7 → Finset G}
     (hc1 : ∀ a ∈ O 4, ∃ n ∈ normalizer (W : Set G) ⊓ centralizer ({σ} : Set G),
       n * z * n⁻¹ = a)

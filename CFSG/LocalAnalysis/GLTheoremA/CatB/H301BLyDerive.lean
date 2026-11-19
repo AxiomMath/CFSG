@@ -15,6 +15,7 @@ namespace Triple
 
 def U (t : Triple E) : Set X := orbit E (t.x 0) ∪ orbit E (t.x 1) ∪ orbit E (t.x 2)
 
+omit [Fintype X] [DecidableEq X] in
 theorem mem_U (t : Triple E) {z : X} : z ∈ t.U ↔ ∃ i, z ∈ orbit E (t.x i) := by
   constructor
   · intro hz
@@ -28,6 +29,7 @@ theorem mem_U (t : Triple E) {z : X} : z ∈ t.U ↔ ∃ i, z ∈ orbit E (t.x i
     · exact Or.inl (Or.inr hi)
     · exact Or.inr hi
 
+omit [Fintype X] [DecidableEq X] in
 theorem disjoint (t : Triple E) {i j : Fin 3} (hij : i ≠ j) :
     Disjoint (orbit E (t.x i) : Set X) (orbit E (t.x j)) :=
   disjoint_orbit_of_notMem (t.sep i j hij)

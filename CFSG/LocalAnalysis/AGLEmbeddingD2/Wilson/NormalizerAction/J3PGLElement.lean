@@ -77,16 +77,19 @@ namespace J3Pkg
 variable {X : Type*} [Group X] [Finite X] {k : Fin 6 → X} (h : J3Pkg k)
 include h
 
+omit [Finite X] in
 theorem phi_nsmul (n : ℕ) (w : Fin 4 → ZMod 3) : h.phi (n • w) = (h.phi w) ^ n := by
   induction n with
   | zero => simpa using h.phi_zero
   | succ n ihn => rw [succ_nsmul, h.phi_add, ihn, pow_succ]
 
+omit [Finite X] in
 theorem phi_zsmul (s : ZMod 3) (w : Fin 4 → ZMod 3) : h.phi (s • w) = (h.phi w) ^ s.val := by
   have : s • w = s.val • w := by
     rw [← Nat.cast_smul_eq_nsmul (ZMod 3), ZMod.natCast_zmod_val]
   rw [this, h.phi_nsmul]
 
+omit [Finite X] in
 theorem conj_pow_phi {y : X} {M : Matrix (Fin 4) (Fin 4) (ZMod 3)}
     (hy : ∀ w, y * h.phi w * y⁻¹ = h.phi (M *ᵥ w)) (n : ℕ) (w : Fin 4 → ZMod 3) :
     y ^ n * h.phi w * (y ^ n)⁻¹ = h.phi ((M ^ n) *ᵥ w) := by

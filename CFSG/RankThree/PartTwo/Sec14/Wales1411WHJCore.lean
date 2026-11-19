@@ -73,28 +73,28 @@ structure HJCoreSetting {M : Type} [Group M] (Ybar Abar Xbar Rbar : Subgroup M) 
         ∃ n ∈ Ybar ⊓ Subgroup.normalizer (Abar : Set M), T = S.map (MulAut.conj n).toMonoidHom
 
 @[expose] def KS1411HJCoreON : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar =>
+  KS1411HJCoreFor fun {_M} _ Xbar =>
     Sec4.IsTripleCover ↥Xbar CFSG.Blueprint.NativeSporadic.ON
 
 @[expose] def KS1411HJCoreA6A6 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar => IsCentralProductA6Covers ↥Xbar
+  KS1411HJCoreFor fun {_M} _ Xbar => IsCentralProductA6Covers ↥Xbar
 
 @[expose] def KS1411HJCoreA6A5 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar => IsA6CoverTimesA5 ↥Xbar
+  KS1411HJCoreFor fun {_M} _ Xbar => IsA6CoverTimesA5 ↥Xbar
 
 @[expose] def KS1411HJCoreA5A5 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar =>
+  KS1411HJCoreFor fun {_M} _ Xbar =>
     Nonempty (↥Xbar ≃* alternatingGroup (Fin 5) × alternatingGroup (Fin 5))
 
 @[expose] def KS1411HJCoreA7 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar => Nonempty (↥Xbar ≃* alternatingGroup (Fin 7))
+  KS1411HJCoreFor fun {_M} _ Xbar => Nonempty (↥Xbar ≃* alternatingGroup (Fin 7))
 
 @[expose] def KS1411HJCoreL37 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar => ∃ _ : Fact (Nat.Prime 7),
+  KS1411HJCoreFor fun {_M} _ Xbar => ∃ _ : Fact (Nat.Prime 7),
     Nonempty (↥Xbar ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1))
 
 @[expose] def KS1411HJCoreA5J2 : Prop :=
-  KS1411HJCoreFor fun {M} _ Xbar =>
+  KS1411HJCoreFor fun {_M} _ Xbar =>
     Nonempty (↥Xbar ≃* alternatingGroup (Fin 5) × CFSG.Blueprint.NativeSporadic.J2)
 
 theorem ks1411HJCore_of_types (hON : KS1411HJCoreON) (h66 : KS1411HJCoreA6A6)
@@ -114,6 +114,7 @@ namespace Wales1411W
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_zpowers_le {Y O : Subgroup G} {e : G}
     (heO : e ∈ Subgroup.normalizer (O : Set G)) (h : ∀ y ∈ Y, ⁅y, e⁆ ∈ O) :
     ⁅Y, Subgroup.zpowers e⁆ ≤ O := by
@@ -141,6 +142,7 @@ theorem commutator_zpowers_le {Y O : Subgroup G} {e : G}
   intro y hy z hz
   exact (hZ hz).2 y hy
 
+omit [Finite G] in
 theorem commutator_zpowers_le_of_eq_sup {Y D : Subgroup G} {e : G}
     (hdec : Y = pPrimeCoreOf 3 Y ⊔ D)
     (heO : e ∈ Subgroup.normalizer (pPrimeCoreOf 3 Y : Set G))
@@ -161,15 +163,18 @@ section Frame
 
 variable {A Y : Subgroup G} [(ker148 A Y).Normal]
 
+omit [Finite G] in
 theorem img148_sup_eq_top : img148 A Y Y ⊔ img148 A Y A = ⊤ := by
   rw [← YFrame.img_sup le_sup_left le_sup_right]
   rw [img148, Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map, QuotientGroup.range_mk']
 
+omit [Finite G] in
 theorem exists_of_mem_img {X : Subgroup G} {x : ↥(Y ⊔ A) ⧸ ker148 A Y} (hx : x ∈ img148 A Y X) :
     ∃ (g : G) (hg : g ∈ Y ⊔ A), g ∈ X ∧ QuotientGroup.mk' (ker148 A Y) ⟨g, hg⟩ = x := by
   obtain ⟨k, hk, rfl⟩ := hx
   exact ⟨k, k.2, Subgroup.mem_subgroupOf.mp hk, rfl⟩
 
+omit [Finite G] in
 theorem mem_pCore_of_mk_eq {g h : G} (hg : g ∈ Y ⊔ A) (hh : h ∈ Y ⊔ A)
     (he : QuotientGroup.mk' (ker148 A Y) ⟨g, hg⟩ = QuotientGroup.mk' (ker148 A Y) ⟨h, hh⟩) :
     g⁻¹ * h ∈ pPrimeCoreOf 3 Y := by
@@ -177,13 +182,15 @@ theorem mem_pCore_of_mk_eq {g h : G} (hg : g ∈ Y ⊔ A) (hh : h ∈ Y ⊔ A)
   have h2 := Subgroup.mem_subgroupOf.mp h1
   simpa using h2
 
+omit [Finite G] in
 theorem not_three_dvd_card_img148 {X : Subgroup G} (hXK : X ≤ Y ⊔ A) (hX : ¬ 3 ∣ Nat.card X) :
     ¬ 3 ∣ Nat.card (img148 A Y X) := fun h3 => by
   apply hX
   refine h3.trans ((Subgroup.card_map_dvd _ _).trans ?_)
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXK).toEquiv]
 
-theorem img_le_centralizer_img {U V : Subgroup G} (hU : U ≤ Y ⊔ A) (hV : V ≤ Y ⊔ A)
+omit [Finite G] in
+theorem img_le_centralizer_img {U V : Subgroup G} (_hU : U ≤ Y ⊔ A) (_hV : V ≤ Y ⊔ A)
     (hUV : U ≤ Subgroup.centralizer (V : Set G)) :
     img148 A Y U ≤ Subgroup.centralizer (img148 A Y V : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) := by
   rintro _ ⟨u, hu, rfl⟩
@@ -223,6 +230,7 @@ theorem card_img148_A (hA3 : IsPGroup 3 A) : Nat.card (img148 A Y A) = Nat.card 
       exact ⟨Subgroup.inclusion le_sup_right a, Subgroup.mem_subgroupOf.mpr a.2, rfl⟩
   rw [h1, MonoidHom.range_eq_map, Subgroup.card_map_of_injective hinj, Subgroup.card_top]
 
+omit [Finite G] in
 theorem isElemAbelian_img148 (hA : CFSG.Assembly.IsElemAbelian 3 A) :
     CFSG.Assembly.IsElemAbelian 3 (img148 A Y A) := by
   refine ⟨⟨⟨fun u v => ?_⟩⟩, fun x hx => ?_⟩
@@ -240,7 +248,7 @@ theorem isElemAbelian_img148 (hA : CFSG.Assembly.IsElemAbelian 3 A) :
     have : (⟨g, hg⟩ : ↥(Y ⊔ A)) ^ 3 = 1 := Subtype.ext (by simpa using hA.2 g hgA)
     rw [this, map_one]
 
-theorem eq_bot_of_le_img148 (hAY : A ≤ Subgroup.normalizer (Y : Set G))
+theorem eq_bot_of_le_img148 (_hAY : A ≤ Subgroup.normalizer (Y : Set G))
     {U : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)} (hUY : U ≤ img148 A Y Y)
     (hYU : img148 A Y Y ≤ Subgroup.normalizer (U : Set (↥(Y ⊔ A) ⧸ ker148 A Y)))
     (hU3 : ¬ 3 ∣ Nat.card U) : U = ⊥ := by
@@ -359,6 +367,7 @@ theorem mem_img_A_of_three (hAmax : A ∈ partTwoF G) (hAY : A ≤ Subgroup.norm
   rw [← hm'x]
   exact ⟨⟨m', hm'K⟩, Subgroup.mem_subgroupOf.mpr hm'A, rfl⟩
 
+omit [Finite G] in
 theorem commutator_mem_pCore_of_commute {y e : G} (hy : y ∈ Y ⊔ A) (he : e ∈ Y ⊔ A)
     (hc : QuotientGroup.mk' (ker148 A Y) ⟨y, hy⟩ * QuotientGroup.mk' (ker148 A Y) ⟨e, he⟩ =
       QuotientGroup.mk' (ker148 A Y) ⟨e, he⟩ * QuotientGroup.mk' (ker148 A Y) ⟨y, hy⟩) :
@@ -371,6 +380,7 @@ theorem commutator_mem_pCore_of_commute {y e : G} (hy : y ∈ Y ⊔ A) (he : e �
   have h := Subgroup.mem_subgroupOf.mp hmem
   simpa [commutatorElement_def] using h
 
+omit [Finite G] in
 theorem coset_zpowers {T : Subgroup G} {n e : G} (heT : e ∈ Subgroup.normalizer (T : Set G))
     (hn : n⁻¹ * (e * n * e⁻¹) ∈ T) : ∀ b ∈ Subgroup.zpowers e, n⁻¹ * (b * n * b⁻¹) ∈ T := by
   let H : Subgroup G :=
@@ -393,7 +403,7 @@ theorem coset_zpowers {T : Subgroup G} {n e : G} (heT : e ∈ Subgroup.normalize
   exact fun b hb => (hZ hb).2
 
 theorem img_inf_centralizer_eq_bot (hAY : A ≤ Subgroup.normalizer (Y : Set G)) {S D : Subgroup G}
-    (hSY : S ≤ Y) (hAS : A ≤ Subgroup.normalizer (S : Set G)) {e : G} (heA : e ∈ A)
+    (_hSY : S ≤ Y) (hAS : A ≤ Subgroup.normalizer (S : Set G)) {e : G} (heA : e ∈ A)
     (he3 : IsPGroup 3 (Subgroup.zpowers e))
     (hSD : S ⊓ Subgroup.centralizer ({e} : Set G) ≤ D) (hDK : D ≤ Y ⊔ A)
     (hDbot : img148 A Y D = ⊥) :
@@ -496,7 +506,7 @@ theorem claim1411HJConfCoreR_of_kfact
       ¬ 3 ∣ Nat.card Z → Z ∈ scriptQ A (lB A) :=
     fun Z hZY hAZ hZ3 => mem_scriptQ_of_le_delta h143a hYK hZY hAZ hZ3
   have hHJ : AllPointsHJ A := allPointsHJ_of_hjConf h134 h48 hR.toSec14Std h143a hΔ
-  letI : (ker148 A Y).Normal := ker148_normal hY.2
+  let : (ker148 A Y).Normal := ker148_normal hY.2
   have hSα := YFrame.maximal_img hA3 hY.2 hQY hS
   have hTα := YFrame.maximal_img hA3 hY.2 hQY hT
   have hYimg : img148 A Y Y = img148 A Y S ⊔ img148 A Y T :=

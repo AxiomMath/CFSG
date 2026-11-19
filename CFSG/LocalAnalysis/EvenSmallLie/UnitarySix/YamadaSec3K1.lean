@@ -23,7 +23,7 @@ theorem isPGroup_lowerU4 : IsPGroup 2 lowerU4 := by
   have hg : c (g : SL(4, F4)) ∈ (P : Subgroup SL(4, F4)) := by
     rw [hP]
     exact g.2
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨_, hg⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨_, hg⟩
   refine ⟨k, Subtype.ext ?_⟩
   have h1 := congrArg Subtype.val hk
   simp only [SubgroupClass.coe_pow, OneMemClass.coe_one] at h1

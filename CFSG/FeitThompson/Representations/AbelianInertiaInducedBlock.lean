@@ -156,7 +156,7 @@ theorem inductionTransitivity_indClassFun_eq (K : Subgroup L) (θ : K → ℂ) :
   rw [InductionTransitivity.indClassFun_apply, indClassFun_eq_sum_extendByZero]
   refine congrArg _ (Finset.sum_congr rfl fun x _ => ?_)
   by_cases hx : x⁻¹ * y * x ∈ K
-  · rw [InductionTransitivity.extendByZero_of_mem _ _ hx, extendByZero_apply_dite, dif_pos hx]
+  · rw [InductionTransitivity.extendByZero_of_mem _ _ hx, extendByZero_apply_dite, dite_eq_left hx]
   · rw [InductionTransitivity.extendByZero_of_notMem _ _ hx, extendByZero_of_notMem _ _ hx]
 
 omit [H.Normal] in

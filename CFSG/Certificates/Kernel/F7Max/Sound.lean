@@ -37,7 +37,7 @@ theorem matC_digits {r0 r1 r2 r3 : ℕ} (h0 : r0 < 7) (h1 : r1 < 7) (h2 : r2 < 7
   have c7' : (7 : ZMod 7) = 0 := by decide
   rw [matC, e1, e2, e3]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [c7, c7']
+  fin_cases i <;> fin_cases j <;> simp [c7']
 
 theorem matC_mulC (x y : ℕ) : matC (mulC x y) = matC x * matC y := by
   rw [mulC_eq, matC_digits (Nat.mod_lt _ (by norm_num)) (Nat.mod_lt _ (by norm_num))
@@ -69,7 +69,7 @@ theorem detNZ_iff (x : ℕ) : detNZ x = true ↔ (matC x).det ≠ 0 := by
 
 theorem eltC_val {c : ℕ} (h : detNZ c = true) :
     (eltC c : Matrix (Fin 2) (Fin 2) (ZMod 7)) = matC c := by
-  rw [eltC, dif_pos ((detNZ_iff c).mp h)]
+  rw [eltC, dite_eq_left ((detNZ_iff c).mp h)]
   rfl
 
 theorem detNZ_mulC {x y : ℕ} (hx : detNZ x = true) (hy : detNZ y = true) :
@@ -92,7 +92,7 @@ theorem exists_code (g : Matrix.GeneralLinearGroup (Fin 2) (ZMod 7)) :
   have hmat : matC ((M 0 0).val + 7 * ((M 0 1).val + 7 * ((M 1 0).val + 7 * (M 1 1).val))) = M := by
     rw [matC_digits h0 h1 h2]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [ZMod.natCast_zmod_val]
+    fin_cases i <;> fin_cases j <;> simp
   have hdet : (matC ((M 0 0).val + 7 * ((M 0 1).val + 7 * ((M 1 0).val + 7 * (M 1 1).val)))).det
       ≠ 0 := by
     rw [hmat]
@@ -109,13 +109,13 @@ theorem bitB_eq (M x : ℕ) : bitB M x = M.testBit x := by
     rw [Nat.testBit_and, Nat.shiftLeft_eq, one_mul, Nat.testBit_two_pow]
     by_cases hi : x = i
     · subst hi
-      cases hM : M.testBit x <;> simp [Nat.testBit_two_pow]
-    · cases hM : M.testBit x <;> simp [hi, Nat.testBit_two_pow]
+      cases hM : M.testBit x <;> simp
+    · cases hM : M.testBit x <;> simp [hi]
   have e : bitB M x = Nat.blt 0 (M &&& 1 <<< x) := rfl
   rw [e, h]
   cases hM : M.testBit x
   · rfl
-  · simp only [if_true]
+  · simp only [ite_true]
     exact Nat.blt_eq.mpr (Nat.two_pow_pos x)
 
 theorem testBit_or_shl (m y c : ℕ) :
@@ -371,7 +371,7 @@ theorem maximal_of_checks (hc : coverOK = true) (h1 : genOK 399 = true) (h2 : ge
   by_cases hHU : H ≤ U0
   · exact Or.inl (le_antisymm hHU hU)
   right
-  obtain ⟨g, hgH, hgU⟩ := SetLike.not_le_iff_exists.mp hHU
+  obtain ⟨g, hgH, hgU⟩ := IsConcreteLE.not_le_iff_exists.mp hHU
   obtain ⟨c, hc', hd, rfl⟩ := exists_code g
   rcases cover_cases hc hc' hd with hb | hb | hb | hb
   · exact absurd (muK_inv c hb).2 hgU

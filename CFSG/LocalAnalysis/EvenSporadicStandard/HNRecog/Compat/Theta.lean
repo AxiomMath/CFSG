@@ -16,7 +16,7 @@ theorem exists_theta (h : F5Std a z) {F : Fam a α} (hF : ConstOnVertices a F) :
   classical
   refine ⟨fun x => if hx : IsConj a x then F.app (exists_inv_vertex h hx).choose x else 1,
     ⟨fun x hx t ht => ?_⟩⟩
-  simp only [dif_pos hx]
+  simp only [dite_eq_left hx]
   exact hF x hx _ (exists_inv_vertex h hx).choose_spec t ht
 
 end CFSG.EvenSporadicStandard.HNRecog.Section4

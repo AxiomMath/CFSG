@@ -17,9 +17,11 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 private theorem e15d1_z_mem (s : TwinSit Ω K K' z) : z ∈ zGroup Ω :=
   Subgroup.subset_closure ⟨K, s.mem, s.isInv⟩
 
+omit [Finite G] in
 private theorem e15d1_conj_mem_twinSet (h : EndHyp Ω) (s : TwinSit Ω K K' z) {r : G}
     (hr : r * z = z * r) {L : Subgroup G} (hL : L ∈ Ω) (hLz : IsUniqueInvolution L z) :
     conjSub r L ∈ twinSet Ω K := by
@@ -35,7 +37,7 @@ theorem conjSub_mem_twinSet_of_mem_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : T
 theorem exists_mem_zGroup_swap (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) : ∃ d ∈ zGroup Ω, conjSub d K = K' := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hnorm : ∀ d ∈ zGroup Ω, d ∈ Subgroup.normalizer (K : Set G) := by
     intro d hd
     rw [mem_normalizer_iff_conjSub_eq]
@@ -50,7 +52,7 @@ theorem exists_mem_zGroup_swap (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K
     rintro u ⟨M, hM, hu⟩
     exact h.mem_eGroup_of_normalizes h9 s.mem hM hu
       (hnorm u (Subgroup.subset_closure ⟨M, hM, hu⟩))
-  exact h13 (le_antisymm hle (h.eGroup_le_zGroup s.mem))
+  exact h13 (le_antisymm hle (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem))
 
 theorem natCard_zGroup_eq_two_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) :
@@ -220,6 +222,7 @@ theorem inf_centralizer_twin_eq (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   rw [Subgroup.mem_inf, Subgroup.mem_inf]
   exact and_congr_right fun hd => key d hd K
 
+omit [Finite G] in
 private theorem e15d2_zpowers_one_or {z x : G} (hz2 : z * z = 1)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -229,10 +232,12 @@ private theorem e15d2_zpowers_one_or {z x : G} (hz2 : z * z = 1)
   · right
     rw [hm, zpow_add_one, zpow_mul, zpow_two, hz2, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem e15d2_comm_of_one_or {z x y : G} (hx : x = 1 ∨ x = z)
     (hy : y = 1 ∨ y = z) : x * y = y * x := by
   rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp
 
+omit [Finite G] in
 private theorem e15d2_q8_rel {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) :
     z * i = i * z ∧ z * j = j * z ∧ j * (z * i) = i * j ∧ i⁻¹ * j * i * j⁻¹ = z ∧
       j⁻¹ * i * j * i⁻¹ = z := by
@@ -263,6 +268,7 @@ private theorem e15d2_q8_rel {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) 
       _ = z := by group
   exact ⟨hzi, hzj, h2, h3, h4⟩
 
+omit [Finite G] in
 private theorem e15d2_center {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {x : G}
     (hx : x ∈ K) (hc : ∀ y ∈ K, y * x = x * y) : x = 1 ∨ x = z := by
   obtain ⟨hzi, -, h2, -, -⟩ := e15d2_q8_rel hQ
@@ -317,6 +323,7 @@ private theorem e15d2_center {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) 
         _ = j := by rw [hzz, one_mul]
     exact hnot _ h7
 
+omit [Finite G] in
 private theorem e15d2_commute_of_gens {K : Subgroup G} {z i j c : G} (hQ : Q8Data K z i j)
     (hcz : c * z = z * c) (hci : c * i = i * c) (hcj : c * j = j * c) :
     c ∈ Subgroup.centralizer (K : Set G) := by
@@ -337,6 +344,7 @@ private theorem e15d2_commute_of_gens {K : Subgroup G} {z i j c : G} (hQ : Q8Dat
     · exact hcz'.mul_right (hci'.mul_right hcj')
   exact hcy.symm.eq
 
+omit [Finite G] in
 private theorem e15d2_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x : G}
     (hx : x ∈ K ⊔ K') : ∃ k ∈ K, ∃ k' ∈ K', x = k * k' := by
   let P : Subgroup G :=
@@ -363,6 +371,7 @@ private theorem e15d2_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x
       (fun k' hk' => ⟨1, K.one_mem, k', hk', by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 private theorem e15d2_centralizer_le_normalizer (K : Subgroup G) :
     Subgroup.centralizer (K : Set G) ≤ Subgroup.normalizer (K : Set G) := by
   intro x hx
@@ -735,7 +744,7 @@ theorem centralizer_zGroup_eq_pCore (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit
     Subgroup.centralizer (zGroup Ω : Set G) = pCore 2 G := by
   have hD := zGroup_normal_of_conjInvariant h.thmD.hyp.conjInvariant
   apply le_antisymm
-  · haveI := hD
+  · have := hD
     have hpg : IsPGroup 2 ↥(Subgroup.centralizer (zGroup Ω : Set G)) := by
       intro g
       obtain ⟨k, hk⟩ := e15d1_exists_two_pow g.2
@@ -744,6 +753,7 @@ theorem centralizer_zGroup_eq_pCore (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit
     exact (le_sSup ⟨inferInstance, hpg⟩ : Subgroup.centralizer (zGroup Ω : Set G) ≤ pCore 2 G)
   · exact h.pCore_le_centralizer_zGroup h9
 
+omit [Finite G] in
 private theorem e15d2_pCore_conj {q : G} (hq : q ∈ pCore 2 G) (g : G) :
     g * q * g⁻¹ ∈ pCore 2 G :=
   (CFSG.pCore_normal (p := 2) (G := G)).conj_mem q hq g
@@ -914,6 +924,7 @@ theorem pCore_commutator_mem_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit
   have hg : g ∈ N := hN (by rw [h.thmD.gen]; exact Subgroup.mem_top g)
   exact hg
 
+omit [Finite G] in
 private theorem e15d2_eq_one_of_conj (h : EndHyp Ω) {K : Subgroup G} (hK : K ∈ Ω) {x : G}
     (hx : ∀ g : G, g * x * g⁻¹ ∈ Subgroup.centralizer (K : Set G)) : x = 1 := by
   have hcx : ∀ L ∈ Ω, L ≤ Subgroup.centralizer ({x} : Set G) := by

@@ -87,7 +87,7 @@ theorem fixed_eq_one_of_card_four {G : Type*} [Group G] (Q : Subgroup G) [Q.Norm
     have h4 : Nat.card C ≤ 4 := Nat.le_of_dvd (by norm_num) h2
     have h5 : 0 < Nat.card C := Nat.card_pos
     unfold Nat.ModEq at h1
-    interval_cases hc : Nat.card C <;> first | rfl | omega | skip
+    interval_cases hc : Nat.card C <;> try first | rfl | omega
     · exfalso
       have hCtop : C = ⊤ := by
         rw [← Subgroup.card_eq_iff_eq_top]

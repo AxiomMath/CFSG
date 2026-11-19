@@ -27,7 +27,7 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
 lemma hmbSL_pathRoot_castSucc_succ {r m : ℕ} (e : Fin m → Fin r) (k : Fin m) :
     pathRoot e k.castSucc k.succ = Pi.single (e k) 1 := by
   unfold pathRoot
-  rw [if_pos (by simp [Fin.lt_def])]
+  rw [ite_eq_left (by simp [Fin.lt_def])]
   rw [Fintype.sum_eq_single k]
   · simp
   · intro j hj
@@ -35,12 +35,12 @@ lemma hmbSL_pathRoot_castSucc_succ {r m : ℕ} (e : Fin m → Fin r) (k : Fin m)
       rintro ⟨h1, h2⟩
       exact hj (Fin.ext (by omega))
     simp only [Fin.val_castSucc, Fin.val_succ]
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
 
 lemma hmbSL_pathRoot_succ_castSucc {r m : ℕ} (e : Fin m → Fin r) (k : Fin m) :
     pathRoot e k.succ k.castSucc = -Pi.single (e k) 1 := by
   unfold pathRoot
-  rw [if_neg (by simp [Fin.lt_def])]
+  rw [ite_eq_right (by simp [Fin.lt_def])]
   rw [Fintype.sum_eq_single k]
   · simp
   · intro j hj
@@ -48,7 +48,7 @@ lemma hmbSL_pathRoot_succ_castSucc {r m : ℕ} (e : Fin m → Fin r) (k : Fin m)
       rintro ⟨h1, h2⟩
       exact hj (Fin.ext (by omega))
     simp only [Fin.val_castSucc, Fin.val_succ]
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
 
 lemma hmbSL_castSucc_ne_succ {m : ℕ} (k : Fin m) : k.castSucc ≠ k.succ := by
   intro h
@@ -57,9 +57,9 @@ lemma hmbSL_castSucc_ne_succ {m : ℕ} (k : Fin m) : k.castSucc ≠ k.succ := by
 lemma hmbSL_pathRoot_self {r m : ℕ} (e : Fin m → Fin r) (p : Fin (m + 1)) :
     pathRoot e p p = 0 := by
   unfold pathRoot
-  rw [if_neg (lt_irrefl p), neg_eq_zero]
+  rw [ite_eq_right (lt_irrefl p), neg_eq_zero]
   refine Finset.sum_eq_zero fun k _ => ?_
-  rw [if_neg]
+  rw [ite_eq_right]
   omega
 
 private def hmbSL_pathRoot_S {m : ℕ} (p q : Fin (m + 1)) : Finset (Fin m) :=
@@ -69,7 +69,7 @@ private lemma hmbSL_pathRoot_eq_sum {r m : ℕ} (e : Fin m → Fin r) {p q : Fin
     (h : p < q) :
     pathRoot e p q = ∑ k ∈ hmbSL_pathRoot_S p q, Pi.single (e k) 1 := by
   unfold pathRoot hmbSL_pathRoot_S
-  rw [if_pos h, ← Finset.sum_filter]
+  rw [ite_eq_left h, ← Finset.sum_filter]
 
 private lemma hmbSL_pathRoot_S_union {m : ℕ} {p s q : Fin (m + 1)} (hps : p ≤ s) (hsq : s ≤ q) :
     hmbSL_pathRoot_S p q = hmbSL_pathRoot_S p s ∪ hmbSL_pathRoot_S s q := by
@@ -111,7 +111,7 @@ private lemma hmbSL_pathRoot_coroot {r m : ℕ} (A : Matrix (Fin r) (Fin r) ℤ)
   have hpath : pathRoot e k.succ q
       = ∑ j : Fin m, (if k.val + 1 ≤ j.val ∧ j.val < q.val then Pi.single (e j) 1 else 0) := by
     unfold pathRoot
-    rw [if_pos hk]
+    rw [ite_eq_left hk]
     refine Finset.sum_congr rfl fun j _ => ?_
     simp only [Fin.val_succ]
   rw [← coroot_apply, hpath, map_sum]
@@ -122,17 +122,17 @@ private lemma hmbSL_pathRoot_coroot {r m : ℕ} (A : Matrix (Fin r) (Fin r) ℤ)
     refine Fintype.sum_eq_single j0 ?_
     intro x hx
     by_cases hc : k.val + 1 ≤ x.val ∧ x.val < q.val
-    · rw [if_pos hc, coroot_single, hcart k x]
-      rw [if_neg (by intro h; have := congrArg Fin.val h; omega)]
-      rw [if_neg]
+    · rw [ite_eq_left hc, coroot_single, hcart k x]
+      rw [ite_eq_right (by intro h; have := congrArg Fin.val h; omega)]
+      rw [ite_eq_right]
       rintro (h1 | h1)
       · exact hx (Fin.ext (by rw [hj0]; omega))
       · omega
-    · rw [if_neg hc, map_zero]
+    · rw [ite_eq_right hc, map_zero]
   rw [hsum]
-  rw [if_pos (by rw [hj0]; omega), coroot_single, hcart k j0]
-  rw [if_neg (by intro h; have := congrArg Fin.val h; rw [hj0] at this; omega)]
-  rw [if_pos (Or.inl hj0)]
+  rw [ite_eq_left (by rw [hj0]; omega), coroot_single, hcart k j0]
+  rw [ite_eq_right (by intro h; have := congrArg Fin.val h; rw [hj0] at this; omega)]
+  rw [ite_eq_left (Or.inl hj0)]
 
 private lemma hmbSL_pathRoot_reflect {K : Type} [Group K] {D : UniversalRootDatum K}
     {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {Fld : Type} [Field Fld]
@@ -186,7 +186,7 @@ theorem pathRoot_mem_roots (L : SLPath M m) {p q : Fin (m + 1)} (hpq : p ≠ q) 
   · exact key _ p q hlt rfl
   · have hmem : pathRoot L.e p q = -pathRoot L.e q p := by
       unfold pathRoot
-      rw [if_neg (not_lt.mpr hgt.le), if_pos hgt]
+      rw [ite_eq_right (not_lt.mpr hgt.le), ite_eq_left hgt]
     rw [hmem]
     exact OfCartan.neg_mem_roots (hA := D.isFiniteType) (D := D.divisible) (key _ q p hgt rfl)
 
@@ -207,7 +207,7 @@ private lemma hmbSL_pathRoot_nonneg {M : ChevModel2 D n H Fld} {m : ℕ} (L : SL
   have hsum : pathRoot L.e p q =
       ∑ k : Fin m, if p.val ≤ k.val ∧ k.val < q.val then Pi.single (L.e k) (1 : ℤ) else 0 := by
     unfold pathRoot
-    rw [if_pos hpq]
+    rw [ite_eq_left hpq]
   rw [hsum]
   intro r
   simp only [Finset.sum_apply, Pi.zero_apply]
@@ -266,11 +266,11 @@ private lemma hmbSL_diag2n_swap {m : ℕ} {i j : Fin (m + 1)} (hij : i ≠ j)
   funext r
   by_cases h1 : r = i
   · subst h1
-    rw [if_pos rfl, if_neg hij, if_pos rfl, inv_inv]
+    rw [ite_eq_left rfl, ite_eq_right hij, ite_eq_left rfl, inv_inv]
   · by_cases h2 : r = j
     · subst h2
-      rw [if_neg h1, if_pos rfl, if_pos rfl]
-    · rw [if_neg h1, if_neg h2, if_neg h2, if_neg h1]
+      rw [ite_eq_right h1, ite_eq_left rfl, ite_eq_left rfl]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h2, ite_eq_right h1]
 
 private lemma hmbSL_diag2n_mul_mid {m : ℕ} {i l j : Fin (m + 1)}
     (hil : i ≠ l) (hlj : l ≠ j) (hij : i ≠ j) {a : Fld} (ha : a ≠ 0) :
@@ -283,15 +283,15 @@ private lemma hmbSL_diag2n_mul_mid {m : ℕ} {i l j : Fin (m + 1)}
   funext r
   by_cases h1 : r = i
   · subst h1
-    simp only [if_neg hil, if_neg hij, mul_one]
+    simp only [ite_eq_right hil, ite_eq_right hij, mul_one]
   · by_cases h2 : r = l
     · subst h2
-      simp only [if_neg h1, if_neg hlj]
+      simp only [ite_eq_right h1, ite_eq_right hlj]
       exact inv_mul_cancel₀ ha
     · by_cases h3 : r = j
       · subst h3
-        simp only [if_neg h1, if_neg h2, one_mul]
-      · simp only [if_neg h1, if_neg h2, if_neg h3, mul_one]
+        simp only [ite_eq_right h1, ite_eq_right h2, one_mul]
+      · simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, mul_one]
 
 private lemma hmbSL_ε_diag2n_mem_iSup {M : ChevModel2 D n H Fld} {m : ℕ}
     (L : SLPath M m) {i j : Fin (m + 1)} (hij : i < j) {a : Fld} (ha : a ≠ 0) :

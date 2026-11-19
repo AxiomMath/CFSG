@@ -78,8 +78,8 @@ theorem not_two_dvd_index_of_forall_conj [Finite G] {S : Subgroup G} {t : G}
   obtain ⟨T, hST⟩ := hS.exists_le_sylow
   have hne : S ≠ (T : Subgroup G) := fun h => T.not_dvd_index (h ▸ h2)
   obtain ⟨s, hsT, hsS, hsN⟩ :=
-    exists_mem_normalizer_notMem_of_lt_isPGroup T.isPGroup' (lt_of_le_of_ne hST hne)
-  have hsp : IsPGroup 2 (zpowers s) := T.isPGroup'.to_le (zpowers_le.2 hsT)
+    exists_mem_normalizer_notMem_of_lt_isPGroup T.isPGroup (lt_of_le_of_ne hST hne)
+  have hsp : IsPGroup 2 (zpowers s) := T.isPGroup.to_le (zpowers_le.2 hsT)
   obtain ⟨x, hxS, hx⟩ := hfus s hsN hsp
   set n := x⁻¹ * s with hn
   have hnC : n ∈ centralizer ({t} : Set G) := by
@@ -93,7 +93,7 @@ theorem not_two_dvd_index_of_forall_conj [Finite G] {S : Subgroup G} {t : G}
     rw [h1]
     exact mul_mem hxS h)
   have hP : IsPGroup 2 (S ⊓ centralizer ({t} : Set G) ⊔ zpowers n : Subgroup G) :=
-    T.isPGroup'.to_le (sup_le (inf_le_left.trans hST) (zpowers_le.2 hnT))
+    T.isPGroup.to_le (sup_le (inf_le_left.trans hST) (zpowers_le.2 hnT))
   have hPeq := hmax _ hP le_sup_left (sup_le inf_le_right (zpowers_le.2 hnC))
   have hn' : n ∈ S ⊓ centralizer ({t} : Set G) := by
     rw [← hPeq]

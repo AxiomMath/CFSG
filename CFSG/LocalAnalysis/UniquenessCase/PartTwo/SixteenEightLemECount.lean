@@ -18,7 +18,7 @@ private theorem s16f_not_sq_dvd_168 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
   intro h
   have hle : q ^ 2 ≤ 168 := Nat.le_of_dvd (by norm_num) h
   have hq13 : q ≤ 13 := by nlinarith
-  interval_cases q <;> first | exact hq2 rfl | (norm_num at h; done) | (norm_num at hq; done)
+  interval_cases q <;> first | exact hq2 rfl | (norm_num at h; done) | (norm_num at hq)
 
 private theorem s16f_map_eq_of_mem_stabSub {U : Subgroup T} {g : MulAut T}
     (hg : g ∈ stabSub U) : U.map (g : T →* T) = U := by

@@ -48,16 +48,15 @@ private theorem v2Block_mul (U1 : Matrix (Fin 2) (Fin 2) (ZMod 2))
         mul_zero, Finset.sum_const_zero, add_zero]
     · rw [v2Block_castAdd_natAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4),
         Matrix.add_apply, Matrix.mul_apply, Matrix.mul_apply]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
-        v2Block_natAdd_natAdd, mul_zero, Finset.sum_const_zero, add_zero]
+      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_natAdd]
   · refine Fin.addCases (m := 2) (n := 4) (fun b => ?_) (fun d => ?_) j
     · rw [v2Block_natAdd_castAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4)]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
+      simp only [v2Block_castAdd_castAdd, v2Block_natAdd_castAdd,
         v2Block_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
     · rw [v2Block_natAdd_natAdd, Matrix.mul_apply, Fin.sum_univ_add (a := 2) (b := 4),
         Matrix.mul_apply]
-      simp only [v2Block_castAdd_castAdd, v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
-        v2Block_natAdd_natAdd, mul_zero, zero_mul, Finset.sum_const_zero, add_zero]
+      simp only [v2Block_castAdd_natAdd, v2Block_natAdd_castAdd,
+        v2Block_natAdd_natAdd, zero_mul, Finset.sum_const_zero]
       ring
 
 private theorem v2Block_B_col_zero :
@@ -74,9 +73,9 @@ private theorem v2Block_B_col_zero :
   rw [h0, v2Block_col_U]
   funext j
   by_cases hj : j.val < 2
-  · rw [dif_pos hj, dif_pos hj]
+  · rw [dite_eq_left hj, dite_eq_left hj]
     exact congrFun omega2_col_zero ⟨j.val, hj⟩
-  · rw [dif_neg hj, dif_neg hj]
+  · rw [dite_eq_right hj, dite_eq_right hj]
 
 private theorem v2Block_B_col_one :
     (fun j : Fin 6 => v2Block om (0 : Matrix (Fin 2) (Fin 4) (ZMod 2))
@@ -121,7 +120,7 @@ private theorem conj_congr_of_matrix [Finite G] (F : G24Frame2 L1 L2 S)
   have hspec := F.special_data hD
   have hZQ : Z2 ≤ Q2 := hspec.2.2.1
   have hZcQ : ∀ y ∈ Z2, ∀ x ∈ Q2, y * x = x * y := hspec.2.2.2.1
-  haveI : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZcQ z hz x x.2).symm
   have hf'Q : ∀ i, f' i ∈ Q2 := by
     intro i
@@ -200,8 +199,8 @@ private theorem frame_change_k_N (k u : G) (n : Fin 4 → G) :
     rw [v2Block_natAdd_natAdd]
     by_cases hkj : k = j
     · subst hkj
-      rw [Pi.single_eq_same, Matrix.one_apply, if_pos rfl]
-    · rw [Pi.single_eq_of_ne hkj, Matrix.one_apply, if_neg hkj]
+      rw [Pi.single_eq_same, Matrix.one_apply, ite_eq_left rfl]
+    · rw [Pi.single_eq_of_ne hkj, Matrix.one_apply, ite_eq_right hkj]
   rw [h1, h2, eElt_zero, one_mul, eElt_single]
 
 private theorem frame_change_k [Finite G] (F : G24Frame2 L1 L2 S)
@@ -512,7 +511,7 @@ private theorem frame_change_shift [Finite G] (F : G24Frame2 L1 L2 S)
 theorem G24Frame2.isAct_shift [Finite G] (F : G24Frame2 L1 L2 S)
     (hD : G24LocalData L1 L2 S) {u : G} {n : Fin 4 → G}
     {X : Fin 3 → Matrix (Fin 2) (Fin 4) (ZMod 2)} (hu : u ∈ F.W)
-    (hu' : u ∉ centerOf (dsQ L2 L1 S)) (hn : F.IsNLift n) (hX : F.IsAct u n X)
+    (_hu' : u ∉ centerOf (dsQ L2 L1 S)) (hn : F.IsNLift n) (hX : F.IsAct u n X)
     (m : Matrix (Fin 2) (Fin 4) (ZMod 2)) :
     F.IsNLift (fun j => n j * eElt ![u, F.k * u * F.k⁻¹] fun s => m s j) ∧
     F.IsAct u (fun j => n j * eElt ![u, F.k * u * F.k⁻¹] fun s => m s j)

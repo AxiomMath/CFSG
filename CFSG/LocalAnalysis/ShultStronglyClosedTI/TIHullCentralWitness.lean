@@ -20,7 +20,7 @@ theorem stronglyClosed_sylow_central_witness (T : Sylow 2 G) (U : Subgroup G)
         (⟨w, hwT⟩ : (T : Subgroup G)) ∈ Subgroup.center (T : Subgroup G) := by
   let V : Subgroup (T : Subgroup G) := U.subgroupOf (T : Subgroup G)
   let : V.Normal := normal_in_sylow T U hUT hclosed
-  let : Group.IsNilpotent (T : Subgroup G) := T.isPGroup'.isNilpotent
+  let : Group.IsNilpotent (T : Subgroup G) := T.isPGroup.isNilpotent
   have hV : V ≠ ⊥ := by
     intro hbot
     have hmap := congrArg (Subgroup.map (T : Subgroup G).subtype) hbot

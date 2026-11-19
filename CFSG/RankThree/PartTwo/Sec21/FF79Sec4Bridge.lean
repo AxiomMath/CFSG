@@ -107,9 +107,9 @@ variable [Finite G]
 private theorem br_facts {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂) :
     b ^ 3 = 1 ∧ b₁ ^ 3 = 1 ∧ b₂ ^ 3 = 1 ∧ b * b₁ = b₁ * b ∧ b * b₂ = b₂ * b ∧
       b₁ * b₂ = b₂ * b₁ ∧ b₁ ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hEl, -⟩ := h4.mono.1
-  haveI := hEl
+  have := hEl
   have hBeq := h4.mono.2.1
   have hbB : b ∈ B := hBeq ▸ Subgroup.subset_closure (by simp)
   have hb₁B : b₁ ∈ B := (Subgroup.mem_inf.mp h4.hb₁).1
@@ -135,6 +135,7 @@ private structure BaseDec (b : G) (J : Subgroup G) : Prop where
   dec : ∀ g ∈ Cen b, ∃ i : ℤ, ∃ u ∈ Opp 3 (Cen b), ∃ v ∈ J, g = b ^ i * u * v
   Jnorm : ∀ c ∈ Cen b, ∀ j ∈ J, c * j * c⁻¹ ∈ J
 
+omit [Finite G] in
 private theorem br_Jnorm {b : G} {J : Subgroup G} (hstd : FFStandardJ b J) {b₁ : G}
     (hb₁J : b₁ ∈ J) (hb₁o : orderOf b₁ = 3) :
     ∀ c ∈ Cen b, ∀ j ∈ J, c * j * c⁻¹ ∈ J := by
@@ -210,7 +211,7 @@ private theorem br_baseDec {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79
 
 private theorem br_le_J_of_simple {b : G} {J : Subgroup G} (hb3 : b ^ 3 = 1) (hd : BaseDec b J)
     {K : Subgroup G} (hK : K ≤ Cen b) [IsSimpleGroup K] (hev : Even (Nat.card K)) : K ≤ J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 (even_iff_two_dvd.mp hev)
   have h2J : ∀ g ∈ Cen b, g ^ 2 = 1 → g ∈ J := fun g hg h2 =>
     br_mem_J_of_two_power (X := Opp 3 (Cen b)) hb3 hd.hXc hd.hJc hd.odd hd.comm (hd.dec g hg)
@@ -220,7 +221,7 @@ private theorem br_le_J_of_simple {b : G} {J : Subgroup G} (hb3 : b ^ 3 = 1) (hd
     have : t ^ 2 = 1 := by simpa [ht] using pow_orderOf_eq_one t
     simpa using congrArg Subtype.val this
   let N : Subgroup K := J.subgroupOf K
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hd.Jnorm g (hK g.2) n hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
@@ -233,11 +234,13 @@ private theorem br_le_J_of_simple {b : G} {J : Subgroup G} (hb3 : b ^ 3 = 1) (hd
     have : (⟨k, hk⟩ : K) ∈ N := by rw [h]; exact Subgroup.mem_top _
     exact this
 
+omit [Finite G] in
 private theorem br_cen_iff (φ : G ≃* G) (x y : G) : y ∈ Cen x ↔ φ y ∈ Cen (φ x) := by
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff,
     ← map_mul, ← map_mul]
   exact φ.injective.eq_iff.symm
 
+omit [Finite G] in
 private theorem br_map_cen (φ : G ≃* G) (x : G) :
     (Cen x).map φ.toMonoidHom = Cen (φ x) := by
   ext y
@@ -246,6 +249,7 @@ private theorem br_map_cen (φ : G ≃* G) (x : G) :
   rw [MulEquiv.apply_symm_apply] at this
   exact this
 
+omit [Finite G] in
 private theorem br_transport_L5 (φ : G ≃* G) {x b z : G} (h : FF79CentL5 x b z) :
     FF79CentL5 (φ x) (φ b) (φ z) := by
   obtain ⟨X, J', hXc, hJc, hodd, ⟨e⟩, hXJ, hdec, hbJ, hzJ, h7⟩ := h.exists_decomp
@@ -276,6 +280,7 @@ private theorem br_transport_L5 (φ : G ≃* G) {x b z : G} (h : FF79CentL5 x b 
     rw [this, Subgroup.card_map_of_injective φ.injective]
     exact h7
 
+omit [Finite G] in
 private theorem br_transport_A5L3 (φ : G ≃* G) {x b w : G} (h : FF79CentA5L3 x b w) :
     FF79CentA5L3 (φ x) (φ b) (φ w) := by
   obtain ⟨X, K, L, hXc, hKc, hLc, hodd, ⟨eK⟩, ⟨eL⟩, hXK, hXL, hKL, hdec, hwK, hbL⟩ :=
@@ -330,7 +335,7 @@ private theorem br_comm_opp_lay (H : Subgroup G) (hodd : Odd (Nat.card (Opp 3 H)
 private theorem br_burnside {b : G} {B : Subgroup G} (hB : IsSylowOf 3 B (Cen b)) (hbB : b ∈ B)
     (hBc : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u) :
     ∀ c ∈ CenS B, ∃ n ∈ Opp 3 (CenS B), ∃ p ∈ B, c = n * p := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBp, hBi⟩ := hB
   have hBC : B ≤ CenS B := fun u hu =>
     Subgroup.mem_centralizer_iff.mpr (fun v hv => hBc v hv u hu)
@@ -364,6 +369,7 @@ private theorem br_Bcomm {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Se
     ∀ u ∈ B, ∀ v ∈ B, u * v = v * u := fun u hu v hv =>
   congrArg Subtype.val (h4.mono.1.1.toIsMulCommutative.is_comm.comm ⟨u, hu⟩ ⟨v, hv⟩)
 
+omit [Finite G] in
 private theorem br_gen {z b₁ b₂ : G} (h1 : z * (b₁ * b₂) = (b₁ * b₂) * z)
     (h2 : z * (b₁ ^ 2 * b₂) = (b₁ ^ 2 * b₂) * z) : z * b₁ = b₁ * z ∧ z * b₂ = b₂ * z := by
   have c1 : Commute z (b₁ * b₂) := h1
@@ -375,6 +381,7 @@ private theorem br_gen {z b₁ b₂ : G} (h1 : z * (b₁ * b₂) = (b₁ * b₂)
   have d2 : Commute z b₂ := by rw [e2]; exact d1.inv_right.mul_right c1
   exact d2.eq
 
+omit [Finite G] in
 private theorem br_swap {a q : G} (h : a * q = q * a) (y : G) : a * (q * y) = q * (a * y) := by
   rw [← mul_assoc, h, mul_assoc]
 
@@ -386,7 +393,7 @@ private theorem br_centβ {b b₁ b₂ : G} {J B : Subgroup G} (h4 : FF79Sec4 b 
     (hdecH : setMul (H ⊓ CenS (Subgroup.closure ({b, b₁ ^ 2 * b₂} : Set G))) (Lay H) = H)
     (hOpp : Opp 3 H = Opp 3 (Cen b)) (hOpp' : Opp 3 (CenS B) = Opp 3 H) :
     FF79CentA5L3 (b₁ * b₂) b (b₁ ^ 2 * b₂) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eK⟩ :=
     CFSG.RankThree.PartTwo.Sec15.Liebeck155.nonempty_mulEquiv_alt5_of_statedClassicalModel hK
   obtain ⟨eL⟩ := CFSG.GF2Type.Smith1979.Case2.nonempty_mulEquiv_gl_of_psl_two hL
@@ -524,8 +531,8 @@ private theorem br_baseL5 {b b₁ b₂ : G} {J B : Subgroup G} (h4 : FF79Sec4 b 
     rw [← this]; exact Subgroup.map_mono hL₁
   let eL' : ↥(L.map φ.toMonoidHom) ≃* GL (Fin 3) (ZMod 2) :=
     (Subgroup.equivMapOfInjective L φ.toMonoidHom φ.injective).symm.trans eL
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI : IsSimpleGroup ↥(L.map φ.toMonoidHom) := eL'.isSimpleGroup
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : IsSimpleGroup ↥(L.map φ.toMonoidHom) := eL'.isSimpleGroup
   have hcard : Nat.card ↥(L.map φ.toMonoidHom) = 168 :=
     (Nat.card_congr eL'.toEquiv).trans CFSG.ComponentClassification.GHarris.card_GL32_gh
   have hev : Even (Nat.card ↥(L.map φ.toMonoidHom)) := by rw [hcard]; decide
@@ -537,7 +544,7 @@ private theorem br_baseL5 {b b₁ b₂ : G} {J B : Subgroup G} (h4 : FF79Sec4 b 
 
 theorem ff79_KleJ_of (h41 : FF79_4_1) (h43 : FF79_4_3) : FF79_KleJ := by
   intro G _ _ b J B b₁ b₂ h4 K hK ⟨eK⟩
-  haveI : IsSimpleGroup K := eK.isSimpleGroup
+  have : IsSimpleGroup K := eK.isSimpleGroup
   have hd := br_baseDec h4 (h41 G b J B b₁ b₂ h4) (h43 G b J B b₁ b₂ h4).2
   have hev : Even (Nat.card K) := by
     rw [Nat.card_congr eK.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]

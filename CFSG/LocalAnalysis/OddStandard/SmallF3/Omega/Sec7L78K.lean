@@ -27,7 +27,7 @@ theorem sec7l78_exists_K [Finite G] (h36 : Asc82Lemma36) (h61 : Asc82Lemma61) (h
       twoRes (CFSG.conjugate L g ⊓ normalizer (D : Set G)) ≤ K ∧
       ((K ≤ L ∧ K ≤ CFSG.conjugate L g) ∨ IsOm6P K) := by
   have hr2 : orderOf r = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hsL.A_sq r hrA) hr1
   have hrCt : r ∈ centralizer ({t} : Set G) := sec7l78_A_le_cent_t hc hrA
   have hsA : g⁻¹ * t * g ∈ ASub S B := sec7l78_s_mem_A hP h36 hc

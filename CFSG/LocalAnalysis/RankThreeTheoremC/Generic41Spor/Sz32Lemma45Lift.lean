@@ -60,7 +60,7 @@ theorem szg_sylow_image {p : ℕ} [Fact p.Prime] {J T : Subgroup G} {X : Type} [
     rfl
   have hRK : (R : Subgroup X) ⊓ K = (T.subgroupOf J).map π := by
     have hSyl : IsSylowOf p ((T.subgroupOf J).map π) K := ⟨T', hT'map⟩
-    refine hSyl.eq_of_le (le_inf hTR ?_) inf_le_right R.isPGroup'.to_inf_left
+    refine hSyl.eq_of_le (le_inf hTR ?_) inf_le_right R.isPGroup.to_inf_left
     rintro _ ⟨j, -, rfl⟩
     exact ⟨j, rfl⟩
   exact ⟨T', by rw [hT'coe, hTsyl], hT'map, hRK⟩
@@ -86,7 +86,7 @@ theorem szg_image_le_normalizer {p : ℕ} [Fact p.Prime] {J M T : Subgroup G}
     obtain ⟨j, rfl⟩ := hπ' q
     have hj : π' j ∈ normalizer (((T.subgroupOf J).map π' : Subgroup ↥K) : Set ↥K) := by
       rw [← hT'coe]; exact hq
-    have hpg : IsPGroup p (T.subgroupOf J) := hTsyl ▸ Tsyl.isPGroup'
+    have hpg : IsPGroup p (T.subgroupOf J) := hTsyl ▸ Tsyl.isPGroup
     obtain ⟨n, hn, hπn⟩ := typeII_frattini_ker π' (by rw [hπ'ker]; exact hker) hpg hj
     have hnG : (n : G) ∈ normalizer (((T.subgroupOf J : Subgroup ↥J).map J.subtype : Subgroup G) : Set G) :=
       u3main_mem_normalizer_map hn
@@ -128,7 +128,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     (hxU : x ∈ U) (hu : ∃ u ∈ U, ∃ t ∈ u3T P x J, u * t * u⁻¹ ≠ t) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup U S₁ ∧ ¬ S₁ ≤ M := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := hc.five; omega
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hJC : J ≤ C := hc.le_cent
@@ -145,7 +145,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     rw [hgJ] at h1
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hZ : Subgroup.center Q = ⊥ := u3main_center_bot hN₀J hc.perfect hc.lt hc.minimal ψ hψ hker
   obtain ⟨X, hXg, hXf, ρ, hρ, hρker⟩ := typeII_exists_reduction (C := C) (J := J) (N₀ := N₀) hCJ hCN
   have hJc : ∀ c ∈ C, ∀ j ∈ J, c * j * c⁻¹ ∈ J := fun c hc' j hj =>
@@ -184,7 +184,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   have hkerπ : Nat.Coprime p (Nat.card π.ker) := by
     rw [hπker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN₀J).toEquiv]
     exact hN₀cop
-  haveI hKn : K.Normal := ⟨by
+  have hKn : K.Normal := ⟨by
     rintro _ ⟨j, rfl⟩ g
     obtain ⟨d, rfl⟩ := hρ g
     refine ⟨⟨(d : G) * j * (d : G)⁻¹, hJc d d.2 j j.2⟩, ?_⟩
@@ -216,7 +216,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
   have hSC : u3S P x ≤ C := inf_le_right
   let S'' : Subgroup X := (ρ.comp (Subgroup.inclusion hSC)).range
   have hS''p : IsPGroup p S'' := by
-    have hSp : IsPGroup p ↥(u3S P x) := P.isPGroup'.to_inf_left
+    have hSp : IsPGroup p ↥(u3S P x) := P.isPGroup.to_inf_left
     exact hSp.of_surjective (ρ.comp (Subgroup.inclusion hSC)).rangeRestrict
       (MonoidHom.rangeRestrict_surjective _)
   obtain ⟨R, hR⟩ := hS''p.exists_le_sylow
@@ -226,7 +226,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
     rintro _ ⟨j, hj, rfl⟩
     exact hR ⟨⟨j, hTS (Subgroup.mem_subgroupOf.mp hj)⟩, rfl⟩
   have hTP : u3T P x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
-  have hTp : IsPGroup p (u3T P x J) := P.isPGroup'.to_le hTP
+  have hTp : IsPGroup p (u3T P x J) := P.isPGroup.to_le hTP
   have hN₀M : N₀ ≤ M :=
     (u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le).1
   have hTsyl : IsSylowOf p (u3T P x J) J := hc.generic.2.2.1.inf_of_le_normalizer hJC hCJ
@@ -316,7 +316,7 @@ theorem szg_lemma45_lift {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop}
       exact hρu (by rw [h']; exact K.one_mem)
   have hshape : Sz32Shape K (R : Subgroup X) U₀ := fun hle => hρu (hle ⟨⟨u, huU⟩, rfl⟩)
   obtain ⟨V, hVK, hV2, hU₀V, hnotV⟩ := hX45 X K ⟨hKn, hKc, hKT⟩ R U₀ hU₀R hU₀e hU₀card hshape
-  refine typeII_exists_rankTwoMaximal_of_reduced hp hp2 (P.isPGroup'.to_le (hUS.trans inf_le_left))
+  refine typeII_exists_rankTwoMaximal_of_reduced hp hp2 (P.isPGroup.to_le (hUS.trans inf_le_left))
     π hkerπ V hV2 hVK ?_ ?_
   · intro u hu j hj
     have huC : u ∈ C := hUC hu

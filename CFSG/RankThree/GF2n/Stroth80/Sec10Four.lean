@@ -208,13 +208,14 @@ theorem Sec10Hyp.pow_le_card_QB_inf_QB_inf (hspread : StrothNoA2SpreadStatement)
   rw [pow_succ] at hfin
   exact Nat.le_of_mul_le_mul_right hfin Nat.card_pos
 
+omit [Finite G] in
 theorem card_Vt_of_sectionAct {m : ℕ} {K : Type} [Field K] [Finite K] {t : G}
     {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m) K} (hK : Nat.card K = Nat.card Z)
     (h : SectionAct K (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z φ
       (fun g => (g : Matrix (Fin m) (Fin m) K))) :
     Nat.card ↥(Vt M (LB M Q B) B Z t) = Nat.card Z ^ (m + 1) := by
   obtain ⟨-, hN, ψ, -⟩ := h
-  haveI := hN
+  have := hN
   have hcardQ : Nat.card (↥(Vt M (LB M Q B) B Z t) ⧸
       Z.subgroupOf (Vt M (LB M Q B) B Z t)) = Nat.card K ^ m := by
     rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
@@ -243,7 +244,7 @@ theorem Sec10Hyp.exists_card_Vt_card_LB_inf_CN (h34 : Stroth34Statement) {hc : C
   rw [← hmap]
   exact Nat.mul_le_mul_left _ hcount
 
-theorem Good103.card_inf_QB_eq_pow (hc : Ctx M Q Z B) {m : ℕ} {t : G}
+theorem Good103.card_inf_QB_eq_pow (_hc : Ctx M Q Z B) {m : ℕ} {t : G}
     (ht : Good103 M Q Z B t) {Y : Subgroup G} (hs : Sit M Q Z Y t)
     (hVcard : Nat.card ↥(Vt M (LB M Q B) B Z t) = Nat.card Z ^ (m + 1)) :
     Nat.card ↥(Q ⊓ QB Y) = Nat.card Z ^ m := by

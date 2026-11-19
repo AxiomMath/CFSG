@@ -221,7 +221,7 @@ theorem eq_one_of_mem_commutator_commutator {C G : Type*} [Group C] [Finite C] [
   set F := commutator C with hFdef
   obtain ⟨P⟩ : Nonempty (Sylow 3 F) := inferInstance
   have hPc : IsMulCommutative (P : Subgroup F) := by
-    have hPp : IsPGroup 3 ((P : Subgroup F).map F.subtype) := P.isPGroup'.map _
+    have hPp : IsPGroup 3 ((P : Subgroup F).map F.subtype) := P.isPGroup.map _
     have := hcyc _ hPp
     have hcomm : IsMulCommutative ((P : Subgroup F).map F.subtype) := inferInstance
     refine ⟨⟨fun a b => ?_⟩⟩

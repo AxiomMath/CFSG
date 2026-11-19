@@ -15,6 +15,7 @@ namespace Hyp83
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 theorem inf_normalizer_le_normalizer_kGen (h : Hyp83 V H T)
     (hOmH : ∀ W ∈ omegaSet V H (eSub V H T), W ≤ H) :
     H ⊓ Subgroup.normalizer (V : Set G) ≤ Subgroup.normalizer (kGen V H T : Set G) := by

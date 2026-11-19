@@ -38,13 +38,13 @@ theorem not_inverts_of_mem_oTwoUpper_inf_kuN
     have h1 := ((kuR T M).subgroupOf X).card_mul_index
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRX).toEquiv, h.card_kuR, hX192] at h1
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hRn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hRn
   have hQ : Nat.card (↥X ⧸ (kuR T M).subgroupOf X) = 3 := by
     rw [← Subgroup.index_eq_card, hidx]
-  haveI := isCyclic_of_prime_card hQ
+  have := isCyclic_of_prime_card hQ
   have hcomm : ∀ a b : ↥X ⧸ (kuR T M).subgroupOf X, a * b = b * a := fun a b => by
-    letI : CommGroup (↥X ⧸ (kuR T M).subgroupOf X) := IsCyclic.commGroup
+    let : CommGroup (↥X ⧸ (kuR T M).subgroupOf X) := IsCyclic.commGroup
     exact mul_comm a b
   let yq : ↥X ⧸ (kuR T M).subgroupOf X := QuotientGroup.mk ⟨y, hy⟩
   let gq : ↥X ⧸ (kuR T M).subgroupOf X := QuotientGroup.mk ⟨g, hgX⟩

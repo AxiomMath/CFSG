@@ -23,14 +23,14 @@ theorem false_of_isSolvable_barCentralizer {G : Type} [Group G] [Finite G] {Y W 
   have hπ : imageModTheta Y W ≤ barCentralizer (Subgroup.zpowers x) Y := by
     rw [← KFacts.imageModTheta_centralizer_eq hxN ⟨1, by simpa using hx3⟩]
     exact Hering88F.imageModTheta_mono' (le_inf hWY hWx)
-  haveI := hS
-  haveI : Group.IsSolvable (imageModTheta Y W) :=
+  have := hS
+  have : Group.IsSolvable (imageModTheta Y W) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hπ)
-  haveI := Item87Proof.isSolvable_ker_modThetaOnto hWY
+  have := Item87Proof.isSolvable_ker_modThetaOnto hWY
   have hWs : Group.IsSolvable W :=
-    solvable_of_ker_le_range (Item87Proof.modThetaOnto hWY).ker.subtype
+    Group.isSolvable_of_ker_le_range (Item87Proof.modThetaOnto hWY).ker.subtype
       (Item87Proof.modThetaOnto hWY) (by rw [Subgroup.range_subtype])
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hW
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hW
   exact Group.IsPerfect.not_isSolvable W hWs
 
 theorem false_of_pgu_bounds {m N : ℕ} (hodd : Odd m) (hm2 : 2 ≤ m)

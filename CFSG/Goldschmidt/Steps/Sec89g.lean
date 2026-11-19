@@ -58,7 +58,7 @@ theorem sq_eq_one_of_central (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
       rw [Subgroup.orderOf_mk]
       exact orderOf_eq_prime (hset.elem.2 c hc) hc1
   have hsuz : CFSG.GroupTheory.IsSuzukiTwoGroup T₁ :=
-    ⟨inferInstance, S.isPGroup'.to_le hT₁S, hnab,
+    ⟨inferInstance, S.isPGroup.to_le hT₁S, hnab,
       ⟨⟨a, hAT₁ ha⟩, ⟨x * a * x⁻¹, hAT₁ (Sec8.conj_mem hxA ha)⟩, hord a ha ha1 _,
         hord _ (Sec8.conj_mem hxA ha) (Sec8.conj_ne_one ha1) _, hab⟩,
       Subgroup.zpowers φ, inferInstance, htrans⟩
@@ -92,7 +92,7 @@ theorem exists_T1_abelian (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
     intro c hc hcx
     by_contra hc1
     have hK : IsPGroup 2 (T₁ ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) :=
-      S.isPGroup'.to_le (inf_le_left.trans hT₁S)
+      S.isPGroup.to_le (inf_le_left.trans hT₁S)
     have hne : T₁ ⊓ Subgroup.centralizer ({x} : Set G) ≠ ⊥ := fun h => hc1 (by
       have hmem : c ∈ T₁ ⊓ Subgroup.centralizer ({x} : Set G) := Subgroup.mem_inf.mpr ⟨hc, by
         rw [Subgroup.mem_centralizer_singleton_iff]
@@ -114,7 +114,7 @@ theorem exists_T1_abelian (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
     Odd.of_dvd_nat (by rw [hb]; exact Odd.pow (by decide)) (orderOf_pow_dvd 3)
   have hgA := Sec8.pow_three_mem_centralizer hset h4 hxA
   have hx3T : ∀ w ∈ T₁, (x ^ 3)⁻¹ * w * x ^ 3 = w :=
-    conj_eq_of_forall_sq (S.isPGroup'.to_le hT₁S) hT₁c (Subgroup.pow_mem _ hxT₁ 3) hodd
+    conj_eq_of_forall_sq (S.isPGroup.to_le hT₁S) hT₁c (Subgroup.pow_mem _ hxT₁ 3) hodd
       fun w hw hw2 => by
         have hc := Subgroup.mem_centralizer_iff.mp hgA w (hinv w hw hw2)
         calc (x ^ 3)⁻¹ * w * x ^ 3 = (x ^ 3)⁻¹ * (w * x ^ 3) := by group
@@ -136,7 +136,7 @@ theorem exists_T1_abelian (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
       _ = s⁻¹ * ((x ^ 3)⁻¹ * s * x ^ 3) * ((x ^ 3)⁻¹ * w * x ^ 3) := by group
       _ = s⁻¹ * ((x ^ 3)⁻¹ * s * x ^ 3) * w := by rw [h3]
   have hwg := hx3T _ hw
-  obtain ⟨k, hk⟩ := (S.isPGroup'.to_le hT₁S) ⟨_, hw⟩
+  obtain ⟨k, hk⟩ := (S.isPGroup.to_le hT₁S) ⟨_, hw⟩
   have h1 := eq_one_of_conj_eq_mul
     (show (x ^ 3)⁻¹ * s * x ^ 3 = s * (s⁻¹ * ((x ^ 3)⁻¹ * s * x ^ 3)) by group) hwg hodd
     (k := k) (by simpa using congrArg Subtype.val hk)

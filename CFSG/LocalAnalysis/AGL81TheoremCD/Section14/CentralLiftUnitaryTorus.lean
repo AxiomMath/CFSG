@@ -16,8 +16,8 @@ variable {p f : ℕ} {F : Type} [Field F]
 
 private lemma pow_frob_eq_bar (h : UnitaryFieldData p f F) (a : F) :
     a ^ (p ^ (3 * f)) = h.bar a := by
-  haveI : Finite F := h.finite
-  letI : Fintype F := Fintype.ofFinite F
+  have : Finite F := h.finite
+  let : Fintype F := Fintype.ofFinite F
   have hq2 : a ^ ((p ^ f) ^ 2) = a := by
     rw [← h.card_eq_sq, Nat.card_eq_fintype_card]
     exact FiniteField.pow_card a
@@ -30,7 +30,7 @@ private lemma pow_frob_eq_bar (h : UnitaryFieldData p f F) (a : F) :
 
 private lemma charP_matrix (h : UnitaryFieldData p f F) :
     CharP (Matrix (Fin 3) (Fin 3) F) p := by
-  haveI : CharP F p := h.charP
+  have : CharP F p := h.charP
   refine charP_of_injective_algebraMap (R := F) (A := Matrix (Fin 3) (Fin 3) F) ?_ p
   intro a b hab
   have h00 := congrFun (congrFun hab 0) 0
@@ -62,7 +62,7 @@ private lemma star_aeval (h : UnitaryFieldData p f F) (Bm : Matrix (Fin 3) (Fin 
         Matrix.map_mul, Matrix.transpose_mul, star_pow, star_algebraMap]
       exact (Algebra.commute_algebraMap_left (h.bar a) (((Bm.map h.bar)ᵀ) ^ n)).eq.symm
 
-private lemma commute_aeval_aeval (h : UnitaryFieldData p f F)
+private lemma commute_aeval_aeval (_h : UnitaryFieldData p f F)
     (Bm : Matrix (Fin 3) (Fin 3) F) (P Q : F[X]) :
     Commute (aeval Bm P) (aeval Bm Q) := by
   have h1 : Commute Bm (aeval Bm P) :=
@@ -74,8 +74,8 @@ private lemma commute_aeval_aeval (h : UnitaryFieldData p f F)
 private lemma pow_aeval (h : UnitaryFieldData p f F) (Bm : Matrix (Fin 3) (Fin 3) F)
     (P : F[X]) :
     (aeval Bm P) ^ (p ^ (3 * f)) = aeval (Bm ^ (p ^ (3 * f))) (P.map h.bar) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : CharP (Matrix (Fin 3) (Fin 3) F) p := charP_matrix h
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : CharP (Matrix (Fin 3) (Fin 3) F) p := charP_matrix h
   induction P using Polynomial.induction_on' with
   | add P Q hP hQ =>
       rw [Polynomial.map_add, Polynomial.aeval_add, Polynomial.aeval_add,
@@ -100,7 +100,7 @@ private lemma card_cubicField (h : UnitaryFieldData p f F) (c : Fˣ) :
   let pb := AdjoinRoot.powerBasis (K := F) hg0
   have hdim : pb.dim = 3 := by
     rw [AdjoinRoot.powerBasis_dim]
-    simpa using natDegree_X_pow_sub_C (R := F) (n := 3) (r := (c : F))
+    simp
   let b : Module.Basis (Fin 3) F (AdjoinRoot (X ^ 3 - C (c : F))) :=
     pb.basis.reindex (finCongr hdim)
   have h1 := Nat.card_congr b.equivFun.toEquiv
@@ -142,7 +142,7 @@ private lemma cube_add_one_factor {q : ℕ} (hq : 1 ≤ q) :
   rw [h2]
   ring
 
-private lemma not_dvd_succ_of_dvd_phi6 {r q : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r)
+private lemma not_dvd_succ_of_dvd_phi6 {r q : ℕ} (_hr : r.Prime) (hr5 : 5 ≤ r)
     (hq : 2 ≤ q) (h : r ∣ q ^ 2 - q + 1) : ¬ r ∣ q + 1 := by
   intro hdiv
   have e : q ^ 2 - q + 1 = (q + 1) * (q - 2) + 3 := by
@@ -191,7 +191,7 @@ theorem exists_torusPrime {q : ℕ} (hq : 2 < q) (h3 : 3 ∣ q + 1) :
       ¬ r ∣ q ^ 3 * (q ^ 2 - 1) := by
   have hq4 : 4 ≤ q := by
     by_contra h
-    interval_cases q <;> norm_num at h3
+    interval_cases q; norm_num at h3
   obtain ⟨r, hrp, hr5, hrdZ, hrq⟩ :=
     CFSG.HardMathSupport.Seitz.TrialityEven.exists_prime_ge_five_dvd_phi_pm hq4
       (ε := -1) (Or.inr rfl) (three_dvd_phi6_int h3)
@@ -277,7 +277,7 @@ private lemma star_coe_B_eq_pow (h : UnitaryFieldData p f F)
 
 private lemma exists_phi (h : UnitaryFieldData p f F) (B : unitaryIsom3 h) {c : Fˣ}
     (hB : (B : GL (Fin 3) F) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 3) c)
-    (hcube : ∀ b : F, b ^ 3 ≠ (c : F)) :
+    (_hcube : ∀ b : F, b ^ 3 ≠ (c : F)) :
     ∃ φ : AdjoinRoot (X ^ 3 - C (c : F)) →+* Matrix (Fin 3) (Fin 3) F,
       (∀ P : F[X], φ (AdjoinRoot.mk (X ^ 3 - C (c : F)) P) =
         aeval (((B : GL (Fin 3) F)) : Matrix (Fin 3) (Fin 3) F) P) ∧
@@ -343,8 +343,8 @@ private lemma star_phi (h : UnitaryFieldData p f F) {c : Fˣ} {Bm : Matrix (Fin 
 private lemma card_units_cubicField (h : UnitaryFieldData p f F) (c : Fˣ)
     (hcube : ∀ b : F, b ^ 3 ≠ (c : F)) :
     Nat.card (AdjoinRoot (X ^ 3 - C (c : F)))ˣ = (p ^ f) ^ 6 - 1 := by
-  haveI : Fact (Irreducible (X ^ 3 - C (c : F) : F[X])) := ⟨irreducible_cubic hcube⟩
-  haveI : Field (AdjoinRoot (X ^ 3 - C (c : F))) := inferInstance
+  have : Fact (Irreducible (X ^ 3 - C (c : F) : F[X])) := ⟨irreducible_cubic hcube⟩
+  have : Field (AdjoinRoot (X ^ 3 - C (c : F))) := inferInstance
   rw [Nat.card_units, card_cubicField h c]
 
 private lemma r_dvd_card_units (h : UnitaryFieldData p f F) (c : Fˣ)
@@ -372,8 +372,8 @@ private lemma r_dvd_card_units (h : UnitaryFieldData p f F) (c : Fˣ)
 private lemma exists_unit_orderOf_eq (h : UnitaryFieldData p f F) (c : Fˣ) {r : ℕ}
     (hr : r.Prime) (hrdvd : r ∣ Nat.card (AdjoinRoot (X ^ 3 - C (c : F)))ˣ) :
     ∃ x : (AdjoinRoot (X ^ 3 - C (c : F)))ˣ, orderOf x = r ∧ x ^ r = 1 ∧ x ≠ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Finite (AdjoinRoot (X ^ 3 - C (c : F))) :=
+  have : Fact r.Prime := ⟨hr⟩
+  have : Finite (AdjoinRoot (X ^ 3 - C (c : F))) :=
     Nat.finite_of_card_ne_zero
       (by rw [card_cubicField h c]; exact pow_ne_zero 6 (pow_ne_zero f h.prime.ne_zero))
   obtain ⟨x, hxorder⟩ := exists_prime_orderOf_dvd_card' r hrdvd
@@ -488,7 +488,7 @@ private lemma exists_fixed_element (h : UnitaryFieldData p f F) (B : unitaryIsom
       ((B : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F))
     (hφinj : Function.Injective φ) (hxne : x ≠ 1) :
     ∃ y : unitarySU p f F 3, suConj h B y = y ∧ orderOf y = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let Bm : Matrix (Fin 3) (Fin 3) F := (B : GL (Fin 3) F)
   have hMcomm := commute_phi_B h B φ x hφroot
   have hcomm : Gx * (B : GL (Fin 3) F) = (B : GL (Fin 3) F) * Gx := by
@@ -506,7 +506,7 @@ private lemma exists_fixed_element (h : UnitaryFieldData p f F) (B : unitaryIsom
     rw [coe_suConj]
     have hyGL : (y : GL (Fin 3) F) = Gx := rfl
     rw [hyGL, ← hcomm, mul_assoc]
-    simp [Subgroup.coe_inv]
+    simp
   have hypow : y ^ r = 1 := Subtype.ext hGxpow
   have hyne : y ≠ 1 := fun h1 => hne (congrArg Subtype.val h1)
   exact ⟨y, hfix, orderOf_eq_prime hypow hyne⟩
@@ -517,16 +517,16 @@ theorem fixesTorusPrime_of_not_cube {p f : ℕ} {F : Type} [Field F]
     (hB : (B : GL (Fin 3) F) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 3) c)
     (hcube : ∀ b : F, b ^ 3 ≠ (c : F)) : FixesTorusPrime (p ^ f) (suConj h B) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨r, hrp, hrne3, hrd, hqadd, hprod⟩ := exists_torusPrime hq h3
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   let Bm : Matrix (Fin 3) (Fin 3) F := (B : GL (Fin 3) F)
   obtain ⟨φ, hφmk, hφroot⟩ := exists_phi h B hB hcube
   have hφinj := phi_injective h B hB hcube φ hφmk
   have hstarB := star_coe_B_eq_pow h h3 B hc hB
   have hstarphi := star_phi h hφmk hstarB
   have hcardE := card_cubicField h c
-  haveI : Finite (AdjoinRoot (X ^ 3 - C (c : F))) :=
+  have : Finite (AdjoinRoot (X ^ 3 - C (c : F))) :=
     Nat.finite_of_card_ne_zero (by rw [hcardE]; positivity)
   have hcard_units := card_units_cubicField h c hcube
   have hrdvdE := r_dvd_card_units h c hcube hrd

@@ -103,7 +103,7 @@ theorem s17_47_L_eq_X {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
       by_cases h3Z : 3 ∣ Nat.card (Subgroup.center (Bar2 L))
       · have hC2 : 2 ≤ CFSG.Open.pRank 3 C := by
           have h' := hC3
-          rwa [if_pos h3Z] at h'
+          rwa [ite_eq_left h3Z] at h'
         exact hC2.trans (CFSG.SectionRank.pRank_mono (by norm_num : 1 < 3) ctx.cartan.1)
       · have hZ1 : Nat.card (Subgroup.center (Bar2 L)) = 1 := by
           rcases (Nat.dvd_prime Nat.prime_three).mp hZcard with h1 | h3
@@ -185,11 +185,11 @@ theorem s17_47_L_eq_X {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
       by_cases h3Z : 3 ∣ Nat.card (Subgroup.center (Bar2 L))
       · have hC2 : 2 ≤ CFSG.Open.pRank 3 C := by
           have h' := hC3
-          rwa [if_pos h3Z] at h'
+          rwa [ite_eq_left h3Z] at h'
         exact hC2.trans (pRank_cartan_le_pRank_Dc (ctx := ctx) Nat.prime_three)
       · have hC1 : 1 ≤ CFSG.Open.pRank 3 C := by
           have h' := hC3
-          rwa [if_neg h3Z] at h'
+          rwa [ite_eq_right h3Z] at h'
         have hP := ctx.ncard_mul_pRank_le_pRank_Dc Nat.prime_three (by norm_num) h3Z
         have hmul : Gamma.ncard ≤ Gamma.ncard * CFSG.Open.pRank 3 C := by
           simpa using Nat.mul_le_mul_left Gamma.ncard hC1
@@ -208,7 +208,7 @@ theorem s17_47_isSL3Four_of_q4 {D : Data G} {V₀ V L X : Subgroup G} {p n l : �
   have hZcard : Nat.card (Subgroup.center (Bar2 L)) ∣ 3 := by
     have hZ := uc22p20v_card_center_dvd hN hq hodd hmodelK
     simp only [CFSG.Blueprint.Multiplier.genericOrders] at hZ
-    exact hZ.trans (by simpa using Nat.gcd_dvd_left 3 (2 ^ 2 - 1))
+    exact hZ.trans (by simp)
   have hZne : Subgroup.center (Bar2 L) ≠ ⊥ := by
     intro hbot
     have hL3 : IsL3 (Bar2 L) 2 :=

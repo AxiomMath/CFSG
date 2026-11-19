@@ -82,7 +82,7 @@ private noncomputable def tzt_equivMap {H U : Type*} [Group H] [Group U] (κ : H
 theorem tableZ_transport {H U : Type} [Group H] [Group U] [Finite H] (κ : H →* U)
     (hκ : Function.Surjective κ) (hker : κ.ker ≤ Subgroup.center H)
     (hker2 : ∀ x ∈ κ.ker, ∃ k : ℕ, x ^ (2 ^ k) = 1)
-    (δ : MulAut H) (hδ3 : δ ^ 3 = 1) (δ' : MulAut U) (hδ' : ∀ x, κ (δ x) = δ' (κ x))
+    (δ : MulAut H) (_hδ3 : δ ^ 3 = 1) (δ' : MulAut U) (hδ' : ∀ x, κ (δ x) = δ' (κ x))
     (J : Subgroup H) (hJ : IsComponentOf J (ggAutFixedSubgroup δ))
     (hZ : Nat.card (Subgroup.center J) ∣ 3) :
     IsComponentOf (J.map κ) (ggAutFixedSubgroup δ') ∧ J ⊓ κ.ker = ⊥ := by

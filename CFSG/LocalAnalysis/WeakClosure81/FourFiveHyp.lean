@@ -204,7 +204,7 @@ theorem fourFive_compFAS_mulEquiv {j : ℕ} {Q Q' : Type} [Group Q] [Finite Q] [
   have hXnc' : ¬ IsMulCommutative X := by
     intro hc
     apply hXnc
-    haveI : IsMulCommutative X := hc
+    have : IsMulCommutative X := hc
     let φ : X ≃* X' := (MulEquiv.subgroupMap e.symm X').symm
     refine IsMulCommutative.of_comm fun a b => ?_
     obtain ⟨a', rfl⟩ := φ.surjective a
@@ -216,7 +216,7 @@ theorem fourFive_compFAS_mulEquiv {j : ℕ} {Q Q' : Type} [Group Q] [Finite Q] [
     exact fourFive_isComponentOf_map e.symm hL'
   obtain ⟨hnorm, hF⟩ := h X hXnorm hXbot hXmin' hXnc' L hLc
   refine ⟨fourFive_normal_autC (S.map e.toMonoidHom) L', ?_⟩
-  haveI := hnorm
+  have := hnorm
   obtain ⟨φ⟩ := fourFive_autQuot_equiv e S L
   have hF' := fourFive_fas_mulEquiv φ hF
   rw [hLmap] at hF'

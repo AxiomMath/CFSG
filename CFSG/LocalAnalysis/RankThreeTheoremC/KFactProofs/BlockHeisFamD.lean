@@ -22,8 +22,8 @@ theorem heisD_noHeisAut_of_omegaModel
     (ht : t = .POmegaPlus ∨ t = .POmegaMinus)
     (hmodel : StatedClassicalModel (L ⧸ Subgroup.center L) t n 2 f) :
     NoHeisAut p (L ⧸ Subgroup.center L) := by
-  haveI := hperf
-  haveI := hsimple
+  have := hperf
+  have := hsimple
   have hp2 : p ≠ 2 := by omega
   have htc : t ∈ CFSG.Blueprint.classicalTags := by
     rcases ht with rfl | rfl <;> decide

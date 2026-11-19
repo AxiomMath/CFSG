@@ -13,6 +13,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Timmesfeld.RootInvolutions Subgro
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec414t_eq_one_of_pi {A V : Subgroup G} (hAV : A ≤ V) {K : Type} [Group K]
     (π : ↥V →* K) (hAinj : ∀ a : ↥V, (a : G) ∈ A → π a = 1 → a = 1) {k x : G} (hk : k ∈ V)
     (hx : x ∈ conjSubgroup k A) (hxV : x ∈ V) (h : π ⟨x, hxV⟩ = 1) : x = 1 := by
@@ -23,10 +24,11 @@ theorem sec414t_eq_one_of_pi {A V : Subgroup G} (hAV : A ≤ V) {K : Type} [Grou
   rw [ha1]
   group
 
+omit [Finite G] in
 theorem sec414t_inf_ne_bot {C C' C0 C0' : Subgroup G} {f c c' : G}
     (hfC : f ∈ normalizer (C : Set G)) (hfC' : f ∈ normalizer (C' : Set G))
     (hcC : c ∈ C) (hcC' : c' ∈ C') (hfc : f * c = c * f → c ∈ C0)
-    (hfc' : f * c' = c' * f → c' ∈ C0') (hc0 : c ∉ C0) (hc0' : c' ∉ C0')
+    (_hfc' : f * c' = c' * f → c' ∈ C0') (hc0 : c ∉ C0) (_hc0' : c' ∉ C0')
     (hcc' : f * (c * c') = c * c' * f) (hcomm : Sec414Comm C C') : C ⊓ C' ≠ ⊥ := by
   set u : G := f * c * f⁻¹ with hu
   set u' : G := f * c' * f⁻¹ with hu'
@@ -144,8 +146,8 @@ theorem sec414t_contra_of_le {A A0 V : Subgroup G} {k a₀ z : G} (S : Sec414Sys
     (ha₀ : a₀ ∈ A0) (hk : k ∈ V) (hz2 : z * z = 1) (hzc : ∀ v ∈ V, z * v = v * z)
     (hC : a₀ * z ∈ conjSubgroup k A) (hC0 : a₀ * z ∉ conjSubgroup k A0)
     (hAC : Sec414Comm A (conjSubgroup k A)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Finite.of_surjective π hπ
   have hCV : conjSubgroup k A ≤ V := fun y hy => by
     obtain ⟨a, ha, rfl⟩ := (mem_conjSubgroup_exists_t77 k A y).1 hy
     exact V.mul_mem (V.mul_mem hk (hAV ha)) (V.inv_mem hk)

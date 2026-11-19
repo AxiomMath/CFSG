@@ -47,7 +47,7 @@ theorem ggNbr_pow_le_card_A₀ {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Su
   have hBcard : Nat.card B = p ^ LargeEvenTwoLocalRank p G := hBmax.2.1
   have hBBs : B ≤ Bs := hcfg.2.1.1
   have hy : y ^ p = 1 := hBmax.1.2 y hyB
-  haveI : Finite (MulAut ↥K) := inferInstanceAs (Finite (↥K ≃* ↥K))
+  have : Finite (MulAut ↥K) := inferInstanceAs (Finite (↥K ≃* ↥K))
   have hHBs : B₀ ⊓ B ≤ Bs := inf_le_left.trans hB₀
   let ρ : ↥(B₀ ⊓ B) →* MulAut ↥K := (ggBsAut hN).comp (Subgroup.inclusion hHBs)
   have hker : Nat.card ρ.ker ≤ p := by

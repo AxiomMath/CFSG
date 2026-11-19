@@ -47,7 +47,7 @@ theorem s16t3_pow_three_of_central {Q : Type*} [Group Q] [Finite Q] (Z : Subgrou
     (hperf : commutator (Q ⧸ Z) = ⊤) (h9 : ¬ 9 ∣ Nat.card (Q ⧸ Z)) {u : Q} {n : ℕ}
     (hu : u ^ 3 ^ n = 1) : u ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hu3Z : u ^ 3 ∈ Z := by
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow]
     set ū : Q ⧸ Z := (u : Q ⧸ Z)
@@ -68,7 +68,7 @@ theorem s16t3_pow_three_of_central {Q : Type*} [Group Q] [Finite Q] (Z : Subgrou
   have huP' : u ∈ (P : Subgroup Q) := huP (mem_zpowers u)
   let f : (P : Subgroup Q) →* Q ⧸ Z := (QuotientGroup.mk' Z).comp (P : Subgroup Q).subtype
   have hcyc : IsCyclic f.range := by
-    have hp3 : IsPGroup 3 f.range := P.isPGroup'.of_surjective f.rangeRestrict
+    have hp3 : IsPGroup 3 f.range := P.isPGroup.of_surjective f.rangeRestrict
       f.rangeRestrict_surjective
     obtain ⟨k, hk⟩ := hp3.exists_card_eq
     have hdvd : Nat.card f.range ∣ Nat.card (Q ⧸ Z) := Subgroup.card_subgroup_dvd_card _
@@ -84,8 +84,8 @@ theorem s16t3_pow_three_of_central {Q : Type*} [Group Q] [Finite Q] (Z : Subgrou
     intro g
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hZc hxZ) g)
   have hPab : ∀ a b : (P : Subgroup Q), a * b = b * a :=
-    commutative_of_cyclic_center_quotient f.rangeRestrict hker
-  haveI : (P : Subgroup Q).FiniteIndex := Subgroup.finiteIndex_of_finite
+    (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f.rangeRestrict hker).is_comm.comm
+  have : (P : Subgroup Q).FiniteIndex := Subgroup.finiteIndex_of_finite
   let ϕ : (P : Subgroup Q) →* Abelianization (P : Subgroup Q) := Abelianization.of
   have hϕinj : Function.Injective ϕ := by
     rw [← MonoidHom.ker_eq_bot_iff, Abelianization.ker_of, _root_.commutator,
@@ -113,7 +113,7 @@ theorem s16t3_pow_three_of_central {Q : Type*} [Group Q] [Finite Q] (Z : Subgrou
     MonoidHom.transfer_eq_pow_aux z' (hkey z' hz'Z)
   rw [MonoidHom.transfer_eq_pow ϕ z' (hkey z' hz'Z)] at hVu
   have hz3 : (z' ^ (P : Subgroup Q).index) ^ 3 = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨_, hz'P⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨_, hz'P⟩
     exact hZ3 _ (Subgroup.pow_mem _ hz'Z _) k (congrArg Subtype.val hk)
   have hVu3 : ϕ.transfer (u ^ 3) = 1 := by
     rw [map_pow, hVu, ← map_pow]

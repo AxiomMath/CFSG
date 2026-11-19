@@ -256,7 +256,7 @@ theorem pcR_facts {p k : ℕ} {H R : List (List ℕ)} (hH : chA L H = true)
   refine ⟨fun i hi => ?_, fun i j hij hj => ?_⟩
   · have h := hR i hi i hi le_rfl
     unfold pcR at h
-    rw [Bool.and_eq_true, Nat.beq_refl, cond_true] at h
+    rw [Bool.and_eq_true, Nat.beq_refl, _root_.Bool.cond_true] at h
     refine ⟨_, zeroTo_eq h.1, ?_⟩
     rw [← hM.repW_eq, ← hM.ev_nfW]
     exact hM.eq (chW_repW (oH i) p) (chW_nfW hH _ _ _) h.2
@@ -264,12 +264,13 @@ theorem pcR_facts {p k : ℕ} {H R : List (List ℕ)} (hH : chA L H = true)
     unfold pcR at h
     have hb : Nat.beq i j = false :=
       Bool.eq_false_iff.2 fun hb => hij.ne (Nat.eq_of_beq_eq_true hb)
-    rw [Bool.and_eq_true, hb, cond_false] at h
+    rw [Bool.and_eq_true, hb, Bool.cond_false] at h
     refine ⟨_, zeroTo_eq h.1, ?_⟩
     rw [← hM.ev_nfW]
     have e := hM.eq (chW_append_of (oH i) (oH j)) (chW_append_of (chW_nfW hH _ _ _) (oH i)) h.2
     rwa [hM.append, hM.append] at e
 
+omit [Group G] hM in
 theorem cenOK_cases {p k N n : ℕ} {H Rp Gs T : List (List ℕ)} {P : List ℕ}
     (h : cenOK E p H k Rp Gs P T N n = true) :
     E (cw H k p (nthN P n)) [] = true ∨ neOK E (repW (cw H k p (nthN P n)) p) = true ∨
@@ -281,24 +282,25 @@ theorem cenOK_cases {p k N n : ℕ} {H Rp Gs T : List (List ℕ)} {P : List ℕ}
           (cw H k p (nthN P (nthN (nthW T n) 1))) = true) := by
   unfold cenOK at h
   cases h0 : Nat.beq (nthN (nthW T n) 0) 0
-  · rw [h0, cond_false] at h
+  · rw [h0, Bool.cond_false] at h
     cases h1 : Nat.beq (nthN (nthW T n) 0) 1
-    · rw [h1, cond_false] at h
+    · rw [h1, Bool.cond_false] at h
       cases h2 : Nat.beq (nthN (nthW T n) 0) 2
-      · rw [h2, cond_false] at h
+      · rw [h2, Bool.cond_false] at h
         cases h3 : Nat.beq (nthN (nthW T n) 0) 3
-        · rw [h3, cond_false] at h
+        · rw [h3, Bool.cond_false] at h
           exact absurd h Bool.false_ne_true
-        · rw [h3, cond_true, Bool.and_eq_true, Bool.and_eq_true] at h
+        · rw [h3, _root_.Bool.cond_true, Bool.and_eq_true, Bool.and_eq_true] at h
           exact Or.inr (Or.inr (Or.inr ⟨lt_of_blt h.1.1,
             Nat.eq_of_beq_eq_true h.1.2, h.2⟩))
-      · rw [h2, cond_true, Bool.and_eq_true, lenW_eq] at h
+      · rw [h2, _root_.Bool.cond_true, Bool.and_eq_true, lenW_eq] at h
         exact Or.inr (Or.inr (Or.inl ⟨lt_of_blt h.1, h.2⟩))
-    · rw [h1, cond_true] at h
+    · rw [h1, _root_.Bool.cond_true] at h
       exact Or.inr (Or.inl h)
-  · rw [h0, cond_true] at h
+  · rw [h0, _root_.Bool.cond_true] at h
     exact Or.inl h
 
+omit [Group G] hM in
 theorem cenOK_two {p k N n : ℕ} {H Rp Gs T : List (List ℕ)} {P : List ℕ}
     (h : cenOK E p H k Rp Gs P T N n = true) (h2 : nthN (nthW T n) 0 = 2) :
     nthN (nthW T n) 1 < Rp.length ∧
@@ -307,7 +309,7 @@ theorem cenOK_two {p k N n : ℕ} {H Rp Gs T : List (List ℕ)} {P : List ℕ}
   unfold cenOK at h
   rw [h2] at h
   change (cond false _ (cond false _ (cond true _ _))) = true at h
-  rw [cond_false, cond_false, cond_true, Bool.and_eq_true, lenW_eq] at h
+  rw [Bool.cond_false, Bool.cond_false, _root_.Bool.cond_true, Bool.and_eq_true, lenW_eq] at h
   exact ⟨lt_of_blt h.1, h.2⟩
 
 theorem cover_of_cen [Finite G] {p k : ℕ} (hp : p.Prime) (hval : (Nat.card G).factorization p = k)
@@ -353,20 +355,20 @@ theorem cover_of_cen [Finite G] {p k : ℕ} (hp : p.Prime) (hval : (Nat.card G).
   have hrep : ∀ n < p ^ k, nthN (nthW T n) 0 = 2 → ev (w n) ≠ 1 ∧
       ∀ y, IsConj (ev (w n)) y → SporKRestGenerating p y := by
     intro n hn h2
-    obtain ⟨ht, hcj⟩ := hM.cenOK_two (hT n hn) h2
+    obtain ⟨ht, hcj⟩ := Model.cenOK_two (hT n hn) h2
     have hmem := nthW_mem ht
     have oRt : chW L (nthW Rp (nthN (nthW T n) 1)) = true := (chA_iff L Rp).1 oR _ hmem
     have oGt := chW_nthW oG (nthN (nthW T n) 2)
     have hcon := isConj_of_conj (hM.conj oRt oGt (ow n) hcj)
     refine ⟨fun e1 => ?_, fun y hy => hgen _ hmem y (hcon.trans hy)⟩
     rw [e1, isConj_comm, isConj_one_right] at hcon
-    exact hM.ne_one hc oRt ((neA_mem hne) _ hmem) hcon
+    exact CFSG.KD.SporCov.Model.ne_one hc oRt ((neA_mem hne) _ hmem) hcon
   refine cover_of_census hp S hcard fun x hxS hxp hx1 => ?_
   obtain ⟨n, hn⟩ := hbij.2 ⟨x, hxS⟩
   have hx : ev (w n) = x := congrArg Subtype.val hn
-  rcases hM.cenOK_cases (hT n n.isLt) with h0 | h1 | ⟨ht, hcj⟩ | ⟨hn', h2, hj⟩
+  rcases Model.cenOK_cases (hT n n.isLt) with h0 | h1 | ⟨ht, hcj⟩ | ⟨hn', h2, hj⟩
   · exact absurd (by rw [← hx, ← hM.nil]; exact hM.eq (ow n) (chW_nil L) h0) hx1
-  · refine absurd ?_ (hM.ne_one hc (chW_repW (ow n) p) h1)
+  · refine absurd ?_ (CFSG.KD.SporCov.Model.ne_one hc (chW_repW (ow n) p) h1)
     rw [hM.repW_eq, hx, hxp]
   · have hmem := nthW_mem ht
     have oRt : chW L (nthW Rp (nthN (nthW T n) 1)) = true := (chA_iff L Rp).1 oR _ hmem

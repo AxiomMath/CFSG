@@ -141,8 +141,8 @@ theorem outPChain_of_stated {T : Type} [Group T] {t : StatedLieTag} {n ℓ f p :
 theorem outPChain_psp_two_odd {T : Type} [Group T] [Finite T] {ℓ p : ℕ} (hp : p.Prime)
     (hp7 : 7 ≤ p) (hℓ : ℓ.Prime) (hcl : StatedClassicalModel T .PSp 2 ℓ 1) : OutPChain p T := by
   obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := hcl
-  letI : Field K := hF
-  haveI : Finite K := hFin
+  let : Field K := hF
+  have : Finite K := hFin
   have hdvd := (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.outer_card_dvd (K := K)
     (r := 2) hℓ le_rfl hK le_rfl).1
   have hcard : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer T) =

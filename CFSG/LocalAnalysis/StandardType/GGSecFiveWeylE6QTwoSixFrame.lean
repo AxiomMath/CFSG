@@ -11,6 +11,7 @@ open CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
+omit [Finite G] in
 theorem card_le_three_pow_six_of_twA5 (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hx : x ∈ Bs)
@@ -22,6 +23,7 @@ theorem card_le_three_pow_six_of_twA5 (hK : Nat.card K = 4) {Bs L : Subgroup G} 
     Nat.card Bs ≤ 3 ^ 6 :=
   e6QTwoSixCardLeThreePowSix hK θ hperf hBs hx hBL hNL hI
 
+omit [Finite G] in
 theorem card_inf_sup_centralizer_of_card_six (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 6)

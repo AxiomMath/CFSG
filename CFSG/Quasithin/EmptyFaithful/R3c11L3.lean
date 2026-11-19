@@ -80,7 +80,7 @@ theorem isPGroup_projUnitriangular [Finite F] : IsPGroup 2 ↥(projUnitriangular
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
   rw [← hS]
-  exact S.isPGroup'
+  exact S.isPGroup
 
 theorem centerOf_le_of_normalized [Finite F] {E : Subgroup (projectiveSL 3 F)}
     (hEU : E ≤ projUnitriangular 3 F) (hE1 : E ≠ ⊥)
@@ -393,7 +393,7 @@ theorem sylowGood_psl3 {f : ℕ} (hf : 2 ≤ f) (h : IsPSL 3 2 f X) :
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have h0 : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   obtain ⟨g, hg⟩ := exists_conj_of_isSylowTwoOf_top h0 hT'
   rw [← hg]
   exact (sylowGood_projUnitriangular hq).map (MulAut.conj g)
@@ -427,7 +427,7 @@ theorem l3_par {L Q V : Subgroup G} {f : ℕ} (hf : 2 ≤ f)
   set P' : Subgroup ↥L := Q.subgroupOf L with hP'
   set T : Subgroup (↥L ⧸ Z) := (Tsyl : Subgroup (↥L ⧸ Z)) with hTdef
   have hTsyl : IsSylowTwoOf T ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hGood := sylowGood_psl3 hf hX T hTsyl
   set Vbar : Subgroup (↥L ⧸ Z) := (V.subgroupOf L).map π with hVbar
   have hinj : ∀ x : ↥L, x ∈ V.subgroupOf L → π x = 1 → x = 1 := by

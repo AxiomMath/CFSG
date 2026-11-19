@@ -314,7 +314,7 @@ private theorem lemma312_fixedPointCondition_centralizes_normal_le
       rw [baseCoset_stabilizer]
       exact hcY
     have hYlt : Y < ⊤ := lt_top_iff_ne_top.mpr hYproper
-    obtain ⟨g, _hgTop, hgY⟩ := SetLike.exists_of_lt hYlt
+    obtain ⟨g, _hgTop, hgY⟩ := _root_.IsConcreteLE.exists_of_lt hYlt
     let beta : conjugateCosetSpace Y := QuotientGroup.mk g
     have hcbeta : c • beta = beta := by
       rw [fixed_coset_iff_mem_rightConjugate]
@@ -356,7 +356,7 @@ private theorem lemma312_normal_le_stronglyEmbedded_card_odd
   have hnData := orderOf_eq_prime_iff.mp hnOrderH
   have hnInv : IsInvolution (n : H) := ⟨hnData.2, hnData.1⟩
   have hYlt : Y < ⊤ := lt_top_iff_ne_top.mpr hY.ne_top
-  obtain ⟨g, _hgTop, hgY⟩ := SetLike.exists_of_lt hYlt
+  obtain ⟨g, _hgTop, hgY⟩ := _root_.IsConcreteLE.exists_of_lt hYlt
   have hconjN : g * (n : H) * g⁻¹ ∈ N :=
     hNnormal.conj_mem (n : H) n.property g
   have hnRight : (n : H) ∈ rightConjugate Y g := by
@@ -695,14 +695,14 @@ private theorem lemma312_quotient_stronglyEmbedded_of_odd_kernel
       rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
       refine Subgroup.mem_map.mpr ?_
       refine ⟨q y, ⟨y, hy, rfl⟩, ?_⟩
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     · rintro ⟨x, hx, rfl⟩
       rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
       refine Subgroup.mem_map.mpr ?_
       refine ⟨g⁻¹ * y * (g⁻¹)⁻¹, ?_, ?_⟩
       · exact Subgroup.mem_map.mpr
-          ⟨y, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
-      · simp [MulAut.conj_apply, mul_assoc]
+          ⟨y, hy, by simp [mul_assoc]⟩
+      · simp [mul_assoc]
   have hNright : N ≤ rightConjugate Y g := by
     intro n hnN
     rw [rightConjugate, Subgroup.conjBy, Subgroup.mem_map]
@@ -950,7 +950,7 @@ private theorem lemma312_conjugates_eq_inv_of_fixedPoint_free_involution
     exact N.mul_mem hn hynN
   have hcommN : ∀ a b : H, a ∈ N → b ∈ N → a * b = b * a := by
     intro a b ha hb
-    letI : IsMulCommutative N := hNcomm
+    let : IsMulCommutative N := hNcomm
     exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : N) ⟨b, hb⟩)
   have hd_fix : y * d * y⁻¹ = d := by
     dsimp [d]
@@ -991,16 +991,16 @@ private theorem lemma312_unique_involution_of_maximal_faithful
   have hnt : Nontrivial H := ⟨⟨z, 1, hz.ne_one⟩⟩
   obtain ⟨N, hNnormal, hNne, hNmin⟩ :=
     exists_minimal_normal (G := H) hsolv hnt
-  letI : N.Normal := hNnormal
-  letI : IsMinimalNormal N := {
+  let : N.Normal := hNnormal
+  let : IsMinimalNormal N := {
     minimal := by
       intro K hKnormal hKN
       by_cases hKne : K = ⊥
       · exact Or.inl hKne
       · exact Or.inr (hNmin K hKnormal hKN hKne)
   }
-  letI : Group.IsSolvable H := hsolv
-  haveI : Group.IsSolvable N := by infer_instance
+  let : Group.IsSolvable H := hsolv
+  have : Group.IsSolvable N := by infer_instance
   have hNcomm : IsMulCommutative N :=
     minimalNormal_solvable_isMulCommutative N
   have hNnotle : ¬ N ≤ Y := by
@@ -1086,7 +1086,7 @@ private theorem lemma312_unique_involution_of_maximal_faithful
       refine ⟨hn.2, ?_⟩
       change ∀ m : H, m ∈ N → m * n = n * m
       intro m hmN
-      letI : IsMulCommutative N := hNcomm
+      let : IsMulCommutative N := hNcomm
       exact congrArg Subtype.val (mul_comm (⟨m, hmN⟩ : N) ⟨n, hn.1⟩)
     · exact bot_le
   intro y hyY hy
@@ -1207,8 +1207,8 @@ private theorem lemma312_unique_involution_core_aux :
         · obtain ⟨K, hKnormal, hKY, hKne⟩ := hkernel
           obtain ⟨N, hNnormal, hNK, hNne, hNmin⟩ :=
             exists_minimal_normal_le (G := H) K hKnormal hKne
-          letI : N.Normal := hNnormal
-          letI : IsMinimalNormal N := {
+          let : N.Normal := hNnormal
+          let : IsMinimalNormal N := {
             minimal := by
               intro L hLnormal hLN
               by_cases hLne : L = ⊥
@@ -1219,7 +1219,7 @@ private theorem lemma312_unique_involution_core_aux :
             Y N hNne (hNK.trans hKY) hsolv hY hzY hz hfixed
           dsimp
           intro hYq hzq hzqY hfixedq
-          letI : Group.IsSolvable H := hsolv
+          let : Group.IsSolvable H := hsolv
           have hsolvQ : Group.IsSolvable (H ⧸ N) := by infer_instance
           have hEvenQ : Even (Nat.card (H ⧸ N)) := by
             have horder : orderOf (QuotientGroup.mk' N z) = 2 :=
@@ -1240,7 +1240,7 @@ private theorem lemma312_unique_involution_core_aux :
               exact hkernel ⟨N, hNnormal, hNY, hNne⟩)
       · have hYne : Y ≠ ⊤ := hY.ne_top
         rw [IsCoatom] at hmax
-        push_neg at hmax
+        push Not at hmax
         obtain ⟨K, hY_lt_K, hKne⟩ := hmax hYne
         have hKlt : K < (⊤ : Subgroup H) := lt_top_iff_ne_top.mpr hKne
         let YK : Subgroup K := Y.comap K.subtype
@@ -1260,7 +1260,7 @@ private theorem lemma312_unique_involution_core_aux :
         have hYKstrong : IsStronglyEmbedded YK :=
           hY.comap_of_injective K.subtype Subtype.val_injective hYKproper
             ⟨zK, hzY, hzKinv⟩
-        letI : Group.IsSolvable H := hsolv
+        let : Group.IsSolvable H := hsolv
         have hsolvK : Group.IsSolvable K := by infer_instance
         have hfixedK : Lemma312FixedPointCondition YK zK :=
           lemma312_fixedPointCondition_comap Y K hzK hfixed

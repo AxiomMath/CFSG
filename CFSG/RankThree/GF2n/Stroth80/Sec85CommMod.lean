@@ -39,7 +39,7 @@ theorem sec85_comm_core_mod [Finite G] {R N Zc : Subgroup G} {x y : G}
     (hy3 : y ^ 3 = 1) (hfpf : ∀ n ∈ N, ⁅y, n⁆ ∈ Zc → n ∈ Zc) :
     ∃ n₀ ∈ N, ∀ r ∈ R, ⁅r, x * n₀⁆ ∈ Q := by
   classical
-  haveI hQ : (Q.subgroupOf M).Normal := ⟨fun n hn g => by
+  have hQ : (Q.subgroupOf M).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hQn g g.2 n hn⟩
   set π : ↥M →* Mbar M Q := QuotientGroup.mk' (Q.subgroupOf M) with hπ

@@ -54,7 +54,7 @@ theorem exists_d4Line_layer {ψ : Fin 3 → SL(3, K) →* adjointGroup Tag.E6 K}
     exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
   set q := Nat.card K with hqdef
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω r := charP_of_injective_algebraMap (algebraMap K Ω).injective r
+  have : CharP Ω r := charP_of_injective_algebraMap (algebraMap K Ω).injective r
   let Fr : Ω →+* Ω := iterateFrobenius Ω r n
   have hFr : ∀ c, Fr c = c ^ q := fun c => by rw [hn]; exact iterateFrobenius_def r n c
   obtain ⟨ζ, Qs, D, d, hζ, hDc, hgQ, hM⟩ :=
@@ -140,7 +140,7 @@ theorem exists_d4Line_layer {ψ : Fin 3 → SL(3, K) →* adjointGroup Tag.E6 K}
   set x' : ModGL Tag.E6 Ω := mw * Δ * mw⁻¹ with hx'def
   set Pk : Subgroup (ModGL Tag.E6 Ω) :=
     rootSpan Tag.E6 Ω (torusRootKernel x') ⊓ twistedFixedPoints (phi3N Ω) Φ with hPk
-  haveI : Finite Pk := hPfin
+  have : Finite Pk := hPfin
   have hPadj : Pk ≤ adjointGroup Tag.E6 Ω := inf_le_left.trans (rootSpan_le_adjointGroup Ω _)
   have hPperf : ⁅Pk, Pk⁆ = Pk := Subgroup.isPerfect_iff.mp hPqs.1
   set H : ModGL Tag.E6 Ω := c * mw * Qh⁻¹ with hH

@@ -48,6 +48,7 @@ theorem pCore_three_le_center_bar2_of_calC {D : Data G} {L : Subgroup G} (hL : L
     exact absurd (Nat.prime_two.dvd_of_dvd_pow h2) (by norm_num)
   · exact hle
 
+omit [Finite G] in
 theorem mem_oTwoThreeIn_iff_mem_pCore_three {L : Subgroup G} {y : G} (hy : y ∈ L) :
     y ∈ CFSG.Quasithin.oTwoThreeIn L ↔
       (QuotientGroup.mk ⟨y, hy⟩ : Bar2 L) ∈ CFSG.pCore 3 (Bar2 L) := by

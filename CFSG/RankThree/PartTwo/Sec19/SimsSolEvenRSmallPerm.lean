@@ -157,11 +157,11 @@ theorem eq_of_threeCycle_fixes_mod (hn : 6 ≤ n) {a b : Fin n} (hab : a ≠ b) 
       rcases (mem_zmultiples_allOnes_iff _).1 h2 with h0 | h0
       · exfalso
         have := congrFun h0 a
-        simp [vecPerm_apply, ha', Pi.single_apply, hab, ← add_assoc,
+        simp [vecPerm_apply, ha', hab, ← add_assoc,
           CharTwo.add_self_eq_zero] at this
       · exfalso
         have := congrFun h0 i₀
-        simp [vecPerm_apply, hi₀', Pi.single_apply, hi₀a, hi₀b, allOnes, ← add_assoc,
+        simp [vecPerm_apply, hi₀', hi₀a, hi₀b, allOnes, ← add_assoc,
           CharTwo.add_self_eq_zero] at this
   have hconst : ∀ i j, i ≠ a → i ≠ b → j ≠ a → j ≠ b → x i = x j := by
     intro i j hia hib hja hjb
@@ -194,11 +194,11 @@ theorem eq_of_threeCycle_fixes_mod (hn : 6 ≤ n) {a b : Fin n} (hab : a ≠ b) 
     funext i
     by_cases hia : i = a
     · subst hia
-      simp [Pi.single_apply, hab]
+      simp [hab]
     by_cases hib : i = b
     · subst hib
-      simp [Pi.single_apply, hia]
-    simp [Pi.single_apply, hia, hib, hy0 i hia hib]
+      simp [hia]
+    simp [hia, hib, hy0 i hia hib]
   rw [← hy, hyeq, QuotientAddGroup.mk_add]
   rcases zmod_two_cases' (y a) with ha | ha <;> rcases zmod_two_cases' (y b) with hb | hb <;>
     simp [ha, hb]

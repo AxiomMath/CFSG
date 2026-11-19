@@ -17,7 +17,7 @@ theorem s16h_e3_l3_three_fix_rank_section [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     (hL3 : s16h_H5L3Sum L (commSub (⊤ : Subgroup W) L)
       (commSub (⊤ : Subgroup W) L ⊓ fixV L) 3)
-    {τ : MulAut W} (hτ2 : τ ^ 2 = 1) (hτ1 : τ ≠ 1)
+    {τ : MulAut W} (hτ2 : τ ^ 2 = 1) (_hτ1 : τ ≠ 1)
     (hτN : τ ∈ Subgroup.normalizer (L : Set (MulAut W)))
     (hτC : τ ∉ centSub (commSub (⊤ : Subgroup W) L)) :
     rk (fixV (autSec (Subgroup.zpowers τ) (commSub (⊤ : Subgroup W) L)

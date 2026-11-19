@@ -52,15 +52,15 @@ termination_by k
 
 theorem slpVal_base (base : ℕ → G) (nB : ℕ) (W : List (List ℕ)) {k : ℕ} (hk : k < nB) :
     slpVal base nB W k = base k := by
-  rw [slpVal, if_pos hk]
+  rw [slpVal, ite_eq_left hk]
 
 theorem slpVal_word (base : ℕ → G) (nB : ℕ) (W : List (List ℕ)) (t : ℕ)
     (hr : ∀ c ∈ W.getD t [], c / 2 < nB + t) :
     slpVal base nB W (nB + t) = ((W.getD t []).map (letG (slpVal base nB W))).prod := by
-  rw [slpVal, if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [slpVal, ite_eq_right (by omega), Nat.add_sub_cancel_left]
   congr 1
   refine List.map_congr_left fun c hc => ?_
-  rw [dif_pos (hr c hc)]
+  rw [dite_eq_left (hr c hc)]
   rfl
 
 theorem slpVal_mem (base : ℕ → G) (nB : ℕ) (W : List (List ℕ)) (K : Subgroup G)

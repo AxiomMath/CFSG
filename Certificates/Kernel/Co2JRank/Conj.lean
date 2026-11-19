@@ -163,7 +163,7 @@ theorem jClassFacts : JClassFacts where
     have hset : {x | x ∈ matGrp jWords ∧ (CrConj (repMat 0) x ∨ CrConj (repMat 7) x)} =
         {x | x ∈ matGrp jWords ∧ (jCls x = 0 ∨ jCls x = 7)} := by
       ext x
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       constructor
       · rintro ⟨hx, h⟩
         rw [crConj_iff hx (c := 0) (by norm_num), crConj_iff hx (c := 7) (by norm_num)] at h

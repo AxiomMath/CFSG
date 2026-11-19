@@ -18,6 +18,7 @@ section Linear
 
 variable {F' : Type} [Field F'] [Finite F'] [CharP F' 2]
 
+omit [Finite F'] in
 theorem model3_linear_a_ut :
     Model3A (SpecialLinearGroup (Fin 3) F') (unitriangular 3 F') (Nat.card F') := by
   refine ⟨CFSG.ComponentClassification.SymmetricLocal.card_center_unitriangular (by norm_num),
@@ -34,6 +35,7 @@ theorem model3_linear_a_ut :
     (CFSG.ComponentClassification.SymmetricLocal.corner_lt (by norm_num : 2 ≤ 3)).ne,
     CharTwo.add_self_eq_zero, transvection_zero]
 
+omit [Finite F'] in
 theorem model3_linear_b_ut :
     Model3B (SpecialLinearGroup (Fin 3) F') (unitriangular 3 F') := by
   intro x hx
@@ -47,12 +49,13 @@ theorem model3_linear_b_ut :
       (K := F') (n := 3) (by norm_num) 1
     exact ⟨_, hc, Subtype.ext hB.symm⟩
 
+omit [Finite F'] in
 theorem model3_linear_c_ut :
     Model3C (SpecialLinearGroup (Fin 3) F') (unitriangular 3 F') := by
   intro τ hτ
   have h : ¬ (linE13 F' * linConj τ = 0 ∨ linConj τ * linE13 F' = 0) := fun h =>
     hτ (model3_linear_dichotomy τ h)
-  push_neg at h
+  push Not at h
   exact model3_linear_generation _ le_sup_left fun A c hA =>
     model3_linear_transvection_mem τ h.1 h.2 A c hA
 

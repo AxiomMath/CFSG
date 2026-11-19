@@ -29,7 +29,7 @@ theorem mk_ne_one_of_mul_self {x : T} (hx : x ∈ X) (hx2 : x * x = 1) (hx1 : x 
 
 theorem orderOf_mk_eq_four {k : T} (hk : k ∈ X) (hk4 : orderOf k = 4) :
     orderOf ((⟨k, hk⟩ : ↥X) : SecQuot X) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set k' : ↥X := ⟨k, hk⟩ with hk'
   have hk'4 : orderOf k' = 4 := by rw [← Subgroup.orderOf_coe]; exact hk4
   have h4 : (k' : SecQuot X) ^ 2 ^ (1 + 1) = 1 := by

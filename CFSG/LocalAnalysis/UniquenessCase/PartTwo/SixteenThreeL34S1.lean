@@ -30,7 +30,7 @@ theorem s168e3_l34_s1_false
   let W := Vtil V₀ V hV
   let H : Subgroup (MulAut W) := lBar V₀ V hV L
   let A : Subgroup (MulAut W) := Mbar D.M V₀ V hV
-  haveI : Finite W := inferInstance
+  have : Finite W := inferInstance
   have hW : ∀ w : W, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one V₀ V hV
   have hcomm : commSub (⊤ : Subgroup W) H = ⊤ := by
     simpa [wTil, H, W, lBar] using wTil_eq_top_of_case163_2 c.conc hs
@@ -75,7 +75,7 @@ theorem s168e3_l34_s1_false
           if q = 3 then 2 else 1 :=
         s16k_pRank_aut_l34 hL' hq hq2
       rw [h2, Nat.zero_add] at h1
-      rw [if_neg hq3] at h3
+      rw [ite_eq_right hq3] at h3
       omega
     have h4 : CFSG.Open.pRank q (Mbar D.M V₀ V hV) = CFSG.Open.pRank q A := rfl
     rw [h4]

@@ -13,7 +13,7 @@ theorem card_pgroup_le_of_conj {G : Type*} [Group G] [Finite G] {t q g : G}
     {D : Subgroup G} (hD2 : IsPGroup 2 D) (hDq : D ≤ Subgroup.centralizer ({q} : Set G)) :
     Nat.card D ≤ 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer ({t} : Set G) with hC
   let D' : Subgroup G := D.map (MulAut.conj g⁻¹).toMonoidHom
   have hinj : Function.Injective (MulAut.conj g⁻¹).toMonoidHom := (MulAut.conj g⁻¹).injective

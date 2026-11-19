@@ -20,7 +20,7 @@ variable {K : Type} [Field K] [Finite K]
 theorem gcd_le_card_scalars {n : ℕ} (hn : 1 ≤ n) :
     Nat.gcd n (Nat.card K - 1) ≤ Nat.card (scalars n K) := by
   classical
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   set d := Nat.gcd n (Nat.card K - 1) with hd
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hgo : orderOf g = Nat.card K - 1 := by
@@ -76,7 +76,7 @@ theorem hopfMultiplier_card_psl (hGA : GriessAllModelsStatement) {n p f : ℕ}
   have hg2 : (Multiplier.genericOrders .PSL n p f).2 = 1 := rfl
   have hc : ∀ m : ℕ, Nat.card (Multiplicative (ZMod m)) = m := fun m => by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  simp only [Multiplier.generic, Multiplier.exceptional, hc, hg1, hg2, hex]
+  simp only [hc, hg1, hg2, hex]
   simp
 
 theorem exists_slHom_to_cover (hGA : GriessAllModelsStatement) {n p f : ℕ}
@@ -86,9 +86,9 @@ theorem exists_slHom_to_cover (hGA : GriessAllModelsStatement) {n p f : ℕ}
     (hker : q.ker ≤ Subgroup.center Y) :
     ∃ ρ : Matrix.SpecialLinearGroup (Fin n) K →* Y, ∀ g, q (ρ g) = proj n K g := by
   classical
-  haveI hSLp : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin n) K) :=
+  have hSLp : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin n) K) :=
     (CFSG.RankThree.Classical2.isQuasisimple_specialLinearGroup (K := K) hn).1
-  haveI hPp : Group.IsPerfect (projectiveSL n K) :=
+  have hPp : Group.IsPerfect (projectiveSL n K) :=
     Group.IsPerfect.ofSurjective (proj_surjective n K)
   have hCproj : (proj n K).ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin n) K) := by
     rw [ker_proj]
@@ -102,10 +102,10 @@ theorem exists_slHom_to_cover (hGA : GriessAllModelsStatement) {n p f : ℕ}
   have hkercard : Nat.gcd n (p ^ f - 1) ≤ Nat.card (proj n K).ker := by
     rw [ker_proj, ← hK]
     exact gcd_le_card_scalars (by omega)
-  haveI : Finite M := Nat.finite_of_card_ne_zero (by
+  have : Finite M := Nat.finite_of_card_ne_zero (by
     rw [hMcard]
     exact (Nat.gcd_pos_of_pos_left _ (by omega)).ne')
-  haveI : Finite N := inferInstance
+  have : Finite N := inferInstance
   have hsplit : Nat.card M = Nat.card (M ⧸ N) * Nat.card N := by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup (N)
     exact this

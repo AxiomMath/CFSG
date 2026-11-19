@@ -32,19 +32,23 @@ structure IsSiegelFamily (Qf : QuadraticForm K V) (E : Subgroup (V ≃ₗ[K] V))
   card : Nat.card E = Nat.card K ^ 3
   siegel : ∀ s ∈ E, s ≠ 1 → IsLongRootElement Qf s
 
+omit [CharP K 2] in
 theorem axisInf_le {E : Subgroup (V ≃ₗ[K] V)} {A : Submodule K V} (hA : A ∈ axes E) :
     axisInf E ≤ A :=
   iInf₂_le A hA
 
+omit [CharP K 2] in
 theorem le_axisInf {E : Subgroup (V ≃ₗ[K] V)} {P : Submodule K V} (h : ∀ A ∈ axes E, P ≤ A) :
     P ≤ axisInf E :=
   le_iInf₂ h
 
+omit [CharP K 2] in
 theorem le_commutatorSpace_of_mem_axes {E : Subgroup (V ≃ₗ[K] V)} {A : Submodule K V}
     (hA : A ∈ axes E) : A ≤ commutatorSpace E := by
   obtain ⟨s, hs, -, rfl⟩ := hA
   exact movedSpace_le_commutatorSpace hs
 
+omit [CharP K 2] in
 theorem commutatorSpace_le_of_forall_axes_le {E : Subgroup (V ≃ₗ[K] V)} {U : Submodule K V}
     (h : ∀ A ∈ axes E, A ≤ U) : commutatorSpace E ≤ U := by
   refine Submodule.span_le.mpr ?_
@@ -62,16 +66,19 @@ variable [Finite K] [FiniteDimensional K V]
 
 include hnd hE
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem IsSiegelFamily.finrank_eq_two {A : Submodule K V} (hA : A ∈ axes E) :
     finrank K A = 2 := by
   obtain ⟨s, hs, hs1, rfl⟩ := hA
   exact (hE.siegel s hs hs1).finrank_movedSpace hnd
 
+omit [Finite K] [FiniteDimensional K V] hnd in
 theorem IsSiegelFamily.qf_eq_zero_of_mem_axes {A : Submodule K V} (hA : A ∈ axes E) :
     ∀ w ∈ A, Qf w = 0 := by
   obtain ⟨s, hs, hs1, rfl⟩ := hA
   exact fun w hw => (hE.siegel s hs hs1).qf_eq_zero_of_mem_movedSpace hw
 
+omit [CharP K 2] [FiniteDimensional K V] hnd in
 theorem IsSiegelFamily.nonempty_axes : (axes E).Nonempty := by
   by_contra hne
   have hall : ∀ s ∈ E, s = 1 := fun s hs => by
@@ -84,6 +91,7 @@ theorem IsSiegelFamily.nonempty_axes : (axes E).Nonempty := by
   have : 1 < Nat.card K ^ 3 := Nat.one_lt_pow (by norm_num) hq
   omega
 
+omit [Finite K] in
 theorem IsSiegelFamily.pair {A A' : Submodule K V} (hA : A ∈ axes E) (hA' : A' ∈ axes E)
     (hne : A ≠ A') :
     finrank K ↥(A ⊓ A') = 1 ∧ A ≤ LinearMap.BilinForm.orthogonal (polarBilin Qf) A' ∧
@@ -98,14 +106,16 @@ theorem IsSiegelFamily.pair {A A' : Submodule K V} (hA : A ∈ axes E) (hA' : A'
   exact lemma_three_one hnd (hE.siegel s hs hs1) (hE.siegel s' hs' hs1')
     (hE.comm s hs s' hs') (hE.siegel _ (mul_mem hs hs') hmul) hne
 
+omit [Finite K] in
 theorem IsSiegelFamily.polar_eq_zero_of_mem_axes {A A' : Submodule K V} (hA : A ∈ axes E)
     (hA' : A' ∈ axes E) {u w : V} (hu : u ∈ A) (hw : w ∈ A') : polar Qf u w = 0 := by
   by_cases h : A = A'
   · subst h
-    exact polar_eq_zero_of_totallySingular (hE.qf_eq_zero_of_mem_axes hnd hA) hu hw
+    exact polar_eq_zero_of_totallySingular (hE.qf_eq_zero_of_mem_axes hA) hu hw
   · rw [polar_comm]
     exact mem_orthogonal_iff_polar.mp ((hE.pair hnd hA hA' h).2.1 hu) w hw
 
+omit [Finite K] in
 theorem IsSiegelFamily.qf_eq_zero_of_mem_commutatorSpace :
     ∀ w ∈ commutatorSpace E, Qf w = 0 := by
   intro w hw
@@ -119,12 +129,13 @@ theorem IsSiegelFamily.qf_eq_zero_of_mem_commutatorSpace :
   refine map_eq_zero_of_mem_span (S := ⋃ A ∈ axes E, (A : Set V)) ?_ ?_ (hle hw)
   · intro u hu
     obtain ⟨A, hA, hu⟩ := Set.mem_iUnion₂.mp hu
-    exact hE.qf_eq_zero_of_mem_axes hnd hA u hu
+    exact hE.qf_eq_zero_of_mem_axes hA u hu
   · intro u hu w hw
     obtain ⟨A, hA, hu⟩ := Set.mem_iUnion₂.mp hu
     obtain ⟨A', hA', hw⟩ := Set.mem_iUnion₂.mp hw
     exact hE.polar_eq_zero_of_mem_axes hnd hA hA' hu hw
 
+omit [Finite K] [FiniteDimensional K V] hnd [CharP K 2] in
 theorem IsSiegelFamily.le_piGroup {P : Submodule K V} (hP : ∀ A ∈ axes E, P ≤ A) :
     E ≤ piGroup Qf P (commutatorSpace E) := by
   intro s hs
@@ -136,19 +147,19 @@ theorem IsSiegelFamily.le_piGroup {P : Submodule K V} (hP : ∀ A ∈ axes E, P 
 
 theorem IsSiegelFamily.four_le_finrank_commutatorSpace {P : Submodule K V}
     (hP1 : finrank K P = 1) (hP : ∀ A ∈ axes E, P ≤ A) : 4 ≤ finrank K (commutatorSpace E) := by
-  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes hnd
+  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes
   have hPW : P ≤ commutatorSpace E := (hP A₀ hA₀).trans (le_commutatorSpace_of_mem_axes hA₀)
   have hcard := natCard_piGroup hnd (hE.qf_eq_zero_of_mem_commutatorSpace hnd) hP1 hPW
   have hq : 1 < Nat.card K := Finite.one_lt_card
   have hfin : Finite (piGroup Qf P (commutatorSpace E)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ (by omega))
-  have hle := Subgroup.card_le_of_le (hE.le_piGroup hnd hP)
+  have hle := Subgroup.card_le_of_le (hE.le_piGroup hP)
   rw [hE.card, hcard] at hle
   have := (pow_le_pow_iff_right₀ hq).mp hle
   omega
 
 theorem IsSiegelFamily.conc_or_copl : Conc E ∨ Copl E := by
-  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes hnd
+  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes
   rcases exists_point_le_or_exists_plane_ge ⟨A₀, hA₀⟩ (fun A hA => hE.finrank_eq_two hnd hA)
     (fun A hA A' hA' hne => (hE.pair hnd hA hA' hne).1) with ⟨P, hP1, hP⟩ | ⟨U, hU3, hU⟩
   · refine Or.inl ⟨⟨P, hP1, hP⟩, ?_⟩
@@ -165,7 +176,7 @@ theorem IsSiegelFamily.conc_or_copl : Conc E ∨ Copl E := by
 theorem IsSiegelFamily.exists_ne_axes_of_conc (hc : Conc E) :
     ∃ A₁ ∈ axes E, ∃ A₂ ∈ axes E, A₁ ≠ A₂ := by
   obtain ⟨⟨P, hP1, hP⟩, -⟩ := hc
-  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes hnd
+  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes
   by_contra! hcon
   have hle : commutatorSpace E ≤ A₀ :=
     commutatorSpace_le_of_forall_axes_le fun A hA => (hcon A hA A₀ hA₀).le
@@ -182,13 +193,15 @@ theorem IsSiegelFamily.finrank_axisInf_of_conc (hc : Conc E) : finrank K (axisIn
   have h5 := Submodule.finrank_mono (le_inf (axisInf_le hA₁) (axisInf_le hA₂))
   omega
 
+omit [Finite K] [FiniteDimensional K V] hnd [CharP K 2] in
 theorem IsSiegelFamily.le_piGroup_axisInf : E ≤ piGroup Qf (axisInf E) (commutatorSpace E) :=
-  hE.le_piGroup hnd fun _ hA => axisInf_le hA
+  hE.le_piGroup fun _ hA => axisInf_le hA
 
+omit [FiniteDimensional K V] in
 theorem IsSiegelFamily.exists_ne_axes_of_copl (hc : Copl E) :
     ∃ A₁ ∈ axes E, ∃ A₂ ∈ axes E, A₁ ≠ A₂ := by
   obtain ⟨-, hnP⟩ := hc
-  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes hnd
+  obtain ⟨A₀, hA₀⟩ := hE.nonempty_axes
   by_contra! hcon
   apply hnP
   have hbot : A₀ ≠ ⊥ := fun h => by

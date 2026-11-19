@@ -41,13 +41,13 @@ structure ThirdFacts : Prop where
   u_fix : fixesFirst thB uArr 12 = true
   dfs : (dfsCnt thL thB uArr 12 13 0 (idA 2300) == 1474560) = true
 
-@[expose] def tsz (j : ℕ) : ℕ := thL[j]!.tr.size
+def tsz (j : ℕ) : ℕ := thL[j]!.tr.size
 
-@[expose] def bpt (j : ℕ) : Fin 2300 := ⟨thB[j]! % 2300, Nat.mod_lt _ (by norm_num)⟩
+def bpt (j : ℕ) : Fin 2300 := ⟨thB[j]! % 2300, Nat.mod_lt _ (by norm_num)⟩
 
-@[expose] def thT (j k : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 thL[j]!.tr[k]!
+def thT (j k : ℕ) : Equiv.Perm (Fin 2300) := permOfArr 2300 thL[j]!.tr[k]!
 
-@[expose] def stabB (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) where
+def stabB (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) where
   carrier := {g | g ∈ co2P ∧ ∀ i < j, g (bpt i) = bpt i}
   mul_mem' := fun {a b} ha hb => ⟨co2P.mul_mem ha.1 hb.1, fun i hi => by
     rw [Equiv.Perm.mul_apply, hb.2 i hi, ha.2 i hi]⟩
@@ -101,7 +101,7 @@ theorem chain_card_eq {c t : ℕ → ℕ} {n : ℕ} (h : ∀ j < n, t j * c (j +
   rw [← hsplit] at h1
   exact Nat.le_of_mul_le_mul_left h1 hpos
 
-@[expose] def prodFrom (k : ℕ → ℕ) : ℕ → ℕ → Equiv.Perm (Fin 2300)
+def prodFrom (k : ℕ → ℕ) : ℕ → ℕ → Equiv.Perm (Fin 2300)
   | 0, _ => 1
   | f + 1, j => thT j (k j) * prodFrom k f (j + 1)
 

@@ -30,6 +30,7 @@ section Swap
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem conjAut_swap_fix {A : gsp 2 K} {g : StatedSp 2 K}
     (hgA : ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *
         ((A : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) =
@@ -72,6 +73,7 @@ theorem conjAut_swap_fix {A : gsp 2 K} {g : StatedSp 2 K}
   rw [map_mul, map_inv, mul_inv_eq_one] at hker
   exact hker
 
+omit [Finite K] in
 theorem conjAut_swap_notMem {A : gsp 2 K} {g : StatedSp 2 K} (h2 : (2 : K) ≠ 0)
     (hgA : ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *
         ((A : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) =
@@ -105,7 +107,7 @@ theorem conjAut_swap_notMem {A : gsp 2 K} {g : StatedSp 2 K} (h2 : (2 : K) ≠ 0
   have hN0 : ((g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *
       ((A : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) ≠ 0 := by
     have := Units.ne_zero ((g : GL (Fin 2 ⊕ Fin 2) K) * (A : GL (Fin 2 ⊕ Fin 2) K))
-    simpa using this
+    simp
   have hc0 : (c : K) ≠ 0 := c.ne_zero
   have h2c : ((2 : K) * c) • (((g : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *
@@ -174,7 +176,7 @@ theorem a6SmallConcl_conjAut {f : ℕ} (hf : f = 1 ∨ f = 2) (hK : Nat.card K =
     · exact absurd (isSolvable_fixed_of_spCent A (h3 rfl)) h.not_solvable
   ·
     have hK9 : Nat.card K = 9 := by simpa using hK
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have hneg1 : IsSquare (-1 : K) :=
       FiniteField.isSquare_neg_one_iff.2 (by rw [← Nat.card_eq_fintype_card, hK9]; norm_num)
     obtain ⟨i, hi⟩ := hneg1

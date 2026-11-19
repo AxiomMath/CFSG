@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.Y10F
 
 open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
-@[expose] def TwA5CoverWitness (n p : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] : Prop :=
+@[expose] def TwA5CoverWitness (n _p : ℕ) (F : Type) [Field F] [Finite F] [CharP F 2] : Prop :=
   ∃ (B : Subgroup (StatedSU 6 (2 ^ n) F)) (x : StatedSU 6 (2 ^ n) F)
     (E S : Subgroup (StatedSU 6 (2 ^ n) F)),
     x ∈ Subgroup.center (StatedSU 6 (2 ^ n) F) ∧ x ∈ B ∧ x ≠ 1 ∧
@@ -121,7 +121,7 @@ private theorem shape_statedSU_six {n : ℕ} (F : Type) [Field F] [Finite F] [Ch
     (Or.inl ⟨rfl, rfl, hZ3, rfl, rfl⟩))))))⟩
 
 private theorem center_odd_and_twoRank_statedSU_six {n : ℕ} (F : Type) [Field F] [Finite F]
-    [CharP F 2] (hn : 2 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2) (hodd : Odd n)
+    [CharP F 2] (hn : 2 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2) (_hodd : Odd n)
     (hZ3 : 3 ∣ Nat.card (Subgroup.center (StatedSU 6 (2 ^ n) F)))
     (hR4 : evenRank (StatedSU 6 (2 ^ n) F) = 4) :
     Odd (Nat.card (Subgroup.center ↥(⊤ : Subgroup (StatedSU 6 (2 ^ n) F)))) ∧

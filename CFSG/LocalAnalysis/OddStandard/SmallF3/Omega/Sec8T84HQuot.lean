@@ -62,7 +62,7 @@ theorem hPm_le_omegaProj (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) :
   Subgroup.map_mono (ffP0_le_omega hQ fr)
 
 theorem hPm_card (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) c) : Nat.card (hPm hQ fr) = 2 ^ 7 := by
+    (_hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) c) : Nat.card (hPm hQ fr) = 2 ^ 7 := by
   have h0 : 0 < Module.finrank (ZMod 3) V := by rw [hdim]; norm_num
   have hker : (toProj Q).ker = piGroup Q := QuotientGroup.ker_mk' (piGroup Q)
   have hker_le : (toProj Q).ker ≤ ffP0 hQ fr := by
@@ -95,7 +95,7 @@ theorem hPm_sylow (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
 theorem mem_normalizer_of_toProj (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) {t : OGroup Q}
     (ht : toProj Q t ∈ normalizer (hPm hQ fr : Set (ProjOrth Q))) :
     t ∈ normalizer (ffP0 hQ fr : Set (OGroup Q)) := by
-  haveI : Finite (ffP0 hQ fr) :=
+  have : Finite (ffP0 hQ fr) :=
     Nat.finite_of_card_ne_zero (by rw [ffP0_card hQ fr]; norm_num)
   apply Subgroup.mem_normalizer_fintype
   intro u hu
@@ -107,7 +107,7 @@ theorem mem_normalizer_of_toProj (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c
   rwa [comap_hPm hQ fr] at h2
 
 theorem isLiftE16_comap (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) c) {B : Subgroup (ProjOrth Q)}
+    (_hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) c) {B : Subgroup (ProjOrth Q)}
     (hB : B ≤ hPm hQ fr) (hE : IsElemAb2 B 4) : IsLiftE16 hQ fr (B.comap (toProj Q)) := by
   have h0 : 0 < Module.finrank (ZMod 3) V := by rw [hdim]; norm_num
   have hcardB : Nat.card B = 16 := by
@@ -140,7 +140,7 @@ theorem isLiftE16_comap (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
       exact MonoidHom.mem_ker.mpr hsq
     exact mem_piGroup_iff.mp hmem
   · intro u hu v hv
-    haveI : IsMulCommutative B := hE.1.1
+    have : IsMulCommutative B := hE.1.1
     have hcomm : toProj Q u * toProj Q v = toProj Q v * toProj Q u :=
       congrArg Subtype.val (mul_comm' (⟨toProj Q u, Subgroup.mem_comap.mp hu⟩ : B)
         (⟨toProj Q v, Subgroup.mem_comap.mp hv⟩ : B))

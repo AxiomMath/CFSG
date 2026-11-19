@@ -55,7 +55,7 @@ theorem graph_sq (h3a : ∀ a : G, a * a = 1 → R ≤ Subgroup.centralizer ({a}
       C.t_not_mem_zpowers hR'Q (hinv _ C.D.x₂_mem)
   have hQS : W ⊔ Subgroup.zpowers c ≤ (S : Subgroup G) :=
     sup_le C.hd.hWS (Subgroup.zpowers_le.mpr hcS)
-  have hQ2 : IsPGroup 2 ↥(W ⊔ Subgroup.zpowers c) := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 ↥(W ⊔ Subgroup.zpowers c) := S.isPGroup.to_le hQS
   have hQJ : W ⊔ Subgroup.zpowers c ≤ Subgroup.normalizer (C.D.F.ρ₃.K : Set G) :=
     sup_le (C.W_le_normalizer C.D.F.ρ₃.K C.D.F.ρ₃.hK ⟨C.x₃_mem_J, C.D.x₃_mem⟩ C.orderOf_x₃)
       (Subgroup.zpowers_le.mpr (mem_normalizer_iff_conjSub_eq.mpr hJ))
@@ -98,7 +98,7 @@ theorem graph_sq (h3a : ∀ a : G, a * a = 1 → R ≤ Subgroup.centralizer ({a}
   have hT₃c : T₃ ≤ Subgroup.centralizer ({c * c} : Set G) :=
     sq_le_centralizer hU₃ hcard hs₃ hs₃U hT₃Q (hinv _ C.D.x₃_mem)
   refine S24B.eq_one_of_forall_pow
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (S.mul_mem hcS hcS))) fun k hk => ?_
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (S.mul_mem hcS hcS))) fun k hk => ?_
   exact h3a _ hk
     (S24B.le_centralizer_pow hR k) (S24B.le_centralizer_pow hR' k) T₃ hT₃ hT₃W
     (S24B.le_centralizer_pow hT₃c k)

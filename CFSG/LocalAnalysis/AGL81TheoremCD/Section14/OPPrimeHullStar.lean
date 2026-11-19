@@ -88,8 +88,8 @@ theorem map_oPPrimeHull_top_of_surjective (hp : p.Prime) (φ : A →* B)
     (oPPrimeHull p (⊤ : Subgroup A)).map φ =
       oPPrimeHull p (⊤ : Subgroup B) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite B := Finite.of_surjective φ hφ
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite B := Finite.of_surjective φ hφ
   rw [oPPrimeHull_top_eq_primeResidual (A := A),
     oPPrimeHull_top_eq_primeResidual (A := B)]
   exact primeResidual_map_surjective p φ hφ
@@ -105,12 +105,12 @@ private theorem nonempty_quot_oPPrimeHull_pPrimeCore (M : Subgroup G) :
         CFSG.pPrimeCore 3 ↥(oPPrimeHull 3 (⊤ : Subgroup ↥M)) ≃*
       ↥(oPPrimeHull 3 (⊤ : Subgroup (↥M ⧸ CFSG.pPrimeCore 3 ↥M)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   let N : Subgroup ↥M := oPPrimeHull 3 (⊤ : Subgroup ↥M)
   let O : Subgroup (↥M ⧸ C) := oPPrimeHull 3 (⊤ : Subgroup (↥M ⧸ C))
-  haveI hCnorm : C.Normal := CFSG.pPrimeCore_normal
-  haveI hNnorm : N.Normal := oPPrimeHull_top_normal 3
+  have hCnorm : C.Normal := CFSG.pPrimeCore_normal
+  have hNnorm : N.Normal := oPPrimeHull_top_normal 3
   let π : ↥M →* ↥M ⧸ C := QuotientGroup.mk' C
   have hO : N.map π = O :=
     map_oPPrimeHull_top_of_surjective Nat.prime_three π (QuotientGroup.mk'_surjective C)
@@ -158,7 +158,7 @@ theorem nonempty_threeStar_oPPrimeHull_mulEquiv (M : Subgroup G) :
   classical
   let J : Subgroup G := oPPrimeHull 3 M
   let N : Subgroup ↥M := oPPrimeHull 3 (⊤ : Subgroup ↥M)
-  haveI hNnorm : N.Normal := oPPrimeHull_top_normal 3
+  have hNnorm : N.Normal := oPPrimeHull_top_normal 3
   have hNmap : N.map M.subtype = J := map_subtype_oPPrimeHull_top M 3
   let eNJ : ↥N ≃* ↥J :=
     (Subgroup.equivMapOfInjective N M.subtype M.subtype_injective).trans

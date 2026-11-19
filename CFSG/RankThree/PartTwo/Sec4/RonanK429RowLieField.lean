@@ -62,7 +62,7 @@ theorem pCore_two_eq_bot_of_cube_mem {C J : Subgroup G} (hJC : J ≤ C) (hJ : Is
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup C := CFSG.pCore 2 C with hNdef
-  haveI hNn : N.Normal := CFSG.pCore_normal
+  have hNn : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have key : ∀ y ∈ N, y ^ 3 = 1 → y = 1 := by
     intro y hy hy3
@@ -75,8 +75,8 @@ theorem pCore_two_eq_bot_of_cube_mem {C J : Subgroup G} (hJC : J ≤ C) (hJ : Is
     rw [hg, Nat.dvd_one, orderOf_eq_one_iff] at hd
     exact hd
   set M : Subgroup J := N.comap (Subgroup.inclusion hJC) with hM
-  haveI : M.Normal := hNn.comap _
-  haveI := hJ
+  have : M.Normal := hNn.comap _
+  have := hJ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hbot | htop
   · rw [eq_bot_iff]
     intro y hy
@@ -167,8 +167,7 @@ theorem ker_linFix (φ : K ≃+* K) : (linFix φ).ker = scalars 3 (fixedField φ
     · rw [← map_pow, hc, map_one]
     · ext i j
       rw [SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply, hgc]
-      simp only [Matrix.scalar_apply, Matrix.diagonal_apply, Units.coe_map,
-        MonoidHom.coe_coe]
+      simp only [Matrix.scalar_apply, Matrix.diagonal_apply, Units.coe_map]
       split_ifs <;> simp
 
 @[expose] noncomputable def linFixEquiv (φ : K ≃+* K) :
@@ -177,7 +176,7 @@ theorem ker_linFix (φ : K ≃+* K) : (linFix φ).ker = scalars 3 (fixedField φ
     (QuotientGroup.quotientKerEquivRange (linFix φ))
 
 theorem isSimpleGroup_range_linFix (φ : K ≃+* K) : IsSimpleGroup (linFix φ).range := by
-  haveI := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
+  have := CFSG.ComponentClassification.OutcomeLocal.isSimpleGroup_projectiveSL
     (k := fixedField φ) (n := 3) le_rfl
   exact (linFixEquiv φ).symm.isSimpleGroup
 
@@ -202,7 +201,6 @@ theorem eq_comap_range_linFix {S : Type*} [Group S] (τ : S ≃* projectiveSL 3 
   · rintro x ⟨g₀, hg₀⟩
     rw [hC]
     have h1 : fieldAut 3 K φ (τ x) = τ x := by
-      change fieldAut 3 K φ (τ x) = τ x
       rw [← show linFix φ g₀ = τ x from hg₀]
       exact linFix_fixed φ g₀
     rw [← hστ] at h1
@@ -340,7 +338,7 @@ theorem ker_uniFix (hq₀ : 2 < p ^ f₀) :
     ext i j
     rw [coe_suIncl_apply, hgc]
     simp only [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.diagonal_apply, Units.coe_map, MonoidHom.coe_coe]
+      Matrix.diagonal_apply, Units.coe_map]
     split_ifs <;> simp
 
 @[expose] noncomputable def uniFixEquiv (hq₀ : 2 < p ^ f₀) :
@@ -350,12 +348,12 @@ theorem ker_uniFix (hq₀ : 2 < p ^ f₀) :
     (QuotientGroup.quotientKerEquivRange (uniFix h h₀ hbar))
 
 theorem isSimpleGroup_range_uniFix (hq₀ : 2 < p ^ f₀) : IsSimpleGroup (uniFix h h₀ hbar).range := by
-  haveI := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
+  have := CFSG.RankThree.PartTwo.Sec21.Item211Lie2Proof.isSimpleGroup_unitaryPSU_three
     (h := h₀) hq₀
   exact (uniFixEquiv h h₀ hbar hq₀).symm.isSimpleGroup
 
 theorem isSolvable_range_uniFix (hq₀ : p ^ f₀ = 2) : Group.IsSolvable (uniFix h h₀ hbar).range := by
-  haveI := CFSG.RankThree.PartTwo.Sec4.Item424Res3.isSolvable_unitarySU_two h₀ hq₀
+  have := CFSG.RankThree.PartTwo.Sec4.Item424Res3.isSolvable_unitarySU_two h₀ hq₀
   exact Group.isSolvable_of_surjective (f := (uniFix h h₀ hbar).rangeRestrict)
     (MonoidHom.rangeRestrict_surjective (uniFix h h₀ hbar))
 
@@ -381,7 +379,6 @@ theorem comap_range_uniFix_facts {S : Type*} [Group S] (τ : S ≃* unitaryPSU h
   · rintro x ⟨g₀, hg₀⟩
     rw [hC]
     have h1 : psuField h σ (τ x) = τ x := by
-      change psuField h σ (τ x) = τ x
       rw [← show uniFix h h₀ hbar g₀ = τ x from hg₀]
       exact uniFix_fixed h h₀ hbar g₀
     rw [← hστ] at h1
@@ -431,13 +428,13 @@ theorem false_of_uniFix_two (h₀ : UnitaryFieldData p f₀ (fixedField σ))
     (hnt : J ≠ ⊥) : False := by
   obtain ⟨hJP, -⟩ := comap_range_uniFix_facts (h₀ := h₀) (hbar := hbar) τ hστ hC hJC
   have hsolP : Group.IsSolvable ((uniFix h h₀ hbar).range.comap τ.toMonoidHom) := by
-    haveI := isSolvable_range_uniFix h h₀ hbar hq₀
+    have := isSolvable_range_uniFix h h₀ hbar hq₀
     exact Group.isSolvable_of_surjective (f := (comapEquiv τ (uniFix h h₀ hbar).range).symm.toMonoidHom)
       (comapEquiv τ (uniFix h h₀ hbar).range).symm.surjective
   have hsolJ : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJP)
       (Subgroup.inclusion_injective hJP)
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hnt
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hnt
   exact Group.IsPerfect.not_isSolvable J hsolJ
 
 end Unitary

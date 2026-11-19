@@ -141,7 +141,7 @@ theorem exists_lift_of_ker_two {G W : Type*} [Group G] [Finite G] [Group W] (ψ 
     show ψ z ∈ Q
     rw [MonoidHom.mem_ker.1 (hZk hz)]
     exact one_mem _⟩
-  haveI : Z'.Normal := ⟨fun n hn g => by
+  have : Z'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hZn g g.2.1 n hn⟩
   have hkerθ : θ.ker = Z' := by
@@ -159,7 +159,7 @@ theorem exists_lift_of_ker_two {G W : Type*} [Group G] [Finite G] [Group W] (ψ 
   have hfQ : Finite Q := by
     rw [← hrange]
     exact Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
-  haveI := hfQ
+  have := hfQ
   have hZ2 : IsPGroup 2 Z' := fun z => ⟨1, by
     have := hZ z (Subgroup.mem_subgroupOf.1 z.2)
     ext

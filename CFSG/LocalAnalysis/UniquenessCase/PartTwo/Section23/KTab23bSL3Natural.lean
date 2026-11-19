@@ -29,7 +29,7 @@ theorem isL2_bar2_perfectCore_Q3 {K : Type} [Field K] [Finite K] [CharP K 2]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab := sl2_nonabelian hK4
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := sl2_isSimple hK4
   have hmodel : CFSG.Blueprint.LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -210,8 +210,8 @@ theorem fixV_UH (K : Type) [Field K] [Finite K] [CharP K 2] :
     have hv1 := congrArg (fun y => (Multiplicative.toAdd y) 0) h1
     have hv2 := congrArg (fun y => (Multiplicative.toAdd y) 1) h2
     rw [toAdd_matAut_apply, coe_toGL_uSL, uMat_mulVec] at hv1 hv2
-    simp only [Pi.zero_apply, mul_zero, zero_mul, add_zero, Pi.add_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_fin_one] at hv1 hv2
+    simp only [zero_mul, add_zero, Matrix.cons_val_zero,
+      Matrix.cons_val_one] at hv1 hv2
     refine ⟨?_, ?_⟩
     · exact add_left_cancel (a := Multiplicative.toAdd x 0) (by simpa using hv1)
     · exact add_left_cancel (a := Multiplicative.toAdd x 1) (by simpa using hv2)
@@ -234,8 +234,6 @@ theorem commV_UH (K : Type) [Field K] [Finite K] [CharP K 2] :
     change piNat (K := K) (uSL a b c) v * v⁻¹ ∈ stdPlaneSub K
     rw [mem_stdPlaneSub, mem_stdPlane]
     rw [piNat_apply]
-    change (Multiplicative.toAdd
-      (CFSG.Quasithin.H.matAut (uSL a b c) v * v⁻¹)) 2 = 0
     rw [toAdd_mul, toAdd_inv, toAdd_matAut_apply]
     rw [coe_toGL_uSL, uMat_mulVec]
     simp
@@ -377,12 +375,12 @@ theorem stabilizer_submoduleSub (K : Type) [Field K] (W : Submodule K (Fin 3 →
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer (Matrix.SpecialLinearGroup (Fin 3) K)
       (submoduleSub K W : Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) = LinearFlag.stabilizer W := by
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) :=
     MulDistribMulAction.compHom _ (piNat (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
   ext A
   rw [MulAction.mem_stabilizer_iff, LinearFlag.mem_stabilizer]
@@ -456,12 +454,12 @@ theorem Q3_zero_eq_stabilizer_stdLineSub (K : Type) [Field K] :
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer (Matrix.SpecialLinearGroup (Fin 3) K)
       (stdLineSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) = Q3 K 0 := by
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) :=
     MulDistribMulAction.compHom _ (piNat (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
   rw [stdLineSub_eq_submoduleSub, stabilizer_submoduleSub]
   simp [Q3_eq, LinearFlag.flagStabilizer_singleton]
@@ -477,12 +475,12 @@ theorem Q3_one_eq_stabilizer_stdPlaneSub (K : Type) [Field K] :
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer (Matrix.SpecialLinearGroup (Fin 3) K)
       (stdPlaneSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) = Q3 K 1 := by
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) :=
     MulDistribMulAction.compHom _ (piNat (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
   rw [stdPlaneSub_eq_submoduleSub, stabilizer_submoduleSub]
   simp [Q3_eq, LinearFlag.flagStabilizer_singleton]
@@ -497,17 +495,17 @@ theorem StdQ_zero_eq_stabilizer_stdLineSub (K : Type) [Field K] [Finite K] [Char
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (stdLineSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) = StdQ K 0 := by
-  letI : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K)).subtype
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.compHom _ (piNat (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
   have h := CFSG.ProperTwoGeneratedCore.LocalCriterionNumerator.stabilizer_map_of_equivariant
     (eSL K) (Equiv.refl (Set (CFSG.Quasithin.H.StdMod (Fin 3) K))) ?_
@@ -529,17 +527,17 @@ theorem StdQ_one_eq_stabilizer_stdPlaneSub (K : Type) [Field K] [Finite K] [Char
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
     MulAction.stabilizer (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (stdPlaneSub K : Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) = StdQ K 1 := by
-  letI : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulDistribMulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.compHom _ (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K)).subtype
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
+  let : MulAction (CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K))
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
-  letI : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulDistribMulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.compHom _ (piNat (K := K))
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (CFSG.Quasithin.H.StdMod (Fin 3) K) := MulDistribMulAction.toMulAction
-  letI : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
+  let : MulAction (Matrix.SpecialLinearGroup (Fin 3) K)
       (Set (CFSG.Quasithin.H.StdMod (Fin 3) K)) := Set.mulActionSet
   have h := CFSG.ProperTwoGeneratedCore.LocalCriterionNumerator.stabilizer_map_of_equivariant
     (eSL K) (Equiv.refl (Set (CFSG.Quasithin.H.StdMod (Fin 3) K))) ?_
@@ -576,7 +574,7 @@ theorem isL2_bar2_hinf_map_equiv {X Y : Type} [Group X] [Group Y] [Finite X] [Fi
 theorem fixedPointSubgroup_eq_fixV {V : Type} [CommGroup V] (A : Subgroup (MulAut V)) :
     letI : MulDistribMulAction ↥A V := MulDistribMulAction.compHom V A.subtype
     fixedPointSubgroup ↥A V = fixV A := by
-  letI : MulDistribMulAction ↥A V := MulDistribMulAction.compHom V A.subtype
+  let : MulDistribMulAction ↥A V := MulDistribMulAction.compHom V A.subtype
   ext v
   constructor
   · intro hv x hx
@@ -595,9 +593,9 @@ theorem stabilizer_map_conj_subgroup {V : Type} [CommGroup V]
     MulAction.stabilizer ↥H
       ((W.map ((h : ↥H) : MulAut V).toMonoidHom : Subgroup V) : Set V) =
       (MulAction.stabilizer ↥H (W : Set V)).map (MulAut.conj h).toMonoidHom := by
-  letI : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
-  letI : MulAction ↥H V := MulDistribMulAction.toMulAction
-  letI : MulAction ↥H (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
+  let : MulAction ↥H V := MulDistribMulAction.toMulAction
+  let : MulAction ↥H (Set V) := Set.mulActionSet
   have hset : (h : ↥H) • (W : Set V) =
       (W.map ((h : ↥H) : MulAut V).toMonoidHom : Subgroup V) := by
     ext x
@@ -617,9 +615,9 @@ theorem map_subtype_stabilizer_eq_inf {V : Type} [CommGroup V]
     letI : MulAction ↥H (Set V) := Set.mulActionSet
     (MulAction.stabilizer ↥H (W : Set V)).map H.subtype =
       MulAction.stabilizer (MulAut V) (W : Set V) ⊓ H := by
-  letI : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
-  letI : MulAction ↥H V := MulDistribMulAction.toMulAction
-  letI : MulAction ↥H (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
+  let : MulAction ↥H V := MulDistribMulAction.toMulAction
+  let : MulAction ↥H (Set V) := Set.mulActionSet
   ext x
   constructor
   · rintro ⟨g, hg, rfl⟩
@@ -643,9 +641,9 @@ theorem map_subtype_stabilizer_conj_normalizer {V : Type} [CommGroup V]
     letI : MulAction ↥H (Set V) := Set.mulActionSet
     ((MulAction.stabilizer ↥H (W : Set V)).map H.subtype).map (MulAut.conj t).toMonoidHom =
       (MulAction.stabilizer ↥H ((W.map t.toMonoidHom : Subgroup V) : Set V)).map H.subtype := by
-  letI : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
-  letI : MulAction ↥H V := MulDistribMulAction.toMulAction
-  letI : MulAction ↥H (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H V := MulDistribMulAction.compHom V H.subtype
+  let : MulAction ↥H V := MulDistribMulAction.toMulAction
+  let : MulAction ↥H (Set V) := Set.mulActionSet
   have hWset : (t : MulAut V) • (W : Set V) =
       ((W.map t.toMonoidHom : Subgroup V) : Set V) := by
     ext x
@@ -664,9 +662,9 @@ theorem map_subtype_stabilizer_conj_normalizer {V : Type} [CommGroup V]
 
 theorem sl3NaturalLine_holds : SL3NaturalLine := by
   intro K hF hFin n hK
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := n) (by
       rw [← Nat.card_eq_fintype_card]
@@ -682,10 +680,7 @@ theorem sl3NaturalLine_holds : SL3NaturalLine := by
   set H : Subgroup (MulAut V) := CFSG.Quasithin.H.natImage (CFSG.Open.StatedSL 3 K) with hH
   change SL3Line V H n
   unfold SL3Line
-  intro S
-  intro ℓ Pℓ
-  intro Tstar hTnorm hT2 hST
-  intro Good Pstar hmin
+  intro S ℓ Pℓ Tstar hTnorm hT2 hST Good Pstar hmin
   classical
   have hSylS : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥H) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S

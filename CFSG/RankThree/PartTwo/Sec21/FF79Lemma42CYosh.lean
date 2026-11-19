@@ -57,12 +57,12 @@ private lemma exists_hom_normalizer {K : Type} [Group K] [Finite K] (P : Sylow 3
   set N := Subgroup.normalizer ((P : Subgroup K) : Set K) with hN
   have hPN : (P : Subgroup K) ≤ N := Subgroup.le_normalizer
   set H : Subgroup N := (P : Subgroup K).subgroupOf N with hH
-  haveI : H.FiniteIndex := inferInstance
+  have : H.FiniteIndex := inferInstance
   let ψ' : H →* Multiplicative (ZMod 3) :=
     ψ.comp (Subgroup.subgroupOfEquivOfLe hPN).toMonoidHom
   refine ⟨MonoidHom.transfer ψ', ?_⟩
   set n0 : N := ⟨x, hPN x.2⟩ with hn0
-  haveI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers n0) (N ⧸ H))) :=
+  have : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers n0) (N ⧸ H))) :=
     Fintype.ofFinite _
   have key := MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot ψ' n0
   have hgen : ∀ (m : ℕ) (g : N) (hy : g⁻¹ * n0 ^ m * g ∈ H),
@@ -117,7 +117,7 @@ theorem not_mem_OUp_of_hom [Finite G] (M B : Subgroup G) (hB : IsSylowOf 3 B M)
     (hel : IsElementaryAbelian 3 B) (ψ : ↥B →* Multiplicative (ZMod 3))
     (hψ : ∀ n ∈ M ⊓ Nor B, ∀ x y : ↥B, n * (x : G) * n⁻¹ = (y : G) → ψ y = ψ x)
     (x : ↥B) (hx : ψ x ≠ 1) : (x : G) ∉ OUp 3 M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hBM, hBp, hcop⟩ := hB
   have hp : IsPGroup 3 (B.subgroupOf M) :=
     hBp.of_surjective (Subgroup.subgroupOfEquivOfLe hBM).symm.toMonoidHom
@@ -126,7 +126,7 @@ theorem not_mem_OUp_of_hom [Finite G] (M B : Subgroup G) (hB : IsSylowOf 3 B M)
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hcop
   let P : Sylow 3 M := hp.toSylow hidx
   have hP : (P : Subgroup M) = B.subgroupOf M := rfl
-  haveI : IsMulCommutative (P : Subgroup M) :=
+  have : IsMulCommutative (P : Subgroup M) :=
     ⟨⟨fun a b => by
       have := IsMulCommutative.is_comm.comm (⟨(a.1 : G), a.2⟩ : B) ⟨(b.1 : G), b.2⟩
       have h := congrArg Subtype.val this

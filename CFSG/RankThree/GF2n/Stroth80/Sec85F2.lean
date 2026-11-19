@@ -31,6 +31,7 @@ theorem sec8_isPGroup_CN (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   rw [pow_succ, mul_comm, pow_mul]
   exact h1
 
+omit [Finite G] in
 theorem sec8_simple_quot (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t) :
     ∃ (S : Type) (_ : Group S) (π : ↥(Rt M (LB M Q B) t) →* S), Function.Surjective π ∧
       (∀ r : ↥(Rt M (LB M Q B) t), π r = 1 ↔ (r : G) ∈ hc.CN t) ∧ IsSimpleGroup S := by
@@ -38,7 +39,7 @@ theorem sec8_simple_quot (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   obtain ⟨m, hm2, K', hF, hFin, hcard, hnat⟩ := hs.sp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
   have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
   obtain ⟨φ, hφr, hφk, -⟩ := hnat
   obtain ⟨h1, -, -⟩ := endg_sp_facts hK4 hm2
@@ -82,7 +83,7 @@ theorem sec8_DR (h51 : Stroth51Statement) (hA : Sec8AExistsStatement) (h54 : Str
           simp only [commutatorElement_def]; group
         rw [e]
         exact Q.mul_mem (hnormQ a haM _ (hb c hc')) (ha c hc')
-      one_mem' := ⟨M.one_mem, fun c _ => by simpa [commutatorElement_def] using Q.one_mem⟩
+      one_mem' := ⟨M.one_mem, fun c _ => by simp [commutatorElement_def]⟩
       inv_mem' := by
         rintro a ⟨haM, ha⟩
         refine ⟨M.inv_mem haM, fun c hc' => ?_⟩
@@ -164,8 +165,8 @@ theorem step85F2_holds (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hXN : ∀ g ∈ X, ∀ y ∈ N, g * y * g⁻¹ ∈ N := fun g hg y hy =>
     (Subgroup.mem_normalizer_iff.mp (conjSubgroup_eq_self_iff.mp
       (conjSubgroup_CN_eq hc (hXM hg) (hXRN g hg).1 (hXRN g hg).2)) y).mp hy
-  haveI hRn : ((bar M Q R).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXR
-  haveI hNn : ((bar M Q N).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXN
+  have hRn : ((bar M Q R).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXR
+  have hNn : ((bar M Q N).subgroupOf (bar M Q X)).Normal := sec712_bar_normal hXN
   have hN2 : IsPGroup 2 ↥((bar M Q N).subgroupOf (bar M Q X)) :=
     sec712_isPGroup_bar (sec8_isPGroup_CN h34 h51 hA hc hs hZ0)
   have hDR := sec8_DR h51 hA h54 hge hc hs hZ0

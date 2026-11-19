@@ -12,6 +12,7 @@ open CFSG.QuasithinUnique.Setup.Campbell
 variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : Sylow 2 G}
   {ρ : G →* Matrix.SpecialLinearGroup (Fin 2) k} {ψ : Ecore G →* Multiplicative (Fin 2 → k)}
 
+omit [Finite G] in
 private theorem WJ_eq_iSup_Six1 (S : Sylow 2 G)
     (α : MulAut ↥(CFSG.Quasithin.thompsonJ (S : Subgroup G))) :
     WJ S α = ⨆ u : ↥(Hone S),
@@ -155,6 +156,7 @@ private theorem WJ_commutator_le_Six1 (h : IsSeed S ρ (Ecore G) ψ)
   refine iSup_le fun _ => ?_
   exact (cj_mono hFaH).trans (le_of_eq (cj_eq_self_of_normal (Y := Hone S) (g := u)))
 
+omit [Finite G] in
 private theorem mul_sq_eq_Six1 {a b : G}
     (hc : b * (b⁻¹ * a⁻¹ * b * a) = (b⁻¹ * a⁻¹ * b * a) * b) :
     (a * b) ^ 2 = a ^ 2 * b ^ 2 * (b⁻¹ * a⁻¹ * b * a) := by

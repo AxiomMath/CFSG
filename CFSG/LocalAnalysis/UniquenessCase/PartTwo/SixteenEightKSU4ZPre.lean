@@ -70,7 +70,7 @@ theorem s16k_su4z_v1_ne_bot (h : S16gRowCtx D V₀ V L hV) (hV0 : V₀ = ⊥)
       _ = v.val * l := by rw [h3]
   have hmem : v.val ∈ v1Sub D.M (⊥ : Subgroup G) V hV L := by
     unfold v1Sub
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     refine Subgroup.mem_iSup_of_mem (1 : D.M) ?_
     change v.val ∈ conjSubgroup (wSub (⊥ : Subgroup G) V hV L ⊓ centralizer (L : Set G)) (1 : G)
     rw [conjSubgroup_one]

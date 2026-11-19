@@ -27,6 +27,7 @@ namespace P22sp
 
 variable {Umod : Type} [AddCommGroup Umod] [Module (ZMod 2) Umod] [Finite Umod]
 
+omit [Finite Umod] in
 theorem mem_centralizer_iff_fix (D : Data G) (e : ↥D.U ≃* Multiplicative Umod)
     (ρ : Representation (ZMod 2) (MBar D.M D.U) Umod) (hc : ConjModule D.M D.U e ρ)
     {Y : Subgroup (MBar D.M D.U)} (hY : Y ≤ mbarImage D.M D.U (proofN D)) {x : G} (hx : x ∈ D.M) :
@@ -158,6 +159,7 @@ theorem relIndex_mul_card_le (D : Data G) (Ch : Choice2011 G) (h3 : S22_3_3 D Ch
     _ ≤ Nat.card ↥(natIi ρ Nbar (Nb i)) := hloc
     _ = Nat.card Ii := hIi
 
+omit [Finite G] in
 theorem isElemAbelian_omegaZJ22 (R : Subgroup G) : IsElemAbelian 2 (omegaZJ22 R) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun z hz => (uc22p22e_mem_omegaZJ.1 hz).2.2⟩
   obtain ⟨haJ, -, -⟩ := uc22p22e_mem_omegaZJ.1 a.2

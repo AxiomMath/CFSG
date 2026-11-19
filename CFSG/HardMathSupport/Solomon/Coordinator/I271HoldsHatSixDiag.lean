@@ -133,6 +133,7 @@ theorem i271h_conj_commute (hL : IsComponentOf K ⊤) {g : X} (hg : g ∈ B)
   · intro x hx y hy
     exact h x hx (g * y * g⁻¹) (by rw [mem_gLBConj]; simpa [mul_assoc] using hy)
 
+omit [Finite X] in
 theorem i271h_sq_not_mem {b : X} (hb3 : b ^ 3 = 1) (hbN : b ∉ Subgroup.normalizer (K : Set X)) :
     b * b ∉ Subgroup.normalizer (K : Set X) := by
   intro h

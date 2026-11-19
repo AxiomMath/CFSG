@@ -16,11 +16,13 @@ variable {Q : Type} [Group Q] [Finite Q]
 @[expose] def innerPre (H : Subgroup (MulAut Q)) : Subgroup Q :=
   H.comap (MulAut.conj : Q →* MulAut Q)
 
+omit [Finite Q] in
 theorem conj_apply_eq (α : MulAut Q) (q : Q) :
     MulAut.conj (α q) = α * MulAut.conj q * α⁻¹ := by
   ext x
   simp [MulAut.conj_apply, MulAut.mul_apply]
 
+omit [Finite Q] in
 theorem innerPre_map_eq {H : Subgroup (MulAut Q)} (α : MulAut Q)
     (hα : ∀ h, h ∈ H ↔ α * h * α⁻¹ ∈ H) :
     (innerPre H).map α.toMonoidHom = innerPre H := by
@@ -43,7 +45,7 @@ theorem exists_inner_two_subgroup {H : Subgroup (MulAut Q)} (hH : IsPGroup 2 H)
     ∃ R : Subgroup Q, R ≠ ⊥ ∧ IsPGroup 2 R ∧ R ≤ innerPre H ∧
       ∀ α : MulAut Q, (∀ h, h ∈ H ↔ α * h * α⁻¹ ∈ H) → R.map α.toMonoidHom = R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := innerPre H with hPdef
   let c : ↥P →* ↥H :=
     MonoidHom.codRestrict ((MulAut.conj : Q →* MulAut Q).comp P.subtype) H (fun p => p.2)
@@ -102,7 +104,7 @@ theorem exists_inner_two_subgroup {H : Subgroup (MulAut Q)} (hH : IsPGroup 2 H)
     rw [hR, Subgroup.mem_bot] at hxR
     rw [Subgroup.mem_bot]
     exact Subtype.ext hxR
-  · exact (R₁.isPGroup').map P.subtype
+  · exact (R₁.isPGroup).map P.subtype
   · rintro _ ⟨x, _, rfl⟩
     exact x.2
   · intro α hα
@@ -141,8 +143,8 @@ theorem pQuot_mulEquiv_of_surjective {X Y : Type} [Group X] [Group Y] [Finite X]
     (hK : Nat.Coprime p (Nat.card f.ker)) :
     Nonempty ((X ⧸ CFSG.pPrimeCore p X) ≃* (Y ⧸ CFSG.pPrimeCore p Y)) := by
   classical
-  haveI : (CFSG.pPrimeCore p X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
-  haveI : (CFSG.pPrimeCore p Y).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have : (CFSG.pPrimeCore p X).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
+  have : (CFSG.pPrimeCore p Y).Normal := Subgroup.sSup_normal _ fun _ hN => hN.1
   have himg : (CFSG.pPrimeCore p X).map f ≤ CFSG.pPrimeCore p Y := by
     apply CFSG.le_pPrimeCore_of_normal_coprime
     · exact (inferInstance : (CFSG.pPrimeCore p X).Normal).map f hf

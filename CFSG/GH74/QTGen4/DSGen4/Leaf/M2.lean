@@ -15,7 +15,7 @@ open Certificates.A5GL42 (Mat4 GroupFacts NormFacts NoInvCent)
 open scoped commutatorElement Matrix
 
 theorem m2_of_model {G : Type} [Group G] [Finite G] {L P S : Subgroup G} {H NH T0 : Finset Mat4}
-    (hP : A5Par L P) (hS : IsSylowTwoOf S P) (hQS : pCoreOf 2 P ≤ S) (hG : GroupFacts H)
+    (_hP : A5Par L P) (hS : IsSylowTwoOf S P) (hQS : pCoreOf 2 P ≤ S) (hG : GroupFacts H)
     (hN : NormFacts H NH T0) (hC : NoInvCent H)
     (hpre : A5Pre P L (pCoreOf 2 P) (dsFrattini (pCoreOf 2 P)))
     (hfaith : ∀ p ∈ P, (∀ q ∈ pCoreOf 2 P, ⁅p, q⁆ ∈ dsFrattini (pCoreOf 2 P)) → p ∈ pCoreOf 2 P)

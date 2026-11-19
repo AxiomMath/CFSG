@@ -36,8 +36,8 @@ open Matrix
 
 theorem sylowFixedLine_statedSL {K : Type} [Field K] [Finite K] [CharP K 2] {d : ℕ} [NeZero d]
     (hd : 2 ≤ d) : KTabC.SylowFixedLine (StatedSL d K) (Pi.single 0 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin d) := ⟨0⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin d) := ⟨0⟩
   obtain ⟨U, e, hU, hfix⟩ := KTabA.exists_fixedLine_statedSL (K := K) 2 d
   have h1 : KTabC.SylowFixedLine (StatedSL d K) e := KTabC.sylowFixedLine_of_isPGroup U hU e hfix
   have he : e ≠ 0 := ne_zero_of_sylowFixedLine h1

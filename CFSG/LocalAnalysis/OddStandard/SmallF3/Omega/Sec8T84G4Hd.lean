@@ -27,17 +27,21 @@ variable {G : Type} [Group G] [Finite G] {t : G} {T1 T2 : Subgroup G}
       _ = (a : G) * ((t * (a : G) * t⁻¹) * (b : G)) * (t * (b : G) * t⁻¹) := by rw [← hcomm]
       _ = ((a : G) * (t * (a : G) * t⁻¹)) * ((b : G) * (t * (b : G) * t⁻¹)) := by group
 
+omit [Finite G] in
 theorem sec8t84g4_diag_apply (W : Sec8T84Wr G t T1 T2) (a : ↥T1) :
     sec8t84g4_diag W a = (a : G) * (t * (a : G) * t⁻¹) := rfl
 
+omit [Finite G] in
 theorem sec8t84g4_diag_injective (W : Sec8T84Wr G t T1 T2) :
     Function.Injective (sec8t84g4_diag W) := fun a b h =>
   Subtype.ext (sec8t84_wr_diag_inj W a.2 b.2 h)
 
+omit [Finite G] in
 theorem sec8t84g4_diag_mem (W : Sec8T84Wr G t T1 T2) (a : ↥T1) :
     sec8t84g4_diag W a ∈ (T1 ⊔ T2) ⊓ centralizer ({t} : Set G) :=
   (sec8t84_wr_mem_cent W).mpr ⟨a, a.2, rfl⟩
 
+omit [Finite G] in
 theorem sec8t84g4_diag_conj (W : Sec8T84Wr G t T1 T2) {γ : G} (hγt : γ * t = t * γ)
     (a b : ↥T1) (hab : (b : G) = γ * a * γ⁻¹) :
     γ * sec8t84g4_diag W a * γ⁻¹ = sec8t84g4_diag W b := by
@@ -52,6 +56,7 @@ theorem sec8t84g4_diag_conj (W : Sec8T84Wr G t T1 T2) {γ : G} (hγt : γ * t = 
 @[expose] def sec8t84g4_diagSub (W : Sec8T84Wr G t T1 T2) (A : Subgroup G) : Subgroup G :=
   (A.subgroupOf T1).map (sec8t84g4_diag W)
 
+omit [Finite G] in
 theorem sec8t84g4_mem_diagSub (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} {x : G} :
     x ∈ sec8t84g4_diagSub W A ↔ ∃ a ∈ A ⊓ T1, x = a * (t * a * t⁻¹) := by
   constructor
@@ -61,24 +66,28 @@ theorem sec8t84g4_mem_diagSub (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} {x : G}
   · rintro ⟨a, ha, rfl⟩
     exact Subgroup.mem_map.mpr ⟨⟨a, ha.2⟩, Subgroup.mem_subgroupOf.mpr ha.1, rfl⟩
 
+omit [Finite G] in
 theorem sec8t84g4_diagSub_le (W : Sec8T84Wr G t T1 T2) (A : Subgroup G) :
     sec8t84g4_diagSub W A ≤ (T1 ⊔ T2) ⊓ centralizer ({t} : Set G) := by
   intro x hx
   obtain ⟨a, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact sec8t84g4_diag_mem W a
 
+omit [Finite G] in
 theorem sec8t84g4_card_diagSub (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} (hA : A ≤ T1) :
     Nat.card ↥(sec8t84g4_diagSub W A) = Nat.card ↥A := by
   unfold sec8t84g4_diagSub
   rw [Subgroup.card_map_of_injective (sec8t84g4_diag_injective W)]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv
 
+omit [Finite G] in
 theorem sec8t84g4_diagSub_sup (W : Sec8T84Wr G t T1 T2) {A A' : Subgroup G} (hA : A ≤ T1)
     (hA' : A' ≤ T1) :
     sec8t84g4_diagSub W (A ⊔ A') = sec8t84g4_diagSub W A ⊔ sec8t84g4_diagSub W A' := by
   unfold sec8t84g4_diagSub
   rw [Subgroup.subgroupOf_sup hA hA', Subgroup.map_sup]
 
+omit [Finite G] in
 theorem sec8t84g4_isElemAbelian_of_diagSub (W : Sec8T84Wr G t T1 T2) {A : Subgroup G}
     (hA : A ≤ T1) {p : ℕ} (h : IsElemAbelian p (sec8t84g4_diagSub W A)) : IsElemAbelian p A := by
   have h1 : IsElemAbelian p ((sec8t84g4_diagSub W A).comap (sec8t84g4_diag W)) :=
@@ -89,6 +98,7 @@ theorem sec8t84g4_isElemAbelian_of_diagSub (W : Sec8T84Wr G t T1 T2) {A : Subgro
   have h3 := h1.map T1.subtype
   rwa [Subgroup.map_subgroupOf_eq_of_le hA] at h3
 
+omit [Finite G] in
 theorem sec8t84g4_diagSub_cent (W : Sec8T84Wr G t T1 T2) {A : Subgroup G} (hA : A ≤ T1) {γ : G}
     (hγt : γ * t = t * γ) (hγ : γ ∈ normalizer (A : Set G)) :
     sec8t84g4_diagSub W (A ⊓ centralizer ({γ} : Set G)) =

@@ -13,7 +13,7 @@ theorem tableVII_exists_compl {Γ : Type*} [Group Γ] [Finite Γ] (hΓ : Nat.car
     (hx₂ : x₂ ^ 2 = 1) (hcomm : x * x₂ = x₂ * x) (hxN : x ∉ N) (hx₂N : x₂ ∉ N)
     (hxx₂N : x * x₂ ∉ N) : ∃ D : Subgroup Γ, N ⊓ D = ⊥ ∧ N ⊔ D = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpp : x * x = 1 := by rw [← pow_two, hx]
   have hqq : x₂ * x₂ = 1 := by rw [← pow_two, hx₂]
   have hqp : x₂ * x = x * x₂ := hcomm.symm
@@ -45,14 +45,12 @@ theorem tableVII_exists_compl {Γ : Type*} [Group Γ] [Finite Γ] (hΓ : Nat.car
     { carrier := Qset
       mul_mem' := by
         rintro a b ha hb
-        change a * b ∈ Qset
         rcases ha with rfl | rfl | rfl | rfl <;>
           rcases hb with rfl | rfl | rfl | rfl <;>
           simp [Qset, mul_one, one_mul, hpp, hqq, hqp, hpq_p, hqp_q, hpq_q, hpq_p', hpq_pq]
       one_mem' := by change (1 : Γ) ∈ Qset; exact Or.inl rfl
       inv_mem' := by
         rintro a ha
-        change a⁻¹ ∈ Qset
         rcases ha with rfl | rfl | rfl | rfl <;>
           simp [Qset, inv_one, inv_eq_of_mul_eq_one_right hpp,
             inv_eq_of_mul_eq_one_right hqq, inv_eq_of_mul_eq_one_right hpq_pq] }
@@ -86,9 +84,9 @@ theorem tableVII_exists_compl {Γ : Type*} [Group Γ] [Finite Γ] (hΓ : Nat.car
   have hcard : Nat.card N * Nat.card Q = 2 ^ (Nat.card Γ).factorization 2 := by
     rw [hN2, hQcard, hΓ, hfact]
     norm_num
-  haveI : N.Normal := hN
-  haveI : IsMulCommutative ↥N := by
-    haveI : IsCyclic ↥N := isCyclic_of_prime_card (p := 2) hN2
+  have : N.Normal := hN
+  have : IsMulCommutative ↥N := by
+    have : IsCyclic ↥N := isCyclic_of_prime_card (p := 2) hN2
     infer_instance
   obtain ⟨C, hC1, hC2⟩ :=
     CFSG.EvenSporadicStandard.HNRecog.Harada.exists_complement_of_two_sylow_complement

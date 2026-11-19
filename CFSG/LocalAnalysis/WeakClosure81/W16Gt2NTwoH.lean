@@ -37,7 +37,7 @@ theorem inf_inner_eq_bot_of_rank {Y : Type} [Group Y] [Finite Y]
     rw [hZ] at hyc
     exact Subgroup.mem_bot.1 hyc
   have hE₀ : IsElemAbelian 2 E₀ := by
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
     · apply Subtype.ext
       exact hconj_inj (by
@@ -57,8 +57,8 @@ theorem inf_inner_eq_bot_of_rank {Y : Type} [Group Y] [Finite Y]
     rw [eq_bot_iff]
     rintro x ⟨hxE₀, hxVb⟩
     exact Subgroup.mem_bot.2 (hinter x hxVb (Subgroup.mem_comap.1 hxE₀))
-  haveI : IsMulCommutative ↥E₀ := hE₀.1
-  haveI : IsMulCommutative ↥Vb := hVb.1
+  have : IsMulCommutative ↥E₀ := hE₀.1
+  have : IsMulCommutative ↥Vb := hVb.1
   let φ : ↥E₀ × ↥Vb →* Y :=
     E₀.subtype.noncommCoprod Vb.subtype
       (fun e v => (commute_iff_eq _ _).mpr (hE₀Vb e e.2 v v.2))
@@ -122,6 +122,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 theorem exists_barAct (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     ∃ β : ↥B →* MulAut (hatX Mo V ⧸ Subgroup.center (hatX Mo V)),
@@ -173,8 +174,8 @@ theorem false_of_rank (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 :
     False := by
   obtain ⟨β, hβ⟩ := c.exists_barAct Mo
   obtain ⟨hinj, helem, hcomm, hinter⟩ := c.barAct_properties hn h1 h5 h15 hS Mo β hβ
-  haveI : Group.IsPerfect ↥(hatK Mo V) := c.isPerfect_hatK hn h1 h5 h15 hS Mo
-  haveI : Group.IsPerfect (hatX Mo V) :=
+  have : Group.IsPerfect ↥(hatK Mo V) := c.isPerfect_hatK hn h1 h5 h15 hS Mo
+  have : Group.IsPerfect (hatX Mo V) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥(hatK Mo V)))
   have hZ : Subgroup.center (hatX Mo V ⧸ Subgroup.center (hatX Mo V)) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (hatX Mo V)

@@ -18,7 +18,7 @@ open CFSG.Open
 theorem odd_card_pPrimeCore_of_isPComponentIn {G : Type} [Group G] [Finite G]
     {M Q H F : Subgroup G} (s : O1217.Setting1417 G M Q H F 3) {L : Subgroup G}
     (hL : AGL81C.IsPComponentIn 3 L H) : Odd (Nat.card (CFSG.pPrimeCore 3 ↥L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hL.2 with ⟨K, -, hsn, -, -⟩
   have hLsub : CFSG.Open.IsSubnormal L H :=
     (CFSG.Open.IsSubnormal.iff_subgroupOf hL.1).2 hsn

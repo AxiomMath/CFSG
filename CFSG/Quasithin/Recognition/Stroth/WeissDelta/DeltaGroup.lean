@@ -54,14 +54,14 @@ theorem hatX_mem_deltaAut (hn : 3 ≤ n)
     (hG : GoodPathSystem c.G0 c.graph n Good)
     (a : ↥(MulAction.stabilizer c.G0 c.xv)) :
     hatX hn hgirth hG a ∈ deltaAut c Good n :=
-  fun u v => hatX_adj hn hgirth hG a
+  fun _u _v => hatX_adj hn hgirth hG a
 
 theorem hatY_mem_deltaAut (hn : 3 ≤ n)
     (hgirth : ((2 * n + 2 : ℕ) : ℕ∞) ≤ c.graph.egirth)
     (hG : GoodPathSystem c.G0 c.graph n Good)
     (a : ↥(MulAction.stabilizer c.G0 c.lv)) :
     hatY hn hgirth hG a ∈ deltaAut c Good n :=
-  fun u v => hatY_adj hn hgirth hG a
+  fun _u _v => hatY_adj hn hgirth hG a
 
 theorem height_eq_min_dist {z z' w : c.Γ}
     (hz : (z = c.xv ∧ z' = c.lv) ∨ (z = c.lv ∧ z' = c.xv)) {a b : ℕ}
@@ -154,7 +154,7 @@ private theorem typeB_middle_of_dist (hn : 3 ≤ n)
     (hz : (z = c.xv ∧ z' = c.lv) ∨ (z = c.lv ∧ z' = c.xv))
     (hv : c.graph.dist z v = n - 1) (hw : c.graph.dist z w = n)
     {p : GPath c.graph (2 * n - 1)} (hp : Good (2 * n - 1) p)
-    (hp0 : p 0 = v) (hpw : p (2 * n - 1) = w)
+    (hp0 : p 0 = v) (_hpw : p (2 * n - 1) = w)
     (hmid : (p (n - 1) = z ∧ p n = z') ∨ (p (n - 1) = z' ∧ p n = z)) :
     p (n - 1) = z ∧ p n = z' := by
   have hconn : c.graph.Connected := CosetGeom.connected rfl
@@ -213,8 +213,7 @@ theorem exists_typeB_of_far (hn : 3 ≤ n)
     exact (adj_base_edge hz).symm
   have hgnb' : (g.snoc z h1).NoBack := by
     refine GPath.noBack_snoc hgnb h1 ?_
-    intro _
-    intro heq
+    intro _ heq
     have hdist := hggeo.dist_eq hconn (j := n - 2) (by omega)
     rw [hg0] at hdist
     have huz : c.graph.dist u z = n - 2 := by rw [heq]; exact hdist
@@ -230,8 +229,7 @@ theorem exists_typeB_of_far (hn : 3 ≤ n)
   have hq0nb : q0.NoBack := by
     refine GPath.castLength_noBack _ ?_
     refine GPath.noBack_snoc hgnb' h2adj ?_
-    intro _
-    intro heq
+    intro _ heq
     have heq' : w = z' := by
       rw [show (n - 1) + 1 - 1 = n - 1 by omega,
         GPath.snoc_of_le _ _ _ le_rfl, hgN] at heq

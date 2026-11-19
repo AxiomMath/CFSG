@@ -36,7 +36,7 @@ theorem frame_factor_le_cl {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     (hpow : ∀ x ∈ V₁, x ^ p = 1)
     (hPG : X ≤ Subgroup.closure {g | g ∈ X ∧ ∃ x ∈ V₁, x ≠ 1 ∧ g * x = x * g})
     (hEV : E ≤ V) (hEc : Nat.card E = p ^ 2) : X ≤ cl E := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine hPG.trans ?_
   rw [Subgroup.closure_le]
   rintro g ⟨hgX, x, hxV, hx1, hgx⟩

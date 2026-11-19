@@ -74,7 +74,7 @@ theorem F20_faithful [Finite Γ] {x y : Γ} (hF : IsF20 x y) {U : Subgroup Γ}
         rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
         simp [hF.x5]
       have hord : orderOf g = 5 := by
-        haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+        have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
         exact orderOf_eq_prime hg5 hg1'
       have hle : zpowers g ≤ zpowers x := (zpowers_le).2 hgx
       have hcard : Nat.card (zpowers x) ≤ Nat.card (zpowers g) := by
@@ -127,6 +127,7 @@ variable {Hs C U K W0 W : Subgroup Γ} {x y t : Γ} (h : KSet Hs C U K W0 W x y 
 
 include h
 
+omit h in
 theorem P_eq : (U ⊔ zpowers x ⊔ zpowers y : Subgroup Γ) = U ⊔ F20 x y := by
   rw [F20, sup_assoc]
 
@@ -156,8 +157,9 @@ theorem t_mem_normalizer_U : t ∈ normalizer (U : Set Γ) :=
     (mem_centralizer_iff.2 fun _ hu => (h.t_comm_U hu).symm)
 
 theorem t_comm_F {f : Γ} (hf : f ∈ F20 x y) : t * f = f * t :=
-  h.C_comm f (by rw [h.P_eq]; exact mem_sup_right hf)
+  h.C_comm f (by rw [KSet.P_eq]; exact mem_sup_right hf)
 
+omit h in
 theorem mem_normalizer_zpowers_of_comm {g : Γ} (hg : g * t = t * g) :
     g ∈ normalizer ((zpowers t : Subgroup Γ) : Set Γ) := by
   refine Subgroup.centralizer_le_normalizer ((zpowers t : Subgroup Γ) : Set Γ)
@@ -167,7 +169,7 @@ theorem mem_normalizer_zpowers_of_comm {g : Γ} (hg : g * t = t * g) :
 
 theorem F_le_normalizer_U0 : F20 x y ≤ normalizer ((U ⊔ zpowers t : Subgroup Γ) : Set Γ) :=
   fun _ hf => normalizer_sup_of_mem (h.FU hf)
-    (h.mem_normalizer_zpowers_of_comm (h.t_comm_F hf).symm)
+    (KSet.mem_normalizer_zpowers_of_comm (h.t_comm_F hf).symm)
 
 theorem C_le_K : C ≤ K := by
   rw [h.K_def]
@@ -241,7 +243,7 @@ theorem K_le_normalizer_W : K ≤ normalizer (W : Set Γ) := by
 theorem t_ne_one : t ≠ 1 := fun e => h.t_not_mem_W (e ▸ one_mem W)
 
 theorem orderOf_t : orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by simpa [pow_two] using h.t_sq) h.t_ne_one
 
 theorem disjoint_W_t : Disjoint W (zpowers t) := by
@@ -285,8 +287,8 @@ theorem W0_eq [Finite Γ] : ∀ w ∈ W0, ∃ v ∈ W, ∃ e : ℕ, w = v * t ^ 
 
 theorem fpf [Finite Γ] : ∀ w ∈ W, x * w * x⁻¹ = w → w = 1 := by
   intro w hw hxw
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hX : IsPGroup 5 (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h.frob.orderOf_x]; norm_num)
   have hXP : zpowers x ≤ normalizer (W0 : Set Γ) :=
@@ -359,7 +361,7 @@ theorem hcent [Finite Γ] : ∀ c ∈ Hs, c ∈ centralizer (W : Set Γ) → c *
     rw [← h.C_def]; exact hcC
   rw [coe_mul_of_left_le_normalizer_right (zpowers t) (U ⊔ zpowers x ⊔ zpowers y) hn1] at hcC'
   obtain ⟨a, ha, p, hp, rfl⟩ := hcC'
-  have hp' : p ∈ ((U ⊔ F20 x y : Subgroup Γ) : Set Γ) := by rw [← h.P_eq]; exact hp
+  have hp' : p ∈ ((U ⊔ F20 x y : Subgroup Γ) : Set Γ) := by rw [← KSet.P_eq]; exact hp
   rw [coe_mul_of_right_le_normalizer_left U (F20 x y) h.FU] at hp'
   obtain ⟨u, hu, f, hf, rfl⟩ := hp'
   have hcen : ∀ w ∈ W, w * (a * (u * f)) = (a * (u * f)) * w :=
@@ -422,6 +424,7 @@ theorem W_le_Hs : W ≤ Hs := by
 theorem C_le_NHs : C ≤ normalizer (W : Set Γ) ⊓ Hs :=
   le_inf (h.C_le_K.trans h.K_le_normalizer_W) h.C_le_Hs
 
+omit h in
 theorem conj_mem_centralizer {g z : Γ} (hg : g ∈ normalizer (W : Set Γ))
     (hz : z ∈ centralizer (W : Set Γ)) : g * z * g⁻¹ ∈ centralizer (W : Set Γ) := by
   refine mem_centralizer_iff.2 fun w hw => ?_

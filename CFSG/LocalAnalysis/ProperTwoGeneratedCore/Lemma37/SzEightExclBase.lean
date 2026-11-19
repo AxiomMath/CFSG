@@ -110,7 +110,7 @@ theorem exists_isInnerPart :
       rw [← sylowBar_range hs.central]
       exact ⟨s, rfl⟩
   have hP : IsPGroup 2 (escapingSylowImage S z) := by
-    have h := (sylowBarSylow hs.central).isPGroup'
+    have h := (sylowBarSylow hs.central).isPGroup
     rwa [coe_sylowBarSylow, sylowBar_range] at h
   set P := escapingSylowImage S z
   set ψ := innerPart (SzEightSetting.odd_card_outer e) hs.center_quotient_eq_bot P hP

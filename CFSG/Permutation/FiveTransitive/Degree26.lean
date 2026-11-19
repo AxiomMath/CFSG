@@ -77,7 +77,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentySix
     ext i
     exact hg i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -117,7 +117,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentySix
   have hJcard : Nat.card J = 506 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   have hJfactorization :
       (506 * h).factorization 23 = 1 := by
     have hf := LongPrimeArithmetic.factorization_prime_mul_once 23 22 h
@@ -128,9 +128,9 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentySix
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -211,7 +211,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentySix
   have hrJDvd : CJ.relIndex NJ ∣ 22 := by
     rw [hrJEq]
     exact hrangeTDvd
-  letI : CJ.IsFiniteRelIndex NJ :=
+  let : CJ.IsFiniteRelIndex NJ :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hNJmod : NJ.index % 23 = 1 := by
     change

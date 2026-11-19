@@ -28,7 +28,7 @@ theorem exists_conj_eq_z0
     {z₀ : Equiv.Perm (Fin 42)} (hz₀S : z₀ ∈ S)
     (hz₀3 : z₀ ^ 3 = 1) (hz₀1 : z₀ ≠ 1) {z : Equiv.Perm (Fin 42)} (hzS : z ∈ S)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : ∃ s ∈ S, s * z * s⁻¹ = z₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let zS : S := ⟨z, hzS⟩
   let z₀S : S := ⟨z₀, hz₀S⟩
   have hzS1 : zS ≠ 1 := by intro h; exact hz1 (congrArg Subtype.val h)
@@ -90,9 +90,9 @@ theorem exists_conj_eq_z0
       _ = z₀S := hnconj)
 
 theorem card_inf_ge_three {F' : Subgroup R}
-    (hcard : Nat.card F' = 9) (hnot : ¬ F' ≤ S.subgroupOf R) :
+    (hcard : Nat.card F' = 9) (_hnot : ¬ F' ≤ S.subgroupOf R) :
     3 ≤ Nat.card (F' ⊓ S.subgroupOf R : Subgroup R) := by
-  haveI : (S.subgroupOf R).Normal := S_normal
+  have : (S.subgroupOf R).Normal := S_normal
   have hSR : Nat.card (S.subgroupOf R) = 20160 := by
     rw [← card_S]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe S_le_R).toEquiv
@@ -182,8 +182,8 @@ theorem kFactL34FixedPointsGen :
     card_inf_ge_three hF'card hF'notle
   let H : Subgroup R := F' ⊓ S.subgroupOf R
   have hHcard' : 3 ≤ Nat.card H := hHcard
-  haveI : Fintype H := Fintype.ofFinite H
-  haveI : Nontrivial H := by
+  have : Fintype H := Fintype.ofFinite H
+  have : Nontrivial H := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card]
     omega
   obtain ⟨zH, hzHne⟩ := exists_ne (1 : H)

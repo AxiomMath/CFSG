@@ -19,7 +19,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
   {Y : Subgroup W} {n : ℕ}
 
 theorem Std139.shapeTensor_cent_card (hw2 : ∀ w : W, w ^ 2 = 1) {K : Subgroup (MulAut W)}
-    {M : Subgroup W} (hKM : StableUnder K M) (hfaith : ∀ k ∈ K, (∀ m ∈ M, k m = m) → k = 1)
+    {M : Subgroup W} (hKM : StableUnder K M) (_hfaith : ∀ k ∈ K, (∀ m ∈ M, k m = m) → k = 1)
     (hsurjM : ∀ g : MulAut ↥M, ∃ k ∈ K, ∀ m : ↥M, ((g m : ↥M) : W) = k (m : W))
     (hrk : rk ↥M = n) (hn : 2 ≤ n) (x : MulAut W) (hdis : M ⊓ M.map x.toMonoidHom = ⊥)
     (hsup : M ⊔ M.map x.toMonoidHom = ⊤) (xcomm : ∀ k ∈ K, k * x = x * k) :

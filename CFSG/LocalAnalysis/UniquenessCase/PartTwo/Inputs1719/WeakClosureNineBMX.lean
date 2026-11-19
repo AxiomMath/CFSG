@@ -46,7 +46,7 @@ theorem v2_mem : v2 ∈ L02 := (l2_desc.mem v2).2 (by decide +kernel)
 theorem D88_le_L : D88 ≤ L01 ⊔ L02 := by
   rw [D88, closure_le]
   intro g hg
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl | rfl | rfl
   · exact mem_sup_left u1_mem
   · exact mem_sup_left v1_mem
@@ -61,19 +61,19 @@ theorem mem_GB_of_mem {g : P16} (hg : g ∈ [a1, b1, a2, b2] ++ bGens i) : g ∈
 theorem L01_le_GB : L01 ≤ GB i := by
   rw [L01, closure_le]
   intro g hg
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl <;> exact mem_GB_of_mem i (by simp)
 
 theorem L02_le_GB : L02 ≤ GB i := by
   rw [L02, closure_le]
   intro g hg
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl <;> exact mem_GB_of_mem i (by simp)
 
 theorem TB_le_GB : TB i ≤ GB i := by
   rw [TB, closure_le]
   intro g hg
-  simp only [List.mem_append, Set.mem_setOf_eq] at hg
+  simp only [List.mem_append, Set.mem_ofPred_eq] at hg
   rcases hg with hg | hg
   · simp only [List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl | rfl | rfl
@@ -91,7 +91,7 @@ theorem D88_le_TB : D88 ≤ TB i := by
 theorem GB_le_sup : GB i ≤ (L01 ⊔ L02) ⊔ TB i := by
   rw [GB, closure_le]
   intro g hg
-  simp only [List.mem_append, Set.mem_setOf_eq] at hg
+  simp only [List.mem_append, Set.mem_ofPred_eq] at hg
   rcases hg with hg | hg
   · simp only [List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl | rfl | rfl
@@ -139,7 +139,7 @@ theorem GB_le_normalizer (h : GNormChk (([a1, b1, a2, b2] ++ bGens i).map code) 
     forall_apply_eq_imp_iff₂, Bool.or_eq_true, List.contains_iff_mem] at h
   have h1 := h g hg
   have hx' : code x ∈ [code a1, code b1, code a2, code b2] := by
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl | rfl | rfl <;> simp
   rcases h1 (code x) hx' with h2 | h2
   · rw [← code_conj] at h2

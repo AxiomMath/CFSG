@@ -25,8 +25,8 @@ section Elementary
 theorem exists_unit_orderOf_five_of_isAlgClosed {L : Type*} [Field L] [IsAlgClosed L]
     (h : ¬ ringChar L ∣ 5) : ∃ ζ : Lˣ, orderOf ζ = 5 := by
   have hcast : ((5 : ℕ) : L) ≠ 0 := fun hz => h ((ringChar.spec L 5).1 hz)
-  haveI : NeZero ((5 : ℕ) : L) := ⟨hcast⟩
-  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero ((5 : ℕ) : L) := ⟨hcast⟩
+  obtain ⟨ε, hε⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hu : IsUnit ε := hε.isUnit (by norm_num)
   refine ⟨hu.unit, ?_⟩
   rw [← orderOf_units, IsUnit.unit_spec]
@@ -68,7 +68,7 @@ theorem exists_conjClass_of_lang [IsAlgClosed L] {ℓ : ℕ} [Fact ℓ.Prime] [C
         ∀ A : Subgroup (adjointGroup Tag.E8 K), IsElemAbelian 5 A → 5 ^ 4 ≤ Nat.card A →
           ∃ c : adjointGroup Tag.E8 K, ι.range.map (MulAut.conj c).toMonoidHom = A := by
   classical
-  haveI : Finite (ModGL Tag.E8 K) := finite_modGL
+  have : Finite (ModGL Tag.E8 K) := finite_modGL
   obtain ⟨ι, hιinj, hιval⟩ := exists_langTorsionHom hFr hζo hζ hq hg₀C hg₀
   refine ⟨ι, hιinj, fun A hA hA4 => ?_⟩
   have hξ : ∀ s : NoOffRest.eigE8 5 lam,

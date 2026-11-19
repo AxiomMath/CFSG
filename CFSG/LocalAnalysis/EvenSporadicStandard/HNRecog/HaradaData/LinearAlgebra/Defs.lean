@@ -70,7 +70,7 @@ theorem qp_add (x y : V6) : qp (x + y) = qp x + qp y + bil x y := by
   ring
 
 theorem lam_eq_bil (x : V6) : lam x = bil x tv := by
-  simp [lam, bil, tv, Pi.single_apply]
+  simp [lam, bil, tv]
 
 theorem bil_comm (x y : V6) : bil x y = bil y x := by
   simp only [bil]

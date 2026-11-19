@@ -319,7 +319,7 @@ theorem mkPSL_u2_ne_one {c : F} (hc : c ≠ 0) : mkPSL F (u2 c) ≠ 1 := by
   obtain ⟨r, -, hr⟩ := h
   have h01 := congrFun (congrFun hr 0) 1
   simp [u2_coe, Matrix.scalar_apply] at h01
-  first | exact hc h01 | exact hc h01.symm
+  exact hc h01.symm
 
 theorem mkPSL_l2_ne_one {c : F} (hc : c ≠ 0) : mkPSL F (l2 c) ≠ 1 := by
   intro h
@@ -328,7 +328,7 @@ theorem mkPSL_l2_ne_one {c : F} (hc : c ≠ 0) : mkPSL F (l2 c) ≠ 1 := by
   obtain ⟨r, -, hr⟩ := h
   have h10 := congrFun (congrFun hr 1) 0
   simp [l2_coe, Matrix.scalar_apply] at h10
-  first | exact hc h10 | exact hc h10.symm
+  exact hc h10.symm
 
 end Powers
 

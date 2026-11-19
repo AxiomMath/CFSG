@@ -65,7 +65,7 @@ theorem matrixDerivedScalars_eq_bot_charTwo {K₀ : Type} [Field K₀] [CharP K�
   rw [this, map_one]
   rfl
 
-theorem exists_om8_of_isD4pow2 {K : Type} [Group K] {n : ℕ} (hn : 2 ≤ n)
+theorem exists_om8_of_isD4pow2 {K : Type} [Group K] {n : ℕ} (_hn : 2 ≤ n)
     (h : catalogIs K (isD4pow2 n)) :
     ∃ (K₀ : Type) (_ : Field K₀) (_ : Finite K₀) (_ : CharP K₀ 2), Nat.card K₀ = 2 ^ n ∧
       Nonempty (K ≃* Om8 K₀) := by
@@ -75,9 +75,9 @@ theorem exists_om8_of_isD4pow2 {K : Type} [Group K] {n : ℕ} (hn : 2 ≤ n)
     hm.statedClassicalModel (by decide)
   obtain ⟨-, K₀, _, _, hK₀, ⟨eK⟩⟩ := hsc
   have hK₀' : Nat.card K₀ = 2 ^ n := by rw [hK₀, hp2, hex]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
-  haveI : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K₀ := Fintype.ofFinite K₀
+  have : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := n)
     (by rw [← Nat.card_eq_fintype_card, hK₀'])
   have hS := matrixDerivedScalars_eq_bot_charTwo (coordinateQuadPlus 4 K₀)
     ⟨CFSG.RankThree.PartOne.KCOrthogonalSubfield.stdU K₀, by

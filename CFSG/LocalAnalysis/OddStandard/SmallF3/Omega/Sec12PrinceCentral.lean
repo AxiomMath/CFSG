@@ -61,7 +61,7 @@ private theorem V_isPGroup [Finite G] (hP : PrinceData B V H φ φ₀) : IsPGrou
 theorem B_central [Finite G] (hP : PrinceData B V H φ φ₀) {b x : G} (hb : b ∈ B) (hx : x ∈ V) :
     x * b = b * x := by
   classical
-  letI : MulAction ↥V ↥B :=
+  let : MulAction ↥V ↥B :=
     { smul := fun g c =>
         ⟨(g : G) * (c : G) * (g : G)⁻¹, by
           have hmem : (⟨(c : G), hP.B_le c.2⟩ : ↥V) ∈ B.subgroupOf V :=

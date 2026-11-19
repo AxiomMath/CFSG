@@ -49,7 +49,7 @@ theorem Cfg8.D_le_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
 
 theorem Cfg8.X1_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) :=
-  c.X1_le_D.trans c.D_le_N
+  CFSG.GH74.GLS.LU.Local.Five.Cfg.X1_le_D.trans c.D_le_N
 
 theorem Cfg8.K1_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     K₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := by
@@ -66,7 +66,7 @@ theorem Cfg8.H_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
 
 theorem Cfg8.RR_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     RR t X₁ ≤ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) :=
-  c.R2_le_normalizer c.X2_le_E c.E_le_R2
+  c.R2_le_normalizer CFSG.GH74.GLS.LU.Local.Five.Cfg.X2_le_E c.E_le_R2
 
 theorem Cfg8.P_N (c : Cfg8 G p f z S K₁ K₂ t u H w₁ X₁ Y v) :
     w₁ * v ∈ normalizer ((EE v t w₁ X₁ : Subgroup G) : Set G) := mul_mem c.w₁_N c.v_N

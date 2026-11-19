@@ -16,7 +16,7 @@ open scoped MatrixGroups
 
 theorem exists_mul_ne_of_isL2Odd {Y : Type} [Group Y] {q : ℕ} (hq : 5 < q) (hY : IsL2Odd Y q) :
     ∃ a b : Y, a * b ≠ b * a := by
-  haveI hs : IsSimpleGroup Y :=
+  have hs : IsSimpleGroup Y :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hY
   have hqp : q.Prime := hY.admissible.1
   have hcard : 2 * Nat.card Y = q * (q ^ 2 - 1) := by
@@ -25,7 +25,7 @@ theorem exists_mul_ne_of_isL2Odd {Y : Type} [Group Y] {q : ℕ} (hq : 5 < q) (hY
     exact UC6.N588.two_mul_ordA_one (hqp.odd_of_ne_two (by omega))
   by_contra h
   push Not at h
-  haveI : IsMulCommutative Y := ⟨⟨h⟩⟩
+  have : IsMulCommutative Y := ⟨⟨h⟩⟩
   have hpr : (Nat.card Y).Prime := Group.is_simple_iff_prime_card.mp hs
   have hqd : q ∣ Nat.card Y := by
     rcases (Nat.Prime.dvd_mul hqp).mp (Dvd.intro _ hcard.symm) with h2 | h2
@@ -43,7 +43,7 @@ theorem card_eq_of_surjective_sl2 {Y : Type} [Group Y] {q : ℕ} (hq : 5 < q) (h
     {F : Type} [Field F] [Fintype F] (φ : SL(2, F) →* Y) (hφ : Function.Surjective φ) :
     Fintype.card F = q ∧ (2 : F) ≠ 0 := by
   classical
-  haveI hs : IsSimpleGroup Y :=
+  have hs : IsSimpleGroup Y :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hY
   have hqp : q.Prime := hY.admissible.1
   have hcard : 2 * Nat.card Y = q * (q ^ 2 - 1) := by
@@ -66,17 +66,17 @@ theorem card_eq_of_surjective_sl2 {Y : Type} [Group Y] {q : ℕ} (hq : 5 < q) (h
     have hle := Nat.card_le_card_of_surjective φ hφ
     have hSL := F09.card_sl_two_le_of_card_le_three (F := F) (by omega)
     omega
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   let e : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F ≃* Y :=
     CFSG.QuasithinUnique.SQTK.mulEquivOfSurjective (QuotientGroup.lift _ φ hZ)
       (QuotientGroup.lift_surjective_of_surjective _ φ hφ hZ)
   by_cases h2 : (2 : F) = 0
   · exfalso
-    haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by exact_mod_cast h2)
+    have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by exact_mod_cast h2)
     obtain ⟨n, -, hn⟩ := FiniteField.card F 2
     rw [← Nat.card_eq_fintype_card] at hn
     refine not_isL2_of_isL2Odd hq hY (n := n) (Or.inl ⟨by decide,
-      ⟨Nat.prime_two, n.one_le, le_rfl, fun h => ?_, fun h => ?_⟩, F, inferInstance,
+      ⟨Nat.prime_two, (_root_.one_le (a := n)), le_rfl, fun h => ?_, fun h => ?_⟩, F, inferInstance,
       inferInstance, hn,
       ⟨e.symm.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F)⟩⟩)
     · have h' := congrArg Prod.snd h
@@ -114,7 +114,7 @@ theorem exists_sl2_of_quot_cases {Γ Y : Type} [Group Γ] [Finite Γ] [Group Y] 
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Nonempty (Γ ≃* SL(2, F)) ∧
       Fintype.card F = q ∧ (2 : F) ≠ 0 := by
   classical
-  haveI hs : IsSimpleGroup Y :=
+  have hs : IsSimpleGroup Y :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hY
   have hqp : q.Prime := hY.admissible.1
   have hcard : 2 * Nat.card Y = q * (q ^ 2 - 1) := by
@@ -124,12 +124,12 @@ theorem exists_sl2_of_quot_cases {Γ Y : Type} [Group Γ] [Finite Γ] [Group Y] 
   have hq36 : 36 ≤ q ^ 2 := by nlinarith
   have hq48 : 6 * 35 ≤ q * (q ^ 2 - 1) := Nat.mul_le_mul (by omega) (by omega)
   rcases hcases with ⟨F, hF, hFin, ⟨e⟩⟩ | ⟨n, hn⟩ | ⟨E, hEn, hE, ⟨eA⟩⟩
-  · letI : Fintype F := Fintype.ofFinite F
+  · let : Fintype F := Fintype.ofFinite F
     obtain ⟨h1, h2⟩ := card_eq_of_surjective_sl2 hq hY (ψ.comp e.symm.toMonoidHom)
       (hψ.comp e.symm.surjective)
     exact ⟨F, hF, inferInstance, ⟨e⟩, h1, h2⟩
   · exfalso
-    haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
+    have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hn
     exact not_isL2_of_isL2Odd hq hY
       (CFSG.Blueprint.LieModel.of_mulEquiv (CFSG.QuasithinUnique.SQTK.mulEquivOfSurjective ψ hψ) hn)
   · exfalso
@@ -137,7 +137,7 @@ theorem exists_sl2_of_quot_cases {Γ Y : Type} [Group Γ] [Finite Γ] [Group Y] 
       have h := (CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8.facts hE).1
       rwa [Subgroup.card_top] at h
     have hEψ : E ≤ ψ.ker := by
-      haveI : (E.map ψ).Normal := hEn.map ψ hψ
+      have : (E.map ψ).Normal := hEn.map ψ hψ
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (E.map ψ) with h | h
       · exact (Subgroup.map_eq_bot_iff E).mp h
       · exfalso

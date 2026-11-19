@@ -84,7 +84,7 @@ theorem mix14R_proof {r n : ℕ} (hr : 4 ≤ r) : Mix14R r n := by
     obtain ⟨s', hs', hs'e⟩ := exists_conj_eq_of_normal_complement (K := C)
       (O := Balance.oddCoreIn C) (P := (S₁ : Subgroup Y)) (Balance.oddCoreIn_le C)
       (fun k hk o ho => Balance.conj_mem_oddCoreIn hk ho) (Balance.odd_card_oddCoreIn C)
-      S₁.isPGroup' (fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (hyp.hzS s hs))
+      S₁.isPGroup (fun s hs => Subgroup.mem_centralizer_singleton_iff.mpr (hyp.hzS s hs))
       hec haS hgC hagS
     have hs'S : s' ∈ (S₁ : Subgroup Y) := hs'
     have hcom := hcomm ⟨a, haS⟩⁻¹ ⟨s', hs'S⟩⁻¹

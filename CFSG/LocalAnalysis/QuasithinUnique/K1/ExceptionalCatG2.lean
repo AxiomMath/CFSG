@@ -165,7 +165,7 @@ theorem noStronglyClosedElemAbelian_g2
   obtain ⟨⟨P, hP⟩, -⟩ := exceptional_ordinary_Sylow_opposition .G2 K 2 w₀ hw₀
   have hQ : IsSylowTwoOf ((posUnipotent .G2 K).subgroupOf (adjointGroup .G2 K)) ⊤ := by
     rw [← hP]
-    exact isSylowTwoOf_top_iff.mpr ⟨P.isPGroup', P.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨P.isPGroup, P.not_dvd_index⟩
   refine noStronglyClosedElemAbelian_of_witnesses _ hQ ?_
   intro z hz hz1 hzc
   have hzU : (z : ModGL .G2 K) ∈ posUnipotent .G2 K := hz
@@ -240,10 +240,10 @@ theorem sylowCentralizingAutInner_g2
     exceptional_ordinary_Sylow_opposition .G2 K 2 w₀ hw₀
   have hU : IsSylowTwoOf ((posUnipotent .G2 K).subgroupOf (adjointGroup .G2 K)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((negUnipotent .G2 K).subgroupOf (adjointGroup .G2 K)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (posUnipotent .G2 K).subgroupOf (adjointGroup .G2 K) ⊓
       (negUnipotent .G2 K).subgroupOf (adjointGroup .G2 K) = ⊥ := by
     refine eq_bot_iff.2 fun x hx => ?_

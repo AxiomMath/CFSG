@@ -59,7 +59,7 @@ variable {X : Type*} [Group X] [Finite X] {p : ℕ}
 theorem exists_mem_notMem_zpowers (hp : p.Prime) {E : Subgroup X} {z : X} (hzo : orderOf z = p)
     (hE : Nat.card E = p ^ 2) : ∃ w ∈ E, w ∉ zpowers z := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle : E ≤ zpowers z := fun w hw => h w hw
   have hcard := Subgroup.card_le_of_le hle
   rw [hE, Nat.card_zpowers, hzo] at hcard

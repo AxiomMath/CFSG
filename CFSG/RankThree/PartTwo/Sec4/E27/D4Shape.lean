@@ -36,8 +36,8 @@ theorem gal_cube_cases (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     ψ = 1 ∨ ψ = σ ∨ ψ = σ ^ 2 := by
   obtain ⟨-, -, -, hcyc, hcard3, -, -, -⟩ :=
     even_triality_exact_automorphism_normal_form hn X hX σ hσ
-  haveI : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
-  haveI := hcyc
+  have : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have := hcyc
   have hσ3 : σ ^ 3 = 1 := nf1_sigma_pow_three σ n hX hσ
   have hσ1 : σ ≠ 1 := nf1_sigma_ne_one σ n hn hX hσ
   exact mem_of_cube_eq_one_cyclic σ hσ3 hσ1 (nf1_sq_ne_one σ hσ3 hσ1) ψ hψ
@@ -67,9 +67,11 @@ variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 @[expose] noncomputable def innerPart (E : Subgroup (MulAut (C0 σ))) : Subgroup (C0 σ) :=
   E.comap (MulAut.conj : C0 σ →* MulAut (C0 σ))
 
+omit [Finite X] in
 theorem mem_innerPart {E : Subgroup (MulAut (C0 σ))} {x : C0 σ} :
     x ∈ innerPart σ E ↔ MulAut.conj x ∈ E := Iff.rfl
 
+omit [Finite X] in
 theorem innerPart_isElemAbelian (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {E : Subgroup (MulAut (C0 σ))} (hE : IsElemAbelian 3 E) :
     IsElemAbelian 3 (innerPart σ E) := by
@@ -116,7 +118,7 @@ theorem nine_le_card_innerPart (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ 
   rw [hcard] at hkr
   have hker9 : 9 ≤ Nat.card Θ'.ker := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card Θ'.ker * Nat.card Θ'.range ≤ 8 * 3 := Nat.mul_le_mul (by omega) hrange
     omega
   let f : innerPart σ E → Θ'.ker := fun x => ⟨⟨MulAut.conj (x : C0 σ), x.2⟩, by
@@ -142,7 +144,7 @@ theorem exists_outer_of_E27 (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) 
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {E : Subgroup (MulAut (C0 σ))} (hE : IsElemAbelian 3 E)
     (hcard : Nat.card E = 27) : ∃ β ∈ E, ∀ g : C0 σ, β ≠ MulAut.conj g := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have h9 := card_innerPart_eq σ n hn hX hσ hE hcard
   let f : innerPart σ E → E := fun x => ⟨MulAut.conj (x : C0 σ), x.2⟩
   have hfs : Function.Surjective f := by

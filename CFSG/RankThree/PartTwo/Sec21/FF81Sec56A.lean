@@ -36,6 +36,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace S56
 
+omit [Finite G] in
 theorem conj_mem_cenS {s₀ : G} {H : Subgroup G} (hH : ∀ g ∈ Cen s₀, ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     {g x : G} (hg : g ∈ Cen s₀) (hx : x ∈ CenS H) : g * x * g⁻¹ ∈ CenS H := by
   rw [Subgroup.mem_centralizer_iff] at hx ⊢
@@ -47,26 +48,31 @@ theorem conj_mem_cenS {s₀ : G} {H : Subgroup G} (hH : ∀ g ∈ Cen s₀, ∀ 
     _ = g * (x * (g⁻¹ * y * g)) * g⁻¹ := by rw [this]
     _ = g * x * g⁻¹ * y := by group
 
+omit [Finite G] in
 theorem conj_mem_center {s₀ g z : G} (hg : g ∈ Cen s₀)
     (hz : z ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) :
     g * z * g⁻¹ ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀)) :=
   Subgroup.mem_inf.mpr ⟨op_two_conj hg hz.1,
     conj_mem_cenS (fun _ hg _ hx => op_two_conj hg hx) hg hz.2⟩
 
+omit [Finite G] in
 theorem conj_mem_K {s₀ g x : G} (hg : g ∈ Cen s₀)
     (hx : x ∈ CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀)))) :
     g * x * g⁻¹ ∈ CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) :=
   conj_mem_cenS (fun _ hg _ hz => conj_mem_center hg hz) hg hx
 
+omit [Finite G] in
 theorem S_le_K (s₀ : G) : Op 2 (Cen s₀) ≤ CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) :=
-  fun x hx => Subgroup.mem_centralizer_iff.mpr fun z hz =>
+  fun x hx => Subgroup.mem_centralizer_iff.mpr fun _z hz =>
     (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hz).2 x hx).symm
 
+omit [Finite G] in
 theorem s₀_mem_center {s₀ : G} (hs : orderOf s₀ = 2) :
     s₀ ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀)) :=
   Subgroup.mem_inf.mpr ⟨mem_op_two_self hs, Subgroup.mem_centralizer_iff.mpr fun _ hh =>
     Subgroup.mem_centralizer_singleton_iff.mp (op_two_le s₀ hh)⟩
 
+omit [Finite G] in
 theorem K_le_cen {s₀ : G} (hs : orderOf s₀ = 2) :
     CenS (Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) ≤ Cen s₀ := fun _ hx =>
   Subgroup.mem_centralizer_singleton_iff.mpr
@@ -124,8 +130,10 @@ theorem FF81Sec5.b_cube : b ^ 3 = 1 := h5.εA_b ▸ h5.coordA.cube _
 theorem FF81Sec5.orderOf_b : orderOf b = 3 := by
   rw [← h5.εA_b]; exact h5.coordA.orderOf (by decide)
 
+omit [Finite G] h5 in
 theorem FF81Sec5.b_mem_A₁ : b ∈ A₁sub b b₁ b₂ b₃ := Subgroup.subset_closure (by simp)
 
+omit [Finite G] h5 in
 theorem FF81Sec5.commute_of_dec {i : ℤ} {l : G} (hy : b ^ i * l ∈ Cen b) : Commute (b ^ i) l := by
   have hby : Commute b (b ^ i * l) := (Subgroup.mem_centralizer_singleton_iff.mp hy).symm
   have hl : l = b ^ (-i) * (b ^ i * l) := by group
@@ -138,7 +146,7 @@ theorem FF81Sec5.zpow_b_cube (i : ℤ) : (b ^ i) ^ 3 = 1 := by
 theorem FF81Sec5.mem_L_of_coprime {k : G} (hkb : k ∈ Cen b) (hord : Nat.Coprime 3 (orderOf k)) :
     k ∈ L := by
   obtain ⟨i, l, hl, rfl⟩ := h5.basis.cen_dec' h5.opp_eq_bot hkb
-  have hcomm := h5.commute_of_dec hkb
+  have hcomm := FF81Sec5.commute_of_dec hkb
   rcases Nat.lt_or_ge 1 (orderOf (b ^ i * l)) with hn | hn
   · obtain ⟨m, -, hm⟩ := Nat.exists_mul_mod_eq_one_of_coprime hord hn
     have h1 : b ^ i * l = (b ^ i * l) ^ (3 * m) := by
@@ -200,8 +208,8 @@ theorem FF81Sec5.coprime_K :
     hB.monoL_stab s₀ h5.hs₀L h5.hs₀ h5.s₀_b₁ h5.s₀_u₃ h5.hs₀b
   rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hbs : b ∈ Cen s₀ := h5.A₁_le_cen_s₀ h5.b_mem_A₁
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hbs : b ∈ Cen s₀ := h5.A₁_le_cen_s₀ FF81Sec5.b_mem_A₁
   have hP : IsPGroup 3 (Subgroup.zpowers b) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h5.orderOf_b, pow_one])
   have hPN : Subgroup.zpowers b ≤ Subgroup.normalizer (K : Set G) :=
@@ -211,7 +219,7 @@ theorem FF81Sec5.coprime_K :
     (Subgroup.mem_centralizer_iff.mp hyb b (Subgroup.mem_zpowers b)).symm
   obtain ⟨i, l, hl, rfl⟩ := hB.cen_dec' h5.opp_eq_bot
     (Subgroup.mem_centralizer_singleton_iff.mpr hyb')
-  have hcomm := h5.commute_of_dec (Subgroup.mem_centralizer_singleton_iff.mpr hyb')
+  have hcomm := FF81Sec5.commute_of_dec (Subgroup.mem_centralizer_singleton_iff.mpr hyb')
   have hls : l ∈ Cen s₀ := by
     have := (Cen s₀).mul_mem ((Cen s₀).zpow_mem hbs (-i)) (S56.K_le_cen h5.hs₀ hyK)
     rwa [show b ^ (-i) * (b ^ i * l) = l by group] at this
@@ -227,7 +235,7 @@ theorem FF81Sec5.coprime_K :
       _ = b ^ i * (c * l * c⁻¹) := by group
   have hmemA : c * (b ^ i * l) * c⁻¹ ∈ A₁sub b b₁ b₂ b₃ := by
     rw [hcy]
-    exact (A₁sub b b₁ b₂ b₃).mul_mem ((A₁sub b b₁ b₂ b₃).zpow_mem h5.b_mem_A₁ i)
+    exact (A₁sub b b₁ b₂ b₃).mul_mem ((A₁sub b b₁ b₂ b₃).zpow_mem FF81Sec5.b_mem_A₁ i)
       (Subgroup.closure_mono (Set.subset_insert _ _) hcl)
   have h1 := h5.eq_one_of_mem_A₁_K hKF hbig hmemA (S56.conj_mem_K hc.2 hyK)
   rw [conj_eq_one_iff] at h1

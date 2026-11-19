@@ -159,7 +159,7 @@ section Bookkeeping
 variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p20o_oTwoE_top (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) : OTwoE ↥L = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK, hLK⟩ := hL.2.2.2
   have hH : L ⊔ D.T ∈ hSet D.T D.M := hL.2.2.1
   set H : Subgroup G := L ⊔ D.T with hHdef
@@ -174,8 +174,8 @@ theorem uc22p20o_oTwoE_top (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.
     have h := uc22p20b_cComp_orb hKH hTH
     have e : uc22p20bOrb D.T K = L := hLK.symm
     rwa [e] at h
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI hPs : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) := uc22p20d_pCore_solvable L
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have hPs : Group.IsSolvable ↥(CFSG.pCore 2 ↥L) := uc22p20d_pCore_solvable L
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) :=
     QuotientGroup.mk'_surjective _
   have hcomp : ∀ t : D.T, CFSG.IsComponent
@@ -219,15 +219,15 @@ theorem uc22p20o_oTwoE_top (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.
 
 theorem uc22p20o_orbit_card (D : Data G) (K : Subgroup G) :
     ∃ k : ℕ, Nat.card (Set.range fun t : D.T => uc22p20bCj (t : G) K) = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥D.T (Subgroup G) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥D.T (Subgroup G) :=
     MulAction.compHom (Subgroup G) (ConjAct.toConjAct.toMonoidHom.comp D.T.subtype)
   have hsmul : ∀ t : D.T, t • K = uc22p20bCj (t : G) K := by
     intro t
     have h0 : t • K = (ConjAct.toConjAct (t : G)) • K := rfl
     rw [h0]
     ext x
-    simp only [uc22p20bCj, Subgroup.mem_map, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [uc22p20bCj, Subgroup.mem_map, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply]
     rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
     simp only [ConjAct.smul_def, map_inv, ConjAct.ofConjAct_toConjAct, inv_inv]
@@ -253,7 +253,7 @@ theorem uc22p20o_rank_data4 (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgro
     ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ ∃ E : Subgroup G, E ≤ H ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ 4 ∧
       (p = 3 ∨ ∃ Z : Subgroup G, D.T ≤ Z ∧ Z ≤ H ∧ Group.IsSolvable ↥Z ∧ E ≤ Z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup G := uc22p20bOrb H K with hYdef
   have hKH : K ≤ H := CFSG.Quasithin.le_of_mem_cComp hK
   have hYH : Y ≤ H := uc22p20b_orb_le le_rfl hKH
@@ -273,7 +273,7 @@ theorem uc22p20o_rank_data4 (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgro
     fun i j h h' => h (hinj h')
   have e : ∀ i, Bar2 K ≃* Bar2 (uc22p20bCj (g i) K) := fun i =>
     (uc22p20d_bar2_conj (g i) K).some
-  haveI hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
+  have hPn : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
   let φ : ↥Y →* ↥Y ⧸ CFSG.pCore 2 ↥Y := QuotientGroup.mk' (CFSG.pCore 2 ↥Y)
   let A : Fin 4 → Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y) := fun i =>
     ((uc22p20bCj (g i) K).subgroupOf Y).map φ
@@ -350,10 +350,10 @@ theorem uc22p20o_rank_data4 (D : Data G) (hQ : QuasisimpleDichotomy) {H : Subgro
     have hTn : D.T ≤ normalizer (D' : Set G) :=
       uc22p20d_T_le_normalizer_D hU hTY (CFSG.Quasithin.cComp Y) h𝒪
     have hTs : Group.IsSolvable ↥D.T := by
-      haveI : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
+      have : Group.IsNilpotent ↥D.T := D.sylowM.isPGroup.isNilpotent
       infer_instance
-    haveI := hDsolv
-    haveI := hTs
+    have := hDsolv
+    have := hTs
     have hZs : Group.IsSolvable ↥(D' ⊔ D.T) := CFSG.Quasithin.A3.isSolvable_sup_of_le_normalizer hTn
     refine ⟨p, hp, hp2, E.map Y.subtype, (hEG.trans hD'Y).trans hYH,
       uc22p20d_isElemAbelian_map Y.subtype Y.subtype_injective hE, ?_,
@@ -385,7 +385,7 @@ theorem uc22p20o_four_comps (D : Data G) (hQ : QuasisimpleDichotomy) (hB : ListB
   have hLH : L ≤ H := le_sup_left
   have hTH : D.T ≤ H := le_sup_right
   have hHtop : H ≠ ⊤ := by
-    haveI := D.standing.simple
+    have := D.standing.simple
     obtain ⟨N, hN, hHN⟩ := uc22p20a_exists_mem_calMOf D hH
     intro htop
     have hNtop : N = ⊤ := top_le_iff.mp (htop ▸ hHN)
@@ -428,7 +428,7 @@ theorem uc22p20o_excl_false_one (hG : Global22f) (hB : ListBNonabelian) (D : Dat
     (hLc : L ∈ calC L) {t : StatedLieTag} {m n : ℕ} (hodd : Odd (Nat.card (center (Bar2 L))))
     (hex : uc22p20oExcl t m n ∨ (t = .PSU ∧ m = 5 ∧ n = 2 ∧ center (Bar2 L) ≠ ⊥))
     (hM : LieModel (Bar2 L ⧸ center (Bar2 L)) t m 2 n) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hLc.2.2
   obtain ⟨p, hp, hp2, h⟩ := hG.excl (Bar2 L) hq hodd t m n hex hM
   rcases h with ⟨rfl, E, hE, hEc⟩ | ⟨⟨E, hE, hEc⟩, hBor⟩

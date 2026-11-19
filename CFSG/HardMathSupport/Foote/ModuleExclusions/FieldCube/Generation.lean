@@ -229,7 +229,7 @@ theorem conjAut_diagGL_proj_diag (d : Fin 3 → Fˣ) (D : SL(3, F))
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   by_cases hij : i = j
   · subst hij
-    simp [mul_comm, mul_assoc]
+    simp [mul_comm]
   · rw [hD i j hij]; simp
 
 theorem SplitData.act_diag {A B : Subgroup (MulAut (projectiveSL 3 F))} (h : SplitData σ A B)

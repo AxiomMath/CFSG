@@ -93,7 +93,7 @@ theorem exists_moving_of_not_centralizes_sylow {p : ℕ} [Fact p.Prime] {A L : S
   obtain ⟨Q, hQN⟩ := exists_sylow_le_normalizer hA hAN
   set Q' := (Q : Subgroup L).map L.subtype with hQ'
   have hQ'L : Q' ≤ L := Subgroup.map_subtype_le _
-  have hQ'p : IsPGroup p Q' := Q.isPGroup'.map L.subtype
+  have hQ'p : IsPGroup p Q' := Q.isPGroup.map L.subtype
   by_contra hno
   push Not at hno
   have hcen : ∀ q ∈ Q', q ∈ Subgroup.normalizer (A : Set G) → ∀ x ∈ A, q * x = x * q := by

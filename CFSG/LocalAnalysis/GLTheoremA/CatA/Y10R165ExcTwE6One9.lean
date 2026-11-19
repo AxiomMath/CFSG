@@ -16,15 +16,15 @@ theorem center_fixedGroup_eq_bot_of_not_three_dvd {k : Type} [Field k] [Finite k
     (θ : k →+* k) (hk : Nat.card k = (2 ^ f) ^ 2) (hθ : ∀ c, θ c = c ^ (2 ^ f))
     (h3 : ¬ 3 ∣ 2 ^ f + 1) :
     Subgroup.center ↥(fixedGroup k θ) = ⊥ := by
-  letI : Finite ↥(e6Data_valid.minGroup k) :=
+  let : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
   have hcard : Nat.card ↥(Subgroup.center ↥(fixedGroup k θ)) = 1 := by
     rw [card_center_fixedGroup_pow_two θ hk hθ]
     have hc : Nat.Coprime 3 (2 ^ f + 1) := Nat.prime_three.coprime_iff_not_dvd.2 h3
     simpa using hc.gcd_eq_one
   refine (Subgroup.eq_bot_iff_forall _).2 fun x hx => ?_
-  haveI : Fintype ↥(Subgroup.center ↥(fixedGroup k θ)) := Fintype.ofFinite _
-  haveI : Subsingleton ↥(Subgroup.center ↥(fixedGroup k θ)) :=
+  have : Fintype ↥(Subgroup.center ↥(fixedGroup k θ)) := Fintype.ofFinite _
+  have : Subsingleton ↥(Subgroup.center ↥(fixedGroup k θ)) :=
     Fintype.card_le_one_iff_subsingleton.mp (by
       rw [← Nat.card_eq_fintype_card, hcard])
   have h := Subsingleton.elim (⟨x, hx⟩ : ↥(Subgroup.center ↥(fixedGroup k θ)))

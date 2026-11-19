@@ -43,7 +43,7 @@ theorem s16c167_cfg4_transitive {X : Subgroup (MulAut W)} {Z : Subgroup W} {Y Y'
   rw [Subgroup.map_map]
   congr 1
   ext m
-  simp [MulAut.mul_apply]
+  simp
 
 theorem s16c167_cfg4_inf_eq_bot {S : Set (Subgroup W)} (hind : sSupIndep S) {Y₁ Y₂ : Subgroup W}
     (h₁ : Y₁ ∈ S) (h₂ : Y₂ ∈ S) (hne : Y₁ ≠ Y₂) : Y₁ ⊓ Y₂ = ⊥ := by
@@ -57,7 +57,7 @@ theorem s16c167_cfg4_rk_mem {X : Subgroup (MulAut W)} {Z : Subgroup W} {Y : Subg
 theorem s16c167_cfg4_centSub_conj (x : MulAut W) (Y : Subgroup W) :
     (centSub Y).map (MulAut.conj x).toMonoidHom = centSub (Y.map x.toMonoidHom) := by
   ext y
-  simp only [Subgroup.mem_map, mem_centSub, MulAut.conj_apply]
+  simp only [Subgroup.mem_map, mem_centSub]
   constructor
   · rintro ⟨z, hz, rfl⟩ u hu
     obtain ⟨v, hv, rfl⟩ := hu
@@ -77,7 +77,7 @@ theorem s16c167_cfg4_perm4_normal {α : Type} [Fintype α] (hα : Fintype.card �
   classical
   by_contra hNbot
   obtain ⟨x, hxN, hxne⟩ := (Subgroup.bot_or_exists_ne_one N).resolve_left hNbot
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hx3 : x ^ 3 = 1 := h3 x hxN
   have hxorder : orderOf x = 3 := orderOf_eq_prime hx3 hxne
   have hxcycle : x.IsCycle := by
@@ -143,10 +143,10 @@ theorem s16c167_cfg4_stab [Finite W] {X L : Subgroup (MulAut W)} {Z : Subgroup W
     show (conjSubs X Z).ncard ≠ 0
     rw [F.ncard_eq]
     norm_num
-  haveI : Fintype ↥C := hfin.fintype
+  have : Fintype ↥C := hfin.fintype
   have hcard : Fintype.card ↥C = 4 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, F.ncard_eq]
-  letI : MulAction ↥X ↥C :=
+  let : MulAction ↥X ↥C :=
     { smul := fun g Y => ⟨Y.1.map g.1.toMonoidHom, s16c167_cfg4_map_mem g.2 Y.2⟩
       one_smul := fun Y => by
         apply Subtype.ext
@@ -180,7 +180,7 @@ theorem s16c167_cfg4_stab [Finite W] {X L : Subgroup (MulAut W)} {Z : Subgroup W
       Subgroup.mem_map_of_mem _ hh
     rw [F.norm k hk] at hmem
     simpa [MulAut.conj_apply] using hmem
-  haveI : N.Normal := Subgroup.Normal.map hsubnormal (MulAction.toPermHom ↥X ↥C) hsurj
+  have : N.Normal := Subgroup.Normal.map hsubnormal (MulAction.toPermHom ↥X ↥C) hsurj
   have hcube : ∀ l ∈ L, l ^ 3 = 1 := by
     intro l hl
     obtain ⟨φ⟩ := F.elem

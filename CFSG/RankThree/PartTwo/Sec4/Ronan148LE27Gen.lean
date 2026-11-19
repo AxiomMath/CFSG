@@ -155,8 +155,8 @@ theorem e27Move_of_torus4 {a k : ℕ} {ζ : Fˣ} (hζo : orderOf ζ = 3 ^ (a + 1
       ∃ n ∈ G, (n : Matrix (Fin 4) (Fin 4) F) = σ.toPEquiv.toMatrix)
     (hcard : Nat.card G = 3 ^ (3 * (a + 1) + 1) * k) (hk : ¬ 3 ∣ k) : E27Move G := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (1 < 3 ^ (a + 1)) := ⟨Nat.one_lt_pow (by omega) (by norm_num)⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (1 < 3 ^ (a + 1)) := ⟨Nat.one_lt_pow (by omega) (by norm_num)⟩
   have hζ : ζ ^ (3 ^ (a + 1)) = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hmem : ∀ v, τN hζ v ∈ G := by
     intro v

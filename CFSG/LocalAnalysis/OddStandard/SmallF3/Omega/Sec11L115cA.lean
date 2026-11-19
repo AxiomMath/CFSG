@@ -56,7 +56,7 @@ theorem sec11c_cent_pair (t z : G) :
 theorem sec11c_fixed_coset [Finite G] {d : G} (hd : IsPGroup 2 (zpowers d)) {N : Subgroup G}
     (hN : Odd (Nat.card N)) (hdN : ∀ m ∈ N, d * m * d⁻¹ ∈ N) {v : G}
     (hv : v⁻¹ * (d * v * d⁻¹) ∈ N) : ∃ c : G, v⁻¹ * c ∈ N ∧ d * c = c * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : ¬ 2 ∣ Nat.card N := fun h => (Nat.not_even_iff_odd.mpr hN) (even_iff_two_dvd.mpr h)
   have hstep : ∀ y : G, v⁻¹ * y ∈ N → v⁻¹ * (d * y * d⁻¹) ∈ N := by
     intro y hy

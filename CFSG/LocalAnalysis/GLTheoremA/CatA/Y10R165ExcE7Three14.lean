@@ -198,7 +198,7 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_add_of_blockP {τ : Tag} {Ω : 
     rw [h0] at hcard
     have : (q ^ 2 + q + 1) ^ Fintype.card J ≠ 0 := pow_ne_zero _ (by positivity)
     exact this hcard.symm
-  haveI : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
+  have : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
   have hdvdK : p ∣ Nat.card K' := by
     have h1 : p ∣ (q ^ 2 + q + 1) ^ Fintype.card J :=
       hdvd.trans (dvd_pow_self _ Fintype.card_ne_zero)
@@ -243,8 +243,8 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_add_of_blockP {τ : Tag} {Ω : 
     exact orderOf_dvd_iff_pow_eq_one.2 hcK
   have hpk : ¬ p ∣ Nat.card g.ker := by
     intro hpdv
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite g.ker := inferInstance
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite g.ker := inferInstance
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := g.ker) p hpdv
     have h1 : p ∣ orderOf c := hc ▸ dvd_refl p
     exact hpd (h1.trans (hker c))
@@ -286,7 +286,7 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_sub_of_blockP {τ : Tag} {Ω : 
     rw [h0] at hcard
     have : (q ^ 2 - q + 1) ^ Fintype.card J ≠ 0 := pow_ne_zero _ (by nlinarith)
     exact this hcard.symm
-  haveI : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
+  have : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
   have hdvdK : p ∣ Nat.card K' := by
     have h1 : p ∣ (q ^ 2 - q + 1) ^ Fintype.card J :=
       hdvd.trans (dvd_pow_self _ Fintype.card_ne_zero)
@@ -331,8 +331,8 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_sub_of_blockP {τ : Tag} {Ω : 
     exact orderOf_dvd_iff_pow_eq_one.2 hcK
   have hpk : ¬ p ∣ Nat.card g.ker := by
     intro hpdv
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite g.ker := inferInstance
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite g.ker := inferInstance
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := g.ker) p hpdv
     have h1 : p ∣ orderOf c := hc ▸ dvd_refl p
     exact hpd (h1.trans (hker c))

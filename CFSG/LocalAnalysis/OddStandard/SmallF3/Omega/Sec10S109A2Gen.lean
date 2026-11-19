@@ -109,7 +109,7 @@ theorem sec10A2_relIndex_dvd_two {S P X : Subgroup G} (hXS : X ≤ S) (h2 : P.re
   rw [Subgroup.relIndex_dvd_two_iff]
   by_cases hXP : X ≤ P
   · exact ⟨1, X.one_mem, fun b hb => Or.inr (hXP hb)⟩
-  · obtain ⟨x0, hx0, hx0P⟩ := SetLike.not_le_iff_exists.mp hXP
+  · obtain ⟨x0, hx0, hx0P⟩ := IsConcreteLE.not_le_iff_exists.mp hXP
     refine ⟨x0, hx0, fun b hb => ?_⟩
     by_cases hbP : b ∈ P
     · exact Or.inr hbP

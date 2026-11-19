@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c11_inf_cTilde_eq_inf_centralizer_of_ti {M V₀ V W : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : M ≤ normalizer (V : Set G))
     (hM₀ : M ≤ normalizer (V₀ : Set G)) (hWM : W ≤ M)
@@ -97,6 +98,7 @@ theorem s16c11_rkIdx_fixV_barSub_le_mQuot_inf_centralizer {V₀ V A : Subgroup G
         rw [mem_modNull]
         exact mem_conjSubgroup_iff.1 hx)
 
+omit [Finite G] in
 private theorem s16c11_dimp_vtilConj_mk (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (g : G)
     (x : IntMod V hV) :
     vtilConj V₀ V hV g (mkTil V₀ V hV x) =
@@ -104,11 +106,13 @@ private theorem s16c11_dimp_vtilConj_mk (V₀ V : Subgroup G) (hV : IsElemAbelia
         (E3.conjMod hV g (E3.isElemAbelian_conjSubgroup hV g) x) :=
   rfl
 
+omit [Finite G] in
 private theorem s16c11_dimp_mem_stabTil_conj {V₀ V : Subgroup G} (g y : G) :
     y ∈ stabTil (conjSubgroup V₀ g) (conjSubgroup V g) ↔ g * y * g⁻¹ ∈ stabTil V₀ V := by
   rw [stabTil, stabTil, Subgroup.mem_inf, Subgroup.mem_inf, ← E3.conjSubgroup_normalizer V g,
     ← E3.conjSubgroup_normalizer V₀ g, mem_conjSubgroup_iff, mem_conjSubgroup_iff]
 
+omit [Finite G] in
 private theorem s16c11_dimp_conjMod_actStab (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (g : G)
     {x y : G} (hx : x ∈ stabTil V₀ V)
     (hy : y ∈ stabTil (conjSubgroup V₀ g) (conjSubgroup V g)) (h : y = g⁻¹ * x * g)
@@ -126,6 +130,7 @@ private theorem s16c11_dimp_conjMod_actStab (V₀ V : Subgroup G) (hV : IsElemAb
     (g⁻¹ * x * g) * (g⁻¹ * w.val * g) * (g⁻¹ * x * g)⁻¹
   group
 
+omit [Finite G] in
 private theorem s16c11_dimp_actTil_conj (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (g : G)
     {x y : G} (hx : x ∈ stabTil V₀ V)
     (hy : y ∈ stabTil (conjSubgroup V₀ g) (conjSubgroup V g)) (h : y = g⁻¹ * x * g) :
@@ -143,6 +148,7 @@ private theorem s16c11_dimp_actTil_conj (V₀ V : Subgroup G) (hV : IsElemAbelia
   rw [s16c11_dimp_vtilConj_mk,
     s16c11_dimp_conjMod_actStab V₀ V hV g hx hy h w]
 
+omit [Finite G] in
 theorem s16c11_barSub_conj_eq_map {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (g : G)
     (X : Subgroup G) :
     barSub (conjSubgroup V₀ g) (conjSubgroup V g) (E3.isElemAbelian_conjSubgroup hV g)
@@ -190,6 +196,7 @@ theorem s16c11_pRank_Mbar_conj {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) 
   rw [s16c11_barSub_conj_eq_map hV g M]
   exact E3.pRank_map_mulEquiv' (MulAut.congr (vtilConj V₀ V hV g)) Nat.prime_two _
 
+omit [Finite G] in
 theorem s16c11_barSub_conj_ne_bot {M V₀ V : Subgroup G} {g : G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
     (hAM : conjSubgroup V g ≤ M) (hVMg : V ≤ conjSubgroup M g)

@@ -64,7 +64,7 @@ theorem sec8t84t_cover_image_eq {G : Type} [Group G] {C : Subgroup G} {B : Type}
   let A' : Subgroup ↥C := A.subgroupOf C
   have hqs : CFSG.IsQuasisimple ↥A' := hA.2.1
   have hsub : A'.IsSubnormal := hA.2.2
-  haveI hperf : Group.IsPerfect ↥A' := hqs.1
+  have hperf : Group.IsPerfect ↥A' := hqs.1
   have hNperf : Group.IsPerfect ↥(A'.map ρ) := Group.IsPerfect.map (f := ρ)
   have hNE : A'.map ρ ≤ E := ff_perfect_le_of_quot_two E h2 (A'.map ρ) hNperf
   have hNsub : (A'.map ρ).IsSubnormal := hsub.map hρ.surjective
@@ -92,8 +92,8 @@ theorem sec8t84t_outer_of_cover {G : Type} [Group G] {C : Subgroup G} {B : Type}
       have hsub : a₀ = 1 := Subtype.ext (by simpa using h)
       have hρ1 : ρ a₀ = 1 := by rw [hsub, map_one]
       have hu1 : u = 1 := by rw [← ha, ← hpow.2, hρ1]
-      exact huE (by simpa [hu1] using E.one_mem)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      exact huE (by simp [hu1])
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hvv) hv1
   · intro hInner
     obtain ⟨l, hlA, c, hc, hvlc⟩ := ff_innerOn_decompose hInner

@@ -15,8 +15,8 @@ variable {X : Type} [Group X] [Finite X] {J D E : Subgroup X} {a : X}
 theorem GomiU42Data.exists_elementary_aut (h : GomiU42Data X J D E a) :
     haveI := h.normal
     ∃ E' : Subgroup (MulAut ↥D), (∀ e ∈ E', e * e = 1) ∧ Nat.card E' = 2 ^ 8 := by
-  haveI := h.normal
-  haveI := h.elementary
+  have := h.normal
+  have := h.elementary
   refine ⟨E.map (MulAut.conjNormal : X →* MulAut D), ?_, ?_⟩
   · rintro _ ⟨x, hx, rfl⟩
     rw [← map_mul]
@@ -38,7 +38,7 @@ theorem GomiU42Data.false_of_oddLie_reeTits'
       exact hD
     · exact absurd hadm.2.2.2.1 hp2
     · exact absurd hadm.2.2.2.1 hp2
-  haveI := h.simple
+  have := h.simple
   have hZ : center ↥D = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonabelian).2
   obtain ⟨E', hE'sq, hE'card⟩ := h.exists_elementary_aut
   have hle := card_le_two_pow_add_of_aut (L := ↥D) hZ (r := 3) (s := 0)

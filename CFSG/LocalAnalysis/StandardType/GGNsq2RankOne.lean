@@ -59,7 +59,7 @@ theorem Datum.centralizer_img (hD : Datum p N f L Bs Z) {H : Subgroup G} (hH : H
   · intro hq
     obtain ⟨hqL, hqC⟩ := Subgroup.mem_inf.1 hq
     obtain ⟨u, huL, rfl⟩ := mem_img.1 hqL
-    haveI := Fact.mk hD.prime
+    have := Fact.mk hD.prime
     have hcomm : ∀ v ∈ H.subgroupOf N, f v * f u = f u * f v := by
       intro v hv
       have hmem : f v ∈ img N f H := mem_img.2 ⟨v, hv, rfl⟩
@@ -82,6 +82,7 @@ theorem Datum.centralizer_img (hD : Datum p N f L Bs Z) {H : Subgroup G} (hH : H
     have hc : Commute (⟨h, hhN⟩ : ↥N) u' := hu'c ⟨h, hhN⟩ hh
     exact congrArg Subtype.val hc.eq
 
+omit [Finite G] in
 theorem Datum.injOn_centralizer (hD : Datum p N f L Bs Z) {H : Subgroup G}
     (hfix : ∀ z ∈ Z, (∀ h ∈ H, h * z = z * h) → z = 1) :
     Function.Injective
@@ -111,6 +112,7 @@ theorem Datum.injOn_centralizer (hD : Datum p N f L Bs Z) {H : Subgroup G}
   have h1 : (u₁ : ↥N)⁻¹ * (u₂ : ↥N) = 1 := Subtype.ext (hfix _ hZ hcent)
   exact Subtype.ext (inv_mul_eq_one.1 h1)
 
+omit [Finite G] in
 theorem card_img_of_injOn {U : Subgroup G} (hUN : U ≤ N)
     (hinj : Function.Injective fun u : ↥(U.subgroupOf N) => f (u : ↥N)) :
     Nat.card ↥(img N f U) = Nat.card ↥U := by
@@ -118,7 +120,8 @@ theorem card_img_of_injOn {U : Subgroup G} (hUN : U ≤ N)
   rw [card_map_eq_of_inj hinj]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUN).toEquiv
 
-theorem Datum.img_ggOTwoPrime (hD : Datum p N f L Bs Z) {C : Subgroup G} (hCN : C ≤ N)
+omit [Finite G] in
+theorem Datum.img_ggOTwoPrime (_hD : Datum p N f L Bs Z) {C : Subgroup G} (hCN : C ≤ N)
     (hinj : Function.Injective fun u : ↥(C.subgroupOf N) => f (u : ↥N)) :
     img N f (ggOTwoPrime C) = ggOTwoPrime (img N f C) := by
   apply le_antisymm
@@ -152,6 +155,7 @@ theorem Datum.img_ggOTwoPrime (hD : Datum p N f L Bs Z) {C : Subgroup G} (hCN : 
     have := congrArg Subtype.val hc1
     simpa using this
 
+omit [Finite G] in
 theorem Datum.card_ggOTwoPrime_img (hD : Datum p N f L Bs Z) {C : Subgroup G} (hCN : C ≤ N)
     (hinj : Function.Injective fun u : ↥(C.subgroupOf N) => f (u : ↥N)) :
     Nat.card ↥(ggOTwoPrime (img N f C)) = Nat.card ↥(ggOTwoPrime C) := by

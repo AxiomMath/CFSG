@@ -399,7 +399,7 @@ theorem sp44_isAmalgamIso [Finite G]
     (hD : Sp44LocalData L1 L2 S) :
     F6.IsAmalgamIso (L1 ⊔ bigB L1 L2 S) (L2 ⊔ bigB L1 L2 S) sp44M1 sp44M2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF4 : Nat.card F₄ = 2 ^ 2 := Sp44.card_galoisField_two_two
   obtain ⟨ψ₁, hS1, hQ1, hL1, hN1⟩ := (hD.side_left hF h1).exists_vertexIso_one
   obtain ⟨ψ₂, hS2, hQ2, hL2, hN2⟩ := (hD.side_right hF h1 h2).exists_vertexIso
@@ -519,7 +519,7 @@ theorem isAmalgamOfGroup_sp4_of_sp44LocalData [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)
     (hD : Sp44LocalData L1 L2 S) :
     IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsSp4Over 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF4 : Nat.card F₄ = 2 ^ 2 := Sp44.card_galoisField_two_two
   obtain ⟨iso⟩ := nonempty_iso_ofSubgroups_of_isAmalgamIso (sp44_isAmalgamIso hF h1 h2 hD)
   refine ⟨antiSp F₄, inferInstance, Or.inr ⟨le_rfl, lieModel_Sp (K := F₄) le_rfl hF4⟩,

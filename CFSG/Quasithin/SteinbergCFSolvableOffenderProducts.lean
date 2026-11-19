@@ -539,7 +539,7 @@ theorem solvable_faithful_offenders_generate_natural_S3_products [Finite k] [Cha
       have hQP : Q = P := Subsingleton.elim _ _
       intro x hx
       exact ⟨⟨x, hLF i hx⟩, hQP ▸ hQ hx, rfl⟩
-    exact (P.isPGroup'.map F.subtype).to_le (iSup_le hP)
+    exact (P.isPGroup.map F.subtype).to_le (iSup_le hP)
   obtain ⟨c1, c2, c3, c4, c5, c6, c7, c8, -⟩ :=
     binary_three_group_rank_two_generators_disjoint_natural_planes hk L hLinj
       (fun i => isCyclic_of_prime_card (hL3 i)) hL3 hD3 hrk

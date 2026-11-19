@@ -184,7 +184,7 @@ private theorem g5_map_conj_fixGp {t : StatedLieTag} (f : ℕ)
 private theorem g5_map_conj_rootSubgroup
     {t : StatedLieTag} (f : ℕ)
     (u : WeylGroup (langTag t))
-    (hu : ggPhi t f (canonicalRep (coxeterSystem (langTag t)) GGL u) =
+    (_hu : ggPhi t f (canonicalRep (coxeterSystem (langTag t)) GGL u) =
       canonicalRep (coxeterSystem (langTag t)) GGL u)
     {β : Fin (langTag t).rank → ℤ} (hβ : IsRoot (langTag t) β) :
     (rootSubgroup (langTag t) GGL β).map
@@ -209,7 +209,7 @@ private theorem g5_map_conj_rootSubgroup
       u hβ c
 
 theorem ggG5_ratRankOne_conj
-    {t : StatedLieTag} (ht : GGExcFive t) (f : ℕ)
+    {t : StatedLieTag} (_ht : GGExcFive t) (f : ℕ)
     (u : WeylGroup (langTag t))
     (hu : ggPhi t f (canonicalRep (coxeterSystem (langTag t)) GGL u) =
       canonicalRep (coxeterSystem (langTag t)) GGL u)

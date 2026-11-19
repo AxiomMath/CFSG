@@ -22,11 +22,13 @@ section Counting
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qMinC_relIndex_mul_card {K N : Subgroup G} (h : K ≤ N) :
     K.relIndex N * Nat.card K = Nat.card N := by
   have e := Subgroup.relIndex_mul_card K N
   rwa [inf_eq_left.mpr h] at e
 
+omit [Finite G] in
 private theorem qMinC_secRank_eq (N L : Subgroup G) :
     secRank N L = padicValNat 2 (L.relIndex N) := rfl
 

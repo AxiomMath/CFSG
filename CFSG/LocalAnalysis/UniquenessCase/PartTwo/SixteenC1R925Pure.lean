@@ -20,13 +20,13 @@ private lemma r925_natCard_quot_eq_sixty {Y : Type} [Group Y] {Z : Subgroup Y} [
 theorem IsPerfA5Cover.exists_card_three {Y : Type} [Group Y] [Finite Y] (h : IsPerfA5Cover Y) :
     ∃ D : Subgroup Y, Nat.card D = 3 := by
   obtain ⟨-, Z, hZn, hZ2, ⟨e⟩⟩ := h
-  haveI := hZn
+  have := hZn
   have hcard : Nat.card Y = Nat.card (Y ⧸ Z) * Nat.card Z :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup Z
   have h3 : 3 ∣ Nat.card Y := by
     rw [hcard, r925_natCard_quot_eq_sixty e]
     exact ⟨20 * Nat.card Z, by ring⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
   exact ⟨Subgroup.zpowers x, by rw [Nat.card_zpowers, hx]⟩
 
@@ -39,9 +39,9 @@ theorem IsPerfA5Cover.exists_subgroup_card_three {Γ : Type} [Group Γ] [Finite 
 theorem IsPerfA5Cover.closure_orderOf_three {Y : Type} [Group Y] [Finite Y]
     (h : IsPerfA5Cover Y) : Subgroup.closure {y : Y | orderOf y = 3} = ⊤ := by
   obtain ⟨hperf, Z, hZn, hZ2, ⟨e⟩⟩ := h
-  haveI := hZn
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
+  have := hZn
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
   let S : Set Y := {y : Y | orderOf y = 3}
   let O : Subgroup Y := Subgroup.closure S
   have hOnorm : O.Normal :=
@@ -49,15 +49,15 @@ theorem IsPerfA5Cover.closure_orderOf_three {Y : Type} [Group Y] [Finite Y]
       show orderOf (g * y * g⁻¹) = 3
       rw [← MulAut.conj_apply, MulEquiv.orderOf_eq]
       exact hy
-  haveI : O.Normal := hOnorm
-  haveI hI : (O.map (QuotientGroup.mk' Z)).Normal :=
+  have : O.Normal := hOnorm
+  have hI : (O.map (QuotientGroup.mk' Z)).Normal :=
     hOnorm.map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   have hne : O.map (QuotientGroup.mk' Z) ≠ ⊥ := by
     intro hbot
     have h3dvd : 3 ∣ Nat.card Y := by
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Z, r925_natCard_quot_eq_sixty e]
       exact ⟨20 * Nat.card Z, by ring⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
     have hxS : x ∈ S := hx
     have hxO : x ∈ O := Subgroup.subset_closure hxS
@@ -66,7 +66,7 @@ theorem IsPerfA5Cover.closure_orderOf_three {Y : Type} [Group Y] [Finite Y]
     rw [hbot] at hmem
     have hone : QuotientGroup.mk' Z x = 1 := Subgroup.mem_bot.mp hmem
     have hxZ : x ∈ Z := (QuotientGroup.eq_one_iff x).mp hone
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hne1 : (⟨x, hxZ⟩ : Z) ≠ 1 := by
       intro h1
       have h1' : orderOf (⟨x, hxZ⟩ : Z) = 1 := by rw [h1, orderOf_one]
@@ -105,14 +105,14 @@ theorem IsPerfA5Cover.closure_orderOf_three {Y : Type} [Group Y] [Finite Y]
       have ho : QuotientGroup.mk' O o = 1 := (QuotientGroup.eq_one_iff o).mpr hoO
       rw [ho, inv_one, one_mul]
     exact hZ2.of_surjective ((QuotientGroup.mk' O).comp Z.subtype) hsurj
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
-  haveI : Group.IsPerfect (Y ⧸ O) :=
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect (Y ⧸ O) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' O) (QuotientGroup.mk'_surjective O)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent (Y ⧸ O) := h2group.isNilpotent
   have hsub : Subsingleton (Y ⧸ O) := by
     by_contra hns
-    haveI : Nontrivial (Y ⧸ O) := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial (Y ⧸ O) := not_subsingleton_iff_nontrivial.mp hns
     exact (Group.IsPerfect.not_isNilpotent (Y ⧸ O)) hnil
   apply le_antisymm le_top
   intro y _
@@ -148,18 +148,18 @@ theorem IsPerfA5Cover.isThreeGen {Γ : Type} [Group Γ] [Finite Γ] {Y : Subgrou
 theorem IsPerfA5Cover.map {Y Y' : Type} [Group Y] [Group Y'] (h : IsPerfA5Cover Y) (f : Y →* Y')
     (hf : Function.Surjective f) (hker : ∀ y ∈ f.ker, ¬ 3 ∣ orderOf y) : IsPerfA5Cover Y' := by
   obtain ⟨hperf, Z, hZn, hZ2, ⟨e⟩⟩ := h
-  haveI := hZn
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
-  haveI : Finite (Y ⧸ Z) := Finite.of_injective e.toEquiv e.toEquiv.injective
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
+  have := hZn
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
+  have : Finite (Y ⧸ Z) := Finite.of_injective e.toEquiv e.toEquiv.injective
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hperf
   have hperfY' : Group.IsPerfect Y' := Group.IsPerfect.ofSurjective (f := f) hf
   have hkerZ : f.ker ≤ Z := by
-    haveI hI : (f.ker.map (QuotientGroup.mk' Z)).Normal :=
+    have hI : (f.ker.map (QuotientGroup.mk' Z)).Normal :=
       (MonoidHom.normal_ker f).map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
     have hIne : f.ker.map (QuotientGroup.mk' Z) ≠ ⊤ := by
       intro hItop
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have h3dvd : 3 ∣ Nat.card (Y ⧸ Z) := by
         rw [r925_natCard_quot_eq_sixty e]; norm_num
       obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
@@ -180,7 +180,7 @@ theorem IsPerfA5Cover.map {Y Y' : Type} [Group Y] [Group Y'] (h : IsPerfA5Cover 
     rw [hIbot, Subgroup.mem_bot] at hyI
     exact (QuotientGroup.eq_one_iff y).mp hyI
   have hZ'n : (Z.map f).Normal := hZn.map f hf
-  haveI : (Z.map f).Normal := hZ'n
+  have : (Z.map f).Normal := hZ'n
   have hZ'2 : IsPGroup 2 (Z.map f) := hZ2.map f
   have hbij : Function.Bijective (QuotientGroup.map Z (Z.map f) f (Subgroup.le_comap_map f Z)) := by
     constructor
@@ -216,14 +216,14 @@ theorem IsPerfA5Cover.of_mulEquiv {Y Y' : Type} [Group Y] [Group Y'] (h : IsPerf
 theorem IsPerfA5Cover.eq_bot_of_odd {Y : Type} [Group Y] [Finite Y] (h : IsPerfA5Cover Y)
     (N : Subgroup Y) [N.Normal] (hN : ∀ x ∈ N, Odd (orderOf x)) : N = ⊥ := by
   obtain ⟨-, Z, hZn, hZ2, ⟨e⟩⟩ := h
-  haveI := hZn
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
-  haveI hNm : (N.map (QuotientGroup.mk' Z)).Normal :=
+  have := hZn
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (Y ⧸ Z) := e.isSimpleGroup
+  have hNm : (N.map (QuotientGroup.mk' Z)).Normal :=
     (inferInstance : N.Normal).map (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   have hNne : N.map (QuotientGroup.mk' Z) ≠ ⊤ := by
     intro hNtop
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2dvd : 2 ∣ Nat.card (Y ⧸ Z) := by
       rw [r925_natCard_quot_eq_sixty e]; norm_num
     obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
@@ -250,7 +250,7 @@ theorem IsPerfA5Cover.eq_bot_of_odd {Y : Type} [Group Y] [Finite Y] (h : IsPerfA
   intro x hx
   rw [← orderOf_eq_one_iff]
   have hxZ : x ∈ Z := hNZ hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hZ2.exists_orderOf_eq_pow (⟨x, hxZ⟩ : Z)
   have hkx : orderOf x = 2 ^ k := by
     rw [← Subgroup.orderOf_mk x hxZ]

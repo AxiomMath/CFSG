@@ -24,7 +24,7 @@ theorem card_centralizer_le_of_index_two {Y : Type*} [Group Y] [Finite Y] {Y' : 
     (hY' : Y'.index = 2) {y : Y} (hy : y ∈ Y') :
     Nat.card (centralizer ({y} : Set Y)) ≤
       2 * Nat.card (centralizer ({(⟨y, hy⟩ : Y')} : Set Y')) := by
-  haveI : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
+  have : Y'.Normal := Subgroup.normal_of_index_eq_two hY'
   set C := centralizer ({y} : Set Y) with hC
   have h1 : Nat.card (Y'.subgroupOf C) * (Y'.subgroupOf C).index = Nat.card C :=
     Subgroup.card_mul_index _
@@ -54,7 +54,7 @@ theorem card_centralizer_le_of_cover {Y R : Type*} [Group Y] [Finite Y] [Group R
     (hR : ∀ s : R, orderOf s = 7 → Nat.card (centralizer ({s} : Set R)) ≤ N)
     {y : Y} (hy : orderOf y = 7) : Nat.card (centralizer ({y} : Set Y)) ≤ 4 * N := by
   have hyY' : y ∈ Y' := mem_of_index_two_of_odd hY' (by rw [hy]; decide)
-  haveI : Finite R := Finite.of_equiv _ φ.toEquiv
+  have : Finite R := Finite.of_equiv _ φ.toEquiv
   set y' : Y' := ⟨y, hyY'⟩ with hy'
   have hZcard : Nat.card (Z.subgroupOf Y') = 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZY').toEquiv, hZ2]
@@ -90,8 +90,8 @@ theorem card_centralizer_seven_le_Rgrp :
   have hp3 : ¬ 7 ^ 3 ∣ Nat.card Rgrp := by
     rw [CFSG.LieType.Chevalley.C2E6Std.card_stdGroup]
     norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite Rgrp := rgrp_finite
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Rgrp := rgrp_finite
   obtain ⟨x₀, y₀, hx₀, hy₀, hc, hind, h0, hi⟩ := sylow_seven_fusion
   refine forall_of_sylow_elementary hp3 hx₀ hy₀ hc hind ({rep7A, rep7B} : Set Rgrp) ?_ ?_
     (fun s => Nat.card (centralizer ({s} : Set Rgrp)) ≤ 141120) ?_ ?_ ?_
@@ -121,7 +121,7 @@ section Baby
 theorem card_centralizer_seven_le_B
     {x : NativeSporadic.B} (hx : orderOf x = 7) :
     Nat.card (centralizer ({x} : Set NativeSporadic.B)) ≤ 564480 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have P := bSevenElem_parts
   have hα : BabyInv 0 alphaB :=
     babyInv_zero_of_rank_1860 (orderOf_eq_prime P.alpha_sq P.alpha_ne) P.alpha_rank
@@ -129,7 +129,7 @@ theorem card_centralizer_seven_le_B
   rw [CFSG.Monster.Existence.natCard_centralizer_eq_of_isConj (bSeven_isConj hx hxS)]
   have hle := centralizer_xSeven_le
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam CFSG.Monster.Existence.babyTableIII hα
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤

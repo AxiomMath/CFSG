@@ -169,6 +169,7 @@ theorem Ctx.exists_centralizer_ne_one_of_three (c : Ctx p A T) (hp3 : p = 3) :
   have := c.rank2 (inf_le_left.trans hS.hyp.1) hcard9 hVT hVe
   omega
 
+omit [Finite G] in
 theorem exists_involution_pow {T : Subgroup G} (hT : IsPGroup 2 T) {t : G} (ht : t ∈ T)
     (ht1 : t ≠ 1) : ∃ n : ℕ, (t ^ n) ^ 2 = 1 ∧ t ^ n ≠ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -224,7 +225,7 @@ theorem Ctx.centralizes_of_three (c : Ctx p A T) (hp3 : p = 3) {z : G} (hzZ : z 
         refine lt_of_le_of_ne (Subgroup.card_le_of_le inf_le_left) fun heq => hnot ?_
         have : X₀ = X := Subgroup.eq_of_le_of_card_ge inf_le_left heq.ge
         exact this ▸ inf_le_right
-      haveI : Fact p.Prime := ⟨c.prime⟩
+      have : Fact p.Prime := ⟨c.prime⟩
       have hmod : Nat.card X ≡ Nat.card X₀ [MOD p] :=
         card_modEq_card_inf_centralizer (c.pow_p hα) (hXn hα)
       have hX2 : IsPGroup 2 X := isPGroup_of_isElemAbelian hXe
@@ -335,6 +336,7 @@ theorem Ctx.exists_central_involution_of_three (c : Ctx p A T) (hp3 : p = 3)
   have := c.rank1 hH₀ hEle hEe
   omega
 
+omit [Finite G] in
 theorem conj_mem_map_of_characteristic {T : Subgroup G} {Q : Subgroup T} (hQ : Q.Characteristic)
     {a : G} (ha : a ∈ normalizer (T : Set G)) {x : G} (hx : x ∈ Q.map T.subtype) :
     a * x * a⁻¹ ∈ Q.map T.subtype := by
@@ -372,8 +374,8 @@ theorem Ctx.isCyclic_of_three (c : Ctx p A T) (hp3 : p = 3)
   have hV2 : Nat.card (omega1 Q' hQ'c) ≤ 2 :=
     c.rank0 (V := omega1 Q' hQ'c) (le_inf hVT (fun x hx => mem_centralizer_iff.2
       (fun a ha => hVA x hx a ha))) hVe
-  haveI := hQab
-  letI : CommGroup Q := Group.commGroupOfCenterEqTop Subgroup.center_eq_top
+  have := hQab
+  let : CommGroup Q := Group.commGroupOfCenterEqTop Subgroup.center_eq_top
   have hQ2 : IsPGroup 2 Q := IsPGroup.to_subgroup c.two Q
   obtain ⟨e, he⟩ := hQ2.exists_card_eq
   refine CFSG.TwoRankLowerBound.Helpers.abelian_two_group_cyclic_of_unique_involution_of_card_eq_pow

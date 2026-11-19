@@ -118,7 +118,7 @@ theorem odd_card_frattini_of_pCore_eq_bot {K : Type*} [Group K] [Finite K]
   classical
   obtain ⟨P⟩ : Nonempty (Sylow 2 (frattini K)) := inferInstance
   have hn : (P.map (frattini K).subtype).Normal := frattini_sylow_normal K 2 P
-  have h2 : IsPGroup 2 (P.map (frattini K).subtype) := P.isPGroup'.map _
+  have h2 : IsPGroup 2 (P.map (frattini K).subtype) := P.isPGroup.map _
   have hle : P.map (frattini K).subtype ≤ CFSG.pCore 2 K := le_sSup ⟨hn, h2⟩
   rw [h] at hle
   have hP : (P : Subgroup (frattini K)) = ⊥ := by
@@ -179,7 +179,7 @@ theorem eq_of_trivial_mod_frattini {K : Type*} [Group K] [Finite K]
     (hσ : ∀ y : K, (σ : K → K)^[2 ^ n] y = y)
     (htriv : ∀ y : K, σ y * y⁻¹ ∈ frattini K) (y : K) : σ y = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let F : Subgroup K := MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id K)
   have hσN : ∀ z ∈ frattini K, σ z ∈ frattini K := by
     intro z hz
@@ -214,7 +214,7 @@ theorem eq_of_trivial_mod_frattini {K : Type*} [Group K] [Finite K]
     have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 2) hg
     let e : S ≃ frattini K :=
       { toFun := fun z => ⟨y⁻¹ * z.1, z.2⟩
-        invFun := fun w => ⟨y * w.1, by simpa using w.2⟩
+        invFun := fun w => ⟨y * w.1, by simp⟩
         left_inv := fun z => by ext; simp
         right_inv := fun w => by ext; simp }
     have hcard : Fintype.card S = Nat.card (frattini K) := by
@@ -484,7 +484,7 @@ theorem kl_of_caseI [Finite G] {X T L K : Subgroup G} [X.Normal]
       rw [h3]
       exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mp hk) h2
     exact hK (hres K hKX hKn (pow_mem_of_sup_pCoreOf_eq hKn hsup))
-  · push_neg at hA
+  · push Not at hA
     have hcen : ∀ (k : G) (hk : k ∈ K), π ⟨k, hKX hk⟩ ∈ Subgroup.center (↥X ⧸ Q) := by
       intro k hk
       let c : ↥X ⧸ Q := π ⟨k, hKX hk⟩
@@ -522,7 +522,7 @@ theorem kl_of_caseI [Finite G] {X T L K : Subgroup G} [X.Normal]
         have : z ∈ ⁅L, L⁆ := by rw [hperfL]; exact hz
         exact Subgroup.commutator_mono hLX hLX this
       exact Subgroup.Normal.conj_mem inferInstance z hzXX h
-    haveI : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXX
+    have : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXX
     have hperf : Group.IsPerfect (↥X ⧸ Q) := inferInstance
     intro k hk
     exact mem_phiPre.mpr ⟨hKX hk, center_le_frattini_of_perfect hperf (hcen k hk)⟩
@@ -577,7 +577,7 @@ theorem o2_core_mem {Γ G' : Type*} [Group Γ] [Finite Γ] [Group G'] {X T : Sub
     intro g hg c hc
     refine ⟨X.mul_mem (X.mul_mem hg hc.1) (X.inv_mem hg), ?_⟩
     have h1 : ρ c = 1 := hc.2
-    simp [MonoidHom.mem_ker, map_mul, h1]
+    simp [map_mul, h1]
   have hCne : C ≠ X := by
     intro h
     apply hnt
@@ -721,7 +721,7 @@ theorem sylow_map {Γ G' : Type*} [Group Γ] [Group G'] (ρ : Γ →* G') {T H :
       (Subgroup.index_dvd_of_le le_sup_left)
   exact hidx (h2.trans h3)
 
-theorem pCoreOf_le_of_sylow {S H : Subgroup G} (hSH : S ≤ H) (hS : IsPGroup 2 ↥S)
+theorem pCoreOf_le_of_sylow {S H : Subgroup G} (_hSH : S ≤ H) (hS : IsPGroup 2 ↥S)
     (hidx : ¬ 2 ∣ (S.subgroupOf H).index) : pCoreOf 2 H ≤ S := by
   have hS' : IsPGroup 2 ↥(S.subgroupOf H) := isPGroup_subgroupOf hS
   let P : Sylow 2 ↥H := hS'.toSylow hidx

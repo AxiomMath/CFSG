@@ -69,7 +69,7 @@ theorem abel_base (hmod : ModFix Y a) {I : Type} [Group I] [Finite I]
   have hsq : ∀ z : I, z * z = 1 := fun z => by
     have : z ∈ Ω := by rw [hΩtop]; trivial
     exact this
-  haveI : Nontrivial I := ⟨⟨x, 1, hx1⟩⟩
+  have : Nontrivial I := ⟨⟨x, 1, hx1⟩⟩
   obtain ⟨v, hv1, hv⟩ := hmod I hcomm inferInstance hsq ρ
   have hJne : J ≠ ⊥ := by
     intro h

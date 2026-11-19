@@ -90,7 +90,7 @@ theorem t158E6Marking_untw
               (LargeEvenChevH (LargeEvenCartanE 6) K false),
             LargeEvenInduces θ (fun l l' => (l' : G) = x⁻¹ * l * x) φ := by
   obtain ⟨n, hn1, h3dvd, hcatn⟩ := T171Sh.exists_exponent_of_catalogIs_E6 hcat
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hP.qs.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hP.qs.1
   have hO : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L := by
     rw [hP.core]
     exact bot_le
@@ -148,15 +148,15 @@ theorem exists_langSetup_of_hatE6_conj_g0
             S.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) h' * S.D.g0 ∧
           S.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) h' * S.D.g0 ∈
             adjointGroup Tag.E6 (AlgebraicClosure K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hf1 : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
   set ι₁ : K →+* L := algebraMap K L
   have hFr : ∀ c : L, iterateFrobenius L ℓ (f : ℕ) c = c ^ Nat.card K := fun c => by
     rw [hqK]
@@ -314,12 +314,12 @@ theorem t158E6ModelData_untw
   obtain ⟨S, a, ι, g, hSq, ⟨Fr, hFr, hΦ⟩, hT, hap, h1, hιinj, hrange, hda, hι, hfix⟩ :=
     exists_langSetup_of_hatE6_conj Nat.prime_three h3K Nat.prime_five h5K (Or.inl le_rfl) hmon wd.2
       (by rw [← Subgroup.coe_pow, hwd3]; rfl) (fun h => hwd1 (Subtype.ext h))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hKcard])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hKcard])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite ↥(adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
+  have : Finite ↥(adjointGroup Tag.E6 K) := generated_group_finite Tag.E6 K
   set bc : ModGL Tag.E6 K →* ModGL Tag.E6 (AlgebraicClosure K) :=
     baseChangeGL (algebraMap K (AlgebraicClosure K))
   obtain ⟨hyF, hyG⟩ := hfix wb wb.2

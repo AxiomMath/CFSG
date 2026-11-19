@@ -20,7 +20,7 @@ theorem isElemAbelian_or_isExtraspecial {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   classical
   have hset := h51.setting
   have hp : p.Prime := hset.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hexp : ∀ x ∈ P, x ^ p = 1 := by
     intro x hx
     have h := Monoid.pow_exponent_eq_one (⟨x, hx⟩ : ↥P)
@@ -140,7 +140,7 @@ theorem isElemAbelian_or_isExtraspecial {p : ℕ} {P T B : Subgroup G} {e : ℕ}
           fun h hh => (hcomm2 g₁.1 g₁.2 g₂.1 g₂.2 h hh).symm⟩
       · rw [← hzpc, Subgroup.zpowers_le]; exact hwPcomm
     have hfr : frattini ↥P = Subgroup.center ↥P := by
-      haveI : Fact (IsPGroup p ↥P) := ⟨hset.pGroup⟩
+      have : Fact (IsPGroup p ↥P) := ⟨hset.pGroup⟩
       rw [← hcomm, CFSG.frattini_eq_closure_commutator_union_powers (p := p)]
       apply le_antisymm
       · rw [Subgroup.closure_le]

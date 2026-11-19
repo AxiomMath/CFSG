@@ -79,7 +79,7 @@ theorem isMarkedComponentSp_commSet_inter (hIH : Theorem4Below (Nat.card G))
     rintro _ ⟨a, ha, rfl⟩
     have ha0 : a ≠ 0 := by
       rintro rfl
-      rw [Set.mem_setOf_eq, QuadraticMap.map_zero] at ha
+      rw [Set.mem_ofPred_eq, QuadraticMap.map_zero] at ha
       exact zero_ne_one ha
     obtain ⟨z, hz, rfl⟩ := c.exists_vec a ha0
     have hzΓ : z ∈ Γ := ⟨hz, (hQw z hz).mpr ha⟩

@@ -108,7 +108,7 @@ theorem commute_of_commute_regular [IsAlgClosed L] {ω : L} (hω3 : ω ^ 3 = 1) 
   have hli : LinearIndependent L w :=
     Module.End.eigenvectors_linearIndependent' (Matrix.toLin' X) m hm w hev
   let W : Matrix (Fin 3) (Fin 3) L := Matrix.of fun i j => w j i
-  have hW : IsUnit W := Matrix.linearIndependent_cols_iff_isUnit.1 hli
+  have hW : IsUnit W := Matrix.linearIndependent_col_iff_isUnit.1 hli
   have hWdet : IsUnit W.det := (Matrix.isUnit_iff_isUnit_det W).1 hW
   have hWW : W * W⁻¹ = 1 := Matrix.mul_nonsing_inv W hWdet
   have hWW' : W⁻¹ * W = 1 := Matrix.nonsing_inv_mul W hWdet

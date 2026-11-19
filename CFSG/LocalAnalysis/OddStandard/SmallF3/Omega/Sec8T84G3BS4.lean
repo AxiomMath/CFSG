@@ -138,7 +138,7 @@ theorem sec8t84g3b_pfacts_ydata (hP : Sec8T84FactP) {G : Type} [Group G] [Finite
       ((V.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y)))
       ((P.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y)))
       ((F.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y))) := by
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   obtain ⟨hNo, hV, hVN, hA6, hHN, hHsup, htr⟩ := sec8t84g3b_ydata_sub hY
   have hP' : IsSylow2Of (P.subgroupOf Y) ⊤ := by
     refine ⟨le_top, hPY.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hPY.1).symm, ?_⟩
@@ -156,7 +156,7 @@ theorem sec8t84g3b_S4_ydata (hP : Sec8T84FactP) (hS4 : Sec8T84FactS4) {G : Type}
     Sec8T84G3BS4Concl (↥Y ⧸ O.subgroupOf Y)
       ((V.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y)))
       ((F.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y))) := by
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   obtain ⟨hNo, hV, hVN, hA6, hHN, hHsup, htr⟩ := sec8t84g3b_ydata_sub hY
   have hP' : IsSylow2Of (P.subgroupOf Y) ⊤ := by
     refine ⟨le_top, hPY.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hPY.1).symm, ?_⟩
@@ -176,7 +176,7 @@ theorem sec8t84g3b_normJ_ydata (hP : Sec8T84FactP) {G : Type} [Group G] [Finite 
           Subgroup (↥Y ⧸ O.subgroupOf Y)) : Set (↥Y ⧸ O.subgroupOf Y)) ≤
       normalizer ((((F.subgroupOf Y).map (QuotientGroup.mk' (O.subgroupOf Y))) :
         Subgroup (↥Y ⧸ O.subgroupOf Y)) : Set (↥Y ⧸ O.subgroupOf Y)) := by
-  haveI : (V.subgroupOf Y).Normal := hY.V_norm
+  have : (V.subgroupOf Y).Normal := hY.V_norm
   exact sec8t84g3b_normJ
     (Subgroup.Normal.map (inferInstance : (V.subgroupOf Y).Normal) _
       (QuotientGroup.mk'_surjective _))

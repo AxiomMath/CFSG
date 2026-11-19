@@ -23,7 +23,7 @@ open Classical in
 @[expose] noncomputable def eltOf (n : ℕ) : H6 := if h : ∃ g : H6, enc6 g = n then h.choose else 1
 
 theorem enc_eltOf {n : ℕ} (h : ∃ g : H6, enc6 g = n) : enc6 (eltOf n) = n := by
-  rw [eltOf, dif_pos h]
+  rw [eltOf, dite_eq_left h]
   exact h.choose_spec
 
 theorem eltOf_eq {g : H6} {n : ℕ} (h : enc6 g = n) : eltOf n = g :=
@@ -277,7 +277,7 @@ theorem Hyp.tag_mem (H : Hyp z s) {R : Subgroup H6}
     obtain ⟨y, hy, ey⟩ := hroot
     rw [RSub, Subgroup.closure_le]
     intro g hg
-    simp only [rgens, Set.mem_setOf_eq, List.mem_map, List.mem_range] at hg
+    simp only [rgens, Set.mem_ofPred_eq, List.mem_map, List.mem_range] at hg
     obtain ⟨l, hl, rfl⟩ := hg
     rcases (r_parts _ ht).1 l hl with e | ⟨e1, e2⟩
     · have e' : eltOf (rgen (OT j) l) = s := by

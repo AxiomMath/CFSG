@@ -18,6 +18,7 @@ theorem maxG_of_isBmax (hp : p.Prime) (hB : GLAIsBmax p B) : MaxG p B := fun E U
   rw [hB.2.1]
   exact h1
 
+omit [Finite G] in
 theorem rank_of_two_group (hB : IsElemAbelian p B) {T : Subgroup G} (hMax : MaxG p B) (hT : T ≠ ⊥)
     (hT2 : IsPGroup 2 T) (hTc : T ≤ Subgroup.centralizer (L : Set G))
     (hBT : B ≤ Subgroup.normalizer (T : Set G)) : Rank p B L := by
@@ -30,6 +31,7 @@ theorem rank_of_two_group (hB : IsElemAbelian p B) {T : Subgroup G} (hMax : MaxG
   exact Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun t ht =>
     (Subgroup.mem_centralizer_iff.1 (hTc ht) e (hEL he)).symm)
 
+omit [Finite G] in
 theorem B_norm_K (hB : IsElemAbelian p B) (hBL : B ≤ Subgroup.normalizer (L : Set G))
     (hpre : GLAStdSubPre p B x L D K) : B ≤ Subgroup.normalizer (K : Set G) := by
   have hbcs : ∀ b ∈ B, b ∈ Subgroup.centralizer (D : Set G) := fun b hb => by
@@ -48,7 +50,7 @@ theorem exists_y (hp : p.Prime) (hx1 : x ≠ 1) (hpre : GLAStdSubPre p B x L D K
   have hD : D ≤ Subgroup.zpowers x := hcon
   have hcard := Subgroup.card_le_of_le hD
   rw [hpre.2.2.1, Nat.card_zpowers] at hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime (hpre.2.1.2 x hpre.2.2.2.1) hx1
   rw [hord] at hcard
   have := hp.two_le
@@ -64,7 +66,8 @@ theorem L_cs_eq (hp : p.Prime) (hx1 : x ≠ 1) (hpre : GLAStdSubPre p B x L D K)
     L ⊓ Subgroup.centralizer (D : Set G) = L ⊓ Subgroup.centralizer ({y} : Set G) := by
   rw [cs_eq hp hx1 hpre hy hyx, ← inf_assoc, inf_eq_left.2 hLx]
 
-theorem faithful_quot (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hKq : CFSG.Open.IsQuasisimple ↥K)
+omit [Finite G] in
+theorem faithful_quot (_hBK : B ≤ Subgroup.normalizer (K : Set G)) (hKq : CFSG.Open.IsQuasisimple ↥K)
     (hpre : GLAStdSubPre p B x L D K) {b : G} (hb : b ∈ B)
     (hc : (⁅K, Subgroup.zpowers b⁆ : Subgroup G) ≤ Subgroup.centralizer (K : Set G)) : b ∈ D := by
   have h1 : (⁅(⁅K, Subgroup.zpowers b⁆ : Subgroup G), K⁆ : Subgroup G) = ⊥ :=
@@ -87,7 +90,7 @@ theorem dvd_of_faithful (i713 : CFSG.HardMathSupport.Solomon.Coordinator.I_7_13_
     (hrank : p ^ 2 * Nat.card ↥(A ⊓ Subgroup.centralizer (Q : Set G)) ≤ Nat.card A) :
     p ∣ Nat.card (↥Q ⧸ Subgroup.center ↥Q) := by
   by_contra hnd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKG : CFSG.Open.IsKGroup ↥Q := CFSG.Open.IsKGroup.of_le hY hQY
   have hs : IsSimpleGroup (↥Q ⧸ Subgroup.center ↥Q) := hQ.2
   have hna : ∃ a b : ↥Q ⧸ Subgroup.center ↥Q, a * b ≠ b * a :=
@@ -95,7 +98,7 @@ theorem dvd_of_faithful (i713 : CFSG.HardMathSupport.Solomon.Coordinator.I_7_13_
   have hcat : CFSG.Open.IsCatalogGroup (↥Q ⧸ Subgroup.center ↥Q) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.isCatalogGroup_center_quotient_of_isKGroup hKG hQ
   have h1 := i713 p hp hp2 (↥Q ⧸ Subgroup.center ↥Q) hs hna hcat hnd
-  haveI : Group.IsPerfect ↥Q := ⟨hQ.1⟩
+  have : Group.IsPerfect ↥Q := ⟨hQ.1⟩
   let φ : ↥A →* MulAut (↥Q ⧸ Subgroup.center ↥Q) :=
     (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥Q).comp
       (Q.normalizerMonoidHom.comp (Subgroup.inclusion hAQ))
@@ -227,10 +230,12 @@ theorem exists_T_of_sstarMax (hp : p.Prime) (hp2 : p ≠ 2) (h : IsSStarMax p B 
   obtain ⟨-, -, T, hTC, hT2, hBT, hne, -⟩ := IsSStarMax.essential h
   exact ⟨T, (hTC.trans (cx_le_normalizer hp hp2 h)), hTC, hT2, hBT, hne⟩
 
+omit [Finite G] in
 theorem normalizer_of_innerDiagMarking (h : InnerDiagMarking B L) : B ≤ Subgroup.normalizer (L : Set G) := by
   obtain ⟨-, -, -, R, _, I, F, θ, -, -, hB1⟩ := CFSG.StandardType.Canonical.largeEvenMarking_exists h
   exact hB1.1
 
+omit [Finite G] in
 theorem innerDiagMarking_mono {A : Subgroup G} (h : InnerDiagMarking B L) (hAB : A ≤ B) :
     InnerDiagMarking A L :=
   CFSG.StandardType.Canonical.largeEvenMarking_mono
@@ -252,7 +257,7 @@ theorem ker_chevQuotHom_eq_center' (hp : p.Prime) {X : Subgroup G} (hL : GLAPCom
   · refine le_center_of_normal_of_isQuasisimple hLq inferInstance ?_
     intro htop
     have hsimple := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : PSimple p L)
     obtain ⟨y, rfl⟩ := chevQuotHom_surjective p L x
     have hy : y ∈ (chevQuotHom p L).ker := htop ▸ Subgroup.mem_top y
@@ -287,7 +292,7 @@ theorem catalogIs_three {S : Type} [Group S] {P Q R : TauCeti.CFSGIndex → Prop
   · exact Or.inr (Or.inr ⟨i, h, e⟩)
 
 theorem card_cenB (hcfg : Cfg G p B x L) : Nat.card ↥(B ⊓ Subgroup.centralizer (L : Set G)) = p := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have heq : B ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x := by
     ext g
     constructor

@@ -25,8 +25,8 @@ theorem exists_injective_units_of_normalizes (h : UnitaryFieldData 2 n K) (h1 : 
   have hq := hq_aux h1
   set T₀ := T ⊓ primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) with hT₀
   have hT₀2 : IsPGroup 2 T₀ := hT.to_le inf_le_left
-  haveI : Nontrivial T₀ := (Subgroup.nontrivial_iff_ne_bot T₀).2 hTD
-  haveI : Nontrivial (Subgroup.center T₀) := hT₀2.center_nontrivial
+  have : Nontrivial T₀ := (Subgroup.nontrivial_iff_ne_bot T₀).2 hTD
+  have : Nontrivial (Subgroup.center T₀) := hT₀2.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center T₀) := hT₀2.to_subgroup _
   have hdvd : 2 ∣ Nat.card (Subgroup.center T₀) := by
     obtain ⟨m, hm⟩ := hZ2.exists_card_eq
@@ -36,7 +36,7 @@ theorem exists_injective_units_of_normalizes (h : UnitaryFieldData 2 n K) (h1 : 
       rintro rfl
       simp at h1lt
     exact dvd_pow_self 2 this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center T₀) 2 hdvd
   set t : MulAut (pI h) := ((y : T₀) : MulAut (pI h)) with ht
   have htT₀ : t ∈ T₀ := (y : T₀).2

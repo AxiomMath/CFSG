@@ -25,6 +25,7 @@ variable (p : ℕ) [NeZero p]
     · simp
     · simp [add_assoc, add_comm (Multiplicative.toAdd v q.1)]
 
+omit [NeZero p] in
 theorem blockPerm_injective : Function.Injective (blockPerm p) := by
   rw [injective_iff_map_eq_one]
   intro v hv
@@ -33,6 +34,7 @@ theorem blockPerm_injective : Function.Injective (blockPerm p) := by
   have := congrArg (fun σ : Equiv.Perm (Fin 3 × ZMod p) => (σ (i, 0)).2) hv
   simpa [blockPerm] using this
 
+omit [NeZero p] in
 theorem blockPerm_pow (v : Multiplicative (Fin 3 → ZMod p)) : (blockPerm p v) ^ p = 1 := by
   rw [← map_pow]
   have : v ^ p = 1 := by
@@ -45,7 +47,7 @@ end Blocks
 
 theorem exists_elemAbelian_alt {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 3 * p ≤ n) :
     ∃ E : Subgroup (alternatingGroup (Fin n)), IsElemAbelian p E ∧ Nat.card E = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ι⟩ : Nonempty (Fin 3 × ZMod p ↪ Fin n) :=
     Function.Embedding.nonempty_of_card_le (by simpa [ZMod.card] using hn)
   let Φ : Multiplicative (Fin 3 → ZMod p) →* Equiv.Perm (Fin n) :=

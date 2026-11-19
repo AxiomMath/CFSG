@@ -61,7 +61,7 @@ theorem s16c167_mbar_le_normalizer_lbar (D : Data G) {V L : Subgroup G}
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6
@@ -90,7 +90,7 @@ theorem s16c167_mbar_le_normalizer_lbar (D : Data G) {V L : Subgroup G}
     simpa [lBar, conjSubgroup_one] using h
   let Lb : Subgroup (MulAut (Vtil ⊥ V hV)) := lBar ⊥ V hV L
   let Lb₁ : Subgroup (MulAut (Vtil ⊥ V hV)) := barSub ⊥ V hV (conjSubgroup L (m : G))
-  haveI hEx : CFSG.IsExtraspecial 3 ↥Lb := h3.1.1
+  have hEx : CFSG.IsExtraspecial 3 ↥Lb := h3.1.1
   have hLbcard : Nat.card ↥Lb = 27 := by
     dsimp only [Lb]
     rw [h3.1.2.1]
@@ -183,7 +183,7 @@ theorem s16c167_mbar_le_normalizer_lbar (D : Data G) {V L : Subgroup G}
     have hkr : k * r = 3 ^ 6 := hcard
     have hk1 : 1 ≤ k := by
       rw [hk]
-      haveI : Nonempty ↥f.ker := ⟨1⟩
+      have : Nonempty ↥f.ker := ⟨1⟩
       exact Nat.card_pos
     have hk3 : k ≤ 3 := by
       rw [hk]
@@ -275,13 +275,13 @@ theorem s16c167_mQuot_sum_le_one_of_index_le_two {V : Subgroup G} (hV : IsElemAb
     exact h
   interval_cases n
   · have h1 : padicValNat 2 1 = 0 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      simpa using padicValNat.prime_pow (p := 2) 0
-    rw [h1] <;> omega
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      simp
+    rw [h1]; omega
   · have h2 : padicValNat 2 2 = 1 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      simpa using padicValNat.prime_pow (p := 2) 1
-    rw [h2] <;> omega
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      simp
+    rw [h2]
 
 theorem s16c167_sum_fixed_codim_le_one_of_case168_3 (D : Data G) {V L : Subgroup G}
     (hV : IsElemAbelian 2 V) (hc : Counterex16 D ⊥ V L hV) (h3 : Case168_3 D ⊥ V hV L)
@@ -303,7 +303,7 @@ theorem s16c167_sum_fixed_codim_le_one_of_case168_3 (D : Data G) {V L : Subgroup
       have h2 := hE.2 x x.2
       have : (x : MulAut (Vtil ⊥ V hV)) ^ 2 = 1 := h2
       exact Subtype.ext (by simpa using this)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     unfold rk at hrk
     rw [hn, padicValNat.prime_pow] at hrk
@@ -318,7 +318,7 @@ theorem s16c167_sum_fixed_codim_le_one_of_case168_3 (D : Data G) {V L : Subgroup
       intro x
       refine ⟨1, ?_⟩
       simpa [pow_two] using hWsq x
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
     have h6 : rk ↥(⊤ : Subgroup (Vtil ⊥ V hV)) = 6 := h3.2.1
     unfold rk at h6

@@ -96,7 +96,7 @@ def centModV91 (hc : Ctx M Q Z B) (t : G) (ht : t ∈ LB M Q B) : Subgroup G whe
     exact (Vt M (LB M Q B) B Z t).mul_mem (hgV y hy)
       ((Subgroup.mem_normalizer_iff.mp (hc.Rt_normalizes_Vt ht hg) _).mp (hgV' y hy))
   one_mem' := ⟨(Rt M (LB M Q B) t).one_mem, fun y _ => by
-    simpa [commutatorElement_def] using (Vt M (LB M Q B) B Z t).one_mem⟩
+    simp [commutatorElement_def]⟩
   inv_mem' := by
     rintro g ⟨hg, hgV⟩
     refine ⟨(Rt M (LB M Q B) t).inv_mem hg, fun y hy => ?_⟩
@@ -171,7 +171,7 @@ theorem centre_clause91 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
     refine Subgroup.closure_induction (p := fun x _ => ρ * x * ρ⁻¹ ∈ U) ?_ ?_ ?_ ?_ ha
     · rintro _ ⟨y, rfl⟩
       exact hgen ρ hρ y y.2
-    · simpa using U.one_mem
+    · simp
     · intro x y _ _ hx hy
       have e : ρ * (x * y) * ρ⁻¹ = (ρ * x * ρ⁻¹) * (ρ * y * ρ⁻¹) := by group
       rw [e]

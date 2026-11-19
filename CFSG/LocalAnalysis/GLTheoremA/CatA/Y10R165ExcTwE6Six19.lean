@@ -57,11 +57,11 @@ theorem exists_twE6Six_layers {k : Type} [Field k] [Finite k] [CharP k 2] {n p q
         ∃ (s₀ : ↥(twistedE6RootGroup k σ)) (hs₀ : s₀ ∈ J₁), orderOf s₀ = q ∧
           (⟨s₀, hs₀⟩ : ↥J₁) ∉ Subgroup.center ↥J₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (ModGL Tag.E6 k) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup k σ) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (ModGL Tag.E6 k) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup k σ) := Subtype.finite
   have hpqn : p ∣ (2 ^ n) ^ 2 - 2 ^ n + 1 := dvd_two_pow_sq_sub_of_rk2Ord_six hp hp2 hrk
   have hp7 : 7 ≤ p := seven_le_of_rk2Ord_six hp hp2 hrk
   have hp5 : 5 < p := by omega
@@ -79,8 +79,8 @@ theorem exists_twE6Six_layers {k : Type} [Field k] [Finite k] [CharP k 2] {n p q
     rw [← h1]
     exact Int.natCast_dvd_natCast.2 hpqn
   let L := AlgebraicClosure k
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap k L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed k
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap k L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed k
   have hq0 : ((2 ^ n : ℕ) : L) = 0 := by
     rw [Nat.cast_pow, CharP.cast_eq_zero, zero_pow (by omega)]
   obtain ⟨g0, hg0C, hg0, hperf, hconj⟩ := tw6_frame k hf hk σ hσ hp hp3 hpq L
@@ -97,10 +97,10 @@ theorem exists_twE6Six_layers {k : Type} [Field k] [Finite k] [CharP k 2] {n p q
     rw [hψx, tw6SixZetaPow_torusRootKernel hζ]
     exact tw6SixFrameWeyl_supportA2A2 hp5 hr
   have hxo : orderOf x = p := orderOf_eq_prime (hAe.2 x hxA) hx1
-  haveI : Module.Finite (fixSubfield σ) k := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic (fixSubfield σ) k := Algebra.IsAlgebraic.of_finite _ k
-  haveI : IsAlgClosure (fixSubfield σ) L := IsAlgClosure.ofAlgebraic (fixSubfield σ) k L
-  haveI : Finite (fixSubfield σ) := inferInstance
+  have : Module.Finite (fixSubfield σ) k := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic (fixSubfield σ) k := Algebra.IsAlgebraic.of_finite _ k
+  have : IsAlgClosure (fixSubfield σ) L := IsAlgClosure.ofAlgebraic (fixSubfield σ) k L
+  have : Finite (fixSubfield σ) := inferInstance
   have hK' : Nat.card (fixSubfield σ) = 2 ^ n :=
     card_fixSubfield_twisted Nat.prime_two hf hk σ hσ
   obtain ⟨KL, hKL⟩ := tw6SixFrame_kernelLayer (K := fixSubfield σ) (Ω := L)
@@ -157,13 +157,13 @@ theorem exists_twE6Six_layers {k : Type} [Field k] [Finite k] [CharP k 2] {n p q
       tw6SixFrameWeyl 1) := comapMapMulEquiv hψinj (hPψ' 1)
   have eJ : ↥J ≃* ↥(unitarySU 2 n k 3) := eJP.trans eP0
   have eJ₁ : ↥J₁ ≃* ↥(unitarySU 2 n k 3) := eJP₁.trans eP1
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero (q : L) := ⟨by
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero (q : L) := ⟨by
     intro h
     have h2 : 2 ∣ q := (CharP.cast_eq_zero_iff L 2 q).1 h
     exact hq2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hq).1 h2).symm⟩
-  haveI : HasEnoughRootsOfUnity L q := IsSepClosed.hasEnoughRootsOfUnity L q
-  obtain ⟨ζq, hζq⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L q
+  have : HasEnoughRootsOfUnity L q := IsSepClosed.hasEnoughRootsOfUnity L q
+  obtain ⟨ζq, hζq⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L q
   obtain ⟨hst0, hst1⟩ := tw6SixLayerRoots_smul
     (tw6_torusRootKernel_smul_stable (Fr := iterateFrobenius L 2 n) hFr (hT x hxA)) hW
   obtain ⟨T₀, hT₀le, hT₀el, hT₀card⟩ := tw6SixLayer_torus (K := fixSubfield σ) (q := q)

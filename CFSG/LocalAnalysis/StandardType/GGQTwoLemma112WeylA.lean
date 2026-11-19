@@ -181,7 +181,7 @@ theorem ggQ2WeylInner_A {n : ℕ} (hn : 4 ≤ n) :
     intro x hx
     rw [← hWdef] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.mp hT x).mp hx
-  haveI : Finite U := ggQ2xKDb_finite_of_span h hspan
+  have : Finite U := ggQ2xKDb_finite_of_span h hspan
   have hclosed : GGReflClosed s := ggQ2xKDb_reflClosed h hb α hα s hs
   obtain ⟨π, hπ, hπinj⟩ :=
     ggQ2xKDb_conj_hom Φ hinj T (Subgroup.closure (Set.range s)) hclosure hTmem

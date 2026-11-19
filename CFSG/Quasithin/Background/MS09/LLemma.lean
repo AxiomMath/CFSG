@@ -114,6 +114,7 @@ private theorem conjSub_ne {x : G} (hx : x ∈ H) (hxM : x ∉ M) : B6.conjSub x
     rw [hSM] at h1
     exact hAO (hAS.trans h1)
 
+omit [Finite G] in
 private theorem normalizer_star_le : H ⊓ Subgroup.normalizer (star H A S : Set G) ≤ M := by
   have hSH : S ≤ H := hS.1
   have hSK : S ≤ H ⊓ Subgroup.normalizer (star H A S : Set G) :=
@@ -162,10 +163,10 @@ theorem lLemma : ∃ L L₀ : Subgroup G, L ≤ H ∧ A ≤ L ∧
     IsUniqueMaxSub L (A ⊔ pCoreOf 2 L) L₀ ∧
     (∀ x ∈ L, x ∉ L₀ → A ⊔ B6.conjSub x A ⊔ pCoreOf 2 L = L) ∧
     ∀ g ∈ H, ¬ L ≤ B6.conjSub g M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMH : M ≤ H := hM.lt.le
   have hSH : S ≤ H := hS.1
-  obtain ⟨x₀, hx₀, hx₀M⟩ := SetLike.exists_of_lt hM.lt
+  obtain ⟨x₀, hx₀, hx₀M⟩ := _root_.IsConcreteLE.exists_of_lt hM.lt
   have hne := cand_nonempty hS hM ⟨x₀, hx₀, conjSub_ne hS hM hAS hAO hx₀ hx₀M⟩
   obtain ⟨T, hTc, hTmax⟩ := Set.exists_max_image (cand H S M)
     (fun T => Nat.card (star H A T)) (Set.toFinite _) hne
@@ -295,7 +296,7 @@ theorem lLemma : ∃ L L₀ : Subgroup G, L ≤ H ∧ A ≤ L ∧
   have hkey : ∀ K : Subgroup G, B6.conjSub b A ⊔ star H A T ≤ K → K < L₁ → K ≤ M := by
     intro K hK hKL
     by_contra hKM
-    obtain ⟨z', hz'K, hz'M⟩ := SetLike.not_le_iff_exists.mp hKM
+    obtain ⟨z', hz'K, hz'M⟩ := IsConcreteLE.not_le_iff_exists.mp hKM
     have he := hgen z' (hKL.le hz'K) hz'M
     refine hKL.ne (le_antisymm hKL.le ?_)
     rw [← he]
@@ -333,7 +334,7 @@ theorem lLemma : ∃ L L₀ : Subgroup G, L ≤ H ∧ A ≤ L ∧
       have h2 := congrArg (B6.conjSub x) (huniq x⁻¹ (H.inv_mem hxH) h1)
       rw [conjSub_conjSub_inv] at h2
       exact h2.symm
-    obtain ⟨w, hwB, hwM⟩ := SetLike.not_le_iff_exists.mp hxB
+    obtain ⟨w, hwB, hwM⟩ := IsConcreteLE.not_le_iff_exists.mp hxB
     have hxBL : B6.conjSub x (B6.conjSub b A) ≤ L₁ := by
       have := (B6.conjSub x).monotone hBL₁
       rwa [conjSub_of_mem hx] at this

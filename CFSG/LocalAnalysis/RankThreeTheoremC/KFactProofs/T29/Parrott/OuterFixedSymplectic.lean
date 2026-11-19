@@ -98,14 +98,14 @@ theorem not_mem_range_conjAut_sp [NeZero r] {p f : ℕ} (hp : p.Prime) (hf : 1 �
 
 theorem outerFixesE9_projSp [Finite K] (hr : 2 ≤ r) {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = p ^ f) : OuterFixesE9 (StatedProj (StatedSp r K)) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   refine outerFixesE9_of_descent fun α hα3 hαo => ?_
   have hD := not_mem_range_conjAut_sp hp hf hK hα3 hαo
   have hdesc : ∃ σ : K ≃+* K, orderOf σ = 3 ∧ ∃ H : gsp r K,
       α = conjAut r K H * fieldAut r K σ * (conjAut r K H)⁻¹ := by
     rcases (by omega : r = 2 ∨ 3 ≤ r) with rfl | hr3
     · by_cases h2 : ringChar K = 2
-      · haveI : CharP K 2 := ringChar.of_eq h2
+      · have : CharP K 2 := ringChar.of_eq h2
         exact CFSG.RankThree.PartTwo.KFacts.sp4_even_order_three_field_descent α hα3 hD
       · exact CFSG.RankThree.PartTwo.KFacts.psp4_odd_order_three_field_descent h2 α hα3 hD
     · exact CFSG.RankThree.PartTwo.KFacts.symplectic_order_three_field_descent hr3 α hα3 hD

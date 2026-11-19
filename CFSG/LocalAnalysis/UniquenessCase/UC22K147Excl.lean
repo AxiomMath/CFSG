@@ -44,7 +44,7 @@ variable {H H' : Type} [Group H] [Group H'] {ℓ : ℕ}
 
 theorem of_mulEquiv (e : H ≃* H') (h : Facts H ℓ) : Facts H' ℓ where
   simple := by
-    haveI := h.simple
+    have := h.simple
     exact e.symm.isSimpleGroup
   exists_involution := by
     obtain ⟨s, hs⟩ := h.exists_involution
@@ -78,7 +78,7 @@ theorem exists_noncomm (h : Facts H ℓ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) 
   rw [← hsx, hc, mul_inv_cancel_right]
 
 theorem center_eq_bot (h : Facts H ℓ) (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) : center H = ⊥ := by
-  haveI := h.simple
+  have := h.simple
   obtain ⟨s, x, -, -, -, hc⟩ := h.exists_noncomm hℓ hℓ2
   refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (center H)).resolve_right fun htop => hc ?_
   have hs : s ∈ center H := by rw [htop]; exact mem_top s
@@ -135,7 +135,7 @@ theorem le_mGV [Finite G] [Finite V] (ρ : Representation (ZMod 2) G V) {k : ℕ
     rw [ht₀] at this
     exact even_iff_two_dvd.2 this
   unfold F05.mGV
-  rw [if_pos heven]
+  rw [ite_eq_left heven]
   refine le_csInf ⟨_, t₀, ht₀, rfl⟩ fun m hm => ?_
   obtain ⟨t, ht, rfl⟩ := hm
   exact h t ht
@@ -168,12 +168,12 @@ theorem orderOf_two_le_finrank_of_stable [Module.Finite (ZMod 2) V] (ρ : Repres
     {ℓ : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) {x : G} (hx : orderOf x = ℓ) (W : Submodule (ZMod 2) V)
     (hW : ∀ w ∈ W, ρ x w ∈ W) (hW' : ∀ w ∈ W, ρ x⁻¹ w ∈ W) (hne : ∃ w ∈ W, ρ x w ≠ w) :
     orderOf (2 : ZMod ℓ) ≤ finrank (ZMod 2) W := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let f : W →ₗ[ZMod 2] W := (ρ x).restrict hW
   let f' : W →ₗ[ZMod 2] W := (ρ x⁻¹).restrict hW'
   have hff' : f.comp f' = LinearMap.id := LinearMap.ext fun w => Subtype.ext (ρ.self_inv_apply x w)
   have hf'f : f'.comp f = LinearMap.id := LinearMap.ext fun w => Subtype.ext (ρ.inv_self_apply x w)
-  let g : W ≃ₗ[ZMod 2] W := LinearEquiv.ofLinear f f' hff' hf'f
+  let g : W ≃ₗ[ZMod 2] W := LinearEquiv.ofLinearMap f f' hff' hf'f
   have hgw : ∀ w : W, ((g w : W) : V) = ρ x w := fun w => rfl
   have hpow : ∀ k : ℕ, ∀ w : W, (((g ^ k) w : W) : V) = ρ (x ^ k) w := by
     intro k
@@ -207,8 +207,8 @@ theorem orderOf_two_le_of_facts [Finite G] [Finite V] (ρ : Representation (ZMod
     (hρ : Function.Injective ρ) (hirr : ρ.IsIrreducible) {L : Subgroup G} (hL : IsComponentOf L ⊤)
     {ℓ : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hF : Facts L ℓ) {t : G} (ht : orderOf t = 2) :
     orderOf (2 : ZMod ℓ) ≤ 2 * finrank (ZMod 2) (commSpace ρ (zpowers t)) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI := hF.simple
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have := hF.simple
   have htt : t * t = 1 := (mul_self_and_ne_one ht).1
   obtain ⟨s₀, x₀, hs₀, hx₀, hsx₀, hnc⟩ := hF.exists_noncomm hℓ hℓ2
   have hx₀G : orderOf (x₀ : G) = ℓ := by rw [Subgroup.orderOf_coe, hx₀]
@@ -318,7 +318,7 @@ theorem orderOf_two_le_of_facts [Finite G] [Finite V] (ρ : Representation (ZMod
       intro g
       let K : Subgroup L := (ptStab ρ W).comap ((MulAut.conj g).toMonoidHom.comp L.subtype)
       have hmemK : ∀ y : L, y ∈ K ↔ ∀ w ∈ W, ρ (g * y * g⁻¹) w = w := fun y => Iff.rfl
-      haveI hKn : K.Normal := ⟨fun a ha b => (hmemK _).2 fun w hw => by
+      have hKn : K.Normal := ⟨fun a ha b => (hmemK _).2 fun w hw => by
         have h1 : g * ((b * a * b⁻¹ : L) : G) * g⁻¹ =
             (g * b * g⁻¹) * (g * a * g⁻¹) * (g * b * g⁻¹)⁻¹ := by
           simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -374,7 +374,7 @@ theorem orderOf_two_le_of_facts [Finite G] [Finite V] (ρ : Representation (ZMod
       rw [hU, Submodule.mem_bot, sub_eq_zero, one_mul, inv_one, mul_one] at hmemU
       exact hv hmemU
     have hUtop : U = ⊤ := by
-      haveI := hirr
+      have := hirr
       let S : Subrepresentation ρ := ⟨U, fun h _ hw => hUinv h hw⟩
       rcases IsSimpleOrder.eq_bot_or_eq_top S with h | h
       · exact absurd (congrArg Subrepresentation.toSubmodule h) hU0

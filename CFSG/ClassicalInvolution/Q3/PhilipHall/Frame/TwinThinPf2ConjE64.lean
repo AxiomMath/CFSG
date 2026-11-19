@@ -79,7 +79,7 @@ theorem member_conj : ∀ α ∈ e64Sets, ∀ (h4 : α.card = 4) (b : Bool),
     · refine ⟨w1 * ofPerm σ, (aeSubOver l32).mul_mem hw1 hσmem, fun x hx => ?_⟩
       obtain ⟨k, hk, hkx⟩ := img x hx
       have := flipT _ (hkx ▸ inK k hk hcK)
-      simp only [map_mul, map_inv]
+      simp only [map_mul]
       convert this using 1
       group
     · refine ⟨ofPerm σ, hσmem, fun x hx => ?_⟩

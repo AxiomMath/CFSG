@@ -53,7 +53,7 @@ theorem TorusFixedConcl.of_mulEquiv {X Y : Type} [Group X] [Group Y] {n p : ℕ}
     have hmap := Subgroup.map_equiv_normalizer_eq Q φ
     exact hmap ▸ Subgroup.mem_map_of_mem φ.toMonoidHom hb₀norm
   obtain ⟨E', hE'el, hE'card, hE'fix⟩ := h A' t' hA' ht' hinv' Q' hQ' hnorm'
-  haveI : IsMulCommutative E' := hE'el.1
+  have : IsMulCommutative E' := hE'el.1
   refine ⟨E'.comap e.toMonoidHom, ?_, ?_, ?_⟩
   · refine ⟨Subgroup.comap_injective_isMulCommutative E' (f := e.toMonoidHom) e.injective, ?_⟩
     intro x hx
@@ -67,7 +67,6 @@ theorem TorusFixedConcl.of_mulEquiv {X Y : Type} [Group X] [Group Y] {n p : ℕ}
     have hx' : e.toMonoidHom x ∈ E' := hx
     have hfix := hE'fix (φ α) hα' (e x) hx'
     apply e.injective
-    change e (α x) = e x
     simpa [φ, MulAut.congr_apply] using hfix
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

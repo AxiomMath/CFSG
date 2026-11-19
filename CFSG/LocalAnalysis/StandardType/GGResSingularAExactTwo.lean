@@ -319,9 +319,9 @@ theorem ggResExact2_rowTwoNode_of_twA_singular_L_large_allFields
   have hexp : ∀ b ∈ Bs, b ^ p = 1 := hH.1.2.1.2.1.2
   obtain ⟨F, hField, hFinite, hChar, hN, φ, S, hF, hMφ, hJblock, hS2, hdiag⟩ :=
     exists_block_of_large_unitary_L hRig hH hr4 hr5 hpq hpd hhasL hlabL
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := hlabL.1
   obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
     ⟨eL, heL⟩, hclos⟩ :=
@@ -496,9 +496,9 @@ theorem ggResExact2_rowTwoNode_of_twA_singular_L_six_allFields
     exact CFSG.StandardType.HdRo7SU.su_exact2_left_row_ggRowTwoNode_six hH hRig hM6 hD
   · obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hMφ, hdiag⟩ :=
       exists_diagonal_cover_of_unitary_six_L hRig hH hf hpq hhasL hlabL
-    letI : Field F := hField
-    letI : Finite F := hFinite
-    letI : CharP F 2 := hChar
+    let : Field F := hField
+    let : Finite F := hFinite
+    let : CharP F 2 := hChar
     have hf1 : 1 ≤ f := hlabL.1
     obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
       ⟨eL, heL⟩, hclos⟩ :=
@@ -787,9 +787,9 @@ theorem ggResExact2_rowTwoNode_of_A_singular_L_large_allFields
   have hexp : ∀ b ∈ Bs, b ^ p = 1 := hH.1.2.1.2.1.2
   obtain ⟨F, hField, hFinite, hChar, hN, φ, S, hF, hφs, hker, hdiag, hS2, hJ⟩ :=
     exists_block_of_large_linear_L hRig hH (by omega : 3 ≤ rankL) hpq hhasL hlabL
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := hlabL.1
   have hpF : p ∣ Nat.card F - 1 := by
     rw [hF]
@@ -979,9 +979,9 @@ theorem ggResExact2_rowTwoNode_of_twA_singular_K_large_allFields
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hMφ, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_side hRig hH (Or.inr ⟨y, hnb⟩)
       hr4 hr5 hpq hpd hhasK hlabK
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := hlabK.1
   obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
     ⟨eK, heK⟩, hclos⟩ :=
@@ -1290,9 +1290,9 @@ theorem ggResExact2_rowTwoNode_of_twA_singular_K_five_allFields
     obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hMφ, hdiag⟩ :=
       exists_diagonal_cover_of_unitary_six_side hRig hLB hH (Or.inr rfl) hf hpq
         hhasK hlabK hpJ
-    letI : Field F := hField
-    letI : Finite F := hFinite
-    letI : CharP F 2 := hChar
+    let : Field F := hField
+    let : Finite F := hFinite
+    let : CharP F 2 := hChar
     have hf1 : 1 ≤ f := hlabK.1
     obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
       ⟨eK, heK⟩, hclos⟩ :=
@@ -1443,6 +1443,7 @@ theorem ggResExact2_rowTwoNode_of_twA_singular_K_allFields
 end KFiveQ1Certificates
 
 
+omit [Finite G] in
 theorem exists_isPGroup_two_normalized_of_diagonal_cover
     {F : Type} [Field F] [CharP F 2] {d : ℕ} (hd : 2 ≤ d)
     {J B : Subgroup G}
@@ -1543,6 +1544,7 @@ theorem exists_isPGroup_two_normalized_of_diagonal_cover
       have heq : b * (b⁻¹ * n * b) * b⁻¹ = n := by group
       simpa [heq] using h
 
+omit [Finite G] in
 theorem ggResHigherFieldRootTwo_of_diagonal_cover
     {F : Type} [Field F] [CharP F 2] {d : ℕ} (hd : 2 ≤ d)
     {p : ℕ} {B Bs J : Subgroup G}
@@ -1575,9 +1577,9 @@ theorem GGResHyp.rootTwo_of_large_linear_L_marking
       (fun _ _ _ _ ⟨hs, hna, θ', _, hP⟩ => ⟨hs, hna, θ', rfl, hP⟩) hraw⟩
   obtain ⟨F, hField, hFinite, hChar, hN, φ, S, hF, hφs, hker, hdiag, hS2, hJ⟩ :=
     exists_block_of_large_linear_L_of_marking hH hpq hExact
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hB : B ≤ Bs := hH.1.2.1.1
   have hBJ : B ≤ Subgroup.normalizer (J : Set G) :=
     hB.trans (GGResHyp.Bs_le_normalizer_J hH)
@@ -1598,7 +1600,7 @@ theorem GGResHyp.rootTwo_of_large_linear_L_marking
 theorem GGResHyp.rootTwo_of_large_linear_L
     {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hRig : GGLabelRigidInput)
+    (_hRig : GGLabelRigidInput)
     (hM : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .A ∧ p ∣ 2 ^ lab.n - 1) p Bs L) :
     GGResHigherFieldRootTwo p B Bs J :=
@@ -1662,9 +1664,9 @@ theorem GGResHyp.p_dvd_rank_add_one_of_large_linear_exact2
     hH.1.2.1.2.2.2
   obtain ⟨F, hField, hFinite, hChar, hN, φ, Sblk, hF, hφs, hker, hdiag, hSblk2, hJ⟩ :=
     exists_block_of_large_linear_L hRig hH (by omega : 3 ≤ rankL) hpq hLab hΛL
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hpF : p ∣ Nat.card F - 1 := by
     rw [hF]
     exact hpq
@@ -1682,11 +1684,11 @@ theorem GGResHyp.p_dvd_rank_add_one_of_large_linear_exact2
   rcases hD with ⟨Λ, hΛF, hΛD, Sdel, Λa, hΛaF, hΛaD, ML, CL, MK, CK, Vd, hVd, hVdM,
     ιd, φd, hd, αd, hSdel, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair,
     hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-  letI : Fintype Λ := hΛF
-  letI : DecidableEq Λ := hΛD
-  letI : AddCommGroup Vd := hVd
-  letI : Module (ZMod p) Vd := hVdM
-  letI : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
+  let : Fintype Λ := hΛF
+  let : DecidableEq Λ := hΛD
+  let : AddCommGroup Vd := hVd
+  let : Module (ZMod p) Vd := hVdM
+  let : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
   have hWML : GGWeylTypeData (Fintype.card Λ) (Nat.card ↥(ggAutomizer L Bs))
       (Nat.card ↥(Subgroup.center ↥(ggAutomizer L Bs))) := by
     rw [← Nat.card_congr fL.toEquiv,
@@ -1802,9 +1804,9 @@ theorem GGResHyp.iOne_of_large_unitary_L_nonsingular_higherField
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hM, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_L_coprime hRig hH hr
       (Or.inr (by omega : f ≠ 1)) hpq hpd hLab hΛ
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   exact hH.iOne_of_unitary_higherField_cover hM hdiag hf (by omega) hpq
 
 theorem GGResHyp.false_of_twA_nonsingular_exact2_L
@@ -1825,9 +1827,9 @@ theorem GGResHyp.false_of_twA_nonsingular_exact2_L
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hM, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_L_coprime hRig hH hr
       (Or.inr (by omega : f ≠ 1)) hpq hpd hLab hΛ
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hI1 := hH.iOne_of_unitary_higherField_cover hM hdiag hf
     (by omega : 5 ≤ rankL + 1) hpq
   obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
@@ -1848,11 +1850,11 @@ theorem GGResHyp.false_of_twA_nonsingular_exact2_L
   rcases hD with ⟨Λ, hΛF, hΛD, Sdel, Λa, hΛaF, hΛaD, ML, CL, MK, CK, Vd, hVd, hVdM,
     ιd, φd, hd, αd, hSdel, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlind, hreflD, hpairD,
     hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-  letI : Fintype Λ := hΛF
-  letI : DecidableEq Λ := hΛD
-  letI : AddCommGroup Vd := hVd
-  letI : Module (ZMod p) Vd := hVdM
-  letI : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
+  let : Fintype Λ := hΛF
+  let : DecidableEq Λ := hΛD
+  let : AddCommGroup Vd := hVd
+  let : Module (ZMod p) Vd := hVdM
+  let : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
   have hWML : GGWeylTypeData (Fintype.card Λ) (Nat.card ↥(ggAutomizer L Bs))
       (Nat.card ↥(Subgroup.center ↥(ggAutomizer L Bs))) := by
     rw [← Nat.card_congr fL.toEquiv,
@@ -1968,9 +1970,9 @@ theorem ggResExact2_rowTwoNode_of_A_singular_K_large_singular_allFields
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hφs, hker, hdiag⟩ :=
     exists_diagonal_cover_of_large_linear_side_of_marking hH
       (Or.inr ⟨y, hnb⟩) (by omega : 3 ≤ rankK) hpq hmark
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := hlabK.1
   have hpF : p ∣ Nat.card F - 1 := by simpa [hF] using hpq
   obtain ⟨V, hVadd, hVmod, ι, ρ, φW, hW, α,
@@ -2111,9 +2113,9 @@ theorem GGResHyp.fix_mem_centralizer_J_of_typeA_marking_K_exact2
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hφs, hker, hdiag⟩ :=
     exists_diagonal_cover_of_large_linear_side_of_marking hH
       (Or.inr ⟨y, hnb⟩) hr hpq hmark
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hpF : p ∣ Nat.card F - 1 := by
     rw [hF]
     exact hpq
@@ -2170,7 +2172,7 @@ theorem GGResHyp.rootTwo_of_large_linear_K
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
-    (hRig : GGLabelRigidInput) (hLB : GGLBalanceInput)
+    (_hRig : GGLabelRigidInput) (hLB : GGLBalanceInput)
     {r f : ℕ} (hr : 3 ≤ r) (hpq : p ∣ 2 ^ f - 1)
     (hmark : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.A, r, f⟩) p Bs K)
     (hD : GGResLeviDatumExact2 p Bs K J L ggSelAny ggTypAny) :
@@ -2184,9 +2186,9 @@ theorem GGResHyp.rootTwo_of_large_linear_K
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hφs, hker, hdiag⟩ :=
     exists_diagonal_cover_of_large_linear_side_of_marking hH
       (Or.inr ⟨y, hnb⟩) hr hpq hmark
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hpF : p ∣ Nat.card F - 1 := by
     rw [hF]
     exact hpq
@@ -2285,7 +2287,7 @@ theorem GGResHyp.p_dvd_rank_add_one_of_large_linear_K_exact2
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
     (hRig : GGLabelRigidInput) (hLB : GGLBalanceInput)
-    (hM : GGInnerDiagOnLabel
+    (_hM : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .A ∧ p ∣ 2 ^ lab.n - 1) p Bs K)
     {rankK f : ℕ} (hpq : p ∣ 2 ^ f - 1)
     (hLab : GGHasLabel (⟨.A, rankK, f⟩ : LargeEvenLabel)
@@ -2306,9 +2308,9 @@ theorem GGResHyp.p_dvd_rank_add_one_of_large_linear_K_exact2
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hφs, hker, hdiag⟩ :=
     exists_diagonal_cover_of_large_linear_side_of_marking hH
       (Or.inr ⟨y, hnb⟩) hr3 hpq hmark
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hpF : p ∣ Nat.card F - 1 := by
     rw [hF]
     exact hpq
@@ -2331,11 +2333,11 @@ theorem GGResHyp.p_dvd_rank_add_one_of_large_linear_K_exact2
   rcases hDatum with ⟨Λ, hΛF, hΛD, Sdel, Λa, hΛaF, hΛaD, ML, CL, MK, CK, Vd, hVd, hVdM,
     ιd, φd, hd, αd, hSdel, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair,
     hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-  letI : Fintype Λ := hΛF
-  letI : DecidableEq Λ := hΛD
-  letI : AddCommGroup Vd := hVd
-  letI : Module (ZMod p) Vd := hVdM
-  letI : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
+  let : Fintype Λ := hΛF
+  let : DecidableEq Λ := hΛD
+  let : AddCommGroup Vd := hVd
+  let : Module (ZMod p) Vd := hVdM
+  let : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
   have hWML : GGWeylTypeData (Fintype.card Λ) (Nat.card ↥(ggAutomizer K Bs))
       (Nat.card ↥(Subgroup.center ↥(ggAutomizer K Bs))) := by
     have h0 := ggWeylTypeData_of_isWeylMatrix hML
@@ -2515,9 +2517,9 @@ theorem GGResHyp.false_of_twA_four_qTwo_exact2_L
     False := by
   classical
   obtain ⟨F, iF, iFin, ψ, hF, hMψ, hdiag⟩ := hH.qTwo_four_unitaryModel_L hM
-  letI : Field F := iF
-  letI : Finite F := iFin
-  letI : CharP F 2 := hMψ.field.charP
+  let : Field F := iF
+  let : Finite F := iFin
+  let : CharP F 2 := hMψ.field.charP
   have hBs : IsElemAbelian 3 Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs :=
     hH.1.2.1.2.2.2
@@ -2615,9 +2617,9 @@ theorem GGResHyp.false_of_twA_four_qTwo_exact2_L
     rw [hJblock]
     exact WitSU.isSolvable_map_blockSU_two_one hMψ.field (L.subtype.comp ψ) hS1 hSle3
   have hQ := hH.1.2.2.1.2.2.2.2.2.1.2.2
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hQ.2.toNontrivial
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
-  haveI : Group.IsPerfect ↥J := ⟨hQ.1⟩
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hQ.2.toNontrivial
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := ⟨hQ.1⟩
   exact Group.IsPerfect.not_isSolvable ↥J hsolJ
 
 end SmallUnitaryOriginalL
@@ -2698,7 +2700,7 @@ theorem GGResHyp.rankThree_J_block_degreeFour
   have hN : Bs ≤ Subgroup.normalizer (L : Set G) := hH.2.2.1.1.le_normalizer
   obtain ⟨ψ, hMψ, hdiag⟩ :=
     hH.exists_unitaryModel_L_degreeFour hF hn hpq θ hact
-  letI : CharP F 2 := hMψ.field.charP
+  let : CharP F 2 := hMψ.field.charP
   have hBs : IsElemAbelian p Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs :=
     hH.1.2.1.2.2.2
@@ -2882,7 +2884,7 @@ theorem GGResHyp.false_of_uFour_exact2_L
   subst r
   rcases ht with rfl | rfl <;> dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
   all_goals
-    try rw [if_neg (by decide : ¬ (3 = 2)), if_pos rfl] at hraw
+    try rw [ite_eq_right (by decide : ¬ (3 = 2)), ite_eq_left rfl] at hraw
     obtain ⟨F, iF, iFin, hF, -, -, θ, hpred, -, hact⟩ := hraw
     let := iF
     let := iFin
@@ -3030,9 +3032,9 @@ theorem GGResHyp.nonsingular_exactTwo_twA_K_counts
   obtain ⟨F, hField, hFinite, hChar, hN, φ, hF, hM, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_side_coprime hRig hH
       (Or.inr ⟨y, hnb⟩) hr (Or.inr (by omega : f ≠ 1)) hpq hpd hLabK hΛK
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := by omega
   obtain ⟨Vw, hVwadd, hVwmod, ιw, ρw, φw, hw, αw, hNP, hρ, hφeq, hlinw, hreflw,
     hpairw, ⟨eK, heK⟩, hclos⟩ :=
@@ -3080,11 +3082,11 @@ theorem GGResHyp.nonsingular_exactTwo_twA_K_counts
   rcases hD with ⟨Λ, hΛF, hΛD, Sdel, Λa, hΛaF, hΛaD, ML, CL, MK, CK, Vd, hVd, hVdM,
     ιd, φd, hd, αd, hSdel, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlind, hreflD, hpairD,
     hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-  letI : Fintype Λ := hΛF
-  letI : DecidableEq Λ := hΛD
-  letI : AddCommGroup Vd := hVd
-  letI : Module (ZMod p) Vd := hVdM
-  letI : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
+  let : Fintype Λ := hΛF
+  let : DecidableEq Λ := hΛD
+  let : AddCommGroup Vd := hVd
+  let : Module (ZMod p) Vd := hVdM
+  let : Finite Vd := Finite.of_equiv (Additive ↥Bs) ιd.toEquiv
   have hWML : GGWeylTypeData (Fintype.card Λ) (Nat.card ↥(ggAutomizer K Bs))
       (Nat.card ↥(Subgroup.center ↥(ggAutomizer K Bs))) := by
     have h0 := ggWeylTypeData_of_isWeylMatrix hML
@@ -3141,9 +3143,9 @@ theorem GGResHyp.false_of_twA_three_qGeFour_exact2_K
   have hxBs : x ∈ Bs := hH.1.tableB_facts.2.2.1
   obtain ⟨F, hField, hFinite, hChar, hN, ψ, hF, hMψ, hdiag⟩ :=
     GGResHyp.exists_unitaryModel_K_degreeFour hRig hH hnb hf2 hpq hLab
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := by omega
   obtain ⟨V, hVadd, hVmod, ι, ρ, φW, h, α, hNP, hρ, hφ, hlin, hrefl, hpair,
     ⟨eK, heK⟩, hclos⟩ :=
@@ -3323,17 +3325,17 @@ theorem GGResHyp.centralizer_K_eq_zpowers_of_nonsingular_twA
   obtain ⟨F, hField, hFinite, hChar, hN, ψ, hF, hM, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_side_coprime hRig hH
       (Or.inr ⟨y, hnb⟩) hr (Or.inr (by omega : f ≠ 1)) hpq hpd hLabK hΛK
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   have hf1 : 1 ≤ f := by omega
   obtain ⟨V, hVadd, hVmod, ι, ρ, φ, h, α, hNP, hρ, hφeq, hlin, hrefl,
     hpair, ⟨eK, heK⟩, hgenK⟩ :=
     exists_weyl_datum_of_diagonal_unitary_cover hF hf1 hp2 hpq
       (by omega : 3 ≤ rankK) hBs hSC hN hM hdiag
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  letI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  let : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hpairA : (Matrix.of fun i j : Fin rankK => α i (h j)) =
       Matrix.of fun i j : Fin rankK => ((CartanMatrix.A rankK) i j : ZMod p) := by
     ext i j
@@ -3522,8 +3524,8 @@ private theorem lieModel_PSU4_of_hasLabel_twA3 {R : Type} [Group R]
     LieModel R .PSU 4 2 1 := by
   unfold GGHasLabel CFSG.StandardType.LargeEvenRawDatum at hR
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hKcard
   refine LieModel.of_mulEquiv e.symm (Or.inl ⟨by decide, ?_⟩)
   exact statedClassicalModel_unitary 4 1 hK'
@@ -3626,8 +3628,8 @@ theorem GGResHyp.false_of_qTwo_three_K_exact2
   have hRaw2 := CFSG.StandardType.largeEvenRawDatum_inn_all (hBoth Q₀ hRaw)
   obtain ⟨Kf, hF, hfin, hKf, hQP, hInnI⟩ := hRaw2
   obtain ⟨hQ₀, hAutP, hRankP⟩ := hQP
-  letI := hF
-  letI := hfin
+  let := hF
+  let := hfin
   obtain ⟨θK⟩ := hQ₀
   have hRankP' : GGTorusSCRank 3 3
       (LargeEvenProj (LargeEvenSUGroup (Fin 4) Kf 2))
@@ -3666,7 +3668,7 @@ theorem GGResHyp.automizer_card_unitary_twA_label
   classical
   have hp : p.Prime := Fact.out
   obtain ⟨hperf, lab, hlab, hraw⟩ := hM
-  haveI : Group.IsPerfect ↥K := ⟨hperf⟩
+  have : Group.IsPerfect ↥K := ⟨hperf⟩
   have hnosimp : lab = (⟨.twA, r, n⟩ : LargeEvenLabel) := by
     obtain ⟨R, _, I, F, ⟨_, _, θ, hP⟩⟩ := largeEvenRawDatum_exists hraw
     exact hP.1
@@ -3685,8 +3687,8 @@ theorem GGResHyp.automizer_card_unitary_twA_label
   have hRawInn := largeEvenRawDatum_inn_all (hBoth _ hraw)
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hRawInn
   obtain ⟨Kf, hF, hfin, hKf, hQ2⟩ := hRawInn
-  letI := hF
-  letI := hfin
+  let := hF
+  let := hfin
   let R := LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) Kf (2 ^ n))
   let I := LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (r + 1)) Kf (2 ^ n)))
     (LargeEvenGUSet (Fin (r + 1)) Kf (2 ^ n))
@@ -4003,7 +4005,7 @@ theorem GGResHyp.false_of_twA_three_qMinus_K
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs L D J K : Subgroup G} {x y : G}
     (hH : GGResHyp p B Bs x L D J y K)
-    (hp : p.Prime) (hp2 : p ≠ 2)
+    (hp : p.Prime) (_hp2 : p ≠ 2)
     (hM : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 3 ∧ p ∣ 2 ^ lab.n - 1) p Bs K) :
     False := by
@@ -4100,7 +4102,7 @@ theorem GGResHyp.false_of_twA_five_qMinus_K_of_card
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs L D J K : Subgroup G} {x y : G}
     (hTBF : GGTBFixInput) (hH : GGResHyp p B Bs x L D J y K)
-    (hM : GGInnerDiagOnLabel
+    (_hM : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ p ∣ 2 ^ lab.n - 1) p Bs K)
     (hD : GGResLeviDatumExact2 p Bs K J L ggSelAny ggTypAny)
     (hno2L : ¬ GGResLeviDatumExact2 p Bs L J K ggSelAny ggTypAny)
@@ -4115,12 +4117,12 @@ theorem GGResHyp.false_of_twA_five_qMinus_K_of_card
   · rcases hSingA with ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6,
       ι, φ, h, α, hS, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair,
       hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-    letI := i1
-    letI := i2
-    letI := i3
-    letI := i4
-    letI := i5
-    letI := i6
+    let := i1
+    let := i2
+    let := i3
+    let := i4
+    let := i5
+    let := i6
     have hcardML : Nat.card ML.Group = 48 := by
       calc Nat.card ML.Group = Nat.card ↥(ggAutomizer K Bs) := Nat.card_congr fL.toEquiv
         _ = 48 := hcard
@@ -4141,12 +4143,12 @@ theorem GGResHyp.false_of_twA_five_qMinus_K_of_card
   · rcases hSingE6 with ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6,
       ι, φ, h, α, hS, hΛa1, hΛa3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair,
       hpairK, hsel, ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩
-    letI := i1
-    letI := i2
-    letI := i3
-    letI := i4
-    letI := i5
-    letI := i6
+    let := i1
+    let := i2
+    let := i3
+    let := i4
+    let := i5
+    let := i6
     have hcardML : Nat.card ML.Group = 48 := by
       calc Nat.card ML.Group = Nat.card ↥(ggAutomizer K Bs) := Nat.card_congr fL.toEquiv
         _ = 48 := hcard
@@ -4165,8 +4167,8 @@ theorem GGResHyp.actual_K_card_twA_five_qMinus
 
     {G : Type} [Group G] [Finite G] {p n : ℕ} [Fact p.Prime]
     {B Bs L D J K : Subgroup G} {x y : G}
-    (hTBF : GGTBFixInput) (hH : GGResHyp p B Bs x L D J y K)
-    (hn : 1 ≤ n) (hpq : p ∣ 2 ^ n - 1)
+    (_hTBF : GGTBFixInput) (hH : GGResHyp p B Bs x L D J y K)
+    (_hn : 1 ≤ n) (hpq : p ∣ 2 ^ n - 1)
     (hM : GGInnerDiagOnLabel
       (fun _ lab => lab = (⟨.twA, 5, n⟩ : LargeEvenLabel)) p Bs K) :
     Nat.card ↥(ggAutomizer K Bs) = 48 := by
@@ -4713,7 +4715,7 @@ theorem GGResHyp.K_only_exact2_actual_classification
             obtain ⟨h1, h2, θ, hP⟩ := hQ
             exact ⟨h1, h2, θ, ⟨htag, hP.2.1, hP.2.2⟩⟩) hraw0⟩
         obtain ⟨R0, instR0, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw0
-        letI : Group R0 := instR0
+        let : Group R0 := instR0
         obtain ⟨hs0, hna0, θ0, hP0⟩ := hQ0
         obtain ⟨hS0, -, -⟩ := hP0
         have hRest0 : GGTBWeylRowResRest p lab0 :=
@@ -4859,8 +4861,8 @@ theorem GGResHyp.card_Bs_le_four_of_unitFive_L_qMinus
   rw [hEq, hlabM5] at hrawL
   dsimp only [LargeEvenRawDatum] at hrawL
   obtain ⟨Kf, fieldK, finiteK, hK, hQ⟩ := hrawL
-  letI : Field Kf := fieldK
-  letI : Finite Kf := finiteK
+  let : Field Kf := fieldK
+  let : Finite Kf := finiteK
   obtain ⟨hsimple, hna, θ, hBN, hInd⟩ := hQ
   let R := LargeEvenProj (LargeEvenSUGroup (Fin 6) Kf (2 ^ labM.n))
   let A : Subgroup (MulAut R) := (ggBeta L θ hBN).range
@@ -4918,8 +4920,8 @@ theorem GGResHyp.card_Bs_le_four_of_unitFive_L_qMinus
   have hmapESU : ESU.map π = E := map_liftSubgroup hπ hcen hEpg
   have hESUcard : Nat.card ESU = Nat.card E := Nat.card_congr hEquiv.toEquiv
   have hESUea : IsElemAbelian p ESU := by
-    haveI hcommE : IsMulCommutative E := hEea.1
-    haveI hcommESU : IsMulCommutative ESU := IsMulCommutative.of_comm (fun u v => by
+    have hcommE : IsMulCommutative E := hEea.1
+    have hcommESU : IsMulCommutative ESU := IsMulCommutative.of_comm (fun u v => by
       apply hEquiv.injective
       rw [map_mul, map_mul]
       exact mul_comm' (hEquiv u) (hEquiv v))
@@ -4934,7 +4936,7 @@ theorem GGResHyp.card_Bs_le_four_of_unitFive_L_qMinus
   let hU : UnitaryFieldData 2 labM.n Kf := TableBU.unitaryFieldData_of_card hK hn
   have hK2 : Nat.card Kf = 2 ^ (2 * labM.n) := by
     rw [hK, ← pow_mul, Nat.mul_comm]
-  haveI : CharP Kf 2 := CFSG.StandardType.charP_two_of_card hK2
+  have : CharP Kf 2 := CFSG.StandardType.charP_two_of_card hK2
   obtain ⟨Rmat, hR⟩ := exists_isHypTransport (p := 2) (f := labM.n) (r := 3) (ε := 0) hU
   let eSU : hypSU hU 3 0 ≃* SU := by
     rw [show SU = unitarySU 2 labM.n Kf 6 from rfl]
@@ -4973,7 +4975,7 @@ theorem GGResHyp.false_of_unitFive_L_K_only_E6
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ 3 ∣ 2 ^ lab.n - 1) 3 Bs L) :
     False := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hbound := hH.card_Bs_le_four_of_unitFive_L_qMinus hRig hM
   have hsix : Nat.card Bs = 3 ^ 6 :=
     hH.card_Bs_six_of_K_only_E6 hTBF hD (fun h => h.elim hno2L hno3L)
@@ -5055,16 +5057,16 @@ theorem GGResHyp.e6_or_residual_marking_of_original_L_E6_datum
     GGInnerDiagOnLabel (fun _ lab => GGE6DepLabel lab) 3 Bs L ∨
       GGInnerDiagOnLabel (fun _ lab => GGOriginalLDepE6ResidualLabel lab) 3 Bs L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hDany : GGResLeviDatumExact2 3 Bs L J K ggSelAny ggTypAny :=
     ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
       hS, hA1, hA3, hML, hCL, hMK, hCK, trivial, hlin, hrefl, hpair, hpairK,
@@ -5167,7 +5169,7 @@ theorem GGResHyp.e6_or_residual_marking_of_original_L_E6_datum
       · have hMA : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.A, 3, n⟩) 3 Bs L := by
           refine ⟨hperf, ⟨.A, 3, n⟩, ⟨hΛ.1, by norm_num, by norm_num⟩, ?_⟩
           dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
-          rw [if_pos rfl] at hraw
+          rw [ite_eq_left rfl] at hraw
           obtain ⟨E, _, _, hE, hs, hna, θ, hN, hind⟩ := hraw
           exact ⟨E, inferInstance, inferInstance, hE, hs, hna, θ, rfl, hN, hind⟩
         exact False.elim (GGResHyp.not_splitLinear_of_card_automizer_E6 hH (Or.inl rfl) hcard
@@ -5177,7 +5179,7 @@ theorem GGResHyp.e6_or_residual_marking_of_original_L_E6_datum
       · have hMA : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.A, 3, n⟩) 3 Bs L := by
           refine ⟨hperf, ⟨.A, 3, n⟩, ⟨hΛ.1, by norm_num, by norm_num⟩, ?_⟩
           dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
-          rw [if_pos rfl] at hraw
+          rw [ite_eq_left rfl] at hraw
           obtain ⟨E, _, _, hE, hs, hna, θ, hN, hind⟩ := hraw
           exact ⟨E, inferInstance, inferInstance, hE, hs, hna, θ, rfl, hN, hind⟩
         exact False.elim (hH.not_lowNonsplitClassical_of_gamma_ge_five (Or.inl rfl) h5
@@ -5204,7 +5206,7 @@ theorem GGResHyp.e6_or_residual_marking_of_original_L_E6_datum
         · have hMU : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.twA, 3, n⟩) 3 Bs L := by
             refine ⟨hperf, ⟨.twA, 3, n⟩, ⟨hΛ.1, by norm_num, by norm_num⟩, ?_⟩
             dsimp only [LargeEvenRawDatumLegacy] at hraw ⊢
-            rw [if_neg (by norm_num : ¬ (3 = 2)), if_pos rfl] at hraw
+            rw [ite_eq_right (by norm_num : ¬ (3 = 2)), ite_eq_left rfl] at hraw
             obtain ⟨E, _, _, hE, hs, hna, θ, hN, hind⟩ := hraw
             exact ⟨E, inferInstance, inferInstance, hE, hs, hna, θ, rfl, hN, hind⟩
           exact False.elim (hH.not_lowNonsplitClassical_of_gamma_ge_five (Or.inl rfl) h5
@@ -5299,7 +5301,7 @@ theorem GGResHyp.e6_or_e7e8_marking_of_original_L_E6_datum_upto_seven
     GGInnerDiagOnLabel (fun _ lab => GGE6DepLabel lab) 3 Bs L ∨
       GGInnerDiagOnLabel (fun _ lab => lab.tag = .E7 ∨ lab.tag = .E8) 3 Bs L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hH.e6_or_residual_marking_of_original_L_E6_datum hD hntwo hnSU2 with
       hE6 | hres
   · exact Or.inl hE6
@@ -5307,12 +5309,12 @@ theorem GGResHyp.e6_or_e7e8_marking_of_original_L_E6_datum_upto_seven
     obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
       hS, hA1, hA3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpair, hpairK,
       hsel, hfL, hfK, hclosL, hclosK, hconn, hclosJ⟩ := hD
-    letI := i1
-    letI := i2
-    letI := i3
-    letI := i4
-    letI := i5
-    letI := i6
+    let := i1
+    let := i2
+    let := i3
+    let := i4
+    let := i5
+    let := i6
     exact card_ggAutomizer_of_typeE6 (by simpa only [ggTypLE6] using htyp) hfL.choose
   obtain ⟨hperf, lab, hΛ, hraw⟩ := hres
   obtain ⟨R, _, I, F, -, -, θ, hlabel, -, -⟩ := largeEvenRawDatum_exists hraw

@@ -152,10 +152,10 @@ theorem cfInner_eq_multiplicity [Fintype G] {θ : G → ℂ} {m : irrFinset G �
       cfInner ((m χ : ℂ) • (χ : G → ℂ)) (ψ : G → ℂ) = 0 := by
     intro χ hne
     rw [cfInner_smul_left, cfInner_eq_ite_of_mem_Irr (mem_irrFinset.1 χ.2) (mem_irrFinset.1 ψ.2),
-      if_neg fun h => hne (Subtype.ext h), mul_zero]
+      ite_eq_right fun h => hne (Subtype.ext h), mul_zero]
   rw [hθ, cfInner_sum_left, Finset.sum_eq_single_of_mem ψ (Finset.mem_univ ψ)
       (fun χ _ hne => h0 χ hne), cfInner_smul_left,
-    cfInner_eq_ite_of_mem_Irr (mem_irrFinset.1 ψ.2) (mem_irrFinset.1 ψ.2), if_pos rfl, mul_one]
+    cfInner_eq_ite_of_mem_Irr (mem_irrFinset.1 ψ.2) (mem_irrFinset.1 ψ.2), ite_eq_left rfl, mul_one]
 
 theorem existsUnique_character_eq_sum_nsmul [Finite G] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) :
@@ -187,7 +187,7 @@ theorem isIrreducible_iff_cfInner_self_eq_one [Fintype G] [FiniteDimensional ℂ
   classical
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have := h
-    rw [cfInner_character_character ρ ρ, if_pos ⟨Representation.Equiv.refl ρ⟩]
+    rw [cfInner_character_character ρ ρ, ite_eq_left ⟨Representation.Equiv.refl ρ⟩]
   obtain ⟨m, hm⟩ := exists_character_eq_sum_nsmul ρ
   have hsum : ∑ χ : irrFinset G, ((m χ : ℂ)) ^ 2 = 1 := by
     rw [← cfInner_self_eq_sum_sq hm]; exact h

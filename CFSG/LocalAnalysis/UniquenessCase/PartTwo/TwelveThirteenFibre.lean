@@ -11,10 +11,11 @@ open Equiv Equiv.Perm MulAction Subgroup CFSG.Open
 
 variable {Ω : Type} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem eq_one_of_mem_fibreStab {ι : Type} {β : Ω → ι} {p : ℕ} (hp : p.Prime)
     (hβ : ∀ x, Nat.card {y // β y = β x} < p) {g : Perm Ω} (hg : g ∈ fibreStab β)
     (hgp : g ^ p = 1) : g = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : IsPGroup p (zpowers g) := by
     rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hgp) with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
@@ -41,10 +42,11 @@ theorem eq_one_of_mem_fibreStab {ι : Type} {β : Ω → ι} {p : ℕ} (hp : p.P
   have h2 := this.1.elim ⟨_, hmem⟩ ⟨_, hself⟩
   simpa using congrArg Subtype.val h2
 
+omit [DecidableEq Ω] in
 theorem isElemAbelian_of_le_fibreStab {ι : Type} {β : Ω → ι}
     (hβ : ∀ x, Nat.card {y // β y = β x} ≤ 5) {P : Subgroup (Perm Ω)} (hP : IsPGroup 3 P)
     (hPβ : P ≤ fibreStab β) : IsElemAbelian 3 P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsmall : ∀ x : Ω, Nat.card (MulAction.toPermHom P (orbit P x)).range ∣ 3 := by
     intro x
     have hcardO : Nat.card (orbit P x) ≤ 5 := by
@@ -76,10 +78,10 @@ theorem isElemAbelian_of_le_fibreStab {ι : Type} {β : Ω → ι}
     set φ := MulAction.toPermHom P (orbit P x)
     have hc : IsMulCommutative φ.range := by
       rcases (Nat.dvd_prime Nat.prime_three).1 (hsmall x) with h1 | h3
-      · haveI : Subsingleton φ.range := (Nat.card_eq_one_iff_unique.1 h1).1
+      · have : Subsingleton φ.range := (Nat.card_eq_one_iff_unique.1 h1).1
         exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-      · haveI : Fact (Nat.Prime (Nat.card φ.range)) := ⟨h3 ▸ Nat.prime_three⟩
-        haveI := isCyclic_of_prime_card (α := φ.range) rfl
+      · have : Fact (Nat.Prime (Nat.card φ.range)) := ⟨h3 ▸ Nat.prime_three⟩
+        have := isCyclic_of_prime_card (α := φ.range) rfl
         exact ⟨⟨fun a b => IsCyclic.commGroup.mul_comm a b⟩⟩
     have h1 : φ (g * h) = φ (h * g) := by
       have := hc.is_comm.comm ⟨φ g, g, rfl⟩ ⟨φ h, h, rfl⟩
@@ -98,10 +100,11 @@ theorem isElemAbelian_of_le_fibreStab {ι : Type} {β : Ω → ι}
     have h2 := congrArg (fun π : Perm (orbit P x) => ((π ⟨x, mem_orbit_self x⟩ : orbit P x) : Ω)) h3
     simpa [φ, MulAction.toPermHom_apply, Subgroup.smul_def, Perm.smul_def] using h2
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private theorem exists_sylow_top {Q : Subgroup (Perm Ω)} (hQ : IsPGroup 2 Q) :
     ∃ P₂ : Subgroup (Perm Ω), Q ≤ P₂ ∧ fusionIsSylowIn 2 P₂ ⊤ := by
   obtain ⟨P₂, hQP₂⟩ := hQ.exists_le_sylow
-  exact ⟨P₂, hQP₂, le_top, P₂.isPGroup', fun R _ hR hle => P₂.maximal_isPGroup.eq_of_ge hR hle⟩
+  exact ⟨P₂, hQP₂, le_top, P₂.isPGroup, fun R _ hR hle => P₂.maximal_isPGroup.eq_of_ge hR hle⟩
 
 private theorem card_fibreStab {ι : Type} [Fintype ι] [DecidableEq ι] (f : Ω → ι) :
     Nat.card (fibreStab f) = ∏ i, (Fintype.card {a // f a = i}).factorial := by
@@ -111,7 +114,7 @@ private theorem card_fibreStab {ι : Type} [Fintype ι] [DecidableEq ι] (f : Ω
 
 private theorem ncard_small_le {P : Subgroup (Perm Ω)} (hP : fusionIsSylowIn 2 P ⊤) :
     {x : Ω | Nat.card (orbit P x) < 4}.ncard ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsize : ∀ x : Ω, Nat.card (orbit P x) < 4 →
       Nat.card (orbit P x) = 1 ∨ Nat.card (orbit P x) = 2 := by
     intro x hx
@@ -204,7 +207,7 @@ theorem exists_fibre_subgroup {Q : Subgroup (Perm Ω)} (hQ : IsPGroup 2 Q)
     rw [h5 q hq x, h5 q hq y]
     exact (Set.image_injective.2 q.injective).eq_iff
   · intro p hp hpJ
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     by_contra hp23
     obtain ⟨hp2, hp3⟩ := not_or.1 hp23
     have hp4 : p ≠ 4 := fun h => by rw [h] at hp; norm_num at hp

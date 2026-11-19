@@ -23,7 +23,7 @@ theorem core_holds : Core := by
   intro K _ _ _ n hK hn B Lx D J x hB hB4 hLx hx1 hcyc hpre hA6
   obtain ⟨E, hBE, hE, hEsc⟩ := exists_elemAbelian_le_selfCentralizing Nat.prime_three hB
   obtain ⟨L, _, _, _, ζ, hL, hζo, ⟨F⟩⟩ := exists_frame_two hK hE hEsc
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hsn : F.s = n := s_eq F hL
   have hxB : x ∈ B := hpre.1 hpre.2.2.2.1
   obtain ⟨c, rfl⟩ := F.mem_tor x (hBE hxB)

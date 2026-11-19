@@ -41,7 +41,7 @@ theorem five_dvd_card_quotient {G : Type*} [Group G] [Finite G]
     (hloc : ∀ r : ℕ, r.Prime → 3 < r → ∀ Q : Subgroup G, IsPGroup r Q → ∀ u : G, u ≠ 1 →
       IsPGroup 2 (Subgroup.zpowers u) → CFSG.pRank r ↥(Q ⊓ Subgroup.centralizer {u}) ≤ 2)
     {θ H S K' : Subgroup G} [(θ.subgroupOf K').Normal]
-    (hθH : θ ≤ H) (hHθ : H ≤ Subgroup.normalizer (θ : Set G)) (hθs : Group.IsSolvable θ)
+    (_hθH : θ ≤ H) (hHθ : H ≤ Subgroup.normalizer (θ : Set G)) (hθs : Group.IsSolvable θ)
     (hθ3 : ¬ 3 ∣ Nat.card θ) (hO2 : inSubgroup (CFSG.pCore 2) θ = ⊥) (hSθ : S ≤ θ)
     (hS2 : IsPGroup 2 S) (hK'H : K' ≤ H) (hK'S : K' ≤ Subgroup.normalizer (S : Set G))
     (hperf : ⁅K', K'⁆ = K') (hsimp : IsSimpleGroup (K' ⧸ θ.subgroupOf K'))
@@ -65,7 +65,7 @@ theorem five_dvd_card_quotient {G : Type*} [Group G] [Finite G]
         exact hcon ⟨ℓ, hℓ, by omega, hdvd⟩
       interval_cases ℓ
       all_goals first | exact Or.inl rfl | exact Or.inr rfl | exact absurd hℓ (by norm_num)
-    haveI hsolv : Group.IsSolvable (⊤ : Subgroup (K' ⧸ θ.subgroupOf K')) :=
+    have hsolv : Group.IsSolvable (⊤ : Subgroup (K' ⧸ θ.subgroupOf K')) :=
       CFSG.SignalizerFunctorTheorem.Glauberman.isSolvable_of_prime_support
         Nat.prime_two Nat.prime_three (by norm_num) hsupp
     obtain ⟨d, hd⟩ := exists_ne (1 : K' ⧸ θ.subgroupOf K')

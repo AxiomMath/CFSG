@@ -33,11 +33,11 @@ variable {Γ : Type} [Group Γ]
 theorem exists_isSylowTwoOf_le_of_odd_index [Finite Γ] {Y : Subgroup Γ} (hY : ¬ 2 ∣ Y.index) :
     ∃ R : Subgroup Γ, IsSylowTwoOf R ⊤ ∧ R ≤ Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 Y := default
   have hPidx : ¬ 2 ∣ (P : Subgroup Y).index := Sylow.not_dvd_index P
   refine ⟨(P : Subgroup Y).map Y.subtype, ⟨le_top, ?_, ?_⟩, ?_⟩
-  · obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  · obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := n) (by
       rw [Subgroup.card_map_of_injective Y.subtype_injective]
       exact hn)
